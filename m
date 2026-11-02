@@ -1,61 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.231.74
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793636445;
-	b=aNK7paMvUpEbVh8+9kreUWKbDXmRMXugpSwc83vOujzYJoOxOr163q9z1PBHAn9K0VN5
-	 c0GD86oW4KY2LtnZwOca+27YljoRMKc8FWew2bSiR0Ay7XnFXYkDL3QqQHmbJw2e8tyb6
-	 g0iNmH1rJHv3jRfy3C0qkBbMwsRB0H8K7RPnWSDkK+5BI0VssoV5gIgHn/ZbdXU1Vor0v
-	 DKzgh9A26F5ugHebTMzd2UIXAblHz41AkRgJaElPaGs2xPFpDT1J7feGTpD4jPEjj0NXi
-	 HFEia7pBrOrcE9Y9BVsyxZcF95MurL9Q/ruZGvg44HALziFSq99c2Ra/CQixTL+J0xg==
+	t=1793636955;
+	b=Fon9fiqaLis3+/Vtrf44F8rf+7guGGMldfQ+oDXpqCWuj9Uz2caFn2cS7+0IeX5+WkON
+	 ZilgMKoyodhdiA9KqWkK6MXNU7n1nliltEV8HrbBjuk4qR9wGKIyfrGXKBAdYRtEfPlI/
+	 23X26n1S0IPaqhHBNEmQUQbojq2QNxfEaHHM4GZuUrX9joOxlKz9sJ7qqfODlnX+jXECV
+	 Ouyi/qQ/leGmx9+i5aGAXc/7R0JtH030WhYc2+mcZ+woq/IfBwjj+XJc55AEQ3UilgyI/
+	 MZYCtZ8qIZA15quHFfgP6RfmWUS5TmVoDVsTSiRYUitLuwM64sjrUhiT4NFqcNxGcQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793636445;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=Ln7V8Sk/Qk0nXqP+d5oLjL7jmXXBJYXIJ2HBTTc+4dI=;
-	b=Lj1vbBcY2c5z4ogPN8aDrgOqLzlmqOEqPrXiWPMJdms8Yi5P2qLzJ0VdntJgAeKDNuQn
-	 8h0HVi/jfTZtvRvC3QmwPOwsZaJWpWAKrFNtr5xDlFwUnbL0UWvI/IrfCq4AdSMvhxgpv
-	 0nyRNI8jQZLPBFaMX4zK21NmLjMulWTlPSb+te0gFFS+KwRrgtOiwQdBCd4tG27YTZ0i1
-	 PJsa2GFDrjQVVX4ABebKkPykof7DaQrRMCvy0dvP1mxbLK2Rn2N0OrTnvt9zVM7nF3/sA
-	 BBcHyEljMc6kGg5EYNsJI9xLrSbtdpLuaeGWuEKrM2A3KcTr1kRRbvk3IU6y7k1ulPQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636955;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=49UzIiAo0VYsR6EXPEJbJmUgWYtE+uEvjPXao/cXtos=;
+	b=xnrS0MD0jxXeu1P9E8iyvsg7+N+6S7fKiiztuNRH0E/fjEZ7sgOBiUXANbBAWPepiRD8
+	 bA92KygAA6Ryi3xI4PGqseg5kQd2zcpDRmTLtRfcOPZoAzvfXF1fHmyiqGQJYDhfw/zQ6
+	 s0fwV3Plz5x629KiHvbeRfRIABqvcw9w1g19PADOQDszMhcQMnotxI3WXQ1tjou04Ntz9
+	 kaA/B0tEnhdIsLxJZ+my9FmpLtXfIbYDp+yS6boqoP6wD8MoiV85TPnB3vZXBdcJFwvRN
+	 GfJRlXJXyXVe8JNgR9J0uGEpcvjFzcEZtQSa/tUXdXiLoa5n4SslwdCGyqMFlTHLyLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NaS3OvgY;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=v+fNIhL2;
+	arc=none smtp.remote-ip=74.125.231.74
+Received: from mail-oa2-f10.google.com (mail-oa2-f10.google.com [74.125.231.74])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1969E606A908;
-	Mon,  2 Nov 2026 16:20:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE81F607229E
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 16:29:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE81F607229E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NaS3OvgY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37BB21F0180D;
-	Mon,  2 Nov 2026 16:20:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793636444;
-	bh=Ln7V8Sk/Qk0nXqP+d5oLjL7jmXXBJYXIJ2HBTTc+4dI=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=NaS3OvgYtu5vhnGme7Fhm6/FvE/a2gI7/Sc8pRy83FVuj7eiFyxBByVK5h11PiIiC
-	 Qym7FrGKxY4M3G3uWOzEInnEQ79yASeootpSxCADlTeOu7ICaWWpvU7gleDWtd0dMY
-	 O6cg9SO7fPualGXCjyTNhB4TeoD4XdE/NwoPscgxHeiqV6xFA2oSsiIJtKXn5GC3d7
-	 dPe970eM5gv8EHNQpkxZTrMo0Ri4pV8r9W8pSwJK0W83pK+iCkMX5KJEUrEHeYNmsv
-	 rHCkkgJM3c8h5Z0pVfmvc0WNnyfgZcvJf9q039+Y+QwjVJ6+yRw8dQGhwHB3vpamvk
-	 JQYIOwbfl3iMg==
-Subject: Re: [PATCH net] net: usb: lan78xx: only stop phylink if the interface
- is running
-From: netdev-bot+sashiko@kernel.org
-To: 25031212351@stu.xidian.edu.cn
-Cc: Thangaraj.S@microchip.com, UNGLinuxDriver@microchip.com,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, andrew+netdev@lunn.ch, linux@armlinux.org.uk,
- o.rempel@pengutronix.de, stable@vger.kernel.org, byu@xidian.edu.cn,
- wencheng@xidian.edu.cn, kuba@kernel.org
-Date: Mon, 02 Nov 2026 16:20:43 +0000
-Message-ID: <179363644377.3131.15126043316754328997@kernel.org>
-In-Reply-To: <20261029160204.2567-1-25031212351@stu.xidian.edu.cn>
-References: <20261029160204.2567-1-25031212351@stu.xidian.edu.cn>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=v+fNIhL2
+Received: by mail-oa2-f10.google.com with SMTP id 586e51a60fabf-4a24c19feacso1378981fac.0
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 08:29:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793636952; x=1794241752; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=49UzIiAo0VYsR6EXPEJbJmUgWYtE+uEvjPXao/cXtos=;
+        b=v+fNIhL2joFNJ2pxaxx6m5yVmCE6m53/MxT1dJKzSETMC1zLCRP52FjoaA0vXx5q6S
+         og3VLfRPF+NKFrooopBMUnnML9S3Buf9sc96wFDNeUDBY18LiVupQ/Mn3+7dgNo9JWjB
+         1s96YtiL+RcUISqDngzzUyQ218ve6r80rOLzXscifWsETLQzEJv6aQ41QaGOVN27B96u
+         kBVHxg7wQL8Yyf6xQ8XZbxvPx8sHxyKxJdncdP1aXOg0xFdXWt6d/jA40fiJyPDW/fHR
+         T36H8meCdmklAluI22oUeLvNvQOrgtfU17pULTM0mXNJtHMbjdj6mQ+1dwkDCK9qXml2
+         L73A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793636952; x=1794241752;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=49UzIiAo0VYsR6EXPEJbJmUgWYtE+uEvjPXao/cXtos=;
+        b=aFEbNCM775y1gOIV/RFGlWiDk1F1qpzcvivxZYGuzA9n95AbMrRf8jW3vRTFMKeX4g
+         DeeJMf1jaUhunkeT2keok0csSaqi4mWmW+bc1M7xEf3s0i7IYy9bj1FpvUNDkoeaFuet
+         4DuHWoWU1JZ/s8d3eJPpoSRL603WjwdbRPyS8ZLI00loVWdJR2vsfM7XKYUIqvc9jgbB
+         6ES5bJXVHw8Tus/sE5yN8FkNDxys3R39J7AvAvbDNiyMBULC7b/bWHXppS/1e4D8o/6m
+         UMNa/86JR+lPeWVCs69zqeGVZ98+K7NJ5DAwtEh5S9KlghURUHeazHiTSm7ANbHeGwoI
+         2ayg==
+X-Gm-Message-State: APuU4Z9TvtawzaQ9pMZ5vRYkyCFsQnQqP1GdeWXWIW0kHwsB1ilVXKKH
+	AMGH6BJmm4/+2iT+OBphZsMa7DJZQistSwwqp+oh57tNOGfV/4+HlLhz
+X-Gm-Gg: AYBFou2e5ivk5qBufPzq+P+p9Bh+T9Fshotmj/jy3FTLG4jMIJ+f+3dlBntK4Gr226S
+	9bFj6WFZ8LHhhaexUOBRBrqA9xXCb9zrIms5hGZ1KAn81LAPasmuOmnaAaioF6+R9q7ewQG9p+e
+	AywNciTmJGezvX5VllqckKESB7cx+c6B8Y2bRfJvCK7QU5Eq9THw/5ZzFGLe6MM6H+QTkYLShRh
+	eGuhzCpKmU3pBd5VBB7CqG87LxurgV3mefWzFkEaw3+RMmSl/BybqlgS3IGMwD4VIsln+gJUWrv
+	58OapWFcC3JjAx2EGFLcIJ/nWB5RgnvBK9Bg/JvaiGNYlybFzb2qSnHnMU6u6kStFfeEyRAweeH
+	S+fvN6OkFsrI5EGazpcthLSeno5YbdhuQayOaiF0VSDj0h7gtNzBLHjo21rcJkTVLKdj+J7WRLG
+	DSd2FNXy8/8R3Tce1K/GWAe3aa6rcI2rFcd8BOV+7Ip4UR1iOD/tNUsYgV6JwOI4qwYoiksG6Iq
+	6ctaslCK2JBwqOxT5CGOUsF1nuTt+pkdCizjVHVnO7JrkWzuZ/i292+M513w3tum4W2KIAfG/mi
+	7Rc0nl7RdFCUtXNcRURcxTzPObFUaen1TI2O0VUZsbgQb2tUnzRsS1GD1PDNvKE0FYR2LDbtIWE
+	FQdgMffaEDDEARHlhEa8=
+X-Received: by 2002:a05:6870:2dca:b0:49d:999d:c25a with SMTP id 586e51a60fabf-4a90729b213mr5773692fac.6.1793636952420;
+        Mon, 02 Nov 2026 08:29:12 -0800 (PST)
+Received: from [10.10.18.223] (wsip-64-207-253-118.tu.ok.cox.net. [64.207.253.118])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a9219148cbsm6536719fac.3.2026.11.02.08.29.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 08:29:11 -0800 (PST)
+From: Ryan Brue <ryanbrue.dev@gmail.com>
+Date: Mon, 02 Nov 2026 10:28:58 -0600
+Subject: [PATCH RESEND] usb: mtu3: fix system suspend in gadget mode after
+ soft disconnect
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -65,168 +91,108 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261102-rbrue-suez-upstreaming-mtu3-fix-suspend-usb-gadget-mode-v1-1-70a74a392015@gmail.com>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Fei Shao <fshao@chromium.org>
+Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Ryan Brue <ryanbrue.dev@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793636950; l=3537;
+ i=ryanbrue.dev@gmail.com; s=20260906; h=from:subject:message-id;
+ bh=42nYDcBAxNvHgQbbkGEcmz3UGXdz42wPE9jsdKzwvQo=;
+ b=kC0RERhuUqoTk8as12WfjWIGdzHEwAzcXv3BQz1EAmrEV2a2RHogHoPYdNRcJAHP1bpdGIw29
+ IyWH+b4r1bkASVyiHtRjVZPsvygEInH+Vw97GdpHLq7l7zt7e5pSCGg
+X-Developer-Key: i=ryanbrue.dev@gmail.com; a=ed25519;
+ pk=KsUvVaP//v/2q+ZBuacc7cLbsyEYn+AD71Sn28oZWKo=
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+ssusb_gadget_suspend() removes the D+ pullup for system suspend by calling
+mtu3_dev_on_off(mtu, 0) directly. That writes the hardware SOFT_CONN bit
+but leaves mtu->softconnect alone, deliberately: ssusb_gadget_resume()
+needs it to decide whether to pull up again.
 
-Critical: 0 · High: 1 (1) · Medium: 0 · Low: 1
+wait_for_ip_sleep() then asks ssusb_gadget_ip_sleep_check() whether the IP
+can sleep, and that function tests mtu->softconnect -- the gadget's intent
+rather than the state of the pin. So it answers "pulled up, the IP can
+sleep" for a device that was just disconnected, and the poll for
+SSUSB_IP_SLEEP_STS runs to its 100 ms timeout:
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+  mtu3 11271000.usb: gadget (high-speed) pullup D-
+  mtu3 11271000.usb: ip sleep failed!!!
+  mtu3 11271000.usb: gadget (high-speed) pullup D+
+  mtu3 11271000.usb: PM: dpm_run_callback(): mtu3_suspend returns -16
+  PM: Some devices failed to suspend, or early wake event detected
 
-- [High] The fix is incomplete.
-- [Low] The commit message says 'phylink_start() is only called from
-  lan78xx_open()'.
+and the suspend fails. The rule the hardware follows is stated in that
+same function: the IP cannot sleep while D+ is not pulled up.
 
-Pre-existing issues:
-- [High] This problem wasn't introduced by this patch, but the link does
-  not come back after a normal resume.
+On an MT8173 tablet (Amazon Fire HD 10 2017, dr_mode = "peripheral") this
+makes system suspend impossible whenever VBUS is present, which on a board
+whose only USB port is also its charging input means whenever it is
+charging. Unbinding the UDC, which clears mtu->softconnect through
+mtu3_gadget_pullup() and so makes the check agree with the pin again, is
+enough to let the same suspend succeed with the driver still bound and the
+charger still attached:
 
+  gadget bound   (softconnect=1): suspend returns -16, "ip sleep failed!!!"
+  gadget unbound (softconnect=0): suspend completes, 20 s of 20 s
+
+So record what mtu3_dev_on_off() actually wrote and test that instead.
+Runtime suspend is unaffected: it does not soft disconnect, so the pullup
+is still set and the IP-sleep poll is still performed.
+
+Fixes: e69027c25361 ("usb: mtu3: allow system suspend during active gadget connection")
+Assisted-by: LLM
+Signed-off-by: Ryan Brue <ryanbrue.dev@gmail.com>
+---
+ drivers/usb/mtu3/mtu3.h      | 1 +
+ drivers/usb/mtu3/mtu3_core.c | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
+index ba5a63669e5f..7f4fb87d8438 100644
+--- a/drivers/usb/mtu3/mtu3.h
++++ b/drivers/usb/mtu3/mtu3.h
+@@ -361,6 +361,7 @@ struct mtu3 {
+ 	unsigned is_self_powered:1;
+ 	unsigned test_mode:1;
+ 	unsigned softconnect:1;
++	unsigned pullup:1;
+ 	unsigned u1_enable:1;
+ 	unsigned u2_enable:1;
+ 	unsigned u3_capable:1;
+diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
+index a40bf5bad2d5..5ce61240194f 100644
+--- a/drivers/usb/mtu3/mtu3_core.c
++++ b/drivers/usb/mtu3/mtu3_core.c
+@@ -346,6 +346,7 @@ void mtu3_dev_on_off(struct mtu3 *mtu, int is_on)
+ 	else
+ 		mtu3_hs_softconn_set(mtu, is_on);
+ 
++	mtu->pullup = !!is_on;
+ 	dev_info(mtu->dev, "gadget (%s) pullup D%s\n",
+ 		usb_speed_string(mtu->speed), is_on ? "+" : "-");
+ }
+@@ -1023,7 +1024,7 @@ bool ssusb_gadget_ip_sleep_check(struct ssusb_mtk *ssusb)
+ 		return true;
+ 
+ 	/* device is started and pullup D+, ip can sleep */
+-	if (mtu->is_active && mtu->softconnect)
++	if (mtu->is_active && mtu->pullup)
+ 		return true;
+ 
+ 	/* ip can't sleep if not pullup D+ when support device mode */
+
+---
+base-commit: df2908090cda368b01ff43709f51890076c56157
+change-id: 20260908-rbrue-suez-upstreaming-mtu3-fix-suspend-usb-gadget-mode-c69c5104b25b
+
+Best regards,
 --
-
-net: usb: lan78xx: only stop phylink if the interface is running
-
-This patch changes lan78xx_disconnect() so it calls phylink_stop() only
-when the net device is running. The goal is to stop the phy_stop()
-warning that fires when the PHY is in PHY_READY or PHY_HALTED at unplug
-time.
-
-> lan78xx_disconnect() unconditionally calls phylink_stop(), but
-> phylink_start() is only called from lan78xx_open(). When the device is
-
-[Severity: Low]
-
-Is this statement accurate? In drivers/net/usb/lan78xx.c,
-lan78xx_reset_resume() calls phylink_resume() without checking
-EVENT_DEV_OPEN or netif_running():
-
-lan78xx_reset_resume() {
-    ...
-	rtnl_lock();
-	phylink_resume(dev->phylink);
-	rtnl_unlock();
-    ...
-}
-
-If the interface was down at suspend time, lan78xx_suspend() never calls
-phylink_suspend(). PHYLINK_DISABLE_MAC_WOL is therefore clear, and
-phylink_resume() calls phylink_start(). That runs phy_start()
-(PHY_READY -> PHY_UP) while netif_running() is false.
-
-Suppose the adapter is then unplugged or unbound. The new check in
-lan78xx_disconnect() skips the phylink_stop() that used to balance this
-start. phylink_disconnect_phy() and phylink_destroy() then run with
-phylink still started.
-
-This probably doesn't crash. phy_disconnect() still stops the PHY because
-phy_is_started() is true, and phylink_destroy() cancels the resolve work.
-It does leave phylink's start/stop unbalanced at teardown, since
-mac_link_down() is not run.
-
-Could the commit message be corrected?
-
-> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-> index 181e8c087655c..6dc622a6ae783 100644
-> --- a/drivers/net/usb/lan78xx.c
-> +++ b/drivers/net/usb/lan78xx.c
-> @@ -4594,7 +4594,8 @@ static void lan78xx_disconnect(struct usb_interface *intf)
->  	net = dev->net;
->  
->  	rtnl_lock();
-> -	phylink_stop(dev->phylink);
-> +	if (netif_running(net))
-> +		phylink_stop(dev->phylink);
-
-[Severity: High]
-
-Can netif_running() be used as a reliable sign that phylink has been
-started here?
-
-If the interface is up during system sleep, lan78xx_suspend() stops
-phylink but does not clear __LINK_STATE_START:
-
-lan78xx_suspend() {
-    ...
-		rtnl_lock();
-		phylink_suspend(dev->phylink, false);
-		rtnl_unlock();
-    ...
-}
-
-lan78xx_phylink_mac_ops has no .mac_wol_set, so phylink_suspend() always
-takes the phylink_stop() branch, and phy_stop() leaves the PHY in
-PHY_HALTED. netif_device_detach() and netif_device_attach() only toggle
-__LINK_STATE_PRESENT.
-
-The only phylink_resume() call is in lan78xx_reset_resume(), and it runs
-only after both lan78xx_reset() and lan78xx_resume() succeed. The plain
-lan78xx_resume() never restarts phylink.
-
-So lan78xx_disconnect() can still run with netif_running() true and the
-PHY halted, for example:
-
-  - the adapter is unplugged while the system sleeps. usb_resume_interface()
-    skips the driver for NOTATTACHED or UNBINDING interfaces.
-  - a normal (non-reset) lan78xx_resume(), then unplug or unbind.
-  - lan78xx_reset() or lan78xx_resume() fails inside
-    lan78xx_reset_resume(), then unplug or unbind.
-
-pl->phydev is still attached at that point because
-phylink_disconnect_phy() runs afterwards, so this happens:
-
-lan78xx_disconnect()
-  phylink_stop()
-    phy_stop()
-      WARN(1, "called from state %s\n", ...)    /* HALTED */
-
-This is the same HALTED warning that the commit message says is fixed.
-
-Would it be simpler to remove the phylink_stop() call from
-lan78xx_disconnect()? phy_disconnect() already checks phy_is_started().
-For a running interface, unregister_netdev()->lan78xx_stop() also calls
-phylink_stop().
-
-The other option is to track the real phylink started state and fix the
-resume path.
-
->  	phylink_disconnect_phy(dev->phylink);
->  	rtnl_unlock();
->  
-
-[Severity: High]
-
-This problem was not introduced by this patch, but does the link ever
-come back after a normal (non-reset) resume?
-
-When the interface is open, lan78xx_suspend() calls
-phylink_suspend(dev->phylink, false). For this driver that always means
-phylink_stop(): PHYLINK_DISABLE_STOPPED is set and the PHY moves to
-PHY_HALTED.
-
-The only matching phylink_resume() is in lan78xx_reset_resume().
-lan78xx_resume() resubmits the interrupt URB and the deferred TX URBs.
-It restarts the TX path, NAPI and the stat timer, and rewrites the wake
-registers. It never calls phylink_resume() or phylink_start().
-
-A plain USB resume happens when the device keeps power, for example with
-s2idle, or with remote wakeup enabled (lan78xx_probe() enables it via
-device_set_wakeup_enable()). In that case the PHY stays halted and the
-phylink resolver stays disabled.
-
-Carrier doesn't return until the interface is cycled. The ifdown in that
-cycle hits the same phy_stop() "called from state HALTED" warning through
-lan78xx_stop()->phylink_stop().
-
-This looks like it dates back to e110bc825897 ("net: usb: lan78xx:
-Convert to PHYLINK for improved PHY and MAC management"). That commit
-notes that PM runtime testing was limited. It is also why the
-netif_running() check above is not enough by itself.
-
-Should lan78xx_resume() pair the phylink_suspend() with a
-phylink_resume()?
-
+Ryan Brue <ryanbrue.dev@gmail.com>
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261029160204.2567-1-25031212351%40stu.xidian.edu.cn
+Ryan Brue <ryanbrue.dev@gmail.com>
+
