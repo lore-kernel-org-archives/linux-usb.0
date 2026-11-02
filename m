@@ -1,89 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793624961;
-	b=IHiN3uYpUfL9MtZVDru8szFrXWpN7YH0CeYv3sydk2Hiw6BMpe4YCAFpU+wnx/Yne4ji
-	 8PtfsAwfqitJCiNhZC9QvhVexCEGEaWlfnfyTce76BdNnT80hzzd7s9Rixh2n3XKK3SAr
-	 w+h1PeULQLBLzs5bGOmojNWChL9kFPKrEFBa0J4IxHO4HkOuhMdQ6cOCTp5eTAbQ9glP1
-	 iOXzPPWM9S3uZ3nnoXwJ5IDlUbC2h0QUqrFdDrsNzADObbTm1GsE7oZWjWpRNuj3db/a2
-	 405ZAOZ3S/NJtxZgSnjyV2fJZbyA4vuIrrya86tPkoykirdx5F5mstPd5+Vmamovmjg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793624961;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793625136;
+	b=yRLFM7gK2qtSEAQ+CIg0o6AjgLTmM7kwJR1OwWlbHYlxcd68abSc806bTjcyHDUOFmgg
+	 5AcaL/FlRy5+QNaNDkCVHFRWbzoTuZBXxCGRuWT/+rBrzcpwCqELryUZiioIVbZOtCsjV
+	 qeromOzaD47XGoPUE7ZZRwjq23Uy9hWPdZ9MLJ/fK1Y0an9pbzz1TXPsu93BgFnqsV4bk
+	 4yX58INvBuj9ReQsYFIAxMD95lz2IgwBVx7wipA4to8xuA5JwF9VBmyE70XvdLVwphNeE
+	 I/IiCJplaiC1Ujra0LfP0/rb2EabPaB9xVhI2jT4LeDaDnxtCXuOIbmsv7XfmsD4Hrg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793625136;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=yRxvXKtdENZrT5ZRlgClS+vF6Rur1KNJc6XxfZ08fMo=;
-	b=mTzxAT2+L2u9urJ+hsOWlaZwv94P0eUEKH/vUzB0URS0lhy8RCPviZMadMQWQap0CK4C
-	 rRkE/iYwKrPkbMAifkyMM+xpYJa68rDOwGiozsZvvuivcPLva483rg2nz6D62YBl27DLB
-	 i278X2WgtXTJ8FgK8V0OyVOlxw74tH5TF120MUnXRn1EguJ1k+pGteQRfWyZv17BOLusw
-	 tkxWv/TSTXuh0ajMWK97g1ZlgKBqZlL2+iLTA9vmCEqUPsDwcRu7w1CeuRVZfBD4lvYtD
-	 1iL1yc9wJFSPcE1AFwtEBlCB3byo8KA/VTex8PhD5hdN6IGbDmecYbVPo5BTy36c1HQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=8uTFR1xxFFaOIPhvz5LXO6GWBsqM7yzNUjcEoLyeYHk=;
+	b=vFHfi/U4oh1kvIsjf69eVpBufORA8vRZ/YnwqEXB4EtnW5ikr0f9gi7ze73R5E58FRUU
+	 nhOIpgFj5Sx77cyGmQDa7m+HpxQ3sd7lYeWclAWjV/i/EjKVUmO73TdPxlalX16q7l47E
+	 bd9AsMZBWmSi4u1lBNl6sffOw1/y11Fc8N7xOk+VRC63F+Zb22TnBm1DuRTbG9D6azJLt
+	 WaDQFqfqHNjqIcd0NqTYvSnLE4ZkM+mCuPxRIM0PSwvITdZrheIHlgmq/krRZkyyTULTb
+	 5g+jDcLbJd/1QI/WfabbIgRsjRepriRP7h0EBcCW4L5gMf6SxGbs9QpMEV0CbL4CkJw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=flipper.net;
 	spf=pass smtp.mailfrom=flipper.net;
-	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=6+FWIuNV;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=rQzJ9g5c;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734A9606A326
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 13:09:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 734A9606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C7A606A329
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 13:12:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76C7A606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=6+FWIuNV
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a2000d5fb1so19608695e9.1
-        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 05:09:20 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=rQzJ9g5c
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6b1afcd2d23so4142516a12.1
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 05:12:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793625134; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dwGJsAJypnIVNKqda2RhcOWd+WXjbTIbOOxJePNHg6AQS+o69k9mlV+ououanQML1+
+         1CFNITRdOriRSe7t71FWEUY2W7w4+C6P/GH6w51uHjSW/ncW3uPfmdC5EUNULDbY77mL
+         4AvRvJVE+eEfbo5qaTMgXNECDMGu1xKn0myYBWiA8RhDYyQx6yVjpTCAgNDLq0et3+96
+         khHQkxzedOboUHdwYjvAhP8co2YHsxj9djJUHpXiXe0bXmCTKblP9C2H/nuDTm4yaTId
+         d3OuCi63qId6BzDCcDX78C60LtgxZkQDminvn39pDzvQjM+JuTWcey2ZnoPZKnNRl45U
+         wBdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8uTFR1xxFFaOIPhvz5LXO6GWBsqM7yzNUjcEoLyeYHk=;
+        fh=VuLhXw3JncJXxR3qDc950o0y1R82tCexOoAH58o69Vg=;
+        b=e6y7StMo2CPU0PIovLSHH2zWtjN0WJ05L5MJG6oYXqF6I3qNlubA9pXR0qIF2gG8XC
+         22Gv0qQi0EsDz7200xuO8vciabS2uPrUj6jLE/MWjiQOo0siftw/YWswSh8Xd+e/PORt
+         vpS9B3K/yTGYR7zkfDCumuLr8PGAH6eknCu3rxMKUWiKaO2rhZG8qQytP0K6FiohuK3q
+         mTI4o8tQEbD6mLox8i2f5iqvCmQbm67yEyhuTyaXaQaAKJupz28RSRolK8kHLtfimVJz
+         n/jPc0sCKgNJPIi6zDpI0fI2HmDhDeHU9dnvJ8f68COyk7q2fLh1kbvl+qx0P6BLQmlJ
+         I1cQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1793624959; x=1794229759; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=yRxvXKtdENZrT5ZRlgClS+vF6Rur1KNJc6XxfZ08fMo=;
-        b=6+FWIuNVyTFdJ7aJhGYkpX32QTveys6sOEcbU3g3eynEfqCg2g+TqSL9M+/rGJJth/
-         81V+rjaKSxzeHRrRsBfONAj4Ua9ItATefk3SYUhyQvrpbw6f0KlFYmNBLclG7ON8AYrX
-         RlLqdp3dejqrE76MEFyFeNGbXTG4UhE1Vs/Orl6VLraYEGPe/m/0MnCc/6Vfdcl8UN7t
-         ghufsy36VMlXpTWMHvBz2ggj9aXwQSLHUo2WQdEZysWcYf0wuXaBO46zFjQBWkG2Llyf
-         UkS6bhGDT7oS9dMMX7QvoLARQnIY6c9/wItWWis25KxymsdFZseSYiDg7NFTOtuW+p/z
-         hqSA==
+        d=flipper.net; s=google; t=1793625134; x=1794229934; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8uTFR1xxFFaOIPhvz5LXO6GWBsqM7yzNUjcEoLyeYHk=;
+        b=rQzJ9g5cgBdpF+KQPJnjKlGwYc/+33GKdSr+8mxsKAVIBmCacr2B1Z2FRjHYAD2q5I
+         snSe0dGxq1y8zkQ9z4XS2IwbINAVwnWLJqpzpShs48VdjIAyXs5kh8QkGrBsAeA/GNGs
+         WEJDe2BUgid4fYP4N9llZO6lTXPtfM6DZ3Xacjf2ANm5O5bME/gcrYih8bI8Fyh0VP16
+         9OSq4p4KkgnQkSJXF033LUtKSGjaiUHiNWKm8NmfnaiWYW+qpFkM59qRbqqr6ec34nUt
+         irpCD5/BOa9L7Muvqn8fesaRDeTMe/EkvhciDZ8NQzOOf7YbG4mCC+xr5W0yxOBj/jut
+         z2JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793624959; x=1794229759;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=yRxvXKtdENZrT5ZRlgClS+vF6Rur1KNJc6XxfZ08fMo=;
-        b=tjU3GHj5bR9roRYv07+ateAe+gcnkl2NkGECpk+JfU4oUx3UY/7VA5V9Jd9vhwNwRA
-         YdHIPVUVp7nX9/kFaeNvfZHMMLJVfzA8tf95XYppwOgDruJBYXBZC9ida0//tNeyQB9Z
-         jY4nY83FLkfxoTp66pu221w48GC1V10uEy64Cz8faGpSYEiACMCqsPRUtxoh8yB30Kew
-         NnbyyZZshommy7dvQWRK5Hlt94AiLIqSoiR+od+3ncNiCkWMFazTlNpiDazACXq8UtYh
-         +wmCcpIsfHEHhV77CMCrHIgzcQdT56SOe0DmidaoiRKykd/ouQIoGDtZ+Fe1PbjjC5KY
-         1NtQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzd4uGAG70nKvyfp0CTUedpTPTHbLg5OLE76Q8UyzZMArGsPUpF1MkePnLjqrSaSFJVJjQxeFxqklY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJMWEWwzeFDYsrugIkbhn/bN2GqpXNyHDB7aQ48+gbtqPDE/O1H
-	qbNH8U23FhQuTXLFpgrPRWIdPhPBgi3g+BEEwdIpvDIloo12eBpDtQ75d4+n3ZomZXo=
-X-Gm-Gg: AYBFou0a2Z7TeFtnVB8XrfsbKavcrDfxv6SgXf8N8iKgYQKMtfYtKdjU5Dzg3FemHzD
-	BUMCdrxzz+IMee5xXOcXGqBihy3mM42x2kjNwJkeGVVagiRYk0rpNIe4O8u6YqTVVgXinHYDVor
-	Ta1bH0Qxn0ZRLbf5fi9Oyj4BRveAGLqGC9qR7GEoopUhqmgnIz4EC6rUUwhWRqahxdLcAF/fbxx
-	guf4pBRsmpi4hSsyCYwGCPiZHS4lbMc+6u0lXgZIlzCF5mzgPFXWVG6aRGx0RcUNxyl9b2hCF2L
-	DqrUS+BwgHl0Gss+yMcLwafo4l8vjhSNZ1WJbQlpo5oQh7mdKoZ++gc4tHPfHpbphVd6vogodLG
-	nqw5ldFpowBImr/9UCKf2iKWOsM9UxuVodFSuiLSggjBMwceXlDdM4RYBZqPZ3BH3+heT96ZuiW
-	I2+d/rrflUvdJRHOPQlNnZzS/5bF4DSmQAKBo5J7VyLqcOtT39q02gZtH1jD9aho1P5/dQ1zXcl
-	hJ5oeG6LN+mqGKvLsEqISCbBjjtCRnhwdPvJ0UlpGad/ssrysle1fR+OAjH3eXegHRgeV/dC10W
-	fnvxQt9nao7PualBg8iWlEwtggMKk1amBWjYclgQ2OboN9pJf7xFae8qnb2WBevMHUDnEQhTPFB
-	Qpkri08Q5+34=
-X-Received: by 2002:a05:600c:3554:b0:4a1:e7ce:107b with SMTP id 5b1f17b1804b1-4ac150b20eamr240844575e9.2.1793624958759;
-        Mon, 02 Nov 2026 05:09:18 -0800 (PST)
-Received: from alchark-surface.localdomain (bba-86-98-194-229.alshamil.net.ae. [86.98.194.229])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b7246fsm20324069f8f.19.2026.11.02.05.09.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 05:09:17 -0800 (PST)
-From: Alexey Charkov <alchark@flipper.net>
-Date: Mon, 02 Nov 2026 17:09:05 +0400
-Subject: [PATCH] usb: typec: fusb302: Drop unacknowledged
- Get_Source_Cap_Extended
+        d=1e100.net; s=20260707; t=1793625134; x=1794229934;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8uTFR1xxFFaOIPhvz5LXO6GWBsqM7yzNUjcEoLyeYHk=;
+        b=umBEapNDGde/53+/WeHfvMYarFgWtG171QncpqF455/uH/szP8Aor27WEO8DoSb6zm
+         e2at/n6twh62PUquA/XkQC+WXqpzeakYONYL4JKcV3a+jhKOFOoymwT7nPKRAlOplZSV
+         fRR7clEXeLLdJVH9ML11NXWa7T27R5o2ylSVxxCd1byJGWH3X71F2hBNt7eswWzt5+BN
+         kfxKBurd1zGrxPpF1LRabmS30XxyNKC/Mz18oVsaJz3si0VsETmGjpAIRxi0VjYt6aKW
+         auC2kaYyzF23/DhB1rMm7XF9wlIxdamonjcnpn/c4TEKZVl0aAUx+gSG+doNTnmVvCsB
+         Tvpw==
+X-Gm-Message-State: APuU4Z92Cb0ELnhZWcCyxJnF4LwL8EOv/+RNuU15BQQl8OG6v0WDUcFC
+	Scd+Ns7hjBqeNHQ5MgYqkVrS0W7t7UUtDWfkfnZyI3g9RUGwi8I3efj02mwCaFJbg3LkS1JwNxv
+	azvtWSZYwu7XPde9g64sclkT6qXgKvu2rSlhMGhHoLA==
+X-Gm-Gg: AYBFou0sASU3qUdVYZAAzPg09K0QEpLOcl961toLTwlll5fC77SU/zJxPf9R/hs188p
+	LLOEZpXmhezdwSJ4RhlLFNnZFdLWnN4RSNQLE5HvTu+Eb0weCSdU2j9THih0KuKOI0TfnUDO0uL
+	rT6HaTxpDlfH3RxKD4hF5BslIjTpnzYIBISLN5vCJ464Ey6htOVBEFWDuGIBfgO0H85ofQz43xQ
+	Sx08TJSAEstJViN6b4ck4GlC09elUOt5uie6n4YAP5LCJukneTqOuDuAsi1bWspT+CSjygVH9Qi
+	roxusvUW39fLOdDX/0uG5/J/EPVBVdbmXWaQ44QxRiT/QHi/nivEGFLZJd5LGQRrf5h/aKLrGoC
+	EAeosG0CtbfdXeSO+GMsKWDW27D1idb09p5mIqP8Env196OoPnG25z29oAei4+YDtWp/Gxg==
+X-Received: by 2002:a17:907:7f90:b0:c29:f5d5:5a9c with SMTP id
+ a640c23a62f3a-c4ca7b5f596mr875339166b.38.1793625133753; Mon, 02 Nov 2026
+ 05:12:13 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,84 +103,173 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-fusb302-getsourcecap-v1-1-26b5bfea4b2b@flipper.net>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMOwqAMBBF0a3I1AbyARG3IhZmHHUsVDJGhODej
- Vo9TvFuAqHAJNAUCQKdLLytGaYsAOd+nUjxkA1W28oYbdUYxbu8Ex2yxYCE/a60QVcPiN46Dfm
- 6Bxr5+rJt91uiXwiPtwX3/QA1eD0deAAAAA==
-X-Change-ID: 20261102-fusb302-getsourcecap-01c38dccb230
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sebastian Reichel <sebastian.reichel@collabora.com>, 
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Alexey Charkov <alchark@flipper.net>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2628; i=alchark@flipper.net;
- h=from:subject:message-id; bh=VuG0QHFfqb3prMOvkI+Bm8+aE20g3JwMuISbVYq90Ug=;
- b=owGbwMvMwCW2adGNfoHIK0sZT6slMWS96C7PfFRwo35R7FuDrevihIvmfpicv2LWk3tcp9hWy
- 61rY1H265jIwiDGxWAppsgy99sS26lGfLN2eXh8hZnDygQyRFqkgQEIWBj4chPzSo10jPRMtQ31
- DI10jHWMGLg4BWCqWWYx/JWeHfn2TFvhlUtt2UI2zydGxey307vCEXlwedPG+e1P7RkZfrN4t/b
- vVlGYezb25teqgsksmeq6JxQEVwqp8jUtzt0zlx0A
-X-Developer-Key: i=alchark@flipper.net; a=openpgp;
- fpr=9DF6A43D95320E9ABA4848F5B2A2D88F1059D4A5
+References: <20261102-fusb302-drain-rxfifo-v1-1-bd9b232ab345@flipper.net> <sashiko-outbox-193448@kernel.org>
+In-Reply-To: <sashiko-outbox-193448@kernel.org>
+From: Alexey Charkov <alchark@flipper.net>
+Date: Mon, 2 Nov 2026 17:11:57 +0400
+X-Gm-Features: AclHuK-n43QHaHcrbhfL_HnD3KJAXwokmTYqhfKuY4KazsGHX7cmxbgGZawV8B4
+Message-ID: <CAKTNdwGSxPyuadpQPY5oDRHwC_HTX7BujSCM-bRiKgjnyicDvQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: typec: fusb302: Drain the RX FIFO on each PD interrupt
+To: sashiko-reviews@lists.linux.dev, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The chip mistakes Get_Source_Cap_Extended for a GoodCRC, as it apparently
-decodes only the low four bits of the message type. As a result, it sends
-no GoodCRC for it, but still queues it in the RX FIFO. The partner never
-sees the message as delivered due to no GoodCRC, so it retries and then
-sends a Soft_Reset. When FUSB302 receives the Soft_Reset, it finally
-raises its interrupt, at which point TCPM sees Get_Source_Cap_Extended in
-the RX FIFO instead of the Soft_Reset it just received, and answers it
-Not_Supported, which is not a valid reply to Soft_Reset, so the partner
-escalates to a hard reset instead of getting a chance to gracefully handle
-a lost Get_Source_Cap_Extended.
+On Mon, Nov 2, 2026 at 4:54=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+>
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [High] usb: typec: fusb302: unacknowledged messages passed to tcpm_pd_r=
+eceive()
+> --
+>
+> commit c6b027a56fce877cc0a50df66b78e46a0dbd88cb
+> Author: Alexey Charkov <alchark@flipper.net>
+>
+> usb: typec: fusb302: Drain the RX FIFO on each PD interrupt
+>
+> This commit adds fusb302_pd_read_messages() to drain all messages from th=
+e
+> 80-byte RX FIFO on each TX_SUCCESS or GCRCSENT interrupt until
+> FUSB_REG_STATUS1_RX_EMPTY is set. This prevents the driver from falling o=
+ne
+> message behind when the hardware queues unacknowledged messages without
+> raising an interrupt or when multiple messages arrive in quick succession=
+.
+>
+> > diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/=
+fusb302.c
+> > index 3319f6a2b0c9b..6841db172e117 100644
+> > --- a/drivers/usb/typec/tcpm/fusb302.c
+> > +++ b/drivers/usb/typec/tcpm/fusb302.c
+> > @@ -1481,6 +1481,36 @@ static int fusb302_pd_read_message(struct fusb30=
+2_chip *chip,
+> >       return ret;
+> >  }
+> >
+> > +/* The 80-byte RX FIFO holds at most 11 messages without data objects =
+*/
+> > +#define FUSB302_RX_FIFO_MAX_MSGS     11
+> > +
+> > +static int fusb302_pd_read_messages(struct fusb302_chip *chip)
+> > +{
+> > +     struct pd_message pd_msg;
+> > +     u8 status1;
+> > +     int ret;
+> > +     int i;
+> > +
+> > +     /*
+> > +      * Drain the whole RX FIFO rather than one message per interrupt:
+> > +      * messages the chip does not acknowledge raise no interrupt, and
+> > +      * reading one message per event would then leave every later rea=
+d
+> > +      * returning the message queued before the one that raised it.
+> > +      */
+> > +     for (i =3D 0; i < FUSB302_RX_FIFO_MAX_MSGS; i++) {
+> > +             ret =3D fusb302_i2c_read(chip, FUSB_REG_STATUS1, &status1=
+);
+> > +             if (ret < 0)
+> > +                     return ret;
+> > +             if (status1 & FUSB_REG_STATUS1_RX_EMPTY)
+> > +                     return 0;
+> > +             ret =3D fusb302_pd_read_message(chip, &pd_msg);
+> > +             if (ret < 0)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+>
+> [Severity: High]
+> When a PD 3.0 partner sends PD_CTRL_GET_SOURCE_CAP_EXT (type 17, 0x11, wi=
+th
+> len =3D=3D 0), the FUSB302 hardware decodes only the low four bits of the=
+ message
+> type (0x11 & 0xf =3D=3D PD_CTRL_GOOD_CRC) and places the message and its =
+retries
+> into the RX FIFO without sending a GoodCRC on the CC line or raising an
+> interrupt.
+>
+> After those retries time out, the partner sends PD_CTRL_SOFT_RESET, which=
+ the
+> FUSB302 acknowledges with GoodCRC, raising FUSB_REG_INTERRUPTB_GCRCSENT. =
+When
+> fusb302_irq_work() -> fusb302_pd_read_messages() drains the RX FIFO, it c=
+alls
+> fusb302_pd_read_message() for the unacknowledged PD_CTRL_GET_SOURCE_CAP_E=
+XT
+> queued ahead of PD_CTRL_SOFT_RESET:
+>
+> drivers/usb/typec/tcpm/fusb302.c:fusb302_pd_read_message() {
+>     ...
+>         if ((!len) && (pd_header_type_le(msg->header) =3D=3D PD_CTRL_GOOD=
+_CRC))
+>                 tcpm_pd_transmit_complete(chip->tcpm_port, TCPC_TX_SUCCES=
+S);
+>         else
+>                 tcpm_pd_receive(chip->tcpm_port, msg, TCPC_TX_SOP);
+>     ...
+> }
+>
+> Because pd_header_type_le(msg->header) checks all five bits,
+> fusb302_pd_read_message() forwards the unacknowledged
+> PD_CTRL_GET_SOURCE_CAP_EXT to tcpm_pd_receive().
+>
+> In tcpm_pd_rx_handler() -> tcpm_pd_ctrl_request() -> tcpm_pd_handle_msg()=
+ ->
+> tcpm_queue_message(), TCPM updates port->rx_msgid and sets
+> port->queued_message =3D PD_MSG_CTRL_NOT_SUPP:
+>
+> drivers/usb/typec/tcpm/tcpm.c:tcpm_pd_ctrl_request() {
+>     ...
+>         case PD_CTRL_GET_SOURCE_CAP_EXT:
+>         case PD_CTRL_GET_STATUS:
+>         case PD_CTRL_FR_SWAP:
+>         case PD_CTRL_GET_PPS_STATUS:
+>         case PD_CTRL_GET_COUNTRY_CODES:
+>                 /* Currently not supported */
+>                 tcpm_pd_handle_msg(port,
+>                                    port->negotiated_rev < PD_REV30 ?
+>                                    PD_MSG_CTRL_REJECT :
+>                                    PD_MSG_CTRL_NOT_SUPP,
+>                                    NONE_AMS);
+>                 break;
+>     ...
+> }
+>
+> When the subsequent PD_CTRL_SOFT_RESET is processed, tcpm_pd_ctrl_request=
+()
+> calls tcpm_set_state(port, SOFT_RESET, 0) without clearing
+> port->queued_message. Then, in tcpm_state_machine_work(), TCPM sends the
+> queued PD_MSG_CTRL_NOT_SUPP before run_state_machine() runs the SOFT_RESE=
+T
+> state to send PD_CTRL_ACCEPT:
+>
+> drivers/usb/typec/tcpm/tcpm.c:tcpm_state_machine_work() {
+>     ...
+>         if (port->queued_message && tcpm_send_queued_message(port))
+>                 goto done;
+>     ...
+> }
+>
+> Doesn't forwarding unacknowledged control messages (where !len and the lo=
+w
+> four bits of the type equal PD_CTRL_GOOD_CRC, but the full type is not
+> PD_CTRL_GOOD_CRC) to tcpm_pd_receive() cause TCPM to transmit a spurious
+> PD_CTRL_NOT_SUPP on the wire while the partner is waiting for PD_CTRL_ACC=
+EPT
+> in response to its Soft_Reset?
 
-Discard Get_Source_Cap_Extended, which FUSB302 can never properly receive
-due to its inability to automatically GoodCRC it, and answering it from
-the host within the protocol specified 250us window without so much as an
-interrupt cannot be made to work.
+That is exactly the case, and I have just sent a patch [1] dropping
+Get_Source_Cap_Extended from the queue separately, as they are only
+tangentially related and can be applied in any order, and the current
+broken behavior remains broken until both patches are applied.
 
-This way the TCPM view of the PD exchange at least matches what the
-partner saw on the wire. This lets the TCPM complete a PD negotiation over
-the FUSB302 with e.g. an Apple Studio Display, which otherwise always ends
-in hard resets.
-
-Signed-off-by: Alexey Charkov <alchark@flipper.net>
----
- drivers/usb/typec/tcpm/fusb302.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-index 3319f6a2b0c9..96dc48250d6a 100644
---- a/drivers/usb/typec/tcpm/fusb302.c
-+++ b/drivers/usb/typec/tcpm/fusb302.c
-@@ -1463,6 +1463,19 @@ static int fusb302_pd_read_message(struct fusb302_chip *chip,
- 	fusb302_log(chip, "PD message header: %x", msg->header);
- 	fusb302_log(chip, "PD message len: %d", len);
- 
-+	/*
-+	 * The chip only decodes the low four bits of the message type, so it
-+	 * mistakes Get_Source_Cap_Extended (17) for a GoodCRC (1): it neither
-+	 * acknowledges it nor raises GCRCSENT, yet still queues it in the RX
-+	 * FIFO. Without a GoodCRC the partner never considers it delivered and
-+	 * will retry and then soft reset, so it must not be answered.
-+	 */
-+	if ((!len) &&
-+	    (pd_header_type_le(msg->header) == PD_CTRL_GET_SOURCE_CAP_EXT)) {
-+		fusb302_log(chip, "dropping unacknowledged PD message");
-+		return ret;
-+	}
-+
- 	/*
- 	 * Check if we've read off a GoodCRC message. If so then indicate to
- 	 * TCPM that the previous transmission has completed. Otherwise we pass
-
----
-base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
-change-id: 20261102-fusb302-getsourcecap-01c38dccb230
+[1] https://lore.kernel.org/all/20261102-fusb302-getsourcecap-v1-1-26b5bfea=
+4b2b@flipper.net/
 
 Best regards,
---  
-Alexey Charkov <alchark@flipper.net>
-
+Alexey
