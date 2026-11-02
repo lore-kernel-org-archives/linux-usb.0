@@ -1,98 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793626481;
-	b=3jMYvmWEr689DMuNrw7cpESFD6a4TgApDLzKiGkjTq5tXxneqKT2WRuHgNNwmmJCCCLs
-	 rBimp2SyWbbvfS6hxwfNq2kSOU7++1/UUO1LXSyvTRH+J40r01CTwgvWYoyrn0tlWrFcy
-	 /HpA4zipG1hqgy4CWt0iiArRMPTqhE4lJ8RRm6BtzH6Tnq2vqhB63e5wnAYTLW08HF74H
-	 oPZST4wlrZM9gpEQAKKcvHD6v7n1wEuFXX94Dr+7bW6pSSzew+v3VQNkgVTAEkxcoTwm0
-	 Y2wpw71BT/LDi5HMQOmNPhaEIHJYIDEDlS2JkRxPVL5eVRafenyGOh0dDkxbyueJaag==
+	t=1793626965;
+	b=opePJ6v9kN/FIpSJEjvYx+0L9YA4yFc9k5qTwYuQn5MNAxHY4eiE1wpHdnLkf+B5qEjS
+	 8mISQ+dj1LRH4qMxtC/7VVMUD+7v60rY/f31tVfd1fAhNptIgt9c6PKvG9jnEX6oKjl0t
+	 45W8pP4YOAfvtEDO98sUqFnCnb4W5UayG5Gm0nTybb+HDP69Y/Nclg9BZIweSQaPS3CGl
+	 LqgiWyhgw0epAqCoRj+QtGqdzK26ugxYaF4e0bggoAULhjftouwvgGsUCu50ib9CiL+mg
+	 rqEVJmoMNYxa/KOO96FGv89XA+7nfp8toOOTxDVuYkOdBJiCocBFM2zdYPbcBz2YMXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793626481;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=6R/u431umGtSkGq0ekXuHtMmDyjJRoaSYLM3qGkDCO4=;
-	b=B4Fcv71owfkd8iMa+27VE4UIA2q4w+mR8JVP4aW4537oPeAf3oRDEKJWqT9FftMnXL1w
-	 4V1wqAuNqJ+bGBOxlQYgFWd//FY4aijsZI/UgGkEIasg+sABYMjMwHkrCZqU/0m0QSj9U
-	 JY/a05P184dcnpJr+cYKlegBckOLNwR5q1Opy0scS16ke+3IAePaK9XXFqj1gda8Rruci
-	 RQSSvlBB7vMN4tNycqPjpUwoMB0PkcO5Use46DAjmq7gY6WjbaVcK3udVK+frWMWU3etG
-	 i3eyFTXQDjdl/3L39XeRTASfMHGQ5TzWnQelG1wQp8YZMxVs3nKullgYlmTIQkgXQwA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793626965;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=7x2bz1wteY34xEOVAIwgFePoiZSU/L/wbYP+cHAOSI0=;
+	b=sbt95y+s7zesHIhwMxGERW21U5rCKKNfH8V//iImH7Vw21N4TnR9px8idXsLylf561Hu
+	 3kxwdNLK0bqyDkBBhfTdiaH/gpf3abU3j6SWw0DTRVg9rbGabQMg810/6SsEcYTDOlkLX
+	 1H9L5D4vF+TpAeO5J9/q/v8qYdM0lNYLRKEINBU5oGz5heXHpbVBzPJlp4DRAQ+o0C2oD
+	 1ZvIr9WmqNVfjRZUEpAuXLRA/+lxp0QKgqSOoULKz8BBnsvjC/luhnT6cPH6x8uL9OPGa
+	 KAHD5qyXu0dgcgeWKM8mynZ/iv7wmPq2TD8jB1pYQLNADfmMSwHG8ObdNJ248RYAOmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vxkCrL7D;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FEYeBY1q;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C2C606A331
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 13:34:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8C2C606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EB7606A910
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 13:42:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0EB7606A910
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vxkCrL7D
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a20bdaf39cso34932025e9.1
-        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 05:34:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793626479; x=1794231279; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6R/u431umGtSkGq0ekXuHtMmDyjJRoaSYLM3qGkDCO4=;
-        b=vxkCrL7DvCsMFVKdBCQhqjoeH7mIRO46s2nHFM91xUvxoS67ayd64OS225aEifEjTG
-         bh8Mvh5N+eeUsjMlf9qorQkDt3mSdacKQfcwrRZf46m40gx7iz0kWYv4I/SEFV4T/kyN
-         yavJkGnQ9hwYQXohz7ijamiFdGtmWSA8D+w3pVd3l01M6+3pZEI6PH8KrrWgCCJvc4Ip
-         YtvrJ42dOYoBenv1dgf2fEdS+Zqw0BCDOfPa31q6ouwp2yHu25lYCgkesXPJLew6R+TN
-         WR0N2QrvfP817RY6/3cDexrO5+7KRVpBemi8NMsJ1TAZFVM6cXybZ/YkIscEk6kKU454
-         4cfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793626479; x=1794231279;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6R/u431umGtSkGq0ekXuHtMmDyjJRoaSYLM3qGkDCO4=;
-        b=fTTBdVNCgE2ESqL604MrJrZf4MQ5gzEWDkxgwVE31yLU942L5XIOD67OqDxYb9AEBR
-         NyiV12rT/l4I+Wu2rwMfys+ZzNDQPqzh+ykHUcw+VqS4BmmVfi80OFWrHMHYT0iTqBRZ
-         H3/XaOHWSQordeIGmQJRRmnVXDp4YnweOq3HfFsvdQQwpiH9uBUTB+WQfq2EeWnRl4i6
-         mL3Sn1FLyrD6R5zAaw4HgrMJgqveb6JVxmkCu8FPviW0cH1BrXHHNXox60iKcRKV9N2M
-         t/W39oWxZvQ3j4qNyHrQtajGduDLC/73e8ljrNypOgC7wmueqggvRUFDPvXo+72oizqU
-         y2ng==
-X-Forwarded-Encrypted: i=1; AKwUvBxqPgnOqdkwtRGBlGy4AWbc73G5IcTmA88KDveRsyCsIiy5SrqpVWDtMzwGOInNWAm712cYZ5A5s1k=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK0i74hHC/DayFLk/1FJSBzMWjs7+wdrqP/e+t5zKf+2hutGmBp
-	tTFkw8Q82RHzMJogjAOeiSutAfrmOlMmCK+u955aTT3EDJgVndGuCixO
-X-Gm-Gg: AYBFou1PSqhbLbhItGYjvkyOXDhvuC+cGEqKnDOSiDUB5cT61fhJXv05c9f9VjaeAPW
-	2SjTqN1T/Z8QK3n0fc0D4nIyufdCvKF5jP4ADiC5XAb18+WZPsjQK6O2BRkBoiFove0c2DxnXbY
-	16sjHWBtUSr708O+MvnEB4LVDn6O+R0GF02vHh3HksUqWH5xPCN9laHXRivfFgl7V5ViG4SpOWk
-	OuUegCK96WkiOM2naadCtAUFdK8fpbT+8IvIa9e7LQWor1LGLj5Z9OQLVxDMAsGNjROk+pOG1l0
-	S5AHSdiKNRrAG0/Z3AQkuKDC9vyUVTWiM+PYaEY4KN4oh6ML+S30H2e/nA49q5In9T/4pjv+ao8
-	Yj9HNZOVXGNiojecooSGYQb3Ytn5msoOWCtNPsugkMjSlTGiimNgQJag9TW9Hyv7hnu9MGuy5md
-	KCJkQ8jeVl18Tr/xRKeU4DwyWRuxtSA9RGKk2qR2/G764XIRxfmejkQBiLZNXQtbIdFdHLUjDFK
-	hZfA+O9HgBeWm3ffB88Ks82/wNchcHe1pV7kItbOdUojGphMjPaIePZYziBClJ3HDePDiZV2EXz
-	zN2joKKKhJ10RL6PBsV3Y9k8yRkF889pPxrcPNtObjN9SPYP+2n1MjhREA==
-X-Received: by 2002:a05:600c:4f55:b0:4a3:d327:6ed with SMTP id 5b1f17b1804b1-4ac182dcba3mr253672315e9.17.1793626479081;
-        Mon, 02 Nov 2026 05:34:39 -0800 (PST)
-Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf396dfdbsm274233715e9.1.2026.11.02.05.34.37
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 02 Nov 2026 05:34:38 -0800 (PST)
-Date: Mon, 2 Nov 2026 14:34:35 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Jianping Liu <frankljpliu@gmail.com>, gregkh@linuxfoundation.org,
- dakr@kernel.org, shashank.mahadasyam@sony.com, johan@kernel.org,
- hadess@hadess.net, frankjpliu@tencent.com, guanyulin@google.com,
- gary@garyguo.net, rafael.j.wysocki@intel.com, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH] usb: core: raise root-hub autosuspend delay to stop a
- busy-loop
-Message-ID: <20261102143435.044064df.michal.pecio@gmail.com>
-In-Reply-To: <a35865b5-3779-40a4-9a83-8edd797e56b5@rowland.harvard.edu>
-References: <20261028041859.1061836-1-frankljpliu@gmail.com>
-	<a35865b5-3779-40a4-9a83-8edd797e56b5@rowland.harvard.edu>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FEYeBY1q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793626965; x=1825162965;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=FBcYeMHjvtFv3ndg4WFHcw6RmVlloac7f+hz/gffjbk=;
+  b=FEYeBY1qtTKds+TIgV83ZQOe2Nt6lQHdRN6+p/PAElgxy0x9NBsuXv02
+   V+PrJ8qfB0aoukEd0usLgLC9FQvRFIkz9qxdaPbkzf1v2CyTQkRW7rg4N
+   MSTWxCSLyJqMPPty/6sloYrloHAtjCTTUkX8/wej7xzK3w6CeObZXWoqp
+   f21lcBEK7jJMvIErjyi9/ErJ9OGOCq8dKbN4Dd1E7JfDjw6JT2uh6XSy0
+   xbAmPPQSsEBRoYmhst/Ig0rn6+4dwwn5ZL2qUCcNhyTej18h7/cm/xIXB
+   Xf18cTWP+bD3RKY10LUYY5R3Ur/F+FZgr5ETLrXoh1OGB4CAhOiDda1Qt
+   A==;
+X-CSE-ConnectionGUID: o1EHagPNRba30NXfDYYr9Q==
+X-CSE-MsgGUID: k/crP4gxSFywScMs2u4k9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2311668"
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="2311668"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 05:42:44 -0800
+X-CSE-ConnectionGUID: D2M/p69mRY6oSrkgEDXhzA==
+X-CSE-MsgGUID: eY+IxNJGTcCnBteprY9KXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="6671568"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa010.fm.intel.com with ESMTP; 02 Nov 2026 05:42:43 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1058)
+	id 6F0369D; Mon, 02 Nov 2026 14:42:42 +0100 (CET)
+From: Niklas Neronin <niklas.neronin@linux.intel.com>
+To: mathias.nyman@linux.intel.com
+Cc: linux-usb@vger.kernel.org,
+	michal.pecio@gmail.com,
+	regressions@leemhuis.info,
+	Niklas Neronin <niklas.neronin@linux.intel.com>
+Subject: [PATCH v2 2/2] usb: xhci: fix 'num_active_eps' accounting on allocation failure
+Date: Mon,  2 Nov 2026 14:42:28 +0100
+Message-ID: <20261102134228.584032-3-niklas.neronin@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20261102134228.584032-1-niklas.neronin@linux.intel.com>
+References: <20261102134228.584032-1-niklas.neronin@linux.intel.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,45 +84,47 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 29 Oct 2026 22:23:02 -0400, Alan Stern wrote:
-> On Wed, Oct 28, 2026 at 12:18:59PM +0800, Jianping Liu wrote:
-> > From: Jianping Liu <frankjpliu@tencent.com>
-> > 
-> > hub_probe() sets the hub autosuspend delay to 0. An idle hub is
-> > therefore suspended at once, with no waiting time.
-> > 
-> > Suspending the root hub can fail. While a port reports over-current
-> > or a connect change, xHCI refuses the bus suspend and returns
-> > -EBUSY. usb_runtime_suspend() returns that error. The hub is
-> > resumed, and when its status URB completes the same suspend runs
-> > again.
+For controllers affected by XHCI_EP_LIMIT_QUIRK, endpoint resources for
+the default control endpoint are accounted before the virtual device is
+allocated.
 
-Yes, I have seen this ping-ponging before.
+If xhci_alloc_virt_device() fails, the slot is disabled and cleanup is
+handled through the Disable Slot completion path. However, because no
+virtual device is installed in 'xhci->devs', the endpoint accounting
+is never released and 'num_active_eps' remains incremented.
 
-> 
-> Why should root hubs be special?  An ordinary hub doesn't refuse to 
-> suspend because of an over-current or connect change.  xhci-hcd ought
-> to behave the same way.
+As a result, each allocation failure leaks one endpoint from the
+driver's accounting.
 
-IDK what happened there, but we have this:
+Fix this by undoing the endpoint reservation when virtual device
+allocation fails.
 
-commit e9fb08d617bfae5471d902112667d0eeb9dee3c4
-Author: Mathias Nyman <mathias.nyman@linux.intel.com>
-Date:   Tue Apr 21 17:08:21 2020 +0300
+Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
+---
+v2:
+ * Rework commit message
 
-    xhci: prevent bus suspend if a roothub port detected a over-current condition
-    
-    Suspending the bus and host controller while a port is in a over-current
-    condition may halt the host.
-    Also keep the roothub running if over-current is active.
-    
-    Cc: <stable@vger.kernel.org>
-    Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-    Link: https://lore.kernel.org/r/20200421140822.28233-3-mathias.nyman@linux.intel.com
-    Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ drivers/usb/host/xhci.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Regards,
-Michal
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 0361dfaecdd7..394f69b3cfbf 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -4279,6 +4279,11 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
+ 	 */
+ 	if (!xhci_alloc_virt_device(xhci, slot_id, udev, GFP_NOIO)) {
+ 		xhci_warn(xhci, "Could not allocate xHCI USB device data structures\n");
++		if (xhci->quirks & XHCI_EP_LIMIT_QUIRK) {
++			spin_lock_irqsave(&xhci->lock, flags);
++			xhci->num_active_eps -= 1;
++			spin_unlock_irqrestore(&xhci->lock, flags);
++		}
+ 		goto disable_slot;
+ 	}
+ 	vdev = xhci->devs[slot_id];
+-- 
+2.50.1
+
