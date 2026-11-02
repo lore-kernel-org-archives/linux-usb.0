@@ -1,45 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793630730;
-	b=21QEq1uahnUCBEBsYdkniTk63mraPmvxIyD21smWKAjNNY5JhYDHD7Uf7p5UXiW54Spt
-	 v506QOWEUtkbrit1xg9P1lUIqf1Y1kxTotbW3Ta9ZYBeka0ZfcC8IGnWVNTrkOoDyujM6
-	 pK2Uz31tBNLM+80o6C5ZQi0Lb6LFyl0+payubTO14+ROuh+8gfhzmy1Xxc2UyaPbK8iqD
-	 PnTHmXTZF2bL7QqPeHC1OUt7xvkoUVnZk8YvdvaTASJ9HaBGHVNvOfOCiZEcGIPm09r3H
-	 SZhaIpsXmD3UFr/+4nimhqKKKkuaJrSR/e4A7nHO4och1lkUnKGYcq7Pm5WlB/sS5jg==
+	t=1793630779;
+	b=VnCMu+JuoK/hv5ITbZKjajZInrRuha3M0i+ooQJ4KOgp4M+Hr1Mp/7KTEsnBqlEo2ee3
+	 XVO3fYE8rVq7Y2nw1b+7olgbqiqlWSnI7xI2sze17XikXZqvj6gBvEmVg+eFA+8CHI1H6
+	 sVVmMQGm+P4eNB10lIIVFztFc19cJIbWHT26klnPFzB+EpffNaeEs5Zz2KkeV7n7F2S2c
+	 cx3kmmRVTceVWXXVxne7ZopI9muf6wkF1W9xwL57EjJkB6xh2wNSh7yD8H9okG7+MnX8t
+	 k76REODZO33kMzd61w8ZzBnXZLTskGKMsaoD9grLs/Tsxz91lEcDGNyty6xxrW86g0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793630730;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793630779;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=7vvpFbZYF9+EatWYsfyFZjmAL4FqwomgWuTi5Yv6hUQ=;
-	b=cF83TaiCyo4nxT9lO7F57/9I7QVx5jye5GtIISQJCXrgYKVaxlzol5lQh3XVN9HeamNx
-	 UwB7iPEkqonDQDa0j/3gl5TujImwRQIFollPNbIOTZWkOJsVBLRZrC+LBwOPwCQiVvdJZ
-	 RLcVBSDchrokLUtNrJ3Fux4hfXGFYMfZISYUDAuownR0z8OKODblzG4hVXnrQIECC7L+n
-	 K7/ye+Ugin+lwuLbB7sWpAQ9f4/gYOGQdIMks+WuLlR1S2jmAGOinUEZpP3HpnLzud/jw
-	 gs7os3189QvGnMMLxKDfUBqcwHTZrtHAdEBo245C9K1qoXepXCXICupQTAvVbUYw0OA==
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=1ed4ABVb5WuZx7ievrj1cvm+vrmzhLmj5yV4zTMhJQg=;
+	b=H7anFyJhF1AfUIB7kK3FEYrboJ6ZaXDrBoukqHlBIzUg0EacplifF5Az6C++EbWf4uN8
+	 pr84sSiFR8icjzNrWiRQrLpeTVOllK48t0TIdvhBYRy4cEobT5xdGrL+PbTI3JlOci72J
+	 t53m4CNVWKNb1+32aaj120/D2wrRCMzdacxd2kS6vhjLm7Ffl+KtA+VPwlO4daDQEIXf1
+	 18Af+W1s31h6pYn0r3Yq620lKA/QJhFuNai41mBkhNoeLqKh2bEhZXTNRqYX7iioSSlui
+	 c2Nr1sztLxSNhNxUU8fLrJLyMSMUaDU2FDL2aSeWKlLNPd0KOrn2WAW7a/8/o9vAh7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RRc7hiqh;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kTIJkYx9;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDDF606A5BD;
-	Mon,  2 Nov 2026 14:45:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A283E606A901;
+	Mon,  2 Nov 2026 14:46:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RRc7hiqh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F941F00A17;
-	Mon,  2 Nov 2026 14:45:29 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kTIJkYx9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51E231F00A17;
+	Mon,  2 Nov 2026 14:46:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793630730;
-	bh=7vvpFbZYF9+EatWYsfyFZjmAL4FqwomgWuTi5Yv6hUQ=;
+	s=k20260515; t=1793630779;
+	bh=1ed4ABVb5WuZx7ievrj1cvm+vrmzhLmj5yV4zTMhJQg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RRc7hiqh8QxgBfGnCpjQ5GfLpfJtDbKNTp+S4f+jcYs7aKQiRNt9MyudWdPg9LdF/
-	 CgK/Uf9/QQ7mQPSEuMOQXZpDnm4qmmB9cFdu9oFO9wG9Yz6h/4c9hrCW/Hm0J4wjmr
-	 kt9kt04KeskZOiY5LXXuA+Hswy+8RdLEH6NxfObkfCJ3RIv7PiTf8wz2Jpaewt3qpp
-	 XwG/JJaDdNNYTzoUyiy933ZYLCcSomZIA8Y//PfbGbjkflR7U+FtN3nY3l/4gyNhp8
-	 HHTL6fyK+sV7pO2GZ+ri+AqgqNOEN6fxlTNBnXp0gPh1N+xI/f5SA5BjHikgpMB9r0
-	 uu0DfftDuebIA==
-Date: Mon, 2 Nov 2026 08:45:26 -0600
+	b=kTIJkYx932KW0rEFWbZ55+lbTtsZKF+4aG6/wsWGYG04/dedotlgN7zujoh8O2jQf
+	 z+v8UjodVuo6CFRkW679nsHC4p/DPLC4jCFE523SoM4wk8cUzXSXbnZVaUMoCJZXuW
+	 H7iYQvsi75Ucn/GauIsg7HpX1mHcJ3IuY+tXkV7YDSJu67E7yGUYsr0Ucvq2KDygtH
+	 1ZYEkQ7mdXkmN3HmICVak/FMRLN+Vy77pVLZFXMKyUiGTLR2X60Yuk+8uWN/N3swsi
+	 c+MBOCgIpfmjr3DeQn+wDTIRHm+vegoCu+ll1N4Ajue1ZEef9SKd6+TFT5wGzqqYYc
+	 +SCxPpRiNg7XA==
+Date: Mon, 2 Nov 2026 08:46:16 -0600
 From: Rob Herring <robh@kernel.org>
 To: Florian Fainelli <florian.fainelli@broadcom.com>
 Cc: linux-arm-kernel@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
@@ -60,9 +61,11 @@ Cc: linux-arm-kernel@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
 	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
 Subject: Re: [PATCH 2/9] dt-bindings: phy: bcm-ns-usb3-phy: Describe the NSP
  variant
-Message-ID: <20261102144526.GD1232511-robh@kernel.org>
+Message-ID: <20261102144616.GE1232511-robh@kernel.org>
 References: <20261021172819.668120-1-florian.fainelli@broadcom.com>
  <20261021172819.668120-3-florian.fainelli@broadcom.com>
+ <20261030182151.GA1206797-robh@kernel.org>
+ <e25714a5-98b3-4a0e-ad9a-a644b5485749@broadcom.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,22 +75,56 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261021172819.668120-3-florian.fainelli@broadcom.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e25714a5-98b3-4a0e-ad9a-a644b5485749@broadcom.com>
 
-On Wed, Oct 21, 2026 at 10:28:11AM -0700, Florian Fainelli wrote:
-> Northstar Plus uses the Northstar Bx PHY register sequence but also
-> requires coordinated USB2 and USB3 core resets and a USB2 IDM interface
-> clock enable.
+On Fri, Oct 30, 2026 at 12:14:52PM -0700, Florian Fainelli wrote:
+> On 10/30/26 11:21, Rob Herring wrote:
+> > On Wed, Oct 21, 2026 at 10:28:11AM -0700, Florian Fainelli wrote:
+> > > Northstar Plus uses the Northstar Bx PHY register sequence but also
+> > > requires coordinated USB2 and USB3 core resets and a USB2 IDM interface
+> > > clock enable.
+> > > 
+> > > Add an NSP compatible with a required USB2 DMP phandle. Describe the
+> > > shared PHY relationship with EHCI, OHCI and xHCI so initialization
+> > > finishes before any host starts operating.
+> > > 
+> > > Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> > > ---
+> > >   .../bindings/phy/bcm-ns-usb3-phy.yaml         | 23 +++++++++++++++++++
+> > >   1 file changed, 23 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/phy/bcm-ns-usb3-phy.yaml b/Documentation/devicetree/bindings/phy/bcm-ns-usb3-phy.yaml
+> > > index 7fd419db45d0..00d69b86cbff 100644
+> > > --- a/Documentation/devicetree/bindings/phy/bcm-ns-usb3-phy.yaml
+> > > +++ b/Documentation/devicetree/bindings/phy/bcm-ns-usb3-phy.yaml
+> > > @@ -14,6 +14,9 @@ description: |
+> > >     Known B1: BCM4707 rev 6
+> > >     Known C0: BCM47094 rev 0
+> > > +  Northstar Plus uses the Bx programming sequence, with coordinated USB2 and
+> > > +  USB3 resets. Its PHY is shared by the EHCI, OHCI and xHCI controllers.
+> > > +
+> > >   maintainers:
+> > >     - Rafał Miłecki <rafal@milecki.pl>
+> > > @@ -22,6 +25,7 @@ properties:
+> > >       enum:
+> > >         - brcm,ns-ax-usb3-phy
+> > >         - brcm,ns-bx-usb3-phy
+> > > +      - brcm,nsp-usb3-phy
+> > >     reg:
+> > >       description: address of MDIO bus device
+> > > @@ -32,6 +36,13 @@ properties:
+> > >       description:
+> > >         Phandle to the DMP (Device Management Plugin) syscon
+> > > +  usb2-dmp-syscon:
+> > 
+> > brcm,usb2-dmp
 > 
-> Add an NSP compatible with a required USB2 DMP phandle. Describe the
-> shared PHY relationship with EHCI, OHCI and xHCI so initialization
-> finishes before any host starts operating.
-> 
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> ---
->  .../bindings/phy/bcm-ns-usb3-phy.yaml         | 23 +++++++++++++++++++
->  1 file changed, 23 insertions(+)
+> That would be inconsistent with the usb3-dmp-syscon property that is
+> pre-existing, hence the name chosen here.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+I'm not sure consistency is really better here, but okay.
+
+Rob
