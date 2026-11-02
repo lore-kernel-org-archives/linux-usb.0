@@ -1,58 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793637769;
-	b=uS+lAem8/TCBexoDosqVRpsci8Lxx7J4JsRNTLcgI89DJzPvEJ3ETccf8dcs4G+i063t
-	 xhyfmcmcS7cWqdp7B3vWRlpW26Yfm1jTjlRRfcAw3KUd1pxkQXhNZVVPrUa3hyXptGBFN
-	 7XejcnJnkee8e0FhwZBSwIpyto2XbPMGugYg+hHeBSFPKGJj86wQPj9ftjgYd45V4NW1B
-	 o+CN7AWzH3x4Tnj8zspQ3AQrbQ6XNUgAbBXoONGwC1KVRf7SNsD+vKqWxikybxNMWRUHC
-	 o/2xx9J6mRsN1koMbx+POuJC3jYY2Fu69vDLIzufTq2Smxh8hiEPh5u7ACrn5HSkT8w==
+	t=1793639359;
+	b=1XSosGtIWLSoVjy8CR9s12MyOjhIS3jfW1j2C/b1xaqAf8DUoSN5qjnBRwhLURW6JU01
+	 GLnp+EN791SJNwed//qaJUVhFIfDphpLSQVgUpStrGLFATIvBx/UqrX0HzHB4r/nIbzEw
+	 A8xCr4omAdkVHAQ8HuFtbc3R4lwTqsMWiULy7EjwpMYFiN/UrD8adBLJOxoCVmmsfdblA
+	 dbmQJiaL+x+9GUi59oIJ/OeyvnzSccVvzgth+LnRW5HLoMBGlic4NlibQZwlX5RzPqi3v
+	 VlS4WugdI/tNEHSrRAN8fdR+Hatg9UI6UavWluGz09hPCi6vJtr9DrZDrmLQWB0X9nw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793637769;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=G+L/X+01awRD9Zn2yY6uBHk6IdsLy18VMtH+UzQPMt8=;
-	b=erIHwea8FzywElguWYZu8bP1n5iZYtktJ/G6y+naa+LEAkEx2HvpUAHCEmDijMXo2yD0
-	 rpuIWUYDGJk1PiPQuicQR+LNkdpSJgSrxFTs6tSK0yuXcL/qTQJ3+jaJghaOEzsmoXnjp
-	 FFgrBPWng6cMpGkiqr3qjrH919shbjTre+QfqyXaQxlC0t5/ztTz/xdomdWmKU9zdbPUZ
-	 gW5PIU8CudP/Pq0hL7Va+YrkQIkxU5lR08mmXfpl+B1RLE6pTuD9dMwZvCMMg/AXDVV6t
-	 0u14LnyEGpRV6q6RLFG1sI3RAYooNQFDqD8N0l1xtsJul40OdH8PvIw14Fcqyp3qFFQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793639359;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=WW9GTkHRZwsz400fm+diDjo7fUTHQ83uQseXVYo8FMo=;
+	b=uFh0jE0iubquI4i8dFdOYIdPlpUZ9/49qNvwfSsSGVk6TKaMGZUp07YVg3cD909Ge6sQ
+	 JXxInjo84yUD0wHW/cHTiEuqaC55qjkoHQU6UNZQTAJU7pPNR+IfgKz0B3dtYPyyLyjrN
+	 GXS6i9oKokgyyxRS1cJa8YrArTpwMlSi8bmiSCoAH3+/lgkvaXZcaDJf+nqHvGvXSRPk7
+	 KMyZ91X8bcHNn9/h5Vl9Vc9tm2zyEbgbcn8A5ePoviBq/y2txt5s/tcw3PwB/9MSlKZDD
+	 gFSuG7v4zM5cRPhFkgziz+sMdzQyELcts6yigIo3hhwQVEibpZMfoOHAhifkGzIhVTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C01D2606CEC1;
-	Mon,  2 Nov 2026 16:42:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C01D2606CEC1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ClalfCpV;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XkeyjU8z;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED12260716DF
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 17:09:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED12260716DF
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ClalfCpV;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XkeyjU8z
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2GZEmw829750
+	for <linux-usb@vger.kernel.org>; Mon, 2 Nov 2026 17:09:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	WW9GTkHRZwsz400fm+diDjo7fUTHQ83uQseXVYo8FMo=; b=ClalfCpVKYgZwLpG
+	o4M35d5UPvOB5NX3PCW+UtWCe/zCbiDgH2TXEs454m/ZgbYkfA2wN5QKBrMmwhwp
+	mW+8EFAvJ1QYqYQPZux5vIuc721PJFh5wWqUOAGFhiqI/T8N4LFG3MKtT7LFjFCd
+	3EDEi0Hn8mVC9sZ+OnlZj4GD/eJGFenVIGeomtnUNt8G/dKREKU3nEVoAcS1NUS3
+	U8PMouMLQlhGA9FU8XdmrIju7alWNd1a7Y/ZQcVXQd11BTcuff0EN8SgCDh55Rbu
+	8z4Rkjyx7U7UMEpUYKcwf2UDODeyyzSpiZNxEhXj4yFunj29HlC5NDz2SxcLrNMk
+	jrlTVQ==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpsa6sgn4-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 17:09:17 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3aed37745bcso472410a91.1
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 09:09:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
-	Content-Transfer-Encoding; bh=G+L/X+01awRD9Zn2yY6uBHk6IdsLy18VMt
-	H+UzQPMt8=; b=FvP3G3nM/YWyb0CUQXAe97VL/z9A23ipl1JBs6K5+zZN5CeHCF
-	PtmlTckYMOhzONXNQMgsW8Cks+BBZs0KyikuQnH4QYIcUA7hmJuugmv8mtpVCxt5
-	FGaE3naehzaYJrM8H0isweH23zus7NLMRwOdjbWYXmN+qlOmdIfQXRFP0=
-Received: from [169.254.33.71] (unknown [223.160.172.231])
-	by hzbj-edu-front-2.icoremail.net (Coremail) with UTF8SMTPA id BLQMCkDmKwFwvehqzpoaAQ--.55852S2;
-	Tue, 03 Nov 2026 00:42:27 +0800 (CST)
-From: Yuanzhe Liu <25031212351@stu.xidian.edu.cn>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
- UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
- David S. Miller <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net] net: usb: lan78xx: only stop phylink if the network
- device is running
-Date: Mon, 02 Nov 2026 16:42:25 -0000
-Message-ID: <179363774572.24580.9072793556383429188@stu.xidian.edu.cn>
-In-Reply-To: <auiu2voApMN42KV4@pengutronix.de>
-References: <20261029160204.2567-1-25031212351@stu.xidian.edu.cn>
- <auiu2voApMN42KV4@pengutronix.de>
+        d=oss.qualcomm.com; s=google; t=1793639356; x=1794244156; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WW9GTkHRZwsz400fm+diDjo7fUTHQ83uQseXVYo8FMo=;
+        b=XkeyjU8zw5vb3LRIH5CoQoTEUZwAtCQE23Ian2FZjZf3jIIZF6TkUg5bG3NZ4OOVYX
+         U5UbmuzwBz+jYj9NKGt0WN+uCgjsYLl6X6vbpfNi5b0oNR54ziPnegaNGTmbPX76sOAh
+         Ook5snab4oqXo2nuwayn/ht4HAbJ7+GaCWAVCBYEkn2gL60msMd5ld4ePGLq0fQwR9AZ
+         o1DcF2mDc6zQs+tSzfl3m5Iph8MTxHfEOCjv88nJXzxkEjKciD8/m96/O9z8mVItC/xI
+         Z5mSs6ctD7HinJ6iVSWXmHfGba+tHb6TVmGuS/KpIPAg1NgdQ8vGbGwUUcWKjGzAqg0d
+         MOGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793639356; x=1794244156;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WW9GTkHRZwsz400fm+diDjo7fUTHQ83uQseXVYo8FMo=;
+        b=HTrlPABmrZnah54eJxA2cQstlaaPyNGLlLCH8yjkN6LHunXT5C76wSP2q/qRIBrWJW
+         RWmxekutRUz7X/eWr0vBwxmCg7K6pM8L6uElf31Kf1xy6A+1e+xjNXrAC5Ywf2X+lLIs
+         eqeEBY2FWMTNMgfekIvkgUXKhSKrf3nHYZiYBU6gig8qj6iYUyGd/KqJ0Rq6YKR2s0HN
+         e8bvdF1Jg7DvedcAr5h6tmQWGUi74dBe9dgtwRQhiTsZRstbWHn/+Urlc7rlDaW64YIC
+         a4scAeG4YmDEqVS5uWMB0ufyJI2pRGvUT7tTCCXqaEPYivDG6JvW2Zoy+HcV3txrbrDl
+         tH6A==
+X-Forwarded-Encrypted: i=1; AKwUvBzvZ0UMFgTIthAqOQtfKaStV2vI/vZeqNkhbgJXm5dDhG2FSVggQrOWL8ml4L/gS2XDSh7EkwF6ERc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/RaMYS9G0yie4OHBYjHp+wAaIJvCV8L8ySEIl8ieMEsRN7egM/
+	x7lIx4kLzoTkhyvvU7a3HMdxoG7s89oxE5ta7YpBLyoA7ciubj/KooBQEK0xkiwKczihUXQbEpf
+	SzhinqwgQ0RPZ2yucEbBSUMgF+85Ts7wThTtBf2b/uit1oHZ8pnP4lWK/wf63Yss=
+X-Gm-Gg: AYBFou2etdhmX3bvKb+2mNk8BsnYj5rPbHSjkTcYF+Gkwil3DsdBBfV++/DEOBZu++R
+	NN/JWnotT83sX+PQS0EBFoYbCdgSs4Rt+Zynx8unCtdDShNKssS0kyUMdsFc+52R8KJqi/N+KOT
+	KBw73pDTUEk0TOOuhxJlV95WwpN7v20lbLO/mgnFFI9Kt3xy3exWT/HYg+6DoFx+T8jc7inY21I
+	oePMCBgEauhCZIqpCRdRWC0HPE2WIwK7tc4x5Iqbqhv+zVvXMhGkVK+t4bkolKShzJRqhVN2kXT
+	OwejRjbqCyhjT5YVpdy0m2YAB4LYfE4Gr52Rtv/OUE+qRW8hwdsU9hRieqUma6DjnfKyVL6z1Xc
+	QvzdEyi40g6dNmrpdp0sWf4BDBXEbauptUqYHd69qkgQUL1AzUYMEKXHI+5vvVUcFt9g+nlmupf
+	dK9Q6xqyrtS9KOT8R9zlcMnmTFNFNLE3Ig/Zl/jwI=
+X-Received: by 2002:a17:90a:ea0c:b0:3ae:8983:4ef8 with SMTP id 98e67ed59e1d1-3ae89834f45mr4756788a91.9.1793639356396;
+        Mon, 02 Nov 2026 09:09:16 -0800 (PST)
+X-Received: by 2002:a17:90a:ea0c:b0:3ae:8983:4ef8 with SMTP id 98e67ed59e1d1-3ae89834f45mr4756766a91.9.1793639355846;
+        Mon, 02 Nov 2026 09:09:15 -0800 (PST)
+Received: from [192.168.1.6] ([122.177.242.199])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c6c4259sm35635a91.14.2026.11.02.09.09.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Nov 2026 09:09:15 -0800 (PST)
+Message-ID: <3da347c7-6c7d-477b-afe6-9dbb37208438@oss.qualcomm.com>
+Date: Mon, 2 Nov 2026 22:39:07 +0530
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,59 +116,136 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-CM-TRANSID:BLQMCkDmKwFwvehqzpoaAQ--.55852S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zr1fGrWDZF43ZryrAF18Krg_yoW8XF1Upa
-	y3KFsrGF4kJry2v34xZw47ua48Wrs3Jay3ur15G3yrZws09Fy7ZrW8KrWUZFnrCrsavF4f
-	tw13uay0934kC3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBSb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4
-	A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x2
-	0xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15Mc
-	Ij6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxG
-	xcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r1l42xK82
-	IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
-	0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMI
-	IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
-	0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
-	Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUxiiSUUUUU
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUFD2rop1UQnwAAsx
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] arm64: dts: qcom: glymur: Set
+ snps,resume-hs-terminations for USB controllers
+To: Peter Chen <peter.chen@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Abel Vesa <abel.vesa@oss.qualcomm.com>,
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+        Udipto Goswami <udipto.goswami@oss.qualcomm.com>,
+        Jack Pham <jack.pham@oss.qualcomm.com>,
+        Pratham Pratap <pratham.pratap@oss.qualcomm.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20261019021547.1694088-1-peter.chen@oss.qualcomm.com>
+ <20261019021547.1694088-2-peter.chen@oss.qualcomm.com>
+Content-Language: en-US
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+In-Reply-To: <20261019021547.1694088-2-peter.chen@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA2OCBTYWx0ZWRfX2xXgOSkl3eq2
+ 5IpEAXuYY+UdkEeO6/ULWJZgY1iI3jqAo1rEXZSd5PMHnQRiGR09MihD61gKDI4PadriGuVFKpr
+ eZUB1tGMZtMOMSLbFzqvdYy/sCVnmub0T9aPJwHZg7XtGQPxOzlb5U/aotK1Ggy1UfyFKtBXR3K
+ xl+C+jg56D6bdM9kbpVMJHPnL5fA4Q4zy4kn94v8bV3gCTQn3s9GQfLaMSUJd7HtLpA/fu3g6bV
+ X8aDxultrFheENBvjQGpHqwQzQLCPCM0xWLppGVK5O5U0AR9Mwe2Bvew+rQGUWCzd7AqJGgZoR3
+ R8ZDcWIEr/93zIcDpx1m5tRyx6My1WbcVEucJFkpDdyXLP/ef/QRupNDvdKvm1D6C6sfeh9xDXr
+ x+baDtM6qsYnBPoF0PXoZ+qnCIliFeOrrXVPdVxT9Ig/22alx/EXGdLEuGI5SJAHfZGr68Xym3x
+ RKlDe6+fgkmylnv3DRw==
+X-Proofpoint-GUID: _a_Y_g5o8T2e_cWe1kMwkips-7ZIbWNl
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA2OCBTYWx0ZWRfX07n5K493wfLF
+ lA9stHM/mxc6RHAUnOSB1lTsAxW8vfMhGB8y7a2IY2TrQk8CYq6sVLjwHR2wMVTMzsEy4WdWJAI
+ gVa2sIh/Gu40n3W2PXgxr08m84BYVX4=
+X-Proofpoint-ORIG-GUID: _a_Y_g5o8T2e_cWe1kMwkips-7ZIbWNl
+X-Authority-Analysis: v=2.4 cv=I9fw19gg c=1 sm=1 tr=0 ts=6ae8c3bd cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=4cW2FY/XLap1olThQF9nEw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=EUspDBNiAAAA:8 a=ptdc_f1R2aCmbPsLd1wA:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-02_04,2026-11-02_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 clxscore=1015 phishscore=0 priorityscore=1501
+ bulkscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020068
 
-Oleksij,
 
-Thanks for the testing, and for both tags.
 
-One thing to sort out first: they arrived on the v1 posting, and the patch
-changed shape in v2, which I posted separately on 2026-10-31:
+On 10/19/2026 7:45 AM, Peter Chen wrote:
+> The DWC3 controllers on Glymur are paired with the M31 eUSB2 PHY.
+> According to HPG, host-mode USB2 L2/L1 resume with this PHY, GUCTL1[10]
+> (RESUME_OPMODE_HS_HOST) must be set.
+> 
+> Without this bit setting, USB2 HS device cannot be reset after it is
+> runtime resumed. For example, after:
+> 
+>    echo on > /sys/bus/usb/devices/1-1/power/control
+> 
+> PORTSC.PR never clears (PORTSC = 0xe11) and the hub driver fails with
+> "port_wait_reset: err = -16".
+> 
+> Set snps,resume-hs-terminations on all Glymur USB controllers. This
+> makes dwc3 core set GUCTL1[10] and fixes the issue, tested on Glymur CRD.
+> 
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Fixes: 4eee57dd4df9 ("arm64: dts: qcom: glymur: Add USB related nodes")
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Peter Chen <peter.chen@oss.qualcomm.com>
 
-  https://lore.kernel.org/netdev/20261031165213.2738-1-25031212351@stu.xidian=
-.edu.cn/
+This also fixes one more issue in Glymur wherein the HS Pendrive 
+disconnects after exiting pm suspend.
 
-v2 drops the explicit phylink_stop() and moves unregister_netdev() ahead of
-the phylink teardown instead, so that closing the netdev goes through the
-normal lan78xx_stop() path. That removes the netif_running() test; and the
-three cases you reproduced -- never opened, after ifdown, and ifup/ifdown
-during removal -- are all cases where the interface is not running at that
-point, so v2 does not call phylink_stop() there either, same as v1.
+Tested-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 
-The path that does differ is a removal with the interface up: v1 stopped
-phylink directly from lan78xx_disconnect(), v2 gets it from lan78xx_stop()
-via unregister_netdev(). Your "interface open, sending, link up, link down,
-link flapping" runs cover that path in its v1 form only. If you want to
-re-run them against v2 before the tags stand on it, that would be welcome;
-otherwise I will take your Tested-by and Reviewed-by as applying to v2 as
-posted -- tell me which you prefer.
+Regards,
+Krishna,
 
-It is also the approach 312c816c6bc3 took for the NAPI teardown, so the
-shape is not new to this driver.
-
-Thanks for checking the pre-phylink kernels too -- that is the direct
-confirmation of the Fixes: tag Andrew asked about, so I think that question
-is settled.
-
-Thanks,
-YuanZhe
+> ---
+>   arch/arm64/boot/dts/qcom/glymur.dtsi | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/glymur.dtsi b/arch/arm64/boot/dts/qcom/glymur.dtsi
+> index e269ae6e10ea..023a8448449c 100644
+> --- a/arch/arm64/boot/dts/qcom/glymur.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/glymur.dtsi
+> @@ -5544,6 +5544,7 @@ usb_0: usb@a600000 {
+>   			tx-fifo-resize;
+>   			snps,dis_u2_susphy_quirk;
+>   			snps,dis_enblslpm_quirk;
+> +			snps,resume-hs-terminations;
+>   
+>   			usb-role-switch;
+>   			wakeup-source;
+> @@ -5620,6 +5621,7 @@ usb_1: usb@a800000 {
+>   			tx-fifo-resize;
+>   			snps,dis_u2_susphy_quirk;
+>   			snps,dis_enblslpm_quirk;
+> +			snps,resume-hs-terminations;
+>   
+>   			usb-role-switch;
+>   			wakeup-source;
+> @@ -5696,6 +5698,7 @@ usb_2: usb@a000000 {
+>   			tx-fifo-resize;
+>   			snps,dis_u2_susphy_quirk;
+>   			snps,dis_enblslpm_quirk;
+> +			snps,resume-hs-terminations;
+>   
+>   			usb-role-switch;
+>   			wakeup-source;
+> @@ -5783,6 +5786,7 @@ &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+>   			tx-fifo-resize;
+>   			snps,dis_u2_susphy_quirk;
+>   			snps,dis_enblslpm_quirk;
+> +			snps,resume-hs-terminations;
+>   
+>   			maximum-speed = "high-speed";
+>   
+> @@ -5858,6 +5862,7 @@ usb_mp: usb@a400000 {
+>   			tx-fifo-resize;
+>   			snps,dis_u2_susphy_quirk;
+>   			snps,dis_enblslpm_quirk;
+> +			snps,resume-hs-terminations;
+>   
+>   			dr_mode = "host";
+>   			wakeup-source;
 
