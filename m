@@ -1,55 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793610285;
-	b=OJY81m8jNaqfux/y5PEB7dheMKiEvFbdc2ELJ/M7P+rL0PS1F9AVJ/Gqh/HiaFBdso7E
-	 9yD53GybptwXeeTA0kfKFoBTB2MQ8XOTW6yRZmADFDfMQuQ34ANaZXTAIUVZQRzCtB8cc
-	 4iaCxbtW+HxmxcOSyA5I8Vt3KWVzGC29dXWMBymoLny2TAE2F1tjWUVuwtbmO1DJhb8p7
-	 0Pi9hh6NzEhOgajhk3NIOiy+8LAtq8Ehrag4OsGVzgv72DVS/tqB6zTm1adyqZMKdMATW
-	 fN0ESqsTcr2uOz8Q6VcY5m9LBCMiHDEvs04XKiph1KwOh36YIxNshmX7X8l2KexytXQ==
+	t=1793610384;
+	b=jSQ5Qsl0p3p6OOlEFupQOolTFTCdwk6sT+XUBVG+415NUPgXYYcOyq+KrIToKpwetYTJ
+	 gPpQNjJt17049hcNrZeLw6Bnrt0tmtKFeD5duq2BgQ7MjYc64nGqxB7Ppfidm04Ur3nYC
+	 dmwKNcP0fWepZwUyLEpInjDSq1BEKfRZObS4JqFyhiM07nzckoABlDZl5r2d+w+7azVSR
+	 XyZ1ajc3v5wUUu/VKfCshjuhvvo4DccGRtWULIoAoxkhEDSV4IrUuC+I98HvUqFlgyvHw
+	 yBZymilbwlvHMrFdOgm5mszvts2KTZM9iEyGXViv/zZ3+Yw+gwELN7Ib7yQkpdZQfTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793610285;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793610384;
 	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
 	 Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
 	 User-Agent:Content-Transfer-Encoding:X-Last-TLS-Session-Version;
-	bh=HUY2PGBmTQl+X2D2BoUwfoPeXyROWhfRuAYN7bnM+eo=;
-	b=xANDSNiqIxtKdVPFnZPsVPtdRt0HKiVWamCoDC8S4RF5h7lBPwOJdvSk+Yd6t1u74C6j
-	 E/zuKEzZnGTpVBBq4bys9ZnM4J+0SE1gLkZ+Fv1SmoUgHLWpnuKv604kOYfdHvYiHXo6i
-	 RNK5degccpj5+3NYSm+syCzvTjrYHvR9JmuEK/06W9fStnCSLwR4MQRS22JR4HfsovYzS
-	 whmqY3jHtYC4j9aM9L95kVyNkN4BgvMt09B4bA1HIHn5+2niEUmm+IqrTBhbh+LUOdFnn
-	 DRTMG5QUI14v6Iek0g4Vw37bP/fd00xYKcO2U/VWjkNnt2WH/AUjbbhCMQK4vroLFgQ==
+	bh=t7e45QyRXwdTcxtvzKczysOOf5DXVWjfhXKIFEcpEQI=;
+	b=sP3vH6UjbhB4RThtpf27HI5TkmY6TJ/Vllj9+7z07yuo8ZaQoDf5moqzoorvQDWFWBJ0
+	 52KzlHiQYL2/kpwj/JGUYol7UAf/cmpU+e0DNjoam/v9qan1bP/u1PCK1iwHTYLIqc1AI
+	 O5jpBxP7tqUr4NVzOgIwNazTAmUJr3kDeutSmaOYdioYyuvvM8HvqBzeY4DHQw4n7jfUY
+	 asu6d8o5Mx2khXxTcly0fR1cZeiCu9bJh6Oawc6qbGigLQIuqJW76ZSZNRAIxf6BkPe9x
+	 ErjChXvDL3cmJaJfLhfbcEIGN5NuyhZ/UyNbtyh8+foLgz4pA2oaODxNWQvUf5pxvSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bootlin.com;
 	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=pYbMCmqV;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=kp8vrrQQ;
+	arc=none smtp.remote-ip=185.246.85.4
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03B7606A32E;
-	Mon,  2 Nov 2026 09:04:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B03B7606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F74606A326
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 09:06:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74F74606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=pYbMCmqV
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=kp8vrrQQ
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id D3B79C8F446;
-	Mon,  2 Nov 2026 09:05:44 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id ED86A4E413C2;
+	Mon,  2 Nov 2026 09:06:15 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C9B6060750;
-	Mon,  2 Nov 2026 09:04:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 27B53103280EC;
-	Mon,  2 Nov 2026 10:04:28 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BB1A760750;
+	Mon,  2 Nov 2026 09:06:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8D7091032909D;
+	Mon,  2 Nov 2026 10:06:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793610279; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1793610374; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=HUY2PGBmTQl+X2D2BoUwfoPeXyROWhfRuAYN7bnM+eo=;
-	b=pYbMCmqVfTGKf3KdjOWu/GvlBsAWwN9oedfFKPfTpeasYb7Auvaya3mBq+bs4MFYkU5zXz
-	EdJ99g22xzG4fbKEPEgxVE7cp1CUDMp+hIDyHk9X4H/mNzbv9fDzvjlkw20mU32jvGkK3u
-	ulaJZ6bfs6UD2pNkckP3J7Z69Lq0BO4Ei3NTgsTse01E0CPd2NQi3Qx9VnuXjzX15+bOf1
-	Gd6MkTOkggoDmbh+a+oDPc5ZKlEsSkWgHed2a8yo8ksQQUjA6+wLhjXpzKF0f+HcUjDV1M
-	KQEnNrNu4pZaIrxFhQ803ZfAwbF/i7UsmWrPfIcjQOymh7W/IC04SDNE7EuFKA==
+	bh=t7e45QyRXwdTcxtvzKczysOOf5DXVWjfhXKIFEcpEQI=;
+	b=kp8vrrQQt69+/P3hzqU4pEodu/3iWqr7oBsiktrIhhNdCKTk8tZPuX23WasfiVSmzHcZK+
+	VD9Kzjw5TRNM/VWK46fsKc932tOiShJEv8Oh+QXRJMBNq9odaO8A0OaOvsBuAifIuGLMWt
+	+qMTvQ5tvwYicyNQ0KynMqIUhXW4JgVp/cHOCLTXovCADSFPBloXg+B6EhNgMrIRbaoUA/
+	RuC60LXZe/SSSRRKyynuTmEOOwxmn9DtYZlRhBxvJCr7JWvT0hfMOkwVk6NI5aRAF+YTc0
+	81sqbodMtFNiIz/EPk8boLLGhE2Qs9k7XF6huNtDrxED+YBJsIshI5kr7vnIfQ==
 From: Romain Gantois <romain.gantois@bootlin.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org,
@@ -82,8 +82,8 @@ Cc: linux-usb@vger.kernel.org,
 	Rui Miguel Silva <rui.silva@linaro.org>,
 	Minas Harutyunyan <hminas@synopsys.com>
 Subject: Re: [PATCH 00/19] USB: a bunch of llm-found fixes
-Date: Mon,  2 Nov 2026 10:04:16 +0100
-Message-ID: <20261102090416.12865-1-romain.gantois@bootlin.com>
+Date: Mon,  2 Nov 2026 10:06:06 +0100
+Message-ID: <20261102090606.13146-1-romain.gantois@bootlin.com>
 In-Reply-To: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
 References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -158,4 +158,4 @@ On Tuesday, 27 October 2026 15:57:55 CET Greg Kroah-Hartman wrote:
 >  		mode = TUSB1046_CTLSEL_USB3;
 >  		break;
 
-Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+Reviewed-by: Romain Gantois <romain.gantois@bootlin.com>
