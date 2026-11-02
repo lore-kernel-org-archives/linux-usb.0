@@ -1,56 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793629117;
-	b=CnZh8t5DwJi9kimO4bSXLrLLWWccUmecDdlhuSuchOam2Sj75uXPXabZ63hGbRwa9FtC
-	 CXNb2vgOVhCUdnbvxERSVfBQ8n3TFmTUv+0dQWnqFr236SfxWFBM7KjHTZjL5AlIKccMA
-	 b5T5fp6dByCUQ0UFvkfuFz26BD7hPEPfYt5/xopUfIlDXX/9Lj1MWNEMhOEKp/yTSUvbo
-	 gymbNKwyD9dsWR1iQxe2TMdE8Gh9DsOkfpZX2uwJtqKl3aJj+usXTUMugkLlgfXc1/T4u
-	 N4eETb1OatmpYw7gkPc/41548S63Q+Q3+WHhmFLV1ko+3t+Xkhj+bXBUY9aK4IXaFBg==
+	t=1793629243;
+	b=U//PJAm/4P+JuT+TPlfVvhKucPI7oD+NDIFWOHGipngQCLY0p2T0D56cbXrdTD1b6kee
+	 jVilgtD9ZNND1zHJKVir1q/cggcF30QlXKjbAI81cgccZjsdZKRKuaFWbmIbf/gC2xiTT
+	 lRRPeVM7VCielTOYuh0fQyOg4UaKqbZOtahPlE4dT+5xs7dg2aQ2TNmnRLXPJQ7Vb/ec+
+	 nLSjRUGPwA4qvzQo6nEQD6a6ulLT+hFjWK/sGxAMBVjmqGy1Q7goZ2VprWR/uaNIkvV/T
+	 epxmMBBdbuIwqKdpR9pWydM1VXN/Pp9I4mPAo9vdXkPQsoHplxPxe6vjGdJiNzEFKVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793629117;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=boh2d+4RmCfH4PSNQ8XCl8nERIzDKa384odqP8sDJsM=;
-	b=OXFtQbRNJX0iqgdMjBVllpfFGtfIh3q4JjHjGWtSeuTycTS1rzcB4apcfea2Mrhpgt/6
-	 x4uFPvNz1+M9LrppKeZKXkRbtuhvNYsqez1KusxJOfyXFXwkNl0Gg03kQcCJiwlYuHvmR
-	 kEp1JbruxQNO1i6SI1XXzDDzU0zSx7bBmSCmQLGrLmtBghgcd260z6ITTzpPmzI2H8Jbg
-	 lpV6lmQ4XWcJ8rgG2oyUBkL1FhAfOSe/uhoQ5W9DRCB7D5EiO/Ym0z5nDhZu792riB5vu
-	 S8vZv6Go0lbAfDroKNi/oplGzH9dsr1RoKDZXpynJ/G3X+425tF0R4MXGKv6BckSl1Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793629243;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=rnqkMZ8CRclQ6FinRgL34ebPpXHJ+z3PKdKH9rEdEPc=;
+	b=kFpNetsWTrizE5DwDTZ/iikbUnZncIbapIGN+o4nRvRAMk+unqsGKjP+rqn/JCHzK9r8
+	 GDWoxzKBMabC0cvVLwhTXbLf8QMfy6HDvhk/40z4jTMmHMUqu92atMHoCRQHXoKXuANKf
+	 FaHHiaM0Xiyil/eJwIg+/FR72radoJ2Spu6XW4j1dzodR+0EP5T0Se2P64SDmZFwAXIhP
+	 JPRTzHtpQ9fldyhdhTz8iz86rKCqvoOQSW3JCTVDrxmzshJXJZ0DgjEfCcdSK9W7+gd2E
+	 zU83eVJfKJxs7OYa9MoSKQm76CohSbmts+mnB/liEnDTvKIdzTDsrcF/NjNtaG6SzRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="GpK/rU/Y";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=krAaTW0J;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623B3606A327
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 14:18:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9070F606A337;
+	Mon,  2 Nov 2026 14:20:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9070F606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GpK/rU/Y
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D26751F00A16;
-	Mon,  2 Nov 2026 14:18:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793629117;
-	bh=boh2d+4RmCfH4PSNQ8XCl8nERIzDKa384odqP8sDJsM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GpK/rU/YxMl6tPx4aAtA3AaEr2j72yiQ9Z8Wx55CAK35q3JOYW9sTFgUst5XE7U/1
-	 bT9GxgsEgtSPqWVW+A8K67yZ8csimsN2AlHBcCfQnM0AiuA9ThCcMocxCXPNt2349J
-	 ZTto/RoWjPXpVYq1KUyypch9HjYi0OC0yJx6NYWn3szjX5G3+Z2yJ5mFPwTIExoLH9
-	 TkWzTmowLVrDjJ4Wu3AUKejW6AKlledlzavo8JjP8ZiUhTrw/THmhPpyYxAwp0qhVx
-	 4d/CnZRA77kzxjdashjYUf4kjnLKsvqIISdSHSVLO2e0lwdD0K3APsfK9pm3yaY1wC
-	 BnhS23ZI4Y48Q==
-Message-ID: <sashiko-outbox-193554@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: typec: tcpm: Complete discovery when the partner
- lacks SVDM support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Alexey Charkov" <alchark@flipper.net>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261102-tcpm-discovery-no-svdm-v1-1-54bb9b613065@flipper.net>
-References: <20261102-tcpm-discovery-no-svdm-v1-1-54bb9b613065@flipper.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Nov 2026 14:18:36 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=krAaTW0J
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793629243; x=1825165243;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6IYdIllU7Skva9Xh9DLUseReR/l/v2CrWzARN5qQP60=;
+  b=krAaTW0JLUmJBkWxjnEAQFBC4ZeLrzOOzIjhqW87ipXireXmq7krvsPB
+   NXV220wh5cb+y/nUvm+ECo7fhjuEF6Vltum16l6NL1mSnyh2dEx9Q4e69
+   QQj0bmQx4/12r2/Xxnn4hhEJDxY/3zrD6JkhTIpRsf4AdO0VtSISJLiTS
+   L1ZdOWvafCqzeBN+8c7AqKUz6Lo9fZHzuDF4PjFSQOP24rXBdo0pePjp2
+   nvx0cvdKscXlGhycBCuoxa732z/fzhgwaQbJt95iZ0UQRQ+NGodzB0BPz
+   DnYzBt8FAbFMV9FLOg/+k2w4BBxXo4mYkeG6BN5jjlr0SupTzQasOSFac
+   g==;
+X-CSE-ConnectionGUID: BvFLyJmsRPuYcvXx9Sl9XA==
+X-CSE-MsgGUID: JxQz9LAeSUSXii12jkCYWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2338480"
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="2338480"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 06:19:32 -0800
+X-CSE-ConnectionGUID: 3L6NF0M2SF+LAJ8WyX+9kQ==
+X-CSE-MsgGUID: /gSbkW4gQdOl7/nqG217/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="5986053"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa005.jf.intel.com with ESMTP; 02 Nov 2026 06:19:29 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 3E5F499; Mon, 02 Nov 2026 15:19:28 +0100 (CET)
+Date: Mon, 2 Nov 2026 15:19:28 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: JaeGwon Go <ceo@logictree.app>
+Cc: linux-usb@vger.kernel.org, westeri@kernel.org, andreas.noever@gmail.com,
+	YehezkelShB@gmail.com, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] thunderbolt: Send header-only XDomain properties changed
+ response
+Message-ID: <20261102141928.GX158991@black.igk.intel.com>
+References: <20261029081834.91559-1-ceo@logictree.app>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,114 +81,54 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261029081834.91559-1-ceo@logictree.app>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] usb: typec: tcpm: SOP' Not_Supported in tcpm_pd_ctrl_request() h=
-alts discovery
---
+Hi,
 
-commit f5763c417e2367d11a45635b9af7ac9ca073d24a
-Author: Alexey Charkov <alchark@flipper.net>
+On Thu, Oct 29, 2026 at 05:18:34PM +0900, JaeGwon Go wrote:
+> Commit 19813551701d ("thunderbolt: xdomain: Avoid potential stack OOB
+> read") turned struct tb_xdp_properties_changed_response into a union of
+> struct tb_xdp_error_response and struct tb_xdp_header, so that
+> tb_xdp_handle_error() can safely read the error field of a received
+> response. tb_xdp_properties_changed_response() still sends sizeof(res),
+> so since that commit the response Linux sends is 36 bytes instead of
+> 32: it carries the zeroed error field, and its XDomain length field
+> says 6 dwords instead of 5. The other responses changed by that commit
+> are not affected, because their non-error members are already larger
+> than struct tb_xdp_error_response.
+> 
+> macOS sends this response as the header only. macOS 27.2 (26B123) keeps
+> re-sending PROPERTIES_CHANGED_REQUEST when it gets the longer response:
+> after link-up it repeats the request every 1.5 s, ten times, and then
+> resets the link, about 15 seconds after it came up. thunderbolt-net
+> logs in and passes traffic before the reset. The same host stayed
+> connected to the same Mac for about 23 hours while the Mac ran macOS
+> 27.0.1, so the change in behavior came with macOS 27.2.
+> 
+> Send only the header again, as before that commit. The union stays, so
+> a received response still has room for the error field. Linux
+> requesters accept the shorter response: tb_xdomain_match() requires
+> only frame.size >= response_size / 4, and tb_xdp_handle_error() reads
+> the error field only when the type is ERROR_RESPONSE.
+> 
+> Tested on an ASMedia ASM4242 USB4 host running an Ubuntu 7.0.0-38
+> kernel, connected to a Mac17,6 running macOS 27.2. With this change
+> macOS stops re-sending after the first answers, and tracing shows an
+> 8-dword response with length 5, the same as the response macOS sends.
+> The link has stayed up for over 1.5 hours, about 80 minutes of which
+> carried a multi-gigabyte transfer every few minutes. Not tested: a
+> Linux peer, the error response path, and macOS releases other than
+> 27.2.
+> 
+> The analysis, the fix and the tests were done with an AI coding
+> assistant.
+> 
+> Fixes: 19813551701d ("thunderbolt: xdomain: Avoid potential stack OOB read")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: JaeGwon Go <ceo@logictree.app>
 
-usb: typec: tcpm: Complete discovery when the partner lacks SVDM support
-
-This commit marks VDM discovery complete when a port partner responds to
-Discover Identity or Discover SVIDs over SOP with PD_CTRL_NOT_SUPP,
-avoiding an infinite loop of discovery requests.
-
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index d721baef52104..e21fe544b2d4b 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -3908,6 +3908,17 @@ static void tcpm_pd_ctrl_request(struct tcpm_port =
-*port,
->  		case SNK_READY:
->  			if (port->vdm_state > VDM_STATE_READY) {
->  				port->vdm_state =3D VDM_STATE_DONE;
-> +				/*
-> +				 * A partner without Structured VDM support answers
-> +				 * discovery with Not_Supported: there is nothing left
-> +				 * to discover, just as after a NAK.
-> +				 */
-> +				if (type =3D=3D PD_CTRL_NOT_SUPP &&
-> +				    rx_sop_type =3D=3D TCPC_TX_SOP &&
-> +				    (port->ams =3D=3D DISCOVER_IDENTITY ||
-> +				     port->ams =3D=3D DISCOVER_SVIDS))
-> +					tcpm_update_vdm_discovery_state(port,
-> +									VDM_DISCOVERY_COMPLETE);
-
-[Severity: Medium]
-The commit message notes that a Not_Supported reply from the cable plug is
-left alone so that it cannot cut short discovery of the partner. However, i=
-f a
-cable plug replies with PD_CTRL_NOT_SUPP (rx_sop_type =3D=3D TCPC_TX_SOP_PR=
-IME) in
-tcpm_pd_ctrl_request(), doesn't leaving port->vdm_discovery_state unchanged
-still stall partner discovery and repeatedly re-send the SOP' request?
-
-Specifically, after the partner ACKs SOP CMD_DISCOVER_IDENT, tcpm_pd_svdm()
-sets port->vdm_discovery_state to VDM_DISCOVERY_PARTNER_IDENT and probes SO=
-P'
-before discovering the partner's SVIDs:
-
-drivers/usb/typec/tcpm/tcpm.c:tcpm_pd_svdm() {
-    ...
-	tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_PARTNER_IDENT);
-    ...
-	if (IS_ERR_OR_NULL(port->cable) &&
-	    tcpm_can_communicate_sop_prime(port)) {
-		*response_tx_sop_type =3D TCPC_TX_SOP_PRIME;
-		response[0] =3D VDO(USB_SID_PD, 1,
-				  typec_get_negotiated_svdm_version(typec),
-				  CMD_DISCOVER_IDENT);
-		rlen =3D 1;
-	} else {
-		*response_tx_sop_type =3D TCPC_TX_SOP;
-		response[0] =3D VDO(USB_SID_PD, 1,
-				  typec_get_negotiated_svdm_version(typec),
-				  CMD_DISCOVER_SVID);
-		rlen =3D 1;
-	}
-}
-
-If the cable plug replies to SOP' CMD_DISCOVER_IDENT with PD_CTRL_NOT_SUPP,
-tcpm_pd_ctrl_request() finishes the AMS without advancing
-port->vdm_discovery_state or queueing SOP CMD_DISCOVER_SVID. Because
-port->cable is still NULL, every subsequent run of tcpm_vdm_discovery_work()
-will re-send SOP' CMD_DISCOVER_IDENT instead of moving on to partner SVID
-discovery:
-
-drivers/usb/typec/tcpm/tcpm.c:tcpm_vdm_discovery_work() {
-    ...
-	case VDM_DISCOVERY_PARTNER_IDENT:
-		if (tcpm_can_communicate_sop_prime(port) && !port->cable) {
-			tx_sop_type =3D TCPC_TX_SOP_PRIME;
-			msg[0] =3D VDO(USB_SID_PD, 1, svdm_version, CMD_DISCOVER_IDENT);
-		} else {
-			if (tcpm_can_communicate_sop_prime(port))
-				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_CABLE_IDENT);
-			msg[0] =3D VDO(USB_SID_PD, 1, svdm_version, CMD_DISCOVER_SVID);
-		}
-		break;
-}
-
-Similarly, when tcpm_handle_discover_mode() finishes discovering partner mo=
-des
-and sends SOP' CMD_DISCOVER_SVID in VDM_DISCOVERY_PARTNER_MODES, a
-PD_CTRL_NOT_SUPP on SOP' leaves port->vdm_discovery_state in
-VDM_DISCOVERY_PARTNER_MODES without calling tcpm_register_partner_altmodes(=
-),
-causing tcpm_vdm_discovery_work() to repeatedly re-send SOP'
-CMD_DISCOVER_SVID.
-
-Should a PD_CTRL_NOT_SUPP on TCPC_TX_SOP_PRIME fall back to SOP discovery in
-the same way vdm_run_state_machine() handles SOP' transmission failures in
-VDM_STATE_ERR_SEND (advancing to VDM_DISCOVERY_CABLE_IDENT and queueing SOP
-CMD_DISCOVER_SVID on DISCOVER_IDENTITY, or calling
-tcpm_register_partner_altmodes() and marking VDM_DISCOVERY_COMPLETE on
-DISCOVER_SVIDS and DISCOVER_MODES)?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-tcpm-disco=
-very-no-svdm-v1-1-54bb9b613065@flipper.net?part=3D1
+Applied to thunderbolt.git/fixes, thanks!
