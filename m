@@ -1,80 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793626965;
-	b=opePJ6v9kN/FIpSJEjvYx+0L9YA4yFc9k5qTwYuQn5MNAxHY4eiE1wpHdnLkf+B5qEjS
-	 8mISQ+dj1LRH4qMxtC/7VVMUD+7v60rY/f31tVfd1fAhNptIgt9c6PKvG9jnEX6oKjl0t
-	 45W8pP4YOAfvtEDO98sUqFnCnb4W5UayG5Gm0nTybb+HDP69Y/Nclg9BZIweSQaPS3CGl
-	 LqgiWyhgw0epAqCoRj+QtGqdzK26ugxYaF4e0bggoAULhjftouwvgGsUCu50ib9CiL+mg
-	 rqEVJmoMNYxa/KOO96FGv89XA+7nfp8toOOTxDVuYkOdBJiCocBFM2zdYPbcBz2YMXA==
+	b=5CPB0kN00GuS0cjcpuFX7Xm2BEFyPiJGnHb7s+xB5i4vDK6GFli8J96OWSNmRnj3bmzj
+	 LgKvyXJBdcMOdIRmZqwgCsjx03k/97fMTMror0UiyIaeLe0ZDcKVHJPGGBe+xUuXkL5m+
+	 ECEWj9JJxZx2M0q7ZOtAse6+uin8Yc5ce6GPTZfUjjSv6Xh2tE/er9s64+DoiBAgv7/Zl
+	 mklUpDpgVO999xIub1ZLAwWL7gS7j92iTWeGi5TgzDYlwJ9o7EWu/g9u3P6lHaOd+LTgq
+	 Ty2W3AogrAIPgsX7CieYXW0e440rq4Jl7VL+bwnh/t+eo7K2pcgXNmCU/1StrR8WZOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793626965;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=7x2bz1wteY34xEOVAIwgFePoiZSU/L/wbYP+cHAOSI0=;
-	b=sbt95y+s7zesHIhwMxGERW21U5rCKKNfH8V//iImH7Vw21N4TnR9px8idXsLylf561Hu
-	 3kxwdNLK0bqyDkBBhfTdiaH/gpf3abU3j6SWw0DTRVg9rbGabQMg810/6SsEcYTDOlkLX
-	 1H9L5D4vF+TpAeO5J9/q/v8qYdM0lNYLRKEINBU5oGz5heXHpbVBzPJlp4DRAQ+o0C2oD
-	 1ZvIr9WmqNVfjRZUEpAuXLRA/+lxp0QKgqSOoULKz8BBnsvjC/luhnT6cPH6x8uL9OPGa
-	 KAHD5qyXu0dgcgeWKM8mynZ/iv7wmPq2TD8jB1pYQLNADfmMSwHG8ObdNJ248RYAOmA==
+	bh=QMacUzQpD/UCu4yt+xKfCRZFefUpooFPVa4iaD+RgpA=;
+	b=LGy+5bCEFlE4SK1BSd+fh2XMugTn8aL0iyKVe/FoO/RKAQ+tg5TKnnUubdwpSnVoYXrA
+	 /nnx2VH0zBp2NHigruqCOeEmY45Ie7ZiLblfoFk3uRAETZAZXM5S7EdHc4cABJxTMo8xC
+	 lMLCgPl/Ptr7YPJ6trRffsvHhJ1Y6O54ZrgAZHJFWD0HHGnb1bI4yAcRRghHb77U3crQt
+	 MpnJ9xOgqbg+MqZOtQjDcVI+gr6vU0E1tEbTa2d71bDDlamPtYLQulj2iy8Q0Yex3Yor/
+	 HR1yxgqrO3bDot+JhT6/Wf2XmXxYIHcgTfQsjHSPtWGW9l8GqcKir3Ke4jRwdVvxOpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FEYeBY1q;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nJ3B4yoE;
+	arc=none smtp.remote-ip=198.175.65.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EB7606A910
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 13:42:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0EB7606A910
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4E7606A326
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 13:42:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D4E7606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FEYeBY1q
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nJ3B4yoE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793626965; x=1825162965;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=FBcYeMHjvtFv3ndg4WFHcw6RmVlloac7f+hz/gffjbk=;
-  b=FEYeBY1qtTKds+TIgV83ZQOe2Nt6lQHdRN6+p/PAElgxy0x9NBsuXv02
-   V+PrJ8qfB0aoukEd0usLgLC9FQvRFIkz9qxdaPbkzf1v2CyTQkRW7rg4N
-   MSTWxCSLyJqMPPty/6sloYrloHAtjCTTUkX8/wej7xzK3w6CeObZXWoqp
-   f21lcBEK7jJMvIErjyi9/ErJ9OGOCq8dKbN4Dd1E7JfDjw6JT2uh6XSy0
-   xbAmPPQSsEBRoYmhst/Ig0rn6+4dwwn5ZL2qUCcNhyTej18h7/cm/xIXB
-   Xf18cTWP+bD3RKY10LUYY5R3Ur/F+FZgr5ETLrXoh1OGB4CAhOiDda1Qt
+  t=1793626964; x=1825162964;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/WcJo4v1N0XOtEBfYZnZY259a/1wdRQBxbpd3tX/+iQ=;
+  b=nJ3B4yoE+z6rVdI2u7fy31ZPWHxa9H7f6xuHDLC36F0jr1IkzkMbdzDA
+   1akHFgfumE/qOqN9t7wo3/CWUIpgr5dayW6ixwXtL//sQ7SsPtwIIgNoI
+   i++oWBT8DpsNKTpA6TGKJwJg8GCq7ndlVykwElAWRYSz1JzTqtv8MLM7g
+   oIyV6VLuZuQTYqJGRDQc1kzO2XWUfbYsc7//h9vlFQM1/EgRRDJ7Qv/0k
+   mZk2ggeDlS9MrL8vos+ECwmyxw9b66kGsmH4IRANfk0GHwa+x0Xjn+Rrt
+   SGYN81n4C5s3qV88wIThzjPd68tvpAPicxEhdoKIkBM9x245xUKRijVdW
    A==;
-X-CSE-ConnectionGUID: o1EHagPNRba30NXfDYYr9Q==
-X-CSE-MsgGUID: k/crP4gxSFywScMs2u4k9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2311668"
+X-CSE-ConnectionGUID: 9Y735+UCT1+AAq0dJGmR9g==
+X-CSE-MsgGUID: HBhpTwW3R9KWAIQauxTOqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2218140"
 X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="2311668"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 05:42:44 -0800
-X-CSE-ConnectionGUID: D2M/p69mRY6oSrkgEDXhzA==
-X-CSE-MsgGUID: eY+IxNJGTcCnBteprY9KXQ==
+   d="scan'208";a="2218140"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 05:42:43 -0800
+X-CSE-ConnectionGUID: 6msK18x6SImP2Qz6cRaQfg==
+X-CSE-MsgGUID: IzQJTifATJ2b5eNm1C/fPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="6671568"
+   d="scan'208";a="6451312"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Nov 2026 05:42:43 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 02 Nov 2026 05:42:42 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1058)
-	id 6F0369D; Mon, 02 Nov 2026 14:42:42 +0100 (CET)
+	id D046799; Mon, 02 Nov 2026 14:42:40 +0100 (CET)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	michal.pecio@gmail.com,
 	regressions@leemhuis.info,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH v2 2/2] usb: xhci: fix 'num_active_eps' accounting on allocation failure
-Date: Mon,  2 Nov 2026 14:42:28 +0100
-Message-ID: <20261102134228.584032-3-niklas.neronin@linux.intel.com>
+Subject: [PATCH v2 0/2] usb: xhci: bandwidth and endpoints accounting fixes 
+Date: Mon,  2 Nov 2026 14:42:26 +0100
+Message-ID: <20261102134228.584032-1-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20261102134228.584032-1-niklas.neronin@linux.intel.com>
-References: <20261102134228.584032-1-niklas.neronin@linux.intel.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -86,45 +84,23 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For controllers affected by XHCI_EP_LIMIT_QUIRK, endpoint resources for
-the default control endpoint are accounted before the virtual device is
-allocated.
+Fix two xhci accounting issues: one related to bandwidth state after
+hibernation resume, and another causing total active endpoints accounting
+to be left incorrect after virtual device allocation failures.
 
-If xhci_alloc_virt_device() fails, the slot is disabled and cleanup is
-handled through the Disable Slot completion path. However, because no
-virtual device is installed in 'xhci->devs', the endpoint accounting
-is never released and 'num_active_eps' remains incremented.
+v2 changes:
+ * [PATCH 1]: Fix commit message format
+ * [PATCH 2]: Reword commit message
+ * [PATCH 3-5]: Dropped
 
-As a result, each allocation failure leaks one endpoint from the
-driver's accounting.
+Niklas Neronin (2):
+  usb: xhci: clear stale bandwidth data after hibernation
+  usb: xhci: fix 'num_active_eps' accounting on allocation failure
 
-Fix this by undoing the endpoint reservation when virtual device
-allocation fails.
+ drivers/usb/host/xhci-mem.c | 16 +++++++++++++++-
+ drivers/usb/host/xhci.c     |  6 ++++++
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
-Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
----
-v2:
- * Rework commit message
-
- drivers/usb/host/xhci.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 0361dfaecdd7..394f69b3cfbf 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -4279,6 +4279,11 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 	 */
- 	if (!xhci_alloc_virt_device(xhci, slot_id, udev, GFP_NOIO)) {
- 		xhci_warn(xhci, "Could not allocate xHCI USB device data structures\n");
-+		if (xhci->quirks & XHCI_EP_LIMIT_QUIRK) {
-+			spin_lock_irqsave(&xhci->lock, flags);
-+			xhci->num_active_eps -= 1;
-+			spin_unlock_irqrestore(&xhci->lock, flags);
-+		}
- 		goto disable_slot;
- 	}
- 	vdev = xhci->devs[slot_id];
 -- 
 2.50.1
 
