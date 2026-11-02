@@ -1,57 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793657760;
-	b=Ac2xIVRPac4UUUZvgGFYW16rjkQvSBgkRNTgbyh3BRlKVkPlzGzOwOpbi/sYhL7Kksnp
-	 dQ9I7sT81/fhP38o7QdjezAp3adRJzTWyR47SKpjmkFhvMZErdbX540v8qXeV7jdQXAhn
-	 SJD9Lf6PVzQksARZ9dejgKz88xDMWFGAzkahHSrnCA5mjFHtKKnW/QsEaHUOS2TPyTSjW
-	 7GPEv5uAxiC3HZsfHyO5NRSownbSVvXxoAOhOaGkHc3aqA8LP4jMFphQSpU+Yyras0Am6
-	 5dNdvMz7h0QuWKhAQpgrCwQdHaj2O8BlypnvB2ymjbvHKjh8JyOxl2QPQJV98Key0vg==
+	t=1793658249;
+	b=RquOO7adyvUH+tkGH0Ym0agitIZK7UypeBHn3qSCo0RgmX/OvpyckiKmqg+aEQaPCJhz
+	 aFUAYUcRXrRDLYf5MK9+JiEFO3USOiro9BIEyvSh9985Ziz/+EQ+sshQWsv1NYk8zuY87
+	 QEO5Hae9eWAL9D9SsYD/8RB+McxeO5dy91CNfYPCsPTDVL0oK+1cNjjCIvMLGkV5/XyxH
+	 0RIv13dzw1oenvBAMvlbGj0ZyxP50eGmFuam35Dp4Z+7MOVZVmIZJcLqfbSgNb+wZDk3K
+	 ij17x89P8u4k7MbRinmITEtEoYcNYNMay551fvr6+d9ZVVf/J8LbeRr/AIPiC3bgxCQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793657760;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=iRyLUBr8NVx1KDuvuKooSHBw1nW6USVzSyiEOCGKzWA=;
-	b=lZBadtKFTDhAP+l4b9pE4WIZD5Yv3kfl0KWvf5cXj0A4NE+yRbfExJ6/oP/XzcGz9fXw
-	 WiVYqV75yV1BPvh7MVnpa6G9LTzFS0twEvLPP+lM4WL+if332zrqgEt1z+n2p4K8r1qIw
-	 Dzn8tV3vYeAFG30y5G3vhBGF7ZiwqW89CDVDAqWeSgBeH86r0YJyVN6/PYd+ISulvg9CR
-	 3b0ophNIi7ejmgUOoDToDS1Vlkmcxeuzoi59I6yLOZXqVtGVUgJG0jkLWQVTgEPnn6jta
-	 ulrgW/MVj+rq0U1LGNJ7fNp1nMgH31vMWeiEmnLHBxRzR9g+LPSQjQaeWGWFm7cF/+g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793658249;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=reaxEXsLj9NUOWBS9g4Qr6UImQi4WW0JbOt84oAruTc=;
+	b=sMTfub33IOAtSnN+3ix5xr/wZXhCmx4BTs5myY7mwcl3I6U+dpFAyvXFoTpbXwhd0u/u
+	 Ey3hEU7PhnprbXfZFQo3X+DEvRhrFZBuJRIhF7kK6JyO8X/8CrzjRzxzPbBd3OJdZxDHd
+	 HycGLvmA/C4vNyTe/4F4a5w2DE7ooHn/obnwbdJN1Ker5bUGW1Fkids8pOfR0wAai7P22
+	 bSSAt6aGe6L+rrCvxc9gx/FnpeOkZboPt2o9OZLGlMFAcAIYN4t7NWH8g+3TpwkP0eiZj
+	 NNFjn3lolBmVyj3fgQ8Y0gvjntq1bzYhQMVCn5+vya4dBmKkY8jy4CBKATmHXSy5N8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RBn2OzZs;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=lJtTLPmt;
+	arc=none smtp.remote-ip=74.125.82.54
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23437606A329;
-	Mon,  2 Nov 2026 22:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F76606A329
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 22:24:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6F76606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RBn2OzZs
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72C1A1F00A16;
-	Mon,  2 Nov 2026 22:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793657759;
-	bh=iRyLUBr8NVx1KDuvuKooSHBw1nW6USVzSyiEOCGKzWA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RBn2OzZsV+w0LG3kTHnrkMvYB/dnhEhc56sdJPaRfQLt1U7qE0dUF5VsTpeCVSInd
-	 MchPmdyRP8gWADNV1sHrUUvfHu7lTW5o+XMyC6fdrf4NwRSLth95BCsj1dbGgptHB/
-	 mEEc8PQldE2vWufXRcAWjPFrxvN2dZhGLzeW4Wx2Sa1Yj2g86pUIyuER4Z1Pht17cb
-	 JN5jGtDCKFh5PUuNQWT3u5YabnGIMvrzPNaEWAcczhzBPDYnVfwQ6Q12ggYxepLqez
-	 02o7BVNtNU38iPc7exLhi2Bm4yXZqIPl29UEiTwqYJ3KHTWcGjAO+QhEZepQlbe9QR
-	 CDkqUOc1zGJAA==
-Message-ID: <sashiko-outbox-194270@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: kaanapali: Mark the USB
- controller as a Type-C mode switch
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joonhoe Kim" <26rote@gmail.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261102215121.738-4-26rote@gmail.com>
-References: <20261102215121.738-1-26rote@gmail.com>
- <20261102215121.738-4-26rote@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Nov 2026 22:15:59 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=lJtTLPmt
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1adbf62dd31so3781480c88.0
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 14:24:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793658248; x=1794263048; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=reaxEXsLj9NUOWBS9g4Qr6UImQi4WW0JbOt84oAruTc=;
+        b=lJtTLPmteFqjcFfjFQ3RgfZhtVv/+0agNfsxccXeZ5zhUV96rjbiMoCrAnmsaOXvPZ
+         IVUXL9ieC8G0FISW5YAju9FmnnxmmcFRQ7Sng5pqlfmez/80ZWg2GvGJEA4WI0HDXPNN
+         UYA+zBMxZtPEJ7W2sVZKMxj6k/IH40z1hcvjykKAE0+mbyFbkyXcepxAs1mwnxsat/fW
+         pQPBrhQgwlkJiY91gJ24Me+ywxC3j7ozpBbGEAwZEpp5xdmEduMGBqSy0jlpuy/UZh+e
+         8Bz5PsPdx3CAbubqMYcE/oybZB4uU2L8wvREJX5XlPcOMGk/Bf52+TWM9sJnI8nSL72y
+         F/SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793658248; x=1794263048;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=reaxEXsLj9NUOWBS9g4Qr6UImQi4WW0JbOt84oAruTc=;
+        b=gtBWIBxwlvYUTr+GB5LH347VSHNlS1pPKhIMq8WXZ4EwyW6YZb2NqiHBt8h0fvURSk
+         wC/osv3BWH+VDjbAi65YNM0krWQ1Yn5mP/yh6oQpyQkupOeN3wzasq2VFb0E1C2b6fzn
+         vmYzeaPad67HneYf7sSUkJLPdGqbHhLuJvXw7SkAlotRHHJt0AE02V2ehiSFuOQ8yZGc
+         Su0LT0aIU6MPCIAi4T4uWVF5cSb41ku0v4FVPQeGvI16D4MoWfuXjiXTCa1CTy8PTaB9
+         STceFvp9ZwERvmfhW+V33KRN670b6LkPB1ewx3q8624Cz98rGruc7BDDmncHbgLUdY5C
+         e7GQ==
+X-Forwarded-Encrypted: i=1; AKwUvByhs3/Z13vWWLBMgqk0qxWpKg+s3YzWAmgYRfYed6EG8p4sdno3r7CKPGBkB/mG+bFomt6lS/jl39A=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKw7ZhkAx4lyx8LV1rg/p8zdZUjj2NVjwdtsz+JQEEwuIMaELFO
+	M16CfdffcVC9IQoLeIEBnwpaVtfesYMxS4u/iFJo2HD4hE/C1VhYK/0P9ijooZQf5g==
+X-Gm-Gg: AYBFou3zx5AlJBWTX6+3wKV98o7XX+TXKsSQ+NZ7Y45dsFTevSO8y8etV3KBxY79A09
+	YmgrfwwhkOdhJza10iKc2SB2bmF/Zzmdgp4F+c1QjKQP8xes1IzOuOQMSsDTv2h7xnShIzRK+8e
+	EWpBE1gR6EJ2iXMJG1q8dgCrRL+Q8gl5WTBSy3Vqa7Ag2g4efQXti8LHXSuIqjWL9zV2cfYpDeq
+	FCCA8J3I3u57hKFhpUBHn8wLW6gDJ8kA3XRdPiYnYoMDKs1obBGSZAzFLZtXDubrH5vE5C+EgAs
+	LfEmg56Vveb3wcg6+SDBpKR3SAAWQGbH6iQuME9D7Eu1XcehSjVhHY2+PSxM07rtaQFBC5llkmU
+	QRswzK1r6ZKGeqAKDqrwcYws9LmTFmTwaicZS4b8ZKYCC/YENNxLrgGitMLdhfNY/JDRMjVi6e3
+	HV/97SbgsMacW+A8daZ6HJ/ZRhP/pK7FjSglKe94qk6hfbsZaizjw/cefrbHy6GWTuqlUIeYJ1y
+	BFaQhHTdHcqL33hsZhOAKCYOIyA0GVCp5SNn5YUhdy9cqR9tILv+qDtEQsnUX9TepV4fsvKVF6t
+	/yt86//6qlEF04mvqHe+iAeHGbMv8OY0u6dXUZSCSFJ9R96PZT4NtyWEK536CAqtBcRBCeW3Hod
+	527uPqk87fauEMQ2SwcSwuOrxeBpRU9mKST3mLMSb1y4OAyZFTqAvrj2zQg==
+X-Received: by 2002:a05:7022:3b81:b0:1ae:59d6:91cd with SMTP id a92af1059eb24-1ae59d694e9mr14880576c88.38.1793658246813;
+        Mon, 02 Nov 2026 14:24:06 -0800 (PST)
+Received: from ?IPV6:2a00:79e0:2e7c:8:ae8:2e7e:208a:acdc? ([2a00:79e0:2e7c:8:ae8:2e7e:208a:acdc])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b23f20d36csm154843c88.11.2026.11.02.14.24.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Nov 2026 14:24:05 -0800 (PST)
+Message-ID: <d1557c0a-e82a-4eb6-bc91-d8106e1961f2@google.com>
+Date: Mon, 2 Nov 2026 14:23:57 -0800
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,183 +92,183 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/19] usb: typec: tcpci: don't act on unread alerts
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>, linux-kernel@vger.kernel.org,
+ Badhri Jagan Sridharan <badhri@google.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable <stable@kernel.org>,
+ linux-usb@vger.kernel.org
+References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
+ <20261027-llm-usb-v1-12-b9751ddb9c7c@linuxfoundation.org>
+Content-Language: en-US
+From: Amit Sunil Dhamne <amitsd@google.com>
+In-Reply-To: <20261027-llm-usb-v1-12-b9751ddb9c7c@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] usb: dwc3: qcom: link and probe failures in dwc3_qcom_mux_register=
-()
-- [High] usb: dwc3: qcom: failure to restore PIPE clock in dwc3_qcom_mux_se=
-t()
-- [Medium] arm64: dts: qcom: kaanapali: missing mode-switch on usb_dp_qmpph=
-y node
---
+Hi,
 
-commit 925e748782df0ec0b3e6681dff9bc8da6c1e0380
-Author: Joonhoe Kim <26rote@gmail.com>
+On 10/27/26 7:57 AM, Greg Kroah-Hartman wrote:
+> From: Josef Bacik <josef@toxicpanda.com>
+> 
+> tcpci_irq() ignores the result of nearly all its register reads.
+> 
+> If the first read of TCPC_ALERT fails, "status" is an unwritten variable,
+> and its bits decide which events are reported to the port manager: among
+> them a hard reset, which drops VBUS. If the read at the end of the function
+> fails, "status" keeps the alerts which have just been handled: they are
+> handled again, for as long as the read fails.
+> 
+> In the receive branch the byte count, the header and the payload are not
+> checked: a count made of stack content trips the WARN_ON(), and a message
+> made of stack content is handed to tcpm_pd_receive(). A failed read of the
+> frame type returns a negative errno as irqreturn_t, with RX_STATUS still
+> set.
+> 
+> The handler must not simply return in these cases. Nine in-tree boards
+> connect ALERT# to an edge triggered interrupt: as long as an alert is
+> pending the line stays low, and there is no further edge. That is what the
+> read at the end is for.
+> 
+> So read the alert register through a helper which tries three times and
+> reports "no alert" if that fails: after a failed first read the function
+> falls through to the read at the end. Drop a message which cannot be read,
+> but clear RX_STATUS, to release the line. Don't take an unread power status
+> mask for a reset of the TCPC. Return IRQ_HANDLED if any round has found an
+> alert, not only the first one.
+> 
 
-arm64: dts: qcom: kaanapali: Mark the USB controller as a Type-C mode switch
+nit: This commit is quite verbose. It would be better if it were more 
+succinct and to the point. For example, the last paragraph narrates the 
+code rather than stating the intent.
 
-This commit adds the mode-switch property to the Kaanapali USB controller
-node so that it switches to the UTMI clock when DisplayPort pin assignments
-C and E stop the USB3 PIPE clock.
 
-> diff --git a/arch/arm64/boot/dts/qcom/kaanapali.dtsi b/arch/arm64/boot/dt=
-s/qcom/kaanapali.dtsi
-> index e48a179d07220..a06d5d8674885 100644
-> --- a/arch/arm64/boot/dts/qcom/kaanapali.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/kaanapali.dtsi
-> @@ -3941,6 +3941,7 @@ &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
->  			tx-fifo-resize;
->  			dma-coherent;
-> =20
-> +			mode-switch;
+> Fixes: 74e656d6b055 ("staging: typec: Type-C Port Controller Interface driver (tcpci)")
+> Fixes: 77e85107a771 ("usb: typec: tcpci: support edge irq")
+> Fixes: b691a07c5f64 ("usb: typec: tcpci: pass correct rx_type to tcpm_pd_receive()")
+> Cc: Badhri Jagan Sridharan <badhri@google.com>
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Cc: stable <stable@kernel.org>
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>   drivers/usb/typec/tcpm/tcpci.c | 64 +++++++++++++++++++++++++++++++-----------
+>   1 file changed, 47 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+> index 6717ac914c6a..26c62216a813 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.c
+> +++ b/drivers/usb/typec/tcpm/tcpci.c
+> @@ -715,17 +715,34 @@ static int tcpci_init(struct tcpc_dev *tcpc)
+>   	return 0;
+>   }
+>   
+> +/*
+> + * An edge triggered ALERT# does not fire again while an alert is pending, so
+> + * don't give up after one failed transfer. No alert if it cannot be read.
+> + */
+> +static u16 tcpci_read_alert(struct tcpci *tcpci)
+> +{
+> +	u16 status;
+> +	int i;
+> +
+> +	for (i = 0; i < 3; i++)
+> +		if (!tcpci_read16(tcpci, TCPC_ALERT, &status))
+> +			return status;
 
-[Severity: High]
-Does adding mode-switch here expose build and probe regressions in
-drivers/usb/dwc3/dwc3-qcom.c depending on CONFIG_TYPEC?
+Retrying immediately on a transient bus failure is unlikely to help. Add 
+a small delay before retrying. Please keep in mind the Type-C/PD 
+deadlines when selecting a delay value.
 
-When mode-switch is present on the usb node, dwc3_qcom_probe() calls
-dwc3_qcom_mux_register(), which invokes typec_mux_register():
+> +
 
-drivers/usb/dwc3/dwc3-qcom.c:dwc3_qcom_mux_register() {
-	if (!device_property_present(qcom->dev, "mode-switch"))
-		return 0;
-	...
-	qcom->mux =3D typec_mux_register(qcom->dev, &desc);
+Please add some error log here to indicate consecutive alert read failures.
 
-	return PTR_ERR_OR_ZERO(qcom->mux);
-}
+> +	return 0;
+> +}
+> +
+>   irqreturn_t tcpci_irq(struct tcpci *tcpci)
+>   {
+>   	u16 status;
+>   	int ret;
+> -	int irq_ret;
+> +	int irq_ret = 0;
+>   	unsigned int raw;
+>   
+> -	tcpci_read16(tcpci, TCPC_ALERT, &status);
+> -	irq_ret = status & tcpci->alert_mask;
+> +	status = tcpci_read_alert(tcpci);
+>   
+>   process_status:
+> +	irq_ret |= status & tcpci->alert_mask;
+> +
+>   	/*
+>   	 * Clear alert status for everything except RX_STATUS, which shouldn't
+>   	 * be cleared until we have successfully retrieved message.
+> @@ -738,12 +755,12 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+>   		tcpm_cc_change(tcpci->port);
+>   
+>   	if (status & TCPC_ALERT_POWER_STATUS) {
+> -		regmap_read(tcpci->regmap, TCPC_POWER_STATUS_MASK, &raw);
+> +		ret = regmap_read(tcpci->regmap, TCPC_POWER_STATUS_MASK, &raw);
+>   		/*
+>   		 * If power status mask has been reset, then the TCPC
+>   		 * has reset.
+>   		 */
+> -		if (raw == 0xff)
+> +		if (!ret && raw == 0xff)
+>   			tcpm_tcpc_reset(tcpci->port);
+>   		else
+>   			tcpm_vbus_change(tcpci->port);
+> @@ -755,7 +772,10 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+>   		enum tcpm_transmit_type rx_type;
+>   		u16 header;
+>   
+> -		regmap_read(tcpci->regmap, TCPC_RX_BYTE_CNT, &cnt);
+> +		ret = regmap_read(tcpci->regmap, TCPC_RX_BYTE_CNT, &cnt);
+> +		if (ret)
+> +			goto rx_done;
+> +
+>   		/*
+>   		 * 'cnt' corresponds to READABLE_BYTE_COUNT in section 4.4.14
+>   		 * of the TCPCI spec [Rev 2.0 Ver 1.0 October 2017] and is
+> @@ -767,26 +787,36 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+>   		else
+>   			payload_cnt = 0;
+>   
+> -		tcpci_read16(tcpci, TCPC_RX_HDR, &header);
+> +		ret = tcpci_read16(tcpci, TCPC_RX_HDR, &header);
+> +		if (ret)
+> +			goto rx_done;
+> +
+>   		msg.header = cpu_to_le16(header);
+>   
+>   		if (WARN_ON(payload_cnt > sizeof(msg.payload)))
+>   			payload_cnt = sizeof(msg.payload);
+>   
+> -		if (payload_cnt > 0)
+> -			regmap_raw_read(tcpci->regmap, TCPC_RX_DATA,
+> -					&msg.payload, payload_cnt);
+> +		if (payload_cnt > 0) {
+> +			ret = regmap_raw_read(tcpci->regmap, TCPC_RX_DATA,
+> +					      &msg.payload, payload_cnt);
+> +			if (ret)
+> +				goto rx_done;
+> +		}
+>   
+>   		ret = regmap_read(tcpci->regmap, TCPC_RX_BUF_FRAME_TYPE, &rx_type);
+> -		if (ret)
+> -			return ret;
+>   
+> -		/* Read complete, clear RX status alert bit */
+> +rx_done:
 
-drivers/usb/dwc3/dwc3-qcom.c:dwc3_qcom_probe() {
-	...
-	ret =3D dwc3_qcom_mux_register(qcom);
-	if (ret)
-		goto interconnect_exit;
-}
+Worth logging when you're dropping RX packets (due to ret!=0) given that 
+the tcpc has already sent a GoodCRC.
 
-In drivers/usb/dwc3/Kconfig, USB_DWC3_QCOM does not have a dependency on
-TYPEC || !TYPEC (unlike PHY_QCOM_QMP_COMBO in drivers/phy/qualcomm/Kconfig).
-With the default arm64 defconfig (CONFIG_USB_DWC3_QCOM=3Dy and CONFIG_TYPEC=
-=3Dm),
-built-in dwc3-qcom.o references typec_mux_register(), typec_mux_unregister(=
-),
-and typec_mux_get_drvdata() from the loadable module typec.ko, causing a
-vmlinux link failure.
+Regards,
+Amit
 
-Furthermore, when CONFIG_TYPEC=3Dn, the stub in include/linux/usb/typec_mux=
-.h
-returns ERR_PTR(-EOPNOTSUPP):
-
-include/linux/usb/typec_mux.h:typec_mux_register() {
-	return ERR_PTR(-EOPNOTSUPP);
-}
-
-Because dwc3_qcom_mux_register() propagates that error directly, won't
-dwc3_qcom_probe() abort and disable USB on Kaanapali whenever CONFIG_TYPEC =
-is
-disabled?
-
-[Severity: High]
-Can enabling the mode switch on Kaanapali leave the controller stuck on the
-19.2 MHz UTMI clock after exiting DisplayPort-only mode (Pin Assignment C or
-E), breaking SuperSpeed USB 3.0?
-
-In drivers/usb/dwc3/dwc3-qcom.c, dwc3_qcom_mux_set() updates qcom->dp_active
-and qcom->dp_only, and then returns early without calling
-dwc3_qcom_update_pipe_clk() whenever qcom->dp_only is false:
-
-drivers/usb/dwc3/dwc3-qcom.c:dwc3_qcom_mux_set() {
-	if (state->alt && state->alt->svid =3D=3D USB_TYPEC_DP_SID) {
-		qcom->dp_active =3D true;
-		qcom->dp_only =3D state->mode =3D=3D TYPEC_DP_STATE_C ||
-				state->mode =3D=3D TYPEC_DP_STATE_E;
-	} else if (state->mode =3D=3D TYPEC_STATE_SAFE) {
-		qcom->dp_active =3D false;
-	} else if (!qcom->dp_active) {
-		qcom->dp_only =3D false;
-	}
-
-	/* The PHY stops the PIPE clock right after this in DP-only mode */
-	if (!qcom->dp_only || pm_runtime_resume_and_get(qcom->dev))
-		return 0;
-
-	mutex_lock(&qcom->pipe_clk_lock);
-	dwc3_qcom_update_pipe_clk(qcom);
-	mutex_unlock(&qcom->pipe_clk_lock);
-	...
-}
-
-Because dwc3_qcom_mux_set() never calls dwc3_qcom_update_pipe_clk() when
-qcom->dp_only becomes false, clearing PIPE_UTMI_CLK_SEL | PIPE3_PHYSTATUS_SW
-in QSCRATCH_GENERAL_CFG relies entirely on a subsequent call to
-dwc3_qcom_set_role_notifier() where next_role !=3D qcom->current_role while
-qcom->dp_only is already false:
-
-drivers/usb/dwc3/dwc3-qcom.c:dwc3_qcom_set_role_notifier() {
-	...
-	if (qcom->current_role =3D=3D next_role)
-		return;
-	...
-	mutex_lock(&qcom->pipe_clk_lock);
-	dwc3_qcom_update_pipe_clk(qcom);
-	mutex_unlock(&qcom->pipe_clk_lock);
-}
-
-Doesn't this leave qcom->utmi_pipe_clk stuck at true in several cases:
-
-1. If a connected partner switches pin assignment in place from 4-lane DP
-(TYPEC_DP_STATE_C or TYPEC_DP_STATE_E) to 2-lane DP + USB3 (TYPEC_DP_STATE_D
-or TYPEC_DP_STATE_F) without changing the USB data role, dwc3_qcom_mux_set()
-sets qcom->dp_only =3D false and returns early, while
-dwc3_qcom_set_role_notifier() either does not run or returns early because
-qcom->current_role =3D=3D next_role.
-
-2. In drivers/soc/qcom/pmic_glink_altmode.c, pmic_glink_altmode_worker() can
-transition directly to MUX_CTRL_STATE_USB3_ONLY (TYPEC_STATE_USB) or
-MUX_CTRL_STATE_TUNNELING (TYPEC_MODE_USB4) without sending TYPEC_STATE_SAFE
-first. Since qcom->dp_active is only cleared on TYPEC_STATE_SAFE, the
-else if (!qcom->dp_active) branch is not taken and both qcom->dp_active and
-qcom->dp_only remain true.
-
-3. After unplugging a DP-only partner (which sends TYPEC_STATE_SAFE and sets
-qcom->dp_active =3D false while leaving qcom->dp_only =3D true), on the next
-plug-in of a USB 3.0 device, if the UCSI role notification arrives before t=
-he
-altmode mux notification (or if ucsi_partner_change() in
-drivers/usb/typec/ucsi/ucsi.c skips typec_set_mode(con->port, TYPEC_STATE_U=
-SB)
-when UCSI_CONSTAT_PARTNER_FLAG_USB is not yet set),
-dwc3_qcom_set_role_notifier() runs while qcom->dp_only is still true and
-updates qcom->current_role =3D next_role. When dwc3_qcom_mux_set() subseque=
-ntly
-clears qcom->dp_only =3D false, it returns early without updating the clock=
-, and
-any later role notification for the same role is ignored.
-
-[Severity: Medium]
-The commit message notes that this change is needed when the USB3-DP combo =
-PHY
-is a mode switch. However, in arch/arm64/boot/dts/qcom/kaanapali.dtsi, the
-companion usb_dp_qmpphy node only has orientation-switch and does not have
-mode-switch (unlike sm8750.dtsi and eliza.dtsi):
-
-arch/arm64/boot/dts/qcom/kaanapali.dtsi:usb_dp_qmpphy {
-	...
-	#clock-cells =3D <1>;
-	#phy-cells =3D <1>;
-
-	orientation-switch;
-
-	status =3D "disabled";
-}
-
-Without mode-switch on usb_dp_qmpphy, fwnode_typec_mux_get() in
-drivers/usb/typec/mux.c will not match the combo PHY, so the USB controller
-will switch to the UTMI clock on DisplayPort pin assignments C and E while
-usb_dp_qmpphy is never notified of the mode change. Should usb_dp_qmpphy al=
-so
-have mode-switch here?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102215121.738-=
-1-26rote@gmail.com?part=3D3
