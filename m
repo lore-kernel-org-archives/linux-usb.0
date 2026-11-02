@@ -1,112 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793606320;
-	b=1tBkR5HGmzsfyc6UHpBVSn/PoNaDCQxsOVC+JUNssmtjIM6fzdEB3zJNlrRjoi5sJCTt
-	 nM+GO6lXHKHfM3TDX4WJTFfy7q02rbBOoBfjws8YFTetwqm/e5T6AJvtfpCl8YNmkke3f
-	 sSFNcc4v3SyhtenNL7VZhfbqCqDpEDyH3DTHDAlz1xthKFR/omYagh3M6rThYrAPCDpMG
-	 gBrV73ptC0ezvoBWZWiT8q2m+xEFkKBtFXRYt7RdTUVrGZkhB7ZI/PLfH2GHh9vw4ZPNS
-	 YaYGrFkBpR4h12OEJ3+Dnlf/G26F5PpCcoUIYanmiCECVzXGeQNvrDKHHhR58Luvhgg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793606320;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=ke6cgZpZBf+UCTrm1HAli9+h7m1fVngc1M0Sn68Rq0k=;
-	b=J/bnT+ME9XFuuiuVZesm22PX2cX95hePyb0LiOuTqdSiUrHvSUWnAz+mSWAF01tupUhB
-	 anlQKM1qalGoUYW28kyQeU/ukWkJn5FjPzCgwJMTICizTKSAo9m0dZ9RP0FHAhPnLBB64
-	 2DdYCKEqcHwn8ht3hdKo/rpgX2zSKQidockKGZVJbnw+Ot2USlZ9ejpVDZ8VMU4ieGzN+
-	 bLR9Sv/9bWiNtYyHLHuCXNZmqFmbN0f5wAo+bcB5LEfkVviRm626f17bCv3uVC4kyX2sQ
-	 TSNrmAQ9wKofj+PWKApWnLMGR83/5UPt6lnySeKYVitPwMWk3orUdCh1s1FZeBXOLRA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=MpLDqk12;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=YtZlP7bP;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.35
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793606517;
+	b=Qe+Mc6ifBUpCJ8cXC2Rp9Iq27qDLMIK0SHxYhmIX8vGPD5MY6C4MAbAjkjeWC9jWqaOb
+	 +sJrFctviDH63ktX+tY5u/NR86EukPIpDeCWHfROkFVG3jWoI8dGpNwulbjHvNseRScaB
+	 KR7oGF20KsLbBEPUM26/tKLVTl2ZxMpL+PWeL4octYhWaLqfvNGz70DACRd1YoUI/lp7Y
+	 HAf0AuNYm2MP5mPem4/QCmjB8tlPy9v7NtstKeM4xaYRhr1eyGc0mko/ydZ/Ci+0nNTtw
+	 idnJ+1UZUtF/1l7RFGXUT5uJ4iDsHO5bthfBbPkANz1i3uicFN/d3wTeAXAJ1w08ZTQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793606517;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:From:Subject:To:Cc:References:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=eKZAMK1cH7Ud3tNm64L+M5qqrvzZSRKgcGk+IUYOIUw=;
+	b=a1tT0mYPMQqlhmTybDxFFkxlzPpAxx4/TqBvnzGy1V7CsO8USz/4nnZOAVfSjdBe450u
+	 YK2/GKX1JaKBtF+E3Jv/wqOiQHK4eaX6jhmJYlhbaJA/6T1b674nrD+l+MPJAUZtRl/1G
+	 rjNPlCxsvU0WpEi6mrSvK0zCuQatI4LpQnvojsXaJQRZZY8IBV/fHxuBNNZJHNUMsC8Sn
+	 70zEnVg6+LzJrvEiNcs8Yj9Qi3n0wMmkTKN3tgoYpANy1PAThtZoiwv42nlWzlzp/tpL/
+	 +ZefyiHgiymdxL0reYhhAYmTX8aZUFqSyVb57rgCx4U9slg2fG2XQA8kwfCvUAHriUA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Q3z1EAUO;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.35
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013035.outbound.protection.outlook.com [40.93.201.35])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DDF8606A332
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 07:58:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7DDF8606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0850606A324;
+	Mon,  2 Nov 2026 08:01:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0850606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=MpLDqk12;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=YtZlP7bP
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A24vvtI1261894
-	for <linux-usb@vger.kernel.org>; Mon, 2 Nov 2026 07:58:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ke6cgZpZBf+UCTrm1HAli9+h7m1fVngc1M0Sn68Rq0k=; b=MpLDqk12NgMkn1Lr
-	JR/8RZRsJ5JkxjwIKXje8Fb+BhztJbp//r+MsCHnKPDTotO/jqlVQAeegxOgUbCM
-	c0qklXSHDVwZDFVRTC5FAYo1a0Fq/ugRsjTGUs1FOFfiTTsqTh0N5gQpyfWI5baz
-	wdpq/ziAFm2SzE6UUaiZpvRSCTk0ZHG4Su0DBysaoU644BnrFUm94kXEWP/rKD1D
-	GKU6Z5LkYkmmtmibXyTiI24MqYXM03BZ6NLu/9jJFBF++oYZU7jlQhk2wdlrhzph
-	AG5awQXIJlXAK7wncQvhxp6qHlLCBESLh8+eRXFsiELvSkBcK9XnYJKwaiVuvJhL
-	ZXlz7A==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpky4gkju-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 07:58:38 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2e954d87b48so43645095ad.2
-        for <linux-usb@vger.kernel.org>; Sun, 01 Nov 2026 23:58:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793606318; x=1794211118; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ke6cgZpZBf+UCTrm1HAli9+h7m1fVngc1M0Sn68Rq0k=;
-        b=YtZlP7bPY66PjG+Fp+ZqFV49ErJVVTsDc1hZv9GbbU7L/vF+X0+1SOH0Ad7iTiPl5n
-         /4tCYej9FhqZnhxVgwohj2TITFiJ+O4zPrua9fnR65VjSfDreibew2FhCp/tj5QRiBD9
-         vJig3sMTUjTuQXuTDvFhqK6G07ZE7psSVhukCMnhFcOHhDpvW0MBc5t2oaYjAFZON4/9
-         HZQd7tiVaYGc21AVIk/j/cKPXuaNnu0dy/bfFWIbXJjMVm5oeCSAwGvGm/otEr3kcC5n
-         LIH7NxuBDi4A4J9/nT0uY6QEmNh+9yQ2VbLl4+hMy5wa7OY6DLxXqHd6pHpZ+qjJ9Dji
-         8M6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793606318; x=1794211118;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ke6cgZpZBf+UCTrm1HAli9+h7m1fVngc1M0Sn68Rq0k=;
-        b=TGK0Lo1MfagiPjRQiK1OfVeVRBZjCgxb1AmTzGUOxAcnCCA5G/zVCGFXBI+UNt394F
-         CKn9woFOnk1dE7Qc+h97xyhvLBdDx+jxrnczpcB3izw7Zq3T/CfZFY8rsrcpLGjrVDGF
-         wvSedAjxlZqtYaxYZhX146JU8WJG9W+wlbOZ14wAuTLV5Ckp6d8yswngCug/UHM9aNXI
-         VI7JtHSDsKz7luhpbQ535hLkjIYSOoa8z+AnniVJ+HzQof2NB/frunb3InASuvZKJSRs
-         6eQ+jTnpAWCR/5bTfaf4yMOUkO2kjcfb8xNsROPrFkwnnrYsCBhBdsthbVLTWvGTMCAZ
-         GYow==
-X-Forwarded-Encrypted: i=1; AKwUvBzan6jgqdhLmQ99wU/uaBiu89x8f6WyOeBmuTlivkJ/8ETMRQTqglayaoN5e/ncht/BSV40zJwNO7Q=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+epFqPjGW+Lq+3EJRSlompip4Zk5avqM73HKdJuuZixIfC78i0
-	rpgqiIu9ceWRbLj0Xn0K2H1B9Wj13YhFlpXbtg5kX87xzLXeDJFp08G3nGSXCYObt1j12RICkAP
-	xbEwIc6cjgQ3w+lmPtz7+6YWQoHinMl5DgCsT5SSJX6lGAaw7ixyyb6ZfJX8OHms=
-X-Gm-Gg: AYBFou0xTR2CHuyaIvJ0PEzZmaWoikmgmYDwuIXKPusZiPUXuAeQV9gaAR3AgL51Y1A
-	DscGKkQHRIa9tXF9Ng1c2743c37iJypC035uZG55CXLbf6IateZlftEgZ9mfzP0twWZfCWGmLeu
-	vFTUPT2ag/SeiqjywYntXFtkgl3N04zirbpqSxT8XB0v1jIZKoXCqHiGAprceKVI+QWO5qHnpU1
-	XV8pyT9EchA2FastLL2MmtQhW2aZUaYS0n+8bHZCrJjhAOPbgLsBKWsQU+egYsWQ2b8ejjNSrMF
-	ZtI6pueHDpDjGV3Rzs6jmvfkBsVVKplixerifxEyh+DThKqFBvfh1wUdelJ5ohTh3G+NBQJqo7G
-	kNyY8gWsikjPmoSJ0AAIEAFQ3nWbUrVx04DM0TSH3K0XyfhaFl8q6+qolT6lATyFBGQGV78njus
-	Z6BTNDO910zpcF9wUOHe6VNpF+CYipKTMstwuZ80Eh
-X-Received: by 2002:a17:902:f548:b0:2e9:572a:7da7 with SMTP id d9443c01a7336-2eb364f1979mr89202285ad.49.1793606317778;
-        Sun, 01 Nov 2026 23:58:37 -0800 (PST)
-X-Received: by 2002:a17:902:f548:b0:2e9:572a:7da7 with SMTP id d9443c01a7336-2eb364f1979mr89202065ad.49.1793606317202;
-        Sun, 01 Nov 2026 23:58:37 -0800 (PST)
-Received: from [10.217.219.121] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eb39298329sm23694945ad.61.2026.11.01.23.58.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Nov 2026 23:58:36 -0800 (PST)
-Message-ID: <90194df3-c05a-4e82-9f12-11f33b0374c0@oss.qualcomm.com>
-Date: Mon, 2 Nov 2026 13:28:32 +0530
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Q3z1EAUO
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=b/iFS9Q3e2uO5iXHcRjqpqfnR5YBTzyooUErdgCXtcrv7CmiGkMjvaLGx6URbEJIzX/G7xlArZRj00lclDxQ4yGzPNerJucJAQ60pbnmgZwt93YybqfeAu6nWVFkkyCUTncpPo/ntLQCarvQ2Czx/fwN/43kudPyQKE6NtKua1QJc2meeocqMdYsJmbGUSHGXMo4ZN2jVHeW3ho0ydGaH03FO7eJDWROfKF26w7w0IicgXqGTLqmnBDnegHCpU5PeokzkaR7cQXkyFgId+s2d3kLnQ8qA/1smvqBOjbyyVj3aPk37UyGzaxDQLFKTsu3dluIrb8afSPFyCiG1SsxCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eKZAMK1cH7Ud3tNm64L+M5qqrvzZSRKgcGk+IUYOIUw=;
+ b=GpOqCmvHqbvlB2QCaMCIQRK9xFFuGsCaNpkWGrS5CIiCKnvQINPAKDrn9/C4PFxKT/TQsHyJjgKwYiAvUtIjvkc47PZ4KIac364CavFisW9F1ymZba5UfaKtJBh/MYCXB7+AjGQdQpj4nWOCyJHirME6wr32hUJ7nb9k0543B7qnTAlDFizpaFBJHFFHVqg1/7dODa1Toqrz54rQE4rbr7zTkn2/lpfZforI/20o2I4p+lRCyKUCn51Qc7Dei6bVpg1jgOPDLTne1VW7jiCldDVGTHQsVyP7WtM5F40cyBZIcbbFO8Wj1vdUyo6wI4UG8feyhGKlvqQXnFcLdhHXcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eKZAMK1cH7Ud3tNm64L+M5qqrvzZSRKgcGk+IUYOIUw=;
+ b=Q3z1EAUOmEl0a8MHi/aANV0PfkKpRuRfM2CwxIs8CaeRrZcgN1zR0F5IohelVJVGb7bIFKRRYinQu27MK3cxg944LdyCOyNbtNJmtg8EoPwtwTc+1iGH2n8t7Y8+t40LEr0zRTK2dskGxzMDVPF3iIDtt63fPOkfuHM1nX5e3nU=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6053.namprd12.prod.outlook.com (2603:10b6:208:3cf::14)
+ by LV1PR12MB484207.namprd12.prod.outlook.com (2603:10b6:408:512::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
+ 2026 08:01:55 +0000
+Received: from MN0PR12MB6053.namprd12.prod.outlook.com
+ ([fe80::7657:d4df:ffcd:2e7]) by MN0PR12MB6053.namprd12.prod.outlook.com
+ ([fe80::7657:d4df:ffcd:2e7%6]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
+ 08:01:54 +0000
+Message-ID: <6bad7904-80c5-41c5-bd6c-2890f6097d8b@amd.com>
+Date: Mon, 2 Nov 2026 13:31:47 +0530
+User-Agent: Mozilla Thunderbird
+From: "S M, Suhan" <Suhan.SM@amd.com>
+Subject: Re: [PATCH] usb: gadget: udc-xilinx: Fix wild pointer dereference on
+ empty EP0 queue
+To: Li Ximo <lixicaicai@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Michal Simek <michal.simek@amd.com>
+Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Wang Haoran <haoranwangsec@gmail.com>,
+ "Pandey, Radhey Shyam" <radhey.shyam.pandey@amd.com>
+References: <20261023073131.637062-1-lixicaicai@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20261023073131.637062-1-lixicaicai@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0056.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:ac::12) To MN0PR12MB6053.namprd12.prod.outlook.com
+ (2603:10b6:208:3cf::14)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -116,281 +100,145 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] usb: dwc3: qcom: Defer VBUS override update during
- system suspend
-To: Vladyslav Tymoshchuk <tvlad744@gmail.com>
-Cc: Faisal Hassan <faisal.hassan@oss.qualcomm.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        linux-arm-msm@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261022224220.480-1-tvlad744@gmail.com>
-Content-Language: en-US
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-In-Reply-To: <20261022224220.480-1-tvlad744@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: HkuJ8dUdkJuM4XXXUghAOOYxarCM9mS_
-X-Proofpoint-GUID: HkuJ8dUdkJuM4XXXUghAOOYxarCM9mS_
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDAzMSBTYWx0ZWRfX8Qe8GaWCG0rL
- N87LraMvjRQyQRiZZjVKp0br9cgYCWWd2Uv9Yhf+EvpD9UUsWoaLWKuQlwzJCkqP/1yL4Id2hls
- iX2q4qgayf2qImnqDpSM7OZ/QpONtl4=
-X-Authority-Analysis: v=2.4 cv=QoHLTlyd c=1 sm=1 tr=0 ts=6ae842ae cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=QJlEbJcQkAJ0Kpe_DjEA:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDAzMSBTYWx0ZWRfX10il3dOPmV8h
- KiWhoK8prS55Ph2X/Cexf8a7GZiNrcm4QndVQM39/nPadZsgl+wV9lxOJrMiC0RMibSfcmJXNDL
- J+LpcoEpCfkX4Zhfta7SfyGHMjw3M1/bw/cnjwz38vgJGolekjhOSVstGRKhH3zNpCqNN8N7ibc
- LwM3Yo+XaSdGUxBOogMtU/npRS+hxTPVvOOsVj95cTtcAZFMHD8h1Gkt1pZm2skZ4gnPXsrURE9
- pbaF7U1oUSEvQntcCmwoZakkR0lzZB4L6EqUycg8jv/RcN29jbV1ywkt2ear5mM1/7C4pxo3c6V
- 2NKdDMpXzpV3q5H1ddh81zP30s8RZ2N4jLO8a9mEQP55o/MGS6PAziJ/TbuRag1fPDYtcaSgsiS
- Acw1wik1gZ69tC7oeL+3aPrHAlQqaQRr64WkIKpjZDB95by6mf64qSerHIJJML8CzE44U6jk8c+
- QY880zCP4M9BoPCOLag==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-02_02,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 adultscore=0 spamscore=0 bulkscore=0
- suspectscore=0 impostorscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020031
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6053:EE_|LV1PR12MB484207:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf85bec4-1a68-4fa9-ae64-08df38b78f78
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|6133799003|10067099003|18002099003|22082099003|56012099006|11063799006|261021121427099003|261021135927099003|261026140227099003|261022113327099003|261022105027099003|261026121527099003|261021123027099003|261009223027099003|261028144727099003;
+X-Microsoft-Antispam-Message-Info:
+	1yZKOMu5Ym4nJJf6/7XzsIIy791PxItUwF6HzsI/xN/XBOcP86bM5NQpkLZXXpPp6lH0z+WYqoU2QHasmWWaD9BhJ5x9VpKoBN8cn5cOpNPL3FNZZmHKHvA9vuv2JnllXILn/zvUOStd8g3cz0En8lE7iQNOZh7N1mT8NzUH1fOE9hzBQdRQsuWeY6DMS80iWTMDFf2SEmlElVE1NN8DGR8yglmplD/01S4NuhiRn6dboWOzoBa6u94GYhYveKAwuSTzyQ9egqiL8Xal5Pi5dohHnNkeUOj9K4InPjp81GQ1or8ooTGiRf1L3tEL+HI95FqMk52Wzx10O1W2D13/kj9io4ZomRFLqTMsFRJVzyM6eD1SQN/NA/42RQtn5RhLb81fF1NDtKMpBsZFKLPoX6oJ0nyBnq1iBW18OACOCsEH10dNU9vInQz0M2CK7it0sQCtwgCukgxZ//1HNGEh6kxcSJrDLkbxYOR2b2YKh6WwmhjXRCTdtBgPSNhesRpmbw9VLMnF7/E5az34D7cr8mqVDcLeHNV2jXdS/kJQdtNcVyw4zdDsSHT6Sx+qoTubUgLFmC0lUdQ6L+JnohvXtsJfZTZKpIJWnIi3u/SR9c4InOq4I9SjNF1Q6GcMuoXZZ5bbJIinJdI+8OBa7B6o6919YcckWj7vDSeCyYEkQpM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6053.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(6133799003)(10067099003)(18002099003)(22082099003)(56012099006)(11063799006)(261021121427099003)(261021135927099003)(261026140227099003)(261022113327099003)(261022105027099003)(261026121527099003)(261021123027099003)(261009223027099003)(261028144727099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bXBxdnJHaWREV0FVOUMzT1VONStZZWRuWFdoZUFRSjB4b0dLY2VsZFNReHBm?=
+ =?utf-8?B?bWlRTFhJVy91ZWtXcS9kZkw5aXdDem1BdHptTVBSdHppZ1pkNEF5L0JndCtu?=
+ =?utf-8?B?S1hQY1FzSCt1eU1DcEl5YWs4RTFpaDJrTmYzU0VTdXgrWUtqY05lRjcwVTRM?=
+ =?utf-8?B?eENzVFAvblJLNEVrUnBoazFRYkNCVml1RVg2aTErQzYxY2FKWVBsdHM2UGhZ?=
+ =?utf-8?B?WnhHMWtMRGRzcVlDUGZXaVEydjR6OU1sVXpHREorbHk5QUNsZVl2blhhRWlC?=
+ =?utf-8?B?cWg4ZWw5ZXhycE1TYVdVSThaa0RFVytybkpWNkZyYktuS1Z0QlVxY1ZHRmli?=
+ =?utf-8?B?c0dON0ZRaXArSVlYb1VOc25BUmJ5RlM3Szk4QzZNS096SVlCQTdLSW1jK1hp?=
+ =?utf-8?B?WFVDRG9qKzVIbFpSeWhXV3JuUm95c3ZVTnN6Y0ZMaG1DR2pSV2NUMVZQV282?=
+ =?utf-8?B?VWJzMzVIZ2VsTDNkM0hDb20zUnplcWJLdDF6ZENJaVFEYVp6U0VSN1RQVWRO?=
+ =?utf-8?B?NE5PY3h6WWNqTFo4dXdFVmVQSHBHZXBYSUhvT241cXovK0s0dEc2Y252ckRq?=
+ =?utf-8?B?WS9MTk1VOG9uZHJVSHRBeitmdENNVFNwTGExWlNUMWt2NjJsaXpKTVRGNWlQ?=
+ =?utf-8?B?NUM0OGEzdEpCN0J0amNyWTkzbnc2OUswSW1Tck5PSGlOMmlsWGNWOHFTV0l4?=
+ =?utf-8?B?aHV4dUlYQXdTYUJUZHVEcnRsbWRIdVdqeHhaUjllT1ZNM1kyOEIvL3g2M3Ni?=
+ =?utf-8?B?eFkrc1k5ekJ0a1QxYWg1SDRxTGRjVHFyb01YK2J1THlSUjBCckVCU0NUQng5?=
+ =?utf-8?B?dVpudzI4M3phNFFmeHB2VWZaZnl5Q3p5ZmxicDdMTE1ZV09qeTQ1cVg3ZDdR?=
+ =?utf-8?B?OXlBMVhXYVpSUldGNW5EdThqbkhhbTNwaDlhU0FPQ0lKQ3pNaVYwLzhOaDBJ?=
+ =?utf-8?B?OUVHUlJWdkI5TElkYTZSTEpBLzl2ZWxKMVNFOVFDbEpOcm1lWjhLZ2tHTUdw?=
+ =?utf-8?B?NUQ1WXFETEt2Y0NrUUFCRWdDVVcvNE45SUdKalF1WUQyRERVOWR1T2dlQUli?=
+ =?utf-8?B?ckh0Z3dFTk9xZ2lWYzNRZFMyR1piRE5hRSsvMEVHejBKUHdvVTYwK2ttaFhO?=
+ =?utf-8?B?N01XSHVrQ0tXMnBPcHhlRzUrMlRUUXlQckowZWdOTW1NV29mNjEvdFI4N3Rm?=
+ =?utf-8?B?YUMxRys3SjZtNnVQWFovcFBtdjdDOWt1SFZmc2xBcWM0WGxsTU1IYTRaR3Q0?=
+ =?utf-8?B?TTczeEZuM3VpY0g5RjdydkRjMUllRmRFSUZuTm0vNFduU2lNcHJJK3BOK0RN?=
+ =?utf-8?B?LytBcUVxdkRMYnhrbGMvQ016S0ZKR3drMTl2OThuZVZsWDYwOFcwNEZHTXo0?=
+ =?utf-8?B?YitSeWtDbkJxam8rRGg0TS9HQWl0WWJOekZBWlBGeGZVZWFtQWN4V1hMWS92?=
+ =?utf-8?B?cXhiNFNIcVZlMHZURUlXMUgwMDB3WjYyVVM2enVtaW9meUlsdmhuY0F6bXR2?=
+ =?utf-8?B?OXlnWlhjRzVOQ0hIWUJaV2tkR0FOUDVYZ1BUanpFbUtJVnFzZzU0bjF0NHhq?=
+ =?utf-8?B?dHFQWmRzczVEdXViekNONGVxN3RHbVBON0tUdldrZUFqaWlnT0xzMGx2VmRk?=
+ =?utf-8?B?aGZuL3hqeFZoQkRNeEdibHRnOFZiU1ZRZmdmeUwwalRFdnJ1eFNpMEp5bU1v?=
+ =?utf-8?B?a2FwWUtIY2d1SkFScVR2Q2xwbUFtN0oxajdVUTk3NStiODdlb2ZlVFBXWjc0?=
+ =?utf-8?B?VnVBY21CNWVLQWtONG50ZmU5VGxXTW96OTk0ZUxvVThkcUx6R0pWYkkzeGg1?=
+ =?utf-8?B?WjFNSmhQTGhVL0V4Yk15K0VYYmxOckttR3QxNUUvc1FJd0lSRnJvNU56b09n?=
+ =?utf-8?B?RWZmeHg1S0Q2anZnMGRXZ2I2MHM4di9NODNXYVlKdUNTd0xTeWdEcFpVeDNm?=
+ =?utf-8?B?N1A1VmtxSm03N3QwYnJxV1B5VVhaTUEwTHZxc25QMHNLM3VkSStsc09wYW94?=
+ =?utf-8?B?Wm5CZHZVT3FUUW5pTzNIYnpOVjFrcjVxSTZvaEhYRmg3SnNTYXNsVHVoRXJW?=
+ =?utf-8?B?eVU5eURnUWFINnRuMWNDbW1saU42bVhmVTNWdmp2SjhnV2I2amE3VjFEaS9R?=
+ =?utf-8?B?bVQ4UysvTmxZYldrbExPMU5QdXN1UVdpTnUwT0NJdkdWS3hSZG9COUliOHpD?=
+ =?utf-8?B?cjhRN2RmZFFRZFdPaDdmOVNFTTJkaGxvWnRDNDVQZEpOMGdtVFVSVFh1Sm5a?=
+ =?utf-8?B?QlBRaUVITU5aVldBWWVHWTlCOVJmUFBGRTRRNTZUa2lTWm1lZG5aTGZQdnBp?=
+ =?utf-8?B?Q1VKa3NRQ2FyVHBtTE82RSs3S3p2THR5ZmpPNkFLTkR4ZXNiNHljUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf85bec4-1a68-4fa9-ae64-08df38b78f78
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6053.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 08:01:54.8623
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Isb/FMgsM+oBOiki/Hzij7JwTSu3PElDUiUZyOwjgkjj8dZKp4bAHLwLvut4Nj8e4ONd/usG+DLcbTqRIVZzlA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV1PR12MB484207
 
-
-
-On 10/23/2026 4:12 AM, Vladyslav Tymoshchuk wrote:
-> dwc3_qcom_set_role_notifier() updates the VBUS override in QSCRATCH
-> synchronously, from the context of the usb_role_switch_set_role()
-> caller. The glue assumes that role switches only happen from a
-> freezable workqueue, but that holds for the dwc3 core's mode switch,
-> not for this notifier: the UCSI connector work, for one, runs on the
-> non-freezable system workqueue.
+On 10/23/2026 1:01 PM, Li Ximo wrote:
+> From: Wang Haoran <haoranwangsec@gmail.com>
 > 
-> On SM8750, when the USB cable is unplugged while the system is in
-> s2idle, the UCSI connector work for the change runs before the devices
-> have resumed. It switches the role to USB_ROLE_NONE, and the notifier
-> accesses QSCRATCH while the glue clocks are still off, before
-> dwc3_qcom_pm_resume() turns them back on. The access does not complete
-> and the SoC resets. pm_runtime_resume_and_get() does not prevent this:
-> runtime PM is disabled at that point and the device is still marked
-> active, so it returns success without resuming anything.
+> list_first_entry() does not return NULL when the list is empty; it
+> returns the result of container_of() on the list head, i.e. a non-NULL
+> wild pointer pointing into the enclosing struct xusb_ep rather than to
+> a valid request. This was found by code audit.
 > 
-> While the glue is suspended for system sleep, only record the VBUS
-> override update and apply it from dwc3_qcom_pm_resume() once the
-> clocks are on. Apply it after the core has resumed, since resuming the
-> gadget enables the override and the role switch is the more recent
-> event. Serialize the notifier against the system suspend and resume
-> callbacks with a mutex, so that a role switch can't run while the
-> core or the glue is being suspended or resumed.
+> xudc_ep0_out() and xudc_ep0_in() are reached from the endpoint 0
+> interrupt handler xudc_ctrl_ep_handler() purely based on the hardware
+> FIFO status bits, without checking whether ep0->queue actually holds a
+> request. The queue can be empty at that point: the gadget driver's
+> setup() callback may not queue a request for every control transfer
+> stage, and xudc_done() removes the request once it completes, after
+> which bus timing can raise another FIFO ready/free interrupt. The
+The claim that setup() may not queue a request for every control
+transfer stage does not explain how xudc_ep0_in() or xudc_ep0_out()
+run with an empty list. Those functions are reached from Buff Free /
+Buff Rdy, which complete an EP0 buffer that __xudc_ep0_queue()
+already armed with BUFFREADY.
+
+If setup() never calls usb_ep_queue(), that write never happens. The
+SIE NAKs host IN/OUT, and this code is not reachable for that stage.
+
+So "bus timing can raise another FIFO ready/free interrupt" is only
+true if software already armed a buffer. Timing of a bare token does
+not create that IRQ.
+> unconditional list_first_entry() then yields a wild pointer, and the
+> subsequent accesses to req->usb_req.actual, req->usb_req.buf and
+> req->usb_req.length read or write unrelated kernel memory, leading to
+> memory corruption or a crash. On real hardware this is triggerable by
+> an external USB host controlling the token timing. Note that the
+> enqueue side __xudc_ep0_queue() already guards the same queue with
+> list_empty(), which shows the queue can legitimately be empty; the
+> dequeue side was simply missing the symmetric check.
 > 
-> Fixes: 21188e8d6d75 ("usb: dwc3: qcom: Implement glue callbacks to facilitate runtime suspend")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Vladyslav Tymoshchuk <tvlad744@gmail.com>
-
-Tested-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-
-Regards,
-Krishna,
-
+> Switch both functions to list_first_entry_or_null() and return early
+> when no request is queued, mirroring the existing list_empty() guard
+> on the enqueue side.
+> 
+> Reported-by: Wang Haoran <haoranwangsec@gmail.com>
+> Reported-by: Li Ximo <lixicaicai@gmail.com>
+> Signed-off-by: Wang Haoran <haoranwangsec@gmail.com>
 > ---
-> Changes in v2:
-> - Hold role_lock across the whole of dwc3_qcom_pm_suspend() and
->    dwc3_qcom_pm_resume(). In v1 a role switch could still run during
->    dwc3_pm_suspend() or dwc3_pm_resume() and bypass the deferral, as
->    the Sashiko review pointed out [4].
-> - Link to v1: https://lore.kernel.org/all/20261018143126.3978-1-tvlad744@gmail.com/
+>   drivers/usb/gadget/udc/udc-xilinx.c | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
 > 
-> The review also asked about the direct_complete path, which skips
-> these callbacks. It is not taken for this driver: every
-> qcom,snps-dwc3 node in the tree has a power domain, and
-> genpd_prepare() never returns 1. Where it is taken, the role switch
-> is dropped as it is without this patch, and the hardware is not
-> touched.
-> 
-> Tested on SM8750 (OnePlus Pad 3; the board DT is not upstream yet),
-> v7.3-rc5 plus board patches, with the UCSI connector work still on
-> system_wq and without the pmic_glink RFC [5]. The test kernel also has
-> local ucsi_glink and qcom_battmgr changes that make a cable plug or
-> unplug wake the system from s2idle, similar to Jishnu Prakash's
-> ucsi_glink patch [3]:
-> - cable unplugged during s2idle: resumed in 2 of 2 runs; without this
->    patch the SoC reset in all 6 earlier runs. The switch to
->    USB_ROLE_NONE came 15 ms after the start of the resume, during the
->    noirq phase, and was only recorded; dwc3_qcom_pm_resume() cleared
->    the override about a second later.
-> - cable plugged in during s2idle, s2idle with the cable connected,
->    and unplug/replug while awake: no change in behaviour.
-> - with a test-only msleep() under role_lock, so that a role switch
->    comes in while the lock is held:
->    - 3 s in dwc3_qcom_pm_resume() after dwc3_pm_resume(): the switch
->      from a cable plug during s2idle waited for the lock and then set
->      the override directly;
->    - 20 s in dwc3_qcom_pm_suspend() before dwc3_pm_suspend(): the
->      switch from an unplug waited for the lock and was deferred. The
->      unplug aborted the suspend, and dwc3_qcom_pm_resume() applied the
->      update. No reset.
-> 
-> I have not tested this patch without the wakeup changes.
-> 
-> The UCSI side is discussed in Abel Vesa's RFC to queue the connector
-> work on system_freezable_wq [1]. Since v1, I have also sent an RFC
-> that holds back the PMIC GLINK notifications over system sleep [5].
-> With it, an unplug during s2idle on SM8750 no longer reaches this
-> notifier. This patch is needed either way: the RFC does not hold back
-> a role switch that is already in flight when the system suspend
-> starts, and callers of usb_role_switch_set_role() outside pmic_glink,
-> TCPM's kthread worker for one, are not frozen.
-> 
-> Faisal Hassan's SA8255P series [2] also changes dwc3_qcom_pm_suspend()
-> and dwc3_qcom_pm_resume() (the wakeup argument becomes a pm_message_t);
-> whichever goes in second needs a small rebase.
-> 
-> I used an AI assistant (Claude) for the analysis and to draft this
-> patch and its description; I reviewed the result and ran the tests on
-> my device.
-> 
-> [1] https://lore.kernel.org/all/20250205-ucsi-schedule-conn-worker-on-freezable-wq-v1-1-107d1356b77b@linaro.org/
-> [2] https://lore.kernel.org/all/20261010053246.2991984-3-faisal.hassan@oss.qualcomm.com/
-> [3] https://lore.kernel.org/all/20260722-ucsi_glink_wakeup-v2-1-b43dee56df24@oss.qualcomm.com/
-> [4] https://lore.kernel.org/all/sashiko-outbox-176222@kernel.org/
-> [5] https://lore.kernel.org/all/20261022164151.592-1-tvlad744@gmail.com/
-> 
->   drivers/usb/dwc3/dwc3-qcom.c | 61 +++++++++++++++++++++++++++++-------
->   1 file changed, 50 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-> index ac68b4218b56..b22a72e3c1b9 100644
-> --- a/drivers/usb/dwc3/dwc3-qcom.c
-> +++ b/drivers/usb/dwc3/dwc3-qcom.c
-> @@ -10,6 +10,7 @@
->   #include <linux/irq.h>
->   #include <linux/of_clk.h>
->   #include <linux/module.h>
-> +#include <linux/mutex.h>
->   #include <linux/kernel.h>
->   #include <linux/interconnect.h>
->   #include <linux/platform_device.h>
-> @@ -85,6 +86,11 @@ struct dwc3_qcom {
->   	struct icc_path		*icc_path_apps;
+> diff --git a/drivers/usb/gadget/udc/udc-xilinx.c b/drivers/usb/gadget/udc/udc-xilinx.c
+> index bef06fe75..032d9f04f 100644
+> --- a/drivers/usb/gadget/udc/udc-xilinx.c
+> +++ b/drivers/usb/gadget/udc/udc-xilinx.c
+> @@ -1822,7 +1822,9 @@ static void xudc_ep0_out(struct xusb_udc *udc)
+>   	unsigned int bytes_to_rx;
+>   	void *buffer;
 >   
->   	enum usb_role		current_role;
-> +
-> +	/* Serializes the role notifier against system suspend and resume */
-> +	struct mutex		role_lock;
-> +	bool			vbus_override_pending;
-> +	bool			vbus_override;
->   };
->   
->   #define to_dwc3_qcom(d) container_of((d), struct dwc3_qcom, dwc)
-> @@ -561,27 +567,40 @@ static int dwc3_qcom_setup_irq(struct dwc3_qcom *qcom, struct platform_device *p
->   static void dwc3_qcom_set_role_notifier(struct dwc3 *dwc, enum usb_role next_role)
->   {
->   	struct dwc3_qcom *qcom = to_dwc3_qcom(dwc);
-> +	bool enable;
-> +
-> +	guard(mutex)(&qcom->role_lock);
->   
->   	if (qcom->current_role == next_role)
->   		return;
->   
-> +	enable = qcom->current_role != USB_ROLE_DEVICE;
-> +
-> +	/*
-> +	 * Not every caller of usb_role_switch_set_role() is frozen during
-> +	 * system sleep, e.g. the UCSI connector work can run in the noirq
-> +	 * resume phase. The glue clocks are off then and runtime PM can't
-> +	 * turn them on, so leave QSCRATCH alone and let
-> +	 * dwc3_qcom_pm_resume() apply the update.
-> +	 */
-> +	if (qcom->pm_suspended) {
-> +		qcom->vbus_override_pending = true;
-> +		qcom->vbus_override = enable;
-> +		qcom->current_role = next_role;
+> -	req = list_first_entry(&ep0->queue, struct xusb_req, queue);
+> +	req = list_first_entry_or_null(&ep0->queue, struct xusb_req, queue);
+> +	if (!req)
 > +		return;
-> +	}
+>   
+>   	switch (udc->setupseqrx) {
+>   	case STATUS_PHASE:
+> @@ -1875,7 +1877,10 @@ static void xudc_ep0_in(struct xusb_udc *udc)
+>   	u8 *ep0rambase;
+>   	u8 test_mode = le16_to_cpu(udc->setup.wIndex) >> 8;
+>   
+> -	req = list_first_entry(&ep0->queue, struct xusb_req, queue);
+> +	req = list_first_entry_or_null(&ep0->queue, struct xusb_req, queue);
+> +	if (!req)
+> +		return;
 > +
->   	if (pm_runtime_resume_and_get(qcom->dev)) {
->   		dev_dbg(qcom->dev, "Failed to resume device\n");
->   		return;
->   	}
+>   	bytes_to_tx = req->usb_req.length - req->usb_req.actual;
 >   
-> -	if (qcom->current_role == USB_ROLE_DEVICE)
-> -		dwc3_qcom_vbus_override_enable(qcom, false);
-> -	else if (qcom->current_role != USB_ROLE_DEVICE)
-> -		dwc3_qcom_vbus_override_enable(qcom, true);
-> +	qcom->vbus_override_pending = false;
-> +	dwc3_qcom_vbus_override_enable(qcom, enable);
->   
->   	pm_runtime_mark_last_busy(qcom->dev);
->   	pm_runtime_put_sync(qcom->dev);
->   
-> -	/*
-> -	 * Current role changes via usb_role_switch_set_role callback protected
-> -	 * internally by mutex lock.
-> -	 */
->   	qcom->current_role = next_role;
->   }
->   
-> @@ -624,6 +643,10 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->   
->   	qcom->dev = &pdev->dev;
->   
-> +	ret = devm_mutex_init(dev, &qcom->role_lock);
-> +	if (ret)
-> +		return ret;
-> +
->   	qcom->resets = devm_reset_control_array_get_optional_exclusive(dev);
->   	if (IS_ERR(qcom->resets)) {
->   		return dev_err_probe(&pdev->dev, PTR_ERR(qcom->resets),
-> @@ -752,6 +775,12 @@ static int dwc3_qcom_pm_suspend(struct device *dev)
->   	bool wakeup = device_may_wakeup(dev);
->   	int ret;
->   
-> +	/*
-> +	 * A role switch that comes in now waits until the glue is suspended
-> +	 * and is then deferred, see dwc3_qcom_set_role_notifier().
-> +	 */
-> +	guard(mutex)(&qcom->role_lock);
-> +
->   	ret = dwc3_pm_suspend(&qcom->dwc);
->   	if (ret)
->   		return ret;
-> @@ -772,6 +801,8 @@ static int dwc3_qcom_pm_resume(struct device *dev)
->   	bool wakeup = device_may_wakeup(dev);
->   	int ret;
->   
-> +	guard(mutex)(&qcom->role_lock);
-> +
->   	ret = dwc3_qcom_resume(qcom, wakeup);
->   	if (ret)
->   		return ret;
-> @@ -779,10 +810,18 @@ static int dwc3_qcom_pm_resume(struct device *dev)
->   	qcom->pm_suspended = false;
->   
->   	ret = dwc3_pm_resume(&qcom->dwc);
-> -	if (ret)
-> -		return ret;
->   
-> -	return 0;
-> +	/*
-> +	 * Apply a VBUS override update from a role switch that came in while
-> +	 * suspended. Do it after the core has resumed, as resuming the gadget
-> +	 * enables the override and the role switch is the more recent event.
-> +	 */
-> +	if (qcom->vbus_override_pending) {
-> +		dwc3_qcom_vbus_override_enable(qcom, qcom->vbus_override);
-> +		qcom->vbus_override_pending = false;
-> +	}
-> +
-> +	return ret;
->   }
->   
->   static void dwc3_qcom_complete(struct device *dev)
-> 
-> base-commit: a90ee4305c4a5df72c11b31dacfdc76e00fcf78a
+>   	switch (udc->setupseqtx) {
+This check looks nice-to-have, as the non-control endpoint handler
+already performs the same check. Please refactor the commit description
+accordingly and do add the fixes tag .
 
