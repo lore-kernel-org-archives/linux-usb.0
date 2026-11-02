@@ -1,56 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793639446;
-	b=Lax0+l2wmtmH8EI6stGcU9k54SvX1UanyVfplljhSR25JnH22Y8XbhpaVTNW0sLnDh0a
-	 f59cO1gbKYTeNEoGOOraVYUV2b5164y0ZpW1MD0IBHF3n617cQgtrAqn5GkUrZ+MuVAy8
-	 zOMpxNAhYbRjgre/hogII23RIgXQ5ajveBZTxdIm0VNqYLaGv1rXw1i49xenIdus5dkvE
-	 cxPUFCk/NB89SHabaEfHLreoOiHKrx2TAgx7MrFXQK2uisF/fYpqsk0h1+MJy5E/w+0Ix
-	 SwW8XqTbIOWwZasshhoYwU5rbIMW9c3MxSKUsFPQDODMFCizI3u3p/z7m5kEwzo/tFQ==
+	t=1793640995;
+	b=XK3g8+t54kjB3R07oTn88nrUCTR62B3NYdk8rwzgmeOcmphEky6/UnAbzZilj8T8ksHN
+	 zgLGfk+pzpGVllcCzcx2fshr3nnBnWqpxo9CX5RjimUQezmv+UFLxkPEoTarPPHpgVaGM
+	 SHtdnR/7o2sTyudoLgEpcJ4EPDw6EpRuoF5kE5zCZ5hRnIxgY6xI+6RT0Qig/I9gci1oV
+	 VWBneJpAbEINzRKFlnCw21/4NRceCRD7LhqkLMpsWhirQ/pCpQ35hoqwVheRK40F51CZS
+	 vqqXTzMhHOgGZ4/Ym6aSLREfchDWCqrAwbogUwHl8S+vBuvdYMJXUetkYxPBulxE48A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793639446;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=d+zkDWun6gXDs5xJcPR1zTjqdbrRYOmb1bF8apsaEi4=;
-	b=a2yN434j2qDO2EKsmMpDgQflrO1IqAxEshKKDF45nbF5X4C/FIMyLec40U8sB+3cSZxU
-	 2W6o0hNPtgZ/+VWtTRc7Ufay/vkHtoWRckfdEuUTt09+1GOa1xvA28iRPgMjYCdKo9nC1
-	 ksrwXdwcF4ExKaoKUjMqMtQerolR7p4egYfs+7iNZbDTm5EybMhCMz1Rdt6Bb57C0JMDz
-	 M0Y+a6MW51P2ikexc8Z65s7M8r3gxRX91/rNaJWtVoqKqVmB9dyj2fdVKV7ja/RswQQYT
-	 5OQRZDvfBhcnxvDqnEXkQhfbnybDYFaC9SCSeh7N5j6rtPLr/6Qc/ulLh6E+9ujKkjQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793640995;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=zEJyC4Hy1K8qtGKhmiWtfD0oQILD6fwcoWFHpGK6kho=;
+	b=MvtATlPtsxFFI1ipdD+TNvPdMNaULmNru2RsDzLJJCQF/MLnmguzrtfVMgrh4hjwO6UL
+	 tPTeI+FvnJyZO9CIXu6JJwgk+Zy4IH2LNtqo+BSQDRXcB3WYf3KBRJL07Ub1pQaf3Zv2b
+	 aFWPKD0vnyXvrgTZcWwDPGuY67CSFhvJ5dr1dOC1c40nL1yF9dSfMzKpHIdwW+1I61s61
+	 tCXy4GNDV2s1zXKbM3wGhrJQIwJmsaSOPdDLrvJW/PZImLDqamRhAvUiQupx8nSMj9bER
+	 lXGnFHCOc/MwtofVRadyZ0theUuMQNuCA5APNV3CGl1oRhQVWonyKZ+K/PBNbEUdjfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VwPSoml3;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=RIl4FCaz;
+	arc=none smtp.remote-ip=185.70.43.101
+Received: from mail-43101.protonmail.ch (mail-43101.protonmail.ch [185.70.43.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0966C606A919
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 17:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A705606A90E
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 17:36:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A705606A90E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VwPSoml3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EBD31F00A18;
-	Mon,  2 Nov 2026 17:10:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793639445;
-	bh=d+zkDWun6gXDs5xJcPR1zTjqdbrRYOmb1bF8apsaEi4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VwPSoml3QD6gaTHYlqeLQFc34cqbqqyEJfWjs6CT0yoUVMbDEILeNq+kjfElaXNtI
-	 Gfl4Fmu3wlYCFqcWLeVRS9v+plaL2jbrE+w9CMrz1wq80XNigdPI2jMZ3gn+DlwoR4
-	 U1ziiIPo68IbyeiJvhJBdstOIrhP6PjwYA1QSLNYTCc6zJK+fabtVgzBRToFX+uv2t
-	 9icmo8m4qzQHyVmmCdsY918I3Q9lPv1WTqwHhYfJAo/jAFfSnayBYMAuH9QxZNi55m
-	 kYCbzx9GNB1I+O8oax2P2XsBqYcwAvc9///ZBgYJoiuS1hfsufFwbTsKka2GRZfKUG
-	 BiyPbkvgYWI1A==
-Message-ID: <sashiko-outbox-193807@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RESEND] usb: mtu3: don't run gadget completion callbacks
- with interrupts disabled
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Ryan Brue" <ryanbrue.dev@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261102-usb-mtu3-gadget-completion-callback-fix-v1-1-93c3a6dda31f@gmail.com>
-References: <20261102-usb-mtu3-gadget-completion-callback-fix-v1-1-93c3a6dda31f@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Nov 2026 17:10:45 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=RIl4FCaz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1793640991; x=1793900191;
+	bh=zEJyC4Hy1K8qtGKhmiWtfD0oQILD6fwcoWFHpGK6kho=;
+	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=RIl4FCaz0SOThWjwsqcH60dmrflhxWbnItcgSsbV3CUxWtAFXcbcRne1T1yTTXj6/
+	 SLfXx866p3NDzcFOdbVRwDfUnz2uED4doYf06Kh9LND841OuVrB84QcRQ9cJplXAQP
+	 cYLP/vyDJfHKT5o+VzJssoYzHG5jMzgucSRNxyTEUIptsGxf/PVskB5COltgbTGcLE
+	 GUe93h/W/3u0ti1t0lTMO1xqKXbhvKzFPb+EB8tCMT8htT3bC3Ox99fqxNOEJAyt0o
+	 E+58XHJla73As8Ld/VQ5CGCm1jyFXPqBtnWeIMyRnZP7R18ZW0OfjuI9ptsZ++GKq7
+	 cK15c73LrDjYg==
+Date: Mon, 02 Nov 2026 17:36:28 +0000
+To: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+From: fedora-r9-dev@proton.me
+Subject: xhci_hcd 0000:16:00.4 [1022:15b7] fails runtime resume from D3cold ("Controller not ready at resume -19"), followed by hard system hang
+Message-ID: <IpUbEUggp59J8uinYUedXtOUexshGrH2yT0NUYVDOG1flaE9kBpyOEffelXH0qFGqIBBrTYTur93b33dBTfUVaHdujiA-tN7G58zX6_RIRs=@proton.me>
+Feedback-ID: 232314576:user:proton
+X-Pm-Message-ID: 4c3018b4ec957ef32e297eb2088acbba5fc2ddb9
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,149 +59,71 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] usb: mtu3: spin_lock_bh() in mtu3_irq() leaves hardirqs enabled in=
- callbacks
---
+Hi,
 
-commit 153a59750e6c0f99e7e0b96dbcf13012e52f3fc8
-Author: Ryan Brue <ryanbrue.dev@gmail.com>
+On an AMD Ryzen 9 7900X desktop, the CPU-integrated xHCI controller at
+0000:16:00.4 [1022:15b7] intermittently fails to resume from runtime-PM
+D3cold. The driver logs the failure and declares the HC dead, after which
+the whole system hard-hangs: display frozen, no input, no network, and
+nothing in pstore (hardlockup/softlockup_panic enabled). The log below
+was captured via netconsole.
 
-usb: mtu3: don't run gadget completion callbacks with interrupts disabled
+Hardware / software
+- CPU: AMD Ryzen 9 7900X
+- Board: MSI MAG X670E TOMAHAWK WIFI (MS-7E12), BIOS 1.L2 (07/02/2026)
+- Kernel: 7.2.14-200.fc44.x86_64 (Fedora 44); hangs also seen on
+=C2=A0 7.2.12 and 7.2.13
+- Device on the controller: Logitech StreamCam 046d:0893 (USB 3.0,
+=C2=A0 uvcvideo + snd-usb-audio), on the rear USB-C port wired to the CPU
 
-This commit changes mtu3_irq() in drivers/usb/mtu3/mtu3_core.c to acquire
-and release mtu->lock using spin_lock_bh() and spin_unlock_bh() instead of
-spin_lock_irqsave() and spin_unlock_irqrestore() so that softirqs are
-disabled when gadget completion callbacks invoke netif_rx().
+Log (netconsole)
+[ =C2=A0153.788740] resume-cycle 24
+[ =C2=A0158.001608] usb usb8-port2: Cannot enable. Maybe the USB cable is b=
+ad?
+[ =C2=A0158.018346] resume-cycle 25
+[ =C2=A0158.042692] xhci_hcd 0000:16:00.4: Controller not ready at resume -=
+19
+[ =C2=A0158.042706] xhci_hcd 0000:16:00.4: PCI post-resume error -19!
+[ =C2=A0158.042709] xhci_hcd 0000:16:00.4: HC died; cleaning up
+(system hangs here)
 
-> diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
-> index a40bf5bad2d5d..ed0e426645fd6 100644
-> --- a/drivers/usb/mtu3/mtu3_core.c
-> +++ b/drivers/usb/mtu3/mtu3_core.c
-> @@ -790,10 +790,9 @@ static irqreturn_t mtu3_u2_common_isr(struct mtu3 *m=
-tu)
->  static irqreturn_t mtu3_irq(int irq, void *data)
->  {
->  	struct mtu3 *mtu =3D (struct mtu3 *)data;
-> -	unsigned long flags;
->  	u32 level1;
-> =20
-> -	spin_lock_irqsave(&mtu->lock, flags);
-> +	spin_lock_bh(&mtu->lock);
-> =20
->  	/* U3D_LV1ISR is RU */
->  	level1 =3D mtu3_readl(mtu->mac_base, U3D_LV1ISR);
-> @@ -814,7 +813,7 @@ static irqreturn_t mtu3_irq(int irq, void *data)
->  	if (level1 & QMU_INTR)
->  		mtu3_qmu_isr(mtu);
-> =20
-> -	spin_unlock_irqrestore(&mtu->lock, flags);
-> +	spin_unlock_bh(&mtu->lock);
+usb8-port2 is the other SuperSpeed root port of the same controller.
+Nothing enumerated on it at the time; the same "Cannot enable" message
+appeared shortly before each of the three hangs that netconsole captured.
 
-[Severity: High]
-Does replacing spin_lock_irqsave() with spin_lock_bh() in mtu3_irq() break
-the USB gadget completion contract and risk a hardirq deadlock?
+Reproducer (hangs within a few minutes on 7.2.14)
+=C2=A0 dev=3D/dev/video1 =C2=A0 # the StreamCam
+=C2=A0 st=3D/sys/bus/pci/devices/0000:16:00.4/power/runtime_status
+=C2=A0 for i in $(seq 1 300); do
+=C2=A0 =C2=A0 until [ "$(cat $st)" =3D suspended ]; do sleep 1; done
+=C2=A0 =C2=A0 echo "resume-cycle $i" > /dev/kmsg
+=C2=A0 =C2=A0 v4l2-ctl -d $dev --get-fmt-video >/dev/null 2>&1
+=C2=A0 done
 
-When mtu3_irq() invokes mtu3_qmu_isr() or mtu3_ep0_isr() ->
-mtu3_req_complete() (as well as forward_to_driver(),
-mtu3_gadget_disconnect(), mtu3_gadget_suspend(), or mtu3_gadget_resume() in
-drivers/usb/mtu3/mtu3_gadget.c), those helpers release mtu->lock with a
-plain spin_unlock():
+In normal use the same wake-up is triggered by applications enumerating
+cameras (Discord, Firefox), and by libvirt's nodedev scan reading the
+controller's config space while it is in D3cold.
 
-drivers/usb/mtu3/mtu3_gadget.c:mtu3_req_complete() {
-	...
-	spin_unlock(&mtu->lock);
-	usb_gadget_giveback_request(&mep->ep, req);
-	spin_lock(&mtu->lock);
-	...
-}
+Observations
+- While runtime-suspended, power_state reports D3cold (on both 7.2.11
+=C2=A0 and 7.2.14).
+- Possible regression, but not conclusive: 7.2.11 survived 111 cycles of
+=C2=A0 the reproducer, 7.2.14 hung at cycle 24 (single run each). The camer=
+a
+=C2=A0 was first attached on 2026-10-27, the same day 7.2.12 was installed,
+=C2=A0 so the two changes are not separable from the hang history.
+- Workaround: power/control=3Don for 0000:16:00.3 and 0000:16:00.4 (a udev
+=C2=A0 rule), keeping both in D0. Since applying it and moving the camera t=
+o a
+=C2=A0 chipset USB port, no hangs, including 50 cycles of restarting
+=C2=A0 virtnodedevd plus nodedev scans.
 
-Because mtu3_irq() now only holds spin_lock_bh(&mtu->lock), dropping
-mtu->lock with spin_unlock() leaves hardware interrupts enabled across
-usb_gadget_giveback_request() and the gadget driver callbacks.
+I can provide lspci -vvv, full dmesg or the libvirt reproducer on
+request, but I won't be able to bisect.
 
-However, the struct usb_request kerneldoc in include/linux/usb/gadget.h
-requires completion callbacks to be called with hardware interrupts
-disabled:
-
-include/linux/usb/gadget.h:
- * @complete: Function called when request completes, so this request and
- *	its buffer may be re-used.  The function will always be called with
- *	interrupts disabled, and it must not sleep.
-
-Gadget function drivers rely on this guarantee and take hardirq-unsafe
-locks with plain spin_lock() inside their callbacks. For example, in
-drivers/usb/gadget/function/u_serial.c, gs_console_complete_out(),
-gs_console_connect(), and gs_console_disconnect() acquire cons->lock with a
-plain spin_lock():
-
-drivers/usb/gadget/function/u_serial.c:gs_console_complete_out() {
-	...
-	default:
-		spin_lock(&cons->lock);
-		req->length =3D 0;
-		schedule_work(&cons->work);
-		spin_unlock(&cons->lock);
-		break;
-	}
-}
-
-Meanwhile, gs_console_write() is a console write callback that can be
-invoked from any hardirq via printk() and acquires cons->lock with
-spin_lock_irqsave(). Running completion or setup callbacks with hardware
-interrupts enabled causes a lockdep inconsistent lock state splat and
-deadlocks if a hardware interrupt on the same CPU calls printk() while
-cons->lock is held. Similarly, u_audio_iso_complete() in
-drivers/usb/gadget/function/u_audio.c calls snd_pcm_stream_lock() assuming
-hardware interrupts are disabled.
-
-In addition, mtu->lock itself can be acquired from hardirq context via
-usb_ep_queue() -> mtu3_gadget_queue() when f_midi2 is driven by the ALSA
-sequencer hrtimer backend (snd_hrtimer_callback() -> snd_timer_interrupt()
--> snd_seq_timer_interrupt() -> snd_seq_check_queue() ->
-seq_ump_process_event() -> snd_rawmidi_kernel_write() ->
-f_midi2_ump_trigger() -> process_ump_transmit() -> usb_ep_queue()), and
-other callers of mtu3_req_complete() such as mtu3_gadget_ep_disable(),
-mtu3_gadget_dequeue(), and mtu3_gadget_stop() still hold
-spin_lock_irqsave(&mtu->lock, flags).
-
-The commit message notes that dwc3 fixed the same issue in commit
-84918a89d6ef ("usb: dwc3: gadget: Let the interrupt handler disable bottom
-halves."), but dwc3 kept spin_lock_irqsave() and wrapped it with
-local_bh_disable() and local_bh_enable():
-
-drivers/usb/dwc3/gadget.c:dwc3_thread_interrupt() {
-	unsigned long flags;
-	irqreturn_t ret =3D IRQ_NONE;
-	int i;
-
-	local_bh_disable();
-	spin_lock_irqsave(&dwc->lock, flags);
-	ret =3D dwc3_process_event_buf(evt);
-	spin_unlock_irqrestore(&dwc->lock, flags);
-	local_bh_enable();
-
-	return ret;
-}
-
-In net/core/dev.c, netif_rx() checks:
-
-	need_bh_off =3D !(hardirq_count() | softirq_count());
-
-When local_bh_disable() is held around spin_lock_irqsave() and
-spin_unlock_irqrestore() (as done in dwc3, cdns3, and cdnsp),
-softirq_count() is non-zero so netif_rx() does not call
-local_bh_disable()/local_bh_enable() while hardware interrupts remain
-disabled across usb_gadget_giveback_request(), and local_bh_enable() runs
-pending softirqs after spin_unlock_irqrestore() re-enables hardware
-interrupts.
-
-Should mtu3_irq() wrap spin_lock_irqsave() and spin_unlock_irqrestore()
-with local_bh_disable() and local_bh_enable() instead of using
-spin_lock_bh()?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-usb-mtu3-g=
-adget-completion-callback-fix-v1-1-93c3a6dda31f@gmail.com?part=3D1
+Thanks,
+Erik Birgiser
