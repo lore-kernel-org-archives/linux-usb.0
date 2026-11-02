@@ -1,68 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793576788;
-	b=UtX1xPonlHGyxafUy9x7/pb1qunkq6YIosrmSRn0iCeLfbfgnpOmMyxtOwjJ2OHx/5IS
-	 jqmyonQqRs8Cq7cUwVnpfIoBwozlIentfPi5T4Mcljc6ZSIagutyc9/ScWPdvODS1fFug
-	 EvIGLQkPAwmPFO1VHQtt0qQtiibT3mixySKcCT8dH1IluxvgbXAmyEChd4FkULdtQH3rt
-	 OCTgJM+uDUxWrua1WieuTziaWIoapILgg4axYVWdrRwvuf0TfU7czDIWPOt6vKbvuKekp
-	 ajbR2VKu/7US9+IyT4nebpn3kfIL7gda6lbdLq+CQzbJtc+KrcQwWRsORJ/qloZ5ZyA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793576788;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Zoho-Virus-Status:X-Zoho-AV-Stamp:
-	 X-ZohoMailClient;
-	bh=Dr7HLHhmpNPRnakRx/XUhqvaTum3bMcddo5f/qe4qo8=;
-	b=yQ0BjwZgSjwcOHFEM0enf+pFTISz0FugEJl6wn0C8PeYb2yRhnZ6UBPCPIFQ6T15hgKU
-	 jRZWSzJRv4fVx2nolmfLmx+jBqDdoX1s1kLxhidM/FvBSt9MTxHREws+vYfocgl68l8vE
-	 zTN7+cq9Oo9U3jRM6lDxBeTIQ8w6TbHyjS2ivCjZQCKjyGGZuqp/RhfHILf4wwPpzIsZk
-	 y0WHGD2N/Ndyg+1y8m1518DwEDM+K1w7f2od2gw1a0UbY8QGduliJDn7Is6fCRThaWiKa
-	 QnDs7piECFMmPwyzFc7zsAeYCfDaZER+DTFVadouc78wOOiQ6/BI7GNzq+LzamX6SWA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=OF35KZXi;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.130
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793578284;
+	b=5B1Na4d94E3nCPFcfogHtORuQyA0UorQUmxSefLHlxN5kW6zpMJJQ9qwlgYYNGAfGOKZ
+	 UOif9ShoB6y3/cz+j9tbogyxdzeQlrkIO3v42xjjRWqh4Rw0tLENgUPfiW6G5XIZjqg6F
+	 7LBpLqw74XeF+HpgsWrkI5AzLitNM8PWKpERIuF6+2+mFmkB75rKffQ365Kt827QtzDhc
+	 ocTzagfR+oAHltUtXKg5cD0Os8Lk+kzfMUJfWhpG5EFc/8VlEu8mFMJMmz3YoUQ5+V5oD
+	 mxghWiYFF6eHLastkw35zXmBhj5M0/o4UocNLiJ2fsnZ2iULfbdsZbNLUOeAzKUpjyw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793578284;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=7VWjf8n3WvDFh+c5IGrcgvXEjMEwnWf0FFeeKq0U6ZQ=;
+	b=AMUTgpzWDLVAAq+eZZV5pp4k6hlQjbCpP6WxoWFoizI2MnBnK5qSx86CYOB5KnlWi6iX
+	 YuU62nnUZZCyBQNlbbysFJ1wfa3sA5io17oLD2UwhkE2gAboX1JVriVWXQAn1nvLDWJT3
+	 1WPzH2wBPlJ1jtQv2dXlnF9mLjkBtiU74jmHTxOWrgCPainFg264jAVKFXzoMQIyVCK71
+	 qhOJa9ROlti5TqLiDH3dxAily+FvPN5PypPwc7XMN6apYLJjsGAp7Xr0e5oukfCXwVqxo
+	 mgim0qEy2Tk35ANAs9uADJ444C62w0pw4Mr/EOpSUYTG9TiwyDYh5u1zF2dc6rvpnzw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PKfEHFCL;
+	arc=none smtp.remote-ip=74.125.224.130
+Received: from mail-yx2-f2.google.com (mail-yx2-f2.google.com [74.125.224.130])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BB3606A324;
-	Sun,  1 Nov 2026 23:46:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13BB3606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8738B606A32E
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 00:11:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8738B606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=OF35KZXi
-ARC-Seal: i=1; a=rsa-sha256; t=1793576767; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=nFF1HpSoEVKhGCa2OjQyYkqXJZOKSIszAnZw1s8222Xrd2kMjrb/JcjP3+xgAd+EF7NfYB4nI2t+0PS1ovEAqX4peypVDFBqTzX/0AWf47TWUVceAD+RGpLxXtlY9xOlLrkcoFg6rr9+F5deTI01HGYkyA3aAge++eGOasLzxdE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1793576767; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Dr7HLHhmpNPRnakRx/XUhqvaTum3bMcddo5f/qe4qo8=; 
-	b=fDZ8nHTaKuu9Udy2AaJvmQ8QdcNnymHS9p3SPvy7VJHRGxuwc3tLHvh9xsL4zQ3lbHV+R/D79My3/rJtwro5JPPqGjldw0Z8l31fEk6rRBq1qtMaUAdBA7hxFD94jVJjm5yrfwjBgNI+d8fz6vTxJ8KxXjbSac9lI3XvD6Qz2T4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: a=rsa-sha256; b=OF35KZXix3qxySfPAxVSiT1w0GHR1ywyUWFKqT6KVakay3bNiAr3UYgre4i65utKFaTYjgZN7BbziQ2+msK0hMPQoM354DuzAXpPzGiYkYW3t0iUN+xy1BJA/KoQ4yBEq01U8ZqH3K2H4bPQfO8HcTIibsUmZqCQq1YkbVTYEM0=; c=relaxed/relaxed; s=zohomail; d=collabora.com; v=1; bh=Dr7HLHhmpNPRnakRx/XUhqvaTum3bMcddo5f/qe4qo8=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1793576765533498.29275941676076;
-	Sun, 1 Nov 2026 15:46:05 -0800 (PST)
-Received: by venus (Postfix, from userid 1000)
-	id 53936180371; Mon, 02 Nov 2026 00:46:01 +0100 (CET)
-Date: Mon, 2 Nov 2026 00:46:01 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner <heiko@sntech.de>, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Igor Paunovic <royalnet026@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org, kernel@collabora.com, 
-	Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-Subject: Re: [PATCH v18 0/7] usb: dwc3: introduce Rockchip glue driver
-Message-ID: <aufM3PCuU9CM8zFo@venus>
-References: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com>
- <179353091270.2955.16595397888583885694.b4-reply@b4>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PKfEHFCL
+Received: by mail-yx2-f2.google.com with SMTP id 00721157ae682-8b0fa446a94so7788957b3.1
+        for <linux-usb@vger.kernel.org>; Sun, 01 Nov 2026 16:11:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793578282; x=1794183082; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7VWjf8n3WvDFh+c5IGrcgvXEjMEwnWf0FFeeKq0U6ZQ=;
+        b=PKfEHFCLO1Pa2cwXivsCSQUdhT3MH+Xe7A3u+cpoivfmVBg9GYcp8AE0qcJZBBGoDc
+         bam19pUfhjf2sypZHGXLnDnzzLLFkiHRDJ2JrbFWIBDrnMU8+KLHlbvlac6gBqGpS8PK
+         VjTIPr38Ne1OrzcRdeexT9SZUpjf9StVawHOIAsvPwBAPD178q4dfSjmYiT1V2HeuNDv
+         wMqt+T292rulJCMlY28IbN1LdqKuqRCbmtK274uv53+uYBQnkRGOK/+cOAZliSvqw2Bu
+         wO+bk4An1XRZmuugQaTUteNyk6uz9rZCdAuNmi3JnnYXV49oUU86s3kt57f56JxxabRn
+         OjAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793578282; x=1794183082;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7VWjf8n3WvDFh+c5IGrcgvXEjMEwnWf0FFeeKq0U6ZQ=;
+        b=1L9AaYdMqL1cuGtCg2jWzk86rQeIZLCk8p/dKc9oEzAmY7NzGC9QfSN8fYoXyF+mF5
+         cnTx1hhKEdysUzYK2pEVSoRW7NrIqb/7ZRDbslQODWy/uq7BXEBZPNsiz0RR8Vzsk255
+         54ifaLgdfKDKRWC/rBGY0P5VqlvN6XxE8txs4M+hO71oL61kzLPkvfHsXUokD4ENDFi/
+         ehIGl681oT4yf3fBQpJmOPnS1+AgOQ6FtVb4NthE/EnvK9GIXh2lMODRZ2PbE+9V+mmn
+         qaWIBcykuGZg7S6XMA7BlUSdg0wPnE0awe0dY6IIVEXz4IMkGm+/+dWwUJTBFbZ0x/La
+         5Hxw==
+X-Gm-Message-State: AFq9FYJ/fHV0R2ioSyslp/pleHfruETi9jN4QaiZHcDgsMAqyj/plQdp
+	sFHBo34qwt9R6XbMEho6X0UcfsyYHN09q74D513DrtB/Erbe6Y5i3CR6
+X-Gm-Gg: AYBFou2a3VkTEAFYGlpq1EzcpXrjzfAUch0glO2CBgtMesTKJUTZ3Z63tWqANh6S0Vb
+	NE7oOkJrj1KXm/CeDiqm+Caud8NdZy33UtXg63TkqlrldZ03JHvcaCKjyaRJzllFHrnDW8ZBcMc
+	SHErycCtPIUfV4TZFh5U88MOptsuMWnJFgpwvmXCb84cgd6Fy1ER/VCRYzOCvDLNTFwin6t0Yos
+	2H87IZkp9xE/s/KIFLeKqMf4INFaCjWdynRUNyeJu7ZKtqNBs9ttnYi0dXPZDvICjyAmUHm9q3j
+	8ZtlChI6UWZ1Ot9W0Wmkm0s2UUkjM4kiGPwB9Awc74XpkILyH+A+2bnImUAJKj41h5wYWK0Dv0W
+	vF4CRyx3NCLkabNmk0vqzyHnWFkz03aKcsjviiHCFZSOhfFmA7V8XfEzCB57cmhikmCr7+2aP2w
+	qTrkv2IwxzW5WEei6byDsvq9FdcTa4btHAJeZQsfZpa/raOnXZPrw6yED/v881Pv8flumdL8HP9
+	jn3Ko/U3lkk+GeEwFZEs++ByMReKqntqhKTmf3SYqc+zug20YRVcgLz8djn32zRvVT18HeaAhHx
+	/wEbZ+JdP1tBZraAoY3QPmFfswusLDnt/XwNzExbpjJUB6yMx9bhndC8X98kpIBUwDY5mAWS0TS
+	knl+EnrA=
+X-Received: by 2002:a05:690c:6e87:b0:8b0:ea29:c543 with SMTP id 00721157ae682-8b2b658dfdamr48293017b3.10.1793578282295;
+        Sun, 01 Nov 2026 16:11:22 -0800 (PST)
+Received: from Xinshengs-MBP.attlocal.net ([2600:1702:7d20:7d20:90c2:3933:d321:134f])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b714bd57sm43161587b3.23.2026.11.01.16.11.21
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 01 Nov 2026 16:11:21 -0800 (PST)
+From: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+To: netdev@vger.kernel.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	oliver@neukum.org
+Subject: [PATCH net-next v3] net: usb: cdc_ncm: reject short GET_NTB_PARAMETERS responses
+Date: Sun,  1 Nov 2026 19:11:14 -0500
+Message-ID: <20261102001114.38144-1-xinsheng.zhu.ny@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,81 +99,55 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="z4xoeqz7d7xqkqyp"
-Content-Disposition: inline
-In-Reply-To: <179353091270.2955.16595397888583885694.b4-reply@b4>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/293.557.36
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
+usbnet_read_cmd() returns the actual transfer length, but cdc_ncm_init()
+only checks for negative errors when reading the NTB parameters. A short
+response therefore leaves the missing bytes zero-filled, and
+initialization continues with parameters that were not supplied by the
+device.
 
---z4xoeqz7d7xqkqyp
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v18 0/7] usb: dwc3: introduce Rockchip glue driver
-MIME-Version: 1.0
+CDC NCM 1.1, section 7.2.1, Table 7-3 defines a 28-byte NTB parameter
+structure. The pre-errata structure also contains 28 bytes: NCM 1.0
+Errata 1, Issue K.
 
-Hi,
+Require GET_NTB_PARAMETERS to return the complete structure before
+continuing initialization. Return -EIO for short responses, including
+zero-length responses, and preserve negative errors from
+usbnet_read_cmd().
 
-On Sun, Nov 01, 2026 at 04:31:52PM +0530, Manivannan Sadhasivam wrote:
-> On 2026-10-21 20:05 +0200, Sebastian Reichel wrote:
-> > The recent Rockchip platform have a combined PHY, which does USB3 and
-> > DisplayPort as well as muxing the lines in arbitrary order. Changing its
-> > enabled functionality requires a PHY reset and as the PHY provides a
-> > clock to the DWC3 controller, this can result in an SError. Apart from
-> > that the PHY might not start up correctly when the DWC3 PIPE interface
-> > is running. This series prepares a Rockchip specific DWC3 glue driver to
-> > help out with these problems. To become useful more patches are needed
-> > on the Rockchip USBDP PHY side, which are send separately.
-> >=20
-> > This was split from the USBDP cleanup series. v17 has a dependency on
-> > the patches that have been merged to phy's for-next branch. There are
-> > some additional Rockchip USBDP phy fixes, which depend on this series
-> > (which is effectively also a fix).
->=20
-> What is the merge strategy for this series?
+The issue is theoretical and was found by manual inspection of
+usbnet_read_cmd() callers with LLM assistance.
 
-I see these options (ordered by my preference):
+Signed-off-by: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+---
+Changes in v3:
+- Target net-next and drop the Fixes tag, as requested by Andrew Lunn.
+- No changes to logic since v2.
 
-1: Vinod merges everything; the USB side is mostly a new driver
-   and thus there is not much conflict potential
+v2: https://lore.kernel.org/netdev/20261011035150.53315-1-xinsheng.zhu.ny@gmail.com/
 
-2: Vinod provides an immutable branch with the first two patches,
-   USB tree merges the immutable branch and the remaining series.
+ drivers/net/usb/cdc_ncm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-3: Everything is merged through USB; this would block the final
-   cleanup for USBDP from being applied for yet another cycle.
+diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+index 19db5a668dcb..5715c4bf732f 100644
+--- a/drivers/net/usb/cdc_ncm.c
++++ b/drivers/net/usb/cdc_ncm.c
+@@ -524,9 +524,9 @@ static int cdc_ncm_init(struct usbnet *dev)
+ 			      |USB_RECIP_INTERFACE,
+ 			      0, iface_no, &ctx->ncm_parm,
+ 			      sizeof(ctx->ncm_parm));
+-	if (err < 0) {
++	if (err != sizeof(ctx->ncm_parm)) {
+ 		dev_err(&dev->intf->dev, "failed GET_NTB_PARAMETERS\n");
+-		return err; /* GET_NTB_PARAMETERS is required */
++		return err < 0 ? err : -EIO; /* GET_NTB_PARAMETERS is required */
+ 	}
+ 
+ 	/* set CRC Mode */
 
-4: Vinod merges patches 1+2, USB patches are merged one cycle
-   later and final USBDP patches are merged two cycles later.
+base-commit: 4dd16e31135ea8437a720222df34e8745f385d6d
+-- 
+2.54.0 (Apple Git-157)
 
-P.S.: I will have to send another version for the correct Sashiko
-feedback on the DWC3 side.
-
-Greetings,
-
--- Sebastian
-
---z4xoeqz7d7xqkqyp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmrnzy4ACgkQ2O7X88g7
-+ppUMw/+IZmalDNrDC3LSfbW/ZyIIGDr+YwPL3ZA9dTFpWBwbX77QSqT3hBTXKiO
-Co5D4QcxugfNSIeeoPFM45BpoZ0sNpLWwxiz9d3UdxHXwNMQBLusq0tsDJ8QzCkV
-TlrI7ej1U2bZcAq4DyXyqyRpWO/cWjf/JBAucghQFCWzqSW5YsAljsbYQnF/QLHI
-y49jW6ltllGr/yC9/+wNba6lZc39SkSgq5lC3mctoUXQGZ2e6zUQbTWKAYr+TLC+
-cvFWUQlmymyhELsdGPjhgpPjQndKetVvQVNuZsJ60hqHSNU0ZTSRxaYgl6IM5UPY
-dTXsOEQENYlYwetq0ZcOfwHVzM+kybIKqyS5Nm2OKUU0588croKVWhtlq/RHKUlq
-72jLZIao0J9KBl8NcAlyehL+taFTmFv3X73W3i5VRaU/A8joulsx0q7Vs8d0qzKa
-yizsxRS1gmVCNjR4dSGMmsSy1B+ZReFnZdc6XHLWeNvoWqX+nxeKD6J6frLrfmlq
-RoCIH72XqYaxT6jTBMek6Sv/FVlmfJvPGhj66ijzMQbYFrI2ABPdV2ZMtb5KdRdB
-/2JFhTzgIUXCP3rcKu9DdUzlmgo2zKEJ4FsZXZnuxp3wjWIcLVSmCcsx7+07uW46
-wDT6LWqChtRB8D54e52esmJc/OPnPa28m8RQqUHJFHE2IZ0iMn0=
-=Kcbn
------END PGP SIGNATURE-----
-
---z4xoeqz7d7xqkqyp--
