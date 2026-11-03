@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793741063;
-	b=amqKeViRySGSfmAkpEQu+jiIz/GOzTJByYhDtcS2l++QZPkhp7Xzsp03cAQtdQQ/nC7E
-	 yg8DwTTNbd9kbzj2zJoLMrkcWC6YATA3k8tlhfbEFx1RAKEmFK5J7IOZsjyR/E4bQyLJA
-	 DvaTIMjJspH3LgqrB2xgb9XmVDDXmLfsZgNZQMXi8xP7YKZzitxw1+7J4laTkNvhNldkD
-	 GJWywYCa1rai5MNPzBZcXwNEtRqFPgrfkeBcXhQseEwpbxjxLE+yUlFAUJcT5OiLOGuDy
-	 WDQdbs/CxhQKSVGa+NgGePDxtdzpOk+HCvsMSfTKKI2PJ+Nr3bFZWxXQ+xE751y33uw==
+	b=cADyF9kyWI2Ka4xPT4dPYKjLlwo7WxHxYJEPBMPekHQVH0hcR5QbMgyboepZOlKdKvdr
+	 WmTI5qenCrO9J+ov4XWtKyQx6+pw7fcwfpv8OD7S/sVxrLUAr1N3r/vIfuyQIc7bYzjCH
+	 Hp23L1v4XP+vN4KuFdrtyI9jh5TwqgpNbhRgKeUUHZL6jqkK+B/X9guE89jAkIvfzaTSd
+	 dt7sF78nevmrPLCdnLb5DW26gJUOX2QiVP5ZtrUPZI1gatJRyBm4fnVb0BXLK3BIpYmO7
+	 k7Z25gFeqm/7cvE8JqmV1nrcYJER8UoSPDH9S/mAIhe6eep0ZU+RuL8whFOm66GUQXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793741063;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=pR7GuEQMUlmsI001IDGVZ/M+/HrXY8YpKBGSjsmOI94=;
-	b=J06YmK2+UuLFcNQ+fc3f2ipzxXp2duL3UFiZwEqofOSCHV0D+jqMTh6TEKrGlC43n74/
-	 sKOk/C8kbAZ04wpsLgCwOK/pMZ6w6IvzZUEQDLAeGHQQHrJ4JgBlvBowVRgubSPMX2OZC
-	 pERzceHw3i3NJMksC8/BdYmsoB7+Kaj7nn9vk/I5JRzZbRCZrHgnb+2sC6xkKYkRPcxXg
-	 3yj/huuVo20QjxZeO6FsUp7gsjs2aZMm3bBItOLPUw4/oGVVSyjJLIPE8akGUKvJpSXZC
-	 3eiaQFvp8PNdGUkOvHm2vJLimEQjvSx+7eaywpHqaVv2NNxWNcQ5lazu7M8y1x5erBw==
+	bh=hwKL0XfE/OtZeig5dwsdDnwvzob2bwj5VziX0nabEE4=;
+	b=20z+HJmKhmITlVfbuNEPWfUUsmNCUo/xJSFSrVEo/4sUThWf1fxRRsEBURNo96y/9ui9
+	 oqlqrn73x5yfOLDObzmUTQcp7vFBoFbhKlghvWqNWgtORpbx76Z8+dfVRSepC/yGZ+b52
+	 n64XxMVkv4ctEv9JDldYv76FrdlFOm/esNpvR1xYxhxnhMRA/mSdxrv72OAfO3I97m5Kf
+	 kNBgoJev/t/nT0SEdwMKjBys/EhTiLaE/KcDxYzCwijXi1KkrzoUKy25j3c2FzvcqhvWC
+	 k25+vWi5HkLkMrCyDHKGYCDxk327egOegpwLiyuv7sgVkv/SNj5FQhFrlqWrMGbQ0aA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Toe0XQXk;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e0wYboBQ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1023A606A326
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 21:24:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D3B606A332
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 21:24:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Toe0XQXk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 949DE1F00919;
-	Tue,  3 Nov 2026 21:24:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e0wYboBQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366571F000C1;
+	Tue,  3 Nov 2026 21:24:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793741062;
-	bh=pR7GuEQMUlmsI001IDGVZ/M+/HrXY8YpKBGSjsmOI94=;
+	s=k20260515; t=1793741063;
+	bh=hwKL0XfE/OtZeig5dwsdDnwvzob2bwj5VziX0nabEE4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Toe0XQXkaSATcx/R17K4TBnkk4+oBOtrIu2C0qeXjayK8uhNJb61sADuUTjyyY2W5
-	 orFJ0V0HPYPZpobEBx8JfhjVQd06UPpmaoJjTLf0Ecwa5q7LI2NzXQfA3PYiAAoUSY
-	 84KTGBVL5o3kYKgwQq6J+V7MqRWXtZSTrvxqOZun14myd9fTOpXb0vFnY8+wjfjj7n
-	 tAGzw6hBLjbgQ/Ma3ONKGWEyJiUjISQdPACmYqTw3z0/XY6E4Eri1OGutUyIMqJoIl
-	 9i4aPYeuofNO7EE/hWj6NE+hY0q2MDp6Sg2jdqe/xltPKsuE4eoSirzQFmmFhdYebe
-	 NRCwV+bLAl3DA==
-Message-ID: <sashiko-outbox-196050@kernel.org>
+	b=e0wYboBQ8etl6ulaWCZU567ydyKaYAjoOFxc+ARoBRvEuzCjoirXYT/QMibFNXt17
+	 kZSpmjLYijUtzEJAmoZkm54YCEVKrzKb7ussqJE3LFBmSVccO3Is5c1bs6Qi5u6dd+
+	 YTIjlSuYdUDDc5GjmyTebVMZ0M/3FgvHvrr6nSmvnJeOQcDdilFyYaVQboPq7tVgwI
+	 TzUi3ELw/rXq2r9xWxj4p/23oUP+fjwRGeLzMPIAopKow1/pTv8D744uEVokHP0Ogf
+	 dsdmoKnOnk8J+5MXKFhAELfUpIj2YYP73cfin+b59SUgtt9mxA64/vhchrUfb5+OJE
+	 SV6iP6YMHHlaw==
+Message-ID: <sashiko-outbox-196051@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 3/3] usb: gadget: f_uac2: allow explicit channel
- count independent of channel mask
+Subject: Re: [PATCH v3 2/3] usb: gadget: u_audio: pass channel counts
+ explicitly
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Kyle Farrell" <kaf@nwlink.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261103211434.996135-4-kaf@nwlink.com>
+In-Reply-To: <20261103211434.996135-3-kaf@nwlink.com>
 References: <20261103211434.996135-1-kaf@nwlink.com>
- <20261103211434.996135-4-kaf@nwlink.com>
+ <20261103211434.996135-3-kaf@nwlink.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Date: Tue, 03 Nov 2026 21:24:22 +0000
@@ -61,25 +61,14 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The UAC2 gadget driver currently derives bNrChannels from the number
-> of set bits in bmChannelConfig. Since the bmChannelConfig
-> channel-location bitmap provides only 27 predefined channel locations,
-> this limits playback and capture streams to 27 channels. UAC2 allows
-> bNrChannels to specify up to 255 channels, including channels without
-> predefined locations in bmChannelConfig.
+> u_audio currently derives the channel count from the channel mask in
+> struct uac_params in several places. Instead, pass the resolved count
+> explicitly, so the shared audio implementation does not depend on how
+> an individual USB audio function represents its channel configuration.
 >=20
-> Add ConfigFS p_channels and c_channels attributes to configure the
-> playback and capture channel counts explicitly.  Preserve the existing
-> p_chmask and c_chmask interface and semantics. The default value of
-> zero for p_channels and c_channels continues to derive the channel count
-> from the corresponding p_chmask and c_chmask.
->=20
-> When an explicit channel count and a nonzero channel mask are both
-> specified, require the number of set bits in the mask to match the
-> channel count. Partial channel-location assignments permitted by UAC2
-> are therefore not supported. Additionally, reject Feature Unit
-> configurations whose descriptor length would exceed the one-byte
-> bLength field.
+> Initialize the channel counts from the existing masks in f_uac1 and
+> f_uac2. Remove the now-unused channel mask fields from uac_params.
+> Preserve existing behavior.
 >=20
 > Signed-off-by: Kyle Farrell <kaf@nwlink.com>
 
@@ -87,5 +76,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103211434.9961=
-35-1-kaf@nwlink.com?part=3D3
+35-1-kaf@nwlink.com?part=3D2
 
