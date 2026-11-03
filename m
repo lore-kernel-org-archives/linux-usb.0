@@ -1,56 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=71.18.227.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793734078;
-	b=0Co8HKFKb8teJESJbYbQgI0FvpevL4KpIDksGydG7QfDM36SkFa5GxnZ9/cCFQZ3cYD4
-	 5C1ofQ3RN454C0Q9sfQjxzyxFhFdBqobO8P1B2Hp7WirOlOKR+JcWXvye5x8HHWDJkh6z
-	 ghHuzMQvmpzdXnkCVDW/t2h5m7oIJzZiXC+m/rxNseSxqf/rZgssXO5GqP4XdDeUSjKZF
-	 Q1t9g+PGtEuNLMTf8uWKytSyqsiAIFqJds2VvS14CQFUoHbIz4ksAYcrvyfSa7Li/x9eA
-	 eIe+c4IS4SaCN3x9NEHt68Nh1Is3u7XNQt8pEJRyDrOgNB10o0TKQkKtS/FoyydQXhw==
+	t=1793735080;
+	b=C1+MUIn3kqoMtliHMrek8WtnmTSM9fbrQ0tLw3iy2e05AOz0nr3VxpKUXhEqsDkLt5Zw
+	 6Q558wlmilecj6idrEO3DOTZotsTHemULzAbIyk/voOICaFFfOxJkLShkslGoqaGgD1c4
+	 dqaG1C4Ua0wGpe72PuGR4ZFzQMkOylr+5/xhO7F37kC0STIqGbaH3g7hJiVrjdSZ8hKHp
+	 HQ/yLZZn8q5eDi6byZO+L9TaQwrmVWSAKqqjEw65Qma7/gEM1BpCkan1zi5S/q1sI0Hy/
+	 nN7TJXeZi2uflenGp2IdicFYwSTslN8qezXcQZ3OrsptGhmv9pWr4E6ZiBEsQEirOGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793734078;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=veOrRNFhyRbFfBOL92qT2eprL06nX1oGIjtdW8YYtlw=;
-	b=BQKlF3zYGZZzVtLJyqlUH/la6333hJXZsvGJdfiyYfDb8QrrDtlsCR8Ozay14JvIm1xp
-	 s/IJXhNlmDFB/GovqB+AEeE93PtdytI2hqt7jplB2/f53z4XY87xds1974yFJ8whspyvu
-	 IgHGB3dRAQkTmw4V1QF0ffY9Xmc5LCKYOkkZB/UPCLjshmpMjv5t60Jw/AZyM6aiCdl3r
-	 9r9+GUclDUYTceO64hB871RzMarvLbXSoIbTf7Pax3vzaZwtV/g/l/5opOaeW2d4dLVTr
-	 83X2j+SXQYldZPxTX9YQL38s1P6vAw4AK9gTyzbKS6Wb50sSl6XWVyigORkvIE79uCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793735080;
+	h=DMARC-Filter:DKIM-Signature:To:Mime-Version:X-B4-Tracking:
+	 Content-Type:Cc:Subject:Message-Id:X-Change-Id:X-Mailer:From:
+	 X-Lms-Return-Path:Received:Content-Transfer-Encoding:Date:
+	 X-Original-From;
+	bh=vcnq1DeugB7564b1ifNJtZSg+TFpvqDt2FpNBOnwADo=;
+	b=nGPc1R76EBFNWqd2UkugrA1iKqGzIwntYfTtPP7NynaIlk2Z4ILE407B4bgjt/PDEjYe
+	 QM6WgVArm+N9Ospen64GWCugTp7xCB2Xie1Vc6a1IcUXEYSFAXT0ZYwbcmv5OV6MW4YLI
+	 vGOzRtpTFsqQwsHZBbeqBIBJS6Yci63y0bz6Q6LndUlDYVdpjw1uxX2XE2IuHwlPIfQEI
+	 2PeYp0avh/kKW+z23mThnffpYhot09HRkhzL0xBV7OVZV3JOvCgz5iTif0f7Ntv7yg4bY
+	 H5UBVZ1nATv+b5/DyFXXSFVUnecxlTroq1zeHmC9pzqs2Gyu7sCYShB1ou27mK34e3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AoqNJr4A;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=cherr.cc;
+	spf=pass smtp.mailfrom=cherr.cc;
+	dkim=pass header.d=cherr.cc header.i=@cherr.cc header.a=rsa-sha256 header.s=feishu2604220257 header.b=LPBLVSQt;
+	arc=none smtp.remote-ip=71.18.227.5
+Received: from sg-2-5.ptr.blmpb.com (sg-2-5.ptr.blmpb.com [71.18.227.5])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BAD606A31B
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 19:27:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A51606D809
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 19:44:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0A51606D809
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cherr.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherr.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AoqNJr4A
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F151A1F000C1;
-	Tue,  3 Nov 2026 19:27:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793734078;
-	bh=veOrRNFhyRbFfBOL92qT2eprL06nX1oGIjtdW8YYtlw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=AoqNJr4A6trRC0Z5fLQuMEBgc9Zi/hwgbnEf7GBQ9qexBXxEDP+eHST7PS4Jw6yCx
-	 GZWSFw3A2cfna7TPzDZwCE2Is4JbpzgAwzGEHjS/CH/QQbbUvw7Xx+QqLdysI2qz6H
-	 VjVpgGDwJehBoPGpEsnmo8gIc20Vaf8SDve5zTZ8Lg9yCyh1n1DQRbwuNjSbnIHA5B
-	 ZEJIfIlII7YTOnMgFi6uKVzEAgSytYy1HQkqKphUWnOmJ+FmPzuxtxXVwdmLUNBiYU
-	 OXTHmpoonyi0RpVRC5QJGbZR2//lkVeHUYxtRSygY1bq6lDy/ByG+4q9/jEN+N7ERL
-	 emzSmBRBMDOPQ==
-Message-ID: <sashiko-outbox-195915@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: musb: host: clear stale TT buffers after aborted
- transfers
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jhon Wilker Rodrigues Aquino" <jhonwilker0112@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261103190333.87207-1-jhonwilker0112@gmail.com>
-References: <20261103190333.87207-1-jhonwilker0112@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 19:27:57 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=cherr.cc header.i=@cherr.cc header.a=rsa-sha256 header.s=feishu2604220257 header.b=LPBLVSQt
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=feishu2604220257; d=cherr.cc; t=1793735068; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=vcnq1DeugB7564b1ifNJtZSg+TFpvqDt2FpNBOnwADo=;
+ b=LPBLVSQtQ6b50vGVU4UXRLyUg0wWUEJX5+D+RDbZcGXi1b+UhOTaQHoybwtijPC1UBbG/C
+ h1gtlzRmJ6y9KjJnYq4OwDyeWXK3QEif+kAt+yUG5aTFT9wzVfxfrv99aKgYRrAGJnixBW
+ rnXKFVmGTxbnNq/nbiYIeWhIDBNN4/ZBFVWMrRLBbIfFwGiqKWYEEbdJzWHfchhDonRLxv
+ xSj9rw0ANCUze98DFfb1Pz5zoLni2lhV0NcqCDIuKPV24nDNp5TKM/7pW+vSNZv0EO8xOl
+ Eo61W9wibQ2dLheNfUUVxlXVAEggfZYc0cBUyN0xvJq35AHWqsxqqOWvhqFavA==
+To: =?utf-8?q?Tomasz_Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>, 
+	"Oleg Makarenko" <oleg@makarenk.ooo>, "Jiri Kosina" <jikos@kernel.org>, 
+	"Benjamin Tissoires" <bentiss@kernel.org>, 
+	=?utf-8?q?Micha=C5=82_Kope=C4=87?= <michal@nozomi.space>, 
+	"Paul Dino Jones" <paul@spacefreak18.xyz>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,392 +57,95 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAJU56moC/32NQQ6CMBBFr0K6dgytgMSV9zAsynQqY0whUyQYw t0tsHf5kv/fW1QkYYrqli1KaOLIfUhwOWUKOxueBOwSK5ObSuemhraAgZ33IBTRvgloHvpAYQT tSizI6Joqp9J/EPI87+5Hc3D8tC/CcRNui47j2Mt3j09m2x2dFPrTmQxosNeyRbRV6V1+x45Ez oiqWdf1ByPLW57TAAAA
+Content-Type: text/plain; charset=UTF-8
+Cc: <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>, 
+	"Shengzhuo Wei" <me@cherr.cc>
+Subject: [PATCH v3] HID: pidff: bound the unit exponent rescaling loop
+Message-Id: <20261104-b4-pidff-rescale-exponent-v3-1-f45e64cf488c@cherr.cc>
+X-Change-Id: 20261028-b4-pidff-rescale-exponent-1d5c4e218e6d
+X-Mailer: b4 0.16.0
+From: "Shengzhuo Wei" <me@cherr.cc>
+X-Lms-Return-Path: <lba+26aea399a+0699dc+vger.kernel.org+me@cherr.cc>
+Received: from [127.0.1.1] ([111.42.148.145]) by smtp.feishu.cn with ESMTPS; Wed, 04 Nov 2026 03:44:25 +0800
+Content-Transfer-Encoding: 7bit
+Date: Wed, 04 Nov 2026 03:44:22 +0800
+X-Original-From: Shengzhuo Wei <me@cherr.cc>
 
-Thank you for your contribution! Sashiko AI review found 7 potential issue(=
-s) to consider:
-- [Critical] usb: musb: qh UAF and is_ready corruption in musb_urb_dequeue()
-- [High] usb: musb: unparked qh race across musb_giveback() in musb_advance=
-_schedule()
-- [High] usb: musb: stranded URBs on parked qh after inactive host in musb_=
-tt_resume()
-- [Medium] usb: musb: spurious TT clear on -EREMOTEIO in musb_clear_tt_buff=
-er()
-- [Medium] usb: musb: unreset qh->hb_mult before rescheduling in musb_tt_re=
-sume()
-- [Low] usb: musb: undocumented tt_clear module parameter in musb_host.c
-- [Low] usb: musb: open-coded spinlock polling loop in musb_h_disable()
---
+pidff_rescale_time() walks the device-provided unit exponent one step
+at a time, allowing extreme values to cause billions of iterations
+while ff->mutex is held. In a UHID test with an INT_MIN exponent,
+EVIOCSFF took 3.1 to 4.3 seconds to upload a finite-duration effect.
 
-commit 64201419e6f04cb16c53e5b8f07d1c18f4fb355b
-Author: Jhon Wilker Rodrigues Aquino <jhon.aquino@autotrac.com.br>
+Stop rescaling once scaled_time becomes zero, since further
+multiplication or division by 10 cannot change the result. The u32
+value becomes zero within 32 multiplications by 10, and the u16
+input within 5 divisions. This bounds the loops while preserving
+their results for all exponents, including wraparound.
 
-usb: musb: host: clear stale TT buffers after aborted transfers
+Also warn during initialization if the duration field's unit exponent
+is outside the range -8 to 0. This helps identify unusual device
+descriptors without logging on every effect upload or changing the
+rescaling result.
 
-This commit queues Clear-TT-Buffer requests for failed or unlinked control
-and bulk URBs behind an external hub transaction translator, and parks the
-affected endpoint queue until the asynchronous clear finishes.
+Fixes: 8713107221a8 ("HID: pidff: Rescale time values to match field units")
+Cc: stable@vger.kernel.org
+Signed-off-by: Shengzhuo Wei <me@cherr.cc>
+---
+Changes in v3:
+- Declare and initialize exp at its point of use, as requested by
+  Tomasz.
+- Remove Tomasz's Reviewed-by at his request, since his v1 review
+  does not apply to the updated patch.
 
-> diff --git a/drivers/usb/musb/musb_host.c b/drivers/usb/musb/musb_host.c
-> index 31b0612489911..6e8cf462676ec 100644
-> --- a/drivers/usb/musb/musb_host.c
-> +++ b/drivers/usb/musb/musb_host.c
-> @@ -22,6 +22,11 @@
->  #include "musb_host.h"
->  #include "musb_trace.h"
-> =20
-> +static bool tt_clear =3D true;
-> +module_param(tt_clear, bool, 0644);
-> +MODULE_PARM_DESC(tt_clear,
-> +		 "Clear hub TT buffers after failed or unlinked control/bulk transfers=
- (default Y; set N only for A/B comparison or if a hub mishandles CLEAR_TT_=
-BUFFER; affects new requests only)");
+Changes in v2:
+- Following Tomasz's suggestion, warn during initialization when
+  the duration field's unit exponent is outside -8..0.
+- Add Tomasz's Reviewed-by.
 
-[Severity: Low]
-Should the new tt_clear module parameter (settable at boot as
-musb_hdrc.tt_clear) also be documented in
-Documentation/admin-guide/kernel-parameters.txt and mentioned in the commit
-message?
+v2: https://lore.kernel.org/r/20261102-b4-pidff-rescale-exponent-v2-1-a75bcca65fd0@cherr.cc
+v1: https://lore.kernel.org/r/20261029-b4-pidff-rescale-exponent-v1-1-3ba54accf767@cherr.cc
+---
+ drivers/hid/usbhid/hid-pidff.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-> @@ -287,6 +292,33 @@ __acquires(musb->lock)
->  	spin_lock(&musb->lock);
->  }
-> =20
-> +/*
-> + * A failed or unlinked control/bulk split can leave the hub's transacti=
-on
-> + * translator buffer busy; the TT then NAKs later splits using that buff=
-er
-> + * (USB 2.0 11.17.5).  A STALL completes the split, so it needs no clear.
-> + *
-> + * Context: caller owns controller lock and an URB which was on hardware
-> + */
-> +static void musb_clear_tt_buffer(struct musb *musb, struct musb_qh *qh,
-> +				 struct urb *urb, int status)
-> +{
-> +	struct usb_tt		*tt =3D urb->dev->tt;
-> +
-> +	if (!READ_ONCE(tt_clear) || qh->clearing_tt)
-> +		return;
-> +	if (!tt || !tt->hub || tt->hub =3D=3D musb->hcd->self.root_hub)
-> +		return;
-> +	if (!usb_pipecontrol(urb->pipe) && !usb_pipebulk(urb->pipe))
-> +		return;
-> +	if (!urb->unlinked && (!status || status =3D=3D -EPIPE))
-> +		return;
-> +
-> +	if (usb_hub_clear_tt_buffer(urb))
-> +		return;
-> +
-> +	qh->clearing_tt =3D true;
-> +}
+diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
+index 22951b7ecd17..7827b366fa5f 100644
+--- a/drivers/hid/usbhid/hid-pidff.c
++++ b/drivers/hid/usbhid/hid-pidff.c
+@@ -354,9 +354,9 @@ static u32 pidff_rescale_time(u16 time, struct hid_field *field)
+ 	int exponent = field->unit_exponent;
+ 
+ 	pr_debug("time field exponent: %d\n", exponent);
+-	for (; exponent < FF_TIME_EXPONENT; exponent++)
++	for (; scaled_time && exponent < FF_TIME_EXPONENT; exponent++)
+ 		scaled_time *= 10;
+-	for (; exponent > FF_TIME_EXPONENT; exponent--)
++	for (; scaled_time && exponent > FF_TIME_EXPONENT; exponent--)
+ 		scaled_time /= 10;
+ 
+ 	pr_debug("time calculated from %d to %d\n", time, scaled_time);
+@@ -1433,6 +1433,13 @@ static int pidff_init_fields(struct pidff_device *pidff, struct input_dev *dev)
+ 		return -ENODEV;
+ 	}
+ 
++	int exp = pidff->set_effect[PID_DURATION].field->unit_exponent;
++
++	if (exp < -8 || exp > 0)
++		hid_warn(pidff->hid,
++			 "duration field has unusual time unit exponent %d\n",
++			 exp);
++
+ 	PIDFF_FIND_FIELDS(block_load, PID_BLOCK_LOAD, 0);
+ 	if (!pidff->block_load[PID_EFFECT_BLOCK_INDEX].value) {
+ 		hid_err(pidff->hid, "unknown pid_block_load report layout\n");
 
-[Severity: Medium]
-Can this trigger a spurious Clear-TT-Buffer when a bulk or control IN URB
-with URB_SHORT_NOT_OK completes normally with a short packet?
+---
+base-commit: d135ab453a7400a34930bdda1ef4bdc8acfac80e
+change-id: 20261028-b4-pidff-rescale-exponent-1d5c4e218e6d
 
-In musb_host_packet_rx(), receiving a short packet when URB_SHORT_NOT_OK is
-set marks the URB as done with -EREMOTEIO without requesting another IN
-token:
-
-drivers/usb/musb/musb_host.c:musb_host_packet_rx() {
-	...
-		if (done
-				&& (urb->status =3D=3D -EINPROGRESS)
-				&& (urb->transfer_flags & URB_SHORT_NOT_OK)
-				&& (urb->actual_length
-					< urb->transfer_buffer_length))
-			urb->status =3D -EREMOTEIO;
-	...
-}
-
-Then musb_host_rx() passes urb->status (-EREMOTEIO) into
-musb_clear_tt_buffer(). Since a short packet completes the split transaction
-on the bus and leaves the TT buffer free, should musb_clear_tt_buffer() also
-exclude status =3D=3D -EREMOTEIO (or should musb_host_rx() pass the hardware
-status)?
-
-> @@ -329,11 +361,18 @@ static void musb_advance_schedule(struct musb *musb=
-, struct urb *urb,
->  	qh =3D musb_ep_get_qh(hw_ep, is_in);
-> =20
->  	/* reclaim resources (and bandwidth) ASAP; deschedule it, and
-> -	 * invalidate qh as soon as list_empty(&hep->urb_list)
-> +	 * invalidate qh as soon as list_empty(&hep->urb_list).
-> +	 *
-> +	 * While Clear-TT-Buffer is pending the endpoint must not use the TT,
-> +	 * so a qh with clearing_tt also releases hw_ep, letting other qhs
-> +	 * (including the hub's own control requests) run.  It stays in
-> +	 * hep->hcpriv, so new URBs queue on it, until
-> +	 * musb_clear_tt_buffer_complete() resumes or releases it.
->  	 */
-> -	if (qh && list_empty(&qh->hep->urb_list)) {
-> +	if (qh && (qh->clearing_tt || list_empty(&qh->hep->urb_list))) {
->  		struct list_head	*head;
->  		struct dma_controller	*dma =3D musb->dma_controller;
-> +		bool			park =3D qh->clearing_tt;
-> =20
->  		if (is_in) {
->  			ep->rx_reinit =3D 1;
-> @@ -351,7 +390,10 @@ static void musb_advance_schedule(struct musb *musb,=
- struct urb *urb,
-> =20
->  		/* Clobber old pointers to this qh */
->  		musb_ep_set_qh(ep, is_in, NULL);
-> -		qh->hep->hcpriv =3D NULL;
-> +		if (park)
-> +			qh->tt_parked =3D true;
-> +		else
-> +			qh->hep->hcpriv =3D NULL;
-
-[Severity: High]
-Because musb_clear_tt_buffer() sets qh->clearing_tt =3D true and schedules
-tt->clear_work before musb_advance_schedule() calls musb_giveback(),
-musb->lock is dropped inside musb_giveback() while qh is still attached to
-hw_ep and qh->tt_parked is still false:
-
-drivers/usb/musb/musb_host.c:musb_advance_schedule() {
-	...
-	qh->is_ready =3D 0;
-	musb_giveback(musb, urb, status);
-	qh->is_ready =3D ready;
-
-	qh =3D musb_ep_get_qh(hw_ep, is_in);
-
-	if (qh && (qh->clearing_tt || list_empty(&qh->hep->urb_list))) {
-	...
-}
-
-What happens if another CPU runs during that window while musb->lock is
-dropped in musb_giveback()?
-
-1. After usb_hcd_unlink_urb_from_ep() empties hep->urb_list (or after
-__usb_hcd_giveback_urb() wakes usb_kill_urb()), a concurrent
-musb_h_disable() can acquire musb->lock before musb_giveback() re-acquires
-it. In musb_h_disable(), musb_ep_get_qh(qh->hw_ep, is_in) =3D=3D qh is still
-true, so it calls urb =3D next_urb(qh) on the empty list and dereferences a
-NULL urb at if (!urb->unlinked).
-
-2. If a concurrent musb_urb_dequeue() for another URB on the same qh started
-before musb_advance_schedule() and finishes its own musb_giveback() while
-hep->urb_list is now empty, it sees !qh->tt_parked && ready &&
-list_empty(&qh->hep->urb_list) and frees qh while qh->clearing_tt is active.
-
-3. If hub_tt_work() runs musb_clear_tt_buffer_complete() while musb->lock is
-dropped in musb_giveback(), it clears qh->clearing_tt =3D false while
-qh->tt_parked is still false. When musb_advance_schedule() resumes with
-another URB queued on hep->urb_list, it sees !qh->clearing_tt and starts the
-next URB without setting ep->rx_reinit or ep->tx_reinit.
-
-[ ... ]
-
-> @@ -2122,6 +2170,56 @@ static int musb_schedule(
->  	return 0;
->  }
-> =20
-> +/*
-> + * Continue a qh parked by musb_advance_schedule() once its Clear-TT-Buf=
-fer
-> + * finished: release it when no URB is queued, else schedule it again.  =
-While
-> + * the endpoint is being disabled (!is_ready) or the host is inactive it=
- stays
-> + * parked; the dequeue and endpoint_disable paths finish it.
-> + *
-> + * Context: caller owns controller lock, irqs blocked
-> + */
-> +static void musb_tt_resume(struct musb *musb, struct musb_qh *qh)
-> +{
-> +	struct usb_host_endpoint	*hep =3D qh->hep;
-> +	int				is_in =3D usb_endpoint_dir_in(&hep->desc);
-> +
-> +	if (!qh->tt_parked || qh->clearing_tt || !qh->is_ready)
-> +		return;
-> +
-> +	if (list_empty(&hep->urb_list)) {
-> +		hep->hcpriv =3D NULL;
-> +		kfree(qh);
-> +		return;
-> +	}
-> +
-> +	if (!is_host_active(musb) || !musb->is_active)
-> +		return;
-
-[Severity: High]
-If musb_clear_tt_buffer_complete() runs while !is_host_active(musb) ||
-!musb->is_active (for example, during root port suspend/resume before
-musb_host_finish_resume() sets musb->is_active =3D 1) and hep->urb_list is
-non-empty, musb_clear_tt_buffer_complete() clears qh->clearing_tt =3D false=
- and
-musb_tt_resume() returns early here with qh->tt_parked still true and qh
-detached from the hardware rings.
-
-When the host becomes active again, nothing calls musb_tt_resume() unless a
-new URB is submitted via musb_urb_enqueue(). If the driver is waiting for
-the URBs already queued in hep->urb_list to complete before submitting more,
-won't those URBs remain stranded on the parked qh?
-
-> +
-> +	qh->tt_parked =3D false;
-> +	/* as for a new control/bulk qh; the shared bulk_ep sets a NAK limit */
-> +	qh->intv_reg =3D 0;
-> +	if (musb_schedule(musb, qh, is_in))
-> +		qh->tt_parked =3D true;
-> +}
-
-[Severity: Medium]
-Does musb_tt_resume() also need to reset qh->hb_mult before calling
-musb_schedule()?
-
-When a bulk OUT transfer is programmed on a controller where
-can_bulk_split(musb, qh->type) is true, musb_ep_program() overwrites
-qh->hb_mult with hw_ep->max_packet_sz_tx / packet_sz:
-
-drivers/usb/musb/musb_host.c:musb_ep_program() {
-	...
-			if (can_bulk_split(musb, qh->type)) {
-				qh->hb_mult =3D hw_ep->max_packet_sz_tx
-						/ packet_sz;
-				musb_writew(epio, MUSB_TXMAXP, packet_sz
-					| ((qh->hb_mult) - 1) << 11);
-	...
-}
-
-When musb_tt_resume() later calls musb_schedule(), musb_schedule() checks
-candidate endpoints against diff -=3D (qh->maxpacket * qh->hb_mult). If
-qh->hb_mult still holds the multiplier from the previous endpoint's TX FIFO
-size instead of 1, won't musb_schedule() reject smaller free hardware
-endpoints and fall back to the shared musb->bulk_ep?
-
-[ ... ]
-
-> @@ -2412,10 +2517,13 @@ static int musb_urb_dequeue(struct usb_hcd *hcd, =
-struct urb *urb, int status)
->  		musb_giveback(musb, urb, 0);
->  		qh->is_ready =3D ready;
-> =20
-> -		/* If nothing else (usually musb_giveback) is using it
-> -		 * and its URB list has emptied, recycle this qh.
-> -		 */
-> -		if (ready && list_empty(&qh->hep->urb_list)) {
-> +		/* A parked qh is not on hw_ep; never clobber hw_ep for it */
-> +		if (qh->tt_parked) {
-> +			musb_tt_resume(musb, qh);
-> +		} else if (ready && list_empty(&qh->hep->urb_list)) {
-> +			/* If nothing else (usually musb_giveback) is using it
-> +			 * and its URB list has emptied, recycle this qh.
-> +			 */
->  			musb_ep_set_qh(qh->hw_ep, is_in, NULL);
->  			qh->hep->hcpriv =3D NULL;
->  			list_del(&qh->ring);
-
-[Severity: Critical]
-Can this cause a use-after-free on qh or leave qh->is_ready stuck at 0 when
-musb_urb_dequeue() drops musb->lock inside musb_giveback()?
-
-In musb_urb_dequeue():
-
-	if (!qh->is_ready
-			|| urb->urb_list.prev !=3D &qh->hep->urb_list
-			|| musb_ep_get_qh(qh->hw_ep, is_in) !=3D qh) {
-		int	ready =3D qh->is_ready;
-
-		qh->is_ready =3D 0;
-		musb_giveback(musb, urb, 0);
-		qh->is_ready =3D ready;
-
-		/* A parked qh is not on hw_ep; never clobber hw_ep for it */
-		if (qh->tt_parked) {
-			musb_tt_resume(musb, qh);
-		} else if (ready && list_empty(&qh->hep->urb_list)) {
-
-There are two races across musb_giveback() here:
-
-1. If urb1 is already inside musb_giveback() (either in
-musb_advance_schedule() while parking qh, or in musb_urb_dequeue() on an
-already-parked qh), it has saved ready =3D 1 and set qh->is_ready =3D 0. If=
- a
-second CPU calls musb_urb_dequeue() for urb2 on the same qh while musb->lock
-is dropped, CPU 2 observes qh->is_ready =3D=3D 0, saves ready =3D 0, unlink=
-s urb2,
-and drops musb->lock in musb_giveback().
-
-If CPU 1 finishes musb_giveback() first, it restores qh->is_ready =3D 1, and
-once qh->clearing_tt is false, musb_tt_resume() sees qh->is_ready =3D=3D 1 =
-and
-list_empty(&hep->urb_list) and frees qh via kfree(qh). When CPU 2 returns
-from musb_giveback(), it writes qh->is_ready =3D 0 and reads qh->tt_parked =
-on
-the freed qh.
-
-Conversely, if qh->clearing_tt is still true when CPU 2 returns from
-musb_giveback() after CPU 1 restored qh->is_ready =3D 1, CPU 2 overwrites
-qh->is_ready =3D 0. When musb_clear_tt_buffer_complete() later calls
-musb_tt_resume(), it bails out on !qh->is_ready, leaking qh if hep->urb_list
-is empty or permanently wedging the endpoint queue if new URBs were queued.
-
-2. Because musb_giveback() unlinks urb from hep->urb_list before dropping
-musb->lock and __usb_hcd_giveback_urb() wakes usb_kill_urb() before
-musb_giveback() re-acquires musb->lock, usb_disable_endpoint() ->
-musb_h_disable() can run on another CPU while musb_urb_dequeue() is still in
-musb_giveback(). In musb_h_disable(), if !qh->clearing_tt, it frees qh right
-away; when musb_urb_dequeue() re-acquires musb->lock, it writes
-qh->is_ready =3D 1 and calls musb_tt_resume() on the freed qh, leading to a
-use-after-free and double-free.
-
-> @@ -2460,13 +2568,18 @@ musb_h_disable(struct usb_hcd *hcd, struct usb_ho=
-st_endpoint *hep)
-> =20
->  		/* Then nuke all the others ... and advance the
->  		 * queue on hw_ep (e.g. bulk ring) when we're done.
-> +		 * A qh parked by the cleanup no longer owns hw_ep.
->  		 */
->  		while (!list_empty(&hep->urb_list)) {
->  			urb =3D next_urb(qh);
->  			urb->status =3D -ESHUTDOWN;
-> -			musb_advance_schedule(musb, urb, qh->hw_ep, is_in);
-> +			if (qh->tt_parked)
-> +				musb_giveback(musb, urb, -ESHUTDOWN);
-> +			else
-> +				musb_advance_schedule(musb, urb, qh->hw_ep,
-> +						      is_in);
->  		}
-> -	} else {
-> +	} else if (!qh->tt_parked) {
->  		/* Just empty the queue; the hardware is busy with
->  		 * other transfers, and since !qh->is_ready nothing
->  		 * will activate any of these as it advances.
-> @@ -2478,6 +2591,26 @@ musb_h_disable(struct usb_hcd *hcd, struct usb_hos=
-t_endpoint *hep)
->  		list_del(&qh->ring);
->  		kfree(qh);
->  	}
-> +
-> +	/*
-> +	 * hub_tt_work() passes hep to musb_clear_tt_buffer_complete(), which
-> +	 * dereferences hep->hcpriv: free a parked qh only after its clear
-> +	 * finished (bounded by the hub control request timeout).
-> +	 */
-> +	while ((qh =3D hep->hcpriv) && qh->tt_parked) {
-> +		while (!list_empty(&hep->urb_list))
-> +			musb_giveback(musb, next_urb(qh), -ESHUTDOWN);
-> +
-> +		if (!qh->clearing_tt) {
-> +			hep->hcpriv =3D NULL;
-> +			kfree(qh);
-> +			break;
-> +		}
-> +
-> +		spin_unlock_irqrestore(&musb->lock, flags);
-> +		schedule_timeout_uninterruptible(1);
-> +		spin_lock_irqsave(&musb->lock, flags);
-> +	}
-
-[Severity: Low]
-Instead of polling !qh->clearing_tt in a loop with
-schedule_timeout_uninterruptible(1) under musb->lock in musb_h_disable(),
-could this use a completion variable signaled by
-musb_clear_tt_buffer_complete()?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103190333.8720=
-7-1-jhonwilker0112@gmail.com?part=3D1
+Best regards,
+--  
+Shengzhuo Wei <me@cherr.cc>
