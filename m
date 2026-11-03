@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793714369;
-	b=n/jiBvAdADEvcwyRWaHjIrG5zto/ZtzsvZ+WXw79woMf/y60l9CG3LeUBx7LwD6vSvhk
-	 kVYUjml8TNApUhkeMGSgEArQRpMifUHUPeQxe6RNXYyx5CJHUb+KLUew5Yxp01l2RQQya
-	 ibwNCUwWyOdLznm1tGgxo+Nk4VRpGtDmarIBybRKDtk93bUlieOKVz4xTLYLD9cZegKWm
-	 rUUoudJO9j547rmyWF1EI/N6cAA1oY7Ao/U1ty3nGva9EEM+/iNBR/ibt1iGcHs+yKxO/
-	 NSTewRWgRI24I9MNBcAkfbZFc++SF2hD1CP1PIvWZUa+82GPQFkOVtQIV+LFSpWIj2Q==
+	t=1793715028;
+	b=TeLWpo8b3n3aBEjYZ7hNoZpPBJcsnWTR4tSdMogr3Xori1aduSeHP5lCoeVrwmSKBKrn
+	 Xih+CzZJAYE5Iw37TT6sjLdDEljLeMAnHnP63Sq9Kkfewx+9hB7f4SCtNutOJXNzNf7hI
+	 UzrJikT4xdIbJmpOzWVJiIGStlRTCHvgCRSCaT+0yPyT45GEfrpAPcdvRNXx4XGI4mQU8
+	 lnkKhlOVD6tJgruKqZNk4lakIbw1WqRvfrWcbVKxOBRDl1D+pmM/V4mgT3H3wjVlpyoVe
+	 TIfhiNpzs6l3vgKWbCRkyErhGpFctNo8Ye1spmhXlYYakNMqgS5TwCKopWHVsg+sC9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793714369;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793715028;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Mnk5NrVn8tkkrW6+IjezohHH7TguWaTrtfHRMZ6UPQg=;
-	b=i0xLPPzmYwu/Y1pAe5rE2fUdYSTHP9Sq2eUroasuQtiu3twi0izxPMtqgZaEtlD6kX5Y
-	 oAWMYK+7sPVa6hgCiWRcUFvrxb4tkX7iJCAYi7xfYbTRRfCSe/srqEaaiH+X1OPLKvq6L
-	 C/hSo/KqHl7tj3wbLPEnInc13Sh1dzlPThJyZ0Nj0QT73xbk9sGZoiBiLxe6lfye68GB/
-	 kK825BHaLLXbyWsbbhpqJuZc+3m8u++5IvSuCZQGP7rKrsGOlbTBoyiYQqTxcILCSbLSF
-	 ruV9896gGs+Znn572+2fGsa30Jvx/uAusUZt3s4TUbgfPTB2OGiyDhTC2WU3bqMVBIg==
+	bh=Imuu/q4NB3Rlxt/29nw8u2aftxRHlHLzOOAtWjPGP3E=;
+	b=4QxSoy/Z022XZBTjtsk5PZSz4MyMJfDnY0n2IPuJuNC39+PbqMpELTmFhM2T6Z0mapF6
+	 KIrLSk5NszfHHVADfO36yJ4iIrPF4+9Rb0YbZO1iukavd9fNz8fzmE3yC/1nMqm/N7pUS
+	 njyRUW/xvM2QjcOJnbr69vEqyNmZz4jx0gbFkm16IHY9Wlgc2fepV04qDWBlXG6pdWUsJ
+	 jlDaieLcUGBttjby06uoakFLy1PngOVONe4i8KqvCwLNwTxRulYU5W3w+7Ivu622fBr12
+	 R5W9jn//u7KJx7tB96h4cPgybNf78lFEbufZbn8tQLxfd6mubRCcYLGtSwZqy7rBNuw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJiXqyOE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hUam7Z4U;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A61606D837
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 13:59:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF6D606A334
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 14:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJiXqyOE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE8F01F00919;
-	Tue,  3 Nov 2026 13:59:28 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hUam7Z4U
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 306D21F000C1;
+	Tue,  3 Nov 2026 14:10:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793714368;
-	bh=Mnk5NrVn8tkkrW6+IjezohHH7TguWaTrtfHRMZ6UPQg=;
+	s=k20260515; t=1793715027;
+	bh=Imuu/q4NB3Rlxt/29nw8u2aftxRHlHLzOOAtWjPGP3E=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jJiXqyOEE7wyCCgeg9EuzmEKOKH792MPJGq+NFFnBXK3PFnKmfQkWX7Ddag44o7Jf
-	 ayokleY6XdC5hCGpyhVmG8B3sFJ3rDT7chwWP9KlZ58yMjf7DYbpVEJl7pz6uVZlUa
-	 uAA+QtXBmPMhapTjystktqMgtQxXDWh6aqLMMTO30ATBx1DuVOgP9T9MyvnY5YoVT/
-	 o442HEKiU3W+ctAIm4toyzdb3xKkYLUGjADYFo3XxWGrlllMHcQPxrcbHxIn2VmUsn
-	 yXNu0Z3w0NSfQoGrALsw1OJoB5lxZKQ5iHP/iH3YJa/VkMEL866vCzNx5Nfkd5YFQ2
-	 ZlAG3dRP+5hug==
-Message-ID: <sashiko-outbox-195410@kernel.org>
+	b=hUam7Z4Ugddrkng8hxwwMfV2LRx3mlZ8WHsQKDj+PZ+8AkSZeT+eo/xnH5hVAZpqz
+	 D61jBTsL+4rQBn5NxB7PPEGLBAb9VIPbihEc8va4gCCHv2ukGh8mcyDO2Y1jc2vU+y
+	 37RLl7N+sJf5AlpOpXdZii49NzjeqnG3Wdm9ryhGaOTiu7jHXl+IQeEdhtMTbiAKXw
+	 ZCdJDqWSQPzUXKttcCB7jEzJ/ZQ5Ybqic/DL1+tF7L88lDnh7LMwppzgCW53pOcXmV
+	 1esopPQEKo9SwbwCPp6T9ENjgAxTjQ6Ndlmxjdx7Ti7HIa+AF2i2TGn1z4bGIaQBMd
+	 FcrF9imCHxNDQ==
+Message-ID: <sashiko-outbox-195424@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: Leave the mux to the altmode driver
- for alt mode partners
+Subject: Re: [PATCH v2 1/3] dt-bindings: usb: qcom,snps-dwc3: Add
+ mode-switch
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Joonhoe Kim" <26rote@gmail.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261103135046.1654-1-26rote@gmail.com>
-References: <20261103135046.1654-1-26rote@gmail.com>
+In-Reply-To: <20261103135057.1682-2-26rote@gmail.com>
+References: <20261103135057.1682-1-26rote@gmail.com>
+ <20261103135057.1682-2-26rote@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 13:59:28 +0000
+Date: Tue, 03 Nov 2026 14:10:26 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,32 +61,19 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Commit 25a2bc21c863 ("usb: typec: ucsi: call typec_set_mode on
-> non-altmode partner change") set TYPEC_STATE_USB only when the partner
-> flags were exactly USB, so that the altmode drivers set up the
-> switches, muxes and retimers for alt mode partners. Commit 226ff2e681d0
-> ("usb: typec: ucsi: Convert connector specific commands to bitmaps")
-> turned that into a test of the USB bit alone, so a partner that
-> reports both USB and alt mode now gets TYPEC_STATE_USB as well.
+> The QMP USB3-DP combo PHY stops the USB3 PIPE clock when a Type-C
+> DisplayPort pin assignment gives it all four lanes for DisplayPort,
+> while the controller can keep running its USB 2.0 port. The controller
+> has to move to the UTMI clock before that happens, so it needs the
+> Type-C mux state as well. fwnode_typec_mux_get() only matches graph
+> nodes that have the "mode-switch" property, so allow it on the
+> controller node.
 >=20
-> On pmic_glink platforms the altmode driver programs the same mux chain,
-> and the two notifications are not ordered. When the UCSI connector
-> change comes last, an FSA4480 switches the SBU lines off, the
-> DisplayPort AUX channel stops working and the sink is never detected.
-> On the Lenovo Y700 Gen 5 (TB323FU, Kaanapali) this happens when a
-> DisplayPort sink is plugged in during system suspend.
->=20
-> Set TYPEC_STATE_USB only when the partner does not report alt mode.
-> USB4 partners keep TYPEC_STATE_USB, as they do now.
->=20
-> Fixes: 226ff2e681d0 ("usb: typec: ucsi: Convert connector specific comman=
-ds to bitmaps")
-> Cc: stable@vger.kernel.org
 > Signed-off-by: Joonhoe Kim <26rote@gmail.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103135046.1654=
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103135057.1682=
 -1-26rote@gmail.com?part=3D1
 
