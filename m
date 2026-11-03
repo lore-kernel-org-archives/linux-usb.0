@@ -1,68 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793718099;
-	b=YpIV9DPMIuPyHcjwGM1udC+7w6hcqZ9DZrCUHnCcZyWw3MR/OhXCoSGSHwdlT8BxmeDw
-	 LaR+1+Jyz57viHTtPGwaU21RGPuR08AHgXM20Z/wkwN1ibc3EzW07y2+GCMOjQaRAPIIi
-	 PsnRVmbltsLLNs4RXiwCfrswNmLCk2p368GaqZKdY9IkokTyafSu+CB3IK3cTXiTZk68e
-	 8aZ8hZ1SMyRpt3/ZB2bc27cJVVe3FuTTsNF/D0dAwpZljrvIuf6HaJ+abqsCjDvsRGpw7
-	 xeQiFaQQ/t6LY7v+ewAs+/E6rIDhl8xVuuYZyBC7QX9LeVvKstogc/2WLYlEg6cN1rA==
+	t=1793718314;
+	b=Cl2sDBVGIB0UsTMKu97flEUIjZqDthxG4dwTmy33Ev/8T3SD3PZxkAISjqtNI3O16G1Y
+	 xMw1tNUSmS9DAK1L5pYNw231ytsgg3hL1RypkqqWpl2eBd436VzexHLxIWZ2A77niFpCq
+	 SXM3zP33tmHskCfkLKM9LbJGixvalHIdCRENPoBnRImzJON/svz79Twe7lXykXMBagzAA
+	 Kr6k2+v3xFfjQmBOxBytL2FSAf/Yk29nV2WNkn3iUtFkx7YHfWmTeoUbR4wMkDppiHh2J
+	 T6dHv8C+Cw8DG7CBWGEx+RSO3Thd9YKqkc2GSnJE8Yf0HSI5umaFMC8eZfU15JOarEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793718099;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793718314;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=H4Y/D8MHsuJxIcgQs16JMa9LVQhoWAXgdYCn9GW8dZE=;
-	b=dF9n0jiQ0pARZ0a8pWXyvHoJp4aeATDT0ZMqspbCZB1Evg2sjGHKkakHlMrmudtAtFpO
-	 OYAGYUxlgZsmstpGPNwqae9+a8VvtB6CHjTCwJq85dbCUoX6ilRIOA8WWO1So69ZPpC/0
-	 o86rhH8U+Dyc+Mzz5nCXE9K8MkimX2ArAeuPDRPWpmnkViHWR0l0SpiJtlAsgC2kpD+we
-	 sKp65LNCvmTfoySb1TGl+Brq2MZqMvrSgQvxL998Fp4wwfjesx5vEVqjUrHBN7DbWOGfa
-	 yKVxapLURPO/XKwYRGUsOhEbYJ6uc3sEIw5GrYU4j5M/CRRACC3bfhSMVZ/KTM4VKfw==
+	bh=Hth1zOYqu4nC0RncTQP2jKNxjJEdw1iVk3pWXd/QbHs=;
+	b=vgdn75EIqoAnEYW79gufx8VWMXC4NQhx8SQk4II2VBgQAukC6xryu4CrrJS6XtdO5a8J
+	 c3mDiy+ZnS3pDYdkiehsAwuxFKY/1vxyZtyxucI9a8OOycvE/fUF1ERgZaGH1l3Q+Jh43
+	 uX/6HGC3CiMSRp84U8+nffcDwRXxE7+pJjyq3Hvt5DrQ+27JzPWN0WwlkgMlU9dVNrnIB
+	 Zw7QQGHAYJYSDUR8wPCi2CN1SsjmTOGTxKslL1McOh/dOoG8Pvfii6BTFQxv7rcXhwyR2
+	 ZwUGkItMbBGmnp4ndXay2unetMSu+pixHWDc/gewmniEBBMg/pl/2GiqE34FGHkp/lA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iPOrW1sZ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JeW6CWy0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA68E60A6F71;
-	Tue,  3 Nov 2026 15:01:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B32606A333;
+	Tue,  3 Nov 2026 15:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iPOrW1sZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 664741F0093A;
-	Tue,  3 Nov 2026 15:01:36 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JeW6CWy0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BD1B1F000C1;
+	Tue,  3 Nov 2026 15:05:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793718098;
-	bh=H4Y/D8MHsuJxIcgQs16JMa9LVQhoWAXgdYCn9GW8dZE=;
+	s=k20260515; t=1793718314;
+	bh=Hth1zOYqu4nC0RncTQP2jKNxjJEdw1iVk3pWXd/QbHs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iPOrW1sZYpx/JoZZqS9qV1GcjvdBuAyBkHMbgeIvuF9N8xnYtd/uAH/lu/jAlLzKf
-	 Nq5vM4zhxl93ARwt5IDAUvoCbIWrHeNs/6trXeNMyLqwoaSZliHN1Lmdtd6F1TrRM+
-	 E8t3nn11OR2O0yTsAAjfZ0JhJXAcI/KIsNGJZleh6tn4/huZCrKzH0zz2IUXdKnzkK
-	 6W9TGbxhz+i9CE9TQ8pBES4DkH/dBUxXGqSsH1jdznxKqWRCNHZxYwypnamo4/Cqy5
-	 fIsF/ocsyOzXijxNmThFmUaDNsK0S2Y+yjWibAtCyfn78+Zol7hiv1kIJFamvcET5T
-	 yE9Ruio9sbg7Q==
-Message-ID: <sashiko-outbox-195542@kernel.org>
+	b=JeW6CWy0Vbpzj9DuHBa/l1GWsihQ06s9xSIr7PLVYOaqcEw1BjA1+3R+hOGG6YSa3
+	 cCs30X4gv5CRv6P2nxNECzNx61lUDov7nytHaAJY1EUGzIFhthN6eSNbcyCFoMrOwG
+	 Aswjivg0wZ7jCy9tChr7nFbkztPGwN7zOF1t6aIhax7aix4LULOrnCBLuzt1iw8Qb1
+	 a+Ebf/P7tgzszkfSSLa4/rtHvZexLKfOUVUI+rxDtzoNNC4IKu1x86HYsSFh0CDEgz
+	 OPMglniK7RVpbRsTAOuN8i7TY3tSKBglU07ZLjOM+chjuy0LpMjDHQDU/4t69c9pfp
+	 XdUHfVu8I8quw==
+Message-ID: <sashiko-outbox-195550@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC 15/16] proc: let procfs copy ioctl arguments in and
- out
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: kaanapali: Mark the USB
+ controller as a Type-C mode switch
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Christian Brauner" <brauner@kernel.org>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
- Bacik" <josef@toxicpanda.com>, "Chris Mason" <mason@kernel.org>, "Jeff
- Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>, "Thomas
- Gleixner" <tglx@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>, "Jonathan
- Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>, "Greg
- Kroah-Hartman" <gregkh@suse.de>, "Joel Granados" <joel.granados@kernel.org>, "Kees
- Cook" <kees@kernel.org>, "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-serial@vger.kernel.org, "Takashi
- Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, "Chuck
- Lever" <cel@kernel.org>, tytso@mit.edu, dmitry.torokhov@gmail.com, "Petr
- Pavlu" <petr.pavlu@suse.com>, "Anna Schumaker" <anna@kernel.org>, yukuai@fygo.io, "Heiko
- Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261102-work-procfs-core-v1-15-75df35e4f8b8@kernel.org>
-References: <20261102-work-procfs-core-v1-0-75df35e4f8b8@kernel.org>
- <20261102-work-procfs-core-v1-15-75df35e4f8b8@kernel.org>
+To: "Joonhoe Kim" <26rote@gmail.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261103135057.1682-4-26rote@gmail.com>
+References: <20261103135057.1682-1-26rote@gmail.com>
+ <20261103135057.1682-4-26rote@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 15:01:36 +0000
+Date: Tue, 03 Nov 2026 15:05:12 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,115 +61,119 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] proc: unguarded zero-length user copies in pde_ioctl_buf()
-- [Low] proc: split declaration and initialization of __free() variable in =
-pde_ioctl_buf()
+- [Medium] usb: dwc3: qcom: race between dwc3_qcom_mux_set() and system sus=
+pend/resume
 --
 
-commit 468d1faef733a0559be5a05e125e1ce20ec69e4e
-Author: Christian Brauner <brauner@kernel.org>
+commit fe7520845f2780f9c1a4d2eb56c40d6f95200b73
+Author: Joonhoe Kim <26rote@gmail.com>
 
-proc: let procfs copy ioctl arguments in and out
+arm64: dts: qcom: kaanapali: Mark the USB controller as a Type-C mode switch
 
-This commit introduces ->proc_ioctl_buf() and ->proc_ioctl_args to allow
-procfs to copy ioctl arguments from and to userspace outside of pinning the
-proc_dir_entry, preventing page faults during user copies from blocking
-remove_proc_entry().
+This commit marks the Kaanapali USB controller node with the mode-switch
+property so that it switches to the UTMI clock when the USB3-DP combo PHY
+enters DisplayPort-only mode and stops the USB3 PIPE clock.
 
-> diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-> index 3f29a1663d266..7e4ca5751abb5 100644
-> --- a/fs/proc/inode.c
-> +++ b/fs/proc/inode.c
-[ ... ]
-> @@ -571,11 +572,66 @@ static long pde_ioctl(struct proc_dir_entry *pde, s=
-truct file *file, unsigned in
-[ ... ]
-> +static long pde_ioctl_buf(struct proc_dir_entry *pde, struct file *file,
-> +			  unsigned int cmd, void __user *uarg, unsigned long arg)
-> +{
-> +	void *buf __free(kvfree) =3D NULL;
-> +	struct proc_ioctl_arg a;
-> +	size_t size;
-> +	long rv;
-> +
-> +	if (!pde_ioctl_arg(pde, cmd, &a))
-> +		return -ENOTTY;
-> +	size =3D max(a.in, a.out);
-> +	if (size) {
-> +		buf =3D kvzalloc(size, GFP_KERNEL);
-
-[Severity: Low]
-This isn't a bug, but in pde_ioctl_buf() in fs/proc/inode.c, buf is declared
-with __free(kvfree) =3D NULL at the top of the function and assigned later =
-when
-size is non-zero. Per the cleanup.h guidelines, could buf be defined and
-initialized in a single statement once size is known (for example,
-void *buf __free(kvfree) =3D size ? kvzalloc(size, GFP_KERNEL) : NULL;)?
-
-> +		if (!buf)
-> +			return -ENOMEM;
-> +		if (copy_from_user(buf, uarg, a.in))
-> +			return -EFAULT;
-> +	}
-> +
-> +	if (!pde_pin(pde))
-> +		return -ENOTTY;
-> +	rv =3D pde->proc_ops->proc_ioctl_buf(file, cmd, buf ?: (void *)arg);
-> +	pde_unpin(pde);
-> +	if (rv >=3D 0 && copy_to_user(uarg, buf, a.out))
-> +		return -EFAULT;
+> diff --git a/arch/arm64/boot/dts/qcom/kaanapali.dtsi b/arch/arm64/boot/dt=
+s/qcom/kaanapali.dtsi
+> index e48a179d07220..a06d5d8674885 100644
+> --- a/arch/arm64/boot/dts/qcom/kaanapali.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/kaanapali.dtsi
+> @@ -3941,6 +3941,7 @@ &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+>  			tx-fifo-resize;
+>  			dma-coherent;
+> =20
+> +			mode-switch;
 
 [Severity: Medium]
-Should copy_from_user() and copy_to_user() in pde_ioctl_buf() in
-fs/proc/inode.c be guarded by checking a.in and a.out respectively?
+Can enabling mode-switch on the Kaanapali USB controller trigger a race
+between dwc3_qcom_mux_set() and system suspend/resume in
+drivers/usb/dwc3/dwc3-qcom.c?
 
-Because a.in and a.out are runtime values loaded from
-proc_ops->proc_ioctl_args, check_copy_size() and _inline_copy_from_user() /
-_inline_copy_to_user() do not short-circuit when the length is 0 and still
-invoke raw_copy_from_user() / raw_copy_to_user().
+On Kaanapali boards (kaanapali-mtp.dts and kaanapali-qrd.dts),
+qcom,kaanapali-pmic-glink instantiates UCSI on connector@0. In
+ucsi_register_port(), UCSI creates a non-freezable singlethread workqueue
+(con->wq) and acquires the USB controller mode switch via typec_mux_get().
+If a connector change happens during system sleep transitions,
+ucsi_handle_connector_change() runs on con->wq and invokes
+typec_set_mode() -> typec_mux_set() -> dwc3_qcom_mux_set():
 
-When a command has a.out =3D=3D 0 (such as an _IOW or _IO command) and user=
-space
-passes arg =3D=3D 0, calling copy_to_user(NULL, buf, 0) fails with -EFAULT =
-on
-C-SKY after ->proc_ioctl_buf() has already succeeded, because C-SKY checks =
-the
-destination pointer for NULL before checking whether the length is 0:
-
-arch/csky/lib/usercopy.c:raw_copy_to_user() {
+drivers/usb/dwc3/dwc3-qcom.c:dwc3_qcom_mux_set() {
 	...
-	"0:     cmpnei  %1, 0           \n"
-	"       bf      8f              \n"
-	...
-}
+	if (qcom->ignore_pipe_clk || qcom->pm_suspended ||
+	    qcom->dp_only =3D=3D qcom->utmi_pipe_clk ||
+	    pm_runtime_resume_and_get(qcom->dev))
+		return 0;
 
-On UML, calling copy_from_user() with a.in =3D=3D 0 or copy_to_user() with
-a.out =3D=3D 0 still enters buffer_op() -> do_op_one_page() -> maybe_map() =
-->
-handle_page_fault() on uarg before checking if remain =3D=3D 0:
-
-arch/um/kernel/skas/uaccess.c:buffer_op() {
-	...
-	size =3D min(PAGE_ALIGN(addr) - addr, (unsigned long) len);
-	remain =3D len;
-
-	n =3D do_op_one_page(addr, size, is_write, op, arg);
-	if (n !=3D 0)
-		return (n < 0 ? remain : 0);
+	dwc3_qcom_select_utmi_clk(qcom, qcom->dp_only);
 	...
 }
 
-Additionally, when both a.in =3D=3D 0 and a.out =3D=3D 0, size is 0 and buf=
- remains
-NULL, so copy_to_user(uarg, NULL, 0) passes a NULL source pointer into
-raw_copy_to_user() (and memcpy() on CONFIG_UACCESS_MEMCPY or UML builds).
+In dwc3_qcom_pm_suspend(), dwc3_pm_suspend(&qcom->dwc) runs before acquiring
+qcom->pipe_clk_lock and setting qcom->pm_suspended =3D true, while runtime =
+PM
+is still enabled until device_suspend_late():
 
-Would it make sense to check if (a.in && copy_from_user(buf, uarg, a.in)) a=
-nd
-if (rv >=3D 0 && a.out && copy_to_user(uarg, buf, a.out))?
+drivers/usb/dwc3/dwc3-qcom.c:dwc3_qcom_pm_suspend() {
+	...
+	ret =3D dwc3_pm_suspend(&qcom->dwc);
+	if (ret)
+		return ret;
+
+	guard(mutex)(&qcom->pipe_clk_lock);
+
+	ret =3D dwc3_qcom_suspend(qcom, wakeup);
+	if (ret)
+		return ret;
+
+	qcom->pm_suspended =3D true;
+	...
+}
+
+If qcom->dev was runtime-suspended and dwc3_qcom_mux_set() runs after
+dwc3_pm_suspend() finishes but before pipe_clk_lock is acquired,
+dwc3_qcom_mux_set() sees qcom->pm_suspended =3D=3D false and calls
+pm_runtime_resume_and_get(qcom->dev). Wouldn't that run
+dwc3_qcom_runtime_resume() -> dwc3_runtime_resume(&qcom->dwc) (reinitializi=
+ng
+the core and resuming the PHYs) right before dwc3_qcom_suspend() disables
+the glue clocks and interconnects?
+
+Similarly, in dwc3_qcom_pm_resume(), qcom->pm_suspended is cleared and
+pipe_clk_lock is released before calling dwc3_pm_resume(&qcom->dwc):
+
+drivers/usb/dwc3/dwc3-qcom.c:dwc3_qcom_pm_resume() {
+	...
+	scoped_guard(mutex, &qcom->pipe_clk_lock) {
+		ret =3D dwc3_qcom_resume(qcom, wakeup);
+		if (ret)
+			return ret;
+
+		if (!qcom->ignore_pipe_clk &&
+		    qcom->dp_only !=3D qcom->utmi_pipe_clk)
+			dwc3_qcom_select_utmi_clk(qcom, qcom->dp_only);
+
+		qcom->pm_suspended =3D false;
+	}
+
+	ret =3D dwc3_pm_resume(&qcom->dwc);
+	...
+}
+
+Inside dwc3_pm_resume(), pm_runtime_disable(dev) is held across
+pm_runtime_set_active(dev) and dwc3_resume_common(). If qcom->dev was
+runtime-suspended prior to system sleep, __pm_runtime_disable() records
+dev->power.last_status =3D RPM_SUSPENDED, so rpm_resume() returns -EACCES w=
+hile
+runtime PM is disabled. If dwc3_qcom_mux_set() runs during that window, it
+sees qcom->pm_suspended =3D=3D false, updates qcom->dp_only, and returns 0 =
+when
+pm_runtime_resume_and_get(qcom->dev) fails with -EACCES. Doesn't this skip
+dwc3_qcom_select_utmi_clk() and leave qcom->utmi_pipe_clk out of sync with
+qcom->dp_only?
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-work-procf=
-s-core-v1-0-75df35e4f8b8@kernel.org?part=3D15
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103135057.1682=
+-1-26rote@gmail.com?part=3D3
