@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793750184;
-	b=JFK+lTvfu2HaHz7WkPZeu+oHBsNHLAJrknbAAMHlaNsfPLF3d7MjGB1kdSHEDOvE9TuK
-	 QajxksDMflFiwJa/Lil3/7tTIqAOqDA/1RLGJEiSun9iaphr+kaY8ATVb2Tps3o0w0o8q
-	 X3VWtB4CCVxW4EiZiZ04afSXcf0EGKwfEFnvUCln1ZVtH/Ld6igeVEI51sLgqrgOo46tB
-	 DH4gshuN3luo9eeH46ej9SE8BLTjSCugHBOw3Ii3h5vqBQDoP8uzWe2zgSRvxS0ejq3as
-	 T5gC1hUJjv3V5ldmSqUNqlgFOygUaByr8aC+YbsX2fN7wumzhuxEvbIdQ6llDyWXjeA==
+	t=1793750316;
+	b=pbv33I8WSMXqYEF0LgXIfFmvEMI1yHqNJtK1RYtC9+Sggk4RJ+3PPU8dIEMjLoED+Czu
+	 YfJw/Qdt8hp6kt8EQeetgbFCE97fhb586W8NHOrHwlXZhYPYsm8YRiBRmYQQ/vSUl9RDt
+	 jc6GDrgqQkJ+YHzTtd7Cge0EVJjke1nZ/MEC7g+3A47b9IfJaGDJ1G+8MzoWY+x+oHk8s
+	 NTxBWoxNQgIyl2aywWaFGeFGioAQ+hKZGmJ6BNPzivoooIqTFvy5NcReRNeKWRDA28ePY
+	 fQZVSLOxSA15fBE9JcBI0ptoyv0wWdQz+RqOZ/Ag27keQD07+SFkWzr2JmUWGcEbb4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793750184;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793750316;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=k4vwqmYcIj/uNC/DRL+QzkUxcI6H/YEEprbtzK8nfgk=;
-	b=5AKXPRjsxZ6ScuOUZ+ccibDwEpNgAAuvXw4Sq50YZPEidLyIVB8KKjwgztUCothl8tTt
-	 n82OPDSdkVRbgsXxi38NmkASgiufy+0lOmGiJim5dJkXHs8T7cqox9eMJ+kvkdkgRMZFH
-	 3VPswAn0oGBeblpITA0pJ8T6yLufQBuFHFT9sBKMjdDtgoIEAKpze0yz2/QPu5ekAmDq/
-	 8QUvZ+lQWuA0VFor6nrQ/6Y3OJsjcatN0SACdTMDbXLnJnB7bq27dAE2NOLaVKOVHvTLn
-	 wFVzR7oAwbEclfdxN/h5CzDm+V71Nv5siPzo880DWo9giz912TS2r+ZTRLvgBoVFN5w==
+	bh=u3x4IJwmEfZdo/VWYf44cZw5SkMmRBiP/g0e8LHxDSk=;
+	b=MJybRSljNcEdIhXIbRwmIv+/7kNzTzfcEuXsP/kpA4alo6/E5gCG6MYrlXBwUE7teiqQ
+	 CphMW7utB+12xVCF3irFQkke+rDc4rma9s0smXHk72BcTH0KGQ79RlHgsXhRfdV44yNQs
+	 xDRVqC6uI04LCa77YHobCcw+UZfCXhkQ0dLZXj1fYOc5GRQ3cOkAlY8fXOulyDsz6dXUF
+	 COtJGczY562++X9ljCPiIJMTfJTFPlQnLUOquutpClXs284UgNEH2F+LmfOjGcCni4OYZ
+	 zMxL9t0lsFdXOXvzoNysQ9+9cE5p4qXr+VJStvLI97dspkm4LwxJPrlF4xxVKP1ICTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jHsLSx7R;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fOHCouIK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71474606A329
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 23:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1667606A31B
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 23:58:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jHsLSx7R
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 004FF1F00919;
-	Tue,  3 Nov 2026 23:56:23 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fOHCouIK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BDCA1F00919;
+	Tue,  3 Nov 2026 23:58:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793750184;
-	bh=k4vwqmYcIj/uNC/DRL+QzkUxcI6H/YEEprbtzK8nfgk=;
+	s=k20260515; t=1793750315;
+	bh=u3x4IJwmEfZdo/VWYf44cZw5SkMmRBiP/g0e8LHxDSk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jHsLSx7R3uWpq28mCTK1ZymXP1BjYsa7ybDZ6A0csrnZS24oQlM4dW3jQawDqL/Qz
-	 xuDCyUvREaKhrGG+iq+ug/epXPpaALbO7vNZs2pkBYYDqDBUQKTuHCLjCRF64wtoOO
-	 WPKEXKvR3ktdbqGVluh5pnd5ZPZq+qAP503tS71moxUNaU4TRP1Kcm6gNoxSQi1i0l
-	 zUbzo9iU5oY2DBRzy08zWqQG76Qsy4kYJCBYQMkZvPa5hWuLQAkE0j++Iy9sYrlsL+
-	 iOEdsNAyJBlqK5lRM7w/i9SWDObTJo6IfeE8MM4D1DkkeYSK+heJPL+VInr9bgvzjh
-	 yeRt6UsKs666w==
-Message-ID: <sashiko-outbox-196257@kernel.org>
+	b=fOHCouIK4Bd5j3aZWN+HEqFBJLjyYFeRtzFL2l0qOneRMxLBj4oLs5Rzx6DwXA/Dz
+	 6MzWLM+CZQD/RNKQS4W/xXqiBFefPIZadE130XfBLr8ClcQ51tTU3BOmQi3efdqE9I
+	 uL91G5EKewXoaTzUw9uB+HewkrdSCBs1+ANlCmud5DCbSOn2U4j0MRmKhzvlnGZHtw
+	 lFjVzD634Uqyl3voqVOcWW/ml35sloZ5wmtfPbEei9eGCRM4PsXJY/BNoOK5XHc2rv
+	 8q8s/6YykNlMJyuJbln50NOUbUN7yMmplruMWIniDYEONBc9/79sHzSxOhvsQg35pM
+	 ArvkzeUfDmGNg==
+Message-ID: <sashiko-outbox-196262@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 2/4] usb: xhci: Allocate sideband ring segments with
- dma_alloc_coherent()
+Subject: Re: [PATCH] usb: core: Emit KOBJ_CHANGE when usb_reset_device()
+ succeeds
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wesley Cheng" <wesley.cheng@oss.qualcomm.com>
+To: "Fabien Sanglard" <sanglardf@google.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261103-16k_offload_v1_b4-v5-2-67184126e91c@oss.qualcomm.com>
-References: <20261103-16k_offload_v1_b4-v5-0-67184126e91c@oss.qualcomm.com>
- <20261103-16k_offload_v1_b4-v5-2-67184126e91c@oss.qualcomm.com>
+In-Reply-To: <20261103235115.3991801-1-sanglardf@google.com>
+References: <20261103235115.3991801-1-sanglardf@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 23:56:23 +0000
+Date: Tue, 03 Nov 2026 23:58:35 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,31 +60,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Ring segments are normally allocated from a shared DMA pool sized and
-> aligned to TRB_SEGMENT_SIZE (4096 bytes). On kernels built with a
-> larger PAGE_SIZE (e.g. 16K or 64K page arches), multiple segments can
-> share the same physical page.
+> When usb_reset_device() succeeds without re-enumerating the device,
+> userspace receives no device-level uevent indicating that the reset has
+> completed. For usbfs clients such as adb, usb_forced_unbind_intf()
+> unbinds the interface before the port reset, and device_attach() leaves
+> it unbound afterward because no kernel driver matches.
 >=20
-> A sideband client that maps a ring buffer directly via the IOMMU
-> (which operates at page granularity) would then also expose any other
-> ring segment sharing that page, as well as the dma_pool bookkeeping
-> kept in free blocks, to the entity handling the offloaded endpoints.
+> Since usbfs suppresses uevents on interface claim/release, userspace
+> receives UNBIND(intf) before the reset and no event when the device is
+> ready to be re-claimed, forcing it to fall back to polling /dev/bus/usb.
 >=20
-> Add a no_pool_alloc flag for endpoints and rings, which has the ring
-> segments allocated with dma_alloc_coherent() instead of from
-> xhci->segment_pool. Coherent allocations are page aligned, so each of
-> these segments gets a page of its own. When PAGE_SIZE is larger than
-> TRB_SEGMENT_SIZE, xhci_sideband_add_endpoint() sets the flag for the
-> [ ... ]
-> the endpoint already has a ring.
+> Emit KOBJ_CHANGE on &udev->dev.kobj in usb_reset_device() when the reset
+> succeeds, after usb_unbind_and_rebind_marked_interfaces(udev), so
+> userspace is notified (with DEVNAME) once the reset and all kernel
+> interface rebinding are complete.
 >=20
-> Suggested-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+> Suggested-by: Oliver Neukum <oneukum@suse.com>
+> Signed-off-by: Fabien Sanglard <sanglardf@google.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103-16k_offloa=
-d_v1_b4-v5-0-67184126e91c@oss.qualcomm.com?part=3D2
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103235115.3991=
+801-1-sanglardf@google.com?part=3D1
 
