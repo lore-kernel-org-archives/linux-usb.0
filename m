@@ -1,58 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793736415;
-	b=42wv4H2x9en0z4q4OBDTYEXGv0ajI2mgWBjZb6KN/N1T5hdjvTvZN2bC+1tAHHLfWsB9
-	 tRG3LEJ0B+ofhKa9A3mX5XNsrBL+rFOsJx/UT333FWfbTnEuZV/QviOIotuI/Hn4OCaFb
-	 Wls/o0O8H0BHH/hLsw1Iom5aM+HT9wtm7zIduwCFDZ5R8G0JiTAUb+P+aqYRlcfqWHjyX
-	 qDyKqtT6tAsuDgnd9GXdTac7gmEcMaRa05qOCxLDvw0cVnFJpMymuOJXRiVD2gIzyHU8H
-	 qZpY7FGpN2oI0OQfRkaTOl+7wpt8caIb+JI53pntT5clFZYWY3Iq7smTiZ12lo5a+3A==
+	t=1793737678;
+	b=ZHYvOyHURH91rlYcAKDf9IRVvGK/FVo8SjlNSmEeaoPCfwCy2aQLjVaoaifpev1vb5bI
+	 APO2WqSL0gwu8tH0+V+S1dS7wBq9+YNoaLCUD4cJzr7SZDKnxWCuRJfN2mIVkIbhAmlhV
+	 lnPiSmwV0uxZe6X7dYPa/9aF6UVeH6Bjc5SkdHMkOFWpqEzLtwp+mdMNoeiobYmdoNcWM
+	 14GR8dn25nLvXmcEo2agEXIoI7g4LDHAvqGHf1o1VE2Xo3ZOnrEoa5Gc+SmTfpm8kaodT
+	 zWWs+VMfDcIcTw+urgkjtUNVUChtZU3i2y9BeBskDKtZRC1OSY4hvpM5/ORVUBiL/bg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793736415;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=kQilqv6KkR7RtkOq1e2U9vSUFJgpr94iEHr+R6RPPgQ=;
-	b=atT/FZZhRTzF/Fz6XdApE0gxC1Q4vZZm+8jWtSL8eeBvLvk/MaEpvZ6JfS5uATokiFZ5
-	 iAYbw1xpruVKS67/i8Won4WXmG/+/2Ka2gzU39LHgmSPF77i+yzUw7171zP8BnAzcttCE
-	 zkostovuB0lLE0vyA9F+RoiuvgZnvwzpFed/hubH8sAnFR/fIN67HANQ4UIlrXcryxiv4
-	 Pew9P5BVDdsCPxfnR5Igz5gwB+eIMMMyhVWzeEM0BI8wN0OrKM3fkq07+dwQa/gvTUyqm
-	 niAibkFK+jrR+JrnsQrTXeXureo14Zur5IWYPKR4sy1eZ+mt8y4DTRtiyuaj0K3+ljg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793737678;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=fnpflM47wvGG0hwWR6WATMCEt8TRH1OkdyCyS+HJdDg=;
+	b=NpwwYnqSJ8KNyxlgHQOtzaoXY7q8sKaWAICyNuyVAwr35vSr2QE+SnhC9GjCNGwi26wT
+	 oD9MwY4vsaB1UwwNx11x80n4NqvaU4qluHSmISvcntgdf/x7+kYo5O+ClGVVLL7Wp2z68
+	 eT4/iboLvEUXJVWpq3JHsCi3yqO8VZ7/ckB959mqMfce2cubWUKLAU4t9lsE8w6rj74HW
+	 0XzouTsNgBCesWkHMLPlGPuHfXRfKKUU3PB4zqXAlkXbL5LVMJlp8Ng9UO53oPAY4cr2n
+	 A6fkgd5G0iXvs7GYZHpVRAg2HkAncEdYVGpv5zDPXtUIlcaP1bCFvtMhxeg4hjuPEXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H5KfnUOU;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b="lYY/j6zw";
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0178D606A326
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 20:06:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8948A606A324;
+	Tue,  3 Nov 2026 20:27:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8948A606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H5KfnUOU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C751F00919;
-	Tue,  3 Nov 2026 20:06:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793736414;
-	bh=kQilqv6KkR7RtkOq1e2U9vSUFJgpr94iEHr+R6RPPgQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=H5KfnUOUIRn5Wd2Wesk0XpTzsYujgsIkjju7SS6sR5iHJJGbllZd53lBA7zWWD3Eg
-	 UYauoA1pws+3TBDB4W8a/WSW/Al1jwkaHVH0IdyKkqHQLhDm8VNpCuUe3gBUoujpGk
-	 YBAcBOzHiqCZ1qq9GukM/ktWL3eqr4ltJjSCTmN+mII/zTrh7Zr76LE4NtI0pX8yMq
-	 j15hlzT0nfP20LuT+yCT1Wa73TNQX89VMXGmO9fHv6Wx9xYXxsnA40qq0pGmUQXQkX
-	 PNwe9AkPqhOXUj2gGvGYpmctGmwH8VQLfdHTtMhtbUSByzH1CUnThrHGNjZE7NneMi
-	 erG8TX3rrp2YQ==
-Message-ID: <sashiko-outbox-195958@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/2] usb: misc: usb251xb: configure battery charging
- from DT
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jhon Wilker Rodrigues Aquino" <jhonwilker0112@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261103200154.125681-3-jhonwilker0112@gmail.com>
-References: <20261103185514.72144-1-jhonwilker0112@gmail.com>
- <20261103200154.125681-1-jhonwilker0112@gmail.com>
- <20261103200154.125681-3-jhonwilker0112@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 20:06:54 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=lYY/j6zw
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB1FB6DC;
+	Tue,  3 Nov 2026 21:25:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1793737537;
+	bh=wzZJeygUkHu2Eg/ueqz8GixHo6cAyjxaWg4xMDcAfMw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lYY/j6zwziedk+YPPS7rfaC+ywclpX24t1qiDbNLpBfHAsOJ6xdR2al67JQIKHuhg
+	 9xJaYQIiZKw7/bHuvQI4tNP8Zwg+tVnDM261wm6ZrXEvgdJpLm7QPtILug+VoEWpwa
+	 6yD7dQGbnFy1FI74DD5YDAHSwG9+fJFyDzxMsskM=
+Date: Tue, 3 Nov 2026 22:27:53 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Manuel Herrmann <m@manuel-herrmann.de>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Add support for NV21 pixel format
+Message-ID: <20261103202753.GA3862409@killaraus.ideasonboard.com>
+References: <20261025143522.327365-1-m@manuel-herrmann.de>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,19 +62,85 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261025143522.327365-1-m@manuel-herrmann.de>
 
-> From: Jhon Wilker Rodrigues Aquino <jhon.aquino@autotrac.com.br>
->=20
-> Parse the battery-charging-enable port list from the device tree and set =
-the corresponding bits in the hub configuration register.
->=20
-> Keep charging disabled by default when the property is omitted.
->=20
-> Signed-off-by: Jhon Wilker Rodrigues Aquino <jhon.aquino@autotrac.com.br>
+On Sun, Oct 25, 2026 at 03:35:22PM +0100, Manuel Herrmann wrote:
+> Add support for the NV21 (Y/VU 4:2:0) pixel format to the uvcvideo
+> driver. This format is exposed by the color camera of the Creality Pika
+> 3D scanner (2bc5:0c0b), next to YUYV and MJPEG. Without it, the driver
+> skips the format as unknown.
+> 
+> NV21 only differs from NV12 in the order of the chroma samples, so
+> bytesperline is wWidth, as for NV12.
+> 
+> Signed-off-by: Manuel Herrmann <m@manuel-herrmann.de>
 
-Sashiko has reviewed this patch and found no issues.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103200154.1256=
-81-1-jhonwilker0112@gmail.com?part=3D2
+> ---
+> Tested on media next (d7e7bca71698) in a QEMU guest with the scanner passed
+> through. Before the patch, the driver logs
+> 
+>   uvcvideo 2-1:1.3: Unknown video format 3132564e-0000-0010-8000-00aa00389b71
+> 
+> and the color node only offers YUYV and MJPG. With the patch, NV21 is
+> listed, G_FMT reports a bytesperline of 1280 for 1280x960, and v4l2-ctl
+> streams it at 30 fps. A frame captured in the guest has the right
+> colors decoded as NV21, and red and blue swapped decoded as NV12.
+> 
+>  drivers/media/common/uvc.c       | 4 ++++
+>  drivers/media/usb/uvc/uvc_v4l2.c | 1 +
+>  include/linux/usb/uvc.h          | 3 +++
+>  3 files changed, 8 insertions(+)
+> 
+> diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
+> index 0107cedd0..7d918ba0e 100644
+> --- a/drivers/media/common/uvc.c
+> +++ b/drivers/media/common/uvc.c
+> @@ -24,6 +24,10 @@ static const struct uvc_format_desc uvc_fmts[] = {
+>  		.guid		= UVC_GUID_FORMAT_NV12,
+>  		.fcc		= V4L2_PIX_FMT_NV12,
+>  	},
+> +	{
+> +		.guid		= UVC_GUID_FORMAT_NV21,
+> +		.fcc		= V4L2_PIX_FMT_NV21,
+> +	},
+>  	{
+>  		.guid		= UVC_GUID_FORMAT_MJPEG,
+>  		.fcc		= V4L2_PIX_FMT_MJPEG,
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 644c2f1cd..60732f5ac 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -232,6 +232,7 @@ static u32 uvc_v4l2_get_bytesperline(const struct uvc_format *format,
+>  {
+>  	switch (format->fcc) {
+>  	case V4L2_PIX_FMT_NV12:
+> +	case V4L2_PIX_FMT_NV21:
+>  	case V4L2_PIX_FMT_YVU420:
+>  	case V4L2_PIX_FMT_YUV420:
+>  	case V4L2_PIX_FMT_M420:
+> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+> index 99b070ab8..48419a862 100644
+> --- a/include/linux/usb/uvc.h
+> +++ b/include/linux/usb/uvc.h
+> @@ -85,6 +85,9 @@
+>  #define UVC_GUID_FORMAT_NV12 \
+>  	{ 'N',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
+>  	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_NV21 \
+> +	{ 'N',  'V',  '2',  '1', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+>  #define UVC_GUID_FORMAT_YV12 \
+>  	{ 'Y',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
+>  	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> 
+> base-commit: d7e7bca7169873b46e857c025c10f3336c1258d8
 
+-- 
+Regards,
+
+Laurent Pinchart
