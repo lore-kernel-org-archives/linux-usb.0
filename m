@@ -1,87 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.146.116
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793688542;
-	b=MjNzE0kQocXu4Hy33KFjkGDMuXvpXVLY5eEvaEvWdYXj7TjCljuQK7fI9UqIdaU5vNKu
-	 r60Weiac9H0IWfVDHbH9Q+MLl9bd64w1zG9bG2VEP0PjUB8HQ4jotc4eTqGL1nE9MaLp9
-	 K7vAS+qLolOPL4qvqDgqUngVq7IN9ld7vSG64Mmf7yvov7qWnc3fjj3RVJbKYxc0expBR
-	 fUVLSb6nra6yv+0uD9+mvBMGUCH/GaSONz5xzqBLNF/w6L2/ovmxpQgMvGE22db09Z2M+
-	 YNN23+J1in9FVijR3MIhG0pWHVm7Ymk3iqiN+KC6H5ogUhh11I67J6e5MrrIoA9254A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793688542;
-	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-Id:
-	 X-Mailer:In-Reply-To:References:Content-Type:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=QelaYnQQ9XkdfArt1e3xfcYdM69n0NCVRkYBLpGI5Sc=;
-	b=TFZYO0EWdkvEg6rRnZ3AGTUBXwyDfmFyYQKQab7LohwoHUeaCM/JnLat5cfFMHWm5sdG
-	 dXNDbobAMuTgL1jlFO3NLkx2ns8cqiwTFmHe1RPJeljphAausxYVULV2wtw3NE3qGHXz2
-	 aVlTrSJeyzJn/5hLMYvFWPisw6rxvKpNznFuBpofAwPvuS+ROScUABs1/r6cQmkuEgHnX
-	 JxG70BdGK1o7tL7OoE3+17vFvLPyqIMuhMq6xf2DvNyUhJoUk3d2FTg86OM9w0fH6NouU
-	 uJQ9yUu0RemGLZOXr2XSMEGVhCexXhQi1xVu4KXfErHdCJuJcDvFoPCVro8Hj2wjGuw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=starfivetech.com;
-	spf=pass smtp.mailfrom=starfivetech.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.146.116
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2116.outbound.protection.partner.outlook.cn [139.219.146.116])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793688876;
+	b=hzgqnxm3zgzuf0aUiAo+TwbFOHepCXmvsaus4+O16k1bbnO3tlMmS7GNAK/SQbdP73Wx
+	 xzOwuyw17pzLskYehOZKR01L4HyqMkAwrhloAtnQYaLWRgX5Rs/yrtIHrweYslhVn6IcK
+	 5eqreAaTkJs7AG6hEGnM44Bx1G2OzTfXuk+OMdgcjYlJEbhMEwrN+GEiyDeuvQrQThuPC
+	 Ouk0Qu8+orBy7D4vdsbuDAohgoazM3TDZGQOq89zItMIirS0tNttMsfXc/Dh5VDgdO4mg
+	 13lD5Y/t/jfmnd6XcL+jeZEx6/Imiv0ZTsk8HzaRaTu+LUKiTj28eRMK++TurW7lIWQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793688876;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=pI+R0vssS3+rBEwGlEmrhAJtAWwC+K6R2fL7Q2wxluc=;
+	b=kHpHcYPZNySrVpcXOaZLKz7xVjV1Av85dZ82VFATW6ctQdNLvHkXM8xPm8vTEwpgtxuC
+	 PzvUVZcMmuK4xW9wuQUrRhISAEDM/i2eLIbmqaHah1ydPBfvqtdCLKxILkTz/bClasLEb
+	 02/LAN95Mz+aVP9ZIR9IYM7nDdFt7t1Zl+JJIuoupoibtIcnfINE5AVg7WrJGidH1jGI4
+	 829cycOww4c4If2fp9RJAZeSjSVW50H8YBv7rAHGwNexqAYmGBxmtJ1E4ZwXseO87faFy
+	 jrFAKpILH896Zgxs8XETeVpx2YPPDQbndp4cA+JCgBmecLIy2XG4qj3v57PsvEJEw6g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HVwwGpgK;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720AC606A338;
-	Tue,  3 Nov 2026 06:49:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 720AC606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hgJMaU9gF9KOst4RSKbyBBHWYTjR6bJptvrF/c9YIJnvh00BeC4bAED5EqSih9gcOqGRnDwDSoLhzmfJYlij5OGLUTVo9LYYsKY56RaFKEh9N/4T7BlqOcfk5G9bK4N5oHYoLOl4DH0zK/jLZ3CjYA8cUZOOLpVQeS8x7LhCUWDMOrYvbLH6+P2NOSz5wvJBgxJpOmNWDqpTzU5BiU2tdr1T8pan0jDd8sgsubEtgUwm3yW0F1gEWTjd6sK8U2GJ2y1nhM6+qlPpQhtnTdFSKvqvB18VBhrwDakxyUySDKFI9SWZanRX6vyH5ARHrrBzw3Y3S4W3atyu4y/X6UHTlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QelaYnQQ9XkdfArt1e3xfcYdM69n0NCVRkYBLpGI5Sc=;
- b=VvHlFG1KbcQwaFDQbG9fqcag8rZztxwJ2nn6++SMF3TnyqkWPXek/pwu9X7Zyme5Y7aBDX6q/KEBVuUmISCS1dkh+I51FW7wmQsQSYl+f36Uq5UYpmAta29g8StliTmRLmLcWU535OyumM2CFolyTyQxv0il3MD3598awz1+uhAQjkpo/zgMXEKc4BOS2FablSfdb0tBXJ6QxXDlb0xY92FWaN8ztjmgRTvmJ7B+1g+HpI0QqoRFKsBp77MzD7MiYVsDkOqYSG/odz9gm4jXxTzZEvV/aSJodA19Ahznuo6u6FwJUn49RKXAr+nbErlAKGCdnh5g7DVP0Nejyn96lw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:e::7) by ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Tue, 3 Nov 2026
- 06:48:45 +0000
-Received: from ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn
- ([fe80::d777:e23a:d111:5fa1]) by
- ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn ([fe80::d777:e23a:d111:5fa1%6])
- with mapi id 15.21.0569.011; Tue, 3 Nov 2026 06:48:45 +0000
-From: Minda Chen <minda.chen@starfivetech.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor@kernel.org>,
-	linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Minda Chen <minda.chen@starfivetech.com>
-Subject: [PATCH v2 2/3] dt-bindings: usb: starfive,jhb100-dwc3: Add clock number limit
-Date: Tue,  3 Nov 2026 14:48:35 +0800
-Message-Id: <20261103064836.71059-3-minda.chen@starfivetech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20261103064836.71059-1-minda.chen@starfivetech.com>
-References: <20261103064836.71059-1-minda.chen@starfivetech.com>
-Content-Type: text/plain
-X-ClientProxiedBy: ZQ0PR01CA0001.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:5::14) To ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:e::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3EAD606A334;
+	Tue,  3 Nov 2026 06:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HVwwGpgK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57D471F000C1;
+	Tue,  3 Nov 2026 06:54:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793688875;
+	bh=pI+R0vssS3+rBEwGlEmrhAJtAWwC+K6R2fL7Q2wxluc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=HVwwGpgKph2PTCR3kNBpzgeJl9Fiv96ILTSVlqr7otzEN5KOe+3Oq36TZyy3FWiTn
+	 B5JC9rU3ADl82tq64bDRGFlV2NLyjhAO9fPnLejhbwzeG1Z9dc6ee0GVq9fDWJMr9G
+	 uEn9b1MhNhFVniqfmxfA0bqOs/QBhcC6kPjZ8hJFtdA34IHlyTNGGcCj68Y62ICtjk
+	 Ouq+kpEpWGx9PHR9MkFKZswgqiZXimSJHDR7+eldSuTYGotHgFLXgZCx0dKYEpIAcw
+	 6pYXyTE/pVVs21IvMkWqyQ4k+6ZNZ7Rqbrs3FA5NB7/Klj97W0Huza14rR1CDkHC3E
+	 tLDaFtIRr3wRA==
+Message-ID: <a0736b1b-707e-4f24-8249-c7363c673a43@kernel.org>
+Date: Tue, 3 Nov 2026 07:54:21 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,90 +51,140 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1111:EE_|ZQ0PR01MB0982:EE_
-X-MS-Office365-Filtering-Correlation-Id: 40ad2977-ad73-4a10-9cf6-08df39768157
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|1800799024|23010399003|366016|10067099003|18002099003|261102123227099003|22082099003|56012099006|261026121527099003|261022105027099003|261022075727099003|261026140227099003|261009223027099003|261028144727099003|38350700014|261021121427099003;
-X-Microsoft-Antispam-Message-Info:
-	0jccAAYbTTVowKzsvlsevvVURdqiQlrPI6jIAHT4rw32DaTIZy4Vb5bq4HfpXnhUtdcxipjzab9DIsTcH11bmUzfnc2wyGXzSd2Sadc7dkt1pEmdEuvywfliULBdU+1/uABXG67McTbF+gYxITfw9rvaEtLeNOWlV3TFWMLVJW2UDsztStcbab9RedF8uj4Tt9G5OsHrjvVV4V0YLED0LxaqCBUm+RKNz7HvCM+UCMb2oiFXoI7qF09wcKuoATKMUKy63uaJmDu178lTo5/Y5ulAewSJjQS0khE2r8Gsel1x/d/8igeYY1apsn2jhVcEoZlwgWQFWzxut3aUfJJ0bFxx4kSJ1YtbZ1/UoeFx0OxkPzbrcQsibetnS0MyiTmRREiZIY0eJd3+zOWCwmkWMCAddwQg0C387QDrGvuotqvO0BStPmjhCQCv3PAvCx3ZH+NoJ95Hh/lA8mCVYrrhxEGGIdkaDGKnmfvUoWPTbAiO/FfOXkephm+dp4Q8xXg4py9sBDY6FYYWqZNK1JJYSuE4rL6zrVP1xtCFbzMkWAyW+aR0TW1pLwIy75loncJ0
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(23010399003)(366016)(10067099003)(18002099003)(261102123227099003)(22082099003)(56012099006)(261026121527099003)(261022105027099003)(261022075727099003)(261026140227099003)(261009223027099003)(261028144727099003)(38350700014)(261021121427099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Ze8T3mlrnmS0Q+p4sTZzFgE7ao67ihLGm73E7R3GbTGuAjjew/AVrJtLnI0F?=
- =?us-ascii?Q?+7Q6iFt6W+8vUNZqN5UsWrJN15XU1PwqQtn5q91ZPbXN3xIihBKJdSch4hee?=
- =?us-ascii?Q?wbnGZiyNnedy0P0XtEYIEoug0RVTWaWLIZUht/2MS1Lvus8qR/xM3Nxor5Zn?=
- =?us-ascii?Q?tjIHtfadNgDaCJ8uHiswHH91ITLmo12Ibk7AszOSbgVNy4VB1mYeZ4Ozkoeo?=
- =?us-ascii?Q?8ciqO0aE/QIuliGSoSyVoKxbsNOcUJrngXPofQbT6ulxRNutBoI/vac8aRZr?=
- =?us-ascii?Q?vjaI/+zp1yQgm2frTYUshnLH4xiC++onpDBi9xS4I4MRuTmDGd+PYe0oX2q4?=
- =?us-ascii?Q?vSVw5sGCW2NPfzmDVhZ3k3fdOqvICUFdlmUsQwQKX5qZIETvpK9DrkK8EPu/?=
- =?us-ascii?Q?b68uqx6zbYoO25h1JlMDrZ4Tb/Cj+vZmwxhH4wS0z9pBjsvOD85bxjwc01JU?=
- =?us-ascii?Q?9rGl1XWzZXRn1ZBhYMDIFQFOgpQOVezaZYkkCj6srLkwtvr+JvrXTHlH/ms7?=
- =?us-ascii?Q?EYfxll8dj4a6A3TiG3V3H5+0B1PZnqAWBavwnz9EiXjSIt67a3P2qClldJjW?=
- =?us-ascii?Q?BXQ4ZRX1z983UwAdYUGDXAdYNwMo4LKHXqcUIoRUyRbHbanv/qvXY5bL5Zqf?=
- =?us-ascii?Q?XDOwbbqM0m3OHBLmulz2kwu0Byr3PcIBa043gqN4NADwUwMuTRD+CZvir6Pn?=
- =?us-ascii?Q?W5B95HY7iY0epyOv60gADdkoLCXxYeilLjQuCJ5mFagAY22etzCmq/UygT+f?=
- =?us-ascii?Q?dYRH5cygks/VOtg6mMNqozdEgFxYKJpHEpPHy0aUwi9Ng+9ZJZboNM/bLoFS?=
- =?us-ascii?Q?vmnkV1GfATx4wzSmlU5k+ytCxi8Mm7XRsMzAOtWJzfgT0ixvR4XBPcpFgnRq?=
- =?us-ascii?Q?6Zf0iNEBl9jH2pcFWmDuY33vZKIpOAADrrDQ8WoQsT0bt1gDBxcJSRoFZAW5?=
- =?us-ascii?Q?28wjsupiuk4ftothHCftrRrBcyQf+vATKjVW01gK57IdGTP6oSxTWaSvMIB0?=
- =?us-ascii?Q?h8ZzBH3f18ELs0w/v5/smjj+m19m6GdDitJcXpsZ/pWmkW9PgEcdaQ2uPQ5L?=
- =?us-ascii?Q?Z3CxFCi1w7xdqLjNhMbch3TijfF5lnMbZR5QI9zppF2Hx9dHIX/ax4cwcvbs?=
- =?us-ascii?Q?on8sb3e6E9T04RceumBTvwlVljVA42YZUcpBpddpV6oFdXmaRkFxoiffEauJ?=
- =?us-ascii?Q?mKWyWXgGaVKQL6o8hztFD07U6gmVoTft+lhXjNuRawsJT5wv9cvWLMWpsvpB?=
- =?us-ascii?Q?oIecZjY9F2GYd1+ImCDHRbUxJacvCaWP7Kl2n1vmzhLx1d/g702lCAMUYQO6?=
- =?us-ascii?Q?ve+tUtZXCgDGB9UqRlWhh9ttehplNf+Q5dhNwysWdxZf0xz+zjUGBDS+pdC3?=
- =?us-ascii?Q?2mxkCn4G2jju6E0LoeMFSgMqQa127+7WyRtBtIgPXbp0GdekP+jTdCqrm4f1?=
- =?us-ascii?Q?bnEqgFl1l2r1sYZl2nB6eXeDexWKyqawyNqjq+M4/UIuKqZrHkb0we0PzIXQ?=
- =?us-ascii?Q?e8rD59MBC+QeiFMdrbet3tmlK2WvBiNkEJciuAxZZ4xzkWnZ7/NoZJ/mP4Ca?=
- =?us-ascii?Q?9RZuaoAPIdXmxRoTHfZkLRbtHMNt0UIMbIQ/FN3awlirA9T3fDYQeAejjQaD?=
- =?us-ascii?Q?eOS/tkPTfHVF3Ck2o4qehQ1GylBs1iiX7y337ih7vo3R6w2bDLle09zH8Wwq?=
- =?us-ascii?Q?7s/CS0IuZDVNvTLtw+1I+szeN4XmjVgYbuZaCzpz/kSsJ0l92D4KjkZeahO9?=
- =?us-ascii?Q?UxVxlfcht1ntNWlqC6DEhsyWBqQxN/w=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40ad2977-ad73-4a10-9cf6-08df39768157
-X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 06:48:44.9775
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jjCUgR0KSrM7qUwbdapFkSOaNA8MFxyy7j/Jg79+BKctGr3E+CUlDjTGmNdda9ciC+lqnIozXUdrRI9ar40s8iiQLMNgr8N8pLxvIS6ijNY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB0982
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 19/23] tty: sysrq: let procfs copy in writes to
+ /proc/sysrq-trigger
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>,
+ Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>,
+ Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados
+ <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>,
+ Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>,
+ linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-wireless@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+ ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org,
+ coreteam@netfilter.org, kexec@lists.infradead.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net,
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org,
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
+ sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-doc@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>,
+ linux-input@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>
+References: <20261102-work-procfs-drivers-v1-0-a994bd4d3b1a@kernel.org>
+ <20261102-work-procfs-drivers-v1-19-a994bd4d3b1a@kernel.org>
+Content-Language: en-US
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20261102-work-procfs-drivers-v1-19-a994bd4d3b1a@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-StarFive JHB100 device controller do not connect with PHY
-but connect with digital adapter module. So it do not
-contain core reference clock. So the minimal clock number is 2
-(glue layer main enable clock and dwc3 core bus clk). So Add
-minItem 2 to clock and clock-names items.
+On 02. 11. 26, 16:07, Christian Brauner wrote:
+> Implement ->proc_write_buf() so procfs copies in what is written before
+> it pins the entry, and handle the keys from that copy. Writes larger
+> than PAGE_SIZE - 1 bytes fail with -EINVAL now. They used to trigger the
+> first key, or all of them in bulk mode. procfs allocates the copy, which
+> is as small as the write, opening the file allocated as much already.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
----
- Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
 
-diff --git a/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml b/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
-index bbaefad3b400..1fc73ba67394 100644
---- a/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
-@@ -35,12 +35,14 @@ properties:
-     maxItems: 1
- 
-   clocks:
-+    minItems: 2
-     items:
-       - description: USB main enable clk
-       - description: DWC3 bus early clock
-       - description: DWC3 ref clock
- 
-   clock-names:
-+    minItems: 2
-     items:
-       - const: main
-       - const: bus_early
+> ---
+>   drivers/tty/sysrq.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
+> index f4571d05b496..99363e1b59ed 100644
+> --- a/drivers/tty/sysrq.c
+> +++ b/drivers/tty/sysrq.c
+> @@ -1200,17 +1200,14 @@ EXPORT_SYMBOL(unregister_sysrq_key);
+>    * However, if the first character is an underscore,
+>    * all characters are processed.
+>    */
+> -static ssize_t write_sysrq_trigger(struct file *file, const char __user *buf,
+> +static ssize_t write_sysrq_trigger(struct file *file, char *buf,
+>   				   size_t count, loff_t *ppos)
+>   {
+>   	bool bulk = false;
+>   	size_t i;
+>   
+>   	for (i = 0; i < count; i++) {
+> -		char c;
+> -
+> -		if (get_user(c, buf + i))
+> -			return -EFAULT;
+> +		char c = buf[i];
+>   
+>   		if (c == '_')
+>   			bulk = true;
+> @@ -1225,7 +1222,7 @@ static ssize_t write_sysrq_trigger(struct file *file, const char __user *buf,
+>   }
+>   
+>   static const struct proc_ops sysrq_trigger_proc_ops = {
+> -	.proc_write	= write_sysrq_trigger,
+> +	.proc_write_buf	= write_sysrq_trigger,
+>   	.proc_lseek	= noop_llseek,
+>   };
+>   
+> 
+
+
 -- 
-2.17.1
-
+js
+suse labs
