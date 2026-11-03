@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.146.116
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793688544;
-	b=pjAuDxOSwP+MDFaCiE65uy+d5MAD3A8+T7DkSBvdlI3avC3ceRRQIjkxQ/2d7cL2i0Uf
-	 XIBsB98cc00vdUkmidSFEcm+yNMDQcRqFKQPPElGZtXR5BN/3ZGjyGF+3ADQnOG++DdGJ
-	 OHoeA5A5Jb7xx2MI+isGcoE6WFFjEOcTPtnSEdXJPCXvS1IWzDh4u9e23pWpnGcnQfpX1
-	 drVC1lepdrgPD0mqgggvOrfnCmFCaSEmdi0ASdt9p1qCxesUDj+go4Po+6o5CJ+aSo9WZ
-	 uyUgOoms1OD7wbFZ2LI/ygEFNdCZEHPGuwPOnNYpzkpgqT2IxltxVFjm/Qmmwjtnr9g==
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=139.219.146.116
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793688536;
+	b=0mUAINv2EtjjhxiK6MJ0IaeBhfe6CamyPMZ7fnhwYr9+7hTkkk66bhBMtz+2RsRFmQK1
+	 ztcPnyQ9YXlRbGeJpVjZTAq4e17PEMaysPnztm6Azt0ygfvVK0iSGmnSHncJDz864rOSb
+	 nt+qBVEaEHugDQ+vVCL279oFtppC0JJq26mygKX+QKobPlIXx3KKi4Pr5WYuQj6/8lwAO
+	 9flu7Pswms+m+mQSpKHAoVkS7HEagHx8AbsDg446SYKp0fgtUyrzn+bCPEZ5R+Qo2GW+3
+	 oZPuba5eYX2HKLvPQzIkDmg1P2YDlbYGEUDoIXKRl4c+zl6jfMivXH/AzV8j9mZIgFQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793688544;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793688536;
 	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-Id:
 	 X-Mailer:In-Reply-To:References:Content-Type:X-ClientProxiedBy:
 	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
@@ -23,31 +23,31 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=v9tu482SnNkSpLcF+GPX25sC8op4cRy2dP9m5ipWay8=;
-	b=t+gR4Zrt+9/5GZGIRZVwB5scdgTV+8pA5tNH+VxReI2daFE/zatbIQx0VcnsXjPydOkr
-	 eZbZKs5bfRzgrShmmdm/HOk42f3jGotAmVTuy8moHF8VJb5QY/0kHf3hQceN2G7YG3PVN
-	 HjElrkeNHmRDq8uXLtl7jnlF4ohkSJz7rFoeo0aFQqgydCWbgsMWfCKcZ3NjMRfjkuU5W
-	 4EWHez7B3hq4Wi8KhdUh1hJlWtpwlKJKBDyvm5O4ZnmU9k9HoFnLQy7/Sa1PokxhoHjd0
-	 ZWyK3ZhJxpRhLlEYG4MtngmFIXFneNu1DhVVNJyS3LxaS/5GqDT+g1lIT/flcLMQHmQ==
+	bh=PdNSCJ9nUdJpXU8Hf2yE6QZ9X2PAxqj7sssAhj7oH2Q=;
+	b=vzAZIUxga2OhToMU/yX1vRg/d/LJvkGCoOrkWAwDIIaXlMlSi1zhSUWGxIvy6PecR+eY
+	 5J2J+Zl1kxacYooIh4n/YQHmJcBJIVa6S7wrKqAPRE0rPj5yJfxe5/Y9XRHlos36xFpjK
+	 /yDh8jXLWy5m7aOCRFZP0X+PjTXtWLOcjDrgi+U3w03vybIH9uCS71Jxxt4+G1UeEdzi6
+	 5+DyAXU26XNN7fJtEB2h2NJIakrtvOs8ULwSGwTQCo6KcTVmN203aOgfJ59rDTnIeTttq
+	 I0x/sdPBBqqQ2yG2QECPAyWXIiF1aWA9BT0CGC89q4BPgBj8gTyFKwViez7UFNUcTog==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=starfivetech.com;
 	spf=pass smtp.mailfrom=starfivetech.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.146.116
+	arc=fail smtp.remote-ip=139.219.146.116
 Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2116.outbound.protection.partner.outlook.cn [139.219.146.116])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0FC606A33A;
-	Tue,  3 Nov 2026 06:49:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C0FC606A33A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3729E606A329;
+	Tue,  3 Nov 2026 06:48:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3729E606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lZFMwtTme1+GOaEOpZPnxE9KO37toBV41SjdvEbU9zEfPnvAtufJBDwtW4Vdc13xjxDzpe0VEQLXToaUPowA5nXUP4teDPDqebO2+1HbVVfteO+ToPq5FBuRQgPKPZsm7LXyfYXeK/HHrPRGeBfNfdS7UZ9O+5awd5x0Xlw0JVbS1Tc043VFb6J7743nhkSDD9chiicSKyN9pSYGFkPuCtiRRR9BhLfvuXIanTeblZ3xwyRFS/ghVGA9wBtRjswD0vv7QEJFOF3PWsFQGAWVMPF36Mm+wE/5G1ktawRO/GtEQhUcaei7p4k/2lSYj2kkMS8nwe+W90uJFCHcgnwjIA==
+ b=Pw6Kt4zZbPb2MWNi6F2h/PJ4GctsAqoBJxBuYJkLUHKuzycCqI3y11WCrvzgB3qVvs0uJ6Pd5V0PEkCTHszXiQpy+hraQGQBdWQ1/39dDZP8ESXp3uw9uopKn6VBBHYZDhPk25xNUPBUPKDbI4ZNW3r1frQhkLhiIYCOK524DhzELN8azuSWBUtR+EDxAnmP9z2JVLT6BovSx66s3jC2XGIQS7EiSCEH5IEVhDL9Q4Kv3RiKDxkPb98FJz2+XMTg+9xshyPuL+ds5BGFsOtQYCv6hL6KjkIEyuwBlZv7f09iCUpDnYNAVexTxTkbYcwOCKYuGatue0P/lesXR3cVNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v9tu482SnNkSpLcF+GPX25sC8op4cRy2dP9m5ipWay8=;
- b=VJX1BS9XF1xsqVGCV48aIYdJC6IFjm52b361E5O/JYa/qT6rT2XaU7ryWMZ2pDEM1ZG1BycDUQYuyrO/oX3ZOAF2zzaeOMIsROnSgzW8sslMneucFGv3CV8ckfw7ZznYEqVPT2PhIk4kp9AX3mDBfZE3CZtZqhYSFVrQ51ujeyt9cI9KsNBe9Ec4AGSaTf/QOV+BmTHb5u8RSutK0C2VaUp724DfC3IFRRQzgqZWj61gYKjsIpfYuTScNro6zWzN78eBmFGIUtlWEXNQ9V7h1ha3+dElTsHZX+RNObyisM0+3qfyI/qvFgoBC0uz2X8REjNPnLTUqnVsY9zjWYqURg==
+ bh=PdNSCJ9nUdJpXU8Hf2yE6QZ9X2PAxqj7sssAhj7oH2Q=;
+ b=IJ3Zu3NLYzF8G1/UoAvFApjWUusm2ZqG2jc7T5O/kwjpSV32Z2wtios5Sk5I/p/BrWnVdR6EuclyzTkGBpFs80WraBzlcKVGWeI7tX1xPN4xn8lIQCRuDY8lYREE2brjCuFBcOs8RcwWKCmq0JaeBH2dO74o4VeNWJMJzvySc141yyIr+SGjnBQNFeJHpNhYI0r7kPzhSi9XdycehB62ox9vMxI0f3ZvZ7x0v0Mqrem2C8aMmVLB3oKcWAqDYtP+mijRxy4S5UpmG61C5XE4Q0CBJ5SwLu0RHxCqtNmLLuL7eYh3B0eXLp70q/PjDfWPRq1Vvg9NMwhyQxwsoylHbw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=starfivetech.com; dmarc=pass action=none
  header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
@@ -57,11 +57,11 @@ Received: from ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:e::7) by ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:1::5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Tue, 3 Nov 2026
- 06:48:45 +0000
+ 06:48:44 +0000
 Received: from ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn
  ([fe80::d777:e23a:d111:5fa1]) by
  ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn ([fe80::d777:e23a:d111:5fa1%6])
- with mapi id 15.21.0569.011; Tue, 3 Nov 2026 06:48:45 +0000
+ with mapi id 15.21.0569.011; Tue, 3 Nov 2026 06:48:44 +0000
 From: Minda Chen <minda.chen@starfivetech.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
@@ -72,9 +72,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	Minda Chen <minda.chen@starfivetech.com>
-Subject: [PATCH v2 3/3] usb: dwc3: starfive: Add JHB100 USB device adapter port enable quirk
-Date: Tue,  3 Nov 2026 14:48:36 +0800
-Message-Id: <20261103064836.71059-4-minda.chen@starfivetech.com>
+Subject: [PATCH v2 1/3] dt-bindings: usb: starfive,jhb100-dwc3: Add adapter register region
+Date: Tue,  3 Nov 2026 14:48:34 +0800
+Message-Id: <20261103064836.71059-2-minda.chen@starfivetech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20261103064836.71059-1-minda.chen@starfivetech.com>
 References: <20261103064836.71059-1-minda.chen@starfivetech.com>
@@ -93,165 +93,93 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1111:EE_|ZQ0PR01MB0982:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6690e497-c242-432b-1615-08df397681d1
+X-MS-Office365-Filtering-Correlation-Id: 4b2d3485-a259-4744-3696-08df397680eb
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|1800799024|23010399003|366016|3023799007|6133799003|10067099003|18002099003|261102123227099003|22082099003|261102130727099003|56012099006|261026121527099003|261022105027099003|261022075727099003|261026140227099003|261009223027099003|261028144727099003|38350700014|261021121427099003|261021123027099003;
+	BCL:0;ARA:13230040|52116014|376014|1800799024|23010399003|366016|10067099003|18002099003|261102123227099003|22082099003|56012099006|261026121527099003|261022105027099003|261026140227099003|261009223027099003|261028144727099003|38350700014|261021121427099003|261021123027099003;
 X-Microsoft-Antispam-Message-Info:
-	97vEeERGoGRN6JAvxzem0GDY38I7T+qigczI6/+F2PodCQ4hh4xtAj87eqyjdB4/joD5yBZ+uxXGO7RFdyxzjEOEsz7XeR6IasFerNvCZFTmnshiIigJAVR8UV50fLshatYLTcF9M8Mt5XayWFv4CK0j4df5jfx9uyXRasH8m68dIqwKOShuAhwC1x0vVNplJVD7T249rzDwayTU4BQKvWOtDi/tMhJc6zCWfC0s4aTIcHGuamXDHfkk06IwfrJUIsC8JgnyRVy5SHFXSsC9MV8LARzkvivUV8o/K00soFMsCLv47fUWr8L4wWmmZIqNEO1RA8VVm+4J0F+wRVRM7GXDgBWTzKDKSM5vjzOQx47s9s/qunsG7OkIElHTgwc/n8VuQIo3AWBiNbf9a9AQhjZG2HhMU9Co3X7nG4vI3qUvRYnwycmWAAKmcRwdbwnHRy2fSFMIDpWoawenWLVy1N0uy0J17V2H7rsLgS5R6wbBXfIEnQq7zHlmDIQTEO/IVLvXaR7dwcJWPSjeGG/WowMfoZgHvwk4mHk4t6IagsNSMFd/e0fJNClTyMhRGU8W
+	gn/c9heR4uW2DVjRvaff5LHjECbi4TLnZCoGGGINni+QeGxJh7CHN4uGDsf8ozE4RKi1Ur6GmCOFA+8/f0MKhiV9fgThgu9jlXK1XLDkq+iAfBRucnPleeY+rsc4j1TLCInhE/xXPx4Vm+zFddNNJVjiGYwLRNuHCZQ0OYrAAM+F9a7gBbgdxPL0rU1vIXzhWNXvOs1hIybDtYtI/E9aef1H7w7woyFAYzgrH7ZtE5SaCJxjO1zyBZDBjufmcGHn03R6Q60VfT9lDzHVN0oNHZEA+wnV6VNsuS4M0Ud6PFQhy9zz7QswSlKK6LczOLTtJRkfD5RqmWhfC4GwPisHPui7dBM08gXeERThcLMZSYMNj6r9dCfxZnkLpZ5cpRz89AbRqdPDdHkmGIagZkyZyHm7mJA/Zqes7LItByQIaUergockh4rdqNt4j1jZL5PBsBkItBNpRt7ZpnUd6g066cj9jZNXcTcp1c1mRK22YcWJiJKW+mtvIQJkO6Ti/9bvOTWB/lq5kdfcnrdrWeH5VQWALllEuk+PQw4iaerSjITuXZ3JYjgUpSik4S+7NpRX
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(23010399003)(366016)(3023799007)(6133799003)(10067099003)(18002099003)(261102123227099003)(22082099003)(261102130727099003)(56012099006)(261026121527099003)(261022105027099003)(261022075727099003)(261026140227099003)(261009223027099003)(261028144727099003)(38350700014)(261021121427099003)(261021123027099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(23010399003)(366016)(10067099003)(18002099003)(261102123227099003)(22082099003)(56012099006)(261026121527099003)(261022105027099003)(261026140227099003)(261009223027099003)(261028144727099003)(38350700014)(261021121427099003)(261021123027099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5Iztjbbm2Zj45DLKHO96nXo3xxmtPLj28s6VV7boYMqm1930MDOUAOO6nvoE?=
- =?us-ascii?Q?vjmlQjhXQyTFu/PyyBvdG8urIzSWs7IoFNZ2dzUwKjsn+qtO3/HwdLHWH7+v?=
- =?us-ascii?Q?05QceJ6RCPYAlbpJboLMgTUm36G22RiyG3p6vE55z/r54XbFNPl4tDZacHM9?=
- =?us-ascii?Q?PviXqfn+RFZKo/XdDOnzEx/Bx0KxaDH6wY3ZWvbAuVCcQnCVjlDQlHnOs/aN?=
- =?us-ascii?Q?CyG7XZCPjhY4Yfb6GQH/aLmBRt8RcF6ye7lUtCV19BbmMnuf+h2Ts6kG2MOD?=
- =?us-ascii?Q?HtzaKQalNGeMYZ+a+I2/OuW+JpGkSJuAoxtw34ETOmVyUshv40jpzd8ZTMAj?=
- =?us-ascii?Q?bNbZN5DCJG1Hkl104IPI2QeDQb0T3e7SqvFJauGsgkrcv4mRKoWqdjXH00L5?=
- =?us-ascii?Q?TVOyOMGIjC+wm90fVrAu5n7a/9v40XhGs+MdDFVZ9nLSBJOdswSq8QlwuAzG?=
- =?us-ascii?Q?vDCwbvakJcPwlHAzbnhmLMUzT7oEfY3gGe9tHmNsTQDFzUC1d1kWx6J7wfYs?=
- =?us-ascii?Q?9Y/k1eEyxiD9EuzwBREN5iYlbOsKbXBBJQ7sTITo/8vX061oXeinknMLRinp?=
- =?us-ascii?Q?ASRTz1xoWdey3yeFBdrnsedoeDHd+TQPDlfji+Za27T6uYgyPGy07RlN1IqV?=
- =?us-ascii?Q?WTFLMXYYBp4wM6lHNRW41c1yMns0gfHu1TvTg8e9aNCUMwh8TzD9b0fQAF8y?=
- =?us-ascii?Q?tlJ9zrcz0AOrm2lt/Bbz3AbdQKfUzzW/caMpcTtHRVjoB33yku68eT1DGAYe?=
- =?us-ascii?Q?gel9WHPFZTLPIKi3edHpI911pe2RBIFeAQCvlyFd6lLhYlnMBP3gGMY6jwMQ?=
- =?us-ascii?Q?lNQxMyNtPNYKSciR/dVtBHmJ+IyGSORa5/IKhkH6Euqn0beD0a0xO5Ef+Krq?=
- =?us-ascii?Q?qaJryRj5KBtu5u2rr/W+U5BR6l6jV9RSNkNKQfjaVKemnYbwrc5+rXdcIYbe?=
- =?us-ascii?Q?Jdu5wKH1R27TJHjhXXmKxV2xciiVZDNl0X6ntbuuOYJa0OUc5c7Q/uDyN80d?=
- =?us-ascii?Q?fxnYlEMjiFZsv+8KdzAGCeucWsr5pIiYH7F734wocjU5BR2U3P8uBpVKgtzq?=
- =?us-ascii?Q?w4Vf66zQJo+3c0gSdWTF3ssULkJ96cKIiBNKTLELlpLukzkqe7RL/9ic76cM?=
- =?us-ascii?Q?7z8LLidJRZkJZjpavEzvKPEhBcRnnooHgOvPuwzr5sLxsvz+o1hwBAsgBbOF?=
- =?us-ascii?Q?8RODEzIYZcx5D8b280Isp8PJ8m2MMxcLE1znsjQqJQfOVczwzcAheC4lFPEe?=
- =?us-ascii?Q?5WQwwiW1C93TYf7gJdQx9Ribom6iaDVB5epmNy7W6/q3ELGDji510oYEldaq?=
- =?us-ascii?Q?paJfBnJrqsdeOwUyvYKkLYnY3JAlB8a1ba46mkoG+7xSibO+xUCZlb48VZIX?=
- =?us-ascii?Q?S15WByiDo5DIJqOKJTP32v92CBooPGFXxIhmuC5EL+IVFi3zKDP5spMeOlII?=
- =?us-ascii?Q?gIUiNw8yh0ErdKBIYGWbtzWMKEiCSvU9Ozs0AF8LNMcGWo6A8gcpCMtf2Ly9?=
- =?us-ascii?Q?0gkTKSZkktyaS+xAh7CCGSkOvXDvwz0FdaqiDmXazUQjLaazNur9AjAZ7lXp?=
- =?us-ascii?Q?zpqtkuku3ykYVZ6FJBs2JBt2iu4vuwGwNdFmPQlgpK1J8/BhkLC7+EmIzqCO?=
- =?us-ascii?Q?8SyeR/6wLRpFO0MCZP1KXP4+xlMOO58B4JVtBaSumx3ECECDglXhoFgFO5yJ?=
- =?us-ascii?Q?0GpgmDehmOjNE3X8VS3OcRF6sj9k/BG9HNf1gsBfZdXI/SJJLxE/+/ikCbrT?=
- =?us-ascii?Q?s8v3CLJgwFjP4BbL7pm32dmOKFfNkdQ=3D?=
+	=?us-ascii?Q?raiVYDD0/LvEsEl4+G4dhKvf36gwmf32xQ6c+yW6u0ym3eppGzVyjbtGVI0D?=
+ =?us-ascii?Q?331U33Gkjo2aUUlEKBo0Zgpzf8p7gIhEOvXU5QdljRUeq6HTAnYvdHN0IYix?=
+ =?us-ascii?Q?Tg7zzkK8NU9xJt392zg1g6k7GqLPJwrCzr9Ef0MCLQrEKX2Wo54zq22OealO?=
+ =?us-ascii?Q?N4KQYT/YiFnZZ/F/BzXO2utvV/D7wvAN8jHOFwsHdKzv4H77bOgAXFYDVCkT?=
+ =?us-ascii?Q?WTtQEzrlF1mkIpnzMEWiboLy5wlLzZ5QF6PtmWPpSuwfqrgQmmC/+W+FPDQw?=
+ =?us-ascii?Q?EZGRm7OYqriEIcD+3ORZ4/dqmeU6QjfYS17Ci20jU3wRqPvUkSer/fVeTc5n?=
+ =?us-ascii?Q?gzosBdiyL0I7OWkDOnv9n8UZmS8wyTMBsIDSvT4dVDwLCudBZyRiogoIAlxy?=
+ =?us-ascii?Q?SgAbSaljF4DI/rE+tjYHJGd4kRFKu6RLXxWATuK4z+CAIUNPloexGsZYqm1F?=
+ =?us-ascii?Q?dO5dk/KLRrYCuqbYAv6ZR7jTkfti/qzO7NUE8WoRTziU7z/Iz9z2TGn6DkmU?=
+ =?us-ascii?Q?ED+A9WYPYd0KNdz7Bw3hUw+FFToZJnmcwUIddPcUgplC/WybXjmvnTzWPwli?=
+ =?us-ascii?Q?NBLgcxSL/AQetVyCuWugIfZRLURImoyyxUNFvIwOCDGnobrlrXivn6jAtW9u?=
+ =?us-ascii?Q?2E/1P+3i9yV4s+preW3s08TuhFI/q2Dko0N6bdwz99UUvOOxRpb0Wfym/hIG?=
+ =?us-ascii?Q?4WEsswHb4rvpKNKM1gHePC4SpGJWX4IjJLKnYzZ0JugFa5it54JhF9uHlBRw?=
+ =?us-ascii?Q?5fpv9SiUc/0cKsJr8aGPXG5+/28qztts/jz9iUYtUsb5j3UbEZk4KgKcCRN0?=
+ =?us-ascii?Q?FO65CIL+Xc0TXN0kCieJGhdP4r/0Q+JE5wzmoEiDMkZF0XZ5utnKvU4gDBd3?=
+ =?us-ascii?Q?SxQgiU5tIlSpppZdm81uBTn+OutD3C2QfL5xyi3D9xwWiWsFmRHwQpSzgcYK?=
+ =?us-ascii?Q?5/Urg6j8dE5uP7DS61pvOGyuVluGpc+zmBnv7To872oKnz5YnWVJDJY8mhgZ?=
+ =?us-ascii?Q?UApoauf0HQ+tzaw9jCk2shVqnUNdpfENWnJQmiZj/V5N0YF3uRcWAUc7ANBM?=
+ =?us-ascii?Q?RgkQbsVpZEmFz7ICxjO5wbMStYp8iSMOVROkGjcXQPY+22ohKF547cnd87s0?=
+ =?us-ascii?Q?xo5Y2krMl3HKCKJuvGcE0d472Q9/FS32Ic+1h0+PlF+qPkaBIRP8WWMb6ytY?=
+ =?us-ascii?Q?mq5JbaM7pQxhGFMN9GTHGC4FHP/kd9U00Jc5hvbyVCH5cijygK+34k61xhlc?=
+ =?us-ascii?Q?ybt+IVMy17/CXJVxWqa9VltHLCws6UJg3EFQgorvFzS3tROTdIPZwhD4JaIX?=
+ =?us-ascii?Q?w+er89SDeyqKT7xi3NImNFvtrk/UAaYDRE2uqwB6pTXmvSps8nO62cS6OiBp?=
+ =?us-ascii?Q?GH6Z0zLjuTzJFQ+3ZOLTLPQfEUp0jC4Iq0MTfEA2pbVNujq9d1p54rIlieQ1?=
+ =?us-ascii?Q?cIOXGOaaeCoAE4cSgs3FiqvZpjyllnt8avYuXqIWOZ3gKlrkKbANmL/w2iBa?=
+ =?us-ascii?Q?mYwu8x5ltBzyEevCwYfjTn7I47rXIOvlSLfWleZh5ftOZyjOzB1ofyggZLeU?=
+ =?us-ascii?Q?US3Q1zhAAkRNYUPlXhV/AMwg7sduttKVR+4KYDkQ9VJ9748A1Mw8zhQzRW+f?=
+ =?us-ascii?Q?62DTe3CLpwrXSMIlNbqqtqDTHJagWrizBCkIlxZYQVDYLKxuTIHP3cFrZ6/g?=
+ =?us-ascii?Q?JuTi811YYI5hlrQR83U77YNtjxP6e/6zzORccKE9nxbE0AxlPxtokJAzdcj7?=
+ =?us-ascii?Q?ezZZLG3bRskFW4Jdh+tHNJchDwauexc=3D?=
 X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6690e497-c242-432b-1615-08df397681d1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b2d3485-a259-4744-3696-08df397680eb
 X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 06:48:45.7771
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 06:48:44.2675
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yTWUb0XSLEO89u6Kb6Kvx6vu1i1zq+7Y5kgP9Bp+9F3XyaH6gRYwG3StyDK3YOkY69Obx2mAFplu6Fyp9TZJPcoMNnVTocYdZxom0+PHstI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: lYTYu4EUkJv6OPkU2nmrD6chdZiAB93saIsw5yo3JhOKZu+zSo3lWfJVSy1OvN/IKmUsxzHN4u+4Nz6cpOS9GrAUtAHvF/Alu9LXrWxo7UU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB0982
 
-Add an extra iomem field to struct dwc3_gerneric, so as JHB100
-can add PHY adapter setting. Other soc also can use it.
+Add dt-binding of JHB100 server host field USB device controller,
+which still using dwc3 usb core and contains an extra PHY adapter
+register IO register region. Require to add IO register descriptions
+and regs-name list.
 
-Also Add Starfive JHB100 USB 2.0 device controller generic init
-function to remap PHY adapter io memory region and add adapter
-pre-run/stop function.
-
-On the JHB100 BMC SoC, each DWC3 device controller is connected to a
-port of the xHCI controller that is exported to the server host over
-PCIe, through a PHY adapter. Setting the adapter USB 2.0 port enable
-bit asserts the connect status in the xHCI PORTSC register, so it must
-only be set once the gadget is ready to be enumerated, otherwise the
-host fails to enumerate the device. And clear the ppt enable bit
-while gadget device stop.
-
-Add an optional "adapter" register region and toggle the port enable
-bit from the pre_run_stop glue callback.
+To compat with normal bmc usb, which contains only 1 dwc3 core IO
+register region, add miniItem to 1.
 
 Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
 ---
- drivers/usb/dwc3/dwc3-generic-plat.c | 48 +++++++++++++++++++++++++++-
- 1 file changed, 47 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/usb/starfive,jhb100-dwc3.yaml | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
-index ca69ac0eb07c..ebcd43442fc4 100644
---- a/drivers/usb/dwc3/dwc3-generic-plat.c
-+++ b/drivers/usb/dwc3/dwc3-generic-plat.c
-@@ -22,12 +22,15 @@
- #define EIC7700_HSP_AXI_LP_XM_CSYSREQ	BIT(0)
- #define EIC7700_HSP_AXI_LP_XS_CSYSREQ	BIT(16)
+diff --git a/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml b/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
+index fbabe99e9d5c..bbaefad3b400 100644
+--- a/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
+@@ -20,7 +20,16 @@ properties:
+     const: starfive,jhb100-dwc3
  
-+#define STARFIVE_JHB100_ADAPTER_PORT_EN		BIT(20)
+   reg:
+-    maxItems: 1
++    minItems: 1
++    items:
++      - description: DWC3 core registers
++      - description: DWC3 device controller PHY adapter registers
 +
- struct dwc3_generic {
- 	struct device		*dev;
- 	struct dwc3		dwc;
- 	struct clk_bulk_data	*clks;
- 	int			num_clocks;
- 	struct reset_control	*resets;
-+	void __iomem		*regs;
- };
++  reg-names:
++    minItems: 1
++    items:
++      - const: core
++      - const: adapter
  
- struct dwc3_generic_config {
-@@ -42,6 +45,44 @@ static void dwc3_generic_reset_control_assert(void *data)
- 	reset_control_assert(data);
- }
- 
-+static void dwc3_starfive_jhb100_pre_run_stop(struct dwc3 *dwc3, bool start)
-+{
-+	struct dwc3_generic *data = to_dwc3_generic(dwc3);
-+	u32	val;
-+
-+	val = readl(data->regs);
-+
-+	if (start)
-+		val |= STARFIVE_JHB100_ADAPTER_PORT_EN;
-+	else
-+		val &= ~STARFIVE_JHB100_ADAPTER_PORT_EN;
-+
-+	writel(val, data->regs);
-+}
-+
-+static const struct dwc3_glue_ops starfive_jhb100_glue_ops = {
-+	.pre_run_stop = dwc3_starfive_jhb100_pre_run_stop,
-+};
-+
-+static int starfive_dwc3_jhb100_init(struct dwc3_generic *dwc3g)
-+{
-+	struct platform_device *pdev = to_platform_device(dwc3g->dev);
-+	struct resource *res;
-+
-+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "adapter");
-+	if (res) {
-+		/* usb device controller with adapter */
-+		dwc3g->regs = devm_ioremap_resource(&pdev->dev, res);
-+		if (IS_ERR(dwc3g->regs))
-+			return dev_err_probe(&pdev->dev, PTR_ERR(dwc3g->regs),
-+					     "failed to get adapter regs\n");
-+
-+		dwc3g->dwc.glue_ops = &starfive_jhb100_glue_ops;
-+	}
-+
-+	return 0;
-+}
-+
- static int dwc3_eic7700_init(struct dwc3_generic *dwc3g)
- {
- 	struct device *dev = dwc3g->dev;
-@@ -231,12 +272,17 @@ static const struct dwc3_generic_config eic7700_dwc3 =  {
- 	.properties = DWC3_DEFAULT_PROPERTIES,
- };
- 
-+static const struct dwc3_generic_config starfive_jhb100_dwc3 =  {
-+	.init = starfive_dwc3_jhb100_init,
-+	.properties = DWC3_DEFAULT_PROPERTIES,
-+};
-+
- static const struct of_device_id dwc3_generic_of_match[] = {
- 	{ .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
- 	{ .compatible = "spacemit,k3-dwc3", },
- 	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
- 	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
--	{ .compatible = "starfive,jhb100-dwc3", },
-+	{ .compatible = "starfive,jhb100-dwc3", &starfive_jhb100_dwc3},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, dwc3_generic_of_match);
+   interrupts:
+     maxItems: 1
 -- 
 2.17.1
 
