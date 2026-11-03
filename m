@@ -1,61 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793729968;
-	b=QdrO3vNTS8NG4he4edmsdFjxoaMAOHBGElWxELKsP97bMnhrgpFgPg8OtrfcOKWZaPjc
-	 nanLD92kiWOLgjf7qpwd7IIlBmm6KkvqsoyFvBz75hEEj6doc1QIqRI/yqm2+tmAuxTZ2
-	 GMyREXoYEhMSGy63oWzJ1TLgUVskWQKHnwzSR7xbFWbgYAHiUQJgII24Ldb69cto6RXH0
-	 RhhoWDmY3eImFTFsxizun0p2gjsIxPoMi1L8Gq/hyG3jroCIFNEE6bi7XtdcVrJXPTURJ
-	 vvCSKy/j7ki8VioHQFpv2bs0xHIHqOQ/KuVNnXuOSK/k5JfdDl4nR9hiGqxvg6X5D+w==
+	t=1793730119;
+	b=R1gvlvuC8NvF53lLU4nKq9nv0loDz2seURcZc6QMV0myn6vgbtozp886eBt3IobsvR0u
+	 Nyz17bpUNqB5+e1LlOuJfK4D2EMH+xFwEOOmbcgx+CJpVBc4WDQTRfNjIVWmQfmVVG+6z
+	 6iI144+369EkzxBxjDZj1UVZ8T3ZjboYmbeIF2fZIPDd5fpIglv9QIjtcVENQz8Dh6qbR
+	 YFJ6nlErvqsqS6O9WNDx//x1F887X4RaD2DB7rrFc1FB/wExyWy3YAn/EmONhYdDs6ZTn
+	 f1s1eHsUkYZVpWhxSc+fp1O/pP//CxAt+DxaiB5P0zHZUqJUOspzM6fbF6L4L2FRSQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793729968;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=3KbP6qAK/EhHIofDfFegwnkBwYgeXvEQlgbW5GWBZok=;
-	b=Cz1sIMsqsfwMwttFclHJ4az36RqHVfTNMdw3nWCPvWOdi1+mxT+M2LJv0u6Nockpr5E4
-	 PzgKvNsY1EE4E17SHpdV15c6ojXY5CTqYtPfvvY1JQUila4tXDVKKGrTn1Rz9kXZ2dvB+
-	 gtuESgMr7juUBdtWnxb5FiP1Ekf64gDcDEojhEjqSeulBJAtUtM30v9Tv/gcAQoRAs7iV
-	 p6WQ+y16vDH0302HPgRntedlaLTBwSdAOuIkyhIsh+C4jDdi64ewGP5c66yHMaS9teaSG
-	 crlZkvsLtuLnwytHtyiatR8vlpfdX3p+HE3rKFlOWBWtzlHHKKE73dUL+2tHPVTTI9A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793730119;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=T7pFyIh1qwNoHvcvlvBt9zmmakWwCXJy2Aeq4jqBd6o=;
+	b=Ibi3tv2lbPnAMJWYw3fKIz2m3dJ/XDTBx6LjycFetq49wQUtBcgb9ArGGtyLES9ztLPp
+	 QxeC4qoicTP2eun+ldT4XlUDHEtSkmFMFenl5OO0Av/i8X39eoeS/BcCbICYRMWBum5+v
+	 uD3YvLaMlc+bPON5J0wGqu3GFpWjkOHqxz3GWhKwnBij5f070HxUpbQc2VD4pi+cOJ8qI
+	 g15gvqyp8lPVAHINHqp2x5VDHIrmTL12dTebsWNh2KxbCzJ0dML1dD3PHJAZttFyS1pGu
+	 XX/5QbsktVqKbB+LAw0N2XCeRKMQosHaPaaX93CpwaEKDaRXQ4grtp89Gt9rHyC8+yg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=daRhlLg7;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+k7Uw0M;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B9B606EEB9;
-	Tue,  3 Nov 2026 18:19:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3B9B606EEB9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359E8606A31B
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 18:21:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=daRhlLg7
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=3KbP6qAK/EhHIofDfFegwnkBwYgeXvEQlgbW5GWBZok=; b=daRhlLg7ipCg5aIvkcT78l5mF2
-	epPsPO11AY3N/H6YvZy0GQTotRlC5Z3DSAt/CM98wC1pfVTeXQCix23kQkdZeHX5RlxGYT3S/LQa3
-	Qsk3zEitndrhJBMqCeZI4K6IehJxiwzhXHQy9WpohPeEDIC/3oOVjJyejgitBZPnHcmAqXfsf1WXv
-	xpgbkdhQ3vIT6L/FFxHT0jfM8XJvf/ioKByh0Ltv5wU0QSgPVfOied1vtMkwEPcSRrgg9J1UW1JDq
-	RPIM7wpVMMpPvWr8mUpu3I1DO9itoY2M88V58s45HMtCT7M0489lYIw17F0dwoYVQzH5Z247n+kcn
-	pWJT58SQ==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOJ6U-00000003Orx-49L1;
-	Tue, 03 Nov 2026 18:19:27 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v3] USB: ohci: ohci_pdriver.h: fix missing kernel-doc comments
-Date: Tue,  3 Nov 2026 10:19:26 -0800
-Message-ID: <20261103181926.2838476-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+k7Uw0M
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA2791F000C1;
+	Tue,  3 Nov 2026 18:21:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793730119;
+	bh=T7pFyIh1qwNoHvcvlvBt9zmmakWwCXJy2Aeq4jqBd6o=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Y+k7Uw0MIuRLorSEz0Ewa7OG43kWZffwt1tDavvtDR+5tFYr3/MBgiYDmGvIGxK8L
+	 T6IPelBQylGUKWtAQqtdaAdgLLB98Q4Upo42jipuQU82FVPkTPCOHZFCETMS9zdPwl
+	 SkWBdpjvEAmWe1XpNeWe5eCsOa7k8mTj5O5Ou6pOJFo2pwwcn0xfEznlgb3NtG1cCA
+	 PCpIEoxfiLyburu6iLG+d0k9v1C4bMw/UHTvhwcKxqNJTeOWqq/Rp2SxrTRWX6KaTl
+	 4h+BQz/EyxIxHgbXbmz30cMrdx4PvrtnLXBlC+PrHFZAranzoiMPvOykic7MyGXlw0
+	 F90+nAzAjhKUA==
+Message-ID: <sashiko-outbox-195821@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: host: ehci-xilinx-of: remove the driver
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Radhey Shyam Pandey" <radhey.shyam.pandey@amd.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261103181722.2174208-1-radhey.shyam.pandey@amd.com>
+References: <20261103181722.2174208-1-radhey.shyam.pandey@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 18:21:58 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -64,57 +58,32 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Convert comments to kernel-doc format to avoid kernel-doc warnings:
+> The Xilinx XPS USB host controller is legacy soft IP for PPC405 and
+> MicroBlaze FPGA designs.
+>=20
+> This IP core relies on Xilinx Platform Studio (XPS) and the ISE Design
+> Suite, both of which were discontinued by Xilinx years ago. Furthermore,
+> modern AMD toolchains (Vivado Design Suite and Vitis) provide no support
+> for the legacy PLB (Processor Local Bus) architecture used by this core.
+> As a result, no new hardware designs can be built using this IP.
+>=20
+> Nothing in the upstream tree carries its "xlnx,xps-usb-host-1.00.a"
+> compatible string, no defconfig enables CONFIG_XPS_USB_HCD_XILINX, and
+> the compatible was never documented as a binding.
+>=20
+> It is also one of the few remaining users of the deprecated glue model
+> where the .c file is #included into ehci-hcd.c rather than built as its
+> own object.
+>=20
+> Given the complete obsolescence of the supporting hardware development
+> tools and the lack of upstream users, remove the dead driver.
+>=20
+> Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
 
-Warning: include/linux/usb/ohci_pdriver.h:32 struct member 'power_on'
- not described in 'usb_ohci_pdata'
-Warning: include/linux/usb/ohci_pdriver.h:32 struct member 'power_off'
- not described in 'usb_ohci_pdata'
-Warning: include/linux/usb/ohci_pdriver.h:32 struct member 'power_suspend'
- not described in 'usb_ohci_pdata'
+Sashiko has reviewed this patch and found no issues.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
----
-v2: move all kernel-doc comments to before the struct instead of
-    having them inline insidet the struct. (Alan)
-v3: add Alan's Ack;
-    indent the struct member descriptions with tabs just as the ones
-    above these are indented (Alan)
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103181722.2174=
+208-1-radhey.shyam.pandey@amd.com?part=3D1
 
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
- include/linux/usb/ohci_pdriver.h |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
---- linux-next-20261102.orig/include/linux/usb/ohci_pdriver.h
-+++ linux-next-20261102/include/linux/usb/ohci_pdriver.h
-@@ -13,6 +13,10 @@
-  * @big_endian_mmio:	BE registers
-  * @no_big_frame_no:	no big endian frame_no shift
-  * @num_ports:		number of ports
-+ * @power_on:		Turn on all power and clocks
-+ * @power_off:		Turn off all power and clocks
-+ * @power_suspend:	Turn on only VBUS suspend power and hotplug
-+ *			detection, turn off everything else
-  *
-  * These are general configuration options for the OHCI controller. All of
-  * these options are activating more or less workarounds for some hardware.
-@@ -23,12 +27,8 @@ struct usb_ohci_pdata {
- 	unsigned	no_big_frame_no:1;
- 	unsigned int	num_ports;
- 
--	/* Turn on all power and clocks */
- 	int (*power_on)(struct platform_device *pdev);
--	/* Turn off all power and clocks */
- 	void (*power_off)(struct platform_device *pdev);
--	/* Turn on only VBUS suspend power and hotplug detection,
--	 * turn off everything else */
- 	void (*power_suspend)(struct platform_device *pdev);
- };
- 
