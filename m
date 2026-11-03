@@ -1,51 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793749907;
-	b=H0aPiPIGPq4lbanVqmjPZEAcBnARBWKdJcUBfHI9fDCTqdlhbOtEP4R8RnNXeEXWFQXq
-	 OVtxIrp2jpEd4wBTYpK9LI2JnprsmvnpPReqN52HNLaajb2LRzRSjcE5Pi65tTP4dfUzj
-	 hcZ6XlgMeQOfDkO1i40AxODRaivhk7nOfnUfiNcn/zeQsjgBsSE/qBHcz6+cbeEVQc/pl
-	 GBXNjUaAdJgaHzjxbF2fuKXe52qPQD12BruAXUQZePZYt3iUzKtlDz2A8Q6mwIWT6yowf
-	 vjX7X4G5xQ5OQdPT806JYtxZ/ACvTjGOolWRTQid0IC34COmmwRbeL7SSBUThwQ48gQ==
+	t=1793750017;
+	b=U1t82Ij0TV28U+1ed7GjPasvwvT9qBOseBu3UPrSzYdBP63ntxPS97UOH2pYJRDMsdSJ
+	 n9aqNjxwVRE/zQMOLtKo6LCpGAZkufk0IFejfvtLsHH6JNUXVfwZBSH+WGyI+eB8PwO9i
+	 0Tk4oWuX2Plbrp//xhNKy7kiq/E5qX/wcUkQ9d5P+Zwql/9Bzu5IvyGVD5PDAkfNj3t47
+	 1PODnoKtoU5AoC+P10s/c0EWcAj2s6TPf278UAn/eGK6g0F41aOEqphAJesn7fELlnlmT
+	 Fd0doto1Wcmsl+KDHW0FCTwOG+/xzHMQpEbZZB89rGGMwJK2uTXI9TfD/hnUyKlFFsw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793749907;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:DKIM-Signature;
-	bh=PywoGYHtYXzdkfVgZN+c7wT6tXLK+qOtUP+hmYI2/bE=;
-	b=wh4BFyYzBp+/SB3md5/wcvvCYlvzGTEEJpanmRmq0vfa3ib5e+D6/TWi/hlCtsfawP4L
-	 f8EBMHjNMtWSu06dAY2jZoCde2SYM6tuCgI7mO9VaR3HvvkO42GK6b2H8llm8cEimDqI/
-	 HulLxEDRZxAd2qbSSOuBgOaJSwwQoHYlZ+CzGiD9oUZyIwAlGaL2YEhIwFDazsuvmkRI0
-	 OCw3ncBakUs9jfHHt3NpkHNhmbLv5tGcXEqK5qfgkHX+nlwUfDkRXL6XCC5hrI1dJkK6k
-	 lwY8vGWxYY4NurdbYtdHC62kxmF/BRUq+LNmW3DVguKyIXRrausjmlsqSi8gm/olOWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793750017;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=FCxDyXzDC9Nna1mQ+atYpDFv5LRrgLZY5FChqGmM6cQ=;
+	b=s2me1nAoJ1sNL5jdCz9pJeaI6C+UrEd0RK3/4HqP9vhzG+vEC6Y2q2z4KMYqV2uTq1Jx
+	 THyGyfG8lUPxlziirS93Cb8wiEZMFq61rKnjhyLdqPsoTw4oQrD05DHY0tF/FuJf9Q7H9
+	 A07Kti/vEl42D9i/zcIzRV9N78wMvihX75R8p0E2ILCBl1WtYcgUMIRLRq/WT/exuahqi
+	 xy4XvJpyLpfPWqaYjyhpdPNl1leQA4W42j1BnCBusA8oJbWliWG+ogEl5VrWPA7pVeAW/
+	 9jMC+jGnDx2wP9b75flGjH+0fxzzZD/h+MuPgIxPAim8IBZJHcqQ5TRNm+7JouABbwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=molgen.mpg.de;
-	spf=pass smtp.mailfrom=molgen.mpg.de;
-	dkim=pass header.d=molgen.mpg.de header.i=@molgen.mpg.de header.a=rsa-sha256 header.s=20260906 header.b=ZIvBGXzs;
-	arc=none smtp.remote-ip=141.14.17.11
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PSCN4g9T;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8920C606A31B;
-	Tue,  3 Nov 2026 23:51:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8920C606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD01C606A31B;
+	Tue,  3 Nov 2026 23:53:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=molgen.mpg.de header.i=@molgen.mpg.de header.a=rsa-sha256 header.s=20260906 header.b=ZIvBGXzs
-Received: from handsomejack.molgen.mpg.de (handsomejack.molgen.mpg.de [141.14.17.248])
-	by mx.molgen.mpg.de (Postfix) with ESMTP id 834FD4C2F3FFC8;
-	Wed, 04 Nov 2026 00:51:19 +0100 (CET)
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: typec: ucsi: Do not report surplus partner altmodes as firmware bug
-Date: Wed,  4 Nov 2026 00:47:44 +0100
-Message-ID: <20261103234750.27510-1-pmenzel@molgen.mpg.de>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PSCN4g9T
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 918341F000C1;
+	Tue,  3 Nov 2026 23:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793750016;
+	bh=FCxDyXzDC9Nna1mQ+atYpDFv5LRrgLZY5FChqGmM6cQ=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=PSCN4g9TuMDimXIzqf114a9G+Iyk8iCulvyK98N/g9ZiEhHBlZkFgdqC+Rl4zYeHI
+	 mvddaeAFCFKfu8pNgkgWmQcP8TZmcpRWhNc8CaHQPbeL5205KfoNNLHGU+l2wCXO1T
+	 NI/XaHoHlHE8zfE7iO6bTszz6ehviQSxHLJmcaUBWQjPInzbXvUK0yQ9C95HMVFI7f
+	 jStlkwywjo4tXpLyCCf8yqpw2/PGnLEYquUwYRZHDkqPfkhONBTqfy8ypSNgaOyx2T
+	 nfkh35Gd3lDqBERgrvmhUAovyoq7zsrE4Cznk8VaobxBqAy+B429cNWx0+yXOMaC1n
+	 s+p50vC4xwReg==
+Subject:
+ Re: [PATCH net] net: usb: lan78xx: resume phylink on non-reset USB resume
+From: netdev-bot+sashiko@kernel.org
+To: stefanomunari.sm@gmail.com
+Cc: Thangaraj.S@microchip.com, UNGLinuxDriver@microchip.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, linux@armlinux.org.uk,
+ o.rempel@pengutronix.de, rmk+kernel@armlinux.org.uk, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 03 Nov 2026 23:53:35 +0000
+Message-ID: <179375001506.488856.4516083483989818643@kernel.org>
+In-Reply-To: <20261102235133.23011-1-stefanomunari.sm@gmail.com>
+References: <20261102235133.23011-1-stefanomunari.sm@gmail.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,161 +65,262 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=molgen.mpg.de; s=20260906; 
-	t=1793749879; 
-	h=from:from:subject:date:message-id:mime-version:content-type:content-transfer-encoding; 
-	bh=PywoGYHtYXzdkfVgZN+c7wT6tXLK+qOtUP+hmYI2/bE=; 
-	b=ZIvBGXzsPHgJpWoFHzgQW++NNmNJC1z5bc/GXQmheABCG3DtzJPHe8vBXC8v+tLEWWi3MB91u1B3
-	Nh+qv/+Lz4th8vC/U8nJg+Z/s3xa/YUHTp4a2ziz/6Yu9lZ3BnWY3H+DB2S/Wmx2IIYBroY3tZpTNj
-	YE1PEmMCw6Y2yOMn/hP5hzX85NPZURU1depPxfUAgHLQBt53YUXIAb9TYDsncGl606qUshkvX3yQOB
-	hYeWAm1grK3r5aXq9PM0Z+suEV397rrg9XCIZPJRkmhTPtP+oKlSiixxxdN4xaKOlKAw+PymnW9ac3
-	fk9Dh2WPcSkW0niiZOyh6HwOQMbdqxgg==
 
-On a Dell XPS 13 9370 (BIOS 1.21.0) with a Dell USB Type-C power adapter
-connected, Linux 7.2.12 logs:
+Thank you for your contribution! Sashiko AI review found 4 potential
+issue(s) to consider.
 
-    ucsi_acpi USBC000:00: con2: Firmware bug: duplicate partner altmode SVID 0x413c at offset 1, ignoring but please contact the BIOS vendor to fix this issue.
-    ucsi_acpi USBC000:00: con2: VDO mismatch: 0x00000001 vs 0x00000002
+Critical: 0 · High: 0 (1) · Medium: 3 · Low: 1
 
-The port advertises one altmode for the Dell SVID, and the partner two
-Modes, with VDOs 0x00000001 and 0x00000002. Only the first one is
-registered:
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-    /sys/class/typec/port1/port1.2/svid:413c
-    /sys/class/typec/port1/port1.2/vdo:0x00000001
-    /sys/class/typec/port1-partner/port1-partner.0/svid:413c
-    /sys/class/typec/port1-partner/port1-partner.0/vdo:0x00000001
+- [Medium] RTNL self-deadlock.
+- [Medium] Self-hang caused by re-entering runtime PM from inside the USB
+  resume callback.
+- [Medium] On a normal (non-reset) resume, phylink is now restarted after
+  the MAC datapaths are already enabled.
+- [Low] Check-then-act race (TOCTOU) between the dev_open snapshot and
+  phylink_resume().
 
-A partner supporting more Modes of an SVID than the port is valid. As
-the typec class pairs partner altmodes with port altmodes by SVID only,
-skipping the surplus altmode is correct, but the warning blames the BIOS
-for a configuration that is not a bug at all.
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but
+  lan78xx_suspend() inverts the lock order.
 
-Report only exact SVID and VDO repeats as firmware bugs, and log a
-surplus partner altmode with a different VDO at debug level. Which
-altmodes are skipped does not change.
+--
 
-This also drops the "VDO mismatch" message, which can no longer trigger
-and printed con->partner_altmode[partner_count - 1]->vdo. That indexes
-all partner altmodes with a per-SVID count, so with altmodes of other
-SVIDs registered first, it printed the VDO of an unrelated altmode.
+net: usb: lan78xx: resume phylink on non-reset USB resume
 
-Fixes: 67c92c6419ea ("usb: typec: ucsi: Detect and skip duplicate altmodes from buggy firmware")
-Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
----
+This moves the phylink_resume() call out of lan78xx_reset_resume() and
+into the end of lan78xx_resume(). Both resume paths go through that
+function, so phylink is restarted on a plain USB resume as well (e.g.
+s2idle). The call is made only when the resume succeeded and the
+interface was open.
 
-Notes:
-    With this change, the Thunderbolt example from commit 67c92c6419ea
-    (VDO 0x8087a043 vs 0x00000001) is only logged at debug level. If that
-    case should stay visible, dev_info() is an alternative to dev_dbg().
-    
-    Tool use: Claude Code (claude-opus-5.5) traced the warning to commit
-    67c92c6419ea, wrote the code change, and drafted the commit message from
-    the dmesg and sysfs output of the affected system.
+> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+> index 181e8c087655c..0136818e8cb02 100644
+> --- a/drivers/net/usb/lan78xx.c
+> +++ b/drivers/net/usb/lan78xx.c
+> @@ -5371,6 +5371,12 @@ static int lan78xx_resume(struct usb_interface *intf)
+>  out:
+>  	mutex_unlock(&dev->dev_mutex);
+>  
+> +	if (!ret && dev_open) {
 
- drivers/usb/typec/ucsi/ucsi.c | 43 +++++++++++++++++------------------
- 1 file changed, 21 insertions(+), 22 deletions(-)
+[Severity: Low]
+Is the dev_open snapshot still valid by the time RTNL is taken?
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 5aab8ab9f0132..7edcf9c877ba0 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -531,9 +531,7 @@ static int ucsi_register_altmode(struct ucsi_connector *con,
- }
- 
- static void ucsi_dump_duplicate_altmode(struct ucsi_connector *con,
--					u8 recipient, u16 svid,
--					u32 existing_vdo, u32 new_vdo,
--					int offset)
-+					u8 recipient, u16 svid, int offset)
- {
- 	static const char * const recipient_names[] = {
- 		[UCSI_RECIPIENT_CON]    = "port",
-@@ -545,11 +543,6 @@ static void ucsi_dump_duplicate_altmode(struct ucsi_connector *con,
- 	dev_warn(con->ucsi->dev,
- 		 "con%d: Firmware bug: duplicate %s altmode SVID 0x%04x at offset %d, ignoring but please contact the BIOS vendor to fix this issue.\n",
- 		 con->num, recipient_names[recipient], svid, offset);
--
--	if (existing_vdo != new_vdo)
--		dev_warn(con->ucsi->dev,
--			 "con%d: VDO mismatch: 0x%08x vs 0x%08x\n",
--			 con->num, existing_vdo, new_vdo);
- }
- 
- /* Count altmodes in @altmodes that advertise @svid. */
-@@ -590,8 +583,9 @@ static int ucsi_altmode_count_svid(struct typec_altmode **altmodes, u16 svid)
-  *     SVID X as the authoritative cap and reject any partner altmode that
-  *     would exceed it. This preserves legitimate multi-Mode partner
-  *     altmodes (e.g. vendor SVIDs that the port really does advertise
-- *     twice) while filtering the firmware-generated duplicates that have
-- *     no port counterpart.
-+ *     twice). Only an exact SVID+VDO repeat is reported as a firmware
-+ *     bug: a partner may legitimately support more Modes of an SVID than
-+ *     the port, so a surplus altmode with a different VDO is just skipped.
-  */
- static bool ucsi_altmode_is_duplicate(struct ucsi_connector *con, u8 recipient,
- 				      const struct ucsi_altmode *alt_batch, int batch_idx,
-@@ -605,7 +599,7 @@ static bool ucsi_altmode_is_duplicate(struct ucsi_connector *con, u8 recipient,
- 	for (k = 0; k < batch_idx; k++) {
- 		if (alt_batch[k].svid == svid && alt_batch[k].mid == vdo) {
- 			ucsi_dump_duplicate_altmode(con, recipient, svid,
--						    vdo, vdo, offset);
-+						    offset);
- 			return true;
- 		}
- 	}
-@@ -620,13 +614,10 @@ static bool ucsi_altmode_is_duplicate(struct ucsi_connector *con, u8 recipient,
- 		port_count = ucsi_altmode_count_svid(con->port_altmode, svid);
- 		partner_count = ucsi_altmode_count_svid(con->partner_altmode,
- 							svid);
--		if (port_count && partner_count >= port_count) {
--			ucsi_dump_duplicate_altmode(con, recipient, svid,
--						    con->partner_altmode[partner_count - 1]->vdo,
--						    vdo, offset);
--			return true;
--		}
--		return false;
-+		if (!port_count || partner_count < port_count)
-+			return false;
-+		altmodes = con->partner_altmode;
-+		break;
- 	case UCSI_RECIPIENT_CON:
- 		altmodes = con->port_altmode;
- 		break;
-@@ -637,7 +628,7 @@ static bool ucsi_altmode_is_duplicate(struct ucsi_connector *con, u8 recipient,
- 		return false;
- 	}
- 
--	/* CON and SOP_P: drop only exact SVID+VDO duplicates. */
-+	/* Report exact SVID+VDO duplicates as firmware bugs. */
- 	for (k = 0; k < UCSI_MAX_ALTMODES; k++) {
- 		if (!altmodes[k])
- 			break;
-@@ -645,12 +636,20 @@ static bool ucsi_altmode_is_duplicate(struct ucsi_connector *con, u8 recipient,
- 		if (altmodes[k]->svid != svid || altmodes[k]->vdo != vdo)
- 			continue;
- 
--		ucsi_dump_duplicate_altmode(con, recipient, svid,
--					    altmodes[k]->vdo, vdo, offset);
-+		ucsi_dump_duplicate_altmode(con, recipient, svid, offset);
- 		return true;
- 	}
- 
--	return false;
-+	/* CON and SOP_P: anything else is a distinct altmode. */
-+	if (recipient != UCSI_RECIPIENT_SOP)
-+		return false;
-+
-+	/* SOP: a further Mode of the SVID, but no port altmode to pair with. */
-+	dev_dbg(con->ucsi->dev,
-+		"con%d: partner altmode SVID 0x%04x VDO 0x%08x at offset %d exceeds the %d port altmode(s), ignoring\n",
-+		con->num, svid, vdo, offset, port_count);
-+
-+	return true;
- }
- 
- static int
+dev_open is read under dev->dev_mutex. The mutex is then dropped, and
+phylink_resume() is called on the strength of the old value without
+checking EVENT_DEV_OPEN again.
+
+lan78xx_stop() runs under RTNL, takes dev_mutex, clears EVENT_DEV_OPEN and
+calls phylink_stop(). It could land in the gap between mutex_unlock() and
+rtnl_lock():
+
+  lan78xx_resume()                    lan78xx_stop() [rtnl held]
+    dev_open = true
+    mutex_unlock(&dev->dev_mutex)
+                                        mutex_lock(&dev->dev_mutex)
+                                        clear_bit(EVENT_DEV_OPEN, ...)
+                                        napi_disable(&dev->napi)
+                                        phylink_stop()
+                                        mutex_unlock(&dev->dev_mutex)
+    rtnl_lock()
+    phylink_resume()
+      phylink_start()
+
+If that happens, phy_stop() warns because the PHY is still HALTED from
+suspend. phylink and the PHY state machine are then started on a closed
+interface, and lan78xx_mac_link_up() can call lan78xx_rx_urb_submit_all()
+while NAPI is disabled. The next lan78xx_open() would call phylink_start()
+again.
+
+Userspace is frozen during system resume. However, netns cleanup runs on
+netns_wq, which is not freezable, and it can close physical devices under
+RTNL through default_device_exit_net() -> dev_change_net_namespace().
+
+Would checking EVENT_DEV_OPEN again after rtnl_lock() close this window?
+
+> +		rtnl_lock();
+
+[Severity: Medium]
+Can this rtnl_lock() deadlock when the caller already holds RTNL?
+
+lan78xx_resume() is also the runtime resume callback. A runtime resume
+runs synchronously in the context of whoever calls
+usb_autopm_get_interface(), and several of those callers hold RTNL. For
+example:
+
+  __dev_ethtool()                 [rtnl_lock() held]
+    lan78xx_get_stats()
+      lan78xx_update_stats()
+        usb_autopm_get_interface()
+          rpm_resume(intf) -> rpm_resume(udev)
+            usb_resume_interface()
+              lan78xx_resume()
+                rtnl_lock()
+
+Other RTNL-holding callers of usb_autopm_get_interface() are
+lan78xx_change_mtu(), the eeprom/wol ethtool ops and the phylib MDIO
+accessor lan78xx_mdiobus_read().
+
+A correctly opened interface holds an autopm reference until
+lan78xx_stop(), so it shouldn't be able to runtime suspend. But
+lan78xx_open() sets EVENT_DEV_OPEN before it submits the interrupt URB,
+and it doesn't clear the bit when the submission fails:
+
+drivers/net/usb/lan78xx.c:lan78xx_open() {
+	...
+	set_bit(EVENT_DEV_OPEN, &dev->flags);
+
+	/* for Link Check */
+	if (dev->urb_intr) {
+		ret = usb_submit_urb(dev->urb_intr, GFP_KERNEL);
+		if (ret < 0) {
+			...
+			goto done;
+		}
+	}
+	...
+done:
+	mutex_unlock(&dev->dev_mutex);
+
+	if (ret < 0)
+		usb_autopm_put_interface(dev->intf);
+	...
+}
+
+If autosuspend is enabled, the device can then runtime suspend with
+EVENT_DEV_OPEN still set. On the next resume from an RTNL holder, which
+can be an unprivileged ethtool -S, dev_open is true. The task then calls
+rtnl_lock() on the mutex it already holds.
+
+The stale EVENT_DEV_OPEN comes from an existing problem in
+lan78xx_open(). Before this patch, though, only the .reset_resume path
+took RTNL. Should the runtime resume path avoid taking RTNL here, or
+should the lan78xx_open() error path be fixed along with this change?
+
+> +		phylink_resume(dev->phylink);
+
+[Severity: Medium]
+Can phylink_resume() re-enter runtime PM from inside the USB resume
+callback?
+
+  lan78xx_resume()
+    phylink_resume()
+      phylink_start()
+        phy_start()
+          __phy_resume()
+            genphy_resume()
+              lan78xx_mdiobus_read()
+                usb_autopm_get_interface()
+
+lan78xx_mdiobus_read() and lan78xx_mdiobus_write() both start with:
+
+	ret = usb_autopm_get_interface(dev->intf);
+	if (ret < 0)
+		return ret;
+
+During a runtime resume, rpm_resume(intf) resumes the parent udev before
+it marks the interface RPM_RESUMING. Inside usb_resume_interface() ->
+lan78xx_resume(), the interface is therefore still RPM_SUSPENDED and the
+udev is RPM_RESUMING.
+
+The nested rpm_resume() on the parent waits uninterruptibly for the
+parent to leave RPM_RESUMING. Only this same task can make that happen.
+
+Resume paths that don't already hold RTNL, such as remote wakeup from
+hub_wq or an async pm_wq resume, would hang after the new rtnl_lock(). In
+that case RTNL stays held forever as well.
+
+As with the rtnl_lock() comment above, this needs the stale
+EVENT_DEV_OPEN left by a failed lan78xx_open(). A correctly opened
+interface holds an autopm reference until lan78xx_stop().
+
+The same hang already existed for runtime reset-resume, because
+lan78xx_reset_resume() called phylink_resume() unconditionally. This
+patch removes that case for closed interfaces, but adds it to the normal
+.resume path whenever dev_open is set. smsc95xx dealt with the same kind
+of problem by using _nopm MDIO accessors.
+
+[Severity: Medium]
+Does restarting phylink at this point run lan78xx_mac_link_up() while the
+MAC datapaths are already enabled?
+
+Earlier in lan78xx_resume(), lan78xx_start_tx_path() sets MAC_TX_TXEN_
+and FCT_TX_CTL_EN_. The RX path is also still enabled, because
+lan78xx_set_suspend() ends with lan78xx_start_rx_path() for wake
+detection.
+
+phylink_start() won't call mac_link_down() first, because phylink_stop()
+already cleared the old link state during suspend. When the link
+resolves, lan78xx_mac_link_up() does:
+
+drivers/net/usb/lan78xx.c:lan78xx_mac_link_up() {
+	...
+	/* make sure TXEN and RXEN are disabled before reconfiguring MAC */
+	ret = lan78xx_update_reg(dev, MAC_CR, MAC_CR_SPEED_MASK_ |
+				 MAC_CR_FULL_DUPLEX_ | MAC_CR_EEE_EN_, mac_cr);
+	...
+	ret = lan78xx_flush_rx_fifo(dev);
+	...
+	ret = lan78xx_flush_tx_fifo(dev);
+	...
+}
+
+and lan78xx_flush_tx_fifo() documents:
+
+/* The caller must ensure the Tx path is stopped before calling
+ * lan78xx_flush_tx_fifo().
+ */
+
+The reset-resume path already had this ordering. This patch adds it to
+every normal .resume of an open interface. It may matter most when the
+link comes back at a different speed or duplex.
+
+Should the TX/RX paths be stopped before phylink_resume() here?
+
+> +		rtnl_unlock();
+> +	}
+> +
+>  	return ret;
+>  }
+
+[Severity: High]
+This isn't a bug introduced by this patch, but the commit message says the
+new code mirrors lan78xx_suspend(). lan78xx_suspend() takes the two locks
+in the opposite order from ndo_open/ndo_stop:
+
+drivers/net/usb/lan78xx.c:lan78xx_suspend() {
+	...
+	mutex_lock(&dev->dev_mutex);
+	...
+		rtnl_lock();
+		phylink_suspend(dev->phylink, false);
+		rtnl_unlock();
+	...
+}
+
+lan78xx_open() and lan78xx_stop() are called with RTNL held and then take
+dev->dev_mutex. Suspend therefore uses dev_mutex -> rtnl_mutex, while
+open/stop use rtnl_mutex -> dev_mutex.
+
+Will lockdep report a possible circular locking dependency on the first
+system suspend with the interface up?
+
+An actual deadlock would need a non-frozen RTNL holder to open or close
+the interface while lan78xx_suspend() holds dev_mutex and waits for
+RTNL. Netns cleanup on netns_wq is one such holder.
+
+The new resume code avoids the inversion because it drops dev_mutex
+first. The suspend side still has the inversion, which came in with
+e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and
+MAC management").
+
+[ ... ]
+
 -- 
-2.54.0
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261102235133.23011-1-stefanomunari.sm%40gmail.com
