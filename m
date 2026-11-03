@@ -1,66 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793670305;
-	b=ngxXqCjNx/b7gVrVBZWt9B2ztpTXWvKUT9954dciJ8zroGr6qnhhtx1MIWeoJBpPPsM4
-	 gWVbo+FTlLcrL/dtsJsxcpZDhPSCni3vKYv5XTuH7dkwZdQqhsmBlkpknq/jRm8MGARiv
-	 5lRuOQu1i2YjiP++OEaDdoTcnoDpzlkuqOOTOmZGQ1mjSLDh3qTMsRlwTLZftOwsDmfU9
-	 J0XyKz6YKythwZhwU5iad1Efbtz66kIsYlyavx1Jyug2idey9bajuNqQLw9fEAty7h/oH
-	 1Yo13Uk+pxEKZXcXYr1PvVBWrWSkjUycTY2qx5tLza2kNYoYwCzAzRkBZZ++oB7ngiA==
+	t=1793670432;
+	b=F8nsFMfNjAyoUCMSKZlUwAklkmk18Vly/IVE4LoxeNQjzpJALDgaOHaCnSJhSNpD0ZXe
+	 k4EXMIvO7FCz1zOWEyN5DqLs7wnNBugJTmWGCtUG8idwr5SbHtKdX9Q9VyO6zmmPEOT4M
+	 Y1po+pli0LTnk9yYLZKLU38wFGsYW7hPUb3EI8ktJu8KRKaeQAf42wvlyhhU5ve1hLPlw
+	 ftOTunD5SGYeSWlEgRwvk3hpc/b4ooPLl7/pwMfXur6kbZyhNa0A3w6E6s1D/Gptd1anR
+	 LD+kFP8+F94aRyyJfTB4Sw/9gBc7E813StCnl4GOUFcBiSghOjKhPpODHfqhtCqnSqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793670305;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=NAL8h5fNjU6hYhdrPv5ujxCXwUQRFrAUW+j8KRIqdls=;
-	b=1HlL9fpO7Vn6CTDEa1SFcJp6fpJSE/Rh+0l87WmqdztYhT48wepjxwf0Y7fnETYvQg0b
-	 hNU3rmkaFkJgQbxLuDWeRAc66cgOV+pLdS2kR4gNEEu1sNFXWDb4xHD+birdu1k4W7RsH
-	 XsHqmmcgvhAfn2cTjjh6gIKNOlE3Kk8GkrY1a66PNgUj66DBB3uDmZ1DbXSoc7wFNu3Ve
-	 via4uYy5vAtZ98Cs/tmWiWM1R8/UW4P+vrfDwCDzGXLyljXHhffLxL8f7eEc3ukev3DX4
-	 amzO6uoBFtqAZwc0c7YSZevIC0WkOWeOHOYFo3CjVtkxf4+AO9Nx5BoJdm4vHM3nmnQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793670432;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=L2Ry9DtAWGth3srw95D6TtkIqcZsjt4qT1W7W95a7t0=;
+	b=Glf1Y6m2LSiThO16D5O514znGg3e0JahEi7FFP4MSkeLDMn4PCuhNzUZYYCom5E2AaYr
+	 Qn8AiNZjcJldbeqNtawImzqRKLFkl7YEeK+5qC1HUO33APgW/SbSFNV45Szu3tcA/DJFf
+	 JQ++w5UhlKBN37bwjKPVovtQXTrnrByxfynCASJ2uS++e2uIe3rfrRSecwti7hsYfY18e
+	 lRHgmMNfLJp5uK4b0M9/c8XThWxRdnOeW2U94heniuLSvQn6XGPwgvp2QCoVYOWA64BMP
+	 P+9T1Dpda97NZ5pLDndNw+tbgh4kTBO2TGlW557JB4obira+ajPgBk98t6dTsWREVNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=AMRZJQBy;
-	arc=none smtp.remote-ip=111.22.67.137
-Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26F81606A327;
-	Tue,  3 Nov 2026 01:45:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26F81606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ydpyiiph;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87130606A324;
+	Tue,  3 Nov 2026 01:47:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87130606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=AMRZJQBy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=AMRZJQByJhw4qT9Fx4IHq3sbGn1c2SVbqXj5hQxlz3A9rsenQpboD0uy1VVA12mZvNDLGu3Ubegki
-	 73aEBFDhm0Al1wTHQTbf7REVzBC75/iCk4cYVhfxxsc6+9ulyJ9zGQE+DAgahv+N8I0DWvk8fR3M7A
-	 t11OW4Bl5DlhbB9g=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86ae93c9b563-2d15a;
-	Tue, 03 Nov 2026 09:45:01 +0800 (CST)
-X-RM-TRANSID:2ee86ae93c9b563-2d15a
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from DESKTOP-3K8GUTQ (unknown[223.108.79.98])
-	by rmsmtp-syy-appsvr09-12009 (RichMail) with SMTP id 2ee96ae93c9a914-e4784;
-	Tue, 03 Nov 2026 09:45:00 +0800 (CST)
-X-RM-TRANSID:2ee96ae93c9a914-e4784
-From: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
-To: Kevin Cernekee <cernekee@gmail.com>,
-	Neill Kapron <nkapron@google.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ydpyiiph
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=L2Ry9DtAWGth3srw95D6TtkIqcZsjt4qT1W7W95a7t0=; b=YdpyiiphHPYn8KfABytE/jowME
+	hGt3+3rKWCyeZ2cfXUHN+zmYW4EqOLki0xhhfA40sXNUWW7YvErxlCYWBHk54p1pCsbhjVgc/a2MY
+	P7hOYC8t+wOx+MRAH4X35rgV3r+q52i1OrNeXXKOPzRL4NOQ0AVaVr3e2daYtl19u4uX/P9LuOXtE
+	1mn994G9L0aZkwCEUtrZmrY6yazTGBANcR/JfEnOIeqjfph83peZiuyRn3rNmxyFucXLyjwsCsIyJ
+	KUKpo4cLBQdRx/nk4Ad3bDplb1oQOfX/s9BnGjWxhqXv+qR4GGMBti9EbgxFEHePy3mPqP7jY6D4t
+	hPu2t2iA==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xO3cE-00000000ovW-2x2E;
+	Tue, 03 Nov 2026 01:47:10 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	linux-usb@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
-Subject: [PATCH] usb: gadget: udc: bcm63xx: Propagate iudma_init() error code
-Date: Tue,  3 Nov 2026 09:44:57 +0800
-Message-ID: <20261103014457.1255-1-laixiangwu@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.50.1.windows.1
+Subject: [PATCH v2] USB: ohci: ohci_pdriver.h: fix missing kernel-doc comments
+Date: Mon,  2 Nov 2026 17:47:10 -0800
+Message-ID: <20261103014710.2451967-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,32 +67,50 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-bcm63xx_init_udc_hw() calls iudma_init() and stores the return code
-in rc, but then returns 0 unconditionally.  When iudma_init() fails,
-the hardware has already been torn down by bcm63xx_uninit_udc_hw(),
-yet the probe believes initialization succeeded and goes on to
-register a gadget controller with non-functional IUDMA channels.
+Convert comments to kernel-doc format to avoid kernel-doc warnings:
 
-Return rc so the probe fails and reports the real error.
+Warning: include/linux/usb/ohci_pdriver.h:32 struct member 'power_on'
+ not described in 'usb_ohci_pdata'
+Warning: include/linux/usb/ohci_pdriver.h:32 struct member 'power_off'
+ not described in 'usb_ohci_pdata'
+Warning: include/linux/usb/ohci_pdriver.h:32 struct member 'power_suspend'
+ not described in 'usb_ohci_pdata'
 
-Fixes: 613065e53cb1 ("usb: gadget: bcm63xx UDC driver")
-Signed-off-by: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
- drivers/usb/gadget/udc/bcm63xx_udc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2: move all kernel-doc comments to before the struct instead of
+    having them inline insidet the struct. (Alan)
 
-diff --git a/drivers/usb/gadget/udc/bcm63xx_udc.c b/drivers/usb/gadget/udc/bcm63xx_udc.c
-index ba91b1ebb..250bb7685 100644
---- a/drivers/usb/gadget/udc/bcm63xx_udc.c
-+++ b/drivers/usb/gadget/udc/bcm63xx_udc.c
-@@ -1012,7 +1012,7 @@ static int bcm63xx_init_udc_hw(struct bcm63xx_udc *udc)
- 	if (rc)
- 		bcm63xx_uninit_udc_hw(udc);
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+ include/linux/usb/ohci_pdriver.h |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+--- linux-next-20261102.orig/include/linux/usb/ohci_pdriver.h
++++ linux-next-20261102/include/linux/usb/ohci_pdriver.h
+@@ -13,6 +13,10 @@
+  * @big_endian_mmio:	BE registers
+  * @no_big_frame_no:	no big endian frame_no shift
+  * @num_ports:		number of ports
++ * @power_on: Turn on all power and clocks
++ * @power_off: Turn off all power and clocks
++ * @power_suspend: Turn on only VBUS suspend power and hotplug
++ *                 detection, turn off everything else
+  *
+  * These are general configuration options for the OHCI controller. All of
+  * these options are activating more or less workarounds for some hardware.
+@@ -23,12 +27,8 @@ struct usb_ohci_pdata {
+ 	unsigned	no_big_frame_no:1;
+ 	unsigned int	num_ports;
  
--	return 0;
-+	return rc;
- }
+-	/* Turn on all power and clocks */
+ 	int (*power_on)(struct platform_device *pdev);
+-	/* Turn off all power and clocks */
+ 	void (*power_off)(struct platform_device *pdev);
+-	/* Turn on only VBUS suspend power and hotplug detection,
+-	 * turn off everything else */
+ 	void (*power_suspend)(struct platform_device *pdev);
+ };
  
- /***********************************************************************
-
-
