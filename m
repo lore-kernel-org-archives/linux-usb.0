@@ -1,101 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793676865;
-	b=JDLuQ+skiXQidcrQxjcMWa2BfH29v7y0vqZRb81LEeFtzvGFDnBJn55LEuxETxDQb8ZV
-	 mzBxL3ETSNswuRJlSgMImh+Tp5sHrdp/1JKZaoqOoFNOeF8pcK9vW3vzwmNCulNGLKsqx
-	 Lxw+0uJUyqLfbjenB0yHIj3EZYasowKGDo3GIrr85uKHCJLvkMKYCCIjIk5YFuUMlBKrI
-	 yhib08srcRAtzJ0g6k787dvm2jNPnDwsXczUbj2+/02GW6qlERqZHfHsA8QOqBaXjsin2
-	 2Za/a9KiE3PeDtyARtu/HzVsRzjVPC/D/Egn3r0A6SIoiHODWf/uX94STboF289i3ug==
+	t=1793677752;
+	b=HlRvE1wjLtdHb0XalXul3YOhlteA3zCnu/soz3TUcqFMMUqZHrXNV9W8iBtQLYR366NM
+	 Gz9E8YEhKv1RtDHoDp8kYJj7Q7E66OqihNa2ahy/TuqXdW/DjZ3r+o/yQpAlq+t6pe4mq
+	 oRe71fH2QZchaz9YlZrdsajatEF51bFPUGO11+1iRGXZ0c8Av0fqFTYOnxdq0Ne9rs/L3
+	 ZmibEXZn3Psjbxdl13ABYLLkbbATYXTHHrVE1/9LoybJME/HscwfNdxds1lq2SdsfwxjR
+	 SuQFoNCaQs5XKaupcpXQCALI0C5wHC52bZkgeOjyphhTUGD4IgNZniUEYUSJwMTTSdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793676865;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793677752;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=b1Rw55oWDrh7Qrrp6JFBlhT1fM/bU2NaiuzfyjKKcU8=;
-	b=I/h/rnFmpAmdM8bGRcZ30kblL9LHEp5fL3/trygzUr9alKyDHJWlRg1v195JTID0Z1Za
-	 k97+BPWWCWO0LW8AL3hYbeVorgTw3Uc70iN1SR8jD4zQpyFAO71pnv1+zraFCe5YvMInv
-	 o7lNKV+5uOIxN4s5DOn7b+vUEZYdcnP9N/My67OtUrevckj3JJYlEC7T7s4ymEhOuxGco
-	 LIdiYDC/SC7kFogHU0lu5lV4MDxU79Ucl/ywkLpVCsq/E4Rbjq8DvocH0xyqBAdk3GEqq
-	 65wd1n9DLcNqFR4Twav42dfqsbh1qy3TvAayW1yzxhlDNPRxdt2fJql46kXUGI4Iiow==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=xlANKc/hUsDyqlrzuS4pvu9SPatWxo1EtaTcINdrPck=;
+	b=w/OdjkhR/b4XS6HJXjv+8twH+xi/WNpvp8SZKj3ZuJmKlD3y1z/pugKxqtEAKwSkV1lM
+	 o+qgoH88hIeRfIv2FdtvuXI9LgswQ27nKLqPHRwuCPE23mYVtvYombxoRkf6fNYRXSBzI
+	 J0eKa2X7nUHBG3oXdYcIuf9oKUBXru82KeWIxV50Bki74mWAdX5eEW0Ov1jno3BOcvaHK
+	 JGgtFGmHikbebIJN4JAy8cMhDktYL693AsTT9NgoH+ZcCKQ64yTLf48OJFclCss/lUk5s
+	 SpvQInpqR+TmaaqYkwkNmr4l6tx0Taw744EDqAv+a9TNLHSM8n7ZKX6vUOqOp78Tgtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=jclark.com;
-	spf=pass smtp.mailfrom=jclark.com;
-	dkim=pass header.d=jclark-com.20260707.gappssmtp.com header.i=@jclark-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=AgiwMN+W;
-	arc=none smtp.remote-ip=209.85.214.178
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b="hC52/YqU";
+	arc=none smtp.remote-ip=209.85.222.170
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C56606A32C
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 03:34:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94C56606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jclark.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jclark.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F27C606A329
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 03:49:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F27C606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=jclark-com.20260707.gappssmtp.com header.i=@jclark-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=AgiwMN+W
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ea94541adbso16060285ad.2
-        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 19:34:19 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=hC52/YqU
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-93cc1ab5f6cso448683785a.0
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 19:49:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jclark-com.20260707.gappssmtp.com; s=20260707; t=1793676859; x=1794281659; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b1Rw55oWDrh7Qrrp6JFBlhT1fM/bU2NaiuzfyjKKcU8=;
-        b=AgiwMN+WCDb0CzMHKck1ZwBsxIOmlFDhABJrFx0RhXHXhMEgdpcjCQkcKPD4i6PCpd
-         tEwCWnQT5COSNU9Kn67nvGjSDZv81kzF3ZnJPRRczxT9628t7vDQF9fGF8hHW938fkta
-         UwWxhrKF6jVlZZ8P+LGMzklD9K3D95NJS1MCXZ3SshiMAgYFtOaG97TujFyhlejTBWVj
-         LhjWOZ3aVkTJduAlo82JvxBkn8eKoTcDa/w2rzhd1ysfkhrQcksTnSEvQiyayqY3NIHt
-         5qWYfAntph4Sj2ZG5nh+jr6+/XCxRiQBA4naC59UJvxwhllk4l8L6iYI9GYF3L6/uCUI
-         ZhhA==
+        d=rowland.harvard.edu; s=google; t=1793677750; x=1794282550; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=xlANKc/hUsDyqlrzuS4pvu9SPatWxo1EtaTcINdrPck=;
+        b=hC52/YqUVgi5zyfeZsh2Sa1tBvxb6geWgwGIsR9akKn7Qd8A6Wm9GYov0aUhLX80LG
+         /52Z9KUU3EBRRpekphMoymY8hS7Sni+RjFa7eVGSPoWRCG4edwqloOFBhbqs4QP8Y9FN
+         WMkbYiIz7cwz2wQsHX1tAr7EaaiyvR7gLZeUVtgThYoSVEmWB+Tepx2qPTOLWSzkw4ou
+         zkAMCBYwfTz6AXMrDVjtH9+GEqfybQIUb+n/Rh/dR1VeLo4Sd1cFqDF2JyVuy/coCOJr
+         EWzBH76iTxP3nLEXrVp8bj+kajI3KrE1eurboGLqz55lJSy25hjdrvCfbWnX7K4cdJvp
+         MABw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793676859; x=1794281659;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=b1Rw55oWDrh7Qrrp6JFBlhT1fM/bU2NaiuzfyjKKcU8=;
-        b=p7YkdZwYwbi9gg78OmYz6XfcsyOSyZmoZOFHvnoFOpOOi4bzy9zvAvAuvHhilQoSDG
-         fsv6NukcwZnNmGNIBt0YmqIZiza9aivxMh7jCes+ZqkN0j5isNpBUdn5wu6lPPXCR+0A
-         EBQoGCVWMtcRIp9w9rIipzr7qBrmW7LCRC4NKKCgFwKMM5EovW9AS0SsyMXrrbDOagO4
-         d6HUiyxrvZC46DBZMfGusVcmbSicJBuyY5jyTDV/LWkaIfdjqxFv5W6/e8gXtTGeipBq
-         Gvhv9TLlf35HmRWdziPNoESyNYmix8rtNYXihAFnbNpig8T4cJioOfsPIjqMSX0ECHlJ
-         04oA==
-X-Forwarded-Encrypted: i=1; AKwUvBy46uq/bvJLwMQHEzdwfFkLPqBKMQQ5zuPw5mK0MxxcpVPoAkPNP8eTR9gQ6PQphcBLuRRZ8Chga4c=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8+g0UHP2+78L6gmRy5aX9uvI64rXRTHaYFR6ozEsvR3s71C2OB
-	JqwtiZPuAAv4cnH+NkcZluXzxrgWoZc1IVUAvvuGlbyOYubYqaHiamZfcreRh939Jg==
-X-Gm-Gg: AYBFou1PTlViozIS4+KitWAWEwynuZdCK+nUO6z0QPY+qg0rnlRRbbxxUzOOPakfa1i
-	G1FWW5NCiBUbgjODCEhHt4Gj+rAnIyfIav/bmRvc9OpNktqd375jHo3mpg7EHuNG9HWS710sGBJ
-	F+G2Fb3Y7insefVRV+SWMUlqM6imjN2C4vEAD7ZtecOp06BNulzAPfY/1fVl6l+8Z1H3Le750OA
-	5mu/vDUM2lDgYs1i4n6wUUPh6W85PaJTG/eLibCm0+pdICBVue8tpZNHUCnpA9EeK4u65nfI/DD
-	0k/roXsPI3AQ79xc3AuhkNcd9wBX/GdlDiFvUzPEFJRoPvXhBfyStjvoNCW0H9hmUMilzCGQnf6
-	QzUINdUrEH9nutYSZg4vp5laMIR27ojbY9jP1Eg5hqAnFTUjrG+JHHVQ/ojYtXqmpdlQIJB5s6j
-	g4rdTWslcz9w+9w4bPKo3WQ2n6ow1nXPNyt6xKqyER1ZQXR3yyG7JTzJYeRfyvnZ82LRXtAg4oL
-	zVVXc35s7D+f8Mx47PeZ4KmqCKOdPGoBVcAC2xQh1aXPsxGFAw6jO5qLjkeUZRuKijq88t0AGmD
-	jSS6fp7YhSGaoaHQbYYkvH/rIxbf/0jrEqvoMcEdyc1IN0NjKDVnEpkoVi0AaJW/EGdCTK5muNW
-	lm1lBM1YUcxXJeRo5fA==
-X-Received: by 2002:a17:90b:2d0c:b0:3ad:d29c:5e64 with SMTP id 98e67ed59e1d1-3ae897e30c8mr9894127a91.65.1793676858713;
-        Mon, 02 Nov 2026 19:34:18 -0800 (PST)
-Received: from cantal.lan ([58.136.77.237])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c29e619sm1965566a91.0.2026.11.02.19.34.14
+        d=1e100.net; s=20260707; t=1793677750; x=1794282550;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xlANKc/hUsDyqlrzuS4pvu9SPatWxo1EtaTcINdrPck=;
+        b=v6VCmAPW6XbthxjnQooUkc64tXer7lK4PY9GcPPHiJGsSHXxy0l0t9qWleURdxj7vv
+         TyEI4at35ettCsQnL2Tc8DWw+krd5aOBtt5X84SlJYw9QNuEdNdcwf7/0O7EfXHW3J5t
+         foTKns2myPuGNI0HwkzKsG1NO+IPOa6ZwFY1C6Egh+dpZSULVu+MCSmXFc2ekAu2iMys
+         rxy3hHwFmP2Rdeb/eBn4B4jgfRb+yb3EH/9wakPgzPGB4y/3kAm0sDaeRZBDaB8CYKv6
+         nu9nZN+e7savEm59LQ8ZAs88MJ3fKu10oyz2P0XYxvHoWW3NmQzmdUfmvlemfJIFUOyZ
+         TeQg==
+X-Forwarded-Encrypted: i=1; AKwUvBzdTdZ44Prbz92KinqfB+HS0wB5gSzJYrUQCRS+5brnYcAdjw2ytcE917fQE1CZy/zhI5sXgnwZl7o=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJmsx4b+VI3cIUAW+74Ssubb3OIpvwS7W3ZT1B5QRlHoq6C/ejo
+	EigCGfjo5mwbcYg1PQTz0F2XNMNU7oWok1GtQqiTIK5B35HpCZFqABQn7eOrObsi0Q==
+X-Gm-Gg: AYBFou37EaofMNZVcuBKtn1nRwzAwji3aUoEiBHkdHrOP0tbhKVbflfz/LGL9t4YtCx
+	eXGZSctu/sJEPzoomgktZnOV5JyLkcpsYgR5cioTv4oiFpF7INr+FH1kD78GoYzLJYoCdy8kj6/
+	JCe6jMr8eUq1E8cpiKNhATpog1sv2unG8KE8RuWpAEUdE9gsUD9tzX/9+flycZsvXdEZEglWTBP
+	MIDGVQOCosN9PJpv7zNtvzBgICeXji03R0KMAzw1ZfxzHjwtbb6BPCGbglExtXAeJHpIhy2ZZZ6
+	1j7g609CAGF/O8BYZVXUdVGP8r3ds1IKr3DtOJYQ/2byVoElLcpfPQIGAWdI+WaUlUJc2EpOLzG
+	/Gps8XnmtYYY3L9/n3oQ9kaI8vv09hqlGSqnRF3JdM75mx5CEctr14PAcItDP+jXhyuF15wRMZb
+	lHAo6Aavi+x0PigrNAlLFJiYp8Oqm97xnW6iCDGeAB/S1BmKbGjVDRqfysUDx39TwThSzxBzpgh
+	d8sbsBw0uJEXm5hRJF+k0Jox6Vmna68KvEfdWGHTuGTQz5Ev7Sw5smdfIzcbh3FsQodo0wafG2J
+	xUAb3DtzaeC35ubREYlOuaPTDwBF
+X-Received: by 2002:a05:620a:370b:b0:93f:1af1:7951 with SMTP id af79cd13be357-94421729826mr1933039785a.66.1793677750486;
+        Mon, 02 Nov 2026 19:49:10 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-94425a6b9b4sm987221685a.26.2026.11.02.19.49.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 19:34:18 -0800 (PST)
-From: James Clark <jjc@jclark.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>
-Cc: Johan Hovold <johan@kernel.org>,
-	Bastien Nocera <hadess@hadess.net>,
-	Matthias Kaehlcke <mka@chromium.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Robert Nelson <robertcnelson@gmail.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: [PATCH v3 0/2] usb: core: fix failed device driver probes, add pre_probe
-Date: Tue,  3 Nov 2026 10:34:11 +0700
-Message-ID: <cover.1793669297.git.jjc@jclark.com>
-X-Mailer: git-send-email 2.56.0
+        Mon, 02 Nov 2026 19:49:10 -0800 (PST)
+Date: Mon, 2 Nov 2026 22:49:07 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2] USB: ohci: ohci_pdriver.h: fix missing kernel-doc
+ comments
+Message-ID: <02148858-defa-4c15-92e5-0ce7029bc000@rowland.harvard.edu>
+References: <20261103014710.2451967-1-rdunlap@infradead.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -105,45 +97,64 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261103014710.2451967-1-rdunlap@infradead.org>
 
-On a BeagleY-AI with BeagleBoard's device tree, kernels since commit
-f918e3804498 ("arm64: enable HAVE_SHARED_GPIOS for all ARM64 platforms")
-no longer boot to a usable system: the on-board USB hub is re-probed in
-a loop. Patch 2 fixes this as Johan Hovold suggested, with a pre_probe
-callback that lets onboard_usb_dev defer before the hub is configured.
+On Mon, Nov 02, 2026 at 05:47:10PM -0800, Randy Dunlap wrote:
+> Convert comments to kernel-doc format to avoid kernel-doc warnings:
+> 
+> Warning: include/linux/usb/ohci_pdriver.h:32 struct member 'power_on'
+>  not described in 'usb_ohci_pdata'
+> Warning: include/linux/usb/ohci_pdriver.h:32 struct member 'power_off'
+>  not described in 'usb_ohci_pdata'
+> Warning: include/linux/usb/ohci_pdriver.h:32 struct member 'power_suspend'
+>  not described in 'usb_ohci_pdata'
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> v2: move all kernel-doc comments to before the struct instead of
+>     having them inline insidet the struct. (Alan)
+> 
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: linux-usb@vger.kernel.org
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+>  include/linux/usb/ohci_pdriver.h |    8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> --- linux-next-20261102.orig/include/linux/usb/ohci_pdriver.h
+> +++ linux-next-20261102/include/linux/usb/ohci_pdriver.h
+> @@ -13,6 +13,10 @@
+>   * @big_endian_mmio:	BE registers
+>   * @no_big_frame_no:	no big endian frame_no shift
+>   * @num_ports:		number of ports
+> + * @power_on: Turn on all power and clocks
+> + * @power_off: Turn off all power and clocks
+> + * @power_suspend: Turn on only VBUS suspend power and hotplug
+> + *                 detection, turn off everything else
 
-Patch 1 fixes two pre-existing bugs found by a Sashiko review of v2.
+It would be nice if the indentation for these new entries matched the 
+indentation for the ones above (1 or 2 tabs instead of 1 space).  Aside 
+from that:
 
-Tested on the BeagleY-AI on top of v7.4-rc1: the board boots normally.
-The -ENODEV fallback that patch 1 changes is not reached on this board.
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-I found this by booting commit 85b4bc79dde7 (net/main during the 7.4
-merge window) on a BeagleY-AI with BeagleBoard's device tree. A coding
-agent identified the problem, explained it to me and proposed an initial
-fix, which was revised numerous times on the basis of comments on v1 and
-v2, my feedback and local Sashiko reviews. I verified that the series
-fixes the problem on top of v7.4-rc1.
+Alan Stern
 
-v3:
-- Add a patch to fix existing problems, as requested by Alan Stern.
-- Patch 2: rebased on it, no other change.
-v2: https://lore.kernel.org/all/20261030151919.3511106-1-jjc@jclark.com/
-v1: https://lore.kernel.org/all/20261030114705.3159093-1-jjc@jclark.com/
-
-#regzbot introduced: f918e3804498
-
-James Clark (2):
-  usb: core: clean up before handing a device to the generic driver
-  usb: core: add a pre_probe callback for device drivers that may defer
-
- drivers/usb/core/driver.c          | 42 ++++++++++++++++++++++++++----
- drivers/usb/misc/onboard_usb_dev.c | 15 ++++++-----
- include/linux/usb.h                | 14 ++++++++++
- 3 files changed, 59 insertions(+), 12 deletions(-)
-
-
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
--- 
-2.56.0
-
+>   *
+>   * These are general configuration options for the OHCI controller. All of
+>   * these options are activating more or less workarounds for some hardware.
+> @@ -23,12 +27,8 @@ struct usb_ohci_pdata {
+>  	unsigned	no_big_frame_no:1;
+>  	unsigned int	num_ports;
+>  
+> -	/* Turn on all power and clocks */
+>  	int (*power_on)(struct platform_device *pdev);
+> -	/* Turn off all power and clocks */
+>  	void (*power_off)(struct platform_device *pdev);
+> -	/* Turn on only VBUS suspend power and hotplug detection,
+> -	 * turn off everything else */
+>  	void (*power_suspend)(struct platform_device *pdev);
+>  };
+>  
