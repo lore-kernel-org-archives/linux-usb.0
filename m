@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793717282;
-	b=EMC+HLqj5vJpAZgdy+BF7Dls8KPU6KFZEFQKyTtwt2sZ/Ij8y9D5RvljvuTQdZqDXswz
-	 FRVS5pEsfdEiLr+ANPMn3hs+KpL8VtSulZPZCLTUzsjyC3+XcmqyypZYqI/b3hHspjz7d
-	 9cjhYfdptg/a9nYe1PC4qyM6z0HOdS0Bhgg50PZo6h1JPwAuM6N1t+v+Fl6d6joV/JLUv
-	 tp6wRqTCN/asQtSL+bDjwWjCNXQuiKr5NypbDc2OxSQOiksuGR5k1ALvsQbZy3WoXuQQV
-	 M1cLVA4HLQp7v8wqFGBwZEsGzwWcPyORAN8z2UMJzML1N18UlzFIOWgGZEuII1MxREQ==
+	t=1793717264;
+	b=CssBk1kxOM7c75U96bE6GopQUD8Kfg3igh1WKfoatsZKxqSu8d3e0XLxkuiaDPxrl+j8
+	 UP/zK75LXXBjM12kcMKzTkvBdVQHG78Owf2r5gps6hHtYUDsKuibh6MiSW3iM3mDGMy6E
+	 s0i0Ju22tZIzDcpPfnYzGAOXuUglrXJfCF7BKqudQL97mnvfkl0xyTBfuh4kC+shpOZwW
+	 PfBchokCGgc9VVLV6tRfTUfwNgKxW2XWPNWVh8BM+9cC2E8/bXehpE/F3m+Y67Z+E0zxY
+	 zylswRxhoynEnhwqnfFOYA7tf/HLOP0qFHlTb6njNgICbZvQ1xQARJBJtKgDGs0m3mg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793717282;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793717264;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Jt8oSnDtjWT9Rc1lRRQoEdIpZQuLDAxwiZiNGREGvEU=;
-	b=zSm+BeJbsj72cfSQPDEjkfsPZTjU6bSbp9u0Sj+Fyss38g0ncgAA1E8xEcRuqefMzIjE
-	 clJNUBLB1JOgBTEj3RJbB81E3gxVgEhttnyatEAWjEdV6Ra+KpynUybXRCAkn7495shbD
-	 /loQFv37AcpCqX/TmvXQ4ZH4D/Pwafgz2PpwKGJpE20GCzVOosDLCGOee8hfDecE3Xgf3
-	 tX4FGkRQXOStgkAoEvsSQOH5vqvj4GNE1JE6/Juheqn2ajoDaPozQNeSU9U7W/pJUFZ6w
-	 DZ2msib1CzAfmp8kpl/FdadD0Aff6GvM1RtXHVicIjJNosxczh5tK9dO56q2ikue2Dg==
+	bh=qqwJwzLGJj1Hxu0TtHvbrL/TW26gUB/OdlTGsxg9/ZQ=;
+	b=kvLwCp61uiUIqXHxWB/J40oru9m2ZXxaSiAbNYuk/knqBfmF35xaGqlJlDsCJ/nlbjkQ
+	 XmJ6PqilajPHm00wY1tVZS1IIcYE+GexEQEVzqrV7kAfs4e02eA8lpzGIuBksOCfNLkH6
+	 Ow3rJuAsDT1cfLrL5hfkcE6p+DjKRGlsn4OtOI2iK/V6JhUVo5LyNvRy3jVOGDGZkV492
+	 j1qWOgAK+NAKxzApMW7gLN9bvJ4EWUPDjCfSak5QxykliWSuMpkwmke6Eq2Rv3G9mx3XE
+	 F6O/nwloX7Sst0wJlBrc69KW4p4yXBZUearM58ux6LtnM/HNDFKcnk2y2hVuZ6ixB4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZLM25BCG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CDbtOSLZ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB0960A261C;
-	Tue,  3 Nov 2026 14:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADAF4606EEA9;
+	Tue,  3 Nov 2026 14:47:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZLM25BCG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D27A1F00919;
-	Tue,  3 Nov 2026 14:48:00 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CDbtOSLZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFE121F00919;
+	Tue,  3 Nov 2026 14:47:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793717281;
-	bh=Jt8oSnDtjWT9Rc1lRRQoEdIpZQuLDAxwiZiNGREGvEU=;
+	s=k20260515; t=1793717263;
+	bh=qqwJwzLGJj1Hxu0TtHvbrL/TW26gUB/OdlTGsxg9/ZQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZLM25BCGsWNuNmJ/K9N1vryFmClM5QGd+w1e7Y/oABSSzjVbQNzdV0AlPqiqT/BZz
-	 gVjtej5uWjivTFNRb8niUA/AaCtVvzYTNAGV9gc6Mg8Q73DILuzBagqZP0YjlkS4ok
-	 8a5PyM62d8H3SaSHls5JF7e6qN38DCKSnLe90TyyDShwSeDWLcnDwqx5NCFzJREoSZ
-	 fYkFOlYBmIxCnw6DQBk3StfjM1WgHAjuKa+F5YHphYcUyb5by0bUB2nqkyvRC6EwmM
-	 mLR9qu9/cElVYgf0F7Xq0FERhwAIiwGHNA/5lHothanOlSg0abydegRnPFqWsonMYV
-	 SucZjZpZ0qt0Q==
-Message-ID: <sashiko-outbox-195489@kernel.org>
+	b=CDbtOSLZ+8yKwhiyTrZueHRtkbD/K4tLmmy4X+oFVLra5s9kAyEBcR1gnyiAxEwvb
+	 rbMmayi0VqbgvG1CWLN2RxUjLU0f7l4Pc6HAXZ+5Slm5w/5I4G5mgxQWFAxctBkeBi
+	 waGJQ835WDXjQZppvthgegMD7FtQID4nd08fdOYV6vgEWnTHahspHuoOQ/+33AFRYn
+	 66fjb+PlsNW//zyn3cyHMf9EzHPX71CXRYl5jssVED/E1mdo6WOQ44t+RR1+s26rfG
+	 K0gMlvNMOK7DFg/Trp8u+j9wNl3N53oxeHeaFuWlV6o0eOaUIlpaLpGuUZm1lL/tXu
+	 HrVyXF6yAozmQ==
+Message-ID: <sashiko-outbox-195480@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC 17/38] net: pktgen: reject device names with a '/'
+Subject: Re: [PATCH RFC 08/38] powerpc/rtasd: zero the error log buffer
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Christian Brauner" <brauner@kernel.org>
 Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
@@ -54,12 +54,12 @@ Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.
  Iwai" <tiwai@suse.de>, linux-ext4@vger.kernel.org, "Chuck Lever" <cel@kernel.org>, tytso@mit.edu, "Heiko
  Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
  Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261102-work-procfs-bugfixes-v1-17-59422ed3e465@kernel.org>
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-8-59422ed3e465@kernel.org>
 References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
- <20261102-work-procfs-bugfixes-v1-17-59422ed3e465@kernel.org>
+ <20261102-work-procfs-bugfixes-v1-8-59422ed3e465@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 14:47:59 +0000
+Date: Tue, 03 Nov 2026 14:47:41 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -69,30 +69,12 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> "add_device" takes a name like eth0@1. Only the part in front of the
-> '@' has to name a network device. The rest is free text and all of it
-> becomes the name of a file in /proc/net/pktgen, where procfs takes a
-> '/' as a directory separator. So "add_device lo@a/b" makes procfs look
-> for a directory "lo@a" that doesn't exist and warn about it. Any user
-> can do that in a network namespace of its own:
+> rtas_log_read() hands out a whole slot of the error log but
+> pSeries_log_error() only fills in the sequence number and the event,
+> which is usually a lot shorter. The rest of the slot is whatever
+> vmalloc() left there. Use vzalloc().
 >=20
->   name 'lo@a/b'
->   WARNING: fs/proc/generic.c:174 at __xlate_proc_name+0xb1/0xf0, CPU#3: b=
-ash/241
->   Call Trace:
->    __proc_create+0xd0/0x9b0
->    proc_create_reg+0x45/0xf0
->    proc_create_data+0x77/0xf0
->    pktgen_thread_write+0xd8d/0x1750
->=20
-> With panic_on_warn that takes the machine down. And if "lo@a" exists
-> because somebody added a device of that name, procfs used to register
-> the new entry below that regular file, and removing "lo@a" freed both.
->=20
-> Reject names with a '/'.
->=20
-> Reported-by: Chris Mason <mason@kernel.org>
-> Fixes: e6fce5b916cd ("pktgen: multiqueue etc.")
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
@@ -100,5 +82,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-work-procf=
-s-bugfixes-v1-0-59422ed3e465@kernel.org?part=3D17
+s-bugfixes-v1-0-59422ed3e465@kernel.org?part=3D8
 
