@@ -1,53 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793715641;
-	b=Lte6Ocv/0GFzCEYy1Sx44lb8wAFusq6uUotzUkz+329urcomDgJm1pRftAyvTAveJvLV
-	 jYCC0+pYaiXugd38BaNKpcP4EDsRalhWxlXEdEO70n2pX2imSJdi/2nrttnbyGH7F5Y1t
-	 zjCN8IfPazgN0hsd2EzfrVGAVGf5L6ACJDTXLfhGm1MU5H4rQ+fhGcHe7d+oG0yOlVitj
-	 RSmnJcZXV0EV4UKibI0hDypVbN6Vc9EnMmpZyQbsm27nScxZjNbgNxgSOPRsiqFAEUDAb
-	 pqdO4VFhTyqjJ9I61alUJHJ8WZuT1HZgUroj+32nWPFZVJdTuVnNQc01/BYwbzZAXqQ==
+	t=1793715791;
+	b=M3R/PE+L8qiAyymn8m5jjUJQvIPferH3E4UQwjAGk7QoUczOx5bKYDXPf1ycmusLjatD
+	 zmTLUACz6cGd36ZdfUAqjQ8w2mZkyO5sDEfMF0mYXISCLhoo3lvloFPJe86mv+X0XFj1B
+	 OJcBas47KU9xijTNENxaOhEIxRR2NZowmUGz39mMOALkIFLu0/lDmkcuLlQ7X3mMU5UNL
+	 60rbAG/R72dKXWMNWvah5ASn2GTfgvaJadVXTpJFpuWOfeABDxdzmOh2vqZSLa4A13msU
+	 pn/ooYeh6pzHVBczPSmHaGei6HbK0sK+TpaMyR7vbU8PIFSozTRooMlHdB66hcURvXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793715641;
-	h=DMARC-Filter:Received:DKIM-Signature:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Developer-Signature:X-Developer-Key;
-	bh=HVDWQILRNpxgUD+65/hwXJDdBNPyWO35184YLecShUk=;
-	b=NEvL5BevvoOnROvAV8m2KWnu/vXjxZbFzOaA3tvsguXYYAkvpVFxjNPdB6NKcSbhaVvw
-	 iV9SgYtg2pPMcqeitsMfwFM/0X85TUnEV6CJiHjwspDoQ0R252j8OT14RM0oO7THqbZku
-	 J9u5u0dyOAiFfIb03hMvc4jSxrJwy6b2XzebN/cCo80rl0hEolxJ8aHn9Yr3KA/jevqID
-	 92AU7e8AIzaKCXgdbcJCWKIAKUErXpvXKL3Ql1xTapf9gGNAJbJKiEGjVmxY0S9m6iiA8
-	 IUh0Cj4Mn/6SFzkn8HuTXTP0gf6EgrL9YpVR/Unp+7ZLBJt1IAQ7BwyDVDwG69+IXNQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793715791;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=jwEEmiPFz1WXzR7jKQM8iA3ryYmOo5RifuzhgHHLbDc=;
+	b=mlIA0V3x4ZvYcTS6FsiokXKBoHNUGrTK2a6Xcjp3Fu6qArcbur/1wBYxY+r6AMfYQJ5X
+	 ehzQ0TMO+2Ko+sYzBz2LSvpjTERVf8TXmiwSsPJ6xeQHSqAnjRJKRFagKEcjCCAOO6L2A
+	 /l48UdZCyVMcC58lJII3j4SVvf4dKEMOit/VclPB6RdGWwaEfwb956aTzGlIU+NkcK6D4
+	 hICDwuCsurfZBvdsMGzRZHQCaWI36s7IgcI/JOu9wqEO6T7+na1reT70lmC2mHBPzIxea
+	 jEO2Ke/KkeFzXhPTLEihi+0jwZ23zIYvhOuAnIM9YB6mEZYObJm/UM5pD0Ute50kRpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chaosmail.tech;
-	spf=pass smtp.mailfrom=chaosmail.tech;
-	dkim=pass header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=FixmBj2P;
-	arc=none smtp.remote-ip=77.81.229.115
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J413p73p;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6C1606D81F;
-	Tue,  3 Nov 2026 14:20:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E6C1606D81F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E09606D818
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 14:23:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=FixmBj2P
-Received: by chaosmail.tech (Postfix) id 21A441CA44C;
-	Tue, 03 Nov 2026 14:20:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1793715631;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HVDWQILRNpxgUD+65/hwXJDdBNPyWO35184YLecShUk=;
-	b=FixmBj2PhO7nHV4lSI3HWzaq1cm7z/eWuIhh1XerTDsm2ah21RJ6aWQ/0og/+BcIiR+5hn
-	+738FdKk8Hh/zMLU9riDGYODGQtPcib5iYyT7+LnRyuFPVf6wBomhhRwSUrSi5e1o6I8fl
-	FiOjh5VtlFyHy/PbBxyAyICa4iBxD4Q=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Tue, 03 Nov 2026 15:20:23 +0100
-Subject: [PATCH v8 1/3] dt-bindings: usb: tps6598x: Add sn201202x/ACE3
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J413p73p
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DFEA1F000C1;
+	Tue,  3 Nov 2026 14:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793715790;
+	bh=jwEEmiPFz1WXzR7jKQM8iA3ryYmOo5RifuzhgHHLbDc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=J413p73pEOAtFVaMwThphT5c42Bon4z8hScjRl1ykRKeaPPHyq5dYMInO2B+2GQjc
+	 gyQMUTkS7aK4KjtQUlFIabYx6GiTtpHDzJdMA4g0+NG98DPrVvD9Ln2WdTB/GTDjSG
+	 wON6VMwOkwA4DQIj3WxPtCxFgmqac2vS0Y4QWFDHsSoUhHUYdFUJTuUewyo5P8uSop
+	 ApgpDWqUoG3omgCUtg4lHzCG7MGOMfBMit5dPDSl5CTstespbQYpNeBes1yWuWvbHY
+	 CTefsRkrt8IYA1wA8RXOCmd84Srtx1l3vra4uwzNOmIbn/KuMYfz5GqIeO/QSeh4Cr
+	 FkMHs/ofYpiPw==
+Message-ID: <sashiko-outbox-195442@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v8 1/3] dt-bindings: usb: tps6598x: Add sn201202x/ACE3
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sasha Finkelstein" <k@chaosmail.tech>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261103-tipd-ace3-v8-1-770f42421753@chaosmail.tech>
+References: <20261103-tipd-ace3-v8-0-770f42421753@chaosmail.tech>
+ <20261103-tipd-ace3-v8-1-770f42421753@chaosmail.tech>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 14:23:09 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -56,135 +59,16 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-tipd-ace3-v8-1-770f42421753@chaosmail.tech>
-References: <20261103-tipd-ace3-v8-0-770f42421753@chaosmail.tech>
-In-Reply-To: <20261103-tipd-ace3-v8-0-770f42421753@chaosmail.tech>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793715630; l=3481;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=FTIeND6mW8/sH2AzpokvwMXi+ZsnBXSt2Qu+7LruQJM=;
- b=8b0QYH2RSO6/PLvHLwoyHtbrSVJB1c1DQdJaBjhbG1s0pEAMF1tdexqBlD7DcRMTBYaVpioDS
- S9KUswg9dZyADSOkQHnbAM82H15s0GLqzmXBszuMRXJ5YkBZL4o9oCJ
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-A variant of tps6598x that is attached to a SPMI bus and is found on
-Apple devices starting from the M3 series
+> A variant of tps6598x that is attached to a SPMI bus and is found on
+> Apple devices starting from the M3 series
+>=20
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
----
- Documentation/devicetree/bindings/usb/apple,sn201202x.yaml | 78 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                                                |  1 +
- 2 files changed, 79 insertions(+)
+Sashiko has reviewed this patch and found no issues.
 
-diff --git a/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml b/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
-new file mode 100644
-index 000000000000..133a71bbedb7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
-@@ -0,0 +1,78 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/apple,sn201202x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments sn201202x Type-C Power Delivery controller
-+
-+maintainers:
-+  - Sasha Finkelstein <k@chaosmail.tech>
-+
-+description: |
-+  Texas Instruments sn201202x Type-C Power Delivery controller
-+
-+  A variant of tps6598x controller also known as Apple ACE3
-+  present on hardware with Apple SoCs starting from the M3.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - apple,sn201202x
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    items:
-+      - description: Primary irq used for tps6598x events
-+      - description: Logical register selection completed
-+      - description: Standby command completed
-+      - description: Wakeup command completed
-+
-+  interrupt-names:
-+    items:
-+      - const: irq
-+      - const: select
-+      - const: sleep
-+      - const: wake
-+
-+  connector:
-+    $ref: /schemas/connector/usb-connector.yaml#
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/spmi/spmi.h>
-+    spmi {
-+        #address-cells = <2>;
-+        #size-cells = <0>;
-+        usb-pd@c {
-+            compatible = "apple,sn201202x";
-+            reg = <0xc SPMI_USID>;
-+            interrupts = <11 IRQ_TYPE_EDGE_RISING>,
-+                         <13 IRQ_TYPE_EDGE_RISING>,
-+                         <17 IRQ_TYPE_EDGE_RISING>,
-+                         <19 IRQ_TYPE_EDGE_RISING>;
-+            interrupt-names = "irq", "select", "sleep", "wake";
-+
-+            connector {
-+                compatible = "usb-c-connector";
-+                label = "USB-C";
-+
-+                port {
-+                    typec_ep: endpoint {
-+                        remote-endpoint = <&otg_ep>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 93abbb315065..6bf3e8f35095 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2736,6 +2736,7 @@ F:	Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr-misc.yaml
- F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
- F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
- F:	Documentation/devicetree/bindings/usb/apple,dwc3.yaml
-+F:	Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	Documentation/hwmon/macsmc-hwmon.rst
- F:	arch/arm64/boot/dts/apple/
-
--- 
-2.56.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103-tipd-ace3-=
+v8-0-770f42421753@chaosmail.tech?part=3D1
 
