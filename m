@@ -1,109 +1,111 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793749200;
-	b=Osa5a2X5VYjibMBcu7M7evZkLa6Pa2SWyEgpzBF+py4Gty9Ca1AgYrEZatTgxXqdCp1t
-	 mgzD6m9cEgOJrNyYQuP6TqlmxhNmaqrdojh2ybtgVMzshmB67MW2v1TKj32THRAuYzKHB
-	 i1UnQ9EbJ2nFYsepyw7q7Sapc0bhZbd1IX63LsoUTYZ6WGRfMSRCEty1OuE3rn58bOQdD
-	 9lFoV/8Ux+A0LoUBcbXfULIF5+y68ykZK8PlZRvc4Co1GgGEua/n8OXZGGfDg3QNDtdK1
-	 whSKid0E/a9scr2T0qK3d68UT+EaV9+yDgVk7oMX+ch5dh06iqETocG9kR3bfVohbaQ==
+	t=1793749202;
+	b=KspecCbRiwPx+FXsaZXfjGmkdeLeOQzY87P6OvlCzzKY+PvE1hJG/bdthkgjSe9XBm10
+	 l2QdukgRnEbdnYXUEtDDefvhcnPNBQ0UzBe+qDFO3wFoW05sNnQioEcazJEsFpZJfGcPx
+	 2MbmuIvz5oDAWmwTNuxjSuCwkqv3tKaiwnZDYObeYi5LHVdGPOYLVeYVxxymh1tl+eJII
+	 O5dPC2EQLTuApmq9r11E6tlp6O85TzSbOpLnQswxXYcVUBC/tOicLA4Qwd4LnQQyg9rS6
+	 qISp2sJvItsaW2OM0ypTFMaT1HlH8rU/5c7EErHLJdxd2xbpsA9RUJb7kAqedbLNS3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793749200;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793749202;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:
-	 Cc:X-Mailer:X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Received:X-Received:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=ODVxWNmMdKejpIzRU8i3GHd6rEhkDG7I1sweDfnrATo=;
-	b=DpqWX24DQR7lWOp4A1GM/WYoL6pa+UiWBXKFEQ+T0fJsHSxs5Pr/bTgHA0ldNroolc5+
-	 5aN40vCjoYMkmrgNAu76hCYF6JKbPEtnvfNj85oGzHD1UM7xhL5ajdfr/liZq/WZcn0Ww
-	 37yUX2rEJZA6dZhawkTOc0Gg2xl8mZmgzxAZDJ9TK4tTls+Jg83VyEIorvdbmqOZmuUfg
-	 ODB+GA0ag3ADMH8wC6raMexFAMCmTdzmaEwYexGjmKk9MupTNCGljglTeWSykaq39o6OQ
-	 m+c6VV/3Gb2hK81yMhPWu//6JxONRcHNniFo2kploFA0o3BMWtcUhHhDx6Ms0HDdI8w==
+	bh=q4cC91N9RhqgKD2qCHYgdvM0qlmdbQhBjY9tX3xcT0k=;
+	b=vw6rfRn7/1i49RxRo+M0nIN890eAtzY1ItpsOK4rkyGeN4mueBXUcEAmzaYUD5XG0f3h
+	 l5bcSBl5TtjG0okUTFKsOGC0DxeiflmyUyGlxcydiby65P3TbmqbliKbNZlHukYfiBeCq
+	 /UaZxciFwqqZ9bJXHkHVLEC3OPkOur/cMT9omW7Hfts8dmVeLWvBFTzBrddjWwl9LA+QS
+	 Wl1g+3Vs4X0jS/B2VylbOxyaCxr7IlMJ4dZG7eZAdovY35O1FYnGL28hs0f3BFt7Ak6vN
+	 4SVZU6sSeAebVIlnjMlSBQG7/Rlag2C2Yiv+raFbWSqJiZKPPTwZG6kbhyx+2B9UNOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lZEyuYbu;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=VLvN8TLX;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="jzxb/KYl";
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=EY+l3FNT;
 	arc=none smtp.remote-ip=205.220.180.131
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B106E606A326
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 23:39:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B106E606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7C0606A332
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 23:40:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E7C0606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lZEyuYbu;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=VLvN8TLX
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3LL4nn2944193
-	for <linux-usb@vger.kernel.org>; Tue, 3 Nov 2026 23:39:58 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=jzxb/KYl;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=EY+l3FNT
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3LL3KA3678048
+	for <linux-usb@vger.kernel.org>; Tue, 3 Nov 2026 23:40:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=ODVxWNmMdKejpIzRU8i3GH
-	d6rEhkDG7I1sweDfnrATo=; b=lZEyuYbuAB7ar7h/AwOhYRaQbwpENXlMH+h1Fs
-	D6we0IyqXug9+RAR3QJzxE2ynG9sfNBEs8C5XDcf131eDha9UzsctUywI2Sbymyk
-	AxVgvo6vLnZDLnb3ufrtBzwc3zboj9ih4AmdoCFRRBeR0EI0FXvltPnOkvlTOUrZ
-	gFngAXl7HkYa7JMY5myZdEkCvnMnwuLTS0UoixZslqBaTWu81N0Hj8NWoNoB3ais
-	e5gBVDFC5pCWDYodmmKxRAwW++/OgOYE65p6oq2oEyJUcWQyQqm21Z8e4Ocfu149
-	WZEAJdA65q15+HOepi9aRv8Oy5zUmXoY14y8kb27suU9qFyQ==
-Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hqmjbs4hs-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	q4cC91N9RhqgKD2qCHYgdvM0qlmdbQhBjY9tX3xcT0k=; b=jzxb/KYlhU6jWHrE
+	WlzEfu79azVu/5vTDeWNgkasc6CrrHHvFnawbsEZJAvG8O6QHbTjh5PV/NHbjl4R
+	a+mowJ7xGEpbhvDnGBR2DwY9ciKwVHQ4D0TJamIzkCA/1JrIlYf/ZxkEzSdjmTsU
+	G5Ah8Hf7R8RKu4LWJaeUiFeCL2Y880peHhgcK4VnFKLBzQr0Zky1t6sgSBexHXnn
+	C5c9PAwhJ1e95GH2mOH9GjgdAHsakj5eOmG50Zz3MrFsk/XRDpOYe/+cTwYC1E93
+	EEAPC/UPc0XPxm9CSL0KdZxI/+YXL03JzoyKpj/UQUqji0PXBFcURzsWduzKTzFT
+	qavfYQ==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hqh2bj93h-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 23:39:58 +0000 (GMT)
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1aa0fb7f157so280326c88.0
-        for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 15:39:58 -0800 (PST)
+	for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 23:40:00 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-359b81ad4e8so124244eec.0
+        for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 15:40:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=oss.qualcomm.com; s=google; t=1793749198; x=1794353998; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ODVxWNmMdKejpIzRU8i3GHd6rEhkDG7I1sweDfnrATo=;
-        b=VLvN8TLXC8kL1m+VtDr8C2gefB+sCib5mV9EIHfVZvApUw6MEQiYl9wu4G4HeGp1rJ
-         R56KhOcWnx9khmZ5gDFfiUvF5qOKnizpQticBvvGRd2SeevpyE8FsLWBIcd42FsA6p8r
-         f9qLpZKL8T2/4T3ttKPIkrLylL9/MzbO0mAS+EoW4j2tEC8XHszvMgejO3DkbiaaAUCJ
-         4JkAade8CAoqTzc32lCGt3sNcmrmdi5CIUPjtxW+y+8F5/8o8tznJOMjdyyJWV4PQiRs
-         S5hr4m0n7jl5R+RdqVw7vkMqJQgxyavrqQAvUL5J9PplI/bUu0PXZ/ROxHjlXmJ4Cpxr
-         BR0A==
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=q4cC91N9RhqgKD2qCHYgdvM0qlmdbQhBjY9tX3xcT0k=;
+        b=EY+l3FNT07tDOa+tdRWneL3n0da/Ks5gzlXQs4qq8pFia+XTbAsHP1Nt3jOIztWTtr
+         JWRIImsKbaJHjn2mjzXIHnc0qK5bbhEm+D1A8CB2/jWG16qEMPhcr87PHMraX5b6eEJL
+         7zTv21/ZxsEO46xH/Gy9W3foEEN4bt6zQFXcY/BUXbS1xPsVfn29xRaFaU8WLNi/0TcQ
+         qcvjRZkXuaSKJrrLpzPQnkcFhFKsqTMUL0nrhuUfl4bZ91VI09IfCmM140N4QXx/AxhE
+         Nq4B5M6HwyVqCl6Qw7Hs6ZQDVzzmITxEGTx+8YL9f/qFsdjysR3z9eNeQ9K0IceQDC44
+         fJ7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1793749198; x=1794353998;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ODVxWNmMdKejpIzRU8i3GHd6rEhkDG7I1sweDfnrATo=;
-        b=WkWcSVs1TMl2J07QS1hLAcBPf3TkFRQujU4msv90PQJYrKVislnsSzq4sVPcbDNapo
-         7Gqkx2itmSDQVeRBrGwFiFFEzOwiZlwI93oivq8m4+HLLNcpbwOd5N4nOfNkc9gNoN1m
-         8C2uHXsljo6PWZXysQv7uXZOOKZknXSrshOTA1vFwTSF3aaJYXaZEolAPqezgmltEXQ3
-         L5T/7c3EjbOzTJhPxocOomqIu3l5i2uFO6IAP97bLdpV0BqoMKl3kWzErWG1jjLDvP+r
-         HtlTgOaZQs3JrI/JJwLqiFqTmnTrIQj3US+Ic/h6bgtWLi7MxIpCznjDUwx6e4pWwQlH
-         dXrw==
-X-Gm-Message-State: APuU4Z+LRdZBUDrRoWzueGJVPAiWuAKBEvw0S89mQQn64C/5B08C5Jlv
-	yPyOGzrA3q6jDtuvRlCT/DqWFmLumc30RYc2dMoLt+OhhmIJZFUuXD2lHw9el1j7EH3AkM5wvp4
-	P6poukN6zaaPx5EP1piCy6sOb2+b6qes5HuciHJJp2a7RCejJyk/L1Y8Q5+aZTxA=
-X-Gm-Gg: AYBFou38zVRTqpP1YSm+GRR1egQsVnTWVE31neJWB1EH/0pQw5D7Dq1J+eEHvuI1Y8B
-	y1FFB+RYc0Ki/sBwX6HeDebJmsG42w7i0G87nkuFe3ZLWl+PlwZXutxaVybdyZq2lCso+q/PKTr
-	f+ElhSMRyDAkNBxdLula7Nhq3gqDE9C+Lzb5vIXp2FKo4SS/LiQoaBVqdVgv9H1a5HLBrUGKSLY
-	snSFSwkpMYt+lOopnpQFul2Bt+WQcvBC6iyRDpbz6qpYU9TEdTZc9RUuarm5CCjHOge59xvDVEq
-	edUWzQB/JPauqMeyLBeKeB7yUzwIW1Blp+H8Hdyzy9ZY7kcxoz/ZUJFB0DBTbxnLEf+ZyK9UtUs
-	ObHPIdS2GfzPLR6U3RILt0klf9IJHgMoIsbKcNwL+ZTnXiscnEB0YsXl54iXCSDdPlyQ0sp/kKL
-	gh9yU/tCFV9S5s4RZd9FJcUbFYVw==
-X-Received: by 2002:a05:701b:42d1:20b0:14a:d8fe:3390 with SMTP id a92af1059eb24-1ac5ceee0dbmr23120748c88.32.1793749197103;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=q4cC91N9RhqgKD2qCHYgdvM0qlmdbQhBjY9tX3xcT0k=;
+        b=paM8owHICYRwp4QOsGTWQyzborrq/UK1SriAXstPunWfzHNY3KXjDEDMuuWSR1ADU9
+         s+fWQpSsjxTRAvyYfx+EQW8F/qmppuwLfQHmYhKSi0awJuvR+1F1hS0dcF1YurU9KQVB
+         y5HDUJXCRmsD/PaYEaiBhYLhC3Zocj6BQyehZkgYYLZwDi7FUF4farI214JSZcyU6iMa
+         IMrTRJCFukQryI0R4iOT5x4q2ufjxquxYcHwn9vrnB2p+UG+DTp2wWtgjcIFw3j07uRK
+         0yEIIk5bLzm5vgzDHPx3eYb2IXo4Iv4b4cT3ai6+dB+dXjjJoah2RIaC9tIYkmsitpWK
+         ZP9Q==
+X-Gm-Message-State: APuU4Z8fiZkRxeYyXkGDzvR3hZuaZmKWqLBkk7LpURG9OcddlUUN92Ir
+	Hx4TUsM9EnAEqGu7ZDLLyE0BILBLCacrE10DZQJhMR2U6OFWdDkzajpmBBDwfCHxF+tmzg9L2Jn
+	hMfUGFYT/7KaZasCKC9emwVoXcWAUxWnJbvonQS3wvk8EnzhovqU2lG8/zyD+kWM=
+X-Gm-Gg: AYBFou1M7OQ4ViCbLqVaTTTB5WMXe9eJ7+cUh/nRGP8EoUKGyHzTqj8oquzj7C/ChFE
+	uC4JYTY1waY6rr/6CHZfa4DrKgC8VjaECfovbpme0yA/2EzDZJ24uHrc9Eb39WgCSd83wprqcv4
+	/Isp5DiUNqzQGQHQxrjEvA98P0oRfWMhUnEdyrUy9+dg1mVtPT5gm9Z1bGz3+C4BkhqiDjY+kwl
+	7+FgpxImUtKL7ql6SvUNs6Lq/AQM4yRqm+BJHU2Ja1XCuUcgDCYHCRAoT1Y7yl+M91xcxN5Uqxf
+	V2b9/Jx58FIwcMRxsEvF9xa8ZhmjKB39GEJV5d6fmXN+jj+ymWjg9Rzg4gnmxlyqcVAAMjnOm6/
+	OIxXe/eL4avrD3KjQumx2KugXTJwo8VB9O6ixOotHBF1wE4L9CeGz+byU45h27YUo5IAlK6YNc0
+	/El4ak2yPcqoDY4HOGlTd2lFaV5g==
+X-Received: by 2002:a05:7022:4392:b0:1a4:c892:b14f with SMTP id a92af1059eb24-1ac5de53bc8mr35245423c88.29.1793749197767;
         Tue, 03 Nov 2026 15:39:57 -0800 (PST)
-X-Received: by 2002:a05:701b:42d1:20b0:14a:d8fe:3390 with SMTP id a92af1059eb24-1ac5ceee0dbmr23120685c88.32.1793749195761;
-        Tue, 03 Nov 2026 15:39:55 -0800 (PST)
+X-Received: by 2002:a05:7022:4392:b0:1a4:c892:b14f with SMTP id a92af1059eb24-1ac5de53bc8mr35245392c88.29.1793749197211;
+        Tue, 03 Nov 2026 15:39:57 -0800 (PST)
 Received: from hu-wcheng-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245b86fbesm2356442c88.1.2026.11.03.15.39.54
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245b86fbesm2356442c88.1.2026.11.03.15.39.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 15:39:55 -0800 (PST)
+        Tue, 03 Nov 2026 15:39:56 -0800 (PST)
 From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Subject: [PATCH v5 0/4] Add larger page size support for USB audio offload
- path
-Date: Tue, 03 Nov 2026 15:39:52 -0800
-Message-Id: <20261103-16k_offload_v1_b4-v5-0-67184126e91c@oss.qualcomm.com>
+Date: Tue, 03 Nov 2026 15:39:53 -0800
+Subject: [PATCH v5 1/4] usb: xhci: sideband: fix ring sg table for sub-page
+ TRB segments
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -114,181 +116,184 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAMhw6moC/33NQW7DIBAF0KtErEs0wHgMXfUeVWUBxglpElqTo
- FaR716cLpKFk81IX/rz/oXlMMaQ2evqwsZQYo7pWEPzsmJ+a4+bwGNfM5MgCbRELuizS8OwT7b
- viugcctULJEBo2hZZ/fsawxB/rub7x3/OZ7cL/jRDc2Mb8ymNv9fRIubeM78IDhyNJRcIvFXwl
- nJef5/t3qfDYV0Pm2eKvIf0EiQrpC2SIhOcc/QAUjfIgFqCVIWEaozUvZcI+gGE95BZgrBCg0S
- riUTbmHYBmqbpD/mICsWmAQAA
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261103-16k_offload_v1_b4-v5-1-67184126e91c@oss.qualcomm.com>
+References: <20261103-16k_offload_v1_b4-v5-0-67184126e91c@oss.qualcomm.com>
+In-Reply-To: <20261103-16k_offload_v1_b4-v5-0-67184126e91c@oss.qualcomm.com>
 To: Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
         Michal Pecio <michal.pecio@gmail.com>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-sound@vger.kernel.org,
-        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>
 X-Mailer: b4 0.13.0
-X-Proofpoint-GUID: Rhw_7-XmXrckwWMR5NdR6XSKDIt2pZrh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA5NCBTYWx0ZWRfX9rO6EQeoUXvC
- IuGGVS4BvKAw4pgmCZ8efwphvBsranE+Cvdgjqa46BHiPWXh3bj5ji/EJZQmVZClLw9+fnmJ3g6
- QhmVnZnXXLiH1d2ImQBdzFaKQSOgZ1aXVPiSfhRy5J0WZJmAsV5r9MOa9IVXwRtcq2e1EWH3Ogm
- oKIoVYpRLrCEw7lFrfUpILjDFXRSW67j4srjvtLEvVOIwnueGAXlui/bBOnUPvMXPGLdtKsOQjj
- xT4DjdLiDx0tzVaN486s6VB3a+6y5azBg20ouRbjW1VpV6WM63tPPEKqMqArYEOGItrsq1d2Iw5
- Sni5DZAHh5DzS6TLTdoVJf6BHjJhMy/3DEULQ9fa0mo5u6RgprfKMvwvfJvyCzUs2WFx378klDy
- 4ANm8SdtivOpWNX95fUr0B8eRTLdzc+aESgX1SFBPW6OuTBJIL09tOflaEOBq6yfgohf3dtSA/Z
- QcGNHxkzMamCkXhf9xQ==
-X-Proofpoint-ORIG-GUID: Rhw_7-XmXrckwWMR5NdR6XSKDIt2pZrh
-X-Authority-Analysis: v=2.4 cv=NMhAaE6g c=1 sm=1 tr=0 ts=6aea70ce cx=c_pps
- a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA5NCBTYWx0ZWRfX8LLBDaOqblQJ
+ FfpCbC/0JfERZ3mkEiDpc+VyQG4RrNvzkKvvKWJQf6I7u2skhHb+dMp3fPIpapY0sLLsJ9nCwCi
+ G3kKBBNhfYoX2ivqjZk/L2Fjzc0o60E=
+X-Authority-Analysis: v=2.4 cv=Xs1vqlF9 c=1 sm=1 tr=0 ts=6aea70d0 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=bC-a23v3AAAA:8 a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8 a=ag1SF4gXAAAA:8
- a=iox4zFpeAAAA:8 a=VwQbUJbxAAAA:8 a=GjhRyQdd-c_DPEUQ6LMA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=vBUdepa8ALXHeOFLBtFW:22 a=FO4_E8m0qiDe52t0p3_H:22
- a=Yupwre4RP9_Eg_Bd0iYG:22 a=WzC6qhA0u3u7Ye7llzcV:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA5NCBTYWx0ZWRfX0HDkX9afVYHk
- HC4B9V0g3rji4I5E8l17v2ia1csktatTDNDbQjFUpXQLNb2wBexCDR/uuianQbGJKd712r6Kuwk
- 2UX93Dj879vjdp+8D2sDU0qaWKnxHHo=
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=zbI7ttHqI6kfeEXDPioA:9 a=QEXdDO2ut3YA:10
+ a=scEy_gLbYbu1JhEsrz4S:22
+X-Proofpoint-ORIG-GUID: noF7ZB3wdpONyw5o9quQaz_uGW3YnOcQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA5NCBTYWx0ZWRfX8Csm9ipYE4Q+
+ cNP6zAsrG3Z2ZfOXCV/CfHrSjfUbWHKAK3WDh+Tfxp4qnq2bnq4jq4q52S2rZpa29iCYYNYrSJe
+ 02QywfQseX5DKybvxsKigCOvUgLW0xTnIUqCcTHvr7qd8g7wbv7FxLCbPmaRCvPxjnMkxRalRb0
+ PmwMNt93TZnI3D3LFj35dq+b4oJfFcqpWHFduAMhyaps/SNk6WJSj8HS8PEwLfwObrHBf1Neybw
+ 4zTXa7n2+RuTj4HY+5MqTgkwX6aXNAI95AH4eq5FpzWMA2b6nACuX508fwWQUGJ6eRp43gF24h8
+ 121TO6tvcz5Kdzb8dY6Gq9qmm+HzEPIciBODJUI6Yynb8w74a3gCdjsqbcaBo2N8Rg7vQaVj5Io
+ dKzaVQKa0qKT15QbPiutF94PtZG3ptMRB2eF6PXPuxgRrOzGDNs/5XSXOPYqn8txs8PABXdXP/M
+ LlOxpXMegKobeYJBFcg==
+X-Proofpoint-GUID: noF7ZB3wdpONyw5o9quQaz_uGW3YnOcQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-03_05,2026-11-03_04,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 lowpriorityscore=0 clxscore=1015
- impostorscore=0 suspectscore=0 phishscore=0 adultscore=0 malwarescore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
- definitions=main-2611030094
+ phishscore=0 impostorscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ bulkscore=0 adultscore=0 priorityscore=1501 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611030094
 
-On some environments, 16kB pages can be enabled from the Linux subsystem,
-which manages the IOMMU mappings for the audio DSP within the system.  In
-the current design, the following assumptions break when 16k pages are
-utilized:
-  1. xHCI ring size is equal to PAGE_SIZE
-  2. Ring addresses start at the beginning of a page
+xhci_ring_to_sgtable() populated its sg_table via dma_get_sgtable()
+per segment and sg_alloc_table_from_pages(), both of which only
+operate at whole PAGE_SIZE granularity. Since TRB_SEGMENT_SIZE (4096)
+can be smaller than PAGE_SIZE, these helpers describe a full page for
+each ring segment on larger-PAGE_SIZE kernels (16K/64K), and cannot
+correctly represent segments that share the same physical page.
 
-When the USB offload driver maps the rings (w/ the audio DSP SID), it is
-set with a 16k granular, which is a problem, as several xHCI rings could
-exist on the same page.  This is because the rings are currently allocated
-from the segment_pool.  Hence, potentially mapping non USB audio related
-rings into the region accessible by the audio DSP.
+Build the sg_table directly instead: allocate one sg entry per ring
+segment with sg_alloc_table(), and fill each entry explicitly with
+sg_set_page() using the segment's own page, TRB_SEGMENT_SIZE as the
+length, and offset_in_page() for the exact intra-page offset. Walk the
+table with for_each_sg() so this also works for chained sg tables.
 
-To mitigate this, sideband rings are no longer allocated from the
-segment_pool.  When PAGE_SIZE is larger than TRB_SEGMENT_SIZE, xHCI
-allocates the segments of sideband-tagged endpoint rings, and of the
-sideband secondary event ring, using dma_alloc_coherent(), which gives
-each segment a page of its own.  Before the USB audio offload path is
-enabled, the USB audio data streams/endpoint are not active.  Only when
-the class driver issues a usb_set_interface() call (done from
-snd_usb_endpoint_prepare()), will the xHCI allocate the transfer ring
-resources.  The offload client driver therefore tags the endpoints with
-xhci_sideband_add_endpoint() before that point.  The new ring allocation
-flow for sideband/offload clients will be as follows:
-
-handle_uaudio_stream_req()
-  ▼
-enable_audio_stream(subs, ..., pcm_card_num)
-  ├─ data_ep = uaudio_find_host_endpoint(subs, subs->data_endpoint)
-  ├─ xhci_sideband_add_endpoint(sb, data_ep) ← ep->sideband = sb; ep->no_pool_alloc = PAGE_SIZE > TRB_SEGMENT_SIZE
-  ├─ snd_usb_endpoint_prepare(chip, sync_endpoint) ─┐
-  ├─ snd_usb_endpoint_prepare(chip, data_endpoint)  ├─→ xhci_add_endpoint()
-  │                                                 ▼
-  │            xhci_endpoint_init(xhci, virt_dev, ep, ...)
-  │            new_ring = __xhci_ring_alloc(..., ep->no_pool_alloc, ...)
-  │            ▼
-  │            xhci_alloc_segments_for_ring(xhci, ring, flags)
-  │            ▼
-  │            xhci_segment_alloc(xhci, max_packet, num, ring->no_pool_alloc, flags)
-  │            seg->trbs = dma_alloc_coherent(dev, TRB_SEGMENT_SIZE, &dma, flags)
-  ▼
-xhci_sideband_get_endpoint_buffer(sb, data_ep) → xhci_ring_to_sgtable()
-
-Similar logic is added for the secondary interrupter path as well.  The USB
-offload class driver calls xhci_sideband_create_interrupter(), which will
-be responsible for allocating the secondary event ring.
-
-xHCI core remains responsible for freeing these rings, once the endpoint
-has been dropped or the slot disabled.  This also covers disconnecting the
-USB audio device while audio offload is active: usb_set_interface()
-returns early as the interface is unregistering, and the rings are freed
-later, when USB core drops the device's endpoints.  As xhci_free_dev()
-frees the virt device with interrupts disabled, where dma_free_coherent()
-can't be called, those rings are freed after xhci->lock is released.
-
-This was confirmed to work on the SM8350 MTP platform, with the
-CONFIG_ARM64_16K_PAGES config enabled, alongside tinyaudio binaries:
-
-tinymix -D 0 set 513 1  (Enables USB_RX multimedia#1 path)
-tinyplay -D 0 -d 0....  (Routes PCM data to ASoC platform sound card)
-
+Assisted-by: Claude:claude-opus-5-5
 Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
 ---
-Changes in v5:
-- Dropped the offload client owned segment pool, as suggested by Mathias.
-  xHCI now allocates sideband ring segments with dma_alloc_coherent() when
-  PAGE_SIZE is larger than TRB_SEGMENT_SIZE.
-- Free rings that are not allocated from the segment pool outside of
-  xhci->lock in xhci_free_dev().
-- Modified the xhci_ring_to_sgtable sequence to address an error from Sashiko
-  where it questioned the safeness of virt_to_page.  Leverage
-  dma_get_sgtable, which will call the appropriate DMA mapping
-  implementation.
-- Link to v4: https://patch.msgid.link/20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com
+ drivers/usb/host/xhci-sideband.c | 80 ++++++++++++++++++++++------------------
+ 1 file changed, 45 insertions(+), 35 deletions(-)
 
-Changes in v4:
-- Split xHCI patches from xHCI core and xHCI sideband.
-- Make the dedicated offload segment pool optional for secondary
-  interrupter creation. (xfer rings support this already in previous
-  revs)
-- Fixed some inter-patch build/functionality failures in
-  qc_audio_offload. Incremental builds between patches now
-  work on 4k pages. (16k support at end)
-- Link to v3: https://patch.msgid.link/20260903-16k_offload_v1_b4-v3-0-135928dc2408@oss.qualcomm.com
+diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
+index a5deeee4d5dc..d0c0f75d6085 100644
+--- a/drivers/usb/host/xhci-sideband.c
++++ b/drivers/usb/host/xhci-sideband.c
+@@ -8,68 +8,78 @@
+  * Author: Mathias Nyman
+  */
+ 
++#include <linux/dma-mapping.h>
+ #include <linux/usb/xhci-sideband.h>
+-#include <linux/dma-direct.h>
+ 
+ #include "xhci.h"
+ 
+ /* sideband internal helpers */
++static struct page *
++xhci_segment_to_page(struct device *dev, struct xhci_segment *seg)
++{
++	struct sg_table sgt;
++	struct page *page;
++
++	/*
++	 * Remapped coherent memory is in the vmalloc area, where
++	 * vmalloc_to_page() finds the page for any offset into the allocation.
++	 * dma_get_sgtable() could describe the buffer from the start of its
++	 * allocation instead.
++	 */
++	if (is_vmalloc_addr(seg->trbs))
++		return vmalloc_to_page(seg->trbs);
++
++	if (dma_get_sgtable(dev, &sgt, seg->trbs, seg->dma, TRB_SEGMENT_SIZE))
++		return NULL;
++
++	page = sg_page(sgt.sgl);
++	sg_free_table(&sgt);
++
++	return page;
++}
++
+ static struct sg_table *
+ xhci_ring_to_sgtable(struct xhci_sideband *sb, struct xhci_ring *ring)
+ {
++	struct device *dev = xhci_to_hcd(sb->xhci)->self.sysdev;
+ 	struct xhci_segment *seg;
+-	struct sg_table	*sgt;
+-	unsigned int n_pages;
+-	struct page **pages;
+-	struct device *dev;
+-	size_t sz;
++	struct sg_table *sgt;
++	struct scatterlist *sg;
++	struct page *page;
+ 	int i;
+ 
+-	dev = xhci_to_hcd(sb->xhci)->self.sysdev;
+-	sz = ring->num_segs * TRB_SEGMENT_SIZE;
+-	n_pages = PAGE_ALIGN(sz) >> PAGE_SHIFT;
+-	pages = kvmalloc_objs(struct page *, n_pages);
+-	if (!pages)
++	seg = ring->first_seg;
++	if (!seg)
+ 		return NULL;
+ 
+ 	sgt = kzalloc_obj(*sgt);
+-	if (!sgt) {
+-		kvfree(pages);
++	if (!sgt)
+ 		return NULL;
+-	}
+ 
+-	seg = ring->first_seg;
+-	if (!seg)
+-		goto err;
+-	/*
+-	 * Rings can potentially have multiple segments, create an array that
+-	 * carries page references to allocated segments.  Utilize the
+-	 * sg_alloc_table_from_pages() to create the sg table, and to ensure
+-	 * that page links are created.
+-	 */
+-	for (i = 0; i < ring->num_segs; i++) {
+-		dma_get_sgtable(dev, sgt, seg->trbs, seg->dma,
+-				TRB_SEGMENT_SIZE);
+-		pages[i] = sg_page(sgt->sgl);
+-		sg_free_table(sgt);
+-		seg = seg->next;
++	if (sg_alloc_table(sgt, ring->num_segs, GFP_KERNEL)) {
++		kfree(sgt);
++		return NULL;
+ 	}
+ 
+-	if (sg_alloc_table_from_pages(sgt, pages, n_pages, 0, sz, GFP_KERNEL))
+-		goto err;
++	for_each_sg(sgt->sgl, sg, sgt->orig_nents, i) {
++		page = xhci_segment_to_page(dev, seg);
++		if (!page)
++			goto err;
+ 
+-	kvfree(pages);
++		sg_set_page(sg, page, TRB_SEGMENT_SIZE, offset_in_page(seg->trbs));
++		seg = seg->next;
++	}
+ 
+ 	/*
+-	 * Save first segment dma address to sg dma_address field for the sideband
+-	 * client to have access to the IOVA of the ring.
++	 * Save the first segment DMA address for the sideband client. The returned
++	 * table is metadata and must not be passed to dma_map_sg().
+ 	 */
+ 	sg_dma_address(sgt->sgl) = ring->first_seg->dma;
+ 
+ 	return sgt;
+ 
+ err:
+-	kvfree(pages);
++	sg_free_table(sgt);
+ 	kfree(sgt);
+ 
+ 	return NULL;
 
-Changes in v3:
-- Moved sideband segment pool assignment to when a sideband endpoint
-  is added.
-- Address an issue where during USB device disconnect (while offload
-  active), where the offload client driver is freeing the DMA pool
-  before xHCI core is able to free the dma allocations.
-- Update xhci_ring_to_sgtable to correctly allocate and fill the sg
-  table which capture rings within page offsets.
-- Link to v2: https://patch.msgid.link/20260828-16k_offload_v1_b4-v2-0-8a46369ebbb6@oss.qualcomm.com
-
-Changes in v2:
-- Moved from using alignment_req to having the offload driver maintain
-  its own segment pool.
-- Fixed OOB condition seen in xhci_ring_to_sgtable() and will capture
-  page offsets properly.
-- Addressed inter-patch build failures.
-- Link to v1: https://patch.msgid.link/20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com
-
-To: Mathias Nyman <mathias.nyman@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jaroslav Kysela <perex@perex.cz>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-sound@vger.kernel.org
-
----
-Wesley Cheng (4):
-      usb: xhci: sideband: fix ring sg table for sub-page TRB segments
-      usb: xhci: Allocate sideband ring segments with dma_alloc_coherent()
-      ALSA: usb-audio: qcom: tag sideband endpoints before ring allocation
-      ALSA: usb-audio: qcom: fix xfer ring IOMMU unmap on 16K+ page kernels
-
- drivers/usb/host/xhci-mem.c       |  63 +++++++++++++-----
- drivers/usb/host/xhci-sideband.c  |  97 +++++++++++++++++-----------
- drivers/usb/host/xhci.c           |  13 ++++
- drivers/usb/host/xhci.h           |   5 +-
- sound/usb/qcom/qc_audio_offload.c | 131 ++++++++++++++++++++++++++++++--------
- 5 files changed, 228 insertions(+), 81 deletions(-)
----
-base-commit: 69f0645f043feed4dc07690c74597574f43c41b4
-change-id: 20260824-16k_offload_v1_b4-3d1460405774
-
-Best regards,
 -- 
-Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+2.43.0
 
