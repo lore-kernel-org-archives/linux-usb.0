@@ -1,105 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793684406;
-	b=aJRdsLSYD2nyeXEjVf/5ga3Mn/YiSVmZ+z/6aTNZNmWwfvtFcrBSrqMhaC68zsSmWLy2
-	 SYmWtP3/XpW+n68gDTbr1jcZhHI9n3sGclFGziUxfQPvfFL6+jsct0k+ZpeCPulKnJm+W
-	 thct8OfYfvIg2CjmC6QReOe2ne8NBVAk0KHiuwqq7JIFhSWJQ6wkMfSs5/47xcMFJPiv3
-	 6zyU3lOMMHzjhAoPoCNW8UjH1sFmtfTkpSzCqyliFIMrFn8+RZvC7x2QWx3IsB9RGR2YH
-	 tG3eVHKuvYt3liD40egLmh5czsAGEWjKKEuRcbFZjLAcCekJj3MXi+RUiNkJuBZQ3zg==
+	t=1793686128;
+	b=ZmxkS5E5SQrNyxpcOpBNq12BsbWg0pV2gsjh/694W7AaEBu8QCWeRsd6dURVnbOG/gyI
+	 19c4Foeac+foFpN8Um04Y+JwsSpNFPAlNsqfXmoo1pCD43thn2zCTtk5N1Pq09rFhNwGY
+	 rjmJ1wn/S4feUwujTiWLF3sZkqwgoUwoo28rHb1Uz8h8FS23akEzohDqDjxIT1wLJ6ZVW
+	 iainC0X70Bc+z+bIbIUMcy3uKCdcxLEt9mI/R5TPARbjaXK+G2E4Kb+UZgSF9kCDuhg7B
+	 0bs7a3IYu/xdPDRCuute9CUkudFGFmXB636Mnsz3FHeFdTzueD4SCkM5MCcgqHhElXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793684406;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=SNfcSVIGEmINCcVw+uB8DPAiuuIIPUqBYgGuYhjglr0=;
-	b=1g+I6txWvN6yDtzYZNA4M2UJY3bvexxhPsx1u8KFCrIirN4d/JqNgd78VHHgxtd5z/hK
-	 XpzLOIvM0QFwx2MdI8J282HnA6Ya33WR5GSN203Kq/07ZXLS54dlNaI3cHIhtPM3rOJCF
-	 qZqQSiurOjhoVeajhhNV0XYvaAvg8GvT7qqF/PoJ1M4Vri+xACcOrddNpPNMOw4TKxCY4
-	 NgusN3DYCcFrNuBpRJGl8D6MbtZn7nvOkiNQVK+0eWj7PWscFMKmskLDyWwV+whHkOhjg
-	 rgkQpdssp7XpowRT0WGj71tID6bllYknzFQKk3zZ8uiyl/9WJGdrvw4FZv7Kb2jaF7w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793686128;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer;
+	bh=L6ho8vIeYjjJPXFr89E6+1FFlHcZOfNw8htX3591WFU=;
+	b=EmTzB8fDinseEbXqbFbk9jxug6ukDmXDrKFrd6AVD010cFN2jsfyKyAF6Q0vMuY9Rvlw
+	 xvMwC0h+yhevXTcY/N3bQVvt2VRZV4Kbgt5T/6yzSd23zdEEKXBLrMqRLkWkLT2LqZBs0
+	 LVgucjhnYPc7oAb11Ahr9btaxHbZKBFxB59T/fxokKcmAtuWdDE7vGLtA9aD8w8qtow/x
+	 JHC6B8nepQZ8FkjCGpfLXHGL1j8V6b66xB/lsKiPmAkQH6naTY2nJ5ZyoFUcYbAL2RyqB
+	 nXpJMxZGwkTFOQVvHcYY6+O8Myht9F5xC4uTur2POsQHhRpP7jRA4wqGoIr7FcG0Ryg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=jclark.com;
-	spf=pass smtp.mailfrom=jclark.com;
-	dkim=pass header.d=jclark-com.20260707.gappssmtp.com header.i=@jclark-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XG7lEL+c;
-	arc=none smtp.remote-ip=209.85.214.182
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EXxUngDJ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5165606A32C
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 05:40:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5165606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jclark.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jclark.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482E0606A324;
+	Tue,  3 Nov 2026 06:08:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=jclark-com.20260707.gappssmtp.com header.i=@jclark-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XG7lEL+c
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2e9d7791b00so29819825ad.0
-        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 21:40:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jclark-com.20260707.gappssmtp.com; s=20260707; t=1793684400; x=1794289200; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SNfcSVIGEmINCcVw+uB8DPAiuuIIPUqBYgGuYhjglr0=;
-        b=XG7lEL+ceAJMrb013ECErNIArebvo21jKlpmwlwCIk72+UgmBRv2fFMHRknWaEXY+W
-         iV0+e3X/dEY596kCb8JdOOQYDsW/+cqZGOf/B7uediCRkGs/hwXE/NP2iHHdqFCNJCqy
-         Wc/04viUI1tAfYqtI88RHCoj/ywm/gJvKLpUleWDv9FkBAx0SUV3TFanEYbDWt8BeoYC
-         PLyzQlrE4z51j1NE2aE65wV4rcZbI8oxFoepRZPIMrTSjvy+Q+gzNCqIcTml2Vs6HJCC
-         o0NBfiKkgkBNGM52WZ7Ze2Dg1NJ5/lmYmt3z1WsfSt50xk7xo0zGaTBw3j4NHKsfgDfm
-         YfRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793684400; x=1794289200;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SNfcSVIGEmINCcVw+uB8DPAiuuIIPUqBYgGuYhjglr0=;
-        b=udumukoVev75/qZywsk7whNhVlJCZdQzQwbU72SSrLQEbNOLwvM26jHOPH9qDbqb+n
-         x+Vz5aozB8tTSZvoV/AmIyeNR1vL62yOsGNRGlIo22ptEh37ePhyjuQsEygLlgMNTlpO
-         9FnqLg6+yZce9wZZanumTRzbPOdWwBpW/Gi6sUzq22Q/3jVyctr8rk6Y0WvLpOKCpZT5
-         4VF98vZKYCEXB/jN1PyRrXC5urCmoUYj1P3d+Fq3J4nn3QfI1e96i9qVsF5sKsa5O6+0
-         ygpIN7tP/5K3WVN03UrCZwdVQtnNtON0va5RyO9Xjq8JW2FuCJuiPYYTPcIaNhe7TNhf
-         ZPCg==
-X-Forwarded-Encrypted: i=1; AKwUvBxCUn5QousCoMpWVbUqJ5XfW1ja2taMBm5Zdvr0WcW+bihou5iVzLH491YZbLnmrfyjTZM0vOrpoDs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+M/iSICxdsTA1ogZjKSvs/PLSzh/8Xn3Sct2bbBlpbZYdo9PMf
-	O67S5MR9nvwGxHQUeKjFdRDMuqleXN4JLgmsjAn16sUf/5uRkpN9Ox8VQL70iRaizg==
-X-Gm-Gg: AYBFou0fEMxfmSr4dNSaGIbu/PyuGgCxmnWh2v2fMIfVAlMqrNABoQaxihUw59l3Oqg
-	K0niARDiEOUebxjMI8yaNbqzL69l7StOes+vVNbZRjEGH1hrB4PCSlj8HsbEiCdMX6DHiFfYGYp
-	Z3dgxc/V8H66GTgLt7Mti905h8Jv8t0IwC8hpTrbLo7ZvUhLwzdT6v+pDNS+hcnkytxmYa1BV18
-	+NSCIR5luh/h3hWmUbBeEwE3pN6JNF96Ujr/bGSkLLFmm6LsuUSdHK/ztotTbhk6pG6LppePnSt
-	Xk0fRcX2b1E7FVoZOfdMmBATcUw2SnrrjqKaKRqMy8nhStw9oKLTEQyGzMEaFu8v8gnfVkY+qhy
-	LN5AZexitQBAHyyHL3UTO6biRqjfWeCbVeT6tVpwT0EvS4eho2goxxx3dljifvAIf2mHFK7mQ7k
-	iQ3u3cdN7/jnbgJLzLnPwmHcE13PYdtvA3z/QrWr+nxTF9jyAPAUr0yPeYYQn0Q9GIhbH0/kZqa
-	5NuRRCZ1KV4DSD3HjbZDtq+ZtGSCafwoBpG66upvqlPwOjnntYsbEgkB15UOFM9Wa5sMe3Q+ADM
-	JivMJH6BK7gvumHgyP27CZYHPqKtycashJ3srSplZDvVHmu1Md/JIewQr97+Wur2kUSPYR8hlzn
-	SQscqofGAh7XCFZ0mCQ==
-X-Received: by 2002:a17:902:ce05:b0:2dd:ad73:5b6f with SMTP id d9443c01a7336-2eb364b55camr111236385ad.31.1793684400160;
-        Mon, 02 Nov 2026 21:40:00 -0800 (PST)
-Received: from cantal.lan ([58.136.77.237])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eb392494edsm35154505ad.31.2026.11.02.21.39.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 21:39:58 -0800 (PST)
-From: James Clark <jjc@jclark.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Johan Hovold <johan@kernel.org>,
-	Bastien Nocera <hadess@hadess.net>,
-	Matthias Kaehlcke <mka@chromium.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Robert Nelson <robertcnelson@gmail.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] usb: core: add a pre_probe callback for device drivers that may defer
-Date: Tue,  3 Nov 2026 12:39:52 +0700
-Message-ID: <20261103053952.1138398-1-jjc@jclark.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <sashiko-outbox-194542@kernel.org>
-References: <cover.1793669297.git.jjc@jclark.com> <e96b91c85945237ca455869bf4d5a1e177358b54.1793669297.git.jjc@jclark.com> <sashiko-outbox-194542@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EXxUngDJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D71B1F000C1;
+	Tue,  3 Nov 2026 06:08:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793686127;
+	bh=L6ho8vIeYjjJPXFr89E6+1FFlHcZOfNw8htX3591WFU=;
+	h=From:Date:Subject:To:Cc;
+	b=EXxUngDJyvmP2yr16wdsWixP/SaWR65lfmiulCYkKQ0Yt40sgdHOTYioRjzxMO7Fi
+	 PiXzmhkjfTPlMsbfATOmVl0PTT9BtdJC7BgPBKGHYhK+3iJ4+c+6dA97kQR5UOYIsY
+	 Ec866l7ypWCMNfKzYjYW+Xw6VTBuePmCIPIBPo4SAKqyci+F3swh2TSNeu5Dif9hNR
+	 uTBNAnn4iHdXbZxe+NLd0ES79dr5FQX7KIjB4y6Ftk0qy7NvrtPl8KNT5zy37hR34l
+	 SDIODALxAGPBt1zkqrrWJ4d583HzwW5/iFsJhs/fY9ob9g9JPIRvZrCfUFjRrzGgMK
+	 sk9x8IdURC1/w==
+From: Mario Limonciello <superm1@kernel.org>
+Date: Tue, 03 Nov 2026 00:08:43 -0600
+Subject: [PATCH v3] USB: hub: call ACPI _PRR reset during port power-cycle
+ on enumeration failure
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -109,64 +53,222 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20260706080117.3754550-1-v3-1-0e3069228fe9@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMMQ7CMAwAwK9UnknktKRBTPwDdTDGgKEkKKEIq
+ erfCTDecjMUySoFts0MWV5aNMWKbtUAXyiexeixGlpsewzY4wadC7YLfu09GmeIZaRob5R2TDF
+ FZRotpzvU4ZHlpO/fvh/+LtPhKvz8lrAsH0iuGmV/AAAA
+X-Change-ID: 20260706080117.3754550-1-acelan.kao@canonical.com
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ linux-acpi@vger.kernel.org, 
+ "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>, 
+ "Mario Limonciello (AMD)" <superm1@kernel.org>
+X-Mailer: b4 0.16.0
 
-On Tue, 03 Nov 2026 03:51:41 +0000, sashiko-bot@kernel.org wrote:
-> First, when udriver->pre_probe(udev) returns -ENODEV (for example from
-> onboard_dev_usbdev_pre_probe() -> _find_onboard_dev()), usb_probe_device()
-> still calls usb_autoresume_device(udev) and usb_generic_driver_probe(udev)
-> to configure the device, bind all child interface drivers (triggering
-> deferred probing), and emit USB_DEVICE_ADD, only to immediately tear them
-> all down a few lines later in the error == -ENODEV block via
-> usb_generic_driver_disconnect(udev) and usb_autosuspend_device(udev).
+Some USB-connected devices (e.g. MT7925 Bluetooth on Dell laptops) expose
+their hardware reset line via an ACPI Power Resource for Reset (_PRR)
+rather than relying solely on VBUS cycling for recovery.  When the reset
+GPIO gets stuck low the device stops responding on USB; a VBUS power-cycle
+alone cannot recover it because the chip remains in reset regardless of
+VBUS state.
 
-This is deliberate, and documented in the @pre_probe kerneldoc. An
-error from pre_probe() other than -EPROBE_DEFER is handled as if
-probe() had returned it, after the generic probe has run. This keeps
-the -ENODEV fallback to the generic driver working as it does for
-probe(). For onboard_usb_dev nothing changes: its -ENODEV used to come
-from probe().
+Add usb_acpi_port_prr_reset() in usb-acpi.c that, given a hub device and
+one-based port number, looks up the port's ACPI companion handle, evaluates
+_PRR to obtain the power-resource reference, and then calls _RST on that
+reference to toggle the reset line.  The function is a no-op if the port
+has no ACPI handle or no _PRR method, so it is safe to call unconditionally
+for every port.
 
-> Second, if udriver->pre_probe(udev) or udriver->probe(udev) fails with any
-> other error (such as -EINVAL or -ENOMEM), usb_probe_device() jumps to
-> err_pre_probe, which only calls udriver->disconnect(udev) and does not call
-> usb_generic_driver_disconnect(udev) or usb_autosuspend_device(udev) to
-> unwind the generic probe and runtime PM state. Because really_probe()
-> clears udev->dev.driver to NULL when usb_probe_device() fails:
->
-> - When udev is later unplugged, usb_disconnect() -> device_del() skips
->   usb_unbind_device() because udev->dev.driver is NULL, so
->   usb_notify_remove_device() (USB_DEVICE_REMOVE) is never sent. Subscribers
->   such as usbport_trig_notify() in drivers/usb/core/ledtrig-usbport.c never
->   remove the port entries added on USB_DEVICE_ADD, leaking struct
->   usbport_trig_port objects and sysfs attributes with a dangling port->hub
->   pointer to the freed struct usb_device, and usbdev_notify() in
->   drivers/usb/core/devio.c never runs usbdev_remove().
+Wire it into hub_port_connect() during the mid-retry VBUS power-cycle
+(at (PORT_INIT_TRIES-1)/2 iterations), calling usb_acpi_port_prr_reset()
+*after* VBUS goes off and *before* VBUS comes back on.  The ordering is
+critical: on the tested hardware the ACPI _RST method (MBTR._RST) drives
+BT_RST low for 200 ms then high again.  If _RST is called after VBUS is
+already restored the GPIO pulse races with device enumeration starting on
+the live bus; the device begins asserting USB signals while still held in
+reset and enumeration fails.  Performing the reset while the port is
+de-powered ensures the GPIO pulse completes fully before the device is
+given power and time to initialise.
 
-This was raised in Sashiko's review of v2. I missed that it can be fixed
-when the device is unplugged. I will attempt to fix this in v4. I think
-it can be fixed by recording in struct usb_device that USB_DEVICE_ADD
-has been sent, and having usb_disconnect() send USB_DEVICE_REMOVE for a
-device that has no driver.
+After VBUS is restored, add an msleep(100) conditional on _PRR._RST having
+succeeded.  USB 2.0 spec §7.1.7.3 (Fig. 7-29) mandates a minimum of 100 ms
+between VBUS power-on and the first reset signalling for power settling.
+On root hubs, hub_power_on_good_delay() returns bPwrOn2PwrGood * 2 with
+no minimum floor; on the tested xHCI root hub bPwrOn2PwrGood = 10, yielding
+only 20 ms — well below the spec minimum.  (External hubs already enforce
+a 100 ms minimum via hub_power_on_good_delay().)  When _PRR._RST has been
+exercised the device must also complete its full power-on sequence (GPIO
+de-assertion, internal oscillator start, firmware load) before USB
+enumeration begins.  The 100 ms sleep enforces the spec minimum and gives
+the device adequate settling time.
 
-> - For drivers with supports_autosuspend = 1 (such as
->   onboard_dev_usbdev_driver), usb_probe_device() does not take a runtime PM
->   reference, and hub_configure() enables autosuspend on hub devices; once
->   the device suspends, usb_resume_device() fails with -ENOTCONN because
->   udev->dev.driver is NULL.
+Tested on a Dell laptop with MT7925 Bluetooth (idVendor=0489,
+idProduct=e139) whose BT_RST GPIO was stuck low.  With this fix the
+device recovers autonomously at boot without requiring a G3
+(mechanical power-off) cycle.  The relevant dmesg sequence:
 
-This is a pre-existing bug that is new in this review.
-usb_suspend_device() does a generic suspend for a device without a
-driver, but usb_resume_device() refuses to resume one. I don't know
-why resume is refused. If a generic resume is safe there, that would
-fix it.
+  [    1.448491] usb 3-10: new high-speed USB device number 4 using xhci_hcd
+  [    6.813942] usb 3-10: device descriptor read/64, error -110
+  [   22.685978] usb 3-10: device descriptor read/64, error -110
+  [   22.901715] usb 3-10: new high-speed USB device number 5 using xhci_hcd
+  [   28.317963] usb 3-10: device descriptor read/64, error -110
+  [   44.189949] usb 3-10: device descriptor read/64, error -110
+  [   44.294065] usb usb3-port10: attempt power cycle
+  [   44.872709] usb 3-10: new high-speed USB device number 6 using xhci_hcd
+  [   44.888293] usb 3-10: New USB device found, idVendor=0489, idProduct=e139, bcdDevice= 1.00
+  [   44.888318] usb 3-10: Manufacturer: MediaTek Inc.
 
-> Third, if udriver->pre_probe(udev) succeeds and udriver->probe(udev) then
-> returns -ENODEV, the error == -ENODEV block runs
-> usb_generic_driver_disconnect(udev) and usb_autosuspend_device(udev) before
-> err_pre_probe calls udriver->disconnect(udev), reversing the teardown order
-> used in usb_unbind_device():
+Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+Link: https://patch.msgid.link/20260706080117.3754550-1-acelan.kao@canonical.com
+Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+---
+This was sent last cycle but got no feedback except for my review comment.
+I think we should bring it forward this cycle.
 
-I will fix this in v4.
+Changes from v2:
+* Rebase on 7.4-rc1
+* Link to v2: https://lore.kernel.org/linux-usb/20260706080117.3754550-1-acelan.kao@canonical.com/
+---
+ drivers/usb/core/hub.c      | 14 ++++++++++
+ drivers/usb/core/usb-acpi.c | 68 +++++++++++++++++++++++++++++++++++++++++++++
+ drivers/usb/core/usb.h      |  3 ++
+ 3 files changed, 85 insertions(+)
 
-James
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 199d3f535a891..72da7aea94cc4 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -5621,11 +5621,25 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
+ 
+ 		/* When halfway through our retry count, power-cycle the port */
+ 		if (i == (PORT_INIT_TRIES - 1) / 2) {
++			int prr_reset;
++
+ 			dev_info(&port_dev->dev, "attempt power cycle\n");
+ 			usb_hub_set_port_power(hdev, hub, port1, false);
+ 			msleep(2 * hub_power_on_good_delay(hub));
++			prr_reset = usb_acpi_port_prr_reset(hdev, port1);
+ 			usb_hub_set_port_power(hdev, hub, port1, true);
+ 			msleep(hub_power_on_good_delay(hub));
++			/*
++			 * USB 2.0 spec §7.1.7.3 requires at least 100 ms
++			 * between VBUS power-on and the first reset for power
++			 * settling.  hub_power_on_good_delay() on an xHCI root
++			 * hub returns bPwrOn2PwrGood * 2 with no minimum floor,
++			 * which can be as little as 20 ms.  When _PRR _RST was
++			 * also exercised the device must complete its power-on
++			 * sequence before enumeration; enforce the spec minimum.
++			 */
++			if (prr_reset == 0)
++				msleep(100);
+ 		}
+ 	}
+ 	if (hub->hdev->parent ||
+diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
+index 489dbdc96f94a..bb1b5e8cdc15e 100644
+--- a/drivers/usb/core/usb-acpi.c
++++ b/drivers/usb/core/usb-acpi.c
+@@ -142,6 +142,74 @@ int usb_acpi_set_power_state(struct usb_device *hdev, int index, bool enable)
+ }
+ EXPORT_SYMBOL_GPL(usb_acpi_set_power_state);
+ 
++/**
++ * usb_acpi_port_prr_reset - issue an ACPI _PRR reset on a hub port
++ * @hdev: USB device belonging to the usb hub
++ * @port1: port number (one-based)
++ *
++ * Some devices expose their hardware reset line via an ACPI Power Resource for
++ * Reset (_PRR).  When such a device fails to enumerate (e.g. because the reset
++ * GPIO is stuck low), the USB power-cycle alone is not enough; the firmware
++ * reset path must also be exercised.
++ *
++ * This function evaluates _PRR on the port's ACPI companion to obtain the
++ * power-resource reference and then calls _RST on that resource to toggle the
++ * reset line.  It is intended to be called alongside the mid-retry VBUS
++ * power-cycle already performed by hub_port_connect().
++ *
++ * Returns 0 on success, -ENODEV if the port has no ACPI handle or no _PRR
++ * method, or a negative error code on failure.
++ */
++int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1)
++{
++	acpi_handle port_handle;
++	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
++	union acpi_object *pkg, *ref;
++	acpi_status status;
++	int ret = 0;
++
++	port_handle = usb_get_hub_port_acpi_handle(hdev, port1);
++	if (!port_handle)
++		return -ENODEV;
++
++	if (!acpi_has_method(port_handle, "_PRR"))
++		return -ENODEV;
++
++	status = acpi_evaluate_object(port_handle, "_PRR", NULL, &buffer);
++	if (ACPI_FAILURE(status)) {
++		dev_dbg(&hdev->dev, "port%d: _PRR evaluation failed: %s\n",
++			port1, acpi_format_exception(status));
++		return -ENODEV;
++	}
++
++	pkg = buffer.pointer;
++	if (!pkg || pkg->type != ACPI_TYPE_PACKAGE || pkg->package.count != 1) {
++		dev_dbg(&hdev->dev, "port%d: _PRR returned unexpected object\n",
++			port1);
++		ret = -EINVAL;
++		goto out;
++	}
++
++	ref = &pkg->package.elements[0];
++	if (ref->type != ACPI_TYPE_LOCAL_REFERENCE || !ref->reference.handle) {
++		dev_dbg(&hdev->dev, "port%d: _PRR element is not a reference\n",
++			port1);
++		ret = -EINVAL;
++		goto out;
++	}
++
++	status = acpi_evaluate_object(ref->reference.handle, "_RST", NULL, NULL);
++	if (ACPI_FAILURE(status)) {
++		dev_dbg(&hdev->dev, "port%d: _RST evaluation failed: %s\n",
++			port1, acpi_format_exception(status));
++		ret = -EIO;
++	}
++
++out:
++	kfree(buffer.pointer);
++	return ret;
++}
++
+ /**
+  * usb_acpi_add_usb4_devlink - add device link to USB4 Host Interface for tunneled USB3 devices
+  *
+diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
+index a9b37aeb515be..4d3dc3bd881b2 100644
+--- a/drivers/usb/core/usb.h
++++ b/drivers/usb/core/usb.h
+@@ -211,7 +211,10 @@ extern int usb_acpi_register(void);
+ extern void usb_acpi_unregister(void);
+ extern acpi_handle usb_get_hub_port_acpi_handle(struct usb_device *hdev,
+ 	int port1);
++extern int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1);
+ #else
+ static inline int usb_acpi_register(void) { return 0; };
+ static inline void usb_acpi_unregister(void) { };
++static inline int usb_acpi_port_prr_reset(struct usb_device *hdev,
++					  int port1) { return -ENODEV; }
+ #endif
+
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20260706080117.3754550-1-acelan.kao@canonical.com
+
+Best regards,
+--  
+Mario Limonciello <superm1@kernel.org>
+
