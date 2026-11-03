@@ -1,123 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=188.40.3.216
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793702480;
-	b=Y6sVxyjNgVrBI7kd4jAEPWbhNHjOyzSEgat4FpacCmt6C15746gx51CLeSol/lG32avR
-	 Jp5TzNkKbo0HdIQGt2bFwuH/Gz90Z3TbeAu1C3yH6BQxPYYOf8j4KBzkrX1TWayR/B47c
-	 qREyQ63/5JU+irVF03n6KPL8pmHZUmTdg1LuE2Qvf74YOiPrwSOjbaae5P+itI4MGbDfG
-	 wRe6upAmJCaYkmPd9W4KgSDk2qYqhhP8qQA77JVJPtVJSrHzUyy/bZSjmKKP6+EcKWQo/
-	 Vm3HMuddx5yTSkX5a09BbTz897oTslXYp6hNC5UwVdSePsJk9OUJ42/brZDG55LKJyQ==
+	t=1793704590;
+	b=BJiVsg6KxCa6uzxconSYFHFAfSVC4+GCiUdOM4AuSkhkvPxfJLzl7D13igQIKT++2l3z
+	 GjCYE2DkkZVUapjtVIayVw8HqydC6bINvVzkMQCoNcOMgo/FrVUbNZvf0eGhYRa0tqIAq
+	 VERJTIX9MpusGtjZUdHROCsOWZI7eIDGiP9N5PfmDeczYbs/ddZwCNtRxrWBZ2SsC/Agx
+	 ixpOugQhsXNv9RQgK4SKI5aYH9z2tpuXraTfMV8VT6uMEAN09oMhWhBBnklumL6FrXaEp
+	 V2LKiE6KVCIfgG5J8U8ud5yuYMs1kOY2Tm4sRU1fFfLx0XtTrY4Uo1DB5r+/6wahW7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793702480;
-	h=DMARC-Filter:Received:Received:Received:Date:Message-ID:From:To:Cc:
-	 Subject:In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Pre-Result:X-Rspamd-Queue-Id:X-Rspamd-Pre-Result:
-	 X-Rspamd-Action:X-Rspamd-Server:X-Spam-Level:X-Spamd-Result:
-	 X-Spam-Flag:X-Spam-Score;
-	bh=n3928gBIWqHxVcE0Q0TQTSHKUQ5+JmJrD1oVco54lEw=;
-	b=SsNNhpNjGYW2vCZtMkflse9ue8YHNtR8+zbGG5fBevd4SYsJ2hVgVPVNH3P4hJ68/df6
-	 pJzUlpQCJkZaDvEKSRGrzteXSeBQenr0ZuEbFckUlTvj1mSY7SiUpQHhtJzfTgqBUtZnX
-	 KGPfx4asqIUjRtWhnSjU4CUWRold3ESi4aGFeWei6yh4oWfgxf10HOQGcthEPH5dIfr9A
-	 fSlITyTca7dNoYNjL+GB7dS6JUM466ks8zqr/C5aLdfQlu+4/Yvz1dG6dh8xowYtyLQE5
-	 nAeYjPv+WK6PboMtJ5JCCWvkviDiVOw6D4DSVf6DVdmuB4kuC/bcd4rs6cfcivrhikQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793704590;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:Organization:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Virus-Scanned;
+	bh=MdcImZfmP7xvfy8O55O9UVy0YpebqA7j/xs36t95j+c=;
+	b=T+ozSSuW2fKqqHKoac0mqMpw7KSE/hTW4lfSfYrZQw20HqgyPLWw4PtJuDq/7ZfsJygi
+	 Nz/FXD09jP3ISF4JnkcR714ic2/H/U9u7UMYOb9mlP8IuZM+T9ZPtCbF4YMXUkWdOYDGa
+	 tHL/7/73ravcq9qem8jZuKuxqJT2ezF60JYaYH2oXi+XgAbn9VoFbFrNDQ/vG6hsoBF34
+	 WXX/nJJeQip9HKCkpkSlr+XCOxA83PCGr72QfcTrumL+nsLhPhkJlJhZFD+cEQawzm67n
+	 boNWpwZjhi0iQfcHlW9zBSrn65meNgQrBN30u3HGxwTRkYyCzIzfdBHNbiR6ATfzvjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dmarc=pass header.from=ew.tq-group.com;
+	spf=pass smtp.mailfrom=ew.tq-group.com;
+	dkim=pass header.d=ew.tq-group.com header.i=@ew.tq-group.com header.a=rsa-sha256 header.s=default2602 header.b=KIOQAVK6;
+	arc=none smtp.remote-ip=188.40.3.216
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34065606A81D;
-	Tue,  3 Nov 2026 10:41:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34065606A81D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 87A641FF84;
-	Tue,  3 Nov 2026 10:41:18 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A98D41350A;
-	Tue,  3 Nov 2026 10:41:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fPJkIE266WqxEgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 03 Nov 2026 10:41:17 +0000
-Date: Tue, 03 Nov 2026 11:41:09 +0100
-Message-ID: <87ik2exkmy.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	coreteam@netfilter.org,
-	kexec@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	jfs-discussion@lists.sourceforge.net,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	sparclinux@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-input@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	Chuck Lever <cel@kernel.org>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH RFC 09/38] ALSA: info: don't write past the end of a data entry
-In-Reply-To: <20261102-work-procfs-bugfixes-v1-9-59422ed3e465@kernel.org>
-References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
-	<20261102-work-procfs-bugfixes-v1-9-59422ed3e465@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEAFA606BA77;
+	Tue,  3 Nov 2026 11:16:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BEAFA606BA77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.a=rsa-sha256 header.s=default2602 header.b=KIOQAVK6
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ew.tq-group.com; s=default2602; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=MdcImZfmP7xvfy8O55O9UVy0YpebqA7j/xs36t95j+c=; b=KIOQAVK6C4zOx7s/9SES+d6yND
+	TZVBFWp2mqt3UosOtMX8rvbhOJQ5lRDlvYSESsF2gxC/JQT0i/Cn5r+3i+8EXUVnNzxay6XWVXpJv
+	p9cpNbWUeuPUzNaOJW6FuCn3QusMpLBu0WLS121rp6NXc2Ji8G4R2ZJ1ZbO8KIz4xRF7Q52GSIp71
+	lqvxCLMValsPhgx0HsxBmUfUCJQAHYHJ4PkF2XFKK4XIvWcn6DsqNe3jpWw/MQyxip/mzyU1CIRBK
+	AvUut4JxJvAx9cnYJqZO4MASW3usZpUVCHVRcyap9XuEuR5iLClYJ/7ilx6azkImGF7G6oO4lCyla
+	JUU8ZmWQ==;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1xOCV1-0005qO-01;
+	Tue, 03 Nov 2026 12:16:19 +0100
+Received: from localhost ([127.0.0.1])
+	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1xOCV1-0001FT-0Q;
+	Tue, 03 Nov 2026 12:16:18 +0100
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Macpaul Lin <macpaul.lin@mediatek.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: usb: ti,usb8041: Fold in TI USB8020B
+Date: Tue, 03 Nov 2026 12:16:17 +0100
+Message-ID: <3928338.mvXUDI8C0e@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20261103095425.3097720-1-wenst@chromium.org>
+References: <20261103095425.3097720-1-wenst@chromium.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -126,64 +77,150 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Queue-Id: 87A641FF84
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Virus-Scanned: Clear (ClamAV 1.4.6/28173/Tue Nov  3 07:27:52 2026)
 
-On Mon, 02 Nov 2026 15:21:24 +0100,
-Christian Brauner wrote:
-> 
-> snd_info_entry_write() clamps the count to what is left of the entry
-> by computing entry->size - pos as a size_t. For a position past the end
-> that wraps and the write goes to the driver unclamped, for opl4 into
-> sample memory outside of what the entry covers. At the end of the entry
-> the driver gets a count of 0 and vmalloc(0) warns. Before the clamp
-> moved into the common code the driver ignored such writes. Fail them
-> with -ENOSPC instead, like a block device does at the end of the
-> device. Returning 0 would make writers that use stdio retry forever.
-> 
-> Fixes: d97e1b78239c ("ALSA: info - Check file position validity in common layer")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Am Dienstag, 3. November 2026, 10:53:29 Mitteleurop=C3=A4ische Normalzeit s=
+chrieb Chen-Yu Tsai:
+> TI USB8020B is another USB 3.0 hub that currently has a separate yet
+> similar, albeit more limited binding.
+>=20
+> Fold the TI USB8020B compatibles into the TI USB8041 binding, thus
+> allowing the TI USB8020B to correctly allow downstream ports through
+> the common USB hub binding.
+>=20
+> The requirement of "peer-hub" is relaxed, as done in commit e44297dd2b75
+> ("dt-bindings: usb: ti,usb8041: Support nested USB hubs"). The hub chip
+> might only have its HighSpeed data lines connected, and thus would not
+> have a SuperSpeed peer hub.
+>=20
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
-
-
-thanks,
-
-Takashi
+Looks good to me:
+Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
 > ---
->  sound/core/info.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/core/info.c b/sound/core/info.c
-> index c4d57d0809ad..982087bc8575 100644
-> --- a/sound/core/info.c
-> +++ b/sound/core/info.c
-> @@ -171,6 +171,8 @@ static ssize_t snd_info_entry_write(struct file *file, const char __user *buffer
->  	pos = *offset;
->  	if (!valid_pos(pos, count))
->  		return -EIO;
-> +	if (pos >= entry->size)
-> +		return count ? -ENOSPC : 0;
->  	if (count > 0) {
->  		size_t maxsize = entry->size - pos;
->  		count = min(count, maxsize);
-> 
-> -- 
-> 2.53.0
-> 
+> Cc: Macpaul Lin <macpaul.lin@mediatek.com>
+> ---
+>  .../devicetree/bindings/usb/ti,usb8020b.yaml  | 69 -------------------
+>  .../devicetree/bindings/usb/ti,usb8041.yaml   |  5 +-
+>  2 files changed, 4 insertions(+), 70 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/usb/ti,usb8020b.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/usb/ti,usb8020b.yaml b/Doc=
+umentation/devicetree/bindings/usb/ti,usb8020b.yaml
+> deleted file mode 100644
+> index 61217da8b2f3..000000000000
+> --- a/Documentation/devicetree/bindings/usb/ti,usb8020b.yaml
+> +++ /dev/null
+> @@ -1,69 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> -%YAML 1.2
+> ----
+> -$id: http://devicetree.org/schemas/usb/ti,usb8020b.yaml#
+> -$schema: http://devicetree.org/meta-schemas/core.yaml#
+> -
+> -title: TI USB8020B USB 3.0 hub controller
+> -
+> -maintainers:
+> -  - Macpaul Lin <macpaul.lin@mediatek.com>
+> -
+> -allOf:
+> -  - $ref: usb-device.yaml#
+> -
+> -properties:
+> -  compatible:
+> -    enum:
+> -      - usb451,8025
+> -      - usb451,8027
+> -
+> -  reg: true
+> -
+> -  reset-gpios:
+> -    items:
+> -      - description: GPIO specifier for GRST# pin.
+> -
+> -  vdd-supply:
+> -    description:
+> -      VDD power supply to the hub
+> -
+> -  peer-hub:
+> -    $ref: /schemas/types.yaml#/definitions/phandle
+> -    description:
+> -      phandle to the peer hub on the controller.
+> -
+> -required:
+> -  - compatible
+> -  - reg
+> -  - peer-hub
+> -
+> -additionalProperties: false
+> -
+> -examples:
+> -  - |
+> -    #include <dt-bindings/gpio/gpio.h>
+> -
+> -    usb {
+> -        dr_mode =3D "host";
+> -        #address-cells =3D <1>;
+> -        #size-cells =3D <0>;
+> -
+> -        /* 2.0 hub on port 1 */
+> -        hub_2_0: hub@1 {
+> -            compatible =3D "usb451,8027";
+> -            reg =3D <1>;
+> -            peer-hub =3D <&hub_3_0>;
+> -            reset-gpios =3D <&pio 7 GPIO_ACTIVE_HIGH>;
+> -            vdd-supply =3D <&usb_hub_fixed_3v3>;
+> -        };
+> -
+> -        /* 3.0 hub on port 2 */
+> -        hub_3_0: hub@2 {
+> -            compatible =3D "usb451,8025";
+> -            reg =3D <2>;
+> -            peer-hub =3D <&hub_2_0>;
+> -            reset-gpios =3D <&pio 7 GPIO_ACTIVE_HIGH>;
+> -            vdd-supply =3D <&usb_hub_fixed_3v3>;
+> -        };
+> -    };
+> diff --git a/Documentation/devicetree/bindings/usb/ti,usb8041.yaml b/Docu=
+mentation/devicetree/bindings/usb/ti,usb8041.yaml
+> index 07e13fae640b..74021d13a43a 100644
+> --- a/Documentation/devicetree/bindings/usb/ti,usb8041.yaml
+> +++ b/Documentation/devicetree/bindings/usb/ti,usb8041.yaml
+> @@ -4,10 +4,11 @@
+>  $id: http://devicetree.org/schemas/usb/ti,usb8041.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> =20
+> -title: TI USB8041 and USB8044 USB 3.0 hub controllers
+> +title: TI USB80xx USB 3.0 hub controllers
+> =20
+>  maintainers:
+>    - Alexander Stein <alexander.stein@ew.tq-group.com>
+> +  - Macpaul Lin <macpaul.lin@mediatek.com>
+> =20
+>  allOf:
+>    - $ref: usb-device.yaml#
+> @@ -16,6 +17,8 @@ allOf:
+>  properties:
+>    compatible:
+>      enum:
+> +      - usb451,8025
+> +      - usb451,8027
+>        - usb451,8140
+>        - usb451,8142
+>        - usb451,8440
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
+any
+Amtsgericht M=C3=BCnchen, HRB 105018
+Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
+neider
+http://www.tq-group.com/
+
+
