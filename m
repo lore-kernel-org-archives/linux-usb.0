@@ -1,101 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793695393;
-	b=QaNufCSjygr1T3JlBTYM29Ry+ovmYAa95aO96SH2UGGaBON5m8TxTw4FgB5B3Elzi/DQ
-	 Iwo1p4Av3EqeX3v6Wz7EOGcen9l0ECcMyxJIf1bXQgGoY18L+vITfyRMisR7yh6s2U0xL
-	 R8pFnwMPbeolz8JW7FQAmrMQT02Wa4VvbtUfcsqFOm4TKU1jZjjZpWeVmG+YflQBcZGwy
-	 2En7ig229AcJ/EKoMw4jBW8xbasDT1vzC9WdLqf8Gnm4IUJTCTsWhBraWG0pi/xZghEJP
-	 XbOw+G3Md4kckwguf6GIfKb3Rf6D4Th+Lp+7PvdJViE8MCfxLi/uzNfehvEWGUpxAWA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793695393;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=ldn8Uwg6bIM1pXx42AqleDz0qwEhH4Gry8sXUgnKs6o=;
-	b=pMl+7sI06B64irs8Yc/TqerIQaVoWRqZ34WPbKlnoZXd9PSD0e+HNmbrwJzEYG40kAlh
-	 3+GwKb4U/ul1OoozIDH/wSlQvIPNkiHEoqf36r7UnuhCzkmpighKMU4+dbzVCcW7+BF/x
-	 dT/sqIek68UYNkt2xbfY3C19BSrQvgndxp9Jwq310ARlXQVlH9kEs6zvTVU677v2BVloR
-	 dtFxCG/1eDqMclUuRlk0/RflkKHx892IVYtcJMEnOVN5b1Lmxf3UKmpNiRn83QLTU0T5F
-	 veVNkTDwJRavtXmrnKYbl3toEnGEPFXTkd5GmmKInWRhVEtOZ+UEVkE1Affb48b3HVQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=pengutronix.de;
-	spf=pass smtp.mailfrom=pengutronix.de;
-	dkim=pass header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=Kck2UP0Q;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.53
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793695653;
+	b=3up0QG/sLEDAC1C0wRx7UuHl261A1WGeKR32wmqLvLZfFT6pFuOhU07BnYeQI//hyO9e
+	 3YIrmz0DoYkiqSBrriepHgilct156fVxKHHGPHpvu8PNBIGOM4xSDhRWhvsi2EbBRmJbd
+	 /lQHSSkZlUbQE9E1rKombu5cMXG258xP2NvQVYxqCf5+9lMMsqHNN3IJrzfuardW0wvhX
+	 wpZ/JwjhJo3YT6X8VkQLVaxld/wFuLmyDtMoGFJrMYQSkCu38V0NkmuwtmvN1GoVjZerd
+	 M8P7eaAESlZxQ6wB8if2RdD4qfv0LMfWwzNHuQcfymJq5rWd5N3DUjH14Fy3TxMEl3g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793695653;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=U4tKXObhoI+fdUM+1l8D4TYSSuaXMy7Ud+cPi9l7w0w=;
+	b=4y78yKKQ5KBdH5p1C1jgssFdVEa/2Tr9aux9XU0jX+sgrlJquakSJRbx30hoWQ6XXW4Z
+	 5rm0pfAHFHbPp+jQbYMs3cPk868BrsHBu0bb2e6/oDjEOvLBxm5DFmIZHWkcggCmHULi9
+	 vkY9aHR+vI3wOibo7pqzdcyR9BEBh2Z7GWEcq2foo+iLLK1QrIWaVUlJsMwmJxHgW0ZiZ
+	 /0OAzijC4vmj3z2a8KyOg1UCIMDDBBOMIEJa1jXShK7v8NABqp1NgWcnLQLMfRVXNK4e8
+	 c/bem5R3XTMRIebeC/Flw5bOUmRLwNxPvv8OB8Es3VBXauQ3W8H+CIiYHjVb5jzwgkg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="WeI/PAMh";
+	arc=none smtp.remote-ip=209.85.216.53
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A67C606A95E;
-	Tue,  3 Nov 2026 08:43:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A67C606A95E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8743E606A327
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 08:47:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8743E606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=Kck2UP0Q
-Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
-	(Authenticated sender: pza@pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 55CC12008B9;
-	Tue, 03 Nov 2026 09:43:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1793695389;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ldn8Uwg6bIM1pXx42AqleDz0qwEhH4Gry8sXUgnKs6o=;
-	b=Kck2UP0QjPeBD+dXF2Jmn193MsuLvVO7FP7b/g5B1P/ObxtBifpJ1sSRm/iCx7CWCcTWSa
-	Chj0vkDcub1MJUasXIOKI8WxN6XHQxizt+E7EYVY/prE07p4ssus50V66Shkso25DXjbhh
-	oRv5YG7DHRLO6SxI89M1HuTLIqv1ettxLwOPgWVErl0+tUNN1EZNrb0zwHaeqU+6aKLMTk
-	BHfKkWVUKYymQmAzNnKEVQ96xgOynrHWMFpjr1UFG/Emj1yjqJHlG8NJCV7CIQUyi3TCR1
-	quzEqgEM6PZzo914SEptmqvDvbdArVUBVSbdxjAB+pWaucQJH2eE34z9oshutA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1793695389;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ldn8Uwg6bIM1pXx42AqleDz0qwEhH4Gry8sXUgnKs6o=;
-	b=I1cGpfUEClaIOygpZTETCF7+eSpVpI0odhnZdCCMV7ICqkMFP3EwolT8HNfF3vJgaxqdrO
-	RU2+uJnrwDZhXqlwkDDWQWQ2CsA6EDO+QGb1SnJ1kP9pD9+LRBHzREa871JjdpfPwCXujz
-	wkP4S1j+3TaOmpUp551r9pQQnC4s6ieuDO22dwGX4L1sEpQjBNC1QAr1nVZdJR36PgnTLO
-	z4roXxOUBWv2gkwV0kBtyy5ip26ypAr6yWHIxke/GKQvemVeIc0WmyaidTEqmiXjqL3ftk
-	yqr/xmdK/vtTjUwNerI7bilfphluj+9hhdUguq59f4uu0C+8PmCKVbXpjlfTmA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1793695389; a=rsa-sha256;
-	cv=none;
-	b=Qd5lw6fGwGDLiZqtNAFsg+uAqFjyk16IKa0DeuAXRInKqEou/lGpsk3vz2dNlCscxLhaBv
-	1LXADaF9n98nvDDqLdG5BplF5gwozT+iVMXOuKnKXsCI1HJSdNL5BCOp+MX2ll04+FY9mV
-	tIiipahdAl7LmJTxmxQK9bXbnXonQ0pNjw2/o16hZzatjFPRE+l5acUnEWgT1EVua8K/mr
-	Yo3y41cBycH3mHA1DB7FHxOE2VYh+u1TlxhjsZK6OZKgp/A8uDOuBaepAmonTmd3uFmUv5
-	wRUssR/6V7EutLYmQ9SO/XmgIINcGFAUuCxAp/K4DDCkwnOFyl0JmZF44AMdMg==
-Message-ID: <81dcaef70174ea7746bbc5a31777770717c14357.camel@pengutronix.de>
-Subject: Re: [PATCH v5 2/3] usb: cdns3: Add CIX Sky1 glue driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Hongliang Yang =?UTF-8?Q?=28=E6=9D=A8=E5=AE=8F=E4=BA=AE=29?=	
- <hongliang.yang@cixtech.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Peter Chen <peter.chen@kernel.org>, Pawel
- Laszczak <pawell@cadence.com>, Roger Quadros <rogerq@kernel.org>,  Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>,  Gary Yang
- =?UTF-8?Q?=28=E6=9D=A8=E6=96=B0=E4=BC=9F=29?=	 <Gary.Yang@cixtech.com>,
- Fugang Duan =?UTF-8?Q?=28=E6=AE=B5=E5=AF=8C=E5=88=9A=29?=	
- <fugang.duan@cixtech.com>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
- "linux-arm-kernel@lists.infradead.org"
-	 <linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
-	 <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	 <linux-kernel@vger.kernel.org>, cix-kernel-upstream
-	 <cix-kernel-upstream@cixtech.com>
-Date: Tue, 03 Nov 2026 09:43:09 +0100
-In-Reply-To: <20261103074929.1971195-3-hongliang.yang@cixtech.com>
-References: <20261103074929.1971195-1-hongliang.yang@cixtech.com>
-	 <20261103074929.1971195-3-hongliang.yang@cixtech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WeI/PAMh
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3ac77270fbfso1898281a91.2
+        for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 00:47:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793695652; x=1794300452; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=U4tKXObhoI+fdUM+1l8D4TYSSuaXMy7Ud+cPi9l7w0w=;
+        b=WeI/PAMhpY6ElVATxqJzgVu3Tvz50yNK9Mtvb0jpEhROSFUKak1i9ybMTlBzKA5whc
+         H3oJfPliaqhT5UOmk3LO/ZpJ7jbeCP5z5xo4PZO7HB8ogQrBN0ozoiT5gf0Or2bmfAhJ
+         y54kdg9c2zPBpztYQ21x1A6cnAQKechI9efPsSFGYmdgmX6n615wxC5JTxtHGkcaAkp6
+         Gq1yHGQpIzojAVWYkF6u9oT5W1Lctw5gPpwYUDwPUAi7zKghOiscZSFVSGfPpAWvekYX
+         5c/VMOrFzi5Yf1yy3AjkUim90lI715PTUEBDA5BbI+7KOYRSq6UNnLFBLJG6rg7ERn+/
+         5H8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793695652; x=1794300452;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=U4tKXObhoI+fdUM+1l8D4TYSSuaXMy7Ud+cPi9l7w0w=;
+        b=B7GEeBygN9yujR/lumydh3Tg1Rm23L82cDVwXvXXlWj4/KkHIxJbsPy/w24iWd4nZr
+         WCArmt0UELi0zON6D6cIwh8J/ETpkrOnoll3KoTCS7XnG2pk1YeuDKMEI7wqd+AfoMpU
+         i5ZU+BFkvMDLCWl2DeVR60H7+0Mqocj2otmwE4VatesoeVdaAEuGJkCOzyI4NtLFKBrG
+         EjvN9guHRyxQ3g0MVCQu1lXFULMkmvfFSUPLQUz6KwtgqH2whCzuQwZ3Q3wThuQNEttl
+         D+FhuQsj3bVLYkxfCtx9jgNT3tFrrJ8lckkjN0SxlKSo2iHPkDb7lA7v+wqUjKuMWW0p
+         7eGw==
+X-Forwarded-Encrypted: i=1; AKwUvBy7f0QzVUPGIDEvMGA+fdBNo5LxzKUZ/hC/iGzVqx9SYpCODHNMDj3//MEs69gGgrAYfDXV4YMidOk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+MIiiXP77BQZmw964+5EAph+tystLWksmipUPehG8O9anHY+nO
+	cFHsLm4c1ZJWB1ekt147PSeLMJzYnpmghbWuNB/s1uFSmg5a0nldQuVM
+X-Gm-Gg: AYBFou0N8IPFPRE11y8MNN01TXXahYmNlwObqyIBCY0//L9H8Y3usm7yNL2F18Gk+tA
+	1F6Kj7MV6M8USoz8uhuR+I9z8j5n/uSMyoDJvkBTo9fPXu5ap6WD5End/B9nosHXBGK9lW+m+7m
+	Mn/1QiBq40/DvdAHUK+VwMhEsF7f1PXlDwCz6vMb29gL2vK51lbFSEN1ZF57e9/4/cufBeqtFEl
+	8whD4nL2eRlt8Cd+37L99MFz+uVZqkqn9uyCBdpdTEZtpTbADZf8AwlYXRIwi6hLyGVwOP5dtWZ
+	6m927dPbRU650xi33/5jSokxSc6L5SYP9PcayAP0jPMVe6iP5MOOCKyMNA7Fxf74rk6Nl//OuLM
+	dl0/C/lW9JjDk80I/M0oHvWkuJYkzT9++XPjh8ls8+dMmuaZzOvql5wfsk2OIPRTYI/yu+mearf
+	QBhfmhiEtOFXNTWrr8xPwfsMWDNFhx+beeNSbM4+k42VpRX7bUvPgvezMI0Teey8UOpvbJw4viH
+	GtSFbw2rCDipAlhiIojABMlf9uQIBmuNl1Ovne3oOJWdrs6noyWXVy8u7Klf3qingarP2SNNVhQ
+	CCKz+f85DNq6Cc4PDGnX4m0PwIc4O/kOwPMrLP5IR5wWw8jO
+X-Received: by 2002:a17:90b:2fd0:b0:3ac:af8b:6f3 with SMTP id 98e67ed59e1d1-3ae898149e2mr9319285a91.52.1793695651757;
+        Tue, 03 Nov 2026 00:47:31 -0800 (PST)
+Received: from spiderman.taila3fd8c.ts.net ([202.112.47.77])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c6740a1sm3294725a91.10.2026.11.03.00.47.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 00:47:31 -0800 (PST)
+From: Li Ximo <lixicaicai@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michal Simek <michal.simek@amd.com>
+Cc: "S M, Suhan" <Suhan.SM@amd.com>,
+	Aldo Ariel Panzardo <qwe.aldo@gmail.com>,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Wang Haoran <haoranwangsec@gmail.com>,
+	Li Ximo <lixicaicai@gmail.com>
+Subject: [PATCH v2] usb: gadget: udc-xilinx: guard EP0 dequeue against empty queue
+Date: Tue,  3 Nov 2026 16:47:22 +0800
+Message-Id: <20261103084722.1821982-1-lixicaicai@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -105,59 +100,65 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Di, 2026-11-03 at 07:49 +0000, Hongliang Yang (=E6=9D=A8=E5=AE=8F=E4=BA=
-=AE) wrote:
-> Add a glue layer driver for the Cadence USBSSP controller integrated
-> in the CIX Sky1 SoC. The driver manages the controller clocks,
-> resets, and the mode strap controls located in the Sky1 S5 system
-> controller. The per-controller glue registers, the AXI bus attribute
-> configuration register and the controller status register, are mapped
-> directly through the reg property of the glue node.
->=20
-> Signed-off-by: Hongliang Yang <hongliang.yang@cixtech.com>
-> ---
-> v4 -> v5:
-> - No changes.
->  drivers/usb/cdns3/Kconfig      |  13 +
->  drivers/usb/cdns3/Makefile     |   1 +
->  drivers/usb/cdns3/cdnsp-sky1.c | 716 +++++++++++++++++++++++++++++++++
->  drivers/usb/cdns3/cdnsp-sky1.h | 128 ++++++
->  4 files changed, 858 insertions(+)
->  create mode 100644 drivers/usb/cdns3/cdnsp-sky1.c
->  create mode 100644 drivers/usb/cdns3/cdnsp-sky1.h
->=20
-[...]
-> diff --git a/drivers/usb/cdns3/cdnsp-sky1.c b/drivers/usb/cdns3/cdnsp-sky=
-1.c
-> new file mode 100644
-> index 000000000000..1f7870289a35
-> --- /dev/null
-> +++ b/drivers/usb/cdns3/cdnsp-sky1.c
-> @@ -0,0 +1,716 @@
-[...]
-> +static int cdnsp_sky1_probe(struct platform_device *pdev)
-> +{
-[...]
-> +       data->reset =3D devm_reset_control_get_exclusive(&pdev->dev, "cor=
-e");
-> +       if (IS_ERR(data->reset)) {
-> +               ret =3D PTR_ERR(data->reset);
-> +               dev_err(dev, "get reset error:%d\n", ret);
-> +               return ret;
+From: Wang Haoran <haoranwangsec@gmail.com>
 
-		return dev_err_probe(dev, PTR_ERR(data->reset),
-"...");
+The EP0 dequeue side, xudc_ep0_out() and xudc_ep0_in(), calls
+list_first_entry() on ep0->queue without checking whether a request is
+queued, while the enqueue side __xudc_ep0_queue() already guards the
+same queue with list_empty() and the non-control endpoint handler
+performs the same check before its own list_first_entry().
 
-> +       }
-> +       data->preset =3D devm_reset_control_get_exclusive(&pdev->dev, "ap=
-b");
-> +       if (IS_ERR(data->preset)) {
-> +               ret =3D PTR_ERR(data->preset);
-> +               dev_err(dev, "get reset error:%d\n", ret);
-> +               return ret;
+list_first_entry() never returns NULL on an empty list; it returns the
+container_of() of the list head, i.e. a non-NULL wild pointer into the
+enclosing struct xusb_ep. Switch both functions to
+list_first_entry_or_null() and return early when no request is queued,
+making the dequeue side consistent with the rest of the driver.
 
-Same as above.
+This is a defensive consistency fix found by static analysis.
 
-regards
-Philipp
+Fixes: 1f7c51660034 ("usb: gadget: Add xilinx usb2 device support")
+Reported-by: Wang Haoran <haoranwangsec@gmail.com>
+Reported-by: Li Ximo <lixicaicai@gmail.com>
+Reviewed-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
+Signed-off-by: Wang Haoran <haoranwangsec@gmail.com>
+---
+v1: https://lore.kernel.org/r/20261023073131.637062-1-lixicaicai@gmail.com
+v2: refactor the commit description as a defensive consistency fix per
+Suhan's review (the originally described bus-timing trigger is not
+reachable without software first arming a buffer), and add the Fixes
+tag. Carry Aldo's Reviewed-by. No code change.
+
+ drivers/usb/gadget/udc/udc-xilinx.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/udc-xilinx.c b/drivers/usb/gadget/udc/udc-xilinx.c
+index bef06fe75..032d9f04f 100644
+--- a/drivers/usb/gadget/udc/udc-xilinx.c
++++ b/drivers/usb/gadget/udc/udc-xilinx.c
+@@ -1822,7 +1822,9 @@ static void xudc_ep0_out(struct xusb_udc *udc)
+ 	unsigned int bytes_to_rx;
+ 	void *buffer;
+ 
+-	req = list_first_entry(&ep0->queue, struct xusb_req, queue);
++	req = list_first_entry_or_null(&ep0->queue, struct xusb_req, queue);
++	if (!req)
++		return;
+ 
+ 	switch (udc->setupseqrx) {
+ 	case STATUS_PHASE:
+@@ -1875,7 +1877,10 @@ static void xudc_ep0_in(struct xusb_udc *udc)
+ 	u8 *ep0rambase;
+ 	u8 test_mode = le16_to_cpu(udc->setup.wIndex) >> 8;
+ 
+-	req = list_first_entry(&ep0->queue, struct xusb_req, queue);
++	req = list_first_entry_or_null(&ep0->queue, struct xusb_req, queue);
++	if (!req)
++		return;
++
+ 	bytes_to_tx = req->usb_req.length - req->usb_req.actual;
+ 
+ 	switch (udc->setupseqtx) {
+-- 
+2.30.2
