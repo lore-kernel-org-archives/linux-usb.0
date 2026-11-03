@@ -1,49 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793686128;
-	b=ZmxkS5E5SQrNyxpcOpBNq12BsbWg0pV2gsjh/694W7AaEBu8QCWeRsd6dURVnbOG/gyI
-	 19c4Foeac+foFpN8Um04Y+JwsSpNFPAlNsqfXmoo1pCD43thn2zCTtk5N1Pq09rFhNwGY
-	 rjmJ1wn/S4feUwujTiWLF3sZkqwgoUwoo28rHb1Uz8h8FS23akEzohDqDjxIT1wLJ6ZVW
-	 iainC0X70Bc+z+bIbIUMcy3uKCdcxLEt9mI/R5TPARbjaXK+G2E4Kb+UZgSF9kCDuhg7B
-	 0bs7a3IYu/xdPDRCuute9CUkudFGFmXB636Mnsz3FHeFdTzueD4SCkM5MCcgqHhElXg==
+	t=1793686448;
+	b=DvXS8CyWxzWy995nS3y3oX09RCcYr4EF1xevHcNolsunEa0ow3Rs8wXBQYKm/Gyju77J
+	 f8XcAF9t+fRdrwVCbYTB21Lev9LrEu9gCcBKFZY+7wEleR24p9axOKvzZajGbVGchpThk
+	 UQlZPZIWrLOAS/++aFU1u9+xqz7urfqk9lsIXR9IL380ajjOpA3njqzU5/Kx6UA2FEK9W
+	 KwfxF9iB1qIHI/YEbbJmzbDwoPNUIzQ1sD9P4TMHlGfqbWhfIywCSuFAz+BAJbKNnXrvi
+	 8LGXQda3Yuy6F/fwCxPIz4gkdsUDNpn0wtJ0ZeyrntbkaNM2U72M1k15owZsHhx1z/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793686128;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer;
-	bh=L6ho8vIeYjjJPXFr89E6+1FFlHcZOfNw8htX3591WFU=;
-	b=EmTzB8fDinseEbXqbFbk9jxug6ukDmXDrKFrd6AVD010cFN2jsfyKyAF6Q0vMuY9Rvlw
-	 xvMwC0h+yhevXTcY/N3bQVvt2VRZV4Kbgt5T/6yzSd23zdEEKXBLrMqRLkWkLT2LqZBs0
-	 LVgucjhnYPc7oAb11Ahr9btaxHbZKBFxB59T/fxokKcmAtuWdDE7vGLtA9aD8w8qtow/x
-	 JHC6B8nepQZ8FkjCGpfLXHGL1j8V6b66xB/lsKiPmAkQH6naTY2nJ5ZyoFUcYbAL2RyqB
-	 nXpJMxZGwkTFOQVvHcYY6+O8Myht9F5xC4uTur2POsQHhRpP7jRA4wqGoIr7FcG0Ryg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793686448;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=cmLsmwoycaOlY7rck5ZTRAIGMqEJQy3dpojcPtnT2js=;
+	b=0Y932nXnNnKnxS8GBIdsQbHjfSJrTa6KLJhXQ2WoSDyDDSEqojnWzUtSNqdioRqXzhun
+	 d8LXVohrb2Vsy0yAhUE156SWionUjv/gUcweRefLox4mVLEsoYuGxzoaRi9QkTU+1dO56
+	 jQQ5nxXYCXUTRupL3dJtCCyX0v6wzzViBGRZSW/kqxtoXR0qmWsd9cnGQ6+XrJiTmhnd6
+	 s31dNPclTVE8OYntO/yaVtGqHDazQ4pBBpSXhkevYvtkXvGO5rC3KsL6fBcsb4+07bZ9d
+	 Do+XQthQweJCVzBRF8BFOp8ZYR5sr6cVu/ed97yaEXBAgA8kSkkA7eDWNzDAVLQ7ftQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EXxUngDJ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pZRF8ht2;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=UCNNnsIS;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482E0606A324;
-	Tue,  3 Nov 2026 06:08:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E16606A329
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 06:14:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86E16606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EXxUngDJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D71B1F000C1;
-	Tue,  3 Nov 2026 06:08:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793686127;
-	bh=L6ho8vIeYjjJPXFr89E6+1FFlHcZOfNw8htX3591WFU=;
-	h=From:Date:Subject:To:Cc;
-	b=EXxUngDJyvmP2yr16wdsWixP/SaWR65lfmiulCYkKQ0Yt40sgdHOTYioRjzxMO7Fi
-	 PiXzmhkjfTPlMsbfATOmVl0PTT9BtdJC7BgPBKGHYhK+3iJ4+c+6dA97kQR5UOYIsY
-	 Ec866l7ypWCMNfKzYjYW+Xw6VTBuePmCIPIBPo4SAKqyci+F3swh2TSNeu5Dif9hNR
-	 uTBNAnn4iHdXbZxe+NLd0ES79dr5FQX7KIjB4y6Ftk0qy7NvrtPl8KNT5zy37hR34l
-	 SDIODALxAGPBt1zkqrrWJ4d583HzwW5/iFsJhs/fY9ob9g9JPIRvZrCfUFjRrzGgMK
-	 sk9x8IdURC1/w==
-From: Mario Limonciello <superm1@kernel.org>
-Date: Tue, 03 Nov 2026 00:08:43 -0600
-Subject: [PATCH v3] USB: hub: call ACPI _PRR reset during port power-cycle
- on enumeration failure
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pZRF8ht2;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=UCNNnsIS
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A32oYsG2608899
+	for <linux-usb@vger.kernel.org>; Tue, 3 Nov 2026 06:14:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=cmLsmwoycaOlY7rck5ZTRAIGMqEJQy3dpoj
+	cPtnT2js=; b=pZRF8ht2hgSHW291i5O3z73nRN7NmpXzRFglnWgQwJA0xOuUvDB
+	wE+/qKLEqk2qHTu8eyuQ1faSo7WmzJF1kuxAJtOG7IOKh32vjoZNAiy9XTVuTR2a
+	+ReHxL28FPjgy/IRmtwfNFCjGstOGIlYrVP6CGGKDeNX69ag31Hx41lT/bepbEO1
+	mdIPWzjL/r+OLmIsk2ImOaeMsnWoadthnSlawO/XGTUoC5m/7BTiiS1KnGIcZMos
+	iIhQE3CBJdwajev36Te05vyt7C9c+adUZ+J3f4CwdOX8VJd4tvFRxUgqeZrnKJu1
+	21UynGItlPHL79qWwWmH7A5JXPIvBMRk3Aw==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hq76d8nb2-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 06:14:06 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-3662e7a9299so15288198eec.1
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 22:14:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793686446; x=1794291246; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cmLsmwoycaOlY7rck5ZTRAIGMqEJQy3dpojcPtnT2js=;
+        b=UCNNnsISsBvsE5eajT9paFCqWbsyihc/WHTKSmWTl8/rk5YKP9Xb9pwNlveZplNLkI
+         t47MNxbgBEPneGUbVh0W4tFWXbhmagBzFqXNtrk+qZlPeJd3IJ2UCY4XZ0Mqedbawmr6
+         QJyExejJ4pLonaFn7rH1L02jTcMExw3CgsSiuCeueoViBKXvE+qkUBZvm/8AwoRywzfA
+         hCSxqh9nkPs3vwcgE7Xz9ONCkrzwTxeIhMQvl5yiXt5YArdJUxCr4tTnGv79eEOGaY+6
+         ztJr4RDByMLw42oLY6inaeBZqf0iZSZ75gKfivGZtt48VRZNZcs/eFztMlbQXPPeUZHy
+         ofXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793686446; x=1794291246;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cmLsmwoycaOlY7rck5ZTRAIGMqEJQy3dpojcPtnT2js=;
+        b=YI5AdyURwJWf2qNOoWQpmEBgRpXXa7uvHZv0Zt8GoA/Sw/eoXrvnfyWOA6GyoCmq1K
+         GchtvOsjYxutZtfhgbjtBPe6nwK3rum9cxk8w9WqyDLIusJbLGnDZe3UohjjIH//HGXy
+         OJyhK7v84od8PHHryUSMahdSdQ1AovanNmPwGk+yScRDIYOpmKnaIWduDICYiCzVRMjA
+         Vnt7IRJsRRfP3LF+7R41cjmUpu5637JGagIxQ6kZEJ+RQTx1MgM/Qw0fy2slQOjdytEW
+         uHVRgmvicbhRhTghJk5NxSWCNTOV8P6EoeqAymf9kpGqxQIsPFyqqI2hsKw1xts2iwAo
+         dX4w==
+X-Forwarded-Encrypted: i=1; AKwUvBzJytg1IEbw+sWH/RFX7NWHgysR5v2uyLK54ZqoCSXx8izavNxYhyWQH7bp9pJLBHNfLdgeBHlDUQE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+uVJM3k7qNC2D69wLXwAbpeT5CnhV9C9FYhastr1IVBc9Gp3/J
+	xGTG/q5l/WUxPlYocZXbUa1RPi0GplRDhTqwpxsZDsBIPajmQx6ATIp1VRkov3bS/Lv39Xu4q6b
+	P4nkwaSO2dE5gLVyA7Qg9QzmNpqzHLYEKLFskisrwiuMBelrIENbHaOCi8zmiDzo=
+X-Gm-Gg: AYBFou05arYPhQqXvQJMCpyMxQAEsvUu5Ibqdqk43pb7OBhZhY2aRy76u/+LV63Vzj+
+	vkSue8Fv983z/O9pfVSV0j+uZ5xOS3dzq9N9F2LzSx6b1F80BTOO+DSF98tTHbBVCKxejDn7HJ8
+	foTjpHP5yOusI9rkgvq/JsrukKUvcik/HwemLKqIrdJ3TCYMOdoJOhquLazWIXKVMSii+G92p7l
+	efS0iWa53v0Xydx64TFH1t9WfB3E2AxbXM4gz+cWTHdIdN+ODi2zg5OJtOcUHCG486tdvkrIn1O
+	nX62reFQ6n4vrxlljoINyoiuoqsF3f9zWV/xEF0usjCyFxKPZshCzHld5fIhsznmSOLBH9DH0Tu
+	8yVoe+pjN8Bs8HwjybPvKZtnleYLqFv9DqeMP/AObSSQKar58Jl8gU2UbsSlhVGU2zwNSMy2EN8
+	6dyiEUaNEFv9lKN0e3hyzRuA==
+X-Received: by 2002:a05:7301:152f:b0:36a:12c1:3adb with SMTP id 5a478bee46e88-36a42397b34mr13292168eec.20.1793686445867;
+        Mon, 02 Nov 2026 22:14:05 -0800 (PST)
+X-Received: by 2002:a05:7301:152f:b0:36a:12c1:3adb with SMTP id 5a478bee46e88-36a42397b34mr13292118eec.20.1793686445074;
+        Mon, 02 Nov 2026 22:14:05 -0800 (PST)
+Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36c8d3277e3sm1947091eec.29.2026.11.02.22.14.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 22:14:04 -0800 (PST)
+From: Peter Chen <peter.chen@oss.qualcomm.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johan Hovold <johan@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+        Udipto Goswami <udipto.goswami@oss.qualcomm.com>,
+        Jack Pham <jack.pham@oss.qualcomm.com>,
+        Pratham Pratap <pratham.pratap@oss.qualcomm.com>,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        Prashanth K <prashanth.k@oss.qualcomm.com>,
+        Elson Serrao <elson.serrao@oss.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Peter Chen <peter.chen@oss.qualcomm.com>
+Subject: [RFC PATCH 0/1] usb: dwc3: qcom: Keep wakeup option default off
+Date: Mon,  2 Nov 2026 22:14:00 -0800
+Message-ID: <20261103061401.2942139-1-peter.chen@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -53,222 +129,111 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260706080117.3754550-1-v3-1-0e3069228fe9@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMMQ7CMAwAwK9UnknktKRBTPwDdTDGgKEkKKEIq
- erfCTDecjMUySoFts0MWV5aNMWKbtUAXyiexeixGlpsewzY4wadC7YLfu09GmeIZaRob5R2TDF
- FZRotpzvU4ZHlpO/fvh/+LtPhKvz8lrAsH0iuGmV/AAAA
-X-Change-ID: 20260706080117.3754550-1-acelan.kao@canonical.com
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- linux-acpi@vger.kernel.org, 
- "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>, 
- "Mario Limonciello (AMD)" <superm1@kernel.org>
-X-Mailer: b4 0.16.0
+X-Authority-Analysis: v=2.4 cv=KJTPn1Fo c=1 sm=1 tr=0 ts=6ae97bae cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=Pt4Z8C64eHDFcQK2EPwA:9
+ a=bBxd6f-gb0O0v-kibOvt:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDAyNCBTYWx0ZWRfX2nrma4O6rUKr
+ dZyrupVCh8yaU6/KQ/3pN6smFiGNC8S/K27MurNOx/CJHauwcYgjpGuhHve4XBdHcJokJTylLmg
+ v9bYdyr9Smm07egm8/sEwk5ZBvn0lFk=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDAyNCBTYWx0ZWRfX/ivdJxwHjTqB
+ biDLy/+8tZhCMGyi8UwtzJpRv5nrHAKRHzm3iAqpbhQlZnaUMq0C8SpdTT8svamD7pTr2SXioMZ
+ hA1s5EUyMgRuoGGxK9kyiS5vFCLb5uSOw/AePf/HMJoUU6skg/LoyDpoOiQlONa4N5QIrcVRHhs
+ BbqZUoG1hW7/FQH0m02aUunhggqkLrr+1oe/NAhDj7cgtYV5U8m50AdSqnRIG9kvu3WK8BTf4fx
+ Hd2OdiCNtqq+eqxiXNq7v54ufGfyPkp1f9tPV/4xvlAzuJbXiTWfEqdB7SVASV5rrIoyaf5+F1w
+ rd4ogTG8Ho7zz8kMSZaBzghyREg4nrsv6vtdWFfPykqrowaYA1RbA3vi3JNOEkztEkoQmflgbgR
+ 8Ni25WJcxUvqqF5kzuUKK4F7LPNaXNUYEBPbfpPyxE6Dd0HQJW0wG/G1Xz0cmYAlaoyxOL8IQfV
+ NdmN21w28kaEQ6MP5vg==
+X-Proofpoint-GUID: PG1ZAaMDrouMykibQj4nyPj6PVd0TF-g
+X-Proofpoint-ORIG-GUID: PG1ZAaMDrouMykibQj4nyPj6PVd0TF-g
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-03_01,2026-11-02_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 bulkscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 phishscore=0 spamscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
+ definitions=main-2611030024
 
-Some USB-connected devices (e.g. MT7925 Bluetooth on Dell laptops) expose
-their hardware reset line via an ACPI Power Resource for Reset (_PRR)
-rather than relying solely on VBUS cycling for recovery.  When the reset
-GPIO gets stuck low the device stops responding on USB; a VBUS power-cycle
-alone cannot recover it because the chip remains in reset regardless of
-VBUS state.
+This RFC proposes changing the default USB system wakeup policy of the
+Qualcomm DWC3 glue driver, and asks for feedback on whether the change
+of default is acceptable.
 
-Add usb_acpi_port_prr_reset() in usb-acpi.c that, given a hub device and
-one-based port number, looks up the port's ACPI companion handle, evaluates
-_PRR to obtain the power-resource reference, and then calls _RST on that
-reference to toggle the reset line.  The function is a no-op if the port
-has no ACPI handle or no _PRR method, so it is safe to call unconditionally
-for every port.
+Current policy
+--------------
+When the controller node has the "wakeup-source" property, dwc3-qcom
+calls device_init_wakeup(dev, true). USB is then a system wakeup
+source by default. Users who do NOT want the system woken up by USB
+have to disable it:
 
-Wire it into hub_port_connect() during the mid-retry VBUS power-cycle
-(at (PORT_INIT_TRIES-1)/2 iterations), calling usb_acpi_port_prr_reset()
-*after* VBUS goes off and *before* VBUS comes back on.  The ordering is
-critical: on the tested hardware the ACPI _RST method (MBTR._RST) drives
-BT_RST low for 200 ms then high again.  If _RST is called after VBUS is
-already restored the GPIO pulse races with device enumeration starting on
-the live bus; the device begins asserting USB signals while still held in
-reset and enumeration fails.  Performing the reset while the port is
-de-powered ensures the GPIO pulse completes fully before the device is
-given power and time to initialise.
+  echo disabled > /sys/devices/.../<dwc3 device>/power/wakeup
 
-After VBUS is restored, add an msleep(100) conditional on _PRR._RST having
-succeeded.  USB 2.0 spec §7.1.7.3 (Fig. 7-29) mandates a minimum of 100 ms
-between VBUS power-on and the first reset signalling for power settling.
-On root hubs, hub_power_on_good_delay() returns bPwrOn2PwrGood * 2 with
-no minimum floor; on the tested xHCI root hub bPwrOn2PwrGood = 10, yielding
-only 20 ms — well below the spec minimum.  (External hubs already enforce
-a 100 ms minimum via hub_power_on_good_delay().)  When _PRR._RST has been
-exercised the device must also complete its full power-on sequence (GPIO
-de-assertion, internal oscillator start, firmware load) before USB
-enumeration begins.  The 100 ms sleep enforces the spec minimum and gives
-the device adequate settling time.
+Proposed policy
+---------------
+"wakeup-source" only describes that the controller is capable of
+waking up the system (see
+Documentation/devicetree/bindings/power/wakeup-source.txt), so with
+this patch the driver only marks the device as wakeup capable, and
+power/wakeup starts out "disabled". Users who NEED USB as a wakeup
+source have to enable it:
 
-Tested on a Dell laptop with MT7925 Bluetooth (idVendor=0489,
-idProduct=e139) whose BT_RST GPIO was stuck low.  With this fix the
-device recovers autonomously at boot without requiring a G3
-(mechanical power-off) cycle.  The relevant dmesg sequence:
+  echo enabled > /sys/devices/.../<dwc3 device>/power/wakeup
 
-  [    1.448491] usb 3-10: new high-speed USB device number 4 using xhci_hcd
-  [    6.813942] usb 3-10: device descriptor read/64, error -110
-  [   22.685978] usb 3-10: device descriptor read/64, error -110
-  [   22.901715] usb 3-10: new high-speed USB device number 5 using xhci_hcd
-  [   28.317963] usb 3-10: device descriptor read/64, error -110
-  [   44.189949] usb 3-10: device descriptor read/64, error -110
-  [   44.294065] usb usb3-port10: attempt power cycle
-  [   44.872709] usb 3-10: new high-speed USB device number 6 using xhci_hcd
-  [   44.888293] usb 3-10: New USB device found, idVendor=0489, idProduct=e139, bcdDevice= 1.00
-  [   44.888318] usb 3-10: Manufacturer: MediaTek Inc.
+The motivation is:
 
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Link: https://patch.msgid.link/20260706080117.3754550-1-acelan.kao@canonical.com
-Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
----
-This was sent last cycle but got no feedback except for my review comment.
-I think we should bring it forward this cycle.
+- Users do not expect USB activity (connect/disconnect or USB line status
+  changes) to wake up the system unless they asked for it.
 
-Changes from v2:
-* Rebase on 7.4-rc1
-* Link to v2: https://lore.kernel.org/linux-usb/20260706080117.3754550-1-acelan.kao@canonical.com/
----
- drivers/usb/core/hub.c      | 14 ++++++++++
- drivers/usb/core/usb-acpi.c | 68 +++++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/core/usb.h      |  3 ++
- 3 files changed, 85 insertions(+)
+- Power consumption. With wakeup enabled, host mode system suspend
+  keeps the controller and PHYs powered (dwc3_core_exit() is skipped
+  and the genpd is not powered off) so that the wakeup interrupts can
+  fire. Today this extra power is spent by default, even on systems
+  where USB is never used as a wakeup source and the controller could
+  be fully powered off during suspend.
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 199d3f535a891..72da7aea94cc4 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -5621,11 +5621,25 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
- 
- 		/* When halfway through our retry count, power-cycle the port */
- 		if (i == (PORT_INIT_TRIES - 1) / 2) {
-+			int prr_reset;
-+
- 			dev_info(&port_dev->dev, "attempt power cycle\n");
- 			usb_hub_set_port_power(hdev, hub, port1, false);
- 			msleep(2 * hub_power_on_good_delay(hub));
-+			prr_reset = usb_acpi_port_prr_reset(hdev, port1);
- 			usb_hub_set_port_power(hdev, hub, port1, true);
- 			msleep(hub_power_on_good_delay(hub));
-+			/*
-+			 * USB 2.0 spec §7.1.7.3 requires at least 100 ms
-+			 * between VBUS power-on and the first reset for power
-+			 * settling.  hub_power_on_good_delay() on an xHCI root
-+			 * hub returns bPwrOn2PwrGood * 2 with no minimum floor,
-+			 * which can be as little as 20 ms.  When _PRR _RST was
-+			 * also exercised the device must complete its power-on
-+			 * sequence before enumeration; enforce the spec minimum.
-+			 */
-+			if (prr_reset == 0)
-+				msleep(100);
- 		}
- 	}
- 	if (hub->hdev->parent ||
-diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
-index 489dbdc96f94a..bb1b5e8cdc15e 100644
---- a/drivers/usb/core/usb-acpi.c
-+++ b/drivers/usb/core/usb-acpi.c
-@@ -142,6 +142,74 @@ int usb_acpi_set_power_state(struct usb_device *hdev, int index, bool enable)
- }
- EXPORT_SYMBOL_GPL(usb_acpi_set_power_state);
- 
-+/**
-+ * usb_acpi_port_prr_reset - issue an ACPI _PRR reset on a hub port
-+ * @hdev: USB device belonging to the usb hub
-+ * @port1: port number (one-based)
-+ *
-+ * Some devices expose their hardware reset line via an ACPI Power Resource for
-+ * Reset (_PRR).  When such a device fails to enumerate (e.g. because the reset
-+ * GPIO is stuck low), the USB power-cycle alone is not enough; the firmware
-+ * reset path must also be exercised.
-+ *
-+ * This function evaluates _PRR on the port's ACPI companion to obtain the
-+ * power-resource reference and then calls _RST on that resource to toggle the
-+ * reset line.  It is intended to be called alongside the mid-retry VBUS
-+ * power-cycle already performed by hub_port_connect().
-+ *
-+ * Returns 0 on success, -ENODEV if the port has no ACPI handle or no _PRR
-+ * method, or a negative error code on failure.
-+ */
-+int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1)
-+{
-+	acpi_handle port_handle;
-+	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-+	union acpi_object *pkg, *ref;
-+	acpi_status status;
-+	int ret = 0;
-+
-+	port_handle = usb_get_hub_port_acpi_handle(hdev, port1);
-+	if (!port_handle)
-+		return -ENODEV;
-+
-+	if (!acpi_has_method(port_handle, "_PRR"))
-+		return -ENODEV;
-+
-+	status = acpi_evaluate_object(port_handle, "_PRR", NULL, &buffer);
-+	if (ACPI_FAILURE(status)) {
-+		dev_dbg(&hdev->dev, "port%d: _PRR evaluation failed: %s\n",
-+			port1, acpi_format_exception(status));
-+		return -ENODEV;
-+	}
-+
-+	pkg = buffer.pointer;
-+	if (!pkg || pkg->type != ACPI_TYPE_PACKAGE || pkg->package.count != 1) {
-+		dev_dbg(&hdev->dev, "port%d: _PRR returned unexpected object\n",
-+			port1);
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	ref = &pkg->package.elements[0];
-+	if (ref->type != ACPI_TYPE_LOCAL_REFERENCE || !ref->reference.handle) {
-+		dev_dbg(&hdev->dev, "port%d: _PRR element is not a reference\n",
-+			port1);
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	status = acpi_evaluate_object(ref->reference.handle, "_RST", NULL, NULL);
-+	if (ACPI_FAILURE(status)) {
-+		dev_dbg(&hdev->dev, "port%d: _RST evaluation failed: %s\n",
-+			port1, acpi_format_exception(status));
-+		ret = -EIO;
-+	}
-+
-+out:
-+	kfree(buffer.pointer);
-+	return ret;
-+}
-+
- /**
-  * usb_acpi_add_usb4_devlink - add device link to USB4 Host Interface for tunneled USB3 devices
-  *
-diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-index a9b37aeb515be..4d3dc3bd881b2 100644
---- a/drivers/usb/core/usb.h
-+++ b/drivers/usb/core/usb.h
-@@ -211,7 +211,10 @@ extern int usb_acpi_register(void);
- extern void usb_acpi_unregister(void);
- extern acpi_handle usb_get_hub_port_acpi_handle(struct usb_device *hdev,
- 	int port1);
-+extern int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1);
- #else
- static inline int usb_acpi_register(void) { return 0; };
- static inline void usb_acpi_unregister(void) { };
-+static inline int usb_acpi_port_prr_reset(struct usb_device *hdev,
-+					  int port1) { return -ENODEV; }
- #endif
+Comparison
+----------
+                       Current (default on)       Proposed (default off)
+                       --------------------       ----------------------
+Initial power/wakeup   enabled                    disabled
+User action            write "disabled" if USB    write "enabled" if USB
+                       wakeup is NOT wanted       wakeup IS wanted
+Unexpected wakeups     possible (connect,         none unless the user
+                       disconnect, noise)         opted in
+Host mode suspend      controller/PHYs powered,   dwc3_core_exit() and
+                       wakeup IRQs armed, genpd   genpd powered off
+                       kept on
+Suspend power          higher, even if USB        lower, USB fully powered
+                       wakeup is never used       off
+Attached devices on    stay suspended, resume     reset-resumed or
+resume                 quickly                    re-enumerated
 
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20260706080117.3754550-1-acelan.kao@canonical.com
+Possible regression
+-------------------
+This is a user-visible change for existing platforms. Many Qualcomm
+arm64 DTs set "wakeup-source" on the USB controller, with this patch:
 
-Best regards,
---  
-Mario Limonciello <superm1@kernel.org>
+- USB wakeup stops working until userspace (or a udev
+  rule) writes "enabled" to the controller's power/wakeup.
+
+- In host mode, because device_may_wakeup() is now false by default,
+  system suspend takes the full power down path in
+  dwc3_suspend_common() (dwc3_core_exit()) and dwc3_qcom_suspend()
+  powers off the genpd. The controller resume may fail if power down
+  path has not tested.
+
+Comments on which policy is preferred for USB controllers, and whether
+the regression above is acceptable, are welcome.
+
+Peter Chen (1):
+  usb: dwc3: qcom: Keep wakeup option default off
+
+ drivers/usb/dwc3/dwc3-qcom.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+-- 
+2.43.0
 
