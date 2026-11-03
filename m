@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793736136;
-	b=tohGBEaBKZxBCypy+QQpza7pJQ/m2OaiAdK3lQ1mPDjKAhFeEwT/gWyt22vBClMPR7Yq
-	 JMhcCBo2Jvi8wPaMDQa1ItslFVUJrRvw9nbPbBDPn9MF6dJaTGgFI0TVYK4r1RkD3Y/A6
-	 atnP+fzje2pOc4kM/PGsgJ9xD+0a0m33gCkFnzQ/up9vm+S4k67jOvsvMsTOic/vo8YHX
-	 9xJWcR4VbFLSE8tPR2mw9/nnZWoPCuzu6zxtUCNys/VUHVM9+S9SidvPwWaKdaOGMrbXF
-	 oj21l3iHc7Tc8lhGDAM4pyHzHWRoihk0/XXn5ya2Gmjhc49sEuBg+RdZCNF2M4FGuNw==
+	t=1793736142;
+	b=S6wzJZvZMQd6Dc6eR1UzCbUDEMagu/pX/kUIOZdS4gGNXXH0mO7SDmFdTQzEtSJIrJEA
+	 uxGL/9nH3m4vkwXp8V2Q10PSfyRGpMrC34I6ZDSvIbQX3BD+bFR9Jb9lMs1YOy9mS/rQb
+	 ktLE+K9sZ2LtBTLCeomcLiBngZPrQlQ16lP4+Cr9wKzz5GJ0y3I0tdSTlUrkv0+OC1FpS
+	 DwKC12Ed5K2llPHGM4f2M5FMA/qWOKHUeo7GsZrbU0L+n0DuYSy4y2Y+GWVmvO/+rR/ns
+	 nc66y9LwXNvv85/kZ9NW9PsaQ5cA50Grvs8a6pU9uhD9UnFiLPy+Jz253hiP3YLZ1JQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793736136;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793736142;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=Q52uD5mO5l7I73CKeFvIMYM58IICKJHs7MHknkb2HSk=;
-	b=juOHZzRjNyCa5Kp2vrhxgrswaIJT/oBT+Cev+dmnemSVUD1I7tHUIxk79IBj9p5GKwSO
-	 Xb56D3BXlmSW1fp884W7EDCQj4p+1DffgIR2Ve65Lfif4m/pt84I9zh2GV9H+FvNV+gTW
-	 2AjKyhjsRR15hmO36zrPtT+QBReAytMBG5hHOu2vnmV1yk/NCyHZAiFIsn0zL2nIgQhRm
-	 XbAmUv9z3mm68HfQ6wexow8eU+wPvb5xJgW1VE9UXguY0LLcw1oMFEGFke8TaYZm6lrwY
-	 A9qsBGlR2LP6Wb1WDC2kqsEHJBzBvd+vDmWlG9ErWZ7qD3Hn9wpt+zbluLBZzWgDj1w==
+	bh=zPsd08imWPUgooGMrfpChvpxAcwbOgNAsgqoEHv8Bts=;
+	b=jsbcfzOmSJeNjXeL7Xsj/MqpVZYtJ3C258biZLpNRqQig8m8a+vlUS6Lt39VzpnGbkSQ
+	 oVuXQ0uTibdj2zJBETHukCJLrvjy7MUiU49eKm9LvhpWcd4nW9T7om5qmPlUgabnRjFy4
+	 Fdawas33Uf7qm/cVBcPpifwgMN7Ya9GzLVejkbM7xoP2fRYDsT36yXg6M93JlWA1yP1Qm
+	 rJ2GkesjssOI96WZjlCCit0lOVGP1LcB2IArAtsfgfktEzeYEqLdctnMz2VD48NEmd8Bu
+	 It1RwgP+unAraE5yg2VJk/BhMfh7O/RFAsvORJMr/TK6kM/e7Uq5PrKg4BSyQWyDGjA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nI5xhvfq;
-	arc=none smtp.remote-ip=74.125.224.53
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pgt4IS1F;
+	arc=none smtp.remote-ip=209.85.128.182
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B94606A31B
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 20:02:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99B94606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7745E606A32F
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 20:02:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7745E606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nI5xhvfq
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-67a6cc9acbeso22339d50.3
-        for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 12:02:15 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pgt4IS1F
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-8b0d91601bdso9660317b3.1
+        for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 12:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793736135; x=1794340935; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793736141; x=1794340941; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Q52uD5mO5l7I73CKeFvIMYM58IICKJHs7MHknkb2HSk=;
-        b=nI5xhvfqJJqz/LKU3zu9PbzpzfQ5Va50DydxwoMOt8UGt+zI2aGOnKnPmhWE4PvpgO
-         /jTWkeTivaXjLbzL4+7hJGs+vGgdNVRC4351EbuQnq6oPZrzzQ6uS3j9V5D3NV5yYtW+
-         CbkFsNgBvcccolvTvLKds+5z5XXUJCRRXYGDya4kmX4KMrbgPKbUm8TMZ9rA8+Svw1QM
-         8Bn8rVQdvK8VcVczpN9jw6uimilyL6otP697wUg+DpBEnweVU2NOlW3Iz4mYQrB4Q+0U
-         dtuVH8TH8z+VORkTnLGEc0w0t/QwxZLluGu93dj4Ei1eDPPa2xF90n3EI5CGWdpgAHh6
-         Vd7Q==
+        bh=zPsd08imWPUgooGMrfpChvpxAcwbOgNAsgqoEHv8Bts=;
+        b=pgt4IS1FC7nW0YArEAhe7aIbrJPeoyutEcmMPEHSLdqxh05jrfHi1QtBR5dGtgdiXl
+         ifcp5mhPyKEBTZ3Fc9OEMJYv587LsBPAsmi0wie8r/2XWdC92lOVwo2cGBMnyxE3ueVK
+         o6ONndjZ0SaeJoYfivLmH998WaGrwOakXCJY+61hSNvkIZq2WWGxZCAx73d8ltr6NGmc
+         9zSu2HY0evpOvZiA+j271Fhz+xz5GY8NxfDYOOLvsiFFL6mh5EYSfZvsFFSe7kS0mBkk
+         szTcM/i8O75tnWzFyWlrTTu0xHljVJWA7gaGqFlCVNHi1HX/2+e5dNNdhd0KvjP7OsYt
+         6Bow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793736135; x=1794340935;
+        d=1e100.net; s=20260707; t=1793736141; x=1794340941;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Q52uD5mO5l7I73CKeFvIMYM58IICKJHs7MHknkb2HSk=;
-        b=APfMF2bvhbUl0Yxkrjk3YH4XZxnj6gOMoERUPDQ7PRoB2eYzU6cCQ1sH/3JzwJGwwQ
-         W3eZ5p5nCjq0Wgw/MxGnvWXpTfA2QPPRUlr+ciozYx9gN+8kK38wNkS06o1u72ebLiOJ
-         YrepYK8uefwMFCPjdsZ9CCiqq4xxVDyHQ6y5JdoBa5TgJGy6aespGsReK3EdXKgX7b2f
-         snyIPsdjLKGmySmJbyc/n79iAx/lvHM3/VCeqTavHeiL+VCPw1t5VEDKR/sb406NFr70
-         z1Vid4i6RME3RF27dfJZPfGDp2A394oOKCJZyoNFZjQ/i7dAEguzjMeBaOeuYUqhdeOP
-         UjPA==
-X-Gm-Message-State: APuU4Z8gPnl0Xtqd/U2TJAm3b+u+jA0XVlxV4pAmZ9fEEZNmd7/UzjUO
-	qixBgI7jeBNGimcuplSXOBTf+bp1FK42pHuYriaHNBjqj7zuwN2JT/eE
-X-Gm-Gg: AYBFou2fHJlnKWyQpoOPlK2DfoQabwCEbhTQAZsNyfbhNc2/sWe9bl9TMaHXWM2zKaD
-	FWSi2Afjzu3Ka8169u4EspL0lrXP1rvCAiCQNmBIoS0R901ZhWsOoSijpHze6b6M3fs3dGtS1Bj
-	KTh9ExmimhO9zkMMP1TjSU/n2eGeg8vi1PXz2f8oFTWDoKBToWrhf6uevm/EFgmS+/rILaoQQNE
-	ruXwWJSE/7MPw4ADRaaaxDW+09CCt/cD5xL36EmCMJrqWfdlaSLbKm6ZKDQeKZX9pLOmY/TNAsC
-	fw4Nzcs27smG1YARdIM1Vw93t59axxABCJjVKlYc7dsZ7ZnSZagZdbD8UoYoWNkJ2UhI5hg5Rdl
-	4Mnb3O43/uLLp9UGQrPmoOkjQqzLI13QtHNYI2NnSn1iGRzJ53RPuGHeK9R+AVorv38oJ0sjj6x
-	EJURlrhZS7Fx2zs7Ygv7VqJ/qOLLoU1yb/6C7hOXk52ashxRKr0ws21jjsuB0/KQwixTWDMFpcF
-	vv2MlousWgzLe1+0wsngUdSTi+Get30Gx1qVV/+zEs3N76a4l30OkQq5C4kUacMrIUf3deuyXuf
-	zt0LPB2WEi+SMpcTGEiULexKQJqnnVWsNTX75+1dCxnoYN8nXBob
-X-Received: by 2002:a05:690e:128b:b0:67b:d315:7770 with SMTP id 956f58d0204a3-67bd3157831mr3828276d50.27.1793736134436;
-        Tue, 03 Nov 2026 12:02:14 -0800 (PST)
+        bh=zPsd08imWPUgooGMrfpChvpxAcwbOgNAsgqoEHv8Bts=;
+        b=oDXXuf+oF6n1Nl7Mk2Cib2qOJOeeaEAuc8jVF6jIqVJPSPN5lS4Oh8uSArvEfmDSKc
+         CIBaCla33yHlyhbsu/jXLXuTZx0mQCA+Pvhrse9Mvt1SLb26fYC7LEO7n0HAYxxdbDhc
+         j86mXOXhJKfAoDNlKcFO/3rVaWeM/2qqV0bwO5bsNpWBw+tmwaG7XEO+zKw35E9B1357
+         7GzJcR7JC6Wv1pXnTvpX9w6v6ukG/WQbGhTr/TbbK42fdYg7H0Zm2hgKYygIu3Rt1Kmt
+         bPiErwGKHykFvjtJyRAUxngz179U66c5bGkjAibVFe4qU+yehXhK1z53UJqFEVRsNMMD
+         6MXw==
+X-Gm-Message-State: APuU4Z8uEnPE446cesoh86fsdk3eABQWYwTPoCqJUyVfoj153KNJsI+y
+	5nu6M7xq8Jnz4NoYJziBP+fRWOIEcAbX1bI1RsALwR19d1l4D7Q+2mPq
+X-Gm-Gg: AYBFou2FA0IAqD9eUMsedzYAPIbWNFiZHGRtwCgwn8TkurSS4sA9sguEwUCO+cKbJGP
+	dlqwabUA8UdVaiEI9jRHxq8JLtyZB2/uBlXdZpVUZkBVWpodciGducNlVVAKCWHCmI6f9AvJJC7
+	axTIGUfXAL4XPzmwVJnnWH3eF48AxDmBpBRZBF76ZHcd3gBSHjfWplKW3ko9fjGr6SwhIZFRSeW
+	wvTwd/OqY+VodosiXKPvxT39PxidY7cEpRRhSJmbu9JmYVGLSZt4XSJ9KZ/IfLXtd5hJsdverO+
+	wQvzBaSUR4/EowYC76BvpRU6iafGP+bW3L/c10giGX+2QCfFO/q1Jdqsv60Hsyzyt3BJSWMN583
+	IX40QccXKsjoZUecaVt9DnURDMoD7BH+7GenCSnmq8ghzjWEYR8er//44ybNUWSLyrUpL8Jtk0O
+	k6W6uTk42QLvnhnZYVtwwLSIbJAhW27Ro9a9nOPXZrGq0+qBw/9/LVprOFAPM24OD/oFL0VP0rt
+	UYgVRC2+IhcsZPeENg9sC7hbUPi9NxZRZSPDmfwUPqOG1ViYYYvvILXdHSkt2roO/KDxttr4Xnn
+	TwOvT/VwimdGsna/fGqRj6ezbJS0UK+b+HELWK1ts/YpMJzK0mg=
+X-Received: by 2002:a05:690e:4546:10b0:677:ade8:a076 with SMTP id 956f58d0204a3-67ba50c7b54mr6675580d50.47.1793736141331;
+        Tue, 03 Nov 2026 12:02:21 -0800 (PST)
 Received: from Abelha2665.autotrac.corp ([149.78.105.186])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67bee245f70sm92764d50.11.2026.11.03.12.02.11
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67bee245f70sm92764d50.11.2026.11.03.12.02.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 12:02:13 -0800 (PST)
+        Tue, 03 Nov 2026 12:02:20 -0800 (PST)
 From: Jhon Wilker Rodrigues Aquino <jhonwilker0112@gmail.com>
 To: Richard Leitner <richard.leitner@linux.dev>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -87,9 +87,9 @@ Cc: linux-usb@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jhon Wilker Rodrigues Aquino <jhon.aquino@autotrac.com.br>
-Subject: [PATCH v2 1/2] dt-bindings: usb: microchip,usb251xb: add battery-charging-enable property
-Date: Tue,  3 Nov 2026 17:01:53 -0300
-Message-ID: <20261103200154.125681-2-jhonwilker0112@gmail.com>
+Subject: [PATCH v2 2/2] usb: misc: usb251xb: configure battery charging from DT
+Date: Tue,  3 Nov 2026 17:01:54 -0300
+Message-ID: <20261103200154.125681-3-jhonwilker0112@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261103200154.125681-1-jhonwilker0112@gmail.com>
 References: <20261103185514.72144-1-jhonwilker0112@gmail.com>
@@ -107,40 +107,39 @@ Content-Transfer-Encoding: 8bit
 
 From: Jhon Wilker Rodrigues Aquino <jhon.aquino@autotrac.com.br>
 
-Describe the battery-charging-enable property as a list of downstream ports in the USB251x device tree binding.
+Parse the battery-charging-enable port list from the device tree and set the corresponding bits in the hub configuration register.
 
-Add an example that enables charging on ports 1 and 2.
+Keep charging disabled by default when the property is omitted.
 
 Signed-off-by: Jhon Wilker Rodrigues Aquino <jhon.aquino@autotrac.com.br>
 ---
- Documentation/devicetree/bindings/usb/usb251xb.yaml | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/usb/misc/usb251xb.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/usb251xb.yaml b/Documentation/devicetree/bindings/usb/usb251xb.yaml
-index 0329a6aaaa928..0eb3035553c37 100644
---- a/Documentation/devicetree/bindings/usb/usb251xb.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb251xb.yaml
-@@ -230,6 +230,12 @@ properties:
-       Specifies the time it takes from the time the host initiates the
-       power-on sequence to a port until the port has adequate power.
+diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
+index fb0693742f018..7c0086a554cfe 100644
+--- a/drivers/usb/misc/usb251xb.c
++++ b/drivers/usb/misc/usb251xb.c
+@@ -577,6 +577,11 @@ static int usb251xb_get_ofdata(struct usb251xb *hub,
+ 			      (wchar_t *)hub->serial,
+ 			      USB251XB_STRING_BUFSIZE);
  
-+  battery-charging-enable:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    description: |
-+      Specifies the downstream ports which will have battery charging enabled.
-+      Battery charging is disabled on all ports by default.
++	hub->bat_charge_en = USB251XB_DEF_BATTERY_CHARGING_ENABLE;
++	if (data->bat_support)
++		usb251xb_get_ports_field(hub, "battery-charging-enable",
++					 data->port_cnt, true, &hub->bat_charge_en);
 +
-   swap-dx-lanes:
-     $ref: /schemas/types.yaml#/definitions/uint32-array
-     description: |
-@@ -264,6 +270,7 @@ examples:
-         manufacturer = "Foo";
-         product = "Foo-Bar";
-         serial = "1234567890A";
-+        battery-charging-enable = <1 2>;
-         /* correct misplaced usb connectors on port 1,2 */
-         swap-dx-lanes = <1 2>;
-       };
+ 	/*
+ 	 * The datasheet documents the register as 'Port Swap' but in real the
+ 	 * register controls the USB DP/DM signal swapping for each port.
+@@ -588,7 +593,6 @@ static int usb251xb_get_ofdata(struct usb251xb *hub,
+ 	/* The following parameters are currently not exposed to devicetree, but
+ 	 * may be as soon as needed.
+ 	 */
+-	hub->bat_charge_en = USB251XB_DEF_BATTERY_CHARGING_ENABLE;
+ 	hub->boost_57 = USB251XB_DEF_BOOST_57;
+ 	hub->boost_14 = USB251XB_DEF_BOOST_14;
+ 	hub->port_map12 = USB251XB_DEF_PORT_MAP_12;
 -- 
 2.43.0
 
