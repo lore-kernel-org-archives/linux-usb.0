@@ -1,57 +1,193 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793693721;
-	b=dcgP4h3bUVbIqeRzIg0FoRN/pkE/qCC9sQwI/2AXLPk7XDbG0Jt4eDL7iCO+rkAVIG28
-	 mLGKJsbRzoptK9dG5DWvpE/I0znGVgocnMVgklddK2vlEeRD6jvvToTXiOSkEjDNpyZAp
-	 qQAgotcgXNUuUUkZQ9qLGx+6qfhDLyfHJ4jiqQ4S2YW+IDn8WERy7VQkoMnvMZjknDRG/
-	 e6PJ3mzKCTegepen4Vokoomt2otiXKOt1Za71Gynwv6VCWVBQ9dF4N5CRUUuqdHBAVXKB
-	 kcFV3QG2a/CuyDyC3nhxvqpcuVXU7kSFYpmzZfWLGyt400T/ouRiLfOGbLcjFEKntgg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793693721;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=CcgPpD+aTeak1mqbZyGMOZp4xNDrUHsfBN4CRBbTcy4=;
-	b=UhotnRsb9NBNi2WKBwpwS6NCqi34GdfstArrAV31a6Fn+w7zDEgxjtpR3RMexLTA9MMg
-	 7zT6gUacklVMf9Jgor7mXGuQvGpbHRnAiWCDTD+XjNLA1ko2k2w6twpKYO5PanTY43ruI
-	 xjV+QXuoLrrW4RBum3pgT9A2lEySWEfnm87YJNqFhW75opmUereDFhpnNkLpZ/hh7i1q0
-	 2ucF0Gz8eMzP4hWONTdPxjp9z83n/UpqBL4E3PFZLiX1pf6o5OGSm0AiwUxM5tK+dxiNC
-	 SPEUoWxEWSnb1CJYnizm4QMOltaO2VDf9sa0UanJsJFgv7do1RjqwE2UjKh6rpNzVpQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VJfW4vrH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=210.61.82.184
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793694844;
+	b=rINSPmq2+oMstu4iZLlnSn1pMiqSLl1QWnvFy484hEAPN2rBZ8AqP0XfMPXlDqgM5A43
+	 akc/MjG8u2jyt2afD60Xg6kodDUYPR6/p45CYcTT3O28rsPlAXoZ8t6O8md5rcKncv/2r
+	 NkQCjOBGUkZMw46QBXgER1g0JXn72UbkjO2baCuBSPJoVgN3sETBsPsLnZvmt/ciPd68a
+	 7v8EtcNw36rguj5r4NlhUw9RrQNFvZnLtck3Ga6E6vOY04HsmVxl/eIe20Es2S9Iv/zzx
+	 9lyZ04qHUqCN0hzeDex/YIVg1NQnj45ViiedZFwObKcRP7fEzI4brZb6Rn6+Vxi1vFA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793694844;
+	h=DMARC-Filter:X-UUID:DKIM-Signature:X-CID-P-RULE:X-CID-O-INFO:
+	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:Received:
+	 Received:Received:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-ld-processed:
+	 x-ms-exchange-senderadcheck:x-ms-exchange-antispam-relay:
+	 x-microsoft-antispam:x-microsoft-antispam-message-info:
+	 x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:Content-ID:
+	 Content-Transfer-Encoding:MIME-Version:
+	 X-Exchange-RoutingPolicyChecked:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-MTK;
+	bh=hETENatuuow7F1xdR6FgN8WckyYYweRArwPbvwvLiS8=;
+	b=DAlFj1YaE0kUPJPuDcVD0jBFVwd5sBykfb4fuaLOD1EdWsHDlITjjAd0XQ7Pw1AucOos
+	 rqYKpRh+yWg/9JY2JfQoGeDnlMRpetYWx0Gs2ie6IUROwjRAaRetGpD5EDaux7f2H+kIM
+	 UdNSVaDUs4dDBxwZ4I/HC1YJ66ebrwUHb9WXiRs55RrvFreoURCAEFR4+t6OvhQCgGnrf
+	 BQFMHN1bb6ISayKc4SWBbIEDaWiUx6YNN/L6BQp5pg7hUqIhp/nWixWkL4BpyCFhsDadM
+	 bAo9hkS5p8NgmNOHmLzYMeq2gZH8bz9rJMtQvCcq+ozG4+JymuRuspHrYlL8MByoQhw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=mediatek.com;
+	spf=pass smtp.mailfrom=mediatek.com;
+	dkim=pass header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=Z3r8Sjp9;
+	dkim=pass header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-mediateko365-onmicrosoft-com header.b=P12u11C+;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=210.61.82.184
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A60A606D803;
-	Tue,  3 Nov 2026 08:15:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FF2606A33D;
+	Tue,  3 Nov 2026 08:34:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96FF2606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VJfW4vrH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6CE1F0093A;
-	Tue,  3 Nov 2026 08:15:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793693720;
-	bh=CcgPpD+aTeak1mqbZyGMOZp4xNDrUHsfBN4CRBbTcy4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VJfW4vrHFGP5rr9TSl87BB1v9ko3wkRHy+4UtCmGOnsccBQ6QgXt0RigISkaGZRpO
-	 OkFCeMyznHfrp3s9e4rwZAaC9RmPQG2hYNasC7W5rvFISLcM/gQ0g9kzxtnEuEZNm2
-	 R8YCsVJAII0/GpLmILMINFoFPv/WwspDWn2x4g0sgGm/pfIsiBexseCbXwo648hZ+C
-	 jFwjLVSNfWQ9cM3vXg7q/u2pmgNMiFncN9Ey9sAl30z8NG6muEFiE5JFgCEZ/UmHFy
-	 DSP54JqtaIkR08CHYxl+w8r7JfC3gLrxajG/LQU1bj7g4jKlV2LtvFzHRJ0+a7DWie
-	 qd20tpgL0fCOQ==
-Message-ID: <sashiko-outbox-194811@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 2/3] usb: cdns3: Add CIX Sky1 glue driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?SG9uZ2xpYW5nIFlhbmcgKOadqOWuj+S6rik=?= <hongliang.yang@cixtech.com>
-Cc: =?utf-8?b?bGludXgtdXNiQHZnZXIua2VybmVsLm9yZw==?= <linux-usb@vger.kernel.org>,
- =?utf-8?b?ZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc=?= <devicetree@vger.kernel.org>, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261103074929.1971195-3-hongliang.yang@cixtech.com>
-References: <20261103074929.1971195-1-hongliang.yang@cixtech.com>
- <20261103074929.1971195-3-hongliang.yang@cixtech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 08:15:19 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=Z3r8Sjp9;
+	dkim=pass (1024-bit key, unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-mediateko365-onmicrosoft-com header.b=P12u11C+
+X-UUID: 4ed2a116d76111f18dc8c9802ae25ab1-20261103
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=hETENatuuow7F1xdR6FgN8WckyYYweRArwPbvwvLiS8=;
+	b=Z3r8Sjp9OAFcJgRKTObKsZWdsTii/T/nrAgCcVLEvBbbGTXltAkK+dl/WTf/quxMU3pcCLsT5CZC/8vPRqFSPD+JgZ4yJzOSom2xEhnrRqTFmy7GctmO8CVJxOvdBjKhiXxe5qhdA6MKXkl3V1eVzLSmgKHLuV7jqSMdQBuAW0M=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.21,REQID:80e4159b-f6dd-45b0-a2e8-7ad2d3ee0811,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:b0318ac,CLOUDID:215a145d-6539-48aa-8483-b6d2ec31b245,B
+	ulkID:nil,BulkQuantity:0,SF:80|81|82|83|102|110|111|136|836|865|888|898,TC
+	:-5,Content:0|15|16|50|99,EDM:-3|-100,IP:nil,URL:0,File:130,RT:0,Bulk:nil,
+	QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+	,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 4ed2a116d76111f18dc8c9802ae25ab1-20261103
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw02.mediatek.com
+	(envelope-from <chunfeng.yun@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1324910306; Tue, 03 Nov 2026 16:33:55 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Tue, 3 Nov 2026 16:33:54 +0800
+Received: from SI4PR04CU001.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.2562.29 via Frontend Transport; Tue, 3 Nov 2026 16:33:54 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Wughc+dHbJ8/eFEmn3q3bmjRAu4Bh2MgtgYmBHKTl4q087rg7Px+/HIEHQ3Fq8SIZGx3cNsqVApA+D4HaxVKbqNv3EdGoO86QSJD3NGHLTQ+4yxBRGFmfKcs2+mha+2Qxu7bBhUpP7K3J/V60xCty/MQpHuRDIAtQSsF5gVftpkSsG1G98Q35XDzfE9+IWYATxNjVh6ZvKogoQb3FtC1bOiq1FYgaa2wx853yHA2zuT9IzhGmoydwUvdo+qg4Mm19+BTB2kiEXG/TKKJph7UEFao0SjWsTXs1HjpLvtR7QrDRkNgL9lCBS8Bu3Z88/KmHVrfcRCmcycFjNlq2UVLSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hETENatuuow7F1xdR6FgN8WckyYYweRArwPbvwvLiS8=;
+ b=rZ5piW0mp7Lt1Ypxtta+sODVWMyWsW8xo14wetB9VWBvoofHu/3ZDvdxlkD9uBZWTxKWu3tR5TGXbCZ3IMk0ttULxWZZT1swluD0alIWw5vUccGVn32o8DSvNiwTh0iuR9KmFybUOrDZro760WyiVGu4sLBcj+6H13DgLtFbQFHo9tyIRNauJBLyf1ZpMLarIJEDISwswQbnDk3KlHNB/j8jf5WbQonxylyN7tlrQbvx3I15K4kBkbm2+hQmGIa83EcISFJRtkhqa7CpGKVCCxoRNgwo1KSj6jZkWWjJM1uxhpdnRJbUeB0FOPlgh5NUCYrXtHQ4KAsahGXL+3/7Ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hETENatuuow7F1xdR6FgN8WckyYYweRArwPbvwvLiS8=;
+ b=P12u11C+UmiTlblZumg4GQuEtyK0sJaFDvxSbIkehV4Awx35hYc059FwiwZHv5oyoFwTgwxkb/vAq8B1ZHOdaGFCNgSHN0Kt+4e1olGgSymrDo0wnT6m0SwZIq6LDUwJGRhPDwtVjEae2nwDcNCH4d61hDvT8fuGELJRdaLYG5o=
+Received: from OSNPR03MB9677.apcprd03.prod.outlook.com (2603:1096:604:471::11)
+ by TYZPR03MB8340.apcprd03.prod.outlook.com (2603:1096:405:26::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Tue, 3 Nov
+ 2026 08:33:52 +0000
+Received: from OSNPR03MB9677.apcprd03.prod.outlook.com
+ ([fe80::5af1:6974:a8f7:dc02]) by OSNPR03MB9677.apcprd03.prod.outlook.com
+ ([fe80::5af1:6974:a8f7:dc02%5]) with mapi id 15.21.0569.011; Tue, 3 Nov 2026
+ 08:33:51 +0000
+From: =?utf-8?B?Q2h1bmZlbmcgWXVuICjkupHmmKXls7Ap?= <Chunfeng.Yun@mediatek.com>
+To: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>
+CC: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"westeri@kernel.org" <westeri@kernel.org>, "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, "YehezkelShB@gmail.com"
+	<YehezkelShB@gmail.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "andreas.noever@gmail.com"
+	<andreas.noever@gmail.com>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH 4/4] thunderbolt: prevent pcie tunnel activation/teardown
+ warnings
+Thread-Topic: [PATCH 4/4] thunderbolt: prevent pcie tunnel activation/teardown
+ warnings
+Thread-Index: AQHdaEhNhyk5DpKRske6fm6wB0rq+rcVyIgAgAZDAQA=
+Date: Tue, 3 Nov 2026 08:33:51 +0000
+Message-ID: <82f1a3227685b241938ccb500b97d1e73212bf36.camel@mediatek.com>
+References: <20261030082539.1208733-1-chunfeng.yun@mediatek.com>
+	 <20261030082539.1208733-5-chunfeng.yun@mediatek.com>
+	 <20261030085628.GS158991@black.igk.intel.com>
+In-Reply-To: <20261030085628.GS158991@black.igk.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OSNPR03MB9677:EE_|TYZPR03MB8340:EE_
+x-ms-office365-filtering-correlation-id: 9afc48dd-2d2b-4824-3139-08df3985309b
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|6133799003|10067099003|18002099003|22082099003|3023799007|38070700021|261102123227099003|261021121427099003|11063799006|4143699003|261022075727099003|261022105027099003|261026140227099003|261026121527099003|56012099006|261009223027099003|261028144727099003;
+x-microsoft-antispam-message-info: 2TC637i0phlePH6p0oAH0IokFbzunSvSCJ56SKbaiLSZ/SzzH+ooPg1KOa/gmdt4UPcJfIui01bwaHf2D5T4/4wnPYF0rJ08zDIjkAexjE/QiMGM0sHwZeWIGgYyW4RhOoqkEyoE//CkVc9+kyuV+vLORh4iIDEYWXd7HLwIkaVtvrgF1hFiXG1HyGtfNbgx2etjjw/2PehkjcVZIu4KXQ1YMYZ60jCtm20nOUeYnxfsTpg8VlL2GGYVwxq0xHXx38uknub+TnFrHPoIaZF2hawRih08khX9D3djlhPUADcZvx6pdhQ1f4sDTaOpmQyInGXDjJkQbtOn+ZZzOMEqrCS3Rq0gQvUlGlozQiR5zi20cEuq6QDIYdUrhp93hf1Ljtlfwh3mRS+kVtALA5mizrqS1jBVB7aGWr4inBEeNY9TwN89P+WHCmed5/iZC161W02eujsrl96lYqlciALuEzCP0Ez2grfmsOsger9K6DL4GZ5q6dLriXGU9DhwK9Smw8QgRbIqb3C2G1GRSzV5aBmq59q6VMV4O5X9umDXjvAv/P+gJiwuI0gwg0uMVNt3ld161m7sOqCdiuI6t6EdYKBKD4k0MZDbOpiEBvOntJ1kjN3PvviStRLP66tOs6dCHwO4QnOb/E//nqblY6eBaVNlJ63eNTS6b/fXWRI/InbbUuqq3PWLRrHo6PFNktsMfJjArs6A7eM82la5EZBdOFnVSh5V568212oaKW8KFFs=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSNPR03MB9677.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(6133799003)(10067099003)(18002099003)(22082099003)(3023799007)(38070700021)(261102123227099003)(261021121427099003)(11063799006)(4143699003)(261022075727099003)(261022105027099003)(261026140227099003)(261026121527099003)(56012099006)(261009223027099003)(261028144727099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VzJlWitoeFBsSGswOGhseUJ0NEVLTzRVdkxSWXEwTUVDR3JJQ1c2ejBMS2Jx?=
+ =?utf-8?B?Qi9pOGNGWlpXNlJYVDRlempkN2EzWEI4M0l0MVFxeUNIU2IySmxxMXZNWW1H?=
+ =?utf-8?B?UVkrMmNTQnNRTmxMLzFCMElORkxudUtCNVZjcitSQmVQekc0SGNSWXRGOVNn?=
+ =?utf-8?B?d25yWDB0aE1uazd6eXhIeW9TSlU5eDBZSHgyVk5MRmNJb3JjVHl3WEMxbXdH?=
+ =?utf-8?B?N0xtdW5WdGd1cW9NOElHNFFPcS8rbDJ2N0MzTUd0aFkyQzFyeWJubTM0R2Rq?=
+ =?utf-8?B?bXZIRzRWeXNjS0htQy8rcVRaZmdEdmI1dno4UHI0c05rUUZoWkNOZnB5ZzFs?=
+ =?utf-8?B?Tnc5N3lHSXBsYjMzL05EZGtkeWZNb2diUkZLZUJ3WVMrcVZkaGswSW1WVGww?=
+ =?utf-8?B?KzlCLzl1Q0hqV3FaME1Kdy9ydjFCSkJENFRNdW44b05ZK1JLdjFyZ0ZiRXRh?=
+ =?utf-8?B?Z253ZFg1eGJjRGFPUVU3Mm1aZ3R3dXNVVzc4eWIxUTg4d09PSWFXVzZiclFP?=
+ =?utf-8?B?Uy9CcVF3TGI2emVFcGtzODFkTE01N1YzRGpGTnpaTWthbXdmTkFORTlnelpp?=
+ =?utf-8?B?TmE2UE5qdHdEU3dIWXpLZ2ZLYlUwSUhUVk1jQ200RllYM0s4cnN3bmVJVGV5?=
+ =?utf-8?B?TkdEdVdNY1diM05rTGd2UXFieGNhcUlwd1ozSWU0YnFXUStYN281dnNyVjNs?=
+ =?utf-8?B?bVh4dURoOVJXM3NXRk9hREE0b1JNeFZpdWp2Si81Nzl5bmJpejJuR3NMRHU0?=
+ =?utf-8?B?ZVVjSFZ2Nll3SEU3T3pyZjVhN2pCdWNib0EwOHp6ZVdZZWxhSkd3V0d2bTFt?=
+ =?utf-8?B?R1d2RFRGcEd6TTMweUhOUGJtUXhpejg5ZnJvMEZscEdxQWtSQy9BbVJ1dXFY?=
+ =?utf-8?B?Si9ublBidFQ2V2FPdENta1NBa2JOTEpIU3d3RnRnejFXNXNQRXJMQi9JenNm?=
+ =?utf-8?B?eTk0azlGNWx6b1MxK3Q0M0RBazlCS3lRbE1IYlBqUFBxMFJBRlZYanFyVEp0?=
+ =?utf-8?B?N3ZZWlR6STMwVm5MUkh6Zmo0NTVPUVh5RWFLZCtCelFIbnVLV0xZQXlCZzdn?=
+ =?utf-8?B?Q0FqZE9qb1pDZEFaTU90S1d6RGlTRHRCQWMrVFB2cnkxNmRPcmFDUDhBcms3?=
+ =?utf-8?B?SU1rRWpmRGNJejZzWVNzb1l6KzJiZnA2aGhvNEYzZTJPRkxxZnFYQVlKSzVi?=
+ =?utf-8?B?clNZMlNoYXlMZTVBd2NjSFlaMjJtK2RUNXFxdDZOcWpZdWs1bkNvK1lzUTIx?=
+ =?utf-8?B?K0NKOEpQWk1BUUZYZHA5SVNlVzNTK1B4b1BJMkpCN2FZQnlyb0xLQUJOZW5M?=
+ =?utf-8?B?VE9sSElkSXUyTDBmL1dwYWE0cU1SazI0WmtGUzd4MzAyRnB5T0Vzc09vcmtC?=
+ =?utf-8?B?U1JDR2pwdFVBNVk3R0pYU296bmwranU1bmhKejIxcWRERFh0eEhkRmdtMzRY?=
+ =?utf-8?B?OTJIR1c5Z1V5N2JSN3NYK2M5YU5PSHRoOVJKemd2c043dlk2c2VBU0lPSDNE?=
+ =?utf-8?B?ODIzVTE0T1A0NEFlMy9aeWx1dXRYSW1GcWxuMno2UGZUMWJvWWcvTk5vNktK?=
+ =?utf-8?B?YUpKTFpJbExGakNlVFBaZWZEOXBrTDJHUGx3b1lXOWFublg1WjBGamZQRTJ6?=
+ =?utf-8?B?VndRVUd4cXhjY05KQW1yMkZ1eWZldVlhdU4vSEdaRlNRM05lb1U1N0NyMVpT?=
+ =?utf-8?B?Ky9DaWJhVDFMNWp3RlQ1M3ZqYmRWcnBLcFJuVWtrNGdrTEgzS0M1VmVPWlVi?=
+ =?utf-8?B?S3NDd0s5dm1uc2loZjBUMWs5b3J0NmpqaDROMGtiV0FkbGNlQS80QkRMTnVi?=
+ =?utf-8?B?ZzFGMjYvQ05TMUVnQTJXc21TZWJRa2FlUjBvcmt4ZERpSWFZMVRDWGVPVnVP?=
+ =?utf-8?B?aWE4eGx2QXQyRmp3TENLWlJyWmVJYjdPdm1wSGRBL3lrWlBTMFQ1S2V1SDhk?=
+ =?utf-8?B?ZWViZlNWVUI4QmJZY3gwSVVlUjltVDJhSzRQcU4wY0p6QVFpN2pNTGljOThr?=
+ =?utf-8?B?Mmo2dXhPbEhQbEtUNGJ2RVFraDcwMHdOM2N6aEljNGRhdVN6NmtEV3VjZkdv?=
+ =?utf-8?B?bnVNZ2ZSbmwzOUtYVGhMNm5ma0pIWngrcXpINndROXhyN3NPWGgzRldRbWd4?=
+ =?utf-8?B?aFFKSHlRRXgwR3M2QmErMkQzNnFQT0FtNk9jY1E2TEcyY1BGQ0wyYU9ub1Va?=
+ =?utf-8?B?aWpWZHgydENTZmYrT3B2alBmNEhCemNCRnpyT1pHOUhxNEkxSGVnZGZVMkcr?=
+ =?utf-8?B?azFyREZlMHVKaGt3N2FwMWVyMmVlWm41TmxiK3l0MHZwK3MwcGJhL0JPOGxN?=
+ =?utf-8?B?R1A2UkZZTnVRdHVaSHpNVmovcEpFcVU5aUNiQzhvbzhZK0ZicjZ0N0U5N2pE?=
+ =?utf-8?Q?B4U/Yh+pRHAzk66I=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2CA9C79DC022204A87EFA1073F7D7B39@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,504 +196,171 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: FYjYGbcrm8kt4t0hx1LkUz76Lp1w97u39zo18Lj49H9KddhDrnIFJ4QcHxQdjkMvHR/up6UeLBy2okI9FXvapkF4XUhLQpZS//okwMIKCCpDD0JnfqJPrkPZezwa9ygVy0wJU4AHkyOaYFWP3ENruOIs+Hgt7T0zAL3uCOpbWyvHpWhhhXd0x9soiJ+2YPPDzRnlwELHBld5cAPB/o7byZZ2G0n/8M+eUMLHOJ/2nqwQtOSveTxIuUDfKp2A4mV6+n6Z0Wiqj00fGDhsuBWS1cO43GhyVC1GOTqR+1hPhffUqXfDsJSBg4rhkJtRSFMC6eeVD4GSaHNkY+w39wo+hA==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSNPR03MB9677.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9afc48dd-2d2b-4824-3139-08df3985309b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2026 08:33:51.8610
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UIFA67kP7rZlqjMW2bI4tGqnlLNVRm8z5imwGNIqOjJXJ/KTmCf5Dsso0imq880JDQqHTh/N5mJ/38JP0p0zbQyW4yZyEuISHQ27Seht8+E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB8340
+X-MTK: N
 
-Thank you for your contribution! Sashiko AI review found 10 potential issue=
-(s) to consider:
-- [High] usb: cdns3: unclocked MMIO access and host_dev race in cdnsp_sky1_=
-shutdown()
-- [High] usb: cdns3: controller reset in cdnsp_sky1_system_suspend() breaks=
- system resume
-- [Medium] usb: cdns3: positive probe return, pointer-sign mismatch, and DT=
- mismatch
-- [Medium] usb: cdns3: ignored D3 errors and broken D0 poll in cdns_sky1_pl=
-atform_suspend()
-- [Medium] usb: cdns3: cdnsp_sky1_system_suspend() disables wakeup clocks w=
-hen wakeup is set
-- [Medium] usb: cdns3: clock disable underflow on remove/shutdown after res=
-ume failure
-- [Medium] usb: cdns3: raw ~AXI_HALT write in cdnsp_sky1_configure_controll=
-er()
-- [Medium] usb: cdns3: 125us prescaler off-by-one in cdnsp_sky1_configure_c=
-ontroller()
-- [Low] usb: cdns3: cdnsp_sky1_drd_init() disables clocks before devm_clk_g=
-et()
-- [Low] usb: cdns3: dead fields, unused oc_gpio, and wrong compatible in Kc=
-onfig
---
-
-commit fcb2f6f1fc38d7bbecb98bf69c74a74c7c5ceec3
-Author: Hongliang Yang (=E6=9D=A8=E5=AE=8F=E4=BA=AE) <hongliang.yang@cixtec=
-h.com>
-
-usb: cdns3: Add CIX Sky1 glue driver
-
-This commit adds a platform glue driver for the Cadence USBSSP dual-role
-controller on the CIX Sky1 SoC, managing clocks, resets, S5 system
-controller mode straps, and per-controller glue registers.
-
-> diff --git a/drivers/usb/cdns3/Kconfig b/drivers/usb/cdns3/Kconfig
-> index 39ad23d1ada89..03d8e170a98af 100644
-> --- a/drivers/usb/cdns3/Kconfig
-> +++ b/drivers/usb/cdns3/Kconfig
-> @@ -77,6 +77,19 @@ config USB_CDNSP_PCI
->  	  If you choose to build this driver as module it will
->  	  be dynamically linked and module will be called cdnsp-pci.ko
-> =20
-> +config USB_CDNSP_SKY1
-> +	tristate "Cadence USB3 support on CIX Sky1 SoC platforms"
-> +	depends on USB_CDNS3
-> +	depends on ARCH_CIX || COMPILE_TEST
-> +	default USB_CDNS3
-> +	help
-> +	  Glue driver for the Cadence USB dual-role controllers on CIX Sky1
-> +	  (device tree compatible cix,sky1-usb3). It enables clocks and resets
-> +	  from the SoC, then uses the shared cdns3 platform core (cdns.ko).
-
-[Severity: Low]
-This isn't a bug, but the help text for USB_CDNSP_SKY1 mentions compatible
-cix,sky1-usb3 whereas cdns_sky1_of_match and
-Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml use
-cix,sky1-usbssp, and the depends on USB_CDNS3 line is inside the enclosing =
-if
-USB_CDNS3 block. Also, in struct cdnsp_sky1 in drivers/usb/cdns3/cdnsp-sky1=
-.h,
-are the dr_base and cdnsp_pdev members, as well as oc_gpio in
-cdnsp_sky1_probe() (where gpiod_direction_input() is called after requesting
-with GPIOD_IN, and the descriptor is never referenced again), still needed?
-
-> diff --git a/drivers/usb/cdns3/cdnsp-sky1.c b/drivers/usb/cdns3/cdnsp-sky=
-1.c
-> new file mode 100644
-> index 0000000000000..1f7870289a35f
-> --- /dev/null
-> +++ b/drivers/usb/cdns3/cdnsp-sky1.c
-
-[ ... ]
-
-> +static int cdns_sky1_platform_suspend(struct device *dev,
-> +				      bool suspend, bool wakeup)
-> +{
-> +	struct cdns *cdns =3D dev_get_drvdata(dev);
-> +	struct platform_device *xhci_dev =3D cdns->host_dev;
-> +	struct usb_hcd  *hcd;
-> +	struct device *parent =3D cdns->dev->parent;
-> +	struct cdnsp_sky1 *data =3D dev_get_drvdata(parent);
-> +	u32 value;
-> +	int poll;
-> +	int ret =3D 0;
-> +	int count =3D 3;
-> +
-> +	data->wakeup =3D wakeup;
-> +
-> +	if (cdns->role !=3D USB_ROLE_HOST)
-> +		return 0;
-> +
-> +	if (!xhci_dev) {
-> +		dev_dbg(dev, "host controller has not been registered\n");
-> +		return 0;
-> +	}
-> +
-> +	hcd =3D dev_get_drvdata(&xhci_dev->dev);
-> +	if (!hcd) {
-> +		dev_dbg(dev, "host controller have not registered\n");
-> +		return 0;
-> +	}
-> +
-> +	if (suspend) {
-> +		while (count--) {
-> +			value =3D readl(hcd->regs + XECP_PM_PMCSR);
-> +			value &=3D ~PS_MASK;
-> +			value |=3D PS_D3 | PS_PME_En;
-> +			writel(value, hcd->regs + XECP_PM_PMCSR);
-> +			/* After controller enters D3, disable AXI and SOF
-> +			 * until AXI valid flag changes to 0.
-> +			 */
-> +			if (sky1_rcsu_handshake(data, AXI_CLOCK_VALID, 0,
-> +						100ULL * 1000)) {
-> +				u32 ctst;
-> +
-> +				ctst =3D readl(data->rcsu_ctst_base);
-> +				dev_dbg(dev, "enter D3 failed, register value:%x\n",
-> +					ctst);
-> +			} else {
-> +				break;
-> +			}
-> +		}
-> +		if (count < 0) {
-> +			u32 ctst;
-> +
-> +			ctst =3D readl(data->rcsu_ctst_base);
-> +			dev_err(dev, "enter D3 failed after retries, register value:%x\n",
-> +				ctst);
-> +		}
-> +	} else {
-> +		while (count--) {
-> +			value =3D readl(hcd->regs + XECP_PM_PMCSR);
-> +			value &=3D ~PS_MASK;
-> +			value |=3D PS_D0;
-> +			value &=3D ~PS_PME_En;
-> +			writel(value, hcd->regs + XECP_PM_PMCSR);
-> +			/* Wait power state back to D0 */
-> +			poll =3D readl_poll_timeout(hcd->regs + XECP_PM_PMCSR,
-> +						  value,
-> +						  (value & PS_MASK) =3D=3D 0 ||
-> +						  value =3D=3D U32_MAX,
-> +						  10, 100ULL * 1000);
-> +			if (poll) {
-> +				dev_dbg(dev, "exit D3 timeout, power state=3D0x%lx\n",
-> +					value & PS_MASK);
-> +			} else {
-> +				break;
-> +			}
-> +		}
-> +		if (count < 0) {
-> +			dev_err(dev, "exit D3 timeout after retries, power state=3D0x%lx\n",
-> +				value & PS_MASK);
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-
-[Severity: Medium]
-In cdns_sky1_platform_suspend(), ret is initialized to 0 and never updated,=
- so
-when sky1_rcsu_handshake() or readl_poll_timeout() fails all retries (count=
- <
-0), the function logs an error but still returns 0 to
-cdns3_controller_suspend() or cdns3_controller_resume().
-
-In addition, in the resume (!suspend) branch, readl_poll_timeout() stops wh=
-en
-(value & PS_MASK) =3D=3D 0 || value =3D=3D U32_MAX, but unlike sky1_rcsu_ha=
-ndshake()
-it does not treat value =3D=3D U32_MAX as an error, so reading U32_MAX (whe=
-re
-value & PS_MASK is 3) is treated as a successful transition to D0.
-
-Also, in the suspend branch, value |=3D PS_D3 | PS_PME_En enables PS_PME_En
-even when wakeup is false, and when cdns->role !=3D USB_ROLE_HOST the funct=
-ion
-returns early without clearing AXI_CLOCK_VALID before
-cdnsp_sky1_system_suspend() disables the sof and axi clocks. Should
-cdns_sky1_platform_suspend() propagate an error code on failure, check for
-U32_MAX on D0 polling, and only set PS_PME_En when wakeup is enabled?
-
-> +static void cdnsp_sky1_configure_controller(struct cdnsp_sky1 *data)
-> +{
-> +	int clk;
-> +	int v0, v1, v2;
-> +	u32 val =3D 0;
-> +
-> +	if (data->u3_disable) {
-> +		dev_dbg(data->dev, "disable u3 port\n");
-> +		writel(D_XEC_CFG_3XPORT_MODE_VALUE, data->device_base
-> +			+ D_XEC_CFG_3XPORT_MODE);
-> +	}
-> +	writel(AXI_HALT, data->device_base + D_XEC_AXI_CAP);
-> +	writel(AXI_HALT, data->xhci_base + D_XEC_AXI_CAP);
-> +	writel(data->axi_bmax_value, data->device_base + D_XEC_AXI_CTRL0);
-> +	writel(data->axi_bmax_value, data->xhci_base + D_XEC_AXI_CTRL0);
-> +	writel((~(u32)(AXI_HALT)), data->device_base + D_XEC_AXI_CAP);
-> +	writel((~(u32)(AXI_HALT)), data->xhci_base + D_XEC_AXI_CAP);
-
-[Severity: Medium]
-In cdnsp_sky1_configure_controller(), AXI_HALT is defined as BIT(31). Writi=
-ng
-AXI_HALT and then (~(u32)(AXI_HALT)) directly to D_XEC_AXI_CAP first clears
-bits [30:0] to 0 and then writes 0x7fffffff, setting all lower 31 bits to 1.
-Should these accesses to D_XEC_AXI_CAP be read-modify-write operations using
-readl() and writel() to set and clear only AXI_HALT?
-
-> +	clk =3D data->sof_clk_freq;
-> +	v0 =3D  25 * clk / 100000000;
-> +	v1 =3D clk / 10000;
-> +	v2 =3D clk / 10;
-> +	writel(((v0 > 1) ? v0 - 1 : 1), data->device_base
-> +		+ D_XEC_PRE_REG_250NS);
-> +	writel((unsigned int)((v1 / 100 > 1) > 0 ? (v1 / 100) - 1 : 1),
-> +	       data->device_base + D_XEC_PRE_REG_1US);
-> +	writel((unsigned int)((v1 / 10 > 1) > 0 ? (v1 / 10) - 1 : 1),
-> +	       data->device_base + D_XEC_PRE_REG_10US);
-> +	writel(((v1) > 1 ? v1 - 1 : 1), data->device_base
-> +		+ D_XEC_PRE_REG_100US);
-> +	writel((unsigned int)((125 * clk / 1000000) > 1 ? (125 * clk / 1000000)=
- : 1),
-> +	       data->device_base + D_XEC_PRE_REG_125US);
-
-[Severity: Medium]
-In cdnsp_sky1_configure_controller(), all of the other prescaler registers
-subtract 1 from the cycle count when the value is greater than 1 (for examp=
-le,
-for the 8 MHz SOF clock, 1us writes 7, 10us writes 79, 100us writes 799, and
-1ms writes 7999). However, all four 125us register writes
-(D_XEC_PRE_REG_125US, D_XEC_LPM_PRE_REG_125US, XEC_PRE_REG_125US, and
-XEC_LPM_PRE_REG_125US) check ((125 * clk / 1000000) > 1) and write
-(125 * clk / 1000000) without subtracting 1 (writing 1000 instead of 999 for
-8 MHz, and 4 instead of 3 for 32 kHz).
-
-Also, XEC_CFG_3XPORT_MODE on xhci_base handles both data->u3_disable and
-data->ssp_disable, whereas D_XEC_CFG_3XPORT_MODE on device_base only checks
-data->u3_disable. Should the four 125us prescaler calculations subtract 1, =
-and
-should data->ssp_disable also be applied to D_XEC_CFG_3XPORT_MODE?
-
-[ ... ]
-
-> +static int cdnsp_sky1_drd_init(struct cdnsp_sky1 *data)
-> +{
-> +	int ret =3D 0;
-> +
-> +	reset_control_assert(data->reset);
-> +	reset_control_assert(data->preset);
-> +	cdnsp_sky1_clk_disable_all(data->dev);
-> +	ret =3D cdnsp_sky1_clk_enable_all(data->dev);
-
-[Severity: Low]
-In cdnsp_sky1_drd_init(), cdnsp_sky1_clk_disable_all() is called before
-cdnsp_sky1_clk_enable_all(). Because devm_clk_get() is called inside
-cdnsp_sky1_clk_enable_all() rather than once in cdnsp_sky1_probe(),
-data->cix_usb_clks[] still contains NULL pointers when
-cdnsp_sky1_clk_disable_all() runs during probe. Should the clocks be acquir=
-ed
-with devm_clk_get() in cdnsp_sky1_probe() before calling
-cdnsp_sky1_drd_init()?
-
-[ ... ]
-
-> +static int cdnsp_sky1_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev =3D &pdev->dev;
-> +	struct device_node *node =3D dev->of_node;
-> +	struct of_dev_auxdata cdns_sky1_auxdata[] =3D {
-> +		{ .compatible =3D "cdns,usb3", },
-> +		{},
-> +	};
-> +	struct cdnsp_sky1 *data;
-> +	struct cdns3_platform_data *cdns_sky1_pdata;
-> +	int ret =3D 0;
-> +
-
-[ ... ]
-
-> +	platform_set_drvdata(pdev, data);
-> +	data->dev =3D dev;
-> +	ret =3D of_alias_get_id(dev->of_node, "usb");
-> +	if (ret =3D=3D -ENODEV) {
-> +		if (device_property_read_u32(dev, "id", &ret))
-> +			ret =3D -ENODEV;
-> +	}
-> +	if (ret < 0 || ret >=3D  SKY1_USB_S5_NUM) {
-> +		dev_err(dev, "get alias failed.\n");
-> +		return ret;
-> +	}
-> +	data->id =3D ret;
-> +	data->usb_syscon =3D syscon_regmap_lookup_by_phandle(dev->of_node,
-> +							   "cix,usb-syscon");
-> +	if (IS_ERR(data->usb_syscon)) {
-> +		dev_err(dev, "Unable to get cix,usb-syscon regmap");
-> +		return PTR_ERR(data->usb_syscon);
-> +	}
-> +	data->u3_disable =3D device_property_read_bool(dev, "u3-port-disable");
-> +	data->ssp_disable =3D device_property_read_bool(dev, "ssp-disable");
-
-[Severity: Medium]
-In cdnsp_sky1_probe(), can this ID lookup and property parsing cause a few
-issues?
-
-1. ret is declared as int and &ret is passed to device_property_read_u32(),
-which expects u32 * and triggers a -Wpointer-sign warning.
-
-2. If ret >=3D SKY1_USB_S5_NUM, cdnsp_sky1_probe() returns a positive value=
- to
-really_probe() instead of a negative errno such as -EINVAL.
-
-3. When CONFIG_OF is disabled (under COMPILE_TEST), of_alias_get_id() retur=
-ns
--ENOSYS rather than -ENODEV, skipping the device_property_read_u32() fallba=
-ck.
-
-4. Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml sets
-unevaluatedProperties: false and does not define id, u3-port-disable,
-ssp-disable, or oc-gpios, nor does its example include a usb alias, so prob=
-ing
-the DT binding example will fail with -ENODEV.
-
-[ ... ]
-
-> +static void cdnsp_sky1_remove(struct platform_device *pdev)
-> +{
-> +	struct device *dev =3D &pdev->dev;
-> +	struct cdnsp_sky1 *data =3D dev_get_drvdata(dev);
-> +
-> +	pm_runtime_get_sync(dev);
-> +	of_platform_depopulate(dev);
-> +	sky1_put_addr(data->xhci_base);
-> +	sky1_put_addr(data->device_base);
-> +	reset_control_assert(data->reset);
-> +	reset_control_assert(data->preset);
-> +	cdnsp_sky1_clk_disable_all(dev);
-> +	pm_runtime_disable(dev);
-> +	pm_runtime_set_suspended(dev);
-> +	pm_runtime_put_noidle(dev);
-> +}
-> +
-> +/*
-> + * Because the wake-up interrupt and host interrupt are the same interru=
-pt,
-> + * closing the axi and sof clock will result in the inability to generate
-> + * port status change interrupt.
-> + */
-> +static int cdnsp_sky1_system_suspend(struct device *dev)
-> +{
-> +	struct cdnsp_sky1 *data =3D dev_get_drvdata(dev);
-> +
-> +	if (!data->wakeup) {
-> +		reset_control_assert(data->reset);
-> +		reset_control_assert(data->preset);
-> +	}
-> +	cdnsp_sky1_clk_disable_suspend(dev);
-> +	return 0;
-> +}
-
-[Severity: Medium]
-The comment above cdnsp_sky1_system_suspend() notes that closing the axi and
-sof clocks prevents generating the port status change wakeup interrupt.
-However, cdnsp_sky1_clk_disable_suspend(dev) (which disables the sof and axi
-clocks) is called unconditionally outside the if (!data->wakeup) block. Sho=
-uld
-cdnsp_sky1_clk_disable_suspend(dev) and the corresponding
-cdnsp_sky1_clk_enable_resume(dev) in cdnsp_sky1_system_resume() also be
-guarded by !data->wakeup, or should different clocks be gated when wakeup is
-enabled?
-
-> +
-> +static int cdnsp_sky1_system_resume(struct device *dev)
-> +{
-> +	int ret =3D 0;
-> +	struct cdnsp_sky1 *data =3D dev_get_drvdata(dev);
-> +
-> +	ret =3D cdnsp_sky1_clk_enable_resume(dev);
-> +	if (ret)
-> +		return ret;
-> +	if (!data->wakeup) {
-> +		writel(CIX_USB_AXI_WR_CACHE_VALUE, data->rcsu_axi_base);
-> +		cdnsp_sky1_set_mode_by_id(data->dev, MODE_STRAP_OTG);
-> +		reset_control_deassert(data->preset);
-> +		cdnsp_sky1_configure_controller(data);
-> +		reset_control_deassert(data->reset);
-> +	}
-> +	return 0;
-> +}
-
-[Severity: High]
-When !data->wakeup during system sleep, cdnsp_sky1_system_suspend() asserts
-data->reset and data->preset, which resets all DRD/OTG, xHCI, and gadget
-controller registers. On resume, cdnsp_sky1_system_resume() deasserts the
-resets and runs cdnsp_sky1_configure_controller(), leaving the DRD block in
-its post-reset state with host mode (OTGCMD_HOST_BUS_REQ) disabled.
-
-When the child device then resumes in cdns3_plat_resume() ->
-cdns3_controller_resume(), it first calls cdns_sky1_platform_suspend(dev,
-false, false), which accesses hcd->regs + XECP_PM_PMCSR before
-cdns_drd_host_on() has re-enabled the xHCI block, and then calls
-cdns_resume() under spin_lock_irqsave(&cdns->lock, flags) (where
-cdns_power_is_lost() for CDNSP_CONTROLLER_V2 either triggers sleeping calls
-under the spinlock or skips reinitializing the DRD/host registers). How is =
-the
-child cdns3 controller expected to recover its DRD and host state after a f=
-ull
-reset in cdnsp_sky1_system_suspend()?
-
-[Severity: Medium]
-Also in cdnsp_sky1_system_resume(), if cdnsp_sky1_clk_enable_resume(dev) fa=
-ils
-to re-enable the first CIX_USB_CLK_OFF_NUM clocks (sof and axi), those two
-clocks remain disabled while lpm and apb remain enabled. When
-cdnsp_sky1_remove() or cdnsp_sky1_shutdown() later calls
-cdnsp_sky1_clk_disable_all(dev), won't it call clk_disable_unprepare() on a=
-ll
-four clocks and underflow the enable/prepare counts for sof and axi?
-
-[ ... ]
-
-> +static void cdnsp_sky1_shutdown(struct platform_device *pdev)
-> +{
-> +	struct device *dev =3D &pdev->dev;
-> +	struct cdnsp_sky1 *data =3D dev_get_drvdata(dev);
-> +	struct device *cdns_dev =3D NULL;
-> +	struct device *gadget_dev =3D NULL;
-> +	struct cdns *cdns =3D NULL;
-> +
-> +	if (!device_may_wakeup(dev)) {
-> +		/*
-> +		 * Find the cdns3 child device, then find its gadget device
-> +		 * and release the function driver before disabling clocks.
-> +		 * This ensures all register accesses in gadget_unbind_driver
-> +		 * complete before clocks are turned off.
-> +		 */
-> +		device_for_each_child(dev, &cdns_dev, cdnsp_sky1_find_cdns_dev);
-> +		if (cdns_dev)
-> +			cdns =3D dev_get_drvdata(cdns_dev);
-> +		if (cdns)
-> +			device_for_each_child(cdns_dev, &gadget_dev,
-> +					      cdnsp_sky1_find_gadget_match);
-> +		if (gadget_dev)
-> +			device_release_driver(gadget_dev);
-> +		if (cdns && cdns->host_dev) {
-> +			struct usb_hcd *hcd =3D platform_get_drvdata(cdns->host_dev);
-> +
-> +			if (hcd && hcd->irq > 0) {
-> +				/*
-> +				 * Clear HCD_FLAG_HW_ACCESSIBLE before disable_irq.
-> +				 * This prevents usb_hcd_irq from calling xhci_irq
-> +				 * (which reads USBSTS) after clocks are disabled.
-> +				 */
-> +				clear_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags);
-> +				disable_irq(hcd->irq);
-> +				synchronize_irq(hcd->irq);
-> +			}
-> +		}
-> +		reset_control_assert(data->reset);
-> +		reset_control_assert(data->preset);
-> +		cdnsp_sky1_clk_disable_all(dev);
-> +		put_device(gadget_dev);
-> +		put_device(cdns_dev);
-> +	}
-> +}
-
-[Severity: High]
-Can cdnsp_sky1_shutdown() cause unclocked MMIO accesses or race with role
-switching during system shutdown?
-
-1. device_shutdown() does not runtime-resume devices before invoking
-->shutdown(). If the controller is runtime-suspended when
-device_release_driver(gadget_dev) is called, gadget_unbind_driver() ->
-cdnsp_gadget_udc_stop() will access controller registers while the device is
-in low-power state.
-
-2. cdns->host_dev is accessed without holding cdns->mutex, which can race w=
-ith
-a concurrent role switch running cdns_host_exit() ->
-platform_device_unregister(cdns->host_dev).
-
-3. Releasing gadget_dev only unbinds the gadget function driver; cdns->otg_=
-irq
-and cdns->dev_irq remain enabled (and when cdns->role =3D=3D USB_ROLE_DEVIC=
-E,
-cdns->host_dev is NULL so the controller interrupt is not disabled via
-hcd->irq either). After reset_control_assert() and
-cdnsp_sky1_clk_disable_all(dev) turn off the APB and AXI clocks, any shared=
- or
-pending OTG or gadget interrupt will call cdns_drd_irq() or
-cdnsp_irq_handler() and read MMIO registers while the controller is unclock=
-ed
-and held in reset.
-
-Would it be safer to runtime-resume and depopulate the child device (as in
-cdnsp_sky1_remove()) so cdns3 tears down host, gadget, and OTG interrupts
-cleanly before asserting resets and disabling clocks?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103074929.1971=
-195-1-hongliang.yang@cixtech.com?part=3D2
+T24gRnJpLCAyMDI2LTEwLTMwIGF0IDA5OjU2ICswMTAwLCBNaWthIFdlc3RlcmJlcmcgd3JvdGU6
+DQo+IE9uIEZyaSwgT2N0IDMwLCAyMDI2IGF0IDA0OjI1OjM5UE0gKzA4MDAsIENodW5mZW5nIFl1
+biB3cm90ZToNCj4gPiBXaGVuIHVzYjQgZW50ZXIgc2xlZXAgbW9kZSwgZWNobyAxIHRvIGF1dGhv
+cml6ZWQgb2Ygc3lzZmlsZSwNCj4gPiB3aWxsIHdha2V1cCB1c2I0IGRyaXZlciwgYnV0IGZhaWwg
+dG8gY3JlYXRlIHBjaWUgdHVubmVsLCBjYXVzZQ0KPiA+IHRoZSB3YXJuaW5nIGR1ZSB0byBhIHJh
+Y2UgY29uZGl0aW9uIGJldHdlZW4gc3dpdGNoIGRpc2Nvbm5lY3QNCj4gDQo+IEl0J3Mgcm91dGVy
+DQp3aWxsIG1vZGlmeSBpdC4NCg0KPiANCj4gPiBkdXJpbmcgcmVzdW1lIGFuZCB1c2VyIGF1dGhv
+cml6YXRpb24NClsgIDI3OC44MzExODZdIHVzYjRfaGkgTlZEQTgxMDA6MDA6IDA6MTogaXMgdW5w
+bHVnZ2VkIChzdGF0ZTogNyksDQpyZXRyeWluZy4uLg0KWyAgMjc4Ljk0MzAzMV0gdXNiNF9oaSBO
+VkRBODEwMDowMDogMDoxOiBmYWlsZWQgdG8gcmVhY2ggc3RhdGUNClRCX1BPUlRfVVAuIElnbm9y
+aW5nIHBvcnQuLi4NClsgIDI3OC45NTExMjVdIHVzYjRfaGkgTlZEQTgxMDA6MDA6IDA6MTogbG9z
+dCBkdXJpbmcgc3VzcGVuZCwNCmRpc2Nvbm5lY3RpbmcNClsgIDI3OC45NTc4MTldIHVzYjRfaGkg
+TlZEQTgxMDA6MDA6IDA6NCA8LT4gMToxNiAoVVNCMyk6IGRlYWN0aXZhdGluZw0KWyAgMjc4Ljk2
+NDc5NF0gdXNiNF9oaSBOVkRBODEwMDowMDogZGVhY3RpdmF0aW5nIFVTQjMgRG93biBwYXRoIGZy
+b20NCjA6NCB0byAxOjE2DQpbICAyNzguOTcyNzM3XSB1c2I0X2hpIE5WREE4MTAwOjAwOiBkZWFj
+dGl2YXRpbmcgVVNCMyBVcCBwYXRoIGZyb20gMToxNg0KdG8gMDo0DQpbICAyNzguOTgwNTA0XSB1
+c2I0X2hpIE5WREE4MTAwOjAwOiAwOiBUTVU6IG1vZGUgY2hhbmdlIG9mZiAtPiBiaS0NCmRpcmVj
+dGlvbmFsLCBIaUZpIHJlcXVlc3RlZA0KWyAgMjc4Ljk5MTI2NV0gdXNiNF9oaSBOVkRBODEwMDow
+MDogMDogVE1VOiBtb2RlIHNldCB0bzogYmktDQpkaXJlY3Rpb25hbCwgSGlGaQ0KWyAgMjc4Ljk5
+OTUxMV0gdXNiNF9oaSBOVkRBODEwMDowMDogMDoxOiB0b3RhbCBjcmVkaXRzIGNoYW5nZWQgNjYg
+LT4gNjYNClsgIDI3OS4wMDY0MDhdIHVzYjRfaGkgTlZEQTgxMDA6MDA6IDE6IGxpbmsgd2lkdGgg
+c2V0IHRvIHN5bW1ldHJpYywNCmR1YWwgbGFuZXMNClsgIDI3OS4wMTM3NjNdIHVzYjRfaGkgTlZE
+QTgxMDA6MDA6IDA6NyA8LT4gMTo5IChQQ0kpOiBhY3RpdmF0aW5nDQpbICAyNzkuMDE5NTg3XSB1
+c2I0X2hpIE5WREE4MTAwOjAwOiBhY3RpdmF0aW5nIFBDSWUgRG93biBwYXRoIGZyb20gMDo3DQp0
+byAxOjkNClsgIDI3OS4wMjY0NjhdIHVzYjRfaGkgTlZEQTgxMDA6MDA6IDE6MTogV3JpdGluZyBo
+b3AgMQ0KWyAgMjc5LjAzMTMzNV0gdXNiNF9oaSBOVkRBODEwMDowMDogMToxOiAgSW4gSG9wSUQ6
+IDggPT4gT3V0IHBvcnQ6IDkNCk91dCBIb3BJRDogOA0KWyAgMjc5LjAzODU0Nl0gdXNiNF9oaSBO
+VkRBODEwMDowMDogMToxOiAgIFdlaWdodDogMSBQcmlvcml0eTogMw0KQ3JlZGl0czogMzIgRHJv
+cDogMCBQTTogMA0KWyAgMjc5LjA0NjUzNl0gdXNiNF9oaSBOVkRBODEwMDowMDogMToxOiAgICBD
+b3VudGVyIGVuYWJsZWQ6IDAgQ291bnRlcg0KaW5kZXg6IDIwNDcNClsgIDI3OS4wNTM4MzRdIHVz
+YjRfaGkgTlZEQTgxMDA6MDA6IDE6MTogICBGbG93IENvbnRyb2wgKEluL0VnKTogMS8wDQpTaGFy
+ZWQgQnVmZmVyIChJbi9FZyk6IDAvMA0KWyAgMjc5LjA2MjI1OV0gdXNiNF9oaSBOVkRBODEwMDow
+MDogMToxOiAgIFVua25vd24xOiAweDAgVW5rbm93bjI6IDB4MA0KVW5rbm93bjM6IDB4MA0KWyAg
+Mjc5LjA2OTczMF0gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tDQpbICAyNzku
+MDc0MzM1XSB1c2I0X2hpIE5WREE4MTAwOjAwOiBQQ0llIERvd24gcGF0aCBhY3RpdmF0aW9uIGZh
+aWxlZA0KWyAgMjc5LjA4MDQyNl0gV0FSTklORzogQ1BVOiA1IFBJRDogMjQzMyBhdA0KZHJpdmVy
+cy90aHVuZGVyYm9sdC9wYXRoLmM6NTg3IHRiX3BhdGhfYWN0aXZhdGUrMHgxYTQvMHg1YjANCi4u
+Lg0KWyAgMjc5LjIyMDI4NV0gQ2FsbCB0cmFjZToNClsgIDI3OS4yMjI3MjJdICB0Yl9wYXRoX2Fj
+dGl2YXRlKzB4MWE0LzB4NWIwIChQKQ0KWyAgMjc5LjIyNzA2OF0gIHRiX3R1bm5lbF9hY3RpdmF0
+ZSsweDE0MC8weDQ5OA0KWyAgMjc5LjIzMTI0MV0gIHRiX3R1bm5lbF9wY2krMHgxODAvMHg0OTAN
+ClsgIDI3OS4yMzQ5ODBdICB0Yl9kb21haW5fYXBwcm92ZV9zd2l0Y2grMHg3NC8weGIwDQpbICAy
+NzkuMjM5NTAwXSAgYXV0aG9yaXplZF9zdG9yZSsweDIxNC8weDI3MA0KWyAgMjc5LjI0MzQ5OF0g
+IGRldl9hdHRyX3N0b3JlKzB4MjAvMHg3MA0KLi4uDQpbICAyNzkuMjg4ODg4XSAtLS1bIGVuZCB0
+cmFjZSAwMDAwMDAwMDAwMDAwMDAwIF0tLS0NClsgIDI3OS4yOTM0OTddIHVzYjRfaGkgTlZEQTgx
+MDA6MDA6IDA6NyA8LT4gMTo5IChQQ0kpOiBhY3RpdmF0aW9uDQpmYWlsZWQNCg0KDQpyb290IGNh
+dXNlOg0KDQpUaGUgd2FybmluZyB3ZXJlIGNhdXNlZCBieSBhIHJhY2UgY29uZGl0aW9uIGJldHdl
+ZW4gc3dpdGNoIGRpc2Nvbm5lY3QNCmR1cmluZyByZXN1bWUgYW5kIHVzZXIgYXV0aG9yaXphdGlv
+bjoNCg0KICAgMS4gV2hpbGUgdGhlIHN5c3RlbSB3YXMgaW4gcnVudGltZSBzdXNwZW5kLCB1c2Vy
+c3BhY2UgZXhlY3V0ZWQ6DQoNCiAgICAgICBlY2hvIDEgPiAvc3lzL2J1cy90aHVuZGVyYm9sdC9k
+ZXZpY2VzLzAtMS9hdXRob3JpemVkDQogICAyLiBXcml0aW5nIHRvIHRoaXMgc3lzZnMgYXR0cmli
+dXRlIHdva2UgdXAgdGhlIFVTQjQgY29udHJvbGxlcg0KKG5oaV9ydW50aW1lX3Jlc3VtZSkuDQog
+ICAzLiBEdXJpbmcgcmVzdW1lLCB0aGUgZG93bnN0cmVhbSBwb3J0IDA6MSBmYWlsZWQgdG8gY29t
+cGxldGUgbGluaw0KdHJhaW5pbmcgd2l0aGluIHRoZSB0aW1lb3V0IGFuZCB3YXMgZGVjbGFyZWQg
+bG9zdDoNCg0KICAgICAgIFsgIDI3OC45NDMwMzFdIHVzYjRfaGkgTlZEQTgxMDA6MDA6IDA6MTog
+ZmFpbGVkIHRvIHJlYWNoIHN0YXRlDQpUQl9QT1JUX1VQLiBJZ25vcmluZyBwb3J0Li4uDQogICAg
+ICAgWyAgMjc4Ljk1MTEyNV0gdXNiNF9oaSBOVkRBODEwMDowMDogMDoxOiBsb3N0IGR1cmluZyBz
+dXNwZW5kLA0KZGlzY29ubmVjdGluZw0KICAgICBUaGlzIGNhbGxlZCB0Yl9zd19zZXRfdW5wbHVn
+Z2VkKHBvcnQtPnJlbW90ZS0+c3cpLCBzZXR0aW5nIHN3LQ0KPmlzX3VucGx1Z2dlZCA9IHRydWUg
+b24gc3dpdGNoIDAtMS4NCiAgIDQuIEhvd2V2ZXIsIGF1dGhvcml6ZWRfc3RvcmUoKSBoYWQgYWxy
+ZWFkeSB0YWtlbiB0aGUgbG9jayBhbmQNCnByb2NlZWRlZCB0byBjcmVhdGUgdGhlIFBDSWUgdHVu
+bmVsIHZpYSB0Yl90dW5uZWxfcGNpKCkgLT4NCnRiX3R1bm5lbF9hY3RpdmF0ZSgpIC0+IHRiX3Bh
+dGhfYWN0aXZhdGUoKS4NCiAgIDUuIFdoZW4gdGJfcGF0aF9hY3RpdmF0ZSgpIHRyaWVkIHRvIHBy
+b2dyYW0gcm91dGluZyBIb3AgMSBpbnRvIHBvcnQNCjE6MSBvZiBzd2l0Y2ggMC0xLCB0Yl9wb3J0
+X3dyaXRlKCkgcmVmdXNlZCBiZWNhdXNlIHRoZSBzd2l0Y2ggd2FzDQptYXJrZWQgdW5wbHVnZ2Vk
+Og0KDQogICAgICAgLyogaW5jbHVkZS9saW51eC90aHVuZGVyYm9sdC5oIC8gdGIuaCAqLw0KICAg
+ICAgIHN0YXRpYyBpbmxpbmUgaW50IHRiX3BvcnRfd3JpdGUoLi4uKSB7DQogICAgICAgICAgIGlm
+IChwb3J0LT5zdy0+aXNfdW5wbHVnZ2VkKQ0KICAgICAgICAgICAgICAgcmV0dXJuIC1FTk9ERVY7
+ICAvKiBSZXR1cm5zIC0xOSAoMHhmZmZmZmZlZCkgKi8NCiAgICAgICAgICAgLi4uDQogICAgICAg
+fQ0KICAgNi4gQmVjYXVzZSB0Yl9wb3J0X3dyaXRlKCkgcmV0dXJuZWQgLUVOT0RFViwgdGJfcGF0
+aF9hY3RpdmF0ZSgpDQpiYWlsZWQgb3V0IHRvIGVycjogYW5kIHRyaWdnZXJlZCB0aGUga2VybmVs
+IHdhcm5pbmc6DQoNCiAgICAgICAvKiBkcml2ZXJzL3RodW5kZXJib2x0L3BhdGguYzo1ODcgKi8N
+CiAgICAgICBlcnI6DQogICAgICAgICAgIHRiX1dBUk4ocGF0aC0+dGIsICIlcyBwYXRoIGFjdGl2
+YXRpb24gZmFpbGVkXG4iLCBwYXRoLQ0KPm5hbWUpOw0KICAgICAgICAgICByZXR1cm4gcmVzOw0K
+DQogICAgIFVzZXJzcGFjZSByZWNlaXZlZCAtRUlPICgtYmFzaDogZWNobzogd3JpdGUgZXJyb3I6
+IElucHV0L291dHB1dA0KZXJyb3IpLg0KDQoNCj4gDQo+ID4gDQo+ID4gV2hlbiB1c2I0IGVudGVy
+IHNsZWVwIG1vZGUsIGVjaG8gMCB0byBhdXRob3JpemVkIG9mIHN5c2ZpbGUsDQo+ID4gd2lsbCB3
+YWtldXAgdXNiNCBkcml2ZXIsIGJ1dCBmYWlsIHRvIGRpc2Nvbm5lY3QgcGNpZSBkdWUgdG8NCj4g
+PiB0aGUgUENJZSB0dW5uZWwgaGFkIGFscmVhZHkgYmVlbiB0b3JuIGRvd24gYW5kIGZyZWVkIGlm
+IHRoZSBwb3J0DQo+ID4gaXMgZmFpbCB0byByZXN1bWU6DQo+IA0KPiBTbyB0aGlzIGlzIHJ1bnRp
+bWUgcmVzdW1lIHdoZW4gdGhlcmUgaXMgbm8gUENJZSB0dW5uZWwgeWV0LMKgDQpJdCBpcyBhbHJl
+YWR5IGRlc3Ryb3llZCBiZWZvcmUgZHVlIHRvIHRoZSBsYW5lIGxpbmsgdGltZW91dA0KDQo+IHRo
+ZSBkZXZpY2UgaXMNCj4gdW5wbHVnZ2VkIGFuZCB0aGUgdXNlcnNwYWNlIGlzIGF0IHRoZSBzYW1l
+IHRpbWUgd3JpdGluZyB0byB0aGUNCj4gImF1dGhvcml6ZWQiDQo+IGF0dHJpYnV0ZT8gDQpbICA1
+NDUuODg3ODIyXSB1c2I0X2hpIE5WREE4MTAwOjAwOiAwOjE6IGlzIHVucGx1Z2dlZCAoc3RhdGU6
+IDcpLA0KcmV0cnlpbmcuLi4NClsgIDU0NS45OTg2ODldIHVzYjRfaGkgTlZEQTgxMDA6MDA6IDA6
+MTogZmFpbGVkIHRvIHJlYWNoIHN0YXRlDQpUQl9QT1JUX1VQLiBJZ25vcmluZyBwb3J0Li4uDQpb
+ICA1NDYuMDA2Nzc4XSB1c2I0X2hpIE5WREE4MTAwOjAwOiAwOjE6IGxvc3QgZHVyaW5nIHN1c3Bl
+bmQsDQpkaXNjb25uZWN0aW5nDQpbICA1NDYuMDEzNDc0XSB1c2I0X2hpIE5WREE4MTAwOjAwOiAw
+OjQgPC0+IDE6MTYgKFVTQjMpOiBkZWFjdGl2YXRpbmcNClsgIDU0Ni4wMjA0NDldIHVzYjRfaGkg
+TlZEQTgxMDA6MDA6IGRlYWN0aXZhdGluZyBVU0IzIERvd24gcGF0aCBmcm9tDQowOjQgdG8gMTox
+Ng0KWyAgNTQ2LjAyNzk1OV0gdXNiNF9oaSBOVkRBODEwMDowMDogZGVhY3RpdmF0aW5nIFVTQjMg
+VXAgcGF0aCBmcm9tIDE6MTYNCnRvIDA6NA0KWyAgNTQ2LjAzNTY0OV0gdXNiNF9oaSBOVkRBODEw
+MDowMDogMDo3IDwtPiAxOjkgKFBDSSk6IGRlYWN0aXZhdGluZw0KWyAgNTQ2LjA0MjQ2M10gdXNi
+NF9oaSBOVkRBODEwMDowMDogZGVhY3RpdmF0aW5nIFBDSWUgRG93biBwYXRoIGZyb20NCjA6NyB0
+byAxOjkNClsgIDU0Ni4wNTAzMjBdIHVzYjRfaGkgTlZEQTgxMDA6MDA6IGRlYWN0aXZhdGluZyBQ
+Q0llIFVwIHBhdGggZnJvbSAxOjkNCnRvIDA6Nw0KWyAgNTQ2LjA1Nzc5MF0gdXNiNF9oaSBOVkRB
+ODEwMDowMDogMDogVE1VOiBtb2RlIGNoYW5nZSBvZmYgLT4gYmktDQpkaXJlY3Rpb25hbCwgSGlG
+aSByZXF1ZXN0ZWQNClsgIDU0Ni4wNjc5MTBdIHVzYjRfaGkgTlZEQTgxMDA6MDA6IDA6IFRNVTog
+bW9kZSBzZXQgdG86IGJpLQ0KZGlyZWN0aW9uYWwsIEhpRmkNClsgIDU0Ni4wNzYxMjBdIHVzYjRf
+aGkgTlZEQTgxMDA6MDA6IDA6MTogdG90YWwgY3JlZGl0cyBjaGFuZ2VkIDY2IC0+IDY2DQpbICA1
+NDYuMDgyODQ0XSB1c2I0X2hpIE5WREE4MTAwOjAwOiAxOiBsaW5rIHdpZHRoIHNldCB0byBzeW1t
+ZXRyaWMsDQpkdWFsIGxhbmVzDQpbICA1NDYuMDg5ODE1XSAtLS0tLS0tLS0tLS1bIGN1dCBoZXJl
+IF0tLS0tLS0tLS0tLS0NClsgIDU0Ni4wOTQ0MjBdIFdBUk5JTkc6IENQVTogNyBQSUQ6IDI0MzMg
+YXQNCmRyaXZlcnMvdGh1bmRlcmJvbHQvdGIuYzoyMjQ1IHRiX2Rpc2Nvbm5lY3RfcGNpKzB4MTA4
+LzB4MTIwDQouLi4NClsgIDU0Ni4yMzg4MTBdIENhbGwgdHJhY2U6DQpbICA1NDYuMjQxMjQ2XSAg
+dGJfZGlzY29ubmVjdF9wY2krMHgxMDgvMHgxMjAgKFApDQpbICA1NDYuMjQ1NjgwXSAgdGJfZG9t
+YWluX2Rpc2FwcHJvdmVfc3dpdGNoKzB4MjQvMHg2MA0KWyAgNTQ2LjI1MDQ2NF0gIGRpc2FwcHJv
+dmVfc3dpdGNoKzB4YmMvMHhlOA0KWyAgNTQ2LjI1NDM3OF0gIGF1dGhvcml6ZWRfc3RvcmUrMHgx
+OWMvMHgyNzANClsgIDU0Ni4yNTgzNzhdICBkZXZfYXR0cl9zdG9yZSsweDIwLzB4NzANCi4uLg0K
+WyAgNTQ2LjMwMzc2N10gLS0tWyBlbmQgdHJhY2UgMDAwMDAwMDAwMDAwMDAwMCBdLS0tDQoNCnJv
+b3QgY2F1c2U6DQogIFRoZSB3YXJuaW5nIG9jY3VycmVkIGJlY2F1c2UgdGhlIFBDSWUgdHVubmVs
+IGhhZCBhbHJlYWR5IGJlZW4gdG9ybg0KZG93biBhbmQgZnJlZWQgYnkgdGJfZnJlZV9pbnZhbGlk
+X3R1bm5lbHMoKSBqdXN0IG1pbGxpc2Vjb25kcyBiZWZvcmUNCnRiX2Rpc2Nvbm5lY3RfcGNpKCkg
+d2FzIGNhbGxlZCwNCg0KICB0Yl9kaXNjb25uZWN0X3BjaSgpIGFzc3VtZXMgdGhhdCBpZiB1c2Vy
+c3BhY2Ugd3JpdGVzIDAgdG8gYXV0aG9yaXplZA0Kb24gYW4gYXV0aG9yaXplZCBzd2l0Y2gsIHRo
+ZSBjb3JyZXNwb25kaW5nIFBDSWUgdHVubmVsIG11c3Qgc3RpbGwgZXhpc3QNCmluIHRjbS0+dHVu
+bmVsX2xpc3QuIEhvd2V2ZXIsIGluIHRoaXMgc2NlbmFyaW8sIHRoZSB0dW5uZWwgd2FzIGFscmVh
+ZHkNCmRlc3Ryb3llZCBkdXJpbmcgdGhlIHdha2UtdXAgc2VxdWVuY2UsIGxlYXZpbmcgdHVubmVs
+ID09IE5VTEwuDQoNCg0KPiANCj4gVGhlbiB0aGUgUENJZSB0dW5uZWwgY3JlYXRpb24gZmFpbHMg
+YXMgZXhwZWN0ZWQuDQo+IA0KPiBXaGF0IHdhcm5pbmcgeW91IGFyZSB0cnlpbmcgdG8gc2lsZW5j
+ZT8NCmlmIHdlIGZpbmQgdGhlIHJvdXRlciBpcyBkaXNjb25uZWN0LCBubyBuZWVkIGZpbmQgdGhl
+IFBDSWUgdHVubmVsDQphbnltb3JlLg0KDQpUaGFua3MNCg0KPiANCj4gPiANCj4gPiBUaGUgY2hl
+Y2sgcHJldmVudHMgYSByZWR1bmRhbnQgbG9va3VwIGFuZCBlbGltaW5hdGVzIHRoZSB3YXJuaW5n
+DQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVk
+aWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+IMKgZHJpdmVycy90aHVuZGVyYm9sdC9zd2l0Y2guYyB8
+IDUgKysrKysNCj4gPiDCoGRyaXZlcnMvdGh1bmRlcmJvbHQvdGIuY8KgwqDCoMKgIHwgNyArKysr
+KysrDQo+ID4gwqAyIGZpbGVzIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKykNCj4gPiANCj4gPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy90aHVuZGVyYm9sdC9zd2l0Y2guYw0KPiA+IGIvZHJpdmVycy90
+aHVuZGVyYm9sdC9zd2l0Y2guYw0KPiA+IGluZGV4IGU3ZWU5NjM5YzU0Yy4uNzkwMjE3MmY0ZTk5
+IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvdGh1bmRlcmJvbHQvc3dpdGNoLmMNCj4gPiArKysg
+Yi9kcml2ZXJzL3RodW5kZXJib2x0L3N3aXRjaC5jDQo+ID4gQEAgLTE4NDksNiArMTg0OSwxMSBA
+QCBzdGF0aWMgaW50IHRiX3N3aXRjaF9zZXRfYXV0aG9yaXplZChzdHJ1Y3QNCj4gPiB0Yl9zd2l0
+Y2ggKnN3LCB1bnNpZ25lZCBpbnQgdmFsKQ0KPiA+IMKgCWlmICghIXN3LT5hdXRob3JpemVkID09
+ICEhdmFsKQ0KPiA+IMKgCQlnb3RvIHVubG9jazsNCj4gPiDCoA0KPiA+ICsJaWYgKHN3LT5pc191
+bnBsdWdnZWQpIHsNCj4gPiArCQlyZXQgPSAtRU5PREVWOw0KPiA+ICsJCWdvdG8gdW5sb2NrOw0K
+PiA+ICsJfQ0KPiA+ICsNCj4gPiDCoAlzd2l0Y2ggKHZhbCkgew0KPiA+IMKgCS8qIERpc2FwcHJv
+dmUgc3dpdGNoICovDQo+ID4gwqAJY2FzZSAwOg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3Ro
+dW5kZXJib2x0L3RiLmMgYi9kcml2ZXJzL3RodW5kZXJib2x0L3RiLmMNCj4gPiBpbmRleCA1N2Mx
+MWJhMTM0NTkuLjY5MzEwNjIyZDc4NiAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL3RodW5kZXJi
+b2x0L3RiLmMNCj4gPiArKysgYi9kcml2ZXJzL3RodW5kZXJib2x0L3RiLmMNCj4gPiBAQCAtMjI2
+Niw2ICsyMjY2LDEwIEBAIHN0YXRpYyBpbnQgdGJfZGlzY29ubmVjdF9wY2koc3RydWN0IHRiICp0
+YiwNCj4gPiBzdHJ1Y3QgdGJfc3dpdGNoICpzdykNCj4gPiDCoAlzdHJ1Y3QgdGJfdHVubmVsICp0
+dW5uZWw7DQo+ID4gwqAJc3RydWN0IHRiX3BvcnQgKnVwOw0KPiA+IMKgDQo+ID4gKwkvKiBJZiB0
+aGUgc3dpdGNoIGhhcyBhbHJlYWR5IGJlZW4gdW5wbHVnZ2VkLCB0dW5uZWxzIGFyZQ0KPiA+IGFs
+cmVhZHkgZnJlZWQgKi8NCj4gPiArCWlmIChzdy0+aXNfdW5wbHVnZ2VkKQ0KPiA+ICsJCXJldHVy
+biAwOw0KPiA+ICsNCj4gPiDCoAl1cCA9IHRiX3N3aXRjaF9maW5kX3BvcnQoc3csIFRCX1RZUEVf
+UENJRV9VUCk7DQo+ID4gwqAJaWYgKFdBUk5fT04oIXVwKSkNCj4gPiDCoAkJcmV0dXJuIC1FTk9E
+RVY7DQo+ID4gQEAgLTIyODgsNiArMjI5Miw5IEBAIHN0YXRpYyBpbnQgdGJfdHVubmVsX3BjaShz
+dHJ1Y3QgdGIgKnRiLA0KPiA+IHN0cnVjdCB0Yl9zd2l0Y2ggKnN3KQ0KPiA+IMKgCXN0cnVjdCB0
+Yl9jbSAqdGNtID0gdGJfcHJpdih0Yik7DQo+ID4gwqAJc3RydWN0IHRiX3R1bm5lbCAqdHVubmVs
+Ow0KPiA+IMKgDQo+ID4gKwlpZiAoc3ctPmlzX3VucGx1Z2dlZCkNCj4gPiArCQlyZXR1cm4gLUVO
+T0RFVjsNCj4gPiArDQo+ID4gwqAJdXAgPSB0Yl9zd2l0Y2hfZmluZF9wb3J0KHN3LCBUQl9UWVBF
+X1BDSUVfVVApOw0KPiA+IMKgCWlmICghdXApDQo+ID4gwqAJCXJldHVybiAwOw0KPiA+IC0tIA0K
+PiA+IDIuNDMuMA0KDQo=
