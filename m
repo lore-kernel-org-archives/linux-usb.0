@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793705964;
-	b=aKR7lCTSDQYDHQBF/z2+W8dJ/aPjoGD4tH6/S+voIyZ/0VRF4mD9QlM060Dl/Ix5jZqX
-	 5nH4+P9XC3+1ZrLznuotemn2T9F1VX7BiEE7mGmN1MyS0y4nQi8HX15AWhEcOAJ05OK/J
-	 HOVcgq9SJmrUUTrqZXSydw134H0aOp5yFFvkqATwuOvUKI/GA+6nWF9vyFAhFOCVu/5VC
-	 oAO3ZaIFSJLX7MeJAIfHbIQDrg4GTK/WlRGauWcTUpSAre8x2PJAcbaexOoEXlRubDjXU
-	 Dvvva6MEjXBiS/koqY4XctFvUChVhouOI02jYy5RVTg5LAuNLU1MtgH1Jh+hUDaV6gw==
+	t=1793706193;
+	b=KBdyLvZ1sG7HJONMZQpGoHAQKi12OYlwAF03wkFdZocjOWz4eE6/A0abtVUHolwT3Tgk
+	 e1XiAMgnOwxwXSSITjP7URLkN7RBrFaHr+UCAZJ3GP84VKQMH/PzkaromVj9co3DUxc9D
+	 J0jy6wOAHEBM3hWlZxF8gsrow7XnN/G3IObk15U3Tkgkhw1c3/+xIUOwM5XJjqW0O+IB/
+	 Af78VeqvTa8xL7kPCerE7Ae33W3ePFJFybvnD/nRlNbgMTkHZufuo4acs6bwNir/0V6Dm
+	 LvlsNqh1ACABf6n/j8d3Z5VfcuxPotAL/0vA7pcP1v274DhjpmpTAvKksjJEuSCQT+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793705964;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793706193;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Q0rqvLu2xwltuvFbDtV00KM7UsqK92LsoUqMk5YBwL8=;
-	b=MMiq8+NvW5MYntqBbhNyRk1+GVkSX1WvHp2QqFAwME/kal+lRROU/iaC46mwuhZmfDd2
-	 zENUef3vO5WG/zJatFRH9tvhhuxJD/UZM8zwnSPWOTtXwq/R3qNhE3qBKTeQx20gaXDnr
-	 uXOOk8+rNIBKDfC5R8OlEVP7oqPsfF0muJO8TUyS79nsRehX+TffEBwkw244bP/19uvnk
-	 Pac2wuaqz9LP/u9RC6rZfgE1qIc9hVhANPKpmeglZngBxBStHT3T7UNKnTx0EOgNrhVoH
-	 Jax6fBoAfka8YtQk+pRRfuaWkTDfLDfUaYPvHiUWB9VYMEpAZBov9hBLTX9M1USAMxw==
+	bh=B4R3qgipT5790FdlRr+HUPIiB+HTbFrgabZgTgZkN2s=;
+	b=qCSn0A7oEvr7vE9izzPUX5FOj5D9FbBkl02MCxGldtFwH+8hg9mjd9qTWoXX7WtVsSoG
+	 KF9CGPbEDImojYwUphAfPzkbLUW9gZTvpWvOasqBBHHB27HwmUK8Pf3OrXdsCWfzCU85s
+	 Zd5Lx1pCYsmfUeW7ERMA3VqzdP3vV48HrcDIKIA3u0gZBF/kmLgSQIqry+An4kKiFCgcL
+	 bqNzkpbC4tfzcNU/BjEolfcpHShViip8gk5OjOxF00VBOXEcyreZFBfIEdb8LyK6xIaWK
+	 SnfogQwCrYGhwQgBwntzqlG/C5O4kfoscbPQHR0eptVDIb0hW8XHv4SJjBg/UMAQM4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ChllCp2n;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KdvqAIv2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D9C606A331
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 11:39:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67D1606A33B
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 11:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ChllCp2n
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3774E1F000C1;
-	Tue,  3 Nov 2026 11:39:23 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KdvqAIv2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40D3F1F000C1;
+	Tue,  3 Nov 2026 11:43:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793705963;
-	bh=Q0rqvLu2xwltuvFbDtV00KM7UsqK92LsoUqMk5YBwL8=;
+	s=k20260515; t=1793706192;
+	bh=B4R3qgipT5790FdlRr+HUPIiB+HTbFrgabZgTgZkN2s=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ChllCp2nADAa4aiI+VHqTbmwJ9JaZnfMrWMtwNXUYYfAR+DU9HSZdKxF1okn6N8tg
-	 zFzC+jL1w/U+fg347Rge9qQ63g4QdVnjcbvX0C28dOmzKk6nUa3D9USdmTbDp8Gyd9
-	 cV5ZAfX/hUqnZrOOivDcupE5cXJ4agki4eQfK6P7pr3eP18tT1QAk+ItWM5uOGfE+q
-	 dd41+6+tAcWvaAtawHns6qmLUCUL691bWk88WtJCdiZG+MJnon6FX5jpb6iXE14d5i
-	 QwkF8A9bpeARKWZRwfjmNR4WawgjXAy9rmOLamMF+J29H4d+TDwzZnGfHhwsJ7VRmu
-	 wvev3/0Bf0ewQ==
-Message-ID: <sashiko-outbox-195167@kernel.org>
+	b=KdvqAIv2S7F1v8HP+hYGkU4rY7o6RN+fAQRs3NZAdRmQzcZAFvByOcVub+OnWGxZ0
+	 0/Wx8WhxZ/NUzPuXCfC9Zj1Jpn4nBJaKGYslr3O9Gj4+FHNpDoTGmoZigCFdwf609f
+	 Gk+ZOvb6Zv/Az+mSVx6AvAkwujBuo4Me6TNHiIiQu5gRmWh6vSA4XQuqNDqdQmuBVp
+	 Qwf+w9Jj2yH4KVH4FLBpE28hhayI06Ev/u2Ft9VfxgKNj61MCM5W1x+E0JPomB15wm
+	 zApX7etZoNWG65x0Khe58zkblbeN2jlSg9By82ABXnt0oFSLwzhAOg46Mt7at6NNVq
+	 vd90Y9iF1lq7g==
+Message-ID: <sashiko-outbox-195172@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/5] usb: typec: tcpci: Receive SOP' only while sourcing
- VCONN
+Subject: Re: [PATCH 3/5] usb: typec: tcpci_rt1711h: Enable SOP'
+ communication
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Alexey Charkov" <alchark@flipper.net>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261103-husb311-cable-comm-v1-2-6217dabc1a85@flipper.net>
+In-Reply-To: <20261103-husb311-cable-comm-v1-3-6217dabc1a85@flipper.net>
 References: <20261103-husb311-cable-comm-v1-0-6217dabc1a85@flipper.net>
- <20261103-husb311-cable-comm-v1-2-6217dabc1a85@flipper.net>
+ <20261103-husb311-cable-comm-v1-3-6217dabc1a85@flipper.net>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 11:39:22 +0000
+Date: Tue, 03 Nov 2026 11:43:10 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,30 +61,17 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> A TCPC acks every message type enabled in RECEIVE_DETECT and passes it
-> on to TCPM. With SOP' enabled while the partner sources VCONN, the port
-> acks the partner's requests to the cable plug and the plug's replies to
-> the partner, colliding with the GoodCRC that the plug or the partner
-> sends. TCPM also tries to answer these messages as if they were destined
-> to it, which for the case of a partner's SOP' Discover Identity on a
-> HUSB311 made the partner soft reset the contract every time.
+> These TCPCs transmit and receive SOP' as the TCPCI specification
+> defines, so let TCPM discover e-marked cables through them and learn
+> their current and speed ratings.
 >=20
-> TCPM talks to the cable plug only while it is the VCONN Source, as USB
-> PD 3.0 section 6.3.11 requires, so listen for SOP' only then.
+> Tested on a HUSB311 with an e-marked 5A EPR cable.
 >=20
-> Switch SOP' reception off before VCONN goes off and on only once it is
-> on. If that fails, warn instead of failing the VCONN switch: SOP'
-> reception left off only costs cable discovery, and left on is no worse
-> than before this change.
->=20
-> Cc: stable@vger.kernel.org
-> Fixes: 3bbb9ba4f660 ("usb: typec: tcpci: add tcpm_transmit_type to tcpm_p=
-d_receive")
 > Signed-off-by: Alexey Charkov <alchark@flipper.net>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103-husb311-ca=
-ble-comm-v1-0-6217dabc1a85@flipper.net?part=3D2
+ble-comm-v1-0-6217dabc1a85@flipper.net?part=3D3
 
