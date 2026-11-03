@@ -1,48 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793719126;
-	b=w/yZ5G3aN243zxy7XV9ixsDCv3IR0EjhZidjAVLy5OS8ij74lWfKdJRQS9a/AQtRF2yr
-	 WlSKz16OFS/9+f2IJtPcJEglG6wWP1OX4/a4oporyafYp5j996vU+m8wEpjRwy1BL5Kmm
-	 /f/thI2oxBFtilWGVJwcPruLruj2w0leoVRX6S1fvlCM7NLRe7tkSeCzVEdfvdg/Epx6u
-	 Q+5ruV2YpSdOaBiWKfRDgJz+m4UoO8q5YlSo239/0pOwvvXuUgkNgWXakaORSewvbj3/x
-	 K1wrFj1H8/2InAi7JMxZMuU2hh+uWNSG7z2H+qzj9CZYkeiS+uNLX2u91PbCkDDVMAw==
+	t=1793719142;
+	b=T9vlr78RMeT//9TDfDUhOr8Xm32KhviMkxer8kELI/N94HzeyxRoJYPsQTsM/sadMwUc
+	 Sv/yWOO3cks96RJglar0z3kkgDLY0EpisJ/DL+tO3oBxRMAz4J09df7aFY9FbEYJSCj10
+	 AyqoUonDA9ZntOLUlnV9+3xy1KmnLU+7F4G7AaToeJ7QrCsNSyB/nT+J8Yr9KJe1gi8Ig
+	 XfoN7deSMB+mfAmySFT2jCEWS6MZvpsf3bG14Al6UfyL+kuBOSalSHR7vXj8nLGbx0o9k
+	 ZXFrIq8yc+eGJqHI929sCmBU8JKHfL1FgmdfG0MJPyIk8yehIPXWqfPOpsZQVFXbfRA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793719126;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793719142;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=phsvqCB36HE5sELY0/rInYjEe9A+U+9Mkk9QZ5NX1/s=;
-	b=U47d+wZLnGpIV8Rq/FcHcFEOgibNVmsCcinc+IwJN/LfFqUfPrxeKP8dEfIb9Tl7kcY8
-	 C94Db50xDP5jtUiVlLd4D0Hddm8/qG8WQsU1Pj4UIxjQYnFmSROqj2IrRswPUtdNVLCAJ
-	 DR2pQ2y4VUrW4v2kXfVf3Us3Zs99wm/lYyw17UOW5skY/sxAlKXce5pHU8aS3V1PxQ6h1
-	 4XCFEFPF2LxECl0QAmK0ZzDpCu5jKZ+CTGTsoxnvjFfg9KIxElEZLWefiNtsHtKKGv8K1
-	 iuYaGBOvewUxOlEDRDMVFOXD6Qj/S/4Z0HFgV3rOhzqKwd6L/uCC9etMk/EvmXDXHmg==
+	bh=odwwA5dfKcUGiw60p2ABSqsoXHD3TJfwohDjWQjtLjY=;
+	b=GFHmFDwhgxJpD1v2rjb0U9YxiLfRWJX87WiE1C8aRBCx0o8V4RXk5noIRDwDN58G7K9E
+	 B/UhHeM7fGakpKgdc0eMjiBVBXWToo1SRl2Yo42DSlGiMBY+nYj3SalGmdl55Lbgddeoe
+	 pJqqPEe5AJAY35heb+4jDG5le5Mf/sDq6E3bbD3bdWiGPH8Cwn0vuHQCm5q8tK6Spqgx6
+	 CSoC+xZyCeYZoXSJ3tcdpIyCJHAn6K2oi1RqCM9ZxCLusEDXwBfJcVuODAO9zJy/lMdzN
+	 K0qNd5w7i4wpCEnShKQYWPtIoHCU7vdRFN+OqzVy1QLJReQplxvzz03MU4uG8vU+IRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KKQjc6qe;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jROEVxEx;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9216071A12;
-	Tue,  3 Nov 2026 15:18:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FB860A2613;
+	Tue,  3 Nov 2026 15:19:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KKQjc6qe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E40131F00919;
-	Tue,  3 Nov 2026 15:18:43 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jROEVxEx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D56581F00A16;
+	Tue,  3 Nov 2026 15:18:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793719125;
-	bh=phsvqCB36HE5sELY0/rInYjEe9A+U+9Mkk9QZ5NX1/s=;
+	s=k20260515; t=1793719141;
+	bh=odwwA5dfKcUGiw60p2ABSqsoXHD3TJfwohDjWQjtLjY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KKQjc6qepO2gqHcvTGoXxHF9p03eElgXkZwT0gb4LHjb9cYDFkWKpIJ8NSAW1lYDz
-	 1U8Y4y6QkittHdf9VZjS4lTWM80tTjz1K2bkIiHkjuXkA5Kgqh88q4lx3XaUch514o
-	 cekfhMRcd4YGGXX817s9kANAvztbs421COqKGftvoBo7aA12GYDDBOkHN+un27PuXx
-	 i2Da4XJX3H7JwBQzj7yO7BWJ6LssAsDzeZiJ1BsOlB9gCQYUO+RKL1cz8HQpUvjZfg
-	 +AZ73h/Gv9kWy7Y/Bal112XWIHskhd/6B9QlxXjckC6nmYEyH8m7FiF4fw32DiHONs
-	 RtW4Yxv7qH2Jw==
-Message-ID: <sashiko-outbox-195589@kernel.org>
+	b=jROEVxExIThFpbsqA5xAGqUr9cswA8n2qHqo/aORqRE3FqTOEu/Om15ERmPiYGlIu
+	 7g8q1aer7mGKtPa4BqJW1SZkElmqfbsX5POPH2ZXnXV8g7aCzKJTWAAN/zeDNaVUwi
+	 kOyemUyjCavVCYeryJNauavuuGZorazBlwZhrNEkZ71VuyzAeAKZS7rSdw1kZNZ28p
+	 oTmkBcf0kJ37lxjbSjKNMU9ItQ3w+BlCooP4cmHM0J5+lHMYE5pCxdn7eLYdpg+45U
+	 WKo06U7ovfEEyFZ2fAApo+ge7BawSBRBymU5M7v3K7NHSLfSZkLVc/EQaw+9hkcs1y
+	 +QDI9KvU2B7Jg==
+Message-ID: <sashiko-outbox-195596@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC 09/23] scsi: let procfs own the seq_file of the host
- files
+Subject: Re: [PATCH RFC 16/23] fbdev: viafb: let procfs copy in writes
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Christian Brauner" <brauner@kernel.org>
 Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
@@ -55,12 +54,12 @@ Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.
  Iwai" <tiwai@suse.de>, linux-ext4@vger.kernel.org, "Chuck Lever" <cel@kernel.org>, tytso@mit.edu, "Heiko
  Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
  Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261102-work-procfs-drivers-v1-9-a994bd4d3b1a@kernel.org>
+In-Reply-To: <20261102-work-procfs-drivers-v1-16-a994bd4d3b1a@kernel.org>
 References: <20261102-work-procfs-drivers-v1-0-a994bd4d3b1a@kernel.org>
- <20261102-work-procfs-drivers-v1-9-a994bd4d3b1a@kernel.org>
+ <20261102-work-procfs-drivers-v1-16-a994bd4d3b1a@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 15:18:43 +0000
+Date: Tue, 03 Nov 2026 15:18:59 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -70,10 +69,12 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Declare the show function and let procfs open and free the seq_file of
-> /proc/scsi/<driver>/<host>. ->proc_open() only preallocates the buffer
-> now. Reading the file then no longer holds up its removal when the host
-> goes away.
+> Implement ->proc_write_buf() for the files in /proc/viafb so procfs
+> copies in what is written before it pins the entry, and parse what was
+> written from that copy. Writes larger than PAGE_SIZE - 1 bytes fail with
+> -EINVAL now, the output device files refused anything over 63 bytes
+> already. kstrtou8_from_user() looked at the first 10 bytes of what was
+> written to dfph and dfpl, now the whole write is parsed.
 >=20
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
@@ -81,5 +82,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-work-procf=
-s-drivers-v1-0-a994bd4d3b1a@kernel.org?part=3D9
+s-drivers-v1-0-a994bd4d3b1a@kernel.org?part=3D16
 
