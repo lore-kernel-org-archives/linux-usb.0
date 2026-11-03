@@ -1,98 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793683866;
-	b=lqRetM5XyH1JaWTo9JEFMdTFawvnCNpk8KKLLk8YMbLAsQN3TWAbD378ErbiJvOrxQUQ
-	 8PQAxfjMW7V9QO+lfZgTf8FB0N31vbNWWpflpom7FSvGTsbjsJLlxmrEwXYgGSM4ZWk+S
-	 tA/C4IqNcCSEufl7n0u1qrc428TRPUjtT8ZUb1Ql4xhtU3NcXbN4ja7SmLwGNCJ9Ev2Fc
-	 mXEEgZpRI8otqoAb1kgdlqXcTEVanJAUgnPQXpGlCz3cqaGtSNp3DY9uuIuDlLm+9dheq
-	 mURXbwRbVSw2QokRe27OHUxz3Bw7eniF6l7M7WZl13gsrnF33u8mUFZmiC+h1Wp0hhQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793683866;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Sent-From:X-URL:X-Accept-Language:
-	 X-Accept-Content-Type;
-	bh=Q3/Td8B8t3SdY+QKbIiQxN+A9gUB91bNSneIAZqeY8Y=;
-	b=xeBVBcDf+yNVMxl8ghsdE+d58uEwJnh0ADoI+J2s237HLSFpqeTgTpAUi6qDuj2OaRoH
-	 XKVIHays1qSJqFDqsAPF1/Kl4B0iouofiPXkRenTa4qZDSjwXAQ8jGqL7kO7cKpaygb40
-	 8WDgHzroFGjKaJs36HhahCa9UP/wV4IZnhjLZjyaQtqFC0Tk4HbX0K72qxZyfc0Y9rh5h
-	 2mdn6EZU9G31+z+TWPU9jXYHip2S76yaWypiRKkg1qSf9GqQ0Vd+FZiRRPxbmNPDMdA7B
-	 dyxf5VJkLvSIyVE5DRhO7/P3fyYfNu506CD7y/20mk6HDBvyKx3G5C6jAtJ9ERk0fnw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=pengutronix.de;
-	spf=pass smtp.mailfrom=pengutronix.de;
-	dkim=pass header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=DTDenI6H;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.182
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793684406;
+	b=aJRdsLSYD2nyeXEjVf/5ga3Mn/YiSVmZ+z/6aTNZNmWwfvtFcrBSrqMhaC68zsSmWLy2
+	 SYmWtP3/XpW+n68gDTbr1jcZhHI9n3sGclFGziUxfQPvfFL6+jsct0k+ZpeCPulKnJm+W
+	 thct8OfYfvIg2CjmC6QReOe2ne8NBVAk0KHiuwqq7JIFhSWJQ6wkMfSs5/47xcMFJPiv3
+	 6zyU3lOMMHzjhAoPoCNW8UjH1sFmtfTkpSzCqyliFIMrFn8+RZvC7x2QWx3IsB9RGR2YH
+	 tG3eVHKuvYt3liD40egLmh5czsAGEWjKKEuRcbFZjLAcCekJj3MXi+RUiNkJuBZQ3zg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793684406;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=SNfcSVIGEmINCcVw+uB8DPAiuuIIPUqBYgGuYhjglr0=;
+	b=1g+I6txWvN6yDtzYZNA4M2UJY3bvexxhPsx1u8KFCrIirN4d/JqNgd78VHHgxtd5z/hK
+	 XpzLOIvM0QFwx2MdI8J282HnA6Ya33WR5GSN203Kq/07ZXLS54dlNaI3cHIhtPM3rOJCF
+	 qZqQSiurOjhoVeajhhNV0XYvaAvg8GvT7qqF/PoJ1M4Vri+xACcOrddNpPNMOw4TKxCY4
+	 NgusN3DYCcFrNuBpRJGl8D6MbtZn7nvOkiNQVK+0eWj7PWscFMKmskLDyWwV+whHkOhjg
+	 rgkQpdssp7XpowRT0WGj71tID6bllYknzFQKk3zZ8uiyl/9WJGdrvw4FZv7Kb2jaF7w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=jclark.com;
+	spf=pass smtp.mailfrom=jclark.com;
+	dkim=pass header.d=jclark-com.20260707.gappssmtp.com header.i=@jclark-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XG7lEL+c;
+	arc=none smtp.remote-ip=209.85.214.182
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC23606A324;
-	Tue,  3 Nov 2026 05:31:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BC23606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5165606A32C
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 05:40:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5165606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jclark.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jclark.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=DTDenI6H
-Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
-	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 61E2F202299;
-	Tue, 03 Nov 2026 06:31:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1793683862;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q3/Td8B8t3SdY+QKbIiQxN+A9gUB91bNSneIAZqeY8Y=;
-	b=DTDenI6HkKb6xQaZ5i/aDhMT7A60H+TmW4OnrAHAvdcU9/E9Z7stos6Y7qXYRIg10AhuUy
-	DjHVwXlGixwPduGB3b9FGqfpZS7mtYQ3U0q2Ov3Dw054GTPtMbb+OUMCvUTHW/Nl3slSeI
-	1eh/qn+OfDM+C7tqaWAWex0GnGmaExgU7OZgutQHTw6R5tX1WrmUKNzUY2FPB2HBroNYho
-	38C2p57xDTFxNdjOrW3J7zhlzR4U/4EfGyJFdwUfVsCH6eA1VRvfPHXRzb2a3Rva3hgVb8
-	9m8+70SuY3RYLh2g24iXWl3Z9zk+xwXKCb84xM7c4yn0E4AZ9/xYgTj0EBHHtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1793683862;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q3/Td8B8t3SdY+QKbIiQxN+A9gUB91bNSneIAZqeY8Y=;
-	b=BWvvbSjIN2uKpTNEKyxDJwVu9qsTxdCXGBrc9N0WTDoVBj3ROYIkIx+S1Pxnu23tdOOVgl
-	k7v4bjYmaBAdmwEovVQXEMUoEb7eVadr0WtoYnCyi7myWRZywEHAwj3pxNKGqJLYSCe7XJ
-	w7boUhmTO+L7DvNrZpHRxfncikNiZA8vV7Q1fmU4AHKD22qsGDztHDA7nrdqQ07YytchqH
-	1GF8n9AI6mG5/nXa1j9dGlh166adt2nyJ5aBdMxZAE7VLzsiGM5h0m4nykeXXFuBm6EDec
-	lpyuv9ilh+6C9XZ11iWwD91dlBG9DZQvr3L36UgeJk8FC4tYPx6E+NaeQsROgQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=relay-from-drehscheibe.grey.stw.pengutronix.de smtp.mailfrom=ore@pengutronix.de
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1793683862; a=rsa-sha256;
-	cv=none;
-	b=Dsaqzqw0IkIOkxdtYvb3cCAAwExCqn0e91PZeE/qVhHRezRKnEx7sWCM6zei2BARvQmYLh
-	JwmBbTUvwdOXGe4UW7hRVSjQV7IkQouRDpXqi4zh/ifOpuKSyTilLnEWRF2kjLIhJ6Xk7S
-	DnZhsH20LzYCXqP0fwJkEGuDKaEgCElNF9VnwKeinJmYd/IaMISRHEkPzyKW8UkDLluxe+
-	JIknhA5UsHIbw4VOpOj4RS0rjFSaVfFBaOkBz4+XJfj+i0Yf2tet1B3Do4Nzzn4X1cw6S3
-	a+4DhctGdZcvX8MfHEFaOkzo9tEwmtT25SsyecUKsc4UudQeOWgSGDtrMPm/Jw==
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1xO76s-002P5r-13;
-	Tue, 03 Nov 2026 06:31:02 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1xO76s-00000008mgf-0uod;
-	Tue, 03 Nov 2026 06:31:02 +0100
-Date: Tue, 3 Nov 2026 06:31:02 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
-	UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Russell King <linux@armlinux.org.uk>, stable@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>, Cheng Wen <wencheng@xidian.edu.cn>
-Subject: Re: [PATCH net v2] net: usb: lan78xx: let unregister_netdev() stop
- phylink
-Message-ID: <aulxlj404e_atUAS@pengutronix.de>
-References: <20261031165213.2738-1-25031212351@stu.xidian.edu.cn>
+	dkim=pass (2048-bit key, unprotected) header.d=jclark-com.20260707.gappssmtp.com header.i=@jclark-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XG7lEL+c
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2e9d7791b00so29819825ad.0
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 21:40:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jclark-com.20260707.gappssmtp.com; s=20260707; t=1793684400; x=1794289200; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SNfcSVIGEmINCcVw+uB8DPAiuuIIPUqBYgGuYhjglr0=;
+        b=XG7lEL+ceAJMrb013ECErNIArebvo21jKlpmwlwCIk72+UgmBRv2fFMHRknWaEXY+W
+         iV0+e3X/dEY596kCb8JdOOQYDsW/+cqZGOf/B7uediCRkGs/hwXE/NP2iHHdqFCNJCqy
+         Wc/04viUI1tAfYqtI88RHCoj/ywm/gJvKLpUleWDv9FkBAx0SUV3TFanEYbDWt8BeoYC
+         PLyzQlrE4z51j1NE2aE65wV4rcZbI8oxFoepRZPIMrTSjvy+Q+gzNCqIcTml2Vs6HJCC
+         o0NBfiKkgkBNGM52WZ7Ze2Dg1NJ5/lmYmt3z1WsfSt50xk7xo0zGaTBw3j4NHKsfgDfm
+         YfRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793684400; x=1794289200;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SNfcSVIGEmINCcVw+uB8DPAiuuIIPUqBYgGuYhjglr0=;
+        b=udumukoVev75/qZywsk7whNhVlJCZdQzQwbU72SSrLQEbNOLwvM26jHOPH9qDbqb+n
+         x+Vz5aozB8tTSZvoV/AmIyeNR1vL62yOsGNRGlIo22ptEh37ePhyjuQsEygLlgMNTlpO
+         9FnqLg6+yZce9wZZanumTRzbPOdWwBpW/Gi6sUzq22Q/3jVyctr8rk6Y0WvLpOKCpZT5
+         4VF98vZKYCEXB/jN1PyRrXC5urCmoUYj1P3d+Fq3J4nn3QfI1e96i9qVsF5sKsa5O6+0
+         ygpIN7tP/5K3WVN03UrCZwdVQtnNtON0va5RyO9Xjq8JW2FuCJuiPYYTPcIaNhe7TNhf
+         ZPCg==
+X-Forwarded-Encrypted: i=1; AKwUvBxCUn5QousCoMpWVbUqJ5XfW1ja2taMBm5Zdvr0WcW+bihou5iVzLH491YZbLnmrfyjTZM0vOrpoDs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+M/iSICxdsTA1ogZjKSvs/PLSzh/8Xn3Sct2bbBlpbZYdo9PMf
+	O67S5MR9nvwGxHQUeKjFdRDMuqleXN4JLgmsjAn16sUf/5uRkpN9Ox8VQL70iRaizg==
+X-Gm-Gg: AYBFou0fEMxfmSr4dNSaGIbu/PyuGgCxmnWh2v2fMIfVAlMqrNABoQaxihUw59l3Oqg
+	K0niARDiEOUebxjMI8yaNbqzL69l7StOes+vVNbZRjEGH1hrB4PCSlj8HsbEiCdMX6DHiFfYGYp
+	Z3dgxc/V8H66GTgLt7Mti905h8Jv8t0IwC8hpTrbLo7ZvUhLwzdT6v+pDNS+hcnkytxmYa1BV18
+	+NSCIR5luh/h3hWmUbBeEwE3pN6JNF96Ujr/bGSkLLFmm6LsuUSdHK/ztotTbhk6pG6LppePnSt
+	Xk0fRcX2b1E7FVoZOfdMmBATcUw2SnrrjqKaKRqMy8nhStw9oKLTEQyGzMEaFu8v8gnfVkY+qhy
+	LN5AZexitQBAHyyHL3UTO6biRqjfWeCbVeT6tVpwT0EvS4eho2goxxx3dljifvAIf2mHFK7mQ7k
+	iQ3u3cdN7/jnbgJLzLnPwmHcE13PYdtvA3z/QrWr+nxTF9jyAPAUr0yPeYYQn0Q9GIhbH0/kZqa
+	5NuRRCZ1KV4DSD3HjbZDtq+ZtGSCafwoBpG66upvqlPwOjnntYsbEgkB15UOFM9Wa5sMe3Q+ADM
+	JivMJH6BK7gvumHgyP27CZYHPqKtycashJ3srSplZDvVHmu1Md/JIewQr97+Wur2kUSPYR8hlzn
+	SQscqofGAh7XCFZ0mCQ==
+X-Received: by 2002:a17:902:ce05:b0:2dd:ad73:5b6f with SMTP id d9443c01a7336-2eb364b55camr111236385ad.31.1793684400160;
+        Mon, 02 Nov 2026 21:40:00 -0800 (PST)
+Received: from cantal.lan ([58.136.77.237])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eb392494edsm35154505ad.31.2026.11.02.21.39.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 21:39:58 -0800 (PST)
+From: James Clark <jjc@jclark.com>
+To: sashiko-reviews@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Johan Hovold <johan@kernel.org>,
+	Bastien Nocera <hadess@hadess.net>,
+	Matthias Kaehlcke <mka@chromium.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Robert Nelson <robertcnelson@gmail.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	regressions@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] usb: core: add a pre_probe callback for device drivers that may defer
+Date: Tue,  3 Nov 2026 12:39:52 +0700
+Message-ID: <20261103053952.1138398-1-jjc@jclark.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <sashiko-outbox-194542@kernel.org>
+References: <cover.1793669297.git.jjc@jclark.com> <e96b91c85945237ca455869bf4d5a1e177358b54.1793669297.git.jjc@jclark.com> <sashiko-outbox-194542@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,50 +109,64 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261031165213.2738-1-25031212351@stu.xidian.edu.cn>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 01, 2026 at 12:52:13AM +0800, YuanZhe Liu wrote:
-> lan78xx_disconnect() stops phylink before unregistering the net device.
-> phylink_start() is only called from lan78xx_open(), so when the device is
-> unplugged before the interface has been brought up, the attached PHY is
-> still in PHY_READY and phy_stop() reports:
-> 
->   called from state READY
->   WARNING: drivers/net/phy/phy.c:1670 at phy_stop+0xad/0x380
-> 
-> The same warning is emitted after an ifup/ifdown cycle, where the PHY is
-> already in PHY_HALTED.
-> 
-> unregister_netdev() already closes a running device, which calls
-> lan78xx_stop() and phylink_stop() with dev->dev_mutex held and after the
-> URBs have been terminated. Unregister first and disconnect the PHY
-> afterwards, so the interface is stopped exactly once and only while it is
-> running, and the net device can no longer be opened while its phylink
-> instance has no PHY attached.
-> 
-> Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-> Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-> Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-> Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-> Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+On Tue, 03 Nov 2026 03:51:41 +0000, sashiko-bot@kernel.org wrote:
+> First, when udriver->pre_probe(udev) returns -ENODEV (for example from
+> onboard_dev_usbdev_pre_probe() -> _find_onboard_dev()), usb_probe_device()
+> still calls usb_autoresume_device(udev) and usb_generic_driver_probe(udev)
+> to configure the device, bind all child interface drivers (triggering
+> deferred probing), and emit USB_DEVICE_ADD, only to immediately tear them
+> all down a few lines later in the error == -ENODEV block via
+> usb_generic_driver_disconnect(udev) and usb_autosuspend_device(udev).
 
-Tested-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+This is deliberate, and documented in the @pre_probe kerneldoc. An
+error from pre_probe() other than -EPROBE_DEFER is handled as if
+probe() had returned it, after the generic probe has run. This keeps
+the -ENODEV fallback to the generic driver working as it does for
+probe(). For onboard_usb_dev nothing changes: its -ENODEV used to come
+from probe().
 
-Thank you!
+> Second, if udriver->pre_probe(udev) or udriver->probe(udev) fails with any
+> other error (such as -EINVAL or -ENOMEM), usb_probe_device() jumps to
+> err_pre_probe, which only calls udriver->disconnect(udev) and does not call
+> usb_generic_driver_disconnect(udev) or usb_autosuspend_device(udev) to
+> unwind the generic probe and runtime PM state. Because really_probe()
+> clears udev->dev.driver to NULL when usb_probe_device() fails:
+>
+> - When udev is later unplugged, usb_disconnect() -> device_del() skips
+>   usb_unbind_device() because udev->dev.driver is NULL, so
+>   usb_notify_remove_device() (USB_DEVICE_REMOVE) is never sent. Subscribers
+>   such as usbport_trig_notify() in drivers/usb/core/ledtrig-usbport.c never
+>   remove the port entries added on USB_DEVICE_ADD, leaking struct
+>   usbport_trig_port objects and sysfs attributes with a dangling port->hub
+>   pointer to the freed struct usb_device, and usbdev_notify() in
+>   drivers/usb/core/devio.c never runs usbdev_remove().
 
-Best Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+This was raised in Sashiko's review of v2. I missed that it can be fixed
+when the device is unplugged. I will attempt to fix this in v4. I think
+it can be fixed by recording in struct usb_device that USB_DEVICE_ADD
+has been sent, and having usb_disconnect() send USB_DEVICE_REMOVE for a
+device that has no driver.
+
+> - For drivers with supports_autosuspend = 1 (such as
+>   onboard_dev_usbdev_driver), usb_probe_device() does not take a runtime PM
+>   reference, and hub_configure() enables autosuspend on hub devices; once
+>   the device suspends, usb_resume_device() fails with -ENOTCONN because
+>   udev->dev.driver is NULL.
+
+This is a pre-existing bug that is new in this review.
+usb_suspend_device() does a generic suspend for a device without a
+driver, but usb_resume_device() refuses to resume one. I don't know
+why resume is refused. If a generic resume is safe there, that would
+fix it.
+
+> Third, if udriver->pre_probe(udev) succeeds and udriver->probe(udev) then
+> returns -ENODEV, the error == -ENODEV block runs
+> usb_generic_driver_disconnect(udev) and usb_autosuspend_device(udev) before
+> err_pre_probe calls udriver->disconnect(udev), reversing the teardown order
+> used in usb_unbind_device():
+
+I will fix this in v4.
+
+James
