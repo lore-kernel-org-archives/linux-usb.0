@@ -1,54 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=71.18.227.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793735080;
-	b=C1+MUIn3kqoMtliHMrek8WtnmTSM9fbrQ0tLw3iy2e05AOz0nr3VxpKUXhEqsDkLt5Zw
-	 6Q558wlmilecj6idrEO3DOTZotsTHemULzAbIyk/voOICaFFfOxJkLShkslGoqaGgD1c4
-	 dqaG1C4Ua0wGpe72PuGR4ZFzQMkOylr+5/xhO7F37kC0STIqGbaH3g7hJiVrjdSZ8hKHp
-	 HQ/yLZZn8q5eDi6byZO+L9TaQwrmVWSAKqqjEw65Qma7/gEM1BpCkan1zi5S/q1sI0Hy/
-	 nN7TJXeZi2uflenGp2IdicFYwSTslN8qezXcQZ3OrsptGhmv9pWr4E6ZiBEsQEirOGQ==
+	t=1793735277;
+	b=l2X+SgbRYIqegA7Hia8eArczjeYBx+LjRo3d+kCSD4USHIlS+H20squhOhSv5jXQHztX
+	 92yhEHy3ezheYBKHZCwJOahptK1DvBRzIrCJx/k2ZnCa8/vTJP1nO6tMhaVVMud45vMQ9
+	 Bd7oOS+mng7g8XiqKbZ8jR99AsFN9cTo9eddKB5IcaBH9Wf29yNQFCsFy8nj0RZNALw6R
+	 Ue7GbuiVkpgZZ9Kvi5x69AUCCjSqSTc9k/LWYlxsv2RW8nLEZAziPuxeHN4SDg1QSGrlp
+	 nxelQBXWEf8ZFUQnKpj6xZIczJy9T7vLV1FWnSUXtgKaGv1uglxvvxOQjhVrjk+ujKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793735080;
-	h=DMARC-Filter:DKIM-Signature:To:Mime-Version:X-B4-Tracking:
-	 Content-Type:Cc:Subject:Message-Id:X-Change-Id:X-Mailer:From:
-	 X-Lms-Return-Path:Received:Content-Transfer-Encoding:Date:
-	 X-Original-From;
-	bh=vcnq1DeugB7564b1ifNJtZSg+TFpvqDt2FpNBOnwADo=;
-	b=nGPc1R76EBFNWqd2UkugrA1iKqGzIwntYfTtPP7NynaIlk2Z4ILE407B4bgjt/PDEjYe
-	 QM6WgVArm+N9Ospen64GWCugTp7xCB2Xie1Vc6a1IcUXEYSFAXT0ZYwbcmv5OV6MW4YLI
-	 vGOzRtpTFsqQwsHZBbeqBIBJS6Yci63y0bz6Q6LndUlDYVdpjw1uxX2XE2IuHwlPIfQEI
-	 2PeYp0avh/kKW+z23mThnffpYhot09HRkhzL0xBV7OVZV3JOvCgz5iTif0f7Ntv7yg4bY
-	 H5UBVZ1nATv+b5/DyFXXSFVUnecxlTroq1zeHmC9pzqs2Gyu7sCYShB1ou27mK34e3Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793735277;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=4b0PW/iGMFeFdihd34MMudW7G3nTIpz+A7lnAp3XcNA=;
+	b=2WUijWpjIyOYYfb80w8QLYnuLobAnlxUB3NUbuAb8x2J+isjoIEtDcpbheH+KujVzNX7
+	 DxvY7U7neF18v2AwxygcmCHu/cwAvJ4sjYLW4IqCGH8+cR5HImBHSMaQ/o5u+CA31LmP+
+	 x8bEpNfk+/4rheKQkPGtMbteN5de8iHmAlT6RMPsovEP3BLbGGerofGbA6ArBRW7H2Swr
+	 bG1GziASAjF385r5eT+V+7Ga7yLSOAu5nbaPKTiyKgwAYYWgTwTcEuynNtBf0TWrhBpWF
+	 Do8VqddCkJsVoV7pLhfP6rwds91u8HVLSlJwYWLkiMOmoiw7x6TnnbDDQw3giJzaHyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cherr.cc;
-	spf=pass smtp.mailfrom=cherr.cc;
-	dkim=pass header.d=cherr.cc header.i=@cherr.cc header.a=rsa-sha256 header.s=feishu2604220257 header.b=LPBLVSQt;
-	arc=none smtp.remote-ip=71.18.227.5
-Received: from sg-2-5.ptr.blmpb.com (sg-2-5.ptr.blmpb.com [71.18.227.5])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hxHrxzMS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A51606D809
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 19:44:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0A51606D809
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cherr.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherr.cc
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D89E606D803
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 19:47:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cherr.cc header.i=@cherr.cc header.a=rsa-sha256 header.s=feishu2604220257 header.b=LPBLVSQt
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=feishu2604220257; d=cherr.cc; t=1793735068; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=vcnq1DeugB7564b1ifNJtZSg+TFpvqDt2FpNBOnwADo=;
- b=LPBLVSQtQ6b50vGVU4UXRLyUg0wWUEJX5+D+RDbZcGXi1b+UhOTaQHoybwtijPC1UBbG/C
- h1gtlzRmJ6y9KjJnYq4OwDyeWXK3QEif+kAt+yUG5aTFT9wzVfxfrv99aKgYRrAGJnixBW
- rnXKFVmGTxbnNq/nbiYIeWhIDBNN4/ZBFVWMrRLBbIfFwGiqKWYEEbdJzWHfchhDonRLxv
- xSj9rw0ANCUze98DFfb1Pz5zoLni2lhV0NcqCDIuKPV24nDNp5TKM/7pW+vSNZv0EO8xOl
- Eo61W9wibQ2dLheNfUUVxlXVAEggfZYc0cBUyN0xvJq35AHWqsxqqOWvhqFavA==
-To: =?utf-8?q?Tomasz_Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>, 
-	"Oleg Makarenko" <oleg@makarenk.ooo>, "Jiri Kosina" <jikos@kernel.org>, 
-	"Benjamin Tissoires" <bentiss@kernel.org>, 
-	=?utf-8?q?Micha=C5=82_Kope=C4=87?= <michal@nozomi.space>, 
-	"Paul Dino Jones" <paul@spacefreak18.xyz>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hxHrxzMS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C5D61F000C1;
+	Tue,  3 Nov 2026 19:47:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793735276;
+	bh=4b0PW/iGMFeFdihd34MMudW7G3nTIpz+A7lnAp3XcNA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=hxHrxzMSzWKbhjVqV9r7vvLRTbkeMqkd6dJxVNXe6eVLgqNyvF39VTaUV3El95vac
+	 iXx6bHv+svscEzHdXbL39dpVhEKkzGFC/TxZpAXcmeMj3lir24bAVMKvw5KCUTMjFq
+	 UtxUK4D+oFrRu84DDey83oyDjBW36xrznHPRmFytmBjD2ZCE8mrikYkn3p2tjLdm3u
+	 wFr+l8PZ2avT4F82UrEVR5ZFnu0r0/ek0arCcNqWD9M30V0ijyxGAqN1uKF8wZ0ZKD
+	 TMo8S7UEWJj1x8QqnODwdBbrxFulbQeBaklWpyEve6aWIZjnFZ0dwbtHwmWmquJZSa
+	 0uMbp1vUIezmw==
+Message-ID: <sashiko-outbox-195940@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3] HID: pidff: bound the unit exponent rescaling loop
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Shengzhuo Wei" <me@cherr.cc>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261104-b4-pidff-rescale-exponent-v3-1-f45e64cf488c@cherr.cc>
+References: <20261104-b4-pidff-rescale-exponent-v3-1-f45e64cf488c@cherr.cc>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 19:47:56 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,95 +58,31 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAJU56moC/32NQQ6CMBBFr0K6dgytgMSV9zAsynQqY0whUyQYw t0tsHf5kv/fW1QkYYrqli1KaOLIfUhwOWUKOxueBOwSK5ObSuemhraAgZ33IBTRvgloHvpAYQT tSizI6Joqp9J/EPI87+5Hc3D8tC/CcRNui47j2Mt3j09m2x2dFPrTmQxosNeyRbRV6V1+x45Ez oiqWdf1ByPLW57TAAAA
-Content-Type: text/plain; charset=UTF-8
-Cc: <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>, 
-	"Shengzhuo Wei" <me@cherr.cc>
-Subject: [PATCH v3] HID: pidff: bound the unit exponent rescaling loop
-Message-Id: <20261104-b4-pidff-rescale-exponent-v3-1-f45e64cf488c@cherr.cc>
-X-Change-Id: 20261028-b4-pidff-rescale-exponent-1d5c4e218e6d
-X-Mailer: b4 0.16.0
-From: "Shengzhuo Wei" <me@cherr.cc>
-X-Lms-Return-Path: <lba+26aea399a+0699dc+vger.kernel.org+me@cherr.cc>
-Received: from [127.0.1.1] ([111.42.148.145]) by smtp.feishu.cn with ESMTPS; Wed, 04 Nov 2026 03:44:25 +0800
-Content-Transfer-Encoding: 7bit
-Date: Wed, 04 Nov 2026 03:44:22 +0800
-X-Original-From: Shengzhuo Wei <me@cherr.cc>
 
-pidff_rescale_time() walks the device-provided unit exponent one step
-at a time, allowing extreme values to cause billions of iterations
-while ff->mutex is held. In a UHID test with an INT_MIN exponent,
-EVIOCSFF took 3.1 to 4.3 seconds to upload a finite-duration effect.
+> pidff_rescale_time() walks the device-provided unit exponent one step
+> at a time, allowing extreme values to cause billions of iterations
+> while ff->mutex is held. In a UHID test with an INT_MIN exponent,
+> EVIOCSFF took 3.1 to 4.3 seconds to upload a finite-duration effect.
+>=20
+> Stop rescaling once scaled_time becomes zero, since further
+> multiplication or division by 10 cannot change the result. The u32
+> value becomes zero within 32 multiplications by 10, and the u16
+> input within 5 divisions. This bounds the loops while preserving
+> their results for all exponents, including wraparound.
+>=20
+> Also warn during initialization if the duration field's unit exponent
+> is outside the range -8 to 0. This helps identify unusual device
+> descriptors without logging on every effect upload or changing the
+> rescaling result.
+>=20
+> Fixes: 8713107221a8 ("HID: pidff: Rescale time values to match field unit=
+s")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Shengzhuo Wei <me@cherr.cc>
 
-Stop rescaling once scaled_time becomes zero, since further
-multiplication or division by 10 cannot change the result. The u32
-value becomes zero within 32 multiplications by 10, and the u16
-input within 5 divisions. This bounds the loops while preserving
-their results for all exponents, including wraparound.
+Sashiko has reviewed this patch and found no issues.
 
-Also warn during initialization if the duration field's unit exponent
-is outside the range -8 to 0. This helps identify unusual device
-descriptors without logging on every effect upload or changing the
-rescaling result.
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-b4-pidff-r=
+escale-exponent-v3-1-f45e64cf488c@cherr.cc?part=3D1
 
-Fixes: 8713107221a8 ("HID: pidff: Rescale time values to match field units")
-Cc: stable@vger.kernel.org
-Signed-off-by: Shengzhuo Wei <me@cherr.cc>
----
-Changes in v3:
-- Declare and initialize exp at its point of use, as requested by
-  Tomasz.
-- Remove Tomasz's Reviewed-by at his request, since his v1 review
-  does not apply to the updated patch.
-
-Changes in v2:
-- Following Tomasz's suggestion, warn during initialization when
-  the duration field's unit exponent is outside -8..0.
-- Add Tomasz's Reviewed-by.
-
-v2: https://lore.kernel.org/r/20261102-b4-pidff-rescale-exponent-v2-1-a75bcca65fd0@cherr.cc
-v1: https://lore.kernel.org/r/20261029-b4-pidff-rescale-exponent-v1-1-3ba54accf767@cherr.cc
----
- drivers/hid/usbhid/hid-pidff.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 22951b7ecd17..7827b366fa5f 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -354,9 +354,9 @@ static u32 pidff_rescale_time(u16 time, struct hid_field *field)
- 	int exponent = field->unit_exponent;
- 
- 	pr_debug("time field exponent: %d\n", exponent);
--	for (; exponent < FF_TIME_EXPONENT; exponent++)
-+	for (; scaled_time && exponent < FF_TIME_EXPONENT; exponent++)
- 		scaled_time *= 10;
--	for (; exponent > FF_TIME_EXPONENT; exponent--)
-+	for (; scaled_time && exponent > FF_TIME_EXPONENT; exponent--)
- 		scaled_time /= 10;
- 
- 	pr_debug("time calculated from %d to %d\n", time, scaled_time);
-@@ -1433,6 +1433,13 @@ static int pidff_init_fields(struct pidff_device *pidff, struct input_dev *dev)
- 		return -ENODEV;
- 	}
- 
-+	int exp = pidff->set_effect[PID_DURATION].field->unit_exponent;
-+
-+	if (exp < -8 || exp > 0)
-+		hid_warn(pidff->hid,
-+			 "duration field has unusual time unit exponent %d\n",
-+			 exp);
-+
- 	PIDFF_FIND_FIELDS(block_load, PID_BLOCK_LOAD, 0);
- 	if (!pidff->block_load[PID_EFFECT_BLOCK_INDEX].value) {
- 		hid_err(pidff->hid, "unknown pid_block_load report layout\n");
-
----
-base-commit: d135ab453a7400a34930bdda1ef4bdc8acfac80e
-change-id: 20261028-b4-pidff-rescale-exponent-1d5c4e218e6d
-
-Best regards,
---  
-Shengzhuo Wei <me@cherr.cc>
