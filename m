@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793679687;
-	b=NZYHKrr9xvtDKERAi4z3/uJgH5ZDS9YsGToljlC5zydqmShHta8LtJIBWxvOh3JedAJv
-	 8pyg2wfWCeb2JPXzS90oJ04VSnlrFfumYnplqlqwq1WhMQnZ74EATIAb3zLVjyX3N65jh
-	 txsPO8/MSbRAQ8TW42j5QdnKqGwqjOh/xDOtBj+FUUb3hJDrXI5zuJ0UZROm6nbt6JHP2
-	 MSbCMIxrAL1ay8JWuhdiZU6q575NpKzhoOWUEykeMEWEfmg/JaJZkTGWe3LuyqnbCOaJj
-	 +dm42RXXcyzjM3hPZx5YIpvpKRh9MkgB5UwJIIQTu8sZv4GMK65pAbBdGVNXJpqjR5g==
+	t=1793679984;
+	b=WoSXlOwVBqfCHIahnKqU7lpcKvMF12ebiC6wh/vjE1K+LLPRrvR62mzpa+bmYTse2f/T
+	 OfXLL1gVpR6h5d4eRWPOQO5I0ePLChAzBryn+cf0oG6XtZC50ENv4Vvbqdlvp9BNlDreJ
+	 9ud+scu/peboLP3cO+uEmzfJYhlOyTwujHIUs8CNBCR6wnoEv3UwM/+cwy+rjQlM5kSld
+	 iEaQF/YRxJxE+QolgDtuda8F5RtHiC3SpOGp2kiX70UeWCZqUR7YoJOG6ykKOoxwtQ0Ur
+	 L61/NFN5RmpXy56KbbRsjuqt7FnRrOuoc9604GOJrILDDniO3AcJmD0Nc2+N0c1ZZBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793679687;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793679984;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=HZ5aIkojkabubstSsBAgMRbbIzeVgd/V5ib9EPQsShc=;
-	b=OBZDJsdwd9ofA7e+YRtfPyFCmO7lYrUQwXBeyuDp/JKfRS9qrTnFEsPJ3GbGhmUJK0j7
-	 kM5pBThfy5KroAVcWcmrDqdPwo65ShPRtr4zCpxkhkD5TmCLYlluJXSYHdKDO6WwE+a88
-	 Rf4Z4q2jEHWSwj6jftJ6WvqfrQxYDeBEzluj/JS7XEqqCTXQdSgqZHog+liK5GiF3qfuq
-	 5daAfiR/nN9PBu8v01DetWjr9ND9g6x7VB2xP2YylaPaHaGmI3nYMuoyiLcdLxDexazIc
-	 IR5YoOI25/AyYBLcShBm2QfawcD7fXSmXnPNn6w/dj88/LUeaXx4XqC6xr/xsHhUSNg==
+	bh=0lY1GjQDtOJ1Ghfc+ekV9fPNpqkpj9VqcnSoAi5vtPs=;
+	b=oe7w+r52o8EHlIe256e12bsCoFqTTHdD4S6hHbEYDrQ6VXzKnMEJRcNRLgLjWNgQzXjR
+	 nZx20DS2b1MAePcZ8cyPqZy2nRR47hA3p0gA5PJKjIF2bg5C9nemu+cLW3QJK4CAsY41F
+	 2+7nLKjCBV3CtsjhG5IrUA1cGnf1IZ7wZwD3zXvZF1KvtfI2t+4iKvPcw6ZVzIGwYlPBU
+	 1sCcsoNCDXwV1M1D8H9Y8WqfnQUZME+tszybuUs/LAo3ScwjMd9xUNXCEsYBjzjlLAb5B
+	 AKqJRZwKG1P0GImzyQ0QjwSXZA84sMspuLlp8zQR3lB8kmvLL4d482PXqin113d6tlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QVMTI0ob;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H+04q5Wc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EF4606A32D
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 04:21:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA493606A336
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 04:26:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QVMTI0ob
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F34E71F000C1;
-	Tue,  3 Nov 2026 04:21:25 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H+04q5Wc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28BCE1F00A18;
+	Tue,  3 Nov 2026 04:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793679686;
-	bh=HZ5aIkojkabubstSsBAgMRbbIzeVgd/V5ib9EPQsShc=;
+	s=k20260515; t=1793679983;
+	bh=0lY1GjQDtOJ1Ghfc+ekV9fPNpqkpj9VqcnSoAi5vtPs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QVMTI0obrSzAeLKayqSDaGugRcqnezNLm7vRfvJcHd+J5bKkLNd1CBG3XDfA87uAV
-	 UcvtgYlsAdCTAnwcM8mSOpALfa3LBlzJ6zvSSO+Sc3Gxi9qYFrdCGg9FORlMDHc9DW
-	 GbmYMNGOJaWEJF4MereYL80wb4/dr4CsTsIEPRKm5U9f014QJQNt5v4LrjVHB/ST4X
-	 x37uzki1+e5B3A6j4gI0AMl2eOj2z92QnflHpvv+E2ZRGqF0yyvf7D5Bb+ZjwVS8yn
-	 BDwFOWjETPSb3Mv0bWNbYCcpaEz+3zR6DspwV9g684ywKQKSRm4v0Z8pOElY4P8ySa
-	 26qhyoMOVXb0A==
-Message-ID: <sashiko-outbox-194563@kernel.org>
+	b=H+04q5WcUn/F+T1jTPKPYV5E1nspIQzHaJvFcRxRR3Cb2tzHMu5s8pr6eBR9weOUf
+	 XrhBM+Bi4qhRJ+xq5T7TQvLsoLydXAuni93aJSuZpnRBPkXPJLfW18fIFts8FU2Y9k
+	 FSjavUzS2At5UKJjQJn30TPGTitvihluywSTaTQj7W7+H7i2UkmVzdW3orJdcDw2Il
+	 DVU/94zMaJAk3GmIcqkiasI5fQrs6aJ/1fPxXrDO0REsiDnFk4ZBStGCJAv6Ua3lBP
+	 i/3yheV0VaRluvS4SDyx9ltpNWryJ0HPw0SRoVYCdhRhJyzXq5cwECqm/b6H4Gs42y
+	 gVObDIxFS1L7w==
+Message-ID: <sashiko-outbox-194564@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 1/2] dt-bindings: usb: Add onsemi FUSB15201 Type-C
- and PD controller
+Subject: Re: [PATCH v5 2/2] usb: typec: Add onsemi FUSB15201 driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Shawn Guo" <shengchao.guo@oss.qualcomm.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261103041806.1885974-2-shengchao.guo@oss.qualcomm.com>
+In-Reply-To: <20261103041806.1885974-3-shengchao.guo@oss.qualcomm.com>
 References: <20261103041806.1885974-1-shengchao.guo@oss.qualcomm.com>
- <20261103041806.1885974-2-shengchao.guo@oss.qualcomm.com>
+ <20261103041806.1885974-3-shengchao.guo@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 04:21:25 +0000
+Date: Tue, 03 Nov 2026 04:26:22 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,20 +60,33 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The FUSB15201 is an autonomous dual-port USB Type-C and Power Delivery
-> controller. It runs the Type-C state machine and the Power Delivery
-> policy engine on an integrated microcontroller, and exposes only a
-> status and command interface over I2C, so it is not a TCPC.
+> The FUSB15201 is a dual-port USB Type-C and Power Delivery controller
+> which runs the Type-C state machine and the PD policy engine on an
+> integrated microcontroller. The host only observes the resulting state
+> and may ask for role swaps, so this is a plain Type-C class driver
+> rather than a TCPC driven by the Type-C Port Manager.
 >=20
-> Describe the two ports as addressed connector child nodes, so that a
-> board which wires up only one of them can describe just that one.
+> Register a Type-C port for each connector described in firmware, report
+> attach and detach, orientation, power and data roles and the PD
+> capability of the partner, and drive the USB role switch of the attached
+> USB controller so that OTG role switching works. Data and power role
+> swaps requested through sysfs are forwarded to the controller, which
+> performs them asynchronously and reports the outcome as a port status
+> interrupt.
 >=20
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> The controller exposes a per-port VBUS ADC reading, but the Type-C class
+> has no VBUS attribute and nothing needs the value, so it is not read.
+> PD messages, PDOs and alternate modes are not exposed by the hardware at
+> all. The chip-wide MASTER_RESET command would drop both ports at once
+> and has no caller, so it is left alone as well.
+>=20
+> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 > Signed-off-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103041806.1885=
-974-1-shengchao.guo@oss.qualcomm.com?part=3D1
+974-1-shengchao.guo@oss.qualcomm.com?part=3D2
 
