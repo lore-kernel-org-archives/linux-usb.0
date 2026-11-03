@@ -1,57 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793721680;
-	b=wt2zN6t73XVNJU2wyaBOqoL59/0AcDRPw8Tu4osO98F2H1pylVlSO92nGE54ErujhRd3
-	 kBMHoY7YRLSMFRVAUbgv33gpJoHBKfdlBkaVhzeI6Z/gTwBltjXANCgccRz6wXx/SYggZ
-	 bAuM7dFdEhKVUdtBICbNUGwWexBnzZ0Yprj8a1Sz3ZRfDobwB+TWp8+ikvt4Ow5CiTUh0
-	 bL4BiUcnMg43RF+lcb13dD/vEgxKPJw1L8d1Rg/CiW/Vi5QnVvS/M05/IjfjPl59Ep/wz
-	 kudHmkXTXlY5mWvyq+oN4h/jhgOOsLaLaBzMitMATh0LMUzVRYoZdMFD5G0/ClGWX4A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793721680;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=o2IFbUEs3XJWUVAyVa+Z8fFrJArAYqvaopmw5yj/aIw=;
-	b=E5lHZrC+MZcRNT2qnr8itt6/ArmplDeflsKs5CoFII38Rn8LOmlQ6O6nsS/Ao4YebVR4
-	 5RNUQcttCcD9HF/3wBfPW5F8R9CkZJyxlDXfECfRIMk9PetehSCw4aZ8wirQAjeUezLax
-	 /jmXgJn8xz0/bhUIWNIlLQaCOwDKPnQQ+eyQAJNAEaaJW9BCgXH1p/9ivHG0yzpzn2eSt
-	 8tf/5wCRUiMjyXmRUjkrquCDe1GOvbyA5phFgkhczgrKNCEMAgsDRugdtsgJq0TE/Whfb
-	 x23PEHSLIoI6iSpF7aDJ7/6YRVcxZqQJ42f9AcvUpG/lj85Sc3CoFq8JMzO745d5pJQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1E14606A335;
-	Tue,  3 Nov 2026 16:01:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1E14606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:In-Reply-To:References:MIME-Version:
-	Content-Transfer-Encoding; bh=o2IFbUEs3XJWUVAyVa+Z8fFrJArAYqvaop
-	mw5yj/aIw=; b=VEs7IUN9cJ7+6FSHhh2IGdTt2lfgrQeNyqWzBoJmp3GC1gnRa4
-	WpZLc9Pb8gzDwpVt4336TczpDYCF6IWMaWRYMaozFenQUMYIapuMNK4Zg0KF48Qz
-	NyZ03D+pkdlWWMeVvlR8d4oyodW0sdJqK1uPk/UC8b6MF1CAuFBdNrC1w=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.43])
-	by hzbj-edu-front-2.icoremail.net (Coremail) with UTF8SMTPA id BLQMCkDWHgQ9BepqkKEfAQ--.30199S2;
-	Wed, 04 Nov 2026 00:01:03 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>
-Subject: [PATCH v3] usb: xhci: Fix use-after-free race in xhci_stop_device()
-Date: Wed,  4 Nov 2026 00:01:00 +0800
-Message-Id: <20261103160100.23190-1-25031212351@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <3ca5cced-f429-42d9-9bbb-f5111acd9665@linux.intel.com>
-References: <3ca5cced-f429-42d9-9bbb-f5111acd9665@linux.intel.com>
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793722252;
+	b=lnp7JNn9LquO5sP33a86oBl8ds4DbDmryUn2MV1YtJJcEcIhWCOpsTbnRGeZ6AtzbsKj
+	 dkoJAvFWicftbLQisusqb9MlzxmVGNTVf/+U4WUeRf3Xw0B4fM+i3ZZOahT5xsn7maffd
+	 wj68L2fp4adOp4f5ZZ0/DEr5N7ZOHaK2qlVZf7+KHh0fpZK+YUeN3GjcIsr+3CL+T3vt1
+	 JgSDt/J7vBfrd5u25b3D1C26ohTd74lr+zNOoW5GU1npVUGdVP3HjlA46DpTflxA9hk2R
+	 AJbO/w3wm9XUr7ENCV+K3X4bPElyXQl/DDVqyecdr2eXFojluj5HUhkNc8Isankl+vg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793722252;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=fbT9GnGuFGXtQw9eLq7vIF872Q6n2QC92JQf4Ne1Joc=;
+	b=xSFX4RGkIuY0uoWqWMw/Xvd8vxn+OV2Md2UL1s6TfetuigWbmadOciCQMhQrONkl3T4A
+	 3n0Ix1HYYN4YBcruUEOW00pJ//9e6y87itxsLe8TqP14Gmb1SfGHUlB/8YdnnElg/yDo+
+	 kTFQNs5Zz71+JFw616n1p+juBYYgI1UN1/IzXpiBDsi1D7F1O4fOM1CFaENOMHnO8gWPY
+	 HLzFXabZj7QubBeqK+c+RGDz6in9GntTZkYx6PqahkrmQtLQwNwfViRhFl49hlLHdPDPv
+	 zlu8HV+1QVWWPq5aXn5kZk5ktVnKig6966Pik5hk8LSWEqsNtSW5hMmmGQeYgFviUuQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XiOV4eQX;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BE4606D80D;
+	Tue,  3 Nov 2026 16:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XiOV4eQX
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793722251;
+	b=Cul+oHocV/AYsxcmgwdpSGsFDE41mLGQufZ/xaavSqRzV4NZdWcOd7+xaDi0uVywxkUU
+	 UuA/qEXNHraL7UYZLm8KAbkfgR/YKRLORj86K0ySb4HheMQFeWxzwueoxUoEoe9SpDPSv
+	 iKQplvd2u2d68cnjydRawvkBk6P3pQ++WoOyyMl2/wYXchi3Pwrf6F0EKzQZX2uxLcgUT
+	 9r3Sesxcz0rOujktqn5wdeZYTFEKQoEt0LIVg5T2pUyx3C+YQdzrFoiZzE2O5I3iCEh6g
+	 ruzKc5gbufFjXuaPfP3Zq1tZdth6wjzGgE2zOdIrBGrUBaY1VtQN2gIQe/s4b7EpmfQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793722251;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=fbT9GnGuFGXtQw9eLq7vIF872Q6n2QC92JQf4Ne1Joc=;
+	b=WYnj3/DX8Wq9Qu0LB2qNuqMCaBrLkk6WcjU7Yvp5Uj7aoSx5EIru7qziwSrE/3ZUtfxx
+	 Si31GuRspqDmL+hKmeRS8VZb4+rFw9Nr9Py3AobVoNLdeoniX28teLQy1KnuRnPsAWeHJ
+	 NMwMVMIZKfzRdjnjKhbD6m1+cSC9rOQ3nnSLwvNsXwbgl70sK80IODAS7S4R88r/XhrH9
+	 nyOK3GbP4kmgrRMk8fRJPZpMx+Xt0Gq+kd3TDZNAMouQ0K+4iyiGCYtTX1J6iE4hJSeti
+	 y/Rcil1WtFw3cMzJ02wI4peRiPvQ4bv1n5tQ0V6liEE+aoTkGI9FTv087nA6xKu5sYA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0F3B61F00A17;
+	Tue,  3 Nov 2026 16:10:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793722251;
+	bh=fbT9GnGuFGXtQw9eLq7vIF872Q6n2QC92JQf4Ne1Joc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=XiOV4eQXWFg6qfgwugUS5811At3XHJru0UWcVHuIVLGZJmip5AdIdS80p2KmubPnk
+	 s5SpGuutOU4isAaWTMspmnQ9VkyHwyTKY43fpgOuPSJFqsl2RP3PasqkUJASEAviLv
+	 +1AMRVpgLZhk/LuMQw9pZF1ZbTScpVHkz7PgU1fXANBziwg++UnElwKsiLpAkmmLdI
+	 IApO7bFbm7cuXeeEioWaMO5eGQPXYsUBLl8h6FunL3ISU0+yrNfsmbGMmdoWc7Oqy1
+	 Hqa3RZ7Qokn4XIUowv5ouKJ6ATZWpymzyH4Vrdx3UzAaivTHuXletiB3kWP4D0YiTJ
+	 Y0i4tKOn2UoWw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 8DC5946A03;
+	Tue,  3 Nov 2026 16:10:50 +0000 (UTC)
+From: =?utf-8?q?Stanis=C5=82aw_Titenko_via_B4_Relay?= <devnull+kernel.resetko.pl@kernel.org>
+Date: Tue, 03 Nov 2026 17:10:21 +0100
+Subject: [PATCH v2 2/2] usb: typec: ucsi: acpi: Assume UCSI 1.2 on Lenovo
+ ThinkPad T14 Gen 2a
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,150 +83,89 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261103-ucsi-lenovo-t14g2a-v2-2-e85c659b56a2@resetko.pl>
+References: <20261103-ucsi-lenovo-t14g2a-v2-0-e85c659b56a2@resetko.pl>
+In-Reply-To: <20261103-ucsi-lenovo-t14g2a-v2-0-e85c659b56a2@resetko.pl>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Guenter Roeck <linux@roeck-us.net>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ =?utf-8?q?Stanis=C5=82aw_Titenko?= <kernel@resetko.pl>, 
+ Daniel Dev <daniel.dev@noex.uk>, stable@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793722249; l=2188;
+ i=kernel@resetko.pl; s=20261031; h=from:subject:message-id;
+ bh=jjGiVB1nMAe7D4TjN2PjVOhC/GWz1UPlwi3CJzOvb4k=;
+ b=asEjd+7x9CJ1PCslYbBSMhWJ/Z1ERXVGhdud4cn4QiHV1jTD3NvQ5WwoWmg5QK7K608JJdqhy
+ phaq7auHn8VBTZvqnAn4h/9HXCRTmkdQFU2DR/0O1efWQbfyMyPxwvJ
+X-Developer-Key: i=kernel@resetko.pl; a=ed25519;
+ pk=xMhqzbyPNWfeOgdmzSHsSlr5qjH779F5SD6BBHXixlY=
+X-Endpoint-Received: by B4 Relay for kernel@resetko.pl/20261031 with
+ auth_id=1372
+X-Original-From: =?utf-8?q?Stanis=C5=82aw_Titenko?= <kernel@resetko.pl>
+Reply-To: kernel@resetko.pl
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BLQMCkDWHgQ9BepqkKEfAQ--.30199S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Gr15XFWDZrW7WrWkKFWUCFg_yoW7Xr1xpF
-	43Ja4YkrZrKr12gFn8KrW8XF1rXwsrZ398GryIk348urs8J34rKFy0yrWqkrn3WF97Ar17
-	tFn8GFWrua15GF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvSb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4
-	A2jsIEc7CjxVAFwI0_Jr0_Gr1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28I
-	cVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx
-	0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY
-	1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
-	C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
-	wI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
-	v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2
-	jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43
-	ZEXa7IU8yq2tUUUUU==
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUGD2rop1Xv3wABsM
 
-A KASAN slab-use-after-free read was observed in xhci_stop_device():
+From: Stanisław Titenko <kernel@resetko.pl>
 
-  BUG: KASAN: slab-use-after-free in xhci_stop_device.constprop.0.isra.0+0x395/0x430
-  drivers/usb/host/xhci-hub.c:479
-  Read of size 8 at addr ffff88804e85d2f0
+The Lenovo ThinkPad T14 Gen 2a exposes a functional UCSI ACPI PPM but
+the firmware leaves the VERSION field of the UCSI mailbox at zero.
 
-  Freed by task 585700:
-   kfree+0xf8/0x390 mm/slub.c:6566
-   xhci_free_virt_device+0x3f/0x50 drivers/usb/host/xhci-mem.c:881
-   xhci_free_dev+0x286/0x350 drivers/usb/host/xhci.c:4131
-   usb_disconnect+0x6b6/0x910 drivers/usb/core/hub.c:2391
-   ...
-   usbdev_ioctl+0x6f05/0x86d0 drivers/usb/core/devio.c:2826
+ucsi_register() rejects a zero version with -ENODEV, leaving the
+system without registered USB Type-C connectors. Without an OPM, the
+embedded controller does not complete DisplayPort Alternate Mode setup
+when a USB-C dock or monitor that supplies power is connected after
+boot, so the display stays dark while USB and charging work.
 
-  Allocated by task 572283:
-   xhci_alloc_virt_device+0x171/0xb70 drivers/usb/host/xhci-mem.c:986
-   xhci_alloc_dev+0x475/0x840 drivers/usb/host/xhci.c:4271
-   usb_alloc_dev+0xe8/0xdc0 drivers/usb/core/usb.c:661
-   hub_event+0x1c82/0x4050 drivers/usb/core/hub.c:5953
+Use the zero version quirk for the ThinkPad T14 Gen 2a, matching the
+two board names of this model (20XK and 20XL).
 
-xhci_stop_device() reads xhci->devs[slot_id] without xhci->lock and
-keeps using the pointer across xhci_alloc_command(GFP_NOIO), which may
-sleep.  All callers (the port suspend and bus suspend paths in
-xhci_hub_control() and xhci_bus_suspend()) drop xhci->lock before
-calling it, so a concurrent usb_disconnect() -> xhci_free_dev() can
-clear xhci->devs[slot_id] and free virt_dev under xhci->lock in that
-window.  The endpoint loop then dereferences the freed virt_dev.
+Tested on a ThinkPad T14 Gen 2a (20XK) with BIOS 1.33 (R1MET63W):
+both Type-C connectors register, and plugging and replugging a USB-C
+monitor with an integrated hub and power delivery brings up
+DisplayPort Alternate Mode each time.
 
-commit 88716a93766b ("usb: xhci: Fix panic if disconnect") added a
-NULL check for this case, but that only helps when the device was
-already freed before the check; it does not close the window.
-
-Look up xhci->devs[slot_id] only after taking xhci->lock, and bail out
-if it is NULL or if the device is already being torn down.  The
-tracepoint reloads virt_dev->udev, so it moves under the lock and only
-runs while the device is still attached.
-
-xhci_free_dev() clears virt_dev->udev without xhci->lock, and only
-later detaches the device from xhci->devs[] in xhci_free_virt_device(),
-also under the lock.  Take xhci->lock when clearing ->udev so that
-xhci_stop_device() can rely on it while holding the same lock.
-xhci_free_virt_device() clears xhci->devs[slot_id] and frees the device
-under xhci->lock, so a device found there while holding the lock stays
-alive until xhci_stop_device() drops the lock, after which virt_dev is
-not used anymore.
-
-Fixes: be88fe4f4dda93e3 ("USB: xHCI: port power management implementation")
+Reported-by: Daniel Dev <daniel.dev@noex.uk>
+Closes: https://lore.kernel.org/linux-usb/b1Wn_eFvTFShGbd970WWl4CWhge_6P2x7Wb6rab3QHNlE4OJ4p__O-QN3B6I-308ftr5oV5Zr7vywA0vdvmtNw6E0YJnVM2ek_5DcFnkXB0=@noex.uk/
+Fixes: c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
 Cc: stable@vger.kernel.org
-Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Assisted-by: pi:claude-opus-5-5
+Signed-off-by: Stanisław Titenko <kernel@resetko.pl>
 ---
-Hi Mathias,
+ drivers/usb/typec/ucsi/ucsi_acpi.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Thanks for the review.  Both points are addressed:
+diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
+index 47ba0e15b8ba..d752fc7b61ec 100644
+--- a/drivers/usb/typec/ucsi/ucsi_acpi.c
++++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
+@@ -196,6 +196,22 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
+ 		},
+ 		.driver_data = (void *)&ucsi_zero_version_ops,
+ 	},
++	{
++		/* Lenovo ThinkPad T14 Gen 2a */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_BOARD_NAME, "20XK"),
++		},
++		.driver_data = (void *)&ucsi_zero_version_ops,
++	},
++	{
++		/* Lenovo ThinkPad T14 Gen 2a */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_BOARD_NAME, "20XL"),
++		},
++		.driver_data = (void *)&ucsi_zero_version_ops,
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
 
-Changes since v2:
- - Moved the xhci->devs[slot_id] lookup inside xhci->lock and dropped
-   the separate pointer comparison, so the unlocked read before the
-   lock is gone.
- - Dropped the explanatory comment.
-
-I kept virt_dev->udev as the marker for "teardown already started"
-instead of adding a disable_slot_pending flag.  It is now written
-under xhci->lock, so reading it there is enough to tell
-xhci_stop_device() not to queue stop endpoint commands, and it keeps
-the change small.
-
-The xhci_disable_and_free_slot() race is left for a separate patch.
-
- drivers/usb/host/xhci-hub.c | 14 +++++++++-----
- drivers/usb/host/xhci.c     |  3 +++
- 2 files changed, 12 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index b0264bd8577a..9a3437248e04 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -463,17 +463,21 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
- 	int i;
- 
- 	ret = 0;
--	virt_dev = xhci->devs[slot_id];
--	if (!virt_dev)
--		return -ENODEV;
--
--	trace_xhci_stop_device(virt_dev);
- 
- 	cmd = xhci_alloc_command(xhci, true, GFP_NOIO);
- 	if (!cmd)
- 		return -ENOMEM;
- 
- 	spin_lock_irqsave(&xhci->lock, flags);
-+	virt_dev = xhci->devs[slot_id];
-+	if (!virt_dev || !virt_dev->udev) {
-+		spin_unlock_irqrestore(&xhci->lock, flags);
-+		xhci_free_command(xhci, cmd);
-+		return -ENODEV;
-+	}
-+
-+	trace_xhci_stop_device(virt_dev);
-+
- 	for (i = LAST_EP_INDEX; i > 0; i--) {
- 		if (virt_dev->eps[i].ring && virt_dev->eps[i].ring->dequeue) {
- 			struct xhci_ep_ctx *ep_ctx;
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 5c759ad28199..9e375eb48f38 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -4128,9 +4128,12 @@ static void xhci_free_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 	trace_xhci_free_dev(slot_ctx);
- 
- 	/* Stop any wayward timer functions (which may grab the lock) */
-+	spin_lock_irqsave(&xhci->lock, flags);
- 	for (i = 0; i < 31; i++)
- 		virt_dev->eps[i].ep_state &= ~EP_STOP_CMD_PENDING;
- 	virt_dev->udev = NULL;
-+	spin_unlock_irqrestore(&xhci->lock, flags);
-+
- 	xhci_disable_slot(xhci, udev->slot_id);
- 
- 	spin_lock_irqsave(&xhci->lock, flags);
 -- 
-2.34.1
+2.56.0
+
 
