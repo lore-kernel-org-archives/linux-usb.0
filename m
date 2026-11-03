@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793717286;
-	b=HghSmiczDTXO74SF4E1AEDvvQJsHkI4rYYSdktDhno0AYw+a3r/LroaPxNVcHq1RbK/W
-	 TVBSLHqN3ZKEhlWvDurR2TK9X1YEoOwUMjBOP7ETyItzAMJKOjwLhvode+OpaHSlGwsep
-	 v/rzt0mwQ8ZTeUSgzJKnGyl+LVjWMfCA5udmc3Hw7sX3S22ftssA1O6AaNqnc1XtOnvaq
-	 CSdcUilvyz/KVwvj83wd/5rCvC58F/2I2o/9E5nC3s04Glrglm8+Ex/RXrr3WyhyqJv3p
-	 ZJSsei+TgvMbNs45pGGQbbtosXpb9yAxEi9atta/YEGJ+YiF5FtX4PXVbdYUk/J2CdA==
+	t=1793717288;
+	b=ePcb4R1PV+Umi0MbQn4sU6lDMRP3YXulXPD4EcLAphk/rj3V1TWyHTfoMJtjsdJhdyo+
+	 8HBrBk61+AXIRnnM2bJoK7Bjz3YaswxCWTXPbaYI79nuB7uPYYqR037zp/nhWFLOCTMhb
+	 CaudRzA+3vC12rCuQU90WD9KdrlgMx5+71TsgCg9t7VpwL+jNab+yank+e0auttxR0U1D
+	 nzgcDG5FQQPYnMRFTOt7EXjj9gQ8Bb1nLhtSvzrg1QnmxmDEO4oPZ4WvmRApfPnEoqDbJ
+	 WiljxkitD7tscp5nWtBiO3Mv1UXC8kDIIATg2+6IZYShX0WsvQxQgAJnSTo1nhoJUKA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793717286;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793717288;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Ooj3Pi0SRErCEL8duAq8trKUrdQD3CC9mA+kTthUPow=;
-	b=2Cq1Zg/Lq6Yqqi7r5JlZ3p9lWR/RGpt9xEw51n+go3nLxyoEbfFeiLDQyX0+OjH/Q1vK
-	 83LmWMXr3RznbPvMgRH89RWbhqPGd476lhWLrgq0/brTfixS83Y85BwqXN+4rtWp0EDJ8
-	 QSWQN0Y7UkLLDE6rhiu//gY/gHqLHPp9jY71+4vm9wUj0RcprOiBmlJBjbC2ysSydp4oW
-	 4ktk2++8RTMCGbaTGFEpo/+ZUhd/b/bx3RO/KfPA5vzQ0BPPvmfUI+q8u5FaTzuHk7QYK
-	 NO+R8ENc1xZX5VE0kiqKjjoNgd8SiZNQhJDCyRDsN2fpKry/3TO6WWGjq+rOZUhPOEA==
+	bh=Icn35Mi91pQ+tLfg0mCdB4U+ZmjGBtIaKsilMrrc5tY=;
+	b=UHuLhnuokubDREKU0OoPyz2Y07or7VE+52g8I4n1UaPNKmzK2eUsY6vzCKNkNN2ugJ8C
+	 /CYrb0VzP/T8wacAVpTZAytrsAJW6PJV0HiiA7i0mGOq/3lvVSITThle0NV79cAqY17wg
+	 OdC2WBDN0rOV1VA+dLUoIBKWAHfhmLjiRQokKFb8WfXeWfCfs//7eCg3pQUBcURLGxq9C
+	 /pCn0LTDKQ6qTKAqtOX63PchLkfXFoKNvdseKCx9gMhD1YE19LHfvQYuOU0GraM/tcKRl
+	 jM3HxX5SX7zpLMAaVIf2WCnCB+IPgDP7G35CUYT3/ZyvKJW+AuIzUJoXfU/DLSyly4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NtpigpjF;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dh1dKt+S;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4F6606EE87;
-	Tue,  3 Nov 2026 14:48:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA7160A3833;
+	Tue,  3 Nov 2026 14:48:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NtpigpjF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B0B41F00919;
-	Tue,  3 Nov 2026 14:48:04 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dh1dKt+S
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 441281F00A1E;
+	Tue,  3 Nov 2026 14:48:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793717285;
-	bh=Ooj3Pi0SRErCEL8duAq8trKUrdQD3CC9mA+kTthUPow=;
+	s=k20260515; t=1793717287;
+	bh=Icn35Mi91pQ+tLfg0mCdB4U+ZmjGBtIaKsilMrrc5tY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NtpigpjF9sxyzNlDIMr/kIauC0vBupDN5MuLmfVxwkf400sU8+++mUwlL1pvEUk4U
-	 YdcMZMXDZjtqhHUcqJyV4raQjqK1SeIDUy2RBvl89itIx4icaaYqEgmEXXRaLQYMmb
-	 jOP6Sdj3Y7zqWtxapxGQS1jXb4qxnOuvLYeJlGosFoofGNNwZrCIWMafCDB7JbNkBZ
-	 Qz5Sf+jjdXOMa08tCYoT0JUtuZBq02Ez0HXq8fnSCQlQPns2Bix1SoLU4K5sqpsc2i
-	 MQ5+a/FFu5rN5Hx0DeoKCx1MVxYil+GjRzwCVieeWb+tUiU4ff5gb8eX+apVlRxCYH
-	 86U+GeLfMsa6A==
-Message-ID: <sashiko-outbox-195491@kernel.org>
+	b=dh1dKt+STUs/pEoLctpFFtQkyKCAxxWJoxXDNG9HNkYmLm1AdEmDmmdWV64Js6Az7
+	 D7xeBzM6wvr24BHDVnxZNsmdK8y72d/Sc8fRWz9vjYY2X1n981YMEB3CvPmhvXhzoT
+	 CdEliGimDf4eL7SpBrWs7GBDY9OjYAOjox1SovFaGTGUyI/vN6Vhs36589r0zEyUdi
+	 mVeMd6wVewqD9lCD3HCijfRClz6bHq3RpQ/3lZQUAdmOC5lUq0F8u4W8MwAYT72JS1
+	 NFUnHmQbjcLibYcuMjtBUE9DfbW903ryc3o/4VSRPIMZquWia85CdIpJWlxt1Ne+x1
+	 8PIhBdEx8sqOA==
+Message-ID: <sashiko-outbox-195492@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC 19/38] proc: resume readdir after the last name it
- returned
+Subject: Re: [PATCH RFC 20/38] selftests/proc: check a /proc listing while
+ entries come and go
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Christian Brauner" <brauner@kernel.org>
 Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
@@ -55,12 +55,12 @@ Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.
  Iwai" <tiwai@suse.de>, linux-ext4@vger.kernel.org, "Chuck Lever" <cel@kernel.org>, tytso@mit.edu, "Heiko
  Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
  Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261102-work-procfs-bugfixes-v1-19-59422ed3e465@kernel.org>
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-20-59422ed3e465@kernel.org>
 References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
- <20261102-work-procfs-bugfixes-v1-19-59422ed3e465@kernel.org>
+ <20261102-work-procfs-bugfixes-v1-20-59422ed3e465@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 14:48:03 +0000
+Date: Tue, 03 Nov 2026 14:48:05 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -70,38 +70,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> proc_readdir_de() counts the entries of a directory and resumes a
-> listing at the number getdents64() stopped at. The entries are sorted
-> by name, so one that is added or removed in between shifts everything
-> behind it by one. Listing /proc/net/dev_snmp6 with a buffer that holds
-> ".", ".." and "lo" and adding a device whose name sorts before "lo"
-> makes the next call return "lo" a second time. Removing one that sorted
-> before the position makes the next call skip an entry instead.
+> List /proc/net/dev_snmp6 of a new network namespace while a tun device
+> comes and goes:
 >=20
-> Since commit 895b4c0c79b0 ("fs/proc: fix uaf in proc_readdir_de()") an
-> entry that is removed while it is being emitted also ends the listing
-> right there. pde_subdir_next() finds nothing after an erased entry, so
-> proc_readdir_de() reports the end of the directory and the next call
-> resumes by number, skipping another entry. For /proc itself
-> proc_root_readdir() takes that as the end of the static entries and
-> moves on to the pids, so the rest of the static entries is missing.
-> And if the position is behind the last entry when a call starts
-> proc_readdir_de() returns 0, so /proc then lists no pids at all.
+> - with a buffer that holds the dots and "lo", add a device whose name
+>   sorts first, finish the listing: "lo" is listed once
 >=20
-> So remember the name of the last entry a call emitted in the file and
-> resume at the first entry after it, like kernfs resumes after the node
-> it stopped at. An entry that was removed while it was emitted is
-> continued after by its name as well. If the position was moved by a
-> seek in between the listing counts from the start like before.
+> - with that device added and a buffer that holds the dots and it,
+>   remove it, finish the listing: "lo" is still listed
 >=20
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Fixes: 895b4c0c79b0 ("fs/proc: fix uaf in proc_readdir_de()")
-> Cc: stable@vger.kernel.org
+> - with that device added, stall getdents64() on a userfaultfd page
+>   while it writes the device's entry, remove the device, finish the
+>   listing: "lo" is still listed
+>=20
+> All three fail without the fix, the first lists "lo" twice, the other
+> two not at all.
+>=20
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-work-procf=
-s-bugfixes-v1-0-59422ed3e465@kernel.org?part=3D19
+s-bugfixes-v1-0-59422ed3e465@kernel.org?part=3D20
 
