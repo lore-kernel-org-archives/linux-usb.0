@@ -1,61 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793750017;
-	b=U1t82Ij0TV28U+1ed7GjPasvwvT9qBOseBu3UPrSzYdBP63ntxPS97UOH2pYJRDMsdSJ
-	 n9aqNjxwVRE/zQMOLtKo6LCpGAZkufk0IFejfvtLsHH6JNUXVfwZBSH+WGyI+eB8PwO9i
-	 0Tk4oWuX2Plbrp//xhNKy7kiq/E5qX/wcUkQ9d5P+Zwql/9Bzu5IvyGVD5PDAkfNj3t47
-	 1PODnoKtoU5AoC+P10s/c0EWcAj2s6TPf278UAn/eGK6g0F41aOEqphAJesn7fELlnlmT
-	 Fd0doto1Wcmsl+KDHW0FCTwOG+/xzHMQpEbZZB89rGGMwJK2uTXI9TfD/hnUyKlFFsw==
+	t=1793750159;
+	b=uv9PAB+OgKN7UooMWdSVIsY9YOHm4oIWQ4V1+xJpGinQFmoc+tDS/r0YwmvBPpEMd7Wj
+	 LIBqOELorHRguMaMSydK7+2Y6eun7LRLk+yZYax12B7IP0MaUt8JW203bAIk8ykChcTp2
+	 pRdlxUbl8PSiqRll7kzra/Dh++LDI7FR0ehlSA6qU1VWTAXJNbmKbB8SOh3PvLl+CJ6D/
+	 5zoQ8Jvb6mqDJirfGfmCDwwDeXiPQvNs5Q2KjMwrf5/UzgquMJV+2hil3MxCmvypCGvPH
+	 UD7jpLQmphFnvi+rkAqLtLvcCMAPN4PaNV/ft2gjWKZL9xo8cNqHR0A9EK7zkAS2KQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793750017;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=FCxDyXzDC9Nna1mQ+atYpDFv5LRrgLZY5FChqGmM6cQ=;
-	b=s2me1nAoJ1sNL5jdCz9pJeaI6C+UrEd0RK3/4HqP9vhzG+vEC6Y2q2z4KMYqV2uTq1Jx
-	 THyGyfG8lUPxlziirS93Cb8wiEZMFq61rKnjhyLdqPsoTw4oQrD05DHY0tF/FuJf9Q7H9
-	 A07Kti/vEl42D9i/zcIzRV9N78wMvihX75R8p0E2ILCBl1WtYcgUMIRLRq/WT/exuahqi
-	 xy4XvJpyLpfPWqaYjyhpdPNl1leQA4W42j1BnCBusA8oJbWliWG+ogEl5VrWPA7pVeAW/
-	 9jMC+jGnDx2wP9b75flGjH+0fxzzZD/h+MuPgIxPAim8IBZJHcqQ5TRNm+7JouABbwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793750159;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=IgRjvC9eGJRSt9FCn+oU8QsB+KTmHQqlgzImOzb3+uo=;
+	b=06Si6XN/fDjZlQDTjoICnUo8J7gT1RspjM6HTxYiidEGGqrqwOlS/JOaTPB9UcGIdgpU
+	 dKVHTJ89ALkodlE4tcLFKh/WcFwFauMkcChzQuMpnRCrdBjZS0wIr4JBIvtADm+0toZvZ
+	 +WooWdkgVqkdzCcxKpjbLdNJpfiSk4DQob1RLkFDNRFoTUTtdnNLnOuMYI5aNYk3EvP3O
+	 Qfy2IgGwflhpv3YXSzolsxIGEgUL4S/r0gT8kWSnFtMty5gdF+xZpK4VbWn2a4e9l5Ksl
+	 SNUn8m7qmwmY5L3yPGHoZjjHZ+6VC5Qvb4FgrYdhSY1ArWPm4ujbX0iSbzTX+NOlcSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PSCN4g9T;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d8Eueczj;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD01C606A31B;
-	Tue,  3 Nov 2026 23:53:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9CB606A326;
+	Tue,  3 Nov 2026 23:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PSCN4g9T
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 918341F000C1;
-	Tue,  3 Nov 2026 23:53:35 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d8Eueczj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D211A1F000C1;
+	Tue,  3 Nov 2026 23:55:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793750016;
-	bh=FCxDyXzDC9Nna1mQ+atYpDFv5LRrgLZY5FChqGmM6cQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=PSCN4g9TuMDimXIzqf114a9G+Iyk8iCulvyK98N/g9ZiEhHBlZkFgdqC+Rl4zYeHI
-	 mvddaeAFCFKfu8pNgkgWmQcP8TZmcpRWhNc8CaHQPbeL5205KfoNNLHGU+l2wCXO1T
-	 NI/XaHoHlHE8zfE7iO6bTszz6ehviQSxHLJmcaUBWQjPInzbXvUK0yQ9C95HMVFI7f
-	 jStlkwywjo4tXpLyCCf8yqpw2/PGnLEYquUwYRZHDkqPfkhONBTqfy8ypSNgaOyx2T
-	 nfkh35Gd3lDqBERgrvmhUAovyoq7zsrE4Cznk8VaobxBqAy+B429cNWx0+yXOMaC1n
-	 s+p50vC4xwReg==
-Subject:
- Re: [PATCH net] net: usb: lan78xx: resume phylink on non-reset USB resume
-From: netdev-bot+sashiko@kernel.org
-To: stefanomunari.sm@gmail.com
-Cc: Thangaraj.S@microchip.com, UNGLinuxDriver@microchip.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, linux@armlinux.org.uk,
- o.rempel@pengutronix.de, rmk+kernel@armlinux.org.uk, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Tue, 03 Nov 2026 23:53:35 +0000
-Message-ID: <179375001506.488856.4516083483989818643@kernel.org>
-In-Reply-To: <20261102235133.23011-1-stefanomunari.sm@gmail.com>
-References: <20261102235133.23011-1-stefanomunari.sm@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1793750158;
+	bh=IgRjvC9eGJRSt9FCn+oU8QsB+KTmHQqlgzImOzb3+uo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=d8Eueczj0WOvLuGlnz0j6hFuD8oSmG8uwj3twKL4UJzCdmvAG+TaAiihDlYIyCXpX
+	 PGAq8Umg66y6FRFksHH7a+0dcW01eLwhZ6ga+OhvZW0yRo/CfQsL0a3PgmndBInBMg
+	 dnod7aPWhWjvUIrNMP5+waa+fjRAV+/6Mh5Bxau1XKQevb5HjaokH4ro/l9mVMUDgJ
+	 kpwICfqx4YWUsPLYtFOLhUWEADB7w3/cyYdm6c+UyCfocumbHNQbHOaYFoxrjMvFEH
+	 tyHs/RLx/M6pdXTtizgr/aJu/pSmDdolrmEkZUC1DZ8c9tAD4VwP7kbDvyeTkD2jea
+	 O7m/2zEfjErLQ==
+Message-ID: <sashiko-outbox-196255@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v5 3/4] ALSA: usb-audio: qcom: tag sideband endpoints
+ before ring allocation
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wesley Cheng" <wesley.cheng@oss.qualcomm.com>
+Cc: linux-usb@vger.kernel.org, linux-sound@vger.kernel.org
+In-Reply-To: <20261103-16k_offload_v1_b4-v5-3-67184126e91c@oss.qualcomm.com>
+References: <20261103-16k_offload_v1_b4-v5-0-67184126e91c@oss.qualcomm.com>
+ <20261103-16k_offload_v1_b4-v5-3-67184126e91c@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 23:55:57 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -64,263 +60,187 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issue(s) to consider.
-
-Critical: 0 · High: 0 (1) · Medium: 3 · Low: 1
-
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [Medium] RTNL self-deadlock.
-- [Medium] Self-hang caused by re-entering runtime PM from inside the USB
-  resume callback.
-- [Medium] On a normal (non-reset) resume, phylink is now restarted after
-  the MAC datapaths are already enabled.
-- [Low] Check-then-act race (TOCTOU) between the dev_open snapshot and
-  phylink_resume().
-
-Pre-existing issues:
-- [High] This problem wasn't introduced by this patch, but
-  lan78xx_suspend() inverts the lock order.
-
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] ALSA: usb-audio: qcom: sideband endpoint leak on prepare_qmi_respo=
+nse() error
+- [Low] ALSA: usb-audio: qcom: missing @card_num kernel-doc in enable_audio=
+_stream()
 --
 
-net: usb: lan78xx: resume phylink on non-reset USB resume
+commit fa22ee4117b1447d736029e2816192b5570645e6
+Author: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
 
-This moves the phylink_resume() call out of lan78xx_reset_resume() and
-into the end of lan78xx_resume(). Both resume paths go through that
-function, so phylink is restarted on a plain USB resume as well (e.g.
-s2idle). The call is made only when the resume succeeded and the
-interface was open.
+ALSA: usb-audio: qcom: tag sideband endpoints before ring allocation
 
-> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-> index 181e8c087655c..0136818e8cb02 100644
-> --- a/drivers/net/usb/lan78xx.c
-> +++ b/drivers/net/usb/lan78xx.c
-> @@ -5371,6 +5371,12 @@ static int lan78xx_resume(struct usb_interface *intf)
->  out:
->  	mutex_unlock(&dev->dev_mutex);
->  
-> +	if (!ret && dev_open) {
+This commit moves the xhci_sideband_add_endpoint() calls from
+uaudio_endpoint_setup() into enable_audio_stream() so that endpoints are
+tagged as sideband before snd_usb_endpoint_prepare() triggers transfer ring
+allocation. It also introduces uaudio_find_host_endpoint() to look up the
+usb_host_endpoint from the altsetting descriptor table before the interface
+altsetting is activated.
 
-[Severity: Low]
-Is the dev_open snapshot still valid by the time RTNL is taken?
-
-dev_open is read under dev->dev_mutex. The mutex is then dropped, and
-phylink_resume() is called on the strength of the old value without
-checking EVENT_DEV_OPEN again.
-
-lan78xx_stop() runs under RTNL, takes dev_mutex, clears EVENT_DEV_OPEN and
-calls phylink_stop(). It could land in the gap between mutex_unlock() and
-rtnl_lock():
-
-  lan78xx_resume()                    lan78xx_stop() [rtnl held]
-    dev_open = true
-    mutex_unlock(&dev->dev_mutex)
-                                        mutex_lock(&dev->dev_mutex)
-                                        clear_bit(EVENT_DEV_OPEN, ...)
-                                        napi_disable(&dev->napi)
-                                        phylink_stop()
-                                        mutex_unlock(&dev->dev_mutex)
-    rtnl_lock()
-    phylink_resume()
-      phylink_start()
-
-If that happens, phy_stop() warns because the PHY is still HALTED from
-suspend. phylink and the PHY state machine are then started on a closed
-interface, and lan78xx_mac_link_up() can call lan78xx_rx_urb_submit_all()
-while NAPI is disabled. The next lan78xx_open() would call phylink_start()
-again.
-
-Userspace is frozen during system resume. However, netns cleanup runs on
-netns_wq, which is not freezable, and it can close physical devices under
-RTNL through default_device_exit_net() -> dev_change_net_namespace().
-
-Would checking EVENT_DEV_OPEN again after rtnl_lock() close this window?
-
-> +		rtnl_lock();
-
-[Severity: Medium]
-Can this rtnl_lock() deadlock when the caller already holds RTNL?
-
-lan78xx_resume() is also the runtime resume callback. A runtime resume
-runs synchronously in the context of whoever calls
-usb_autopm_get_interface(), and several of those callers hold RTNL. For
-example:
-
-  __dev_ethtool()                 [rtnl_lock() held]
-    lan78xx_get_stats()
-      lan78xx_update_stats()
-        usb_autopm_get_interface()
-          rpm_resume(intf) -> rpm_resume(udev)
-            usb_resume_interface()
-              lan78xx_resume()
-                rtnl_lock()
-
-Other RTNL-holding callers of usb_autopm_get_interface() are
-lan78xx_change_mtu(), the eeprom/wol ethtool ops and the phylib MDIO
-accessor lan78xx_mdiobus_read().
-
-A correctly opened interface holds an autopm reference until
-lan78xx_stop(), so it shouldn't be able to runtime suspend. But
-lan78xx_open() sets EVENT_DEV_OPEN before it submits the interrupt URB,
-and it doesn't clear the bit when the submission fails:
-
-drivers/net/usb/lan78xx.c:lan78xx_open() {
-	...
-	set_bit(EVENT_DEV_OPEN, &dev->flags);
-
-	/* for Link Check */
-	if (dev->urb_intr) {
-		ret = usb_submit_urb(dev->urb_intr, GFP_KERNEL);
-		if (ret < 0) {
-			...
-			goto done;
-		}
-	}
-	...
-done:
-	mutex_unlock(&dev->dev_mutex);
-
-	if (ret < 0)
-		usb_autopm_put_interface(dev->intf);
-	...
-}
-
-If autosuspend is enabled, the device can then runtime suspend with
-EVENT_DEV_OPEN still set. On the next resume from an RTNL holder, which
-can be an unprivileged ethtool -S, dev_open is true. The task then calls
-rtnl_lock() on the mutex it already holds.
-
-The stale EVENT_DEV_OPEN comes from an existing problem in
-lan78xx_open(). Before this patch, though, only the .reset_resume path
-took RTNL. Should the runtime resume path avoid taking RTNL here, or
-should the lan78xx_open() error path be fixed along with this change?
-
-> +		phylink_resume(dev->phylink);
-
-[Severity: Medium]
-Can phylink_resume() re-enter runtime PM from inside the USB resume
-callback?
-
-  lan78xx_resume()
-    phylink_resume()
-      phylink_start()
-        phy_start()
-          __phy_resume()
-            genphy_resume()
-              lan78xx_mdiobus_read()
-                usb_autopm_get_interface()
-
-lan78xx_mdiobus_read() and lan78xx_mdiobus_write() both start with:
-
-	ret = usb_autopm_get_interface(dev->intf);
-	if (ret < 0)
-		return ret;
-
-During a runtime resume, rpm_resume(intf) resumes the parent udev before
-it marks the interface RPM_RESUMING. Inside usb_resume_interface() ->
-lan78xx_resume(), the interface is therefore still RPM_SUSPENDED and the
-udev is RPM_RESUMING.
-
-The nested rpm_resume() on the parent waits uninterruptibly for the
-parent to leave RPM_RESUMING. Only this same task can make that happen.
-
-Resume paths that don't already hold RTNL, such as remote wakeup from
-hub_wq or an async pm_wq resume, would hang after the new rtnl_lock(). In
-that case RTNL stays held forever as well.
-
-As with the rtnl_lock() comment above, this needs the stale
-EVENT_DEV_OPEN left by a failed lan78xx_open(). A correctly opened
-interface holds an autopm reference until lan78xx_stop().
-
-The same hang already existed for runtime reset-resume, because
-lan78xx_reset_resume() called phylink_resume() unconditionally. This
-patch removes that case for closed interfaces, but adds it to the normal
-.resume path whenever dev_open is set. smsc95xx dealt with the same kind
-of problem by using _nopm MDIO accessors.
-
-[Severity: Medium]
-Does restarting phylink at this point run lan78xx_mac_link_up() while the
-MAC datapaths are already enabled?
-
-Earlier in lan78xx_resume(), lan78xx_start_tx_path() sets MAC_TX_TXEN_
-and FCT_TX_CTL_EN_. The RX path is also still enabled, because
-lan78xx_set_suspend() ends with lan78xx_start_rx_path() for wake
-detection.
-
-phylink_start() won't call mac_link_down() first, because phylink_stop()
-already cleared the old link state during suspend. When the link
-resolves, lan78xx_mac_link_up() does:
-
-drivers/net/usb/lan78xx.c:lan78xx_mac_link_up() {
-	...
-	/* make sure TXEN and RXEN are disabled before reconfiguring MAC */
-	ret = lan78xx_update_reg(dev, MAC_CR, MAC_CR_SPEED_MASK_ |
-				 MAC_CR_FULL_DUPLEX_ | MAC_CR_EEE_EN_, mac_cr);
-	...
-	ret = lan78xx_flush_rx_fifo(dev);
-	...
-	ret = lan78xx_flush_tx_fifo(dev);
-	...
-}
-
-and lan78xx_flush_tx_fifo() documents:
-
-/* The caller must ensure the Tx path is stopped before calling
- * lan78xx_flush_tx_fifo().
- */
-
-The reset-resume path already had this ordering. This patch adds it to
-every normal .resume of an open interface. It may matter most when the
-link comes back at a different speed or duplex.
-
-Should the TX/RX paths be stopped before phylink_resume() here?
-
-> +		rtnl_unlock();
-> +	}
-> +
->  	return ret;
->  }
-
-[Severity: High]
-This isn't a bug introduced by this patch, but the commit message says the
-new code mirrors lan78xx_suspend(). lan78xx_suspend() takes the two locks
-in the opposite order from ndo_open/ndo_stop:
-
-drivers/net/usb/lan78xx.c:lan78xx_suspend() {
-	...
-	mutex_lock(&dev->dev_mutex);
-	...
-		rtnl_lock();
-		phylink_suspend(dev->phylink, false);
-		rtnl_unlock();
-	...
-}
-
-lan78xx_open() and lan78xx_stop() are called with RTNL held and then take
-dev->dev_mutex. Suspend therefore uses dev_mutex -> rtnl_mutex, while
-open/stop use rtnl_mutex -> dev_mutex.
-
-Will lockdep report a possible circular locking dependency on the first
-system suspend with the interface up?
-
-An actual deadlock would need a non-frozen RTNL holder to open or close
-the interface while lan78xx_suspend() holds dev_mutex and waits for
-RTNL. Netns cleanup on netns_wq is one such holder.
-
-The new resume code avoids the inversion because it drops dev_mutex
-first. The suspend side still has the inversion, which came in with
-e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and
-MAC management").
+> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_=
+offload.c
+> index e4bfd43a2488b..48ee551160044 100644
+> --- a/sound/usb/qcom/qc_audio_offload.c
+> +++ b/sound/usb/qcom/qc_audio_offload.c
 
 [ ... ]
 
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261102235133.23011-1-stefanomunari.sm%40gmail.com
+> @@ -958,8 +992,9 @@ static void uaudio_dev_release(struct kref *kref)
+>  static int enable_audio_stream(struct snd_usb_substream *subs,
+>  			       snd_pcm_format_t pcm_format,
+>  			       unsigned int channels, unsigned int cur_rate,
+> -			       int datainterval)
+> +			       int datainterval, unsigned int card_num)
+>  {
+
+[Severity: Low]
+This isn't a bug, but should @card_num be added to the kernel-doc comment
+block above enable_audio_stream() in sound/usb/qcom/qc_audio_offload.c to
+avoid a W=3D1 kernel-doc warning?
+
+> +	struct usb_host_endpoint *data_ep =3D NULL, *sync_ep =3D NULL;
+>  	struct snd_pcm_hw_params params;
+>  	struct snd_usb_audio *chip;
+>  	struct snd_interval *i;
+> @@ -997,15 +1032,45 @@ static int enable_audio_stream(struct snd_usb_subs=
+tream *subs,
+>  			goto detach_ep;
+>  		}
+> =20
+> +		data_ep =3D uaudio_find_host_endpoint(subs, subs->data_endpoint);
+> +		if (!data_ep) {
+> +			dev_err(&subs->dev->dev, "data ep # %d not found\n",
+> +				subs->data_endpoint->ep_num);
+> +			ret =3D -ENODEV;
+> +			goto detach_ep;
+> +		}
+> +
+> +		ret =3D xhci_sideband_add_endpoint(uadev[card_num].sb, data_ep);
+> +		if (ret < 0) {
+> +			dev_err(&subs->dev->dev,
+> +				"failed to add data ep to sideband: %d\n", ret);
+> +			goto detach_ep;
+> +		}
+> +
+>  		if (subs->sync_endpoint) {
+> +			sync_ep =3D uaudio_find_host_endpoint(subs, subs->sync_endpoint);
+> +			if (!sync_ep) {
+> +				dev_err(&subs->dev->dev, "sync ep # %d not found\n",
+> +					subs->sync_endpoint->ep_num);
+> +				ret =3D -ENODEV;
+> +				goto remove_data_ep;
+> +			}
+> +
+> +			ret =3D xhci_sideband_add_endpoint(uadev[card_num].sb, sync_ep);
+> +			if (ret < 0) {
+> +				dev_err(&subs->dev->dev,
+> +					"failed to add sync ep to sideband: %d\n", ret);
+> +				goto remove_data_ep;
+> +			}
+> +
+>  			ret =3D snd_usb_endpoint_prepare(chip, subs->sync_endpoint);
+>  			if (ret < 0)
+> -				goto detach_ep;
+> +				goto remove_sync_ep;
+>  		}
+> =20
+>  		ret =3D snd_usb_endpoint_prepare(chip, subs->data_endpoint);
+>  		if (ret < 0)
+> -			goto detach_ep;
+> +			goto remove_sync_ep;
+
+[ ... ]
+
+> @@ -1140,14 +1210,6 @@ uaudio_endpoint_setup(struct snd_usb_substream *su=
+bs,
+> =20
+>  	memcpy(ep_desc, &ep->desc, sizeof(ep->desc));
+> =20
+> -	ret =3D xhci_sideband_add_endpoint(uadev[card_num].sb, ep);
+> -	if (ret < 0) {
+> -		dev_err(&subs->dev->dev,
+> -			"failed to add data ep to sec intr: %d\n", ret);
+> -		ret =3D -ENODEV;
+> -		goto exit;
+> -	}
+> -
+>  	sgt =3D xhci_sideband_get_endpoint_buffer(uadev[card_num].sb, ep);
+>  	if (!sgt) {
+>  		dev_err(&subs->dev->dev,
+> @@ -1637,7 +1699,7 @@ static void handle_uaudio_stream_req(struct qmi_han=
+dle *handle,
+>  		ret =3D enable_audio_stream(subs,
+>  					  map_pcm_format(req_msg->audio_format),
+>  					  req_msg->number_of_ch, req_msg->bit_rate,
+> -					  datainterval);
+> +					  datainterval, pcm_card_num);
+> =20
+>  		if (!ret)
+>  			ret =3D prepare_qmi_response(subs, req_msg, &resp,
+
+[Severity: High]
+As reported by Sashiko on v4 [1], now that enable_audio_stream() calls
+xhci_sideband_add_endpoint() for both data_ep and sync_ep before
+handle_uaudio_stream_req() calls prepare_qmi_response(), can failure paths
+in prepare_qmi_response() and uaudio_endpoint_setup() leak the sideband
+endpoint registrations in uadev[card_num].sb?
+
+In sound/usb/qcom/qc_audio_offload.c, prepare_qmi_response() has early error
+returns before uaudio_endpoint_setup() that do not call
+xhci_sideband_remove_endpoint() for either endpoint, and if the first
+uaudio_endpoint_setup() call for subs->data_endpoint fails, it returns
+without removing subs->sync_endpoint:
+
+sound/usb/qcom/qc_audio_offload.c:prepare_qmi_response() {
+	if (!uadev[card_num].ctrl_intf) {
+		dev_err(&subs->dev->dev, "audio ctrl intf info not cached\n");
+		return -ENODEV;
+	}
+
+	ret =3D uaudio_populate_uac_desc(subs, resp);
+	if (ret < 0)
+		return ret;
+	...
+	data =3D snd_soc_usb_find_priv_data(uaudio_qdev->auxdev->dev.parent);
+	if (!data) {
+		dev_err(&subs->dev->dev, "No private data found\n");
+		return -ENODEV;
+	}
+	...
+	ret =3D uaudio_endpoint_setup(subs, subs->data_endpoint, card_num,
+				    &resp->xhci_mem_info.tr_data,
+				    &resp->std_as_data_ep_desc);
+	if (ret < 0)
+		return ret;
+}
+
+Additionally, in uaudio_endpoint_setup(), if usb_pipe_endpoint() returns
+NULL, it jumps to exit instead of remove_ep, leaving that endpoint register=
+ed
+in uadev[card_num].sb:
+
+sound/usb/qcom/qc_audio_offload.c:uaudio_endpoint_setup() {
+	ep =3D usb_pipe_endpoint(subs->dev, endpoint->pipe);
+	if (!ep) {
+		dev_err(uaudio_qdev->data->dev, "data ep # %d context is null\n",
+			subs->data_endpoint->ep_num);
+		goto exit;
+	}
+}
+
+Since xhci_sideband_add_endpoint() rejects endpoints when sb->eps[ep_index]
+or ep->sideband is already set, wouldn't any of these failures leave the
+endpoints registered and cause subsequent stream enable requests to fail wi=
+th
+-EBUSY?
+
+[1] https://lore.kernel.org/r/20260909-16k_offload_v1_b4-v4-4-f24a86617597@=
+oss.qualcomm.com
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103-16k_offloa=
+d_v1_b4-v5-0-67184126e91c@oss.qualcomm.com?part=3D3
