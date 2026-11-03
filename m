@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793704906;
-	b=fx3+f8ziEJUtnXqTEK5qugrkQTzoOaZlg2GdRVJlnazOBKw05UtgULEAJZv4ukdkX023
-	 DOhSUsybT/zTtSoINReULh0S19Wq08xAfr6dnpWfBlXtiDhCPq+oR3nG4Ku7hvjQW9So2
-	 MIdQOCZQ62KzERv2tZDPSxLuH1/dfVs3xgYkevY9cWBoNlsR1/sy5UxqRprpsEiPUP7Lf
-	 K7u2kZ8a6MvJWYda7O6/10foEgQTdK5JNetpSAX4RuZ+wJv66u2Rs1lE/GA5slk07nfMU
-	 3p8dlh2qe5vEMX3k3yzTQoOnlL1roSHVebViPigoKdY8RvwULiPxp5kv1J3X4AVEn6w==
+	t=1793704910;
+	b=OL0abR0/zR+pS7Zt0DS3zPDHfvC3cjxHpvYnBvHIvJt4qpqPFTPPeca7yv3SUGEaYHSY
+	 QbL/p4zBofKzkGx40O2pYyePfUyLkdhsz/UROVSupzNGnnMl+AUpkaolMajQOlxY5CIYx
+	 iv1091l3pNTzFsoXssUwAkdHPYrcn8NQ0+AVeQcXFh+vHPW3tY1kPxz3Ac53hIGAyNEel
+	 a3RQlLXY1R+azGlhl8ylxPvrZV71VD/uRhlnTesQI2SOiNlFn8oeGPcrGlkN1LC5QzQN3
+	 xIOgVAusVUx50MjNulH0fyUceKbfQKqSzuxBfXED13gyI4BEX/T2yMy38cZgRYDQ/tg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793704906;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793704910;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=5EF7qO7Dc9Gi+mPmcNnWbZe4d5lwrsXDXOA1eeEl718=;
-	b=xfy4Ad7SqMi09/DpeHO28csWicYxBK9A28VnzOiLc34pqIwO45tFQyqONOPrA6tt0M3t
-	 0SKI2/1OxlR973/QbWhJbpgU7Bw94wk73T+IMmsrDE01pLxsJBpR5bCDpIMHoazTJHBni
-	 q5cK81IUaU7wpxeJ/fsRLNabEu0/VMyR0yan8xDOdezznN6o1VqEPTyJPeoxw1TM+Rswc
-	 jCPiXJCYfNlNsDp8TZ3Hlymb9H3VmN6HXwZjQtlvLFs3qt0gX3iwqLWoT9wkISCr/8Cna
-	 ipQjd1tbCWT3+bC+PLUd4MpWCrRouptbelAqnJfk4IzuueqO4AXslVMg6wHk2MVuOdQ==
+	bh=Hmwsw8Sbdt6KtOM1UkonB0DcR1v4usyhFSv/Uva4uJ4=;
+	b=jf9kwP/49kAdSknZH2lsGPXlKpB3/WTA8ih0Q4kTl+MeJ/UTe0kF4TsH+TtQks/RJ+6z
+	 8kE06/iMpzrJ/w51FptFp+C7rR6GhAn4XOf7STjp7SlePAeh9uwPA4lcc0g6CYdXhCcXU
+	 +ADnMiruILXg4fk9g1gs4WOF+xBNg2vLE/I1agqh6G2DFGGsAETcFbeW+uJzdhsYLLi9c
+	 tvXThQHfUq2HJDYcZwOKcVdP5KozEaZfCZx6E1mJkwhx3B7n3q4pUyjSE/Q/gjD8QStL9
+	 TspJzHIBwNbDfUouLdDk66r4d0Ef2KLwDDrddQ60N7O1p+THhxETcs5oPr27meO1fcQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=flipper.net;
 	spf=pass smtp.mailfrom=flipper.net;
-	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=BtpJFGEU;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=sCRWZBXV;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D18606B12B
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 11:21:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70D18606B12B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215B3606BFA1
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 11:21:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 215B3606BFA1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=BtpJFGEU
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a208d93758so43100225e9.3
-        for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 03:21:46 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=sCRWZBXV
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso38406325e9.0
+        for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 03:21:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1793704905; x=1794309705; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=5EF7qO7Dc9Gi+mPmcNnWbZe4d5lwrsXDXOA1eeEl718=;
-        b=BtpJFGEUIfpmQFVgikXOyK8mpdxYTHLH/gETLZu8mAaLbc2hkHlDReg1Bb8ikP41cC
-         zu0GbxPNSrpjUNowFKKYNtO+hxCwxRkBOWyfndBKSvL02UIHYx5KdHYIglteVoALumrY
-         mRYjWF3gDM8n1bTMqdaVksYeXznIniRW7lVH94tFVwvDf/HJ7g1BbZdP3n7QBgsfq/Yy
-         rAolir5At24XWFfZAnW4CNbyCpPhgH+f4okUBq4XgYg2l2N+J0/XQ1IKrEkd1IEqyp00
-         IYLroDtzhVmD4CAlQ6OQR8QcVgT99HmgEGrqRjQNloppvZn+q/Nn6iFxthBs237S6JCz
-         AQ7g==
+        d=flipper.net; s=google; t=1793704908; x=1794309708; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Hmwsw8Sbdt6KtOM1UkonB0DcR1v4usyhFSv/Uva4uJ4=;
+        b=sCRWZBXVytLCaG7YD+OZLfeHh0dVpUn9poKNHPGOF/STjUZq1QrCIneAjntad7nlJI
+         OjdvKFE38972nKRBoPWhcFdekJMQQJ/7E/nGXkz2tKpvGMaB2fpM5leH8A3HbOAqhKD8
+         mlNK+FPoUTSIPnX3zr8yJWZFVc3kSJyekG4awjvgEQBdx0jPqUH1EgcW5McsO5DeqsbU
+         qveVGcQ+yGhm1bNEcSKXmL4f5svtwNQrQWR4zFarHNqYMQA2IV44kSV6eSHwHuQuiiTd
+         8Tyx25yAbEyMYZr8rXbNfRDUyBFsCla3F9jpB14fglv/NJ2OSXchNhyuYrO4gpAHJkO1
+         UYvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793704905; x=1794309705;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=5EF7qO7Dc9Gi+mPmcNnWbZe4d5lwrsXDXOA1eeEl718=;
-        b=X8o4wM6C9Dw6z2SwBBmwoPTXtfJmO+8NZ8nYQxzysW77zvqe+pALR8/Ed8TNl3Ve0o
-         rJeR+zFyH0hSPncf5RP2fnStQfNmVF6lYD7gsTzToGnjSRh9rgBXdyflWnhWRtYPFQdG
-         K8XapaKlR7sTLuHH2zJ5qjQeKS+Y6jLj1K2WpO3sgkUDT/U6Gl7Sar/eAQy4QNxQEaaG
-         cmVqe0FfaK7ybVNFugbwIjhwDpfrj64LrbSoRXr19ehfd0Ou6Bvgc6kSVAQG2lxpnhMX
-         CRPUiDXYa8Kgg0V3iR78Mn/idDnJHZhKKZ2pcXlhRyQOBxNGjSM6YhVnAcMdIMn8XxKd
-         tEmg==
-X-Forwarded-Encrypted: i=1; AKwUvBzmZGEcfX5uddwEdtBK6Luh9eTBhW+1V361PgvA2qxKBBeNLSAj9/sZxRdiscGxr8OpyA2KGJ1g8gw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8YYwBQqTYeFbWWhl0fbe5nOYT3wfe1YSvjVRhmb3v/Q2aFBcbG
-	unghmmp/zvqmZmW3eMmGNGeEUWgr104Qu+Foeh93G0aRsHynaALYKs97Nk7cw4WnnWw=
-X-Gm-Gg: AYBFou3RilrjUqMyh3k+tcbqRYvr01iRo1VZDJRBhvKxUsUE/etkkkJqLkJNI60iz0d
-	Siv97wdjCZ+xAODTvnB3wNguT1kBg2uiA6WpDlpbjF4j6hLjEYOe+TSE1RGjYjnRiB6XQ1MiHkv
-	mMGMZRNuozTU8tVThBS7Nt+ENfbVQ+bkJqPptpL4PmVCaA0mvnWw0nVqIZYZFws4b9Zts3e2eso
-	oFIngPm1llH8MD+LPtlT32nHfdiqvYZAtnvFopCwheJ9z0QACe24btlvGr/FgXNXZsTYJq0hGGJ
-	Vzgx1UtW5Apfelu3blyuSkSwfQ+MxFwA8TPappOnsTYtW6+vDwMSGdBU8SpqO/PFRbKMfjzxv3/
-	wtk49ZeEP9pMVgEDWHckVynIYlVxUl/MpC/LuFvMQ9z4p1iqhz72RSpd0RWvKXD5pnoYuL4e8Pt
-	BiwxVYqqr4YV+Sl27ZEe4Qe/9yz+eDQ/jLoA9F2z6+TLxzzoUptvgw+n9ulUxBnWGwA9jmJYybX
-	F92tG8PS/yLeNC4mKnqOETxQ3Yvu0qHn0YDxWGV/1lB3f2sHI9kdDvs9UchG+esAcnYFk9w/l/O
-	bI0O9hy1+32XX5ZLMr0iYP9qMTEqiSMjslbux7YnGmA85kjZ6V3epcHRM7bTJgeWNv6wv8NU6/d
-	XDcbRGL9Z2HVNxxvd+fnHXqqRJ7eUYVY=
-X-Received: by 2002:a05:600c:848a:b0:4a3:59c9:a756 with SMTP id 5b1f17b1804b1-4ac17b2ce84mr321876635e9.6.1793704904615;
-        Tue, 03 Nov 2026 03:21:44 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793704908; x=1794309708;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Hmwsw8Sbdt6KtOM1UkonB0DcR1v4usyhFSv/Uva4uJ4=;
+        b=bhLQP+RDXjzJ3qF5nsxZaOLpY10zydjwUNmuc7fPeEel7lIe6FPdnEAzIV5y5m2oEr
+         4sYe99wPh+1U3DvehNhRUOAB3mnSgIN33uLSDWt03x/v9btgGEWuqbpqo92oEjEJhnMB
+         xfaLZTt6j5Qfhol15hE8onsMvYhQuTbfFG9aoZdnZTnZjEB8trgYehN0yOawqqmq7xyx
+         3NIVFwWW3CIzjWbduy04rb3XShOOA7BF8Y6PO9dm2BNhNSIYmzfSlN/Y6/PBiQH3uPHy
+         dCJrf9vi7GypgJBu6elo6Kug2eVwGLhc6vmtro221cGmnfZdcER3K7trOX3fBh+wSvGG
+         teUQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw/tNgpGSPOC1M6+ZkowadXcHcAJv3zW0R5LsNKGd/fgbl8TMgtWh/XBi2yvj4cJkCor3rhIKWTpF4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/+jdJdVLfybSdFM2A9xaLWAH7bX/FZwnDd8U9EMnI3JJN8SQQf
+	e5D8q9o8xJi6syMIHvuhyALH8FCTK2/i4aYJ7Xil1+pjG5bZdVj4ts0L/O/0UAjPvUw=
+X-Gm-Gg: AYBFou3DtIxuGIqIIvLIJxRI7viW5KpwoSK9sbI0KTj/f/b+nPG2xlkg0ArcztQOAi5
+	6z0b5fA4S4lO4b2F6lt9VMucPLtZDxZufuZKWFfqnt/OhRSxi177QhKiluUQPUNoo+AM/Y/H+4F
+	5GAwzw7xn9+S003ca9XrxQXif6BYyWdCL2OTgFRQ5nFyJltOKOG0T2aJx0arMOlKHDhLloQqqrn
+	MOCnLsFenxGMo01fUMcAboCLyrvjuR+rFqxl1cnUXKI25XtG/6/yftsQ/N8DpBr+3RGR/7+ge3s
+	OM+ck6i/iWm2fam3RzcyDn3714RTDUUPOugZXIv13hzwFKKsccUgIPKaGPMRR4eX+9goAVHw6ea
+	gpobmmPzzZk0g8xrs11CDxGj/xqe8g/KzvOwk2LkgVKHx6r6yuKltTN07Pw5BQ4evJB2yFxce1D
+	0enWRvY0pxL5bkC1MiXlpuQkx9W9v82yLBVZZdz/Kw7Vhy4kTTYgOcm2S+nVpeffapIPs2GtCX6
+	XM4YiqesQrEP24bSXck5iBnqPPtN9mhyhkRMhl4+lkHC6WIDUyQC8yXUXrZmUHWjW+Tq9lcQINQ
+	i4ho+n0YN0mZAA+YVXOoB1Yom/jylF7I/geBVzQILx3wWyefv/I/oHAv9mQnPi5ClIuI6heRixN
+	KjYimH5dRLGkyZHDYXr5fLNM65hfA79z1
+X-Received: by 2002:a05:600c:1987:b0:4a1:6517:ccf1 with SMTP id 5b1f17b1804b1-4ac16fa2edbmr295498615e9.9.1793704908519;
+        Tue, 03 Nov 2026 03:21:48 -0800 (PST)
 Received: from alchark-surface.localdomain (bba-86-98-194-229.alshamil.net.ae. [86.98.194.229])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2ab3ea6a9sm76135345e9.15.2026.11.03.03.21.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2ab3ea6a9sm76135345e9.15.2026.11.03.03.21.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 03:21:44 -0800 (PST)
+        Tue, 03 Nov 2026 03:21:48 -0800 (PST)
 From: Alexey Charkov <alchark@flipper.net>
-Subject: [PATCH 0/5] usb: typec: cable comms on RT1711H-compatible TCPCs
- and FUSB302
-Date: Tue, 03 Nov 2026 15:21:21 +0400
-Message-Id: <20261103-husb311-cable-comm-v1-0-6217dabc1a85@flipper.net>
+Date: Tue, 03 Nov 2026 15:21:23 +0400
+Subject: [PATCH 2/5] usb: typec: tcpci: Receive SOP' only while sourcing
+ VCONN
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -96,10 +96,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CQAxG4auQrm1CBwLGqxgXTP2RGgEzBWNCu
- LujLr/Fexs5ksHpVGyU8DK3ecqQQ0E6dNMNbNdsCmVoRMqKh9VjJcLaxQdY53HkuukD2ha1ypF
- y+Ezo7f2bni9/+xrv0OV7on3/AA9Begh2AAAA
-X-Change-ID: 20261103-husb311-cable-comm-46f2e77e4c18
+Message-Id: <20261103-husb311-cable-comm-v1-2-6217dabc1a85@flipper.net>
+References: <20261103-husb311-cable-comm-v1-0-6217dabc1a85@flipper.net>
+In-Reply-To: <20261103-husb311-cable-comm-v1-0-6217dabc1a85@flipper.net>
 To: Badhri Jagan Sridharan <badhri@google.com>, 
  Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -108,72 +107,148 @@ Cc: Sebastian Reichel <sebastian.reichel@collabora.com>,
  linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Alexey Charkov <alchark@flipper.net>, stable@vger.kernel.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2970; i=alchark@flipper.net;
- h=from:subject:message-id; bh=X0y23fFXZsiPBI8+tUywZO1MABrBc4xkzAM8hyoRHSs=;
- b=owGbwMvMwCW2adGNfoHIK0sZT6slMWS9PLzn45mK3N7WJUn2n6IvvmDpU/wnuUzLIWGnouOeZ
- 8sM9KJlOyayMIhxMViKKbLM/bbEdqoR36xdHh5fYeawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
- QyMdYx0jBi5OAZjqmFMMf4X3/atwPnBS/7eW084Z9/XztzFHn1wn9Kzz6fT9E6eanDzIyLDqx8N
- Du6U8Jl9pt3S47WSSyefHKlnnlvTe0O6n/mz7E/wA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4477; i=alchark@flipper.net;
+ h=from:subject:message-id; bh=Y+Y0smxCISp62BQ19uBzIyipjINlpTXkK4pYI1Ccdzk=;
+ b=owGbwMvMwCW2adGNfoHIK0sZT6slMWS9PHwkcKPI2XnL1CJOi1f1tuqabp8zZ4ZkaBxjZ3Rn3
+ ftFx3bu7ZjIwiDGxWAppsgy99sS26lGfLN2eXh8hZnDygQyRFqkgQEIWBj4chPzSo10jPRMtQ31
+ DI10jHWMGLg4BWCq/X4xMpxYFVX/Iu1ndOZ0Q73DnIuj2ddodgS9iBV/ff5lvEX1lgyG/6GNn79
+ nPZttfHHdjCSVlCt/Cw6UF8Q8sI3defr2MtsAOwYA
 X-Developer-Key: i=alchark@flipper.net; a=openpgp;
  fpr=9DF6A43D95320E9ABA4848F5B2A2D88F1059D4A5
 
-Neither the RT1711H family (including the HUSB311 and ET7304) nor the
-FUSB302 lets TCPM talk to cable plugs today, so cable discovery is
-skipped, and with it the cable's current and speed ratings.
+A TCPC acks every message type enabled in RECEIVE_DETECT and passes it
+on to TCPM. With SOP' enabled while the partner sources VCONN, the port
+acks the partner's requests to the cable plug and the plug's replies to
+the partner, colliding with the GoodCRC that the plug or the partner
+sends. TCPM also tries to answer these messages as if they were destined
+to it, which for the case of a partner's SOP' Discover Identity on a
+HUSB311 made the partner soft reset the contract every time.
 
-The RT1711H family handles SOP' like any other TCPCI-compliant TCPC, but
-enabling it exposed a problem in the TCPCI core: it set SOP' in
-RECEIVE_DETECT whenever the TCPC can talk to cables, regardless of who
-sources VCONN. With the partner as the VCONN Source, the port then acks
-and processes the partner's own traffic with the cable plug.
+TCPM talks to the cable plug only while it is the VCONN Source, as USB
+PD 3.0 section 6.3.11 requires, so listen for SOP' only then.
 
-Patch 1 fixes a TCPM bug that cable communication on the FUSB302 made
-visible: after a VCONN swap, a source resets the cable plug twice.
-Patch 2 lets a TCPCI TCPC receive SOP' only while it sources VCONN,
-which also affects the Maxim TCPCs, the only ones that enable SOP'
-today. Patch 3 enables SOP' on the RT1711H family. Patches 4 and 5 add
-SOP' to the FUSB302 driver, receiving it under the same VCONN rule.
+Switch SOP' reception off before VCONN goes off and on only once it is
+on. If that fails, warn instead of failing the VCONN switch: SOP'
+reception left off only costs cable discovery, and left on is no worse
+than before this change.
 
-Tested on an RK3576 EVB1 (HUSB311, source-only) and Flipper One boards
-(FUSB302B):
-- Without patch 2, a FUSB302 sink sent SOP' Discover Identity over a
-  cable with no e-marker, so the HUSB311 had no VCONN to source. The
-  HUSB311 acked each one and its TCPM answered over SOP, after which the
-  sink soft reset the contract every time.
-- With patch 2, the same messages went unacked and the HUSB311 port
-  correctly ignored them.
-- Over an e-marked 5A EPR cable, the HUSB311 sourced VCONN, read the
-  cable identity and completed discovery, while the FUSB302 sink kept
-  SOP' reception off.
-- With a FUSB302 as source on the same cable, it sourced VCONN, read
-  the cable identity and completed discovery. The cable plug accepted
-  the FUSB302's automatic GoodCRC to its replies, which the datasheet
-  leaves undocumented for SOP'.
-- Between two FUSB302 ports on the same cable, VCONN swaps both ways
-  moved SOP' reception along with VCONN, and each new VCONN Source
-  soft reset the cable plug over SOP'. Without patch 1, the source did
-  so twice.
-
+Cc: stable@vger.kernel.org
+Fixes: 3bbb9ba4f660 ("usb: typec: tcpci: add tcpm_transmit_type to tcpm_pd_receive")
 Signed-off-by: Alexey Charkov <alchark@flipper.net>
 ---
-Alexey Charkov (5):
-      usb: typec: tcpm: Stop a source from repeating a cable Soft_Reset
-      usb: typec: tcpci: Receive SOP' only while sourcing VCONN
-      usb: typec: tcpci_rt1711h: Enable SOP' communication
-      usb: typec: fusb302: Tell SOP' messages apart from SOP
-      usb: typec: fusb302: Enable SOP' communication
+ drivers/usb/typec/tcpm/tcpci.c | 72 ++++++++++++++++++++++++++++--------------
+ 1 file changed, 49 insertions(+), 23 deletions(-)
 
- drivers/usb/typec/tcpm/fusb302.c       | 63 ++++++++++++++++++++++++++---
- drivers/usb/typec/tcpm/fusb302_reg.h   | 10 +++++
- drivers/usb/typec/tcpm/tcpci.c         | 72 +++++++++++++++++++++++-----------
- drivers/usb/typec/tcpm/tcpci_rt1711h.c |  1 +
- drivers/usb/typec/tcpm/tcpm.c          |  2 +
- 5 files changed, 119 insertions(+), 29 deletions(-)
----
-base-commit: 2637bdec0535a2044cd830eba9a79363651d9043
-change-id: 20261103-husb311-cable-comm-46f2e77e4c18
+diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+index 6717ac914c6a..af8db6b4497a 100644
+--- a/drivers/usb/typec/tcpm/tcpci.c
++++ b/drivers/usb/typec/tcpm/tcpci.c
+@@ -41,6 +41,7 @@ struct tcpci {
+ 	unsigned int rx_type_mask;
+ 
+ 	bool controls_vbus;
++	bool vconn_enabled;
+ 
+ 	struct tcpc_dev tcpc;
+ 	struct tcpci_data *data;
+@@ -344,11 +345,45 @@ static void tcpci_set_partner_usb_comm_capable(struct tcpc_dev *tcpc, bool capab
+ 		tcpci->data->set_partner_usb_comm_capable(tcpci, tcpci->data, capable);
+ }
+ 
++static int tcpci_set_pd_rx(struct tcpc_dev *tcpc, bool enable)
++{
++	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
++	unsigned int reg = 0;
++	int ret;
++
++	if (enable) {
++		reg = TCPC_RX_DETECT_SOP | TCPC_RX_DETECT_HARD_RESET;
++		/* Only the VCONN Source talks to the cable plug */
++		if (tcpci->data->cable_comm_capable && tcpci->vconn_enabled)
++			reg |= TCPC_RX_DETECT_SOP1;
++	}
++
++	tcpci->rx_type_mask = reg;
++	ret = regmap_write(tcpci->regmap, TCPC_RX_DETECT, reg);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++
+ static int tcpci_set_vconn(struct tcpc_dev *tcpc, bool enable)
+ {
+ 	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
+ 	int ret;
+ 
++	/*
++	 * Without VCONN from us, SOP' traffic is between the partner and the
++	 * cable plug, and our GoodCRC would collide with theirs. So stop
++	 * receiving SOP' before VCONN goes off, and start only once it is on.
++	 * Neither is worth failing the VCONN switch over.
++	 */
++	if (!enable) {
++		tcpci->vconn_enabled = false;
++		if ((tcpci->rx_type_mask & TCPC_RX_DETECT_SOP1) &&
++		    tcpci_set_pd_rx(tcpc, true) < 0)
++			dev_warn(tcpci->dev, "Failed to disable SOP' reception\n");
++	}
++
+ 	/* Handle vendor set vconn */
+ 	if (tcpci->data->set_vconn) {
+ 		ret = tcpci->data->set_vconn(tcpci, tcpci->data, enable);
+@@ -356,9 +391,20 @@ static int tcpci_set_vconn(struct tcpc_dev *tcpc, bool enable)
+ 			return ret;
+ 	}
+ 
+-	return regmap_update_bits(tcpci->regmap, TCPC_POWER_CTRL,
+-				TCPC_POWER_CTRL_VCONN_ENABLE,
+-				enable ? TCPC_POWER_CTRL_VCONN_ENABLE : 0);
++	ret = regmap_update_bits(tcpci->regmap, TCPC_POWER_CTRL,
++				 TCPC_POWER_CTRL_VCONN_ENABLE,
++				 enable ? TCPC_POWER_CTRL_VCONN_ENABLE : 0);
++	if (ret < 0)
++		return ret;
++
++	if (enable) {
++		tcpci->vconn_enabled = true;
++		if (tcpci->data->cable_comm_capable && tcpci->rx_type_mask &&
++		    tcpci_set_pd_rx(tcpc, true) < 0)
++			dev_warn(tcpci->dev, "Failed to enable SOP' reception\n");
++	}
++
++	return 0;
+ }
+ 
+ static int tcpci_enable_auto_vbus_discharge(struct tcpc_dev *dev, bool enable)
+@@ -478,26 +524,6 @@ static int tcpci_set_roles(struct tcpc_dev *tcpc, bool attached,
+ 	return 0;
+ }
+ 
+-static int tcpci_set_pd_rx(struct tcpc_dev *tcpc, bool enable)
+-{
+-	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
+-	unsigned int reg = 0;
+-	int ret;
+-
+-	if (enable) {
+-		reg = TCPC_RX_DETECT_SOP | TCPC_RX_DETECT_HARD_RESET;
+-		if (tcpci->data->cable_comm_capable)
+-			reg |= TCPC_RX_DETECT_SOP1;
+-	}
+-
+-	tcpci->rx_type_mask = reg;
+-	ret = regmap_write(tcpci->regmap, TCPC_RX_DETECT, reg);
+-	if (ret < 0)
+-		return ret;
+-
+-	return 0;
+-}
+-
+ static int tcpci_get_vbus(struct tcpc_dev *tcpc)
+ {
+ 	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
 
-Best regards,
---  
-Alexey Charkov <alchark@flipper.net>
+-- 
+2.56.0
 
