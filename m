@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793688894;
-	b=Jr11KMYEX0NrZkdsCKSyocNi6m43jV4RnCeHowIHRpduw+Wjs1FJKUS03FdoFk4qLbkL
-	 h3XRVjN2fPzwBPfiGcgK7svVNEMZEnerBp4UfbC3+tXz6y6/RCfh7CidHcNHqLwA86aLp
-	 VVm6TIWolURPEp/9oyfKjvrqGVj7vj+O6V0dElMhO0rMoo+QZZQ7B9rbXhP+RBlTaM8gT
-	 W+pyKSpQTItUOkwAl9e30G3ccsDOf1skdaY+jJd7Doq8iGRmNAdBk8zBduWG7FecyCMHY
-	 au2w+NF2O3h8dGm/keSP93JK6VnYqpaMleCiB+kTpXp+8Rj6K3eNaa4jh67/m+2jBTw==
+	t=1793689067;
+	b=S8llTwHiKhknNNay2nLiemjlK2orhd1gldNni9GYPrxYZhlbjQm0Sn5xDuECFAa8VYvB
+	 zumDH1IsJlzBVTOOQanuqYXuyhhWIAB6f2eKxVKlVhiPNeWEirW/9y3/nBP0NyE43bBSj
+	 hnIMDzX267YY2VFUPMzApY9Vt6GKOobX1jfD6PvC/VN/4VJG9e0iU6W83fOCywy6nlkHh
+	 Dhc5ZVbKxfFd7TTpM/mpAohmuTeal6QrCHpDauOWb+57RvXLYKeJyPBlDesr1TrQaZoQM
+	 +HTPAC66BCmdfRdmc9X+jodSUaFg5eBCTqceOX1YpWfoIWsqUQoKflMeGFowdxq5iWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793688894;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793689067;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=n5JVzz4jABomGbTdhl5e31YfCj2Kep/9bSFoasFfLKw=;
-	b=5YNHXPGLXo6ZUmXpLpwXCXIkU/GyO1hNo/Fu0KJQkuMiZGI7yt4MLUqp+vHuLqZAEYMh
-	 xpsZhVg+zoLU1f8VKx5EV3oOfKPy8qy0WZslwT2CRgwdKz31TDYI0qmTExKAqwuoJnSjQ
-	 4YQUp3dS6GSZ4sejD+Tm5W/846b2GlZCd5qFMMGLN1ZGHMurik1tXXbWB+2nLrl7sgrwM
-	 g0d/XZvRAQ+SJpDjzuH6JQ3P3/+XlbIcHclAjlTGSanMpwm5LOpUMlVw8GWz80Pei6y50
-	 AOiWDczHhBwAEvWhVNxA8qu5C6PlVWJOQAJfVTT4jqCnU295ZOA1d5S20KG5rlB/3Rg==
+	bh=L5zN4vgAWqszHABo7mdpF/3sDWkHqXNoqQuO9FZ0ptM=;
+	b=YjDY3N+cs/o9SNwQasZI0IG/+EdtP1BqM7biPwUjKhH5QOlLZ6U4qBGtlF6r5r1EVrDD
+	 r4wVJJXH2dNLrZ8/N4scEgR1CjM1Wu5E3oisjLEjvZQq2eGqWeQXvA45Q2/DEQNSY5xM9
+	 YPD2prkfnK6a92cs1fo6ds2u1yNKGmFbJKBjomto+OtZd3xbAvntcf8YW3XPcSB4reYYj
+	 K35436saAiiJdySfnraLGZk0g9r4Tteo8r/YxO/k6B3iUi7E2RRc1C/EZVbAuY102c8L5
+	 wXq6JUR6mQ7XQDFb/OHXW174hEU+fSbUrL5WR/khcaBpMYrYbN93AIdZBciOP4f7HKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XtvHDtwS;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="e15kp/C8";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FFD606A337
-	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 06:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D898606A324
+	for <linux-usb@vger.kernel.org>; Tue,  3 Nov 2026 06:57:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XtvHDtwS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D273C1F000C1;
-	Tue,  3 Nov 2026 06:54:53 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e15kp/C8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C5F61F000C1;
+	Tue,  3 Nov 2026 06:57:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793688894;
-	bh=n5JVzz4jABomGbTdhl5e31YfCj2Kep/9bSFoasFfLKw=;
+	s=k20260515; t=1793689066;
+	bh=L5zN4vgAWqszHABo7mdpF/3sDWkHqXNoqQuO9FZ0ptM=;
 	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=XtvHDtwSEOPSdBXO3nP3Hsr3ZawgM2XrPFiBx0h2NMpl+eNulMWJtcvq93t5c3/HL
-	 PTMwDDqf9zkFlI3UguESEx2hdtQl7AesbjG0+XXIkBGDxQtuJd2u5WgQWdRtaM+zMA
-	 2j4m+N/AmBHzE/1T+RMwBjl8YnqrztIWOwQDNe0ymQ6Ze49mlPfz5xEMbPxik3YOqq
-	 DEHFUFAVKwN6eXK0Xo7xVw4NAxlPlqD7yow71N61bni6dTBdU1OqWPGbZqUNxHKyga
-	 wmoi8pmAd8W0kZZhX1wQIDgSaFYP8XD3kn0xiEq1GxTuaOjekHiuep5CiOSCqxO31A
-	 ZODRnXz4YRmaw==
-Message-ID: <sashiko-outbox-194678@kernel.org>
+	b=e15kp/C8AGnfYfgXhNBbYOiILwdyUhnn7px7fKc+HX9qM5pNi0kCzSakckjpOLhUQ
+	 LrJivhYWztmY7JImZwTrPk4XfNJOtkMVHHifuX7JE9RpMOAeSvehiYGdt+ryt/WUE8
+	 d3UQn3hXDbXxpPXyb1uSqNNJ7JTPbj3Ca7gGGNmQJqVun/pdA7QmOC+wDjfHMDoQ/D
+	 FTMKFkjHYp6hSwgYE4oYAVPwCUpvAWOMuYnMVnnNHntDbvse5FZAjpdkyAjI0U9CeL
+	 YH7gBhVQCmildxja/nZbMDq6VvPcK4IAKxzPhT+K3A9ZgHgjhLwOnDDyzm7O49N3g4
+	 ZiQOqshosTpbw==
+Message-ID: <sashiko-outbox-194684@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 3/3] usb: dwc3: starfive: Add JHB100 USB device
- adapter port enable quirk
+Subject: Re: [PATCH v2 1/3] dt-bindings: usb: starfive,jhb100-dwc3: Add
+ adapter register region
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Minda Chen" <minda.chen@starfivetech.com>, linux-usb@vger.kernel.org
-In-Reply-To: <20261103064836.71059-4-minda.chen@starfivetech.com>
+In-Reply-To: <20261103064836.71059-2-minda.chen@starfivetech.com>
 References: <20261103064836.71059-1-minda.chen@starfivetech.com>
- <20261103064836.71059-4-minda.chen@starfivetech.com>
+ <20261103064836.71059-2-minda.chen@starfivetech.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 06:54:53 +0000
+Date: Tue, 03 Nov 2026 06:57:46 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,23 +60,13 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Add an extra iomem field to struct dwc3_gerneric, so as JHB100
-> can add PHY adapter setting. Other soc also can use it.
+> Add dt-binding of JHB100 server host field USB device controller,
+> which still using dwc3 usb core and contains an extra PHY adapter
+> register IO register region. Require to add IO register descriptions
+> and regs-name list.
 >=20
-> Also Add Starfive JHB100 USB 2.0 device controller generic init
-> function to remap PHY adapter io memory region and add adapter
-> pre-run/stop function.
->=20
-> On the JHB100 BMC SoC, each DWC3 device controller is connected to a
-> port of the xHCI controller that is exported to the server host over
-> PCIe, through a PHY adapter. Setting the adapter USB 2.0 port enable
-> bit asserts the connect status in the xHCI PORTSC register, so it must
-> only be set once the gadget is ready to be enumerated, otherwise the
-> host fails to enumerate the device. And clear the ppt enable bit
-> while gadget device stop.
->=20
-> Add an optional "adapter" register region and toggle the port enable
-> bit from the pre_run_stop glue callback.
+> To compat with normal bmc usb, which contains only 1 dwc3 core IO
+> register region, add miniItem to 1.
 >=20
 > Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
 
@@ -84,5 +74,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103064836.7105=
-9-1-minda.chen@starfivetech.com?part=3D3
+9-1-minda.chen@starfivetech.com?part=3D1
 
