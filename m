@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793778662;
-	b=3p/zYWXbRCuRcQoJ1d2zKBZ1w1iUmUSTOl/lWifYmhiQUO//Ja6rbKLwHE1vw+qolVba
-	 SIVoXGaQawjz7BXWs4wp7CI8PfoOqFrciiYrIXLYniLMQH2iZMNsG246lL51ed6r/xFrM
-	 ZvPg99CgMU/J2dbu4y2h6uXWfoDIYLEGmVmUDDiigsK2ej7U9reXpXYNm5UGT57aVEtsN
-	 /kuVVwbtPR63Tc7tlwejXdEeznS4y50saqSZJUc4nE6QU26pMDxqsdlsadIjxhCfYAVUr
-	 qbwuHXVDlcrG+FAKFV5eWl9YdGG0Q7YNogjiNCL3Hb6yDkfNAGGveTFvQFVq6B2tXqQ==
+	t=1793778873;
+	b=ME/eBRpyLEyAg+DA5BKzsoHaEll+QLAj9PuAKdkN8qASZNETe/wrYcZrTJ4g8QIYfUhD
+	 LvSbUsbvcDoC58PsnFIWSPb8n84FlknU/JfMF5qLCw6//XfKqqKtP8OhduSmAibsAHs8H
+	 5Wz7F5vv9yXZvxJQ1FuUd2V+UYIxU3mjubCwargdOg5FVuVy4CJRTrVSOvst91U3V09Yy
+	 N8js5aC5ydbAOxAXC/L8kyjWEvHLfZEU+pPYkfc2Jb6XkMSGPObOVZV5rvpmCbgt8NJPP
+	 Gwa67AyXUow+R+BSn1puV4DTmkGdfbEA8DXFkwbq2GHTIIp48Nw8Ci8pjG10E8htQug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793778662;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793778873;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=wib53BzBWIQ/iei6dV6vU1OpXkGrKSEW+nY3L1O5OIg=;
-	b=ILi0QyNJfON0tWv1F5WAuShSIzTrnSVa8DKi4/HDkiJRyDxZHgAe7ak3cCTHWaZpuaOe
-	 vWLED5B3/7B9NagoRDkppLV5XsjtPBxJIlrEmm7lUTd9E08mdftMhJOAryr6V8QVCqcEh
-	 4olHnmHm1jbAHh4H0GAw8/puBZ3z4mOikutORqh6DB7DpfE/C57CxzZo3UiXza8d8YIP/
-	 8EOG9IOi/ilvvukDkRxyMCLnp9B2b36YOKVJGSNC1yA0pH56KIm59XRmd7U3RRawRfXFs
-	 wMWw1Otl8EZzSxJ9vJRsJS4W7feBvGKm+oz3xhDUrOqXl61LxX0ZYO8S2gBpvdPDreg==
+	bh=bMhQ8DbH8YprQQtk+DeoV/O9noCHpNTfYAfjMaX8Kxs=;
+	b=s8hzGrJovk4Lewt+8BHeNMwESPsUWPyhRNZxH7366rgzE4QgpGuqEwXDILnHUAMx9Son
+	 mU0t7GCNd1Q1HZRrFpGi1qW3VVcT+4C7HV2ISSVe8/1lPdxltH1p2dkh5au+uURoRLzod
+	 eh3+CIUijaKbaJ/4/R+1sxVLHj3wyklxpeV3RsIvxjN20VicyiIqzs0U2+Ns9IQ1qB0Tp
+	 +qvlYReMS7FFM9bemWZpVooRpxDA08FjbjLcnndsTtWUqFxo0tyzEQhuPngSPP4/4vUCw
+	 b0l3IJsZRiFyTazWfNgOiL3W+WOiVES/zN7igXn1BpaPeLsgQpFN22Vp4JZw78KdAdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kuCZxDfw;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SAyLHS8K;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC808606A332;
-	Wed,  4 Nov 2026 07:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D940606A32E;
+	Wed,  4 Nov 2026 07:54:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kuCZxDfw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47A1B1F000C1;
-	Wed,  4 Nov 2026 07:50:56 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SAyLHS8K
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52BA61F00919;
+	Wed,  4 Nov 2026 07:54:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793778661;
-	bh=wib53BzBWIQ/iei6dV6vU1OpXkGrKSEW+nY3L1O5OIg=;
+	s=k20260515; t=1793778872;
+	bh=bMhQ8DbH8YprQQtk+DeoV/O9noCHpNTfYAfjMaX8Kxs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=kuCZxDfwwPYseCHjmRpB6DbMkv90BKj1wP/P+k6wp9pXFCc3d7gpULh8ZvDONi26Z
-	 1QubdnZHY+p7Xn5BjIX6HGpbscbtgK8sQnmh1uaWkwG5X6NXmY/IY18YW7bVkTyb5N
-	 z0TGdc2bltmyKQfEYHh7oQibC1QOlmkVlPIemf8qOiPdVMjLPWDDJ9ukexoMMZIzDM
-	 ZXNLmp0OF9yZ0CogbjG1PVlDCaQZwCAFzahPBawICH39VvjOaoG7RyOsecjXqCR4V7
-	 QZF5umCpj2rXRh55TTqaFh1ah3TsyHwX3KlNvkq+v9Xq18XdD8u6Wc5cGE3ud91YjG
-	 nBGF0LvJCzabA==
-Message-ID: <b28d5657-8491-41ae-821e-2b8c4d212244@kernel.org>
-Date: Wed, 4 Nov 2026 08:50:53 +0100
+	b=SAyLHS8KaxxdieI0W2Mkl49Kr7Ijil77TWsDEUno0l/2ro8neCxtPIJH70kzAeQi0
+	 EyM3iaG9m4y/TJVzX0V0r/DK4GrVNDtm+P4FUQNMN/R1BBScd+wtCNo38mbDbIZM5B
+	 8WWpAW4aGyyDgsdHkHWcrQVESIqCGd06A/dW+AUKYgrbJ7Zym6DIyMXIc0HqCM50Yb
+	 sc4xrM0uY4LN9BVEjLHybe0g0lOvb4f+bo6Q2Yrgst4E1TuAboQH1zRsUO6k83Eeru
+	 RLh8RstvnySHlo7SLArZ9JhX47+Uak+tq3woJQANT50ystp42+DkajxWCBGNAvmUS4
+	 Cza9HPCiVFMxA==
+Message-ID: <6029d402-7916-4076-a463-6ed27dcdcba9@kernel.org>
+Date: Wed, 4 Nov 2026 08:54:25 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -52,7 +52,7 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] dt-bindings: usb: Add CIX Sky1 USBSSP controller
+Subject: Re: [PATCH v5 2/3] usb: cdns3: Add CIX Sky1 glue driver
 To: =?UTF-8?B?SG9uZ2xpYW5nIFlhbmcgKOadqOWuj+S6rik=?=
  <hongliang.yang@cixtech.com>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Peter Chen <peter.chen@kernel.org>,
@@ -68,7 +68,7 @@ Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  cix-kernel-upstream <cix-kernel-upstream@cixtech.com>
 References: <20261103074929.1971195-1-hongliang.yang@cixtech.com>
- <20261103074929.1971195-2-hongliang.yang@cixtech.com>
+ <20261103074929.1971195-3-hongliang.yang@cixtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -114,69 +114,53 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20261103074929.1971195-2-hongliang.yang@cixtech.com>
+In-Reply-To: <20261103074929.1971195-3-hongliang.yang@cixtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 03/11/2026 08:49, Hongliang Yang (杨宏亮) wrote:
-> Add device tree binding for the CIX Sky1 Cadence USBSSP controller
-> glue layer. Each controller has an AXI bus attribute configuration
-> register and a controller status register. The glue registers of the
-> two controllers are interleaved inside a shared RCSU region, which is
-> represented as a simple-bus container node with an address-translating
+> +	data->rcsu_axi_base = devm_platform_ioremap_resource_byname(pdev, "axi");
+> +	if (IS_ERR(data->rcsu_axi_base))
+> +		return PTR_ERR(data->rcsu_axi_base);
+> +	data->rcsu_ctst_base = devm_platform_ioremap_resource_byname(pdev, "status");
+> +	if (IS_ERR(data->rcsu_ctst_base))
+> +		return PTR_ERR(data->rcsu_ctst_base);
+> +	data->reset = devm_reset_control_get_exclusive(&pdev->dev, "core");
+> +	if (IS_ERR(data->reset)) {
+> +		ret = PTR_ERR(data->reset);
+> +		dev_err(dev, "get reset error:%d\n", ret);
+> +		return ret;
+> +	}
+> +	data->preset = devm_reset_control_get_exclusive(&pdev->dev, "apb");
+> +	if (IS_ERR(data->preset)) {
+> +		ret = PTR_ERR(data->preset);
+> +		dev_err(dev, "get reset error:%d\n", ret);
+> +		return ret;
+> +	}
+> +	platform_set_drvdata(pdev, data);
+> +	data->dev = dev;
+> +	ret = of_alias_get_id(dev->of_node, "usb");
 
-Shared region is not a simple bus. Simple bus is a simple bus, so
-obviously is not a shared region.
+NAK, undocumented ABI. Drop entire alias and do not sneak such stuff in
+the future.
 
-> ranges property; each glue node describes its registers as offsets
-> inside that region. Mode strap controls are programmed through the
-> Sky1 S5 system controller referenced by the cix,usb-syscon phandle.
-> The CIX glue node wraps a Cadence USBSSP core as a child node.
-> 
+> +	if (ret == -ENODEV) {
+> +		if (device_property_read_u32(dev, "id", &ret))
+> +			ret = -ENODEV;
+> +	}
+> +	if (ret < 0 || ret >=  SKY1_USB_S5_NUM) {
+> +		dev_err(dev, "get alias failed.\n");
+> +		return ret;
+> +	}
+> +	data->id = ret;
+> +	data->usb_syscon = syscon_regmap_lookup_by_phandle(dev->of_node,
+> +							   "cix,usb-syscon");
+> +	if (IS_ERR(data->usb_syscon)) {
+> +		dev_err(dev, "Unable to get cix,usb-syscon regmap");
+> +		return PTR_ERR(data->usb_syscon);
 
+From where did you copy such syntax of error handling?
 
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        usb-rcsu@91c0300 {
-> +            compatible = "simple-bus";
-> +            #address-cells = <2>;
-> +            #size-cells = <2>;
-> +            ranges = <0x00 0x00000000 0x00 0x091c0300 0x00 0x150>,
-> +                     <0x00 0x091d0000 0x00 0x091d0000 0x00 0x20000>;
-
-Drop node. Not relevant.
-
-
-> +
-> +            usb@14 {
-
-So this is @14
-
-> +                compatible = "cix,sky1-usbssp";
-> +                reg = <0x00 0x14 0x00 0x10>,
-> +                      <0x00 0x100 0x00 0x10>;
-> +                reg-names = "axi", "status";
-> +                ranges;
-> +                #address-cells = <2>;
-> +                #size-cells = <2>;
-> +
-> +                clocks = <&scmi_clk CLK_TREE_USB3A_H0_CLK_SOF>,
-> +                         <&scmi_clk CLK_TREE_USB3A_0_AXI_GATE>,
-> +                         <&scmi_clk CLK_TREE_USB3A_H0_CLK_LPM>,
-> +                         <&scmi_clk CLK_TREE_USB3A_0_APB_GATE>;
-> +                clock-names = "sof", "axi", "lpm", "apb";
-> +                resets = <&src SKY1_USBC_SS2_PRST_N>,
-> +                         <&src SKY1_USBC_SS2_RST_N>;
-> +                reset-names = "apb", "core";
-> +                cix,usb-syscon = <&src>;
-> +
-> +                usb@91d0000 {
-
-But this is at @91d0000
-
-You have completely fake representation of hardware.
 
 
 Best regards,
