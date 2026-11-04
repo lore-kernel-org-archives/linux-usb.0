@@ -1,100 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.179
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793782822;
-	b=hm60dYi6DCeQpxmRtyoMo37DpG1nsfRcliTNWS0PDGxS/2PCib7e5wqJYKwTyeLwGn9n
-	 kaEa/PhADoPqabUtKGcThAiLbF3+EsKHuA9X8xnzU/OtNxcTV1XDZWPTgaeMw0vMMwXSd
-	 /jvoPvxx7GaTnRq7r/zoM8MVMzgUEj/wXPFW7LCFLxKwlYsQnTdutPLVxSPDbOJxjADhK
-	 BxHV2ZPTCQyW2lCoAYTR1UYXzqHJIMFjvIa6KG3uztAoPmyAlvaQxuyCAne01WiDfjHKj
-	 zpcyZvRCRcj+xWbPl4ztHeSD4yDWJshwVoTXMzj4diP19/NLK6xRg/ASXIIEb6yCU2Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793782822;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=jTRnpEDN+KWb3ei+FUpJVOT/UTcJwtCB9oaH08vzv9M=;
-	b=myHS/UtYvp0j4n/mckzHkLdWAKLweIMKl250czuuXY6c+wMNPKp2ZSPPYVA30VIUnjZV
-	 oVHY4FBg5kjrUA5OOQKHfJEkAFpTauf93EQtQFLq8wySTc5iwP7zjAc6Z4u11MhgpwPYj
-	 x6bkIjyflnlnTFaUg9ypYxNOqm34OPJtUfxkXiSjSqYeI/wreCu1D4nwR7iBIiRl1t5Wy
-	 wSfVqy88LAjD5SfYo1QxIIPr5/eTr6XILYCqlEXsWSCf/C9psI5nHioTzviKH5+hlfPSs
-	 OujAljQhuV/RrYB9eyqeDqc7tvGDzdGZ92Nip0AaEQwuKbAi9ZHUrnM1iglAPDu631w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=k3ivZqyW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.179
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793783077;
+	b=uqZRUWMPOEN9hllw06IlxrkPinUoikTfqzKKZuz4AneVBKDlTRx09/eb6Be/DIdJ4gSL
+	 56azuKO0DokEgVZr3vhmEJXML4uQGAFErQLxm225pyxXst5FSAJKfBumnhtdDvt0L76Lp
+	 8kBTEVeQk2u/ZElKDVSE/KXw27RPln4XDI3QFQDH8U8oJEFvfMRHIQKpUs/JenUPijXHk
+	 WsIdDOFbYYQ7shjeo/Ii9+EJua6H1Nhq6zGiq3LA5TKOIi/MzEXmQ+mfOl9qzoA0Q3ouv
+	 ONHn5ngClndAWDuOrg8zuV6bIbPu7fDycoWAxjWF0wUqeW+pYmRNJG0nAhLBhfJhKuw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793783077;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=Yi6uSUZH/rRvO4dc8qtfm+oA6mubW8QBOCH28tEKExo=;
+	b=iMSDkM5DUP+gtkJz7B7Eix7bfMOJ/9jfS+BneGU87wsA+n6UpDv6n3T7UnmDZyN9/Rc0
+	 PFtgmnL490slxtlVZJ1LhSX8C2Hdl2HJ2WecWoLc53EGCkuHgd5TmfVgCXiG7hNXz83Ih
+	 iy2AQvmACnGEwIs9rzgUWRlk54AvI/M+TWgr+Yjgdz3kncv+x+Bv69QyPqB30UJImyCf0
+	 ZeZxjF3CSYUPVD6KjXp2/djkzsCgpXcyAL0WU3MgZ1JCqpBkVyJ9X0no0/9TJzPfqUcFH
+	 NB+T9cihZ+Uhn/LgUWD9xAA9tVSrxaU8oLt470S1cnwqrzFl7H3OEbuALQ371Mmh+3w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=klg9zMBD;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C414606A32F
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 09:00:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C414606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AFA606A328;
+	Wed,  4 Nov 2026 09:04:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20AFA606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=k3ivZqyW
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8b305e10ac7so4469417b3.0
-        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 01:00:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793782821; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ojnDEtIGTE9zyl67fHuVM57lEDPS9SrE41mza6CPUqna9zCdwC0Oz7VD/VDLRbIT09
-         sDifi0yPE2CzxueGRaZVylRd2UxV5/bLd3Lo1piAnokLRHfrh6e+8j8Pl6O6S6JEgLSQ
-         2d4h7C3r1AQEo8oxyPZIVvx243YT1CJKiTb3R5cs2zLaeYVJSefl/TJCMF6aw36LRRVH
-         RuXToQsqT7FXUgAJ8VE4VB0a0VAwsIl/VbGAsoEslehpjJMJFHtA4WeiY6tFuQkQXNky
-         p/8vievy49zfyI/ff74zwmgOSZUGOaxhuj6xINb6lCY9j5n2Pn0h6xNe3aRoqKBQ2cPH
-         6HzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jTRnpEDN+KWb3ei+FUpJVOT/UTcJwtCB9oaH08vzv9M=;
-        fh=Gcx+Ic2nYrjykhnJFjN48PwbGJeRkZIfUmaW23VEa8o=;
-        b=jVHe5Tj1JcteSNEtgODnh4MjOkQgbqFEk0f3Ju1HJoGY1F4xwzQAI+wIfJqvS+djOI
-         Xb1Y5G2Pr2PCpPLyOcTsMaUiXvi2rYJBYyzOLbnfZs0cOhPjRmr/wxpDO6sHgUosnSFm
-         8DL+2uk5QJ7iCrWyPsx4LgeZWTj5WERw+njI1RE88XSun4luqE9s6mKuqtcppCYGJYnS
-         8a/IsvRV0gIzdDZ3g3gpwvfZ9WJX9vrn3vmmGcl3zzbv0lUvlsjPULx6YvkeGMpsAX2Y
-         cB9RLhmKCfDmFvpCmOw8Wb3UnVdQIKzCYEegvj+/VDXZLRLYJNbkEVXtnez0Ch3uVcYZ
-         bbKg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793782821; x=1794387621; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jTRnpEDN+KWb3ei+FUpJVOT/UTcJwtCB9oaH08vzv9M=;
-        b=k3ivZqyW/i5hsCfSRegBwCk6+sTwnMRe7s8pzYECupWJ8doY2l0NM6dGujR8WERmtz
-         Xx8CRdRoPq1VTSAfQ5LZv5eygZustD9uJ2aH41pwzYJ1VN5Y6LBmSXfijcKkJMdEkld3
-         NEuh6+e22bGZzRiW1upH4Xj+cmgHIz+zmzx8rItCOxgKE/GKjX7mLA9TVMr2xUTCVkB5
-         CMifmp38Yrb5Cr0mrZhReHJdZmrk3G10CtLHe80OUMLuolhPV59MYRlSgcchjf7rlPQb
-         LN9LF0W0cFfhhFpd9LlvtmPjEogpw2WfQjzBI2Dl901e0efdGQCQ+RPMLwblaQeApa0y
-         c0Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793782821; x=1794387621;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jTRnpEDN+KWb3ei+FUpJVOT/UTcJwtCB9oaH08vzv9M=;
-        b=QRVx1smah1KHkkG39MwWeIHcpyQEZPOiQtur3GtPUtY2Pvbh70GC2/NZSjLUKg9Eia
-         Uz8mgvmA8Cr5R7btZNIN+uotMxc6XRDfgBngFhxk/agIkh8DKM2uTZEyQryVh55Huxqy
-         9ZikeBbDofTj9xil0/mVq03MztV7pSPMJEt1YGH1hAMxqNB5tbs0uKTf1g2WPitiOqTG
-         OxJxPq1bhSqK0cxmm6Lnks9W8aS60caUTU6xucTmUdyKK9ho+kvB+N26+jEdM/aX+iCt
-         sLT1EsU+oYddBLKqYweSHL+7BCim40+eUtxmCLhkD0lXaHch4PPz76Qyooe9cDscakMB
-         4e4w==
-X-Forwarded-Encrypted: i=1; AKwUvByaOuNbamDB4zQihq3u1FUTNJ95J0vj67ktKifv/8aKSz0rVS1/QyeM+Ncz2qfUW2EfXEDFoT7w/u0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+JYZUZLAji6jKkSr5kc4qJnpLZTAEEdDMO4XZp00D0yskwVwCC
-	3rQ+ID5Zq6Frk1VYL0spXqF5Oc3WMX/AB416caYqqvpv2cMHxStZeSnA0CLViAL0LaUPFXaUz/o
-	uFDjJ/RxO170qGjImr3L0l9wtHH5929E=
-X-Gm-Gg: AYBFou2InwZD2kKpKlWbiCXGjqzLNqaK593DmVn1RLuZrpDXLVchf8nGZn+7LGfrNl0
-	DyYmR+LGrBzF3UIk1BaAXgSza8z6kLS9cGae8HvloC1JmEEwYmGBrXn8eGD5nkldnb9+QXe6inR
-	UNABm4FIbPcvUzS8AH8WjEQ6UrxFxSDLbz+XmpFPpXc7jl1rlyzqtZik7WJNAoiG9sdrFC8NaxV
-	PyvRROmViKpE+hA2kwcjaKOAFeAvU50+b1PmfNsPuJaHdlTTaV5PjPKrnt9OTlX+buf6fJlluZI
-	sOwH61bw93FVb+pbo294+3ASDfMYIyA1yPPGDWsJK8oSP07jqHjmrxDd2bpBEHPg0gw1+01XuYS
-	6WStfH0DFLlXW3DuC90xbVTC+BcNaJHdMHKyl1M9zfOK8dV6CrNtWiV1hR0x5sMa3lWaL
-X-Received: by 2002:a05:690c:f05:b0:8a1:781f:4aa0 with SMTP id
- 00721157ae682-8b2b67f1889mr109610237b3.56.1793782820885; Wed, 04 Nov 2026
- 01:00:20 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=klg9zMBD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793783077; x=1825319077;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t8cJaf6alrVXE44hj9mQKJqj29+9TVluofn8Kon4sL8=;
+  b=klg9zMBDxudzSYw8lIkmy1aXwVTaOmfH7gmDwddqZopVRI9kkD4+e6/Z
+   1tgJPT8HqDP+4uVmRH9f83u4HLCou81vIWX99svoveehzQLT+qpxSXec6
+   98/RoAdMGyStaT+WFQv8+dRTva+PZnqrKsdrNDTfntfvok5Lffs/Tla6h
+   k2DyazoX2+cMHCntjeaCdnbrYop6HMb5o3mCXKPjJcW6VbKqmEpEHQQkE
+   YuOQAz4gySlIFRsohxqD6XOfp/lmrHttBG/3KZX9mK/BMQGadC1B/i3cz
+   qBOAOqB6fIu52WYNIOcxbahQN82y5uTuhS3wy/s6fXTLA67xJN1fk8NCd
+   Q==;
+X-CSE-ConnectionGUID: m4FwuLt3RqmuBJQ4wRAWcA==
+X-CSE-MsgGUID: BsRzQy+HR4a7snb/coIbIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2560604"
+X-IronPort-AV: E=Sophos;i="6.27,194,1787036400"; 
+   d="scan'208";a="2560604"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 01:04:36 -0800
+X-CSE-ConnectionGUID: 6qQSRYk2Sl+6FINxHbSa3g==
+X-CSE-MsgGUID: 2sb06OhQSOuQLClbM+8xUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,194,1787036400"; 
+   d="scan'208";a="6551391"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.24])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 01:04:33 -0800
+Date: Wed, 4 Nov 2026 11:04:30 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Liu Chao <liuc63@xiaopeng.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, khtsai@google.com,
+	fangxy@xiaopeng.com, Randy Dunlap <rdunlap@infradead.org>,
+	dbrownell@users.sourceforge.net, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] lib/net_utils: allow mac_pton() to take a custom
+ delimiter
+Message-ID: <aur1Hqd53BXKgWQu@ashevche-desk.local>
+References: <20261104025058.2650911-1-liuc63@xiaopeng.com>
+ <20261104025058.2650911-2-liuc63@xiaopeng.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,60 +87,29 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261031-dp-tunnel-bwa-flag-v1-1-f94ed3179349@gmail.com> <20261102130145.GU158991@black.igk.intel.com>
-In-Reply-To: <20261102130145.GU158991@black.igk.intel.com>
-From: Diego C N <diego.sure@gmail.com>
-Date: Wed, 4 Nov 2026 10:00:08 +0100
-X-Gm-Features: AclHuK-KTLDrGi9C8ZMZKwzhArkycX_ZxWgS8iSAY08wiND5eYgccYF5_KZeB0A
-Message-ID: <CACPnnOZHhdwOSDhsnG22SyPD1JsrcgM4Y26QYORd=xoUzhXuVw@mail.gmail.com>
-Subject: Re: [PATCH RFC] drm/dp_tunnel: Allow BWA when the DP IN adapter does
- not advertise it
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Imre Deak <imre.deak@intel.com>, dri-devel@lists.freedesktop.org, 
-	Uma Shankar <uma.shankar@intel.com>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Mika Westerberg <westeri@kernel.org>, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104025058.2650911-2-liuc63@xiaopeng.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Mika,
+On Wed, Nov 04, 2026 at 10:50:57AM +0800, Liu Chao wrote:
+> mac_pton() hardcodes ':' as the only accepted separator, which pushes
+> callers that need a different notation to open-code their own parser.
+> 
+> Split the body out into parse_mac_pton() taking the set of accepted
+> delimiters as a string, and turn mac_pton() into a static inline wrapper
+> passing ":" so that every existing caller keeps its current behaviour.
+> The strnlen() guard still runs before any delimiter is inspected, so
+> strchr() is never handed a NUL character.
+> 
+> No functional change intended.
 
-Oh, I see. Well, thanks anyway for taking time to check this patch and
-for answering it.
-I'll keep it as my personal patch since it's been working very well
-for the past weeks.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Exactly what I had in mind, thanks!
 
-On Mon, Nov 2, 2026 at 2:02=E2=80=AFPM Mika Westerberg
-<mika.westerberg@linux.intel.com> wrote:
->
-> Hi,
->
-> On Sat, Oct 31, 2026 at 01:18:18AM +0100, Diego Nogu=C3=AAs via B4 Relay =
-wrote:
-> > From: Diego Nogu=C3=AAs <diego.sure@gmail.com>
-> >
-> > On an Alder Lake host (i7-1265U) with a Thunderbolt 4 dock (Dell WD22TB=
-4,
-> > Goshen Ridge) driving two 4K@60 monitors through two DP tunnels, the
-> > monitor whose tunnel is created second is limited to 4K@30. Which monit=
-or
-> > is affected depends only on the order in which they are powered on.
-> >
-> > The thunderbolt driver enables the BW allocation mode (BWA) on both DP =
-IN
-> > adapters: it sets the CM BWA support (DP_USB4_DRIVER_BW_CAPABILITY), a
-> > group ID and the estimated BW. The DP IN adapter, however, never sets
-> > DP_IN_BW_ALLOCATION_MODE_SUPPORT in DP_TUNNELING_CAPABILITIES (0xe000d
-> > reads 0x01), so tunnel_regs_are_valid() rejects the tunnel with:
->
-> Alder Lake firmware really does not support this and by forcing it to be
-> enabled you may end up in untested code paths and interesting behavior :)
-> BWA was only officially supported starting from Meteor Lake.
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-
---=20
-Diego C. N.
