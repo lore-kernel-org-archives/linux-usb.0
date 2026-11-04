@@ -1,75 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793832370;
-	b=GiPJj/b5IETTgaiAxC956zQaYbDdSyZGCxNYuLZCFetISqeOrO3uXvnnxHK/YH+Y5AdN
-	 4y8iWiN+H2uWkXG5NYIeMWDex1F6hAD7Iiwz8nY+Y/tgL3WlQEzCOoYI9bNEtMBe9C1VJ
-	 Z9NOIQQ9aeTnjEUWkEV93rwBqp+0i4UklS/GTPjExFt6z7o5tIVZHumYX25qS1/VXXXZo
-	 W/t6qH6hbIPDpGauq8KUwS60tWoCyzSZyhrKape3UE6/6HA5ZCLzUWE5ww0+Gbs2PdKIw
-	 bfE8s5rueKgjC9MAVHCQX4l3CO3W0PJYEIeu5pCJ7/8DoJ43V/TWU8KY+Kgw6AoKxOw==
+	t=1793833107;
+	b=shlyW9ppPKED+Z6VMaZcpppFpVeTEvvxrhLXeTZFx8w4wigALyvrnH8n26FDf8y44W6h
+	 bCeJaVEuzEJh85F5l2fIAYKW1nlLJJMi8fmoEKaPZyub/SNKWCV0HHvw85IxfepHOUyAu
+	 TusyEAfydBtiZ1Xk0Sy8K5fTbKtMuR009TexMQ7D+HYs04IhXrk1iekSV6dYJvBYFl4NL
+	 4uSpZNWwYVvfnARCOqvp61+PRoXEkVC/Utz0eayyhRAt6Osww7NYD0FeFb2kLfI/jYQC3
+	 4ISy0iQ4c6SUUNN+cc9vQTt6Dg7nlWHnx/s+cqGJIadMeoLVDCL089a8XjYSs0rfWKA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793832370;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=XBOw8umZc0PSygGL6ZhSsNEhyMPfzoczgqWFX+5YDNY=;
-	b=Re/6Rg9jSD9Xebvi70a84ZeMmu/I2lfDULXQp8gVW/rAcQgEQo7H7Bm2B45i/4cWD2Qz
-	 bA5PiYIc9GvM4LsvRra4bsZTC675SEPOrg8kMw2nb505Tv9nEXMOEXBmWOA2oIxYMgmqJ
-	 +lHWOwBIftcc35KCKzB0hLHvHE/OhEFsHLfPgbhC0Ts/pbORmj97PoUbWtjBounXmDjiB
-	 mQfvZZDBX4X96/9TtFlVhx528WLd9pGG+gUaWMkQQO/cRYvFd1uTPq/NWJKxb2Q0AZYRH
-	 dcHEjS7kMdFBNNoIBuEl1SVfzq//hK+nG7BkfvMxHJqFrp/DW75GAm8UPQXw5VfKfrw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793833107;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	bh=4I/Of0MqaFIwlQipyrMVyhxTIsJLgwA6WtB7dsntB6E=;
+	b=bDwGlw9GXc92DC9fNwLTttf4lSGOtYTJvhNo0aF9oC7tfRAOHzAhSuSCVPhhHRu6n/Mz
+	 6sBPwzyVBx4TgyRM2UaGmF3FWwEmfFzaKvCpq+I1BWJWrPtk+HqyoTguLcaYXj2E/mdOE
+	 rDtHr3ulL8kvwBScFNRw5gJu3OV9GZKCgKZB71/RV9YVb7KfqOBAPnDgTkeclPqlVrFVt
+	 E5r4A1/v7pGbFGpMyze/fMnP2GH7QDdM0tn+l+Smlts5W7TDzYyZWMAaz4ZaR3AI8x8B/
+	 EQ7spPcM/mIymYVSvKntgaM7uvnTHjxejHhWyBjtVHdhwIiPZFd+1CDg5+AhRuKJLuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+guEyix;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q9QjrPru;
+	arc=none smtp.remote-ip=209.85.222.171
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24D4606A31B;
-	Wed,  4 Nov 2026 22:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EF5606A326
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 22:58:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85EF5606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+guEyix
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C1B1F000C1;
-	Wed,  4 Nov 2026 22:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793832369;
-	bh=XBOw8umZc0PSygGL6ZhSsNEhyMPfzoczgqWFX+5YDNY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y+guEyixDVYqpS8g3d4FmlRYq/qp1tQeGL16K2BSxNthPOaRsDL0VFTK+tjHByNf5
-	 UG3G3TR4IbDk5BaZwlgwVySr0HiRvL1WeYdDEujyS+zzG35LMJqu1Pm8BzfQ5Z+w4F
-	 3DGZwBGiTOYlKSVRIgaBstWj6LtjUlnMrGUfTY6AgB7LPx3pVl/0nxTfWzl1eRWVeu
-	 9SzZPPQ7yLUIbBzvzOD5olkzaVc7Od6fJQ93jvoDvEvbyLIezG28vK5PJuGqQJ/Zu+
-	 C/TFnkMniWMHftytXgdebgJiyvQu099dnGFvQXlwnwRKY6VGKt0bkFzVDUexAPr+Sm
-	 GvRbuyQmKti0Q==
-Date: Wed, 4 Nov 2026 23:45:55 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>
-Subject: Re: [PATCH RESEND v2 00/30] proc: convert the fs, kernel and mm
- entries (Part 5/7)
-Message-ID: <20261104-allein-bepacken-hitzig-5e517d3c129f@brauner>
-References: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
- <20261104-work-procfs-fs-v2-0-319e0f9a8aae@kernel.org>
- <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q9QjrPru
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-93f1e5d7450so123444785a.2
+        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 14:58:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793833106; x=1794437906; darn=vger.kernel.org;
+        h=content-type:content-transfer-encoding:mime-version:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4I/Of0MqaFIwlQipyrMVyhxTIsJLgwA6WtB7dsntB6E=;
+        b=Q9QjrPru7WqUp5k7qiTAyJ7BHKv8Qot0va6Sh1tJO+Kte7MSH+b8g0w5ECiNxebFnk
+         jz1UPaN87xoVtk8iuMOyAuq8IIh/V66b9dtpF9ORdmUVWIxJLNeuP896qbDDaW76rcv/
+         cLP3lV4sH7rRsA+44sSK1uY3s+D4gsI0XBHHB2xVmstq8i2P6F6h933acQF5D1QKHz0o
+         ZtPavjA6cN8WqF7Y5rrzGzixGE3497yxgUcK7nRvzSyeAMb/2fcORI5MBvxzibvwgJLP
+         FaNzGuOxLKVJ6gwx+mUqIzJ3Eu6sL/JlCkqXNbPegBqEdUKXBuNV0AoKWCkddMv5mo/q
+         fABw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793833106; x=1794437906;
+        h=content-type:content-transfer-encoding:mime-version:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4I/Of0MqaFIwlQipyrMVyhxTIsJLgwA6WtB7dsntB6E=;
+        b=Rve0YgoxhReFBgbJsInNFgC18BYeDEjalZ9evPeYBc3ta/MWMYb8IglmWm3pMoekyj
+         elxf5IPoO8b6jVnrfwEF/A3HnCoq/jGjNKCVY62V+MFrH6HbIA17/2mbijvupbsxbGcp
+         bwoK1r5Kju8lkGbLn4AJoTxD7WXnmyn0fJAyrWrtBx2W1x3KKAGiuRnLNwCuxDEGudoU
+         3y1DwSWSLR2hwfrDw1b7Ll599VtHdViL4nBbIayc080Jteg5te4uyikf1nNI/2xksh9C
+         rfnskjil4rYtPMX8JOwqyEgTRiUPiIQ1YwWH4adk1cDKg+JFckoy+pZ2qwM4A/SUgVGt
+         Pv7Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwQHR00vCz7tqfGnRs1O+uWmpwDxGwLFKd2mMmI4QaSuUIQX9LGn8riERs0Ofy99W/uN3QpQVdMgzs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+3JHYF/CkyLUni2nZIzvqFtI27w23fEKT6rLc6xXXRSkBev230
+	FUZ2K1Sfe+pjUKCH25sDhf2UTTxm2auMq/yZ7iQA0nqSq6yO9zcMzj0L
+X-Gm-Gg: AYBFou1usYmzzuUa6oCfZJjknRV1elqgCmO448Hg35s/BEtmZdmX9nqZxCfzVMwwwua
+	+L/NED+XKbQZ0l6S1BIhfANQoDavlz2K0gcFE2RkRr5cezwPl7w+x7R/xXNsXBl2IMBcR8z7p/A
+	O/ZWm6xsQcKJYEgq53I77PDkIpU2qNh5z0o+Qy3cCINShp0n/UiR/ybgi2gFcrK2xLHhOiO9EWB
+	/cg7lspjbMJm0jCpk520QnddNV+T3j3PCUoU1TOeM6ykIyD9yD105isDWYIefunSsseJ+WggYGO
+	KLNTB6wsQOhK3PB81tu+hicGJa3sJYTQxNBLw/sqW/H/xYV/m0VkSwMnMkW7ZlOlPeovjMT81GA
+	c1BXRAKoSN6o4ydM6y5LpnmsQl7bONb2bunccTSreKi4DPsgtAcISse7MOBJ0qCT5lVfObqtKJ4
+	yqbrebSU9cFQqXa6u5H5GPy6RyZB66s/McWEiTnSPTDsZYiuqUdQ+iumlQbB2kiaxvj8v10P9en
+	uwSztQkhRTXyY3LuwumCC8RUSaemliUg0RuZU2TXpKp61EFFvvZ7YeWOze191UE/gqAboCEbcCs
+	063i1RV3p4sQkU+rCXGYV9XDAKoQy62goSzyOKyNlpDsICehxw==
+X-Received: by 2002:a05:620a:3720:b0:93f:38c7:70f9 with SMTP id af79cd13be357-944216f2318mr3136951585a.14.1793833106272;
+        Wed, 04 Nov 2026 14:58:26 -0800 (PST)
+Received: from nerdopolis2.localnet ([2600:4040:5e70:4900:c81b:95a5:d93f:b197])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d488f183sm317811085a.39.2026.11.04.14.58.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 14:58:25 -0800 (PST)
+From: Adam Simonelli <adamsimonelli@gmail.com>
+To: Johan Hovold <johan@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject:
+ [PATCH] USB: visor add vendor/device IDs for PalmSource devices from the
+ PalmUSBD.inf file in Palm Desktop 6.2
+Date: Wed, 04 Nov 2026 17:58:24 -0500
+Message-ID: <ciHDthUGQaulSODjTZQ9wg@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -79,20 +96,59 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Nov 04, 2026 at 12:05:08PM -0800, Linus Torvalds wrote:
-> On Wed, 4 Nov 2026 at 11:49, Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > Part 5/7 of "proc: move procfs to what kernfs does", on top of part 2
-> 
-> Christian - way too many patches, re-sent much too often, cc'd to way
-> too many people.
-> 
-> Nobody is going to read these repeated resends, and all you are doing
-> is clogging up peoples mailboxes.
+From fed0bc0868dd1e0dfe98ec84fcd7c1208cb076c3 Mon Sep 17 00:00:00 2001 
+From: Adam Simonelli <adamsimonelli@gmail.com> 
+Date: Wed, 4 Nov 2026 16:56:50 -0500 
+Subject: [PATCH] USB: visor add vendor/device IDs for PalmSource devices from 
+the PalmUSBD.inf file in Palm Desktop 6.2 
+--- 
+drivers/usb/serial/visor.c | 6 ++++++ 
+drivers/usb/serial/visor.h | 4 ++++ 
+2 files changed, 10 insertions(+) 
+diff --git a/drivers/usb/serial/visor.c b/drivers/usb/serial/visor.c 
+index 5706c46c49c2..5a289c566ba6 100644 
+--- a/drivers/usb/serial/visor.c 
++++ b/drivers/usb/serial/visor.c 
+@@ -75,6 +75,10 @@ static const struct usb_device_id id_table[] = { 
+               .driver_info = (kernel_ulong_t)&palm_os_4_probe }, 
+       { USB_DEVICE(PALM_VENDOR_ID, PALM_ZIRE_ID), 
+               .driver_info = (kernel_ulong_t)&palm_os_4_probe }, 
++       { USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICES_1_ID), 
++               .driver_info = (kernel_ulong_t)&palm_os_4_probe }, 
++       { USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICES_2_ID), 
++               .driver_info = (kernel_ulong_t)&palm_os_4_probe }, 
+       { USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_4_0_ID), 
+               .driver_info = (kernel_ulong_t)&palm_os_4_probe }, 
+       { USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_S360_ID), 
+@@ -133,6 +137,8 @@ static const struct usb_device_id id_table_combined[] = { 
+       { USB_DEVICE(PALM_VENDOR_ID, PALM_TREO_650) }, 
+       { USB_DEVICE(PALM_VENDOR_ID, PALM_TUNGSTEN_Z_ID) }, 
+       { USB_DEVICE(PALM_VENDOR_ID, PALM_ZIRE_ID) }, 
++       { USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICES_1_ID) }, 
++       { USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICES_2_ID) }, 
+       { USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_3_5_ID) }, 
+       { USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_4_0_ID) }, 
+       { USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_S360_ID) }, 
+diff --git a/drivers/usb/serial/visor.h b/drivers/usb/serial/visor.h 
+index 622d639ce74e..0f86bd06c4fe 100644 
+--- a/drivers/usb/serial/visor.h 
++++ b/drivers/usb/serial/visor.h 
+@@ -32,6 +32,10 @@ 
+#define PALM_ZIRE_ID                   0x0070 
+#define PALM_M100_ID                   0x0080 
+ 
++#define PALMSOURCE_VENDOR_ID           0x13e8 
++#define PALMSOURCE_DEVICE_1_ID         0x0600 
++#define PALMSOURCE_DEVICE_2_ID         0xff00 
++ 
+#define GSPDA_VENDOR_ID                0x115e 
+#define GSPDA_XPLORE_M68_ID            0xf100 
+ 
+--  
+2.55.0
 
-I resent once after I cleaned things up post RFC and I don't plan on
-resending (one failed attempt due to my network dropping).
+
+
