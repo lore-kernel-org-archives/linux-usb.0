@@ -1,63 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793823323;
-	b=y5vSxTMjFR9EPdwkPi2B2q1CBnGyOTLAVsirz0Pe3pExy6JkXv9Msfi3wZHqMgOS/Pqf
-	 zRJCmzHTGJg88ZcAPenPKjpykH98oTVuu/E6bh6aR7wJHaJRGYnLbtflS1Mrr9eq2sg4d
-	 m565eyaXQYQI/SYB4/i/E4jxnp1/Uk8WlbiWahp9nZsCq3U6dLtIscJbDvUYr1iaxvzKj
-	 eZ9c+4yEsG1YFBJJ53ki9QtpWfiZqQYAY5+ZdsCLTlHeawaspDiZ89SVbsVS9/OS4mZuv
-	 eUR0HkVCB1xB4QTU9uVtAWvjWnVDEJxioIiuCE9HV07XzcQEzfIhSxh1lJhutRLha9A==
+	t=1793823514;
+	b=e56wOG6PA3YyNfF7GuqsOH0OPT7l86fUkvCKUIsP8Hutkzwl/7BVC6xRVOnWXLEXvb+d
+	 lD5nfNPMp9mMncVOswUJb8X1JLN0gwHkjCUDCX9hcLm8D5H0MYzukogTrFirYKiaJ/5dS
+	 mtYSrKVP3cMQhbLO27QLZpHmLSo2wYBoiIBuuwkYhQ35e7tYRtu8mTrcjqhdidZQAzzLo
+	 8CcR2f6FaYghwkcDIysc7waKvRByqQGhe9GQbhCaTOBf4qJ42TdwVrtUib56CLizyC/mx
+	 E8gHuuDaQCdNX0B45DDiHpBRhHBo5rQci7DL+mEEByGZc5f9lRtH9hvTT58zv4P+e5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793823323;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 Organization:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	bh=8eg1cIndD3aXN6OORSZyUuLDRIXHT5eNJHq2G3r23dQ=;
-	b=j2lFwXsG6pOyXabVDNGy20MfYWvhiBgaWbQyfW2vz/Ozl5CSqYBM8zwA9xKmaMAyK+W9
-	 aXzoPP7NEjz9trvb+TQxgHAQFVcILNmhy/TcwXGBDhyy2RF6e4dS1/zhLch9ePExUy2H4
-	 vJoIg0DC9TdmVKT3z5gMpvg9hhkQpobGauvKDOA6rHq3QRpNAAKcL/bPZZZZ/GxKudVXE
-	 DB7X4WA4qfadNxcY3rsHD2UQrlotLQWEt6koNGbRPRVEDiy2B9JzrykCUjInR+js04Nd7
-	 Qx3yqZAz2v3D5BrthFW+FxWqLqkE5sFrkdRwI9p8S6yW7f3vYGHac0gXJ1zux42uk7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793823514;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=4rkrqJL1LnRmJoO31VKiy8jAhuTEcwoybHcQLSMGZI0=;
+	b=IEWc9WdPbVNC1ahOVbem4zgjtvW4Emw71kYE6/sStWQyvucp8hzA9dJQND6xAoIN6s9Q
+	 LQtcSePz/OtrRX0yd0RBk7R+YwZPSbrTfkuz0FZuLxxFk+JosnBI3PsyNl7OPh2atz0/e
+	 yAUThaa8LvUq7isOPg5P8+jgmDjQTXNe0HX//uvTNVDCQMjGs0caizUXX+9PGdI+7BnAN
+	 kQBX2+lpuRGSCju1a1cse/tf67J472KIRzbsstTxnbEIGmMRQYq99y09vB17hkrcH5NeY
+	 dFPEnCEnbApqNqXX0ygOpIe2T/NaSFj3MusPY09Td/4SbT093k/ipGbE/qkQyptCQSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WBYKZVaP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FBCO6QJC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FE460841B0;
-	Wed,  4 Nov 2026 20:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB0C6071A2C
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 20:18:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WBYKZVaP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D886C1F00919;
-	Wed,  4 Nov 2026 20:15:20 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FBCO6QJC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EEE11F00919;
+	Wed,  4 Nov 2026 20:18:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793823323;
-	bh=8eg1cIndD3aXN6OORSZyUuLDRIXHT5eNJHq2G3r23dQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WBYKZVaPCd1ChHZ3f5hLFQwc9eEyQhyO/0YVJmbOEc8dsx2NzWdCy2k2VC4i5PAbB
-	 Ex7OE0hr6l2meeIQ1Kc7bdJVZha1Os0HMzghZ79kAA6pg/Nemi/I4olUnvzuNDVRPB
-	 QAA6H0niihaDSCOmkmnzTrgXLRNooAdTYCQM/v2TQ4n1IQTIP3cAN8CsRt1sG7x6BP
-	 zBCVzD59buvd1g6rDLGopr/wDrndGxvn9QkccgFa/YuYu84JtTt5OJv1FloefSVOVT
-	 HP6GAVTLrCHySTiETr0p4aBti10/jd26SVFO/yL86E0njxfwzxbk1cOUC8MhdNcZmq
-	 /mPK1j9fMqkww==
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-To: Linux ACPI <linux-acpi@vger.kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>,
- Yehezkel Bernat <YehezkelShB@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject:
- [PATCH v1 1/3] ACPI: glue: Rename struct acpi_bus_type to acpi_dev_type
-Date: Wed, 04 Nov 2026 21:11:23 +0100
-Message-ID: <10966452.nUPlyArG6x@rafael.j.wysocki>
-Organization: Linux Kernel Development - Intel
-In-Reply-To: <3471545.44csPzL39Z@rafael.j.wysocki>
+	s=k20260515; t=1793823513;
+	bh=4rkrqJL1LnRmJoO31VKiy8jAhuTEcwoybHcQLSMGZI0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=FBCO6QJCWQ44hSnk2c4x0OCPCGG7v7jCOXT7P3pO43rdbToaZka+LQzVSeORtXKZp
+	 3C5gombNedXn/ZgBChCn1yli6ttUTUl5B1UF6m2DfNjlkDyEea837Qe2jQ+w00dCN/
+	 HRi+kIbPs60Iao60sV1LqsYeJmQQmUNSqsbG756MrjD92Pei2nKvTbEAy6tQjD76fL
+	 7BP19cZjpqe1eMPEAZ5e6hzy26eIVS2PyO+k6VHPeckvoAxW55vP1sAesK8fDeICXo
+	 ktaE9Py8vhbgVgd5QnGUIpsv5mxmpO6gvRyP5SGymdzQ5wvn5t8V77/xzENGqesKkC
+	 GBc4QytLYq2Qw==
+Message-ID: <sashiko-outbox-198000@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v1 1/3] ACPI: glue: Rename struct acpi_bus_type to
+ acpi_dev_type
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <10966452.nUPlyArG6x@rafael.j.wysocki>
 References: <3471545.44csPzL39Z@rafael.j.wysocki>
+ <10966452.nUPlyArG6x@rafael.j.wysocki>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 20:18:33 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -66,251 +60,26 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
 
-From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+>=20
+> The name of struct acpi_bus_type is misleading because that data type
+> is only used for ACPI companion lookup for specific types of devices
+> and it has nothing to do with buses in principle.  Moreover, it clashes
+> with the name of the acpi_bus_type variable (that is a const struct
+> bus_type) which increases the overall confusion.
+>=20
+> For this reason, rename struct acpi_bus_type to struct acpi_dev_type and
+> rename the related functions and variables accordingly in all of the
+> code using it.
+>=20
+> No intentional functional impact beyond messaging.
+>=20
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-The name of struct acpi_bus_type is misleading because that data type
-is only used for ACPI companion lookup for specific types of devices
-and it has nothing to do with buses in principle.  Moreover, it clashes
-with the name of the acpi_bus_type variable (that is a const struct
-bus_type) which increases the overall confusion.
+Sashiko has reviewed this patch and found no issues.
 
-For this reason, rename struct acpi_bus_type to struct acpi_dev_type and
-rename the related functions and variables accordingly in all of the
-code using it.
-
-No intentional functional impact beyond messaging.
-
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
- drivers/acpi/glue.c         | 32 ++++++++++++++++----------------
- drivers/gpu/drm/drm_sysfs.c | 10 +++++-----
- drivers/thunderbolt/acpi.c  | 10 +++++-----
- drivers/usb/core/usb-acpi.c | 10 +++++-----
- include/acpi/acpi_bus.h     | 10 +++++-----
- 5 files changed, 36 insertions(+), 36 deletions(-)
-
-diff --git a/drivers/acpi/glue.c b/drivers/acpi/glue.c
-index 0959f58cb77c..817123c968ba 100644
---- a/drivers/acpi/glue.c
-+++ b/drivers/acpi/glue.c
-@@ -23,52 +23,52 @@
- 
- #include "internal.h"
- 
--static LIST_HEAD(bus_type_list);
--static DECLARE_RWSEM(bus_type_sem);
-+static LIST_HEAD(dev_type_list);
-+static DECLARE_RWSEM(dev_type_sem);
- 
- #define PHYSICAL_NODE_STRING "physical_node"
- #define PHYSICAL_NODE_NAME_SIZE (sizeof(PHYSICAL_NODE_STRING) + 10)
- 
--int register_acpi_bus_type(struct acpi_bus_type *type)
-+int register_acpi_dev_type(struct acpi_dev_type *type)
- {
- 	if (acpi_disabled)
- 		return -ENODEV;
- 	if (type && type->match && type->find_companion) {
--		down_write(&bus_type_sem);
--		list_add_tail(&type->list, &bus_type_list);
--		up_write(&bus_type_sem);
--		pr_info("bus type %s registered\n", type->name);
-+		down_write(&dev_type_sem);
-+		list_add_tail(&type->list, &dev_type_list);
-+		up_write(&dev_type_sem);
-+		pr_info("device type %s registered\n", type->name);
- 		return 0;
- 	}
- 	return -ENODEV;
- }
--EXPORT_SYMBOL_GPL(register_acpi_bus_type);
-+EXPORT_SYMBOL_GPL(register_acpi_dev_type);
- 
--int unregister_acpi_bus_type(struct acpi_bus_type *type)
-+int unregister_acpi_dev_type(struct acpi_dev_type *type)
- {
- 	if (acpi_disabled)
- 		return 0;
- 	if (type) {
--		down_write(&bus_type_sem);
-+		down_write(&dev_type_sem);
- 		list_del_init(&type->list);
--		up_write(&bus_type_sem);
--		pr_info("bus type %s unregistered\n", type->name);
-+		up_write(&dev_type_sem);
-+		pr_info("device type %s unregistered\n", type->name);
- 		return 0;
- 	}
- 	return -ENODEV;
- }
--EXPORT_SYMBOL_GPL(unregister_acpi_bus_type);
-+EXPORT_SYMBOL_GPL(unregister_acpi_dev_type);
- 
- static struct acpi_device *acpi_companion_lookup(struct device *dev)
- {
--	struct acpi_bus_type *type;
-+	struct acpi_dev_type *type;
- 
- 	if (!dev->type)
- 		return NULL;
- 
--	guard(rwsem_read)(&bus_type_sem);
-+	guard(rwsem_read)(&dev_type_sem);
- 
--	list_for_each_entry(type, &bus_type_list, list) {
-+	list_for_each_entry(type, &dev_type_list, list) {
- 		struct acpi_device *adev;
- 
- 		if (!type->match(dev))
-diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index 7b16d32b6ff6..585b26515d49 100644
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -64,7 +64,7 @@ static struct device_type drm_sysfs_device_connector = {
- struct class *drm_class;
- 
- #ifdef CONFIG_ACPI
--static bool drm_connector_acpi_bus_match(struct device *dev)
-+static bool drm_connector_acpi_dev_type_match(struct device *dev)
- {
- 	return dev->type == &drm_sysfs_device_connector;
- }
-@@ -76,20 +76,20 @@ static struct acpi_device *drm_connector_acpi_find_companion(struct device *dev)
- 	return to_acpi_device_node(connector->fwnode);
- }
- 
--static struct acpi_bus_type drm_connector_acpi_bus = {
-+static struct acpi_dev_type drm_connector_acpi_dev_type = {
- 	.name = "drm_connector",
--	.match = drm_connector_acpi_bus_match,
-+	.match = drm_connector_acpi_dev_type_match,
- 	.find_companion = drm_connector_acpi_find_companion,
- };
- 
- static void drm_sysfs_acpi_register(void)
- {
--	register_acpi_bus_type(&drm_connector_acpi_bus);
-+	register_acpi_dev_type(&drm_connector_acpi_dev_type);
- }
- 
- static void drm_sysfs_acpi_unregister(void)
- {
--	unregister_acpi_bus_type(&drm_connector_acpi_bus);
-+	unregister_acpi_dev_type(&drm_connector_acpi_dev_type);
- }
- #else
- static void drm_sysfs_acpi_register(void) { }
-diff --git a/drivers/thunderbolt/acpi.c b/drivers/thunderbolt/acpi.c
-index be91bc604900..958837e3736e 100644
---- a/drivers/thunderbolt/acpi.c
-+++ b/drivers/thunderbolt/acpi.c
-@@ -280,7 +280,7 @@ int tb_acpi_power_off_retimers(struct tb_port *port)
- 	return tb_acpi_retimer_set_power(port, false);
- }
- 
--static bool tb_acpi_bus_match(struct device *dev)
-+static bool tb_acpi_dev_type_match(struct device *dev)
- {
- 	return tb_is_switch(dev) || tb_is_usb4_port_device(dev);
- }
-@@ -351,19 +351,19 @@ static void tb_acpi_setup(struct device *dev)
- 		usb4->can_offline = true;
- }
- 
--static struct acpi_bus_type tb_acpi_bus = {
-+static struct acpi_dev_type tb_acpi_dev_type = {
- 	.name = "thunderbolt",
--	.match = tb_acpi_bus_match,
-+	.match = tb_acpi_dev_type_match,
- 	.find_companion = tb_acpi_find_companion,
- 	.setup = tb_acpi_setup,
- };
- 
- int tb_acpi_init(void)
- {
--	return register_acpi_bus_type(&tb_acpi_bus);
-+	return register_acpi_dev_type(&tb_acpi_dev_type);
- }
- 
- void tb_acpi_exit(void)
- {
--	unregister_acpi_bus_type(&tb_acpi_bus);
-+	unregister_acpi_dev_type(&tb_acpi_dev_type);
- }
-diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
-index 489dbdc96f94..f00e8c72ebe6 100644
---- a/drivers/usb/core/usb-acpi.c
-+++ b/drivers/usb/core/usb-acpi.c
-@@ -364,23 +364,23 @@ static struct acpi_device *usb_acpi_find_companion(struct device *dev)
- 	return NULL;
- }
- 
--static bool usb_acpi_bus_match(struct device *dev)
-+static bool usb_acpi_dev_type_match(struct device *dev)
- {
- 	return is_usb_device(dev) || is_usb_port(dev);
- }
- 
--static struct acpi_bus_type usb_acpi_bus = {
-+static struct acpi_dev_type usb_acpi_dev_type = {
- 	.name = "USB",
--	.match = usb_acpi_bus_match,
-+	.match = usb_acpi_dev_type_match,
- 	.find_companion = usb_acpi_find_companion,
- };
- 
- int usb_acpi_register(void)
- {
--	return register_acpi_bus_type(&usb_acpi_bus);
-+	return register_acpi_dev_type(&usb_acpi_dev_type);
- }
- 
- void usb_acpi_unregister(void)
- {
--	unregister_acpi_bus_type(&usb_acpi_bus);
-+	unregister_acpi_dev_type(&usb_acpi_dev_type);
- }
-diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
-index f59b2de865e6..8524ceb52b24 100644
---- a/include/acpi/acpi_bus.h
-+++ b/include/acpi/acpi_bus.h
-@@ -659,15 +659,15 @@ static inline bool acpi_device_enumerated(struct acpi_device *adev)
- /*
-  * Bind physical devices with ACPI devices
-  */
--struct acpi_bus_type {
-+struct acpi_dev_type {
- 	struct list_head list;
- 	const char *name;
- 	bool (*match)(struct device *dev);
- 	struct acpi_device * (*find_companion)(struct device *);
- 	void (*setup)(struct device *);
- };
--int register_acpi_bus_type(struct acpi_bus_type *);
--int unregister_acpi_bus_type(struct acpi_bus_type *);
-+int register_acpi_dev_type(struct acpi_dev_type *type);
-+int unregister_acpi_dev_type(struct acpi_dev_type *type);
- int acpi_bind_one(struct device *dev, struct acpi_device *adev);
- void acpi_unbind_one(struct device *dev);
- 
-@@ -978,8 +978,8 @@ static inline struct device *acpi_bus_get_primary_device(struct acpi_device *ade
- 	return NULL;
- }
- 
--static inline int register_acpi_bus_type(void *bus) { return 0; }
--static inline int unregister_acpi_bus_type(void *bus) { return 0; }
-+static inline int register_acpi_dev_type(void *type) { return 0; }
-+static inline int unregister_acpi_dev_type(void *type) { return 0; }
- 
- static inline int acpi_wait_for_acpi_ipmi(void) { return 0; }
- 
--- 
-2.51.0
-
-
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/3471545.44csPzL39Z@=
+rafael.j.wysocki?part=3D1
 
