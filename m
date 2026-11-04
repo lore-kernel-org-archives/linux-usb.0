@@ -1,77 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.223
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793794251;
-	b=gNIqJbQaJVF6N9RyQT0e7S4iLT1wQ3lKnyPNDb3EiM+lnDQmBvB0Q9GCHzforVuqmacD
-	 b31Ut3xZD9Aj02/08O27Zr7hpbE5t6UByB7LXzGw/Tuqau5ZIuhSu4nBBVLPuNlsS2s2B
-	 wrwm8jUAZ+kPN60jQIOBR5JaX9DGcH8GCMgz8fQekOOJK8EOM+kijWIwHpK8pEwsiaocN
-	 Z/YOXhF3e1yGkKDHsNiBzcGcUoVpbjaWpsMykyzdrAH42F8IC7ZC6TA9oE0SUataP2ehW
-	 5zr9urlbjq6isJtpsI8sQJ/ylW6m4xnip2cz2gGTJhjq1GwW8dV85XMTPuJrZ8dywXw==
+	t=1793796289;
+	b=Y5CMzTn2Q1r5fXyR5EQ7uyQRSzECx55G7guO52TsopHH1zAPnutwwYBYTQbfJs5ogJWX
+	 /Cb53bDyhqEBxyABOG/2eEC4lpgQusnVFSzhPgcU5XjPy2FDD/EZm1J9SAT90oPABi+hu
+	 69pi5pR6O8KVC3+T0BzYRNgOCNfssVMPUsmILaproUmWVhPALx/ZGU75U5o+UndNUyXT4
+	 fLQ5lIxNzAjNPmrZofYK2gm3DC92CpceCzAzxal5zu7SBKgOhNpVjz8Q4u0+pbErDP6QE
+	 nVi0cDhO68OknC/yJSmuZEi1b5ZecIqeFDIAjHLuLd5CX5VDWaqdf2sXE57StZJ1HGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793794251;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=4q+7nmSwngd2YrW+0sqV+3n9qv9JNyT1G3cBZj70q1Q=;
-	b=osYnUCWydsudUeBfJogapzF9MxleNn76TdCe2tZH+/ajtBrDmAqMsPHX5s9kRqJoPrt+
-	 c22efD4uISlyHOSuGYF0XobgdgfQGFfHnmZyH4qB0Uhyk0Iq6O9VJX+5lmNwPrKocCXg+
-	 58m5FidcDcwLKNifJ8+fX3MOcD0a1BQXc5kN+vhJNISrgS+ws25/P4r60IcXtSQDVqclD
-	 gDoNG12WbI0kMafOLpDHlBtSDmqyfd/uCMb6jYIk42CANw/XOA1CTVfOJzfcYhw3GgkHW
-	 9Xk6KfDIxFlo5rQRDqAgw5NsiMdm7gRIOtg+azV51d1G9JiT4eyM+Y+MNCvFlEAnUCQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793796289;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=E7Vw/XE5thAVyI3TZeFiM04oOjnhXJsy/OqySkvTrQQ=;
+	b=Yx5Ja4nO/ON3ktGKvAtCiI/lXwHipx31mx6WmnVZG0eu8sLX6n6p7/SKv/XbYFy+or48
+	 vybrJHtz3AUA1JgMxIlrVu79WCO1CBwnnce+WUeLIaxHRb2vnCqNOOHUAOSzHef1NiJT1
+	 1CL6kGTZddjPmyoqmB1HDNdamSoartRjp6k46lmLiDST/WvsMzJTAyPrJDG3EOI/mvKlp
+	 4onQobwpz4l+uI/PWL2eroA/tDZULxfHt4MLKYHSjldaUAeu3OuqwCWImNoGzKXqaRBAP
+	 KsvDHDjNF9epQIUhZliiY3U0QqQuGp0qfdjigbQuCxpiD7QfFH3Xq4IocVy1WVfdmLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kCAzkF2o;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=qV222pOf;
+	arc=none smtp.remote-ip=113.46.200.223
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24092606A328
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 12:10:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24092606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47C0606A339;
+	Wed,  4 Nov 2026 12:44:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E47C0606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kCAzkF2o
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793794251; x=1825330251;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=NaDrle2QU/ed63qF/c0+43kXtQAN4sDuXGVqMGAMpdc=;
-  b=kCAzkF2oxXS+r5+his6wPGPuDNS3SC1Hx055XQxyTej4I74myV7KVDn7
-   E+/sWl9SbCLKcM760c4nn5HBSOsgTecbiaiNUal+/NUwKJidsf0T1qXeo
-   kjy+l/MFjKe4tAEaU5jYnjyLdQ9AmqfSfcNNLGusbJPei5miY/fdz27O5
-   BT2ziNWn/d0ByL4YAfXUJspv72D6l9q+B9X0VuTPBHBS1NnfgLVUi+b/j
-   A9uPAgtYWL+2+Vjr+lsXdPfTVEySLkQalfXfx1CSzw1/w9eSGTsbTfq6y
-   Igt6U7JmUFZETmFuD57kj2cU6ls1bseMcv40pJmmildcxx0QkDl2enp0T
-   Q==;
-X-CSE-ConnectionGUID: t8lu9p70QdSvXoKGM1KlVQ==
-X-CSE-MsgGUID: HC8MWgXtRce/khmrZyxpsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2580897"
-X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="2580897"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 04:10:51 -0800
-X-CSE-ConnectionGUID: t+tCC7eVRdaJFxd9Pfx6Sg==
-X-CSE-MsgGUID: 5+7muVDzTWacGOpaDWsyDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="6864786"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Nov 2026 04:10:50 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id A3F5D99; Wed, 04 Nov 2026 13:10:48 +0100 (CET)
-Date: Wed, 4 Nov 2026 13:10:48 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Phani Kumar <phanigudipally@gmail.com>
-Cc: mathias.nyman@linux.intel.com, linux-usb@vger.kernel.org
-Subject: Re: xhci_hcd 0000:00:0d.0 =?utf-8?Q?=28Pan?=
- =?utf-8?Q?ther_Lake=2C_8086=3Ae431=29=3A_=E2=80=9CUnknown_event_condition?=
- =?utf-8?B?IDE5OeKAnSw=?= then HC died, with a TB4 dock and two displays
-Message-ID: <20261104121048.GE176724@black.igk.intel.com>
-References: <CAMcR36+hWzhS_Pytej3uoDvOU6160v5vtuWXSnyFb=zEoRFQJQ@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=qV222pOf
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=E7Vw/XE5thAVyI3TZeFiM04oOjnhXJsy/OqySkvTrQQ=;
+	b=qV222pOffz4XdiVtpWlxIi+W+hNXn/YAUcK1nndQSUvuKi4iuZOC3b9Noqn3XuawVwEcA4Z23
+	mAX/IulpkKSKC1aK28T6wjGvRTNKam3HShwQBj1l0Uf/8XYJUd10YSYdVPypsM8/9Ukzea+4sem
+	Rutfl2N2antt2dxRKnjIPQg=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4jKQB61xQCzmVBl;
+	Wed,  4 Nov 2026 20:44:30 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id 11CAD40578;
+	Wed,  4 Nov 2026 20:44:41 +0800 (CST)
+Received: from vm.huawei.com (7.238.34.231) by whupemk100010.china.huawei.com
+ (7.152.184.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 4 Nov
+ 2026 20:44:40 +0800
+From: Pengfei Lv <lvpengfei20@huawei.com>
+To: <gregkh@linuxfoundation.org>
+CC: <stern@rowland.harvard.edu>, <linux-usb@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>,
+	<xuhaiyang5@hisilicon.com>, <xuetao09@huawei.com>, <caiyadong@huawei.com>,
+	<suzhuangluan@hisilicon.com>, Pengfei Lv <lvpengfei20@huawei.com>
+Subject: [PATCH] usb: core: hub: Re-guess ep0 maxpacket size on reset
+Date: Wed, 4 Nov 2026 20:44:02 +0800
+Message-ID: <20261104124402.1269650-1-lvpengfei20@huawei.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -81,75 +70,117 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMcR36+hWzhS_Pytej3uoDvOU6160v5vtuWXSnyFb=zEoRFQJQ@mail.gmail.com>
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
-Hi,
+Per USB 2.0 spec section 5.5.3, the ep0 maxpacket size is fixed for
+all device speeds except full-speed devices, where it can be 8, 16,
+32, or 64 bytes and can only be determined by reading the device
+descriptor.  During the initial enumeration of a full-speed device,
+the USB core guesses 64 bytes (hub_port_init() with initial=true);
+after reading the descriptor, the real value (e.g. 8) is stored in
+udev->ep0.desc.wMaxPacketSize and propagated to the xHCI ep0 context
+via an Evaluate Context command (xhci_check_maxpacket()).
 
-On Tue, Nov 03, 2026 at 10:18:28AM -0800, Phani Kumar wrote:
-> Hi,
-> 
-> On a Framework Laptop 13 Pro (Panther Lake), the Type-C Subsystem xHCI
-> controller (0000:00:0d.0, 8086:e431) reports a vendor-defined completion code
-> 199 and then stops responding, taking down every USB 3 device behind a
-> Thunderbolt 4 dock. It is triggered by Ethernet traffic through the dock. With
-> two displays connected to the dock at boot it happens reliably within 1 to 4
-> minutes; without displays it happens intermittently.
-> 
-> Hardware:
->   Laptop:   Framework Laptop 13 Pro (Intel Core Ultra Series 3)
->   CPU:      Intel Core Ultra X7 358H, microcode 0x11a
->   BIOS:     03.02 (2026-05-26), ME firmware 21.0.6.1503
->   xHCI:     00:0d.0 Intel Core Ultra (Series 3) Type-C Subsystem xHCI
-> [8086:e431] (rev 01)
->   TB host:  Intel Gen16 USB4 host router (8087:a000)
->   Dock:     Razer Thunderbolt 4 Dock Chroma (TB vendor 0x127, device 0x8), NVM
-> 30.0
->   Ethernet: RTL8153 (0bda:8153) inside the dock, in-tree r8152 driver
->   Displays: two 2560x1440@60 on the dock's downstream TB4 ports
->             (one USB-C to DisplayPort, one USB-C to HDMI adapter)
-> 
-> Kernel: 7.3.1 (Ubuntu mainline build 7.3.1-070301-generic)
-> 
-> Reproduction:
->   1. Boot with the dock and both displays connected.
->   2. Generate network traffic over the dock's Ethernet (e.g. open a browser).
->   3. Within about 1 minute the xHCI controller dies, and every USB 3 device
-> behind the dock disconnects.
-> 
-> Log:
->   xhci_hcd 0000:00:0d.0: ERROR Unknown event condition 199 for slot 5 ep 3 , HC
-> probably busted
->   r8152 2-3.4.5:1.0 eth0: NETDEV WATCHDOG: CPU: 11: transmit queue 0 timed out
-> 5665 ms
->   r8152 2-3.4.5:1.0 eth0: Tx timeout
->   r8152 2-3.4.5:1.0 eth0: Tx status -2
->   r8152-cfgselector 2-3.4.5: reset SuperSpeed USB device number 6 using
-> xhci_hcd
->   xhci_hcd 0000:00:0d.0: ERROR Unknown event condition 199 for slot 5 ep 3 , HC
-> probably busted
->   r8152 2-3.4.5:1.0 eth0: Stop submitting intr, status -71
->   xhci_hcd 0000:00:0d.0: xHCI host not responding to stop endpoint command
->   xhci_hcd 0000:00:0d.0: xHCI host controller not responding, assume dead
->   xhci_hcd 0000:00:0d.0: HC died; cleaning up
->   usb 2-3: USB disconnect, device number 3
-> 
-> Full kernel log attached.
-> 
-> Observations:
->   - With only one display connected (either one), it does not happen.
->   - Booting with one display and hot-plugging the second after login did not
-> trigger it in one test.
->   - With thunderbolt.dyndbg=+p, the Thunderbolt driver logs nothing in the
-> window before the failure, so tunnel and bandwidth changes don't appear to be
-> involved.
+After a port reset (usb_reset_and_verify_device() -> hub_port_init()
+with initial=false), the "if (initial)" guard added by commit
+ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()") skips the ep0 maxpacket
+guess block, so udev->ep0.desc.wMaxPacketSize retains the real value
+(e.g. 8).  The xHCI Reset Device command preserves the ep0 context
+as well, so the xHC ep0 max_packet also stays at 8.
 
-I agree, I checked the log you shared (although it missed some details)
-tunnels look fine. One thing you can try is to run "sudo tbunnels -v" after
-this happens so we can see if the USB3 tunnel is up.
+When the subsequent re-enumeration then uses the "new scheme" and
+issues a 64-byte GET_DESCRIPTOR (get_bMaxPacketSize0 with size=64),
+xhci_check_maxpacket() sees hw==sw==8 and does not issue an Evaluate
+Context command.  The xHC queues a Data TRB of length 64 but applies
+ep0 max_packet=8 for short-packet detection.  If the device's first
+data packet is exactly 8 bytes and it sends no ZLP, the xHC does not
+recognise a short packet, keeps issuing IN tokens for the remaining
+56 bytes, and the control transfer hangs in the Data stage until URB
+timeout.  (A standard 18-byte descriptor returned as 8+8+2 is not
+affected because the final 2-byte packet is a short packet.)
 
-You can get tbtunnels from [1].
+Fix this by removing the "if (initial)" guard so that the ep0
+maxpacket size is re-guessed from udev->speed on every reset.  For
+full-speed devices this re-establishes the 64-byte guess, which makes
+xhci_check_maxpacket() issue an Evaluate Context command that brings
+the xHC ep0 context back to max_packet=64 before the GET_DESCRIPTOR
+data stage; the data stage then terminates correctly via short-packet
+detection, and the ep0 maxpacket is subsequently corrected to the
+real value as usual.
 
-[1] https://github.com/intel/tbtools
+For high-speed, low-speed, and SuperSpeed-or-faster devices the
+re-guess is a no-op (guessed value equals the fixed real value).
+The descriptor-immutability checks (!initial && maxp0 !=
+udev->descriptor.bMaxPacketSize0) remain unchanged.
+
+Fixes: ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Pengfei Lv <lvpengfei20@huawei.com>
+---
+ drivers/usb/core/hub.c | 46 ++++++++++++++++++++----------------------
+ 1 file changed, 22 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 199d3f535a89..51f66b24b353 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -4969,31 +4969,29 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+ 	}
+ 	oldspeed = udev->speed;
+ 
+-	if (initial) {
+-		/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
+-		 * it's fixed size except for full speed devices.
++	/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
++	 * it's fixed size except for full speed devices.
++	 */
++	switch (udev->speed) {
++	case USB_SPEED_SUPER_PLUS:
++	case USB_SPEED_SUPER:
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
++		break;
++	case USB_SPEED_HIGH:		/* fixed at 64 */
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
++		break;
++	case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
++		/* to determine the ep0 maxpacket size, try to read
++		 * the device descriptor to get bMaxPacketSize0 and
++		 * then correct our initial guess.
+ 		 */
+-		switch (udev->speed) {
+-		case USB_SPEED_SUPER_PLUS:
+-		case USB_SPEED_SUPER:
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
+-			break;
+-		case USB_SPEED_HIGH:		/* fixed at 64 */
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+-			break;
+-		case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
+-			/* to determine the ep0 maxpacket size, try to read
+-			 * the device descriptor to get bMaxPacketSize0 and
+-			 * then correct our initial guess.
+-			 */
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+-			break;
+-		case USB_SPEED_LOW:		/* fixed at 8 */
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
+-			break;
+-		default:
+-			goto fail;
+-		}
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
++		break;
++	case USB_SPEED_LOW:		/* fixed at 8 */
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
++		break;
++	default:
++		goto fail;
+ 	}
+ 
+ 	speed = usb_speed_string(udev->speed);
+-- 
+2.34.1
+
