@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793798626;
-	b=uVhIbqlw6cz4yiaqGkH75XKSpB1TgtHxAk6zmXK06rl2h7zrm9dwsC3HbAH2lYsoE1rB
-	 zyVdyNcVMotsECFJOYyf4C9saPchyXMg7Dx1HnKrEnY7sDPU4dGcTkVD3xPLUeE7veUuf
-	 tTFXyyHcXtOuFkQytwCBYTYiCYID/quYqjj/NaLmybZLyuePtOYDhFpRELxWOLh9s+zUh
-	 Zgdbj1FpQVlTbP/K3RqspbQEuOQMSyNsyjHB8Kct+152PkhtPxxgGojTwP3wR0LpphzLq
-	 XktgBP2k5eK2a4U1ABRsK/cz+pjHa9vv3ig6QtYtE9JfOKdcvCNvmuCETQ+L9d0FbSA==
+	t=1793798688;
+	b=KCadUtA9mM7xJcGduWLnG064mOinqvu6sREA01yo2rNLu7BQ83JnDZyLXq/0QKdcX86M
+	 1WVrXG70tPr2mOkkbf9iJWucp0d65AP24vPaHK+KcigpLRuyX/OmEOsf/y32UttDnd64I
+	 MP6RE8zDTfqvEbWTSjiAiqR4098AwH3HVjJz82tt1vpUUimcmdM80A/2VvmTXOUAO9b51
+	 G1IU9D1C8Dz2lEPMgT3/9xyCT/jL94ijyvYzydf27HouGOjVVqrmTQvHgRVFmVH6SgLMl
+	 K4MpxyG3vyIi+wCy0yLvS2IuHosQpgizZGEWcPLStJN24n2XLoAVywGjrYEzRTEAWVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793798626;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793798688;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=FSOKoZF/bl9Ln9qtMNip3FlaX8iBu7/8SRsdB54vt6g=;
-	b=d4VbHIQLHVv8jCpeZZE9z93yW0dZ9dnZjihaQpTEj+6tPpQTjiZ6uBcFoAr7h6YUWgmu
-	 UuLwqdQVJZMhDeJ97LUk0a590YjRW+wJ8GHFKystr+l4QAnrsw8YKTfplgyWdLzpm+YAq
-	 bKxG+vLtOYCJotsS0ucuf7V04cOAXOr/rcyrvQkvIe+vUAKa6WQdbXQYkCt0+4CM+EyUa
-	 66W+GSwe7KLJGkBEBF2K6GEDufw0+TGTLg3UKdYGX2+6Q6z/ZteMSgFnAFKBIDa+pE2vz
-	 sMLF8UH9/Y4TJmWqxCEfHJQG/bTQ+1PRu8wpQRowpbX6/3Dqn3ZM78ayHG373ATG5BA==
+	bh=HGEj1TjC/FBcrViZb3N9R4QCAeNyjUQEV3Q1FYbphaI=;
+	b=brs+kM08HKBWlTUfbKEMv1VXXEj34gI4MzI2Auf7gegtP7qIYjanHJHZIcX9ntxf+Oqi
+	 Vi2kz1K8CwqMbbOIq5/L2Ea5Bb3HAeWra0dHNE3hLyUIKlSNaet/5SJdoFMtKSKEQQCJ4
+	 SHetqFyZviw55xbqs2qsF10NMOypa//oriNwOnSGqacjMgI8kgSPNbx0r9f9OEIxQqpQ+
+	 LLTWI/0nqTAnmzb8bRJPhhLm/pKpXlzsW3PEmkmpbMePSKjOyRyj0SDFm/+3ZK5dRvq3f
+	 FdurQ/62tHAbsXnG4XiJXuAW5EiDcJV2egOL2vMvEmOjPDpnS18vp7gIIBhCMFpAcUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MLztr0Ey;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fICQZ7av;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBF5606A31B
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 13:23:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B1C606A31B
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 13:24:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MLztr0Ey
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A12A1F000C1;
-	Wed,  4 Nov 2026 13:23:46 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fICQZ7av
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE521F00919;
+	Wed,  4 Nov 2026 13:24:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793798626;
-	bh=FSOKoZF/bl9Ln9qtMNip3FlaX8iBu7/8SRsdB54vt6g=;
+	s=k20260515; t=1793798687;
+	bh=HGEj1TjC/FBcrViZb3N9R4QCAeNyjUQEV3Q1FYbphaI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=MLztr0EyJUlY6IThk/N8eD0oOKuI7z7GH0gsz1jlp/kj7iUaNO2F8E3dNYirh4gDd
-	 PaAHp9lzOrQYgQyEiuFiKcXNoGIAr9SPYT8iMKFZOzUzOVPkvfn9/5oJObH7JAJv2T
-	 Nxd/wtRhwe3x5WzRKcMdwQzvcfN/E7Ncevl3Vhgjq5SOBKWMm6uN+ITKb5v9wLaGvq
-	 mbUzWLNYNjF3HTNFET0BvblvgrLjefIheRus4rQftaxBInzMSA8Zexa8Bat/AyvpCi
-	 Tocozq5bEdzKkO915B6dw4vMniITdI1OXm3qSrMS1UDR0dvyQEDWUJltMFJjc8ct+e
-	 bnjKmiVwr84uA==
-Message-ID: <sashiko-outbox-197337@kernel.org>
+	b=fICQZ7avxoqosoyme795V1hlP+GFYa1eYqSzg6n7OvRzkFlgrTpWKhzIzwZEKhhNt
+	 zgVAT7GBTXRFHsonPEpA64QZvAaVDsxtpQJgE87CfRflrqcMUHhljq3xYhlNAa/QEu
+	 nhA4rWMlTD0KEQLPBZc9YJKJiJc2TEbgoQiFspNAxO5sRhhN2HakT53stKxjxybdh2
+	 Jobz9scaFqTWXqCGF+XuvF7JB3lK/H751Y+ApRShjpwh21yN8PPXrVOEddhbNn8WoW
+	 4MSUpaPV58CjbsNJxAB7jIQT0DlY/zIJ6rndzKkS3I/6FwheFij57PdM9kC47msW3c
+	 yLLJyyzJcqgKA==
+Message-ID: <sashiko-outbox-197339@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/2] usb: dwc2: wa for isoc packet tx fifo flush at
- periodic frame boundary
+Subject: Re: [PATCH v2 1/2] usb: dwc2: fix fifo reinit in
+ dwc2_hsotg_core_init_disconnected
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Fabrice Gasnier" <fabrice.gasnier@foss.st.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261104-dwc2-fifo-fixes-v2-v2-2-2bb13820f662@foss.st.com>
+In-Reply-To: <20261104-dwc2-fifo-fixes-v2-v2-1-2bb13820f662@foss.st.com>
 References: <20261104-dwc2-fifo-fixes-v2-v2-0-2bb13820f662@foss.st.com>
- <20261104-dwc2-fifo-fixes-v2-v2-2-2bb13820f662@foss.st.com>
+ <20261104-dwc2-fifo-fixes-v2-v2-1-2bb13820f662@foss.st.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 13:23:45 +0000
+Date: Wed, 04 Nov 2026 13:24:47 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,24 +61,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> If an isochronous packet is still being transmitted, when the end of
-> periodic frame interval elapses, using dma desc on dwc2 controller,
-> the device wrongly flushes the pending packets from the tx fifo.
-> This can lead to a huge packet is sent on the bus, leading to the host
-> finally reset the bus, and re-enumerate it.
+> Currently, the fifo gets re-init, with a running DMA, e.g. when
+> using_desc_dma():
+> - dwc2_hsotg_init_fifo -> Flushes the FIFO, DMA may run in parallel
+> - DCFG_DESCDMA_EN gets cleared (e.g. disables dma desc)
+> - then DCFG_DESCDMA_EN gets set back again.
 >=20
-> Workaround it by tuning the periodic frame interval limit from 80% to 95%,
-> on the affected cores (2.70a to 4.00a). It makes the issue very unlikely
-> to occur.
+> So move the dwc2_hsotg_init_fifo() call after DCFG_DESCDMA_EN gets
+> cleared e.g. DCFG write. Then the FIFO can be flushed safely, before
+> DCFG_DESCDMA_EN is set back on.
 >=20
-> Fixes: 540ccba08599 ("usb: dwc2: gadget: Start and complete DDMA isoc tra=
-nsfers")
+> A BNA interrupt may happen on EP0, before this change. When it happens
+> we can't recover to a working device.
+>=20
+> Fixes: a5c18f113150 ("usb: dwc2: gadget: Enable descriptor DMA mode")
 > Cc: stable@vger.kernel.org
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 > Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-dwc2-fifo-=
-fixes-v2-v2-0-2bb13820f662@foss.st.com?part=3D2
+fixes-v2-v2-0-2bb13820f662@foss.st.com?part=3D1
 
