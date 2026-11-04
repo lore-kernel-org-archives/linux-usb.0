@@ -1,79 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793776932;
-	b=BVl2mPlmy9/8xtFZISqfuXoMz2RdRETrKftESOeVTyiaLVR5domrQVnV2/EV81hJb2iO
-	 rbZU5pASATZLvO3eIKZXWCCsBaIvJ4Z8K8cYi0Sizmyfzef3i38TmtHQGu0IClad2085v
-	 ZCPOXzfvqgI/22g1l5iSyaZmnDwITZ5jaH7r0ulhrE9Es99oyivr7hM1jfZOmRXSfwDLu
-	 IX1YJvEmhk8WQWZZZDoWpv1JGInkE4omCjhOzA7YEo3Hn9iQkPfgd7esbrGNEXT/93GwW
-	 u8QRZMqoeg1RjxK6TBxPdgXw+FjSrX1t0ab5RWx9UbIoZeRrWRQp/XeWB3jyCgIkRuw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793776932;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=mh/QEZGtIgbMbkhZzPcGgt/dCBZ8tQKjIBv0AxgbHCo=;
-	b=e9A6uadr94zCzhZi8sQHCqWf5I/Wpu15kxsLcBkG+0MCvE0Ge9gG1ePER/WwONtxg+Ou
-	 SGKpt2DzHAmqZfKbT1EaMLHkSVYwcQNZa000HQJedRPx4uHOK3R85KVNeHj1TN5BORc1D
-	 xSzFY2ziKDw32kWBs+NH+cFUiUwrqYb7LGWa7KW9/QvaVFq95rqKzjzJduWIYzS3aO0rN
-	 +kDKJj915kan76WlijcJ1Y6hooVzUdVCL1DKRjFIjR6jU5xgF3ShFMJNsjbvGnEVwmEZk
-	 oooLqYDxCvJDNHlvJyLnLkz329/uU+i67YasFGxXWyPtJX2Td8u3v1yp4NfeniI2Qyw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GRW1z8tH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.198.212.57
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793776944;
+	b=FhcPn8gbt3hH5AW9Y9l+usPTX/KmC9QcVpkiPqdTjbT+B7c2MxfEHEO7vqvVBvVPM5l7
+	 DvfOdDbE/NAZZ7Qr+hIPYXZ7MATJldPH58ciJQzh5xKSZPoeLaLWj6eOvft+WESRmwezW
+	 qOSoNboxFv2+nH3TTrkQhAdH827evyKhXLLxvNJWCsbLrUbOA/nIesvpEzSPIfBHFX8rS
+	 5sRZv3p/8dcUs4mVkNY59ubB+gUmq9YLO8bz2e5SnMfdi+G7+x06GpD+pQgOqZ/UJxq/w
+	 Yhhy3/P9KgGEP45EOp/+LQMWyleVLPaD7sgMj0XBHkQR7Xl3mGfjd47L1ABArlwsxxA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793776944;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:Sender:X-SA-Exim-Connect-IP;
+	bh=qojGoJDTrnZSRjz/6Zcx/UCSC0JQIcis9hhYYMvddQw=;
+	b=yjVoCPOfeMNmYetcnAaIRkZ4tID4IWju8QdaNPHiwkAd+sw7FJnYMGbtSz7xadiEM7pU
+	 dTW4MQSwOLOf5T2XKun10mx/IQ38RbYgsMxLJaKJuYbosY2DCL0VtFzxWv0NiR+HHNRpI
+	 a4tNBqkSfK3nAAOTf0+zybo+LUXq6YtbJyr8RDqx6nyNSGVr6MhtdI07lyIMMQC68m77M
+	 OhhfinYmWnZO4iRYRB+Yzj83EDI6buHlRgMnVeTONPYX5gzvGwdU5kTrw+oMb5hfyZqn1
+	 euVmyC5xm63+VviCKorIDjluVank6jwG1YSaCTwgfZU0X2KhWMt5ZRqT0sN6dD7merQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.hr;
+	spf=pass smtp.mailfrom=griffin.linux.hr;
+	dkim=pass header.d=griffin.linux.hr header.i=@griffin.linux.hr header.a=rsa-sha256 header.s=20261029 header.b=nkN9mMT1;
+	arc=none smtp.remote-ip=193.198.212.57
+Received: from griffin.linux.hr (griffin.linux.hr [193.198.212.57])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F79606D81C;
-	Wed,  4 Nov 2026 07:22:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF32606A33E;
+	Wed,  4 Nov 2026 07:22:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDF32606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=griffin.linux.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GRW1z8tH
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793776932;
-	b=n/t/ylrr9CSdW56ygPHnqx4yuOHpnNRYsVoLdRSXiKFuVrDF85wZdUgQm0D5/Mxco4s3
-	 3ypDC55qvTWpzNxdf7gZ9Y79M8dFYIXkdRp4WHA9nYdLJTE34NnRivZFE/hatUAsLRs97
-	 sEfBJ531NQ1e4JFVBQUwvyLRe0x81cfYOVp//rasnmuVZv+7OZ3RLNQAI/+WcPp9nwV97
-	 acuq8XIbibNgTHytDK61c5118ICd/zyIlgAASJ2mQbSbHaIFTqJB/jxlpnU82AudOMrR1
-	 qg17k1WlCy4wnkdKJ5qrFW+K8za2atnjfuSnKFQPSdJz0DPU/L4vJE3EX4L2TPj/V5g==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793776932;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=mh/QEZGtIgbMbkhZzPcGgt/dCBZ8tQKjIBv0AxgbHCo=;
-	b=sITdCSwS0HK7E4DCA+pES6hFZ/C0UD+aLwj9N1Pcl3ppoGloYBjY+Wxl3YyjeuXMBs5t
-	 OpBCWuRcYCCPe8N+cWueLcBKGOVOgKvl+toBUc9Gf6zbLCSZnUxjV8ghJr9aqAIyiK1Pa
-	 R4y6xF3LQJdvbGt6DyAJjSM7UTX3mHRhvMYQ+a2wGv2dCujpG3YB2nw6Tgda750HVLC3A
-	 IX1R20d4f284toTrTtErHGhGnEeWWJge6/H6r5qR3t0ltNxNdpDC0unqeTP02KVIKQV5Z
-	 Ne1FCwyZQP/bcBPtTblziC551SH61U1OwbpqvdaUioLbCu2jHAV6wdUXbot355mj22g==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 377001F0093A;
-	Wed,  4 Nov 2026 07:22:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793776932;
-	bh=mh/QEZGtIgbMbkhZzPcGgt/dCBZ8tQKjIBv0AxgbHCo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=GRW1z8tHk3uawaXey9+Y45Z6/wO6yvrLFhcrr0yhKu5plv6brpxOT849H0RRY+HKB
-	 koqDf8Q6aa3ekmPoD9bY0TsbWxhCnTiaTFQ8RwUb5qCfEwd1ifzrygkdTfLtf2sOak
-	 bPRWyLfQTg2xJUR0gJm4AZy50PsmhSI4unchvOkjC7iPsMh0cWgoq9aTUhhLmykk7g
-	 Q+2dPw/rbRbuKWGF0VPKExZVTepB+FJkeFvpMSKpjBwnx3gUAM1qY/eMKpnrwHiWCM
-	 oDV0SQh1WqoyFzmMrz89YqbJrClheWSZthROWapxayIOLRHBqVt/uyylwSCNF2XQum
-	 2pnvOKJjReGuw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id C1BDE46D25;
-	Wed,  4 Nov 2026 07:22:10 +0000 (UTC)
-From: Joseph Telaak via B4 Relay <devnull+joseph.telaak.dev@kernel.org>
-Date: Wed, 04 Nov 2026 02:22:08 -0500
-Subject: [PATCH 3/3] usb: dwc2: Handle OTG interrupts that GINTSTS does not
- flag
+	dkim=pass (2048-bit key, unprotected) header.d=griffin.linux.hr header.i=@griffin.linux.hr header.a=rsa-sha256 header.s=20261029 header.b=nkN9mMT1
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=griffin.linux.hr; s=20261029; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=qojGoJDTrnZSRjz/6Zcx/UCSC0JQIcis9hhYYMvddQw=; b=nkN9mMT1/hb3sisYrdsSJT0aC9
+	IEk/a49AkP+QK2+YNAjinmcMYWjUOwht+i62p/qOAHCCgXsShO6cHCflYNOorYbGE9C+fksuT2jRB
+	oRi8B1FhW2x1vso2IoCp9orgV/OgbVxXIpHhJlSYJWEnnb1kZUk9ACeTJvfqrOWRmiX86y6BlmvRu
+	9xd9kBbYaBo3/qkdOLaCDGwwS0+/PyLKbnC8X/OWnUt0ofBFG+Hte/Y9/AGrG3vyf8LU99EHmtLy+
+	zna3NLm1rNCXXMnc9x5t+woRFSdbQc19W6Ns9oKkWVjrg0ttEhhdfnPhakXhlAN6gO3OSpl23NYvP
+	IKnJnFWQ==;
+Received: from vkosturj by griffin.linux.hr with local (Exim 4.96)
+	(envelope-from <vkosturj@griffin.linux.hr>)
+	id 1xOVK8-00034d-1M;
+	Wed, 04 Nov 2026 08:22:20 +0100
+Date: Wed, 4 Nov 2026 08:22:20 +0100
+From: Vlatko Kosturjak <kost@linux.hr>
+To: sashiko-reviews@lists.linux.dev
+Cc: Vlatko Kosturjak <kost@linux.hr>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usbip: vhci: do not give back URBs with an unchecked
+ actual_length
+Message-ID: <aurdLBmNnDfGjJVz@griffin.linux.hr>
+References: <aurLXADfuLjs-dm-@griffin.linux.hr>
+ <sashiko-outbox-196735@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,113 +67,25 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261104-sf19a2890-dwc2-v1-3-d959375e26ab@telaak.dev>
-References: <20261104-sf19a2890-dwc2-v1-0-d959375e26ab@telaak.dev>
-In-Reply-To: <20261104-sf19a2890-dwc2-v1-0-d959375e26ab@telaak.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Minas Harutyunyan <hminas@synopsys.com>
-Cc: Chuanhong Guo <gch981213@gmail.com>, linux-usb@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Joseph Telaak <joseph@telaak.dev>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793776930; l=3164;
- i=joseph@telaak.dev; s=20261104; h=from:subject:message-id;
- bh=+gnzh383ADRzly7Ief5zkWrWw3Pc47lfMuoWe2KoTVw=;
- b=1yVicNsr/efnZEvvp94GLSifXj9AyCXXPcTOUGEKdU2lZ9aNrNouQYqdzn/dvoE3770lk5VEi
- 7rp+Fl7JCq0A/Y2wCu2UchGJRbWOze6EqUcUiHTKA//MwZjQaVwmei2
-X-Developer-Key: i=joseph@telaak.dev; a=ed25519;
- pk=oQI+UfddlZ0wK2ac4WKOGNjUl1ZEN8j9ZVFSqEDoNP0=
-X-Endpoint-Received: by B4 Relay for joseph@telaak.dev/20261104 with
- auth_id=1404
-X-Original-From: Joseph Telaak <joseph@telaak.dev>
-Reply-To: joseph@telaak.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <sashiko-outbox-196735@kernel.org>
+Sender: Vlatko Kosturjak <vkosturj@griffin.linux.hr>
+X-SA-Exim-Connect-IP: <locally generated>
 
-From: Chuanhong Guo <gch981213@gmail.com>
+On Wed, Nov 04, 2026 at 06:16:14AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Critical] usbip: vhci: negative wire actual_length bypasses usbip_recv_xbuff() check
 
-The DWC OTG 3.30a found on Siflower SF19A2890 has battery charger
-support enabled. It triggers MultVallpChng interrupt (bit 20 of
-GOTGINT) but doesn't set OTGInt in GINTSTS. As a result, this
-interrupt is never handled, and Linux disables USB interrupt
-because "nobody cares".
+The review is right: a negative actual_length (usbip_recv_xbuff() skips
+it and the URB is given back with status 0) and OUT URBs (never checked)
+are not covered by v1. I reproduced both on 7.4-rc1; with a URB that
+usbfs splits into scatterlist chunks, a negative length over-reads the
+last chunk by up to 16 KiB.
 
-Handle OTG interrupt in IRQ handler regardless of whether the
-OTGInt bit in GINTSTS is set or not.
+Please don't apply v1. v2 checks actual_length against
+transfer_buffer_length right after unpacking the header, for IN and OUT;
+I'll send it after giving v1 a day for other comments.
 
-On a GL.iNet GL-SFT1200 it shows differently: after a few replugs of a
-USB stick the system stops making progress, the console repeating its
-last message with the same timestamp, until a power cycle.
-
-Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
-[jt: only on cores with the new otg_int_unflagged parameter, which
- SF19A2890 sets, in the one place that already handles flagged OTG
- interrupts and with IRQ_HANDLED returned; the others still handle OTG
- interrupts only when GINTSTS flags them; what a GL-SFT1200 does without
- the patch, subject]
-Signed-off-by: Joseph Telaak <joseph@telaak.dev>
----
- drivers/usb/dwc2/core.h      | 6 ++++++
- drivers/usb/dwc2/core_intr.c | 5 ++++-
- drivers/usb/dwc2/params.c    | 1 +
- 3 files changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc2/core.h b/drivers/usb/dwc2/core.h
-index 015a5fb78..288baaaf4 100644
---- a/drivers/usb/dwc2/core.h
-+++ b/drivers/usb/dwc2/core.h
-@@ -367,6 +367,11 @@ enum dwc2_ep0_state {
-  * @no_clock_gating:	Specifies whether to avoid clock gating feature.
-  *			0 - No (use clock gating)
-  *			1 - Yes (avoid it)
-+ * @otg_int_unflagged:	Specifies whether the core raises OTG interrupts
-+ *			without setting OTGINT in GINTSTS, so that GOTGINT
-+ *			has to be checked on every interrupt.
-+ *			0 - No
-+ *			1 - Yes
-  * @lpm:		Enable LPM support.
-  *			0 - No
-  *			1 - Yes
-@@ -466,6 +471,7 @@ struct dwc2_core_params {
- #define DWC2_POWER_DOWN_PARAM_PARTIAL		1
- #define DWC2_POWER_DOWN_PARAM_HIBERNATION	2
- 	bool no_clock_gating;
-+	bool otg_int_unflagged;
- 
- 	bool lpm;
- 	bool lpm_clock_gating;
-diff --git a/drivers/usb/dwc2/core_intr.c b/drivers/usb/dwc2/core_intr.c
-index 9565e6a52..e7bb9709c 100644
---- a/drivers/usb/dwc2/core_intr.c
-+++ b/drivers/usb/dwc2/core_intr.c
-@@ -874,8 +874,11 @@ irqreturn_t dwc2_handle_common_intr(int irq, void *dev)
- 
- 	if (gintsts & GINTSTS_MODEMIS)
- 		dwc2_handle_mode_mismatch_intr(hsotg);
--	if (gintsts & GINTSTS_OTGINT)
-+	if ((gintsts & GINTSTS_OTGINT) ||
-+	    (hsotg->params.otg_int_unflagged && dwc2_readl(hsotg, GOTGINT))) {
- 		dwc2_handle_otg_intr(hsotg);
-+		retval = IRQ_HANDLED;
-+	}
- 	if (gintsts & GINTSTS_CONIDSTSCHNG)
- 		dwc2_handle_conn_id_status_change_intr(hsotg);
- 	if (gintsts & GINTSTS_DISCONNINT)
-diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
-index f6379e616..22ab9ce13 100644
---- a/drivers/usb/dwc2/params.c
-+++ b/drivers/usb/dwc2/params.c
-@@ -243,6 +243,7 @@ static void dwc2_set_sf19a2890_params(struct dwc2_hsotg *hsotg)
- 
- 	p->max_transfer_size = 65535;
- 	p->ahbcfg = GAHBCFG_HBSTLEN_INCR4 << GAHBCFG_HBSTLEN_SHIFT;
-+	p->otg_int_unflagged = true;
- }
- 
- static void dwc2_set_stm32f4x9_fsotg_params(struct dwc2_hsotg *hsotg)
-
--- 
-Git-155)
-
-
+--
+Vlatko Kosturjak - KoSt
