@@ -1,78 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793793641;
-	b=wu3PPr1ejrsdGC8GGzwdDkJWk72a/4z+/QIz3CdEC0sTd6BJk2CHiTBeKhjZZPSjZRYL
-	 VSKN2OMYDMJLP+zCKDGsJdbbwyW2vKFqvaURml1BIzYMUJXI4PFShr6yl8CMhkxD8+t9l
-	 Hj+I84PJzZjDKNwGIOH1Y57g0WONPQXVUfwBqAbCZOTz2P2EBdmcp3fCKDQUCSyzi8Lff
-	 l4Tt2TVre/fp7VtGQruMgWK88M98xk07NLP0/MyLFFuPUU0tFxu3OpLT1PxT6R5EeClQj
-	 Ew6zxHHsijBTmAfXjM3KUXZeVANfHXogyzSQOMSovoCXLFL0ppiC57CaVqYSOH/l3Uw==
+	t=1793794251;
+	b=gNIqJbQaJVF6N9RyQT0e7S4iLT1wQ3lKnyPNDb3EiM+lnDQmBvB0Q9GCHzforVuqmacD
+	 b31Ut3xZD9Aj02/08O27Zr7hpbE5t6UByB7LXzGw/Tuqau5ZIuhSu4nBBVLPuNlsS2s2B
+	 wrwm8jUAZ+kPN60jQIOBR5JaX9DGcH8GCMgz8fQekOOJK8EOM+kijWIwHpK8pEwsiaocN
+	 Z/YOXhF3e1yGkKDHsNiBzcGcUoVpbjaWpsMykyzdrAH42F8IC7ZC6TA9oE0SUataP2ehW
+	 5zr9urlbjq6isJtpsI8sQJ/ylW6m4xnip2cz2gGTJhjq1GwW8dV85XMTPuJrZ8dywXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793793641;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793794251;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=mv+Er8+8Yti9h00JVyiKgSoZIL7C69JW2wmN2iRzf9E=;
-	b=MKPU5T+nlJmOcY6ZjEsk+i1BfdxpQ7sK7C5wtHK5S+egqLtnEs0asd2e94GZpeOP7ysG
-	 7tk/MLH/WAw8AauydqOboncveMw3hD7K29KgSe8zWAWCGKZUAI0XTxFJAGBDiw64qyQD/
-	 /rUqcWJo6dYLs9U7C3lQDVH0DOUwbmDyx3h0Ybpr8DAADLOoWTZIhZ3eeaJVd/II0J15E
-	 x3YkqmlhMait1bzcGXmgRcd9A9TXAEhV6sQsNtxuudPBIto5v2vpmrhqSJ/L4sTl+OLqA
-	 OClLUtPkg7W7j3sOyxkJvEJMTjUW3Pll/Y9B9CPfJ3iwxtBFi3exTlAmfhFQKDPilIQ==
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=4q+7nmSwngd2YrW+0sqV+3n9qv9JNyT1G3cBZj70q1Q=;
+	b=osYnUCWydsudUeBfJogapzF9MxleNn76TdCe2tZH+/ajtBrDmAqMsPHX5s9kRqJoPrt+
+	 c22efD4uISlyHOSuGYF0XobgdgfQGFfHnmZyH4qB0Uhyk0Iq6O9VJX+5lmNwPrKocCXg+
+	 58m5FidcDcwLKNifJ8+fX3MOcD0a1BQXc5kN+vhJNISrgS+ws25/P4r60IcXtSQDVqclD
+	 gDoNG12WbI0kMafOLpDHlBtSDmqyfd/uCMb6jYIk42CANw/XOA1CTVfOJzfcYhw3GgkHW
+	 9Xk6KfDIxFlo5rQRDqAgw5NsiMdm7gRIOtg+azV51d1G9JiT4eyM+Y+MNCvFlEAnUCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SVI+Pac9;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kCAzkF2o;
 	arc=none smtp.remote-ip=192.198.163.18
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165B2606A336
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 12:00:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 165B2606A336
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24092606A328
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 12:10:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24092606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SVI+Pac9
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kCAzkF2o
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793793641; x=1825329641;
+  t=1793794251; x=1825330251;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eV3JRT1k2gXL1nKgVen7pmC38hKNRxdTEjLUZRDxqfc=;
-  b=SVI+Pac9EFkK0wsY+sDvrp6KxFTQ1krFLsEs2W2fZFqMwV0599u0iJS3
-   SFKJAzhf5994yLMPnJvxGMcFijeDfWM0eHauaAcRd0z5UiDvIfKAqOFbK
-   gmmTuK0XOiVnsrf/3xDWnU5YR5MmrRLxNPs/8Z0O100bA77za7ZXyUxct
-   icxIYvQoC+NcDMJ10Ul8hHum5eBJcR+8Q7346Uq3fdzW6+GZ6dDS82yU9
-   7GzEm/RrSYAR8R/zBehD4pLQx4AAEYFPFsHohWRr0x54uZPA1Ky6d8cKR
-   AEsoFNuNd+6d82o1PXOJ2A9AJ8m84Bh99Adc2MjgdMntubGHqMy7qKUzy
-   A==;
-X-CSE-ConnectionGUID: /iLixURsRXCDSnMMQStJlQ==
-X-CSE-MsgGUID: FeGO9G1kRL6BsobEP0/nTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2579895"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=NaDrle2QU/ed63qF/c0+43kXtQAN4sDuXGVqMGAMpdc=;
+  b=kCAzkF2oxXS+r5+his6wPGPuDNS3SC1Hx055XQxyTej4I74myV7KVDn7
+   E+/sWl9SbCLKcM760c4nn5HBSOsgTecbiaiNUal+/NUwKJidsf0T1qXeo
+   kjy+l/MFjKe4tAEaU5jYnjyLdQ9AmqfSfcNNLGusbJPei5miY/fdz27O5
+   BT2ziNWn/d0ByL4YAfXUJspv72D6l9q+B9X0VuTPBHBS1NnfgLVUi+b/j
+   A9uPAgtYWL+2+Vjr+lsXdPfTVEySLkQalfXfx1CSzw1/w9eSGTsbTfq6y
+   Igt6U7JmUFZETmFuD57kj2cU6ls1bseMcv40pJmmildcxx0QkDl2enp0T
+   Q==;
+X-CSE-ConnectionGUID: t8lu9p70QdSvXoKGM1KlVQ==
+X-CSE-MsgGUID: HC8MWgXtRce/khmrZyxpsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2580897"
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="2579895"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 04:00:40 -0800
-X-CSE-ConnectionGUID: NidMIBzPSYCYEKP7hcj0mA==
-X-CSE-MsgGUID: 0WlXuALIQXKbCyGws7cB1Q==
+   d="scan'208";a="2580897"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 04:10:51 -0800
+X-CSE-ConnectionGUID: t+tCC7eVRdaJFxd9Pfx6Sg==
+X-CSE-MsgGUID: 5+7muVDzTWacGOpaDWsyDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="8571234"
+   d="scan'208";a="6864786"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa013.fm.intel.com with ESMTP; 04 Nov 2026 04:00:39 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 04 Nov 2026 04:10:50 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 2003699; Wed, 04 Nov 2026 13:00:38 +0100 (CET)
-Date: Wed, 4 Nov 2026 13:00:38 +0100
+	id A3F5D99; Wed, 04 Nov 2026 13:10:48 +0100 (CET)
+Date: Wed, 4 Nov 2026 13:10:48 +0100
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Grant Morphett <grant@gmorph.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] thunderbolt: Enable hidden DP OUT adapter on Dell TB16
- dock
-Message-ID: <20261104120038.GC176724@black.igk.intel.com>
-References: <20261101212311.10946-1-grant@gmorph.com>
+To: Phani Kumar <phanigudipally@gmail.com>
+Cc: mathias.nyman@linux.intel.com, linux-usb@vger.kernel.org
+Subject: Re: xhci_hcd 0000:00:0d.0 =?utf-8?Q?=28Pan?=
+ =?utf-8?Q?ther_Lake=2C_8086=3Ae431=29=3A_=E2=80=9CUnknown_event_condition?=
+ =?utf-8?B?IDE5OeKAnSw=?= then HC died, with a TB4 dock and two displays
+Message-ID: <20261104121048.GE176724@black.igk.intel.com>
+References: <CAMcR36+hWzhS_Pytej3uoDvOU6160v5vtuWXSnyFb=zEoRFQJQ@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,160 +83,73 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261101212311.10946-1-grant@gmorph.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMcR36+hWzhS_Pytej3uoDvOU6160v5vtuWXSnyFb=zEoRFQJQ@mail.gmail.com>
 
 Hi,
 
-On Mon, Nov 02, 2026 at 08:23:11AM +1100, Grant Morphett wrote:
-> The Dell TB16 Thunderbolt 3 dock consists of two Alpine Ridge 4C routers
-> in a chain: one in the captive cable module (DROM 00d4:b051 "Dell
-> Thunderbolt Cable") and one in the dock itself (DROM 00d4:b054 "Dell
-> Thunderbolt Dock"). The dock has four video connectors: mini DisplayPort,
-> HDMI, full size DisplayPort and VGA.
+On Tue, Nov 03, 2026 at 10:18:28AM -0800, Phani Kumar wrote:
+> Hi,
 > 
-> Mini DisplayPort and HDMI sit behind an MST hub on DP OUT adapter 8 of
-> the dock router and work fine. Full size DisplayPort and VGA are wired
-> to DP OUT adapter 8 of the cable router, but the cable router's DROM
-> marks that adapter as disabled. The software connection manager
-> therefore never initializes it, never tunnels DisplayPort to it, and a
-> monitor on the full size DisplayPort or VGA connector stays dark. Only
-> two external displays can be used with the dock, while all of them work
-> with the firmware connection manager (and under Windows).
+> On a Framework Laptop 13 Pro (Panther Lake), the Type-C Subsystem xHCI
+> controller (0000:00:0d.0, 8086:e431) reports a vendor-defined completion code
+> 199 and then stops responding, taking down every USB 3 device behind a
+> Thunderbolt 4 dock. It is triggered by Ethernet traffic through the dock. With
+> two displays connected to the dock at boot it happens reliably within 1 to 4
+> minutes; without displays it happens intermittently.
 > 
-> The adapter is real: its adapter config space reports type DP/HDMI OUT
-> (0xe0102), it raises hot plug events when a monitor is attached to the
-> DisplayPort or VGA connector, and once it is enabled the DP tunnel to it
-> is established and the display comes up. The same DROM also fails its
-> CRC32 check (expected 0xaf438340, got 0xaf4383c0), so the port
-> disabled bit is likely just wrong rather than intentional:
+> Hardware:
+>   Laptop:   Framework Laptop 13 Pro (Intel Core Ultra Series 3)
+>   CPU:      Intel Core Ultra X7 358H, microcode 0x11a
+>   BIOS:     03.02 (2026-05-26), ME firmware 21.0.6.1503
+>   xHCI:     00:0d.0 Intel Core Ultra (Series 3) Type-C Subsystem xHCI
+> [8086:e431] (rev 01)
+>   TB host:  Intel Gen16 USB4 host router (8087:a000)
+>   Dock:     Razer Thunderbolt 4 Dock Chroma (TB vendor 0x127, device 0x8), NVM
+> 30.0
+>   Ethernet: RTL8153 (0bda:8153) inside the dock, in-tree r8152 driver
+>   Displays: two 2560x1440@60 on the dock's downstream TB4 ports
+>             (one USB-C to DisplayPort, one USB-C to HDMI adapter)
 > 
->   1: DROM data CRC32 mismatch (expected: 0xaf438340, got: 0xaf4383c0), continuing
->   1:8: disabled by eeprom
->   acking hot plug event on 1:8
+> Kernel: 7.3.1 (Ubuntu mainline build 7.3.1-070301-generic)
 > 
-> Add a quirk for the cable router that re-enables adapter 8 if its
-> config space confirms it is a DP OUT adapter, and initializes it the
-> same way tb_switch_add() does for the other ports. tb_init_port() is
-> made non-static for this.
+> Reproduction:
+>   1. Boot with the dock and both displays connected.
+>   2. Generate network traffic over the dock's Ethernet (e.g. open a browser).
+>   3. Within about 1 minute the xHCI controller dies, and every USB 3 device
+> behind the dock disconnects.
 > 
-> With the quirk applied, both DP tunnels come up at boot and all three
-> external monitors work:
+> Log:
+>   xhci_hcd 0000:00:0d.0: ERROR Unknown event condition 199 for slot 5 ep 3 , HC
+> probably busted
+>   r8152 2-3.4.5:1.0 eth0: NETDEV WATCHDOG: CPU: 11: transmit queue 0 timed out
+> 5665 ms
+>   r8152 2-3.4.5:1.0 eth0: Tx timeout
+>   r8152 2-3.4.5:1.0 eth0: Tx status -2
+>   r8152-cfgselector 2-3.4.5: reset SuperSpeed USB device number 6 using
+> xhci_hcd
+>   xhci_hcd 0000:00:0d.0: ERROR Unknown event condition 199 for slot 5 ep 3 , HC
+> probably busted
+>   r8152 2-3.4.5:1.0 eth0: Stop submitting intr, status -71
+>   xhci_hcd 0000:00:0d.0: xHCI host not responding to stop endpoint command
+>   xhci_hcd 0000:00:0d.0: xHCI host controller not responding, assume dead
+>   xhci_hcd 0000:00:0d.0: HC died; cleaning up
+>   usb 2-3: USB disconnect, device number 3
 > 
->   1:8: enabling DP OUT adapter disabled in DROM
->   1:8: DP OUT available
->   0:5 <-> 1:8 (DP): activating
->   301:8: DP OUT available
->   0:6 <-> 301:8 (DP): activating
+> Full kernel log attached.
 > 
-> Tested on a Lenovo ThinkPad X1 Yoga Gen 8 (Raptor Lake, USB4 host
-> 8087:a76d) with a TB16 at dock NVM 27.0 / cable NVM 16.0, driving three
-> 1920x1080 monitors on mini DisplayPort, HDMI and full size DisplayPort.
+> Observations:
+>   - With only one display connected (either one), it does not happen.
+>   - Booting with one display and hot-plugging the second after login did not
+> trigger it in one test.
+>   - With thunderbolt.dyndbg=+p, the Thunderbolt driver logs nothing in the
+> window before the failure, so tunnel and bandwidth changes don't appear to be
+> involved.
 
-Yeah, the firmware connection manager ignored the DROM entries so that's
-why it worked with the TB3 hosts but fails with the USB4 software
-connection manager.
+I agree, I checked the log you shared (although it missed some details)
+tunnels look fine. One thing you can try is to run "sudo tbunnels -v" after
+this happens so we can see if the USB3 tunnel is up.
 
-> Assisted-by: LLM
-> Signed-off-by: Grant Morphett <grant@gmorph.com>
-> ---
->  drivers/thunderbolt/quirks.c | 35 +++++++++++++++++++++++++++++++++++
->  drivers/thunderbolt/switch.c |  7 ++++---
->  drivers/thunderbolt/tb.h     |  1 +
->  3 files changed, 40 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
-> index 2722918..4529fa4 100644
-> --- a/drivers/thunderbolt/quirks.c
-> +++ b/drivers/thunderbolt/quirks.c
-> @@ -65,6 +65,38 @@ static void quirk_stuck_pending(struct tb_switch *sw)
->  	}
->  }
->  
-> +/*
-> + * The DROM of the Dell TB16 cable module marks adapter 8 as disabled
-> + * even though it is the DP OUT adapter wired to the dock's full size
-> + * DisplayPort and VGA connectors. Enable it so that the software
-> + * connection manager can tunnel DisplayPort to it.
-> + */
-> +static void quirk_dell_tb16_dp_out(struct tb_switch *sw)
-> +{
-> +	struct tb_port *port;
-> +	u32 type;
-> +
-> +	if (sw->config.max_port_number < 8)
-> +		return;
-> +
-> +	port = &sw->ports[8];
-> +	if (!port->disabled)
-> +		return;
-> +
-> +	if (tb_port_read(port, &type, TB_CFG_PORT, 2, 1))
-> +		return;
-> +	if ((type & 0xffffff) != TB_TYPE_DP_HDMI_OUT)
-> +		return;
-> +
-> +	port->disabled = false;
-> +	if (tb_init_port(port)) {
-> +		port->disabled = true;
-> +		return;
-> +	}
-> +
-> +	tb_port_info(port, "enabling DP OUT adapter disabled in DROM\n");
-> +}
-> +
->  struct tb_quirk {
->  	u16 hw_vendor_id;
->  	u16 hw_device_id;
-> @@ -77,6 +109,9 @@ static const struct tb_quirk tb_quirks[] = {
->  	/* Dell WD19TB supports self-authentication on unplug */
->  	{ 0x0000, 0x0000, 0x00d4, 0xb070, quirk_force_power_link },
->  	{ 0x0000, 0x0000, 0x00d4, 0xb071, quirk_force_power_link },
-> +	/* Dell TB16 cable module DROM hides the second DP OUT adapter */
-> +	{ 0x8086, PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_4C_BRIDGE, 0x00d4, 0xb051,
-> +		  quirk_dell_tb16_dp_out },
->  
->  	/* Intel Titan Ridge CLx is unstable on early firmware versions */
->  	{ 0x8086, PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_BRIDGE, 0x0000, 0x0000,
-> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-> index d22d8db..e4629ed 100644
-> --- a/drivers/thunderbolt/switch.c
-> +++ b/drivers/thunderbolt/switch.c
-> @@ -701,15 +701,16 @@ int tb_port_reset(struct tb_port *port)
->  	return tb_lc_reset_port(port);
->  }
->  
-> -/*
-> +/**
->   * tb_init_port() - initialize a port
-> + * @port: Port to initialize
->   *
-> - * This is a helper method for tb_switch_alloc. Does not check or initialize
-> + * This is a helper method for tb_switch_add(). Does not check or initialize
->   * any downstream switches.
->   *
->   * Return: %0 on success, negative errno otherwise.
->   */
-> -static int tb_init_port(struct tb_port *port)
-> +int tb_init_port(struct tb_port *port)
+You can get tbtunnels from [1].
 
-I'm not too happy to expose this. Instead let's add tb_check_drom_quirks()
-right after DROM has been parsed and then that one can "correct" the wrong
-DROM entries.
-
->  {
->  	int res;
->  	int cap;
-> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-> index e868457..cb84182 100644
-> --- a/drivers/thunderbolt/tb.h
-> +++ b/drivers/thunderbolt/tb.h
-> @@ -1099,6 +1099,7 @@ int tb_switch_pcie_l1_enable(struct tb_switch *sw);
->  int tb_switch_xhci_connect(struct tb_switch *sw);
->  void tb_switch_xhci_disconnect(struct tb_switch *sw);
->  
-> +int tb_init_port(struct tb_port *port);
->  int tb_port_state(struct tb_port *port);
->  int tb_wait_for_port(struct tb_port *port, bool wait_if_unplugged);
->  int tb_port_add_nfc_credits(struct tb_port *port, int credits);
-> -- 
-> 2.53.0
+[1] https://github.com/intel/tbtools
