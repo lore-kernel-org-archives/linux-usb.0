@@ -1,96 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793784989;
-	b=KdjoAgOVKdERXoQ2HTL7o9es3TH8CTY568ELuDapK4s8zgFRhsCuTHuIEYLF4Booi1Pj
-	 AWWOm4KErxZNexR0eyZzF01MLVpt8vfQE2wIwABxyQrx86Cva+wKXgqJKCVmEOkHPAjV8
-	 OOmM7sXBwliVLyZ1RNvAs9P1xk27/9QfX2iITcQFf1Zxv2It5kZ+EPiXmOQyl2x1nGtyY
-	 gdkuu7HgpauRy3D7PvHycAy1H9ZN4uJ6SeVQC1Q4wFYUKKyvYirEU0GZ6DQwE8bjneflN
-	 H1TcQ2wzSz9xin/VI/XS+7+Ft8N7H57VflpjSpis4lOSFm2Oyyw63hnWePm+2YxqCDA==
+	t=1793785092;
+	b=kTvswaGHRKZM6wJDSZY/QkYa6fGtJoX/c7S/57MIApEHzsW0ydgTidmqq8FivfC3JFqx
+	 hvoqSiFOHi42PSBBBrk7JAL5+tYGijAbNlRsb2XFGYIMJJnCMH/qBsL4T8TYKiin5oxtQ
+	 jj7WU+1SfvZNVydf9Ylqpxo0FUamV9lLctinlE/zTkhrf+Bxc3ncQm7jl+wa+QmWa3NiU
+	 X6pRYO0Mt01LIxUAkeimTcpmzv0sn/iDBhnOZPnWy6ZDmqIyeNJwOtDTKEhdseKEKprNE
+	 5O6cpFM2nbdrJf9wLjeCPvxu+uxhnI5yV2CQxEGhBHWM5Mxez5yJaw9XDurVkUWaS/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793784989;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=lTXUcqEXN9fhbWBTgpN5+0qokRh4JVbIacGfVHJnplQ=;
-	b=ZdU+AwN6SOvqEO0zCrORdQ94RqBH28VMNbuHYaGPvy0Q4eYFEcGe7OZXpy6ajeEbQydB
-	 BMZKet3xvYFVv95VJdYpjyWTLG63ynsqEoJpcdtvxzXhwzfyieLfzwVo2AJt9wWdEGYK2
-	 a+zzIkpnxFh5odnBmgx0TGvvAEwIt60IUSQxhxxW+tp4HinI2jAzim+OGmxKlqu2bm+DS
-	 ZoRNapXi1AEaAmtqbJedVzyRLu9UXZi1Cus6gAkQ32ag+5f5NV1jPlQVlr6q2KsSl3RyU
-	 1Oa3993jMjfGrvYqqZujGGlJXcvzBjsbDhQqsslg91Av2zPSEuAPLVieGb/9V7GHGeQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793785092;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=adZp0B49J/UgkcOqYsHF8wFL/UnOXi8aefOeaihfpZw=;
+	b=sSE6fV3RehZtAtISnHr162F3QdeYmC/vIzxJT5nLOT7mnNFDVpn4CNdz9TjQH1hIbsTp
+	 qYp+dIOqe8Fk5WSxHcpGaz10tjHPBNfwdkrSpDZzlsdib+h2cXx4HhIEDylZ5D2eFYpZH
+	 WkPchnDNj1N9veHomub7a4lw6H4l9Ad2l/zpLqTJ1A9javXm20dFrLR3rWa3GoGefk2kt
+	 2uwQw5I0yGPaKTTAwM89oeWMN5RN6lJDql/H6f0tMbxWGiaSvZiUt4/IDqfpC6qlTsSlZ
+	 +uJptmFiecMqjxdQDpWCROrmwJTE9t5et1LWryAvbi/GwZoaA9v+cvqs0dkNnm2iSRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GmGCxF+s;
-	arc=none smtp.remote-ip=209.85.215.169
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aliYgSaM;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CD9606A31B
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 09:36:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3CD9606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0E9606A326
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 09:38:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GmGCxF+s
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cd69954c755so348385a12.3
-        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 01:36:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793784988; x=1794389788; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lTXUcqEXN9fhbWBTgpN5+0qokRh4JVbIacGfVHJnplQ=;
-        b=GmGCxF+sHS82Xh/DPYUY5pfW0A39hyNAQWMZR3S11K6S959NrAiKn5Gvj8B/SUSnxV
-         mauKncLIoCa/dTNCYroUkf9L1fq1lSvXHibiZVCT3CPMr5a57LrKFvLvxWKSK0LenaP3
-         l5ZAGP6tXncoBnKeYMDAHuVEvVTcVRD8Ac+0zfaYf1toBl3j4UKp+CAEVpuhSE+YBw4M
-         qrQ+9OqHbc7RJhCMAPIIrnbnq2t3pDzUm3VijPuGxR7zntnfv0X4pFpTsxUq4ABKTlrl
-         ckJqwld9+PfhNeSHBFvKkDzOSncU0XZTBYXrS0xqpdgTKXEeatgsPMZHSD4TwJtu+ojq
-         eVnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793784988; x=1794389788;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lTXUcqEXN9fhbWBTgpN5+0qokRh4JVbIacGfVHJnplQ=;
-        b=AUmutjdajwgmY/fZ4k154fGJibN6mWeuT0Q/QgUfE/JVLpHrf9ZBT2e5s1E/EiZRNj
-         JTtZmBf17lWxTJ7cp8O4KwrBV1BMyB/Er/BP32ilReMAZgNVHXW2a9ZTo0gwihEt8ELN
-         yMtrM2d3Ik1Fuz9NLuTVzoe9NQCOAwQ7hI2yzFu3so0SH5EwT8m/cnbmvjbokYKZp6g5
-         n+D2SvoY384WW6hZzGLzzQfu6fp1udjsK/Wk/nkNgbIqQgnQbyYz/TJhZ7yQKLsv7yMT
-         8dJtSntG9XbYe5oGgrCu8mcYqcZpD0C0M46U8Vhjy9Qvmgd9kifcKTjiKDhkgs1QHkDz
-         KIug==
-X-Forwarded-Encrypted: i=1; AKwUvBxDv0mE6NCsfQk27J0nc3P3fr8hVlDQo187nY9aTeae3PM3CVuwmc9n/XNPLwgcqzxGpbaG9kdUGdg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9y3WcrFS0lLK2+DvGXhZQEz/gftDO1OpAdoLANtMFeYZz3tkZ6
-	+wHZ0ti9x9Cw52NX4bPPWP26vlH1/5e/S88UecRwppNrKgotJHQnWyEe
-X-Gm-Gg: AYBFou31YJ61ZfGzvi2aWxHXcOUbLZlyp2ZpTBWPzLPN9a+cy8DWdEUWBKRn/kA09cp
-	5gJpnearnlalWibshVq5NbEnBz96m23d5ELH8OctzIdCMWgKpwASp8uiE/sOcUPF90/IpxPHHTb
-	+Mt3T0Stuk4N3uT5b7jJe1BtjhDPW8YVtryy/NnsxoJgx1Z1K426VQD99Ha0Sp0ZvzTMYlQNsfS
-	Eb0M4wqk7TxyhOhI0ydaNI+Ke+AsVtosTGYUbQJ9lh8mq6RZsgG1cRAeMnGKGftHQbmSB1YMokP
-	WKBba2OBZIkmBgmHaMJOTldwMwHL6CWVLZdNit/hG4cx7IyaGppYd8Bt4KkcXr0n492hwwOQNvk
-	l3z+nkiLOjFNf+iPvlPe109t/zeTRAZ1tcjwa2WY5VC/2E0C/E00vkv0Uw5fVURyhLmC5xl9YwD
-	fzuUo/omg2BCJMEnikJBgAu2MVOQgFkOc66TPG/ILhpl/P/ZHfeYVPVXKEWgi/dCXH2egMnEcHW
-	YZWyJihjLNLYH4GMlBvQBmYkrVGmw0oePNzNUFC7+HtenJL39+sApmRaHHKCHkbLHk7UtgFhuOP
-	TYOP3bSWOtao6lkWXNAGy5Jc+my0Ya8HSdxSPGJiquA+a1FRuhD7SQcm27fLhCpH+l0XL4IIGE+
-	2Hvw3
-X-Received: by 2002:a17:90b:2742:b0:3a4:b418:94cf with SMTP id 98e67ed59e1d1-3ae897158ddmr13702795a91.14.1793784988126;
-        Wed, 04 Nov 2026 01:36:28 -0800 (PST)
-Received: from evo ([183.171.191.8])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0944fd80bsm3149967a91.16.2026.11.04.01.36.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 01:36:27 -0800 (PST)
-From: Ambareesh Balaji <ambareeshbalaji@gmail.com>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: xhci: Tear down host on Reset Endpoint and Set TR Dequeue timeout
-Date: Wed,  4 Nov 2026 09:36:08 +0000
-Message-ID: <20261104093608.2642748-1-ambareeshbalaji@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261104101506.5ae19157.michal.pecio@gmail.com>
-References: <20261104012725.147741-1-ambareeshbalaji@gmail.com> <20261104101506.5ae19157.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aliYgSaM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 845CA1F000C1;
+	Wed,  4 Nov 2026 09:38:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793785091;
+	bh=adZp0B49J/UgkcOqYsHF8wFL/UnOXi8aefOeaihfpZw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=aliYgSaMkL+q4+mZd+5VVnGUEvhPldJXDk93AJ9Ya/ST47GVm41t1xKDujB+L2Rv4
+	 YQ4mrEX6ShWiVQVQyXjApvPsCnB/SghxT3CJ56zpDVaejLCEgetFGRikVPN8Ju5OAV
+	 psFNMDFgPg9RiU7cavbUnYDvWvaEQ8pFzu2x/NTiGv8BVrkoobWNBF3VHBgQ/zTcWJ
+	 vWHaW8BLQNC0nKzAvIhmHXuDvGF3vdUofiN/O5hxavlet6YR7MsCshWtIJKEdEpI28
+	 +1TXI/1SSGZe1iOCeEn5SbqIdzt5TRNUUgov7tyZ1H+pGLkcnyINmz0uqhgoeWpBMq
+	 ZajaFc+ytzX/w==
+Message-ID: <sashiko-outbox-196974@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: gadget: u_audio: read period size while holding
+ stream lock
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Yaohan Li" <shunsheng1218@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <179378417544.69464.16164899430939223277@gmail.com>
+References: <179378417544.69464.16164899430939223277@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 09:38:11 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -99,54 +59,103 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Hi Michal,
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Critical] usb: gadget: u_audio: race with close in snd_pcm_period_elapse=
+d() after unlock
+--
 
-Thanks for the review.
+commit a295a8414332708b19b9379c3e997a95e5d868c8
+Author: Yaohan Li <shunsheng1218@gmail.com>
 
-On Wed, 4 Nov 2026 10:15:06 +0100, Michal Pecio wrote:
-> I have long wondered if we shouldn't simply halt the HC on every
-> command timeout other than Address Device. Commands shouldn't be
-> taking 5 seconds to complete. When they do, something unexpected
-> must be going on and it's unclear if the HC is still usable or
-> capable of recovering cleanly when we abort the command.
+usb: gadget: u_audio: read period size while holding stream lock
 
-Your approach is better than mine, which only covers Reset Endpoint
-and Set TR Dequeue Pointer. I am happy to drop my patch in favour of
-yours for 7.5, and agree it should not have Fixes: or Cc: stable. I
-will test your patch once it is posted.
+This commit moves the snd_pcm_lib_period_bytes() call in
+u_audio_iso_complete() inside the substream lock critical section to avoid
+reading substream->runtime after unlocking.
 
-> I haven't seen cases when Reset EP or Set TR Dequeue hang but other
-> commands still work.
+> diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/f=
+unction/u_audio.c
+> index f0ee83abcebc7..7f378858146a1 100644
+> --- a/drivers/usb/gadget/function/u_audio.c
+> +++ b/drivers/usb/gadget/function/u_audio.c
+> @@ -156,6 +156,7 @@ static void u_audio_iso_complete(struct usb_ep *ep, s=
+truct usb_request *req)
+>  	struct uac_rtd_params *prm =3D req->context;
+>  	struct snd_uac_chip *uac =3D prm->uac;
+>  	unsigned int frames, p_pktsize;
+> +	unsigned int period_bytes;
+>  	unsigned long long pitched_rate_mil, p_pktsize_residue_mil,
+>  			residue_frames_mil, div_result;
+> =20
+> @@ -267,9 +268,10 @@ static void u_audio_iso_complete(struct usb_ep *ep, =
+struct usb_request *req)
+>  	/* update hw_ptr after data is copied to memory */
+>  	prm->hw_ptr =3D (hw_ptr + req->actual) % runtime->dma_bytes;
+>  	hw_ptr =3D prm->hw_ptr;
+> +	period_bytes =3D snd_pcm_lib_period_bytes(substream);
+>  	snd_pcm_stream_unlock(substream);
+> =20
+> -	if ((hw_ptr % snd_pcm_lib_period_bytes(substream)) < req->actual)
+> +	if ((hw_ptr % period_bytes) < req->actual)
+>  		snd_pcm_period_elapsed(substream);
 
-I can't show that these timeouts happen on real hardware yet. What I
-have is:
+[Severity: Critical]
+Can snd_pcm_period_elapsed() still race with a concurrent close once
+u_audio_iso_complete() calls snd_pcm_stream_unlock(substream)?
 
-1) A fault injection reproducer. On an AMD xHCI (1022:1587) passed
-through to a QEMU guest, I halt a usbhid interrupt IN endpoint with a
-real SET_FEATURE(ENDPOINT_HALT), then suppress the doorbell of the Set
-TR Dequeue Pointer command queued by the usbhid unbind. Without a fix
-the unbind blocks forever in usb_kill_urb(). With my patch the command
-times out, the host is torn down and the unbind completes. Normal
-unbind and rebind of the same device is unaffected. I can send the
-injection module and test script if you want to run it against your
-patch.
+Because uac_pcm_ops does not implement .sync_stop and card->sync_irq is not
+set, snd_pcm_sync_stop() is a no-op. As soon as u_audio_iso_complete() drops
+the stream lock, a concurrent close in
+snd_pcm_release()->snd_pcm_release_substream() can complete snd_pcm_drop(),
+run do_hw_free(), and enter snd_pcm_detach_substream(), which executes
+without holding pcm_stream_lock:
 
-2) One real hang with the same symptom on the same controller type
-(kernel 7.3.1, tainted by out-of-tree DKMS modules). After a Focusrite
-Scarlett Solo logged "USB disconnect", usb_hub_wq stayed in D state
-for over 4 minutes in usb_kill_urb(), called from
-scarlett2_private_free() on the disconnect path. Nothing recovered it
-and only a reboot helped. There was no "xHCI host not responding to
-stop endpoint command" in the log.
+sound/core/pcm.c:snd_pcm_detach_substream() {
+	...
+	if (substream->timer) {
+		scoped_guard(spinlock_irq, &substream->timer->lock)
+			substream->runtime =3D NULL;
+	} else {
+		substream->runtime =3D NULL;
+	}
+	mutex_destroy(&runtime->buffer_mutex);
+	snd_fasync_free(runtime->fasync);
+	kfree(runtime);
+	...
+}
 
-Reset Endpoint and Set TR Dequeue Pointer timeouts are only reported
-through xhci_dbg(), so the missing message does not rule them out,
-but it does not confirm them either. I see USB audio hangs like this
-once or twice a month. I have enabled xHCI dynamic debug and tracing
-and will send what I capture if it happens again.
+When (hw_ptr % period_bytes) < req->actual is true, u_audio_iso_complete()
+then calls snd_pcm_period_elapsed()->snd_pcm_period_elapsed_under_stream_lo=
+ck():
 
-Regards,
-Ambareesh
+sound/core/pcm_lib.c:snd_pcm_period_elapsed_under_stream_lock() {
+	struct snd_pcm_runtime *runtime;
+
+	if (PCM_RUNTIME_CHECK(substream))
+		return;
+	runtime =3D substream->runtime;
+
+	if (!snd_pcm_running(substream) ||
+	    snd_pcm_update_hw_ptr0(substream, 1) < 0)
+		goto _end;
+	...
+ _end:
+	snd_kill_fasync(runtime->fasync, SIGIO, POLL_IN);
+}
+
+If snd_pcm_detach_substream() has already cleared substream->runtime,
+PCM_RUNTIME_CHECK(substream) triggers a kernel warning via snd_BUG_ON(). If
+snd_pcm_detach_substream() clears substream->runtime and frees runtime right
+after PCM_RUNTIME_CHECK(substream) passes, snd_pcm_running(substream)
+dereferences a NULL or freed substream->runtime, and snd_kill_fasync() reads
+runtime->fasync from the freed runtime struct.
+
+Would calling snd_pcm_period_elapsed_under_stream_lock(substream) before
+snd_pcm_stream_unlock(substream) avoid dropping and reacquiring the stream
+lock across the period check?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179378417544.69464.=
+16164899430939223277@gmail.com?part=3D1
