@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793758495;
-	b=J5JVapURQiWb9u3F87dWXS6/uPvVlCd/GwceFK3QGCwwkL2z6y5+/NE0VB72mMpImi5M
-	 HSeN9jk98BZZqpHE1ZVkWJshxhPLJTK+gke8Q4oUuNoCyAR0UQF8Bo75Fu8im0tl9THvc
-	 sexpjkAkdQV8dsRiy9SmRJYn0SphXQ5AA9lnJP1j2TURFO1XZACMovFlHAaMFbYDxMlVf
-	 h/siyAoK82gEpCuOQ+eYEPuzYGK/oicumpncvZ0Y1wqJfakgvQG5w0Pv+N4DFDxFQgzb7
-	 Yrw1Cp6dTrU8lqBm9Ti5SCQRXJNYf/GfFFRMjJXrVsr/j5Xtm1FIa8mSsi0FYq74fPg==
+	t=1793758497;
+	b=zr61D2qWmrMEQNYgR6TzzIaxnk/0O8Fjnb1vEjy85MsAlgZ3yyvSJV0UOOOKZGQOlCPG
+	 Ig3M2BUc4DN6iivOIwYRVLoHvqmcajGQ/oXaky6mmzfsS6luHOD80STUwxerDSN9jyEIS
+	 jO3B3o+RXjqdBmHie35ON7L7lCE/E6NbHUsnBwTk5fk2/bnswGhd7jdyOkEkTe6E2EhO9
+	 dQ6GZJA+bTPESSBVB4p+Dy0WNiwkzmXO4963UymA/XXBfO2R4VtoJY7QT/2s/eNyXQP9F
+	 JMLP7Ky4WBR1USQFjlHYuPtwfpg54mAW/SejPdibMYQYBdaRSVtVjr/sJlRjEwMU/GA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793758495;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793758497;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
 	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=11jjPWiqgOMEn4N4YnRzML+1grEqbSxQFTZABNOP3Lg=;
-	b=veqfwOZHYru2FawUP1fhtkhTZTq+Qyh4BhBXnNwjnlrJjHRs2+wZweXC9QAGhWD5DZeb
-	 FLlVp5Yko390bgdJcZ/+Tl3oGwv1FniIUpGGfRZP9kSUiZipxh0R0Zfh5fXYHdJaFgJFq
-	 erecnPcxJyKMuUwjBLDCbbj98a4h4VKMoAP1knMoZGRKzbV3y9mBEOeLrvAo57L3QxRL6
-	 FCDYoGYyrS0CKD8svZ6ECMbIPZy0mYl8WZq5Ob0IvhRAXSm3NJupGlyCaLlYU56qdSMCE
-	 RG/Y7VgTPKhl3s1wfMrLN5pk+7z5TWS/61HkNPY8Zk1dZu+1EqqQ0O3dLf1UQF5eErw==
+	bh=VJfRFzdd5f7sOBUgZp+39dA2DxBP3NXONjDN81es+H0=;
+	b=agxK8sO0SKxenbb1H/BOLF03d7DEaRkabPqIa7j7JN5v0T65wBMchVzpuyhkPH4W8GU6
+	 Ru0YDLOaBdkNYmj54rm//qfIxcmT2OO6wEIJSQnDTZv2+YAYOCK79RNI30RGQqvkIpmbx
+	 9R9WL2IsYVZjzVs4tQLP5xTfSiugGgmee00wzD5+JxDy0ryttI+tCll7Of+BaNymXeFax
+	 YZRhQMsm5KwGwAZCmcTQ/nzybNyoI+LzEA/MeVGz8zYph67ealnLS+IasXnkR+2vuVFvO
+	 +07SfJTG0U3lGjltK0OEDxNClE6TCdl2YsdRiJcJhzDnxgcE6jf4eTYD8WhEyNW/trQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -25,29 +25,21 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34827606A326
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 02:14:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34827606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBDD606A31B
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 02:14:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CBDD606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowADnEPsWlepqGHY+AA--.9357S2;
-	Wed, 04 Nov 2026 10:14:47 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowAA3YPoelepqb3Y+AA--.29994S2;
+	Wed, 04 Nov 2026 10:14:55 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Patrick Venture <venture@google.com>,
-	Nancy Yuen <yuenn@google.com>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Peter Chen <peter.chen@kernel.org>,
+To: Pawel Laszczak <pawell@cadence.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: openbmc@lists.ozlabs.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH] usb: chipidea: npcm: keep the ci_hdrc platform device for removal
-Date: Wed,  4 Nov 2026 02:14:56 +0000
-Message-Id: <20261104021456.1468462-1-vulab@iscas.ac.cn>
+Cc: linux-usb@vger.kernel.org
+Subject: [PATCH] usb: cdnsp: drop runtime PM reference on gadget init failure
+Date: Wed,  4 Nov 2026 02:15:03 +0000
+Message-Id: <20261104021503.1468519-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -59,58 +51,52 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADnEPsWlepqGHY+AA--.9357S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Gw15Ww4fXr43CF15tFyUtrb_yoW8JrWrpF
-	45JFWfGFZ8Gw17Ja1UXw45ZFyrGFZ3trWrKF93t34Uurn8CryfXF9Fqayjga1DAry0gF4q
-	qa1xK34kJFWIkF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Eb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
-	AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
-	6r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14
-	v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
-	McIj6xIIjxv20xvE14v26rWY6Fy7McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
-	e7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMx
-	C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
-	wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
-	vE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAv
-	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14
-	v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU5ENtDUUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAQBA2rqY+S6DQABs7
+X-CM-TRANSID:qwCowAA3YPoelepqb3Y+AA--.29994S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7GryxArWxtry7KrWDXrW5Wrg_yoWDtwc_Gw
+	4rur1xZF1UWa4qk3W8Gw13urW8KF9Fqa1kWanxtw43uayUKF4kJr9xXrs5Cr17Zw47GF1D
+	K3Wvka13u3ZrWjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbc8YjsxI4VWkKwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4
+	kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_
+	Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI
+	0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+	Yx0E2Ix0cI8IcVAFwI0_Wrv_ZF1lYx0Ex4A2jsIE14v26r4UJVWxJr1lOx8S6xCaFVCjc4
+	AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
+	Y20_Gr43Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGw
+	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48J
+	MIIF0xvE2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr
+	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvE
+	x4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjxUyZmRDUUUU
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRUBA2rqY-m4YgABsf
 
-npcm_udc_probe() creates the ci_hdrc platform device with
-ci_hdrc_add_device() and stores it only in the local plat_ci variable.
-The npcm_udc_data::ci field that npcm_udc_remove() passes to
-ci_hdrc_remove_device() is never assigned, so it stays NULL.
+__cdnsp_gadget_init() takes a runtime PM reference with
+pm_runtime_get_sync().  On success the reference is dropped by
+cdnsp_gadget_exit(), which the role core only calls once the role state
+has been set to active.  The failure paths return before that, so the
+reference is leaked.
 
-ci_hdrc_remove_device() therefore never unregisters the device created
-during probe.  Both the platform device and the reference it holds on
-its parent are leaked on every unbind, and the UDC core structures are
-never torn down.
+Drop the reference on the common error path.
 
-Store the returned device in ci->ci.
-
-Fixes: 70f13579c2f7 ("usb: chipidea: Add support for NPCM")
+Fixes: 3d82904559f4 ("usb: cdnsp: cdns3 Add main part of Cadence USBSSP DRD Driver")
 Cc: stable@vger.kernel.org
 Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- drivers/usb/chipidea/ci_hdrc_npcm.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/usb/cdns3/cdnsp-gadget.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/chipidea/ci_hdrc_npcm.c b/drivers/usb/chipidea/ci_hdrc_npcm.c
-index e52a2b05cbe2..8ad8797742f1 100644
---- a/drivers/usb/chipidea/ci_hdrc_npcm.c
-+++ b/drivers/usb/chipidea/ci_hdrc_npcm.c
-@@ -70,6 +70,8 @@ static int npcm_udc_probe(struct platform_device *pdev)
- 		goto clk_err;
- 	}
+diff --git a/drivers/usb/cdns3/cdnsp-gadget.c b/drivers/usb/cdns3/cdnsp-gadget.c
+index e84405352caa..d3df4bc4a17b 100644
+--- a/drivers/usb/cdns3/cdnsp-gadget.c
++++ b/drivers/usb/cdns3/cdnsp-gadget.c
+@@ -2083,6 +2083,7 @@ static int __cdnsp_gadget_init(struct cdns *cdns)
+ free_setup:
+ 	kfree(pdev->setup_buf);
+ free_pdev:
++	pm_runtime_put_autosuspend(cdns->dev);
+ 	kfree(pdev);
  
-+	ci->ci = plat_ci;
-+
- 	pm_runtime_no_callbacks(dev);
- 	pm_runtime_enable(dev);
- 
+ 	return ret;
 -- 
 2.34.1
 
