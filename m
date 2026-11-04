@@ -1,102 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793778103;
-	b=sdNSwAhsgRtxc+z0TAAhT6rKuwcNLzulY6GAy0ji8wNXTpK5wdMru9ZoVt3hxvMUudy2
-	 nHVCn9mh0Ws1TVZCYOpkKYF7HGDlcatTVEdMKiOYbjqShe0mrcgoyPXTflttFNghN/dsq
-	 e27VwcfCbOd4YY7SraFbSyS8gUV2DiuX0bf9cuNVReEa9YSS0qhm/GRxtDuOcrvEmWIqE
-	 HMqv4MhMH3mfNcUaNkStpmK7lWhtJuGV/fMOQwbfMk6GA9ru3OiRdiqlhRFu3B+99AvSD
-	 RiYHXNft/mNs7HHBPi35Y/Clcnr4UV5cx+qJB0R5fcU328Djj4D2eTbNEta6FnU8cQQ==
+	t=1793778133;
+	b=lOj0hgUQGTAPBoQtwW1VIDcX9IeHMYf/18wDFCAoseNwNo6EmoUJwwI36NhIIHLz9UB3
+	 kAvloBRPRWLcDv4K9s8CD1Iq6hyOvj81+Crvb9v2gKK1h2/HHpa7beyUfbLQZpzcho4Q1
+	 ydgDDFk7oEMqESQFXuXjK9pMFUw0jJNmn423lMCuJsO+QNrgtUmEOt9h3X7gC77ILZlUc
+	 PcbYANznoLprTTUF4mBEiR6bvHb2cwanjwIHnj8MJjYqCfLqYuvWgGFbT9j7S03oUSlQ2
+	 2sWHr+nqZfyWKIqkkjMqjm/d1apKLwOpCUt/0yvOa5Ks3rQYrB7OC6CDheFk4Z5k2UA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793778103;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793778133;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Disposition-Notification-To:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=COWDtAifNxy9eheKajXdjw2ArjUB6Mu5k/ceulB+33A=;
-	b=FVbskXEErRaPkhbziIloP5EdDoL8nIvvwMtgo44uQD3E/Lo5n5vjI4lXaMqGlirfcfyn
-	 G7qR0QGsN9gz9SzeVyErHq3LZEp9Sm/UNV0zDo+ehswR3FYxqvLzzYj50Rhf9SZBxbNhG
-	 UMTHO1yM6zKK4ec6rb1q2Ssqvyao6+DRI59FsFIXb7Hf5UsCnZokNQs8bW9yMIDjS+Y1f
-	 3mqAO/5W5Z6XWuRig5draCD0Hs1R4qRX35wkn+sgNxZsdRJuTe6BfXhs4h3RgFAg/gLKv
-	 jvIg5ZYcJICQp3qP3bdGnVr+2CgX/pShse6nTbBMCIJTgzL3hPLkLq+ECo9FkkNZJAw==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=XgGz0RsBeuTAkb9+mf6U3WsqonKJkMfHigPc4/u2i24=;
+	b=x5pWUzKhsM2n5CxYVfxuKMy/+DzIMo2et6luCUsk7vHAQv1jWNZim41fQrpYLOtQRqIo
+	 0pwLlCE5VPIUQiaQqVvk6kUITL4bneXnjNE55JeTjoIBriZDQBHyWpM631hbfEef/V7eD
+	 b8Qcv6krYhd3P5wEtPevThC+QTsSeI7/wifc+FM9KfjDExX5dEbfXJvOb+VZTj9kgm9ny
+	 Z+9WNKvP994TWxu85xXfWDMR7QsQjq8/i7WDBzfBtXKj5tfDZGuKorcDOWT7bELR00zdK
+	 m0DnlpQFQXS3TovhvXbOI7MRubHBMhlHUxd4v9gXnNUdWbXnfPaFtAO9vWgFeHXAi6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JiNghS0W;
-	arc=none smtp.remote-ip=209.85.208.54
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GFkDsZM1;
+	arc=none smtp.remote-ip=74.125.82.51
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5426606A334
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 07:41:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5426606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF11606A326
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 07:42:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3BF11606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JiNghS0W
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6b565211890so30826a12.1
-        for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 23:41:42 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GFkDsZM1
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1438d9363fbso279183c88.0
+        for <linux-usb@vger.kernel.org>; Tue, 03 Nov 2026 23:42:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793778101; x=1794382901; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :disposition-notification-to:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=COWDtAifNxy9eheKajXdjw2ArjUB6Mu5k/ceulB+33A=;
-        b=JiNghS0WbjBhBjplbOoFlqjxzZeyvtmCJK69gYiV7tEtoa1I+21q3J2Ylf1p7L/tDZ
-         lrJVG/LZH7mUuENylhmMwA5PqSglaKNrvi7WgywMzZEUdK5OughJlpokHLxmqqgR+eeE
-         DqzpNug6VzlkuOOVJbS+nTHWlUwVdNc/GUgrFZiOpP98FV4kD9oArKwb9je036+TbePJ
-         WvnbLBZJ+7JjzlcZ4zBxZ++HpBUSS8FPfGI6NmSgschT5c0czNGij65Bn/PTLDYL7B/L
-         +Yrqk+LHo7/i0oc21yRYNeFJ50INTNV0xB1sP2/+YcER0e4mNHkF16U0idnDASxuIOfF
-         HsPw==
+        d=gmail.com; s=20260707; t=1793778132; x=1794382932; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XgGz0RsBeuTAkb9+mf6U3WsqonKJkMfHigPc4/u2i24=;
+        b=GFkDsZM1X2fvZz7fpFxwGKgbV3Y0f2EwxqtIEVZ7CppVOXupPs01n2FGhSODJ/HwCo
+         8rMt6ha9VIM2fp74g86DkY7D85F9IdDGoovji5s68uv60eOKq1gYRGvlKEGsU+7Ddgv2
+         jUt/tVb9mYlKeN/vKv//GH+bPwgiAV8hU6vY6HAbMEfWtEdsT8+xbVLML/BIznkhoahK
+         1naS7Et+tMlJlVjSNDZq85Sk+48UYxBW8Ebh0dYTLU8Z/yyoDQp4/jzCQemr1QdI6j8K
+         YvT8pb27yUltIZbjOwM7Rw8wOaP9ZH19nIjhCqNLYeSpt/IkS6+hXsUvbaFbDgothKNy
+         HlJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793778101; x=1794382901;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :disposition-notification-to:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=COWDtAifNxy9eheKajXdjw2ArjUB6Mu5k/ceulB+33A=;
-        b=TeoKLE2iN+h3vAWHz0hWoJsACVvXXRWe8K5LqoWZk7GOaqsyvPRP2h9ehCTLLvtdka
-         X1kQzZ8VSmSK1JxPguywPeZLvK2znOuKwHVCX9iPtqFJq8QCQ59uyNpLju0h62H0mXVB
-         C6A5zC4gOAg52FTckU8fv/OlXZNJllwkRBAiIlvHXRQyoblGhOfXBweT9bXMccqkfBuY
-         GlJj+mGrPZBnXMLV1rEOtOX+xusZ5VjtwPvxwatFdznba4J77We5kDgEAWrFMy7llK5x
-         obzAszluzghupmOeEpjLFueAmgbppnWmLrj/KNT+FUgs6PunhMUwSNCmtAKOndVX2gbC
-         LGfw==
-X-Forwarded-Encrypted: i=1; AKwUvBw9NOWGxaSS5UT9fTvnHsGgcdu4Wz9jcVXVnxYdZyH/BhjEdlkgLgI0kqfMsptaixDxZPlRE8AVxNE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/yRUXMUd9YSqBt886pMMITprhkm1LlISARV2vA0TESs25JZZc7
-	+gOUwRcmDeiJklEUUVvWkn/QqsN45XZdaBigDGSzMa0ZkweP26T5X1fu
-X-Gm-Gg: AYBFou00aSu0t/RsfETG5ZvWIV5tIqQChBa5RbgBWE6TUz9aDpkJ8sWXLZqQUSukcHH
-	9LR1GYSYkTXeYrOLoLukHKUfz0mXGSmMEo37TUXkTSykiN404RuWFBK4BRqGX/HkfmAhW+2uU28
-	hzZtJeG1vGjI38UQFI0bkFxZEVCJJ4+weqAzBbFeGjghK0gXJfJ70y4USwVL4PEIniTtngGPugL
-	f8F/9o3yYbXKuHOFcTsCJZcpTG56/S6xWYxF8SoI3hgRbsycZFsB+LogvtV34aXkAFoxQBixUPm
-	LeqduWcAycB7UK8XQJpv9roove/p+H/LphpTZpTbQBPaTwzMq0Z9XzrsmmTBuDA1NQCNuvtPzRw
-	B3jscMVOA4XCvR2d9+TY0PSXgNOZK/8xteioq2v1PJ8hMoB6YFNpx0I7q7SBv9JBbqb8MSrbdk5
-	WV7ajY1bb8dd51t1rOfVNeghO9e06cVWgzD5FD3Xbc68bXsYTeVtKbikgzTfp61PshHPsU3D7JO
-	usi/d5RFm/RNLwpCGK+/CcZYJSm6V9I3LfJ7X53K6wDBAlDpVja7ILY0tZJTC9rM+XLmtujs2zx
-	XSrVDZifT744Owi6yPLA/BXEH2HHvN8JiSfeHPUKkUFSCtMMg76LyMdQz7mAGAleooaVOaEOWGR
-	I83aHUz6nVUxAU4YayiU7HxQDCsnqLiRk7wM=
-X-Received: by 2002:a17:906:f15:b0:c43:f1ab:167c with SMTP id a640c23a62f3a-c4ca7970666mr1286785766b.1.1793778100876;
-        Tue, 03 Nov 2026 23:41:40 -0800 (PST)
-Received: from [192.168.1.239] (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d0e423a48sm43450366b.27.2026.11.03.23.41.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 23:41:40 -0800 (PST)
-Message-ID: <c80644469f01ae6d2ba0339a7a2fcd7c6080c310.camel@gmail.com>
-Subject: Re: [PATCH v3] HID: pidff: bound the unit exponent rescaling loop
-From: Tomasz =?UTF-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: Shengzhuo Wei <me@cherr.cc>, Oleg Makarenko <oleg@makarenk.ooo>, Jiri
- Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- =?UTF-8?Q?Micha=C5=82_Kope=C4=87?=
-	 <michal@nozomi.space>, Paul Dino Jones <paul@spacefreak18.xyz>
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Date: Wed, 04 Nov 2026 08:41:36 +0100
-In-Reply-To: <20261104-b4-pidff-rescale-exponent-v3-1-f45e64cf488c@cherr.cc>
-References: <20261104-b4-pidff-rescale-exponent-v3-1-f45e64cf488c@cherr.cc>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.1 
+        d=1e100.net; s=20260707; t=1793778132; x=1794382932;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XgGz0RsBeuTAkb9+mf6U3WsqonKJkMfHigPc4/u2i24=;
+        b=bDxv0chgT+5Ea9Kxq6f+Kxux0Ud2HIv2WHoS6ZACSYwhnc6DierW+rArnpWbRoCS4X
+         b5fodQ/ITK4KqlmqjRtVyh6dcx1yTa/Zto3R6b+8GtwA0YZbYWj6fy0M3eROANKq3fzw
+         yJl1Gto6TD0C1TzRwzLW8DcmStyK1DPU3jw7AVdq0CdgK3pN7oUB7PU2V6GccLFdDENa
+         US1msGLLLiZZ5U3kaP7sckjNMwDjMDAAhF53XmQ2wiEh/aDts4Dfq7B4xEbIi2T4VRRH
+         ReuzkFk+AHGECwYqoqT4mHWXniBj/69O+yy1t9auGd0Gu/Fyb6/Tb6fkVJXSebHtHxBL
+         ywEA==
+X-Gm-Message-State: APuU4Z9olq8+wh5JWLWqIdlw3QBA1yLQTUydiQHzWKdp0YSefvsJZ91K
+	pY2TtGlfboDu/NewdnZ5ocUgvhwXJDy5E3rzgTw31xNBwwc0tGH+KDJoHyQT4A==
+X-Gm-Gg: AYBFou3cU7FcSLSUfAj3wqAZKtx6K+gXdHxYpaz1Rrz8CxDWSEmzrfrYR5zf349uc0o
+	8vP6YD/1VDfCUdGL8NazxnSPRcFcS5NDwcLlIY7ZcuFHE5bVrNaRPFPUJZG0+k9TwkZrGWGFDaN
+	uB+BcVEz1Qr7Ay9DszkFP5bbe87JIqTk+W2d4B9Tx2aUBqr9rvsu/wL/UfwnUuH3TiugL5Byf51
+	V9+RmZh8CSPwmCWaq4QLYeE+6HObVKxHqotLmLSYwULWmJakxYD5cVPuV04ZVRfExzbjEVuK116
+	IdIstuLWjxhp4kv6/R3ksjnNLJAfu1yPIZsK5efDxtuAn7viszPt0TmgSIhGollcV31LpewnUiC
+	5bPKLNjvpj7w33FMA5F/Cr20c3NyzrEoZTOHQa/TNnSUZpUUpH+OV7o+T86hysohuhlRunP50Xq
+	0APonDWsy+rGNk8dpTSPEyHIuJaqqtOQ0HlVoCfmea17vH6GiERcvYjI6gEWT45Cvi6N66kNw68
+	oEWhixBNbQsZi5zljzYAzA1/Q46H3muXZgIqw1VAq3uxh/thVxj5CG+nH9cnciUnZuInrcDZ6Nf
+	AwMY6f48iyca+fClWUHVwwbk0UBcn1pYrukGbaEKhRXyAKU67GbqSTDUTwad/viu0RGmH4GsPw=
+	=
+X-Received: by 2002:a05:7022:4588:b0:1a7:4c5f:57e9 with SMTP id a92af1059eb24-1a94b852aabmr36592212c88.27.1793778132148;
+        Tue, 03 Nov 2026 23:42:12 -0800 (PST)
+Received: from 192.168.1.71 ([2402:a00:163:2ce9:c926:5826:36de:3b37])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c1c290sm5318385c88.5.2026.11.03.23.42.07
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 03 Nov 2026 23:42:11 -0800 (PST)
+From: Ajit Singh <blfizzyy@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+	romain.gantois@bootlin.com,
+	heikki.krogerus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ajit Singh <blfizzyy@gmail.com>
+Subject: [PATCH v1 0/2] usb: typec: mux: tusb1046: add HPD_IN override support
+Date: Wed,  4 Nov 2026 13:12:00 +0530
+Message-ID: <20261104074202.76712-1-blfizzyy@gmail.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,91 +100,24 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2026-11-04 at 03:44 +0800, Shengzhuo Wei wrote:
-> pidff_rescale_time() walks the device-provided unit exponent one step
-> at a time, allowing extreme values to cause billions of iterations
-> while ff->mutex is held. In a UHID test with an INT_MIN exponent,
-> EVIOCSFF took 3.1 to 4.3 seconds to upload a finite-duration effect.
->=20
-> Stop rescaling once scaled_time becomes zero, since further
-> multiplication or division by 10 cannot change the result. The u32
-> value becomes zero within 32 multiplications by 10, and the u16
-> input within 5 divisions. This bounds the loops while preserving
-> their results for all exponents, including wraparound.
->=20
-> Also warn during initialization if the duration field's unit exponent
-> is outside the range -8 to 0. This helps identify unusual device
-> descriptors without logging on every effect upload or changing the
-> rescaling result.
->=20
-> Fixes: 8713107221a8 ("HID: pidff: Rescale time values to match field unit=
-s")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Shengzhuo Wei <me@cherr.cc>
-> ---
-> Changes in v3:
-> - Declare and initialize exp at its point of use, as requested by
->   Tomasz.
-> - Remove Tomasz's Reviewed-by at his request, since his v1 review
->   does not apply to the updated patch.
->=20
-> Changes in v2:
-> - Following Tomasz's suggestion, warn during initialization when
->   the duration field's unit exponent is outside -8..0.
-> - Add Tomasz's Reviewed-by.
->=20
-> v2: https://lore.kernel.org/r/20261102-b4-pidff-rescale-exponent-v2-1-a75=
-bcca65fd0@cherr.cc
-> v1: https://lore.kernel.org/r/20261029-b4-pidff-rescale-exponent-v1-1-3ba=
-54accf767@cherr.cc
-> ---
->  drivers/hid/usbhid/hid-pidff.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidf=
-f.c
-> index 22951b7ecd17..7827b366fa5f 100644
-> --- a/drivers/hid/usbhid/hid-pidff.c
-> +++ b/drivers/hid/usbhid/hid-pidff.c
-> @@ -354,9 +354,9 @@ static u32 pidff_rescale_time(u16 time, struct hid_fi=
-eld *field)
->  =09int exponent =3D field->unit_exponent;
-> =20
->  =09pr_debug("time field exponent: %d\n", exponent);
-> -=09for (; exponent < FF_TIME_EXPONENT; exponent++)
-> +=09for (; scaled_time && exponent < FF_TIME_EXPONENT; exponent++)
->  =09=09scaled_time *=3D 10;
-> -=09for (; exponent > FF_TIME_EXPONENT; exponent--)
-> +=09for (; scaled_time && exponent > FF_TIME_EXPONENT; exponent--)
->  =09=09scaled_time /=3D 10;
-> =20
->  =09pr_debug("time calculated from %d to %d\n", time, scaled_time);
-> @@ -1433,6 +1433,13 @@ static int pidff_init_fields(struct pidff_device *=
-pidff, struct input_dev *dev)
->  =09=09return -ENODEV;
->  =09}
-> =20
-> +=09int exp =3D pidff->set_effect[PID_DURATION].field->unit_exponent;
-> +
-> +=09if (exp < -8 || exp > 0)
-> +=09=09hid_warn(pidff->hid,
-> +=09=09=09 "duration field has unusual time unit exponent %d\n",
-> +=09=09=09 exp);
-> +
->  =09PIDFF_FIND_FIELDS(block_load, PID_BLOCK_LOAD, 0);
->  =09if (!pidff->block_load[PID_EFFECT_BLOCK_INDEX].value) {
->  =09=09hid_err(pidff->hid, "unknown pid_block_load report layout\n");
->=20
-> ---
-> base-commit: d135ab453a7400a34930bdda1ef4bdc8acfac80e
-> change-id: 20261028-b4-pidff-rescale-exponent-1d5c4e218e6d
->=20
-> Best regards,
-> -- =20
-> Shengzhuo Wei <me@cherr.cc>
+For boards where HPD_IN is not asserted by hardware, the TUSB1046
+allows software to force it high over I2C using the HPDIN_OVERRIDE
+bit in the General register (0x0A).
 
-Works as expected. Thanks!
+Add the optional ti,hpd-in-override property and driver support
+to force HPD_IN high when DisplayPort mode is selected, and clear
+the override when switching to USB or Safe mode.
 
---=20
-Reviewed-by: Tomasz Paku=C5=82a <tomasz.pakula.oficjalny@gmail.com>
+Ajit Singh (2):
+  dt-bindings: usb: ti,tusb1046: document HPD_IN override
+  usb: typec: mux: tusb1046: support HPD_IN override
+
+ .../devicetree/bindings/usb/ti,tusb1046.yaml       |  9 +++++++++
+ drivers/usb/typec/mux/tusb1046.c                   | 14 ++++++++++++++
+ 2 files changed, 23 insertions(+)
+
+-- 
+2.50.1 (Apple Git-155)
+
