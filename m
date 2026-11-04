@@ -1,47 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793781214;
-	b=eQHFpxz8Q2EPuzzw1AudLnAQhLZnhp2fWNzwUVD68oJM1jd32A4ca9bFtf33a7intjoh
-	 J5K0GvvX/GyYELgS4FSGf4OZUvJoW6uRBh/OfH1QSzfB4ndqd0w4+mzWSSIzAfRXkki2m
-	 lY4o6LZmKeiyiVBefT916IydSBP3ShmoCQTmuI8g+719mB3/CuuT0zfNVIxjeQOYlLPvp
-	 5yeHhB1RkfLquDe4r5jz0HVVAmXxMgWgUtHa3dcPvJQUR6rNjTa3pibgSegnuMvk/6012
-	 Ij6FSSwh2BtL5f/9OhAoOl1tv34eS/K+j+1dZDHw57PUHwJ5VqC5euUTCQYCOGq7WPg==
+	t=1793782666;
+	b=ZQ0Bh1h4RVJq6V31NFZ64L4MWtWiJBI1fqdqkDso9g/FYwoAZbTCSrDJMlm1gF5jvjGh
+	 M746p2ibWE+XA25X/qCRLw9bKZ/4NDJmNtPIOtY/SaV6BeQUbV0Y/V7LWsagBSJw6Q4ug
+	 L1n6PHU7kk+kPAqsVS51ANvlWFubBCJqvDLh2FENGzyG78g+rP4eHy284Jmbh/v9Y2TR5
+	 FeN4cc9jnVBv21ujk3KSrI0+p090CaL5/lVZkYQS1JyEaTPO+s5ukrn418hhHXNur6lZ/
+	 zm4cYiWtjMvaqe54BB7IMv0Caw9YHuGzvwyMwCQwWUS25dZEz/056N8pWO9bDNlqgoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793781214;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=q8lQPOFokkDwlwJyFZPBEzkNclNX+U3hkVvcTqIlPlQ=;
-	b=If4EVaj0r7MZCcnSoo/ZX/Gbk5BHhcOOB6p7hwZOVxkvR5wpLbOPukKt4XF0JWAy1+dg
-	 wjYYs0QYmzW+jAxmFTibgFtY+rHX26CDDq3sjP3sLFC958xHkao7DzgIk0heaQteMcUIB
-	 bHRJyOitDGFsQql8CZD3JxLXNWvhUUeZeswJxiIiYngiWx7GHioY6jg/Mnibe1OmYprtZ
-	 b3TBqtm8jF9lQmnd3Ivw089FUchj/86nF4kowxUDBzGRr2/xcjsjh2v2YD1eMbUxmPQvP
-	 GWWe4gjVSTMJULOBZQjgLfjRvsjrZoh1pQXMGwleIHMmtR6xYNycswSVilzXjTVfqtA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793782666;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=vw5aK09NPKd7FOOrgUdgSm82KhVxdYZAKL4Caolp2W0=;
+	b=DXvGhivF01gV0uR8TRPa2pw7FetGoquD3CkXf0J//GjtSGY8YzWZVRi3yhaqXLmkVasX
+	 ev7yLnS/HUlQLHpxJDj8ej/Z680LInIJ5ArD05Y/v8MQZ0i8ImNS02PwKZK1NSppieS5d
+	 nWycKccX24iney8nGXxd8cEy7mhP5ix0pUJPoomwqnoluBDMNDQClUWqt9guVTqWdfiAy
+	 ho7LCaRJEyJnv10HEvo6WNqD+d9RTiUsRcrAbp1J1njUckrxNw/bBYqDLcRTRi9os+gTH
+	 F4e0skmB8K/l5h4hb8x5sZc/eLEHAj7HuaOIWK9WPa9BIxouAc5Z6s+iCam0izy3Zaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dOgaFTtQ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F11606A31B
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 08:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dOgaFTtQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1657B1F000C1;
-	Wed,  4 Nov 2026 08:33:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793781214;
-	bh=q8lQPOFokkDwlwJyFZPBEzkNclNX+U3hkVvcTqIlPlQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=dOgaFTtQIvCPCHLzgk59RAZrSSd38kJoQgtz2FIiu2ofhHlX3n8osFJA/1872mFYA
-	 l1K1vO++2rA99+mnJzIchQoFKJ5ZP7FlOAIW62EaqBOXgeQ/a400MHFAEWkxZt52Mr
-	 Cdw7NLDp0tDOFhlFXqBMUbkFJrGccH7e6a6c1mPa0WKlHHIwptWjf0EAY8N4VnmMye
-	 sJ1pEUNVivBqXp+s+RUrHDjLXxesWeZgjMa2QQLPAgKgrdEqRsmhTkTtW2IMuGTZYd
-	 Wh1sT8Pd+HRczDsOpsVVUAAfkq8vczrhdbfT1kD/ac6Wf0rfIskxyRbwXqJAf506yO
-	 jDS2LOnKU8A6w==
-Message-ID: <d88f8e61-4549-4a10-8509-a59698b6dcd9@kernel.org>
-Date: Wed, 4 Nov 2026 09:33:29 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174F9606A338;
+	Wed,  4 Nov 2026 08:57:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 174F9606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: c9108994d82d11f19a56ed5b684f684d-20261104
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:bf6115f2-216e-4c01-85cd-6a138d47c120,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:4,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-1
+X-CID-META: VersionHash:7db8b62,CLOUDID:c1ddf5b89e3c9d8e64892d54341d5a00,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|865|898,TC:nil,Content:0|15|50|99,EDM
+	:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: c9108994d82d11f19a56ed5b684f684d-20261104
+X-User: lijiayi@kylinos.cn
+Received: from thinksys.. [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijiayi@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 4631866; Wed, 04 Nov 2026 16:57:38 +0800
+From: Jiayi Li <lijiayi@kylinos.cn>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	Michal Pecio <michal.pecio@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] usb: uas: wait for pending commands before unbinding
+Date: Wed,  4 Nov 2026 16:57:18 +0800
+Message-Id: <20261104085718.3300303-1-lijiayi@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261028092153.1481202-1-lijiayi@kylinos.cn>
+References: <20261028092153.1481202-1-lijiayi@kylinos.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -51,84 +74,17 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: cdnsp: drop runtime PM reference on gadget init
- failure
-To: Peter Chen <peter.chen@oss.qualcomm.com>, Wentao Liang <vulab@iscas.ac.cn>
-Cc: Pawel Laszczak <pawell@cadence.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-References: <20261104021503.1468519-1-vulab@iscas.ac.cn>
- <aurm1tM212A8jOSk@hu-petche-lv.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
- /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
- s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
- EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
- rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
- DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
- IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
- vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
- oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
- sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
- vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
- Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
- BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
- 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
- f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
- WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
- XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
- IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
- YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
- p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
- GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
- YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
- vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
- ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
- QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
- +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
- wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
- c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
- K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
- n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
- qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <aurm1tM212A8jOSk@hu-petche-lv.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 04/11/2026 09:03, Peter Chen wrote:
-> On 26-11-04 02:15:03, Wentao Liang wrote:
->> __cdnsp_gadget_init() takes a runtime PM reference with
->> pm_runtime_get_sync().  On success the reference is dropped by
->> cdnsp_gadget_exit(), which the role core only calls once the role state
->> has been set to active.  The failure paths return before that, so the
->> reference is leaked.
->>
->> Drop the reference on the common error path.
->>
->> Fixes: 3d82904559f4 ("usb: cdnsp: cdns3 Add main part of Cadence USBSSP DRD Driver")
->> Cc: stable@vger.kernel.org
->> Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
->> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
-> 
-> Acked-by: Peter Chen <peter.chen@kernel.org>
+Hi,
 
-You sure? Sashiko reports introduced UAF. Mind that vulab@iscas.ac.cn is
-a bot with spams with tons of patches which looks exactly like previous
-hypocrite commit approach - some security vulnerability intentionally
-added in between of thousands of valid patches.
+On Wed, 28 Oct 2026 at 09:48:15 +0100, Oliver Neukum wrote:
+> Why? What is it waiting for? And why do you think we can skip
+> that wait safely?
 
-Best regards,
-Krzysztof
+A gentle ping on my previous reply about the scan_work cancellation
+ordering. Please let me know if any further clarification or changes
+are needed.
+
+Thanks,
+Jiayi
