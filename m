@@ -1,57 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793763871;
-	b=wJ/glYCOxcO0H73rRJHdGxY6ZP1CbqwoziItG9S+TRx9BbsIVO8Fe1EZSDy7DpYjGaBj
-	 IcgLWu6j3M0ixxy8KVmBp3IbtsZqwNqTRtZCVCGEjCirB/5q6GY5pRDuzpIuhWZlpg33f
-	 Mo8GI8e4SJ0vfBm4emyVexKlVZW99eHqV3Nnu2qsxtSej+5Ak7wIdhA10jPwwZ2EIxFwU
-	 8pFZGfgUZwPdW9Za0QIpzZeHOvZq+OKiINZgEWOmlfZoYGjna5p3cEDEAKpUF41LWRC6w
-	 PxbI4LZYZgKSRUP266zCV0TtloKHg/AhzdtNbjPj4jJUyOEvAituGyuPfMLp6ST5zrQ==
+	t=1793764610;
+	b=VIOYG2N6yQ7xurG8C7loUb0aMSpahi0T4mDdUW2h1DwRFgUszHeTOzNGAav3jw0QULfV
+	 9XSJBzNEvCf5/0eNKsJrYCeCvTN1snmBn6kUKl8ULtaXfe7LUsgbtQrpnM7fb+3PQ9Z9b
+	 CFf7pSeB8lgNOdkwwv2+FmMVtEYFy8N2bBQM0ZzDtNZ+hzpbXrg089AGmgapra6SXYK8a
+	 hoOFisPf0GZKT9824TR2ciEuvVL9sQ38FkjrstUzOGu5JQeDZPUkjwave//Y/Qwr+PQnC
+	 gEO8EJtt3JlpENTbssZxDqAUDwaeMqBJCoXf2U++3XR0NZARhV/au/VH9eyTgy+tUNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793763871;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=nClR0iOHmGl8/bT21GuMVkhHkLEGkp9YZbaQ/jZYwYM=;
-	b=jN0Rn05zjcThRpYctHwu0S4gVSB+e92x5PZTRuoMBjeqqpd1p3AEb01yMWcXBDfTL0mW
-	 I+WenI6jI+HwFa7vMOkWPmGM1nCxpZecngYjFzOCQo49cL1JKuXCf/CLf//Xbf11jJByJ
-	 zd/0zUiLUvqcz64/bglGCYQuBlnJPq+TSVel7nm/45YhzwHu59BwySESTUHnAiJa55VaV
-	 cybEOn+ROwU+i39sDNgmsvHmW1JX8I2fgiB3jOGs1KLoUrXYLneuLj47rcUI9vj0bOXKE
-	 9LswDG9guN3fNKK9fBFXcFcsEzS++vx2v6U5DIHKV0Gk7tVVdX6BdRP9/cHuJwP2Tdw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793764610;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=zQMNiRLijtXoyvp2ptnROm7d8gMS6zGJfqNXBpaqeuk=;
+	b=fznS49/r88IOYnv7nGsxHvt+8I5y59dhaHrvKGAF1Ow2a4BeSxD6WcPvQ0YEW3QoE24R
+	 7FJoxOHxyYWWWOhDro9FJjFSSzM9qioY36xpZki47fQyKYQuyU+liEAuTBaRdrQAaO8TJ
+	 B7+MM0Z93xHBcBdWPsn4XwtVncnwYqyYdoyvujhWcgflsnu+6taa39zkn+rcbHrhTI6ez
+	 Fn3XV9RQq9Ewxu5qL8mI5W+qs1m1MDR1LaKg6xhLh0rVTba4H5AJSM9CewzWAyWmFtxzD
+	 3GjzUhUHL5pdXjMIQDDoFNffJ0/ZgTgw3h2OPI4kgv6bz3vzrXR0uTHtmFyA24esPHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RQtcYfHX;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397D7606A31B;
-	Wed,  4 Nov 2026 03:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RQtcYfHX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 904CC1F000C1;
-	Wed,  4 Nov 2026 03:44:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793763870;
-	bh=nClR0iOHmGl8/bT21GuMVkhHkLEGkp9YZbaQ/jZYwYM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RQtcYfHX6ZQxkHh85uMG3puqFDqhpis4BefQR0pgfo0K5EISMTxW6NUdANWOp+iD/
-	 J65mPg5v/LLWpQlhgDA3e6tu1aPj/5sSJtCZov4YMH3W6bRswD7kt5E+bRM8aNJDx8
-	 5t8ZvZOlz337RouVCMukQIH3pAuSE7r7LGophQ2FBQ1jNj6WhaoggYoSiziNVMbmnn
-	 ONHpyKn2WmRPK0h3nlC5dQSJbcQ4ed53Nm9/EQrwYMU55DvKOEY8dCsF4+oerJZqvw
-	 JLr0zh4KIdsNz8yNG6eC+2tuRrQK8yeq2UNIlco4l93/UCBc5wjcT+fPWMY85TR1Q9
-	 szCYkRpWhaOnA==
-Message-ID: <sashiko-outbox-196629@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: usb: snps,dwc3: describe two
- connectors sharing one HS bus
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Qianhui Xu" <xiaqinghuan@mail.ustc.edu.cn>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261104032706.210042-2-xiaqinghuan@mail.ustc.edu.cn>
-References: <20261104032706.210042-1-xiaqinghuan@mail.ustc.edu.cn>
- <20261104032706.210042-2-xiaqinghuan@mail.ustc.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 03:44:30 +0000
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DDCB606A31B;
+	Wed,  4 Nov 2026 03:56:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DDCB606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=zQMNiRLijtXoyvp2ptnROm7d8gMS6zGJfq
+	NXBpaqeuk=; b=om07jGblih2B3vCV+vcHmJcSYzp/32JmYZB7FXRh7H/cxMtoB3
+	eKDIdOra0w3jhwj3DggkITSQbfkhsvVP428PcDSQMPWt6+erWsuXJgP5/PzEkmeR
+	PA+hKgzB5djSFfOEmUs8s4gLiqmmMoa7U4tw1ybFTLV1tEyiUD6l/AvTE=
+Received: from user-virtual-machine.localdomain (unknown [113.200.174.67])
+	by hzbj-edu-front-2.icoremail.net (Coremail) with UTF8SMTPA id BLQMCkC2_gP1rOpqJAUiAQ--.35940S2;
+	Wed, 04 Nov 2026 11:56:38 +0800 (CST)
+From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>
+Subject: [PATCH v5] usb: xhci: Fix use-after-free race in xhci_stop_device()
+Date: Wed,  4 Nov 2026 11:56:37 +0800
+Message-Id: <20261104035637.3325-1-25031212351@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261104000031.679944e7.michal.pecio@gmail.com>
+References: <20261104000031.679944e7.michal.pecio@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,290 +61,367 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BLQMCkC2_gP1rOpqJAUiAQ--.35940S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3tF1ktw1UKryUuFWfur4UJwb_yoW8Ww4DXo
+	WfZrnayF4rtr4DA3yFqF43tFyfWr92qF98XrW5Cws0gFWfZ3Z8Gw13Ka13Xay7ZF45K3W3
+	A342qryFqrsrGrn3n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUYm7k0a2IF6w4kM7kC6x804xWl14x267AKxVW8JVW5JwAFc2x0
+	x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj4
+	1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0
+	I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4
+	vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE
+	52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGV
+	WUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAK
+	I48JMxkF7I0En4kS14v26r126r1DMxkIecxEwVAFwVW8GwCF04k20xvY0x0EwIxGrwCFx2
+	IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v2
+	6r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67
+	AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IY
+	s7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
+	0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07boHqxUUUUU=
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUHD2rp+NVnWQABsd
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [Medium] dt-bindings: usb: snps,dwc3: missing endpoint/mux-state required=
- in oneOf
-- [Medium] dt-bindings: usb: snps,dwc3: port@2 missing from top-level ports=
- schema
-- [Medium] dt-bindings: usb: snps,dwc3: Linux-specific mux binding and port=
-@2 split
---
+A KASAN slab-use-after-free read was observed in xhci_stop_device():
 
-commit f3f5f5bb87ea01fcf8b40062734fa5217caa615a
-Author: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+  BUG: KASAN: slab-use-after-free in xhci_stop_device.constprop.0.isra.0+0x395/0x430
+  drivers/usb/host/xhci-hub.c:479
+  Read of size 8 at addr ffff88804e85d2f0
 
-dt-bindings: usb: snps,dwc3: describe two connectors sharing one HS bus
+  Freed by task 585700:
+   kfree+0xf8/0x390 mm/slub.c:6566
+   xhci_free_virt_device+0x3f/0x50 drivers/usb/host/xhci-mem.c:881
+   xhci_free_dev+0x286/0x350 drivers/usb/host/xhci.c:4131
+   usb_disconnect+0x6b6/0x910 drivers/usb/core/hub.c:2391
+   ...
+   usbdev_ioctl+0x6f05/0x86d0 drivers/usb/core/devio.c:2826
 
-This commit extends snps,dwc3-common.yaml to describe two USB connectors
-sharing a single High-Speed bus via a port-select-gpios multiplexer, using
-port@0 and port@2 with per-endpoint mux-state and usb-role-switch
-properties.
+  Allocated by task 572283:
+   xhci_alloc_virt_device+0x171/0xb70 drivers/usb/host/xhci-mem.c:986
+   xhci_alloc_dev+0x475/0x840 drivers/usb/host/xhci.c:4271
+   usb_alloc_dev+0xe8/0xdc0 drivers/usb/core/usb.c:661
+   hub_event+0x1c82/0x4050 drivers/usb/core/hub.c:5953
 
-> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml =
-b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> index 6c0b8b6538246..0be2a6e83ee48 100644
-> --- a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> @@ -13,6 +13,40 @@ description:
->    Defines the properties of the DWC3 core as being embedded in either an
->    vendor-specific implementation or as a standalone component.
-> =20
-> +$defs:
-> +  hs-endpoint:
-> +    $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +    unevaluatedProperties: false
-> +
-> +    properties:
-> +      usb-role-switch:
-> +        type: boolean
-> +        description:
-> +          This connector endpoint has its own USB role switch. The switc=
-h is
-> +          registered against this endpoint and looked up with
-> +          usb_role_switch_at_endpoint().
-> +
-> +      mux-state:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        enum: [0, 1]
-> +        description:
-> +          Logical level of the port-select GPIO which connects this
-> +          connector to the shared High Speed data bus.  The two connecto=
-rs of
-> +          one controller must use different levels; the driver rejects a
-> +          device tree where two connectors claim the same one.
-> +
-> +    dependentRequired:
-> +      usb-role-switch: [mux-state]
-> +      mux-state: [usb-role-switch]
-> +
-> +  hs-port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    unevaluatedProperties: false
-> +
-> +    patternProperties:
-> +      '^endpoint(@[0-9a-f]+)?$':
-> +        $ref: '#/$defs/hs-endpoint'
-> +
->  allOf:
->    - $ref: usb-drd.yaml#
->    - if:
-> @@ -26,8 +60,87 @@ allOf:
->        $ref: usb.yaml#
->      else:
->        $ref: usb-xhci.yaml#
-> +  - if:
-> +      required: [port-select-gpios]
-> +    then:
-> +      # The mux path is only taken when the controller itself carries
-> +      # "usb-role-switch": dwc3_get_dr_mode() forces dr_mode back to
-> +      # peripheral, dwc3_get_extcon() skips the role-switch branch and
-> +      # dwc3_drd_init() never calls dwc3_role_mux_init() without it.
-> +      required: [dr_mode, ports, usb-role-switch]
-> +      properties:
-> +        dr_mode:
-> +          const: otg
-> +        ports:
-> +          # Each connector is one port with a single endpoint: the mux-s=
-tate
-> +          # property on that endpoint says which level of the port-selec=
-t GPIO
-> +          # reaches it, so two connectors are two ports, not two endpoin=
-ts of
-> +          # one port.  port@1 is the SuperSpeed lane of the PHY and is a=
-lready
-> +          # described by snps,dwc3.yaml, so the second High Speed connec=
-tor
-> +          # lands on port@2.
-> +          required: [port@0, port@2]
-> +          properties:
-> +            port@0:
-> +              $ref: '#/$defs/hs-port'
-> +            port@2:
-> +              $ref: '#/$defs/hs-port'
-> +
-> +          # The two connectors must claim opposite levels of the port-se=
-lect
-> +          # GPIO; requiring both ports in every branch is what makes the=
- two
-> +          # cases mutually exclusive for oneOf.
-> +          oneOf:
-> +            - required: [port@0, port@2]
-> +              properties:
-> +                port@0:
-> +                  $ref: '#/$defs/hs-port'
-> +                  properties:
-> +                    endpoint:
-> +                      properties:
-> +                        mux-state:
-> +                          const: 0
-> +                port@2:
-> +                  $ref: '#/$defs/hs-port'
-> +                  properties:
-> +                    endpoint:
-> +                      properties:
-> +                        mux-state:
-> +                          const: 1
-> +            - required: [port@0, port@2]
-> +              properties:
-> +                port@0:
-> +                  $ref: '#/$defs/hs-port'
-> +                  properties:
-> +                    endpoint:
-> +                      properties:
-> +                        mux-state:
-> +                          const: 1
-> +                port@2:
-> +                  $ref: '#/$defs/hs-port'
-> +                  properties:
-> +                    endpoint:
-> +                      properties:
-> +                        mux-state:
-> +                          const: 0
+xhci_stop_device() reads xhci->devs[slot_id] without xhci->lock and
+keeps using the pointer across xhci_alloc_command(GFP_NOIO), which may
+sleep.  All callers drop xhci->lock before calling it.  Both sides of
+the race can come from userspace through usbfs: a hub class
+SET_FEATURE(PORT_SUSPEND) request to the root hub reaches
+xhci_stop_device() through xhci_hub_control(), while releasing the hub
+driver interface through USBDEVFS_IOCTL() quiesces the hub and
+disconnects the devices below it, ending in xhci_free_dev().  USB core
+does not serialize those two, and xhci_free_dev() frees virt_dev under
+xhci->lock, so the endpoint loop can dereference a freed device.
 
-[Severity: Medium]
-Does the oneOf block under allOf allow incomplete or duplicate mux-state
-configurations to pass schema validation while rejecting numbered
-endpoint@0 nodes?
+commit 88716a93766b ("usb: xhci: Fix panic if disconnect") added a
+NULL check for this case, but that only helps when the device was
+already freed before the check; it does not close the window.
 
-In $defs/hs-endpoint, usb-role-switch and mux-state are only constrained
-with dependentRequired, so an endpoint omitting both properties satisfies
-hs-endpoint. In addition, neither port@0 nor port@2 in the allOf then
-branch specifies required: [endpoint], and the endpoint subschemas inside
-the two oneOf branches only specify properties: { mux-state: { const: ... }=
- }
-without required: [mux-state].
+Look up xhci->devs[slot_id] only after taking xhci->lock, and bail out
+if it is NULL or if the device is already being torn down.  The
+tracepoint reloads virt_dev->udev, so it moves under the lock and only
+runs while the device is still attached.
 
-In JSON Schema, the properties keyword evaluates to true when the target
-property is absent. If port@0 has an endpoint with mux-state =3D <0> and
-usb-role-switch, while port@2 omits endpoint (or its endpoint omits both
-mux-state and usb-role-switch), the first branch of oneOf evaluates to true
-and the second branch evaluates to false, allowing an incomplete device
-tree that fails at runtime in dwc3_role_mux_init() to pass validation.
+xhci_free_dev() clears virt_dev->udev without xhci->lock, and only
+later detaches the device from xhci->devs[] in xhci_free_virt_device(),
+also under the lock.  Take xhci->lock when clearing ->udev so that
+xhci_stop_device() can rely on it while holding the same lock.
+xhci_free_virt_device() clears xhci->devs[slot_id] and frees the device
+under xhci->lock, so a device found there while holding the lock stays
+alive until xhci_stop_device() drops the lock, after which virt_dev is
+not used anymore.
 
-Furthermore, $defs/hs-port defines patternProperties matching
-^endpoint(@[0-9a-f]+)?$, whereas the oneOf branches only check the literal
-unnumbered property name endpoint:
+Fixes: be88fe4f4dda93e3 ("USB: xHCI: port power management implementation")
+Cc: stable@vger.kernel.org
+Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+---
+Hi Michal,
 
-1. If port@0 uses endpoint with mux-state =3D <0> and port@2 uses endpoint@0
-   with mux-state =3D <0>, port@2 has no unnumbered endpoint property and
-   vacuously matches const: 1 in the first oneOf branch, allowing duplicate
-   mux-state levels to pass.
-2. If both port@0 and port@2 use endpoint@0 with opposite mux-state values
-   0 and 1, neither port has an unnumbered endpoint property, so both
-   branches of oneOf evaluate to true and oneOf fails.
-3. If a port defines both endpoint and endpoint@1, hs-port accepts both and
-   oneOf ignores endpoint@1, even though the commit message states that a
-   third endpoint is rejected.
+Thanks for looking at this.  Full answers below.  The code is unchanged
+since v3; the commit message now says how the two sides of the race
+reach each other, and v5 corrects one detail in it.
 
-Should port@0 and port@2 require a single unnumbered endpoint (or constrain
-endpoint count and naming consistently between hs-port and oneOf) and
-require mux-state and usb-role-switch on each endpoint when
-port-select-gpios is present?
+> But is it not a bug in the first place that we are suspending a device
+> which is being deleted or deleting one which is being suspended?
 
-> +    else:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              patternProperties:
-> +                '^endpoint(@[0-9a-f]+)?$':
-> +                  properties:
-> +                    usb-role-switch: false
-> +                    mux-state: false
-> =20
->  properties:
-> +  port-select-gpios:
-> +    maxItems: 1
-> +    description:
-> +      Selects which of the two connectors drives the controller's shared=
- High
-> +      Speed data bus.  Each connector is described by "port@0" or "port@=
-2",
-> +      and the endpoint of that port carries the connector's own role-swi=
-tch
-> +      input and the "mux-state" level selecting it.
+Yes, and that is exactly the interleaving.  What makes it possible is
+that the suspend side does not come from the USB core suspend path at
+all:
 
-[Severity: Medium]
-Is defining custom port-select-gpios and mux-state properties on the DWC3
-controller and splitting the shared High-Speed bus across port@0 and port@2
-the right hardware representation for this board topology?
+  CPU0 (control request to the root hub)   CPU1 (disconnect_claim, hub)
+  --------------------------------------   ---------------------------
+  usbdev_ioctl(USBDEVFS_CONTROL)           usbdev_ioctl(USBDEVFS_IOCTL)
+   do_proc_control                          proc_ioctl
+    usbfs_start_wait_urb                     usb_driver_release_interface
+     usb_submit_urb                           usb_unbind_interface
+      rh_call_control                          hub_disconnect
+       xhci_hub_control                         hub_quiesce
+        SET_FEATURE(PORT_SUSPEND)                usb_disconnect(child)
+         xhci_stop_device(slot, 1)                hub_free_dev
+                                                   xhci_free_dev
+                                                    xhci_free_virt_device
+                                                     kfree(virt_dev)
 
-There are three concerns with this binding design in
-Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml:
+The port suspend is a hub class SET_FEATURE(PORT_SUSPEND) sent from
+userspace through usbfs, and the teardown is userspace releasing the
+hub driver interface, which quiesces the hub and disconnects every
+child under it.  Neither side takes a per-device reference, and the
+usbfs control request is not serialized against the hub driver being
+unbound.  That is also why xhci_bus_suspend() 100 ms after a disconnect
+looks fine: this is a different entry into xhci_stop_device().
 
-1. The DWC3 controller itself has a single High-Speed D+/D- pair routed
-   through an external GPIO-controlled multiplexer to two connectors.
-   Instead of introducing custom port-select-gpios and endpoint mux-state
-   properties on the DWC3 binding, could this use the existing multiplexer
-   bindings in Documentation/devicetree/bindings/mux/gpio-mux.yaml and
-   Documentation/devicetree/bindings/mux/mux-consumer.yaml (such as
-   mux-controls or mux-states)?
-2. Under ports in snps,dwc3-common.yaml, port@0 represents the controller's
-   High-Speed data bus and port@1 represents the SuperSpeed data bus. Since
-   the controller still has only one physical High-Speed bus, why is the
-   second connector modeled as a separate controller port (port@2) rather
-   than two endpoints (endpoint@0 and endpoint@1) under port@0 or via an
-   intermediate mux node?
-3. Documentation/devicetree/bindings/writing-bindings.rst states that
-   bindings should describe hardware rather than Linux driver
-   implementation details. Here, $defs/hs-endpoint and the allOf conditional
-   for port-select-gpios reference Linux kernel functions
-   (usb_role_switch_at_endpoint(), dwc3_get_dr_mode(), dwc3_get_extcon(),
-   dwc3_drd_init(), and dwc3_role_mux_init()) and force dr_mode and
-   controller-level usb-role-switch into required to satisfy current driver
-   control flow, even though usb-drd.yaml already defines dr_mode as
-   optional with a default of otg.
+CLEAR_FEATURE(PORT_SUSPEND) is the resume direction: in
+xhci_hub_control() it ends in xhci_ring_device(), so it cannot produce
+this trace.
 
-> @@ -411,7 +524,7 @@ properties:
-> =20
->      properties:
->        port@0:
-> -        $ref: /schemas/graph.yaml#/properties/port
-> +        $ref: '#/$defs/hs-port'
->          description: High Speed (HS) data bus.
-> =20
->        port@1:
+> Would you mind revealing your secret sauce and posting complete stack
+> traces of how you got there, including xhci_stop_device()? What kernel
+> version was that? Those line numbers don't match current code.
 
-[Severity: Medium]
-Will dtschema reject every device tree that sets port-select-gpios and
-defines port@2 because port@2 is missing from the top-level
-properties/ports block in snps,dwc3-common.yaml?
+Fair question, and I should have been upfront about it in the commit
+message.  This was found by syzkaller running against the xHCI on QEMU,
+on 7.1.2; the patch itself is against 7.2.10, which is why the line
+numbers in the trace do not line up with current code.
 
-In snps,dwc3-common.yaml, the top-level properties/ports schema references
-/schemas/graph.yaml#/properties/ports and only lists port@0 and port@1:
+The report, trimmed to the stacks and the dmesg lines just above them:
 
-    ports:
-      $ref: /schemas/graph.yaml#/properties/ports
-      ...
-      properties:
-        port@0:
-          $ref: '#/$defs/hs-port'
-          description: High Speed (HS) data bus.
+  xhci_hcd 0000:00:04.0: USB core suspending port 1-3 not in U0/U1/U2
+  usb usb2: usbfs: process 585700 (syz.6.213219) did not claim interface 0 before use
+  usb 1-1: USB disconnect, device number 108
+  BUG: KASAN: slab-use-after-free in xhci_stop_device.constprop.0.isra.0+0x395/0x430
+  Read of size 8 at addr ffff88804e85d2f0 by task syz.4.213206/585661
 
-        port@1:
-          $ref: /schemas/graph.yaml#/properties/port
-          description: Super Speed (SS) data bus.
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0xa7/0xd0 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xcb/0x5d0 mm/kasan/report.c:482
+ ? _raw_write_unlock_irq+0x60/0x60
+ ? xhci_stop_device.constprop.0.isra.0+0x395/0x430 drivers/usb/host/xhci-hub.c:479
+ kasan_report+0xaf/0xe0 mm/kasan/report.c:595
+ ? xhci_stop_device.constprop.0.isra.0+0x395/0x430 drivers/usb/host/xhci-hub.c:479
+ xhci_stop_device.constprop.0.isra.0+0x395/0x430 drivers/usb/host/xhci-hub.c:479
+ ? instrument_read_write include/linux/instrumented.h:55 [inline]
+ ? atomic_try_cmpxchg_acquire include/linux/atomic/atomic-instrumented.h:1301 [inline]
+ ? queued_spin_lock include/asm-generic/qspinlock.h:111 [inline]
+ ? do_raw_spin_lock include/linux/spinlock.h:187 [inline]
+ ? __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:133 [inline]
+ ? _raw_spin_lock_irqsave+0x72/0xb0 kernel/locking/spinlock.c:166
+ xhci_hub_control+0x1b6b/0x5590 drivers/usb/host/xhci-hub.c:1315
+ ? dma_coherent_ok+0xa2/0x280 kernel/dma/direct.c:77
+ ? xhci_set_link_state+0x30/0x30 drivers/usb/host/xhci-hub.c:805
+ ? unpoison_slab_object mm/kasan/common.c:336 [inline]
+ ? __kasan_slab_alloc+0x2c/0x60 mm/kasan/common.c:366
+ ? kasan_save_track+0x10/0x30 mm/kasan/common.c:78
+ rh_call_control drivers/usb/core/hcd.c:650 [inline]
+ rh_urb_enqueue drivers/usb/core/hcd.c:815 [inline]
+ usb_hcd_submit_urb+0x90d/0x1c20 drivers/usb/core/hcd.c:1536
+ usb_submit_urb+0x86c/0x1740 drivers/usb/core/urb.c:586
+ usbfs_start_wait_urb+0x10a/0x3a0 drivers/usb/core/devio.c:1149
+ ? kasan_unpoison+0x23/0x50 mm/kasan/shadow.c:178
+ ? usbfs_blocking_completion+0x40/0x40 drivers/usb/core/devio.c:1132
+ ? kasan_unpoison+0x23/0x50 mm/kasan/shadow.c:178
+ ? __mutex_unlock_slowpath.constprop.0+0x360/0x360
+ do_proc_control drivers/usb/core/devio.c:1249 [inline]
+ proc_control drivers/usb/core/devio.c:1280 [inline]
+ usbdev_do_ioctl drivers/usb/core/devio.c:2645 [inline]
+ usbdev_ioctl+0x33e1/0x86d0 drivers/usb/core/devio.c:2826
+ ? instrument_atomic_write include/linux/instrumented.h:97 [inline]
+ ? set_bit include/asm-generic/bitops/instrumented-atomic.h:28 [inline]
+ ? set_ti_thread_flag include/linux/thread_info.h:104 [inline]
+ ? __resched_curr+0x1e2/0x270 kernel/sched/core.c:1192
+ ? __css_rstat_updated+0x15e/0x470 kernel/cgroup/rstat.c:97
+ ? cpu_cgroup_cancel_attach+0x10/0x10 include/linux/workqueue.h:759
+ ? root_cgroup_cputime+0x3d0/0x3d0 include/linux/find.h:67
+ ? instrument_atomic_read include/linux/instrumented.h:82 [inline]
+ ? _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+ ? test_ti_thread_flag include/linux/thread_info.h:133 [inline]
+ ? test_tsk_thread_flag include/linux/sched.h:2069 [inline]
+ ? test_tsk_need_resched include/linux/sched.h:2088 [inline]
+ ? wakeup_preempt+0x1cd/0x330 kernel/sched/core.c:2260
+ ? usbdev_mmap+0xa00/0xa00 drivers/usb/core/devio.c:286
+ ? update_load_avg+0x176/0x1880 kernel/sched/fair.c:4983
+ ? update_load_avg+0x176/0x1880 kernel/sched/fair.c:4983
+ ? set_next_entity+0x1db/0x630 kernel/sched/fair.c:5743
+ ? pick_next_task_fair+0x10da/0x2320 kernel/sched/fair.c:9283
+ ? futex_wake+0x1aa/0x500 kernel/futex/futex.h:240
+ ? futex_wake_mark+0x230/0x230 kernel/futex/waitwake.c:112
+ ? __fget_files+0x1a0/0x250 fs/file.c:1103
+ ? usbdev_mmap+0xa00/0xa00 drivers/usb/core/devio.c:286
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __x64_sys_ioctl+0x877/0x1640 fs/ioctl.c:583
+ ? ioctl_file_clone+0xf0/0xf0 fs/ioctl.c:238
+ ? io_schedule_timeout+0x150/0x150 kernel/sched/core.c:8079
+ ? do_sys_open fs/open.c:1370 [inline]
+ ? __do_sys_openat fs/open.c:1386 [inline]
+ ? __se_sys_openat fs/open.c:1381 [inline]
+ ? __x64_sys_openat+0x12c/0x1d0 fs/open.c:1381
+ ? __schedule_loop kernel/sched/core.c:7268 [inline]
+ ? schedule+0x7e/0x2f0 kernel/sched/core.c:7283
+ ? restore_fpregs_from_fpstate+0x7e/0x100 arch/x86/kernel/fpu/core.c:210
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xad/0x480 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x4b/0x53
 
-(Note also that the comment in allOf and the commit message state that
-port@1 is described by snps,dwc3.yaml, whereas port@1 is defined here in
-snps,dwc3-common.yaml.)
+Allocated by task 572283:
+ kasan_save_stack+0x20/0x40 mm/kasan/common.c:57
+ kasan_save_track+0x10/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x77/0x90 mm/kasan/common.c:415
+ kmalloc_noprof include/linux/slab.h:950 [inline]
+ kzalloc_noprof include/linux/slab.h:1188 [inline]
+ xhci_alloc_virt_device+0x171/0xb70 drivers/usb/host/xhci-mem.c:986
+ xhci_alloc_dev+0x475/0x840 drivers/usb/host/xhci.c:4271
+ usb_alloc_dev+0xe8/0xdc0 drivers/usb/core/usb.c:661
+ hub_port_connect drivers/usb/core/hub.c:5470 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x1c82/0x4050 drivers/usb/core/hub.c:5953
+ process_one_work+0x662/0xdb0 kernel/workqueue.c:3314
+ process_scheduled_works kernel/workqueue.c:3397 [inline]
+ worker_thread+0x58b/0xc70 kernel/workqueue.c:3478
+ kthread+0x394/0x4b0 kernel/kthread.c:436
+ ret_from_fork+0x37f/0x7b0 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:245
 
-When dtschema processes a node referencing graph.yaml#/properties/ports
-that defines properties, it automatically injects unevaluatedProperties:
-false into that properties/ports subschema. In JSON Schema,
-unevaluatedProperties: false on the top-level properties/ports block does
-not see port@2 evaluated inside the separate allOf then branch, so any
-device tree containing port@2 is rejected as having an unevaluated property.
+Freed by task 585700:
+ kasan_save_stack+0x20/0x40 mm/kasan/common.c:57
+ kasan_save_track+0x10/0x30 mm/kasan/common.c:78
+ kasan_save_free_info+0x37/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x3b/0x60 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2689 [inline]
+ slab_free mm/slub.c:6251 [inline]
+ kfree+0xf8/0x390 mm/slub.c:6566
+ xhci_free_virt_device+0x3f/0x50 drivers/usb/host/xhci-mem.c:881
+ xhci_free_dev+0x286/0x350 drivers/usb/host/xhci.c:4131
+ hub_free_dev drivers/usb/core/hub.c:2283 [inline]
+ usb_disconnect+0x6b6/0x910 drivers/usb/core/hub.c:2391
+ hub_quiesce+0x159/0x310 drivers/usb/core/hub.c:1405
+ hub_disconnect+0xd1/0x460 drivers/usb/core/hub.c:1811
+ usb_unbind_interface+0x188/0x770 drivers/usb/core/driver.c:458
+ device_remove drivers/base/dd.c:621 [inline]
+ device_remove+0x11f/0x170 drivers/base/dd.c:613
+ __device_release_driver drivers/base/dd.c:1352 [inline]
+ device_release_driver_internal+0x4b6/0x660 drivers/base/dd.c:1375
+ usb_driver_release_interface+0x105/0x180 drivers/usb/core/driver.c:640
+ proc_ioctl drivers/usb/core/devio.c:2359 [inline]
+ proc_ioctl_default drivers/usb/core/devio.c:2402 [inline]
+ usbdev_do_ioctl drivers/usb/core/devio.c:2766 [inline]
+ usbdev_ioctl+0x6f05/0x86d0 drivers/usb/core/devio.c:2826
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __x64_sys_ioctl+0x877/0x1640 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xad/0x480 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x4b/0x53
 
-Conversely, in the allOf else branch when port-select-gpios is absent, only
-port@0 is restricted and port@2 is not disallowed with port@2: false.
+> As you are .edu, perhaps you have a reproducer for this bug?
 
-Should port@2 be declared under the top-level properties/ports block and
-disallowed with port@2: false in the else branch when port-select-gpios is
-absent?
+No, unfortunately.  syzkaller reported the crash but failed to
+reproduce it, so there is only the one trace.  The new part seems to be
+that a usbfs control request to the root hub can reach
+xhci_stop_device() while another thread is tearing that hub down.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104032706.2100=
-42-1-xiaqinghuan@mail.ustc.edu.cn?part=3D1
+> That's an old bug, not sure how such things can still be happening?
+> It seems that xhci_free_dev() doesn't return until everything is
+> cleared, and I would naively expect USB core not to suspend the bus
+> until all devices are suspended or finished disconnecting.
+>
+> In testing, I see xhci_bus_suspend() 100 ms after disconnection, so
+> this race seems tricky to trigger. How have you done it?
+
+Agreed for the bus suspend path: usb_disconnect() is long done by then.
+xhci_stop_device() is also the per-port suspend helper for the root
+hub, and that path is reachable from userspace without any of that
+ordering, which is the window above.
+
+The patch makes xhci_stop_device() re-read xhci->devs[] and the "device
+is going away" marker under xhci->lock, and give up with -ENODEV
+instead of touching a device that xhci_free_dev() has already detached.
+For that check to mean anything, xhci_free_dev() has to clear
+virt_dev->udev under the same lock, which is the second hunk.
+
+If you think the mutual exclusion belongs higher up instead - do not
+let usbfs suspend a port while the hub is being unbound - I am happy to
+work on that; from your message it sounds like you would prefer the fix
+there.
+
+Thanks,
+YuanZhe
+
+Changes since v4:
+ - Commit message only, no code change: the request that reaches
+   xhci_stop_device() is SET_FEATURE(PORT_SUSPEND), not
+   CLEAR_FEATURE(PORT_SUSPEND) - the latter resumes the port and calls
+   xhci_ring_device().
+
+Changes since v3:
+ - Commit message only, no code change: the v3 text described the race
+   without saying how either side is reached, which made it look like it
+   had to collide with the system bus suspend.
+
+ drivers/usb/host/xhci-hub.c | 14 +++++++++-----
+ drivers/usb/host/xhci.c     |  3 +++
+ 2 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+index b0264bd8577a..9a3437248e04 100644
+--- a/drivers/usb/host/xhci-hub.c
++++ b/drivers/usb/host/xhci-hub.c
+@@ -463,17 +463,21 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
+ 	int i;
+ 
+ 	ret = 0;
+-	virt_dev = xhci->devs[slot_id];
+-	if (!virt_dev)
+-		return -ENODEV;
+-
+-	trace_xhci_stop_device(virt_dev);
+ 
+ 	cmd = xhci_alloc_command(xhci, true, GFP_NOIO);
+ 	if (!cmd)
+ 		return -ENOMEM;
+ 
+ 	spin_lock_irqsave(&xhci->lock, flags);
++	virt_dev = xhci->devs[slot_id];
++	if (!virt_dev || !virt_dev->udev) {
++		spin_unlock_irqrestore(&xhci->lock, flags);
++		xhci_free_command(xhci, cmd);
++		return -ENODEV;
++	}
++
++	trace_xhci_stop_device(virt_dev);
++
+ 	for (i = LAST_EP_INDEX; i > 0; i--) {
+ 		if (virt_dev->eps[i].ring && virt_dev->eps[i].ring->dequeue) {
+ 			struct xhci_ep_ctx *ep_ctx;
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 5c759ad28199..9e375eb48f38 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -4128,9 +4128,12 @@ static void xhci_free_dev(struct usb_hcd *hcd, struct usb_device *udev)
+ 	trace_xhci_free_dev(slot_ctx);
+ 
+ 	/* Stop any wayward timer functions (which may grab the lock) */
++	spin_lock_irqsave(&xhci->lock, flags);
+ 	for (i = 0; i < 31; i++)
+ 		virt_dev->eps[i].ep_state &= ~EP_STOP_CMD_PENDING;
+ 	virt_dev->udev = NULL;
++	spin_unlock_irqrestore(&xhci->lock, flags);
++
+ 	xhci_disable_slot(xhci, udev->slot_id);
+ 
+ 	spin_lock_irqsave(&xhci->lock, flags);
+-- 
+2.34.1
+
