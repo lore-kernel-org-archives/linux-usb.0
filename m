@@ -1,81 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793787983;
-	b=qOpY8g/UT61LCBDTHNoOgYH3CsBsFD0s/nhWYe3ioOZ3kW1iqPsNbPV5ydAhDDrMsBjC
-	 d30cTbfkIY0LeuCgt7o3F9vqbboFyGERJjnMD/ZxdhcY4ICXT134pui4K2ThYvRHmU438
-	 6qEnP3i+tHEnD0TIDLkwK5DhCemAs0WvEJ5Elxju6hXizy8PYiH6/9u3COrgd+YBMjyHh
-	 kkz4t5ljSoItyCAgJLwWpoXHBV7vxag740FHGS32CuXHTWYjIRzthZKl0FyHH2Igelsid
-	 iIS8zsdOnfKMVrKljMt9/YOhZGXsF+NvDsxLWCDy/q7UXqjBl5E9QIaeoqKT1zpQb8Q==
+	t=1793788104;
+	b=HMNthe8a9AT3j9DZiFGrxQq0aZm9M1EUjDsbD1ZHNJ18ixR8BV/Jn5rUq1a2UWTW5NHD
+	 sKYf/Gingh+go0RjIfLGWSNZGSOO5qGInuwaLrYR5kgZniRGpaFT1hLXB3jWMGRb7Zr1B
+	 Shx5/oARuQAhjygcw3rEneBWp1gdxIRHeqH8uUL23FsA1diPu9buTS9YKiY0v2ZuZa7Wn
+	 hB6VTcokqLBhnbeIiKM2vj4BDhLD7O8cfY9y4oaY/wevCMZYZfZ/yq6KShbJsafANX4li
+	 pEgd02NkHQFTlvTQT/NMt+wBHkUhTgr9ORJ+yvF5leexSq0RwAvd4XMqxeGMpixIF7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793787983;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793788104;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=Va8WcfmPKt8pnEE/84ALLfThwAWUQvCummgZ7+O/2eU=;
-	b=AYlBcqwnDn91B6fVLr85fejNbOzmnqK6dSwPT8L8ngCLEUkDdpVVTaRO/NZiOMRFM95M
-	 iJgH2fW6xaYsxFJVqvh6gqzHstE5dia84mB927rrznTJQ4p4/VwnSCWF6WmISTgYoii84
-	 2odBNRzfuEA/bAe631c9Op8UM30OFY1b8TGgiTwhO93ah3TneacHfb1o8wM6plcK/xy7C
-	 MdWLw0cHyPNZrSZnYCAM7VXlG4744UhUTV3RvWcGOTK1mCXWTd/MsZfbRYSRGKpjSKKmg
-	 sN/6ADvva45PZSeqW/rESHCfecPQl485Elw1fg1EXfaukBSkqwUJ4Rv0Xr7C1NltxUw==
+	 Content-Disposition:In-Reply-To;
+	bh=pcQ3OnjWG7K/UwpkDfZwADkosGIhYHAj6eIZYtsb6WA=;
+	b=Gqii6fRIwZhcpoRCNDxZ2ew+N73nNG/IWeuujbiNvLkbQHhG3RMfP922snWIhY/qFYlO
+	 i0oNkW/EkQaP1VW4GtzX5HQUidtUgCy+z9mQ0jNC0YFxJTBycNEqAPPg7gF7GiQ46Up7w
+	 9+yEgVGCKcWmVdleLGJHtGsGtrZpBYV0voRSmj7q8RmjYWoxGkqKtfyLVcL+J4eBQr8kV
+	 TdSZwQIcqnuRA48BVztnpsADs3ZyCXUaJUKOQomnn1U9lq9U6GCxMs9th97GbA6rLDm/J
+	 YSFBkzT1s0yzULiGaYVEBWuiuMnnZJyUtGszSyZRZ/qaNF9FUiLwkvJVXAkAEdyfPCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=njYXusLE;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PjskPPlm;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93E5606A328
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 10:26:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D93E5606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272F8606A31B;
+	Wed,  4 Nov 2026 10:28:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 272F8606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=njYXusLE
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PjskPPlm
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793787983; x=1825323983;
+  t=1793788104; x=1825324104;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=c4RVmcwFoz2DEclj9/DTujKMxc2+REOPArEukpzgjrc=;
-  b=njYXusLEzRHM5qE3FV0YLgbNosWeyqYdxHBpG3jrIUABr+UUTSpaGGdA
-   mTre39Jwa7nd8Ivkpe90e4d5voBqOfjtwSyWpji3E08DD++dvoCTgWJYU
-   gv13ZWk8xoHuXFHWY13L2HLq84LkcFEoSJLOqD0/ZH9d7U/I0ZAEP7kPW
-   64Zfl2hNqPgZMBy7QaQ24oFpEFxd5JzYFkFk7QrbQKXGpFauXjYUm9AR3
-   votrKuegs0hN/gYp+4NHslmkCQ86G1kw5rNIPP0NNixaRxCewGnQRl4hL
-   tZnDOgmG8KZpoITyJ6UspsNghFlrgCgquJWsL5xfe9Rp+1x7g8igsiCby
+   mime-version:in-reply-to;
+  bh=atygvYU7Ba7IjPmn3BHtBQBTMxe64OKywtVCrd+OdL4=;
+  b=PjskPPlmRJwwF4qmLT3Nv+m9xbwaItCH7mOfWsbQ950XdUZ0d/aBO6ni
+   aw3I1IfOBvNT2cnSA9jDb3h4hSfmr6/fvR6q0/OChf57gxx9+uZEbKr+y
+   7K5gI09bzKM2sNDSSVSuPzRx7pYD5xXdKBTg1cZ/I7fZ0QSfm3Id40oPd
+   5LOTyYcjOiMsNELRiGgfuvhG7/BqRJvzzS2bDQb0HtpkaWmSW1y54cTSs
+   Xsqeuai7aKKkLgVeykNoSDTqp0TYQt2zcXdFdjEAtG3gAsyykcX0DGSb5
+   SLUAIi3XOzLFVHBr+09XRIq4fdXhhi5bk4r4nlo9nmD5JSu6ZEzmUmWUW
    g==;
-X-CSE-ConnectionGUID: Gx2FRyk0T2Oe7QQ/s430kg==
-X-CSE-MsgGUID: lTz6G+w1S8iCV1YeIzm6XA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2571958"
+X-CSE-ConnectionGUID: Dhoyzxz+TbOOQ4rY1qYNcA==
+X-CSE-MsgGUID: dGpbnUSbTE2HImwPERW1GA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2412401"
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="2571958"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 02:26:22 -0800
-X-CSE-ConnectionGUID: 1PE0ZeNMSV+J0BSDMpwVxg==
-X-CSE-MsgGUID: yVrEcShdSsi4moS1flYlyA==
+   d="scan'208";a="2412401"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 02:28:24 -0800
+X-CSE-ConnectionGUID: myWvClVgSoWtTZjwJTGwVQ==
+X-CSE-MsgGUID: lWpvO8HTSUa1qE1dHwM8Sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="6786740"
+   d="scan'208";a="6541555"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa009.jf.intel.com with ESMTP; 04 Nov 2026 02:26:21 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Nov 2026 02:28:22 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id AEB1F99; Wed, 04 Nov 2026 11:26:19 +0100 (CET)
-Date: Wed, 4 Nov 2026 11:26:19 +0100
+	id 8522499; Wed, 04 Nov 2026 11:28:21 +0100 (CET)
+Date: Wed, 4 Nov 2026 11:28:21 +0100
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Rodolfo Semprevivo <rodolfo@semprevivo.ch>
-Cc: linux-usb@vger.kernel.org, mathias.nyman@linux.intel.com,
-	intel-xe@lists.freedesktop.org
-Subject: Re: Panther Lake UCSI: PPM =?utf-8?Q?force?=
- =?utf-8?Q?s_DP_alt_mode_pin_assignment_D_=282_lanes=29_for_C=2FE-only_par?=
- =?utf-8?Q?tner=2C_no_4K60_=28was=3A_=5BBUG=5D_Type-C_Subsystem_xHCI_=2880?=
- =?utf-8?Q?86=3Ae331=2C_Panther_Lake=29_=E2=80=94_repeate?= =?utf-8?Q?d?= err
- -71 / port reset failures under sustained DP+HID load)
-Message-ID: <ausISwWb3qeTkSDh@black.igk.intel.com>
-References: <ef5ba6ff-ed50-4bb6-ae6d-fb11f0a47954@semprevivo.ch>
- <91bd4409-8121-4919-8556-8b49ec8f9304@semprevivo.ch>
+To: Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: Retry if notification enable timesout
+Message-ID: <ausIxWEIZyuIa1vG@black.igk.intel.com>
+References: <mpearson-lenovo@squebb.ca>
+ <20260729182203.3667583-1-mpearson-lenovo@squebb.ca>
+ <anMmhwSSLEAnAZZI@black.igk.intel.com>
+ <b98ed1c6-37fb-4235-8ebd-df350728f797@app.fastmail.com>
+ <ap6akwNAlqmJPMOz@black.igk.intel.com>
+ <03186586-6a9c-4350-aa7b-a42de11ea420@app.fastmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -85,67 +85,50 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <91bd4409-8121-4919-8556-8b49ec8f9304@semprevivo.ch>
+In-Reply-To: <03186586-6a9c-4350-aa7b-a42de11ea420@app.fastmail.com>
 
-On Fri, Oct 23, 2026 at 10:27:32PM +0200, Rodolfo Semprevivo wrote:
-> Hi,
-> 
-> follow-up to my report below, with a corrected analysis. The xHCI was
-> the wrong suspect: the -71 errors come from the monitor's internal USB
-> 2.0 hub, which sits on the standalone xHCI (8086:e37d, 00:14.0), not on
-> 8086:e331. They only appear because the monitor resets when the DP link
-> fails.
-> 
-> Root cause: on the left TB4 port the PPM/EC configures DP alt mode with
-> pin assignment D (2 lanes), although the monitor only advertises C and E:
-> 
->   port0-partner.0: svid ff01, active yes, vdo 0x00140045
->   displayport/pin_assignment: C E   (nothing selected)
->   displayport/configuration: [USB] sink
->   xe: Port D/TC#1: TC port mode reset (disconnected -> dp-alt) pin
-> assignment: D max lanes: 2
->   xe: [LTTPR 1] Link Training passed at link rate = 540000, lane count = 2
-> 
-> 2x HBR2 is not enough for 3840x2160@60 (594 MHz), so the picture drops
-> regardless of bpc/HDR. Lower resolutions at 60 Hz work. This also
-> explains why the dGPU route via the MUX failed identically: the lane
-> split is decided by the firmware, not by the GPU driver.
-> 
-> For comparison, an Alder Lake ASUS GU603ZW on the same kernel, with the
-> same monitor and cable:
-> 
->   i915: Port D/TC#1: ... pin assignment: C max lanes: 4
->   i915: Link Training passed at link rate = 540000, lane count = 4
-> 
-> and 4K60 is stable.
-> 
-> Linux cannot correct this. Writes to pin_assignment/configuration fail
-> with EOPNOTSUPP:
-> 
->   typec_displayport port0-partner.0: firmware doesn't support alternate mode
-> overriding
->   ucsi_acpi USBC000:00: UCSI_GET_PDOS failed (-95)
-> 
-> So this looks like a firmware issue (reported to ASUS as well).
-> Questions:
-> 1. Is the PPM choosing pin assignment D for a partner that does not
->    advertise D a known issue on Panther Lake?
+Hi Mark,
 
-I have not heard of this particular problem before.
+On Tue, Oct 27, 2026 at 04:17:12PM -0400, Mark Pearson wrote:
+> Hi Heikki & Greg
+> 
+> On Mon, Sep 7, 2026, at 7:05 AM, Heikki Krogerus wrote:
+> > On Thu, Sep 03, 2026 at 02:18:08PM -0400, Mark Pearson wrote:
+> >> On Wed, Aug 5, 2026, at 8:03 AM, Heikki Krogerus wrote:
+> >> > On Wed, Jul 29, 2026 at 02:21:50PM -0400, Mark Pearson wrote:
+> >> >> Found on Thinkpad E14 G8.
+> >> >> When UCSI notifications are enabled the FW does not ack the enablement
+> >> >> itself. Future commands will be acked correctly.
+> >> >> 
+> >> >> If this happens try enablement again and confirm acks are working
+> >> >> correctly.
+> >> >> 
+> >> >> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+> >> >
+> >> > Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> >> >
+> >> 
+> >> Thanks Heikki.
+> >> 
+> >> Just curious - what is the process/timelines for this subsystem for patch
+> >> being accepted and making it into Linus's tree?
+> >> We're tracking this for being able to get it into the distro's, but I want to
+> >> make sure maintainers are happy with it first. I couldn't see it in usb-next
+> >> etc, so wanted to make sure it hadn't fallen off the radar.
+> >
+> > I'm sure Greg pick soon.
+> >
+> > Thanks,
+> >
+> 
+> Just checking on the status of this (I have users of this platform wanting the fix).
+> 
+> Let me know if anything is needed from me to get this fully accepted upstream. I can't get it pulled into the distro's until then :)
 
-> 2. Should Linux warn about it (partner VDO lacks D but FIA reports D),
->    or avoid the resulting 2-lane DSC mode?
-
-You tell me. If you think that this would be useful, prepare the patch
-for it.
-
-> System: ASUS ROG Zephyrus G16 GU606AX (Panther Lake, Core Ultra 9 386H),
-> BIOS GU606AX.304, kernel 7.3.0-4 (CachyOS), monitor ASUS ProArt
-> PA169CDV. Bug report: https://paste.cachyos.org/p/83e1bcf.log
-> Full drm.debug log available on request.
+Sorry about the delay. Maybe it would be fastest to rebase and resend
+the patch at this point.
 
 Thanks,
 
