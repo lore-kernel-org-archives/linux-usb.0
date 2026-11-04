@@ -1,55 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793813667;
-	b=URbfKqUhCf7WnOphrC1Xp1Ts3zhtL+LDYNvCMs3E+7P36ibBKhzXPJ/C/ojHFBc0eoTb
-	 Ga7t8rAWJKcViOZyxuA79KvMt/rQGeV5ufbB+V2qLmuQK8+vyKSWq/HGHIYqpaIIx2q2U
-	 DeFYSBR2wp37gFV7kCTL76pdVl72CLGFmcx8Hqwa7o2kxpYDGBSVq6Ik4NcMwOiR0i0Sh
-	 UbwYfKul+jc1yzzA6PvwrU22agZOEGAiBvkKCs2aIGBrx2Yj0Wl+Hn2neLCNfBRJycXxp
-	 7kMT6kqEZcocofu1nR4oiyVo6VmcMtu/sFNX4jFpXzVEm4/kivA8svgyjFqasBlhXXw==
+	t=1793813769;
+	b=Q9gExaOHbrDAdDisPJlecjI1oI5LbvVupULXai0NaY2IM3LN40VJ3cbJ/Ug2mYs9IBY3
+	 Gm7PKIWZTOJmTdLj+DbSdolIr029x9cvODUAfs54YDxX5cpG3ik9CHnAKhxnXVZcYf9dg
+	 hlIqjsbfEE88LK5m7yXrIuK1ED5VpMlVrZqDMw5uKJxXNndNFAIpKRwlf2m/7Ody4sFN9
+	 BpEJlmSZrjMhbGouoHDr+WmMdIWqHya2P+pE6OjVCPeilGwLmch75T0ea46sK1oEp/EgQ
+	 xnFE1WK3db5eWEkSh+FST2noDhtj9Wv1Lvy6vvFq5u80OwZxydWwuZt55PUT0aooXBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793813667;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=AMOD33XmGyHm36xJWMnYgDFAfU9OylqTMFKngAIWEtA=;
-	b=3rlUHvyS976r6WgLzRwCwxJLELO5Y1k7kOnSLnbZ7PQOnS/yGVpEaTRr5VDGhyk+pVBr
-	 OO/6mkkek4GA+BhrHaY6V0LHJYZI0I3Qr5RoxIhzeXFMI62MZdjDcebTDdjPZeHtb+srj
-	 kuBgpD9LrvWZXsc8g7xWyd+pyej8PL/jAp+7SElNM8a3vk1jYOy/7KKNnRkl3WjhwyInS
-	 armZNT6BdT4ttCwOnTag+q1wYeKc7WQ9oYaxovIFQV1kvTseM21/SxahKuNbX4gFjKx6y
-	 OcGybfs4C1PEG7sZsG0/Ks8uFP3BBncQIE8I/F4KiXRb98mitWtYRxPTC9w21q9Cz8Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793813769;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=6zWWmAM/EjSfX+fzNtWWpqxiPfU3InnZ+YWyZ8VpU1Y=;
+	b=2uVU/lAHzM/gvuRd/Z4K1P7MyQtDu3hWvqEwNElRM4GSCk9vKtLS4DZbRae4n8EltTe/
+	 jkpzxL4ADVzC0Zlq0I3QdkXwfJqiU/HU8owiop6eddhSfokY5ylvkNVZPcps7/D4ApvH+
+	 Yi9ljm5Nc5AQ0bGGuos0k28TLaw0qAInYgJCWbpOWdbTxriMBaUxwOrxZQzGwKi5I+cZL
+	 6xdvJN+0xKFhv82Olf+fqowBNuFZMURMRHMnYJ9IipF75PsUQp7SccFvJLsjsKzzhdNg5
+	 fIdXXoOf84kh5yv6Bpg8FI7DvXsX5tL3MOsaTi3mgm9JzPD+p1OEKK9EYPouTiAOXYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuIdEGHN;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="wufik20/";
+	arc=none smtp.remote-ip=209.85.221.42
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2828606A33A
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 17:34:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602F6606A337
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 17:36:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 602F6606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuIdEGHN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 692641F00A18
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 17:34:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793813666;
-	bh=AMOD33XmGyHm36xJWMnYgDFAfU9OylqTMFKngAIWEtA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=TuIdEGHN+tlSpGP2tguvWW7kLlUQWLPYjJKJSOdpszP2pLOR7WrjdSkZZ/grMbqbK
-	 +lTr56mLL+WOdircBkePq+AP1VJ8IkK1jD+a+/cNVkOM5lTrA3ra2sVKICfCT0wVFa
-	 G7aUxkwbEYQTgmz4D8gML0l5sd+AeXfF/B+yunRHPHSfp3DhyhKMZ2MO8cmr1H2mgR
-	 d2oAbezChMlOpKySp6bD7YhtrL6rY8cs9aS9v0EePA62cXO8uXedgf6WJ2JQI3RfVB
-	 sVx/vx3dq4DLpiMPLoF4zMVjw7jCtMETWhYAirt1guo5pK4CX4JT893wQit46xG65K
-	 Y99CMV8/O64SQ==
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5ec6f271883so652653e0c.3
-        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 09:34:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvByw6IEkFyK1jqr3rfrNnI9ISR4HVF/+Y/mktxpuBB58XtV8CPMbGCI2mVoI2MWK36mHCc6RYV4uZFY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z83O+ikVVyOlRU4cL/kIrWbsCB0n8pOT7GyYfNeBZfgmfXylf4Y
-	1XaD0oGMWhSXsiUh1oll1NBO4fvpK+v4zvFcJUa/2wOWzrL0CZ1MV/LX+XfY5SIdiK+k45V/Caj
-	a/cZVG98OpZKs+TU9792gwJd3+16lQKc=
-X-Received: by 2002:a05:6122:180a:b0:5ec:5f1b:f725 with SMTP id
- 71dfb90a1353d-5ec689c4d7fmr8231097e0c.23.1793813664918; Wed, 04 Nov 2026
- 09:34:24 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wufik20/
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48b042c0759so590383f8f.2
+        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 09:36:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793813768; x=1794418568; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6zWWmAM/EjSfX+fzNtWWpqxiPfU3InnZ+YWyZ8VpU1Y=;
+        b=wufik20/hF2eGBxiq5EJOIEIs3TvBuHcrkCWZl4iunPIc/jhCgNNuuYqUB/VKoz4nb
+         rdlyC7Q0EPWILdkaRhUzDeEyKof0V28bqH2T0TlHfpRVt1Qe5Baf1lwWsvLU/75RZlbh
+         bqB0ykMxUep4Ur8yvE6fkibug9V5IZpeyAAIDrui3507ekFUacV6zsNvNAAMT3plDzfU
+         264qGYsGhaynzVWx2lPks/HF4qzlYieu62zoC2GL/yrIul+6mlfr4wr5bM1HKLPEqyOl
+         5CCD9HtILxCwa+SUjsFF0ysOHZLYiIna7ALDMU7R2oKtXjqJMScQ4bK1U58WOy0n75d9
+         TakQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793813768; x=1794418568;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6zWWmAM/EjSfX+fzNtWWpqxiPfU3InnZ+YWyZ8VpU1Y=;
+        b=N4PHrcbTw7U+ER1Tj6l1h1xwGWImiyqAuLiPPGbb2Xnbxchh9EaKVSClo6lVS/bSLq
+         BKItF0sPQ5sSMsOBB/Z+1EB4zh9UApHcj8yUNnuAB24KiyuftGYTNRHI4abeVuG5GABp
+         U5eFLpXNqVu9p21CDFd6wfoat8HUpdA8sLgbyRCfvHGkGMdj5HVJNMVjV4F/cdG0pkRq
+         AMUOSINgFaSL8Y86qC5pRzoX1ItXcBoxO/KDscSiSUY7v4vjG+H9gEtJ6U+F9fCQgN8w
+         P+Sd9rpRlgpOwubLUpxYI1BkOUEgSANzamxg5SPpjF4sRYd+eNWTJTFxWZcy9LozGlt6
+         4hfg==
+X-Forwarded-Encrypted: i=1; AKwUvBxLxsaOFLMu/CW11k+qR0xtjixwGc6AY+YVEJECJ5MDpFJiQrnEsa/KFpKRquYPhwgQqSIm3M+Bhto=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8RRJbyfxYHBQ3gKsleC/rmqTFXP+Wb1LoJTesXUgAmiQEmPLCU
+	9/StdCs8b7mvdzN5rrqs5xlvbysjOK4vNxQ2JkvQ3wNjZRXsLhZeLMbV
+X-Gm-Gg: AYBFou2suvFxMOmOgEO9SB1g/B9YIcb2b/x8ayLRopUb1P8R7v5NoxLFt9WJRI1XP+1
+	kjLy7ZZf141sxODf0m8fRrNeRI8qw4kS4qdu6UYpSZFAoq2oxOaPtqetMtzL2MOfPEMeSrqAYq8
+	+eLJ2/4+/uM7Ad3Gqw4Y0cwm1QESkzRqCRV1YHNZWHGQq6k2H6wGSlAPuti3wgi5N5xaLktSLf4
+	0WKBZbwSLvNsPWpxjd5xmywpKUzj9Sy1WnwOkTHZz0TqNcCP9n1UfKxvxJ0Wf3wHyeFKlkUu90d
+	Etwqa2qXIVS+n/ZX+BWn5U/c9KW8HyaxgGv2YZ9QWC9resheXlMJE6DgsZoJI5OPmK9aZJmaq2k
+	uNkGXZuXzr96Ww3M8Zx5PoIB7gRHTDPd1BcXfnCda7yUvK3MV3+oXPmkyQ6dSSNmlCTec81j6dW
+	WCQ2uot0dTyqkfOY8NV7BHZNcFZugjxtvwQBGnxHxWTgkg8TPXAv8FWtxSt3+heJ+TzN5LmmohI
+	M/59qOERBwji0L0sslF42Ew0O42SEbdCcBOAacGGcArgKK1Kw+t+S6tUvK5PkMTBscPC30fcYuH
+	ueMlsZP3esMSn/XkMTeNFK6str1ucprRS30buIHCsynvpjriB322qqemJQ1y
+X-Received: by 2002:a05:6000:400c:b0:48e:35d4:55b5 with SMTP id ffacd0b85a97d-48e6e518368mr33802651f8f.52.1793813767532;
+        Wed, 04 Nov 2026 09:36:07 -0800 (PST)
+Received: from foxbook (bfg124.neoplus.adsl.tpnet.pl. [83.28.44.124])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fecac2772sm4825519f8f.18.2026.11.04.09.36.06
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 04 Nov 2026 09:36:07 -0800 (PST)
+Date: Wed, 4 Nov 2026 18:36:03 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Pengfei Lv <lvpengfei20@huawei.com>, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, xuhaiyang5@hisilicon.com, xuetao09@huawei.com,
+ caiyadong@huawei.com, suzhuangluan@hisilicon.com
+Subject: Re: [PATCH] usb: core: hub: Re-guess ep0 maxpacket size on reset
+Message-ID: <20261104183603.17d663ce.michal.pecio@gmail.com>
+In-Reply-To: <b9ac3c8f-7ce5-43d1-bcf1-d2ce9877d914@rowland.harvard.edu>
+References: <20261104124402.1269650-1-lvpengfei20@huawei.com>
+	<b9ac3c8f-7ce5-43d1-bcf1-d2ce9877d914@rowland.harvard.edu>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,162 +100,68 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org> <20261104-work-procfs-bugfixes-v2-4-bbf7d5546809@kernel.org>
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-4-bbf7d5546809@kernel.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 4 Nov 2026 18:34:10 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0gnefKDcBnLzxxXPLJkYRHN9pbYH9WVFAoUGuCSOPcW1A@mail.gmail.com>
-X-Gm-Features: AclHuK8WGpfSf3TpV-YfKcvDlenGAnmL4yQTyeV9z6QpHJtyVq4G8L84EjJ5Q2g
-Message-ID: <CAJZ5v0gnefKDcBnLzxxXPLJkYRHN9pbYH9WVFAoUGuCSOPcW1A@mail.gmail.com>
-Subject: Re: [PATCH v2 04/51] PNP: isapnp: don't go on when isapnp_cfg_begin() fails
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>, 
-	Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
-	platform-driver-x86@vger.kernel.org, coreteam@netfilter.org, 
-	kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net, 
-	jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, 
-	samba-technical@lists.samba.org, sparclinux@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 4, 2026 at 6:30=E2=80=AFPM Christian Brauner <brauner@kernel.or=
-g> wrote:
->
-> isapnp_cfg_begin() refuses a logical device number above 10 and a bad
-> card number with -EINVAL before it takes isapnp_cfg_mutex. The callers
-> that read and write the device's configuration, the proc file included,
-> don't look at that: they go on talking to whatever device the card
-> currently has selected and then unlock a mutex they never took in
-> isapnp_cfg_end(). isapnp_create_device() hands out logical device
-> numbers without a bound, so a card with twelve or more logical devices
-> gets there. Return the error instead.
->
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On Wed, 4 Nov 2026 09:59:24 -0500, Alan Stern wrote:
+> On Wed, Nov 04, 2026 at 08:44:02PM +0800, Pengfei Lv wrote:
+> > Per USB 2.0 spec section 5.5.3, the ep0 maxpacket size is fixed for
+> > all device speeds except full-speed devices, where it can be 8, 16,
+> > 32, or 64 bytes and can only be determined by reading the device
+> > descriptor.  During the initial enumeration of a full-speed device,
+> > the USB core guesses 64 bytes (hub_port_init() with initial=true);
+> > after reading the descriptor, the real value (e.g. 8) is stored in
+> > udev->ep0.desc.wMaxPacketSize and propagated to the xHCI ep0 context
+> > via an Evaluate Context command (xhci_check_maxpacket()).
+> > 
+> > After a port reset (usb_reset_and_verify_device() -> hub_port_init()
+> > with initial=false), the "if (initial)" guard added by commit
+> > ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()") skips the ep0 maxpacket
+> > guess block, so udev->ep0.desc.wMaxPacketSize retains the real value
+> > (e.g. 8).  The xHCI Reset Device command preserves the ep0 context
+> > as well, so the xHC ep0 max_packet also stays at 8.
+> > 
+> > When the subsequent re-enumeration then uses the "new scheme" and
+> > issues a 64-byte GET_DESCRIPTOR (get_bMaxPacketSize0 with size=64),
+> > xhci_check_maxpacket() sees hw==sw==8 and does not issue an Evaluate
+> > Context command.  The xHC queues a Data TRB of length 64 but applies
+> > ep0 max_packet=8 for short-packet detection.  
+> 
+> That's exactly what we want it to do.
 
-Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+Should we want it, though?
 
-> ---
->  drivers/pnp/isapnp/core.c | 16 ++++++++++++----
->  drivers/pnp/isapnp/proc.c |  5 ++++-
->  sound/isa/es18xx.c        |  6 +++++-
->  3 files changed, 21 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/pnp/isapnp/core.c b/drivers/pnp/isapnp/core.c
-> index 219f96f2aaaf..3591a2791c1a 100644
-> --- a/drivers/pnp/isapnp/core.c
-> +++ b/drivers/pnp/isapnp/core.c
-> @@ -853,7 +853,9 @@ static int isapnp_get_resources(struct pnp_dev *dev)
->
->         pnp_dbg(&dev->dev, "get resources\n");
->         pnp_init_resources(dev);
-> -       isapnp_cfg_begin(dev->card->number, dev->number);
-> +       ret =3D isapnp_cfg_begin(dev->card->number, dev->number);
-> +       if (ret)
-> +               return ret;
->         dev->active =3D isapnp_read_byte(ISAPNP_CFG_ACTIVATE);
->         if (!dev->active)
->                 goto __end;
-> @@ -887,10 +889,12 @@ __end:
->  static int isapnp_set_resources(struct pnp_dev *dev)
->  {
->         struct resource *res;
-> -       int tmp;
-> +       int tmp, ret;
->
->         pnp_dbg(&dev->dev, "set resources\n");
-> -       isapnp_cfg_begin(dev->card->number, dev->number);
-> +       ret =3D isapnp_cfg_begin(dev->card->number, dev->number);
-> +       if (ret)
-> +               return ret;
->         dev->active =3D 1;
->         for (tmp =3D 0; tmp < ISAPNP_MAX_PORT; tmp++) {
->                 res =3D pnp_get_resource(dev, IORESOURCE_IO, tmp);
-> @@ -936,9 +940,13 @@ static int isapnp_set_resources(struct pnp_dev *dev)
->
->  static int isapnp_disable_resources(struct pnp_dev *dev)
->  {
-> +       int ret;
-> +
->         if (!dev->active)
->                 return -EINVAL;
-> -       isapnp_cfg_begin(dev->card->number, dev->number);
-> +       ret =3D isapnp_cfg_begin(dev->card->number, dev->number);
-> +       if (ret)
-> +               return ret;
->         isapnp_deactivate(dev->number);
->         dev->active =3D 0;
->         isapnp_cfg_end();
-> diff --git a/drivers/pnp/isapnp/proc.c b/drivers/pnp/isapnp/proc.c
-> index c1f6e6bd0eb2..b3abab24050b 100644
-> --- a/drivers/pnp/isapnp/proc.c
-> +++ b/drivers/pnp/isapnp/proc.c
-> @@ -25,6 +25,7 @@ static ssize_t isapnp_proc_bus_read(struct file *file, =
-char __user * buf,
->         struct pnp_dev *dev =3D pde_data(file_inode(file));
->         int pos =3D *ppos;
->         int cnt, size =3D 256;
-> +       int ret;
->
->         if (pos >=3D size)
->                 return 0;
-> @@ -37,7 +38,9 @@ static ssize_t isapnp_proc_bus_read(struct file *file, =
-char __user * buf,
->         if (!access_ok(buf, cnt))
->                 return -EINVAL;
->
-> -       isapnp_cfg_begin(dev->card->number, dev->number);
-> +       ret =3D isapnp_cfg_begin(dev->card->number, dev->number);
-> +       if (ret)
-> +               return ret;
->         for (; pos < 256 && cnt > 0; pos++, buf++, cnt--) {
->                 unsigned char val;
->                 val =3D isapnp_read_byte(pos);
-> diff --git a/sound/isa/es18xx.c b/sound/isa/es18xx.c
-> index 3cadbf7cf238..de1eda5a0656 100644
-> --- a/sound/isa/es18xx.c
-> +++ b/sound/isa/es18xx.c
-> @@ -1950,7 +1950,11 @@ static int snd_audiodrive_pnp_init_main(int dev, s=
-truct pnp_dev *pdev)
->         /* ok. hack using Vendor-Defined Card-Level registers */
->         /* skip csn and logdev initialization - already done in isapnp_co=
-nfigure */
->         if (pnp_device_is_isapnp(pdev)) {
-> -               isapnp_cfg_begin(isapnp_card_number(pdev), isapnp_csn_num=
-ber(pdev));
-> +               int ret =3D isapnp_cfg_begin(isapnp_card_number(pdev),
-> +                                          isapnp_csn_number(pdev));
-> +
-> +               if (ret)
-> +                       return ret;
->                 isapnp_write_byte(0x27, pnp_irq(pdev, 0));      /* Hardwa=
-re Volume IRQ Number */
->                 if (mpu_port[dev] !=3D SNDRV_AUTO_PORT)
->                         isapnp_write_byte(0x28, pnp_irq(pdev, 0)); /* MPU=
--401 IRQ Number */
->
-> --
-> 2.53.0
->
->
+Were there known devices with bMaxPacketSize0 <= 16 which required the
+whole transfer to complete before they are reset?
+
+That's not what happens in the initial iteration, so it seems any such
+devices would always take two iterations to begin working.
+
+Is this what the only correct Proprietary Operating System does?
+
+> >  If the device's first
+> > data packet is exactly 8 bytes and it sends no ZLP, the xHC does not
+> > recognise a short packet, keeps issuing IN tokens for the remaining
+> > 56 bytes, and the control transfer hangs in the Data stage until URB
+> > timeout.  
+> 
+> That is the correct behavior.  Indeed, the same issue applies to _any_ 
+> 64-byte transfer (not just control and not just Get-Descriptor) when the 
+> maxpacket value is 8.  If the device sends an 8-byte reply with no ZLP 
+> following, the transfer will hang in the data stage.  That's _supposed_ 
+> to happen.
+
+Right, all those details about HC behavior and xHCI internals aren't
+important here. The device is out of spec, apparently expecting the
+host to always use MPS=64 for this particular request. It should send
+the full descriptor in response to further polling.
+
+More useful would be information about impact: what this abomination
+is, does it always fail to enumerate on the first try and trigger this
+unsuccessful retry, or only in exceptional cases? And of course,
+
+> Have you observed this problem in actual testing or is it purely 
+> theoretical?
+
+Regards,
+Michal
