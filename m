@@ -1,217 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=148.163.158.9
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793755751;
-	b=oAQX3FZKAidPJF4t6kpAdtKJkCYoztWFa86KrE82E4Wx/NK5VbMEkWHL+6LHJ6dbY0rv
-	 RU7KnjOhrrggM5XS8OrgrffnnJ+/NLVbdIGHpxDca9VyaOwk7MfUorK4wGGkzkCum2XpF
-	 wPxLImlKZ48KOIH3w3HB49QeR9/ec1zsDbodt/TRnIApWfXXvMyL/xKFk9yxpBZ3gO4E4
-	 DZuhx4OGzhlhem/gNPe6/gCLTef5WRAGrvsdHXLZ0JPfXhxruwE7HzbiZGNrRdPbDxaWG
-	 RQnbtPWUzGwxlf7+9bh/dAVsT1inimz3QZ+xehoYefkCwGT6hBJCjwDcyE4unEPrLrA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793755751;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
-	 Received:Received:Received:DKIM-Signature:Received:Received:
-	 X-SNPS-Relay:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:
-	 Message-ID:References:In-Reply-To:Accept-Language:Content-Language:
-	 X-MS-Has-Attach:X-MS-TNEF-Correlator:x-ms-publictraffictype:
-	 x-ms-traffictypediagnostic:x-ms-office365-filtering-correlation-id:
-	 x-ms-exchange-senderadcheck:x-ms-exchange-antispam-relay:
-	 x-microsoft-antispam:x-microsoft-antispam-message-info:
-	 x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:Content-ID:
-	 Content-Transfer-Encoding:MIME-Version:
-	 X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=qxb5B2RwGaw2/Po1LjrvItnsJ8SXh7uA6Wah/T0eKp8=;
-	b=JJ0Q2WGVXS404iB0e7EQbXVVEjo1EImTVlKNKeXB2sJDbTZK4zNqdsN0n2mSLi26iBvf
-	 Sa8xD8YB/G99miBdn4I1pNg+wyG7kNEMdM+x5MgbxSah6KAoBtg5qL5E2dL6bQDsP/KyX
-	 aDIGMbf+i0iWnLsTxDyt7/pSecvAriZpZIpB4j3+HxGnq8nd5XfrzvHyNf9YsAoNEKwDj
-	 Bp7BqdD3VDOx+hHMGUvbrNoqSbVmPFXsuCmFqqkyPED50vbW4x7qUbPGtOMqh85UDJMll
-	 r3aLEnc0DcUOAtGzpf9K8r+mR3WGa9aTY9r3dgtWNXjXcL6Hn74jzL1HZKvbDUk+UMA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=synopsys.com;
-	spf=pass smtp.mailfrom=synopsys.com;
-	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=CUCPu9JU;
-	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b="SI/X9Vj5";
-	dkim=fail reason="signature verification failed" header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=KloHPapH;
-	arc=fail smtp.remote-ip=148.163.158.9
-Received: from mx0b-00230701.pphosted.com (mx0b-00230701.pphosted.com [148.163.158.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DE8606A326;
-	Wed,  4 Nov 2026 01:29:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50DE8606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=CUCPu9JU;
-	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=SI/X9Vj5;
-	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=KloHPapH
-Received: from pps.filterd (m0098572.ppops.net [127.0.0.1])
-	by mx0b-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A40SW9R1377443;
-	Tue, 3 Nov 2026 17:29:05 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
-	cc:content-id:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	pfptdkimsnps; bh=qxb5B2RwGaw2/Po1LjrvItnsJ8SXh7uA6Wah/T0eKp8=; b=
-	CUCPu9JU91NfcQAd6jkJdCE29X/NguP9OKEusMC5kzZZW9lg1+FtrSB6FjtX8coo
-	OWgl2mNKw5Pc/TgXqgqZCnpoEY56u/CJgI39Jouh8wQ59FczwUbYZjFvBEOq0yYR
-	FVZuEYU/nAnoEKCeRcDbATKu3KsNYI9d5H/K11SoBEi7O01ck3EcG/FDne7HRyYH
-	yG+gQkkmF/PvfI0990E0Q7K8rL1Wz/7ps2y9FDRV+okLMVxcsRNxUP8Jz3IZ3ayc
-	4aAYnvkxWpcFQZQiTkY20BO4f14tvKRkATeTSoiW6vZ/KRCiudmoErE2jeUYHt3k
-	e16BUr6Ot+cVwzFTTxwzRQ==
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
-	by mx0b-00230701.pphosted.com (PPS) with ESMTPS id 4hqctvyvhd-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 03 Nov 2026 17:29:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1793755744; bh=qxb5B2RwGaw2/Po1LjrvItnsJ8SXh7uA6Wah/T0eKp8=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=SI/X9Vj5nc0AdGcvWgYpRjc9eFgLT/DaoU/+u68OQmoxDtu7Us/LIIh6+gnRBhh1U
-	 hClmr4xnNPdsn79SLNBJDUySKV/xZxm957VFmzXlFmB15JPtogZshwyLQcfAEETCbH
-	 AQyaNamXk0/0m1XveyKX3BogEXPybsRUAB7OBWfxjgP6Y8bD8OrV4AHpWVK7FeU98x
-	 BPe/u6MJF5vH3zIltSh1WSNkrYfTAQNErLuYMh6keXwWTaxukJBa+kOr7/BGXWsm0s
-	 FjT1D+fmNmwK0DaPwglBCG0MsQyGbx/dbEZIkaYf72vsSZ36ZKEPVt5IYAn6//1KHC
-	 nNZ6vZruJJDGg==
-Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com [10.205.2.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
-	 client-signature RSA-PSS (2048 bits))
-	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id CEE0040298;
-	Wed,  4 Nov 2026 01:29:03 +0000 (UTC)
-Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
-	 client-signature RSA-PSS (2048 bits))
-	(Client CN "o365relay-in.synopsys.com", Issuer "Sectigo Public Server Authentication CA OV R36" (not verified))
-	by mailhost.synopsys.com (Postfix) with ESMTPS id 891CAA0296;
-	Wed,  4 Nov 2026 01:29:03 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=KloHPapH;
-	dkim-atps=neutral
-Received: from BN1PR07CU003.outbound.protection.outlook.com (mail-bn1pr07cu00300.outbound.protection.outlook.com [40.93.12.0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
-	(Client CN "mail.protection.outlook.com", Issuer "DigiCert SHA2 Secure Server CA" (not verified))
-	by o365relay-in.synopsys.com (Postfix) with ESMTPS id EA60240112;
-	Wed,  4 Nov 2026 01:29:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oV7N9gFC1C77qfV8E3Z5z1s4U3naKms/x/FHjZNgzwO6NLVK08xlC4FSTLop8mAiiJX62j1mjM2bD7f6r32s87zsUgcXTAOopk5CD/W2J8VPg8M3cBpVeMJHpau7kfyClmJilcXFiKPDSjKmfnwi4+MNadVfFZctHHLLmqlibBc8fS+If0npf2WX5BiRh2MtU4rfWOsmeNqarHeiTWgnM3RHtggQ1REUwO7PRnvYKzBiBtA4AgNvVHkKNaoWPWgf6UEevkr+AxNDndwMf6/FzKkiFF2NrFdtfYRUzmZRXvWLcnM4m/abTg33joEV/Ud4GZwRXue4SGoRAK1MeFnQ0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qxb5B2RwGaw2/Po1LjrvItnsJ8SXh7uA6Wah/T0eKp8=;
- b=xwCej26/bf71gsys8WxY5Eo+sfbAzEmLb6pltK9DWaLN4knsFh6oc1L5skJoZVwoM72btBBooH28O/itT+Mh7HkU18ZV/Z85KMzLWhdh89bOwuji61JnUO4koswMwZ+oDq/ACWUmeGO9rN96zglbR4SLPzUljXIqm8klkCXGsz2A3rHmpVG1tNoMX1EdWl/CKwtdtq5fxSu4SUu7nlKk4rQWSNAayoJM3Cl35ibKj82IhPmEiz5ICdGGZwVT45EXQVYjiH2L93g3J1us5ahqr66vW7y92qbMY883uLn3Ecu4FpP3bBIIGRhdcK3MJpt0PxEhS5MQxaef5OKe1cejxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qxb5B2RwGaw2/Po1LjrvItnsJ8SXh7uA6Wah/T0eKp8=;
- b=KloHPapHnN3fmdz4udZ3OO4JVUGh3JIivl/492+xrQVS5estopg836I5h4ByTvc0TUKHUmkC36j8Fxk1w29pCPRvCpqJ1s9vgpf8QjoJfaQSITLHEstGAVfhARKHD4v2qZHYA3OWGKQkpR8wSZJmLwyeHtGmjI0wnOr8d5zsK0w=
-Received: from PH0PR12MB7486.namprd12.prod.outlook.com (2603:10b6:510:1e9::6)
- by IA4PR12MB406293.namprd12.prod.outlook.com (2603:10b6:207:12d::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Wed, 4 Nov 2026
- 01:29:00 +0000
-Received: from PH0PR12MB7486.namprd12.prod.outlook.com
- ([fe80::7df9:b25e:9216:f109]) by PH0PR12MB7486.namprd12.prod.outlook.com
- ([fe80::7df9:b25e:9216:f109%5]) with mapi id 15.21.0592.007; Wed, 4 Nov 2026
- 01:28:59 +0000
-X-SNPS-Relay: synopsys.com
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-CC: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] usb: dwc2: wa for isoc packet tx fifo flush at periodic
- frame boundary
-Thread-Topic: [PATCH] usb: dwc2: wa for isoc packet tx fifo flush at periodic
- frame boundary
-Thread-Index: AQHdW8D0Ok9Q3K5XUkeyGQlrnXGa57cdQB0A
-Date: Wed, 4 Nov 2026 01:28:59 +0000
-Message-ID: <auqF48Lk6EEyF2mV@vbox>
-References: <20261014-dwc2-fix-wa-isoc-v1-1-f261ce0852bd@foss.st.com>
-In-Reply-To: <20261014-dwc2-fix-wa-isoc-v1-1-f261ce0852bd@foss.st.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=synopsys.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR12MB7486:EE_|IA4PR12MB406293:EE_
-x-ms-office365-filtering-correlation-id: 1ef8168e-ccf4-47be-8718-08df3a13009d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|6133799003|10067099003|22082099003|18002099003|38070700021|56012099006|11063799006|261021121427099003|261102123227099003|261009223027099003;
-x-microsoft-antispam-message-info:
- JxrdEuzWsIKJpn5ImfLGz4YQ7FbXSKyWHfzbxZ1WKLnywoNVxZsIO8AvV0ICp87Kx8LL50B+lRbmLP+jw0CvyRCYfopPG3eNKMeq5+m7AP9vOh6K6nHwW7qFMHnXwWPGSy0+dEstgTg2+yV60L7z3Nl6gntVbXHjIINJ8P0cZ5UJV1fBvKAvT9SEqxmdFKv7P7TyUEd8dLNYJ4aSwFoHsSeBMOdEunkyvEzuIoPJHv49CFxVI4VanZcYEq1OkWLd3+R5CmoMIkkYU45Zq4OmDfJ6L9iLzNUmbTR9HNJQFdm6fUHQMPwCTmRX0zdG2SLepZNFVFiJd404xc1he1La9zEeqgOHJfKQ8jcxX+4a0JzmV+WEQ/dc+qxsf6LU21u8V/mmzCF52ndHRu5HTEBrCciWK6aKjDumVPsyhHw938HE1MlCG9IpznlMwwpqvNA9y4p718gVaeI+963L8E3qRlAvWnxSEz0xH05lL9A/BD37ilV3xGZ9BFDqqoYrInkLiP1t/XISeIZonGJHjHS4/Z3V8TDXyA/FOe/vi8x92wrj9T1zMjbSplxb2leD67z2FbK0jiTdTbcSq8zQhZIKY+0XKRGqho4DkyJ3aJi0qOh6uZ1+bnEy9hDudobj2X6rWy2kBvz5fcTCmfUYC+P49aJq1/OTESmRCpygEeBTUhVscvy/rg30MTTnV/wgnnG3EqBwL80hFR9GH4ZR11pX6PNzRjdOW6GzrpwoFu0aXf8=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(6133799003)(10067099003)(22082099003)(18002099003)(38070700021)(56012099006)(11063799006)(261021121427099003)(261102123227099003)(261009223027099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?MlJqZVMwblFkR0IwQmNEMGxkUllFYjdOaVhXNEJnOW5Bem1wYUtpS2VyQmZU?=
- =?utf-8?B?ZTZqWVBDSDUwbnV6Rmk3SEIrVlJtdytYeThkZ0g1OFQzZ3ZPWGdSaEgyUXJI?=
- =?utf-8?B?TUdUcjhTcU9TdkgrTnpQYktjRjh5RHFwM2ZZUGNMSE1aNzhyL3YvMitrQUQ2?=
- =?utf-8?B?bDN2UzZod1dibjFBS2RMTW81N0NPbjNDVUVSem9yd0t0OXY0MHIvMXRhc25B?=
- =?utf-8?B?bGhTUGt2cUowdnREUDgzNFVqSFFPajFBckpHVXI5a1pXK3lsRXNZeUJPcUdU?=
- =?utf-8?B?ZzlTd2dMb0R6VTk1K3hUclhwREJHYjdOTW9vVUpqbkR1TUxqaTg3aG1sdzNn?=
- =?utf-8?B?MWljT3RSTTRnTnVSQ095VVdqcVc1M0NpeXNRSjE4ZC82RkR5RWJPS1BWaE9R?=
- =?utf-8?B?Z0FSK0VsQ1pkK2hnSVZXaG5oMVZMbC8wUG9qeXAybGpUcENmVEZ1SHB0U21F?=
- =?utf-8?B?YUcvbFV0Z01rQkNNOVgyWnUveE9uNkdvcWJxc281dTB1UFptR2dSUWN5ZldY?=
- =?utf-8?B?UjNnSE1UdmV4WXpNMWM4QThPRW5OTzU3bDZTSlhBNUtqcmZoUHBGMjh5ZUx2?=
- =?utf-8?B?aE9yRXZNQkd2ekZXMyszV0llQmUwbmlMbWlIYWlNN3N6Z3ArV1RMYXp1V2dX?=
- =?utf-8?B?WEFUNFgvaFdGM2pvUzBwcW9wUEcydHBYS3BNRWlPNjBLL2QxMVQ2bHFCWU9m?=
- =?utf-8?B?SzhPNEkvWmRNQitSalpySkFudnZqSWcyS0N5akxGZEZ1cTdBSEZGVTJEaXFx?=
- =?utf-8?B?bUVBZkROdTlHdkZjaGQxaHhyVnJHOU9Xanhva1d3dG8wTVlobmxYZ09MaUdT?=
- =?utf-8?B?eEFBMDVsTWZ2eUxGbTJTK01qZG55cTFmNE5hVm0vR21iUjluc0lwRjdaWHNO?=
- =?utf-8?B?ajFQVldMeGI3bEI1eHBUMCtXTlVkSlpJWVhDUjZudTRva2o0cE5FcWNOeWsy?=
- =?utf-8?B?YW5pV3h6OTMvbkE4dFp3a0tIOUJySldlQkJwUVFGTGtzQ1BEdDB2aCtwVFZO?=
- =?utf-8?B?djFvNG1yK2RYaUt3dkR1S0x0cXJVMDhSOFh3aUxHM1BCRHV3bzYxWStEZ1ZB?=
- =?utf-8?B?WDJsZ1lITlV5SGk3TitpK2pBejVZV01MV2dxeFZORWtQeXhyY1JvTEVzWFRK?=
- =?utf-8?B?bzl3NXJCR0VSM21OMkhnT2l1UStvdERScWtiSFBzeVFzdGtOT1lSTzhRaEFx?=
- =?utf-8?B?Tmpqc1BreGRtang0Q3ZZckpTT0I0S1p0Wm5ENzVtUTdBQm5ab1JjS1pNdlBm?=
- =?utf-8?B?THVlZzlsRG9iVldBZmtodHZ3aVZ5WVZUb3dXaEZacERFVERZVWdndzl5d083?=
- =?utf-8?B?YTlkOUhpcVEzQkJEQndkK0xUUzRJOU9qNVFKYXdVYWVlWHBsZTlXRnZKbVpG?=
- =?utf-8?B?cEJlRjFpZjQrSlI5YXQreG1kdW53VENMaFFHUHU3WXVSeTQ3N1EzK0tKOERF?=
- =?utf-8?B?Rms0Vm82bmlydFZ4S3lSSVN4UjNWVG9HZ0JtWVhWMHI0aUFaU3gwQUdIVkVq?=
- =?utf-8?B?SXQ2V0Q0WEZrOUxIbHZEakdTVU5lS00xTVIrNzFFUkt1UVdDN3ZyTUNWR2Mr?=
- =?utf-8?B?QlhzY09FR1JZNklhZ3IwZGpwSDQrK1c4cHk2aEFYLy9uVHdxdldJeDRQUVRI?=
- =?utf-8?B?MjVsYVFPUVpmZFNvUm5LRUs0ckRmcWFjaFdReDUxbXRUbHdDcmVYbTdrOXht?=
- =?utf-8?B?YjBDZkVmM1E3czlJNnpFTy9td0xuRmNpYUxvejBNMi9nMUVhRDdpRkdxcVNx?=
- =?utf-8?B?QW9EL1FULzFKZStaOC9qbXYwVFp4a203YjZhRFNxOSt1TzlaMDRRc283ZGFN?=
- =?utf-8?B?VU9yek9MZmRld0plNVVBbFRhUm9PNFF0UEgvWkRINGZHN2swZFdEMmdQSHht?=
- =?utf-8?B?dElhbGtmQTBtZ1ZLTmVmR1VZSWZuVWZ4V1ZleVJhWTl0WXJYbHpSOEVMQmxo?=
- =?utf-8?B?TWdiUHlHeHdIbHpncWVldXZzdjg5YWg5OWhycXA4d24vbllMQzZGUzZuNjlC?=
- =?utf-8?B?OTl0R0dBVzdLVVZnWjRvYzVnY1ZUOHFjdFN1NVV3ZFhWZ2NPVituQm1YUWVi?=
- =?utf-8?B?eDlodFVCei8zazhIYVQrdnY5SW5TZXZRTk5DOXhvd2FzUSt4YnZsTEdvaWFF?=
- =?utf-8?B?ZGZ3aCtLTkZTZUV5STY4dW9IK1FMWEpmWm15cTdzYlR4eWtpU3dhaVBVKzhv?=
- =?utf-8?B?bGMrei84bXZ5aWhDYlFrM1NVV2x2V0JhaTVSV0g3azRFRzdlejNMdFN3bmtW?=
- =?utf-8?B?dTJ2MEt1ZTg3Z3JjcWFRNWhia1c3U0oxUUpTVVUvNHZxOHRnVjdZem42Zzhs?=
- =?utf-8?B?dVQwb0NKVEhEQlFadjA3MG9ZR01JWG1sMkhvV24zK1paZzZUaVdwUT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B84AC69ACD6CB34E9EE8DE36DEB21B73@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793755962;
+	b=p6w+a8fCtY7r4A1fEtmYxb3pZQfqYpYXEbvVQ9lM7waI2olobP7BIhehvHP+Lx3n2/Ba
+	 XXGDfDXxxCJ5UIxc6XzrEYsOBcNOohmVSgdMXzgGSO5Edt2M4bJznBk/PdeJY7UuHXVzV
+	 xfw/811McBlUWGnyQDsvc59eRBiZ9vXby9u9zVRz2Dq+bom9LN8/ueKwZh8RTrVTrKDGM
+	 oSZCuc4TKazrfDeA02jcTZ70UcrKZI/02aEyDGmIP4rWS6+WQYzwwkEDltOeFGIQXvsxd
+	 HeWIPpIa4KjYict13oHdKB1LANrztvWGKAKUCgE6y+n5T/DpDt3YgFPcV62lf//v62Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793755962;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=QgxRabdyJk0gUhBMnbK2LoBhSYVwx5wXcplCcklft5I=;
+	b=vvc49/VfRojP92p1GPEYiZPHzvKrS5gOzAhrgzIz+euq9gbZZ3jYbcZyniLM4jSGaECc
+	 Cz3qGbyECjAZILuusGSxcgjSzlJIyqit9+n79ozrYTsGzk66AKQSxSpnq8MB8PXZqkdut
+	 tGDqBQFwt69wpsrXjhcoHGokem2hYUXys+3GYouM3vXF2cfsgue8VPLT/WiBQuUvpQPUi
+	 qnWux/XR4DKX/0qkEWO5ydW2zDLFFd0yecuEhFcV4bj13DKc6o8xJjQ0iRb4mtaWBLHtw
+	 c6cWTCAU7IlzgUtXb24hiHaERI9fdJUL+oieuijgKHPjEbu1g2UYEIVVkpNdaw9JFNQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB9AF606A31B;
+	Wed,  4 Nov 2026 01:32:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB9AF606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=QgxRabdyJk0gUhBMnbK2LoBhSYVwx5wXcp
+	lCcklft5I=; b=4dHuMw5Fq+B9DmpDBa/AxxkSuguziw/o0FL46c53UYTHwSNjcA
+	uwAwwBEOfzyVe7csES6ZqKHPNSaJufY9bVQsFpSVeqxnP8RMKsfB1nRDOTol/r53
+	SChrQVKDondPBtPiyXsqTm/xy9I7kVSyATfXTNtCjkIbeL5b1amviP0RE=
+Received: from user-virtual-machine.localdomain (unknown [113.200.174.67])
+	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPA id BrQMCkB2lfsmi+pqRLYhAQ--.23171S2;
+	Wed, 04 Nov 2026 09:32:22 +0800 (CST)
+From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>
+Subject: [PATCH v4] usb: xhci: Fix use-after-free race in xhci_stop_device()
+Date: Wed,  4 Nov 2026 09:32:21 +0800
+Message-Id: <20261104013221.3223-1-25031212351@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261104000031.679944e7.michal.pecio@gmail.com>
+References: <20261104000031.679944e7.michal.pecio@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -221,73 +62,356 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	298FgzO9J+k4nRWNwYA9/MwxhT3KpheYnLC0WFnjsk8Mjf7b/hw18x5SEAnoY5mcXw+6IGCjA+CHR9XaODQLrdg+79EEOdIMgDGjd3nlsk06EqAq9Ub0JYY7AZUK7XCDZX8jhW1oBHum5EP7/HarBYZe5egEAery6VB8v2b5lwo9VLFZMlk8ZAT7vg1tEV3421ALA/BV17+OdDFrs5Mvx5yRsWqP8FB4yCFlqVjekmFzzHTECgafqRvW+jp2dVGWj3fbaZ+sPjII0bT0Ho4dJdJJ7MwBOc4G1MLQlNumV54Q91dwmiZenDAo4HpT/3qGcih6JDRp4T8vx2lLgnI4Ng==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	ZnTfY+TBG/HSRcHnGKxTR5I9DnHL+llmSGAcLQXgkudNtpra1oXq/ukulNjBlSAaAyl1M8dqEP+dVMehAsMNcpFiqgpUT1fE7uPPhFiFWlJt8EkIppjC/Kn0UDPEn974n+HTU6yecxquU2eT3Ky6jholkiYeLfqcqrTnJza2mztghIL7YNyFSf6EnK9sgQKs6bNaN/RyTD8m4VIbJeB6dMkMHz52MoJ1GMvDLrYZ9WL0+yBLaSPNMmmjyBxNYgjcD5YiqjjbEAiFBA7ddmuY/l14HfZUON+n+xbXyxsrM/QN/CFTvD3/kNU5nznhhFyOMbIlu9/Uw0Tp3Elgv44hEy5AJPJBDsfYQTS86g+s/sT/vY2lnwyu/f/1wX84L14tmdA1MXQSc+QHYTN/tNDUIsaYXC/VNivUeVF1UfgSNFZNLwTRW5Mz3AAtTpR/jGOf1fW+hCWrMX+qRp2nlG/DUR4FwGkdbzRqXr06d7QMWqd6RtPeRfzyQqcuqKnm+ZME9hd18iDNsmbMFdZdUqF7eMqzRuDEEoUnZhqOmosN3DTJdF6vYQw/MwuGuqWdLVY0j246/nILNMjFuHh0zfVjmtsT84p0BtK/DQq0MzdPMWaSytvzT00iSIzp/2cukyypQPj4Ixmi9uMxkYRdZjDRsg==
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB7486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ef8168e-ccf4-47be-8718-08df3a13009d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2026 01:28:59.8375
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WxCg5F26R7uEHQSREbMAUhgxVC7E9v85d5dqs1JCpwOiysoOMC2cyM99kj0TaqQRM20TPbxnCBB2iGykqoEOfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR12MB406293
-X-Proofpoint-GUID: qOx5FI4yYHcn8ff2D7ANJ-erolw7XrqP
-X-Proofpoint-ORIG-GUID: qOx5FI4yYHcn8ff2D7ANJ-erolw7XrqP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDAwNSBTYWx0ZWRfXzExCPgPsbWnz
- p3WYQ7IkF+u4MUlm1yzVqwWtL12ANi7khYkOvmRB14ZTGCAticML5nocDQJmDOEhyntRt+Ze7lL
- mLlDmrWaetcIb8oxtepim28Su1rZ0UgGhUxqN0IHyJ9ti1tFnBEkw7E31Ysd1GDJ5qhS6crmGgF
- 3Dht7yOUvY1JJv0zh4EGZAIoSaVppMmiteD3AemtK6hHjPXb68OaYsTJu/SqUQgSS8txrOF8tjS
- hQopRpANSMM4eFE9NnEZNFCfIQbnArJgEHN7ruN3bXhGWUIdCVIePDkZjqKv7ndDV5VzrdCYV7Q
- JQeVxTkXJnIacaovRf47aG7Dq83OzRQNX3Z9iXzC3kLaq+UeJtEiEv7fulFe+d9rLpznGoHFK4b
- WxVNE6osDnPKx6PxBdcdO4u8RStNIjn9Lf3uVIHtXDBey+ZPjAYbtdP2HdjhVPImamrcS/UJImN
- P12MJQcfGrhyHvA6oyQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA0MDAwNSBTYWx0ZWRfX3SOMJYX4hu8e
- aCRgZ0t+Ai05YqACea94hGVcnTLcsDWHABME20H0M0ylgGyIsutSgxBdmQp1PdIQlTbKWZkST3b
- jQqBF2wpm9fbuWUtuEAOIk0PBgN0lqg=
-X-Authority-Analysis: v=2.4 cv=ce5HPXDM c=1 sm=1 tr=0 ts=6aea8a61 cx=c_pps
- a=t4gDRyhI9k+KZ5gXRQysFQ==:117 a=t4gDRyhI9k+KZ5gXRQysFQ==:17
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=qPHU084jO2kA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=tU_645BZ7FZt8VqRJtHG:22 a=jSPayVjLy6xbsuKauFBc:22
- a=HvI6M7qh1IcBVyPCDk8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-04_01,2026-11-03_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam
- policy=outbound_active_cloned score=0 phishscore=0 bulkscore=0 clxscore=1015
- impostorscore=0 suspectscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 spamscore=0 classifier=typeunknown authscore=0 authtc=
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.22.0-2610300000 definitions=main-2611040005
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BrQMCkB2lfsmi+pqRLYhAQ--.23171S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3tF1ktw1UKryUuFWfur4UJwb_yoW8WFy3Wo
+	WSvrnayF18tr4DA3yrXF43tFy3Wr92qF98JrW5Cws0gFWfZ3Z8Gw13K3W3Zay7ZF45K3W3
+	Aw12qryFqrsrGrn7n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUY97k0a2IF6w4kM7kC6x804xWl14x267AKxVW8JVW5JwAFc2x0
+	x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj4
+	1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0
+	I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwV
+	C2z280aVCY1x0267AKxVW8JVW8Jr1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8I
+	j28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr
+	4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxG
+	rwCY1x0262kKe7AKxVWUAVWUtwCY02Avz4vE14v_KwCF04k20xvY0x0EwIxGrwCFx2IqxV
+	CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
+	6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
+	WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG
+	6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
+	1UYxBIdaVFxhVjvjDU0xZFpf9x07bYCJdUUUUU=
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUGD2rp+NVEHwABs5
 
-T24gV2VkLCBPY3QgMTQsIDIwMjYsIEZhYnJpY2UgR2FzbmllciB3cm90ZToNCj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvdXNiL2R3YzIvZ2FkZ2V0LmMgYi9kcml2ZXJzL3VzYi9kd2MyL2dhZGdldC5j
-DQo+IGluZGV4IDEwMjE2OWI0MDQxOS4uOWYwMjA3NWJhMTViIDEwMDY0NA0KPiAtLS0gYS9kcml2
-ZXJzL3VzYi9kd2MyL2dhZGdldC5jDQo+ICsrKyBiL2RyaXZlcnMvdXNiL2R3YzIvZ2FkZ2V0LmMN
-Cj4gQEAgLTM0NDksNiArMzQ0OSwxOSBAQCB2b2lkIGR3YzJfaHNvdGdfY29yZV9pbml0X2Rpc2Nv
-bm5lY3RlZChzdHJ1Y3QgZHdjMl9oc290ZyAqaHNvdGcsDQo+ICAJaWYgKGhzb3RnLT5wYXJhbXMu
-aXBnX2lzb2NfZW4pDQo+ICAJCWRjZmcgfD0gRENGR19JUEdfSVNPQ19TVVBQT1JERUQ7DQo+ICAN
-Cj4gKwkvKg0KPiArCSAqIFdBIGZvciBEZXZpY2UgRmx1c2hlcyBPbmdvaW5nIElTT0MgSU4gUGFj
-a2V0IGF0IEVuZC1vZi1QZXJpb2RpYy1GcmFtZSBCb3VuZGFyeS4NCj4gKwkgKiBPbmNlIHBhc3Nl
-ZCB0aGUgZW5kIG9mIHBlcmlvZGljIGZyYW1lLCBhbmQgdGhlIGNvbnRyb2xsZXIgaXMgdHJhbnNt
-aXR0aW5nIGFuDQo+ICsJICogSVNPQyBJTiBwYWNrZXQsIHRoZSBkZXZpY2UgZnVsc2hlcyB0aGUg
-dHJhbnNtaXQgRklGTy4gVHVuZSBwZXJpb2RpYyBmcmFtZQ0KDQpzL2Z1bHNoZXMvZmx1c2hlcy8N
-Cg0KPiArCSAqIGludGVydmFsIHRvIDk1JSBpbnN0ZWFkIG9mIDgwJSB0byBhdm9pZCBpdC4NCj4g
-KwkgKi8NCj4gKwlpZiAodXNpbmdfZGVzY19kbWEoaHNvdGcpICYmDQo+ICsJICAgIChoc290Zy0+
-aHdfcGFyYW1zLnNucHNpZCA+PSBEV0MyX0NPUkVfUkVWXzJfNzBhICYmDQo+ICsJICAgICBoc290
-Zy0+aHdfcGFyYW1zLnNucHNpZCA8PSBEV0MyX0NPUkVfUkVWXzRfMDBhKSkgew0KDQpUaGlzIGFs
-c28gYWZmZWN0cyB0aGUgSFMgYW5kIEZTIElPVCBjb3JlcyAxLjAwYS4gUGxlYXNlIGFkZA0KRFdD
-Ml9IU19JT1RfUkVWXzFfMDBhIGFuZCBEV0MyX0ZTX0lPVF9SRVZfMV8wMGEgaGVyZS4NCg0KPiAr
-CQlkY2ZnICY9IH5EQ0ZHX1BFUkZSSU5UX01BU0s7DQo+ICsJCWRjZmcgfD0gKChEQ0ZHX1BFUkZS
-SU5UX0xJTUlUIDw8IERDRkdfUEVSRlJJTlRfU0hJRlQpICYgRENGR19QRVJGUklOVF9NQVNLKTsN
-Cg0KVGhpcyBjYW4ganVzdCBiZToNCgkJZGNmZyB8PSBEQ0ZHX1BFUkZSSU5UKERDRkdfUEVSRlJJ
-TlRfTElNSVQpOw0KDQpUaGlzIGNvbmZsaWN0cyB3aXRoIHlvdXIgIltQQVRIXSBkd2MyOiBmaXgg
-ZmlmbyByZWluaXQgaW4NCmR3YzJfaHNvdGdfY29yZV9pbml0X2Rpc2Nvbm5lY3RlZCIuIFBsZWFz
-ZSBzZW5kIGJvdGggYXMgYSBzZXJpZXMgYW5kIGFkZA0KQ2Mgc3RhYmxlLg0KDQpUaGFua3MsDQpU
-aGluaA==
+A KASAN slab-use-after-free read was observed in xhci_stop_device():
+
+  BUG: KASAN: slab-use-after-free in xhci_stop_device.constprop.0.isra.0+0x395/0x430
+  drivers/usb/host/xhci-hub.c:479
+  Read of size 8 at addr ffff88804e85d2f0
+
+  Freed by task 585700:
+   kfree+0xf8/0x390 mm/slub.c:6566
+   xhci_free_virt_device+0x3f/0x50 drivers/usb/host/xhci-mem.c:881
+   xhci_free_dev+0x286/0x350 drivers/usb/host/xhci.c:4131
+   usb_disconnect+0x6b6/0x910 drivers/usb/core/hub.c:2391
+   ...
+   usbdev_ioctl+0x6f05/0x86d0 drivers/usb/core/devio.c:2826
+
+  Allocated by task 572283:
+   xhci_alloc_virt_device+0x171/0xb70 drivers/usb/host/xhci-mem.c:986
+   xhci_alloc_dev+0x475/0x840 drivers/usb/host/xhci.c:4271
+   usb_alloc_dev+0xe8/0xdc0 drivers/usb/core/usb.c:661
+   hub_event+0x1c82/0x4050 drivers/usb/core/hub.c:5953
+
+xhci_stop_device() reads xhci->devs[slot_id] without xhci->lock and
+keeps using the pointer across xhci_alloc_command(GFP_NOIO), which may
+sleep.  All callers drop xhci->lock before calling it.  Both sides of
+the race can come from userspace through usbfs: a hub class
+CLEAR_FEATURE(PORT_SUSPEND) request to the root hub reaches
+xhci_stop_device() through xhci_hub_control(), while releasing the hub
+driver interface through USBDEVFS_IOCTL() quiesces the hub and
+disconnects the devices below it, ending in xhci_free_dev().  USB core
+does not serialize those two, and xhci_free_dev() frees virt_dev under
+xhci->lock, so the endpoint loop can dereference a freed device.
+
+commit 88716a93766b ("usb: xhci: Fix panic if disconnect") added a
+NULL check for this case, but that only helps when the device was
+already freed before the check; it does not close the window.
+
+Look up xhci->devs[slot_id] only after taking xhci->lock, and bail out
+if it is NULL or if the device is already being torn down.  The
+tracepoint reloads virt_dev->udev, so it moves under the lock and only
+runs while the device is still attached.
+
+xhci_free_dev() clears virt_dev->udev without xhci->lock, and only
+later detaches the device from xhci->devs[] in xhci_free_virt_device(),
+also under the lock.  Take xhci->lock when clearing ->udev so that
+xhci_stop_device() can rely on it while holding the same lock.
+xhci_free_virt_device() clears xhci->devs[slot_id] and frees the device
+under xhci->lock, so a device found there while holding the lock stays
+alive until xhci_stop_device() drops the lock, after which virt_dev is
+not used anymore.
+
+Fixes: be88fe4f4dda93e3 ("USB: xHCI: port power management implementation")
+Cc: stable@vger.kernel.org
+Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+---
+Hi Michal,
+
+Thanks for looking at this.  Full answers below.  The code is unchanged
+since v3; what changed is the commit message, which now says how the two
+sides of the race reach each other.
+
+> But is it not a bug in the first place that we are suspending a device
+> which is being deleted or deleting one which is being suspended?
+
+Yes, and that is exactly the interleaving.  What makes it possible is
+that the suspend side does not come from the USB core suspend path at
+all:
+
+  CPU0 (control request to the root hub)   CPU1 (disconnect_claim, hub)
+  --------------------------------------   ---------------------------
+  usbdev_ioctl(USBDEVFS_CONTROL)           usbdev_ioctl(USBDEVFS_IOCTL)
+   do_proc_control                          proc_ioctl
+    usbfs_start_wait_urb                     usb_driver_release_interface
+     usb_submit_urb                           usb_unbind_interface
+      rh_call_control                          hub_disconnect
+       xhci_hub_control                         hub_quiesce
+        CLEAR_FEATURE(PORT_SUSPEND)              usb_disconnect(child)
+         xhci_stop_device(slot, 1)                hub_free_dev
+                                                   xhci_free_dev
+                                                    xhci_free_virt_device
+                                                     kfree(virt_dev)
+
+The port suspend is a hub class CLEAR_FEATURE(PORT_SUSPEND) sent from
+userspace through usbfs, and the teardown is userspace releasing the
+hub driver interface, which quiesces the hub and disconnects every
+child under it.  Neither side takes a per-device reference, and the
+usbfs control request is not serialized against the hub driver being
+unbound.  That is also why xhci_bus_suspend() 100 ms after a disconnect
+looks fine: this is a different entry into xhci_stop_device().
+
+> Would you mind revealing your secret sauce and posting complete stack
+> traces of how you got there, including xhci_stop_device()? What kernel
+> version was that? Those line numbers don't match current code.
+
+Fair question, and I should have been upfront about it in the commit
+message.  This was found by syzkaller running against the xHCI on QEMU,
+on 7.1.2; the patch itself is against 7.2.10, which is why the line
+numbers in the trace do not line up with current code.
+
+The report, trimmed to the stacks and the dmesg lines just above them:
+
+  xhci_hcd 0000:00:04.0: USB core suspending port 1-3 not in U0/U1/U2
+  usb usb2: usbfs: process 585700 (syz.6.213219) did not claim interface 0 before use
+  usb 1-1: USB disconnect, device number 108
+  BUG: KASAN: slab-use-after-free in xhci_stop_device.constprop.0.isra.0+0x395/0x430
+  Read of size 8 at addr ffff88804e85d2f0 by task syz.4.213206/585661
+
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0xa7/0xd0 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xcb/0x5d0 mm/kasan/report.c:482
+ ? _raw_write_unlock_irq+0x60/0x60
+ ? xhci_stop_device.constprop.0.isra.0+0x395/0x430 drivers/usb/host/xhci-hub.c:479
+ kasan_report+0xaf/0xe0 mm/kasan/report.c:595
+ ? xhci_stop_device.constprop.0.isra.0+0x395/0x430 drivers/usb/host/xhci-hub.c:479
+ xhci_stop_device.constprop.0.isra.0+0x395/0x430 drivers/usb/host/xhci-hub.c:479
+ ? instrument_read_write include/linux/instrumented.h:55 [inline]
+ ? atomic_try_cmpxchg_acquire include/linux/atomic/atomic-instrumented.h:1301 [inline]
+ ? queued_spin_lock include/asm-generic/qspinlock.h:111 [inline]
+ ? do_raw_spin_lock include/linux/spinlock.h:187 [inline]
+ ? __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:133 [inline]
+ ? _raw_spin_lock_irqsave+0x72/0xb0 kernel/locking/spinlock.c:166
+ xhci_hub_control+0x1b6b/0x5590 drivers/usb/host/xhci-hub.c:1315
+ ? dma_coherent_ok+0xa2/0x280 kernel/dma/direct.c:77
+ ? xhci_set_link_state+0x30/0x30 drivers/usb/host/xhci-hub.c:805
+ ? unpoison_slab_object mm/kasan/common.c:336 [inline]
+ ? __kasan_slab_alloc+0x2c/0x60 mm/kasan/common.c:366
+ ? kasan_save_track+0x10/0x30 mm/kasan/common.c:78
+ rh_call_control drivers/usb/core/hcd.c:650 [inline]
+ rh_urb_enqueue drivers/usb/core/hcd.c:815 [inline]
+ usb_hcd_submit_urb+0x90d/0x1c20 drivers/usb/core/hcd.c:1536
+ usb_submit_urb+0x86c/0x1740 drivers/usb/core/urb.c:586
+ usbfs_start_wait_urb+0x10a/0x3a0 drivers/usb/core/devio.c:1149
+ ? kasan_unpoison+0x23/0x50 mm/kasan/shadow.c:178
+ ? usbfs_blocking_completion+0x40/0x40 drivers/usb/core/devio.c:1132
+ ? kasan_unpoison+0x23/0x50 mm/kasan/shadow.c:178
+ ? __mutex_unlock_slowpath.constprop.0+0x360/0x360
+ do_proc_control drivers/usb/core/devio.c:1249 [inline]
+ proc_control drivers/usb/core/devio.c:1280 [inline]
+ usbdev_do_ioctl drivers/usb/core/devio.c:2645 [inline]
+ usbdev_ioctl+0x33e1/0x86d0 drivers/usb/core/devio.c:2826
+ ? instrument_atomic_write include/linux/instrumented.h:97 [inline]
+ ? set_bit include/asm-generic/bitops/instrumented-atomic.h:28 [inline]
+ ? set_ti_thread_flag include/linux/thread_info.h:104 [inline]
+ ? __resched_curr+0x1e2/0x270 kernel/sched/core.c:1192
+ ? __css_rstat_updated+0x15e/0x470 kernel/cgroup/rstat.c:97
+ ? cpu_cgroup_cancel_attach+0x10/0x10 include/linux/workqueue.h:759
+ ? root_cgroup_cputime+0x3d0/0x3d0 include/linux/find.h:67
+ ? instrument_atomic_read include/linux/instrumented.h:82 [inline]
+ ? _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+ ? test_ti_thread_flag include/linux/thread_info.h:133 [inline]
+ ? test_tsk_thread_flag include/linux/sched.h:2069 [inline]
+ ? test_tsk_need_resched include/linux/sched.h:2088 [inline]
+ ? wakeup_preempt+0x1cd/0x330 kernel/sched/core.c:2260
+ ? usbdev_mmap+0xa00/0xa00 drivers/usb/core/devio.c:286
+ ? update_load_avg+0x176/0x1880 kernel/sched/fair.c:4983
+ ? update_load_avg+0x176/0x1880 kernel/sched/fair.c:4983
+ ? set_next_entity+0x1db/0x630 kernel/sched/fair.c:5743
+ ? pick_next_task_fair+0x10da/0x2320 kernel/sched/fair.c:9283
+ ? futex_wake+0x1aa/0x500 kernel/futex/futex.h:240
+ ? futex_wake_mark+0x230/0x230 kernel/futex/waitwake.c:112
+ ? __fget_files+0x1a0/0x250 fs/file.c:1103
+ ? usbdev_mmap+0xa00/0xa00 drivers/usb/core/devio.c:286
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __x64_sys_ioctl+0x877/0x1640 fs/ioctl.c:583
+ ? ioctl_file_clone+0xf0/0xf0 fs/ioctl.c:238
+ ? io_schedule_timeout+0x150/0x150 kernel/sched/core.c:8079
+ ? do_sys_open fs/open.c:1370 [inline]
+ ? __do_sys_openat fs/open.c:1386 [inline]
+ ? __se_sys_openat fs/open.c:1381 [inline]
+ ? __x64_sys_openat+0x12c/0x1d0 fs/open.c:1381
+ ? __schedule_loop kernel/sched/core.c:7268 [inline]
+ ? schedule+0x7e/0x2f0 kernel/sched/core.c:7283
+ ? restore_fpregs_from_fpstate+0x7e/0x100 arch/x86/kernel/fpu/core.c:210
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xad/0x480 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+Allocated by task 572283:
+ kasan_save_stack+0x20/0x40 mm/kasan/common.c:57
+ kasan_save_track+0x10/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x77/0x90 mm/kasan/common.c:415
+ kmalloc_noprof include/linux/slab.h:950 [inline]
+ kzalloc_noprof include/linux/slab.h:1188 [inline]
+ xhci_alloc_virt_device+0x171/0xb70 drivers/usb/host/xhci-mem.c:986
+ xhci_alloc_dev+0x475/0x840 drivers/usb/host/xhci.c:4271
+ usb_alloc_dev+0xe8/0xdc0 drivers/usb/core/usb.c:661
+ hub_port_connect drivers/usb/core/hub.c:5470 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x1c82/0x4050 drivers/usb/core/hub.c:5953
+ process_one_work+0x662/0xdb0 kernel/workqueue.c:3314
+ process_scheduled_works kernel/workqueue.c:3397 [inline]
+ worker_thread+0x58b/0xc70 kernel/workqueue.c:3478
+ kthread+0x394/0x4b0 kernel/kthread.c:436
+ ret_from_fork+0x37f/0x7b0 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:245
+
+Freed by task 585700:
+ kasan_save_stack+0x20/0x40 mm/kasan/common.c:57
+ kasan_save_track+0x10/0x30 mm/kasan/common.c:78
+ kasan_save_free_info+0x37/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x3b/0x60 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2689 [inline]
+ slab_free mm/slub.c:6251 [inline]
+ kfree+0xf8/0x390 mm/slub.c:6566
+ xhci_free_virt_device+0x3f/0x50 drivers/usb/host/xhci-mem.c:881
+ xhci_free_dev+0x286/0x350 drivers/usb/host/xhci.c:4131
+ hub_free_dev drivers/usb/core/hub.c:2283 [inline]
+ usb_disconnect+0x6b6/0x910 drivers/usb/core/hub.c:2391
+ hub_quiesce+0x159/0x310 drivers/usb/core/hub.c:1405
+ hub_disconnect+0xd1/0x460 drivers/usb/core/hub.c:1811
+ usb_unbind_interface+0x188/0x770 drivers/usb/core/driver.c:458
+ device_remove drivers/base/dd.c:621 [inline]
+ device_remove+0x11f/0x170 drivers/base/dd.c:613
+ __device_release_driver drivers/base/dd.c:1352 [inline]
+ device_release_driver_internal+0x4b6/0x660 drivers/base/dd.c:1375
+ usb_driver_release_interface+0x105/0x180 drivers/usb/core/driver.c:640
+ proc_ioctl drivers/usb/core/devio.c:2359 [inline]
+ proc_ioctl_default drivers/usb/core/devio.c:2402 [inline]
+ usbdev_do_ioctl drivers/usb/core/devio.c:2766 [inline]
+ usbdev_ioctl+0x6f05/0x86d0 drivers/usb/core/devio.c:2826
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __x64_sys_ioctl+0x877/0x1640 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xad/0x480 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+> As you are .edu, perhaps you have a reproducer for this bug?
+
+No, unfortunately.  syzkaller reported the crash but failed to
+reproduce it, so there is only the one trace.  The new part seems to be
+that a usbfs control request to the root hub can reach
+xhci_stop_device() while another thread is tearing that hub down.
+
+> That's an old bug, not sure how such things can still be happening?
+> It seems that xhci_free_dev() doesn't return until everything is
+> cleared, and I would naively expect USB core not to suspend the bus
+> until all devices are suspended or finished disconnecting.
+>
+> In testing, I see xhci_bus_suspend() 100 ms after disconnection, so
+> this race seems tricky to trigger. How have you done it?
+
+Agreed for the bus suspend path: usb_disconnect() is long done by then.
+xhci_stop_device() is also the per-port suspend helper for the root
+hub, and that path is reachable from userspace without any of that
+ordering, which is the window above.
+
+The patch makes xhci_stop_device() re-read xhci->devs[] and the "device
+is going away" marker under xhci->lock, and give up with -ENODEV
+instead of touching a device that xhci_free_dev() has already detached.
+For that check to mean anything, xhci_free_dev() has to clear
+virt_dev->udev under the same lock, which is the second hunk.
+
+If you think the mutual exclusion belongs higher up instead - do not
+let usbfs suspend a port while the hub is being unbound - I am happy to
+work on that; from your message it sounds like you would prefer the fix
+there.
+
+Thanks,
+YuanZhe
+
+Changes since v3:
+ - Commit message only, no code change: the v3 text described the race
+   without saying how either side is reached, which made it look like it
+   had to collide with the system bus suspend.
+
+ drivers/usb/host/xhci-hub.c | 14 +++++++++-----
+ drivers/usb/host/xhci.c     |  3 +++
+ 2 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+index b0264bd8577a..9a3437248e04 100644
+--- a/drivers/usb/host/xhci-hub.c
++++ b/drivers/usb/host/xhci-hub.c
+@@ -463,17 +463,21 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
+ 	int i;
+ 
+ 	ret = 0;
+-	virt_dev = xhci->devs[slot_id];
+-	if (!virt_dev)
+-		return -ENODEV;
+-
+-	trace_xhci_stop_device(virt_dev);
+ 
+ 	cmd = xhci_alloc_command(xhci, true, GFP_NOIO);
+ 	if (!cmd)
+ 		return -ENOMEM;
+ 
+ 	spin_lock_irqsave(&xhci->lock, flags);
++	virt_dev = xhci->devs[slot_id];
++	if (!virt_dev || !virt_dev->udev) {
++		spin_unlock_irqrestore(&xhci->lock, flags);
++		xhci_free_command(xhci, cmd);
++		return -ENODEV;
++	}
++
++	trace_xhci_stop_device(virt_dev);
++
+ 	for (i = LAST_EP_INDEX; i > 0; i--) {
+ 		if (virt_dev->eps[i].ring && virt_dev->eps[i].ring->dequeue) {
+ 			struct xhci_ep_ctx *ep_ctx;
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 5c759ad28199..9e375eb48f38 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -4128,9 +4128,12 @@ static void xhci_free_dev(struct usb_hcd *hcd, struct usb_device *udev)
+ 	trace_xhci_free_dev(slot_ctx);
+ 
+ 	/* Stop any wayward timer functions (which may grab the lock) */
++	spin_lock_irqsave(&xhci->lock, flags);
+ 	for (i = 0; i < 31; i++)
+ 		virt_dev->eps[i].ep_state &= ~EP_STOP_CMD_PENDING;
+ 	virt_dev->udev = NULL;
++	spin_unlock_irqrestore(&xhci->lock, flags);
++
+ 	xhci_disable_slot(xhci, udev->slot_id);
+ 
+ 	spin_lock_irqsave(&xhci->lock, flags);
+-- 
+2.34.1
+
