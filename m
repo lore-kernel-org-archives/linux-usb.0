@@ -1,53 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793776298;
-	b=v/L+VUe1cq5QXlUVgx5agBJv8dV+5qp8HzFtnoG+yRRXJv7zB9S9Tz7b9CvP5yre7Biu
-	 L6oWvvrGPZ1fj7pRFj10qsp9J5X8HYm6odHiTiNa/dpxgTCUh6BLzYiklTwCrrZMRNXYF
-	 /k5foAxLCqftjQSM2FkIgA3ehzFImHIvRSLZXU4mP88McgV9RxpScZbnUqMtW57S8KVjQ
-	 UucsX+OWiKCZ/kqZoiq3cQkrWFFxnzezO9JNFGOAg7915vczfFb3mSWFlQPU+MHw4IceU
-	 hs3PPAgKOPzocmcCVKYDNUznB+zNJgtdl2Kc1mOQJPdevGFgWPY2opp9w0n0mRtIpwg==
+	t=1793776325;
+	b=hIYdXOmv5NTM5QAUzNrghn5jVHJktDjgmGvS2WXEUgtVWUmSTG5tvBJ9oXJAkdAQPyUd
+	 cHpokqbGLYgSYmsknbrVzlvZIDSzbQvdXBfZafxltTGeXd+AiTmGXfdiWLrjZFJ3dP+AX
+	 pLPNgznpCt3sz2U/SmHLhl7ErxosFynxpHqlL5UiMbeXrQJVRQ5wKyH7RkxRpLKJvJxk0
+	 QzXS7H1Z8NLdy3CA5SYr2OZor2ga/fCX1DSorPW0rPyqz36lkTyLl9Sq2wkoocdpI5BWf
+	 AmDf9yxLj7ffv1AaUphdCRNiMKAH72hjyNl9y/FkjWa/UN8Sa8w/8VhvWJZLViIIU2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793776298;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793776325;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=AKe+a/9OVNOnuzkuJEF4sEezvQB1/W5jipopAyg/4Rc=;
-	b=ATYiN7r0moPfrjc7Yr4uDN861DbdAgbJk0XAVh/FH1zV4tumlZ1rMVbNyE/HveAmUluA
-	 Zoma6HS+X6xG2WkOjcfmgF7I+dGGDvtzuM90J9dfQRXgjoWx6uz764qQZmnjTd61ODbgZ
-	 lEMKcgUZxWasiZ63WaSnqO0oZJiNFriYUOO9rFSEFUXnfYeq+mIZIxCcJUkXTLdSScZnn
-	 OJ4wenr0Yyx/Z95MqCsuvSi1BcnNLZ/q4F3Uoq2uACO8sF1k2tSU/2ZL3oO9ksOhoqSJ3
-	 wCmRDKARxw+EQBWvQyJFenHlEPiBY5a/ABrPVqTyrbnKxx+36etRkE7QdwWSPot18UA==
+	bh=Kl0dgMl6rJ50Y7nnb5Fx/8mwRx6xO72WByYWFlNn5E4=;
+	b=hfJ4vNAsesKs2N70Pqw3/uvh7LucHCn1W20SbRaYtw1CS4ULPXvStQyobnq9MbDyaecx
+	 l+0Er0Zpy0GyBhZMufqyWh5dGjhoicjiGlw93n0SsV5N2s9gHZsjJ/1uZ0JrsW+UtdIJo
+	 S5+f0x2bIC1KHYyyjMoeq62Cu/ovAV0NtCLwu/bqh1W1h8x0f32smQ2oi7s/3YEQc3xVH
+	 DqPsz/iiWE4hZOIQDulDfPIYDk3CBnx18LChh3MPAvxps3y5o/FvtRKgTWEHYf9jJmZQz
+	 uIQaBg4u4PnaUI3mH6Rd7Y26M34wbHfi3T1C9972C0twwjPrzV8GIUbkkehCZuAJK8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lgl27+7H;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gfPFvhXs;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B490C606A31B
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 07:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2B1606A329
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 07:12:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lgl27+7H
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B91D71F00919;
-	Wed,  4 Nov 2026 07:11:36 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gfPFvhXs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8EF01F000C1;
+	Wed,  4 Nov 2026 07:12:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793776297;
-	bh=AKe+a/9OVNOnuzkuJEF4sEezvQB1/W5jipopAyg/4Rc=;
+	s=k20260515; t=1793776324;
+	bh=Kl0dgMl6rJ50Y7nnb5Fx/8mwRx6xO72WByYWFlNn5E4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Lgl27+7Hx35YJ7gzZlMAsh5n1HBQ4OGcLaFa6CVkegbe1bYKRqCm6zlSxFMhM/e0u
-	 2G4dYkoE7TaIsucXZhhiF+8CPrGfe6c8i+acdkOSLPtaAA+f/mXc7zCogtbt7sH8x0
-	 oIi3d0Bgoh8uJsezPdAoa2T9Kz+5sGqYTAfRcnfo55NpLVGZibdsS9Grl1yYlGYdgA
-	 CCxo5Z0oxRk6M5qrRvmj/+xCDp8lKHZzpqAxL6m9RAGMYWTCIOV+QsUeUeZzmji/YC
-	 WMNtzRqnWGDnOm8AZx4isd36QLrKyX3LHJfxN9rJjE1LJJcv6Y5yGWQkPNhjAUvoTx
-	 Q1ZJjzKtOxFNA==
-Date: Wed, 4 Nov 2026 08:11:34 +0100
+	b=gfPFvhXsvESPXxHfjLC/Iks106+qE/u13p1d3mBUWUuwZOSMQFiyfV9Nx4+adbGp+
+	 K58bnkm6JG0uIcoN+CWIXADl3nzgVYAUkGQ8Vjt0WxRy8tCIAebhcCPnYO7e7flZ4E
+	 juE9MuyYxQPO7E9d2yT3mflNTXaSTCQRyGzQp2lsNCIPtAGsKxIzZOmryzhY2xPMf0
+	 MADRbG23LiAke4k21/DQ+mb+vBaiKrJQ2L3FXNGS6BNjozBO3v56299lqUDoUbMYJU
+	 GY1fHkeyOjUmDUDxf53O4Utfz4pOER/zb5Y0j7viaSqXtdkRmBRqe2KiUiorN+yvAw
+	 l0S6M1MgvsPwA==
+Date: Wed, 4 Nov 2026 08:12:01 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: Neill Kapron <nkapron@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: uvc: drop streaming header reference on the
- EBUSY path
-Message-ID: <20261104-auspicious-malamute-of-energy-da71bf@quoll>
-References: <20261104021506.1468539-1-vulab@iscas.ac.cn>
+Cc: linux-usb@vger.kernel.org, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] usb: typec: hd3ss3220: put the role switch on the VBUS
+ and ID error paths
+Message-ID: <20261104-agate-cockatrice-of-superiority-14e510@quoll>
+References: <20261104021542.1468818-1-vulab@iscas.ac.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,24 +59,26 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261104021506.1468539-1-vulab@iscas.ac.cn>
+In-Reply-To: <20261104021542.1468818-1-vulab@iscas.ac.cn>
 
 
-On Wed, 04 Nov 2026 02:15:06 +0000, Wentao Liang wrote:
-> config_group_find_item() returns the "h" item with a reference held.  On
-> success the reference is transferred to uvc->header and released by
-> uvc_free().  When the streaming header is not linked, uvc_alloc() frees
-> the function without releasing that reference.
+On Wed, 04 Nov 2026 02:15:42 +0000, Wentao Liang wrote:
+> hd3ss3220_probe() takes a reference to the USB role switch and then gets
+> the VBUS regulator, the ID GPIO and the ID interrupt.  The error paths
+> of those acquisitions jump to err_put_fwnode, which only drops the
+> connector fwnode reference and never calls usb_role_switch_put(), so the
+> role switch reference is leaked whenever one of them fails.
 > 
-> Drop it before freeing the function.
+> Jump to err_put_role instead; it drops the role switch and falls through
+> to the fwnode cleanup.
 > 
-> Fixes: f1fd91a0924b ("usb: gadget: webcam: Make g_webcam loadable again")
+> Fixes: f8d2bf7c0c5d ("usb: typec: hd3ss3220: Enable VBUS based on ID pin state")
 > Cc: stable@vger.kernel.org
 > Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 > Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 > ---
->  drivers/usb/gadget/function/f_uvc.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/usb/typec/hd3ss3220.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
 
 Multiple things here:
