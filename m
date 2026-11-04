@@ -1,87 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793807671;
-	b=0GlBq7HedIoxZJ2w4Xi+a6HfDetho2M088snzWbYkwJmWNqXxonV45rvoe2sdoA5m0nI
-	 sDB6T6ROfO80pldAaIO3HO+HjbDfLeP5yizd/KA2P0JCoUlSTP5VbA8oeEynGeWPY4zZN
-	 MoFmlVNPzax21u4W51i81r0xw4wmBG7vhshOrcKNTSLEd9xVxQUSe/35a9EnebAxsyaeZ
-	 E3ByVQv2gK0Ri/GIh2tqLaPNIDcJe2GfJp81BhPSybugZRkKdm6Pp44mDeMHUOU0LbrAp
-	 06R/wnlAmUY7CNVGNN9shi2uWMIUqn/06Fl1eqvO4TwWRFqiGftfWolhHWnpWHLLqrA==
+	t=1793808816;
+	b=lk+5K/VDJk6Hwnl6Fx2oHHQsai/d282Z+1aFfx+/qnwS6AXCsVoMKoV6QLZVQG/CaoAW
+	 qxqXmB9N2Gv0yqGma4doRK5G4CVrUyibEYkJr2b2fmMtBXsNcKQlDrbv9UOsSRzAGrvlp
+	 h36VP+DeKyhluGzn8wJUKs6aAappVmS5BdtRCHJoAh1BzFN1bTP85Ta01Zg821Qb+aSrM
+	 Usihy+i31+DWuV3PN7S9l3opiPx5tO036EqJmx37e19XW+R4Zq1H/7inr5MuUDTmU/nUg
+	 NakuVg2R3e+rkvyrNlCPdzJB90jEJ/JZuNJKxPZ/Q0SE7/Gnyvf9YQxf7C6us+Cj6rg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793807671;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Content-Type:
-	 Message-ID:Date:MIME-Version:User-Agent:From:Subject:To:Cc:
-	 Content-Language;
-	bh=DEODW4gkUBgo6NbAWiP7xSTf/PnHTw8VaKkpaPr/zik=;
-	b=bmHM/9CVmIoTekO7FMUMRr76IpvDRVIPDEoD1UnqVTVnoC1Tjyrl4sU8Zgd119TAEj/A
-	 0x7/Wy+gajrex0ioExKhrNfoUmFcmuzb6YrFJ3l+8OFUyisJXPSkNIT/ASBNGN4tyXew6
-	 1yqT4g0bgpFk+UI9W7sNFmoMK0IKIm7NjqMC1S/YCd6AB1wXJq9rsbqE1Yz7VncDgeDbn
-	 JVN/FUvSISqDFwS0poh089sFBGattP6T6wbGfm6W7UsKkVaithnVrTc196NJNqjg/k8ju
-	 oeRACzY2aXOTfM4KGb88URpLuKuRjkIHzw39aRtoStmXw5hyVCs/rn7PXTLfokgeOrw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793808816;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=gxdTp+x749IY/dDp+g4yvvKHx9LufklMtPYhVlolZEc=;
+	b=hW6c7xwVLLGvCpYjOgWMMwSBjFrDr6Iylu/llmnbc67gM+Fz04f96EaWJiVWQGSpnUjP
+	 3ifhZETapj7rO5+wP2hPyVmKbGelcvQ/j/Hz64ldb1aKXV3RZf6ywWnfrwaAbplEDCfIZ
+	 Z1S6vPmOqd/Sp2xHo7pDOZeMPuPGPOr4Gbi6mOsp0dv1vstjXrjSLRtT14jhTM8iWmIX6
+	 EAiRPxnf3O6umqay646nKVcfRRujZBNWybLYUxjtYBuMY+laqvHFIJ9ntZ/HvIXcheAJK
+	 UW4pbNotgi5jIkhGvVXBlcQ8L8St7/IB82OMdfIYRl3OgDXdAcfQ51WvQQik/2jIs2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=OhAZH6cr;
-	arc=none smtp.remote-ip=209.85.221.53
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BMeycloO;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9A5606A326
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 15:54:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D9A5606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D20F606A32E
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 16:13:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=OhAZH6cr
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e3b22e971so469396f8f.0
-        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 07:54:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793807669; x=1794412469; darn=vger.kernel.org;
-        h=content-language:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:content-type:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DEODW4gkUBgo6NbAWiP7xSTf/PnHTw8VaKkpaPr/zik=;
-        b=OhAZH6crx5Vt6Lv2stV8SGJaEkUWXLXZW3qtsSXNQ7WB9rmyr48BZ9RwscGLJSueHw
-         87H4ut+EGk289jfTfdt6gn69k7sRbVMH7id6JKy5Qrd/BeHIfrAl6ew6x1dTMk3E7zZp
-         16RoVXvKoUpn6iMH29zkbuUAHdt4hQc+jWsZs5sMK809rNPUmdOkRCK06wU84qqFkdz9
-         vIEndiQuV+lwfwwxZgOIRQeBEAmxIAEHTqYReiXZVLwKB7Zb/Gfyuze7B6fR4Ac6Hm/r
-         F/iBGcaB0rPqUSMP4ljx/DKydFK2teZkMoy826X+hNTw06FJHhRuhdq4+pbINNuHCXXg
-         dr2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793807669; x=1794412469;
-        h=content-language:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:content-type:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=DEODW4gkUBgo6NbAWiP7xSTf/PnHTw8VaKkpaPr/zik=;
-        b=WbLW5cE8kNd+S9NYniDX17YDjCRFuqZtNvTV4uMCGG7wp/Kl0MTZdQYmVbjMFgp6w1
-         TzSfopl58i9ovoOt7ZYvmJSnjtBab7GhGtFg2ucjQsyj8i3U8LmDpZfCQPhKaQ32NeB8
-         s+kqCuDlQu+GSr359xu9AzNFL13SYtEDls2ZEOEL8k+YEJaSMykcGAmx/a+AmbwpvfZu
-         BPwqS785Lvw5ImcHlo/Tx6CifnRw9WbeQuAgknaHuuo0QvPyC7P7ovc5P18ouIw3ibY+
-         AUv3PZBaSl+J8U4JwbicZXPsiahHiUBgmjEMwF+jxi4Zri9drZh+X0OfBqB5r43v1qcD
-         CT9w==
-X-Gm-Message-State: APuU4Z8Q82UacdK0xBQ92ofQdwFslNrjo6ZIn5yPJvVe7PdVmUkUwZfW
-	TXH7Xj3MenwmeKMMV/SxHBTX3+PGckdQTCrFa0SSxMA5slWoGp0mDg+w6ETjiSdQZK6joXDjQ+J
-	ScqoYOZxu4A==
-X-Gm-Gg: AYBFou2TKaF99HgwsovkkCsm+hQZffiX74qa+A69iCBgINv3xNK5yXvup2FSYakoxnu
-	mtvf8Xc1tsDKecQjgh+IKJmIhJmCYRvgQOGgYojG9yzA0qZn2R60dxRwPolJ3ByQ6KJOVzEqhJp
-	YjBveJMahkm5i9GYlyalu8Hk87luxa7N4hkKNbtHNK/r8yhpDXZo6SKTvncwamVPf7O/IpWBqma
-	VJaKe+luJtuPRmw/bUiNM8sZtZ1cLTQIbEWL2UIDN4Yewgvb9kjy6ywA2b5qvl0VPcHr9YiVur2
-	5YxH5tjmXAHjl/qHIdt/zKCqv8vVIcgQnfwMNa/OgrXXD8LLTB+dSFw1jtmCBuk9k5XY2HfQa/S
-	D7km3/rroYVctjSdnpgbUsMzhdbBUnbA4Xkp4D8/RVIvHPM+1hcf0O4G2FVoa6bTyFNc3vEhgcc
-	pixjmoi1tJGnm58yaeGg5YQklEo0aEPM2h3dooK6DhUsx8CyHE/9K5NCmPgi5DADqF2eFde1jYV
-	CVg4w8RuRYzmU5Zn8Ue8yyrLa2H/WueF7dTWD3V4cW6UYao1iYEeLhdvRjX6Pi/uys8iuc+qNVg
-	IR+weKCuj8kmDU2kIXsR03RaIll4qV5D84dprPpw78ThVhXDCDlnpRCieU/DxKXfhZFGGnU5Wef
-	IfssuZ0FCPRvApwY0
-X-Received: by 2002:a05:6000:25f4:b0:48d:e5c9:39a4 with SMTP id ffacd0b85a97d-48e6e308d87mr39824383f8f.33.1793807669457;
-        Wed, 04 Nov 2026 07:54:29 -0800 (PST)
-Received: from ?IPV6:2001:a61:1315:4f01:5512:7859:f01a:3298? ([2001:a61:1315:4f01:5512:7859:f01a:3298])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8748sm4639905f8f.16.2026.11.04.07.54.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Nov 2026 07:54:29 -0800 (PST)
-Content-Type: multipart/mixed; boundary="------------r1Qxe84RbY7DoJSe6RpVG352"
-Message-ID: <e3eb3c84-ea19-4502-976e-eeb83e80a92c@suse.com>
-Date: Wed, 4 Nov 2026 16:54:28 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BMeycloO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 503AF1F00919;
+	Wed,  4 Nov 2026 16:13:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793808815;
+	bh=gxdTp+x749IY/dDp+g4yvvKHx9LufklMtPYhVlolZEc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=BMeycloO1urBvkKLsMI4hQydUI4ETMZhrtUZmeuEvniQ0K3JxYgWd8PlpVvGLLD0j
+	 hERq//Brqr+ylFHzT88Xg01WCldYRMg4HjwHaGIFZ7SG+IzBBPXV52jHYS1H5NvFBQ
+	 EqNDtJYPtB2bW+fhdPceA5vKK6kdEoATfJIGdvPHyiKhKbAQY+ljT6IGdEKPuVtUzZ
+	 nuVYKMmiv7WdzRGwgzJRg+Iywx4BTCMGvHMjrJqBGxSjOB1BaZ2neh1H4UozuCx3uC
+	 2Re9erLsrQ8ts78Kps9cWZF5wupJCZvVGzXRc8LwS80pDfa1F2V/zxD8xyE/+RefIv
+	 zw2xULZr1L6Qg==
+Message-ID: <sashiko-outbox-197588@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [RFC]alpha implementation of eh_abort_handler for UAS
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Oliver Neukum" <oneukum@suse.com>
+Cc: "USB list" <linux-usb@vger.kernel.org>
+In-Reply-To: <e3eb3c84-ea19-4502-976e-eeb83e80a92c@suse.com>
+References: <e3eb3c84-ea19-4502-976e-eeb83e80a92c@suse.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 16:13:34 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -90,179 +58,419 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Oliver Neukum <oneukum@suse.com>
-Subject: [RFC]alpha implementation of eh_abort_handler for UAS
-To: Jiayi Li <lijiayi@kylinos.cn>
-Cc: USB list <linux-usb@vger.kernel.org>
-Content-Language: en-US
 
-This is a multi-part message in MIME format.
---------------r1Qxe84RbY7DoJSe6RpVG352
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Thank you for your contribution! Sashiko AI review found 13 potential issue=
+(s) to consider:
+- [Critical] usb: uas: kfree() of uninitialized pointer in uas_eh_abort_han=
+dler()
+- [Critical] usb: uas: double free of dummy buffer in uas_abort_complete()
+- [Critical] usb: uas: unkilled data URBs and leaked URBs in uas_eh_abort_h=
+andler()
+- [Critical] uas: missing remove_wait_queue() for stack wait entry in uas_e=
+h_abort_handler()
+- [Critical] uas: premature tag slot clearing in uas_dummy_sense() and uas_=
+abort_complete()
+- [High] usb: uas: off-by-one tag passed to allocate_double_command()
+- [High] usb: uas: invalid Additional CDB Length in allocate_double_command=
+()
+- [High] usb: uas: response IU URB submitted to cmd_pipe in uas_abort_compl=
+ete()
+- [High] usb: uas: non-zero stream_id set on cmd_pipe in uas_eh_abort_handl=
+er()
+- [High] uas: deadlock calling usb_unlink_urb() under lock in uas_evaluate_=
+response_iu()
+- [High] uas: race and UAF on cmdinfo->killer in uas_evaluate_response_iu()
+- [High] uas: WARN_ON in uas_zap_pending() and missing state checks during =
+abort
+- [Low] uas: C11 label-before-declaration and duplicate assignments in abor=
+t path
+--
 
-Hi,
+commit 65c1aae6f67a03edcc9d2b5225d49392e26bfdb6
+Author: Oliver Neukum <oneukum@suse.com>
 
-as you apparently have a sophisticated test setup, here
-is a patch I hope is useful. I've looked at your patches.
-You are trying very hard and doing good work.
+alpha implementation of eh_abort_handler for UAS
 
-Yet the more I think about it the more it seems that
-you are fundamentally hampered by a lack of a working
-implementation of eh_abort_handler() in UAS.
+This commit implements uas_eh_abort_handler() in drivers/usb/storage/uas.c =
+by
+submitting a duplicate TEST_UNIT_READY command IU reusing the timed-out
+command's tag to force an overlapped tag response.
 
-Could you test this implementation?
+> diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+> index 8655edbd66b16..45182df35a7bb 100644
+> --- a/drivers/usb/storage/uas.c
+> +++ b/drivers/usb/storage/uas.c
+[ ... ]
+> @@ -286,6 +289,12 @@ static bool uas_evaluate_response_iu(struct response=
+_iu *riu, struct scsi_cmnd *
+>  	case RC_TMF_NOT_SUPPORTED:
+>  		set_host_byte(cmnd, DID_BAD_TARGET);
+>  		break;
+> +	case RC_OVERLAPPED_TAG:
+> +		struct uas_cmd_info *cmdinfo =3D scsi_cmd_priv(cmnd);
+> +
+> +		usb_unlink_urb(cmdinfo->killer);
+> +		set_host_byte(cmnd, DID_ABORT);
+> +		break;
 
-	Regards
-		Oliver
+[Severity: Low]
+In uas_evaluate_response_iu(), placing the declaration of cmdinfo directly
+after the case RC_OVERLAPPED_TAG label without enclosing braces is not
+valid in gnu11. Could this case block be wrapped in braces (or cmdinfo
+moved to the top of the function) so it builds cleanly?
 
---------------r1Qxe84RbY7DoJSe6RpVG352
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-usb-uas-cancel-outstanding-commands.patch"
-Content-Disposition: attachment;
- filename="0001-usb-uas-cancel-outstanding-commands.patch"
-Content-Transfer-Encoding: base64
+[Severity: High]
+Can calling usb_unlink_urb(cmdinfo->killer) here in
+uas_stat_cmplt() -> uas_evaluate_response_iu() deadlock on devinfo->lock?
 
-RnJvbSAxODc5NDAzNGYxYjVlM2Y4ODdhMjIwNTUwNDI3ZDdlMjIyYzhhOGQwIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29t
-PgpEYXRlOiBXZWQsIDQgTm92IDIwMjYgMTE6MTc6MzQgKzAxMDAKU3ViamVjdDogW1BBVENI
-XSB1c2I6IHVhczogY2FuY2VsIG91dHN0YW5kaW5nIGNvbW1hbmRzCgpGaXJzdCBkcmFmdCBv
-ZiBhbiBhY3R1YWxseSB3b3JraW5nIGVoX2Fib3J0X2hhbmRsZXIuCgpTaWduZWQtb2ZmLWJ5
-OiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgotLS0KIGRyaXZlcnMvdXNiL3N0
-b3JhZ2UvdWFzLmMgfCAxNzYgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0t
-LS0KIDEgZmlsZSBjaGFuZ2VkLCAxNTkgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25zKC0p
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2Ivc3RvcmFnZS91YXMuYyBiL2RyaXZlcnMvdXNi
-L3N0b3JhZ2UvdWFzLmMKaW5kZXggODY1NWVkYmQ2NmIxLi40NTE4MmRmMzVhN2IgMTAwNjQ0
-Ci0tLSBhL2RyaXZlcnMvdXNiL3N0b3JhZ2UvdWFzLmMKKysrIGIvZHJpdmVycy91c2Ivc3Rv
-cmFnZS91YXMuYwpAQCAtNzEsNiArNzEsOSBAQCBzdHJ1Y3QgdWFzX2NtZF9pbmZvIHsKIAlz
-dHJ1Y3QgdXJiICpjbWRfdXJiOwogCXN0cnVjdCB1cmIgKmRhdGFfaW5fdXJiOwogCXN0cnVj
-dCB1cmIgKmRhdGFfb3V0X3VyYjsKKwlzdHJ1Y3QgdXJiICpraWxsZXI7CisJd2FpdF9xdWV1
-ZV9oZWFkX3QgY2FuY2VsOworCWludCBjbGVhbmx5X2NhbmNlbGxlZDsKIH07CiAKIC8qIEkg
-aGF0ZSBmb3J3YXJkIGRlY2xhcmF0aW9ucywgYnV0IEkgYWN0dWFsbHkgaGF2ZSBhIGxvb3Ag
-Ki8KQEAgLTI4Niw2ICsyODksMTIgQEAgc3RhdGljIGJvb2wgdWFzX2V2YWx1YXRlX3Jlc3Bv
-bnNlX2l1KHN0cnVjdCByZXNwb25zZV9pdSAqcml1LCBzdHJ1Y3Qgc2NzaV9jbW5kICoKIAlj
-YXNlIFJDX1RNRl9OT1RfU1VQUE9SVEVEOgogCQlzZXRfaG9zdF9ieXRlKGNtbmQsIERJRF9C
-QURfVEFSR0VUKTsKIAkJYnJlYWs7CisJY2FzZSBSQ19PVkVSTEFQUEVEX1RBRzoKKwkJc3Ry
-dWN0IHVhc19jbWRfaW5mbyAqY21kaW5mbyA9IHNjc2lfY21kX3ByaXYoY21uZCk7CisKKwkJ
-dXNiX3VubGlua191cmIoY21kaW5mby0+a2lsbGVyKTsKKwkJc2V0X2hvc3RfYnl0ZShjbW5k
-LCBESURfQUJPUlQpOworCQlicmVhazsKIAlkZWZhdWx0OgogCQl1YXNfbG9nX2NtZF9zdGF0
-ZShjbW5kLCAicmVzcG9uc2UgaXUiLCByZXNwb25zZV9jb2RlKTsKIAkJc2V0X2hvc3RfYnl0
-ZShjbW5kLCBESURfRVJST1IpOwpAQCAtNjc4LDYgKzY4Nyw3IEBAIHN0YXRpYyBlbnVtIHNj
-c2lfcWNfc3RhdHVzIHVhc19xdWV1ZWNvbW1hbmRfbGNrKHN0cnVjdCBzY3NpX2NtbmQgKmNt
-bmQpCiAJbWVtc2V0KGNtZGluZm8sIDAsIHNpemVvZigqY21kaW5mbykpOwogCWNtZGluZm8t
-PnVhc190YWcgPSBpZHggKyAxOyAvKiB1YXMtdGFnID09IHVzYi1zdHJlYW0taWQsIHNvIDEg
-YmFzZWQgKi8KIAljbWRpbmZvLT5zdGF0ZSA9IFNVQk1JVF9TVEFUVVNfVVJCIHwgQUxMT0Nf
-Q01EX1VSQiB8IFNVQk1JVF9DTURfVVJCOworCWluaXRfd2FpdHF1ZXVlX2hlYWQoJmNtZGlu
-Zm8tPmNhbmNlbCk7CiAKIAlzd2l0Y2ggKGNtbmQtPnNjX2RhdGFfZGlyZWN0aW9uKSB7CiAJ
-Y2FzZSBETUFfRlJPTV9ERVZJQ0U6CkBAIC03MzAsMzUgKzc0MCwxNjcgQEAgc3RhdGljIGVu
-dW0gc2NzaV9xY19zdGF0dXMgdWFzX3F1ZXVlY29tbWFuZF9sY2soc3RydWN0IHNjc2lfY21u
-ZCAqY21uZCkKIHN0YXRpYyBERUZfU0NTSV9RQ01EKHVhc19xdWV1ZWNvbW1hbmQpCiAKIC8q
-Ci0gKiBGb3Igbm93IHdlIGRvIG5vdCBzdXBwb3J0IGFjdHVhbGx5IHNlbmRpbmcgYW4gYWJv
-cnQgdG8gdGhlIGRldmljZSwgc28KLSAqIHRoaXMgZWggYWx3YXlzIGZhaWxzLiBTdGlsbCB3
-ZSBtdXN0IGRlZmluZSBpdCB0byBtYWtlIHN1cmUgdGhhdCB3ZSd2ZQotICogZHJvcHBlZCBh
-bGwgcmVmZXJlbmNlcyB0byB0aGUgY21uZCBpbiBxdWVzdGlvbiBvbmNlIHRoaXMgZnVuY3Rp
-b24gZXhpdHMuCisgKiBXZSBhYm9ydCBhIGNvbW1hbmQgYnkgcmV1c2luZyB0aGUgdGFnLCB0
-aHVzIGZvcmNpbmcgYW4gZXJyb3IKICAqLwotc3RhdGljIGludCB1YXNfZWhfYWJvcnRfaGFu
-ZGxlcihzdHJ1Y3Qgc2NzaV9jbW5kICpjbW5kKQorCisjZGVmaW5lIFNJTVBMRV9UVVJfTEVO
-R1RIIDYKK3N0YXRpYyBzdHJ1Y3QgY29tbWFuZF9pdSAqYWxsb2NhdGVfZG91YmxlX2NvbW1h
-bmQoaW50IHRhZywgc3RydWN0IHNjc2lfZGV2aWNlICpzZGV2KQogeworCXN0cnVjdCBjb21t
-YW5kX2l1ICp0ZXN0X3VuaXRfcmVhZHk7CisKKwl0ZXN0X3VuaXRfcmVhZHkgPSBremFsbG9j
-KHNpemVvZigqdGVzdF91bml0X3JlYWR5KSwgR0ZQX0FUT01JQyk7CisJaWYgKCF0ZXN0X3Vu
-aXRfcmVhZHkpCisJCXJldHVybiBOVUxMOworCisJdGVzdF91bml0X3JlYWR5LT5pdV9pZCA9
-IElVX0lEX0NPTU1BTkQ7CisJdGVzdF91bml0X3JlYWR5LT50YWcgPSBjcHVfdG9fYmUxNih0
-YWcpOworCXRlc3RfdW5pdF9yZWFkeS0+cHJpb19hdHRyID0gVUFTX1NJTVBMRV9UQUc7CisJ
-dGVzdF91bml0X3JlYWR5LT5sZW4gPSBTSU1QTEVfVFVSX0xFTkdUSDsKKwlpbnRfdG9fc2Nz
-aWx1bihzZGV2LT5sdW4sICZ0ZXN0X3VuaXRfcmVhZHktPmx1bik7CisJLyoKKwkgKiBXZSBu
-ZWVkIHNvbWV0aGluZyB0aGF0IGRvZXMgbm90IGRvIGhhcm0KKwkgKiBpZiB0aGUgY29tbWFu
-ZCB0byBiZSBhYm9ydGVkIGRvZXMgZmluaXNoCisJICogcmVndWxhcmx5CisJICovCisJdGVz
-dF91bml0X3JlYWR5LT5jZGJbMF0gPSBURVNUX1VOSVRfUkVBRFk7CisKKwlyZXR1cm4gdGVz
-dF91bml0X3JlYWR5OworfQorCitzdGF0aWMgdm9pZCB1YXNfZHVtbXlfc2Vuc2Uoc3RydWN0
-IHVyYiAqdSkKK3sKKwlzdHJ1Y3Qgc2NzaV9jbW5kICpjbW5kID0gdS0+Y29udGV4dDsKIAlz
-dHJ1Y3QgdWFzX2NtZF9pbmZvICpjbWRpbmZvID0gc2NzaV9jbWRfcHJpdihjbW5kKTsKIAlz
-dHJ1Y3QgdWFzX2Rldl9pbmZvICpkZXZpbmZvID0gKHZvaWQgKiljbW5kLT5kZXZpY2UtPmhv
-c3RkYXRhOwotCXN0cnVjdCB1cmIgKmRhdGFfaW5fdXJiID0gTlVMTDsKLQlzdHJ1Y3QgdXJi
-ICpkYXRhX291dF91cmIgPSBOVUxMOworCWludCB0YWcgPSBjbWRpbmZvLT51YXNfdGFnOwog
-CXVuc2lnbmVkIGxvbmcgZmxhZ3M7CisJLyoKKwkgKiBBbiBlcnJvciBpbXBsaWVzIHN1Y2Nl
-c3MKKwkgKi8KKwlpbnQgc3RhdHVzID0gdS0+c3RhdHVzOwogCisJLyoKKwkgKiBUaGUgdGFn
-IG11c3QgYmUgZnJlZWQgaW4gZXZlcnkgY2FzZQorCSAqLwogCXNwaW5fbG9ja19pcnFzYXZl
-KCZkZXZpbmZvLT5sb2NrLCBmbGFncyk7CisJZGV2aW5mby0+Y21uZFt0YWcgLSAxXSA9IE5V
-TEw7CisJc3dpdGNoIChzdGF0dXMpIHsKKwljYXNlIC1FU0hVVERPV046CisJY2FzZSAtRU5P
-RU5UOgorCWNhc2UgLUVDT05OUkVTRVQ6CisJY2FzZSAwOgorCQljbWRpbmZvLT5jbGVhbmx5
-X2NhbmNlbGxlZCA9IDE7CisJCWJyZWFrOworCX0KKwlzcGluX3VubG9ja19pcnFyZXN0b3Jl
-KCZkZXZpbmZvLT5sb2NrLCBmbGFncyk7CisKKwl3YWtlX3VwX2FsbCgmY21kaW5mby0+Y2Fu
-Y2VsKTsKK30KIAorc3RhdGljIHZvaWQgdWFzX2Fib3J0X2NvbXBsZXRlKHN0cnVjdCB1cmIg
-KnUpCit7CisJaW50IHN0YXR1cyA9IHUtPnN0YXR1czsKKwlzdHJ1Y3Qgc2NzaV9jbW5kICpj
-bW5kID0gdS0+Y29udGV4dDsKKwlzdHJ1Y3QgdWFzX2Rldl9pbmZvICpkZXZpbmZvID0gKHZv
-aWQgKiljbW5kLT5kZXZpY2UtPmhvc3RkYXRhOworCXN0cnVjdCB1YXNfY21kX2luZm8gKmNt
-ZGluZm8gPSBzY3NpX2NtZF9wcml2KGNtbmQpOworCXN0cnVjdCB1c2JfZGV2aWNlICp1ZGV2
-ID0gZGV2aW5mby0+dWRldjsKKwlzdHJ1Y3QgcmVzcG9uc2VfaXUgKmR1bW15OworCWludCB0
-YWcgPSBjbWRpbmZvLT51YXNfdGFnOworCXVuc2lnbmVkIGxvbmcgZmxhZ3M7CisJaW50IHJ2
-OworCisJaWYgKHN0YXR1cyA8IDApIHsKKwkJLyoKKwkJICogaW1tZWRpYXRlIGNsZWFudXAK
-KwkJICovCisJCWtmcmVlKHUtPnRyYW5zZmVyX2J1ZmZlcik7CitiYWlsb3V0OgorCQlzcGlu
-X2xvY2tfaXJxc2F2ZSgmZGV2aW5mby0+bG9jaywgZmxhZ3MpOworCQlkZXZpbmZvLT5jbW5k
-W3RhZyAtIDFdID0gTlVMTDsKKwkJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmZGV2aW5mby0+
-bG9jaywgZmxhZ3MpOworCQl3YWtlX3VwX2FsbCgmY21kaW5mby0+Y2FuY2VsKTsKKwl9IGVs
-c2UgeworCQlrZnJlZSh1LT50cmFuc2Zlcl9idWZmZXIpOworCQlkdW1teSA9IGt6YWxsb2Mo
-c2l6ZW9mKCpkdW1teSksIEdGUF9BVE9NSUMpOworCQlpZiAoIWR1bW15KQorCQkJZ290byBi
-YWlsb3V0OworCQl1c2JfZmlsbF9idWxrX3VyYihjbWRpbmZvLT5raWxsZXIsIHVkZXYsIGRl
-dmluZm8tPmNtZF9waXBlLAorCQkJCWR1bW15LCBzaXplb2YoKmR1bW15KSwgdWFzX2R1bW15
-X3NlbnNlLCBjbW5kKTsKKwkJY21kaW5mby0+a2lsbGVyLT50cmFuc2Zlcl9mbGFncyB8PSBV
-UkJfRlJFRV9CVUZGRVI7CisJCXNwaW5fbG9ja19pcnFzYXZlKCZkZXZpbmZvLT5sb2NrLCBm
-bGFncyk7CisJCWlmIChkZXZpbmZvLT51c2Vfc3RyZWFtcykKKwkJCWNtZGluZm8tPmtpbGxl
-ci0+c3RyZWFtX2lkID0gY21kaW5mby0+dWFzX3RhZzsKKwkJcnYgPSB1c2Jfc3VibWl0X3Vy
-YihjbWRpbmZvLT5raWxsZXIsIEdGUF9BVE9NSUMpOworCQlzcGluX3VubG9ja19pcnFyZXN0
-b3JlKCZkZXZpbmZvLT5sb2NrLCBmbGFncyk7CisJCWlmIChydiA8IDApIHsKKwkJCWtmcmVl
-IChkdW1teSk7CisJCQlnb3RvIGJhaWxvdXQ7CisJCX0KKwl9Cit9CisKK3N0YXRpYyBpbnQg
-dWFzX2VoX2Fib3J0X2hhbmRsZXIoc3RydWN0IHNjc2lfY21uZCAqY21uZCkKK3sKKwlERUNM
-QVJFX1dBSVRRVUVVRSh3YWl0LCBjdXJyZW50KTsKKwlzdHJ1Y3QgdWFzX2NtZF9pbmZvICpj
-bWRpbmZvID0gc2NzaV9jbWRfcHJpdihjbW5kKTsKKwlzdHJ1Y3QgdWFzX2Rldl9pbmZvICpk
-ZXZpbmZvID0gKHZvaWQgKiljbW5kLT5kZXZpY2UtPmhvc3RkYXRhOworCXN0cnVjdCB1c2Jf
-ZGV2aWNlICp1ZGV2ID0gZGV2aW5mby0+dWRldjsKKwlzdHJ1Y3QgdXJiICpkYXRhX2luX3Vy
-YiA9IE5VTEw7CisJc3RydWN0IHVyYiAqZGF0YV9vdXRfdXJiID0gTlVMTDsKKwlzdHJ1Y3Qg
-dXJiICpraWxsZXI7CisJc3RydWN0IGNvbW1hbmRfaXUgKmJ1bGxldDsKKwlpbnQgdGFyZ2V0
-X3RhZywgcnY7CisJaW50IHJlc3VsdCA9IEZBSUxFRDsKKworCWtpbGxlciA9IHVzYl9hbGxv
-Y191cmIoMCwgR0ZQX05PSU8pOworCisJc2V0X2N1cnJlbnRfc3RhdGUoVEFTS19VTklOVEVS
-UlVQVElCTEUpOworCXNwaW5fbG9ja19pcnEoJmRldmluZm8tPmxvY2spOworCXRhcmdldF90
-YWcgPSBjbWRpbmZvLT51YXNfdGFnIC0gMTsKKwlpZiAoIWtpbGxlcikKKwkJZ290byBhZG1p
-dF9mYWlsdXJlOworCWNtZGluZm8tPmtpbGxlciA9IGtpbGxlcjsKKwlidWxsZXQgPSBhbGxv
-Y2F0ZV9kb3VibGVfY29tbWFuZCh0YXJnZXRfdGFnLCBjbW5kLT5kZXZpY2UpOworCWlmICgh
-YnVsbGV0KQorCQlnb3RvIGFkbWl0X2ZhaWx1cmU7CisKKwl1c2JfZmlsbF9idWxrX3VyYihr
-aWxsZXIsIHVkZXYsIGRldmluZm8tPmNtZF9waXBlLAorCQkJYnVsbGV0LCBzaXplb2YoKmJ1
-bGxldCksIHVhc19hYm9ydF9jb21wbGV0ZSwgY21uZCk7CisJaWYgKGRldmluZm8tPnVzZV9z
-dHJlYW1zKQorCQlraWxsZXItPnN0cmVhbV9pZCA9IGNtZGluZm8tPnVhc190YWc7CiAJdWFz
-X2xvZ19jbWRfc3RhdGUoY21uZCwgX19mdW5jX18sIDApOwogCiAJLyogRW5zdXJlIHRoYXQg
-dHJ5X2NvbXBsZXRlIGRvZXMgbm90IGNhbGwgc2NzaV9kb25lICovCiAJY21kaW5mby0+c3Rh
-dGUgfD0gQ09NTUFORF9BQk9SVEVEOworCXRhcmdldF90YWcgPSBjbWRpbmZvLT51YXNfdGFn
-IC0gMTsKKwljbWRpbmZvLT5raWxsZXIgPSBraWxsZXI7CisJYWRkX3dhaXRfcXVldWUoJmNt
-ZGluZm8tPmNhbmNlbCwgJndhaXQpOworCisJcnYgPSB1c2Jfc3VibWl0X3VyYihraWxsZXIs
-IEdGUF9BVE9NSUMpOworCWlmIChydiA8IDApIHsKK2FkbWl0X2ZhaWx1cmU6CisJCS8qIERy
-b3AgYWxsIHJlZnMgdG8gdGhpcyBjbW5kLCBraWxsIGRhdGEgdXJicyB0byBicmVhayB0aGVp
-ciByZWYgKi8KKwkJZGV2aW5mby0+Y21uZFtjbWRpbmZvLT51YXNfdGFnIC0gMV0gPSBOVUxM
-OworCQlpZiAoY21kaW5mby0+c3RhdGUgJiBEQVRBX0lOX1VSQl9JTkZMSUdIVCkKKwkJCWRh
-dGFfaW5fdXJiID0gdXNiX2dldF91cmIoY21kaW5mby0+ZGF0YV9pbl91cmIpOworCQlpZiAo
-Y21kaW5mby0+c3RhdGUgJiBEQVRBX09VVF9VUkJfSU5GTElHSFQpCisJCQlkYXRhX291dF91
-cmIgPSB1c2JfZ2V0X3VyYihjbWRpbmZvLT5kYXRhX291dF91cmIpOwogCi0JLyogRHJvcCBh
-bGwgcmVmcyB0byB0aGlzIGNtbmQsIGtpbGwgZGF0YSB1cmJzIHRvIGJyZWFrIHRoZWlyIHJl
-ZiAqLwotCWRldmluZm8tPmNtbmRbY21kaW5mby0+dWFzX3RhZyAtIDFdID0gTlVMTDsKLQlp
-ZiAoY21kaW5mby0+c3RhdGUgJiBEQVRBX0lOX1VSQl9JTkZMSUdIVCkKLQkJZGF0YV9pbl91
-cmIgPSB1c2JfZ2V0X3VyYihjbWRpbmZvLT5kYXRhX2luX3VyYik7Ci0JaWYgKGNtZGluZm8t
-PnN0YXRlICYgREFUQV9PVVRfVVJCX0lORkxJR0hUKQotCQlkYXRhX291dF91cmIgPSB1c2Jf
-Z2V0X3VyYihjbWRpbmZvLT5kYXRhX291dF91cmIpOwotCi0JdWFzX2ZyZWVfdW5zdWJtaXR0
-ZWRfdXJicyhjbW5kKTsKLQotCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJmRldmluZm8tPmxv
-Y2ssIGZsYWdzKTsKKwkJdWFzX2ZyZWVfdW5zdWJtaXR0ZWRfdXJicyhjbW5kKTsKKwkJc3Bp
-bl91bmxvY2tfaXJxKCZkZXZpbmZvLT5sb2NrKTsKKwkJa2ZyZWUoYnVsbGV0KTsKKwl9IGVs
-c2UgeworCQlzcGluX3VubG9ja19pcnEoJmRldmluZm8tPmxvY2spOworCQlydiA9IHNjaGVk
-dWxlX3RpbWVvdXQoSFopOworCQlpZiAocnYpCisJCQlyZXN1bHQgPSBjbWRpbmZvLT5jbGVh
-bmx5X2NhbmNlbGxlZCA/IFNVQ0NFU1MgOiBGQUlMRUQ7CisJfQorCXNldF9jdXJyZW50X3N0
-YXRlKFRBU0tfUlVOTklORyk7CisJLyoKKwkgKiB3ZSBrbm93IGEgY2FsbGJhY2sgd2lsbCBm
-cmVlIHRoZSB0YWcKKwkgKi8KKwl1c2Jfa2lsbF91cmIoa2lsbGVyKTsKKwl1c2JfZnJlZV91
-cmIoa2lsbGVyKTsKIAogCWlmIChkYXRhX2luX3VyYikgewogCQl1c2Jfa2lsbF91cmIoZGF0
-YV9pbl91cmIpOwpAQCAtNzY5LDcgKzkxMSw3IEBAIHN0YXRpYyBpbnQgdWFzX2VoX2Fib3J0
-X2hhbmRsZXIoc3RydWN0IHNjc2lfY21uZCAqY21uZCkKIAkJdXNiX3B1dF91cmIoZGF0YV9v
-dXRfdXJiKTsKIAl9CiAKLQlyZXR1cm4gRkFJTEVEOworCXJldHVybiByZXN1bHQ7CiB9CiAK
-IHN0YXRpYyBpbnQgdWFzX2VoX2hvc3RfcmVzZXRfaGFuZGxlcihzdHJ1Y3Qgc2NzaV9jbW5k
-ICpjbW5kKQotLSAKMi41Ni4wCgo=
+uas_stat_cmplt() holds devinfo->lock while calling
+uas_evaluate_response_iu(). On HCDs or dequeue paths that give back the URB
+synchronously during usb_unlink_urb(), the completion handler
+uas_abort_complete() or uas_dummy_sense() will immediately try to acquire
+devinfo->lock and deadlock.
 
---------------r1Qxe84RbY7DoJSe6RpVG352--
+[Severity: High]
+How is cmdinfo->killer synchronized between uas_evaluate_response_iu(),
+uas_abort_complete(), and uas_eh_abort_handler()?
+
+First, if RC_OVERLAPPED_TAG arrives on the original status URB while the
+stage-1 command URB is still in flight, usb_unlink_urb(cmdinfo->killer)
+unlinks stage 1, causing uas_abort_complete() to see a negative status
+(-ECONNRESET) and jump to bailout without setting cleanly_cancelled. If it
+arrives while uas_abort_complete() is between stage-1 completion and
+stage-2 submission, usb_unlink_urb() races with unlocked usb_fill_bulk_urb()
+and fails on the inactive URB before stage 2 is submitted.
+
+Second, in uas_eh_abort_handler(), if allocate_double_command() fails after
+setting cmdinfo->killer =3D killer (or if schedule_timeout(HZ) returns befo=
+re
+devinfo->cmnd[tag - 1] is cleared), usb_free_urb(killer) frees the URB
+without clearing cmdinfo->killer under devinfo->lock. If an
+RC_OVERLAPPED_TAG response arrives afterward in uas_stat_cmplt(), won't
+uas_evaluate_response_iu() pass a freed cmdinfo->killer pointer to
+usb_unlink_urb()?
+
+[ ... ]
+> @@ -730,35 +740,167 @@ static enum scsi_qc_status uas_queuecommand_lck(st=
+ruct scsi_cmnd *cmnd)
+>  static DEF_SCSI_QCMD(uas_queuecommand)
+> =20
+>  /*
+> - * For now we do not support actually sending an abort to the device, so
+> - * this eh always fails. Still we must define it to make sure that we've
+> - * dropped all references to the cmnd in question once this function exi=
+ts.
+> + * We abort a command by reusing the tag, thus forcing an error
+>   */
+> -static int uas_eh_abort_handler(struct scsi_cmnd *cmnd)
+> +
+> +#define SIMPLE_TUR_LENGTH 6
+> +static struct command_iu *allocate_double_command(int tag, struct scsi_d=
+evice *sdev)
+>  {
+> +	struct command_iu *test_unit_ready;
+> +
+> +	test_unit_ready =3D kzalloc(sizeof(*test_unit_ready), GFP_ATOMIC);
+> +	if (!test_unit_ready)
+> +		return NULL;
+> +
+> +	test_unit_ready->iu_id =3D IU_ID_COMMAND;
+> +	test_unit_ready->tag =3D cpu_to_be16(tag);
+> +	test_unit_ready->prio_attr =3D UAS_SIMPLE_TAG;
+> +	test_unit_ready->len =3D SIMPLE_TUR_LENGTH;
+
+[Severity: High]
+In struct command_iu, doesn't the len field specify the additional CDB
+length beyond the 16-byte cdb[16] array rather than the total CDB length?
+
+In uas_alloc_cmd_urb(), len is computed as cmnd->cmd_len - 16 (clamped to 0
+for CDBs of 16 bytes or less):
+
+	int len =3D cmnd->cmd_len - 16;
+	...
+	if (len < 0)
+		len =3D 0;
+	len =3D ALIGN(len, 4);
+	iu->len =3D len;
+
+For a 6-byte TEST_UNIT_READY CDB where sizeof(*bullet) (32 bytes) is
+submitted, setting test_unit_ready->len =3D 6 tells the UAS target to expec=
+t 6
+extra CDB bytes beyond the 32-byte IU. Shouldn't test_unit_ready->len be 0?
+
+> +	int_to_scsilun(sdev->lun, &test_unit_ready->lun);
+> +	/*
+> +	 * We need something that does not do harm
+> +	 * if the command to be aborted does finish
+> +	 * regularly
+> +	 */
+> +	test_unit_ready->cdb[0] =3D TEST_UNIT_READY;
+> +
+> +	return test_unit_ready;
+> +}
+> +
+> +static void uas_dummy_sense(struct urb *u)
+> +{
+> +	struct scsi_cmnd *cmnd =3D u->context;
+>  	struct uas_cmd_info *cmdinfo =3D scsi_cmd_priv(cmnd);
+>  	struct uas_dev_info *devinfo =3D (void *)cmnd->device->hostdata;
+> -	struct urb *data_in_urb =3D NULL;
+> -	struct urb *data_out_urb =3D NULL;
+> +	int tag =3D cmdinfo->uas_tag;
+>  	unsigned long flags;
+> +	/*
+> +	 * An error implies success
+> +	 */
+> +	int status =3D u->status;
+> =20
+> +	/*
+> +	 * The tag must be freed in every case
+> +	 */
+>  	spin_lock_irqsave(&devinfo->lock, flags);
+> +	devinfo->cmnd[tag - 1] =3D NULL;
+> +	switch (status) {
+> +	case -ESHUTDOWN:
+> +	case -ENOENT:
+> +	case -ECONNRESET:
+> +	case 0:
+> +		cmdinfo->cleanly_cancelled =3D 1;
+> +		break;
+> +	}
+> +	spin_unlock_irqrestore(&devinfo->lock, flags);
+> +
+> +	wake_up_all(&cmdinfo->cancel);
+> +}
+
+[Severity: Critical]
+Is it safe for uas_dummy_sense() (and the bailout path in
+uas_abort_complete()) to clear devinfo->cmnd[tag - 1] =3D NULL while the
+aborted command's original status and data URBs may still be active?
+
+Once devinfo->cmnd[tag - 1] is NULL, uas_queuecommand_lck() can immediately
+reassign that tag and stream ID to a newly queued scsi_cmnd. If the aborted
+command's status or RC_OVERLAPPED_TAG response arrives afterward in
+uas_stat_cmplt(), devinfo->cmnd[idx] will either point to the new command
+(aborting or completing the wrong command) or be NULL (causing
+uas_stat_cmplt() to return early without unlinking the aborted command's
+data URBs).
+
+Also, in uas_dummy_sense(), won't setting cleanly_cancelled =3D 1 on status=
+ 0,
+-ENOENT (from usb_kill_urb()), and -ESHUTDOWN report a successful abort even
+when no RC_OVERLAPPED_TAG unlink (-ECONNRESET) occurred?
+
+> +
+> +static void uas_abort_complete(struct urb *u)
+> +{
+> +	int status =3D u->status;
+> +	struct scsi_cmnd *cmnd =3D u->context;
+> +	struct uas_dev_info *devinfo =3D (void *)cmnd->device->hostdata;
+> +	struct uas_cmd_info *cmdinfo =3D scsi_cmd_priv(cmnd);
+> +	struct usb_device *udev =3D devinfo->udev;
+> +	struct response_iu *dummy;
+> +	int tag =3D cmdinfo->uas_tag;
+> +	unsigned long flags;
+> +	int rv;
+> +
+> +	if (status < 0) {
+> +		/*
+> +		 * immediate cleanup
+> +		 */
+> +		kfree(u->transfer_buffer);
+> +bailout:
+> +		spin_lock_irqsave(&devinfo->lock, flags);
+> +		devinfo->cmnd[tag - 1] =3D NULL;
+> +		spin_unlock_irqrestore(&devinfo->lock, flags);
+> +		wake_up_all(&cmdinfo->cancel);
+> +	} else {
+> +		kfree(u->transfer_buffer);
+> +		dummy =3D kzalloc(sizeof(*dummy), GFP_ATOMIC);
+> +		if (!dummy)
+> +			goto bailout;
+> +		usb_fill_bulk_urb(cmdinfo->killer, udev, devinfo->cmd_pipe,
+> +				dummy, sizeof(*dummy), uas_dummy_sense, cmnd);
+
+[Severity: High]
+In uas_abort_complete(), is devinfo->cmd_pipe intended here when submitting
+the URB for struct response_iu *dummy?
+
+devinfo->cmd_pipe is the Bulk OUT command pipe, whereas status and response
+IUs are received on devinfo->status_pipe (Bulk IN). Submitting dummy to
+devinfo->cmd_pipe sends 8 zero bytes OUT to the command endpoint, which
+completes immediately with status =3D=3D 0 and triggers uas_dummy_sense() to
+set cleanly_cancelled =3D 1 before the device sends a response.
+
+> +		cmdinfo->killer->transfer_flags |=3D URB_FREE_BUFFER;
+> +		spin_lock_irqsave(&devinfo->lock, flags);
+> +		if (devinfo->use_streams)
+> +			cmdinfo->killer->stream_id =3D cmdinfo->uas_tag;
+> +		rv =3D usb_submit_urb(cmdinfo->killer, GFP_ATOMIC);
+> +		spin_unlock_irqrestore(&devinfo->lock, flags);
+> +		if (rv < 0) {
+> +			kfree (dummy);
+> +			goto bailout;
+> +		}
+
+[Severity: Critical]
+If usb_submit_urb(cmdinfo->killer, GFP_ATOMIC) fails in
+uas_abort_complete(), won't dummy be double-freed?
+
+cmdinfo->killer->transfer_buffer is set to dummy and URB_FREE_BUFFER is set
+in transfer_flags. When rv < 0, kfree(dummy) frees the buffer immediately,
+and then uas_eh_abort_handler() calls usb_free_urb(killer), where
+urb_destroy() sees URB_FREE_BUFFER still set and calls
+kfree(urb->transfer_buffer) a second time.
+
+> +	}
+> +}
+> +
+> +static int uas_eh_abort_handler(struct scsi_cmnd *cmnd)
+> +{
+> +	DECLARE_WAITQUEUE(wait, current);
+> +	struct uas_cmd_info *cmdinfo =3D scsi_cmd_priv(cmnd);
+> +	struct uas_dev_info *devinfo =3D (void *)cmnd->device->hostdata;
+> +	struct usb_device *udev =3D devinfo->udev;
+> +	struct urb *data_in_urb =3D NULL;
+> +	struct urb *data_out_urb =3D NULL;
+> +	struct urb *killer;
+> +	struct command_iu *bullet;
+> +	int target_tag, rv;
+> +	int result =3D FAILED;
+> +
+> +	killer =3D usb_alloc_urb(0, GFP_NOIO);
+> +
+> +	set_current_state(TASK_UNINTERRUPTIBLE);
+> +	spin_lock_irq(&devinfo->lock);
+> +	target_tag =3D cmdinfo->uas_tag - 1;
+> +	if (!killer)
+> +		goto admit_failure;
+> +	cmdinfo->killer =3D killer;
+> +	bullet =3D allocate_double_command(target_tag, cmnd->device);
+> +	if (!bullet)
+> +		goto admit_failure;
+
+[Severity: Critical]
+If usb_alloc_urb() returns NULL in uas_eh_abort_handler(), doesn't jumping
+to admit_failure pass an uninitialized bullet pointer to kfree(bullet)?
+
+Also, if either !killer or !bullet jumps to admit_failure, it skips setting
+cmdinfo->state |=3D COMMAND_ABORTED before calling
+uas_free_unsubmitted_urbs(cmnd) and killing the data URBs. Without
+COMMAND_ABORTED set, won't a racing URB completion in uas_try_complete()
+call uas_free_unsubmitted_urbs(cmnd) a second time and invoke
+scsi_done(cmnd)?
+
+[Severity: High]
+Isn't target_tag off by one when passed to allocate_double_command() in
+uas_eh_abort_handler()?
+
+In uas_queuecommand_lck(), cmdinfo->uas_tag is 1-based (idx + 1), and
+uas_alloc_cmd_urb() writes cpu_to_be16(cmdinfo->uas_tag) into iu->tag. Here,
+target_tag is computed as cmdinfo->uas_tag - 1 (the 0-based devinfo->cmnd[]
+index) and passed to allocate_double_command(target_tag, cmnd->device),
+which sets test_unit_ready->tag =3D cpu_to_be16(tag). Won't this send tag 0
+when aborting uas_tag 1, or abort the wrong in-flight command (uas_tag - 1)
+for any uas_tag > 1?
+
+> +
+> +	usb_fill_bulk_urb(killer, udev, devinfo->cmd_pipe,
+> +			bullet, sizeof(*bullet), uas_abort_complete, cmnd);
+> +	if (devinfo->use_streams)
+> +		killer->stream_id =3D cmdinfo->uas_tag;
+
+[Severity: High]
+Should killer->stream_id be set when submitting to devinfo->cmd_pipe?
+
+In uas_configure_endpoints(), streams are only allocated on status_pipe,
+data_in_pipe, and data_out_pipe (eps + 1), while the command endpoint
+(eps[0]) does not use streams and uas_alloc_cmd_urb() leaves stream_id as 0.
+Won't setting a non-zero stream_id on devinfo->cmd_pipe here (and in
+uas_abort_complete() if cmd_pipe is used) fail or misbehave on xHCI?
+
+>  	uas_log_cmd_state(cmnd, __func__, 0);
+> =20
+>  	/* Ensure that try_complete does not call scsi_done */
+>  	cmdinfo->state |=3D COMMAND_ABORTED;
+> +	target_tag =3D cmdinfo->uas_tag - 1;
+> +	cmdinfo->killer =3D killer;
+
+[Severity: High]
+What happens if uas_disconnect() or uas_eh_host_reset_handler() runs while
+uas_eh_abort_handler() has set COMMAND_ABORTED and dropped devinfo->lock to
+sleep in schedule_timeout(HZ)?
+
+Because devinfo->cmnd[cmdinfo->uas_tag - 1] remains non-NULL while sleeping,
+uas_zap_pending() will call uas_try_complete(cmnd, __func__), which returns
+-EBUSY when COMMAND_ABORTED is set and triggers WARN_ON(err !=3D 0) in
+uas_zap_pending():
+
+	cmdinfo->state &=3D ~COMMAND_INFLIGHT;
+	cmnd->result =3D result << 16;
+	err =3D uas_try_complete(cmnd, __func__);
+	WARN_ON(err !=3D 0);
+
+In addition, should uas_eh_abort_handler() check after acquiring
+devinfo->lock whether devinfo->resetting is set or whether
+devinfo->cmnd[cmdinfo->uas_tag - 1] !=3D cmnd (in case the command already
+completed before devinfo->lock was taken)?
+
+Also, this isn't a bug, but target_tag =3D cmdinfo->uas_tag - 1 and
+cmdinfo->killer =3D killer are duplicated here after already being assigned
+earlier in uas_eh_abort_handler().
+
+> +	add_wait_queue(&cmdinfo->cancel, &wait);
+> +
+> +	rv =3D usb_submit_urb(killer, GFP_ATOMIC);
+
+[Severity: Critical]
+In uas_eh_abort_handler(), wait is declared on the stack with
+DECLARE_WAITQUEUE(wait, current) and added to cmdinfo->cancel via
+add_wait_queue(&cmdinfo->cancel, &wait), but remove_wait_queue() is never
+called before returning. Won't this leave a dangling stack pointer linked in
+cmdinfo->cancel after uas_eh_abort_handler() returns?
+
+> +	if (rv < 0) {
+> +admit_failure:
+> +		/* Drop all refs to this cmnd, kill data urbs to break their ref */
+> +		devinfo->cmnd[cmdinfo->uas_tag - 1] =3D NULL;
+> +		if (cmdinfo->state & DATA_IN_URB_INFLIGHT)
+> +			data_in_urb =3D usb_get_urb(cmdinfo->data_in_urb);
+> +		if (cmdinfo->state & DATA_OUT_URB_INFLIGHT)
+> +			data_out_urb =3D usb_get_urb(cmdinfo->data_out_urb);
+> =20
+> -	/* Drop all refs to this cmnd, kill data urbs to break their ref */
+> -	devinfo->cmnd[cmdinfo->uas_tag - 1] =3D NULL;
+> -	if (cmdinfo->state & DATA_IN_URB_INFLIGHT)
+> -		data_in_urb =3D usb_get_urb(cmdinfo->data_in_urb);
+> -	if (cmdinfo->state & DATA_OUT_URB_INFLIGHT)
+> -		data_out_urb =3D usb_get_urb(cmdinfo->data_out_urb);
+> -
+> -	uas_free_unsubmitted_urbs(cmnd);
+> -
+> -	spin_unlock_irqrestore(&devinfo->lock, flags);
+> +		uas_free_unsubmitted_urbs(cmnd);
+> +		spin_unlock_irq(&devinfo->lock);
+> +		kfree(bullet);
+> +	} else {
+> +		spin_unlock_irq(&devinfo->lock);
+> +		rv =3D schedule_timeout(HZ);
+> +		if (rv)
+> +			result =3D cmdinfo->cleanly_cancelled ? SUCCESS : FAILED;
+> +	}
+
+[Severity: Critical]
+When usb_submit_urb(killer, GFP_ATOMIC) succeeds and takes the else branch
+in uas_eh_abort_handler(), data_in_urb and data_out_urb are never collected
+from cmdinfo and uas_free_unsubmitted_urbs(cmnd) is never called.
+
+Because COMMAND_ABORTED is set, uas_try_complete() returns -EBUSY and will
+not free unsubmitted URBs either, leaking any allocated-but-unsubmitted
+cmd_urb or data URBs. More importantly, when uas_eh_abort_handler() exits
+without killing in-flight data_in_urb or data_out_urb (and without stopping
+uas_do_work() from submitting pending URBs if IS_IN_WORK_LIST is set), won't
+those data URBs continue DMA and access cmnd in uas_data_cmplt() after the
+SCSI error handler has freed or reused the command?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/e3eb3c84-ea19-4502-=
+976e-eeb83e80a92c@suse.com?part=3D1
