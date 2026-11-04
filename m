@@ -1,55 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793817084;
-	b=BWopw1Y2771W+4MHbyAsIEYGFtUIOLKLV23nz7trw1Yjif+yg4CHVOxf66wsHCkIT0+A
-	 gLb5i7xYi0o+5t8GV19QkdAFQQbykp7MmsjLrK+Qup2Qp9trITrPAqUcrKPkcQkksj+pI
-	 +JoPyEGu5lME2UTLf1YPQav5NNyO208RAEl72hdz1BsWhTjUJoA0VH3kwAHGlfC0CvMsy
-	 NnDasTmgL+0mFAZA9DXFv2nTr4StWq5L+lT/jv348o+ozM7d29uMqUWTbbJUZLuGh7kvc
-	 70v+A46gqe6sg2n564Mj7r547+H8KbYhx9SMCJB5fwJtExSwvCNHpDDQkppXatkEbBg==
+	t=1793817596;
+	b=BlQgriMZLGg/yfbCecgnT/WRHHdMyMysZ5/p+CO9fkZ2sHG8eo7X1pLiAU074Vtqdt62
+	 4nf/2o/wRFQS1htOabDUwzs9WrPQU9Xb0j48hVgq6dRvESExkCyAHBbKFeO1mv460jVCd
+	 XL7YmRZuIy5pY5DBF5FpSVv7tWBcJ0foc7xCB9W85WOqFZstnh+Qsc216l827yZCJIqPl
+	 E6KVXO/EYb/OyoFVQGBmC9mIRhfESuokZKYmrTpbcIn6vEvZ7YUDQBIZIGVcBN6YROBbx
+	 hH2o3cQsMLDk9yvP/KOMslRFXuJJlgkW5qYfmVR6IHh4r67ryrs/kMaRJ9AxxdxEGxQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793817084;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=TlyXHGDm3he50ilGumHao62WwBTtbCtZko8LI8EpugA=;
-	b=fnpfqPvMI3Zx6rrJz8Q61dkjUtuqBNhcuv2Kuifhkhu4rnWAZYVjUEtis+8hk8RZaFTl
-	 c7oU0rh6gmpcaZ8Tyuruw+E9iq47HDewv9XaDjTWHGJEy5U4rC+BlYw3y4m3dtUF5gwz0
-	 NopxRv7VdKxK0gV+6j/8FqpyVVFrEiEuGlBJNo/ZhhaGMeb1rWPhgNaXx9Ewfo3xCsJlH
-	 A8begZYBLl5jjjZLXp17R8ldHU8kfoAX2WO6cm1fug3DXbUJlTrXTDPmujRkFl3eo/dpE
-	 WffWD78g15XKpisTMD/VtDsa7CP09upvPwRf/wpm/RyBmllrkht/OVVsPCuTERilz9w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793817596;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=cfX+RSDf63q8RdYOSefxL9B17eZvLgT/fF9r72R8ItM=;
+	b=JpGYuH62Vv5k02PpA0XvVss9NtYioYWRtz69gVxHJQEeqpNvr77/I4KuTb9VkV3L5XUO
+	 9jvVW9vuqOBaUjPjt64Phu7te06oPAul0ykvdEjKqj8PFHulCZsF5i1uhcE69M8W8fDIO
+	 /Z5KurUGXmfaPmfbAWxkquRdmUiO76oMFEaeP7fHcQ7S0BxDNysZeSGr1YPCvQLNGpmB4
+	 oa2WYUsLgb+AAYZzr8cbHqzwkcxmOz9z8boV7QT6aRxDHBvq/nIy+aFfKOBlUBrtPPP0U
+	 vXvvhlxmvtSYD9GcdQbGEr6fGCSogYCS+V8Fu7+Wy8aLgECQEQNhdoqRH1Dyr4cT/JQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UQlpK04T;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GDU8EuhU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3015C606A31B
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 18:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2318606A337;
+	Wed,  4 Nov 2026 18:39:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UQlpK04T
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B9201F000C1;
-	Wed,  4 Nov 2026 18:31:23 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GDU8EuhU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D94A1F000C1;
+	Wed,  4 Nov 2026 18:39:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793817083;
-	bh=TlyXHGDm3he50ilGumHao62WwBTtbCtZko8LI8EpugA=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=UQlpK04TgarG8mPHlA5GADBC+19igkNiViJl0LzVmJFG1q/zoyYuOqRFnhHdWjUhc
-	 XpJLXJyKP1R3taYe8GwO5rCCgfQ8+FTJ7cZqXDxRRAdJWprVTqsEf1LpY0+pwHVlwA
-	 SNIyKNpjlEbZ5S9GjwzlsOU/BIqHR6rXc9mPpt5o+sCNGBnY8kDZxZx5gU4LQQxL5G
-	 1M40n6fNfIE1sgHWCFR3YoAC4t1BJS8E3HHhf8vo3Ki3C+ZVU6WtQloDi0MdTIggXa
-	 QURfhaDD+FGpiUY0BMMd3wCRLFt7W74EGwL9XSmEpc1cUnK7kI8/leollymhQEkwEo
-	 0FtrTqD9MnHGA==
-Message-ID: <sashiko-outbox-197851@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: musb: tusb6010: retain and unregister the generic
- PHY
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yige Jiang" <yigejiang86@gmail.com>, linux-usb@vger.kernel.org
-In-Reply-To: <rc-review-20261103-35-b81ec08fb02e@gmail.com>
-References: <rc-review-20261103-35-b81ec08fb02e@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 18:31:23 +0000
+	s=k20260515; t=1793817595;
+	bh=cfX+RSDf63q8RdYOSefxL9B17eZvLgT/fF9r72R8ItM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GDU8EuhUF/10B5PY7Ge41gK5xPnjrcLHs7feXWHlvH4fq+/JLsc6ePLzmMcenBTV8
+	 F8DU2mNIqG7yMOIN0gPqiAwJM3jV9nVVVUEYkA/ePBSooGTee00ROqhKBnF1Bqim3H
+	 1MIVC6ndCg4IYSs9ehay5xqAR6tGspnn8txoZnqUV3a/rwlemC2StvUcjU4rBzRdDh
+	 smT5Fi28DptI2/GHQw2s7uG8id08IW1enmMV0ZcuUo2Xf6u9ciNae6b4/FwizkvKf5
+	 0O5jZIOLbbQIYlYObNdALqLNo9VEtQX1aZ+lQxJHqEn6uUf5MjI2wjNp8uWWy07SZL
+	 e+KRVPYe7/Ndw==
+Date: Wed, 4 Nov 2026 19:39:40 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Chuck Lever <chuck.lever@oracle.com>, Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, 
+	linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] proc: move procfs to what kernfs does
+Message-ID: <20261104-angriff-abgewandelt-ohnehin-e5ba30d31576@brauner>
+References: <20261104-trompete-gejagt-raddampfer-9fb5640a6102@brauner>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,25 +75,14 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261104-trompete-gejagt-raddampfer-9fb5640a6102@brauner>
 
-> usb_phy_generic_register() returns the newly registered PHY platform
-> device, but tusb_probe() discards that pointer. The zero-initialized
-> glue->phy is later passed to usb_phy_generic_unregister(), leaving the
-> actual registered device behind.
->=20
-> Store the returned device in glue->phy and stop probe if registration
-> fails. If registering the MUSB child subsequently fails, unregister
-> the PHY before returning the error. Normal removal already unregisters
-> the MUSB child first and can now pass the saved PHY to its cleanup.
->=20
-> Fixes: 2f36ff6915c6 ("usb: phy: generic: allow multiples calls to usb_phy=
-_generic_register()")
-> Assisted-by: LLM
-> Signed-off-by: Yige Jiang <yigejiang86@gmail.com>
+Please ignore this. Network dropped halfway through and the umbrella
+went out under a broken message-id.
 
-Sashiko has reviewed this patch and found no issues.
+I'll resend it all correctly.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/rc-review-20261103-=
-35-b81ec08fb02e@gmail.com?part=3D1
-
+-- 
