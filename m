@@ -1,112 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.11.138.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793800664;
-	b=vus4uzwRT2JmkBA4Gf8O7nu3FKKb1gf2Xrz6u/7Vj+6EVzkR/cqohFpu/PtjFG9v/ArY
-	 3rw1D3R4VJxibJJAOS/tSpVqtYkOAWWHcJFw5zzHDYt6u6Jo+byRLjAkvyHTAxXpeyw+V
-	 /gJGv+0VEQM1PvUFvDTht8Gjr8+Q0S0cATUpqK24ugQffmDh54P/EFBTIwJD1NXWpyVH0
-	 1wlHSO+pNtkWLJFlwhllFBU2rfLYmZaRi1VVMLTHcYS6gJYTPwy9/JGM7pWVY5rozvh6b
-	 0pe3PCG0P/wrCOfVRJapEb+hlPHz4W1Nca6pKg0XdP5B40IA64IVMJCWDG09Y/r7RWA==
+	t=1793801390;
+	b=mARfgcJH+MgwHKZAbxeWFcodz05feeI2seo5l8D5GNQdlNsrTWuK6NS9TzhzSnhevtLi
+	 qAt2hekvZL1kTWJVeE3nPdPIMUYLQDMmTxErM3J1aPSEH5apFFKXBFIRkuGJ8w98ALGbV
+	 nhcMZr4IcBO69lHkSSmgrTGn8sw4dFOJfozZFilmJPO+TJz1Rkw365IMXhHWUI2y8xuMK
+	 nupCn2/triA6h6Y+s18rwll1xNP24SkssF27HYPoJYpoddq/cPUj5VNg3qQ3sp3wQxO0I
+	 MwU3OT9dxdHOMzqSdWtg5HbG3hewNbum6S1mFRoSsYgbmUQla5x0WA/ZzCU5ijmSWJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793800664;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=Eo4Ci/+bsVZNIxUk+iOREP8Nc4wf2GCzgefx03HrhMQ=;
-	b=KqhALkK6ThYDrtV8j6RDY+nKww29fu61+I2gV0aFQ6WTeHp7TQO6vzYhsU+mB2THzONg
-	 DE8UasxAAnSO80dq+cHk4OQzT/W6Zz8W8NJcnzxa2U0vVD6XCuRkY3Oxm4g+syzQ/CSzA
-	 YIhQ32DauzzmM8xutplsqKpOLDt/9hgtNO5D7pZoz1d3pZeK2qZLyRC4N60UvYTlcVWEC
-	 9jZqHwqSvekO9LFDQC8GzpNhwn14bpt8Do1jJMdMy4fWRX9wuffzmtyxezzW+rBjbh1w5
-	 VCIPyfG6RGUpeiHqbKZw24K6lDzI/+oLD5bu66zPyLlHX7MywK0awyaDm5qh/CfWveA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793801390;
+	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type;
+	bh=Rja63v8SvhDJ5Nc3/E8dKLOwWZaN1vZYvJXp3TIYRyU=;
+	b=W51iHSQuiVFv/VifUMmI8iptnvdteV4vYkMBswZ0c643duySmRplkgmSgJIwonf6nCPG
+	 Cjyy4zzow0ze3O5sAjJSxygWyFDy5BCo1DrM9DMakdavA8E2RmWDCrss/K6RoYDZnshmL
+	 mExE8wrju4i/hiV3NKM2m6PpEpnZ1DqG/XCL2XbAcSmpPDxnMfbUWjAd9RmcKLfukg7jq
+	 XkEfp9oPMTBHYqJl+UTowvvKh+tu2L0LzRv8ZFAkJ/TEx2Bo6zOV/OVV01pfZf576/JJ3
+	 o6zXYbxIkElYl0/kLMtGo5BDABChy/PLcV0pU3vhOCP8zAaRTCP0TSFcCfc8Ef5jNPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OqgyJjOI;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=iKmhtW9w;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dmarc=pass header.from=sntech.de;
+	spf=pass smtp.mailfrom=sntech.de;
+	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=gvk23y7k;
+	arc=none smtp.remote-ip=185.11.138.130
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E62606A338
-	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 13:57:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17E62606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7524606A31B;
+	Wed,  4 Nov 2026 14:09:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7524606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OqgyJjOI;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=iKmhtW9w
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A4Ba2Qa1150070
-	for <linux-usb@vger.kernel.org>; Wed, 4 Nov 2026 13:57:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Eo4Ci/+bsVZNIxUk+iOREP8Nc4wf2GCzgefx03HrhMQ=; b=OqgyJjOIOi6iq+fd
-	6/3OBwbnpSFHEDMFcK7Im0ACldgSNml8YIy0PJwjZAU1hj2G5fzGu+hHMp8056s7
-	Olncqm0L78ev3PsNmS0/XHdwu61jdjOZEfqcqK4/0x6Y+D/hvNGkv30UNI/jO5y4
-	8A7QyyMBeSaMmEs2VHEnZQo1rRVCZ6ZepqX8m9SCIEmSfeDBz9UA1ipEZo1x3dG9
-	UHkaeWa7OpfFDAWhjEFmCsDrvthSADRAjhDR66qfTf5bH9LgzFQ+qZMryQEH7oPj
-	yAH3gkR4bN1RZKuYPffLbDXg9h5kHvAIGCJd8fmRPWy7yukYEcps+E33R/cXv87T
-	65Zlew==
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hqn8y425p-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 13:57:43 +0000 (GMT)
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-3425098ae4bso2665589eec.0
-        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 05:57:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793800663; x=1794405463; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Eo4Ci/+bsVZNIxUk+iOREP8Nc4wf2GCzgefx03HrhMQ=;
-        b=iKmhtW9wZmHN45O287/KnhiDYIBjv8PNNqn6CK7AKAkJkNN+ycBQZzKEfjz1UC3Vqb
-         /2P4ovSauS6AfbvyuwFtEoMhZG25InJ9gQVqe+eZTgO6xlbMmt+YpnbSi6Dc9HjdEBoJ
-         OMGrZhP//IJZgbNVsMkfSV4TpZro1rwwF8YflXeeVD2hv5sbWX9NtaQdTlpFNmzkQ9Wv
-         VfAsFO2ldbULk7fOJujKPCbwMnhra+YuKLUYHOQlOy8k/bQmX3Eg41UYaztGA28SwVRL
-         T/F7OC+0WH5jQxVd1JJ06BmQ/mN4wtb5EXQndPtQf4a1X9luGr9SRDhY/qaWEopHQoKS
-         HUoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793800663; x=1794405463;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Eo4Ci/+bsVZNIxUk+iOREP8Nc4wf2GCzgefx03HrhMQ=;
-        b=XO4GS+kaUKJwnnMlzPj5UoesmCNAquhkM1RoZcSDG+R99UnI8MJbJq832tjnTw317M
-         bdIaizEB0yE5FHKW+2oE4UOeNSq51J9OL6lc+WJLktv815xPxSqQXAmphCuNSVXLHvG8
-         OjJLNocQwoQOncf4dQ9TR8MDPY1uvow5JmmEjMKu5VZ2bxdHXqaQCQ3m65RzBXhZDtgz
-         cEEa8pWt/qEZTArAWJDCpVD6EbFhS3wVb+j1fPjeVWtz3EaG9n8tD6G5bI4YqHhyVadx
-         VxNcwPV58Z3527fxnWz12/EYxn4xnYJW9AWUnoKd843ilVWN7ljs9tlUY7YHfiDbUksv
-         Cizg==
-X-Forwarded-Encrypted: i=1; AKwUvBxtuXOEA6HNmcbkxXnku+AJzsUykJdm65bolk7mjEWAFHaKKZ8rpYy3VgQmuMMdaVZh+jDf1S889PE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+fzHsvHL5hRVQcaeJXvtiN1Da6FPVc1en2aj+i0ZoMZT3dFxND
-	cxUC6iTcsO30tJqBthXuaY5o0tA1SNQ+Kv6uNy9pOu6niuflMSyKvz1qPBtyNLmtd6jKuc8U0qv
-	1FfBc87FmFL9rD0sZYFQ5xaJaWV2SL3m8Om7vMqz9RGIitOvK58d9iUvAcdkY75CF4M12FYM=
-X-Gm-Gg: AYBFou09uRgTLu6JB9KqXlOeM623+0ThyWb1qUz+tr7HLO5IaaHQpyQdSK5YeDMgBDb
-	20SRXzD1gtxhfWXyqkWvgs9O9pA+EqMRtAdjqUGsBhY4gIORIy0teCd7QxfKU/2iY2KW5P8tAE/
-	6UFE8MFSMEJQI3FBi1rv0AW3TjYeuOkW79PS8uX+hKn/Kbu+jRIFMORKLycPl+d9T08DbAUcyCe
-	eIlTTjN6w9GTuMnbwRb0++bGn5KbK4rbMnDz04M++ItH4I9d8YfrNOYP1lsjUxcLs9537wuie8e
-	oRf3o8rJhM+b2VfwyQP82WtBoq056lLRknoJc5PP9MTNjlvUv65SXcZBMW69t6/ado3R0kYaWhi
-	NCFTutGGTtOl6Y4pu+SS4+806nwnIOXyCLaCV4Ek5dXMJ0kwpjuDMrYFDtrtNC6nvblAbe0jR3J
-	0Mb9cSmlKEvidWlKbY5G4y7CKR2cYR8h9Xkm80Zag=
-X-Received: by 2002:a05:7022:eb50:10b0:183:942e:8493 with SMTP id a92af1059eb24-1ac5a67f97bmr24419807c88.11.1793800662384;
-        Wed, 04 Nov 2026 05:57:42 -0800 (PST)
-X-Received: by 2002:a05:7022:eb50:10b0:183:942e:8493 with SMTP id a92af1059eb24-1ac5a67f97bmr24419767c88.11.1793800661636;
-        Wed, 04 Nov 2026 05:57:41 -0800 (PST)
-Received: from [192.168.1.2] ([122.177.242.199])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245b87c4asm7874697c88.3.2026.11.04.05.57.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Nov 2026 05:57:41 -0800 (PST)
-Message-ID: <59c79112-0079-42b0-b6c2-d311f20e0dd2@oss.qualcomm.com>
-Date: Wed, 4 Nov 2026 19:27:32 +0530
+	dkim=pass (2048-bit key, unprotected) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=gvk23y7k
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=Rja63v8SvhDJ5Nc3/E8dKLOwWZaN1vZYvJXp3TIYRyU=; b=gvk23y7kJEBYZNbym5UkxTlO9P
+	MKtLMuI1GtzOfwN8IgqVVjghpttW9kmneskZ3WPq/IFiVAablWLBNFk56LfxqEGZgOvXx8WvwGT05
+	uz4Sv81J0cHGguIvDSvduHmMhSIfNBAj95p3wTrNBPahDYaU9e+A9h0uVd/bhcK5g/9mK3KfQIBKH
+	hamk2TPUX/tBy/e/UwM9Y16TZr6/oAnzSdpM+1QIsPJEsWK7mFUS2XPS7jTH9CWyW9D2brNDFzJkQ
+	mgaSr75asaqS8r0T2ezs8RyHv5WLRJu5WgA44hEXYBdaaw90q4zsL9XLuyJPoEi1oMbczaK+4tdt1
+	0yC29Khw==;
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Elaine Zhang <zhangqing@rock-chips.com>, Lee Jones <lee@kernel.org>,
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+ Richard Cochran <richardcochran@gmail.com>, Ulf Hansson <ulfh@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Jisheng Zhang <jszhang@kernel.org>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, David Wu <david.wu@rock-chips.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Shawn Lin <shawn.lin@rock-chips.com>,
+ linux-rockchip@lists.infradead.org
+Cc: Cunhao Lu <1579567540@qq.com>, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ mfd@lists.linux.dev, linux-gpio@vger.kernel.org, netdev@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-phy@lists.infradead.org,
+ linux-usb@vger.kernel.org, 1579567540@qq.com
+Subject: Re: [PATCH 08/27] pinctrl: rockchip: Add RK3572 support
+Date: Wed, 04 Nov 2026 15:09:01 +0100
+Message-ID: <4309904.anssfa2V6d@diego>
+In-Reply-To: <20261022-add-board-ok3572-c-v1-8-0b0fd85a31ee@qq.com>
+References:
+ <20261022-add-board-ok3572-c-v1-0-0b0fd85a31ee@qq.com>
+ <20261022-add-board-ok3572-c-v1-8-0b0fd85a31ee@qq.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -116,123 +91,389 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/1] usb: dwc3: qcom: Keep wakeup option default off
-To: Peter Chen <peter.chen@oss.qualcomm.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        cros-qcom-dts-watchers@chromium.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Johan Hovold <johan@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
-        Udipto Goswami <udipto.goswami@oss.qualcomm.com>,
-        Jack Pham <jack.pham@oss.qualcomm.com>,
-        Pratham Pratap <pratham.pratap@oss.qualcomm.com>,
-        Prashanth K <prashanth.k@oss.qualcomm.com>,
-        Elson Serrao <elson.serrao@oss.qualcomm.com>,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20261103061401.2942139-1-peter.chen@oss.qualcomm.com>
- <20261103061401.2942139-2-peter.chen@oss.qualcomm.com>
-Content-Language: en-US
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-In-Reply-To: <20261103061401.2942139-2-peter.chen@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: WCgYulvQlokJZ5uf9MEFJrsDkykyXo5W
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDA1NSBTYWx0ZWRfX7U13ThQwIKjv
- FrVSG56Tu3UbAzFcEa01a4gYjPNzIW9fO5XsxoqxWZ68cD4gjZ2FvSXc/OyVaUk25GiYXEg3/5g
- rIgJle6PHJpL8tt+T6j3JzAmuewOPQJZj4G0F8N7vhsxbtD3M3jgXIXcbnuczVCEm2issEJ3tLr
- eTA0g1ic5dEwqq9OtM7VtsElQXgDo8FSpveuJQ7C6rcGWT4fOJW9YDV7QAcHKuMzebump41tE/e
- GR2INgPqoQCyFKK8CKiW/FwbXuCKbMUsRWzrbZWV5UGpKIsYvrO6J2iw1p0yg4tw/SVD/5I0l54
- OttEuxCqpTgm9a55t4mpKHzv1rQ05WaiS88uZpVXvLfzbcmOh9vZdn346rOL242+0B0wUSq8BdE
- 8VTqlMFAzpHaEtjLc/tnjIhKsEaEs9ZyRVKApIS3UjABg8Yip/HtEWbBEtgRg0H0bNys6gS7AUV
- pJxBHaPizyOwgoTPuNw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA0MDA1NSBTYWx0ZWRfX1Dt6ium/5+M0
- 6bZ5UjHAP+ogDKqyscYs7MgfDslGEc0f3PrdULc3zqTRiK80riC1BzWivCdda2rmbel8RkxgqOO
- stbi1EQpYGloRqFmGdHrx8NA/cAu7QI=
-X-Proofpoint-ORIG-GUID: WCgYulvQlokJZ5uf9MEFJrsDkykyXo5W
-X-Authority-Analysis: v=2.4 cv=NP5AaE6g c=1 sm=1 tr=0 ts=6aeb39d7 cx=c_pps
- a=cFYjgdjTJScbgFmBucgdfQ==:117 a=4cW2FY/XLap1olThQF9nEw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=X1iYf39TFmsXOEfCDxQA:9 a=QEXdDO2ut3YA:10
- a=scEy_gLbYbu1JhEsrz4S:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-04_04,2026-11-03_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 bulkscore=0 suspectscore=0 adultscore=0
- phishscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611040055
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
+Am Mittwoch, 21. Oktober 2026, 18:11:05 Mitteleurop=C3=A4ische Normalzeit s=
+chrieb Cunhao Lu via B4 Relay:
+> From: Cunhao Lu <1579567540@qq.com>
+>=20
+> Support RK3572 pinmux, bias, drive-strength, and Schmitt controls.
+> Enable input buffers during mux changes for the RGMII receive clocks.
+>=20
+> Signed-off-by: Cunhao Lu <1579567540@qq.com>
 
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-On 11/3/2026 11:44 AM, Peter Chen wrote:
-> The "wakeup-source" property, as described in
-> Documentation/devicetree/bindings/power/wakeup-source.txt, only says
-> that a device is capable of waking up the system. Whether wakeup is
-> actually enabled is a policy decision, and drivers use
-> device_may_wakeup() to decide whether to arm the hardware wakeup logic.
-> 
-> Currently dwc3-qcom calls device_init_wakeup(dev, true) when the
-> property is present, so USB wakeup is enabled by default and users who
-> do not want USB activity (e.g. connect/disconnect) to wake up the system
-> may have to disable it through power/wakeup, otherwise, unexpected wakeup
-> may happen.
-> 
-> Having wakeup enabled by default also costs power. In host mode,
-> when device_may_wakeup() is true, system suspend keeps the controller
-> and PHYs powered (dwc3_core_exit() is skipped and the genpd is not
-> powered off) so that the wakeup interrupts can fire, even on systems
-> where USB is never used as a wakeup source and could be fully powered
-> off.
-> 
-> For USB controllers, keep the wakeup option default off and only mark
-> the device as wakeup capable, so that the user decides which USB port
-> is used as a system wakeup source. Users who need it can enable it with:
-> 
->    echo enabled > /sys/devices/.../<dwc3 device>/power/wakeup
-> 
-> While at it, drop the local wakeup_source variable and use
-> device_property_read_bool() like the other property reads in probe.
-> 
-
-++cros-qcom-dts-watchers since this is used in chromium userspace and 
-modifications might be needed there as well.
-
-Regards,
-Krishna,
-
-> Signed-off-by: Peter Chen <peter.chen@oss.qualcomm.com>
 > ---
->   drivers/usb/dwc3/dwc3-qcom.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-> index 8116dc94c181..1451b5eaccce 100644
-> --- a/drivers/usb/dwc3/dwc3-qcom.c
-> +++ b/drivers/usb/dwc3/dwc3-qcom.c
-> @@ -653,7 +653,6 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->   	struct resource		*r;
->   	int			ret;
->   	bool			ignore_pipe_clk;
-> -	bool			wakeup_source;
->   
->   	qcom = devm_kzalloc(&pdev->dev, sizeof(*qcom), GFP_KERNEL);
->   	if (!qcom)
-> @@ -757,8 +756,8 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->   	if (ret)
->   		goto remove_core;
->   
-> -	wakeup_source = of_property_read_bool(dev->of_node, "wakeup-source");
-> -	device_init_wakeup(&pdev->dev, wakeup_source);
-> +	if (device_property_read_bool(dev, "wakeup-source"))
-> +		device_set_wakeup_capable(dev, true);
->   
->   	qcom->is_suspended = false;
->   
+>  drivers/pinctrl/pinctrl-rockchip.c | 230 +++++++++++++++++++++++++++++++=
++++++-
+>  drivers/pinctrl/pinctrl-rockchip.h |   1 +
+>  2 files changed, 230 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/pinctrl/pinctrl-rockchip.c b/drivers/pinctrl/pinctrl=
+=2Drockchip.c
+> index ba47b6f323cc..6d9a6510b343 100644
+> --- a/drivers/pinctrl/pinctrl-rockchip.c
+> +++ b/drivers/pinctrl/pinctrl-rockchip.c
+> @@ -1363,6 +1363,10 @@ static int rockchip_get_mux(struct rockchip_pin_ba=
+nk *bank, int pin)
+>  	if (bank->recalced_mask & BIT(pin))
+>  		rockchip_get_recalced_mux(bank, pin, &reg, &bit, &mask);
+> =20
+> +	if (ctrl->type =3D=3D RK3572 && bank->bank_num =3D=3D 0 &&
+> +	    pin >=3D RK_PB4 && pin <=3D RK_PB7)
+> +		reg +=3D 0x2000;
+> +
+>  	if (ctrl->type =3D=3D RK3576) {
+>  		if ((bank->bank_num =3D=3D 0) && (pin >=3D RK_PB4) && (pin <=3D RK_PB7=
+))
+>  			reg +=3D 0x1ff4; /* GPIO0_IOC_GPIO0B_IOMUX_SEL_H */
+> @@ -1421,6 +1425,24 @@ static int rockchip_verify_mux(struct rockchip_pin=
+_bank *bank,
+>  	return 0;
+>  }
+> =20
+> +static int rk3572_enable_input(struct rockchip_pin_bank *bank, int pin)
+> +{
+> +	static const u32 offsets[] =3D { 0x300, 0x10310, 0x12320, 0x14330, 0x14=
+340 };
+> +	struct rockchip_pinctrl *info =3D bank->drvdata;
+> +	u32 reg, bit =3D pin % 8;
+> +
+> +	if (bank->bank_num >=3D ARRAY_SIZE(offsets))
+> +		return -EINVAL;
+> +
+> +	reg =3D offsets[bank->bank_num] + pin / 8 * 4;
+> +	if (bank->bank_num =3D=3D 0 && pin >=3D RK_PB4)
+> +		reg +=3D 0x2000;
+> +	else if (bank->bank_num =3D=3D 4 && pin >=3D RK_PC0)
+> +		reg -=3D 0x10000;
+> +
+> +	return regmap_write(info->regmap_base, reg, BIT(bit + 16) | BIT(bit));
+> +}
+> +
+>  /*
+>   * Set a new mux function for a pin.
+>   *
+> @@ -1498,6 +1520,10 @@ static int rockchip_set_mux(struct rockchip_pin_ba=
+nk *bank, int pin, int mux)
+>  	if (bank->recalced_mask & BIT(pin))
+>  		rockchip_get_recalced_mux(bank, pin, &reg, &bit, &mask);
+> =20
+> +	if (ctrl->type =3D=3D RK3572 && bank->bank_num =3D=3D 0 &&
+> +	    pin >=3D RK_PB4 && pin <=3D RK_PB7)
+> +		reg +=3D 0x2000;
+> +
+>  	if (ctrl->type =3D=3D RK3576) {
+>  		if ((bank->bank_num =3D=3D 0) && (pin >=3D RK_PB4) && (pin <=3D RK_PB7=
+))
+>  			reg +=3D 0x1ff4; /* GPIO0_IOC_GPIO0B_IOMUX_SEL_H */
+> @@ -1568,8 +1594,13 @@ static int rockchip_set_mux(struct rockchip_pin_ba=
+nk *bank, int pin, int mux)
+>  	rmask =3D data | (data >> 16);
+>  	data |=3D (mux & mask) << bit;
+>  	ret =3D regmap_update_bits(regmap, reg, rmask, data);
+> +	if (ret)
+> +		return ret;
+> =20
+> -	return ret;
+> +	if (ctrl->type =3D=3D RK3572)
+> +		return rk3572_enable_input(bank, pin);
+> +
+> +	return 0;
+>  }
+> =20
+>  #define PX30_PULL_PMU_OFFSET		0x10
+> @@ -3097,6 +3128,151 @@ static int rk3568_calc_drv_reg_and_bit(struct roc=
+kchip_pin_bank *bank,
+>  	return 0;
+>  }
+> =20
+> +#define RK3572_DRV_BITS_PER_PIN		4
+> +#define RK3572_DRV_PINS_PER_REG		4
+> +#define RK3572_DRV_GPIO0_OFFSET		0x100
+> +#define RK3572_DRV_GPIO1_OFFSET		0x10120
+> +#define RK3572_DRV_GPIO2_OFFSET		0x12140
+> +#define RK3572_DRV_GPIO3_OFFSET		0x14160
+> +#define RK3572_DRV_GPIO4_OFFSET		0x14180
+> +
+> +static int rk3572_calc_drv_reg_and_bit(struct rockchip_pin_bank *bank,
+> +				       int pin_num, struct regmap **regmap,
+> +				       int *reg, u8 *bit)
+> +{
+> +	struct rockchip_pinctrl *info =3D bank->drvdata;
+> +
+> +	*regmap =3D info->regmap_base;
+> +
+> +	switch (bank->bank_num) {
+> +	case 0:
+> +		*reg =3D RK3572_DRV_GPIO0_OFFSET;
+> +		if (pin_num >=3D 12)
+> +			*reg +=3D 0x2000;
+> +		break;
+> +	case 1:
+> +		*reg =3D RK3572_DRV_GPIO1_OFFSET;
+> +		break;
+> +	case 2:
+> +		*reg =3D RK3572_DRV_GPIO2_OFFSET;
+> +		break;
+> +	case 3:
+> +		*reg =3D RK3572_DRV_GPIO3_OFFSET;
+> +		break;
+> +	case 4:
+> +		*reg =3D RK3572_DRV_GPIO4_OFFSET;
+> +		if (pin_num >=3D 16)
+> +			*reg -=3D 0x10000;
+> +		break;
+> +	default:
+> +		dev_err(info->dev, "unsupported bank_num %d\n", bank->bank_num);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*reg +=3D ((pin_num / RK3572_DRV_PINS_PER_REG) * 4);
+> +	*bit =3D pin_num % RK3572_DRV_PINS_PER_REG;
+> +	*bit *=3D RK3572_DRV_BITS_PER_PIN;
+> +
+> +	return 0;
+> +}
+> +
+> +#define RK3572_PULL_BITS_PER_PIN	2
+> +#define RK3572_PULL_PINS_PER_REG	8
+> +#define RK3572_PULL_GPIO0_OFFSET	0x200
+> +#define RK3572_PULL_GPIO1_OFFSET	0x10210
+> +#define RK3572_PULL_GPIO2_OFFSET	0x12220
+> +#define RK3572_PULL_GPIO3_OFFSET	0x14230
+> +#define RK3572_PULL_GPIO4_OFFSET	0x14240
+> +
+> +static int rk3572_calc_pull_reg_and_bit(struct rockchip_pin_bank *bank,
+> +					int pin_num, struct regmap **regmap,
+> +					int *reg, u8 *bit)
+> +{
+> +	struct rockchip_pinctrl *info =3D bank->drvdata;
+> +
+> +	*regmap =3D info->regmap_base;
+> +
+> +	switch (bank->bank_num) {
+> +	case 0:
+> +		*reg =3D RK3572_PULL_GPIO0_OFFSET;
+> +		if (pin_num >=3D 12)
+> +			*reg +=3D 0x2000;
+> +		break;
+> +	case 1:
+> +		*reg =3D RK3572_PULL_GPIO1_OFFSET;
+> +		break;
+> +	case 2:
+> +		*reg =3D RK3572_PULL_GPIO2_OFFSET;
+> +		break;
+> +	case 3:
+> +		*reg =3D RK3572_PULL_GPIO3_OFFSET;
+> +		break;
+> +	case 4:
+> +		*reg =3D RK3572_PULL_GPIO4_OFFSET;
+> +		if (pin_num >=3D 16)
+> +			*reg -=3D 0x10000;
+> +		break;
+> +	default:
+> +		dev_err(info->dev, "unsupported bank_num %d\n", bank->bank_num);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*reg +=3D ((pin_num / RK3572_PULL_PINS_PER_REG) * 4);
+> +	*bit =3D pin_num % RK3572_PULL_PINS_PER_REG;
+> +	*bit *=3D RK3572_PULL_BITS_PER_PIN;
+> +
+> +	return 0;
+> +}
+> +
+> +#define RK3572_SMT_BITS_PER_PIN		1
+> +#define RK3572_SMT_PINS_PER_REG		8
+> +#define RK3572_SMT_GPIO0_OFFSET		0x400
+> +#define RK3572_SMT_GPIO1_OFFSET		0x10410
+> +#define RK3572_SMT_GPIO2_OFFSET		0x12420
+> +#define RK3572_SMT_GPIO3_OFFSET		0x14430
+> +#define RK3572_SMT_GPIO4_OFFSET		0x14440
+> +
+> +static int rk3572_calc_schmitt_reg_and_bit(struct rockchip_pin_bank *ban=
+k,
+> +					   int pin_num,
+> +					   struct regmap **regmap,
+> +					   int *reg, u8 *bit)
+> +{
+> +	struct rockchip_pinctrl *info =3D bank->drvdata;
+> +
+> +	*regmap =3D info->regmap_base;
+> +
+> +	switch (bank->bank_num) {
+> +	case 0:
+> +		*reg =3D RK3572_SMT_GPIO0_OFFSET;
+> +		if (pin_num >=3D 12)
+> +			*reg +=3D 0x2000;
+> +		break;
+> +	case 1:
+> +		*reg =3D RK3572_SMT_GPIO1_OFFSET;
+> +		break;
+> +	case 2:
+> +		*reg =3D RK3572_SMT_GPIO2_OFFSET;
+> +		break;
+> +	case 3:
+> +		*reg =3D RK3572_SMT_GPIO3_OFFSET;
+> +		break;
+> +	case 4:
+> +		*reg =3D RK3572_SMT_GPIO4_OFFSET;
+> +		if (pin_num >=3D 16)
+> +			*reg -=3D 0x10000;
+> +		break;
+> +	default:
+> +		dev_err(info->dev, "unsupported bank_num %d\n", bank->bank_num);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*reg +=3D ((pin_num / RK3572_SMT_PINS_PER_REG) * 4);
+> +	*bit =3D pin_num % RK3572_SMT_PINS_PER_REG;
+> +	*bit *=3D RK3572_SMT_BITS_PER_PIN;
+> +
+> +	return 0;
+> +}
+> +
+>  #define RK3576_DRV_BITS_PER_PIN		4
+>  #define RK3576_DRV_PINS_PER_REG		4
+>  #define RK3576_DRV_GPIO0_AL_OFFSET	0x10
+> @@ -3441,6 +3617,18 @@ static int rockchip_get_drive_perpin(struct rockch=
+ip_pin_bank *bank,
+>  	if (ret)
+>  		return ret;
+> =20
+> +	if (ctrl->type =3D=3D RK3572) {
+> +		ret =3D regmap_read(regmap, reg, &data);
+> +		if (ret)
+> +			return ret;
+> +		data >>=3D bit;
+> +		if ((bank->bank_num =3D=3D 0 && pin_num < 12) ||
+> +		    (bank->bank_num =3D=3D 4 && (pin_num =3D=3D 24 || pin_num =3D=3D 2=
+5)))
+> +			return ((data & BIT(1)) >> 1) | ((data & BIT(0)) << 1);
+> +		return ((data & BIT(2)) >> 2) | ((data & BIT(0)) << 2) |
+> +		       (data & BIT(1));
+> +	}
+> +
+>  	switch (drv_type) {
+>  	case DRV_TYPE_IO_1V8_3V0_AUTO:
+>  	case DRV_TYPE_IO_3V3_ONLY:
+> @@ -3559,6 +3747,22 @@ static int rockchip_set_drive_perpin(struct rockch=
+ip_pin_bank *bank,
+>  		rmask_bits =3D RK3568_DRV_BITS_PER_PIN;
+>  		ret =3D (1 << (strength + 1)) - 1;
+>  		goto config;
+> +	} else if (ctrl->type =3D=3D RK3572) {
+> +		if (strength < 0 || strength > 7)
+> +			return -EINVAL;
+> +		rmask_bits =3D RK3572_DRV_BITS_PER_PIN;
+> +		if ((bank->bank_num =3D=3D 0 && pin_num < 12) ||
+> +		    (bank->bank_num =3D=3D 4 && (pin_num =3D=3D 24 || pin_num =3D=3D 2=
+5))) {
+> +			/* Only four drive-strength levels are supported. */
+> +			if (strength > 3)
+> +				return -EINVAL;
+> +			ret =3D ((strength & BIT(1)) >> 1) | ((strength & BIT(0)) << 1);
+> +		} else {
+> +			ret =3D ((strength & BIT(2)) >> 2) |
+> +			      ((strength & BIT(0)) << 2) |
+> +			      (strength & BIT(1));
+> +		}
+> +		goto config;
+>  	} else if (ctrl->type =3D=3D RK3576) {
+>  		rmask_bits =3D RK3576_DRV_BITS_PER_PIN;
+>  		ret =3D ((strength & BIT(2)) >> 2) | ((strength & BIT(0)) << 2) | (str=
+ength & BIT(1));
+> @@ -3717,6 +3921,7 @@ static int rockchip_get_pull(struct rockchip_pin_ba=
+nk *bank, int pin_num)
+>  	case RK3528:
+>  	case RK3562:
+>  	case RK3568:
+> +	case RK3572:
+>  	case RK3576:
+>  	case RK3588:
+>  		pull_type =3D bank->pull_type[pin_num / 8];
+> @@ -3786,6 +3991,7 @@ static int rockchip_set_pull(struct rockchip_pin_ba=
+nk *bank,
+>  	case RK3528:
+>  	case RK3562:
+>  	case RK3568:
+> +	case RK3572:
+>  	case RK3576:
+>  	case RK3588:
+>  		pull_type =3D bank->pull_type[pin_num / 8];
+> @@ -4084,6 +4290,7 @@ static bool rockchip_pinconf_pull_valid(struct rock=
+chip_pin_ctrl *ctrl,
+>  	case RK3528:
+>  	case RK3562:
+>  	case RK3568:
+> +	case RK3572:
+>  	case RK3576:
+>  	case RK3588:
+>  		return (pull !=3D PIN_CONFIG_BIAS_PULL_PIN_DEFAULT);
+> @@ -4296,6 +4503,7 @@ static const struct pinconf_ops rockchip_pinconf_op=
+s =3D {
+> =20
+>  static const struct of_device_id rockchip_bank_match[] =3D {
+>  	{ .compatible =3D "rockchip,gpio-bank" },
+> +	{ .compatible =3D "rockchip,rk3572-gpio-bank" },
+>  	{ .compatible =3D "rockchip,rk3188-gpio-bank0" },
+>  	{},
+>  };
+> @@ -5643,6 +5851,24 @@ static struct rockchip_pin_ctrl rk3568_pin_ctrl =
+=3D {
+>  					       PULL_TYPE_IO_1V8_ONLY,	\
+>  					       PULL_TYPE_IO_1V8_ONLY)
+> =20
+> +static struct rockchip_pin_bank rk3572_pin_banks[] =3D {
+> +	RK3576_PIN_BANK(0, "gpio0", 0, 0x8, 0x2010, 0x2018),
+> +	RK3576_PIN_BANK(1, "gpio1", 0x10020, 0x10028, 0x10030, 0x10038),
+> +	RK3576_PIN_BANK(2, "gpio2", 0x12040, 0x12048, 0x12050, 0x12058),
+> +	RK3576_PIN_BANK(3, "gpio3", 0x14060, 0x14068, 0x14070, 0x14078),
+> +	RK3576_PIN_BANK(4, "gpio4", 0x14080, 0x14088, 0x4090, 0x4098),
+> +};
+> +
+> +static struct rockchip_pin_ctrl rk3572_pin_ctrl __maybe_unused =3D {
+> +	.pin_banks		=3D rk3572_pin_banks,
+> +	.nr_banks		=3D ARRAY_SIZE(rk3572_pin_banks),
+> +	.label			=3D "RK3572-GPIO",
+> +	.type			=3D RK3572,
+> +	.pull_calc_reg		=3D rk3572_calc_pull_reg_and_bit,
+> +	.drv_calc_reg		=3D rk3572_calc_drv_reg_and_bit,
+> +	.schmitt_calc_reg	=3D rk3572_calc_schmitt_reg_and_bit,
+> +};
+> +
+>  static struct rockchip_pin_bank rk3576_pin_banks[] =3D {
+>  	RK3576_PIN_BANK(0, "gpio0", 0, 0x8, 0x2004, 0x200C),
+>  	RK3576_PIN_BANK(1, "gpio1", 0x4020, 0x4028, 0x4030, 0x4038),
+> @@ -5727,6 +5953,8 @@ static const struct of_device_id rockchip_pinctrl_d=
+t_match[] =3D {
+>  		.data =3D &rk3562_pin_ctrl },
+>  	{ .compatible =3D "rockchip,rk3568-pinctrl",
+>  		.data =3D &rk3568_pin_ctrl },
+> +	{ .compatible =3D "rockchip,rk3572-pinctrl",
+> +		.data =3D &rk3572_pin_ctrl },
+>  	{ .compatible =3D "rockchip,rk3576-pinctrl",
+>  		.data =3D &rk3576_pin_ctrl },
+>  	{ .compatible =3D "rockchip,rk3588-pinctrl",
+> diff --git a/drivers/pinctrl/pinctrl-rockchip.h b/drivers/pinctrl/pinctrl=
+=2Drockchip.h
+> index 950097699643..553197f6dc69 100644
+> --- a/drivers/pinctrl/pinctrl-rockchip.h
+> +++ b/drivers/pinctrl/pinctrl-rockchip.h
+> @@ -203,6 +203,7 @@ enum rockchip_pinctrl_type {
+>  	RK3528,
+>  	RK3562,
+>  	RK3568,
+> +	RK3572,
+>  	RK3576,
+>  	RK3588,
+>  };
+>=20
+>=20
+
+
+
 
