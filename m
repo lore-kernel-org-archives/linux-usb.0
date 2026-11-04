@@ -1,63 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793810439;
-	b=YUPZ9s+G+JfEEh8d9REoNSOuucAjzfCl6pEmcii/K3LnFWDOsbv2gvLVFQwAgX57JGXK
-	 Bh+OhHkgKKTb7qM/d/0aBJgj6essyh8dMfyFQdxGmDkXCsB231bXoy+r91waB3iebX5xn
-	 5TZ1IJJcnXzkOaAtx96D2Q/BBqM6EovWXMQpDg39vpiHOaYPhy8r3HnZMR+aROd0srs8A
-	 5lwYr1GXONcLwDO/DfWweiW7bAUVYIK9gtxCQykwXKSiRLHww1ZHlFnfdR9gK+yvRRQKZ
-	 ZZiiLo59H61Vpxuq4VLL9c7i5LeWSPNq3qQxz9pmJtwIV5NiTQjusJnMm0jLIOC+4iA==
+	t=1793810575;
+	b=YfAHjXcUda5hRdy9nCxDxuBRwaeaGWT5mfzpullmu/R52/vanWfw9tsf/IF88rkI1S1N
+	 mUuMRmIHWq6fyF4HGD61sjuflWR9e/ipTWsML2/RzvkQ92vJoRZQFcwLkJbKTdLdd/5GV
+	 mq1wZOWT+sB/geS1W+4hXo5kg5gF2DSwSgSJwCNEfxxQF2i8ZXYAzEC1sHngQcQlxWy5X
+	 kWxogOGVWFlWUpcW/k9WQZqSQTMyCTkmAip0K56+XVAcM/rnO7XL4+HARwKJ3Fo5Zvbc4
+	 FiKSnOaM4xPAO3BTuCws3loei9VQUfNzrG6xhxhmUIvgzV7q/6Wa9CmE5Rsxi0AUY0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793810439;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-MBO-RS-META:X-MBO-RS-ID;
-	bh=jhH1JhvZf62cYFTFXCoTDRK4dg1x0ip0prOKCSKui5Y=;
-	b=GnVegrztCSnR5+41HFBBplbeAC5m6hBGUaZbJ2G9UkTn9wiOy1YCu2mX713zDR+XjF5/
-	 ol+g8gyAeb47JhhAakW0Cfhya6gjdu9YEkWvm+HNE3Hs5q+N+92Gy5iAn9VU0HViA8X2T
-	 T/gxBdidWWPeohARxKwWPGqdLw/jUlcM1k7bgsHwUhhB6M5xhDu1Br2cNta8izXnutsTE
-	 qqzCykoXe4+P0as+xrPoDRRUccCgfwpR0Bukcg396EVPF9R+u3c1/8LTFqAHuSms/jqgV
-	 mewBlt2tXrbQrh62zuWBnQFAvcar/YlmviyUD1I/c1kTWBqYDKO85RqcLu3zvUY/Jvw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793810575;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=XGE/RY50UT6g9vwld0UifzIuOmbgLsOOfM6PB7+iF/I=;
+	b=xKJxQYvhoz0/u9vwO01lQSG7Yl38Es0gYdTGIXsMXSTlai95Ye6GGaK/a2shTerDj+lR
+	 k2HywbwxYO7qPZuVvmT9O9PaQETYEEvRwJK6eges/QYNU+8iTM5ZeEy9eztSGgAWH8o/p
+	 WhnJRSknoYIoeKp+bUF+X/78548XucShVRg0typsWgxhI4WvE3FG62DaYRzcbkBQmp5Ub
+	 mtk9heHOAdfwjQzl3z6/V0UfoVPeamxE1hpspQsCBxWURp1NkX2WAHdQzxUJ3IY38tJIH
+	 VCckquMARuBJ/yja32IFmJJCSznyBK9vmsrHyoDgtFuXbjLW5JsrGPusHVy5L9aiM1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=GOIucMt6;
-	arc=none smtp.remote-ip=80.241.56.171
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ay8ay/3m";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFCF606A31B;
-	Wed,  4 Nov 2026 16:40:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DFCF606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6563606A328
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 16:42:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=GOIucMt6
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4jKWQV66KHzMlHW;
-	Wed, 04 Nov 2026 17:40:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1793810434;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=jhH1JhvZf62cYFTFXCoTDRK4dg1x0ip0prOKCSKui5Y=;
-	b=GOIucMt6mrIjYtwYtSDYo0btU84g6w2DC1L8ehWSTkXzKZhL7X2B4m+WBcgyDmnMw36Pjm
-	zjqCK1OpWsUbirVfx+41qaf/aOD9VGSmYuEtdMSY/+JcgR58ohywmCD8i32ScCECUE1cIW
-	rspzOmQBzxc9czchLI/j2OHXbFnRClx+zDuimNNEC1T18lbzpP+ABkMLMWvgNwL0EnGzJe
-	xmM5v1xFLudpqL8weNfLbx6sWKn3X4oz0OeN29dIwuLLi5DcXiajFKgFT8RG8+VR9f49YX
-	czF5QYG+C0XfMdcVe+BCX6ijYpX5d9FXuNYq+1WcfTtd4WZ0UzpeA6YYtxE1Ww==
-From: Daniel Quolke <daniel.quolke@mailbox.org>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] USB: core: Add RESET_RESUME quirk for Keychron Ultra-Link 8K receiver
-Date: Wed,  4 Nov 2026 17:40:18 +0100
-Message-ID: <20261104164020.69235-1-daniel.quolke@mailbox.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ay8ay/3m
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 158F51F0093A;
+	Wed,  4 Nov 2026 16:42:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793810574;
+	bh=XGE/RY50UT6g9vwld0UifzIuOmbgLsOOfM6PB7+iF/I=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ay8ay/3mNfPevlUK+lNDcDn3prLy7g/iXcK4oXG6GGYRNILVL6lk58V1QTAHt//pX
+	 we495ZWQO2G9s+bdIk93et9wkytqcFzDyIQGD2faUFsBDFLXCsmwVTuEsDJ+P/NT1x
+	 AZbTqw8SblQVaOqh3FNzsRr7O/Vkd8k4d8rcuSnghMRorbxG6fTc4VocqtDweV4A7c
+	 lXnXLnbW8WwS6c7Q7NrSMGuVQJM0kqLjXQgXH0SQWUweCcUd0s+iO7xWK7htBawwNH
+	 r+u9Bdn3IoPyvfKHqru9WdUwOBKhr9+nCsueNSQw79YijE2wLPl5Tmo5PQ0Gk5HB7F
+	 lGKc/5Kh7+Frw==
+Message-ID: <sashiko-outbox-197651@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] USB: core: Add RESET_RESUME quirk for Keychron
+ Ultra-Link 8K receiver
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Daniel Quolke" <daniel.quolke@mailbox.org>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261104164020.69235-1-daniel.quolke@mailbox.org>
+References: <20261104164020.69235-1-daniel.quolke@mailbox.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 16:42:53 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -66,40 +59,22 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 34wxurkbb6crsr8b4ke419f4t34n7h5o
-X-MBO-RS-ID: 9d079c054e61ebde3e0
 
-The Keychron Ultra-Link 8K wireless receiver (3434:d028, firmware 1.06)
-disconnects from the bus on its own a few minutes after every system
-resume. No error is logged before the disconnect; the mouse freezes
-briefly while the receiver re-enumerates.
+> The Keychron Ultra-Link 8K wireless receiver (3434:d028, firmware 1.06)
+> disconnects from the bus on its own a few minutes after every system
+> resume. No error is logged before the disconnect; the mouse freezes
+> briefly while the receiver re-enumerates.
+>=20
+> Resetting the device on resume instead of resuming it normally avoids
+> this. Booting with usbcore.quirks=3D3434:d028:b has kept it stable across
+> suspend/resume cycles.
+>=20
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Daniel Quolke <daniel.quolke@mailbox.org>
 
-Resetting the device on resume instead of resuming it normally avoids
-this. Booting with usbcore.quirks=3434:d028:b has kept it stable across
-suspend/resume cycles.
+Sashiko has reviewed this patch and found no issues.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Daniel Quolke <daniel.quolke@mailbox.org>
----
- drivers/usb/core/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index a4bcbe9c9..3878078cc 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -612,6 +612,9 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	/* ezcap401 - BOS descriptor fetch hangs at SuperSpeed Plus */
- 	{ USB_DEVICE(0x32ed, 0x0401), .driver_info = USB_QUIRK_NO_BOS },
- 
-+	/* Keychron Ultra-Link 8K receiver - disconnects after resume */
-+	{ USB_DEVICE(0x3434, 0xd028), .driver_info = USB_QUIRK_RESET_RESUME },
-+
- 	/* GameSir G7 SE */
- 	{ USB_DEVICE(0x3537, 0x10a0), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
- 
--- 
-2.56.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104164020.6923=
+5-1-daniel.quolke@mailbox.org?part=3D1
 
