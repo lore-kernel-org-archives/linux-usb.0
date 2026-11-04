@@ -1,111 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793815021;
-	b=1RtcZ4H7Yvmu7BNfpsOw5R8YNcCL817+lT4MYRI4mwVQ1BOJHjHgqto/jn3NPbKrkVqa
-	 pX1pryw8L1aGPyfITjnIow2nV8l5QWIonz+/3U7gnbHNCAtTCVhuFA8UEmOFHG9/2OslZ
-	 99r5faOy1kNFlSaAbaSPwMhnKfWNIiVobgBLuYi90YbTJWg+vbPiMFgOkq46jxHSKT6kl
-	 S7wxGq7id9JaFTzWxLv3UdplMmBtOEX1CBjUxXf8wbR729aaj926E0+O7nv1/+rezZFKB
-	 ESKUd9hGT8m1HVbvdj4/y3AQb1sTrX+spAcQcH5QNtnmIm9cJxRgZ7EYcsLMJE17Csw==
+	t=1793816925;
+	b=aH2wL+HZrHDqXpVlMJ9icuyEGLQTdRUgC5icPdsiDvbFaXpb+zgGfqKdpk5VaGIvx6lv
+	 pSNB8eAkaUaRdDAQmXWYdZZR9LkrYDJ5bvOnywbGhrqQZJ6iO/C0LgLj+dWdPVGBpC2v7
+	 Q4vo/1prCNaIimPmvAOSq32Qu8d2twhu54Mr/DkHlGg0iUN9MLS4UZ0bvP58JRnYgcSls
+	 ziABCQscx2QscnRQ5q/o9ugLmNPxbJiRj/J3HH39ZpphT1x48K0CONU5IQN1UFpa6M05J
+	 INH4P0KHTUGqWr8oyQeRHAZH5UyK0MsYs7TEK7oIsjvSdJLMHgM5BKSz9p2qcptdgeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793815021;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=qeQgphPdxdiWtw36JzKqWooMSgzPZU+EeD4NlyLVhDM=;
-	b=hLWmFrbPw7erilaLuXoiV/7HRrwEOrMVpup6UyLm8lHm7YmyiBt+xXFplhDYhCHP3LVS
-	 vynbqIoOhr4+ti6wXyLdyl5iiQHoNj866LJGWssg+f07Q9VHRPBsRyfeNg6QRec0rglK7
-	 mUv07lPvusXTYkekg8Rrtrdf2XIOduIzih/WU7whBaYgURp3v5CfbsTdcnlCenrm/OzXM
-	 27IcMkVM7UyNZ8dgd//cqwN3UXfC63F8vzFaY+V8YIrOQqs7p7tKlQLuNPk/fB/VtKwqi
-	 FzU6kiWXhyWsyBjkk6j7FEzbVcQkjo53dNE1NL3V5Swd+1AkIYQbIcbHOWm3RsPq/kQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793816925;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=RmHpo3+pR2s5ML5HiGnTikUyVxsXw4licnGddfMA2fg=;
+	b=VhnaEmLpb4xSjuJu0L6KSboiXHLUBmgX40F+OPsjyCT093dxY+nqdZtSP47Trc9JKeVr
+	 OCNGm8TsrMaaPURDHlcVvP2zGAwyA1xTc8ro8Lh4oT1GW8PS7VIsrCra68+j7Y3ezAXdS
+	 JnfG53RzgeZO5SFPKWbAN+mf59qM3rG96wisq7SBOywj+K1+PQhK5X8DOD0H2WKOLhXwe
+	 uwBmVfLPlw+xvytlqBUl03SX144aMazz5QHTKJBblr12UO4FXGA49oyQHP/gSGf600xaB
+	 KnSPxq1V8ZNHLKLo2cQM52lgGCv7G5C4NdFjjkNR9QYX2PSxslWB0ZqhvWlopKkhwkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJ+YsSS1;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bnhuRls2;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E895607A3C1;
-	Wed,  4 Nov 2026 17:57:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C12606A329
+	for <linux-usb@vger.kernel.org>; Wed,  4 Nov 2026 18:28:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9C12606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJ+YsSS1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0110B1F000C1;
-	Wed,  4 Nov 2026 17:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793815020;
-	bh=qeQgphPdxdiWtw36JzKqWooMSgzPZU+EeD4NlyLVhDM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jJ+YsSS1mKgXVutXvIprPjWbk/f3EaiHLkE0iUZZAD8UlGdeiTsq37AMjiJ1LQO42
-	 s7IKloTcsbSWCr6Lc4020v768o++Pni3fgFkFO5tp1ySQmamfYyvOlYF89oN/AE0uz
-	 cDBLCJtKpTc2bEc32o8AER5NNVvUQIyxG/58XGRNwW4UebnC4TzH2w4THg6Y4IuZEE
-	 HY4QLlr1k8HjiamlPJYs4KZrW3+I6WmOXTXZ8NvkX2h2a4OGzF5wxpPCxFfmNGgkxC
-	 TEjrpd9SN8JK0f/Vf8mgRK+nlmhJ6yDeGzIC6DtBcVm6ZCj3+6Kd0iuDWQx/Ae1YSo
-	 KOmYuIt4jqdDw==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	coreteam@netfilter.org,
-	kexec@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	jfs-discussion@lists.sourceforge.net,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	sparclinux@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-input@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 39/51] powerpc/crash_dump: recover from a machine check in copy_oldmem_page()
-Date: Wed,  4 Nov 2026 18:47:25 +0100
-Message-ID: <20261104-work-procfs-bugfixes-v2-39-bbf7d5546809@kernel.org>
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
-References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bnhuRls2
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-35829219da8so2313104eec.0
+        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 10:28:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793816924; x=1794421724; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RmHpo3+pR2s5ML5HiGnTikUyVxsXw4licnGddfMA2fg=;
+        b=bnhuRls22bPr1CgblNs2CholbSpN0yqFa50f5qD2aA2WkZVca94r9QS42VwXkcYAZo
+         My/elqfe0kiSvN071wEeMoeLihKJbWpGZol76RSeN+C46JbO9iWfHPaTjQD8zqy7mxqY
+         KFvf3ASdU7UUXszVU29ZtjF/bf966F+ZRvUgYCJQoSCvHuk2xYdeArZL8Q8DosBJvXhp
+         Kaj8KTas80UdcMQX/N6ssYOYuMtNM3EADY21ZGzlTSICyR9feHDuqOkUGU9252Q4HdWc
+         0qNOqijNlGJyTTBUXNOpqLFZ+gx5XRDKBf14QiAMNHNbxfsvyLfR/FZ3KeXRbbvAmC4Q
+         eJPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793816924; x=1794421724;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RmHpo3+pR2s5ML5HiGnTikUyVxsXw4licnGddfMA2fg=;
+        b=xSrg1RmWoPX4SDRVDHDsQvA6G6DXj607c/bUAT2nojECMSJip3ANKu2hbiDH/nvBy0
+         OLCpyLXtUUQ6EUJtTFCN++2aNWzAn+j7zHfeNZOpZiHXnFdHme52D2Awn8m5yRLBMZAQ
+         gNH4BlPdDDyhDMkESRuKVk/+yN7gLYqhLk/REM+YpqSQB44CXixw/BH6WqQjiGt8b7rC
+         EGsoV00Ll/1btxQxrMxK9TMEptUEOeUrJrdqOBdGeJroKT1IT2wVmDz962uQ47UbsYjx
+         DcIFUknrLqvsl5/Vf+Zn/MoMOH1zKsRwvOubAtOvI2UHhBn2WwA2craaykCMygkooN7v
+         AuSw==
+X-Gm-Message-State: APuU4Z9Y/z/yXt+YPtQbY5hiP2am5Si1YfmW+oYmk2G87WMvQPoZK6jn
+	4seUIeEaYlSJErNA1YtHW2i0bRgO+5pEo0Q9QdrKMt3BJCubzTBsF4GF1uVS3KA=
+X-Gm-Gg: AYBFou1JfrdEu4OS6jQNstbqbc29RPJKmnoZwqCJn3XYfhQHu72GstyrBy3odzGYDw7
+	e7NOhJYvSX3c5xVaEkPfFFKf6vWYdsn7Q46QREnrZ8tGC42yHBGPfTaHSg+bQCbIoBM+h3l3BSK
+	u9MYUtvzI481F6jOIQr6PPG+3QuHB2IAR+4t1X9vWXeYIynkuAuDUgPzsiNo73zUirsic7emaEt
+	69EPNXtU+zhdxPj/FpHJdF5j0HGmWhwo5JX1bIPwdfkd78tXOKQBuSzYvPoAzfCqAdXWcTLy1LU
+	6L4yqDs58gsrlxhxEHMHkxf480OMtHoJW1cLYD/2i30T88dhR6WNg6ZB7MeRK/0GqXOqzBRfueE
+	xjuTqFUVOR39LD90RPQmxjeFC1RrjmIubGYWjZbqG9WyONjnoaOHz+MRImUBjyNyIZP44ekVPU9
+	FO4wQL3QLaEGOW/6Tn7oHWWw/Mh9eA0zHYc3FdZxXpdNKM8eCSwvm1lVJ/oFI1QtypveZNQ7L8I
+	Z4wMTqz2TNHSa5ID91NT/ccV4EUMnxDAVNLlqqNSdjDUkIJ+qWAfVD6nfqOrLWIEmggKYYDbBN4
+	bQGn6Z1xmKNxGkjd7r4+848/2YiN+YrbkRHNhBKhCUYnkQKgCMaFZTlapMV8J6M5iZ5v
+X-Received: by 2002:a05:701b:450e:10b0:1ad:1574:aa9d with SMTP id a92af1059eb24-1b24f2b4bfemr377336c88.0.1793816923539;
+        Wed, 04 Nov 2026 10:28:43 -0800 (PST)
+Received: from localhost.localdomain ([2406:3003:2002:639c:a599:d119:deec:193f])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c1c127sm9412265c88.6.2026.11.04.10.28.41
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 04 Nov 2026 10:28:43 -0800 (PST)
+From: Yige Jiang <yigejiang86@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: Yige Jiang <yigejiang86@gmail.com>,
+	Bin Liu <b-liu@ti.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: musb: tusb6010: retain and unregister the generic PHY
+Date: Thu,  5 Nov 2026 02:28:37 +0800
+Message-ID: <rc-review-20261103-35-b81ec08fb02e@gmail.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -115,63 +94,58 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2421; i=brauner@kernel.org; h=from:subject:message-id; bh=VIVKq8y+KdCJwnDd/z4L2OCrr1yqDfObdGoCOSjiCdM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9znu/ZLFx05xpnp+TTtxLuaWnvKXR5q5SRcWM5RNFJ +7uuXKbraOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi0wIZ/nB7KCi471/L1Nq6 9n0/51Uea/Fd3qy9fnsOr1vwmcnr62yG/yWGkZU+VvatQgcYS97WRSfuKtivn95TcozLZv5XWWl eDgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-A capture kernel reads the memory of the crashed kernel, and that memory
-may well have uncorrectable errors. On powerpc a machine check in the
-kernel is only recovered from if the instruction that took it has an
-exception table entry (cf. mce_common_process_ue()). copy_oldmem_page()
-copies with copy_to_iter(). For a read() of /proc/vmcore that is a user
-copy, all of whose loads have exception table entries, so the machine
-check turns into a short copy and read_from_oldmem() returns -EFAULT.
+usb_phy_generic_register() returns the newly registered PHY platform
+device, but tusb_probe() discards that pointer. The zero-initialized
+glue->phy is later passed to usb_phy_generic_unregister(), leaving the
+actual registered device behind.
 
-But since commit 4a22fd20379c ("vmcore: convert __read_vmcore to use an
-iov_iter") /proc/vmcore can be spliced too, and splice(), sendfile()
-and copy_file_range() copy into kernel pages with memcpy(), which has
-no exception table entries. A machine check there panics the capture
-kernel. The same goes for the reads of the ELF headers and notes that
-vmcore does itself, and those have been memcpy() for as long as
-copy_oldmem_page() has had its kernel buffer branch, since commit
-54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page").
+Store the returned device in glue->phy and stop probe if registration
+fails. If registering the MUSB child subsequently fails, unregister
+the PHY before returning the error. Normal removal already unregisters
+the MUSB child first and can now pass the saved PHY to its cleanup.
 
-Copy with _copy_mc_to_iter() instead. PPC64 selects ARCH_HAS_COPY_MC
-and there it uses copy_mc_generic() for kernel and user destinations
-alike, which has the exception table entries. Everywhere else it is
-_copy_to_iter().
-
-Reported-by: Chris Mason <mason@kernel.org>
-Fixes: 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page")
-Fixes: 4a22fd20379c ("vmcore: convert __read_vmcore to use an iov_iter")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Fixes: 2f36ff6915c6 ("usb: phy: generic: allow multiples calls to usb_phy_generic_register()")
+Assisted-by: LLM
+Signed-off-by: Yige Jiang <yigejiang86@gmail.com>
 ---
- arch/powerpc/kernel/crash_dump.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Based on linux-next next-20261102 (2637bdec0535).
+Compile-tested: arm64, GCC 14.2.0, W=1, CONFIG_OF_DYNAMIC=y.
+COMPILE_TEST=y.
+Baseline and patched target objects built from this exact base.
+No full kernel/module-link, hardware or runtime test was performed.
+AI assistance: Codex (LLM) for ownership analysis, code and changelog.
 
-diff --git a/arch/powerpc/kernel/crash_dump.c b/arch/powerpc/kernel/crash_dump.c
-index 1543917bd3e1..ca7e019ae3e9 100644
---- a/arch/powerpc/kernel/crash_dump.c
-+++ b/arch/powerpc/kernel/crash_dump.c
-@@ -83,12 +83,12 @@ ssize_t copy_oldmem_page(struct iov_iter *iter, unsigned long pfn,
+The N800/N810 registration path remains in this base. The proposed
+OMAP24xx removal affects its future use; please advise on the target tree.
+https://lore.kernel.org/all/20260914140821.1805449-1-arnd@kernel.org/
+
+ drivers/usb/musb/tusb6010.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/musb/tusb6010.c b/drivers/usb/musb/tusb6010.c
+index 1d9571f24a56..a7e0c6fabca4 100644
+--- a/drivers/usb/musb/tusb6010.c
++++ b/drivers/usb/musb/tusb6010.c
+@@ -1245,7 +1245,9 @@ static int tusb_probe(struct platform_device *pdev)
  
- 	if (memblock_is_region_memory(paddr, csize)) {
- 		vaddr = __va(paddr);
--		csize = copy_to_iter(vaddr + offset, csize, iter);
-+		csize = _copy_mc_to_iter(vaddr + offset, csize, iter);
- 	} else {
- 		vaddr = ioremap_cache(paddr, PAGE_SIZE);
- 		if (!vaddr)
- 			return -ENOMEM;
--		csize = copy_to_iter(vaddr + offset, csize, iter);
-+		csize = _copy_mc_to_iter(vaddr + offset, csize, iter);
- 		iounmap(vaddr);
+ 	pdata->platform_ops		= &tusb_ops;
+ 
+-	usb_phy_generic_register();
++	glue->phy = usb_phy_generic_register();
++	if (IS_ERR(glue->phy))
++		return PTR_ERR(glue->phy);
+ 	platform_set_drvdata(pdev, glue);
+ 
+ 	memset(musb_resources, 0x00, sizeof(*musb_resources) *
+@@ -1274,6 +1276,7 @@ static int tusb_probe(struct platform_device *pdev)
+ 	if (IS_ERR(musb)) {
+ 		ret = PTR_ERR(musb);
+ 		dev_err(&pdev->dev, "failed to register musb device: %d\n", ret);
++		usb_phy_generic_unregister(glue->phy);
+ 		return ret;
  	}
  
 
--- 
-2.53.0
-
+base-commit: 2637bdec0535a2044cd830eba9a79363651d9043
