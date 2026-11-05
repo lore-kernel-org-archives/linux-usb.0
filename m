@@ -1,88 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793888271;
-	b=npGDzC6VwR4KLJCZZKzLnUXL4QhXjC9MNrJo/DiQ9bq0/pwHSYrR0kHYcLp3lfewdSwq
-	 guPHSurcXVaUL6BCr+wy+DJFAT1iahp1LFg+aX0Z63bglEh8lV61aM9r8P+7ZjXhD7DF2
-	 rg2SKSe2Z8NO5OjOHm5C9puv0m7uBOKiNKIQRxj3/BjfrTlAaZ2ngE/J5Xe8rVzPOTv+8
-	 JIYCN6tYQZZC3iZsj0UvVyy16WQRQ7V8lcWiwUElLLAAs6ol01yPmXVGbgwP1v5xmayYB
-	 /3IdtaOiPQf32GlsGcwlGTOpEOXNRTJRQMtgATcKP6MJERMQkgF26KMk+ODSbKDFrOg==
+	t=1793888510;
+	b=VSkUcFjpNwv1wslCJzrd3QTHQQBtAWCkMRhUPcMOSn9rNNcROmoKFGgvAhyX+yDyNiyO
+	 28ySCF5FkCfP4cp5zwc2QvJ3r7k5d5VB8HY+EA6FHAYEfUqLsrPbCBh58cw6S56hnUxO+
+	 L9NX1uGNBtbL4kQJEC4WEw5aJ65RKzb6+kzw8tTfyikPZpnfuN97T0303au+ajmW7QYmq
+	 oLKUx5++rZ0gJlNIUoEzyi9trUgeZDCT1Yb8HQfQOomcdkn9xqyYLmybziX7CceHhA/P5
+	 OnTX6ZHF4kl4oD34yT4XH07RyBU2GcrrKdOKhmNQudVFWGiKjp5U6fe8F4r+sCvHrHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793888271;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=gvM1R1K1vgZdd2EhIwN1BXqGTokY3Vxv0k5QNEea6f4=;
-	b=xOrjUcT2WhnHV+/x72e+wXAFetvYJiLKs9bCsjDYqoBr+pD/j0CYlLIjXkf0inmnRYYi
-	 Gddk/GZ57l4ge64mevUJP2xgWLBUnm2aH9P53TBHHnKYQ3jqSX2j93lcdh4Gyj0PGNo/W
-	 pccWr547uz4YwzHQsbohGtxkw9Ac5VXxHPRqnCJtFo5UQhOhJjS0VsgySkHEcgXOGJyok
-	 c8m/yqUCdLXrEUQ3aSYZBZ+PsmgCo5qBYopzm/dw4saqKQwideoiMXAWThay+KvPg2gkY
-	 nSTS4wyTtPzeO6WQKRltg96yjbCafENBimSfNI1P9V1rTApyNO6tkpc8dBYMHRv9CSw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793888510;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=eRO0we/jv1u/NCKEYpjhxs0l4uxNRSe89AWbOp+pBrw=;
+	b=U99c7RJ0lIvGDqsQRt++9mUPPsGNQg2w5LZ3CKKMvoLoaFGD20U/faTur1Mlx8HivCu7
+	 xMg9+g09lfyVu5LAoALfRMtrlo2+0/fqPWS+cxsmmIEVO20aFn79UYkLei6hF9s0tlhmS
+	 gRpV5sZshOqQIM2mqRTI2n22OzQpZNXhLUY2CbmgOmMxRujwgRTbmscVNBIg6viVeRZUC
+	 QL+/u5E0p302R+NSQadAqOKSRh7VfsCY7XhZs94aXvRGSfKmZqMWRokK4dgMuDCWfQLFn
+	 ip9fo7PjzaM4aK5dalqql0gUG2uwcXsfSTUGm/DUyG5j5C0MzW5HGukWSUITI1I1i0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CFvsmJLv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZbO2xRiV;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314DF606D82D;
-	Thu,  5 Nov 2026 14:17:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DAE606A326;
+	Thu,  5 Nov 2026 14:21:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CFvsmJLv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12F041F00A22;
-	Thu,  5 Nov 2026 14:17:50 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZbO2xRiV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 836281F00919;
+	Thu,  5 Nov 2026 14:21:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793888271;
-	bh=gvM1R1K1vgZdd2EhIwN1BXqGTokY3Vxv0k5QNEea6f4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CFvsmJLvYo35yuLbThg4qZzP8PD1MiCgEDcGJstZaudD0pyb+FGm7JMwj3Q16JbDp
-	 ppTwaYpU4L0kytSv62b21+DNNlYBxv3LNb6xf2808MXja9oqVepD6aQhv9WEJMEJec
-	 OoomRVzl5PjdT+2wzggcIu2MeZaFUsSyQyuKnr10seRPLWPSi+V7FPlSufvBmcI+VS
-	 jwW9SqC5mEWvn8tXoMNivdcv5cRHrV7/ltV5ycXSnXRmXq8zyDoy9/vUh7LuD3H06f
-	 2h5Y5ENe01WGRmAnYynbhOgkLmuN6Lsw7kxY9wYjTpBkBOm3/HYet1v2qYFLplUoh6
-	 /k8YN/GqYn9OQ==
-Date: Thu, 5 Nov 2026 16:17:47 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Robin Murphy <robin.murphy@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 10/17] driver core: Expose device trust authorization
- through sysfs
-Message-ID: <20261105141747.GC8298@unreal>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-10-1e536825b4eb@nvidia.com>
- <2026110514-bunkhouse-handset-6a3a@gregkh>
- <20261105132729.GB8298@unreal>
- <2026110535-engulf-precut-cf10@gregkh>
- <9d896ebb-6892-4cac-a7c5-41def47f0be0@arm.com>
- <2026110556-sculpture-immovable-ca8b@gregkh>
+	s=k20260515; t=1793888509;
+	bh=eRO0we/jv1u/NCKEYpjhxs0l4uxNRSe89AWbOp+pBrw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ZbO2xRiVBvQm9kyUUFV3bOo4038eVIY0BsSXGe/BHF89DX/E54SHsjkCT6kbOsUbw
+	 8mC4pY5HHLflZ0+/nLSkEiVw2rJHIiiSaggfXZFbnwQWOotIOtFe46QOX/iamWsiz3
+	 XPQhnj5zPHEXTcpWQ6r+qpjwsX4KWpcoqdCEuuqjs1rHMzU/yQVNa2kdUCcXxNSyTv
+	 4sbJm0PnlcLjXnbik2yZdJeZF/kt+++KYfLQEGfPiDX3LImcZi1feznP3i2ZLvcWLX
+	 jGBG39NKqrDEJFB3rwVGsPASmJvZuZAWar5DAy0IDx+WSY68QTw1nO7UgPvAjtk5sp
+	 hyp/mk6dN31FA==
+Message-ID: <sashiko-outbox-199233@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v4 02/16] dt-bindings: clock: at91: Split up per SoC
+ partially
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Alexander Dahl" <ada@thorsis.com>
+Cc: devicetree@vger.kernel.org, linux-clk@vger.kernel.org, =?utf-8?b?b3Bl?=
+ =?utf-8?b?biBsaXN0OlVTQiBTVUJTWVNURU0=?= <linux-usb@vger.kernel.org>, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261105110715.2486432-3-ada@thorsis.com>
+References: <20261105110715.2486432-1-ada@thorsis.com>
+ <20261105110715.2486432-3-ada@thorsis.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 14:21:49 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,138 +61,55 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026110556-sculpture-immovable-ca8b@gregkh>
 
-On Thu, Nov 05, 2026 at 09:03:11AM -0500, Greg Kroah-Hartman wrote:
-> On Thu, Nov 05, 2026 at 01:59:20PM +0000, Robin Murphy wrote:
-> > On 2026-11-05 1:40 pm, Greg Kroah-Hartman wrote:
-> > > On Thu, Nov 05, 2026 at 03:27:29PM +0200, Leon Romanovsky wrote:
-> > > > On Thu, Nov 05, 2026 at 08:10:14AM -0500, Greg Kroah-Hartman wrote:
-> > > > > On Thu, Nov 05, 2026 at 01:42:23PM +0200, Leon Romanovsky wrote:
-> > > > > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > > > > 
-> > > > > > An initrd must authorize a disabled device after attestation even if a
-> > > > > > built-in driver already attempted to probe it.
-> > > > > > 
-> > > > > > Expose requested trust_policy and read-only active trust. Allow explicit
-> > > > > > disabled policy to advance once to adversary or full, fixing that decision
-> > > > > > immediately. Reject later policy changes, including for a device claimed
-> > > > > > before registration, while allowing same-value writes on live devices.
-> > > > > > Keep initial unrestricted selection separate from explicit authorization
-> > > > > > and bind-time commitment. Serialize writes with probing under the device
-> > > > > > lock. Include the attributes in device ownership changes.
-> > > > > > 
-> > > > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > > > > > ---
-> > > > > >   Documentation/ABI/testing/sysfs-devices-trust |  51 +++++++++++++
-> > > > > >   MAINTAINERS                                   |   1 +
-> > > > > >   drivers/base/base.h                           |   6 ++
-> > > > > >   drivers/base/core.c                           |  15 +++-
-> > > > > >   drivers/base/trust.c                          | 102 ++++++++++++++++++++++++++
-> > > > > >   5 files changed, 174 insertions(+), 1 deletion(-)
-> > > > > > 
-> > > > > > diff --git a/Documentation/ABI/testing/sysfs-devices-trust b/Documentation/ABI/testing/sysfs-devices-trust
-> > > > > > new file mode 100644
-> > > > > > index 0000000000000..97e07a174769c
-> > > > > > --- /dev/null
-> > > > > > +++ b/Documentation/ABI/testing/sysfs-devices-trust
-> > > > > > @@ -0,0 +1,51 @@
-> > > > > > +What:		/sys/devices/.../trust
-> > > > > > +Date:		September 2026
-> > > > > > +Contact:	driver-core@lists.linux.dev
-> > > > > > +Description:
-> > > > > > +		(RO) The active trust level for the device. The values are
-> > > > > > +		"disabled", "adversary", and "full". Driver core resolves
-> > > > > > +		the level before DMA configuration and probe, and retains it
-> > > > > > +		through removal and DMA cleanup. Outside a bind transaction
-> > > > > > +		the level is "disabled". This does not imply that policy is
-> > > > > > +		writable or that the device has never operated.
-> > > > > > +
-> > > > > > +What:		/sys/devices/.../trust_policy
-> > > > > > +Date:		September 2026
-> > > > > > +Contact:	driver-core@lists.linux.dev
-> > > > > > +Description:
-> > > > > > +		(RW) The requested trust policy for the device. The initial
-> > > > > > +		value may be selected by the bus before the device is
-> > > > > > +		registered; otherwise it is "default". The policy is resolved
-> > > > > > +		to an active trust level before the device is probed.
-> > > > > > +
-> > > > > > +		The values are "default", "disabled", "adversary", and
-> > > > > > +		"full". "default" lets the bus select the active trust level.
-> > > > > > +		"disabled" prevents a functional driver from binding.
-> > > > > > +		"adversary" requests operation with the restrictions that the
-> > > > > > +		bus and DMA layers can enforce for a potentially malicious
-> > > > > > +		device; it does not isolate DMA by itself. "full" requests
-> > > > > > +		normal operation.
-> > > > > > +
-> > > > > > +		Before an operating level is committed, policy may change
-> > > > > > +		freely until "disabled" is selected. Explicit "disabled"
-> > > > > > +		blocks binding while allowing a later write of "adversary" or
-> > > > > > +		"full". Repeated rejected probes preserve this opportunity.
-> > > > > > +		Authorization immediately fixes the requested policy.
-> > > > > > +		Returning to "default" or "disabled", or selecting another
-> > > > > > +		mode, fails.
-> > > > > > +
-> > > > > > +		Successful resolution to an allowed level commits policy
-> > > > > > +		and operating level before driver or DMA setup. Both remain
-> > > > > > +		fixed for the device object's lifetime, including through
-> > > > > > +		failed or deferred probes, unbind, reset, and driver reload.
-> > > > > > +		Later binds must resolve to the same level, including when
-> > > > > > +		the policy is "default". A resolver error or disabled result
-> > > > > > +		before commitment leaves the policy's writability unchanged.
-> > > > > 
-> > > > > I understand you are aproaching this from a PCI point-of-view, but many
-> > > > > busses do not care or have DMA at all, and need to actually talk to the
-> > > > > device before being able to even "add" it to the kernel.  So you are
-> > > > > making a driver core-specific policy based on mentioning DMA here, when
-> > > > > really that should only be a bus-specific thing, right?  Some busses
-> > > > > might require DMA to happen (i.e. USB needs their host controllers to
-> > > > > use DMA to even talk to the device at all).
-> > > > > 
-> > > > > So can this be written to be more vague and generic and then put the
-> > > > > specifics in the bus-specific portion?
-> > > > 
-> > > > Yes, of course. The main point is that drivers must not communicate with
-> > > > or configure hardware before attestation is approved. DMA is the PCI
-> > > > way to communicate with hardware.
-> > > 
-> > > That's a very vague statement of "must not communicate with".  Busses
-> > > HAVE to talk to the device to determine what the device even is before
-> > > it can add it to its internal bus list.  That's just how the hardware
-> > > works, you can't say "no talking at all" otherwise that means that you
-> > > never even know if a device is there (and for some busses, you'll miss
-> > > the device entirely as they can only be found when the "host controller"
-> > > tells the kernel that a device showed up, not later by manually
-> > > scanning.)
-> > > 
-> > > Think about reading PCI device ids, or USB configuration information,
-> > > that's a bus-core thing.  Are you really thinking that non of this can
-> > > be read from a device under this "policy"?
-> > 
-> > Yup, and that's true even in the PCI TDISP case - there's a major amount of
-> > "communication" and "configuration" involved in that. The principle which
-> > should (hopefully) generalise is that a bus/host controller driver can
-> > always interrogate its child device to perform whatever attestation and
-> > general configuration is appropriate, but we won't hand off any _control_ of
-> > that device to a specific device driver (nor enable potentially-impactful
-> > bus-level features like DMA, interrupts, etc. if relevant) without the
-> > requisite agreement between the bus code and the user.
-> 
-> I agree, that's fine, the bus core should always be able to talk to the
-> device, the "barrier" is where the device is handed to a driver for that
-> bus.  That's what I'm trying to say here, DMA is often needed before
-> that can ever happen, so no claims of "no dma is happening" should be
-> here.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] dt-bindings: usb: at91sam9rl-udc: SAM9RL clock macro in SAM9G45 exa=
+mple
+--
 
-You wanted vague terminology, I was vague :)
-Anyway, Robin perfectly described the trust model we are trying to implement here.
+commit 42b3b9bce6c46bb748afcf89b465e4d50b66ad5b
+Author: Alexander Dahl <ada@thorsis.com>
 
-Thanks
+dt-bindings: clock: at91: Split up per SoC partially
 
-> 
-> thanks,
-> 
-> greg k-h
+This commit splits core PMC clock index definitions into per-SoC device
+tree binding headers for the AT91/Microchip family and updates two device
+tree binding examples to use the new SoC-specific macros.
+
+Link: https://lore.kernel.org/linux-devicetree/20250207-jailbird-circus-bcc=
+04ee90e05@thorsis.com/T/#u
+
+> diff --git a/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.y=
+aml b/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
+> index cdbbd17f80363..15f5bb51fd8a7 100644
+> --- a/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
+> +++ b/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
+> @@ -61,13 +61,14 @@ examples:
+>    - |
+>      #include <dt-bindings/interrupt-controller/irq.h>
+>      #include <dt-bindings/clock/at91.h>
+> +    #include <dt-bindings/clock/atmel,at91sam9rl-pmc.h>
+>      #include <dt-bindings/gpio/gpio.h>
+>      gadget@fff78000 {
+>          compatible =3D "atmel,at91sam9g45-udc";
+>          reg =3D <0x00600000 0x80000
+>                 0xfff78000 0x400>;
+>          interrupts =3D <27 IRQ_TYPE_LEVEL_HIGH 0>;
+> -        clocks =3D <&pmc PMC_TYPE_PERIPHERAL 27>, <&pmc PMC_TYPE_CORE PM=
+C_UTMI>;
+> +        clocks =3D <&pmc PMC_TYPE_PERIPHERAL 27>, <&pmc PMC_TYPE_CORE AT=
+91SAM9RL_PMC_UTMI>;
+
+[Severity: Low]
+In Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml, the
+example node gadget@fff78000 has compatible "atmel,at91sam9g45-udc" with
+interrupt 27 and peripheral clock 27, matching the USBA controller in
+at91sam9g45.dtsi.
+
+Should this example include dt-bindings/clock/atmel,at91sam9g45-pmc.h and
+use AT91SAM9G45_PMC_UPLLCK instead of AT91SAM9RL_PMC_UTMI?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105110715.2486=
+432-1-ada@thorsis.com?part=3D2
