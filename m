@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793864914;
-	b=LpuW7vrgNkQWwZebglJJoN4s/G7r5OnxYmsRcauJi21JeEhG0fBP2Zhr36xqugN7GQpv
-	 jk9OzyOZKDplondgtZ4fPgRRzrz00d9glzCGyY/ZHF+PpdDRuGderFotpbS2f/H5CwtGc
-	 Y9c1MwhYCve1zVgxEvpjduRS9CRem3EU8tE6Nb5BJv/AivXLWlXuXKZhOSDciq1BF0/oB
-	 rMxyeRQLni9ggDbeuCrEIMmsdSft0cP7GTrTGrR7nqH5bnBegxNHIWhlL8XdO2JXLX9VA
-	 vo6kiA71F2DN8rcuVjXl6qyHxQzIsfsisTnuwYuWtfir5dqHJ66srhZHW2yfhzXsrIg==
+	t=1793864953;
+	b=CWtE+1ONAeKSbh5omLxKTnxKuA0CFnSxtj4I1AmkT1nPWCNKoiS/m8tjssGi4P7zIzcJ
+	 SuTpuPtCVvQykGagxzVnQ5yH1TyEr7o9AWE5e5HjUQMRfKu43ghKQpUOO6yojqWhUJXfV
+	 HSbihCx6M0BtkRwtfCsn3rucMsqtNf4qn7x1/EagfzYdWwEQxXErepaArZWKIhQgTHGs0
+	 JNrnw5EB4+eRVxYrPWGvM1BuYbDXX/9iX1J0mqJiWfZKgVBwcpCXaA79tJSfbC28Mf7DK
+	 DjEfr0vTq3VJ5M7Gks0tMi8xrwv1St4opHrzSBZ0qs2qC/6NuLxKwr99zKnZhT3jPkg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793864914;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793864953;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=s8wKTBhOQSZ8HcIzINfe5pzdBiZUh/d4z6gCUtG+v9A=;
-	b=vS31J9TQX+t0LoyTpwYmqdQRUhW18pzwljtH3sCwyLW7VKD2tvMHWIvreGGxQcVRUM4q
-	 QpIxG+tdlSfVhvui37/JpAmpIcJOOo5OVxuNQf8ovP+ZRIYiY08y+XciJ2BLC24RbGfiL
-	 7/Ff+sg4JwOLPZlyJtlGiirYkdiaX0OoQdlcS4YM4fM91ztBNl2H5vNTL6CdxaeixUkYy
-	 RepcBjPez9x15DdoatgapPl3mFMZ4avNrzSQJhkTrHdrSliTMVcnQEmj39yDcl25CtG9L
-	 KfTVbm9/khjGGDQ7WYiEjyYOEpD2M8YCIdR6w5JlJYK/W2kJayzzArAS1rJgstBKytA==
+	bh=S9k3Q2KVFifrA3WvfVob3k8u28yvxJFeuQu/a7zALgQ=;
+	b=LxOB8rePNd6Yi2BoLlyKnpLd1d3jJrlPIZt+yXgbjJQgmBZxukt5c0qQSckF7ggj001C
+	 2San96h3ODezKGeGyOB7Rh2dGO2sHstCBDClA8er8zaSoDotdnfqY9ut/eQUA7LrOTgtR
+	 ZP7zEW2giEmQP8+q9AsDSrzoQSYmuj3IZ5x+JK7o35Y6uXMYfBWmrz1VBm9XU/l0/Bpyp
+	 8tL9sGtTVPbCMIx3ZUAAXRjuTNfRB5Q0P2IMQd4efPmEgPJAkR8lXs2RbgMQsaaPpefmw
+	 Gia3J6XKeYXWpBSNGzf9N+268vSns+S/0+1sF124U/z3FWSWUm3x+2Nwu5AilYeaWow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hCUhYSsD;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MD2OfoIf;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEF8606A31B;
-	Thu,  5 Nov 2026 07:48:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DCE606A31B;
+	Thu,  5 Nov 2026 07:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hCUhYSsD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80F161F000C1;
-	Thu,  5 Nov 2026 07:48:29 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MD2OfoIf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEF651F000C1;
+	Thu,  5 Nov 2026 07:49:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793864914;
-	bh=s8wKTBhOQSZ8HcIzINfe5pzdBiZUh/d4z6gCUtG+v9A=;
+	s=k20260515; t=1793864952;
+	bh=S9k3Q2KVFifrA3WvfVob3k8u28yvxJFeuQu/a7zALgQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hCUhYSsDt6Z0eLMOX8DcNxX+eF94MgoD5saWOhYOSiXCMg5k/2Xo2O/z7QsvzoFci
-	 efOclXvsfLf2XYLtrX2b//zc9DRPAzBixr7n+WgC/VJ6SFmwyX49VlsGzjQIws2jcI
-	 htM2XFg3o3T0oAnohSfXfA+uWLCqDcCZ/wkIwJCIpDNNBX0zvbt74A9gvIQzxpgGQD
-	 rxGWHbIFDaG8SFtkJFBXxXf1nWpW5pgbrIKxyZYu3GkbxepqD6hacqPDNSRgyM5uW5
-	 rjEE0TjucHh54wTp6KZoKyZDhW0TAgaOJgkFDzzRhM/edH6a69bE0aZJnr9R+/6W/v
-	 K72SPPf7vaz0w==
-Message-ID: <7a3f7171-ee2f-41b7-b578-da602d95cbc6@kernel.org>
-Date: Thu, 5 Nov 2026 08:48:27 +0100
+	b=MD2OfoIf/32etYLNlz6AN67tVKYwvBOVAhctf3t1VcBaSKaXna4AUDYQxSpzF+0hW
+	 zaRzBEOXplBiAiWaA4CDANMMJ6YlbpYWEtyF5WLSzSdv856ZV6msmuVIK447m1+xmW
+	 Xa1OTJLohWJps7JPovQC2QzxRbjdFr5OUVgPfEl+VoIJGPPbjH6N7CCJ7HMQNZI2jy
+	 4RQdQNPO3kSirbdKuqnF3PqtoXe0eE5x30YGwu+cHZ+RPJNY3TOPe0A1g3KmzONxDz
+	 O2gwqLAl/jyDGUFbpx1cliRi1rLMcoXolMEDC03SFLgSU9aRL4dEqlhlMHu5CsjV91
+	 r2tbFGzJbu3MQ==
+Message-ID: <4d075b70-f2af-4aad-a1d7-cd8ea26387ca@kernel.org>
+Date: Thu, 5 Nov 2026 08:49:05 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -52,7 +52,7 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/3] arm64: dts: cix: Add USB4/USB5 nodes for Sky1
+Subject: Re: [PATCH v6 1/3] dt-bindings: usb: Add CIX Sky1 USBSSP controller
 To: =?UTF-8?B?SG9uZ2xpYW5nIFlhbmcgKOadqOWuj+S6rik=?=
  <hongliang.yang@cixtech.com>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Peter Chen <peter.chen@kernel.org>,
@@ -68,7 +68,7 @@ Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  cix-kernel-upstream <cix-kernel-upstream@cixtech.com>
 References: <20261105011803.4058557-1-hongliang.yang@cixtech.com>
- <20261105011803.4058557-4-hongliang.yang@cixtech.com>
+ <20261105011803.4058557-2-hongliang.yang@cixtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -114,26 +114,29 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20261105011803.4058557-4-hongliang.yang@cixtech.com>
+In-Reply-To: <20261105011803.4058557-2-hongliang.yang@cixtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 05/11/2026 02:18, Hongliang Yang (杨宏亮) wrote:
-> Add USB4 and USB5 controller nodes for the CIX Sky1 SoC. Enable USB4
-> and USB5 in host mode on the Radxa Orion O6 board.
+> Add device tree binding for the CIX Sky1 Cadence USBSSP controller.
+> Each controller has an AXI bus attribute configuration register and a
+> controller status register inside the SoC RCSU, mapped by the reg
+> property at their real addresses, and contains the Cadence USBSSP core
+> as a child node at the core address.
 > 
-> Each controller node is placed at the address of its glue registers in
-> the RCSU and contains the Cadence USBSSP core child node at the core
-> address. The mode strap register offset and bit position are passed as
-> arguments of the cix,usb-syscon phandle.
+> Mode strap controls are programmed through the Sky1 S5 system
+> controller referenced by the cix,usb-syscon phandle, whose arguments
+> give the register offset and the bit position of the strap field.
+> Allow the #syscon-cells property on the system controller binding for
+> that.
 > 
 > Signed-off-by: Hongliang Yang <hongliang.yang@cixtech.com>
 > ---
 > Changes in v6:
 
-So you keep ignoring review or parts of review and never responding to it.
-
-NAK last time, I will be NAKing this.
+NAK, you did not respond, did not implement feedback or part of the
+feedback.
 
 Best regards,
 Krzysztof
