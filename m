@@ -1,86 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793883117;
-	b=y/CkNreicmmKA9zw9CRUV6FTRehk1xrUCfJzpcqOgXpvjn+06NEzJsLrPCIgC1fb4903
-	 3JFZJEojdZrkVhj/S2QqogI8E5eepWqaOvob0PYkRkkGeTsPCVxN1vvUQaovtfXybHIIn
-	 p71MaiWuTCn9kOhAoh5t6uogh6DP3DzRQnT8QC9Fbs5TMv1lbvZaH7TrmE2uN4lEKvC/v
-	 EEe4Arbos3UxMYvo8koAtyI9W1O89p84LDcOepSWT6kdqLvTqW7YrfzI7rI/3o2K8FPhX
-	 sydGR2cNB65ACVGLTcHJ8nSFrdkdWryT4mA8Upt5OIlXY3Im9noQCamTekXGwI7XlvQ==
+	t=1793883121;
+	b=b3ZlNdHz84hXb/q/XT13qeWp0wfQmArxMd857N3vJYu8JNUKVYMvwzEVVuselB6MOj/O
+	 FCoADGKrzD7h36YGqGUAa4HyhT6pGsJ5dJwFNSdWg+sszxoPOdJCzt6Es8ACOk4b4w7Hi
+	 3cGWeY8Uk7MVm9rxypsID9EfO0qIJENCejXKqVk/+qKRKN5fhRESJ5+k+B0zZCc41dEGa
+	 2S0Hp4ilC/TPHWMOoq0hlcTTDHejDnLllOI+XAkhIlK4nWLyC0MJIvJ/iwSCS6bpK6T/0
+	 2wU9wd70erakfgsdJ0DFPPtgDGIoft2tom7Vb3LuwI3dyV12SmyyImgK4NEDf3k4nog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793883117;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793883121;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Content-Type:
-	 Message-ID:Date:MIME-Version:User-Agent:From:Subject:To:Cc:
-	 Content-Language;
-	bh=SnTNLCVpSQk7hsa0WRmO5NWU0dZzBkYwH1gOQIoE/x4=;
-	b=rgBJM8iJnXKUjH8z8LbcAhdI87yN2ofJvNGUKylg+qa+0qatS0mfVUk8ahuLHKtPL3ar
-	 5jwTpph+24B2hCPHfEGHHirpIA3zeqwGAHh4DL407jE19W2zK5u1jc1b2NtuBLgbR/moV
-	 Xn9nZ+CvZp6OgNM7zlxqaWeqyBuDAATyLaVnaTO4K5c0twpPx/mJZAXLLi0e5jgImK1Yk
-	 FOq06O8m2emoW9pDv+rv8sh++g/henDIGGbIgUzNcjvElOiKEK5w2BSyDOKLih/pE4wyf
-	 CQJIoIxCdp6VdQVdnznz3ca/FWU4k69G/tq6vWxUsto8fVrCLFQmKd7a+FaTFw+NKKg==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=yUVtnfb+24FhiEw1xC0kVlOFkTCWbPbBFLZFvy+b0Jc=;
+	b=JJW9klH4TS7mGj42BP2HIDDEI8wzTPTAvq2/9NXorJaDK62s93jQuoWO+eUmzCSNV/Kl
+	 LLnfzwf69O3Jb73BiTI2a2LX97IXXs2WaAphbRU0w2vm0DszXvYH/6TLuZfD9yavuLLHu
+	 qgYDR3IXuYRJ99IXjsy6yom4sI45EjxwfjYmd05TnyvUUQqN/INaBL/y9GDHrMfD2kcPT
+	 C4ypQ8HiutzyMvZ1GDWakab0QckNvVjLJCXGYomDvPXUIZhL6U//USI+s09h/SUbM8fgO
+	 RQoRAMy6ChGcD5kBSifJ5rA6h+MfSURRsOpVkfS+mgLfHJ3RUmYxqTkihibcsXj6Qeg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=VsS8BPRg;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	dmarc=none header.from=ursulin.net;
+	spf=pass smtp.mailfrom=ursulin.net;
+	dkim=pass header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b=pAvOpwYX;
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6C8606A31B
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 12:51:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A6C8606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6370606D807
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 12:51:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6370606D807
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ursulin.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=VsS8BPRg
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a215e64962so17284875e9.1
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 04:51:57 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b=pAvOpwYX
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48e00eee27dso1046151f8f.0
+        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 04:51:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793883116; x=1794487916; darn=vger.kernel.org;
-        h=content-language:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:content-type:from:to:cc:subject:date:message-id:reply-to
+        d=ursulin.net; s=google; t=1793883118; x=1794487918; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SnTNLCVpSQk7hsa0WRmO5NWU0dZzBkYwH1gOQIoE/x4=;
-        b=VsS8BPRg1918wrhelFqkGeWfmthF2IuF9uF0y1hkalO+qFsUisgadL0SVxajoJg0Oq
-         MEyA0n99rBWgwAyLaeu17cFNG3lbLDA4zmcZl/aBpYChMSlO1biQymJuzUrv4zQ7iMjK
-         pe8aWEEQzH2yg8+a5PsWWPhHsxYus1HBp6J1YFrNi8GuoPsqs9IMXamnxSQ/nd2bBREv
-         iTFr4rDcQ8SOPvNcq3SBR5rXw1bSK5GuFsHwjIys2gV16yvTdVZOHunz/TYx7Vh/p6Il
-         FbVKx2gvGCCS3XFHJgCqO7rj1BKKZcMe5HY9FAjBWWpX14qU3WeCTW6k1WbQBETVSFie
-         DRNg==
+        bh=yUVtnfb+24FhiEw1xC0kVlOFkTCWbPbBFLZFvy+b0Jc=;
+        b=pAvOpwYXNqJFmbEKTCgcvmthyayMG17agL2px7A4KBhSvUNiQhuVEZorHtT7e9sSI/
+         NE51fBIIDFBvrTtDVLTKPOqymBVYZyPiDPFBNLAmtcOpFwLib0TilzKwGqanYRpJmOBI
+         Dt43VXEbj66rudsylH6dT9jtF9cCffvpQFE/7tYNT3Ros8KySOb3af6Rpzd6GHO1X1ue
+         /ntwyPUL1MsxT8GXUQQBEUzia+9s6T07tSP/q1xDlSDZf0+ivtJQiR+pm1+yDvaSUJk4
+         tyH/2rdebRX6wvYcedQJ30sI8hGtRC067xVzSZJ72l/D6NoM17zZWxin0ef/S5ahn076
+         r6+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793883116; x=1794487916;
-        h=content-language:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:content-type:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SnTNLCVpSQk7hsa0WRmO5NWU0dZzBkYwH1gOQIoE/x4=;
-        b=KjID6Bt4sFcp+iZdXkZe2eTrm5Pk+3t2RwSO9bVkb89kJCzIVH/dWnjrfwsPXb9aJm
-         tq7UfEutJbpytOrHp1xRV3wHrbaWB0GMcUlHd8lhUhXp1DRpQodqYZM0kkZZG94RTW1J
-         LdhlfauyoAhW5kytMiQRGh6+4ldI8cRwFJQ36/Ww/cnU3x7YgklHZLv35D1U74O7ltuQ
-         MzQHQS8p2AjnKgcyMbGV7ydpP6ofrA0dw1Qa5MzqokVOYFiP1Zj4c2pGpa4SkiS9jxYv
-         piOgcQeHM2kkH3YEUrtZ3GQvobqsyGhnXzVLk/4hQ48Otz33oFWnY0nJySFyKCgAfp6T
-         nb0A==
-X-Gm-Message-State: APuU4Z+ts17fi28wakKP5N88cICNEzyaj7/5dVR2/gpO+3fREfAP9XlL
-	JtlArJl0m/TlMHga7lQ2XuEoEc8ccKg6NVFlhz92JW2JehS/bks+YO0Z8MuGoPpV3RCJnckOzGZ
-	I8aNZ
-X-Gm-Gg: AYBFou3FJGohIxoAPgUOAcQvKOpg8rTt2nvKQ1nvb4VkdX+AucXOmAA23A6YDtddLJQ
-	prqooSih7KeuGzYPT7u5ahQUb+Fv4cdWw9lJV90fGkKrAxdR9DGfUF1HZP1nPznAHDwMAk88rI7
-	gUKMUL/KRTgC44CIunfgwEt5pEYTwZnM2HwM11uE21IHbJO2FNAbpceNlcdOgyLkY/kVSJxZ0/f
-	gZyTJlhPDPlhvBIaRuVYCpR/4Sg7siIMzu0e4J29BPYKxxGpAXT+UaNMlrwlAtrnsB5y4KfEIix
-	D7zKrrYXf2M+UuQIkJSRTGzyTYolqVn/m4P6ICfq9tM0y7/MCM7xqouF5wFZ412P+bMJJCE1Wuj
-	PuVF/QdNwq72gLUdDxFQquYVHUxIK3V4IM1cJ/j4fURSx8CBTSiheevBZosYmSlguQIduiWVISB
-	Mvl8SEXW+l4LL3/HXivXX1DwnfZL/koNcLPwHO6lBQTiyi/le3dECRZCChmOlSgYzapBAATTght
-	oJXEZjzJ1XbVsBnB9ebjLuOlh0TswyUuC3/LoczvloHYH2RVvD0kcHd/1J+ojp+G7q66Fq0naSa
-	awc1N8DIdpKGpX4dtS1eVaPJvUN2eXWIn/9Wrft9e9MuOCMQ75XCLnSmgd9K5ghyMr4E
-X-Received: by 2002:a05:600c:3b0e:b0:4a7:7d22:c50c with SMTP id 5b1f17b1804b1-4ac150b2243mr456582415e9.2.1793883115587;
-        Thu, 05 Nov 2026 04:51:55 -0800 (PST)
-Received: from ?IPV6:2001:a61:1322:c01:9fdd:c901:f470:904c? ([2001:a61:1322:c01:9fdd:c901:f470:904c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b56ea594cfsm57337655e9.5.2026.11.05.04.51.54
+        d=1e100.net; s=20260707; t=1793883118; x=1794487918;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yUVtnfb+24FhiEw1xC0kVlOFkTCWbPbBFLZFvy+b0Jc=;
+        b=IMlPFoNppWUYxpTpyqguxyUXB30qejOMwX0G4rhjvRt350lCBkFDdp7KKHUaqEZ9Ha
+         1cLlfSQ9LOa4hkLaVglzpoLiuHVtf7Mpvc9mAebwgmO968EHhrmY+J6YhwGVVuBQ/8y9
+         NTDo9QD0w5Ss39Ai33ms9VgroPNhv+RgRYU96SDfreBbQwl2i0jqiYFUjRQ3j4VWPdOh
+         aFJ/osyoZIEETBlYG5r78HsrxMQu4MkdoCLMm/VlmwmFP2so1lUa7NLwQjXt5Bji+gr3
+         Mjmvh91xSI8EtvkZhgQgl790QMdQs0mOn243/+FmweqS/3Nga3/dApweTBq1EEzXFFzV
+         YSYA==
+X-Forwarded-Encrypted: i=1; AKwUvBzCMpUTEbFJTh8Ux70CeT3RqiA1NG8xTCiQdCNsEZBWOorNleN7Lt7YuVyAgfVkpBJNeIICNQbi/UA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8UZyJozpmkMvQmVDLNPOYHn/C6I4CMgDXGTtpvprTIou6D4G1h
+	s8klK83R0sB5zEs4C30UJ0KbKDp7VxraeLgmLO/yU961dwju3eI/HEP+43rsvGfzeBs=
+X-Gm-Gg: AYBFou100gFrChn98PvqTBh81NpNo0wL5Q3r6A2fSRyK+61ASzCVcS0dRthQnPf5ywJ
+	GbL1pLY+9O+PnTmU/7mvV78RtXtAga2ZLaamaTkTQ/X/yACQhLd5Wikz+Hy6SQ3rDpoYa+BcyY6
+	d2sZP9cZxl81RUWyW5Jsw/hipAuAlXFZm/o6DDGIhAIu0CymbIsf+7CNzsflDZ2M07VHZZgsEBS
+	4Uxcz0hLInJi2bNpH38io81VO8PMSbZS9ZBNWUFFQW92RQc0Bces/sFNzrWpJhxNOtBt2bcOF9h
+	/F9PW3onyw72VStOHaSDghIgAs/6sGabeRXKWGZ9XcDVo8wMV5oo0xoWVt8cvabv2Y+4UQ2UgtZ
+	UGqFf2xe4Gkn56mDaON79ARQvUoFa0e/lfBkYHbLmhrCKQ+FtVxek59kj1xB9DLgEteBOLgdxT2
+	md3svBkf9/K3+YsaWT5y1wpBlwpLb4YsbaNE1O85kxVHYe0HKb8QTfCl8tscQH8CNsUr2Q0WMZJ
+	WBJ4zmlucJLxVqEgCYDq6X5k1BJjKUUIUCnJnBJNiaITnQAwXmUulHFl5H9LuhhrOwqYFqnTEDF
+	VZxvb3C2C3FRoGgxJFADZ06gw3RJ/8nLXXynddqKzTYk
+X-Received: by 2002:a05:6000:40d9:b0:48e:202:6718 with SMTP id ffacd0b85a97d-48e6e3042camr42967559f8f.25.1793883117658;
+        Thu, 05 Nov 2026 04:51:57 -0800 (PST)
+Received: from [192.168.0.116] ([81.79.79.1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm10598510f8f.19.2026.11.05.04.51.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 04:51:55 -0800 (PST)
-Content-Type: multipart/mixed; boundary="------------sAgaggIkLkCOB1pwIPWv4L0W"
-Message-ID: <4fdff241-7092-4013-8af1-89ceb85f2b14@suse.com>
-Date: Thu, 5 Nov 2026 13:51:54 +0100
+        Thu, 05 Nov 2026 04:51:56 -0800 (PST)
+Message-ID: <b8179edb-bc59-49af-b8d0-f62e39752f3a@ursulin.net>
+Date: Thu, 5 Nov 2026 12:51:55 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,211 +93,764 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Oliver Neukum <oneukum@suse.com>
-Subject: [RFC]preliminary support for eh_abort_handler
-To: Jiayi Li <lijiayi@kylinos.cn>
-Cc: USB list <linux-usb@vger.kernel.org>
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------sAgaggIkLkCOB1pwIPWv4L0W
+Subject: Re: [PATCH 1/3] dma-buf: dma-fence: Add flags parameter to
+ dma_fence_init()
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Philipp Stanner <phasta@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ imagination@lists.freedesktop.org, lima@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-usb@vger.kernel.org, rust-for-linux@vger.kernel.or
+References: <20261105113529.1989375-2-phasta@kernel.org>
+ <20261105113529.1989375-3-phasta@kernel.org>
+ <2f377d0f-2760-4465-ac68-b62210b33bd6@ursulin.net>
+ <005b77fd-5bd2-4ae5-a0c0-cff3f1f6c680@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <005b77fd-5bd2-4ae5-a0c0-cff3f1f6c680@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
 
-this should actually implement the abort method
-by means of triggering an error by reusing the tag
-of the command to be aborted.
+On 05/11/2026 12:35, Christian König wrote:
+> On 11/5/26 13:06, Tvrtko Ursulin wrote:
+>>
+>> [I aggresively rewrote the To: list because my SMTP won't let me send this as it was.]
+>>
+>> On 05/11/2026 11:35, Philipp Stanner wrote:
+>>> Currently, there are two init functions for dma_fence, dma_fence_init()
+>>> and dma_fence_init64().
+>>>
+>>> Since more future user options for dma_fence initialization would
+>>> require distinct init functions, too, it is better to do this in a
+>>> unified way.
+>>
+>> Why not add something like dma_fence_init_flags() and leave the 99% of the callers out of the (huge) diff? Ie. just port dma_fence_init64() to dma_fence_init_flags().
+> 
+> Well one advantage of the Linux kernel is to avoid such wrappers. I think having more than one function for the same thing basically just adds more confusion.
 
-What do you think?
+Sure we can churn if we really want. But as 99% of callers will be 
+passing 0 it's not even very readable. Another option is variadic like 
+kmalloc_objs so flags can be optional. Anyway, for consideration only.
 
-	Regards
-		Oliver
+> That's also why I would really like to just have one dma_fence_signal() and not like five (or was it four?) variants.
+>   
+>> Also best to move the addition of dma_fence_flags_invalid() to the patch which adds dma_fence_init_flags() and not have it in this one which is supposed to be functionality neutral.
+> 
+> Well this is the first time you can actually specify flags so that kind of makes sense to now add the check as well.
 
---------------sAgaggIkLkCOB1pwIPWv4L0W
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-usb-uas-cancel-outstanding-commands.patch"
-Content-Disposition: attachment;
- filename="0001-usb-uas-cancel-outstanding-commands.patch"
-Content-Transfer-Encoding: base64
+Right, that comment was together with suggestion to add the 
+dma_fence_init_flags() as a separate patch.
 
-RnJvbSBmMDYzNmFiNmMwZTA3MjkxNTNmMmZkYWY0ZjY3ZWU1YzcyZTk4ZTBkIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29t
-PgpEYXRlOiBXZWQsIDQgTm92IDIwMjYgMTE6MTc6MzQgKzAxMDAKU3ViamVjdDogW1BBVENI
-XSB1c2I6IHVhczogY2FuY2VsIG91dHN0YW5kaW5nIGNvbW1hbmRzCgpTZWNvbmQgZHJhZnQg
-b2YgYW4gYWN0dWFsbHkgd29ya2luZyBlaF9hYm9ydF9oYW5kbGVyLgoKU2lnbmVkLW9mZi1i
-eTogT2xpdmVyIE5ldWt1bSA8b25ldWt1bUBzdXNlLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9z
-dG9yYWdlL3Vhcy5jIHwgMTkwICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKyst
-LS0tCiAxIGZpbGUgY2hhbmdlZCwgMTc0IGluc2VydGlvbnMoKyksIDE2IGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3N0b3JhZ2UvdWFzLmMgYi9kcml2ZXJzL3Vz
-Yi9zdG9yYWdlL3Vhcy5jCmluZGV4IDg2NTVlZGJkNjZiMS4uZDc0MjFiZjgyMjA5IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL3VzYi9zdG9yYWdlL3Vhcy5jCisrKyBiL2RyaXZlcnMvdXNiL3N0
-b3JhZ2UvdWFzLmMKQEAgLTM4LDYgKzM4LDcgQEAgc3RydWN0IHVhc19kZXZfaW5mbyB7CiAJ
-c3RydWN0IHVzYl9hbmNob3IgY21kX3VyYnM7CiAJc3RydWN0IHVzYl9hbmNob3Igc2Vuc2Vf
-dXJiczsKIAlzdHJ1Y3QgdXNiX2FuY2hvciBkYXRhX3VyYnM7CisJc3RydWN0IHVzYl9hbmNo
-b3Iga2lsbGVyX3VyYnM7CiAJdTY0IGZsYWdzOwogCWludCBxZGVwdGgsIHJlc2V0dGluZzsK
-IAl1bnNpZ25lZCBjbWRfcGlwZSwgc3RhdHVzX3BpcGUsIGRhdGFfaW5fcGlwZSwgZGF0YV9v
-dXRfcGlwZTsKQEAgLTcxLDYgKzcyLDkgQEAgc3RydWN0IHVhc19jbWRfaW5mbyB7CiAJc3Ry
-dWN0IHVyYiAqY21kX3VyYjsKIAlzdHJ1Y3QgdXJiICpkYXRhX2luX3VyYjsKIAlzdHJ1Y3Qg
-dXJiICpkYXRhX291dF91cmI7CisJc3RydWN0IHVyYiAqa2lsbGVyOworCXdhaXRfcXVldWVf
-aGVhZF90IGNhbmNlbDsKKwlpbnQgY2xlYW5seV9jYW5jZWxsZWQ7CiB9OwogCiAvKiBJIGhh
-dGUgZm9yd2FyZCBkZWNsYXJhdGlvbnMsIGJ1dCBJIGFjdHVhbGx5IGhhdmUgYSBsb29wICov
-CkBAIC0xNjYsNyArMTcwLDcgQEAgc3RhdGljIHZvaWQgdWFzX3phcF9wZW5kaW5nKHN0cnVj
-dCB1YXNfZGV2X2luZm8gKmRldmluZm8sIGludCByZXN1bHQpCiAJCWNtZGluZm8gPSBzY3Np
-X2NtZF9wcml2KGNtbmQpOwogCQl1YXNfbG9nX2NtZF9zdGF0ZShjbW5kLCBfX2Z1bmNfXywg
-MCk7CiAJCS8qIFNlbnNlIHVyYnMgd2VyZSBraWxsZWQsIGNsZWFyIENPTU1BTkRfSU5GTElH
-SFQgbWFudWFsbHkgKi8KLQkJY21kaW5mby0+c3RhdGUgJj0gfkNPTU1BTkRfSU5GTElHSFQ7
-CisJCWNtZGluZm8tPnN0YXRlICY9IH4oQ09NTUFORF9JTkZMSUdIVCB8IENPTU1BTkRfQUJP
-UlRFRCk7CiAJCWNtbmQtPnJlc3VsdCA9IHJlc3VsdCA8PCAxNjsKIAkJZXJyID0gdWFzX3Ry
-eV9jb21wbGV0ZShjbW5kLCBfX2Z1bmNfXyk7CiAJCVdBUk5fT04oZXJyICE9IDApOwpAQCAt
-Mjg2LDYgKzI5MCw5IEBAIHN0YXRpYyBib29sIHVhc19ldmFsdWF0ZV9yZXNwb25zZV9pdShz
-dHJ1Y3QgcmVzcG9uc2VfaXUgKnJpdSwgc3RydWN0IHNjc2lfY21uZCAqCiAJY2FzZSBSQ19U
-TUZfTk9UX1NVUFBPUlRFRDoKIAkJc2V0X2hvc3RfYnl0ZShjbW5kLCBESURfQkFEX1RBUkdF
-VCk7CiAJCWJyZWFrOworCWNhc2UgUkNfT1ZFUkxBUFBFRF9UQUc6CisJCXNldF9ob3N0X2J5
-dGUoY21uZCwgRElEX0FCT1JUKTsKKwkJYnJlYWs7CiAJZGVmYXVsdDoKIAkJdWFzX2xvZ19j
-bWRfc3RhdGUoY21uZCwgInJlc3BvbnNlIGl1IiwgcmVzcG9uc2VfY29kZSk7CiAJCXNldF9o
-b3N0X2J5dGUoY21uZCwgRElEX0VSUk9SKTsKQEAgLTY3OCw2ICs2ODUsNyBAQCBzdGF0aWMg
-ZW51bSBzY3NpX3FjX3N0YXR1cyB1YXNfcXVldWVjb21tYW5kX2xjayhzdHJ1Y3Qgc2NzaV9j
-bW5kICpjbW5kKQogCW1lbXNldChjbWRpbmZvLCAwLCBzaXplb2YoKmNtZGluZm8pKTsKIAlj
-bWRpbmZvLT51YXNfdGFnID0gaWR4ICsgMTsgLyogdWFzLXRhZyA9PSB1c2Itc3RyZWFtLWlk
-LCBzbyAxIGJhc2VkICovCiAJY21kaW5mby0+c3RhdGUgPSBTVUJNSVRfU1RBVFVTX1VSQiB8
-IEFMTE9DX0NNRF9VUkIgfCBTVUJNSVRfQ01EX1VSQjsKKwlpbml0X3dhaXRxdWV1ZV9oZWFk
-KCZjbWRpbmZvLT5jYW5jZWwpOwogCiAJc3dpdGNoIChjbW5kLT5zY19kYXRhX2RpcmVjdGlv
-bikgewogCWNhc2UgRE1BX0ZST01fREVWSUNFOgpAQCAtNzMwLDM1ICs3MzgsMTgyIEBAIHN0
-YXRpYyBlbnVtIHNjc2lfcWNfc3RhdHVzIHVhc19xdWV1ZWNvbW1hbmRfbGNrKHN0cnVjdCBz
-Y3NpX2NtbmQgKmNtbmQpCiBzdGF0aWMgREVGX1NDU0lfUUNNRCh1YXNfcXVldWVjb21tYW5k
-KQogCiAvKgotICogRm9yIG5vdyB3ZSBkbyBub3Qgc3VwcG9ydCBhY3R1YWxseSBzZW5kaW5n
-IGFuIGFib3J0IHRvIHRoZSBkZXZpY2UsIHNvCi0gKiB0aGlzIGVoIGFsd2F5cyBmYWlscy4g
-U3RpbGwgd2UgbXVzdCBkZWZpbmUgaXQgdG8gbWFrZSBzdXJlIHRoYXQgd2UndmUKLSAqIGRy
-b3BwZWQgYWxsIHJlZmVyZW5jZXMgdG8gdGhlIGNtbmQgaW4gcXVlc3Rpb24gb25jZSB0aGlz
-IGZ1bmN0aW9uIGV4aXRzLgorICogV2UgYWJvcnQgYSBjb21tYW5kIGJ5IHJldXNpbmcgdGhl
-IHRhZywgdGh1cyBmb3JjaW5nIGFuIGVycm9yCiAgKi8KKworc3RhdGljIHN0cnVjdCBjb21t
-YW5kX2l1ICphbGxvY2F0ZV9kb3VibGVfY29tbWFuZChpbnQgdGFnLCBzdHJ1Y3Qgc2NzaV9k
-ZXZpY2UgKnNkZXYpCit7CisJc3RydWN0IGNvbW1hbmRfaXUgKnRlc3RfdW5pdF9yZWFkeTsK
-KworCXRlc3RfdW5pdF9yZWFkeSA9IGt6YWxsb2Moc2l6ZW9mKCp0ZXN0X3VuaXRfcmVhZHkp
-LCBHRlBfQVRPTUlDKTsKKwlpZiAoIXRlc3RfdW5pdF9yZWFkeSkKKwkJcmV0dXJuIE5VTEw7
-CisKKwl0ZXN0X3VuaXRfcmVhZHktPml1X2lkID0gSVVfSURfQ09NTUFORDsKKwl0ZXN0X3Vu
-aXRfcmVhZHktPnRhZyA9IGNwdV90b19iZTE2KHRhZyk7CisJdGVzdF91bml0X3JlYWR5LT5w
-cmlvX2F0dHIgPSBVQVNfU0lNUExFX1RBRzsKKwlpbnRfdG9fc2NzaWx1bihzZGV2LT5sdW4s
-ICZ0ZXN0X3VuaXRfcmVhZHktPmx1bik7CisJLyoKKwkgKiBXZSBuZWVkIHNvbWV0aGluZyB0
-aGF0IGRvZXMgbm90IGRvIGhhcm0KKwkgKiBpZiB0aGUgY29tbWFuZCB0byBiZSBhYm9ydGVk
-IGRvZXMgZmluaXNoCisJICogcmVndWxhcmx5CisJICovCisJdGVzdF91bml0X3JlYWR5LT5j
-ZGJbMF0gPSBURVNUX1VOSVRfUkVBRFk7CisKKwlyZXR1cm4gdGVzdF91bml0X3JlYWR5Owor
-fQorCitzdGF0aWMgdm9pZCB1YXNfZHVtbXlfc2Vuc2Uoc3RydWN0IHVyYiAqdSkKK3sKKwlz
-dHJ1Y3Qgc2NzaV9jbW5kICpjbW5kID0gdS0+Y29udGV4dDsKKwlzdHJ1Y3QgdWFzX2NtZF9p
-bmZvICpjbWRpbmZvID0gc2NzaV9jbWRfcHJpdihjbW5kKTsKKwlzdHJ1Y3QgdWFzX2Rldl9p
-bmZvICpkZXZpbmZvID0gKHZvaWQgKiljbW5kLT5kZXZpY2UtPmhvc3RkYXRhOworCWludCB0
-YWcgPSBjbWRpbmZvLT51YXNfdGFnOworCXVuc2lnbmVkIGxvbmcgZmxhZ3M7CisJLyoKKwkg
-KiBBbiBlcnJvciBpbXBsaWVzIHN1Y2Nlc3MKKwkgKi8KKwlpbnQgc3RhdHVzID0gdS0+c3Rh
-dHVzOworCisJLyoKKwkgKiBUaGUgdGFnIG11c3QgYmUgZnJlZWQgaW4gZXZlcnkgY2FzZQor
-CSAqLworCXNwaW5fbG9ja19pcnFzYXZlKCZkZXZpbmZvLT5sb2NrLCBmbGFncyk7CisJZGV2
-aW5mby0+Y21uZFt0YWcgLSAxXSA9IE5VTEw7CisJc3dpdGNoIChzdGF0dXMpIHsKKwljYXNl
-IC1FU0hVVERPV046CisJY2FzZSAtRU5PRU5UOgorCWNhc2UgLUVDT05OUkVTRVQ6CisJY2Fz
-ZSAwOgorCQljbWRpbmZvLT5jbGVhbmx5X2NhbmNlbGxlZCA9IDE7CisJCWJyZWFrOworCX0K
-KwlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZkZXZpbmZvLT5sb2NrLCBmbGFncyk7CisKKwlr
-ZnJlZSh1LT50cmFuc2Zlcl9idWZmZXIpOworCXdha2VfdXBfYWxsKCZjbWRpbmZvLT5jYW5j
-ZWwpOworfQorCitzdGF0aWMgdm9pZCB1YXNfYWJvcnRfY29tcGxldGUoc3RydWN0IHVyYiAq
-dSkKK3sKKwlpbnQgc3RhdHVzID0gdS0+c3RhdHVzOworCXN0cnVjdCBzY3NpX2NtbmQgKmNt
-bmQgPSB1LT5jb250ZXh0OworCXN0cnVjdCB1YXNfZGV2X2luZm8gKmRldmluZm8gPSAodm9p
-ZCAqKWNtbmQtPmRldmljZS0+aG9zdGRhdGE7CisJc3RydWN0IHVhc19jbWRfaW5mbyAqY21k
-aW5mbyA9IHNjc2lfY21kX3ByaXYoY21uZCk7CisJc3RydWN0IHVzYl9kZXZpY2UgKnVkZXYg
-PSBkZXZpbmZvLT51ZGV2OworCXN0cnVjdCByZXNwb25zZV9pdSAqZHVtbXk7CisJaW50IHRh
-ZyA9IGNtZGluZm8tPnVhc190YWc7CisJdW5zaWduZWQgbG9uZyBmbGFnczsKKwlpbnQgcnY7
-CisKKwlzd2l0Y2ggKHN0YXR1cykgeworCWRlZmF1bHQ6CisJCS8qCisJCSAqIGltbWVkaWF0
-ZSBjbGVhbnVwCisJCSAqLworCQlrZnJlZSh1LT50cmFuc2Zlcl9idWZmZXIpOworYmFpbG91
-dDoKKwkJc3Bpbl9sb2NrX2lycXNhdmUoJmRldmluZm8tPmxvY2ssIGZsYWdzKTsKKwkJZGV2
-aW5mby0+Y21uZFt0YWcgLSAxXSA9IE5VTEw7CisJCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUo
-JmRldmluZm8tPmxvY2ssIGZsYWdzKTsKKwkJd2FrZV91cF9hbGwoJmNtZGluZm8tPmNhbmNl
-bCk7CisJCWJyZWFrOworCWNhc2UgMDoKKwljYXNlIC1FQ09OTlJFU0VUOgorCWNhc2UgLUVT
-SFVURE9XTjoKKwljYXNlIC1FTk9FTlQ6CisJCWtmcmVlKHUtPnRyYW5zZmVyX2J1ZmZlcik7
-CisJCWR1bW15ID0ga3phbGxvYyhzaXplb2YoKmR1bW15KSwgR0ZQX0FUT01JQyk7CisJCWlm
-ICghZHVtbXkpCisJCQlnb3RvIGJhaWxvdXQ7CisJCXVzYl9maWxsX2J1bGtfdXJiKGNtZGlu
-Zm8tPmtpbGxlciwgdWRldiwgZGV2aW5mby0+c3RhdHVzX3BpcGUsCisJCQkJZHVtbXksIHNp
-emVvZigqZHVtbXkpLCB1YXNfZHVtbXlfc2Vuc2UsIGNtbmQpOworCQlzcGluX2xvY2tfaXJx
-c2F2ZSgmZGV2aW5mby0+bG9jaywgZmxhZ3MpOworCQlpZiAoZGV2aW5mby0+dXNlX3N0cmVh
-bXMpCisJCQljbWRpbmZvLT5raWxsZXItPnN0cmVhbV9pZCA9IGNtZGluZm8tPnVhc190YWc7
-CisJCXVzYl9hbmNob3JfdXJiKHUsICZkZXZpbmZvLT5raWxsZXJfdXJicyk7CisJCXJ2ID0g
-dXNiX3N1Ym1pdF91cmIoY21kaW5mby0+a2lsbGVyLCBHRlBfQVRPTUlDKTsKKwkJc3Bpbl91
-bmxvY2tfaXJxcmVzdG9yZSgmZGV2aW5mby0+bG9jaywgZmxhZ3MpOworCQlpZiAocnYgPCAw
-KSB7CisJCQl1c2JfdW5hbmNob3JfdXJiKHUpOworCQkJZ290byBiYWlsb3V0OworCQl9CisJ
-fQorfQorCiBzdGF0aWMgaW50IHVhc19laF9hYm9ydF9oYW5kbGVyKHN0cnVjdCBzY3NpX2Nt
-bmQgKmNtbmQpCiB7CisJREVDTEFSRV9XQUlUUVVFVUUod2FpdCwgY3VycmVudCk7CiAJc3Ry
-dWN0IHVhc19jbWRfaW5mbyAqY21kaW5mbyA9IHNjc2lfY21kX3ByaXYoY21uZCk7CiAJc3Ry
-dWN0IHVhc19kZXZfaW5mbyAqZGV2aW5mbyA9ICh2b2lkICopY21uZC0+ZGV2aWNlLT5ob3N0
-ZGF0YTsKKwlzdHJ1Y3QgdXNiX2RldmljZSAqdWRldiA9IGRldmluZm8tPnVkZXY7CiAJc3Ry
-dWN0IHVyYiAqZGF0YV9pbl91cmIgPSBOVUxMOwogCXN0cnVjdCB1cmIgKmRhdGFfb3V0X3Vy
-YiA9IE5VTEw7Ci0JdW5zaWduZWQgbG9uZyBmbGFnczsKKwlzdHJ1Y3QgdXJiICpraWxsZXIg
-PSBOVUxMOworCXN0cnVjdCBjb21tYW5kX2l1ICpidWxsZXQgPSBOVUxMOworCWludCB0YXJn
-ZXRfdGFnLCBydjsKKwlpbnQgcmVzdWx0ID0gRkFJTEVEOwogCi0Jc3Bpbl9sb2NrX2lycXNh
-dmUoJmRldmluZm8tPmxvY2ssIGZsYWdzKTsKKwlraWxsZXIgPSB1c2JfYWxsb2NfdXJiKDAs
-IEdGUF9OT0lPKTsKIAotCXVhc19sb2dfY21kX3N0YXRlKGNtbmQsIF9fZnVuY19fLCAwKTsK
-KwlzZXRfY3VycmVudF9zdGF0ZShUQVNLX1VOSU5URVJSVVBUSUJMRSk7CisJc3Bpbl9sb2Nr
-X2lycSgmZGV2aW5mby0+bG9jayk7CisJdGFyZ2V0X3RhZyA9IGNtZGluZm8tPnVhc190YWc7
-CiAKIAkvKiBFbnN1cmUgdGhhdCB0cnlfY29tcGxldGUgZG9lcyBub3QgY2FsbCBzY3NpX2Rv
-bmUgKi8KIAljbWRpbmZvLT5zdGF0ZSB8PSBDT01NQU5EX0FCT1JURUQ7CiAKLQkvKiBEcm9w
-IGFsbCByZWZzIHRvIHRoaXMgY21uZCwga2lsbCBkYXRhIHVyYnMgdG8gYnJlYWsgdGhlaXIg
-cmVmICovCi0JZGV2aW5mby0+Y21uZFtjbWRpbmZvLT51YXNfdGFnIC0gMV0gPSBOVUxMOwot
-CWlmIChjbWRpbmZvLT5zdGF0ZSAmIERBVEFfSU5fVVJCX0lORkxJR0hUKQotCQlkYXRhX2lu
-X3VyYiA9IHVzYl9nZXRfdXJiKGNtZGluZm8tPmRhdGFfaW5fdXJiKTsKLQlpZiAoY21kaW5m
-by0+c3RhdGUgJiBEQVRBX09VVF9VUkJfSU5GTElHSFQpCi0JCWRhdGFfb3V0X3VyYiA9IHVz
-Yl9nZXRfdXJiKGNtZGluZm8tPmRhdGFfb3V0X3VyYik7CisJaWYgKCFraWxsZXIpCisJCWdv
-dG8gYWRtaXRfZmFpbHVyZTsKKwljbWRpbmZvLT5raWxsZXIgPSBraWxsZXI7CisJYnVsbGV0
-ID0gYWxsb2NhdGVfZG91YmxlX2NvbW1hbmQodGFyZ2V0X3RhZywgY21uZC0+ZGV2aWNlKTsK
-KwlpZiAoIWJ1bGxldCkKKwkJZ290byBhZG1pdF9mYWlsdXJlOwogCi0JdWFzX2ZyZWVfdW5z
-dWJtaXR0ZWRfdXJicyhjbW5kKTsKKwl1c2JfZmlsbF9idWxrX3VyYihraWxsZXIsIHVkZXYs
-IGRldmluZm8tPmNtZF9waXBlLAorCQkJYnVsbGV0LCBzaXplb2YoKmJ1bGxldCksIHVhc19h
-Ym9ydF9jb21wbGV0ZSwgY21uZCk7CisJdWFzX2xvZ19jbWRfc3RhdGUoY21uZCwgX19mdW5j
-X18sIDApOwogCi0Jc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmZGV2aW5mby0+bG9jaywgZmxh
-Z3MpOworCWNtZGluZm8tPmtpbGxlciA9IGtpbGxlcjsKKwlhZGRfd2FpdF9xdWV1ZSgmY21k
-aW5mby0+Y2FuY2VsLCAmd2FpdCk7CisKKwl1c2JfYW5jaG9yX3VyYihraWxsZXIsICZkZXZp
-bmZvLT5raWxsZXJfdXJicyk7CisJcnYgPSB1c2Jfc3VibWl0X3VyYihraWxsZXIsIEdGUF9B
-VE9NSUMpOworCWlmIChydiA8IDApIHsKK2FkbWl0X2ZhaWx1cmU6CisJCS8qIERyb3AgYWxs
-IHJlZnMgdG8gdGhpcyBjbW5kLCBraWxsIGRhdGEgdXJicyB0byBicmVhayB0aGVpciByZWYg
-Ki8KKwkJZGV2aW5mby0+Y21uZFtjbWRpbmZvLT51YXNfdGFnIC0gMV0gPSBOVUxMOworCQlp
-ZiAoY21kaW5mby0+c3RhdGUgJiBEQVRBX0lOX1VSQl9JTkZMSUdIVCkKKwkJCWRhdGFfaW5f
-dXJiID0gdXNiX2dldF91cmIoY21kaW5mby0+ZGF0YV9pbl91cmIpOworCQlpZiAoY21kaW5m
-by0+c3RhdGUgJiBEQVRBX09VVF9VUkJfSU5GTElHSFQpCisJCQlkYXRhX291dF91cmIgPSB1
-c2JfZ2V0X3VyYihjbWRpbmZvLT5kYXRhX291dF91cmIpOworCisJCXVhc19mcmVlX3Vuc3Vi
-bWl0dGVkX3VyYnMoY21uZCk7CisJCXNwaW5fdW5sb2NrX2lycSgmZGV2aW5mby0+bG9jayk7
-CisJCXVzYl91bmFuY2hvcl91cmIoa2lsbGVyKTsKKwkJa2ZyZWUoYnVsbGV0KTsKKwl9IGVs
-c2UgeworCQlzcGluX3VubG9ja19pcnEoJmRldmluZm8tPmxvY2spOworCQlydiA9IHNjaGVk
-dWxlX3RpbWVvdXQoSFopOworCQlpZiAocnYpCisJCQlyZXN1bHQgPSBjbWRpbmZvLT5jbGVh
-bmx5X2NhbmNlbGxlZCA/IFNVQ0NFU1MgOiBGQUlMRUQ7CisJCXNwaW5fbG9ja19pcnEoJmRl
-dmluZm8tPmxvY2spOworCQlpZiAoY21kaW5mby0+c3RhdGUgJiBEQVRBX0lOX1VSQl9JTkZM
-SUdIVCkKKwkJCWRhdGFfaW5fdXJiID0gdXNiX2dldF91cmIoY21kaW5mby0+ZGF0YV9pbl91
-cmIpOworCQlpZiAoY21kaW5mby0+c3RhdGUgJiBEQVRBX09VVF9VUkJfSU5GTElHSFQpCisJ
-CQlkYXRhX291dF91cmIgPSB1c2JfZ2V0X3VyYihjbWRpbmZvLT5kYXRhX291dF91cmIpOwor
-CQlzcGluX3VubG9ja19pcnEoJmRldmluZm8tPmxvY2spOworCX0KKwlzZXRfY3VycmVudF9z
-dGF0ZShUQVNLX1JVTk5JTkcpOworCXJlbW92ZV93YWl0X3F1ZXVlKCZjbWRpbmZvLT5jYW5j
-ZWwsICZ3YWl0KTsKKwkvKgorCSAqIHdlIGtub3cgYSBjYWxsYmFjayB3aWxsIGZyZWUgdGhl
-IHRhZworCSAqLworCXNwaW5fbG9ja19pcnEoJmRldmluZm8tPmxvY2spOworCWNtZGluZm8t
-PmtpbGxlciA9IE5VTEw7CisJc3Bpbl91bmxvY2tfaXJxKCZkZXZpbmZvLT5sb2NrKTsKKwl1
-c2Jfa2lsbF91cmIoa2lsbGVyKTsKKwl1c2JfZnJlZV91cmIoa2lsbGVyKTsKIAogCWlmIChk
-YXRhX2luX3VyYikgewogCQl1c2Jfa2lsbF91cmIoZGF0YV9pbl91cmIpOwpAQCAtNzY5LDcg
-KzkyNCw3IEBAIHN0YXRpYyBpbnQgdWFzX2VoX2Fib3J0X2hhbmRsZXIoc3RydWN0IHNjc2lf
-Y21uZCAqY21uZCkKIAkJdXNiX3B1dF91cmIoZGF0YV9vdXRfdXJiKTsKIAl9CiAKLQlyZXR1
-cm4gRkFJTEVEOworCXJldHVybiByZXN1bHQ7CiB9CiAKIHN0YXRpYyBpbnQgdWFzX2VoX2hv
-c3RfcmVzZXRfaGFuZGxlcihzdHJ1Y3Qgc2NzaV9jbW5kICpjbW5kKQpAQCAtNzk2LDYgKzk1
-MSw3IEBAIHN0YXRpYyBpbnQgdWFzX2VoX2hvc3RfcmVzZXRfaGFuZGxlcihzdHJ1Y3Qgc2Nz
-aV9jbW5kICpjbW5kKQogCXVzYl9raWxsX2FuY2hvcmVkX3VyYnMoJmRldmluZm8tPmNtZF91
-cmJzKTsKIAl1c2Jfa2lsbF9hbmNob3JlZF91cmJzKCZkZXZpbmZvLT5zZW5zZV91cmJzKTsK
-IAl1c2Jfa2lsbF9hbmNob3JlZF91cmJzKCZkZXZpbmZvLT5kYXRhX3VyYnMpOworCXVzYl9r
-aWxsX2FuY2hvcmVkX3VyYnMoJmRldmluZm8tPmtpbGxlcl91cmJzKTsKIAl1YXNfemFwX3Bl
-bmRpbmcoZGV2aW5mbywgRElEX1JFU0VUKTsKIAogCWVyciA9IHVzYl9yZXNldF9kZXZpY2Uo
-dWRldik7CkBAIC0xMDM4LDYgKzExOTQsNyBAQCBzdGF0aWMgaW50IHVhc19wcm9iZShzdHJ1
-Y3QgdXNiX2ludGVyZmFjZSAqaW50ZiwgY29uc3Qgc3RydWN0IHVzYl9kZXZpY2VfaWQgKmlk
-KQogCWluaXRfdXNiX2FuY2hvcigmZGV2aW5mby0+Y21kX3VyYnMpOwogCWluaXRfdXNiX2Fu
-Y2hvcigmZGV2aW5mby0+c2Vuc2VfdXJicyk7CiAJaW5pdF91c2JfYW5jaG9yKCZkZXZpbmZv
-LT5kYXRhX3VyYnMpOworCWluaXRfdXNiX2FuY2hvcigmZGV2aW5mby0+a2lsbGVyX3VyYnMp
-OwogCXNwaW5fbG9ja19pbml0KCZkZXZpbmZvLT5sb2NrKTsKIAlJTklUX1dPUksoJmRldmlu
-Zm8tPndvcmssIHVhc19kb193b3JrKTsKIAlJTklUX1dPUksoJmRldmluZm8tPnNjYW5fd29y
-aywgdWFzX3NjYW5fd29yayk7CkBAIC0xMjI1LDYgKzEzODIsNyBAQCBzdGF0aWMgdm9pZCB1
-YXNfZGlzY29ubmVjdChzdHJ1Y3QgdXNiX2ludGVyZmFjZSAqaW50ZikKIAl1c2Jfa2lsbF9h
-bmNob3JlZF91cmJzKCZkZXZpbmZvLT5jbWRfdXJicyk7CiAJdXNiX2tpbGxfYW5jaG9yZWRf
-dXJicygmZGV2aW5mby0+c2Vuc2VfdXJicyk7CiAJdXNiX2tpbGxfYW5jaG9yZWRfdXJicygm
-ZGV2aW5mby0+ZGF0YV91cmJzKTsKKwl1c2Jfa2lsbF9hbmNob3JlZF91cmJzKCZkZXZpbmZv
-LT5raWxsZXJfdXJicyk7CiAJdWFzX3phcF9wZW5kaW5nKGRldmluZm8sIERJRF9OT19DT05O
-RUNUKTsKIAogCS8qCi0tIAoyLjU2LjAKCg==
+Regards,
 
---------------sAgaggIkLkCOB1pwIPWv4L0W--
+Tvrtko
+
+>>> Add a flags field to dma_fence_init(). Adjust all affected drivers,
+>>> preserving the old behavior.
+>>>
+>>> Support the SEQNO64 flag, and add a check-function so that the user only
+>>> sets valid bits.
+>>>
+>>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>>> ---
+>>>    drivers/accel/amdxdna/amdxdna_ctx.c           |  2 +-
+>>>    drivers/accel/ethosu/ethosu_job.c             |  2 +-
+>>>    drivers/accel/ivpu/ivpu_job.c                 |  2 +-
+>>>    drivers/accel/rocket/rocket_job.c             |  2 +-
+>>>    drivers/dma-buf/dma-fence-array.c             |  2 +-
+>>>    drivers/dma-buf/dma-fence.c                   | 31 ++++++++++++++++---
+>>>    drivers/dma-buf/st-dma-fence-chain.c          |  2 +-
+>>>    drivers/dma-buf/st-dma-fence-unwrap.c         |  2 +-
+>>>    drivers/dma-buf/st-dma-fence.c                |  2 +-
+>>>    drivers/dma-buf/st-dma-resv.c                 |  2 +-
+>>>    drivers/dma-buf/sw_sync.c                     |  2 +-
+>>>    .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |  2 +-
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c     |  2 +-
+>>>    drivers/gpu/drm/drm_crtc.c                    |  2 +-
+>>>    drivers/gpu/drm/drm_writeback.c               |  2 +-
+>>>    drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  2 +-
+>>>    drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |  2 +-
+>>>    drivers/gpu/drm/i915/i915_request.c           |  2 +-
+>>>    drivers/gpu/drm/i915/i915_sw_fence_work.c     |  2 +-
+>>>    drivers/gpu/drm/i915/i915_vma_resource.c      |  2 +-
+>>>    .../gpu/drm/i915/selftests/i915_sw_fence.c    |  2 +-
+>>>    drivers/gpu/drm/imagination/pvr_ccb.c         |  2 +-
+>>>    drivers/gpu/drm/imagination/pvr_queue.c       |  2 +-
+>>>    drivers/gpu/drm/lima/lima_sched.c             |  2 +-
+>>>    drivers/gpu/drm/msm/msm_fence.c               |  2 +-
+>>>    drivers/gpu/drm/nouveau/nouveau_fence.c       |  4 +--
+>>>    drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
+>>>    drivers/gpu/drm/panthor/panthor_sched.c       |  2 +-
+>>>    drivers/gpu/drm/qxl/qxl_release.c             |  2 +-
+>>>    drivers/gpu/drm/radeon/radeon_fence.c         |  2 +-
+>>>    drivers/gpu/drm/scheduler/sched_fence.c       |  4 +--
+>>>    .../gpu/drm/scheduler/tests/mock_scheduler.c  |  2 +-
+>>>    drivers/gpu/drm/ttm/tests/ttm_bo_test.c       |  2 +-
+>>>    .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |  2 +-
+>>>    drivers/gpu/drm/v3d/v3d_fence.c               |  2 +-
+>>>    drivers/gpu/drm/vc4/vc4_gem.c                 |  2 +-
+>>>    drivers/gpu/drm/vgem/vgem_fence.c             |  2 +-
+>>>    drivers/gpu/drm/virtio/virtgpu_fence.c        |  2 +-
+>>>    drivers/gpu/drm/vmwgfx/vmwgfx_fence.c         |  2 +-
+>>>    drivers/gpu/drm/xe/xe_hw_fence.c              |  2 +-
+>>>    drivers/gpu/drm/xe/xe_oa.c                    |  2 +-
+>>>    drivers/gpu/drm/xe/xe_preempt_fence.c         |  2 +-
+>>>    drivers/gpu/drm/xe/xe_tlb_inval.c             |  2 +-
+>>>    drivers/gpu/host1x/fence.c                    |  2 +-
+>>>    drivers/iio/industrialio-buffer.c             |  2 +-
+>>>    drivers/usb/gadget/function/f_fs.c            |  2 +-
+>>>    include/linux/dma-fence.h                     | 12 +++++--
+>>>    rust/kernel/dma_buf/dma_fence.rs              |  2 +-
+>>>    48 files changed, 83 insertions(+), 56 deletions(-)
+>>>
+>>> diff --git a/drivers/accel/amdxdna/amdxdna_ctx.c b/drivers/accel/amdxdna/amdxdna_ctx.c
+>>> index f4004630dc1b..f2245541f1ee 100644
+>>> --- a/drivers/accel/amdxdna/amdxdna_ctx.c
+>>> +++ b/drivers/accel/amdxdna/amdxdna_ctx.c
+>>> @@ -53,7 +53,7 @@ static struct dma_fence *amdxdna_fence_create(struct amdxdna_hwctx *hwctx)
+>>>          spin_lock_init(&fence->lock);
+>>>        /* Unique timeline context prevents eviction from shared BO reservation. */
+>>> -    dma_fence_init(&fence->base, &fence_ops, &fence->lock, dma_fence_context_alloc(1), 0);
+>>> +    dma_fence_init(&fence->base, &fence_ops, &fence->lock, dma_fence_context_alloc(1), 0, 0);
+>>>        return &fence->base;
+>>>    }
+>>>    diff --git a/drivers/accel/ethosu/ethosu_job.c b/drivers/accel/ethosu/ethosu_job.c
+>>> index d656b3ec670e..d4fc71436cae 100644
+>>> --- a/drivers/accel/ethosu/ethosu_job.c
+>>> +++ b/drivers/accel/ethosu/ethosu_job.c
+>>> @@ -219,7 +219,7 @@ static struct dma_fence *ethosu_job_run(struct drm_sched_job *sched_job)
+>>>            return NULL;
+>>>          dma_fence_init(fence, &ethosu_fence_ops, &dev->fence_lock,
+>>> -               dev->fence_context, ++dev->emit_seqno);
+>>> +               dev->fence_context, ++dev->emit_seqno, 0);
+>>>        dma_fence_get(fence);
+>>>          ethosu_switch_perfmon(dev, job);
+>>> diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+>>> index 76bacabe496b..6b4f059fb209 100644
+>>> --- a/drivers/accel/ivpu/ivpu_job.c
+>>> +++ b/drivers/accel/ivpu/ivpu_job.c
+>>> @@ -519,7 +519,7 @@ static struct dma_fence *ivpu_fence_create(struct ivpu_device *vdev)
+>>>          fence->vdev = vdev;
+>>>        spin_lock_init(&fence->lock);
+>>> -    dma_fence_init(&fence->base, &ivpu_fence_ops, &fence->lock, dma_fence_context_alloc(1), 1);
+>>> +    dma_fence_init(&fence->base, &ivpu_fence_ops, &fence->lock, dma_fence_context_alloc(1), 1, 0);
+>>>          return &fence->base;
+>>>    }
+>>> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
+>>> index b2a00992c889..574c9ea802c9 100644
+>>> --- a/drivers/accel/rocket/rocket_job.c
+>>> +++ b/drivers/accel/rocket/rocket_job.c
+>>> @@ -61,7 +61,7 @@ static struct dma_fence *rocket_fence_create(struct rocket_core *core)
+>>>            return ERR_PTR(-ENOMEM);
+>>>          dma_fence_init(fence, &rocket_fence_ops, &core->fence_lock,
+>>> -               core->fence_context, ++core->emit_seqno);
+>>> +               core->fence_context, ++core->emit_seqno, 0);
+>>>          return fence;
+>>>    }
+>>> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+>>> index 5e10e8df372f..e2dddbfddea2 100644
+>>> --- a/drivers/dma-buf/dma-fence-array.c
+>>> +++ b/drivers/dma-buf/dma-fence-array.c
+>>> @@ -205,7 +205,7 @@ void dma_fence_array_init(struct dma_fence_array *array,
+>>>        array->num_fences = num_fences;
+>>>          dma_fence_init(&array->base, &dma_fence_array_ops, NULL, context,
+>>> -               seqno);
+>>> +               seqno, 0);
+>>>        init_irq_work(&array->work, irq_dma_fence_array_work);
+>>>          /*
+>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>>> index bd58688b81a7..a511cf755ee8 100644
+>>> --- a/drivers/dma-buf/dma-fence.c
+>>> +++ b/drivers/dma-buf/dma-fence.c
+>>> @@ -122,7 +122,7 @@ static const struct dma_fence_ops dma_fence_stub_ops = {
+>>>      static int __init dma_fence_init_stub(void)
+>>>    {
+>>> -    dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops, NULL, 0, 0);
+>>> +    dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops, NULL, 0, 0, 0);
+>>>        set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>>>            &dma_fence_stub.flags);
+>>>        dma_fence_signal(&dma_fence_stub);
+>>> @@ -156,7 +156,7 @@ struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp)
+>>>        if (fence == NULL)
+>>>            return NULL;
+>>>    -    dma_fence_init(fence, &dma_fence_stub_ops, NULL, 0, 0);
+>>> +    dma_fence_init(fence, &dma_fence_stub_ops, NULL, 0, 0, 0);
+>>>        set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>>>            &fence->flags);
+>>>    @@ -1063,7 +1063,6 @@ __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>                 spinlock_t *lock, u64 context, u64 seqno, unsigned long flags)
+>>>    {
+>>>        BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
+>>> -
+>>>        kref_init(&fence->refcount);
+>>>        /*
+>>>         * While it is counter intuitive to protect a constant function pointer
+>>> @@ -1087,6 +1086,21 @@ __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>        trace_dma_fence_init(fence);
+>>>    }
+>>>    +static bool dma_fence_flags_invalid(unsigned long flags)
+>>> +{
+>>> +    const unsigned long valid_fence_bits =
+>>> +        BIT(DMA_FENCE_FLAG_SEQNO64_BIT);
+>>> +    const unsigned long valid_user_bits =
+>>> +        GENMASK(
+>>> +            BITS_PER_TYPE(unsigned long) - 1,
+>>> +            DMA_FENCE_FLAG_USER_BITS
+>>> +               );
+>>> +    const unsigned long invalid_bits =
+>>> +        ~(valid_fence_bits | valid_user_bits);
+>>> +
+>>> +    return flags & invalid_bits;
+>>> +}
+>>> +
+>>>    /**
+>>>     * dma_fence_init - Initialize a custom fence.
+>>>     * @fence: the fence to initialize
+>>> @@ -1094,6 +1108,7 @@ __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>     * @lock: optional irqsafe spinlock to use for locking this fence
+>>>     * @context: the execution context this fence is run on
+>>>     * @seqno: a linear increasing sequence number for this context
+>>> + * @flags: flags modifying a fence's behavior
+>>>     *
+>>>     * Initializes an allocated fence, the caller doesn't have to keep its
+>>>     * refcount after committing with this fence, but it will need to hold a
+>>> @@ -1108,12 +1123,18 @@ __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>     * introduction of the callback, but the external lock is still around. New
+>>>     * users MUST NOT use external locks, as they force the issuer to outlive all
+>>>     * fences that reference the lock.
+>>> + *
+>>> + * The @flags you can specify here are either DMA_FENCE_FLAG_SEQNO64_BIT or
+>>> + * user-specified bits >= DMA_FENCE_FLAG_USER_BITS.
+>>>     */
+>>>    void
+>>>    dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>> -           spinlock_t *lock, u64 context, u64 seqno)
+>>> +           spinlock_t *lock, u64 context, u64 seqno,
+>>> +           unsigned long flags)
+>>>    {
+>>> -    __dma_fence_init(fence, ops, lock, context, seqno, 0UL);
+>>> +    WARN_ON(dma_fence_flags_invalid(flags));
+>>> +
+>>> +    __dma_fence_init(fence, ops, lock, context, seqno, flags);
+>>>    }
+>>>    EXPORT_SYMBOL(dma_fence_init);
+>>>    diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
+>>> index e0d9b69bfa76..b9610df3ff19 100644
+>>> --- a/drivers/dma-buf/st-dma-fence-chain.c
+>>> +++ b/drivers/dma-buf/st-dma-fence-chain.c
+>>> @@ -52,7 +52,7 @@ static struct dma_fence *mock_fence(void)
+>>>            return NULL;
+>>>          spin_lock_init(&f->lock);
+>>> -    dma_fence_init(&f->base, &mock_ops, &f->lock, 0, 0);
+>>> +    dma_fence_init(&f->base, &mock_ops, &f->lock, 0, 0, 0);
+>>>          return &f->base;
+>>>    }
+>>> diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
+>>> index c5353b36f0e4..dbebc3046d42 100644
+>>> --- a/drivers/dma-buf/st-dma-fence-unwrap.c
+>>> +++ b/drivers/dma-buf/st-dma-fence-unwrap.c
+>>> @@ -36,7 +36,7 @@ static struct dma_fence *__mock_fence(u64 context, u64 seqno)
+>>>            return NULL;
+>>>          spin_lock_init(&f->lock);
+>>> -    dma_fence_init(&f->base, &mock_ops, &f->lock, context, seqno);
+>>> +    dma_fence_init(&f->base, &mock_ops, &f->lock, context, seqno, 0);
+>>>          return &f->base;
+>>>    }
+>>> diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
+>>> index cb62e606d0a2..b3f88e89cc44 100644
+>>> --- a/drivers/dma-buf/st-dma-fence.c
+>>> +++ b/drivers/dma-buf/st-dma-fence.c
+>>> @@ -31,7 +31,7 @@ static struct dma_fence *mock_fence(void)
+>>>        if (!f)
+>>>            return NULL;
+>>>    -    dma_fence_init(f, &mock_ops, NULL, 0, 0);
+>>> +    dma_fence_init(f, &mock_ops, NULL, 0, 0, 0);
+>>>        return f;
+>>>    }
+>>>    diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
+>>> index 0b96136bbd54..c3a920ab3fcf 100644
+>>> --- a/drivers/dma-buf/st-dma-resv.c
+>>> +++ b/drivers/dma-buf/st-dma-resv.c
+>>> @@ -35,7 +35,7 @@ static struct dma_fence *alloc_fence(void)
+>>>        if (!f)
+>>>            return NULL;
+>>>    -    dma_fence_init(f, &fence_ops, &fence_lock, 0, 0);
+>>> +    dma_fence_init(f, &fence_ops, &fence_lock, 0, 0, 0);
+>>>        return f;
+>>>    }
+>>>    diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+>>> index 8df20b0218a9..ce43af7e735e 100644
+>>> --- a/drivers/dma-buf/sw_sync.c
+>>> +++ b/drivers/dma-buf/sw_sync.c
+>>> @@ -258,7 +258,7 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
+>>>          sync_timeline_get(obj);
+>>>        dma_fence_init(&pt->base, &timeline_fence_ops, &obj->lock,
+>>> -               obj->context, value);
+>>> +               obj->context, value, 0);
+>>>        INIT_LIST_HEAD(&pt->link);
+>>>          spin_lock_irq(&obj->lock);
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+>>> index 9b10d015671c..30ccdb3e0b47 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+>>> @@ -77,7 +77,7 @@ struct amdgpu_amdkfd_fence *amdgpu_amdkfd_fence_create(u64 context,
+>>>        spin_lock_init(&fence->lock);
+>>>        fence->context_id = context_id;
+>>>        dma_fence_init(&fence->base, &amdkfd_fence_ops, &fence->lock,
+>>> -           context, atomic_inc_return(&fence_seq));
+>>> +           context, atomic_inc_return(&fence_seq), 0);
+>>>          return fence;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+>>> index bff2d38f3571..03e1974f8dda 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+>>> @@ -112,7 +112,7 @@ void amdgpu_fence_emit(struct amdgpu_ring *ring, struct amdgpu_fence *af,
+>>>        seq = ++ring->fence_drv.sync_seq;
+>>>        dma_fence_init(fence, &amdgpu_fence_ops,
+>>>                   &ring->fence_drv.lock,
+>>> -               adev->fence_context + ring->idx, seq);
+>>> +               adev->fence_context + ring->idx, seq, 0);
+>>>          amdgpu_ring_emit_fence(ring, ring->fence_drv.gpu_addr,
+>>>                       seq, flags | AMDGPU_FENCE_FLAG_INT);
+>>> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+>>> index 63ead8ba6756..92641bc0a378 100644
+>>> --- a/drivers/gpu/drm/drm_crtc.c
+>>> +++ b/drivers/gpu/drm/drm_crtc.c
+>>> @@ -190,7 +190,7 @@ struct dma_fence *drm_crtc_create_fence(struct drm_crtc *crtc)
+>>>            return NULL;
+>>>          dma_fence_init(fence, &drm_crtc_fence_ops, &crtc->fence_lock,
+>>> -               crtc->fence_context, ++crtc->fence_seqno);
+>>> +               crtc->fence_context, ++crtc->fence_seqno, 0);
+>>>          return fence;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+>>> index b4a002e6d043..64b06b890f19 100644
+>>> --- a/drivers/gpu/drm/drm_writeback.c
+>>> +++ b/drivers/gpu/drm/drm_writeback.c
+>>> @@ -592,7 +592,7 @@ drm_writeback_get_out_fence(struct drm_writeback_connector *wb_connector)
+>>>          dma_fence_init(fence, &drm_writeback_fence_ops,
+>>>                   &wb_connector->fence_lock, wb_connector->fence_context,
+>>> -               ++wb_connector->fence_seqno);
+>>> +               ++wb_connector->fence_seqno, 0);
+>>>          return fence;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>> index e75dab5e407d..a10e4e4cf372 100644
+>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>> @@ -1199,7 +1199,7 @@ static struct dma_fence *etnaviv_gpu_fence_alloc(struct etnaviv_gpu *gpu)
+>>>        f->gpu = gpu;
+>>>          dma_fence_init(&f->base, &etnaviv_fence_ops, &gpu->fence_spinlock,
+>>> -               gpu->fence_context, ++gpu->next_fence);
+>>> +               gpu->fence_context, ++gpu->next_fence, 0);
+>>>          return &f->base;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>>> index 56489cc127d6..ffaa70191f27 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>>> @@ -437,7 +437,7 @@ i915_ttm_memcpy_work_arm(struct i915_ttm_memcpy_work *work,
+>>>        int ret;
+>>>          spin_lock_init(&work->lock);
+>>> -    dma_fence_init(&work->fence, &dma_fence_memcpy_ops, &work->lock, 0, 0);
+>>> +    dma_fence_init(&work->fence, &dma_fence_memcpy_ops, &work->lock, 0, 0, 0);
+>>>        dma_fence_get(&work->fence);
+>>>        ret = dma_fence_add_callback(dep, &work->cb, __memcpy_cb);
+>>>        if (ret) {
+>>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>>> index f66f8efc7062..0f4fc9cc0033 100644
+>>> --- a/drivers/gpu/drm/i915/i915_request.c
+>>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>>> @@ -953,7 +953,7 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+>>>            goto err_free;
+>>>          dma_fence_init(&rq->fence, &i915_fence_ops, &rq->lock,
+>>> -               tl->fence_context, seqno);
+>>> +               tl->fence_context, seqno, 0);
+>>>          RCU_INIT_POINTER(rq->timeline, tl);
+>>>        rq->hwsp_seqno = tl->hwsp_seqno;
+>>> diff --git a/drivers/gpu/drm/i915/i915_sw_fence_work.c b/drivers/gpu/drm/i915/i915_sw_fence_work.c
+>>> index 366418108f78..4cd44dd26e35 100644
+>>> --- a/drivers/gpu/drm/i915/i915_sw_fence_work.c
+>>> +++ b/drivers/gpu/drm/i915/i915_sw_fence_work.c
+>>> @@ -85,7 +85,7 @@ void dma_fence_work_init(struct dma_fence_work *f,
+>>>    {
+>>>        f->ops = ops;
+>>>        spin_lock_init(&f->lock);
+>>> -    dma_fence_init(&f->dma, &fence_ops, &f->lock, 0, 0);
+>>> +    dma_fence_init(&f->dma, &fence_ops, &f->lock, 0, 0, 0);
+>>>        i915_sw_fence_init(&f->chain, fence_notify);
+>>>        INIT_WORK(&f->work, fence_work);
+>>>    }
+>>> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.c b/drivers/gpu/drm/i915/i915_vma_resource.c
+>>> index a8f2112ce81f..19596410e32f 100644
+>>> --- a/drivers/gpu/drm/i915/i915_vma_resource.c
+>>> +++ b/drivers/gpu/drm/i915/i915_vma_resource.c
+>>> @@ -263,7 +263,7 @@ void __i915_vma_resource_init(struct i915_vma_resource *vma_res)
+>>>    {
+>>>        spin_lock_init(&vma_res->lock);
+>>>        dma_fence_init(&vma_res->unbind_fence, &unbind_fence_ops,
+>>> -               &vma_res->lock, 0, 0);
+>>> +               &vma_res->lock, 0, 0, 0);
+>>>        refcount_set(&vma_res->hold_count, 1);
+>>>        i915_sw_fence_init(&vma_res->chain, i915_vma_resource_fence_notify);
+>>>    }
+>>> diff --git a/drivers/gpu/drm/i915/selftests/i915_sw_fence.c b/drivers/gpu/drm/i915/selftests/i915_sw_fence.c
+>>> index ecb2d718f6a6..d8d4f7057031 100644
+>>> --- a/drivers/gpu/drm/i915/selftests/i915_sw_fence.c
+>>> +++ b/drivers/gpu/drm/i915/selftests/i915_sw_fence.c
+>>> @@ -641,7 +641,7 @@ static struct dma_fence *alloc_dma_fence(void)
+>>>          dma = kmalloc_obj(*dma);
+>>>        if (dma)
+>>> -        dma_fence_init(dma, &mock_fence_ops, &mock_fence_lock, 0, 0);
+>>> +        dma_fence_init(dma, &mock_fence_ops, &mock_fence_lock, 0, 0, 0);
+>>>          return dma;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/imagination/pvr_ccb.c b/drivers/gpu/drm/imagination/pvr_ccb.c
+>>> index e408df74853d..7043b491fe54 100644
+>>> --- a/drivers/gpu/drm/imagination/pvr_ccb.c
+>>> +++ b/drivers/gpu/drm/imagination/pvr_ccb.c
+>>> @@ -645,7 +645,7 @@ pvr_kccb_reserve_slot(struct pvr_device *pvr_dev, struct dma_fence *f)
+>>>            dma_fence_init(&fence->base, &pvr_kccb_fence_ops,
+>>>                       &pvr_dev->kccb.fence_ctx.lock,
+>>>                       pvr_dev->kccb.fence_ctx.id,
+>>> -                   atomic_inc_return(&pvr_dev->kccb.fence_ctx.seqno));
+>>> +                   atomic_inc_return(&pvr_dev->kccb.fence_ctx.seqno), 0);
+>>>            out_fence = dma_fence_get(&fence->base);
+>>>            list_add_tail(&fence->node, &pvr_dev->kccb.waiters);
+>>>        } else {
+>>> diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
+>>> index 24a8645aa913..34b826381aa2 100644
+>>> --- a/drivers/gpu/drm/imagination/pvr_queue.c
+>>> +++ b/drivers/gpu/drm/imagination/pvr_queue.c
+>>> @@ -305,7 +305,7 @@ pvr_queue_fence_init(struct dma_fence *f,
+>>>        INIT_WORK(&fence->release_work, pvr_queue_fence_release_work);
+>>>        dma_fence_init(&fence->base, fence_ops,
+>>>                   &fence_ctx->lock, fence_ctx->id,
+>>> -               atomic_inc_return(&fence_ctx->seqno));
+>>> +               atomic_inc_return(&fence_ctx->seqno), 0);
+>>>    }
+>>>      /**
+>>> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+>>> index 9a1e6b9ecbe5..fee595b9629a 100644
+>>> --- a/drivers/gpu/drm/lima/lima_sched.c
+>>> +++ b/drivers/gpu/drm/lima/lima_sched.c
+>>> @@ -97,7 +97,7 @@ static struct lima_fence *lima_fence_create(struct lima_sched_pipe *pipe)
+>>>          fence->pipe = pipe;
+>>>        dma_fence_init(&fence->base, &lima_fence_ops, &pipe->fence_lock,
+>>> -               pipe->fence_context, ++pipe->fence_seqno);
+>>> +               pipe->fence_context, ++pipe->fence_seqno, 0);
+>>>          return fence;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
+>>> index 3dca8e09c192..1ec59919c32e 100644
+>>> --- a/drivers/gpu/drm/msm/msm_fence.c
+>>> +++ b/drivers/gpu/drm/msm/msm_fence.c
+>>> @@ -197,5 +197,5 @@ msm_fence_init(struct dma_fence *fence, struct msm_fence_context *fctx)
+>>>        WARN_ON(kref_read(&fence->refcount));
+>>>          dma_fence_init(&f->base, &msm_fence_ops, &fctx->spinlock,
+>>> -               fctx->context, ++fctx->last_fence);
+>>> +               fctx->context, ++fctx->last_fence, 0);
+>>>    }
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+>>> index 11e95c37ce50..97e20954c71b 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+>>> @@ -216,10 +216,10 @@ nouveau_fence_emit(struct nouveau_fence *fence)
+>>>          if (priv->uevent)
+>>>            dma_fence_init(&fence->base, &nouveau_fence_ops_uevent,
+>>> -                   &fctx->lock, fctx->context, ++fctx->sequence);
+>>> +                   &fctx->lock, fctx->context, ++fctx->sequence, 0);
+>>>        else
+>>>            dma_fence_init(&fence->base, &nouveau_fence_ops_legacy,
+>>> -                   &fctx->lock, fctx->context, ++fctx->sequence);
+>>> +                   &fctx->lock, fctx->context, ++fctx->sequence, 0);
+>>>        kref_get(&fctx->fence_ref);
+>>>          ret = fctx->emit(fence);
+>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> index 4ddf4b722ddf..de242d275978 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> @@ -105,7 +105,7 @@ static struct dma_fence *panfrost_fence_create(struct panfrost_device *pfdev, in
+>>>        fence->queue = js_num;
+>>>        fence->seqno = ++js->queue[js_num].emit_seqno;
+>>>        dma_fence_init(&fence->base, &panfrost_fence_ops, &js->job_lock,
+>>> -               js->queue[js_num].fence_context, fence->seqno);
+>>> +               js->queue[js_num].fence_context, fence->seqno, 0);
+>>>          return &fence->base;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+>>> index a343c5180e01..c46f69ade7a0 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+>>> @@ -3322,7 +3322,7 @@ queue_run_job(struct drm_sched_job *sched_job)
+>>>                   &panthor_queue_fence_ops,
+>>>                   &queue->fence_ctx.lock,
+>>>                   queue->fence_ctx.id,
+>>> -               atomic64_inc_return(&queue->fence_ctx.seqno));
+>>> +               atomic64_inc_return(&queue->fence_ctx.seqno), 0);
+>>>          job->profiling.slot = queue->profiling.seqno++;
+>>>        if (queue->profiling.seqno == queue->profiling.slot_count)
+>>> diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
+>>> index 06979d0e8a9f..2608d82f7370 100644
+>>> --- a/drivers/gpu/drm/qxl/qxl_release.c
+>>> +++ b/drivers/gpu/drm/qxl/qxl_release.c
+>>> @@ -430,7 +430,7 @@ void qxl_release_fence_buffer_objects(struct qxl_release *release)
+>>>         * set the highest bits. This will break if we really allow exporting of dma-bufs.
+>>>         */
+>>>        dma_fence_init(&release->base, &qxl_fence_ops, &qdev->release_lock,
+>>> -               release->id | 0xf0000000, release->base.seqno);
+>>> +               release->id | 0xf0000000, release->base.seqno, 0);
+>>>        trace_dma_fence_emit(&release->base);
+>>>          list_for_each_entry(entry, &release->bos, list) {
+>>> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
+>>> index 8e9402b8811b..1360b5215f5e 100644
+>>> --- a/drivers/gpu/drm/radeon/radeon_fence.c
+>>> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
+>>> @@ -148,7 +148,7 @@ int radeon_fence_emit(struct radeon_device *rdev,
+>>>        dma_fence_init(&(*fence)->base, &radeon_fence_ops,
+>>>                   &rdev->fence_queue.lock,
+>>>                   rdev->fence_context + ring,
+>>> -               seq);
+>>> +               seq, 0);
+>>>        radeon_fence_ring_emit(rdev, ring, *fence);
+>>>        trace_radeon_fence_emit(rdev_to_drm(rdev), ring, (*fence)->seq);
+>>>        radeon_fence_schedule_check(rdev, ring);
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+>>> index b7a4cb921234..94ba0cf4fe02 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+>>> @@ -229,9 +229,9 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
+>>>        fence->sched = entity->rq->sched;
+>>>        seq = atomic_inc_return(&entity->fence_seq);
+>>>        dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
+>>> -               &fence->lock, entity->fence_context, seq);
+>>> +               &fence->lock, entity->fence_context, seq, 0);
+>>>        dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
+>>> -               &fence->lock, entity->fence_context + 1, seq);
+>>> +               &fence->lock, entity->fence_context + 1, seq, 0);
+>>>    }
+>>>      module_init(drm_sched_fence_slab_init);
+>>> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>> index 2dfa3efef210..169792a4b329 100644
+>>> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>> @@ -173,7 +173,7 @@ static struct dma_fence *mock_sched_run_job(struct drm_sched_job *sched_job)
+>>>                   &drm_mock_sched_hw_fence_ops,
+>>>                   &sched->lock,
+>>>                   sched->hw_timeline.context,
+>>> -               atomic_inc_return(&sched->hw_timeline.next_seqno));
+>>> +               atomic_inc_return(&sched->hw_timeline.next_seqno), 0);
+>>>          dma_fence_get(&job->hw_fence); /* Reference for the job_list */
+>>>    diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+>>> index f3103307b5df..633cc7458505 100644
+>>> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+>>> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+>>> @@ -450,7 +450,7 @@ static void ttm_bo_fini_shared_resv(struct kunit *test)
+>>>        KUNIT_ASSERT_NOT_NULL(test, fence);
+>>>          spin_lock_init(&fence_lock);
+>>> -    dma_fence_init(fence, &mock_fence_ops, &fence_lock, 0, 0);
+>>> +    dma_fence_init(fence, &mock_fence_ops, &fence_lock, 0, 0, 0);
+>>>          dma_resv_lock(external_resv, NULL);
+>>>        dma_resv_reserve_fences(external_resv, 1);
+>>> diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+>>> index 56ad8ef32584..e22a1335f166 100644
+>>> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+>>> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+>>> @@ -57,7 +57,7 @@ static struct dma_fence *alloc_mock_fence(struct kunit *test)
+>>>        fence = kunit_kzalloc(test, sizeof(*fence), GFP_KERNEL);
+>>>        KUNIT_ASSERT_NOT_NULL(test, fence);
+>>>    -    dma_fence_init(fence, &fence_ops, &fence_lock, 0, 0);
+>>> +    dma_fence_init(fence, &fence_ops, &fence_lock, 0, 0, 0);
+>>>          return fence;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/v3d/v3d_fence.c b/drivers/gpu/drm/v3d/v3d_fence.c
+>>> index c500136d0455..1fdba5a21580 100644
+>>> --- a/drivers/gpu/drm/v3d/v3d_fence.c
+>>> +++ b/drivers/gpu/drm/v3d/v3d_fence.c
+>>> @@ -16,7 +16,7 @@ struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue q)
+>>>        fence->queue = q;
+>>>        fence->seqno = ++queue->emit_seqno;
+>>>        dma_fence_init(&fence->base, &v3d_fence_ops, &queue->queue_lock,
+>>> -               queue->fence_context, fence->seqno);
+>>> +               queue->fence_context, fence->seqno, 0);
+>>>          return &fence->base;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+>>> index ff611c618d6b..420988d516c1 100644
+>>> --- a/drivers/gpu/drm/vc4/vc4_gem.c
+>>> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
+>>> @@ -648,7 +648,7 @@ vc4_queue_submit(struct drm_device *dev, struct vc4_exec_info *exec,
+>>>        exec->seqno = seqno;
+>>>          dma_fence_init(&fence->base, &vc4_fence_ops, &vc4->job_lock,
+>>> -               vc4->dma_fence_context, exec->seqno);
+>>> +               vc4->dma_fence_context, exec->seqno, 0);
+>>>        fence->seqno = exec->seqno;
+>>>        exec->fence = &fence->base;
+>>>    diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
+>>> index 0e53ba7db629..18700e5f9167 100644
+>>> --- a/drivers/gpu/drm/vgem/vgem_fence.c
+>>> +++ b/drivers/gpu/drm/vgem/vgem_fence.c
+>>> @@ -77,7 +77,7 @@ static struct dma_fence *vgem_fence_create(struct vgem_file *vfile,
+>>>          spin_lock_init(&fence->lock);
+>>>        dma_fence_init(&fence->base, &vgem_fence_ops, &fence->lock,
+>>> -               dma_fence_context_alloc(1), 1);
+>>> +               dma_fence_context_alloc(1), 1, 0);
+>>>          timer_setup(&fence->timer, vgem_fence_timeout, TIMER_IRQSAFE);
+>>>    diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
+>>> index c3e66ef2133a..8e469391d2e4 100644
+>>> --- a/drivers/gpu/drm/virtio/virtgpu_fence.c
+>>> +++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
+>>> @@ -76,7 +76,7 @@ struct virtio_gpu_fence *virtio_gpu_fence_alloc(struct virtio_gpu_device *vgdev,
+>>>         */
+>>>          dma_fence_init(&fence->f, &virtio_gpu_fence_ops, &drv->lock,
+>>> -               fence_context, 0);
+>>> +               fence_context, 0, 0);
+>>>          return fence;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+>>> index 384c6736cf6b..15f355dc6881 100644
+>>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+>>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+>>> @@ -163,7 +163,7 @@ static int vmw_fence_obj_init(struct vmw_fence_manager *fman,
+>>>        int ret = 0;
+>>>          dma_fence_init(&fence->base, &vmw_fence_ops, &fman->lock,
+>>> -               fman->ctx, seqno);
+>>> +               fman->ctx, seqno, 0);
+>>>        fence->destroy = destroy;
+>>>          spin_lock(&fman->lock);
+>>> diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
+>>> index 14720623ad00..30bfc42972e0 100644
+>>> --- a/drivers/gpu/drm/xe/xe_hw_fence.c
+>>> +++ b/drivers/gpu/drm/xe/xe_hw_fence.c
+>>> @@ -243,7 +243,7 @@ void xe_hw_fence_init(struct dma_fence *fence, struct xe_hw_fence_ctx *ctx,
+>>>        INIT_LIST_HEAD(&hw_fence->irq_link);
+>>>          dma_fence_init(fence, &xe_hw_fence_ops, &ctx->irq->lock,
+>>> -               ctx->dma_fence_ctx, ctx->next_seqno++);
+>>> +               ctx->dma_fence_ctx, ctx->next_seqno++, 0);
+>>>          trace_xe_hw_fence_create(hw_fence);
+>>>    }
+>>> diff --git a/drivers/gpu/drm/xe/xe_oa.c b/drivers/gpu/drm/xe/xe_oa.c
+>>> index c9320feeafba..912840eeec50 100644
+>>> --- a/drivers/gpu/drm/xe/xe_oa.c
+>>> +++ b/drivers/gpu/drm/xe/xe_oa.c
+>>> @@ -1053,7 +1053,7 @@ static int xe_oa_emit_oa_config(struct xe_oa_stream *stream, struct xe_oa_config
+>>>          /* Point of no return: initialize and set fence to signal */
+>>>        spin_lock_init(&ofence->lock);
+>>> -    dma_fence_init(&ofence->base, &xe_oa_fence_ops, &ofence->lock, 0, 0);
+>>> +    dma_fence_init(&ofence->base, &xe_oa_fence_ops, &ofence->lock, 0, 0, 0);
+>>>          for (i = 0; i < stream->num_syncs; i++) {
+>>>            if (stream->syncs[i].flags & DRM_XE_SYNC_FLAG_SIGNAL)
+>>> diff --git a/drivers/gpu/drm/xe/xe_preempt_fence.c b/drivers/gpu/drm/xe/xe_preempt_fence.c
+>>> index 4aa570fe745d..343f1ba1e1cd 100644
+>>> --- a/drivers/gpu/drm/xe/xe_preempt_fence.c
+>>> +++ b/drivers/gpu/drm/xe/xe_preempt_fence.c
+>>> @@ -154,7 +154,7 @@ xe_preempt_fence_arm(struct xe_preempt_fence *pfence, struct xe_exec_queue *q,
+>>>        pfence->q = xe_exec_queue_get(q);
+>>>        spin_lock_init(&pfence->lock);
+>>>        dma_fence_init(&pfence->base, &preempt_fence_ops,
+>>> -              &pfence->lock, context, seqno);
+>>> +              &pfence->lock, context, seqno, 0);
+>>>          return &pfence->base;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/xe/xe_tlb_inval.c b/drivers/gpu/drm/xe/xe_tlb_inval.c
+>>> index c9cc5842d65b..1fd39434dc0e 100644
+>>> --- a/drivers/gpu/drm/xe/xe_tlb_inval.c
+>>> +++ b/drivers/gpu/drm/xe/xe_tlb_inval.c
+>>> @@ -544,7 +544,7 @@ void xe_tlb_inval_fence_init(struct xe_tlb_inval *tlb_inval,
+>>>          spin_lock_irq(&tlb_inval->lock);
+>>>        dma_fence_init(&fence->base, &inval_fence_ops, &tlb_inval->lock,
+>>> -               dma_fence_context_alloc(1), 1);
+>>> +               dma_fence_context_alloc(1), 1, 0);
+>>>        spin_unlock_irq(&tlb_inval->lock);
+>>>        INIT_LIST_HEAD(&fence->link);
+>>>        if (stack)
+>>> diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
+>>> index 1acf579c562b..7e074e72a055 100644
+>>> --- a/drivers/gpu/host1x/fence.c
+>>> +++ b/drivers/gpu/host1x/fence.c
+>>> @@ -136,7 +136,7 @@ struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold,
+>>>        fence->timeout = timeout;
+>>>          dma_fence_init(&fence->base, &host1x_syncpt_fence_ops, &sp->fences.lock,
+>>> -               dma_fence_context_alloc(1), 0);
+>>> +               dma_fence_context_alloc(1), 0, 0);
+>>>          INIT_DELAYED_WORK(&fence->timeout_work, do_fence_timeout);
+>>>    diff --git a/drivers/iio/industrialio-buffer.c b/drivers/iio/industrialio-buffer.c
+>>> index 4294101810fd..f7d6b294b63c 100644
+>>> --- a/drivers/iio/industrialio-buffer.c
+>>> +++ b/drivers/iio/industrialio-buffer.c
+>>> @@ -1904,7 +1904,7 @@ static int iio_buffer_enqueue_dmabuf(struct iio_dev_buffer_pair *ib,
+>>>         * the dma_fence.
+>>>         */
+>>>        dma_fence_init(&fence->base, &iio_buffer_dma_fence_ops,
+>>> -               &fence->lock, priv->context, seqno);
+>>> +               &fence->lock, priv->context, seqno, 0);
+>>>          ret = iio_dma_resv_lock(dmabuf, nonblock);
+>>>        if (ret)
+>>> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+>>> index c64a268e98a4..eb367a1666c2 100644
+>>> --- a/drivers/usb/gadget/function/f_fs.c
+>>> +++ b/drivers/usb/gadget/function/f_fs.c
+>>> @@ -1733,7 +1733,7 @@ static int ffs_dmabuf_transfer(struct file *file,
+>>>        seqno = atomic_add_return(1, &epfile->seqno);
+>>>          dma_fence_init(&fence->base, &ffs_dmabuf_fence_ops,
+>>> -               &priv->lock, priv->context, seqno);
+>>> +               &priv->lock, priv->context, seqno, 0);
+>>>          resv_dir = epfile->in ? DMA_RESV_USAGE_READ : DMA_RESV_USAGE_WRITE;
+>>>    diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>>> index dd07d128adc3..6f5c245d89ec 100644
+>>> --- a/include/linux/dma-fence.h
+>>> +++ b/include/linux/dma-fence.h
+>>> @@ -103,6 +103,12 @@ struct dma_fence {
+>>>        int error;
+>>>    };
+>>>    +/** enum dma_fence_flag_bits - internal dma_fence flags
+>>> + *
+>>> + * These flags are all only for internal usage, except for
+>>> + * @DMA_FENCE_FLAG_SEQNO64_BIT and the user bits beginning at
+>>> + * @DMA_FENCE_FLAG_USER_BITS.
+>>> + */
+>>>    enum dma_fence_flag_bits {
+>>>        DMA_FENCE_FLAG_INITIALIZED_BIT,
+>>>        DMA_FENCE_FLAG_INLINE_LOCK_BIT,
+>>> @@ -110,6 +116,7 @@ enum dma_fence_flag_bits {
+>>>        DMA_FENCE_FLAG_SIGNALED_BIT,
+>>>        DMA_FENCE_FLAG_TIMESTAMP_BIT,
+>>>        DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>>> +
+>>>        DMA_FENCE_FLAG_USER_BITS, /* must always be last member */
+>>>    };
+>>>    @@ -279,11 +286,10 @@ struct dma_fence_ops {
+>>>    };
+>>>      void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>> -            spinlock_t *lock, u64 context, u64 seqno);
+>>> -
+>>> +            spinlock_t *lock, u64 context, u64 seqno,
+>>> +            unsigned long flags);
+>>>    void dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>                  spinlock_t *lock, u64 context, u64 seqno);
+>>> -
+>>>    void dma_fence_release(struct kref *kref);
+>>>    void dma_fence_free(struct dma_fence *fence);
+>>>    void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
+>>> diff --git a/rust/kernel/dma_buf/dma_fence.rs b/rust/kernel/dma_buf/dma_fence.rs
+>>> index 18a43e1bb442..ee8fa4ecd6c1 100644
+>>> --- a/rust/kernel/dma_buf/dma_fence.rs
+>>> +++ b/rust/kernel/dma_buf/dma_fence.rs
+>>> @@ -736,7 +736,7 @@ pub fn new_fence(self) -> DriverFence<'a, T> {
+>>>            // SAFETY: `fence_ptr` has been created directly above. It will live
+>>>            // at least as long as `Self`. The same applies to `&Self::OPS`.
+>>>            unsafe {
+>>> -            bindings::dma_fence_init(fence_ptr, self.ops, null_ptr, self.data.fctx.nr, seqno)
+>>> +            bindings::dma_fence_init(fence_ptr, self.ops, null_ptr, self.data.fctx.nr, seqno, 0)
+>>>            };
+>>>              self.data.fctx.nr_of_unsignaled_fences.fetch_add(1, Relaxed);
+>>
+> 
+
