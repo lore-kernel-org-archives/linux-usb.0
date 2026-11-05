@@ -1,48 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793906956;
-	b=rDTulH9prtHpT9YocdGYKGjpNVQFDNAKrpxcGlCWfZbIVHxDnQdj6ZfYTFkwuD1Lx66N
-	 ASXEHMGR8OW8F2DzUm8rIEyLaCImsu+H0zNVEdsjqKAAhw1+inLjuFfXtVzBMMD9S0bWE
-	 bEjmR2kYAdB0dRBniVi39qj9BMQy7zhyTG5+ofO49PrA/4eAj4Amv9AcIuKXVAniIwyIb
-	 vGuwsclhplVCQln1hyk7el8j6yxdWvzfZWsOA1AOGRCa92vjcv+tDVtsX1iQlBUcYuxpC
-	 xzAJf8atvtk9A6qzCD37/HWUebS8pfdyC6YJtCQFViddGNEqFYmp7aN9VVPODVwxHxg==
+	t=1793906978;
+	b=TqQ1fOVFzYXA0/xYnGvRXfrEpCmA9zpRhQqQh3FCp4yPUx8EqiTa6gMLR7t1TfC30pqb
+	 MrrFLyCNpeJMElbDrbJHEi/ahSV28nRXKJqqGZIznleJbB5UdkfdtvQXy2w7ruC+SSYPM
+	 Df478wpUWKSALMc87gI7pxELHx+utiJEzYHE11I2YWtWBxOM5yZQnFrmhq5Tv4Cvcd3pz
+	 UZimW60FXMarvn8SiJbZHXcRxeph74QzTCerLt25YEyTtQZBDTE+zB74R7nnVUGJup7JB
+	 LWF6hSXx7fqQCMj5/QvqWGZ5XSsCaP3+TFI2up7EYLr3ygh3rBMP1wbIhUKj7CiU1iQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793906956;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793906978;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Nyk6A7Xm43ba6GqhnkPuqyLDv4V2ioid2McoXcJIDec=;
-	b=gj2mNxlfLw3MoH6E0N1dMFPQ0nletsV7/nLK+9hCpiTh26/1qHNofbxVm0bORs7yUqg5
-	 ohZz46aJwlAwYvAFxRKj2L/vX7Y++lDQyib6Fbkh6WOUqtv9aMD0j+GhhirSogFLVr05j
-	 BL+rG80uu8zgyvWcB53kS7wlHhbytvhy5Q+2Ou5QTL8fi7WcY8oCnygsTHrxK+gKBXfBK
-	 2CENwgsij1F3lSXyyySImzEqnfuiO8IOctVGjeJZkojoPh69rFYqx4sDjCAmttDuLK0Ze
-	 C2RPEgfdbyfTpCTELv4aVGIDzk7ixbGO8GcFr+4t9kWNhiTz9Eq7teJGlT0nzr99xsA==
+	bh=UR/bGeijImnk8Wnsd/tmizN5U2rV5dto4UZIl+xyMfM=;
+	b=JV3FA49T7rUGd7uAJKyKlpziGYSYfBgEtVjDV9CJjJnWpfW8EbgC0f/Y5McINY1LwYVu
+	 2jDc/9+MVIuoBY3ZCfoBiFIsoDuAN7KHnI5u02ALkMp+YNSBmli6jSSBCTIRCZoXFxkhl
+	 lhf62PnofOKz0MF9Jb+4TI2uXoYt6IRXZakGtoks79PQ7wPs92uuruH+yv13W6FAbZad/
+	 2l40K4GM/xkikPf71vh5C6Jb03CqVxad2CFRqJQSEtvm3IVxofTqTkowxPI3PW/7L73RO
+	 VEifLoir0TkOkt25FXhwwGHQZbc3ub1j/6r1qQubwJW/26SCGbk7snNFuyRFDUXQx6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FKfmSIG1;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C62606EE8D;
-	Thu,  5 Nov 2026 19:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FKfmSIG1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB75C1F000C1;
-	Thu,  5 Nov 2026 19:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF38606D81D;
+	Thu,  5 Nov 2026 19:29:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2EA51F00919;
+	Thu,  5 Nov 2026 19:29:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793906956;
-	bh=Nyk6A7Xm43ba6GqhnkPuqyLDv4V2ioid2McoXcJIDec=;
+	s=k20260515; t=1793906978;
+	bh=UR/bGeijImnk8Wnsd/tmizN5U2rV5dto4UZIl+xyMfM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=FKfmSIG1UN/LwBVQXjOkvO7J6MY6CD67myw1qrW+OIpPGU2VpRAVBUgr+00ywjUWT
-	 wLAm/Bi+zzx7OZ9FQjICLzYsmc1028tuWSIQeurLxH8ygiIABX308i+7xPLywURc/W
-	 7ILU32xExlaMpEA2rjZnORa7iwKiD+dh6YvkbgZ7JZXLtf1bwIEbU7n8vEFRB7/ma6
-	 Tswhvw73a0gcOElR+tDfQALqyP4oqfrfBTv8JnT2i6bX4N7GoCW5irT/YJ10btLD9v
-	 GZ/E7p4fjablgkPiTgV19jmiyQHA7eshOJIpKb/a+kzle33JJ/83PDvWIIc14A1u69
-	 eI/S8mKdJSVKA==
-Message-ID: <sashiko-outbox-199876@kernel.org>
+	b=VxAzMv7UFsyYnoBiL2vhlW1+tAK1RI3G9hd3638uMnnOa+X1Hd/XqYwSl1li8fliq
+	 01QhsAxeUKmrnct1phcjHiDBlkTHs7H5HFNvKkpojOe2Up47iBr/sA68sM31T/h6S0
+	 s1ItQIwz3EUke9VL6TKuHa6OR4G5BsKdMNyDzHw3sJFWrdLfbdMVss8m2/pslWW3kO
+	 Z2bpNVkFCKMDl6PKap8s1Bfs8w8BOM0UrxtXZUW8aAbl0jCRWy07zKeWwaBY/bqScI
+	 FXVCXKSbBT0TU1OECjLhNsgTdw455Z7U5ly3rnd8TVtw/5tgWX0i1IZgIKT9c/raGT
+	 3wuaupfHri8xg==
+Message-ID: <sashiko-outbox-199887@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RESEND v2 13/51] sched/psi: don't drop the last byte of
- a trigger write
+Subject: Re: [PATCH RESEND v2 24/51] scsi: ips: don't return 0 from writes
+ to the proc file
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Christian Brauner" <brauner@kernel.org>
 Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
@@ -55,12 +52,12 @@ Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.
  Iwai" <tiwai@suse.de>, linux-ext4@vger.kernel.org, "Chuck Lever" <cel@kernel.org>, tytso@mit.edu, "Heiko
  Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
  Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-13-021c84d852e0@kernel.org>
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-24-021c84d852e0@kernel.org>
 References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
- <20261104-work-procfs-bugfixes-v2-13-021c84d852e0@kernel.org>
+ <20261104-work-procfs-bugfixes-v2-24-021c84d852e0@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 19:29:13 +0000
+Date: Thu, 05 Nov 2026 19:29:36 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -70,23 +67,17 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> psi_write() copies at most 32 bytes of the write into its buffer and
-> terminates the buffer by overwriting its last byte. For a write shorter
-> than 32 bytes that is the last byte the writer sent. A trigger written
-> without a trailing newline loses its last digit then, "some 150000
-> 1000000" turns into "some 150000 100000", and a shorter one like
-> "some 150 10000" fails with -EINVAL because the window doesn't fit
-> anymore. Only writes that end in a newline parse as intended.
+> ips_write_info() ignores what is written to /proc/scsi/ips/<n> and
+> returns 0. Writers that use stdio, echo for example, take that as no
+> progress and retry forever. Return the number of bytes that were
+> written.
 >=20
-> Copy at most 31 bytes and terminate behind them.
->=20
-> Fixes: 0e94682b73bf ("psi: introduce psi monitor")
-> Cc: stable@vger.kernel.org
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-work-procf=
-s-bugfixes-v2-0-021c84d852e0@kernel.org?part=3D13
+s-bugfixes-v2-0-021c84d852e0@kernel.org?part=3D24
 
