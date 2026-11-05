@@ -1,55 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793871361;
-	b=twQ8TWEBl+JdoOqcKxIpyCT3jhn7hrpP5guM2FaBEn1ZgELHQhYGWS78JEi0oCXsyM23
-	 NL1tkffUqaGXa4sZoJFaMtN+uYzbRFs17SC+AoYLLnfmh6wmSNy4FFv0qSSZiZnzyFiHG
-	 fr4ZwTLXLuPDqDIXAOMxGCw2TxKsV1dLrqv0NP2D50T5y0s3aBapAYp7VC+zk6ipNydrM
-	 tyjqBPpwVMHUrivSZiToc1vuPCR++5xzDGB3wGNm2NjyrDGZQDICoKEDxHvI/NN3fhWw7
-	 xMCr/gKv0IDkNMUvrDXrv+50vRvbSq8Shd6U7q5UH/lBkXe3tbLRYbgbw3NAFXOXrKg==
+	t=1793872310;
+	b=0R35C7dtKhu37cXA0llfo0G0yehO1wCzhchxyELNZrSih4tPp/6BxCVa8LxC6ZblLdRH
+	 NfrCp1wgCFlkPGQhLusQq1LyHuhKlyAXM0JWFR+J80GfK3vSNvqSxNw1VimE0SBssNrRs
+	 JQEcKCexkuK7k5/eDZFcYsfNT5ORQB65aKrs7N1s81MYBiLLLKlTQfAQ6gowbn8mH7vPf
+	 ovJPN14kHlfvWjsTtSjIg67rwsgnRe7+lYfe9fCGGGr8pxAwWhCZRim7KFbLQwmenRYrm
+	 NEd6PkOfGQYUV9tS1/5pSAwkVC6FUEMD3imgVP9ZNVVWUdLCpcQMYju5zeDTVJSeRdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793871361;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=YYZLfCRImLtKBpKu2xKVTwtUPZlMCq9COzGqgL/M0QE=;
-	b=RvHgJCa9GepQwuT9YV1qasNoOL9h4UK7SDnxSDVvtd4gJ1RVtOq+8rjlMVoTrOpIF/ms
-	 n0qUVgWL/4jy3Q/5NMW63YLKsvituB9DrapT88iZmTcpRULUvk9wUWnr+fvYF871zVodn
-	 LZ9ftpqMIV2coPvNdhqDL1UWwhlTTRuaW3/DJnKl/yqP1aua2O6pfMKvKRurmt8OEXNna
-	 Lpssvh8CZADpeTENpHtyFiSq1UcWWiGjQOjUsn6O/sO7J8kvMlzy967i7bfwp54QMn4E6
-	 W25o9au0Zl5vGcdixTpcduSGH9xSDt5+4Uc/Y63oL9Ip0+4d5+65wTUScDPuoQK2jTg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793872310;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=SqrTjgENN7Dfs+HehxbKPgACeb32UvvfMAFijNHd6N4=;
+	b=vVdpYHpe15w+1cCxINhpjMBbqvZmhbANoKvs1LWkO3vVYcUchM+vFIY0l2M71X7I/JIF
+	 rBWd//pDijBuul6dWmWqsDXaUaNjvYE6eUV0X7rAjTbNMHzEkQuIqLHGrz+09pAf5SIUQ
+	 cYQLVJTxgaoXhmnrRxrHBzZZtnnir0N1isQrLw9pAWY44g6YBBRqbUP1m2uOrnX0CYrCf
+	 lEQF0g9SYIzypOJy+AI30uZaXCNhIvylFfmstWMGVgxnHuOe4VEzKoueNkDkUScH8CvZZ
+	 yCf0YM5XNftxXDaL5vUDmV1xW5HNYl0lUScIcEGbzznqPLcSt5edevMmroqcpjDK8iA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EIrBI+Xh;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.222.182
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D7D606A326
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 09:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EIrBI+Xh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 364601F00A02;
-	Thu,  5 Nov 2026 09:36:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793871361;
-	bh=YYZLfCRImLtKBpKu2xKVTwtUPZlMCq9COzGqgL/M0QE=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=EIrBI+Xh+NGgwHer5jcjZXZ/Q9H8SBMxBhiJBacUUlSVNw60My2k+TXVVJkjQUMOA
-	 C0mK0z5cUZbYemrF30ZzdItsY61CY8R/JR594pifUzK/aulfXZDeJegi1tdQe6/imw
-	 qg1kWPQcaeAF2q3qxt+9b8aA8Bj3nLfbFnDihh8WR/J/ODDgMzauAeA4FtB/GQcjDQ
-	 dH5J3zeZjSad6BjcNmYE/XvzMnYxcHB2CyMkeKW1RGtkIz12eShx91dwRq7mWnghIC
-	 VYTg1FE50xv57o33X3iAOIpY5eh/VEFBV1/XAC/UmzncTOPCvupdkdhUenFMoC+P1q
-	 B2abPRroOJSMg==
-Message-ID: <sashiko-outbox-198768@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: f_printer: clamp GET_DEVICE_ID pnp_string
- to ep0 buffer
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Fang Xieyan" <fangxy@xiaopeng.com>, linux-usb@vger.kernel.org
-In-Reply-To: <20261105092712.27838-1-fangxy@xiaopeng.com>
-References: <20261105092712.27838-1-fangxy@xiaopeng.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 09:36:00 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DA6606A329
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 09:51:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7DA6606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93e635220b4so159047485a.1
+        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 01:51:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793872309; x=1794477109;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=SqrTjgENN7Dfs+HehxbKPgACeb32UvvfMAFijNHd6N4=;
+        b=SBZtiTY+j1VUxutNgvZFPSlAcYgJpwEWJ9vM0RCH1nfMgQsIXi71b6T4FwinGAgoeY
+         xm+4y5I1qILI2V4fie1rTriitlekTD2aFGZ9AO7ZBZ4ruoK9+KDrBsFqjNf/qyK+kSOb
+         7evTH3Z4XrSaNsxWOsGxI9TEmiMJkpktY2NQMXDJvWu4lvIwfFKngJEqJQdtR+R62lnZ
+         RAus4xEsP3MLNfdteFELqADoDygBYQbDV6Fb8Dc7EbFlEbJG7tZzzblOpaI5PU4A0DjU
+         84LbEcS0k5e1Zc53iRz1WA9F6ZReKgtgB2QnbPRKeKy0CmPBT/tzFrUZH7kqGG7eQRHI
+         asLw==
+X-Forwarded-Encrypted: i=1; AKwUvBxCUtiFxWa2iqrnNWgfSh40Ri+Zbu8qU/8xw0eMroaOAlcqaLji7aNd7kfCTzGQsLXzRC7vq5gzppE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z96i6VUKB+BSBG6K+55E04GsZaCZGdJfkLBG5mM+MlSW8lM/MO0
+	VPDRBcWryN4Jb5o6DrMolXGZ5JAVALjEAFIkWDfW0C5nh8QmP13+7KPUJLXccTyT9Mo=
+X-Gm-Gg: AYBFou3cSaKNsPTX+bE9qUOSewc8dEy5wDkEBMckhoy/mXFMRwf3WmHSFMd2tx5eeH4
+	ClQoLRI9V+NgI8g3rUfsuNH4ni+ur/U1ZzQfv3q3D5nIOtCOBF2qfvVUCFz6UekXHlSGsTOvj/E
+	pXdobfTBjQJw0fDdrlcHfUhWlWBgMexZtI1ZicRYHoSO3CVpGBsd1hGAAliNGMvuzUlN/fV+cG/
+	r3oxlUcKh2jeML9wpEEO1GVB84q2z6QgyFEB/IZKAJtXAfhoHSunGQi3Ipjsi8uNMwvNqUgPowv
+	gScKkOJOmIjsCB9nJaDVkxfsHNAz4tqXXCtMH8dJHwB0pd+ccNpyaAbolTK3n4pJ8iAWIQYiSIR
+	WGYE8jyEQ9QAqccD6wxeeLf88CAGVHOYRORKHO7kSov0bCzzpyjqpHPj4VrZhd1kX5geTB0UXFg
+	wDqacgJOA64cvu5Hu1372uJrO3c1+wTTxMpdvn4F1zNplwbRiKDYNIxAOpcgKly0/kBUS64+ud1
+	vx9vXLIIsxuw/P4iXNKN0ElHgjAGvih125yiIrL1G92VZRyCeIjvLOG87lgvOg5Dao7LIdZYeAH
+	l42C+tFxM/gqv1oLvZp9cnn4zVGaTmytPj2VJQyQJBNQl3L3D2BlJ4NXuVy7EVJhdtohRw==
+X-Received: by 2002:a05:620a:404c:b0:93b:d7a1:ba16 with SMTP id af79cd13be357-94421725362mr3178415785a.65.1793872308754;
+        Thu, 05 Nov 2026 01:51:48 -0800 (PST)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com. [209.85.160.177])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d479a1d5sm424253185a.10.2026.11.05.01.51.48
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Nov 2026 01:51:48 -0800 (PST)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-533778ab0bdso18440341cf.3
+        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 01:51:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvBxsAuHrqxNo+OS5Ql04ynw0MF2V3t9oui1WE0ca9KVMYnsDTTB89QXnW0trB0Ixk19G6BbieoQQHMc=@vger.kernel.org
+X-Received: by 2002:a05:6102:3ec5:b0:7cc:2bb7:131d with SMTP id
+ ada2fe7eead31-7d072baa484mr7324212137.9.1793871885062; Thu, 05 Nov 2026
+ 01:44:45 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,29 +79,62 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org> <20261104-work-procfs-bugfixes-v2-10-021c84d852e0@kernel.org>
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-10-021c84d852e0@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 5 Nov 2026 10:44:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUy1RYKG0g8OWss3AD-jyYx3DXL0K7ABYkFUdxTxZ9VdQ@mail.gmail.com>
+X-Gm-Features: AclHuK9D-nB8icBns0zdoQH8fV1cfUPJ6LOey8o_VlUZpDIGqKC4cFf8-j5-HdE
+Message-ID: <CAMuHMdUy1RYKG0g8OWss3AD-jyYx3DXL0K7ABYkFUdxTxZ9VdQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 10/51] zorro: size the proc files like what they serve
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>, 
+	Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
+	platform-driver-x86@vger.kernel.org, coreteam@netfilter.org, 
+	kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net, 
+	jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, 
+	samba-technical@lists.samba.org, sparclinux@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-> The GET_DEVICE_ID request handler in printer_func_setup() copies
-> the configfs-provided pnp_string into the EP0 request buffer.
->=20
-> The pnp_string length is bounded by the configfs page size, but
-> is not limited by the size of the EP0 buffer. Since the first
-> two bytes of the buffer are used for the length field, a
-> pnp_string longer than USB_COMP_EP0_BUFSIZ - 2 causes memcpy()
-> to write beyond the end of the EP0 buffer.
->=20
-> Limit the copied string length to USB_COMP_EP0_BUFSIZ - 2,
-> ensuring that both the length field and the string fit within
-> the EP0 buffer.
->=20
-> Fixes: 24b7ba2f88e0 ("usb: gadget: function: fix dangling pnp_string in f=
-_printer.c")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Weibin Liu <liuwb@xiaopeng.com>
-> Signed-off-by: Fang Xieyan <fangxy@xiaopeng.com>
+On Wed, 4 Nov 2026 at 20:18, Christian Brauner <brauner@kernel.org> wrote:
+> The files under /proc/bus/zorro hand out a struct ConfigDev and seek
+> within that, but their size says sizeof(struct zorro_dev). Say
+> sizeof(struct ConfigDev).
+>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Sashiko has reviewed this patch and found no issues.
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105092712.2783=
-8-1-fangxy@xiaopeng.com?part=3D1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
