@@ -1,97 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.46
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793905630;
-	b=LoKOWN+aZjqUro3qmQCExl6mTgTnEpeg8q2UcbYoR95CFLgKPdIXxG4VaZxXHJzSef+2
-	 vYnXwdmrsYildzGmnkS6P0SUo6IXHoQh3hQdgT/WG/X0BvGxoNklnC3m+6ONUrLb+6aPq
-	 HLySvpH1XGdnc4WTQTvHuzBaypFnx2UP+uBXmS7waS7lS9fdQ6QJzBhyM6FxkQti+KZnk
-	 RHQtRwx4Dul13qX+ixYwXYYXuY8ZYYWdzLTpLnS1+btOQ6zm2ajSgq0LQ6qO8jVTBNth1
-	 niXltqV1nIv8lz4gS7+/NeA99dWfNNd5RXkB2Cy1ppbkp761sRNBO9+HMw047oclgPw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793905630;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=+vt9qDBsCoi2dykr5PYN8iCPLBKPLl/rMIxfi5oIqFI=;
-	b=eNgPOsuW7y5gvWPtWB025tf+o7GhPxMzaqpYKyRrFULsEnsR1DU92Xh9FbaNhWIRSW5I
-	 Il5MVwnAb94SOkaRcHaL66pX2SDMs0tL6XdCX85SPSWVveRXqMI1Lox6Nlz1a5fZEfymy
-	 L1UdvDYPDB8Cb5KpxpMXPDgBMC/yd+Lv3pDbpBQglS3RpWoWmqgLemppkN2aTWZNUuMgG
-	 qIi9qlj9mZr9sd2sskHLjMV/5LSl3jLLwZJfOeI4oWHxT1XEB7D3HRiJZFZ3tRpQUe8fi
-	 xg3qA0bHTsek4e1hozpFlr3WH9fu1/ZNrHYmoy/Hd7u0YjMafUgd65Fys9k5mQaH0ng==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=touhey.fr;
-	spf=pass smtp.mailfrom=touhey.fr;
-	dkim=pass header.d=touhey.fr header.i=@touhey.fr header.a=rsa-sha256 header.s=goog header.b="RaK3//71";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.46
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793905615;
+	b=1BK7SW/zkBSQca9hoU6akYQk/+KPL5WVh/8b8fa+G6gNArQ6XJUVWa8AFou6rkgCo3sl
+	 0r2y2JKmNqGh0b5AayOKALS5PBN91PD0g80yPpZRta9Xvmq/xsLA6n+lfPew7IC59XMb/
+	 vYRDQ3rq1hvqlHSklc5Kax1MiOfcEebdxaDrGoGUibgSmygkvdLiKCWFtFLkEqd6xOqtD
+	 ipN+Uel2bpLSxEm09yJtrftBm+8/KYqevG4+H68EnGw2Y16p5mywVoON6xXz1YCAr85mP
+	 SqUEKTP4iUj93MAs54cwUoxENcjmPtWdfl/Myo4TQ1F1zPea03+Z9NyLLzlEaWxKcRg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793905615;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=4hceOEWXK31/wey4HLyhWUuIxdFlvO9JeZLDVyDyWrs=;
+	b=S7+osLb5k7NeoOGTUVUEtXsbhgmdK8hwIpa3axma5452CC/oSh+Fe2xgpUbdM/dGt/RP
+	 6FWglPNtKeTD+4eulHI+xxBVClIig/qvVUlIxpdxD246taauDotghXWQ1R77wwH6pVbKf
+	 GAinVd5mcWOtxMPvw8+7INxkC7iI/1JxjF0MiPLorVJqnaf37EHoaUgr3l0wVl/shQBgC
+	 JitZJN7bBMYU8BL4YGf3hk17I17aShlHJ5It2bjz69LTdMoue7hQunSM65pX7AVdY8Cf5
+	 /nxAaAzfV3eUJjnv5N8mmGBka6FR6KUDHlAzoyYRtjYNnHWpPLQ/o+FNTsDKjJCxOYA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cftU3XT9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D19606A32F
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 19:07:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4D19606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=touhey.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=touhey.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A5F606A31B;
+	Thu,  5 Nov 2026 19:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=touhey.fr header.i=@touhey.fr header.a=rsa-sha256 header.s=goog header.b=RaK3//71
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6b547d6c07bso2436137a12.1
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 11:07:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793905628; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fGbVZlGHYH34MNSnPkieDWUFg6vZf9OCulA59JmYXULGcOfWSGuAJvJXsc2VBU2HWQ
-         p5/MgBTAuoTNutJG4pXxbD/nel7yFhGbsIDyj3TywyrLUpxDJj5a3r/QjwaXz7fZ6CR6
-         Yu4Atf7YKpiaqvR4tsf64E9m3p8xukiTL9TgZBg8xhJlY+ALmue2hLyouHQyQE2oDx8d
-         nK2OIqzrsVECgib9Odx5ggEDmv0z93DSFG8bTy3DP5XmXZ5xZ+UcGsshd5Ygd5ZeO2Ai
-         X7n1vv1XO4mvQJuht9FxhlhJcEDUwc+9F2ojfz7jRQx4T2A0gUIojST0NGM3sh88gd9h
-         3+lA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+vt9qDBsCoi2dykr5PYN8iCPLBKPLl/rMIxfi5oIqFI=;
-        fh=l3kX/a6ugSzDjcdInIyrIkED+cdqQ+YVVW4y2jxhn2g=;
-        b=EKnyaGPbwha8a6mRAWI4O74tq5Zh4wk+cH+BdtjWDWaaIFNU7HyjpFM88OWayh5pKr
-         VLoig1tey/rWZyL9k20sIVnwwdfCND1pye1YDv2KVV/HLSNBouESGv57kuOr4j6Dj6+v
-         Mv2ThMLQhg+NPiVMJmLkrlEXyv6I4aVetqvQDH61Kz33q23mUwjwLaRJUBX4ePaQMqQB
-         N51Hht2/7s/QaqBJGVooeSqdCqBmMp8PQp+sKaMJGlKMGl2SR35t2LuM4GzCfrrbuxSt
-         k3qD64B18YTKJe6ryMpbxYl9vqpleKG/7ziEyBvpPIfooY6RslrAYU4IjGRdRwj4/q+Y
-         6QmA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=touhey.fr; s=goog; t=1793905628; x=1794510428; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+vt9qDBsCoi2dykr5PYN8iCPLBKPLl/rMIxfi5oIqFI=;
-        b=RaK3//71DoQ2xvljtddR3HHDkOOLO6w13Fs2cLCD0X7zwXQCdv+ENUJtr9uRSpnZjC
-         scUfiCgScNR4JXOU1EuLO0LfUdpNdDqihE1dLmk2qk323QPNkggozeJL4l/UaJpo6ZJH
-         ZjSpLbPbdQJNs3WBndt6Vrs8cabwRcFWsqZVM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793905628; x=1794510428;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+vt9qDBsCoi2dykr5PYN8iCPLBKPLl/rMIxfi5oIqFI=;
-        b=u1R3mpv/62xgK1IFpLqzsIj5503+YIXTPN1U88JREfqrB3zazNeLtwWw5jqDorHcdV
-         CFjCxkIz1qBbDGObr0LbycmnRNoW8HfbkdxZBhJTxA5iSVJ1S92rgfw6LHlij1U5wHfi
-         pC8svq58eC+8zT9z77kHCpY+rj3d9LYBIq8Wjau210DiAgf+sDKwGEnnWXZSq8QUUyPO
-         rWbt5VU69OzqIHDF2dLJ3on9per0L1+cryIiUlBL619oalGVt7t50OjxkOKsEnnugwHS
-         lWcOmpjMVurnZJupBKdJ8UwqjsEuD3KjJ8ayLFAwc+U2lUCEYGt088+5kjCbSvz5OuIn
-         lMLA==
-X-Gm-Message-State: APuU4Z++Wp/KVitA8fmJsIX71cAKUaGe89lVCojH/kMiXrADioDqRFe0
-	gEBIXiaL75+4h5wYFJERds32cQxGqqU9yKzk5xNTHasuPqizDUArpASVWLngrnrPpTEz+mptjKV
-	UAlzpb4rJzHnCGH4jQT6lE9UM1X07kts5jjw/DLDlCQ==
-X-Gm-Gg: AYBFou0m7C7pxk2t5YwNtkGqqE6e6JZWgg973s+tJcI7mXuKzLao6azG6gKo5zjvdQc
-	32CS5tS2XlWMVK9o4Y5Vt1sMMH+IPOTAOh8wkqOeBVSCz5UjrddRuYBxTveZ6FfnnNCF6k7q+DZ
-	D3tU3gpPNJHHtoiI+kRn2jOlm1IWI5heIEA7z+biAKuhn7exF9inRDPx8hPa2kJpm+fVsv8x6ef
-	DiWDzRok4h7EEEkxAqEKUj53UenT9DKOURFMZZLUaD/527k0o2FGKqdueyfCVlpK9kQj7+tEfCR
-	8d0KbO8Wsj5N2YTYIatG9CZ9NfubFOQ6M9sR8WbvDmFArgoH9jFw7AgCOp0kZmRnzIdrj6f1bki
-	DEtbLrrzwzYjC5ShdjdzKsp15U+brxugMJI3FHj5u9YpL5xmAEFD8RONg2RLzgdy0b2oKSHVMo+
-	MIl523xvhzTBnea+fFOc+4vzbFtUc=
-X-Received: by 2002:a05:6402:1c0e:b0:6b3:cbdb:bd93 with SMTP id
- 4fb4d7f45d1cf-6b59780723dmr89799a12.29.1793905627744; Thu, 05 Nov 2026
- 11:07:07 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cftU3XT9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1999C1F000C1;
+	Thu,  5 Nov 2026 19:06:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793905614;
+	bh=4hceOEWXK31/wey4HLyhWUuIxdFlvO9JeZLDVyDyWrs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cftU3XT9IOjSS+GBFmrSkGjEb8wnNzMR1iXV4os2SjccwLQdeGIKHvwELRqoj1/Iy
+	 0mxEvHz0cC7vQZHeTgAZmHgrACsGN5/rXfQGS3XX6pwM3kJohdWxjMAoMPTmGH+knR
+	 7AJnj8TUJy7DiEYOMqqYtaG1oglQEG2VhA0Q2rwA9+NqOs+rUo0l9Z/r2kiBOR3/e+
+	 FSwa14oxy6AzjGOckOkmDwqox9PgfBApaVtWJBhN8r7UFMiLLWfEX8zQwkru31QMfk
+	 FGLK+UD266uWG2Xb+0HTnEYtg5/9AUhRzs/7+hCDLM35+AxqFCser0nvuQh/JOJurW
+	 OLQRYg8t0MQDg==
+Date: Thu, 5 Nov 2026 21:06:51 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH 10/17] driver core: Expose device trust authorization
+ through sysfs
+Message-ID: <20261105190651.GH8298@unreal>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-10-1e536825b4eb@nvidia.com>
+ <20261105170203.GC663069@ziepe.ca>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,145 +89,57 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261105151348.19009-1-thomas@touhey.fr> <ba500bc9-461e-45b6-b889-3d82107e1967@rowland.harvard.edu>
-In-Reply-To: <ba500bc9-461e-45b6-b889-3d82107e1967@rowland.harvard.edu>
-From: Thomas Touhey <thomas@touhey.fr>
-Date: Thu, 5 Nov 2026 20:06:56 +0100
-X-Gm-Features: AclHuK8-1PIEnk59gWxQUqMo4esGROZ85R-HwoH5pw-2LJWR2V-WL7lREhVWcCU
-Message-ID: <CAFCjBVEOGg0GwpzLpQn2gLB+NE3qY6E2KjOZ9FNyF0xrzS_KXQ@mail.gmail.com>
-Subject: Re: [PATCH] usb: storage: add quirks for CASIO calculators
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org, stable <stable@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105170203.GC663069@ziepe.ca>
 
-Hey, thanks for your review and response!
-
-> How much storage space do these devices provide?
-
-Usually between 2MB to around 32MB (usually around 15-20MB on modern device=
-s).
-
-> Do the calculators' Mass Storage interface work correctly when the quirk
-> is present?  In other words, is the non-zero dCSWDataResidue value
-> simply wrong, or does it accurately reflect the fact that the device
-> hasn't accepted anything beyond the first 4 KB of the data transfer?
-
-It does, the dCSWDataResidue is wrong. We made two experiments, one on
-Linux and one on Win32.
-
-0v0katai (quoted in the commit) tested this on Win32 with the default
-driver (USBSTOR), which seems to already ignore the CSW residue in
-this situation. They wrote a random 1M file it, read it back, then
-compared SHA256 hashes; they were identical. The writing part can be
-found in the attached "test-win32-write1M.pcapng" file.
-
-I tested this on Linux by applying the quirk using "options
-usb-storage quirks=3D07cf:6102:r,07cf:6103:r" with modprobe, starting my
-Graph 90+E (French variant of the fx-CG50) in USB Key mode, writing
-the file ("test-linux-00-write4M" file), detaching, reattaching,
-reading the file ("test-linux-01-read4M"), then diff-ing both the
-source and the obtained file. Identical once again. :-)
-
-Let me know if there are additional tests I should run!
-
-Regards,
-Thomas Touhey
-
-P-S: Resending with all recipients this time, because I answered to
-you only by mistake. Sorry, new to the git review process by e-mail
-:-)
-
-Le jeu. 5 nov. 2026 =C3=A0 17:02, Alan Stern <stern@rowland.harvard.edu> a =
-=C3=A9crit :
->
-> On Thu, Nov 05, 2026 at 04:13:48PM +0100, Thomas Touhey wrote:
-> > CASIO calculators using USB Mass Storage, bearing
-> > product IDs 6102 and 6103, always report non-zero
-> > dCSWDataResidue for requested transfer length
-> > >4096 bytes while bCSWStatus =3D=3D 0.
->
-> Do the calculators' Mass Storage interface work correctly when the quirk
-> is present?  In other words, is the non-zero dCSWDataResidue value
-> simply wrong, or does it accurately reflect the fact that the device
-> hasn't accepted anything beyond the first 4 KB of the data transfer?
->
-> If the latter is true then the quirk won't help.  Instead it would be
-> necessary to set the device's max_sectors value to 8, limiting
-> individual transfers to 8 * 512 =3D 4096 bytes.
->
-> How much storage space do these devices provide?
->
-> Alan Stern
->
-> > Information about an fx-CG50 (OS 3.11):
-> > T:  Bus=3D03 Lev=3D01 Prnt=3D01 Port=3D06 Cnt=3D03 Dev#=3D 24 Spd=3D480=
-  MxCh=3D 0
-> > D:  Ver=3D 2.00 Cls=3D00(>ifc ) Sub=3D00 Prot=3D00 MxPS=3D64 #Cfgs=3D  =
-1
-> > P:  Vendor=3D07cf ProdID=3D6102 Rev=3D 1.00
-> > S:  Manufacturer=3DCASIO MassStorage Device
-> > S:  Product=3DCASIO MassStorage Device
-> > S:  SerialNumber=3D0000xdPUBVUq
-> > C:* #Ifs=3D 1 Cfg#=3D 1 Atr=3Dc0 MxPwr=3D100mA
-> > I:* If#=3D 0 Alt=3D 0 #EPs=3D 2 Cls=3D08(stor.) Sub=3D06 Prot=3D50 Driv=
-er=3Dusb-storage
-> > E:  Ad=3D01(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D82(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> >
-> > Information about an fx-9750GIII (OS 3.71):
-> > T:  Bus=3D03 Lev=3D01 Prnt=3D01 Port=3D06 Cnt=3D03 Dev#=3D 25 Spd=3D480=
-  MxCh=3D 0
-> > D:  Ver=3D 2.00 Cls=3D00(>ifc ) Sub=3D00 Prot=3D00 MxPS=3D64 #Cfgs=3D  =
-1
-> > P:  Vendor=3D07cf ProdID=3D6103 Rev=3D 1.00
-> > S:  Manufacturer=3DCASIO MassStorage Device
-> > S:  Product=3DCASIO MassStorage Device
-> > S:  SerialNumber=3D000000000001
-> > C:* #Ifs=3D 1 Cfg#=3D 1 Atr=3Dc0 MxPwr=3D100mA
-> > I:* If#=3D 0 Alt=3D 0 #EPs=3D 2 Cls=3D08(stor.) Sub=3D06 Prot=3D50 Driv=
-er=3Dusb-storage
-> > E:  Ad=3D01(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> > E:  Ad=3D82(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> >
-> > Cc: stable <stable@kernel.org>
-> > Signed-off-by: Thomas Touhey <thomas@touhey.fr>
-> > ---
-> >  drivers/usb/storage/unusual_devs.h | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> >
-> > diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/u=
-nusual_devs.h
-> > index ac22fa318734..492b5f050f0b 100644
-> > --- a/drivers/usb/storage/unusual_devs.h
-> > +++ b/drivers/usb/storage/unusual_devs.h
-> > @@ -1168,6 +1168,25 @@ UNUSUAL_DEV( 0x07cf, 0x1167, 0x0100, 0x0100,
-> >               "EX-N1 DigitalCamera",
-> >               USB_SC_8070, USB_PR_DEVICE, NULL, 0),
-> >
-> > +/*
-> > + * CASIO calculators using UMS for "USB Key" mode always
-> > + * reports non-zero residue when the transfer length is larger
-> > + * than 4096 bytes.
-> > + *
-> > + * Reported by Thomas Touhey <thomas@touhey.fr>
-> > + * and augmented by 0v0katai <0v0katai@gmail.com>
-> > + */
-> > +UNUSUAL_DEV( 0x07cf, 0x6102, 0x0100, 0x0100,
-> > +          "Casio",
-> > +          "fx-CP400",
-> > +          USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-> > +          US_FL_IGNORE_RESIDUE ),
-> > +UNUSUAL_DEV( 0x07cf, 0x6103, 0x0100, 0x0100,
-> > +          "Casio",
-> > +          "fx-CG50",
-> > +          USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-> > +          US_FL_IGNORE_RESIDUE ),
+On Thu, Nov 05, 2026 at 01:02:03PM -0400, Jason Gunthorpe wrote:
+> On Thu, Nov 05, 2026 at 01:42:23PM +0200, Leon Romanovsky wrote:
+> > +		(RW) The requested trust policy for the device. The initial
+> > +		value may be selected by the bus before the device is
+> > +		registered; otherwise it is "default". The policy is resolved
+> > +		to an active trust level before the device is probed.
 > > +
-> >  /* Submitted by Hartmut Wahl <hwahl@hwahl.de>*/
-> >  UNUSUAL_DEV( 0x0839, 0x000a, 0x0001, 0x0001,
-> >               "Samsung",
-> > --
-> > 2.56.0
-> >
-> >
+> > +		The values are "default", "disabled", "adversary", and
+> > +		"full". "default" lets the bus select the active trust level.
+> > +		"disabled" prevents a functional driver from binding.
+> 
+> For making this more general:
+> 
+> "disabled" prevents a driver from binding and informs the kernel to
+> provide containment of the device. For example a PCIe device should be
+> unable to DMA to memory.
+> 
+> > +		"adversary" requests operation with the restrictions that the
+> > +		bus and DMA layers can enforce for a potentially malicious
+> > +		device; it does not isolate DMA by itself. "full" requests
+> > +		normal operation.
+> 
+> 
+> "adversary" informs the kernel that the userspace wants to opt into
+> any security defenses the kernel may have to restrict and further
+> validate interactions with the device. This may have a performance or
+> functional cost compared to "full". As an example the DMA API and
+> IOMMU layers will avoid exposing unrelated nearby memory to the device
+> during DMA.
+> 
+> > +		Successful resolution to an allowed level commits policy
+> > +		and operating level before driver or DMA setup. Both remain
+> 
+> "before driver startup"
+> 
+> > +		fixed for the device object's lifetime, including through
+> > +		failed or deferred probes, unbind, reset, and driver reload.
+> > +		Later binds must resolve to the same level, including when
+> > +		the policy is "default". A resolver error or disabled result
+> > +		before commitment leaves the policy's writability unchanged.
+> 
+> Not sure what "resolver error" is.
+
+The bus can provide custom logic for handling default policies through the
+->trust_resolve() callback. This is "resolver".
+
+Thanks
+
+> 
+> Jason
