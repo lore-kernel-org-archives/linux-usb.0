@@ -1,127 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.25
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793881273;
-	b=bnaSvP4r3Po3mcQGZlIPPiCjz2IAfiQOaHA79m859UvUz1lDBLikh0npscbK4kSfPe4g
-	 23myTlI6AerhmfnyjfdoNs2aW6JgAXK9GBdIYVgPAYZNXLRjBy+Eit307Yg3zm5hpTgsf
-	 Y1kDtibqyqpVOhbVD8gyPKZ+1gxp4Maa74ABJRRCsaT2IcqHqKPZ1qa1MJVIkR6yMbP4v
-	 wyxlEXHuGEo2EFaRN+0N5M4zTDuDP8PH6C2IG02Q/hg9XR0yrfotfhCXpIIQZGWGjeGHT
-	 GXp6Ko0jS0ejBdM50FWtNmAO97AgV7jYG0XxJDLxxm5pmiAlk6TWgDjq2ra6F1tcN2w==
+	t=1793881324;
+	b=yWM3++JA2iMRfIiR/9sC2l11JvLieGKhfFUFPPilKQ3FmrLbrrtCNk0xmJiXjdKKsR39
+	 uqMoaqUAIROOnAf2pjha1ixczTDkyJh9KZ8mKK3sxumdkRutEg+a+33D+i5owr8ONGxuV
+	 hC1v5S5ERwcobnmPaEA+2gexAFT9Y31rLYCvNACHBElDtHEzSuIzseUdRWdj/sToKG3Rp
+	 cJJkjT8VaK/J46xP0WzjRmvE/FWaAOTBFGlg3XDQuOOR/fX4Lna2zrGMBy+ARjVp0od7s
+	 fOQEyB943Wol6TGGS9d76cch1sZiObYcy5ITytIVUOFHlbD7/0fxmVmYtiQ9YDcY7zg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793881273;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=qLuvYgtpasAKkOVBQjswAHWXysKN7cRsF9p74hK2S2g=;
-	b=irLVa4Om/1MtLqK05TY68QusPcX+vrXn+PeKmnjdZym5OzeUOgP+UrlhWuqEuyTr0fGA
-	 sgCZtJlTXPHf5LSteNpHOJG5kLrTBKRrbWN0l3EoiqJQs/Ly8N5pa/h/d76m3G5n66x9u
-	 MK+TGS5Kn62hzrn8g0CxF2OltKaGLbdgxmszCODJQtuNkBw9+dDCf6etJT4eK5AfzMLog
-	 ZR9d4Nslo01wovKS1QVCSEiR0Xnp/Z3igGfbGFxrsG4oc9aetI2tMdxOTjZDF6DVwPE8t
-	 Qp9wjUjx9fmz59HrdWJxBl/HHPKtAvLmoyPtVTmvKvl7ZzrPBluqQxZQBhApNp00MDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793881324;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:
+	 Cc:Content-Language:From:In-Reply-To:Content-Transfer-Encoding:
+	 X-CMS-MailID:X-Msg-Generator:Content-Type:CMS-TYPE:cpgsPolicy:
+	 X-CFilter-Loop:X-CMS-RootMailID:References;
+	bh=cNjLxshjbldmtVi7ezW8lx2AJPpiQwNaAFoiNC9ElWA=;
+	b=blSezOjXw/yruYFEPZqYN+QP06MPDXyfMdoE3Jcgc/uSZ8RYOGIGNfX1/VdTRPhOKYZY
+	 0solGxOwiYPk4kp4qht7NrOmvnUDq/COdZpKGoTNs1CXvpx+g+Jr013mvai85vn2aDreW
+	 r/bECVMeS5dU0CveY4P9o2nzy+/CfGtcEEclVr1o1N69JJIhKChLxiKx68ipJhMHEgzJU
+	 kYb7o043M5w+TuepnH57LUMyVnyKZfwT1/hmyGtLSAwZbXM2VyVuq7SoDUxoQWz9HKp+W
+	 MujDHeOF0GIfAZOpclmSydTeuZJ21XgGZ+3kNLenbFTT3sC2+EcmyrfQZsNqPpORUJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KhcIIhhy;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6n5z2yLa;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KhcIIhhy;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6n5z2yLa;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=HTtx2Z5m;
+	arc=none smtp.remote-ip=203.254.224.25
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9454606D805;
-	Thu,  5 Nov 2026 12:21:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9454606D805
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE85606A32D
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 12:22:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AE85606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KhcIIhhy;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6n5z2yLa;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KhcIIhhy;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6n5z2yLa
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2479F1F78A;
-	Thu,  5 Nov 2026 12:21:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793881270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLuvYgtpasAKkOVBQjswAHWXysKN7cRsF9p74hK2S2g=;
-	b=KhcIIhhyXURXrxsFKNrS5/KQBWOxVAoWljoB38cQtiYrDrFV8sed3xw/zXNPMim53TtxIA
-	7ZbhM5diXv9jAcO7L3DVJNrAZi+K4lsRTnJWaMYMlYugOK16bRU+y/fGzxnSLhmlcVsvyG
-	csbL8slrND45GD1FIeOECoj0f7hJMwQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793881270;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLuvYgtpasAKkOVBQjswAHWXysKN7cRsF9p74hK2S2g=;
-	b=6n5z2yLaHgAEN7/Tcd0WzA7lHAxJSKkismyyu/ILXPkdtd7h0WOyyJxNx+8962qMQ9rlAn
-	/2Drg5p7a9P7WmBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793881270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLuvYgtpasAKkOVBQjswAHWXysKN7cRsF9p74hK2S2g=;
-	b=KhcIIhhyXURXrxsFKNrS5/KQBWOxVAoWljoB38cQtiYrDrFV8sed3xw/zXNPMim53TtxIA
-	7ZbhM5diXv9jAcO7L3DVJNrAZi+K4lsRTnJWaMYMlYugOK16bRU+y/fGzxnSLhmlcVsvyG
-	csbL8slrND45GD1FIeOECoj0f7hJMwQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793881270;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLuvYgtpasAKkOVBQjswAHWXysKN7cRsF9p74hK2S2g=;
-	b=6n5z2yLaHgAEN7/Tcd0WzA7lHAxJSKkismyyu/ILXPkdtd7h0WOyyJxNx+8962qMQ9rlAn
-	/2Drg5p7a9P7WmBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B0198134F6;
-	Thu,  5 Nov 2026 12:21:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id r7UFIbV07Gp3IAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 12:21:09 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 1B713B6D8; Thu, 05 Nov 2026 13:21:05 +0100 (CET)
-Date: Thu, 5 Nov 2026 13:21:05 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 33/38] proc: sysctl: copy to and from userspace
- without holding the table
-Message-ID: <cbocsd4qe254dc7mgzk3jkieahrp5kfxpnfh5owopkulg5oo6l@jd5sw3l4nw5c>
-References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
- <20261102-work-procfs-bugfixes-v1-33-59422ed3e465@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=HTtx2Z5m
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20261105122200epoutp02e0965400ed6328ea9d076cca2352a539~lJY5q71-72206822068epoutp02H
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 12:22:00 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20261105122200epoutp02e0965400ed6328ea9d076cca2352a539~lJY5q71-72206822068epoutp02H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1793881320;
+	bh=cNjLxshjbldmtVi7ezW8lx2AJPpiQwNaAFoiNC9ElWA=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=HTtx2Z5mL5rvw12jKQfhGYsXeW0lv32F1V8xMP3ap5FBhTtpo3kuHw1+yZzRg1wZV
+	 UwWZwe8TfhWpt3XO0P/UV0lTP43yhFt36z1VOjtPhD8H9td/Aus80y9xuD7TDgPfxt
+	 b9ohh/fSY/FipVYMt8BU/Qaqtfkr+dZWa1X0babg=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20261105122158epcas5p41fe17543c8abcd4c86815bcdcfa554d8~lJY4Xi13h2387123871epcas5p40;
+	Thu,  5 Nov 2026 12:21:58 +0000 (GMT)
+Received: from epcas5p3.samsung.com (unknown [182.195.38.89]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4jL1dd5nMXz3hhTC; Thu,  5 Nov
+	2026 12:21:57 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20261105122157epcas5p1320966a69d34521faeaabda354501162~lJY2_W1Ae2240322403epcas5p1F;
+	Thu,  5 Nov 2026 12:21:57 +0000 (GMT)
+Received: from [107.122.5.126] (unknown [107.122.5.126]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20261105122154epsmtip29c3fc114ce1213d5c87c233119230900~lJY0PNi8z0501305013epsmtip2l;
+	Thu,  5 Nov 2026 12:21:54 +0000 (GMT)
+Message-ID: <b68297b5-58cb-4dd6-ac2e-07d6bd408c1c@samsung.com>
+Date: Thu, 5 Nov 2026 17:51:46 +0530
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -131,157 +71,95 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102-work-procfs-bugfixes-v1-33-59422ed3e465@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-11.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[60];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
-X-Spam-Score: -11.30
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/2] usb: dwc3: Add Exynos8855 to the generic
+ platform driver
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"peter.griffin@linaro.org" <peter.griffin@linaro.org>,
+	"alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-samsung-soc@vger.kernel.org"
+	<linux-samsung-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "jh0801.jung@samsung.com"
+	<jh0801.jung@samsung.com>, "h10.kim@samsung.com" <h10.kim@samsung.com>,
+	"dh10.jung@samsung.com" <dh10.jung@samsung.com>, "akash.m5@samsung.com"
+	<akash.m5@samsung.com>, "hongpooh.kim@samsung.com"
+	<hongpooh.kim@samsung.com>, "eomji.oh@samsung.com" <eomji.oh@samsung.com>,
+	"shijie.cai@samsung.com" <shijie.cai@samsung.com>,
+	"muhammed.ali@samsung.com" <muhammed.ali@samsung.com>,
+	"thiagu.r@samsung.com" <thiagu.r@samsung.com>
+Content-Language: en-US
+From: Selvarasu Ganesan <selvarasu.g@samsung.com>
+In-Reply-To: <auvcLYl-ZnagU-7H@vbox>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20261105122157epcas5p1320966a69d34521faeaabda354501162
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261026135755epcas5p4efa15a5e7540d91b4411a7b324aeaa5d
+References: <20261026135715.33071-1-selvarasu.g@samsung.com>
+	<CGME20261026135755epcas5p4efa15a5e7540d91b4411a7b324aeaa5d@epcas5p4.samsung.com>
+	<20261026135715.33071-3-selvarasu.g@samsung.com> <auvcLYl-ZnagU-7H@vbox>
 
-On Mon 02-11-26 15:21:48, Christian Brauner wrote:
-> proc_sys_call_handler() grabs the table, copies in what is written,
-> calls the handler and copies what it produced out to userspace before
-> it lets go of the table again. Unregistering a table waits until nobody
-> uses it anymore. So a reader or writer whose copy faults for as long as
-> it wants, with userfaultfd or a stalled FUSE mapping, keeps
-> unregister_sysctl_table() waiting, and its callers like to hold locks
-> while they do that. addrconf unregisters the ipv6 sysctls of a device
-> with RTNL held, so a stalled read of /proc/sys/net/ipv6/conf/<dev>/mtu
-> holds up every RTNL user until the reader gives up.
-> 
-> Copy in before grabbing the table and copy out after letting go of it,
-> like procfs and kernfs do for their files. The buffer is ours, nothing
-> needs the table for the copies.
-> 
-> That moves the allocation and the copy in before the permission check.
-> A write that can't be copied in, or a request that is too large, now
-> fails with -EFAULT or -ENOMEM where it used to fail with -EPERM.
-> 
-> Fixes: 330d57fb98a9 ("[PATCH] Fix sysctl unregistration oops (CVE-2005-2709)")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Looks good. Feel free to add:
+On 11/5/2026 7:04 AM, Thinh Nguyen wrote:
+> On Mon, Oct 26, 2026, Selvarasu Ganesan wrote:
+>> Add the "samsung,exynos8855-dwc3" compatible string to dwc3-generic-plat
+>> so the Exynos8855 DWC3 controller can probe through the generic DWC3
+>> platform glue. While at it, alphabetically reorder the existing entries.
+> Please split the reordering into a separate patch, or just add the new
+> entry without it. There are other pending additions to this driver, and
+> the reorder will likely cause conflicts.
+>
+> Thanks,
+> Thinh
 
-Reviewed-by: Jan Kara <jack@suse.cz>
 
-								Honza
+Hi Thinh,
 
-> ---
->  fs/proc/proc_sysctl.c | 50 ++++++++++++++++++++++++++++----------------------
->  1 file changed, 28 insertions(+), 22 deletions(-)
-> 
-> diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-> index 38b61887b59c..2150cf842919 100644
-> --- a/fs/proc/proc_sysctl.c
-> +++ b/fs/proc/proc_sysctl.c
-> @@ -602,14 +602,36 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
->  		int write)
->  {
->  	struct inode *inode = file_inode(iocb->ki_filp);
-> -	struct ctl_table_header *head = grab_header(inode);
->  	const struct ctl_table *table = PROC_I(inode)->sysctl_entry;
-> +	struct ctl_table_header *head;
->  	size_t count = iov_iter_count(iter);
->  	char *kbuf;
->  	ssize_t error;
->  
-> -	if (IS_ERR(head))
-> -		return PTR_ERR(head);
-> +	/* don't even try if the size is too large */
-> +	if (count >= KMALLOC_MAX_SIZE)
-> +		return -ENOMEM;
-> +	kbuf = kvzalloc(count + 1, GFP_KERNEL);
-> +	if (!kbuf)
-> +		return -ENOMEM;
-> +
-> +	/*
-> +	 * Copy in before grabbing the table and copy out after letting go of
-> +	 * it. Unregistering the table waits for us and a copy that faults can
-> +	 * take as long as userspace wants.
-> +	 */
-> +	if (write) {
-> +		error = -EFAULT;
-> +		if (!copy_from_iter_full(kbuf, count, iter))
-> +			goto out_free_buf;
-> +		kbuf[count] = '\0';
-> +	}
-> +
-> +	head = grab_header(inode);
-> +	if (IS_ERR(head)) {
-> +		error = PTR_ERR(head);
-> +		goto out_free_buf;
-> +	}
->  
->  	/*
->  	 * At this point we know that the sysctl was not unregistered
-> @@ -624,28 +646,15 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
->  	if (!table->proc_handler)
->  		goto out;
->  
-> -	/* don't even try if the size is too large */
-> -	error = -ENOMEM;
-> -	if (count >= KMALLOC_MAX_SIZE)
-> -		goto out;
-> -	kbuf = kvzalloc(count + 1, GFP_KERNEL);
-> -	if (!kbuf)
-> -		goto out;
-> -
-> -	if (write) {
-> -		error = -EFAULT;
-> -		if (!copy_from_iter_full(kbuf, count, iter))
-> -			goto out_free_buf;
-> -		kbuf[count] = '\0';
-> -	}
-> -
->  	error = BPF_CGROUP_RUN_PROG_SYSCTL(head, table, write, &kbuf, &count,
->  					   &iocb->ki_pos);
->  	if (error)
-> -		goto out_free_buf;
-> +		goto out;
->  
->  	/* careful: calling conventions are nasty here */
->  	error = table->proc_handler(table, write, kbuf, &count, &iocb->ki_pos);
-> +out:
-> +	sysctl_head_finish(head);
->  	if (error)
->  		goto out_free_buf;
->  
-> @@ -658,9 +667,6 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
->  	error = count;
->  out_free_buf:
->  	kvfree(kbuf);
-> -out:
-> -	sysctl_head_finish(head);
-> -
->  	return error;
->  }
->  
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks for your feedback.
+
+We posted new patchset with drop the alphabetical reorder of 
+dwc3_generic_of_match and just add our new entry.
+
+https://lore.kernel.org/all/20261105121401.1661711-1-selvarasu.g@samsung.com/
+
+
+Thanks,
+Selva
+>
+>> Co-developed-by: Muhammed Ali <muhammed.ali@samsung.com>
+>> Signed-off-by: Muhammed Ali <muhammed.ali@samsung.com>
+>> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+>> ---
+>>   drivers/usb/dwc3/dwc3-generic-plat.c | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
+>> index ca69ac0eb07c..d57496716204 100644
+>> --- a/drivers/usb/dwc3/dwc3-generic-plat.c
+>> +++ b/drivers/usb/dwc3/dwc3-generic-plat.c
+>> @@ -232,10 +232,11 @@ static const struct dwc3_generic_config eic7700_dwc3 =  {
+>>   };
+>>   
+>>   static const struct of_device_id dwc3_generic_of_match[] = {
+>> +	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
+>> +	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
+>> +	{ .compatible = "samsung,exynos8855-dwc3", },
+>>   	{ .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
+>>   	{ .compatible = "spacemit,k3-dwc3", },
+>> -	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
+>> -	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
+>>   	{ .compatible = "starfive,jhb100-dwc3", },
+>>   	{ /* sentinel */ }
+>>   };
+>> -- 
+>> 2.17.1
