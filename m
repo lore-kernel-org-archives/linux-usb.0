@@ -1,101 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793865166;
-	b=zk3SWJiZGTMhuajSod935JSMUZ0yr/WyhRddnzUh3ObvizKUc41isnatosQ0c28+rxIQ
-	 183BcJuXbSEgNi8CV8yNcmhCtNf0yZvZsXdbwVZCBijZBc3szOn8TqQ+99dpaQ9c3Baot
-	 CNHoo2yO9v1d+Nbu/FxrP/WMAV0R40VcBZsMTfvTq5p5IeQCqxMJt35VXFQjcJqg3KbHL
-	 Uu/co4QLzGdTz3In14j+9kHkh0smV9ru71HYuLnOfRcrAqlJHYWY3uNu6eIO93naRSiGT
-	 qb31Ygz2sM0gWALpCHZwShFAvTXlJlvisAZK/xQAoHBY9G5KxBMXyZvWEPShOk8u1yA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793865166;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.46
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793865994;
+	b=xxJBjJMsquLqu2z4I+Yjv6s4uQIp/MT7fRuOXDiBtfp10fE7QMnDnxhOA/7WrkwOMoeC
+	 8q7w+ALpfnkfFQanMdp/p1pXEHUgqFqzErwh1ZC6BWK+c4CLeDhGjIT6sLDL692JmvhaH
+	 tjOSefC0ToskaFJWg/ZFjnSWu2m+JDMfDOS927jIunsSKlDdc9Au6jZBC8AUQQJxKq6hb
+	 oygBykClKa3YFPsjKwCcVHzrA7hkDxWmx+vWdVXTmde0EnWIBoAgr+hVEpjp1Q8sYq9cj
+	 5ymcxQevMKzzvQ8v8Kf4NpFOS9X7QWNdAqWaR8kS81IJ78pwA6z9LEQTLlkgkFy5aow==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793865994;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=unsN6AHVNkCocRJQkDsmHPRKXeUWrdzS8/flo7s7TFM=;
-	b=5KF8MPvceq6sZXolPtGpM1o///W9RRpGva3qEcIOV3Nh+AD03hSUUFSfZEurhKwaGBz6
-	 Ij8R5BGT8diLZyFmiNcajRuz9M7x09aoet5FOY6g2DPTacgZGliEadTDqKDUMqBwDI9kd
-	 nrFIob+dOgLjjGVy4ThXzwQjdtwlKtXnxW/WmYBAJGs348StqHlWv93uhwILso387mZ8n
-	 cGE1t+L9RPyUgxCBQ6BWEA9DzybC8yQipUO682rBWvBeTXG/c7huEmBcyDdEH/wD1LAwd
-	 q2AgJvRXqb+8cj4pWN/tQnN6mQl8zNj9eBs9ntm2qSM7xFZjGg/DOgBt9D0zDl5jDnw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=5/St+sw6x3aC+lH60Wo2obbqzz/BFNLno+EhAZDHgi4=;
+	b=5ThSElHfRXljcSqckLkb0abVz0o4Z5QUPhbEdFaM12MZHL2Z0P2f1hgZAh/bYkaVnHbu
+	 C3jZ75JA1/qYEPxCm3cXEVlfXLBcDoH9da6tjsp5WgGaTcWaxmSngtoAgXWXa8XbAspc7
+	 J9KbLg1Nsd7k5G6lS5ixnHa5jyEGGXkMMT/uS5jW+L+lBMSeKO/B3BpH3PG7CRua2Z2wP
+	 hDOfByfOsG5afrN1nLn45mEQyGcUfm1uh4/HsJrAJwBAoffF2+mz8lVlINnV1GRlxx+Gf
+	 oGPzoavqUQ9gtx8JmHXzdffwYQVjjTeIPkHdH9QJJl+M63+lU/KB41dukRW81eKQZeQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gTYTL5WW;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=c46WMjMX;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.46
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E41606A326
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 07:52:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2E41606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C19606A31B
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 08:06:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1C19606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gTYTL5WW
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48dee593f18so1185470f8f.3
-        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 23:52:45 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=c46WMjMX
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-7c19c6721a3so945445137.2
+        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 00:06:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793865992; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ccnHiXj3p3lQ2dk73HcVDVKzJZ2BvU4nU6K4RUeSuCy+WXWj72AjYmx6IfgI/cRYqG
+         h0ThK8EB47tMNzVLhjjESU5Ik1yRPU8KnR8m9J8PeDWo15JkM/gEx1L/yYW4ta5pFTGw
+         bJsnwT9KE9XWHAoYwnNgjIf0zDLi45N2u/ylnycporguS52f49xqxAhxC4CXNDm88ziR
+         BzDacdq+PrtPOkMlluDRIqP5bCs9RtANO7n+c7RYUfGJT/e0ReFaafHK7z9/JZ8y0zjf
+         1aErAUXGyWAsww1df19xCo11puSOaWV+7g+wQXwB5eqLjHMpg7z/lE6wRX5Pi9valZ9u
+         zNXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=5/St+sw6x3aC+lH60Wo2obbqzz/BFNLno+EhAZDHgi4=;
+        fh=JzB6N3jwv3JV+dYWXlCWhrx4iUKWdUQQ9K7YfMXCf1g=;
+        b=cXm3WKyUdHP+Yla4c/jHtCCDNwtUYGxZkJd1+T5xW/4lVXkCXzqLKcdp3+LOJYQRb8
+         5aYx+pT995GoXI70lMsAotkhVG4jTyToa2WmklVtzT/PkmpLVi+mpidWpNjkq2bDr4Rx
+         2vkEVvT4jzcmKAcaxvLFowCP7vgha2qmEuPE7jACQoRUmZnizZ4GIwrzIluPQ8A0XLK9
+         DepAqFSDqaNmikvp/10ddH+h6rRmP9lyOqqnhZ0zHVnJcI3+cm8v4qO6O/08lP/D5cmP
+         OQ6QKaJukN0ANVWhwjKg3h0iCbUL1mDeret5mChS3hhNkLx4NCcTXFcapka/oGgkYrTE
+         /Faw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793865164; x=1794469964; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=unsN6AHVNkCocRJQkDsmHPRKXeUWrdzS8/flo7s7TFM=;
-        b=gTYTL5WWYDxqb80o00A+Io7d6oUAzHxd1+A00C6XY8mnit39plO17qP/RrflebpSln
-         xJoeT+4Zt/3aYy4vtNl0ptOE+QqUmgvSWjpIO/9+HLryekbeBoIMr0/2xO3hJ7bTmBUp
-         CdwapW/909bXq2FYfecX0cA8VHiF8ftUMcevWmqTYhBeMbUF7dbTzLYSPWCiZDKsnnst
-         BNNSkIP7AD60RWz5gX9wpnXEdyWMvauoP+tmX7t77tC7DXFtTKv1SAaIiGAtfOI57vlp
-         zTU9AiTm/MYGeAzGX08iXfeeU3IMqnUjiqZut/T70pnzggmVlDyS9xAdwAISeNMlfoEd
-         22fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793865164; x=1794469964;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1793865992; x=1794470792; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=unsN6AHVNkCocRJQkDsmHPRKXeUWrdzS8/flo7s7TFM=;
-        b=IJXXxmJMBTFs0Ox3a5DWrBbo5wE5yj6G9uIWw5f9q7S9C3h+VmYxbQILBoNOMAU8OE
-         dLCBtrbi4+7yVgQkZN9QyyCJgf8LvUDxcd39plmDYplbz9KfQTCFLMLJjM87Kinb67jJ
-         aANCnaOaVZvlnNS2CnZHJ0a1cQ/A8LGgRMBl498GWCHNEpIboNFzI4KnhquJcKlwQvkk
-         IhRax4Q4iDOCLQwMyiLqxaHYr5O/YsZ0nVIn5c9pP1q2ITzzZKvgDWe6Prm81r+E6tM3
-         hUQM6tel/3MUYBLi0/HT/iY8rfhZvBLA3tx5G53H3KgMZ32IVzFD9PwVBtjAn0+CtQrO
-         bouA==
-X-Forwarded-Encrypted: i=1; AKwUvBy+3IkaBjzmhvi2FWWfpIhd8AwnCyHLwizGwGAQF0Sa3Hb66q1+5cV66pMdu/KRAhK2WgRtCmrZG40=@vger.kernel.org
-X-Gm-Message-State: APuU4Z94Mnp20UIG3iGnR2/1TYN70BjsUk/9lqxjBEqramHsJAHJTwC7
-	9EB47t0Sa1TXxQq7/1xb+IfkR7CqK6tk9joDN0mrqmKDlOl/JAowIN7v
-X-Gm-Gg: AYBFou35XIBZ4xLgxXvB9ttcAWIcuoqtjY2vlwVwhlbHCwyC+DkhAHt2HdjazBVWiiN
-	LGOfjaTm/VCLu2eGkiSSbtVgsRn4K18fDPFzb0Txts/iJ0B3nbbVmbjL+QtHFgpq9NMj5tAOHtV
-	3Bg8teHcScg/2usm3qiD+VEAARgll4JNA6rmM5KcRnZn659c3iM7l5+K24CHddkK9JeUYGwTwmS
-	Eoin46yKxLa5ZMrQcwFuU7Uta8UUQ2/Tfe1XgR7S8MqL+Kf1/j2C+mZHiW7k4YvmdyZu8nF1a4u
-	tHghDFSfTWnv4eIrLdgKATxfd+si0oXIfmPf6MrGs6eVKjk4hB/kW//p/27bLaDFUtePbh3if1C
-	pb+pNkCkROKmbH8E0YuYTW6/zdSUC+tZGP+sqBsJ9px4B6JPmSmlYY58PRMv2bQvFjE3ufz/EWO
-	A4ibUSu5iO4KT4PxnlzcFyABwfxAEfw9KN2vGcj1Se5c0s5YviMU12ah2pZDcOjWC6sLzvMXqqr
-	fWLljwus/0aQOac7MHgh+AHxMp7Mllutvc4L8Ezj+r0sbKZIJYebvgl+plqUh1q3SyAjFiEgBIS
-	OnN+Mj9fmyXtta6hD3YnfTMCqVdkLVn03osqqEP6J8PkO6tOncgh6fWY/3ZS
-X-Received: by 2002:a05:6000:188b:b0:48e:3df8:74cb with SMTP id ffacd0b85a97d-48e6e2ba5dfmr41503809f8f.6.1793865164140;
-        Wed, 04 Nov 2026 23:52:44 -0800 (PST)
-Received: from foxbook (bfg124.neoplus.adsl.tpnet.pl. [83.28.44.124])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48feda20567sm8958338f8f.51.2026.11.04.23.52.43
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 04 Nov 2026 23:52:43 -0800 (PST)
-Date: Thu, 5 Nov 2026 08:52:38 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: YuanZhe Liu <25031212351@stu.xidian.edu.cn>, Mathias Nyman
- <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Bin Yu <byu@xidian.edu.cn>, Cheng Wen
- <wencheng@xidian.edu.cn>
-Subject: Re: [PATCH v5] usb: xhci: Fix use-after-free race in
- xhci_stop_device()
-Message-ID: <20261105085238.337cb70c.michal.pecio@gmail.com>
-In-Reply-To: <d7448504-a63e-4f3a-a828-7656b1084105@rowland.harvard.edu>
-References: <20261104000031.679944e7.michal.pecio@gmail.com>
-	<20261104035637.3325-1-25031212351@stu.xidian.edu.cn>
-	<b8ea2f8f-ff9e-4cc6-853b-114fe51173e6@rowland.harvard.edu>
-	<20261104175949.71804650.michal.pecio@gmail.com>
-	<d7448504-a63e-4f3a-a828-7656b1084105@rowland.harvard.edu>
+        bh=5/St+sw6x3aC+lH60Wo2obbqzz/BFNLno+EhAZDHgi4=;
+        b=c46WMjMXb6rtL2HrXD3/1ZrnixlforqU0S6QIuYlsLt52mA0mLvMquNIwnN1n62Bfs
+         wp/8oclxRo7K0Y1Z9RbFcyGe9u9M25IeZBHRpg6ph9jz4iy27huXZ1LaPE9kmPlDp1tI
+         1kSjVXSgVypRkrhLhr2vlYafivVr4K9B2CtioJsYkgsCyFtmzgRNiFu7yPN36ZkewshX
+         T31rBhizVcNX0CrHaVBizCuUUJQu4WFSz1bmBYiiR/1sVBj7FOC1JWKChidKWAJ6D1B8
+         YaLL5nJZiip+VkvvvaeAkzEn5Pyi+lcFNW6NBWGKVLtBslhRTEVN5SinVNx4Vk/DyN2M
+         CnPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793865992; x=1794470792;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5/St+sw6x3aC+lH60Wo2obbqzz/BFNLno+EhAZDHgi4=;
+        b=ErLhKu2l2jaSKEZnoezUO2yafNq63Vkkp20ur8J0SV2CJu5vTFacnZehMoiG2F+fxE
+         hsV2D7BRQzj7OHV2T0D/zhYsCS0KP0DqnwPpOyhqLJ1cLkOSdLCRj2cKJEfbPC5YMHzH
+         /FwuCuoeQQ89i6urzqcxShPk8vkjUrQ/NM43qZ1efQTHI4DpOPfHbOe/CFAF02sVPqcu
+         IuWT/XMevCPyIdWa5i3jjOp8mHlJEcOaXdC9sUskPH3AVMzInS0zhhMADO4vE6n89vOi
+         6sqPbl/lVkjgZIzpCInPcdYqNXTYg2Oq3+pRZa+zZQg6MPorVhEK1RCC6pWPUakqvuEz
+         gErw==
+X-Gm-Message-State: APuU4Z8oDn3sQBTvgNkWBoAXD66WUOX9R2lzYxlZTFs3LMKz9eRF1Hki
+	XXldkW9M8jcD8DK63lRkXiDK9nk3D3SQAeXiuzY1Cvy+xJEBVDetrJIXaMoqmd3r9RRG8kHkkV7
+	6z47p3GlLwMpH7PiStDIimw0wmHLmHcPtz+XM
+X-Gm-Gg: AYBFou1yKHi+wQtllMJ6g3Ny73P7WpzIABNGApY7xoeCNNnYTPO6rMXOY7SXZoUCngT
+	7VdVvTBivAfkWvNkmNZsW9RLDjpa0RuFNLG0osUHJPnl1yAIpmqKASqEKua80ztpepO7vNXmm+T
+	5rD+c07HjE5Nraz24feGjzXagL/fcTbNyi5W3zS+PQtKlbfYyXwkwC7Y74ji19uXTUSl1x8Jbp6
+	TJd0nF47l5T3BoVvLhCT7MppURqC1JmxhiS5wQ+sP1SlKMoxve2D6/cLAuDEIR15iGRTsOsW9SG
+	d74AzPDMw189zdBUgwbE3Lq028iVqniPEHbtpfLewgvzAQRTndvG+bQlKaKQQX9LIEOmCvmUhed
+	hFkRzOk6hns+u+TcZeP6qslQcU2vK3TWr03LnhQHUdgm4u9B3iWw=
+X-Received: by 2002:a05:6102:15a2:b0:7ce:62a0:6a14 with SMTP id
+ ada2fe7eead31-7d07262d5d7mr8535231137.9.1793865992336; Thu, 05 Nov 2026
+ 00:06:32 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -105,54 +102,63 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20261012092730.332531-1-dnlplm@gmail.com>
+In-Reply-To: <20261012092730.332531-1-dnlplm@gmail.com>
+From: Daniele Palmas <dnlplm@gmail.com>
+Date: Thu, 5 Nov 2026 09:06:20 +0100
+X-Gm-Features: AclHuK8wpL1RIgmjEVkF4TSB4KBxLAPvlo3tTTMggrAnU62HsIbPt07XvsMf0lk
+Message-ID: <CAGRyCJF8pQPsopxO5DNnTRpAW+6Pzqd67y5rh+kBOf0t++C3=Q@mail.gmail.com>
+Subject: Re: [PATCH 1/1] USB: cdc-acm: add control line state quirk for Telit
+ QCX216 modems
+To: Oliver Neukum <oneukum@suse.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 4 Nov 2026 23:54:39 -0500, Alan Stern wrote:
-> > What I find more disturbing is the existing protection from this
-> > race added by 88716a93766b - it looks like core was triggering this
-> > too.  
-> 
-> I don't know anything about it.  That commit only touches xhci-hub.c, 
-> not usbcore.
+Hello,
 
-Well, it looked like core was calling hcd->bus_suspend() before
-disconnection has completed.
+Il giorno lun 12 ott 2026 alle ore 11:47 Daniele Palmas
+<dnlplm@gmail.com> ha scritto:
+>
+> Add control line state quirk for the diagnostic port of the compositions
+> exposed by Telit QCX216-based modems, since the control line state
+> requests prevent the modem from sending the diagnostic data.
+>
+> Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
+> ---
 
-But I just found that xhci-hcd had a bug where hcd->free_dev() would
-return before disconnection has fully completed, which can obviously
-trick core into doing the above. Now fixed by 7faac1953ed1.
+Is there something to be fixed in this patch? Do you want me to resend?
 
-> There should never be any outstanding URBs on suspended ports.  If
-> you have any examples, they need to be fixed.
+Thanks,
+Daniele
 
-There was a report of some HID driver leaving a pending URB on ep0.
-Core blocks and flushes other endpoints, but ep0 is still needed by
-device driver's suspend() call IIRC, so it only gets flushed after
-the port is put in suspend. I wrote a patch which reliably triggers
-ep0 unlink on a suspended port in this manner.
-
-Reporter's HC wasn't expecting this and failed to perform the unlink.
-
-> The core relies on drivers to unlink outstanding URBs and not submit
-> any new ones after they have been told that their devices are going
-> into suspend.
-
-That's a little weak. The reporter got an LLM to patch the offending
-driver, the LLM claimed that other similar drivers have similar bugs,
-business as usual. IDK if they have been fixed.
-
-Also, core ignores suspend() routines returning errors during system
-sleep transitions. I'm not sure if drivers are *allowed* to return
--EBUSY in those cases, like they do to prevent autosuspend, but it's
-at least another opportunity for bugs in drivers to cause issues.
-
-> I suppose we could check that there are no errant URBs still in
-> progress just before putting the port into suspend, but is this
-> really necessary?
-
-It's already being done, looks like those drivers aren't *actually*
-trusted very much. But there is the ep0 loophole.
-
-Regards,
-Michal
+>  drivers/usb/class/cdc-acm.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+> index 0d3f815b2f1e..c07b21872d19 100644
+> --- a/drivers/usb/class/cdc-acm.c
+> +++ b/drivers/usb/class/cdc-acm.c
+> @@ -2039,6 +2039,18 @@ static const struct usb_device_id acm_ids[] = {
+>         { USB_DEVICE(0x1bc7, 0x0023), /* Telit 3G ACM + ECM composition */
+>         .driver_info = SEND_ZERO_PACKET,
+>         },
+> +       { USB_DEVICE_INTERFACE_NUMBER(0x1bc7, 0x7020, 4), /* Telit LE910Q1 (RNDIS) diag port */
+> +       .driver_info = QUIRK_CONTROL_LINE_STATE,
+> +       },
+> +       { USB_DEVICE_INTERFACE_NUMBER(0x1bc7, 0x7021, 4), /* Telit LE910Q1 (ECM) diag port */
+> +       .driver_info = QUIRK_CONTROL_LINE_STATE,
+> +       },
+> +       { USB_DEVICE_INTERFACE_NUMBER(0x1bc7, 0x7028, 4), /* Telit LE310Q1 (RNDIS) diag port */
+> +       .driver_info = QUIRK_CONTROL_LINE_STATE,
+> +       },
+> +       { USB_DEVICE_INTERFACE_NUMBER(0x1bc7, 0x7029, 4), /* Telit LE310Q1 (ECM) diag port */
+> +       .driver_info = QUIRK_CONTROL_LINE_STATE,
+> +       },
+>
+>         /* Exclude Goodix Fingerprint Reader */
+>         { USB_DEVICE(0x27c6, 0x5395),
+>
+> base-commit: a90ee4305c4a5df72c11b31dacfdc76e00fcf78a
+> --
+> 2.37.1
+>
