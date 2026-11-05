@@ -1,59 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793870839;
-	b=bslNRpCbdcGSGZvEzsvDJqpdxtHrLvhRkiBqYaRZpkkW2FoRDGBAF30AAQblBEwi5+5S
-	 pUIJSpE4IrpsVplRTLc48ljm8R+/pPq9K3ysUjhN3GiU6uECZ+CeOIcD73FizvR2izWBE
-	 hc0LcnrFkGKyoCF+V8xq9nprdiIhHP+YswTmcYFzeQI3rju82dM8gV6b+7B5j+nKbqrtC
-	 r6M3QyrteP4GQDvodw7Pu43o/s6ETm8o2v8RjCepu4syDdDkZ266Qi4SzA3tXvnUXapeb
-	 S86qTSufdyq0+rEqDNrBE2Nm41pqpy5+0cDJul1etKu4o9hbPUfQWvasPfWPxu1BQsQ==
+	t=1793871361;
+	b=twQ8TWEBl+JdoOqcKxIpyCT3jhn7hrpP5guM2FaBEn1ZgELHQhYGWS78JEi0oCXsyM23
+	 NL1tkffUqaGXa4sZoJFaMtN+uYzbRFs17SC+AoYLLnfmh6wmSNy4FFv0qSSZiZnzyFiHG
+	 fr4ZwTLXLuPDqDIXAOMxGCw2TxKsV1dLrqv0NP2D50T5y0s3aBapAYp7VC+zk6ipNydrM
+	 tyjqBPpwVMHUrivSZiToc1vuPCR++5xzDGB3wGNm2NjyrDGZQDICoKEDxHvI/NN3fhWw7
+	 xMCr/gKv0IDkNMUvrDXrv+50vRvbSq8Shd6U7q5UH/lBkXe3tbLRYbgbw3NAFXOXrKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793870839;
-	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=HtaFQhW6t4dhRpUkmGtJXgAedTYd8o7/yOUNl5897Yo=;
-	b=dpWsWBWgxIkhAgQ8gNP5TN0qOlG4kil0rzuKKVKFf4p1hzBafUnfp7BUB/BhM3oDA6VF
-	 D/XRDzZ+BcXeo+C5tmG9F/pOAgtq6k7GB1LJvVtqq1zX2g7hWmTvRkhA4IDWYKJgjABtV
-	 poB4egtBsfKQY+6G2BGS52t4OcnfKGqlNZocVKDJh9GUQRrNrtEc0zBuExZQbaHYqixrw
-	 joUtHUzXiLXa4oIS+g6lNf0K7XOlXIcX1d/7pzm+gL1VtBnZZG75OkY8yaC3KoL4mp8hI
-	 PaRyKkna4hmBji+LsNP7HsBez4jh/f/m/1NS+PzKe/3hlofpAvkXzSIgvpAxNmLlkAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793871361;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=YYZLfCRImLtKBpKu2xKVTwtUPZlMCq9COzGqgL/M0QE=;
+	b=RvHgJCa9GepQwuT9YV1qasNoOL9h4UK7SDnxSDVvtd4gJ1RVtOq+8rjlMVoTrOpIF/ms
+	 n0qUVgWL/4jy3Q/5NMW63YLKsvituB9DrapT88iZmTcpRULUvk9wUWnr+fvYF871zVodn
+	 LZ9ftpqMIV2coPvNdhqDL1UWwhlTTRuaW3/DJnKl/yqP1aua2O6pfMKvKRurmt8OEXNna
+	 Lpssvh8CZADpeTENpHtyFiSq1UcWWiGjQOjUsn6O/sO7J8kvMlzy967i7bfwp54QMn4E6
+	 W25o9au0Zl5vGcdixTpcduSGH9xSDt5+4Uc/Y63oL9Ip0+4d5+65wTUScDPuoQK2jTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=xiaopeng.com;
-	spf=pass smtp.mailfrom=xiaopeng.com;
-	dkim=pass header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=Pe3hbS+g;
-	arc=none smtp.remote-ip=115.124.28.52
-Received: from out28-52.mail.aliyun.com (out28-52.mail.aliyun.com [115.124.28.52])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EIrBI+Xh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43277606A32C;
-	Thu,  5 Nov 2026 09:27:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43277606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D7D606A326
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 09:36:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=Pe3hbS+g
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xiaopeng.com; s=default;
-	t=1793870834; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=HtaFQhW6t4dhRpUkmGtJXgAedTYd8o7/yOUNl5897Yo=;
-	b=Pe3hbS+gpBYeKH3gQqmL6MYF8Wn8TDGx8GZIPS0KPPbfmvX3mYETeFTl6jsTgfoRVkx7nFAaLW/PdpjxwAdksOLD6UJa7nLd2kiyEfSirCtzXxn6wjReRMjk41n4MAjPL6Oe7crfPDY3EYcGAIFVazW5OIHTTSPoMAzOqILvxK4=
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07304177|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0275975-0.0014351-0.970967;FP=10079317485901471634|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033023087102;MF=fangxy@xiaopeng.com;NM=1;PH=DS;RN=7;RT=7;SR=0;TI=SMTPD_---.jxMLlie_1793870833;
-Received: from localhost.localdomain(mailfrom:fangxy@xiaopeng.com fp:SMTPD_---.jxMLlie_1793870833 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Thu, 05 Nov 2026 17:27:14 +0800
-From: Fang Xieyan <fangxy@xiaopeng.com>
-To: nkapron@google.com,
-	linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	zhugl3@xiaopeng.com,
-	Weibin Liu <liuwb@xiaopeng.com>
-Subject: [PATCH] usb: gadget: f_printer: clamp GET_DEVICE_ID pnp_string to ep0 buffer
-Date: Thu,  5 Nov 2026 17:27:12 +0800
-Message-ID: <20261105092712.27838-1-fangxy@xiaopeng.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EIrBI+Xh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 364601F00A02;
+	Thu,  5 Nov 2026 09:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793871361;
+	bh=YYZLfCRImLtKBpKu2xKVTwtUPZlMCq9COzGqgL/M0QE=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=EIrBI+Xh+NGgwHer5jcjZXZ/Q9H8SBMxBhiJBacUUlSVNw60My2k+TXVVJkjQUMOA
+	 C0mK0z5cUZbYemrF30ZzdItsY61CY8R/JR594pifUzK/aulfXZDeJegi1tdQe6/imw
+	 qg1kWPQcaeAF2q3qxt+9b8aA8Bj3nLfbFnDihh8WR/J/ODDgMzauAeA4FtB/GQcjDQ
+	 dH5J3zeZjSad6BjcNmYE/XvzMnYxcHB2CyMkeKW1RGtkIz12eShx91dwRq7mWnghIC
+	 VYTg1FE50xv57o33X3iAOIpY5eh/VEFBV1/XAC/UmzncTOPCvupdkdhUenFMoC+P1q
+	 B2abPRroOJSMg==
+Message-ID: <sashiko-outbox-198768@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: gadget: f_printer: clamp GET_DEVICE_ID pnp_string
+ to ep0 buffer
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Fang Xieyan" <fangxy@xiaopeng.com>, linux-usb@vger.kernel.org
+In-Reply-To: <20261105092712.27838-1-fangxy@xiaopeng.com>
+References: <20261105092712.27838-1-fangxy@xiaopeng.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 09:36:00 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,44 +58,29 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The GET_DEVICE_ID request handler in printer_func_setup() copies
-the configfs-provided pnp_string into the EP0 request buffer.
+> The GET_DEVICE_ID request handler in printer_func_setup() copies
+> the configfs-provided pnp_string into the EP0 request buffer.
+>=20
+> The pnp_string length is bounded by the configfs page size, but
+> is not limited by the size of the EP0 buffer. Since the first
+> two bytes of the buffer are used for the length field, a
+> pnp_string longer than USB_COMP_EP0_BUFSIZ - 2 causes memcpy()
+> to write beyond the end of the EP0 buffer.
+>=20
+> Limit the copied string length to USB_COMP_EP0_BUFSIZ - 2,
+> ensuring that both the length field and the string fit within
+> the EP0 buffer.
+>=20
+> Fixes: 24b7ba2f88e0 ("usb: gadget: function: fix dangling pnp_string in f=
+_printer.c")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Weibin Liu <liuwb@xiaopeng.com>
+> Signed-off-by: Fang Xieyan <fangxy@xiaopeng.com>
 
-The pnp_string length is bounded by the configfs page size, but
-is not limited by the size of the EP0 buffer. Since the first
-two bytes of the buffer are used for the length field, a
-pnp_string longer than USB_COMP_EP0_BUFSIZ - 2 causes memcpy()
-to write beyond the end of the EP0 buffer.
+Sashiko has reviewed this patch and found no issues.
 
-Limit the copied string length to USB_COMP_EP0_BUFSIZ - 2,
-ensuring that both the length field and the string fit within
-the EP0 buffer.
-
-Fixes: 24b7ba2f88e0 ("usb: gadget: function: fix dangling pnp_string in f_printer.c")
-Cc: stable@vger.kernel.org
-Reviewed-by: Weibin Liu <liuwb@xiaopeng.com>
-Signed-off-by: Fang Xieyan <fangxy@xiaopeng.com>
----
- drivers/usb/gadget/function/f_printer.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
-index d295ade8f..17ccce78d 100644
---- a/drivers/usb/gadget/function/f_printer.c
-+++ b/drivers/usb/gadget/function/f_printer.c
-@@ -1022,7 +1022,8 @@ static int printer_func_setup(struct usb_function *f,
- 				value = 0;
- 				break;
- 			}
--			value = strlen(*dev->pnp_string);
-+			value = min_t(int, strlen(*dev->pnp_string),
-+				      USB_COMP_EP0_BUFSIZ - 2);
- 			buf[0] = (value >> 8) & 0xFF;
- 			buf[1] = value & 0xFF;
- 			memcpy(buf + 2, *dev->pnp_string, value);
---
-2.50.1
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105092712.2783=
+8-1-fangxy@xiaopeng.com?part=3D1
 
