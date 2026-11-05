@@ -1,56 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793879673;
-	b=KZ/4gyoOo1aMlhGU/8/lhAJerJA77kMNOzmgUOoKOjaXm9vA2N0ZMSquCLOntvOb9voM
-	 r9p1oIk7pJqGF94CosA4P3Nzx0lzK+DFlOInIXQ+2RwC/Ome/gYbQ2TNC+bK0A2DY9VMO
-	 SndTh56GOC7blKFaumj9Htm72KIg+WcqG+LTnrdTo94JQ6OTsbgNVeF+q+euLIeDQ+dT3
-	 X10ZHHbH6nN7euxTDVovEUIKQ1Vg1nbNM4D0hmvPY4dbrc2u4xmdwpSdYocx+OJYzbHeQ
-	 pOdCuqdPhpXSceICvtGpAHo7ERahq4CoyMFYXHs4LGkEEGiYvsg0jLdTrOvu6/5C8oA==
+	t=1793879694;
+	b=sU1iMrHq5cMSyfNQPZY/KpyiJiJKMbbxEmToIqMa6t62+yZDLBxu2tBJZzkf8tC46wq8
+	 1cb1hy0gkcyrIKV18HxPWeOfaOPcVzUDL3sP7A8xGMSsao9KR90QFbHs8bUJB2Y8jKvXV
+	 2ydWUsMO76bNNyZIY6z/OPbdWvdtFrVPkgUJ65u73JUBQ7NG6Z5YK+o0arPQ2H4PdnZHT
+	 90c8/JNqrHulMhHQA0zpeU9203bEq1AYpsGhAnMuQrq+SrGoitN4G5fQnu41fId2Oxdjo
+	 lQorUbDoXsJeoQTHxYOb+I45y9yi20yZmM0iIjiiRj/aR0cN/poKJg/v7knGIQGu03w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793879673;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793879694;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=LKdzzXLcFdU2/830KihE+FyKs8/m/M6rnLWPiz/5uMc=;
-	b=3si2yRfTRa+AKw12mXicMBIYFuVi8XhSo8CG5aM7g+2f4iSxSEE1uo+PyD8jEErxsfpy
-	 iinn8Wsp50quepdeETyIRDmtbmAzK86QSGCuoZb3Pav//JpcK8TZxscfhqGafcug3TEeT
-	 zj/OxihTayMig5tHEzDx40j+j0y+31z76wxkGMPBnbW55wdCa8/25O90gsYlPeDNwYFcm
-	 JSii0tNPDnrhrJUqEvRgAbB2dkMfF8VSutQAho0h2JTPxmW8JhoUniSr0/JYs43ud2zVP
-	 2dEtYtHFQvU7xMMUE5hs+x+b02q4xp2ak7WuWavOScFiOneHBOUrEp9FRjlslehOtvA==
+	bh=q2rA5jlFQ5oNsOaWrAqPmh3Zn9uZ0TYXSfi1U3ODhsI=;
+	b=msHYM6HJxNFQFKEhTDHDnbIfFqNGvjQRdAZqXT/GNs8wotz9A4KZpU2kgVuLDXeg/dTz
+	 ry6Kmdk90PNZVvXrmjtDcxLhML+f5vGHj823Yj2RdNhDFg6/aj+kWzET1+mnUKsc3cIbS
+	 LP0D38Alt42TKiPotootknb2nMo1XKIH/p4oNdQtryp8zYFRsycSfwuqpTuJUw76BraHr
+	 vrQNuhUJrAYCRp7E52njsswDzoJBvBr9Riuki2D6AeXr2xlgBBuXWwUHK1ED1OH+MmA+y
+	 SHswtM0jJQxrLBJcQyTUi8h56+9MGRPe0n+whVFzvQ5R8LfdWBG7KSn0KV4p7eoToLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ce1LVWL8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=irbXjNOU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBA2606A330
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 11:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491A5606A32C;
+	Thu,  5 Nov 2026 11:54:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ce1LVWL8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0502C1F00A15;
-	Thu,  5 Nov 2026 11:54:32 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=irbXjNOU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F20E1F000C1;
+	Thu,  5 Nov 2026 11:54:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793879673;
-	bh=LKdzzXLcFdU2/830KihE+FyKs8/m/M6rnLWPiz/5uMc=;
+	s=k20260515; t=1793879693;
+	bh=q2rA5jlFQ5oNsOaWrAqPmh3Zn9uZ0TYXSfi1U3ODhsI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Ce1LVWL8hvogAj5JT6Hufoa18RqScACBWXc17gCmfmdW6CW1+TvZ+ySSWJ3ch2J5a
-	 R2SpDw/bLIxDwM0tOjBGQ/rIHWzqebEqt664qp/6PE2UVb3AYhqgR5rm1pwQ5NNiHJ
-	 GBbdD8puEp7F8Yf+goz3UOH+YuUXm+By9aglEOCFGhdfzukU345bDzUcI2Oxq/yZbv
-	 udtA1RUM6eazDiJVCnc8L2yqm4n6kqt8JLHRHIilS4z/7dljo8krC3CFRMoKfnjaET
-	 kwuH/+lzYUM0vhqTFG9lj2CeNqQvRT2MHXWMUg2SgONRwVsFMf2svv9OBNaicqvh/C
-	 /V3VGibkdDJbQ==
-Message-ID: <sashiko-outbox-198975@kernel.org>
+	b=irbXjNOUiDpWM9K5MGVhu+lJ0fAsf+DYJcX6K7KmaDnI7a1yvkgd+I83Ccom4bgwp
+	 PWpmPQsig0YH7XK4tNcBt3rmi1TLL+MT6IuK8qmAVH8eXH4IvlKGuN7gRWmA3CsPzL
+	 F7inMghQj5QsEOghu/f1muMQb+N3HXRnV1e20PXXd/Gjm1GoF02jJdvVOyDCFVOfE4
+	 +gYUlNmZoPYVaSY+p7cVxhl4B2ECEBfah0RGFb6d9pjnZlwHyrVXOTZhE0fyt6eBOc
+	 TcXj2hHJ2Vv2ZW7SHQygEC5lbaC+e7KIUV4tPpwpUkkuJgIIwmXQjiuW+X6qHIEgCY
+	 WUHNdxX9zjWhg==
+Message-ID: <sashiko-outbox-198976@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: gadget: u_audio: call period elapsed under the
- stream lock
+Subject: Re: [PATCH 1/3] dma-buf: dma-fence: Add flags parameter to
+ dma_fence_init()
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yaohan Li" <shunsheng1218@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261105114309.970899-1-shunsheng1218@gmail.com>
-References: <20261105114309.970899-1-shunsheng1218@gmail.com>
+To: "Philipp Stanner" <phasta@kernel.org>
+Cc: virtualization@lists.linux.dev, linux-usb@vger.kernel.org, "Michael S.
+ Tsirkin" <mst@redhat.com>, "Eugenio Perez" <eperezma@redhat.com>
+In-Reply-To: <20261105113529.1989375-3-phasta@kernel.org>
+References: <20261105113529.1989375-2-phasta@kernel.org>
+ <20261105113529.1989375-3-phasta@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 11:54:32 +0000
+Date: Thu, 05 Nov 2026 11:54:53 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,41 +62,24 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> u_audio_iso_complete() drops the substream stream lock before
-> calling snd_pcm_period_elapsed(), which re-acquires it internally.
-> Between the unlock and the re-acquire, a concurrent close can run
-> through snd_pcm_drop(), finish the PCM release and free the runtime,
-> leaving the period notification to dereference a freed runtime
-> (runtime->fasync in snd_pcm_period_elapsed()).
+> Currently, there are two init functions for dma_fence, dma_fence_init()
+> and dma_fence_init64().
 >=20
-> Keep the stream lock across the period notification and use
-> snd_pcm_period_elapsed_under_stream_lock(), the API for exactly this
-> caller-held-lock case, so the callback's runtime access happens
-> inside a single locked section.
+> Since more future user options for dma_fence initialization would
+> require distinct init functions, too, it is better to do this in a
+> unified way.
 >=20
-> On final PCM release, snd_pcm_drop() takes the stream lock before
-> runtime detachment: an in-flight completion holding that lock
-> finishes before STOP can proceed.  The STOP trigger clears prm->ss,
-> so subsequent callbacks do not enter the running PCM path.  Runtime
-> detachment happens later and is not itself protected by the stream
-> lock.  On the gadget side, u_audio_stop_*() dequeues the requests
-> before the endpoint is freed.
+> Add a flags field to dma_fence_init(). Adjust all affected drivers,
+> preserving the old behavior.
 >=20
-> KASAN reported the use-after-free in u_audio_iso_complete() on the
-> unmodified kernel.  With the callback stalled inside the locked
-> section while a concurrent close ran, no use-after-free was reported
-> after this change.
+> Support the SEQNO64 flag, and add a check-function so that the user only
+> sets valid bits.
 >=20
-> This issue was investigated and the fix was developed with AI
-> assistance (ZCode/GLM-4).
->=20
-> Fixes: 773e53d50e227 ("usb: gadget: u_audio: remove cached period bytes v=
-alue")
-> Signed-off-by: Yaohan Li <shunsheng1218@gmail.com>
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105114309.9708=
-99-1-shunsheng1218@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105113529.1989=
+375-2-phasta@kernel.org?part=3D1
 
