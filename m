@@ -1,103 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793910721;
-	b=VaOlDJakU70t/EIrm5NZVLrFIO3l4B4aWcd0t0jlfbYqNF0Sc3OUCQ9JwMF8YYyIrAwZ
-	 SlAigu8PokO8ACGxj9p3oenTFwrnDyauq4AbKxx43Gf2g+7PGpqq4T5Mue6ZgmqaLiE4y
-	 KeBN6cAkoICwP9MErV0QgrvmNJ68Zca6l9AFHkCiBSuo8FPhSqlaOtRYLldDglEpKr/Dk
-	 hwYQgCsLsK9spAl0tW6XQMm3GLxKDfRHmtlGPsp7MgevXYjzZuBY0oo3BygXTOTsXMXSE
-	 gzxNYE+jz9uGaMfw9Mnw/d0wUO5Ff2N8oNDa8atmdJ+w4lXaJfsFhLO8WHcmDzoGlUA==
+	t=1793910784;
+	b=MNnWhiqUEqnleNlL+I2U4aTxe6zg929cQm7w0ANSpRFFbCPjiYGIr0W84jWQ8eyIWMxC
+	 dYOvaq0Q561eRaVB9Mf9nbaph45+JZoaCRy3Dypt/joAsE+eBil//8QkDYkToowdcNg76
+	 o7tHJB0sLCvp/P9mx77AqrtbXNRbYs9uLBEUVhK/Ppbfs5XmruzIPUCNKaaxk3deG4BfH
+	 wqnC/R4UXTBqFUaD37pYGHaMqa54TJTbNAMitO3mJjcitOGa/Lh7jJXISZaO1aH9pHzGE
+	 JR1chf4YzxYKrY8eWwQziUuxYaBl01L6yHPRCzEZ6trP6o8QIwOlZCrS9ULfBMSwv0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793910721;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=naL9ZYlGHpjK154MUN/eO3m7g6+A6qo1lAhYSkBJyWI=;
-	b=RtSDGrJJKsLvRCsOupW+nj/uTFWW2jOW5MsiAuzR+ga+fjijYTk14YLke4fx4CCWmX8A
-	 tTdD86ZrFf7JgakRI58vYtdZ93PWHx/vllZfNMBnwcN5V0mhtrzI9o3Am4LS+sVoW9hms
-	 O5QLjT+L+AR8+PCrR4wn/8AlVIsNQma2s5U6YD4YnMRJCaNMgKmD1eIxEb84buA1cUgMN
-	 pdYkTbtlwDB0JumrO9XE8ZgdSXve2OtLfiqZFJiCqs0l5+VbUyJ/oKSCTwRVX6ujttpVH
-	 ERsW9LEwjTfX4d8ktXvyVMMVLCFBnh2g77ya+EI8eQ9mqyy4dVaTfWA6Ipvtl5lDWbg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793910784;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=jIYSdDAT/fq5e9TIqP3VgSsPnw0BT8aJhl0gIkzIiQ8=;
+	b=ITJfPS0RsIlJYsIV3csefQIbvgPMLcYOsVIyQNHayz1bsbE5FWekso0TLh5tMwj+5Haz
+	 QzlkLbvQ3tUHY2cAP+0yOdoE5Sg69BOHBrvLVAuBJ6EgqcnOG3ygnIQ1rYDPRkRLZ5BtA
+	 3vyxE3hZVED4nJve6BpLTQPKkJP3ZtPPG8ecrL5a5G5GCE9/4PkD6qnK1YVapjEavI3Rh
+	 t3/eVZPeIT5m/3IwtIJmB3qWvcSPYbki9oa4vNfJoZBzCrw5/84cphdXGE/uQGdK1sB69
+	 2GCWXSPdbDRiYa5AUc2ULQee3xnLlgl5j3DTFEOCfvjl8wX/MatB2hNX0Z7wVx9PVlw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=QuEcehMG;
-	arc=none smtp.remote-ip=209.85.160.176
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D0K5CHW1;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02731606A326
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 20:32:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02731606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5B2606A330;
+	Thu,  5 Nov 2026 20:33:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=QuEcehMG
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-5366463571cso24143161cf.3
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 12:32:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1793910720; x=1794515520; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=naL9ZYlGHpjK154MUN/eO3m7g6+A6qo1lAhYSkBJyWI=;
-        b=QuEcehMGpMoP1K0IVbN/jVj5FL16+s94k5t0K2g5d5AuYxTOCh6G4Jz8w3y0e27Ot2
-         zjBFLHRAzM/Ti0n2KRuJaKiZ6olZN9GtZRXeHTVndUylx9APp6ow0YwbN7xjTxyx10zJ
-         kdOYN2vLpWaJFVSHUEHHJ1hmP19gmsD7CISX8rluknE01JEHFdBxhDChOCXZKhEPxxPl
-         v87bQoOa90cvKjHG3/jJXdY7C5Zm7dx6vyByYMIw0erq7zDu+/jRkawvk1sbni8vxpQW
-         vi1jBCewTx7IZ0PNMjwxUuVSUuI553Yxr1C6eovL76hM822B3OBk+EWb0+m3HwoCP2UL
-         hVQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793910720; x=1794515520;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=naL9ZYlGHpjK154MUN/eO3m7g6+A6qo1lAhYSkBJyWI=;
-        b=OYXmuc5joEUwVvEbhYYEJWs4vln8JQ6jDabqC5R7+mYvErlI/inIC0q4y8ubEKHLjC
-         o9MxxWmm5vyezZtl/+38aEkZbJCKuaSmM/yiKUg0gcSF3JmcmIbpk23Xwzmsf7tvLwWh
-         /Ad9Wf6HCwx04FtX+R/xAh27j7xiKKt5z75G7bAiEdOknz36CasHF1dmidi7LRCZsmXf
-         0EIPb8XV6AQjJbsPQcJFmIolx1d5dz2XNYrDSCtFfO42GkLmcWfFRdF4FUfRfcGHtPfa
-         yStVaHI+bHJJd7Q7N86o4jRCrrbUswLY/KM/NtADW4zjSW0+7FpTZ0rrMv3dgj7CZYx3
-         /nqA==
-X-Forwarded-Encrypted: i=1; AKwUvBwhtqYFzHEgBkmtirUuha5vG9B5H4JAQ2xwnidV+6ETilc+wm9u1VEAwl+g96FhE23G6lxAeeXPuuw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8IU/hZ7Q4ZlFM2MaiN2fW1QqXvZ7y04dsVtZO723TewWSx3Fut
-	EHq9vnwMo7fF0vPKHdw8QnMakeE2Bo2geEHFcDiTaTpVz4NQos3IuKp4CYtVdxWhHA==
-X-Gm-Gg: AYBFou1LB0Z0oLPKnQ7zvdHQP0kVyfJ0v8pHvmX1e3geZrdkzjQ59X0ajxiJz1m0RKc
-	K9O1h2Uxnwe6t5qecxJMkiKp6JJamrL8RqVjlwaJ2IlJ9fH82Lgx2MS3R7mhd0jhRDM7ausslk3
-	EqFMsoynZ0Ab8JFHv+OxfhhIKesnh0bj4X60difZSUhwADV4pY1EDutQetDRBtMgVkXsPvS7lUB
-	GsBA0GFWZBXQkOSct8nPCmlFKxNrPoqgN7xz03RCaye0Hg/imeZGjSVnfExmsY2VqErIKaiD8W2
-	ThdGTD3cfbRwlzvLB7ukRRrKGMuikkNL51+KSBpxbumBg3cVMrsjsEeOEJ88a2k5bSnAIW6gq9H
-	LPnBx2beeB80ng7eCp5dkFH06Aq50qhzl3OK3mL7lOcYUtDefBnDObUOCfwkNVupAY1wkayJhu1
-	G91eOwxhLpr57BUCyl7SJgHQNsrb8RCAzdWv1yMtKOcgnXXQSlg7ykq9rzgy1T2ZK4NwWX1I0g8
-	xi+rJfcn3F+Weor5QtCdhnuA0SvKeIHjqYBDAXx31CWBgxGGxx5akzd2PPtUWZSy62WiVRE3FPH
-	ncw1yEybLa+p3RZLJ2JWM2+YP+8x
-X-Received: by 2002:a05:622a:5a18:b0:535:85c0:fda2 with SMTP id d75a77b69052e-54e100e5826mr8821511cf.11.1793910719615;
-        Thu, 05 Nov 2026 12:31:59 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ea6a870dcsm3921886d6.30.2026.11.05.12.31.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 12:31:58 -0800 (PST)
-Date: Thu, 5 Nov 2026 15:31:56 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: James Clark <jjc@jclark.com>
-Cc: sashiko-reviews@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>, Bastien Nocera <hadess@hadess.net>,
-	Matthias Kaehlcke <mka@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Robert Nelson <robertcnelson@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] usb: core: add a pre_probe callback for device
- drivers that may defer
-Message-ID: <a0918852-57e6-42b3-9321-38d766a20025@rowland.harvard.edu>
-References: <cover.1793669297.git.jjc@jclark.com>
- <e96b91c85945237ca455869bf4d5a1e177358b54.1793669297.git.jjc@jclark.com>
- <sashiko-outbox-194542@kernel.org>
- <20261103053952.1138398-1-jjc@jclark.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D0K5CHW1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B102D1F0089F;
+	Thu,  5 Nov 2026 20:33:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793910783;
+	bh=jIYSdDAT/fq5e9TIqP3VgSsPnw0BT8aJhl0gIkzIiQ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=D0K5CHW1HbHowbUTxBTxlAxvGr9sElImvItyEM0o4MfiXR3lk0EU0YiwHaisFW5Lt
+	 u8L9poTHIgPTACX0gONP/WnZSUo4PJWXARLyoetHMsL9VWV2W7Kb7pUxigqmKt4lBl
+	 OnNvWjJX8iVwISEyJxpIfFx2JmOjiVH495Toi13kt4iaNE77csnCizICpD8Ss3C0eA
+	 Rr75Fb9deiWxCmxCAW647/9gtXlC8rBmqXxZlf0WkLbiqPS2aIQtpk0J9k9CaxMfDB
+	 l1EtjFVKtun6Ufkabk9GX6slDxUbyv8dbDVC9TAbv0h2Pye3vRZKYbqfVXQTXx3U1L
+	 bc8NJuOWrjL2g==
+Date: Thu, 5 Nov 2026 20:32:58 +0000
+From: Simon Horman <horms@kernel.org>
+To: Marco Crivellari <marco.crivellari@suse.com>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Michal Hocko <mhocko@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH net-next v5 6/6] net: usb: r8152: Move long delayed work
+ on system_dfl_long_wq
+Message-ID: <20261105203258.GA865646@horms.kernel.org>
+References: <20261102105703.111844-1-marco.crivellari@suse.com>
+ <20261102105703.111844-7-marco.crivellari@suse.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -107,70 +67,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261103053952.1138398-1-jjc@jclark.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261102105703.111844-7-marco.crivellari@suse.com>
 
-On Tue, Nov 03, 2026 at 12:39:52PM +0700, James Clark wrote:
-> On Tue, 03 Nov 2026 03:51:41 +0000, sashiko-bot@kernel.org wrote:
-> > First, when udriver->pre_probe(udev) returns -ENODEV (for example from
-> > onboard_dev_usbdev_pre_probe() -> _find_onboard_dev()), usb_probe_device()
-> > still calls usb_autoresume_device(udev) and usb_generic_driver_probe(udev)
-> > to configure the device, bind all child interface drivers (triggering
-> > deferred probing), and emit USB_DEVICE_ADD, only to immediately tear them
-> > all down a few lines later in the error == -ENODEV block via
-> > usb_generic_driver_disconnect(udev) and usb_autosuspend_device(udev).
+On Mon, Nov 02, 2026 at 11:56:56AM +0100, Marco Crivellari wrote:
+> Currently the code enqueue work items using {queue|mod}_delayed_work(),
+> using system_long_wq. This workqueue should be used when long works are
+> expected and it is a per-cpu workqueue.
 > 
-> This is deliberate, and documented in the @pre_probe kerneldoc. An
-> error from pre_probe() other than -EPROBE_DEFER is handled as if
-> probe() had returned it, after the generic probe has run. This keeps
-> the -ENODEV fallback to the generic driver working as it does for
-> probe(). For onboard_usb_dev nothing changes: its -ENODEV used to come
-> from probe().
+> The function(s) end up calling __queue_delayed_work(), which set a global
+> timer that could fire anywhere, enqueuing the work where the timer fired.
 > 
-> > Second, if udriver->pre_probe(udev) or udriver->probe(udev) fails with any
-> > other error (such as -EINVAL or -ENOMEM), usb_probe_device() jumps to
-> > err_pre_probe, which only calls udriver->disconnect(udev) and does not call
-> > usb_generic_driver_disconnect(udev) or usb_autosuspend_device(udev) to
-> > unwind the generic probe and runtime PM state. Because really_probe()
-> > clears udev->dev.driver to NULL when usb_probe_device() fails:
-> >
-> > - When udev is later unplugged, usb_disconnect() -> device_del() skips
-> >   usb_unbind_device() because udev->dev.driver is NULL, so
-> >   usb_notify_remove_device() (USB_DEVICE_REMOVE) is never sent. Subscribers
-> >   such as usbport_trig_notify() in drivers/usb/core/ledtrig-usbport.c never
-> >   remove the port entries added on USB_DEVICE_ADD, leaking struct
-> >   usbport_trig_port objects and sysfs attributes with a dangling port->hub
-> >   pointer to the freed struct usb_device, and usbdev_notify() in
-> >   drivers/usb/core/devio.c never runs usbdev_remove().
+> Unbound works could benefit from scheduler task placement, to optimize
+> performance and power consumption. Long work shouldn't stick to a single
+> CPU.
 > 
-> This was raised in Sashiko's review of v2. I missed that it can be fixed
-> when the device is unplugged. I will attempt to fix this in v4. I think
-> it can be fixed by recording in struct usb_device that USB_DEVICE_ADD
-> has been sent, and having usb_disconnect() send USB_DEVICE_REMOVE for a
-> device that has no driver.
+> Recently, a new unbound workqueue specific for long running work has
+> been added:
 > 
-> > - For drivers with supports_autosuspend = 1 (such as
-> >   onboard_dev_usbdev_driver), usb_probe_device() does not take a runtime PM
-> >   reference, and hub_configure() enables autosuspend on hub devices; once
-> >   the device suspends, usb_resume_device() fails with -ENOTCONN because
-> >   udev->dev.driver is NULL.
+>     c116737e972e ("workqueue: Add system_dfl_long_wq for long unbound works")
 > 
-> This is a pre-existing bug that is new in this review.
-> usb_suspend_device() does a generic suspend for a device without a
-> driver, but usb_resume_device() refuses to resume one. I don't know
-> why resume is refused. If a generic resume is safe there, that would
-> fix it.
+> Since the workqueue work doesn't rely on per-cpu variables, there is no
+> obvious reason that justify the use of a per-cpu workqueue. So change
+> system_long_wq with system_dfl_long_wq so that the work may benefit from
+> scheduler task placement.
 > 
-> > Third, if udriver->pre_probe(udev) succeeds and udriver->probe(udev) then
-> > returns -ENODEV, the error == -ENODEV block runs
-> > usb_generic_driver_disconnect(udev) and usb_autosuspend_device(udev) before
-> > err_pre_probe calls udriver->disconnect(udev), reversing the teardown order
-> > used in usb_unbind_device():
-> 
-> I will fix this in v4.
+> Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+> Cc: linux-usb@vger.kernel.org
+> Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
 
-This is all starting to sound very complicated and fragile.  Isn't there 
-any way to simplify it?
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-Alan Stern
