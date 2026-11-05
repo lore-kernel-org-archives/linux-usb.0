@@ -1,104 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.27
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793888646;
-	b=ebJ196OJpmg8ffeo50uA0ysICiWjvlfXuudvwjT12cQxgMolND6OZiG21ApE7Lne4liT
-	 lMBvCLUAcVXejWdlhQJcKc/TRb9QkTEsCDQPADQWEuJt4DknsH+qSFllW9iDqKkcTqBEX
-	 W0GHufGQO8fyPw0ZBVDdYheC9+/bxVzLewQFgptUTk5Paom+tQA4Vt0FLOGy9SOTNbM1R
-	 Ltn2Sa+AUQoz6veng0MCsFTlJXeXIfS20P1cfwpI10zWyoWnxHdLpDSjFLkZy6iGpGC7C
-	 bqN+7LpUnMJx+1HHdRYrbt57U2K2dMbzHHwyE/W8cJlvdsoh+hW4P9BKeeeUTjdAL6Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793888646;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=lKRyd6jPZ38O4z5cge9frYoPKfd8yqA+2zb6XL9yHDw=;
-	b=zkXaFpWvQf9skiBmNFOelv3iGDbM+Fp3A/+Y7XlpaKDiDX7HwqNMUgtaNGuy+q4oAmev
-	 gqmYqV3pP+mTc4cCiHonikvrm+wKMnxVytHPOvYlIZnUCaMAhKyEbPmRVfI4S8ER7Xh8o
-	 OwmVih+fIGV0p1OjrRtUXhWEm6xzQtPsuhG1AeCC+T04v58kgkjouh9FBUko+LWxvs3Jd
-	 9fIQcJN31sw521JEDFdZ0/IuhSwfexwK5T6BghqTKljbnbKV29ZNFT3rkQ7F7zpy5/Qt/
-	 Temgem03X75TnhfTWbFLoLIq25ZK6Cqsizijvy2biEcTRK0UW7PT3cAyvp28JUi68Pw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=EuPhVUPU;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.27
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010027.outbound.protection.outlook.com [52.101.46.27])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62F6606A31B;
-	Thu,  5 Nov 2026 14:24:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C62F6606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793888810;
+	b=lLkcs0CvCNBhu2N7zJdN05bnhiweoyqe12MXrFdY6OngzG6LQOVI13JkROKPNVCfyXym
+	 6FrEAHgyTK4n4W9e/o7LPB5g8QidxeSLT22LsJkhrYNdr0/Araw21tfXqVgMHID02OWpy
+	 g7uNgWsk+V8vxSKDS2NfC7jWyrwf8BewmWgc1dxdm+ZM/Ha/wAAcH6y/sSrH2qawoJWLe
+	 jOaF3KF5w+j4Cnf8515SMfw+nUn26aiiB42zOEuG/+/j7Fbjnp9o2+4P3vFv5ezMop5B9
+	 csL4MDlLJEbEFtIq2klIfs5dLTn8wZWPDwN/dAfPmkkcnHE1muD1NwertxGE989Og5Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793888810;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=8tdn6dFMYzvjD1/tcuOzz3T5ZY4fgIEe/XSJ/yOC0VU=;
+	b=lCx8OCW3LzeyYfCdkZwvOwZaGX8ZUJBPSmsW5ltm4Yb63wShO02CID3PsIbZnqVefRB+
+	 lnJc1Sn0lLQd5F03ddF79B6PS9ZAhMW5issZY4vk8Wc6PQPz7CEJ/Wedc3jrTPMaln9Jg
+	 zeScBcTmP1/H3e1Gg1h/pHCHdpM5uo6ckwuhQ10SnewFH4pEO71PGIEIq4p+74ya84T/u
+	 z3pKUCWqZIPhaqO2M5aThpto6Ok/FPi0d2gN66D6DGQU6wGpu8fg+NdjCgO5sU6BhYZM8
+	 V3dWxTB7ZBB6iiqCWVJpf/PrZevmPiK2hC1nMksolzky0Jh5vzGnDP8OnhjjoJsqSaA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=cJWAmd8Q;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4B04606A334;
+	Thu,  5 Nov 2026 14:26:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4B04606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=EuPhVUPU
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yTQ3lBP7t1HohBIxH0AxKro3SRKet1hE+wQ5PzLPI7+H99K1wz3a4pKvo2hb4WpbCkpGZnCCPrFMLxnu8O9+d0SGE+EcsIZHpPi166NYf+nGCfTncS2doKnrlew+a+s83vS0AiwNg4AmkeN0Q+iB/j06CYZF5b2HhcCaevENnsqZjbABGuvx7VSUXKj0RQDEM0j0crA2odfwRfuWwXrwMvFqIi0Q5Z41iagcBpECUbYq1uSnXbh6DH7eUVEZnC/zjqT2NofxwoLPt6Ae23I2x8zvwtm7uDjNbnnuDSGnfpTn45GhK9igkExvrshvodr/pmcm+Nzd3xHxLQw60kUCYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lKRyd6jPZ38O4z5cge9frYoPKfd8yqA+2zb6XL9yHDw=;
- b=awqBlvJ2NOd0+c0k24unn78+kCMb33PvFRi1dWF8f9b3RlGElLl3ZjpMrfcFgsiyvE8jJs2RgHTih2g0gph0BCckuAMecJ4KbtrImVaA/dsbbv6IFcP9X+Kgc7lBw+p0OQspc+CVHS39I3qc90bPCiLWpkrGhzmwQeTU/vT3By97VPJt0yv1+r0nmZ06bbhWer7MYcrjlt9P/1VLTvb+L/eFLsEGhjljcmoeFSUjnPcV2bQioS7n0SX6U5o//Yvmh7J8NNEkwXCUKlrjbbJoLEuORbsMnvMbvuPBIws8OWh9gW1u6AOE7UV/giudBRA1cia6c0Vv6P7uOJ5s0jAKOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lKRyd6jPZ38O4z5cge9frYoPKfd8yqA+2zb6XL9yHDw=;
- b=EuPhVUPUFDSXCSzpb/O5okXz68TN9xM1GftjG7fjBePou/nsV9J3SoBEU1KIhxaJ4sCZuTgfl/XgImBPmyXR0sSCB+qfODlZS+56Fj/0Gc75+IjDIG9XACcd7wW+QEQh5dU5/VH8ArBzHE58Wo4v6sz5NGgYCtZajLvMQWVOCPs=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB7523.namprd12.prod.outlook.com (2603:10b6:610:148::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
- 2026 14:24:02 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0592.009; Thu, 5 Nov 2026
- 14:24:02 +0000
-Message-ID: <e7943b6b-0f3a-4336-8a0b-306aa11c8d31@amd.com>
-Date: Thu, 5 Nov 2026 15:23:56 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dma-buf: dma-fence: Add flags parameter to
- dma_fence_init()
-To: phasta@kernel.org, Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- imagination@lists.freedesktop.org, lima@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <20261105113529.1989375-2-phasta@kernel.org>
- <20261105113529.1989375-3-phasta@kernel.org>
- <2f377d0f-2760-4465-ac68-b62210b33bd6@ursulin.net>
- <005b77fd-5bd2-4ae5-a0c0-cff3f1f6c680@amd.com>
- <f284e3b9501acca2cf41fd19409004de84a36e15.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <f284e3b9501acca2cf41fd19409004de84a36e15.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0085.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1e::9) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=cJWAmd8Q
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0B3A2168F;
+	Thu,  5 Nov 2026 06:26:46 -0800 (PST)
+Received: from [10.57.91.118] (unknown [10.57.91.118])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 130253F673;
+	Thu,  5 Nov 2026 06:26:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793888809; bh=S2PpLzqNd6JkA5UshEwL2dUlGxdSp5aBcBkcVghGE4w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cJWAmd8Q2UsNZWHQoK2zLyPyp1panymsoh5cGokf/cTF0mOzqj0pJ/HQKfw4vOOF6
+	 kcsPHroHUBVIkbtWoKbz4TQR8JeIK5Bn+5oJ0YbUt1S+GSWmGK7EJLSO3pkCjh1Ue/
+	 3QhpmR0AXAzkV765UiaqgUwErSvy04Af3Zj59n1k=
+Message-ID: <0438755d-dc1f-4c8c-b274-5555ef3d49a3@arm.com>
+Date: Thu, 5 Nov 2026 14:26:39 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -108,119 +53,179 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB7523:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec5a5c40-99f4-4e2e-b119-08df3b48704e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|23010399003|1800799024|376014|22082099003|6133799003|10067099003|18002099003|261026121527099003|56012099006|11063799006|4143699003|261021121427099003|261102123227099003;
-X-Microsoft-Antispam-Message-Info:
-	em4XYO2yBRkv3TPrZO9m5dOjdwSydqv1pRiSz4fLGp90mAQslFzUZPhQKp8HJDUmXH0BskJ7IT5reLK1Zq5C06JbVwjV0Tt0KTWDrEcAeddNJrB+rTW8TESR7wWBIQPLNput/KZ7ItE8V2CYXcxKa8HErwzzPX/8xoVGznoIRWbdDm0wRxH43RYWaxwyp+MDXhDx0Bko+GQr4l9RHtxgTfiYVs58t7QWQO4OVRfetNagjKOxzbf44pIW9TtiTLgOA5FhtiRRga7fmc8EwBYRO8i6EAQqyOnKhTNvfpLsPZS/C2dk5LxCyjF5UfjYbvHvu4PwF+pk63OYYxdA79HpKGdkV7A9raAwQLO6IJqmOIyTSzmnhjOnY3OeAh+e4bItE3pVF3KbkmzAl/6ZqDoYvaG8MFzP8TE+y5PL/gCPq/yXOe4FhEtpyd/Tvl64dCq9KOtsHI7TY0F0Kqy912RFE6O/IXS3/yzvkR+VXkmc5VjIVux91vDsXhsFk6gkze7Xov7m5/8jKNXyFZ5WdICgR3KBg8PGGgJsaRjSWX/yMS4ywRwj0+Ru76vqv2TG0zC0mw8A1cCDgNOmw0NiaMzHAffmb3pYVIfYeC3SjIv0MHNvdxtKMf20Oz03aF2A7NJhQStPYpgU1qT51HYat2MTVlMNTEcT5lMTkWteBOpxDeg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(23010399003)(1800799024)(376014)(22082099003)(6133799003)(10067099003)(18002099003)(261026121527099003)(56012099006)(11063799006)(4143699003)(261021121427099003)(261102123227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SXlJUGFwRFRuam5mZDNaZGVYYmJGNlFaaitwOUllQTB6TkM1R3RGL2lXVDdP?=
- =?utf-8?B?dVByVTg3QWRNdDhNRnNBMGd6YURpRzA0V3orczRpdEN3ZFdnRExtSzE2TVRN?=
- =?utf-8?B?K0ZwNEVTcU12TWZVZW1vcmwvbVdTVkFUemdKV1p6dWRTWVIrN2tKdTRyYzZt?=
- =?utf-8?B?cHdQRFgzSmYrRGtreFZ1RzcxQlVYWmY5d2w1aldmSnpRRUZZc3JaYkc4TjYr?=
- =?utf-8?B?WFYySVlzQ2JkQ0UxcXM3elVkblBSNStCMWRhRkc3bWprVk50YUcrLzErSnJa?=
- =?utf-8?B?YkVSSkZQUVlMUFJsYVUzUTVid0kvYkxVNDhIRkNDdG9acEdxYVkyc2hQbWx6?=
- =?utf-8?B?MFZoUGI3T2dkVTloY3RGRjNRamhTSlR5RElNYk5wcGpITjY0N1NMU2VUcE1T?=
- =?utf-8?B?Q3pFRlpUaUtZbmErOGFKVW5jRCtMSHBCRGhKU0ZzbUdpZERLOFYzTEZXbEJZ?=
- =?utf-8?B?cHNOam11Nm92clpQUzhnbVJGTE54UzJPTnpvU0tpaWhES090K25mTmN3c3I1?=
- =?utf-8?B?cTdpZ21SMjl0LzN4R0ZBVXFwa25VZjgyZERmL3FtMGVsOUFSa2FoS0I4T2xX?=
- =?utf-8?B?Q3QzYmxLWGFNcFNLWnJ3OWRRbFdCcXdMZ09NSmliRnN1QmZMeTlCN1dSTjJw?=
- =?utf-8?B?R0p0MEl3Y3FjVEJEbU5FaTNTU3cwbTFmWWJzM05BOXNiQUkxMVp1L29CTzIv?=
- =?utf-8?B?ajJiV1BWUUhzSEZiT2tJSnBZZ0hTUnNZUEN4N1N6SDZ4b3lpSDlkQnRTYVhH?=
- =?utf-8?B?RkhaaGFGR0lnMG02Wm9hNW1OZm5mVkQ0c2RGdkp0S3pSd3ErUmdiUHRsMm5r?=
- =?utf-8?B?cjNHRm9GS3ZyclhpZnFvMGNUSkZEVjIyNWRaVnRJZnFQK1NHdGxpNHBwN3V5?=
- =?utf-8?B?a1d5cjMwdXlMMlFLZVB0K1R3cFBXT01QdE5MZVFpQ25lLzQ4ck16aVIzMElH?=
- =?utf-8?B?TnQrMVpXYk45QVVPNlladEdVclBBSWVjdVNNd2JwWkdLSTVoTGFrMlpTcEF2?=
- =?utf-8?B?NG1rdmkvVGxNcHhYOC9LNkZVWmVZOEhibU50OVRRTStRU0ROanRpQU1iK0FV?=
- =?utf-8?B?bVFoY1IvUkNzdDB5OGg5M01nVjdoei9xVEFnTGxLS3gweDV6cEJtVGJ2dmE3?=
- =?utf-8?B?VGdnQ2g3aEt1R0ZsYjFkTUgzdHJidnRDM2dkKzI3TFJZVWZjUFdZQm05YUVr?=
- =?utf-8?B?aEszbGRBTklVcmIzZ1RyaHZqcmRIeTFFWnc4TCs1TlBoRUF6WCtyQ21MRmRL?=
- =?utf-8?B?ZGo3MHJBbG15UGJnUEtNT3hpVDl4cUZiSFhhNytGVmRPeVpqcEU4aHBwMy9z?=
- =?utf-8?B?cDMxWE9lOU85SlFoeTlJRGdKS05mcTlBL3Q4TnJFZUMwQnJMT3R6SXU2T25J?=
- =?utf-8?B?ckZGdjYxZzVlN0loWXRyUU0zRXZBNGtXTFk3UTlYcWR6a1lQL3Era21NM3FI?=
- =?utf-8?B?YXJib21TYytoQ2krRGVWZ3l5ZEVVSmVmY3ZuTlVoM0s2dEFVdE1zTWM3Ni9l?=
- =?utf-8?B?WkQyZ3EvbEcyd0NNcldnUVdIbDJFNG1JbDQxam4vd3hjKytVd05oSWJxZHVi?=
- =?utf-8?B?MVcxUTRYK1dBY2cxTDF3UjdjeWZmWllrVHZOb0ZQUCtjYzd6T01iR1RkSVI4?=
- =?utf-8?B?eWF6NjdTN0lhTm9tQlRUNC9obnloWTNuUzhISHJGaE5aRHArdGZxMG9TdUVl?=
- =?utf-8?B?S3ExeTRwNWFoNmRkNmdsN2FSM1JDaU15TUVIME9reStNUU9MY2lsTVJDMEg1?=
- =?utf-8?B?elBienlmcitpaE9SVThUR2FGblBtdjl6UklDdlNDeWhLd2huYWRHbUlueWxL?=
- =?utf-8?B?NXZaUVVxOE1MTlI5VUV1eDZOWnhqc2M4cDhTdGlJMU1kS1pvWVVqMVpLamsv?=
- =?utf-8?B?ZTVxUW9rQ3lVWmh0R1A0MCthRDJEVFFTYzVKTkZja0VIYXJQRDNpTkQ3QW5j?=
- =?utf-8?B?Rmkvd0NRcm42TW8rSHliWm5rQm81SWFtTVBIclRVTloxQ3FlR3dQTG9qVDdT?=
- =?utf-8?B?YmJtMWNodDlpZERnaFNiM25ESExSN3lKR1B6ME0xWkFzZW96Z2haMlhxcWZX?=
- =?utf-8?B?RUFYSVZZU3hkaXVPVUVUcllNNmRtSVZjakYvSE9nV3ZzTVEvenM0RUJJaWk0?=
- =?utf-8?B?enUwcFU2MjhyUUdmaUxTUVBWUkVVRnh0ZXRhZDdLdWwwd0h5cEllYUJqOG1M?=
- =?utf-8?B?bGplN052VnJWOHNnMHJFcS9SZ1VSWkxmeXhGbzdUWXhOZFNUdURuN1QvbFBP?=
- =?utf-8?B?MTl1SWJ1TXRHRFNBRTQ1dlE5SkhMZmVpbTVOaW5peklLaXBraGFURW53U3Fy?=
- =?utf-8?Q?t5aCMoyO0mSOb5LNGt?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec5a5c40-99f4-4e2e-b119-08df3b48704e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 14:24:01.9043
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8gut7kjbd5NTDxIdvP6ityKol10YUxTqhhdwlguD9tphlt2DkWnJS3/tYyaeX9Zj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7523
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/17] driver core: Expose device trust authorization
+ through sysfs
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Leon Romanovsky <leon@kernel.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+ David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
+ Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-input@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
+ Jason Gunthorpe <jgg@ziepe.ca>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-10-1e536825b4eb@nvidia.com>
+ <2026110514-bunkhouse-handset-6a3a@gregkh> <20261105132729.GB8298@unreal>
+ <2026110535-engulf-precut-cf10@gregkh>
+ <9d896ebb-6892-4cac-a7c5-41def47f0be0@arm.com>
+ <2026110556-sculpture-immovable-ca8b@gregkh>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <2026110556-sculpture-immovable-ca8b@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 11/5/26 13:48, Philipp Stanner wrote:
-> -Cc rust-for-linux, since it was typo'ed and now misses the thread anyways..
-> 
-> On Thu, 2026-11-05 at 13:35 +0100, Christian König wrote:
->> On 11/5/26 13:06, Tvrtko Ursulin wrote:
->>>
->>> [I aggresively rewrote the To: list because my SMTP won't let me
->>> send this as it was.]
->>>
->>> On 05/11/2026 11:35, Philipp Stanner wrote:
->>>> Currently, there are two init functions for dma_fence,
->>>> dma_fence_init()
->>>> and dma_fence_init64().
+On 2026-11-05 2:03 pm, Greg Kroah-Hartman wrote:
+> On Thu, Nov 05, 2026 at 01:59:20PM +0000, Robin Murphy wrote:
+>> On 2026-11-05 1:40 pm, Greg Kroah-Hartman wrote:
+>>> On Thu, Nov 05, 2026 at 03:27:29PM +0200, Leon Romanovsky wrote:
+>>>> On Thu, Nov 05, 2026 at 08:10:14AM -0500, Greg Kroah-Hartman wrote:
+>>>>> On Thu, Nov 05, 2026 at 01:42:23PM +0200, Leon Romanovsky wrote:
+>>>>>> From: Leon Romanovsky <leonro@nvidia.com>
+>>>>>>
+>>>>>> An initrd must authorize a disabled device after attestation even if a
+>>>>>> built-in driver already attempted to probe it.
+>>>>>>
+>>>>>> Expose requested trust_policy and read-only active trust. Allow explicit
+>>>>>> disabled policy to advance once to adversary or full, fixing that decision
+>>>>>> immediately. Reject later policy changes, including for a device claimed
+>>>>>> before registration, while allowing same-value writes on live devices.
+>>>>>> Keep initial unrestricted selection separate from explicit authorization
+>>>>>> and bind-time commitment. Serialize writes with probing under the device
+>>>>>> lock. Include the attributes in device ownership changes.
+>>>>>>
+>>>>>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+>>>>>> ---
+>>>>>>    Documentation/ABI/testing/sysfs-devices-trust |  51 +++++++++++++
+>>>>>>    MAINTAINERS                                   |   1 +
+>>>>>>    drivers/base/base.h                           |   6 ++
+>>>>>>    drivers/base/core.c                           |  15 +++-
+>>>>>>    drivers/base/trust.c                          | 102 ++++++++++++++++++++++++++
+>>>>>>    5 files changed, 174 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/Documentation/ABI/testing/sysfs-devices-trust b/Documentation/ABI/testing/sysfs-devices-trust
+>>>>>> new file mode 100644
+>>>>>> index 0000000000000..97e07a174769c
+>>>>>> --- /dev/null
+>>>>>> +++ b/Documentation/ABI/testing/sysfs-devices-trust
+>>>>>> @@ -0,0 +1,51 @@
+>>>>>> +What:		/sys/devices/.../trust
+>>>>>> +Date:		September 2026
+>>>>>> +Contact:	driver-core@lists.linux.dev
+>>>>>> +Description:
+>>>>>> +		(RO) The active trust level for the device. The values are
+>>>>>> +		"disabled", "adversary", and "full". Driver core resolves
+>>>>>> +		the level before DMA configuration and probe, and retains it
+>>>>>> +		through removal and DMA cleanup. Outside a bind transaction
+>>>>>> +		the level is "disabled". This does not imply that policy is
+>>>>>> +		writable or that the device has never operated.
+>>>>>> +
+>>>>>> +What:		/sys/devices/.../trust_policy
+>>>>>> +Date:		September 2026
+>>>>>> +Contact:	driver-core@lists.linux.dev
+>>>>>> +Description:
+>>>>>> +		(RW) The requested trust policy for the device. The initial
+>>>>>> +		value may be selected by the bus before the device is
+>>>>>> +		registered; otherwise it is "default". The policy is resolved
+>>>>>> +		to an active trust level before the device is probed.
+>>>>>> +
+>>>>>> +		The values are "default", "disabled", "adversary", and
+>>>>>> +		"full". "default" lets the bus select the active trust level.
+>>>>>> +		"disabled" prevents a functional driver from binding.
+>>>>>> +		"adversary" requests operation with the restrictions that the
+>>>>>> +		bus and DMA layers can enforce for a potentially malicious
+>>>>>> +		device; it does not isolate DMA by itself. "full" requests
+>>>>>> +		normal operation.
+>>>>>> +
+>>>>>> +		Before an operating level is committed, policy may change
+>>>>>> +		freely until "disabled" is selected. Explicit "disabled"
+>>>>>> +		blocks binding while allowing a later write of "adversary" or
+>>>>>> +		"full". Repeated rejected probes preserve this opportunity.
+>>>>>> +		Authorization immediately fixes the requested policy.
+>>>>>> +		Returning to "default" or "disabled", or selecting another
+>>>>>> +		mode, fails.
+>>>>>> +
+>>>>>> +		Successful resolution to an allowed level commits policy
+>>>>>> +		and operating level before driver or DMA setup. Both remain
+>>>>>> +		fixed for the device object's lifetime, including through
+>>>>>> +		failed or deferred probes, unbind, reset, and driver reload.
+>>>>>> +		Later binds must resolve to the same level, including when
+>>>>>> +		the policy is "default". A resolver error or disabled result
+>>>>>> +		before commitment leaves the policy's writability unchanged.
+>>>>>
+>>>>> I understand you are aproaching this from a PCI point-of-view, but many
+>>>>> busses do not care or have DMA at all, and need to actually talk to the
+>>>>> device before being able to even "add" it to the kernel.  So you are
+>>>>> making a driver core-specific policy based on mentioning DMA here, when
+>>>>> really that should only be a bus-specific thing, right?  Some busses
+>>>>> might require DMA to happen (i.e. USB needs their host controllers to
+>>>>> use DMA to even talk to the device at all).
+>>>>>
+>>>>> So can this be written to be more vague and generic and then put the
+>>>>> specifics in the bus-specific portion?
 >>>>
->>>> Since more future user options for dma_fence initialization would
->>>> require distinct init functions, too, it is better to do this in
->>>> a
->>>> unified way.
+>>>> Yes, of course. The main point is that drivers must not communicate with
+>>>> or configure hardware before attestation is approved. DMA is the PCI
+>>>> way to communicate with hardware.
 >>>
->>> Why not add something like dma_fence_init_flags() and leave the 99%
->>> of the callers out of the (huge) diff? Ie. just port
->>> dma_fence_init64() to dma_fence_init_flags().
+>>> That's a very vague statement of "must not communicate with".  Busses
+>>> HAVE to talk to the device to determine what the device even is before
+>>> it can add it to its internal bus list.  That's just how the hardware
+>>> works, you can't say "no talking at all" otherwise that means that you
+>>> never even know if a device is there (and for some busses, you'll miss
+>>> the device entirely as they can only be found when the "host controller"
+>>> tells the kernel that a device showed up, not later by manually
+>>> scanning.)
+>>>
+>>> Think about reading PCI device ids, or USB configuration information,
+>>> that's a bus-core thing.  Are you really thinking that non of this can
+>>> be read from a device under this "policy"?
 >>
->> Well one advantage of the Linux kernel is to avoid such wrappers. I
->> think having more than one function for the same thing basically just
->> adds more confusion.
+>> Yup, and that's true even in the PCI TDISP case - there's a major amount of
+>> "communication" and "configuration" involved in that. The principle which
+>> should (hopefully) generalise is that a bus/host controller driver can
+>> always interrogate its child device to perform whatever attestation and
+>> general configuration is appropriate, but we won't hand off any _control_ of
+>> that device to a specific device driver (nor enable potentially-impactful
+>> bus-level features like DMA, interrupts, etc. if relevant) without the
+>> requisite agreement between the bus code and the user.
 > 
-> Do you think all future users would want SEQNO64 by default, btw?
+> I agree, that's fine, the bus core should always be able to talk to the
+> device, the "barrier" is where the device is handed to a driver for that
+> bus.  That's what I'm trying to say here, DMA is often needed before
+> that can ever happen, so no claims of "no dma is happening" should be
+> here.
 
-I was considering to invert the flag meaning, e.g. have SEQNO32 instead of SEQNO64.
+For the case of USB and co. it's also still fine - just perhaps wants 
+some clearer wording - since the endpoint itself is not performing DMA 
+operations. It might send some message which causes the host controller 
+device to DMA to/from a buffer owned by the host controller driver, but 
+that's perfectly OK since the host controller itself is not on its own 
+bus, and must have already been accepted by the PCI/platform/whatever 
+code to get to that point.
 
-But as I recently learned even on brand new x86 Intel CPUs you can do non 64bit aligned 64bit writes (yeah x86 architecture!) and PCIe devices see that as two 32bit writes to system memory which might or might not read coherently.
+Now if we had some bonkers kind of bus where the only way to identify an 
+endpoint was to give it DMA addresses to have it read a command 
+descriptor and write out its own data directly, then indeed there would 
+be little hope of being able to enforce much of a trust model for that...
 
-So assuming all future HW will be 64bit is clearly not possible.
-
->>
->> That's also why I would really like to just have one
->> dma_fence_signal() and not like five (or was it four?) variants.
-> 
-> It should be dma_fence_signal(fence, error), anihilating
-> dma_fence_set_error(), which is just another massive incentive to add
-> race conditions.
-
-Yeah I'm largely in favor of that as well.
-
-Regards,
-Christian.
-
-> 
-> 
-> P.
-
+Thanks,
+Robin.
