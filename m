@@ -1,57 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.221
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793862881;
-	b=duaShmqm7utpSctY23tC73qEOoqHWzFZSzrxEITCtgGJ2HjGkvjXAaz2TlcPpazNtP0s
-	 pemYS3oYFQHBwzlPPtyWZHMEjOCB06bh/BwKv+1ZVj2ch8fRQprnIHEaoHoASDHHIRCrU
-	 pSK+v9XREYBcP0KD/2CBI428jjko3A8vxJJJLuQKy5QAeLrDj19Pj2sKcOOpJULDG8Nj2
-	 XfTUpjOvUaRzteduO46XeDTyagf8tb09Zqp8lOQuMrTpaj93uF4FAejsxwpy35smtlNUC
-	 OXrZtxtTxT3jLTyVMQMqIOGFoYN8IDNUIWS+aIFkEVToVjHD04zuOhb/7D93GYGqvkg==
+	t=1793863323;
+	b=T0KK6AS76SPHrId524UnTkM3cm/DScw+JLhHhX0Ch/hUQWiotcVbS30kFv4yWb9KGmlV
+	 yJ6jKgp6PDo/cVYr8S2jkXxzsIOiZOt0/ZzyxB67oHUC+Qdi+sRFsoDMVHMfSBgr8hifI
+	 UNJP4iAdJV6HvLCKSZN1Tdy8ObJPoMYiF6aCkwHdXMYhhcRHy9pGKIhkXOxcLy6vKy6Le
+	 ePxOMHclshh0ZEB0UEb9MvOFX8hjf+iVkqOB9JtKY+yjRdL94D3sk6omMmgTVOeTJzqh/
+	 ECflmnFQHGI+E/rlc5r2PM/hhaG//Cir97iJYP+szHNmQ/7kmbUZULyCi9njddWesJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793862881;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=q8u/Nr/gio6arwfjgojdzXFmE5JtpPv+DVS96BIEvWI=;
-	b=aHykyQcvivh1+WnP2/n9s0uT8s/zeTBb7/6ipNvQvgSFwy4W9bBMVmBIzp3FwtaCwtXk
-	 U2PLeOMxDmVd/RYSjytHMg5HvUkrErO/WSTMF4VfBLWzQh/5mygMThINXJiSM36AgSi8o
-	 dk9j6OU9nfsF5YodM88jIE5qY83Qf9+VOXwBYlZBndHz4Ty8jCsDVkBg/nAjBGtrvX8k9
-	 ncXDqerjw3Cikr4W7BApv5o/ILHJjQgpxXDNhGJapxGzzTWIw+z4nuXZKzMnzzaiucrFs
-	 96EJF5C4q9hWGQbALCLIaQojCAwJeg/43Tz7b8a2PoXfw+5BokTzujKJ6f27qCUZKHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793863323;
+	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=+sLo2zCk/sgU/5Tgxed98PhNYwFZu+lKFO4K1VFEzgc=;
+	b=Fw0bbVWE3VYHHXROjobtm23NR8UarQzvAkMqDQuvddxv0PkOwv/jCt9iyEgn1TI9FP6I
+	 JDBlKC595cZ9rY0bZrGwJNfiFNJNK9afcmaNaRpT4QOGJclSB3yOdElbxNoeANaek9/Vy
+	 iXclz++unQliVinuqO8tga5w6d/MDAQNIpgy5jpLmRZWj8Hw0wXFYhH/K4v4pCzPvMhIE
+	 CBX163TUOoWeHDGRDISsC406QWpGBnlMs9xfbR3ca14L4wya/8aAZRwQJKz8/QqEaQ7o5
+	 iLQyQt06IjeCnaAqyztCffDTpsJbIGCyfU0vJkAurvSlFyj/XCu2WPRbaOHscxXh5xw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="GoM/WR31";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=xiaopeng.com;
+	spf=pass smtp.mailfrom=xiaopeng.com;
+	dkim=pass header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=p01lO0KC;
+	arc=none smtp.remote-ip=115.124.28.221
+Received: from out28-221.mail.aliyun.com (out28-221.mail.aliyun.com [115.124.28.221])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1C1606A31B
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 07:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B423D606A32E;
+	Thu,  5 Nov 2026 07:22:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B423D606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GoM/WR31
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C35E81F000C1;
-	Thu,  5 Nov 2026 07:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793862880;
-	bh=q8u/Nr/gio6arwfjgojdzXFmE5JtpPv+DVS96BIEvWI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GoM/WR31lTyPMbl3nCIxJkpKpAeYbjyu+HrnoHZ6qS4KlBwJGP5K36brdVcrUu3f6
-	 ih1SW5tKYWPEWuYeSPCFyCQL9vxdfcvry1xkiCX4hhMXXwtkG6HvYx5DA+9qSZ5eJs
-	 QLg4PC+XHNxkOmKRN1Sm/P7p4yloDq/6BEBZPxEjviR8mNjZ5EYucOMsRvlJPLSxeP
-	 aOiKYe/d0+j6HohP/XcXJLB0YeE6jxvLTiOOvXaXEDdvQnohHPIO6APjnWFQHokynv
-	 62kmpNMBijfRuwJESnYmKA80rZaqT0gJ2xW56e2eDKnTcBiavMSyQNBiQiHoN5yiKO
-	 BgWCvFE6tQMfA==
-Message-ID: <sashiko-outbox-198647@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] usb: usbfs: Require claiming a hub interface for hub
- class requests
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "YuanZhe Liu" <25031212351@stu.xidian.edu.cn>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261105065627.5626-1-25031212351@stu.xidian.edu.cn>
-References: <20261105054333.7811-25031212351@stu.xidian.edu.cn>
- <20261105065627.5626-1-25031212351@stu.xidian.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 07:14:40 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=p01lO0KC
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xiaopeng.com; s=default;
+	t=1793863313; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=+sLo2zCk/sgU/5Tgxed98PhNYwFZu+lKFO4K1VFEzgc=;
+	b=p01lO0KCiI+gvBqvSNF3zIIna4SxG+UH65lJ6z8mYqefbwvHk0Ek53YN32P4Pqi/uu9DTeviXS6M2rVV+BixHBdM2HB7WBmWjZ755MJ1NKoM/qRnJ0L9CnO9butxqg/Ws5ed/hxf0ESGNwGKkT3u5T20OmAdBK1VxhgJ2wT4PLA=
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436284|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.00409698-7.81501e-05-0.995825;FP=17344617813841087664|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033023087102;MF=liuc63@xiaopeng.com;NM=1;PH=DS;RN=15;RT=15;SR=0;TI=SMTPD_---.jxPfot3_1793863310;
+Received: from localhost(mailfrom:liuc63@xiaopeng.com fp:SMTPD_---.jxPfot3_1793863310 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Thu, 05 Nov 2026 15:21:51 +0800
+From: Liu Chao <liuc63@xiaopeng.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	khtsai@google.com,
+	fangxy@xiaopeng.com,
+	Randy Dunlap <rdunlap@infradead.org>,
+	dbrownell@users.sourceforge.net,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [PATCH v3 2/2] usb: gadget: u_ether: fix out-of-bounds read in get_ether_addr
+Date: Thu,  5 Nov 2026 15:21:47 +0800
+Message-ID: <20261105072147.3383565-3-liuc63@xiaopeng.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20261105072147.3383565-1-liuc63@xiaopeng.com>
+References: <20261105072147.3383565-1-liuc63@xiaopeng.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,259 +72,133 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
-- [High] usb: usbfs: check_ctrlrecip() port ownership check allows hub unbi=
-nd race
-- [High] usb: usbfs: check_ctrlrecip() hub check bypasses interface and ep =
-checks
-- [High] usb: usbfs: unserialized hub control URB and port_owner bypass in =
-check_ctrlrecip()
-- [Medium] usb: usbfs: hub_interface_number() returns array index instead o=
-f ifnum
---
+get_ether_addr() walks the MAC address string with a fixed six iteration
+loop, calling hex_to_bin() twice per iteration, and never checks for the
+terminating NUL.  A short string therefore makes it read past the end of
+the buffer.  The dev_addr and host_addr module parameters of the legacy
+gadget drivers are copied into their own kmalloc'ed buffer by
+param_set_charp(), so the overrun crosses a slab boundary and KASAN
+reports it at insmod time:
 
-commit 1f77616af0c7f5d12550f1a327a5a04f16360e0d
-Author: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+  # insmod g_ether.ko dev_addr=ab
 
-usb: usbfs: Require claiming a hub interface for hub class requests
+  BUG: KASAN: slab-out-of-bounds in get_ether_addr+0x1ec/0x230
+  Read of size 1 at addr ffff888009f91f53 by task insmod/70
+  ...
+   get_ether_addr+0x1ec/0x230
+   gether_set_dev_addr+0x6b/0x180
+   eth_bind+0xfd/0x3b0 [g_ether]
+   composite_bind+0x1bb/0x7b0
+   gadget_bind_driver+0x229/0xb00
+  ...
+  Allocated by task 70:
+   __kmalloc_noprof+0x1d1/0x4a0
+   param_set_charp+0x4a/0x220
+   parse_args+0x267/0x5c0
+   load_module+0x4f6a/0x6600
+  ...
+  The buggy address is located 0 bytes to the right of
+   allocated 19-byte region [ffff888009f91f40, ffff888009f91f53)
 
-This commit updates check_ctrlrecip() in usbfs to require the hub interface
-to be claimed before sending non-GET control requests to a hub, while
-allowing USB_RECIP_OTHER requests to ports claimed by the caller through
-USBDEVFS_CLAIM_PORT.
+Besides reading past the end of the string, the loop ignores what
+hex_to_bin() returns: it yields -1 for a character that is not a hex
+digit, and that value is shifted and OR'ed into dev_addr unchecked, so a
+malformed address can be accepted as a valid one and the interface comes
+up with an address that nobody asked for:
 
-> diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-> index 101cb94254809..81085bfed4c10 100644
-> --- a/drivers/usb/core/devio.c
-> +++ b/drivers/usb/core/devio.c
-> @@ -878,10 +878,36 @@ static int findintfep(struct usb_device *dev, unsig=
-ned int ep)
->  	return -ENOENT;
->  }
-> =20
-> +/*
-> + * Return the interface number through which the hub driver drives this
-> + * device, or -1 if it is not a hub.  Hubs match the driver by device cl=
-ass
-> + * or by interface class, and a hub embedded in a composite device uses =
-the
-> + * latter.
-> + */
-> +static int hub_interface_number(struct usb_device *dev)
-> +{
-> +	struct usb_host_config *config =3D dev->actconfig;
-> +	int i;
-> +
-> +	if (dev->descriptor.bDeviceClass =3D=3D USB_CLASS_HUB)
-> +		return 0;
-> +	if (!config)
-> +		return -1;
-> +	for (i =3D 0; i < config->desc.bNumInterfaces; i++) {
-> +		struct usb_interface *intf =3D config->interface[i];
-> +
-> +		if (intf && intf->cur_altsetting &&
-> +		    intf->cur_altsetting->desc.bInterfaceClass =3D=3D USB_CLASS_HUB)
-> +			return i;
-> +	}
-> +	return -1;
-> +}
+  # insmod g_ether.ko dev_addr=aazz:cc:dd:ee:ff
+  # cat /sys/class/net/usb0/address
+  aa:ff:cc:dd:ee:ff
 
-[Severity: Medium]
-Should hub_interface_number() return
-intf->cur_altsetting->desc.bInterfaceNumber instead of the loop index i?
+The configfs dev_addr and host_addr attributes of the ECM and NCM
+functions reach the same parser through gether_set_dev_addr() and
+gether_set_host_addr().  Their store handler passes the whole configfs
+buffer on, so an overrun there stays inside the same object and is never
+reported, but a malformed address is silently accepted all the same.
 
-In checkintf() and claimintf(), the ifnum parameter is a USB interface
-descriptor's bInterfaceNumber: ps->ifclaimed is indexed by bInterfaceNumber,
-and claimintf() resolves the interface via usb_ifnum_to_if(dev, ifnum):
+Replace the open coded loop with parse_mac_pton() for the delimited
+notations and hex2bin() for the raw one, and keep the existing
+eth_random_addr() fallback for everything both of them reject.
+parse_mac_pton() checks the length and every digit before writing
+anything to dev_addr, and hex2bin() stops at the first character that is
+not a hex digit, which the NUL terminator is, so neither reads past the
+end of the string.
 
-drivers/usb/core/usb.c:usb_ifnum_to_if() {
-	...
-	for (i =3D 0; i < config->desc.bNumInterfaces; i++)
-		if (config->interface[i]->altsetting[0]
-				.desc.bInterfaceNumber =3D=3D ifnum)
-			return config->interface[i];
-	...
-}
+The notations that keep working are the byte pair ones, ':' and '.', in
+any mixture, and the separator-less "aabbccddeeff".  What stops working
+is the Cisco notation "aabb.ccdd.eeff" and irregular groupings such as
+"123456:789abc", which the old loop only accepted because it skipped a
+delimiter wherever it happened to find one.  Supporting them would need
+a parser per grouping, so such input now falls back to a random address.
 
-Because config->interface[] is stored in descriptor parse order rather than
-indexed by bInterfaceNumber (which is why findintfep() right above returns
-alts->desc.bInterfaceNumber), returning i or a hardcoded 0 when
-bInterfaceNumber differs from the array index causes checkintf(ps, hub_ifnu=
-m)
-to test the wrong bit in ps->ifclaimed and call claimintf(ps, i) on an
-unrelated interface or fail with -ENOENT.
+Select GENERIC_NET_UTILS so that parse_mac_pton() is built in.
 
-Also, if dev->descriptor.bDeviceClass =3D=3D USB_CLASS_HUB while dev->actco=
-nfig
-is NULL (for example in USB_STATE_ADDRESS), returning 0 before checking
-!config causes checkintf() to reject the transfer with -EHOSTUNREACH.
+The loop is older than the git history: it is already present in
+drivers/usb/gadget/ether.c in commit 1da177e4c3f4 ("Linux-2.6.12-rc2")
+and was copied into u_ether.c by commit 2b3d942c4878 ("usb ethernet
+gadget: split out network core"), hence no Fixes tag.
 
-> +
->  static int check_ctrlrecip(struct usb_dev_state *ps, unsigned int reques=
-ttype,
->  			   unsigned int request, unsigned int index)
->  {
->  	int ret =3D 0;
-> +	int hub_ifnum;
->  	struct usb_host_interface *alt_setting;
-> =20
->  	if (ps->dev->state !=3D USB_STATE_UNAUTHENTICATED
-> @@ -891,6 +917,23 @@ static int check_ctrlrecip(struct usb_dev_state *ps,=
- unsigned int requesttype,
->  	if (USB_TYPE_VENDOR =3D=3D (USB_TYPE_MASK & requesttype))
->  		return 0;
-> =20
-> +	/*
-> +	 * A hub driver owns the ports and the devices behind them.  Letting
-> +	 * userspace change hub or port state behind its back, for example
-> +	 * with a SET_FEATURE(PORT_SUSPEND) request while the hub interface is
-> +	 * being released, is not safe: the request is passed down to the HCD,
-> +	 * which may walk per-device state that is being torn down at the same
-> +	 * time.  Port requests use USB_RECIP_OTHER, hub-wide ones use
-> +	 * USB_RECIP_DEVICE.  A port claimed with USBDEVFS_CLAIM_PORT belongs to
-> +	 * the caller though, and the hub driver leaves devices on such a port
-> +	 * alone, so requests for it are allowed.
-> +	 */
-> +	hub_ifnum =3D hub_interface_number(ps->dev);
-> +	if (hub_ifnum >=3D 0 && (requesttype & USB_DIR_IN) =3D=3D 0 &&
-> +	    !((requesttype & USB_RECIP_MASK) =3D=3D USB_RECIP_OTHER &&
-> +	      usb_hub_port_is_owned(ps->dev, index & 0xff, ps)))
-> +		return checkintf(ps, hub_ifnum);
+Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
+---
+v3: fall back to hex2bin() so that the separator-less notation keeps
+    working, as suggested by Andy; drop the Fixes tag, the loop predates
+    the git history.
+v2: rework on top of parse_mac_pton(), add the KASAN report and the
+    malformed address example, select GENERIC_NET_UTILS, drop Cc: stable
+    and the Reviewed-by.
+Link: https://lore.kernel.org/all/20261104025058.2650911-3-liuc63@xiaopeng.com/
 
-[Severity: High]
-Does returning checkintf(ps, hub_ifnum) early here bypass the recipient
-checks for USB_RECIP_INTERFACE and USB_RECIP_ENDPOINT below?
+ drivers/usb/gadget/Kconfig            |  1 +
+ drivers/usb/gadget/function/u_ether.c | 18 ++++++++----------
+ 2 files changed, 9 insertions(+), 10 deletions(-)
 
-When hub_ifnum >=3D 0 and (requesttype & USB_DIR_IN) =3D=3D 0, check_ctrlre=
-cip()
-immediately returns checkintf(ps, hub_ifnum) for all recipients instead of
-restricting the hub check to USB_RECIP_DEVICE and USB_RECIP_OTHER (or falli=
-ng
-through to the switch statement):
+diff --git a/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
+index 76521555e3c1..b83c42be686b 100644
+--- a/drivers/usb/gadget/Kconfig
++++ b/drivers/usb/gadget/Kconfig
+@@ -158,6 +158,7 @@ config USB_U_SERIAL
+ 
+ config USB_U_ETHER
+ 	tristate
++	select GENERIC_NET_UTILS
+ 
+ config USB_U_AUDIO
+ 	tristate
+diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+index 59d85d6a84a8..deedea8a19fd 100644
+--- a/drivers/usb/gadget/function/u_ether.c
++++ b/drivers/usb/gadget/function/u_ether.c
+@@ -686,18 +686,16 @@ static int eth_stop(struct net_device *net)
+ static int get_ether_addr(const char *str, u8 *dev_addr)
+ {
+ 	if (str) {
+-		unsigned	i;
++		bool valid;
+ 
+-		for (i = 0; i < 6; i++) {
+-			unsigned char num;
++		/* Try the delimited formats first */
++		valid = parse_mac_pton(str, dev_addr, ".:");
++		if (valid && is_valid_ether_addr(dev_addr))
++			return 0;
+ 
+-			if ((*str == '.') || (*str == ':'))
+-				str++;
+-			num = hex_to_bin(*str++) << 4;
+-			num |= hex_to_bin(*str++);
+-			dev_addr [i] = num;
+-		}
+-		if (is_valid_ether_addr(dev_addr))
++		/* Fall back to the raw format */
++		valid = hex2bin(dev_addr, str, ETH_ALEN) == 0;
++		if (valid && is_valid_ether_addr(dev_addr))
+ 			return 0;
+ 	}
+ 	eth_random_addr(dev_addr);
+-- 
+2.50.1
 
-drivers/usb/core/devio.c:check_ctrlrecip() {
-	...
-	index &=3D 0xff;
-	switch (requesttype & USB_RECIP_MASK) {
-	case USB_RECIP_ENDPOINT:
-		if ((index & ~USB_DIR_IN) =3D=3D 0)
-			return 0;
-		ret =3D findintfep(ps->dev, index);
-		...
-		if (ret >=3D 0)
-			ret =3D checkintf(ps, ret);
-		break;
-
-	case USB_RECIP_INTERFACE:
-		ret =3D checkintf(ps, index);
-		break;
-	}
-	return ret;
-}
-
-Note also that hub_probe() in drivers/usb/core/hub.c rejects devices with
-hdev->actconfig->desc.bNumInterfaces > 1. On a multi-interface composite
-device containing a USB_CLASS_HUB interface alongside other interfaces:
-
-1. A caller that claims only the (unbound) hub interface gets 0 from
-checkintf(ps, hub_ifnum) and bypasses checkintf() for all other interfaces
-and endpoints on the device, allowing OUT control requests to interfaces
-bound to kernel drivers or disallowed by ps->interface_allowed_mask.
-
-2. Conversely, a caller that claimed a non-hub interface cannot send
-non-vendor USB_RECIP_INTERFACE or USB_RECIP_ENDPOINT OUT requests to its own
-claimed interface or endpoint without also claiming hub_ifnum.
-
-3. Even on a single-interface hub where hub_ifnum is claimed, OUT requests
-with USB_RECIP_INTERFACE or USB_RECIP_ENDPOINT specifying a non-existent
-interface or invalid endpoint in wIndex return 0 instead of failing with
--ENOENT or -EINVAL in checkintf(ps, index) or findintfep(ps->dev, index).
-
-[Severity: High]
-As reported by Sashiko on v2 [1], can a SetPortFeature(PORT_SUSPEND) control
-request still race with USBDEVFS_DISCONNECT_CLAIM and trigger the
-use-after-free of xhci_virt_device in xhci_stop_device()?
-
-There appear to be two ways this race can still happen:
-
-First, through the usb_hub_port_is_owned() exemption in check_ctrlrecip().
-The comment and commit message state that the hub driver does not connect
-devices to a port claimed with USBDEVFS_CLAIM_PORT, but in
-drivers/usb/core/hub.c, usb_hub_claim_port() only works while the hub driver
-is bound and does not check or disconnect an existing port_dev->child:
-
-drivers/usb/core/hub.c:usb_hub_claim_port() {
-	int rc;
-	struct usb_dev_state **powner;
-
-	rc =3D find_port_owner(hdev, port1, &powner);
-	if (rc)
-		return rc;
-	if (*powner)
-		return -EBUSY;
-	*powner =3D owner;
-	return rc;
-}
-
-Furthermore, if a device is connected to a claimed port later,
-hub_port_connect() still allocates udev, calls hub_port_init() ->
-xhci_alloc_dev() (which allocates xhci->devs[slot_id] and sets
-port->slot_id), sets port_dev->child =3D udev, and calls usb_new_device(ude=
-v);
-port_owner only causes usb_device_is_owned() to skip configuration selection
-and interface driver probing on the child device. When the caller sends
-SetPortFeature(PORT_SUSPEND) on that claimed port via do_proc_control() or
-proc_do_submiturb(), check_ctrlrecip() sees usb_hub_port_is_owned() =3D=3D =
-true
-and skips checkintf(ps, hub_ifnum). Once do_proc_control() drops
-usb_lock_device(dev) before usbfs_start_wait_urb(), a concurrent
-USBDEVFS_DISCONNECT_CLAIM on the hub interface unbinds the hub driver via
-hub_disconnect() -> hub_quiesce():
-
-drivers/usb/core/hub.c:hub_quiesce() {
-	...
-	if (type !=3D HUB_SUSPEND) {
-		/* Disconnect all the children */
-		for (i =3D 0; i < hdev->maxchild; ++i) {
-			if (hub->ports[i]->child)
-				usb_disconnect(&hub->ports[i]->child);
-		}
-	}
-	...
-}
-
-which disconnects hub->ports[i]->child regardless of port_owner and frees
-xhci_virt_device in xhci_free_dev() while xhci_hub_control() ->
-xhci_stop_device() is running.
-
-Second, even when checkintf(ps, hub_ifnum) is reached, do_proc_control()
-verifies the claim under usb_lock_device(dev) and then drops the device lock
-before submitting the URB:
-
-drivers/usb/core/devio.c:do_proc_control() {
-	...
-	ret =3D check_ctrlrecip(ps, ctrl.bRequestType, ctrl.bRequest,
-			      ctrl.wIndex);
-	...
-	usb_unlock_device(dev);
-	i =3D usbfs_start_wait_urb(urb, tmo, &actlen);
-	...
-}
-
-Similarly, in proc_do_submiturb(), endpoint 0 control URBs leave ifnum as -1
-(stored in as->ifnum), so proc_releaseinterface() ->
-destroy_async_on_interface() does not cancel in-flight control URBs when the
-interface is released. After the device lock is dropped (and while
-xhci_hub_control() sleeps in msleep(10)), can another thread release the hub
-interface via USBDEVFS_RELEASEINTERFACE, rebind hub_driver via
-USBDEVFS_CONNECT so a port is enumerated, and then unbind hub_driver via
-USBDEVFS_DISCONNECT_CLAIM while the control URB is still executing?
-
-[1] https://lore.kernel.org/r/20261105054333.7811-1-25031212351@stu.xidian.=
-edu.cn
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105065627.5626=
--1-25031212351@stu.xidian.edu.cn?part=3D1
