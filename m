@@ -1,94 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793879004;
-	b=J2/qfQL9PnPG2hmgB+hquscRM4Rk2p6ObAKXhyle6FnVIqLhZBVvkhosDVEhDaTcNNjH
-	 BGieHOA66em1vg7sD8iEGD9XcmL5gh5prbhXhr6bontfbPEnkfbu924hXCkYPbIPAldlP
-	 6InWAy/hdThT+n2Mku4kndW1yUr8UaxpjEM5T53YPsJ6/2QeTbCtaG71ZqgDkFFP4U/bR
-	 EjE0hWuMYB8dtfJ25Vs6ib95dsEBkCZ/BJxNG2M6RSzSyb2JwQ99SYuRhbfff3YQlDPGT
-	 bHVywx+ifepknAi3Hd1muIxx78r9e1yHiqYX3lUg+3pl5L+HGuQSqsxgNyrlSsqv4OQ==
+	t=1793878995;
+	b=wlj4Xy1T7kPEYjLnJ7d4fiGkv6fdztbZPrIfY5amkkOjl00MEv4W3jPQ7DVA2PtAASEH
+	 O79D4qd+yRhtLqtzD1LVtm/J1YAp/nZ0vHAKswIhQJfDm8IkYpsj1xdF5v5K39b1xQ4Gk
+	 P3aiH7Dk9IxHdHtRWuyRh/4xYcgrL9x3g/AQ0mO+n8oy0cVlZb97AGnK77UpctnrTtfWt
+	 BdOZX0HTtd3h7kVgadJPrPgBGHwxByEV1/OhWvmYC0mCxI+xf4Umlc3miqPKrnpgst13o
+	 PzuJJq1v/MWtyz21VwzGH3PTjvaf9mRJb1biumHjgCe+JGpJNzJBo6OcWe2WvPZTjmA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793879004;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793878995;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 Content-Transfer-Encoding;
-	bh=V9tY9gdRkxo3raHY2usVGihGSye+rQQJ2QRgz5/t7fs=;
-	b=GQEhHmEx5gJMiD+HoiHVTgMYWInJQCZIGgcnAcJAqKNTB6oZps7A9UrCvHR4FGtpBrHn
-	 z2IJPiWRy2x5d9FpWNxa/jFxz4TKtp/2R8Q3G81GFZL6M/IZTrVdyVcGmmLfCbWsxqpWR
-	 as0DGLRufD097VaFz1imgRVTV80prv/JWHFHPSn9SpPx6Frodp27ppObi7OPiflg4bH1n
-	 vkqzxzlNcNVZ0dy4WBiY3QNFfMrs1DfhLm4jIAK76Hn0oFkqZkgnMeuHVfvIK4RnQKD3k
-	 ldGjt8Xi08FMjmSDeFdWlAdwpxORVzCkaiS0kEkUP3BoGkEL/fgH/gmpdUgdUXQOQzg==
+	bh=gaNFsq01nxojVQZO824AFivnqlGF9+tE3dhV8mgf0eU=;
+	b=TE9HV7GhFT/9/cw9ah6wgDeRhvGMvAKVJz7dnHOwaHMhwSpKhd4XN0Jj/fRXPTizxij7
+	 792FsCdqwVjvi58JgZn4EnOKXsdZXbA5kQFewixFE64kJQtZwAlu75X4Wy51xbVvJU7kB
+	 fJ1LYKnjKQdjPT1aUDUqQajaD0Dtif27wo6GuXIBb5MNRrad1F8GfIu0C6F8CrTAI0FXh
+	 jB4FmN5+MEg0UdAv/pwtyO5mBN/5jFoapBz7cMSvPGqcfXat1sS90hOFMgSG9ba4LmKPP
+	 /nP5V7tjDLLlBDamRMNJYRSVCKB5+e6vqST1vp+MMyhKoNGXKhvwTPo+fKkTEy1uQfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n0LqqZC7;
-	arc=none smtp.remote-ip=74.125.82.169
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ktoaPP4+;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45FE60A6F63
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 11:43:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A45FE60A6F63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F85E60A5BC6;
+	Thu,  5 Nov 2026 11:43:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n0LqqZC7
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso2984568eec.0
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 03:43:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793879003; x=1794483803; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=V9tY9gdRkxo3raHY2usVGihGSye+rQQJ2QRgz5/t7fs=;
-        b=n0LqqZC76nh+k3HCnDbFpDZiqOO5izK4/9Oxe00sc4GKLaS3lfxYLffsCJnbMFY44M
-         1RzW+pB62Zb3r2msrYtDPUQWAzGLPhBIuOIb8teU26ieNJla3KZ5CXQzf6fFD0q2MD2/
-         a7SJhcwMayiKVaSVm6F1M+2o3TAdlbATRFgGgDzLO/CKmmEW+rMoeu0MXU/Wjm3bmGqR
-         gDf0fkaLU5XECH8DLszXT7nzb0OoMoAKRFVD4eze5/hfzeo57ZgI4X9rXOHGLoKdjbJf
-         895tI+fXnY+2wiowgWPZLQFcXpVEDbN9FXLPSE4E6F8ueohe6WsGI5GOiuNp+dN61DlK
-         hlEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793879003; x=1794483803;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=V9tY9gdRkxo3raHY2usVGihGSye+rQQJ2QRgz5/t7fs=;
-        b=sZDOu9ZVZdB18V4bg+oe18fiNPNpVymdw79tMYO/9BtmhBmmaIywDpL8icFR3+V4c+
-         B2Oy932QB+8eYgKQ3CDDKxV13YWhmDlU4w2RBANwYjYpHd6DTZWQDih7F85gKNsTq+FR
-         rLpz/4Z5braWT+yEDQxGyI530jFZDVzKUA4XaVp+FuYjAkPYZNJulPuDHTgxCB3+GNwK
-         1+M9LBl9k+zZfz2XWn5osfBNwY8bHHVsIUOQoR9qpY0SjcaIdnWI8h6DD14+WFtgUziH
-         lISIrsAyBTCh4MKS4pM5nfRbxU0VNHx0IkAIMp0FP7MYTjTPX9RMrYmQBprVhN3YhE7I
-         UMkw==
-X-Forwarded-Encrypted: i=1; AKwUvBwesRhxRTCRtv0ZPsH9qew3rqUc0VU5N9jYak4XPRSj+KKMgiJ2P30fdt+iinPfR9eBHR4rzF/XZ8Y=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9RBfEIXL0HO5WRgd8VJC0Ztd/bsZl4LBVPcGGdIl/abPzdLD+M
-	1Qxbtct7M9ZzcNO4YKc+J2YcfUCdqHy1WHDPZY1pQ3+RMKIL8Wpx6jam
-X-Gm-Gg: AYBFou2wx1Rm7+Si7ZC/D0KW8yZxdB11e4mZZ8Dh4wxXdvg7u7d76/NaNQhcMb9dOuN
-	92rIm8nFz7kMS77jplZBOeARADynj00fktkODYYRhLf+rooH0X/z2uReHxrdMsk80EpdaliMLwT
-	37sfcBfG+LqgBslYVwy13a4di91LGoFdjW1X4xV2JF6odks77IiWD2gYuzt6dgJCnySMcaRVKbw
-	8lLGYVdh0ElVPzqSAVoIcfC0dCDv5xq63ZKQ+adauLhKzqlrSlMEcSf45TQGhLTWGNqNdMWNc05
-	VYSiKY3MLg0zRmiNsCHA8aXxisgZmSPbw2Rqmntcl0PK4Z0B/+t1vUDtQMdO+Q2kV9b1+Lodv9G
-	CYCl+EBsR6BgDXzpDRksP3UTnctsMbpKp27CaC51Xj9VyXcsBrKXHEs1MtnVFc6dqTGM2cHBLdC
-	BDumTiyPF9ArFZmBb55WtEK+pg2U74XSo3X2AIcwqt7hjsSPpHDpdk4ihbuQ0lThPUHpphhD6U1
-	EMPYBuqJDr5vbdXSvVwevJhT88FoxXXq4vSyvWUMYjVXX18JTodKAxCWOWxQUonjzHinS7LsD7x
-	uAmTkkX2WMdbuGE/CshPZJJBhz2z8I85FlXMLBto3XmoeYGa4prFeB2XCMgxkapWIi6WKoc2rg5
-	BMWD7+jiNt4R/KjEZAIzR/Ss0ecR5d/M=
-X-Received: by 2002:a05:693c:4195:20b0:36e:2b8b:a090 with SMTP id 5a478bee46e88-36e2b8ba399mr2744277eec.37.1793879002447;
-        Thu, 05 Nov 2026 03:43:22 -0800 (PST)
-Received: from lwq-System-Product-Name.. ([23.247.137.158])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38a6d3dsm19906381eec.7.2026.11.05.03.43.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 03:43:22 -0800 (PST)
-From: Yaohan Li <shunsheng1218@gmail.com>
-To: nkapron@google.com,
-	gregkh@linuxfoundation.org
-Cc: felipe.balbi@linux.intel.com,
-	vladimir_zapolskiy@mentor.com,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ktoaPP4+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B68861F000C1;
+	Thu,  5 Nov 2026 11:43:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793878994;
+	bh=gaNFsq01nxojVQZO824AFivnqlGF9+tE3dhV8mgf0eU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ktoaPP4+NaFWiX019juh4oJ2h/91Nfjhnwow3WxUWL6nWj0ms/ohZP715F++yTsQi
+	 /Yu4HGtAFUGPF5FcTmBw1K1DJqOYvWM2yHiJ25TAI8JnFRkDHICEwlWE4slFGqX84o
+	 +fxIZZZEq5BOn46+UwPm5bWtNo6w5DBpOllGrnQJzG3BKfVCREkRfyzHWsvm/J76tJ
+	 9LixfW3aQjmVrIyCs6i5Llc3cQrFvPJFcf9AGpC+mUhL1YD+38WZOzkNzb1SCOrr9x
+	 0CwzPkGBdbsMPKX2kHV8PNkhWak6V3P3F76N4M7lehBTgWVMisuRe60tG6tZbFXpU9
+	 weEj/puhF9w7Q==
+From: Leon Romanovsky <leon@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+Cc: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] usb: gadget: u_audio: call period elapsed under the stream lock
-Date: Thu,  5 Nov 2026 19:43:09 +0800
-Message-Id: <20261105114309.970899-1-shunsheng1218@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-bluetooth@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: [PATCH 11/17] driver core: Accept device trust policy on the kernel command line
+Date: Thu,  5 Nov 2026 13:42:24 +0200
+Message-ID: <20261105-device-trust-core-v1-11-1e536825b4eb@nvidia.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -98,86 +97,238 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.15-dev-18f8f
 Content-Transfer-Encoding: 8bit
 
-u_audio_iso_complete() drops the substream stream lock before
-calling snd_pcm_period_elapsed(), which re-acquires it internally.
-Between the unlock and the re-acquire, a concurrent close can run
-through snd_pcm_drop(), finish the PCM release and free the runtime,
-leaving the period notification to dereference a freed runtime
-(runtime->fasync in snd_pcm_period_elapsed()).
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Keep the stream lock across the period notification and use
-snd_pcm_period_elapsed_under_stream_lock(), the API for exactly this
-caller-held-lock case, so the callback's runtime access happens
-inside a single locked section.
+Built-in drivers can probe before initrd policy agents start. Fresh
+attestation therefore requires disabled policy before those attempts.
 
-On final PCM release, snd_pcm_drop() takes the stream lock before
-runtime detachment: an in-flight completion holding that lock
-finishes before STOP can proceed.  The STOP trigger clears prm->ss,
-so subsequent callbacks do not enter the running PCM path.  Runtime
-detachment happens later and is not itself protected by the stream
-lock.  On the gadget side, u_audio_stop_*() dequeues the requests
-before the endpoint is freed.
+Add device_trust=<bus>:<device>=<policy>[,...] to initialize requested
+policy before registration. Apply PCI overrides during discovery so IOMMU
+and ACS decisions use the same initial policy as binding. Retain rules for
+hotplug, preserve admission history when a device object is reused, and
+leave unlisted devices unchanged.
 
-KASAN reported the use-after-free in u_audio_iso_complete() on the
-unmodified kernel.  With the callback stalled inside the locked
-section while a concurrent close ran, no use-after-free was reported
-after this change.
-
-This issue was investigated and the fix was developed with AI
-assistance (ZCode/GLM-4).
-
-Fixes: 773e53d50e227 ("usb: gadget: u_audio: remove cached period bytes value")
-Signed-off-by: Yaohan Li <shunsheng1218@gmail.com>
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
+ Documentation/ABI/testing/sysfs-devices-trust   |  2 +
+ Documentation/admin-guide/kernel-parameters.txt | 25 +++++++
+ drivers/base/base.h                             |  2 +
+ drivers/base/core.c                             |  1 +
+ drivers/base/trust.c                            | 90 +++++++++++++++++++++++++
+ drivers/pci/probe.c                             |  1 +
+ include/linux/device/trust.h                    |  1 +
+ 7 files changed, 122 insertions(+)
 
-Changes since v1:
-- v1 saved the period size while the lock was held but still called
-  snd_pcm_period_elapsed() after dropping it, leaving the same
-  unlock/re-lock window open for the period notification itself.
-  This version keeps the stream lock across the notification using
-  snd_pcm_period_elapsed_under_stream_lock().
-- Documented the synchronization this relies on: snd_pcm_drop()
-  takes the stream lock before runtime detachment, so an in-flight
-  completion holding the lock finishes first, and its STOP trigger
-  clears u_audio's prm->ss so later callbacks take the early exit.
-  Runtime detachment itself is not protected by the stream lock.
-v1: https://lore.kernel.org/r/179378417544.69464.16164899430939223277@gmail.com/
-
- drivers/usb/gadget/function/u_audio.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
-index f0ee83abcebc7..7da4032e3a203 100644
---- a/drivers/usb/gadget/function/u_audio.c
-+++ b/drivers/usb/gadget/function/u_audio.c
-@@ -156,6 +156,7 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
- 	struct uac_rtd_params *prm = req->context;
- 	struct snd_uac_chip *uac = prm->uac;
- 	unsigned int frames, p_pktsize;
-+	unsigned int period_bytes;
- 	unsigned long long pitched_rate_mil, p_pktsize_residue_mil,
- 			residue_frames_mil, div_result;
+diff --git a/Documentation/ABI/testing/sysfs-devices-trust b/Documentation/ABI/testing/sysfs-devices-trust
+index 97e07a174769c..87d3410f6bd90 100644
+--- a/Documentation/ABI/testing/sysfs-devices-trust
++++ b/Documentation/ABI/testing/sysfs-devices-trust
+@@ -17,6 +17,8 @@ Description:
+ 		value may be selected by the bus before the device is
+ 		registered; otherwise it is "default". The policy is resolved
+ 		to an active trust level before the device is probed.
++		A matching device_trust= kernel command-line entry overrides
++		the initial requested policy before registration.
  
-@@ -267,10 +268,12 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
- 	/* update hw_ptr after data is copied to memory */
- 	prm->hw_ptr = (hw_ptr + req->actual) % runtime->dma_bytes;
- 	hw_ptr = prm->hw_ptr;
--	snd_pcm_stream_unlock(substream);
-+	period_bytes = snd_pcm_lib_period_bytes(substream);
+ 		The values are "default", "disabled", "adversary", and
+ 		"full". "default" lets the bus select the active trust level.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 0b3c140babd94..ed307427a5ca4 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1259,6 +1259,31 @@ Kernel parameters
+ 	dell_smm_hwmon.fan_max=
+ 			[HW] Maximum configurable fan speed.
+ 
++	device_trust=	[KNL]
++			Set requested device trust policy before driver probing,
++			including for drivers built into the kernel.
++			Format: <bus>:<device>=<policy>[,...]
++			The bus and device names must match exactly, as in
++			/sys/bus/<bus>/devices/<device>. The first colon separates
++			the bus name; further colons belong to the device name.
++			Policies are default, disabled, adversary, and full.
++			Entries override bus-initialized requested policy;
++			unlisted devices retain their existing policy.
++			The last entry for a device wins. If specified more than
++			once, the last valid list replaces all earlier lists.
++			Malformed lists are warned about and ignored in full.
++			Names containing whitespace, control characters, commas,
++			equals signs, or double quotes cannot be specified.
++			Rules also apply to devices added after boot.
++			Explicit disabled blocks early binding but permits later
++			authorization by writing adversary or full to trust_policy.
++			Rejected disabled probes leave this opportunity intact.
++			Authorization fixes the policy before probing; adversary
++			or full at boot permits early probes without attestation.
++			Example:
++			device_trust=pci:0000:01:00.0=adversary,pci:0000:02:00.0=disabled
++			See Documentation/driver-api/driver-model/device-trust.rst.
 +
-+	if ((hw_ptr % period_bytes) < req->actual)
-+		snd_pcm_period_elapsed_under_stream_lock(substream);
+ 	dfltcc=		[HW,S390]
+ 			Format: { on | off | def_only | inf_only | always }
+ 			on:       s390 zlib hardware support for compression on
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index c88b3302969f2..a286f48a69747 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -184,6 +184,8 @@ extern const struct attribute_group device_trust_attr_group;
  
--	if ((hw_ptr % snd_pcm_lib_period_bytes(substream)) < req->actual)
--		snd_pcm_period_elapsed(substream);
-+	snd_pcm_stream_unlock(substream);
+ #if IS_ENABLED(CONFIG_KUNIT)
+ int device_trust_set_policy(struct device *dev, enum device_trust_policy policy);
++int device_trust_parse_cmdline(const char *options, const struct device *dev,
++			       enum device_trust_policy *policy);
+ #endif
  
- exit:
- 	if (usb_ep_queue(ep, req, GFP_ATOMIC))
+ /* All active trust level transitions are serialized by the device lock. */
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index dca0179714c82..bd96d84c2ac2c 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -3688,6 +3688,7 @@ int device_add(struct device *dev)
+ 	if (error)
+ 		goto name_error;
+ 
++	device_trust_init(dev);
+ 	device_trust_init_state(dev);
+ 
+ 	pr_debug("device: '%s': %s\n", dev_name(dev), __func__);
+diff --git a/drivers/base/trust.c b/drivers/base/trust.c
+index 884e7c2dfbbb6..246d2516fb3af 100644
+--- a/drivers/base/trust.c
++++ b/drivers/base/trust.c
+@@ -1,8 +1,11 @@
+ // SPDX-License-Identifier: GPL-2.0
+ 
++#include <linux/ctype.h>
+ #include <linux/device.h>
+ #include <linux/errno.h>
+ #include <linux/export.h>
++#include <linux/init.h>
++#include <linux/string.h>
+ #include <linux/sysfs.h>
+ #include <kunit/visibility.h>
+ 
+@@ -224,3 +227,90 @@ static struct attribute *device_trust_attrs[] = {
+ const struct attribute_group device_trust_attr_group = {
+ 	.attrs = device_trust_attrs,
+ };
++
++static const char *device_trust_cmdline __ro_after_init;
++
++VISIBLE_IF_KUNIT int device_trust_parse_cmdline(const char *options,
++						const struct device *dev,
++						enum device_trust_policy *policy)
++{
++	enum device_trust_policy selected = DEVICE_TRUST_POLICY_DEFAULT;
++	const char *entry = options;
++	bool matched = false;
++
++	if (!entry || !*entry)
++		return -EINVAL;
++
++	for (;;) {
++		const char *end = entry + strcspn(entry, ",");
++		const char *bus_end, *name, *level, *p;
++		unsigned int i;
++
++		bus_end = memchr(entry, ':', end - entry);
++		if (!bus_end || bus_end == entry ||
++		    memchr(entry, '=', bus_end - entry))
++			return -EINVAL;
++		name = bus_end + 1;
++		level = memchr(name, '=', end - name);
++		if (!level || level == name || level + 1 == end)
++			return -EINVAL;
++
++		for (p = entry; p < end; p++)
++			if (isspace(*p) || iscntrl(*p) || *p == '"')
++				return -EINVAL;
++
++		for (i = 0; i < ARRAY_SIZE(device_trust_policy_names); i++)
++			if (strlen(device_trust_policy_names[i]) == end - level - 1 &&
++			    !strncmp(level + 1, device_trust_policy_names[i],
++				     end - level - 1))
++				break;
++		if (i == ARRAY_SIZE(device_trust_policy_names))
++			return -EINVAL;
++
++		if (dev && dev->bus && dev_name(dev) &&
++		    strlen(dev->bus->name) == bus_end - entry &&
++		    !strncmp(dev->bus->name, entry, bus_end - entry) &&
++		    strlen(dev_name(dev)) == level - name &&
++		    !strncmp(dev_name(dev), name, level - name)) {
++			selected = i;
++			matched = true;
++		}
++
++		if (!*end)
++			break;
++		entry = end + 1;
++	}
++
++	if (matched)
++		*policy = selected;
++	return matched;
++}
++EXPORT_SYMBOL_IF_KUNIT(device_trust_parse_cmdline);
++
++static int __init device_trust_setup(char *str)
++{
++	if (device_trust_parse_cmdline(str, NULL, NULL) < 0) {
++		pr_warn("device_trust: ignoring invalid policy list '%s'\n", str);
++		return 1;
++	}
++
++	/* The command-line buffer survives init. */
++	device_trust_cmdline = str;
++	return 1;
++}
++__setup("device_trust=", device_trust_setup);
++
++/**
++ * device_trust_init - Apply boot policy before registration or bus policy use
++ * @dev: unregistered device with its bus, name, and default policy set
++ */
++void device_trust_init(struct device *dev)
++{
++	if (dev->p && dev->p->trust_initialized)
++		return;
++
++	if (device_trust_cmdline)
++		device_trust_parse_cmdline(device_trust_cmdline, dev,
++					   &dev->trust_policy);
++}
++EXPORT_SYMBOL_GPL(device_trust_init);
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 9a178e0e5f7f4..5b6960bbb35bc 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -2083,6 +2083,7 @@ int pci_setup_device(struct pci_dev *dev)
+ 	set_pcie_cxl(dev);
+ 
+ 	set_pcie_untrusted(dev);
++	device_trust_init(&dev->dev);
+ 
+ 	/* "Unknown power state" */
+ 	dev->current_state = PCI_UNKNOWN;
+diff --git a/include/linux/device/trust.h b/include/linux/device/trust.h
+index dccc47c3b4960..b8f5514cacec3 100644
+--- a/include/linux/device/trust.h
++++ b/include/linux/device/trust.h
+@@ -37,6 +37,7 @@ enum device_trust_policy {
+ 	DEVICE_TRUST_POLICY_FULL,
+ };
+ 
++void device_trust_init(struct device *dev);
+ enum device_trust_level device_get_trust_level(const struct device *dev);
+ bool device_is_adversarial(const struct device *dev);
+ 
 
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 -- 
-2.34.1
+2.56.0
 
