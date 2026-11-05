@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793879002;
-	b=mbR+uNdt7wxdn61RTT2vbrkShxcysLBesM1G7pvaqgCnsLIW73Smtp9NiIyKmE3MJ26x
-	 N8FW6IuQpNJAuEHl45f8tT/+zpGr9wOdtgd9Rq65FnXJnAz2suoK84mBuzmDDrn9lvE5v
-	 PxjkVgHpw/ipRrahpWOF8V//BgUFDSfJ58O6By6v/Zg2YPsAgJN1rHLx+GUblAjAaLZMe
-	 vuW6WxZcUqQpTz1pnlLqCdX25SU6vLTvQtUEfD6/2A4ZTclM777iIokKDabCRq+HEwakK
-	 UlTVl5AmkfN0si3cdaoxw6+PGy2wcuNcIxkkqv21DpUfxBXC66s0maizHGAXdUgdKUg==
+	t=1793879014;
+	b=YFdpshcpMDbzcpJmUsa0VS4BtT2y0gZUH4soKwtgvsFWAXBjd0Pa1x4071TctDKRF91v
+	 pkzGobdRU801lAj0NHqzzigeqboUcgE6l+gEBokCJTApHgjNyX2L/e4NX783/uviWPPLn
+	 5cuiBDy4Gj4I5AUw03/v3K54QOp0kIxdudaGoWHtEyOsyCekkRM337nMn57lTgCoa6kMg
+	 W/TVr3Gf+93m7mDd17Xms/4yHbYLCeibkYWG8ucLNvwqRqeu62lXYcpiqyp5Sw1ZmHxJy
+	 hTAH0vMbM+R7jfHNNAilMn5DSzSwiPDD+aSJHu2KGr4AvcNz/7RNkV0SfGbcEF8GWZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793879002;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793879014;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 Content-Transfer-Encoding;
-	bh=Kya3esT+ja5CoFsJojA0B+sdCKA8A1pbdw4lgiA8vnE=;
-	b=qMzfbiIGBysfGSonX5+pgkS3yZWD4OnEnM1ujY2vrTIMpBH2HAPREIX0Fh5TMaQC97/d
-	 GTbFlucqLpxWBg52FV213QEet+7DliFD4W9PiUV7zACd1P+/zYC484GTPCS+SPkq7RYfW
-	 Xfum1EU9pkWq7JIgrNuv8Xdx0CzeoTyNxv4TNteS+U5O2SC2HeJPvyh+DMS9mNBpGctom
-	 LcmC9Nj8T4gjkFMbw3CtM+VIRQQlM4kw7pDgCMFcgYQdhtOuuglC/JEVaMHvGNrDZdCby
-	 wI6rJqWi5ha/E75J11dbrQ78u+A/tkDEVfBZ7OJQ1r44OT7iaDbtAUs0bNRyD9ZauXw==
+	bh=HVj6l3UydzXkgX5b5Nv8SsmCm86UwO2uKscetvhcHxs=;
+	b=TVLMJYwmwKE6XigbuRMGrKT4V6CjTdVpLpnjc92YrbRz3heq+//LOcardWfaME06DEEA
+	 VmI0wrJkZXnNfzCHZvu7H+KfBvNTqSZlGByovpfVgIyKjTJgGgcbL7dIkazPyjVxsvYuB
+	 ZZeIQAm2ImzfyZdMURS5WsKr5mGqusV0xr4xWup6cQ4JAf3BYi5L9Ms6ze+mGga46tGTU
+	 Z1y2cjKkUWJvulcnBIFEs4feMEIdOuvtyyE93uSAitZUccWlti3InBkg8Bx+YVPIT8IrS
+	 kiRGPN01Mv8L0A6aYrLKsQe6OAi7Q9io+TbmyGc4r7b3yC61YMW2uLIMlo+YbOy31Sg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VqNb1Wne;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="OlF/vFbM";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24ACC606A927;
-	Thu,  5 Nov 2026 11:43:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82F1606CEAB;
+	Thu,  5 Nov 2026 11:43:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VqNb1Wne
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFC0B1F0093A;
-	Thu,  5 Nov 2026 11:43:20 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OlF/vFbM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7734A1F00A16;
+	Thu,  5 Nov 2026 11:43:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793879001;
-	bh=Kya3esT+ja5CoFsJojA0B+sdCKA8A1pbdw4lgiA8vnE=;
+	s=k20260515; t=1793879013;
+	bh=HVj6l3UydzXkgX5b5Nv8SsmCm86UwO2uKscetvhcHxs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=VqNb1WneZNPbHxf4k7WsDFngZ6BOP7gcl9wUZ464/qJHWz7uxNhiTKlzCzYy6yKGf
-	 ssc7CpnrgxYN3lgXedAnuf+DrTVWvNurDczkpqqd+kr9KyXsBHeEy6AymFhZsEhxO4
-	 L7ElhgOGMxNsUHFkrq9nsmJRUlao2FbFpCcPLFh7xq/WfoxcM2KOlb8d04i0P64ujY
-	 jbRwLMs6xYhfH4N5gGZssLCYJaSH9XEkUZRc1Fol1YUztvfoRUga2w0VJThMMX04Ku
-	 cuOlQbDssvAzzGLr41KaX0wiuUx2sc2yxEPXzYXxKl85BAQILPI1ZCZhcjWZZ0CKJH
-	 HcKsJdKYGed1g==
+	b=OlF/vFbMqHhOlnVgXEDiOnXUZv2d23YcbiXuuNoglNRKpbkPITpWwaZyCfFCmNQ4i
+	 N+o9NvmyJd4ylmXFA2w7KGEWqqLCjnG+/+Fzzyu18PMCzWeCTjd1pOD4eRc17fBkdh
+	 luPVTzBrvG/LuZcGJRIMpAr4e4/fAHPffn1LaJA666p/vR2b2kNR9qpfK1VdDOg18d
+	 AxCnhkzdE9+uNJ8LLOgkjQPC8v4USZVu4YdVjIpRlMILr0+q4yp770BttPPkBakBDf
+	 kNFA81zQ3AMB7iMqMBzVNpLwe2AduH8RVW3DDi48/XTxkpGXFYLmBXsOkt2bL2UoFM
+	 fdD3k0Ie6rlPw==
 From: Leon Romanovsky <leon@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -82,9 +82,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-pci@vger.kernel.org,
 	iommu@lists.linux.dev,
 	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH 08/17] driver core: Allow userspace to detect EPROBE_DEFER when using sysfs drivers_probe
-Date: Thu,  5 Nov 2026 13:42:21 +0200
-Message-ID: <20261105-device-trust-core-v1-8-1e536825b4eb@nvidia.com>
+Subject: [PATCH 13/17] driver core: Preserve trust commitment beyond driver binding
+Date: Thu,  5 Nov 2026 13:42:26 +0200
+Message-ID: <20261105-device-trust-core-v1-13-1e536825b4eb@nvidia.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
 References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
@@ -103,82 +103,110 @@ Content-Transfer-Encoding: 8bit
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-commit b8c5cec23d5c ("Driver core: udev triggered device-<>driver
-binding") introduced the concept of "Systems who want to control the
-driver binding with udev" can use the drivers_probe sysfs to trigger a
-driver bind based on the kernel's match list.
-
-If attaching the driver is deferred before its probe callback runs,
-userspace sees EINVAL and cannot tell it should try again, maybe after
-loading other drivers.
-
-Map that deferral to EAGAIN and add missed documentation for the
-drivers_probe sysfs. A deferral requested by the probe callback itself
-is still not reported.
+IOMMU state can outlive a functional driver, including after failed setup
+and unbind. The active trust level becomes disabled in those states, so
+it cannot describe the authorization governing persistent translation
+state. Infrastructure needs the immutable commitment to avoid treating
+an unbound, previously authorized device as newly untrusted.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- Documentation/ABI/testing/sysfs-bus-drivers-probe | 13 +++++++++++++
- MAINTAINERS                                       |  1 +
- drivers/base/bus.c                                |  9 +++++++--
- 3 files changed, 21 insertions(+), 2 deletions(-)
+ drivers/base/base.h          |  2 --
+ drivers/base/trust.c         | 17 +++++++++++++++--
+ include/linux/device.h       |  3 +++
+ include/linux/device/trust.h |  1 +
+ 4 files changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-drivers-probe b/Documentation/ABI/testing/sysfs-bus-drivers-probe
-new file mode 100644
-index 0000000000000..851c65b9331ae
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-drivers-probe
-@@ -0,0 +1,13 @@
-+What:		/sys/bus/.../drivers_probe
-+Date:		February 2007
-+Contact:	driver-core@lists.linux.dev
-+Description:
-+		(WO) Writing a device name requests driver attachment on this
-+		bus, even when drivers_autoprobe is disabled. A successful
-+		write does not guarantee that a driver bound. The device's
-+		driver link reports the result.
-+
-+		EAGAIN means attachment was deferred before the driver's probe
-+		callback, for example while a supplier or the device itself
-+		is not ready. ENODEV means the device was not found. Other
-+		attachment errors return EINVAL.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 93abbb315065d..b726344362b41 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8149,6 +8149,7 @@ M:	Johan Hovold <johan@kernel.org>
- L:	driver-core@lists.linux.dev
- S:	Supported
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
-+F:	Documentation/ABI/testing/sysfs-bus-drivers-probe
- F:	Documentation/core-api/kobject.rst
- F:	Documentation/driver-api/driver-model/
- F:	drivers/base/
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index 396097fdb3162..ecff32c3704b5 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -310,13 +310,18 @@ static ssize_t drivers_probe_store(const struct bus_type *bus,
- 				   const char *buf, size_t count)
- {
- 	struct device *dev;
--	int err = -EINVAL;
-+	int err;
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index b4441242496f7..dd78857abf74f 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -113,7 +113,6 @@ enum device_trust_state {
+  *			   dev_err_probe() for later retrieval via debugfs
+  * @device: pointer back to the struct device that this structure is
+  *	    associated with.
+- * @trust_committed_level: operating level retained across bind transactions
+  * @trust_state: policy admission state
+  * @trust_initialized: bus and boot policy have initialized admission state
+  * @trust_policy_override: explicit policy prevents deferred driver boot policy
+@@ -133,7 +132,6 @@ struct device_private {
+ 	const struct device_driver *async_driver;
+ 	char *deferred_probe_reason;
+ 	struct device *device;
+-	enum device_trust_level trust_committed_level;
+ 	enum device_trust_state trust_state;
+ 	u8 trust_initialized:1;
+ 	u8 trust_policy_override:1;
+diff --git a/drivers/base/trust.c b/drivers/base/trust.c
+index b38f69e440eae..4bcda888591a5 100644
+--- a/drivers/base/trust.c
++++ b/drivers/base/trust.c
+@@ -88,10 +88,10 @@ int device_trust_prepare(struct device *dev, const struct device_driver *drv)
+ 	if (level != DEVICE_TRUST_ADVERSARY && level != DEVICE_TRUST_FULL)
+ 		return -EINVAL;
+ 	if (dev->p->trust_state == DEVICE_TRUST_COMMITTED &&
+-	    dev->p->trust_committed_level != level)
++	    dev->trust_committed_level != level)
+ 		return -EINVAL;
  
- 	dev = bus_find_device_by_name(bus, NULL, buf);
- 	if (!dev)
- 		return -ENODEV;
--	if (bus_rescan_devices_helper(dev, NULL) == 0)
-+	err = bus_rescan_devices_helper(dev, NULL);
-+	if (!err)
- 		err = count;
-+	else if (err == -EPROBE_DEFER)
-+		err = -EAGAIN;
-+	else
-+		err = -EINVAL;
- 	put_device(dev);
- 	return err;
+-	dev->p->trust_committed_level = level;
++	WRITE_ONCE(dev->trust_committed_level, level);
+ 	dev->p->trust_state = DEVICE_TRUST_COMMITTED;
+ 	WRITE_ONCE(dev->trust_level, level);
+ 	return 0;
+@@ -119,6 +119,19 @@ enum device_trust_level device_get_trust_level(const struct device *dev)
  }
+ EXPORT_SYMBOL_GPL(device_get_trust_level);
+ 
++/**
++ * device_get_committed_trust_level - Return the lifetime trust commitment
++ * @dev: device to inspect
++ *
++ * Return: %DEVICE_TRUST_DISABLED before admission, otherwise the level fixed
++ * before driver setup. The commitment survives setup failure and unbind.
++ */
++enum device_trust_level device_get_committed_trust_level(const struct device *dev)
++{
++	return READ_ONCE(dev->trust_committed_level);
++}
++EXPORT_SYMBOL_GPL(device_get_committed_trust_level);
++
+ /**
+  * device_is_adversarial - Test whether a device is operated as an adversary
+  * @dev: device to inspect
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 5bd0cee874731..65ea07c9ac35b 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -699,6 +699,8 @@ enum struct_device_flags {
+  * @trust_policy: Requested operating policy, resolved before driver probe.
+  * @trust_level: Active trust level while a driver is bound, see
+  *		device_get_trust_level().
++ * @trust_committed_level: Operating level retained across bind transactions,
++ *		see device_get_committed_trust_level().
+  * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
+  *
+  * At the lowest level, every device in a Linux system is represented by an
+@@ -804,6 +806,7 @@ struct device {
+ 	enum device_removable	removable;
+ 	enum device_trust_policy trust_policy;
+ 	enum device_trust_level trust_level;
++	enum device_trust_level trust_committed_level;
+ 
+ 	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
+ };
+diff --git a/include/linux/device/trust.h b/include/linux/device/trust.h
+index 552af3e73d4fc..19052e3301729 100644
+--- a/include/linux/device/trust.h
++++ b/include/linux/device/trust.h
+@@ -42,6 +42,7 @@ void device_trust_init(struct device *dev);
+ bool device_trust_may_claim(const struct device *dev,
+ 			    const struct device_driver *drv);
+ enum device_trust_level device_get_trust_level(const struct device *dev);
++enum device_trust_level device_get_committed_trust_level(const struct device *dev);
+ bool device_is_adversarial(const struct device *dev);
+ 
+ #endif /* _DEVICE_TRUST_H_ */
 
 -- 
 2.56.0
