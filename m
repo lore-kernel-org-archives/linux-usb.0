@@ -1,111 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793898336;
-	b=YmfeE6cVFAVzwjZhV9EICMqJ+NShGo050OCExCAmW4u/iboH5M0Wz1gDDrqVQE4UAN4Q
-	 MlZPZ3xuQhgV42MsAxgiLiAEHXLQitMBqtyIYjIQTUsX8obz2scsRlm7d1p/C9Ja47tNw
-	 sedzBR2ajQMhOI3P3BgDaQ9lY0qjm7N2FPo0xMmf5JnaGQ+fxCqpy44G0ZxeF9MJ3TC0B
-	 AOvlhwQ1OqdSND1F3lJWfVhVJFp1TyLazimthEIdTZUqV40vdKIiT8+iMLkTVnNg4CxIJ
-	 LWgMkgqmvtcbbGxZYG2iU+BuaRYmWeRXrtzrDiJJETc5MnlGdfjU0TsDrcbL2wRMesA==
+	t=1793898708;
+	b=flUZmvYYFjWkCDuAvPUFTqNbzkIS9VVarDHRT0VdTR1qzmN8bNwaBywy1p2npTZ5UrMx
+	 kfL51wJIvERvfLJKn42w41RppGuDqj2S6FoRloSnAJ8z+4zIBq0diUI0SsoLMse/orwjg
+	 jAmybilziRh01XsW7gcTWrsHn7ckkZJ20moeDtj9GYhG1Zfct4gZhj2NmwUN7YUKt1st6
+	 j767MRGApsxJfgabt0Z4X+ZrvtYTcKaS57jWz1hu/UHjO4ES3hIoNp9usXTQk/QK97Hcc
+	 mj3yI+acQNkwWZJCFC+ZIlXZxXKNM+Q8BiCjFoREgqGkNupnefmWkBXvFQRgyHNjxkQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793898336;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793898708;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=t7Mrcemi56BF5iayGoRjCtdHcIwbWskinGPPufbe/aA=;
-	b=eJE/yaSkNe4c5gIL8ztZQrQt3QrwqkfNexUjBfxyElSL7ETcpRKPTMHOWWXNI3Op3/EO
-	 TjeWQoP1lViXp+tGZp0UYCXVyHXb/P7rIvs2bcUljQBBj3nO+I66V81n5m/FTVukBA9Ji
-	 1AHt4UK4J77vnULtq7erCqNJiowerXmRd9PM7tc27uR3D3f55uosan40+c/i40fUWxpZd
-	 E/DGHYUF2AAuDWEEVl2ictfekv0jkMKdRbzGIZ6LzSPFZADGS0e94c3ahT4mjOpk+ELmD
-	 YPUrnvRhD5ZIsn2RWrqT5eTkwWoNsei66muBAku63RaDoJYcmGAa9T1WahyEYYsqtvA==
+	bh=Sbc9C6Rc9wkCFWvmv7LEdnH0vSQxoeiF89aNLuF1pRc=;
+	b=npZimMyu70Z1s8lX/JfE73zThpXBBgvC0Ov9QoOd++sVDut/6n/eJgGPOZ9FllRE/3H3
+	 94tImeqggVPVLaU0/RwywDqQACVcYfHIIIEtqMAUxg4XhP/xjrzpV5Sbfs+mntjTZ4cG7
+	 iVbq34c1X8c5bUXNBIORy3ynSfnoGJwbTtfRaJchSPxtNVwXGlNeR8h6vZGT5sCsNkptO
+	 XvSQskZgCAlfFl699V8j2+TpRrdEjMiWSUUg/VFImrYWf1Me2cZJ3eLhlbA1G3L+t0dVq
+	 Xlsac7k0Qjsf7z7yOmv0I4RZgpa5Grcf+LS+swSlqrmZlYhttEEzEGEyZYOJX3aBpVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ezhGUhXo;
-	arc=none smtp.remote-ip=74.125.82.169
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=IwkDhyiU;
+	arc=none smtp.remote-ip=209.85.219.45
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33EA606A339
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 17:05:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A33EA606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCED2606A32C
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 17:11:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCED2606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ezhGUhXo
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso3516051eec.0
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 09:05:35 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=IwkDhyiU
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-91b8306b9f8so31719866d6.3
+        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 09:11:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793898335; x=1794503135; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1793898707; x=1794503507; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=t7Mrcemi56BF5iayGoRjCtdHcIwbWskinGPPufbe/aA=;
-        b=ezhGUhXoIUl09y6+rx0VThMrADfNJzLtbjELvheIq2XUjEVn+F/n+Ri2C53TV9L6Aq
-         JdGhkEmCnwmkPVTv0OB6x5RGwGBQJHUjt1KyKJv1eSBurgKo52RA3J8/QRIyxJZsDOQU
-         n7s5HLJdofzUUsrlUP5HhN1OEHjO1pTWgNUtwsTp5+pkRYp1fI+C+uqlY+LxQRirvNrb
-         Ex3MFhTRMHWMTtME2TIEuo7EsT/3ZplABIXud7NOWlPeo0lDAdVbld/IOwaCZ8vfz4uj
-         z22wAGLVFJBUWinFMtheNWfoQbFjMbEjptQEjYgl4R/mPdYwQwSpcnETlWlj/Aj3CrCr
-         m0dQ==
+        bh=Sbc9C6Rc9wkCFWvmv7LEdnH0vSQxoeiF89aNLuF1pRc=;
+        b=IwkDhyiUXVD5jHVJdOfnkICuZZojhv5AMc25xbfMZaDiIJ4V8aYvmLpidKeRA00xJ3
+         70V2P4IX3OtG3DqyfNzm434LqyZ3UsWib6y3jBc0AcSDPJk/pHxTbwyA+yhA4RrQ5DEx
+         lXSArirEsLyn3X3VhRXA4bVEcbG/HvllPUBMUcT3sMVuN3uX/KXFqDUiV4Kisg8BPVMN
+         48r1OruO9OqOBs3nJEDPP051C5b7xWnEdGIgG6DXTxT3ArTy3pahRNzXPX1Y5PM2KzZZ
+         0aUdWVGd8opR6txfXemKK3lNm9o7nnRpFAYqw0F6jGRaxtHm7kW7KfWbyB96PbdHPTHI
+         Qk7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793898335; x=1794503135;
+        d=1e100.net; s=20260707; t=1793898707; x=1794503507;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=t7Mrcemi56BF5iayGoRjCtdHcIwbWskinGPPufbe/aA=;
-        b=eX7vn/MBC4nEaXS0yg1qPHKE4io3Y0smgfeIh8DGB0k+yADDUYYMcl3ePd/0bf45wY
-         tiAtgcAYfbyGPqGTEI1gYoeAwyjWzSAm9bwlHIQfhxoe/q/uI9U3vwtYnUAG6ihCMLem
-         KaiWE/XRrl1T1NdTq+mQDjB8zpl5QrUDu1kUgtpGasmTskMWT4uX3Hr+jjsnNYqB9UnY
-         Fi9LiOMPWGD8LdNBARS0iUV12aH1kYHjbqbKoRfjXPhKy71FTQhhvjr8EEI5jLHQ8bhg
-         00DAcBXVqpj55M4w+8FqhCVZPKPKwrzDj8ggWgT+V4pVJJzdGDZnHDQZpjasACD7pGJw
-         Zt/g==
-X-Forwarded-Encrypted: i=1; AKwUvBxXBYyLurZ3Y14c+k1oFc5uiHiTjVKViy/XSZ6RE78FggT0/KhBrBmUwu1z35ymarodz5cbEavm7KY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+FkjifjsHBMdMbODHASB8rbbGLJ87P971Zm3SCnACxCB0Cx3u5
-	T+Mmvc3B4efxgWOYPkM1ohueZYWdJ6b5X1v++iTnFamSqvXXCc38cRfj
-X-Gm-Gg: AYBFou0qf6DJxoLLPwg+0FD9m+ZC7Vhyoo8yY9S3V4CkqtLRAhwwUq73qoI3U8vNgoa
-	m9CgC5Xa+gR3SihpLbhkksrhcjK7sDNhoCa+OSiAtopDloPTaOfkp4ozIrL303uzbAcFIxskPcb
-	YXIT9j0IFFQxikuai9vfB4cuEgnXvtmx/pFkQojNe1WbQjY02kABYmoCTPAUKaHvkL5S7k7QM1z
-	uP5ffHY1kkZAD+jXpR1q8IoXpl5bkpNHETA/eYeVQ5AoNC48rDvBQwh3h0c1X+x5kc3kqjtF+dn
-	48e2p1PrVMZS8+5QhjiDfmyt6xPsvLGYdE0bxROpItxoK7HDvKAFuyRwD2f+331/izt7ZpO0h/j
-	9LqZUsg9II2HBZOI+B0ovembaU59v/YmeHpmJzqf8zvTz74gLyIdFvd6IlLHSJQcfHPyDAMNV6k
-	cio0316qm2755CLH9tZZnFzq3yQ477jphOSFnWKefbVLI4rsg1MeTI/jo+rG4COcxqRsZS4aAkO
-	5gYR802wnOf8d/y3LShZ2nbip/agJn4PgIUKOP9ur4OjOC7bYgI7PYALNX145jRWiUtgqi3ejsA
-	TV2GzfjEFZxMngoI9ofB6qvY4V7V0aKaX4ofFcfOTYWT/xr/cVI8NLEBv+U/GejJtL/Yov3wbnF
-	I9+04m7FDPjyxHZc=
-X-Received: by 2002:a05:7300:fa0d:b0:36d:7feb:8bd3 with SMTP id 5a478bee46e88-36d7feb8e1amr5835338eec.11.1793898334471;
-        Thu, 05 Nov 2026 09:05:34 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:c8f4:b7d9:252f:4483])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca3989670sm23943795eec.25.2026.11.05.09.05.31
+        bh=Sbc9C6Rc9wkCFWvmv7LEdnH0vSQxoeiF89aNLuF1pRc=;
+        b=pRRZLBBy1OIX8LY/krwjdea6pVik/3DZOr9HtkRAkKPRu371E6ldkd25mB+/45fVEU
+         /cC+37YQliY9Mcb+vOgFUERmyu1nk7MVal4DIo96ti0thHqrbzHdBoE9bh/f79fQBQbW
+         tI9HVGxOOSC8/NUYZRUvVr15jbjRBEM3GGpWPmMCPW78eE1W+vo5FDRjHIdi88Z7soxa
+         lZA6CwIcQ/9lfCXCKy3UWW0X8ERuGOIg+IQnW+YCy4ydNuI8oMfCIO0gtq5vuUjd+nmM
+         KgcEdifeEx1DNT/Pv/8Y/0pVtr9i60BhwndlAXZJWC086gq4We7ObNUb8b1+pB/g6tn9
+         kAzA==
+X-Forwarded-Encrypted: i=1; AKwUvBxv6UwENxY1COyqGLvOf0oIE7EnAP01qubDY8tKyK5p3Zt5QnDTpuxeH93ZN446xEVvLylJ6YcpF/s=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+seEpqopSew/3rZsAvksAwQE2A0kEWpoS/WN6MUKpfnsfnrh5F
+	WbugcTamRyyPupeHYfnbHPaeLF/oKzfcHooN2xu5GLN0nWQnjKeJDQYhmYeYXislsA==
+X-Gm-Gg: AYBFou3t1RbmPnILyR1N/5jl00aTMZdL1RDELEwMoN3mOZUY629bfrAAcmMu2rSpNFx
+	LA0ZZOZhO84mTm9txuKBKO+2S9dyidpiEXJyDoXMEvDQseJ2VYZSjlVfO7icmhYnrSEwVlv3B02
+	LDvKwp+BpfLv4OF7SvckfcWG4efCu9OcNAdGsuuScp0IDwIG8awl5c16/T6fqLRrndCof3c6lF6
+	EXkx4cZ7Eu65vWhX1ks/Wt0ZiZZ/46E0o2hkakaWWGeSpnQsCIU4iTcIcDeYa7oF0EQP/obdkIq
+	HkXUllpi9K1C3JzYkV1IoQ3rt8T4fAEZlYHRZG7OL9GUpjt6ly31Wm4thFNZWjSObBuluH7lGk1
+	bHYfYtn0Ov8WGMiMZcqQ6sR9okL3TMJu+dbb8uGIliQ+JNFjOCj2NXaUcex7rE17VR0bBq+aZDH
+	wyAhsigVObVLkGnZ1N6DsSD+EzBAUFwMds+tL/cgk630PWp5gwToVZWJTMSOjyJsgUUdReTOXxL
+	+aGXxH3rpv96wqqOgNi/8Rk9uceM1DWNudtfURFihP0V6+/whitHsuTwnwN0apbv+to/A0ObtDn
+	B6QR2b/0g+2/X0hCchxgWOF6b3iW
+X-Received: by 2002:a05:6214:311b:b0:91e:9230:6430 with SMTP id 6a1803df08f44-91e9230653emr58823886d6.40.1793898706605;
+        Thu, 05 Nov 2026 09:11:46 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ea6a2c742sm265606d6.11.2026.11.05.09.11.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 09:05:33 -0800 (PST)
-Date: Thu, 5 Nov 2026 09:05:29 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	"Joerg Roedel (AMD)" <joro@8bytes.org>, Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, 
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>, 
-	Lu Baolu <baolu.lu@linux.intel.com>, Johan Hovold <johan@kernel.org>, 
-	Eric Dumazet <edumazet@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Nipun Gupta <nipun.gupta@amd.com>, 
-	Nikhil Agarwal <nikhil.agarwal@amd.com>, Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>, 
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, linux-input@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-pci@vger.kernel.org, iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 02/17] Input: serio - attach manual drivers through the
- driver core
-Message-ID: <auy2plYVi723Qt42@google.com>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-2-1e536825b4eb@nvidia.com>
+        Thu, 05 Nov 2026 09:11:46 -0800 (PST)
+Date: Thu, 5 Nov 2026 12:11:43 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: Michal Pecio <michal.pecio@gmail.com>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] usb: usbfs: Require claiming a hub interface for hub
+ class requests
+Message-ID: <d0c16945-29ce-48c5-abe5-2d2c6b562d51@rowland.harvard.edu>
+References: <20261105054333.7811-25031212351@stu.xidian.edu.cn>
+ <20261105065627.5626-1-25031212351@stu.xidian.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -117,68 +102,82 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261105-device-trust-core-v1-2-1e536825b4eb@nvidia.com>
+In-Reply-To: <20261105065627.5626-1-25031212351@stu.xidian.edu.cn>
 
-On Thu, Nov 05, 2026 at 01:42:15PM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On Thu, Nov 05, 2026 at 02:56:27PM +0800, YuanZhe Liu wrote:
+> Hi Alan,
 > 
-> Manual serio binding connects a driver before driver core can admit the
-> device. A rejected binding therefore arrives after functional setup.
+> v3.  v2 had two problems, both pointed out after it went out:
 > 
-> Keep the port ID check and use device_driver_attach() for the existing bus
-> probe path. Driver core then serializes admission and handles probe failure
-> before publishing the binding.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/input/serio/serio.c | 24 +++---------------------
->  1 file changed, 3 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/input/serio/serio.c b/drivers/input/serio/serio.c
-> index 54dd26249b027..604440244c1ca 100644
-> --- a/drivers/input/serio/serio.c
-> +++ b/drivers/input/serio/serio.c
-> @@ -81,28 +81,10 @@ static int serio_match_port(const struct serio_device_id *ids, struct serio *ser
->  
->  static int serio_bind_driver(struct serio *serio, struct serio_driver *drv)
->  {
-> -	int error;
-> -
-> -	if (serio_match_port(drv->id_table, serio)) {
-> -
-> -		serio->dev.driver = &drv->driver;
-> -		if (serio_connect_driver(serio, drv)) {
-> -			serio->dev.driver = NULL;
-> -			return -ENODEV;
-> -		}
-> +	if (!serio_match_port(drv->id_table, serio))
-> +		return 0;
->  
-> -		error = device_bind_driver(&serio->dev);
-> -		if (error) {
-> -			dev_warn(&serio->dev,
-> -				 "device_bind_driver() failed for %s (%s) and %s, error: %d\n",
-> -				 serio->phys, serio->name,
-> -				 drv->description, error);
-> -			serio_disconnect_driver(serio);
-> -			serio->dev.driver = NULL;
-> -			return error;
-> -		}
-> -	}
-> -	return 0;
-> +	return device_driver_attach(&drv->driver, &serio->dev);
+>  - a hub in a composite device matches the hub driver by interface
+>    class, not by device class, so testing bDeviceClass alone missed it.
+>    The check now looks up the interface the hub driver uses, whichever
+>    way the device matched.
 
-I am not sure how safe it is, serio (and gameport) have pretty elaborate
-structure and locking rules because they can recurse into themselves (to
-support case of Synaptics touch-pads with pass-through PS/2 ports).
+The USB spec forbids hubs to be composite devices.  You can go ahead and 
+match by interface class rather than device class if you want, but I 
+don't think it will make any difference.
 
-But this call is for user-initiated probing anyways, I am not sure if it
-even needs "trust" handling.
+Similarly, the spec forbids hubs from having more than one configuration 
+and one interface.  Sashiko warned about devices violating this 
+restriction, but I don't think we need to worry about them.
 
-... And I even thinking if we really need to keep these custom
-attributes or if I can rip them out in the future ...
+>  - USBDEVFS_CLAIM_PORT hands userspace a single port while the hub
+>    driver stays bound; that is what the ioctl is for, and v2 made it
+>    unusable by requiring the whole interface.  Requests for a port owned
+>    by the caller are allowed now.  That needs a small helper in hub.c to
+>    test ownership, which is why this touches three files.
 
-Thanks.
+We don't need to allow requests for claimed ports, do we?  
 
--- 
-Dmitry
+USBDEVFS_CLAIM_PORT doesn't really give userspace ownership of the port 
+itself; rather, it gives userspace ownership of any device connected to 
+the port.  For example, userspace shouldn't be allowed to suspend the 
+connected device by sending a request to the port.  It has to use the 
+runtime PM mechanism to suspend the device in the usual way.
+
+> On whether this closes the window completely: it does not serialize the
+> transfer, and it is not meant to.  check_ctrlrecip() runs under the
+> device lock and do_proc_control() drops that lock before
+> usbfs_start_wait_urb(), so an in-flight request is not ordered against a
+> claim being released.  What the check gives us is that whenever a
+> request is allowed, the hub driver is bound, so the port has no device
+> for xhci_free_dev() to free.  The memory safety itself comes from the
+> xhci hunk in the other thread.
+
+Right now usb_hub_release_port() and usb_hub_release_all_ports() do not 
+synchronize with outstanding URBs sent to a child on the port.  They 
+really should.  (This means killing current URBs and preventing new URBs 
+from being submitted.)  Fixing that can be a separate patch.
+
+> With the port owner exception above, tools like uhubctl that send
+> SET_FEATURE(PORT_POWER) to a hub without claiming either the port or the
+> interface will still get -EBUSY.  Do you want an exception while
+> privileges have not been dropped, or is losing that use case the point?
+
+Well, it _is_ kind of the point.
+
+The only program I know about for manipulating port power settings is 
+one I wrote many years ago; it is careful to unbind the hub driver 
+before changing any settings.
+
+If we want to allow this sort of thing (changing a port's power while it 
+is under control of the hub driver), the right way to do it is by adding 
+a new command to the hub_ioctl() routine.
+
+If people complain about regressions from this decision, we may be 
+forced to make it a special case, which would require it to be 
+integrated with the hub driver somehow.
+
+> Whether this should be marked for stable is your call.  The missing
+> check goes back to the initial git import (1da177e4c3f4) and the ioctl
+> that can race with it arrived with 0837e7e5270b, so I did not add a
+> Fixes: tag; I also left out Cc: stable because this changes behaviour
+> for userspace.  The stable candidate is the xhci_hcd fix in the other
+> thread.  If you would rather see this backported, tell me which commit
+> you want named and I will resend with the tags.
+
+Given the potential for bad interaction with user programs, I recommend 
+not marking this for -stable.
+
+Alan Stern
