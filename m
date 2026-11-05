@@ -1,98 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.46
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793865994;
-	b=xxJBjJMsquLqu2z4I+Yjv6s4uQIp/MT7fRuOXDiBtfp10fE7QMnDnxhOA/7WrkwOMoeC
-	 8q7w+ALpfnkfFQanMdp/p1pXEHUgqFqzErwh1ZC6BWK+c4CLeDhGjIT6sLDL692JmvhaH
-	 tjOSefC0ToskaFJWg/ZFjnSWu2m+JDMfDOS927jIunsSKlDdc9Au6jZBC8AUQQJxKq6hb
-	 oygBykClKa3YFPsjKwCcVHzrA7hkDxWmx+vWdVXTmde0EnWIBoAgr+hVEpjp1Q8sYq9cj
-	 5ymcxQevMKzzvQ8v8Kf4NpFOS9X7QWNdAqWaR8kS81IJ78pwA6z9LEQTLlkgkFy5aow==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793865994;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=5/St+sw6x3aC+lH60Wo2obbqzz/BFNLno+EhAZDHgi4=;
-	b=5ThSElHfRXljcSqckLkb0abVz0o4Z5QUPhbEdFaM12MZHL2Z0P2f1hgZAh/bYkaVnHbu
-	 C3jZ75JA1/qYEPxCm3cXEVlfXLBcDoH9da6tjsp5WgGaTcWaxmSngtoAgXWXa8XbAspc7
-	 J9KbLg1Nsd7k5G6lS5ixnHa5jyEGGXkMMT/uS5jW+L+lBMSeKO/B3BpH3PG7CRua2Z2wP
-	 hDOfByfOsG5afrN1nLn45mEQyGcUfm1uh4/HsJrAJwBAoffF2+mz8lVlINnV1GRlxx+Gf
-	 oGPzoavqUQ9gtx8JmHXzdffwYQVjjTeIPkHdH9QJJl+M63+lU/KB41dukRW81eKQZeQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=c46WMjMX;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.46
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.198.212.57
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793866256;
+	b=RCz1NfU8srsepxmWNGeWUp0slXwebZRqV6echsfEqnNpbFdvnia+JtLM5pxXBcEjqpWv
+	 k8BgknKjfEny5WmVABxKjEQdxLNtQPdFDTuYdWnjYLGWJzs+09AGK6x/mDRHxZyPROqfE
+	 Jj4c7gb3GNkxwT6VHFmkCT14gSRrGGuYyNvpR/mLoCq2NQrHJ7PziFG+GwO4Cj+quqVRy
+	 EaVWztuiswxbM21nx2oBJCyYHTXGwuYJwI55AD8NIjXF4+btoKrbQmgl9Kuyg6r3QD8UJ
+	 Ectzaokupe/BVjr7sE4YB99lEDiZTPhFFAieAxkLCLYVe8ZodWDtb0te287Lkg8k2jg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793866256;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:MIME-Version:Content-Type:Content-Disposition:Sender:
+	 X-SA-Exim-Connect-IP;
+	bh=zKBUSJdtNbuk/fkR4ic+AJ+yrZrj+7qr4UCMMPbUWy4=;
+	b=ZckAc9OFwNDc6IrvRFwsDO/T7NMYdMKM+QLL4cJ0B/VqAqvIC4W+KLwu5ILTwXHbUMox
+	 xNoTMeUG+VjLLzjCpBEgxOQYtpObzYVDoWjb3N7eGShS+4lfEMyUvyrHX17/Sd62Y2kFc
+	 cnCkfyN0NSSDmRXxC5A2W2zQ8WbYNgWqQtOfrnhN3UMUh2Pg9D0jTy5+UnGIZwZBiNt2E
+	 TOsl6BzjOl+WFt/ATSnTTEjzbi4Gvd/1HD4wkuGVg9tckRZ3T9Nt2RtA42nmzSbHEadmX
+	 z0gYwl6Wa5rncFYBWRzVO/CF3lcEK6fzYIgQ+h5/NdwFz1e3kvlCe6nr/tOawrBnyzg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.hr;
+	spf=pass smtp.mailfrom=griffin.linux.hr;
+	dkim=pass header.d=griffin.linux.hr header.i=@griffin.linux.hr header.a=rsa-sha256 header.s=20261029 header.b=NgECczP4;
+	arc=none smtp.remote-ip=193.198.212.57
+Received: from griffin.linux.hr (griffin.linux.hr [193.198.212.57])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C19606A31B
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 08:06:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1C19606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1D3606A32D;
+	Thu,  5 Nov 2026 08:10:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A1D3606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=griffin.linux.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=c46WMjMX
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-7c19c6721a3so945445137.2
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 00:06:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793865992; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ccnHiXj3p3lQ2dk73HcVDVKzJZ2BvU4nU6K4RUeSuCy+WXWj72AjYmx6IfgI/cRYqG
-         h0ThK8EB47tMNzVLhjjESU5Ik1yRPU8KnR8m9J8PeDWo15JkM/gEx1L/yYW4ta5pFTGw
-         bJsnwT9KE9XWHAoYwnNgjIf0zDLi45N2u/ylnycporguS52f49xqxAhxC4CXNDm88ziR
-         BzDacdq+PrtPOkMlluDRIqP5bCs9RtANO7n+c7RYUfGJT/e0ReFaafHK7z9/JZ8y0zjf
-         1aErAUXGyWAsww1df19xCo11puSOaWV+7g+wQXwB5eqLjHMpg7z/lE6wRX5Pi9valZ9u
-         zNXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=5/St+sw6x3aC+lH60Wo2obbqzz/BFNLno+EhAZDHgi4=;
-        fh=JzB6N3jwv3JV+dYWXlCWhrx4iUKWdUQQ9K7YfMXCf1g=;
-        b=cXm3WKyUdHP+Yla4c/jHtCCDNwtUYGxZkJd1+T5xW/4lVXkCXzqLKcdp3+LOJYQRb8
-         5aYx+pT995GoXI70lMsAotkhVG4jTyToa2WmklVtzT/PkmpLVi+mpidWpNjkq2bDr4Rx
-         2vkEVvT4jzcmKAcaxvLFowCP7vgha2qmEuPE7jACQoRUmZnizZ4GIwrzIluPQ8A0XLK9
-         DepAqFSDqaNmikvp/10ddH+h6rRmP9lyOqqnhZ0zHVnJcI3+cm8v4qO6O/08lP/D5cmP
-         OQ6QKaJukN0ANVWhwjKg3h0iCbUL1mDeret5mChS3hhNkLx4NCcTXFcapka/oGgkYrTE
-         /Faw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793865992; x=1794470792; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5/St+sw6x3aC+lH60Wo2obbqzz/BFNLno+EhAZDHgi4=;
-        b=c46WMjMXb6rtL2HrXD3/1ZrnixlforqU0S6QIuYlsLt52mA0mLvMquNIwnN1n62Bfs
-         wp/8oclxRo7K0Y1Z9RbFcyGe9u9M25IeZBHRpg6ph9jz4iy27huXZ1LaPE9kmPlDp1tI
-         1kSjVXSgVypRkrhLhr2vlYafivVr4K9B2CtioJsYkgsCyFtmzgRNiFu7yPN36ZkewshX
-         T31rBhizVcNX0CrHaVBizCuUUJQu4WFSz1bmBYiiR/1sVBj7FOC1JWKChidKWAJ6D1B8
-         YaLL5nJZiip+VkvvvaeAkzEn5Pyi+lcFNW6NBWGKVLtBslhRTEVN5SinVNx4Vk/DyN2M
-         CnPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793865992; x=1794470792;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=5/St+sw6x3aC+lH60Wo2obbqzz/BFNLno+EhAZDHgi4=;
-        b=ErLhKu2l2jaSKEZnoezUO2yafNq63Vkkp20ur8J0SV2CJu5vTFacnZehMoiG2F+fxE
-         hsV2D7BRQzj7OHV2T0D/zhYsCS0KP0DqnwPpOyhqLJ1cLkOSdLCRj2cKJEfbPC5YMHzH
-         /FwuCuoeQQ89i6urzqcxShPk8vkjUrQ/NM43qZ1efQTHI4DpOPfHbOe/CFAF02sVPqcu
-         IuWT/XMevCPyIdWa5i3jjOp8mHlJEcOaXdC9sUskPH3AVMzInS0zhhMADO4vE6n89vOi
-         6sqPbl/lVkjgZIzpCInPcdYqNXTYg2Oq3+pRZa+zZQg6MPorVhEK1RCC6pWPUakqvuEz
-         gErw==
-X-Gm-Message-State: APuU4Z8oDn3sQBTvgNkWBoAXD66WUOX9R2lzYxlZTFs3LMKz9eRF1Hki
-	XXldkW9M8jcD8DK63lRkXiDK9nk3D3SQAeXiuzY1Cvy+xJEBVDetrJIXaMoqmd3r9RRG8kHkkV7
-	6z47p3GlLwMpH7PiStDIimw0wmHLmHcPtz+XM
-X-Gm-Gg: AYBFou1yKHi+wQtllMJ6g3Ny73P7WpzIABNGApY7xoeCNNnYTPO6rMXOY7SXZoUCngT
-	7VdVvTBivAfkWvNkmNZsW9RLDjpa0RuFNLG0osUHJPnl1yAIpmqKASqEKua80ztpepO7vNXmm+T
-	5rD+c07HjE5Nraz24feGjzXagL/fcTbNyi5W3zS+PQtKlbfYyXwkwC7Y74ji19uXTUSl1x8Jbp6
-	TJd0nF47l5T3BoVvLhCT7MppURqC1JmxhiS5wQ+sP1SlKMoxve2D6/cLAuDEIR15iGRTsOsW9SG
-	d74AzPDMw189zdBUgwbE3Lq028iVqniPEHbtpfLewgvzAQRTndvG+bQlKaKQQX9LIEOmCvmUhed
-	hFkRzOk6hns+u+TcZeP6qslQcU2vK3TWr03LnhQHUdgm4u9B3iWw=
-X-Received: by 2002:a05:6102:15a2:b0:7ce:62a0:6a14 with SMTP id
- ada2fe7eead31-7d07262d5d7mr8535231137.9.1793865992336; Thu, 05 Nov 2026
- 00:06:32 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=griffin.linux.hr header.i=@griffin.linux.hr header.a=rsa-sha256 header.s=20261029 header.b=NgECczP4
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=griffin.linux.hr; s=20261029; h=Sender:Content-Type:MIME-Version:Message-ID
+	:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=zKBUSJdtNbuk/fkR4ic+AJ+yrZrj+7qr4UCMMPbUWy4=; b=NgECczP4bOjq/hwfXD0q/9iWwW
+	H20o+Ib0pd4FhmVr3pvQoGG9deRR4k5ncsC89L5vA0XrbYg8Z+EGQoHzLMgPRMekVPpeNYqeTSEVA
+	hmzF8nOkV/3CuA6Y+ExXa9blcvnjPbWhWdHwXLyg/Ec+XA8uGSaopqyGRnhJv5u9MDzYoReCf/qJC
+	YtvykfeE+BidMYUSpIfmgyvezSyLL3IOoyWti+sY1hLTvoS9EUVc/BUxunlgrmhS2tAqM4746CNdS
+	e/qRkMclxPSZu8XRMEw9WWuZho1VJ/2CU6BpzRz4GtD3AYiQA+bFJDmW0waqvgIJFgRYwswk21Z5W
+	hkcdFYhw==;
+Received: from vkosturj by griffin.linux.hr with local (Exim 4.96)
+	(envelope-from <vkosturj@griffin.linux.hr>)
+	id 1xOsYQ-0006rQ-31;
+	Thu, 05 Nov 2026 09:10:38 +0100
+Date: Thu, 5 Nov 2026 09:10:38 +0100
+From: Vlatko Kosturjak <kost@linux.hr>
+To: Valentina Manea <valentina.manea.m@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hongren Zheng <i@zenithal.me>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] usbip: vhci: do not give back URBs with an unchecked
+ actual_length
+Message-ID: <auw5_lMRbGU97IKx@griffin.linux.hr>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,63 +68,130 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261012092730.332531-1-dnlplm@gmail.com>
-In-Reply-To: <20261012092730.332531-1-dnlplm@gmail.com>
-From: Daniele Palmas <dnlplm@gmail.com>
-Date: Thu, 5 Nov 2026 09:06:20 +0100
-X-Gm-Features: AclHuK8wpL1RIgmjEVkF4TSB4KBxLAPvlo3tTTMggrAnU62HsIbPt07XvsMf0lk
-Message-ID: <CAGRyCJF8pQPsopxO5DNnTRpAW+6Pzqd67y5rh+kBOf0t++C3=Q@mail.gmail.com>
-Subject: Re: [PATCH 1/1] USB: cdc-acm: add control line state quirk for Telit
- QCX216 modems
-To: Oliver Neukum <oneukum@suse.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Vlatko Kosturjak <vkosturj@griffin.linux.hr>
+X-SA-Exim-Connect-IP: <locally generated>
 
-Hello,
+vhci_recv_ret_submit() copies actual_length from the RET_SUBMIT header
+into the URB, and only usbip_recv_xbuff() looks at it. That check is not
+enough:
 
-Il giorno lun 12 ott 2026 alle ore 11:47 Daniele Palmas
-<dnlplm@gmail.com> ha scritto:
->
-> Add control line state quirk for the diagnostic port of the compositions
-> exposed by Telit QCX216-based modems, since the control line state
-> requests prevent the modem from sending the diagnostic data.
->
-> Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
-> ---
+ - an IN reply longer than transfer_buffer_length is rejected and the
+   connection shut down, but the URB is still given back with the
+   oversized actual_length (and status -EPROTO);
+ - a negative actual_length (urb->actual_length is a u32) is not
+   "> 0", so usbip_recv_xbuff() returns 0 without checking it and the
+   URB is given back with status 0;
+ - for OUT URBs usbip_recv_xbuff() returns 0 straight away, so any
+   actual_length is given back.
 
-Is there something to be fixed in this patch? Do you want me to resend?
+Completion handlers trust actual_length. usbfs copies that many bytes
+from the transfer buffer to user space in copy_urb_data_to_user(),
+whatever the URB status, so the kernel reads past the kmalloc()ed
+buffer. With CONFIG_HARDENED_USERCOPY this is a BUG in the context of
+the process reaping the URB, here for a 22 byte reply to a 16 byte
+URB:
 
-Thanks,
-Daniele
+  usb 1-1: recv xbuf, 0
+  usercopy: Kernel memory exposure attempt detected from SLUB object 'kmalloc-rnd-05-16' (offset 0, size 22)!
+  kernel BUG at mm/usercopy.c:102!
+  RIP: 0010:usercopy_abort+0x6c/0x80
+  Call Trace:
+   copy_urb_data_to_user+0x122/0x160
+   processcompl+0xe3/0x160
+   usbdev_do_ioctl+0x14d/0x1900
 
->  drivers/usb/class/cdc-acm.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-> index 0d3f815b2f1e..c07b21872d19 100644
-> --- a/drivers/usb/class/cdc-acm.c
-> +++ b/drivers/usb/class/cdc-acm.c
-> @@ -2039,6 +2039,18 @@ static const struct usb_device_id acm_ids[] = {
->         { USB_DEVICE(0x1bc7, 0x0023), /* Telit 3G ACM + ECM composition */
->         .driver_info = SEND_ZERO_PACKET,
->         },
-> +       { USB_DEVICE_INTERFACE_NUMBER(0x1bc7, 0x7020, 4), /* Telit LE910Q1 (RNDIS) diag port */
-> +       .driver_info = QUIRK_CONTROL_LINE_STATE,
-> +       },
-> +       { USB_DEVICE_INTERFACE_NUMBER(0x1bc7, 0x7021, 4), /* Telit LE910Q1 (ECM) diag port */
-> +       .driver_info = QUIRK_CONTROL_LINE_STATE,
-> +       },
-> +       { USB_DEVICE_INTERFACE_NUMBER(0x1bc7, 0x7028, 4), /* Telit LE310Q1 (RNDIS) diag port */
-> +       .driver_info = QUIRK_CONTROL_LINE_STATE,
-> +       },
-> +       { USB_DEVICE_INTERFACE_NUMBER(0x1bc7, 0x7029, 4), /* Telit LE310Q1 (ECM) diag port */
-> +       .driver_info = QUIRK_CONTROL_LINE_STATE,
-> +       },
->
->         /* Exclude Goodix Fingerprint Reader */
->         { USB_DEVICE(0x27c6, 0x5395),
->
-> base-commit: a90ee4305c4a5df72c11b31dacfdc76e00fcf78a
-> --
-> 2.37.1
->
+Without it, the adjacent heap contents are copied to user space. A
+negative actual_length does the same on a URB that usbfs splits into
+scatterlist chunks: the last, shorter chunk is over-read by up to 16 KiB.
+
+This was hit with a buggy user-space USB/IP device implementation (it
+answered an IN URB with more data than requested) while pcscd read from
+the device; any server, buggy or malicious, can trigger it.
+
+Check actual_length against transfer_buffer_length right after
+unpacking the header, for IN and OUT URBs: the u32 comparison also
+catches negative values. On failure give the URB back with
+actual_length 0 and status -EPROTO and shut the connection down, as
+usbip_recv_xbuff() does, since any payload was not read. Also give the
+URB back with actual_length 0 when receiving the transfer buffer fails
+(a short read), as the buffer was not filled.
+
+Fixes: b348d7dddb6c ("USB: usbip: fix potential out-of-bounds write")
+Cc: stable@vger.kernel.org
+Signed-off-by: Vlatko Kosturjak <kost@linux.hr>
+---
+Changes in v2:
+ - Check actual_length before usbip_recv_xbuff() instead of only zeroing
+   it when usbip_recv_xbuff() fails. v1 missed a negative actual_length
+   (usbip_recv_xbuff() skips it, so the URB was given back with status 0)
+   and OUT URBs (never checked). Pointed out by the Sashiko AI review.
+ - Shut the connection down on that error, as usbip_recv_xbuff() does.
+ - Tested on mainline 7.4-rc1 as well.
+
+v1: https://lore.kernel.org/linux-usb/aurLXADfuLjs-dm-@griffin.linux.hr/
+
+Tested in QEMU on mainline 7.4-rc1 (05441d697f7f, x86_64 defconfig +
+kvm_guest.config + USBIP_VHCI_HCD=m, HARDENED_USERCOPY=y) and on 7.0
+(Ubuntu 7.0.0-34-generic), with the same results on both. The reproducer
+is a user-space program that attaches a fake device to vhci_hcd through
+a Unix socketpair (no network or usbip tools needed), answers a bulk URB
+with a bad actual_length, and reaps the URB through usbfs:
+
+  reply                         unpatched / v1              v2
+  IN 16 bytes, length 22        BUG (v1: -EPROTO, length 0) -EPROTO, length 0
+  IN 16 bytes, length -22       WARN in check_copy_size(),  -EPROTO, length 0
+                                REAPURB fails with EFAULT
+  IN 16400 bytes, length -22    BUG; with hardened_usercopy -EPROTO, length 0
+  (two usbfs sg chunks)         =off status 0 and 16 KiB
+                                of heap reach user space
+  OUT 16 bytes, length 22       status 0, length 22         -EPROTO, length 0
+
+With hardened_usercopy=off the leaked heap bytes include kernel
+pointers. Legitimate replies are unaffected: device enumeration over the
+same connection works as before.
+
+Happy to send the reproducer (about 350 lines of C plus a QEMU script)
+if useful.
+
+The 2026 hardening of RET_SUBMIT (number_of_packets, iso frame lengths)
+does not cover this path; it is the non-isochronous actual_length.
+
+ drivers/usb/usbip/vhci_rx.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/drivers/usb/usbip/vhci_rx.c b/drivers/usb/usbip/vhci_rx.c
+index a678e7c898..3180dc3018 100644
+--- a/drivers/usb/usbip/vhci_rx.c
++++ b/drivers/usb/usbip/vhci_rx.c
+@@ -76,8 +76,27 @@ static void vhci_recv_ret_submit(struct vhci_device *vdev,
+ 	/* unpack the pdu to a urb */
+ 	usbip_pack_pdu(pdu, urb, USBIP_RET_SUBMIT, 0);
+ 
++	/*
++	 * actual_length comes from the server, and completion handlers
++	 * trust it: usbfs copies actual_length bytes out of transfer_buffer.
++	 * Reject a negative one (it is a u32 in the URB) or one larger than
++	 * the buffer, for IN and OUT URBs alike. Any payload was not read,
++	 * so the stream is out of sync: drop the connection.
++	 */
++	if (urb->actual_length > urb->transfer_buffer_length) {
++		dev_err(&urb->dev->dev, "ret_submit: actual_length %d exceeds buffer %u\n",
++			pdu->u.ret_submit.actual_length,
++			urb->transfer_buffer_length);
++		urb->actual_length = 0;
++		urb->status = -EPROTO;
++		usbip_event_add(ud, VDEV_EVENT_ERROR_TCP);
++		goto error;
++	}
++
+ 	/* recv transfer buffer */
+ 	if (usbip_recv_xbuff(ud, urb) < 0) {
++		/* short read: the buffer was not filled */
++		urb->actual_length = 0;
+ 		urb->status = -EPROTO;
+ 		goto error;
+ 	}
+
+base-commit: 05441d697f7f9a927264f4058cbbc6a03dfcac9d
