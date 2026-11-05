@@ -1,83 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793906383;
-	b=rqEjoeBpdmISyp+f1AV0ZuCgI1OUW60VVGykwFVLItSoyQ4kz15Qdt7muA6P1Jags5Jn
-	 LHoLShzB7961HdEhPlXUpqytGMb7ZvKuSIeSTRw06RBNf/ZStKDhI+ts3ECW2PQWDoc4A
-	 t0OHYhHiQzXcV0zDjsAtOoZ6GeTR+CXlhQzFzCWm5AMTEDU5rQghCHHAneiwDfSw7XCYl
-	 fBd9O/ZqdLY6CQ6HuWOpu4FHK82vkKAbEYW6y6HujtjzTLYZ55ISuCdDj4sKr7gL5YPqF
-	 CKyd6J0/LxlutgWPyXNiiuJF6GCQhIHmOHObciNtZWQLBuMhs8JIIHrU7Isec1rz7sQ==
+	t=1793906930;
+	b=dM3Ob315+huGezSffZQusx2JRpZ0VB6D68IQ9usQaoZNTR/pgovcR1R3rxFO0b/3At8n
+	 FFoUIlX12qLHQjOvs+n7fg5qRpIBhK4xtPrCnTxhu6FBvy27vtriDKCPc+/dsu6k5acVr
+	 yPAYA1YlLJg9uRuReDTdFohJekuqLnT9b/m6LK7DRUayZAzoVqwfwo8bhbYq1Upec4BbV
+	 ptwRMdjQiInB8MWQ3oCoIKvYk92UA3hQukMeI3XcyhuQUG4IBuCJRDlljkDgnVqtrpO77
+	 ijtu+m7bZXB8zL1mFNv4Eqf4J3x9ng7Zq1m67HA6rNpNFcBriNa3Y4qs/fuVUsr+xlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793906383;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=z/2gVRqDIy8aB19su2IOPKcJY2mNZmdhA03swHLZjYQ=;
-	b=cXnInZHsCibHY3+JyEDByQvS/OXbWrYvtEvEz5qD0r8kRfLFuBU2xcJH2UcQmWhnlbyv
-	 LxOf9zzSO1g/Q8/Yy+FiBneRB96EC5ljU5eZRNeD+YOVs35x/b6g0m8CHIOxNafAdrwiv
-	 QEz8N/cdKRpqckOPJavL8OekG6uA2p3zOBpa3SaOlNKd9fdNTHgLCaMA8Vh1of/SMpgNZ
-	 h2DfgREj0kryqZplYBWTeIMynYUgg6qjLqxrTh0xm+JOIK+Y25W4Y27ZGItEDseO/0CWw
-	 5IF8Ce1+kbgwAFoN8qz8h2NB+aojEIpv9R6jCIhZaUZLQpylKUiPUZif2+Z5aKf/XjA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793906930;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=t5ltLRfeO7A4ze3tr9EcZS3s3I93T55/6iRGXRatBcI=;
+	b=PtXNdly4ke+9IphNrzx4KpktNqAQlX+JMHpCeRgDUPF5C5bC7zpa/9E6L8Dv6Nfm0+y8
+	 tSx5UCZlwvbaCK5qFjhVCCwByClP3Qh3BFrXUrpCCCtpFX7MTTUSxhPzf0s6iG5JGlyTP
+	 qxhzFXH278YH4PU+WDAtvlQ52AxARp5ZgVIASxIWQR+bm5ksAHSchGZNa/P1/QJmePcx1
+	 9gPmxBgXY6kGwo2BSDAhaHqgJ8nYV84j5u1Uc5qiZE2z9001kLKEm6MrcfAbMTSNc6nwT
+	 EXEhMeInHHihMX85IhycQpFWzWtCm3QJn/7TIGN2JFX8g8c8K+D5vCgv2O1RxjIJOeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jkEVYl84;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N8czzOm3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98297606A31B;
-	Thu,  5 Nov 2026 19:19:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E84E606A33E;
+	Thu,  5 Nov 2026 19:28:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jkEVYl84
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60E871F000C1;
-	Thu,  5 Nov 2026 19:19:42 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N8czzOm3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17F791F00919;
+	Thu,  5 Nov 2026 19:28:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793906383;
-	bh=z/2gVRqDIy8aB19su2IOPKcJY2mNZmdhA03swHLZjYQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jkEVYl845iO1BRjDNjs7l3aLV0DOTx2Xh4dkDtjEQRAG/szywJJ5iA7F7EBeoCv3/
-	 Xr/XPb+CiVQa81KxX4rWfb+Ey7BCQrq8ZgEJKW4tmKtvqc9XOhUvqI6GMjdGyv5wa/
-	 fFT42EqhuLoCYvx7kmlRnDtoWkdemyj50Ko8jo+RL8euRPtleHPXYSTL2guiYPygpR
-	 LmQAT9/JCG5RJdfVN5vfVW2kDcNKd8AzICxKZa2tpcTEwInZ2buqjtKKyH4CQ2de5i
-	 NVLEPe8RHtRdddRsaEMdYbNggz8TadkiapRYLGxK2b9KrUeCLhPUE/vb3Yg0OCtBC2
-	 7ZypycQhGTlGQ==
-Date: Thu, 5 Nov 2026 21:19:40 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 02/17] Input: serio - attach manual drivers through the
- driver core
-Message-ID: <20261105191940.GI8298@unreal>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-2-1e536825b4eb@nvidia.com>
- <auy2plYVi723Qt42@google.com>
+	s=k20260515; t=1793906929;
+	bh=t5ltLRfeO7A4ze3tr9EcZS3s3I93T55/6iRGXRatBcI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=N8czzOm3uss/Nev41wWI2HCgtA/JJ30J5ZI/5HvqHyryejYB/vPH/hBylXVkVGrv6
+	 OielTQZZJsAgzXMX0XY5+ywbGo0mmqbyFRwY2koxZomesAs/TJ9/gk+vP/71ryRjrz
+	 T4vkNotZqPxmBNAvJ14HURgj7iVi6JGCZi7FoFu5UsPJYhvBEXafmV8KZulQt0TLUa
+	 bnhBhsrybsI04J6qaEoTmohzhtxxwuJRWFtL3gmSrI+vhB1bjBR5l4UtjzfZC6c0lO
+	 DCD02LTUhjPPRIlhUjpD4vyOQAhRmKBCDZpyL6ta2I03KLDunRpmQHSavStcgYROjy
+	 RlifknHgKJUtA==
+Message-ID: <sashiko-outbox-199864@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RESEND v2 01/51] alloc_tag: don't remove /proc/allocinfo
+ under the codetag module lock
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
+ Bacik" <josef@toxicpanda.com>, "Chris Mason" <mason@kernel.org>, "Jeff
+ Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>, "Thomas
+ Gleixner" <tglx@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>, "Greg
+ Kroah-Hartman" <gregkh@suse.de>, "Joel Granados" <joel.granados@kernel.org>, "Kees
+ Cook" <kees@kernel.org>, "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-serial@vger.kernel.org, "Takashi
+ Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, "Chuck
+ Lever" <cel@kernel.org>, tytso@mit.edu, dmitry.torokhov@gmail.com, "Petr
+ Pavlu" <petr.pavlu@suse.com>, "Anna Schumaker" <anna@kernel.org>, yukuai@fygo.io, "Heiko
+ Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-1-021c84d852e0@kernel.org>
+References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
+ <20261104-work-procfs-bugfixes-v2-1-021c84d852e0@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 19:28:47 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -86,79 +71,68 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <auy2plYVi723Qt42@google.com>
 
-On Thu, Nov 05, 2026 at 09:05:29AM -0800, Dmitry Torokhov wrote:
-> On Thu, Nov 05, 2026 at 01:42:15PM +0200, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Manual serio binding connects a driver before driver core can admit the
-> > device. A rejected binding therefore arrives after functional setup.
-> > 
-> > Keep the port ID check and use device_driver_attach() for the existing bus
-> > probe path. Driver core then serializes admission and handles probe failure
-> > before publishing the binding.
-> > 
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  drivers/input/serio/serio.c | 24 +++---------------------
-> >  1 file changed, 3 insertions(+), 21 deletions(-)
-> > 
-> > diff --git a/drivers/input/serio/serio.c b/drivers/input/serio/serio.c
-> > index 54dd26249b027..604440244c1ca 100644
-> > --- a/drivers/input/serio/serio.c
-> > +++ b/drivers/input/serio/serio.c
-> > @@ -81,28 +81,10 @@ static int serio_match_port(const struct serio_device_id *ids, struct serio *ser
-> >  
-> >  static int serio_bind_driver(struct serio *serio, struct serio_driver *drv)
-> >  {
-> > -	int error;
-> > -
-> > -	if (serio_match_port(drv->id_table, serio)) {
-> > -
-> > -		serio->dev.driver = &drv->driver;
-> > -		if (serio_connect_driver(serio, drv)) {
-> > -			serio->dev.driver = NULL;
-> > -			return -ENODEV;
-> > -		}
-> > +	if (!serio_match_port(drv->id_table, serio))
-> > +		return 0;
-> >  
-> > -		error = device_bind_driver(&serio->dev);
-> > -		if (error) {
-> > -			dev_warn(&serio->dev,
-> > -				 "device_bind_driver() failed for %s (%s) and %s, error: %d\n",
-> > -				 serio->phys, serio->name,
-> > -				 drv->description, error);
-> > -			serio_disconnect_driver(serio);
-> > -			serio->dev.driver = NULL;
-> > -			return error;
-> > -		}
-> > -	}
-> > -	return 0;
-> > +	return device_driver_attach(&drv->driver, &serio->dev);
-> 
-> I am not sure how safe it is, serio (and gameport) have pretty elaborate
-> structure and locking rules because they can recurse into themselves (to
-> support case of Synaptics touch-pads with pass-through PS/2 ports).
-> 
-> But this call is for user-initiated probing anyways, I am not sure if it
-> even needs "trust" handling.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] alloc_tag: unused function shutdown_mem_profiling_async() when !CON=
+FIG_MODULES
+--
 
-This patch does not change the locking; the lock was already held on paths such
-as the rescan path. This change makes that explicit.
+commit ec0095b3ecdd2d01651f48bc80cc81d976e06106
+Author: Christian Brauner <brauner@kernel.org>
 
-Thanks
+alloc_tag: don't remove /proc/allocinfo under the codetag module lock
 
-> 
-> ... And I even thinking if we really need to keep these custom
-> attributes or if I can rip them out in the future ...
-> 
-> Thanks.
-> 
-> -- 
-> Dmitry
-> 
+This commit defers removing /proc/allocinfo to a work item when
+reserve_module_tags() fails, avoiding a deadlock between remove_proc_entry()
+waiting on active procfs readers and allocinfo_start() waiting on the codet=
+ag
+module lock.
+
+> diff --git a/mm/alloc_tag.c b/mm/alloc_tag.c
+> index 82e2c3448dcf2..7d7ad67049537 100644
+> --- a/mm/alloc_tag.c
+> +++ b/mm/alloc_tag.c
+
+[ ... ]
+
+> @@ -604,6 +605,26 @@ static void shutdown_mem_profiling(bool remove_file)
+>  	mem_profiling_support =3D false;
+>  }
+> =20
+> +static void remove_allocinfo_file(struct work_struct *work)
+> +{
+> +	remove_proc_entry(ALLOCINFO_FILE_NAME, NULL);
+> +}
+> +static DECLARE_WORK(remove_allocinfo_work, remove_allocinfo_file);
+> +
+> +/*
+> + * A module's tags are reserved with the codetag module lock held for
+> + * writing, and a reader of /proc/allocinfo takes that lock with the ent=
+ry
+> + * pinned. Removing the entry there would wait for that reader for good,=
+ so
+> + * let a work item do it.
+> + */
+> +static void shutdown_mem_profiling_async(void)
+> +{
+> +	if (!mem_profiling_support)
+> +		return;
+> +	shutdown_mem_profiling(false);
+> +	schedule_work(&remove_allocinfo_work);
+> +}
+
+[Severity: Low]
+All callers of shutdown_mem_profiling_async() are in reserve_module_tags(),
+which is inside the #ifdef CONFIG_MODULES block further down in
+mm/alloc_tag.c.
+
+When building with CONFIG_MEM_ALLOC_PROFILING=3Dy and CONFIG_MODULES=3Dn, w=
+ill
+defining remove_allocinfo_file(), remove_allocinfo_work, and
+shutdown_mem_profiling_async() outside #ifdef CONFIG_MODULES trigger an
+unused-function compiler warning?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-work-procf=
+s-bugfixes-v2-0-021c84d852e0@kernel.org?part=3D1
