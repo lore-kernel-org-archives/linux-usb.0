@@ -1,67 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907360;
-	b=M4qA1mx2kY+mGlogUUXq2B/s3jD8Hn1jdLsGnxx7RUPsKchx2U+Ml6CSLOnJ2FwY1RDW
-	 gQp4WVlnA9AgvKRn3HfHjsMKLNfdb8BtEcw89WfnVDkSUZgQV2sssv4Ldm5OlI5yCnlts
-	 sivp4GRwUn0EcOf37nLzRIvEP6FyshjhT8p1luSGjXawjbm75AiyjAYCmL6Bol9puyksC
-	 w0BFopuObpQ8tpR0h+dWzR/AAnrqPDXAlALJ9v5aZl441Iu2ga+oAEtGnAauoMAHTIw7T
-	 Y6TOxznj4Z7Ov+tY2Qcif6MJopbxP9f9Rth9kWluMHoxcF1NbciEhUQHakOaT+5kHWQ==
+	t=1793907826;
+	b=P+M+lAb6CxKG6dQ+trJpGNztaMBl12gYgoD6anh49fZQSezqPTV9+W84+duSPuhOFjvQ
+	 wfVje34T4bts8xF5kdxkCJS5vpJEp4KUTHcTgvJqu2qEwncWYuEgTq0e9jhiM2BVJyTr3
+	 TFKgMCO59Aa43O5sA6W+/8fNB0d5ooZXfBhocyah57h1TylFD0wKXRKVoTd+hjCKgo2gj
+	 qHZsuxmtA9X8i4QxKLsITBJFnQJC0bHMOHZb8sxVWY/CGS3nwKF4sAMRQCZKKF7J1tFI/
+	 QNlyEnF7pa2JtajIDqd1pgYH9f4jD3FNYX7x/7Lhea4IyGazwtil/PEJxyeAPfBncoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907360;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=f7pbLgB+bOANV7ZH7bSfet1egKll+CXGNKYzJQU3Yrk=;
-	b=haJn/pwekRyTyY2x8MgY8XyGVhTJe4Nswqyzdc+JTxZ1h6mCc7kURtkkw5UiJ6z4EVh2
-	 KWUGXOCofRjp6sSGOmoZdo61B4qez1UO7k9j6tqZbbWOsbEpIyoC2OQoV4kizbHdaZ7fO
-	 MbOAbI2x6WzZJtEQyf57LejpSlvumj9g5AP5eKg7QgHGYif5b1izcRMjzxUg9/3jHY5xI
-	 38CdWIWRZ45xdUTQP7c2UcpHzo8FQVdbqxNbtFckX9vXMOPlHSy6r1cscQazv/ewnwr/N
-	 Ef+z2IdkhujdJ+EMm5GslWywHqqL+xkLC7Dl3tuevg7n5WD+an3EpL5W5snjuC6mUiA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793907826;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=ZhathjOgBLFBYBU+7Oumjoctx0BqmNgulsJHx/5Cbyo=;
+	b=QjVBvrJff7RGpHoxRu9vklwEKgQn1hKR4e33eXa8Gy7YkdAcva0dpwAIzD/5RJvyfP+S
+	 2jx0QOpVI80cMvTTZlFOgQE8T4fwqVemdSRN8eL5bU9oswiyCpPpytap4CHDyc62tQ2dn
+	 9dVhsZQFyWLpJvrjh/FFgg/duv6OY3H8HG0t0lRrNuDN/iWeY7BnAwpcY8xvm1Swj/Y7V
+	 Gw/n0hPlQcWkoUW0CLv9IFpi4GOPEQVUuBKaVW/Gri+DKCP2DV/4/3xPAyngB4AZH6GZ2
+	 oCQOwtOmz5BMwBmd6BTEHAf66VoJeeT0am38/wKCbD0m4dyFol3HcZ7Jfd4gtAd9Rkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iMGngCoO;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=DY+zJzZ1;
+	arc=none smtp.remote-ip=209.85.128.41
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2347A606D811;
-	Thu,  5 Nov 2026 19:35:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC4C606A6C4
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 19:43:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDC4C606A6C4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iMGngCoO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4E9A1F008A3;
-	Thu,  5 Nov 2026 19:35:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793907359;
-	bh=f7pbLgB+bOANV7ZH7bSfet1egKll+CXGNKYzJQU3Yrk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iMGngCoOl/U4CYIB1rTzS3RguQRqLRp2sKfBp3odJCcMgrP4Y2V8PmtfZZo1x5Xkv
-	 FLC9VNWmdujwFQtrFCf8Mg1QUR9V0cBoPIZOnqaamHivU1nhWiKlmj37JQBwx8Nw4V
-	 gnJGb6AJHKNc0HghHI9fJU1uQS16q3fA1JPSybQgU9VxlezkJg9W+I3Lt4LPHuBS+G
-	 M91zjKny9mmSeWhknnqhOUNYocrnIZ20lXgBv1WbhSSK7LtbVS4MpUGhBLakgtch3v
-	 NiR+5uPctDAbSjOlOz7BSSMrEU1NCpxJBHKCCILKG0ymIlPQ81348+1c7a3Gat7yd+
-	 kdKHITt2fXI3g==
-Message-ID: <sashiko-outbox-199951@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RESEND v2 21/23] proc: let lockdep check the pin
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Christian Brauner" <brauner@kernel.org>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
- Bacik" <josef@toxicpanda.com>, "Chris Mason" <mason@kernel.org>, "Jeff
- Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>, "Thomas
- Gleixner" <tglx@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>, "Jonathan
- Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>, "Greg
- Kroah-Hartman" <gregkh@suse.de>, "Joel Granados" <joel.granados@kernel.org>, "Kees
- Cook" <kees@kernel.org>, "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-serial@vger.kernel.org, "Takashi
- Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, "Chuck
- Lever" <cel@kernel.org>, tytso@mit.edu, dmitry.torokhov@gmail.com, "Petr
- Pavlu" <petr.pavlu@suse.com>, "Anna Schumaker" <anna@kernel.org>, yukuai@fygo.io, "Heiko
- Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261104-work-procfs-core-v2-21-76ace653a773@kernel.org>
-References: <20261104-work-procfs-core-v2-0-76ace653a773@kernel.org>
- <20261104-work-procfs-core-v2-21-76ace653a773@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 19:35:57 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=DY+zJzZ1
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso16038975e9.1
+        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 11:43:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1793907824; x=1794512624; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZhathjOgBLFBYBU+7Oumjoctx0BqmNgulsJHx/5Cbyo=;
+        b=DY+zJzZ1LbUUA7lWJslgpLY9Z8HgU6AvJnVYVQTi/G7WY56EhjFD/gz2Sb3uaPc/jp
+         W/OIY72Ske8q1bobN0Iwt8Lpt8G1TkS14N5PWGqSxFwgJU8bfndF31pAXA0t2eqBq6Ur
+         pKDRuP60QqoNutBgYQ5GtO7m7hlnQM/oAtlXfihhzJqE5umhtnqPVvx2fVJgT7IQ3vr+
+         e6GcAgCVoihGuB2ZKlvhrakFV7qXYQM6MkGERU4lTYXmfdIMpzOeF4z9slFAmn/OT8r/
+         CE+2PpQ1UHr6HXJax7/7LGixp0pHL7cWcljhNUhDEehP23+OVMoEJqMob+iQsvKuU0S+
+         on3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793907824; x=1794512624;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZhathjOgBLFBYBU+7Oumjoctx0BqmNgulsJHx/5Cbyo=;
+        b=V5Gof0UZ9bVvMGyED6f37WP1rKJzfKrtwF/i8eObDcgj5/X/4N0p/woKxCQ8KOKkYo
+         qEZ11spZDnPiRpzDjpZFLljz4XRxwlIFQrypVpLHvlFdF69Cta+LyYGS49tAWafdXPZy
+         YtNvJEEjsdJux9BXXVQvaCZBNu6z+Ymw+ENx3SjOgceTC2RW+o6URtQK4VHsi7qgGtuJ
+         x2Vn57JNfZF4MKBoIInQTEruNi65RxcXN1B8COW1eoYdS0PfbSbBHUUjT76OAP/DHxE1
+         g8ObwWVbe2XixXFongROhVeSUv6x4E3lprtogU8KcznsYNcuEgXiEZXNebCUKe/YLO2y
+         V+aw==
+X-Gm-Message-State: APuU4Z+7785XABIQIdf/HBWKHF+oX49QYSZg6GKeGtE+cIE8MAt3sH6H
+	qSssW/VS1BkPq+yak18DtAk6p7E/XDbrBx7kHBOphKULB/dxraR36OYcH9cT5nPV6wM=
+X-Gm-Gg: AYBFou05mbpaJ3Kj2AJcUgdnO0a5kTeteGysCAjYfixVrXv4oUb/vVjZgnzktFnzL7Y
+	GuK+zo5NWoUwq3bicx6GxeG2vXOjeQ6vTVJzorFGlsCECR562dByUhbjRt9e4eJqTOPv+RfciWv
+	O4I/wGeNjMqwY6dbujYFJoeZVif3d/Xcv+X7kAICEphPDUKx5AYUomYs/fF2Z130XZp63aoyiaM
+	BMdQIV5sWQxI2p4XGEzRDXlXDRZ5I61V8mlBf6A9Y7Z76+y42tAbuyaY2VwoRhNpQl6luvQd0gy
+	ZjayNieNhF4B3KeVitwgDREqznjA9RQb4R5vwq8qLbY3qcGiPLCMh84crnThzTz1prkvhKirWIW
+	5nDaSfmOEd3WpEsLRDN5HrsF1ATuB4wUmIFKHrXSWLpjqlpHEKmqOwEq9tjsQlN6lTvrr5JnNgP
+	Kz6ulX8QbxInfcXq8o2ailf5B2gSWbMbMUqAxiSix0S+Wdwa4aY6S+WhUlnuhZNJXSghpAXk/Js
+	l8F0zv6iuXJ8vXpZaK01ILAklq2u6RCYSsB0CGt9FoJp1foc1tQk+UlfrbQITFKk9OrM1pWtkiU
+	QB7QtrnA//1QOtubLqhZ0dBkd7rz8GMmjoYGqh3wf1+IkAfB573xvYBljY8FwM7WLRW6
+X-Received: by 2002:a05:600c:190c:b0:4a0:4a8:d444 with SMTP id 5b1f17b1804b1-4b6e0bffd81mr2367485e9.33.1793907824242;
+        Thu, 05 Nov 2026 11:43:44 -0800 (PST)
+Received: from ?IPV6:2001:a61:1322:c01:9fdd:c901:f470:904c? ([2001:a61:1322:c01:9fdd:c901:f470:904c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fecac1a1csm11424488f8f.12.2026.11.05.11.43.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Nov 2026 11:43:43 -0800 (PST)
+Message-ID: <e6593c6e-63b3-4198-b587-85b5636e033b@suse.com>
+Date: Thu, 5 Nov 2026 20:43:43 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -70,68 +89,56 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] usb: uas: ignore UAS for ASMT135x bridges (174c:55aa)
+To: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
+Cc: linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
+ gregkh@linuxfoundation.org, usb-storage@lists.one-eyed-alien.net,
+ stable@vger.kernel.org
+References: <20261014165741.35758-1-olivier.kaloudoff@gmail.com>
+ <20261105173250.97239-1-olivier.kaloudoff@gmail.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20261105173250.97239-1-olivier.kaloudoff@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Low] proc: kernel-doc mismatch on __proc_create_net_single_write()
---
 
-commit 095fce4c95ecbe25e644f1a3fe90061f695e9271
-Author: Christian Brauner <brauner@kernel.org>
 
-proc: let lockdep check the pin
+On 05.11.26 18:32, Olivier Kaloudoff wrote:
 
-This commit adds lockdep tracking to proc_dir_entry pinning so lockdep can
-detect deadlocks between proc entry methods and removal under held locks.
-Entries created via proc_create_single() and related helpers receive a
-per-registration-site lock_class_key via wrapper macros.
+Hi,
 
-> diff --git a/fs/proc/proc_net.c b/fs/proc/proc_net.c
-> index b78d627b024f8..9ddd7c323dfcd 100644
-> --- a/fs/proc/proc_net.c
-> +++ b/fs/proc/proc_net.c
+thank you for testing this hard.
 
-[ ... ]
+> The wedging CDB is already identified by the abort log: READ(16) at
+> LBA 0 — the 128 KiB partition-table probe. (usbmon isn't available
+> on this kernel — CONFIG_USB_MON=n, can't hot-add without rebuilding
+> usbcore — but the abort CDB narrows it to that one command, which is
+> consistent with your partition-read hypothesis: other OSes typically
+> probe differently, e.g. READ(10)/smaller LBA0 reads.)
 
-> @@ -232,11 +233,12 @@ EXPORT_SYMBOL_GPL(proc_create_net_single);
->   * pde_data() on the file inode.  The network namespace must be accessed=
- by
->   * calling seq_file_single_net() on the seq_file struct.
->   */
-> -struct proc_dir_entry *proc_create_net_single_write(const char *name, um=
-ode_t mode,
-> -						    struct proc_dir_entry *parent,
-> -						    int (*show)(struct seq_file *, void *),
-> -						    proc_write_t write,
-> -						    void *data)
-> +struct proc_dir_entry *__proc_create_net_single_write(const char *name, =
-umode_t mode,
-> +						      struct proc_dir_entry *parent,
-> +						      int (*show)(struct seq_file *, void *),
-> +						      proc_write_t write,
-> +						      void *data,
-> +						      struct lock_class_key *key)
+We should definitely get te partition code maintainers involved.
+But that is secondary priority. This issue does not eat filesystems.
 
-[Severity: Low]
-When proc_create_net_single_write() in fs/proc/proc_net.c is renamed to
-__proc_create_net_single_write() and given the new key parameter, the
-preceding kernel-doc block still documents the old name and omits @key:
+> Where that leaves the patch: the enumeration stall is now proven
+> cold-rare and cleanly recoverable, which by your rule makes
+> IGNORE_UAS look heavy *for that failure alone*. The justification
+> that stands is the load wedge — two filesystems lost to a failure
+> mode that only exists under queued commands. A depth cap could
+> plausibly mitigate it, but I have no positive repro to prove it
+> does. If you want, I can run a longer soak (hours) at capped depth
+> vs. full depth, and/or test whether a first-probe mitigation
+> (smaller LBA0 read / INITIAL_READ10-style retry) prevents the cold
+> stall — that would let UAS stay on for this bridge with the enum
+> race neutralized separately.
 
-/**
- * proc_create_net_single_write - Create a writable net_ns-specific proc fi=
-le
- * @name: The name of the file.
- * @mode: The file's access mode.
- * @parent: The parent directory in which to create.
- * @show: The seqfile show method with which to read the file.
- * @write: The write method with which to 'modify' the file.
- * @data: Data for retrieval by pde_data().
+May I ask you to test once more, harder?
+If that remains inconclusive, we will go with blacklisting.
+We cannot risk filesystems.
 
-Should this kernel-doc comment be updated to match
-__proc_create_net_single_write() and document @key (or moved to the
-proc_create_net_single_write() macro in include/linux/proc_fs.h) to avoid
-scripts/kernel-doc warnings when building with W=3D1?
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-work-procf=
-s-core-v2-0-76ace653a773@kernel.org?part=3D21
+	Regards
+		Oliver
+
