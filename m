@@ -1,88 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892849;
-	b=xBbIj35YH4GZxFj02vfjZnSqaiaW4nNnIsNfctHzHsXPzns+2hiGwOiMp7IKxC0GT2Pg
-	 m+w1PcuxV/XpKci/sCPlsShVBD6smZvu6WOmDHcmh8guDWEL7mAH8yJfISwytaYUPc10B
-	 pkTNVNbWh+3QhtRRn/F3QeVXMpdL16HfT8IBIX9oAkSMkO9omjXqzX+NvS253pIT+aeBA
-	 RRhI4etGSBRXwXq0bZfDD4FjG4jLB94tXMTyl78q4RqAbs1Y0NF6D2PHHEGLwcgNunOq8
-	 vVa1UZkUsRnpvVsxt5I9pua0DjNycZegS5xjd5LZbxO8sEDjl/Qoicxl5x3AwMqUQEg==
+	t=1793893148;
+	b=dAyv8fKSgHoTHg3kRnqBSDBGb4ybu5CnwUTHLmAI/viABzrwfRsp7atNNAcaXUcmISR1
+	 3tBM82UyiqapphN8/YWpzz7j4bx7ukpqmW3b8/a3DSnermuFFHqvLBTe7MNufpEZfYhiz
+	 seisbp9TsQ0wpo6rXbp9dG/GohgdLPqCkuwuk8+nUNQtJj1LBz2j1Y2XXZhvf5LzE/ccY
+	 5Vnj10xNrq4GuEFucZw5HACCkYVodK4x2f4N1Cz3A2Q8NbRxCWCt27p7Mf4JGXjs7vZX5
+	 B8P2czbkbfGmiy23n2iu6IOkYQGDgHnAjOYvIdesjwBHsvItBk75n8xzgUMoHERVbog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892849;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=ijr6F/dBUmRJj97spvBPIS7/tlKqEqMqai/iwQdyRCo=;
-	b=EHqnnUZyMXl3w+Rb+YlP/xVlM8+ume0w251Avpb+OrsRqwpdKKlN4AJiD3iVNrGkWmp8
-	 5lcoz8cFO+OXkIMxUk0zY7qqNNn+V/A+NUhhktfyRa5wveIM5L2A+SmHYXuOy/H6au6u8
-	 ksW4oyt924NNeWoVyoJkKvViOaE3iIxyD6OlrVvagqFcXIHP7AccBiV6HT67uhWPlbqAA
-	 clBqxxFkA/RuC9tNrZZbw/QswEZBpr1d8U6jFw9njPCvAW831l0DXkUoOJe2bfgQ0Kge3
-	 ACloQ+PQKFI1l+szvOIRoHZ07OiG6Uw8iKvuomVUEN1NZ62YGIqOEkkgUa2SaQFktjQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793893148;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=8JkfHiQEMtf0YYgXubzDg94vF7YvHDx8RH2S+gQfkvI=;
+	b=e6kZ/XOcIe3iPH1N5NXy3462uZp7OMgCNHH+DQcZcD2UoDCdZ6opiu2v2cWPLpBlgkkr
+	 4W0fkepR/mlq4oFECYzF5DyY+iiZkBy5sbsS6dJStpNK9ybTrtvOGl3GtBei20Nbzh8lR
+	 E+33TQrFO7tWpteTNyJYbHUPiJFNPyAxW+YrPfzryHIed+53SHBA7k/M4LvxisSH1yAVI
+	 LcR13Cw2JHHwiXGOH1TplgD5gED5SIiWH4D7VuzCcDKvO6g66DCU76kaH52A0ecKug3/Y
+	 ri8lybFJGyxpkN0rBaQQ+vwUQK98Q0IVUS28rDr7O7RDkrHAmOkt5dVSC2thS56V08A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=XYxmIrQw;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=VsxxJdLL;
+	arc=none smtp.remote-ip=209.85.222.169
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADF9606A330;
-	Thu,  5 Nov 2026 15:34:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7ADF9606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474F7606D80A
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 15:39:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 474F7606D80A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=XYxmIrQw
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=ijr6F/dBUmRJj97spvBPIS7/tlKqEqMqai/iwQdyRCo=; b=XYxmIrQwIPbNsfXiPYIXrfExh8
-	TUhoJNxex2yRRB1kXGbvIw7N+P+eaAOVQ56Zf9TUgqVKiPiyGZxgFyj4/X7cz2isAYd/krAZzgfq1
-	dNENDmEZNwaZ4VXIAxHt4t15FKb+RFGgDvKNtgfPhvs4SpOoxBMeYyn81TpqE/fzj9UU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xOzTI-00Eb0G-OQ; Thu, 05 Nov 2026 16:33:48 +0100
-Date: Thu, 5 Nov 2026 16:33:48 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 03/17] net: phy: Attach generic PHY drivers through the
- driver core
-Message-ID: <ce4a9030-be44-42b6-ab5b-b830bce3502b@lunn.ch>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-3-1e536825b4eb@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=VsxxJdLL
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-93e55db58cfso212373285a.1
+        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 07:39:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1793893147; x=1794497947; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8JkfHiQEMtf0YYgXubzDg94vF7YvHDx8RH2S+gQfkvI=;
+        b=VsxxJdLLlfPOOtPonUHzniELq44+vkwx2NhzVYM+d/WiKtYn1rc2Dj9j860sK/BKYk
+         vpoSTrlRbE1PuFq7yuccJcNQWfi3mzALQrIhPdBLpEJMBXoLnnMuwCq6vobOqzbGWQ5k
+         hAIakt+aLJly0qKi/N4qCYMeUPnESlQTcefTHdav0DabkQpiBVclMiVRKw1mENC5bpXm
+         HJcafXEvWzVgl8Rridpjy7bYk8xywjNJIjWqBD79E+fiCCRpg8lUQE+E1kOdznRdNqxK
+         AsWa9Et5UIK66lV6BZ0MpPbkNGp9h3RzLJKoVMImgAstaLxHgCjJ/wbAh4b66Q9oG2x7
+         MTpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793893147; x=1794497947;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8JkfHiQEMtf0YYgXubzDg94vF7YvHDx8RH2S+gQfkvI=;
+        b=Ory9Gzg2Km+konGnMTQusROorpyD/p5dDKVdwrA2n75rkWgkLS4fjIBnkh0GOsyHsl
+         duAv+BvZjOcJN70f3PaMBSEcQNXGn8ciTQr+QyG0oCsnjvdlj6R741XSoeRk/rl1knQO
+         v3PnSqHUF43Mk876sRHNPKhCpoMtGho3ohtwG6rOzSqe6V2bCS/m5Gm0VCOF/zB1X8pr
+         ftn8NMDcJklAaVfM6JR0NM55gKxqCLeK9z8BZE88KX/Tqrh0KyAYM4kDLUtGnnm65Jx+
+         k6fF1AwHyqExOD+aIJwlzanOtc9TUvyHlweVTWAYDtSZ/UqdKE6kxIsdOHDA0/DgQDwr
+         ILow==
+X-Forwarded-Encrypted: i=1; AKwUvBxueJeNNTOAwdDlFkFijXwasSAtzXen7KcfCYuO3XHh1ynO5S8y2yCc2lWCFnCi0IvS+ec20hc1bEk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+nDn7CNOYj3/9UAO3R3BgtOwXTQGwNZCPtT33vG+8uwdYqLNsX
+	XcELrUatGibokQH59yPZ3fgp+oK3XJDh7A6BBNybmIZxWoL/Txxvs+hKOkIeU3zdFg==
+X-Gm-Gg: AYBFou1J9MFNkGjSeUEvHfFRImDLAsK6y8J9R8Tsp/xt6tZ5F5+0oRagsmMDaBPWD7g
+	8mqdLJIjYTxY8ydGqRHCdtUlNShQe+A3dwQYCN9zRHB2JjEtWjkBTNpiqeiV3bZie6AMNCv+zx8
+	tf7nd0BtsSI1sJif60/upj74m0MU5pi9P9qJMvB5f1SpfKnQ0O9bTJ/LEJ6Xjsn53fv44A5xtb9
+	znB8vSeHVzmtsZz2v28TcZ+sxiZc2wg7vojphr9Jq50C3jFuSAINZ7owu4R0MhZ7PEGevW/LroT
+	v0S21u3NsIkeHvacBnsWkFfOmIciAfUknyBUVNi91nGDaHQUj4ECkh4D1OOHVam52fEdTdNsLhQ
+	ACRJvHBmdvnQNgQQBTBiQpG5GQKsB3EjGoOcA6WFf1fbS02WMKpN/oC8ReFliakwXRvTBY/fslb
+	EAokggu0/q1w2UaHRnS15Pb5fbXxlzCYhBzw6wF/TMfxrPt2tJcey+KZ/AroCBo8LeKpmT8aWm6
+	RxcWvS8dwG0V0xS0VMuQM40vHTjyCHTHmoXIdZaWbpxjcGeF8Bzes9cpqMe3V+v/wFsUJXtY2Ng
+	6M91gceWzuTm3qoRb4ZeP9SwbbGW
+X-Received: by 2002:a05:620a:618e:b0:93c:6e1d:96b4 with SMTP id af79cd13be357-944217b4de9mr2981549885a.62.1793893147067;
+        Thu, 05 Nov 2026 07:39:07 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d485a5fdsm488893285a.34.2026.11.05.07.39.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 07:39:06 -0800 (PST)
+Date: Thu, 5 Nov 2026 10:39:03 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: YuanZhe Liu <25031212351@stu.xidian.edu.cn>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>
+Subject: Re: [PATCH v5] usb: xhci: Fix use-after-free race in
+ xhci_stop_device()
+Message-ID: <a6a3adbc-bab2-4047-b417-5faff738f59e@rowland.harvard.edu>
+References: <20261104000031.679944e7.michal.pecio@gmail.com>
+ <20261104035637.3325-1-25031212351@stu.xidian.edu.cn>
+ <b8ea2f8f-ff9e-4cc6-853b-114fe51173e6@rowland.harvard.edu>
+ <20261104175949.71804650.michal.pecio@gmail.com>
+ <d7448504-a63e-4f3a-a828-7656b1084105@rowland.harvard.edu>
+ <20261105085238.337cb70c.michal.pecio@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -94,17 +108,16 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261105-device-trust-core-v1-3-1e536825b4eb@nvidia.com>
+In-Reply-To: <20261105085238.337cb70c.michal.pecio@gmail.com>
 
-> +		if (err == -EBUSY) {
-> +			/* Another bind owns the PHY, so nothing was probed here. */
-> +			irq = phydev->irq;
-> +			err = -EPROBE_DEFER;
-> +		} else if (err == -EAGAIN) {
-> +			err = -EPROBE_DEFER;
+On Thu, Nov 05, 2026 at 08:52:38AM +0100, Michal Pecio wrote:
+> > I suppose we could check that there are no errant URBs still in
+> > progress just before putting the port into suspend, but is this
+> > really necessary?
+> 
+> It's already being done, looks like those drivers aren't *actually*
+> trusted very much. But there is the ep0 loophole.
 
-You cannot return -EPROBE_DEFER here. You are not guaranteed to be in
-the context of a probe. Very likely, you are in the middle of the
-ethernet drives open() call. Both probes happened a long time ago.
+Well, we can always add a check for ep0, just before the actual suspend.
 
-	Andrew
+Alan Stern
