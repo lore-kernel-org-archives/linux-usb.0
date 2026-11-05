@@ -1,64 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.198.212.57
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793866256;
-	b=RCz1NfU8srsepxmWNGeWUp0slXwebZRqV6echsfEqnNpbFdvnia+JtLM5pxXBcEjqpWv
-	 k8BgknKjfEny5WmVABxKjEQdxLNtQPdFDTuYdWnjYLGWJzs+09AGK6x/mDRHxZyPROqfE
-	 Jj4c7gb3GNkxwT6VHFmkCT14gSRrGGuYyNvpR/mLoCq2NQrHJ7PziFG+GwO4Cj+quqVRy
-	 EaVWztuiswxbM21nx2oBJCyYHTXGwuYJwI55AD8NIjXF4+btoKrbQmgl9Kuyg6r3QD8UJ
-	 Ectzaokupe/BVjr7sE4YB99lEDiZTPhFFAieAxkLCLYVe8ZodWDtb0te287Lkg8k2jg==
+	t=1793866940;
+	b=y5Ip+tkffk+fxqI6qOhu15WQ5/qqw1ZkdNikICtQBgBDVAzaro7NTmhHif3kYmtdT10r
+	 bSt/SZUcdOYc8LiwqbvwCIRLYs+N/v4oHgHZk7+cm2DWnwRuWPdqEL2t2qUVA/25iV+O+
+	 zgtfWdQiWRN+z8yZ/gtfji+OI0KigFgtGEjawaEYLJH80yEewFSA7iYt9ie6tsIIlD07a
+	 OGELMNe+EIE0ycvRkjKzizdjqsVu3AA9MAXfRqmP1EyCkZ/qDi7peI+QFWxhGqrsoacoX
+	 O9ybLNH//srIw3xmXrQXiL/bq5+7+TQL8Tntz7J+OCKia7+9k1P/v9UpInNn2xEGbxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793866256;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:MIME-Version:Content-Type:Content-Disposition:Sender:
-	 X-SA-Exim-Connect-IP;
-	bh=zKBUSJdtNbuk/fkR4ic+AJ+yrZrj+7qr4UCMMPbUWy4=;
-	b=ZckAc9OFwNDc6IrvRFwsDO/T7NMYdMKM+QLL4cJ0B/VqAqvIC4W+KLwu5ILTwXHbUMox
-	 xNoTMeUG+VjLLzjCpBEgxOQYtpObzYVDoWjb3N7eGShS+4lfEMyUvyrHX17/Sd62Y2kFc
-	 cnCkfyN0NSSDmRXxC5A2W2zQ8WbYNgWqQtOfrnhN3UMUh2Pg9D0jTy5+UnGIZwZBiNt2E
-	 TOsl6BzjOl+WFt/ATSnTTEjzbi4Gvd/1HD4wkuGVg9tckRZ3T9Nt2RtA42nmzSbHEadmX
-	 z0gYwl6Wa5rncFYBWRzVO/CF3lcEK6fzYIgQ+h5/NdwFz1e3kvlCe6nr/tOawrBnyzg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793866940;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=FE6flEcS2K/7KWRh4Kaf757dnWLpMHfHAJ2OdiuX5FU=;
+	b=QoxtqvV0781PEUt+LlwoZgUxuY3iV3AyPsmnf34n+9PBo2Ou4TMcCRkb4DkAtVld5Ziu
+	 kUxvXzJFcMWMEv6QnnojB4JVDhXh5r6wo3dJrCGg4gMwK48frXlKXpsHomShwkEd/UP6m
+	 c82x6Rvu4XXbOwg4e7CoyyeyuIxviHmXM6lKNNWdzqdAM86b8Vnt9rIjTxxrrCpjvFmaW
+	 Y13YZkjQEOCzK44ntvHzl66oYDqbPBrjSL5/kdXDX3E50kRkF22+F3lWpz8DJOV2mZOEB
+	 z6ZzrMEHwQapPPSXoa9toeLaCTfQvLlkbtwxeJaXymLlGG15FMYtHlJYr+vg1EVDuJg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.hr;
-	spf=pass smtp.mailfrom=griffin.linux.hr;
-	dkim=pass header.d=griffin.linux.hr header.i=@griffin.linux.hr header.a=rsa-sha256 header.s=20261029 header.b=NgECczP4;
-	arc=none smtp.remote-ip=193.198.212.57
-Received: from griffin.linux.hr (griffin.linux.hr [193.198.212.57])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TspYA1oJ;
+	arc=none smtp.remote-ip=198.175.65.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1D3606A32D;
-	Thu,  5 Nov 2026 08:10:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A1D3606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.hr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=griffin.linux.hr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AB7606A31B;
+	Thu,  5 Nov 2026 08:22:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60AB7606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=griffin.linux.hr header.i=@griffin.linux.hr header.a=rsa-sha256 header.s=20261029 header.b=NgECczP4
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=griffin.linux.hr; s=20261029; h=Sender:Content-Type:MIME-Version:Message-ID
-	:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=zKBUSJdtNbuk/fkR4ic+AJ+yrZrj+7qr4UCMMPbUWy4=; b=NgECczP4bOjq/hwfXD0q/9iWwW
-	H20o+Ib0pd4FhmVr3pvQoGG9deRR4k5ncsC89L5vA0XrbYg8Z+EGQoHzLMgPRMekVPpeNYqeTSEVA
-	hmzF8nOkV/3CuA6Y+ExXa9blcvnjPbWhWdHwXLyg/Ec+XA8uGSaopqyGRnhJv5u9MDzYoReCf/qJC
-	YtvykfeE+BidMYUSpIfmgyvezSyLL3IOoyWti+sY1hLTvoS9EUVc/BUxunlgrmhS2tAqM4746CNdS
-	e/qRkMclxPSZu8XRMEw9WWuZho1VJ/2CU6BpzRz4GtD3AYiQA+bFJDmW0waqvgIJFgRYwswk21Z5W
-	hkcdFYhw==;
-Received: from vkosturj by griffin.linux.hr with local (Exim 4.96)
-	(envelope-from <vkosturj@griffin.linux.hr>)
-	id 1xOsYQ-0006rQ-31;
-	Thu, 05 Nov 2026 09:10:38 +0100
-Date: Thu, 5 Nov 2026 09:10:38 +0100
-From: Vlatko Kosturjak <kost@linux.hr>
-To: Valentina Manea <valentina.manea.m@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hongren Zheng <i@zenithal.me>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] usbip: vhci: do not give back URBs with an unchecked
- actual_length
-Message-ID: <auw5_lMRbGU97IKx@griffin.linux.hr>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TspYA1oJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793866939; x=1825402939;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DEatSBoF3t2AIO2viBbGfJoI7pyTQ+39KdF/ZrSmhQ8=;
+  b=TspYA1oJ370XczcWgja3fDx1qdpkTgKYCGAIVZwTGsSw2NCPHVonbzZl
+   SwYUEeYpBn9K/OMd10t8haKLp5HltjD7ucHT6zGWl+jJHwwmPM9rriN/t
+   cH9sx340S7SFasgRVQhCX3QQu/4ZI+zpFAp1rrnSkb7NqcQEfZj2S9ife
+   KIYqYUxM4/VH8Iek5YUklXsR1+/dZWafehtzRPYUxvq//6nGFVQSTpchA
+   eYhQ8mCSBtx6mFtVXST3fslNL+OLTKhNCLYRqR9OzHGgun6ywoLXurGDY
+   AbrV3rOmr7MPUiXEi76XJrBwXYI3UgK9qdv/L1isg/Udl3SWnbLnM0Rjg
+   w==;
+X-CSE-ConnectionGUID: Rv3xYSmaQ/GelGpzXiPAdg==
+X-CSE-MsgGUID: PtlXw5G9ShmL3m42J5meSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2544917"
+X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
+   d="scan'208";a="2544917"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 00:22:16 -0800
+X-CSE-ConnectionGUID: AkKOJ/V8RoqUF1HxSP1VPw==
+X-CSE-MsgGUID: tubbTcFTRhyaJ5DltBVd3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
+   d="scan'208";a="7285527"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 00:22:10 -0800
+Date: Thu, 5 Nov 2026 10:22:08 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Liu Chao <liuc63@xiaopeng.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, khtsai@google.com,
+	fangxy@xiaopeng.com, Randy Dunlap <rdunlap@infradead.org>,
+	dbrownell@users.sourceforge.net, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] usb: gadget: u_ether: fix out-of-bounds read in
+ get_ether_addr
+Message-ID: <auw8sAYE-nkZ-qIT@ashevche-desk.local>
+References: <20261104025058.2650911-1-liuc63@xiaopeng.com>
+ <20261104025058.2650911-3-liuc63@xiaopeng.com>
+ <ausGsH4Q6IDMMtin@ashevche-desk.local>
+ <20261105072144.3382964-1-liuc63@xiaopeng.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -70,128 +91,100 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Sender: Vlatko Kosturjak <vkosturj@griffin.linux.hr>
-X-SA-Exim-Connect-IP: <locally generated>
+In-Reply-To: <20261105072144.3382964-1-liuc63@xiaopeng.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-vhci_recv_ret_submit() copies actual_length from the RET_SUBMIT header
-into the URB, and only usbip_recv_xbuff() looks at it. That check is not
-enough:
+On Thu, Nov 05, 2026 at 03:21:44PM +0800, Liu Chao wrote:
+> On Wed, Nov 04, 2026 at 12:19:28PM +0200, Andy Shevchenko wrote:
+> > Hmm... indeed. Perhaps we want to continue supporting those.
+> 
+> Agreed for the raw notation. v3 restores it with a hex2bin() fallback.
+> 
+> >   bool valid;
+> >
+> >   /* Try standard format of MAC address */
+> >   valid = parse_mac_pton(str, dev_addr, ".:");
+> >   if (valid && is_valid_ether_addr(dev_addr))
+> >                         return 0;
+> >
+> >   /* Fallback to raw format */
+> >  // check, if it correctly handles the case you want to fix here
+> >  // I believe it does handle it correctly
+> >   if (bin2hex(...) && is_valid_ether_addr(dev_addr))
+> >                         return 0;
+> 
+> It does handle it correctly, and I checked why rather than assuming it:
+> hex2bin() validates every character and returns as soon as it sees one
+> that is not a hex digit, and the NUL terminator is not a hex digit, so it
+> cannot read past the end of the string. If it does manage to read
+> 2 * ETH_ALEN characters then the buffer holds at least that many. So no
+> strnlen() guard is needed in front of it.
+> 
+> Confirmed on a KASAN build of exactly what v3 contains: dev_addr=ab,
+> dev_addr=aazz:cc:dd:ee:ff and dev_addr=aabb.ccdd.eeff all come through
+> with no report and fall back to a random address, dev_addr=aabbccddeeff
+> now gives aa:bb:cc:dd:ee:ff, and dev_addr=aa:bb:cc:dd:ee:ff still gives
+> aa:bb:cc:dd:ee:ff.
 
- - an IN reply longer than transfer_buffer_length is rejected and the
-   connection shut down, but the URB is still given back with the
-   oversized actual_length (and status -EPROTO);
- - a negative actual_length (urb->actual_length is a u32) is not
-   "> 0", so usbip_recv_xbuff() returns 0 without checking it and the
-   URB is given back with status 0;
- - for OUT URBs usbip_recv_xbuff() returns 0 straight away, so any
-   actual_length is given back.
+Cisco should not work, the index is going over 3 characters on each iteration.
 
-Completion handlers trust actual_length. usbfs copies that many bytes
-from the transfer buffer to user space in copy_urb_data_to_user(),
-whatever the URB status, so the kernel reads past the kmalloc()ed
-buffer. With CONFIG_HARDENED_USERCOPY this is a BUG in the context of
-the process reaping the URB, here for a 22 byte reply to a 16 byte
-URB:
+> Two details about the helper itself. The direction we need is hex2bin(),
+> not bin2hex(), which turns binary into hex text. And hex2bin() returns 0
+> on success and -EINVAL on the first character that is not a hex digit,
+> whereas bin2hex() returns a char * that is never NULL. v3 therefore uses
+> 
+> 	valid = hex2bin(dev_addr, str, ETH_ALEN) == 0;
+> 
+> > The function itself was introduced in 331a2d82bcaf ("[PATCH] USB:
+> > ethernet/rndis gadget address params"), and not in the USB network
+> > core split as your Fixes points to.
+> 
+> You are right that commit 2b3d942c4878 ("usb ethernet gadget: split out
+> network core") does not introduce it; it copies get_ether_addr() into the
+> new u_ether.c, and the function is already at
+> drivers/usb/gadget/ether.c:2240 in its parent.
+> 
+> 331a2d82bcaf does not resolve for me, though. It is not among the 104530
+> ancestors of 2b3d942c4878, and that range reaches all the way down to
+> the git root, and cgit returns 404 for it. The loop is already present
+> verbatim at drivers/usb/gadget/ether.c:2236 in commit 1da177e4c3f4
+> ("Linux-2.6.12-rc2"), so it looks pre-git to me, presumably a BitKeeper
+> sha.
 
-  usb 1-1: recv xbuf, 0
-  usercopy: Kernel memory exposure attempt detected from SLUB object 'kmalloc-rnd-05-16' (offset 0, size 22)!
-  kernel BUG at mm/usercopy.c:102!
-  RIP: 0010:usercopy_abort+0x6c/0x80
-  Call Trace:
-   copy_urb_data_to_user+0x122/0x160
-   processcompl+0xe3/0x160
-   usbdev_do_ioctl+0x14d/0x1900
+You need to add history.git from history group and tglx
+https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git
+https://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git
+If you want to have smooth link between all three, add grafts.
+$ git replace
+1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+7a2deb32924142696b8174cdf9b38cd72a11fc96
 
-Without it, the adjacent heap contents are copied to user space. A
-negative actual_length does the same on a URB that usbfs splits into
-scatterlist chunks: the last, shorter chunk is over-read by up to 16 KiB.
+With that being done you will have the full history from Linux 0.10
+till these days.
 
-This was hit with a buggy user-space USB/IP device implementation (it
-answered an IN URB with more data than requested) while pcscd read from
-the device; any server, buggy or malicious, can trigger it.
+The above mentioned commit is from v2.6.10-rc1.
 
-Check actual_length against transfer_buffer_length right after
-unpacking the header, for IN and OUT URBs: the u32 comparison also
-catches negative values. On failure give the URB back with
-actual_length 0 and status -EPROTO and shut the connection down, as
-usbip_recv_xbuff() does, since any payload was not read. Also give the
-URB back with actual_length 0 when receiving the transfer buffer fails
-(a short read), as the buffer was not filled.
+> Nothing in mainline history uses 1da177e4c3f4 as a Fixes target, so v3
+> drops the tag and records the provenance in the log instead. Say the
+> word if you know a tree where 331a2d82bcaf resolves and I will put it
+> back.
 
-Fixes: b348d7dddb6c ("USB: usbip: fix potential out-of-bounds write")
-Cc: stable@vger.kernel.org
-Signed-off-by: Vlatko Kosturjak <kost@linux.hr>
----
-Changes in v2:
- - Check actual_length before usbip_recv_xbuff() instead of only zeroing
-   it when usbip_recv_xbuff() fails. v1 missed a negative actual_length
-   (usbip_recv_xbuff() skips it, so the URB was given back with status 0)
-   and OUT URBs (never checked). Pointed out by the Sashiko AI review.
- - Shut the connection down on that error, as usbip_recv_xbuff() does.
- - Tested on mainline 7.4-rc1 as well.
+It depends on the Linux Next checks and USB maintainers, not everybody does
+have a full history (as possible). Better just to refer to it [1] in a free
+form, like
 
-v1: https://lore.kernel.org/linux-usb/aurLXADfuLjs-dm-@griffin.linux.hr/
+[1]: 331a2d82bcaf ("[PATCH] USB: ethernet/rndis gadget address params")
+     from v2.6.10-rc1 (check out history.git tree)
 
-Tested in QEMU on mainline 7.4-rc1 (05441d697f7f, x86_64 defconfig +
-kvm_guest.config + USBIP_VHCI_HCD=m, HARDENED_USERCOPY=y) and on 7.0
-(Ubuntu 7.0.0-34-generic), with the same results on both. The reproducer
-is a user-space program that attaches a fake device to vhci_hcd through
-a Unix socketpair (no network or usbip tools needed), answers a bulk URB
-with a bad actual_length, and reaps the URB through usbfs:
+> On the Cisco notation, agreed: keeping "aabb.ccdd.eeff" would need a
+> parser of its own for a grouping that nothing else in the kernel uses.
+> v3 spells out in the log that it and irregular groupings such as
+> "123456:789abc" stop being accepted, so the narrowing is on the record
+> rather than implicit.
 
-  reply                         unpatched / v1              v2
-  IN 16 bytes, length 22        BUG (v1: -EPROTO, length 0) -EPROTO, length 0
-  IN 16 bytes, length -22       WARN in check_copy_size(),  -EPROTO, length 0
-                                REAPURB fails with EFAULT
-  IN 16400 bytes, length -22    BUG; with hardened_usercopy -EPROTO, length 0
-  (two usbfs sg chunks)         =off status 0 and 16 KiB
-                                of heap reach user space
-  OUT 16 bytes, length 22       status 0, length 22         -EPROTO, length 0
+-- 
+With Best Regards,
+Andy Shevchenko
 
-With hardened_usercopy=off the leaked heap bytes include kernel
-pointers. Legitimate replies are unaffected: device enumeration over the
-same connection works as before.
 
-Happy to send the reproducer (about 350 lines of C plus a QEMU script)
-if useful.
-
-The 2026 hardening of RET_SUBMIT (number_of_packets, iso frame lengths)
-does not cover this path; it is the non-isochronous actual_length.
-
- drivers/usb/usbip/vhci_rx.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/drivers/usb/usbip/vhci_rx.c b/drivers/usb/usbip/vhci_rx.c
-index a678e7c898..3180dc3018 100644
---- a/drivers/usb/usbip/vhci_rx.c
-+++ b/drivers/usb/usbip/vhci_rx.c
-@@ -76,8 +76,27 @@ static void vhci_recv_ret_submit(struct vhci_device *vdev,
- 	/* unpack the pdu to a urb */
- 	usbip_pack_pdu(pdu, urb, USBIP_RET_SUBMIT, 0);
- 
-+	/*
-+	 * actual_length comes from the server, and completion handlers
-+	 * trust it: usbfs copies actual_length bytes out of transfer_buffer.
-+	 * Reject a negative one (it is a u32 in the URB) or one larger than
-+	 * the buffer, for IN and OUT URBs alike. Any payload was not read,
-+	 * so the stream is out of sync: drop the connection.
-+	 */
-+	if (urb->actual_length > urb->transfer_buffer_length) {
-+		dev_err(&urb->dev->dev, "ret_submit: actual_length %d exceeds buffer %u\n",
-+			pdu->u.ret_submit.actual_length,
-+			urb->transfer_buffer_length);
-+		urb->actual_length = 0;
-+		urb->status = -EPROTO;
-+		usbip_event_add(ud, VDEV_EVENT_ERROR_TCP);
-+		goto error;
-+	}
-+
- 	/* recv transfer buffer */
- 	if (usbip_recv_xbuff(ud, urb) < 0) {
-+		/* short read: the buffer was not filled */
-+		urb->actual_length = 0;
- 		urb->status = -EPROTO;
- 		goto error;
- 	}
-
-base-commit: 05441d697f7f9a927264f4058cbbc6a03dfcac9d
