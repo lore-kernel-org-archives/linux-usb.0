@@ -1,48 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793906944;
-	b=Clp4KRKiQ8MDiDyOXR1gSROg+qgHexDCLoS928D66H/Wf0Ch547EVy7L+l51tolNLO6p
-	 1AEmqQm4mnvRfWONdg0+lZGEegXSidKQ5a+b8Y9QliOjPkAh8nKcZxyH+xZ//c5EirQSZ
-	 hgI+hLWHFJhzO8OStVSM0EXeDdEiEvruO5zCxFVbu4AzuN1ABaRVvOubl3RvcfbBIytiI
-	 BfJlwQPfBGEHJb0JQxi3c0wJWcCQ4SzEQuW6X76rym4gsKUHUZk5Rgbs1QWxHRolmsePY
-	 1cKQi7r/bq80nCs/LSSv6hScCfc/E9qEAHpkAgA7XAhm8NZwiV072Pw1XHdLLWX5REw==
+	t=1793906951;
+	b=XDP+RfMhwBL5+i1PQ/qZhX9CHjcvlAujYcRVV6ZM1pic5zTa+8Pp7VVO0aePD9H6+Xh9
+	 viUBmHO04bnrKzcVLlVN3d3epIgGHQSsFtJYX+X6oANpDCXwjoMhgfdbDHpHXt6mfhXBE
+	 rkdBxtaZXQfTL2k30f0gF+wH/T6OPwZ9+21QqTrjWlJLzB6BbeXNUniHWcQCQ4SMDVO9u
+	 cogPWsKFUJh239jfnYYz+3ZhfyqGE9nHSm5hz1KdDK5W47Kv0wFvGeydmWDuJ94TsirQO
+	 LDUKqFbfs4JsGX7xXPQsdJSm3kdUjtCBRZFBv009VEOXU5nE/ICwdV9YpnLascZkTAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793906944;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793906951;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=r1ycZKD70M2O9nWABnZxAo0Y7x59PNQr/eG96uelaDQ=;
-	b=OXPo3IrIjDjerZm9VBZRpviD2V8FYn0l3DKVi4AfpU/JZ3ZHlSPsfQXkeF4lhEAd+jZh
-	 3jNw3VoMCov4SCvVKK9fgCoSuDI0aFUPJ+b1D20RGQ+JGyZ+llOqfdDBpB7oSolglsBDi
-	 M2PEJIB7hvTywj2InIR0SPNPQHvv6nycMY2AAChmc6LI+8/XbHX686KJrmQHyrDQju216
-	 9K/ZJ8mnV/vCkkTrA1FoOcQbaDDwI7oPxGfv1OHAqdYpYFDxkfgpVW/jLk7B/v0JrFzWX
-	 RfDt19BqaEkkEqbjZTnHopO2aoas2tKFrec3q/UPnNEqVe8PjxJrYXriR7VH3o1y+Gg==
+	bh=s2I1/DcyfONVmWbtskFJJxiXW4AP+/HerBsQu/u2rpU=;
+	b=0ETkRwK614Zeh26MYI+dqUUXJtQ4ebPXjR3vz9SwQ3R709Tu54dAdCbh0kVWCrL7/Cf4
+	 HI1itQF6PkpBoFtYsPg1ZHh0i9o8lhtDkFfEAENF68/Kg5nw+iBlZDhFoERHQgnGxp//b
+	 tZxjTjy4d92fzveCowBamczvRTK6nsQPKCfMQWuIh5yx3q48wEQbPNRXKZTImtVYd/kp0
+	 zC8crN8mns7TjqF4ledJ+23V+18EuGsvNr5pcaHrmLrRXyVUbzK89qiU0UoudXign9A6r
+	 GOsVLfcqhS5+Bhy5//W6l1YuoxrJ/NU1kpvDAWGhueZal7hJN0wAC6GgOTcrKxsnZhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=necGus7b;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hob1t0Fy;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85412606A334;
-	Thu,  5 Nov 2026 19:29:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F40606D805;
+	Thu,  5 Nov 2026 19:29:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=necGus7b
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA70D1F00919;
-	Thu,  5 Nov 2026 19:29:02 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hob1t0Fy
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB2771F000C1;
+	Thu,  5 Nov 2026 19:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793906944;
-	bh=r1ycZKD70M2O9nWABnZxAo0Y7x59PNQr/eG96uelaDQ=;
+	s=k20260515; t=1793906951;
+	bh=s2I1/DcyfONVmWbtskFJJxiXW4AP+/HerBsQu/u2rpU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=necGus7bPU63UQk4B7+jV3XV3fUR+Vt0nlBwWy50VqFwECBf1aibdVwEQjnZEn+Ny
-	 Nk1eietSenvm5xqR/gzPNGNzZbvkkvnODaOzH7V35V/oaIZYKDA69EZlf4qtIWl0+y
-	 CLJx1JYEb1VEmZX7/x/KIzKFm4AvmAQYSTJwVI3oNBp4hYilo3LyLI/24/DmSHB0xR
-	 KeFmM+pyBdtCJHSurwLaWys6yP1tn08WuWeskCI8YOyZaldAhv0TS5sXvEaDm8Qah0
-	 JT7nN2+bgKA94sYD+FKbGDigc0ESaJpkTtOL2xP5JtOlGB9U35VVcN7RlPkTRv1UsF
-	 KJpyB6HzUFV7w==
-Message-ID: <sashiko-outbox-199871@kernel.org>
+	b=hob1t0FySRzo9Ad4NeX/wxJ636XvG0pYfHERcgRJc+Sg4Icctgz0x9vaAElTM9XlC
+	 DeKuv9MiuNdLOq07xSluaDzV5JfNZv10Cdb4YpMe3kNCTfqfHICUGtyJeiRHHklAiG
+	 o++YqHIytjB4pY2nCoSP0oV0ptT5uhCu20e3Yv4WPkXDuLDrzC8G5BMKr5LZKXdO/g
+	 3o/pp7jpt539+SMQvv32EonKmKe+Ve9RvbbFiZGIicJZ9ffcoawscdTJSTVjbDcbdg
+	 3IMhMWg4He6bnLDFELiozvAEzPh6t3NkjMUHVvLrqfosjL7JmUxVl7OEAfd/jNb3w5
+	 bT+XCtkRbrOvQ==
+Message-ID: <sashiko-outbox-199874@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RESEND v2 08/51] powerpc/pseries/lparcfg: don't drop the
- last byte of a write
+Subject: Re: [PATCH RESEND v2 11/51] sparc: led: consume the whole write
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Christian Brauner" <brauner@kernel.org>
 Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
@@ -55,12 +54,12 @@ Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.
  Iwai" <tiwai@suse.de>, linux-ext4@vger.kernel.org, "Chuck Lever" <cel@kernel.org>, tytso@mit.edu, "Heiko
  Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
  Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-8-021c84d852e0@kernel.org>
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-11-021c84d852e0@kernel.org>
 References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
- <20261104-work-procfs-bugfixes-v2-8-021c84d852e0@kernel.org>
+ <20261104-work-procfs-bugfixes-v2-11-021c84d852e0@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 19:29:02 +0000
+Date: Thu, 05 Nov 2026 19:29:09 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -70,19 +69,17 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> lparcfg_write() terminates its copy of the write by overwriting the
-> last byte, so a write without a trailing newline loses its last
-> character: "partition_entitled_capacity=3D5" is parsed as an empty value
-> and fails with -EINVAL. Terminate behind the copy instead, and refuse a
-> write that fills the whole buffer, which can't be terminated.
+> led_proc_write() looks at the first eight bytes of a write and returns
+> that many, so a writer that loops until everything is written, stdio
+> does, sends the rest as a second command. That one is unknown and
+> switches the LED off. Return the whole count, the rest is ignored.
 >=20
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
+> Fixes: ee1858d3122d ("[SPARC]: Add sun4m LED driver.")
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-work-procf=
-s-bugfixes-v2-0-021c84d852e0@kernel.org?part=3D8
+s-bugfixes-v2-0-021c84d852e0@kernel.org?part=3D11
 
