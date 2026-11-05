@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892720;
-	b=GUYICi0wq8YW7O5UyJH7OMc1CL9DkJdaJ2/dgn1IkMS6uctu8fvGx6QDGRktF14bm1UL
-	 aQuIiBJFlyhQZLDPFfkLRMFH+nli93kPMZrG+fGYsIgEqSQDEU0Vk7d/IJt46I0ii11mQ
-	 QmhUtoUY5+V0NbT/DNcGAoZI+PNPKqaR2ghz+X+zESNMp9ojHKmuKm9ozZU3gg5nTAAp2
-	 fXYdsjSR792iwLWi0fJ1u3wO1LI3tzjP5T4npikxPI5qz73LWSoDXMlDOkZl0pivC/FLc
-	 VmRnUCiUdArTQ5j2yocAMFvhIAlNLQD1rIejKb9ymH8jnLQoeQy+k6eL6dh//laiLAg==
+	t=1793892757;
+	b=HXO7GS1gVLUSi/HEnbb/OyIZI8um297qayK3Fwa2faT1ExonNHyrRtUvfjlKfTKCzW/B
+	 p4ZIHNr1eD4sI1x0tLElp3Mx/sTyGu5izUOlXH2tUI/2cIuLQk6PYI2N+vLUOSRchU7Q7
+	 TwUlQ1Ee23Ucnb8BzbiZSjoBA0PsK6g4nGK6WepDRcAZZ8ixzWJCFWzmwGReD6X9Rp1CI
+	 sypmR5pOeaS0vqUV22VMPMqKJmvk44hX9/0854AmaOZKbzaaIk2O9Z43QYVPTp2vmPEPy
+	 bsXLWuA9Rp2WPSgzQSRLeTbOZI9+neHbI87Qby+PzFq7af5b825rzadrY+szESw/ZAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892720;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892757;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=kdr5CytSp+QzI8htSD6yTJaK//bvnNSu46epScRZxNo=;
-	b=BCir9QboIeCjgFUspYgXSqvna5/ER9wMBvbnWhL7334in2UqovE2D6M9YxzI0x4MFHoW
-	 7hdZUdvuuQndHgODRREc2KcVjIyxkJTQnt6qD2M2KymWIL6Vhg/3liatBhYVkRRVVwm4h
-	 HVqstLXKnYZQxI3b+qQyZ2Ddfaay/LzMk3N7MJce+YwqN3jEEzOBW0WvCz8In5X5n6oam
-	 M1l+bBMSc3GqqyoLqJC2OH1+Ok9spaR1hb+YDDw8v9I2hUI6+hP2qlRymhuLZ3s0smERg
-	 GTwyZm9SvsUgMm+C3NKcNBpkim2nbGOqmyLRPse22EJeN+AKLVQm62Jwbbfr6v512vQ==
+	bh=njHYVC/5V1wNrVL4KUznjFMwx6yx3V3YV6oieW86crI=;
+	b=QHyW1CfgGab6z15icUxMit5S3wD5XyG22EKVUSMQUw3VBJZ+eM1oW7skW2LBi9BJCHXA
+	 r8WUhrxN5z35jtGl4TAPA3u32xwXECWuM+6i2UPoUBwF0bzVxZspCGYNQSxvpRSUNTr1v
+	 qtoaauItxhFCPhQTrA6TjwYhpvv9VqpvT+KTPlS7ytW44s4VAGl7zNc9GI1O14O9cLupa
+	 ws5z2SmJdFZ+0Yqm7sbLwndK2ogmPZkGZIbcdfnZPjeaFDRZ+I8HYqagrRD21RLf/NSPE
+	 bmy6TZQQ0HooYfKVHttjRZKHzLSeJI0c1yJsfs+56v1FKyztx4FGPUKigy7XgU+urIQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C9KF9U4W;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yd990P+5;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F84606D81C;
-	Thu,  5 Nov 2026 15:32:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E3A606A331;
+	Thu,  5 Nov 2026 15:32:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C9KF9U4W
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CA7F1F00919;
-	Thu,  5 Nov 2026 15:32:00 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yd990P+5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EEFC1F0093A;
+	Thu,  5 Nov 2026 15:32:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793892720;
-	bh=kdr5CytSp+QzI8htSD6yTJaK//bvnNSu46epScRZxNo=;
+	s=k20260515; t=1793892756;
+	bh=njHYVC/5V1wNrVL4KUznjFMwx6yx3V3YV6oieW86crI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=C9KF9U4Wy9MHg2DiZN3xt0tjLQfpvPUWM1pq/WDHmcc0fqjMUFGXs+F4+UOQ8lr3F
-	 wL9LOO3/4f/THG3rqhODeVMbyONknBQHfYkLbysNKOuIDqNJomVPe38shF9TahJB7c
-	 BuFAA+nXygBMTZ82GSdSij7lSoVuq5epHrUNfiHGslQJmycDH/kOfoH7fc+/j06iQg
-	 RsL1UEZrBONnz5r8qzbWotG7ti2drA2cNu7UvOdvfLspHMa4lzEqbRmXjtreYpjjSm
-	 IfgsPh/dDEo4yNqAOhGlOj3U5R000Zu9rpOApYAtaLtAusVH/Im+aHd6yld8/CYaq4
-	 MtPsBVHV6FojA==
-Message-ID: <sashiko-outbox-199311@kernel.org>
+	b=Yd990P+5kx63/+fLOft/UEbEtR3hCWRplfn596L68oZXAaIwPAqPty5C2+G4CZlOi
+	 SpAj8k2GCopJih2QQAF1TaG2qQz7apSL74YhuHUQw4ZdrMdvcSS3fcWJfnp47eBghO
+	 IiuPYEA6xgoTiuodf+ZbIucvPPQDXqV4lrhOwmhpgVi1PCr6/f/na9ngsuvEYkfWqp
+	 7lph6ftTfbuuy4rInKHXgNdkg7gqOK+cD9XyANgbou0Oz6hQrsHRGIWS5pHTTfSQkI
+	 1Ku5Zo+q2GBD/KBZQ+yMfuk/OQb1fHT7MuycATYdQbw/iZS+TNK+kp4JAak6gvOlAS
+	 EXRGGpem5/CLA==
+Message-ID: <sashiko-outbox-199313@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 2/8] ALSA: usb: babyfacepro: add output masters and
- crosspoint routing
+Subject: Re: [PATCH v8 4/8] ALSA: usb: babyfacepro: add routing flags and
+ varispeed pitch
 Reply-To: sashiko-reviews@lists.linux.dev
 To: =?utf-8?b?SXNtYcOvbCBCYWhsb3Vs?= <i.bahloul01@gmail.com>, linux-sound@vger.kernel.org
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261105151553.223722-3-i.bahloul01@gmail.com>
+In-Reply-To: <20261105151553.223722-5-i.bahloul01@gmail.com>
 References: <20261105151553.223722-1-i.bahloul01@gmail.com>
- <20261105151553.223722-3-i.bahloul01@gmail.com>
+ <20261105151553.223722-5-i.bahloul01@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 15:31:59 +0000
+Date: Thu, 05 Nov 2026 15:32:36 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,160 +63,107 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] ALSA: usb: babyfacepro: out-of-bounds value[1] write in bf_mute_ge=
-t()
-- [Medium] ALSA: usb: babyfacepro: missing shutdown check in mixer put call=
-backs
+- [Medium] ALSA: usb: babyfacepro: out-of-bounds value[1] write in bf_loopb=
+ack_get()
+- [Low] ALSA: usb: babyfacepro: leftover contradictory comment above bf_out=
+_reg8()
 --
 
-commit a0ae4df204731e5d864689d9a4a9ee415579f1a2
+commit bc91f1e348293fb57b62c700b674ce38c7dc5791
 Author: Isma=C3=AFl Bahloul <i.bahloul01@gmail.com>
 
-ALSA: usb: babyfacepro: add output masters and crosspoint routing
+ALSA: usb: babyfacepro: add routing flags and varispeed pitch
 
-This commit adds ALSA mixer controls for the six output masters (volume and
-mute) and the 6x14 crosspoint routing matrix, caching their state on the
-host and initializing safe power-on defaults during probe.
+This commit adds ALSA mixer controls and state persistence for routing flags
+(loopback, AN 1>2, sample clock source, optical out format, AN1/2 link, MS
+processor, DIM, width, and FX send) and varispeed pitch on the RME Babyface
+Pro.
 
 > diff --git a/sound/usb/babyfacepro/babyfacepro-ctl.c b/sound/usb/babyface=
 pro/babyfacepro-ctl.c
-> new file mode 100644
-> index 0000000000000..942d4732cbe07
-> --- /dev/null
+> index fe6266ea118e6..5482b6f09b73a 100644
+> --- a/sound/usb/babyfacepro/babyfacepro-ctl.c
 > +++ b/sound/usb/babyfacepro/babyfacepro-ctl.c
 
 [ ... ]
 
-> +static int bf_master_put(struct snd_kcontrol *kctl,
-> +			 struct snd_ctl_elem_value *ucontrol)
+> @@ -325,6 +329,33 @@ static int bf_master_get(struct snd_kcontrol *kctl,
+>  	return 0;
+>  }
+> =20
+> +/* The master step to put on the wire.  The cache keeps the real
+> + * volume: mute wins, and DIM is the fixed -20 dB step on the Phones
+> + * pair, so every writer derives the wire value the same way.
+> + */
+> +/* The two master registers to put on the wire.  The cache keeps the
+> + * real volume: mute wins, and DIM is the exact -20 dB pair the
+> + * hardware's own button writes (0xcb / 0x0333, cap_dim2.pcap), not the
+> + * master curve's value at that step.
+> + */
+> +static u8 bf_out_reg8(bool muted, bool dim, u16 step)
+
+[Severity: Low]
+This isn't a bug, but is the first comment block above bf_out_reg8() in
+sound/usb/babyfacepro/babyfacepro-ctl.c a leftover from an earlier draft
+that was meant to be replaced by the second comment block?
+
+[ ... ]
+
+> @@ -1278,3 +1305,679 @@ int babyface_create_preamp(struct snd_usb_babyfac=
+e *chip)
+
+[ ... ]
+
+> +static int bf_loopback_get(struct snd_kcontrol *kctl,
+> +			   struct snd_ctl_elem_value *ucontrol)
 > +{
 > +	struct snd_usb_babyface *chip =3D snd_kcontrol_chip(kctl);
-> +	int out =3D bf_master_out[kctl->private_value];
-> +	long nl =3D ucontrol->value.integer.value[0];
-> +	long nr =3D ucontrol->value.integer.value[1];
-> +	u16 l, r, wire_l, wire_r, flag;
-> +	int ret =3D 0;
+> +	int out =3D kctl->private_value;
 > +
-> +	/* Reject anything outside the declared range, so the registers and
-> +	 * the cache stay in spec (the ALSA core only enforces this with
-> +	 * CONFIG_SND_CTL_INPUT_VALIDATION).  Check before narrowing:
-> +	 * .value.integer.value[] is a long.
-> +	 */
-> +	if (nl < 0 || nl > BF_MASTER_STEP_MAX ||
-> +	    nr < 0 || nr > BF_MASTER_STEP_MAX)
-> +		return -EINVAL;
-> +	l =3D nl;
-> +	r =3D nr;
-> +
-> +	guard(mutex)(&chip->mutex);
-> +	if (l =3D=3D chip->master[out][0] && r =3D=3D chip->master[out][1])
-> +		return 0;
+> +	ucontrol->value.integer.value[0] =3D chip->loopback[out];
+> +	ucontrol->value.integer.value[1] =3D chip->loopback[out];
+> +	return 0;
+> +}
 
 [Severity: Medium]
-As reported by Sashiko on v7 [1], should bf_master_put() (along with
-bf_mute_put() and bf_xpoint_put() below) check chip->shutdown and return
--ENODEV after acquiring chip->mutex, matching babyface_pcm_hw_params(),
-babyface_pcm_prepare(), and babyface_stream_work()?
+Does bf_loopback_get() in sound/usb/babyfacepro/babyfacepro-ctl.c write
+past the declared element count when populating
+ucontrol->value.integer.value[1]?
 
-In babyface_disconnect(), chip->shutdown is set to true and chip->mutex is
-acquired and released to fence in-flight operations before calling
-usb_enable_autosuspend(chip->dev) and snd_card_disconnect(chip->card):
+In babyface_create_flags(), the Loopback Switch controls are registered with
+.info =3D bf_mute_info and .get =3D bf_loopback_get:
 
-sound/usb/babyfacepro/babyfacepro.c:babyface_disconnect() {
-    ...
-	chip->shutdown =3D true;
-	scoped_guard(mutex, &chip->mutex) {
-		if (chip->streaming)
-			babyface_stream_kill(chip);
-	}
-	cancel_work_sync(&chip->stream_work);
-	usb_enable_autosuspend(chip->dev);
-    ...
-	snd_card_disconnect(chip->card);
-}
+	for (i =3D 0; i < 6; i++) {
+		kctl =3D snd_ctl_new1(&(struct snd_kcontrol_new){
+			.iface =3D SNDRV_CTL_ELEM_IFACE_MIXER,
+			.name =3D "Loopback Switch",
+			.index =3D i,
+			.info =3D bf_mute_info,
+			.get =3D bf_loopback_get,
+			.put =3D bf_loopback_put,
+			.private_value =3D i,
+		}, chip);
 
-Without checking chip->shutdown under chip->mutex, a concurrent
-SNDRV_CTL_IOCTL_ELEM_WRITE ioctl in bf_master_put(), bf_mute_put(), or
-bf_xpoint_put() can proceed to issue synchronous USB control transfers via
-bf_vendor_write() or bf_xpoint_write() after the disconnect fence has passed
-and USB autosuspend has been re-enabled (and on !CONFIG_PM builds, where
-snd_power_sync_ref() in snd_card_disconnect() is a no-op, while
-babyface_disconnect() is completing).
+However, bf_mute_info() sets uinfo->count =3D 1:
 
-> +
-> +	wire_l =3D chip->muted[out] ? 0 : l;
-> +	wire_r =3D chip->muted[out] ? 0 : r;
-> +	flag =3D bf_flag_cycle[chip->flag_cnt];
-> +	chip->flag_cnt =3D (chip->flag_cnt + 1) & 3;
-> +
-> +	/* Both registers, as TotalMix writes them: the 8-bit is the analog
-> +	 * level, the 16-bit the digital one.
-> +	 */
-> +	ret =3D bf_vendor_write(chip, BF_REQ_GAIN, bf_master_reg8(wire_l),
-> +			      BF_REG_MASTER_8 + 2 * out);
-> +	if (ret < 0)
-> +		return ret;
-> +	ret =3D bf_vendor_write(chip, BF_REQ_GAIN, bf_master_reg8(wire_r),
-> +			      BF_REG_MASTER_8 + 2 * out + 1);
-> +	if (ret < 0)
-> +		return ret;
-> +	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, bf_master_reg16(wire_l=
-),
-> +			      (BF_REG_MASTER_16 + 2 * out) | flag);
-> +	if (ret < 0)
-> +		return ret;
-> +	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, bf_master_reg16(wire_r=
-),
-> +			      (BF_REG_MASTER_16 + 2 * out + 1) | flag);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	chip->master[out][0] =3D l;
-> +	chip->master[out][1] =3D r;
-> +	return 1;
-> +}
-> +
-> +static int bf_mute_info(struct snd_kcontrol *kctl,
-> +			struct snd_ctl_elem_info *uinfo)
-> +{
-> +	uinfo->type =3D SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-> +	/* One switch for the pair: bf_mute_put() writes both channels
-> +	 * together, so a count of 2 would silently ignore value[1].
-> +	 */
-> +	uinfo->count =3D 1;
-> +	uinfo->value.integer.min =3D 0;
-> +	uinfo->value.integer.max =3D 1;
-> +	return 0;
-> +}
-> +
-> +static int bf_mute_get(struct snd_kcontrol *kctl,
-> +		       struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_usb_babyface *chip =3D snd_kcontrol_chip(kctl);
-> +	int out =3D bf_master_out[kctl->private_value];
-> +
-> +	/* ALSA convention: 1 =3D enabled (sound on) =3D not muted. */
-> +	ucontrol->value.integer.value[0] =3D !chip->muted[out];
-> +	ucontrol->value.integer.value[1] =3D !chip->muted[out];
-> +	return 0;
-> +}
+	uinfo->type =3D SNDRV_CTL_ELEM_TYPE_BOOLEAN;
+	/* One switch for the pair: bf_mute_put() writes both channels
+	 * together, so a count of 2 would silently ignore value[1].
+	 */
+	uinfo->count =3D 1;
 
-[Severity: High]
-Since bf_mute_info() declares uinfo->count =3D 1, doesn't writing to
-ucontrol->value.integer.value[1] in bf_mute_get() write past the declared
-element count?
+When userspace reads the control via snd_ctl_elem_read() -> bf_loopback_get=
+()
+with CONFIG_SND_CTL_DEBUG enabled, the ALSA control core poisons the buffer
+past info.count with fill_remaining_elem_value() and then checks it in
+sanity_check_elem_value(). Because bf_loopback_get() (like bf_mute_get())
+writes ucontrol->value.integer.value[1] on a count =3D 1 control,
+sanity_check_elem_value() logs an access overflow error and fails the read
+with -EINVAL.
 
-When CONFIG_SND_CTL_DEBUG is enabled, snd_ctl_elem_read() poisons bytes in
-ucontrol->value past info.count and checks them in sanity_check_elem_value()
-after kctl->get(), so overwriting ucontrol->value.integer.value[1] causes
-every read of the Playback Switch controls to log an error and fail with
--EINVAL, and causes snd_ctl_put_verify() to report a false mismatch whenever
-the output is unmuted. Even without CONFIG_SND_CTL_DEBUG, setting value[1]
-breaks userspace comparisons via snd_ctl_elem_value_compare() (such as the
-ALSA mixer-test kselftest).
-
-[1] https://lore.kernel.org/r/20261027113140.134257-3-i.bahloul01@gmail.com
+Should bf_loopback_get() only write ucontrol->value.integer.value[0] (or use
+bf_switch_info and a single-value get, and similarly in bf_mute_get())?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105151553.2237=
-22-1-i.bahloul01@gmail.com?part=3D2
+22-1-i.bahloul01@gmail.com?part=3D4
