@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793901369;
-	b=ECe+wegD7Bn0g0DIk1vfa8fHnGVTJHhSIzxDEHOdT/dkKm1nrIKEFM/DRbyb5jtp7zuJ
-	 eeI2mEm9SWehoqYnhUD8MZllnx/KuqYG0UeLvnoRhVEe+8L4r++8/Ju30rmr6O1wGxBmE
-	 yS4bvT0L/wViOiJEiaGNem03syjR0aZ2ezE19mx08lf8BxL3JzUkwFPuAQKIZBi+MgJ8g
-	 CFdC9IUHdIc3jTOW1x6lyTIpuH7l9ohjVW05T/GkJZpG3aW9JxfADJoP8i4N1yWO50LTA
-	 NU6ei9q4TmuoaYuyqZDk9kwNwSc3Q78eNj3FXlZtdyJVZEOhJ/fe2+d2jYbUxV+783g==
+	t=1793901993;
+	b=dhKYwvpbHJ5EHvVHyQxFhPapJ9QNbEtQpJdjse5yc/G6l9lInblprulpGF1JAPNkNdUJ
+	 vmvfSiShaedS54KICIleDmMi65NxlM1T/nYzirTH2zzbdzjcBrbFTooiVkDs2Gl4MlmDd
+	 iocPLYnoEU18PlL9YgiVulmi+FOWrBTfuts27oI3kBFIgkeyz6JV4aaI6vXpJq5+/k1XX
+	 ugZ/TLBPZxX68gCapFGFkUQ2apRRRwMNE7S9ZZZKu5ju/PtV1ru4M/a2e2uASseboS2VI
+	 sEYE+4KLVq01pyNm6hrThFXDAsNO/cdWvBngvUvQ3jygrpz7e4Sz5zda8+T8RxexLyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793901369;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793901993;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=oQbbThKBbz+Doj3Dnzj8IgE6cj0mEID6rGNUq0N0dik=;
-	b=OxF6UUPTxnMK4xdUCBZ+XjwdUa20BEyuyvHVFT8mj1qBBqa+RBAD9wpiYOiE/SL0HIS4
-	 uYQlFYZUtxONWUwSibipYxymPlC/hDs5wXlMZC0BBUln6dOrrbaSX0xBCHM0FmEdMKcRb
-	 8YnV+7DT4dr0yM1oLPM17BLaduWa7ey9ZhD9TylKQu/IoBq4E8BHzpMdc84tbZ1AG+mDT
-	 uYOmT4gMOobwKYRQFADLUCvRM9j6QfQoU1UizC3Wf6eqyZcSCrr7iLZHeK0PGwhmFDcCC
-	 GQPzfpul3eVLl9H6+ZoakcuMai6MkJdYE7s7obVPNB/nCG3s1J6IJT/6eSVGWQ1Kd7A==
+	bh=8V+GDUZYDo8Maqg610cgDAKZ4K7cHnnRvQGwPVUlFqg=;
+	b=l5l9GzwZsU9vlYIFCmzcwI/C7NC0IVsh6gAGwP09KE4adNNXvsxy+09dFXRANKc+Nkt1
+	 +qmB0aKVG5EVauSnJhSqnnoETbsEeByx/Gxem0tDvE3UmERRi+bt0do0yEowclrutcM8L
+	 8FRK/OuHnUeEndjxNAnPJTtN1uDDJUdK0dR2LK0HOPpmOxVPdIbRiRM8VxO8TrbHzX3nB
+	 CpwGJr28kqQfD6PQ7yf9E2huTxUsmImVz6R3FPqCTtzg1Dq8YzoDryvN8R5FrVoeyEojE
+	 csCNRTmtMRPzN0R2HQbAqxCBg18DoGoKxw9DvCWrih2RYRNncxsckiKlYz0u/abN2WQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IDGlzeCy;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DJ0Ax1zu;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77657606A336
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 17:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D40D606A329
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 18:06:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IDGlzeCy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFFD71F0093A;
-	Thu,  5 Nov 2026 17:56:08 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DJ0Ax1zu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 105F61F00919;
+	Thu,  5 Nov 2026 18:06:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793901369;
-	bh=oQbbThKBbz+Doj3Dnzj8IgE6cj0mEID6rGNUq0N0dik=;
+	s=k20260515; t=1793901993;
+	bh=8V+GDUZYDo8Maqg610cgDAKZ4K7cHnnRvQGwPVUlFqg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IDGlzeCyNPNQImS/GAKW9zTX8+MyTugrZLm3FPIGGA31w65dnLDRgBe8XgDNIYe9w
-	 Ullq7DLcxF0iEVMrutx58JlLCXXUCEz+aGxwVKw/IrLA6z6EAMcR5SbuD1Wt/FDjID
-	 APZvK9WEg8vqMt+k+IMcie6TNr4x8UkNGoJjfHS1PTnlCDdrUsKOCCkBSwii3OHve0
-	 wsokNW5gO22z+vgyfWAkq6mGnvUBng8eBnxIUKnsBkjc7OICFIHhydki0CG1RTqmfg
-	 h/1HWFqddDMjJIIBcSHY7okMoJVEtEaMAaDFgu0zCwxYMStIcOFyHTHaxduUjUeuXh
-	 Of6735WejvEqA==
-Message-ID: <sashiko-outbox-199672@kernel.org>
+	b=DJ0Ax1zupAcHOAnFk9x/NRujHB/vzMtGSmKrSwx4ase/UKZYzXn97OGRp+NwPLjsE
+	 RsKc51UM5Zj/HwoDPzNE9yq16wKA5a91avFea65WqYVyXWVf/UJACfF+V4MpQ8iCok
+	 cnqT23RYCmxDwIO3KVaPNAbPAxdZmQ93hNKlucFjnsJ6BBdAB8DLzS/dqUBo3UhUkX
+	 UJxZX1u5n525PbtPUyHvqOShSGYck/RK2MQmxFTsTMoyPyf7Gn6uuTkY/vLkU5RG20
+	 rn0RfZrIsH9psMxfcY+AiVsK9QNr7fMk0tEOoGaqLR9yW8CvsYE7XAnPHt6Qv/KYOz
+	 EsPcFdARfkHmQ==
+Message-ID: <sashiko-outbox-199689@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/5] usb: xhci: clear stale bandwidth data after
- hibernation
+Subject: Re: [PATCH 2/5] usb: xhci: disable the correct slot on alloc_dev
+ failure
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathias Nyman" <mathias.nyman@linux.intel.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261105175106.241182-5-mathias.nyman@linux.intel.com>
+In-Reply-To: <20261105175106.241182-3-mathias.nyman@linux.intel.com>
 References: <20261105175106.241182-1-mathias.nyman@linux.intel.com>
- <20261105175106.241182-5-mathias.nyman@linux.intel.com>
+ <20261105175106.241182-3-mathias.nyman@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 17:56:08 +0000
+Date: Thu, 05 Nov 2026 18:06:32 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,32 +61,32 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> From: Niklas Neronin <niklas.neronin@linux.intel.com>
+> From: Xu Rao <raoxu@uniontech.com>
 >=20
-> Controllers using software managed bandwidth accounting maintain
-> periodic endpoint bandwidth information in struct 'xhci_interval_bw_table=
-'.
+> xhci_alloc_dev() stores the Slot ID returned by the Enable Slot command
+> in the local slot_id variable.  udev->slot_id is updated only after
+> xhci_alloc_virt_device() succeeds.
 >=20
-> Each root hub port owns a bandwidth table and a list of TT bandwidth
-> domains, where each TT has its own bandwidth table. Virtual devices
-> reference the bandwidth table of their current bandwidth domain through
-> 'bw_table' or 'tt_info'.
+> If endpoint resource reservation or virtual device allocation fails
+> before that update, the error path passes udev->slot_id to
+> xhci_disable_and_free_slot().  During initial enumeration this is slot 0.
+> When reallocating a device whose virtual device is missing or belongs to
+> another usb_device, udev->slot_id may contain a stale Slot ID.
+> The newly enabled slot can therefore remain active, or the wrong slot can
+> be disabled.
 >=20
-> Historically, resume from S4 reinitialized the entire xHCI driver state,
-> which implicitly cleared all bandwidth accounting data. After the
-> hibernation resume path was optimized to preserve parts of the driver
-> state, virtual devices and TT bandwidth information were freed and
-> recreated, but the root hub bandwidth tables were left intact.
-> [ ... ]
-> Suggested-by: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-> Tested-by: Harald Judt <h.judt@gmx.at>
-> Cc: stable <stable@kernel.org>
-> Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
+> Pass slot_id, which identifies the slot enabled by this invocation.
+> xhci_disable_and_free_slot() already handles a missing xhci->devs entry.
+>=20
+> Fixes: 3ffbba9511b4 ("USB: xhci: Allocate and address USB devices")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
+> Reviewed-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 > Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105175106.2411=
-82-1-mathias.nyman@linux.intel.com?part=3D4
+82-1-mathias.nyman@linux.intel.com?part=3D2
 
