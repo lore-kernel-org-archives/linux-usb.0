@@ -1,54 +1,163 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793876991;
-	b=2zJizuvR7877KEwZl6s38ylqSPyhz9esIrWCu5nZ+n3UdGufv7Yxbg9lYJksiYTes1oa
-	 zV844MtFFBZtcdFr/oHb1ROu3AeubWgYiSTjOABoC08TOTJanlCZ4Um1DjXC1SagamTta
-	 9qEhqzosXRfOhPhos1C4wqOrwu/4rpyArZWi5YY7m98yL45/CZ8IfMsuWlMo38RuIMko9
-	 phlkrUtuPeTUVZd7SLro/TUctk0+bnJTtvtVwuIPZr29yVR2v9B5g26GlU1JIhO4fawrd
-	 OW8oSV2twm4GwUvEPpz+uNSl2zuk6KR2w4QdkFfcoDAF75dmAfHlUvFWYNUxIebdKZQ==
+	t=1793878765;
+	b=A9LtQ4Ktwt2EGvE3xsxl5agqQ3u4iIwf5+xawugwZiqN8Ll5bldYPuiDPotqKG2ddfyU
+	 Hhsi1OnGyU5pAZu9UZIwiv5yl9JWEdwXdAtjbLMMcl8KG3cefmcOGIzbbtmyhH7rlluIs
+	 FdKO03LmXxuUU5BD8tSUTbHO8ghhUsrbRZtV88Qs4sXYZ1x2YDxkHDrSIs7DFvANdNy36
+	 6g4VN6zw2aQOf9bGU5dB85tN0lg18bIR/p8k+N95bitwjU1o7I+5cGem7JsdrmPTodd2A
+	 RItnVJWJDUDUHs3kxuhhJdEwMBOyy12tYw7d3rnL8t9b6jsk4QfXvGI3ctOCstnq4ZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793876991;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=BR00Dpxko6WL7FYEXY9i3C8lkNmUwrkbEGiJyBaasfE=;
-	b=wjg+7IY585jOTZKIVw8kvmAZU/JEDx5vECUK4V7tFyp+RiPsT/fSLFYZnyMWQoJ9vDUF
-	 9WNf/FAIm3LM1UZC3Y+2aZ9rY1j8GsjdlNugynYdarxvpzMQa7ZrZn0Q03mrEcoSEYESa
-	 +A1Lg4cAxgJuZ6SFreqg+mArleQi0NaXztCiNrJbS6uYKzmsDBlq8xIc8Sc2v60uIUKGC
-	 yBAYIMs2OtVnWGq/WGFHYoDvmb+GdX2c+SmHkd5Tti6EawO7Ik4DbX32yFqYXv0s8bp5V
-	 DtrSoLW+H4t2C0PO34jqDnji7ieQEYbracOPTLLRcxzpjGrzq0HB11NRvK3Kt9QbCZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793878765;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=nBYw1ywhOZ/qkhjAQYbGVUhl6PlTBeWYLHkpD07E2JA=;
+	b=ZflwMk+sdBPrF63QOORw7QYqKoYK1lzgosYKRwdHfKpDLfEDdY64kz5fZLIiPi7P/9Vb
+	 w3g49sPoea6+4ret6++MnrQZRQ85w3a8Xx9BSh8jvJjWkhI7gps8aKkFW0mwPFEQ26NPN
+	 YJifX0gW7YMi4Ot73YEdbITChlOvLxpePri6z4LvfB2IQMlkU8uZBXW/u7BLtE7j+V3vw
+	 vmher1z3G9k9sY+RZtVDrrZjc6XEafTiMDGvhLjM3DTHYTMVD09B1ck8Umu0jV9nva5kN
+	 8GjZ0UGp6dlLhEuz31FI4EFrejyXUvweLTFUuqIloRxt19DNbjaGoJHe+m0eRlzh2vQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.197
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zg+N9Od5;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2DD606A33D
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 11:09:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F2DD606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4e778acdbc6so2489687b6e.3
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 03:09:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793876989; x=1794481789;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BR00Dpxko6WL7FYEXY9i3C8lkNmUwrkbEGiJyBaasfE=;
-        b=k+Zrysb5tpSL9Yo44Oq4fJnHMxhNFhbQps+Sx5HAl+Nkubw7ZhkZnDxVAsdpGi7e/5
-         nedyno/7GyLo+LPZeumESDIp9ZTprcG8rDvDv83jO/kp62/Xn3g16ddkF8+e2kPPKZ+q
-         xh/igkhgF368Zc5nQmyi1lu2LYM7GHmQmUT4yFd24DeBo+E5u/IDx29bpcZvCoJ276xD
-         NeBqZhfcEOa3j6fplLRMezYZMLdpUtWeDoOPtaDXiPB822RmNvB/XnL2/PPqCma6cSrW
-         ULYemmOEYek0Op84BddM4Xs154j59hUJy+MyDGRiUTwDfNjrAUggSi2Zg+kqM7ZfbzBt
-         ZwMQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwLGk80gmYgtwFD//Jk6l6tgIgTF83he2xoQHhltaHE2orFbDKlPJqplJML0FVencHlwvxh+vDDiO4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ABb1mdT6r8iRW+BUkwMOA9IXOPObQNk7ceTrbJVAGj2LOAoCV
-	mnqXJpF5K3zSm4eSCs6lT9sCCllN+xfmhSqeOIg+9F5R3zXFlamo79UK5bcRpMh9LDtWSPPwJm+
-	Bt86lkAuYBYKjfezaUAVrnwFwDK4ojDF/Wq0Gl6gTSThj3nI3JWVacl/2ue4=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F13606A326;
+	Thu,  5 Nov 2026 11:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zg+N9Od5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 511611F000C1;
+	Thu,  5 Nov 2026 11:39:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793878764;
+	bh=nBYw1ywhOZ/qkhjAQYbGVUhl6PlTBeWYLHkpD07E2JA=;
+	h=From:To:Cc:Subject:Date;
+	b=Zg+N9Od5zSsBpPaBLRFCUpb24UpOsG40XB2g0jmYK6PIQt6/NgQ6o2D2xIuTzZ/Yk
+	 n6qi1h1mcFVesVxnhwbMsmTUH1QB6RESQX4KKKY9qM5V5a1Qt34ympeOCATm10u+Qb
+	 KsD8LoDt+yYWFple6BRBYHS00aQXSP21UQIPEWU+iZu0aTrXsVViG1oSfnzN4lbid7
+	 +NtTSPHgZdaPtu4vtc2CGV3LS2PrgEkos8Ndw3PblxkRKOpgx3J0ri4gsEugrTYfHe
+	 7DmN1Y0bubaFVVlSZVlcXHAXCWDlBUlRQw5uW10GtWu6zcyakaDEKVloKzQiGJGquJ
+	 mxbW2ns2oLR1g==
+From: Philipp Stanner <phasta@kernel.org>
+To: Min Ma <mamin506@gmail.com>,
+	Lizhi Hou <lizhi.hou@amd.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+	Karol Wachowski <karol.wachowski@linux.intel.com>,
+	Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Felix Kuehling <Felix.Kuehling@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Russell King <linux+etnaviv@armlinux.org.uk>,
+	Christian Gmeiner <christian.gmeiner@gmail.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Alessio Belle <alessio.belle@imgtec.com>,
+	Luigi Santivetti <luigi.santivetti@imgtec.com>,
+	Qiang Yu <yuq825@gmail.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Lyude Paul <lyude@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Steven Price <steven.price@arm.com>,
+	=?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Dave Airlie <airlied@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Natalie Vock <nat@pixelcluster.dev>,
+	Arun Pravin <arunpravin.paneerselvam@amd.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Melissa Wen <mwen@igalia.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Zack Rusin <zack.rusin@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Neill Kapron <nkapron@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Sunil Khatri <sunil.khatri@amd.com>,
+	Prike Liang <Prike.Liang@amd.com>,
+	Vitaly Prosyak <vitaly.prosyak@amd.com>,
+	Jesse Zhang <Jesse.Zhang@amd.com>,
+	=?UTF-8?q?Timur=20Krist=C3=B3f?= <timur.kristof@gmail.com>,
+	Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+	David Rosca <david.rosca@amd.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Krzysztof Karas <krzysztof.karas@intel.com>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+	Shixiong Ou <oushixiong@kylinos.cn>,
+	=?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
+	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Michael Bommarito <michael.bommarito@gmail.com>,
+	Sam Day <me@samcday.com>,
+	Gabriel Prostitis <prostitisgabriel@gmail.com>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	etnaviv@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	imagination@lists.freedesktop.org,
+	lima@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	virtualization@lists.linux.dev,
+	spice-devel@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-tegra@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	rust-for-linux@vger.kernel.or
+Subject: [PATCH 0/3] dma-buf: dma-fence: Remove dma_fence_init64()
+Date: Thu,  5 Nov 2026 12:35:27 +0100
+Message-ID: <20261105113529.1989375-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,211 +167,90 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:120a:b0:55b:ea1c:3ce8 with SMTP id
- 5614622812f47-5640def172emr13317976b6e.21.1793876989635; Thu, 05 Nov 2026
- 03:09:49 -0800 (PST)
-Date: Thu, 05 Nov 2026 03:09:49 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aec63fd.5f5735a5.290c1c.0002.GAE@google.com>
-Subject: [syzbot] [greybus?] [usb?] KASAN: slab-out-of-bounds Read in gb_svc_request_handler
-From: syzbot <syzbot+693652ded53d3eb9cb91@syzkaller.appspotmail.com>
-To: elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
-	johan@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+We recently had a discussion about reworking dma_fence init to close a
+race-window [1].
 
-syzbot found the following issue on:
+The community agreement seems to have been that we can get rid of
+dma_fence_init64(), so let's do that already. In the meantime we can
+continue our discussions regarding the race in [1].
 
-HEAD commit:    6628e7d4c6b2 Linux 7.4-rc1
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=1308eadd580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f9bf69220d319004
-dashboard link: https://syzkaller.appspot.com/bug?extid=693652ded53d3eb9cb91
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17bebe69580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12c1344e580000
+This also touches the Rust dma_fence, which actually should use 64-bit
+seqnos (was forgotten so far). Rust fence has no users currently, so
+needs no backporting, so I would like to address that in a distinct
+patch.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/d415be35d54e/disk-6628e7d4.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/69e49385122b/vmlinux-6628e7d4.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/51be81fff25f/bzImage-6628e7d4.xz
-
-AI-generated root cause summary:
-In drivers/greybus/operation.c, gb_connection_recv() verifies that the received
-buffer length is at least sizeof(header) and that size >= msg_size, but fails to
-check whether msg_size (from header.size) is at least sizeof(header). When an
-incoming message has header.size < sizeof(struct gb_operation_msg_hdr),
-gb_operation_create_incoming() computes request_size = size - sizeof(struct
-gb_operation_msg_hdr), causing an unsigned size_t underflow to SIZE_MAX. While
-gb_operation_message_alloc() wraps the allocation size back to the short
-msg_size (allocating e.g. 7 bytes), gb_operation_message_init() sets
-payload_size to SIZE_MAX and sets payload to header + 1 (offset 8, past the end
-of the buffer). Consequently, request handlers like gb_svc_version_request()
-pass the payload_size validation and perform out-of-bounds heap reads on
-op->request->payload.
-
-full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=693652ded53d3eb9cb91
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+693652ded53d3eb9cb91@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-out-of-bounds in gb_svc_version_request drivers/greybus/svc.c:658 [inline]
-BUG: KASAN: slab-out-of-bounds in gb_svc_request_handler+0x10de/0x1250 drivers/greybus/svc.c:1271
-Read of size 1 at addr ffff888104ad2108 by task kworker/u8:0/12
-
-CPU: 0 UID: 0 PID: 12 Comm: kworker/u8:0 Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/07/2026
-Workqueue: greybus1:0 gb_operation_work
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
- gb_svc_version_request drivers/greybus/svc.c:658 [inline]
- gb_svc_request_handler+0x10de/0x1250 drivers/greybus/svc.c:1271
- gb_operation_request_handle drivers/greybus/operation.c:243 [inline]
- gb_operation_work+0xb7/0x990 drivers/greybus/operation.c:280
- process_one_work+0xac7/0x1b10 kernel/workqueue.c:3495
- process_scheduled_works kernel/workqueue.c:3578 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3659
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-Allocated by task 0:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
- __kasan_kmalloc+0x8f/0xa0 mm/kasan/common.c:426
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5531 [inline]
- __kmalloc_noprof+0x315/0x7e0 mm/slub.c:5556
- _kmalloc_noprof include/linux/slab.h:995 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- gb_operation_message_alloc+0x9b/0x2c0 drivers/greybus/operation.c:380
- gb_operation_create_common+0x9f/0x710 drivers/greybus/operation.c:532
- gb_operation_create_incoming drivers/greybus/operation.c:644 [inline]
- gb_connection_recv_request drivers/greybus/operation.c:926 [inline]
- gb_connection_recv+0x1dc/0x1050 drivers/greybus/operation.c:1063
- greybus_data_rcvd+0x244/0x600 drivers/greybus/connection.c:89
- cport_in_callback+0x1fb/0x280 drivers/greybus/es2.c:840
- __usb_hcd_giveback_urb+0x38e/0x610 drivers/usb/core/hcd.c:1657
- usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
- dummy_timer+0xdb5/0x3840 drivers/usb/gadget/udc/dummy_hcd.c:2051
- __run_hrtimer kernel/time/hrtimer.c:2079 [inline]
- __hrtimer_run_queues+0x448/0x9a0 kernel/time/hrtimer.c:2136
- hrtimer_run_softirq+0x1ca/0x360 kernel/time/hrtimer.c:2153
- handle_softirqs+0x209/0xa00 kernel/softirq.c:669
- __do_softirq kernel/softirq.c:703 [inline]
- invoke_softirq kernel/softirq.c:542 [inline]
- __irq_exit_rcu+0x17a/0x220 kernel/softirq.c:786
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:809
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-
-The buggy address belongs to the object at ffff888104ad2100
- which belongs to the cache kmalloc-8 of size 8
-The buggy address is located 1 bytes to the right of
- allocated 7-byte region [ffff888104ad2100, ffff888104ad2107)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888104ad2600 pfn:0x104ad2
-flags: 0x200000000000200(workingset|node=0|zone=2)
-page_type: f5(slab)
-raw: 0200000000000200 ffff888100041500 ffffea00040eb410 ffffea000403ef50
-raw: ffff888104ad2600 000000000080007a 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 5446373684
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1856
- prep_new_page mm/page_alloc.c:1864 [inline]
- get_page_from_freelist+0xf4b/0x3440 mm/page_alloc.c:3935
- __alloc_frozen_pages_noprof+0x299/0x2d50 mm/page_alloc.c:5444
- alloc_slab_page mm/slub.c:3384 [inline]
- allocate_slab mm/slub.c:3499 [inline]
- new_slab+0xb1/0x6d0 mm/slub.c:3550
- refill_objects+0xe3/0x410 mm/slub.c:7539
- refill_sheaf mm/slub.c:2917 [inline]
- __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4811
- alloc_from_pcs mm/slub.c:4887 [inline]
- slab_alloc_node mm/slub.c:5021 [inline]
- __do_kmalloc_node mm/slub.c:5530 [inline]
- __kmalloc_noprof+0x617/0x7e0 mm/slub.c:5556
- _kmalloc_noprof include/linux/slab.h:995 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- acpi_ns_internalize_name+0x161/0x2e0 drivers/acpi/acpica/nsutils.c:331
- acpi_ns_get_node_unlocked+0x18c/0x500 drivers/acpi/acpica/nsutils.c:666
- acpi_ns_get_node+0x6c/0xf0 drivers/acpi/acpica/nsutils.c:726
- acpi_ns_evaluate+0xb01/0x1670 drivers/acpi/acpica/nseval.c:62
- acpi_ut_evaluate_object+0xf7/0x610 drivers/acpi/acpica/uteval.c:60
- acpi_ut_execute_power_methods+0x1f9/0x3c0 drivers/acpi/acpica/uteval.c:288
- acpi_get_object_info+0xa43/0xbe0 drivers/acpi/acpica/nsxfname.c:366
- acpi_set_pnp_ids drivers/acpi/scan.c:1405 [inline]
- acpi_init_device_object+0xc12/0x1a90 drivers/acpi/scan.c:1827
- acpi_add_single_object+0xe8/0x1a10 drivers/acpi/scan.c:1877
-page last free pid 1 tgid 1 ts 5222696283 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1403 [inline]
- __free_frozen_pages+0x714/0xfc0 mm/page_alloc.c:2954
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x47/0xf0 mm/kasan/quarantine.c:179
- kasan_quarantine_remove_cache+0x168/0x190 mm/kasan/quarantine.c:388
- kmem_cache_shrink+0xd/0x20 mm/slab_common.c:620
- acpi_os_purge_cache+0x15/0x20 drivers/acpi/osl.c:1622
- acpi_purge_cached_objects+0xa3/0x140 drivers/acpi/acpica/utxface.c:239
- acpi_initialize_objects+0x8b/0x100 drivers/acpi/acpica/utxfinit.c:250
- acpi_bus_init drivers/acpi/bus.c:1381 [inline]
- acpi_init+0x1b0/0x840 drivers/acpi/bus.c:1471
- do_one_initcall+0x11c/0x6f0 init/main.c:1419
- do_initcall_level init/main.c:1481 [inline]
- do_initcalls init/main.c:1497 [inline]
- do_basic_setup init/main.c:1517 [inline]
- kernel_init_freeable+0x6ea/0x7b0 init/main.c:1732
- kernel_init+0x21/0x1e0 init/main.c:1622
- ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Memory state around the buggy address:
- ffff888104ad2000: fa fc fc fc fa fc fc fc fa fc fc fc fa fc fc fc
- ffff888104ad2080: fa fc fc fc fa fc fc fc fa fc fc fc fa fc fc fc
->ffff888104ad2100: 07 fc fc fc fa fc fc fc 06 fc fc fc 06 fc fc fc
-                      ^
- ffff888104ad2180: 06 fc fc fc 06 fc fc fc 06 fc fc fc 06 fc fc fc
- ffff888104ad2200: 06 fc fc fc 06 fc fc fc fa fc fc fc fa fc fc fc
-==================================================================
+Tested on Nouveau with and without the SEQNO64 flag. Nouveau also uses
+the USER flag, so I hope we're fine.
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+P.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+[1] https://lore.kernel.org/dri-devel/20261029095542.1526750-3-phasta@kernel.org/
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Philipp Stanner (3):
+  dma-buf: dma-fence: Add flags parameter to dma_fence_init()
+  dma-buf: Port users of dma_fence_init64()
+  dma-buf: dma-fence: Remove dma_fence_init64()
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+ drivers/accel/amdxdna/amdxdna_ctx.c           |  2 +-
+ drivers/accel/ethosu/ethosu_job.c             |  2 +-
+ drivers/accel/ivpu/ivpu_job.c                 |  2 +-
+ drivers/accel/rocket/rocket_job.c             |  2 +-
+ drivers/dma-buf/dma-fence-array.c             |  2 +-
+ drivers/dma-buf/dma-fence-chain.c             |  4 +-
+ drivers/dma-buf/dma-fence.c                   | 58 +++++++++----------
+ drivers/dma-buf/st-dma-fence-chain.c          |  2 +-
+ drivers/dma-buf/st-dma-fence-unwrap.c         |  2 +-
+ drivers/dma-buf/st-dma-fence.c                |  2 +-
+ drivers/dma-buf/st-dma-resv.c                 |  2 +-
+ drivers/dma-buf/sw_sync.c                     |  2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |  2 +-
+ .../drm/amd/amdgpu/amdgpu_eviction_fence.c    |  7 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c     |  2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.c   |  5 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c  |  5 +-
+ drivers/gpu/drm/drm_crtc.c                    |  2 +-
+ drivers/gpu/drm/drm_writeback.c               |  2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |  2 +-
+ drivers/gpu/drm/i915/i915_request.c           |  2 +-
+ drivers/gpu/drm/i915/i915_sw_fence_work.c     |  2 +-
+ drivers/gpu/drm/i915/i915_vma_resource.c      |  2 +-
+ .../gpu/drm/i915/selftests/i915_sw_fence.c    |  2 +-
+ drivers/gpu/drm/imagination/pvr_ccb.c         |  2 +-
+ drivers/gpu/drm/imagination/pvr_queue.c       |  2 +-
+ drivers/gpu/drm/lima/lima_sched.c             |  2 +-
+ drivers/gpu/drm/msm/msm_fence.c               |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_fence.c       |  4 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c       |  2 +-
+ drivers/gpu/drm/qxl/qxl_release.c             |  2 +-
+ drivers/gpu/drm/radeon/radeon_fence.c         |  2 +-
+ drivers/gpu/drm/scheduler/sched_fence.c       |  4 +-
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  |  2 +-
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c       |  2 +-
+ .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |  2 +-
+ drivers/gpu/drm/v3d/v3d_fence.c               |  2 +-
+ drivers/gpu/drm/vc4/vc4_gem.c                 |  2 +-
+ drivers/gpu/drm/vgem/vgem_fence.c             |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_fence.c        |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c         |  2 +-
+ drivers/gpu/drm/xe/xe_hw_fence.c              |  2 +-
+ drivers/gpu/drm/xe/xe_oa.c                    |  2 +-
+ drivers/gpu/drm/xe/xe_preempt_fence.c         |  2 +-
+ drivers/gpu/drm/xe/xe_tlb_inval.c             |  2 +-
+ drivers/gpu/host1x/fence.c                    |  2 +-
+ drivers/iio/industrialio-buffer.c             |  2 +-
+ drivers/usb/gadget/function/f_fs.c            |  2 +-
+ include/linux/dma-fence.h                     | 14 +++--
+ rust/kernel/dma_buf/dma_fence.rs              |  2 +-
+ 52 files changed, 95 insertions(+), 94 deletions(-)
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
 
-If you want to undo deduplication, reply with:
-#syz undup
+base-commit: 8258a37702b9b9cf27f5c0ea07625e3e6bd74f5a
+-- 
+2.56.0
+
