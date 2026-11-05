@@ -1,58 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793888510;
-	b=VSkUcFjpNwv1wslCJzrd3QTHQQBtAWCkMRhUPcMOSn9rNNcROmoKFGgvAhyX+yDyNiyO
-	 28ySCF5FkCfP4cp5zwc2QvJ3r7k5d5VB8HY+EA6FHAYEfUqLsrPbCBh58cw6S56hnUxO+
-	 L9NX1uGNBtbL4kQJEC4WEw5aJ65RKzb6+kzw8tTfyikPZpnfuN97T0303au+ajmW7QYmq
-	 oLKUx5++rZ0gJlNIUoEzyi9trUgeZDCT1Yb8HQfQOomcdkn9xqyYLmybziX7CceHhA/P5
-	 OnTX6ZHF4kl4oD34yT4XH07RyBU2GcrrKdOKhmNQudVFWGiKjp5U6fe8F4r+sCvHrHg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793888510;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=eRO0we/jv1u/NCKEYpjhxs0l4uxNRSe89AWbOp+pBrw=;
-	b=U99c7RJ0lIvGDqsQRt++9mUPPsGNQg2w5LZ3CKKMvoLoaFGD20U/faTur1Mlx8HivCu7
-	 xMg9+g09lfyVu5LAoALfRMtrlo2+0/fqPWS+cxsmmIEVO20aFn79UYkLei6hF9s0tlhmS
-	 gRpV5sZshOqQIM2mqRTI2n22OzQpZNXhLUY2CbmgOmMxRujwgRTbmscVNBIg6viVeRZUC
-	 QL+/u5E0p302R+NSQadAqOKSRh7VfsCY7XhZs94aXvRGSfKmZqMWRokK4dgMuDCWfQLFn
-	 ip9fo7PjzaM4aK5dalqql0gUG2uwcXsfSTUGm/DUyG5j5C0MzW5HGukWSUITI1I1i0Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZbO2xRiV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.27
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793888646;
+	b=ebJ196OJpmg8ffeo50uA0ysICiWjvlfXuudvwjT12cQxgMolND6OZiG21ApE7Lne4liT
+	 lMBvCLUAcVXejWdlhQJcKc/TRb9QkTEsCDQPADQWEuJt4DknsH+qSFllW9iDqKkcTqBEX
+	 W0GHufGQO8fyPw0ZBVDdYheC9+/bxVzLewQFgptUTk5Paom+tQA4Vt0FLOGy9SOTNbM1R
+	 Ltn2Sa+AUQoz6veng0MCsFTlJXeXIfS20P1cfwpI10zWyoWnxHdLpDSjFLkZy6iGpGC7C
+	 bqN+7LpUnMJx+1HHdRYrbt57U2K2dMbzHHwyE/W8cJlvdsoh+hW4P9BKeeeUTjdAL6Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793888646;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=lKRyd6jPZ38O4z5cge9frYoPKfd8yqA+2zb6XL9yHDw=;
+	b=zkXaFpWvQf9skiBmNFOelv3iGDbM+Fp3A/+Y7XlpaKDiDX7HwqNMUgtaNGuy+q4oAmev
+	 gqmYqV3pP+mTc4cCiHonikvrm+wKMnxVytHPOvYlIZnUCaMAhKyEbPmRVfI4S8ER7Xh8o
+	 OwmVih+fIGV0p1OjrRtUXhWEm6xzQtPsuhG1AeCC+T04v58kgkjouh9FBUko+LWxvs3Jd
+	 9fIQcJN31sw521JEDFdZ0/IuhSwfexwK5T6BghqTKljbnbKV29ZNFT3rkQ7F7zpy5/Qt/
+	 Temgem03X75TnhfTWbFLoLIq25ZK6Cqsizijvy2biEcTRK0UW7PT3cAyvp28JUi68Pw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=EuPhVUPU;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.27
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010027.outbound.protection.outlook.com [52.101.46.27])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DAE606A326;
-	Thu,  5 Nov 2026 14:21:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62F6606A31B;
+	Thu,  5 Nov 2026 14:24:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C62F6606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZbO2xRiV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 836281F00919;
-	Thu,  5 Nov 2026 14:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793888509;
-	bh=eRO0we/jv1u/NCKEYpjhxs0l4uxNRSe89AWbOp+pBrw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZbO2xRiVBvQm9kyUUFV3bOo4038eVIY0BsSXGe/BHF89DX/E54SHsjkCT6kbOsUbw
-	 8mC4pY5HHLflZ0+/nLSkEiVw2rJHIiiSaggfXZFbnwQWOotIOtFe46QOX/iamWsiz3
-	 XPQhnj5zPHEXTcpWQ6r+qpjwsX4KWpcoqdCEuuqjs1rHMzU/yQVNa2kdUCcXxNSyTv
-	 4sbJm0PnlcLjXnbik2yZdJeZF/kt+++KYfLQEGfPiDX3LImcZi1feznP3i2ZLvcWLX
-	 jGBG39NKqrDEJFB3rwVGsPASmJvZuZAWar5DAy0IDx+WSY68QTw1nO7UgPvAjtk5sp
-	 hyp/mk6dN31FA==
-Message-ID: <sashiko-outbox-199233@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 02/16] dt-bindings: clock: at91: Split up per SoC
- partially
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Alexander Dahl" <ada@thorsis.com>
-Cc: devicetree@vger.kernel.org, linux-clk@vger.kernel.org, =?utf-8?b?b3Bl?=
- =?utf-8?b?biBsaXN0OlVTQiBTVUJTWVNURU0=?= <linux-usb@vger.kernel.org>, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261105110715.2486432-3-ada@thorsis.com>
-References: <20261105110715.2486432-1-ada@thorsis.com>
- <20261105110715.2486432-3-ada@thorsis.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 14:21:49 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=EuPhVUPU
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yTQ3lBP7t1HohBIxH0AxKro3SRKet1hE+wQ5PzLPI7+H99K1wz3a4pKvo2hb4WpbCkpGZnCCPrFMLxnu8O9+d0SGE+EcsIZHpPi166NYf+nGCfTncS2doKnrlew+a+s83vS0AiwNg4AmkeN0Q+iB/j06CYZF5b2HhcCaevENnsqZjbABGuvx7VSUXKj0RQDEM0j0crA2odfwRfuWwXrwMvFqIi0Q5Z41iagcBpECUbYq1uSnXbh6DH7eUVEZnC/zjqT2NofxwoLPt6Ae23I2x8zvwtm7uDjNbnnuDSGnfpTn45GhK9igkExvrshvodr/pmcm+Nzd3xHxLQw60kUCYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lKRyd6jPZ38O4z5cge9frYoPKfd8yqA+2zb6XL9yHDw=;
+ b=awqBlvJ2NOd0+c0k24unn78+kCMb33PvFRi1dWF8f9b3RlGElLl3ZjpMrfcFgsiyvE8jJs2RgHTih2g0gph0BCckuAMecJ4KbtrImVaA/dsbbv6IFcP9X+Kgc7lBw+p0OQspc+CVHS39I3qc90bPCiLWpkrGhzmwQeTU/vT3By97VPJt0yv1+r0nmZ06bbhWer7MYcrjlt9P/1VLTvb+L/eFLsEGhjljcmoeFSUjnPcV2bQioS7n0SX6U5o//Yvmh7J8NNEkwXCUKlrjbbJoLEuORbsMnvMbvuPBIws8OWh9gW1u6AOE7UV/giudBRA1cia6c0Vv6P7uOJ5s0jAKOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lKRyd6jPZ38O4z5cge9frYoPKfd8yqA+2zb6XL9yHDw=;
+ b=EuPhVUPUFDSXCSzpb/O5okXz68TN9xM1GftjG7fjBePou/nsV9J3SoBEU1KIhxaJ4sCZuTgfl/XgImBPmyXR0sSCB+qfODlZS+56Fj/0Gc75+IjDIG9XACcd7wW+QEQh5dU5/VH8ArBzHE58Wo4v6sz5NGgYCtZajLvMQWVOCPs=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB7523.namprd12.prod.outlook.com (2603:10b6:610:148::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
+ 2026 14:24:02 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0592.009; Thu, 5 Nov 2026
+ 14:24:02 +0000
+Message-ID: <e7943b6b-0f3a-4336-8a0b-306aa11c8d31@amd.com>
+Date: Thu, 5 Nov 2026 15:23:56 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dma-buf: dma-fence: Add flags parameter to
+ dma_fence_init()
+To: phasta@kernel.org, Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ imagination@lists.freedesktop.org, lima@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-usb@vger.kernel.org
+References: <20261105113529.1989375-2-phasta@kernel.org>
+ <20261105113529.1989375-3-phasta@kernel.org>
+ <2f377d0f-2760-4465-ac68-b62210b33bd6@ursulin.net>
+ <005b77fd-5bd2-4ae5-a0c0-cff3f1f6c680@amd.com>
+ <f284e3b9501acca2cf41fd19409004de84a36e15.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <f284e3b9501acca2cf41fd19409004de84a36e15.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0085.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,55 +107,120 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB7523:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec5a5c40-99f4-4e2e-b119-08df3b48704e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|23010399003|1800799024|376014|22082099003|6133799003|10067099003|18002099003|261026121527099003|56012099006|11063799006|4143699003|261021121427099003|261102123227099003;
+X-Microsoft-Antispam-Message-Info:
+	em4XYO2yBRkv3TPrZO9m5dOjdwSydqv1pRiSz4fLGp90mAQslFzUZPhQKp8HJDUmXH0BskJ7IT5reLK1Zq5C06JbVwjV0Tt0KTWDrEcAeddNJrB+rTW8TESR7wWBIQPLNput/KZ7ItE8V2CYXcxKa8HErwzzPX/8xoVGznoIRWbdDm0wRxH43RYWaxwyp+MDXhDx0Bko+GQr4l9RHtxgTfiYVs58t7QWQO4OVRfetNagjKOxzbf44pIW9TtiTLgOA5FhtiRRga7fmc8EwBYRO8i6EAQqyOnKhTNvfpLsPZS/C2dk5LxCyjF5UfjYbvHvu4PwF+pk63OYYxdA79HpKGdkV7A9raAwQLO6IJqmOIyTSzmnhjOnY3OeAh+e4bItE3pVF3KbkmzAl/6ZqDoYvaG8MFzP8TE+y5PL/gCPq/yXOe4FhEtpyd/Tvl64dCq9KOtsHI7TY0F0Kqy912RFE6O/IXS3/yzvkR+VXkmc5VjIVux91vDsXhsFk6gkze7Xov7m5/8jKNXyFZ5WdICgR3KBg8PGGgJsaRjSWX/yMS4ywRwj0+Ru76vqv2TG0zC0mw8A1cCDgNOmw0NiaMzHAffmb3pYVIfYeC3SjIv0MHNvdxtKMf20Oz03aF2A7NJhQStPYpgU1qT51HYat2MTVlMNTEcT5lMTkWteBOpxDeg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(23010399003)(1800799024)(376014)(22082099003)(6133799003)(10067099003)(18002099003)(261026121527099003)(56012099006)(11063799006)(4143699003)(261021121427099003)(261102123227099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SXlJUGFwRFRuam5mZDNaZGVYYmJGNlFaaitwOUllQTB6TkM1R3RGL2lXVDdP?=
+ =?utf-8?B?dVByVTg3QWRNdDhNRnNBMGd6YURpRzA0V3orczRpdEN3ZFdnRExtSzE2TVRN?=
+ =?utf-8?B?K0ZwNEVTcU12TWZVZW1vcmwvbVdTVkFUemdKV1p6dWRTWVIrN2tKdTRyYzZt?=
+ =?utf-8?B?cHdQRFgzSmYrRGtreFZ1RzcxQlVYWmY5d2w1aldmSnpRRUZZc3JaYkc4TjYr?=
+ =?utf-8?B?WFYySVlzQ2JkQ0UxcXM3elVkblBSNStCMWRhRkc3bWprVk50YUcrLzErSnJa?=
+ =?utf-8?B?YkVSSkZQUVlMUFJsYVUzUTVid0kvYkxVNDhIRkNDdG9acEdxYVkyc2hQbWx6?=
+ =?utf-8?B?MFZoUGI3T2dkVTloY3RGRjNRamhTSlR5RElNYk5wcGpITjY0N1NMU2VUcE1T?=
+ =?utf-8?B?Q3pFRlpUaUtZbmErOGFKVW5jRCtMSHBCRGhKU0ZzbUdpZERLOFYzTEZXbEJZ?=
+ =?utf-8?B?cHNOam11Nm92clpQUzhnbVJGTE54UzJPTnpvU0tpaWhES090K25mTmN3c3I1?=
+ =?utf-8?B?cTdpZ21SMjl0LzN4R0ZBVXFwa25VZjgyZERmL3FtMGVsOUFSa2FoS0I4T2xX?=
+ =?utf-8?B?Q3QzYmxLWGFNcFNLWnJ3OWRRbFdCcXdMZ09NSmliRnN1QmZMeTlCN1dSTjJw?=
+ =?utf-8?B?R0p0MEl3Y3FjVEJEbU5FaTNTU3cwbTFmWWJzM05BOXNiQUkxMVp1L29CTzIv?=
+ =?utf-8?B?ajJiV1BWUUhzSEZiT2tJSnBZZ0hTUnNZUEN4N1N6SDZ4b3lpSDlkQnRTYVhH?=
+ =?utf-8?B?RkhaaGFGR0lnMG02Wm9hNW1OZm5mVkQ0c2RGdkp0S3pSd3ErUmdiUHRsMm5r?=
+ =?utf-8?B?cjNHRm9GS3ZyclhpZnFvMGNUSkZEVjIyNWRaVnRJZnFQK1NHdGxpNHBwN3V5?=
+ =?utf-8?B?a1d5cjMwdXlMMlFLZVB0K1R3cFBXT01QdE5MZVFpQ25lLzQ4ck16aVIzMElH?=
+ =?utf-8?B?TnQrMVpXYk45QVVPNlladEdVclBBSWVjdVNNd2JwWkdLSTVoTGFrMlpTcEF2?=
+ =?utf-8?B?NG1rdmkvVGxNcHhYOC9LNkZVWmVZOEhibU50OVRRTStRU0ROanRpQU1iK0FV?=
+ =?utf-8?B?bVFoY1IvUkNzdDB5OGg5M01nVjdoei9xVEFnTGxLS3gweDV6cEJtVGJ2dmE3?=
+ =?utf-8?B?VGdnQ2g3aEt1R0ZsYjFkTUgzdHJidnRDM2dkKzI3TFJZVWZjUFdZQm05YUVr?=
+ =?utf-8?B?aEszbGRBTklVcmIzZ1RyaHZqcmRIeTFFWnc4TCs1TlBoRUF6WCtyQ21MRmRL?=
+ =?utf-8?B?ZGo3MHJBbG15UGJnUEtNT3hpVDl4cUZiSFhhNytGVmRPeVpqcEU4aHBwMy9z?=
+ =?utf-8?B?cDMxWE9lOU85SlFoeTlJRGdKS05mcTlBL3Q4TnJFZUMwQnJMT3R6SXU2T25J?=
+ =?utf-8?B?ckZGdjYxZzVlN0loWXRyUU0zRXZBNGtXTFk3UTlYcWR6a1lQL3Era21NM3FI?=
+ =?utf-8?B?YXJib21TYytoQ2krRGVWZ3l5ZEVVSmVmY3ZuTlVoM0s2dEFVdE1zTWM3Ni9l?=
+ =?utf-8?B?WkQyZ3EvbEcyd0NNcldnUVdIbDJFNG1JbDQxam4vd3hjKytVd05oSWJxZHVi?=
+ =?utf-8?B?MVcxUTRYK1dBY2cxTDF3UjdjeWZmWllrVHZOb0ZQUCtjYzd6T01iR1RkSVI4?=
+ =?utf-8?B?eWF6NjdTN0lhTm9tQlRUNC9obnloWTNuUzhISHJGaE5aRHArdGZxMG9TdUVl?=
+ =?utf-8?B?S3ExeTRwNWFoNmRkNmdsN2FSM1JDaU15TUVIME9reStNUU9MY2lsTVJDMEg1?=
+ =?utf-8?B?elBienlmcitpaE9SVThUR2FGblBtdjl6UklDdlNDeWhLd2huYWRHbUlueWxL?=
+ =?utf-8?B?NXZaUVVxOE1MTlI5VUV1eDZOWnhqc2M4cDhTdGlJMU1kS1pvWVVqMVpLamsv?=
+ =?utf-8?B?ZTVxUW9rQ3lVWmh0R1A0MCthRDJEVFFTYzVKTkZja0VIYXJQRDNpTkQ3QW5j?=
+ =?utf-8?B?Rmkvd0NRcm42TW8rSHliWm5rQm81SWFtTVBIclRVTloxQ3FlR3dQTG9qVDdT?=
+ =?utf-8?B?YmJtMWNodDlpZERnaFNiM25ESExSN3lKR1B6ME0xWkFzZW96Z2haMlhxcWZX?=
+ =?utf-8?B?RUFYSVZZU3hkaXVPVUVUcllNNmRtSVZjakYvSE9nV3ZzTVEvenM0RUJJaWk0?=
+ =?utf-8?B?enUwcFU2MjhyUUdmaUxTUVBWUkVVRnh0ZXRhZDdLdWwwd0h5cEllYUJqOG1M?=
+ =?utf-8?B?bGplN052VnJWOHNnMHJFcS9SZ1VSWkxmeXhGbzdUWXhOZFNUdURuN1QvbFBP?=
+ =?utf-8?B?MTl1SWJ1TXRHRFNBRTQ1dlE5SkhMZmVpbTVOaW5peklLaXBraGFURW53U3Fy?=
+ =?utf-8?Q?t5aCMoyO0mSOb5LNGt?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec5a5c40-99f4-4e2e-b119-08df3b48704e
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 14:24:01.9043
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8gut7kjbd5NTDxIdvP6ityKol10YUxTqhhdwlguD9tphlt2DkWnJS3/tYyaeX9Zj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7523
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Low] dt-bindings: usb: at91sam9rl-udc: SAM9RL clock macro in SAM9G45 exa=
-mple
---
+On 11/5/26 13:48, Philipp Stanner wrote:
+> -Cc rust-for-linux, since it was typo'ed and now misses the thread anyways..
+> 
+> On Thu, 2026-11-05 at 13:35 +0100, Christian König wrote:
+>> On 11/5/26 13:06, Tvrtko Ursulin wrote:
+>>>
+>>> [I aggresively rewrote the To: list because my SMTP won't let me
+>>> send this as it was.]
+>>>
+>>> On 05/11/2026 11:35, Philipp Stanner wrote:
+>>>> Currently, there are two init functions for dma_fence,
+>>>> dma_fence_init()
+>>>> and dma_fence_init64().
+>>>>
+>>>> Since more future user options for dma_fence initialization would
+>>>> require distinct init functions, too, it is better to do this in
+>>>> a
+>>>> unified way.
+>>>
+>>> Why not add something like dma_fence_init_flags() and leave the 99%
+>>> of the callers out of the (huge) diff? Ie. just port
+>>> dma_fence_init64() to dma_fence_init_flags().
+>>
+>> Well one advantage of the Linux kernel is to avoid such wrappers. I
+>> think having more than one function for the same thing basically just
+>> adds more confusion.
+> 
+> Do you think all future users would want SEQNO64 by default, btw?
 
-commit 42b3b9bce6c46bb748afcf89b465e4d50b66ad5b
-Author: Alexander Dahl <ada@thorsis.com>
+I was considering to invert the flag meaning, e.g. have SEQNO32 instead of SEQNO64.
 
-dt-bindings: clock: at91: Split up per SoC partially
+But as I recently learned even on brand new x86 Intel CPUs you can do non 64bit aligned 64bit writes (yeah x86 architecture!) and PCIe devices see that as two 32bit writes to system memory which might or might not read coherently.
 
-This commit splits core PMC clock index definitions into per-SoC device
-tree binding headers for the AT91/Microchip family and updates two device
-tree binding examples to use the new SoC-specific macros.
+So assuming all future HW will be 64bit is clearly not possible.
 
-Link: https://lore.kernel.org/linux-devicetree/20250207-jailbird-circus-bcc=
-04ee90e05@thorsis.com/T/#u
+>>
+>> That's also why I would really like to just have one
+>> dma_fence_signal() and not like five (or was it four?) variants.
+> 
+> It should be dma_fence_signal(fence, error), anihilating
+> dma_fence_set_error(), which is just another massive incentive to add
+> race conditions.
 
-> diff --git a/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.y=
-aml b/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
-> index cdbbd17f80363..15f5bb51fd8a7 100644
-> --- a/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
-> +++ b/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
-> @@ -61,13 +61,14 @@ examples:
->    - |
->      #include <dt-bindings/interrupt-controller/irq.h>
->      #include <dt-bindings/clock/at91.h>
-> +    #include <dt-bindings/clock/atmel,at91sam9rl-pmc.h>
->      #include <dt-bindings/gpio/gpio.h>
->      gadget@fff78000 {
->          compatible =3D "atmel,at91sam9g45-udc";
->          reg =3D <0x00600000 0x80000
->                 0xfff78000 0x400>;
->          interrupts =3D <27 IRQ_TYPE_LEVEL_HIGH 0>;
-> -        clocks =3D <&pmc PMC_TYPE_PERIPHERAL 27>, <&pmc PMC_TYPE_CORE PM=
-C_UTMI>;
-> +        clocks =3D <&pmc PMC_TYPE_PERIPHERAL 27>, <&pmc PMC_TYPE_CORE AT=
-91SAM9RL_PMC_UTMI>;
+Yeah I'm largely in favor of that as well.
 
-[Severity: Low]
-In Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml, the
-example node gadget@fff78000 has compatible "atmel,at91sam9g45-udc" with
-interrupt 27 and peripheral clock 27, matching the USBA controller in
-at91sam9g45.dtsi.
+Regards,
+Christian.
 
-Should this example include dt-bindings/clock/atmel,at91sam9g45-pmc.h and
-use AT91SAM9G45_PMC_UPLLCK instead of AT91SAM9RL_PMC_UTMI?
+> 
+> 
+> P.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105110715.2486=
-432-1-ada@thorsis.com?part=3D2
