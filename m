@@ -1,86 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907826;
-	b=P+M+lAb6CxKG6dQ+trJpGNztaMBl12gYgoD6anh49fZQSezqPTV9+W84+duSPuhOFjvQ
-	 wfVje34T4bts8xF5kdxkCJS5vpJEp4KUTHcTgvJqu2qEwncWYuEgTq0e9jhiM2BVJyTr3
-	 TFKgMCO59Aa43O5sA6W+/8fNB0d5ooZXfBhocyah57h1TylFD0wKXRKVoTd+hjCKgo2gj
-	 qHZsuxmtA9X8i4QxKLsITBJFnQJC0bHMOHZb8sxVWY/CGS3nwKF4sAMRQCZKKF7J1tFI/
-	 QNlyEnF7pa2JtajIDqd1pgYH9f4jD3FNYX7x/7Lhea4IyGazwtil/PEJxyeAPfBncoQ==
+	t=1793908146;
+	b=mKZdgmf6HJ2hO83fjjtFJVeaN7DHOjiE3qNuzsUsWGu5GcxNJfv4z41ugEgND9Fv1K9d
+	 UG9TcGUMPZa6KLVrD1FMC6c5xRNRFIw0B92N0BkKxYdq8g/lZa1VJOzpUvD6LohqGd3o1
+	 /KccrGtUYh72q1XvxNz8mDIq70KEm3vWnyQHCsv3HefHYTcTCzBpRiSU+I0p2DrJccP0V
+	 lTycPZBfFjRaWwkxysKZyDbJfAviYH/3ZOZFfxNgf66CHZUVGN069u1zSoLK62qv52F4A
+	 QdazNBalRQkDo/1rlHOgIHJIxp9cuZgqDxQSYhOygNKtHA4TVyQ/qUk9rIu7EntNcgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907826;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=ZhathjOgBLFBYBU+7Oumjoctx0BqmNgulsJHx/5Cbyo=;
-	b=QjVBvrJff7RGpHoxRu9vklwEKgQn1hKR4e33eXa8Gy7YkdAcva0dpwAIzD/5RJvyfP+S
-	 2jx0QOpVI80cMvTTZlFOgQE8T4fwqVemdSRN8eL5bU9oswiyCpPpytap4CHDyc62tQ2dn
-	 9dVhsZQFyWLpJvrjh/FFgg/duv6OY3H8HG0t0lRrNuDN/iWeY7BnAwpcY8xvm1Swj/Y7V
-	 Gw/n0hPlQcWkoUW0CLv9IFpi4GOPEQVUuBKaVW/Gri+DKCP2DV/4/3xPAyngB4AZH6GZ2
-	 oCQOwtOmz5BMwBmd6BTEHAf66VoJeeT0am38/wKCbD0m4dyFol3HcZ7Jfd4gtAd9Rkw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793908146;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=qAsUIA0sJNC6e1GmhI+cxYDDQcvJjgzrcIvMQ1GtXVU=;
+	b=MHFKoYSv91+LPjOu65zWTGE3TlulIJa+1HjX6OTYIPesM3dJ0c5ZPosFxMx/5ElxJ1bB
+	 dfMzmQxM+NXI+6e3+dyPi08Y6CLzEtiaG8OjFreZIZ73SGrHAsaR2gMPSv67b9Ov41Iig
+	 n+dci0QVQG60MctV92X38mDG9y12lJWDQ2W5gPo25yMpikppvMtcNDDHHLaCvHsx8JV3r
+	 lFel+E373WTkiAiwKBRPCTY/uK35EFShxRmo25k8n0NYtXBnBxcRg5z0+4frZQAQctfM5
+	 0vbqz6ZrDE3edQ8uvcoYlHgsXAbIDTvmG6jJl0yb5so5XtOBUa6nMOpfQPo2p95Rhyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=DY+zJzZ1;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F7cBXcB2;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC4C606A6C4
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 19:43:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDC4C606A6C4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61D8606D52A;
+	Thu,  5 Nov 2026 19:49:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=DY+zJzZ1
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso16038975e9.1
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 11:43:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793907824; x=1794512624; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZhathjOgBLFBYBU+7Oumjoctx0BqmNgulsJHx/5Cbyo=;
-        b=DY+zJzZ1LbUUA7lWJslgpLY9Z8HgU6AvJnVYVQTi/G7WY56EhjFD/gz2Sb3uaPc/jp
-         W/OIY72Ske8q1bobN0Iwt8Lpt8G1TkS14N5PWGqSxFwgJU8bfndF31pAXA0t2eqBq6Ur
-         pKDRuP60QqoNutBgYQ5GtO7m7hlnQM/oAtlXfihhzJqE5umhtnqPVvx2fVJgT7IQ3vr+
-         e6GcAgCVoihGuB2ZKlvhrakFV7qXYQM6MkGERU4lTYXmfdIMpzOeF4z9slFAmn/OT8r/
-         CE+2PpQ1UHr6HXJax7/7LGixp0pHL7cWcljhNUhDEehP23+OVMoEJqMob+iQsvKuU0S+
-         on3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793907824; x=1794512624;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZhathjOgBLFBYBU+7Oumjoctx0BqmNgulsJHx/5Cbyo=;
-        b=V5Gof0UZ9bVvMGyED6f37WP1rKJzfKrtwF/i8eObDcgj5/X/4N0p/woKxCQ8KOKkYo
-         qEZ11spZDnPiRpzDjpZFLljz4XRxwlIFQrypVpLHvlFdF69Cta+LyYGS49tAWafdXPZy
-         YtNvJEEjsdJux9BXXVQvaCZBNu6z+Ymw+ENx3SjOgceTC2RW+o6URtQK4VHsi7qgGtuJ
-         x2Vn57JNfZF4MKBoIInQTEruNi65RxcXN1B8COW1eoYdS0PfbSbBHUUjT76OAP/DHxE1
-         g8ObwWVbe2XixXFongROhVeSUv6x4E3lprtogU8KcznsYNcuEgXiEZXNebCUKe/YLO2y
-         V+aw==
-X-Gm-Message-State: APuU4Z+7785XABIQIdf/HBWKHF+oX49QYSZg6GKeGtE+cIE8MAt3sH6H
-	qSssW/VS1BkPq+yak18DtAk6p7E/XDbrBx7kHBOphKULB/dxraR36OYcH9cT5nPV6wM=
-X-Gm-Gg: AYBFou05mbpaJ3Kj2AJcUgdnO0a5kTeteGysCAjYfixVrXv4oUb/vVjZgnzktFnzL7Y
-	GuK+zo5NWoUwq3bicx6GxeG2vXOjeQ6vTVJzorFGlsCECR562dByUhbjRt9e4eJqTOPv+RfciWv
-	O4I/wGeNjMqwY6dbujYFJoeZVif3d/Xcv+X7kAICEphPDUKx5AYUomYs/fF2Z130XZp63aoyiaM
-	BMdQIV5sWQxI2p4XGEzRDXlXDRZ5I61V8mlBf6A9Y7Z76+y42tAbuyaY2VwoRhNpQl6luvQd0gy
-	ZjayNieNhF4B3KeVitwgDREqznjA9RQb4R5vwq8qLbY3qcGiPLCMh84crnThzTz1prkvhKirWIW
-	5nDaSfmOEd3WpEsLRDN5HrsF1ATuB4wUmIFKHrXSWLpjqlpHEKmqOwEq9tjsQlN6lTvrr5JnNgP
-	Kz6ulX8QbxInfcXq8o2ailf5B2gSWbMbMUqAxiSix0S+Wdwa4aY6S+WhUlnuhZNJXSghpAXk/Js
-	l8F0zv6iuXJ8vXpZaK01ILAklq2u6RCYSsB0CGt9FoJp1foc1tQk+UlfrbQITFKk9OrM1pWtkiU
-	QB7QtrnA//1QOtubLqhZ0dBkd7rz8GMmjoYGqh3wf1+IkAfB573xvYBljY8FwM7WLRW6
-X-Received: by 2002:a05:600c:190c:b0:4a0:4a8:d444 with SMTP id 5b1f17b1804b1-4b6e0bffd81mr2367485e9.33.1793907824242;
-        Thu, 05 Nov 2026 11:43:44 -0800 (PST)
-Received: from ?IPV6:2001:a61:1322:c01:9fdd:c901:f470:904c? ([2001:a61:1322:c01:9fdd:c901:f470:904c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fecac1a1csm11424488f8f.12.2026.11.05.11.43.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 11:43:43 -0800 (PST)
-Message-ID: <e6593c6e-63b3-4198-b587-85b5636e033b@suse.com>
-Date: Thu, 5 Nov 2026 20:43:43 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F7cBXcB2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B74E91F0089F;
+	Thu,  5 Nov 2026 19:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793908146;
+	bh=qAsUIA0sJNC6e1GmhI+cxYDDQcvJjgzrcIvMQ1GtXVU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=F7cBXcB2CGcv4wv0GxypQPDRPWGhJY8+iPXIIuWPXopYVWlP4LLjgo8s9BW+0AJkl
+	 2qXmnh9DA3hSouulPkjS7IHK/WlNM3sesBzffi33UCKagGiEAnYzLjTtm7gmSPxC9N
+	 2hxw3SAfosebdwFpwNQ3beH6vTlyrS5FawLVYmvteNZGCQvJae7Z4z+vnEFeIceCV4
+	 S257SGAR9gCP3QkTxFVZxqim/O97/pS2SwimLTzs3wmwDlTrdncsNWnFgGwVhPA8Le
+	 0OhQGAaBUtsDAIXzFa1j3oogZ/jVk2PR4D01woTHT8+F7FoYVB9+hd4/wxGAP7ZIBr
+	 doa7KiQ5i4Qyg==
+Message-ID: <sashiko-outbox-199987@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RESEND v2 01/26] nubus: let procfs own the seq_file of
+ the resource files
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
+ Bacik" <josef@toxicpanda.com>, "Chris Mason" <mason@kernel.org>, "Jeff
+ Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>, "Thomas
+ Gleixner" <tglx@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>, "Greg
+ Kroah-Hartman" <gregkh@suse.de>, "Joel Granados" <joel.granados@kernel.org>, "Kees
+ Cook" <kees@kernel.org>, "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>, linux-s390@vger.kernel.org, coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, linux-m68k@lists.linux-m68k.org, linux-serial@vger.kernel.org, "Takashi
+ Iwai" <tiwai@suse.de>, linux-ext4@vger.kernel.org, "Chuck Lever" <cel@kernel.org>, tytso@mit.edu, "Heiko
+ Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
+In-Reply-To: <20261104-work-procfs-drivers-v2-1-245e54e87116@kernel.org>
+References: <20261104-work-procfs-drivers-v2-0-245e54e87116@kernel.org>
+ <20261104-work-procfs-drivers-v2-1-245e54e87116@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 19:49:04 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -89,56 +69,15 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] usb: uas: ignore UAS for ASMT135x bridges (174c:55aa)
-To: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
-Cc: linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
- gregkh@linuxfoundation.org, usb-storage@lists.one-eyed-alien.net,
- stable@vger.kernel.org
-References: <20261014165741.35758-1-olivier.kaloudoff@gmail.com>
- <20261105173250.97239-1-olivier.kaloudoff@gmail.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261105173250.97239-1-olivier.kaloudoff@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+> Get the inode from the file instead of ->private, declare the show
+> function and let procfs open and free the seq_file.
+>=20
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
+Sashiko has reviewed this patch and found no issues.
 
-On 05.11.26 18:32, Olivier Kaloudoff wrote:
-
-Hi,
-
-thank you for testing this hard.
-
-> The wedging CDB is already identified by the abort log: READ(16) at
-> LBA 0 — the 128 KiB partition-table probe. (usbmon isn't available
-> on this kernel — CONFIG_USB_MON=n, can't hot-add without rebuilding
-> usbcore — but the abort CDB narrows it to that one command, which is
-> consistent with your partition-read hypothesis: other OSes typically
-> probe differently, e.g. READ(10)/smaller LBA0 reads.)
-
-We should definitely get te partition code maintainers involved.
-But that is secondary priority. This issue does not eat filesystems.
-
-> Where that leaves the patch: the enumeration stall is now proven
-> cold-rare and cleanly recoverable, which by your rule makes
-> IGNORE_UAS look heavy *for that failure alone*. The justification
-> that stands is the load wedge — two filesystems lost to a failure
-> mode that only exists under queued commands. A depth cap could
-> plausibly mitigate it, but I have no positive repro to prove it
-> does. If you want, I can run a longer soak (hours) at capped depth
-> vs. full depth, and/or test whether a first-probe mitigation
-> (smaller LBA0 read / INITIAL_READ10-style retry) prevents the cold
-> stall — that would let UAS stay on for this bridge with the enum
-> race neutralized separately.
-
-May I ask you to test once more, harder?
-If that remains inconclusive, we will go with blacklisting.
-We cannot risk filesystems.
-
-
-	Regards
-		Oliver
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-work-procf=
+s-drivers-v2-0-245e54e87116@kernel.org?part=3D1
 
