@@ -1,89 +1,127 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.25
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793880877;
-	b=jZJRwD3naKJO6TumLQzU5gCq+8m9JQRQPg2/wlycTyDSfuf9KUFcvOWSUYfGFbKVpCAo
-	 JPKc4pnZVRhdL6IpR4EpX+sK+wmqjzP6vhuGedKJ4GeuAwV1IRsN+MtkjLUbcfeZHxOQq
-	 166jPEbMwKFSdyDAFXODig7gddm6OgK4UIamPc0NpZn4Ec6ER21NSmoUayyhXcxbzB5Ky
-	 ORQ/Q5+c7ZgJJWEZ+wlxY2jqisd3qXiZvgyf8GD5QJlWQQLvXZOlRvN8DnXrPMmMeIXYe
-	 iDu1dZID5oUr/v9YNHMfTz4tsZ2htPCuNu/NLBptD5xK6L6PlUyKiIvpEBF7HDYMs8A==
+	t=1793881017;
+	b=yfHNpqn1+mwnIZzfRDttIGi5poAmRm7VakcMq1ZzSyX4DRCIJcOrscv/+Z/d7/1oP5VX
+	 PHSpUJcnwhR+u9eTLxn89sL68h45WvtvDwwzTWue0R7uKnRUsezuTZW4gJn5jwKgvlA6y
+	 H+Kl/VALuPINUCFDdxZtuCRu4bNoX7rMFOJVmzSqI7yR3nPklXmJ7KPUOnxcNqXo1wGFG
+	 k0JoX4vPDTqN6c+EkIJednebq+U6es0kIVK/DPUTyQG4unBrmp2tA/QIaiJfClfX+vBPa
+	 bx12XNj/HmdWlSLWgKR46Lh5omudc9/UseJ00MFhZG9WHej+H7q6E2BOQr+RyHjTibQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793880877;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 In-Reply-To:X-CMS-MailID:X-Msg-Generator:Content-Type:CMS-TYPE:
-	 cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:References;
-	bh=Y+gV7tHyKEL0otgCQlQTt2Pz/4VwismWKNTtEGO49oM=;
-	b=pilOQXCflg4QPtviGUkFXQbYhEMpzXUGoUf/2XA2kM3885nFSmpLlbVFnSLdug8YA1Rw
-	 JNEqxxgS0mFpT4B63Sx/Gj5L/qsd0zJnDDKzkztmISsL7vluSpTETSRzGBC+KFJdjzKuZ
-	 mEm3vhUczGkyc9D97Q5YOqYbmHyQ2/FVdrnJqglwt8Rx8+uVev8daniPR9ibAu62vKv8M
-	 W3wtfKS/6QxxIXVkGNHP0ImwoQtZp05xbys4qrNrqxbud6ng38m08m8RHit3/2dztRt75
-	 Lu6NJAzMxH6u7aVjV5UPaN/ki5kTtvX4iP1MV/A6XlWFBiO+PF40e3u7qs85IMdyrdg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793881017;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=ADzlvyamTQU4UnQoclm/eaQzV+qRhdj3W0LtVIZccYw=;
+	b=WaBv5iZCr9JX1vHKJVQk4q3S49OYKaXWO5U+oyAuBd2J2gQ8CNOLF4SGx3ZWMIxKSak5
+	 5i4wBQoQW+dwU+ocxdXtYZBIOoIthqiSyt8ObdMbvL1RRV59uWaJHGsu0dvEcvl6gitJq
+	 gsDa4M2e5p41T7oD3CfEiPpCi54qU9gAXJayVCTH2cR1lTmUGB8esRNtPXyuEiz1oPA+v
+	 V2ksZUNisEqMlhpnc1SKe2g6vG2eEnAznakKJz3+FRjVjvg1mfXVphX9xSex4oFOohVZr
+	 fcYAp1DLVH3p8bNFAMsluCjBda00sDo2dDU9yqqd7l+g/boqFeFdPEORxojBhbExgnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=s2wIy+V7;
-	arc=none smtp.remote-ip=203.254.224.25
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cYe8TYsk;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QIbMvVJs;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=qcWXmYyb;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YQFOqDtq;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA4A606D807
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 12:14:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BA4A606D807
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F668606A32C;
+	Thu,  5 Nov 2026 12:16:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F668606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=s2wIy+V7
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20261105121434epoutp02518e2a18c8d3c1de9aad850d5f2df69c~lJSbBUJTQ1418514185epoutp02c
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 12:14:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20261105121434epoutp02518e2a18c8d3c1de9aad850d5f2df69c~lJSbBUJTQ1418514185epoutp02c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1793880874;
-	bh=Y+gV7tHyKEL0otgCQlQTt2Pz/4VwismWKNTtEGO49oM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=s2wIy+V7A6rn7gzjWZ6JCgKgS2JxTf7NcTsSyZeK0GnbownEtSo+aCnjLx86lWM2b
-	 bnM2I/CUp+GoBmvXJ1zndHJiOo2eAAg9ZqQm7PWhXnxRkFvDUnyjaG3GZrs6RmGUPY
-	 oMUGlZxesLiupkwFYD4W1xIma7QUQVDeVdYyNxbM=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
-	20261105121434epcas5p1c149e359c38860c237960af2d948a102~lJSaPN-5c0588705887epcas5p1t;
-	Thu,  5 Nov 2026 12:14:34 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.91]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4jL1T50Dmdz6B9m7; Thu,  5 Nov
-	2026 12:14:33 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20261105121432epcas5p30c05ba935557ad6dd59514ef4d834e96~lJSYpwq6A2344923449epcas5p3B;
-	Thu,  5 Nov 2026 12:14:32 +0000 (GMT)
-Received: from vega.samsungds.net (unknown [107.108.73.84]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20261105121429epsmtip1207e894c73db06501ec40665dd115c3a~lJSV6EnKM3079930799epsmtip1i;
-	Thu,  5 Nov 2026 12:14:29 +0000 (GMT)
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-To: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, peter.griffin@linaro.org, alim.akhtar@samsung.com,
-	Thinh.Nguyen@synopsys.com, selvarasu.g@samsung.com,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: jh0801.jung@samsung.com, h10.kim@samsung.com, dh10.jung@samsung.com,
-	akash.m5@samsung.com, hongpooh.kim@samsung.com, eomji.oh@samsung.com,
-	shijie.cai@samsung.com, muhammed.ali@samsung.com, thiagu.r@samsung.com
-Subject: [PATCH v5 2/2] usb: dwc3: Add Exynos8855 to the generic platform
- driver
-Date: Thu,  5 Nov 2026 17:44:01 +0530
-Message-Id: <20261105121401.1661711-3-selvarasu.g@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20261105121401.1661711-1-selvarasu.g@samsung.com>
-X-CMS-MailID: 20261105121432epcas5p30c05ba935557ad6dd59514ef4d834e96
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261105121432epcas5p30c05ba935557ad6dd59514ef4d834e96
-References: <20261105121401.1661711-1-selvarasu.g@samsung.com>
-	<CGME20261105121432epcas5p30c05ba935557ad6dd59514ef4d834e96@epcas5p3.samsung.com>
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cYe8TYsk;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QIbMvVJs;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=qcWXmYyb;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YQFOqDtq
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8F2281F785;
+	Thu,  5 Nov 2026 12:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793881014; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ADzlvyamTQU4UnQoclm/eaQzV+qRhdj3W0LtVIZccYw=;
+	b=cYe8TYskNgcCDl9X/k1KW8A+of6s9HPRYsn3eNTPIV5RsFlT7AWS/MQE3Ksi3uh3QV4KD5
+	Hi2guTuJU7x2qqFFTRs6JOAz8i6Q55GuiUnI2xO+KTPomgEeNxSjhoYwnOYxznNqbm63Mo
+	5qtfkmh5zv/NMPGB0+8MSe7zifKcXmA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793881014;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ADzlvyamTQU4UnQoclm/eaQzV+qRhdj3W0LtVIZccYw=;
+	b=QIbMvVJsr8XvPWk78XYqkteMct1dWNms40BmNTEwa1LXYhQgAGTS+dajwGjNJCINSsxxSt
+	HemSrC/mVhMQ9jBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793881013; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ADzlvyamTQU4UnQoclm/eaQzV+qRhdj3W0LtVIZccYw=;
+	b=qcWXmYyb5+mCW0254eM18Rdi4r0I1vVFScoBAC1JoCDgbQr+JVrkM2hgqEp84Kj2sVZnX6
+	yOxI9PyPOhb6xWYpHefOBtPtMSEL6Mz2dqvUxPwKWIeCnNhnabJauUjOIrpt/Ne/cxy6NC
+	ZAMNOvP3NI2+Dh4POTu44wQ8ZjW2uSA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793881013;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ADzlvyamTQU4UnQoclm/eaQzV+qRhdj3W0LtVIZccYw=;
+	b=YQFOqDtq+4SGdkOEWqs8BsjsIPs8cBY5Z7x8DRzRezIETmSxSypiEkth9ev7JNqvuGFopt
+	jijBqci6GEVKGZDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 41DC8134F6;
+	Thu,  5 Nov 2026 12:16:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id XqZMBLVz7GpNHAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 12:16:53 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id A35F0B6D5; Thu, 05 Nov 2026 13:16:52 +0100 (CET)
+Date: Thu, 5 Nov 2026 13:16:52 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 31/38] proc: sysctl: resume readdir after the last
+ name it returned
+Message-ID: <ba3zz2mphlmojth4kk3gvistj555c2sos6ft4ofb6cm5xfcsnp@3xas2kz2irvu>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+ <20261102-work-procfs-bugfixes-v1-31-59422ed3e465@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -92,30 +130,76 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-31-59422ed3e465@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[60];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -11.30
 
-Add the "samsung,exynos8855-dwc3" compatible string to dwc3-generic-plat
-so the Exynos8855 DWC3 controller can probe through the generic DWC3
-platform glue.
+On Mon 02-11-26 15:21:46, Christian Brauner wrote:
+> proc_sys_readdir() counts the entries of a directory and resumes a
+> listing at the number getdents64() stopped at. The entries are sorted
+> by name, so one that is registered or unregistered in between shifts
+> everything behind it by one. Listing /proc/sys/net/ipv4/conf with a
+> buffer that holds ".", ".." and "all" and registering a device whose
+> name sorts before "all" makes the next call return "all" a second time.
+> Unregistering one that sorted before the position makes it skip an
+> entry instead. So a listing that takes more than one call shows a name
+> twice, or not at all. Even the 64k buffer of ls needs a second call to
+> find the end of the directory, so a device that comes up right then
+> repeats the last entry.
+> 
+> So remember the name of the last entry a call emitted in the file and
+> resume at the first usable entry after it, like kernfs resumes after
+> the node it stopped at. The entry itself can't be pinned across calls,
+> unregistering waits for that. If the position was moved by a seek in
+> between the listing counts from the start like before, seeking to an
+> arbitrary position has never been better than that.
+> 
+> That also takes one walk down the tree to resume instead of a walk over
+> every entry in front of the position with a round trip through
+> sysctl_lock for each of them.
+> 
+> Fixes: 77b14db502cb ("[PATCH] sysctl: reimplement the sysctl proc support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Co-developed-by: Muhammed Ali <muhammed.ali@samsung.com>
-Signed-off-by: Muhammed Ali <muhammed.ali@samsung.com>
-Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
----
- drivers/usb/dwc3/dwc3-generic-plat.c | 1 +
- 1 file changed, 1 insertion(+)
+Just one coding style nit below. Otherwise feel free to add:
 
-diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
-index ca69ac0eb07c..069b265c9808 100644
---- a/drivers/usb/dwc3/dwc3-generic-plat.c
-+++ b/drivers/usb/dwc3/dwc3-generic-plat.c
-@@ -236,6 +236,7 @@ static const struct of_device_id dwc3_generic_of_match[] = {
- 	{ .compatible = "spacemit,k3-dwc3", },
- 	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
- 	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
-+	{ .compatible = "samsung,exynos8855-dwc3", },
- 	{ .compatible = "starfive,jhb100-dwc3", },
- 	{ /* sentinel */ }
- };
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+> +	if (!name) {
+> +		after = rb_first(&dir->root);
+> +	} else for (node = dir->root.rb_node; node;) {
+
+This indentation looks too inventive to me :) I'd just use
+	} else {
+		for (...) {
+
+								Honza
 -- 
-2.17.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
