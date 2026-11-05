@@ -1,86 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793852934;
-	b=Df04+b8Qjq7eIpsLDGoebt/oDpsX8Cg8fl9qyDPMhNATONfFIoI5Md1FuxNSeCVew3YF
-	 HH7O9zVetQWv5q69ejbzfT1CtxUsw01I/m/Onokd6YInexOWu6hj8KcU9bqUsj8HejkEB
-	 ci8zv9uZ4TvucuNhXEWOeMmOW2pzP6+zWgIjAv9A7jTosIJgEdyAKs424TyILtVM6n3xG
-	 FxtX6ktyI8NqDtiK0peKLscDVI3sX38/XLvc0tm5Bl6N5OWyZa9Xq+ZqWBpKzud5vy4Z0
-	 0XhhHX4kp5mc/LVcnjGl35blMqwVJZSsqyEhughb/c4cXqYML4Gtk9FN9LHZDg1iXYQ==
+	t=1793854484;
+	b=flcJWSnWjoESz1C+4hogfs5688hso+JwWQOqspLK5i4s1uGupipQEYU0fQ+jg0LfRhIQ
+	 qRIuWQ3KmwUtfW0NMPWa8wpogPwnPjwPusvRH8NGbN/MQ2c4FRKqQ1FagD58jBMhL5x1N
+	 jhLC4PLduclZqDJCtoE8ILvEuBgOTAZ0ESMrbb3OIlyheZljUp3BHbqCt2mbbZSOFBLE7
+	 vPMVZ1IYbQWWLuT3ZqSR9axDcloWs3eBKrb09dm2+/FSAxn10vPqIdZJ6UpYy/irFN/MH
+	 6Er+O4QLW1DWAr9iNjje/gT14ruLtLnj33+29u6HJaEDptsvoGFNcoWh65045KH9y8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793852934;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793854484;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=KEm42QihUL6odJc0vgDavSCwsWRiCbS6wHuc5+HRkrA=;
-	b=2NVAnmGsAKJ2hUM6tZpHFY7nwJYXuMF1zxf9bdjrgfi7kPYJ5mdqcrGfRyckmgF2FSVX
-	 iKCPCsEwhz9267uW7KB9ezOD8StD6oHfDmfVgfx+e0Qvub2BiV1iz2wChw3n0Edp4r1As
-	 OoldR5b0YvczKw9kxfNGKn50D7DgrKcmGhGJ/H45Lrgfj18zn7nURxIhYr5l2R67v+Yep
-	 H8EbisbpA+LqA19YwHd+5E/QKGoD0OPdGCcVjYKBnJI1wYjPqr0b5aQcasINIYfePmi+R
-	 xTMVzWln1ZFYFEY6ONDcK6mkGm0eVb45AUeSNi3stFV/i6JGRZ4yrHMcHZt74+M++pA==
+	bh=rnpw/Qplf1e1mjAlvFuzX+A+KTU8pa0uB9bJ3uepkt8=;
+	b=i2vr2NkedQOWm93a7IlAHEld1aNoZJyT5m4DRfSxXQvRJVnKTbAizNOUYAJqIUa9xnkH
+	 5WRFV2uTSB6Yn50psrJNDqKO4X4GnP3T7PFQqxfMWB7zDCevuVucCWd9lxRwgxYDzQ8PD
+	 8RU3PzT1x3JxZhoYgwpt+lpFUSv3JLKa9BGzN5cH77zxqp9u3G3xigj33s23/bxNA4U/Y
+	 eDaMZEFRrXvu+1TscsMfbJxGcr62bG2Lej4R9bmIOpPrF7YsUxHzqBtK2MbyW0It64At3
+	 vJ67xnucxmNn5cZlC7WpMeJlHjoMaV3zKfi3wXp69pRb4fyGPNcCF4jZ2Ds1A8B/I9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=rowland.harvard.edu;
+	dmarc=pass header.from=rowland.harvard.edu;
 	spf=fail smtp.mailfrom=g.harvard.edu;
-	arc=none smtp.remote-ip=209.85.160.173
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=GNpZLdJG;
+	arc=none smtp.remote-ip=209.85.222.172
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7291606A31B
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 04:28:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7291606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3548B606A326
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 04:54:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3548B606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-536717a4d83so12210611cf.2
-        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 20:28:53 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=GNpZLdJG
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-93f30660e69so106405485a.0
+        for <linux-usb@vger.kernel.org>; Wed, 04 Nov 2026 20:54:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1793852933; x=1794457733; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1793854483; x=1794459283; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=KEm42QihUL6odJc0vgDavSCwsWRiCbS6wHuc5+HRkrA=;
-        b=Pz8epZirP16nHrgC4NO3PtdE3tUSEr3wJ+iQYqzaekJJRox81tcwLnWeIbBdoJMsvU
-         uvgXwQF5elg9BvTN6nZS3BJ5NvVeNpCkEZHrA+i7J9fDvWGr3EN5ttyWtefaDG4Q/6nn
-         I46sb4z0BLAyOZdtWa+LKOXoaQJNAvFaemIe9+Z9HALKuCgoTtMkrIIez2l/2sHwOQmG
-         RrVrbh3rzYmaTo0NjYPEcbp5eDJM2cknb2pJhClM1wA32YSQxQ26JB2IEFMVDcVTvX3n
-         7virYrZ03byn73qeFxsEGsKhTU26y450YpB8T0hRjsUlCjjfI/9os3AXNPTT8YmnFrlu
-         p4FA==
+        bh=rnpw/Qplf1e1mjAlvFuzX+A+KTU8pa0uB9bJ3uepkt8=;
+        b=GNpZLdJG+LTTiIlTRKwMKjhF6TnQOxOgxfa7jy1lhFpUrReYPsi0yeZXT+IzCFm1dT
+         whbow8+ZzyIAYrQSqvw7l54G5BPJbhFn+TCuTi0+AWO1GPJXuTbxEvH9Q9UGJAn8KWQX
+         UUaTP8bmypPC18y3ggRlCReMnMkASackE0LJy1RJE9Q44fNGKK78aqmOrjCIaX8a6IPA
+         8HLWXJz0wR4hG3EWNTkd70PItozUUNemNisL3iKCOySVGuhsEu5VLbtxlOICGz3ZZXXH
+         W9LqKAmXaLdw0+IdnywPay86sFYXmpXnmW8VAPFD+UGHuM18ChjULRhxdwK9kcmeKaJ3
+         DCuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793852933; x=1794457733;
+        d=1e100.net; s=20260707; t=1793854483; x=1794459283;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KEm42QihUL6odJc0vgDavSCwsWRiCbS6wHuc5+HRkrA=;
-        b=XgPypFdR16ROa4tYSQ/HOY3jm0Upo60OdrrFMXJ/tZEEglSt/4U7ZOZIuHqhghm0uT
-         OrarT1jk/UcuRl48vfamB23Rh6yadlbIuUSpmXYPUdwFLGl9YdL128XB/lotzH9tGTei
-         Ja29II6VfTo0Bp9GR62jdktJQ71CzMHqkjwaZ10j0TvI3CBdBUvw5bFw0R3uJD8L1H6a
-         Kd8ufEc7E87B+IwDDINedo+6vxvHMSX+7Bct+8hbNUo26oDK1SahxCp5UrjZ5xl3hei7
-         QHN5G0PSCQFdx/DnLs/4LPgvBjgctsRT8IrueD2ebN8aVGkqTZ6WD1D6Ko4OpECAJDRe
-         xL2g==
-X-Forwarded-Encrypted: i=1; AKwUvBzJB7IVnchHy2CkdqW89yU6oupenmZy9ZEUx4H/foQ/O9TBXop6dl1/1YdSNLv6qGl1GZmh0JW+E5Q=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9OJblmY+MNzPCPKBSgjQKEDylFAsIoWQOFRf5CKI3CxWsdOqaV
-	JaQQBo5v36a0LIvrfP48HPxN9gTPTTKJytY2Tamm4DnOazeXtjl0IAtNRCcFMWxsa1ZYcXWEAoI
-	RcjtdGQ==
-X-Gm-Gg: AYBFou2ExnDfOtXhtMhP5S29cGPDvWjQ4AI8Azd2OFVEJ6QupNTqP63xa+ugV6zEHcs
-	EgJFHuZIbuHACO/cj7qnpsqtKOvLtZiRpcC8o6k9aw7hlodab2rQqFvuLLGAIZ9sVQmAjioAD/b
-	yyR0PJOG3L2B3AyP8fc0oaDFWQdwJnz2a/aClFBe9hkpcTd5K7UKSfwyCDrQGp4YsHu53o8PNM8
-	sw+oZ3bkV2tdj5Hcf4tIDnUickQLdiBDuMmqT5IVsA6qX0JEYMm/TzZPBs5kZNOQcVlv5V9zEeO
-	Y62Xf3DLg7XtspOyEnoRbseSlywJyVjKqB3TxaU2LfY+a72ze8e4yJ+dQEw3ZDLeagA4C8OEAJ9
-	Tp7JO82KIw2BsEQP5s+IkBpSOEd9srHB+Ba3KWNMh5GiQB74BAv0pFWHgPFm9XO7fEQ+xwItUSH
-	G8oJtrW4Aobx5XeVGlXOVIRlJsoqLcxTgemoWgjhOEQgJhR1gpLxTWx2oInkHAa7y8MqPIzWPkn
-	PnscBe/q/ZmjAGoipRdU+aMb59Y/B50aAGg8Rzt5MAZRPfuZJEiAbE/FHcSHjIE7Ox4BiDojMoV
-	r110fZ3gVa9Go4c0cPVHJ+AnxmCP
-X-Received: by 2002:a05:622a:514c:b0:53e:82eb:c111 with SMTP id d75a77b69052e-542b75248f7mr298071241cf.36.1793852932573;
-        Wed, 04 Nov 2026 20:28:52 -0800 (PST)
+        bh=rnpw/Qplf1e1mjAlvFuzX+A+KTU8pa0uB9bJ3uepkt8=;
+        b=nO5mpLfIrncqN0hoEVFlNwZ8N3pRB7lOB0MGR+NbAJiPA0iviiw3QlNcjEtrTanH/f
+         4v1lVWJ4pPmFQB9MrZzahOKXl84vF/bqRMHaA8EW/S5Hkw8aR+E1JU6shQoqigg8JH1x
+         hQ7hxkirdoSsoBpqP3B3IDF7BEbO24IuwIGfOIVEHHi3K2pSLJkIq9mxugsJB9LgskF+
+         NwmGeb64Hx09W9Y+ugL3AGOn14V9S3LDt+LiH07gnWhlIs49rqEJZZxw3bMZ77sGDyeq
+         p7Ujt5oyE11eOLX3fhQ5XV+PEK/KPFeaHAMCri88T+qKvYvyhbSXdowar/ZDy4RUYtFL
+         pFVg==
+X-Forwarded-Encrypted: i=1; AKwUvBwGyGQQ8Ea6ekzzRVOEGgbviP3jvU7ga7uG2aqw+n8V5eFVILxP+FIod4t2kz7VPYFAG7QiIxRLtug=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/eKDODW1XhTOYVehzr3orHnI9z0LSRq3F/onyp2zWNdd0POL60
+	KLs3Tzx8H4rgE/CkPP4GvscX4bZUP42U4EMtaLwz+93HM7xhOsy/2HvVYkjIK1K2YQ==
+X-Gm-Gg: AYBFou2jsmBPqPTXp/0E8YnRohA4cAVz3mGkV8gjYEXlPtaSuaiLvlAQtWbG5ea7gJa
+	Md3fUYBYwe+A1Z6p3uURwH7uYcFdaOH6PsL9VXoz0hLrVGDpalrNc22ia18ualTps0iUKHyMvdL
+	SOqBKnN9N9+4G7p2J9ZF0PxKKc5vtNv1y7SDvwz1cIv6b0QWfVpf2qAJyBl1/ylhepnIyo1J3fJ
+	GY/fXoxDuwQ3W59ok+qfVHhXIgS2N+Gcu7f7ChG7J+SEiXzIHPc9jgmy01GMJUscP+P1yoMwNo+
+	cznjOUMVTHM3FbQd2F7gYfwGisLjVQ/pHnLLCNtPgStO1KH80CvQ3SxK0jzD8RYOX34ZSxhdnRU
+	wLDfEVowDO5g3EGTcxWy88ACLP/dG3orE9veVM1050JuSHx02yrIGmP54WeieQR0NvQRSB1iMHd
+	iJBnmzjGhdxhHFgidEcZwh9ZTR6up+oAGQnk0PMGkHLE+M2oGqtUfB4+Wx3VWidJwQ+BWtgbJBJ
+	K9ak6yrO26qDaQp0IEDw9hkDgMwlSPjc0hdhBwMA/EKykjrgrUJqZgzSAcHsmIWcS0vkqqx3LTf
+	LJvDnBK0SHnx829Dsen4vZGkanDHdg==
+X-Received: by 2002:a05:620a:4515:b0:93f:2b23:481b with SMTP id af79cd13be357-944216f074fmr3225502985a.22.1793854483013;
+        Wed, 04 Nov 2026 20:54:43 -0800 (PST)
 Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91e9378dc70sm16474186d6.37.2026.11.04.20.28.51
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d48694cfsm378985185a.36.2026.11.04.20.54.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 20:28:51 -0800 (PST)
-Date: Wed, 4 Nov 2026 23:28:48 -0500
+        Wed, 04 Nov 2026 20:54:42 -0800 (PST)
+Date: Wed, 4 Nov 2026 23:54:39 -0500
 From: Alan Stern <stern@rowland.harvard.edu>
-To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-Cc: Michal Pecio <michal.pecio@gmail.com>,
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: YuanZhe Liu <25031212351@stu.xidian.edu.cn>,
 	Mathias Nyman <mathias.nyman@intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -88,10 +90,11 @@ Cc: Michal Pecio <michal.pecio@gmail.com>,
 	Cheng Wen <wencheng@xidian.edu.cn>
 Subject: Re: [PATCH v5] usb: xhci: Fix use-after-free race in
  xhci_stop_device()
-Message-ID: <82a746b7-4e87-4d46-88c3-bb881f11b8de@rowland.harvard.edu>
+Message-ID: <d7448504-a63e-4f3a-a828-7656b1084105@rowland.harvard.edu>
 References: <20261104000031.679944e7.michal.pecio@gmail.com>
  <20261104035637.3325-1-25031212351@stu.xidian.edu.cn>
- <20261104151544.26672-1-25031212351@stu.xidian.edu.cn>
+ <b8ea2f8f-ff9e-4cc6-853b-114fe51173e6@rowland.harvard.edu>
+ <20261104175949.71804650.michal.pecio@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,64 +106,77 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261104151544.26672-1-25031212351@stu.xidian.edu.cn>
+In-Reply-To: <20261104175949.71804650.michal.pecio@gmail.com>
 
-On Wed, Nov 04, 2026 at 11:15:44PM +0800, YuanZhe Liu wrote:
-> Alan,
+On Wed, Nov 04, 2026 at 05:59:49PM +0100, Michal Pecio wrote:
+> On Wed, 4 Nov 2026 10:02:48 -0500, Alan Stern wrote:
+> > On Wed, Nov 04, 2026 at 11:56:37AM +0800, YuanZhe Liu wrote:
+> > > If you think the mutual exclusion belongs higher up instead - do not
+> > > let usbfs suspend a port while the hub is being unbound - I am happy to
+> > > work on that; from your message it sounds like you would prefer the fix
+> > > there.  
+> > 
+> > Don't know about Michal, but _I_ think the problem should be solved 
+> > higher up in the stack.
 > 
-> Thanks - that is a fair point, and I agree that the generic exposure is in
-> the core: usbfs can drive port state on a hub whose driver is being
-> unbound, and usb core does not serialize the two.
+> Perhaps in userspace? Or is it expected that root hubs (or other hubs)
+> receive random and conflicting requests through USBFS?
+
+In usbfs, as I just wrote to YuanZhe.  It should not be allowed to 
+send random requests to hubs while they are running.
+
+> Do we know that the device whose port is being suspended has been
+> quiesced? Is its driver even aware of anything?
 > 
-> The awkward part is where the lock would go.  do_proc_control() releases
-> usb_lock_device() around usbfs_start_wait_urb(), so the control request to
-> the hub runs without the device lock, while usb_unbind_interface() ->
-> hub_disconnect() holds it.  Making those two exclude each other on that
-> mutex would mean holding it across a synchronous URB, which I do not think
-> is acceptable.
+> What I find more disturbing is the existing protection from this race
+> added by 88716a93766b - it looks like core was triggering this too.
+
+I don't know anything about it.  That commit only touches xhci-hub.c, 
+not usbcore.
+
+> I found this usb_disconnect() code suspicious:
 > 
-> Two shapes I can see on the core side:
+>         if (port_dev && test_and_clear_bit(port1, hub->child_usage_bits))
+>                 pm_runtime_put(&port_dev->dev);
 > 
->  - refuse or queue hub class requests to a hub while its driver is being
->    unbound, or
->  - make usb_disconnect() of that hub's children wait for in-flight
->    port-state requests on that hub first.
+>         msleep(150);		// my addition
 > 
-> I am happy to prototype either one; tell me which you would prefer.
-
-I'm still not certain I fully understand what's going on here.  It 
-sounds like one thread uses usbfs's do_proc_control() to send a 
-Set-Port-Feature(suspend) request to a hub, presumably without claiming 
-the hub interface.  At the same time, another thread tells usbfs to call 
-usb_driver_release_interface() for the hub interface.  Is that right?  
-If so, read on...
-
-The issue here isn't a race, or locking, or a matter of a port's state.  
-The real problem is that userspace can use usbfs to send a 
-Set-Port-Feature request to the hub without claiming the hub interface.  
-If usbfs had to claim the interface then the problem you encountered 
-could not occur, right?
-
-It looks like check_ctrlrecip() needs to be more careful.  A whole bunch 
-of requesttype/request combinations -- basically, anything that isn't a 
-GET-* -- should be forced to call checkintf(ps, 0) if the target device 
-is a hub.  After all, we don't want userspace interfering with the 
-operation of the hub driver.  This special hub-class handling should 
-come directly before the code for the printer class.
-
-Can you write a patch to do this?
-
-> What is xhci-specific is that xhci_hub_control() is the only one of these
-> paths that walks per-device state: xhci_stop_device() looks up
-> xhci->devs[slot_id] and drops xhci->lock while sending the stop endpoint
-> commands.  ehci/ohci/uhci only write port registers there, so the same
-> interleaving does not give them a use-after-free.
+>         hub_free_dev(udev);	// this drops xHCI device state
 > 
-> So I would like to keep the xhci hunk as well, as memory-safety hardening
-> for the case where the core does not catch it.  If you would rather see
-> the core change first, I can send that separately and rebase this on top
-> of it.
+>         put_device(&udev->dev);
 
-That's fine; I'm not concerned about the xhci-hcd portion.
+I don't see how this is related to the problem at hand.  The 
+pm_runtime_put() above merely undoes a pm_runtime_get_sync() earlier in 
+the same routine.
+
+> but it seems that even with the sleep, the bus only gets suspended
+> after put_device(). So IDK how that panic was possible in 2016.
+> 
+> > It sounds like the sort of race that could  affect any HCD, not just
+> > xhci-hcd.
+> 
+> xhci-hcd is affected because it tracks association between devices
+> and ports and accesses devices on port suspend. IDK if others do.
+> 
+> xhci-hcd shouldn't even need to do this, becaues it's pointless if
+> devices behind the port have already had their URBs unlinked. Case in
+> point, nobody noticed it's only done to the immediate child :)
+> 
+> I would have sent a patch to nuke xhci_stop_device() altogether, if
+> there weren't known cases where core leaves URBs on suspended ports.
+> That stuff should probably be fixed, it caused problems before.
+
+There should never be any outstanding URBs on suspended ports.  If you 
+have any examples, they need to be fixed.
+
+> I recall the main blocker being that core wants to setup wakeups in
+> the same call which puts ports to suspend, so it cannot reject ep0
+> URBs before doing this call.
+
+The core relies on drivers to unlink outstanding URBs and not submit any 
+new ones after they have been told that their devices are going into 
+suspend.  I suppose we could check that there are no errant URBs still 
+in progress just before putting the port into suspend, but is this 
+really necessary?
 
 Alan Stern
