@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793906986;
-	b=NkJ+6H1/7/RUAg/6MPu790HdpNT6RRdqeleoGtr+qBhqkD8QG+26OCYbxdiOEuybgMeu
-	 Ghg0o9d0nkvmRT2MWaBXC5zvwi+8lg+ZurkR3MHBtT2EIPvZTSC4WPJFBZiUErDhvJr8G
-	 gcN52wmKT7JpzxJpktCp9P2YS0W3As8xft+7Ca5RZ+4sYO7ebzv/qGQh/kFnHqsr0culW
-	 808pnFg5I1vF62Kyn/5CPIIKFsn980sxTj4bxo36wB1+BqDxOkBLkUSSu32epZOxM7Geb
-	 RmfogO7rVccXYT5Nb+CJgMTkNe/TqaUWJKknrtcwbWmw/rj0M+93hCF2dzMnZNTGn9Q==
+	t=1793906976;
+	b=fjQXPHpKKwE81oTMpQOq53YU+hB9f4AJ5boNiwNEgozkKK1EtrK3M11qvKtHFCQ8gFyI
+	 8A7ghH73gU0Ix39FT06ldUS93ttrSvBFZqz4sdI3MSXtGhrU0ruOBPho7nLr/rROxiCXZ
+	 Qp11UhoPsGYcKp78RGN9XvbG9ULEwpgfqoSw70/vjiBEpug/lm6liYAe0q/tQYscPrJta
+	 m30bmS6Oh5azThB8ImhhOFudX315SiXgY3RFh0rgJL0xZ+tyhm0V4iu4yqEPYeAytAiQm
+	 KDNmEwuV00JYOPYNUprNv6Q4D3/FwsB4pPGsAkbnMGAIeuKJ0pId4WwpLwZ1wo2yybw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793906986;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793906976;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=qZX6TqimGj0FPnu/ads2TGWZcJdWF3Hg9sf4zFcOy0g=;
-	b=EXNabSDuRS9KyCleSdCztvnRaLzhmLfjFBmmlKkyY0D/UuorngghkqvBCh2WQnNTIcwp
-	 kZ+PhwwQYv5UwKroM4SH8T0jGTQq7ORFVk1vlguzt1qjxOw061wkb/HlleN9TjZuOkZBc
-	 RXFYeStCftzDQO0VI3E/Qg14u3q31NWaBICUP4HMWWXO/rDpu7jeHyLeWt2NrWbr2MuFt
-	 4SFGiPdJhM042G8vf+P0Ld9/uT8oMZ7EFvOxAQhWJ7u89XydkU5jqndws1HADuRH7YLRg
-	 be04gdz6m4y6zTGVroFflKSsWU0RXzXWmDPBeDhoI+lrhFjCD1tF9aFNe6HL8wR8w/g==
+	bh=PTE5j5M1lfXRKhGqS4rQ0FGlegosh6AezvyKz9Oa8vc=;
+	b=4DJgJidLdjmo2S0hi1zuGbQN+WndVwmJ4E/Hly5xrbv/tZ698XLUFu0dMg2lBgLFj8Sq
+	 IyFtEIFlaegrnoupRw7YD1oynioXO/iWLMbYLSavw9zA/o49NRb29l5RW+5mzMnIOomiQ
+	 5JRWETy6c407VjZ5KgxbnKuAA5jvatyyEzAlhbulH6A5srwrP6QFVq0d3i+oksjV4MzyT
+	 VY2rSE3/uHArWajm8w7mGEfzEvglaZ83AyWNMRP83Sy+wj/cNG0dTGpPSjgjZuSEJMHaB
+	 kSXX/QhSSTOjkZbVmYzeuZSV9QFN38V1suQU5gv88DhIGE4IBnWDLvAY28ihj0PrzOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZVanxKXY;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h4W85jhD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A565B606D806;
-	Thu,  5 Nov 2026 19:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436EA606A329;
+	Thu,  5 Nov 2026 19:29:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZVanxKXY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F0D01F00919;
-	Thu,  5 Nov 2026 19:29:44 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h4W85jhD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC88B1F00919;
+	Thu,  5 Nov 2026 19:29:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793906985;
-	bh=qZX6TqimGj0FPnu/ads2TGWZcJdWF3Hg9sf4zFcOy0g=;
+	s=k20260515; t=1793906976;
+	bh=PTE5j5M1lfXRKhGqS4rQ0FGlegosh6AezvyKz9Oa8vc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZVanxKXYs5ktHoZYv4D/uQQVfoZK40PC7mYX3MUUXNsjdgxlVN2mUV1CZyN0px3sS
-	 anXxwuSYs+8OfnMy1a61hJGPZSr8HsyYjUlLU0R+HHnCLVFbUeJZ4hqEvcD9OSxhNm
-	 b4yUcMf4KwRiwGKBG+O0J1WrPYTgdG7asoElB+ql62bi3qmtvieZQyAcNv0MXUEfLh
-	 DNPU06edIHuWUKftt7sZUQ/o1KlFN2EELj5lVnxD3jwTWFSvVtMFCs/jL4yOLC2wT0
-	 hwh0T0s0JGhXVBidtrd5QVgPIgEG9Rt/BldgHb+FXPeJchUpFRsxIMco2Y7J0eyQf+
-	 Pc1dVZ24TuZ+w==
-Message-ID: <sashiko-outbox-199891@kernel.org>
+	b=h4W85jhDarFXBHG0k6JfyOGr8igxfgjaZBbbaCRVTQ0udlKQRWyMl8x3vyWH1Yc0F
+	 dOtLFgk+EUlfavQaPuDi+2NHDf1/BnZunAx0joRjfA786aL3mqNWdnnJweKA1yHUA1
+	 iGSfM1C3r+4wCQJidi28oADHFsujWie1y+IVFLXQTuLX56ywi7d9UyNiLTEecy/eLZ
+	 jxw9spucN1hAz+xXZvmAdLSzDnD4wAfRWUb7WZpsdAxmdjWIEV2sHgXEXcerAu5glG
+	 lvU3C8k5MtoleqtbURHAux8hlkGA1XhQZFvBuFWItTH3nIjDF/nWCIloHR7f5PjeLR
+	 QU48cCjz6Zhyg==
+Message-ID: <sashiko-outbox-199886@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RESEND v2 28/51] ntfs3: don't warn when a huge label is
- written
+Subject: Re: [PATCH RESEND v2 23/51] scsi: BusLogic: don't return 0 from
+ writes to the proc file
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Christian Brauner" <brauner@kernel.org>
 Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
@@ -55,12 +55,12 @@ Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.
  Iwai" <tiwai@suse.de>, linux-ext4@vger.kernel.org, "Chuck Lever" <cel@kernel.org>, tytso@mit.edu, "Heiko
  Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
  Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-28-021c84d852e0@kernel.org>
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-23-021c84d852e0@kernel.org>
 References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
- <20261104-work-procfs-bugfixes-v2-28-021c84d852e0@kernel.org>
+ <20261104-work-procfs-bugfixes-v2-23-021c84d852e0@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 19:29:43 +0000
+Date: Thu, 05 Nov 2026 19:29:34 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -70,20 +70,16 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> ntfs3_label_write() allocates as many bytes as are written with plain
-> kmalloc(). A write that is larger than what kmalloc() can hand out then
-> trips the page allocator's warning, which panics a panic_on_warn kernel.
-> Use memdup_user(), which fails such an allocation quietly with -ENOMEM
-> like before.
+> A write to /proc/scsi/BusLogic/<n> resets the statistics and returns 0.
+> Writers that use stdio, echo for example, take that as no progress and
+> retry forever. Return the number of bytes that were written.
 >=20
-> Fixes: 7832e123490a ("fs/ntfs3: Add support /proc/fs/ntfs3/<dev>/volinfo =
-and /proc/fs/ntfs3/<dev>/label")
-> Cc: stable@vger.kernel.org
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-work-procf=
-s-bugfixes-v2-0-021c84d852e0@kernel.org?part=3D28
+s-bugfixes-v2-0-021c84d852e0@kernel.org?part=3D23
 
