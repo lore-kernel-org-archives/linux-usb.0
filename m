@@ -1,55 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793873569;
-	b=To0Py43egisMjpCV4h601f31SbuzPmdQpr5IE1acbiH5nGYn+vW9xRzehHhKDDvzF9an
-	 eAR4UpqEyAmWaUQVQ9MsPO8nXQbK6DAvqWSFJcxTpPu+av0tZGZepkdsA0MunBMLzVLZL
-	 s1cddNkk6NMKV/r7eO2Z2WFeQ4vDFNs75wnMbsbq2GZOWMiiDKO9joKKtnDvdnkRDW3xX
-	 cxckkvTvUB3KJOOA6P0q+6gs2zIA2TTKV08mtYiHB5VYbJUqOtBTek/HLwHT4V22juZOQ
-	 5g22GnXJDfqDsGW6uDTw5vKppTCGjcAf4ZZ19qZLVqU0of+MA7o/ctEitbqkt2B1d0g==
+	t=1793874218;
+	b=3I+athyHKGDqa3SjsXs3wGfSOrwn5esP9aDBabKPGht/PDWJ6DMjW+sH+hZM6NEI3Ak+
+	 lFVFcc5B1JDI+4SWgb0Q9ffglMAqarz9FNRqBoZMXlIizA5yEqV5kdlwXVJFJwbe06IXZ
+	 N25KhG0KKXScmbMv4sWX6tp7xXYdsiawFKpSYY/C7OdqR/2MmX+eZCuuLZcv7PZPALwgu
+	 pygrySJPbqmXb4IFd7lrARCAmMzb/2Nh8PS0xgD6ycEksn+CGjmlYDETIYnE9+9wAPE+O
+	 K9kfUbE3QQh9aWXyI76bJQRbf10Q8E8+el8nKMmg2Dj7rgGUis5qbcr1+4mNP29xiTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793873569;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=uAIe0IZmGWPzIKYTvmGWwJg4d53LmxoMF8MC3vcn1kI=;
-	b=b7R8VTViXaVWJ4wjX1SaAuxLa8FRSpLD4EenoaXMd4bo9zHYAQs2CEEcogtlnxVi5cqy
-	 Y2IkrkSj3k/qDSPx5uSmO6UiHIA0b9ti6G7/yNKpQpBRA6ifjJKPDPeCd4GVtDI/+mzSP
-	 DthqDTjSVG2TNhmZbOAduknO4EBqn+689jqvTvwAHiXRtUYeY5EpMyPjKPS4GFZ3VhNLZ
-	 H8c3CmLHd9qKa+A2UGrcdEFWkY0mk3f1NYqqNJyOQMhcDBc5SjwkBR3arlHctAacRHCXK
-	 fo3O26+WvCbi+7eQpUZkRkpkslXbURfnDOk77rT0ADmTG2W+BGxjrTuKz4cn9LKfKLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793874218;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=leX0ReHgK6PuZWGaSF37b7EwrV14gXKlbmMxu+sMS5c=;
+	b=UltzDANPLq+nBBV20kouoKj4u6j9EaEj9aOdpEJlXkZ35RyR9KOHWXryapVm43CbgewQ
+	 Tno10pC711YPw1ogsmNfjAOAHb2qOP0EG99alKOpTzkF2OkME4GvGDJc6mHIhh5620v5G
+	 oikyBMHmGrcH0OgGgIOFB7FIJpeRlNDTJZfzYy/LEA2JGAbw4A8IECubrDZm6dCJyVZ7L
+	 LvDHtlsA8NWFb+tFdx1nN4ZstFu9l8sXmigl+pd5KGk+HThQo4RSLpnEPCQaySzawejhm
+	 ts8/DOJJ7Xc3ZWjFrlA0xPKs1b+pSqXY4BJ01nTdek3zcBNjA5PZPw5LiymHD8pzIIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="TA/LhVwy";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA812606D835
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 10:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TA/LhVwy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B9251F000C1;
-	Thu,  5 Nov 2026 10:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793873568;
-	bh=uAIe0IZmGWPzIKYTvmGWwJg4d53LmxoMF8MC3vcn1kI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TA/LhVwyp+j6rdp/o4dfDzZRH7Alzr64s0yYJ4B4ecgZw7d/tKvvHK7htofPPoQp5
-	 ghMzvvElULfuoybaWPAlNY7bluhVJmmRbAOJGiYpr/iBT84zzcID4QPkWIZyyIXCKF
-	 23BEqFCvhjGROerXpNZximq3q1sNHAiaxoPJo5P5LZDrXAmqLYPHBQqpHb5R0F56HU
-	 5xTqS4HN1Qry0OJcXJge7Qf7kNPVHGVurXgCVjWX6XNR7elJ42XMApSwG6AObYNAHc
-	 ULnxqxNMJVKHv/T2iuv6MJdOz0kPTdnD2yoPeBwTeZrUD+/PDPDvzjk+W+M4gMXRmW
-	 +gINxnclQbKoQ==
-Message-ID: <sashiko-outbox-198821@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: dwc3: Update nominal max votes for qcom usb
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Akash Kumar" <akash.kumar@oss.qualcomm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B191606A31B
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 10:23:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B191606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: f15ae9c8d90211f19a56ed5b684f684d-20261105
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:d28078d8-20e9-4974-aef1-ecfb57a20e99,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:-30
+X-CID-META: VersionHash:7db8b62,CLOUDID:e31da5585721bf525ba634d09b786df9,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|865|898,TC:nil,Content:0|15|50|99|100
+	|102|151,EDM:2,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,
+	OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f15ae9c8d90211f19a56ed5b684f684d-20261105
+X-User: lijiayi@kylinos.cn
+Received: from thinksys.. [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijiayi@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 283026786; Thu, 05 Nov 2026 18:23:28 +0800
+From: Jiayi Li <lijiayi@kylinos.cn>
+To: Oliver Neukum <oneukum@suse.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261105100626.2003771-1-akash.kumar@oss.qualcomm.com>
-References: <20261105100626.2003771-1-akash.kumar@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 10:12:48 +0000
+Subject: Re: [RFC]alpha implementation of eh_abort_handler for UAS
+Date: Thu,  5 Nov 2026 18:23:03 +0800
+Message-Id: <20261105102303.3891933-1-lijiayi@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <e3eb3c84-ea19-4502-976e-eeb83e80a92c@suse.com>
+References: <e3eb3c84-ea19-4502-976e-eeb83e80a92c@suse.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,39 +67,25 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> Increase the nominal max USB memory bandwidth vote to let DDR scale
-> higher within its nominal corner, fixing glitches seen during
-> simultaneous USB audio use cases.
->=20
-> USB_MEMORY_PEAK_SS_BW is raised from 2500 MB/s to 4500 MB/s (+2000
-> MB/s, ~1.8x). This ICC vote does not by itself determine DDR
-> frequency; the vote-to-frequency mapping is platform-specific and
-> comes from each target's interconnect/OPP table. On the tested
-> targets, the old vote kept DDR pinned at 1 GHz within the nominal
-> corner, even though DDR can run at 1.5 GHz (+50%) within the same
-> corner. At 1 GHz, glitches were observed during multiple concurrent
-> USB audio use cases.
->=20
-> Tested internally on RB3, RB4, RB8, Shikra, and other KLM targets.
-> With the updated vote, DDR is allowed to run at the higher nominal
-> frequency, and the following were measured (not merely projected):
->=20
-> - USB memory throughput: 125 MB/s -> 145 MB/s (+16%)
-> - RTD-USBC audio latency: 17.9 ms -> 16.6 ms (-7.3%)
->=20
-> RTD-USBC is the round-trip audio latency measured over a USB-C audio
-> path; lower is better. Note the +50% DDR frequency headroom does not
-> map linearly to the +16% throughput gain, since throughput is also
-> bounded by other factors along the USB/DDR path; the frequency
-> increase is necessary but not sufficient to explain the full gain on
-> its own.
->=20
-> Signed-off-by: Akash Kumar <akash.kumar@oss.qualcomm.com>
+Hi,
 
-Sashiko has reviewed this patch and found no issues.
+Thanks for sending the patch. I wanted to check whether these two
+details were typos.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105100626.2003=
-771-1-akash.kumar@oss.qualcomm.com?part=3D1
+In uas_eh_abort_handler(), I changed the tag passed to
+allocate_double_command() from cmdinfo->uas_tag - 1 to cmdinfo->uas_tag.
+Subtracting one gives the index into devinfo->cmnd[], but the TUR needs
+to carry the same tag as the original command to trigger the overlap.
 
+In uas_abort_complete(), I changed devinfo->cmd_pipe to
+devinfo->status_pipe for the second submission of the URB, since that
+transfer is meant to receive the device's response.
+
+Is that what you intended in both places? I'm testing a local version
+with these changes and will follow up with the results.
+
+Thanks,
+Jiayi
