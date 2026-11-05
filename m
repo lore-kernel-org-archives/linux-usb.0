@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892721;
-	b=lPj/VC5ywU7VNmaTBTYYBymzHAuTqgG5b9xJ3VaAe6oJLMI/w44ow+/yVWOVsrY6Rmf4
-	 /yrDB2Bv39wchtMzUFWDL+QjonqNLdNge9MeKBEVKHEQAqlcWOr4en56lkTb1C/9QeLpQ
-	 04/uqD9ZADl+UJIEnbfi//99cQUh0FvH8AOO7H+v4Bvy7KHAH85KsoiiyPzmuGRh2PB5P
-	 owWoI45Ux3LXdCvBPPtAlE5wT02LPFfGLPZfas1Fper7ERsbOHE0iYM3JZqdDBBYO4WzW
-	 XJfdhVXqrPZ/AwbLEn66r6nOj+gWIAOnfZscVudjwBlzgqPKuxh3jQZdtcgFauSRSVg==
+	t=1793892720;
+	b=GUYICi0wq8YW7O5UyJH7OMc1CL9DkJdaJ2/dgn1IkMS6uctu8fvGx6QDGRktF14bm1UL
+	 aQuIiBJFlyhQZLDPFfkLRMFH+nli93kPMZrG+fGYsIgEqSQDEU0Vk7d/IJt46I0ii11mQ
+	 QmhUtoUY5+V0NbT/DNcGAoZI+PNPKqaR2ghz+X+zESNMp9ojHKmuKm9ozZU3gg5nTAAp2
+	 fXYdsjSR792iwLWi0fJ1u3wO1LI3tzjP5T4npikxPI5qz73LWSoDXMlDOkZl0pivC/FLc
+	 VmRnUCiUdArTQ5j2yocAMFvhIAlNLQD1rIejKb9ymH8jnLQoeQy+k6eL6dh//laiLAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892721;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892720;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=mi2ntVENYBXFxWjPQdprwpU30d0F1PDeFLffOY8vNww=;
-	b=dcWWqRydRrLu9qiJpcCpoLjNTo9uGgPuu+UJTMy1R0gd/XFR5xGViOGsrWozQv+fHhpm
-	 6epBbO7aXaR76sc59iRiCJTeJviS2pjmhwaOuv6K47w2RynkRm/okYXEsAhh4AZjZWRPr
-	 AGgsYb614CHtqKUZ/IzCaAi885RPhIr0fS3UB1aDckK22Ydx6vm0TTFORUuWkjeIEtL6G
-	 J0xvywb4ihcSXbZe+rCipCUzpQMMKVaROo3ruVdP/k9cNCEezpklLDfdMIQNWkjijZiqb
-	 EqnnBYAGtyo/mejotMvGeNrG9qlXbIU0f395ZvSdZh4H8aQPGih5xfJruTY+dEUQqiA==
+	bh=kdr5CytSp+QzI8htSD6yTJaK//bvnNSu46epScRZxNo=;
+	b=BCir9QboIeCjgFUspYgXSqvna5/ER9wMBvbnWhL7334in2UqovE2D6M9YxzI0x4MFHoW
+	 7hdZUdvuuQndHgODRREc2KcVjIyxkJTQnt6qD2M2KymWIL6Vhg/3liatBhYVkRRVVwm4h
+	 HVqstLXKnYZQxI3b+qQyZ2Ddfaay/LzMk3N7MJce+YwqN3jEEzOBW0WvCz8In5X5n6oam
+	 M1l+bBMSc3GqqyoLqJC2OH1+Ok9spaR1hb+YDDw8v9I2hUI6+hP2qlRymhuLZ3s0smERg
+	 GTwyZm9SvsUgMm+C3NKcNBpkim2nbGOqmyLRPse22EJeN+AKLVQm62Jwbbfr6v512vQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="U0/1EGIe";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C9KF9U4W;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB96606D829;
-	Thu,  5 Nov 2026 15:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F84606D81C;
+	Thu,  5 Nov 2026 15:32:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U0/1EGIe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B76EA1F00A1A;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C9KF9U4W
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CA7F1F00919;
 	Thu,  5 Nov 2026 15:32:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1793892720;
-	bh=mi2ntVENYBXFxWjPQdprwpU30d0F1PDeFLffOY8vNww=;
+	bh=kdr5CytSp+QzI8htSD6yTJaK//bvnNSu46epScRZxNo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=U0/1EGIeh9Vd6cU+xKWkVzAhaQaNYPkb1knoO05lC+DD7LUPPW9DpuYzxxmqG+jIM
-	 AoC9I244/4dwQM76O0avISTIv05oKfLTM0pldZJhlzshRF/6o+XHGtg0Iq6JhUc0tC
-	 S3s41kU7UEOnhVRzR21hTkgXutWTeLG5yVnWS/SxOwHl1q4y72OSPIirzBryIA73yc
-	 Bs4qo8U3Tw0TEG+6gcGC94oEw9lY5VCqfZKlNAU1yRbsna2N38AGRysyFwAFI5VEaV
-	 MCWfwZP+RVaB41n0UJXdg0L1Qd2kbxMt4qbHiRIAGPuqNI8R3D3Cyi8Ng2WALRyziI
-	 yitZ6pzXINbOg==
-Message-ID: <sashiko-outbox-199312@kernel.org>
+	b=C9KF9U4Wy9MHg2DiZN3xt0tjLQfpvPUWM1pq/WDHmcc0fqjMUFGXs+F4+UOQ8lr3F
+	 wL9LOO3/4f/THG3rqhODeVMbyONknBQHfYkLbysNKOuIDqNJomVPe38shF9TahJB7c
+	 BuFAA+nXygBMTZ82GSdSij7lSoVuq5epHrUNfiHGslQJmycDH/kOfoH7fc+/j06iQg
+	 RsL1UEZrBONnz5r8qzbWotG7ti2drA2cNu7UvOdvfLspHMa4lzEqbRmXjtreYpjjSm
+	 IfgsPh/dDEo4yNqAOhGlOj3U5R000Zu9rpOApYAtaLtAusVH/Im+aHd6yld8/CYaq4
+	 MtPsBVHV6FojA==
+Message-ID: <sashiko-outbox-199311@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 3/8] ALSA: usb: babyfacepro: add mic preamp,
- phantom/pad and input trim
+Subject: Re: [PATCH v8 2/8] ALSA: usb: babyfacepro: add output masters and
+ crosspoint routing
 Reply-To: sashiko-reviews@lists.linux.dev
 To: =?utf-8?b?SXNtYcOvbCBCYWhsb3Vs?= <i.bahloul01@gmail.com>, linux-sound@vger.kernel.org
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261105151553.223722-4-i.bahloul01@gmail.com>
+In-Reply-To: <20261105151553.223722-3-i.bahloul01@gmail.com>
 References: <20261105151553.223722-1-i.bahloul01@gmail.com>
- <20261105151553.223722-4-i.bahloul01@gmail.com>
+ <20261105151553.223722-3-i.bahloul01@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 15:32:00 +0000
+Date: Thu, 05 Nov 2026 15:31:59 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,303 +61,162 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] ALSA: usb: babyfacepro: bf_trim_apply() and bf_phase_apply() clobb=
-er xpoints
-- [Medium] ALSA: usb: babyfacepro: hardcoded Mic 1 names in babyface_create=
-_preamp()
-- [Low] ALSA: usb: babyfacepro: unchecked snd_ctl_new1() in babyface_create=
-_preamp()
-- [Low] ALSA: usb: babyfacepro: bf_phase_info() and bf_bool_info() duplicat=
-e code
+- [High] ALSA: usb: babyfacepro: out-of-bounds value[1] write in bf_mute_ge=
+t()
+- [Medium] ALSA: usb: babyfacepro: missing shutdown check in mixer put call=
+backs
 --
 
-commit 82ef805ee77606164dc3814bf736734ca60721d5
+commit a0ae4df204731e5d864689d9a4a9ee415579f1a2
 Author: Isma=C3=AFl Bahloul <i.bahloul01@gmail.com>
 
-ALSA: usb: babyfacepro: add mic preamp, phantom/pad and input trim
+ALSA: usb: babyfacepro: add output masters and crosspoint routing
 
-This commit adds ALSA mixer controls for the input side of the RME Babyface
-Pro, including phantom power, pad, instrument reference level, mic/instrume=
-nt
-preamp gains, phase invert, stereo split, and input trim.
+This commit adds ALSA mixer controls for the six output masters (volume and
+mute) and the 6x14 crosspoint routing matrix, caching their state on the
+host and initializing safe power-on defaults during probe.
 
 > diff --git a/sound/usb/babyfacepro/babyfacepro-ctl.c b/sound/usb/babyface=
 pro/babyfacepro-ctl.c
-> index 942d4732cbe07..fe6266ea118e6 100644
-> --- a/sound/usb/babyfacepro/babyfacepro-ctl.c
+> new file mode 100644
+> index 0000000000000..942d4732cbe07
+> --- /dev/null
 > +++ b/sound/usb/babyfacepro/babyfacepro-ctl.c
-> @@ -654,3 +654,627 @@ int babyface_create_masters(struct snd_usb_babyface=
- *chip)
 
 [ ... ]
 
-> +int bf_phase_apply(struct snd_usb_babyface *chip, int mic, bool invert)
-> +{
-> +	const struct bf_source *s =3D &bf_sources[mic];
-> +	int out, ret;
-> +	u16 flag;
-> +
-> +	for (out =3D 0; out < 6; out++) {
-> +		u16 plain =3D chip->xpoint[out][mic][0];
-> +		u16 value =3D invert ? (u16)~plain : plain;
-> +
-> +		/* The AN1/2 block is written without the rotating bits, as
-> +		 * bf_xpoint_write() does.
-> +		 */
-> +		flag =3D 0;
-> +		if (out) {
-> +			flag =3D bf_flag_cycle[chip->flag_cnt];
-> +			chip->flag_cnt =3D (chip->flag_cnt + 1) & 3;
-> +		}
-> +		ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, value,
-> +				      (BF_REG_XPOINT_BASE_L +
-> +				       BF_REG_XPOINT_STRIDE * out + s->idx_l) |
-> +				      flag);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +	return 0;
-> +}
-
-[ ... ]
-
-> +int bf_split_apply(struct snd_usb_babyface *chip, int pb, bool split)
-> +{
-> +	const struct bf_source *s =3D &bf_sources[8 + pb];
-> +	u16 l =3D split ? 0x2000 : chip->xpoint[0][8 + pb][0];
-> +	u16 r =3D split ? 0x0000 : chip->xpoint[0][8 + pb][1];
-> +	int ret;
-> +
-> +	/* The AN1/2 block.  The same values also went to a "standard map"
-> +	 * half at 0x0068, which is AS1/2's submix, not part of AN1/2: it
-> +	 * overwrote AS1/2's own crosspoint for this playback pair.
-> +	 */
-> +	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, l,
-> +			      BF_REG_XPOINT_BASE_L + s->idx_l);
-> +	if (ret < 0)
-> +		return ret;
-> +	return bf_vendor_write(chip, BF_REQ_CROSSPOINT, r,
-> +			       BF_REG_XPOINT_BASE_R + s->idx_r);
-> +}
-
-[ ... ]
-
-> +int bf_trim_apply(struct snd_usb_babyface *chip, int mic, int trim_db2)
-> +{
-> +	int base =3D mic & ~1;
-> +	int sib =3D base + 1;
-> +	const struct bf_source *sb =3D &bf_sources[base];
-> +	const struct bf_source *ss =3D &bf_sources[sib];
-> +	u16 trim_raw =3D bf_master_16bit(trim_db2);
-> +	int ret;
-> +
-> +	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, trim_raw,
-> +			      BF_REG_LOWMAP_BASE_L + sb->idx_l);
-> +	if (ret < 0)
-> +		return ret;
-> +	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, trim_raw,
-> +			      BF_REG_LOWMAP_BASE_R + sb->idx_r);
-> +	if (ret < 0)
-> +		return ret;
-> +	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, trim_raw,
-> +			      BF_REG_LOWMAP_BASE_L + ss->idx_l);
-> +	if (ret < 0)
-> +		return ret;
-> +	return bf_vendor_write(chip, BF_REQ_CROSSPOINT, trim_raw,
-> +			       BF_REG_LOWMAP_BASE_R + ss->idx_r);
-> +}
-
-[ ... ]
-
-> +static int bf_trim_put(struct snd_kcontrol *kctl, struct snd_ctl_elem_va=
-lue *ucontrol)
+> +static int bf_master_put(struct snd_kcontrol *kctl,
+> +			 struct snd_ctl_elem_value *ucontrol)
 > +{
 > +	struct snd_usb_babyface *chip =3D snd_kcontrol_chip(kctl);
-> +	int mic =3D kctl->private_value;
-> +	int sib =3D mic ^ 1;
-> +	int db =3D ucontrol->value.integer.value[0];
+> +	int out =3D bf_master_out[kctl->private_value];
+> +	long nl =3D ucontrol->value.integer.value[0];
+> +	long nr =3D ucontrol->value.integer.value[1];
+> +	u16 l, r, wire_l, wire_r, flag;
 > +	int ret =3D 0;
 > +
-> +	if (db < -65 || db > 6)
+> +	/* Reject anything outside the declared range, so the registers and
+> +	 * the cache stay in spec (the ALSA core only enforces this with
+> +	 * CONFIG_SND_CTL_INPUT_VALIDATION).  Check before narrowing:
+> +	 * .value.integer.value[] is a long.
+> +	 */
+> +	if (nl < 0 || nl > BF_MASTER_STEP_MAX ||
+> +	    nr < 0 || nr > BF_MASTER_STEP_MAX)
 > +		return -EINVAL;
+> +	l =3D nl;
+> +	r =3D nr;
 > +
-> +	scoped_guard(mutex, &chip->mutex) {
-> +		if (db =3D=3D chip->trim[mic])
-> +			return 0;
-> +		ret =3D bf_trim_apply(chip, mic, db * 2);
-> +		if (ret < 0)
-> +			return ret;
+> +	guard(mutex)(&chip->mutex);
+> +	if (l =3D=3D chip->master[out][0] && r =3D=3D chip->master[out][1])
+> +		return 0;
 
-[Severity: High]
-As reported by Sashiko on v7 [1], does bf_trim_apply() clobber the AN1/2
-crosspoint state and unmute live analog inputs into the main outputs?
+[Severity: Medium]
+As reported by Sashiko on v7 [1], should bf_master_put() (along with
+bf_mute_put() and bf_xpoint_put() below) check chip->shutdown and return
+-ENODEV after acquiring chip->mutex, matching babyface_pcm_hw_params(),
+babyface_pcm_prepare(), and babyface_stream_work()?
 
-In sound/usb/babyfacepro/babyfacepro.h, BF_REG_LOWMAP_BASE_L (0x0000) and
-BF_REG_LOWMAP_BASE_R (0x001a) are the exact same register addresses as
-BF_REG_XPOINT_BASE_L and BF_REG_XPOINT_BASE_R for output pair 0 (the AN1/2
-main output). In babyface_write_default_mixer(), analog inputs AN1-4 have
-chip->xpoint[0][0..3][0/1] initialized to 0 so live microphones are not
-routed directly into the speakers.
+In babyface_disconnect(), chip->shutdown is set to true and chip->mutex is
+acquired and released to fence in-flight operations before calling
+usb_enable_autosuspend(chip->dev) and snd_card_disconnect(chip->card):
 
-When bf_trim_put() calls bf_trim_apply(), it converts trim_db2 via
-bf_master_16bit() (clamped to [1, 0x4000] where 0 dB is 0x2000, compared to
-BF_FADER_0DB =3D 0x16a0 on the crosspoint curve) and writes trim_raw direct=
-ly
-to all four L and R crosspoint registers of the input pair (base and sib) on
-AN1/2, ignoring chip->xpoint[0][base/sib][0/1]. Touching Trim Volume at all
-(even at -65 dB, or returning it to 0 dB which writes 0x2000 instead of
-restoring chip->xpoint[0][base/sib][0/1]) unconditionally routes both inputs
-of the pair to both L and R of AN1/2, overriding any muted state, fader
-level, or panning.
-
-Because chip->xpoint[0][base/sib][0/1] remains 0 in the cache while the
-hardware holds 0x2000, a subsequent write of 0 to the crosspoint control hi=
-ts
-the early return in bf_xpoint_put():
-
-sound/usb/babyfacepro/babyfacepro-ctl.c:bf_xpoint_put() {
-	guard(mutex)(&chip->mutex);
-	if (l =3D=3D chip->xpoint[out][src][0] && r =3D=3D chip->xpoint[out][src][=
-1])
-		return 0;
-
-	ret =3D bf_xpoint_write(chip, out, src, l, r);
+sound/usb/babyfacepro/babyfacepro.c:babyface_disconnect() {
+    ...
+	chip->shutdown =3D true;
+	scoped_guard(mutex, &chip->mutex) {
+		if (chip->streaming)
+			babyface_stream_kill(chip);
+	}
+	cancel_work_sync(&chip->stream_work);
+	usb_enable_autosuspend(chip->dev);
+    ...
+	snd_card_disconnect(chip->card);
 }
 
-and cannot re-mute the hardware.
+Without checking chip->shutdown under chip->mutex, a concurrent
+SNDRV_CTL_IOCTL_ELEM_WRITE ioctl in bf_master_put(), bf_mute_put(), or
+bf_xpoint_put() can proceed to issue synchronous USB control transfers via
+bf_vendor_write() or bf_xpoint_write() after the disconnect fence has passed
+and USB autosuspend has been re-enabled (and on !CONFIG_PM builds, where
+snd_power_sync_ref() in snd_card_disconnect() is a no-op, while
+babyface_disconnect() is completing).
 
-Additionally, because bf_phase_apply(), bf_split_apply(), bf_trim_apply(),
-and bf_xpoint_put() write to the shared crosspoint registers without
-combining their state:
-- bf_trim_apply() (both in bf_trim_put() and in bf_state_apply_flags() where
-  the trim loop runs after the phase loop) overwrites the negated out =3D 0=
- L
-  register written by bf_phase_apply().
-- bf_phase_apply() only negates BF_REG_XPOINT_BASE_L (leaving R un-inverted,
-  and writing ~0 =3D 0xffff when plain =3D=3D 0).
-- Any subsequent bf_xpoint_put() writes plain l/r values, silently wiping o=
-ut
-  active phase, stereo split, or trim settings in hardware while their cach=
-ed
-  control states remain active.
-
-[ ... ]
-
-> +static int bf_bool_info(struct snd_kcontrol *kctl,
+> +
+> +	wire_l =3D chip->muted[out] ? 0 : l;
+> +	wire_r =3D chip->muted[out] ? 0 : r;
+> +	flag =3D bf_flag_cycle[chip->flag_cnt];
+> +	chip->flag_cnt =3D (chip->flag_cnt + 1) & 3;
+> +
+> +	/* Both registers, as TotalMix writes them: the 8-bit is the analog
+> +	 * level, the 16-bit the digital one.
+> +	 */
+> +	ret =3D bf_vendor_write(chip, BF_REQ_GAIN, bf_master_reg8(wire_l),
+> +			      BF_REG_MASTER_8 + 2 * out);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret =3D bf_vendor_write(chip, BF_REQ_GAIN, bf_master_reg8(wire_r),
+> +			      BF_REG_MASTER_8 + 2 * out + 1);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, bf_master_reg16(wire_l=
+),
+> +			      (BF_REG_MASTER_16 + 2 * out) | flag);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, bf_master_reg16(wire_r=
+),
+> +			      (BF_REG_MASTER_16 + 2 * out + 1) | flag);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	chip->master[out][0] =3D l;
+> +	chip->master[out][1] =3D r;
+> +	return 1;
+> +}
+> +
+> +static int bf_mute_info(struct snd_kcontrol *kctl,
 > +			struct snd_ctl_elem_info *uinfo)
 > +{
 > +	uinfo->type =3D SNDRV_CTL_ELEM_TYPE_BOOLEAN;
+> +	/* One switch for the pair: bf_mute_put() writes both channels
+> +	 * together, so a count of 2 would silently ignore value[1].
+> +	 */
 > +	uinfo->count =3D 1;
 > +	uinfo->value.integer.min =3D 0;
 > +	uinfo->value.integer.max =3D 1;
 > +	return 0;
 > +}
-
-[Severity: Low]
-This isn't a bug, but bf_bool_info() is identical to bf_phase_info() added
-earlier in sound/usb/babyfacepro/babyfacepro-ctl.c (and to the existing
-bf_mute_info()). Could these controls use the standard ALSA helper
-snd_ctl_boolean_mono_info() from include/sound/control.h instead of
-duplicating the callback?
-
-[ ... ]
-
-> +int babyface_create_preamp(struct snd_usb_babyface *chip)
+> +
+> +static int bf_mute_get(struct snd_kcontrol *kctl,
+> +		       struct snd_ctl_elem_value *ucontrol)
 > +{
-> +	struct snd_kcontrol *kctl;
-> +	int i, err;
+> +	struct snd_usb_babyface *chip =3D snd_kcontrol_chip(kctl);
+> +	int out =3D bf_master_out[kctl->private_value];
 > +
-> +	/* The control name is the type and .index is the channel (0 =3D
-> +	 * Mic 1/AN1, 1 =3D Mic 2/AN2), the convention the companion mixer
-> +	 * and existing asound.state files use.
-> +	 */
-> +	for (i =3D 0; i < 2; i++) {
-> +		u16 bit =3D i =3D=3D 0 ? BF_PREAMP_48V_MIC1 : BF_PREAMP_48V_MIC2;
-> +
-> +		kctl =3D snd_ctl_new1(&(struct snd_kcontrol_new){
-> +			.iface =3D SNDRV_CTL_ELEM_IFACE_MIXER,
-> +			.name =3D "Phantom Power Mic 1",
-> +			.index =3D i,
-> +			.info =3D bf_bool_info,
-> +			.get =3D bf_phantom_get,
-> +			.put =3D bf_phantom_put,
-> +			.private_value =3D bit,
-> +		}, chip);
-> +		if (!kctl)
-> +			return -ENOMEM;
-> +		err =3D snd_ctl_add(chip->card, kctl);
-> +		if (err < 0)
-> +			return err;
-> +	}
-> +
-> +	for (i =3D 0; i < 2; i++) {
-> +		u16 bit =3D i =3D=3D 0 ? BF_PREAMP_PAD_MIC1 : BF_PREAMP_PAD_MIC2;
-> +
-> +		kctl =3D snd_ctl_new1(&(struct snd_kcontrol_new){
-> +			.iface =3D SNDRV_CTL_ELEM_IFACE_MIXER,
-> +			.name =3D "Pad Mic 1",
-> +			.index =3D i,
-> +			.info =3D bf_bool_info,
-> +			.get =3D bf_phantom_get,
-> +			.put =3D bf_phantom_put,
-> +			.private_value =3D bit,
-> +		}, chip);
-> +		if (!kctl)
-> +			return -ENOMEM;
-> +		err =3D snd_ctl_add(chip->card, kctl);
-> +		if (err < 0)
-> +			return err;
-> +	}
-> +
-> +	kctl =3D snd_ctl_new1(&(struct snd_kcontrol_new){
-> +		.iface =3D SNDRV_CTL_ELEM_IFACE_MIXER,
-> +		.name =3D "Instrument Ref Level",
-> +		.info =3D bf_reflevel_info,
-> +		.get =3D bf_reflevel_get,
-> +		.put =3D bf_reflevel_put,
-> +	}, chip);
-> +	err =3D snd_ctl_add(chip->card, kctl);
-> +	if (err < 0)
-> +		return err;
+> +	/* ALSA convention: 1 =3D enabled (sound on) =3D not muted. */
+> +	ucontrol->value.integer.value[0] =3D !chip->muted[out];
+> +	ucontrol->value.integer.value[1] =3D !chip->muted[out];
+> +	return 0;
+> +}
 
-[Severity: Low]
-If snd_ctl_new1() returns NULL for the "Instrument Ref Level" control in
-babyface_create_preamp(), passing NULL to snd_ctl_add() will return -EINVAL
-instead of -ENOMEM. Should this check if (!kctl) return -ENOMEM; before
-calling snd_ctl_add() like the other control creation calls in this functio=
-n?
+[Severity: High]
+Since bf_mute_info() declares uinfo->count =3D 1, doesn't writing to
+ucontrol->value.integer.value[1] in bf_mute_get() write past the declared
+element count?
 
-> +
-> +	for (i =3D 0; i < 4; i++) {
-> +		kctl =3D snd_ctl_new1(&(struct snd_kcontrol_new){
-> +			.iface =3D SNDRV_CTL_ELEM_IFACE_MIXER,
-> +			.name =3D "Mic 1 Capture Volume",
-> +			.index =3D i,
-> +			.access =3D SNDRV_CTL_ELEM_ACCESS_READWRITE |
-> +				  SNDRV_CTL_ELEM_ACCESS_TLV_READ,
-> +			.info =3D bf_gain_info,
-> +			.get =3D bf_gain_get,
-> +			.put =3D bf_gain_put,
-> +			.tlv.p =3D bf_gain_tlv,
-> +			.private_value =3D i,
-> +		}, chip);
+When CONFIG_SND_CTL_DEBUG is enabled, snd_ctl_elem_read() poisons bytes in
+ucontrol->value past info.count and checks them in sanity_check_elem_value()
+after kctl->get(), so overwriting ucontrol->value.integer.value[1] causes
+every read of the Playback Switch controls to log an error and fail with
+-EINVAL, and causes snd_ctl_put_verify() to report a false mismatch whenever
+the output is unmuted. Even without CONFIG_SND_CTL_DEBUG, setting value[1]
+breaks userspace comparisons via snd_ctl_elem_value_compare() (such as the
+ALSA mixer-test kselftest).
 
-[Severity: Medium]
-As reported by Sashiko on v7 [1], why do all three loops in
-babyface_create_preamp() hardcode "Mic 1" in .name ("Phantom Power Mic 1",
-"Pad Mic 1", and "Mic 1 Capture Volume") across all loop iterations?
-
-When i > 0, this registers Mic 2 phantom power and pad as "Phantom Power
-Mic 1",1 and "Pad Mic 1",1, and registers Mic 2, Instrument 3, and Instrume=
-nt
-4 capture gains as "Mic 1 Capture Volume" with indices 1, 2, and 3. Should
-these either use a channel-neutral name when indexing by i, or format the
-per-channel name as babyface_create_trim() does?
-
-[1] https://lore.kernel.org/r/20261027113140.134257-4-i.bahloul01@gmail.com
+[1] https://lore.kernel.org/r/20261027113140.134257-3-i.bahloul01@gmail.com
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105151553.2237=
-22-1-i.bahloul01@gmail.com?part=3D3
+22-1-i.bahloul01@gmail.com?part=3D2
