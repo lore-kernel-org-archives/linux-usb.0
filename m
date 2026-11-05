@@ -1,93 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793879014;
-	b=YFdpshcpMDbzcpJmUsa0VS4BtT2y0gZUH4soKwtgvsFWAXBjd0Pa1x4071TctDKRF91v
-	 pkzGobdRU801lAj0NHqzzigeqboUcgE6l+gEBokCJTApHgjNyX2L/e4NX783/uviWPPLn
-	 5cuiBDy4Gj4I5AUw03/v3K54QOp0kIxdudaGoWHtEyOsyCekkRM337nMn57lTgCoa6kMg
-	 W/TVr3Gf+93m7mDd17Xms/4yHbYLCeibkYWG8ucLNvwqRqeu62lXYcpiqyp5Sw1ZmHxJy
-	 hTAH0vMbM+R7jfHNNAilMn5DSzSwiPDD+aSJHu2KGr4AvcNz/7RNkV0SfGbcEF8GWZQ==
+	t=1793879275;
+	b=PrAzdW8sLp0axrQcBN5cdRAatRPb5VC6J9TuYhnQ/y/laU+GFUleRytag+R6BpPjJFZC
+	 mqJ5OHpypTDsf7pUyYvVxAvI0xPctsAlhc1CTVszMAcJDsn9BBk0zokYBBDXz43aXgecp
+	 FuMKBfNFOqA3WQLrgY1CzbGfmr3RdnV70aSiQV2PpY4Z3n6hRlPqWwtTTGYwW6lwCRB4u
+	 5hC3ztisT8Yce2YiBggg7RVQUUMx7tYfeSc49roDFj4w5zoUy/hBYLFATNgmeG9Muyvhe
+	 AXJThRaf3Nl4I1uO3nUQi1Q6syyi104lGqa80hdcLMsulBecrQWvpQfcVGHirJMyYBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793879014;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 Content-Transfer-Encoding;
-	bh=HVj6l3UydzXkgX5b5Nv8SsmCm86UwO2uKscetvhcHxs=;
-	b=TVLMJYwmwKE6XigbuRMGrKT4V6CjTdVpLpnjc92YrbRz3heq+//LOcardWfaME06DEEA
-	 VmI0wrJkZXnNfzCHZvu7H+KfBvNTqSZlGByovpfVgIyKjTJgGgcbL7dIkazPyjVxsvYuB
-	 ZZeIQAm2ImzfyZdMURS5WsKr5mGqusV0xr4xWup6cQ4JAf3BYi5L9Ms6ze+mGga46tGTU
-	 Z1y2cjKkUWJvulcnBIFEs4feMEIdOuvtyyE93uSAitZUccWlti3InBkg8Bx+YVPIT8IrS
-	 kiRGPN01Mv8L0A6aYrLKsQe6OAi7Q9io+TbmyGc4r7b3yC61YMW2uLIMlo+YbOy31Sg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793879275;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id:X-Mailer:X-Last-TLS-Session-Version;
+	bh=5jiuSYWr/X4Yj8yrZR9utlC8Rdw8fQ7cuQ21H6LtP70=;
+	b=GI136GnCgg97+GtH2Vlzh8C+Ljo8Qf/TP0DZNyhaK2kj3KfCOmxhZjvezeP97TcOquvp
+	 2CgIFCK/4rNk8uNUKw7NC8HusBVnjlFlyIboRuCh7t4gLCuELXb8OrhdN95aAATgtz3rK
+	 tlv1LtJjko4A+PpcaH++hQ0z0dqB+WJs9c3NMPKS3uFAd1Jlo6f3xK95OQYiF5nr3j8nF
+	 0IIq9b0cpFy8jIIXg+IuJUlOq3vMaz7QRC5p4fVIc2m3xn7l2S7Zc0tw35/u9twndxcTd
+	 tE8FNaio3BeHIxrju80BBvhiwzwT96kCqOgoXltYN6w38y6oOSPkBtPkRjwPMCfa0GQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="OlF/vFbM";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=oEAl6rSn;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82F1606CEAB;
-	Thu,  5 Nov 2026 11:43:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FCF606B545
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 11:47:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14FCF606B545
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OlF/vFbM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7734A1F00A16;
-	Thu,  5 Nov 2026 11:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793879013;
-	bh=HVj6l3UydzXkgX5b5Nv8SsmCm86UwO2uKscetvhcHxs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=OlF/vFbMqHhOlnVgXEDiOnXUZv2d23YcbiXuuNoglNRKpbkPITpWwaZyCfFCmNQ4i
-	 N+o9NvmyJd4ylmXFA2w7KGEWqqLCjnG+/+Fzzyu18PMCzWeCTjd1pOD4eRc17fBkdh
-	 luPVTzBrvG/LuZcGJRIMpAr4e4/fAHPffn1LaJA666p/vR2b2kNR9qpfK1VdDOg18d
-	 AxCnhkzdE9+uNJ8LLOgkjQPC8v4USZVu4YdVjIpRlMILr0+q4yp770BttPPkBakBDf
-	 kNFA81zQ3AMB7iMqMBzVNpLwe2AduH8RVW3DDi48/XTxkpGXFYLmBXsOkt2bL2UoFM
-	 fdD3k0Ie6rlPw==
-From: Leon Romanovsky <leon@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
-Cc: linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH 13/17] driver core: Preserve trust commitment beyond driver binding
-Date: Thu,  5 Nov 2026 13:42:26 +0200
-Message-ID: <20261105-device-trust-core-v1-13-1e536825b4eb@nvidia.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=oEAl6rSn
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 5F2DD1A0A25;
+	Thu,  5 Nov 2026 11:47:50 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1BEA05FF85;
+	Thu,  5 Nov 2026 11:47:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 16F1110328CE3;
+	Thu,  5 Nov 2026 12:47:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1793879262; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=5jiuSYWr/X4Yj8yrZR9utlC8Rdw8fQ7cuQ21H6LtP70=;
+	b=oEAl6rSn/0Yk4SEMdJ+UAoZyhj4Cb8QKHfvLkq5DO9ySBTIiJy2RjhH0LRJSeDNBpZoqgI
+	cMz32xkW8TQBpiui7fCtQuRqEBg2qMvwOpcK92uqsIB20qIpG6nPNTTbdHtCEz5NYJTPOL
+	WX9Cawg49OL4gHKkmsekEg6p6R6AD6EeuXJLmWDXVw7bx+m3+5Fmh4Aa+IfzZPYlzQHrdf
+	UL01ujuPaGgXrXHKtQwrsOaGoOnM/62t5JVq5V8wNdPasKaFv9q1QyxtkWRN5vMyeTf5fp
+	HW6Pf9FaEyBPyEXRg5W1HNgGzi/FhDd2nKvsi6fd4epoj7kfgm7Wec6UMDO1zQ==
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -98,116 +60,64 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-18f8f
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v8 1/9] drm/connector: report out-of-band IRQ_HPD
+ events
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Francesco Dolcini <francesco@dolcini.it>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Pengyu Luo <mitltlatltl@gmail.com>, 
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+In-Reply-To: <20261024-hpd-irq-events-v8-1-6ee949e7a384@oss.qualcomm.com>
+References: <20261024-hpd-irq-events-v8-0-6ee949e7a384@oss.qualcomm.com>
+ <20261024-hpd-irq-events-v8-1-6ee949e7a384@oss.qualcomm.com>
+Date: Thu, 05 Nov 2026 12:47:24 +0100
+Message-Id: <179387924490.1025980.16294467387972507446.b4-review@b4>
+X-Mailer: b4 0.16.0
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On Sat, 24 Oct 2026 03:35:17 +0300, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> The DisplayPort standard defines a special kind of events called IRQ.
+> These events are used to notify DP Source about the events on the Sink
+> side. It is extremely important for DP MST handling, where the MST
+> events are reported through this IRQ.
+> 
+> In case of the USB-C DP AltMode there is no actual HPD pulse, but the
+> events are reported through the bits in the AltMode VDOs.
+> 
+> [...]
 
-IOMMU state can outlive a functional driver, including after failed setup
-and unbind. The active trust level becomes disabled in those states, so
-it cannot describe the authorization governing persistent translation
-state. Infrastructure needs the immutable commitment to avoid treating
-an unbound, previously authorized device as newly untrusted.
-
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/base/base.h          |  2 --
- drivers/base/trust.c         | 17 +++++++++++++++--
- include/linux/device.h       |  3 +++
- include/linux/device/trust.h |  1 +
- 4 files changed, 19 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/base/base.h b/drivers/base/base.h
-index b4441242496f7..dd78857abf74f 100644
---- a/drivers/base/base.h
-+++ b/drivers/base/base.h
-@@ -113,7 +113,6 @@ enum device_trust_state {
-  *			   dev_err_probe() for later retrieval via debugfs
-  * @device: pointer back to the struct device that this structure is
-  *	    associated with.
-- * @trust_committed_level: operating level retained across bind transactions
-  * @trust_state: policy admission state
-  * @trust_initialized: bus and boot policy have initialized admission state
-  * @trust_policy_override: explicit policy prevents deferred driver boot policy
-@@ -133,7 +132,6 @@ struct device_private {
- 	const struct device_driver *async_driver;
- 	char *deferred_probe_reason;
- 	struct device *device;
--	enum device_trust_level trust_committed_level;
- 	enum device_trust_state trust_state;
- 	u8 trust_initialized:1;
- 	u8 trust_policy_override:1;
-diff --git a/drivers/base/trust.c b/drivers/base/trust.c
-index b38f69e440eae..4bcda888591a5 100644
---- a/drivers/base/trust.c
-+++ b/drivers/base/trust.c
-@@ -88,10 +88,10 @@ int device_trust_prepare(struct device *dev, const struct device_driver *drv)
- 	if (level != DEVICE_TRUST_ADVERSARY && level != DEVICE_TRUST_FULL)
- 		return -EINVAL;
- 	if (dev->p->trust_state == DEVICE_TRUST_COMMITTED &&
--	    dev->p->trust_committed_level != level)
-+	    dev->trust_committed_level != level)
- 		return -EINVAL;
- 
--	dev->p->trust_committed_level = level;
-+	WRITE_ONCE(dev->trust_committed_level, level);
- 	dev->p->trust_state = DEVICE_TRUST_COMMITTED;
- 	WRITE_ONCE(dev->trust_level, level);
- 	return 0;
-@@ -119,6 +119,19 @@ enum device_trust_level device_get_trust_level(const struct device *dev)
- }
- EXPORT_SYMBOL_GPL(device_get_trust_level);
- 
-+/**
-+ * device_get_committed_trust_level - Return the lifetime trust commitment
-+ * @dev: device to inspect
-+ *
-+ * Return: %DEVICE_TRUST_DISABLED before admission, otherwise the level fixed
-+ * before driver setup. The commitment survives setup failure and unbind.
-+ */
-+enum device_trust_level device_get_committed_trust_level(const struct device *dev)
-+{
-+	return READ_ONCE(dev->trust_committed_level);
-+}
-+EXPORT_SYMBOL_GPL(device_get_committed_trust_level);
-+
- /**
-  * device_is_adversarial - Test whether a device is operated as an adversary
-  * @dev: device to inspect
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 5bd0cee874731..65ea07c9ac35b 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -699,6 +699,8 @@ enum struct_device_flags {
-  * @trust_policy: Requested operating policy, resolved before driver probe.
-  * @trust_level: Active trust level while a driver is bound, see
-  *		device_get_trust_level().
-+ * @trust_committed_level: Operating level retained across bind transactions,
-+ *		see device_get_committed_trust_level().
-  * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
-  *
-  * At the lowest level, every device in a Linux system is represented by an
-@@ -804,6 +806,7 @@ struct device {
- 	enum device_removable	removable;
- 	enum device_trust_policy trust_policy;
- 	enum device_trust_level trust_level;
-+	enum device_trust_level trust_committed_level;
- 
- 	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
- };
-diff --git a/include/linux/device/trust.h b/include/linux/device/trust.h
-index 552af3e73d4fc..19052e3301729 100644
---- a/include/linux/device/trust.h
-+++ b/include/linux/device/trust.h
-@@ -42,6 +42,7 @@ void device_trust_init(struct device *dev);
- bool device_trust_may_claim(const struct device *dev,
- 			    const struct device_driver *drv);
- enum device_trust_level device_get_trust_level(const struct device *dev);
-+enum device_trust_level device_get_committed_trust_level(const struct device *dev);
- bool device_is_adversarial(const struct device *dev);
- 
- #endif /* _DEVICE_TRUST_H_ */
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 -- 
-2.56.0
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
