@@ -1,53 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793857868;
-	b=c6htoGr0GNSXBpU7gc3l0nKW1dmnwsO084s2bXmy4pQpr+Rcv0GBudNJxF3FqitieUXp
-	 J0yGh+a6/Llz1T2g1pY0gWuipMhS+AeQyinm5wkLkZqfxGPfh4X2OflaZYk92gIXRsnT5
-	 c2aUoRndCVWJX2RT0/5p1NHGYkUv+4qRcgJc4HleykQJV+ad/k7FlDZQZAby6N44nzw2k
-	 gp+HxXoqTh9rv3iuBxPtkGP3kIiseKbXQwq4HZy4s+2Sf52+wtxkrxn4tnKK2L/ix3SOk
-	 JDL7RzQskRh2xgRFk6jy9utUk90lHpk1VLjVSeiLvjkFWZaPs7RwpnPOS6PWRy2Waeg==
+	t=1793858516;
+	b=v2qxTcdsMBY1Arxa0tUJArF4in08UJFzbnWI55IapLUbeF7WZEHljZU6I5ejHFlzabSI
+	 wPPHwytmPv/V1SKnq2VkShhEcuaPIeK4TCtfHxGW85psykLMlEo2LDRLAMilpDVPqPtKn
+	 ok+m71eFIS9fnhTK4avfe/WBqfGLLszCFOmBt+gTV9Cch26gY0G83jgYjxkZRLSzDZDNi
+	 FRY465uQYPnrlMgtBu80q7tEUcbKHgskaKzoWsBpSInaAoHMhPrYCYpm5XdiVwjw67Me3
+	 /wFE8A3uGUu+jBsvHkKEy/yR4fqS9w4ZuiniyKUqUpBa3GqyJGDlGUe+ruhLQNMUWMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793857868;
-	h=DMARC-Filter:Received:From:Subject:Date:Message-ID:In-Reply-To:
-	 References:To:Cc:Content-Type:Content-Transfer-Encoding:MIME-Version:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=8t6cnIqzRvx8r9CuKiTU07DXvChD1pSEZutAsmBOq/k=;
-	b=OKN71nFCV/x+tOLOLxjXWnDLcCFTWVqs0/oC3oRK+Rlt5z79oYEP3392HugYhi4vk3lj
-	 5L/JdgGWtc8yHjlVOsA3Lx35rWzOWqdWzE34o0o0oZJcRCgAAAzMqD6jltlxPtthsBN0k
-	 oyF7CCAutV0RAfvhkz071Ml2owMt0E0Z+fdUM//FWwqzQVwzbGbc0bROCNUMYbqKVz4vy
-	 oR9CxM2gWal/0WLP2KgGrWAhR2rN6Q+g/5xfNGW5lkxTVV9ccn75eAnd37BQvmEF6+ydX
-	 aiH0eyxhj3ohSWaJCTaZ05+J8zuclMZUa3kFL0EemGWIHS0WIAhL8JbwTD3uvGHxQug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793858516;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=lUwQymnHl5rH3P+EezN1qZ/NT2lUHH8q7BrUijOWs0w=;
+	b=N4dlEE5/refQxp2jKN9mOcsNMGBYbxwSerpUkwBjX4X7bUUtqEvfpVa78ULGRvN3rIKf
+	 rdt7Sqis8Pb2k1ZNc+diicjDelW5qxgJeYRnwt5nY+BN/gGgmYgnm0pyZkx8reGF6E4fZ
+	 XBPmvtyKLpn8P0tsFmhEfzt0rMeD1nJG8VwrtijcstEJB5z2+15lBmNJZOuiiQ8GNaLuN
+	 CVrJpGudqhtYeGQ/xyOWqj5kaWE+AEuy4rjryDugz1PWS1Efs1OsnG5orF8AZOtv51PQ2
+	 gz7TcEvV7maXx+q5cOmUdb5Q2kZXmH+f3QuIR7+g37+bkA4K0JR1VuLWq4T1VymwUxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=iscas.ac.cn;
-	spf=pass smtp.mailfrom=iscas.ac.cn;
-	arc=none smtp.remote-ip=159.226.251.81
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ro3468C+;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BBE2606A31B
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 05:51:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BBE2606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [172.100.0.8] (unknown [36.110.52.2])
-	by APP-03 (Coremail) with SMTP id rQCowAC3xZY+GexqUEdTAA--.12394S2;
-	Thu, 05 Nov 2026 13:50:54 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-Subject:
- Re: [PATCH] usb: cdnsp: drop runtime PM reference on gadget init failure
-Date: Thu, 05 Nov 2026 05:51:03 -0000
-Message-ID: <179385786361.1679257.17893284647338175920@iscas.ac.cn>
-In-Reply-To: <d88f8e61-4549-4a10-8509-a59698b6dcd9@kernel.org>
-References: <20261104021503.1468519-1-vulab@iscas.ac.cn>
- <aurm1tM212A8jOSk@hu-petche-lv.qualcomm.com>
- <d88f8e61-4549-4a10-8509-a59698b6dcd9@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Peter Chen <peter.chen@oss.qualcomm.com>
-Cc: Pawel Laszczak <pawell@cadence.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2632E606A31B
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 06:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ro3468C+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 850271F000C1;
+	Thu,  5 Nov 2026 06:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793858515;
+	bh=lUwQymnHl5rH3P+EezN1qZ/NT2lUHH8q7BrUijOWs0w=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Ro3468C+KaGvalA9pp1nrEXTiSjckKqx92iNnQELzl/0Mz7oCOqdP93OAxjoDIV+d
+	 8rSqosn3aY0KqMBnOF9ImXzK47wOGnJP4xx6tNVEPWyVUF7zwsJxGxkqwUucb8xNom
+	 3jHW1xQBzDmblhGV8GmSCLXioZ5iza2fikKHN2Z0+kd0XoHF4PDRqQek875QCbeoCl
+	 CKE2YI1Jipzhw/RMjtBvKX/Ty+5jLqkSkitFkUYwvy4IDl5E+OoQ/NJC95D9QC5Ex/
+	 xNm2EMLt38B09lTUzsQCIRQUPRzny2ZFCeBmC7Sc+70cuu1G1MJ4FexKgwS+xAJQBQ
+	 RTMRIpMaz1H4Q==
+Message-ID: <sashiko-outbox-198606@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] usb: usbfs: Require claiming a hub interface for hub
+ class requests
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "YuanZhe Liu" <25031212351@stu.xidian.edu.cn>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261105054333.7811-1-25031212351@stu.xidian.edu.cn>
+References: <82a746b7-4e87-4d46-88c3-bb881f11b8de@rowland.harvard.edu>
+ <20261105054333.7811-1-25031212351@stu.xidian.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 06:01:54 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -56,56 +60,158 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-CM-TRANSID:rQCowAC3xZY+GexqUEdTAA--.12394S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7WFW3uw4xKFWxur1xArW8JFb_yoW8XFWkpF
-	ZxKwn0yr9rAF1IvrsrZ3W8tFy0vayrGrWrJF98WryUAwn8Xw4IvrWvya18Z3W3W3Z3Gr4a
-	vw4S93WkZF4YvaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvjb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
-	AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
-	6r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxV
-	W0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-	7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Cr1j6rxdMcvjeVCFs4IE7xkEbV
-	WUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCF
-	04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWU
-	twCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUqU
-	GOUUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgYCA2rr-LFh5AAAsI
 
-Hi Krzysztof, Peter, Greg,
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] usb: usbfs: TOCTOU race and interface-class bypass in check_ctrlre=
+cip()
+- [Medium] usb: usbfs: check_ctrlrecip() breaks per-port power control and =
+claim_port
+--
 
-I am very sorry for the consequences of these submissions. You are right
-to question the safety of this patch and the way we have handled these
-submissions. I apologize for the inadequate validation, the volume of
-patches, and our failure to respond to earlier feedback. That has wasted
-reviewers' time and damaged trust in our contributions. I take
-responsibility for my submissions.
+commit 51d2fbbb1c57db88bf72934105ae279adb788ebd
+Author: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
 
-I want to state clearly that there was no malicious intent behind these
-patches. Our intention was to fix bugs, and we did not intend to insert
-security vulnerabilities or deceive reviewers. I understand why the
-combination of potentially unsafe changes, repeated submissions, and
-unanswered feedback raised this concern. Intent alone does not make an
-unsafe patch acceptable.
+usb: usbfs: Require claiming a hub interface for hub class requests
 
-We did use AI assistance, but the responsibility for understanding and
-checking the changes remains with us. We should not have treated a
-single local reference-counting change as sufficient evidence that a
-patch was safe.
+This commit updates check_ctrlrecip() in drivers/usb/core/devio.c to require
+interface 0 to be claimed for all non-IN control requests sent to a USB hub
+device. This is intended to prevent userspace from sending hub class and po=
+rt
+requests while the kernel hub driver owns or is unbinding from the hub.
 
-Once again, I am sorry for my actions, and I will do everything I can to
-address the harm caused by these submissions. I promise to respect the
-requested posting pause and will not send further batches during this
-period. I will personally reply to all of the feedback I have left
-unanswered over the past month or two. Until I have completed those
-replies and received your permission to resume, I will not submit any
-new patches. I hope you will give me the opportunity to make things
-right.
+> diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+> index 101cb94254809..0c6beccb9e766 100644
+> --- a/drivers/usb/core/devio.c
+> +++ b/drivers/usb/core/devio.c
+> @@ -891,6 +891,19 @@ static int check_ctrlrecip(struct usb_dev_state *ps,=
+ unsigned int requesttype,
+>  	if (USB_TYPE_VENDOR =3D=3D (USB_TYPE_MASK & requesttype))
+>  		return 0;
+> =20
+> +	/*
+> +	 * A hub driver owns the ports and the devices behind them.  Letting
+> +	 * userspace change port state behind its back, for example with a
+> +	 * SET_FEATURE(PORT_SUSPEND) request while the hub interface is being
+> +	 * released, is not safe: the request is passed down to the HCD, which
+> +	 * may walk per-device state that is being torn down at the same time.
+> +	 * Port requests use USB_RECIP_OTHER and hub-wide ones USB_RECIP_DEVICE,
+> +	 * and a hub has a single interface, so check interface 0 for both.
+> +	 */
+> +	if (ps->dev->descriptor.bDeviceClass =3D=3D USB_CLASS_HUB &&
+> +	    (requesttype & USB_DIR_IN) =3D=3D 0)
+> +		return checkintf(ps, 0);
 
-Best regards,
-Wentao Liang
+[Severity: High]
+Can the xhci_virt_device use-after-free in xhci_stop_device() still happen
+despite this check in check_ctrlrecip()?
 
+First, in usbdev_do_ioctl() -> proc_control() -> do_proc_control(),
+check_ctrlrecip() checks checkintf(ps, 0) while holding usb_lock_device(dev=
+),
+but do_proc_control() then drops the device lock before submitting the URB:
+
+drivers/usb/core/devio.c:do_proc_control() {
+    ...
+    usb_unlock_device(dev);
+    i =3D usbfs_start_wait_urb(urb, tmo, &actlen);
+    ...
+}
+
+Synchronous control URBs in do_proc_control() are not on ps->async_pending,
+and asynchronous control URBs on endpoint 0 in proc_do_submiturb() record
+ifnum as -1:
+
+drivers/usb/core/devio.c:proc_do_submiturb() {
+    ...
+    as->ifnum =3D ifnum;
+    ...
+}
+
+Because of that, proc_releaseinterface() -> releaseintf(ps, 0) ->
+destroy_async_on_interface(ps, 0) will not cancel or wait for an in-flight
+SetPortFeature(USB_PORT_FEAT_SUSPEND) control URB. Once do_proc_control()
+unlocks the device (or while xhci_hub_control() in
+drivers/usb/host/xhci-hub.c drops xhci->lock across msleep(10) before
+calling xhci_stop_device()), another thread can release interface 0 via
+USBDEVFS_RELEASEINTERFACE, rebind hub_driver via USBDEVFS_CONNECT to
+enumerate a child device, and then unbind it via USBDEVFS_DISCONNECT_CLAIM
+or USBDEVFS_DISCONNECT:
+
+drivers/usb/host/xhci-hub.c:xhci_hub_control() {
+    ...
+    spin_unlock_irqrestore(&xhci->lock, flags);
+    xhci_stop_device(xhci, port->slot_id, 1);
+    spin_lock_irqsave(&xhci->lock, flags);
+    ...
+}
+
+This allows xhci_free_dev() to free xhci->devs[slot_id] concurrently with
+xhci_stop_device().
+
+Second, hub_id_table in drivers/usb/core/hub.c matches hubs by either
+device class or interface class:
+
+drivers/usb/core/hub.c:hub_id_table[] =3D {
+    { .match_flags =3D USB_DEVICE_ID_MATCH_DEV_CLASS,
+      .bDeviceClass =3D USB_CLASS_HUB},
+    { .match_flags =3D USB_DEVICE_ID_MATCH_INT_CLASS,
+      .bInterfaceClass =3D USB_CLASS_HUB},
+    ...
+};
+
+If a hub is part of a composite device where bDeviceClass is
+USB_CLASS_PER_INTERFACE or USB_CLASS_MISC and the hub is matched via
+bInterfaceClass =3D=3D USB_CLASS_HUB, wouldn't checking only
+ps->dev->descriptor.bDeviceClass =3D=3D USB_CLASS_HUB in check_ctrlrecip() =
+miss
+it altogether?
+
+[Severity: Medium]
+Does requiring checkintf(ps, 0) for all non-IN hub requests break per-port
+power control and the USBDEVFS_CLAIM_PORT workflow?
+
+When hub_driver is bound to interface 0, checkintf(ps, 0) -> claimintf(ps, =
+0)
+fails with -EBUSY unless userspace first unbinds hub_driver, which calls
+hub_disconnect() and disconnects every child device across all ports on the
+hub while setting hdev->maxchild =3D 0.
+
+In drivers/usb/core/hub.c, usb_hub_claim_port() (used by
+USBDEVFS_CLAIM_PORT) and hub_port_connect() are designed to let userspace
+claim an individual port and power it off via USBDEVFS while hub_driver
+remains bound to manage the rest of the hub:
+
+drivers/usb/core/hub.c:find_port_owner() {
+    ...
+    if (port1 =3D=3D 0 || port1 > hdev->maxchild)
+        return -EINVAL;
+
+    /* Devices not managed by the hub driver
+     * will always have maxchild equal to 0.
+     */
+    *ppowner =3D &(hub->ports[port1 - 1]->port_owner);
+    ...
+}
+
+drivers/usb/core/hub.c:hub_port_connect() {
+    ...
+    if (hub_is_port_power_switchable(hub)
+            && !usb_port_is_power_on(hub, portstatus)
+            && !port_dev->port_owner)
+        set_port_feature(hdev, port1, USB_PORT_FEAT_POWER);
+    ...
+}
+
+Since USBDEVFS_CLAIM_PORT requires hub_driver to be bound (hdev->maxchild >=
+ 0)
+while check_ctrlrecip() now requires interface 0 to be claimed by usbfs
+(which requires hub_driver to be unbound) before sending
+ClearPortFeature(USB_PORT_FEAT_POWER) or SetPortFeature(USB_PORT_FEAT_POWER=
+),
+doesn't this make per-port power control via USBDEVFS_CLAIM_PORT and tools
+like uhubctl unusable without disconnecting the entire hub?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105054333.7811=
+-1-25031212351@stu.xidian.edu.cn?part=3D1
