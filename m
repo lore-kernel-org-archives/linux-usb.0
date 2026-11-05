@@ -1,127 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793878887;
-	b=LjjJrj8265QV8imSZMpLBoTXDJ2FVbWTRlx6S1Pw6OdWuzUuKzT8k2KxRRH/S6Ngi1mZ
-	 TPkpDSG/zOdOZdSFacUpXap4yDJEnkKgrHY1VuYFG2eS7uEVAkSJUHRLr5kAlvmfH4rm7
-	 omB9y/Rk4J6JR+R+pWL+UKU2znPU+ymQhSGHEjDPHaIzfqlH/6SUhWq2tYc8O7NfXiSdM
-	 WtGxkUYgaz8CZEub/39EKxzA6XPWn8gBR1zy7U7J1kXMoXbckckWWevDbn9a4cGX/Dgpf
-	 1yKM1sXcVZngzDwHjP2XPkk5yC8tfXi7B04Z2JdWPn9Xc6KlrrdD3ZxnTKiijkIoAxw==
+	t=1793878965;
+	b=E23y5Dh0LvlTYSlflk1cfaRgsrBPIv9+AZEhejhMvfnKAfqAoVAyvRIgGErSxFWx/vkj
+	 +st3i3PxPs4XEkTfiFD/cxKdufe3nIpF64fmUAyY63sMm147/0TLp4kyVsvQcDNv8zN64
+	 kyu9v0JRfm3v0SjBOA3LLzYAo2E8JGiulJSUcGW3CS5izJj8K2ZQpH1Ql5RjwVr/zLBKX
+	 gvmTAcGmhh35JdBtKWhja5EhjWs8b9G+olBA6nW8JcwIgkPqPg5dp9/6/WiLWl4S++Hp1
+	 6gVWmn8wXwb+y3SpCMeoSnZ3w9MUE3WAnnmipYpAJfIUJkIYRdCWmRsNWVcsRpIuzYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793878887;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=lCeU7WqtPlFL0u28tAWE4TptrCsWoJqXXac/H5Y8UUQ=;
-	b=dtr8vQSGAhO2+phFSjmLjvvv9ELYzzDtS0aNdmEji+5q/q/bdqDo3HKvS4CllIaMP2yD
-	 Dn4yHrk1Ck+9czKcKEkD8sWfZlBb/PuZJAuweTO8mgrfI/xsYg78+LGKUNhDp1S0P/eKK
-	 wXvKjxff3UpVTyPt0T/Sr8vwSN63sX6S1rtKJTCJdHunuA8v6Wec6FSymTECr3y3Goawd
-	 K7gwKl1myFUekCoBBjbNdS5rHcgT6p5AHNqCFJDyVKf/dm7YxMNXWaO468WXzOgTSwh/U
-	 Uiu33TgczNUo220+gX0BYddUdCYNBK2jWbjmDOxzsrEvEZ8EIosF/BtspwLkhTxTd4A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793878965;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
+	 Content-Transfer-Encoding;
+	bh=Uf1oZV9pQvGrEUvi8XtIeuSa56tR9ySw+fDX7XP+CMk=;
+	b=mjBxzr0IRfTuHjOkaAF+dqa4VF6+2oTOm7oWlTM4Cnp/PBIG+aHEsTieoRVjaPPzLszR
+	 pD51WD6LFjcNcZVy2owVjEEK//i1cuhxkOK8EHOK0Oi/FMbOJsWOROo+oyu6S3MUUZWVy
+	 w4iaH6xwp21r4bFdttQpmYj2PgcYvMwYIhDqqriKEs5WlG5D1mwOKHNNC87sbXyzhD5qr
+	 VZMExZaVcs75Xy4GWV1Y+8ugUc2Pa9hxMjxQ4JE/45waLL0dhouX0s+DjWI4TQ+8kNODg
+	 GRH1N+ZzyDaYRECYWrTl90Hxzx7UM00k99yKVBhZf7oqXp/0O36sjn9qnkEND5wIcLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sVeVtJRH;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vuwkzsBE;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sVeVtJRH;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vuwkzsBE;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RnInfvfx;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA20606A329;
-	Thu,  5 Nov 2026 11:41:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DEA20606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CA9606D809;
+	Thu,  5 Nov 2026 11:42:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sVeVtJRH;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vuwkzsBE;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sVeVtJRH;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vuwkzsBE
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1E66A21EFE;
-	Thu,  5 Nov 2026 11:41:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793878885; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lCeU7WqtPlFL0u28tAWE4TptrCsWoJqXXac/H5Y8UUQ=;
-	b=sVeVtJRHmCez1LTgkgxlC7ymMIoqBUxHEcpbPuiTw+LbDT4oPlHADz2Nup5Y4XkVnbVoDk
-	it5vmGnaVZfno1DYDqX11TE+/cZqz+5DBii4SNDMZd47SSrwV/j/qOrqaptU0Cbv8IOz2R
-	SNKUKTm79wLZzIjQ8Z0k9Nr+vLNViV0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793878885;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lCeU7WqtPlFL0u28tAWE4TptrCsWoJqXXac/H5Y8UUQ=;
-	b=vuwkzsBEcCG36qlub78Ir05oWJttjLgL1QqDCsASqboi7pG0u6LKGZy4KCtzu9Qqsj7mam
-	/axyOJZeWj8zunDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793878885; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lCeU7WqtPlFL0u28tAWE4TptrCsWoJqXXac/H5Y8UUQ=;
-	b=sVeVtJRHmCez1LTgkgxlC7ymMIoqBUxHEcpbPuiTw+LbDT4oPlHADz2Nup5Y4XkVnbVoDk
-	it5vmGnaVZfno1DYDqX11TE+/cZqz+5DBii4SNDMZd47SSrwV/j/qOrqaptU0Cbv8IOz2R
-	SNKUKTm79wLZzIjQ8Z0k9Nr+vLNViV0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793878885;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lCeU7WqtPlFL0u28tAWE4TptrCsWoJqXXac/H5Y8UUQ=;
-	b=vuwkzsBEcCG36qlub78Ir05oWJttjLgL1QqDCsASqboi7pG0u6LKGZy4KCtzu9Qqsj7mam
-	/axyOJZeWj8zunDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF13B134F6;
-	Thu,  5 Nov 2026 11:41:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +avfL2Rr7Go4dQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 11:41:24 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 60CBBB6BA; Thu, 05 Nov 2026 12:41:20 +0100 (CET)
-Date: Thu, 5 Nov 2026 12:41:20 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 16/38] proc: don't walk through a non-directory when
- resolving a name
-Message-ID: <xhnd2xzehnh35nmgphm2euuyulbwoz2fbxf7zmfn3hvdbcualr@ltehycoskzll>
-References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
- <20261102-work-procfs-bugfixes-v1-16-59422ed3e465@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RnInfvfx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62A431F000C1;
+	Thu,  5 Nov 2026 11:42:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793878965;
+	bh=Uf1oZV9pQvGrEUvi8XtIeuSa56tR9ySw+fDX7XP+CMk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=RnInfvfxHXtvO4dD2rpgLRRjDe8FtQGLLRwQ8XylHDziicCqsNVQ5WQrmbaLGX6vY
+	 zCXyGQq/kPlFlMojAMi9XImf5AAA8FMsyc8xKVMxzmLW5CKJzFa+SCHdWImWnC50wO
+	 twOGlGdhGEOOmy8M7brqom2qCMFDApBMHYhcTP1rns8FA7AtPo3HgR+JWHD36IHylV
+	 VfgZjUiISKYbQeQTkbTweQ3xkeHCT/DWFVYl5hFXfmVJ0XG1MAvJbjghyIEDJsZXMF
+	 ekz3UjPPpd4mHzRAGT6qzsEjrEhh0pw6QnVTjASyaukekBZzUdAF0/whpYf2ASVRmf
+	 xp4H1OKTG4jkQ==
+From: Leon Romanovsky <leon@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+Cc: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: [PATCH 03/17] net: phy: Attach generic PHY drivers through the driver core
+Date: Thu,  5 Nov 2026 13:42:16 +0200
+Message-ID: <20261105-device-trust-core-v1-3-1e536825b4eb@nvidia.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -131,104 +97,233 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102-work-procfs-bugfixes-v1-16-59422ed3e465@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-11.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[60];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -11.30
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.15-dev-18f8f
+Content-Transfer-Encoding: 8bit
 
-On Mon 02-11-26 15:21:31, Christian Brauner wrote:
-> __xlate_proc_name() walks the components of a name like "a/b/c" and
-> takes whatever it finds for "a" and "b" as the directory to go on in.
-> It never checks that they actually are directories. So
-> proc_create("file/x") hangs x into the subdir tree of the regular file
-> "file". Nobody can look x up there, but remove_proc_subtree() on the
-> file removes and frees x along with it, behind the back of whoever
-> registered x.
-> 
-> pktgen passes the name the writer of "add_device" picks to
-> proc_create_data(), and only the part in front of the '@' has to name
-> a network device:
-> 
->   echo "add_device lo@"   > /proc/net/pktgen/kpktgend_0
->   echo "add_device lo@/x" > /proc/net/pktgen/kpktgend_1
->   echo "rem_device_all"   > /proc/net/pktgen/kpktgend_0
->   echo "rem_device_all"   > /proc/net/pktgen/kpktgend_1
-> 
-> The third write frees both entries and the fourth one makes kpktgend_1
-> call proc_remove() on the freed second one:
-> 
->   BUG: KASAN: slab-use-after-free in proc_remove+0x8f/0xa0
->   Read of size 8 at addr ff110001134c8e70 by task kpktgend_1/243
->   Call Trace:
->    proc_remove+0x8f/0xa0
->    pktgen_remove_device.isra.0+0x118/0x500
->    pktgen_rem_all_ifs+0xeb/0x1a0
->    pktgen_thread_worker+0x1b42/0x7280
-> 
-> The files of a network namespace belong to the root of its user
-> namespace and these writes don't require a capability. So once pktgen
-> is loaded an unprivileged user can do this in namespaces of its own.
-> 
-> Treat a component that isn't a directory like one that doesn't exist.
-> All names with a '/' that the tree passes in as literals only walk
-> through directories. pktgen is fixed separately to not pass such names
-> in the first place.
-> 
-> Reported-by: Chris Mason <mason@kernel.org>
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Looks good. Feel free to add:
+The generic PHY fallback probes directly before publishing its binding,
+bypassing driver-core admission and supplier checks.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Attach through the driver core so admission precedes functional setup.
+Callers hold RTNL, which a concurrent bind of a specific driver may wait
+for with the device lock held, so for this flow let's add
+device_driver_try_attach() so the attachment never waits for that lock.
 
-								Honza
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ drivers/base/dd.c            | 65 +++++++++++++++++++++++++++++++++++++-------
+ drivers/net/phy/phy_device.c | 39 +++++++++++++++++---------
+ include/linux/device.h       |  2 ++
+ 3 files changed, 83 insertions(+), 23 deletions(-)
 
-> ---
->  fs/proc/generic.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/proc/generic.c b/fs/proc/generic.c
-> index 2b1971da4a85..c560c96a64eb 100644
-> --- a/fs/proc/generic.c
-> +++ b/fs/proc/generic.c
-> @@ -170,7 +170,7 @@ static int __xlate_proc_name(const char *name, struct proc_dir_entry **ret,
->  	de = *ret ?: &proc_root;
->  	while ((next = strchr(cp, '/')) != NULL) {
->  		de = pde_subdir_find(de, cp, next - cp);
-> -		if (!de) {
-> +		if (!de || !S_ISDIR(de->mode)) {
->  			WARN(1, "name '%s'\n", name);
->  			return -ENOENT;
->  		}
-> 
-> -- 
-> 2.53.0
-> 
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index 52123251965de..01026e02de92e 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -1046,6 +1046,25 @@ static void __device_driver_lock(struct device *dev, struct device *parent)
+ 	device_lock(dev);
+ }
+ 
++/*
++ * __device_driver_trylock - __device_driver_lock() without sleeping
++ *
++ * Returns true if the locks were taken.
++ */
++static bool __device_driver_trylock(struct device *dev, struct device *parent)
++{
++	if (dev->type && dev->type->need_parent_lock && parent) {
++		if (!device_trylock(parent))
++			return false;
++		if (!device_trylock(dev)) {
++			device_unlock(parent);
++			return false;
++		}
++		return true;
++	}
++	return device_trylock(dev);
++}
++
+ /*
+  * __device_driver_unlock - release locks needed to manipulate dev->drv
+  * @dev: Device we will update driver info for
+@@ -1195,19 +1214,17 @@ void device_initial_probe(struct device *dev)
+ 	subsys_put(sp);
+ }
+ 
+-/**
+- * device_driver_attach - attach a specific driver to a specific device
+- * @drv: Driver to attach
+- * @dev: Device to attach it to
+- *
+- * Manually attach driver to a device. Will acquire both @dev lock and
+- * @dev->parent lock if needed. Returns 0 on success, -ERR on failure.
+- */
+-int device_driver_attach(const struct device_driver *drv, struct device *dev)
++static int __device_driver_attach(const struct device_driver *drv,
++				  struct device *dev, bool trylock)
+ {
+ 	int ret;
+ 
+-	__device_driver_lock(dev, dev->parent);
++	if (trylock) {
++		if (!__device_driver_trylock(dev, dev->parent))
++			return -EBUSY;
++	} else {
++		__device_driver_lock(dev, dev->parent);
++	}
+ 	ret = __driver_probe_device(drv, dev);
+ 	__device_driver_unlock(dev, dev->parent);
+ 
+@@ -1218,8 +1235,36 @@ int device_driver_attach(const struct device_driver *drv, struct device *dev)
+ 		return -EAGAIN;
+ 	return ret;
+ }
++
++/**
++ * device_driver_attach - attach a specific driver to a specific device
++ * @drv: Driver to attach
++ * @dev: Device to attach it to
++ *
++ * Manually attach driver to a device. Will acquire both @dev lock and
++ * @dev->parent lock if needed. Returns 0 on success, -ERR on failure.
++ */
++int device_driver_attach(const struct device_driver *drv, struct device *dev)
++{
++	return __device_driver_attach(drv, dev, false);
++}
+ EXPORT_SYMBOL_GPL(device_driver_attach);
+ 
++/**
++ * device_driver_try_attach - attach a specific driver without waiting for locks
++ * @drv: Driver to attach
++ * @dev: Device to attach it to
++ *
++ * Like device_driver_attach(), for callers that hold a lock which the holder
++ * of the @dev or @dev->parent lock may wait for. Returns -EBUSY, before any
++ * probing, if one of those locks is contended.
++ */
++int device_driver_try_attach(const struct device_driver *drv, struct device *dev)
++{
++	return __device_driver_attach(drv, dev, true);
++}
++EXPORT_SYMBOL_GPL(device_driver_try_attach);
++
+ static void __driver_attach_async_helper(void *_dev, async_cookie_t cookie)
+ {
+ 	struct device *dev = _dev;
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 5d4508bcfbe99..8cc0de755bd08 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -1912,7 +1912,9 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	struct device *d = &phydev->mdio.dev;
+ 	struct module *ndev_owner = NULL;
+ 	struct module *drv_owner;
++	struct device_driver *drv;
+ 	int irq = phydev->irq;
++	bool bind_genphy;
+ 	int err;
+ 
+ 	/* For Ethernet device drivers that register their own MDIO bus, we
+@@ -1939,16 +1941,16 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	/* Assume that if there is no driver, that it doesn't
+ 	 * exist, and we should use the genphy driver.
+ 	 */
+-	if (!d->driver) {
++	drv = d->driver;
++	bind_genphy = !drv;
++	if (bind_genphy) {
+ 		if (phydev->is_c45)
+-			d->driver = &genphy_c45_driver.mdiodrv.driver;
++			drv = &genphy_c45_driver.mdiodrv.driver;
+ 		else
+-			d->driver = &genphy_driver.mdiodrv.driver;
+-
+-		phydev->is_genphy_driven = 1;
++			drv = &genphy_driver.mdiodrv.driver;
+ 	}
+ 
+-	drv_owner = d->driver->owner;
++	drv_owner = drv->owner;
+ 	if (!try_module_get(drv_owner)) {
+ 		phydev_err(phydev, "failed to get the device driver module\n");
+ 		err = -EIO;
+@@ -1956,11 +1958,20 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	}
+ 	phydev->drv_owner = drv_owner;
+ 
+-	if (phydev->is_genphy_driven) {
+-		err = d->driver->probe(d);
+-		if (err >= 0)
+-			err = device_bind_driver(d);
+-
++	if (bind_genphy) {
++		/*
++		 * RTNL is held, and a concurrent bind of a specific driver may
++		 * wait for it with the device lock held. Never wait for that
++		 * lock, and let the caller retry.
++		 */
++		err = device_driver_try_attach(drv, d);
++		if (err == -EBUSY) {
++			/* Another bind owns the PHY, so nothing was probed here. */
++			irq = phydev->irq;
++			err = -EPROBE_DEFER;
++		} else if (err == -EAGAIN) {
++			err = -EPROBE_DEFER;
++		}
+ 		if (err)
+ 			goto error_module_put;
+ 	}
+@@ -2071,8 +2082,6 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	module_put(phydev->drv_owner);
+ 	phydev->drv_owner = NULL;
+ 	phydev->irq = irq;
+-	phydev->is_genphy_driven = 0;
+-	d->driver = NULL;
+ error_put_device:
+ 	put_device(d);
+ 	if (ndev_owner != bus->owner)
+@@ -3813,6 +3822,8 @@ static int phy_probe(struct device *dev)
+ 	int err = 0;
+ 
+ 	phydev->drv = phydrv;
++	phydev->is_genphy_driven = phydrv == &genphy_driver ||
++				 phydrv == &genphy_c45_driver;
+ 
+ 	/* Disable the interrupt if the PHY doesn't support it
+ 	 * but the interrupt is still a valid one
+@@ -3949,6 +3960,7 @@ static int phy_probe(struct device *dev)
+ out_reset:
+ 	/* Re-assert the reset signal on error */
+ 	phy_device_reset(phydev, 1);
++	phydev->is_genphy_driven = 0;
+ 
+ 	return err;
+ }
+@@ -3977,6 +3989,7 @@ static int phy_remove(struct device *dev)
+ 	phy_device_reset(phydev, 1);
+ 
+ 	phydev->drv = NULL;
++	phydev->is_genphy_driven = 0;
+ 
+ 	return 0;
+ }
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 429e39f647cf9..4cf62d69eac4f 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -1314,6 +1314,8 @@ static inline void *dev_get_platdata(const struct device *dev)
+  */
+ int __must_check device_driver_attach(const struct device_driver *drv,
+ 				      struct device *dev);
++int __must_check device_driver_try_attach(const struct device_driver *drv,
++					  struct device *dev);
+ int __must_check device_bind_driver(struct device *dev);
+ void device_release_driver(struct device *dev);
+ int  __must_check device_attach(struct device *dev);
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.56.0
+
