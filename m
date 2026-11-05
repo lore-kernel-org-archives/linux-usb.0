@@ -1,47 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793908170;
-	b=FVbdIw+OZEyia+ZrfaK6J4nEQUbGo7YLgqbqAEPilFO0tjxjOdm+NkHo+7iPjRMgeRSH
-	 g4eo0F8T7ovy96VwSnU8c3wn0Zjz7nudwulJKCg1n/xTiODa1B2ZGNa7ETgndzOt1uAT7
-	 AvJUGJlzOZ9HvZen3XbVs0aIjO/KqD9jpyJ3IyMRs2Z11gLeuKPL+KQblcUD2VbT7av/u
-	 DdBZvU2siC7rNfHxWdhk3uSTF1WF5247kXWPcG+oyKeoSouQ5sY2JIsDxxxGQhCAY1dns
-	 bi0AEMysF9HAkVr6UPtelf2xSOJlqxYddwPNAtomwBihq+bNPZ5BtSvGYNc53SUEbDg==
+	t=1793908185;
+	b=ND53v2Y13ssVV9pTI4PqH7KNFLRKEOQJ6N/iXMxrv8x47ogTdWt7yWBcMdq9+6JMsOdG
+	 p2buBuP7CEVSCZf+TFn7+g2xSNIjIFJzn0d0U/y+rj5isbdQzAaoSHeMjOhQAY1l0UHzH
+	 7kTo1h6w7/u/Y5S2haDdiVPkyfUB2yM1uAgyLsclc5pclbUZPLYx/MJgaGVRBaM3QhIYE
+	 TU8qELqexbiCNJfggy25JRta+Qb/jbrvoYKBgLeRcbzrXRf3QuvPoykmKo/RlTowqsjY9
+	 V10mxP3+Sbw6Gc90iyIuFm94Lv3VUCU6OnyVVap1cWAjVgNYqsRKx2svSoLU23Xg3xg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793908170;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793908185;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=8iqvj1j0PH0IF6Pq8SLYp4U0CTa0deUsshKxdgFjrSU=;
-	b=NPwTNo4COIjjNjw9PGZ34ugFzlrm0VRLCdnoOQAtQ0VmftyWWrltNa9tFgoO/JkHn2Zf
-	 7hAs/U9vxXwsOfmq5iYpPb+xOyyUn+RScXDtZM15FsdAuwGt0gXVkq+rcZ/y1GOONlV3R
-	 gHHoOhu/z3EmnDmiXp1C+tLUprV8Yj8WWcPg4rHmkygRQHWnlNXbwVxDqnHKNHA4dQgwO
-	 HqbbuOskSdUhVaQCLueGe4vkRQZlMV+6TAKebIQbcYQ+9zGrZzUNJ1v17VGpHadToTJR6
-	 RWLjzii3cYQqwFad86qQlpNLw77+74flbB6mBRk90Y/gIs9rI0cJ5fveY2zy6vMDnYw==
+	bh=XSphZc3LyPS+EdceHd5ViHHvsF/QdXAOc9PSkDWrNZg=;
+	b=1pqoawxM0twq5ldImgZOkGd6IAKCkZaOoDkLVBPNMWSzYIEI3Z36qcI8IOi4BadSgB/C
+	 m4vjYtRRxdWw8BipEP4o5P36/snVBWc+G0pq1KXxKt88w1aB6QN7y6X6nNnQRh2DocQ33
+	 bao3y+71DVl7uhpJTKLZK/ooi3U9QZf45t+whpNDLQTNQT3QpttWIx2qkwT18/+wzyi4z
+	 OYALu4qi68TPmxuvoBA+vlgCBXG4/PSX/fPu/mGNOtTOWz1l+0dlqgkH0vj9BoRiw7EcO
+	 i8A0EedLl6BaUmq+pbNAFtBX1Iq6QkfuN8W8PRZGSmrwKdzAAZFhTFxFIgSLabN5nww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="e/7gvIZC";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FFKms/SI";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51936072C4A;
-	Thu,  5 Nov 2026 19:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A883607728D;
+	Thu,  5 Nov 2026 19:49:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e/7gvIZC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1B731F008BF;
-	Thu,  5 Nov 2026 19:49:27 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FFKms/SI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74DBB1F008A5;
+	Thu,  5 Nov 2026 19:49:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793908170;
-	bh=8iqvj1j0PH0IF6Pq8SLYp4U0CTa0deUsshKxdgFjrSU=;
+	s=k20260515; t=1793908185;
+	bh=XSphZc3LyPS+EdceHd5ViHHvsF/QdXAOc9PSkDWrNZg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=e/7gvIZCknBaFzJk1RgkLwVMr4hs78B7PL/oV4FLAzy/Q5FgSU+3GZA7Xlv9b7h97
-	 sOkvwq6wF34xuVZKXVh52l/paydNnOxqbPff+W5bbrXpDh4/yvE1F3UShXMByo+45D
-	 ZP5FoizEXgCQAv0L5OiypTLx4sSXgSqmby9CzJLA8KHoGb/YLurZBQ1TKSA+yvkM7G
-	 bivfF57fAYinyJoezBGyj5X4rL2+oMAJs7h7PIDbP2fQWTmu3frru4bUG5Jijdi1ek
-	 fft2l2rYhfa/l4HQMr/2iqtHxa5FQQ/vkF3sjCMJ8uUvc5Kkaof2EtZ21M7Zq1aqf3
-	 /fBPNQAhSnZVA==
-Message-ID: <sashiko-outbox-199997@kernel.org>
+	b=FFKms/SIbzeZwhKUlN75YuSiPVFEs5d3cs0UA/g2kXDwykf+fHrTkZiutKodvVl5s
+	 k8PVYi4oD9vM00fz8xUvAGWzS16jLX/MFftL4y0XPUzoW8QSqQmMM3gNOUv9jrXFFk
+	 MKdcavDQjhD2d4vZDi9rRi9K9rq+HjNXd8Du8YLRwmh+mz26G8lGyG72TD3xa9AsiQ
+	 Ky10EFHsLiFarQjEFieXK4vlUf97pAdeoK1sysGLdIMgSxZT8CU9hzK34lFdajHmCW
+	 rYrS6SP+zYJOEJk7EoGn/FndrcpVApApmvOioKDCddP+4LLyE64jE/Wf1lsfwAl/KB
+	 KkSBU/LxFA5Ig==
+Message-ID: <sashiko-outbox-200004@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RESEND v2 11/26] scsi: core: let procfs copy in writes
+Subject: Re: [PATCH RESEND v2 18/26] usb: gadget: function: rndis: let
+ procfs copy in writes
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Christian Brauner" <brauner@kernel.org>
 Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
@@ -54,12 +55,12 @@ Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.
  Iwai" <tiwai@suse.de>, linux-ext4@vger.kernel.org, "Chuck Lever" <cel@kernel.org>, tytso@mit.edu, "Heiko
  Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
  Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261104-work-procfs-drivers-v2-11-245e54e87116@kernel.org>
+In-Reply-To: <20261104-work-procfs-drivers-v2-18-245e54e87116@kernel.org>
 References: <20261104-work-procfs-drivers-v2-0-245e54e87116@kernel.org>
- <20261104-work-procfs-drivers-v2-11-245e54e87116@kernel.org>
+ <20261104-work-procfs-drivers-v2-18-245e54e87116@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 19:49:27 +0000
+Date: Thu, 05 Nov 2026 19:49:43 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -69,12 +70,10 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Implement ->proc_write_buf() for /proc/scsi/scsi, /proc/scsi/device_info
-> and the host files so procfs copies in what is written before it pins
-> the entry, and parse what was written from that copy. /proc/scsi/scsi
-> and device_info take up to PAGE_SIZE bytes like before. The host files
-> pass the copy to ->write_info(), writes to them that are larger than
-> PAGE_SIZE - 1 bytes fail with -EINVAL from procfs instead of -EOVERFLOW.
+> Implement ->proc_write_buf() so procfs copies in what is written to
+> /proc/driver/rndis-<n> before it pins the entry, and handle the
+> commands from that copy. Writes larger than PAGE_SIZE - 1 bytes fail
+> with -EINVAL now.
 >=20
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
@@ -82,5 +81,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-work-procf=
-s-drivers-v2-0-245e54e87116@kernel.org?part=3D11
+s-drivers-v2-0-245e54e87116@kernel.org?part=3D18
 
