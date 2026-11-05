@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907008;
-	b=qQmeMlQ3YsLRUqxW8FH0z+IVZjst6RGUds/kyydcunp882+6XrKt0F9YjHKrsjCEmhzt
-	 pGB2aY2Gtfpvo+Q4GP89smhjmL7JMGlkPr0eY8ya8KgyywXspdwGfPlVWZ4nd4BwQHijq
-	 K3kW+REj19VUEDSyL5cf7rRGukJUqegkXm9dfS/K42exNn0/eWtRteylj7eouuFV0xG6H
-	 1eXb/ARyLDczXzPYba+AVF2AG2zfeV0yN6Ha0K4EZISXCaAODtsAltXuGWQ61KHoevu9i
-	 80GDB7S8lvfacC4+77zYxfCcmrt3h/ScodLEQjQdy7TIJmT4Sxzr4UDVVbgXKYvKyvQ==
+	t=1793907006;
+	b=dWNx4/B3g9EWNTwYOSU2vxDXS0b2fhXwUDez2zITRWe2FJTYQ9bG6tv5VhcH6+CZ92px
+	 EG+9BXYEpelgHu4KN0pv9bRO8rCio6bUHUU5ljDGXkzE0bUXLiHeiYKL9ewb79DVnUTbq
+	 ONKOUGvFS33MECjU3er13YhCdxl1YcZfZOeuvGSBwbuMi5bUx1R5issc2TdtJtHuMyV8B
+	 csMtsBby/40HKEHXlhqpk0Tkm6+UuAElkf4RJvNjfIS+bKzuzk+FEwM7Qv/tSLviwUp/Z
+	 sPficZur/doDTiRiovdRvGCnPDm4yFahE8/84PtWF7mls5bTQjIDvQpug8wmJ5Yn41Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907008;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793907006;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=7PHyXsRCh8nUckWf/52BHUGTboWFHsh+IL6ljZbS9tU=;
-	b=aCw5FDdkb7Z718oI5KGPjcbctDAO0D5c+Y+OZ8BiRBV6J6OhWBvrWSDdSdR0Y9GjxsbM
-	 2zsSzDZsbUU3oG9GljtEbz7qPU0YZ8vQNBb84/OW07CXv1RtT7rRKVTJxBQ6e9EUWCDri
-	 qoKegnwAfXnfE9/sVpwV6xbBYPvHWOYLIYYPzID4jzG+Rp2KV2Ufv+khbARFBT5PoOmT8
-	 aeJMR3e79eTecU+IfNpjGHFmjOVaummhoEUNnj+SKClq4wOKWw/yff32402+UARptHYEq
-	 /yTEnOWzRQBqSfCFZWvvnn7dsA6tDxgvJHF+NLd0vSABSa2Lz05HKPTH5rJIY29hnVw==
+	bh=hsy7qPadddcHp1yz4RskpjuPCs9z+iyUZQjRxWR0tno=;
+	b=Q8Swup0DCIWAl4qVWDGt73vWJ7tMz6Oa8f8P46S269G8VD4aH/ASV5+oaGidM6vd2hEU
+	 5r9ZhhR8vOrNa/DPVygsThhw2le1/j31Lgtvtb9DB4or/qkEnsKToBYAzQGd+qITQ1Q0N
+	 3JsyRI/gwiCsctRJ2pWIco6Ygy4VE4OKbxB79ApdpMPw7k8gX8kcMWQERNSbxu5kYqp5D
+	 Z5m2E8vo4g71LlK5aqDKJ29sQf25970FtdNypwLVyU/lCaIxk9SB6ZoLqbV0hgChPicwt
+	 +fbTUYcJdVtAMLHdsLEpU23vWmrYE7meCMTOjpHd2MUHPr3q5XUYy862GC8zQihxHfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EzbFf2vH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n1pRV84z;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0904606A335;
-	Thu,  5 Nov 2026 19:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EzbFf2vH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 058331F00A17;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88D8606D823;
 	Thu,  5 Nov 2026 19:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n1pRV84z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D006D1F000C1;
+	Thu,  5 Nov 2026 19:30:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793907007;
-	bh=7PHyXsRCh8nUckWf/52BHUGTboWFHsh+IL6ljZbS9tU=;
+	s=k20260515; t=1793907005;
+	bh=hsy7qPadddcHp1yz4RskpjuPCs9z+iyUZQjRxWR0tno=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=EzbFf2vH4rdYmLSxg3HKN+VvXLe/yE1Tm+i03FhW8mezL4sHWQcUkoSNnFKVwq0bi
-	 AzCp++9TnQnkMVuRyQ7av+BkhgA/SJE164Miit54lB2OO3Lai0csSIQhWlpUru6waD
-	 +VBsr4BCGwCfqkHgRxJDlwr2XEGmEoMwpsrj5goVIQBSCqw3VOFqGx53PTILkt5ust
-	 nbutmvvSCT+eOLEdguPUYLn5ci6I+dEQYyb70GenJ18ODID+H7xgdB1VM3a+sCkvVh
-	 WEBmPTJH++5VB3kciDdK1xZpG8yPpTWbkTU6g4v0sBHmmzlPDXWv2561dDq3nEbTxS
-	 FmCid2KQ7rxdA==
-Message-ID: <sashiko-outbox-199901@kernel.org>
+	b=n1pRV84zJKUUtgUv1TYLImkQPkvmaqLjvwYZrx2oyTCwObzhdrQFqivFQJG2KSTyQ
+	 eTIbvYnu/am2gKJ0v2gg99xx3HGgCRhK3jtKYYV/hEN32FiOkUwOd5qfCd1EvNlRbU
+	 /wDWKpQlTW9sg368vKkBt979aVtHTwB7aqgs1lZ3cZ7yuOwpmH/5K72S+3ZXzvHDZJ
+	 zCVaJA/NGoQ3f5O/ZIg5OD8CZV38pYz/7PwHfRkFO2BSCEBpwk5KemMFv7yST4FY/7
+	 ke1edsHonMb+SJ+aejvls7v7xGnvSnNsG3bwmscXuAXx4DTCqwdtiudcPMpO6x6AMq
+	 QMz7+TNSVPVMQ==
+Message-ID: <sashiko-outbox-199900@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RESEND v2 38/51] powerpc/crash_dump: check
- ioremap_cache() in copy_oldmem_page()
+Subject: Re: [PATCH RESEND v2 37/51] proc/vmcore: don't let vmcore_cleanup()
+ run twice at once
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Christian Brauner" <brauner@kernel.org>
 Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
@@ -55,12 +55,12 @@ Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.
  Iwai" <tiwai@suse.de>, linux-ext4@vger.kernel.org, "Chuck Lever" <cel@kernel.org>, tytso@mit.edu, "Heiko
  Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
  Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-38-021c84d852e0@kernel.org>
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-37-021c84d852e0@kernel.org>
 References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
- <20261104-work-procfs-bugfixes-v2-38-021c84d852e0@kernel.org>
+ <20261104-work-procfs-bugfixes-v2-37-021c84d852e0@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 19:30:05 +0000
+Date: Thu, 05 Nov 2026 19:30:03 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -70,18 +70,26 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> copy_oldmem_page() maps a page of the old kernel that isn't in the
-> linear mapping with ioremap_cache() and copies from it without checking
-> whether the mapping worked. If it didn't, the copy reads from an offset
-> into the NULL page. That oopses unless the copy happens to be a user
-> copy, whose exception table entries turn the fault into a short copy.
+> vmcore_cleanup() has a single caller, fadump's release_mem_store() on
+> powerpc. That checks fw_dump.dump_active without a lock and calls
+> vmcore_cleanup() without one, and kernfs only serializes the writers of
+> one open file. So two tasks that write to
+> /sys/kernel/fadump/release_mem through different files run
+> vmcore_cleanup() at the same time.
 >=20
-> Return -ENOMEM like the other architectures do. read_from_oldmem()
-> turns that into -EFAULT like any other short copy.
+> The first one removes /proc/vmcore and waits for its readers in
+> proc_remove(). The second one finds the entry already unlinked, returns
+> from proc_remove() right away and frees vmcore_list, the ELF headers
+> and the device dumps while those readers still walk them. Or both of
+> them free the same lists at once.
+>=20
+> Serialize vmcore_cleanup() with a mutex of its own. It can't be
+> vmcore_mutex, removing /proc/vmcore calls release_vmcore() which takes
+> it. The second caller then finds nothing left to free.
 >=20
 > Reported-by: Chris Mason <mason@kernel.org>
-> Fixes: 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_pag=
-e")
+> Fixes: b500afff11f6 ("fadump: Invalidate registration and release reserve=
+d memory for general use.")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
@@ -89,5 +97,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-work-procf=
-s-bugfixes-v2-0-021c84d852e0@kernel.org?part=3D38
+s-bugfixes-v2-0-021c84d852e0@kernel.org?part=3D37
 
