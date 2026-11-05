@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793908193;
-	b=o0Mf5SdWkKdJNbQb37Cq5LH2JrkYPgDrfuIHL8uGrDiH6YhUmMV97EUNo6WEXEgrH4yZ
-	 I2r7Rh8KHp3chFnaqb9wEBoHR+R+LE/Zmmoox8vyNNhj9hWeNYU+gE+wqnPxxCE5bWh61
-	 TiRznfsLjk9971U/+kPu2rNSmhN0/6LURUeB5rE2G0QoSavUD5xD7dbHWzsxOhFDTJc1D
-	 E/VKUGuY71Lb3D/vD0oraqHcTIChC9YPwz6MT7CjS78rqr9+uerJMvAqf3Ort4tKreiKV
-	 vovW5wsXpcnb+GktZ0rRUUmgqSNuAfCl41S3i89JUN9sb3tFy/nEtOq486rBIEPrGjg==
+	t=1793908189;
+	b=yx+7oC6JZuDidBro1ZTnTX4YeTeFCEEHr3D0WjV2Ddnf8AAS+xp8ry9DwDmn51MXa0sW
+	 wPc+36xo5QFx+OpeSnlhyLV7P3usv3/cUNx2iocZD6SZhOxp9o8HUubNIiUEUbcR4sDh7
+	 VBVvVNYQDVYyVvLKYqwYjHREy3vu4Vi+yUyGJ9ck6AoI1t5VvoeZVvBCbbfdEV+1qJnmN
+	 T+ZFY5rOYG6Af/c9WoMZzbiDpJBxM3dO0BS3p6gHRnM8CUvXQTtk3caQsYRFhSpsommyq
+	 rhZVJfPI79adbyEtUZIgFKy+rLamSkHOwsbHuOBidw1AapJfuQcoV9WgAsCRC1dR/lg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793908193;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793908189;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=qIp99IO+gNwKI0Zdc0Aql+IacK3KngpUDJck0yFiZBE=;
-	b=iv+Ddqxo11UQXrTZk1Bu+aQ+hgzWXcML7zWhNnWtu5lzPxB7EcqE8Lq1RBYn8ETw9ZKw
-	 rQeTz8xl+2BmGoB99xsaRiLxQ4VO9mBol6ZTRcY++EKv7FObHCNjsC6CvOINTi2Obv1it
-	 l9iG5dHGfp2USgLC4OTTRttd+wc+pW4U94N9jNEksVSv1H+NMmsqUZqVjcahC/aMWnG8w
-	 40kcyqZ+iqmZ5ncxqORWwlvo9mJiYXRo96eEqAZMvglaHQA0W+sb7+BdqlIVAGtWZD9LM
-	 o+zamtSOAskGhz6oL3vVkKhSMGjhnMi4qJrhpJYcpKYqRHae53XvH/lEqbqhpsCihZg==
+	bh=MrI+rqDmwsTpRPF5ki5piP+HFeRyIsPNHlEWXQTT5Es=;
+	b=tnzr/HfZsOdI+eKLVwK7xkLhuM6ea98UKiVMNs/ltvEY+iwmlSORe5YJmZFgqJTxtogO
+	 FGmvnU1E/VWWT0ekQO1qycwxG7bzk+GjkG4Bh6rySGEKmgfZWgo6mNX6ijlIfyv9xMmbH
+	 AZvvn5m/6UAT2fGB4SKEcMXb2nawIM+zJJlwxWfRS6TsyZInHRHsLNmQtShWVk2nXoWHj
+	 eVfSN6mHUXDU83t/IxciTlAt7hpJnDHB4qmvxepRPmqeEYmdKh497FiigIQf903zii+MI
+	 41UTwQhKQVy7nt7cRIW6kwCJGnorf41nvCubDaC5doFltHZ+2DkZJ/V+4FnPPIRyTDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lfRGTcvC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JlcRruvS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A575E6077B5B;
-	Thu,  5 Nov 2026 19:49:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988B56077B73;
+	Thu,  5 Nov 2026 19:49:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lfRGTcvC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC3AB1F008A2;
-	Thu,  5 Nov 2026 19:49:51 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JlcRruvS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE61B1F008A4;
+	Thu,  5 Nov 2026 19:49:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793908193;
-	bh=qIp99IO+gNwKI0Zdc0Aql+IacK3KngpUDJck0yFiZBE=;
+	s=k20260515; t=1793908189;
+	bh=MrI+rqDmwsTpRPF5ki5piP+HFeRyIsPNHlEWXQTT5Es=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lfRGTcvCEjW1gWGiNrd238DspqkbshDpQm/7ZrTBiY33r3aIzQWnw1bFldseUpf0J
-	 62T9Z+rgvSnzDUjQ1R+vmOIGeviwUG/81T47/fg3pCJGo+dAsOMmYtvwb6RPJE5PJz
-	 PVAELLiaEV3AAM/IBb4QhbhAm4nIpCbxOhVAsmXOirWg+Ja2+GWNXMvOrmMg9ogvMu
-	 71EEpW+ntYUt8dF+XpHJJPkxOHHOLCpNVuxb2GV6NwhxHQX2MluIGnoC37MtbGPEpb
-	 pWvFUBjEPes5aghGFuknUaBHTmQX1P3Xrx7+dp1nnBbdYhdTM7wd6JyCHdd5cOaphB
-	 de4PoOJA8WHQg==
-Message-ID: <sashiko-outbox-200007@kernel.org>
+	b=JlcRruvSXXeF/yHdh8XDwJYbseLZZhFUomx7pyjMpu12GzMnmomelySb2GLdLrQLW
+	 qc+ay3RTgqdwdbRkwuHHf/OceJtNxU8NY7lTsvjpgfk7E8wPyCdcCBqzjjWDcqC9n+
+	 9E/0cDjv+DLLsL2Ke+qV12ttQoFjDSveLdOwbsYYzRvbQOGaiRo1gmfBu+8rc7Vc1F
+	 HvwL7WWrnl/AvCyXWk1WhgKMXHhJpBfKgN/rm6KIY2DOOCwIlXcps1JhhMIyAxL0bG
+	 ObpyCzcd0ERlP7sTZXQ4Jn/DqI3IfyN9LEdC5d7h/YR67QqngtLQOk8I1Sym4fpsYm
+	 OX5d+yBtndmGQ==
+Message-ID: <sashiko-outbox-200005@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RESEND v2 21/26] Input: let procfs own the wait queue of
- /proc/bus/input/devices
+Subject: Re: [PATCH RESEND v2 19/26] wifi: ipw2x00: let procfs copy in
+ writes to the debug level
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Christian Brauner" <brauner@kernel.org>
 Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
@@ -55,12 +55,12 @@ Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.
  Iwai" <tiwai@suse.de>, linux-ext4@vger.kernel.org, "Chuck Lever" <cel@kernel.org>, tytso@mit.edu, "Heiko
  Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
  Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261104-work-procfs-drivers-v2-21-245e54e87116@kernel.org>
+In-Reply-To: <20261104-work-procfs-drivers-v2-19-245e54e87116@kernel.org>
 References: <20261104-work-procfs-drivers-v2-0-245e54e87116@kernel.org>
- <20261104-work-procfs-drivers-v2-21-245e54e87116@kernel.org>
+ <20261104-work-procfs-drivers-v2-19-245e54e87116@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 19:49:51 +0000
+Date: Thu, 05 Nov 2026 19:49:45 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -70,9 +70,10 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> input_proc_devices_poll() sleeps the poller on a queue of its own.
-> procfs owns the queue poll() uses now, so leave the poll_wait() to it
-> and wake its pollers instead.
+> Implement ->proc_write_buf() so procfs copies in what is written before
+> it pins the entry, and parse the level from that copy. Writes larger
+> than PAGE_SIZE - 1 bytes fail with -EINVAL now, and a buffer that can't
+> be read fails with -EFAULT instead of looking like it was written.
 >=20
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
@@ -80,5 +81,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-work-procf=
-s-drivers-v2-0-245e54e87116@kernel.org?part=3D21
+s-drivers-v2-0-245e54e87116@kernel.org?part=3D19
 
