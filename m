@@ -1,93 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793913664;
-	b=fqJ/ucElCqkLnLwvkmy8poBOLwcFpDtmsq16vyWuw7uGh2t+0Z7qAtFo7xhcUJQjduhv
-	 cy7P4f+/wp+AdSnbgY2CJzzm+xja69Z2Fw2oHTOxVaZv6Vx0BWISCMvQpfTQ3IiV07q39
-	 cJKvOPLYIvQkui/CQjglNJgrrMlD2aEZuDMSSaZOLjJRjbbd5GGrlXGLttjXPouJWD/v8
-	 HQtatr4DvsujXuDoLQB7YbmwK+5R9lOUBHzwDu6KitLGoxclIeV9DMNDnIxywx23npwN7
-	 Lu7md6mT7C/T/gvt4SF3BZCEqnIIgWnwpL2NACQE5T0wwUC/53VZTNhWPzWuyY9kOBw==
+	t=1793917168;
+	b=TbTVbI2A2j4EVsx/+WMWqfwuIE/P+su6Jr7WIfkxzdqWFGaQRaVwWgJ8Sx6Kg5CYp3Cz
+	 20sVMubbFLyjPzyhMrLoU0y1BEuoVkk/vIS2ij2gJLN21Xt0Gwq4rQQtTrrSFVJGJe42A
+	 QyUmGBvMx7xGF/0mLofErjYpnhR7rlCPb9I0ptJjUSS6vJBfkMXp33ZbrYV+rhZI1LfTm
+	 sd9cMqSaLDNQB3c2w6u+GVvwttDB2g3V3lXOhAEBLvu7kaURuaTbdppeL0yBC29A0x5na
+	 JiWLGA7bt75BRaWCFxaDrtR4r8QbhOzcd8Cmxg1dIhGn30rm85Hjv1vTeLt/g5Y9R4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793913664;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793917168;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=WXzgH95vtdgxkReEE2P1BQ8xVe38URZnAPeqWUQQfAA=;
-	b=Fk0v9M8LLgc2UQLoftRJvOq919HAlgcxNNbZpuX9a01RcqvgTN8shkT+IuvzVhXXcH5X
-	 K5cebO5abxfu2KrhZEjj3QxmJN1lR6Ai4ZNNNDOafG90k72QyCWbNoOn0g4BkSLQTDRcQ
-	 TWN32H2ydbJGf39Ny7dvwFuWGYjv/L7Rj86xK1i6nE6QtECdN290XJfjptj9Uxq4ZYrW3
-	 hbG7MynlS6Ogx+/ln2/OPfdLm88bUoLUIDQ4bC7NRxVXTgQQSEPrZS6GyylwypQEqpsiw
-	 GEAwkkb5RveY8B1cAf0wn+N5ocwBMc4Mm3ArO/tnFDVVS3plhCxYZBakDm4faABIA2w==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=79DpqS5v9oMecI2JJxzjWdV0Coqxm01u7qcTGTvQltE=;
+	b=pgPsyZTH75IympsjPdqzsAnTBK//wgQQm2gE7C/CUTmWhg5/I3pWw7Oox00JcQhAQ3e3
+	 2RKSYZXaaLutBvr6xaxxV04h57FgX9OtXxREo7RnySaJSJh8vWWOjjQcx/rBMGUzvwzZ/
+	 njNtk5hSQ6TryhSNT4wXjCMKziXMZw7tAY947q2oU5zu9cSRs9HjQetDhu9uY3hCTO4ey
+	 z8Y1jpdjIfyNxZLoCK8uSPSQk7rZ0iarYqIORqt6v62nBD2jTQ7nghaLYVaMfSCtgry+6
+	 XuM3A1a5BL1RYlSRmo292L4PTmf98ZVAj7OyFBoNb6xtnBF/A/GjtyMSHSaw+8OsFsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=o272kggh;
-	arc=none smtp.remote-ip=209.85.160.174
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	dmarc=fail header.from=mgcrea.io;
+	spf=pass smtp.mailfrom=mg-crea.com;
+	dkim=pass header.d=mg-crea-com.20260707.gappssmtp.com header.i=@mg-crea-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=QRAmf4iF;
+	arc=none smtp.remote-ip=209.85.221.48
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8886606A326
-	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 21:21:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8886606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4206E606A31B
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 22:19:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4206E606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mgcrea.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mg-crea.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=o272kggh
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-53639b8903bso137501cf.0
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 13:21:03 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=mg-crea-com.20260707.gappssmtp.com header.i=@mg-crea-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=QRAmf4iF
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48c4649b35bso40616f8f.3
+        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 14:19:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1793913663; x=1794518463; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=WXzgH95vtdgxkReEE2P1BQ8xVe38URZnAPeqWUQQfAA=;
-        b=o272kgghSdolH9E4TnUtYJcaF/dZbvGhVgZT4XofbtbHre5LkiJbWpg6xsyNVRrkfj
-         WoIQQnjMqpigXggNp+RauuI//H8XFt3dgvxz838PH4WyJREtRh/95o47zpzX31b4Hvsj
-         7c0r4eH2hvvJvNrkz3soupfCZ+RGpKmVBiPNTDFO4vofbHZb8QJnuPg/MjHsmJidxNSE
-         BGSbILqPpyhrSF7J0itl9ehrDSYQP45apJG1EAmpMJr9fqFMrhYtryh058q20o9gs09F
-         vXIi9ZsSOxCSowHzL9aPAvJVJR55aa3GiPNLMfoP7h8uUvNOTLvzZV6PAViTsTLs8sHw
-         zphQ==
+        d=mg-crea-com.20260707.gappssmtp.com; s=20260707; t=1793917166; x=1794521966; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=79DpqS5v9oMecI2JJxzjWdV0Coqxm01u7qcTGTvQltE=;
+        b=QRAmf4iFA6y9ZXRgCl6G6qnMymq23SmE8SHWuslt7yTLSjQgpaq9cX4jbDBMs1Pryv
+         kVx2xNP5iJ5mELqOhSl7EDUhfo00OQe/NjYMXHoxAhpQH1nU5LHvlk6v0oWhI1Nw9f5F
+         G7UpqOtz3ErnF7Y/Gs5YcRlt++oiOUjiiPhDWCJA8vptw/WlAZiJmnBmY4f9H1qmMDzp
+         OxwwEXIFIIKa2SC5t6rLvZGWy0aHBln2jF3ll+S6Yc2L5QUZcdL59qvBTR/q6ZVebY82
+         BQCs4y4HsoWflYKLJpnRBsqskdnzG++0rca/6l5vvS+CHVGaiYz3WirFfRny9qxxRENk
+         02XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793913663; x=1794518463;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WXzgH95vtdgxkReEE2P1BQ8xVe38URZnAPeqWUQQfAA=;
-        b=0j4+d2fjZa1t39GPOmjtQXjpSfUnfQ+E3HAjlWcLVul9AsGogDQaHwHfFljRIGmG8Y
-         Ywfjdgryotahu2sovDfySLRs0SqFQE2Ctpfx4aSkyrrMoL8UIya/3Og5CRbiTN64HJA6
-         pieps61GXf/LWzb67qQP4/xbFFUPiuUkxRh5VoMc+HSlwv+2QRIeS2Uq24Md9bN61CvC
-         fbL2hZVKRIPT29fr4Tsga78fQoRtepWqDA08uYsIYCuUhcgzQgHk9h8LZXkk9Q2qgGIH
-         0yUU1BmJA5dab18eGcYloyk7BgwiurzkqodKqJnQ5UqxFF392YCBIDbUAMUVtiL9b3c5
-         hD5A==
-X-Gm-Message-State: APuU4Z+gHd5qo/6pg8U7mmF9of4sTBMC30IyPoi9NA+pb6NtpJITUhgG
-	0j0ydYBIMTOooTN4oxvSp40woMlTy7pzVY52k43ifKevak/AwDI1vIpuJAkgVz3U0A==
-X-Gm-Gg: AYBFou2Cznf8KRsqBuldIOIm2nhfZA2xQ3mTnav4Tpir4xyHZejt/aZAh8Uo8gJXdQ3
-	P+whQt6UlxmMljbYjiRwcSzejdKCEKUACCpPc1yEeX84oQ6Yc2+g8l7J+xbNoOcqoqrgpZR1Qfg
-	zzg9u67/YR/D3VmCIbLBpR5AM9EyHCH179gHbH2pRh/UmeMXnBTA3hSAsCfy5sdHksCz3cHCFqD
-	TUSliSo+nAt6Ksdg4oQy3pWz6o/AaImnkxiLJPizxcJXxS/2+eZvyb3yOiabSqDy3ZMALnqA2sw
-	1qBFlEfQ5RUF488KcraOCfqj5eWFVa1LM1eWuj8m1nyt6iqstwpPkY1ApUb3SZNLIMKeOJn1GxC
-	LwzLvWpze40LfF/n9xopFRwyf4c+nqpwnHyC5a+I8Ve2ZGqECsXh0OpAT9N4mwsCmD9Lhm7/V5h
-	Ol6aWIrMPTszi3yJQ781Lvl6WuntQ7EO8PbrNcm4nGUWvhlsUb6iMHnDRPREuK7DVwBlF9R8Sex
-	RnXiDcS+YZKW4oS1wdlxyQ3ljQwe9agWFAF/GhKQL4+rZwzh68qEZEv93LHTTcJCK1FCJB6N/CI
-	E64yZ0JHT8+4ORJq7ychteC5JMnQ
-X-Received: by 2002:a05:622a:c01:b0:53f:98b5:4317 with SMTP id d75a77b69052e-54e15f61bd1mr8424661cf.34.1793913662646;
-        Thu, 05 Nov 2026 13:21:02 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54e25d65a79sm3151401cf.12.2026.11.05.13.21.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 13:21:01 -0800 (PST)
-Date: Thu, 5 Nov 2026 16:20:59 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Josef Bacik <josef@toxicpanda.com>,
-	Elad Nachman <enachman@marvell.com>, stable <stable@kernel.org>
-Subject: Re: [PATCH 10/19] usb: host: ehci-orion: fix the probe without DT
-Message-ID: <e8b7570b-7f60-4628-9470-2ef03b4e266a@rowland.harvard.edu>
-References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
- <20261027-llm-usb-v1-10-b9751ddb9c7c@linuxfoundation.org>
+        d=1e100.net; s=20260707; t=1793917166; x=1794521966;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=79DpqS5v9oMecI2JJxzjWdV0Coqxm01u7qcTGTvQltE=;
+        b=oT/c9PU6FIwEyKPvsY7ieQz6UM066ricY7rBFxemnHpV4oCXFjMRkINnY6r+a0TwRm
+         B2z/LQP+VNmL2866+IevJCh3znJUDNrGjFJmOh9keoH3kJApyrGzTfAXY9LszRmZzBSV
+         gJ+qSSebQXB5nzEP9TpPx5RPXReZECaQFjRFwFrz3LyqDWHosVIFUXbl2+O8imA5yzaJ
+         uRlO6PBkhpBq26/qOViiriwG4oOsnKL8kHh2WhOgO4TiZvtIPWMRJ/7leb14sNFxe/oQ
+         JJk8zxrNnPC9EHw9F9mDr4/MDqiP/oOois3yzIX41FfypuhJFSkA4Y/pwthvsvAa+G7O
+         WRPA==
+X-Forwarded-Encrypted: i=1; AKwUvBxh1nO5c1euza7BdqnBpvdxxqapANEuhdXGfaiCcA8fwbHXwROU/y5e6GHCPVKxBOur/4MN7rs4s4o=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8l0GVKFURK+8CdqxwmTtC7frBQMXqQNfUhWOgNun9hWVMBKqh1
+	Wj7yG1xpg3Kqra94knMBb8YmbfLx45m4j+AjNmL9YSeJBPum4jVFSfUuCZ+8G4J2Xnw=
+X-Gm-Gg: AYBFou01kbnsFgdjFV48eIvZ+mKvpYCHv7NxZe/tTLjn04WDZhlphH46oK9ZjZvUXME
+	tmaeallnaLDRsoBAP3kgGYYGndgPsTRth9JGgMEQ4JMgFQeO2hATA1aVZpoZ87q8733Pq1etAMd
+	dCRnvHnN00NAVyaCaKA9p8rO5vOKMLMUNSRD2f88rKax90lzIfWq5654tC+1bO4h2+jcytXcr6J
+	XaS61fyhY90eKQkYxijFlyvlYs65Hr+X3gdWia6olB3EL7OAfBQYqlwiLs8gVAv8JRdZ1AsFnmQ
+	WXFM5ItgBVhY7SmTI05tbZC018jhTcWtv5PeyTQXvlvMv27Grx8vkITXav+t+lu02dPSlNY8OyH
+	IbWou3YMPwL8KZtTEZmr/iwxCr+hMXkDFdBC/j1zXi7cSy2wnAE8zVZuzwe0x4+qNtquZjXGkCR
+	WrW+uyBR8nDypdFySK9gBgKrLyiA2XW97NbbnuCBi9bvUfooe0vlok6lz4z8zkgCzyPfW3s5bqA
+	Diz2HKTTVgeYLEw8tolyM+3Yb6BRLpTzDPKyD56aabVr9KcU8OYJpnpXP0v3MQF4m1IbnmAN+J7
+	PeJnM0TsvLRA4PGuVUC6GsIFy7/tDrVFCt3F7NdfgKrpYbpAQwGCRMEj/Sf+KA==
+X-Received: by 2002:a05:600c:8712:b0:4b1:4017:c4f4 with SMTP id 5b1f17b1804b1-4b6df7d4a3dmr7175685e9.20.1793917166623;
+        Thu, 05 Nov 2026 14:19:26 -0800 (PST)
+Received: from localhost.localdomain ([2a01:e0a:9d2:5a71:5c25:f8d1:d9d7:54c1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d3d609bcsm57071f8f.5.2026.11.05.14.19.25
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 05 Nov 2026 14:19:26 -0800 (PST)
+From: Olivier Louvignes <olivier@mgcrea.io>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Minas Harutyunyan <hminas@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: dwc2: gadget: Restart the gadget when a new session follows a session end
+Date: Thu,  5 Nov 2026 23:18:10 +0100
+Message-ID: <20261105221810.89921-1-olivier@mgcrea.io>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <auvJvr3oFWhB2SeR@vbox>
+References: <20261023091832.6765-1-olivier@mgcrea.io> <auvJvr3oFWhB2SeR@vbox>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -97,57 +98,26 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027-llm-usb-v1-10-b9751ddb9c7c@linuxfoundation.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 27, 2026 at 03:57:50PM +0100, Greg Kroah-Hartman wrote:
-> From: Josef Bacik <josef@toxicpanda.com>
-> 
-> The Orion5x, MV78xx0 and Dove board files register the controllers as
-> platform devices called "orion-ehci" (arch/arm/plat-orion/common.c),
-> which are bound by name. of_device_get_match_data() returns NULL for
-> them, and ehci_orion_drv_probe() dereferences it to get the DMA mask.
-> 
-> Use the 32 bit mask, as before, if there is no match data.
-> 
-> Fixes: c63fe1cc7093 ("usb: host: Add ac5 to EHCI Orion")
-> Cc: Elad Nachman <enachman@marvell.com>
-> Cc: stable <stable@kernel.org>
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
+Hi Thinh,
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Please drop this patch. I went back to the board for the bot's case,
+and the failure the patch fixes no longer happens there.
 
->  drivers/usb/host/ehci-orion.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/host/ehci-orion.c b/drivers/usb/host/ehci-orion.c
-> index eaaa49712a8c..2071c3d6e582 100644
-> --- a/drivers/usb/host/ehci-orion.c
-> +++ b/drivers/usb/host/ehci-orion.c
-> @@ -218,7 +218,7 @@ static int ehci_orion_drv_probe(struct platform_device *pdev)
->  	int irq, err;
->  	enum orion_ehci_phy_ver phy_version;
->  	struct orion_ehci_hcd *priv;
-> -	u64 *dma_mask_ptr;
-> +	const u64 *dma_mask_ptr;
->  
->  	if (usb_disabled())
->  		return -ENODEV;
-> @@ -236,7 +236,9 @@ static int ehci_orion_drv_probe(struct platform_device *pdev)
->  	 * set. Since shared usb code relies on it, set it here for
->  	 * now. Once we have dma capability bindings this can go away.
->  	 */
-> -	dma_mask_ptr = (u64 *)of_device_get_match_data(&pdev->dev);
-> +	dma_mask_ptr = of_device_get_match_data(&pdev->dev);
-> +	if (!dma_mask_ptr)
-> +		dma_mask_ptr = &dma_mask_orion;
->  	err = dma_coerce_mask_and_coherent(&pdev->dev, *dma_mask_ptr);
->  	if (err)
->  		goto err;
-> 
-> -- 
-> 2.56.0
-> 
+On the HiBy R1 (X1600, power_down none, gadget clock gating on), an
+unplug never reaches the session end path now. The data lines break
+before VBUS, so the core first sees an idle bus, takes it as a suspend
+and enters clock gating, and while gated it reports neither the session
+end nor the replug's session request. The replug then enumerates
+through the USB reset path. That was 11 unplugs out of 11, with the
+host awake or asleep, 6 of them without this patch, and no
+"failed queue (-11)".
+
+So neither the restart nor the sequence the bot describes is reached
+here. I have a v2 that notes L3 before the handler exits partial power
+down or clock gating, but I can't exercise that path on this board, so
+I won't send it without a reproducer.
+
+Sorry for the noise,
+Olivier
