@@ -1,73 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.92.40.78
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793876850;
-	b=VeShkZZNGJFQ9A5z/6h+N8p7G7OyYuI/a0ouCC8Z+xbmOnrCnq6mOM6DdGBAGI5ug2vV
-	 UVOz0xbS6VHgSQWWjOjzX0rY5oHdcWGOf9Ey0JBFb1+U08no7GRCL8u8llEMaTQ3HoBiR
-	 KPgn1BZNheHFXBecPjz+eN9m84KnujMIKdwoLF2jmTqT6qItQkA4/Q6Of5aopMu3QxWNH
-	 Bfrr0tUGsCkLl2plDwbAJXHVlKTmcIhXt34tnWi08B5zXxyAhEQF+eQIZkzZWfYZX21TK
-	 M027UGEH4LD+VNaDGVCz6X3ZtylIiWuJrpJQKBFHscZ6DlpUgs0S2nHQGCBXFK1fM/A==
+	t=1793876991;
+	b=2zJizuvR7877KEwZl6s38ylqSPyhz9esIrWCu5nZ+n3UdGufv7Yxbg9lYJksiYTes1oa
+	 zV844MtFFBZtcdFr/oHb1ROu3AeubWgYiSTjOABoC08TOTJanlCZ4Um1DjXC1SagamTta
+	 9qEhqzosXRfOhPhos1C4wqOrwu/4rpyArZWi5YY7m98yL45/CZ8IfMsuWlMo38RuIMko9
+	 phlkrUtuPeTUVZd7SLro/TUctk0+bnJTtvtVwuIPZr29yVR2v9B5g26GlU1JIhO4fawrd
+	 OW8oSV2twm4GwUvEPpz+uNSl2zuk6KR2w4QdkFfcoDAF75dmAfHlUvFWYNUxIebdKZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793876850;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
-	bh=qRtaoYPpcX5o8ocOiQoryhWt/gszvTTnQicjOjV3lUQ=;
-	b=vlqiAzrijx7wb95TZhTjqaCSQyMfBNXKZnm0+ZF2NF3COjTgDcx7n1FF0MWNJBaqEMrQ
-	 bFaK29MF/tyx4a6piCulPigq4b6g2fUgBqaaV1rN4oGx5CRbvEdo91+RMFWQEAskId80n
-	 gAN1QoKDrNJ0i4c6nUMatISLpRfD+VPBP7iSUXgR/hW6KTq69mU7mSidBpVht5Wlvnyhb
-	 Vi7eZ29t3MIDgk05JNNU9Em9ECVRPRHNTMPCBOYBUBw/Ombt3eq+TZRPPXTTlP1c+1hAX
-	 3/BihoRUezSC/csFdlKJ4dEqfvlTJP5641BAhLs6v3zNMigsLVoxVeVrpdzQoWnR7Qg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793876991;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=BR00Dpxko6WL7FYEXY9i3C8lkNmUwrkbEGiJyBaasfE=;
+	b=wjg+7IY585jOTZKIVw8kvmAZU/JEDx5vECUK4V7tFyp+RiPsT/fSLFYZnyMWQoJ9vDUF
+	 9WNf/FAIm3LM1UZC3Y+2aZ9rY1j8GsjdlNugynYdarxvpzMQa7ZrZn0Q03mrEcoSEYESa
+	 +A1Lg4cAxgJuZ6SFreqg+mArleQi0NaXztCiNrJbS6uYKzmsDBlq8xIc8Sc2v60uIUKGC
+	 yBAYIMs2OtVnWGq/WGFHYoDvmb+GdX2c+SmHkd5Tti6EawO7Ik4DbX32yFqYXv0s8bp5V
+	 DtrSoLW+H4t2C0PO34jqDnji7ieQEYbracOPTLLRcxzpjGrzq0HB11NRvK3Kt9QbCZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=thorsis.com;
-	spf=pass smtp.mailfrom=thorsis.com;
-	dkim=pass header.d=thorsis.com header.i=@thorsis.com header.a=rsa-sha256 header.s=dkim header.b=nTntgJOm;
-	arc=none smtp.remote-ip=217.92.40.78
-Received: from mail.thorsis.com (mail.thorsis.com [217.92.40.78])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.197
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540FD606A32E;
-	Thu,  5 Nov 2026 11:07:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 540FD606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=thorsis.com header.i=@thorsis.com header.a=rsa-sha256 header.s=dkim header.b=nTntgJOm
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 28EA2149663A;
-	Thu, 05 Nov 2026 12:07:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=dkim;
-	t=1793876876; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=qRtaoYPpcX5o8ocOiQoryhWt/gszvTTnQicjOjV3lUQ=;
-	b=nTntgJOmzLYFgNzZqxAbXwj8lHmVfGLo/srQUR5R2M7DBtetxIhUuJlWAv7Drim+XT8SKN
-	g/eaHz55UmE638wyUv8blGt1ywQMgDbSTjMoKKi69014v+LUzkcxe9EXFfZ5IgKOaNbVPc
-	rT3UuRPqyaQFaeTSNHTYIxCVs3Tc1yfhuwwHQxjj+nVV20xS7NORe9ePzkjrC+SZYvngZj
-	pyX0+v9onfKrIdtZcydUBirAerZpZ3RWRwbibkCSAySeG5pA+cVLNc0q2rKTOUidRtXfyE
-	4qcVGrISXBTZXOyVJskOblpoBdHO2GKAkxdne2ROSc9IVel/h+1yGBxPcFTNDA==
-From: Alexander Dahl <ada@thorsis.com>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Ryan Wanner <ryan.wanner@microchip.com>,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	linux-usb@vger.kernel.org (open list:USB SUBSYSTEM)
-Subject: [PATCH v4 02/16] dt-bindings: clock: at91: Split up per SoC partially
-Date: Thu,  5 Nov 2026 12:06:38 +0100
-Message-ID: <20261105110715.2486432-3-ada@thorsis.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261105110715.2486432-1-ada@thorsis.com>
-References: <20261105110715.2486432-1-ada@thorsis.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2DD606A33D
+	for <linux-usb@vger.kernel.org>; Thu,  5 Nov 2026 11:09:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F2DD606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4e778acdbc6so2489687b6e.3
+        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 03:09:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793876989; x=1794481789;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BR00Dpxko6WL7FYEXY9i3C8lkNmUwrkbEGiJyBaasfE=;
+        b=k+Zrysb5tpSL9Yo44Oq4fJnHMxhNFhbQps+Sx5HAl+Nkubw7ZhkZnDxVAsdpGi7e/5
+         nedyno/7GyLo+LPZeumESDIp9ZTprcG8rDvDv83jO/kp62/Xn3g16ddkF8+e2kPPKZ+q
+         xh/igkhgF368Zc5nQmyi1lu2LYM7GHmQmUT4yFd24DeBo+E5u/IDx29bpcZvCoJ276xD
+         NeBqZhfcEOa3j6fplLRMezYZMLdpUtWeDoOPtaDXiPB822RmNvB/XnL2/PPqCma6cSrW
+         ULYemmOEYek0Op84BddM4Xs154j59hUJy+MyDGRiUTwDfNjrAUggSi2Zg+kqM7ZfbzBt
+         ZwMQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwLGk80gmYgtwFD//Jk6l6tgIgTF83he2xoQHhltaHE2orFbDKlPJqplJML0FVencHlwvxh+vDDiO4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+ABb1mdT6r8iRW+BUkwMOA9IXOPObQNk7ceTrbJVAGj2LOAoCV
+	mnqXJpF5K3zSm4eSCs6lT9sCCllN+xfmhSqeOIg+9F5R3zXFlamo79UK5bcRpMh9LDtWSPPwJm+
+	Bt86lkAuYBYKjfezaUAVrnwFwDK4ojDF/Wq0Gl6gTSThj3nI3JWVacl/2ue4=
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -77,414 +58,211 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-Received: by 2002:a05:6808:120a:b0:55b:ea1c:3ce8 with SMTP id
+ 5614622812f47-5640def172emr13317976b6e.21.1793876989635; Thu, 05 Nov 2026
+ 03:09:49 -0800 (PST)
+Date: Thu, 05 Nov 2026 03:09:49 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aec63fd.5f5735a5.290c1c.0002.GAE@google.com>
+Subject: [syzbot] [greybus?] [usb?] KASAN: slab-out-of-bounds Read in gb_svc_request_handler
+From: syzbot <syzbot+693652ded53d3eb9cb91@syzkaller.appspotmail.com>
+To: elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
+	johan@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Before adding even more new indexes creating more holes in the
-clk at91 drivers pmc_data->chws arrays, split this up.
+Hello,
 
-This is a partial split up only for some of the old PMC definitions.
+syzbot found the following issue on:
 
-Binding splitup was proposed for several reasons:
+HEAD commit:    6628e7d4c6b2 Linux 7.4-rc1
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=1308eadd580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f9bf69220d319004
+dashboard link: https://syzkaller.appspot.com/bug?extid=693652ded53d3eb9cb91
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17bebe69580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12c1344e580000
 
-1) keep the driver code simple, readable, and efficient
-2) avoid accidental array index duplication
-3) avoid memory waste by creating more and more unused array members.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/d415be35d54e/disk-6628e7d4.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/69e49385122b/vmlinux-6628e7d4.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/51be81fff25f/bzImage-6628e7d4.xz
 
-Old values are kept to not break dts, and to maintain dt ABI.
+AI-generated root cause summary:
+In drivers/greybus/operation.c, gb_connection_recv() verifies that the received
+buffer length is at least sizeof(header) and that size >= msg_size, but fails to
+check whether msg_size (from header.size) is at least sizeof(header). When an
+incoming message has header.size < sizeof(struct gb_operation_msg_hdr),
+gb_operation_create_incoming() computes request_size = size - sizeof(struct
+gb_operation_msg_hdr), causing an unsigned size_t underflow to SIZE_MAX. While
+gb_operation_message_alloc() wraps the allocation size back to the short
+msg_size (allocating e.g. 7 bytes), gb_operation_message_init() sets
+payload_size to SIZE_MAX and sets payload to header + 1 (offset 8, past the end
+of the buffer). Consequently, request handlers like gb_svc_version_request()
+pass the payload_size validation and perform out-of-bounds heap reads on
+op->request->payload.
 
-Link: https://lore.kernel.org/linux-devicetree/20250207-jailbird-circus-bcc04ee90e05@thorsis.com/T/#u
-Signed-off-by: Alexander Dahl <ada@thorsis.com>
+full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=693652ded53d3eb9cb91
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+693652ded53d3eb9cb91@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-out-of-bounds in gb_svc_version_request drivers/greybus/svc.c:658 [inline]
+BUG: KASAN: slab-out-of-bounds in gb_svc_request_handler+0x10de/0x1250 drivers/greybus/svc.c:1271
+Read of size 1 at addr ffff888104ad2108 by task kworker/u8:0/12
+
+CPU: 0 UID: 0 PID: 12 Comm: kworker/u8:0 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/07/2026
+Workqueue: greybus1:0 gb_operation_work
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ gb_svc_version_request drivers/greybus/svc.c:658 [inline]
+ gb_svc_request_handler+0x10de/0x1250 drivers/greybus/svc.c:1271
+ gb_operation_request_handle drivers/greybus/operation.c:243 [inline]
+ gb_operation_work+0xb7/0x990 drivers/greybus/operation.c:280
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3495
+ process_scheduled_works kernel/workqueue.c:3578 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3659
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+Allocated by task 0:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
+ __kasan_kmalloc+0x8f/0xa0 mm/kasan/common.c:426
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __do_kmalloc_node mm/slub.c:5531 [inline]
+ __kmalloc_noprof+0x315/0x7e0 mm/slub.c:5556
+ _kmalloc_noprof include/linux/slab.h:995 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ gb_operation_message_alloc+0x9b/0x2c0 drivers/greybus/operation.c:380
+ gb_operation_create_common+0x9f/0x710 drivers/greybus/operation.c:532
+ gb_operation_create_incoming drivers/greybus/operation.c:644 [inline]
+ gb_connection_recv_request drivers/greybus/operation.c:926 [inline]
+ gb_connection_recv+0x1dc/0x1050 drivers/greybus/operation.c:1063
+ greybus_data_rcvd+0x244/0x600 drivers/greybus/connection.c:89
+ cport_in_callback+0x1fb/0x280 drivers/greybus/es2.c:840
+ __usb_hcd_giveback_urb+0x38e/0x610 drivers/usb/core/hcd.c:1657
+ usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
+ dummy_timer+0xdb5/0x3840 drivers/usb/gadget/udc/dummy_hcd.c:2051
+ __run_hrtimer kernel/time/hrtimer.c:2079 [inline]
+ __hrtimer_run_queues+0x448/0x9a0 kernel/time/hrtimer.c:2136
+ hrtimer_run_softirq+0x1ca/0x360 kernel/time/hrtimer.c:2153
+ handle_softirqs+0x209/0xa00 kernel/softirq.c:669
+ __do_softirq kernel/softirq.c:703 [inline]
+ invoke_softirq kernel/softirq.c:542 [inline]
+ __irq_exit_rcu+0x17a/0x220 kernel/softirq.c:786
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:809
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+
+The buggy address belongs to the object at ffff888104ad2100
+ which belongs to the cache kmalloc-8 of size 8
+The buggy address is located 1 bytes to the right of
+ allocated 7-byte region [ffff888104ad2100, ffff888104ad2107)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888104ad2600 pfn:0x104ad2
+flags: 0x200000000000200(workingset|node=0|zone=2)
+page_type: f5(slab)
+raw: 0200000000000200 ffff888100041500 ffffea00040eb410 ffffea000403ef50
+raw: ffff888104ad2600 000000000080007a 00000000f5000000 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 5446373684
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1856
+ prep_new_page mm/page_alloc.c:1864 [inline]
+ get_page_from_freelist+0xf4b/0x3440 mm/page_alloc.c:3935
+ __alloc_frozen_pages_noprof+0x299/0x2d50 mm/page_alloc.c:5444
+ alloc_slab_page mm/slub.c:3384 [inline]
+ allocate_slab mm/slub.c:3499 [inline]
+ new_slab+0xb1/0x6d0 mm/slub.c:3550
+ refill_objects+0xe3/0x410 mm/slub.c:7539
+ refill_sheaf mm/slub.c:2917 [inline]
+ __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4811
+ alloc_from_pcs mm/slub.c:4887 [inline]
+ slab_alloc_node mm/slub.c:5021 [inline]
+ __do_kmalloc_node mm/slub.c:5530 [inline]
+ __kmalloc_noprof+0x617/0x7e0 mm/slub.c:5556
+ _kmalloc_noprof include/linux/slab.h:995 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ acpi_ns_internalize_name+0x161/0x2e0 drivers/acpi/acpica/nsutils.c:331
+ acpi_ns_get_node_unlocked+0x18c/0x500 drivers/acpi/acpica/nsutils.c:666
+ acpi_ns_get_node+0x6c/0xf0 drivers/acpi/acpica/nsutils.c:726
+ acpi_ns_evaluate+0xb01/0x1670 drivers/acpi/acpica/nseval.c:62
+ acpi_ut_evaluate_object+0xf7/0x610 drivers/acpi/acpica/uteval.c:60
+ acpi_ut_execute_power_methods+0x1f9/0x3c0 drivers/acpi/acpica/uteval.c:288
+ acpi_get_object_info+0xa43/0xbe0 drivers/acpi/acpica/nsxfname.c:366
+ acpi_set_pnp_ids drivers/acpi/scan.c:1405 [inline]
+ acpi_init_device_object+0xc12/0x1a90 drivers/acpi/scan.c:1827
+ acpi_add_single_object+0xe8/0x1a10 drivers/acpi/scan.c:1877
+page last free pid 1 tgid 1 ts 5222696283 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1403 [inline]
+ __free_frozen_pages+0x714/0xfc0 mm/page_alloc.c:2954
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x47/0xf0 mm/kasan/quarantine.c:179
+ kasan_quarantine_remove_cache+0x168/0x190 mm/kasan/quarantine.c:388
+ kmem_cache_shrink+0xd/0x20 mm/slab_common.c:620
+ acpi_os_purge_cache+0x15/0x20 drivers/acpi/osl.c:1622
+ acpi_purge_cached_objects+0xa3/0x140 drivers/acpi/acpica/utxface.c:239
+ acpi_initialize_objects+0x8b/0x100 drivers/acpi/acpica/utxfinit.c:250
+ acpi_bus_init drivers/acpi/bus.c:1381 [inline]
+ acpi_init+0x1b0/0x840 drivers/acpi/bus.c:1471
+ do_one_initcall+0x11c/0x6f0 init/main.c:1419
+ do_initcall_level init/main.c:1481 [inline]
+ do_initcalls init/main.c:1497 [inline]
+ do_basic_setup init/main.c:1517 [inline]
+ kernel_init_freeable+0x6ea/0x7b0 init/main.c:1732
+ kernel_init+0x21/0x1e0 init/main.c:1622
+ ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Memory state around the buggy address:
+ ffff888104ad2000: fa fc fc fc fa fc fc fc fa fc fc fc fa fc fc fc
+ ffff888104ad2080: fa fc fc fc fa fc fc fc fa fc fc fc fa fc fc fc
+>ffff888104ad2100: 07 fc fc fc fa fc fc fc 06 fc fc fc 06 fc fc fc
+                      ^
+ ffff888104ad2180: 06 fc fc fc 06 fc fc fc 06 fc fc fc 06 fc fc fc
+ ffff888104ad2200: 06 fc fc fc 06 fc fc fc fa fc fc fc fa fc fc fc
+==================================================================
+
+
 ---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Notes:
-    v4:
-    - "re-added" some definitions present in hardware but not used in dt
-    - reword header comment (at91 -> Microchip) for newer SoCs
-    - PMC_UTMI was renamed where appropriate according to datasheets
-    
-    v3:
-    - full splitup for all at91 family SoCs instead of just a few
-    
-    v2:
-    - new patch, not present in v1
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
- .../reset/atmel,at91sam9260-reset.yaml        |  3 ++-
- .../bindings/usb/atmel,at91sam9rl-udc.yaml    |  3 ++-
- .../dt-bindings/clock/atmel,at91rm9200-pmc.h  | 16 ++++++++++++
- .../dt-bindings/clock/atmel,at91sam9260-pmc.h | 16 ++++++++++++
- .../dt-bindings/clock/atmel,at91sam9g45-pmc.h | 16 ++++++++++++
- .../dt-bindings/clock/atmel,at91sam9n12-pmc.h | 16 ++++++++++++
- .../dt-bindings/clock/atmel,at91sam9rl-pmc.h  | 16 ++++++++++++
- .../dt-bindings/clock/atmel,at91sam9x5-pmc.h  | 16 ++++++++++++
- include/dt-bindings/clock/atmel,sama5d2-pmc.h | 20 ++++++++++++++
- include/dt-bindings/clock/atmel,sama5d3-pmc.h | 16 ++++++++++++
- include/dt-bindings/clock/atmel,sama5d4-pmc.h | 17 ++++++++++++
- .../dt-bindings/clock/microchip,sam9x60-pmc.h | 15 +++++++++++
- .../dt-bindings/clock/microchip,sam9x7-pmc.h  | 19 ++++++++++++++
- .../clock/microchip,sama7d65-pmc.h            | 26 +++++++++++++++++++
- .../dt-bindings/clock/microchip,sama7g5-pmc.h | 23 ++++++++++++++++
- 15 files changed, 236 insertions(+), 2 deletions(-)
- create mode 100644 include/dt-bindings/clock/atmel,at91rm9200-pmc.h
- create mode 100644 include/dt-bindings/clock/atmel,at91sam9260-pmc.h
- create mode 100644 include/dt-bindings/clock/atmel,at91sam9g45-pmc.h
- create mode 100644 include/dt-bindings/clock/atmel,at91sam9n12-pmc.h
- create mode 100644 include/dt-bindings/clock/atmel,at91sam9rl-pmc.h
- create mode 100644 include/dt-bindings/clock/atmel,at91sam9x5-pmc.h
- create mode 100644 include/dt-bindings/clock/atmel,sama5d2-pmc.h
- create mode 100644 include/dt-bindings/clock/atmel,sama5d3-pmc.h
- create mode 100644 include/dt-bindings/clock/atmel,sama5d4-pmc.h
- create mode 100644 include/dt-bindings/clock/microchip,sam9x60-pmc.h
- create mode 100644 include/dt-bindings/clock/microchip,sam9x7-pmc.h
- create mode 100644 include/dt-bindings/clock/microchip,sama7d65-pmc.h
- create mode 100644 include/dt-bindings/clock/microchip,sama7g5-pmc.h
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-diff --git a/Documentation/devicetree/bindings/reset/atmel,at91sam9260-reset.yaml b/Documentation/devicetree/bindings/reset/atmel,at91sam9260-reset.yaml
-index 84c4801df8d9a..8c89ccc3d6393 100644
---- a/Documentation/devicetree/bindings/reset/atmel,at91sam9260-reset.yaml
-+++ b/Documentation/devicetree/bindings/reset/atmel,at91sam9260-reset.yaml
-@@ -67,9 +67,10 @@ additionalProperties: false
- examples:
-   - |
-     #include <dt-bindings/clock/at91.h>
-+    #include <dt-bindings/clock/atmel,at91sam9260-pmc.h>
- 
-     reset-controller@fffffd00 {
-         compatible = "atmel,at91sam9260-rstc";
-         reg = <0xfffffd00 0x10>;
--        clocks = <&pmc PMC_TYPE_CORE PMC_SLOW>;
-+        clocks = <&pmc PMC_TYPE_CORE AT91SAM9260_PMC_SLOW>;
-     };
-diff --git a/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml b/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
-index cdbbd17f80363..15f5bb51fd8a7 100644
---- a/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
-+++ b/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
-@@ -61,13 +61,14 @@ examples:
-   - |
-     #include <dt-bindings/interrupt-controller/irq.h>
-     #include <dt-bindings/clock/at91.h>
-+    #include <dt-bindings/clock/atmel,at91sam9rl-pmc.h>
-     #include <dt-bindings/gpio/gpio.h>
-     gadget@fff78000 {
-         compatible = "atmel,at91sam9g45-udc";
-         reg = <0x00600000 0x80000
-                0xfff78000 0x400>;
-         interrupts = <27 IRQ_TYPE_LEVEL_HIGH 0>;
--        clocks = <&pmc PMC_TYPE_PERIPHERAL 27>, <&pmc PMC_TYPE_CORE PMC_UTMI>;
-+        clocks = <&pmc PMC_TYPE_PERIPHERAL 27>, <&pmc PMC_TYPE_CORE AT91SAM9RL_PMC_UTMI>;
-         clock-names = "pclk", "hclk";
-         atmel,vbus-gpio = <&pioC 15 GPIO_ACTIVE_HIGH>;
-     };
-diff --git a/include/dt-bindings/clock/atmel,at91rm9200-pmc.h b/include/dt-bindings/clock/atmel,at91rm9200-pmc.h
-new file mode 100644
-index 0000000000000..35fce34e00b82
---- /dev/null
-+++ b/include/dt-bindings/clock/atmel,at91rm9200-pmc.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * at91rm9200 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91RM9200_PMC_H
-+#define _DT_BINDINGS_CLOCK_ATMEL_AT91RM9200_PMC_H
-+
-+#define AT91RM9200_PMC_SLOW	0
-+#define AT91RM9200_PMC_MCK	1
-+#define AT91RM9200_PMC_MAIN	3
-+#define AT91RM9200_PMC_PLLACK	7
-+#define AT91RM9200_PMC_PLLBCK	8
-+
-+#endif
-diff --git a/include/dt-bindings/clock/atmel,at91sam9260-pmc.h b/include/dt-bindings/clock/atmel,at91sam9260-pmc.h
-new file mode 100644
-index 0000000000000..6a5453cf70954
---- /dev/null
-+++ b/include/dt-bindings/clock/atmel,at91sam9260-pmc.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * at91sam9260 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9260_PMC_H
-+#define _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9260_PMC_H
-+
-+#define AT91SAM9260_PMC_SLOW	0
-+#define AT91SAM9260_PMC_MCK	1
-+#define AT91SAM9260_PMC_MAIN	3
-+#define AT91SAM9260_PMC_PLLACK	7
-+#define AT91SAM9260_PMC_PLLBCK	8
-+
-+#endif
-diff --git a/include/dt-bindings/clock/atmel,at91sam9g45-pmc.h b/include/dt-bindings/clock/atmel,at91sam9g45-pmc.h
-new file mode 100644
-index 0000000000000..44a804ff96fff
---- /dev/null
-+++ b/include/dt-bindings/clock/atmel,at91sam9g45-pmc.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * at91sam9g45 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9G45_PMC_H
-+#define _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9G45_PMC_H
-+
-+#define AT91SAM9G45_PMC_SLOW	0
-+#define AT91SAM9G45_PMC_MCK	1
-+#define AT91SAM9G45_PMC_UPLLCK	2
-+#define AT91SAM9G45_PMC_MAIN	3
-+#define AT91SAM9G45_PMC_PLLACK	7
-+
-+#endif
-diff --git a/include/dt-bindings/clock/atmel,at91sam9n12-pmc.h b/include/dt-bindings/clock/atmel,at91sam9n12-pmc.h
-new file mode 100644
-index 0000000000000..6eaef69242ee8
---- /dev/null
-+++ b/include/dt-bindings/clock/atmel,at91sam9n12-pmc.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * at91sam9n12 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9N12_PMC_H
-+#define _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9N12_PMC_H
-+
-+#define AT91SAM9N12_PMC_SLOW	0
-+#define AT91SAM9N12_PMC_MCK	1
-+#define AT91SAM9N12_PMC_MAIN	3
-+#define AT91SAM9N12_PMC_PLLACK	7
-+#define AT91SAM9N12_PMC_PLLBCK	8
-+
-+#endif
-diff --git a/include/dt-bindings/clock/atmel,at91sam9rl-pmc.h b/include/dt-bindings/clock/atmel,at91sam9rl-pmc.h
-new file mode 100644
-index 0000000000000..0bb195712f785
---- /dev/null
-+++ b/include/dt-bindings/clock/atmel,at91sam9rl-pmc.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * at91sam9rl clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9RL_PMC_H
-+#define _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9RL_PMC_H
-+
-+#define AT91SAM9RL_PMC_SLOW	0
-+#define AT91SAM9RL_PMC_MCK	1
-+#define AT91SAM9RL_PMC_UTMI	2
-+#define AT91SAM9RL_PMC_MAIN	3
-+#define AT91SAM9RL_PMC_PLLACK	7
-+
-+#endif
-diff --git a/include/dt-bindings/clock/atmel,at91sam9x5-pmc.h b/include/dt-bindings/clock/atmel,at91sam9x5-pmc.h
-new file mode 100644
-index 0000000000000..d095dcc9b29ff
---- /dev/null
-+++ b/include/dt-bindings/clock/atmel,at91sam9x5-pmc.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * at91sam9x5 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9X5_PMC_H
-+#define _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9X5_PMC_H
-+
-+#define AT91SAM9X5_PMC_SLOW	0
-+#define AT91SAM9X5_PMC_MCK	1
-+#define AT91SAM9X5_PMC_UPLLCK	2
-+#define AT91SAM9X5_PMC_MAIN	3
-+#define AT91SAM9X5_PMC_PLLACK	7
-+
-+#endif
-diff --git a/include/dt-bindings/clock/atmel,sama5d2-pmc.h b/include/dt-bindings/clock/atmel,sama5d2-pmc.h
-new file mode 100644
-index 0000000000000..51bb410c699e2
---- /dev/null
-+++ b/include/dt-bindings/clock/atmel,sama5d2-pmc.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * at91 sama5d2 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_ATMEL_SAMA5D2_PMC_H
-+#define _DT_BINDINGS_CLOCK_ATMEL_SAMA5D2_PMC_H
-+
-+#define SAMA5D2_PMC_MCK		1
-+#define SAMA5D2_PMC_UPLLCK	2
-+#define SAMA5D2_PMC_MAIN	3
-+#define SAMA5D2_PMC_MCK2	4
-+#define SAMA5D2_PMC_I2S0_MUX	5
-+#define SAMA5D2_PMC_I2S1_MUX	6
-+#define SAMA5D2_PMC_PLLACK	7
-+#define SAMA5D2_PMC_AUDIOPLLCK	9
-+#define SAMA5D2_PMC_AUDIOPINCK	10
-+
-+#endif
-diff --git a/include/dt-bindings/clock/atmel,sama5d3-pmc.h b/include/dt-bindings/clock/atmel,sama5d3-pmc.h
-new file mode 100644
-index 0000000000000..92210969104d6
---- /dev/null
-+++ b/include/dt-bindings/clock/atmel,sama5d3-pmc.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * at91 sama5d3 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_ATMEL_SAMA5D3_PMC_H
-+#define _DT_BINDINGS_CLOCK_ATMEL_SAMA5D3_PMC_H
-+
-+#define SAMA5D3_PMC_SLOW	0
-+#define SAMA5D3_PMC_MCK		1
-+#define SAMA5D3_PMC_UPLLCK	2
-+#define SAMA5D3_PMC_MAIN	3
-+#define SAMA5D3_PMC_PLLACK	7
-+
-+#endif
-diff --git a/include/dt-bindings/clock/atmel,sama5d4-pmc.h b/include/dt-bindings/clock/atmel,sama5d4-pmc.h
-new file mode 100644
-index 0000000000000..53870448d6a1d
---- /dev/null
-+++ b/include/dt-bindings/clock/atmel,sama5d4-pmc.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * at91 sama5d4 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_ATMEL_SAMA5D4_PMC_H
-+#define _DT_BINDINGS_CLOCK_ATMEL_SAMA5D4_PMC_H
-+
-+#define SAMA5D4_PMC_SLOW	0
-+#define SAMA5D4_PMC_MCK		1
-+#define SAMA5D4_PMC_UPLLCK	2
-+#define SAMA5D4_PMC_MAIN	3
-+#define SAMA5D4_PMC_MCK2	4
-+#define SAMA5D4_PMC_PLLACK	7
-+
-+#endif
-diff --git a/include/dt-bindings/clock/microchip,sam9x60-pmc.h b/include/dt-bindings/clock/microchip,sam9x60-pmc.h
-new file mode 100644
-index 0000000000000..050e5e774b274
---- /dev/null
-+++ b/include/dt-bindings/clock/microchip,sam9x60-pmc.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * Microchip sam9x60 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_MICROCHIP_SAM9X60_PMC_H
-+#define _DT_BINDINGS_CLOCK_MICROCHIP_SAM9X60_PMC_H
-+
-+#define SAM9X60_PMC_MCK		1
-+#define SAM9X60_PMC_UPLLCK	2
-+#define SAM9X60_PMC_MAIN	3
-+#define SAM9X60_PMC_PLLACK	7
-+
-+#endif
-diff --git a/include/dt-bindings/clock/microchip,sam9x7-pmc.h b/include/dt-bindings/clock/microchip,sam9x7-pmc.h
-new file mode 100644
-index 0000000000000..292c5873e101e
---- /dev/null
-+++ b/include/dt-bindings/clock/microchip,sam9x7-pmc.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * Microchip sam9x7 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_MICROCHIP_SAM9X7_PMC_H
-+#define _DT_BINDINGS_CLOCK_MICROCHIP_SAM9X7_PMC_H
-+
-+#define SAM9X7_PMC_MCK		1
-+#define SAM9X7_PMC_UPLLCK	2
-+#define SAM9X7_PMC_MAIN		3
-+#define SAM9X7_PMC_PLLACK	7
-+#define SAM9X7_PMC_AUDIOPMCPLL	9
-+#define SAM9X7_PMC_AUDIOIOPLL	10
-+#define SAM9X7_PMC_PLLADIV2	14
-+#define SAM9X7_PMC_LVDSPLL	15
-+
-+#endif
-diff --git a/include/dt-bindings/clock/microchip,sama7d65-pmc.h b/include/dt-bindings/clock/microchip,sama7d65-pmc.h
-new file mode 100644
-index 0000000000000..08581418b9115
---- /dev/null
-+++ b/include/dt-bindings/clock/microchip,sama7d65-pmc.h
-@@ -0,0 +1,26 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * Microchip sama7d65 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_MICROCHIP_SAMA7D65_PMC_H
-+#define _DT_BINDINGS_CLOCK_MICROCHIP_SAMA7D65_PMC_H
-+
-+#define SAMA7D65_PMC_MCK0		1
-+#define SAMA7D65_PMC_USBPLL		2
-+#define SAMA7D65_PMC_MAIN		3
-+#define SAMA7D65_PMC_CPUPLL		4
-+#define SAMA7D65_PMC_SYSPLL		5
-+#define SAMA7D65_PMC_DDRPLL		6
-+#define SAMA7D65_PMC_GPUPLL		7
-+#define SAMA7D65_PMC_BAUDPLL		8
-+#define SAMA7D65_PMC_AUDIOPMCPLL	9
-+#define SAMA7D65_PMC_AUDIOIOPLL		10
-+#define SAMA7D65_PMC_ETHPLL		11
-+#define SAMA7D65_PMC_MCK1		13
-+#define SAMA7D65_PMC_LVDSPLL		15
-+#define SAMA7D65_PMC_MCK3		16
-+#define SAMA7D65_PMC_MCK5		17
-+
-+#endif
-diff --git a/include/dt-bindings/clock/microchip,sama7g5-pmc.h b/include/dt-bindings/clock/microchip,sama7g5-pmc.h
-new file mode 100644
-index 0000000000000..27668634b0a2b
---- /dev/null
-+++ b/include/dt-bindings/clock/microchip,sama7g5-pmc.h
-@@ -0,0 +1,23 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+/*
-+ * The constants defined in this header are being used in dts and in
-+ * Microchip sama7g5 clock driver.
-+ */
-+
-+#ifndef _DT_BINDINGS_CLOCK_MICROCHIP_SAMA7G5_PMC_H
-+#define _DT_BINDINGS_CLOCK_MICROCHIP_SAMA7G5_PMC_H
-+
-+#define SAMA7G5_PMC_MCK0	1
-+#define SAMA7G5_PMC_UTMI	2
-+#define SAMA7G5_PMC_MAIN	3
-+#define SAMA7G5_PMC_CPUPLL	4
-+#define SAMA7G5_PMC_SYSPLL	5
-+#define SAMA7G5_PMC_DDRPLL	6
-+#define SAMA7G5_PMC_IMGPLL	7
-+#define SAMA7G5_PMC_BAUDPLL	8
-+#define SAMA7G5_PMC_AUDIOPMCPLL	9
-+#define SAMA7G5_PMC_AUDIOIOPLL	10
-+#define SAMA7G5_PMC_ETHPLL	11
-+#define SAMA7G5_PMC_MCK1	13
-+
-+#endif
--- 
-2.47.3
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
