@@ -1,165 +1,127 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793878836;
-	b=C7kBDvEN5x9gLQNrF6AFL89VY4PDwMMlgz6sHLIOHzfm/5X1j5mPM+fHArYm3Dbcp3ie
-	 XSzgX4snYFmGMMolGA77zdCBNgtK/fIXDKtdYL2dw0fDhuBpA/hOudItTfI+eVUej67GI
-	 pIxZ/R/1z3ljHfGiEcTNmtJM40AbpmfVZoe89znoXas0XkWHR/PMAbURMJcI0rDZZwFEL
-	 dcY9L8nAC+YPAQDzuEukfSgMZNPdkgpzJZJbM9gnMpCr3vrBEQvVsZhA3m0HxFU1kFT2E
-	 PpDIBg7hME8vdSgBfrWSk5KGdf6KtmoIDt1AYYxZpuLE2zqGr1TMfKM8FxhYzs4PjZQ==
+	t=1793878887;
+	b=LjjJrj8265QV8imSZMpLBoTXDJ2FVbWTRlx6S1Pw6OdWuzUuKzT8k2KxRRH/S6Ngi1mZ
+	 TPkpDSG/zOdOZdSFacUpXap4yDJEnkKgrHY1VuYFG2eS7uEVAkSJUHRLr5kAlvmfH4rm7
+	 omB9y/Rk4J6JR+R+pWL+UKU2znPU+ymQhSGHEjDPHaIzfqlH/6SUhWq2tYc8O7NfXiSdM
+	 WtGxkUYgaz8CZEub/39EKxzA6XPWn8gBR1zy7U7J1kXMoXbckckWWevDbn9a4cGX/Dgpf
+	 1yKM1sXcVZngzDwHjP2XPkk5yC8tfXi7B04Z2JdWPn9Xc6KlrrdD3ZxnTKiijkIoAxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793878836;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=zyIV87KvFE0knJG+E8ltk8/vfmvsVvYdTTr3ey3DQco=;
-	b=zkb4tA+Ci+BjW7oJc8Cjfu2WMWp7+pmcf1wqbCu1Bj6l+7jHU38qJwBVbjPcU5xR0G0n
-	 AVPftD2HA8oYLzHXPGsAeaatXkOUUR7Bth5WB8lzJLy/0lG1Un9OxWWFXlFbnGkK6MzMY
-	 5tdfOpwTbT1x2BHQIVSVXbqUVjuUghrgoIqKk41AD5DbE7mZvBzlLmY0kHkfCiE1qq/Z6
-	 LKTlwcCDsou7ZE12r2RJn0w3V0kc0kRTAWewU5DhAsMggK7RcMjbZSVviMyz7Sz8IzHrv
-	 4p9EHOi1vjQTXthJZ1ahqSH6dK1nXCzpyL4q4fv1vB44MjToiO4SaQMV9kfY5FMOMpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793878887;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=lCeU7WqtPlFL0u28tAWE4TptrCsWoJqXXac/H5Y8UUQ=;
+	b=dtr8vQSGAhO2+phFSjmLjvvv9ELYzzDtS0aNdmEji+5q/q/bdqDo3HKvS4CllIaMP2yD
+	 Dn4yHrk1Ck+9czKcKEkD8sWfZlBb/PuZJAuweTO8mgrfI/xsYg78+LGKUNhDp1S0P/eKK
+	 wXvKjxff3UpVTyPt0T/Sr8vwSN63sX6S1rtKJTCJdHunuA8v6Wec6FSymTECr3y3Goawd
+	 K7gwKl1myFUekCoBBjbNdS5rHcgT6p5AHNqCFJDyVKf/dm7YxMNXWaO468WXzOgTSwh/U
+	 Uiu33TgczNUo220+gX0BYddUdCYNBK2jWbjmDOxzsrEvEZ8EIosF/BtspwLkhTxTd4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="bIkf/cAU";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sVeVtJRH;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vuwkzsBE;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sVeVtJRH;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vuwkzsBE;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F59E606A326;
-	Thu,  5 Nov 2026 11:40:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA20606A329;
+	Thu,  5 Nov 2026 11:41:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DEA20606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bIkf/cAU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CA1E1F00A16;
-	Thu,  5 Nov 2026 11:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793878835;
-	bh=zyIV87KvFE0knJG+E8ltk8/vfmvsVvYdTTr3ey3DQco=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=bIkf/cAUayJAST5nxBaDm2r1gDLZk464lMw4yx34u5Ky9D6OvUVzHp+wKK1AOefOm
-	 r+kjYHBphMf2uvUL98WgB4Hjtnh8K1yZNSuvrWrFomeLu6ODVYt3zRihR8D2zzIsZ3
-	 btH7balNkjt0D4YAZ7OXuZdZNtagQcAh5ETZREuD8w2gSo2t5NNv4iO1doqusXmt0G
-	 juOlg0eYNfvWNEwRoJTozaxT6R/Qc7ZaNeekdRcePShhJ776LtBu8i33C/2ALD2cAa
-	 K/bcKWB8ua/vNDzPTLpS1vyW817JgGZl/tSxFF6qrRjVzHdozN88JDmzcAO4sbSI3H
-	 v6zAfJyRSPMzg==
-From: Philipp Stanner <phasta@kernel.org>
-To: Min Ma <mamin506@gmail.com>,
-	Lizhi Hou <lizhi.hou@amd.com>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Tomeu Vizoso <tomeu@tomeuvizoso.net>,
-	Karol Wachowski <karol.wachowski@linux.intel.com>,
-	Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Felix Kuehling <Felix.Kuehling@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Russell King <linux+etnaviv@armlinux.org.uk>,
-	Christian Gmeiner <christian.gmeiner@gmail.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Alessio Belle <alessio.belle@imgtec.com>,
-	Luigi Santivetti <luigi.santivetti@imgtec.com>,
-	Qiang Yu <yuq825@gmail.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Lyude Paul <lyude@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Steven Price <steven.price@arm.com>,
-	=?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Dave Airlie <airlied@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Natalie Vock <nat@pixelcluster.dev>,
-	Arun Pravin <arunpravin.paneerselvam@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Melissa Wen <mwen@igalia.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Neill Kapron <nkapron@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Sunil Khatri <sunil.khatri@amd.com>,
-	Prike Liang <Prike.Liang@amd.com>,
-	Vitaly Prosyak <vitaly.prosyak@amd.com>,
-	Jesse Zhang <Jesse.Zhang@amd.com>,
-	=?UTF-8?q?Timur=20Krist=C3=B3f?= <timur.kristof@gmail.com>,
-	Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
-	David Rosca <david.rosca@amd.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Krzysztof Karas <krzysztof.karas@intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
-	Shixiong Ou <oushixiong@kylinos.cn>,
-	=?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Michael Bommarito <michael.bommarito@gmail.com>,
-	Sam Day <me@samcday.com>,
-	Gabriel Prostitis <prostitisgabriel@gmail.com>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	etnaviv@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	imagination@lists.freedesktop.org,
-	lima@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	virtualization@lists.linux.dev,
-	spice-devel@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	linux-tegra@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	rust-for-linux@vger.kernel.or
-Subject: [PATCH 3/3] dma-buf: dma-fence: Remove dma_fence_init64()
-Date: Thu,  5 Nov 2026 12:35:30 +0100
-Message-ID: <20261105113529.1989375-5-phasta@kernel.org>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261105113529.1989375-2-phasta@kernel.org>
-References: <20261105113529.1989375-2-phasta@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sVeVtJRH;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vuwkzsBE;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sVeVtJRH;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vuwkzsBE
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1E66A21EFE;
+	Thu,  5 Nov 2026 11:41:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793878885; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lCeU7WqtPlFL0u28tAWE4TptrCsWoJqXXac/H5Y8UUQ=;
+	b=sVeVtJRHmCez1LTgkgxlC7ymMIoqBUxHEcpbPuiTw+LbDT4oPlHADz2Nup5Y4XkVnbVoDk
+	it5vmGnaVZfno1DYDqX11TE+/cZqz+5DBii4SNDMZd47SSrwV/j/qOrqaptU0Cbv8IOz2R
+	SNKUKTm79wLZzIjQ8Z0k9Nr+vLNViV0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793878885;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lCeU7WqtPlFL0u28tAWE4TptrCsWoJqXXac/H5Y8UUQ=;
+	b=vuwkzsBEcCG36qlub78Ir05oWJttjLgL1QqDCsASqboi7pG0u6LKGZy4KCtzu9Qqsj7mam
+	/axyOJZeWj8zunDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793878885; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lCeU7WqtPlFL0u28tAWE4TptrCsWoJqXXac/H5Y8UUQ=;
+	b=sVeVtJRHmCez1LTgkgxlC7ymMIoqBUxHEcpbPuiTw+LbDT4oPlHADz2Nup5Y4XkVnbVoDk
+	it5vmGnaVZfno1DYDqX11TE+/cZqz+5DBii4SNDMZd47SSrwV/j/qOrqaptU0Cbv8IOz2R
+	SNKUKTm79wLZzIjQ8Z0k9Nr+vLNViV0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793878885;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lCeU7WqtPlFL0u28tAWE4TptrCsWoJqXXac/H5Y8UUQ=;
+	b=vuwkzsBEcCG36qlub78Ir05oWJttjLgL1QqDCsASqboi7pG0u6LKGZy4KCtzu9Qqsj7mam
+	/axyOJZeWj8zunDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF13B134F6;
+	Thu,  5 Nov 2026 11:41:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +avfL2Rr7Go4dQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 11:41:24 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 60CBBB6BA; Thu, 05 Nov 2026 12:41:20 +0100 (CET)
+Date: Thu, 5 Nov 2026 12:41:20 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 16/38] proc: don't walk through a non-directory when
+ resolving a name
+Message-ID: <xhnd2xzehnh35nmgphm2euuyulbwoz2fbxf7zmfn3hvdbcualr@ltehycoskzll>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+ <20261102-work-procfs-bugfixes-v1-16-59422ed3e465@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -169,70 +131,104 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-16-59422ed3e465@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[60];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -11.30
 
-All users of dma_fence_init64() have been removed. They now use the
-respective initialization flag in dma_fence_init().
+On Mon 02-11-26 15:21:31, Christian Brauner wrote:
+> __xlate_proc_name() walks the components of a name like "a/b/c" and
+> takes whatever it finds for "a" and "b" as the directory to go on in.
+> It never checks that they actually are directories. So
+> proc_create("file/x") hangs x into the subdir tree of the regular file
+> "file". Nobody can look x up there, but remove_proc_subtree() on the
+> file removes and frees x along with it, behind the back of whoever
+> registered x.
+> 
+> pktgen passes the name the writer of "add_device" picks to
+> proc_create_data(), and only the part in front of the '@' has to name
+> a network device:
+> 
+>   echo "add_device lo@"   > /proc/net/pktgen/kpktgend_0
+>   echo "add_device lo@/x" > /proc/net/pktgen/kpktgend_1
+>   echo "rem_device_all"   > /proc/net/pktgen/kpktgend_0
+>   echo "rem_device_all"   > /proc/net/pktgen/kpktgend_1
+> 
+> The third write frees both entries and the fourth one makes kpktgend_1
+> call proc_remove() on the freed second one:
+> 
+>   BUG: KASAN: slab-use-after-free in proc_remove+0x8f/0xa0
+>   Read of size 8 at addr ff110001134c8e70 by task kpktgend_1/243
+>   Call Trace:
+>    proc_remove+0x8f/0xa0
+>    pktgen_remove_device.isra.0+0x118/0x500
+>    pktgen_rem_all_ifs+0xeb/0x1a0
+>    pktgen_thread_worker+0x1b42/0x7280
+> 
+> The files of a network namespace belong to the root of its user
+> namespace and these writes don't require a capability. So once pktgen
+> is loaded an unprivileged user can do this in namespaces of its own.
+> 
+> Treat a component that isn't a directory like one that doesn't exist.
+> All names with a '/' that the tree passes in as literals only walk
+> through directories. pktgen is fixed separately to not pass such names
+> in the first place.
+> 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Remove dma_fence_init64().
+Looks good. Feel free to add:
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- drivers/dma-buf/dma-fence.c | 27 ---------------------------
- include/linux/dma-fence.h   |  2 --
- 2 files changed, 29 deletions(-)
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index a511cf755ee8..da784fd7bdae 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -1138,33 +1138,6 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
- }
- EXPORT_SYMBOL(dma_fence_init);
- 
--/**
-- * dma_fence_init64 - Initialize a custom fence with 64-bit seqno support.
-- * @fence: the fence to initialize
-- * @ops: the dma_fence_ops for operations on this fence
-- * @lock: optional irqsafe spinlock to use for locking this fence
-- * @context: the execution context this fence is run on
-- * @seqno: a linear increasing sequence number for this context
-- *
-- * Initializes an allocated fence, the caller doesn't have to keep its
-- * refcount after committing with this fence, but it will need to hold a
-- * refcount again if &dma_fence_ops.enable_signaling gets called.
-- *
-- * Context and seqno are used for easy comparison between fences, allowing
-- * to check which fence is later by simply using dma_fence_later().
-- *
-- * New users MUST NOT use external locks. Check the documentation in
-- * dma_fence_init() to understand the motives behind the legacy use cases.
-- */
--void
--dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
--		 spinlock_t *lock, u64 context, u64 seqno)
--{
--	__dma_fence_init(fence, ops, lock, context, seqno,
--			 BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
--}
--EXPORT_SYMBOL(dma_fence_init64);
--
- /**
-  * dma_fence_driver_name - Access the driver name
-  * @fence: the fence to query
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 6f5c245d89ec..56c4e5beaafe 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -288,8 +288,6 @@ struct dma_fence_ops {
- void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
- 		    spinlock_t *lock, u64 context, u64 seqno,
- 		    unsigned long flags);
--void dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
--		      spinlock_t *lock, u64 context, u64 seqno);
- void dma_fence_release(struct kref *kref);
- void dma_fence_free(struct dma_fence *fence);
- void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
+								Honza
+
+> ---
+>  fs/proc/generic.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/proc/generic.c b/fs/proc/generic.c
+> index 2b1971da4a85..c560c96a64eb 100644
+> --- a/fs/proc/generic.c
+> +++ b/fs/proc/generic.c
+> @@ -170,7 +170,7 @@ static int __xlate_proc_name(const char *name, struct proc_dir_entry **ret,
+>  	de = *ret ?: &proc_root;
+>  	while ((next = strchr(cp, '/')) != NULL) {
+>  		de = pde_subdir_find(de, cp, next - cp);
+> -		if (!de) {
+> +		if (!de || !S_ISDIR(de->mode)) {
+>  			WARN(1, "name '%s'\n", name);
+>  			return -ENOENT;
+>  		}
+> 
+> -- 
+> 2.53.0
+> 
 -- 
-2.56.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
