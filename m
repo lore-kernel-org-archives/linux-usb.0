@@ -1,58 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.172
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793986355;
-	b=emgFURbPLjJtVm6y6R6oJVKa6FOEDfJ/HWZe+rFGFZfPTTysmH509xNkBy78/yeftCyV
-	 Qkv2tzfKFBISGaAMIui+Xr5qXZj3N+lgnn12KDrfl4PZce3Re7CWCFwXapcM3bGkEpHbC
-	 pUKTvxaKi2hOoWT1kGB1Q0dLCV6lSewJKhyoYQZNW4Y6porRXWYxYI6pX7uWdBKC2ZOY7
-	 rqS8OOynCmUTE3mIKwlmQtSXAn6O67wCCMYGr4c79rPClVOpjxNqLVSx1FKyxkr5uEY3m
-	 eGc4hdDoHeYndtMLpW1PfborngcLZSxxN8VC9upQ866sk1jGIuOBf5DGj9Ye76nxk1w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793986355;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type:X-MBO-RS-META:X-MBO-RS-ID;
-	bh=Lh4YP8lWADeMBED/q61/UBMKl+zBA3dG6sO7ypHbuMw=;
-	b=RTlRFe4bZccE3QB/SevfNdzJIkg4kz/WL6C3sNEE0h1ukhQDZtNxvZrFFEq3HkaLphKM
-	 zRzvjXQHvaFceYvcLqCPsD+Lly/SOdF37IRWJT4MkoDQ37BhmnKKC4qwuqPJY+zpn792T
-	 RGqehPx2L6/G6FrC3wDd9zGrxkhVwtplUJ2o9WXQmSuYUNIoRihjyyThOtT5BLcKa5OQ6
-	 8sIPmzpIjSLvvdSwSdVcVCSOO6cqi2wEbM/+3+AIXxE4a6DcfD3DR9Jb8ZuyCbGgr0i/F
-	 GgsYUQrRScSbx2juVauHnWwuAlnVW+iTsyXclcdNf73B4sQb/d/lcLk+2LV5+yUUdKQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b="LgcIaT/n";
-	arc=none smtp.remote-ip=80.241.56.172
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.12
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793986723;
+	b=oCYuYoV5500E/3O0bxUatmhfOdEcxL0l5BXg3mPJILDyrUPMJdC6r1P15JU72sLxPtKg
+	 pQMr2NBwUwhuuj2kI94a9mPHWZWWNm5qJOO3Cz2sJXwwqUjBuzYjHjFhto+Dw9BH1iikG
+	 oBVxD+82qXcBe+cekUixATxpv38xjre3ePoW0gbihd2iCOJVD/yaNGfl2ldTRjkX0DDyt
+	 IrK1FdD5ROqazMhPc00uS6/eHegQHA3+TqIQqW/WV7eydspPyQoX1sGCITaidlpU0RcwM
+	 FUHn4yqpI4hBS+M9fkXcrKGjSzdHXKIYkVTGVcVlEaUefFhRYPXIjLa9thO4pRIrFyA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793986723;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:From:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:CC:X-Mailer:
+	 X-Originating-IP:X-ClientProxiedBy:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=sauk2jgncTFUlQw9lWyHPoUUw7UB2Y95wGIvyKCeTOw=;
+	b=siFYlX6uCYD/2R5Kyb6aSgtXqOgNYR+/VGqIz0ggVa3rf7baWr6kk2Ae6sMrvgt21DwI
+	 Rf/LuSr4TIDhyUd0RmJRB7igIL2YUHaxW6o8wEuTIkBoEe358rq7VEt/FKA0NNG9TEq5+
+	 DIsG/xXux/N6wxns16FL1293HPGhbQ/Bfhxp0daMExDSDeL5tfQyFChaL5c3lhv9WKk0m
+	 L+Tm3EF6yBPfupCHDCRd+h9g7n/3WXZ4bc1GGflZdKUt80cHsQA189Rp/URF8y2N9AxvR
+	 gzluWq7cqNbvtfC2ozUQ6xbgezSIIF01MRgq4w34NOAFM7F3Qknx4kcDlxdtV9oJidA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=foss.st.com;
+	spf=pass smtp.mailfrom=foss.st.com;
+	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=iTJXd1k1;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.12
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013012.outbound.protection.outlook.com [40.107.162.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6779A606A32C
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 17:32:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6779A606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB62606A326;
+	Fri,  6 Nov 2026 17:38:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AB62606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=LgcIaT/n
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4jLmTV4nNXzMlf9;
-	Fri, 06 Nov 2026 18:32:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1793986350;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=Lh4YP8lWADeMBED/q61/UBMKl+zBA3dG6sO7ypHbuMw=;
-	b=LgcIaT/nniA368rcJXSra9hPWOLI+45XBSdI82CiqtPc5MuOc7clfCVqdlo1ZjD1CRCVCe
-	Hi1JAdnAjn7n0CfeDE/nav39hm6BfdffC3x2ZaQtMYxEjNjyq1tLFF6Uu5BxttdW4asOFN
-	rtabW2ps75L8COHdu8HiNQOju2udPK1lz9HL2bGnMtzGrYTVj4i5C+Qs4enfL1syE5nXwI
-	pzM2F0YloelNldChlsaGU9l5oBR/7aaywWnt03jldtxCNv3+4EKnN4lEO0HFUav9svCWBx
-	ir8CMYypc45D7cab3w0NawleD65/8VxpJgeqi+mEAiD1IluAWYuvzTmJjLdf4A==
-From: Martin Seidel <mseidel@mailbox.org>
-To: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, oneukum@suse.com
-Subject: Subject: usb-storage: SP MS60 (13fe:6500) needs US_FL_IGNORE_UAS
-Date: Fri, 06 Nov 2026 18:32:28 +0100
-Message-ID: <Awi1hYscTjW0LIJAzTtqDw@mailbox.org>
+	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=iTJXd1k1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FP0MoWiSC7hoofLZr22k3LyD7t9AI6U6ACKOkpREILAB78zOwdcOckXOegJ9WcHHGIs45ZqTfRcSHbdQZuOwhAs8XlLhkDaWc3T+kel2GE/zyykY1b4fvDdANtH5KdEG83pZLxH0x+IJn/q/FCso/mCOxiO7b7K6ErNNKF2hc78qcHBjNFcvCOL26LcVOMbpWZokCNeknkAjDxumKGURguaX9q3P8UpOYaS3mD93eWcKYRBLYyE3oa3CHs5DVqlmVscjMl868Py+yrhqEdsBnsUZoy4F6g20MWCRfk0cZd8B7IUy734S/nS+Tgs0g2mmOJnwvlQya1AyErK4wF8DTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sauk2jgncTFUlQw9lWyHPoUUw7UB2Y95wGIvyKCeTOw=;
+ b=EqMXepWFiYAqV+MQVR0qrXNj0yCTvLPNGHkZ48nKGs8SllMfw7++vQmTrznmv45LjfEb7gOZhu8OPLwsJv0fuNDH6ds7U4Bm0R4OcHfWiJB3B+DloAvlGguz5D7z1yfSt/USAQiDxpRsO9CuYsOhrEX5GF6chMNr5kaV/xtF8pbbLdpb3RrDXC3hEwfUtdzEky+wP1salduM/Dk4giQJrPgFehqMyhqK96Fl3s0j1fXVpCendpxTXH+3ZTOLxXsCLOO6ntoEawd6gy1XqxQ1Ty+H3kDvekPaYRiZP7ezyPSrwUyK/HiCaKqFZpDnKh9RYyvDw+PG8lkHc9kF7hgJuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.59) smtp.rcpttodomain=synopsys.com smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sauk2jgncTFUlQw9lWyHPoUUw7UB2Y95wGIvyKCeTOw=;
+ b=iTJXd1k1ptPtGOvma82H+u01+H24/euAspECThQ/3RDQTc2nu7+eIhxQox2HmUJOhCsN0S3xQm2zRpfPCcvo3daze1lpe+RkKVYG4XBX2CLQ4RfEvKM2Y/LFVwX3dh0fm6h6UTL/CdwE64c/P06WynsAOIAdv0WsFgsMqOQPZNfXYp9fYF6un3rpRYxTNiKe/THVAvb17kzB2ufwV7P1dabpVoo1CIYphS870yUu5XcZO5NIxuNLWE06Pr9bmx2lhBPl+dTk9YCub6gRHcuWrBrWdZRLTarmDnIDUXYxOi+hdYdUB93u1uGIjwAu4fE898VyhFfjYaY132EaeB4E+A==
+Received: from DU6P191CA0011.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:540::25)
+ by AM0PR10MB3699.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:15f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.5; Fri, 6 Nov 2026
+ 17:38:38 +0000
+Received: from DB1PEPF000509E8.eurprd03.prod.outlook.com
+ (2603:10a6:10:540:cafe::90) by DU6P191CA0011.outlook.office365.com
+ (2603:10a6:10:540::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.11 via Frontend Transport; Fri, 6
+ Nov 2026 17:38:38 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
+ is 164.130.1.59) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.59; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.59) by
+ DB1PEPF000509E8.mail.protection.outlook.com (10.167.242.58) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.615.4 via Frontend Transport; Fri, 6 Nov 2026 17:38:37 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
+ (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Fri, 6 Nov
+ 2026 18:39:04 +0100
+Received: from localhost (10.48.86.251) by STKDAG1NODE2.st.com (10.75.128.133)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Fri, 6 Nov
+ 2026 18:38:34 +0100
+From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Subject: [PATCH v3 0/6] usb: dwc2: fix low power issues found on stm32mp1
+Date: Fri, 6 Nov 2026 18:38:20 +0100
+Message-ID: <20261106-dwc2-low-power-fixes-stm32-v3-0-68d2a0e9bab6@foss.st.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,253 +105,101 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart0FsE1oOXTWCfaeie7Cg0WQ";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-X-MBO-RS-META: nojxeag7hroyms3zdg9zxw1c7rb7f6mr
-X-MBO-RS-ID: bf9f09f72eeafa74098
-
---nextPart0FsE1oOXTWCfaeie7Cg0WQ
-Content-Type: multipart/mixed; boundary="nextPart1YwLOdJMSQK4skt5y5KrLA";
- protected-headers="v1"
-Content-Transfer-Encoding: 7Bit
-From: Martin Seidel <mseidel@mailbox.org>
-Subject: Subject: usb-storage: SP MS60 (13fe:6500) needs US_FL_IGNORE_UAS
-Date: Fri, 06 Nov 2026 18:32:28 +0100
-Message-ID: <Awi1hYscTjW0LIJAzTtqDw@mailbox.org>
-MIME-Version: 1.0
-
-This is a multi-part message in MIME format.
-
---nextPart1YwLOdJMSQK4skt5y5KrLA
-Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIwQ7moC/32Oyw6CMBBFf4V07ZA+pKAr/8O4gDJIjVDSQdAQ/
+ t2CMdENy5u595yZGKG3SOwYTczjYMm6NgS1i5ip8/aKYMuQmeRSC85TKEcj4e5G6NyIHir7RAL
+ qGyWBG4EJ6qyQiWQB0Hlcz2F/vnwyPYobmn4hLo3aUu/8a7UPYul9RdmWaBDAISkUV2WVaon6V
+ DmimPrYuIYtqkH+wITahIXHIT1kOsn3lSi0+ofN8/wGiH0tkyUBAAA=
+X-Change-ID: 20261007-dwc2-low-power-fixes-stm32-0c1e5e68b252
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Douglas Anderson <dianders@chromium.org>,
+	Stefan Wahren <wahrenst@gmx.net>, Artur Petrosyan
+	<Arthur.Petrosyan@synopsys.com>, Amelie Delaunay
+	<amelie.delaunay@foss.st.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Jisheng Zhang <jszhang@kernel.org>, Felipe Balbi <balbi@kernel.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, <stable@vger.kernel.org>
+X-Mailer: b4 0.16.0
+X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509E8:EE_|AM0PR10MB3699:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd1a8c04-a11a-4051-bb3a-08df3c2cc9ce
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|36860700016|7416014|376014|1800799024|82310400026|56012099006|11063799006|261026140227099003|261021123027099003|261021121427099003|261009223027099003|261022075727099003|261102124527099003|261102123227099003|261022105027099003|261026121527099003|261028144727099003|10067099003|18002099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	agVI7aRnPxjqZ08havFyQ3vCyBrTcfouNJ9kRtml3nQg7WEINbp7wbND+DInIaYQRxt6aqBt0nSQ7KezVtXzyKZNiDmHUXAqmhfxYPeGj1Dvkt6X+IViEQWPAyIz5TymP2MSMXRQA1SdzhRe5MZTE8w/cWirUbMxS3KO8w9hjuYN3bGQH1/emfc6IDvW4S1fymI+ptywUzcjGkWzsryG4JYLq9gPeL5vPYj2BdjoWfHTapcfUEtqnD8SeRvDEtUEllb6nCGimnoHj9v0gss4JcS50o4fpUBI6vuUMclpmAu0h3wmJJVYlrrXwXBgpL4CHfXeNzkasstSnhdds38RcwZSYAsEq9Y6uRkgOQ8WWJ1W+oNISHxtv/SQHKBxMucWcDWpDjyLC+bvPdKsbCAQHbjvpr1+Xj2z7ij37U2m8lfCZJ5vN4mn+YdWuoVP7oG+J1CSYnsFsS352Ico4dMYQDhNeqQvqnBMHraTfRDTVxyEDK8qZeWo2K5swShAWxBcThmFTdqmBzTsHEwKhGytm2B8lQ31utMEH4nCUP6QPMG+jvX0syNmxmLW7mmc8dvLauJhLvX36T1qKlj1x7HrCiOf0awHDSgMm3fsDdSp/vlZoBE41C7BZezQpnDz4a6/NMGYFxPhGzwai+yF3j6ORg==
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(7416014)(376014)(1800799024)(82310400026)(56012099006)(11063799006)(261026140227099003)(261021123027099003)(261021121427099003)(261009223027099003)(261022075727099003)(261102124527099003)(261102123227099003)(261022105027099003)(261026121527099003)(261028144727099003)(10067099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	sFmKoIFXmjuEokZjgkEFF0Vq1BA2ciCcIpdilh7Kq8VZ8bWL5hCkiwKIOlb3Z3zzKG88jF11xsy9ayytrCJBpDoMSesfLS8SZ+SOQyghcxVE/C+9hAzjRiU7UCrrlqO1X2LEm54JM9dtOqt0e81/6LH7+tRmrDAT52jGbRCGxgDO8PRQibkU2Et5SJrzczq58JO2QHP9nDx7+WHwgyq0bKrgd7iUeEvyJQ2Nq+qeE6DuxVXq9uBcZjJYxv+Hj70jqlGnHuCsmwmooUizfowFbzKN0k1srmZXJo93RVtBHF9KHTIyXUWpuv3ansVS9wypLcrrY2SYVf5YLQ0pZK234IPKDqQaBduBolBl2WzmyTh8czyLteC62HSNyY8VNtG6tKYM5bvs+9DMZexoNxK8f9CPTQDufSay6wvk37MNX6HA4vOXSIuYkBlvBie7SCFt
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 17:38:37.0708
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd1a8c04-a11a-4051-bb3a-08df3c2cc9ce
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB1PEPF000509E8.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3699
 
-Hello,
+This series addresses several hang, bad_irq or re-initialisation issues
+found on stm32mp1 when going to system low power (stop mode):
+- First three fixes can be reproduced on stm32mp13 DK board, stm32mp15 DK
+  and EVAL boards.
+- Subsequent fixes can be reproduced on stm32mp15 EVAL board that uses
+  an external Vbus regulator and stm32 dedicated detection logic.
 
-the USB SSD "SP MS60" (Silicon Power, 250 GB, idVendor=13fe, idProduct=6500, 
-bcdDevice=1.10) does not work with the uas driver on my system. The partitions 
-are detected, but reads time out and the device is reset, so the drive cannot 
-be mounted. With the uas driver disabled for this device (usb-
-storage.quirks=13fe:6500:u) it works fine.
+Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+---
+Changes in v3:
+- Update since Sashiko comments
+- Add a paramter (need_restore) to gadget resume function based on
+  canary detection to avoir possible race on lx_state as raised by
+  Sashiko
+- Add a dwc2_vbus_supply_restore() to check regulator enable state
+  during hcd resume, to enforce it gets restored along with PWR bit
+  if it has been turned off earlier.
+- Introduced a new patch for a possible race in hcd resume, with
+  HCD_FLAG_HW_ACCESSIBLE not being set, but host interrupts are active.
+- Refactor stm32 vb/id detection, to rool back in case of regulator
+  disable fails.
+- Link to v2: https://patch.msgid.link/20261013-dwc2-low-power-fixes-stm32-v2-0-79865a4f1b63@foss.st.com
 
-Kernel: 7.2.12+deb14-amd64
-Distribution: Debian
+Changes in v2:
+- Several fixes or commit messages updates since Sashiko review (see
+  changelog in each patch).
+- Add Thinh instead of Minas to the recipients
+- Link to v1: https://patch.msgid.link/20261008-dwc2-low-power-fixes-stm32-v1-0-5b303df762e6@foss.st.com
 
-dmesg excerpt:
+---
+Fabrice Gasnier (6):
+      usb: dwc2: fix recovery after PM domain off
+      usb: dwc2: fix a possible interrupt storm in hcd resume
+      usb: dwc2: fix a possible interrupt storm on stm32mp1
+      usb: dwc2: hcd: fix possible successive vbus supply enables
+      usb: dwc2: hcd: don't disable/enable external vbus by system suspend/resume
+      usb: dwc2: platform: fix stm32mp15 detection logic power management
 
-usb 4-1.1: New USB device found, idVendor=13fe, idProduct=6500, bcdDevice= 
-1.10
-usb 4-1.1: Product: MS60
-usb 4-1.1: Manufacturer: SP
-scsi host1: uas
-sd 1:0:0:0: [sdb] tag#8 data cmplt err -75 uas-tag 1 inflight: CMD
-sd 1:0:0:0: [sdb] tag#15 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD IN
-sd 1:0:0:0: [sdb] tag#15 CDB: Read(10) 28 00 00 00 08 00 00 00 20 00
-scsi host1: uas_eh_host_reset_handler start
-usb 4-1.1: reset SuperSpeed USB device number 4 using xhci_hcd
-sd 1:0:0:0: [sdb] tag#15 FAILED Result: hostbyte=DID_ERROR 
-driverbyte=DRIVER_OK cmd_age=54s
-I/O error, dev sdb, sector 2048 op 0x0:(READ)
+ drivers/usb/dwc2/core.c      |   1 -
+ drivers/usb/dwc2/core.h      |   6 +-
+ drivers/usb/dwc2/core_intr.c |   9 +-
+ drivers/usb/dwc2/gadget.c    |   4 +-
+ drivers/usb/dwc2/hcd.c       |  36 +++++--
+ drivers/usb/dwc2/platform.c  | 240 +++++++++++++++++++++++--------------------
+ 6 files changed, 165 insertions(+), 131 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261007-dwc2-low-power-fixes-stm32-0c1e5e68b252
 
-I attach the output of lsusb -v for the device.
-
-Could this device please be added to drivers/usb/storage/unusual_uas.h with 
-US_FL_IGNORE_UAS? A suggested entry:
-
-UNUSUAL_DEV(0x13fe, 0x6500, 0x0000, 0x9999,
-		"SP",
-		"MS60",
-		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-		US_FL_IGNORE_UAS),
-
-If this device is already handled in a current kernel, please ignore this 
-mail.
-
-Thanks and regards,
-Martin Seidel
---nextPart1YwLOdJMSQK4skt5y5KrLA
-Content-Disposition: attachment; filename="lsusb.txt"
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"; name="lsusb.txt"
-
-Bus 004 Device 005: ID 13fe:6500 Phison Electronics Corp. MS60
-Negotiated speed: SuperSpeed (5Gbps)
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               3.20
-  bDeviceClass            0 [unknown]
-  bDeviceSubClass         0 [unknown]
-  bDeviceProtocol         0 
-  bMaxPacketSize0         9
-  idVendor           0x13fe Phison Electronics Corp.
-  idProduct          0x6500 MS60
-  bcdDevice            1.10
-  iManufacturer           1 SP
-  iProduct                2 MS60
-  iSerial                 3 07083CD58AADBA20
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x0079
-    bNumInterfaces          1
-    bConfigurationValue     1
-    iConfiguration          0 
-    bmAttributes         0x80
-      (Bus Powered)
-    MaxPower              896mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           2
-      bInterfaceClass         8 Mass Storage
-      bInterfaceSubClass      6 SCSI
-      bInterfaceProtocol     80 Bulk-Only
-      iInterface              0 
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               7
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               7
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       1
-      bNumEndpoints           4
-      bInterfaceClass         8 Mass Storage
-      bInterfaceSubClass      6 SCSI
-      bInterfaceProtocol     98 USB Attached SCSI
-      iInterface              0 
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               7
-        MaxStreams             32
-        Data-in pipe (0x03)
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               7
-        MaxStreams             32
-        Data-out pipe (0x04)
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x83  EP 3 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               0
-        MaxStreams             32
-        Status pipe (0x02)
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x04  EP 4 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst              15
-        Command pipe (0x01)
-Binary Object Store Descriptor:
-  bLength                 5
-  bDescriptorType        15
-  wTotalLength       0x002a
-  bNumDeviceCaps          3
-  USB 2.0 Extension Device Capability:
-    bLength                 7
-    bDescriptorType        16
-    bDevCapabilityType      2
-    bmAttributes   0x00000006
-      BESL Link Power Management (LPM) Supported
-  SuperSpeed USB Device Capability:
-    bLength                10
-    bDescriptorType        16
-    bDevCapabilityType      3
-    bmAttributes         0x00
-    wSpeedsSupported   0x000e
-      Device can operate at Full Speed (12Mbps)
-      Device can operate at High Speed (480Mbps)
-      Device can operate at SuperSpeed (5Gbps)
-    bFunctionalitySupport   2
-      Lowest fully-functional device speed is High Speed (480Mbps)
-    bU1DevExitLat          10 micro seconds
-    bU2DevExitLat        2047 micro seconds
-  SuperSpeedPlus USB Device Capability:
-    bLength                20
-    bDescriptorType        16
-    bDevCapabilityType     10
-    bmAttributes         0x00000001
-      Sublink Speed Attribute count 2
-      Sublink Speed ID count 1
-    wFunctionalitySupport   0x1100
-      Min functional Speed Attribute ID: 0
-      Min functional RX lanes: 1
-      Min functional TX lanes: 1
-    bmSublinkSpeedAttr[0]   0x000a4030
-      Speed Attribute ID: 0 10Gb/s Symmetric RX SuperSpeedPlus
-    bmSublinkSpeedAttr[1]   0x000a40b0
-      Speed Attribute ID: 0 10Gb/s Symmetric TX SuperSpeedPlus
-Device Status:     0x0000
-  (Bus Powered)
-
---nextPart1YwLOdJMSQK4skt5y5KrLA--
-
---nextPart0FsE1oOXTWCfaeie7Cg0WQ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSxiKu8/PyQCDpXgkqKZLelKt9O7gUCau4PLAAKCRCKZLelKt9O
-7nBsAP9i1J9nunoNHdaFW1CyOEHJqjekV4lKyKFigIiCl9DPsAEAo6lWoy6epZD8
-yin637CJv3QRK9OabqNc/XMdYHe7BAM=
-=JX7o
------END PGP SIGNATURE-----
-
---nextPart0FsE1oOXTWCfaeie7Cg0WQ--
-
-
+Best regards,
+--  
+Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 
