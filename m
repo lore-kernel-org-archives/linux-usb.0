@@ -1,55 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793953153;
-	b=2FtOFQ2zIHb9zsmoL5z37c6E8Datevw/cYSkmK+SjOBNZuj1izNnV4piEb5xBej7quNo
-	 CA+wiWQWXYYIgsUKegRR9hlRNwMoIytAT+JZTAzd3UEIvxnYSa2j6Gy+/lcgTMe6aPbor
-	 fAxnXMjTcPs7QpBzpo+gTMla0gxy1pk2rWozFznY46mpk4oDyQeDkkgx2YRRgS3cvu5S4
-	 vMj6lDU66YQtLNmcNPn40dqXVlyjgWjWZTNLt5FFT5yqVN6/CEQo7BAHGyviRsc02rc/4
-	 /sR/pD4fX5MSfLbsN/UjxurDfQvcgeF8Glt1VuGNWvkssJVjKVTuFTIbcq6sLqv12iw==
+	t=1793953282;
+	b=IkZpCDUA2pgcDMrdNBBVkyVonvsmd7Ele5Ub2cOTN0lpbNGLjkJ0QZxGLmohxuViuyid
+	 kqkQo89QX9JeklyWQ2Cx7XHZHLCXr3bWYj5PindUYLdzUaN2LuF/ufM0Odpn5eeWrmDaJ
+	 ai2UDk50hpNJ9dSti0rMtaWCJ0t/Yjw0ot9ICTqzFpA8MH/gqgDTDl5scx5xdcd7Y+oSs
+	 v2VQSBWyGowIa7SN/RE93WrhJQh/d0IlN38t7A+ekq14fX3iK/PPDoEnhz3rkpnEfQOTS
+	 +NxNGFD83WiX4BcNvy80vvAFc7kT9sYSzVVuKegPOxfKaoLhje146M1gmHq0v7GPLfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793953153;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=7i8Hfxp5QkxFVTNTl9pZM6EIXjvW1lFaO8zF1ADMDCk=;
-	b=A/yQGPsYGtrM4j7XMKpGqr6YOccF4Vpko2vjs8Ox2xn4YbaR4vwTJvD6KaZpOmuAqGXT
-	 X4il5iQZkgJ58x+6ufs/ZJu383R4LDGI0R5UOv//BnZBColaxtX+g9GxAOOWG2sJHjjEq
-	 ffawup27lv/r+O5rtdPfLdpZkgn3bEikhcQYi69s8Gn0j6GSmP0j8DPLZ0adeeUyH4cP6
-	 8Q4KWU7siA2HwK2pxSvHhf72YnksBeStAMv9jhPfE4y2J4W0PpvluuP7K0D+QXfmY1My3
-	 Id1ZBUrJz5QrDvlTRmJrXbsGcyKzzpw7NMVy0iYHcqyZ+coMHRecnLglDLJ23ikzOqQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793953282;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=tXtS1Em7b2x/aoxEcgyB2IvYBL9Ky3IS8jlOY8JmCdw=;
+	b=AsIBFOrumCxvg2ITGWn2KsrwFLRvDBg+QL8+myfuDdMSD/tpi0VbwZ3Sz5cw7lY49Nd+
+	 eFjhlo0gEpNke8wjOSTsrNNPOD9hCbrdO+bbLCMxl/gZZN7ltPWnmSo49YmOFz6FHyj/Z
+	 YsCmUnx6xqclRvADrO3eJ+8fJDwN9TfUF2gkln1xn8c4ucXu7hbnbblZXCbK+78b8RU+q
+	 tLaWtFXsLcPUtHhTEjwdMu08er9aF5U1Uz1WA573jH/BaBAwUMPdAd6lt8N/UQzffRMaF
+	 WV9lG6tWjfRvFytEsdrOiuaIfUG3RQRmrtQUwffnZxXjfNtdTygp2xbGpW7UP7UNbYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lPDici28;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QCfjJa6p;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2378E606A326
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 08:19:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BF8606A326;
+	Fri,  6 Nov 2026 08:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lPDici28
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0F7D1F0089F;
-	Fri,  6 Nov 2026 08:19:12 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QCfjJa6p
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1E551F0089F;
+	Fri,  6 Nov 2026 08:21:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793953153;
-	bh=7i8Hfxp5QkxFVTNTl9pZM6EIXjvW1lFaO8zF1ADMDCk=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=lPDici28IWYSB2ZBoqRzf0roJYU9sdzcwWQIwyVgcPgmKaZ8v5T0kfqiFIwPvELAy
-	 4BHM8gLlOQ3K+LikALCFRmobXVj8vZddtHJzbTrnEcDos+s1k9WaYD3OVut9x18N0u
-	 GnxqzzaODFp20KnSQKcYqLZE8Jop77cGfgCxwOMLtPKFCbLkLAbgctMVGZXWp/ctJ6
-	 yUz9YKY0S6Zzhm8LNQegG1i6UwrT6DQgNX35NHEKgxY/FzXL/WNL2PJo+L3yXXPlch
-	 Fj8FvopLlg8bC/Pn46os02SJ961JGICoednoZZHyJPgazCZqw3q+lupunoOt5dd4RP
-	 us1q0Tkn5EMdQ==
-Message-ID: <sashiko-outbox-201050@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] USB: serial: mct_u232: fix NULL deref in open error
- path
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Zhao Feng" <zhaofeng2@cmss.chinamobile.com>, linux-usb@vger.kernel.org
-In-Reply-To: <20261106081254.1389-1-zhaofeng2@cmss.chinamobile.com>
+	s=k20260515; t=1793953282;
+	bh=tXtS1Em7b2x/aoxEcgyB2IvYBL9Ky3IS8jlOY8JmCdw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QCfjJa6pK3BRpFP825bjAs4y5WPmB3jWnmAyv5CHhIOXjDZ4msNgTD7x3+dGZxwwX
+	 z8ddU2hbVy48TfJHHsxKAq0IVG0j4vcCihKEwSnTI1o75Rb6kCsv5X0gPwo+PPtHVa
+	 bFUTFajGGPRncSHNlNf3WTD7tdodP+5JxbsulJA3uSK6kePQ+IiUdTfxiBFP1Va6dC
+	 oqqs34f+RY8Y0RftVN2B3ZQZPbwdtTvw+kZ/E9YGfom8EHajPhww6CGy55C3ekxY1m
+	 rWlKCffqZrENiNXvZfmd9Ri75CUTEZCpTfhpC2j4RpxMXfaCi8nvUzmNLu6yAWcaSN
+	 DkByMm3RF1HhQ==
+Received: from johan by xi.lan with local (Exim 4.100.1)
+	(envelope-from <johan@kernel.org>)
+	id 1xPFCJ-00000008NDB-1kVt;
+	Fri, 06 Nov 2026 09:21:19 +0100
+Date: Fri, 6 Nov 2026 09:21:19 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Zhao Feng <zhaofeng2@cmss.chinamobile.com>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+58b2d8b19cd6761a395b@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: mct_u232: fix NULL deref in open error path
+Message-ID: <au2N_7iL_eXU6RCy@hovoldconsulting.com>
 References: <20261106081254.1389-1-zhaofeng2@cmss.chinamobile.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 08:19:12 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,45 +61,39 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261106081254.1389-1-zhaofeng2@cmss.chinamobile.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] USB: serial: mct_u232: missing Fixes trailer for commit
-  35807187e4b3
---
-
-commit aa7ec61a20b2d78c30fb0a49d63ab051c4605906
-Author: Zhao Feng <zhaofeng2@cmss.chinamobile.com>
-
-> USB: serial: mct_u232: fix NULL deref in open error path
->
+On Fri, Nov 06, 2026 at 04:12:54PM +0800, Zhao Feng wrote:
 > The MCT U232-P9 has no bulk-in endpoint; received data arrives
 > through the interrupt-in endpoint of the second port, whose URB is
 > stashed in priv->read_urb by mct_u232_port_probe().  The generic
 > port->read_urb is only allocated for ports with a bulk-in endpoint
 > and therefore remains NULL for this device.
->
+> 
 > If submitting the read URB fails in mct_u232_open(), the error
 > message dereferences port->read_urb->pipe, causing a NULL pointer
 > dereference at offset 0x50 (the pipe field of struct urb), as
 > reported by syzbot on KASAN-enabled kernels.
->
+> 
 > Print the pipe of the URB that was actually submitted instead.
->
+> 
 > Reported-by: syzbot+58b2d8b19cd6761a395b@syzkaller.appspotmail.com
-> Closes: https://syzbot.org/bug?extid=3D58b2d8b19cd6761a395b
+> Closes: https://syzbot.org/bug?extid=58b2d8b19cd6761a395b
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Zhao Feng <zhaofeng2@cmss.chinamobile.com>
+> ---
 
-[Severity: Low]
-Prior to 35807187e4b3 ("USB: mct_u232: clean up read implementation"),
-mct_u232_startup() assigned rport->interrupt_in_urb to port->read_urb.
-That commit moved the URB pointer to priv->read_urb and updated the
-usb_submit_urb() call in mct_u232_open(), leaving port->read_urb->pipe in
-the error path.  Should this include:
+Thanks for the fix. I apparently beat you to it, though:
 
-  Fixes: 35807187e4b3 ("USB: mct_u232: clean up read implementation")
+	https://lore.kernel.org/linux-usb/sashiko-outbox-201021@kernel.org
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106081254.1389=
--1-zhaofeng2@cmss.chinamobile.com?part=3D1
+> No Fixes tag: the buggy error message appears to date back to the
+> original driver import; the introducing commit could not be verified
+> with the trees available to me.
+
+No, this was introduced later by a clean up from myself.
+
+Johan
