@@ -1,56 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793960508;
-	b=FqyDLSicskq98G/kADBRg93yNWF7dOVbBihFGV35unSbpbYsrwgUacMYn2jRnpyRPls+
-	 89VjyNl+0HVxLDGr0+zskqx+LwkxAHsiKn7TKtjuiV+pYPtr4Tzye88kfX56dZIS1ChEd
-	 YK61bsBBdp3pp/9yeaTN6pR2zWuqGhB/qU81bzqhEPJpTKSDYoLEQmqHzlHi40gQ+nslm
-	 DGBHK+ANga3UFAHMVjBNPCX+WWFgVRlg6GfIwUg4ToOQWMiIdAp2GxEPcpOvsPGYKLMd+
-	 1YIxpbrND92PRlk0d/6O3tjXARzd5DPh3rwF50mlSlPki0t8KGx1nkWyyZTmShuqQxw==
+	t=1793961259;
+	b=hratvtlm6pZbkM+D8eqo5zvx68aMcFIouxhwh3t+JZMPxMGH10AHH98rh565z1hSFnqB
+	 vx6r2amDEy84Niz61TFzSZr2DXYNTmaIgcQqBXqN7zKSMYVHF52/YHvYH3/Y8hdq54kYJ
+	 kuo80gAOw+yCS1pEMzDSe+NzrgIFm3R6OXFg5EyrX9B36c4BxMHqeR4ExJeegcOs+wYU7
+	 0+5dhy2RxpJYfgkFR/k+6YeLUsbOuflus8Q4K30SCsmUBd5gIDfK86SIRT/+T1yba4Aq/
+	 8vVqur5AEC+gngSPC7TJ+Misi/ArvS3QLuwQqzWT3pfy2aQLWmkg8VBqBs3lfqp90Ag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793960508;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=n5MBbukJIzhEUn6elZkHrpAmlBmzYrRrq+n47iH5saU=;
-	b=R5Nt2eVR5w0v7JbyODKKvWtEvpPFBElCcaDwugRWOdg2GXEPQ4x79MblHe8gJ27bbBQ8
-	 Q2ONgYKoCIqudMjixpARbHGY1jIg/mquQI7PXOy5PLxQjAJL3KlY7TJHmNOANQarA5040
-	 fukTVWaBny2kWeGhHBFo+gNeJ72GGdmreRkQFl5jNoOkpLurTJYePJm9tGu4nTI+W10+S
-	 5Jc01oVeCN9yIn17BBVEENIV5H1Wg7xYO4WIp7SMG7BErf20Z0bienKjo98V/9zmTyuEd
-	 XczNy9ICbfyy72JJORxXLnbMA07lSHI3idIb9xlRLWyS/kerybIX3pILThR7Qh+1dRw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793961259;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=dEt14MCTgHtDscVjh3wCcpDDdGElzkLglcIsbl9Dr80=;
+	b=Nfr/f6BfOMSoa5kh8td8vjSPwuCF87KmQ4KrQVtr5NcPn/wPQkq2UKpk2y4IW6lkLp2R
+	 QatQH8y4xB1Ly3HPTpWS2DYmKcAWQKrXuQDP0lLw3QA2kIcX360klYAH3JBryBx/Zki7J
+	 K2uGUfRaDMox4BxDPB/kI6fMdWk7I58ekJf1/yWmqscV0pUl3IJrsRXoPuHhtCHH0d9cq
+	 HgvY6aLl+7aPazSAEColSyYu449PrmsOjXLIpWKsv2JSfo8qwkbu9FcO3nTPmtU5Rn+Mt
+	 vCU7SWuORi8akjOwnVOcrMjz/ToUm7lqhr9BYdem7f2Q9n0XWeePGzR0bNwtJuy/+CQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iJm3zf5g;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B545606D820;
-	Fri,  6 Nov 2026 10:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iJm3zf5g
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCFD71F008A1;
-	Fri,  6 Nov 2026 10:21:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793960508;
-	bh=n5MBbukJIzhEUn6elZkHrpAmlBmzYrRrq+n47iH5saU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iJm3zf5gLnfOP+5iqzxPMDHGmigPCAkRapDq6b+zPMNGwl8W+3GARnUXryz7IVYGp
-	 aTX6tOVhAMEh7hJ+gxG7lSYzEWDBBdEiEgr3NH052v067pt+fw4SDKp9wA+DrOs9+d
-	 2GNtdqsbj01Lz5Sd/iSG/J3BKEt9Glr8H17sRzFePXIRPWuoR6ZfsP5yOCujgnCNva
-	 GzDFSBYYHWBKWM/sBNY7DN69I7eyXX63boWq/NhSLCd9d+YyD8iZBvLYEWf/6DWxrI
-	 mjQBV0d3F4WlEq9kkH0T0HqM988cYTLafRTuV9ZwJBPzVf2SHgcmNjGBZykjN3Ut7x
-	 Ma0DpCg15sOfQ==
-Message-ID: <sashiko-outbox-201200@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 1/2] dt-bindings: usb: Add CIX Sky1 USBSSP controller
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Hongliang Yang" <hongliang.yang@cixtech.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261106101210.1059256-2-hongliang.yang@cixtech.com>
-References: <20261106101210.1059256-1-hongliang.yang@cixtech.com>
- <20261106101210.1059256-2-hongliang.yang@cixtech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 10:21:47 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CBC606A326
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 10:34:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52CBC606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 9ad3349ad9cd11f19a56ed5b684f684d-20261106
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:eef01813-921a-4d59-a6f3-bed489c4498d,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:20
+X-CID-META: VersionHash:7db8b62,CLOUDID:bd7fbc408c1230ccea70b1de3127bebc,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|865|898,TC:nil,Content:0|15|50|99,EDM
+	:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
+	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 9ad3349ad9cd11f19a56ed5b684f684d-20261106
+X-User: lijiayi@kylinos.cn
+Received: from thinksys.. [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijiayi@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 206249821; Fri, 06 Nov 2026 18:34:11 +0800
+From: Jiayi Li <lijiayi@kylinos.cn>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: [RFC]alpha implementation of eh_abort_handler for UAS
+Date: Fri,  6 Nov 2026 18:33:42 +0800
+Message-Id: <20261106103342.3945373-1-lijiayi@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <38f81744-9122-4109-90b6-b0a1ac92d248@suse.com>
+References: <38f81744-9122-4109-90b6-b0a1ac92d248@suse.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,84 +67,96 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] dt-bindings: usb: cix,sky1-usbssp: overlapping reg windows in
-  RCSU block
-- [Medium] dt-bindings: usb: cix,sky1-usbssp: redundant unprefixed
-  disable properties
---
+Hi,
 
-commit 96269a442880206984d4933991d01ca45a5cc83e
-Author: Hongliang Yang <hongliang.yang@cixtech.com>
+On Thu, Nov 05, 2026 at 08:33:33PM +0100, Oliver Neukum wrote:
+> the older version had serious bugs.
 
-dt-bindings: usb: Add CIX Sky1 USBSSP controller
+I tested RFCv2 and the local changes described below on 7.0.0-38-generic
+with USB streams enabled. The host_lock accesses were adapted to that
+kernel's API. All tag numbers below refer to UAS IU tags.
 
-This commit adds the Device Tree binding schema for the CIX Sky1 Cadence
-USBSSP controller wrapper and its child cdns,usb3 node.
+1) RC_OVERLAPPED_TAG can reach the original Status receiver
 
-> diff --git a/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml b=
-/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml
-> new file mode 100644
-> index 0000000000000..137ef9ac13356
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/cix,sky1-usbssp.yaml
-> @@ -0,0 +1,154 @@
-[ ... ]
-> +  The register range of an instance is a window in the USB30 Type-A DRD
-> +  RCSU block at 0x091c0000, starting at the AXI cache attribute strap
-> +  register of the instance and ending after its AXI clock status
-> +  register. The strap registers of the two controllers and of their PHYs
-> +  are interleaved in that block, so the ranges of the two instances
-> +  overlap.
-[ ... ]
-> +properties:
-> +  compatible:
-> +    const: cix,sky1-usbssp
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description:
-> +      Window from the AXI cache attribute strap register of this instance
-> +      up to and including its AXI clock status register.
+On ZX1, I submitted READ(tag2) through a test helper, cancelled its Data
+and Status URBs after its Command OUT URB completed successfully, and
+kept the interface and streams unchanged. A subsequent SCSI READ(tag1)
+timed out, and uas_eh_abort_handler() automatically submitted TUR(tag1).
 
-[Severity: Medium]
-Should reg describe non-overlapping register regions (or should the shared
-RCSU block at 0x091c0000 be modeled as a shared parent or syscon node)
-instead of overlapping windows across sibling devices on the same bus?
+During the abort wait, RC_OVERLAPPED_TAG reached the original 112-byte
+Status receiver. The additional 8-byte receiver remained pending and
+was subsequently cancelled.
 
-Defining a single contiguous window from each controller's AXI cache
-attribute strap register to its AXI clock status register makes the two
-instances overlap in 0x091c0324..0x091c0403. In addition, the example
-below specifies reg =3D <0x00 0x91c0314 0x00 0x100> for usb@91c0314, which
-extends to 0x091c0414 and covers the second controller's STRAP_STATUS4
-register at 0x091c0410 (an inclusive window ending after STRAP_STATUS0 at
-0x091c0400 would be 0xf0 bytes). Because the two sibling nodes claim
-overlapping MMIO ranges, standard exclusive resource reservation via
-devm_platform_ioremap_resource() fails with -EBUSY on the second instance.
+uas_stat_cmplt() processed the Response IU but did not notify
+cmdinfo->cancel, so abort continued waiting and returned FAILED. For
+subsequent tests, I added this notification to its IU_ID_RESPONSE path:
 
-[ ... ]
 
-> +  ssp-disable:
-> +    type: boolean
-> +    description: Disable SuperSpeed Plus mode of the controller.
-> +
-> +  u3-port-disable:
-> +    type: boolean
-> +    description: The board does not route the USB3 port of the controlle=
-r.
+  if ((cmdinfo->state & COMMAND_ABORTED) &&
+       ((struct response_iu *)iu)->response_code == RC_OVERLAPPED_TAG) {
+	  cmdinfo->cleanly_cancelled = 1;
+	  wake_up_all(&cmdinfo->cancel);
+  }
 
-[Severity: Medium]
-Can the standard maximum-speed and phys properties in the child cdns,usb3
-node be used instead of introducing ssp-disable and u3-port-disable?
+The locally modified RFCv2 also uses u rather than cmdinfo->killer for
+the follow-on Status submission in uas_abort_complete(), and leaves
+final URB freeing to uas_eh_abort_handler(), including on submission
+failure.
 
-Both properties lack a vendor prefix and duplicate standard USB bindings
-already present on the child controller node: limiting the controller to
-super-speed or high-speed is covered by maximum-speed, and an unrouted
-USB3 port is represented by omitting cdns3,usb3-phy from phys/phy-names or
-setting maximum-speed to "high-speed".
+2) Recovery after read cancellation: single and concurrent requests
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106101210.1059=
-256-1-hongliang.yang@cixtech.com?part=3D1
+These tests used the Ugreen enclosure (0bda:9210) with an SK hynix BC501
+and the locally modified RFCv2 described above. The filesystems were
+unmounted, and reads used the normal block/SCSI path with O_DIRECT.
+
+For a single request, I cancelled the Data and Status URBs of one
+512 KiB READ and waited for recovery before issuing further reads.
+EH submitted a same-tag TUR, RC_OVERLAPPED_TAG reached the additional
+Status receiver through uas_dummy_sense(), and abort returned SUCCESS
+without a USB reset. A new 4 MiB read and 128 further 512 KiB reads
+matched the reference data.
+
+For concurrent requests, I ran four workers issuing 512 KiB reads,
+cancelled one READ's Data and Status URBs, and immediately submitted
+another 4 MiB read, which was split into eight SCSI READ commands.
+I repeated this twice.
+
+Each run had 12 calls to uas_eh_abort_handler(): one returned SUCCESS
+after RC_OVERLAPPED_TAG reached the original 112-byte Status receiver,
+and 11 returned FAILED. One automatic USB reset followed. The added
+4 MiB read and 128 further 512 KiB reads passed data validation in
+both runs.
+
+3) Actual driver unbind/rebind results
+
+I started concurrent block-device reads, confirmed pending Data URBs
+at usb_unbind_interface() entry, and then unbound and rebound UAS
+through sysfs.
+
+On ZX1 512GB (2109:0715), using RFCv2 with only the host_lock adaptation,
+the first command after rebind was INQUIRY with tag1 and a 36-byte
+allocation length. Its Data-IN URB returned -75 with actual_length=0.
+EH subsequently submitted TUR(tag1), whose Command OUT URB completed
+successfully, but RC_OVERLAPPED_TAG was not observed. Subsequent reads
+did not recover.
+
+With the Ugreen/BC501 combination and the locally modified RFCv2,
+I repeated six rebind tests. Every run had 30 pending Data URBs at
+usb_unbind_interface() entry, and the corresponding READ Command OUT
+URBs had already completed successfully.
+
+Four runs completed without EH. In the other two, a READ at LBA0 during
+post-rebind device discovery timed out. EH submitted TUR(tag1), and the
+original 112-byte Status receiver received RC_OVERLAPPED_TAG. Abort
+returned SUCCESS without a USB reset. Three subsequent 4 MiB reads
+matched the reference data in each of the six runs.
+
+RC_OVERLAPPED_TAG was not observed in the ZX1 rebind case, and I have
+not yet established why.
+
+
+Thanks,
+Jiayi
