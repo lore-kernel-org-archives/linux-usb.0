@@ -1,93 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.0
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793934614;
-	b=Nlo6eXLSsM0f0DH6ADciVjvtRboRnpQFlYrwXZjTccGWX1F0p7Wqi3guA7jacxp3xwXJ
-	 tGaQodHd6hpIH5f1I9v/SMemUQLROSHFvusw4wsopDc0YF3R6GpOVEb08QKDrij/eaxrn
-	 ZRLxmPaoouMcophQx518EBiWiqMVX+fCFPrYvOiyLZKErlyTz43clkAflEjcFYZuTrgay
-	 WZyQqw9QUZ4WvQVefkQ2YdcTGgs00q27KfFzxw59OJ7k2NowobeqyrpSvZxeiejuIop0a
-	 nyhDhvjNZEXljKT+mkeU5ynbKRzYFaitiJwFlnVe72YyDRuB9N/YHKmmsu/LBdIxfFg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793934614;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=7gfh1Ea+KTYtelW/sUPpuMLHGHcgIg+3lhj9fL2dG4c=;
-	b=XBnkyCBZjebO8a02gfpAC4nsDXqffSWLaOqcs3J41JJiLRcK70i3fahSwgLqBENB/qaQ
-	 HFODf1pcOyeeduojdMZxmQ+3lKIjZ9o8UIYoVP8vuaYwp348wW+sseMUdVrv201ZR4z5z
-	 9/tlEzTcJi2PWzKKTdsh+HZ8IhB4/CqiqvfCZN4Cx/rlmYDftZ0jGWAZkoT2YRnRuB6MO
-	 cGQBkLUqBbh/Rs4hl7eZJeHFvzg1XjmP3F2mfjHAdCO3zXrtZVkAss30UkGEf5BMloyHS
-	 DjZN9+Zo6Z6v96j05gRKP14kT3op/jO1p5pThOQ5/yWRZu6UsuN63a/0A4l9ENNSIBQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.nxp.com;
-	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=YGNxxOOF;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.0
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013000.outbound.protection.outlook.com [52.101.83.0])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793935073;
+	b=3W6lJxe/V724tVsNl/caYTBstu7KIozdVmpo3k7FtEKX51VKjvEgny/J6CmjnVQkIAFV
+	 xdL+lMkwNeOj/5vN6pBuxYyptQZY5rZUZV7siZjXDUdRxnaaXKGZ11E2HS/yhLrx5iKKy
+	 slY/fOHOHpitK7FnqL1mlzKM/Qexb1wAeSk5mP/cYYVdVkMeyuI4cOCjYd94xEULka8VZ
+	 Pz9gsB1botnGpW0ggJ1oGrHpPXs4TZg7s9nKmnIrudyoTJS3sZq2SGjmsZJSwEB537Y4U
+	 EBgP7Kna5NZg4+620MODYfztsUllC9+5Rd5cjaft3E0jTuNz0nvaUtXE2R18gmf4wuA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793935073;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=03M13Azwyy0KMcFaGycRciB1g2jPBnLm5WvZcLiXzPk=;
+	b=b0844yyCCPr56vo7i22r3FRjQGIslMzj0XrSppfUDzqMzOQ2KE4/am/vJMqiJKlp++Qk
+	 Gg4KeRg4Tdl/l1liIQJ8gpIr78TMstnBiiorx5HJ/suKNLL5IS3oZ1zvR6evUL7TSz5Ue
+	 TseLyuFHlaaCpwwuMBPnF12CxOmswo+DfkC5VhrpEan5WQ3Uszy1qBTG5jvD7WQ3d5pAu
+	 YHxPNdfSBwzmA4xl86Z+mFDKs75zoGc3YttokCH2enYCta6BEfmeTFaiYKmKX1rEE0Tfx
+	 CNXE4GAqYSG4h1fUSxE6+LqS3o4wgo7xjSOWRnqTjuuHgDoF061ULSv+FjsoXR6cIPQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=o7ID0tMj;
+	arc=none smtp.remote-ip=113.46.200.222
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546D9606A326;
-	Fri,  6 Nov 2026 03:10:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 546D9606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92609606A31B;
+	Fri,  6 Nov 2026 03:17:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92609606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=YGNxxOOF
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F9kPf994FW8hh5qBQm947Zg4tYCJVLK5fzqdPzoqSOpL0s9rKy0goZhyhwDOAO7FsZUNYyw/1F7eSOYQxSQn+bicm8NLmLWySkJk8FOp8Mk29iwEc7eVnoIV3CNUj0KzeLGbBq6MGt2aeuQDcyxG7O4ZhVdUh5PxcmtHpUKpZSS2jrwo44OPrJ1q+gX0Vb6O6uhhH6Yql81aqTcOQkrJRtyrBgSKsyYK5OCYTqrlLBtrQx7tITacRd39j1n+xlY5MuVk8KLSLxqGsHSasmlMD9lCLp7DIZwFlT/Fdu2FR5VCHJ6MGmIEaP3L6RakLrGK9U27Ni1wiAsGzdx1BKGf8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7gfh1Ea+KTYtelW/sUPpuMLHGHcgIg+3lhj9fL2dG4c=;
- b=Sh78TEu3pnpfeOFwPe3xGRh8wLO9eWkCyf/gH6blidwYevBSUruf+PgFjPqMvlPM0CEHLkSaYiNk+YvMIj+HsX7sASpt/vSK0JjWbtb80OpNjUaBtXUvsdhPhJt/siRyDVTAddEP1txidvFNPK3ydbGRZI7MrS4VYu43lhm/J1Q+M4N3NeKg4Y6/Ci1opqv4C5geR2Sgk7rGNgeGpHrmBNzctMQ4Ku2Rc4/eeBO3h9btL32MMoclcaVe1eh8YkKQ7RXSskkSJeIEUX8xKanJYV6VO88IeemsQv7wqbsBrHfccPkjBIkYmMaVg0/jTxuDbBd7Tewy7EmxaBZbOnbadg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7gfh1Ea+KTYtelW/sUPpuMLHGHcgIg+3lhj9fL2dG4c=;
- b=YGNxxOOFPndpYPEpuvjohAVEaNk0O+i6L3nGM9/cInyOM8pfIeHaZGTS/beanwJhfmJj1eyIfCBLDGqTgBmX8JetsGxSOiNEKHG7+mc6S/EQs4wCx6SweGj75iD/eRrE7105roo218znHPj0J6PszYXUJ/8pcKkj/kgdMhJ69/JcVw26oRZbNoXcGeKwOeBTgYJjCql8RVwNHAzRW4YIRwGEBMOA0a6XDBykgerYNLPzR26Z+vCAVboCsh54j7NByy2dx1+ixwLGhhb+Ot+5v6e98NxQREyuNQmKVfTm+UGgj5zrYbN6690zEy4FnsiJG3JGHl69jA3W4qY4r6peUQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
- by ZR6PR04MB579899.eurprd04.prod.outlook.com (2603:10a6:910:e1::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Fri, 6 Nov
- 2026 03:10:11 +0000
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d%3]) with mapi id 15.21.0592.009; Fri, 6 Nov 2026
- 03:10:10 +0000
-Date: Fri, 6 Nov 2026 11:07:12 +0800
-From: Xu Yang <xu.yang_2@oss.nxp.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	imx@lists.linux.dev, jun.li@nxp.com, badhri@google.com, 
-	heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v2] usb: typec: tcpm: advance vdm_discovery_state on
- Discover Identity Not_Supported
-Message-ID: <eqdhulaftczpqnhu37rmf3ajdpntjnlz53tx2q7ugabzkrqfe2@amdz7hafys4w>
-References: <20260916043957.3362995-1-xu.yang_2@oss.nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260916043957.3362995-1-xu.yang_2@oss.nxp.com>
-X-ClientProxiedBy: FR4P281CA0352.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f4::6) To PAXPR04MB9422.eurprd04.prod.outlook.com
- (2603:10a6:102:2b4::21)
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=o7ID0tMj
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=03M13Azwyy0KMcFaGycRciB1g2jPBnLm5WvZcLiXzPk=;
+	b=o7ID0tMj+vAhkN5NlLSPSi3OenycoPtYa2YIuF/rZcrZB80TE7RdcPkiFAzf8o2+CL9vXMsnq
+	n4Trg3YXhm25CX8LgoBuW32fpJp8dN082PEiz+h0j+VqSSUvplGgr8HEFDepKu2sLuJCsOGrnj+
+	JUBppBfPofEDRox2+fxOtgg=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4jLPVz0W2SzLlWs;
+	Fri,  6 Nov 2026 11:17:31 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0114740563;
+	Fri,  6 Nov 2026 11:17:43 +0800 (CST)
+Received: from vm.huawei.com (7.238.34.231) by whupemk100010.china.huawei.com
+ (7.152.184.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 6 Nov
+ 2026 11:17:42 +0800
+From: Pengfei Lv <lvpengfei20@huawei.com>
+To: <gregkh@linuxfoundation.org>
+CC: <stern@rowland.harvard.edu>, <michal.pecio@gmail.com>,
+	<linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>, <xuhaiyang5@hisilicon.com>, <xuetao09@huawei.com>,
+	<caiyadong@huawei.com>, <suzhuangluan@hisilicon.com>, Pengfei Lv
+	<lvpengfei20@huawei.com>
+Subject: [PATCH v2] usb: core: hub: Re-guess ep0 maxpacket size on reset
+Date: Fri, 6 Nov 2026 11:16:25 +0800
+Message-ID: <20261106031625.1824732-1-lvpengfei20@huawei.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261104124402.1269650-1-lvpengfei20@huawei.com>
+References: <20261104124402.1269650-1-lvpengfei20@huawei.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -97,131 +73,189 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|ZR6PR04MB579899:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5273c87-16d1-4939-c21a-08df3bb377cf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|19092799006|261021123027099003|11063799006|56012099006|261021121427099003|261009223027099003|261022113327099003|261026121527099003|261102123227099003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	Brn/VmWUAFWTU+MHBzcMTMuxawd3R0reh7RB+dHK+QQQcDSE/ni11neEzGhE9FkH9qHgXMP7sRVY/Dbb8/++jhHEn7YpyOD0JYzqikZ6CwqtE6tyxbNNzR6w8EAyvO18U3NCwnoaqnKEkvigBz3HBQWDJ3yZfjc8N9gzv5ceqtBMicmWJ+KsNs+smdLvXMERKIYb3U9tnLx36ImgSU5wY4r4msIRicqS0LvnymsVzNUcwAjqijHEAm09SdVnYwO/gDEZfBNLJEJFsG+9Q7LJZ1tgJ7P4A0GRxtxj3LebGebPxqp6PhquGnzQsl09djbwSLXxcd73ko2v+pmkqWAMrMEcv2mXDO7RFTfXG4F5vl5bWK0Ar2HsPipVD6igOGSgppquXFJk7Ys8wegR3SDMQBXNVhdppPz3Ftj3Jnn5JMnwnreWME5fZL2QSFoo3Du27tfMJ2XUrKJYZ8epRCsmLm++T6ExtXXxZD5/1a7c0AybXJv9LHS4zpjon+sULqbhceNih6aNMKlxgrrvlCARjZV2E1rglcbpxLVF2fwJt8gLQHUU42oGhHmQOtDXPOO8mhlnAQdPB70wo3Siq8maI3V+FDnvlHcMNDNf6j6rlwvDoIOo7mItUmEZ1V5gOH0X/wG3A8QLIHElQQiwfPAiga36hMzrhf3Hfmt43JeffL0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(19092799006)(261021123027099003)(11063799006)(56012099006)(261021121427099003)(261009223027099003)(261022113327099003)(261026121527099003)(261102123227099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ABrH2+ctFVvCLjcYarzAZqDduxAr/QCJxjpAFs7hMbJm74nSkl3EGX7t1aDV?=
- =?us-ascii?Q?JbPHy35d/nxRIf1p07v/iehRhgsMu0JdK1WA750zX7+4rtBzyQ2E+s1wuqPF?=
- =?us-ascii?Q?kFA/6JdAU2Rlxu6oXasMR3vYVJs0VJ6uQbydd7WY+qJrabil55yh4fqusWaM?=
- =?us-ascii?Q?6J1kKkD78cTBDdSALvMG/mbKCen0ApnXNI0XXZ0l3vlapuGEpjVSR3p2vH2H?=
- =?us-ascii?Q?HAzomAXMMbwCO0uWVkyLltwkxkpbTsEtltcGsBLR7sb/NrK43uOV0esTa02o?=
- =?us-ascii?Q?xxq1Unrceam9kYy8/GfDCbpTslen4I1iJnCO94PX4Bj13XnPv8oFf8ngwhdw?=
- =?us-ascii?Q?0AXM2xBikf2YQ3j1B5+2NsAkn/ZHOZZaz0qKYMaKS65EIPYmvyMlBdu98PSI?=
- =?us-ascii?Q?WaXiO6/aHVOXjwvr+5en0+UN1LJtgP6DjDOJBiyQBSPo32TCuX4t1QsI3TvU?=
- =?us-ascii?Q?qy/pBC5qUJtzhYSGGPJftgUZTYloQXHEmhkA6KDq9PfD8/Yyk9JadFtiW+/o?=
- =?us-ascii?Q?zZhOUo0D7BEfoU8DCnETTLfz0BlExr71Z8FoTFuE2SD6hQHqTfQMtE/42S0x?=
- =?us-ascii?Q?f4HmT7pcGaElSX4t1qzkWGKncTZFY2KIUxXQIHMH4k3X5F0yD98NUH4jk+Uj?=
- =?us-ascii?Q?r6E+V4m1lqm2vYiV/kBMFO0MVteozSUihHMAHh/7yuFJRg7VKQKNO0QW13sQ?=
- =?us-ascii?Q?7VjRaRaPebq6rn6Hz4rkg37Hn2DccGeaXHvVfLuWkSaP+XQrCse82UmrQIR/?=
- =?us-ascii?Q?7xGKbO0zqBIE92uX6FdfpPIlj0vFUVKMv1LEkwB7g8xYCJDO2p9OJG36iT76?=
- =?us-ascii?Q?2HDyuDxtEWzLSjaQoQcHyY3M84vwGm9OuO6ozMamLWYeDaySyh/b68QfQHHy?=
- =?us-ascii?Q?uR2naUaqF5q8w9O9de+gE+H0+5YhzsS+DPt5Ld2zIR55KHy5uHKpXE1WxklR?=
- =?us-ascii?Q?Nfp9tjIiWUfognheCmY4Fvig4BlRKrIRltHcnnnxDC0Cz4EXJ/FUnu7VTivc?=
- =?us-ascii?Q?CAnGHdqN+HvTSAFRgIG1+xOBC0uiN9CDbnT4m38H3/nRrMPrXgCSZTNM2NXc?=
- =?us-ascii?Q?BBhuvfha3uhAho8lstm1lggP1ycquIFLqk7p31cD9Wq8ifwjgholwMZilg7c?=
- =?us-ascii?Q?g7t9YOsRo9OfTV1tHMY2zd8aYRoMbCQ9ouYyGKoIbZApaEMJv9t54yxquXVL?=
- =?us-ascii?Q?JaG0X2iNWwThvRKYc/U0i6Xltp9hCvxovzaMF9omRHfg06NR7pS5Fk55J62c?=
- =?us-ascii?Q?+cmIS4gYqRrTtIvp46n/mXo7tCCpWeljxxTt0XxOFfTD6Fn9BDHwfYde6/ja?=
- =?us-ascii?Q?oMTxXyFDpzKSfDn1O9DIYPqsG3GneSBkCrOPRp4woneHE8yJLF9NUrtKmqAW?=
- =?us-ascii?Q?Nf9nB7zxRbmeqPMZClOqhOZadrwURYHDH7iy+i4sadPigRgFN1zTo83NdMAA?=
- =?us-ascii?Q?DOPHZIq6KVp/CL2mvDTYIKoP9JXoc7J6uG9ovA8U6Zwqp+UrHuI77ET8VTs0?=
- =?us-ascii?Q?VjkG+K902snNB8Wg9nwAv7kXfCcpQNwP5XHZ+B64vP3X4nTjygVlwVxImle3?=
- =?us-ascii?Q?/w5v26gsRZck/c+DrkP67gVra2JAPJ15PUboyIkkZuVJZL0qn1EYyqhqbmTh?=
- =?us-ascii?Q?s+eHoH0mNCAoFsqriYfanOV7x53rm7A+r5owwnJhbXCTcSqyTj8zXNRA3x34?=
- =?us-ascii?Q?+9R0J8CZUTPuOWZZEQXcTomE7cq5bVg+7CI5yDE4cCwfKqh+zeKmCsGxBXXb?=
- =?us-ascii?Q?b2CwjIXYq8Y2pVdXAPriZY0a9Q2axSMdLpRmrUkkXf93VN6T78Bp?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5273c87-16d1-4939-c21a-08df3bb377cf
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 03:10:10.6203
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4poBbV1j0toMTZKiqQVeMEmQmBHK/BB/pb7Tcq0BVNVQXk0mVjqPieaCOiEQuQfD1ADtQHid7hXj1IVlJ8xsyFl3FO00n/TEAT/VQKvRgl2xb9C5u7wp0fh353UFFDoB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR6PR04MB579899
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
-Hi Greg,
+Per USB 2.0 spec section 5.5.3, the ep0 maxpacket size is fixed for
+all device speeds except full-speed devices, where it can be 8, 16,
+32, or 64 bytes and can only be determined by reading the device
+descriptor.  During the initial enumeration of a full-speed device,
+the USB core guesses 64 bytes (hub_port_init() with initial=true);
+after reading the descriptor, the real value (e.g. 8) is stored in
+udev->ep0.desc.wMaxPacketSize and propagated to the xHCI ep0 context
+via an Evaluate Context command.
 
-Can you pick this patch?
-It's reviewed and pending for a long time.
+After a port reset (usb_reset_and_verify_device() -> hub_port_init()
+with initial=false), the "if (initial)" guard added by commit
+ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()")
+skips the ep0 maxpacket guess block, so
+udev->ep0.desc.wMaxPacketSize retains the real value (e.g. 8).  The
+xHCI Reset Device command preserves the ep0 context as well, so the
+xHC ep0 max_packet also stays at 8.
 
-Thanks,
-Xu Yang
+When the subsequent re-enumeration then uses the "new scheme" and
+issues a 64-byte GET_DESCRIPTOR (get_bMaxPacketSize0 with size=64),
+the xHC queues a Data TRB of length 64 but applies ep0 max_packet=8
+for short-packet detection.  If the device's first data packet is
+exactly 8 bytes and it sends no ZLP, the xHC does not recognise a
+short packet, keeps issuing IN tokens for the remaining 56 bytes, and
+the control transfer hangs in the Data stage until URB timeout.
 
-On Wed, Sep 16, 2026 at 12:39:57PM +0800, Xu Yang wrote:
-> From: Xu Yang <xu.yang_2@nxp.com>
-> 
-> Commit Fixes: 205dc9cb39f5 ("usb: typec: tcpm: implement retry mechanism
-> for Discover Identity VDMs") advances vdm_discovery_state to
-> VDM_DISCOVERY_COMPLETE when a CMDT_RSP_NAK is received, but it does not
-> advance the state when a non-modal port returns PD_CTRL_NOT_SUPP.
-> 
-> This can re-arm another vdm_discovery_work if the port is going to
-> respond with PD_CTRL_NOT_SUPP to the partner.
-> 
->   tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
->     tcpm_queue_message();
->       mod_tcpm_delayed_work();
->         tcpm_state_machine_work()
->           tcpm_send_queued_message()  -> send PD_MSG_CTRL_NOT_SUPP
->           run_state_machine()
->             case SRC_READY:
->             case SNK_READY:
->               mod_vdm_discovery_delayed_work(port, 0);
-> 
-> If both the port and its partner do not support modal operation, they
-> will send DISCOVER_IDENTITY to each other infinitely.
-> 
-> Advance vdm_discovery_state to VDM_DISCOVERY_COMPLETE in this path as
-> well. In particular, update the state to VDM_DISCOVERY_COMPLETE if it comes
-> from the port partner, and to VDM_DISCOVERY_CABLE_IDENT if it comes from a
-> cable.
-> 
-> Fixes: 205dc9cb39f5 ("usb: typec: tcpm: implement retry mechanism for Discover Identity VDMs")
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-> 
-> ---
-> Changes in v2:
->  - cover a cable returns PD_CTRL_NOT_SUPP case reported by sashiko
->  - kick off vdm_discovery work to continue working
->  - correct previous wrong fix commit id
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 2d6b14aa2085..5cea820e00c4 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -3891,6 +3891,16 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
->  		case SRC_READY:
->  		case SNK_READY:
->  			if (port->vdm_state > VDM_STATE_READY) {
-> +				if (port->ams == DISCOVER_IDENTITY) {
-> +					if (rx_sop_type == TCPC_TX_SOP) {
-> +						tcpm_update_vdm_discovery_state(port,
-> +								VDM_DISCOVERY_COMPLETE);
-> +					} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
-> +						tcpm_update_vdm_discovery_state(port,
-> +								VDM_DISCOVERY_CABLE_IDENT);
-> +						mod_vdm_discovery_delayed_work(port, 0);
-> +					}
-> +				}
->  				port->vdm_state = VDM_STATE_DONE;
->  				if (tcpm_vdm_ams(port))
->  					tcpm_ams_finish(port);
-> -- 
-> 2.34.1
-> 
+This is not merely theoretical.  It was observed in production on a
+6.6 LTS kernel with a Full-Speed USB banking token (bMaxPacketSize0
+= 8) in a virtual-machine USB passthrough scenario; the reset
+re-enumeration hangs 100% of the time after the VM issues
+USBDEVFS_RESET.  Bus captures with an Ellisys analyzer confirm that
+the device sends exactly one 8-byte packet for the 64-byte request
+and then stops responding to IN tokens, relying on the host's
+short-packet detection with max_packet=64 to terminate the transfer.
+For the subsequent 18-byte GET_DESCRIPTOR (usb_get_device_descriptor,
+wLength=18) the same device sends the full 18 bytes as 8 + 8 + 2;
+the final 2-byte packet is always a short packet regardless of
+max_packet, so that transfer succeeds on both kernels.  This is why
+the device completes initial enumeration yet hangs on reset
+re-enumeration.
+
+The device is not strictly compliant (it should continue answering
+IN tokens for the 64-byte request), but this class of USB banking
+token is widely deployed in enterprise environments, and the
+regression introduced by commit ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()") breaks a configuration that
+previously worked.
+
+Fix this by removing the "if (initial)" guard so that the ep0 maxpacket
+size is re-guessed from udev->speed on every reset, and by calling
+usb_ep0_reinit() afterwards when !initial so that the new software
+value is propagated to the xHCI ep0 context via an Evaluate Context
+command before the GET_DESCRIPTOR data stage.
+
+The usb_ep0_reinit() call is necessary because commit e34900f46cd6
+("xhci: Reconfigure endpoint 0 max packet size only during endpoint reset")
+moved the ep0 maxpacket sync point from xhci_urb_enqueue()
+(xhci_check_maxpacket, lazy per-URB) to xhci_endpoint_reset()
+(xhci_check_ep0_maxpacket, eager), reachable only via
+usb_ep0_reinit() -> usb_enable_endpoint(reset_ep=true) ->
+usb_hcd_reset_endpoint() -> xhci_endpoint_reset().  Without the
+explicit usb_ep0_reinit() after the re-guess, no Evaluate Context
+command is issued on the reset path: the pre-existing
+usb_ep0_reinit() in usb_reset_and_verify_device() runs before
+hub_port_init() and thus syncs the stale value, and the subsequent
+hub_enable_device() -> xhci_setup_device(SETUP_CONTEXT_ONLY) returns
+early when the slot is already in SLOT_STATE_DEFAULT.
+
+The !initial guard on the new usb_ep0_reinit() call ensures that
+initial enumeration is unaffected: on first enumeration the ep0
+context is initialised by the Address Device command, so no extra
+Evaluate Context is needed.  For high-speed, low-speed, and
+SuperSpeed-or-faster devices, xhci_endpoint_reset() returns early
+(speed != USB_SPEED_FULL), so the call is a no-op on xHCI, and on
+non-xHCI host controllers endpoint_reset for control endpoints is
+likewise a no-op (e.g. ehci_endpoint_reset only handles bulk and
+interrupt endpoints).  The descriptor-immutability checks (!initial
+&& maxp0 != udev->descriptor.bMaxPacketSize0) remain unchanged;
+udev->ep0.desc is not part of udev->descriptor and is not the field
+involved in the read_descriptors() race that commit ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()") fixed, so
+restoring the wMaxPacketSize re-guess does not reopen that race.
+
+Fixes: ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Pengfei Lv <lvpengfei20@huawei.com>
+---
+
+Changes in v2:
+- Add usb_ep0_reinit(udev) after the ep0 maxpacket re-guess block,
+  guarded by !initial, to propagate the new wMaxPacketSize to the
+  xHCI ep0 context.  v1 only removed the if(initial) guard, which
+  is insufficient after commit e34900f46cd6 ("xhci: Reconfigure endpoint 0 max packet size only during endpoint reset")
+  moved the xHCI ep0
+  maxpacket sync point from xhci_urb_enqueue() (xhci_check_maxpacket,
+  lazy per-URB) to xhci_endpoint_reset() (xhci_check_ep0_maxpacket,
+  eager), reachable only via usb_ep0_reinit().  The !initial guard
+  avoids a redundant Evaluate Context on first enumeration, where the
+  Address Device command already initialises the ep0 context to 64.
+  (Sashiko AI review)
+- Expand commit message with observed-in-production evidence and the
+  wLength=64 vs wLength=18 device behavior distinction, per Alan
+  Stern's review.
+- Note: on kernels before e34900f46cd6 (e.g. 6.6 LTS), the xHCI ep0
+  maxpacket sync happens lazily in xhci_urb_enqueue() via
+  xhci_check_maxpacket(), so removing the if(initial) guard alone is
+  sufficient and the extra usb_ep0_reinit() call is a no-op for ep0
+  maxpacket sync (xhci_endpoint_reset returns early for control
+  endpoints on those kernels).  This patch targets current mainline
+  where e34900f46cd6 is already present.  Would the maintainers
+  prefer a separate, simpler patch (without the usb_ep0_reinit()
+  addition) for stable branches predating e34900f46cd6, or is this
+  single patch acceptable for backport given that the
+  usb_ep0_reinit() call is harmless on those kernels?
+---
+ drivers/usb/core/hub.c | 49 +++++++++++++++++++++---------------------
+ 1 file changed, 25 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 199d3f535a89..a6c260d39094 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -4969,33 +4969,34 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+ 	}
+ 	oldspeed = udev->speed;
+ 
+-	if (initial) {
+-		/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
+-		 * it's fixed size except for full speed devices.
++	/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
++	 * it's fixed size except for full speed devices.
++	 */
++	switch (udev->speed) {
++	case USB_SPEED_SUPER_PLUS:
++	case USB_SPEED_SUPER:
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
++		break;
++	case USB_SPEED_HIGH:		/* fixed at 64 */
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
++		break;
++	case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
++		/* to determine the ep0 maxpacket size, try to read
++		 * the device descriptor to get bMaxPacketSize0 and
++		 * then correct our initial guess.
+ 		 */
+-		switch (udev->speed) {
+-		case USB_SPEED_SUPER_PLUS:
+-		case USB_SPEED_SUPER:
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
+-			break;
+-		case USB_SPEED_HIGH:		/* fixed at 64 */
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+-			break;
+-		case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
+-			/* to determine the ep0 maxpacket size, try to read
+-			 * the device descriptor to get bMaxPacketSize0 and
+-			 * then correct our initial guess.
+-			 */
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+-			break;
+-		case USB_SPEED_LOW:		/* fixed at 8 */
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
+-			break;
+-		default:
+-			goto fail;
+-		}
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
++		break;
++	case USB_SPEED_LOW:		/* fixed at 8 */
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
++		break;
++	default:
++		goto fail;
+ 	}
+ 
++	if (!initial)
++		usb_ep0_reinit(udev);
++
+ 	speed = usb_speed_string(udev->speed);
+ 
+ 	/*
+-- 
+2.34.1
+
