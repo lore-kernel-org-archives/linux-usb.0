@@ -1,90 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.92.40.78
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793962967;
-	b=GrlohQM5umUcKeGFYWi86+P7jJMx4106fVRTCAacHOO5MlQL7bQmfC+Zhin0h8M2lPS4
-	 B8cFGxInSiYxkxH9ob3Apdq6SreWBu2rog8lngCLXXL8yYtW0sQAUkhwzHIzRkS3PXhNk
-	 6K7eMFsjXomQmRXzlOQTy9DQe0UkYSrz3iMLAEbhw6gG5wrbMUHgkMbtierOYQucTcf5Y
-	 pZwckoRzx7WumtuEGxybLhTmRW8O1X/O2yEsn5o690mTIJAbORCFKbw3NGJQQ14PizTEp
-	 bba4++a1pvK9Tha81gIILoB2jLq2sCQF5lsN6MvYY32U+m8EYjkXnY5WrR2JxPz/QoQ==
+	t=1793963508;
+	b=U/T9jycgywyZ0g06MS+N8dBmvdUo4mDdVFRFEsrdSxvHPASYKacuBHGjYMuMvIcH6PjF
+	 44Z/YhFLE6MMMhlAmMMR6kSCJjMci0Y61t6fdgRieVPR2b6MI0GZNwH8Og4q7CyWGuzII
+	 4bmd8uNXErjhcdW3ousMcZs6IoTbfJBthCirlhxbk8WJw7ZQ/yYSRaKIBHclLwcE+UbuB
+	 dv+U1SCbNzQfA0x/72HjQMt2CGOWJ9zcWf2PLF4SVnRaIP670nQU6cA1s3qtB/H9c3Wrs
+	 vurWSngXaQJOZ43XLLV+lBGJhAmSpUO5WdrFv95zDboALllE/v9iss4S3g8FXs+ZXnw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793962967;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:Mail-Followup-To:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:User-Agent:
-	 X-Last-TLS-Session-Version;
-	bh=iCM2cycWCwaMm6hiUmHFooj8p+WDE9YQ8jpkczfNGY0=;
-	b=Zgr6etSsZtX2UwCmH+YzWVTYRJsHPsAShZ1P/INdSmwwuNK9Nt+/QhuAaHj63+megDpa
-	 8U4kfwSGi9TR1ejVowvXCiylA21fugLLo92F1AnoMyhesnfq/3pXUhATks+2NvYFFWm02
-	 XE0/ihCWde9rTvRWN0pzwGgec0A/6AVxWbFKBJbYk2xV6jWkbYOeJDtlFQ2SOeL/pvUvP
-	 7xKERULBcHoiZbcggNcTifMy3GokdMmAYiJcyR52GbN9llcxNMSVDbXjJAx7sMQQZwoo+
-	 rCxDHEIn1eM4mu0Gyoq3UT9FH6PYevjp5bMnc7opHkjwH05h24NGp+fjO7MFJS6TPNg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793963508;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=ymv0niTVnWnKS+pFTfZaMzhEe6bmcXaXyLur7KiR9IE=;
+	b=ICF3RCY6kzMYVgyaDiDeyVgwQS16YVDU/7ajyc/+R0icvRzQXS8mCCppTt11x8jcS2as
+	 mS/NfauKpueYZtwMYmUrJLVHNoi0DHMB4PmHBiU2kyOxn9YFcdFImGvlQL2yE9qIlHw58
+	 K6G1swYNelXFLhajtIecIToj7wz/6ZqCIcDS4iq49w6KdXSej04FFsjzmw+xGoG6hWwRo
+	 H2ZW1YjivqhJJDkuLizKUQHhZ6ArKdjH1iD6QpY9wm167GB8RPmGQH2oLqXayDWOSJR0r
+	 uMh39O2yEmjaMKQCMRuVr1Dv+sRGz6TeZEZTi9ut10ApZ6c49ZmGnf7RPFMm0exwJFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=thorsis.com;
-	spf=pass smtp.mailfrom=thorsis.com;
-	dkim=pass header.d=thorsis.com header.i=@thorsis.com header.a=rsa-sha256 header.s=dkim header.b=A6GNpLVt;
-	arc=none smtp.remote-ip=217.92.40.78
-Received: from mail.thorsis.com (mail.thorsis.com [217.92.40.78])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FIXfAf5Z;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB338606A326;
-	Fri,  6 Nov 2026 11:02:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB338606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6444606A33E;
+	Fri,  6 Nov 2026 11:11:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=thorsis.com header.i=@thorsis.com header.a=rsa-sha256 header.s=dkim header.b=A6GNpLVt
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C5874148053E;
-	Fri, 06 Nov 2026 12:03:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=dkim;
-	t=1793962999; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=iCM2cycWCwaMm6hiUmHFooj8p+WDE9YQ8jpkczfNGY0=;
-	b=A6GNpLVtsHeso5gjnzHSm1aqE0/DodHSklqFKj3InXBy6KlEULAYwPHatJbuAddtQa93uF
-	AZFPqP/uvqt+qMBpd+2F4QqG8ovRyO63QJrGAsgTomrOITHHZLcO9F0KUrrVwjpEJAYkmZ
-	/BiwpQKbN2tZc0hbVc7ylpryvVD2DbHVodmizuFGsL6bQdGU2uGawgOLqJIwOJabdbIkm6
-	mToHBkcFTRlZH221UqgLDOllYDIUy90UHj/w63IrI5Nu2+xlrDJRiaRvobqyNsaQIeWdu8
-	cpGriQdE5PVr4vHPBZMC30nNREGJVVjpDRSw+BzGZB263VXKpxPrIdVRaIcqcw==
-Date: Fri, 6 Nov 2026 12:02:35 +0100
-From: Alexander Dahl <ada@thorsis.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Alexander Dahl <ada@thorsis.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Ryan Wanner <ryan.wanner@microchip.com>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FIXfAf5Z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D63A01F008BF;
+	Fri,  6 Nov 2026 11:11:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793963507;
+	bh=ymv0niTVnWnKS+pFTfZaMzhEe6bmcXaXyLur7KiR9IE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FIXfAf5Zx37NfO5GLrcenTXjpTMp1DBfUo4/QUReR8rF6AxsQTqUTrgRF+0j5apXe
+	 ZB0NsHvsFvk6EgsiTAMagSpL6uWWpVkZUO8r/FNZUMbhYtYG0rYa3GIKwaKCAp0us4
+	 m2XYoIP+BmjiDtH1xsZMGNKvkY2v/tVzeIN38VtoPTkjn6lQDWYpeUDZFqAW6ehXrX
+	 HhmpmyJ6/r3j3guRCsDqPXblfup0LMrZj9h4WhEYnNGLQLKxw7j5zgX+we3FnKEQaP
+	 LG3OckjSOE1p+dVd5p/tLlaFcGxSYVQbSNoO3UAmI3q0tAj/tgY6QsE4dkqT1/b3An
+	 NzwCDdtReyohQ==
+Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
+	id 91F4627E8491; Fri, 06 Nov 2026 11:11:07 +0000 (GMT)
+Date: Fri, 6 Nov 2026 11:11:07 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH v4 02/16] dt-bindings: clock: at91: Split up per SoC
- partially
-Message-ID: <20261106-oil-swear-a9e81127bc25@thorsis.com>
-Mail-Followup-To: Krzysztof Kozlowski <krzk@kernel.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Ryan Wanner <ryan.wanner@microchip.com>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+	Jun Chang <jun.chang@metanoia-comm.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Conor Dooley <conor@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Ben Zong-You Xie <ben717@andestech.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Ulf Hansson <ulfh@kernel.org>, Jisheng Zhang <jszhang@kernel.org>,
+	CL Wang <cl634@andestech.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
-References: <20261105110715.2486432-1-ada@thorsis.com>
- <20261105110715.2486432-3-ada@thorsis.com>
- <20261106-beige-ostrich-of-merriment-ae6eb0@quoll>
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Minas Harutyunyan <hminas@synopsys.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Randolph Sheng-Kai =?utf-8?B?TGluKOael+iBluWHsSk=?= <randolph@andestech.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	Paul Walmsley <paul.walmsley@sifive.com>, linux-mmc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH 11/25] dt-bindings: spi: andestech,ae350-spi: make DMA
+ and interrupts optional
+Message-ID: <07329076-00d4-49c6-a320-165910a364b9@sirena.org.uk>
+References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
+ <20261106-mt2824-v1-11-86087eaf5af4@bootlin.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -94,67 +90,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="0rA9jbrCb+ammo71"
 Content-Disposition: inline
-In-Reply-To: <20261106-beige-ostrich-of-merriment-ae6eb0@quoll>
-User-Agent: Mutt/2.2.13 (2024-03-09)
-X-Last-TLS-Session-Version: TLSv1.3
+In-Reply-To: <20261106-mt2824-v1-11-86087eaf5af4@bootlin.com>
+X-Cookie: Whoever dies with the most toys wins.
 
-Hello Krzysztof,
 
-Am Fri, Nov 06, 2026 at 11:57:53AM +0100 schrieb Krzysztof Kozlowski:
-> On Thu, Nov 05, 2026 at 12:06:38PM +0100, Alexander Dahl wrote:
-> > Before adding even more new indexes creating more holes in the
-> > clk at91 drivers pmc_data->chws arrays, split this up.
-> > 
-> > This is a partial split up only for some of the old PMC definitions.
-> > 
-> > Binding splitup was proposed for several reasons:
-> > 
-> > 1) keep the driver code simple, readable, and efficient
-> > 2) avoid accidental array index duplication
-> > 3) avoid memory waste by creating more and more unused array members.
-> > 
-> > Old values are kept to not break dts, and to maintain dt ABI.
-> > 
-> > Link: https://lore.kernel.org/linux-devicetree/20250207-jailbird-circus-bcc04ee90e05@thorsis.com/T/#u
-> > Signed-off-by: Alexander Dahl <ada@thorsis.com>
-> > ---
-> > 
-> > Notes:
-> >     v4:
-> >     - "re-added" some definitions present in hardware but not used in dt
-> >     - reword header comment (at91 -> Microchip) for newer SoCs
-> >     - PMC_UTMI was renamed where appropriate according to datasheets
-> >     
-> >     v3:
-> >     - full splitup for all at91 family SoCs instead of just a few
-> >     
-> >     v2:
-> >     - new patch, not present in v1
-> > 
-> >  .../reset/atmel,at91sam9260-reset.yaml        |  3 ++-
-> >  .../bindings/usb/atmel,at91sam9rl-udc.yaml    |  3 ++-
-> >  .../dt-bindings/clock/atmel,at91rm9200-pmc.h  | 16 ++++++++++++
-> >  .../dt-bindings/clock/atmel,at91sam9260-pmc.h | 16 ++++++++++++
-> >  .../dt-bindings/clock/atmel,at91sam9g45-pmc.h | 16 ++++++++++++
-> >  .../dt-bindings/clock/atmel,at91sam9n12-pmc.h | 16 ++++++++++++
-> >  .../dt-bindings/clock/atmel,at91sam9rl-pmc.h  | 16 ++++++++++++
-> >  .../dt-bindings/clock/atmel,at91sam9x5-pmc.h  | 16 ++++++++++++
-> >  include/dt-bindings/clock/atmel,sama5d2-pmc.h | 20 ++++++++++++++
-> >  include/dt-bindings/clock/atmel,sama5d3-pmc.h | 16 ++++++++++++
-> >  include/dt-bindings/clock/atmel,sama5d4-pmc.h | 17 ++++++++++++
-> >  .../dt-bindings/clock/microchip,sam9x60-pmc.h | 15 +++++++++++
-> >  .../dt-bindings/clock/microchip,sam9x7-pmc.h  | 19 ++++++++++++++
-> >  .../clock/microchip,sama7d65-pmc.h            | 26 +++++++++++++++++++
-> >  .../dt-bindings/clock/microchip,sama7g5-pmc.h | 23 ++++++++++++++++
-> 
-> I miss the "split" part. You only added defines, shouldn't you remove
-> them from other binding?
+--0rA9jbrCb+ammo71
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is done later in the series in
-[PATCH v4 16/16] dt-bindings: clock: at91: Remove old PMC definitions.
+On Fri, Nov 06, 2026 at 10:30:08AM +0100, Beno=EEt Monin wrote:
+> The ATCSPI200 controller can be used in PIO mode, without DMA, and PIO
+> transfers can optionally use the controller's interrupt. Make dmas,
+> dma-names and interrupts optional, and require dma-names if dmas is
+> specified.
 
-Greets
-Alex
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
+--0rA9jbrCb+ammo71
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCau21ywAKCRAv73Ows9A4
+iUbmAP9uPXjuvImN4DYj7yBA9yMQ34eBI4TfDanUysfyegnzFwEA41yLk793Adlv
+ceQ4scKXQENx1b01FUJT30h4t/rYaA8=
+=PoeG
+-----END PGP SIGNATURE-----
+
+--0rA9jbrCb+ammo71--
