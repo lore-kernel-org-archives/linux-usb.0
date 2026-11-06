@@ -1,82 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793988209;
-	b=fJEXNWC65sfzu9qhGauBQ1lcSQqz8MuNQc8zgG5M51njFhlhjggKX0ilYG7rCVMrJ3iQ
-	 sxMg4WeGYNr2BqAH/LtNcGw1cslMsp5fw+AvqyEKvwKK8D/982wGikpzQHDJcARdph8FJ
-	 gxhW4NkqWxb8H1zuhQ1cwfEdMPs7HIsX/hjr5NZFAKuETH256ftWggFexY9/r79YDzcx8
-	 WLLAk+J482fG5WZK5J8755Hl1IYr3JtB8FHol9UTY+UpBgEfX8sBrytodmVAXeVQ9201K
-	 yHng4Za60SBxieZFuoa4sOkbAh6nZpVk93KRY793YM7f/pzKIV4JpxmUOzb+HK35tQA==
+	t=1793988347;
+	b=IDwqJVGMq8uPfaTmiAvy0oviZyHaXPDuqhiNTKR+luDb0KiSoGZK0b+VslmsRarhf/J4
+	 pUOjM5jWzCouHMPJ8H/cbWzWfogZWWMoEqIR2dlehltJLqsmWoyNxdUZOg2Demg+VwTBo
+	 tkdaRm0hI3SQber5LyBddTQ1cm2a4fNAjiGuYeJ+ho6xskbdqSiyQ8tUtzjhuKXJslVYM
+	 XgDWYA2lP7u5gGzzwLPCF3PMBNuqXOCqvywmVKqsy7BYsFlf2kDxXmwM7+RZuVpzLkqLv
+	 ChRdpKcrBEpAuUg6dzWjSz4otQ26cbHKL3bKeMJop0xpTbN51THVryH+G6+ZiDuhO3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793988209;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=H4JC89FtVyR6bVp+jdRxlev26LVtw5xFWty/pAHQfbQ=;
-	b=5bcGSVr1kyJs7bYSABO8DfkCX7WOOJhpKLq9tGRHVg70dwDQor5POam5GW2Q9aX7Lwll
-	 IqUZFp+bnJ7xGBOk3peEY+IiamnR9g9yTkNANwIUdnv2E2BtCRRUwr3VhkYaN4MS0hB5p
-	 Hi092qmkaZOIejLxs65xx/IYi3KXxszezxJbgImw1AgrKrxqnFtH8IAM0q93QqBJbS5IS
-	 Iu10G1MHbqJLTrAbNFUn98VIDP3gXFD/MseiX20zJutZuMN4215l5YaLbnL2AnQ1YHLxw
-	 U4ncTUPZ8s5wyFjoI8TFtdlO+jPl5g/gEpjwBphH09GjoxkDa8nK3PsDIzLda2qldpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793988347;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=rrrwHzJXVIORcIhUYiCYOgYAzpDNxbay8Vcu5R6lG6I=;
+	b=uSZQ8XIzf02bUXHXVKjEKyRyJVq377oDlJ5Jl7OZUwdb4KZ/isRxbmzN6tx/ar/DxbLQ
+	 4khLtJ3ClpF5JZ8OtwnsAZltxeOwY6h3sDadzx6+s8eGahzVyiFySx1uCkPeAnlpj3cmP
+	 rX+xIqapFMH4L7RmsoqXziT63KmQobxsFKaBfCM41Gh8ABy1SbnWWXAzsziNOqTC6M0gQ
+	 6i+l5z9r5I+c+AhnMkFVLBaR9170wpVkKFQuyJWn9Um9SlRmCpywaa4y/qasywZo5kxSK
+	 jjrZZQO4+zWqGo8BdOg/eKeud3Vyz9QyBv5GHrIyU4GXXvecfGUst9tQfWw4XzL8IXg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=czfank+a;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GiRyIm5e;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2795606A326;
-	Fri,  6 Nov 2026 18:03:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2795606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F29606A33A
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 18:05:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=czfank+a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793988208; x=1825524208;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=lCk/h8ygbgP+epzmfmv6nQwe4Y/dng1VVPwIVpqwZss=;
-  b=czfank+aoParhYgOfJ2/72btQkRasNl/s0g3ZKdMmr5OzplwyuWkMx0i
-   vxJlQjXEsfaJy0h8VzEsOlvKE05cfN1K+6onhL7CY7+D5gsFyU14MSedM
-   Xsn6THXdS5A8uIpR+XDlXXghlsDya2YXM08QNBfiOLo++CvWKQC9dytEo
-   lds5ro+8v1Ro1aCddYOKmSQ/R1y+YkmcjdUrtlJCG/TTPRPm0BIVWFTNA
-   c/KwQdiSxc6SdNoTE1j9OFFqFgEKoZablYS789ummmNDgXsR0BHHSNM7j
-   u5dFVeg7QuWQ8rvzG+XUHa16BlQSE1pFPeI04imUQ1bGm4re0FJ591DB+
-   A==;
-X-CSE-ConnectionGUID: 6W0xCCE9Rj+oRSh2OSH2Uw==
-X-CSE-MsgGUID: bGbpnRKXT5yrhPW3v7TrFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2675771"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2675771"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 10:03:26 -0800
-X-CSE-ConnectionGUID: +pXFL1TJS3GZbhDaO5V8hA==
-X-CSE-MsgGUID: syFtqdleSImvrpB4xOVoXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7169959"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 06 Nov 2026 10:03:24 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 2B98899; Fri, 06 Nov 2026 19:03:23 +0100 (CET)
-Date: Fri, 6 Nov 2026 19:03:23 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: kernel@resetko.pl, Greg KH <gregkh@linuxfoundation.org>,
-	Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Daniel Dev <daniel.dev@noex.uk>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] usb: typec: ucsi: acpi: Assume UCSI 1.2 on Lenovo
- ThinkPad T14 Gen 2a
-Message-ID: <au4Wa_xIfLp0UFjq@black.igk.intel.com>
-References: <20261103-ucsi-lenovo-t14g2a-v2-0-e85c659b56a2@resetko.pl>
- <20261103-ucsi-lenovo-t14g2a-v2-2-e85c659b56a2@resetko.pl>
- <au4GUwhJz1jxYnqF@black.igk.intel.com>
- <79fec522-e734-4194-bf1d-57b1cb0b67c1@app.fastmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GiRyIm5e
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B6A21F008BC;
+	Fri,  6 Nov 2026 18:05:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793988346;
+	bh=rrrwHzJXVIORcIhUYiCYOgYAzpDNxbay8Vcu5R6lG6I=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=GiRyIm5eZm+wD7LJnHLqWsOVwJYKhpzWrk2Rk1CJeDV9SMgdBOU7XmVzNx1lSgMR4
+	 SuzTTgV0911U6AzrX/KzRIidUyOC5hC4VX1Msah4PzPVORwYTHc9gEFK3Yj8TvwKlJ
+	 bDzpI/u5ecnF27WxMB9LZPSHaMQ5EcapzLsUgkBRZqNAsKy6cD+tXcWxotsJhJIH1k
+	 TUY0joEY5tZFkJ3eBNtuQX8q4weD9h4zbY1/0GfhThEcE2HhfIw8xzDs9ORg9hQ+CC
+	 C3fZufyRNmRQyDJIQa6lNgjugNLoi85lXALT4tI2i0Ike9WrVjUgVC8VCjoP90CROm
+	 SoGY4CC+vW0oQ==
+Message-ID: <sashiko-outbox-201991@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 6/6] usb: dwc2: platform: fix stm32mp15 detection
+ logic power management
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Fabrice Gasnier" <fabrice.gasnier@foss.st.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261106-dwc2-low-power-fixes-stm32-v3-6-68d2a0e9bab6@foss.st.com>
+References: <20261106-dwc2-low-power-fixes-stm32-v3-0-68d2a0e9bab6@foss.st.com>
+ <20261106-dwc2-low-power-fixes-stm32-v3-6-68d2a0e9bab6@foss.st.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Nov 2026 18:05:46 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -85,104 +60,81 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <79fec522-e734-4194-bf1d-57b1cb0b67c1@app.fastmail.com>
 
-On Fri, Nov 06, 2026 at 12:54:27PM -0500, Mark Pearson wrote:
-> 
-> 
-> On Fri, Nov 6, 2026, at 11:54 AM, Heikki Krogerus wrote:
-> > On Tue, Nov 03, 2026 at 05:10:21PM +0100, Stanisław Titenko via B4 Relay wrote:
-> >> From: Stanisław Titenko <kernel@resetko.pl>
-> >> 
-> >> The Lenovo ThinkPad T14 Gen 2a exposes a functional UCSI ACPI PPM but
-> >> the firmware leaves the VERSION field of the UCSI mailbox at zero.
-> >> 
-> >> ucsi_register() rejects a zero version with -ENODEV, leaving the
-> >> system without registered USB Type-C connectors. Without an OPM, the
-> >> embedded controller does not complete DisplayPort Alternate Mode setup
-> >> when a USB-C dock or monitor that supplies power is connected after
-> >> boot, so the display stays dark while USB and charging work.
-> >> 
-> >> Use the zero version quirk for the ThinkPad T14 Gen 2a, matching the
-> >> two board names of this model (20XK and 20XL).
-> >
-> > So is the product family the same?
-> >
-> > Could you use DMI_MATCH(DMI_PRODUCT_FAMILY... instead of adding
-> > separate matches entry for both?
-> >
-> 
-> The board names are what I recommended - they are pretty safe to guarantee
-> they won't change whereas other fields are less guaranteed (guidance given by
-> FW team). It is annoying there are two I know.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] usb: dwc2: NULL deref in dwc2_stm32_hw_disable() on
+  dwc2_init_params() error
+--
 
-Okay, thanks. I had to double check. I guess you guys already talked
-about this. Sorry about the noise.
+commit f918c81ccd698e45e8b3143adcead2cdea2d4018
+Author: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 
-> FWIW I would rather wait for confirmation from the FW team if they will fix
-> this before accepting the quirk. I am still waiting for a reply from them
-> though I'm afraid.
+usb: dwc2: platform: fix stm32mp15 detection logic power management
 
-Makes sense.
+This commit moves STM32MP15 ID/VBUS detection logic enable and disable
+handling into __dwc2_lowlevel_hw_enable() and __dwc2_lowlevel_hw_disable()
+so the detection resources follow the low-level hardware power state.
 
-Thanks,
+> diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+> index b65b9898bac0d..d61b088cbc265 100644
+> --- a/drivers/usb/dwc2/platform.c
+> +++ b/drivers/usb/dwc2/platform.c
 
-> >> Tested on a ThinkPad T14 Gen 2a (20XK) with BIOS 1.33 (R1MET63W):
-> >> both Type-C connectors register, and plugging and replugging a USB-C
-> >> monitor with an integrated hub and power delivery brings up
-> >> DisplayPort Alternate Mode each time.
-> >> 
-> >> Reported-by: Daniel Dev <daniel.dev@noex.uk>
-> >> Closes: https://lore.kernel.org/linux-usb/b1Wn_eFvTFShGbd970WWl4CWhge_6P2x7Wb6rab3QHNlE4OJ4p__O-QN3B6I-308ftr5oV5Zr7vywA0vdvmtNw6E0YJnVM2ek_5DcFnkXB0=@noex.uk/
-> >> Fixes: c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
-> >> Cc: stable@vger.kernel.org
-> >> Assisted-by: pi:claude-opus-5-5
-> >> Signed-off-by: Stanisław Titenko <kernel@resetko.pl>
-> >
-> > Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> >
-> >> ---
-> >>  drivers/usb/typec/ucsi/ucsi_acpi.c | 16 ++++++++++++++++
-> >>  1 file changed, 16 insertions(+)
-> >> 
-> >> diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> >> index 47ba0e15b8ba..d752fc7b61ec 100644
-> >> --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-> >> +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> >> @@ -196,6 +196,22 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
-> >>  		},
-> >>  		.driver_data = (void *)&ucsi_zero_version_ops,
-> >>  	},
-> >> +	{
-> >> +		/* Lenovo ThinkPad T14 Gen 2a */
-> >> +		.matches = {
-> >> +			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-> >> +			DMI_MATCH(DMI_BOARD_NAME, "20XK"),
-> >> +		},
-> >> +		.driver_data = (void *)&ucsi_zero_version_ops,
-> >> +	},
-> >> +	{
-> >> +		/* Lenovo ThinkPad T14 Gen 2a */
-> >> +		.matches = {
-> >> +			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-> >> +			DMI_MATCH(DMI_BOARD_NAME, "20XL"),
-> >> +		},
-> >> +		.driver_data = (void *)&ucsi_zero_version_ops,
-> >> +	},
-> >>  	{
-> >>  		.matches = {
-> >>  			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
-> >> 
-> >> -- 
-> >> 2.56.0
-> >> 
-> >
-> > -- 
-> > heikki
+[ ... ]
 
--- 
-heikki
+> @@ -541,33 +639,26 @@ static int dwc2_driver_probe(struct platform_device=
+ *dev)
+>  		goto error;
+> =20
+>  	if (hsotg->params.activate_stm_id_vb_detection) {
+> -		u32 ggpio;
+> -
+>  		hsotg->usb33d =3D devm_regulator_get(hsotg->dev, "usb33d");
+>  		if (IS_ERR(hsotg->usb33d)) {
+>  			retval =3D PTR_ERR(hsotg->usb33d);
+> +			/* skips low level dwc2_stm32_hw_disable() in case of error */
+> +			hsotg->params.activate_stm_id_vb_detection =3D 0;
+>  			dev_err_probe(hsotg->dev, retval, "failed to request usb33d supply\n"=
+);
+>  			goto error;
+>  		}
+> -		retval =3D regulator_enable(hsotg->usb33d);
+> +		retval =3D dwc2_stm32_hw_enable(hsotg);
+>  		if (retval) {
+> -			dev_err_probe(hsotg->dev, retval, "failed to enable usb33d supply\n");
+> +			hsotg->params.activate_stm_id_vb_detection =3D 0;
+> +			dev_err_probe(hsotg->dev, retval, "dwc2_stm32_hw_enable failed\n");
+>  			goto error;
+>  		}
+
+[Severity: Medium]
+Can a failure in dwc2_init_params() right before this block cause a NULL
+pointer dereference on hsotg->usb33d in regulator_disable()?
+
+In dwc2_init_params(), set_params(hsotg) sets
+hsotg->params.activate_stm_id_vb_detection =3D true on STM32MP15 before
+calling dwc2_limit_speed(hsotg):
+
+drivers/usb/dwc2/params.c:dwc2_init_params() {
+    ...
+	if (set_params) {
+		set_params(hsotg);
+	} else {
+    ...
+	}
+
+	ret =3D dwc2_limit_speed(hsotg);
+	if (ret)
+		return ret;
+    ...
+}
+
+If dwc2_limit_speed() fails, dwc2_driver_probe() jumps to error before
+devm_regulator_get() runs, and dwc2_lowlevel_hw_disable() ->
+dwc2_stm32_hw_disable() passes hsotg->usb33d =3D=3D NULL to
+regulator_disable().
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-dwc2-low-p=
+ower-fixes-stm32-v3-0-68d2a0e9bab6@foss.st.com?part=3D6
