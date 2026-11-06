@@ -1,55 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794006708;
-	b=OGAXyD4dWA/OTpBYu9jYvc+hpMuHPPZIgzV0Y0HpBQp/yiH2lniJPOnIs2RMKcF7uXq+
-	 Jd9x11Ra9SU3QawpH/dPyqH9TmtaqYxeIk3MPVZvk4cwR9asb0PwtWO+esRHMTPdrySIZ
-	 sOFcPQHFxMBZtUoX69difRujyqHI92jeuFpLwxt1uppqGVN/3A3iAs1COHxWQt4VUNboY
-	 aYWhgMy7bKCvgwGONLSr8EWMQwxP4jy0ZHefeHn1JF1lvorgvlxaBDrMgboFJ/Vn9uoVC
-	 SA7nNGieK8IxOoIZXMm4TW/lIZxor22jF4lWZ2FQ3T/VQx1bPpbDkMvpv3XiSu6/Mhw==
+	t=1794006805;
+	b=jtiNHZ/ukNybPZe4mKqQUoYIUYUqUGdqATLhMwGVxsfTx+xptMh5oYnsJAWRSkvVYXU/
+	 oBdhE9M3lIRsuCGEl5yRbhSqrrlHh9OYY/t1uTT0giN0Iz7orwwvL6cgUQUpobKCZ9mXH
+	 Yox825kMoMl4g57G3W5WBcTzzaYbBHgRWtpyPjPlJcnaLomDnVnSZKG7UTNyVZbcK2YdR
+	 cU4oX6Ev6xHDxldSW+2uGTXnBDyDnhDtYJbrgihwh36O233ynHAxjxM8z04wA05e3ij/6
+	 2p3sUSfd+2l3JMxQ5lQ/nNzb1s2p5pVSJeDGfT+6oc+Qe9Ocybxn8qYLrd79zkXNPjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794006708;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=5emAULrIuLdeLPvKOFL5TUtSEWV3P+7abWnG1Y2F2F8=;
-	b=uMYsOadZlDxgrldl4+c/G8W4EJxxVh0MAQ3T16COINLybJAWTZD6FC4Guy9MVmg2m2zh
-	 Xz4aTtQMOmgpQbByvM4u2VdfZGsNTh2tUTerV0LNWCW/KImVzCE1RQTzZCrDX1NTpVL1/
-	 NDGRY05knU2o9AnKqsNd4PoQREKkyhOwz3icSaIvtxhCEorzc90kz6zdiJQGtcUzwrJtg
-	 SlHx6JM3g5noyI+/RdxwM3VmmbmAbvQMA1l9JVh1n5Yl9it9Ne552p7sqOdNtR6XineDa
-	 etfUB45aUgnw5cr4Zvjl5yJWRmfH4tUImg+06Fup4cVYgv6JtYA+kA5FwCEq6WHIb2Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794006805;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=9IS5BlkYym1kxYWytdUXxpcm7e0CdhXOBJ3wEJjyuDA=;
+	b=XHj6aUpyyrCF0bJUX0VcynrsvgBY0pQoLQkL7jnc6VN8Qk2jDD91WxJfIFY1MB0ZEHsk
+	 JyjxDmCU4kk6H8x6xceUh053W28Od6EcSY06tl+GcAdJuK9Iv5Y8EIAs9wv85EukujFfI
+	 BxOcTs9LNILzxJtOU8Z1C7RSk5q7o4CyQmPhXeqAhq53bnUcm++hDU2gULd/s3+bcq6b5
+	 TTe8hlBNkn6GUTODjtKIWuuhm59oLzXWo6k82GI1JNMwU5vwr4NuHACoAdzNKSzJdm0Pv
+	 2TnhRWFDB+Z6vspxiCjKP9/nD6ZX0qHJSzkaOJIivf9DhI8pGf6DqzMBVTFsmByZOkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DGHoFoqG;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OlXBubjY;
+	arc=none smtp.remote-ip=209.85.216.44
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9F2606A326
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 23:11:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15459606A326
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 23:13:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15459606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DGHoFoqG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4FFB1F0089F;
-	Fri,  6 Nov 2026 23:11:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794006707;
-	bh=5emAULrIuLdeLPvKOFL5TUtSEWV3P+7abWnG1Y2F2F8=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=DGHoFoqGP4UVwKd50inOHwxqgWX9kFq5oH1VJljNe9pbo6XCqP3aBYTjE19HiRS7N
-	 7SZkiElizLeT38E4TET8Npa2o+iStXwKvAXwYbLzGLIQeGLDnCUgD9bNwsAE8yxXGQ
-	 YubUihOzfQlsAJPJVT0IUiAShZ9pp4+oMORGDR/XA4WoBZx9LkOHS7XTW+O+rroTf7
-	 yi50ikAYA4OUbMSsVjTMrbZWnU+mk7hYQILRKmu1DbcQq27v7klOaa/hlwIYaMOFP9
-	 QRJOGnBcUnT/oIhUpmlkEZw0GiAjgkOGD9047Rwv65YIRR35UPCqVTA2RlnldR+P1f
-	 6mJGrAyYxH5PA==
-Message-ID: <sashiko-outbox-202359@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] USB: visor add vendor/device IDs for PalmSource devices
- from the PalmUSBD.inf file in Palm Desktop 6.2
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Adam Simonelli" <adamsimonelli@gmail.com>, linux-usb@vger.kernel.org
-In-Reply-To: <20261106230755.2652311-1-adamsimonelli@gmail.com>
-References: <20261106230755.2652311-1-adamsimonelli@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 23:11:47 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OlXBubjY
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3b1015a4259so257290a91.0
+        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 15:13:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794006804; x=1794611604; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9IS5BlkYym1kxYWytdUXxpcm7e0CdhXOBJ3wEJjyuDA=;
+        b=OlXBubjYQZlHyXzGQkKHMmNtqkFPaecQv/xoi4yZIAlg5WUsMxHkVEEQf9rrBjLhT+
+         sBJR6PFFUDHxdxuYbake6JZIwUb7ebGg4yy+nob1a+CDzuA/3l8DcFHXkvKBFF80ms3s
+         fyWOZ1AbRabafLEDifYLZYiFCItv+kOFSnMBH1EWN3E0mBTaWhgZTcOAwvxLXdsZngpI
+         RAOU1rlcJR+Xf5zKARPoHeYmP2wNmJ6WJo5jmZY5OnevUW/wbQKkb62wWt6iOQr24w6T
+         CS+dsjqqKIl11isgTMLu7CCGFujJ5DRB87rVl/QDPT/reU1bO4RRswh8kjznZsyVq4iL
+         NtIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794006804; x=1794611604;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9IS5BlkYym1kxYWytdUXxpcm7e0CdhXOBJ3wEJjyuDA=;
+        b=T+hC7eTTySE1kkXCT1d9IMfsDdV5mKSUdR3sRluJ9yD1Bxq+ZU6sdmWJ1n6mPZVMgs
+         /ntm/TCwJc8FLVM4kM8QMI4UJE6OLLGAm26VR8Nb7b+J3Xypln/V3HXLk9ZKAJbEgOsC
+         BK5Tao/LQ+B4P515asChv+K3NCbF+6ky/mLYB8qrTLzCu71zqkm/JICuHG/OHg5I69Na
+         xYDf8q6Jsj2Gl8iAWcYPo8POdant1ZlaYzwkdbYwHjJzWRelD/CsjoGkrRFuax82cKGR
+         8t24Bd9k8UYfcS5ytxIuer6RqetUPfyBmQcGHSVToKV8evsB7N/PZvTioPKL5mOIh+ha
+         Q6Mg==
+X-Forwarded-Encrypted: i=1; AL+hErGkcy1VMF3mNW59+qcLDtJEEFqGHCi4KzAVPybkBnIcc0KKdtcTH5vs36rKSTiDLFnFeOt2JN0Lmeo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8lDsWp4hJm+i4GbyLG0RwqrslOIoTZB2j7zSts5ckHZDF0f7lX
+	KONd8GtAUNfaUHYemtX/GJ0ZueGvaBxA4ibHSpEWrxeIycMjhmuks1eZ3l8D1HLbra9NzJOFx4O
+	kRP9BZA==
+X-Gm-Gg: AYBFou0PQZmpEcT1g26ix7+HbPgZdL2PlFlGxkUcVa4NQW0/gNVWJug0fGI/6U6hzmB
+	sqI7iRO85tmPlpTw2O7TArQDhVKmALFCELc2pfi7g61/Hb/0TcluEOblt9rex9tRgrnp89PWJJA
+	SGpFnF1JYNWrnl/fH7zkyvibp/X8BFDBKorgopbc4ovlexOiz4Y08/NPpHERFZviH8fOjv/scV9
+	eeYvvIuOJal3b8uPFFdlux0mq7vTnemvwBPwHqNDOz4jlP+MxU50cCvVKjEaeivxnk8qsqjlOxL
+	HOrp7WSoUIR5IEd8hKBPrk7hK+ul1ag4hUQurgMGPmup7Dr+CgvKP2fpop5a7YmjHf3R6kor4BK
+	77sQS6zvDQWCn1kJvapnT+ZYWNgmD4HXygGMZrF7nhZ2VJe99gA4T1udiOiUvtLlylSPBhjhGBn
+	BPMwdFHGoLNqhCY741mm9WjZWF1d67SEUSkrxRPyVHy6CjJtqq2hQ7tC3gJjXswGETftw8d2zLm
+	GRw2NH6YhEkw2ABDEuWWdbyvF+DjBrPydwSNKeoZSdLgXDiQeeI3OcWGSnmmmyB45W29aJ4P0qM
+	Rxmd80TvTCNdjaRv9Z0VG3mP2odBnVL3ys6RAPXQeQsigxAU08U2vyeaUfk9wX9Ljqt+7Q==
+X-Received: by 2002:a17:90b:46:b0:3b0:78c8:d56e with SMTP id 98e67ed59e1d1-3b0db6ca00amr3908342a91.27.1794006803903;
+        Fri, 06 Nov 2026 15:13:23 -0800 (PST)
+Received: from google.com (162.127.105.34.bc.googleusercontent.com. [34.105.127.162])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1058a7b29sm609847a91.10.2026.11.06.15.13.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 15:13:23 -0800 (PST)
+Date: Fri, 6 Nov 2026 23:13:19 +0000
+From: Neill Kapron <nkapron@google.com>
+To: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+Cc: gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk, me@samcday.com,
+	michael.bommarito@gmail.com, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/3] usb: gadget: f_fs: simplify error handling using goto
+Message-ID: <au5fD9XTLVypQHI7@google.com>
+References: <20260901120908.14386-1-ingo.rohloff@lauterbach.com>
+ <20260901120908.14386-2-ingo.rohloff@lauterbach.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,68 +97,40 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260901120908.14386-2-ingo.rohloff@lauterbach.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [High] USB: visor: build failure from PALMSOURCE_DEVICES_*_ID macro
-  name mismatch
---
+On Tue, Sep 01, 2026 at 02:09:06PM +0200, Ingo Rohloff wrote:
 
-commit d0c97779f759102eedae826693bbb99e9485b9f6
-Author: Adam Simonelli <adamsimonelli@gmail.com>
+> +	// It's an AIO request
 
-USB: visor add vendor/device IDs for PalmSource devices from the PalmUSBD.i=
-nf file in Palm Desktop 6.2
+Nit: please use /* */ style comments to match the surrounding code.
 
-This commit adds USB vendor and product IDs for two PalmSource devices to
-the visor driver.
+>  
+> -		req->context  = io_data;
+> -		req->complete = ffs_epfile_async_io_complete;
+> +	io_data->buf = data;
+> +	io_data->ep = ep->ep;
+> +	io_data->req = req;
+> +	io_data->ffs = epfile->ffs;
+>  
+> -		ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
+> -		if (ret) {
+> -			io_data->req = NULL;
+> -			usb_ep_free_request(ep->ep, req);
+> -			goto error_lock;
+> -		}
+> +	req->context  = io_data;
 
-> diff --git a/drivers/usb/serial/visor.c b/drivers/usb/serial/visor.c
-> index 4412834db21c5..badc1af72b569 100644
-> --- a/drivers/usb/serial/visor.c
-> +++ b/drivers/usb/serial/visor.c
-> @@ -79,6 +79,10 @@ static const struct usb_device_id id_table[] =3D {
->  		.driver_info =3D (kernel_ulong_t)&palm_os_4_probe },
->  	{ USB_DEVICE(PALM_VENDOR_ID, PALM_ZIRE_ID),
->  		.driver_info =3D (kernel_ulong_t)&palm_os_4_probe },
-> +	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICES_1_ID),
-> +		.driver_info =3D (kernel_ulong_t)&palm_os_4_probe },
-> +	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICES_2_ID),
-> +		.driver_info =3D (kernel_ulong_t)&palm_os_4_probe },
->  	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_4_0_ID),
->  		.driver_info =3D (kernel_ulong_t)&palm_os_4_probe },
->  	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_S360_ID),
-> @@ -137,6 +141,8 @@ static const struct usb_device_id id_table_combined[]=
- =3D {
->  	{ USB_DEVICE(PALM_VENDOR_ID, PALM_TREO_650) },
->  	{ USB_DEVICE(PALM_VENDOR_ID, PALM_TUNGSTEN_Z_ID) },
->  	{ USB_DEVICE(PALM_VENDOR_ID, PALM_ZIRE_ID) },
-> +	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICES_1_ID) },
-> +	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICES_2_ID) },
->  	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_3_5_ID) },
->  	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_4_0_ID) },
->  	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_S360_ID) },
-> diff --git a/drivers/usb/serial/visor.h b/drivers/usb/serial/visor.h
-> index 622d639ce74e0..0f86bd06c4fe4 100644
-> --- a/drivers/usb/serial/visor.h
-> +++ b/drivers/usb/serial/visor.h
-> @@ -32,6 +32,10 @@
->  #define PALM_ZIRE_ID			0x0070
->  #define PALM_M100_ID			0x0080
-> =20
-> +#define PALMSOURCE_VENDOR_ID		0x13e8
-> +#define PALMSOURCE_DEVICE_1_ID		0x0600
-> +#define PALMSOURCE_DEVICE_2_ID		0xff00
-> +
->  #define GSPDA_VENDOR_ID		0x115e
->  #define GSPDA_XPLORE_M68_ID		0xf100
+Nit: since we're already changing this line, can you cleanup the double
+spacing?
 
-[Severity: High]
-Does this break the build when CONFIG_USB_SERIAL_VISOR is enabled?
-visor.h defines PALMSOURCE_DEVICE_1_ID and PALMSOURCE_DEVICE_2_ID, while
-id_table and id_table_combined in visor.c reference the undeclared plural
-names PALMSOURCE_DEVICES_1_ID and PALMSOURCE_DEVICES_2_ID.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106230755.2652=
-311-1-adamsimonelli@gmail.com?part=3D1
+Other that the two minor nits above, this looks reasonable. Since patch
+2 shouldn't go in, can you resend this separately with the above items
+addressed?
+
+Thanks,
+Neill
