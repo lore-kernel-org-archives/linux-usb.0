@@ -1,55 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793955797;
-	b=CM1puBuVQm8CQwm2eyGIdFmO0PhRIRVvBeT+K6hc4CM4Zh+AgBvT4DmxHRIA2HCy66rP
-	 uKNGB+1qor3QbkByF2y8dXpfOs+Iz2NnwiIXtLiJCOKJ5CbA51hJcGZKNSYIyVYE5j5FI
-	 RKEv1ucIWRQ3XXZaMOyqJJmkQmxTq+Fpk55ZviR5lnBLP8ykR1tK95zDw8BvXQl6YupNl
-	 UU2T24HN86jvCRjrG803jB/LXbSUsrBfcm//Zjss52pXzAe6/L9ges5sTVCpCx7EUDNTM
-	 JhRrA6HrzTDUg/lTMhzS/Z5Ta1FMV7jtLZvXE2XEJ01Z57gNANaiVO3bYEYT7FaDOGg==
+	t=1793955924;
+	b=K7cixYTP/41oJXofX/Z+qLuMASYOpOaIjO+6Ef5WKgKAIDhtds1mXLOYx6L3819ykDFz
+	 GlIUtGQ2nEAf35ebvISoE65vvi/61btUa5PBv6hs8vL31hd8AqVrUo8PaxbhuYI2Qv4na
+	 EB1rRZkqeK64556tyER1Ukju4UNpH6dam40VYzJRR/TkPnwnfaxNtd54OJE0nnC71NLfF
+	 Chix2MGs2jYvkd484p9p8TvuNJ79JmweoyAeyVnrqzIzhc6x8XaBiEnGkhtrfFgfabj6k
+	 RbzP0GJT575z2iHQj0IbcQsUcOZcLJmaPgvkESpztC+wHBIn9y7l7BtJdJLekBFIeOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793955797;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:X-Developer-Signature:X-Developer-Key:
-	 Content-Transfer-Encoding;
-	bh=Mqv/K8DUVr9IpM3Rb+n6/zt8hfdZ+2BbUXAXIg8tKGE=;
-	b=T1+1H5Baj0hiSTVRPjlbi+gDloi1o6YAlsSZl3keBjSwReWQOOuoLhQgmRrGZT2BlTdO
-	 eU4ko6kMIE2sBEUezJBUwBq+ZmpOh3/bHp5aNpp/XOTpavRn0QDNGEmoSwOMY1l/ZNKnM
-	 nK0l4/FaqsYsOOXexQzwy+fWbRgTmNSdWDDHWVZD9skUwu5BHWB38GhP6Ho6CTWuxCJTe
-	 gkWWZsPM79V69eC7OHDqt//WSyLDaLhNNdLwQIXfYioUKNUW4+ymaJYHnVTaaApSSZIMG
-	 aMN03QV3E4J/mSC8I7I0Y9qL80UoEyS2+3hH3yEjSPBtKfqSkymEj0iUuGMZ/W8ynUA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793955924;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=c90CdGUrN6Bf330Dk/KZXZ8enzqIapXIbJtQEozVyp8=;
+	b=d1nQ8auHKCUZC3fK0dlUThlLQso6qDQZ3TryRE3TiHK1hD1h+NkmpSu4DI4LkDc957Kt
+	 dL8bB+AGgqWqDbTyo1DpE1eIwS6BZEAQSLOJZxOL7gXidNC7RfUXj9Yq/STzGk6jCB7wi
+	 ryqq/0Cq9jGvwa0hWAj+DGnuge+DZsuzGxoOeW6mxrzqbf6byJryPZGPWpB3fWRWL3d9L
+	 iZUrDi41B1F0cmi4fmGBlqfYWjux8X3ydN+C1H4NQgUnkSSsdgsJGxnamMQVWDCDukvZQ
+	 4KSw8bp+ObZ4PJ/a9AtI4Ag8hJP6JlRF0PiC/Q/OvhnK2js6YJ5tJTb2TfBdZRg+kMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sk6ACDg6;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E4LWH4GW;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBC9606A326;
-	Fri,  6 Nov 2026 09:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6F1606A32F
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 09:05:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sk6ACDg6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 379D61F008A1;
-	Fri,  6 Nov 2026 09:03:15 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E4LWH4GW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 905F41F008A2;
+	Fri,  6 Nov 2026 09:05:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793955796;
-	bh=Mqv/K8DUVr9IpM3Rb+n6/zt8hfdZ+2BbUXAXIg8tKGE=;
-	h=From:To:Cc:Subject:Date;
-	b=Sk6ACDg6zvIjYbhN3RkQadFKTLivzBxWLPZfyLIhNHsRo82wjDoaAtipssneygZXJ
-	 ZyPYKTu9z/Hn7pY4XtwcRJyn7dy5hyz34CiV9ZGMHGLSPZo725Bs2gfXrTyjadIrv+
-	 xXUqsieQhnITzcOVtaxbGXbMxiqzKPumjmQe3yrGgvg1jnewc7p1woien8ZuynsP7X
-	 HyOOG17w0s0BSYZn9OVEwCkfEU4F6YXa4cOFiq+z7jzm0A7QsA9i6sxnf1qFNbXn6Z
-	 3JnfRjgOI2lhD60fawAWSn37yqrUk82Roxrd3ju/Cqgrbg7mwZUy4pGTLu11aUI+bE
-	 +mZA2CHqFFSVw==
-From: Thorsten Blum <blum@kernel.org>
-To: Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Thorsten Blum <blum@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] USB: serial: console: use isdigit() in usb_console_setup()
-Date: Fri,  6 Nov 2026 10:03:05 +0100
-Message-ID: <20261106090304.2410-2-blum@kernel.org>
-X-Mailer: git-send-email 2.56.0
+	s=k20260515; t=1793955923;
+	bh=c90CdGUrN6Bf330Dk/KZXZ8enzqIapXIbJtQEozVyp8=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=E4LWH4GWNZWW+w2KKMgWfapzX7NPwftmaiesOGK36B/BBhNnR6ZcCMgIgxDlWpi8u
+	 DJ+AMUm2th2HQX57IUazprJGgja4sNd8pUblIZu5VZOlRr/NY6wHrfahc8LlcGW50S
+	 h48rS2rmHORfRArvxmFUYtDffoWfDXUPp/AxVJXwcyH9KK5QoaHC0oNxtj9P+qNfJy
+	 67x/HiP9en2wba0r2wa+PypSXVypErJ+92WqBcKgWkfNdCm5/FRx2uzgofvHoM4265
+	 Z7mGPNrUgm+cqoKgiOZ4QSKHtlvTxfFMaFvkTrqe2ZTzkitaAYTEtnlu/mRRTCAjhA
+	 sbmMgEHrTWxCg==
+Message-ID: <sashiko-outbox-201099@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] USB: serial: console: use isdigit() in
+ usb_console_setup()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Thorsten Blum" <blum@kernel.org>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261106090304.2410-2-blum@kernel.org>
+References: <20261106090304.2410-2-blum@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Nov 2026 09:05:23 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,36 +59,14 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=865; i=blum@kernel.org; h=from:subject; bh=KxbJ4wPcdKVwMNjJSVQtpG7QhliVGIr0HwmK+ZZHO5Y=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFlvp59oqvPuf7MxYl3DthNPr35y0Pu2ye+tt6um95J3z FbHc4smd5SyMIhxMciKKbI8mPVjhm9pTeUmk4idMHNYmUCGMHBxCsBEfl5n+F9f+zbVTrdvzaPO SDmxbtXXdpYndkjULZicL1Dut3Gv2TGGv4IfGmbeTfdPur/+SkqlMUtV6SxdjsPZ2adub3m255U XEzMA
-X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
-Content-Transfer-Encoding: 8bit
 
-Use isdigit() to replace the open-coded implementation.
+> Use isdigit() to replace the open-coded implementation.
+>=20
+> Signed-off-by: Thorsten Blum <blum@kernel.org>
 
-Signed-off-by: Thorsten Blum <blum@kernel.org>
----
- drivers/usb/serial/console.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Sashiko has reviewed this patch and found no issues.
 
-diff --git a/drivers/usb/serial/console.c b/drivers/usb/serial/console.c
-index 29f09190846e..25ea57c8fd3f 100644
---- a/drivers/usb/serial/console.c
-+++ b/drivers/usb/serial/console.c
-@@ -15,6 +15,7 @@
- #include <linux/slab.h>
- #include <linux/tty.h>
- #include <linux/console.h>
-+#include <linux/ctype.h>
- #include <linux/serial.h>
- #include <linux/usb.h>
- #include <linux/usb/serial.h>
-@@ -70,7 +71,7 @@ static int usb_console_setup(struct console *co, char *options)
- 	if (options) {
- 		baud = simple_strtoul(options, NULL, 10);
- 		s = options;
--		while (*s >= '0' && *s <= '9')
-+		while (isdigit(*s))
- 			s++;
- 		if (*s)
- 			parity = *s++;
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106090304.2410=
+-2-blum@kernel.org?part=3D1
+
