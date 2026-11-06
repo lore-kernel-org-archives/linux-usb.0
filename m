@@ -1,57 +1,85 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793975130;
-	b=4tF2zPmHTrIxiOkX4lzXoLr4HAskaUKwxOAhmvROZ1vzA/qhC0VKSWHb1jlVxfGrwtJR
-	 gyG8YzV1aBKNL6DQTqIglkgPYpVMgxZhadssGdhYnsrMGgtNSMK80DLGpf8Wpf3JUO7wY
-	 soHFKxK+R8fHelvidExXCtJ8BtCpBeW71+xZNqWaUQlBJAMsGg5Kd6yByWwyuxGtXE/6a
-	 ZZnLShu2Wo+jXxI0Y7QD/nfPmq6SvhvKhX78zCuI5GGUN+teTcovwKd/cERtM+QE0h+Kg
-	 xNJYEAFHkrMroj4j2e27+YQeYHBJTttryZkhQah7PkQ8a1pFsrJO+4TYWp/6Ro7d9FQ==
+	t=1793975626;
+	b=Z7c2hVuIBjcSvK6tHze21UzbNXrNQwRYF9S8sd5qgmNl4zvF5ZyD7sgsyuBSCdnmjVY0
+	 Hp/bUXCansnt/zILvVc4ibJGot6vh6Ymrv5iY6YNYDaQD4XKG5KrcWalb19nCU3adJ682
+	 yjN40tFwO39qfUrJ/17wF5o8oSIlqdXeUpJjS2bkhKOAvhZvb1qLJF7vWBLPDWl5061R7
+	 56/3ZJRWzI3K7607pFqhMF9E1Rfq8hW89dlPoFWcD6f7ufHBDEEseE1DLENtPyQKWzQKZ
+	 ZZSVcoZK7VQKMIv/uT8wLITK5y6+ExFKWX/Dz2Akp+CijXtk78HYYXRaYcVhaoeMlrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793975130;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=CEk/UtVc6Agyn8CIkBmTHIK9+i53myER/y4rxvFxPj4=;
-	b=RDK31QF0Bs7vEpopvaV0U9CFFagHJ1jdYjS3rlCfA5pIkOsoOlRJjbblxlXAS8+rB4YT
-	 yhnMhhC6RLp/AzRZdP1jwMHxDIkV6rvPoT6bBBRgHLl2tm71dsjIs4+FCuvk1xZdy9dNk
-	 h/u3lZ0he+uoQsnvF5qag8dx3Aa4QKHzSmgRh2rXkMOzY1LpFilA6Nlp5SVILhQvp4KWP
-	 duVZ7No4ozm6l0MZyfJtOdDvPzgF2yXEP+RrY2xYJLNLQqRz9nZv2IvxXRyy7BjHyZ+9j
-	 NXcgvu6OYvBR74YeF9rYo4K9WntrUroPAxzb6H1BSt4DGrJhur0BrKNHNBGYp2m7Y7A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793975626;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=wtqvUty3awL+WV2C4Bd+4jjQ8JiJNaHCJXSR0TJ5v3A=;
+	b=yQzm4CfK2F9ZYjA2mIbjoeprcosHEdNNYxr3L1jgrtO4GxgMaTdKcDgd0UTpHBltDfJa
+	 ztMhbK3nfnpX+vEilGUwKtzNysu0wPRgSa7R3ovGzSuvI4q085TzzJsYn04ZGMjOrkrzi
+	 2B771f91iFKJwlsDgj73cRdrR/U2oswgItNA35M+zz4FwbG/Tq3Sxup4bhnYVzKPWba98
+	 oL9SHgc72QDyZL+41/14kb8wJEyGeYJ861q0z2aSBx4lA9bsj/qqjbK7ewW0rOgmU7Ucy
+	 ahW+TYvzrjcpLWGapc/60DhflNyRrkyFs6k7kFbujgN43nKwnZt1fzyoQjFBqrrwkTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ROecydSI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b2r2H5Bd;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06C4606EE81
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 14:25:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED22606A32C;
+	Fri,  6 Nov 2026 14:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ROecydSI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3425D1F008A3;
-	Fri,  6 Nov 2026 14:25:30 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b2r2H5Bd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86EA81F0089F;
+	Fri,  6 Nov 2026 14:33:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793975130;
-	bh=CEk/UtVc6Agyn8CIkBmTHIK9+i53myER/y4rxvFxPj4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ROecydSIy4VIhCvSx2gciWgar32JHbuG9hsTMmwuRp0oAmiGaT2XEgux6T3dAmSuZ
-	 RbROCZPoNPpt2WBqTQETuXEU+6R63J3f2x2hncaRvPqiMFUIj64T0iZ+eQwhoT49+L
-	 C1s6e+JZyWAzwCM1/T/rsC/AddtAZ6BpDut76q6WIY0m/U8ge4mBD4YgLkwGnwQp7p
-	 8cHkMMt6O7aoA+tyiPGKZAKgX+Jn9Crc80dQnviDW3GfcittmvbeLSfaOMWPJ1YS9l
-	 TSCmxH/+z5jzpGrEyoH8vnvSwAeYP+PBTQ+HKauNPMJrODAlXqXwJxTT2eNR+Nr63T
-	 zDHHuOmJ3r8qA==
-Message-ID: <sashiko-outbox-201574@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/3] usb: dwc3: remove redundant
- pm_runtime_dont_use_autosuspend() calls
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joshua Crofts" <crofts@kernel.org>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261106133933.1577-4-crofts@kernel.org>
-References: <20261106133933.1577-1-crofts@kernel.org>
- <20261106133933.1577-4-crofts@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 14:25:29 +0000
+	s=k20260515; t=1793975625;
+	bh=wtqvUty3awL+WV2C4Bd+4jjQ8JiJNaHCJXSR0TJ5v3A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b2r2H5BdxpXdgNiFxLfKLsliHD1aW/wDAEDaKEhpVM3EC5rk9Xr6npFA/IH2FuBji
+	 UDxYAgdQaJNICIZINw9Ilbfw8bLsyrsQzWp+NoPqhA/+jsoa6GKznm54YiNoZU+9oJ
+	 sKCs6bWl1EjHh98hGORYkKB0GcOkK/HjEQjgTReSqakMKK6efSYleyQ6zh8ZhPS7y0
+	 0wS9qzyBqM/XWz66nB/U7xvUJNcHVDCJop7XlyB7M2TSiH7wu9UstnvOKKmLIrUiaj
+	 f3Nh+j2TKg+aNrfLE9k32yn/pJAm68XoJQeSANboxqzmkjEzD0Fm3hpnEuFuKwhEfE
+	 9n14k2PzJGEaQ==
+Date: Fri, 6 Nov 2026 16:33:40 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 02/17] Input: serio - attach manual drivers through the
+ driver core
+Message-ID: <20261106143340.GL8298@unreal>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-2-1e536825b4eb@nvidia.com>
+ <auy2plYVi723Qt42@google.com>
+ <20261105191940.GI8298@unreal>
+ <auzno3uoL5Pfojfl@google.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,91 +88,97 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auzno3uoL5Pfojfl@google.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] usb: dwc3: autosuspend left enabled on dwc3_core_probe() runtime
-  error
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [High] usb: dwc3-am62: unchecked pm_runtime_get_sync() in
-  dwc3_ti_remove() [1]
---
+On Thu, Nov 05, 2026 at 12:34:53PM -0800, Dmitry Torokhov wrote:
+> On Thu, Nov 05, 2026 at 09:19:40PM +0200, Leon Romanovsky wrote:
+> > On Thu, Nov 05, 2026 at 09:05:29AM -0800, Dmitry Torokhov wrote:
+> > > On Thu, Nov 05, 2026 at 01:42:15PM +0200, Leon Romanovsky wrote:
+> > > > From: Leon Romanovsky <leonro@nvidia.com>
+> > > > 
+> > > > Manual serio binding connects a driver before driver core can admit the
+> > > > device. A rejected binding therefore arrives after functional setup.
+> > > > 
+> > > > Keep the port ID check and use device_driver_attach() for the existing bus
+> > > > probe path. Driver core then serializes admission and handles probe failure
+> > > > before publishing the binding.
+> > > > 
+> > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > > > ---
+> > > >  drivers/input/serio/serio.c | 24 +++---------------------
+> > > >  1 file changed, 3 insertions(+), 21 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/input/serio/serio.c b/drivers/input/serio/serio.c
+> > > > index 54dd26249b027..604440244c1ca 100644
+> > > > --- a/drivers/input/serio/serio.c
+> > > > +++ b/drivers/input/serio/serio.c
+> > > > @@ -81,28 +81,10 @@ static int serio_match_port(const struct serio_device_id *ids, struct serio *ser
+> > > >  
+> > > >  static int serio_bind_driver(struct serio *serio, struct serio_driver *drv)
+> > > >  {
+> > > > -	int error;
+> > > > -
+> > > > -	if (serio_match_port(drv->id_table, serio)) {
+> > > > -
+> > > > -		serio->dev.driver = &drv->driver;
+> > > > -		if (serio_connect_driver(serio, drv)) {
+> > > > -			serio->dev.driver = NULL;
+> > > > -			return -ENODEV;
+> > > > -		}
+> > > > +	if (!serio_match_port(drv->id_table, serio))
+> > > > +		return 0;
+> > > >  
+> > > > -		error = device_bind_driver(&serio->dev);
+> > > > -		if (error) {
+> > > > -			dev_warn(&serio->dev,
+> > > > -				 "device_bind_driver() failed for %s (%s) and %s, error: %d\n",
+> > > > -				 serio->phys, serio->name,
+> > > > -				 drv->description, error);
+> > > > -			serio_disconnect_driver(serio);
+> > > > -			serio->dev.driver = NULL;
+> > > > -			return error;
+> > > > -		}
+> > > > -	}
+> > > > -	return 0;
+> > > > +	return device_driver_attach(&drv->driver, &serio->dev);
+> > > 
+> > > I am not sure how safe it is, serio (and gameport) have pretty elaborate
+> > > structure and locking rules because they can recurse into themselves (to
+> > > support case of Synaptics touch-pads with pass-through PS/2 ports).
+> > > 
+> > > But this call is for user-initiated probing anyways, I am not sure if it
+> > > even needs "trust" handling.
+> > 
+> > This patch does not change the locking; the lock was already held on paths such
+> > as the rescan path. This change makes that explicit.
+> 
+> Does this enforce synchronous probing?
 
-commit ff359600a9a87664827e5cdde0c2f86b3442fcb7
-Author: Joshua Crofts <crofts@kernel.org>
+No, it ensures that a device is bound to only one driver at a time,
+without races.
 
-usb: dwc3: remove redundant pm_runtime_dont_use_autosuspend() calls
+> 
+> Anyway, I would like to get rid of this special probing in serio core.
+> Given that the code path is only triggered by explicit user request I do
+> not believe we need to worry about supporting trust notion here, so
+> please drop it from the series.
 
-This commit removes pm_runtime_dont_use_autosuspend() calls from the error
-and removal paths in dwc3_core_probe(), dwc3_core_remove(), and
-dwc3_ti_remove().
+Technically, this is exactly the flow we should be concerned about. Users
+attempting to load the driver generally don't know whether their device is
+trusted; attestation software is responsible for determining that. I modified
+serio to ensure that driver attachment happens under the driver core lock.
 
-> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> index fd5c2cd36c595..c4f0aa9627477 100644
-> --- a/drivers/usb/dwc3/core.c
-> +++ b/drivers/usb/dwc3/core.c
-> @@ -2431,7 +2431,6 @@ int dwc3_core_probe(const struct dwc3_probe_data *d=
-ata)
->  err_allow_rpm:
->  	pm_runtime_allow(dev);
->  	pm_runtime_disable(dev);
-> -	pm_runtime_dont_use_autosuspend(dev);
->  	pm_runtime_set_suspended(dev);
->  	pm_runtime_put_noidle(dev);
->  err_disable_clks:
+One idea I had over the weekend was to introduce a special API for driver
+attachment that says, "I don't care." It would allow attachment only in
+"full" mode, as it does now, and fail in any other trust mode.
 
-[Severity: Low]
-Can this leave dev->power.use_autosuspend enabled if dwc3_core_probe()
-fails at runtime without unbinding the driver?
-
-In drivers/usb/dwc3/dwc3-apple.c, dwc3_apple_probe() can succeed in the
-DWC3_APPLE_PROBE_PENDING state without calling dwc3_core_probe(), and later
-invoke dwc3_usb_role_switch_set() -> dwc3_apple_init() ->
-dwc3_apple_core_init() -> dwc3_apple_core_probe() -> dwc3_core_probe() when
-a cable is connected.  If dwc3_core_probe() fails after enabling
-autosuspend and unwinds via err_allow_rpm, the dwc3-apple driver remains
-bound so pm_runtime_reinit() does not run, leaving autosuspend enabled in
-sysfs and leaking the runtime PM usage reference if a negative delay was
-configured.
-
-[ ... ]
-
-> diff --git a/drivers/usb/dwc3/dwc3-am62.c b/drivers/usb/dwc3/dwc3-am62.c
-> index d03b3950ce046..0df7e436aeb0d 100644
-> --- a/drivers/usb/dwc3/dwc3-am62.c
-> +++ b/drivers/usb/dwc3/dwc3-am62.c
-> @@ -322,7 +322,6 @@ static void dwc3_ti_remove(struct platform_device *pd=
-ev)
-> =20
->  	pm_runtime_put_sync(dev);
->  	pm_runtime_disable(dev);
-> -	pm_runtime_dont_use_autosuspend(dev);
->  	pm_runtime_set_suspended(dev);
->  }
-
-[Severity: High]
-This problem wasn't introduced by this patch, but can an unchecked
-pm_runtime_get_sync() failure in dwc3_ti_remove() [1] cause a
-synchronous external abort when accessing USBSS_MODE_CONTROL?
-
-drivers/usb/dwc3/dwc3-am62.c:dwc3_ti_remove() {
-	...
-	pm_runtime_get_sync(dev);
-	device_init_wakeup(dev, false);
-	of_platform_depopulate(dev);
-
-	/* Clear mode valid bit */
-	reg =3D dwc3_ti_readl(am62, USBSS_MODE_CONTROL);
-	...
-}
-
-If runtime resume fails during unbind, the device remains suspended with
-its clocks gated while dwc3_ti_readl() and dwc3_ti_writel() access the
-hardware registers.
-
-[1] https://sashiko.dev/#/bug/linux-413fac67-663c-422c-bdfa-d64685df2b24
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106133933.1577=
--1-crofts@kernel.org?part=3D3
+Thanks.
+> 
+> Thanks.
+> 
+> -- 
+> Dmitry
+> 
