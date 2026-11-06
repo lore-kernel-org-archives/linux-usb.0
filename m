@@ -1,11 +1,11 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.98
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.127.116
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1793944261;
-	b=UnbFxrkaTBXnGgnatP4Mz7HWHfa7YFOpY6cHfG2GQdH4ra89rVmN7CwXc2GpIMf7tuKM
-	 1T30DfcEp6gjOTo3bAO/dut5xzPMiR5bqHfuk+4N6jriryhxT3hGFWVkf1X+5sS9VkUcY
-	 LIbhMX+ij1my2OctSAxuCSB3Gf6sSDcDubAgMfX5YeINX6HSJYSPMtsMAzztl1DnXh8La
-	 wHsCYB/MHmEcHiwWBOoB01TbkkbnX5OZZysmYAI4vSLTzqXCmJl5nOF6Uigj2OKw1Y+uO
-	 naeTevxxtvTXS39Uoc7EP/hfHWHIvK8Zar5z+OqTZDmS/9UDx58mR9352dGfmGOoAMA==
+	b=kTwRrCKqy+QmwZEeClWkwzJO0b189uEHB/9qacyoDCxOTuwEns+sFbRV7zmlnPggqymY
+	 UqBnUzBtjgKVBXLOKcrw/JL7GYnaFY1UcW8Mikw4MjGKhqouN0IUHvc9JYXaulfUnpU8z
+	 A/X9kOHcWobXpgZo+z8PWnZrln+LJN5/0CYpBy40BC79sytpYCFxbNcckqELoQNIbz1nx
+	 AKP6EtsZThXQ8DRRf0uQdD4YvsrjYqpKXNfiGynLHghLwX/S6ZI1H5CLIEW/H5FAxDFN1
+	 gx7e4vFKiUjUdxSaFd+9/neGyFCSKfzvKdev98/7bRybp/bf2vBEB7QpIb/N6Kya6Mw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793944261;
 	h=DMARC-Filter:Received:Received:X-MS-Exchange-Authentication-Results:
@@ -25,46 +25,46 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=peiBO3mcYtGW45Ah9PFl2F/gmH/tsnHCFL1wRh/s6oo=;
-	b=NdiAsx6ICt/rEka4WEIUn0rO8KUTGwsQnoPGil4J4RsV3r0/yyE2FPT7oBz490gfuiBP
-	 7KqUzDMhx91Q4ELPcWKYriSzCXbFM0PcQKzXga4CAbYJVGF2cz9LpA5CMnF8cad2qoBqg
-	 PvN6xgLXoW6vl8MpG3loy2ob/p2KjGEwoAOCC3PpX5yOoYG6psTKbHHYnIKOOHWEWIyUY
-	 RFqSDRcbqvSCHhJdXzZlA0yDNrFIL7/1PvrcfXcgobqYU8wgLygN1xHy3v9nHJ0ah0ICl
-	 Phsk5LkjSgKa3YXH+8Wf+pZ/m2PMBwXFJ3ME4X/vGfkhpqse8nzaAAj62S7h0lPYkJQ==
+	bh=dVP+qCkkMPLsu4gm0MWNyC2eHosbsk8xmc0m0idUjvU=;
+	b=O/3QeMuj8RTA2fslSmuvQu3pn3abD12Zazyj+35S0Pk+d635j3fkguxoG1O2f0DJE7HI
+	 MrlPyQ9/vQ9QZXVCc8ydr3sf3Sk52TmkGIJ2vdcSnpWpFNa+h7n8OKY8thiIgHMGWz7X6
+	 gsV114ibFKLbIBXD4M98ItW1XacOkEf7d1JmJd2aKaIL8hPp4H38CPBIEv2FRSTC0Y0wI
+	 RIdEjX30+wX5uw8k7CTSasLQwbReTnhBdwppxOalNXUKKmY9YQilH/axW4ay8pcc9ngeJ
+	 OHbArGz8C6VOpkbRibh8qm0/+/0wQyc9ejAvhKACMXkU/9LhhKrihqt289DWKT9l7MA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=none header.from=cixtech.com;
 	spf=pass smtp.mailfrom=cixtech.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.98
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023098.outbound.protection.outlook.com [40.107.44.98])
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.127.116
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023116.outbound.protection.outlook.com [52.101.127.116])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4A2606A33B;
-	Fri,  6 Nov 2026 05:50:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA4A2606A33B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C31606A337;
+	Fri,  6 Nov 2026 05:51:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59C31606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OWoA2RJyzUnZ/PP+4qcVXD4mTKmyuQXgYXmMKc8ltyllfx+KWfGVtohvD5xOdYThypA9KdxV/IGFFP7+ZuOlknOztSGH6kkpXMrUypis8sHDr+6FTFGBrLykTVlYgXZMV35rca50cm8tOV7/9m/GIjyqX0FJaUPv5FtMopPkUZ9KhnYclEboRR/sKeCLdfKBLFenYEq+bbRpafYt+S+7sRCDueU5Z7cmAvGe38zEmk/Grad5Th4D8XD9FjzI/1YkmFURFZmNQGQ55wRpsNliZb1v9+ii/yjlrcAvPhc1qfdeDX614QGUai6DIYxN8fAsP1scJzH4w14xZ2QftqnfEw==
+ b=NSeF36TJq1aRtPL5SnCl00Z8uim6RA8JQJBtwXZZJzBtyQmFg43aR961fIKU+84wi62oW1Nut8TkFCdy+YZZdrFmP/N4OyQNPMZE5tzInWeR+FjpeRP5kS+0teTj4V2pcpIgctk6OaMH6ADsmaYwDvtBqEWCews2ytBrzb626bUe0siw8VDiNTTEQZIpRzGRxbVORQO5zyz4BuG24L+vBiL0KjCaStAPcxvsDP7ZOAs5PtvgJjFshTYJjOC3aSLlel7uAiLdQW0/J6Vs5J1Jqf5bCR9/cmQuSegQ9EzMkXw9O4FYVXuUe5VMs2OL/coTD67w6KNw+/cfS2zhk43EDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=peiBO3mcYtGW45Ah9PFl2F/gmH/tsnHCFL1wRh/s6oo=;
- b=T5z3nHuDsamqO7vmWyGyFUuCGvN40zJ4i5PkkbdiHhEDbhP6t4ZN5ppWFOfAvdrHSw0tlowsNGJZYvj3i8oi/9kzN1FfgWCw9gW/lbwCOr+S97CIF5+aoj+th2OmtWUQV1eKVIJUgEDxFaHEhbDOn2E3/G5SlWEYZSGT4px80y5OahNMD3gAT9J9Q5mMA5QyWwZJ9OhifOFjbt9eai+3lyk9pvLpMeC/6wH0OLcMnsi86JLhBdeCWWNokRMB5E+wI6E+yS0tAEQp07vxxFSLjLekdz67FGdmDJFPaZMgpiGeKhBR5bcJSKS0ZWkkhN3sWopP6Os9e4pFyaKWpFhQqQ==
+ bh=dVP+qCkkMPLsu4gm0MWNyC2eHosbsk8xmc0m0idUjvU=;
+ b=OMUxtXr8+dtGQNlcwzvkpz9qFvXKBz0GC1NSLhzOWeRmfvi/pT7UVnWbDLA5N3F5CQaKA8isExF9xKK3S9dW8AsxAY64Xv0EfstpQeAuRIehzwBD4VT2w1XZuFrheq28PpiulFvKpDW0fsdQ7mRYVPCNDXfMV4RdEJj8H75b4wYRnhyzedokEuTlv3QQyd8jvJ+wTZFr8YERA0j62DL3GFTb/GUNLQfdKiLpxcBP1o2LeKhsaGmH8lNjWS4t6s4MWdsve54zfDM0EElHzoDqNQyYa1XbUHsvnCmw0hCZdKpPxUR1+xYlzEVtze61GYJL/LMPsBisxq5SKFj0tr7lGw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  222.71.101.198) smtp.rcpttodomain=cadence.com smtp.mailfrom=cixtech.com;
  dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
  not signed); arc=none (0)
-Received: from TYCPR01CA0180.jpnprd01.prod.outlook.com (2603:1096:400:2b2::20)
- by JH0PR06MB7178.apcprd06.prod.outlook.com (2603:1096:990:9d::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.4; Fri, 6 Nov 2026
- 05:50:55 +0000
-Received: from TY2PEPF0000AB84.apcprd03.prod.outlook.com
- (2603:1096:400:2b2:cafe::2c) by TYCPR01CA0180.outlook.office365.com
- (2603:1096:400:2b2::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.10 via Frontend Transport; Fri, 6
- Nov 2026 05:50:54 +0000
+Received: from JH0PR01CA0133.apcprd01.prod.exchangelabs.com
+ (2603:1096:990:54::14) by SEZPR06MB6485.apcprd06.prod.outlook.com
+ (2603:1096:101:17e::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.9; Fri, 6 Nov 2026
+ 05:50:56 +0000
+Received: from SG1PEPF000082E6.apcprd02.prod.outlook.com
+ (2603:1096:990:54:cafe::32) by JH0PR01CA0133.outlook.office365.com
+ (2603:1096:990:54::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.11 via Frontend Transport; Fri, 6
+ Nov 2026 05:50:56 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
  is 222.71.101.198) smtp.mailfrom=cixtech.com; dkim=none (message not signed)
  header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
@@ -72,12 +72,12 @@ Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
  222.71.101.198 as permitted sender) receiver=protection.outlook.com;
  client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
 Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- TY2PEPF0000AB84.mail.protection.outlook.com (10.167.253.9) with Microsoft
+ SG1PEPF000082E6.mail.protection.outlook.com (10.167.240.5) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Fri, 6 Nov 2026 05:50:53 +0000
+ 15.21.615.4 via Frontend Transport; Fri, 6 Nov 2026 05:50:55 +0000
 Received: from hongliang-System-Product-Name (unknown [172.20.64.180])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 63A8E4102E6A;
-	Fri,  6 Nov 2026 13:50:51 +0800 (CST)
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 189254102E6B;
+	Fri,  6 Nov 2026 13:50:54 +0800 (CST)
 From: Hongliang Yang <hongliang.yang@cixtech.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
@@ -95,12 +95,12 @@ Cc: Hongliang Yang <hongliang.yang@cixtech.com>,
 	cix-kernel-upstream@cixtech.com,
 	Gary Yang <gary.yang@cixtech.com>,
 	Fugang Duan <fugang.duan@cixtech.com>
-Subject: Re: [PATCH v6 1/3] dt-bindings: usb: Add CIX Sky1 USBSSP controller
-Date: Fri,  6 Nov 2026 13:50:50 +0800
-Message-ID: <20261106055050.948470-1-hongliang.yang@cixtech.com>
+Subject: Re: [PATCH v6 3/3] arm64: dts: cix: Add USB4/USB5 nodes for Sky1
+Date: Fri,  6 Nov 2026 13:50:53 +0800
+Message-ID: <20261106055053.948522-1-hongliang.yang@cixtech.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <4d075b70-f2af-4aad-a1d7-cd8ea26387ca@kernel.org>
-References: <20261105011803.4058557-1-hongliang.yang@cixtech.com> <4d075b70-f2af-4aad-a1d7-cd8ea26387ca@kernel.org>
+In-Reply-To: <7a3f7171-ee2f-41b7-b578-da602d95cbc6@kernel.org>
+References: <20261105011803.4058557-1-hongliang.yang@cixtech.com> <7a3f7171-ee2f-41b7-b578-da602d95cbc6@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -114,212 +114,116 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB84:EE_|JH0PR06MB7178:EE_
-X-MS-Office365-Filtering-Correlation-Id: 40017b92-fad2-4bad-a223-08df3bc9ebc8
+X-MS-TrafficTypeDiagnostic: SG1PEPF000082E6:EE_|SEZPR06MB6485:EE_
+X-MS-Office365-Filtering-Correlation-Id: 33828d95-6132-4ab2-afab-08df3bc9ecc9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|36860700016|82310400026|5023799004|4143699003|261026140227099003|56012099006|261009223027099003|261102123227099003|261022105027099003|261022075727099003|261026121527099003|261028144727099003|261021121427099003|261021123027099003|18002099003|22082099003|10067099003;
+	BCL:0;ARA:13230040|23010399003|7416014|1800799024|376014|36860700016|82310400026|261021123027099003|261028144727099003|261102123227099003|56012099006|4143699003|5023799004|261009223027099003|261026140227099003|261021121427099003|261026121527099003|261022105027099003|261022075727099003|22082099003|18002099003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	LUmcU9NlTiFd9fB7+hnD4ThOtwlm7FNacv9VqBKuik0HPXtMe+tSGwwDq9TM2hQwmy+JShmX3M6lM2KKaTz381v0OospHIeaRXM62VEsTGCHICfu35YX8uEg9vmAFpXZKPBWTQv5XQvCZtvBjOdrSOzMhJJtNst/jV9QeZtJc1r8Y+6Sc52r1TzrqAK22TAWRQ/qVNil+s8LdT9Un2IWXiqnjCmLC4ZfkO/VOstjQQcTm8kwgZs5sxOEV3jpN2jlPGwkYcA/9imqxL25BxNNA+JWNZwh/L5TWNHOE+iKXef0IX6c7IqRlD3ndVVRauwm+Of5UFC4lIMxm4XKM6gIA2rz2g/GV9qJxU0HzUcdw/t7Guum5Z/c6gaF8H5uUz33BKFK6N6tIGT2P/HD+v3L65Jt1yD0Xbyl+s9UmUWN2PXF6y/PWvhw7WuQpHujlemA/8f1Vr5OfnOhYrY807iNih5PrrQpw28z+fAYYSJdfsnSePPpm7i2mvjWjsqVqSN2YHua2t6ZSJYZwLDNtyDbZRYtvq322Tgd1yHnfyiGc5M3VH3tFV0ioiBixjGrIMuUx7PUwJCbcTukaNur4vgUh0wioMt6GVKuC8TloLzEJeh3I0s3new7XPVka1bmoEBb5sw9M6gKuUFr2PHMSjP8ZGpa+wlZ/kH/tOrOeQ3H5YJvl/PkE9pffuMSMKJEBb2jKAnWGtUFPIGD0VYXP2F7dQ==
+	qGoMKhddL8nUPmY5uv0d10Nrs9SfSuD/YQzEkzUWMrs1IOSFBB+tAw668jnVHAN9TsuJ8fPjoJvcpTzPCvOBx2COWxu9WNZ2q4jR5rXrVVf3aYcdh+pLVpkO9aqenrC5vvo/K1s9qZFnyClbqGaUWwklrI5V5BwWju5E5ykX+DnrTBaajmfk8BA9KfI8TT9HFVe27ANiD/SHbLcQ2XdmOSpwLQr3sGRiydD5xpJNUcvC3k+QtbR5zhIYaba5R9KFEDVnhse2K6w6tW6PN8Nii1g90oPfS1v6HGFVEVX77jBpmjc+hWNdT0aeoYmKStzt0jIuZOHsKGLHhaG0Uv5AOZxmS/HOIO6Pskn/TykAJkXPDenzCYHKUU71cEK2J25PBZWcqJZWlBXSpWMT72mAqO841fzBST/5yhx+gKV/vFzZQVCMbymXpl0GwyzSV0Sr6hlJjXZGZXa1N+wE+Y+uuZ6PsBHWVAkTI/eRE38sYvngBunX3yjEO2+gEklQbpkcK1mUsku/s5B5ObkQDsuVl+0OsT3gtt8v0Gj3EZvP4Zze/x2kzcLmxQFdt/gwEHQcVUaMRi2TuZ5Ke8EeAv4WzBYyiTkD67Zn8jdWt0sz7dsGRM/XXmsnQrjPokNega6sWN7A3X0VybZk6y77j0yzoGMflB8Sb6sjBe5bzb2/GF/PWbVnmfzwL85IMGiEQDEDwYXd/cLyx+VsUzrqPHVakg==
 X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(36860700016)(82310400026)(5023799004)(4143699003)(261026140227099003)(56012099006)(261009223027099003)(261102123227099003)(261022105027099003)(261022075727099003)(261026121527099003)(261028144727099003)(261021121427099003)(261021123027099003)(18002099003)(22082099003)(10067099003);DIR:OUT;SFP:1102;
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(1800799024)(376014)(36860700016)(82310400026)(261021123027099003)(261028144727099003)(261102123227099003)(56012099006)(4143699003)(5023799004)(261009223027099003)(261026140227099003)(261021121427099003)(261026121527099003)(261022105027099003)(261022075727099003)(22082099003)(18002099003)(10067099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	R9K44TTQL9e4/lF9cVA347j/DUss09thCMPR4WfTy3c1krO6m3GWsKHG+GKJBzDHbbmiKWpfeajl8zZRUQ9Q7C4Gtp9s84oB6hLIMfHq/kxX5zXD4ORTauNP9n8JOcfB5y2JjgqoPXaZHks/+lsM1ecUvpjkp4FhH9c0GvhGg6pQtnbw2UzTnEEfCda4PisnoXaC6Excbyt2IlwE1WRQbVlOiexiMdHkfHLcrU6WeUq82HWewY34ek0t0+dO1EWtlZG7o3Py0gFxQjJe4Bf2g+ekl+QSNYXCag5ljGAlgJbA0Tx0njYkXuf/y/JReIt0gwks3JMbbuGNFFmT5gyWNNWqXuudbelgkJ2ZP7nz26NbRisDKOVoUFptopw5VY9wg+0C1+p6fIQ0gHtDqCP8VpHDgt8HP4ldef2GmqIekDkvDKtXaBW+KpnbUM+ojsTQ
+	plJyB6YfjgThONQXlgDa4NHX2ZLHdCfycYMNaENMxM5irLJUfOr1qTnVHvTj3h3ayoWsa6ziFdcwIFBPziUjQTqUhanmiQWr+kHqNLqzygb6jpG7ELgk+tzLPxMEn53Ng7hadFFZhCezJiLb+qvGr6XDLhPgiQZV5LlvzfoCG/CGxYtJcgtMkEDV0Qcezk1pWdtPrlgUfEcurxkn3lmQKqDsMyvhVgb9wmNSrgOLFPYhXDZVe8Q+I0AkDy0RTStzfA7y8xwKruJtTmEC9i9TtKzAheoHkhHnS6ImRUh2rEW7ZDA1KpQ01ephGknwWU9L6klCu2RA0Y4Sg1chKNHqPzDZpKy+5PSQuQyzuRA+NyqpoX71ofz4AentbF2KW83c1+MGC7l/PH7QJTAReUK5Q1hIbS4vXP2eu56BOId8CMmmp/Zjmhd/z3PmAAS7N0NO
 X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 05:50:53.4801
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 05:50:55.2217
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40017b92-fad2-4bad-a223-08df3bc9ebc8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33828d95-6132-4ab2-afab-08df3bc9ecc9
 X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	TY2PEPF0000AB84.apcprd03.prod.outlook.com
+	SG1PEPF000082E6.apcprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB7178
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6485
 
-On Thu, Nov 05, 2026 at 08:49:05AM +0100, Krzysztof Kozlowski wrote:
-> NAK, you did not respond, did not implement feedback or part of the
-> feedback.
+On Thu, Nov 05, 2026 at 08:48:27AM +0100, Krzysztof Kozlowski wrote:
+> So you keep ignoring review or parts of review and never responding to it.
+> NAK last time, I will be NAKing this.
 
-You are right, and I owe you a proper answer instead of another version.
-I replied to the cover letter of v5 and to nothing else, so the per-patch
-comments on v5 (b28d5657) and on v4 (a5586b54) were never answered.
-Answering a cover letter is not answering a review. Below is the
-point-by-point answer, including what I got wrong and what I have not
-implemented.
+Fair, and it is the same mistake as on the binding: I answered the v5
+cover letter and treated that as answering the review. The full
+point-by-point answer is in the reply to [PATCH v6 1/3]; this one covers
+only what is specific to the dts.
 
-1) "No MMIO here? ... If you have here MMIO for some glue over IP block,
-   then it is unlikely to be a syscon." (v4, 7c52bcf5)
-
-We do have MMIO. Each controller owns registers in the USB30 Type-A
-DRD0/1 RCSU block at 0x091c0000. "What is the actual memory map there?"
-(791fe5ba) - this is the block:
-
-  offset   register        contents                                  belongs to
-  0x0300   STRAP_PIN0      stream ID (SID/SSID), controller 0        USB4
-  0x0304   STRAP_PIN1      stream ID (SID/SSID), controller 1        USB5
-  0x030c   STRAP_PIN3      clock enables, controllers and PHYs       USB4, USB5
-  0x0314   STRAP_PIN5      awcache[3:0], arcache[7:4], controller 0  USB4
-  0x0324   STRAP_PIN9      awcache[3:0], arcache[7:4], controller 1  USB5
-  0x0328   STRAP_PIN10     USB2 PLL controls, controller 0           USB4
-  0x0400   STRAP_STATUS0   AXI clock en/valid/req, controller 0      USB4
-  0x0410   STRAP_STATUS4   AXI clock en/valid/req, controller 1      USB5
-
-Controller 0 of the block is used by USB4, controller 1 is used by USB5.
-The driver writes the AXI cache attributes of its own controller and
-polls its own AXI clock valid bit. By the rule you stated, this is a
-device with MMIO, so a device node, not a syscon, and the
-cix,sky1-usbss-rcsu syscon binding from v4 is gone.
-
-2) "Individual registers are not a device." (791fe5ba)
-   "You need to describe the address ranges, hierarchy, not the
-   registers." (291fc3be)
-
-Agreed, and v6 still got this wrong: two reg entries of 0x10 bytes each
-are just a register with padding. What I intend to send as v7 is one
-range per controller, starting at its AXI cache attribute register and
-covering the register file up to its status register:
-
-  usb@91c0314  reg = <0x0 0x91c0314 0x0 0x100>   /* USB4, controller 0 */
-  usb@91c0324  reg = <0x0 0x91c0324 0x0 0x100>   /* USB5, controller 1 */
-
-0x100 is the same size as the glue window of ti,j721e-usb in
-Documentation/devicetree/bindings/usb/cdns3-ti.yaml, so the range is
-comparable to what the other Cadence users describe for glue registers.
-
-I want to be explicit about the hardware rather than let the DT imply
-otherwise: the strap and status registers of the two controllers are
-interleaved in this one block, and 0x0328 inside controller 1's range
-belongs to controller 0. There is no per-controller contiguous range
-that contains only that controller's registers, so the two ranges
-overlap, and the binding will say so. That is also why the driver maps
-the range with devm_ioremap() and not devm_platform_ioremap_resource():
-request_mem_region() would make one of the two controllers fail with
--EBUSY for registers the hardware shares.
-
-To be clear that this is the controller's register file and not an
-arbitrary register: the same register set exists as a dedicated block per
-controller on the four Type-C instances of this SoC, at 0x09000000,
-0x09070000, 0x090e0000 and 0x09150000. There the block is not shared, and
-the cache attribute register is at 0x310 instead of 0x314 - which is why
-the status offset comes from per-compatible driver data. Only the two
-Type-A controllers share one block.
-
-3) "Shared region is not a simple bus." / "Drop node. Not relevant."
+1) "Shared region is not a simple bus." / "Drop node. Not relevant."
    (b28d5657)
 
-Done. usb-rcsu@91c0300 and its ranges translation are removed; v6 and
-v7 use absolute addresses with nothing translated.
+Gone in v6, together with the ranges translation. v5 had a
+usb-rcsu@91c0300 node that was a bus for a block of registers; v6 has
+neither the node nor the translation.
 
-4) "So this is @14 / But this is at @91d0000 / You have completely fake
+2) "So this is @14 / But this is at @91d0000 / You have completely fake
    representation of hardware." (b28d5657)
 
-That was the v5 container: a node at a translated offset 0x14 with a
-child at an absolute address. In v7 the unit address of each node is the
-first address in its reg, so usb@91c0314 and usb@91c0324 are where those
-registers actually are, and the Cadence core children usb@91d0000 and
-usb@91e0000 are at their own addresses.
+That was the consequence of the container: a node at a translated
+offset 0x14 with a child at an absolute address. In v7 the unit address
+of every node is the first address of its own reg, so nothing is
+translated and nothing is invented.
 
-5) "Syscon is not a USB device. This is not supposed to be in USB."
-   (f76cef66)
-
-The RCSU binding is gone since v5. The only syscon reference left is
-cix,usb-syscon, which points at the S5 system controller for the USB
-mode strap at 0x424, bit 8 for USB4 and bit 10 for USB5. That register
-is in the system control module, not in the USB controller.
-
-6) "NAK, undocumented ABI. Drop entire alias and do not sneak such stuff
+3) "NAK, undocumented ABI. Drop entire alias and do not sneak such stuff
    in the future." (6029d402)
 
-Done in v6: of_alias_get_id() and the "id" property are gone, the driver
-no longer derives an index from DT. axi_bmax_value is no longer a DT
-property either, it is a driver constant, which also answers Conor's
-"Why is this not a fixed value per SoC?".
+The usbN aliases and the id property are gone since v6. The mode strap
+is now an argument of the syscon phandle, and it points at the S5 system
+controller, which is where that register is:
 
-7) "In the description you describe hardware, not binding." (f76cef66)
+	cix,usb-syscon = <&s5_syscon 0x424 8>;   /* USB4 */
+	cix,usb-syscon = <&s5_syscon 0x424 10>;  /* USB5 */
 
-I extended the description because I did not know how else to answer
-"What is the actual memory map there?" in the patch. In v7 the
-description is back to what the block is and which registers it holds;
-the map above lives in the commit message, where it belongs.
+Controller 0 of the Type-A block is used by USB4, controller 1 is used
+by USB5.
 
-8) "No improvements, since v2." (7c35c198)
+4) "No improvements, since v2." (7c35c198)
 
-You were right about the register model, and that is what v7 changes.
-The rest changed in v2..v6 but the changelog never said so - it only
-ever listed the previous revision, and v5's text was a stale copy of
-v2's. Complete one:
+Correct for the register model; v6 changed the container and the aliases
+but left the two 16-byte register slots, which was not what you asked
+for. v7 changes that part:
 
-Changes in v7:
-- Describe the RCSU registers of each controller as one address range
-  starting at its AXI cache attribute register, instead of two 16-byte
-  register slots.
-- Map that range with devm_ioremap(); request_mem_region() cannot be
-  used because the two Type-A controllers share the block and their
-  ranges overlap.
-- Take the offset of the AXI clock status register from per-compatible
-  driver data (0xec on Type-A, 0xf0 on Type-C), instead of two
-  reg-names.
-- Dropped #syscon-cells from the S5 system controller binding: the
-  property does not exist in the kernel, and the series no longer
-  touches bindings/soc/cix.
+	usb4: usb@91c0314 {
+		compatible = "cix,sky1-usbssp";
+		reg = <0x00 0x091c0314 0x00 0x100>;
+		...
 
-Changes in v6:
-- Dropped the simple-bus RCSU container; each node is placed at the
-  address of its glue registers and the core is a child at its own
-  address.
-- Replaced the usbN aliases and the undocumented id property with the
-  register offset and bit position arguments of cix,usb-syscon.
-- Converted probe error paths to dev_err_probe().
-- Removed the unused over-current GPIO handling and the unused dr_base
-  and cdnsp_pdev fields.
-- Fixed the 125us prescaler value: time * frequency - 1.
-- Made the AXI halt writes read-modify-write so the preserved and RW1C
-  bits of XEC_AXI_CAP keep their state.
+		usbss_4: usb@91d0000 {
+			compatible = "cdns,usb3";
+			...
+		};
+	};
 
-Changes in v5:
-- Dropped the cix,sky1-usbss-rcsu syscon binding and the cix,usb-rcsu
-  phandle; the glue registers are described in the controller node.
-- Added the MAINTAINERS entry for the glue driver.
+	usb5: usb@91c0324 {
+		compatible = "cix,sky1-usbssp";
+		reg = <0x00 0x091c0324 0x00 0x100>;
+		...
 
-Changes in v4:
-- Split the combined PHY/USBSSP series into two independent series.
-- Restructured the RCSU registers as a shared syscon region with offsets
-  (reverted in v5).
-- Fixed the indentation reported by checkpatch.
+		usbss_5: usb@91e0000 {
+			compatible = "cdns,usb3";
+			...
+		};
+	};
 
-Changes in v3:
-- Fixed the interrupt specifiers of the core nodes: the Sky1 GICv3 uses
-  four cells, so every entry needs the fourth (empty) cell.
-- PHY driver: assert the resets before registering the PHY provider,
-  disable clocks in LIFO order, and fix the error unroll path so clocks
-  that were never enabled are not disabled.
+One range per controller, from its AXI cache attribute register to its
+AXI clock status register, instead of two register slots. The two ranges
+overlap, because the two controllers' registers are interleaved in the
+shared 0x091c0000 block and 0x0328 inside the second range belongs to
+controller 0. I would rather have the dts say that than pretend each
+controller has a private block; the reason the driver uses
+devm_ioremap() instead of devm_platform_ioremap_resource() is the same
+overlap.
 
-Changes in v2:
-- Split the single binding into a PHY binding and a USBSSP binding.
-- clock-names: apb/ref for the PHY, sof/axi/lpm/apb for the controller.
-- reset-names: core/apb instead of reset/preset.
-- Dropped axi_bmax_value from DT; it is a driver constant.
-- Added the MAINTAINERS entries.
+5) The PHY is a separate series since v4 ("do not combine USB patches
+   with other subsystems", 6ca4ba08), and v7 touches only bindings/usb/
+   and this dtsi. v6 also modified the S5 system control binding to add
+   #syscon-cells, which is not a property that exists in the kernel; that
+   hunk is dropped and the changelog no longer claims it.
 
-Changes in v1: initial version.
+6) "Odd style, please read git commit help page" (0df645f6): the commit
+   messages are what git format-patch produced, nothing hand-edited.
 
-9) The one thing I am still unsure about is the wrapper. You wrote, for
-   the case without MMIO, "you should have one node only, just like we
-   did for DWC". We do have MMIO, so I kept the wrapper and the child
-   core the way fsl,imx8mp-dwc3.yaml does it, because the glue and the
-   core are driven by two separate drivers, and folding them into one
-   node would need a single driver owning five reg ranges across two
-   unrelated address regions. If you would rather have one node, one
-   line is enough and I will restructure before posting.
-
-I am implementing v7 now (the reg change, devm_ioremap(), the per-family
-status offset, and the trimmed description) and will post it in the next
-few days rather than ask you another question and wait. If the shape
-above is still wrong, replying "no" to this mail is enough and I will not
-send it.
+As in the binding reply, I am implementing v7 now instead of asking you
+another question and waiting.
 
 Thanks,
 Hongliang
