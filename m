@@ -1,87 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793976921;
-	b=2Vm1jCp2QdyKVvqWWsB5DZDIzNXWsqgGVvhpuwx79LY5rjrMhZ/3AKLx1FIrtMglLRwc
-	 fu6rUTkwmU2ZVdpDwPaRZZqHiPpciAcYFr/YeWhN1M54q+wTV4JD5f0hpOd5envJ7eHfu
-	 rYgW09zHx/xBLbbdbXMn4p6YHyOXbWmJo2IBrx7zABGxW6fm56/yJkgOkQDKz/nMXy/CO
-	 03ikIuXbNaM8rfZynaH8RaJRBK5aP11BAtlkwNJ9Xm7G94VTAT5tobRzSXvRpvH6LfZ0P
-	 bDGG1Gs0WJRSOiUWP7wSdcGhb8MiYiC9Zq84OhBZk7397vyj4s+A95y6vbTEKmcZKtg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793976921;
-	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:X-Mailer:Content-Type:MIME-Version:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=xrLYClUfj6HZWRD/gFM4vSkHYaMbPyF53er63TJBD1M=;
-	b=wiOhZicraEBwtOhb61P8Z/Ezb3MAaTSIDU7owQEM1AWpX9R947r3RfVfubmpdUA8ef3o
-	 c0Q14WX7yxFMQlLGJHKL4Di43fb3BeGNDcTo1W97DH7ITYqQFBifV2MwxMHWNvMIfvH2I
-	 veFyf5RxdZOFHI6LOgwHraKScSRJ2m7wCXrYz6y6PqDNyoWNg7s9nW78HYd4CEn3tgJV0
-	 nqq0Y1fQnn8chMtbslBu0WcQIhqzG0YXHGb3gIgTZh8I3L6Z5RbUd0A88hmJBZtZkIfB3
-	 MitRFLTbCmGWJjwF8yqbNT8KWqWRitUs2/3Jqi9jmRyHdv59JW5ngvTdzM74HUIZ1sg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YYW7Ryi4;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76B3606A329
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 14:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YYW7Ryi4
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793976920;
-	b=UQuHwkT9g4TQ2hF0NlWsYK6Tw2A3ZwBE4Wt4rdLJXmhR1EBakeGz7bjKuEr5ZS8alqz+
-	 YdaZRWXau0C15y/7+OcdjHDgJJJDdwiKqWcBk+5zg241TnPHQ8E98/3GpFP4eUhA6CdT+
-	 XnLMM+hoFDGkGehoTUUoOd4WHpZSahkSnvKld7QqVFzvUGjcuij+qki1E5n893C03hM3c
-	 1/KwDblKolpR2EYG3yEoPdN/DL3z084DxtDLI52F4+hSYjMF3KA8oJlDWVXJu9X4aN1+9
-	 aflKsUgyawuh0Bs8cm8eFYv7ScVaql/rXKdOdYRxmZeYweBZwkyvYm+li1IB93sAsNQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793976920;
-	h=DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:X-Mailer:Content-Type:MIME-Version:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=xrLYClUfj6HZWRD/gFM4vSkHYaMbPyF53er63TJBD1M=;
-	b=wN9ll4+/gI4zv63Dsw1G8oIoZrE3y9qs3H1jhXJGWxMI5a0dUxFsf5rnduMgDLSp3kpn
-	 j0ih3HTg9/v7ei12DV4KPzOAXIybRQnlp6qFOXn4kxpca09aAfLBjBB3U3/FATURSL5jM
-	 8U8YbX/kLz1SGEIRLDfUTV1/UdBFgSZizhP8RyL7iKlhGv/dGimN+q7EdpVlgjzen2WiR
-	 MRbqTf1KX3heJ5MFQmSslX2aSHb/Xl578Ilm1lHQqycS+AIzC3uVvMCeyjWJt5m7XN1jB
-	 k+baXVRmyoWRIUx8zsExfvjxFd7xrJ6QpEwR9y+cxVwdG/pl2TrhmLgX1MZQ6k68PZQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793977600;
+	b=B4HD/waXWaSR26L6cefMEeKQ2MhG7DE0aZ/BC0NtahEqsw1UpBNxCAoie+5pABn4N7je
+	 sAPPxsNucsG7l14URCmR5E0qqOGgA1QRihty2fUc8xz/8hGQ5NpVwysbpaDLnHA5eOZvd
+	 9zlKNWVIQApO/nmnqmVujCBmLT9ajPutqL44e6to+qwOyy5ii5iLdn1+NbAVkgQdkPlDh
+	 SWtl0qxmVzRKsJnsT04+vWxdECOFFMHPFazeOB+u3sxnqYIp1R55vGqqAba30tLaKzYAH
+	 by6H+7bilLOWzo9KRGEnNTjHYusquEsvELZc26uVPCqI9kcalQOd7AmzkKis6KzOI8Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793977600;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=99WHrn39uhF8MOZuOAhU6ApGYxS1ibLGpRDYrU16dFs=;
+	b=JDAPTyo8VCkaNwR0AJAffDP5YvTa5HzPAYZbmV4sCC0riunTD63jAPxrkuyAg5ZJMN0T
+	 QAgmdwoFE/oMc9O1YxAaE6SpLhMSk3SZ3iQ6AlAhaYPF1OxyitHFn9J3FSdy47yrdUsUc
+	 J+9EEnRegPnqKD7TGGx92H0qXOUwBzQvmpVRutDwzoWvyM+lbTfFOS6+pXthQbQj1DLAU
+	 G8DxPoJGMQSShLvcpDRWVXaUi8z1G8wBhlY/Rh+LjQ9G9Sue9BO45fHDnOz5REKaD5lv+
+	 D/vexpaBcBWM+asWAqQwwEItcnftGqmTtdvU8J6FfrjSUqFR4Cez0gNbzl+szsxTfUg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="b0vOnQ/5";
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XliKU0TK;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A9BD61F008A3;
-	Fri,  6 Nov 2026 14:55:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793976920;
-	bh=xrLYClUfj6HZWRD/gFM4vSkHYaMbPyF53er63TJBD1M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To;
-	b=YYW7Ryi4Q4tx/JGBlHIvzh7VONIpFUeTAFlkIpg5xbn5VMfqCz7nyosy8Wp65SpiB
-	 OiGEZqTWmBNLnx9HaBV/O7ilZE152XeCdIRp4mS6BMuYKmI3aT8XR4IerYZvQ6rSb+
-	 3fuMtj24r6V/AUsF62gtdfoJjHt+Nsb68/RpxPZQg/kuWeNfvuHr0Sac0pXdrcrkkw
-	 gz1CUOkuZh1sC1JhVO2P594sJukqhpnRmrln/g0Nv6oXfr2lexlxVhs1ADkGkVFUbB
-	 msmEGaQoPiLIM6SjUxG5Ysvgef9fa7uFmvKCc+OgowKMq5NNSRgeqJWFigDCJC2z3g
-	 GtM5GaOQgW0yw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 0DBC545DA2;
-	Fri,  6 Nov 2026 14:55:19 +0000 (UTC)
-From: Jing Lin via B4 Relay <devnull+kayano050408.gmail.com@kernel.org>
-To: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
-Cc: linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
- kayano050408@gmail.com
-Subject: [PATCH RFC] usb: gadget: gadgetfs: dequeue pending ep0 request
- before freeing
-Date: Fri, 06 Nov 2026 23:55:16 +0900
-Message-ID: <179397691694.27761.9543494907127681190.gadgetfs-ep0-patch-test@gmail.com>
-In-Reply-To: <6a6944f5.e3659fcc.2a40b8.0021.GAE@google.com>
-References: <6a6944f5.e3659fcc.2a40b8.0021.GAE@google.com>
-X-Mailer: b4 0.16.0
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F9F606A326
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 15:06:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90F9F606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=b0vOnQ/5;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XliKU0TK
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A6ExnuS3324685
+	for <linux-usb@vger.kernel.org>; Fri, 6 Nov 2026 15:06:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	99WHrn39uhF8MOZuOAhU6ApGYxS1ibLGpRDYrU16dFs=; b=b0vOnQ/5IcPAh21P
+	ESwufSWkqa2WlHgnCQvEueVm1DX7NhE1muU2tZuVygmfXeGKyHBoVldgukjvcyNA
+	wHJhrGNyjOHwbp8v69n17tWUV7cpBxEh038PxRRAbHIV8q4a3sfKC968dFUbZ4nn
+	UIhuW9YyJCjbfJIELSgP3F1w0Dg37TstYuzGEGDM40M6IJQjAlkJI7JCaN0Vn7B/
+	EMMZfWkF0yt/Hcdqdu2RxVM3ryCPFthugstsCxni4jArW+Ci7CDxUa5q9AvIGfyf
+	azg59TGzclW+ENIOPDNd91yo8o91WxoaSTEOMQ1DR/FJGosTbatnFAjLmMfjrafo
+	wKjYIQ==
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hs3p9bbqb-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 15:06:38 +0000 (GMT)
+Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-5cc87885c6eso25262e0c.2
+        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 07:06:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793977593; x=1794582393; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=99WHrn39uhF8MOZuOAhU6ApGYxS1ibLGpRDYrU16dFs=;
+        b=XliKU0TKFQcUMOZm7HB0zOlU9QpTng+zHK5EJXKHPLYCNxrdqvRy3zizzAvSWCoknr
+         /jfy5Tybkfj9ba4OYHWeLna+Iyp0nUJih5Y4Xzk73L60EBmMtNvYjPjwK8DFWi/qVVRR
+         W6uQBDFnn4XcSdD1Bvff2Trn4cK8pGZ2v20+3oHL5QoBwmNORnr3SgIr6umieC5lXqLw
+         l0aloE9vcJq1ox5cZyPRkIOUdgi+OpnoqMGr1FvAdD+k9gabmWLefrIMVXJKXIB4y5X8
+         LPh/BQgeBCRPS4aOZy9plSsdRdn0ri9iRDxqtkX/x1infvJalRYzDRDoBJd25Cz5E4z+
+         l7gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793977593; x=1794582393;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=99WHrn39uhF8MOZuOAhU6ApGYxS1ibLGpRDYrU16dFs=;
+        b=nf3gsEWpUAOWLEuh5DhsP/fjqzVp3kJtCFzo3+PfuXhGw1CxFY88S6IHM6p8aRK0H0
+         /EJPCeRLBUv9te8rtCP4TQXzoFbWGc1VIPRojOlM8YLN/RVa/eLPSfAi1NePmvDAeG8d
+         2e6BwoYndHL5VhxOIs8hSSZ/R+7BMqD8pqWmsnyu7l8OW2SGmhmiRLijl5k2ZQ9oKQ2w
+         5weFC2yPwBICLIx+OnFZTE40m28lHqe7x0z5cuEXwYsrLD+elrl0LrNx5zKdJxn49m0M
+         DdhtVISV05/ePT/0Vd1yZS0LbSYW51bnIwUgK8Exh4U2FKGbEiFqJ2+G6ru88qxeC/40
+         iCZA==
+X-Forwarded-Encrypted: i=1; AKwUvByv7Rq1StvzL1WGDpwqzcOeWo34GmW8iolFKuJNTFlrj/aj/CGP2xnCImOsY9/JQn/Ob2cVc1E+I7c=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/H7icX/LB4E2MjqDHF3nRNG5E4fcae/x9F7AWH1KVUGumobh8i
+	Un2Jw//QMA8ICO+AfgaWDvKNrGTqJv73K4c4r+pLBLPqVMekg4gZChxxpBUvNMNOZw1G5kIxLC2
+	hV0YeI1zb6318nWQaPT8FrKZZO7pFZ5BcgSIQK8zcsii/6Fsp0wc0gZ0bep0Ly2M=
+X-Gm-Gg: AYBFou2BkFRG8NyuOcuEGXNL8y5KskeghSunlyXLqvNG5ElZWSgDTTlEQ4KoL9f3NKw
+	IGFIGDuegc6TyycCCySem88VC9soKwSB2x5YG3HKtIwklbHOV3zQlYJpQhdcqX36yul5aO8MTLZ
+	RAAVSLE6n1A49Ry9l4b8hsSa7Qa8Y06Qbu2VevlV3jQMIopQbE8BXwDFY+sk9l7JFff4D7qHk03
+	8ollcqqT3MXwhaikzrMNzaKJUc/9w9vPCo692EwpiprfOaRlnewrtixMT4UVnAfsw7e0u0tUzhG
+	8h+ziNnrLyauNR81JOGz79VOXZKvsqBCNrh+5xOuNzkGi4C3c65Unw8LePWjhC6OxCNQx5KEDQW
+	PIcda+b//LIulXiuwWEeKB+o8jh3FtRMoiuwCfCZlAOUOCcBikLUTYkATKkasVxZvvCfRuQ==
+X-Received: by 2002:a05:6123:4007:b0:5ec:2394:ef94 with SMTP id 71dfb90a1353d-5ecc41a5a8dmr1177096e0c.0.1793977593024;
+        Fri, 06 Nov 2026 07:06:33 -0800 (PST)
+X-Received: by 2002:a05:6123:4007:b0:5ec:2394:ef94 with SMTP id 71dfb90a1353d-5ecc41a5a8dmr1177044e0c.0.1793977592530;
+        Fri, 06 Nov 2026 07:06:32 -0800 (PST)
+Received: from [192.168.226.72] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d487be8aasm36689066b.15.2026.11.06.07.06.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Nov 2026 07:06:31 -0800 (PST)
+Message-ID: <23b5c705-cd55-4c0c-9c95-c61afb286416@oss.qualcomm.com>
+Date: Fri, 6 Nov 2026 16:06:28 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,268 +115,71 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793976917; l=8547;
- i=kayano050408@gmail.com; s=20261106-gadgetfs-gmail;
- h=from:subject:message-id;
- bh=ZsZ5biew09cfhtwJZXclaOy5dDe90VlJtG365y91MM8=;
- b=mLhfXvSdvDS0SCjI1dpw8a/bt4FAzniGCzHYiO5G9sC/hLi60xbXw4Lp5+y/coiwHl3uE+TXi
- 5x0l1SWHmxSBN1Ndn4wvWNJXLDZMxTss5HmRBNC0Ch/Hx/X8bJRxuYH
-X-Developer-Key: i=kayano050408@gmail.com; a=ed25519;
- pk=DtAI52kU3F0sVbAiS4n+5b4UKMnVF398eKHlj3H9KBY=
-X-Endpoint-Received: by B4 Relay for
- kayano050408@gmail.com/20261106-gadgetfs-gmail with auth_id=1433
-X-Original-From: Jing Lin <kayano050408@gmail.com>
-Reply-To: kayano050408@gmail.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] phy: qcom: carry live SS-link state without growing
+ enum phy_mode
+To: Tapas Rana <tapas.rana@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Wesley Cheng
+ <wesley.cheng@oss.qualcomm.com>,
+        Esteban Urrutia <esteuwu@proton.me>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        Ronak Raheja <ronak.raheja@oss.qualcomm.com>,
+        Faisal Hassan <faisal.hassan@oss.qualcomm.com>,
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+        prashanth.k@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20261106082716.128968-1-tapas.rana@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20261106082716.128968-1-tapas.rana@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: jgdeeVySQuon2rBBl85XvtAj_CcbDkPN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA2MDA2MCBTYWx0ZWRfX10TQ40HE8Gr1
+ bXkbZjBF1C2RzHabD2o77demnyn3gX1auQnZRjqLlIHwbbeBAfVWILS1ByoeZfO4DmIkV5rowKI
+ RwwM3K9Ay2zQVxMwQ5P0w0y1gUNGOngjsF/iHNTBkk6x0Yaa1AJwauF200OaASieVwN5w5byASJ
+ d2FYH7wvDGajaah6eO+cuADL/ykFhObrwUlSbIQ1+mzhYRLBpV6rk4cPSSwksmsYrVW8MC44kU8
+ 4vCZjRLpO/FE0Cf2/frWQpGuVLc0gPh5GXu1W/zofHAVkNNG838psqqjhXuZlc7df46HL6bbzy8
+ uga1nCszkJ/5LqakejaU+5vW/WFjAVFNYpGivNzK1qRDr3iuxSb8QG4Ib9oPuTYrwiseoJFfIKP
+ ufAzSNe0Vxv4dOAYBZzb0BRhbYR7uBWh9ZnV1pQohtg8Ho1A9WrucrmnUZr5+o5lWRjRnQ0F3mY
+ fJcW/i87S+hqRB+0v2g==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA2MDA2MCBTYWx0ZWRfX03Pz0nxYtC8b
+ ekVeW8MFwowahVlHJJPPwYezSQswYM4dfSPxEJtVLR9WQsp4YhwWBWt7heDTVE3aPV23m//LLFf
+ ah+m8s1NIfl2ISGeDQGHgGyoQ9XhDZY=
+X-Authority-Analysis: v=2.4 cv=WMzqzXsR c=1 sm=1 tr=0 ts=6aedecff cx=c_pps
+ a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=UEx5U1dda6wf6Co_AVQA:9 a=QEXdDO2ut3YA:10 a=hhpmQAJR8DioWGSBphRh:22
+X-Proofpoint-GUID: jgdeeVySQuon2rBBl85XvtAj_CcbDkPN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-06_05,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 bulkscore=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611060060
 
-From: Jing Lin <kayano050408@gmail.com>
+On 11/6/26 9:27 AM, Tapas Rana wrote:
+> QMP PHY drivers always enable receiver detection (ARCVR_DTCT_EN) in
+> autonomous mode, and additionally enable LFPS detection (ALFPS_DTCT_EN)
+> when a SuperSpeed link is present; otherwise they fall back to
+> receiver-detect event selection (ARCVR_DTCT_EVENT_SEL). This choice is
+> made by comparing phy_mode against
+> PHY_MODE_USB_HOST_SS/PHY_MODE_USB_DEVICE_SS. However, dwc3 core only
+> calls phy_set_mode()/phy_set_mode_ext() with the base
+> PHY_MODE_USB_HOST or PHY_MODE_USB_DEVICE, never the _SS/_HS/_FS/_LS
+> submodes. 
 
-Please test this gadgetfs ep0 request lifetime fix
-The unpatched base reproduces the warning and use-after-free locally
-on arm64 QEMU with dummy_hcd and KASAN
+Without much more insight, this sounds like the place to fix it then
 
-#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git f66469d9905b39d2c260a15d7d6db450f4db67c1
-
-gadgetfs_unbind() frees the preallocated ep0 request after disconnecting
-the gadget, assuming that no I/O remains active
-
-With dummy_hcd, disconnecting does not necessarily drain ep0, so a delayed
-userspace response can leave dev->req queued when it is freed
-This triggers the warning in dummy_free_request() and a use-after-free
-when dummy_udc_stop() subsequently drains the endpoint queue
-
-Track dev->req from submission through completion under dev->lock and
-reject reuse while it is busy
-After waiting for active UDC users to finish, dequeue a pending request
-before freeing it and clearing ep0->driver_data
-Drop dev->lock around dequeue because the completion callback takes it
-Only dequeue pending requests to avoid errors from UDCs that reject
-cancellation of an unqueued request
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Reported-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=c73e1942197af9f54ca3
-Signed-off-by: Jing Lin <kayano050408@gmail.com>
----
-Local validation on arm64 QEMU with dummy_hcd, KASAN and lockdep:
-- The unpatched kernel reproduces the warning and use-after-free
-- The patched kernel runs the C reproducer and rebind/concurrency workload
-  without the warning, a KASAN report or a lockdep report
-- W=1 compilation of inode.o and the Image build completed successfully
-
-AI tools assisted with patch development, the commit description, review
-and local QEMU validation
-
-Related syzbot RFC:
-https://lore.kernel.org/all/161c70c4-a363-469d-8665-64f71763f84b@mail.kernel.org/
-This version tracks pending requests and guards reuse while they are busy
----
- drivers/usb/gadget/legacy/inode.c | 55 ++++++++++++++++++++++++++++++++-------
- 1 file changed, 46 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
-index 7f6d84601..d60df4ad3 100644
---- a/drivers/usb/gadget/legacy/inode.c
-+++ b/drivers/usb/gadget/legacy/inode.c
-@@ -140,6 +140,7 @@ struct dev_data {
- 					setup_abort : 1,
- 					gadget_registered : 1;
- 	unsigned			setup_wLength;
-+	bool				ep0_req_queued;
- 
- 	/* the rest is basically write-once */
- 	struct usb_config_descriptor	*config, *hs_config;
-@@ -984,6 +985,16 @@ static inline void ep0_readable (struct dev_data *dev)
- 	kill_fasync (&dev->fasync, SIGIO, POLL_IN);
- }
- 
-+static void dev_req_complete(struct usb_ep *ep, struct usb_request *req)
-+{
-+	struct dev_data		*dev = ep->driver_data;
-+	unsigned long		flags;
-+
-+	spin_lock_irqsave(&dev->lock, flags);
-+	dev->ep0_req_queued = false;
-+	spin_unlock_irqrestore(&dev->lock, flags);
-+}
-+
- static void clean_req (struct usb_ep *ep, struct usb_request *req)
- {
- 	struct dev_data		*dev = ep->driver_data;
-@@ -992,7 +1003,7 @@ static void clean_req (struct usb_ep *ep, struct usb_request *req)
- 		kfree(req->buf);
- 		req->buf = dev->rbuf;
- 	}
--	req->complete = epio_complete;
-+	req->complete = dev_req_complete;
- 	dev->setup_out_ready = 0;
- }
- 
-@@ -1004,6 +1015,7 @@ static void ep0_complete (struct usb_ep *ep, struct usb_request *req)
- 
- 	/* for control OUT, data must still get to userspace */
- 	spin_lock_irqsave(&dev->lock, flags);
-+	dev->ep0_req_queued = false;
- 	if (!dev->setup_in) {
- 		dev->setup_out_error = (req->status != 0);
- 		if (!dev->setup_out_error)
-@@ -1015,7 +1027,7 @@ static void ep0_complete (struct usb_ep *ep, struct usb_request *req)
- 	/* clean up as appropriate */
- 	if (free && req->buf != &dev->rbuf)
- 		clean_req (ep, req);
--	req->complete = epio_complete;
-+	req->complete = dev_req_complete;
- 	spin_unlock_irqrestore(&dev->lock, flags);
- }
- 
-@@ -1023,7 +1035,7 @@ static int setup_req (struct usb_ep *ep, struct usb_request *req, u16 len)
- {
- 	struct dev_data	*dev = ep->driver_data;
- 
--	if (dev->setup_out_ready) {
-+	if (dev->setup_out_ready || dev->ep0_req_queued) {
- 		DBG (dev, "ep0 request busy!\n");
- 		return -EBUSY;
- 	}
-@@ -1073,13 +1085,20 @@ ep0_read (struct file *fd, char __user *buf, size_t len, loff_t *ptr)
- 			struct usb_request	*req = dev->req;
- 
- 			if ((retval = setup_req (ep, req, 0)) == 0) {
-+				dev->state = STATE_DEV_CONNECTED;
-+				dev->ep0_req_queued = true;
- 				++dev->udc_usage;
- 				spin_unlock_irq (&dev->lock);
- 				retval = usb_ep_queue (ep, req, GFP_KERNEL);
- 				spin_lock_irq (&dev->lock);
- 				--dev->udc_usage;
-+				if (retval < 0) {
-+					dev->ep0_req_queued = false;
-+					clean_req(ep, req);
-+				}
-+			} else {
-+				dev->state = STATE_DEV_CONNECTED;
- 			}
--			dev->state = STATE_DEV_CONNECTED;
- 
- 			/* assume that was SET_CONFIGURATION */
- 			if (dev->current_config) {
-@@ -1270,6 +1289,7 @@ ep0_write (struct file *fd, const char __user *buf, size_t len, loff_t *ptr)
- 			retval = setup_req (dev->gadget->ep0, dev->req, len);
- 			if (retval == 0) {
- 				dev->state = STATE_DEV_CONNECTED;
-+				dev->ep0_req_queued = true;
- 				++dev->udc_usage;
- 				spin_unlock_irq (&dev->lock);
- 				if (copy_from_user (dev->req->buf, buf, len))
-@@ -1284,6 +1304,7 @@ ep0_write (struct file *fd, const char __user *buf, size_t len, loff_t *ptr)
- 				spin_lock_irq(&dev->lock);
- 				--dev->udc_usage;
- 				if (retval < 0) {
-+					dev->ep0_req_queued = false;
- 					clean_req (dev->gadget->ep0, dev->req);
- 				} else
- 					retval = len;
-@@ -1508,6 +1529,11 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
- 	} else if (dev->state == STATE_DEV_SETUP)
- 		dev->setup_abort = 1;
- 
-+	if (dev->ep0_req_queued) {
-+		spin_unlock(&dev->lock);
-+		return -EBUSY;
-+	}
-+
- 	req->buf = dev->rbuf;
- 	req->context = NULL;
- 	switch (ctrl->bRequest) {
-@@ -1626,6 +1652,7 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
- 				if (value < 0)
- 					break;
- 
-+				dev->ep0_req_queued = true;
- 				++dev->udc_usage;
- 				spin_unlock (&dev->lock);
- 				value = usb_ep_queue (gadget->ep0, dev->req,
-@@ -1633,6 +1660,7 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
- 				spin_lock (&dev->lock);
- 				--dev->udc_usage;
- 				if (value < 0) {
-+					dev->ep0_req_queued = false;
- 					clean_req (gadget->ep0, dev->req);
- 					break;
- 				}
-@@ -1664,16 +1692,18 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
- 		req->length = value;
- 		req->zero = value < w_length;
- 
-+		dev->ep0_req_queued = true;
- 		++dev->udc_usage;
- 		spin_unlock (&dev->lock);
- 		value = usb_ep_queue (gadget->ep0, req, GFP_KERNEL);
- 		spin_lock(&dev->lock);
- 		--dev->udc_usage;
--		spin_unlock(&dev->lock);
- 		if (value < 0) {
-+			dev->ep0_req_queued = false;
- 			DBG (dev, "ep_queue --> %d\n", value);
- 			req->status = 0;
- 		}
-+		spin_unlock(&dev->lock);
- 		return value;
- 	}
- 
-@@ -1771,6 +1801,7 @@ static void
- gadgetfs_unbind (struct usb_gadget *gadget)
- {
- 	struct dev_data		*dev = get_gadget_data (gadget);
-+	bool			queued;
- 
- 	DBG (dev, "%s\n", __func__);
- 
-@@ -1781,15 +1812,20 @@ gadgetfs_unbind (struct usb_gadget *gadget)
- 		usleep_range(1000, 2000);
- 		spin_lock_irq(&dev->lock);
- 	}
-+	queued = dev->ep0_req_queued;
- 	spin_unlock_irq (&dev->lock);
- 
-+	if (dev->req) {
-+		if (queued)
-+			usb_ep_dequeue(gadget->ep0, dev->req);
-+		usb_ep_free_request(gadget->ep0, dev->req);
-+		dev->req = NULL;
-+	}
-+
- 	destroy_ep_files (dev);
- 	gadget->ep0->driver_data = NULL;
- 	set_gadget_data (gadget, NULL);
- 
--	/* we've already been disconnected ... no i/o is active */
--	if (dev->req)
--		usb_ep_free_request (gadget->ep0, dev->req);
- 	DBG (dev, "%s done\n", __func__);
- 	put_dev (dev);
- }
-@@ -1816,11 +1852,12 @@ static int gadgetfs_bind(struct usb_gadget *gadget,
- 	get_dev (dev);
- 
- 	/* preallocate control response and buffer */
-+	dev->ep0_req_queued = false;
- 	dev->req = usb_ep_alloc_request (gadget->ep0, GFP_KERNEL);
- 	if (!dev->req)
- 		goto enomem;
- 	dev->req->context = NULL;
--	dev->req->complete = epio_complete;
-+	dev->req->complete = dev_req_complete;
- 
- 	if (activate_ep_files (dev) < 0)
- 		goto enomem;
-
----
-base-commit: f66469d9905b39d2c260a15d7d6db450f4db67c1
-change-id: 20261106-b4-gadgetfs-ep0-f814c14717a9
-
-Best regards,
---  
-Jing Lin <kayano050408@gmail.com>
-
-
+Konrad
