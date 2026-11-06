@@ -1,79 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793976851;
-	b=RSt2yQ/EQWVIXKE1IOrvIZBD9UkyHtFHh4UofkbnsGFkmEpj3B5HGbPjj6V+0P+1bXcf
-	 xx5tz4iYbLYKjY1Wnwvus99l24YO/NDfggIi0e6yJe17qPQWEjwkiU870Bt7guqfSU7vj
-	 Lazn5A6ZLpHwaDQmEpktLpZf+fUyynBO+w4G3GX4iVU2rnvvT2WIlpHl22fQ05StENGSb
-	 dQT6X917UMcrqWtv2e/FChLdVDwdFmcXklWe4UwdfxXlIY1wZZ3jlAO5hXRXwm7NLuxFt
-	 iInyHl1B0OC1rfbxQAZqxvC6TYxm6NHRcyycC6bSFJu5Ki8pF4NqS/jvN0L4QqqQ1FA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793976851;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=O3YmW0BbhxwcbBCPm1vGZAcOKmRX7wdgt/lQRqqF2Jk=;
-	b=bMutFe5rv19r9VOlUCGwvzQ1R14vFMaSksxQXv+TgpjWpLk43W91Kyqx/hskUfbxxLts
-	 09zyQNlxMjFd4N1F/lscLwhFRyKm4SMJ9ZVRp62MZR9uqgP0ufwkzYtorJeaO1HWiElTe
-	 BqrZE5woqd1ajX1pBFOWzePtLADaXN5UWXr0rhHN7CFEULZCH056Vutqw/a+SBu8BF6qa
-	 Ofo9KXm+8eKuHMAw9AKbVxC5ZjkiLvorXxwTaFshW8+u/rtke6yaXETjXAlee4NPWPQYJ
-	 gM0lJOVmQwGa6gwZoV6cUjGfdBNdqjtAcpvg8+KE7IaMBL/FRSCMCAp3ddp1JBQHxOw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LtEPX2k3;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793976921;
+	b=2Vm1jCp2QdyKVvqWWsB5DZDIzNXWsqgGVvhpuwx79LY5rjrMhZ/3AKLx1FIrtMglLRwc
+	 fu6rUTkwmU2ZVdpDwPaRZZqHiPpciAcYFr/YeWhN1M54q+wTV4JD5f0hpOd5envJ7eHfu
+	 rYgW09zHx/xBLbbdbXMn4p6YHyOXbWmJo2IBrx7zABGxW6fm56/yJkgOkQDKz/nMXy/CO
+	 03ikIuXbNaM8rfZynaH8RaJRBK5aP11BAtlkwNJ9Xm7G94VTAT5tobRzSXvRpvH6LfZ0P
+	 bDGG1Gs0WJRSOiUWP7wSdcGhb8MiYiC9Zq84OhBZk7397vyj4s+A95y6vbTEKmcZKtg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793976921;
+	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:X-Mailer:Content-Type:MIME-Version:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=xrLYClUfj6HZWRD/gFM4vSkHYaMbPyF53er63TJBD1M=;
+	b=wiOhZicraEBwtOhb61P8Z/Ezb3MAaTSIDU7owQEM1AWpX9R947r3RfVfubmpdUA8ef3o
+	 c0Q14WX7yxFMQlLGJHKL4Di43fb3BeGNDcTo1W97DH7ITYqQFBifV2MwxMHWNvMIfvH2I
+	 veFyf5RxdZOFHI6LOgwHraKScSRJ2m7wCXrYz6y6PqDNyoWNg7s9nW78HYd4CEn3tgJV0
+	 nqq0Y1fQnn8chMtbslBu0WcQIhqzG0YXHGb3gIgTZh8I3L6Z5RbUd0A88hmJBZtZkIfB3
+	 MitRFLTbCmGWJjwF8yqbNT8KWqWRitUs2/3Jqi9jmRyHdv59JW5ngvTdzM74HUIZ1sg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YYW7Ryi4;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FD7606A329;
-	Fri,  6 Nov 2026 14:54:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75FD7606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76B3606A329
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 14:55:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LtEPX2k3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793976850; x=1825512850;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZuBdw5DmXTfIFkI82MvJcqrcC6PuDLNBfHrf3a8NSnw=;
-  b=LtEPX2k38ftzb3iZmgk5ly7YTziC6Aod8gyM68e5AT2y10CVrnDsD6uY
-   keUWP2EavwwM4vVi3XydxqrggmlBnAwZa5082A1C+pryMWO/uiW03p37a
-   3NMU/dctJEu6XUSioDVkMhhdy1Bm2CcUFLBoOBAfFza7RkWWTAyRhyxqy
-   j8r2d+Ak/4ZJAdmeT6kh2bNrHhCC9Mn1j0YVbgEEx2ZgGRIQ8QXElzzaA
-   853uzodDrJ6ZWH2UJPwG5OnhzSfZFPa1TVKWvm30mkP9B09vf94H5PeNp
-   fUguy6LmhxFrfteHpQoV5voaREbNta+Bfw/f9Mh31MpVfF0DSj3gTQ49l
-   w==;
-X-CSE-ConnectionGUID: dgHERlRYQ9Cg3WtfJRXYLw==
-X-CSE-MsgGUID: ND1tkqSYTCeiIjuab9I2vA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2678410"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2678410"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 06:54:10 -0800
-X-CSE-ConnectionGUID: PfkvRGDlRJiFi2SaS6w1VA==
-X-CSE-MsgGUID: iNJCUPdoThSSQUyyxzSTmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="9056552"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa011.fm.intel.com with ESMTP; 06 Nov 2026 06:54:09 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 5C2BE99; Fri, 06 Nov 2026 15:54:07 +0100 (CET)
-Date: Fri, 6 Nov 2026 15:54:07 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
-	linux-kernel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>,
-	stable <stable@kernel.org>
-Subject: Re: [PATCH 14/19] usb: typec: mux: it5205: fix oops on accessory
- modes
-Message-ID: <au3qDw094t54vE_a@black.igk.intel.com>
-References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
- <20261027-llm-usb-v1-14-b9751ddb9c7c@linuxfoundation.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YYW7Ryi4
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793976920;
+	b=UQuHwkT9g4TQ2hF0NlWsYK6Tw2A3ZwBE4Wt4rdLJXmhR1EBakeGz7bjKuEr5ZS8alqz+
+	 YdaZRWXau0C15y/7+OcdjHDgJJJDdwiKqWcBk+5zg241TnPHQ8E98/3GpFP4eUhA6CdT+
+	 XnLMM+hoFDGkGehoTUUoOd4WHpZSahkSnvKld7QqVFzvUGjcuij+qki1E5n893C03hM3c
+	 1/KwDblKolpR2EYG3yEoPdN/DL3z084DxtDLI52F4+hSYjMF3KA8oJlDWVXJu9X4aN1+9
+	 aflKsUgyawuh0Bs8cm8eFYv7ScVaql/rXKdOdYRxmZeYweBZwkyvYm+li1IB93sAsNQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793976920;
+	h=DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:X-Mailer:Content-Type:MIME-Version:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=xrLYClUfj6HZWRD/gFM4vSkHYaMbPyF53er63TJBD1M=;
+	b=wN9ll4+/gI4zv63Dsw1G8oIoZrE3y9qs3H1jhXJGWxMI5a0dUxFsf5rnduMgDLSp3kpn
+	 j0ih3HTg9/v7ei12DV4KPzOAXIybRQnlp6qFOXn4kxpca09aAfLBjBB3U3/FATURSL5jM
+	 8U8YbX/kLz1SGEIRLDfUTV1/UdBFgSZizhP8RyL7iKlhGv/dGimN+q7EdpVlgjzen2WiR
+	 MRbqTf1KX3heJ5MFQmSslX2aSHb/Xl578Ilm1lHQqycS+AIzC3uVvMCeyjWJt5m7XN1jB
+	 k+baXVRmyoWRIUx8zsExfvjxFd7xrJ6QpEwR9y+cxVwdG/pl2TrhmLgX1MZQ6k68PZQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id A9BD61F008A3;
+	Fri,  6 Nov 2026 14:55:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793976920;
+	bh=xrLYClUfj6HZWRD/gFM4vSkHYaMbPyF53er63TJBD1M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To;
+	b=YYW7Ryi4Q4tx/JGBlHIvzh7VONIpFUeTAFlkIpg5xbn5VMfqCz7nyosy8Wp65SpiB
+	 OiGEZqTWmBNLnx9HaBV/O7ilZE152XeCdIRp4mS6BMuYKmI3aT8XR4IerYZvQ6rSb+
+	 3fuMtj24r6V/AUsF62gtdfoJjHt+Nsb68/RpxPZQg/kuWeNfvuHr0Sac0pXdrcrkkw
+	 gz1CUOkuZh1sC1JhVO2P594sJukqhpnRmrln/g0Nv6oXfr2lexlxVhs1ADkGkVFUbB
+	 msmEGaQoPiLIM6SjUxG5Ysvgef9fa7uFmvKCc+OgowKMq5NNSRgeqJWFigDCJC2z3g
+	 GtM5GaOQgW0yw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 0DBC545DA2;
+	Fri,  6 Nov 2026 14:55:19 +0000 (UTC)
+From: Jing Lin via B4 Relay <devnull+kayano050408.gmail.com@kernel.org>
+To: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
+Cc: linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
+ kayano050408@gmail.com
+Subject: [PATCH RFC] usb: gadget: gadgetfs: dequeue pending ep0 request
+ before freeing
+Date: Fri, 06 Nov 2026 23:55:16 +0900
+Message-ID: <179397691694.27761.9543494907127681190.gadgetfs-ep0-patch-test@gmail.com>
+In-Reply-To: <6a6944f5.e3659fcc.2a40b8.0021.GAE@google.com>
+References: <6a6944f5.e3659fcc.2a40b8.0021.GAE@google.com>
+X-Mailer: b4 0.16.0
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,75 +91,268 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027-llm-usb-v1-14-b9751ddb9c7c@linuxfoundation.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793976917; l=8547;
+ i=kayano050408@gmail.com; s=20261106-gadgetfs-gmail;
+ h=from:subject:message-id;
+ bh=ZsZ5biew09cfhtwJZXclaOy5dDe90VlJtG365y91MM8=;
+ b=mLhfXvSdvDS0SCjI1dpw8a/bt4FAzniGCzHYiO5G9sC/hLi60xbXw4Lp5+y/coiwHl3uE+TXi
+ 5x0l1SWHmxSBN1Ndn4wvWNJXLDZMxTss5HmRBNC0Ch/Hx/X8bJRxuYH
+X-Developer-Key: i=kayano050408@gmail.com; a=ed25519;
+ pk=DtAI52kU3F0sVbAiS4n+5b4UKMnVF398eKHlj3H9KBY=
+X-Endpoint-Received: by B4 Relay for
+ kayano050408@gmail.com/20261106-gadgetfs-gmail with auth_id=1433
+X-Original-From: Jing Lin <kayano050408@gmail.com>
+Reply-To: kayano050408@gmail.com
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 27, 2026 at 03:57:54PM +0100, Greg Kroah-Hartman wrote:
-> From: Josef Bacik <josef@toxicpanda.com>
-> 
-> typec_set_mode() passes a state without an alternate mode, and the USB
-> and accessory modes (TYPEC_MODE_USB2 ... TYPEC_MODE_DEBUG) start at
-> TYPEC_STATE_MODAL like the states of the alternate modes. TCPM and UCSI
-> set TYPEC_MODE_AUDIO or TYPEC_MODE_DEBUG when such an accessory is
-> attached. it5205_mux_set() then reads state->alt->svid: plugging in an
-> analog audio adapter is a NULL pointer dereference.
+From: Jing Lin <kayano050408@gmail.com>
 
-Please just explain here that the code is accessing state->alt->svid
-without first checking does state->alt exist.
+Please test this gadgetfs ep0 request lifetime fix
+The unpatched base reproduces the warning and use-after-free locally
+on arm64 QEMU with dummy_hcd and KASAN
 
-Then make a note that state->alt is NULL if for example TCPM sets the
-mux to an accessory mode TYPEC_MODE_AUDIO or TYPEC_MODE_DEBUG.
+#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git f66469d9905b39d2c260a15d7d6db450f4db67c1
 
-> The numbers must not reach the switch either: TYPEC_MODE_AUDIO has the
-> value of TYPEC_DP_STATE_D. Without an alternate mode connect the
-> SuperSpeed lanes for TYPEC_MODE_USB3 and disconnect them for the rest.
+gadgetfs_unbind() frees the preallocated ep0 request after disconnecting
+the gadget, assuming that no I/O remains active
 
-I think what that is trying to say is that this driver needs to handle
-the mode value separately with the "normal" USB Type-C modes and the
-alternate modes, because those values overlap, right?
+With dummy_hcd, disconnecting does not necessarily drain ep0, so a delayed
+userspace response can leave dev->req queued when it is freed
+This triggers the warning in dummy_free_request() and a use-after-free
+when dummy_udc_stop() subsequently drains the endpoint queue
 
-> Fixes: 41fe9ea1696c ("usb: typec: mux: Add ITE IT5205 Alternate Mode Passive MUX driver")
-> Cc: stable <stable@kernel.org>
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
->  drivers/usb/typec/mux/it5205.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/mux/it5205.c b/drivers/usb/typec/mux/it5205.c
-> index 2ab2ba6a3cbd..00d5bd55e423 100644
-> --- a/drivers/usb/typec/mux/it5205.c
-> +++ b/drivers/usb/typec/mux/it5205.c
-> @@ -92,13 +92,19 @@ static int it5205_switch_set(struct typec_switch_dev *sw, enum typec_orientation
->  static int it5205_mux_set(struct typec_mux_dev *mux, struct typec_mux_state *state)
->  {
->  	struct it5205 *it = typec_mux_get_drvdata(mux);
-> +	unsigned long mode = state->mode;
->  	u8 val;
->  
-> -	if (state->mode >= TYPEC_STATE_MODAL &&
-> -	    state->alt->svid != USB_TYPEC_DP_SID)
-> -		return -EINVAL;
-> +	if (mode >= TYPEC_STATE_MODAL) {
-> +		/* USB and accessory modes: not the DP pin assignments */
-> +		if (!state->alt)
-> +			mode = mode == TYPEC_MODE_USB3 ? TYPEC_STATE_USB :
-> +							 TYPEC_STATE_SAFE;
+Track dev->req from submission through completion under dev->lock and
+reject reuse while it is busy
+After waiting for active UDC users to finish, dequeue a pending request
+before freeing it and clearing ep0->driver_data
+Drop dev->lock around dequeue because the completion callback takes it
+Only dequeue pending requests to avoid errors from UDCs that reject
+cancellation of an unqueued request
 
-So now if the mux is set to an accessory mode, this function returns
-successfully, even thought the connector is not actually in that
-accessory mode?
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c73e1942197af9f54ca3
+Signed-off-by: Jing Lin <kayano050408@gmail.com>
+---
+Local validation on arm64 QEMU with dummy_hcd, KASAN and lockdep:
+- The unpatched kernel reproduces the warning and use-after-free
+- The patched kernel runs the C reproducer and rebind/concurrency workload
+  without the warning, a KASAN report or a lockdep report
+- W=1 compilation of inode.o and the Image build completed successfully
 
-Return -EINVAL in that case?
+AI tools assisted with patch development, the commit description, review
+and local QEMU validation
 
-thanks,
+Related syzbot RFC:
+https://lore.kernel.org/all/161c70c4-a363-469d-8665-64f71763f84b@mail.kernel.org/
+This version tracks pending requests and guards reuse while they are busy
+---
+ drivers/usb/gadget/legacy/inode.c | 55 ++++++++++++++++++++++++++++++++-------
+ 1 file changed, 46 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index 7f6d84601..d60df4ad3 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -140,6 +140,7 @@ struct dev_data {
+ 					setup_abort : 1,
+ 					gadget_registered : 1;
+ 	unsigned			setup_wLength;
++	bool				ep0_req_queued;
+ 
+ 	/* the rest is basically write-once */
+ 	struct usb_config_descriptor	*config, *hs_config;
+@@ -984,6 +985,16 @@ static inline void ep0_readable (struct dev_data *dev)
+ 	kill_fasync (&dev->fasync, SIGIO, POLL_IN);
+ }
+ 
++static void dev_req_complete(struct usb_ep *ep, struct usb_request *req)
++{
++	struct dev_data		*dev = ep->driver_data;
++	unsigned long		flags;
++
++	spin_lock_irqsave(&dev->lock, flags);
++	dev->ep0_req_queued = false;
++	spin_unlock_irqrestore(&dev->lock, flags);
++}
++
+ static void clean_req (struct usb_ep *ep, struct usb_request *req)
+ {
+ 	struct dev_data		*dev = ep->driver_data;
+@@ -992,7 +1003,7 @@ static void clean_req (struct usb_ep *ep, struct usb_request *req)
+ 		kfree(req->buf);
+ 		req->buf = dev->rbuf;
+ 	}
+-	req->complete = epio_complete;
++	req->complete = dev_req_complete;
+ 	dev->setup_out_ready = 0;
+ }
+ 
+@@ -1004,6 +1015,7 @@ static void ep0_complete (struct usb_ep *ep, struct usb_request *req)
+ 
+ 	/* for control OUT, data must still get to userspace */
+ 	spin_lock_irqsave(&dev->lock, flags);
++	dev->ep0_req_queued = false;
+ 	if (!dev->setup_in) {
+ 		dev->setup_out_error = (req->status != 0);
+ 		if (!dev->setup_out_error)
+@@ -1015,7 +1027,7 @@ static void ep0_complete (struct usb_ep *ep, struct usb_request *req)
+ 	/* clean up as appropriate */
+ 	if (free && req->buf != &dev->rbuf)
+ 		clean_req (ep, req);
+-	req->complete = epio_complete;
++	req->complete = dev_req_complete;
+ 	spin_unlock_irqrestore(&dev->lock, flags);
+ }
+ 
+@@ -1023,7 +1035,7 @@ static int setup_req (struct usb_ep *ep, struct usb_request *req, u16 len)
+ {
+ 	struct dev_data	*dev = ep->driver_data;
+ 
+-	if (dev->setup_out_ready) {
++	if (dev->setup_out_ready || dev->ep0_req_queued) {
+ 		DBG (dev, "ep0 request busy!\n");
+ 		return -EBUSY;
+ 	}
+@@ -1073,13 +1085,20 @@ ep0_read (struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+ 			struct usb_request	*req = dev->req;
+ 
+ 			if ((retval = setup_req (ep, req, 0)) == 0) {
++				dev->state = STATE_DEV_CONNECTED;
++				dev->ep0_req_queued = true;
+ 				++dev->udc_usage;
+ 				spin_unlock_irq (&dev->lock);
+ 				retval = usb_ep_queue (ep, req, GFP_KERNEL);
+ 				spin_lock_irq (&dev->lock);
+ 				--dev->udc_usage;
++				if (retval < 0) {
++					dev->ep0_req_queued = false;
++					clean_req(ep, req);
++				}
++			} else {
++				dev->state = STATE_DEV_CONNECTED;
+ 			}
+-			dev->state = STATE_DEV_CONNECTED;
+ 
+ 			/* assume that was SET_CONFIGURATION */
+ 			if (dev->current_config) {
+@@ -1270,6 +1289,7 @@ ep0_write (struct file *fd, const char __user *buf, size_t len, loff_t *ptr)
+ 			retval = setup_req (dev->gadget->ep0, dev->req, len);
+ 			if (retval == 0) {
+ 				dev->state = STATE_DEV_CONNECTED;
++				dev->ep0_req_queued = true;
+ 				++dev->udc_usage;
+ 				spin_unlock_irq (&dev->lock);
+ 				if (copy_from_user (dev->req->buf, buf, len))
+@@ -1284,6 +1304,7 @@ ep0_write (struct file *fd, const char __user *buf, size_t len, loff_t *ptr)
+ 				spin_lock_irq(&dev->lock);
+ 				--dev->udc_usage;
+ 				if (retval < 0) {
++					dev->ep0_req_queued = false;
+ 					clean_req (dev->gadget->ep0, dev->req);
+ 				} else
+ 					retval = len;
+@@ -1508,6 +1529,11 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 	} else if (dev->state == STATE_DEV_SETUP)
+ 		dev->setup_abort = 1;
+ 
++	if (dev->ep0_req_queued) {
++		spin_unlock(&dev->lock);
++		return -EBUSY;
++	}
++
+ 	req->buf = dev->rbuf;
+ 	req->context = NULL;
+ 	switch (ctrl->bRequest) {
+@@ -1626,6 +1652,7 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 				if (value < 0)
+ 					break;
+ 
++				dev->ep0_req_queued = true;
+ 				++dev->udc_usage;
+ 				spin_unlock (&dev->lock);
+ 				value = usb_ep_queue (gadget->ep0, dev->req,
+@@ -1633,6 +1660,7 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 				spin_lock (&dev->lock);
+ 				--dev->udc_usage;
+ 				if (value < 0) {
++					dev->ep0_req_queued = false;
+ 					clean_req (gadget->ep0, dev->req);
+ 					break;
+ 				}
+@@ -1664,16 +1692,18 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 		req->length = value;
+ 		req->zero = value < w_length;
+ 
++		dev->ep0_req_queued = true;
+ 		++dev->udc_usage;
+ 		spin_unlock (&dev->lock);
+ 		value = usb_ep_queue (gadget->ep0, req, GFP_KERNEL);
+ 		spin_lock(&dev->lock);
+ 		--dev->udc_usage;
+-		spin_unlock(&dev->lock);
+ 		if (value < 0) {
++			dev->ep0_req_queued = false;
+ 			DBG (dev, "ep_queue --> %d\n", value);
+ 			req->status = 0;
+ 		}
++		spin_unlock(&dev->lock);
+ 		return value;
+ 	}
+ 
+@@ -1771,6 +1801,7 @@ static void
+ gadgetfs_unbind (struct usb_gadget *gadget)
+ {
+ 	struct dev_data		*dev = get_gadget_data (gadget);
++	bool			queued;
+ 
+ 	DBG (dev, "%s\n", __func__);
+ 
+@@ -1781,15 +1812,20 @@ gadgetfs_unbind (struct usb_gadget *gadget)
+ 		usleep_range(1000, 2000);
+ 		spin_lock_irq(&dev->lock);
+ 	}
++	queued = dev->ep0_req_queued;
+ 	spin_unlock_irq (&dev->lock);
+ 
++	if (dev->req) {
++		if (queued)
++			usb_ep_dequeue(gadget->ep0, dev->req);
++		usb_ep_free_request(gadget->ep0, dev->req);
++		dev->req = NULL;
++	}
++
+ 	destroy_ep_files (dev);
+ 	gadget->ep0->driver_data = NULL;
+ 	set_gadget_data (gadget, NULL);
+ 
+-	/* we've already been disconnected ... no i/o is active */
+-	if (dev->req)
+-		usb_ep_free_request (gadget->ep0, dev->req);
+ 	DBG (dev, "%s done\n", __func__);
+ 	put_dev (dev);
+ }
+@@ -1816,11 +1852,12 @@ static int gadgetfs_bind(struct usb_gadget *gadget,
+ 	get_dev (dev);
+ 
+ 	/* preallocate control response and buffer */
++	dev->ep0_req_queued = false;
+ 	dev->req = usb_ep_alloc_request (gadget->ep0, GFP_KERNEL);
+ 	if (!dev->req)
+ 		goto enomem;
+ 	dev->req->context = NULL;
+-	dev->req->complete = epio_complete;
++	dev->req->complete = dev_req_complete;
+ 
+ 	if (activate_ep_files (dev) < 0)
+ 		goto enomem;
+
+---
+base-commit: f66469d9905b39d2c260a15d7d6db450f4db67c1
+change-id: 20261106-b4-gadgetfs-ep0-f814c14717a9
+
+Best regards,
+--  
+Jing Lin <kayano050408@gmail.com>
 
 
-> +		else if (state->alt->svid != USB_TYPEC_DP_SID)
-> +			return -EINVAL;
-> +	}
-
--- 
-heikki
