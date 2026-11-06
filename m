@@ -1,47 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.38.64.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964211;
-	b=q0HF6/r/lwRY3nXIFlvaVnYoVU7kg4fxuXFZld7EIrHFE4yKFYXOWzUzfEyyFHewF2b7
-	 IcITSkV5fq5e75v/Cc3qjsvevgwEYfM/w31gRrh7kHRmnyfGg5aclbtYLwFLbCcnDOIaP
-	 /0t02JXMwHML9CE6ZPpUMM5nY0E6HILMbyLPFWA7HibUn7lZ9s8b5bgvaTEhiwRnJUAOm
-	 jtXVYEeIZJeo8c6+mNg2n5/FVZElHNM9Tj4XiSqBKhC28dLlLTZOH+Jrx0oZ514kne8Dx
-	 zIshpEbSxAsf//9cqHRtVzE+zV2LhR4mQ8uGjnRGiA5A7T1MxFeK/xmyZdLdqdnrOlA==
+	t=1793964517;
+	b=BHMaz3BOCAtqWqnhrtNVax66oRH+eKkNQ0DzhUfsEQBS0ZYq8zbbdVnWocBQiZa5ayPx
+	 JukvTQAoZLG1LyMlkLmGItTOw8luOSZ2g8tlwxzd5VbzDU64gMFFxpBdSAmTHetIu2DCs
+	 GyThKDGEHWP3sVWWaXVQqcFYDI9iIBey+N2vPWYMvO54s043bq4gjhGH4v2Xo4jg0prgM
+	 /gjX4mwynuU7vhR2sAB+oKO5ci8kjsqnSqc/OxUznIp5h+PbTH1gV9n/iQpQ8qn/VdHie
+	 enzgxQO4H3ZoCsTHZ22S7I/7ELHub78jHmiRrWuPUDf3rI2IMqYn9hN9SG0g2SH2G1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964211;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=ZC97gP+71La8dh+fmuThPo+yYNGatDg8EP+Bb8cfY8M=;
-	b=ZdcNDnlrGpyxZrGDTjLbsvg94uSfyVmqwx97M0XnOkrD+jm7yz8gDfh3iYUa3xBEFUSf
-	 AlOYb6OnN28b8oSyxkh7TjNOONenNkY9k2Tuopm0SNA4g0AnlutqMygL6jnFBTkcF8v+8
-	 EznjB027DR9/T+2atRD02gdoY7A7yPlK6WcJnhea+ctVHS7VZuyeGqgpre+w+ReuOgU7Z
-	 ycP1dSAsN+/xn2Fgr51Zi2OoJSkCBkw968hv4c3BUueYmZ8d08L7ac/bR5oT+vfasWnv4
-	 UpVKCv118hbTRqtwZgE7Q+KCibm6I2vuN57lSrG1Gj6XvvufgkODXQcbtoOLt8HQgHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964517;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=EzmTMwr8yqruvj/vgnGIEkJVe6M9uLFP63MnhAvtE/A=;
+	b=yfK0EJ/zriRbhnX0f3Zri4EKHiCsRvTH5T+nZi3zy9tZDzQnPhHSdteG2DcpwRDjB5lb
+	 ka9yzRs90aw7kRnoYy2+nXjt79k92C96lmmKcCVix3ZbAT2XwWKn/n7nJ7PzeHuIvOs9k
+	 dNdSQT9n1dqm/3SnAdXM5WhHy7HDCMnS7DTjIR7BLGOMa9bJ/fhmSML1g1QS/1sA2drpm
+	 w6nekZCAqxRgDfI/vw5hzwxNOD42sJzNO48AyZe17KPaP0Po/f3L2CATKxHXLqBNb+XkT
+	 GWr2S84LXF7qR8t28Kg+Qcz7MZbKUZ1GlGH9qOrjM5+k7U5sQsjJ4b/o3QQA22Q0fMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EjRqTQ+K;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA51606A329;
-	Fri,  6 Nov 2026 11:23:30 +0000 (UTC)
+	dmarc=pass header.from=mail.ustc.edu.cn;
+	spf=pass smtp.mailfrom=mail.ustc.edu.cn;
+	dkim=pass header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.a=rsa-sha256 header.s=dkim header.b=KyATSPC9;
+	arc=none smtp.remote-ip=202.38.64.46
+Received: from ustc.edu.cn (smtp.ustc.edu.cn [202.38.64.46])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE041606A330;
+	Fri,  6 Nov 2026 11:28:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE041606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.ustc.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ustc.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EjRqTQ+K
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE1B91F0089F;
-	Fri,  6 Nov 2026 11:23:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793964210;
-	bh=ZC97gP+71La8dh+fmuThPo+yYNGatDg8EP+Bb8cfY8M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=EjRqTQ+KLTKlC2shUJFhzMID6RGCvBWjVIFK3LTzmmsPKi8XNgdkcVh+WfN9nE5m7
-	 RvD+WAwYVf4lTvn+ZHmawQwM5ZVufYo3k/l8oqGjHOaU8DMZ00dSjaTLA0EERA3MdL
-	 8Bh/O63iaoicA8TpBm1Odbb4VD46SQRFVCfi4ueU3PQjnOTQB9L5UrlEaZrDOCoR8q
-	 KuZY11d7p4yY76mF+0K3aNvUBPUO2gb3b7bHuw5sIF28Oc7sMUScUGglH8Ww0SAOkZ
-	 +UMSs//C2spHV7nSVtFpNixoij1uV51WC9MyRrIB5+VrzZlyZiP59EkmFF8XADfB03
-	 Megloye1s0hpA==
-Message-ID: <833cc1d5-7968-4d45-9b59-976a3eaea5a7@kernel.org>
-Date: Fri, 6 Nov 2026 12:23:18 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.a=rsa-sha256 header.s=dkim header.b=KyATSPC9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-ID:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=EzmTMwr8yqruvj/vgnGIEkJVe6M9uLFP63
+	MnhAvtE/A=; b=KyATSPC9kIkmBEFH45J7r+sLrrWkMS08aRg+KqIMJBifDPo3hT
+	wQSKzdJBQAAQHitxBUGCy7iH0dkf0KUQu58IWsx9N/sRx7Iu+C41N1zIAkgvGllr
+	+qyshxsgGC8c6ETwvURe/9V8Qv63i2dtViLXJswYJe/xtUlZt0DuG62TY=
+Received: from xuqianhui.tail7a2807.ts.net (unknown [114.214.184.75])
+	by mailimap2024 (Coremail) with SMTP id 3pYKCgC3P0TLue1q1i6PAA--.473S4;
+	Fri, 06 Nov 2026 19:28:22 +0800 (CST)
+From: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+To: gregkh@linuxfoundation.org,
+	Thinh.Nguyen@synopsys.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/3] usb: roles: look up role switches attached to a graph endpoint
+Date: Fri,  6 Nov 2026 19:28:10 +0800
+Message-ID: <20261106112811.963923-3-xiaqinghuan@mail.ustc.edu.cn>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261106112811.963923-1-xiaqinghuan@mail.ustc.edu.cn>
+References: <20261106112811.963923-1-xiaqinghuan@mail.ustc.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -51,142 +66,117 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/25] dt-bindings: power: reset: add Metanoia MT2824
- reboot
-To: =?UTF-8?Q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jun Chang <jun.chang@metanoia-comm.com>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Conor Dooley <conor@kernel.org>,
- Jonathan Cameron <jic23@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
- Samuel Holland <samuel.holland@sifive.com>,
- Ben Zong-You Xie <ben717@andestech.com>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
- Jisheng Zhang <jszhang@kernel.org>, CL Wang <cl634@andestech.com>,
- Mark Brown <broonie@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
- <linux@roeck-us.net>, Adrian Hunter <adrian.hunter@intel.com>,
- Minas Harutyunyan <hminas@synopsys.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- =?UTF-8?B?UmFuZG9scGggU2hlbmctS2FpIExpbijmnpfogZblh7Ep?=
- <randolph@andestech.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-phy@lists.infradead.org,
- Paul Walmsley <paul.walmsley@sifive.com>, linux-mmc@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-watchdog@vger.kernel.org
-References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
- <20261106-mt2824-v1-4-86087eaf5af4@bootlin.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261106-mt2824-v1-4-86087eaf5af4@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:3pYKCgC3P0TLue1q1i6PAA--.473S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxJF4fZFy3ur1DCryDZr1kXwb_yoW5KF1xpr
+	yakF1Fvr4DJFya9w4fGa1DAFWrWr4fGFWUJF4xt3WfC3Zaq3yrJr48ta43Ar15CanIgw1Y
+	v348A3409a4DA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBab7Iv0xC_KF4lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
+	8067AKxVWUXwA2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF
+	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcV
+	CY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIE
+	c7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I
+	8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCF
+	s4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCF04k20x
+	vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
+	3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
+	AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAI
+	cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
+	IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jcqXdUUUUU=
+X-CM-SenderInfo: 50ld1x5qjk3t3q6ptxnoox23vfohv3gofq/1tbiAREDB2rs2VhhrAAfsB
 
-On 06/11/2026 10:30, Benoît Monin wrote:
-> Document the Metanoia MT2824 reboot register, which the firmware writes
-> in machine mode to perform a warm system reboot. OpenSBI has a system
-> reset driver for it.
-> 
-> Originally-by: Jun Chang <jun.chang@metanoia-comm.com>
-> Signed-off-by: Benoît Monin <benoit.monin@bootlin.com>
-> ---
->  .../bindings/power/reset/metanoia,reboot.yaml      | 34 ++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/power/reset/metanoia,reboot.yaml b/Documentation/devicetree/bindings/power/reset/metanoia,reboot.yaml
-> new file mode 100644
-> index 000000000000..2670fe7ab93f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/power/reset/metanoia,reboot.yaml
-> @@ -0,0 +1,34 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/power/reset/metanoia,reboot.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Metanoia MT2824 Reboot Controller
-> +
-> +maintainers:
-> +  - Jun Chang <jun.chang@metanoia-comm.com>
-> +
-> +description:
-> +  The Metanoia MT2824 reboot controller provides a system warm reboot through
-> +  a memory-mapped register. It is used by the firmware in machine mode.
-> +
-> +properties:
-> +  compatible:
-> +    const: metanoia,mt2824-reboot
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    reboot: reboot@10000004 {
-> +      compatible = "metanoia,mt2824-reboot";
-> +      reg = <0x10000004 0x8>;
+usb_role_switch_get() and fwnode_usb_role_switch_get() look for a switch
+on the caller's parent device node or through device_connection.  That does
+not work when one controller exposes a role switch per connector endpoint:
+the switch is registered against the remote graph endpoint and the
+consumer, the connector, has no phandle to it.
 
-Two words is also not a device, especially that rest of your devices are
-at aligned to 0x10000.
+Add usb_role_switch_at_endpoint(), which walks the caller's OF graph
+endpoints and matches a switch registered on the remote endpoint, and try
+it after the existing parent lookup.  A switch that is described by the
+graph but not registered yet comes back as -EPROBE_DEFER, as the rest of
+the role-switch API does, so the caller retries instead of concluding that
+the connector has no role switch at all.  There is no behaviour change for
+existing users: if nothing is registered against an endpoint the lookup
+falls through to the previous paths.
 
+This is needed by DWC3 designs where two Type-C receptacles share one High
+Speed data bus.
 
-Best regards,
-Krzysztof
+Signed-off-by: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+---
+ drivers/usb/roles/class.c | 45 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+
+diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+index edec139b68..ee186d542a 100644
+--- a/drivers/usb/roles/class.c
++++ b/drivers/usb/roles/class.c
+@@ -157,6 +157,47 @@ usb_role_switch_is_parent(struct fwnode_handle *fwnode)
+ 	return dev ? to_role_switch(dev) : ERR_PTR(-EPROBE_DEFER);
+ }
+ 
++/*
++ * Look up a role switch registered against the remote endpoint of one of the
++ * caller's OF graph endpoints.  This is how a connector endpoint that shares a
++ * USB data bus with another connector (for example two Type-C receptacles on a
++ * single DWC3 controller, selected by a GPIO mux) finds its own role switch.
++ */
++static struct usb_role_switch *
++usb_role_switch_at_endpoint(struct fwnode_handle *fwnode)
++{
++	struct fwnode_handle *ep, *remote, *parent;
++	struct usb_role_switch *sw;
++	bool available;
++
++	fwnode_graph_for_each_endpoint(fwnode, ep) {
++		parent = fwnode_graph_get_remote_port_parent(ep);
++		if (!parent)
++			continue;
++		available = fwnode_device_is_available(parent);
++		fwnode_handle_put(parent);
++		if (!available)
++			continue;
++
++		remote = fwnode_graph_get_remote_endpoint(ep);
++		if (!remote)
++			continue;
++		sw = usb_role_switch_match(remote, "usb-role-switch", NULL);
++		fwnode_handle_put(remote);
++		/*
++		 * ERR_PTR(-EPROBE_DEFER) means the switch is described by the graph
++		 * but not registered yet: pass it up so the caller defers instead of
++		 * concluding that this connector has no role switch at all.
++		 */
++		if (sw) {
++			fwnode_handle_put(ep);
++			return sw;
++		}
++	}
++
++	return NULL;
++}
++
+ /**
+  * usb_role_switch_get - Find USB role switch linked with the caller
+  * @dev: The caller device
+@@ -169,6 +210,8 @@ struct usb_role_switch *usb_role_switch_get(struct device *dev)
+ 	struct usb_role_switch *sw;
+ 
+ 	sw = usb_role_switch_is_parent(dev_fwnode(dev));
++	if (!sw)
++		sw = usb_role_switch_at_endpoint(dev_fwnode(dev));
+ 	if (!sw)
+ 		sw = device_connection_find_match(dev, "usb-role-switch", NULL,
+ 						  usb_role_switch_match);
+@@ -192,6 +235,8 @@ struct usb_role_switch *fwnode_usb_role_switch_get(struct fwnode_handle *fwnode)
+ 	struct usb_role_switch *sw;
+ 
+ 	sw = usb_role_switch_is_parent(fwnode);
++	if (!sw)
++		sw = usb_role_switch_at_endpoint(fwnode);
+ 	if (!sw)
+ 		sw = fwnode_connection_find_match(fwnode, "usb-role-switch",
+ 						  NULL, usb_role_switch_match);
+
