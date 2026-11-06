@@ -1,69 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793935073;
-	b=3W6lJxe/V724tVsNl/caYTBstu7KIozdVmpo3k7FtEKX51VKjvEgny/J6CmjnVQkIAFV
-	 xdL+lMkwNeOj/5vN6pBuxYyptQZY5rZUZV7siZjXDUdRxnaaXKGZ11E2HS/yhLrx5iKKy
-	 slY/fOHOHpitK7FnqL1mlzKM/Qexb1wAeSk5mP/cYYVdVkMeyuI4cOCjYd94xEULka8VZ
-	 Pz9gsB1botnGpW0ggJ1oGrHpPXs4TZg7s9nKmnIrudyoTJS3sZq2SGjmsZJSwEB537Y4U
-	 EBgP7Kna5NZg4+620MODYfztsUllC9+5Rd5cjaft3E0jTuNz0nvaUtXE2R18gmf4wuA==
+	t=1793936096;
+	b=bzIG9kallYTMA9q66EnDSHouQp0T2AMYc8DhFtaAI82eVNVnW8g63m/Azk4C77g9Ekq7
+	 8PxvVDKLRzhUOwWA/LaeSuHl2iJqZ28yBvJ2wsjI1lCYqluKMK1EUfFntwZFwGeRkLjqT
+	 YHmw9MfW9ednsa62R/98jkK3k6GiQ4qJrcxSEzxceQG8oyBrqWBgh1SyoWv2AepPwmufP
+	 1fm1/HtO59nnyKQjRGpjl3aoyTnnznC0cAVQGIl3rcicodzu5xv0mfY6rZhD1IUtq+O11
+	 KITHEr/vpgnjoWLJ6hLsbugYlAcOFoSPt8PxBCL48nOk+xjvizjH5x2Uxz6iboUb/BQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793935073;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=03M13Azwyy0KMcFaGycRciB1g2jPBnLm5WvZcLiXzPk=;
-	b=b0844yyCCPr56vo7i22r3FRjQGIslMzj0XrSppfUDzqMzOQ2KE4/am/vJMqiJKlp++Qk
-	 Gg4KeRg4Tdl/l1liIQJ8gpIr78TMstnBiiorx5HJ/suKNLL5IS3oZ1zvR6evUL7TSz5Ue
-	 TseLyuFHlaaCpwwuMBPnF12CxOmswo+DfkC5VhrpEan5WQ3Uszy1qBTG5jvD7WQ3d5pAu
-	 YHxPNdfSBwzmA4xl86Z+mFDKs75zoGc3YttokCH2enYCta6BEfmeTFaiYKmKX1rEE0Tfx
-	 CNXE4GAqYSG4h1fUSxE6+LqS3o4wgo7xjSOWRnqTjuuHgDoF061ULSv+FjsoXR6cIPQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793936096;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=CjfJddZ18P8I9AHdUbWexUBR0fmPOBKTFV/OlO6HIcc=;
+	b=PxADaeQ9OuYwKALLCJhLd4XFeEGvAfvLGNvkkAwSccR5/kJSnq7q13bVnq7hRStULESK
+	 SjPzu4nZ3sV6QTId1i4GdQfd0WPzx/AtVOFFJSklUYDVo0l+oGKq/3f50YZlthCqHUZcV
+	 fdaocKzWyKpFVYdo6CXPYsaCKU92XVXO3lKkmhAXRMftzK9LOfWl1vAUd6L6rDeo6dYcy
+	 OPPs0IllaiR/rDCodg3mSNtwpsH5NxVA/ZCvT+guDye5F4LXpmujGVoBzmP75JdZfJXTk
+	 CRXEF6SZwW6JjBCCHk+lJaw8CFpilcOc2VpiibmKs4z63EEosFCvxbtp28DNC9yABwA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=o7ID0tMj;
-	arc=none smtp.remote-ip=113.46.200.222
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T+6XYqth;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92609606A31B;
-	Fri,  6 Nov 2026 03:17:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92609606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95754606A31B
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 03:34:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=o7ID0tMj
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=03M13Azwyy0KMcFaGycRciB1g2jPBnLm5WvZcLiXzPk=;
-	b=o7ID0tMj+vAhkN5NlLSPSi3OenycoPtYa2YIuF/rZcrZB80TE7RdcPkiFAzf8o2+CL9vXMsnq
-	n4Trg3YXhm25CX8LgoBuW32fpJp8dN082PEiz+h0j+VqSSUvplGgr8HEFDepKu2sLuJCsOGrnj+
-	JUBppBfPofEDRox2+fxOtgg=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4jLPVz0W2SzLlWs;
-	Fri,  6 Nov 2026 11:17:31 +0800 (CST)
-Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0114740563;
-	Fri,  6 Nov 2026 11:17:43 +0800 (CST)
-Received: from vm.huawei.com (7.238.34.231) by whupemk100010.china.huawei.com
- (7.152.184.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 6 Nov
- 2026 11:17:42 +0800
-From: Pengfei Lv <lvpengfei20@huawei.com>
-To: <gregkh@linuxfoundation.org>
-CC: <stern@rowland.harvard.edu>, <michal.pecio@gmail.com>,
-	<linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<stable@vger.kernel.org>, <xuhaiyang5@hisilicon.com>, <xuetao09@huawei.com>,
-	<caiyadong@huawei.com>, <suzhuangluan@hisilicon.com>, Pengfei Lv
-	<lvpengfei20@huawei.com>
-Subject: [PATCH v2] usb: core: hub: Re-guess ep0 maxpacket size on reset
-Date: Fri, 6 Nov 2026 11:16:25 +0800
-Message-ID: <20261106031625.1824732-1-lvpengfei20@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261104124402.1269650-1-lvpengfei20@huawei.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T+6XYqth
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F2021F0089F;
+	Fri,  6 Nov 2026 03:34:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793936096;
+	bh=CjfJddZ18P8I9AHdUbWexUBR0fmPOBKTFV/OlO6HIcc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=T+6XYqthD4C+66k4jENPGYS7qxJPK18txoEQcfrMh/VZFg5v3d/ZVm/jMwj/mDdgi
+	 /yps5HwjoCaYF83Zu1lGwcWWtfPtxXKyKesS/LdZnk6IM5Lsa7+L1XxVBdLsMyNIH1
+	 4BHpGYmE0V0k/wiWu5muYsnPDaiXPft6otlYCwWdtkIYQsEbJGOJ/ZeKVHN1n4i3UQ
+	 hwg/0jtMzrVckoZqtWWO8WBbdkYvh650fHuHEItOA0GdhR+sG8vcXkcZLqPhNIXEjg
+	 Vy+F6dIHpTipD9FtcL44meKM/0le7dzN/XZZcHIQ2rQvTjMrlPbkvDjOn8B7Y9VWdi
+	 xVuZ4nmEa/K7w==
+Message-ID: <sashiko-outbox-200650@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] usb: core: hub: Re-guess ep0 maxpacket size on reset
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Pengfei Lv" <lvpengfei20@huawei.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261106031625.1824732-1-lvpengfei20@huawei.com>
 References: <20261104124402.1269650-1-lvpengfei20@huawei.com>
+ <20261106031625.1824732-1-lvpengfei20@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Nov 2026 03:34:55 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,190 +59,162 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- whupemk100010.china.huawei.com (7.152.184.41)
 
-Per USB 2.0 spec section 5.5.3, the ep0 maxpacket size is fixed for
-all device speeds except full-speed devices, where it can be 8, 16,
-32, or 64 bytes and can only be determined by reading the device
-descriptor.  During the initial enumeration of a full-speed device,
-the USB core guesses 64 bytes (hub_port_init() with initial=true);
-after reading the descriptor, the real value (e.g. 8) is stored in
-udev->ep0.desc.wMaxPacketSize and propagated to the xHCI ep0 context
-via an Evaluate Context command.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] usb: core: hub: usb_ep0_reinit() on unaddressed xHCI slot in hub=
+_port_init()
+--
 
-After a port reset (usb_reset_and_verify_device() -> hub_port_init()
-with initial=false), the "if (initial)" guard added by commit
-ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()")
-skips the ep0 maxpacket guess block, so
-udev->ep0.desc.wMaxPacketSize retains the real value (e.g. 8).  The
-xHCI Reset Device command preserves the ep0 context as well, so the
-xHC ep0 max_packet also stays at 8.
+commit d0ddaa8105de736e42e89c86a81968c860e72871
+Author: Pengfei Lv <lvpengfei20@huawei.com>
 
-When the subsequent re-enumeration then uses the "new scheme" and
-issues a 64-byte GET_DESCRIPTOR (get_bMaxPacketSize0 with size=64),
-the xHC queues a Data TRB of length 64 but applies ep0 max_packet=8
-for short-packet detection.  If the device's first data packet is
-exactly 8 bytes and it sends no ZLP, the xHC does not recognise a
-short packet, keeps issuing IN tokens for the remaining 56 bytes, and
-the control transfer hangs in the Data stage until URB timeout.
+usb: core: hub: Re-guess ep0 maxpacket size on reset
 
-This is not merely theoretical.  It was observed in production on a
-6.6 LTS kernel with a Full-Speed USB banking token (bMaxPacketSize0
-= 8) in a virtual-machine USB passthrough scenario; the reset
-re-enumeration hangs 100% of the time after the VM issues
-USBDEVFS_RESET.  Bus captures with an Ellisys analyzer confirm that
-the device sends exactly one 8-byte packet for the 64-byte request
-and then stops responding to IN tokens, relying on the host's
-short-packet detection with max_packet=64 to terminate the transfer.
-For the subsequent 18-byte GET_DESCRIPTOR (usb_get_device_descriptor,
-wLength=18) the same device sends the full 18 bytes as 8 + 8 + 2;
-the final 2-byte packet is always a short packet regardless of
-max_packet, so that transfer succeeds on both kernels.  This is why
-the device completes initial enumeration yet hangs on reset
-re-enumeration.
+This commit removes the initial guard around the ep0 maxpacket size guess in
+hub_port_init() and calls usb_ep0_reinit() on reset so that full-speed devi=
+ces
+with bMaxPacketSize0 < 64 have their ep0 maxpacket reset to 64 in both USB
+core and the xHCI ep0 context before re-enumeration issues a 64-byte
+GET_DESCRIPTOR request.
 
-The device is not strictly compliant (it should continue answering
-IN tokens for the 64-byte request), but this class of USB banking
-token is widely deployed in enterprise environments, and the
-regression introduced by commit ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()") breaks a configuration that
-previously worked.
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 199d3f535a891..a6c260d390945 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -4969,33 +4969,34 @@ hub_port_init(struct usb_hub *hub, struct usb_dev=
+ice *udev, int port1,
+>  	}
+>  	oldspeed =3D udev->speed;
+> =20
+> -	if (initial) {
+> -		/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
+> -		 * it's fixed size except for full speed devices.
+> +	/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
+> +	 * it's fixed size except for full speed devices.
+> +	 */
+> +	switch (udev->speed) {
+> +	case USB_SPEED_SUPER_PLUS:
+> +	case USB_SPEED_SUPER:
+> +		udev->ep0.desc.wMaxPacketSize =3D cpu_to_le16(512);
+> +		break;
+> +	case USB_SPEED_HIGH:		/* fixed at 64 */
+> +		udev->ep0.desc.wMaxPacketSize =3D cpu_to_le16(64);
+> +		break;
+> +	case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
+> +		/* to determine the ep0 maxpacket size, try to read
+> +		 * the device descriptor to get bMaxPacketSize0 and
+> +		 * then correct our initial guess.
+>  		 */
+> -		switch (udev->speed) {
+> -		case USB_SPEED_SUPER_PLUS:
+> -		case USB_SPEED_SUPER:
+> -			udev->ep0.desc.wMaxPacketSize =3D cpu_to_le16(512);
+> -			break;
+> -		case USB_SPEED_HIGH:		/* fixed at 64 */
+> -			udev->ep0.desc.wMaxPacketSize =3D cpu_to_le16(64);
+> -			break;
+> -		case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
+> -			/* to determine the ep0 maxpacket size, try to read
+> -			 * the device descriptor to get bMaxPacketSize0 and
+> -			 * then correct our initial guess.
+> -			 */
+> -			udev->ep0.desc.wMaxPacketSize =3D cpu_to_le16(64);
+> -			break;
+> -		case USB_SPEED_LOW:		/* fixed at 8 */
+> -			udev->ep0.desc.wMaxPacketSize =3D cpu_to_le16(8);
+> -			break;
+> -		default:
+> -			goto fail;
+> -		}
+> +		udev->ep0.desc.wMaxPacketSize =3D cpu_to_le16(64);
+> +		break;
+> +	case USB_SPEED_LOW:		/* fixed at 8 */
+> +		udev->ep0.desc.wMaxPacketSize =3D cpu_to_le16(8);
+> +		break;
+> +	default:
+> +		goto fail;
+>  	}
+> =20
+> +	if (!initial)
+> +		usb_ep0_reinit(udev);
 
-Fix this by removing the "if (initial)" guard so that the ep0 maxpacket
-size is re-guessed from udev->speed on every reset, and by calling
-usb_ep0_reinit() afterwards when !initial so that the new software
-value is propagated to the xHCI ep0 context via an Evaluate Context
-command before the GET_DESCRIPTOR data stage.
+[Severity: Medium]
+Can calling usb_ep0_reinit(udev) here before hub_enable_device() or
+hub_set_address() trigger an invalid Evaluate Context command when the xHCI
+slot has been newly allocated during reset?
 
-The usb_ep0_reinit() call is necessary because commit e34900f46cd6
-("xhci: Reconfigure endpoint 0 max packet size only during endpoint reset")
-moved the ep0 maxpacket sync point from xhci_urb_enqueue()
-(xhci_check_maxpacket, lazy per-URB) to xhci_endpoint_reset()
-(xhci_check_ep0_maxpacket, eager), reachable only via
-usb_ep0_reinit() -> usb_enable_endpoint(reset_ep=true) ->
-usb_hcd_reset_endpoint() -> xhci_endpoint_reset().  Without the
-explicit usb_ep0_reinit() after the re-guess, no Evaluate Context
-command is issued on the reset path: the pre-existing
-usb_ep0_reinit() in usb_reset_and_verify_device() runs before
-hub_port_init() and thus syncs the stale value, and the subsequent
-hub_enable_device() -> xhci_setup_device(SETUP_CONTEXT_ONLY) returns
-early when the slot is already in SLOT_STATE_DEFAULT.
+Earlier in drivers/usb/core/hub.c:hub_port_init(), hub_port_reset() invokes
+hcd->driver->reset_device(), which resolves to
+drivers/usb/host/xhci.c:xhci_discover_or_reset_device(). When the xHCI slot
+was freed and reallocated via xhci_alloc_dev() (for example on Etron hosts
+with XHCI_ETRON_HOST, or after host controller power loss / reset on resume=
+),
+the newly allocated virt_dev has a zeroed out_ctx in SLOT_STATE_DISABLED
+because Address Device (xhci_setup_device()) has not run yet:
 
-The !initial guard on the new usb_ep0_reinit() call ensures that
-initial enumeration is unaffected: on first enumeration the ep0
-context is initialised by the Address Device command, so no extra
-Evaluate Context is needed.  For high-speed, low-speed, and
-SuperSpeed-or-faster devices, xhci_endpoint_reset() returns early
-(speed != USB_SPEED_FULL), so the call is a no-op on xHCI, and on
-non-xHCI host controllers endpoint_reset for control endpoints is
-likewise a no-op (e.g. ehci_endpoint_reset only handles bulk and
-interrupt endpoints).  The descriptor-immutability checks (!initial
-&& maxp0 != udev->descriptor.bMaxPacketSize0) remain unchanged;
-udev->ep0.desc is not part of udev->descriptor and is not the field
-involved in the read_descriptors() race that commit ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()") fixed, so
-restoring the wMaxPacketSize re-guess does not reopen that race.
+drivers/usb/host/xhci.c:xhci_discover_or_reset_device() {
+	...
+	slot_ctx =3D xhci_get_slot_ctx(xhci, virt_dev->out_ctx);
+	if (GET_SLOT_STATE(le32_to_cpu(slot_ctx->dev_state)) =3D=3D
+						SLOT_STATE_DISABLED)
+		return 0;
 
-Fixes: ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Pengfei Lv <lvpengfei20@huawei.com>
----
+	if (xhci->quirks & XHCI_ETRON_HOST) {
+		ret =3D xhci_disable_and_free_slot(xhci, udev->slot_id);
+		if (!ret) {
+			ret =3D xhci_alloc_dev(hcd, udev);
+	...
+}
 
-Changes in v2:
-- Add usb_ep0_reinit(udev) after the ep0 maxpacket re-guess block,
-  guarded by !initial, to propagate the new wMaxPacketSize to the
-  xHCI ep0 context.  v1 only removed the if(initial) guard, which
-  is insufficient after commit e34900f46cd6 ("xhci: Reconfigure endpoint 0 max packet size only during endpoint reset")
-  moved the xHCI ep0
-  maxpacket sync point from xhci_urb_enqueue() (xhci_check_maxpacket,
-  lazy per-URB) to xhci_endpoint_reset() (xhci_check_ep0_maxpacket,
-  eager), reachable only via usb_ep0_reinit().  The !initial guard
-  avoids a redundant Evaluate Context on first enumeration, where the
-  Address Device command already initialises the ep0 context to 64.
-  (Sashiko AI review)
-- Expand commit message with observed-in-production evidence and the
-  wLength=64 vs wLength=18 device behavior distinction, per Alan
-  Stern's review.
-- Note: on kernels before e34900f46cd6 (e.g. 6.6 LTS), the xHCI ep0
-  maxpacket sync happens lazily in xhci_urb_enqueue() via
-  xhci_check_maxpacket(), so removing the if(initial) guard alone is
-  sufficient and the extra usb_ep0_reinit() call is a no-op for ep0
-  maxpacket sync (xhci_endpoint_reset returns early for control
-  endpoints on those kernels).  This patch targets current mainline
-  where e34900f46cd6 is already present.  Would the maintainers
-  prefer a separate, simpler patch (without the usb_ep0_reinit()
-  addition) for stable branches predating e34900f46cd6, or is this
-  single patch acceptable for backport given that the
-  usb_ep0_reinit() call is harmless on those kernels?
----
- drivers/usb/core/hub.c | 49 +++++++++++++++++++++---------------------
- 1 file changed, 25 insertions(+), 24 deletions(-)
+When usb_ep0_reinit(udev) is then called for a full-speed device via
+usb_enable_endpoint() -> usb_hcd_reset_endpoint() -> xhci_endpoint_reset() =
+->
+xhci_check_ep0_maxpacket(), neither xhci_endpoint_reset() nor
+xhci_check_ep0_maxpacket() checks whether vdev->out_ctx is still in
+SLOT_STATE_DISABLED:
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 199d3f535a89..a6c260d39094 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -4969,33 +4969,34 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
- 	}
- 	oldspeed = udev->speed;
- 
--	if (initial) {
--		/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
--		 * it's fixed size except for full speed devices.
-+	/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
-+	 * it's fixed size except for full speed devices.
-+	 */
-+	switch (udev->speed) {
-+	case USB_SPEED_SUPER_PLUS:
-+	case USB_SPEED_SUPER:
-+		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
-+		break;
-+	case USB_SPEED_HIGH:		/* fixed at 64 */
-+		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
-+		break;
-+	case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
-+		/* to determine the ep0 maxpacket size, try to read
-+		 * the device descriptor to get bMaxPacketSize0 and
-+		 * then correct our initial guess.
- 		 */
--		switch (udev->speed) {
--		case USB_SPEED_SUPER_PLUS:
--		case USB_SPEED_SUPER:
--			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
--			break;
--		case USB_SPEED_HIGH:		/* fixed at 64 */
--			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
--			break;
--		case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
--			/* to determine the ep0 maxpacket size, try to read
--			 * the device descriptor to get bMaxPacketSize0 and
--			 * then correct our initial guess.
--			 */
--			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
--			break;
--		case USB_SPEED_LOW:		/* fixed at 8 */
--			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
--			break;
--		default:
--			goto fail;
--		}
-+		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
-+		break;
-+	case USB_SPEED_LOW:		/* fixed at 8 */
-+		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
-+		break;
-+	default:
-+		goto fail;
- 	}
- 
-+	if (!initial)
-+		usb_ep0_reinit(udev);
-+
- 	speed = usb_speed_string(udev->speed);
- 
- 	/*
--- 
-2.34.1
+drivers/usb/host/xhci.c:xhci_check_ep0_maxpacket() {
+	...
+	ep_ctx =3D xhci_get_ep_ctx(xhci, vdev->out_ctx, 0);
+	hw_max_packet_size =3D MAX_PACKET_DECODED(le32_to_cpu(ep_ctx->ep_info2));
+	max_packet_size =3D usb_endpoint_maxp(&vdev->udev->ep0.desc);
 
+	if (hw_max_packet_size =3D=3D max_packet_size)
+		return 0;
+	...
+}
+
+Because vdev->out_ctx is still zeroed, hw_max_packet_size is 0 !=3D 64, so
+xhci_check_ep0_maxpacket() copies the zeroed out_ctx ep0 into in_ctx ep0 and
+issues an Evaluate Context command on an unaddressed slot in the Enabled
+state, which the xHC rejects with COMP_CONTEXT_STATE_ERROR (logging a warni=
+ng
+in xhci_evaluate_context_result()).
+
+Furthermore, if a previous attempt in xhci_setup_device() failed with
+COMP_USB_TRANSACTION_ERROR, it reallocates the slot via xhci_alloc_dev() and
+calls xhci_setup_addressable_virt_dev(xhci, udev), which populates
+vdev->in_ctx (including setting slot_ctx->dev_info and initializing in_ctx
+ep0) while vdev->out_ctx remains zeroed. If hub_port_init() retries and cal=
+ls
+usb_ep0_reinit(udev) before the next xhci_setup_device(),
+xhci_check_ep0_maxpacket() overwrites vdev->in_ctx ep0 from the zeroed
+vdev->out_ctx while leaving slot_ctx->dev_info non-zero:
+
+drivers/usb/host/xhci.c:xhci_setup_device() {
+	...
+	if (!slot_ctx->dev_info)
+		xhci_setup_addressable_virt_dev(xhci, udev);
+	/* Otherwise, update the control endpoint ring enqueue pointer. */
+	else
+		xhci_copy_ep0_dequeue_into_input_ctx(xhci, udev);
+	...
+}
+
+Wouldn't xhci_setup_device() then skip xhci_setup_addressable_virt_dev() and
+submit Address Device with a zeroed ep0 context (EP_TYPE =3D=3D 0)?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106031625.1824=
+732-1-lvpengfei20@huawei.com?part=3D1
