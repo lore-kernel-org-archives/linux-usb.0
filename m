@@ -1,57 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.38.64.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793965240;
-	b=D3bE4vI+PCT5qx+2tH6KJJCZVdMdIScMVbFLAheIqk5eD/fcMsFNg3yXAHgy8gugOYXz
-	 8wvPG7XbI2fwcVKSkSlngUmvhz0DcTCvWZj9u9m1AGNiRU+BHCY6NqHWukywh4JWAgI47
-	 dEjIh5xdfDNfvf13532g2XMigGoAj4B1VUw8fm95pzRzCuW/k4gyf7084PbBo/AKlktOu
-	 lrJvoxtqf6cIy+TB9ikibQoAob4dyJ92wglyPHeWhNvC0mKgrnYdqaTRTmeKto3A4ncIe
-	 YPN3Ux7stF+CokNYQqDt5q7K6VZWdi0fJ6uk2Oi+dK3Tr97cyexMsFctTHkemLT6W/g==
+	t=1793965342;
+	b=WWDIfE/6BbpaJOWdd9UuTMawqbge2n91LDWiZr3+0xmzKAjDdMMCGGejQ7vnY/EOL7Nl
+	 RE8KNBCKObLdIj8G2Q0A16en+bsehzHCl3M8K5wzTTbu2lyFYzMyUSVigHkV4oLy5IGSG
+	 /vYVTP6Rpghl0KWdoplUZ0/4br+V/duYyxV4CleXnKC3hAoVwPUqgUfmaZIzkAAVGgVqE
+	 juAwlMeGK79hklWOTnG6L1ymi+mu/nwrR2dT/SrauI3YhnWUxn7wGq4QlMKUWFbZ7CPBQ
+	 T/qtY5TffVUnACnFZbVCuNClTst2wlZ/bOiehk4auRjNJ87pHGqaGF3daHOI7NiRdmQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793965240;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=9yRwx/+GPbGKg1IxLxCnY4jJqMjssvneMD0mtA/PJKw=;
-	b=rwwOJb0fPeGcwn64+oDtGfgEVB1q1vtX4TNDkZ0Gb4sYDKKr+cuF2u1HzixzV310euSS
-	 lezfbfOvU2AHytUiXTThq6eOl0bh2ffVFKQ4BqqdszW3ibUW+HO9UVadjhZL2fXcTEkEZ
-	 9febYCTfKdkB80onitOkSY4prN2KyQ2xenbK/A+oM9a59J7J3xpAwmfI+wO6MKXdivN6S
-	 aKx1FpiQYHXLn7Jok0DtL0uh+GjZP9qucJuzux+1uVMWOqa2B6C8irSOrsuSF0eCUNYNW
-	 /NLRq3svn0loGlelNax5ucFdIrPClqz7HvEBGpwgA5LqcxG0sCYeXz1+bO2TSaAODxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793965342;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=ERoJU+YSkcdzSJp45/76zizxO7Q36Iy9/z1bkXjHy9E=;
+	b=uWulblgb+W4o8Y26Of/yKFx0twXc3AxTGj/DEglYmcMBGYNILHss7GG5AgxQER+t4OGq
+	 1UvX8ZFzXSr4y1H9Tx+W307YZu/NOzHtk0I/7U5lOtBQ2LswiWvB11IaKvvDdXi+fupXy
+	 YbuN4LExbiHYuz67gAiX9d5/goPq0AQg6yxBvNPeOXAzH0wYptimPevms2k7S4Py2eKVm
+	 I3HAtxtb/6i2vhhylfOUHLR9itNiVyP9LW1MVirjcL+Hem8Ca93S1ZKO0vZcuYkuaEQof
+	 +4fswR6HRjoOGYLfGii4JwXrhufTc37Mf7WYTEHzsFnxB4TXO4mUdYVaM7gWHvaZEdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lvHvHlb8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902C0606BD4C
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 11:40:40 +0000 (UTC)
+	dmarc=pass header.from=mail.ustc.edu.cn;
+	spf=pass smtp.mailfrom=mail.ustc.edu.cn;
+	dkim=pass header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.a=rsa-sha256 header.s=dkim header.b=Cc3Ah1xy;
+	arc=none smtp.remote-ip=202.38.64.46
+Received: from ustc.edu.cn (smtp.ustc.edu.cn [202.38.64.46])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B40D9606C7CA;
+	Fri,  6 Nov 2026 11:42:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B40D9606C7CA
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.ustc.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ustc.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lvHvHlb8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50C511F008A1;
-	Fri,  6 Nov 2026 11:40:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793965240;
-	bh=9yRwx/+GPbGKg1IxLxCnY4jJqMjssvneMD0mtA/PJKw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lvHvHlb8MgRT5cbQsXkQVwKewKliSxXm4tFo7e5jIdWadfvGSzZN7mFwFHxDL/NQ7
-	 /5crawkPeLqsx5rKSNPYMYOhQ2dCTBnBcMFWZGtBEHlv6kFM7zDn+dkRljYh3ev0vw
-	 qmLRB5zm/BncjGhSBnnu+dqc7zhKg0tEVFAS0zbjw9/+VFye8pqAwEd0NnDmjDV9K+
-	 cOIP0KgnvhFulQq3ybCjRjFyhjy4cU8fiPPDkadHcBkmjAKtp5nYfEDy0TwQ9vh4yd
-	 MT0giaDsWp4P2YHo2bUqa8xUtAoPNmp7C1OAx80nfROTy6aqY1IndG5sokgw3d3wMw
-	 OgNXMZNEgY9SQ==
-Message-ID: <sashiko-outbox-201328@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/3] usb: dwc3: support two connectors sharing one HS
- data bus
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Qianhui Xu" <xiaqinghuan@mail.ustc.edu.cn>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261106112811.963923-4-xiaqinghuan@mail.ustc.edu.cn>
-References: <20261106112811.963923-1-xiaqinghuan@mail.ustc.edu.cn>
- <20261106112811.963923-4-xiaqinghuan@mail.ustc.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 11:40:39 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.a=rsa-sha256 header.s=dkim header.b=Cc3Ah1xy
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-ID:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=ERoJU+YSkcdzSJp45/76zizxO7Q36Iy9/z
+	1bkXjHy9E=; b=Cc3Ah1xyC5wUY+KjmQcDaPWIC7V7LnzkxLxnc7Il87Nn+l/Ylz
+	rkTqHT8vxSTgASJPxjRc98mOat7rn2d5Byg2c4Emz19PiMW18/x0+8AtchwBYtVQ
+	IUUJ2s3/XU1BtFs/9W39Qu6iLxzwAtX7BqJneVIX1yjvSOUrO1CCSt5Rc=
+Received: from xuqianhui.tail7a2807.ts.net (unknown [114.214.184.75])
+	by mailimap2024 (Coremail) with SMTP id 3pYKCgBn2S0Qve1q3DyPAA--.869S3;
+	Fri, 06 Nov 2026 19:42:13 +0800 (CST)
+From: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+To: gregkh@linuxfoundation.org,
+	Thinh.Nguyen@synopsys.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v8 1/3] dt-bindings: usb: snps,dwc3: describe two connectors sharing one HS bus
+Date: Fri,  6 Nov 2026 19:42:06 +0800
+Message-ID: <20261106114208.987284-2-xiaqinghuan@mail.ustc.edu.cn>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261106114208.987284-1-xiaqinghuan@mail.ustc.edu.cn>
+References: <20261106114208.987284-1-xiaqinghuan@mail.ustc.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,33 +65,206 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:3pYKCgBn2S0Qve1q3DyPAA--.869S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3ArW8Jr4xCryfXr45KF1rWFg_yoW7Zw4kpF
+	Zxtan3JFWkKryfZ397A3W8uwn5Kws8JrnrJr18Ar1UAan8Gr1rXw43KwnIqayUCr97Za4Y
+	9rykW3WkXa17CaDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBqb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
+	8067AKxVWUGwA2048vs2IY020Ec7CjxVAFwI0_JFI_Gr1l8cAvFVAK0II2c7xJM28CjxkF
+	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcV
+	CY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv
+	6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c
+	02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE
+	4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_GFv_Wryl42xK82
+	IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
+	0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMI
+	IF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI
+	42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
+	80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUYf-PUUUUUU==
+X-CM-SenderInfo: 50ld1x5qjk3t3q6ptxnoox23vfohv3gofq/1tbiAREDB2rs2VhhrAA2so
 
-> On some boards a single DWC3 controller drives two receptacles: the Super
-> Speed pairs are wired to separate PHYs, while the High Speed data lines a=
-re
-> muxed to whichever connector is in use.  Such a controller has to service
-> two independent role-switch inputs, and the shared data path has to be
-> moved before the controller is reinitialised for the requested role.
->=20
-> Register one usb_role_switch per connector endpoint described by
-> "port-select-gpios" and the per-endpoint "mux-state" property.  Requests
-> from the two switches are serialised by the mux lock, the oldest pending
-> request wins, and the port-select GPIO is only changed once the previous
-> host or gadget instance has been torn down, which is where
-> __dwc3_set_mode() runs.  A same-role request that moves the data path to
-> the other connector reinitialises the controller as well and starts it
-> from the same SUSPHY state as a role change.
->=20
-> [ ... ]
->=20
-> While the two-connector mux owns role selection, the debugfs "mode" write
-> used to force a specific role is refused instead of racing with it.
->=20
-> Signed-off-by: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+Two connectors can share the High Speed D+/D- pair of one DWC3 controller,
+with a GPIO selecting which of them is connected, while their Super Speed
+lanes stay separate.
 
-Sashiko has reviewed this patch and found no issues.
+Describe that in snps,dwc3-common.yaml:
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106112811.9639=
-23-1-xiaqinghuan@mail.ustc.edu.cn?part=3D3
+  - "port-select-gpios" selects which connector drives the shared bus;
+  - each connector is a port of the controller's "ports" node, "port@0"
+    and "port@2", with one endpoint per port, so that "ports" keeps
+    describing the controller's own buses as the graph bindings expect
+    (port@1 is the Super Speed lane of the PHY, described by
+    snps,dwc3.yaml);
+  - the endpoint of a connector carries "mux-state", the level of the
+    port-select GPIO that reaches it, and "usb-role-switch", declaring
+    that this connector has its own role-switch input.
+
+The controller node must carry "usb-role-switch" as well, and dr_mode is
+required to be "otg": dwc3_get_dr_mode() otherwise forces dr_mode back to
+peripheral, dwc3_get_extcon() skips the role-switch branch and
+dwc3_drd_init() never sets the mux up, so a device tree that passed the
+schema would not describe a device tree the driver can act on.
+
+The two connectors must claim opposite levels of the GPIO, which is
+expressed as one choice between the two assignments, and endpoint names
+use the pattern of graph.yaml so that an unnumbered or third endpoint is
+rejected instead of escaping "unevaluatedProperties: false".  When
+port-select-gpios is absent the endpoint properties are rejected, so
+existing single-connector descriptions are unaffected.
+
+Signed-off-by: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+---
+ .../bindings/usb/snps,dwc3-common.yaml        | 116 +++++++++++++++++-
+ 1 file changed, 114 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+index 6c0b8b6538..0be2a6e83e 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+@@ -13,6 +13,40 @@ description:
+   Defines the properties of the DWC3 core as being embedded in either an
+   vendor-specific implementation or as a standalone component.
+ 
++$defs:
++  hs-endpoint:
++    $ref: /schemas/graph.yaml#/$defs/endpoint-base
++    unevaluatedProperties: false
++
++    properties:
++      usb-role-switch:
++        type: boolean
++        description:
++          This connector endpoint has its own USB role switch. The switch is
++          registered against this endpoint and looked up with
++          usb_role_switch_at_endpoint().
++
++      mux-state:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        enum: [0, 1]
++        description:
++          Logical level of the port-select GPIO which connects this
++          connector to the shared High Speed data bus.  The two connectors of
++          one controller must use different levels; the driver rejects a
++          device tree where two connectors claim the same one.
++
++    dependentRequired:
++      usb-role-switch: [mux-state]
++      mux-state: [usb-role-switch]
++
++  hs-port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    unevaluatedProperties: false
++
++    patternProperties:
++      '^endpoint(@[0-9a-f]+)?$':
++        $ref: '#/$defs/hs-endpoint'
++
+ allOf:
+   - $ref: usb-drd.yaml#
+   - if:
+@@ -26,8 +60,87 @@ allOf:
+       $ref: usb.yaml#
+     else:
+       $ref: usb-xhci.yaml#
++  - if:
++      required: [port-select-gpios]
++    then:
++      # The mux path is only taken when the controller itself carries
++      # "usb-role-switch": dwc3_get_dr_mode() forces dr_mode back to
++      # peripheral, dwc3_get_extcon() skips the role-switch branch and
++      # dwc3_drd_init() never calls dwc3_role_mux_init() without it.
++      required: [dr_mode, ports, usb-role-switch]
++      properties:
++        dr_mode:
++          const: otg
++        ports:
++          # Each connector is one port with a single endpoint: the mux-state
++          # property on that endpoint says which level of the port-select GPIO
++          # reaches it, so two connectors are two ports, not two endpoints of
++          # one port.  port@1 is the SuperSpeed lane of the PHY and is already
++          # described by snps,dwc3.yaml, so the second High Speed connector
++          # lands on port@2.
++          required: [port@0, port@2]
++          properties:
++            port@0:
++              $ref: '#/$defs/hs-port'
++            port@2:
++              $ref: '#/$defs/hs-port'
++
++          # The two connectors must claim opposite levels of the port-select
++          # GPIO; requiring both ports in every branch is what makes the two
++          # cases mutually exclusive for oneOf.
++          oneOf:
++            - required: [port@0, port@2]
++              properties:
++                port@0:
++                  $ref: '#/$defs/hs-port'
++                  properties:
++                    endpoint:
++                      properties:
++                        mux-state:
++                          const: 0
++                port@2:
++                  $ref: '#/$defs/hs-port'
++                  properties:
++                    endpoint:
++                      properties:
++                        mux-state:
++                          const: 1
++            - required: [port@0, port@2]
++              properties:
++                port@0:
++                  $ref: '#/$defs/hs-port'
++                  properties:
++                    endpoint:
++                      properties:
++                        mux-state:
++                          const: 1
++                port@2:
++                  $ref: '#/$defs/hs-port'
++                  properties:
++                    endpoint:
++                      properties:
++                        mux-state:
++                          const: 0
++    else:
++      properties:
++        ports:
++          properties:
++            port@0:
++              patternProperties:
++                '^endpoint(@[0-9a-f]+)?$':
++                  properties:
++                    usb-role-switch: false
++                    mux-state: false
+ 
+ properties:
++  port-select-gpios:
++    maxItems: 1
++    description:
++      Selects which of the two connectors drives the controller's shared High
++      Speed data bus.  Each connector is described by "port@0" or "port@2",
++      and the endpoint of that port carries the connector's own role-switch
++      input and the "mux-state" level selecting it.
++
+   extcon:
+     maxItems: 1
+     deprecated: true
+@@ -411,7 +524,7 @@ properties:
+ 
+     properties:
+       port@0:
+-        $ref: /schemas/graph.yaml#/properties/port
++        $ref: '#/$defs/hs-port'
+         description: High Speed (HS) data bus.
+ 
+       port@1:
+@@ -429,4 +542,3 @@ required:
+ 
+ additionalProperties: true
+ ...
+-
 
