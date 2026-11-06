@@ -1,57 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793958648;
-	b=IAxCgYFDjqO8wtv6TcDdhEeyJVPLcjLTz/dMhOmuZm5ZAOPT5CpdXzvi5HkgCZkHFuqP
-	 D1vj5PY7UR3mIaEMywzYXTOUSyABqmFMuyNRY71lMEchBzNSUKdMBEYi+3NfQB/ZlvR5V
-	 YyqrPgg1iYsljleMoSbRS2i7F71GItNvsAPFQSmt0ZPRK9hr/h45sjXt0XAv8YXCjK+3/
-	 wtNh7ionAtUonF8wGVSrWb8zMZdzPcvRzI11oQbEiabK9o58kccRzVXKgM8odpxycMibT
-	 xjbjNsGyEF8RdytS6JgJ3A8L1Ywir/bYs2fthMuq4mYd6wGO2HY4n7vNrc4YQnt/S/Q==
+	t=1793958669;
+	b=Lm81oae8Go+SS9NegK+G1lV/2Y3L6ichUGiDYbYbtunwdE8FHfxp/1LGRNGKcfK6hkYO
+	 zDA08oFXPNz75PeAVGwRoM72SZnFa0bOToHqX+p0o2NAaeP+mM8kwe9fZr9rmxclkpRog
+	 Wj6yBzqZ11H8Lk1XUosTuKysmAgxLEkDivL+mDofaa4x2geq28HDfMAcjseoiOuohQMfX
+	 UC71k/xod723AWwuJBzH6eFflhkH9xYWGL9pBpWkqLvDtxKczuUFEhr9R95oPa6PidUvc
+	 VWbJ8MQaCUf6BnIYEQCQymZCI8Uzn9BS0as16eSj4ozRNVOhfbvP+d0Lyw2dAIGx2JQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793958648;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=+PeAqe5CPXxdSOZLrj9lW/HMctWWJka2EQwhjd7PBpk=;
-	b=QF+uaDwAp/zaXbxuTygDu+Sdk0mkTvrcRaBX8ujDKXHjxsqLsAC5P3sHTojXVS+nxsRy
-	 7SfmYP/miWpCBoC3+zi3k4e4US/hxt7osSeuTCV/u8GoVndmQ5nDJ+NBA+vd7T7EFLHxF
-	 d7PZbVOTjEfvUPq9z450gx+Rkf0nO4W5IpXoOBqgPmNewcI/GpXVt0Kg9Mb0HI0oKdHT8
-	 vsHoEQrMPaWqKANA4ECmTvo3C0mKDi8Y1Vyd9UfgqlOoOOIG9S2Vl/EnUrxOBisEPDkqt
-	 Tx/aquEwnQ0BpTtaIAPB67Wynbxxe4HAaY6lHAeJwrICB8zyB5t4LKPaRfxZTU27KKA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793958669;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=vQBnTQDeqPWib9HYEy/76nQqVu/AgiIe/ITMno6I1Ns=;
+	b=K1tsKQjuowj0NqiIi0K2Yy0XBndx4UT2x+sJuHsOEkGAZ9QnFMe+VNOI+/dz2JReeT3l
+	 gfNnUuGvQjEEbTHz/mWIjMhNV+LhN0wVGzD7RN/Qm6FTYxMire1o7JAvkqQz/zUVw2qr4
+	 R6NIuDEJil/0p54KkJqcS4ZMA9FNk5y2/gFPQfe+lc0n2f/ua04HvrRmH8zeBo+QvcI12
+	 U9SlFsvBmOulDfM9wphsjG1smZRKNRu7Fo916CqgVJTX/bEEJFPtIIZ7AdRxBWQub4tRO
+	 mgu4xwyyRzbXrwNisGzMbGf5srEL5hWGk9b9pc/JLLKY87IJWTWuwuphu0tnn7dAVKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ki2Y6VM1;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qYY0QYHf;
+	arc=none smtp.remote-ip=209.85.221.44
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E226083608;
-	Fri,  6 Nov 2026 09:50:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F87606A333
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 09:51:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93F87606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ki2Y6VM1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D78831F0089F;
-	Fri,  6 Nov 2026 09:50:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793958647;
-	bh=+PeAqe5CPXxdSOZLrj9lW/HMctWWJka2EQwhjd7PBpk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ki2Y6VM1yJg+RmSJZlGbytEO7ho2Ewa2faoib1xLWl/f4rDtUZ5yg9+dxnsnMYUXx
-	 r/FE9kk7ay4zXyc6Fe05bsAtSnag8b1NzupzBJJ5t/pPmq4bd+D1SK5LZpfSmZx1uY
-	 Md76NMuFif5M5bdZ4fU0kTIULQpj5hbJsEOhpEgJcW7AVh7xEUvL7MaBPSaJzxGvLu
-	 MTgjsyjPYI4OHeiBqmgMUQn8i27NUw3Ww08NtSziesS/jhfIjxvQ5Fn7djTb4BuoVG
-	 G3koUXls1RxaSEZDlPGO5oGJWQWH8UEjCmZ+fcGcz9+uPnc7C8wqpnnPwEiaI1tQwz
-	 ZDGZlrk16KRLg==
-Message-ID: <sashiko-outbox-201154@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 24/25] riscv: add Metanoia MT2824 SoC and MT5824 EVB
- support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?QmVub8OudCBNb25pbg==?= <benoit.monin@bootlin.com>
-Cc: devicetree@vger.kernel.org, linux-phy@lists.infradead.org, linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, vkoul@kernel.org, neil.armstrong@linaro.org, olteanv@gmail.com
-In-Reply-To: <20261106-mt2824-v1-24-86087eaf5af4@bootlin.com>
-References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
- <20261106-mt2824-v1-24-86087eaf5af4@bootlin.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 09:50:46 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qYY0QYHf
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48e46e449e8so282874f8f.3
+        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 01:51:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793958662; x=1794563462; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vQBnTQDeqPWib9HYEy/76nQqVu/AgiIe/ITMno6I1Ns=;
+        b=qYY0QYHfvwNgzBac0451gF21eaCM3pK7oCeOQyEt4slf1JpxRNomaS4qVWQMbcnkqp
+         j4jSn6fcIGVAucK0eb6HqE0aXCiGtWoZbEHIm1T2AFBTYeZhus4ahf83jMU/a+8rq/cg
+         empsweZSO3DbMUia2kJyQPcomGyMGC92/8jcLqFL0TXv+2kH8Ctz6FxuYuuqmuesiWvi
+         6HSYC+7UC6dOW2hzSHuBokB7Xu0I7wM8XZCTdhQEXdHYIMM7emtLRSGHdeiB/68SN/Ht
+         tfrd02vpVFZ2PcqEhO2o/oPIh10zOcV4xRiNfQzy3UZuQdn80aEXT07bAhpha1WG65Ss
+         /CPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793958662; x=1794563462;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vQBnTQDeqPWib9HYEy/76nQqVu/AgiIe/ITMno6I1Ns=;
+        b=ErqzVucQrkDPmVF2sNU5hy0hzfpLY+FjTlJi+ZBe5+Ke77v0JdnBztLLxodykK41wT
+         CIDXFfU1/aFyD3mDHmRBqmzFlJk689qL9vLLTpseNy0Qz38SKVly5er6cfMUtoppzmLH
+         /9e0VMcAszZgnzf2NFAc3DGfJ3Z4WaOMVZP6P4MMTZuBWY4SQM+x+hl1GupnJYeaIe7q
+         9EfXUGqBNLnP9RtFyrEav0ASEqsZKoyYxHmIhBqP/WQkgUgbOqMEhvOm+qHGdz6+KfXV
+         pquE/Zcstcz4kFeAruGHdKD1BaaMpGLq4sSQ6mcZXRbbyENu+EE1UC1w/rh8PtprVaTA
+         eUlg==
+X-Forwarded-Encrypted: i=1; AL+hErF9d63vnmnSLiQByhT2v4YPAsuBM15Ql9EpzCALvm6qhZQidnmmN34svbOvPnpSncp3+Z6UlR2ZAIo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/qOjdunrNlvwn5WrQNIEXYrly7nCT6NQQqgoiqG0W6w10EY67x
+	q3SKr61ofp1nNG1IF6MVr0ukksRXIW1EhQyDc52Rfxv94MeklQcg3kFC
+X-Gm-Gg: AYBFou3IONRQZq5gGmbnYFcEBdlx1W/AqNOBCZHLEborU9CogLg0THJxoZhknIwulwt
+	rCnAGRuuizBIVTIhz75GHnpcNL9cmK0Qc7OGQ1infUR5j69rIEzXZAy0IR6Ip7MaQYzCml14vjx
+	eToix1swFptQG5oZiILsIXGCPK0dKjP09iCip+tHaD5rqOO8+6FEC8Y3WDqAAqUdwK1dz5tyqwH
+	FQ4upT4QnVlvX7HWbGQhoePzT8Dxx3xlB73aNWQW7jp/OPIvRZyxLdcCF3CjJ42chF1fk/Be9II
+	WfAHXG6WmFY5BApr8eJz61sRgeNoQ5Fo1luxj85PxNcRCa7S1LFrWzwkUnWS/v3Icpivpfr8UQL
+	Hf+JhAiyhS8KR6DzrqaNEQswGthnIPuHNtcUDLyTVGPl9JtwWPLBNycxtO/o/6HJsk6CG7epXT4
+	oPTHvQkugD+MSRpWxlF/9oP+eC8+LMcZW7KU1ymNdJ7RdT3uoVlVa60TNKIiHu04nHK1xo0vaqz
+	AgKC4hboKXWB3feDBV7oIjR8iqgMCmPzXz7RJe/zCaUrr8BK9bT0PTsguO+aQMTRT8PGpI1hslL
+	FTXJQW3hbd2K8IGeiFAXTR3vCtdHAVT5j2XD7u4=
+X-Received: by 2002:a05:6000:40df:b0:492:3982:a80c with SMTP id ffacd0b85a97d-49276977cacmr4368036f8f.29.1793958661695;
+        Fri, 06 Nov 2026 01:51:01 -0800 (PST)
+Received: from foxbook (bfg124.neoplus.adsl.tpnet.pl. [83.28.44.124])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d6d63accsm2813516f8f.17.2026.11.06.01.51.00
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 06 Nov 2026 01:51:01 -0800 (PST)
+Date: Fri, 6 Nov 2026 10:50:56 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: Alan Stern <stern@rowland.harvard.edu>, Mathias Nyman
+ <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] usb: usbfs: Require claiming a hub interface for hub
+ class requests
+Message-ID: <20261106105056.4601f826.michal.pecio@gmail.com>
+In-Reply-To: <20261106091048.4056-1-25031212351@stu.xidian.edu.cn>
+References: <0aa5c25e-465f-4168-8833-387acced222f@rowland.harvard.edu>
+	<20261106091048.4056-1-25031212351@stu.xidian.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,63 +99,113 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] riscv: dts: metanoia: invalid uart0/uart1 aliases in
-  mt5824-evb.dts
---
-
-commit 9f82e60e9d27daf0d2b50c91457b33d4fb60e507
-Author: Beno=C3=AEt Monin <benoit.monin@bootlin.com>
-
-riscv: add Metanoia MT2824 SoC and MT5824 EVB support
-
-This commit adds device tree files for the Metanoia MT2824 SoC and the
-MT5824 evaluation board.
-
-> diff --git a/arch/riscv/boot/dts/metanoia/mt5824-evb.dts b/arch/riscv/boo=
-t/dts/metanoia/mt5824-evb.dts
-> new file mode 100644
-> index 0000000000000..d0e8eb0a49a43
-> --- /dev/null
-> +++ b/arch/riscv/boot/dts/metanoia/mt5824-evb.dts
-> @@ -0,0 +1,81 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+On Fri,  6 Nov 2026 17:10:48 +0800, YuanZhe Liu wrote:
+> check_ctrlrecip() requires the matching interface to be claimed for
+> requests addressed to an interface or an endpoint, but requests
+> addressed to the device or to a port are passed through without any
+> check.  For a hub that means userspace can send hub class requests
+> through usbfs without claiming the hub interface, while the hub driver
+> owns the ports.  Port requests use USB_RT_PORT, whose recipient is
+> USB_RECIP_OTHER, and SetPortFeature(PORT_SUSPEND) is one of them.
+> 
+> That is more than a policy question.  The request goes to the HCD, and
+> it can run concurrently with userspace releasing the hub interface
+> through USBDEVFS_DISCONNECT_CLAIM, which unbinds the hub driver and
+> disconnects the devices behind it.  xhci_hcd tracks the device behind
+> each port and issues stop endpoint commands for it in its port suspend
+> path, and it ended up reading a freed xhci_virt_device.
+> 
+> Require interface 0 to be claimed for every non-GET request to a hub.
+> The hub driver matches devices by device class or by interface class,
+> but a hub has a single interface either way, and that is the one the
+> driver holds.
+> 
+> Userspace can no longer change port settings while the hub driver is
+> bound.  USBDEVFS_CLAIM_PORT hands over the device behind a port, not the
+> port itself, so a request that pokes port state is not safe for a
+> claimed port either.  Programs that used to do this have to unbind the
+> hub driver first.
+> 
+> Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+> ---
+> Hi Alan,
+> 
+> v5 takes both points.  is_hub() is tested first, and the comment now says
+> that IN requests are safe because they do not affect the hub, while OUT
+> requests need the interface claimed, instead of talking about recipients.
+> 
+> I will hold the URB synchronization patch for usb_hub_release_port() until
+> this one is settled.
+> 
+> YuanZhe
+> 
+>  drivers/usb/core/devio.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+> index e191934623c7..6d69a993c0f1 100644
+> --- a/drivers/usb/core/devio.c
+> +++ b/drivers/usb/core/devio.c
+> @@ -878,6 +878,23 @@ static int findintfep(struct usb_device *dev, unsigned int ep)
+>  	return -ENOENT;
+>  }
+>  
 > +/*
-> + * Copyright (C) 2026 Metanoia Communications Inc.. All rights reserved.
+> + * Return true if @dev is a hub.  The hub driver matches devices by device
+> + * class or by interface class, and a hub has a single interface either way.
 > + */
+> +static bool is_hub(struct usb_device *dev)
+> +{
+> +	struct usb_host_config *config = dev->actconfig;
 > +
-> +/dts-v1/;
+> +	if (dev->descriptor.bDeviceClass == USB_CLASS_HUB)
+> +		return true;
+> +	if (!config || config->desc.bNumInterfaces < 1)
+> +		return false;
+> +	return config->interface[0] && config->interface[0]->cur_altsetting &&
+> +	       config->interface[0]->cur_altsetting->desc.bInterfaceClass ==
+> +			USB_CLASS_HUB;
+> +}
 > +
-> +#include "mt2824.dtsi"
-> +
-> +/ {
-> +	model =3D "Metanoia MT5824 EVB";
-> +	compatible =3D "metanoia,mt5824-evb", "metanoia,mt2824";
-> +
-> +	aliases {
-> +		uart0 =3D &serial0;
-> +		uart1 =3D &serial1;
-> +		spi0 =3D &spi0;
-> +		spi1 =3D &spi1;
-> +		spi2 =3D &spi2;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path =3D "uart0:115200n8";
-> +	};
 
-[Severity: Medium]
-Should the UART aliases in /aliases and stdout-path be named serial0 and
-serial1 instead of uart0 and uart1?
+Does this really belong in devio.c?
 
-The devicetree serial binding (serial.yaml) requires UART aliases to use
-the serialN naming convention, so uart0 and uart1 fail dtbs_check
-validation.  In addition, __uart_read_properties() looks up the "serial"
-alias stem via of_alias_get_id(dev_of_node(dev), "serial") when assigning
-port->line, causing the uart0 and uart1 alias indices to be ignored.
+If anyone thinks that the trivial "bDeviceClass == USB_CLASS_HUB" isn't
+enough (Alan seemed to believe that it is, but hub_id_table has matches
+for interface class too), then perhaps this should be placed in hub.c
+near the ID table, so that it's more likely to be kept in sync?
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-mt2824-v1-=
-0-86087eaf5af4@bootlin.com?part=3D24
+>  static int check_ctrlrecip(struct usb_dev_state *ps, unsigned int requesttype,
+>  			   unsigned int request, unsigned int index)
+>  {
+> @@ -891,6 +908,18 @@ static int check_ctrlrecip(struct usb_dev_state *ps, unsigned int requesttype,
+>  	if (USB_TYPE_VENDOR == (USB_TYPE_MASK & requesttype))
+>  		return 0;
+>  
+> +	/*
+> +	 * A hub driver owns the ports and the devices behind them.  Letting
+> +	 * userspace change hub or port state behind its back, for example
+> +	 * with a SET_FEATURE(PORT_SUSPEND) request while the hub interface is
+> +	 * being released, is not safe: the request is passed down to the HCD,
+> +	 * which may walk per-device state that is being torn down.  IN
+> +	 * requests are safe, they do not affect the hub, but OUT requests are
+> +	 * only allowed when the caller has claimed the hub interface.
+> +	 */
+
+Seems overly specific to this case. It isn't safe in general: it could
+confuse the hub driver itself, disrupt functioning of child devices and
+their drivers, or break HCDs relying on core serializing any actions.
+
+> +	if (is_hub(ps->dev) && (requesttype & USB_DIR_IN) == 0)
+> +		return checkintf(ps, 0);
+> +
+>  	/*
+>  	 * check for the special corner case 'get_device_id' in the printer
+>  	 * class specification, which we always want to allow as it is used
+> -- 
+> 2.34.1
+> 
