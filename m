@@ -1,59 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793957546;
-	b=TQdKgcwjmD5sp+iFeM7JXheHUN0yIxs1S3XLbNwsq4NCLLroNed6iU2BRtsGimk7UQc+
-	 w+LwwXBa3l+RUdYuuaTn99AK1/mwSzZh503UpeRUTXcOj9Nl+o7eIyNh1UgEIGvdxyt3N
-	 RwCgu6g6VsK+DflXoH1EW3n1NAOKOlXIa7e3Uq2B1VNJjILjFYdWwDkSqubh9qvINP5YP
-	 zBaLaPh5Yi9YdDHKS6Tmugx6TlDcGTUQj0wS2IlCDpKbW7tJGurJkuiiJZUWkJ8/qIty8
-	 pM3IEvGYhjLvIgXc2rxNqJ0eZQGXDz9Y68uAMwxqk2XhYT4EgZ6K3GnjrOfOr3zJVkg==
+	t=1793957532;
+	b=4SiABBSVILG9xjWCR15qZCQpuKiCPTYPJL1i94maBPhC98CaLiYC6nN6AXOZShEu6Hkl
+	 +KF1gQXBp4Zwa2QpbvnRbKOFrveVaRLZOTqNBDgsmQnPmGsJiini5ziWur5jGzJPPsmmO
+	 fpoq6btsHwoTnR95VHKZRif0wYFeAq/UEn/5ZyUA3grRJukBnFOjzP+vBtMWI7atrs1CQ
+	 nf0tdRAutoufJUolxsPUSXwh+4ojE7+Yc6CVWJjwxOckbTO/x3JwTa4bd5zi/bqfhWQMm
+	 AXVDz/WmFWwmrMYp7GAqwAz3nXYj3nkzGv+SPKWPPWb/gPVW7nwCJCrMXme6qGKiQ3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793957546;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793957532;
 	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Last-TLS-Session-Version;
-	bh=5QZ6o6JjR9MBHdZ2umi91SU/jrU4YivF8J5ejKsH45w=;
-	b=sXhOAcw9Bypz425Ix30P1lZoNzJ6CGXnmPLZCMESp3cwojxiIetMhgg6nPDfBWDdNBj3
-	 CU1RTKUcOVbtfMRJIQ0HHFAMlVv11BY12uyxtO1F8CsnavplKZuctV3pr6eoYbh8C+1YA
-	 1yFuOCcs1ZiBKnlTJIDRB4PVS9Z/KEwVB4FDNLoSYKgRs/g4Zau4+jQuXxBmvZPkBFBTk
-	 OELLIfichQBbHiiKthtEYFPHQCO4zmGGDaA1lLx/6lNB1pye3c3b6S6VZm4hxSnrZkY/H
-	 TGi6gSS3dgwgyjPhPMGPTZmPzHkASdcwjR9NKoiglCCUD5xFmeUoyKU1+Kg0mo4DHSQ==
+	bh=r8to7uUebSCnf0zunQqvwVepFOpmM8Tnf1sXmdneWKU=;
+	b=BvcNHCqfv5pZlm94kWPiamDUwTIpNL7OoVXeJGHhchYrLO6fL2rpgPMWLBtJJYpTOVTq
+	 6VvybsFFN/xZ+aqI66iW5r917jXO5RtzPdlUR/zHeLURY6XzgLbt8paNjehk4asIMdUT1
+	 seEmNUweouWwQwZWnlJ2/6+OGGEemlVgkKugN08Sf/7ZNdCty7XR+/tj0bxJhI5GfE6ny
+	 mQ/xQ8Kn+UrUY0Pce7vzp7l0LJsstvSvT7SeEkSHOTk8b0/JSrrxwzF4W0Iq+2V9XuGXi
+	 6HpgzxJqKQf4XNxEF8ONexUk0dS9qVb2N/4ZJbSp5jXu/3IUhiCwZ99wHTjHfFxdA3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bootlin.com;
 	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=IyJLimh8;
-	arc=none smtp.remote-ip=185.246.84.56
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=OQyJWD9x;
+	arc=none smtp.remote-ip=185.171.202.116
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D715F60A2609;
-	Fri,  6 Nov 2026 09:32:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D715F60A2609
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCF3608360B;
+	Fri,  6 Nov 2026 09:32:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FCF3608360B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=IyJLimh8
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=OQyJWD9x
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 9C2631A0C32;
-	Fri,  6 Nov 2026 09:32:24 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id C118AC69168;
+	Fri,  6 Nov 2026 09:32:09 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 67EDE5FFBC;
-	Fri,  6 Nov 2026 09:32:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9C438103292CA;
-	Fri,  6 Nov 2026 10:32:14 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 42DF65FFBC;
+	Fri,  6 Nov 2026 09:32:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9238A10329258;
+	Fri,  6 Nov 2026 10:31:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793957540; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1793957526; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=5QZ6o6JjR9MBHdZ2umi91SU/jrU4YivF8J5ejKsH45w=;
-	b=IyJLimh8+SZ5sqvGUtTtXYTsCrpfgNc4dWN6JZQiJzzpRvgbbD0Nup/ckVV9Rcly44soUO
-	sR5E4Z8zF+hM+ifrUztJUoZgZWKaB2m+9wOB8Sog3Wcuy67+yS4G4tsX4GnHXNkYJAUUM5
-	EiWnGp14xQ1tTa6iG1jPcC52sqDl7Y1RN8rgMvHB5WByDmJ3g6RrbFk5DyHjtfNevmr36c
-	PdXR/nVzmrVhr0wds8GNIhXz5ag/a6cppMFAOUXa073e7uCHBW7oQkyzkiT7FjnFI/EzvE
-	IIDGJQgklNcxSbfqPZTEmdpzT4jeppEBjjkUbVzkf57JQMBfmobNpd98/UGj4w==
+	bh=r8to7uUebSCnf0zunQqvwVepFOpmM8Tnf1sXmdneWKU=;
+	b=OQyJWD9xuTkSU5khP8Rf0sWaL1PR/MwXKZba/rv5SX1Fgk6aWj+Dn3G0YZsUOdbGj0XvF4
+	3G7C0QycFmCVBYiqPj+hSWTrwhN2Y2qbo74SyO/mIeZQZuohSamG5BIqezzDsnvCOtv2nh
+	VpB9uJcJaOTkNmhHRQETLejawaipp/djMPDc+8HO09RJM5z9us6ZSn78ZVDfQ00c6K57cX
+	WFhr+4okRFPTsmA/eaj36cyrKNTeLbwOLfFz0V8f0h+/x3Qi1TFNckEw7Z6fvxrxmx2ao7
+	xgkLmDitwwhnCORZDtqEPnK7CiyGv8zvUMqQGN3BujwvujCznAQht8uom9kOZg==
 From: =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
-Date: Fri, 06 Nov 2026 10:30:12 +0100
-Subject: [PATCH 15/25] riscv: add ARCH_METANOIA Kconfig entry
+Date: Fri, 06 Nov 2026 10:30:10 +0100
+Subject: [PATCH 13/25] dt-bindings: usb: dwc2: add Metanoia MT2824
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -65,7 +65,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20261106-mt2824-v1-15-86087eaf5af4@bootlin.com>
+Message-Id: <20261106-mt2824-v1-13-86087eaf5af4@bootlin.com>
 References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
 In-Reply-To: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -98,34 +98,28 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 X-Mailer: b4 0.16.0
 X-Last-TLS-Session-Version: TLSv1.3
 
-Add support for Metanoia RISC-V SoCs such as the MT2824. The Metanoia
-MT2824 is built around Andes AX45MP cores, so select the Andes errata
-workarounds.
+Document the metanoia,mt2824-usb compatible, which falls back to the
+generic snps,dwc2 binding, so that the DWC2 USB controller on the Metanoia
+MT2824 SoC can be described in device trees.
 
+Originally-by: Jun Chang <jun.chang@metanoia-comm.com>
 Signed-off-by: Benoît Monin <benoit.monin@bootlin.com>
 ---
- arch/riscv/Kconfig.socs | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ Documentation/devicetree/bindings/usb/dwc2.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/riscv/Kconfig.socs b/arch/riscv/Kconfig.socs
-index cecbce0c4983..adcb10bca966 100644
---- a/arch/riscv/Kconfig.socs
-+++ b/arch/riscv/Kconfig.socs
-@@ -18,6 +18,14 @@ config ARCH_ESWIN
- 	  This enables support for ESWIN SoC platform hardware,
- 	  including the ESWIN EIC7700 SoC.
- 
-+config ARCH_METANOIA
-+	bool "Metanoia SoCs"
-+	depends on MMU
-+	select ARCH_HAS_RESET_CONTROLLER
-+	select ERRATA_ANDES
-+	help
-+	  This enables support for Metanoia SoC platforms.
-+
- config ARCH_MICROCHIP_POLARFIRE
- 	def_bool ARCH_MICROCHIP
- 
+diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml b/Documentation/devicetree/bindings/usb/dwc2.yaml
+index 6c3a10991b8b..898c83e57843 100644
+--- a/Documentation/devicetree/bindings/usb/dwc2.yaml
++++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
+@@ -55,6 +55,7 @@ properties:
+               - amlogic,meson-g12a-usb
+               - amlogic,meson-a1-usb
+               - intel,socfpga-agilex-hsotg
++              - metanoia,mt2824-usb
+           - const: snps,dwc2
+       - const: amcc,dwc-otg
+       - const: apm,apm82181-dwc-otg
 
 -- 
 2.56.0
