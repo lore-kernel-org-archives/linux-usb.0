@@ -1,69 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793979159;
-	b=WzjOtO0/xOwe0ljgZXszzjjt9FpcbsbSoA1N8P27KJfiJpI4Y2ohPx94JVMHF+K4Busl
-	 TeijKUPWgEWRe7fQrhH2sM/OzMDdNP+g7laGZa1f32Cjro/nmEgB3v8SZAA08RdaccCyD
-	 0YFTlMSeoc8Engs1W/Cnz196NRzvmtyLFOLBhGEqM22NEwr3MpzGUZ5DdddWGioLwViox
-	 tG9EdlLSXenz83dqayCXo161tBKFB1/Xe5EsD+lg98e0FARDJaRtieNz5c/g3SFz98UwO
-	 E2qT3RpT4BvX/LSZfLQpitc3VSjnpPpad4PW4NuLMgAslL5hnhBKPFNpgVJaefaNRKA==
+	t=1793979544;
+	b=Wh3I1mMikcI4n8CDe0BMxGBwKT0USJym3zVBo/yDjMoVSmZwAo+ZYzCLuLl/e/gDTy7P
+	 gfSQ3yIWOMefj+EHte8BUIA+EW/6JmHF4w3l62QY24yVyKsKu7SMn7TtEoI1s53S9dagU
+	 Ki7RLodQZ3mZhJCSNo5P1gAUy63vDOmYs5XVjQ9MAanixqwMtdplVJIdOHHCeoK8BTGtL
+	 CZgqBUaOWmZFFnHxaBu4RpwZhvZGxTcRpeDAHN2rujGaOu2v34woTfcbeAoI1mDJVsbPk
+	 Pn3g9LHYjlRfRib8bMKqHzOmnTe/0VnZSlbed3P9rWFT436/9AOpsKK8Cg7nWa4iqKQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793979159;
-	h=DMARC-Filter:DKIM-Signature:Received:X-Spam-Checker-Version:
-	 X-Spam-Level:X-Spam-Status:DKIM-Signature:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=P+m9BQcu9O/FHNLOowWjO5xa3x2BuTOUOzKKSEpxq9U=;
-	b=gvhmhDAU7Xdx9EQK3TbGO3RfHJMAFJ20Dumdtni7FBPXViSngFXd/qwLsDWR1xcps6vW
-	 SpoX1Nt5hxYMxPplyCuZjInE1sRQWO8jtSTQIpJLRVsXGtdILhI+u9Y9h9X2MSoRV7rN4
-	 idCZ81yGpvbT5ZW7oK6jivJ4LIoKfjCzFezPSIu/66tZH0sSnMO7vQz5QN32GZFaUZ11f
-	 vJ8KVfMio5Lb1Lcv8HUckpL8XMfSVCSVjixXNiby8xgFtzhAIRZmgWxBua/csVjxGN0oe
-	 95GG44WIV9bLPzf/zsfUiMc5I84fngva4IOP1f92j5XJKgec3s7QufPbxERk25VW1vw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793979544;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=YBZrnR7BOQApPgiP0ljXs5blRi/wDnS+mCptVcNLM08=;
+	b=xtTiCK0T9GtKpp2Yv3RSZOED/Xkr5YQg/SP9i97Ni2oB+shHc2nqRL7wInAcaEahaOmV
+	 dbFIkP3i3A55nkyQvAgH3vaHeXyik2MxWD6yl3iRhLN9gqngcyCy/r6XQVWaEfUuaBADz
+	 PtMbbXED/1+2p+xESJGF141jn74hHBjOWURilMw1xZo5NONz3v5KkogK0ZaZLSMSn61Zx
+	 dpI6OjdVKVT0XWyO3mjgvmSi9tYkWsin36eJIQSNKGGOPo7/ybmndAZlD3NDUVKyss7MV
+	 zrXm/LuaUNEsJR2hQNA2RoIYpVvxe0ELdqhghrfK1FJz3/XDEAfUexNyYetBu3ATQow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=birger-koblitz.de;
-	spf=pass smtp.mailfrom=birger-koblitz.de;
-	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b="b8pae/Tu";
-	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b="w427/YYm";
-	arc=none smtp.remote-ip=23.88.97.239
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.197
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4337E606A326;
-	Fri,  6 Nov 2026 15:32:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4337E606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=b8pae/Tu;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=w427/YYm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1793979156;
-	bh=xHy9AAwYbUNDRIPqlGFP8rBNvBDMvPDQk8lTAq0vRB8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b8pae/Tuh1waK9UCpykRDAPc2iXoXOsKS242SiVWo4sBDNyaO/hUml89ptZvsw2fx
-	 wFP76Ng3rzrTEDafJNx49BPuRsXg2pntDMuB4OYC9qgeueurSGZDOu4Bo6cX9Zss32
-	 T0248xVN0/Z2GNI8pnxPySq67VESEN+BidDWMI8ukC2qKKrOd7AWCtsU99bj2Kdfm2
-	 8DE8lPIQqtNtDQfLFtK1At1kdepFjAHioIWpBRpxCan7pHqzGAQ89s6h0fssGpjXWq
-	 6TlruDjR0njrtExbRpcvWl8Nq0UNy1O5zDOYpuHImJs9xCVd4NiWT95mzff1MOTI7K
-	 gnClIvaRCXt0A==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 75ABF48BAB; Fri,  6 Nov 2026 15:32:36 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1793979154;
-	bh=xHy9AAwYbUNDRIPqlGFP8rBNvBDMvPDQk8lTAq0vRB8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=w427/YYm70AKnIjmqwOeLkuvEfLMrPh841E6+W65j1YHuy0vePY4VMnrFWKFhiPAS
-	 YutnMYtqG/7+CcBf3098NZ0Z+8xDb+pIyhdL6JWs9XrIWE5R1s2nmQ4VrAg2Tl2GlT
-	 VlOHkI6u6L+GAFW6aTOJU6MXK4Rx2a3uZ9r41MraU0VheSksRmePDSiwf1mb21tf8Z
-	 BMdb9AOxA4AzyOfKO4o5TL3SEY7ygL1bhm7C64V0GyBHl1UFh68BfFjKS4oAEqt0Vh
-	 xqeGI8HsxepVkZd79lTyb/Ke1BSytnbzLY1hW+4SsW7IBV/xTjcQSE+6bRHwmfA/zP
-	 rbyRfOqZ1lrjw==
-Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id DDA7C48B84;
-	Fri,  6 Nov 2026 15:32:33 +0000 (UTC)
-Message-ID: <27119213-dccc-4c17-bf7e-b39a038038cf@birger-koblitz.de>
-Date: Fri, 6 Nov 2026 16:32:30 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55618606A326
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 15:39:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 55618606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4cc89e86e4dso892031b6e.2
+        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 07:39:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793979542; x=1794584342;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=YBZrnR7BOQApPgiP0ljXs5blRi/wDnS+mCptVcNLM08=;
+        b=Wo29EZjeQUiO34X/FMWie287vz3CYg/w6v8sad7jiiHvAvnZRRT0MFiQfluSU8XNM8
+         dGCjSV2pApXJwOQS1sH+abtWXuaLMF6AQAOohIerQOh3KV+O0LSfxybMDQc56t16hS2O
+         JEpdMUiXgHqCegoLGDY7LEujP38CdEAYSd7kZmRqPgTSnsGsbbVUP30Bi+FcAluK65/+
+         PMmxOKmdWEfiTNfgr3WkpLR0vsbAWesNTzhGbhltFOFsAUxIl7pUSO3N6Kpaetw1pfpD
+         lb5yYXubOH+PLIe5xV/itUFhqVUgKglRj8Fpp4G08H+fOaE2J/WJ/Kv4lQkAR30T/g54
+         EkGg==
+X-Forwarded-Encrypted: i=1; AKwUvBx/X0BDR14Knqqksj68ANSmPG90CepB3JRC/yeozXTB61sds0d4pau/wL10hgnX+oPr4KNlrmKrYwU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+iAR3ORVzutaqop8hOt8pya23srefsmztyNw54ougaPFg/L4aq
+	pn9ybbWMci/ajdkuUYQud5CtmbIoPEk/8wYBY8RAieah0/s519KC84TQqf9+06UchrrPBbWR5Hm
+	aMsO2Wdbq+mdq7+gurdng1UVc8r0NVUYdOfOD5/TR83AVBr5hZ6Gw3HhkSU4=
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -73,57 +58,35 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v20 01/13] phylink: Add phylink_mac_interrupt
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Eric Dumazet <edumazet@kernel.org>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
- Jianhui Xu <neuromoments@gmail.com>,
- Emir Beganovic <beganovic.emir@gmail.com>, Nicolai Buchwitz <nb@tipi-net.de>
-References: <20261106-ax88179a-v20-0-37b5a1189983@birger-koblitz.de>
- <20261106-ax88179a-v20-1-37b5a1189983@birger-koblitz.de>
- <69be2cfe-e296-4f90-ad19-0bd48a83e287@bootlin.com>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <69be2cfe-e296-4f90-ad19-0bd48a83e287@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6808:15a5:b0:55c:928:69d1 with SMTP id
+ 5614622812f47-567e16594e8mr1950490b6e.56.1793979542519; Fri, 06 Nov 2026
+ 07:39:02 -0800 (PST)
+Date: Fri, 06 Nov 2026 07:39:02 -0800
+In-Reply-To: <179397691694.27761.9543494907127681190.gadgetfs-ep0-patch-test@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aedf496.871af9b0.266aa7.0004.GAE@google.com>
+Subject: Re: [syzbot] [usb?] WARNING in dummy_free_request (2)
+From: syzbot <syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com>
+To: devnull@kernel.org, kayano050408@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks Maxime for reviewing!
+Hello,
 
-On 06/11/2026 11:11 am, Maxime Chevallier wrote:
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
->>   
->> +/**
->> + * phylink_mac_interrupt() - wrapper for phy_mac_interrupt()
->> + * @pl: a pointer to a &struct phylink returned from phylink_create()
->> + *
->> + * Passes a link-change interrupt received by the MAC to phylib.
->> + * This function may be called in interrupt context, and therefore cannot take
->> + * a mutex. However, it is safe to assume that the reference to phy does not
->> + * disappear during the call, as only an SFP module may be unplugged to make a
->> + * PHY disappear. SFP modules however do not support interrupts.
-> 
-> I don't see the relevance of PHY SFP supporting interrupts or not here,
-> this just re-triggers the PHY state machine. Looks like a comment to
-> make sashiko happy.
-Indeed, this is for sashiko. Unfortunately it followed up with: "The 
-function comment notes that SFP modules do not support interrupts. 
-However, when an SFP module is physically unplugged, the electrical link 
-drops. Could this link drop trigger the MAC interrupt being handled 
-here?", which is equally irrelevant, I believe.
+Reported-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
+Tested-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
 
-> 
-> Anyways, I'm OK with the approach, maybe reword that comment if you need
-> to respin,
-> 
-> Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Thanks, will add.
+Tested on:
 
-Birger
+commit:         f66469d9 Merge tag 'net-7.4-rc2' of git://git.kernel.o..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=15bae369580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=664189a7d8e350d3
+dashboard link: https://syzkaller.appspot.com/bug?extid=c73e1942197af9f54ca3
+compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=17acf2fd580000
+
+Note: testing is done by a robot and is best-effort only.
