@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793965452;
-	b=ibBT1SK2+vT5cI93Qg/FXOObT41Ae2I7z/zqmJ0V4UGQ5FwYDXU4p2nSov9TrXX90PXl
-	 3BltKbCVL62U2hFTPjw1LBLOd1P8pWoeGgmSnHsqAsoNFGrJxdv4L6M0G/OCLBaKj38QU
-	 wWQWv614IkFXA95vsDk9jfgCiqVuBX5ztR/XDxGMLHMRN/UmGvbHKQz0227HASq60LiUH
-	 Oly1V4iB55BuEZf/pv7hWsqoJiYLS4wdRPIoHIKMwcrlZ86UmsuUcElIzbkvlvpG4H0+g
-	 kYMhA3I6k2i0w+ZO/UMdu2swTYC740/l8loY0BdWpohvit/D1stYyKEb7hrIjM5bArw==
+	t=1793965678;
+	b=Que4Axsj1YxQF/NgjfyDGDL1h9GvBgR2oqblE44n8/JgQbgaY0xH0+lqi7GgXxnoCcw+
+	 7tCznUdT4YMU5czI7QL0UT+7OWBhi8QEf6UP4e4VKTwEVAD2l76oCY8Sc6zptnpIrnHf/
+	 WoUYaAVQAxox2jT7u3ECpA19koZF8lhFhbd79xl2g7HrObVn7ZQ1m6f+0iG8IP7J20zDI
+	 4e+Riu5hnxdWQnjffMHMyf6kMcQDg4SAW8OFYwWe+Shq5AXL3BpnuIrsGkSweRXB9/+1y
+	 Fcowz/aXv58hAzDY/FETIEwnD8FDhJ1FR4hhqMo0GN1sVHZmUmI1zitc+hIXAn7q6mA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793965452;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793965678;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=n3hVNK+y1wCP4Lqm1G8XbO8IYXGR7svgX1tiTiOPxok=;
-	b=ZK28J071IYJ3rsxrcJ+oMhaJj2pekk7S3Yq6W96QOTlYH+8N+3E4xohhpH1e3m4SldtS
-	 xDLZ/lH2RO87cH3mL/pWuue1SyPk7mvBXPGTfJiTGN6HwlrzXSjDW5qlZaDXLdYQOwyDS
-	 Urt3ueivxfUiEBrIQfBvmxB7t62fQ09VQh+irIuCKlMAJrWsX+pComH/w6oSrzCFv5WWR
-	 WjPc4L7aieJzu94/kUzIchq/avf3/bj7pq1WlIzxyYJrtkYr5Aj6JZbnxePMciqQHsC+x
-	 iCMiMUhciNPJSyfVR5F4OLe6EneUfa9QLv7/1BZQeCYwUeF/ggULM3w0WJYYeOsgQQA==
+	bh=WtmTmaPf+k8Tq7TJAM8UPOtbwVtt9Mc+F4Epf05rY+0=;
+	b=4FjJD/8icsSjbB9wfOMhH605Rsj26a7iUcoZE3aW04SoCibxGjSN7k3ecz6xwHUANhQu
+	 y1IGz1oyyvQAjvaTts1IfgoluWjT6GtrTOzjKPQ6baFwf+PrCJVWJsy2IH8xkO6eYw1T/
+	 XiTHe2hqW93MK/SnSgx2LFCRbNIBkSNXnG+vng956yFNKZ/JbfWy0V5YJUMhG9oLAoGWA
+	 awS5w4NjneLPSc37QEm5OLcI6VCVTOAHvgE9ncNl5IpBsfe648QHNGJiJ2gpFBx5378Wp
+	 6OLfp7CXNZfHlM3hH+PERbdMS2o9G6V1cyqEhUvV3Fi6QaLhpfodje4yqdeAOi0XdUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OVzN+UN7;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XOrH1h+o;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6649B606A905;
-	Fri,  6 Nov 2026 11:44:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0583606A337
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 11:47:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OVzN+UN7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5C861F008A1;
-	Fri,  6 Nov 2026 11:44:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XOrH1h+o
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6242B1F008A1;
+	Fri,  6 Nov 2026 11:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793965452;
-	bh=n3hVNK+y1wCP4Lqm1G8XbO8IYXGR7svgX1tiTiOPxok=;
+	s=k20260515; t=1793965677;
+	bh=WtmTmaPf+k8Tq7TJAM8UPOtbwVtt9Mc+F4Epf05rY+0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OVzN+UN7jcNB0JfvqfU5pytFP46xRDIrrr5YCw0Ck+Ze2wiFtK6dRmuZ/aCMYSmcH
-	 y7bEq0VdMmRWnh3OWA36fc5eQxXhjJNZJQ3mP9ADeWpx0CRpIOs/D3D8neVDevz3OC
-	 3UQPk9LDvlRzJ+LaQUe/RAf/4clw+R+9dK653Ftz+4gzhV8dpknFemspG3fPpkJWmh
-	 Igto+4WZ3H1UNguwIlVdiQ9KXZf+K3dPGwQM/jaDvKVEmgZkd7O91qLCco7+nOdSiF
-	 lfPV0BVEPjU08mgvnIPNKMQjqJFw0Bh0Bouwwpeo34e0cyE/K9xlMYE1ehUjXXxhmp
-	 s4Kgp7igR5bNg==
-Message-ID: <sashiko-outbox-201351@kernel.org>
+	b=XOrH1h+o3TFk6o/vzrXgQG3kPjnkGJeCn3Wb7lr0bL7RrMEGmNX6QpmTfUCmlApzm
+	 0Zm/1mQhxoLnHnYt97HyDwvnKpDpRe9trUvqFJHxkygPf07XrI/WMKBO4UuPpxqWyk
+	 RuXsSkW29+du2M3S/nwOBhcZDZaDhitpMqH7whJzecZa/f8yaJzkt32Hzk+taViOTz
+	 HpfnV7naoMlox5ZE4muOCwROXWMwYFRA/J5a6WYFZ63jsm/06HCGxxAbAsLa8Ste4b
+	 SV0X4qxu2lv2lDMR5cLXQem6p8157X171q0+yKWoCotJ7LCk7Kz1g2JdX7CL1/da3M
+	 cbbhHDukmnPwA==
+Message-ID: <sashiko-outbox-201358@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] usb: dwc3: imx8mp: set needs_full_reinit as true
+Subject: Re: [PATCH v8 2/3] usb: roles: look up role switches attached to a
+ graph endpoint
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Xu Yang" <xu.yang_2@oss.nxp.com>
-Cc: linux-usb@vger.kernel.org, imx@lists.linux.dev, Frank.Li@kernel.org
-In-Reply-To: <20261106111943.2868733-3-xu.yang_2@oss.nxp.com>
-References: <20261106111943.2868733-1-xu.yang_2@oss.nxp.com>
- <20261106111943.2868733-3-xu.yang_2@oss.nxp.com>
+To: "Qianhui Xu" <xiaqinghuan@mail.ustc.edu.cn>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261106114208.987284-3-xiaqinghuan@mail.ustc.edu.cn>
+References: <20261106114208.987284-1-xiaqinghuan@mail.ustc.edu.cn>
+ <20261106114208.987284-3-xiaqinghuan@mail.ustc.edu.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 11:44:11 +0000
+Date: Fri, 06 Nov 2026 11:47:57 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,78 +61,30 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] usb: dwc3: imx8mp: bitfield race on needs_full_reinit in
-  dwc3_imx8mp_probe()
---
+> usb_role_switch_get() and fwnode_usb_role_switch_get() look for a switch
+> on the caller's parent device node or through device_connection.  That do=
+es
+> not work when one controller exposes a role switch per connector endpoint:
+> the switch is registered against the remote graph endpoint and the
+> consumer, the connector, has no phandle to it.
+>=20
+> Add usb_role_switch_at_endpoint(), which walks the caller's OF graph
+> endpoints and matches a switch registered on the remote endpoint, and try
+> it after the existing parent lookup.  A switch that is described by the
+> graph but not registered yet comes back as -EPROBE_DEFER, as the rest of
+> the role-switch API does, so the caller retries instead of concluding that
+> the connector has no role switch at all.  There is no behaviour change for
+> existing users: if nothing is registered against an endpoint the lookup
+> falls through to the previous paths.
+>=20
+> This is needed by DWC3 designs where two Type-C receptacles share one High
+> Speed data bus.
+>=20
+> Signed-off-by: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
 
-commit f35ce9daa116e0df2a34cb6ec0a405a630719820
-Author: Xu Yang <xu.yang_2@nxp.com>
-
-usb: dwc3: imx8mp: set needs_full_reinit as true
-
-This commit sets dwc3->needs_full_reinit in dwc3_imx8mp_probe() so that the
-USB3 controller is re-initialized after system suspend on i.MX8MP.
-
-> diff --git a/drivers/usb/dwc3/dwc3-imx8mp.c b/drivers/usb/dwc3/dwc3-imx8m=
-p.c
-> index ee92a5efaa6e8..78cb79fefba2c 100644
-> --- a/drivers/usb/dwc3/dwc3-imx8mp.c
-> +++ b/drivers/usb/dwc3/dwc3-imx8mp.c
-> @@ -267,6 +267,7 @@ static int dwc3_imx8mp_probe(struct platform_device *=
-pdev)
->  	}
-> =20
->  	dwc3->glue_ops =3D &dwc3_imx_glue_ops;
-> +	dwc3->needs_full_reinit =3D true;
-
-[Severity: Medium]
-Can setting dwc3->needs_full_reinit without holding dwc3->lock clobber
-adjacent bitfields in struct dwc3?
-
-needs_full_reinit is a 1-bit bitfield sharing a storage word with runtime
-gadget flags:
-
-drivers/usb/dwc3/core.h:struct dwc3 {
-    ...
-	unsigned		connected:1;
-	unsigned		softconnect:1;
-    ...
-	unsigned		pending_events:1;
-	unsigned		do_fifo_resize:1;
-	unsigned		pullups_connected:1;
-	unsigned		setup_packet_pending:1;
-	unsigned		three_stage_setup:1;
-    ...
-	unsigned		needs_full_reinit:1;
-};
-
-Earlier in dwc3_imx8mp_probe(), of_platform_populate() synchronously runs
-dwc3_probe() -> dwc3_core_probe() -> dwc3_core_init_mode().  In peripheral
-mode, usb_add_gadget() registers the UDC, allowing a gadget driver to bind
-and start the controller before of_platform_populate() returns:
-
-CPU0                              CPU1
-dwc3_imx8mp_probe()
-  of_platform_populate()
-    ...
-      usb_add_gadget()
-                                  gadget_bind_driver()
-                                    ...
-                                      dwc3_gadget_pullup()
-                                        spin_lock_irqsave(&dwc->lock)
-  /* RMW loads bitfield word */
-                                        dwc3_gadget_soft_connect()
-                                          dwc->pullups_connected =3D true;
-                                        spin_unlock_irqrestore(&dwc->lock)
-  dwc3->needs_full_reinit =3D true;
-  /* RMW store overwrites pullups_connected */
-
-Overwriting pullups_connected or adjacent EP0 and event flags can corrupt
-EP0 state or cause dwc3_gadget_soft_disconnect() to see pullups_connected
-as zero and skip halting the controller before suspend.
+Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106111943.2868=
-733-1-xu.yang_2@oss.nxp.com?part=3D2
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106114208.9872=
+84-1-xiaqinghuan@mail.ustc.edu.cn?part=3D2
+
