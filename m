@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793946808;
-	b=bNYe3P0gMvB3PrBzTQt5MX96td0rHFR4VyLZr782aYbIK5gsQ1zR5Ak9N9QaI74Hd5I1
-	 +DlZi7q+rvKfXECmfPqpv0SWJnlsoMfZ5cjJwjJ12gKF4b8StCRD+7+7bfN6A7Gz/eMoA
-	 gdMC16jbsOjkunDAuV8NBoAh2GdrBMX/3xngqXGPuGS+Ew5AZZK6bdlDMWEJrpz2bBWWR
-	 TfEWKJhlFKE0QMkzv+K7w0U1wZ8TdeuBXFzhKgNOJMtR6zZ1WmjPt7OkOLtrmftDx+uxe
-	 8fIUpa/pi+wPNbNjJz3e6tWr0rQ6QTjd24vj65wRjSOUu9m02xbNxyyGe+cjwylz9Uw==
+	t=1793946924;
+	b=mE3aal2usfAZeO9xNWyGBD6U/m/RwavYXbcAVSdfFX26yEXh1NrIzp37fY7qddw2go4D
+	 bII0e0ANGKCF0u8rfm3mOn9Uoxh2r83l/a4NrKI98YAmRRlbtXDHHkbeQjEtML7U2Xnm0
+	 AgR9SlpCoWayPX+8Ni1Ud8r0SeTkkEcKOFQe9rXnHORctOAwGAAqKlQe0UtMSAY3bXcg1
+	 EQnEYVLi6RyNw+JECCQhoGsjofI4aMjwly53JLYChgJ0hqc6Q6JM6lX7i2rVxD8/mVSvW
+	 XJsXsQ2RrNt8Je+Loa340RDO9GZYlWOZ9bAXEoOms5CUfDDzzQ94Dg7EIila3OchknQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793946808;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793946924;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=eRt5UvxEpoD7vvLyf0VwshqPovoOgHl7VRnyKiojwNc=;
-	b=Y+Vdj/I2kwzrD7hD++jNgQR+wwN2ObAbZgz2JuHDnjg8jeQlk2Zqnf6l/Q4cof+RY119
-	 4cEHq49bJOJz6z7ze2NWtmVMP6SGSRCDMg09PmehQ41brx2pvo7qAj/1i2P7yA/7SNCxi
-	 qXc1XzbRHwI3z91LS5vMMby6SsL2VQ+yfekDz7zoXhfF7Fc1m14decxd714LlBm8yaVQg
-	 jQ6IVv+YO4WlccGgMB26Ja7De1bMP5Da6ts4NocfAonA9srtCjumCLvaTPX57p2Qp0edr
-	 u1vGzP8phpaLEyilqeXiYGWaCgOu6gsewyyfa3Hd8cAEkSyeXjTA9QqoTT6JtbvIZ3A==
+	bh=ErWBEUZFjfUlGEsu4XJ5nuaGHNhBcaz/qI43oR2HDUg=;
+	b=cSJrDBRJfigqgnurGOda4zxVDF5R1nptTj+rRN0lQbxzGbM7t0+H10ZYF0BYPRMmVRW0
+	 E+Cz7pWhirGEB0aqGHKx0r3RSM8FJ1vuW2fUzSgU58hxGPn4Wr6jOWSdzWiBKYO/B4mbQ
+	 A/UDp6zs0MecJj9nj01SMkC2uki+ComSMXIa61Dj4tH7g29X3X61sStmaHNtYvy4gc6BB
+	 kuKv7jSsqNzcCfO//sz9rZ/elYuKwclJN+aie4dbeLYQv1DTx2Y2Saorub5GV3kF1T9o4
+	 3iwy/0fdu0HiDeXAp9yXwxOzQUQSIzDf4dTiQVDr/XUS75Y3ZL4qU2XQTt+ZBykWdTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cjypaxC7;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ArSPDSG2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3145E606A329
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 06:33:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01884606A326;
+	Fri,  6 Nov 2026 06:35:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cjypaxC7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6B5C1F0089F;
-	Fri,  6 Nov 2026 06:33:27 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ArSPDSG2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B68C01F008A1;
+	Fri,  6 Nov 2026 06:35:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793946807;
-	bh=eRt5UvxEpoD7vvLyf0VwshqPovoOgHl7VRnyKiojwNc=;
+	s=k20260515; t=1793946923;
+	bh=ErWBEUZFjfUlGEsu4XJ5nuaGHNhBcaz/qI43oR2HDUg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=cjypaxC7LPUHjX2esrEWNhn5zVYnOJSQUSLKelfSWlbpE6fkIdItbI4VtESD2MNwI
-	 d9GhxJY4Mk4oEm4mofuuvzFDq0dEjz3ze657DI3UkImLGJ8LGEt/0cpASBi1uavLfz
-	 xTuqvtn9Air0ai/NWj3BTHtcg82IFJlxleUlxE2paam2Wr04KXj1hnXoyKzTOu1ZE9
-	 3IecZLI+B1j+l4mTDkzNJt1PvZMzEAKJWYTexK6/JqCI8UF9661wiOxrtP3RAe/qfP
-	 mm/4qloCN7tVr04EttHc37EOYnmlm+A0CJQCvJO/j18lvhHe2Gd9dJPPaqc0f7n/OO
-	 nCcHkvUQd47WQ==
-Message-ID: <sashiko-outbox-200903@kernel.org>
+	b=ArSPDSG2ouDjqXuF6ai9H53/PZ+1vxsdK7/t30cn3mh9PQBOq/OmoIaxye2t567qq
+	 m8/VQdY+OQ9PtTTrrI5g+7LCbhwfxakGWbm9zRk+ILKgITWRJK5m8j+nbhykH7I+sq
+	 vo4v3rx5XbRO4fbWnCDiBN0+De05aWRM8zBOiOGVP62vn+U7qz1+FcBmzQSQ3682Ou
+	 UTqCxRod+h9T7XnEZKNrhrKA13cb5nvUOqL8o4jLyRpm1yYq7sUYOXBNC6uaHrZbbU
+	 RkKdJ6KK7MjM3W4ksgbqX30Wuddbekf6EKYEbuk+3HDk04FTM5LhqaJECp34sfkTBV
+	 qBbdxCwd2lnaQ==
+Message-ID: <sashiko-outbox-200906@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] thunderbolt: Enable hidden DP OUT adapter on Dell
- TB16 dock
+Subject: Re: [PATCH v4 2/2] usb: misc: onboard_usb_dev: don't defer probing
+ after the device is configured
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Grant Morphett" <grant@gmorph.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261106062614.27709-1-grant@gmorph.com>
-References: <20261101212311.10946-1-grant@gmorph.com>
- <20261106062614.27709-1-grant@gmorph.com>
+To: "James Clark" <jjc@jclark.com>
+Cc: linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org
+In-Reply-To: <f24b025cde0c3af37a958042d9deb96ae4494994.1793941292.git.jjc@jclark.com>
+References: <cover.1793941292.git.jjc@jclark.com>
+ <f24b025cde0c3af37a958042d9deb96ae4494994.1793941292.git.jjc@jclark.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 06:33:27 +0000
+Date: Fri, 06 Nov 2026 06:35:23 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,31 +61,112 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The Dell TB16 Thunderbolt 3 dock consists of two Alpine Ridge 4C routers
-> in a chain: one in the captive cable module (DROM 00d4:b051 "Dell
-> Thunderbolt Cable") and one in the dock itself (DROM 00d4:b054 "Dell
-> Thunderbolt Dock"). The dock has four video connectors: mini DisplayPort,
-> HDMI, full size DisplayPort and VGA.
->=20
-> Mini DisplayPort and HDMI sit behind an MST hub on DP OUT adapter 8 of
-> the dock router and work fine. Full size DisplayPort and VGA are wired
-> to DP OUT adapter 8 of the cable router, but the cable router's DROM
-> marks that adapter as disabled. The software connection manager
-> therefore never initializes it, never tunnels DisplayPort to it, and a
-> monitor on the full size DisplayPort or VGA connector stays dark. Only
-> two external displays can be used with the dock, while all of them work
-> with the firmware connection manager (and under Windows).
->=20
-> [ ... ]
->   initialized, instead of making tb_init_port() non-static and calling
->   it from the quirk (Mika Westerberg).
->=20
-> Assisted-by: LLM
-> Signed-off-by: Grant Morphett <grant@gmorph.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] usb: onboard_usb_dev: -ENODEV fallback leaves device on
+  deferred_probe_pending_list
+--
 
-Sashiko has reviewed this patch and found no issues.
+commit 8a540d2b1c8688c36c28e760d6d5507f9a82ef03
+Author: James Clark <jjc@jclark.com>
+
+usb: misc: onboard_usb_dev: don't defer probing after the device is configu=
+red
+
+This commit removes generic_subclass from onboard_dev_usbdev_driver and cal=
+ls
+the generic USB driver operations directly so the USB device is not
+configured before probe deferral.  It also returns -ENODEV instead of -EINV=
+AL
+when no peer-hub node is found so the device falls back to the generic
+driver.
+
+> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboar=
+d_usb_dev.c
+> index c604062404162..51985e3473ad8 100644
+> --- a/drivers/usb/misc/onboard_usb_dev.c
+> +++ b/drivers/usb/misc/onboard_usb_dev.c
+> @@ -591,7 +591,7 @@ static struct onboard_dev *_find_onboard_dev(struct d=
+evice *dev)
+>  		np =3D of_parse_phandle(dev->of_node, "peer-hub", 0);
+>  		if (!np) {
+>  			dev_err(dev, "failed to find device node for peer hub\n");
+> -			return ERR_PTR(-EINVAL);
+> +			return ERR_PTR(-ENODEV);
+>  		}
+> =20
+>  		pdev =3D of_find_device_by_node(np);
+> @@ -639,7 +639,11 @@ static int onboard_dev_usbdev_probe(struct usb_devic=
+e *udev)
+>  	if (err)
+>  		return err;
+> =20
+> -	return 0;
+> +	err =3D usb_generic_driver_probe(udev);
+> +	if (err)
+> +		onboard_dev_remove_usbdev(onboard_dev, udev);
+> +
+> +	return err;
+>  }
+> =20
+>  static void onboard_dev_usbdev_disconnect(struct usb_device *udev)
+> @@ -647,6 +651,7 @@ static void onboard_dev_usbdev_disconnect(struct usb_=
+device *udev)
+>  	struct onboard_dev *onboard_dev =3D dev_get_drvdata(&udev->dev);
+> =20
+>  	onboard_dev_remove_usbdev(onboard_dev, udev);
+> +	usb_generic_driver_disconnect(udev);
+>  }
+> =20
+>  static const struct usb_device_id onboard_dev_id_table[] =3D {
+> @@ -697,7 +702,10 @@ static struct usb_device_driver onboard_dev_usbdev_d=
+river =3D {
+>  	.match =3D onboard_dev_usbdev_match,
+>  	.probe =3D onboard_dev_usbdev_probe,
+>  	.disconnect =3D onboard_dev_usbdev_disconnect,
+> -	.generic_subclass =3D 1,
+> +#ifdef CONFIG_PM
+> +	.suspend =3D usb_generic_driver_suspend,
+> +	.resume =3D usb_generic_driver_resume,
+> +#endif
+>  	.supports_autosuspend =3D	1,
+>  	.id_table =3D onboard_dev_id_table,
+>  };
+
+[Severity: Medium]
+Can returning -ENODEV from _find_onboard_dev() leave udev unconfigured on
+deferred_probe_pending_list instead of falling back to usb_generic_driver?
+
+During __device_attach(), bus_for_each_drv() visits usb_generic_driver
+before onboard_dev_usbdev_driver, where usb_generic_driver_match() returns
+false because udev->use_generic_driver is still 0.  When
+onboard_dev_usbdev_probe() then fails with -ENODEV, usb_probe_device() sets
+udev->use_generic_driver =3D 1 and converts the error to -EPROBE_DEFER:
+
+drivers/usb/core/driver.c:usb_probe_device() {
+    ...
+	if (error =3D=3D -ENODEV && udriver !=3D &usb_generic_driver &&
+	    (udriver->id_table || udriver->match)) {
+		udev->use_generic_driver =3D 1;
+		return -EPROBE_DEFER;
+	}
+    ...
+}
+
+Previously, generic_subclass caused usb_generic_driver_probe() to run first
+and bind child interfaces, which incremented deferred_trigger_count so
+driver_probe_device() immediately re-triggered deferred probing.  With
+generic_subclass removed, no device binds during probe, so
+driver_probe_device() adds udev to deferred_probe_pending_list without
+calling driver_deferred_probe_trigger().  Unless another device happens to
+bind later, deferred_probe_work is not queued and udev stays unconfigured.
+
+Also, if driver_attach() runs for onboard_dev_usbdev_driver, neither
+usb_driver_applicable() nor onboard_dev_usbdev_match() checks
+udev->use_generic_driver, so it matches onboard_dev_usbdev_driver again and
+repeats the -ENODEV -> -EPROBE_DEFER return without triggering deferred
+probing.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106062614.2770=
-9-1-grant@gmorph.com?part=3D1
-
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1793941292.gi=
+t.jjc@jclark.com?part=3D2
