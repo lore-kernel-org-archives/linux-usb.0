@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793943122;
-	b=Xc3GjP4dWc35Abtrzc84OVRT3/A7gNq2L4WaRcdPLmwQty6FgMBgtihr/Hgd61vbOHUU
-	 /CFOD7rEf1YgH/KEuW0SV14s2JUbghhl0cA+chfEkhsZ3dNECTQsJj7mmcF7Ysk3WWSTW
-	 BCqS8fYsGfU2ImnAqSZ5NbzRAbk3ohMad0infblEz/2GNwbqd2u6nklQeBW2xOsj4S+st
-	 xoPgB06bA1xixiC6g1A04cr8mDIKjkLmSMQT/410/uSxpnKSgjsFp/UVo+8rpysE6L7Q4
-	 PI/mdZQg7mniHBmOlP7AlHHKWo2tbScYhdHHifYYOg8/3Q92fpR20lwifGww9zikoRA==
+	t=1793943418;
+	b=AErqIGm4PV6ArbFcofc7CdiqA0CtIl0v7GIftQNKiTJxtcw+Cysq0b1E+WuJPnnoYauO
+	 yu+cSh+1E9pFuh98lT6N/YWACNVDZVpSON+7b+GUDN8CLF/LpP7U++F+FizbS6WCsTgsT
+	 aP9bBh78IrP4+2HhjwQds/pLGQZrD6GVEsjzCQKdbPd1R29awGFERjWd7JeqrsmNXmjPD
+	 ZLc+Lj+3P0QbfU7THpeUJaOWBpZ4PAT82Xp6EOj8ZC1jZV3+H/6ulu0cS/s1SQi6HJsjo
+	 JhQrWKngvBnDAth7c3SCgYdkb+Flx7Og72pB6baoKKuKelu8JxBglDJM+TlJIRm7I9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793943122;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793943418;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=0mDSLbFXUrOYtOc/OjsV+Q3jkRy43MggjzfQJSY6HKk=;
-	b=mZS5QDkVDVgCYWKEJkOJ6Kvs+gtae5RByQBnB6+jug7KS1hqoT+aDQEM3RK9KT6EUzcK
-	 FP2GP7F1usKQjv9BDZ+6/PD8RjXGcDPrmPytM5LfpUMnTIlgKHewDaG/D+shwSaWWHa8x
-	 9WLFQ+CawraswOWogv6FhUZIRr7qbj+GE6NLRu5YT4LBF+HRnDL/4nvQ5jNkURDJDQ+0j
-	 WxPtMCy071f1X3mwAMUXsIoYxl3FFx7J5aX7a3DcZ6yGIM2SkhyIpBkNoweM9j50YbI2e
-	 5mVcH1TY6TVMju2Cxf4W3dCWuB2/PJ/jJWjtd9Td/YL0MSyf4CGZdNeSsYXqBdovRrA==
+	bh=T93gWEXeUP8lRE7FWXoZl4nnry0vUnQlHVJSql12RzY=;
+	b=y1XQWQ+AfwqhZVZF4NGbmIyc0pUyF/bWVUhQtzt5XqfDc5s1nvnoDROJ2W/4sj24YRTH
+	 951lJlRxJ7fy1RFkwFyIW9bnhQYEul6ehpvGDKMsdc27mZm4Ge85Mu4T5HA2y2IktQ8SA
+	 7CTQmKSIYyOUSIULBrQE2lsmfY4w4EQpTemGwxbYdVaTiZ+koVpla9UgHBxijZlCkkj46
+	 jO08Fmc2a2zqDpQg4fMh84fkBJT1ibdlrQlbW+bltHLV79moKhVad+t3wv4y//TyJeyxc
+	 PDT/TzcsfIyn6OOs5hI11h2xxwb6GKSiviExJtEyb1MCzJiFBP22TdW2KtcFrbkNd2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n9Cf975o;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=neXdZyHA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29157606A32D
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 05:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024D4606A326
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 05:36:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n9Cf975o
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8C51F008A1;
-	Fri,  6 Nov 2026 05:32:00 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=neXdZyHA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C2FA1F0089F;
+	Fri,  6 Nov 2026 05:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793943121;
-	bh=0mDSLbFXUrOYtOc/OjsV+Q3jkRy43MggjzfQJSY6HKk=;
+	s=k20260515; t=1793943417;
+	bh=T93gWEXeUP8lRE7FWXoZl4nnry0vUnQlHVJSql12RzY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=n9Cf975oL30JIRjjWcvI2F4qcKAi0VZw2luPgF+R0e1IcJhf/krcwy87K1MdbgeQ3
-	 vPN+0p55QPs1Sw6C50I+OSNPSDd21PJ83LHEGSg15+Z20JgYenAq9jkY9K9NZNSKxT
-	 2CnndylD1LH534hHx4Xuu68NwCT+5Q0MmoMIU0CA6gjBuuvt5RXVSzzOtVi2Ph12tM
-	 BvHkS/hqigfD1DweGSEVw3chCM5nmQTV04FPx6M8O4hcRVMDJ3P56vsxp+OlZt5svf
-	 Z1nwjq8bIRXa+YFr9Uiv7uk7tE9+/sFwXMJigAqr4/6qlr1HviwO3ZbIZXDcBUfGNk
-	 J3PfW1jZa1ThA==
-Message-ID: <sashiko-outbox-200824@kernel.org>
+	b=neXdZyHAjO59QkovYNCewzCCTH4Fc+dJpDGxPJ2z84HLjU9YDVyDN1RAFkKGJe2pb
+	 s6yNl0jzUxSqYQ6LLhT6USYk2HE39oCU6Vhuypaq9vnu6zGvODgxtnFEVzvHPLCMwR
+	 gX/EiaTrZhCTE7yBFOzh2gxqtUQUdWCsY9Yuw5xGOunBNlRZRvTveoag63csM1g4nT
+	 9q8WmhlDHxcwC32bnt7TXtDILmtnaB6nDwq0e+JSTbJ3iVNfwIXzaTjGm4Cqx2Ez7D
+	 cY4UkdmXmjsDPLyDY5zt1+wJiB9dkXJnTKGBMOPS9hB1yNgz6Vqu+5Qk8VJIgFVLU9
+	 j8+735JYuzq/A==
+Message-ID: <sashiko-outbox-200836@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/2] dt-bindings: xilinx: Remove description for USB
- host controller
+Subject: Re: [PATCH RESEND v3] usb: dwc3: qcom: check for hcd in
+ dwc3_qcom_read_usb2_speed
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Radhey Shyam Pandey" <radhey.shyam.pandey@amd.com>
+To: "Prashanth K" <prashanth.k@oss.qualcomm.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261106051820.3414532-3-radhey.shyam.pandey@amd.com>
-References: <20261106051820.3414532-1-radhey.shyam.pandey@amd.com>
- <20261106051820.3414532-3-radhey.shyam.pandey@amd.com>
+In-Reply-To: <20261106051605.1398445-1-prashanth.k@oss.qualcomm.com>
+References: <20261106051605.1398445-1-prashanth.k@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 05:32:00 +0000
+Date: Fri, 06 Nov 2026 05:36:57 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,18 +60,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The Xilinx XPS USB host controller IP relies on Xilinx Platform Studio
-> and the ISE Design Suite, both of which were discontinued years ago.
+> Currently dwc->xhci is not cleared if xhci_plat_probe() fails. During
+> system suspend, dwc3_qcom_read_usb2_speed() checks dwc->xhci and assumes
+> xhci is initialised. Since the probe failed, hcd will be null, and the
+> subsequent access results in a NULL pointer dereference
 >=20
-> Driver support for the controller is removed by the preceding patch. Keep
-> the bindings in sync by removing the corresponding Xilinx USB host
-> controller description.
+> Unable to handle kernel NULL pointer dereference at
+> virtual address 0000000000000058
 >=20
-> Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+> Call trace:
+>   dwc3_qcom_pm_suspend
+>   dpm_run_callback
+>   device_suspend
+>   dpm_suspend
+>   dpm_suspend_start
+>   suspend_devices_and_enter
+>   pm_suspend
+>=20
+> Explicitly check the hcd pointer in dwc3_qcom_read_usb2_speed
+> before accessing it.
+>=20
+> Fixes: 6895ea55c385 ("usb: dwc3: qcom: Configure wakeup interrupts during=
+ suspend")
+> Cc: stable <stable@kernel.org>
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> Reviewed-by: Peter Chen <peter.chen@oss.qualcomm.com>
+> Signed-off-by: Prashanth K <prashanth.k@oss.qualcomm.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106051820.3414=
-532-1-radhey.shyam.pandey@amd.com?part=3D2
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106051605.1398=
+445-1-prashanth.k@oss.qualcomm.com?part=3D1
 
