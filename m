@@ -1,57 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793952150;
-	b=IG/8vD/7n8ZjoS52O+p91fqwBufG7tbmfeIhNkUzAsXmJ+55cL604vcXVd8E1TtHwHho
-	 Qwgsw+iJahVST+lGUZ8Xi+PmOON8NvjopF6jI7VdxqBog+g22mgeq3cVCTmlqy7iMJKDr
-	 nC6wawK5ISrtKv5MLYk/W5ic3ba1rOwEnyRY/GoJFxwTeBFyVhjslAnjgyeRxRvPsIewv
-	 PaqIVLHR4ZS/BVTv0jBgajR6zpr6fuhrQkDrSnb3VsqksSgC2B3aAVrFI0jImTyRq43z7
-	 cH4+0RPo07vYHlJACtKlkWnr+nGy+7EvI8GIkoyTWab6kmgK8gXm0/oznFF+zq/Nmcw==
+	t=1793952379;
+	b=Wh6K3KElSPGXKmH9l/VzQRdUHYwYLYvehA9QBEkXw7jryE0srksmN059f1Ld5I8dy40P
+	 p/LWelthWPaJ4cPRwvcoQmy8sy0KhN4SLCjIcMLhVAS3YjQfiQwPo9RyzgNocgleAN0AP
+	 9Dfc2Ae8QmAnj904TnuwHylrWEeEdYNG58QUVQKEe9kUcHZKdbl/UjtoWa3arMhMc4mEi
+	 QVDDgjvYZEM2KKOLOTa6b2vyowblS02GAVNEGBjcN+fukoyfPPZ3IDrcjkzBOrJZm9f6e
+	 NxKEgLCbbu5BCfTChp0ODl2G2NPJuazixVi6EnoC1Rgt51fa/IMbTnIoRIEG/Ipj3FQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793952150;
-	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=DjfUCkwD8qRA4Uhsl9jOlY4UWrPe+9W9YxmV392X8vg=;
-	b=0a7oSMBOLs3zzJ4u1kQDF2ncd1FyOHOATy3voPj93jt2d7oSWaC8fh10qkYoEvD0pWV/
-	 lKKbMceyzvfgdAcjC4fp8uUswV2uM8/+uL7TwvL0IPHq+YI99P6CoCG9KrA8QOsPkBQmb
-	 Mvyg5CutJK0DYMk35k7O8sVAWj7Up9yD14GQvVxdtiRQstEOhx+AhgJRoh2dAEM7ola4U
-	 dsEJ4cjEtWXuyNKbuB3Ch7QfTW7NhEzgcsU7UFQl/gopxZoWHGv0Gm1D+7E2EhaTKq3dQ
-	 qMyJrxtqEYvHzMho7j0jRtFDoxkQJgMvQfB6u+3UEoGHzEIqeHSBzNVI0Gi/LSFsMvQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793952379;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=RDp0mxwcQOrWgk2BRdymC3OSzQpyooEhlIe+Jc0dVEw=;
+	b=UHrTLbjMhSj9wnIaVC5eFv5B83j0qPQ1cVjbvdHmndqWOH5WVqf7dmD+Gr1MATwOWf89
+	 m6y1rngpH6/YoCx5av2Udb1WEcOh4i5MtuHHv35cBAYtcbTL8YFfuoGiWky/gUNClzg9u
+	 VzKZjueS2lT3omrXm/X4Vm/pWRNS6esfhkFR7EBkE3eP1Hd47Uui20KGOgCOpAYcfjmzu
+	 7r7g3OG6AxybgOX2sOM2jbAF7dzrpl5+eNlYBCPdrLi+614jxis5YoJnpQchcoh94AdE6
+	 hHGJffeUiEHp0UDwDv/wxqjD44qBBWtk1FAZHwI0zdNwcNMlAP1fKEtEgcp7gfGHnpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CzVCI4JC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="KwRHQ/w/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23999606A326;
-	Fri,  6 Nov 2026 08:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAE1606A329
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 08:06:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CzVCI4JC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C4D31F0089F;
-	Fri,  6 Nov 2026 08:02:29 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KwRHQ/w/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C6071F0089F;
+	Fri,  6 Nov 2026 08:06:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793952149;
-	bh=DjfUCkwD8qRA4Uhsl9jOlY4UWrPe+9W9YxmV392X8vg=;
-	h=From:To:Cc:Subject:Date;
-	b=CzVCI4JCU/F/oSpY/lTrB7XTLJF1ErmnXMc4fVoVNy90xtkz4QbN29KCkx/RPN/L6
-	 cJeSZKBL+VO7Do57c4Y6ck8Rmbe/15FxR6nb5Fo6TDsOM9ghxspyr2BRnJ7gBnDav4
-	 bnsYr4VR3ZR8s+VSIZyDpQaLyL57XQNrvijG7Lk/WPGQTSxyaRXA+ehAdCsD7tZDvs
-	 TaeU61AQu5UMV/LiUvkFcGrpBL2Dsn40PWcT6uv8jEDQFwzpxX1BhZUfFc2BH0FY/D
-	 lHWo8IfKXDPm2XUrEbGlE0sBuynlpqe/4VjIoVSABKrDLTF5qp7S33ca/TKnSFhh30
-	 7N08RmG0bMdjg==
-Received: from johan by xi.lan with local (Exim 4.100.1)
-	(envelope-from <johan@kernel.org>)
-	id 1xPEu3-00000008FkA-0aT7;
-	Fri, 06 Nov 2026 09:02:27 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org,
-	syzbot+58b2d8b19cd6761a395b@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] USB: serial: mct_u232: fix NULL-deref on open() failure
-Date: Fri,  6 Nov 2026 09:01:55 +0100
-Message-ID: <20261106080155.1967097-1-johan@kernel.org>
-X-Mailer: git-send-email 2.56.0
+	s=k20260515; t=1793952378;
+	bh=RDp0mxwcQOrWgk2BRdymC3OSzQpyooEhlIe+Jc0dVEw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=KwRHQ/w/RailqWdUdxbf1DlufAVv/qr2Iq8Ilo1mlMQ7jFKEx2zCTFrwg9cehlPuP
+	 h2c0RtUNahQlK3kBeTw3wTRBHn6xGsN98YW8BEcEfCC9yS1G9Ysx9CbmSmAQ5/ORm+
+	 GRzrRmDHz/ilIaCjiuoJsvIjEAkG8urzyJeLUVODqYXkk8T44JA+yDlZJcz8916Oyv
+	 S39WAkqzh/J553L32wSuqe7uVGMw0FRuC6VKnMfcOVAveYFJiOn2wLbQPBwZCO3OWb
+	 n8dVnbpz2Pjm3M60LJ3SxXK1pfYjb0XtaUQnRYJleK/o/FuR1rfLySO7te8v7edA1F
+	 6IrgsBcqbWaEw==
+Message-ID: <sashiko-outbox-201021@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] USB: serial: mct_u232: fix NULL-deref on open() failure
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Johan Hovold" <johan@kernel.org>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261106080155.1967097-1-johan@kernel.org>
+References: <20261106080155.1967097-1-johan@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Nov 2026 08:06:17 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,38 +58,24 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The driver uses a second interrupt endpoint for reading but still
-dereferences the port bulk-in URB pointer, which is no longer overridden
-by the driver, in an error path.
+> The driver uses a second interrupt endpoint for reading but still
+> dereferences the port bulk-in URB pointer, which is no longer overridden
+> by the driver, in an error path.
+>=20
+> Fix the dev_err() on failure to submit the read interrupt URB to avoid
+> dereferencing a NULL-pointer.
+>=20
+> Fixes: 35807187e4b3 ("USB: mct_u232: clean up read implementation")
+> Reported-by: syzbot+58b2d8b19cd6761a395b@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/6aed834c.dadc8e63.45095.0003.GAE@google.c=
+om
+> Cc: stable@vger.kernel.org	# 3.10
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-Fix the dev_err() on failure to submit the read interrupt URB to avoid
-dereferencing a NULL-pointer.
+Sashiko has reviewed this patch and found no issues.
 
-Fixes: 35807187e4b3 ("USB: mct_u232: clean up read implementation")
-Reported-by: syzbot+58b2d8b19cd6761a395b@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/6aed834c.dadc8e63.45095.0003.GAE@google.com
-Cc: stable@vger.kernel.org	# 3.10
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/mct_u232.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/serial/mct_u232.c b/drivers/usb/serial/mct_u232.c
-index a6de18917ec9..8a7aee2b26dd 100644
---- a/drivers/usb/serial/mct_u232.c
-+++ b/drivers/usb/serial/mct_u232.c
-@@ -457,7 +457,7 @@ static int  mct_u232_open(struct tty_struct *tty, struct usb_serial_port *port)
- 	if (retval) {
- 		dev_err(&port->dev,
- 			"usb_submit_urb(read) failed pipe 0x%x err %d\n",
--			port->read_urb->pipe, retval);
-+			priv->read_urb->pipe, retval);
- 		goto error;
- 	}
- 
--- 
-2.56.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106080155.1967=
+097-1-johan@kernel.org?part=3D1
 
