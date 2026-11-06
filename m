@@ -1,57 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793965769;
-	b=2FLOGWObSArPD/UATTGMBj4LNT5upp/ITj8joKEcuglQ/WPFZoDc27wXuNK4K7nNGRnU
-	 16rO8qx0X5iy/OnETTkVPWts5uVkrj5o8JH1bpEx0wC3LPZ0Q7KggsSjJ5Pa9bVmFFVWQ
-	 N4tmqmXQvw0JnEsxPLn1O8A8u9q1U/iC1QXENKJ3XXdI/ikq6TlPjWCd9M3WOYjtI/I/F
-	 LOmTp2bzB6MZClsh4Xxvqq4vkVn8l/lFNA5b8ARgduRclhrPjDJQ3PabUqj/8pmRIJ7U6
-	 Bke1iXcWzohUEBO/DHf9eBUDGiLsjh6Hrv3RWjWD5+EitSjMHnoF9dGEx9EqKaHKEsA==
+	t=1793965829;
+	b=wT8JSzD6peqPWg+xNuPpvg+ylC2hcdrEbUUvTOVBWIz8IhpX+uzu4bbLFezCgcGvnFQE
+	 j0MrTFUhDbriu5HF1nWy++889y1seuKTeOIPulJCs/95IbBrTScks1JlZY7em2z4Lirwy
+	 zvwdebRfL38oa+CpApHlY2QIjkmiWaya8u9Ka/wxWXZWdWtVsA2Go8pKH4/1eUW5lwBY7
+	 Lw8/n3o5QO4CCpzk5KgtsoZmiFhnn+s3sQ0aRVicFiglVHx7gAW5AK0l4qJnobubhKqb0
+	 Gg7Pqy0+tjF5sMxHkAJMpZy3MRaRryx4jY5Y8m2nn8+LKjTMxr/IjzO5MF958x7MyNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793965769;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=fz1Oiu2DG8akyKAYnkRUl1TsfidmRhyuwQeGhedDsmo=;
-	b=a4BIBgMsznth6GPTch073UGbnPWYWNIYtFTezvnNL8WFWYWNpldAEXn10WO13La8wuCT
-	 bbiP6zalGztdZlsFLeQppJTZU4orbNEyfj0mQiwEc+zWFcjpad9+C/N3NMjCohR+7x8Yk
-	 LY5t+bTCxbzHg3J7z7tSDj9yyj6j2fO052fv2pcrPvmS/Veztik48zAnT1KhZdBA14VPv
-	 kvzA4J3jCvYKgB1WlMf71WtCS67o1Nq6MHfdN3OEZOBUf2KWMfbEZmXlMXPSEyIEmExW5
-	 c1JJ2n5uKn/+e19M0sAdLsH/vYPfentc1aafxr/TEKv7MCh6M6dyNAKFo0hm5UKc1TQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793965829;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=eFyM4pTIoKFaccBzbkjLv8TrEz8j9T9tmsJpSpLU+0Y=;
+	b=O/W9wzY7HYGB3aIt5xM8mNRSdXWwCpwApKfJMkd41CEcUfwaP2fAr7vLx/qJhzCVdJsR
+	 NjHmWoSGDpvecGFpaI2qJzeJ2HrJjOlmZwDcc7vtU6qItMNcNt+oxqKj6iiJRe/lkG18B
+	 1Q8bOObpsQYIYAw07r6LXqTKxCnZIQk4blI1jkl4TGAPmsjuokbKGK5u2L9t2ovtJ0H7H
+	 mH/w374TqZLz3dULuOTVhdzqhgsT0AO2+quPou6eh2DH6Hzj22nKFVm9k4g2tZhPQBvME
+	 Nnu0ESWEDWgr7x3m3odCWDao20DM7AepIX0G3C5acMeqkzvlyoDkIDEXSbqC9DcyWVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h39ahG8G;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GpwWSaoc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFFF606A326;
-	Fri,  6 Nov 2026 11:49:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E82D606A326;
+	Fri,  6 Nov 2026 11:50:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h39ahG8G
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8C1F1F0089F;
-	Fri,  6 Nov 2026 11:49:28 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GpwWSaoc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B05051F0089F;
+	Fri,  6 Nov 2026 11:50:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793965769;
-	bh=fz1Oiu2DG8akyKAYnkRUl1TsfidmRhyuwQeGhedDsmo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=h39ahG8GSU9pfWvCbym4AE5KMd+pPPhCFQLtA563nOUSjvhrECYPcYpbuvJCmSO/H
-	 YjNRnRuS46QvhvvPYZdbnejZDvcOy2v74PVgHHSrKY7DzsPL68efAaVericL9y1QDf
-	 wYrzfxvkYR8PJkWj3oOdPmRgqSt8PemSbsVFFijjSneAsV838dKJHvsDTjK47nHmls
-	 gBw22CE5aDXPOZJsTKFvD/bLsXsUCMPukimLTYayUgPDejFFXo80rmgkO3Yqj44uwi
-	 GMn5aPWNm0JMPznAfJNHbud1r/Jhjm0L0BzJ1/VoAmszCdUhU86isHx9j9nGt4H9pb
-	 K4ww11/N8tWQA==
-Message-ID: <sashiko-outbox-201360@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: usb: snps,dwc3: describe two
- connectors sharing one HS bus
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Qianhui Xu" <xiaqinghuan@mail.ustc.edu.cn>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261106112811.963923-2-xiaqinghuan@mail.ustc.edu.cn>
-References: <20261106112811.963923-1-xiaqinghuan@mail.ustc.edu.cn>
- <20261106112811.963923-2-xiaqinghuan@mail.ustc.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 11:49:28 +0000
+	s=k20260515; t=1793965828;
+	bh=eFyM4pTIoKFaccBzbkjLv8TrEz8j9T9tmsJpSpLU+0Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=GpwWSaocOVL2kcWUpO9u2XtBTrl0GRdkKLMDcTXoHPNkCYrRejYGIX6NLR2mD2a7+
+	 0ZhtMZkHPkDPay0a73BAQtdDipf7Cq2fREOYgZSeAvgJm3Hd6jFDiNfl+h5L2AS45H
+	 WFZp+BoL54+wYimumXB62b4Ee6FAlgNT8W9/z9lvoo7bf/RSjoh0VhFb+l5moIYl7B
+	 iH4fmliLmGz1TjkqDbXxEkJyxra3igMSsmYnwYailmD/8cnxkISkDvVFajjqUBBG9R
+	 sBAS2dW2nQ2TqAlpXxrsWPGY2PxBG0xU6Mkl3lKrC69yNJoxk1P2do9lfaH/7RY7vd
+	 EzFqQd4S+j7BA==
+Message-ID: <2c85759f-d2ab-4833-9d6d-ebff02b30aa7@kernel.org>
+Date: Fri, 6 Nov 2026 12:50:14 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,223 +50,103 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/25] dt-bindings: vendor-prefixes: add Metanoia
+ Communications
+To: Mark Brown <broonie@kernel.org>
+Cc: =?UTF-8?Q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jun Chang <jun.chang@metanoia-comm.com>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Conor Dooley <conor@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+ Samuel Holland <samuel.holland@sifive.com>,
+ Ben Zong-You Xie <ben717@andestech.com>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
+ Jisheng Zhang <jszhang@kernel.org>, CL Wang <cl634@andestech.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+ <linux@roeck-us.net>, Adrian Hunter <adrian.hunter@intel.com>,
+ Minas Harutyunyan <hminas@synopsys.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ =?UTF-8?B?UmFuZG9scGggU2hlbmctS2FpIExpbijmnpfogZblh7Ep?=
+ <randolph@andestech.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-phy@lists.infradead.org,
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-mmc@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-watchdog@vger.kernel.org
+References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
+ <20261106-mt2824-v1-1-86087eaf5af4@bootlin.com>
+ <8c625e53-7944-47df-9b91-268d0cdced48@kernel.org>
+ <4bc702d8-6f07-42f7-bdff-e0ce3ffceb35@sirena.org.uk>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <4bc702d8-6f07-42f7-bdff-e0ce3ffceb35@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [Medium] dt-bindings: usb: snps,dwc3: missing required on endpoint and
-  mux-state
-- [Medium] dt-bindings: usb: snps,dwc3: hs-port endpoint pattern
-  mismatches oneOf
-- [Medium] dt-bindings: usb: snps,dwc3: port@2 missing from top-level
-  ports schema
-- [Low] dt-bindings: usb: snps,dwc3: shared HS mux modeled as port@2
-  with Linux refs
---
+On 06/11/2026 12:39, Mark Brown wrote:
+> On Fri, Nov 06, 2026 at 12:17:36PM +0100, Krzysztof Kozlowski wrote:
+>> On 06/11/2026 10:29, Benoît Monin wrote:
+> 
+>>> Originally-by: Jun Chang <jun.chang@metanoia-comm.com>
+> 
+>> We do not have such tag (because we are not TIP). Drop everywhere,
+>> except for subsystems which explicitly accept it.
+> 
+> You might be thinking of Co-authored-by.
 
-commit f8622d01bfd3dd39d739606bdf63957e847faee6
-Author: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+Which would go with Signed-off-by then.
 
-dt-bindings: usb: snps,dwc3: describe two connectors sharing one HS bus
-
-This commit extends snps,dwc3-common.yaml to describe two connectors sharing
-a single High Speed data bus selected via port-select-gpios.
-
-> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml =
-b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> index 6c0b8b6538246..0be2a6e83ee48 100644
-> --- a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> @@ -13,6 +13,40 @@ description:
->    Defines the properties of the DWC3 core as being embedded in either an
->    vendor-specific implementation or as a standalone component.
-> =20
-> +$defs:
-> +  hs-endpoint:
-> +    $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +    unevaluatedProperties: false
-> +
-> +    properties:
-> +      usb-role-switch:
-> +        type: boolean
-> +        description:
-> +          This connector endpoint has its own USB role switch. The switc=
-h is
-> +          registered against this endpoint and looked up with
-> +          usb_role_switch_at_endpoint().
-> +
-> +      mux-state:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        enum: [0, 1]
-> +        description:
-> +          Logical level of the port-select GPIO which connects this
-> +          connector to the shared High Speed data bus.  The two connecto=
-rs of
-> +          one controller must use different levels; the driver rejects a
-> +          device tree where two connectors claim the same one.
-> +
-> +    dependentRequired:
-> +      usb-role-switch: [mux-state]
-> +      mux-state: [usb-role-switch]
-> +
-> +  hs-port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    unevaluatedProperties: false
-> +
-> +    patternProperties:
-> +      '^endpoint(@[0-9a-f]+)?$':
-> +        $ref: '#/$defs/hs-endpoint'
-
-[Severity: Medium]
-Does patternProperties here mismatch the oneOf check below, which only
-inspects the unnumbered endpoint node name?
-
-Because hs-port matches '^endpoint(@[0-9a-f]+)?$', it accepts multiple
-endpoints in one port as well as numbered endpoints like endpoint@0.  If
-both port@0 and port@2 use endpoint@0 with opposite mux-state values,
-neither port has an unnumbered endpoint property, so both oneOf branches
-below match vacuously and validation fails.  Conversely, if port@0 uses
-endpoint and port@2 uses endpoint@0, both connectors can claim the same
-mux-state value and still pass oneOf.
-
->  allOf:
->    - $ref: usb-drd.yaml#
->    - if:
-> @@ -26,8 +60,87 @@ allOf:
->        $ref: usb.yaml#
->      else:
->        $ref: usb-xhci.yaml#
-> +  - if:
-> +      required: [port-select-gpios]
-> +    then:
-> +      # The mux path is only taken when the controller itself carries
-> +      # "usb-role-switch": dwc3_get_dr_mode() forces dr_mode back to
-> +      # peripheral, dwc3_get_extcon() skips the role-switch branch and
-> +      # dwc3_drd_init() never calls dwc3_role_mux_init() without it.
-> +      required: [dr_mode, ports, usb-role-switch]
-> +      properties:
-> +        dr_mode:
-> +          const: otg
-> +        ports:
-> +          # Each connector is one port with a single endpoint: the mux-s=
-tate
-> +          # property on that endpoint says which level of the port-selec=
-t GPIO
-> +          # reaches it, so two connectors are two ports, not two endpoin=
-ts of
-> +          # one port.  port@1 is the SuperSpeed lane of the PHY and is a=
-lready
-> +          # described by snps,dwc3.yaml, so the second High Speed connec=
-tor
-> +          # lands on port@2.
-> +          required: [port@0, port@2]
-
-[Severity: Low]
-Should a shared High Speed bus routed through an external GPIO mux be
-modeled as multiple endpoints under port@0 (or using standard mux bindings
-such as gpio-mux.yaml and mux-states) rather than as a second controller
-port@2 with custom port-select-gpios and mux-state properties?  In OF graph
-bindings, ports under the controller node represent the controller's own
-physical buses, and the controller still has only one High Speed bus at
-port@0.
-
-Also, the property descriptions and comments above reference Linux driver
-internals (usb_role_switch_at_endpoint(), dwc3_get_dr_mode(),
-dwc3_get_extcon(), dwc3_drd_init(), and dwc3_role_mux_init()) to justify
-binding constraints, and note that port@1 is described by snps,dwc3.yaml
-when port@1 is defined in snps,dwc3-common.yaml.
-
-> +          properties:
-> +            port@0:
-> +              $ref: '#/$defs/hs-port'
-> +            port@2:
-> +              $ref: '#/$defs/hs-port'
-> +
-> +          # The two connectors must claim opposite levels of the port-se=
-lect
-> +          # GPIO; requiring both ports in every branch is what makes the=
- two
-> +          # cases mutually exclusive for oneOf.
-> +          oneOf:
-> +            - required: [port@0, port@2]
-> +              properties:
-> +                port@0:
-> +                  $ref: '#/$defs/hs-port'
-> +                  properties:
-> +                    endpoint:
-> +                      properties:
-> +                        mux-state:
-> +                          const: 0
-> +                port@2:
-> +                  $ref: '#/$defs/hs-port'
-> +                  properties:
-> +                    endpoint:
-> +                      properties:
-> +                        mux-state:
-> +                          const: 1
-> +            - required: [port@0, port@2]
-> +              properties:
-> +                port@0:
-> +                  $ref: '#/$defs/hs-port'
-> +                  properties:
-> +                    endpoint:
-> +                      properties:
-> +                        mux-state:
-> +                          const: 1
-> +                port@2:
-> +                  $ref: '#/$defs/hs-port'
-> +                  properties:
-> +                    endpoint:
-> +                      properties:
-> +                        mux-state:
-> +                          const: 0
-
-[Severity: Medium]
-Can a device tree omit endpoint or mux-state on one of the ports and still
-pass this oneOf check?
-
-In hs-endpoint, mux-state and usb-role-switch are only linked via
-dependentRequired, and neither hs-port nor the oneOf branches list endpoint
-or mux-state in required.  In JSON Schema, properties constraints succeed
-when the named property is absent, so if port@0 has an endpoint with
-mux-state =3D <0> and usb-role-switch while port@2 omits mux-state and
-usb-role-switch (or omits endpoint altogether), the first oneOf branch
-matches and dtbs_check passes a device tree that dwc3_role_mux_init() will
-reject at runtime with -EINVAL.
-
-> +    else:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              patternProperties:
-> +                '^endpoint(@[0-9a-f]+)?$':
-> +                  properties:
-> +                    usb-role-switch: false
-> +                    mux-state: false
-
-[ ... ]
-
-> @@ -411,7 +524,7 @@ properties:
-> =20
->      properties:
->        port@0:
-> -        $ref: /schemas/graph.yaml#/properties/port
-> +        $ref: '#/$defs/hs-port'
->          description: High Speed (HS) data bus.
-> =20
->        port@1:
-
-[Severity: Medium]
-Does omitting port@2 from the top-level ports properties cause dtbs_check
-to reject port@2 as an unevaluated property?
-
-Top-level properties.ports references /schemas/graph.yaml#/properties/ports
-and only declares port@0 and port@1, so dtschema's graph fixup on
-/properties/ports rejects port@2 even when port-select-gpios is present.
-Defining port@2 under top-level properties.ports.properties and setting
-port@2: false in the else branch above when port-select-gpios is absent
-would allow it only when the GPIO mux is used.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106112811.9639=
-23-1-xiaqinghuan@mail.ustc.edu.cn?part=3D1
+Best regards,
+Krzysztof
