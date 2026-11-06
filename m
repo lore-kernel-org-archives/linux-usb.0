@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793937071;
-	b=xJw4fzvB0AeRWJ1Gi8C2ax04mx3Vc4KCXCLMpaQtJJvk9PGOGcmw0uJ1c+DvRyvyX8yU
-	 sQpLeHldN6hVJ0GTw4WwlUkDGayqRFOgKryEQIWEjkKVFsgisH82MJxKzQwLmryQmrll7
-	 vwogvbI8TSZQC7MjATh/r+PHA458Ksd39kWsGhF/ZGTa13hbRh0D+wk7E6wNEbAdLfAll
-	 yeNn2Fe6k8Yk6F8wDW0Q4czkYqnw7ItWJdeWdMH4TSxcdH/QCqkS+G3kLtsuh/YLhPTSc
-	 AvD/enSnp71DLDr/hIXAK6EPgH2xxu1P1Al9tdL+fEHNKmZ3nUTbhtbMcV2NK/vUuGQ==
+	t=1793937464;
+	b=Y5/A8IS0XQ7xmiJMoGb9Ea+b2q2HGFT0PuJEyAGzCqBpO0S+p/h9reLZcLZdS/5hu1p3
+	 FwBZJl/BZQnDAcpOx83yr3EewuOQrxrjwZ3rY2RVGIbzOhuXkBzi/wWUkedjFMHN4N3K2
+	 pUXomJn+S7FYp2ILvrL9rQa4oOzIrqO/3pdKGwV3/4ag2AQzMaY9+VovENsvUiERAEszY
+	 GAMgEH69LvxqtKD+vb1DYYCG1wHoU7uZCYkR6DaYTAVM2qxTjgCerjJjFtHS5Obx4jwfQ
+	 TQQvz6IafdKkrMDmjPkNLxxvX9TwwtUG1YhOu6hFKIpBpU+DnJ4ufbwUKbumYBODMIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793937071;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793937464;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=qkWcp7MtA5VVACdIUpmvWXBvjG5j+1yklGO01XxRCbY=;
-	b=e8PQxMsMugNkA1vVNEL/lqaia6j7niZpzzI4E+t7GgG1ZmuaXsTRsHhEmIDP2vCmh9qD
-	 PNAh1DAp0a+RJeE+6UAu4y9BCk6e4AlUgxZcsDuxnw5qa91nFUghLdrUJFFNdw+cW0yqn
-	 os+jNZfzEz9/fXaSys9frolmnh/QJeSUKi3htkRCVGdsHsbpcMU4vALeokJetMOKyUpph
-	 eDUCNs81hRKo9wB2E43l56IfIOixBMJe7uF3EBpSsWvrtBVGDjvIA0KPgaM+geSk9bRdy
-	 L4NQbTrFHmoNsykvNdkkEzkROstsLORZUyXL0lErdpy9OsX37gdLKVYv2UfM+9wsjag==
+	bh=dOJu8GZJcUYklktZdoXLPEXPzyF/sRTQsdB9v1BWoPE=;
+	b=Fpr24RhJxuCwffqn/Sp5ZkUJZy+IWDGK2Ekf69xIZlKcufDjIB3Oj76BkhZ28Sf39H17
+	 rKRFya4bS+F6Gff7+HNIKkZdzmi9+LKTFnRN6axlTefC38SLQAzz029t6Fj1y88zWYea4
+	 nKb/qQ+54C2iFhMBQr1O6bFLSpFNyrL4p0eaTV1X+HVob5szhq6ewMkoUHyuZdLD2ptRD
+	 XvZ0FG4dqAd+3vkLmqMA68fvndT7oauHa+26lIGcaDlCs4SmrRMOLJjcuDpqoXbj2hyQ7
+	 0DR5BXnkkTCgAZmda3lVJmc/VLFs6sdeAtvNDvRUxA8AyrWuXOBTjCRkZ3uLS+0VGPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NY8iQGR1;
-	arc=none smtp.remote-ip=74.125.82.171
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UPfnuZee;
+	arc=none smtp.remote-ip=74.125.82.54
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6693B606A32F
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 03:51:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6693B606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B623E606A326
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 03:57:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B623E606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NY8iQGR1
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-36a0f27c9f4so372077eec.1
-        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 19:51:10 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UPfnuZee
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1adbf62dd31so388999c88.0
+        for <linux-usb@vger.kernel.org>; Thu, 05 Nov 2026 19:57:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793937069; x=1794541869; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793937458; x=1794542258; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=qkWcp7MtA5VVACdIUpmvWXBvjG5j+1yklGO01XxRCbY=;
-        b=NY8iQGR1h/Lo1ie6Xqy3s14LIEqe8azVNQkktIV7Kv6Oi6it6FByipM2/OB3zDfzyk
-         BwgnDgarP4WMZHPzefKgatqh7cmF3SrxEz3Y9mfCjAExvyTsdrUFGelydBY8ZtxuHHq6
-         pkg4Q6byS9aOJpmYZGLsYI2DeuzNaQ9W1tla3j667/uZVm8JhdWqyqjAD81f0C0khwOf
-         NiTxidHlGTObT88dHH4TkBvAlJi6eLWFMyGitJPlc+r76RiTvcoRtw2cdWRE5kYCZcDJ
-         ufqomb8aj71vdoeZD01hDMQNCRgVKt/Y89Ia4F7tBKMBJsZAIiqmqjytF9CFWg0DHqjp
-         iO6A==
+        bh=dOJu8GZJcUYklktZdoXLPEXPzyF/sRTQsdB9v1BWoPE=;
+        b=UPfnuZeebbSfeuLdlfkdoMpYu0m2MdHwBGnynVnGKW9pitbugFXHetY+9D6s/gUWut
+         GrgtztZhQpb+3+H0Ci82u2Rv7T2Wre7g47346rN/v1xa+VLtosv+gP9W0HntKTMBrNNJ
+         2uMzVd5rl8DGesxu4Lmd01PiWIyAJX7cq4zoY2zTmJy3jzNw6bSx8Mbnwdfkehd6NvUy
+         gKe6PsEl5fvmxP/J+laIoLm8h7RmK4Rn0OPMblGFnJtkm+dsYZFBaf3vSWopcyu8MtLr
+         oeFZuqkBeGI43bydQ5AWGZ8bOh2ExSpsk5EmpANzqHKYYXJC9jjUMZMWz7rnskqyfpV9
+         fmKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793937069; x=1794541869;
+        d=1e100.net; s=20260707; t=1793937458; x=1794542258;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qkWcp7MtA5VVACdIUpmvWXBvjG5j+1yklGO01XxRCbY=;
-        b=MkMOwVPx11kQGwVF6gM4pZZ5p6PJlUMGI7HciSi2GYnrFJY0tszya0q4bzMnCfXzGh
-         AKLFNGITfV8sXcB1wW3bkNQuhB1qQ7D7d++ugbRQC8YCJwDxEuAsYJm9wTyRJMLMq+9c
-         pH7MlcdBx8eInLAZu1IisSXYuhSuYczxGxGIb3gjVVKQRUM6hFvsUj0/Chp8V8BEofY3
-         dKIBettq8gKv+NaV3gcTaj4+AvtbVNc1DK7Wj8W7RgNch3FCk8YkSqKOMjyFmwJmNGKR
-         B54wA25YQbnj4XGLFqmIKF+yuzPTMhqPzVXdpwVCr4kr+HaP2Xh4KA6iOP7uTPPJn/qG
-         4syA==
-X-Gm-Message-State: APuU4Z+oAdLQiLiU2iZT8nHNScVsYh4N5u4hjc+qKpWANIEF9h/ki9ZO
-	cKtkIBf03MuoDmnB+6bglk2DtmSkvJwIcYPU61RIVanIe4JiP9mOFl9Ufu92QfCy
-X-Gm-Gg: AYBFou0sYlZLcO3/sElAyo75XKy4D0btVIcbR74pN2sI0GSQOahCr7G2fKv7MTpiVWr
-	m5g9bXhCbrEi5eibNpWFL8ZoxzhJ2lunXuHoP26DZOF8V+T+wAbpSUcd62MX+c7v/W/RGveFGUL
-	3N0l5b+OPn1DMx+SDdNfDcw6JfghP5VfMVxDc3iIV3waSDNjRh6fDgiX8uXju84ut6fjIl8eP3G
-	xLe7ILaEg90kojyB0lL9z4SujJADlVuutmfoTG1ovoC1coF401affszEfVXHuBzPmJVxGttdSsb
-	kiMIBY7fL3JJjsnpR+9iTVFUM2vKpJOzKIS7IvZcL/Xb8lz7i3ml3STuHMtF5QW4c1WbZYdMHr3
-	3BJoNkULAPWa5acgvpp+B44TnPU7DoyqHzlkEM0TQojcJCyJslgIWH6GlM/+06NP6y541Q35ELl
-	Z1BXxduYYxndCHI7faH7FCcdu/YwCsLTodSZliONjnQViBICCqEZsMczpTPsctvzqnhte7sGTNc
-	4MaoS2fIRMadGpQBArj+Bdk5Ejg1kH6vyE5Ix4TDVN0H+iuRycI7TOio2bih009CLJJKqN/wFbG
-	uR8WlpyaVaNRtnw9W9eag3B7skHY63/zByvqmSrjM4Q7MPAnXpneVdimzJT57/2uxs6Hg1FTGhY
-	z8TrsZg==
-X-Received: by 2002:a05:7300:f3c8:b0:36a:1fa2:fbbe with SMTP id 5a478bee46e88-36f76918e5emr1509588eec.41.1793937069154;
-        Thu, 05 Nov 2026 19:51:09 -0800 (PST)
+        bh=dOJu8GZJcUYklktZdoXLPEXPzyF/sRTQsdB9v1BWoPE=;
+        b=RJSkLFNyIzCAnuxNu5Ib+RtKBkUKog+eKgoLKWytVQhl0fsXu7amCa0q8mbhRbsbbb
+         hAgdd13pDPwlQazNLnDopoPHLwg1JGqqBK8l0SKmIvT1CfA4woDBMdG3sVdWTOhdvWnY
+         nbrPnXkpX4e20uWxE7ti/yBgh4zLhKrAX1MbygopmI347NV6NkHf6lzln5ARqC0OtS3+
+         vBrFVRwgO2BMSgYKdF4DNXyfn0yX3S4X9XciPibK2btSoqi/ZH6TRqg8jj535B/8v/v4
+         mxAJKXxztTr/szG5VRjq7SQXJCMoCYW6RP5NxuTxKVRdCh0jROoVhbNu1DuSNhGy1qwG
+         bcTA==
+X-Gm-Message-State: APuU4Z9U4hsP7/WxNLk7834fEsInkivVK4gv31u2Oicmio13z95p8MIu
+	uDwxIl2xy+wMKKH/17lYQORvFunWLwq8O1qf1dWdnalfRS47AnYM+eifEa54aqdw
+X-Gm-Gg: AYBFou0hX+eIsImvyZIx/iKDl8a99Q6saLXb9VxnY3sAG/1oDPL5xDohz8VZm7/OY05
+	E3CgmRD+tuAE2mNMRMjZlgo+J0hhAewcfhVQ8YWWA5gFKExul7pYNhYHooG8F7jrKWGHhEW8/7x
+	5M0dEkM0lVHRyFq5i0oGv03VqfsotcpcmX8nRrwb1T5ntZXRdKXVS1CcWT+PD2vyhmRmhyzhlrH
+	dtibhmO6ccJce4/SJSa0r7sOK+/A+hJWkIh30wiTKH1Bn7fWo/8CUB2nSSdG+8Rcy5CTFIP7dve
+	R+XeIlzyaCzyo/xEfWY1luKEKTgCVtN8pnkUZKakDUrLInLyrQsB5LN4Qfq+d3P3KgimJ7oyk39
+	0kTVJilU8SRsgxpJK0P7fFeoorF+iFiaEDKgByAkdNS6/qBEHAklpnajqxyYdkVM4Lg25exVCaz
+	PsNOL6MG4znHl8MkcHul7O0DWd/xTYWH0Cuf0Di3nRioOb1YoNPepiyj1TV09CrJzBjo1etW1EN
+	+/QBs+OyH9ELc6T4IM+xSxQvsO/ct9FTzkipBrk3EUV7Y8SzySt8LTBz6q6SV/NDDy2nKC5Cb9r
+	9dr98Oe6vP945luTD4BuBO6BKf6+cnGE6kGeFqxxwWBU92dyeKzVxM+LCrsJgCDyeLnsAWvay9g
+	TWg+f74VLYl07YUVYN9Su6InWJ6g=
+X-Received: by 2002:a05:7022:170a:b0:169:3706:d61b with SMTP id a92af1059eb24-1b25d32e62amr1373607c88.16.1793937457464;
+        Thu, 05 Nov 2026 19:57:37 -0800 (PST)
 Received: from localhost.localdomain (c-73-158-21-37.hsd1.ca.comcast.net. [73.158.21.37])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36faa999654sm1727345eec.27.2026.11.05.19.51.08
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e407bb5sm1844829c88.1.2026.11.05.19.57.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 19:51:08 -0800 (PST)
+        Thu, 05 Nov 2026 19:57:37 -0800 (PST)
 From: Saad Varshani <varshanisaad@gmail.com>
 To: nkapron@google.com,
 	gregkh@linuxfoundation.org
@@ -85,9 +85,9 @@ Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Saad Varshani <varshanisaad@gmail.com>,
 	syzbot+300213c2b5b55c0244f4@syzkaller.appspotmail.com
-Subject: [PATCH v3] usb: gadget: uvc: Fix deadlocks in uvcg_configfs attribute callbacks
-Date: Thu,  5 Nov 2026 19:50:40 -0800
-Message-ID: <20261106035040.26064-1-varshanisaad@gmail.com>
+Subject: [PATCH v4] usb: gadget: uvc: Fix deadlocks in uvcg_configfs attribute callbacks
+Date: Thu,  5 Nov 2026 19:57:32 -0800
+Message-ID: <20261106035732.27338-1-varshanisaad@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261106020727.6055-1-varshanisaad@gmail.com>
 References: <20261106020727.6055-1-varshanisaad@gmail.com>
@@ -122,15 +122,20 @@ Also reordered fmt->linked in uvcg_frame_b_frame_index_show() to be
 under the &opts->lock. As well as reorder refcnt in uvcg_color_matching
 store to be under &opts->lock.
 
+---
+v4 changes:
+	- Forgot to properly commit the codebase, and thus resent old
+	  patch
+
 Reported-by: syzbot+300213c2b5b55c0244f4@syzkaller.appspotmail.com
 Closes: https://syzbot.org/bug?extid=300213c2b5b55c0244f4
 Signed-off-by: Saad Varshani <varshanisaad@gmail.com>
 ---
- drivers/usb/gadget/function/uvc_configfs.c | 235 ---------------------
- 1 file changed, 235 deletions(-)
+ drivers/usb/gadget/function/uvc_configfs.c | 254 ++-------------------
+ 1 file changed, 13 insertions(+), 241 deletions(-)
 
 diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 70a1415ea401..6a4f17b925e7 100644
+index 70a1415ea401..606c02214c8c 100644
 --- a/drivers/usb/gadget/function/uvc_configfs.c
 +++ b/drivers/usb/gadget/function/uvc_configfs.c
 @@ -191,11 +191,8 @@ static ssize_t uvcg_control_header_##cname##_show(			\
@@ -577,16 +582,15 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = item->ci_parent->ci_parent->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -1077,8 +983,6 @@ static ssize_t uvcg_extension_ba_source_id_store(struct config_item *item,
- 	ret = len;
+@@ -1078,7 +984,6 @@ static ssize_t uvcg_extension_ba_source_id_store(struct config_item *item,
  
  unlock:
--	mutex_unlock(&opts->lock);
+ 	mutex_unlock(&opts->lock);
 -	mutex_unlock(su_mutex);
  	return ret;
  }
  UVC_ATTR(uvcg_extension_, ba_source_id, baSourceID);
-@@ -1086,16 +990,12 @@ UVC_ATTR(uvcg_extension_, ba_source_id, baSourceID);
+@@ -1086,16 +991,12 @@ UVC_ATTR(uvcg_extension_, ba_source_id, baSourceID);
  static ssize_t uvcg_extension_bm_controls_show(struct config_item *item,
  					       char *page)
  {
@@ -603,7 +607,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = item->ci_parent->ci_parent->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -1106,24 +1006,18 @@ static ssize_t uvcg_extension_bm_controls_show(struct config_item *item,
+@@ -1106,24 +1007,18 @@ static ssize_t uvcg_extension_bm_controls_show(struct config_item *item,
  	}
  	mutex_unlock(&opts->lock);
  
@@ -628,7 +632,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = item->ci_parent->ci_parent->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -1157,7 +1051,6 @@ static ssize_t uvcg_extension_bm_controls_store(struct config_item *item,
+@@ -1157,7 +1052,6 @@ static ssize_t uvcg_extension_bm_controls_store(struct config_item *item,
  
  unlock:
  	mutex_unlock(&opts->lock);
@@ -636,7 +640,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return ret;
  }
  
-@@ -1467,14 +1360,10 @@ static const struct uvcg_config_group_type uvcg_control_class_grp_type = {
+@@ -1467,14 +1361,10 @@ static const struct uvcg_config_group_type uvcg_control_class_grp_type = {
  static ssize_t uvcg_default_control_b_interface_number_show(
  	struct config_item *item, char *page)
  {
@@ -651,7 +655,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = item->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -1482,8 +1371,6 @@ static ssize_t uvcg_default_control_b_interface_number_show(
+@@ -1482,8 +1372,6 @@ static ssize_t uvcg_default_control_b_interface_number_show(
  	result += sprintf(page, "%u\n", opts->control_interface);
  	mutex_unlock(&opts->lock);
  
@@ -660,7 +664,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;
  }
  
-@@ -1492,14 +1379,10 @@ UVC_ATTR_RO(uvcg_default_control_, b_interface_number, bInterfaceNumber);
+@@ -1492,14 +1380,10 @@ UVC_ATTR_RO(uvcg_default_control_, b_interface_number, bInterfaceNumber);
  static ssize_t uvcg_default_control_enable_interrupt_ep_show(
  	struct config_item *item, char *page)
  {
@@ -675,7 +679,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = item->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -1507,16 +1390,12 @@ static ssize_t uvcg_default_control_enable_interrupt_ep_show(
+@@ -1507,16 +1391,12 @@ static ssize_t uvcg_default_control_enable_interrupt_ep_show(
  	result += sprintf(page, "%u\n", opts->enable_interrupt_ep);
  	mutex_unlock(&opts->lock);
  
@@ -692,7 +696,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	struct config_item *opts_item;
  	struct f_uvc_opts *opts;
  	ssize_t ret;
-@@ -1526,8 +1405,6 @@ static ssize_t uvcg_default_control_enable_interrupt_ep_store(
+@@ -1526,8 +1406,6 @@ static ssize_t uvcg_default_control_enable_interrupt_ep_store(
  	if (ret)
  		return ret;
  
@@ -701,7 +705,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = item->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -1535,8 +1412,6 @@ static ssize_t uvcg_default_control_enable_interrupt_ep_store(
+@@ -1535,8 +1413,6 @@ static ssize_t uvcg_default_control_enable_interrupt_ep_store(
  	opts->enable_interrupt_ep = num;
  	mutex_unlock(&opts->lock);
  
@@ -710,7 +714,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return len;
  }
  UVC_ATTR(uvcg_default_control_, enable_interrupt_ep, enable_interrupt_ep);
-@@ -1674,12 +1549,9 @@ static ssize_t uvcg_format_bma_controls_show(struct uvcg_format *f, char *page)
+@@ -1674,12 +1550,9 @@ static ssize_t uvcg_format_bma_controls_show(struct uvcg_format *f, char *page)
  {
  	struct f_uvc_opts *opts;
  	struct config_item *opts_item;
@@ -723,7 +727,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = f->group.cg_item.ci_parent->ci_parent->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -1691,8 +1563,6 @@ static ssize_t uvcg_format_bma_controls_show(struct uvcg_format *f, char *page)
+@@ -1691,8 +1564,6 @@ static ssize_t uvcg_format_bma_controls_show(struct uvcg_format *f, char *page)
  		pg = page + result;
  	}
  	mutex_unlock(&opts->lock);
@@ -732,7 +736,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;
  }
  
-@@ -1701,11 +1571,8 @@ static ssize_t uvcg_format_bma_controls_store(struct uvcg_format *ch,
+@@ -1701,11 +1572,8 @@ static ssize_t uvcg_format_bma_controls_store(struct uvcg_format *ch,
  {
  	struct f_uvc_opts *opts;
  	struct config_item *opts_item;
@@ -744,7 +748,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = ch->group.cg_item.ci_parent->ci_parent->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -1724,7 +1591,6 @@ static ssize_t uvcg_format_bma_controls_store(struct uvcg_format *ch,
+@@ -1724,7 +1592,6 @@ static ssize_t uvcg_format_bma_controls_store(struct uvcg_format *ch,
  	ret = len;
  end:
  	mutex_unlock(&opts->lock);
@@ -752,7 +756,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return ret;
  }
  
-@@ -1853,19 +1719,14 @@ static ssize_t uvcg_streaming_header_##cname##_show(			\
+@@ -1853,19 +1720,14 @@ static ssize_t uvcg_streaming_header_##cname##_show(			\
  	struct uvcg_streaming_header *sh = to_uvcg_streaming_header(item); \
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -772,7 +776,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;							\
  }									\
  									\
-@@ -1937,11 +1798,8 @@ static ssize_t uvcg_frame_##cname##_show(struct config_item *item, char *page)\
+@@ -1937,11 +1799,8 @@ static ssize_t uvcg_frame_##cname##_show(struct config_item *item, char *page)\
  	struct uvcg_frame *f = to_uvcg_frame(item);			\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -784,7 +788,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = f->item.ci_parent->ci_parent->ci_parent->ci_parent;	\
  	opts = to_f_uvc_opts(opts_item);				\
  									\
-@@ -1949,7 +1807,6 @@ static ssize_t uvcg_frame_##cname##_show(struct config_item *item, char *page)\
+@@ -1949,7 +1808,6 @@ static ssize_t uvcg_frame_##cname##_show(struct config_item *item, char *page)\
  	result = sprintf(page, "%u\n", f->frame.cname);			\
  	mutex_unlock(&opts->lock);					\
  									\
@@ -792,7 +796,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;							\
  }									\
  									\
-@@ -1960,7 +1817,6 @@ static ssize_t  uvcg_frame_##cname##_store(struct config_item *item,	\
+@@ -1960,7 +1818,6 @@ static ssize_t  uvcg_frame_##cname##_store(struct config_item *item,	\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
  	struct uvcg_format *fmt;					\
@@ -800,7 +804,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	typeof(f->frame.cname) num;					\
  	int ret;							\
  									\
-@@ -1968,8 +1824,6 @@ static ssize_t  uvcg_frame_##cname##_store(struct config_item *item,	\
+@@ -1968,8 +1825,6 @@ static ssize_t  uvcg_frame_##cname##_store(struct config_item *item,	\
  	if (ret)							\
  		return ret;						\
  									\
@@ -809,7 +813,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = f->item.ci_parent->ci_parent->ci_parent->ci_parent;	\
  	opts = to_f_uvc_opts(opts_item);				\
  	fmt = to_uvcg_format(f->item.ci_parent);			\
-@@ -1984,7 +1838,6 @@ static ssize_t  uvcg_frame_##cname##_store(struct config_item *item,	\
+@@ -1984,7 +1839,6 @@ static ssize_t  uvcg_frame_##cname##_store(struct config_item *item,	\
  	ret = len;							\
  end:									\
  	mutex_unlock(&opts->lock);					\
@@ -817,7 +821,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return ret;							\
  }									\
  									\
-@@ -1998,11 +1851,8 @@ static ssize_t uvcg_frame_b_frame_index_show(struct config_item *item,
+@@ -1998,28 +1852,25 @@ static ssize_t uvcg_frame_b_frame_index_show(struct config_item *item,
  	struct f_uvc_opts *opts;
  	struct config_item *opts_item;
  	struct config_item *fmt_item;
@@ -829,15 +833,30 @@ index 70a1415ea401..6a4f17b925e7 100644
  	fmt_item = f->item.ci_parent;
  	fmt = to_uvcg_format(fmt_item);
  
-@@ -2019,7 +1869,6 @@ static ssize_t uvcg_frame_b_frame_index_show(struct config_item *item,
- 	mutex_unlock(&opts->lock);
++	opts_item = fmt_item->ci_parent->ci_parent->ci_parent;
++	opts = to_f_uvc_opts(opts_item);
++
++	mutex_lock(&opts->lock);
++
+ 	if (!fmt->linked) {
+ 		result = -EBUSY;
+ 		goto out;
+ 	}
+ 
+-	opts_item = fmt_item->ci_parent->ci_parent->ci_parent;
+-	opts = to_f_uvc_opts(opts_item);
+-
+-	mutex_lock(&opts->lock);
+ 	result = sprintf(page, "%u\n", f->frame.b_frame_index);
+-	mutex_unlock(&opts->lock);
  
  out:
 -	mutex_unlock(su_mutex);
++	mutex_unlock(&opts->lock);
  	return result;
  }
  
-@@ -2042,12 +1891,9 @@ static ssize_t uvcg_frame_dw_frame_interval_show(struct config_item *item,
+@@ -2042,12 +1893,9 @@ static ssize_t uvcg_frame_dw_frame_interval_show(struct config_item *item,
  	struct uvcg_frame *frm = to_uvcg_frame(item);
  	struct f_uvc_opts *opts;
  	struct config_item *opts_item;
@@ -850,7 +869,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = frm->item.ci_parent->ci_parent->ci_parent->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -2057,8 +1903,6 @@ static ssize_t uvcg_frame_dw_frame_interval_show(struct config_item *item,
+@@ -2057,8 +1905,6 @@ static ssize_t uvcg_frame_dw_frame_interval_show(struct config_item *item,
  		pg = page + result;
  	}
  	mutex_unlock(&opts->lock);
@@ -859,7 +878,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;
  }
  
-@@ -2069,12 +1913,9 @@ static ssize_t uvcg_frame_dw_frame_interval_store(struct config_item *item,
+@@ -2069,12 +1915,9 @@ static ssize_t uvcg_frame_dw_frame_interval_store(struct config_item *item,
  	struct f_uvc_opts *opts;
  	struct config_item *opts_item;
  	struct uvcg_format *fmt;
@@ -872,7 +891,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = ch->item.ci_parent->ci_parent->ci_parent->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  	fmt = to_uvcg_format(ch->item.ci_parent);
-@@ -2110,7 +1951,6 @@ static ssize_t uvcg_frame_dw_frame_interval_store(struct config_item *item,
+@@ -2110,7 +1953,6 @@ static ssize_t uvcg_frame_dw_frame_interval_store(struct config_item *item,
  
  end:
  	mutex_unlock(&opts->lock);
@@ -880,7 +899,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return ret;
  }
  
-@@ -2272,9 +2112,6 @@ static ssize_t uvcg_uncompressed_guid_format_show(struct config_item *item,
+@@ -2272,9 +2114,6 @@ static ssize_t uvcg_uncompressed_guid_format_show(struct config_item *item,
  	struct uvcg_uncompressed *ch = to_uvcg_uncompressed(item);
  	struct f_uvc_opts *opts;
  	struct config_item *opts_item;
@@ -890,7 +909,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  
  	opts_item = ch->fmt.group.cg_item.ci_parent->ci_parent->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
-@@ -2283,8 +2120,6 @@ static ssize_t uvcg_uncompressed_guid_format_show(struct config_item *item,
+@@ -2283,8 +2122,6 @@ static ssize_t uvcg_uncompressed_guid_format_show(struct config_item *item,
  	memcpy(page, ch->desc.guidFormat, sizeof(ch->desc.guidFormat));
  	mutex_unlock(&opts->lock);
  
@@ -899,7 +918,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return sizeof(ch->desc.guidFormat);
  }
  
-@@ -2294,13 +2129,10 @@ static ssize_t uvcg_uncompressed_guid_format_store(struct config_item *item,
+@@ -2294,13 +2131,10 @@ static ssize_t uvcg_uncompressed_guid_format_store(struct config_item *item,
  	struct uvcg_uncompressed *ch = to_uvcg_uncompressed(item);
  	struct f_uvc_opts *opts;
  	struct config_item *opts_item;
@@ -913,7 +932,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = ch->fmt.group.cg_item.ci_parent->ci_parent->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -2325,7 +2157,6 @@ static ssize_t uvcg_uncompressed_guid_format_store(struct config_item *item,
+@@ -2325,7 +2159,6 @@ static ssize_t uvcg_uncompressed_guid_format_store(struct config_item *item,
  
  end:
  	mutex_unlock(&opts->lock);
@@ -921,7 +940,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return ret;
  }
  
-@@ -2338,11 +2169,8 @@ static ssize_t uvcg_uncompressed_##cname##_show(			\
+@@ -2338,11 +2171,8 @@ static ssize_t uvcg_uncompressed_##cname##_show(			\
  	struct uvcg_uncompressed *u = to_uvcg_uncompressed(item);	\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -933,7 +952,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = u->fmt.group.cg_item.ci_parent->ci_parent->ci_parent;\
  	opts = to_f_uvc_opts(opts_item);				\
  									\
-@@ -2350,7 +2178,6 @@ static ssize_t uvcg_uncompressed_##cname##_show(			\
+@@ -2350,7 +2180,6 @@ static ssize_t uvcg_uncompressed_##cname##_show(			\
  	result = sprintf(page, "%u\n", le##bits##_to_cpu(u->desc.aname));\
  	mutex_unlock(&opts->lock);					\
  									\
@@ -941,7 +960,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;							\
  }									\
  									\
-@@ -2363,19 +2190,14 @@ static ssize_t uvcg_uncompressed_##cname##_show(			\
+@@ -2363,19 +2192,14 @@ static ssize_t uvcg_uncompressed_##cname##_show(			\
  	struct uvcg_uncompressed *u = to_uvcg_uncompressed(item);	\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -961,7 +980,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;							\
  }									\
  									\
-@@ -2386,12 +2208,9 @@ uvcg_uncompressed_##cname##_store(struct config_item *item,		\
+@@ -2386,12 +2210,9 @@ uvcg_uncompressed_##cname##_store(struct config_item *item,		\
  	struct uvcg_uncompressed *u = to_uvcg_uncompressed(item);	\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -974,7 +993,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = u->fmt.group.cg_item.ci_parent->ci_parent->ci_parent;\
  	opts = to_f_uvc_opts(opts_item);				\
  									\
-@@ -2415,7 +2234,6 @@ uvcg_uncompressed_##cname##_store(struct config_item *item,		\
+@@ -2415,7 +2236,6 @@ uvcg_uncompressed_##cname##_store(struct config_item *item,		\
  	ret = len;							\
  end:									\
  	mutex_unlock(&opts->lock);					\
@@ -982,7 +1001,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return ret;							\
  }									\
  									\
-@@ -2536,19 +2354,14 @@ static ssize_t uvcg_mjpeg_##cname##_show(struct config_item *item, char *page)\
+@@ -2536,19 +2356,14 @@ static ssize_t uvcg_mjpeg_##cname##_show(struct config_item *item, char *page)\
  	struct uvcg_mjpeg *u = to_uvcg_mjpeg(item);			\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -1002,7 +1021,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;							\
  }									\
  									\
-@@ -2560,11 +2373,8 @@ static ssize_t uvcg_mjpeg_##cname##_show(struct config_item *item, char *page)\
+@@ -2560,11 +2375,8 @@ static ssize_t uvcg_mjpeg_##cname##_show(struct config_item *item, char *page)\
  	struct uvcg_mjpeg *u = to_uvcg_mjpeg(item);			\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -1014,7 +1033,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = u->fmt.group.cg_item.ci_parent->ci_parent->ci_parent;\
  	opts = to_f_uvc_opts(opts_item);				\
  									\
-@@ -2572,7 +2382,6 @@ static ssize_t uvcg_mjpeg_##cname##_show(struct config_item *item, char *page)\
+@@ -2572,7 +2384,6 @@ static ssize_t uvcg_mjpeg_##cname##_show(struct config_item *item, char *page)\
  	result = sprintf(page, "%u\n", le##bits##_to_cpu(u->desc.aname));\
  	mutex_unlock(&opts->lock);					\
  									\
@@ -1022,7 +1041,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;							\
  }									\
  									\
-@@ -2583,12 +2392,9 @@ uvcg_mjpeg_##cname##_store(struct config_item *item,			\
+@@ -2583,12 +2394,9 @@ uvcg_mjpeg_##cname##_store(struct config_item *item,			\
  	struct uvcg_mjpeg *u = to_uvcg_mjpeg(item);			\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -1035,7 +1054,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = u->fmt.group.cg_item.ci_parent->ci_parent->ci_parent;\
  	opts = to_f_uvc_opts(opts_item);				\
  									\
-@@ -2612,7 +2418,6 @@ uvcg_mjpeg_##cname##_store(struct config_item *item,			\
+@@ -2612,7 +2420,6 @@ uvcg_mjpeg_##cname##_store(struct config_item *item,			\
  	ret = len;							\
  end:									\
  	mutex_unlock(&opts->lock);					\
@@ -1043,7 +1062,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return ret;							\
  }									\
  									\
-@@ -2727,11 +2532,8 @@ static ssize_t uvcg_framebased_##cname##_show(struct config_item *item,	\
+@@ -2727,11 +2534,8 @@ static ssize_t uvcg_framebased_##cname##_show(struct config_item *item,	\
  	struct uvcg_framebased *u = to_uvcg_framebased(item);		\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -1055,7 +1074,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = u->fmt.group.cg_item.ci_parent->ci_parent->ci_parent;\
  	opts = to_f_uvc_opts(opts_item);				\
  									\
-@@ -2739,7 +2541,6 @@ static ssize_t uvcg_framebased_##cname##_show(struct config_item *item,	\
+@@ -2739,7 +2543,6 @@ static ssize_t uvcg_framebased_##cname##_show(struct config_item *item,	\
  	result = sprintf(page, "%u\n", le##bits##_to_cpu(u->desc.aname));\
  	mutex_unlock(&opts->lock);					\
  									\
@@ -1063,7 +1082,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;							\
  }									\
  									\
-@@ -2752,11 +2553,8 @@ static ssize_t uvcg_framebased_##cname##_show(struct config_item *item,	\
+@@ -2752,11 +2555,8 @@ static ssize_t uvcg_framebased_##cname##_show(struct config_item *item,	\
  	struct uvcg_framebased *u = to_uvcg_framebased(item);		\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -1075,7 +1094,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = u->fmt.group.cg_item.ci_parent->ci_parent->ci_parent;\
  	opts = to_f_uvc_opts(opts_item);				\
  									\
-@@ -2764,7 +2562,6 @@ static ssize_t uvcg_framebased_##cname##_show(struct config_item *item,	\
+@@ -2764,7 +2564,6 @@ static ssize_t uvcg_framebased_##cname##_show(struct config_item *item,	\
  	result = sprintf(page, "%u\n", le##bits##_to_cpu(u->desc.aname));\
  	mutex_unlock(&opts->lock);					\
  									\
@@ -1083,7 +1102,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;							\
  }									\
  									\
-@@ -2775,12 +2572,9 @@ uvcg_framebased_##cname##_store(struct config_item *item,		\
+@@ -2775,12 +2574,9 @@ uvcg_framebased_##cname##_store(struct config_item *item,		\
  	struct uvcg_framebased *u = to_uvcg_framebased(item);		\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -1096,7 +1115,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = u->fmt.group.cg_item.ci_parent->ci_parent->ci_parent;\
  	opts = to_f_uvc_opts(opts_item);				\
  									\
-@@ -2802,7 +2596,6 @@ uvcg_framebased_##cname##_store(struct config_item *item,		\
+@@ -2802,7 +2598,6 @@ uvcg_framebased_##cname##_store(struct config_item *item,		\
  	ret = len;							\
  end:									\
  	mutex_unlock(&opts->lock);					\
@@ -1104,7 +1123,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return ret;							\
  }									\
  									\
-@@ -2824,9 +2617,6 @@ static ssize_t uvcg_framebased_guid_format_show(struct config_item *item,
+@@ -2824,9 +2619,6 @@ static ssize_t uvcg_framebased_guid_format_show(struct config_item *item,
  	struct uvcg_framebased *ch = to_uvcg_framebased(item);
  	struct f_uvc_opts *opts;
  	struct config_item *opts_item;
@@ -1114,7 +1133,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  
  	opts_item = ch->fmt.group.cg_item.ci_parent->ci_parent->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
-@@ -2835,8 +2625,6 @@ static ssize_t uvcg_framebased_guid_format_show(struct config_item *item,
+@@ -2835,8 +2627,6 @@ static ssize_t uvcg_framebased_guid_format_show(struct config_item *item,
  	memcpy(page, ch->desc.guidFormat, sizeof(ch->desc.guidFormat));
  	mutex_unlock(&opts->lock);
  
@@ -1123,7 +1142,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return sizeof(ch->desc.guidFormat);
  }
  
-@@ -2846,11 +2634,8 @@ static ssize_t uvcg_framebased_guid_format_store(struct config_item *item,
+@@ -2846,11 +2636,8 @@ static ssize_t uvcg_framebased_guid_format_store(struct config_item *item,
  	struct uvcg_framebased *ch = to_uvcg_framebased(item);
  	struct f_uvc_opts *opts;
  	struct config_item *opts_item;
@@ -1135,7 +1154,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = ch->fmt.group.cg_item.ci_parent->ci_parent->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -2866,7 +2651,6 @@ static ssize_t uvcg_framebased_guid_format_store(struct config_item *item,
+@@ -2866,7 +2653,6 @@ static ssize_t uvcg_framebased_guid_format_store(struct config_item *item,
  
  end:
  	mutex_unlock(&opts->lock);
@@ -1143,7 +1162,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return ret;
  }
  
-@@ -2979,11 +2763,8 @@ static ssize_t uvcg_color_matching_##cname##_show(			\
+@@ -2979,11 +2765,8 @@ static ssize_t uvcg_color_matching_##cname##_show(			\
  		to_uvcg_color_matching(group);				\
  	struct f_uvc_opts *opts;					\
  	struct config_item *opts_item;					\
@@ -1155,7 +1174,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = group->cg_item.ci_parent->ci_parent->ci_parent;	\
  	opts = to_f_uvc_opts(opts_item);				\
  									\
-@@ -2992,7 +2773,6 @@ static ssize_t uvcg_color_matching_##cname##_show(			\
+@@ -2992,7 +2775,6 @@ static ssize_t uvcg_color_matching_##cname##_show(			\
  			 le##bits##_to_cpu(color_match->desc.aname));	\
  	mutex_unlock(&opts->lock);					\
  									\
@@ -1163,7 +1182,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;							\
  }									\
  									\
-@@ -3000,7 +2780,6 @@ static ssize_t uvcg_color_matching_##cname##_store(			\
+@@ -3000,7 +2782,6 @@ static ssize_t uvcg_color_matching_##cname##_store(			\
  	struct config_item *item, const char *page, size_t len)		\
  {									\
  	struct config_group *group = to_config_group(item);		\
@@ -1171,25 +1190,38 @@ index 70a1415ea401..6a4f17b925e7 100644
  	struct uvcg_color_matching *color_match =			\
  		to_uvcg_color_matching(group);				\
  	struct f_uvc_opts *opts;					\
-@@ -3012,8 +2791,6 @@ static ssize_t uvcg_color_matching_##cname##_store(			\
+@@ -3012,25 +2793,21 @@ static ssize_t uvcg_color_matching_##cname##_store(			\
  	if (ret)							\
  		return ret;						\
  									\
 -	mutex_lock(su_mutex); /* for navigating configfs hierarchy */	\
--									\
++	opts_item = group->cg_item.ci_parent->ci_parent->ci_parent;	\
++	opts = to_f_uvc_opts(opts_item);				\
++									\
++	mutex_lock(&opts->lock);					\
+ 									\
  	if (color_match->refcnt) {					\
  		ret = -EBUSY;						\
  		goto unlock_su;						\
-@@ -3029,8 +2806,6 @@ static ssize_t uvcg_color_matching_##cname##_store(			\
+ 	}								\
  									\
- 	mutex_unlock(&opts->lock);					\
+-	opts_item = group->cg_item.ci_parent->ci_parent->ci_parent;	\
+-	opts = to_f_uvc_opts(opts_item);				\
+-									\
+-	mutex_lock(&opts->lock);					\
+-									\
+ 	color_match->desc.aname = num;					\
+ 	ret = len;							\
+ 									\
+-	mutex_unlock(&opts->lock);					\
  unlock_su:								\
 -	mutex_unlock(su_mutex);						\
 -									\
++	mutex_unlock(&opts->lock);					\
  	return ret;							\
  }									\
  UVC_ATTR(uvcg_color_matching_, cname, aname)
-@@ -3583,14 +3358,10 @@ static const struct uvcg_config_group_type uvcg_streaming_class_grp_type = {
+@@ -3583,14 +3360,10 @@ static const struct uvcg_config_group_type uvcg_streaming_class_grp_type = {
  static ssize_t uvcg_default_streaming_b_interface_number_show(
  	struct config_item *item, char *page)
  {
@@ -1204,7 +1236,7 @@ index 70a1415ea401..6a4f17b925e7 100644
  	opts_item = item->ci_parent;
  	opts = to_f_uvc_opts(opts_item);
  
-@@ -3598,8 +3369,6 @@ static ssize_t uvcg_default_streaming_b_interface_number_show(
+@@ -3598,8 +3371,6 @@ static ssize_t uvcg_default_streaming_b_interface_number_show(
  	result += sprintf(page, "%u\n", opts->streaming_interface);
  	mutex_unlock(&opts->lock);
  
@@ -1213,29 +1245,23 @@ index 70a1415ea401..6a4f17b925e7 100644
  	return result;
  }
  
-@@ -3642,14 +3411,11 @@ static void uvc_func_item_release(struct config_item *item)
- 
- static int uvc_func_allow_link(struct config_item *src, struct config_item *tgt)
- {
--	struct mutex *su_mutex = &src->ci_group->cg_subsys->su_mutex;
- 	struct gadget_string *string;
- 	struct config_item *strings;
+@@ -3648,7 +3419,7 @@ static int uvc_func_allow_link(struct config_item *src, struct config_item *tgt)
  	struct f_uvc_opts *opts;
  	int ret = 0;
  
 -	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
--
++	mutex_lock(su_mutex);
+ 
  	/* Validate that the target is an entry in strings/<langid> */
  	strings = config_group_find_item(to_config_group(src->ci_parent->ci_parent),
- 					 "strings");
-@@ -3676,7 +3442,6 @@ static int uvc_func_allow_link(struct config_item *src, struct config_item *tgt)
+@@ -3676,6 +3447,7 @@ static int uvc_func_allow_link(struct config_item *src, struct config_item *tgt)
  
  put_strings:
  	config_item_put(strings);
--	mutex_unlock(su_mutex);
++
+ 	mutex_unlock(su_mutex);
  
  	return ret;
- }
 -- 
 2.55.0
 
