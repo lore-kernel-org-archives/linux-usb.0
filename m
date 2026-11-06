@@ -1,57 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.88.97.239
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793978764;
-	b=NA0FjqvBaBG2bd14+aMef6N/0meaW35Bxx4xMQAIqOdY+9K4jUp6UfVmYLJPuZ3kfh6F
-	 nE353K22pgCaB+Vd4nfQnPM9n4KimMpB3sFrvBnlPMJ7JRF+pB419IoWFPsM05/KJq/kK
-	 4pCQYTZFV9yGs6hAwbPwqTceAmfE9O7r5cRTJFTmMxTr3DUZboJLg6vU8s/2w1Em3REoy
-	 O2L/8DsF0ly6AL9cLt1buK2S4j2pTgOtvDwOWV7pxcVmcEbxiBamJFX+8AIBai5O3kwFB
-	 MsKEbpnqwe5oa7MVQwec/UVMEMPe/WZnGHHnJKn1iQRvBsAhKNfmYqX9FXJLVmVkcEw==
+	t=1793979159;
+	b=WzjOtO0/xOwe0ljgZXszzjjt9FpcbsbSoA1N8P27KJfiJpI4Y2ohPx94JVMHF+K4Busl
+	 TeijKUPWgEWRe7fQrhH2sM/OzMDdNP+g7laGZa1f32Cjro/nmEgB3v8SZAA08RdaccCyD
+	 0YFTlMSeoc8Engs1W/Cnz196NRzvmtyLFOLBhGEqM22NEwr3MpzGUZ5DdddWGioLwViox
+	 tG9EdlLSXenz83dqayCXo161tBKFB1/Xe5EsD+lg98e0FARDJaRtieNz5c/g3SFz98UwO
+	 E2qT3RpT4BvX/LSZfLQpitc3VSjnpPpad4PW4NuLMgAslL5hnhBKPFNpgVJaefaNRKA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793978764;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=xibxdAGYMpYlYRSt7NqOnEETMq+Xcq4KTjsU5eXIEcw=;
-	b=ucx+bqsDuy6my0wFjTyj4MFn/GV99CYBfKOTclIz/2KYRS6TRO5mV+EzbpX2epXu1466
-	 lXD/iWDUELYEdol3vMUPbQcTDYtrXY5HOjO57Ken1qjhr4kh+pjb+Wt7kmrSpR/YqPNXB
-	 D4lYVqDAEB5aYmzSER9aW6CAkrsnhvsCDsz6GSFEu14T7LqKvhx5qLhFvhZj+Yq+hCEQz
-	 0GJM9saAbhm++iWvlh1ZZ61YQan36O6WYxHoVar6TqWtAJCDYn7tDrKScbdBbwKjOfVq0
-	 9ZkvRhV+CmvpZSCnYZF5gXYk3gRtnQcH0g2Pz14EjYyf1UyOItHQn2QS+umdW7g9xOw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793979159;
+	h=DMARC-Filter:DKIM-Signature:Received:X-Spam-Checker-Version:
+	 X-Spam-Level:X-Spam-Status:DKIM-Signature:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=P+m9BQcu9O/FHNLOowWjO5xa3x2BuTOUOzKKSEpxq9U=;
+	b=gvhmhDAU7Xdx9EQK3TbGO3RfHJMAFJ20Dumdtni7FBPXViSngFXd/qwLsDWR1xcps6vW
+	 SpoX1Nt5hxYMxPplyCuZjInE1sRQWO8jtSTQIpJLRVsXGtdILhI+u9Y9h9X2MSoRV7rN4
+	 idCZ81yGpvbT5ZW7oK6jivJ4LIoKfjCzFezPSIu/66tZH0sSnMO7vQz5QN32GZFaUZ11f
+	 vJ8KVfMio5Lb1Lcv8HUckpL8XMfSVCSVjixXNiby8xgFtzhAIRZmgWxBua/csVjxGN0oe
+	 95GG44WIV9bLPzf/zsfUiMc5I84fngva4IOP1f92j5XJKgec3s7QufPbxERk25VW1vw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TNQbCUUF;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=birger-koblitz.de;
+	spf=pass smtp.mailfrom=birger-koblitz.de;
+	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b="b8pae/Tu";
+	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b="w427/YYm";
+	arc=none smtp.remote-ip=23.88.97.239
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CC6606A329
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 15:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4337E606A326;
+	Fri,  6 Nov 2026 15:32:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4337E606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TNQbCUUF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6B651F0089F;
-	Fri,  6 Nov 2026 15:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793978764;
-	bh=xibxdAGYMpYlYRSt7NqOnEETMq+Xcq4KTjsU5eXIEcw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TNQbCUUFRWL4B9up3h7c431frweWDvinqcqi795cj25O7kM0lsTvejJTYTTgYZlxL
-	 4WjmlBsekuarIfjX90kzqzIUKRiRp6zf1GeuV4fKss8FRlA5wUZ4r8UgW6i2zBjPoV
-	 83xau3LVfjdzvsIOzhMtgP2Nk6zoTyzlOFCIW8xuCl4CI/y+Izjm+Xx85A2b5xxAYM
-	 oRa2ktKghVvFv7hpOOlZc5+sVKooDbh2OE468ywucdPsERlF89lYFJ7eqQ0LFTYEMV
-	 /dI2qaQQk/E8oLnHp9wOXxbRtgziWUb5/CuT/M2MAeDqqvRqYchySSI8t0LuJUvQF3
-	 5V/rN7YtR4K9g==
-Message-ID: <sashiko-outbox-201689@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC] usb: gadget: gadgetfs: dequeue pending ep0 request
- before freeing
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jing Lin" <kayano050408@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <179397691694.27761.9543494907127681190.gadgetfs-ep0-patch-test@gmail.com>
-References: <6a6944f5.e3659fcc.2a40b8.0021.GAE@google.com>
- <179397691694.27761.9543494907127681190.gadgetfs-ep0-patch-test@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 15:26:03 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=b8pae/Tu;
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=w427/YYm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1793979156;
+	bh=xHy9AAwYbUNDRIPqlGFP8rBNvBDMvPDQk8lTAq0vRB8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b8pae/Tuh1waK9UCpykRDAPc2iXoXOsKS242SiVWo4sBDNyaO/hUml89ptZvsw2fx
+	 wFP76Ng3rzrTEDafJNx49BPuRsXg2pntDMuB4OYC9qgeueurSGZDOu4Bo6cX9Zss32
+	 T0248xVN0/Z2GNI8pnxPySq67VESEN+BidDWMI8ukC2qKKrOd7AWCtsU99bj2Kdfm2
+	 8DE8lPIQqtNtDQfLFtK1At1kdepFjAHioIWpBRpxCan7pHqzGAQ89s6h0fssGpjXWq
+	 6TlruDjR0njrtExbRpcvWl8Nq0UNy1O5zDOYpuHImJs9xCVd4NiWT95mzff1MOTI7K
+	 gnClIvaRCXt0A==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 75ABF48BAB; Fri,  6 Nov 2026 15:32:36 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1793979154;
+	bh=xHy9AAwYbUNDRIPqlGFP8rBNvBDMvPDQk8lTAq0vRB8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=w427/YYm70AKnIjmqwOeLkuvEfLMrPh841E6+W65j1YHuy0vePY4VMnrFWKFhiPAS
+	 YutnMYtqG/7+CcBf3098NZ0Z+8xDb+pIyhdL6JWs9XrIWE5R1s2nmQ4VrAg2Tl2GlT
+	 VlOHkI6u6L+GAFW6aTOJU6MXK4Rx2a3uZ9r41MraU0VheSksRmePDSiwf1mb21tf8Z
+	 BMdb9AOxA4AzyOfKO4o5TL3SEY7ygL1bhm7C64V0GyBHl1UFh68BfFjKS4oAEqt0Vh
+	 xqeGI8HsxepVkZd79lTyb/Ke1BSytnbzLY1hW+4SsW7IBV/xTjcQSE+6bRHwmfA/zP
+	 rbyRfOqZ1lrjw==
+Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id DDA7C48B84;
+	Fri,  6 Nov 2026 15:32:33 +0000 (UTC)
+Message-ID: <27119213-dccc-4c17-bf7e-b39a038038cf@birger-koblitz.de>
+Date: Fri, 6 Nov 2026 16:32:30 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,133 +72,58 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v20 01/13] phylink: Add phylink_mac_interrupt
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Eric Dumazet <edumazet@kernel.org>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+ Jianhui Xu <neuromoments@gmail.com>,
+ Emir Beganovic <beganovic.emir@gmail.com>, Nicolai Buchwitz <nb@tipi-net.de>
+References: <20261106-ax88179a-v20-0-37b5a1189983@birger-koblitz.de>
+ <20261106-ax88179a-v20-1-37b5a1189983@birger-koblitz.de>
+ <69be2cfe-e296-4f90-ad19-0bd48a83e287@bootlin.com>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <69be2cfe-e296-4f90-ad19-0bd48a83e287@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] usb: gadget: gadgetfs: gadgetfs_setup() reuses req while
-  setup_out_ready
-- [Low] usb: gadget: gadgetfs: invalid Fixes SHA and syzbot command in
-  changelog
---
+Thanks Maxime for reviewing!
 
-commit 30f3f2dca823922d4eaa362244e46b92716f82d8
-Author: Jing Lin <kayano050408@gmail.com>
+On 06/11/2026 11:11 am, Maxime Chevallier wrote:
 
-> usb: gadget: gadgetfs: dequeue pending ep0 request before freeing
->
-> Please test this gadgetfs ep0 request lifetime fix
-> The unpatched base reproduces the warning and use-after-free locally
-> on arm64 QEMU with dummy_hcd and KASAN
->
-> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux=
-.git f66469d9905b39d2c260a15d7d6db450f4db67c1
->
-> gadgetfs_unbind() frees the preallocated ep0 request after disconnecting
-> the gadget, assuming that no I/O remains active
->
-> With dummy_hcd, disconnecting does not necessarily drain ep0, so a delayed
-> userspace response can leave dev->req queued when it is freed
-> This triggers the warning in dummy_free_request() and a use-after-free
-> when dummy_udc_stop() subsequently drains the endpoint queue
->
-> Track dev->req from submission through completion under dev->lock and
-> reject reuse while it is busy
-> After waiting for active UDC users to finish, dequeue a pending request
-> before freeing it and clearing ep0->driver_data
-> Drop dev->lock around dequeue because the completion callback takes it
-> Only dequeue pending requests to avoid errors from UDCs that reject
-> cancellation of an unqueued request
->
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Reported-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3Dc73e1942197af9f54ca3
-> Signed-off-by: Jing Lin <kayano050408@gmail.com>
+>>   
+>> +/**
+>> + * phylink_mac_interrupt() - wrapper for phy_mac_interrupt()
+>> + * @pl: a pointer to a &struct phylink returned from phylink_create()
+>> + *
+>> + * Passes a link-change interrupt received by the MAC to phylib.
+>> + * This function may be called in interrupt context, and therefore cannot take
+>> + * a mutex. However, it is safe to assume that the reference to phy does not
+>> + * disappear during the call, as only an SFP module may be unplugged to make a
+>> + * PHY disappear. SFP modules however do not support interrupts.
+> 
+> I don't see the relevance of PHY SFP supporting interrupts or not here,
+> this just re-triggers the PHY state machine. Looks like a comment to
+> make sashiko happy.
+Indeed, this is for sashiko. Unfortunately it followed up with: "The 
+function comment notes that SFP modules do not support interrupts. 
+However, when an SFP module is physically unplugged, the electrical link 
+drops. Could this link drop trigger the MAC interrupt being handled 
+here?", which is equally irrelevant, I believe.
 
-[Severity: Low]
-The conversational testing notes and the "#syz test:" command at the top of
-the commit message should be removed before applying.  Also, the 12-charact=
-er
-prefix 1da177e4c3f4 in the Fixes: trailer cannot be uniquely resolved in git
-history.
+> 
+> Anyways, I'm OK with the approach, maybe reword that comment if you need
+> to respin,
+> 
+> Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Thanks, will add.
 
-> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legac=
-y/inode.c
-> index 7f6d8460152f9..d60df4ad38a3e 100644
-> --- a/drivers/usb/gadget/legacy/inode.c
-> +++ b/drivers/usb/gadget/legacy/inode.c
-[ ... ]
-> @@ -1508,6 +1529,11 @@ gadgetfs_setup (struct usb_gadget *gadget, const s=
-truct usb_ctrlrequest *ctrl)
->  	} else if (dev->state =3D=3D STATE_DEV_SETUP)
->  		dev->setup_abort =3D 1;
-> =20
-> +	if (dev->ep0_req_queued) {
-> +		spin_unlock(&dev->lock);
-> +		return -EBUSY;
-> +	}
-> +
->  	req->buf =3D dev->rbuf;
->  	req->context =3D NULL;
->  	switch (ctrl->bRequest) {
-
-[Severity: High]
-Can gadgetfs_setup() reuse dev->req while ep0_read() is still copying out a
-completed control OUT transfer?
-
-When a delegated control OUT transfer completes, ep0_complete() clears
-dev->ep0_req_queued and sets dev->setup_out_ready =3D 1, leaving the payloa=
-d in
-dev->req->buf until ep0_read() copies it to userspace and calls clean_req():
-
-drivers/usb/gadget/legacy/inode.c:ep0_read() {
-    ...
-				len =3D min (len, (size_t)dev->req->actual);
-				++dev->udc_usage;
-				spin_unlock_irq(&dev->lock);
-				if (copy_to_user (buf, dev->req->buf, len))
-					retval =3D -EFAULT;
-				else
-					retval =3D len;
-				spin_lock_irq(&dev->lock);
-				--dev->udc_usage;
-				clean_req (dev->gadget->ep0, dev->req);
-    ...
-}
-
-Because gadgetfs_setup() only checks dev->ep0_req_queued (and clears
-dev->setup_out_ready =3D 0 at the delegate label before calling setup_req()=
-), a
-new SETUP packet arriving while ep0_read() has dropped dev->lock for
-copy_to_user() will reuse dev->req:
-
-CPU0                              CPU1
-ep0_read()
-  spin_unlock_irq(&dev->lock)
-                                  gadgetfs_setup()
-                                    /* USB_REQ_GET_DESCRIPTOR */
-                                    req->buf =3D dev->config;
-                                    usb_ep_queue(gadget->ep0, req, ...)
-  copy_to_user(buf, dev->req->buf, len)
-  spin_lock_irq(&dev->lock)
-  clean_req(gadget->ep0, dev->req)
-    kfree(req->buf)               <-- frees dev->config / interior pointer
-
-If the new SETUP request is USB_REQ_GET_DESCRIPTOR, req->buf is pointed at
-dev->dev (the 18-byte descriptor at the tail of dev->buf), dev->hs_config (=
-an
-interior pointer into dev->buf), or dev->config (dev->buf itself).
-copy_to_user() can then read up to 238 bytes past the end of dev->buf when
-req->buf is dev->dev, and clean_req() then passes req->buf to kfree(),
-either crashing SLUB on an interior pointer or freeing dev->buf while it is
-queued in the UDC and before dev_release() frees it again.  If the new SETUP
-request is another delegated control OUT transfer, gadgetfs_setup() clears
-dev->setup_out_ready =3D 0 and re-queues dev->req, after which ep0_read()'s
-clean_req() frees the new req->buf while queued and resets req->complete.
-
-Checking dev->setup_out_ready alongside dev->ep0_req_queued in
-gadgetfs_setup() would prevent reusing dev->req until ep0_read() finishes
-with it.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179397691694.27761.=
-9543494907127681190.gadgetfs-ep0-patch-test@gmail.com?part=3D1
+Birger
