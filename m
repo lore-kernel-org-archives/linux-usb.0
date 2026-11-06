@@ -1,56 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793969615;
-	b=wEviLO7CjC6C7idT6P32a412t5iGT6hYP8koQ45pT1ykZzUOUZbdqc/PUNPKINz/Ahe/
-	 peoHpVS3KtIggjsrL+wQ9W8lC7dFFtBiec2+YBJWLdT2h06OU/D+y/xu3/5Pc3y5GJj+Y
-	 VcDDF1G2FRba/EzpdoSdkbJQ9UlQ2YejRfwPrEK0Jx2B4QFls0yqszl3CgORCraxkCYof
-	 hmwR2S3YJA8/AybBFqosK36aSfTyZlCzTonJD1sCjLUNRdlvnwiYpCKZalipeD5kdyVND
-	 ERRPrymVPrTBNYlZJld60pST+0NAWI1FWMy6yjswqqct4YD1hKcQkwP3DyNPVDElRGw==
+	t=1793972394;
+	b=zoJ9nwGfDesaxiJIdpQ3qBcSVutG0caND/iYbQyHSVDDbPxRrV8uqUAnbIkIy9AVGoR0
+	 UJskFH+Nio/TsIW2C/d3ExT7xBT73SPD01vX8tPQPr7vpf3eJ2pUPbXeEikPUX1pbbmpm
+	 Ou3eIL3k1XSACTT3cijvO93v8vIeqWNvag/wWCpG/3yypPH/Nv1r9sp4Z/GDGgYuZY31E
+	 IWxrLS7jc+QABLhf6zoCj28g7grr5b7C+wFRMB+CvF7xWNowDVFVvVbxpOIoi6dzqiYhV
+	 AdSBbdKtZ/uuXvoMAC/Pyiji//6Z0hKrhEK71rUL7yu5cmIhcFrToGkBLUYO4H5af/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793969615;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=xL1/WihhcC8/bfzXm5vvKtqWTdAQfad4oJWwAFgPAZc=;
-	b=Eiyq/GdZrPkNoaLaqCloJO+Q9ZjxQnMmwbzQzrYgkQBxt6puXe7AWh8hHpksSKloaq3i
-	 OnVGMPBKzM68HVKDUJBVyJGa19TtwIr/Ty/dqhyxWNHiPDeQSvvNmIU2RKLGEKwQ8kj7h
-	 f1Y+NLMoug+Q6NTFFBX4KqONYlAnSiupD5mKCijWoV1/piO9DEkqPWYrYBAFJoiccChef
-	 qkf+n8uVo1JW7x8Ake5SEz89VsV7IMi2BoSFH1eKXwK3kUTby2Jw3Nb9QQhhb4kbx8Hje
-	 52/1YISvFXT1a2g/1VMIB88NJlLLQyEv0OtURKdqIiUiTx6nR1wYVzegIGia3yoIRxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793972394;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=gksl1zKtJ6ElB/cCgmRYVsXG0BSiIoZ0y9Iw57/Ebq0=;
+	b=oetke8gIkxWgPXikjRaQDpgfIcuVgWU/0wTAT9yjFYCmEE3pR31fdIEUKwTKQX1lnPi8
+	 tORjUM89CyhvvoiqMRzIyH88ySfsPvQD7KIYn8Em8c082Ukssj+jwF06qMCS2Qqt1i8EN
+	 KNefvnMfpDzUoko+YVbw9lfl0anV1idq1unzbP6zcEFEKYrRi/jdsjpogpfpNuCq1YxiP
+	 mQsTRQiBRXa2ANcCeBjLeCzw1eg+klOU945kpJvXmh4T7zv5UMyn+UDbtQMPksM6uYFSJ
+	 9ahsbwD4PrKEkZnzSer+A/B10WN4r9DMSVntVTvoVA5W3RJDX6fLIq1V8PnBwiLfYtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AWZCW1uA;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MIlOWJJp;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C37606A32C;
-	Fri,  6 Nov 2026 12:53:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B37606A326;
+	Fri,  6 Nov 2026 13:39:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AWZCW1uA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 181E51F0089F;
-	Fri,  6 Nov 2026 12:53:33 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MIlOWJJp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B50091F0089F;
+	Fri,  6 Nov 2026 13:39:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793969614;
-	bh=xL1/WihhcC8/bfzXm5vvKtqWTdAQfad4oJWwAFgPAZc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AWZCW1uA2YEGa7lpWykb9ehRRaUudre15fyaGkb15MryhTmHOL6eUmfSt6mw00ock
-	 8PNKcezQRU9qGP9WNT1j0qXqIf6nX2APZnU+e6H/lPFgj6T3DeNdw1A5scNCph7acC
-	 aBxXvQOCQmbYE85mwFip7KL2w6c+xV5hwW9LerIOSZu86d/jd6Vw7s+3cKxw3xCl0T
-	 qweqcMf6eEtQsoxcwBeDD9MX4EZ+2abXH9GoSRr3pIvaVrUTZ07FpUpqbqD5265ysd
-	 4nN8BckQRvKA2Gsi8D/bPT0+6b9LVVOInouTaVZrmS2DFK92p9pjg3oxJbAGfkfylO
-	 M1PJnQ45AYZDw==
-Date: Fri, 6 Nov 2026 13:53:31 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	michal.simek@amd.com, gregkh@linuxfoundation.org, stern@rowland.harvard.edu, 
-	saravanak@kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dt-bindings: xilinx: Remove description for USB
- host controller
-Message-ID: <20261106-sensible-celadon-crayfish-643d18@quoll>
-References: <20261106051820.3414532-1-radhey.shyam.pandey@amd.com>
- <20261106051820.3414532-3-radhey.shyam.pandey@amd.com>
+	s=k20260515; t=1793972393;
+	bh=gksl1zKtJ6ElB/cCgmRYVsXG0BSiIoZ0y9Iw57/Ebq0=;
+	h=From:To:Cc:Subject:Date;
+	b=MIlOWJJpI0AvPlj6OewVU3IebPRBlGx3nDIdYJiJ/c2oIt8M8J6OFcGfNwxlFrKIq
+	 Qfz5IXZQ2KOG7QnO7JiYJJ3eH2HiJt01VVNu9N8OAHmDq9xdb0r+n4UgDeBkOWCGCR
+	 ynpE975mCntWji5jA07s4L0XdFLjCeuylfPTYCFbCjqakDtB+uAH3mWpYjuflPrHaN
+	 Obltdf4QAvQjJYq0HqH23ss/1C9eJxdJLOonrnqse3zLBk9emoJ+CIcliQTEY4Jtum
+	 /HOaV3pN967DZVyldk9iUhsxNZ8GzaWgwwpvPJPw6XqlXceAjaQ7+VBYD6p3hBgWyC
+	 OvWAmPYU645eg==
+From: Joshua Crofts <crofts@kernel.org>
+To: Peter Chen <peter.chen@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Bin Liu <b-liu@ti.com>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] usb: remove redundant pm_runtime_dont_use_autosuspend calls()
+Date: Fri,  6 Nov 2026 13:39:30 +0000
+Message-ID: <20261106133933.1577-1-crofts@kernel.org>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,28 +59,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261106051820.3414532-3-radhey.shyam.pandey@amd.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 06, 2026 at 10:48:19AM +0530, Radhey Shyam Pandey wrote:
-> The Xilinx XPS USB host controller IP relies on Xilinx Platform Studio
-> and the ISE Design Suite, both of which were discontinued years ago.
-> 
-> Driver support for the controller is removed by the preceding patch. Keep
-> the bindings in sync by removing the corresponding Xilinx USB host
-> controller description.
-> 
-> Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-> ---
-> Changes for v2:
-> - New patch to sync binding document.
-> ---
->  Documentation/devicetree/bindings/xilinx.txt | 12 ------------
->  1 file changed, 12 deletions(-)
+Since commit d1706f9da9f4 ("PM: runtime: call pm_runtime_dont_use_autosuspend() on reinit()"),
+driver core is now responsible for undoing any
+pm_runtime_use_autosuspend() calls on driver exit.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Remove the redundant function calls.
 
-Best regards,
-Krzysztof
+Joshua Crofts (3):
+  usb: chipidea: remove redundant pm_runtime_dont_use_autosuspend() call
+  usb: musb: remove redundant pm_runtime_dont_use_autosuspend() calls
+  usb: dwc3: remove redundant pm_runtime_dont_use_autosuspend() calls
+
+ drivers/usb/chipidea/core.c  | 1 -
+ drivers/usb/dwc3/core.c      | 2 --
+ drivers/usb/dwc3/dwc3-am62.c | 1 -
+ drivers/usb/musb/musb_core.c | 2 --
+ 4 files changed, 6 deletions(-)
+
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+-- 
+2.47.3
 
