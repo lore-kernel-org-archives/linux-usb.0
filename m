@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793980883;
-	b=noLfawRvoI1f+wdpaJlj32TIHa4HpALen3xCgRoRnilrOygr/2w4DV2KQJ51vKNpReJy
-	 H1NSRO/xZM87w5+4O3z1PYWWDOGSQrCgW5aEc6lXpN0TJwZB3sZdg1e1b+snCf9ZrNG9t
-	 Lt9/6n44HhygwMihFdNEXEVOqDnk+2Xls9Lq6jZ2ocOn0CH3FPIsxeqpd7q+Z+U/+Z1g1
-	 OOJE1RdFSAa3vMCdILuNSlo+jwfrBG06mhkDbD+ubgT2YYYuOiRJV65DneObz0O6E9bIs
-	 uS+Vp5wwCL1huYXHytgSJeUZIkaFPkqVfLU+YcpK0nc5K5UU5MXhHWsQOqiL2GrrUkw==
+	t=1793981381;
+	b=bbtMDaUDGHoVWExqnoKlZ3sVrm1c/Ep+uR7tAdw0Ao4HYXtO9Wlzz71Or2SCZDcutA97
+	 GK3BSoNWmyR6Nz324V/0ujyNrwfFcKYW7mGbhA7oHsF+gVpwXvz07PJcQ/gaOr5lEXtnL
+	 AD5geYTn9l5MIYJzoySo3IqBC7Eg5qLluYMrqG8I30pT1WHomzZcaZpXBftqswateMQT4
+	 7nInWUBMBuMgxOhu8PRGcZohl2GHA186eUyFgZZzhwusx0o8CzfDbXlAEWvFBwgMWhCQy
+	 qstGy51At+ipyQNoLAEh8OvaIsQdcDdbWUoD+zZHMiWhpMQD3+GKO4gWWYsi5dTDwzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793980883;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793981381;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=04aSCIs1SgK+nw9CQqx3CU3f3vq4VfxWLpVCcwztBHU=;
-	b=qU4sh+xpeFu4N/XNeth4SHGERy/iWu4JzdXv0cZOjDVgxnD5aMOMzHDJR1Tl7uQpa3n1
-	 vR9Ql69R51YiNtPSw54kHRpVcz14ggczme+vpAJa8ua8dc228BJaLuNjYp+BZ+/iJ61Hy
-	 M8m2UMnlw6aLCi9gwDTxjEl3d/zj21VSXjr9u2R+4rORxiTZdbfoIn3M4uIQfNfSbXR/9
-	 cx81GHT6xLxOAHLZx7ekXlT0urgPdEAoRxPX7OPi9OqfLCX5ZTX0QcntNZA3ABDjMZsjH
-	 HzDrtvrw+XACoOaIi3kJq4drgU2Ih7RYuHpGxk2AmEsmqXckqemgmGKC9lM/Vyg7tiA==
+	bh=cc20GCY1//PUtrFd5cPf6HXKJRlN7gGCJMKU/hIlPAo=;
+	b=m+zFm9ejlU5ViVjP9DbXqALMflj+ZpYvMX64/fSinE6sVwmPfuAibSPaRA0s5/x3h5xc
+	 VQSgAHZkmt2lmokrub9fanz5IoFWP4ouR7SbiHaHeVlGEGKWaKL2WpG9kUU/m10VZinYd
+	 k/sG8GByr9MXjT+/15KHXhV9xnrMTCFXaiwIpDJ4rSPt6MSvPmSKSQuXlCweSJPXez8YO
+	 +oEODCwD46ocRV21Qj26W3Jy/7dAZNhwwd3MkfGlvNSJDnCvqcCEnRZxwCuPtoIpH7sGA
+	 Yw4OpBwl8DvvM38INDKNMPkraLH2xHRVwH1yL/NiFoYiQEr+nMd+0BiYeGkiO/XlSZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OuwQuI03;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XVZ7R8Ow;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B54606A33A
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 16:01:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7413606A334
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 16:09:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OuwQuI03
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FA501F008BE;
-	Fri,  6 Nov 2026 16:01:23 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XVZ7R8Ow
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EB971F008A3;
+	Fri,  6 Nov 2026 16:09:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793980883;
-	bh=04aSCIs1SgK+nw9CQqx3CU3f3vq4VfxWLpVCcwztBHU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OuwQuI034dJxmdOc5qt1GmLwRMdaDHt0cJJXq4NQwoNMNjSXNxzedjWCb/RZ3wy1c
-	 LTpWv5ITgdhBROo9WnI0krm6rFnX5A3rZWW3zGE1+xiIHd/CLmS26lT1KBg3mKJjCe
-	 Aqhk1aZIht4QCOlo7Z1vedN81mL/WiVrIsUsZGZYBul8EEG7ajZkJy/MgpLRz+9jD+
-	 4DRXxW0lMC/ScPb1dbk7bPds+7efvep/Z90HzORBmNeJzkRsSiV0QRQ6rXfUpopxep
-	 re0U7BBu/TSoJu58K0aaSjSAJ0msuna+FfVnnLujE7w9lzxxPhupsIjb47osgMOyZn
-	 HsCVTV4AXvVqw==
-Message-ID: <sashiko-outbox-201757@kernel.org>
+	s=k20260515; t=1793981380;
+	bh=cc20GCY1//PUtrFd5cPf6HXKJRlN7gGCJMKU/hIlPAo=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=XVZ7R8OwrRY+x+qJUabi0zuhx4jAe8mCo/arf/WrcI9PKxEI884C6AMkYMxZtUmlp
+	 VaO7dGUOTizhvS7BCupeUKvrBhqsZ2lVqti8tp9aUiGkVgI6P0HbGRoEbUEnRuIa8k
+	 mHSm+a9RvQ4dc29SZ4XkN5aOzjoGxNJTp8522GqCnAVP/mmTVVA/LrVQvcnHx5U7xK
+	 TM3kLu5x1mXBh4EtoObHw/LHXJxuQtcCBaIAtS94q/+RCemkn/gJhn5VpFcP0asV/W
+	 jNZuNVfAErLjy2w4WGVcrGQkuqKyIMuW2Fg6EJVr5bkfKAdce/cjtUfEo5oxOuwucv
+	 /Pm3/FCsyMt+A==
+Message-ID: <sashiko-outbox-201772@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [RFC PATCH] thunderbolt: Tunnel only the first DP OUT of Apple
- Studio Displays
+Subject: Re: [PATCH] usb: gadget: midi2: copy configfs strings for live
+ functions
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Duff OMelia" <duff@omelia.org>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261106154445.517940-1-duff@omelia.org>
-References: <20261106154445.517940-1-duff@omelia.org>
+To: "Yingjie Wang" <x-professor@outlook.com>, =?utf-8?b?bGludXgtdXNiQHZn?=
+ =?utf-8?b?ZXIua2VybmVsLm9yZw==?= <linux-usb@vger.kernel.org>
+In-Reply-To: <e638dc9ab93c4b90c263d7ec836735eb17335cda.1793980732.git.x-professor@outlook.com>
+References: <e638dc9ab93c4b90c263d7ec836735eb17335cda.1793980732.git.x-professor@outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 16:01:22 +0000
+Date: Fri, 06 Nov 2026 16:09:39 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,91 +60,28 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] thunderbolt: tb_dp_out_is_spare_tile() breaks dual-SST 5K hosts
-- [Low] thunderbolt: hardcoded DROM IDs and late check in
-  tb_find_dp_out()
---
+> f_midi2_alloc() shallow-copies the card, endpoint, and block string
+> pointers from configfs.  Dynamic ep.* and block.* groups may be removed
+> after the function has been allocated.  Their release callbacks then free
+> strings still used by live USB string descriptors and UMP discovery
+> replies.
+>=20
+> Copy the optional strings while opts->lock is held, so configfs release
+> cannot free the source strings during the copy.  Free the private copies
+> with the live function and build the USB string table from those copies.
+>=20
+> Fixes: 29ee7a4dddd5 ("usb: gadget: midi2: Add configfs support")
+>=20
+> Tested:
+>   x86_64 KASAN dummy_hcd: the base kernel reports two slab-use-after-free
+>   errors after removing a dynamic block and endpoint; the fixed kernel
+>   completes the same descriptor requests without a KASAN report.
+>   x86_64 and arm64 MIDI2 function object builds with W=3D1.
+> Signed-off-by: Yingjie Wang <x-professor@outlook.com>
 
-commit 56e4b7f54ea3c7e7cdb974a602ec3a77741d76e3
-Author: Duff OMelia <duff@omelia.org>
-
-thunderbolt: Tunnel only the first DP OUT of Apple Studio Displays
-
-This commit skips tunneling any DisplayPort output adapter after the first
-one on Apple Studio Displays (vendor 0x1, devices 0x801f and 0x8025) in
-tb_find_dp_out().
-
-> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-> index 57c11ba13459c..b015a71f4048d 100644
-> --- a/drivers/thunderbolt/tb.c
-> +++ b/drivers/thunderbolt/tb.c
-> @@ -1862,6 +1862,27 @@ static struct tb_port *tb_find_pcie_down(struct tb=
-_switch *sw,
->  	return tb_find_unused_port(sw, TB_TYPE_PCIE_DOWN);
->  }
-> =20
-> +/*
-> + * A Studio Display has a DP OUT adapter for each half of its panel, but=
- a
-> + * host can drive the whole 5K panel over the first one alone. Tunneling=
- the
-> + * second only takes a DP IN adapter that another display could have use=
-d.
-> + */
-> +static bool tb_dp_out_is_spare_tile(struct tb_port *port)
-> +{
-> +	struct tb_switch *sw =3D port->sw;
-> +	struct tb_port *p;
-> +
-> +	if (sw->vendor !=3D 0x1 || (sw->device !=3D 0x801f && sw->device !=3D 0=
-x8025))
-> +		return false;
-> +
-> +	tb_switch_for_each_port(sw, p) {
-> +		if (tb_port_is_dpout(p))
-> +			return p !=3D port;
-> +	}
-> +
-> +	return false;
-> +}
-
-[Severity: High]
-Does unconditionally skipping the second DisplayPort output adapter in
-tb_dp_out_is_spare_tile() cause a regression on hosts or links that drive
-the 5120x2880@60Hz panel as a 2x1 tiled display across two 2560x2880
-streams?
-
-Driving 5120x2880@60Hz over the first adapter alone requires over 21 Gbps
-uncompressed, so it depends on Display Stream Compression and single-stream
-mode selection in the host graphics driver.  On hosts without compression,
-on Thunderbolt 3 links limited to 4-lane HBR2, or with drivers such as i915
-that configure both tiles, skipping the second adapter even when free
-DisplayPort input adapters exist prevents the second tunnel from being
-created and leaves half the panel dark or limits the resolution.
-
->  static struct tb_port *tb_find_dp_out(struct tb *tb, struct tb_port *in)
->  {
->  	struct tb_port *host_port, *port;
-> @@ -1879,6 +1900,11 @@ static struct tb_port *tb_find_dp_out(struct tb *t=
-b, struct tb_port *in)
->  			continue;
->  		}
-> =20
-> +		if (tb_dp_out_is_spare_tile(port)) {
-> +			tb_port_dbg(port, "skipping spare DP OUT tile\n");
-> +			continue;
-> +		}
-
-[Severity: Low]
-This isn't a bug, but device-specific workarounds matching sw->vendor and
-sw->device belong in tb_quirks[] in drivers/thunderbolt/quirks.c rather than
-hardcoded in tb_dp_out_is_spare_tile().  Also, checking
-tb_dp_out_is_spare_tile(port) after tb_port_is_enabled(port) performs an
-unnecessary hardware config space read on the skipped port on every
-tb_find_dp_out() pass.
+Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106154445.5179=
-40-1-duff@omelia.org?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/e638dc9ab93c4b90c26=
+3d7ec836735eb17335cda.1793980732.git.x-professor@outlook.com?part=3D1
+
