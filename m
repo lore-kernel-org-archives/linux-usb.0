@@ -1,85 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793975626;
-	b=Z7c2hVuIBjcSvK6tHze21UzbNXrNQwRYF9S8sd5qgmNl4zvF5ZyD7sgsyuBSCdnmjVY0
-	 Hp/bUXCansnt/zILvVc4ibJGot6vh6Ymrv5iY6YNYDaQD4XKG5KrcWalb19nCU3adJ682
-	 yjN40tFwO39qfUrJ/17wF5o8oSIlqdXeUpJjS2bkhKOAvhZvb1qLJF7vWBLPDWl5061R7
-	 56/3ZJRWzI3K7607pFqhMF9E1Rfq8hW89dlPoFWcD6f7ufHBDEEseE1DLENtPyQKWzQKZ
-	 ZZSVcoZK7VQKMIv/uT8wLITK5y6+ExFKWX/Dz2Akp+CijXtk78HYYXRaYcVhaoeMlrg==
+	t=1793976851;
+	b=RSt2yQ/EQWVIXKE1IOrvIZBD9UkyHtFHh4UofkbnsGFkmEpj3B5HGbPjj6V+0P+1bXcf
+	 xx5tz4iYbLYKjY1Wnwvus99l24YO/NDfggIi0e6yJe17qPQWEjwkiU870Bt7guqfSU7vj
+	 Lazn5A6ZLpHwaDQmEpktLpZf+fUyynBO+w4G3GX4iVU2rnvvT2WIlpHl22fQ05StENGSb
+	 dQT6X917UMcrqWtv2e/FChLdVDwdFmcXklWe4UwdfxXlIY1wZZ3jlAO5hXRXwm7NLuxFt
+	 iInyHl1B0OC1rfbxQAZqxvC6TYxm6NHRcyycC6bSFJu5Ki8pF4NqS/jvN0L4QqqQ1FA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793975626;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=wtqvUty3awL+WV2C4Bd+4jjQ8JiJNaHCJXSR0TJ5v3A=;
-	b=yQzm4CfK2F9ZYjA2mIbjoeprcosHEdNNYxr3L1jgrtO4GxgMaTdKcDgd0UTpHBltDfJa
-	 ztMhbK3nfnpX+vEilGUwKtzNysu0wPRgSa7R3ovGzSuvI4q085TzzJsYn04ZGMjOrkrzi
-	 2B771f91iFKJwlsDgj73cRdrR/U2oswgItNA35M+zz4FwbG/Tq3Sxup4bhnYVzKPWba98
-	 oL9SHgc72QDyZL+41/14kb8wJEyGeYJ861q0z2aSBx4lA9bsj/qqjbK7ewW0rOgmU7Ucy
-	 ahW+TYvzrjcpLWGapc/60DhflNyRrkyFs6k7kFbujgN43nKwnZt1fzyoQjFBqrrwkTg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793976851;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=O3YmW0BbhxwcbBCPm1vGZAcOKmRX7wdgt/lQRqqF2Jk=;
+	b=bMutFe5rv19r9VOlUCGwvzQ1R14vFMaSksxQXv+TgpjWpLk43W91Kyqx/hskUfbxxLts
+	 09zyQNlxMjFd4N1F/lscLwhFRyKm4SMJ9ZVRp62MZR9uqgP0ufwkzYtorJeaO1HWiElTe
+	 BqrZE5woqd1ajX1pBFOWzePtLADaXN5UWXr0rhHN7CFEULZCH056Vutqw/a+SBu8BF6qa
+	 Ofo9KXm+8eKuHMAw9AKbVxC5ZjkiLvorXxwTaFshW8+u/rtke6yaXETjXAlee4NPWPQYJ
+	 gM0lJOVmQwGa6gwZoV6cUjGfdBNdqjtAcpvg8+KE7IaMBL/FRSCMCAp3ddp1JBQHxOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b2r2H5Bd;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LtEPX2k3;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED22606A32C;
-	Fri,  6 Nov 2026 14:33:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FD7606A329;
+	Fri,  6 Nov 2026 14:54:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75FD7606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b2r2H5Bd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86EA81F0089F;
-	Fri,  6 Nov 2026 14:33:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793975625;
-	bh=wtqvUty3awL+WV2C4Bd+4jjQ8JiJNaHCJXSR0TJ5v3A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=b2r2H5BdxpXdgNiFxLfKLsliHD1aW/wDAEDaKEhpVM3EC5rk9Xr6npFA/IH2FuBji
-	 UDxYAgdQaJNICIZINw9Ilbfw8bLsyrsQzWp+NoPqhA/+jsoa6GKznm54YiNoZU+9oJ
-	 sKCs6bWl1EjHh98hGORYkKB0GcOkK/HjEQjgTReSqakMKK6efSYleyQ6zh8ZhPS7y0
-	 0wS9qzyBqM/XWz66nB/U7xvUJNcHVDCJop7XlyB7M2TSiH7wu9UstnvOKKmLIrUiaj
-	 f3Nh+j2TKg+aNrfLE9k32yn/pJAm68XoJQeSANboxqzmkjEzD0Fm3hpnEuFuKwhEfE
-	 9n14k2PzJGEaQ==
-Date: Fri, 6 Nov 2026 16:33:40 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 02/17] Input: serio - attach manual drivers through the
- driver core
-Message-ID: <20261106143340.GL8298@unreal>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-2-1e536825b4eb@nvidia.com>
- <auy2plYVi723Qt42@google.com>
- <20261105191940.GI8298@unreal>
- <auzno3uoL5Pfojfl@google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LtEPX2k3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793976850; x=1825512850;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZuBdw5DmXTfIFkI82MvJcqrcC6PuDLNBfHrf3a8NSnw=;
+  b=LtEPX2k38ftzb3iZmgk5ly7YTziC6Aod8gyM68e5AT2y10CVrnDsD6uY
+   keUWP2EavwwM4vVi3XydxqrggmlBnAwZa5082A1C+pryMWO/uiW03p37a
+   3NMU/dctJEu6XUSioDVkMhhdy1Bm2CcUFLBoOBAfFza7RkWWTAyRhyxqy
+   j8r2d+Ak/4ZJAdmeT6kh2bNrHhCC9Mn1j0YVbgEEx2ZgGRIQ8QXElzzaA
+   853uzodDrJ6ZWH2UJPwG5OnhzSfZFPa1TVKWvm30mkP9B09vf94H5PeNp
+   fUguy6LmhxFrfteHpQoV5voaREbNta+Bfw/f9Mh31MpVfF0DSj3gTQ49l
+   w==;
+X-CSE-ConnectionGUID: dgHERlRYQ9Cg3WtfJRXYLw==
+X-CSE-MsgGUID: ND1tkqSYTCeiIjuab9I2vA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2678410"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2678410"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 06:54:10 -0800
+X-CSE-ConnectionGUID: PfkvRGDlRJiFi2SaS6w1VA==
+X-CSE-MsgGUID: iNJCUPdoThSSQUyyxzSTmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="9056552"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa011.fm.intel.com with ESMTP; 06 Nov 2026 06:54:09 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 5C2BE99; Fri, 06 Nov 2026 15:54:07 +0100 (CET)
+Date: Fri, 6 Nov 2026 15:54:07 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+	linux-kernel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>,
+	stable <stable@kernel.org>
+Subject: Re: [PATCH 14/19] usb: typec: mux: it5205: fix oops on accessory
+ modes
+Message-ID: <au3qDw094t54vE_a@black.igk.intel.com>
+References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
+ <20261027-llm-usb-v1-14-b9751ddb9c7c@linuxfoundation.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,94 +85,73 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <auzno3uoL5Pfojfl@google.com>
+In-Reply-To: <20261027-llm-usb-v1-14-b9751ddb9c7c@linuxfoundation.org>
 
-On Thu, Nov 05, 2026 at 12:34:53PM -0800, Dmitry Torokhov wrote:
-> On Thu, Nov 05, 2026 at 09:19:40PM +0200, Leon Romanovsky wrote:
-> > On Thu, Nov 05, 2026 at 09:05:29AM -0800, Dmitry Torokhov wrote:
-> > > On Thu, Nov 05, 2026 at 01:42:15PM +0200, Leon Romanovsky wrote:
-> > > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > > 
-> > > > Manual serio binding connects a driver before driver core can admit the
-> > > > device. A rejected binding therefore arrives after functional setup.
-> > > > 
-> > > > Keep the port ID check and use device_driver_attach() for the existing bus
-> > > > probe path. Driver core then serializes admission and handles probe failure
-> > > > before publishing the binding.
-> > > > 
-> > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > > > ---
-> > > >  drivers/input/serio/serio.c | 24 +++---------------------
-> > > >  1 file changed, 3 insertions(+), 21 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/input/serio/serio.c b/drivers/input/serio/serio.c
-> > > > index 54dd26249b027..604440244c1ca 100644
-> > > > --- a/drivers/input/serio/serio.c
-> > > > +++ b/drivers/input/serio/serio.c
-> > > > @@ -81,28 +81,10 @@ static int serio_match_port(const struct serio_device_id *ids, struct serio *ser
-> > > >  
-> > > >  static int serio_bind_driver(struct serio *serio, struct serio_driver *drv)
-> > > >  {
-> > > > -	int error;
-> > > > -
-> > > > -	if (serio_match_port(drv->id_table, serio)) {
-> > > > -
-> > > > -		serio->dev.driver = &drv->driver;
-> > > > -		if (serio_connect_driver(serio, drv)) {
-> > > > -			serio->dev.driver = NULL;
-> > > > -			return -ENODEV;
-> > > > -		}
-> > > > +	if (!serio_match_port(drv->id_table, serio))
-> > > > +		return 0;
-> > > >  
-> > > > -		error = device_bind_driver(&serio->dev);
-> > > > -		if (error) {
-> > > > -			dev_warn(&serio->dev,
-> > > > -				 "device_bind_driver() failed for %s (%s) and %s, error: %d\n",
-> > > > -				 serio->phys, serio->name,
-> > > > -				 drv->description, error);
-> > > > -			serio_disconnect_driver(serio);
-> > > > -			serio->dev.driver = NULL;
-> > > > -			return error;
-> > > > -		}
-> > > > -	}
-> > > > -	return 0;
-> > > > +	return device_driver_attach(&drv->driver, &serio->dev);
-> > > 
-> > > I am not sure how safe it is, serio (and gameport) have pretty elaborate
-> > > structure and locking rules because they can recurse into themselves (to
-> > > support case of Synaptics touch-pads with pass-through PS/2 ports).
-> > > 
-> > > But this call is for user-initiated probing anyways, I am not sure if it
-> > > even needs "trust" handling.
-> > 
-> > This patch does not change the locking; the lock was already held on paths such
-> > as the rescan path. This change makes that explicit.
+On Tue, Oct 27, 2026 at 03:57:54PM +0100, Greg Kroah-Hartman wrote:
+> From: Josef Bacik <josef@toxicpanda.com>
 > 
-> Does this enforce synchronous probing?
+> typec_set_mode() passes a state without an alternate mode, and the USB
+> and accessory modes (TYPEC_MODE_USB2 ... TYPEC_MODE_DEBUG) start at
+> TYPEC_STATE_MODAL like the states of the alternate modes. TCPM and UCSI
+> set TYPEC_MODE_AUDIO or TYPEC_MODE_DEBUG when such an accessory is
+> attached. it5205_mux_set() then reads state->alt->svid: plugging in an
+> analog audio adapter is a NULL pointer dereference.
 
-No, it ensures that a device is bound to only one driver at a time,
-without races.
+Please just explain here that the code is accessing state->alt->svid
+without first checking does state->alt exist.
 
+Then make a note that state->alt is NULL if for example TCPM sets the
+mux to an accessory mode TYPEC_MODE_AUDIO or TYPEC_MODE_DEBUG.
+
+> The numbers must not reach the switch either: TYPEC_MODE_AUDIO has the
+> value of TYPEC_DP_STATE_D. Without an alternate mode connect the
+> SuperSpeed lanes for TYPEC_MODE_USB3 and disconnect them for the rest.
+
+I think what that is trying to say is that this driver needs to handle
+the mode value separately with the "normal" USB Type-C modes and the
+alternate modes, because those values overlap, right?
+
+> Fixes: 41fe9ea1696c ("usb: typec: mux: Add ITE IT5205 Alternate Mode Passive MUX driver")
+> Cc: stable <stable@kernel.org>
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  drivers/usb/typec/mux/it5205.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 > 
-> Anyway, I would like to get rid of this special probing in serio core.
-> Given that the code path is only triggered by explicit user request I do
-> not believe we need to worry about supporting trust notion here, so
-> please drop it from the series.
+> diff --git a/drivers/usb/typec/mux/it5205.c b/drivers/usb/typec/mux/it5205.c
+> index 2ab2ba6a3cbd..00d5bd55e423 100644
+> --- a/drivers/usb/typec/mux/it5205.c
+> +++ b/drivers/usb/typec/mux/it5205.c
+> @@ -92,13 +92,19 @@ static int it5205_switch_set(struct typec_switch_dev *sw, enum typec_orientation
+>  static int it5205_mux_set(struct typec_mux_dev *mux, struct typec_mux_state *state)
+>  {
+>  	struct it5205 *it = typec_mux_get_drvdata(mux);
+> +	unsigned long mode = state->mode;
+>  	u8 val;
+>  
+> -	if (state->mode >= TYPEC_STATE_MODAL &&
+> -	    state->alt->svid != USB_TYPEC_DP_SID)
+> -		return -EINVAL;
+> +	if (mode >= TYPEC_STATE_MODAL) {
+> +		/* USB and accessory modes: not the DP pin assignments */
+> +		if (!state->alt)
+> +			mode = mode == TYPEC_MODE_USB3 ? TYPEC_STATE_USB :
+> +							 TYPEC_STATE_SAFE;
 
-Technically, this is exactly the flow we should be concerned about. Users
-attempting to load the driver generally don't know whether their device is
-trusted; attestation software is responsible for determining that. I modified
-serio to ensure that driver attachment happens under the driver core lock.
+So now if the mux is set to an accessory mode, this function returns
+successfully, even thought the connector is not actually in that
+accessory mode?
 
-One idea I had over the weekend was to introduce a special API for driver
-attachment that says, "I don't care." It would allow attachment only in
-"full" mode, as it does now, and fail in any other trust mode.
+Return -EINVAL in that case?
 
-Thanks.
-> 
-> Thanks.
-> 
-> -- 
-> Dmitry
-> 
+thanks,
+
+
+> +		else if (state->alt->svid != USB_TYPEC_DP_SID)
+> +			return -EINVAL;
+> +	}
+
+-- 
+heikki
