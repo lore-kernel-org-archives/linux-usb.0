@@ -1,64 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793961259;
-	b=hratvtlm6pZbkM+D8eqo5zvx68aMcFIouxhwh3t+JZMPxMGH10AHH98rh565z1hSFnqB
-	 vx6r2amDEy84Niz61TFzSZr2DXYNTmaIgcQqBXqN7zKSMYVHF52/YHvYH3/Y8hdq54kYJ
-	 kuo80gAOw+yCS1pEMzDSe+NzrgIFm3R6OXFg5EyrX9B36c4BxMHqeR4ExJeegcOs+wYU7
-	 0+5dhy2RxpJYfgkFR/k+6YeLUsbOuflus8Q4K30SCsmUBd5gIDfK86SIRT/+T1yba4Aq/
-	 8vVqur5AEC+gngSPC7TJ+Misi/ArvS3QLuwQqzWT3pfy2aQLWmkg8VBqBs3lfqp90Ag==
+	t=1793961731;
+	b=OOxBtFWGdlQTJlynr8q7kGewHX1VVRTtZ+7f7Atb8V72yji/3Ccx1tAsnN8D6OLAa62a
+	 U7VUc7vB9Z/911LC4XERb/3bfx7T4RrlKMCl/lkdJ49R9UoHs61ReqgGi5gMBCwUuAfUY
+	 NYsk1G3ljmQ8eZ0BJssi5UvbIa8lbMHCiOYsj6npkj5/Myh7BqOGAz3YLwM5bX/uvdaec
+	 lgFFYOvhxrtOjN8ys4zH9FvLVRgCsiIWPLVYZ2gOAh0W56zHrXuU1Kknfr921G0SYK8Im
+	 VxBwpixuV3FqY3deCFQuLHlp4608o3/NZlm/HRnVy5PUmKYWYIxLmI6fZEHDx+vlsbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793961259;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=dEt14MCTgHtDscVjh3wCcpDDdGElzkLglcIsbl9Dr80=;
-	b=Nfr/f6BfOMSoa5kh8td8vjSPwuCF87KmQ4KrQVtr5NcPn/wPQkq2UKpk2y4IW6lkLp2R
-	 QatQH8y4xB1Ly3HPTpWS2DYmKcAWQKrXuQDP0lLw3QA2kIcX360klYAH3JBryBx/Zki7J
-	 K2uGUfRaDMox4BxDPB/kI6fMdWk7I58ekJf1/yWmqscV0pUl3IJrsRXoPuHhtCHH0d9cq
-	 HgvY6aLl+7aPazSAEColSyYu449PrmsOjXLIpWKsv2JSfo8qwkbu9FcO3nTPmtU5Rn+Mt
-	 vCU7SWuORi8akjOwnVOcrMjz/ToUm7lqhr9BYdem7f2Q9n0XWeePGzR0bNwtJuy/+CQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793961731;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=/1pIR7uO8MMbg1jGUy24/5izHh7m3AWU3hFda2RImt4=;
+	b=dAqheiqKZr8HYqFlpAWQAout60Fr0Nz2DDPQyXbMpJkZQQH1XmbxbgFSr7QjQ4vL9BFP
+	 66yVFCGy4sa84vodGtwEn8tiHOjXketkcCbogjHi3VGH2OyrwUwRdPuWj54L+TVz4hHvy
+	 ks6aWwLHgmlBrZGvLKhQbgOyPjNgd5FpRPbCw4AjnhHtqT4BBtwhj7NP0aYiylWjvA3P9
+	 HACwvYNGBaNUk2YyqXlNoBqPFXh7mcbCTY5TT1TQVm/QVXq+ADTlYKIJo8oqcQtvTJvf7
+	 mCg/ZLRPvIr/vnkrbw8NUNSctk7GBr2ZP2VST4JPadtIi4SU74HpNnrsUCttgmCUi7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W+bWHJbe;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CBC606A326
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 10:34:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52CBC606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 9ad3349ad9cd11f19a56ed5b684f684d-20261106
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:eef01813-921a-4d59-a6f3-bed489c4498d,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:20
-X-CID-META: VersionHash:7db8b62,CLOUDID:bd7fbc408c1230ccea70b1de3127bebc,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|83|102|865|898,TC:nil,Content:0|15|50|99,EDM
-	:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
-	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 9ad3349ad9cd11f19a56ed5b684f684d-20261106
-X-User: lijiayi@kylinos.cn
-Received: from thinksys.. [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lijiayi@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 206249821; Fri, 06 Nov 2026 18:34:11 +0800
-From: Jiayi Li <lijiayi@kylinos.cn>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: [RFC]alpha implementation of eh_abort_handler for UAS
-Date: Fri,  6 Nov 2026 18:33:42 +0800
-Message-Id: <20261106103342.3945373-1-lijiayi@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <38f81744-9122-4109-90b6-b0a1ac92d248@suse.com>
-References: <38f81744-9122-4109-90b6-b0a1ac92d248@suse.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689A0606A33C;
+	Fri,  6 Nov 2026 10:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W+bWHJbe
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE3C1F008A3;
+	Fri,  6 Nov 2026 10:42:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793961730;
+	bh=/1pIR7uO8MMbg1jGUy24/5izHh7m3AWU3hFda2RImt4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=W+bWHJbexhlEj7HuUM0Ptn2Hhp1n9ta1/OQcdbgv9ih+PMepmqj9SPcT24s8hY6ZS
+	 6c7U3e3V4tqQaSY5JfVwqacEpinbNuZXMUG+MMrVdQGEcbYeESNKGZgBU0PI4TzQkf
+	 f1DPZZ1d2PoqeQx94se3YmVz3Wsu4kwdwQPHG1KeOT4zIJnSURpvpa0SHmLeQppKf1
+	 br0K6g5wk+XRnnv5n7Wt3K7p7E5pXLQqHM1yUSSI4tMS37ZvEhosn+tZyFhx+k9n2P
+	 /UquWURhGR2iCftsEpLgpwvlvvke4bkpPxb01n3oxYqzFQOtId4WpJagWE7sPa7xbc
+	 OjZMEhZif1ruw==
+Message-ID: <sashiko-outbox-201226@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v7 2/2] usb: cdns3: Add CIX Sky1 glue driver
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Hongliang Yang" <hongliang.yang@cixtech.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261106101210.1059256-3-hongliang.yang@cixtech.com>
+References: <20261106101210.1059256-1-hongliang.yang@cixtech.com>
+ <20261106101210.1059256-3-hongliang.yang@cixtech.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Nov 2026 10:42:09 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -67,96 +59,346 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Hi,
+Thank you for your contribution! Sashiko AI review found 6 potential
+issues to consider:
+- [High] usb: cdns3: incomplete teardown before clock disable in
+  cdnsp_sky1_shutdown()
+- [High] usb: cdns3: unrecovered OTG state after reset in
+  cdnsp_sky1_system_resume()
+- [High] usb: cdns3: invalid kfree() of devres cdns_sky1_pdata on child
+  release
+- [Medium] usb: cdns3: broken D0 poll and error return in
+  cdns_sky1_platform_suspend()
+- [Medium] usb: cdns3: inconsistent wakeup checks across suspend and
+  shutdown in cdnsp-sky1
+- [Medium] usb: cdns3: unconditional data->wakeup overwrite in
+  cdns_sky1_platform_suspend()
+--
 
-On Thu, Nov 05, 2026 at 08:33:33PM +0100, Oliver Neukum wrote:
-> the older version had serious bugs.
+commit a740c36e5f7b737668f9904cdc187603aff7c8f4
+Author: Hongliang Yang <hongliang.yang@cixtech.com>
 
-I tested RFCv2 and the local changes described below on 7.0.0-38-generic
-with USB streams enabled. The host_lock accesses were adapted to that
-kernel's API. All tag numbers below refer to UAS IU tags.
+usb: cdns3: Add CIX Sky1 glue driver
 
-1) RC_OVERLAPPED_TAG can reach the original Status receiver
+This commit adds a platform glue driver for the Cadence USBSSP dual-role
+controller on the CIX Sky1 SoC, managing clocks, resets, RCSU AXI settings,
+mode straps, and power management.
 
-On ZX1, I submitted READ(tag2) through a test helper, cancelled its Data
-and Status URBs after its Command OUT URB completed successfully, and
-kept the interface and streams unchanged. A subsequent SCSI READ(tag1)
-timed out, and uas_eh_abort_handler() automatically submitted TUR(tag1).
+> diff --git a/drivers/usb/cdns3/cdnsp-sky1.c b/drivers/usb/cdns3/cdnsp-sky=
+1.c
+> new file mode 100644
+> index 0000000000000..65c2c692d2a35
+> --- /dev/null
+> +++ b/drivers/usb/cdns3/cdnsp-sky1.c
 
-During the abort wait, RC_OVERLAPPED_TAG reached the original 112-byte
-Status receiver. The additional 8-byte receiver remained pending and
-was subsequently cancelled.
+[ ... ]
 
-uas_stat_cmplt() processed the Response IU but did not notify
-cmdinfo->cancel, so abort continued waiting and returned FAILED. For
-subsequent tests, I added this notification to its IU_ID_RESPONSE path:
+> +static int cdns_sky1_platform_suspend(struct device *dev,
+> +				      bool suspend, bool wakeup)
+> +{
+> +	struct cdns *cdns =3D dev_get_drvdata(dev);
+> +	struct platform_device *xhci_dev =3D cdns->host_dev;
+> +	struct usb_hcd  *hcd;
+> +	struct device *parent =3D cdns->dev->parent;
+> +	struct cdnsp_sky1 *data =3D dev_get_drvdata(parent);
+> +	u32 value;
+> +	int poll;
+> +	int ret =3D 0;
+> +	int count =3D 3;
+> +
+> +	data->wakeup =3D wakeup;
 
+[Severity: Medium]
+Can overwriting data->wakeup on every call cause cdnsp_sky1_system_suspend()
+to reset an active controller?
 
-  if ((cmdinfo->state & COMMAND_ABORTED) &&
-       ((struct response_iu *)iu)->response_code == RC_OVERLAPPED_TAG) {
-	  cmdinfo->cleanly_cancelled = 1;
-	  wake_up_all(&cmdinfo->cancel);
-  }
+cdns3_controller_resume() calls platform_suspend(dev, false, false), which
+clears data->wakeup.  During system suspend with wakeup enabled on the child
+device, runtime PM remains enabled until the suspend_late phase:
 
-The locally modified RFCv2 also uses u rather than cmdinfo->killer for
-the follow-on Status submission in uas_abort_complete(), and leaves
-final URB freeing to uas_eh_abort_handler(), including on submission
-failure.
+CPU0                              CPU1
+cdns3_plat_suspend()
+  cdns3_controller_suspend()
+    cdns_sky1_platform_suspend(..., true, true)
+      data->wakeup =3D true;
+    cdns->in_lpm =3D true;
+                                  cdns_wakeup_irq()
+                                    pm_request_resume(...)
+                                    cdns3_controller_resume()
+                                      cdns_sky1_platform_suspend(..., false=
+, false)
+                                        data->wakeup =3D false;
+                                      cdns->in_lpm =3D false;
+cdnsp_sky1_system_suspend()
+  if (!data->wakeup)
+    reset_control_assert(...)     <-- resets active controller
 
-2) Recovery after read cancellation: single and concurrent requests
+On the subsequent system resume, cdns3_controller_resume() sees
+!cdns->in_lpm and returns early without reinitializing the controller.
 
-These tests used the Ugreen enclosure (0bda:9210) with an SK hynix BC501
-and the locally modified RFCv2 described above. The filesystems were
-unmounted, and reads used the normal block/SCSI path with O_DIRECT.
+> +
+> +	if (cdns->role !=3D USB_ROLE_HOST)
+> +		return 0;
+> +
+> +	if (!xhci_dev) {
+> +		dev_dbg(dev, "host controller has not been registered\n");
+> +		return 0;
+> +	}
+> +
+> +	hcd =3D dev_get_drvdata(&xhci_dev->dev);
+> +	if (!hcd) {
+> +		dev_dbg(dev, "host controller have not registered\n");
+> +		return 0;
+> +	}
+> +
+> +	if (suspend) {
+> +		while (count--) {
+> +			value =3D readl(hcd->regs + XECP_PM_PMCSR);
+> +			value &=3D ~PS_MASK;
+> +			value |=3D PS_D3 | PS_PME_En;
+> +			writel(value, hcd->regs + XECP_PM_PMCSR);
+> +			/* After controller enters D3, disable AXI and SOF
+> +			 * until AXI valid flag changes to 0.
+> +			 */
+> +			if (sky1_rcsu_handshake(data, AXI_CLOCK_VALID, 0,
+> +						100ULL * 1000)) {
+> +				u32 ctst;
+> +
+> +				ctst =3D sky1_rcsu_read_status(data);
+> +				dev_dbg(dev, "enter D3 failed, register value:%x\n",
+> +					ctst);
+> +			} else {
+> +				break;
+> +			}
+> +		}
+> +		if (count < 0) {
+> +			u32 ctst;
+> +
+> +			ctst =3D sky1_rcsu_read_status(data);
+> +			dev_err(dev, "enter D3 failed after retries, register value:%x\n",
+> +				ctst);
+> +		}
+> +	} else {
+> +		while (count--) {
+> +			value =3D readl(hcd->regs + XECP_PM_PMCSR);
+> +			value &=3D ~PS_MASK;
+> +			value |=3D PS_D0;
+> +			value &=3D ~PS_PME_En;
+> +			writel(value, hcd->regs + XECP_PM_PMCSR);
+> +			/* Wait power state back to D0 */
+> +			poll =3D readl_poll_timeout(hcd->regs + XECP_PM_PMCSR,
+> +						  value,
+> +						  (value & PS_MASK) =3D=3D 0 ||
+> +						  value =3D=3D U32_MAX,
+> +						  10, 100ULL * 1000);
+> +			if (poll) {
+> +				dev_dbg(dev, "exit D3 timeout, power state=3D0x%lx\n",
+> +					value & PS_MASK);
+> +			} else {
+> +				break;
+> +			}
+> +		}
+> +		if (count < 0) {
+> +			dev_err(dev, "exit D3 timeout after retries, power state=3D0x%lx\n",
+> +				value & PS_MASK);
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
 
-For a single request, I cancelled the Data and Status URBs of one
-512 KiB READ and waited for recovery before issuing further reads.
-EH submitted a same-tag TUR, RC_OVERLAPPED_TAG reached the additional
-Status receiver through uas_dummy_sense(), and abort returned SUCCESS
-without a USB reset. A new 4 MiB read and 128 further 512 KiB reads
-matched the reference data.
+[Severity: Medium]
+Does the D0 polling loop treat value =3D=3D U32_MAX as a successful transit=
+ion,
+and does cdns_sky1_platform_suspend() always return 0 even when all retries
+fail?
 
-For concurrent requests, I ran four workers issuing 512 KiB reads,
-cancelled one READ's Data and Status URBs, and immediately submitted
-another 4 MiB read, which was split into eight SCSI READ commands.
-I repeated this twice.
+In the resume path, readl_poll_timeout() returns 0 whenever its condition
+holds, so reading U32_MAX breaks out of the retry loop without checking for
+U32_MAX (unlike sky1_rcsu_handshake()).  Also, ret is never updated when
+count < 0 in either the suspend or resume branch, and the suspend branch
+sets PS_PME_En unconditionally even when wakeup is false.
 
-Each run had 12 calls to uas_eh_abort_handler(): one returned SUCCESS
-after RC_OVERLAPPED_TAG reached the original 112-byte Status receiver,
-and 11 returned FAILED. One automatic USB reset followed. The added
-4 MiB read and 128 further 512 KiB reads passed data validation in
-both runs.
+[ ... ]
 
-3) Actual driver unbind/rebind results
+> +	/*
+> +	 * The platform data is devm-allocated, so it stays alive as long as
+> +	 * this device; the child devices are depopulated before it is freed.
+> +	 */
+> +	cdns_sky1_pdata =3D devm_kzalloc(dev, sizeof(*cdns_sky1_pdata), GFP_KER=
+NEL);
+> +	if (!cdns_sky1_pdata) {
+> +		ret =3D -ENOMEM;
+> +		goto err_quiesce;
+> +	}
+> +	cdns_sky1_pdata->platform_suspend =3D cdns_sky1_platform_suspend;
+> +	cdns_sky1_pdata->quirks =3D CDNS3_DEFAULT_PM_RUNTIME_ALLOW;
+> +	cdns_sky1_auxdata[0].platform_data =3D cdns_sky1_pdata;
+> +	ret =3D of_platform_populate(node, NULL, cdns_sky1_auxdata, dev);
 
-I started concurrent block-device reads, confirmed pending Data URBs
-at usb_unbind_interface() entry, and then unbound and rebound UAS
-through sysfs.
+[Severity: High]
+Does passing devm-allocated cdns_sky1_pdata via of_dev_auxdata cause an
+invalid kfree() and double free when the child platform device is released?
 
-On ZX1 512GB (2109:0715), using RFCv2 with only the host_lock adaptation,
-the first command after rebind was INQUIRY with tag1 and a 36-byte
-allocation length. Its Data-IN URB returned -75 with actual_length=0.
-EH subsequently submitted TUR(tag1), whose Command OUT URB completed
-successfully, but RC_OVERLAPPED_TAG was not observed. Subsequent reads
-did not recover.
+of_platform_populate() passes auxdata->platform_data to
+of_platform_device_create_pdata(), which assigns pdev->dev.platform_data
+directly on a platform_device allocated with platform_device_alloc().  When
+of_platform_depopulate() unregisters that child in cdnsp_sky1_remove(),
+platform_device_release() frees platform_data with kfree():
 
-With the Ugreen/BC501 combination and the locally modified RFCv2,
-I repeated six rebind tests. Every run had 30 pending Data URBs at
-usb_unbind_interface() entry, and the corresponding READ Command OUT
-URBs had already completed successfully.
+drivers/base/platform.c:platform_device_release() {
+	struct platform_object *pa =3D container_of(dev, struct platform_object,
+						  pdev.dev);
 
-Four runs completed without EH. In the other two, a READ at LBA0 during
-post-rebind device discovery timed out. EH submitted TUR(tag1), and the
-original 112-byte Status receiver received RC_OVERLAPPED_TAG. Abort
-returned SUCCESS without a USB reset. Three subsequent 4 MiB reads
-matched the reference data in each of the six runs.
+	of_node_put(pa->pdev.dev.of_node);
+	kfree(pa->pdev.dev.platform_data);
+	kfree(pa->pdev.mfd_cell);
+	kfree(pa->pdev.resource);
+	kfree(pa->pdev.driver_override);
+	kfree(pa);
+}
 
-RC_OVERLAPPED_TAG was not observed in the ZX1 rebind case, and I have
-not yet established why.
+Because devm_kzalloc() returns an interior pointer (dr->data) inside struct
+devres, kfree(pa->pdev.dev.platform_data) corrupts the slab allocator and
+devres later frees the enclosing allocation a second time.  Keeping struct
+cdns3_platform_data as a field inside struct cdnsp_sky1 breaks only if
+platform_device_release() still calls kfree() on it, so platform_data passed
+through of_dev_auxdata cannot be devres-managed or embedded unless
+pdev->dev.platform_data is cleared before put_device() or allocated with
+kzalloc().
 
+[ ... ]
 
-Thanks,
-Jiayi
+> +static int cdnsp_sky1_system_suspend(struct device *dev)
+> +{
+> +	struct cdnsp_sky1 *data =3D dev_get_drvdata(dev);
+> +
+> +	if (!data->wakeup) {
+> +		reset_control_assert(data->reset);
+> +		reset_control_assert(data->preset);
+> +	}
+> +	cdnsp_sky1_clk_disable_suspend(dev);
+> +	return 0;
+> +}
+> +
+> +static int cdnsp_sky1_system_resume(struct device *dev)
+> +{
+> +	int ret =3D 0;
+> +	struct cdnsp_sky1 *data =3D dev_get_drvdata(dev);
+> +
+> +	ret =3D cdnsp_sky1_clk_enable_resume(dev);
+> +	if (ret)
+> +		return ret;
+> +	if (!data->wakeup) {
+> +		writel(CIX_USB_AXI_WR_CACHE_VALUE, data->rcsu_base);
+> +		cdnsp_sky1_set_mode(data->dev, MODE_STRAP_OTG);
+> +		reset_control_deassert(data->preset);
+> +		cdnsp_sky1_configure_controller(data);
+> +		reset_control_deassert(data->reset);
+> +	}
+> +	return 0;
+> +}
+
+[Severity: High]
+When wakeup is disabled, does asserting data->reset and data->preset across
+system suspend leave the child cdns3 OTG registers uninitialized on resume?
+
+Resetting the controller clears cdns->otg_cdnsp_regs->override
+(OVERRIDE_IDPULLUP) and cdns->otg_irq_regs->ien, which are only programmed
+during probe in cdns_drd_init() -> cdns_drd_update_mode().  When the child
+device resumes afterwards in cdns3_controller_resume(), it first calls
+cdns_sky1_platform_suspend(dev, false, false) to poll XECP_PM_PMCSR in
+hcd->regs before cdns_resume() has re-enabled the host bus in the OTG block,
+and cdns_resume() never re-runs cdns_drd_update_mode(), leaving ID detection
+and OTG interrupts disabled after resume.
+
+[ ... ]
+
+> +static void cdnsp_sky1_shutdown(struct platform_device *pdev)
+> +{
+> +	struct device *dev =3D &pdev->dev;
+> +	struct cdnsp_sky1 *data =3D dev_get_drvdata(dev);
+> +	struct device *cdns_dev =3D NULL;
+> +	struct device *gadget_dev =3D NULL;
+> +	struct cdns *cdns =3D NULL;
+> +
+> +	if (!device_may_wakeup(dev)) {
+
+[Severity: Medium]
+Why does cdnsp_sky1_shutdown() check device_may_wakeup(dev) on the parent
+glue device while cdnsp_sky1_system_suspend() checks data->wakeup from the
+child cdns-usb3 device?
+
+Both cdnsp_sky1_probe() and cdns3_plat_probe() call
+device_set_wakeup_capable(dev, true) on their respective devices.  If
+userspace enables wakeup on the child cdns-usb3 device (which owns the
+wakeup IRQ), device_may_wakeup(dev) on the parent glue device remains false,
+so cdnsp_sky1_shutdown() still asserts resets and disables all clocks.
+
+> +		/*
+> +		 * Find the cdns3 child device, then find its gadget device
+> +		 * and release the function driver before disabling clocks.
+> +		 * This ensures all register accesses in gadget_unbind_driver
+> +		 * complete before clocks are turned off.
+> +		 */
+> +		device_for_each_child(dev, &cdns_dev, cdnsp_sky1_find_cdns_dev);
+> +		if (cdns_dev)
+> +			cdns =3D dev_get_drvdata(cdns_dev);
+> +		if (cdns)
+> +			device_for_each_child(cdns_dev, &gadget_dev,
+> +					      cdnsp_sky1_find_gadget_match);
+> +		if (gadget_dev)
+> +			device_release_driver(gadget_dev);
+> +		if (cdns && cdns->host_dev) {
+> +			struct usb_hcd *hcd =3D platform_get_drvdata(cdns->host_dev);
+> +
+> +			if (hcd && hcd->irq > 0) {
+> +				/*
+> +				 * Clear HCD_FLAG_HW_ACCESSIBLE before disable_irq.
+> +				 * This prevents usb_hcd_irq from calling xhci_irq
+> +				 * (which reads USBSTS) after clocks are disabled.
+> +				 */
+> +				clear_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags);
+> +				disable_irq(hcd->irq);
+> +				synchronize_irq(hcd->irq);
+> +			}
+> +		}
+> +		reset_control_assert(data->reset);
+> +		reset_control_assert(data->preset);
+> +		cdnsp_sky1_clk_disable_all(dev);
+> +		put_device(gadget_dev);
+> +		put_device(cdns_dev);
+> +	}
+> +}
+
+[Severity: High]
+Can asserting resets and disabling all clocks in cdnsp_sky1_shutdown()
+while child interrupts and role switches are still active cause an unclocked
+MMIO access or use-after-free?
+
+Unlike cdnsp_sky1_remove(), which calls pm_runtime_get_sync(dev) and
+of_platform_depopulate(dev) before asserting resets and disabling clocks,
+cdnsp_sky1_shutdown() leaves the child cdns3 device bound:
+
+- cdns_dev may be runtime-suspended (CDNS3_DEFAULT_PM_RUNTIME_ALLOW is set)
+  when device_release_driver(gadget_dev) accesses controller registers in
+  cdnsp_gadget_pullup() and cdnsp_gadget_udc_stop().
+- device_release_driver(gadget_dev) only unbinds the gadget function driver;
+  cdns->dev_irq, cdns->otg_irq, and cdns->wakeup_irq remain enabled and
+  registered, so any in-flight or subsequent interrupt after
+  reset_control_assert() and cdnsp_sky1_clk_disable_all() reads unclocked,
+  reset-asserted MMIO registers.
+- cdns->host_dev is read without holding cdns->mutex while
+  cdns_drd_thread_irq() can concurrently run cdns_hw_role_switch() ->
+  cdns_host_exit() and unregister cdns->host_dev, and only the primary
+  hcd->flags has HCD_FLAG_HW_ACCESSIBLE cleared while xhci->shared_hcd
+  remains marked accessible.
+
+Could cdnsp_sky1_shutdown() instead wake the device with
+pm_runtime_get_sync(dev) and call of_platform_depopulate(dev) like
+cdnsp_sky1_remove() does?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106101210.1059=
+256-1-hongliang.yang@cixtech.com?part=3D2
