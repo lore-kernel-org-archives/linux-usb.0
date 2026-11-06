@@ -1,121 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.157
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793979915;
-	b=Gnh3ZoukdWZTBSil0qB2A1RINiO3b35Rximkktyicoc8WLSOJjYaJ1PCrUjlN5/9XKIv
-	 WRcExnUITvAy2vN4wV6l/EVSNJah0Ilc9ln3+IIpUL/nL2HAZnW9MxMsHFbvEt9d3EjGi
-	 ADqd+W6Lb/tRI5n9+yUwoLOVym+XdYj8dMbNG/a3mR95vOe5Qtj7W/R+dn/loCLkHquX5
-	 Q5uHaSkMcxOkxViW1f7oEder+aQDG7Z1QVQd+bcZfIPsEI2aNOFqRnOu9URyh75ImlnBX
-	 hThvKkTOhaNMSNPc80qu0IweBVVFrSgjUUHR0xzl/2h5ugfAKf0APFTudRR7KaOJ+pw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793979915;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=UfVaTeZgwrDZ0aQc6AST8BOEbqRkH0zX7Dg9zJwiP04=;
-	b=Mfe8neaiQNWLHx5btjtXx+2js9ktPSFMeb7IWiU68aekeJL3F1r6swgrtt0o/rPgZPba
-	 3Tbn+iSbcoicox8QYoT7ii5Xtjc+qXsPEFKgyFfcaKxmINtXy+vAxIJJkvwyEqLYXYVY4
-	 cvzCh/sa8CSWRQx+Eu3KfJBj5fwCqgoC1QTrUtwK4wfYQQtos8j/XTl/ID4ou83y+ovOQ
-	 japD8cWPzNaue5zP0m1HmjahbLLBe+GE6jGDkd6PSEaQDxolEEUM6P/4h6PtDv/xhh59o
-	 X30dWzoqPZ1xpl4b1N0n1KEa4o6VdG3SbQ+W46EXdH7cJbgklnfyh5XZljEiz7JiqmQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=omelia.org;
-	spf=pass smtp.mailfrom=omelia.org;
-	dkim=pass header.d=omelia.org header.i=@omelia.org header.a=rsa-sha256 header.s=fm2 header.b=IdwMvvHN;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=F0vg7xhW;
-	arc=none smtp.remote-ip=103.168.172.157
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.51
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793980288;
+	b=oIUQuvVexSK9FKOcizta8DPbzz349nhg10zmsLWVrlnQ2Ro1A/l7Shp7Frnmsx8cZ8l6
+	 jCDLhPl2Tdms2mNJHBYWXFTI0K81ruoip1XZXPz3aKYcsf4eC0xYIByoRvE66FoULqvCF
+	 nyKUs4dNJT1M5FENj9JW72LREf6sT3asEy+tvELJfxNumJgVTFL8S4H6RJXx1VEMxyYXU
+	 idtcqtlBcQCwagZneK0NJbSqxcVG0NveRTh/T2Aw/tiKfV1xHhqnITF3fm3s1Mq3uN1ro
+	 4CGJ3MVovW5eei6Ih9QKLX0rAS85icOk/swGmYVV+j2CP2S8BCA/cDF2HZDyUViE4nQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793980288;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=cXW+vcjg9iGpUdKmyDWC8TvHbEJL3RzYtWOX6t+4Ntw=;
+	b=tJliLVnBo5fL2JsUt+CbpPBAxdI5vs8K8QhwUt/NvgZawq+7cNv7veAc3oj19ixD8Qvk
+	 jmJ35zkYQfmMsFD15LthgFzXSN30fHnsT1bb3swwo2vytOrjg+0T/U6TmB5hn+NuTUyKF
+	 uutbk06W0mvvzt/xC0mrSvk4A1XRzfYGBBp/8BtDfuQtbxbeB3MOfwkoQf1DT7VlqF7q0
+	 rNhGhlf4BhGTEJfeswJgqha9TsFS42ArhkmhIKj/Sb5lR1tTKK5sJJ8x8HS1HIwH3jrv/
+	 OXV8qu/5fEfRUVuTHypFVp4qJCoBkqou73kvpJ3tIc+O72LDxQco65uvjT0P/RuT+Yw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b="UhFHZ8+/";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.51
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011051.outbound.protection.outlook.com [40.107.208.51])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13CE9606A330
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 15:45:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13CE9606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omelia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omelia.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673A4606A326;
+	Fri,  6 Nov 2026 15:51:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 673A4606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=omelia.org header.i=@omelia.org header.a=rsa-sha256 header.s=fm2 header.b=IdwMvvHN;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=F0vg7xhW
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 337BD14000B2
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 10:45:13 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Fri, 06 Nov 2026 10:45:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=omelia.org; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm2; t=1793979913; x=1794066313; bh=UfVaTeZgwrDZ0aQc6AST8
-	BOEbqRkH0zX7Dg9zJwiP04=; b=IdwMvvHNZ5slloVBjsiE05YrhXqaIj6aMo8Nn
-	LZ9EgI9gnKJcHwmV0hJ4KVNCFVVOjxllInfFEd+VLBZdb+Ya+UTr5fZSRfK0MrM1
-	yGT4rxGQsRgJnPxpBUfgk1ZTeykI45KksDG8MWuXCf7X+QO5yfsTh+gFzYrbLiuL
-	EdYzw9TzKxeMeSf7yBvwm65da3slF4JWiIP98a68liZZkQv07L2YL/CF4sIQTpts
-	yFoa9wFtAwJ73KTgBR2AysodrxFtuIeFj2Kly/w6NbfN4U48Wec0HnUSnfThkyjQ
-	A2ruNdfhc5bKjXlV8UFTOuWRyV+PmIQC73b4LMj/v9zxZUTLg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1793979913; x=1794066313; bh=UfVaTeZgwrDZ0aQc6AST8BOEbqRkH0zX7Dg
-	9zJwiP04=; b=F0vg7xhWULkwVFuwK1/Xoc86TF+mt7G+RuOa2cQE+RIyfNqOdVM
-	FNGlsvsR1XRuK08JStWEpVN9nT1ivUbnI4OdEgGttNtLQLKUOCDUnCg+bGv3fJFj
-	PWUrOv7YbcoLlqiajNJRDgbMCQ+2w6DK3s7ceWet1btfY229+1LLHcmHeBPcyRLQ
-	tqmDFBlv5BSJ7iW0d1wbpFhQ9fF+inJOSAhSHvL0Q6ToaistmLKRs2iRj8GYqwAc
-	ogPDkYJCBhanUjBl3b/MY9hDO1dQF3zNHWdU28N0+PYA9ey7AGalDq9Fmzs5NQOW
-	GRQ+Vw0PzI2k60aBCJOneF4lEgeAlh4RPAQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=omelia.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793979913; d=omelia.org;
-	mf=PGR1ZmZAb21lbGlhLm9yZz4=;
-	rt=PGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm2:rsa-sha256:XKAf14YNzcQfVf5Vz+bP5ORUnxUeiRrVBQ6o3haLiCOWh3C
-	EbLlxyINb9w5BLQvVRJW1NqLWgJlGnUbCZOjTLoTH+U2eqsHegcAZeQ2RDcoZFR0
-	d53KQApo1iBgVtkLX++ppkVBPVLKY1TtnQIpUcDo2hy2GUahGQfwjA7dmZONL40d
-	6D57MLEJiq2MVs08+YZpJxeDjJ7CWo3c1ZHkPy6hA8UQoV8AiLFWtZVYUJYyOeq2
-	8dkaDmNRpopAuiFYDu9Sy7tzYwfBLo7rP6BDjzXaaTFEsbGENwmMkojgUFuJNdP0
-	YvBxpNMF7V3zdvw0+i0YW/qacm2GzBB+kbn5vvA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=9;
-	hn=cc,content-transfer-encoding,date,feedback-id,from,
-	message-id,mime-version,subject,to;
-Message-Instance: m=1; h=sha256:y194TR9nmW7eWiRcNZlulredUfvED7lV/yt0Pr89vVk=:cU6pyVB2UT6CkMtXrHzDRcNy3Z29vHIDqsoig9ImhGc=;
-X-ME-Sender: <xms:CPbtatz_8s01MKFrr37n1jQG5IWhyZXUHWcJ5jSEXMcNVjAM9_RCMQ>
-    <xme:CPbtat8G1jfIQswtbZbJsm0vdZq2zI15BjTz_ZHd8fZ_ssK4Lk24g02QhrwThTx8l
-    C14VtE2x5_ckrxEOwsu-dXLFuiMBTD_fu_lfBXDz60-ROAS8mwrUPE>
-X-ME-Received: <xmr:CPbtalgblg-62Ln9e23t3FIdFMq-9AoHUTZT64acyhfmV-GDcfFMWwNAfW7qyHczC59sjilo9opGc-uNDLtvhvuOjrCh>
-X-ME-Proxy-Cause: dmFkZTF1OV6dARfuGGKOPJMlxJMnyWlpDHPt00PfnwnC/nPg8o5NeFiAoIL7+maqTBZD++
-    zXaqOquTX4XUqvPDpDcxdVPAjlc1ahjfbKzKFvQ5wjqLA3kN6FVhuM7k9y8NVY4ut6yDFd
-    FsY00XVPFArVAqgmi+DjzrJGKOLFNdcCa6E2Fb0uuokbREzX9GkgkoDaZQqHgvi2dBLFsa
-    NMPpHZAxes6Cppda2TxnWT5e1beXhvzeKeaxe5SyGJwrlc4+fsNBTVgh8c3SKFS0hLlELC
-    V3GMztTYHRLvqGd8Z/kSpWf1INpjC+Cs42znh2rOCafyPnnP4PVaEevgeC91zXS6QNpDcb
-    M9CWEJMqWcy9bZHZBYXvGxMeZQp5IY2xUnXlwTP4scKqYKbRTbtxnUpvGrm0SXI7DMph0v
-    oQTZX+/ewooO071MLRA+gh3k12YHuDGprA5XDvMCDmLYrIYpO6lXqbfwHR2x1q4EeuhXc7
-    BryVGcjQ7HmPZdVqEdyREk3C+y0DS1sCMH4Jnr+xFkE1zDHqieSYBCV6FnZtgz8dyU7PV2
-    zHpFC9WKKh+mAP4W2b4Sataqd9h7puPTfH8ZsBXKHwPylSgiCEH7DEkjNrodL9YNmLrGPa
-    0iJqD4k9Ngi/BBQcDitjo35pUtMLsI4KOWQ2PqF2I2+wDY9brlZYqLxp+IJg
-X-ME-Proxy: <xmx:CPbtakEU6Fb6SjAidZnTAfV0iE5_qsp07gHeuqH_r2tkisABg9c-gw>
-    <xmx:CPbtak9hyQClrXfwKX84nL0D9GBZ7GVCpAfBA7iEAd9asPRYAO_CWw>
-    <xmx:CPbtarxjaAgA3mHketqpdLView39waKf_ciRzXtz9yt6jR2h2iF9Uw>
-    <xmx:CPbtagMd6uqMounVRCHcmPcCYnIBYXAx6mTLEp0PtL0TAoDqvGyXiA>
-    <xmx:CfbtapSvRZf8gxs_bg2AHAIbzq-WtVk8IWzO_WcG_Zp5ajDKiFXBCNLk>
-Feedback-ID: ib28c4082:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Nov 2026 10:45:12 -0500 (EST)
-From: Duff OMelia <duff@omelia.org>
-To: westeri@kernel.org,
-	andreas.noever@gmail.com,
-	YehezkelShB@gmail.com
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	imre.deak@intel.com,
-	Duff OMelia <duff@omelia.org>
-Subject: [RFC PATCH] thunderbolt: Tunnel only the first DP OUT of Apple Studio Displays
-Date: Fri,  6 Nov 2026 10:44:45 -0500
-Message-ID: <20261106154445.517940-1-duff@omelia.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=UhFHZ8+/
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=I872N17SLtemxIG6M3adWwnISaqk1PXwEhdPxM12BXAq08OxqjbWiOeJwBIcRElZyBRBNhdSmfxc6VrtuLfK+oo+ZKcTx+C/LPvOG6aUhIcdoE28CwZzr3t4BoeQPRjQN4pNV0690TT8wn31wzKYqN1mqNVHUUxMHXp2mM67C5fBiYaQZ23IENInJuEB7NAyqHDUn3mD+mv0UTzBLrNUewigpASrO4Hb+eyj7BfSfTqEYERHTW6qtpZzNnGtC/TZ6nPN7Z2e2jJ2PyuDEW4tNVyHnWd0NZrCtC9KQeIm2iWQQimVBZBvJmQYXSFqZvs7atTScE1gCy9s1V7tAG5ahg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cXW+vcjg9iGpUdKmyDWC8TvHbEJL3RzYtWOX6t+4Ntw=;
+ b=GxaUF7glmVMLTaxRX4nzTiM1ENSQuBgOKT+f39OsSjtKn9tayE5UeGzH6kZJc34YkVP+GddGRUJ8zy3I4awXi8ri7QCRV5vmohS5WmGsI/4gwwU+WamMfIvkVk06/x1bAdfjK3uV5P9GkUTs/g3XEY+8ICMii02eJwJjmHTfWLqfuzh7IdpG49zdFExJL6oTMx/D5vCbD8V13qBciq+w0Lj5i00N/cJOZ/iSHGnmpy5qNKIZN6bIYQ4tTApLROazm5jEKjVNrf5vRLIZ9OHdSY3NB4HGfQ4ZZke0TGlGpMOfrL1bLDTW8F4k87XyaHPLi05jNTVbH+hxFJhZSmC15A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cXW+vcjg9iGpUdKmyDWC8TvHbEJL3RzYtWOX6t+4Ntw=;
+ b=UhFHZ8+/s4wo+RtT2uQvnjWsbNW6DKlh1LeBW/fDFDKNB1crgHHgIRVTwGfNom/Rh+Mt3whK2PSXXvZ/Mm+NvwIiq0buyoORHZnLGHswunGVbI/WySaDS/kNmDhmdDh2wrzw4l90LCGmgFqve6ii2wGsZvPZ44HG6TFbzj9prmw=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS0SPRMB0124.namprd12.prod.outlook.com (2603:10b6:8:1fa::20) by
+ MN2PR12MB4320.namprd12.prod.outlook.com (2603:10b6:208:15f::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.592.11; Fri, 6 Nov 2026 15:51:25 +0000
+Received: from DS0SPRMB0124.namprd12.prod.outlook.com
+ ([fe80::24e7:97e0:923e:68d6]) by DS0SPRMB0124.namprd12.prod.outlook.com
+ ([fe80::24e7:97e0:923e:68d6%6]) with mapi id 15.21.0592.007; Fri, 6 Nov 2026
+ 15:51:25 +0000
+Message-ID: <dbeab5cb-fb61-4031-a694-96bb3deb5105@amd.com>
+Date: Fri, 6 Nov 2026 21:21:17 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/3] usb: dwc3: xilinx: Add Versal2 MMI USB 3.2
+ controller support with flat probe model
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "michal.simek@amd.com" <michal.simek@amd.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+References: <20261020112636.2661087-1-radhey.shyam.pandey@amd.com>
+ <20261020112636.2661087-3-radhey.shyam.pandey@amd.com>
+ <auqNHpX4G30716Tj@vbox>
+Content-Language: en-US
+From: "Pandey, Radhey Shyam" <radheys@amd.com>
+In-Reply-To: <auqNHpX4G30716Tj@vbox>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN1PEPF000067E9.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c04::24) To DS0SPRMB0124.namprd12.prod.outlook.com
+ (2603:10b6:8:1fa::20)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -125,143 +106,103 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0SPRMB0124:EE_|MN2PR12MB4320:EE_
+X-MS-Office365-Filtering-Correlation-Id: c91d9ccc-9903-4c76-a5a2-08df3c1dcfb4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|18002099003|22082099003|10067099003|4143699003|11063799006|261026121527099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	YR1evuOQ5Yk5Vu1nGgj9wq8DUzDXADSlyWeIhZ1p9Hay9jaDmuIBv+JMJo6Ca/lQNrOd4M8G+GncwT9HAjO8CEmy0VtRO0HiW9b36KRdEQORv5A4FTLhiEdePYwQwbk0mQnAbmbpwurfBjyXDDd/TqsyLtRVVJaRCWXfpxWQAcVaH8FhNgshTRZvrhcT5KCaSU0B1vBbogNtNSA3CwdfB1IUezHq+RFakxARlozsYaJ81s0fp4G4AazDV0VHoaVrIQdYio9h+X9rA99CKJLCI8qkM1Gs6UUVzfpTA8Y+87btD6EFmB4j9Cb5ZEq/OjUrToA60WQ/MecKgdAWzLIayGd4TjlRcHiURHPEGUhLKLe8mOGDKzgapj0jK/EnoL1F6VgS5s0zfa3mPKjqoWrjrJZfhdx3GggpEa2GEvDt2aELUHFZm2kTX1BHtLQBix6DtYph5Tj8tv8Ha46oZVOEvzBojovOuSmo83fYopN2k9JXoHxNZUkNdewocI1cP8UQbdAZTRoL9PNP2OOj3KQDSWRD7KZj+dDLE6PA6hyRnGH1IhCNTYBt5les7QOlzTYpKiuoEVFd54liqBA7T2nayZUsYmLz4pqp7ce9cuJ4tkx0Y5Z/hjdai9GbxXMefbli
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0SPRMB0124.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(18002099003)(22082099003)(10067099003)(4143699003)(11063799006)(261026121527099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b2VUM29KcEplRGJFOHlNczhReUlDaWNwSHRUYkQxMVhlZDZWRkdCa3hOVWk1?=
+ =?utf-8?B?d3Y2eFFIallmbDVoaE5iMjdNUnFBSWZZL1hRYm5hZGFMNnh5QmhPamNQWkFM?=
+ =?utf-8?B?N3h2SDBhdTNmaFZsQ0JpQVY3anNVWXF5TmlUNWhKUTMvSHg0V0Z5RlpwaFVX?=
+ =?utf-8?B?cnNEUG5reVRaSTJRMmlKblVJOXcvdEdzM081L2hkYnR0Tml5SEVzc3Rhc0FD?=
+ =?utf-8?B?eXo2NG4vT2R2eStsYlIvYmRoTnB6eWlMUHFONk1TdUNqSE8xMGdvbmQ0S0p5?=
+ =?utf-8?B?Y3FmNmhYSFZCVk55TWxmME84OGhSRkYxR3F4cWZaNkl5dGlQemJvcjF0d2lP?=
+ =?utf-8?B?Tm54TXNXZmJwSWw0OXlDcWo0NUFZMnU0SUlhN0hDSHdrQm9HeXVOTFlzUm9L?=
+ =?utf-8?B?emtJTU9oYWZ5dnY4bmcvbVJiTXJCMldOQThpdEN4UUdva2ZjQnhEVW1YZlBv?=
+ =?utf-8?B?YzA2aXVoZFlWalNheURXUnFJVS9rbktsUm5RTVR4dHNpT2VqQ2xYNUV2SWR4?=
+ =?utf-8?B?OEQxWEQwaWZIaERzWThrYzV2dnliVnNaUzNySlFlbHI3a091bVlOWVMrdUNP?=
+ =?utf-8?B?WklobmljblRVUnFnWW8wNjdRbDFxWDNWRTJlNDZkZEYwUndXZ1crRnpYZVNZ?=
+ =?utf-8?B?TURIdzUvWFdVL0NjOEluSFBJUVN2cDYxWTlBTmwzSElLYjl5U0N1aHRwN2V6?=
+ =?utf-8?B?cll6VElUcStaTmozYTcvMWJ3VlJ0RVhjd2hsZFd0TUQxTHIzVWMvaHBSeC9X?=
+ =?utf-8?B?bXUxZzlUR2RvaXVOZE14djBOcVRDeVNuRUJHRGRNMjE1Vm1YLy9JS0kzZHlt?=
+ =?utf-8?B?RlpVQkFPWkVPYnZzV0lwSFptWk02dGROMFcwYzUrYUkvWXMyMWhNSzlNK2tL?=
+ =?utf-8?B?SGZpOGxhelRKVTBxMmxFSnU2Q3VZM0ZYcHl6VG5Qd1ZHUWJ0YVhHUzJ0cHZy?=
+ =?utf-8?B?cGJoWWVqVUNmN0I2Tk1xeE9kcy9WMlBkYVMzdWllZzZadGRhQVJuY0JBYmZy?=
+ =?utf-8?B?Mk9iUFh5Wkl6S1Vvd1lSbzEzeUZaRUtwdzYyU3k1MVJ2aWdTSmw0M21hVkpE?=
+ =?utf-8?B?Snl2VGtFZmlJU2s1TytHVCtMaW4wRHpBUzFEcy9nUmlQeHQxdzQ1RldBRWND?=
+ =?utf-8?B?NThCQWJYdWRaTFVtY3pod1k5ek1hUU5KLzJsWThCVTVNbk9UZTdZSUdHN2Er?=
+ =?utf-8?B?ZXJXUUs1SUMvSHlHYURJZHFFVGwvb0JVTmxKWkMvQnRkY2wzUEh0amUrQkhp?=
+ =?utf-8?B?RG1DUkFHOGpKVmNtZlhOZlllYU13Y05VcDhOaTM4by81Ti9KZ2VIQmRNRzVS?=
+ =?utf-8?B?elRhRHFHaEpGd0pRa0d2VjU3NXc1TnhlcG00cklYelVoa0J3S0RNZk9Eb284?=
+ =?utf-8?B?YktxdFFqQnpaV0h1Q091cTAwaFFJOU9tT1dCYnAxTXo4U2VRaGVIbkxXZ2xR?=
+ =?utf-8?B?VXpZclE2LzJyRURuWG44OExWdGdTZVRNTzFNS1RWYUZWd2xDTVNmUkI5UTF5?=
+ =?utf-8?B?d0svb0hFOUYweEdlc2ltZDVSaGVOZjdJNXF1VldWcG0zWURDVG9NcHpOcTJU?=
+ =?utf-8?B?bVREbTlxV2tBbURqcFU1Q1BZZ2hYYUN1cFpHd3dGV2o2bXU3WFdQWDRsSmxY?=
+ =?utf-8?B?MzAzc3FXd0kyMmZvdG5WaGhjN3l3Q3VmK3A0YzRDRmg3cXE3NVB2S3BTVmNv?=
+ =?utf-8?B?SHV6REFzU09jazVJOXB3R0VNRFV1TUt2amdFUjl1aTFRN1VIWTgvdG54cDF6?=
+ =?utf-8?B?QkthdzJsVlpSTFMrWEhwTjJlZ3M5MUFWQ0tyT0w5QjhLajlQZjcrUE56d0Vs?=
+ =?utf-8?B?RytHb1NSOE8zdGI4eG9IaFFzSmk1a1A2YytJeE1IVlVIdWVPV3FZaERJeXdo?=
+ =?utf-8?B?ekREZkZTajJLdXpINnJvbHo3RXhvaGRSYUlhTTRDOERHSE91VlU3eTFqQTBo?=
+ =?utf-8?B?bmhZd3BBTytFd1VTbm1pQllzWEtYVFVSbzdsbmpVbThHTkp0Y2tSVXdXSk5K?=
+ =?utf-8?B?YTVwOC9VRHoyOFl1M0owTXNrVUhVOEJ0SGZsTGQ1eTN0MzVJd1FDcGcybVN0?=
+ =?utf-8?B?WGNxY3RFTjFnNTZPMnU5MTVNbTZwVXdJUXpzN2Q0NUo4RHl6R1d5OUJRNjYz?=
+ =?utf-8?B?RFMyVTRDWUV6N2FXSm1hRHFKdE1iSGZRdnRab01IV1FJYnd5WHN1Z3pVMTBP?=
+ =?utf-8?B?REJkU3Zib0Q4MitwUjlDaDNoanlDMlNSRVJKdS91L1lXQlB1T3dhdVdINk9D?=
+ =?utf-8?B?VGtuK0JPQXFWOEVYUmViSU9ZNkxkYnJOSzRySDQxd09IOHZvV0NGRXFSdlly?=
+ =?utf-8?Q?RlCKvSNC/ty4KUQpNO?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c91d9ccc-9903-4c76-a5a2-08df3c1dcfb4
+X-MS-Exchange-CrossTenant-AuthSource: DS0SPRMB0124.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 15:51:24.9550
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PJfmHQVg5RODGhNf0kJhE94EcLnRGuL32YHUsYx5B+W3whwlaXt0yb5WwIJohgQM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4320
 
-An Apple Studio Display presents its 5K panel as a 2x1 tile over two DP
-OUT adapters. The first tile's connector offers the full 5120x2880 mode,
-which the xe driver on my host drives over a single stream. The second
-tile's connector offers only 2560x2880, and nothing uses it there.
+On 11/4/2026 7:14 AM, Thinh Nguyen wrote:
+> Hi,
+> 
+> On Tue, Oct 20, 2026, Radhey Shyam Pandey wrote:
+> 
+> ....
+> 
+> This doesn't apply on Greg's usb-testing branch. Please rebase and
+> resend.
+> 
 
-tb_find_dp_out() treats both adapters alike, so it tunnels both when DP
-IN adapters are free. The second tunnel sits idle but holds a DP IN
-adapter, and with it one of the host's display outputs. A Dell XPS 16
-(DA16260, Panther Lake) has three external outputs, so two Studio
-Displays take all of them. A third is authorized and its USB devices
-work, but it stays dark:
+Hi Thinh,
 
-  DP-1  enabled   5120x2880       first display, first tile
-  DP-2  disabled  2560x2880 only  first display, second tile
-  DP-3  enabled   5120x2880       second display
+This series depends on:
+https://lore.kernel.org/all/20260928120015.3152461-1-radhey.shyam.pandey@amd.com 
+[1]
+Subject: [PATCH v3 0/3] usb: dwc3: xilinx: error path and teardown fixes
+Date: Mon, 28 Sep 2026 17:30:12 +0530	[thread overview]
+Message-ID: <20260928120015.3152461-1-radhey.shyam.pandey@amd.com> (raw)
 
-Plug order doesn't help, since whichever display connects first takes
-two outputs. The hardware isn't the limit: with Thunderbolt turned off
-in the BIOS, all three run at 5120x2880@60 in DisplayPort alt mode.
 
-Skip every DP OUT adapter but the first on these displays: vendor 0x1,
-device 0x801f (2022 model) and 0x8025 (2026 model). All three displays
-then run at 5120x2880@60, each on its own output.
+https://lore.kernel.org/all/20260928134215.3194328-1-radhey.shyam.pandey@amd.com 
+[2]
+Subject: [PATCH v2] usb: dwc3: xilinx: use device_get_match_data() in probe
+Date: Mon, 28 Sep 2026 19:12:15 +0530	[thread overview]
+Message-ID: <20260928134215.3194328-1-radhey.shyam.pandey@amd.com> (raw)
 
-Commit 49521be4809d ("drm/amd/display: hide Apple Studio Display
-secondary tile") reached the same conclusion for amdgpu, and its panel
-IDs include both models here (0xae3a and 0xae46). It hides the tile from
-userspace, but this driver sets up the tunnel, so it can't free the
-output.
+[1] is applied on usb-linus and [2] is reviewed but not merged.
 
-Signed-off-by: Duff OMelia <duff@omelia.org>
----
-This is an RFC because I don't think a device list is the right final
-form, and I'd like your view on a better one:
+Let me know if it's fine or I should rebase this series on top of 
+usb-linus and merge[2] in this series itself and send out v5.
 
-- Not every host drives these displays over one stream. Bernd Behler's
-  report [1] has a 2022 model on Arrow Lake with i915 driven as two real
-  tiles, with both tunnels carrying video, and hosts without DSC
-  presumably need both streams too. This patch skips the second tunnel
-  whatever the host, so it could break those setups. I have neither to
-  test. On my host, the tunnels show about 17 Gb/s consumed on the 2022
-  model and 22.5 Gb/s on the 2026 model. Uncompressed 5K at 60 Hz needs
-  at least 21 Gb/s, so I read the 2022 figure as DSC, but I haven't
-  confirmed that from the xe side.
-- The driver could leave the second tile untunneled until the GPU needs
-  it, or tear down an idle tile tunnel when another DP OUT needs a DP
-  IN. I don't know whether it can tell those cases apart.
-- If a device list is acceptable, quirks.c looks like a better home.
-- The Studio Display XDR (device 0x8024) isn't covered, and I don't have
-  one. Dennis Wang's report [2] shows the same two-sink pattern on Panther
-  Lake, and says masking the second sink with video=DP-2:d gives a clean
-  single-stream boot, so a general fix might help there too.
-  49521be4809d also lists panel ID 0xae42, which I can't identify.
+Thanks,
+Radhey
 
-There's no Fixes tag, because I can't point to a commit that broke this.
 
-Testing
-
-Hardware: XPS 16 DA16260 (Core Ultra X9 378H, xe driver) with two 2022
-displays and one 2026 display each directly on the laptop, and a CalDigit
-TS4 behind the 2026 display.
-
-Kernels: run on Omarchy's 7.2.8 and 7.2.15, which carry Thunderbolt
-backports. Not run on mainline. This diff is against thunderbolt.git next,
-where tb.c matches 7.4-rc1.
-
-Built against this tree with W=1 (x86_64 defconfig plus USB4=m, gcc
-16.2.1), with no new warnings. checkpatch --strict has no complaints
-about the code.
-
-Passed, with all three displays back at 5K each time: reboot, cold boot,
-lid-closed boot, s2idle, and unplugging everything and replugging into
-different ports. The displays have been stable in normal use since.
-
-Debug log with the patch:
-
-  thunderbolt 0000:00:0d.3: 701:10: DP OUT in use
-  thunderbolt 0000:00:0d.3: 701:11: skipping spare DP OUT tile
-
-AI assistance
-
-I asked Claude Code (Claude Opus 5.5) to get three displays and the
-TS4's Ethernet working at once. It traced the problem through the driver
-source and kernel logs, wrote this patch, and drafted this email. The
-testing above was on my own hardware.
-
-[1] https://lore.kernel.org/linux-usb/CAM=hwCxiJwODObeut=JcCA8jbu4C-XVEKJpR-y2MnDJibBQyOw@mail.gmail.com/
-[2] https://lore.kernel.org/linux-usb/CAOX-mXs0ZjpiLtviUDqHLrzWh2Dyz+Y9gZUcenW_yV4iQUa=7g@mail.gmail.com/
-
- drivers/thunderbolt/tb.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 57c11ba..b015a71 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -1862,6 +1862,27 @@ out:
- 	return tb_find_unused_port(sw, TB_TYPE_PCIE_DOWN);
- }
- 
-+/*
-+ * A Studio Display has a DP OUT adapter for each half of its panel, but a
-+ * host can drive the whole 5K panel over the first one alone. Tunneling the
-+ * second only takes a DP IN adapter that another display could have used.
-+ */
-+static bool tb_dp_out_is_spare_tile(struct tb_port *port)
-+{
-+	struct tb_switch *sw = port->sw;
-+	struct tb_port *p;
-+
-+	if (sw->vendor != 0x1 || (sw->device != 0x801f && sw->device != 0x8025))
-+		return false;
-+
-+	tb_switch_for_each_port(sw, p) {
-+		if (tb_port_is_dpout(p))
-+			return p != port;
-+	}
-+
-+	return false;
-+}
-+
- static struct tb_port *tb_find_dp_out(struct tb *tb, struct tb_port *in)
- {
- 	struct tb_port *host_port, *port;
-@@ -1879,6 +1900,11 @@ static struct tb_port *tb_find_dp_out(struct tb *tb, struct tb_port *in)
- 			continue;
- 		}
- 
-+		if (tb_dp_out_is_spare_tile(port)) {
-+			tb_port_dbg(port, "skipping spare DP OUT tile\n");
-+			continue;
-+		}
-+
- 		/* Needs to be on different routers */
- 		if (in->sw == port->sw) {
- 			tb_port_dbg(port, "skipping DP OUT on same router\n");
-
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
