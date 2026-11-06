@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793965419;
-	b=er5koLf2KMFlhlflhLtaqd1c0ElfWVTxoEWF5SER/cInDa+KJk/xNLyLFZKEDi9V2dFd
-	 WP1zapSkvD9Ai6YEeCaTs/4QCr/iqJ7ELHVlGBog9ja8L9+O+EdSUe6RKNIpHo/cIUXTU
-	 edA5CvzIaHmO/WxUdRRVGTSrj0RSVlvgPgp6rbAjS78q5DpJAp1WLsncjc8Y76nUXBsLL
-	 tKzZTAVqQl14wQ8qX1Ps3m4ZvkAKPT9M/3wcqQRifaZdZZPM1ya4l0ny76tyO7jKkj67R
-	 moJ2j71SmUQpvOiqF7VQYL+ScezV9eFlz9rnqEw/2n+tTuu6uwhLpPCzMPmE2gyHYUw==
+	t=1793965429;
+	b=QaqnpwWdwslWzn+9/rYMiVktzmAo9wAG3Wb4LPhy26BgYr+tBe6eEfYT6NMY3nJr2QmM
+	 Q0XNIAV5GeQnlXwbqD9Kat70UntTzlMS8xJU26J1nZhl/aGf0MVTFXbjOG3juP/S19q0b
+	 /2223jxZ7xqZvVNubK5e/VdIcKPIBZYZ8RPdH3zNh+dR1wDNA1CTdINt2wO010eD7/zah
+	 J+z853tys1unhRl27+EXZlXgUfoAu2q9AbpK0wUqqbWxzO8KNRnowdjJWPhDnZwuO18Dw
+	 /4pC9FO02eMNOPX5NUP+NU0PNMED5h9F+idtb342G3v6ceGOQq/OqmfUvet9LszAwhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793965419;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793965429;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=//1nDRyZxF741ECN3aSZ1BzdF8W9osxEdbYtbD5J8IE=;
-	b=AbDuOk3NOHao0Xb3B/qa+Qil43j8OExVAOXoCO5MUHXBmdKA4zpcJXM81NScBMAsmtiy
-	 QQ7aJ7aGZANthN75XhL0Kz1F6/2DqSQqb+8/7kH3WItAf812Y59oA5K6KpI1DavocOv8u
-	 IzRNDd0AZSNG4w7JgFBfIWI7XWBVzXqc04TFU0Ge8q24J8ZtJfulylp32geFskvNKVUh8
-	 zDb2ghZy2cyZ5FnbWWAhU4GS0ZRuAgSq73oWVgp/A/1tJyZnJ27KIKkzZHfCrSvdQnPmq
-	 66csfJJ30pZrL81CdJAr8yrk/rBHIfDLSWyWt7PfjXXxMxpGmdbYAeUfuHfbe912QPQ==
+	bh=4r1rOSHvbjTs/HhWgDS+n4U9KkZvlYfSVlnR8750Ag4=;
+	b=vESf4PxfAYMhhhWXUt4NC/FvIWxhNfR+R/d/Cq4Y9NZ43ktOx++EtXpszD5WerodGJo1
+	 OVAJTqpA1mJRaRIR2RQHMXA0VyBpi5tGh+SKS6iUqCP7BHFMhDRMwaMXkJpdNX1tXylhv
+	 O7ELk6USR8jiDpa7N4/F1lovguJWLP1kwxZkxUulTgqbd7GL30MZRlKkJc2Z3CeEEYUjQ
+	 iD7nLS+05836wiplqote99fxDpj+5NQZMKLuof6CWogKRfnMq7cAd2dcaYbl7QNd665p2
+	 BeF0c1qs0bhon4Icfmfj5Yn/rc1vV4gs0NUmXEGtyzx8hnupDnIPgHVCh3u0mTSIiyw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=optI52EE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LMDg5Lt8;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A540606C7C6;
-	Fri,  6 Nov 2026 11:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AE36083612;
+	Fri,  6 Nov 2026 11:43:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=optI52EE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8102B1F00903;
-	Fri,  6 Nov 2026 11:43:38 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LMDg5Lt8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16C7F1F0089F;
+	Fri,  6 Nov 2026 11:43:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793965418;
-	bh=//1nDRyZxF741ECN3aSZ1BzdF8W9osxEdbYtbD5J8IE=;
+	s=k20260515; t=1793965429;
+	bh=4r1rOSHvbjTs/HhWgDS+n4U9KkZvlYfSVlnR8750Ag4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=optI52EE6SxdAum9GVP8R7eOKXfXFW6RlkrXDoVRxD2EsSMRSeduEBtZNITM0FMCt
-	 doClio9D5ejWG/WgSFwk/KiHNFn8FJHjhXI9RF3gr2lYo7XCGgVM3J6yZE2Iz4lX+b
-	 ZVIZULpu9IVPr9JPdC0iOwsKb7D1ot5VmyB3um47ppv1OIV5gtPtql1uE2oxnZ6+86
-	 LrwNgbMh8qdA4T2djVXV4nGK0tXF2Flv1ge7hU5DQZbQRDB9s8f6J6cdPM+GZQfw2Z
-	 GceSgfDFQpxTAb+UAI1Keypw0ZH3sfyOdbu83YrMi9UtEdPQQJMAVWzZLWjYFuUvty
-	 gDAEARB836wUQ==
-Message-ID: <sashiko-outbox-201334@kernel.org>
+	b=LMDg5Lt8s7vcahfeqbmODICFaUBeSNXtlIeCh3/vGu5Mp+FcBcyk266CxyRJS/SUn
+	 tDyPpKfrI/iOODk5O4nkrgK78Q1Y8hDOUDKdwOXcu/2KjRNp9398nw79gt741KViJD
+	 EqWArLzjmHSiqEonV9eE+lN+Wqtl8Ly/ya5EeTXqwBfAGeh/KhPZyypTFO8i2lLBAT
+	 A8Nq1/UYufScWVxVLQTjyG9HgemjAiTB0xQ24Afv8y13daOomM5yxkJqECDi5eEuCg
+	 9VUf5PEgZcxglcibC3LTsRzUEayrU+kYfpiP+hpRpMax8+ksNLcSM72qwtV7IIdxMP
+	 JGGK+HdMNiszg==
+Message-ID: <sashiko-outbox-201349@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 01/17] Input: gameport - attach manual drivers through
- the driver core
+Subject: Re: [PATCH 16/17] driver core: Document trust admission and initrd
+ authorization
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Leon Romanovsky" <leon@kernel.org>
 Cc: linux-usb@vger.kernel.org, linux-pci@vger.kernel.org
-In-Reply-To: <20261105-device-trust-core-v1-1-1e536825b4eb@nvidia.com>
+In-Reply-To: <20261105-device-trust-core-v1-16-1e536825b4eb@nvidia.com>
 References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-1-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-16-1e536825b4eb@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 11:43:38 +0000
+Date: Fri, 06 Nov 2026 11:43:48 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,12 +63,15 @@ Precedence: list
 
 > From: Leon Romanovsky <leonro@nvidia.com>
 >=20
-> Manual gameport binding calls connect before publishing the binding, so
-> driver-core admission cannot reject a device before functional setup.
+> Policy agents and bus drivers need a shared definition of authorization,
+> commitment and active trust across boot and device lifetime.
 >=20
-> Use device_driver_attach() to run the existing bus probe and removal
-> callbacks under the device lock. This gives manual attachment the same
-> admission, setup and failure cleanup as automatic probing.
+> Document the admission state machine and disabled-to-authorized initrd
+> sequence, including built-in probes and pending work. Explain DMA domain
+> preparation, binding restrictions, device replacement and current userspa=
+ce
+> integration requirements. Distinguish attestation and containment from the
+> permission to bind a functional driver.
 >=20
 > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
@@ -76,5 +79,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105-device-tru=
-st-core-v1-0-1e536825b4eb@nvidia.com?part=3D1
+st-core-v1-0-1e536825b4eb@nvidia.com?part=3D16
 
