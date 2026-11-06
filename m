@@ -1,111 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793977600;
-	b=B4HD/waXWaSR26L6cefMEeKQ2MhG7DE0aZ/BC0NtahEqsw1UpBNxCAoie+5pABn4N7je
-	 sAPPxsNucsG7l14URCmR5E0qqOGgA1QRihty2fUc8xz/8hGQ5NpVwysbpaDLnHA5eOZvd
-	 9zlKNWVIQApO/nmnqmVujCBmLT9ajPutqL44e6to+qwOyy5ii5iLdn1+NbAVkgQdkPlDh
-	 SWtl0qxmVzRKsJnsT04+vWxdECOFFMHPFazeOB+u3sxnqYIp1R55vGqqAba30tLaKzYAH
-	 by6H+7bilLOWzo9KRGEnNTjHYusquEsvELZc26uVPCqI9kcalQOd7AmzkKis6KzOI8Q==
+	t=1793978764;
+	b=NA0FjqvBaBG2bd14+aMef6N/0meaW35Bxx4xMQAIqOdY+9K4jUp6UfVmYLJPuZ3kfh6F
+	 nE353K22pgCaB+Vd4nfQnPM9n4KimMpB3sFrvBnlPMJ7JRF+pB419IoWFPsM05/KJq/kK
+	 4pCQYTZFV9yGs6hAwbPwqTceAmfE9O7r5cRTJFTmMxTr3DUZboJLg6vU8s/2w1Em3REoy
+	 O2L/8DsF0ly6AL9cLt1buK2S4j2pTgOtvDwOWV7pxcVmcEbxiBamJFX+8AIBai5O3kwFB
+	 MsKEbpnqwe5oa7MVQwec/UVMEMPe/WZnGHHnJKn1iQRvBsAhKNfmYqX9FXJLVmVkcEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793977600;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=99WHrn39uhF8MOZuOAhU6ApGYxS1ibLGpRDYrU16dFs=;
-	b=JDAPTyo8VCkaNwR0AJAffDP5YvTa5HzPAYZbmV4sCC0riunTD63jAPxrkuyAg5ZJMN0T
-	 QAgmdwoFE/oMc9O1YxAaE6SpLhMSk3SZ3iQ6AlAhaYPF1OxyitHFn9J3FSdy47yrdUsUc
-	 J+9EEnRegPnqKD7TGGx92H0qXOUwBzQvmpVRutDwzoWvyM+lbTfFOS6+pXthQbQj1DLAU
-	 G8DxPoJGMQSShLvcpDRWVXaUi8z1G8wBhlY/Rh+LjQ9G9Sue9BO45fHDnOz5REKaD5lv+
-	 D/vexpaBcBWM+asWAqQwwEItcnftGqmTtdvU8J6FfrjSUqFR4Cez0gNbzl+szsxTfUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793978764;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=xibxdAGYMpYlYRSt7NqOnEETMq+Xcq4KTjsU5eXIEcw=;
+	b=ucx+bqsDuy6my0wFjTyj4MFn/GV99CYBfKOTclIz/2KYRS6TRO5mV+EzbpX2epXu1466
+	 lXD/iWDUELYEdol3vMUPbQcTDYtrXY5HOjO57Ken1qjhr4kh+pjb+Wt7kmrSpR/YqPNXB
+	 D4lYVqDAEB5aYmzSER9aW6CAkrsnhvsCDsz6GSFEu14T7LqKvhx5qLhFvhZj+Yq+hCEQz
+	 0GJM9saAbhm++iWvlh1ZZ61YQan36O6WYxHoVar6TqWtAJCDYn7tDrKScbdBbwKjOfVq0
+	 9ZkvRhV+CmvpZSCnYZF5gXYk3gRtnQcH0g2Pz14EjYyf1UyOItHQn2QS+umdW7g9xOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="b0vOnQ/5";
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XliKU0TK;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TNQbCUUF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F9F606A326
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 15:06:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90F9F606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CC6606A329
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 15:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=b0vOnQ/5;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XliKU0TK
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A6ExnuS3324685
-	for <linux-usb@vger.kernel.org>; Fri, 6 Nov 2026 15:06:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	99WHrn39uhF8MOZuOAhU6ApGYxS1ibLGpRDYrU16dFs=; b=b0vOnQ/5IcPAh21P
-	ESwufSWkqa2WlHgnCQvEueVm1DX7NhE1muU2tZuVygmfXeGKyHBoVldgukjvcyNA
-	wHJhrGNyjOHwbp8v69n17tWUV7cpBxEh038PxRRAbHIV8q4a3sfKC968dFUbZ4nn
-	UIhuW9YyJCjbfJIELSgP3F1w0Dg37TstYuzGEGDM40M6IJQjAlkJI7JCaN0Vn7B/
-	EMMZfWkF0yt/Hcdqdu2RxVM3ryCPFthugstsCxni4jArW+Ci7CDxUa5q9AvIGfyf
-	azg59TGzclW+ENIOPDNd91yo8o91WxoaSTEOMQ1DR/FJGosTbatnFAjLmMfjrafo
-	wKjYIQ==
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hs3p9bbqb-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 15:06:38 +0000 (GMT)
-Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-5cc87885c6eso25262e0c.2
-        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 07:06:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793977593; x=1794582393; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=99WHrn39uhF8MOZuOAhU6ApGYxS1ibLGpRDYrU16dFs=;
-        b=XliKU0TKFQcUMOZm7HB0zOlU9QpTng+zHK5EJXKHPLYCNxrdqvRy3zizzAvSWCoknr
-         /jfy5Tybkfj9ba4OYHWeLna+Iyp0nUJih5Y4Xzk73L60EBmMtNvYjPjwK8DFWi/qVVRR
-         W6uQBDFnn4XcSdD1Bvff2Trn4cK8pGZ2v20+3oHL5QoBwmNORnr3SgIr6umieC5lXqLw
-         l0aloE9vcJq1ox5cZyPRkIOUdgi+OpnoqMGr1FvAdD+k9gabmWLefrIMVXJKXIB4y5X8
-         LPh/BQgeBCRPS4aOZy9plSsdRdn0ri9iRDxqtkX/x1infvJalRYzDRDoBJd25Cz5E4z+
-         l7gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793977593; x=1794582393;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=99WHrn39uhF8MOZuOAhU6ApGYxS1ibLGpRDYrU16dFs=;
-        b=nf3gsEWpUAOWLEuh5DhsP/fjqzVp3kJtCFzo3+PfuXhGw1CxFY88S6IHM6p8aRK0H0
-         /EJPCeRLBUv9te8rtCP4TQXzoFbWGc1VIPRojOlM8YLN/RVa/eLPSfAi1NePmvDAeG8d
-         2e6BwoYndHL5VhxOIs8hSSZ/R+7BMqD8pqWmsnyu7l8OW2SGmhmiRLijl5k2ZQ9oKQ2w
-         5weFC2yPwBICLIx+OnFZTE40m28lHqe7x0z5cuEXwYsrLD+elrl0LrNx5zKdJxn49m0M
-         DdhtVISV05/ePT/0Vd1yZS0LbSYW51bnIwUgK8Exh4U2FKGbEiFqJ2+G6ru88qxeC/40
-         iCZA==
-X-Forwarded-Encrypted: i=1; AKwUvByv7Rq1StvzL1WGDpwqzcOeWo34GmW8iolFKuJNTFlrj/aj/CGP2xnCImOsY9/JQn/Ob2cVc1E+I7c=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/H7icX/LB4E2MjqDHF3nRNG5E4fcae/x9F7AWH1KVUGumobh8i
-	Un2Jw//QMA8ICO+AfgaWDvKNrGTqJv73K4c4r+pLBLPqVMekg4gZChxxpBUvNMNOZw1G5kIxLC2
-	hV0YeI1zb6318nWQaPT8FrKZZO7pFZ5BcgSIQK8zcsii/6Fsp0wc0gZ0bep0Ly2M=
-X-Gm-Gg: AYBFou2BkFRG8NyuOcuEGXNL8y5KskeghSunlyXLqvNG5ElZWSgDTTlEQ4KoL9f3NKw
-	IGFIGDuegc6TyycCCySem88VC9soKwSB2x5YG3HKtIwklbHOV3zQlYJpQhdcqX36yul5aO8MTLZ
-	RAAVSLE6n1A49Ry9l4b8hsSa7Qa8Y06Qbu2VevlV3jQMIopQbE8BXwDFY+sk9l7JFff4D7qHk03
-	8ollcqqT3MXwhaikzrMNzaKJUc/9w9vPCo692EwpiprfOaRlnewrtixMT4UVnAfsw7e0u0tUzhG
-	8h+ziNnrLyauNR81JOGz79VOXZKvsqBCNrh+5xOuNzkGi4C3c65Unw8LePWjhC6OxCNQx5KEDQW
-	PIcda+b//LIulXiuwWEeKB+o8jh3FtRMoiuwCfCZlAOUOCcBikLUTYkATKkasVxZvvCfRuQ==
-X-Received: by 2002:a05:6123:4007:b0:5ec:2394:ef94 with SMTP id 71dfb90a1353d-5ecc41a5a8dmr1177096e0c.0.1793977593024;
-        Fri, 06 Nov 2026 07:06:33 -0800 (PST)
-X-Received: by 2002:a05:6123:4007:b0:5ec:2394:ef94 with SMTP id 71dfb90a1353d-5ecc41a5a8dmr1177044e0c.0.1793977592530;
-        Fri, 06 Nov 2026 07:06:32 -0800 (PST)
-Received: from [192.168.226.72] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d487be8aasm36689066b.15.2026.11.06.07.06.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Nov 2026 07:06:31 -0800 (PST)
-Message-ID: <23b5c705-cd55-4c0c-9c95-c61afb286416@oss.qualcomm.com>
-Date: Fri, 6 Nov 2026 16:06:28 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TNQbCUUF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6B651F0089F;
+	Fri,  6 Nov 2026 15:26:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793978764;
+	bh=xibxdAGYMpYlYRSt7NqOnEETMq+Xcq4KTjsU5eXIEcw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=TNQbCUUFRWL4B9up3h7c431frweWDvinqcqi795cj25O7kM0lsTvejJTYTTgYZlxL
+	 4WjmlBsekuarIfjX90kzqzIUKRiRp6zf1GeuV4fKss8FRlA5wUZ4r8UgW6i2zBjPoV
+	 83xau3LVfjdzvsIOzhMtgP2Nk6zoTyzlOFCIW8xuCl4CI/y+Izjm+Xx85A2b5xxAYM
+	 oRa2ktKghVvFv7hpOOlZc5+sVKooDbh2OE468ywucdPsERlF89lYFJ7eqQ0LFTYEMV
+	 /dI2qaQQk/E8oLnHp9wOXxbRtgziWUb5/CuT/M2MAeDqqvRqYchySSI8t0LuJUvQF3
+	 5V/rN7YtR4K9g==
+Message-ID: <sashiko-outbox-201689@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC] usb: gadget: gadgetfs: dequeue pending ep0 request
+ before freeing
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jing Lin" <kayano050408@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <179397691694.27761.9543494907127681190.gadgetfs-ep0-patch-test@gmail.com>
+References: <6a6944f5.e3659fcc.2a40b8.0021.GAE@google.com>
+ <179397691694.27761.9543494907127681190.gadgetfs-ep0-patch-test@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Nov 2026 15:26:03 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -114,72 +60,133 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] phy: qcom: carry live SS-link state without growing
- enum phy_mode
-To: Tapas Rana <tapas.rana@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Wesley Cheng
- <wesley.cheng@oss.qualcomm.com>,
-        Esteban Urrutia <esteuwu@proton.me>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-        Ronak Raheja <ronak.raheja@oss.qualcomm.com>,
-        Faisal Hassan <faisal.hassan@oss.qualcomm.com>,
-        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-        prashanth.k@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20261106082716.128968-1-tapas.rana@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20261106082716.128968-1-tapas.rana@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: jgdeeVySQuon2rBBl85XvtAj_CcbDkPN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA2MDA2MCBTYWx0ZWRfX10TQ40HE8Gr1
- bXkbZjBF1C2RzHabD2o77demnyn3gX1auQnZRjqLlIHwbbeBAfVWILS1ByoeZfO4DmIkV5rowKI
- RwwM3K9Ay2zQVxMwQ5P0w0y1gUNGOngjsF/iHNTBkk6x0Yaa1AJwauF200OaASieVwN5w5byASJ
- d2FYH7wvDGajaah6eO+cuADL/ykFhObrwUlSbIQ1+mzhYRLBpV6rk4cPSSwksmsYrVW8MC44kU8
- 4vCZjRLpO/FE0Cf2/frWQpGuVLc0gPh5GXu1W/zofHAVkNNG838psqqjhXuZlc7df46HL6bbzy8
- uga1nCszkJ/5LqakejaU+5vW/WFjAVFNYpGivNzK1qRDr3iuxSb8QG4Ib9oPuTYrwiseoJFfIKP
- ufAzSNe0Vxv4dOAYBZzb0BRhbYR7uBWh9ZnV1pQohtg8Ho1A9WrucrmnUZr5+o5lWRjRnQ0F3mY
- fJcW/i87S+hqRB+0v2g==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA2MDA2MCBTYWx0ZWRfX03Pz0nxYtC8b
- ekVeW8MFwowahVlHJJPPwYezSQswYM4dfSPxEJtVLR9WQsp4YhwWBWt7heDTVE3aPV23m//LLFf
- ah+m8s1NIfl2ISGeDQGHgGyoQ9XhDZY=
-X-Authority-Analysis: v=2.4 cv=WMzqzXsR c=1 sm=1 tr=0 ts=6aedecff cx=c_pps
- a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=UEx5U1dda6wf6Co_AVQA:9 a=QEXdDO2ut3YA:10 a=hhpmQAJR8DioWGSBphRh:22
-X-Proofpoint-GUID: jgdeeVySQuon2rBBl85XvtAj_CcbDkPN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-06_05,2026-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 bulkscore=0
- priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611060060
 
-On 11/6/26 9:27 AM, Tapas Rana wrote:
-> QMP PHY drivers always enable receiver detection (ARCVR_DTCT_EN) in
-> autonomous mode, and additionally enable LFPS detection (ALFPS_DTCT_EN)
-> when a SuperSpeed link is present; otherwise they fall back to
-> receiver-detect event selection (ARCVR_DTCT_EVENT_SEL). This choice is
-> made by comparing phy_mode against
-> PHY_MODE_USB_HOST_SS/PHY_MODE_USB_DEVICE_SS. However, dwc3 core only
-> calls phy_set_mode()/phy_set_mode_ext() with the base
-> PHY_MODE_USB_HOST or PHY_MODE_USB_DEVICE, never the _SS/_HS/_FS/_LS
-> submodes. 
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] usb: gadget: gadgetfs: gadgetfs_setup() reuses req while
+  setup_out_ready
+- [Low] usb: gadget: gadgetfs: invalid Fixes SHA and syzbot command in
+  changelog
+--
 
-Without much more insight, this sounds like the place to fix it then
+commit 30f3f2dca823922d4eaa362244e46b92716f82d8
+Author: Jing Lin <kayano050408@gmail.com>
 
-Konrad
+> usb: gadget: gadgetfs: dequeue pending ep0 request before freeing
+>
+> Please test this gadgetfs ep0 request lifetime fix
+> The unpatched base reproduces the warning and use-after-free locally
+> on arm64 QEMU with dummy_hcd and KASAN
+>
+> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux=
+.git f66469d9905b39d2c260a15d7d6db450f4db67c1
+>
+> gadgetfs_unbind() frees the preallocated ep0 request after disconnecting
+> the gadget, assuming that no I/O remains active
+>
+> With dummy_hcd, disconnecting does not necessarily drain ep0, so a delayed
+> userspace response can leave dev->req queued when it is freed
+> This triggers the warning in dummy_free_request() and a use-after-free
+> when dummy_udc_stop() subsequently drains the endpoint queue
+>
+> Track dev->req from submission through completion under dev->lock and
+> reject reuse while it is busy
+> After waiting for active UDC users to finish, dequeue a pending request
+> before freeing it and clearing ep0->driver_data
+> Drop dev->lock around dequeue because the completion callback takes it
+> Only dequeue pending requests to avoid errors from UDCs that reject
+> cancellation of an unqueued request
+>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Reported-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3Dc73e1942197af9f54ca3
+> Signed-off-by: Jing Lin <kayano050408@gmail.com>
+
+[Severity: Low]
+The conversational testing notes and the "#syz test:" command at the top of
+the commit message should be removed before applying.  Also, the 12-charact=
+er
+prefix 1da177e4c3f4 in the Fixes: trailer cannot be uniquely resolved in git
+history.
+
+> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legac=
+y/inode.c
+> index 7f6d8460152f9..d60df4ad38a3e 100644
+> --- a/drivers/usb/gadget/legacy/inode.c
+> +++ b/drivers/usb/gadget/legacy/inode.c
+[ ... ]
+> @@ -1508,6 +1529,11 @@ gadgetfs_setup (struct usb_gadget *gadget, const s=
+truct usb_ctrlrequest *ctrl)
+>  	} else if (dev->state =3D=3D STATE_DEV_SETUP)
+>  		dev->setup_abort =3D 1;
+> =20
+> +	if (dev->ep0_req_queued) {
+> +		spin_unlock(&dev->lock);
+> +		return -EBUSY;
+> +	}
+> +
+>  	req->buf =3D dev->rbuf;
+>  	req->context =3D NULL;
+>  	switch (ctrl->bRequest) {
+
+[Severity: High]
+Can gadgetfs_setup() reuse dev->req while ep0_read() is still copying out a
+completed control OUT transfer?
+
+When a delegated control OUT transfer completes, ep0_complete() clears
+dev->ep0_req_queued and sets dev->setup_out_ready =3D 1, leaving the payloa=
+d in
+dev->req->buf until ep0_read() copies it to userspace and calls clean_req():
+
+drivers/usb/gadget/legacy/inode.c:ep0_read() {
+    ...
+				len =3D min (len, (size_t)dev->req->actual);
+				++dev->udc_usage;
+				spin_unlock_irq(&dev->lock);
+				if (copy_to_user (buf, dev->req->buf, len))
+					retval =3D -EFAULT;
+				else
+					retval =3D len;
+				spin_lock_irq(&dev->lock);
+				--dev->udc_usage;
+				clean_req (dev->gadget->ep0, dev->req);
+    ...
+}
+
+Because gadgetfs_setup() only checks dev->ep0_req_queued (and clears
+dev->setup_out_ready =3D 0 at the delegate label before calling setup_req()=
+), a
+new SETUP packet arriving while ep0_read() has dropped dev->lock for
+copy_to_user() will reuse dev->req:
+
+CPU0                              CPU1
+ep0_read()
+  spin_unlock_irq(&dev->lock)
+                                  gadgetfs_setup()
+                                    /* USB_REQ_GET_DESCRIPTOR */
+                                    req->buf =3D dev->config;
+                                    usb_ep_queue(gadget->ep0, req, ...)
+  copy_to_user(buf, dev->req->buf, len)
+  spin_lock_irq(&dev->lock)
+  clean_req(gadget->ep0, dev->req)
+    kfree(req->buf)               <-- frees dev->config / interior pointer
+
+If the new SETUP request is USB_REQ_GET_DESCRIPTOR, req->buf is pointed at
+dev->dev (the 18-byte descriptor at the tail of dev->buf), dev->hs_config (=
+an
+interior pointer into dev->buf), or dev->config (dev->buf itself).
+copy_to_user() can then read up to 238 bytes past the end of dev->buf when
+req->buf is dev->dev, and clean_req() then passes req->buf to kfree(),
+either crashing SLUB on an interior pointer or freeing dev->buf while it is
+queued in the UDC and before dev_release() frees it again.  If the new SETUP
+request is another delegated control OUT transfer, gadgetfs_setup() clears
+dev->setup_out_ready =3D 0 and re-queues dev->req, after which ep0_read()'s
+clean_req() frees the new req->buf while queued and resets req->complete.
+
+Checking dev->setup_out_ready alongside dev->ep0_req_queued in
+gadgetfs_setup() would prevent reusing dev->req until ep0_read() finishes
+with it.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179397691694.27761.=
+9543494907127681190.gadgetfs-ep0-patch-test@gmail.com?part=3D1
