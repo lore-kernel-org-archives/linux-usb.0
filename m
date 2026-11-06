@@ -1,60 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793957470;
-	b=aTfKFb+NjGbKWuHJn0oaJWI4c7YM4BYSIXRBLzPT1TiyvPc/h1EOVa2lpP5wK2aM2OIe
-	 U35Bj1K8S3grFr32jB8DJwjg0BoB0duKnAlmBJ5zHTOX6sKSugYmQAcBvQgJoLG/K0KOJ
-	 WvBBXagQBW0jMK3R+Q95505DlYMLLCUvP8KvQe/gm/rBU78afN8/dsoJeBZr0BVqoNNbI
-	 Z++Ts9hjGNyKYnBHK/O4ga/VmiA1sUUxf2D44IkbpR1EqFRaCecQDlyBQA3/+rYwzwqep
-	 n/Tk5yHhVtqEsvNbiaUzm6oZH3RQmoqLWyYuTx3PUWXlEB/xn6YBZ/yA64Uu4Jnq6GQ==
+	t=1793957482;
+	b=HBbj6X9/B/n9mXEoVzcvU7XDbuBrM01yAWCJoRIXPL6U7R+FNLJQJt5d6AlM++4kfFXp
+	 C7Nxn9kJ06cL/SO82H8zEqog3FU7jvDvVzjtbDXoWNbqakRWMCnpRpfWkSdsziH/oQTF/
+	 o8WDDsHMRW2mlSqcbsYbdDxV3dE53FTEMbR09IXCF//GaHZ/roclRHZTZ6ZQECGZNKnct
+	 BUeDpyBVNK3cOhHUJE5+Pwviey3LMAlTn/xeQMJzDKdoE8cWuxxKVNgHl/GokXHAhLIEy
+	 FOSCrrO+twTqQNg+4cO9i6+PCGRhJn/CUw/znPSDjbTwzb5MEQ0CM1VbE0d7pHgH4Jg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793957470;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793957482;
 	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Last-TLS-Session-Version;
-	bh=FEY+pNQv3raFD6ItQ5TruQMpIhIehZiBlMa2MptY0Ko=;
-	b=zt2Aey9KmcR2dFQIMzotJBgQ6qIsfGjVXFmyqDmiM3vKigUVC9URZEoh8aGMXp4AHhPq
-	 sfHue4jwydha1zDbKsP7ljnBW5/T1Jos6EOGCacppKGRecYN+ze2fImqfWYoSasvrXQZC
-	 jIbh+ZtvACI+FdLRaqlJb0viHDpYdBXQo+MLRh/WANn4/1+6raIC4RLERUy9hcQN/8DXV
-	 PkaCJ6mah0rh5VoKYapdYC9oFWYAb0G2Zk/89Vl5JsN7L5S4nc7gJDTFpHWgKmEx8Pufe
-	 a5KfWjhYgqz52RvtHV/y6m1Gwg95kmigrxLFCWEmc9FW/k4nuIloHjwDrfitZpRpiqA==
+	bh=QLYkWtEN7WalqBEHRAOhsQQEXGo0FNnoMfBxTpC6uGY=;
+	b=UwR/tz0GLK282/UfUpuW9arAu6S2H0HQW8+BAUHxw1eJ7pzb9dUrF3BvtUmJVMhkeCnR
+	 KCB8BJii8wRGfgdfkw+IiWM61W/oDDJEI2T8oZJwS5lgH3IbZJd0wQU74DfE3JnBDTjnU
+	 yvsuAFkYOUCrdhbdX0VxxYiLQHHBwxLWv+4/ggo/0PCZZQdQU37EGVNTQ98xyW78isjaA
+	 K5bODk3BLzWrnrx5L/yqwfItOy2JR7nAzGh9CME3FUP0XlFS6tUKYOnGa9CqYET/7Ekax
+	 njNo+AqqdlPQGzOARwWGzwzY3LVybyuw0NdE1JV18DwpSxU5JUFAONEejVsyCdZZlxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bootlin.com;
 	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=IL80sULf;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=fhPaivNp;
 	arc=none smtp.remote-ip=185.171.202.116
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505AD606EE8C;
-	Fri,  6 Nov 2026 09:31:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 505AD606EE8C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BDF606D81F
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 09:31:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76BDF606D81F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=IL80sULf
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=fhPaivNp
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 2DBACC69166;
-	Fri,  6 Nov 2026 09:31:07 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id BA6E1C69166;
+	Fri,  6 Nov 2026 09:31:19 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A565E5FFBC;
-	Fri,  6 Nov 2026 09:31:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BEC47103292D3;
-	Fri,  6 Nov 2026 10:30:57 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 39F6A5FFBC;
+	Fri,  6 Nov 2026 09:31:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 30FA710329258;
+	Fri,  6 Nov 2026 10:31:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793957463; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1793957476; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=FEY+pNQv3raFD6ItQ5TruQMpIhIehZiBlMa2MptY0Ko=;
-	b=IL80sULffVhHJjUPB6lq/meZSVUj5X67ZG4gALd59IoF1PC+QcnS+ZtkR41hdmJaMtm+E5
-	DgOFn5AYSlbgiiercLioIm6i38rNtfjIKd/icYFG85nDE7/Nf0/t0FD4hjG5jv+CEKh4m9
-	r1HoesTUtas6qvAbxoRtPS+7mivpPruzXbIMxstzFue5GFKHwYX1HiKcKLZVh4YOs3J3Xb
-	iYJDxrPYo1r2EOllL694SVGgrxYw2gQHpgIDloPEfR8G/UVTFpPl418WOI91Wb8HddFiH9
-	pqNCxMwN7mTFZjyS1p+hSAYTIOPu0ZtKl6DfoNTL52GoCbGBR+BEgXR/YoCD1Q==
+	bh=QLYkWtEN7WalqBEHRAOhsQQEXGo0FNnoMfBxTpC6uGY=;
+	b=fhPaivNp/k0cCUWJfGKo8HFcZ2WHJAFR+CTRjfbiGfLQeZ4kwRAKx33IOsgm/CqXJFtJ5w
+	sJr27DBLIQ/hLOd3HYo0MDZAPDgEz3b+bweWVoxCHjR7ChTrUZOX1Aaj+tzaZ2IrUAMCvI
+	HPrqljvEQsNy3eku/1UFusY7pPLusv2wXDKsUveU3Q2+Mf2E8N66LRRw+9vwyfIx1kcqCS
+	OWLMe7hEH8DGDchj/na0s7ySL0JF8dgLW2yCik+0XplHYtJSogsREUrEN8iIzmC9/I/NIA
+	DElf9Yhie34muUDWk6bdzy6S94MxnTn2p8i1x9SjCfk8iKOEeKrBI45lexXPEg==
 From: =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
-Date: Fri, 06 Nov 2026 10:30:01 +0100
-Subject: [PATCH 04/25] dt-bindings: power: reset: add Metanoia MT2824
- reboot
+Date: Fri, 06 Nov 2026 10:30:03 +0100
+Subject: [PATCH 06/25] dt-bindings: cache: andestech,ax45mp-cache: add
+ MT2824 compatible
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -66,7 +66,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20261106-mt2824-v1-4-86087eaf5af4@bootlin.com>
+Message-Id: <20261106-mt2824-v1-6-86087eaf5af4@bootlin.com>
 References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
 In-Reply-To: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -99,56 +99,28 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 X-Mailer: b4 0.16.0
 X-Last-TLS-Session-Version: TLSv1.3
 
-Document the Metanoia MT2824 reboot register, which the firmware writes
-in machine mode to perform a warm system reboot. OpenSBI has a system
-reset driver for it.
+The MT2824 reuses the AX45MP L2 cache controller with its own cache
+configuration. Add a SoC-specific compatible in case there are additional
+differences between the two implementations.
 
 Originally-by: Jun Chang <jun.chang@metanoia-comm.com>
 Signed-off-by: Benoît Monin <benoit.monin@bootlin.com>
 ---
- .../bindings/power/reset/metanoia,reboot.yaml      | 34 ++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/power/reset/metanoia,reboot.yaml b/Documentation/devicetree/bindings/power/reset/metanoia,reboot.yaml
-new file mode 100644
-index 000000000000..2670fe7ab93f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/power/reset/metanoia,reboot.yaml
-@@ -0,0 +1,34 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/power/reset/metanoia,reboot.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Metanoia MT2824 Reboot Controller
-+
-+maintainers:
-+  - Jun Chang <jun.chang@metanoia-comm.com>
-+
-+description:
-+  The Metanoia MT2824 reboot controller provides a system warm reboot through
-+  a memory-mapped register. It is used by the firmware in machine mode.
-+
-+properties:
-+  compatible:
-+    const: metanoia,mt2824-reboot
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    reboot: reboot@10000004 {
-+      compatible = "metanoia,mt2824-reboot";
-+      reg = <0x10000004 0x8>;
-+    };
+diff --git a/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
+index b135ffa4ab6b..c94044a049b2 100644
+--- a/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
++++ b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
+@@ -30,6 +30,7 @@ properties:
+     items:
+       - enum:
+           - andestech,qilai-ax45mp-cache
++          - metanoia,mt2824-ax45mp-cache
+           - renesas,r9a07g043f-ax45mp-cache
+       - const: andestech,ax45mp-cache
+       - const: cache
 
 -- 
 2.56.0
