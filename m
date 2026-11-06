@@ -1,56 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793962285;
-	b=EtAFk3lm4qw0+UyFKoPE6P0Hte2LXst1I8xG2nsnS3ldZteEbnexa4n3Ybg+x8DwXqfP
-	 JtppGVqWAWeDmkHgZC9ZqQQhHJTZNnNE/OOZm0wdnRDO+YuaTq9qI15NJsIsaPmga+5nk
-	 Nz7RKUDDLIzpQcne0v0oWRNFQvZ83Ychfo8kxb70RtsELOotAGwA8oj/41/FbG4OxYb4u
-	 4ptT89l+IuD6weYlKiTZTK5mUDqYp8bV565rIL3VY5w3ndaI+/XO7pt7M7SCa4aC/bZhO
-	 x2dMFmG9bdJ3zxs8Ndu8cVmcvT+h5d/0aXNsTtXiriafDvQYdpjJKxGhKpsYft98anw==
+	t=1793962677;
+	b=mqkrBViAjHDjHL4gVkog3juIRCTlQ8gTQUrAHf/F4TPDZm5mVhDDxFoqd5t793KCe8vj
+	 X3AQgRWajv8+0KqmxuG54aHiLG1PWKnCC/RBv7aLaXjPC/yweO5RJEou19/kSZLPFHF2w
+	 lsfwbYDd96D8m16H3lAzA3f3lz+kvb1UDwVseV8gTgVXGr/EXR2stAf1ri1YMTKf9fft/
+	 eMaBD42bVEVsPYxb5CCOYMJR7waqH8fdnGh5nQE7oJiokO3BecRxQK5Svm/atGGFMdCwF
+	 xNrKM2rrDYF9omwHDGuO2HNm4hHDgpcVrW33KLUtiok8fkpiLr0dD/o9O/nFPfRkWiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793962285;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=tNDWEqTUh/atK6sX3f9liOErk8ImcEAgB0wntcGjQSM=;
-	b=kBxESYB6Q8DzahROMPlxRjl7LkuxhkKKvmOIE8i2v/jz8s8pdxhzpQCrYGpRx7r0IqJN
-	 V/zJ1P/9bVLkMccXVIh1ZcRaCh2NJOo4Lfte/VgL0tZFaP1tSdvbsqI18w4BONnMrbqWw
-	 5Sc6Q68b+qKp4svdmA8JXthX9kiMg4yb+JAzhSwNJCY/miKTbALA4EJ2CDl6hOmUluD+l
-	 djSS5m2RY8EvOevybAJ0YASNYUv0y9sf0PwLEUVNiA+uKK4PBWZ1IQxZgpnVBzmVVKXkA
-	 l4hqzkzdyjHxV6Y0yiDsadwEwOTuB0rh4kOR5yvZKdKTprRlBlARw1TIl3aWivant2w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793962677;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=FFpmPVuuYr5OY+WPB+hE25pYug3GLunmJUfruqboQtA=;
+	b=sJT84p3j5mWvfycKWBsC1NeCSW6a9ppx5FVHouPTqexP7nCGRmofTsdv27xZ/xipmV0D
+	 +CS8SWdbSlckNBooxfkQSXWZzYe2YA0PoQqlU7Y7I5FF0C49sxXX3+uMAp/rYW4w+UGrN
+	 G16V4qIv3qxsC3U4Dr8XAV1M6QwKeDjRbcM+qJ8g94z9yzl3FvCqPDHd2rqIanKvU7/7B
+	 cQDHP8lRssdOJMBEU9ujNLxTk0EPSKguw9ixulGKmoTgnjRdBI6WTAILO/M2Tnfv9dvbU
+	 FDWlm2hJTFxBcpyiFCJCWHEHds2G8fFhLtCa/As8wmpxkKk3t9aHM5ARr6/cAiSaT/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kQqygV3j;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JGfRrjyD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7127606A32E
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 10:51:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF7B606A329;
+	Fri,  6 Nov 2026 10:57:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kQqygV3j
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90D881F0089F;
-	Fri,  6 Nov 2026 10:51:24 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JGfRrjyD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 023C71F0089F;
+	Fri,  6 Nov 2026 10:57:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793962284;
-	bh=tNDWEqTUh/atK6sX3f9liOErk8ImcEAgB0wntcGjQSM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=kQqygV3jqEmMC4ap2DbrIH4KiSl/5eAaHACv1YNwuhkMLWK+lAMB5zxNVDvdwMeN8
-	 d6pBNtsLJvc2i6MsqNh6P+O7yHQ/NYsDN8OdkarrbZHeTvdCytqez0X5EpnNQjPvRa
-	 64UVJc25VAbvKoqq4gT+YGXXllR8oMesTyynK6gCV1kaq7pQbXcqjM0cOMUP4YAbio
-	 WD+VfjJa/pXUtwCN0lWxY5Pk1zOLN82mEu1EtumXO3y4pTR33LpH8Cz7k2v4f9Y4sQ
-	 A6w4n6HauIQDrYEvGWnbibdHbuFxesE+QZ+ebdiftyCWdaotG0qt0zZuNx0tYDzvp7
-	 SCphli3gl+wpQ==
-Message-ID: <sashiko-outbox-201233@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] dt-bindings: usb: amlogic,meson-g12a-usb-ctrl: add S4
- support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: christian.koever-draxl@student.uibk.ac.at
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261106104632.54161-1-christian.koever-draxl@student.uibk.ac.at>
-References: <20261106104632.54161-1-christian.koever-draxl@student.uibk.ac.at>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 10:51:24 +0000
+	s=k20260515; t=1793962677;
+	bh=FFpmPVuuYr5OY+WPB+hE25pYug3GLunmJUfruqboQtA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JGfRrjyDZiNal+NLyiMYsXj/0YfYKX1XORe4GYP0DOASaNA659T+Ku6IN/L9p153f
+	 v0uTNv46ZuVOd5g5ZgvYbvzEuysr6IcJL+OpuZs61kejA+c0op19bG2q5xM+49pDZN
+	 znCd2wd4FQU9Mii7ASxLxnre7QxG1IvDgfm6JfNz8dtn38FOBFT2VmA3oQRvJVEmaZ
+	 MJDDHzUCydieg/oVmsA4ElsizRUiIsMCWwd2amnJdixxPD2rD8ZpWJ9q5k9hv0ZFJo
+	 65+mDIsU4GhFd6j7VRyL6J7WgkSS99WMgCcPcCXDKevfkpgSmJ+XQv8I/Zau1oCBrC
+	 e0OtR9rj2o8cg==
+Date: Fri, 6 Nov 2026 11:57:53 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Alexander Dahl <ada@thorsis.com>
+Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Ryan Wanner <ryan.wanner@microchip.com>, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Brian Masney <bmasney+clk@redhat.com>, Jerome Brunet <jbrunet+clk@baylibre.com>, 
+	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH v4 02/16] dt-bindings: clock: at91: Split up per SoC
+ partially
+Message-ID: <20261106-beige-ostrich-of-merriment-ae6eb0@quoll>
+References: <20261105110715.2486432-1-ada@thorsis.com>
+ <20261105110715.2486432-3-ada@thorsis.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,19 +64,60 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261105110715.2486432-3-ada@thorsis.com>
 
-> From: Christian Stefan K=C3=B6v=C3=A9r-Draxl <ckoever@outlook.de>
->=20
-> The S4 USB glue is the G12A one, but it fronts an xHCI host controller
-> instead of a DWC3 core, with two USB2 PHYs and no USB3 PHY. Add an S4
-> compatible with the G12A one as fallback, and allow a generic xHCI
-> child node.
->=20
-> Signed-off-by: Christian Stefan K=C3=B6v=C3=A9r-Draxl <ckoever@outlook.de>
+On Thu, Nov 05, 2026 at 12:06:38PM +0100, Alexander Dahl wrote:
+> Before adding even more new indexes creating more holes in the
+> clk at91 drivers pmc_data->chws arrays, split this up.
+> 
+> This is a partial split up only for some of the old PMC definitions.
+> 
+> Binding splitup was proposed for several reasons:
+> 
+> 1) keep the driver code simple, readable, and efficient
+> 2) avoid accidental array index duplication
+> 3) avoid memory waste by creating more and more unused array members.
+> 
+> Old values are kept to not break dts, and to maintain dt ABI.
+> 
+> Link: https://lore.kernel.org/linux-devicetree/20250207-jailbird-circus-bcc04ee90e05@thorsis.com/T/#u
+> Signed-off-by: Alexander Dahl <ada@thorsis.com>
+> ---
+> 
+> Notes:
+>     v4:
+>     - "re-added" some definitions present in hardware but not used in dt
+>     - reword header comment (at91 -> Microchip) for newer SoCs
+>     - PMC_UTMI was renamed where appropriate according to datasheets
+>     
+>     v3:
+>     - full splitup for all at91 family SoCs instead of just a few
+>     
+>     v2:
+>     - new patch, not present in v1
+> 
+>  .../reset/atmel,at91sam9260-reset.yaml        |  3 ++-
+>  .../bindings/usb/atmel,at91sam9rl-udc.yaml    |  3 ++-
+>  .../dt-bindings/clock/atmel,at91rm9200-pmc.h  | 16 ++++++++++++
+>  .../dt-bindings/clock/atmel,at91sam9260-pmc.h | 16 ++++++++++++
+>  .../dt-bindings/clock/atmel,at91sam9g45-pmc.h | 16 ++++++++++++
+>  .../dt-bindings/clock/atmel,at91sam9n12-pmc.h | 16 ++++++++++++
+>  .../dt-bindings/clock/atmel,at91sam9rl-pmc.h  | 16 ++++++++++++
+>  .../dt-bindings/clock/atmel,at91sam9x5-pmc.h  | 16 ++++++++++++
+>  include/dt-bindings/clock/atmel,sama5d2-pmc.h | 20 ++++++++++++++
+>  include/dt-bindings/clock/atmel,sama5d3-pmc.h | 16 ++++++++++++
+>  include/dt-bindings/clock/atmel,sama5d4-pmc.h | 17 ++++++++++++
+>  .../dt-bindings/clock/microchip,sam9x60-pmc.h | 15 +++++++++++
+>  .../dt-bindings/clock/microchip,sam9x7-pmc.h  | 19 ++++++++++++++
+>  .../clock/microchip,sama7d65-pmc.h            | 26 +++++++++++++++++++
+>  .../dt-bindings/clock/microchip,sama7g5-pmc.h | 23 ++++++++++++++++
 
-Sashiko has reviewed this patch and found no issues.
+I miss the "split" part. You only added defines, shouldn't you remove
+them from other binding?
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106104632.5416=
-1-1-christian.koever-draxl@student.uibk.ac.at?part=3D1
+Best regards,
+Krzysztof
 
