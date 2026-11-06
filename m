@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793957706;
-	b=wTTUAz+dTt+Qd1zKXijII5XsI0O4+ecIIzcVns9TIaMYfodFGKYiMYN/+aGB5s4+1DkW
-	 8oKC4n7hHU01yNchWqJYW1XxHPQItbmavjdy5KX46Rnco1Hmx/axQ3eN7GIpo0HMZAy4M
-	 q0IXvDQ8q+L4Fd9aXQ92aVDtWcGFXR8TzS1b0RLRXMFGOr6j+aJ9XY1O7OHfQ/nDGo98L
-	 2Rg/UBihfNS2MK9x99qchsccMjg8L1NMTqx3pBfBITnrMNzoEq2nvW1plCTImnoIesdLS
-	 +XIO20Xf049mu/XhFBvUM/HgAI22r7eS4N4BFRqtOkDVxbkKe10iI4VOeN6aTZ3Cr5w==
+	t=1793957712;
+	b=sEAQn3/9KCytCnLdqL3hyYUyyhoWwKDw1XQ25pvPUfLnZV1m38EWoSNwjt/DBII+afYW
+	 NFfSYU84Hn3KkvLW4Vrw/8oxzu4DWzdYtR6HLLoRAqMSt26P2UQLgFDSojS4B79wLAiPq
+	 8wSb1Z2oFCw/0mH3I08wsfQjAZHxQaGzjaNNlXzwbV0pXfla40eogRegy+sLNHE5J5IC/
+	 wjxbxbAlnmaaIESnqHpdI3Of55+9OLIbH47A3J3Fv/FfBbm6ptr/JEi6qP3dmJ2Ml5L6z
+	 VBqYAV8FUN4UDn8wZsPaxihy8Ts1mvcb4hdFqd9iOv0Oj+jVCpFJhIHjAr2OJDqXOPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793957706;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793957712;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=LByZqvxZngVsixeAwT9OyHjrx6r6iQtrkbkRM5bdLlg=;
-	b=ipMlxO7W0Kpg3+1wjLOrYXpQq1qjss/wdWbl7b0dMFqv9CSXx1FpK+EAOmQt/Pbe1jJc
-	 MpaDYttZLgXK3fpRA1qIdCvB3pPwuRB21kcDyYKhkypK7eAXNoCay3W/RI2Bo3rtpzn8A
-	 6ejzIE2Ra1RiA2DRz05H4MGK3SkZDnv8wP+CGSlBzFgLMUZu5+eQS9Qcar8Wj6QS4fOWX
-	 GJ62vkv+Odt56DeaM1S4w8guxrQAZQr5aHD3d7D0XWKOev54MdljKFyxKwM5UBRKLbbsM
-	 4zt5NpFXT26hwRKrxXJFWEUCdtrLSXb9z8UiN2PS9DOZ0K93G+AQ5sHEhlqD46zntow==
+	bh=UmEdfzRhW50nHuKxTjo8DGqlBuEJbWvl3D2rDssjdKs=;
+	b=ezeKQe8gkiSenPzoKba3ALNZRLcSYOJFIhu8R9XgRKrzNLIyj5U5B9RD65+Rg0iCu7mX
+	 1NXNzkDWKC77yiauL1j2FTCVU0jEJNT5WyqLzEM+a5nDsqA+8ujGBtMCbM8U8+Co2SWqh
+	 8W8NT8LRkXu1kE8gGrG+6Iop+QrMBWEifZ3yL52E7YsdrnqInml32cGxW0q6aCPmki6JV
+	 0jVBnXofmXvg9eGIU2pS4Ckxww1uPAYcKSqmOI1aDii3Htw01Lczo1Tz06w+xV1z4uE3T
+	 9oaArRl6UmsGAn0TZp8nql6SaZSlxIGRmRixLRcjzbVpqJF0p2GM8AESn2+JUXOUAHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H9vaYWz4;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TkoUHulo;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1495B606EEB1
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 09:35:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D356083606
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 09:35:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H9vaYWz4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B01741F0089F;
-	Fri,  6 Nov 2026 09:35:05 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TkoUHulo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A4931F0089F;
+	Fri,  6 Nov 2026 09:35:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793957705;
-	bh=LByZqvxZngVsixeAwT9OyHjrx6r6iQtrkbkRM5bdLlg=;
+	s=k20260515; t=1793957711;
+	bh=UmEdfzRhW50nHuKxTjo8DGqlBuEJbWvl3D2rDssjdKs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=H9vaYWz4PWBa4BYtJVb135/vwsiZUdcBBPrjtxoW7qG7myxiK1Uc2u1kYneF11TS2
-	 4M9EpVvA/QeoVfMnKkMNfxiM7RSD5K7kEvNCvIsR5vaCiQdjBIvNX39Tt3fGgRzw6g
-	 wgW7Vq/zLMgfaiGeTV+wNPzZeGdAhWRW7/widCcGBYuxMoIsxxjdnNpsnlkqx83eSQ
-	 oXHPNe7khLvz8yd1L/FMwsp4otAWns0Mbd/PsQ5SGW0YUeqvveAI3OOh6lMd1Wd6T/
-	 KWb0u3H8y9MMTKiwYIR37ZvGkJWxSFROWePkJ8+LJnKDKj51k1KXrBXwhpWsPJaIAj
-	 VEdBWIr58SqlQ==
-Message-ID: <sashiko-outbox-201119@kernel.org>
+	b=TkoUHuloYFRvvI4+r3KS6azOOsPLK8CcIZ9AjJ+3EUJLC9qUc8WijLqQwh6tqZZiF
+	 P66F7jpSXcbdR6Rpq5bHACn3m7ulWBwoME7TAVSEQZx2+4wmkMqLMCvej9FK4KhKTU
+	 08qf2Ka04BQCLWJ0PznuoPtmM2ThSoht/pY4No0lOR6IxMHznBLO6eptXLO8ce3LQO
+	 pGygfepKdug4+NOcgXBkThWPPJjl51J/EPI77z1GBmR27vGxSMd/ANeTWITtey2aWJ
+	 4LtnpOoFjmhqWPeaNIQNlAC8fKZYwl9fWXILM8KmT6o01F/Ur7aEHH1Lxdv5ceZIsB
+	 mCy7NywO0NIjw==
+Message-ID: <sashiko-outbox-201120@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 01/25] dt-bindings: vendor-prefixes: add Metanoia
- Communications
+Subject: Re: [PATCH 08/25] dt-bindings: interrupt-controller:
+ andestech,plicsw: add Metanoia MT2824
 Reply-To: sashiko-reviews@lists.linux.dev
 To: =?utf-8?b?QmVub8OudCBNb25pbg==?= <benoit.monin@bootlin.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261106-mt2824-v1-1-86087eaf5af4@bootlin.com>
+In-Reply-To: <20261106-mt2824-v1-8-86087eaf5af4@bootlin.com>
 References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
- <20261106-mt2824-v1-1-86087eaf5af4@bootlin.com>
+ <20261106-mt2824-v1-8-86087eaf5af4@bootlin.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 09:35:05 +0000
+Date: Fri, 06 Nov 2026 09:35:11 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,11 +61,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Add the vendor prefix for Metanoia Communications Inc., a fabless
-> semiconductor company specializing in wireline and 5G radio access
-> networking chips.
->=20
-> Link: https://metanoia-comm.com/about-us/company-overview/
+> The Metanoia MT2824 integrates the Andes PLICSW software interrupt
+> controller. Add its compatible string, with andestech,plicsw as a
+> fallback.
 >=20
 > Originally-by: Jun Chang <jun.chang@metanoia-comm.com>
 > Signed-off-by: Beno=C3=AEt Monin <benoit.monin@bootlin.com>
@@ -74,5 +72,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-mt2824-v1-=
-0-86087eaf5af4@bootlin.com?part=3D1
+0-86087eaf5af4@bootlin.com?part=3D8
 
