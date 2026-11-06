@@ -1,81 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793984088;
-	b=n+tjvDa6KUP/SAXnuHWurZ2RxLZdVI8tGeog7lZMRW5QFfzBJJdNStcXTegh6hK6s7iq
-	 5KdeTIbIKXREZ9Eh2mpCX96bipdL5MZsuMFMfCCa3X9Fi4jkTAla1xnX3PIF+NIve8aB1
-	 IYQSzBXUCZQBlV3+KmfaNGN0JXk0efZAogaWDrPCRAmUTRvmOfBCixB0NWaDL/67EGeFE
-	 61vByCMW1DR6jCy2FQvOAT+PaoY3BL773f0cet919zGv42LjrUbQ8Ut3Atg5ZYAPeTFud
-	 OUA0Ea15fc5vb2uXs0/33/t5iQWjrR9OKVuW4FG9Rcy8iIHW3scYP60UGOfIQLod/eQ==
+	t=1793984550;
+	b=yPQY5EQ3GQPV57uaBStjhMvt0Xto4MY1lrIBhH0AzXhZHOQIqqizDuBfJZyqayaGxvEF
+	 4/BVvATsL9561mS5Tj8eqlQQEA3ak2vQuU9ITE+MeFbzaWsestPeSrvcIh33wW9K6xDxJ
+	 JuTwXO1lrCPCOlwg3qHStoGdSJjdIXPs8iyVmdYh3JwrJXVgXYXmqFTVbOWcr1R2mBg0G
+	 cZ4WNol0/PapuUITjDkVQhtoCvNoTIA2/YBjliOOpht9apqZbQUHBkyzfqdLEhnWSX0FF
+	 12hhVMfxwlK+qiXIOUpUQ9anaDlh9Y2IMXIV+zMyTf17+Lvit1IGqMpQs5MRMZbyR2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793984088;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=aMkNODpgmrATQj9IJM1uUkWpNaC4E1VN8irZG6ufRFk=;
-	b=lkH03iaMyiztI3F/JWdUimAttzj8BXU/slStmO1YmbzPoYqyA596aJ+0Q5z0K8mC+DOw
-	 NhGYxFoWkrNVFkWR6MhfLUedRZuJEKExwb30ALlsqkhQbDioMhUjKgV7aFtaGaJ+KP3xu
-	 GtuGeZrMTSkcXQwVjh4O7zdMt9iVHXUyVLZar0/Up/bU2tyrgKyXM8nVRp0U0e+sgSK23
-	 Pe9Nf5uBi15wo3R4SX7XHeM/7mF6m8yyFVgxqgYM9bEJ3UJ4bbY6LCE1b/zH3x1vb+qfA
-	 L5asO8cqqAiqiSm+xtvEb4nfUSf8dNke16M6E7QEp/KvmFb0rGD+cOiHnhm0jiMarLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793984550;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=/qZTKeMtYLlan9SFU3DlCAiu7yexd3IDtiotPT8o4LQ=;
+	b=3KjHnbJMTptKXJzbbEVRJeqbmTMmldR8mywT/rCoxbnkVPkiO1UMSb8V40cOYi/sK3ar
+	 WDj+prCba0l311+yCmDhWySH+YB7CwNS93YhOL3HfkRrjBvUhUQE/KCYBygAG/4gCYTO1
+	 6qKJ/2RMT6KyvwzK9jXgeBOfd9UP0xTjWfc5Khqntj8Xz0e+ZHUSDx8ti1Ji4E2E0Yd6N
+	 yezmclTHWCpLP+lflimhzEatPuE7MeYTwNado4QKp2MUKPF8mF45Z1NGdQ+ZNncwUdRHk
+	 e2ckK2gA8rQSfr0tJPm4i1SOBC9lpGTXysIRs728ARBY2y9fOVgSC6WA6ICVjmxPv/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dVhij0Vq;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=la2KYYkN;
+	arc=none smtp.remote-ip=209.85.219.51
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CB2606A333;
-	Fri,  6 Nov 2026 16:54:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4CB2606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B78606A32E
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 17:02:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24B78606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dVhij0Vq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793984087; x=1825520087;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=2eYSqUY3MBYHNEI7ajOhy1qNC3zyWNYaIFvCKPEt7QI=;
-  b=dVhij0Vq7LRlhEH2mjlAU+NcrfmlBX2BSCum1u+ayfKBClAdCIWxxJ0+
-   XOxxgatCoSPjCb230iqZ+BCtpKoNjz3h0sQoauaCFB64Z1lgARQ1zAnX8
-   8LxwpetGN0+i9D2AlyWRmpC8gbQ3RWLLa7yWr92AMZBJdFx4Ezf39/4Ij
-   s5vRAZBRKvCJpOem1wuGsdqsn90PJifSP630qZr4l09/sYe69RqCUMwK7
-   mY9B/lXL5FHqFwWZ5OqAIOXQk53jLjx2mSczZUh/nY57630nKD80MWqAm
-   P1kzUnLhYsohQK7oZBRQE7nJg+xYg3RB/Rd+lqLcZlVmiCoc33PFHMLqK
-   A==;
-X-CSE-ConnectionGUID: CXKo7q3LTeSvQ3oKqeEZ5w==
-X-CSE-MsgGUID: 7aniMfXaToOuk0LXcl7chQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2839675"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2839675"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 08:54:46 -0800
-X-CSE-ConnectionGUID: sKufzv3BQouUdvVh1X1Dsg==
-X-CSE-MsgGUID: uIddZaQJSsebZHvi4d2y7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7182453"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa007.jf.intel.com with ESMTP; 06 Nov 2026 08:54:44 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id ED21E99; Fri, 06 Nov 2026 17:54:43 +0100 (CET)
-Date: Fri, 6 Nov 2026 17:54:43 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: kernel@resetko.pl
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=la2KYYkN
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-91eb46044c4so6466236d6.1
+        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 09:02:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1793984549; x=1794589349; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/qZTKeMtYLlan9SFU3DlCAiu7yexd3IDtiotPT8o4LQ=;
+        b=la2KYYkNdIoMoc6wEeIb+LbDPl6uyQUQpIfVl89pwSwtrSGbFTunXRL/lFB0HHbGhI
+         X376hmYEScQTcKJwZUtZ+vdZ6Pgc1ld83KsGwkwClcMPZDjj0fvJqCldasPof/eBi7Bm
+         uwEP/FyxQb4B/rn/PbVrDW4ujFfjzM0lVu8BohuxO92lUqF2l2AE4LyG+ZlcCEmUCNZx
+         3K99FJipn354A0jE7JlMSh7Cyn7axTGVKg1/J1Y9kw3oHDr+IWgH//MoxGF2e8ZscCod
+         nk37zD8oIoHkQV1sCfMDQSOolbvj6V20gRh0gyETflKTVOMZWIbzQqGB565HVcjZ/fyR
+         z1jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793984549; x=1794589349;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/qZTKeMtYLlan9SFU3DlCAiu7yexd3IDtiotPT8o4LQ=;
+        b=1uNR36DVRYpy7s9dajMZHrHXRlyP6j2O9AGtOR59S9C0JFkPOhsyIo1HE/7d7Z8NEA
+         17mhbvaVxM9GA4koYOcD+93dldxZDiuJDR6LgQ9er2QupM7w2L6UBy73AQ4OCyIg0HiL
+         aAVXqVUAVp5wXJsVmE11DIH6i+pEOl1bhOUtCgBx5ShwT0l5/Q079CT6CKCqXcoJr5p8
+         MfF9wUXQl1iMBslp8oCxfpgRH+A24vvGjM/7U7SQokLaq+vXlqUpPkm6s358tvPgrZmP
+         cw1epJgrkjDbldvXo6qv3vE5/I4rUWGFa4h+tdEOza8+r1Fhd3ixlBca11Y0f4/CAayr
+         I2Tw==
+X-Forwarded-Encrypted: i=1; AL+hErEVtdDhHKEeNirRLj7ndZQUzeORThjjCak6/5X3ptyhEvq9R6A2RaDyMnjq8tX8WRN4ihcXcUvqIug=@vger.kernel.org
+X-Gm-Message-State: APuU4Z913CEbnLCTCfpYQpO1FdSNjg9BHyAHIW90rD1NqcEPnWVVTSs/
+	jRbqcFQjQknp8Ar0WuK21DB+MY43IRL/hRx+YLVD7p4KHClpnGlnVRmigz3not+MMA==
+X-Gm-Gg: AYBFou1WqX+s+QREzTSLqzXe9Re9VQ3gjlwlVYZIlN5rYfDRftJPAz79oao501SxGLv
+	dBLnRH9Kkq6/NON2tZkDM65AKXrseGBtHCnry+V9F8xZDcFc1/Ud2C+wzU9XuZTBQAl7KLqq8Ff
+	cCYubeJTS7WKkJZJjkqG5/f3818jG6r05cjPaXrtDqRHk6d6G9UWBBuqy8VJB7HaMoXYJ0l11M6
+	tGwwSQWHQBnYqnuVyowzKQdOier9xE8fvekxvgkhVhRV9CwG3x9PRHymulN1D1cVIy6QeD+R/Hb
+	8HOtx1St2dKkHZ99WhzWgvYIvKOZuiEMCPRRC1JwwHQf3QoHFkjctwKTMZ+VR7V/pyngOT+IT0F
+	eptjKkj+AvZAcTKO5OhX8a8hQ1ZwT/eQARbxCt0sI9amDwzRRa9xb7JmwZxbRTj9DjxYP6WSdLe
+	LhVgM4L0aMmR+v6pzdTVY9kI/DqQCsS4Fl3F1HIfhsPqYgYWIhpCa//iAd6EyEUXAYGG1vvkYM1
+	d00AiMPQxfxsOvoNByJBVcTvDUBJEtwDC5veP3sjDWOZxLraxa0gCk2vIda2n57hs6zwBnIxqX7
+	MJSkJ6R+nEgA8pEaJzaEdBCHO/6F
+X-Received: by 2002:ad4:5dc8:0:b0:91e:9463:7194 with SMTP id 6a1803df08f44-91ea96643b4mr48110016d6.24.1793984548922;
+        Fri, 06 Nov 2026 09:02:28 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ea6aa7a97sm24230156d6.35.2026.11.06.09.02.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 09:02:28 -0800 (PST)
+Date: Fri, 6 Nov 2026 12:02:25 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: James Clark <jjc@jclark.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Daniel Dev <daniel.dev@noex.uk>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] usb: typec: ucsi: acpi: Assume UCSI 1.2 on Lenovo
- ThinkPad T14 Gen 2a
-Message-ID: <au4GUwhJz1jxYnqF@black.igk.intel.com>
-References: <20261103-ucsi-lenovo-t14g2a-v2-0-e85c659b56a2@resetko.pl>
- <20261103-ucsi-lenovo-t14g2a-v2-2-e85c659b56a2@resetko.pl>
+	Johan Hovold <johan@kernel.org>, Bastien Nocera <hadess@hadess.net>,
+	Matthias Kaehlcke <mka@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Robert Nelson <robertcnelson@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	regressions@lists.linux.dev
+Subject: Re: [PATCH v4 1/2] usb: core: export the generic device driver's
+ operations
+Message-ID: <c267f8af-78eb-43b5-b6f8-98af6749db22@rowland.harvard.edu>
+References: <cover.1793941292.git.jjc@jclark.com>
+ <c1fdf2ed4c508b08734c7a9de002336f60d3b865.1793941292.git.jjc@jclark.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -85,80 +104,31 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261103-ucsi-lenovo-t14g2a-v2-2-e85c659b56a2@resetko.pl>
+In-Reply-To: <c1fdf2ed4c508b08734c7a9de002336f60d3b865.1793941292.git.jjc@jclark.com>
 
-On Tue, Nov 03, 2026 at 05:10:21PM +0100, Stanisław Titenko via B4 Relay wrote:
-> From: Stanisław Titenko <kernel@resetko.pl>
+On Fri, Nov 06, 2026 at 01:12:50PM +0700, James Clark wrote:
+> Export usb_generic_driver_probe(), usb_generic_driver_disconnect(),
+> usb_generic_driver_suspend() and usb_generic_driver_resume(), and move
+> their declarations to include/linux/usb.h. This lets a driver whose
+> probe may return -EPROBE_DEFER leave generic_subclass unset and call
+> them itself, so that it can defer before the device is configured.
 > 
-> The Lenovo ThinkPad T14 Gen 2a exposes a functional UCSI ACPI PPM but
-> the firmware leaves the VERSION field of the UCSI mailbox at zero.
+> Say in the generic_subclass kerneldoc not to set it in that case.
 > 
-> ucsi_register() rejects a zero version with -ENODEV, leaving the
-> system without registered USB Type-C connectors. Without an OPM, the
-> embedded controller does not complete DisplayPort Alternate Mode setup
-> when a USB-C dock or monitor that supplies power is connected after
-> boot, so the display stays dark while USB and charging work.
-> 
-> Use the zero version quirk for the ThinkPad T14 Gen 2a, matching the
-> two board names of this model (20XK and 20XL).
-
-So is the product family the same?
-
-Could you use DMI_MATCH(DMI_PRODUCT_FAMILY... instead of adding
-separate matches entry for both?
-
-> Tested on a ThinkPad T14 Gen 2a (20XK) with BIOS 1.33 (R1MET63W):
-> both Type-C connectors register, and plugging and replugging a USB-C
-> monitor with an integrated hub and power delivery brings up
-> DisplayPort Alternate Mode each time.
-> 
-> Reported-by: Daniel Dev <daniel.dev@noex.uk>
-> Closes: https://lore.kernel.org/linux-usb/b1Wn_eFvTFShGbd970WWl4CWhge_6P2x7Wb6rab3QHNlE4OJ4p__O-QN3B6I-308ftr5oV5Zr7vywA0vdvmtNw6E0YJnVM2ek_5DcFnkXB0=@noex.uk/
-> Fixes: c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
-> Cc: stable@vger.kernel.org
-> Assisted-by: pi:claude-opus-5-5
-> Signed-off-by: Stanisław Titenko <kernel@resetko.pl>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
+> Signed-off-by: James Clark <jjc@jclark.com>
 > ---
->  drivers/usb/typec/ucsi/ucsi_acpi.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> index 47ba0e15b8ba..d752fc7b61ec 100644
-> --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> @@ -196,6 +196,22 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
->  		},
->  		.driver_data = (void *)&ucsi_zero_version_ops,
->  	},
-> +	{
-> +		/* Lenovo ThinkPad T14 Gen 2a */
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "20XK"),
-> +		},
-> +		.driver_data = (void *)&ucsi_zero_version_ops,
-> +	},
-> +	{
-> +		/* Lenovo ThinkPad T14 Gen 2a */
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "20XL"),
-> +		},
-> +		.driver_data = (void *)&ucsi_zero_version_ops,
-> +	},
->  	{
->  		.matches = {
->  			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
-> 
-> -- 
-> 2.56.0
-> 
 
--- 
-heikki
+It's ironic that the generic_subclass thing was added to support 
+onboard_usb_dev, after some debate about whether it would be better just 
+to export the generic callbacks.  Now you're going to implement the 
+alternative solution for onboard_usb_dev, while other drivers continue 
+to use generic_subclass.
+
+Oh well, I guess there's nothing wrong with having two ways to do it.
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+
+Alan Stern
+
