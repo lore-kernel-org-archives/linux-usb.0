@@ -1,56 +1,84 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793988983;
-	b=p/J9YMPsefJqGOnsfqt4oqB1yg29h2KQRoiwMcoPuyhgRGbzGEFpiiXyXSwr141RdQSJ
-	 Pf2m7I8z2TRcBOpgcLuFfcgC3z+wOofo1xPa05Ddr5Q6uD1nAKqDEsi7WNLYUtORwv81l
-	 SJPi4anXbYiesIfeiNjGYPkIErUW7ZSLhOtAX8Dl0aF+2h76vF60t0rcVfS1XPIMaxUxI
-	 ambZ/obLuwz8/qS35MfJa0zo5EiVRC1W9Ks3lV4vQv8m3yI0LUyEt8DTKEp+xmhY6tlWw
-	 IiEC8zR169Rv5gdQ9F8JTyKXPGNp4J5VR8EAqSXrgfsYkIrIm8+mFpUUabhlK0k8iDA==
+	t=1793989197;
+	b=n6y8l1AJhWdW+hlZmVGakcdGebilWA+o3qYYSHbwbnMQbRXjDFv16O71JM73fN8JCAHa
+	 qgjsfWP0WMQDOIb2TpCjk/R/uE+FDHaOMELiU6PnefMp5Pdvqo17Gdi4r2TZwAaKB3Aiw
+	 tCN/KC2u66QVns8FqJ8AHgrwmxUrUDWa7RGawSf5mPbtF0Y/2ucNhsNLPBT38+6t5bziZ
+	 en637b+G9S/DD55ID26AxLVOmZwrA2Sbrni7nOIOKO5il++hd3F7aEIaFPmDzxgRepNdG
+	 UXhvcb2VdjrorOUEG8d3Kt5yAlSumSFgwekqw3E/SBCzM+5k39NYtC05rxKz+yXVoQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793988983;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=hbDWNF1GSoiNW/Nt7iKdiF53IhXTlTaPI/8v/G+fE50=;
-	b=xrPc+6RAC9FRuM8Icfkp8eNc4yWBnlbxtQOlf7jRCTZp3w/756X5aOHcCpsRWViO387e
-	 WQmrVFmJV71WeH+vc2B+Ym5ZJsep1RuBI7vndHrvGcHF7LISQ+dXjrIzaoTGkl95yUlW+
-	 mH1GpFyXnyXIdIjIGio/1kvo1h/TqU+hV2rL9BYpgV2Vf1qt+swXuPEpTM0xpTTu3LrIK
-	 Kk/EpLIqtVJxZkk42LHeNuBUW5k9Xx0rWJmQVDqHUzE0hOcIuG2523BNJqFPDuAQ4tLKw
-	 1ai0+KK6GYJihsQHiI5qb83jEouce+S2n29Xo6lwyQ+J0JQhbS1VajueD0MlBExYiLw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793989197;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=c/20RGI5WiHKKkpDTceQl002Lfa1bhsWYphTb3UDQkg=;
+	b=mPZBs2TM14nLJc3wsov37lkZouzwbOeit0toNP8Q5HCgGxfEfKRBLCSKKt/oChnBC60K
+	 STvGA0LZgdQgLi7xL9g0fgngKi/mQANLWsP2795FxAlXZLFXt/HXp8NMVpEGqYN/Xy4MD
+	 kVG5kViWzeuzRgStwSUxiHQ3jAvQ+BG1Pbs1KVW66hX9qUVQ8+jkr93r9xf9daPJZXlaZ
+	 6g1H/kadTaFO+X5bgQ5Zx45fWGnXzlfubvEB39+bi9kDvsAqT7HfhlPGmB+hZeROSaPgw
+	 ldugFruwAUPwuq0968nYFDB5aQNIiXLa36oND3aa+lvGUzDd7FS9rnszpmquItS2emg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P3MZuWNm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KrBSVpvJ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FBC606D815
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 18:16:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D8E606A333;
+	Fri,  6 Nov 2026 18:19:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P3MZuWNm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7DD61F008A4;
-	Fri,  6 Nov 2026 18:16:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KrBSVpvJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AC2E1F008A4;
+	Fri,  6 Nov 2026 18:19:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793988983;
-	bh=hbDWNF1GSoiNW/Nt7iKdiF53IhXTlTaPI/8v/G+fE50=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=P3MZuWNm1uWRjFT7n2DUcI8BN+whbPOnDyGGUkwsj0hxGPUfLAnMBYshGiwamqB/9
-	 6wgY88ypbBB2qlRsHJ3iQRfhfOgf/YeEhMVAWPLI3Cu1tQMcr762wfnrU/Wc7XrZ2j
-	 v1llBZjHd216RC/wETRxW0W9i67USv4rtAWJ7m8fBMi7xar46LOuOQFOUiRPiG0/WW
-	 MUSSNpRoFcqlmHIKGD8AVBFAplTWJKZokKxo/1U/rez2Gpz1EVvvJJEDropfi6X32B
-	 hWort1K9XTOZurRADQ3GeNLp+uUk0vNkVhzxCe21i070wdS/zfSsYluMgnbrjYpv9i
-	 cyl+o9BbvSGHA==
-Message-ID: <sashiko-outbox-202003@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 1/6] usb: dwc2: fix recovery after PM domain off
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Fabrice Gasnier" <fabrice.gasnier@foss.st.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261106-dwc2-low-power-fixes-stm32-v3-1-68d2a0e9bab6@foss.st.com>
-References: <20261106-dwc2-low-power-fixes-stm32-v3-0-68d2a0e9bab6@foss.st.com>
- <20261106-dwc2-low-power-fixes-stm32-v3-1-68d2a0e9bab6@foss.st.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 18:16:22 +0000
+	s=k20260515; t=1793989197;
+	bh=c/20RGI5WiHKKkpDTceQl002Lfa1bhsWYphTb3UDQkg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KrBSVpvJM7vkY1slHDjt9v9csvTLVw6DZE9OLBCH6kHBWwi/iB0GMO52uMbFZPMu2
+	 aoxCVUIO3CfvqbM4ApUWQqMUyq7T507tTjGYhdLv9cHq0mKkBdnJcKicl10MAbOTO6
+	 l2bPh4z/TPbXDyBRgQauffurjJJKfxnf8R5aSi4pzmXXl5IiGbbZX+1B8VF3IZ5rwr
+	 0g7Tt8zM/nxj3oEc1nE9jrxUZVpbFdLHlwshhP4A3v/UkkQpvvX+reUCCcU7KAJ91b
+	 dy37lW9arn8Wu6MQyOfyX701vpirgwBIQ4tvzJCyh+t3BrRDSXQUnDmZ8+xFdidOMf
+	 sRqoiBHWy1upA==
+Date: Fri, 6 Nov 2026 18:19:47 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jun Chang <jun.chang@metanoia-comm.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sebastian Reichel <sre@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Ben Zong-You Xie <ben717@andestech.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Ulf Hansson <ulfh@kernel.org>, Jisheng Zhang <jszhang@kernel.org>,
+	CL Wang <cl634@andestech.com>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Minas Harutyunyan <hminas@synopsys.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Randolph Sheng-Kai =?utf-8?B?TGluKOael+iBluWHsSk=?= <randolph@andestech.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	Paul Walmsley <paul.walmsley@sifive.com>, linux-mmc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH 25/25] MAINTAINERS: add RISC-V Metanoia SoC support
+Message-ID: <20261106-comic-cupid-a8a3c127307f@spud>
+References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
+ <20261106-mt2824-v1-25-86087eaf5af4@bootlin.com>
+ <4f1e52d9-0788-4601-8f67-898256a776b4@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,146 +87,60 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EI85CRMW6gBoUvVg"
+Content-Disposition: inline
+In-Reply-To: <4f1e52d9-0788-4601-8f67-898256a776b4@kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] usb: dwc2: incomplete gadget state cleanup in
-  dwc2_hsotg_resume()
-- [High] usb: dwc2: incomplete host mode recovery in dwc2_resume() after
-  PM domain off
---
+--EI85CRMW6gBoUvVg
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-commit 8e3990c7f49dc88c8bdad98a994d532a0d203385
-Author: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+On Fri, Nov 06, 2026 at 12:22:15PM +0100, Krzysztof Kozlowski wrote:
+> On 06/11/2026 10:30, Beno=EEt Monin wrote:
+> > Add a maintainer entry for the Metanoia MT2824 SoC, covering the
+> > SoC-specific DT bindings, the SoC and the evaluation board device trees,
+> > and the phy driver.
+> >=20
+> > Originally-by: Jun Chang <jun.chang@metanoia-comm.com>
+> > Signed-off-by: Beno=EEt Monin <benoit.monin@bootlin.com>
+> > ---
+> >  MAINTAINERS | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >=20
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 93abbb315065..310544f96204 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -24072,6 +24072,17 @@ T:	git git://git.kernel.org/pub/scm/linux/kern=
+el/git/iommu/linux.git
+> >  F:	Documentation/devicetree/bindings/iommu/riscv,iommu.yaml
+> >  F:	drivers/iommu/riscv/
+> > =20
+> > +RISC-V METANOIA SoC SUPPORT
+> > +M:	Jun Chang <jun.chang@metanoia-comm.com>
+>=20
+> So Jun will handle the patches? Can we get an Ack for this?
 
-usb: dwc2: fix recovery after PM domain off
+There's no tree listed, so probably Jun is not handling any patches...
 
-This commit removes the critical register backup/restore calls in
-dwc2_suspend() and dwc2_resume(), and instead re-initializes the core on
-resume when GUSBCFG_TOUTCAL indicates that the power domain was turned off.
+I /could/ apply patches for this platform alongside the other one that I
+manage, but I don't really want to and someone that actually cares for
+this platform should be the one applying patches for it.
 
-> diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-> index 6c8a9f05fff00..99463e65d5b4b 100644
-> --- a/drivers/usb/dwc2/gadget.c
-> +++ b/drivers/usb/dwc2/gadget.c
-> @@ -5200,11 +5200,11 @@ int dwc2_hsotg_suspend(struct dwc2_hsotg *hsotg)
->  	return 0;
->  }
-> =20
-> -int dwc2_hsotg_resume(struct dwc2_hsotg *hsotg)
-> +int dwc2_hsotg_resume(struct dwc2_hsotg *hsotg, bool need_restore)
->  {
->  	unsigned long flags;
-> =20
-> -	if (hsotg->lx_state =3D=3D DWC2_L2)
-> +	if (!need_restore && hsotg->lx_state =3D=3D DWC2_L2)
->  		return 0;
-> =20
->  	if (hsotg->driver) {
+Beno=EDt/Jun, please see Documentation/process/maintainer-soc.rst !
 
-[Severity: High]
-When the host has already suspended the bus before system suspend
-(hsotg->lx_state =3D=3D DWC2_L2), does resuming with need_restore =3D=3D tr=
-ue leave
-the gadget's software state out of sync with the reset hardware?
+--EI85CRMW6gBoUvVg
+Content-Type: application/pgp-signature; name=signature.asc
 
-Because hsotg->lx_state !=3D DWC2_L0 during dwc2_hsotg_suspend(), the suspe=
-nd
-path returns early without calling dwc2_hsotg_disconnect() or disabling
-non-EP0 endpoints, and the L2 entry path has set hsotg->bus_suspended,
-hsotg->in_ppd, or hsotg->hibernated.  On resume, dwc2_hsotg_resume() calls
-dwc2_hsotg_core_init_disconnected(hsotg, false), which resets the core and
-sets hsotg->lx_state =3D DWC2_L0, but only disables non-EP0 endpoints when
-is_usb_reset is true:
+-----BEGIN PGP SIGNATURE-----
 
-drivers/usb/dwc2/gadget.c:dwc2_hsotg_core_init_disconnected() {
-    ...
-	if (!is_usb_reset) {
-		if (dwc2_core_reset(hsotg, true))
-			return;
-	} else {
-		/* all endpoints should be shutdown */
-		for (ep =3D 1; ep < hsotg->num_of_eps; ep++) {
-			if (hsotg->eps_in[ep])
-				dwc2_hsotg_ep_disable(&hsotg->eps_in[ep]->ep);
-			if (hsotg->eps_out[ep])
-				dwc2_hsotg_ep_disable(&hsotg->eps_out[ep]->ep);
-		}
-	}
-    ...
-}
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCau4aQwAKCRB4tDGHoIJi
+0rbxAQDp+CX8P4FSxsxtp+sH+XOoVxSjimJET4S5CSWzGNHXFQD/b5cKyz3+v/zA
+eq6hyBYC7BQX3uGp2UiAkQX4EfPpDwQ=
+=dNYG
+-----END PGP SIGNATURE-----
 
-This wipes the hardware endpoint configuration and hsotg->fifo_map while
-leaving non-EP0 endpoints enabled with queued requests and leaving the
-low-power flags set (for example, stale hsotg->hibernated =3D=3D 1 causes
-dwc2_handle_common_intr() to ignore interrupts, and stale hsotg->in_ppd =3D=
-=3D 1
-causes dwc2_hsotg_pullup() to restore pre-suspend register backups).
-
-> diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
-> index ef0d730770347..b65b9898bac0d 100644
-> --- a/drivers/usb/dwc2/platform.c
-> +++ b/drivers/usb/dwc2/platform.c
-
-[ ... ]
-
-> @@ -786,8 +749,25 @@ static int __maybe_unused dwc2_resume(struct device =
-*dev)
->  		dwc2_drd_resume(dwc2);
->  	}
-> =20
-> +	/*
-> +	 * During suspend it's possible that the power domain for the
-> +	 * DWC2 controller is disabled and all register values get lost.
-> +	 * In case the GUSBCFG register is not initialized, it's clear the
-> +	 * registers must be restored. So invoke here the necessary init
-> +	 * as done by dwc2_hcd_init() during probe.
-> +	 */
-> +	need_restore =3D !(dwc2_readl(dwc2, GUSBCFG) & GUSBCFG_TOUTCAL_MASK);
-> +	if (need_restore) {
-> +		if (dwc2->dr_mode !=3D USB_DR_MODE_PERIPHERAL) {
-> +			ret =3D dwc2_core_init(dwc2, true);
-> +			if (ret)
-> +				return ret;
-> +			dwc2_enable_global_interrupts(dwc2);
-> +		}
-> +	}
-
-[Severity: High]
-Does calling only dwc2_core_init() and dwc2_enable_global_interrupts() here
-break host-mode recovery when hsotg->params.power_down is
-DWC2_POWER_DOWN_PARAM_PARTIAL or DWC2_POWER_DOWN_PARAM_HIBERNATION?
-
-dwc2_core_init() only initializes the common core registers and relies on
-_dwc2_hcd_resume() to reinitialize the host registers (HCFG, FIFOs,
-HPRT0_PWR, host GINTMSK, and GUSBCFG_TOUTCAL).  However, _dwc2_hcd_resume()
-only calls dwc2_hcd_reinit() for DWC2_POWER_DOWN_PARAM_NONE:
-
-drivers/usb/dwc2/hcd.c:_dwc2_hcd_resume() {
-    ...
-	switch (hsotg->params.power_down) {
-	case DWC2_POWER_DOWN_PARAM_PARTIAL:
-		ret =3D dwc2_exit_partial_power_down(hsotg, 0, true);
-    ...
-		break;
-	case DWC2_POWER_DOWN_PARAM_HIBERNATION:
-		ret =3D dwc2_exit_hibernation(hsotg, 0, 0, 1);
-    ...
-}
-
-When no device was connected during _dwc2_hcd_suspend() (!(dwc2_read_hprt0()
-& HPRT0_CONNSTS)), _dwc2_hcd_suspend() jumps to skip_power_saving without
-backing up registers, so dwc2_exit_partial_power_down() or
-dwc2_exit_hibernation() fails with -EINVAL on gr->valid and hcd_bus_resume()
-marks the HCD dead via usb_hc_died().  Even when a device was connected in
-DWC2_POWER_DOWN_PARAM_PARTIAL mode, on platforms where GOTGCTL_CURMODE_HOST
-is not set in GOTGCTL, dwc2_exit_partial_power_down() takes the device
-branch and fails with -EINVAL on dr_backup.valid.  Finally, on an OTG
-controller that was in device mode during _dwc2_hcd_suspend() (leaving
-lx_state !=3D DWC2_L2) and resumes in host mode, _dwc2_hcd_resume() returns
-early at hsotg->lx_state !=3D DWC2_L2 without initializing the host registe=
-rs.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-dwc2-low-p=
-ower-fixes-stm32-v3-0-68d2a0e9bab6@foss.st.com?part=3D1
+--EI85CRMW6gBoUvVg--
