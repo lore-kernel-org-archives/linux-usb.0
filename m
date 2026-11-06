@@ -1,56 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793956264;
-	b=ev6z6H0TbN67Ukjzr49hUo4VAJIuP7ozQ37zPaar6aeUOTRP+69umL8kpvR/j2HqcsE1
-	 oEkLf+j/m1h7pLqf00PqgwbzD315lRqb7qOkwMEmPDgEv12kZuBMiEx89+ir2/y2Z7sR4
-	 1X3GyNWiwQlBLR/Ndfu3Gg/7GSq//albwGl4zPtOVLNAiaGts33+Nas4HJIBolVkt/in+
-	 EGuKtoYy/CNsaJetBGcTyrMsvg9jhq8gMyk7RI0Xx3Rp4jd0pU1XqC3F/C+13Ur/xu11l
-	 S3NH/BEaCaTNJ8qKmGszOJlo92FhsgwIGUqkjr+ewWRRChNq2TZHoXIlb2ijGwf5Pmw==
+	t=1793956654;
+	b=sdpIKcnKN3K8y4Zk5Lk5z1BPfD2kw9/yoUxP3utjD3JCvyZTez1ft945a3Gnh/Lwm7K2
+	 EtvTrKCzGInAfDI47EbrLiNyV/SW0sZR0koUGE5qDtjg1Ysr0PZZ0EB+KsWud9TV+bnKJ
+	 Q7WMaWHqL0r4sswDqXe/oQmk8GEnehvdCKwI+9X0qDs4BvKktouES+ZwsGn+IzujygM5m
+	 IUE/3nGYLIWBx779Qh2djdTrjR6+xCx5qR4w9AhlyqDauKl3PC1TRAwZnBydbTjAbnLgq
+	 XMfs52ON77PcoedGu4Xw6e+pALcmbQDXCqDnrk5r7KlpwUEoW1zccAP2csTXigEedGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793956264;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=APZwWF4LKIRrX7OdKe26yS+WpeChCGLXSkelkpf1O1Y=;
-	b=nlxHKvQM7i2JyP2hIukH5ykMz1PwjKfdlkUD2B+V9QErcstOq27vjXhc/8URvWfBaaEL
-	 5hcTAfCDywY8sC2GZOlgJBmXYtEZEgopmWbbI6q601DfzklE7egqTyIW3JzBf06wp65sg
-	 Xib2JzlZSTbi5UvZEWx71lJS70IXJ4XYjJpmuISq07hr74If7troZK3fDPi18nmhlY43m
-	 TX1hC3Wkwy51HZdM+WjtEF/289vn1mhPfn0GAkv2AOqxcAia2pEEwFVsoyDc5CjgjIpKO
-	 2VUX+dmqtx7pgaThCNEanUeNpPJp+cBOcGLQOER1wE3KXN1BJxjecc6JC6bAkXZI8Pw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793956654;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Qkoa4JjbduXa9PqVRLfMlrE2VG0vtHuiXJ+cXhPc0zs=;
+	b=MNtdvtPfybbdfe16EA4sTbrGUZZ4SXatL70wAtFkmO3H1HsaVhnwm2wOFow1HYyKto1v
+	 hYgFr0UqyzoSh9IFkn2DAo5it1ImUNIyn/SvaPBzBsYe1bT6C7jnQqNfoDYHrJJAb71j+
+	 gz5ZV0eZsk0o+hxWukymMRhvgirUgZgQd4KYIkTi9MaqDOom79WDb9i0CVi0+Y1PqsGKW
+	 0kOjFqneruwYzNg5ndlo+umdk67APobe8Zc5k60JL3obyhxyq+I3rbBnBBx7cmeqfzLPj
+	 czT9DWoImkMo5Rv3SNHBtedgQPrkReIVUY9YZhxzEKxychF+k+/VhM9w0RxWH8z73ow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9A06606A329;
-	Fri,  6 Nov 2026 09:10:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9A06606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sR21NDOs;
+	arc=none smtp.remote-ip=74.125.82.53
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCF0606A326
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 09:17:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDCF0606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sR21NDOs
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-14394530ec6so662016c88.1
+        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 01:17:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:In-Reply-To:References:MIME-Version:
-	Content-Transfer-Encoding; bh=APZwWF4LKIRrX7OdKe26yS+WpeChCGLXSk
-	elkpf1O1Y=; b=SvgH2BfKuzjZm82Xf3YDHWOGRccvHhKBY1ZMVdCeKqxSxcB4Zw
-	pdfaJ86ThhXWSmWNMsbKZhk+YZVIFs/UipuxbZhzuIUVVBdycbYTLT/mVoO7hbxn
-	v6jDXToKIQOMLCD+SIB+2xO0YtF0q12gtNTfCAIxasFiDJ8zHUL+HRhqE=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.59])
-	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPA id BrQMCkBWewGYme1qWI01AQ--.36101S2;
-	Fri, 06 Nov 2026 17:10:49 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Michal Pecio <michal.pecio@gmail.com>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        d=gmail.com; s=20260707; t=1793956653; x=1794561453; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Qkoa4JjbduXa9PqVRLfMlrE2VG0vtHuiXJ+cXhPc0zs=;
+        b=sR21NDOsT2urRl/6BhV8IyYgU6O+dWimfTr87BNN37EUbJv8NMPyf8BT3ZAQ5T/WC/
+         yVSZNVibG9thYJUL+qqzTQAgluQkq+T5N2q0YQn5bn7eeoQD7I/RYO8SR6ScOT9Yf4hw
+         k66Ehl5cHmNtSgKBvut012uuweQK43BUUROWxJhODLn+z7AWRBZLz21dkJiVuRbun1Ie
+         KBasRtZdorEpq0megDrHywdzBi0XcXHJDodP/scDsLwidoOsS2JmZyks0UpC0M4kXydR
+         iw27bOEDfdcGWI5Hlc6DYfJSuutjADOijXTzwWLKbr2fTsrxN8mjB4xPqNExrT4p96/9
+         wviA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793956653; x=1794561453;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Qkoa4JjbduXa9PqVRLfMlrE2VG0vtHuiXJ+cXhPc0zs=;
+        b=fnL24qthmV6EZpPOQxeo50VeOr3lWJcJyKhG6TzbSibsrwoIUyf4mARnWJ4D8EnO5U
+         oZuyOvdXamY7mRKQLu7CeyhzeyBwVuDb4bjVeBuE/sgZNw7TACKmNpCGv4G9yuajUpdO
+         LHol8UYCuPvO4tHj2vtIQGuLqhrA7H4Pv46cVAzAJI50LPdD1MADLhl/EcNenG6wS5us
+         OTHn7zVjrAX4s1WDPfzEDLygcU907mbpnHXIxhRl5RC/UW1jIMSLZwiUE/in9reqBpQF
+         sVwr7UH0vpUfb3J18QatEJhH0xkumKfvxrCdn25kW4JvwkMm05rQX23iD2OakkW31LVz
+         hijw==
+X-Forwarded-Encrypted: i=1; AKwUvBz8/R3vWTFWfK5s2UYPhR2HwTHnZ4a9vPRawUw3QOdqLiPejVqR1sBykrZ3ikvJWTZZsRyNk9/iRh4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+5PNa+O26F/4nhgqib3zIedAN/gyrVgvAEROo8Jp/nhGKUeuYq
+	V/rX5blKtMW/oqlXfA6afhAV4GxaF4ZzbDzmxYB3zAXnQ8t0eCZakV6/0gVogOd7xjzijQ==
+X-Gm-Gg: AYBFou3tXRXi2CN3tNgrOKg83S2nRxtdFpyKyz60JyDRyf0cekKpAHN5VlMJt94zwHn
+	yrHIBjUwNCZKuvOFFYlt1IRckDJ/cRgRnkPMH+lrSOfN42k6qZqtWVRjNaUvtkLBVoF+9uYgMSJ
+	xFpco/rjrNsLmLyz0I9heW248efF3In48pseRctBHF8vLNocoi1d/V5d47cNQ28c79wfHziupFX
+	/LozNEkgD31Ow7hEiJ2X9j6gEnp7giPL22XRfNF1n5NLaj9NUxwOiH83WNFR9/nelUzPh+mAOBU
+	HWXs4iUn0AZ20bMcD+LJtRCOsnIZi1uO4oO/sTt+eZ828sn99OQULhf2s3sVdV5TW+PvQ+m0y0b
+	hVPWVeKnPbfe7pCxRL3ThYaCKjYAeDuKxIt9rNatTXT7bE+Ljt6c5qs/cn3WvRPtwqIHA9J8ZlL
+	8+7SKyEj5shhHO55at/60LyvZn0CQVhwdBgX5qt1WK2+Q3r0QxuCXEIj2WiCKSmBhrzchrOI/W6
+	2/DmRfUwnxyy/Jxw1AeB9kKq7myelT4XYBSgDlrNEUI/dU0FmtWNF+70UsnQ+6Sc18hDC+ULYbf
+	Mh2M5YQ4cutAbzwpRNHfRE9ljI/VJ9Q0FFXVcil8yUwRElrUS0KGAb85+VN576byLrB6PvkBvrk
+	IOT4EK9iysG2ncmk6X5ilmeOZFanbqI+PmoVAw+TlsEM=
+X-Received: by 2002:a05:701b:4553:20b0:144:fb31:a597 with SMTP id a92af1059eb24-1b25d377fc4mr2228979c88.47.1793956652862;
+        Fri, 06 Nov 2026 01:17:32 -0800 (PST)
+Received: from lwq-System-Product-Name.. ([2602:feda:30:cafe:ec49:2bf5:0:1866])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e4a5628sm4925551c88.10.2026.11.06.01.17.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 01:17:32 -0800 (PST)
+From: Yaohan Li <shunsheng1218@gmail.com>
+To: heikki.krogerus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: badhri@google.com,
+	xu.yang_2@oss.nxp.com,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5] usb: usbfs: Require claiming a hub interface for hub class requests
-Date: Fri,  6 Nov 2026 17:10:48 +0800
-Message-Id: <20261106091048.4056-1-25031212351@stu.xidian.edu.cn>
+Subject: [PATCH v2] usb: typec: tcpci: quiesce the IRQ before unregistering the TCPM port
+Date: Fri,  6 Nov 2026 17:17:25 +0800
+Message-Id: <20261106091725.1334097-1-shunsheng1218@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <0aa5c25e-465f-4168-8833-387acced222f@rowland.harvard.edu>
-References: <0aa5c25e-465f-4168-8833-387acced222f@rowland.harvard.edu>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,114 +99,135 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BrQMCkBWewGYme1qWI01AQ--.36101S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXFy5Gw4UKF1kWry8Jr1UKFg_yoWrGrWxpF
-	ZrGFWayr4DGF13trnayFW8ua4rCwn7C3WakFy3J3909w13JrWfZry8Kry3Zrs7Cr4rXFy7
-	trs0gwn8W3yUGrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9vb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
-	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq
-	07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r
-	15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
-	r41lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6r4fMxAIw28IcxkI7VAKI48JMxC20s
-	026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
-	JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
-	v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
-	j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
-	W8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU5WKuUUUUUU==
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUJD2rsnkR-DQABsu
 
-check_ctrlrecip() requires the matching interface to be claimed for
-requests addressed to an interface or an endpoint, but requests
-addressed to the device or to a port are passed through without any
-check.  For a hub that means userspace can send hub class requests
-through usbfs without claiming the hub interface, while the hub driver
-owns the ports.  Port requests use USB_RT_PORT, whose recipient is
-USB_RECIP_OTHER, and SetPortFeature(PORT_SUSPEND) is one of them.
+tcpci_remove() unregisters the TCPM port before the managed threaded
+IRQ has been released.  tcpci_unregister_port() destroys the TCPM
+kthread worker, while tcpci_irq() can still call the TCPM event entry
+points (tcpm_cc_change() and friends), which queue work on port->wq
+without checking whether the port is still registered.  Writing
+TCPC_ALERT_MASK = 0 prevents new chip alerts, but it does not
+synchronize with a threaded handler that was already woken or running.
 
-That is more than a policy question.  The request goes to the HCD, and
-it can run concurrently with userspace releasing the hub interface
-through USBDEVFS_DISCONNECT_CLAIM, which unbinds the hub driver and
-disconnects the devices behind it.  xhci_hcd tracks the device behind
-each port and issues stop endpoint commands for it in its port suspend
-path, and it ended up reading a freed xhci_virt_device.
+Quiesce the handler before unregistering the port:
 
-Require interface 0 to be claimed for every non-GET request to a hub.
-The hub driver matches devices by device class or by interface class,
-but a hub has a single interface either way, and that is the one the
-driver holds.
+- Set chip->stopping before synchronize_irq(), so handlers that already
+  entered tcpci_irq() are waited for, while handlers that start later
+  return IRQ_NONE from _tcpci_irq() without touching the TCPM port.
+- The IRQ remains devm-managed and is released on driver detach, as
+  suggested by Xu Yang; no custom early free_irq is needed.
+- synchronize_irq() alone would not be enough because the IRQ is shared:
+  another device on the same line can trigger the handler after
+  synchronize_irq() returns; the stopping flag makes such late calls
+  harmless.
 
-Userspace can no longer change port settings while the hub driver is
-bound.  USBDEVFS_CLAIM_PORT hands over the device behind a port, not the
-port itself, so a request that pokes port state is not safe for a
-claimed port either.  Programs that used to do this have to unbind the
-hub driver first.
+The same ordering issue exists on the probe error path: if the final
+TCPC_ALERT_MASK enable write fails after devm_request_threaded_irq()
+succeeded, the error path unregisters the port before devres frees the
+IRQ.  Route that failure through a quiesce_irq label that sets stopping
+and synchronizes the IRQ before unregistering.  If the IRQ request
+itself failed, the error goes directly to unregister_port.
 
-Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+This issue was investigated and the fix was developed with AI
+assistance (ZCode/GLM-4).
+
+Testing with QEMU, a simulated I2C TCPCI device and KASAN (7.4-rc1):
+
+- Remove path with a real threaded handler parked at
+  kthread_queue_work() while the device is unbound: synchronize_irq()
+  waits for the handler before tcpci_unregister_port() destroys the
+  worker; no report.  Without synchronization the worker is freed first
+  and KASAN reports a slab-use-after-free in kthread_queue_work().
+- Probe failure path (the final ALERT_MASK enable write is forced to
+  fail): the handler woken by the injected alert is rejected by the
+  stopping flag, and the teardown reports nothing.
+- A shared IRQ raised at tcpci_unregister_port() after
+  synchronize_irq() returns enters _tcpci_irq(), returns IRQ_NONE due
+  to chip->stopping, and never reaches tcpm_cc_change(); no report.
+- tcpci_remove() with the ALERT_MASK = 0 write forced to fail (the
+  driver only warns) while a continuous alert stream is active: the
+  teardown completes, no tcpm_* entry point is reached after the TCPM
+  worker is destroyed, and no report appears.
+
+These are injection-assisted reproductions; they do not measure how
+often the race occurs on physical hardware.
+
+Fixes: ae8a2ca8a2215 ("usb: typec: Group all TCPCI/TCPM code together")
+Signed-off-by: Yaohan Li <shunsheng1218@gmail.com>
+
 ---
-Hi Alan,
+Changes since v1:
+- Follow Xu Yang's suggestion: keep the IRQ devm-managed and use
+  synchronize_irq() instead of an explicit devm_free_irq().
+- Add chip->stopping and check it in _tcpci_irq(), because the IRQ is
+  shared and a handler can run again after synchronize_irq() returns.
+- Quiesce the IRQ on the probe error path after the final ALERT_MASK
+  write fails; an IRQ request failure still goes directly to
+  unregister_port.
+- Revalidate the remove path, probe failure and a new shared-IRQ
+  trigger after synchronize_irq().
+v1: https://lore.kernel.org/r/179378589227.74015.8259496684787732118@gmail.com/
+---
+ drivers/usb/typec/tcpm/tcpci.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-v5 takes both points.  is_hub() is tested first, and the comment now says
-that IN requests are safe because they do not affect the hub, while OUT
-requests need the interface claimed, instead of talking about recipients.
-
-I will hold the URB synchronization patch for usb_hub_release_port() until
-this one is settled.
-
-YuanZhe
-
- drivers/usb/core/devio.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
-
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index e191934623c7..6d69a993c0f1 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -878,6 +878,23 @@ static int findintfep(struct usb_device *dev, unsigned int ep)
- 	return -ENOENT;
+diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+index 6717ac914c6a6..2a3ed5195abd7 100644
+--- a/drivers/usb/typec/tcpm/tcpci.c
++++ b/drivers/usb/typec/tcpm/tcpci.c
+@@ -50,6 +50,7 @@ struct tcpci {
+ struct tcpci_chip {
+ 	struct tcpci *tcpci;
+ 	struct tcpci_data data;
++	bool stopping;
+ };
+ 
+ struct tcpm_port *tcpci_get_tcpm_port(struct tcpci *tcpci)
+@@ -818,6 +819,9 @@ static irqreturn_t _tcpci_irq(int irq, void *dev_id)
+ {
+ 	struct tcpci_chip *chip = dev_id;
+ 
++	if (READ_ONCE(chip->stopping))
++		return IRQ_NONE;
++
+ 	return tcpci_irq(chip->tcpci);
  }
  
-+/*
-+ * Return true if @dev is a hub.  The hub driver matches devices by device
-+ * class or by interface class, and a hub has a single interface either way.
-+ */
-+static bool is_hub(struct usb_device *dev)
-+{
-+	struct usb_host_config *config = dev->actconfig;
-+
-+	if (dev->descriptor.bDeviceClass == USB_CLASS_HUB)
-+		return true;
-+	if (!config || config->desc.bNumInterfaces < 1)
-+		return false;
-+	return config->interface[0] && config->interface[0]->cur_altsetting &&
-+	       config->interface[0]->cur_altsetting->desc.bInterfaceClass ==
-+			USB_CLASS_HUB;
-+}
-+
- static int check_ctrlrecip(struct usb_dev_state *ps, unsigned int requesttype,
- 			   unsigned int request, unsigned int index)
- {
-@@ -891,6 +908,18 @@ static int check_ctrlrecip(struct usb_dev_state *ps, unsigned int requesttype,
- 	if (USB_TYPE_VENDOR == (USB_TYPE_MASK & requesttype))
- 		return 0;
+@@ -972,12 +976,15 @@ static int tcpci_probe(struct i2c_client *client)
+ 	/* Enable chip interrupts at last */
+ 	err = tcpci_write16(chip->tcpci, TCPC_ALERT_MASK, chip->tcpci->alert_mask);
+ 	if (err < 0)
+-		goto unregister_port;
++		goto quiesce_irq;
+ 
+ 	device_set_wakeup_capable(chip->tcpci->dev, true);
+ 
+ 	return 0;
+ 
++quiesce_irq:
++	WRITE_ONCE(chip->stopping, true);
++	synchronize_irq(client->irq);
+ unregister_port:
+ 	tcpci_unregister_port(chip->tcpci);
+ 	return err;
+@@ -993,6 +1000,18 @@ static void tcpci_remove(struct i2c_client *client)
+ 	if (err < 0)
+ 		dev_warn(&client->dev, "Failed to disable irqs (%pe)\n", ERR_PTR(err));
  
 +	/*
-+	 * A hub driver owns the ports and the devices behind them.  Letting
-+	 * userspace change hub or port state behind its back, for example
-+	 * with a SET_FEATURE(PORT_SUSPEND) request while the hub interface is
-+	 * being released, is not safe: the request is passed down to the HCD,
-+	 * which may walk per-device state that is being torn down.  IN
-+	 * requests are safe, they do not affect the hub, but OUT requests are
-+	 * only allowed when the caller has claimed the hub interface.
++	 * The port's kthread worker is freed by tcpci_unregister_port()
++	 * below, and the threaded IRQ handler queues work on it without
++	 * any port-registered check.  Publish the stop state and wait for
++	 * handlers that already entered tcpci_irq() before returning;
++	 * handlers that start afterwards return IRQ_NONE without touching
++	 * the port.  The devm-managed IRQ is released as usual on driver
++	 * detach.
 +	 */
-+	if (is_hub(ps->dev) && (requesttype & USB_DIR_IN) == 0)
-+		return checkintf(ps, 0);
++	WRITE_ONCE(chip->stopping, true);
++	synchronize_irq(client->irq);
 +
- 	/*
- 	 * check for the special corner case 'get_device_id' in the printer
- 	 * class specification, which we always want to allow as it is used
+ 	tcpci_unregister_port(chip->tcpci);
+ }
+ 
 -- 
 2.34.1
 
