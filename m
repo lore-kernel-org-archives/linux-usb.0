@@ -1,81 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793990771;
-	b=woGVF7rY+VUyIPn1j9SpewmShDsIYC45fblmDipRT2mFoJCx+DBmQgM1rTwUilZ+L1Gr
-	 rU5tksvVyc0LS956LA/sy3ZbM+LlC44JlblUFCXsuzGnbtElybNzoLNatUP6CzUje+VNI
-	 Log9+XuN9VY5MvRFcnoBhiYzAy9J15Z0hj5/MQMompUnb/YYAHsDo1a3V37bFTRdpdl6w
-	 o+Lw6Ye3MEKUDvhtu/5KboVYeOiBX8AQcnUvu1E/9paz9wPc5OKDxWhgxblmvdiojCizY
-	 5ql3el2YdlR78ZhuvememeZtxcHyZcFQZXYXhMB5HzCn2VvE+5fMqRcA4su/3T83iCw==
+	t=1793992073;
+	b=aywiZQKO5OkNGdZo64Peeab7pYZuxHpR613kLVFkLP5uQyLn/4Xq2VMTvq9ulJBa3VHO
+	 wXnkmbojxNQvJ/n0H9Seb18+uao9r3JZAdPbbKnb35YPF+o2oMZI4L4Gxli69oclmagsO
+	 XHCxyflj3k7Rw3ISe6bPd3tSSuzJ4Lyno1+FAp2r/tTZ1ZHpMnNivw/lK0Sqh8HEa5d8U
+	 PenPOHVQgWZ2dkzCUAIrHTTmYfAkTH8gz4jxZzJXk4zxbYmaSrXSz+Pyf6qwr4YGNJtWb
+	 6CfPTMwxR0YOm7nQwCCWp+3rrHqdtQp1DLqwYLYDucZqascSZA3NAX2HIsZOv27ye4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793990771;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793992073;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=6TYaT587yULVEsFdUlV21e0IlEIkrM/S8nTlyyj5duE=;
-	b=INVmNIV1jmM7AtGG51HlofAW7mmgs22h9X4OieZJVOT5ngbKoXpLLijOYtdcu/z2ZuzD
-	 0q4fhLQB8drxX73XrInQ/tx+VgA683rjLefewNbuSu7K6qS+YMyNKnCQcwbctUUxIQjni
-	 j+BBrs76SvU/12R4q2MPOkwKCDWacRq5i1xNOWUIHh+4LUyqWXeZOIVx0iBipyDgeAgAE
-	 TxHa3nxz7sr3xNjkZr/RCnD84feWOjPxuPANeQuHTI8NOhAauWiPCKe+6E/Md5uh6RLn+
-	 k9s52Rd4zdr+l/cDJ/ATzEhSTn1OXIX6lES9XjV9YcJzg5Ja7/YXz7Jgzesktv4YhAQ==
+	bh=P07fX1QRePkjwdoUnrLtLEnGh491BsMLz2o8OoxavkU=;
+	b=K1yRtHgG43ajx0X8OUAswURM9hIWFvEbJDoMR6vGhLcIgT2Lkd4crMaNYnhnVd5lSlMW
+	 skffi+RQEmKuCpvQezV0jyR1uj6DPoZHb1Qtn96y2vp2DNJfetnL9Foq2VelAw+aSXmv9
+	 orUbkA8gNbOxpDIRQfAxhzs7kX8d6ZheFES/6cQ2DKJhYZBUFNTn4WmgKinx3WAzEHNcM
+	 ZP3zUL4GIjQbjeKbVtrQiME46b9y+kLieGUg9fowr2XLvu/fdwF1RSE+XWbCXuqsCw2qK
+	 TsBdOxp1Oce0HM0JbhYxiKKsmk31Qj/cR3gMuRztR84M61aTayaxDMQO2sfPbE99IKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ag0eQnT6;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d8j21BF6;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D457606A329;
-	Fri,  6 Nov 2026 18:46:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B55606A326
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 19:07:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ag0eQnT6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74ED11F0089F;
-	Fri,  6 Nov 2026 18:46:03 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d8j21BF6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642431F0089F;
+	Fri,  6 Nov 2026 19:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793990770;
-	bh=6TYaT587yULVEsFdUlV21e0IlEIkrM/S8nTlyyj5duE=;
+	s=k20260515; t=1793992073;
+	bh=P07fX1QRePkjwdoUnrLtLEnGh491BsMLz2o8OoxavkU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ag0eQnT68Qn48+lD/gKwyNvXHdwktPEYZRXu+mkFQY9vzL7wiMhYgWeuG+JY3KsEF
-	 gI3XCn0aWsviJENdO79ADtBJ4wfZIqOpW7bHvPyXu5Yx7OAaI64goY95XQoscGuga3
-	 RiRZJJ+z/HCAmj4OreqwgRKM+/JYt0+pMQU8Vi4xBe9mSgJSOH8KtXW9Mw/WQ3o4OY
-	 mrux7OQRSU/obswR+R8vfPypl/xQz/SLtQ2oRx1EySjeD+3V+DGTpGrrAHC+sqD+48
-	 zU0B/50JD3C7b1U4wU/hmZFCOReDSKirjZePi9z/7MbizoMhTqfACiM30W+Y2YprUi
-	 C/pdfJQ6qj/LQ==
-Date: Fri, 6 Nov 2026 18:46:01 +0000
+	b=d8j21BF6e2+02oNscQMK3XQRbTjU2v33Z2XkNaeBIsLq9wnPDR8ZB2bFRWbRT4h+y
+	 07PDjK87xueR4EGOjtaseEX2KwgBim9ZpGNHVPifIa0glUPq66KuM/PDTfIsl4Kzsx
+	 8NZhSHvdbOYKyTRw9z6w92eHpJxEqmZJLjgkU1HrFDSiaxLsttCTEC0Cw3htaFASQA
+	 kewE7EIQQsswqKeoW7+eOap+gMizpaLBnTtVdjaesTZM2AWf6uI8COxZGMTIgC3BkA
+	 buUAtJdjjZvEXgrbc4jBYvaz0TMeJnP6YIfN/9TBj9TgBesVe+qYS+Jb3TGfwLzOZ6
+	 aTyHWv3XKTJxg==
+Date: Fri, 6 Nov 2026 19:07:49 +0000
 From: Conor Dooley <conor@kernel.org>
-To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jun Chang <jun.chang@metanoia-comm.com>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sebastian Reichel <sre@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Ben Zong-You Xie <ben717@andestech.com>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Ulf Hansson <ulfh@kernel.org>, Jisheng Zhang <jszhang@kernel.org>,
-	CL Wang <cl634@andestech.com>, Mark Brown <broonie@kernel.org>,
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: Conor Dooley <conor.dooley@microchip.com>,
+	Valentina Fernandez <valentina.fernandezalanis@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Bin Liu <b-liu@ti.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Minas Harutyunyan <hminas@synopsys.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Randolph Sheng-Kai =?utf-8?B?TGluKOael+iBluWHsSk=?= <randolph@andestech.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	Paul Walmsley <paul.walmsley@sifive.com>, linux-mmc@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH 00/25] riscv: add support for the Metanoia MT2824 SoC and
- MT5824 EVB
-Message-ID: <20261106-annotate-roundup-3cdf03205a91@spud>
-References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
+	linux-riscv@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: musb: mpfs: unregister the generic PHY device on
+ remove
+Message-ID: <20261106-coveting-unclip-525e1e9dec65@spud>
+References: <20261104021522.1468663-1-vulab@iscas.ac.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -86,129 +62,65 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="O+KStvozO2m15yOI"
+	protocol="application/pgp-signature"; boundary="jVM147u5aDo92KWD"
 Content-Disposition: inline
-In-Reply-To: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
+In-Reply-To: <20261104021522.1468663-1-vulab@iscas.ac.cn>
 
---O+KStvozO2m15yOI
-Content-Type: text/plain; charset=iso-8859-1
+--jVM147u5aDo92KWD
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 06, 2026 at 10:29:57AM +0100, Beno=EEt Monin wrote:
-> Hi all,
+On Wed, Nov 04, 2026 at 02:15:22AM +0000, Wentao Liang wrote:
+> mpfs_probe() creates the "usb_phy_generic" platform device with
+> usb_phy_generic_register() and keeps it in glue->phy, but mpfs_remove()
+> hands the controller's own platform device to
+> usb_phy_generic_unregister().  The generic PHY device is therefore never
+> unregistered and its reference is leaked, while the controller device,
+> which the driver core is in the middle of removing, is torn down a
+> second time.
 >=20
-> This series adds initial upstream support for the Metanoia MT2824 SoC
-> and its MT5824 evaluation board.
+> Pass glue->phy, as the probe error path already does.
 >=20
-> The MT2824 is a dual-core RISC-V SoC built on Andes AX45MP cores. It
-> integrates two 8250-compatible UARTs, the Andes PLIC/PLICSW/PLMT interrupt
-> and timer blocks, the AX45MP L2 cache controller, a simple reset controll=
-er
-> and a system reboot controller, the ATCWDT200 watchdog, one QSPI and eight
-> ATCSPI200 SPI controllers, a Synopsys DWC MSHC 2.00a eMMC/SD controller,
-> and a Synopsys DWC2 USB2 host controller with a reset-only USB2 PHY.
->=20
-> The series is organised as:
->=20
-> - patches 1-14 add the device tree bindings, the Metanoia vendor prefix,
->   the RISC-V board schema and the SoC block compatibles
-> - patch 15 adds ARCH_METANOIA and selects the AX45MP errata
-> - patches 16-23 add the reset, SPI, watchdog, MMC, PHY and USB changes
->   needed to build and probe on this SoC
-> - patch 24 adds the MT2824 SoC and MT5824 EVB device trees
-> - patch 25 adds the MAINTAINERS entry
->=20
-> The ATCSPI200 driver gains optional interrupt support for PIO transfers:
-> when the controller IRQ is wired, the FIFOs and the end of transfer
-> are serviced from the handler, with a fallback to polling when no IRQ
-> is available.
->=20
-> The DWC MSHC controller on the evaluation board is wired to either an
-> SD slot or an eMMC through a board jumper that the SoC cannot read. In
-> the absence of a fixed card type in the device tree, the driver probes
-> the eMMC first at 1.8 V and falls back to the SD slot at 3.3 V. The
-> controller also needs custom tuning and HS400 PHY DLL handling, which
-> is why it has its own sdhci_ops.
->=20
-> The MT2824 SoC contains other controllers not yet exposed (I2C, GPIO,
-> pinctrl, Ethernet, DSP, ...). This first series allows accessing the
-> evaluation board via its serial console, and all its storage options
-> (SPI-NOR, eMMC, SD card). The watchdog and the USB port are also
-> available.
->=20
-> The driver changes do not depend on the DTS at build time and are gated
-> on the new compatible strings. For merge ordering, the DTS depends on the
-> ARCH_METANOIA Kconfig entry (patch 15) and on the binding compatibles
-> being accepted. The patches can therefore go through their respective
-> subsystem trees, with the Kconfig, DTS and MAINTAINERS patches going
-> through the RISC-V tree once the driver and binding patches have landed.
+> Fixes: 7a96b6ea90a4 ("usb: musb: Add support for PolarFire SoC's musb con=
+troller")
+> Cc: stable@vger.kernel.org
+> Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 
-I kinda pointed it out elsewhere, but that's not actually the path for
-the Kconfig, dts and MAINTAINERS bits. They go via the soc tree, after
-being applied by a metanoia specific maintainer.
+Isn't this a duplicate? I'd swear I acked a patch like this from a Felix
+Guo months ago.
 
->=20
-> The series is based on v7.4-rc1.
->=20
-> Signed-off-by: Beno=EEt Monin <benoit.monin@bootlin.com>
 > ---
-> Beno=EEt Monin (25):
->       dt-bindings: vendor-prefixes: add Metanoia Communications
->       dt-bindings: riscv: add Metanoia SoC-based boards
->       dt-bindings: reset: add Metanoia MT2824
->       dt-bindings: power: reset: add Metanoia MT2824 reboot
->       dt-bindings: phy: add Metanoia USB2 PHY
->       dt-bindings: cache: andestech,ax45mp-cache: add MT2824 compatible
->       dt-bindings: interrupt-controller: sifive,plic-1.0.0: add Metanoia =
-MT2824
->       dt-bindings: interrupt-controller: andestech,plicsw: add Metanoia M=
-T2824
->       dt-bindings: timer: andestech,plmt0: add Metanoia MT2824
->       dt-bindings: mmc: snps,dwcmshc-sdhci: add Metanoia MT2824
->       dt-bindings: spi: andestech,ae350-spi: make DMA and interrupts opti=
-onal
->       dt-bindings: spi: andestech,ae350-spi: add Metanoia MT2824
->       dt-bindings: usb: dwc2: add Metanoia MT2824
->       dt-bindings: watchdog: andestech,ae350-wdt: add Metanoia MT2824
+>  drivers/usb/musb/mpfs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/usb/musb/mpfs.c b/drivers/usb/musb/mpfs.c
+> index 587127abd30a..6cc2909b8ae3 100644
+> --- a/drivers/usb/musb/mpfs.c
+> +++ b/drivers/usb/musb/mpfs.c
+> @@ -357,7 +357,7 @@ static void mpfs_remove(struct platform_device *pdev)
+> =20
+>  	clk_disable_unprepare(glue->clk);
+>  	platform_device_unregister(glue->musb);
+> -	usb_phy_generic_unregister(pdev);
+> +	usb_phy_generic_unregister(glue->phy);
+>  }
+> =20
+>  #ifdef CONFIG_OF
+> --=20
+> 2.34.1
+>=20
 
-Other than the tag issues in most of these, riscv and dt wise this looks
-mostly fine. The reset/reboot stuff and probably missing clock support
-are the only real problems.
-
-Probably, I would split this series up into multiple smaller
-submissions. spi, mmc, phy, usb, watchdog at least should be their own
-mini series. clock/reset should probably be another, presumably also
-with the reboot thing. What's left (interrupts, timer, cache I think)
-can stay part of the dts series and probably go through the soc tree
-together. For interrupts and timer, the maintainers are usually not
-super responsive in terms of binding only series which is why they may
-go via soc.
-
-Cheers,
-Conor.
-
->       riscv: add ARCH_METANOIA Kconfig entry
->       reset: simple: add Metanoia MT2824 support
->       spi: atcspi200: add optional interrupt support
->       spi: atcspi200: allow building for Metanoia SoCs
->       watchdog: atcwdt200: allow building for Metanoia SoCs
->       mmc: sdhci-of-dwcmshc: add MT2824 support
->       mmc: sdhci-of-dwcmshc: add MT2824 tuning and HS400 support
->       phy: metanoia: add USB2 PHY driver
->       usb: dwc2: add support for Metanoia MT2824
->       riscv: add Metanoia MT2824 SoC and MT5824 EVB support
->       MAINTAINERS: add RISC-V Metanoia SoC support
-
---O+KStvozO2m15yOI
+--jVM147u5aDo92KWD
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCau4gaQAKCRB4tDGHoIJi
-0nenAQDXOOACr5dTLojlsekDLPEmerVvDKLX9MTt2AL32IK7ugD+NliqmV6l2V/K
-f/dhIRRWsafkCoQptXJ5wafLha8CkAM=
-=fT+J
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCau4lhQAKCRB4tDGHoIJi
+0ixKAQC00+LKzozTo9PiPnk6ZQjCO/7J5xZlVgKbknNlG1wGGgD+NFBS8GaX6DBT
+2OkMIvmdC7qEmK7VA2z6es6e+g/xEA8=
+=0xFQ
 -----END PGP SIGNATURE-----
 
---O+KStvozO2m15yOI--
+--jVM147u5aDo92KWD--
