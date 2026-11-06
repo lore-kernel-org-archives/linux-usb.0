@@ -1,94 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794006805;
-	b=jtiNHZ/ukNybPZe4mKqQUoYIUYUqUGdqATLhMwGVxsfTx+xptMh5oYnsJAWRSkvVYXU/
-	 oBdhE9M3lIRsuCGEl5yRbhSqrrlHh9OYY/t1uTT0giN0Iz7orwwvL6cgUQUpobKCZ9mXH
-	 Yox825kMoMl4g57G3W5WBcTzzaYbBHgRWtpyPjPlJcnaLomDnVnSZKG7UTNyVZbcK2YdR
-	 cU4oX6Ev6xHDxldSW+2uGTXnBDyDnhDtYJbrgihwh36O233ynHAxjxM8z04wA05e3ij/6
-	 2p3sUSfd+2l3JMxQ5lQ/nNzb1s2p5pVSJeDGfT+6oc+Qe9Ocybxn8qYLrd79zkXNPjg==
+	t=1794007994;
+	b=GY1eFQayW6K1k3qu9Dzl4Vbd09gtyvq79oCaUlpzGl2+06yiZ3oIYbGcd1S2kGImxK29
+	 33ebOrg9TvVkGYUUtPV0KMjSLDS6EYVV+zMvvTNrGDP5C5M1a5Abw74oxoZxpnUFP5WHk
+	 /sl7/i7dW5qy8wNKBvz1UrpxWkZX5DRcriOy+39Zgd709Uhrl+vfhg6+mhRzX+TdKJ358
+	 tzAsn9pFgYY+Z04tHdxjzhV70DudVx5yfFu16dw2/v7HlTxispXvPGFr3WJ7XJYm+qZ+i
+	 2WSuprqL0/WonC0A1CXeHnRP8Awr8HsrMKn2JFxcGh1rPr7Qr3drOXNNQ0KJx55krKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794006805;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794007994;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=9IS5BlkYym1kxYWytdUXxpcm7e0CdhXOBJ3wEJjyuDA=;
-	b=XHj6aUpyyrCF0bJUX0VcynrsvgBY0pQoLQkL7jnc6VN8Qk2jDD91WxJfIFY1MB0ZEHsk
-	 JyjxDmCU4kk6H8x6xceUh053W28Od6EcSY06tl+GcAdJuK9Iv5Y8EIAs9wv85EukujFfI
-	 BxOcTs9LNILzxJtOU8Z1C7RSk5q7o4CyQmPhXeqAhq53bnUcm++hDU2gULd/s3+bcq6b5
-	 TTe8hlBNkn6GUTODjtKIWuuhm59oLzXWo6k82GI1JNMwU5vwr4NuHACoAdzNKSzJdm0Pv
-	 2TnhRWFDB+Z6vspxiCjKP9/nD6ZX0qHJSzkaOJIivf9DhI8pGf6DqzMBVTFsmByZOkQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=zxfYVvH5G04u6i4PPEDKV6DF5oBNEBfWKzG/rxdV9B0=;
+	b=KG3Wopbguel6IM71/6GkXUvS9zOAQTrhKueIc2c/TqM7owuT7i2d+S/hx0U7MyOG1IPU
+	 vq0p8Lm27pL9RlzIL0/cDShAp7r1oIyNHuFZRN7iAxud7UbjYxKG2AYOLy4sRN+mBAN6B
+	 lqL5rZnKpaR3aT/9ZFWS50uT28sb3OAU8GL0EM1lw/jEwKwN8IDOUN/IdjbcUe+U/eqOt
+	 IveTE/7j4ittcFDTHxwWGl9My1An48oBNKcvtNwKYjpg0tJEUBFBiid7YUMAzohUnsVGP
+	 7C3fZQbewEWhqUUD7leNFhBlpjG7e4ml9NU38ZAXCtsQDacfHVK/3drko8rQmrxL4pg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OlXBubjY;
-	arc=none smtp.remote-ip=209.85.216.44
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dtE7RUna;
+	arc=none smtp.remote-ip=209.85.219.44
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15459606A326
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 23:13:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15459606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332DB606A32C
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 23:33:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 332DB606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OlXBubjY
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3b1015a4259so257290a91.0
-        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 15:13:24 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dtE7RUna
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-91eb3fea2a9so8468776d6.3
+        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 15:33:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794006804; x=1794611604; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9IS5BlkYym1kxYWytdUXxpcm7e0CdhXOBJ3wEJjyuDA=;
-        b=OlXBubjYQZlHyXzGQkKHMmNtqkFPaecQv/xoi4yZIAlg5WUsMxHkVEEQf9rrBjLhT+
-         sBJR6PFFUDHxdxuYbake6JZIwUb7ebGg4yy+nob1a+CDzuA/3l8DcFHXkvKBFF80ms3s
-         fyWOZ1AbRabafLEDifYLZYiFCItv+kOFSnMBH1EWN3E0mBTaWhgZTcOAwvxLXdsZngpI
-         RAOU1rlcJR+Xf5zKARPoHeYmP2wNmJ6WJo5jmZY5OnevUW/wbQKkb62wWt6iOQr24w6T
-         CS+dsjqqKIl11isgTMLu7CCGFujJ5DRB87rVl/QDPT/reU1bO4RRswh8kjznZsyVq4iL
-         NtIw==
+        d=gmail.com; s=20260707; t=1794007993; x=1794612793; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zxfYVvH5G04u6i4PPEDKV6DF5oBNEBfWKzG/rxdV9B0=;
+        b=dtE7RUnaeY8tP9khziSLkFTMz9CrC7KCDdxq2hMm5VDXP35abZlI6zOM9Dr7M3GHN9
+         h8Vidq7aBOXKQcn1zk3lVgqD1gMtxL1AYC9xeM6kqniioVnpnoUDgB6EJeiTLSu9Ls3z
+         TZeTLJCt5Awwyak9g08AyRxsJos+R5yhWxt5FOX84fv/BOo+hfXtXqPBWPCATSOz9sqd
+         5vDkMYubVFmwc/7llxi59qUf5VHA2yWh5z5872LJzS9uJpSnC+Gazz0IsXAc79QBieJP
+         amb9H26pi3sDtGHNRnsBjzIVga/Livxj3kk6S7hvmqmWOh8ZqRW0sPW7vqSOowLGXu2x
+         6oGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794006804; x=1794611604;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9IS5BlkYym1kxYWytdUXxpcm7e0CdhXOBJ3wEJjyuDA=;
-        b=T+hC7eTTySE1kkXCT1d9IMfsDdV5mKSUdR3sRluJ9yD1Bxq+ZU6sdmWJ1n6mPZVMgs
-         /ntm/TCwJc8FLVM4kM8QMI4UJE6OLLGAm26VR8Nb7b+J3Xypln/V3HXLk9ZKAJbEgOsC
-         BK5Tao/LQ+B4P515asChv+K3NCbF+6ky/mLYB8qrTLzCu71zqkm/JICuHG/OHg5I69Na
-         xYDf8q6Jsj2Gl8iAWcYPo8POdant1ZlaYzwkdbYwHjJzWRelD/CsjoGkrRFuax82cKGR
-         8t24Bd9k8UYfcS5ytxIuer6RqetUPfyBmQcGHSVToKV8evsB7N/PZvTioPKL5mOIh+ha
-         Q6Mg==
-X-Forwarded-Encrypted: i=1; AL+hErGkcy1VMF3mNW59+qcLDtJEEFqGHCi4KzAVPybkBnIcc0KKdtcTH5vs36rKSTiDLFnFeOt2JN0Lmeo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8lDsWp4hJm+i4GbyLG0RwqrslOIoTZB2j7zSts5ckHZDF0f7lX
-	KONd8GtAUNfaUHYemtX/GJ0ZueGvaBxA4ibHSpEWrxeIycMjhmuks1eZ3l8D1HLbra9NzJOFx4O
-	kRP9BZA==
-X-Gm-Gg: AYBFou0PQZmpEcT1g26ix7+HbPgZdL2PlFlGxkUcVa4NQW0/gNVWJug0fGI/6U6hzmB
-	sqI7iRO85tmPlpTw2O7TArQDhVKmALFCELc2pfi7g61/Hb/0TcluEOblt9rex9tRgrnp89PWJJA
-	SGpFnF1JYNWrnl/fH7zkyvibp/X8BFDBKorgopbc4ovlexOiz4Y08/NPpHERFZviH8fOjv/scV9
-	eeYvvIuOJal3b8uPFFdlux0mq7vTnemvwBPwHqNDOz4jlP+MxU50cCvVKjEaeivxnk8qsqjlOxL
-	HOrp7WSoUIR5IEd8hKBPrk7hK+ul1ag4hUQurgMGPmup7Dr+CgvKP2fpop5a7YmjHf3R6kor4BK
-	77sQS6zvDQWCn1kJvapnT+ZYWNgmD4HXygGMZrF7nhZ2VJe99gA4T1udiOiUvtLlylSPBhjhGBn
-	BPMwdFHGoLNqhCY741mm9WjZWF1d67SEUSkrxRPyVHy6CjJtqq2hQ7tC3gJjXswGETftw8d2zLm
-	GRw2NH6YhEkw2ABDEuWWdbyvF+DjBrPydwSNKeoZSdLgXDiQeeI3OcWGSnmmmyB45W29aJ4P0qM
-	Rxmd80TvTCNdjaRv9Z0VG3mP2odBnVL3ys6RAPXQeQsigxAU08U2vyeaUfk9wX9Ljqt+7Q==
-X-Received: by 2002:a17:90b:46:b0:3b0:78c8:d56e with SMTP id 98e67ed59e1d1-3b0db6ca00amr3908342a91.27.1794006803903;
-        Fri, 06 Nov 2026 15:13:23 -0800 (PST)
-Received: from google.com (162.127.105.34.bc.googleusercontent.com. [34.105.127.162])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1058a7b29sm609847a91.10.2026.11.06.15.13.22
+        d=1e100.net; s=20260707; t=1794007993; x=1794612793;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zxfYVvH5G04u6i4PPEDKV6DF5oBNEBfWKzG/rxdV9B0=;
+        b=HWGSy0u6CweEcaWVLENBOUtFs54gfwyDtURXrPjPMsU7poAHcBd9b9bxXqilIkq74B
+         qojAi3zy8iupJ1sObFNth+Gn4tUAH1pZKjaPYv5wnAf468Emr2A8m+DRXE+cmL70XhvA
+         VTCyAH4ngK2ZhlCpPg7XVfeVU0eaGdafCyce5+21/txBBZUBDqAHsfP2oE680lygbuuH
+         lKz3ZMIgXVOdIzkMtUaJeuNewa+L3m9H10VLgsaJjpj5SPkBWTS8FE0wbdC+qEl1QSkC
+         wlC7WDNftUHSKLYzYIuRyDisBOLEStMyCzesTWJU2g59IZyFbKts5rsLZeo+cPn9l43/
+         4xOQ==
+X-Forwarded-Encrypted: i=1; AL+hErFhO4pTr50Lvdv0JcIlXiHSVmhHd2J1obm/8O8btQQUcgxsXwdg7ULEQs/ILZ/SOR2+dVgrztnpN2o=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+ou9Lb14nfIkPcJP7NPHtm6F9rOZoVG0U/MfC5zjFG8Gc9l82n
+	5hJ0Bra1RzJQF4QMXkkGLk/k73oCXg5YQJNI5p5G2d5UvXdEjl7WKtoBGhU182xY
+X-Gm-Gg: AYBFou1xS/7hkml+f36pxTNT9+T3HgQLzvnpjJagoVsUuvhhHtHIFdeDIkSPqBHDqWE
+	uohAB6frCoEtr9/41mOFevLAkzHEpdGjw/19J93tDtqGoWUT3GP1Y10XJWii36zVTWDdmku8Cgu
+	pSZyA1YJ4G7Yp3/gMJaF3SEB3i8U0tVeL2dXGsffxrG0VBVjv49Yqx23HjHXAoqHMtQCefAZmkr
+	U83xPhvwePJzqQ4uf8X13RYd0WnXckU7K07LBN/Y/Nn0sq+gsWVnMs7jJihooIODU0W+T06Lc8B
+	ixJYryhLTJ59MBWl/o6GRuDlDdJrkp57K5eFzeTYvj6wNz+KzRFwRdmIkfB7H6cOo3BLPhFVrLX
+	qMv2BI8DYLR4Po7U6fAdusBiOumVZYuR/fm84z5ApuuEc520+CR7e/TJTfdCKAGUmEKhzORIXbS
+	7PGSOzs/GX3un+DcvV7ldY8bcZeDIPlo61IP0mzJEDPSgN2CUnuQ3E+PcywFcevYSzCZqn1HEWS
+	h1wvSW2kwZibB17zaFSR/GJWNytPpCk7B88ujMaTwT9+8dCL1DEtQRIpZjqFaZjVLiZvUzuUAht
+	GYo8SEYzueF7X3u/UCLSkLkAvO2wy6Z1aTzOpmphy6MyFEAxUPxUJfdbjXT0Rvml/i1nf21WZkm
+	IhuksJaERuy3Y
+X-Received: by 2002:ad4:5769:0:b0:91c:9086:ee29 with SMTP id 6a1803df08f44-91ea97502c0mr61821976d6.40.1794007993077;
+        Fri, 06 Nov 2026 15:33:13 -0800 (PST)
+Received: from nerdopolis2.mynetworksettings.com ([2600:4040:5e70:4900:f826:3fc4:9d57:a627])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ea6a870dcsm31066286d6.30.2026.11.06.15.33.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 15:13:23 -0800 (PST)
-Date: Fri, 6 Nov 2026 23:13:19 +0000
-From: Neill Kapron <nkapron@google.com>
-To: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-Cc: gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk, me@samcday.com,
-	michael.bommarito@gmail.com, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/3] usb: gadget: f_fs: simplify error handling using goto
-Message-ID: <au5fD9XTLVypQHI7@google.com>
-References: <20260901120908.14386-1-ingo.rohloff@lauterbach.com>
- <20260901120908.14386-2-ingo.rohloff@lauterbach.com>
+        Fri, 06 Nov 2026 15:33:11 -0800 (PST)
+From: Adam Simonelli <adamsimonelli@gmail.com>
+To: Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Adam Simonelli <adamsimonelli@gmail.com>
+Subject: [PATCH v2] USB: visor add vendor/device IDs for PalmSource devices from the PalmUSBD.inf file in Palm Desktop 6.2
+Date: Fri,  6 Nov 2026 18:33:02 -0500
+Message-ID: <20261106233301.3267777-2-adamsimonelli@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -98,39 +97,62 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260901120908.14386-2-ingo.rohloff@lauterbach.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 01, 2026 at 02:09:06PM +0200, Ingo Rohloff wrote:
+PalmUSBD.inf from Palm Desktop 6.2's driver defines two PalmSource
+devices. While PalmSource only developed the PalmOS, and never made
+actualy hardware, as it was Palm Inc. made the Palm hardware, there
+is a bootable ROM containing PalmOS 6.1 that can be booted into RAM
+on the Tungsten T3. When this ROM is running, when plugged in, the
+device will then present the PalmSource vendorid that is defined in
+the INI filem and the deviceid then becomes PALMSOURCE_DEVICES_1_ID
+the PALMSOURCE_DEVICES_2_ID is also defined for completeness.
 
-> +	// It's an AIO request
+Signed-off-by: Adam Simonelli <adamsimonelli@gmail.com>
+---
+ drivers/usb/serial/visor.c | 6 ++++++
+ drivers/usb/serial/visor.h | 4 ++++
+ 2 files changed, 10 insertions(+)
 
-Nit: please use /* */ style comments to match the surrounding code.
+diff --git a/drivers/usb/serial/visor.c b/drivers/usb/serial/visor.c
+index 5706c46c49c2..18c586d552d7 100644
+--- a/drivers/usb/serial/visor.c
++++ b/drivers/usb/serial/visor.c
+@@ -75,6 +75,10 @@ static const struct usb_device_id id_table[] = {
+ 		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
+ 	{ USB_DEVICE(PALM_VENDOR_ID, PALM_ZIRE_ID),
+ 		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
++	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_1_ID),
++		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
++	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_2_ID),
++		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
+ 	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_4_0_ID),
+ 		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
+ 	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_S360_ID),
+@@ -133,6 +137,8 @@ static const struct usb_device_id id_table_combined[] = {
+ 	{ USB_DEVICE(PALM_VENDOR_ID, PALM_TREO_650) },
+ 	{ USB_DEVICE(PALM_VENDOR_ID, PALM_TUNGSTEN_Z_ID) },
+ 	{ USB_DEVICE(PALM_VENDOR_ID, PALM_ZIRE_ID) },
++	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_1_ID) },
++	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_2_ID) },
+ 	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_3_5_ID) },
+ 	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_4_0_ID) },
+ 	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_S360_ID) },
+diff --git a/drivers/usb/serial/visor.h b/drivers/usb/serial/visor.h
+index 622d639ce74e..0f86bd06c4fe 100644
+--- a/drivers/usb/serial/visor.h
++++ b/drivers/usb/serial/visor.h
+@@ -32,6 +32,10 @@
+ #define PALM_ZIRE_ID			0x0070
+ #define PALM_M100_ID			0x0080
+ 
++#define PALMSOURCE_VENDOR_ID		0x13e8
++#define PALMSOURCE_DEVICE_1_ID		0x0600
++#define PALMSOURCE_DEVICE_2_ID		0xff00
++
+ #define GSPDA_VENDOR_ID		0x115e
+ #define GSPDA_XPLORE_M68_ID		0xf100
+ 
+-- 
+2.55.0
 
->  
-> -		req->context  = io_data;
-> -		req->complete = ffs_epfile_async_io_complete;
-> +	io_data->buf = data;
-> +	io_data->ep = ep->ep;
-> +	io_data->req = req;
-> +	io_data->ffs = epfile->ffs;
->  
-> -		ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
-> -		if (ret) {
-> -			io_data->req = NULL;
-> -			usb_ep_free_request(ep->ep, req);
-> -			goto error_lock;
-> -		}
-> +	req->context  = io_data;
-
-Nit: since we're already changing this line, can you cleanup the double
-spacing?
-
-
-Other that the two minor nits above, this looks reasonable. Since patch
-2 shouldn't go in, can you resend this separately with the above items
-addressed?
-
-Thanks,
-Neill
