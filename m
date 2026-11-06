@@ -1,100 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793984550;
-	b=yPQY5EQ3GQPV57uaBStjhMvt0Xto4MY1lrIBhH0AzXhZHOQIqqizDuBfJZyqayaGxvEF
-	 4/BVvATsL9561mS5Tj8eqlQQEA3ak2vQuU9ITE+MeFbzaWsestPeSrvcIh33wW9K6xDxJ
-	 JuTwXO1lrCPCOlwg3qHStoGdSJjdIXPs8iyVmdYh3JwrJXVgXYXmqFTVbOWcr1R2mBg0G
-	 cZ4WNol0/PapuUITjDkVQhtoCvNoTIA2/YBjliOOpht9apqZbQUHBkyzfqdLEhnWSX0FF
-	 12hhVMfxwlK+qiXIOUpUQ9anaDlh9Y2IMXIV+zMyTf17+Lvit1IGqMpQs5MRMZbyR2w==
+	t=1793986355;
+	b=emgFURbPLjJtVm6y6R6oJVKa6FOEDfJ/HWZe+rFGFZfPTTysmH509xNkBy78/yeftCyV
+	 Qkv2tzfKFBISGaAMIui+Xr5qXZj3N+lgnn12KDrfl4PZce3Re7CWCFwXapcM3bGkEpHbC
+	 pUKTvxaKi2hOoWT1kGB1Q0dLCV6lSewJKhyoYQZNW4Y6porRXWYxYI6pX7uWdBKC2ZOY7
+	 rqS8OOynCmUTE3mIKwlmQtSXAn6O67wCCMYGr4c79rPClVOpjxNqLVSx1FKyxkr5uEY3m
+	 eGc4hdDoHeYndtMLpW1PfborngcLZSxxN8VC9upQ866sk1jGIuOBf5DGj9Ye76nxk1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793984550;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=/qZTKeMtYLlan9SFU3DlCAiu7yexd3IDtiotPT8o4LQ=;
-	b=3KjHnbJMTptKXJzbbEVRJeqbmTMmldR8mywT/rCoxbnkVPkiO1UMSb8V40cOYi/sK3ar
-	 WDj+prCba0l311+yCmDhWySH+YB7CwNS93YhOL3HfkRrjBvUhUQE/KCYBygAG/4gCYTO1
-	 6qKJ/2RMT6KyvwzK9jXgeBOfd9UP0xTjWfc5Khqntj8Xz0e+ZHUSDx8ti1Ji4E2E0Yd6N
-	 yezmclTHWCpLP+lflimhzEatPuE7MeYTwNado4QKp2MUKPF8mF45Z1NGdQ+ZNncwUdRHk
-	 e2ckK2gA8rQSfr0tJPm4i1SOBC9lpGTXysIRs728ARBY2y9fOVgSC6WA6ICVjmxPv/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793986355;
+	h=DMARC-Filter:Received:DKIM-Signature:From:To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type:X-MBO-RS-META:X-MBO-RS-ID;
+	bh=Lh4YP8lWADeMBED/q61/UBMKl+zBA3dG6sO7ypHbuMw=;
+	b=RTlRFe4bZccE3QB/SevfNdzJIkg4kz/WL6C3sNEE0h1ukhQDZtNxvZrFFEq3HkaLphKM
+	 zRzvjXQHvaFceYvcLqCPsD+Lly/SOdF37IRWJT4MkoDQ37BhmnKKC4qwuqPJY+zpn792T
+	 RGqehPx2L6/G6FrC3wDd9zGrxkhVwtplUJ2o9WXQmSuYUNIoRihjyyThOtT5BLcKa5OQ6
+	 8sIPmzpIjSLvvdSwSdVcVCSOO6cqi2wEbM/+3+AIXxE4a6DcfD3DR9Jb8ZuyCbGgr0i/F
+	 GgsYUQrRScSbx2juVauHnWwuAlnVW+iTsyXclcdNf73B4sQb/d/lcLk+2LV5+yUUdKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=la2KYYkN;
-	arc=none smtp.remote-ip=209.85.219.51
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=mailbox.org;
+	spf=pass smtp.mailfrom=mailbox.org;
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b="LgcIaT/n";
+	arc=none smtp.remote-ip=80.241.56.172
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B78606A32E
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 17:02:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24B78606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6779A606A32C
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 17:32:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6779A606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=la2KYYkN
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-91eb46044c4so6466236d6.1
-        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 09:02:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1793984549; x=1794589349; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/qZTKeMtYLlan9SFU3DlCAiu7yexd3IDtiotPT8o4LQ=;
-        b=la2KYYkNdIoMoc6wEeIb+LbDPl6uyQUQpIfVl89pwSwtrSGbFTunXRL/lFB0HHbGhI
-         X376hmYEScQTcKJwZUtZ+vdZ6Pgc1ld83KsGwkwClcMPZDjj0fvJqCldasPof/eBi7Bm
-         uwEP/FyxQb4B/rn/PbVrDW4ujFfjzM0lVu8BohuxO92lUqF2l2AE4LyG+ZlcCEmUCNZx
-         3K99FJipn354A0jE7JlMSh7Cyn7axTGVKg1/J1Y9kw3oHDr+IWgH//MoxGF2e8ZscCod
-         nk37zD8oIoHkQV1sCfMDQSOolbvj6V20gRh0gyETflKTVOMZWIbzQqGB565HVcjZ/fyR
-         z1jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793984549; x=1794589349;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/qZTKeMtYLlan9SFU3DlCAiu7yexd3IDtiotPT8o4LQ=;
-        b=1uNR36DVRYpy7s9dajMZHrHXRlyP6j2O9AGtOR59S9C0JFkPOhsyIo1HE/7d7Z8NEA
-         17mhbvaVxM9GA4koYOcD+93dldxZDiuJDR6LgQ9er2QupM7w2L6UBy73AQ4OCyIg0HiL
-         aAVXqVUAVp5wXJsVmE11DIH6i+pEOl1bhOUtCgBx5ShwT0l5/Q079CT6CKCqXcoJr5p8
-         MfF9wUXQl1iMBslp8oCxfpgRH+A24vvGjM/7U7SQokLaq+vXlqUpPkm6s358tvPgrZmP
-         cw1epJgrkjDbldvXo6qv3vE5/I4rUWGFa4h+tdEOza8+r1Fhd3ixlBca11Y0f4/CAayr
-         I2Tw==
-X-Forwarded-Encrypted: i=1; AL+hErEVtdDhHKEeNirRLj7ndZQUzeORThjjCak6/5X3ptyhEvq9R6A2RaDyMnjq8tX8WRN4ihcXcUvqIug=@vger.kernel.org
-X-Gm-Message-State: APuU4Z913CEbnLCTCfpYQpO1FdSNjg9BHyAHIW90rD1NqcEPnWVVTSs/
-	jRbqcFQjQknp8Ar0WuK21DB+MY43IRL/hRx+YLVD7p4KHClpnGlnVRmigz3not+MMA==
-X-Gm-Gg: AYBFou1WqX+s+QREzTSLqzXe9Re9VQ3gjlwlVYZIlN5rYfDRftJPAz79oao501SxGLv
-	dBLnRH9Kkq6/NON2tZkDM65AKXrseGBtHCnry+V9F8xZDcFc1/Ud2C+wzU9XuZTBQAl7KLqq8Ff
-	cCYubeJTS7WKkJZJjkqG5/f3818jG6r05cjPaXrtDqRHk6d6G9UWBBuqy8VJB7HaMoXYJ0l11M6
-	tGwwSQWHQBnYqnuVyowzKQdOier9xE8fvekxvgkhVhRV9CwG3x9PRHymulN1D1cVIy6QeD+R/Hb
-	8HOtx1St2dKkHZ99WhzWgvYIvKOZuiEMCPRRC1JwwHQf3QoHFkjctwKTMZ+VR7V/pyngOT+IT0F
-	eptjKkj+AvZAcTKO5OhX8a8hQ1ZwT/eQARbxCt0sI9amDwzRRa9xb7JmwZxbRTj9DjxYP6WSdLe
-	LhVgM4L0aMmR+v6pzdTVY9kI/DqQCsS4Fl3F1HIfhsPqYgYWIhpCa//iAd6EyEUXAYGG1vvkYM1
-	d00AiMPQxfxsOvoNByJBVcTvDUBJEtwDC5veP3sjDWOZxLraxa0gCk2vIda2n57hs6zwBnIxqX7
-	MJSkJ6R+nEgA8pEaJzaEdBCHO/6F
-X-Received: by 2002:ad4:5dc8:0:b0:91e:9463:7194 with SMTP id 6a1803df08f44-91ea96643b4mr48110016d6.24.1793984548922;
-        Fri, 06 Nov 2026 09:02:28 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ea6aa7a97sm24230156d6.35.2026.11.06.09.02.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 09:02:28 -0800 (PST)
-Date: Fri, 6 Nov 2026 12:02:25 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: James Clark <jjc@jclark.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>, Bastien Nocera <hadess@hadess.net>,
-	Matthias Kaehlcke <mka@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Robert Nelson <robertcnelson@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: [PATCH v4 1/2] usb: core: export the generic device driver's
- operations
-Message-ID: <c267f8af-78eb-43b5-b6f8-98af6749db22@rowland.harvard.edu>
-References: <cover.1793941292.git.jjc@jclark.com>
- <c1fdf2ed4c508b08734c7a9de002336f60d3b865.1793941292.git.jjc@jclark.com>
+	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=LgcIaT/n
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4jLmTV4nNXzMlf9;
+	Fri, 06 Nov 2026 18:32:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1793986350;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=Lh4YP8lWADeMBED/q61/UBMKl+zBA3dG6sO7ypHbuMw=;
+	b=LgcIaT/nniA368rcJXSra9hPWOLI+45XBSdI82CiqtPc5MuOc7clfCVqdlo1ZjD1CRCVCe
+	Hi1JAdnAjn7n0CfeDE/nav39hm6BfdffC3x2ZaQtMYxEjNjyq1tLFF6Uu5BxttdW4asOFN
+	rtabW2ps75L8COHdu8HiNQOju2udPK1lz9HL2bGnMtzGrYTVj4i5C+Qs4enfL1syE5nXwI
+	pzM2F0YloelNldChlsaGU9l5oBR/7aaywWnt03jldtxCNv3+4EKnN4lEO0HFUav9svCWBx
+	ir8CMYypc45D7cab3w0NawleD65/8VxpJgeqi+mEAiD1IluAWYuvzTmJjLdf4A==
+From: Martin Seidel <mseidel@mailbox.org>
+To: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, oneukum@suse.com
+Subject: Subject: usb-storage: SP MS60 (13fe:6500) needs US_FL_IGNORE_UAS
+Date: Fri, 06 Nov 2026 18:32:28 +0100
+Message-ID: <Awi1hYscTjW0LIJAzTtqDw@mailbox.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,31 +62,253 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c1fdf2ed4c508b08734c7a9de002336f60d3b865.1793941292.git.jjc@jclark.com>
+Content-Type: multipart/signed; boundary="nextPart0FsE1oOXTWCfaeie7Cg0WQ";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-MBO-RS-META: nojxeag7hroyms3zdg9zxw1c7rb7f6mr
+X-MBO-RS-ID: bf9f09f72eeafa74098
 
-On Fri, Nov 06, 2026 at 01:12:50PM +0700, James Clark wrote:
-> Export usb_generic_driver_probe(), usb_generic_driver_disconnect(),
-> usb_generic_driver_suspend() and usb_generic_driver_resume(), and move
-> their declarations to include/linux/usb.h. This lets a driver whose
-> probe may return -EPROBE_DEFER leave generic_subclass unset and call
-> them itself, so that it can defer before the device is configured.
-> 
-> Say in the generic_subclass kerneldoc not to set it in that case.
-> 
-> Signed-off-by: James Clark <jjc@jclark.com>
-> ---
+--nextPart0FsE1oOXTWCfaeie7Cg0WQ
+Content-Type: multipart/mixed; boundary="nextPart1YwLOdJMSQK4skt5y5KrLA";
+ protected-headers="v1"
+Content-Transfer-Encoding: 7Bit
+From: Martin Seidel <mseidel@mailbox.org>
+Subject: Subject: usb-storage: SP MS60 (13fe:6500) needs US_FL_IGNORE_UAS
+Date: Fri, 06 Nov 2026 18:32:28 +0100
+Message-ID: <Awi1hYscTjW0LIJAzTtqDw@mailbox.org>
+MIME-Version: 1.0
 
-It's ironic that the generic_subclass thing was added to support 
-onboard_usb_dev, after some debate about whether it would be better just 
-to export the generic callbacks.  Now you're going to implement the 
-alternative solution for onboard_usb_dev, while other drivers continue 
-to use generic_subclass.
+This is a multi-part message in MIME format.
 
-Oh well, I guess there's nothing wrong with having two ways to do it.
+--nextPart1YwLOdJMSQK4skt5y5KrLA
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Hello,
 
-Alan Stern
+the USB SSD "SP MS60" (Silicon Power, 250 GB, idVendor=13fe, idProduct=6500, 
+bcdDevice=1.10) does not work with the uas driver on my system. The partitions 
+are detected, but reads time out and the device is reset, so the drive cannot 
+be mounted. With the uas driver disabled for this device (usb-
+storage.quirks=13fe:6500:u) it works fine.
+
+Kernel: 7.2.12+deb14-amd64
+Distribution: Debian
+
+dmesg excerpt:
+
+usb 4-1.1: New USB device found, idVendor=13fe, idProduct=6500, bcdDevice= 
+1.10
+usb 4-1.1: Product: MS60
+usb 4-1.1: Manufacturer: SP
+scsi host1: uas
+sd 1:0:0:0: [sdb] tag#8 data cmplt err -75 uas-tag 1 inflight: CMD
+sd 1:0:0:0: [sdb] tag#15 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD IN
+sd 1:0:0:0: [sdb] tag#15 CDB: Read(10) 28 00 00 00 08 00 00 00 20 00
+scsi host1: uas_eh_host_reset_handler start
+usb 4-1.1: reset SuperSpeed USB device number 4 using xhci_hcd
+sd 1:0:0:0: [sdb] tag#15 FAILED Result: hostbyte=DID_ERROR 
+driverbyte=DRIVER_OK cmd_age=54s
+I/O error, dev sdb, sector 2048 op 0x0:(READ)
+
+I attach the output of lsusb -v for the device.
+
+Could this device please be added to drivers/usb/storage/unusual_uas.h with 
+US_FL_IGNORE_UAS? A suggested entry:
+
+UNUSUAL_DEV(0x13fe, 0x6500, 0x0000, 0x9999,
+		"SP",
+		"MS60",
+		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+		US_FL_IGNORE_UAS),
+
+If this device is already handled in a current kernel, please ignore this 
+mail.
+
+Thanks and regards,
+Martin Seidel
+--nextPart1YwLOdJMSQK4skt5y5KrLA
+Content-Disposition: attachment; filename="lsusb.txt"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"; name="lsusb.txt"
+
+Bus 004 Device 005: ID 13fe:6500 Phison Electronics Corp. MS60
+Negotiated speed: SuperSpeed (5Gbps)
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               3.20
+  bDeviceClass            0 [unknown]
+  bDeviceSubClass         0 [unknown]
+  bDeviceProtocol         0 
+  bMaxPacketSize0         9
+  idVendor           0x13fe Phison Electronics Corp.
+  idProduct          0x6500 MS60
+  bcdDevice            1.10
+  iManufacturer           1 SP
+  iProduct                2 MS60
+  iSerial                 3 07083CD58AADBA20
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x0079
+    bNumInterfaces          1
+    bConfigurationValue     1
+    iConfiguration          0 
+    bmAttributes         0x80
+      (Bus Powered)
+    MaxPower              896mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           2
+      bInterfaceClass         8 Mass Storage
+      bInterfaceSubClass      6 SCSI
+      bInterfaceProtocol     80 Bulk-Only
+      iInterface              0 
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0400  1x 1024 bytes
+        bInterval               0
+        bMaxBurst               7
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x02  EP 2 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0400  1x 1024 bytes
+        bInterval               0
+        bMaxBurst               7
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       1
+      bNumEndpoints           4
+      bInterfaceClass         8 Mass Storage
+      bInterfaceSubClass      6 SCSI
+      bInterfaceProtocol     98 USB Attached SCSI
+      iInterface              0 
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0400  1x 1024 bytes
+        bInterval               0
+        bMaxBurst               7
+        MaxStreams             32
+        Data-in pipe (0x03)
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x02  EP 2 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0400  1x 1024 bytes
+        bInterval               0
+        bMaxBurst               7
+        MaxStreams             32
+        Data-out pipe (0x04)
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x83  EP 3 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0400  1x 1024 bytes
+        bInterval               0
+        bMaxBurst               0
+        MaxStreams             32
+        Status pipe (0x02)
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x04  EP 4 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0400  1x 1024 bytes
+        bInterval               0
+        bMaxBurst              15
+        Command pipe (0x01)
+Binary Object Store Descriptor:
+  bLength                 5
+  bDescriptorType        15
+  wTotalLength       0x002a
+  bNumDeviceCaps          3
+  USB 2.0 Extension Device Capability:
+    bLength                 7
+    bDescriptorType        16
+    bDevCapabilityType      2
+    bmAttributes   0x00000006
+      BESL Link Power Management (LPM) Supported
+  SuperSpeed USB Device Capability:
+    bLength                10
+    bDescriptorType        16
+    bDevCapabilityType      3
+    bmAttributes         0x00
+    wSpeedsSupported   0x000e
+      Device can operate at Full Speed (12Mbps)
+      Device can operate at High Speed (480Mbps)
+      Device can operate at SuperSpeed (5Gbps)
+    bFunctionalitySupport   2
+      Lowest fully-functional device speed is High Speed (480Mbps)
+    bU1DevExitLat          10 micro seconds
+    bU2DevExitLat        2047 micro seconds
+  SuperSpeedPlus USB Device Capability:
+    bLength                20
+    bDescriptorType        16
+    bDevCapabilityType     10
+    bmAttributes         0x00000001
+      Sublink Speed Attribute count 2
+      Sublink Speed ID count 1
+    wFunctionalitySupport   0x1100
+      Min functional Speed Attribute ID: 0
+      Min functional RX lanes: 1
+      Min functional TX lanes: 1
+    bmSublinkSpeedAttr[0]   0x000a4030
+      Speed Attribute ID: 0 10Gb/s Symmetric RX SuperSpeedPlus
+    bmSublinkSpeedAttr[1]   0x000a40b0
+      Speed Attribute ID: 0 10Gb/s Symmetric TX SuperSpeedPlus
+Device Status:     0x0000
+  (Bus Powered)
+
+--nextPart1YwLOdJMSQK4skt5y5KrLA--
+
+--nextPart0FsE1oOXTWCfaeie7Cg0WQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSxiKu8/PyQCDpXgkqKZLelKt9O7gUCau4PLAAKCRCKZLelKt9O
+7nBsAP9i1J9nunoNHdaFW1CyOEHJqjekV4lKyKFigIiCl9DPsAEAo6lWoy6epZD8
+yin637CJv3QRK9OabqNc/XMdYHe7BAM=
+=JX7o
+-----END PGP SIGNATURE-----
+
+--nextPart0FsE1oOXTWCfaeie7Cg0WQ--
+
+
 
