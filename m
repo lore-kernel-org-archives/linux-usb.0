@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793957892;
-	b=zVQ51uFWfMGht9TfMVKlgmVdu2c/2LDShb+38iSLdnFk1dmnRaeC6M9jWOiHaMjrUs6l
-	 fnw2L/wJUC/ja/1IrpHJIFiEeZAILbf7DSOTVVWcJLrY3i5oai/TG4Pz6xU49VFnCXQo9
-	 MYHhl7FrNhgr3pndNNJcPXh1fLNbisAugOVKbDfPniu4PQy+bCOIKjpwxql2Bl8IRX4P5
-	 hkEZPJMYSv/BQvlqgkP04sCHTBPgsaK0Hg2Njuf3t45NhZw+qdIeZv7YDDYRal9P0kLD7
-	 wC47QuX/hJqnSIZFvp68LQ4mGLs1cHzoV1Hc7x9nYJ4HGGw+U6bf75OfzFIKxwc5PTg==
+	t=1793958075;
+	b=vayPMqK+327ah4BMya1lWlToItw1aYlgY+Vmc9namqLZw+OkrS++6ZKoUkLo4S5HNsHb
+	 HNnsL/sgyt0s/BR7q47l7UpGiCWeaZVc0YjNqOoOezviwEVRg12LuUvarQAFw7cgF5a7J
+	 RvlcXFxknQuYCO/7WQduIVGDIJC7SxPcyhkOWpKSyHXiUcf2nqZaap11ABXxI1Yl8WNAJ
+	 u7ai72Zl+bU73QY896xGBNXUbiiTYFna7E8qzvRGS2DbCUfrn+aSHD2e0TK1uC1XykeMh
+	 cp+BsoqHM+d+GEkZftxFD1wBeTbsB7cDZ+X662zIFDx0McSNkthWy08EsEdi68ysT6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793957892;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793958075;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=HWUd8ebJpH0Z9nPlBcLcNti++ADiDTKHxG9M9RvuPFs=;
-	b=gUQaCgq9Jvuj70Ok5w7Gh1ANefyrm4da273pCXlQqYik9z77HyDoQHRtrgj2zi+FZLSz
-	 SX3/gEhKH/Rr+S5OkUVTl8wb9a0u/mbYx4YUuJFsYiCHNojym7+Op4zMdamiZ5eAZOGtQ
-	 VBgev1/eEw3H7zRdo2WHkVo4o3WX0Yxc991cvcf9yQ+5bCnVsCaInXZb0Yo7/9uLEWrXj
-	 zacOCDgmZ0wCE2ft7XGbWevMeZlwOYoh1d0c45FtCI/5RJJE4zawAXPHKahv1i+rvlMg2
-	 EiooFXW9mHCPIK/lw9e0AKWsTXXQYwi7rwY3PDVN3zX9kLHIQEJZDd4nu1mgWWMhulA==
+	bh=F1mcriLsHutWoTVIVO2BUQ5nhUxM1IjvpOmBQiELcBw=;
+	b=m9+KzVltC7Z8tXivPPOAtnBAJtp20XzBj/M+a6qrUEUvmjZXHWKyjoX3ezXvzJFyGV7m
+	 31Zhg/7VXS3xIgtbAz0tycBeKE+IIxiRzMkFVjicHv17XjQ/8g3ksbhACTi/+ZtjOXK/7
+	 dzluJ/vSP57wcrL8kzOkJZVIVjbP6MWFID1OZ0BJo+RhkPfH8gdj/SYT5VpL15jX+j9QL
+	 dfs2rmSq0POekpwidGBW124Oj/bHUO0GEKFxG+voN+ZX4rgcf/6OA0tKcPvS9PIHZxnlw
+	 QwHwEwAxfAj0UDecdCGXa6s6jU35j4EbgfTDGnKqMSke8ZtDuiDFiPW2ZpS2rhF+JXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="UG/T2obx";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FRsPPkOi;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE32606D829
-	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 09:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66990606C3E0
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 09:41:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UG/T2obx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBCB51F0089F;
-	Fri,  6 Nov 2026 09:38:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FRsPPkOi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE3271F008A7;
+	Fri,  6 Nov 2026 09:41:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793957892;
-	bh=HWUd8ebJpH0Z9nPlBcLcNti++ADiDTKHxG9M9RvuPFs=;
+	s=k20260515; t=1793958075;
+	bh=F1mcriLsHutWoTVIVO2BUQ5nhUxM1IjvpOmBQiELcBw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UG/T2obxbt2lEB/wtCgA+CWaeMGcjiCWoE/90726M/56euiRH34jXOlTGd5fPqCej
-	 3/bOg8yzDIq/8/zspNis6HG8QRn3ndAuPB2+CJuQ3vY9KeXtZBTLknWfP5HYqYPHsc
-	 ng74EAbwQVpkwgy5Za/15q3rk8wiKxZb2qVAO+s0WDhb5sMiAY3KbTTVqT2nb5JGoD
-	 VctL9MP1oGfgd3tCnr5hKmJDHzSXrF4TJFccYRvTEyZdg/wiyzVHjffXxgnBDwzJOF
-	 NryGhxfrYZoQEiQqsZ3P8PC4skZMdFaQptz79MI/5t90sAr82x2N7KUiWqv4RNvH6x
-	 Wzc49lUsoJn/Q==
-Message-ID: <sashiko-outbox-201137@kernel.org>
+	b=FRsPPkOiMP6e4FLkfz79w/c4xHlzyo9Hy3JCGqUGleLjm+LSNBs+Z7JCjXTw1dHGG
+	 /LbF62VwBIfVYNtrRpO72/XaF2b2rVYsRyBIPjwr7fY+eEw6z2KP8ompcAJQlsqXnq
+	 PazPoeHbvB9vpoAcdmOW6/hCPsYiKAYGPY/KSU2zRPSr/PJF4nsCSqtym+gUMMAbmR
+	 YlJs6j6jbZPFYGPyPuvWTA0IejtGIXCrJV/Mqh+njq+xKZB4lY9s8aQyrqCo3+hNrg
+	 w1FeHGIiCEAybGLvPCl3kejw2UrkaaeViY0dWSn95U7YMBk+5gj2IfyzccgS0C5Pbs
+	 KP/93XTW3Da0g==
+Message-ID: <sashiko-outbox-201139@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 16/25] reset: simple: add Metanoia MT2824 support
+Subject: Re: [PATCH] clk: qcom: gcc-sa8775p: Use retention for USB power
+ domains
 Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?QmVub8OudCBNb25pbg==?= <benoit.monin@bootlin.com>
+To: "Akash Kumar" <akash.kumar@oss.qualcomm.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261106-mt2824-v1-16-86087eaf5af4@bootlin.com>
-References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
- <20261106-mt2824-v1-16-86087eaf5af4@bootlin.com>
+In-Reply-To: <20261106093722.3261172-1-akash.kumar@oss.qualcomm.com>
+References: <20261106093722.3261172-1-akash.kumar@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 09:38:11 +0000
+Date: Fri, 06 Nov 2026 09:41:14 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,16 +60,21 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The Metanoia MT2824 integrates a simple reset controller with the same
-> register layout as the other reset-simple controllers. Add its compatible
-> string and build reset-simple for ARCH_METANOIA by default.
+> The USB subsystem does not expect to lose its state on suspend:
 >=20
-> Originally-by: Jun Chang <jun.chang@metanoia-comm.com>
-> Signed-off-by: Beno=C3=AEt Monin <benoit.monin@bootlin.com>
+>   xhci-hcd xhci-hcd.1.auto: xHC error in resume, USBSTS 0x401, Reinit
+>   usb usb1: root hub lost power or was reset
+>=20
+> To maintain state during suspend, the relevant GDSCs need to stay in
+> retention mode, like they do on other similar SoCs. Change the mode to
+> PWRSTS_RET_ON to fix.
+>=20
+> Fixes: 08c51ceb12f7 ("clk: qcom: add the GCC driver for sa8775p")
+> Signed-off-by: Akash Kumar <akakum@qti.qualcomm.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-mt2824-v1-=
-0-86087eaf5af4@bootlin.com?part=3D16
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106093722.3261=
+172-1-akash.kumar@oss.qualcomm.com?part=3D1
 
