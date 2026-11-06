@@ -1,57 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793958258;
-	b=OUhTFS3VhgM0V9H8DSleppGaJBzkkN2hb8CYfF+MH1uRnIDGhG4W9CbfR0eolyCv4oSc
-	 j5PUs3ido+h82O3hbgxyObcSQfKUTdtjXV4GGnkHObOl7a/U65JNVbLhcfOgmjm4GPoJG
-	 9S+geHqNsusHCr5OOltS/aXrIlHzFRbDfGf2Ta07W4SKrdRBBaFQk+ptSNRxtfJvmRB9E
-	 etmlFUyzJxqjrA9OQi5DhZr6gOAyV3dP3bG3dNHblqTbyQKJFnc/Yv50jnNua7gqEjLjT
-	 sSgqcRMAMFXmE24FfAX17r3wassg5lxKrFd4MXGTZkJIMY0jk9ujwBz3ews0zIyvtUw==
+	t=1793958536;
+	b=iFbZ+m/dOq9z4DmejpjyOetQpIYyemycGnkt8UkLjmBXQCfxmztftetLjBTP8Z3ZG+ID
+	 w5ogCHR4lnBbR2++pUTR6dwTSmVWuRZnPitmWSLuS7a+NO2FBvCLKgDvtyhh4HUtl3Kji
+	 rjqtNWbUdQ4OM2v7gwk1Mc47Q/VG5vZK+Rz4Tap5jUdsWcohPm/Ppnlfi7/mfu40E065A
+	 Jl5bmLCLCRG5yDSeWQ7GhgPKQJcM6r9eXbiqnVrb544Ufh6eWK/cvGH5y6jAJEFir3Nyw
+	 xlMNu7ADnfUn/FmY+nLce4MzbthEBzDt9h7tE4Qu9/g4frlDAOSBrkg1//kDr510ZRg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793958258;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793958536;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=k/B0v4ZKFTMYn7uuqyANnYN0nteQ0y0bMIFLQuE39Ck=;
-	b=ss9JlVeZfKau5j2DHKOBMPOPw+Nn3cYNUlLG/UHGwldN6IrMFIqe88xvd+xuFkbweu0r
-	 jdDCAFGOBX13syE/xNp29BEwPEFheWlhoVsFRatsctPqYSOxMn2WOwJMAxKbYceaWXNgE
-	 N8Cd7+NLHZOcAE0Mk+2VzV33VFh4YIXE7wcK5uwIqeHvG1a1xBzhNoVAKIUml/nDxdoew
-	 mRMz8oobG4qWEJbCFihp7303K9tiHPW9URMc1KBhh0msxgmutAyfnCBMw6MbRxEV4dm3e
-	 TqDGBcsitNgYYShw6cLwu9Dk1Fp0heSMp+OZNGyeXh31K3md44iUnnTBwlmS0wSIeew==
+	bh=RtCoEEEbxBQd3b1GvxxWkPWLst70SGw7Mx1qpLzyORs=;
+	b=JMD0d+YXgfR8iFZCYTPC9HiuVK7aptmh10rY8mu952koHJlumU59Zal66ZiZ6qHBdUgC
+	 czsFowv3X4eNLoqhvnxTeeuOUZB3yVuMrKRzmi9t8bB181XiE6hgnNvJxzyxupRQZVcTK
+	 eNANL/VeQVF3p6omiElKmuwRaYmcz+e+5x+DUGjatJF/2mrTtcUVqOqGTZrnUGLxKR2Wa
+	 9FN0IEa6qI6i+t9kWYJsTAnDTaLUYj77wUz5cNy6rLzLB38y0W6VrXq8nei5TF4z0jNho
+	 k8/ZJIEcE9I1xo2xEsOQpZgRc9YmYfi8NL2lwN/rzhom6AtFpafz8B8YEftZaBmgBRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="KwC/LQpb";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LID8jGos;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EB9606A326;
-	Fri,  6 Nov 2026 09:44:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B34606A328
+	for <linux-usb@vger.kernel.org>; Fri,  6 Nov 2026 09:48:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KwC/LQpb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8A641F0089F;
-	Fri,  6 Nov 2026 09:44:16 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LID8jGos
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41F3A1F0089F;
+	Fri,  6 Nov 2026 09:48:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793958257;
-	bh=k/B0v4ZKFTMYn7uuqyANnYN0nteQ0y0bMIFLQuE39Ck=;
+	s=k20260515; t=1793958535;
+	bh=RtCoEEEbxBQd3b1GvxxWkPWLst70SGw7Mx1qpLzyORs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KwC/LQpb8grt7sA2bfP5+IvDHwxcSlZgHMNYngV5PKxoqnzPfYbq6uMFbZR1tHiIu
-	 XDJXR13och6Ape8ytrjFOpP5288cS6pL3AFMBAcKhfAlCFWUsgrvAhziht5898WEF4
-	 2r5uWDSrofDee9ZHk1FmA3mSgwoj2Esln+umFWktOSj2HRhy8PZ9wLQJBsMGUn/nfN
-	 hbNClzjJeAlycL788xKw5PT8fpYvi4Ed/oR/aYwGwVl8LZ3Ozmv9CzinxD6sXa+Xat
-	 jtxOzvAJqoRgPmLJ47g8YJGxU9AK3b1LzaWhkXhHvSqXrXShnQpy2M6zhATJKNZu+b
-	 UMMmYlX5Z1NyA==
-Message-ID: <sashiko-outbox-201147@kernel.org>
+	b=LID8jGossJ2EBN539+V/GBKuzdnRdP729C2SkxavUSy40x5uBZUufoSIJSfVCMvdQ
+	 LTQ75u7Za/CJX80ux/bC9emMp5NwKl719mofjMWPSgNOn8T5H9sUes68ypUbzFKH2Z
+	 8jjh2O5H8Mg/2YtE6q6DZY28N7FVAwWF8Uo6tLa5du+pCbM7dpBuoeK2CCNHKBRek1
+	 dbbGdfNEFCF3EeT8ImL+e1MYQ8wFgr76UP7mzinP8+wNZPFD5FwWxlflqdPaD4uC7U
+	 r0hMVk4HebRj2ggYs5jBUdfqH8a7/cGKVO5v3YYyBurhvAH+gfI2Vt8z7VF8BFjnjq
+	 a3YksFDYsnGUw==
+Message-ID: <sashiko-outbox-201150@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 04/25] dt-bindings: power: reset: add Metanoia MT2824
- reboot
+Subject: Re: [PATCH] usb: core: hcd: Skip PHY rollback on failed autoresume
 Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?QmVub8OudCBNb25pbg==?= <benoit.monin@bootlin.com>
-Cc: devicetree@vger.kernel.org, linux-phy@lists.infradead.org, linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, vkoul@kernel.org, neil.armstrong@linaro.org, olteanv@gmail.com
-In-Reply-To: <20261106-mt2824-v1-4-86087eaf5af4@bootlin.com>
-References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
- <20261106-mt2824-v1-4-86087eaf5af4@bootlin.com>
+To: "Cunhao Lu" <1579567540@qq.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261106-fix-usb-hcd-autoresume-phy-rollback-v1-1-1ed900ddcd2d@qq.com>
+References: <20261106-fix-usb-hcd-autoresume-phy-rollback-v1-1-1ed900ddcd2d@qq.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 09:44:15 +0000
+Date: Fri, 06 Nov 2026 09:48:54 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,90 +59,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Low] dt-bindings: power: reset: strict style errors in
-  metanoia,reboot.yaml
-- [Low] dt-bindings: power: reset: metanoia,reboot splits single
-  register into node
---
+> From: Cunhao Lu <1579567540@qq.com>
+>=20
+> hcd_bus_resume() resumes the root-hub PHYs only for non-automatic PM
+> events, but its failure path suspends them unconditionally.
+>=20
+> A failed autoresume therefore drops PHY power references without a
+> matching acquisition. If wakeup is disabled for the controller, it can
+> also drop PHY initialization references. Subsequent cleanup can then
+> report unbalanced regulator disables.
+>=20
+> Guard the failure-path PHY suspend with !PMSG_IS_AUTO(msg), matching
+> the condition used for PHY resume.
+>=20
+> Fixes: 178a0bce05cb ("usb: core: hcd: integrate the PHY wrapper into the =
+HCD core")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cunhao Lu <1579567540@qq.com>
 
-commit 07f8018b51cb794baf4c572ad7951597d891f410
-Author: Beno=C3=AEt Monin <benoit.monin@bootlin.com>
-
-dt-bindings: power: reset: add Metanoia MT2824 reboot
-
-This commit adds a Devicetree binding schema for the Metanoia MT2824 warm
-reboot controller register used by machine-mode firmware.
-
-> diff --git a/Documentation/devicetree/bindings/power/reset/metanoia,reboo=
-t.yaml b/Documentation/devicetree/bindings/power/reset/metanoia,reboot.yaml
-> new file mode 100644
-> index 0000000000000..2670fe7ab93f9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/power/reset/metanoia,reboot.yaml
-> @@ -0,0 +1,34 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/power/reset/metanoia,reboot.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Metanoia MT2824 Reboot Controller
-> +
-> +maintainers:
-> +  - Jun Chang <jun.chang@metanoia-comm.com>
-> +
-> +description:
-> +  The Metanoia MT2824 reboot controller provides a system warm reboot th=
-rough
-> +  a memory-mapped register. It is used by the firmware in machine mode.
-> +
-> +properties:
-> +  compatible:
-> +    const: metanoia,mt2824-reboot
-> +
-> +  reg:
-> +    maxItems: 1
-
-[Severity: Low]
-Should this warm-reboot register and the adjacent reset controller
-register be described as a single hardware block instead of separate
-Devicetree nodes?
-
-This binding models an 8-byte register range at 0x10000004 for
-machine-mode firmware, while
-Documentation/devicetree/bindings/reset/metanoia,reset.yaml models the
-immediately adjacent 4-byte register at 0x1000000c for the OS reset
-driver:
-
-Documentation/devicetree/bindings/reset/metanoia,reset.yaml:
-    rst: rst-controller@1000000c {
-        compatible =3D "metanoia,mt2824-reset";
-        reg =3D <0x1000000c 0x4>;
-        #reset-cells =3D <1>;
-    };
-
-Carving individual registers of the same IP block into separate nodes
-encodes software driver boundaries into the Devicetree ABI.
-
-[ ... ]
-
-> +examples:
-> +  - |
-> +    reboot: reboot@10000004 {
-> +      compatible =3D "metanoia,mt2824-reboot";
-> +      reg =3D <0x10000004 0x8>;
-> +    };
-
-[Severity: Low]
-Does this example pass scripts/dtc/dt-check-style --mode=3Dstrict?
-
-The example defines an unreferenced label (reboot:) and indents the node
-properties by 2 spaces instead of 4, which triggers unused-labels and
-indent-unit-strict warnings.  Also, should the schema filename and $id be
-metanoia,mt2824-reboot.yaml to match the sole compatible string?
+Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-mt2824-v1-=
-0-86087eaf5af4@bootlin.com?part=3D4
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-fix-usb-hc=
+d-autoresume-phy-rollback-v1-1-1ed900ddcd2d@qq.com?part=3D1
+
