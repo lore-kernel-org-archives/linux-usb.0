@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794036110;
-	b=gMxzE/3ur33l7ZkuoNYDr0nPSQ5ENsdvxcBrgl3t3qOpd3FfYXK92tlz8KfJH+/jcuIH
-	 9fg3mf2fzpywTRaV/cppdbqw3dSlSLXchxdbrJ+2Xv/qk+L7trFGNoTbx+5E6LUuJjskD
-	 tnkPCeCI5+rQo0L6NgqZAKAgiwiZTPBQprTIpsrJD2v79dP60smcHeudzW4sbx5OLIxDS
-	 v7m2ANLOJWhQqBo3cwNmT3uaYYgMwtYVSjLXyOQxjxxFxnukpAk/m6/rVWL2sj0i+r986
-	 XcRxgwDVYPyUgkMobqVdMuuZb361WgHCWFNeHL5c/Azhe/Qrg2i4ThTBrRK52oCEptg==
+	t=1794036111;
+	b=acRSRWzXqV41A+gtERlnSVpmsvTBl/6ibtgK9K1jAV15clR3GmghrBB3cABRakjhiZfj
+	 s5qF/z+nqv7EJeguapM3KSm6Ih1TAxKarcf2x7zmYTA9HMvXRP4GD+CRvb8ANheUA6Dux
+	 dxQIeUSLQaiGMm2DAXThkdvUt5CKL2htNq+Wm5gWWOgEN9ACaVNgo1SJaQoSbTlXi5Zo6
+	 X+fSgKP5hWOvIeI+F0DdzQzJdDZ1ubkmCoucAZ/tjGB1g6OhVf6MGhbN0ynEgdx3DKVWx
+	 xfZ6MZVFeWG1nt3xQFXhM9vJL0PXXLj54wMynzixuD0JqSIiod+jirCu9PRGtwaXUDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794036110;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794036111;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=CeuuIBNacG9d8tHy2RcX+7bp4ML+qmaYxaiNYBj1n5o=;
-	b=nxijg4kz/pOXyA4T6Tg4KqTCFIpAA015gW4ikBIaR7gO+ZezUSh71753DcVT+zYX5qRw
-	 RtVAyEqepzNn/80V12RrZGsxryhe19//4uSDOjoXlX4yX/8jl1SOhdtFgpl+f3HSoGCSM
-	 zhy8U0f7ZTPR4AfeURdpLfJ6U8PYo0gAz3VJ7ScL2AJssxdUYAzy5sf54QaN/N5S0GT1B
-	 Qf9BejnxCPNpsx3/HCNLR/v3jDu8/xITaKAMt7AV5o1aJa7TXGF9u/1ik0h+bM7Vj/UlW
-	 RRQX1Uvfa3uBpjFyDhZh+eCfZWyyKde9nGFOerMkXJjh0Qq5vo1wN+SP1HI7r2oJc6Q==
+	bh=Z0XJKv9YGHyQYBFJOUN5JdVrw+PomqIBsYj7NoJn5k4=;
+	b=m1tomsKkeuDsVuM5fsGttbBr9IS1uSDibt9H4C63Bdvj0yNwjsArZ4TUmlHfnk4NKRVL
+	 +F/vMxfQTtWox9qxMPZdCB7Oek5gJ8RAhRrD+bOlRuuY5TKViLUh/sQmSV4dTz3PK+GeN
+	 xif3nSwjvnQU5G0dx58BrkzOhJcm286ridlD6keMonAIFoiaiGl+U+PKFqPrPM65vyQkc
+	 OhoNjNyr9xhYvVYy9J+Lf3sj/KrN5wB+c+wX0VqsjkGDHzIJtmKfCt8i1v5KyG+MK8v+H
+	 DjRFDHBaV9hcS4t4aY81yRUS3FIxAj+83d/4GpjFKkYz7N4jmFgkDxuijhlt5C5eJ4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gjy0RVWK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jKAN+jvj;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26DD606A333
-	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 07:21:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90480606A33D
+	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 07:21:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gjy0RVWK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 590061F0089F;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jKAN+jvj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 063791F008A1;
 	Sat,  7 Nov 2026 07:21:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794036110;
-	bh=CeuuIBNacG9d8tHy2RcX+7bp4ML+qmaYxaiNYBj1n5o=;
+	s=k20260515; t=1794036111;
+	bh=Z0XJKv9YGHyQYBFJOUN5JdVrw+PomqIBsYj7NoJn5k4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Gjy0RVWK2DLRiHCH373zXccvgJ47jcRV/ROzDgRH51BAI+mCWjdlHRrniqhx0kK3E
-	 qFHf4/jjFQkGM501wxUsWRYJRRhWMBk8SLVCBzRmjtdMwY73kMmIO+fX+9KSwntXCY
-	 6pf/vIOCr0ElyMpl7/NCFZWhSKrNVud6FaL1hnAFA2ecDBCfUiOQM2YwysSKe+u8wJ
-	 j2o/Ua38TXbV3EqxF47usH1AgpVb8rNU6tfWJTBTM6Ok9jwoYYhSrtGl99UwZeuGER
-	 3zOSaFgWw6YNtYc15zB4CCT7oBJvdk0CXmyEn63gtbJgjGI21AqWcLMWukZyA0tdAP
-	 Ec4x9iYPF/g+g==
-Message-ID: <sashiko-outbox-202693@kernel.org>
+	b=jKAN+jvjPKSlAgH/ajzsN3qH77tL4Lfztx7s9na9OgQFkqxdGY/Vg0YDrYmOpeCoW
+	 Rt/1t3H5DK544ChenOQcLPhtsZQe5PayC+NJPKWCiUMrSBq6RQjgYMDXWI2d8LXxQk
+	 zSCy/4jG8iZvr4BCdcM3XekH1HlTJWhpJTK1VlVD0r2VnGBBwivvuz6vy0VzyldUSm
+	 R0ngsm9JFQzsZUOWZObbxETGQOZH+8bjGG+PiKrOSt43fje6Tn0K71HocS3A+KwQ0h
+	 4/RQocDiXYjJ1M871wUSoGMoM3d5JQtFm1k/JtoX7Hkt8zQcFgFCAGYv0z/4QeX587
+	 LfBw+jJmtuZZg==
+Message-ID: <sashiko-outbox-202694@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v20 03/13] ax88179_178a: Split driver into
- library and device specific code
+Subject: Re: [PATCH net-next v20 04/13] ax88179_178a: Add HW support for
+ AX179A-based chips
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Birger Koblitz" <mail@birger-koblitz.de>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261106-ax88179a-v20-3-37b5a1189983@birger-koblitz.de>
+In-Reply-To: <20261106-ax88179a-v20-4-37b5a1189983@birger-koblitz.de>
 References: <20261106-ax88179a-v20-0-37b5a1189983@birger-koblitz.de>
- <20261106-ax88179a-v20-3-37b5a1189983@birger-koblitz.de>
+ <20261106-ax88179a-v20-4-37b5a1189983@birger-koblitz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Date: Sat, 07 Nov 2026 07:21:50 +0000
@@ -61,148 +61,292 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 7 potential
 issues to consider:
-- [Medium] net: usb: ax88179: premature MTU state update in
-  ax88179_change_mtu()
-- [Medium] net: usb: ax88179: incomplete medium_status_mutex locking in
-  ax88179_link_reset()
+- [High] net: usb: ax88179_178a: missing usbnet_link_change() in phylink
+  callbacks
+- [High] net: usb: ax88179: UAF on unbind when down due to
+  FLAG_AVOID_UNLINK_URBS
+- [Medium] net: usb: ax88179_178a: positive return from
+  ax88179_mdiobus_write()
+- [Medium] net: usb: ax88179_178a: byte-swapped pause waterlevels in
+  ax88179a_mac_link_up()
+- [Medium] net: usb: ax88179a: ax88179a_reset() clobbers custom MAC and
+  perm_addr on open
+- [Medium] net: usb: ax88179: ax88179a_stop() powers off PHY while
+  attached to phylink
+- [Low] net: usb: ax88179a: unaligned u16 pointer cast of u8 buf[5] in
+  ax88179a_reset()
 --
 
-commit 8e0b6dd22d7460dd33bd4e07faf824de7c0a7ad6
+commit 745d111b6d1daea09390fe18d715cc6358070656
 Author: Birger Koblitz <mail@birger-koblitz.de>
 
-ax88179_178a: Split driver into library and device specific code
+ax88179_178a: Add HW support for AX179A-based chips
 
-This commit splits common helpers and definitions out of ax88179_178a.c
-into ax88179_lib.c and ax88179_lib.h, renames the module to ax88179, and
-adds medium_status_mutex and error handling to ax88179_change_mtu().
+This commit adds bindings and hardware support for the AX179A family of
+USB-Ethernet controllers (AX88179A/B, AX88772D/E, and AX88279) using
+phylink.
 
-> diff --git a/drivers/net/usb/ax88179_lib.c b/drivers/net/usb/ax88179_lib.c
+> diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179=
+a_devices.c
 > new file mode 100644
-> index 0000000000000..063427ff55e42
+> index 0000000000000..1aa8479422517
 > --- /dev/null
-> +++ b/drivers/net/usb/ax88179_lib.c
+> +++ b/drivers/net/usb/ax88179a_devices.c
+> @@ -0,0 +1,983 @@
 
 [ ... ]
 
-> +int ax88179_change_mtu(struct net_device *net, int new_mtu)
+> +static int ax88179_mdiobus_write(struct mii_bus *bus, int phy_id, int re=
+gnum, u16 val)
 > +{
-> +	struct usbnet *dev =3D netdev_priv(net);
-> +	struct ax88179_data *data;
-> +	u16 tmp16;
-> +	int err;
+> +	struct usbnet *dev =3D bus->priv;
 > +
-> +	data =3D dev->driver_priv;
-> +	mutex_lock(&data->medium_status_mutex);
-> +	WRITE_ONCE(net->mtu, new_mtu);
-> +	dev->hard_mtu =3D net->mtu + net->hard_header_len;
-> +	if (net->mtu > 1500) {
-> +		err =3D ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
-> +				       2, 2, &tmp16);
-> +		if (err < 0)
-> +			goto err_out;
-> +		tmp16 |=3D AX_MEDIUM_JUMBO_EN;
-> +		err =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
-> +					2, 2, &tmp16);
-> +		if (err < 0)
-> +			goto err_out;
-> +	} else {
-> +		err =3D ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
-> +				       2, 2, &tmp16);
-> +		if (err < 0)
-> +			goto err_out;
-> +		tmp16 &=3D ~AX_MEDIUM_JUMBO_EN;
-> +		err =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
-> +					2, 2, &tmp16);
-> +		if (err < 0)
-> +			goto err_out;
-> +	}
-> +	mutex_unlock(&data->medium_status_mutex);
+> +	return ax88179_write_u16(dev, AX_ACCESS_PHY, phy_id, (__u16)regnum, val=
+);
+> +}
 > +
-> +	/* max qlen depend on hard_mtu and rx_urb_size */
-> +	usbnet_update_max_qlen(dev);
+> +static int ax179a_read_mmd(struct usbnet *dev, u16 dev_addr, u16 reg)
+> +{
+> +	u16 res;
+> +	int ret;
 > +
-> +	return 0;
+> +	ret =3D ax88179_read_cmd(dev, AX88179A_PHY_CLAUSE45, dev_addr, reg, 2, =
+&res);
+> +	if (ret < 0)
+> +		return ret;
+> +	return res;
+> +}
 > +
-> +err_out:
-> +	mutex_unlock(&data->medium_status_mutex);
-> +	return err;
+> +static int ax179a_write_mmd(struct usbnet *dev, u16 dev_addr, u16 reg, u=
+16 data)
+> +{
+> +	return ax88179_write_cmd(dev, AX88179A_PHY_CLAUSE45, dev_addr, reg, 2, =
+&data);
 > +}
 
 [Severity: Medium]
-Does jumping to err_out leave net->mtu and dev->hard_mtu updated when a
-register read or write fails?
+Do ax88179_mdiobus_write() and ax179a_write_mmd() return 2 instead of 0 on
+a successful MDIO write?
 
-netif_set_mtu_ext() assumes dev->mtu is unchanged when ndo_change_mtu()
-returns an error, so it neither restores the old MTU nor fires
-NETDEV_CHANGEMTU notifiers, and err_out also skips
-usbnet_update_max_qlen().  This leaves net->mtu and dev->hard_mtu out of
-sync with the hardware AX_MEDIUM_JUMBO_EN setting and dev->tx_qlen, and
-causes later attempts to set the same new_mtu to return early in
-netif_set_mtu_ext() because dev->mtu already equals new_mtu.  Updating
-net->mtu and dev->hard_mtu only after the register access succeeds would
-avoid this regression.
-
-> diff --git a/drivers/net/usb/ax88179_lib.h b/drivers/net/usb/ax88179_lib.h
-> new file mode 100644
-> index 0000000000000..9111a1395eb2f
-> --- /dev/null
-> +++ b/drivers/net/usb/ax88179_lib.h
+ax88179_write_u16() and ax88179_write_cmd() return the number of bytes
+transferred by usb_control_msg() (2), whereas mii_bus->write and
+mii_bus->write_c45 must return 0 on success and a negative errno on
+failure.  Callers checking for non-zero return values, such as
+phylink_mii_ioctl(SIOCSMIIREG), will receive 2 instead of 0.
 
 [ ... ]
 
-> +struct ax88179_data {
-> +	struct mutex medium_status_mutex;  /* protect AX_MEDIUM_STATUS_MODE */
-> +	u8  eee_enabled;
-> +	u8  eee_active;
-> +	u16 rxctl;
-> +	u8 in_pm;
-> +	u32 wol_supported;
-> +	u32 wolopts;
-> +	u8 disconnecting;
-> +};
+> +static void ax88179a_mac_link_down(struct phylink_config *config,
+> +				   unsigned int mode, phy_interface_t interface)
+> +{
+> +	/* Nothing to do */
+> +}
+> +
+> +static void ax88179a_mac_link_up(struct phylink_config *config,
+> +				 struct phy_device *phy,
+> +				 unsigned int phy_mode, phy_interface_t interface,
+> +				 int speed, int duplex,
+> +				 bool tx_pause, bool rx_pause)
+> +{
+> +	struct usbnet *dev =3D netdev_priv(to_net_dev(config->dev));
+> +	struct ax88179_data *ax179_data =3D dev->driver_priv;
+> +	u8 link_sts =3D 0, reg8[3];
+> +	u8 bulk_config_speed =3D 0;
+> +	u16 mode;
+> +
+> +	/* Stop RX/TX for link configuration */
+> +	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, AX_RX_CTL_STOP);
+> +	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_PATH, 1, 0);
+> +
+> +	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_CDC_DELAY_TX, 1, 0xa5=
+);
+> +
+> +	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_PAUSE_WATERLVL_LOW, 2, 0x0410);
 
 [Severity: Medium]
-Should ax88179_link_reset() also take medium_status_mutex when updating
-AX_MEDIUM_STATUS_MODE?
+Does this 16-bit write swap AX_PAUSE_WATERLVL_LOW and
+AX_PAUSE_WATERLVL_HIGH?
 
-ax88179_link_reset() runs from usbnet_deferred_kevent() without rtnl_lock
-or medium_status_mutex, reads dev->net->mtu, sleeps in a USB control
-transfer for AX_RX_BULKIN_QCTRL, and then writes AX_MEDIUM_STATUS_MODE:
+ax88179_write_u16() converts 0x0410 to little-endian via cpu_to_le16s(),
+writing 0x10 to AX_PAUSE_WATERLVL_LOW (0x54) and 0x04 to
+AX_PAUSE_WATERLVL_HIGH (0x55), whereas ax88179a_reset() writes 0x04 to
+AX_PAUSE_WATERLVL_LOW and 0x10 to AX_PAUSE_WATERLVL_HIGH.  Setting the low
+pause threshold above the high threshold breaks hardware flow control on
+link-up.
 
-drivers/net/usb/ax88179_178a.c:ax88179_link_reset() {
-	...
-	} else if (GMII_PHY_PHYSR_GIGA =3D=3D (tmp16 & GMII_PHY_PHYSR_SMASK)) {
-		mode |=3D AX_MEDIUM_GIGAMODE | AX_MEDIUM_EN_125MHZ;
-		if (dev->net->mtu > 1500)
-			mode |=3D AX_MEDIUM_JUMBO_EN;
-	...
-	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_RX_BULKIN_QCTRL, 5, 5, tmp);
-	...
-	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
-			  2, 2, &mode);
-}
+[ ... ]
 
-This allows a race with ax88179_change_mtu():
+> +	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_PATH, 1,
+> +			 AX_MAC_RX_PATH_READY | AX_MAC_TX_PATH_READY);
+> +}
 
-CPU0                              kworker
-ax88179_change_mtu()              ax88179_link_reset()
-                                    read dev->net->mtu (1500)
-                                    ax88179_write_cmd(... BULKIN_QCTRL ...)
-  mutex_lock(&medium_status_mutex)
-  WRITE_ONCE(net->mtu, 4000)
-  read AX_MEDIUM_STATUS_MODE
-  write AX_MEDIUM_STATUS_MODE
-    (sets AX_MEDIUM_JUMBO_EN)
-  mutex_unlock(&medium_status_mutex)
-                                    write AX_MEDIUM_STATUS_MODE
-                                      <-- overwrites AX_MEDIUM_JUMBO_EN
+[Severity: High]
+Should ax88179a_mac_link_up() and ax88179a_mac_link_down() call
+usbnet_link_change()?
 
-If the writes interleave in the opposite order, ax88179_change_mtu() can
-read AX_MEDIUM_STATUS_MODE before ax88179_link_reset() updates it and
-write back stale speed and duplex bits.
+During usbnet_open(), ax88179a_reset() calls phylink_start(), which turns
+carrier off while autonegotiation starts asynchronously.  When
+usbnet_open() schedules dev->bh_work, usbnet_bh() sees
+!netif_carrier_ok(dev->net) and does not submit any RX URBs.  When phylink
+later brings the link up, nothing calls usbnet_link_change(dev, true,
+false) to schedule dev->bh_work or update queue lengths via
+usbnet_update_max_qlen(), leaving dev->rxq empty so no packets can be
+received.  Likewise, ax88179a_mac_link_down() never calls
+usbnet_link_change(dev, false, false) to unlink pending RX URBs when the
+link drops.
+
+[ ... ]
+
+> +static int ax88179a_reset(struct usbnet *dev)
+> +{
+> +	struct ax88179_data *ax179_data =3D dev->driver_priv;
+> +	u16 *tmp16;
+> +	u8 buf[5];
+> +	u16 rxctl;
+> +	u8 *tmp;
+> +
+> +	tmp16 =3D (u16 *)buf;
+> +	tmp =3D (u8 *)buf;
+
+[ ... ]
+
+> +	/* Read MAC address from DTB or asix chip */
+> +	ax88179_get_mac_addr(dev);
+> +	memcpy(dev->net->perm_addr, dev->net->dev_addr, ETH_ALEN);
+
+[Severity: Medium]
+Does calling ax88179_get_mac_addr() and copying dev_addr into perm_addr in
+ax88179a_reset() clobber a user-configured MAC address or permanent MAC
+address on open?
+
+ax88179_set_mac_addr() only allows changing the MAC address while the
+interface is down, writing the new address to dev->net->dev_addr and
+AX_NODE_ID and setting addr_assign_type to NET_ADDR_SET.  When the
+interface is then brought up, usbnet_open() calls ax88179a_reset(): if a
+Device Tree MAC address is present, ax88179_get_mac_addr() overwrites the
+user-configured MAC address with the DT address; otherwise it reads the
+user-configured address back from AX_NODE_ID, resets addr_assign_type to
+NET_ADDR_PERM, and overwrites dev->net->perm_addr with it.
+
+[ ... ]
+
+> +	/* Configure default medium type =3D> giga */
+> +	*tmp16 =3D AX_MEDIUM_RECEIVE_EN | AX_MEDIUM_TXFLOW_CTRLEN |
+> +		 AX_MEDIUM_RXFLOW_CTRLEN | AX_MEDIUM_FULL_DUPLEX;
+> +	if (!ax179_data->is_ax88772d)
+> +		*tmp16 |=3D AX_MEDIUM_GIGAMODE;
+> +	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, tmp1=
+6);
+
+[Severity: Low]
+As reported by Jakub Kicinski on v12 [1], casting the 1-byte-aligned stack
+array u8 buf[5] to u16 *tmp16 performs unaligned 16-bit accesses here.
+Using ax88179_write_u16() as done earlier in ax88179a_reset() would avoid
+both tmp16 and buf.
+
+[ ... ]
+
+> +static int ax88179a_stop(struct usbnet *dev)
+> +{
+> +	struct ax88179_data *ax179_data =3D dev->driver_priv;
+> +	u16 reg16 =3D 0;
+> +
+> +	phylink_stop(ax179_data->phylink);
+> +
+> +	ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, &reg1=
+6);
+> +	reg16 &=3D ~AX_MEDIUM_RECEIVE_EN;
+> +	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, &reg=
+16);
+> +
+> +	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, 0);
+> +
+> +	ax88179_write_u8(dev, AX88179A_PHY_POWER, 0, 0, 0);
+> +
+> +	return 0;
+> +}
+
+[Severity: Medium]
+Should ax88179a_stop() cut AX88179A_PHY_POWER while the PHY is still
+attached to phylink?
+
+phylink_stop() already suspends the PHY via BMCR_PDOWN while keeping it
+powered for MDIO access.  Writing 0 to AX88179A_PHY_POWER powers down the
+PHY hardware, so ethtool or MII ioctl operations issued while the
+interface is down access an unpowered PHY, and bringing the interface back
+up in ax88179a_reset() -> phylink_start() only calls __phy_resume()
+without re-running phy_init_hw() after the power cycle.
+
+> +const struct driver_info ax88179a_info =3D {
+> +	.description =3D "ASIX AX88179A USB 3.2 Gigabit Ethernet",
+> +	.bind =3D ax88179a_bind,
+> +	.unbind =3D ax88179a_unbind,
+> +	.status =3D ax88179a_status,
+> +	.reset =3D ax88179a_reset,
+> +	.stop =3D ax88179a_stop,
+> +	.flags =3D FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET | FLAG_AVOI=
+D_UNLINK_URBS,
+> +	.rx_fixup =3D ax88179a_rx_fixup,
+> +	.tx_fixup =3D ax88179a_tx_fixup,
+> +};
+> +
+> +const struct driver_info ax88772d_info =3D {
+> +	.description =3D "ASIX AX88772D/E USB 2.0 Fast Ethernet",
+> +	.bind =3D ax88179a_bind,
+> +	.unbind =3D ax88179a_unbind,
+> +	.status =3D ax88179a_status,
+> +	.reset =3D ax88179a_reset,
+> +	.stop =3D ax88179a_stop,
+> +	.flags =3D FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET | FLAG_AVOI=
+D_UNLINK_URBS,
+> +	.rx_fixup =3D ax88179a_rx_fixup,
+> +	.tx_fixup =3D ax88179a_tx_fixup,
+> +};
+> +
+> +const struct driver_info ax88279_info =3D {
+> +	.description =3D "ASIX AX88279 USB 3.2 2.5Gigabit Ethernet",
+> +	.bind =3D ax88179a_bind,
+> +	.unbind =3D ax88179a_unbind,
+> +	.status =3D ax88179a_status,
+> +	.reset =3D ax88179a_reset,
+> +	.stop =3D ax88179a_stop,
+> +	.flags =3D FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET | FLAG_AVOI=
+D_UNLINK_URBS,
+> +	.rx_fixup =3D ax88179a_rx_fixup,
+> +	.tx_fixup =3D ax88179a_tx_fixup,
+> +};
+
+[Severity: High]
+Can setting FLAG_AVOID_UNLINK_URBS here cause a use-after-free on
+struct usbnet if the device is unplugged while the interface is down?
+
+When FLAG_AVOID_UNLINK_URBS is set, usbnet_stop() skips
+usbnet_terminate_urbs(dev), and ax88179a_stop() disables MAC RX without
+flushing pending bulk-in transfers, leaving submitted RX URBs queued in
+dev->rxq after the interface is down.  If the device is then unplugged or
+unbound while !netif_running(net):
+
+CPU0                                  CPU1 (system_bh_wq)
+usb_unbind_interface()
+  usb_disable_interface()
+    ...
+      rx_complete()
+        defer_bh()
+          queue_work(..., &dev->bh_work)
+  usbnet_disconnect()
+    unregister_netdev(net)
+    free_netdev(net)
+                                      usbnet_bh_work()
+                                        usbnet_bh()  <-- use-after-free
+
+Because the interface is already down, unregister_netdev() does not call
+usbnet_stop(), and usbnet_disconnect() frees net without cancelling
+dev->bh_work or deleting dev->delay.
+
+[1] https://lore.kernel.org/r/20260919151247.1a340644@kernel.org
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-ax88179a-v=
-20-0-37b5a1189983@birger-koblitz.de?part=3D3
+20-0-37b5a1189983@birger-koblitz.de?part=3D4
