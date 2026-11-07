@@ -1,50 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794052613;
-	b=Q+g2dZNtoJVFVFxUy5btYQuGrSBU+7Sbew1xu3GGiTunDMt5MAKsGna8Z+B6lg5fxrtu
-	 myZqcsGCdErYgD7ZFdHY7Rka5U4AD5Cw04Yh+csg63mwdgoi4AiK4bp6wMWLpOt0Lp6Mj
-	 vC+LeNQn4y3vnARavaRBDciREqEQOF0cOoDGaq1NXwLgFZjJjS80JjNtcIQFH7im0y4Fr
-	 FL28tNVMW1hEkraaYIMgADKVH9vwUdfLNuc1Lvq5j1co61r77quIR95XIlEGH0P+Es9NR
-	 oQv/wSnHG4BtbHb7xwnthjRK56I4lWuur5U6X9oYtnuktxB4IU9DdGhH8MfkmeWGL0A==
+	t=1794053570;
+	b=SsPALhCkFBCaWGbVuXLaE3vP722M87TnX3j0LanAwKfE6zggIkXar+gKJmnf2pcWCjU1
+	 FU67Kn6bRoSbU+dOC8826wH+c4s6M7XXzG3X/in9Io1oETTAU7inQyzITPonAmQ0IFWlb
+	 9Mkbg/mbk37Vx9Twspk1HC3Jzq92L5Y2ShICjo6DX2KVoGin1QP4Yc8Moy3KQ5g1AETBB
+	 T/ngUC9P0xeOxcymfENyrZRN96M5t3xtw8mrbDzA2zGaqP1VGTjR8ip40s9G8yLmsQGBF
+	 QzqAZmLX5uIcsVoA1x3OXYeN0nSYdEEht71soecJjMMwBCfnekmzd66SyQUCelggJ9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794052613;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=UOg2Mle0JED6ygtBQsjN7jI6KmcP34Y/hwE5Npk6l7E=;
-	b=WANmA/a3T16qiN/OBfdqHtH0fsubIxa/aZo2aUbWdBhtlUdL9yXbaObHqkyZ1wYZa+pl
-	 QSFJGp/MdfNN4Fj3mVGBmzKpSZL6QRFf/sfH6ZB9gw1zqFhzRlseLmzoFEqOFsTh8yjuS
-	 q+ZSpIbTgQ/1jvbeqZsArYqgtIbvaGxksAIhxKWKjqLjefzqzEu6H+iUVSFs5W5kn5SIy
-	 LbpzlZ7Ns7WD9Uoiws7Cnvcpnj4r3gRH+oTxoOGjN88aX74jBRTyGTu7OwoDGL0K2OSmh
-	 V6yCVZGdr3VdhMiqok3fhnSYOxcTu1OXsY9m17tbGexceO35rV6R9xlodKT4YoVk8+Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794053570;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Mime-Version:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
+	 From:To:X-Mailer:References:In-Reply-To;
+	bh=joOmkXSw0O2SmDMQYKP/KK+arA5jKruVL2WAfyianeE=;
+	b=TBovG5bTrou0vjlgtVhXUwn65HcWc6ACwloOU4M8t51Fb/NVqTGTpPoXoNDwAWhYXr/W
+	 C/cgxAKLglyw3ODTG979hYx65rK7p3J8wHVfnEXCYuRv0LMDj90khtCGbmS/60wPke9UX
+	 vDm7vjFmV2S+EMW1Qz7WfDE0YgFK2TK3sTQQUmeQ1CI+T7ZYOYayLza2jcjgo/V+mDNsi
+	 x1TswvoW2kGgmvOISR59R9IuzGsTx+b8Q/j/BJ4bNlKN+sbf9tx39DK+6LhY5RhiC7p1r
+	 nt4d0mHEmg7A22k/rFXOlVWsxdDEEVuToIadoJy8QuGvqrsp5xUG+oGX5xeUYjUNXJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ZK22DQkc;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nYa6DiT8;
+	arc=none smtp.remote-ip=209.85.208.47
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AB1606A326;
-	Sat,  7 Nov 2026 11:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AE6606A32C
+	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 12:12:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2AE6606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ZK22DQkc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48FE41F0089F;
-	Sat,  7 Nov 2026 11:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1794052612;
-	bh=UOg2Mle0JED6ygtBQsjN7jI6KmcP34Y/hwE5Npk6l7E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZK22DQkciAQav1sv4yN3DTkixk23XN5AEkolqRQIzxZ8TAitEm2U28t3G3JPSiIca
-	 rkGZxBImtU9VMU3Mx3mDhrzwyJqu5AE0R7RMdcbsYi/aDDWxsdGOrRxqtJJauqEGMn
-	 Oey5CyzwTdSvqc31kDHKWmZdPEJYbdPu+MSJBcUw=
-Date: Sat, 7 Nov 2026 06:56:50 -0500
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Adam Simonelli <adamsimonelli@gmail.com>
-Cc: Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] USB: visor add vendor/device IDs for PalmSource
- devices from the PalmUSBD.inf file in Palm Desktop 6.2
-Message-ID: <2026110738-gathering-disarm-491d@gregkh>
-References: <20261106233301.3267777-2-adamsimonelli@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nYa6DiT8
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6b56bbf8330so1951723a12.3
+        for <linux-usb@vger.kernel.org>; Sat, 07 Nov 2026 04:12:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794053568; x=1794658368; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=joOmkXSw0O2SmDMQYKP/KK+arA5jKruVL2WAfyianeE=;
+        b=nYa6DiT8l3ED+EWdfIv/ank5ihgx/bvEu3UOhJ/eaKV3tj/vLKs0gH/oEh5aE6nblh
+         BPHBpCr/OlywPm2/cWApMXkx3uA5MIl3m4Tk4UbDpXrcUroYyXhq0uQ3Jh9V0OgiCE0E
+         XvFWYVacUf09XyyXlPf76ZZkHrbTKQebuKZjOcYLxwiQ0R+TNmzWLVhupH9aUlOoAQ2X
+         OCEM+ULujpwxoqRc7mEut/I6OzQhx9bzlub/tQRjQpHEtKFUF01HD+FHJPcYhPdwNovJ
+         +ZbnQokzMHRyqwF4H76CjdRyEaJv7nFjrDZNyrJqC7YBUMxSfTZWGGRW7Fh5jCJTOJRK
+         3BXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794053568; x=1794658368;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=joOmkXSw0O2SmDMQYKP/KK+arA5jKruVL2WAfyianeE=;
+        b=OlYjcrLfRD/C7CdU+nV3voVmbzI2SlHbGJZ2xq3nu/8gOlPo1bEzg8DnsBvLqqHecE
+         1tRp/+u9OQOa0t4De4AYtNy9b6HAOEnEEbY+VRTmc1si5Z5V4+a6Lr2pqqNtiFKE/54B
+         VvFLellfsR+eELdzr3NvSS/l+DjEjEous/saGhkaVLF2rAEadT/d2gPYHCmqjEcvu+WU
+         oCKkcDb42ENKLoiWH1ABqcfcuGPEpTUwTvb4ma6RYC7v2zCUZ7sX1lZrahAOkj89ckKO
+         KbcTGRdBDfXSVfzOHOsOuUDbD6p2RZoywqTXdBo+NVcad1pXl03lQE+dd0yTcjoQKE4F
+         iVyw==
+X-Gm-Message-State: APuU4Z+fUIBBWY75ryNfM+zZOFv0qj/esfesfhtkaFoAQZZdf3SH4nPB
+	H31bOA0eEaxgc5v1RtoiQrwSb5K0nq6cbL0Dlrv6PHPsqifsGz8D4n2Y
+X-Gm-Gg: AYBFou04O5xRhi65NEK87Wfb35ZsNFj+M9I2aXg37yXhZvECdvBNRpN43WYOgqp9dQd
+	ePFzuOl4jETJqkwQPDCc6Yjfrb0pDlif0d75cgbq6aN5Iyi9zTV+oWPckR7wzmkZZZQQZ78Y3M1
+	+DCXnA+J25l9/Z97dK1QMbCUj/gEkOjqx3R7OXDxehm+wmlibJBHEut9g/pNSoFZUhAYDGxlu7G
+	7+G/MI2oKT+RbHHBVVYmL7mQ+OVCN2MWIMnQADHvl/w+7zd8rUKasu65v7C6zcTYoHQOGb0yRto
+	DCfyQPz3c1S+L3vlUPexUlr8SxwybCn2X/ZBV/nfFwFc4UuAjwBQJcFqWRuStMHKOFxYjfFC0zl
+	fyzwlw8ogNZ1t5GT/6GZqCxeEtBZdUJ6UwdxIl1/2UYEuWfR34wS70r3Aq0EKBgROm+ySJAvul5
+	tS6YFmScB7XQ6E0qtICih51jbZESqM5DYqOljhz9nWbq0w/lq3ENsFOGBfCRIq5MvT1d4YfTcPT
+	nyAKkIwabC2dhF/WUZDvd+MVA5skNlp14Q+HwxdvUfh5B8GxDYpX+11aPZVCkrpGIW4PD6WoCFs
+	PVWyPWKf8vtbsl3A3nfNhs8DVLL+Ih+0v0rdFpEAq5CD7vbHK34pD2IOYz+ai0na
+X-Received: by 2002:a05:6402:4143:b0:6b1:8316:ba32 with SMTP id 4fb4d7f45d1cf-6b5977e97d9mr4204070a12.17.1794053567981;
+        Sat, 07 Nov 2026 04:12:47 -0800 (PST)
+Received: from localhost (h-155-4-132-44.NA.cust.bahnhof.se. [155.4.132.44])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b664b0239csm1854101a12.26.2026.11.07.04.12.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Nov 2026 04:12:47 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -53,95 +86,225 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261106233301.3267777-2-adamsimonelli@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 07 Nov 2026 13:12:45 +0100
+Message-Id: <DMOYWU5HB1UM.BQG0BZT7RFCP@gmail.com>
+Cc: <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH v2] usb: musb: gadget: don't flush a waiting RX packet
+ when queueing a request
+From: "Elvira Khabirova" <lineprinter0@gmail.com>
+To: <sashiko-reviews@lists.linux.dev>, "Elvira Khabirova"
+ <lineprinter0@gmail.com>
+X-Mailer: aerc 0.22.0
+References: <20261107105505.6554-1-lineprinter0@gmail.com>
+ <sashiko-outbox-202856@kernel.org>
+In-Reply-To: <sashiko-outbox-202856@kernel.org>
 
-On Fri, Nov 06, 2026 at 06:33:02PM -0500, Adam Simonelli wrote:
-> PalmUSBD.inf from Palm Desktop 6.2's driver defines two PalmSource
-> devices. While PalmSource only developed the PalmOS, and never made
-> actualy hardware, as it was Palm Inc. made the Palm hardware, there
-> is a bootable ROM containing PalmOS 6.1 that can be booted into RAM
-> on the Tungsten T3. When this ROM is running, when plugged in, the
-> device will then present the PalmSource vendorid that is defined in
-> the INI filem and the deviceid then becomes PALMSOURCE_DEVICES_1_ID
-> the PALMSOURCE_DEVICES_2_ID is also defined for completeness.
-> 
-> Signed-off-by: Adam Simonelli <adamsimonelli@gmail.com>
-> ---
->  drivers/usb/serial/visor.c | 6 ++++++
->  drivers/usb/serial/visor.h | 4 ++++
->  2 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/usb/serial/visor.c b/drivers/usb/serial/visor.c
-> index 5706c46c49c2..18c586d552d7 100644
-> --- a/drivers/usb/serial/visor.c
-> +++ b/drivers/usb/serial/visor.c
-> @@ -75,6 +75,10 @@ static const struct usb_device_id id_table[] = {
->  		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
->  	{ USB_DEVICE(PALM_VENDOR_ID, PALM_ZIRE_ID),
->  		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
-> +	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_1_ID),
-> +		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
-> +	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_2_ID),
-> +		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
->  	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_4_0_ID),
->  		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
->  	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_S360_ID),
-> @@ -133,6 +137,8 @@ static const struct usb_device_id id_table_combined[] = {
->  	{ USB_DEVICE(PALM_VENDOR_ID, PALM_TREO_650) },
->  	{ USB_DEVICE(PALM_VENDOR_ID, PALM_TUNGSTEN_Z_ID) },
->  	{ USB_DEVICE(PALM_VENDOR_ID, PALM_ZIRE_ID) },
-> +	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_1_ID) },
-> +	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_2_ID) },
->  	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_3_5_ID) },
->  	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_4_0_ID) },
->  	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_S360_ID) },
-> diff --git a/drivers/usb/serial/visor.h b/drivers/usb/serial/visor.h
-> index 622d639ce74e..0f86bd06c4fe 100644
-> --- a/drivers/usb/serial/visor.h
-> +++ b/drivers/usb/serial/visor.h
-> @@ -32,6 +32,10 @@
->  #define PALM_ZIRE_ID			0x0070
->  #define PALM_M100_ID			0x0080
->  
-> +#define PALMSOURCE_VENDOR_ID		0x13e8
-> +#define PALMSOURCE_DEVICE_1_ID		0x0600
-> +#define PALMSOURCE_DEVICE_2_ID		0xff00
-> +
->  #define GSPDA_VENDOR_ID		0x115e
->  #define GSPDA_XPLORE_M68_ID		0xf100
->  
-> -- 
-> 2.55.0
-> 
-> 
+On Sat Nov 7, 2026 at 12:30 PM CET, sashiko-bot wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential
+> issues to consider:
+> - [High] usb: musb: gadget: overlapping musb_g_giveback() calls wedge
+>   ep->busy
+> - [High] usb: musb: gadget: race and ordering bug in
+>   musb_gadget_disable() for rx_kick
+> - [Medium] usb: musb: gadget: lost rx_kick across system suspend and
+>   resume
+> --
+>
+> commit cef9b9e2278bf856fd53af421c899c0ae67866b7
+> Author: Elvira Khabirova <lineprinter0@gmail.com>
+>
+> usb: musb: gadget: don't flush a waiting RX packet when queueing a reques=
+t
+>
+> This commit replaces the RX FIFO flush in musb_ep_restart() with a
+> system_bh_wq work item that invokes musb_g_rx(), and defers RX processing
+> via ep->rx_kick_deferred while ep->busy is set.
+>
+>> diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadg=
+et.c
+>> index 016d3f3fc1e05..c71c60efe5106 100644
+>> --- a/drivers/usb/musb/musb_gadget.c
+>> +++ b/drivers/usb/musb/musb_gadget.c
+>> @@ -148,6 +148,21 @@ __acquires(ep->musb->lock)
+>>  	usb_gadget_giveback_request(&req->ep->end_point, &req->request);
+>>  	spin_lock(&musb->lock);
+>>  	ep->busy =3D busy;
+>> +
+>> +	if (!ep->busy && ep->rx_kick_deferred) {
+>> +		ep->rx_kick_deferred =3D false;
+>> +		if (!queue_work(system_bh_wq, &ep->rx_kick))
+>> +			pm_runtime_put_noidle(musb->controller);
+>> +	}
+>> +}
+>
+> [Severity: High]
+> Can overlapping musb_g_giveback() calls finish out of LIFO order and leav=
+e
+> ep->busy permanently stuck at 1?
+>
+> musb_g_giveback() saves ep->busy in a stack variable, sets ep->busy =3D 1=
+,
+> and drops musb->lock around usb_gadget_giveback_request().  With RX
+> givebacks running in system_bh_wq, a second giveback on the same endpoint
+> (for example via musb_gadget_dequeue(), which enters musb_g_giveback()
+> when musb_ep->busy is set) can overlap on another CPU:
+>
+> CPU0                              CPU1
+> musb_g_rx_kick()
+>   musb_g_rx()
+>     musb_g_giveback()
+>       busy =3D ep->busy; // 0
+>       ep->busy =3D 1;
+>       spin_unlock(&musb->lock)
+>       usb_gadget_giveback_request()
+>                                   musb_gadget_dequeue()
+>                                     spin_lock_irqsave(&musb->lock, ...)
+>                                     musb_g_giveback()
+>                                       busy =3D ep->busy; // 1
+>                                       ep->busy =3D 1;
+>                                       spin_unlock(&musb->lock)
+>                                       usb_gadget_giveback_request()
+>       spin_lock(&musb->lock)
+>       ep->busy =3D 0;
+>       queue_work(..., &ep->rx_kick)
+>       spin_unlock(&musb->lock)
+>                                       spin_lock(&musb->lock)
+>                                       ep->busy =3D 1;  <-- stuck at 1
+>
+> First, CPU0 clears ep->busy to 0 and schedules ep->rx_kick while CPU1 is
+> still in usb_gadget_giveback_request().  Second, when CPU1 finishes, it
+> writes its saved busy =3D 1 back to ep->busy.  After that, every subseque=
+nt
+> musb_g_rx(), musb_g_rx_kick(), and musb_gadget_queue() call sees
+> ep->busy =3D=3D 1 and defers work forever, wedging the endpoint and leaki=
+ng
+> the runtime PM reference taken by musb_g_defer_rx_kick().
+>
+> Making ep->busy an active giveback counter (incremented before dropping
+> musb->lock and decremented after re-acquiring it) would ensure ep->busy
+> only reaches 0 when the last giveback completes.
 
-Hi,
+Yes, that is possible, but this is a pre-existing bug. I even have
+a separate patch prepared to make `busy` a counter instead of a flag.
+This patch does not aggravate this problem.
+The same race is possible between a dequeue and a HW IRQ.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+>> @@ -1111,6 +1137,12 @@ static int musb_gadget_disable(struct usb_ep *ep)
+>> =20
+>>  	/* abort all pending DMA and requests */
+>>  	nuke(musb_ep, -ESHUTDOWN);
+>> +	if (cancel_work(&musb_ep->rx_kick))
+>> +		pm_runtime_put_autosuspend(musb->controller);
+>> +	if (musb_ep->rx_kick_deferred) {
+>> +		musb_ep->rx_kick_deferred =3D false;
+>> +		pm_runtime_put_autosuspend(musb->controller);
+>> +	}
+>> =20
+>>  	musb_ep->desc =3D NULL;
+>>  	musb_ep->end_point.desc =3D NULL;
+>
+> [Severity: High]
+> Can musb_g_rx_kick() run while nuke() drops musb->lock or after the
+> endpoint is re-enabled?
+>
+> Because musb_ep->desc is cleared after nuke(), musb->lock is dropped
+> inside nuke() -> musb_g_giveback() while musb_ep->desc is still non-NULL.
+> If an earlier giveback on another CPU finishes during that window, it
+> restores ep->busy =3D 0 and queues ep->rx_kick, allowing musb_g_rx_kick()=
+ ->
+> musb_g_rx() -> rxstate() to run after nuke() has already freed
+> musb_ep->dma.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Good catch, and actually I think this can be resolved with making
+ep->busy a counter instead.
+I will send them together as a series for v3.
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+> In addition, cancel_work() is non-synchronous:
+>
+> CPU0                              CPU1
+>                                   <softirq>
+>                                   musb_g_rx_kick()
+>                                     // waiting for musb->lock
+> musb_gadget_disable()
+>   spin_lock_irqsave(&musb->lock, ...)
+>   cancel_work(&musb_ep->rx_kick) // false
+>   musb_ep->desc =3D NULL;
+>   spin_unlock_irqrestore(&musb->lock, ...)
+> musb_gadget_enable()
+>   spin_lock_irqsave(&musb->lock, ...)
+>   musb_ep->desc =3D desc;
+>   musb_ep->busy =3D 0;
+>   spin_unlock_irqrestore(&musb->lock, ...)
+>                                     spin_lock_irqsave(&musb->lock, ...)
+>                                     if (!musb_ep->desc || ...) // false
+>                                     musb_g_rx()  <-- stale kick runs
+>
+> Clearing musb_ep->desc and musb_ep->end_point.desc before calling nuke()
+> prevents musb_g_rx_kick() and musb_gadget_queue() from acting on the
+> endpoint while nuke() drops musb->lock, and prevented stale kicks will se=
+e
+> the updated state if musb_gadget_enable() also cancels any pending
+> rx_kick.
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Is this any different from before the patch, with a HW IRQ?
+I think a stale kick handles everything well, if there is no work,
+musb_g_rx() just returns.
 
-thanks,
+>> @@ -1810,6 +1881,36 @@ void musb_gadget_cleanup(struct musb *musb)
+>> =20
+>>  	cancel_delayed_work_sync(&musb->gadget_work);
+>>  	usb_del_gadget_udc(&musb->g);
+>> +
+>> +	musb_gadget_disable_rx_kicks(musb);
+>> +}
+>> +
+>> +static void musb_g_disable_rx_kick(struct musb *musb, struct musb_ep *m=
+usb_ep)
+>> +{
+>> +	if (musb_ep->rx_kick.func && disable_work_sync(&musb_ep->rx_kick))
+>> +		pm_runtime_put_noidle(musb->controller);
+>> +}
+>> +
+>> +void musb_gadget_disable_rx_kicks(struct musb *musb)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i =3D 0; i < musb->nr_endpoints; i++) {
+>> +		musb_g_disable_rx_kick(musb, &musb->endpoints[i].ep_in);
+>> +		musb_g_disable_rx_kick(musb, &musb->endpoints[i].ep_out);
+>> +	}
+>> +}
+>> +
+>> +void musb_gadget_enable_rx_kicks(struct musb *musb)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i =3D 0; i < musb->nr_endpoints; i++) {
+>> +		if (musb->endpoints[i].ep_in.rx_kick.func)
+>> +			enable_work(&musb->endpoints[i].ep_in.rx_kick);
+>> +		if (musb->endpoints[i].ep_out.rx_kick.func)
+>> +			enable_work(&musb->endpoints[i].ep_out.rx_kick);
+>> +	}
+>>  }
+>
+> [Severity: Medium]
+> Does musb_gadget_disable_rx_kicks() lose a pending or deferred rx_kick
+> across system suspend and resume?
+>
+> If ep->rx_kick is pending when musb_suspend() calls disable_work_sync(),
+> the work item is cancelled and its runtime PM reference is dropped, or if
+> musb_g_rx_kick() is currently in musb_g_giveback() with
+> ep->rx_kick_deferred set, disable_work_sync() marks ep->rx_kick disabled
+> before waiting for completion so queue_work() in musb_g_giveback() fails.
+> On resume, musb_gadget_enable_rx_kicks() only calls enable_work(), which
+> does not re-queue the cancelled work.  When the USB session is preserved
+> across suspend/resume (such as with MUSB_PRESERVE_SESSION or standby),
+> MUSB_RXCSR_RXPKTRDY remains set in hardware with no interrupt to
+> re-trigger it, stalling RX on the endpoint.
 
-greg k-h's patch email bot
+I see, I wish I had more hardware to test on.
+This seems to be possible on da8xx.
+I will find a way to re-queue the cancelled work items for v3.
