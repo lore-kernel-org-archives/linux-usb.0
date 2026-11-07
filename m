@@ -1,86 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.119
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794057163;
-	b=a03Z5e+x3IuXg4ejqTYYtUZ1RhfeBHyXGZLzQ4BOXfqs0x9bcujorbTHA9Q+XXzWSs3b
-	 yga5Iy+SiHGfXS2VPllyVnjitsHPSmj2GBhalkNmL01s/99vjMux9mF+HGmnKRY7ZgdLA
-	 YjYVl/xvuov19SwO0e17+p2w8VSRq1LOe7XdkP9zO1EIMSrcsX2oKyozBr4ZogPR6ZViG
-	 ERj02S1wAiV9BCpfPkOS9GehiyAinA7EXk6eMFCSyfIRXrxbVSeJHdOAf7dsuQ8sj9som
-	 BX6R+MPZ/chePDAPbwykueJyl8tBkP/2tGxSIhOHWXeg2KOXw2V7b3aMWi0BZE2ZZeA==
+	t=1794060393;
+	b=hByVhxjGBuMauh056syvz7RLhrx/KtmsFPZbW2davhLzG7XBYmf02q3Bse5VTFOC7GjO
+	 eQt22NbuHt+Zd/Ks3sZV6gHkypjLfaDGStTpG9KJ4e61aDNOo0PljFIpd8oOJlCYEnzBi
+	 EHx28h8eiFc1yoEYJNXpXqrTJTGvXJka0y9+XdMEL8OiT7tG5oWiP2mojv9ZC2QNqxZhV
+	 6DNHj4m5YL4SwGjbq8pN6HIJaKeRaigBvFoFYcMF98PmXPacElAgKNB0gXtHpvh+WCGwu
+	 pVT+U+38oMK4+dxbWx4GmvhZQ5jQZboJHAEZ3s9a+9P3exWmx2Eg+rPTEFR2vMI3veg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794057163;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=h2Eny9FxiErINLKHHB+LsOS3lNpf4KzhrBwDKF7vmi0=;
-	b=viwvKh7vGilwXMvY+YTmo/poNouh+UblasWCJXtunq+eSEhG197uTs1sGNoLDPesK5Je
-	 V6pzc5MGu4Ve/kOTe/hUUDI3KsQhVDy/RGCtIhRhzwRXk76bBBunFuGtNHIjav2T53ThM
-	 vSOc2s0dQWLYDVvR1wLbOfv349TeXzpIQoKXBo66wlAjM6sKAYpkFYN6r9M1UjFn60/wo
-	 HKI/YFL7JxbUCRl5uWmq9jofqOmXGztqJeyVUYcIOgOjZEWRGmmSOzCDvgEwI+jzwCda6
-	 9HEtPbwuczTa86EtChqvsNFdWvtayLZUIc4wkJSZkQk1x8f7gWhymASTC3f5iSBTvdg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794060393;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type;
+	bh=uHuPMmxtakQOLPdxtT12nV3cnYI7LfwJjOVqp2rwr7w=;
+	b=Epp2pLnnnZCMETAzMceZAjS5hnLDTJzlcmJvIPZSN4g8HKRDdiE0p+aseB2J6WKZ6oBE
+	 z/xXvSbqz5oP+5JpLNjBOP4gv0NMbFuygIpHq/WX7N5Y/xJFKfvhKuWeAyP5hLmKKGNl2
+	 xcwgK7DjuXeYp89oAclFAw64zpR7ZH0N6XISSDkYtS0av05YMfJUGQNYRZ7UjRjCvnhWf
+	 mTQEJwWXE872QRPThHQGdfubxg87EyYP2uIoOKmxTFDmKSrz3dB1smY+UFrvIVSZ45Axh
+	 LYfFdCY2qkvgTTpnxlEdW8d5fQ8gnv9rhIFIp/NfDRmAeZ8pfSdw9NOK3lksc5csSnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MQf0Qkxd;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=protonmail.com;
+	spf=pass smtp.mailfrom=protonmail.com;
+	dkim=pass header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=imxV8DPC;
+	arc=none smtp.remote-ip=79.135.106.119
+Received: from mail-106119.protonmail.ch (mail-106119.protonmail.ch [79.135.106.119])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3ED606A32C;
-	Sat,  7 Nov 2026 13:12:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF3ED606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F899606A333;
+	Sat,  7 Nov 2026 14:06:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F899606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MQf0Qkxd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794057161; x=1825593161;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vu7IQNdMRbB0dIkqRFXuGnUsBbyW4fu+qslSq5Yf8QY=;
-  b=MQf0QkxdW+ABXm1z2K0WtwC9i00QODqxQ4VjZNfVjrZ+XmeWUkqEkj5v
-   3Is726UbRSTbR/y1g2HAL2NIdxAqMTe6v4lr/RHS+9x3+ASEnW7hpUuFf
-   7bOaZzxeheYtbZ4JtkKdEAe6EkNPVplg47y5Jm5k1lTUh6sNspNBGO/u8
-   IN+Fp/uk+PkXB3yEl4N2VBYw62pdDp8pcotX/KZDrC8TPvzwtsjkVmMnA
-   rjuxYr0gkRKUUyiYbhjU9XjWzEoOFpys2m9/lJVJP+w7hpJ+3hRt6OVkj
-   iJ8yIx9F/uVcUlpNqQWJkG4zDzSBp/n4KMhQ9pubib1yFBxg294oCWdM3
-   g==;
-X-CSE-ConnectionGUID: 4GZY+uy0Qoq16tkiPgTDvg==
-X-CSE-MsgGUID: 9z2WZ6GIR/SeLXQmiK4qQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2878067"
-X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2878067"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 05:12:40 -0800
-X-CSE-ConnectionGUID: 9HcWSSIqScq7cK/DZEKUIw==
-X-CSE-MsgGUID: gMLGUiA3T3KMQeZSdW6Kdg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7382053"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 Nov 2026 05:12:37 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xPgDi-00000000qrv-2xXd;
-	Sat, 07 Nov 2026 13:12:34 +0000
-Date: Sat, 7 Nov 2026 21:11:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gary Yang <gary.yang@cixtech.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Fugang Duan <fugang.duan@cixtech.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	cix-kernel-upstream@cixtech.com, gary.yang@cixtech.com
-Subject: Re: [PATCH 2/4] usb: typec: add CIX Type-C PD controller driver
-Message-ID: <202611072135.EulyUBtA-lkp@intel.com>
-References: <20261107011012.3655873-3-gary.yang@cixtech.com>
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=imxV8DPC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1794060390; x=1794319590;
+	bh=uHuPMmxtakQOLPdxtT12nV3cnYI7LfwJjOVqp2rwr7w=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=imxV8DPCU1e1+6sjVJKEJJINC+AYNGDkvSMxuusEhnuL1EposvHAORGKE1XSwW7OX
+	 qM3V0F47Vj1mjAFA34cY5QAUmiDYd9QNqgwWylZfZP2s7CsTh60cMpBcuRwHxDLu5E
+	 qq0ii6Q8bUNvd48M7nirHShBbetBTBeZWgFf/vMCZd5COsbgstPUU203m6aqnlCzU3
+	 ZleAIT0AbblL/Q66+0jhazBIDReHj9PlZAaJULutUKRok9TarnhXImKu82zTuN+gXD
+	 YlRprgEwYnplKQM+BW/09oWimYbk78fAE6i/JRIOcOguNGskf8alTXfqkT5z5/HV5s
+	 dudDNvuui9tPA==
+Date: Sat, 07 Nov 2026 14:06:24 +0000
+To: Oliver Neukum <oliver@neukum.org>, netdev@vger.kernel.org
+From: Ryan Prinz <rc4d5a@protonmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, rc4d5a@protonmail.com
+Subject: [PATCH] net: usb: cdc_ncm: fix out-of-bounds read of chained NDP32 offset
+Message-ID: <20261107140432.647365-1-rc4d5a@protonmail.com>
+Feedback-ID: 190731814:user:proton
+X-Pm-Message-ID: 7a32d0583cf51430320d0ea36759a1de7d5828ba
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -90,109 +60,139 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261107011012.3655873-3-gary.yang@cixtech.com>
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------0069204657d9df8cf4194503c90bb3fa2463289ee31cd304c80a0972fb84c9ce"; charset=utf-8
 
-Hi Gary,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------0069204657d9df8cf4194503c90bb3fa2463289ee31cd304c80a0972fb84c9ce
+Content-Type: multipart/mixed;
+ boundary=2a1cb552390cbfe7fd100b88c3ace6355fd4256b41310b91c8759db253cb
+From: Ryan Prinz <rc4d5a@protonmail.com>
+To: Oliver Neukum <oliver@neukum.org>,
+	netdev@vger.kernel.org
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rc4d5a@protonmail.com
+Subject: [PATCH] net: usb: cdc_ncm: fix out-of-bounds read of chained NDP32 offset
+Date: Sat,  7 Nov 2026 15:04:32 +0100
+Message-ID: <20261107140432.647365-1-rc4d5a@protonmail.com>
+X-Mailer: git-send-email 2.56.0
+MIME-Version: 1.0
 
-kernel test robot noticed the following build errors:
+--2a1cb552390cbfe7fd100b88c3ace6355fd4256b41310b91c8759db253cb
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-[auto build test ERROR on 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4]
+The NDP offset read from dwNextNdpIndex on the 32-bit NTB (NDP32)
+path is not checked for a negative value before use. A
+device-supplied dwNextNdpIndex in the 0xFFFFFFF0-0xFFFFFFFF range
+sign-converts to a small negative int, bypassing the bounds check in
+cdc_ncm_rx_verify_ndp32() via size_t wraparound, causing an
+out-of-bounds read of up to 16 bytes before the skb's data buffer.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gary-Yang/dt-bindings-usb-add-Realtek-RTS5453H-Type-C-port-controller/20261107-091009
-base:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-patch link:    https://lore.kernel.org/r/20261107011012.3655873-3-gary.yang%40cixtech.com
-patch subject: [PATCH 2/4] usb: typec: add CIX Type-C PD controller driver
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20261107/202611072135.EulyUBtA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611072135.EulyUBtA-lkp@intel.com/reproduce)
+Fixes: 0fa81b304a79 ("cdc_ncm: Implement the 32-bit version of NCM Transfer Block")
+Signed-off-by: Ryan Prinz <rc4d5a@protonmail.com>
+---
+Reproduced by calling cdc_ncm_rx_fixup() directly from a small
+out-of-tree test module with a hand-crafted NTB. With memory-sanitizer
+instrumentation enabled to pinpoint the vulnerability:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611072135.EulyUBtA-lkp@intel.com/
+    BUG: KASAN: slab-out-of-bounds in cdc_ncm_rx_verify_ndp32+0x11e/0x130 [cdc_ncm]
+    Read of size 2 at addr ffff88800fcd2a34 by task insmod/367
+     cdc_ncm_rx_verify_ndp32+0x11e/0x130 [cdc_ncm]
+     cdc_ncm_rx_fixup+0x7a3/0xed0 [cdc_ncm]
 
-All errors (new ones prefixed by >>):
+Scope/impact:
+- Triggerin
+g the 32-bit NTB (NDP32) path requires the host driver to
+  set CDC_NCM_FLAG_PREFER_NTB32 for the device. The only driver that
+  does so unconditionally is huawei_cdc_ncm.c, for Huawei mobile
+  broadband hardware. Local/physical-USB-attachment or
+  compromised-device-firmware attack surface, not remote.
+- Reachable offset range is -1 to -16, bounded by
+  sizeof(struct usb_cdc_ncm_ndp32); the subsequent dpe32 array read
+  always lands back inside the legitimate buffer, so this doesn't
+  escalate into a larger OOB excursion.
+- No out-of-bounds write found, and the leaked bytes only feed a
+  signature-match comparison. There is no path found for them to
+  reach a delivered packet or the device/attacker.
 
->> drivers/usb/typec/cix_pd.c:628:3: error: call to undeclared function 'irq_set_status_flags'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     628 |                 irq_set_status_flags(client->irq, IRQ_DISABLE_UNLAZY);
-         |                 ^
->> drivers/usb/typec/cix_pd.c:628:37: error: use of undeclared identifier 'IRQ_DISABLE_UNLAZY'
-     628 |                 irq_set_status_flags(client->irq, IRQ_DISABLE_UNLAZY);
-         |                                                   ^
-   2 errors generated.
+Given the local-only trigger and lack of a confirmed write primitive
+or crash, my read is this doesn't need security@kernel.org handling,
+but happy to redirect there if you think otherwise.
+
+AI Disclosure: An AI assistant (Claude) was used to assist with the
+analysis and
+ testing. I have verified the vulnerability, the fix,
+and the test results myself and take responsibility for this
+contribution, per Documentation/process/coding-assistants.rst.
+
+ drivers/net/usb/cdc_ncm.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+index 19db5a668..f5c8a6070 100644
+--- a/drivers/net/usb/cdc_ncm.c
++++ b/drivers/net/usb/cdc_ncm.c
+@@ -1838,6 +1838,9 @@ int cdc_ncm_rx_fixup(struct usbnet *dev, struct sk_buff *skb_in)
+ 	else
+ 		ndpoffset = le32_to_cpu(ndp.ndp32->dwNextNdpIndex);
+ 
++	if (ndpoffset < 0)
++		goto error;
++
+ 	if (ndpoffset && loopcount--)
+ 		goto next_ndp;
+ 
+-- 
+2.51.2
+
+--2a1cb552390cbfe7fd100b88c3ace6355fd4256b41310b91c8759db253cb
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="publickey - rc4d5a@protonmail.com
+ - 0xE775BF83.asc"; name="publickey - rc4d5a@protonmail.com -
+ 0xE775BF83.asc"
+Content-Type: application/pgp-keys; filename="publickey -
+ rc4d5a@protonmail.com - 0xE775BF83.asc"; name="publickey -
+ rc4d5a@protonmail.com - 0xE775BF83.asc"
+
+LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
+ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuMTAuMAoKeGpNRWFkRFpyUllKS3dZQkJBSGFS
+dzhCQVFkQTFpeGV6cng0ZTBFNWJGcjV6UU8xMitlb20vdWZnUVFTS05jQwpHU1ZjUzlqTkxYSmpO
+R1ExWVVCd2NtOTBiMjV0WVdsc0xtTnZiU0E4Y21NMFpEVmhRSEJ5YjNSdmJtMWhhV3d1ClkyOXRQ
+c0xBRVFRVEZnb0Fnd1dDYWREWnJRTUxDUWNKRUFVYktZOW5tekdRUlJRQUFBQUFBQndBSUhOaGJI
+UkEKYm05MFlYUnBiMjV6TG05d1pXNXdaM0JxY3k1dmNtY21EdVNNSm1tcTJWVDN2aFkzY0JzRDFS
+YUVsZGE2dDdpTwo1S21uZXZwYXhRTVZDZ2dFRmdBQ0FRSVpBUUtiQXdJZUFSWWhCT2QxdjRPUWRH
+ZGFobnFvR0FVYktZOW5tekdRCkFBQmFDUUVBdWxVaElDbmFPSU9DT1d4T3pldUNUZ0dUVGkxM1k4
+WjdVL3pYaER1bmFpa0EvaUJRRVBZOEx5NisKU2RZUnZzekQwcHBsS0M0elB2WkhqRDZaMEo4U2Ir
+RUh6amdFYWREWnJSSUtLd1lCQkFHWFZRRUZBUUVIUUNwbApBSFVLZXNpb25QaGlBVnBvL3dDUFdt
+MnR3SGtpL0tmaUpHQVdlckIxQXdFSUI4SytCQmdXQ2dCd0JZSnAwTm10CkNSQUZHeW1QWjVzeGtF
+VVVBQUFBQUFBY0FDQnpZV3gwUUc1dmRHRjBhVzl1Y3k1dmNHVnVjR2R3YW5NdWIzSm4KNlJuS0R5
+WjJlV1BjOSs3NEJIR3VPM1E1VGVuWFZ6bWRrRjQ3L1lYQUxFOENtd3dXSVFUbmRiK0RrSFJuV29a
+NgpxQmdGR3ltUFo1c3hrQUFBN1RzQS8zRy9hUE9NeGE2MDZxdlh2U3lUOURDNTJCa294ZmlNMk5N
+SFpHK0QwSnVGCkFQMFhXbGRlbEVvTFY1bWNRbXFIVThqMVp2ZzRtT1hWL2owYytPWmRheVhUQnc9
+PQo9VnZDNAotLS0tLUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0t
+--2a1cb552390cbfe7fd100b88c3ace6355fd4256b41310b91c8759db253cb--
+
+--------0069204657d9df8cf4194503c90bb3fa2463289ee31cd304c80a0972fb84c9ce
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wqsEARYIAF0FgmrvMF8JEAUbKY9nmzGQNRQAAAAAABwAEHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmdhXGWCgxzq10VV91y58/b5FiEE53W/g5B0Z1qG
+eqgYBRspj2ebMZAAAO5oAQCOHUtK1WOHhLTKNRwTLk+mlWprKqCJd/M7LfES
+oH7BrAEA9HcqXNoc6tzllJ3KUZjsjXwdNyaL+FikezMp1JQHjQU=
+=lGeW
+-----END PGP SIGNATURE-----
 
 
-vim +/irq_set_status_flags +628 drivers/usb/typec/cix_pd.c
+--------0069204657d9df8cf4194503c90bb3fa2463289ee31cd304c80a0972fb84c9ce--
 
-   587	
-   588	static int cix_pd_probe(struct i2c_client *client)
-   589	{
-   590		struct cix_pd *rts;
-   591		int ret;
-   592	
-   593		dev_dbg(&client->dev, "IRQ %d supplied\n", client->irq);
-   594		rts = devm_kzalloc(&client->dev, sizeof(*rts), GFP_KERNEL);
-   595		if (!rts)
-   596			return -ENOMEM;
-   597	
-   598		rts->dev = &client->dev;
-   599		rts->irq = client->irq;
-   600		mutex_init(&rts->lock);
-   601		mutex_init(&rts->irq_lock);
-   602		cix_pd_typec_init_state(rts);
-   603	
-   604		if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-   605			return dev_err_probe(&client->dev, -ENODEV,
-   606					     "i2c check functionality failed\n");
-   607	
-   608		rts->regmap = devm_regmap_init_i2c(client, &cix_pd_regmap_config);
-   609		if (IS_ERR(rts->regmap))
-   610			return dev_err_probe(&client->dev, PTR_ERR(rts->regmap),
-   611					     "failed to init regmap\n");
-   612	
-   613		i2c_set_clientdata(client, rts);
-   614	
-   615		ret = cix_pd_init_ports(rts);
-   616		if (ret)
-   617			return ret;
-   618	
-   619		ret = cix_pd_event_handler(rts, 0);
-   620		if (ret) {
-   621			dev_err(&client->dev, "failed to read initial status: %d\n", ret);
-   622			if (ret == -ESHUTDOWN)
-   623				ret = -EIO;
-   624			goto err_unregister_ports;
-   625		}
-   626	
-   627		if (client->irq > 0) {
- > 628			irq_set_status_flags(client->irq, IRQ_DISABLE_UNLAZY);
-   629			ret = request_threaded_irq(client->irq, NULL, cix_pd_irq_handle,
-   630						   IRQF_SHARED | IRQF_ONESHOT,
-   631						   dev_name(&client->dev), rts);
-   632			if (ret) {
-   633				dev_err(&client->dev, "failed to request irq: %d\n", ret);
-   634				goto err_unregister_ports;
-   635			}
-   636			rts->irq_requested = true;
-   637		}
-   638	
-   639		ret = device_create_file(&client->dev, &dev_attr_disable_pd_interrupt);
-   640		if (ret)
-   641			dev_warn(&client->dev,
-   642				 "Failed to create sysfs attribute, ret = %d\n", ret);
-   643	
-   644		device_set_wakeup_capable(&client->dev, true);
-   645	
-   646		return 0;
-   647	
-   648	err_unregister_ports:
-   649		cix_pd_unregister_ports(rts);
-   650		return ret;
-   651	}
-   652	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
