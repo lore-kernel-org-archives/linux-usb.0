@@ -1,79 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794063286;
-	b=L/4eA2pxDKSNmOOjVlPLEzIXfoy4fDAtuJ44EivIhhmHdTJjmlrnhMmNNtEVKFMIS/Er
-	 DwdalgASE4aSilOh6IkybFsfVnPaOnssc9B/fHxfFPz/kz7Nm9eLG02bNXfkyirRsFNLr
-	 pBa/0uYDHfjeLhK43nm7eqv/9eioRNNGMeDUJivId92Q12OXQB3t2aScbaj8WkICPw7WC
-	 5iVAEkdqBkF2VXmHbWbVRRbRXZ1OT70FzXmY3XNs6LorFU2+th90sOublq7x2Q5HrMDfq
-	 ldmTzy5rlF5M8j93ZyV6GjEzXY1CI7oTqUzoY9iVoE1NLMXMa72xXJuGH36gC/ZWjwQ==
+	t=1794063285;
+	b=G08EOHhwC55x3+lsKpxHsJ3pNgug2UW46oHikIxNLbkV1DRZpKr1wewH9HVsvY2kS3qu
+	 OZiygZqgTwkrOymJBV6Qj7fx1DQpk35+X6tba8pz8j0LR8tZg1hT5B+fqKfLOdY6Avksj
+	 OZmVKpJRVuNRIeYDHscdgd6kMSlKyAVakfmbmlrDh6ly0VGQxKLKsCJr1eaa3OXDPe0Z7
+	 1JSeHHNWuJevrXU6paSL7dqjs8yz6x7HK0dXcm0CDp6gL2HZGTvRGSNiHkSj44MZX6a8l
+	 xNNMQfWw8B7BmnP0tKLZ+vWQyH7UY3bxIt6UhsYPUmhYnByV34XAIdpHHj/H+Sv9c+A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794063286;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794063285;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=NJC/Y/6ygBaJvU2GPJgj3ACgIGfTCfMexIHbp6F6K/A=;
-	b=JQflYWwVmOc8wHSVWQxY4U7AT10iOWeMDy5TKdYIZtOYMkfA4X0xQEMhNzu/4RHdM0DL
-	 u0R5XUP9zmjkU4kQexsTP3N1wMwjIDOzQDCeWPh69ousCjxgxmBFhTvyon4Ot8u0efebx
-	 Cda0umWlGIyr/n8JSoBZTijSypuGT/4yceublp//Oy6YeMGvtWp7LpS+N4JBIf+YC+2Av
-	 rhBdZ/6GlTRr3KJ5367HqP+l5pBAvHHBR/Mqrug1gRDPOaSV33HbK2iHQsuxhMI+d/iAb
-	 a7/6/juy2du0ntqylCL5M+3NJOFhG4JxWqZjwTRM1GOYM5ch4M9/aE7pKP44fwqLA9A==
+	bh=SCSNncZb6gAvUHL12mxyJu+NPT2Q1zvEWGLqdpdMtDU=;
+	b=SXR/OyzK/V2GcVXSYtg5LS/feXurq5RFs+jMYMjC/hKyM8AQmBYI0OLYuMfkoxvVbVRq
+	 w7ZPowfa2SDof6alH5guCk8vCPTvU0mV2gtuRs5sO8sLYzEt7XP78rn9g9f2NwQcnv7AX
+	 GHjFxpgvWnYetrsg3pYf0tiPrDjb5xXwdEpoyok0IWldVvmmTEACah4GsDvLyzPdS7VOv
+	 iB+zx6awxLU3TXLmKDG59sdOfvqAkYSoNhJI8RkH/4UUnBYJJMPRXA9qll6m20GSTJSi8
+	 fjdOtmMGShoGWfLRqG2I23E05vlRuI1F+bEVp3RdvLvi/48d1b+ss+gdIU7/qBoqdfg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LGQuHeNE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gwfuwu8E;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69E4606D808;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209E4606A32D;
 	Sat,  7 Nov 2026 14:54:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LGQuHeNE
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gwfuwu8E
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1794063285;
-	b=kX/e47il/TOys54NmtCOHe7NMQ9SyMvr30wngI2UU1OvWy/upsqfbch4e8tNLxh/FomI
-	 QX56oCLlKFtPeaqCHXUVyBMlOvc0//BOZIgzzHtWsDMD6m2l3SXj1wrG8Xuv5b/8AJCNy
-	 HkrShtrwZPF5oK4g1Q+otAEUK5XmlgFVwEG/0oV987fdoO63OzDtnU03dKeJJtUm/9O6f
-	 2mnyMLgSe5kLM/WIwr7Y45/rkDiptWLO1UUSVmlkGWIJBmmgs4TrkBLTmMGbRWjjbO1Ax
-	 S5+4Gq08pJUlutQaltcC4oxeAPDXrU6yj163WmAqwRTOzVu3rm9LrwMzMy+7xnMv+Iw==
+	b=S9QmgNjCd7imTlhfSc+11/lEAHdGxcWcszJg7qcczvD9rY2O4Jw6mJuly0SWS436kR2A
+	 /GOKqXaA8zuX5iWJu5Axob6SIEP2AM6amsr24IEuIqQF0jtvoXv33Ag/Jj6kAmsAkhJI3
+	 ydoEPr7SJYyxtgTcZ7BcK+xR0dJUvB/SVIAaOodG4LaIrxj2Ga+L54635+4qsmnybhfNi
+	 1CA267DkMTCpcRM9FZuv6Caeqz0Yddq7S3VXFrc/Z4r0r+a2ARceunyjG9omdgG8AP920
+	 6o0BP3xUfOu1u230JBh21PK8X5ZP/8RgE/+44+OhBXXYrSfcJDT2P747KE+JsKfPFog==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1794063285;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=NJC/Y/6ygBaJvU2GPJgj3ACgIGfTCfMexIHbp6F6K/A=;
-	b=yQm0KgcXU70IWLHFyaVaxKCp1Wtb7T5wy1mIcQXQTOtHqfjamCvFdLp9ZmFJa8ccA8rF
-	 eshn4zSmEjjLK+v3ic/Cv/MruLi5DCScsRJ8J7nqSP6LkTwcP53qjvSFPhlIQ7TY2i77a
-	 ti6vm3Sm3d3YK3vGi9elbMiC1Vf3maKVs5G92OZC/Iu/9KuS6CfxoaU6At0NBf073U/nf
-	 09zOGdSx63rJihIaiAv35hgv6LjBe2BjzU46fwzj0AoLb+x6lMmR7Wrse7AWdRcETE9S6
-	 /RQyoEq2QKWehFqIT2eGav8xPI7X9oTVGxinp1dDpzAvaJ4Samngt/aqdes/Ho6Wq0A==
+	bh=SCSNncZb6gAvUHL12mxyJu+NPT2Q1zvEWGLqdpdMtDU=;
+	b=HaIeMCIf5CdXL3ETSqvRnZyYE/3LO4907XPTc+iJjEgXP/eZHmhlNhgWt55CQyHqRnZA
+	 PMJuknBG4W/ggoVsrkeaACcYsl2u2vRNSgr2s3Krcj0EJC0VR1aLnTnVPNHK2BTd95jcF
+	 yg5qzZ6yv0tRFr/xu9CU0pyBq/oi34Y3395Ey/EX2QjyR3FOH/rh1XQhZ5/k26eBDTxxK
+	 7ns6XogDF+P3amo00J0nhGFqtRhBMDTXMPHwEsI5FzuVs/gzZcS0IR/04HKKWr2aa/paI
+	 v2nM7fWKbLy9V4uNll0Egs31q9zI+HfwZh+lN9/Vqoti5Ydg4uCc9wlV38O7WKJgO7w==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7F0A41F008A4;
+	by smtp.kernel.org (Postfix) with ESMTPS id 707C31F008A3;
 	Sat,  7 Nov 2026 14:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794063285;
-	bh=NJC/Y/6ygBaJvU2GPJgj3ACgIGfTCfMexIHbp6F6K/A=;
+	s=k20260515; t=1794063284;
+	bh=SCSNncZb6gAvUHL12mxyJu+NPT2Q1zvEWGLqdpdMtDU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=LGQuHeNEmQoThmOb3WgRXRhN2+296MrsYP38yGjecymrPlTa8KH8BItZ0/9+ATAWd
-	 zyqk724OD4Spfkr/dg0eZLB1MS8Ahr3yA6li1Vxm9plILfMBIDF3f0+dLMvmpy8/9K
-	 EoYCAurDKlp0/GO5Oxr+b/1aKKTgJqtWGWxz1EWbX6k7o1aBrfNGSYUmbVRek2TJts
-	 u36MnqInsGtTLKoYw7PTVlboBQgjPLsaXoX+Hiba0G/7Wv5FqSFmcj56Vdt3OOopeh
-	 jdajH3mJwleUKMoxJVUDNTPCDIVr4xlbjDeqkJc5Zn+hsHXAAClCqqZHyFzHPhsIAw
-	 JSQaFH3cl9A0w==
+	b=gwfuwu8EKLyTD9sruuX0I5EotzL1B2BxsQrnrM2HsiU2NmvjPwZ4ZgSNeyNE9vvzz
+	 WGMyI0VcYlqCqA0yl+veF88OYASr8jAsITz30ygCrt6oYh7/hvRxRisQD+p2KTmymk
+	 KWsFQUi6Cj162U03JtDeN87rYitWHwx3YUDzuOe3YbU/atT43QgifeMpt6z6DfS3SL
+	 GK3Mxp+NIiFF6/tKvm2hJFQTSgjx7STxw27rFoVXGn6Ch1dnG/aeGP9rkML1siMMaE
+	 0yK1d5Ut3rKBO8EuSLrR2TPBg0dJzIEWH8UGgwyV3pZinskUkzDunYlaS+8fZ2Rnfv
+	 b2CwJ0Zhwibbg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 1017547C47;
+	by lkml.kernel.org (Postfix) with ESMTP id 00DDC47C3E;
 	Sat,  7 Nov 2026 14:54:44 +0000 (UTC)
 From: Roman Vivchar via B4 Relay <devnull+rva333.protonmail.com@kernel.org>
-Date: Sat, 07 Nov 2026 16:54:43 +0200
-Subject: [PATCH v3 2/3] usb: mtu3: add SoC platform data for FIFO quirk
- handling
+Date: Sat, 07 Nov 2026 16:54:42 +0200
+Subject: [PATCH v3 1/3] dt-bindings: usb: mtu3: add mt6595
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,7 +83,7 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261107-6595-mtu3-v3-2-f36bc569cb47@protonmail.com>
+Message-Id: <20261107-6595-mtu3-v3-1-f36bc569cb47@protonmail.com>
 References: <20261107-6595-mtu3-v3-0-f36bc569cb47@protonmail.com>
 In-Reply-To: <20261107-6595-mtu3-v3-0-f36bc569cb47@protonmail.com>
 To: Chunfeng Yun <chunfeng.yun@mediatek.com>, 
@@ -95,13 +94,14 @@ To: Chunfeng Yun <chunfeng.yun@mediatek.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Roman Vivchar <rva333@protonmail.com>
+ linux-kernel@vger.kernel.org, Roman Vivchar <rva333@protonmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794063282; l=3866;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794063282; l=938;
  i=rva333@protonmail.com; s=20260510; h=from:subject:message-id;
- bh=auQPHvab1ZzrFsEkD3kyiLiuuk6+++iHHfze1wbJCXA=;
- b=rZXp5qlTOcGBFK+aoKrYTcpaBANl+TuT7yMeU+HgrjWzoDkqG5Rbv45x4nraCZ3FuBud98D8L
- URz7wWccYg0Dq52F9VtuVvauGz1DLZPiYJ5puQxwmtLab2xT0Lcfulu
+ bh=6lNL8+H5yPn87h4OAqJ4JTDlIkabDJzqSIYmECK+Ohw=;
+ b=11NQyOkxtXUeokO0Et/HXlv+SYZRAi1hV9g4eL0CVQdE+MqaOsnHiZuF31wHhipK08FhbRIh3
+ VG62KWmULOaD48GOreLtoULia+8lBqD3ro6vw07hugciqa8P5BpCKS2
 X-Developer-Key: i=rva333@protonmail.com; a=ed25519;
  pk=zww/nWjBGoQ4POXCG0BV6fx2iuXK6jx77rsKPA5YK5Y=
 X-Endpoint-Received: by B4 Relay for rva333@protonmail.com/20260510 with
@@ -112,112 +112,27 @@ Content-Transfer-Encoding: 7bit
 
 From: Roman Vivchar <rva333@protonmail.com>
 
-Some SoCs, such as mt6595, require specific quirks for the MTU3 to
-function properly.
+Add a compatible string for the MTU3 IP found on the MediaTek mt6595 SoC.
 
-The mt6595 IP block doesn't support multiple slots for the FIFO,
-resulting FIFO wrap.
-
-Fix this by adding platform data with a field to handle FIFO limitation.
-No functional changes for existing SoCs.
-
-Assisted-by: LLM (debugging)
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Roman Vivchar <rva333@protonmail.com>
 ---
- drivers/usb/mtu3/mtu3.h        | 9 +++++++++
- drivers/usb/mtu3/mtu3_core.c   | 3 +++
- drivers/usb/mtu3/mtu3_gadget.c | 8 ++++++--
- drivers/usb/mtu3/mtu3_plat.c   | 8 ++++++--
- 4 files changed, 24 insertions(+), 4 deletions(-)
+ Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
-index ba5a63669e5f..349e5b20f285 100644
---- a/drivers/usb/mtu3/mtu3.h
-+++ b/drivers/usb/mtu3/mtu3.h
-@@ -315,6 +315,14 @@ static inline struct ssusb_mtk *dev_to_ssusb(struct device *dev)
- 	return dev_get_drvdata(dev);
- }
- 
-+/**
-+ * struct mtu3_platform_data - platform data for the driver.
-+ * @fifo_single_slot: the IP can handle only one buffer for bulk transfers
-+ */
-+struct mtu3_platform_data {
-+	bool fifo_single_slot;
-+};
-+
- /**
-  * struct mtu3 - device driver instance data.
-  * @slot: MTU3_U2_IP_SLOT_DEFAULT for U2 IP only,
-@@ -369,6 +377,7 @@ struct mtu3 {
- 	unsigned connected:1;
- 	unsigned async_callbacks:1;
- 	unsigned separate_fifo:1;
-+	unsigned fifo_single_slot:1;
- 
- 	u8 address;
- 	u8 test_mode_nr;
-diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
-index 66dbfe1705d5..15f1b80fd0e2 100644
---- a/drivers/usb/mtu3/mtu3_core.c
-+++ b/drivers/usb/mtu3/mtu3_core.c
-@@ -922,6 +922,7 @@ static int mtu3_set_dma_mask(struct mtu3 *mtu)
- int ssusb_gadget_init(struct ssusb_mtk *ssusb)
- {
- 	struct device *dev = ssusb->dev;
-+	const struct mtu3_platform_data *pdata = device_get_match_data(dev);
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct mtu3 *mtu = NULL;
- 	int ret = -ENOMEM;
-@@ -930,6 +931,8 @@ int ssusb_gadget_init(struct ssusb_mtk *ssusb)
- 	if (mtu == NULL)
- 		return -ENOMEM;
- 
-+	mtu->fifo_single_slot = pdata->fifo_single_slot;
-+
- 	mtu->irq = platform_get_irq_byname_optional(pdev, "device");
- 	if (mtu->irq < 0) {
- 		if (mtu->irq == -EPROBE_DEFER)
-diff --git a/drivers/usb/mtu3/mtu3_gadget.c b/drivers/usb/mtu3/mtu3_gadget.c
-index f224f2ee379a..8ac244d40afd 100644
---- a/drivers/usb/mtu3/mtu3_gadget.c
-+++ b/drivers/usb/mtu3/mtu3_gadget.c
-@@ -112,8 +112,12 @@ static int mtu3_ep_enable(struct mtu3_ep *mep)
- 	mep->ep.desc = desc;
- 	mep->ep.comp_desc = comp_desc;
- 
--	/* slot mainly affects bulk/isoc transfer, so ignore int */
--	mep->slot = usb_endpoint_xfer_int(desc) ? 0 : mtu->slot;
-+	if (mtu->fifo_single_slot)
-+		/* older IPs can handle only one slot reliably */
-+		mep->slot = 0;
-+	else
-+		/* slot mainly affects bulk/isoc transfer, so ignore int */
-+		mep->slot = usb_endpoint_xfer_int(desc) ? 0 : mtu->slot;
- 
- 	ret = mtu3_config_ep(mtu, mep, interval, burst, mult);
- 	if (ret < 0)
-diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
-index cc8a864dbd63..bb67da4704b2 100644
---- a/drivers/usb/mtu3/mtu3_plat.c
-+++ b/drivers/usb/mtu3/mtu3_plat.c
-@@ -611,9 +611,13 @@ static const struct dev_pm_ops mtu3_pm_ops = {
- 
- #define DEV_PM_OPS (IS_ENABLED(CONFIG_PM) ? &mtu3_pm_ops : NULL)
- 
-+static const struct mtu3_platform_data mt8173_platform_data = {
-+	.fifo_single_slot = false,
-+};
-+
- static const struct of_device_id mtu3_of_match[] = {
--	{.compatible = "mediatek,mt8173-mtu3",},
--	{.compatible = "mediatek,mtu3",},
-+	{ .compatible = "mediatek,mt8173-mtu3", .data = &mt8173_platform_data },
-+	{ .compatible = "mediatek,mtu3", .data = &mt8173_platform_data },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtu3_of_match);
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+index 21fc6bbe954f..4538df164a16 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+@@ -22,6 +22,7 @@ properties:
+     items:
+       - enum:
+           - mediatek,mt2712-mtu3
++          - mediatek,mt6595-mtu3
+           - mediatek,mt8173-mtu3
+           - mediatek,mt8183-mtu3
+           - mediatek,mt8186-mtu3
 
 -- 
 2.56.0
