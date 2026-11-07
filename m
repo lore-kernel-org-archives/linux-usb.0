@@ -1,112 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794017528;
-	b=gYxlbRAdXQuTLjVj6XWdOhDfQG3w8tI/zu8Qe0DSNO4cxZmp9kBDDeFXGRKwulIFcvLm
-	 Jy3OSsYElgyUe2JCDFjMUfVtBpzyDo+uaxJ1NrZYD8J5gUd1BKCn7ljedKgW0aLuGnKwV
-	 45xO1PRcPaf1ImuifK+6PPXF/It0vROMUjxv9Mi5TkaGM+eokPwxYfIfhIzlJ+q1YHPt+
-	 XOlpG9t3n8grscYDmIhilR0mbrls9+kjHWOUguAt14eQ69ZGzGnJ5DKotXIyrqsvhosKT
-	 wvx2FRinJL9VOGVQv1aMqweSN0AvTr/GJfyGGl1vutiYOFNbropOi+zFWH+puSxpqQw==
+	t=1794018276;
+	b=JSqrJQBs2u2I0V7g40LT8+j5hr4KnjrYBIzPxgGQOE9AmXJHV7On2/Z2DWIcBiDul1kp
+	 DgqGTDvwqeoZoMaxkWAaLw8s01EZknCsnamy9HPN7MIOeyirGbhKVCZuZIjFTktUHm7AG
+	 2kEvFNF3vfw0wiwgbJaHS9x8qaCE4nfmFX8AKVyYdJaskhT+ZEsMqwu29mkz4TMv9A++m
+	 lE2zqXxdonDNtSfOBsuhgnGvKfiSdTdh4CnudmOa216/miaAp0+A6vYlInmVAA3RQnWYd
+	 V8gwgstgZLcsHFSky0D8T03p8BZEwHtv7Clvyp6dlQzqWnjA5sQRpH+g1cSk+N2osiA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794017528;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794018276;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=LqQCtL7DY6GdOgcgju6Yk99vFFUh6YCcWxgQrEusl0c=;
-	b=2yDK87hosBjihuR4SsHcfAQUTnDY0IZCG2G6jojXkxxD+jPnqkh9pGyuIm5CBn768sos
-	 gegw8XU9MkB2vRrUyLUqGggHCsvYW6OyLAibJHx+n3IQuDawZZyipmkV21uyOBANziMe7
-	 gqP2epcOSg1kVSX1rCNgpSZfQ8U1O7TrO/d+BjK+rraRYRsaybiD2Me/KgYJwqaLb4PPi
-	 xIF/N3W4Lp27dSyxv0btD/n5h8cs6haQriIL3G4O9i35kJsW5w38g3OHjBLwRqBV2/zAL
-	 pwH0ENF13ClQ9jU2PtZwsCJM/lv7wg7Jhv0+VIRVbHyMiG+JEB7izVOMTW+mqwrRsUQ==
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=FjCSPoZqolZXJYhaNm2g2BrW4DtVoMmzcaGBJRA24k0=;
+	b=VrJtncR25R8HM91g48uqj2KegQdWtLL/Be59yFyUMnj82B3vXsqfGeKTgz5OE5KyaCET
+	 zvJ9wYtdzuoovk/7GDpih8Dl1s128M+y50oA6fq5QGqCmvCIKrLpz1arIy3AkhPUCxOfv
+	 G5doNmZjiBK99qbpVVAn6GO/dGdNJWLhPtgTK7IssGE3YsKcmYU9qXZXAQ2FyXmqrMgJX
+	 0aF061kdRc9ocX+0SUVaqn1FqMoOtalVAEkI22jfaN7kOZ4KrzgtjEy2PajUxKN5xLE52
+	 IaE7gpaY3MgW95HE3L+MI4s7zNWGjYySoDswkJqAzV2XJCSRX89F+HfHLKpEdtn7NOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WN40mK77;
-	arc=none smtp.remote-ip=74.125.82.177
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eSjkiBJ1;
+	arc=none smtp.remote-ip=209.85.214.179
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE1C606A32E
-	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 02:12:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BE1C606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF01C606A32E
+	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 02:24:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF01C606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WN40mK77
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-36dbde64409so1710914eec.0
-        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 18:12:08 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eSjkiBJ1
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ed06b725fdso1427335ad.0
+        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 18:24:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794017527; x=1794622327; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LqQCtL7DY6GdOgcgju6Yk99vFFUh6YCcWxgQrEusl0c=;
-        b=WN40mK77q2MS0NRynvOXOkwBOhjMjS8o5blvaF59gy/8znq9HbxNHxZsG2N1FwWOAO
-         pTAuQRf4j6rhw3fT56835TqbRRFGlf/OQ3XNQZH/24t0RcQ8PVTrF64PbPQ1y3uhItZS
-         0AIFwC+b6KLahtXWBc/L05PucbM1u78pW1i9Z/K6mqbGrDf5V41efbftNnhbCqtO58zk
-         k/1bSUUBNsdi0Vp5tTaO57CUdgE29Uu6dA/R+TbEbxV5nQ4DpIrV2buafwtFjBoOUH8g
-         syYT0OEWfsXI/cMn9aePHWmEpAeIyyTaImStZlRs0dwx0NklaqtHGIkst0IwuM8aMobz
-         tGUA==
+        d=gmail.com; s=20260707; t=1794018275; x=1794623075; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FjCSPoZqolZXJYhaNm2g2BrW4DtVoMmzcaGBJRA24k0=;
+        b=eSjkiBJ1GJSKlCY0J9TMrGiEt40u4LKEkFWYy8YQhKzTyDszPR7DRTJLnAlIOPCTra
+         to8GWXI+ly4FICwA5Mt3et4caNSemgEt3Y3IPvZSbfZkhyVeEj/Fq+ckX12WalKo/Ktm
+         jregUMfSxCbFeJ+smdIvzzHHtQyxaAvzIYcGnfpRzEQXSV03NsiZxXFH9HqTwtEPH7nc
+         AjKwqKQfFf4b/5CozJ1oo1bKy4gJKkrEJMdknYWzFEXCghJdGzcWQ+ec5LKMVQ8aXv1H
+         aYIA9ULSn/WUDzVvettv6QITQRcEtVoJK2aXO1Wa4BYzRs5y2vCGtTtDhyUxaboYrlAv
+         MUTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794017527; x=1794622327;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LqQCtL7DY6GdOgcgju6Yk99vFFUh6YCcWxgQrEusl0c=;
-        b=zfwZC1Xl2wvRPI9H9IWhycWSIprD3CbkNg9dIl2mTbaCT2lUhL80WxxuGCyyhT5Jrh
-         z/F2RghRznWPpnaf5SbcMItY9vBA4NErzHwF5JZHkXpWlqq2dhBOaUTtXE7kBGuqF51N
-         Sxi8gxwa3RCtJ8djkC1zGXpAbC7HJPKhuZ71G8MOiey+bZaef299FHjvY+v/jb/6E2jz
-         8klsiq1nn/Ckd2tn3+obkH8WRTIw2VtnjHbWXk0VCNCOziQJfKJosLU1YTwoj19lj2pU
-         wCFEfsaaGKcM07dPMY4k3P9kriwRC1BhYE+ib3DHw22PYtqCK71RQG63Xbu4eH/xcSsc
-         pxcg==
-X-Forwarded-Encrypted: i=1; AKwUvBzfcdN4X4nZHocsDYZlv4aDWYz7WnRfTnLfHEfxtrkF2robjIjyjXm/O9KYAQxwdj7bJEiGpUb4vnY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z84i4pPbAhwz8LQ2UmLmsJYf5nH5U2ScCBfrndkjyN3cmMRZOAF
-	0FhqfKHzHKlNCjgfHuVrdYgOv8l+SnFO6wSwO2f3HOQsrL5wZCHaLYBe/n6cmCWoMwlfww==
-X-Gm-Gg: AYBFou0C+/jLq5R9Nu93edeqvWFkdoug/586MPgKiH/BO9rC2bEjd94JHyjCi5wqPkM
-	yXp0y871/Nvsm82mvuFD4UU62fbEiTQ4kn4LuPBZIrQnQeSMQdtS9Gk6uzJC3+tlEoofQQPaFqY
-	nt/ZOE75xttydRZauT2zekLeDOdfYijUD7Yp8sZWW/s78iG74Roz1PgSh/4JNIuanpfkY06Lgqt
-	duV24a6xuvlKjZf6X5rbh1YXjvo3LHqcAOZYhNJ0+VtkUUFOxS4h2gelVllAQLED7EQVu5xLWXw
-	JpbkINrEkMvhESpLEQskhza1Kf4XfyLHDiS3PiAqDbEgbCMBYGTGq8SDP4N7bG0p8aCr+XQ+0vP
-	7Cv2gxoEpHgg+z/l8d26A91kg/5TZ9elfTeX3XXWYfeWBFLMZOrx2d6DmYzuPqWh/OP2jW6c/Uv
-	uNA5S5ev7C4+pTttFUoUx6m5dWqzsSjGd8reEbn5w4Ip6wTcVIO1BNdL905eS+HD9ILL2MTY2he
-	xsJo8ACevXezgFR7+Wk4EuAkGUS2a89r8Qy2p1FVKAMmP4o4/0TuqcNbKYZEBapmDDcHtKGRUNW
-	xNthXEF8mkg1tfI5nIA4ZSqaNQstCzhPQ00QH4DQ3+vf
-X-Received: by 2002:a05:7301:b0c:b0:36d:c3db:9802 with SMTP id 5a478bee46e88-36f76023a2cmr5537963eec.18.1794017527249;
-        Fri, 06 Nov 2026 18:12:07 -0800 (PST)
-Received: from DESKTOP-NM9EKIA ([125.134.240.130])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa9be7077sm10949924eec.17.2026.11.06.18.12.03
+        d=1e100.net; s=20260707; t=1794018275; x=1794623075;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FjCSPoZqolZXJYhaNm2g2BrW4DtVoMmzcaGBJRA24k0=;
+        b=ocxg3Onil57GJgOeLsuqZpXoURoAcZOn9mPgb6O0l8nBHjA3kYjbEmgWyIxgMTz+l/
+         wINHRcrkoJTjSdXOGLr+em/sTGYSGK19uNecjUaTFV5R5hbqlcbLCf5wbLof3niHLQsS
+         1JVA9XF0wxDyiQmGp2VFxZ1mPJIBUzXnwBmy8prBsknJ4YXyjpGI6Ux9k7dTnRdPbrF1
+         fU/1WEoI+SnpRzMDXmZ8sjI3T4IkJ5jzpd3IvQObpwY2ucAzPqUqLmqAG/Y5y7bUmgwC
+         kFVwQbGhN4xNzWCRo2jzjPrMGWvfDjHtrubG8J2WSiZWQNMdUd6HtJ5eH1DzOJW9qGBz
+         5fSg==
+X-Forwarded-Encrypted: i=1; AL+hErF1OlClN8fGEVLeJhkwplwBiBxDvYXnSsPGvgqJGdBtd/2Md3+y8yXGYmWDvS4F6jTPn/y02nmlgKw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z91Gv8DfL2Ksgwa0w6vKOjw/vkn/8y+P4HfUizpBC1aLbjlKhSO
+	MYeN9QXPTuQlY0zkElqSRo+X8ljQMYpPA5U19FgtC/DbmMK5pW6kLHHL
+X-Gm-Gg: AYBFou3ggObRULHJHCXAW72cNuBUryKf+Da5KMfRF9Y0YCC/mOiHgtfGYnboHD0JhxL
+	JU8dzljWSgU091pw8Ix+W+RfYtV121q+y8DrBKTsRcw4Dukfrerdw7X+mIvmpb148cD8t56msXc
+	b13fmhgwA+syJs0uRYf8CGpVYVZHdBaS2F9sDN7gEHpO+xhn56QgCYDCEh9/pOxgBZP/7lZ/PMb
+	Zh5pEVrYDMhf1qy9Z7HN/l9Vfv8lRT6+28gFkMtSqTtdlJ9rpdbSs5/Jp0r1/BqiZsJEO615kKe
+	VZzirRNGAdP88CE3NaABAKbfPs5g6f12Gch+e36fOaNZ7BctQqwiOMC2wOz3MoYjCp2aXQX09dk
+	uURQ/LE70jiD2gWofxIQLl1Ff4MuBY4fXQOMDM+I/ZHCPukXSBeXLVOWoSe+Uc0SJ3dGmw2cLKz
+	W7MeJtvrSwDV2Prj0kYN/LnI8IvQEEKFe1S+cJSq7QXMYX1I2WgEXO86QCjS7Mm5LPzWaWm/omS
+	ld+crM8TDeNnKgDqOZRlfeaIC0KakHTgCxYFBrhagq9e2UpywvdP+Z4lKu3/DImCYRBkSqWwKy5
+	TU4yNvoNtf/j4s6iqYcF638I6gouM+PTil1waO+bppypq0BMDDWYCkvKXEGvcZ3+
+X-Received: by 2002:a17:902:ea0c:b0:2e9:5e06:3345 with SMTP id d9443c01a7336-2ed67a21cd6mr6074255ad.2.1794018274969;
+        Fri, 06 Nov 2026 18:24:34 -0800 (PST)
+Received: from fedora.lan (d173-183-236-7.abhsia.telus.net. [173.183.236.7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ed47d4034asm10407085ad.41.2026.11.06.18.24.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 18:12:06 -0800 (PST)
-From: Joonhoe Kim <26rote@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Abel Vesa <abel.vesa@oss.qualcomm.com>,
-	Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
-	Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Val Packett <val@packett.cool>,
-	Balaji Kalkonda <balaji.kalkonda@oss.qualcomm.com>,
-	Vladyslav Tymoshchuk <tvlad744@gmail.com>,
-	linux-arm-msm@vger.kernel.org,
+        Fri, 06 Nov 2026 18:24:34 -0800 (PST)
+From: Artem Novak <artem122novak@gmail.com>
+To: thomas@touhey.fr
+Cc: stern@rowland.harvard.edu,
 	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: usb: qcom,snps-dwc3: Add mode-switch
-Date: Sat,  7 Nov 2026 11:12:08 +0900
-Message-ID: <20261107021208.934-1-26rote@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.5
-In-Reply-To: <20261104-bipedal-supportive-earwig-2aae26@quoll>
-References: <20261103135057.1682-1-26rote@gmail.com> <20261103135057.1682-2-26rote@gmail.com> <20261104-bipedal-supportive-earwig-2aae26@quoll>
+	stable@kernel.org,
+	Artem Novak <artem122novak@gmail.com>
+Subject: Re: [PATCH] usb: storage: add quirks for CASIO calculators
+Date: Fri,  6 Nov 2026 20:24:31 -0600
+Message-ID: <20261107022431.144308-1-artem122novak@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261105151348.19009-1-thomas@touhey.fr>
+References: <20261105151348.19009-1-thomas@touhey.fr>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -116,56 +99,15 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 04, 2026 at 02:13:21PM +0100, Krzysztof Kozlowski wrote:
-> On Tue, Nov 03, 2026 at 10:50:55PM +0900, Joonhoe Kim wrote:
-> > The QMP USB3-DP combo PHY stops the USB3 PIPE clock when a Type-C
-> > DisplayPort pin assignment gives it all four lanes for DisplayPort,
-> > while the controller can keep running its USB 2.0 port. The controller
-> > has to move to the UTMI clock before that happens, so it needs the
-> > Type-C mux state as well. fwnode_typec_mux_get() only matches graph
->
-> Controller does not perform the switch, does it?
+Tested on a Casio fx-9750GIII running OS 3.71
+(USB ID 07cf:6103).
 
-No, it does not route any signals. It only needs to know the mode: in
-pin assignments C and E it selects the UTMI clock as its PIPE clock
-before the PHY stops the PIPE clock.
+With US_FL_IGNORE_RESIDUE enabled through the usb-storage
+runtime quirks parameter, 8 KiB reads and a 1 MiB
+write/readback test passed. The readback was verified
+using SHA-256 and cmp after disconnecting and reconnecting
+the calculator.
 
-usb-switch.yaml describes mode-switch as "Possible handler of altmode
-switching". The WCD939x codec uses it in a similar way: its mux
-callback only reports the audio accessory mode to its headset
-detection. The codec nodes in sm8650-qrd.dts and sm8750-mtp.dts have
-mode-switch.
-
-> > nodes that have the "mode-switch" property, so allow it on the
-> > controller node.
->
-> So judging by this, you would need to fix fwnode_typec_mux_get() or
-> opther driver code, not the binding?
-
-The binding is needed because typec_mux_match() checks this property
-before the mux driver has probed (see the comment in typec_mux_match(),
-drivers/usb/typec/mux.c). Without that check, any graph neighbour that
-is not a mux would make fwnode_typec_mux_get() return -EPROBE_DEFER
-forever.
-
-Apple and Rockchip handle this in the PHY driver, because there the PHY
-driver can reach the controller-side USB3 control (the Apple PIPE
-handler, the Rockchip USB GRF). On Qualcomm the clock
-select is in the dwc3 glue (QSCRATCH), so the alternative would be a new
-interface for the QMP PHY to notify the controller. I found no existing
-one. It would have one advantage: the PHY knows when it actually
-switches. I can try that if you prefer it.
-
-> > +  mode-switch: true
->
-> Drop, but you might explicitly disallow orientation and retimer, if
-> entire solution stays after review.
-
-OK. v3 will keep the usb-switch.yaml reference, drop this line and set
-orientation-switch and retimer-switch to false.
-
-Thanks,
-Joonhoe Kim
+Tested-by: Artem Novak <artem122novak@gmail.com>
