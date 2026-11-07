@@ -1,57 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.81
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794029236;
-	b=uZZqJe7FM3sohTg2q8vqCGTZrRvSUElR0IH2fY3A1XbmeAu+UutdaPOOq4G/2hjF6jyx
-	 h/ods4fS6cO0aKvSAuTSuIE8UEQu+hXH9bCgUJTUu86n1/37cl7FNfzcQ8CosJ49xg6KG
-	 BIYhzIVDHXyvq8kIZ7Ws+F/VkehRGqNGEav1695ySWIW68E20ls2o1YORwA8aMrYhMyq6
-	 HN34o16hkzLhEtKlSWEzd7HUeZs/ITouU9+aOfdJwrVJsiNDI2BlfOtbFIAOhe7I6JEek
-	 nP0FCOoJlvNAQ/MoSxSP6XM9rpNoqH1buKLGhaNj6pH8JEJQuL/s3qUNFef/VT3BGgA==
+	t=1794030472;
+	b=QXzq7/DXUotwNYMqS5UFtgOh3jIxmYNojZkDhA82Owdb0b6M/oMGRA+3DLpnF+CnCjoB
+	 bA6LQ5ooOrs0Ya31eUnK4FUTrXogBWowmFwEo/o+4vziHz129vuUqKXqhQaMD9DV3xT4L
+	 JB+wHrweTXBOu1nFemX1mo4EqRzkgF5rTKKrLTPcLtKZaBWsfDle2bZyfjeCVXsgGomcd
+	 kzsCaBUNuY7tUwKAJB97m638XCTT9O6ks2wLDfvZuahkE9VnX6RBxTvQKd0USiDyYD2YC
+	 Buy7DlqHEW44rxx5Esycj29QifPMDzp7flA4XZKGBh7TGJs420nbG6t3enhVnJzvtng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794029236;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=8tdRJtazbCw7hehXLqbY43vrMBYt2zFx+6lRRKVfEpw=;
-	b=IEqOObAwEta/r6NtPIo/cZcaFVwfH95GvZEUGOVK3zAC0eWj3EXQJv64CR7jB+nErj/4
-	 Tagp2oQq0p5F4u++btXz5f2TTWgf6sB6HVif5wACdOXS8EleYwRqhkrW4PET9rolN07tL
-	 PFIniVZarN433Ya7O3k1Q1Kv6GLEUqcB1N6Mnpor8ZBMrs8+vnDz+8vh/csINkBzpVUgY
-	 GDb6oDweZwerF3AuPyK6dn7nAiz8I05Ez0Xpx5H3xq+92HAlbk/7TmyMQQ+RlTUMarpl2
-	 CO5p1JwuG71wDQjLj2UZe/BnRvW7EMEmjeMN6lsZI3TuZtrWSZnnBo0bd6uxgFtdfQw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794030472;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:In-Reply-To:References:Date:
+	 Message-ID:Content-Type:Content-Transfer-Encoding:MIME-Version:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=p3qO0spke0SGbrwHQJGFcHxU2bob8VmRhcrqXDKZr+0=;
+	b=OGp1TGr8tJ7ZIkLDvzUZ9PO7yKsb0CxugyrsnM+cWqhSD3izh5nLG2Kh26UWqKMs8Y30
+	 TRE9gGDFkBHJDNNV8cfkPyabVMwQzsCUnFxBwdpteSqJbxRCDkV5ZDeO723ftTiKbfb5i
+	 TUmyPfoYYH0FoT4RaFTCOCbjugL81IPsm3umX02/4uqgUUt2zZn077gzdIF1BkvKegk9n
+	 NtreckuU6Q4qeENayORX4TOI+37D4j0NNZmUpRAGpysi/J0BPJlnZ+hXRv5ITQEVV0Wx/
+	 +ZwYKFoGXxuBYJlAiKg76Hr19A3BI0MX1SWWVYg1ZeK6eextxKH4DNJ9hiZGSGa+/tw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Z+PTtz/q";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=iscas.ac.cn;
+	spf=pass smtp.mailfrom=iscas.ac.cn;
+	arc=none smtp.remote-ip=159.226.251.81
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DC9606A326
-	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 05:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z+PTtz/q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBFEC1F0089F;
-	Sat,  7 Nov 2026 05:27:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794029235;
-	bh=8tdRJtazbCw7hehXLqbY43vrMBYt2zFx+6lRRKVfEpw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Z+PTtz/qEHBBBc8vVKk5e2alroWKIqh483f6anPXz9Wm+hhc4H1SVDYXhZy7m0lg/
-	 1bK8IH8ZMjWZQWlcerTh0kej3DHfS6DWwgoRjqWv6+E3NqoVyrRXLrJhrkEoo0pFhc
-	 XT9j7DUFfKp/EdEj5Kpcmiw6VcYDho5GphmjJwQOlcFk0domQtVRUcALSPM98K9Um+
-	 AQq1ns/uDvvTfkbVUQGsav0l0uxeCSah3ESTcooUxRwmQRPzGgOb7w8u/Ib4/zooSA
-	 5uZEE8CPqu/9KLvSgmwfcSY0/Y06lomAF4WNal2+gVl8kUGeeezbFZM5YWKmcOPgUG
-	 7yWaC/ZQHj3Pg==
-Message-ID: <sashiko-outbox-202616@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6] usb: gadget: uvc: Fix deadlocks in uvcg_configfs
- attribute callbacks
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Saad Varshani" <varshanisaad@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261107051544.4381-1-varshanisaad@gmail.com>
-References: <20261106020727.6055-1-varshanisaad@gmail.com>
- <20261107051544.4381-1-varshanisaad@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 05:27:15 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CE7606A326
+	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 05:47:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22CE7606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from [172.100.0.8] (unknown [36.110.52.2])
+	by APP-03 (Coremail) with SMTP id rQCowADH1pd6u+5qDwF6AA--.18397S2;
+	Sat, 07 Nov 2026 13:47:38 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: Conor Dooley <conor@kernel.org>
+Cc: Conor Dooley <conor.dooley@microchip.com>,
+ Valentina Fernandez <valentina.fernandezalanis@microchip.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>, Bin Liu <b-liu@ti.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-riscv@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: 
+ Re: [PATCH] usb: musb: mpfs: unregister the generic PHY device on remove
+In-Reply-To: <20261106-coveting-unclip-525e1e9dec65@spud>
+References: <20261104021522.1468663-1-vulab@iscas.ac.cn>
+ <20261106-coveting-unclip-525e1e9dec65@spud>
+Date: Sat, 07 Nov 2026 05:47:34 -0000
+Message-ID: <179403045494.2324069.15566749996224490311@iscas.ac.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,50 +57,48 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-CM-TRANSID:rQCowADH1pd6u+5qDwF6AA--.18397S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jw1xXr1rAFy3ury7Ar4Utwb_yoWfAFg_Ga
+	4vyr9rJrs7AF47Kw4vyF1IyrZ09r4UGrs3u3yY9r43J348XFs7X39Y9ry3X3WFgayFkF1D
+	tFn8Aw4q9r1j9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbxAYjsxI4VWDJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4
+	kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_
+	Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26F
+	4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7
+	v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l
+	42xK82IY6x8ErcxFaVAv8VW8GFyrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+	GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
+	j0wZcUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRUEA2rucA5nSwADsO
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] usb: gadget: uvc: missing Fixes trailer for su_mutex deadlock
-  fix
---
+Hi Conor,
 
-commit aca7deea58b6e580c30b8b5a2d20ca884047e359
-Author: Saad Varshani <varshanisaad@gmail.com>
+You are right. I checked Felix Gu's patch from 14 September:
 
-> usb: gadget: uvc: Fix deadlocks in uvcg_configfs attribute callbacks
->
-> Removed su_mutex locking in the function uvcg_extension_bm_controls_store.
-> Done this due to the deadlock caused by the mutex conflict in
-> fs/configfs_write_iter. Validated commit with the C repro provided by
-> syzbot. No other conficts observed.
->
-> Also removed the su_mutex in the other attribute extension functions.
-> Such as uvcg_extension_b_control_size_store. This applies to all
-> uvcg_configfs attribute store/show functions.
->
-> The deadlock was happening due to a circular mutex dependency between
-> configfs (frag_sem) and uvcg_extension su_mutex. The reason it is safe
-> to traverse item->ci_parent without su_mutex is because
-> configfs_write_iter() calls flush_write_buffer() which calls the
-> attribute function, holding frag_sem. Which prevents configfs_rmdir()
-> from unlinking the item or its ci_parent hierarchy
->
-> Also reordered fmt->linked in uvcg_frame_b_frame_index_show() to be
-> under the &opts->lock. As well as reorder refcnt in uvcg_color_matching
-> store to be under &opts->lock.
->
-> Applied opts->lock mutex, to functions uvcg_format_allow_link(),
-> uvcg_format_drop_link(), uvcg_uncompressed_make(), uvcg_mjpeg_make(),
-> and uvcg_framebased_make() due to them also modifying
-> color_match->refcnt, to avoid concurrency issues.
+https://lore.kernel.org/all/20260914-mpfs-v1-1-0bb5b6c2e67c@gmail.com/
 
-[Severity: Low]
-Since this fixes the su_mutex deadlock in the UVC configfs attribute
-callbacks, should it include a Fixes: tag for the commit that introduced
-that locking?
+It makes exactly the same change in mpfs_remove(), replacing
+usb_phy_generic_unregister(pdev) with
+usb_phy_generic_unregister(glue->phy). You also provided your
+Reviewed-by on 15 September.
 
-  Fixes: 46919a23ee87 ("usb: gadget: uvc: configfs support in uvc function")
+I am withdrawing my patch as a duplicate. I should have checked the
+mailing list archives for existing fixes before submitting it. I
+apologize for the unnecessary review work this caused you and the
+other maintainers, and for overlooking Felix's earlier contribution.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107051544.4381=
--1-varshanisaad@gmail.com?part=3D1
+I will check for prior submissions and ongoing discussions before any
+future submission, and keep the submission volume within what I can
+personally review and follow up on.
+
+Thank you for catching this and pointing me to the earlier work.
+
+Best regards,
+Wentao Liang
+
