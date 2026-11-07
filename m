@@ -1,96 +1,124 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794061083;
-	b=wDveLkxV+GaHF8RJ+7TreZ4DfK3chao56jWfkmeD+juuivdvSmiunF+0PGTqYS54GzC2
-	 ijDcWpF9O6BuGw3JQOminzqoRX3HE5IT+zmlKtQyQXHtSDo4YoAPFzO90FhO7XOUJlCVu
-	 AXMWCMotG0Bzc/t2TT4c2qZ2B60OlIM/JeMl42V99dU+1aVmFun57PdqfSr+aeAYnt27+
-	 9RYgiDSecC/UeWwz6wLt2PRRusjet7vxhaMPG8uCTlFLoHrB0hdPpEVH6BjyeyYuxJEsw
-	 kznZPiI82ECakoT1/LD5Mh1Ql6Et0stWn8Aln6jELmqarN+RnfZ2yErLqSVvG1r6tGg==
+	t=1794061366;
+	b=h8UYmBrLxjwBTn8AbB7jRfK9Y2Z3TLZrfPckHVeptvv6CdRh65/eEpoWXb92S6JgcxQK
+	 w7/ScJDbCybb08eoCwHn6Bg4yaHMHG7ccuzVJFiCP6yl/37tZYrs+QvzlJ6t/w5r+odoQ
+	 SIGtdv0zILMZnb3GTV6k4Eb3iK786F6qh9PGMEv6VaiVJbtxvNfQHvHK3jFnGckP5FJ8s
+	 oQFBpbLWfA1FdAjt8QR/oHiAnIdtZOFxxVjj5IjYDFwSQ8pGj2/6vy8/hcCgGc2jF2uX8
+	 OueAl2QAW8afQblw6A7ZhI9qtfd1yz2DhSLyOQlwJLSvqRsgp1st12h3U8B36ffqSbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794061083;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=ZIuiohscteJo2hp38Rebuh7m/8NNcOKtecBPcT79lyA=;
-	b=BR+cDriX0J3URWEB2VLARPgBI8d7sH9jSXpEc9T4Dj+jUNBghJGgrPnsXaQ7VrzfhXqy
-	 YF0uEKu2nD5bDm9oTtBen/DXPIft6jZMM4t12yqpwjiCy+0iMLJIAfrEyoW7xHyGkIsWf
-	 CjSygRYpnwtPxSGaTtO5ca1Ka04RRbcPq9OIToqIKzQSYJ00LDnnezQQ1yymmNBTSpwN+
-	 g7j1GF3+NBHzuwHckanXUX2Z3LrGk9kS7UKUyKqCXouClgzQBpn8hjxPp4mtKlpi0T6EY
-	 yBYrhvg/gyZOFiE3Gb+f1NsW3VlFWH9WZIdYYIjRweNr6n9SuN3ev8z5wBmbed1WNYw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794061366;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
+	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Zc76TO6qUVRGeeHVXQdMS6eOYrg3MPsFB1Ka1Yvj58U=;
+	b=rYf6khK8D62VHcbUJQO3J/0eFxoGDrmVC8vWOhigIqjrE+WasIW4FFz/+VauoAlJrwcR
+	 K5iEU9YArpGrn2CP59ML2RFS3hZvEHbpGgjOkr2QjS/zEqxITZgxmuevQbyhvfvHQEQ8u
+	 L43P7Jbz6RgPvbmLslqj2kw6JqeQcQkV33UVLM7be0kzyAVitP+YYlM2E5JgZ1Hupod1+
+	 /rYLpWQJMpBKbkzxe6ndMfqnhf7APIq424QzjPudUUucDXuAE939V/8fbN+LtWjRqSnP3
+	 MjpD/ktFSWXd2N9Ok2C2J6qwKUgTsIDd7ts9Ok1Gj9a2vsPgRRbQU3OcR3ZMSprp+MA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vRKJMeNk;
-	arc=none smtp.remote-ip=74.125.82.180
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=sang-engineering.com;
+	spf=pass smtp.mailfrom=sang-engineering.com;
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=deMBkNlk;
+	arc=none smtp.remote-ip=194.117.254.33
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8AAF6083613
-	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 14:18:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8AAF6083613
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12F9606A326
+	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 14:22:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A12F9606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vRKJMeNk
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-33fb4680717so3152844eec.1
-        for <linux-usb@vger.kernel.org>; Sat, 07 Nov 2026 06:18:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794061082; x=1794665882; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZIuiohscteJo2hp38Rebuh7m/8NNcOKtecBPcT79lyA=;
-        b=vRKJMeNkeYTvBGviD6I87j8Oy+rPbFlUb52I64IClyQsWkjEB5fZLuDzsYvW7iObbR
-         GYEenh1eZQOwcd9e+Km0yBbUYS8upsjVAp/uHrp9DzQUCUxe0/RJ6sLbHtyr54ETYsod
-         X+7wTcR/GQ82jkhUSdXSXa3QNoPk3Gtisy9D6RT+xuvqrvK6vaWLijZb1Y2stUIwTzVX
-         ZcuTVjJq4d5I6yThJNvdyhAL+cMJV6UMRr4Xzftp6lyPsbsj+BMhOvTF2/SgZ6Y17gE4
-         iuIv0ziNNHOdsxjhLbmerNIoYMOQOKfG7ySNHHC0hZXZh8sGDm1apSsuXi048t2ZqDNi
-         rElw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794061082; x=1794665882;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZIuiohscteJo2hp38Rebuh7m/8NNcOKtecBPcT79lyA=;
-        b=flNlU1VCXzF/J3hkcVZ4X68CbbhDjnvfaOyPDt1u/QQU12Xw4NYGKQUhaMOGyw38G2
-         neZA3YmD6Jo4J2bybhPcZkUcLi+b5/AbTv/mhqCynuEHzRCQnI0q+yhte63L0tgQ9DmM
-         xcSYsVBFOvkP8Ad/zBuEgcbwY2Y2RO17sEfPivbElsBj6hcz4G5aoIBkoT3SMs02w9cl
-         SYXkAqeUsQytE5HLQbEQDtd1j6cP5IJgkFvBVX6/zKmOabnJdee7X0YTy6qH5MsakqMB
-         gzs+EHz9HctsHhrHM3BdiSihfPmj7I5dZ9kc/I3SHVrosozfLMBNuG3gUrRoasYVr80/
-         acaQ==
-X-Forwarded-Encrypted: i=1; AL+hErFSXy1XeWd33/B2pYTL7ngXk7s6nlsbVuaSh67OK9O05EuFt8jmuea1tCkgNrCPlfdKCXks3LOqUDQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ftKVKjOrDHd+YnFf65smFZczfACfr4tcxp7kWC41jw2lxH2Rm
-	hKgZitJMsIbl3FdQA7wJQkm+68K9lNxMX1x2aGrwJBz/ofNF4PJ5NPT7
-X-Gm-Gg: AYBFou34CUiGGfhqL+fVtkluJllfvKdDTCXw1Z+O9sbv8h8SiQ3JRq3rjfXj0qyK5de
-	tl2YyYOX3a55OjzA6JagSF2qmTaeUGI8dPW/w9TWIlRX90/KIVIW0sGqKLdufpkMaa2qXZARd7S
-	csKqiRB3Aw+pOdUFGjSwcpWf2/C2UJJNF0+4gKUdeZwpt3uR11Eig1iwcBXecdMVxHbgOo3EXq3
-	dUPfaK3b7lqDfC9ReN/fTy1e/j1UocdflwAs0cV9Q79WFA+O9A3OhjlsUyhx7cZoB4DzcPAy5QL
-	OP5VJFaYGQIe9k3M/u2K1efmrlXh0lz2gPtIrP51XCLkhaP0ttZMGOhwzyZfFivJGOP1zXtHVTh
-	FHoIgwNHUywnlKQTGQtcjnKdEoZXAIhV6XCrnPpxYJiJS84V/MzIYLzedqmuxCEdaItLUlIw+62
-	81TMvNq4GrXVU5RMOGWdQ8qThXZYm2JGnDsviWGwZmG7wzvxCohUJZWdfywyWQF1QlSsyGrILtr
-	L2y/yp+01cignMd/jM8aSaLdAegsTdORhIRddRpjGopquit5EFwEhw56y+1gq53ZwKQmvtkIBKs
-	F5fx6kz+/Wm5yRQ7ZJXZ6DaXmjSGfa/D0vYUKUvPF31iAqilkv2N3Bjnmvk=
-X-Received: by 2002:a05:693c:87c7:10b0:36f:26a7:968e with SMTP id 5a478bee46e88-36f770062cfmr7560876eec.40.1794061081678;
-        Sat, 07 Nov 2026 06:18:01 -0800 (PST)
-Received: from TheRealOne ([2409:40e1:407:758:265f:d54e:2491:df90])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa9ed126csm16251949eec.18.2026.11.07.06.17.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 06:18:00 -0800 (PST)
-Date: Sat, 7 Nov 2026 19:47:51 +0530
-From: Chandradhar Kumar <chandradhar.2003@gmail.com>
-To: Alex Elder <elder@ieee.org>
-Cc: syzbot <syzbot+693652ded53d3eb9cb91@syzkaller.appspotmail.com>, 
-	elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
-	johan@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [greybus?] [usb?] KASAN: slab-out-of-bounds Read in
- gb_svc_request_handler
-Message-ID: <au8s1_tIBa0mpTSL@TheRealOne>
-References: <6aec63fd.5f5735a5.290c1c.0002.GAE@google.com>
- <46a139a9-198c-45c1-b41c-521def10a0df@ieee.org>
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=deMBkNlk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=Zc76
+	TO6qUVRGeeHVXQdMS6eOYrg3MPsFB1Ka1Yvj58U=; b=deMBkNlkuoAHsHcvg+VW
+	/JOGUyDVHLSNz2M2P318rSNR8ihhOn/icNfH112ofFlA9vj9/Cq1/GB2kPS93Y40
+	YF/E/JzExb1+S9I1cstiBzedJlDUnUSkE30QPeWQc507bnuBni0Z3NyRW4Kbgikv
+	A33vNAj4UQjDG+RAKO5HfUR7weMBMBqiqmK0raV2oPWm0SZWyc4pewIm8g0fDZne
+	LkWZdfpDHRtTXcDecdPHMvKhMX5AroogrzfiJHaQZyQZEmMUS5nMy4dWe/94uyCo
+	CxZZl4Q8KqM0Whbjetz1A4x1NAoLWi2ICCJyuUW9bykg7e8j4gzLaz/eOC4I3nFt
+	YQ==
+Received: (qmail 2530674 invoked from network); 7 Nov 2026 15:22:35 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Nov 2026 15:22:35 +0100
+X-UD-Smtp-Session: l3s3148p1@G1+7dbBfHLcFFu4j
+Date: Sat, 7 Nov 2026 16:22:34 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Danila Tikhonov <danila@jiaxyga.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rajendra Nayak <quic_rjendra@quicinc.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Amit Kucheria <amitk@kernel.org>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+	Lee Jones <lee@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alex Elder <elder@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Avri Altman <avri.altman@wdc.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Andy Gross <agross@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Georgi Djakov <djakov@kernel.org>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
+	Sibi Sankar <quic_sibis@quicinc.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Imran Shaik <quic_imrashai@quicinc.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	"Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+	David Wronek <david@mainlining.org>,
+	Jens Reidel <adrian@mainlining.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+	linux-scsi@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org,
+	linux@mainlining.org, ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH 20/33] dt-bindings: i2c: qcom-cci: Add the SM7150
+ compatible
+Message-ID: <au80Kv5YDDtUW2L5@shikoro>
+References: <20250422213137.80366-1-danila@jiaxyga.com>
+ <20250422213137.80366-4-danila@jiaxyga.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,48 +130,16 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <46a139a9-198c-45c1-b41c-521def10a0df@ieee.org>
+In-Reply-To: <20250422213137.80366-4-danila@jiaxyga.com>
 
-On Thu, Nov 05, 2026 at 08:08:01AM -0600, Alex Elder wrote:
-> Here is what I see happening at the beginning of gb_connection_recv():
-> - If the connection is disabled or offloaded, return immediately
-> - If the size of the buffer (passed in as the "size" argument) is less
->   than the size of an operation message header, return
-> - If the 16-bit size embedded in the message header is less than the
->   size of the buffer, return
+On Wed, Apr 23, 2025 at 12:31:24AM +0300, Danila Tikhonov wrote:
+> Add the SM7150 CCI device string compatible.
 > 
-> In other words, after these checks, we know:
-> 
->   sizeof(header) <= buffer size (size)       AND
->   buffer size (size) <= size encoded in the header (msg_size)
-No, it does not verify this, it verify:
-	size encoded in the header <= size (buffer size)
-> 
-> Therefore (transitive property), this is true:
-> 
->   sizeof(header) <= size encoded in the header (msg_size)
-So, the transitive property is not true.
+> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Acked-by: Andi Shyti <andi.shyti@kernel.org>
 
-I have sent a patch for this bug which verify the msg_size and header
-separately, which fixes the out of bounds read.
-patch link: https://lore.kernel.org/all/20261106094303.55158-1-chandradhar.2003@gmail.com/
+Andi already acked this, so I guess qcom tree is fine.
 
-Hey please review the patch if there is something wrong or there are any
-other way to fix the bug.
+Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks.
-> 
-> And it's not possible after these checks for this to be true:
-> 
->     header.size < sizeof(struct gb_operation_msg_hdr)
-> 
-> or put another way:
-> 
->     msg_size < sizeof(header)        cannot hold
-> 
-> 
-> It surprises me this would be missed in the AI summary--and I
-> fear I'm mistaken.  If I'm missing something or wrong about this,
-> please feel free to say so.
-> 
-> 					-Alex
