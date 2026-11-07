@@ -1,79 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.50
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794010405;
-	b=mzlDmGUS71/ItW4TPSMZ41zHrfosMMs6nb4W9l2p7wVHf3/kZBQR/b9ChNLclIEgFKkW
-	 W7g4MWvH/UNF1+Xih3vhQNaAjN2bEiPLE9q7zGJr3LdxRuDQHizvJYOX2YBbeqL09saLB
-	 f2xEAuKsa7xvn+gu8B8DbpKkKKMMKVdlh8PpRlNCAA9JpX25DgKUETZVqpk/PdvU1w2y2
-	 /sjaafuhZLXWerXTN/dqgbZ0SAyEzMMUPV7YmTdUq87suZ+9xeZN2V/1xZxKXfcNHZuFE
-	 9jVpPq14c7A5NReaX4SeohhHbBKuaHPWGkrrTCBWkEDvoPHj0Q3cZxIIbFw/TIFerWg==
+	t=1794011339;
+	b=jzBzm8QKqupC19OwVMmf79fWpCw11VT2L0wFu7yvm6G0ekvAuc8ZRcZ56w8ckOVCTi1X
+	 ywLIhBI9uhv7BNSqF3eUTkntnLkhY6u3zEOK0bgwS8uv3Z6fyTKVWQmqWMfc3U9pMQ+rf
+	 owqsRJKEAftfgj8QacyMTa1dQwCztXL4CiXM9j0yUp18WzAq5VakK/PdTLsqesBVz9ZP9
+	 O8U5FEAvkFWID8WCFU952RCEjYznuK+KLTVfDfCGtT4T7LGTV/U6gpjSqOPF1GNNbdfL6
+	 31WjfIJ0H/VAyvRSYhRVj+MZTWotLMLSl5Pl9W8oLYIXZfhG3NINT5+LNHEZnAdy94w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794010405;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=YiuX6F1w9dG9JpDBdQ4K+utWXGwO/Bq4l4lsr4V9+Uw=;
-	b=Sbprvc3zbgwfdYBJhXJjfvFERWxCdtMOwaK6Yyb2ivAdfn4PMD6jT0H6q+OpsaNh3Uui
-	 ZvjO4GroYl9QoLIGQLuJ5Td3PudP0ccixtV7sCiwIXaGqlc0/WHtqRf0Up9MBr78v90J9
-	 SUAkT5BiIaI1sx94vulsMgZTsE1wZRu/Jtj0FY1jThirZRzutibTsTXIEQfceEuMt41Tt
-	 biAQyw7EpudRa5jhhydd+Kd9QsJBncskb0Hv7PdF7glw+dy3zlXSPF4xu+ToiK35ulqrE
-	 pznyeZAJiZEYtp4WieJFHRhdNStfFfgVBWRWbOHdpVERJq2vQ3sfbbIpmtYgEErHAEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011339;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=HM5FGXVDbhNGcMxr2xTWi88hh9wuPit93L30PHroLXM=;
+	b=wGeYuQGhOat5HNsVCzRai4NGprfdiRHkVARqrap1tkJiuCchr+nwOeTI6ce4kcpwo0zb
+	 hnuJ86inhmWRM+rk0Pt+aTFXICzyg4a2mg4fMszUfvur3HuCrFNvSOuP8OSfDyeWSk0vC
+	 vJSuIbmsuZTbjjAt2v9oynNcjORGw4MAaSC7sVbgrc2UqbKYSNaeH7d+LXfDRSgJWlyyg
+	 e8S+B32fZOY459Ir6YQ2YZJCZkY8G6GRBp9tSPDC18tZTL6uJLWk6N0/ORjqqdgDhK89z
+	 Y96o1dtpHvH8iKhEV8pP75CaXvelHyrtLC6yoeAqYwyhQTOuEGseGbXbWVYlWuBEKgQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QT+ZFRu3;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBF4606A326;
-	Sat,  7 Nov 2026 00:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QT+ZFRu3
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794010405;
-	b=OSBp0mfzVNhjgOYxfy1kiGUNXILKMRvp4z4ugFq84lS+lRJyJJx0Qo+3eb0vc7CgUTQp
-	 H5hRT++7XokngvlOAYE4LRNmpo5+mPMoo/2BFnM3ZqzE7HnzxnGtAY+qvdP/B9TB2h0h1
-	 URoDEJc1/xkbZmewKmquxN0Cwl3N2n1jz6JBsTHaLENO+ULOHqBoO4ApYdJE2HluXU75I
-	 0UDIaj/aERw071hmlhqj4Dh72jxlRbhsXSzccpqBYz1Uewu56uiQ1SKKSHCBePoWp0mFM
-	 qzBcMPFAOWLIf+KjT5BOZqnZA6B+77fc9kGBk6YvVC135XfPLjawQSF6nw1fDtK8cig==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794010405;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=YiuX6F1w9dG9JpDBdQ4K+utWXGwO/Bq4l4lsr4V9+Uw=;
-	b=AHxShdEjPpiV8IKl0L0137Q/Q0tuFNmvVWYhAaGSEf60vAm+X9wO5Sno0A9s9SR/ykq/
-	 nrw2CQqR7DvENMV6YYr3ItPR8elYDUG8Mef5IVjj+gXJkQ/BCYZEQWOoFrgG3UE7R+8Gb
-	 9trV9/aXyz1WQZBDDTlzoyOeoiTg/fxavYav90sMDrCkXBUsLso2WxoQkDThhLdtVPYs1
-	 e1cnA4COy1ZPrxM2EquXQraCPhSy+TyirFKGZ/+zewyZMYZp4uHcFEpK64NtQgDKROEHQ
-	 6A655vgDEV2DlqbY/qwNFmLgorxlOloFoI4AT6hIB94WN2RhFJi68hiAnHfOfyFaQ2Q==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qvalmuOI;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.50
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2FD671F0089F;
-	Sat,  7 Nov 2026 00:13:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794010405;
-	bh=YiuX6F1w9dG9JpDBdQ4K+utWXGwO/Bq4l4lsr4V9+Uw=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=QT+ZFRu3z6edSwfp9gLGHHUeKBBsdMTO1EWGFTcsCl6OsEeT9EInTD7iFFb/+Byxp
-	 adNpRBW8xFQN/Ss06WzCVgeZNEfL0/g1ZZQoz4wJW2ec0f4W55L/uRDOJC/m3lVJYu
-	 vPc2mPIX6qzrRZIylWCMRXPHPp42T2D9mLE3PSkIiYk1VdDdv//q/TkxlNoiwU3FyL
-	 v169ZeIjspT6jrM6XYdwhT8lr71z6y+vNmPIf7JAkg+9WjziskDAdwOsmEMEwRoQ6S
-	 38DH2PZuxGFMsU6bZL1iaLY37/EU5GvN6CN8V0R+fVATu3+nSDY4ZJZ91FUcVQe2ef
-	 n4ceeUD/XEqfA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 863CF47904;
-	Sat,  7 Nov 2026 00:13:23 +0000 (UTC)
-From: Jing Lin via B4 Relay <devnull+kayano050408.gmail.com@kernel.org>
-Date: Sat, 07 Nov 2026 09:13:23 +0900
-Subject: [PATCH v2] usb: gadget: gadgetfs: dequeue pending ep0 request
- before freeing
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93496606A326
+	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 00:28:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93496606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qvalmuOI
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-91c79f306e9so14413856d6.3
+        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 16:28:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794011337; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Sus+Zg/G68LtaTEm9A6LMIDN6wNCnVq43XadbwmYCKcVHD4LE6s843aBhCxlBSiBqU
+         urm4AF/HVwusziahbhedXVAdQPWSXcxWMPr8omTWU3gFcKFXTNNotebHpTtvHrkIu9UB
+         3lNQLpPfZGiYVnzZ+JhBUSqdsuAU3vZerLQagzWZ75ADTtCekAGd8WPLu6MZWo415IiI
+         RhhqCNN/iHijijf/AUVYiIUAWpZZkj56YsIXcskdO7DSRz8EgPyA1M+ITXY9PlMspyWs
+         5dpSxFWD45VWuoZRjTKSCStmZBtbIYpbUa2ho3u2lhWmOVJrCUI5nFOra67cI1d84sa4
+         1Yzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=HM5FGXVDbhNGcMxr2xTWi88hh9wuPit93L30PHroLXM=;
+        fh=5CNGe00SZEiSxeyc8ufOUQGCLViWCgFxWn5jbRqgKCI=;
+        b=gzswSkYAZ+owL3bB3wXyCykcx/95/csq53MdfBhENbQOfSXuiyD0KWVbl84cq0DuuR
+         noPrImhlNJlvrw90j44rZjECCEGnU1z4NVKxVjO97J+v6dQtzKCrtzCI2n5UlHx1crvS
+         HrBPeOZNDn28SeW2xmiu1e+3NdCx7l0i0WK8qsqAvou/4BVfHDXXpBWCeReftX43n5dI
+         r5uRYdEE/l4OrB8UBwPvKbu8/Gb/WEVL6sXEqOSBydyImbKIa6gJE4aMqLIk13LBVED/
+         WIvYIIwDEr8ID4vQfZdPa1lpAXpRMI9UR5aPVLHhAtkDFmwdcId3HmnUuBVrHyD+wGmP
+         aoDA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794011337; x=1794616137; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HM5FGXVDbhNGcMxr2xTWi88hh9wuPit93L30PHroLXM=;
+        b=qvalmuOIP/+E0xJxI2nraV99zem7ycv6RvkKK1hi8hpoTa8vS1n6Qt978ARP5Zk61u
+         wwjVLiWIJAusy8cyvl+D4yYZMUDZhEpUfLiVQSVcgByMK5Skir+HmC5kY2DedSxDkO8m
+         KShq351jiDrpfK0lutVYLCgfz8futJD7gkrIsHMdeGba6dvUGw4bWC2p17SXa/fDTsvg
+         dS3Qj8hQEEJyhHXNvUbiUvf4Yl8aJf2vb8LYKI3VxQzIs2vV8iE0vzq6lS6t/NcnSNdu
+         DLR1yOUJADwEYe2JdHJjMcsQqMY6hwpJ8/78QpE5E3+YCfH6hC2xumzdWoXd4Pv/4WEd
+         303A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794011337; x=1794616137;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=HM5FGXVDbhNGcMxr2xTWi88hh9wuPit93L30PHroLXM=;
+        b=2gf1nOa7ECFrLH7KT1qHDh8sQGnGZhUrL1UL4myJvNt/WmYcSxiEPSJYSrE1Gw24Ib
+         WO6NDPAwwDz/kXxrvB8reGFCkpY3cP4TRH6vL8jA2zwW9xnMxeC9lxq2qqV3t43TVeY5
+         w/jKB9MNqY30xQn0dtL6L3cNcJuUJquHzMcmXNqiLFGMaEsPUboU4p2/ZCJc9P4D4fG1
+         WUFTfvqyWZM1ZWgY/iIvBTn3XPxuYHLecU5uBaQYViiAnJZKXOMwEu3T1RePlWwWg22b
+         uiwwlVDfSNy1TWDad0HkpSxshu2aH9qRoaIJGwJPEpLUfaJkP1P1eKOHQsj93DO1hAFV
+         JmUg==
+X-Gm-Message-State: APuU4Z/I7Qu0MOTYJOwm/R/O36IIksKFaYbtoxu3eJqn5oi/DQmXmYVD
+	9J9oYKeaDDqnAe4Gri3ueWjfCXrBcrpBR52z0qk7PsfAby+NQJ0SiP+CGEXCEq6J0F9N7TzWrhI
+	2/sVi0jqLH7jB6c2P4HUTVhYw5GqiHyy1gozFDKM=
+X-Gm-Gg: AYBFou34YptQv6QFfFEK1YmXcJwOLxI9LDERmX1J+Mj5mqYeHAnilA/8RkJ7Jc9xXRN
+	KjwrEfAbX3Z+W20zLvUtMWhbhlOXLCgep6/drt8PEffe0Mgg4Vysc+s36ccTAxhCaF9M6UFxzvt
+	eQLc6omHdd+GqLMoBlX0SlIzi/jr5s/q4XTrSrXYXMS6NkpXqYIgQEdSJFTUQF32RFQumsgrDJ8
+	YPg0kyecIoAKlv24a4UiRuLWBcdFbrjshNoZeKnR6xO9ksl7gsJc2MxKJFnSChTw+KAJVYEvfHX
+	qfyUp+O2LBygTHe89pqatRNnRnv33kcu83LBgvtr49OAchlS1EDqPtlLTH3bWKV7X7HX7+WtKdn
+	4gvrpKJ4zDvAR/g9G1WnErMNCoLmrrK2lLD46282xZ4T4mxiFgK+/D3q8xn/8
+X-Received: by 2002:a05:6214:19c9:b0:91e:93eb:5977 with SMTP id
+ 6a1803df08f44-91ea989b4f8mr59947876d6.35.1794011337390; Fri, 06 Nov 2026
+ 16:28:57 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,290 +99,216 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261107-b4-gadgetfs-ep0-v2-1-d8896e1ad517@gmail.com>
-X-B4-Tracking: v=1; b=H4sIACJt7moC/1WOS27DMAxErxJoXbmiokphV71HkYWs0DKL+gNRD
- RIEvnutdNXlmyEf5qGECpOo98NDFbqy8DLvYF8OKo1xzqT5srOyxnoA43XvdI6XTHUQTavRwwl
- cAhcgRFT711po4NvT+Hn+Y/npvyjVpmkXfRTSfYlzGlu0FM48v05RKpXWjyx1KffnpCs0j4KAR
- wwewaPrbAgeOnxzR4cOTQAb/AkATfdv2BprGnUlqR95ivzdpWVS523bfgHeg3wP9AAAAA==
-X-Change-ID: 20261106-b4-gadgetfs-ep0-f814c14717a9
-To: Neill Kapron <nkapron@google.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com, 
- syzkaller-bugs@googlegroups.com, stable@vger.kernel.org, 
- Jing Lin <kayano050408@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794010402; l=8972;
- i=kayano050408@gmail.com; s=20261106-gadgetfs-gmail;
- h=from:subject:message-id;
- bh=6vi0zhlir65l8tCHpG2Hbu6i0egiQtfmgMHdAHBVI60=;
- b=2AhwBgkaw9+i6uOU3HJV3zxkKZah8m+Wmhc0ntbqqzE+VWyDszoSL82vWzkGUMmx1VTYRuJzr
- /pzUx02mYBIAeYpyd65QYlnPV+azjPkz2xkneWNWlXOxcFt1f79VtFe
-X-Developer-Key: i=kayano050408@gmail.com; a=ed25519;
- pk=DtAI52kU3F0sVbAiS4n+5b4UKMnVF398eKHlj3H9KBY=
-X-Endpoint-Received: by B4 Relay for
- kayano050408@gmail.com/20261106-gadgetfs-gmail with auth_id=1433
-X-Original-From: Jing Lin <kayano050408@gmail.com>
-Reply-To: kayano050408@gmail.com
-Content-Transfer-Encoding: 7bit
+From: Oleksandr Holetsek <lv200583goo@gmail.com>
+Date: Sat, 7 Nov 2026 01:28:44 +0100
+X-Gm-Features: AclHuK95Lr_BUhk-J_dZHjpRq0a7hix6SehNG4qvvqPO-5VjANIlbxmAxPrk6gs
+Message-ID: <CALkonqF8G=LsMzvv_uZQbo4oKRutdqUGFL=7k3St0xFJFJcW5A@mail.gmail.com>
+Subject: USB EHCI: microphone capture fails with ENOSPC depending on device
+ activation order
+To: stern@rowland.harvard.edu
+Cc: linux-usb@vger.kernel.org
+Content-Type: multipart/mixed; boundary="0000000000007e70fa065fa4d0cf"
 
-From: Jing Lin <kayano050408@gmail.com>
+--0000000000007e70fa065fa4d0cf
+Content-Type: text/plain; charset="UTF-8"
 
-gadgetfs_unbind() frees the preallocated ep0 request after disconnecting
-the gadget, assuming that no I/O remains active.
+Resending in plain text because the mailing list rejected the HTML
+version. Apologies for the duplicate.
 
-With dummy_hcd, disconnecting does not necessarily drain ep0, so a delayed
-userspace response can leave dev->req queued when it is freed. This
-triggers the warning in dummy_free_request() and a use-after-free when
-dummy_udc_stop() subsequently drains the endpoint queue.
+Dear Alan and USB maintainers,
 
-In addition, gadgetfs_setup() can reuse dev->req while a completed
-delegated control OUT transfer still has dev->setup_out_ready set waiting
-for ep0_read() to copy the payload to userspace and call clean_req(),
-which can overwrite req->buf with descriptor pointers and trigger an
-invalid kfree() in clean_req().
+An AI assistant helped collect diagnostics and draft this email. The physical
+tests and observed mouse/microphone behavior above were verified by me.
+No proposed fix has been developed or tested.
 
-Track dev->req from submission through completion under dev->lock and
-reject reuse in both setup_req() and gadgetfs_setup() while either
-dev->setup_out_ready or dev->ep0_req_queued is set. Reset req->buf to
-dev->rbuf in setup_req() when len fits in dev->rbuf. In gadgetfs_unbind(),
-after waiting for active UDC users to finish, dequeue a pending request
-with dev->lock dropped and clean up any unread control OUT buffer before
-freeing dev->req and clearing ep0->driver_data.
+My FIFINE K669 USB microphone fails to start capture when my wireless mouse
+receiver is already connected. Starting microphone capture first, then
+connecting the receiver to the same port, allows both devices to work.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Reported-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=c73e1942197af9f54ca3
-Tested-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
-Cc: stable@vger.kernel.org
-Signed-off-by: Jing Lin <kayano050408@gmail.com>
----
-Changes in v2:
-- Also check dev->setup_out_ready in gadgetfs_setup() so a new SETUP
-  request cannot reuse dev->req or overwrite req->buf while ep0_read()
-  still has unread or in-progress control OUT data.
-- Reset req->buf to dev->rbuf in setup_req() when len <= sizeof(dev->rbuf)
-  and clean up unread control OUT buffer in gadgetfs_unbind().
-- Remove RFC syzbot test commands from the commit description and add the
-  syzbot Tested-by tag.
-- Link to v1: https://patch.msgid.link/179397691694.27761.9543494907127681190.gadgetfs-ep0-patch-test@gmail.com
----
- drivers/usb/gadget/legacy/inode.c | 59 +++++++++++++++++++++++++++++++++------
- 1 file changed, 50 insertions(+), 9 deletions(-)
+System: Arch Linux, 7.2.14-arch1-1, x86_64
+Motherboard: Gigabyte H61M-S1
+Controller: Intel 6 Series/C200 EHCI [8086:1c26], ehci-pci, 0000:00:1d.0
+Internal hub: 8087:0024, single TT (protocol 01), device 2-1
+Devices on that hub:
+  2-1.1 0bda:8771 Bluetooth
+  2-1.2 1d57:fa60 wireless receiver
+  2-1.5 0c76:161e microphone
+  2-1.6 04b4:6014 HID keyboard device
+No external hub is connected.
 
-diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
-index 7f6d84601..9b74476dd 100644
---- a/drivers/usb/gadget/legacy/inode.c
-+++ b/drivers/usb/gadget/legacy/inode.c
-@@ -140,6 +140,7 @@ struct dev_data {
- 					setup_abort : 1,
- 					gadget_registered : 1;
- 	unsigned			setup_wLength;
-+	bool				ep0_req_queued;
- 
- 	/* the rest is basically write-once */
- 	struct usb_config_descriptor	*config, *hs_config;
-@@ -984,6 +985,16 @@ static inline void ep0_readable (struct dev_data *dev)
- 	kill_fasync (&dev->fasync, SIGIO, POLL_IN);
- }
- 
-+static void dev_req_complete(struct usb_ep *ep, struct usb_request *req)
-+{
-+	struct dev_data		*dev = ep->driver_data;
-+	unsigned long		flags;
-+
-+	spin_lock_irqsave(&dev->lock, flags);
-+	dev->ep0_req_queued = false;
-+	spin_unlock_irqrestore(&dev->lock, flags);
-+}
-+
- static void clean_req (struct usb_ep *ep, struct usb_request *req)
- {
- 	struct dev_data		*dev = ep->driver_data;
-@@ -992,7 +1003,7 @@ static void clean_req (struct usb_ep *ep, struct usb_request *req)
- 		kfree(req->buf);
- 		req->buf = dev->rbuf;
- 	}
--	req->complete = epio_complete;
-+	req->complete = dev_req_complete;
- 	dev->setup_out_ready = 0;
- }
- 
-@@ -1004,6 +1015,7 @@ static void ep0_complete (struct usb_ep *ep, struct usb_request *req)
- 
- 	/* for control OUT, data must still get to userspace */
- 	spin_lock_irqsave(&dev->lock, flags);
-+	dev->ep0_req_queued = false;
- 	if (!dev->setup_in) {
- 		dev->setup_out_error = (req->status != 0);
- 		if (!dev->setup_out_error)
-@@ -1015,7 +1027,7 @@ static void ep0_complete (struct usb_ep *ep, struct usb_request *req)
- 	/* clean up as appropriate */
- 	if (free && req->buf != &dev->rbuf)
- 		clean_req (ep, req);
--	req->complete = epio_complete;
-+	req->complete = dev_req_complete;
- 	spin_unlock_irqrestore(&dev->lock, flags);
- }
- 
-@@ -1023,12 +1035,14 @@ static int setup_req (struct usb_ep *ep, struct usb_request *req, u16 len)
- {
- 	struct dev_data	*dev = ep->driver_data;
- 
--	if (dev->setup_out_ready) {
-+	if (dev->setup_out_ready || dev->ep0_req_queued) {
- 		DBG (dev, "ep0 request busy!\n");
- 		return -EBUSY;
- 	}
- 	if (len > sizeof (dev->rbuf))
- 		req->buf = kmalloc(len, GFP_ATOMIC);
-+	else
-+		req->buf = dev->rbuf;
- 	if (req->buf == NULL) {
- 		req->buf = dev->rbuf;
- 		return -ENOMEM;
-@@ -1073,13 +1087,20 @@ ep0_read (struct file *fd, char __user *buf, size_t len, loff_t *ptr)
- 			struct usb_request	*req = dev->req;
- 
- 			if ((retval = setup_req (ep, req, 0)) == 0) {
-+				dev->state = STATE_DEV_CONNECTED;
-+				dev->ep0_req_queued = true;
- 				++dev->udc_usage;
- 				spin_unlock_irq (&dev->lock);
- 				retval = usb_ep_queue (ep, req, GFP_KERNEL);
- 				spin_lock_irq (&dev->lock);
- 				--dev->udc_usage;
-+				if (retval < 0) {
-+					dev->ep0_req_queued = false;
-+					clean_req(ep, req);
-+				}
-+			} else {
-+				dev->state = STATE_DEV_CONNECTED;
- 			}
--			dev->state = STATE_DEV_CONNECTED;
- 
- 			/* assume that was SET_CONFIGURATION */
- 			if (dev->current_config) {
-@@ -1270,6 +1291,7 @@ ep0_write (struct file *fd, const char __user *buf, size_t len, loff_t *ptr)
- 			retval = setup_req (dev->gadget->ep0, dev->req, len);
- 			if (retval == 0) {
- 				dev->state = STATE_DEV_CONNECTED;
-+				dev->ep0_req_queued = true;
- 				++dev->udc_usage;
- 				spin_unlock_irq (&dev->lock);
- 				if (copy_from_user (dev->req->buf, buf, len))
-@@ -1284,6 +1306,7 @@ ep0_write (struct file *fd, const char __user *buf, size_t len, loff_t *ptr)
- 				spin_lock_irq(&dev->lock);
- 				--dev->udc_usage;
- 				if (retval < 0) {
-+					dev->ep0_req_queued = false;
- 					clean_req (dev->gadget->ep0, dev->req);
- 				} else
- 					retval = len;
-@@ -1508,6 +1531,11 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
- 	} else if (dev->state == STATE_DEV_SETUP)
- 		dev->setup_abort = 1;
- 
-+	if (dev->setup_out_ready || dev->ep0_req_queued) {
-+		spin_unlock(&dev->lock);
-+		return -EBUSY;
-+	}
-+
- 	req->buf = dev->rbuf;
- 	req->context = NULL;
- 	switch (ctrl->bRequest) {
-@@ -1626,6 +1654,7 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
- 				if (value < 0)
- 					break;
- 
-+				dev->ep0_req_queued = true;
- 				++dev->udc_usage;
- 				spin_unlock (&dev->lock);
- 				value = usb_ep_queue (gadget->ep0, dev->req,
-@@ -1633,6 +1662,7 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
- 				spin_lock (&dev->lock);
- 				--dev->udc_usage;
- 				if (value < 0) {
-+					dev->ep0_req_queued = false;
- 					clean_req (gadget->ep0, dev->req);
- 					break;
- 				}
-@@ -1664,16 +1694,18 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
- 		req->length = value;
- 		req->zero = value < w_length;
- 
-+		dev->ep0_req_queued = true;
- 		++dev->udc_usage;
- 		spin_unlock (&dev->lock);
- 		value = usb_ep_queue (gadget->ep0, req, GFP_KERNEL);
- 		spin_lock(&dev->lock);
- 		--dev->udc_usage;
--		spin_unlock(&dev->lock);
- 		if (value < 0) {
-+			dev->ep0_req_queued = false;
- 			DBG (dev, "ep_queue --> %d\n", value);
- 			req->status = 0;
- 		}
-+		spin_unlock(&dev->lock);
- 		return value;
- 	}
- 
-@@ -1771,6 +1803,7 @@ static void
- gadgetfs_unbind (struct usb_gadget *gadget)
- {
- 	struct dev_data		*dev = get_gadget_data (gadget);
-+	bool			queued;
- 
- 	DBG (dev, "%s\n", __func__);
- 
-@@ -1781,15 +1814,22 @@ gadgetfs_unbind (struct usb_gadget *gadget)
- 		usleep_range(1000, 2000);
- 		spin_lock_irq(&dev->lock);
- 	}
-+	queued = dev->ep0_req_queued;
- 	spin_unlock_irq (&dev->lock);
- 
-+	if (dev->req) {
-+		if (queued)
-+			usb_ep_dequeue(gadget->ep0, dev->req);
-+		if (dev->setup_out_ready)
-+			clean_req(gadget->ep0, dev->req);
-+		usb_ep_free_request(gadget->ep0, dev->req);
-+		dev->req = NULL;
-+	}
-+
- 	destroy_ep_files (dev);
- 	gadget->ep0->driver_data = NULL;
- 	set_gadget_data (gadget, NULL);
- 
--	/* we've already been disconnected ... no i/o is active */
--	if (dev->req)
--		usb_ep_free_request (gadget->ep0, dev->req);
- 	DBG (dev, "%s done\n", __func__);
- 	put_dev (dev);
- }
-@@ -1816,11 +1856,12 @@ static int gadgetfs_bind(struct usb_gadget *gadget,
- 	get_dev (dev);
- 
- 	/* preallocate control response and buffer */
-+	dev->ep0_req_queued = false;
- 	dev->req = usb_ep_alloc_request (gadget->ep0, GFP_KERNEL);
- 	if (!dev->req)
- 		goto enomem;
- 	dev->req->context = NULL;
--	dev->req->complete = epio_complete;
-+	dev->req->complete = dev_req_complete;
- 
- 	if (activate_ep_files (dev) < 0)
- 		goto enomem;
+Observed sequence:
+1. With the receiver connected, request microphone capture in pavucontrol.
+   The input meter does not respond. The kernel repeatedly logs:
+   usb 2-1.5: cannot submit urb 0, error -28: not enough bandwidth
+2. Disconnect the receiver and start microphone capture. The meter responds.
+3. Reconnect the receiver to its original port while capture remains active.
+   Both the mouse and microphone work.
 
----
-base-commit: f66469d9905b39d2c260a15d7d6db450f4db67c1
-change-id: 20261106-b4-gadgetfs-ep0-f814c14717a9
+Moving the receiver to the other EHCI controller also avoids the failure.
+The original arrangement works on Windows.
 
-Best regards,
---  
-Jing Lin <kayano050408@gmail.com>
+I captured debugfs bandwidth allocations in the failing and working states.
+In the failing state the FS/LS allocation is 347-362 us/frame; receiver ep84
+starts in microframe 2, and microphone audio ep82 is absent.
+In the working state the allocation is 513-528 us/frame:
+  2-1.5 ep 82: 166 @ 0.2+1 mask f004
+  2-1.2 ep 84:  61 @ 0.3+1 mask e008
+The corresponding allocation excerpts are attached.
 
+Limitations: I have not tested another kernel, reproduced on an untainted
+boot, or established reproducibility across fresh boots. This boot has taint
+value 12293 (P,S,O,E), including NVIDIA proprietary/out-of-tree modules;
+the reason for S has not been established.
 
+Is this a known EHCI scheduling limitation?
+
+Thank you.
+Oleksandr Holetsek
+
+--0000000000007e70fa065fa4d0cf
+Content-Type: text/plain; charset="US-ASCII"; name="failed-allocation-excerpt.txt"
+Content-Disposition: attachment; filename="failed-allocation-excerpt.txt"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mw5nzc3r2>
+X-Attachment-Id: f_mw5nzc3r2
+
+RlMvTFMgYmFuZHdpZHRoIGFsbG9jYXRpb24gKHVzIHBlciBmcmFtZSk6CjM0NyAzNDcgMzQ3IDM0
+NyAzNjIgMzQ3IDM0NyAzNDcKRlMvTFMgYnVkZ2V0ICh1cyBwZXIgbWljcm9mcmFtZSksIHR5cGlj
+YWwgZnJhbWU6CjEyNSAxMjUgOTcgMCAwIDAgMCAwCjItMS41IGVwIDgzOiAgICAxNSBAICA0LjIr
+OCBtYXNrIDcwMDQKMi0xLjYgZXAgODE6ICAgIDE4IEAgIDAuMSsxIG1hc2sgMzgwMgoyLTEuNiBl
+cCA4MjogICAgNjEgQCAgMC4xKzEgbWFzayAzODAyCjItMS4xIGVwIDgxOiAgICAyNCBAICAwLjAr
+MSBtYXNrIDFjMDEKMi0xLjIgZXAgODE6ICAgIDYxIEAgIDAuMCsxIG1hc2sgMWMwMQoyLTEuMiBl
+cCA4MjogICAgNjEgQCAgMC4wKzEgbWFzayAxYzAxCjItMS4yIGVwIDgzOiAgICA2MSBAICAwLjEr
+MSBtYXNrIDM4MDIKMi0xLjIgZXAgODQ6ICAgIDYxIEAgIDAuMisxIG1hc2sgNzAwNAo=
+--0000000000007e70fa065fa4d0cf
+Content-Type: text/plain; charset="US-ASCII"; name="system.txt"
+Content-Disposition: attachment; filename="system.txt"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mw5nzc2t0>
+X-Attachment-Id: f_mw5nzc2t0
+
+JCB1bmFtZSAtYQpMaW51eCBhcmNoIDcuMi4xNC1hcmNoMS0xICMxIFNNUCBQUkVFTVBUX0RZTkFN
+SUMgRnJpLCAzMCBPY3QgMjAyNiAxNDozMjo0MCArMDAwMCB4ODZfNjQgR05VL0xpbnV4CgokIGNh
+dCAvcHJvYy92ZXJzaW9uCkxpbnV4IHZlcnNpb24gNy4yLjE0LWFyY2gxLTEgKGxpbnV4QGFyY2hs
+aW51eCkgKGdjYyAoR0NDKSAxNi4yLjEgMjAyNjA4MTAsIEdOVSBsZCAoR05VIEJpbnV0aWxzKSAy
+LjQ3KSAjMSBTTVAgUFJFRU1QVF9EWU5BTUlDIEZyaSwgMzAgT2N0IDIwMjYgMTQ6MzI6NDAgKzAw
+MDAKCiQgcGFjbWFuIC1RIGxpbnV4IHBpcGV3aXJlIHBpcGV3aXJlLXB1bHNlIHdpcmVwbHVtYmVy
+CmxpbnV4IDcuMi4xNC5hcmNoMS0xCnBpcGV3aXJlIDE6MS42LjEwLTEKcGlwZXdpcmUtcHVsc2Ug
+MToxLjYuMTAtMQp3aXJlcGx1bWJlciAwLjUuMTgtMQoKJCBsc3BjaSAtbm5rIC1zIDAwOjFhLjAK
+MDA6MWEuMCBVU0IgY29udHJvbGxlciBbMGMwM106IEludGVsIENvcnBvcmF0aW9uIDYgU2VyaWVz
+L0MyMDAgU2VyaWVzIENoaXBzZXQgRmFtaWx5IFVTQiBFbmhhbmNlZCBIb3N0IENvbnRyb2xsZXIg
+IzIgWzgwODY6MWMyZF0gKHJldiAwNSkKCVN1YnN5c3RlbTogR2lnYWJ5dGUgVGVjaG5vbG9neSBD
+by4sIEx0ZCBEZXZpY2UgWzE0NTg6NTAwNl0KCUtlcm5lbCBkcml2ZXIgaW4gdXNlOiBlaGNpLXBj
+aQoJS2VybmVsIG1vZHVsZXM6IGVoY2lfcGNpCgokIGxzcGNpIC1ubmsgLXMgMDA6MWQuMAowMDox
+ZC4wIFVTQiBjb250cm9sbGVyIFswYzAzXTogSW50ZWwgQ29ycG9yYXRpb24gNiBTZXJpZXMvQzIw
+MCBTZXJpZXMgQ2hpcHNldCBGYW1pbHkgVVNCIEVuaGFuY2VkIEhvc3QgQ29udHJvbGxlciAjMSBb
+ODA4NjoxYzI2XSAocmV2IDA1KQoJU3Vic3lzdGVtOiBHaWdhYnl0ZSBUZWNobm9sb2d5IENvLiwg
+THRkIERldmljZSBbMTQ1ODo1MDA2XQoJS2VybmVsIGRyaXZlciBpbiB1c2U6IGVoY2ktcGNpCglL
+ZXJuZWwgbW9kdWxlczogZWhjaV9wY2kKCmJvYXJkX3ZlbmRvcjogR2lnYWJ5dGUgVGVjaG5vbG9n
+eSBDby4sIEx0ZC4KCmJvYXJkX25hbWU6IEg2MU0tUzEKCmJvYXJkX3ZlcnNpb246IHgueAoKYmlv
+c192ZW5kb3I6IEFtZXJpY2FuIE1lZ2F0cmVuZHMgSW5jLgoKYmlvc192ZXJzaW9uOiAxMGIKCmJp
+b3NfZGF0ZTogMDIvMjUvMjAxNAoKa2VybmVsIHRhaW50OiAxMjI5MwoKVGFpbnQgYml0cyBzZXQ6
+IDAgKHByb3ByaWV0YXJ5KSwgMiAob3V0LW9mLXNwZWNpZmljYXRpb24pLCAxMiAob3V0LW9mLXRy
+ZWUpLCAxMyAodW5zaWduZWQpLiBOVklESUEgbW9kdWxlcyByZXBvcnQgUE9FOyByZWFzb24gZm9y
+IGJpdCAyIG5vdCBlc3RhYmxpc2hlZC4KCkNPTkZJR19VU0JfRUhDSV9IQ0Q9eQpDT05GSUdfVVNC
+X0VIQ0lfUk9PVF9IVUJfVFQ9eQpDT05GSUdfVVNCX0VIQ0lfVFRfTkVXU0NIRUQ9eQpDT05GSUdf
+VVNCX0VIQ0lfUENJPXkKQ09ORklHX1VTQl9FSENJX0ZTTD1tCkNPTkZJR19VU0JfRUhDSV9IQ0Rf
+UExBVEZPUk09bQo=
+--0000000000007e70fa065fa4d0cf
+Content-Type: text/plain; charset="US-ASCII"; name="kernel-usb-errors.txt"
+Content-Disposition: attachment; filename="kernel-usb-errors.txt"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mw5nzc403>
+X-Attachment-Id: f_mw5nzc403
+
+Tm92IDA2IDIyOjI0OjI0IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJi
+IDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjI0OjI1IGFyY2gg
+a2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVu
+b3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjI0OjI2IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNh
+bm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2
+IDIyOjI0OjI3IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVy
+cm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjI0OjMyIGFyY2gga2VybmVs
+OiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBi
+YW5kd2lkdGgKTm92IDA2IDIyOjI2OjU3IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBz
+dWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjI2
+OjU4IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0y
+ODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjI2OjU5IGFyY2gga2VybmVsOiB1c2Ig
+Mi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lk
+dGgKTm92IDA2IDIyOjI3OjAwIGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQg
+dXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjI3OjA1IGFy
+Y2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90
+IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjI3OjEwIGFyY2gga2VybmVsOiB1c2IgMi0xLjU6
+IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92
+IDA2IDIyOjI3OjE1IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAs
+IGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjI3OjIwIGFyY2gga2Vy
+bmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3Vn
+aCBiYW5kd2lkdGgKTm92IDA2IDIyOjI3OjI1IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5v
+dCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIy
+OjI3OjMwIGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9y
+IC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjI3OjMyIGFyY2gga2VybmVsOiB1
+c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5k
+d2lkdGgKTm92IDA2IDIyOjI3OjM1IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJt
+aXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjI3OjQ0
+IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODog
+bm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjQyOjIyIGFyY2gga2VybmVsOiB1c2IgMi0x
+LjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgK
+Tm92IDA2IDIyOjQyOjIzIGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJi
+IDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjQyOjI0IGFyY2gg
+a2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVu
+b3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjQyOjI1IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNh
+bm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2
+IDIyOjQzOjMwIGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVy
+cm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjQzOjMxIGFyY2gga2VybmVs
+OiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBi
+YW5kd2lkdGgKTm92IDA2IDIyOjQzOjMyIGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBz
+dWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjQz
+OjMzIGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0y
+ODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjQ3OjQ3IGFyY2gga2VybmVsOiB1c2Ig
+Mi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lk
+dGgKTm92IDA2IDIyOjQ3OjQ4IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQg
+dXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjQ3OjQ5IGFy
+Y2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90
+IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjQ3OjUwIGFyY2gga2VybmVsOiB1c2IgMi0xLjU6
+IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92
+IDA2IDIyOjUyOjA0IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAs
+IGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjUyOjA1IGFyY2gga2Vy
+bmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3Vn
+aCBiYW5kd2lkdGgKTm92IDA2IDIyOjUyOjA2IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5v
+dCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIy
+OjUyOjA3IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9y
+IC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjUyOjEyIGFyY2gga2VybmVsOiB1
+c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5k
+d2lkdGgKTm92IDA2IDIyOjUyOjM2IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJt
+aXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjUyOjQx
+IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODog
+bm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjUyOjQ2IGFyY2gga2VybmVsOiB1c2IgMi0x
+LjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgK
+Tm92IDA2IDIyOjUyOjUxIGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJi
+IDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjUyOjUxIGFyY2gg
+a2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVu
+b3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjUyOjUxIGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNh
+bm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2
+IDIyOjUyOjU0IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVy
+cm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjUyOjU0IGFyY2gga2VybmVs
+OiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBi
+YW5kd2lkdGgKTm92IDA2IDIyOjUyOjU2IGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBz
+dWJtaXQgdXJiIDAsIGVycm9yIC0yODogbm90IGVub3VnaCBiYW5kd2lkdGgKTm92IDA2IDIyOjUz
+OjAxIGFyY2gga2VybmVsOiB1c2IgMi0xLjU6IGNhbm5vdCBzdWJtaXQgdXJiIDAsIGVycm9yIC0y
+ODogbm90IGVub3VnaCBiYW5kd2lkdGgK
+--0000000000007e70fa065fa4d0cf
+Content-Type: text/plain; charset="US-ASCII"; name="working-allocation-excerpt.txt"
+Content-Disposition: attachment; filename="working-allocation-excerpt.txt"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mw5nzc3d1>
+X-Attachment-Id: f_mw5nzc3d1
+
+RlMvTFMgYmFuZHdpZHRoIGFsbG9jYXRpb24gKHVzIHBlciBmcmFtZSk6CjUxMyA1MTMgNTEzIDUx
+MyA1MTMgNTEzIDUyOCA1MTMKRlMvTFMgYnVkZ2V0ICh1cyBwZXIgbWljcm9mcmFtZSksIHR5cGlj
+YWwgZnJhbWU6CjEyNSAxMjUgMTI1IDEyNSAxMyAwIDAgMAoyLTEuNiBlcCA4MTogICAgMTggQCAg
+MC4xKzEgbWFzayAzODAyCjItMS42IGVwIDgyOiAgICA2MSBAICAwLjErMSBtYXNrIDM4MDIKMi0x
+LjEgZXAgODE6ICAgIDI0IEAgIDAuMCsxIG1hc2sgMWMwMQoyLTEuNSBlcCA4MzogICAgMTUgQCAg
+Ni4wKzggbWFzayAxYzAxCjItMS41IGVwIDgyOiAgIDE2NiBAICAwLjIrMSBtYXNrIGYwMDQKMi0x
+LjIgZXAgODE6ICAgIDYxIEAgIDAuMCsxIG1hc2sgMWMwMQoyLTEuMiBlcCA4MjogICAgNjEgQCAg
+MC4wKzEgbWFzayAxYzAxCjItMS4yIGVwIDgzOiAgICA2MSBAICAwLjErMSBtYXNrIDM4MDIKMi0x
+LjIgZXAgODQ6ICAgIDYxIEAgIDAuMysxIG1hc2sgZTAwOAo=
+--0000000000007e70fa065fa4d0cf--
