@@ -1,55 +1,165 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794037228;
-	b=afJwkqJqgH/49jElYNwb72OMYhcC4pTwsVDIrteGbQiwJf5howkGkhs7MhQLDMcbaTbh
-	 fkbLZ8em+rhnOThDNf9E+elOO1x7FUBYLoYGd3cjdBVkoKbADYoWgCoufQXYo/m0Xkato
-	 tt6wyiHvmelq/QS6FCyv/EO2WDR93Kdf2ivy7SJbB5RV9JKP33pI6fwBIITQKfWlpPyfU
-	 ZRR9C+YhKmTcDaB6pEoduhNH0HBFCKpykeHJFm2VDopGJ00hNNE1l9kepFHcgOYNUvJ+R
-	 CVkHw6EBLIyrDbYz5QqePLlioSeR1xUQR0Q65rclF8bFqJh2RrfA18zXz8b4YeR+HzQ==
+	t=1794042020;
+	b=GFYNnpJhMKFyG79CAan5ZM2IF2ESdLqASWoXu6/W247jj6C/92GPNqOzBCCL/sSQCDJH
+	 x1vkGJn/8UJwDi/zyK3RhRj/pN9DeQUCXcdktIhkPh3bw5NHqnTqaGQqIBWwAhe/rxr9r
+	 UCG7QlWyNEWEUOQgFOEabCaBH8QY0Y1UMkYRu9vggMroR+oUXFtfikpyNIp5j9og4w4HU
+	 Pm6kBc79/Eym8SiMyUIWpjFDk5O115e+jJhQXluq2Du9xn7UL9QAPdPd5TdM1dEgl0v18
+	 i5sMdphEXcKl7Pmy7UBVbDSjnrmrc4DCCJtY6trZVCgwlBhVrK/12bUV4sXmJ1XjNyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794037228;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=SxDEgCfFZYz/5AzLVtmbvCzkGpqWE8DnXtMrMLDq2Qo=;
-	b=umcOjyDRO1l5bINQMRVMtLSGDbfploF/qoPuC+xbimSL0YYFa1g8yjt5CiqNzBfKzpWX
-	 dhteMH5i4ho7/o7Cs3rpv0K3cEDe1cCCRulKcLKGM2JcP0SiEeNtsGjQRxvjALXxzW6eN
-	 VhmXs06GGlKCZAHRxxAtUB5R9YuCpxXojDb6b6Pb3hh9xIsxsYTIfa7x0/Kw7BKRb0hh4
-	 q5tzEm/49UaBOjGpWadUOly0RepKPJ/qviznZIhdzkz2Z31rAqShN/ZGQacIKmnJYVBWt
-	 9KMC1HbP7yjakUe/FAP6scy8iiv8CYMV50W3iPUbB6mU+Ufr2JLLgmbEkEiqRIVJrOA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794042020;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=2pUKIrJSjwOPfwhHfcJFzwrup6gCdhbZ3XgMEjE3Sk8=;
+	b=KuwS2jSo5XWw5XXEEnb6gdWKTPYMHCiWQCiFbfC0LwFqOUJp6Z6mZVSAAjSo18SYDzCy
+	 6EfrAN+54+saNncl05UMeuiyTvZTMRTnhuY2RaHp7C9dR9fmNXSczCmiwKho0jmITbiOG
+	 KzXGW7egzMf+7QVE3/e/12lsNVdPrdEFzQDU4PNQ+XSjF6Ia3BwkqEKGtxDTcFGwQH1jY
+	 Fgqr3dkQIzSV/0iGYtFNe7YPnrB4LnlyEF31Q40YGDcFxT0iIhMGd2XLhQVaLNMWVJ45D
+	 019WAu8h5PkIzGJDDVr0Nmu/Ffhq33QnpSN4r6JhDZZwJDnF3F/jskMeS3VOXrHE9Iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="POv/y8O6";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=AwkH5jyM;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JTEoL3TZ;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nvoaJ0mE;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DZerp02L;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9726C606A326
-	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 07:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FCB606A32C;
+	Sat,  7 Nov 2026 09:00:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2FCB606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=POv/y8O6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 244E71F0089F;
-	Sat,  7 Nov 2026 07:40:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794037227;
-	bh=SxDEgCfFZYz/5AzLVtmbvCzkGpqWE8DnXtMrMLDq2Qo=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=POv/y8O6gV08O5IFacdkQCKIwZQ18gfrRkWsaXWKxReufcKbo0tRREC2aZNtZe+pX
-	 nB60WSZYDmDCvF/sHdX9eOvaOSKW5qQ15K4hv+vbEJ5vXlGA/vw8ZMlEkrJxDjtIBQ
-	 /5ty/0RLfq74AJNKAIuRjXldXhUlVMg7u39W4huQ9bXDR+gfxpjlttEDWt9Y2IhGzr
-	 1MS3SD94pXXV0w2wHg3JDuFKOMX3ONn7bVvqLhPUs9j7bOHQ4DSVCayUKJMQDirRqz
-	 fkwXkA1d9mlj9Y+liTvbnKjTi5lprJ3L+0OP0uInn6hnY4dWmSurrmxVUO4q1AC2TF
-	 RoAidTuaBbzNA==
-Message-ID: <sashiko-outbox-202721@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] usb: gadget: pch_udc: drain vbus GPIO works before
- freeing the device
-Reply-To: sashiko-reviews@lists.linux.dev
-To: hyunjungg <hj351016@gmail.com>, linux-usb@vger.kernel.org
-In-Reply-To: <20261107072501.3434465-1-hj351016@gmail.com>
-References: <20261107072501.3434465-1-hj351016@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 07:40:26 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=AwkH5jyM;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JTEoL3TZ;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nvoaJ0mE;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DZerp02L
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E9762204D;
+	Sat,  7 Nov 2026 09:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794042016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2pUKIrJSjwOPfwhHfcJFzwrup6gCdhbZ3XgMEjE3Sk8=;
+	b=AwkH5jyM7t60XRGf7G1aRSt+1A3cbarzW4z/QkvISjLGNPrA/fY2MleEP5q/AQIm+UOa85
+	wJkleCWTNZsU7rGkzPqgTOEFser1A2ESxcK9o91TyOKwj1NxwYRnab9MqOSmomM2duqzSM
+	4ziRifDlEsg/eNGZ4IfRyZBtKF7+5L4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794042016;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2pUKIrJSjwOPfwhHfcJFzwrup6gCdhbZ3XgMEjE3Sk8=;
+	b=JTEoL3TZlb1DCclunsyxaCbXUYbLeMKEOnsS7PWO9bNheMA+zCRiSp1byJB7A+sAicRsv4
+	5OXD2QVrenEMHmAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nvoaJ0mE;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DZerp02L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794042015; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2pUKIrJSjwOPfwhHfcJFzwrup6gCdhbZ3XgMEjE3Sk8=;
+	b=nvoaJ0mEP/zd/0bKFGcoiLmtApr9OQGHZOiEECFWhUq1H30dGD7ZkdmACOX8M4XQGS4NuW
+	oB4Mc0g4OfzK2wWf0UF/9cqPMqA/oflypYavZBONS2BSNW+J/B7gdSUDzy/0qA9b4r1pv4
+	UXAedxogQW7c2CJkDX8oa4Afmn/sre4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794042015;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2pUKIrJSjwOPfwhHfcJFzwrup6gCdhbZ3XgMEjE3Sk8=;
+	b=DZerp02LRPNT9d5/AecFdQdh+IJlOFhOxwpkpzQNy3DQvQ4hOwgMkZ3mhYuZ46BFCA5rf0
+	CaTL33x7XZsPDhBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0528132C9;
+	Sat,  7 Nov 2026 09:00:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 19k0LZ3o7mq9VwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 07 Nov 2026 09:00:13 +0000
+Date: Sat, 07 Nov 2026 10:00:13 +0100
+Message-ID: <87jympyq1u.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jann Horn <jannh@google.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Chris Mason <mason@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@suse.de>,
+	Joel Granados <joel.granados@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jan Kara <jack@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	coreteam@netfilter.org,
+	kexec@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	netfilter-devel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	jfs-discussion@lists.sourceforge.net,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sh@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	sparclinux@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-doc@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-input@vger.kernel.org,
+	linux-raid@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-debuggers@vger.kernel.org,
+	Chuck Lever <cel@kernel.org>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH RESEND v2 03/51] ALSA: cs46xx: hand the region to the region proc files
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-3-021c84d852e0@kernel.org>
+References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
+	<20261104-work-procfs-bugfixes-v2-3-021c84d852e0@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,111 +168,57 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 7E9762204D
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-11.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[60];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -11.01
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] usb: gadget: pch_udc: draining VBUS works after
-  pch_udc_exit() reconnects UDC
---
+On Wed, 04 Nov 2026 20:16:45 +0100,
+Christian Brauner wrote:
+> 
+> snd_cs46xx_proc_init() stores the chip in the private data of the five
+> region entries, but snd_cs46xx_io_read() reads that back as the region,
+> so a read of /proc/asound/cardN/CS46xx_BA0 and friends copies from
+> whatever sits at the region's offset in struct snd_cs46xx instead of
+> the mapped registers. Store the region.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-commit bc23ff65679fc10c4adf2dee6fb5da7b1af32d41
-Author: Hyunjung Ko <hj351016@gmail.com>
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
-usb: gadget: pch_udc: drain vbus GPIO works before freeing the device
 
-This commit masks UDC device interrupts, synchronizes the PCI interrupt,
-and cancels the VBUS GPIO work items during device removal before devres
-frees the device structure.
+thanks,
 
-> diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pc=
-h_udc.c
-> index 99b3ce28210f9..a22bf91e0bfc4 100644
-> --- a/drivers/usb/gadget/udc/pch_udc.c
-> +++ b/drivers/usb/gadget/udc/pch_udc.c
-> @@ -1406,8 +1406,12 @@ static int pch_vbus_gpio_init(struct pch_udc_dev *=
-dev)
->   */
->  static void pch_vbus_gpio_free(struct pch_udc_dev *dev)
->  {
-> -	if (dev->vbus_gpio.intr)
-> +	if (dev->vbus_gpio.intr) {
->  		free_irq(dev->vbus_gpio.intr, dev);
-> +		cancel_work_sync(&dev->vbus_gpio.irq_work_rise);
-> +	}
-> +	if (dev->vbus_gpio.port)
-> +		cancel_work_sync(&dev->vbus_gpio.irq_work_fall);
->  }
-> =20
->  /**
-> @@ -3010,9 +3014,17 @@ static void pch_udc_remove(struct pci_dev *pdev)
->  		dma_unmap_single(&dev->pdev->dev, dev->dma_addr,
->  				 UDC_EP0OUT_BUFF_SIZE * 4, DMA_FROM_DEVICE);
-> =20
-> -	pch_vbus_gpio_free(dev);
-> -
-> +	/*
-> +	 * irq_work_fall can be queued from pch_udc_dev_isr() (UDC_DEVINT_US)
-> +	 * when no VBUS GPIO interrupt is in use, and the PCI interrupt is only
-> +	 * released by devres after this function returns. Mask the UDC device
-> +	 * interrupts and wait for any in-flight handler before draining the
-> +	 * VBUS GPIO works, so the interrupt can no longer re-queue them.
-> +	 */
->  	pch_udc_exit(dev);
-> +	synchronize_irq(dev->pdev->irq);
-> +
-> +	pch_vbus_gpio_free(dev);
->  }
-
-[Severity: Medium]
-Can an in-flight VBUS work undo pch_udc_exit(dev) while
-pch_vbus_gpio_free() waits for it?
-
-Both pch_vbus_gpio_work_rise() and pch_vbus_gpio_work_fall() call
-pch_udc_reconnect(dev), which soft-resets the controller, clears
-UDC_DEVCTL_SD, and unmasks UDC_DEVINT_UR | UDC_DEVINT_ENUM:
-
-drivers/usb/gadget/udc/pch_udc.c:pch_udc_reconnect() {
-	pch_udc_init(dev);
-
-	/* enable device interrupts */
-	/* pch_udc_enable_interrupts() */
-	pch_udc_bit_clr(dev, UDC_DEVIRQMSK_ADDR,
-			UDC_DEVINT_UR | UDC_DEVINT_ENUM);
-
-	/* Clear the disconnect */
-	pch_udc_bit_set(dev, UDC_DEVCTL_ADDR, UDC_DEVCTL_RES);
-	pch_udc_bit_clr(dev, UDC_DEVCTL_ADDR, UDC_DEVCTL_SD);
-...
-}
-
-If either work is already running (or queued by pch_vbus_gpio_irq() before
-free_irq()) when pch_udc_remove() moves pch_udc_exit() ahead of
-pch_vbus_gpio_free(), the controller is re-enabled and left connected while
-dev->pdev->irq is still active:
-
-CPU0                                  kworker
-pch_udc_remove()
-  dma_pool_destroy(dev->stp_requests)
-  pch_udc_exit(dev)
-  synchronize_irq(dev->pdev->irq)
-  pch_vbus_gpio_free(dev)
-    cancel_work_sync(...)
-                                      pch_vbus_gpio_work_rise()
-                                        pch_udc_reconnect(dev)
-  /* UDC left connected with UDC_DEVINT_ENUM unmasked */
-  <hardirq>
-  pch_udc_isr()
-    pch_udc_dev_isr()
-      pch_udc_svc_enum_interrupt()
-        pch_udc_activate_control_ep()
-          *dev->ep[...].td_stp =3D ...  <-- use-after-free
-
-pch_udc_svc_enum_interrupt() also unmasks UDC_DEVINT_US again, allowing
-pch_udc_dev_isr() to re-queue irq_work_fall after cancel_work_sync() has
-returned.  Calling pch_udc_exit(dev) and synchronize_irq(dev->pdev->irq)
-before dma_pool_destroy() and again after pch_vbus_gpio_free(dev) would
-ensure the hardware stays masked and disconnected.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107072501.3434=
-465-1-hj351016@gmail.com?part=3D1
+Takashi
