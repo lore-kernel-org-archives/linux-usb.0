@@ -1,57 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794036117;
-	b=MGsbAB4e7gc3C1JMycfm8dzUz+43zc//vPKaKsb5sa4g1+a2iDw+/as1eGl61uGvP5gM
-	 2+C0yxB6xeFGsevQvx7TejlvyaygLjqTtFlT6LimDIUMW7yjYAuwVkcaNtZImCsJiAQgU
-	 rZHGQysOMivkNDwvDm9tW8ro6tq+eS7tvp1AuzbKaSwV2saMZ1X+zNy13PJyj6GqlgqWF
-	 DIVRyzkQVdrY44Yup/RHuq3qvGyF8HyR2lh7XE8RpIGAwBgb9Ye1CV/IrGf495Uql9s1t
-	 s/PtMri64tiDxs4QrSNpbxtg9sZSjOfMnRlu0QMOwYlL7r4NR2sSwk5x4jkbySR0HSw==
+	t=1794036312;
+	b=LzrLGgXL+nrhzCpqaiGDizBYqxyQvuudXqpOFa0OZfkRFU0oSBj8mBYGSxkPWawQuw++
+	 PbF1K4G5x+qwhymFNhnSD8GPz5XQOdfH1wc1dQtGbxVbfZ2i+c5CuO9QbzYXim7q0r/oW
+	 4JFrjUlWeYmERuwUGXHQ56mrDV2ymMAtWReQCCRciYRtX9tPHM4uSD58xMXkUsuXSN6fH
+	 Seatno5yysPIPcyFgzSsASf6o0wBFoVU8t2gNEaVpWKcTsDSUVwXDLoOcCZpQTTNt+3ot
+	 v4r5Gdn07jfDZHEADp0+9t66Y4MZw5ajVW5vF4FCX15MeDHljjPQ9mKU0eE8jhaUD4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794036117;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=yxofnR+VxUx6Y54F+5tbEaAhWagrAK4CwaWtcVsA8I8=;
-	b=snF3OWa5bXiu/Jx/rxXU63EBr/c+BKD6YDQJ9d07gzijytWTb1ug2SuqsFV6FCB5g9cW
-	 4MxxCG04K7XYnR9BxwYwLlx4bjEOqusWwohwtbQsT9kew7bcUQhbl5Z1gaQFGymaq8QAh
-	 zgQ6EB1w20NWx9gHfGlXfh2r3BcXFXYdg74R8nhW7Jom0TkkTVQWkFI46SdIEndix6gs5
-	 U9p01nBnLzTn2FL0ZoY5cwGwRNJ11aRct+eBzZbnxt6dWYUmDQ/L25WrmpThupfwYbI0w
-	 NyFxrWY0dfXQAeBa3kkyKl9Rivkk2bnL2LRBp32kxWqM44B5iwcJykiQ1TFjU+aSQPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794036312;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=r2dd8jRP0W945/bWYQPeHiO11p85GGQbJrWF47zymFM=;
+	b=jRNek4LvwpBv2rWvJ1AQOHPBrFVrDMAtsULYZ5eX++/qAnm1Y/3JxrF7WvvIw6r63RjK
+	 YiLuhwRt6A+chVxjs+U3MbDmXjohNT/zYycU8LhQtHD5K3hTP4xRHHJ0/b2PUs17Kt0CG
+	 Rna+vTqtV3X8Ef4Ji2G421IKxRNAFcrcCw7yE3re9RxHcfJyb1tpowMPVAJmAIByMQNI5
+	 N/+c+xihN2Bf13vbvPpDQEXBA8HHWeO1JfoArVCK2QT8J/Btsxsuzy3uMokTAQ4MmaicO
+	 wydLVw+w/ELbGyEi0vsp4kuYPRKc8PDNLoETEi0Ov4aFj6bDSw2pOBh/irpjKdCN4Bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Bkxuow7/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y1vSVoue;
+	arc=none smtp.remote-ip=209.85.216.43
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87875606A32D
-	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 07:21:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A427F606A326
+	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 07:25:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A427F606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bkxuow7/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 476401F0089F;
-	Sat,  7 Nov 2026 07:21:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794036117;
-	bh=yxofnR+VxUx6Y54F+5tbEaAhWagrAK4CwaWtcVsA8I8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Bkxuow7/KAw3r22Pjm131hiIiVZL0pQR8XB6jKjms1WSYf3KPFkiIG1gPoZpT34F4
-	 as7yK5KEdMTtoODpjg8XqA/aDYerLftqHVqHoLmjF8Auc/kVMdPzhmQzfj5JgaaUuU
-	 /2RxYLlUy1RzprZdE0pC3HKXCIwvAYEWLUc75STxtu7T0rH4JMoVISkNfjdIZj2VuD
-	 0WS8io5Sy5BmHWonWlbbxguOGzAa48jtvN/bArfsUq2Q6BFQrxkaC2TMP/IaPbtros
-	 ocaK7FugbvXPu3XEymkYBmRvuui+rvFbd/iRK+XH9qa/XRvXsOxez1n11iFdyznHCF
-	 ALewU+i8Yp2JQ==
-Message-ID: <sashiko-outbox-202703@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v20 13/13] ax88796b: Add support for AX88772D,
- AX88179A and AX88279
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Birger Koblitz" <mail@birger-koblitz.de>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261106-ax88179a-v20-13-37b5a1189983@birger-koblitz.de>
-References: <20261106-ax88179a-v20-0-37b5a1189983@birger-koblitz.de>
- <20261106-ax88179a-v20-13-37b5a1189983@birger-koblitz.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 07:21:56 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y1vSVoue
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3ae6b4c669fso200513a91.0
+        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 23:25:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794036311; x=1794641111; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=r2dd8jRP0W945/bWYQPeHiO11p85GGQbJrWF47zymFM=;
+        b=Y1vSVoueTJqDLM8jA8agI6cbb4i3g5fC3JmW4R1XHEhndYMfZ6lRtD2CHTqFq5AKqQ
+         KXYEFgbEsYMfDGduQAhK69Y23OAxMa72MP7M20XQwkYD+Ox4k1JwFWjhGg1R1b79nu7Y
+         U5gMnr4yx+rx4JkXiWjMww5TLCmEZ8g1Wg8sw/59fMAcuMexJIfqpWt9pLhZIz4hTBX5
+         0KlyCCRCG1hpOIwRRohXWvKxfTrhbnuaNPca9r4EOR/qkJlmzikAZ8r1uvkSGj7UjLuY
+         hLFhxRchs1RRPUGJM3kxBKqlvkvuS3eAh6nacqNNIjyV10nsT/DQQYx7d5iInDdK635c
+         iI4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794036311; x=1794641111;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=r2dd8jRP0W945/bWYQPeHiO11p85GGQbJrWF47zymFM=;
+        b=OJeTI97hRdBgEmHnFBK0vHVkAj/qh/i0+HRPPEF8izfkFfmyFQDfIBlTgHZNNr0uf+
+         eo92orDaDJoTisUErXp5r76+a0jPOLjkW0OUBxMCprmaPE1sOO6zNOUrwHpIWIDQFMOM
+         CiP+pqbGUf+4K3IQwFlKRKn5cDmEcr7i8sNhxuV4u2xuwZWcuRIRYKyLZDOZcXBX2w9m
+         9OxXKuRuIVqB5kYagfmJFfhpnzr3CBE2GnNafF7+dNfl70a7beaWPcmkGx094GHvKEhS
+         NRaiSk7uGqKwN8n7wcW2IclGFg7B5EBPLWI/t/+VnU4JxsWTabsx3yJ1z0NJVsZ9kVOw
+         vFXQ==
+X-Forwarded-Encrypted: i=1; AL+hErESsR6aeu9KnOPwGizc+lalTsJDQvAJ1lFu/hcYVwpTkhrWGwpPJ04LAaZMhof0Q2mWJIt3B7VtLIU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9UsKUN/VSnlpRjlz0SqAP/WUYQ76+ffYp/uMyehqcukBo5ynAk
+	EFsyxOXhKKpJ6t1sI27QD2mOzKiJ/bdpGGLKM3PI27vMhT+wJcipQN4I
+X-Gm-Gg: AYBFou2SruuGykzGjMvdFUGzVDuLXNRTUC+rslap0F9UqQQfVC+87tWpndt67bADP12
+	2z63mCALVgTgcstKPBiG1HTv20TqMMMJHBermQhF9ku9B5pn3DhroL1WipEHIWkYBxowsXeyhiD
+	GCKyDopHeeyjZ7+wvqzf5qrhWVHQDjhvNHZ7gKazxiWKudw0Dljywg2YrXYC2UT7VCYCbNGn7HZ
+	tL0E5vCB7YSo0xVEAj/ei6sMq/CVUHULuDCUZdz8U6o8oIh0qGzOTNw1b8KTEryKeVzM4CDuEfS
+	eXoQ9dUNXHRObTN7OnpCf2fkUtG1UzLl3KLG8s01ASBofGzZEO4FHpKq8+qxrQLe7IgBNlnWk2+
+	Uum7lf58SMuoFIusIUxL1gNU+Ycopo8FC1s3Yaw8R04ArQlMR5KIqKP+vy3hL0xJ/ZthmrRCMa6
+	OkoG1MjgKgqsjPPTuGaH8yTXKxqkxQGBGcHC/2VyOnPYV08tTWoahkcmmDgZTQmCW1MpbWyTZqK
+	mqpXyi2sxUXZkjOeJKF4jjVkkr8yjXZdp8o4ByBsQhK6JLhZIhvSFAWkVfepZWm8Mhpq6NWX9HA
+	J89dQOwUpV0vcdlIdDxP33cxAuPLnwDsyqjquPbiwKlPqKXh
+X-Received: by 2002:a17:90b:4f42:b0:3a7:a3c8:8f4a with SMTP id 98e67ed59e1d1-3b1061d20b8mr905743a91.18.1794036310826;
+        Fri, 06 Nov 2026 23:25:10 -0800 (PST)
+Received: from hj.. ([163.239.22.29])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1057c2bc8sm2238847a91.3.2026.11.06.23.25.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 23:25:10 -0800 (PST)
+From: hyunjungg <hj351016@gmail.com>
+To: Neill Kapron <nkapron@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Hyunjung Ko <hj351016@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] usb: gadget: pch_udc: drain vbus GPIO works before freeing the device
+Date: Sat,  7 Nov 2026 16:25:01 +0900
+Message-ID: <20261107072501.3434465-1-hj351016@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,111 +96,97 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] net: phy: ax88796b: stale 2.5G LPA and pause bug in
-  asix_ax88279_read_status()
---
+From: Hyunjung Ko <hj351016@gmail.com>
 
-commit 15d79caef25783090283820b8fda304017ab1973
-Author: Birger Koblitz <mail@birger-koblitz.de>
+pch_vbus_gpio_irq() and pch_udc_dev_isr() schedule
+dev->vbus_gpio.irq_work_fall / irq_work_rise (pch_vbus_gpio_work_fall /
+pch_vbus_gpio_work_rise), whose handlers obtain the pch_udc_dev via
+container_of() and dereference it. Nothing cancels these works on
+teardown, and dev is allocated with devm_kzalloc(), so a work still
+pending or running when devres frees dev dereferences freed memory
+(use-after-free); pch_vbus_gpio_work_fall() polls for up to
+PCH_VBUS_PERIOD (3s), widening the window.
 
-ax88796b: Add support for AX88772D, AX88179A and AX88279
+The two works are armed from different sources. irq_work_rise is only
+set up and scheduled once dev->vbus_gpio.intr is non-zero, from the GPIO
+interrupt handler. irq_work_fall is INIT_WORK()ed whenever a VBUS GPIO is
+present, and is scheduled either from the GPIO interrupt or, when
+dev->vbus_gpio.intr is 0, from the UDC device interrupt
+pch_udc_isr() -> pch_udc_dev_isr() on UDC_DEVINT_US.
 
-This commit adds PHY driver support for the ASIX AX88772D, AX88179A, and
-AX88279 PHYs, including status reading and auto-negotiation configuration
-for the 2.5G AX88279 PHY.
+pch_udc_remove() calls pch_vbus_gpio_free() before pch_udc_exit() masks
+the UDC device interrupts, and the PCI interrupt (pch_udc_isr()) is only
+released by devres after pch_udc_remove() returns. So draining the works
+in pch_vbus_gpio_free() alone races the UDC interrupt: pch_udc_dev_isr()
+can re-queue irq_work_fall after cancel_work_sync() has returned.
 
-> diff --git a/drivers/net/phy/ax88796b.c b/drivers/net/phy/ax88796b.c
-> index f20ddf6491499..0df44e0e236ab 100644
-> --- a/drivers/net/phy/ax88796b.c
-> +++ b/drivers/net/phy/ax88796b.c
-[ ... ]
-> @@ -83,6 +96,107 @@ static int asix_ax88772a_read_status(struct phy_devic=
-e *phydev)
->  	return 0;
->  }
-> =20
-> +static int asix_ax88279_read_status(struct phy_device *phydev)
-> +{
-> +	int ret, val;
-> +
-> +	ret =3D genphy_read_status(phydev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!phydev->link)
-> +		return 0;
-> +
-> +	/* Read actual speed from vendor register */
-> +	val =3D phy_read(phydev, AX_CTRL_STATUS);
-> +	if (val < 0)
-> +		return val;
-> +
-> +	switch (val & AX_CTRL_STATUS_SPEED_MASK) {
-> +	case AX_CTRL_STATUS_SPEED_2500:
-> +		phydev->speed =3D SPEED_2500;
-> +		break;
-> +	case AX_CTRL_STATUS_SPEED_1000:
-> +		phydev->speed =3D SPEED_1000;
-> +		break;
-> +	case AX_CTRL_STATUS_SPEED_100:
-> +		phydev->speed =3D SPEED_100;
-> +		break;
-> +	case AX_CTRL_STATUS_SPEED_10:
-> +		phydev->speed =3D SPEED_10;
-> +	}
-> +
-> +	/* MDIO_AN_10GBT_STAT_LP2_5G is broken, but we can deduce that
-> +	 * the link-partner advertised 2500M if remotely AN succceded
-> +	 * for link speed > 1000M and we locally have a link speed of
-> +	 * 2500M
-> +	 */
-> +	linkmode_clear_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, phydev->lp_adv=
-ertising);
-> +	val =3D phy_read_mmd(phydev, MDIO_MMD_AN, MDIO_AN_10GBT_STAT);
-> +	if (val >=3D 0 && val & MDIO_AN_10GBT_STAT_REMOK) {
-> +		linkmode_mod_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT,
-> +				 phydev->lp_advertising,
-> +				 phydev->speed =3D=3D SPEED_2500);
-> +	}
-> +	/* Only supports full duplex */
-> +	phydev->duplex =3D DUPLEX_FULL;
+Mask the UDC device interrupts and synchronize_irq() the PCI interrupt
+before draining, so neither source can schedule the works any more, then
+cancel them: irq_work_fall whenever a VBUS GPIO port exists, and
+irq_work_rise together with free_irq() under the intr guard. free_irq()
+runs before its cancel so the GPIO interrupt cannot re-queue either.
 
-[Severity: Medium]
-Does updating phydev->lp_advertising and phydev->duplex after
-genphy_read_status() leave ETHTOOL_LINK_MODE_2500baseT_Full_BIT stale on
-link down and prevent pause resolution on 2.5G links?
+Found by static analysis and code review; not runtime-reproduced (needs
+EG20T/ML7213 pch_udc hardware with a VBUS detection GPIO and an interrupt
+racing device removal).
 
-When a 2.5G link drops, genphy_read_status() -> genphy_read_lpa() only
-clears Clause 22 10/100/1000 link modes in phydev->lp_advertising.
-Returning early on !phydev->link skips clearing
-ETHTOOL_LINK_MODE_2500baseT_Full_BIT, leaving it reported via ethtool while
-the link is down.
+Fixes: 637b78eb31e0 ("usb: gadget: pch_udc: Detecting VBUS through GPIO with interrupt")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hyunjung Ko <hj351016@gmail.com>
+---
+v3: the UDC device interrupt (pch_udc_dev_isr(), UDC_DEVINT_US) can re-queue
+    irq_work_fall after cancel_work_sync() when no VBUS GPIO IRQ is in use, so
+    v2's drain alone still raced it. Mask the UDC device interrupts and
+    synchronize_irq() the PCI interrupt in pch_udc_remove() before draining.
+    Also corrected the teardown call-chain in the commit log
+    (pch_vbus_gpio_free() runs before pch_udc_exit()). Both per Sashiko review.
+v2: drain irq_work_fall under the VBUS-GPIO-port guard rather than the IRQ
+    guard, since it is scheduled when vbus_gpio.intr == 0. Per Sashiko review.
 
-Also, genphy_read_status() runs phy_resolve_aneg_linkmode() before
-ETHTOOL_LINK_MODE_2500baseT_Full_BIT is set in phydev->lp_advertising and
-before phydev->duplex is set to DUPLEX_FULL.  When 2500baseT_Full is the
-only common speed mode, phy_resolve_aneg_linkmode() leaves phydev->duplex
-as DUPLEX_UNKNOWN, so phy_resolve_aneg_pause() does not set phydev->pause
-or phydev->asym_pause:
+ drivers/usb/gadget/udc/pch_udc.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-drivers/net/phy/phy-core.c:phy_resolve_aneg_pause() {
-	if (phydev->duplex =3D=3D DUPLEX_FULL) {
-		phydev->pause =3D linkmode_test_bit(ETHTOOL_LINK_MODE_Pause_BIT,
-						  phydev->lp_advertising);
-		phydev->asym_pause =3D linkmode_test_bit(
-			ETHTOOL_LINK_MODE_Asym_Pause_BIT,
-			phydev->lp_advertising);
-	}
-}
+diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
+index 99b3ce2..a22bf91 100644
+--- a/drivers/usb/gadget/udc/pch_udc.c
++++ b/drivers/usb/gadget/udc/pch_udc.c
+@@ -1406,8 +1406,12 @@ static int pch_vbus_gpio_init(struct pch_udc_dev *dev)
+  */
+ static void pch_vbus_gpio_free(struct pch_udc_dev *dev)
+ {
+-	if (dev->vbus_gpio.intr)
++	if (dev->vbus_gpio.intr) {
+ 		free_irq(dev->vbus_gpio.intr, dev);
++		cancel_work_sync(&dev->vbus_gpio.irq_work_rise);
++	}
++	if (dev->vbus_gpio.port)
++		cancel_work_sync(&dev->vbus_gpio.irq_work_fall);
+ }
+ 
+ /**
+@@ -3010,9 +3014,17 @@ static void pch_udc_remove(struct pci_dev *pdev)
+ 		dma_unmap_single(&dev->pdev->dev, dev->dma_addr,
+ 				 UDC_EP0OUT_BUFF_SIZE * 4, DMA_FROM_DEVICE);
+ 
+-	pch_vbus_gpio_free(dev);
+-
++	/*
++	 * irq_work_fall can be queued from pch_udc_dev_isr() (UDC_DEVINT_US)
++	 * when no VBUS GPIO interrupt is in use, and the PCI interrupt is only
++	 * released by devres after this function returns. Mask the UDC device
++	 * interrupts and wait for any in-flight handler before draining the
++	 * VBUS GPIO works, so the interrupt can no longer re-queue them.
++	 */
+ 	pch_udc_exit(dev);
++	synchronize_irq(dev->pdev->irq);
++
++	pch_vbus_gpio_free(dev);
+ }
+ 
+ static int __maybe_unused pch_udc_suspend(struct device *d)
+-- 
+2.43.0
 
-Setting phydev->duplex =3D DUPLEX_FULL afterwards without calling
-phy_resolve_aneg_pause() leaves negotiated pause flow control disabled.
-In addition, if phy_read_mmd() fails with a negative error, that error is
-silently ignored rather than returned.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-ax88179a-v=
-20-0-37b5a1189983@birger-koblitz.de?part=3D13
