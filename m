@@ -1,56 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794011570;
-	b=A+K3KDQMANnQ2cpckcgWOqLAXR5ojXmD2Gu/B5Bj8F+DKIr3iWHOri1dXL2EG35hPm3A
-	 hv3ND7yLmzQx5dXxxH7H0nsUcoCTifIHVfdiw7/ifFvki1vhYRKUmmYzqO2UV92TWWgt8
-	 pvEPd7tYGPClMd6l1rWdox5MKvXv5AlQ8SUROwdGtizLSeSKcJz7efzkBhXzdDSzIaBev
-	 xILZzJCH5BhktLPGP+gxUDY3v5IVxZFNLgkUPcVE0XTtcy59JOeMDUI947QPRrstDh1Zo
-	 E22tHXAXaLwwdHh7ePkX6G/qKtmClOPzn1OrDCT3Ji48BYvdETaEGwgmy9YT7vYT5PA==
+	t=1794011731;
+	b=EyCdLxLvXrNZJOce45FRvYhFu0HHtKDTt2D2f5hAJfdljFAKdIvmIBNF/GsRlVHbAE/A
+	 vEdtr1E5T/kzmRlsk4PVIQfQzigCoBVbGBFDR54XybNXgFDXQT1ACt3STN/N4j7dDU8Aa
+	 btssoNXNcrEtNUhTanlZNm5ivs+ObTIkmm+0LYWoWlFzs0uGsrEazK3Pn5FXgH88Yw9kJ
+	 fh+rGsyS701AaWj65JB4p4CBfL2pzXPsLByO63AESoH0vjbzZ3hQwJKLTcMFUbXpZqMKv
+	 COn/yuU5/8ZLHQGN8hTKaAKc7hSORWZhqynR/i7a1KVY00nqinBTGR9fyLkXqGeWEww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011570;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=6tadhw+AXdrk8x69B3my0xoxqIHXU0eA3dlBDVo3nX4=;
-	b=gCd6quoM7+RXMZ6QC9smGSVbkUj71e4Unk3qyRrdnNLfJwsduuBmq9RK5JjLyQl06XA+
-	 moXBOfWhGaBlsaQEvgckrK8iJZl1I3kmnQkcv6Xflk8VVIQU9S/LLcgoV9yBT+h4KSe1w
-	 0RQSCg2Vllwxs+kBi+U2L7GwWhaGqgivzi7Vf/FHWtgmDnHiLV80ohAKIUy5kR5ImhaW3
-	 edBQ96sCpayRxEp0XDXsgkes2Iirl9fFDcYlmawUvySgyPSTlD3OSdXtThLwgqq1HXdaB
-	 PrSisBvsKy/FHc/Isxz8aa85opKicNv2EElsDpOrepH7aeHYYZ93054e//35HT93yUA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011731;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:
+	 Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=wkkOMBuq2ItsU8Of8/1kEShV8WBIjZESY/FvrDbCiaY=;
+	b=BGOIOvY0EX+k0H6SOhL3n1ogq9Gpl8zEi6Hvb/sDCpsdApEfbpadUiHl/8SG72XhrVol
+	 sxBBY/Bdc7iExNFRgL8FClc4CpQf+bnGBgEjn8XuNDIM6BsCW/F+D4Lmhkaz6upbwX4hj
+	 LuWV1YD1gO7w39PJP2n9NMBJDUxlAPZzhdMmay/UQ+EBUXaJpxH+9RXrWN0ExTo3celCv
+	 TRASNn/Z/28rF63qj30kjH5FqRdE9Cq0AfoqeMwgCqRfWX3SGTafyQCTPLREKcRARoefR
+	 t5BVML57+3U3GklKGcm/yjx2NoIQ8YUfAdlpUxrOQJDyWjH1lNlywNhOT+v+dVpi+uQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q9CDyIH0;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=L+nRxm2C;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=Exm4AlYm;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A960D606A32E
-	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 00:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B289F606A32D
+	for <linux-usb@vger.kernel.org>; Sat,  7 Nov 2026 00:35:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B289F606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q9CDyIH0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F0001F0089F;
-	Sat,  7 Nov 2026 00:32:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011569;
-	bh=6tadhw+AXdrk8x69B3my0xoxqIHXU0eA3dlBDVo3nX4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Q9CDyIH0L46OkuKR/kinnTxfKure82XWwjHmtPW4xWrddpLwINQmIIN/BeyzgGMto
-	 +OLzdJIHkwQp+HSv2AXYJEgj05eUBE5BE4ek3XH3b/GoEOOzISZx1LRJVIFjVDNRpe
-	 Bc19m0dwR6iuMdSNkVMfEL4AxPtEMJo0DBex0aast791OUFnsKRaCW0Kqd6sKc5bAG
-	 vQLwvDWMPpBXgNUR3X+LDtW5wA/3b4lNp+goEUXOATDvedYDgi7nNNBJycpa96vMZY
-	 p67LT/mtTG1+opCz/dCQhB8Q0NTHJDTqP1zopCziuJTi1eRUJhVd9xIqq7p3Q46WJL
-	 5ITtlu7oQUJ7Q==
-Message-ID: <sashiko-outbox-202428@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: gadget: gadgetfs: dequeue pending ep0 request
- before freeing
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jing Lin" <kayano050408@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261107-b4-gadgetfs-ep0-v2-1-d8896e1ad517@gmail.com>
-References: <20261107-b4-gadgetfs-ep0-v2-1-d8896e1ad517@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 00:32:48 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=L+nRxm2C;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=Exm4AlYm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794011729;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=wkkOMBuq2ItsU8Of8/1kEShV8WBIjZESY/FvrDbCiaY=;
+	b=L+nRxm2CdsZjDDLfOiM3rw6JQ2YSkFMIvrmpYPMZjS84C3zqbxjW61Ov4CHinq/8Z9Ed7F
+	p7lG9WubYfUP83O+uFRnNVIki9rHguw5OoMUUOdBRpt/ZEwMBQEEHnj3Jdjq/4hm5x8Lnz
+	scGozOfaPzmDEO9fZV6zsNhh4r3/6/Y=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-172-83jCe3K1PkmfHA6rMTBuAA-1; Fri, 06 Nov 2026 19:35:28 -0500
+X-MC-Unique: 83jCe3K1PkmfHA6rMTBuAA-1
+X-Mimecast-MFC-AGG-ID: 83jCe3K1PkmfHA6rMTBuAA_1794011728
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-91ea053ef90so23073736d6.1
+        for <linux-usb@vger.kernel.org>; Fri, 06 Nov 2026 16:35:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1794011728; x=1794616528; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=wkkOMBuq2ItsU8Of8/1kEShV8WBIjZESY/FvrDbCiaY=;
+        b=Exm4AlYmuHbd8sGxG8TGS2gsdPsAltBSXAI/mxfKHuusHm0GrNdorHi4h2bo/S7ce3
+         XxIOc4uHWeaxREHTI9At9kvm7lNqBC8HiYgUSALvuF4Qm/GUk7woA/lZVPxro2wZlD9E
+         I8govdx8ZdhLiN5zRaJvfsuJHODsDVELU78Aa+wFjgGhZAO/D6O+ri0p8zqk5B/9Qtu0
+         Ty6wRDu5EvFGB5x4AeaCYn9UubHBgwbElk19OkzqP5xXgXSDCwMD8aQedtUjXxhdxrMa
+         qFIPVyViyXYyBqUlJNew8egUhG9u/atPlXyYXdz8IO63en2EOPBo+UV9HzQ1SG30hvym
+         o6ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794011728; x=1794616528;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=wkkOMBuq2ItsU8Of8/1kEShV8WBIjZESY/FvrDbCiaY=;
+        b=ulM2bJlMQdaRK3yPiS+EkOWSiJTxRpzQ9Zcta1G/YQKuNZARrwpyA3tlnmsAoi/9Fs
+         VW+ldOD6amI2WCAGMBQAiid/6FkkmfFvqMtjno0xFW5K9WAs7K9PLMHW8yHoA3nuZLbS
+         kYqQUBlWBKdbN+CWhtBsXhze7Ie2pnmAlNj7jVAkA2funyeIjHT72JhYVaNvtZFhWhcj
+         KVNyEaoP2xzRlDeB1q4GWUdU+eU6QFCJ/x0SkV0ZGErbcvIGU4+0Vit2ucAkll7FCDDZ
+         2yHKLqt1+APsme9E9l8QYHxJpy9Kuwu9wvfKU2ETR+3yWltJso/C9bvT/ZxVwG8eBnlK
+         2pCQ==
+X-Gm-Message-State: APuU4Z/i5yWJJP0RAe1acdnht66zm8Ve2mUUayZakm9Qt+VixV9WS8fd
+	Db67/7dFcUO6EAd4+Efmvn2+ymZ7ek4U7jom67K9vubjRQ5INpnrAE4tACIis3dJw3+0DxJLgHd
+	LPZySEeOfGE93IgqB9yM3iHwZ7PAWB3FcGvcYevfuhUPWkfyKivi9myEvjV+1DA==
+X-Gm-Gg: AYBFou3kOeOjwgnki/YEzQeXL7MWP9Spw6+nRCQNzyz79qyc9sGt6QyeHBCkw5u4Blr
+	Tx/QUBc+IZC1DRllNJssNEy2bhgAZp0wqIXd8c5PZbGafl3FJdfZdB5ax4ddBQZ7c6bfbKodj8y
+	3tMgWqE18wHRHODIUT2Bw1eM0wX629i+RS3Q+RQMXGtUP29BcVJmHVyqYCrcrODud9GRO3qIBTQ
+	AoMeGC1G0Lbsn+bHsYuiKv7I2mmWiruP7icLkF+I+m5xBRa9LNf6KKRCNbTlji3sQ9Q1I7WH3+W
+	90TBJX9NODDarJZOTItT88IiAorGhSfXc04Y/bIJ0lVrZlnBybRsQzLeUE0MAIfm+Ikpj2gQ6pO
+	V4Un/FzAXV8qIktpc+KKjt3tuD4RQXJv55naLfjH/la25/iDnrTqMBSyItCA6NkZ3dSIoqxtfZk
+	QVZ9hhfFK3lmr/4am6
+X-Received: by 2002:a05:6214:21e7:b0:917:942d:f597 with SMTP id 6a1803df08f44-91ea96216c5mr59222946d6.12.1794011727916;
+        Fri, 06 Nov 2026 16:35:27 -0800 (PST)
+X-Received: by 2002:a05:6214:21e7:b0:917:942d:f597 with SMTP id 6a1803df08f44-91ea96216c5mr59222696d6.12.1794011727405;
+        Fri, 06 Nov 2026 16:35:27 -0800 (PST)
+Received: from bmasney-x1.rmtuswv.csb ([69.43.42.202])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ea6a2c5c3sm32967686d6.12.2026.11.06.16.35.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 16:35:26 -0800 (PST)
+From: Brian Masney <bmasney@redhat.com>
+Subject: [PATCH 0/3] usb: phy: convert to subsys_platform_driver()
+Date: Fri, 06 Nov 2026 19:35:11 -0500
+Message-Id: <20261106-usb-subsys-v1-0-3a86369c3f86@redhat.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,180 +109,47 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ5AMBCF4as0s9ZEpWnKVcRCdTAWJR2EiLsrl
+ l/y3n8BYyRkqMQFEXdimkOCygR0YxsGlOSTocgLo1Ru5MZO8ub4ZGl7rZwvtdGthXRYIvZ0fLG
+ 6+Z2WE3brW4D7fgAvZvcJbgAAAA==
+X-Change-ID: 20261106-usb-subsys-8f41bd9464a8
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Brian Masney <bmasney@redhat.com>
+X-Mailer: b4 0.17-dev-d96cb
+X-Developer-Signature: v=1; a=openpgp-sha256; l=841; i=bmasney@redhat.com;
+ s=20250903; h=from:subject:message-id;
+ bh=yk6LNvtf3ULASyxI6ekyKd4jXFpRSV0rSCDucsgDTMo=;
+ b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGLLeFbneffKraLkc+7J7nlxnMnprHt9xk5tiNol38oJoP
+ dEVPB5BHaUsDGJcDLJiiixLco0KIlJX2d67o8kCM4eVCWQIAxenAEyExZGR4eC06os6xpOnzpsk
+ lqP59KyrhtFDQxvrfU9W6q/SPrToUSYjQ/vXMCutO7+7uRb9qjC8OFls+kSD4Jt2LBUHCvfInw+
+ 8yAsA
+X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
+ fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] usb: gadget: gadgetfs: ep0 wedged with -EBUSY when
-  setup_out_ready stays set
-- [Low] usb: gadget: gadgetfs: unresolvable 12-char Fixes SHA
-  1da177e4c3f4
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [Medium] usb: gadget: gadgetfs: unsigned ev_next underflow in
-  ep0_read() [1]
---
+Reduce boilerplate code in these drivers and convert them over to use
+the macro subsys_platform_driver().
 
-commit ce956a44f005ea8d17296fed54d8ab804ecf6baf
-Author: Jing Lin <kayano050408@gmail.com>
+Signed-off-by: Brian Masney <bmasney@redhat.com>
+---
+Brian Masney (3):
+      usb: phy: generic: convert to subsys_platform_driver()
+      usb: phy: phy-ab8500-usb: convert to subsys_platform_driver()
+      usb: phy: twl6030: convert to subsys_platform_driver()
 
-> usb: gadget: gadgetfs: dequeue pending ep0 request before freeing
->
-> gadgetfs_unbind() frees the preallocated ep0 request after disconnecting
-> the gadget, assuming that no I/O remains active.
->
-> With dummy_hcd, disconnecting does not necessarily drain ep0, so a delayed
-> userspace response can leave dev->req queued when it is freed. This
-> triggers the warning in dummy_free_request() and a use-after-free when
-> dummy_udc_stop() subsequently drains the endpoint queue.
->
-> In addition, gadgetfs_setup() can reuse dev->req while a completed
-> delegated control OUT transfer still has dev->setup_out_ready set waiting
-> for ep0_read() to copy the payload to userspace and call clean_req(),
-> which can overwrite req->buf with descriptor pointers and trigger an
-> invalid kfree() in clean_req().
->
-> Track dev->req from submission through completion under dev->lock and
-> reject reuse in both setup_req() and gadgetfs_setup() while either
-> dev->setup_out_ready or dev->ep0_req_queued is set. Reset req->buf to
-> dev->rbuf in setup_req() when len fits in dev->rbuf. In gadgetfs_unbind(),
-> after waiting for active UDC users to finish, dequeue a pending request
-> with dev->lock dropped and clean up any unread control OUT buffer before
-> freeing dev->req and clearing ep0->driver_data.
->
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Reported-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3Dc73e1942197af9f54ca3
-> Tested-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jing Lin <kayano050408@gmail.com>
+ drivers/usb/phy/phy-ab8500-usb.c  | 12 +-----------
+ drivers/usb/phy/phy-generic.c     | 12 +-----------
+ drivers/usb/phy/phy-twl6030-usb.c | 12 +-----------
+ 3 files changed, 3 insertions(+), 33 deletions(-)
+---
+base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+change-id: 20261106-usb-subsys-8f41bd9464a8
 
-[Severity: Low]
-The 12-character prefix 1da177e4c3f4 in the Fixes: trailer is ambiguous in
-the kernel git repository and cannot be resolved because it collides with
-another object; using the 13-character prefix 1da177e4c3f41 ("Linux-2.6.12-=
-rc2")
-or Fixes: 520b72fc64de ("USB: gadgetfs: Fix crash caused by inadequate
-synchronization") avoids the collision.
+Best regards,
+--  
+Brian Masney <bmasney@redhat.com>
 
-> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legac=
-y/inode.c
-> index 7f6d8460152f9..9b74476dd8c98 100644
-> --- a/drivers/usb/gadget/legacy/inode.c
-> +++ b/drivers/usb/gadget/legacy/inode.c
-
-[ ... ]
-
-> @@ -1073,13 +1087,20 @@ ep0_read (struct file *fd, char __user *buf, size=
-_t len, loff_t *ptr)
->  			struct usb_request	*req =3D dev->req;
-> =20
->  			if ((retval =3D setup_req (ep, req, 0)) =3D=3D 0) {
-> +				dev->state =3D STATE_DEV_CONNECTED;
-> +				dev->ep0_req_queued =3D true;
->  				++dev->udc_usage;
->  				spin_unlock_irq (&dev->lock);
->  				retval =3D usb_ep_queue (ep, req, GFP_KERNEL);
->  				spin_lock_irq (&dev->lock);
->  				--dev->udc_usage;
-> +				if (retval < 0) {
-> +					dev->ep0_req_queued =3D false;
-> +					clean_req(ep, req);
-> +				}
-> +			} else {
-> +				dev->state =3D STATE_DEV_CONNECTED;
->  			}
-> -			dev->state =3D STATE_DEV_CONNECTED;
-
-[Severity: Medium]
-This problem wasn't introduced by this patch, but can ep0_read() underflow
-dev->ev_next [1]?
-
-Later in ep0_read(), dev->lock is dropped across copy_to_user() while
-copying n queued events, and next_event() can reset dev->ev_next in the
-meantime:
-
-CPU0                                CPU1
-ep0_read()
-  spin_lock_irq(&dev->lock)
-  n =3D dev->ev_next
-  spin_unlock_irq(&dev->lock)
-  copy_to_user(buf, &dev->event, len)
-                                    gadgetfs_disconnect()
-                                      spin_lock(&dev->lock)
-                                      next_event(..., GADGETFS_DISCONNECT)
-                                        dev->ev_next =3D 0
-                                        event =3D &dev->event[dev->ev_next+=
-+]
-                                      spin_unlock(&dev->lock)
-  spin_lock_irq(&dev->lock)
-  if (dev->ev_next > n)
-    memmove(...)
-  dev->ev_next -=3D n                 <-- unsigned underflow
-  spin_unlock_irq(&dev->lock)
-
-When n >=3D 2 and a concurrent disconnect or connect resets dev->ev_next to
-1 (or another reader consumes the events), subtracting n wraps the
-unsigned dev->ev_next counter near UINT_MAX.  Subsequent ep0_read() and
-next_event() calls can then read or write past the end of
-dev->event[N_EVENT] or hit BUG_ON(dev->ev_next > N_EVENT).
-
-[ ... ]
-
-> @@ -1508,6 +1531,11 @@ gadgetfs_setup (struct usb_gadget *gadget, const s=
-truct usb_ctrlrequest *ctrl)
->  	} else if (dev->state =3D=3D STATE_DEV_SETUP)
->  		dev->setup_abort =3D 1;
-> =20
-> +	if (dev->setup_out_ready || dev->ep0_req_queued) {
-> +		spin_unlock(&dev->lock);
-> +		return -EBUSY;
-> +	}
-
-[Severity: High]
-Can this check permanently wedge ep0 with -EBUSY after a 0-length control
-OUT transfer?
-
-When userspace handles a 0-length control OUT request such as
-USB_REQ_SET_CONFIGURATION, gadgetfs_setup() sets dev->setup_in =3D 0 at the
-delegate label and queues a GADGETFS_SETUP event.  Userspace acknowledges
-the status stage by calling ep0_read() with len =3D=3D 0, which calls
-setup_req(ep, req, 0), sets dev->state =3D STATE_DEV_CONNECTED, and queues
-dev->req with req->complete =3D ep0_complete.  When that 0-length request
-completes, ep0_complete() sees !dev->setup_in and sets
-dev->setup_out_ready =3D 1 without calling clean_req():
-
-drivers/usb/gadget/legacy/inode.c:ep0_complete() {
-	...
-	if (!dev->setup_in) {
-		dev->setup_out_error =3D (req->status !=3D 0);
-		if (!dev->setup_out_error)
-			free =3D 0;
-		dev->setup_out_ready =3D 1;
-		ep0_readable (dev);
-	}
-
-	/* clean up as appropriate */
-	if (free && req->buf !=3D &dev->rbuf)
-		clean_req (ep, req);
-	...
-}
-
-Because dev->state is already STATE_DEV_CONNECTED, ep0_read() never enters
-the STATE_DEV_SETUP OUT-data collection path to call clean_req(), and
-because gadgetfs_setup() now rejects any new SETUP packet while
-dev->setup_out_ready is set before reaching delegate:, dev->setup_out_ready
-is never cleared and every subsequent control transfer on ep0 fails with
--EBUSY.
-
-The same permanent -EBUSY wedge also happens when a delegated control OUT
-transfer completes with req->status !=3D 0 (ep0_complete() sets
-dev->setup_out_ready =3D 1 and ep0_read() returns -EIO without calling
-clean_req()), or when a completed control OUT transfer is aborted by a new
-SETUP packet (setting dev->setup_abort =3D 1 right before returning -EBUSY)
-or by gadgetfs_disconnect() before ep0_read() collects the payload.
-
-[1] https://sashiko.dev/#/bug/linux-46aadf2a-f589-49b0-82b8-c3857e4081c7
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107-b4-gadgetf=
-s-ep0-v2-1-d8896e1ad517@gmail.com?part=3D1
