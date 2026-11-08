@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794127185;
-	b=1I5seLqLOjsGOqH20i9zHn7JSTn3u2FfOo0iFJEoM0JoVOL9xCxUndnDXx2NSbmZ6Jon
-	 RHGIxMVycQbNhYxqTF7O2tadw+nbteq7UtgaE9IwP3y8t2I5iX4FPJU7AvAzXD+UEvcdP
-	 gr9QlF9O+5FYsZtoZXiy3wK1sE7lL6591iQy727u7/YNMOjYg161JiLsX6ZHJLK879Xx1
-	 6/m+yT3LQhmkHuDlrrEus3StcCe7oxcFXqfW9RdqjN689gagYtF+Ad3dZNxT6gX4vdjTQ
-	 k3FwcOV/if1zKP3iaaNiqLYzg6bQ0RW4zQ/8zkh5Q/LKGS639gOwdGiXPtirkGC831A==
+	t=1794134133;
+	b=lLn87ns9AWY31b3wA0ZA6eo4XDM2Q13GL2CkRGio/y5NYmZiqqjOqhk5Z+GX+jSzdlOV
+	 uuyYpZJNn5SLzZx6G/lZT9mIDhy/pXjt06sNCGL/w4T3WQNccOxZwmTjNmbjBvTUa+/LU
+	 Ui20R9wnMPsR2ML9Aiu4Q1UGozAekFfNGYl++GjB5rl5gE472J0iWAkGmCoiR2EhdoRAU
+	 GGqzKoB8BoIwzRXEa2STd8hWBVEDDsuew9b31L1Nix7qGhJRriqXMOTNAZUdmd6TY92/s
+	 pnxzmVDVCb7Gvpf/ng/Gv5Nx/QS+YJH+GD5iRyGU5Mq7SpakkRg/z74dnpV96PLqpkg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794127185;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer;
-	bh=TR0Ic8FdfhFovFBSqoBf8epOfPvHW3egKQVfisx1qZI=;
-	b=gvGhUYVNKBk2AnYT4Y3qDvAET7ZNIkpVvrhMTzTM8fa12vujwf0xInT8AeP/9tmQVOLp
-	 rJmLzc1SMg5ptMs9v4NLgozCRZXc/hpmCa78h69AOtNvTKzFQGG6YhgvwHJVSsWLD9Jjk
-	 Fm/7deVp1mNmO+BoYWc6WkbEI06898g5vX/wWL+pabPWhZQvJCyl2y0oN8q09uc97Lh8z
-	 T09g0uR5GukriDI3aUUhnSufK3OMH7QcJeyxqjweKsI6sYArWONRgYCzj7MZor5kPLUNW
-	 2EfQqkmrvSvqEQgsfLNi2aMDH1fH8wSdagL8qdxQ8R6ld0LFOJ8oxFMtgbJYwx7aBUA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794134133;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=biMNnuk3Zlmj9i5odT0zZonccKXcOUkOod+xD4mMBfI=;
+	b=uRNWcpJTwwIvxR6j1Evsw+aDRz6SDzwpcBqM5G28VkdNYNIWsYhtTAyNWIyr3zjQpmf4
+	 g3Wjp3SzPsi2LALmfbH2tj7fL3bF0UIhQ323eCsj+pk77GjIgpoP241JeP/gzC1FATXod
+	 C3TEGOnBYPM95C9btCWdV2yDvXR5SDIPinr8paPwY3A1jldN6hu0RUWqkqrHBifidqbLu
+	 l7vVYubixcb/jv/xqfQYyueZpG3OBsvCwRzMnNe5/Ryoqod3exPI07BIglFo4ncnOOm/4
+	 k5zgpp26AyvCAssCrI2pjjF1HJdTG050TQch/jDXIponAaULsNAOGpHDQUTZKZwKg9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ExyqdcVP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6m3DuiP;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2C3606A31C;
-	Sun,  8 Nov 2026 08:39:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBAD4606A31C;
+	Sun,  8 Nov 2026 10:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ExyqdcVP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79CE61F0089F;
-	Sun,  8 Nov 2026 08:39:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6m3DuiP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 634381F0089F;
+	Sun,  8 Nov 2026 10:35:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794127185;
-	bh=TR0Ic8FdfhFovFBSqoBf8epOfPvHW3egKQVfisx1qZI=;
-	h=From:Date:Subject:To:Cc;
-	b=ExyqdcVPjh/2tevdniSNuiMYeTaU1jdf+KXmz4NWmnv1u1FvnNxPacb1VWuNtLldG
-	 jUYtZEkWffGX9O3mVo/NrJ3yDR6Pgn9x8xdCu/I3Nsr3Jt8/UkA907JSd9J+X3y3Rh
-	 rzEDZIcqYch3ay055aAfAlwRrV6mWZ3K4Ef4oTPq+GD0oFVzKbpLDko2jkSOwbOGRX
-	 yOv17sn8QGCcbtZ1I1oUmtqbeVt9zpW1cDtwfaPaWFyHyhTmA5zMOYwUKzvM1FLq57
-	 0kX0Ew1swRTg7rgTzQ46REGMolIscrme9qLS67sTtTGW2Awf2Tgjh9ZpCYFObVK7HS
-	 lQMalzg7vr/vw==
-From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Date: Sun, 08 Nov 2026 10:39:34 +0200
-Subject: [PATCH v2] USB: usbfs: replace __get_free_page() with kmalloc()
+	s=k20260515; t=1794134132;
+	bh=biMNnuk3Zlmj9i5odT0zZonccKXcOUkOod+xD4mMBfI=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=S6m3DuiPCro/XVd9cTVILY+yPCtzVh9cHIV+UfdN6l8+YrF40Kn2cFHQ8q2z1DCtD
+	 4s8UKkireKEwxex+AFmUaSCEcEbwna400Hlm3HcUr961wosTKtozeUVLHX0k0hgrGv
+	 uZ6aTNHBksLDsX3C5IogzhsQTh3Xs2kdeyhJHHOmpaOoKvXYIB9Gl3AZj7mXsDBz5o
+	 DQa5n3qXqViIIUWS1gpYcwxv6BrOmAh9CH/wvwTdBtscnuQyIpNj7m+BsLgrITzmsN
+	 ECGCu7Tq6B5AdbnecxOgF9vIU0YfCNvDhOsOnyyrN2tYALCRMaBr/OyvfiBufmCWxv
+	 KNAz4FCcHKIKw==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 7861D2BDF2ED;
+	Sun, 08 Nov 2026 10:35:30 +0000 (GMT)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -54,84 +54,93 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261108-usb-v2-1-c9209d527559@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/y2OzQ6CMBCEX4X0bLUUJOLJ9zActmWB9aeYXSAaw
- rtL0eM3MzuzsxJkQlHnZFaMEwn1YQW7S5TvILSoqV5ZWWMLc7KlHsVpqM3RIqRNA7Vaky/Ght5
- by7X6sYzuhn6IpzHhQFA7huC7KPVMLYXDE2RAjn5HMvT82d6Y0tjzX8zMtjil2miALC99ZqzNi
- 8sdOeBj33OrqmVZvtw9FNXJAAAA
-X-Change-ID: 20260829-usb-ad052ea1ffad
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Vlastimil Babka <vbabka@kernel.org>, linux-usb@vger.kernel.org, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.16.1-dev
+Subject: Re: [PATCH 17/25] spi: atcspi200: add optional interrupt support
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jun Chang <jun.chang@metanoia-comm.com>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Sebastian Reichel <sre@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Conor Dooley <conor@kernel.org>, 
+ Jonathan Cameron <jic23@kernel.org>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Ben Zong-You Xie <ben717@andestech.com>, 
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Ulf Hansson <ulfh@kernel.org>, 
+ Jisheng Zhang <jszhang@kernel.org>, CL Wang <cl634@andestech.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>, Adrian Hunter <adrian.hunter@intel.com>, 
+ Minas Harutyunyan <hminas@synopsys.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ =?utf-8?q?Randolph_Sheng-Kai_Lin=28=E6=9E=97=E8=81=96=E5=87=B1=29?= <randolph@andestech.com>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org, 
+ linux-phy@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>, 
+ linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
+In-Reply-To: <20261106-mt2824-v1-17-86087eaf5af4@bootlin.com>
+References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
+ <20261106-mt2824-v1-17-86087eaf5af4@bootlin.com>
+Date: Sun, 08 Nov 2026 10:35:28 +0000
+Message-Id: <179413412862.3424803.13503591139483354665.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1694; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=nZ4p7qaMdUmUqeh0nBYdZQklXm66HLo9DRQs7Nyk6nw=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+BBSp6d+beeDcy2WPH+13K7z/edOeA5c2WgYkFUt/2
+ b5CKJGPq6OUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQATSVFgZPg3m+NHgS/D5yks
+ Qh36OjbTa86LF9nmHJ6w4fPxPbf/ip8GqtBw2vv6YbL1paYdsqznI81qzuZ5rO73OWFmLW6uxv2
+ KBwA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-do_proc_control() allocates a temporary buffer for the data stage of a
-control transfer issued from userspace.
+> For PIO transfers, the driver busy-polls the FIFO empty/full flags and
+> the SPI active bit for completion. When the controller's interrupt is
+> available, use it instead of polling to keep the FIFO serviced and to
+> detect the end of transfer.
 
-This buffer can be allocated with kmalloc() as there's nothing special
-about it to go directly to the page allocator.
+> +static irqreturn_t atcspi_irq(int irq, void *dev_id)
+> +{
 
-kmalloc() provides a better API that does not require ugly casts and
-kfree() does not need to know the size of the freed object.
+> +	if (st & ATCSPI_TX_FIFO_INT) {
+> +		n = min(atcspi_tx_fifo_avail(spi, status), spi->tx_words);
+> +		atcspi_fifo_write(spi, spi->tx_ptr, n);
+> +		spi->tx_words -= n;
+> +		spi->tx_ptr = (unsigned char *)spi->tx_ptr + n * num_byte;
 
-Performance difference between kmalloc() and __get_free_pages() is not
-measurable as both allocators take an object/page from a per-CPU list for
-fast path allocations.
+You're casting away const here for some reason...
 
-For the slow path the performance is anyway determined by the amount of
-reclaim involved rather than by what allocator is used.
+> +	regmap_read(spi->regmap, ATCSPI_CTRL, &ctrl);
+> +	ctrl &= ~(CTRL_TX_THRES | CTRL_RX_THRES);
+> +	ctrl |= FIELD_PREP(CTRL_TX_THRES, spi->txfifo_size / 2) |
+> +	FIELD_PREP(CTRL_RX_THRES, spi->rxfifo_size / 2);
 
-Replace use of __get_free_page() with kmalloc() and free_page() with
-kfree().
+Weird indentation of the continuation.
 
-Link: https://lore.kernel.org/all/635405e4-9423-4a25-a6e7-e03c8ea0bcbe@redhat.com
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
----
-This is essentially a resend of the "USB: usbfs: replace __get_free_page()
-with kmalloc()" patch that fell between the cracks.
+> +	if (spi->tx_words) {
+> +		unsigned int status, nb_words;
+> +
+> +		regmap_read(spi->regmap, ATCSPI_STATUS, &status);
+> +		nb_words = min(atcspi_tx_fifo_avail(spi, status), spi->tx_words);
+> +		atcspi_fifo_write(spi, spi->tx_ptr, nb_words);
+> +		spi->tx_words -= nb_words;
+> +		spi->tx_ptr = (unsigned char *)spi->tx_ptr + nb_words * num_byte;
+> +	}
+> +
+> +	regmap_write(spi->regmap, ATCSPI_INTR_ST, ATCSPI_INTR_ALL);
+> +	regmap_write(spi->regmap, ATCSPI_INTR_EN, en);
 
-Alan and Vlastimil agreed on v1 that the kmalloc() overhead does not matter
-for usbfs memory accounting:
+Do we need the TX interrupt if everything fit into the FIFO?
 
-https://lore.kernel.org/all/8cbe558e-7f53-4ce4-be8e-52fdba9105d4@rowland.harvard.edu
----
-v2 changes:
-* drop already merged patches
+> +	regmap_write(spi->regmap, ATCSPI_INTR_EN, 0);
+> +	regmap_write(spi->regmap, ATCSPI_INTR_ST, ATCSPI_INTR_ALL);
 
-v1: https://patch.msgid.link/20260830-usb-v1-0-aa349c302246@kernel.org
----
- drivers/usb/core/devio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This just blindly clears all the interrupts, including the under/overrun
+interrupts but we didn't handle them all.
 
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index 101cb94254809..9a7cc7cdf00be 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -1190,7 +1190,7 @@ static int do_proc_control(struct usb_dev_state *ps,
- 		return ret;
- 
- 	ret = -ENOMEM;
--	tbuf = (unsigned char *)__get_free_page(GFP_KERNEL);
-+	tbuf = kmalloc(PAGE_SIZE, GFP_KERNEL);
- 	if (!tbuf)
- 		goto done;
- 	urb = usb_alloc_urb(0, GFP_NOIO);
-@@ -1265,7 +1265,7 @@ static int do_proc_control(struct usb_dev_state *ps,
-  done:
- 	kfree(dr);
- 	usb_free_urb(urb);
--	free_page((unsigned long) tbuf);
-+	kfree(tbuf);
- 	usbfs_decrease_memory_usage(PAGE_SIZE + sizeof(struct urb) +
- 			sizeof(struct usb_ctrlrequest));
- 	return ret;
-
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20260829-usb-ad052ea1ffad
-
---
-Sincerely yours,
-Mike.
-
+-- 
+Mark Brown <broonie@kernel.org>
