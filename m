@@ -1,56 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794125607;
-	b=KjWYZCzyeWV0HAOeF3/V0SB+UHaJbtqkLvodq59UFx11W50U8/RG2sJO9wUWE9qW84fx
-	 1wbOKR/gYDyo9hPi2C+Qvv0rhTuHCVmHOOWnHDZOwhvnYjpb3HUBpOhHNHkOZdw8Zrh8J
-	 73z29q7mObaY43Jps6I6eT9UVJOD3IMyJ5mW60YgmkaQenGVWvQFSyiDT87wEfKrfrGko
-	 +UDYu3vlXENOjQbCSjdsO+MjtpuZ7eLQACEr3fQjl7e62bRDVqUTla4butWopEAOWItOf
-	 I4VruTXADqpCalcXpnkhAiHd332OX5e1kjfVdgBI9etQPgoh3EaI5ZT/RfGRONs/60w==
+	t=1794127185;
+	b=1I5seLqLOjsGOqH20i9zHn7JSTn3u2FfOo0iFJEoM0JoVOL9xCxUndnDXx2NSbmZ6Jon
+	 RHGIxMVycQbNhYxqTF7O2tadw+nbteq7UtgaE9IwP3y8t2I5iX4FPJU7AvAzXD+UEvcdP
+	 gr9QlF9O+5FYsZtoZXiy3wK1sE7lL6591iQy727u7/YNMOjYg161JiLsX6ZHJLK879Xx1
+	 6/m+yT3LQhmkHuDlrrEus3StcCe7oxcFXqfW9RdqjN689gagYtF+Ad3dZNxT6gX4vdjTQ
+	 k3FwcOV/if1zKP3iaaNiqLYzg6bQ0RW4zQ/8zkh5Q/LKGS639gOwdGiXPtirkGC831A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794125607;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=haZMi2kLmRr+HCcUojX8392H22F9+odjqewThIiV7BI=;
-	b=P8A1Hr5wogBPP82BAqoUPMx2nJzZtfPIoq7a7pz9iNoDLTgyrkDF6nlC349C8cjbUCO/
-	 91E4a+S0YTBxGo4VDP6jlxSS00I9T3aoBSgsBI0dQKkQYaisA67z/9AdXt7SSTgqPmQun
-	 ds2HL/f1fm1R+t3HSLRE3Hg8GSxIf6c3zXdJH8wdOQ4fHPT+M58zOQNet3o4IKDiwcTos
-	 s1mzbXROnPPQQ3liNGZ/Xzv7PzboDmmVE7GztpOSLY7VgDftQP/fF+XOEkndbHVeVfqrO
-	 /bGWPd/IJamU8p36dwD1Vj2hBatl/2aH0KEcrm5VWqAQQeSU8pHJF1wlYSela7AMxhQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794127185;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer;
+	bh=TR0Ic8FdfhFovFBSqoBf8epOfPvHW3egKQVfisx1qZI=;
+	b=gvGhUYVNKBk2AnYT4Y3qDvAET7ZNIkpVvrhMTzTM8fa12vujwf0xInT8AeP/9tmQVOLp
+	 rJmLzc1SMg5ptMs9v4NLgozCRZXc/hpmCa78h69AOtNvTKzFQGG6YhgvwHJVSsWLD9Jjk
+	 Fm/7deVp1mNmO+BoYWc6WkbEI06898g5vX/wWL+pabPWhZQvJCyl2y0oN8q09uc97Lh8z
+	 T09g0uR5GukriDI3aUUhnSufK3OMH7QcJeyxqjweKsI6sYArWONRgYCzj7MZor5kPLUNW
+	 2EfQqkmrvSvqEQgsfLNi2aMDH1fH8wSdagL8qdxQ8R6ld0LFOJ8oxFMtgbJYwx7aBUA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=loVjCt6o;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ExyqdcVP;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9BF606A31C
-	for <linux-usb@vger.kernel.org>; Sun,  8 Nov 2026 08:13:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2C3606A31C;
+	Sun,  8 Nov 2026 08:39:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=loVjCt6o
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBCDD1F0089F;
-	Sun,  8 Nov 2026 08:13:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ExyqdcVP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79CE61F0089F;
+	Sun,  8 Nov 2026 08:39:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794125607;
-	bh=haZMi2kLmRr+HCcUojX8392H22F9+odjqewThIiV7BI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=loVjCt6oPnOLtsCJD0hHnuQ8Pgh8a4KllDtVtD1bEZDWF1p7rgMewD1+n1bcHcsCo
-	 OrXk8ZNLAmuQfVmmUsxegwvSv8HRKt1hpGJNgTjnLhMguxtsSjOz6mVmNzofRpuHGH
-	 WPqLOApq4ja/pTgEQzy305eif4aoQfso5fM9wHM8aYhjRWTBwYJ4GGM6yjgU/jdV+m
-	 2tJ9dmCuIhbzEe3orcJ9SxqqjeQTmM/e+C6k/4CNIDhiQqHbNFeJ7ayOePHsXylcVq
-	 wCAAvAevps8qQ96nLzl3BhsRqaxCSD+e38QEvqJrE6o1tdRJmLa8SWTTvlTceUcfVX
-	 y1U1bBaivhOnA==
-Message-ID: <sashiko-outbox-203644@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: f_uac1_legacy: cancel playback_work before
- freeing f_audio
-Reply-To: sashiko-reviews@lists.linux.dev
-To: hyunjungg <hj351016@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261108075116.251501-1-hj351016@gmail.com>
-References: <20261108075116.251501-1-hj351016@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2026 08:13:26 +0000
+	s=k20260515; t=1794127185;
+	bh=TR0Ic8FdfhFovFBSqoBf8epOfPvHW3egKQVfisx1qZI=;
+	h=From:Date:Subject:To:Cc;
+	b=ExyqdcVPjh/2tevdniSNuiMYeTaU1jdf+KXmz4NWmnv1u1FvnNxPacb1VWuNtLldG
+	 jUYtZEkWffGX9O3mVo/NrJ3yDR6Pgn9x8xdCu/I3Nsr3Jt8/UkA907JSd9J+X3y3Rh
+	 rzEDZIcqYch3ay055aAfAlwRrV6mWZ3K4Ef4oTPq+GD0oFVzKbpLDko2jkSOwbOGRX
+	 yOv17sn8QGCcbtZ1I1oUmtqbeVt9zpW1cDtwfaPaWFyHyhTmA5zMOYwUKzvM1FLq57
+	 0kX0Ew1swRTg7rgTzQ46REGMolIscrme9qLS67sTtTGW2Awf2Tgjh9ZpCYFObVK7HS
+	 lQMalzg7vr/vw==
+From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Date: Sun, 08 Nov 2026 10:39:34 +0200
+Subject: [PATCH v2] USB: usbfs: replace __get_free_page() with kmalloc()
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,126 +51,87 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261108-usb-v2-1-c9209d527559@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/y2OzQ6CMBCEX4X0bLUUJOLJ9zActmWB9aeYXSAaw
+ rtL0eM3MzuzsxJkQlHnZFaMEwn1YQW7S5TvILSoqV5ZWWMLc7KlHsVpqM3RIqRNA7Vaky/Ght5
+ by7X6sYzuhn6IpzHhQFA7huC7KPVMLYXDE2RAjn5HMvT82d6Y0tjzX8zMtjil2miALC99ZqzNi
+ 8sdOeBj33OrqmVZvtw9FNXJAAAA
+X-Change-ID: 20260829-usb-ad052ea1ffad
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, linux-usb@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.16.1-dev
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Medium] usb: gadget: f_uac1_legacy: cancel_work_sync() after
-  gaudio_cleanup()
-- [Medium] usb: gadget: f_uac1_legacy: play_queue buffer leak in
-  f_audio_free()
-- [Low] usb: gadget: f_uac1_legacy: Fixes tag cites file rename commit
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [Critical] usb: gadget: f_uac1_legacy: use-after-free in
-  f_audio_complete() due to undisabled out_ep [1]
+do_proc_control() allocates a temporary buffer for the data stage of a
+control transfer issued from userspace.
+
+This buffer can be allocated with kmalloc() as there's nothing special
+about it to go directly to the page allocator.
+
+kmalloc() provides a better API that does not require ugly casts and
+kfree() does not need to know the size of the freed object.
+
+Performance difference between kmalloc() and __get_free_pages() is not
+measurable as both allocators take an object/page from a per-CPU list for
+fast path allocations.
+
+For the slow path the performance is anyway determined by the amount of
+reclaim involved rather than by what allocator is used.
+
+Replace use of __get_free_page() with kmalloc() and free_page() with
+kfree().
+
+Link: https://lore.kernel.org/all/635405e4-9423-4a25-a6e7-e03c8ea0bcbe@redhat.com
+Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+---
+This is essentially a resend of the "USB: usbfs: replace __get_free_page()
+with kmalloc()" patch that fell between the cracks.
+
+Alan and Vlastimil agreed on v1 that the kmalloc() overhead does not matter
+for usbfs memory accounting:
+
+https://lore.kernel.org/all/8cbe558e-7f53-4ce4-be8e-52fdba9105d4@rowland.harvard.edu
+---
+v2 changes:
+* drop already merged patches
+
+v1: https://patch.msgid.link/20260830-usb-v1-0-aa349c302246@kernel.org
+---
+ drivers/usb/core/devio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+index 101cb94254809..9a7cc7cdf00be 100644
+--- a/drivers/usb/core/devio.c
++++ b/drivers/usb/core/devio.c
+@@ -1190,7 +1190,7 @@ static int do_proc_control(struct usb_dev_state *ps,
+ 		return ret;
+ 
+ 	ret = -ENOMEM;
+-	tbuf = (unsigned char *)__get_free_page(GFP_KERNEL);
++	tbuf = kmalloc(PAGE_SIZE, GFP_KERNEL);
+ 	if (!tbuf)
+ 		goto done;
+ 	urb = usb_alloc_urb(0, GFP_NOIO);
+@@ -1265,7 +1265,7 @@ static int do_proc_control(struct usb_dev_state *ps,
+  done:
+ 	kfree(dr);
+ 	usb_free_urb(urb);
+-	free_page((unsigned long) tbuf);
++	kfree(tbuf);
+ 	usbfs_decrease_memory_usage(PAGE_SIZE + sizeof(struct urb) +
+ 			sizeof(struct usb_ctrlrequest));
+ 	return ret;
+
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20260829-usb-ad052ea1ffad
+
 --
+Sincerely yours,
+Mike.
 
-commit 12cbf9965abf5188436aa00e354e601adc2d615b
-Author: Hyunjung Ko <hj351016@gmail.com>
-
-> usb: gadget: f_uac1_legacy: cancel playback_work before freeing f_audio
->
-> The OUT endpoint completion (f_audio_out_ep_complete) and the set_alt path
-> schedule audio->playback_work, whose handler (f_audio_playback_work)
-> dereferences the f_audio (audio->lock, audio->play_queue, audio->card).
-> On teardown f_audio_free() frees the f_audio with kfree(audio) but never
-> cancels playback_work -- f_audio_disable() is empty and nothing else
-> drains it. A playback_work still pending when the function is freed runs
-> against freed memory, a use-after-free.
->
-> Cancel playback_work in f_audio_free() before kfree(audio). By then the
-> function is unbound and the OUT endpoint is disabled, so the work cannot
-> be re-queued and cancel_work_sync() is sufficient.
->
-> This was reproduced with KASAN as a slab-use-after-free in
-> u_audio_playback(), reached from f_audio_playback_work(), under dummy_hcd:
-> with a UAC1 playback stream active, unlinking the configfs function frees
-> the f_audio in f_audio_free() while the work is still in flight. A delay
-> was added to the gadget streaming path to make the schedule-vs-free race
-> land deterministically; the missing cancel is present regardless. With
-> this patch applied the splat no longer occurs.
->
-> Fixes: d355339eecd9 ("usb: gadget: function: make current f_uac1 implemen=
-tation legacy")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hyunjung Ko <hj351016@gmail.com>
-
-[Severity: Low]
-Commit d355339eecd9 ("usb: gadget: function: make current f_uac1
-implementation legacy") only renamed f_uac1.c to f_uac1_legacy.c.  Should
-the Fixes: tag point to f3a3406b3f56 ("usb: gadget: f_uac1: convert to new
-function interface with backward compatibility"), which introduced
-f_audio_free() without cancelling playback_work?
-
-> diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/ga=
-dget/function/f_uac1_legacy.c
-> index 7c8d60c7e87d1..2dca5cda8cfd7 100644
-> --- a/drivers/usb/gadget/function/f_uac1_legacy.c
-> +++ b/drivers/usb/gadget/function/f_uac1_legacy.c
-> @@ -945,6 +945,12 @@ static void f_audio_free(struct usb_function *f)
-> =20
->  	gaudio_cleanup(&audio->card);
->  	opts =3D container_of(f->fi, struct f_uac1_legacy_opts, func_inst);
-> +	/*
-> +	 * The function is already unbound, so the OUT endpoint can no longer
-> +	 * queue playback_work. Drain any work still pending before the
-> +	 * containing f_audio is freed, otherwise it runs against freed memory.
-> +	 */
-> +	cancel_work_sync(&audio->playback_work);
->  	kfree(audio);
-
-[Severity: Medium]
-Should cancel_work_sync(&audio->playback_work) be called before
-gaudio_cleanup(&audio->card)?
-
-f_audio_playback_work() calls u_audio_playback(&audio->card, ...), which
-reads substream->runtime from card->playback.substream and loops back to
-try_again when snd_pcm_kernel_write() fails.  Calling gaudio_cleanup()
-first closes card->playback.filp while playback_work may still be running,
-which can free substream->runtime underneath u_audio_playback() or leave it
-retrying in try_again while cancel_work_sync() waits.
-
-[Severity: Medium]
-Does cancelling audio->playback_work here leak buffers left on
-audio->play_queue (as well as audio->copy_buf)?
-
-f_audio_out_ep_complete() and f_audio_set_alt() append each allocated
-struct f_audio_buf to audio->play_queue and schedule audio->playback_work,
-and f_audio_playback_work() is the only place that dequeues and frees them
-with f_audio_buffer_free().  When cancel_work_sync() cancels a pending work
-item, or when more than one buffer is queued, the remaining buffers on
-audio->play_queue are never freed before kfree(audio).
-
-[Severity: Critical]
-This problem wasn't introduced by this patch, but nothing disables
-audio->out_ep before f_audio_free() runs [1], so can
-f_audio_complete() still race with teardown and use audio after free?
-
-When the host selects alternate setting 1, f_audio_set_alt() enables
-audio->out_ep and queues usb_request objects with req->context =3D audio and
-req->complete =3D f_audio_complete, while f_audio_disable() is a no-op and
-neither f_audio_set_alt(), f_audio_unbind(), nor f_audio_free() calls
-usb_ep_disable(audio->out_ep):
-
-CPU0                                  CPU1
-f_audio_free()
-  cancel_work_sync(&audio->playback_work)
-  kfree(audio)
-                                      f_audio_complete()
-                                        audio =3D req->context
-                                        out_ep =3D audio->out_ep <-- use-af=
-ter-free
-                                        f_audio_out_ep_complete()
-                                          schedule_work(&audio->playback_wo=
-rk)
-
-During gadget_unbind_driver(), udc->driver->unbind() runs before
-usb_gadget_udc_stop_locked() gives back pending requests on the enabled
-endpoint with -ESHUTDOWN, so f_audio_complete() can also be invoked after
-f_audio is freed.
-
-[1] https://sashiko.dev/#/bug/linux-7598f007-24ed-4b73-bc9a-a11e4ec9838e
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108075116.2515=
-01-1-hj351016@gmail.com?part=3D1
