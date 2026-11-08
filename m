@@ -1,69 +1,69 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794169369;
-	b=kLZUrcf/dmYk79rtLzeiE2LDA9hz5fxMDjZSI7LrzChDSvhgcioKODboglqyxlXK9S3B
-	 /hTu6jvmFRUI9ALlBCjhohP/YPR7+zH56GaL2lghO1ixGQpZypIkF0hOGTxRmBzz27cFn
-	 NCIvOteht0kSkgsPK7IOJW6GG9yj4gtFTirPOiEubcPkpiedzlr1Ofub+tbeAYjQ/JT3y
-	 lT3exFc4CVUyLDZHXlT83IPLQSYt+s4bjwhV1c9P8x0gD7BjwI85A461+Dw1LWxW5cur2
-	 DLOioR4pfwn/weJgv54WH5KO6XPNm5ZDIRbWSXUux/wC4JmD5IaznJwWciMbP5m8G+g==
+	t=1794169471;
+	b=k6ZMJ9QxbSGTsr340XwCXDSQdns/rvwLGZT0Enf4IMzlJv1rmDn91+AkcR7LpHb2VoDe
+	 Z0BN358YCmBQdhVPhAdl/JFddhSVANJWfuVDrbvAe1iyGU4D+6P/wYJg82q+5bjmVGOBw
+	 gnk4So94h7idUulH5T2teFIeJWQTv7g3nT2y/LXYg9T1fv+8qpIkcTuDpqasBJHKszCMp
+	 n1tolxwJWAFqdtOyc8tmXzUiCRfqL6z4DZ0e5FNPM66oZ8jDPzCismM4rxrS+/Zy3Jg8S
+	 7kz9pF4lcKbcdPMe6+VGJ8jR2i6Db7aDSQZatiBWCAI8SETjE97wsWm5F7aEIu2JAzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794169369;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794169471;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=100YKRuRKsiW1NaEv+XOz4kg/+neIFnM/cCJIWfyymA=;
-	b=Tdji0IhmxxvMCFPkH++cwO4F/yQCcB7yKuoyFghGNsRnUKSg/O+4VhLzpvtjXFm+/0FE
-	 EFsPBGmGm6Mu6UcJYMBWsTn1PDA160urYjjgpnNh0EuVTsPLwIgud3je0q89qKS4LzSFq
-	 rjfgVw3ENerW+cFNyyUFPzUVGUoN5jFTUg3iGfVqDk4x3p3DWmAGYv4DnkpF1mVXRukVt
-	 KajbWl3DP+s2ohORejGMxgxjHN3iN578LgTZ9yUAICJXpSb5Zj7f1wZDq8MBsH3YGkHJ+
-	 7UgEJHcsuTrPUhnXc0a89yDiTaCh+PY+sG2zUKmAh/+Ysg0DlkMtcpCg/TLN5Zf9VKA==
+	bh=SNHbRrHlscvHCkYoqUCmKrf39a7siHdxMQNb9fFGUAU=;
+	b=uztBAKjMFvnudhiXaz/Ng7eU8x+JkcBKcvOdqeSJIV/RXM4vAyepI+U1FJmRwcJTkQZt
+	 EY5vtouF86lGmTNSs+bCmLF6JvRlReA6cY+ad5NXH/kzVy8WDeYceDlaW5Qsr4p61PIJd
+	 mSi96ImUqMKV5NSSNFNYS+uz81HcorQgxhynqDplfJv0gdvakdc1/uISR4zFnirWSrj6g
+	 b7oOrERozGNhPBSgyZNnAougCWebPpLGhaca9JESqzV26+ladCxO7bKUNX03SF/QSzSjI
+	 oPq346/Sbwf4GSigujd8Off81j2P3ZRMnJnAw7FCWMvlz2mHqRLZB/kzDek1VZPWVhQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bbsi5Dcf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kpk2ZWgS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376E06082BD9;
-	Sun,  8 Nov 2026 20:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1193607BB0D;
+	Sun,  8 Nov 2026 20:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bbsi5Dcf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 776021F008A2;
-	Sun,  8 Nov 2026 20:22:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kpk2ZWgS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C78141F008BE;
+	Sun,  8 Nov 2026 20:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794169369;
-	bh=100YKRuRKsiW1NaEv+XOz4kg/+neIFnM/cCJIWfyymA=;
+	s=k20260515; t=1794169470;
+	bh=SNHbRrHlscvHCkYoqUCmKrf39a7siHdxMQNb9fFGUAU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Bbsi5DcfbLPN4rWOem9xOAc+Ao0N/PzM99OdQgszZl/X6PdGjx4jkux1bpDjsZKsK
-	 Ela7ifTNISM79PUUewsZx0Y8h6KhsF+lSqeqLSlF/5esHwU2WVnN9ZnV+8C6HZKicd
-	 D95lkNhurZqqz3jXm6r0rZ9F8FbrkGCL3SzAijrtmlRPiNYJKniRq3xBrzAV5nRceo
-	 IW8Fn4HcByfJa1MPwsfcIy6ECF+MAxv6j20351VByfZB/SprwBwF4fjQUllOkK636c
-	 INRAvfJJ0Ww6NkOsl7OHBz4FduLQg0tO1s4olHJZpnYT8rA2eElPOr6B1JJTVIMbyA
-	 e1L3qLeZZXrDA==
+	b=kpk2ZWgSsAg+Tl5bjWN/xBRYNYLAguiuZqykIr4DtVpnG/6QCQPSqjaFPL03naBAk
+	 Y7RnPbDKXVafqj0TtoAIN6h+RVKNqvVeHL3t/eCs1z2y4ypk6aeU8zR5bxodEccKE/
+	 2DYd6uuA7XuqI74l3fu0LNl8G89Y9N7rsS42FksM1285+X3dvOpyuI0c70t0CKOqhP
+	 Gxp3hm44nidlfXZEoYK5IzEMyvjhFBoenH0v1tuDswlxOKeMif87bmqQWfAVhkMvlG
+	 8QpDOio5j4Lq21dLk5N1/OKz2Bds8nmu1XCJc/y0n66hzmA3lBA5hEmw+M7JslcSy6
+	 bYJaY8KSSVBdQ==
 From: Bjorn Andersson <andersson@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
+To: Konrad Dybcio <konradybcio@kernel.org>,
+	Peter Chen <peter.chen@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Abel Vesa <abel.vesa@oss.qualcomm.com>,
+	Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+	Udipto Goswami <udipto.goswami@oss.qualcomm.com>,
+	Jack Pham <jack.pham@oss.qualcomm.com>,
+	Pratham Pratap <pratham.pratap@oss.qualcomm.com>,
+	Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
 	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Abel Vesa <abelvesa@kernel.org>,
-	George Moussalem <george.moussalem@outlook.com>
-Cc: linux-arm-msm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>,
-	Kathiravan Thirumoorthy <kathiravan.thirumoorthy@oss.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Abel Vesa <abel.vesa@oss.qualcomm.com>
-Subject: Re: [PATCH v4 0/8] Flatten USB Controller Nodes on IPQ SoCs
-Date: Sun,  8 Nov 2026 14:19:47 -0600
-Message-ID: <179416929299.628393.16311614850618605688.b4-ty@b4>
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH 1/1] arm64: dts: qcom: glymur: Set snps,resume-hs-terminations for USB controllers
+Date: Sun,  8 Nov 2026 14:21:03 -0600
+Message-ID: <179416929405.628393.6125566619525822663.b4-ty@b4>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261001-ipq-flatten-usb-v4-0-486a4d5ede30@outlook.com>
-References: <20261001-ipq-flatten-usb-v4-0-486a4d5ede30@outlook.com>
+In-Reply-To: <20261016091336.2715717-1-peter.chen@oss.qualcomm.com>
+References: <20261016091336.2715717-1-peter.chen@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -77,37 +77,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
-On Thu, 01 Oct 2026 11:53:43 +0400, George Moussalem wrote:
-> Flatten usb controller node and update to using latest bindings and
-> flattened driver approach.
+On Fri, 16 Oct 2026 02:13:36 -0700, Peter Chen wrote:
+> The DWC3 controllers on Glymur are paired with the M31 eUSB2 PHY.
+> According to HPG, host-mode USB2 L2/L1 resume with this PHY, GUCTL1[10]
+> (RESUME_OPMODE_HS_HOST) must be set.
 > 
-> In addition, set the right UTMI clock rate and override any clock
-> rate inherited from the bootloader.
-> 
-> I've split these patches from a larger patch set to add USB3 support on
-> IPQ5018 and IPQ5332 SoCs where these patches are required to ensure new
-> functionality is added to the new flattened driver and binding model.
+> Without this bit setting, USB2 HS device cannot be reset after it is
+> runtime resumed. For example, after:
 > 
 > [...]
 
 Applied, thanks!
 
-[1/8] arm64: dts: qcom: ipq5018: Flatten usb controller node
-      commit: 3df51eeb0f7269979f41ec29bfa5d7bf732ac549
-[2/8] arm64: dts: qcom: ipq5332: Flatten usb controller node
-      commit: 6f4b3755dc13c710ddc9379443b8367178c5fd1b
-[3/8] arm64: dts: qcom: ipq5424: Flatten usb controller nodes
-      (no commit info)
-[4/8] arm64: dts: qcom: ipq6018: move DR mode to board DTS
-      commit: a94fc01b1c39772198b238bca35d5024fd928bf3
-[5/8] arm64: dts: qcom: ipq6018: Flatten usb controller nodes
-      commit: 6579a36743c1e7af96bce61f9c8b23d375214dfa
-[6/8] arm64: dts: qcom: ipq8074: move DR mode to board DTS
-      commit: 5a0787dd1acd2783cb81a846208aedbcade2d9c0
-[7/8] arm64: dts: qcom: ipq8074: Flatten usb controller nodes
-      commit: 512f352f2c70434d918654a42103d672936211cc
-[8/8] arm64: dts: qcom: ipq9574: Flatten usb controller node
-      commit: 6ce86653cb091106545e6eb52087466193173afa
+[1/1] arm64: dts: qcom: glymur: Set snps,resume-hs-terminations for USB controllers
+      commit: 45cf7caf54392c64d1046b88cc9ffcfdf52af968
 
 Best regards,
 -- 
