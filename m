@@ -1,56 +1,128 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794146310;
-	b=I/o9NVPVJR63tAoGxZy5wAaVnhjGrVY04kA4I/9pKikW0JkYoWlr/sjw6nKEB8Ps3ZkK
-	 UxwY4woJf5u58603JQM+gXEq2DN7LSIgXsCmu7JtAKXMKZPDof2Mvbv8eTaRCYPBJUKdq
-	 VNwkNOwP3PQT+tUMXFJmGIPUyXgj03NUZ4jKvlkmEworwF/kHOfd394VgnIWepSTrdJQY
-	 dPzpneESisLTowlFMk3oEv39A0wcMP/POXMBXy1UZdD1icA6LT8CuuAMslDk2c7NKB390
-	 ovuxMv5HHWOZos0dTjVqEwMUaxNDL3HWPSbrVcMFvxNtWIV2piLLxrhF06tzcQSmtCg==
+	t=1794157164;
+	b=YcrabDy699OvVWsbBkjc2les4ZnmBpKEsIo90crOl93ZN6+AHPOZ0iiMeSWdSb1hDf80
+	 DAjJy2qTkQKhE+SQH5kLfWrmIX0JBYM8ioUjwH3YaOQ7psLh//uQpg1i/vKborAFEJpxN
+	 1yzvRVZiWtq9zd4kA5sr4xQ1zirDlpdE3Siorzy4SWwifjT1Pja9jnChuMsnJjzefE3bQ
+	 nh37ceESImBeH8K6s8b81mUq9tZoJ1sHHDmYilD1yDcMz23tZYBmi1WCc0CrHy+pg3GXN
+	 d+AAy1U66K501N75V7shDpRib9M/dzT5y7ZscvNuVJTbSoKkIYNLwTOrszZy+ZnJUvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794146310;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=p8wn1QrckdSnP9tkXOfUlEYHYXl7ijcO5wcAJs87bmw=;
-	b=tYk1BeGsuge+r1R8bBU+8M4CK74lwhnfg1zLb3A1QTml2iawNjIMtIxDaRot3XC9je14
-	 T55Rfydyd7JdE4l1b/WVDYNmtYmCLrYLmPYi+Mt1gXzxd5FhXasvn+U5hUlOQOyIRBE08
-	 kbjbqBmaICppeDebwCuEN4RFg8HpwkH/1YNLrCNE4wzf2BSd41Sh7jvKe3aoXTXdcQl/7
-	 6gq4DsP3FKZS4V/Wo7v33/zhMCE2v1qYfUrx1x7YnHZvx9Vojug0aFYevboUzgThgOOQR
-	 uvrJNnloi8I/z9BEk+iNOg73jITdilUDxjpvk1+a4zKQrOEBFi2tI5k7VEqYeILpisw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794157164;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=lmwJQdwiPgvUanu0gwsKytij+Ict3+h8IPwu4vyFkUU=;
+	b=c/QqAmh3QzPTnsIiajYO2Lk09jBucOyuzAifqswDm3X8uDclAXkFQuOVqsc9PzZmCZEz
+	 9g+AohIwk4vwdHusmkjbWhuXCDI10JZwGrCveJdVL2kA0y6IISDuAq0dZXb4qyNgjogq6
+	 ZnON7pQ/nN2do6mnkyrdAR5iqDv/WVHhizLwHk1Ril5Z34N44g+sAPWkkGL/ORnaHyR5g
+	 xIBrlPbwfq9fRpEj11dUFNVlHS7ptkWV+CTBBFRSjOBlPIO6nvJtGl0BkFdiP+gDWPota
+	 5L2PGynuvZfQvFNxDa4+6ZpZCj3s5XtRi81vCMxgR4JhC7+RoH0toUrI3lRm2/UlrMQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZwGqUrIO;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=vVWQLNs+;
+	arc=none smtp.remote-ip=209.85.219.41
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5222606A31C
-	for <linux-usb@vger.kernel.org>; Sun,  8 Nov 2026 13:58:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051D9606A331
+	for <linux-usb@vger.kernel.org>; Sun,  8 Nov 2026 16:59:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 051D9606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZwGqUrIO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E00C1F0089F;
-	Sun,  8 Nov 2026 13:58:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794146309;
-	bh=p8wn1QrckdSnP9tkXOfUlEYHYXl7ijcO5wcAJs87bmw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZwGqUrIOtPYTweibITcILTGNT4SLol1ALewORn3PpFqhBockjK1+surHEL78SwvhR
-	 esK3DPbCLasWclPqDYRYrSLmqL6Ej3jsXtzPwxy9wlPhjsNhubfL8FFRO2nIH04Opt
-	 FEruFetbmtuiGM6I7DMm439i4SHWULThZhxOoaem2K+/3RMSwj6gzKju67KKN6mc98
-	 Dy28/p5A26z01WpgayNY0k0KuCC3pgR49IdRE+tpJwdPWTe/s+k433xzudsx3ELmIu
-	 UkL7EixMQP2nj7NTx8ksAqv0mQtCtNy06u3WVnetnnRz1Y5L52YkAWvk/qvVjTnYgE
-	 BXzJbn8cZ8tmQ==
-Message-ID: <sashiko-outbox-203789@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] usb: gadget: f_uac1_legacy: disable OUT ep and drain
- work on teardown
-Reply-To: sashiko-reviews@lists.linux.dev
-To: hyunjungg <hj351016@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261108133532.532633-1-hj351016@gmail.com>
-References: <20261108133532.532633-1-hj351016@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2026 13:58:29 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=vVWQLNs+
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-91ebf4cd218so2050816d6.3
+        for <linux-usb@vger.kernel.org>; Sun, 08 Nov 2026 08:59:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1794157158; x=1794761958; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lmwJQdwiPgvUanu0gwsKytij+Ict3+h8IPwu4vyFkUU=;
+        b=vVWQLNs+Rnn6NOsMpjKSpUM9H3gRT4E/HZTt53PMAZ2SXIz+Low080hQm0r2oKAsG+
+         HZ5TLknOMUGXKR3KUCz20FyQXU1Y7n4k67s/O97MTY2HciAv7W5/XWWVJI3wnxiYTpJN
+         gDPuohXn6LbvsrECp0/Ji6cvN5My5wm8EgfEsTmjv66hd/4pZ3HhjPBADrWO+gshRLZX
+         1w4cJtE0RQlZSB1u8qCDumnVcL5w0oR/W9xf8l09re306PAWvYklsReVbujjFSq7ckfb
+         ysHxLPgUuyjzLYLRPYb0BIszOUV4j3JsJcseKz7sg4xVYz+KH4V8tOVQekOfo5kBRIRc
+         SzLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794157158; x=1794761958;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lmwJQdwiPgvUanu0gwsKytij+Ict3+h8IPwu4vyFkUU=;
+        b=wQzkgeVQ7ZOsUu//V/bx/6TD2N0LxGuBrsrXNxRRxnn2so3JuDobFMIW753vD4IKdT
+         ge3a2d2XZ9K0nils6O5AFiM7lU1WAtn5aI4/MUjDKx6XA6PGJt0eyZS2k9AwXsc4IK3E
+         dK/eS/cKFLwUNLDK10UteuFbXizcGZFJFr+hKQKPhDKWfVF3/AYhLsbNDOj5TDdeld2e
+         bufItTMJ1Aod30j/4NUC6PftU4FZ9M7f56MXgOANqN9ON9AgPadzoAQwu1cPA6Qz4LgP
+         gpkPmHSYQq2383AzvVVoOMQ658LzctdS9d+xNTkV4hyvhNfQ8rwwrjSNyHOkSuZjKgH0
+         fgpg==
+X-Forwarded-Encrypted: i=1; AL+hErEnuVdZ/Uu4XY3sjTzczSB/eiP6/cCENCY0Q3/+bdmNNOj7aaK4rXnJKylBWQB89F7eURhR7hWm0Js=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+B3j2J1XimKycOHBgCt+i/MBwF8e8pY9p7vDpKAawa8eegpWql
+	lTLcizRY3FK5yFEdGIySQVy1ky5ZLHpQIRakPvFgwHb/vp58pABTKa1bzbns5qh84A==
+X-Gm-Gg: AYBFou1YKkzW7tb+npGrPwkkkKBUpjv/d88aQuBS5+I/OyY5dWqNH9M63XRXtPE/gLs
+	x2CfThXyc1oe9krUF+9hgMIQ/F7boThgwTqK13+00K2CpNCGIabv314ZKv5cfXFM9+iyyp5zRUj
+	U6YIKibi/WUUKoiEE5Zm/faljPsuhEFofsZ87aVIePMhcr73bM/YtRDf7azF1+aKh5HDFGejzk2
+	KANYOevux1S/HSuPcLcSVBqQHQhmKucmA3TjpiyXmvgrmW9XE2w7ElMJrzKoW3iq4Kc91pOEK24
+	eBb6unE2U+UjuLyAlWEOVmCDkNzKhmncL7qxljCrEV3R4wrEugBN71zwyDUkyuT8fLp8pDTl3h8
+	Eybgui+8iVIRU8VJCeTt7ZsdQoNuZECzVwZXIn6w3qrZT4xVkrLv6PUViB6dA8BEFo2d0ZEjrWL
+	99GAye9BbTysz2+1tJ+yQ5w2n5ezguXBdvkCumxBXdBpCK/9abCbyymarMGinSul+pO6Lpfk0kc
+	3zv3ScJXbZ+ByiGH7yBsJv2orFTHrZKxvv8OlNE4MfifigSmuYPElx6SnSCjs4Gx2xJZ5NZaTDI
+	Vqt6WOpVWn96+YNOfVFGG6hSUHXY
+X-Received: by 2002:ad4:5d62:0:b0:91e:9d64:3294 with SMTP id 6a1803df08f44-91ed240d34dmr24616736d6.30.1794157157397;
+        Sun, 08 Nov 2026 08:59:17 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ecedbefb2sm22431036d6.17.2026.11.08.08.59.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 08:59:16 -0800 (PST)
+Date: Sun, 8 Nov 2026 11:59:11 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 05/17] USB: Lock registered interfaces during manual
+ driver binding
+Message-ID: <647f3199-909d-425f-b485-b598a18844d1@rowland.harvard.edu>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-5-1e536825b4eb@nvidia.com>
+ <bb83fe3c-cebb-4bc8-bfc9-24df1cf72b0b@rowland.harvard.edu>
+ <20261105184442.GF8298@unreal>
+ <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
+ <20261108110909.GA8635@unreal>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,77 +131,49 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261108110909.GA8635@unreal>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] usb: gadget: f_uac1_legacy: playback_work not drained in
-  f_audio_unbind()
---
+On Sun, Nov 08, 2026 at 01:09:09PM +0200, Leon Romanovsky wrote:
+> On Thu, Nov 05, 2026 at 03:04:18PM -0500, Alan Stern wrote:
+> > >  it ensures that the lock is
+> > > acquired when the driver is bound.
+> > 
+> > That may have been your intention when the patch was created, but if you 
+> > read the patch you'll see that it includes a whole bunch of material 
+> > not related to locking during binding.  Namely, this part:
+> 
+> Once I added `device_lock()` to `bind`, I had to add it to `unbind` as well.
 
-commit f6964e1af41714a76f0159ade1c7d3f32bb5da89
-Author: Hyunjung Ko <hj351016@gmail.com>
+Obviously I'm not making my points clear.  Let me try again.
 
-usb: gadget: f_uac1_legacy: disable OUT ep and drain work on teardown
+The entire patch description, as you wrote it, is this:
 
-This commit disables the OUT endpoint in f_audio_disable() and cancels
-audio->playback_work in f_audio_free() before tearing down the audio card
-and freeing f_audio.
+> Interface claims hold the USB device lock, but device_bind_driver()
+> requires the target interface lock. Without it, trust-policy writes  can
+> race admission.
 
-> diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/ga=
-dget/function/f_uac1_legacy.c
-> index 7c8d60c7e87d1..c07f323bcf9b0 100644
-> --- a/drivers/usb/gadget/function/f_uac1_legacy.c
-> +++ b/drivers/usb/gadget/function/f_uac1_legacy.c
+This says nothing about holding the interface lock during unbinding.  In 
+other words, it isn't a complete description of the patch.  It implies 
+that the patch changes nothing outside the device_bind_driver() 
+function, which isn't true.
 
-[ ... ]
+Furthermore, the patch does not change any of the code in 
+usb_driver_release_interface(), which is where unbinding takes place, 
+because that routine already takes the interface lock.  So to say that 
+you had to add device_lock() to `unbind` is not accurate.
 
-> @@ -943,6 +953,15 @@ static void f_audio_free(struct usb_function *f)
->  	struct f_audio *audio =3D func_to_audio(f);
->  	struct f_uac1_legacy_opts *opts;
-> =20
-> +	/*
-> +	 * The OUT endpoint was disabled in f_audio_disable(), so no new
-> +	 * playback_work can be queued. Drain any still-pending work here, in
-> +	 * sleepable context and before gaudio_cleanup() tears down the card
-> +	 * that f_audio_playback_work() -> u_audio_playback() dereferences,
-> +	 * otherwise the work runs against freed memory.
-> +	 */
-> +	cancel_work_sync(&audio->playback_work);
-> +
->  	gaudio_cleanup(&audio->card);
->  	opts =3D container_of(f->fi, struct f_uac1_legacy_opts, func_inst);
->  	kfree(audio);
+Instead the patch adds a new usb_driver_release_refused_claim() routine, 
+plus code in usb_set_configuration() to call the new routine.  The patch 
+description says nothing about either of these things.  Not to mention 
+the fact that your other changes make it now possible for the driver 
+core to delete an interface claim when the interface is registered, 
+something which was not possible before.  This is another inadequacy in 
+the patch description.
 
-[Severity: Medium]
-Should audio->playback_work also be drained in f_audio_unbind()?
+I'm not saying that any of the code is wrong.  But the description does 
+a very bad job of explaining the new code.
 
-When a ConfigFS gadget using uac1_legacy is unbound from its UDC or the UDC
-is unregistered via usb_del_gadget_udc(), purge_configs_funcs() calls
-f_audio_unbind() without calling f_audio_free(), which only runs when the
-function symlink is removed.  A pending f_audio_playback_work() ->
-u_audio_playback() can therefore keep running after gadget_unbind_driver()
-returns, and if it hits an ALSA error and logs via ERROR(card, ...), it
-dereferences audio->card.gadget->dev on a detached or freed usb_gadget
-(use-after-free).
-
-CPU0                                  kworker
-usb_del_gadget_udc()
-  gadget_unbind_driver()
-    f_audio_disable()
-    configfs_composite_unbind()
-      purge_configs_funcs()
-        f_audio_unbind()
-  device_unregister(&gadget->dev)
-                                      f_audio_playback_work()
-                                        u_audio_playback()
-                                          ERROR(card, ...)
-                                            &card->gadget->dev
-                                            <-- use-after-free
-
-Calling cancel_work_sync(&audio->playback_work) in f_audio_unbind() as well
-(which also runs in sleepable process context) would ensure the work is
-drained across UDC unbind.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108133532.5326=
-33-1-hj351016@gmail.com?part=3D1
+Alan Stern
