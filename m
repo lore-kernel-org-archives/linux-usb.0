@@ -1,62 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=172.232.15.166
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794108758;
-	b=HLt3POnVF6swl4YY6lWQjAKI6xfa29pRFy3JB3UAa7+YAlvWra1fxHjsIa/JMvT/JUMW
-	 SCUhNV9hJvwSIHGk6hUXUbWXkaAFqAbhU8uNF1AdSsY4OojuE/Qa93QOTVj8YtlrNS6CH
-	 +dal7XU53G7u8JPrtp4QuT+B6N0gJ3oxtANqBMu7KtAhqVuMxbCAeCwWrdCg3VoZ+Z5Oc
-	 MFIgzVd3hJKA/qnVFgMzQzs0Xqma0z2p7N5YTytKDYbzAkZ1E19Cnp0M9VHMqBgkkBrYc
-	 bDzSdVq5MpCV2EI37P9Fzz8wlBavrTn5wu1K74v1ODTNZnoy+D54qcjsEhoZmueGFyg==
+	t=1794115128;
+	b=xEeakCN4YdvXIuuCvoZ291PMdl+l3vQ4jBJH37OboNFxoe4ZYdAhUf9RIMT6ONzvr3gg
+	 zZ2YiCXTVNVZOwVFoya7LwJT6zhO1ItnWs+mD9qaUyahAlxnxyYG5UGN184taRebX83qx
+	 rn8xYWoWi+SIey79pImhq2rDU5ZoBqN6eruUIT08tAdq9NmwaSbtu8f+dhqwRuNhnmw8G
+	 QO0vsB/OJpTBpzEiZ4UYz1QBNCAXhk+V8tiqSRFG9VmrqSOEkVt1PXo0AJbVvg338lUq8
+	 ST1wgvnYdeOekN8398S4UpoyuKKD4Ly9cP2TVcfCT1NcS9Ip+C+twGzrcWp9dwG3WCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794108758;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=1KkunFVOR9hKpVunSG6R4MQyB90H0pMgHHtcvlxeDzU=;
-	b=2G6utFwh1RJYah+TPlRR+NJL5I7wdUT28sWTfiKcsJl6KDCxNXKjl/t+Z+XfJwrbWHiE
-	 eWj9S+gdNeWgt5aMr0RfS1RH+ytaYDKuJucocb52xUGgiZ7H13LwcplrL3jyJdfhVOIjo
-	 XjY0i1mai5TEri9cTUzLjaJHV/p2OmIyHd0B722L4j9qwxLnpvoDViqls3/JuhPW7ytSm
-	 M9SiYBvtLUo8qITsIcypyhj3ayLahXTOtzMqdTix/PfP4lgO+7QJTpL9zPSa6V2HrK69a
-	 EUmSp8wsuPavdyFgWgFWsW7Vt7vSMUyhmBSjPvT3hroR7enSH6axHstMvlLbbUobEpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794115128;
+	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Q7Bfjkkm4tTsSxgf0XNVqkmYHoK3twG9SMLsLcNULmo=;
+	b=mrsDHcExK/29I4anYiyxgptIlLTQPs7GlYPt4Ysoq3lk3tELN4Ax0BaD1ixwEjIzCMED
+	 oPqisYGFNoWG/zdYCtk8bVp5iITm0JPOIWpCBRkDMXAVjATHeOoQ9CLhEIb0+4qTiHJ3G
+	 yASePpqjuXhxrKw69hk1KW+dWws+Ty+V8WCx5G0spzTm93ReYHO2IUQcSXpb8hW/ioUjH
+	 w5bLMPR2fen6G53bsk8ztEdt2jcS8oZKRpapruV3P4rqSOgl5vydmRHGW/pmwnJiyO1J6
+	 K0FsIlYoHUm8pqvnI2jAPhkugQSVGrUmPKR1XhqatAGvKtL7E3h8pz1lLRuh0YF2Nug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B5YzOJuM;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=unwrap.rs;
+	spf=pass smtp.mailfrom=unwrap.rs;
+	dkim=pass header.d=unwrap.rs header.i=@unwrap.rs header.a=rsa-sha256 header.s=202503r header.b=J9VikNHf;
+	dkim=pass header.d=unwrap.rs header.i=@unwrap.rs header.a=ed25519-sha256 header.s=202503e header.b=l4uuMeG2;
+	arc=none smtp.remote-ip=172.232.15.166
+Received: from mail.unwrap.rs (mail.unwrap.rs [172.232.15.166])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D48D606A31C;
-	Sun,  8 Nov 2026 03:32:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5EE606A31A;
+	Sun,  8 Nov 2026 05:18:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB5EE606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unwrap.rs
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B5YzOJuM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A7791F0089F;
-	Sun,  8 Nov 2026 03:32:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794108758;
-	bh=1KkunFVOR9hKpVunSG6R4MQyB90H0pMgHHtcvlxeDzU=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=B5YzOJuMa07gUCuZW7PeLZxy6As0ZWPv4JoeGCp58HmvMvpliq8tU/M/6DrPbmCIa
-	 5xGE2Kcj+KqL+apcZbC4UDovB5qfgSHe8PXrcZfwYzpUEBYgJa/ylHhrf+JYY6tffN
-	 l3kEGi/OP472mI8F9x1ARmKbzCEGWNlnIWec+hUfvJ8unrZmwbIWaqnVUFY8Wl+lUC
-	 VFLHvhG6k+Kb9EWYsA15XgPj7fkUiRjz11XFfjkB8GfY5Fh98k8ozktjf57rPbs1RF
-	 UPJYQZJMaEO1ZV/K/YbPF1wZNWZMt3sIXQhmYOznybh/33vuYZ60TRcVR8HEqJqIF9
-	 N6BvOaKjzWObQ==
-Subject:
- Re: [PATCH v2 1/2] lib/net_utils: allow mac_pton() to take a custom delimiter
-From: netdev-bot+sashiko@kernel.org
-To: liuc63@xiaopeng.com
-Cc: gregkh@linuxfoundation.org, akpm@linux-foundation.org,
- andriy.shevchenko@intel.com, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, khtsai@google.com,
- fangxy@xiaopeng.com, rdunlap@infradead.org, dbrownell@users.sourceforge.net,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org
-Date: Sun, 08 Nov 2026 03:32:36 +0000
-Message-ID: <179410875676.994134.16092814735554237701@kernel.org>
-In-Reply-To: <20261104025058.2650911-2-liuc63@xiaopeng.com>
-References: <20261104025058.2650911-2-liuc63@xiaopeng.com>
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key, unprotected) header.d=unwrap.rs header.i=@unwrap.rs header.a=rsa-sha256 header.s=202503r header.b=J9VikNHf;
+	dkim=pass header.d=unwrap.rs header.i=@unwrap.rs header.a=ed25519-sha256 header.s=202503e header.b=l4uuMeG2
+DKIM-Signature: v=1; a=rsa-sha256; s=202503r; d=unwrap.rs; c=relaxed/relaxed; r=y;
+	h=Message-ID:Date:Subject:To:From:Content-Type; t=1794115121; bh=Q7Bfjkkm4t
+	TsSxgf0XNVqkmYHoK3twG9SMLsLcNULmo=; b=J9VikNHf51Ts2Bm0THqTs28U7OQBSBUtb/hex
+	AsvcZrDTM3yDw8KO1LgYfY7LNKQPDzyK6uQ6xF7+ShUOnZqkIL4fXYr0UiiFFqQXgC6SSow0POL
+	iugyJ/XT9WwyzE3avk7UADz5gZbAHUxG3vFwY+Hgl+KZ3pA5rE+PZrMPZ2lFc4TFNSv8CIJxmsv
+	rPx0jSwmvjUiGGaed3iFtn8wI8Qs3NsiDEgH9Vg+LqR4kfzbmx1QRkY0Ua6gHgaPgHhtWILpLFY
+	GDaI3LyQ9JEYlfhMDU461ji6KRZSosmruwbg8hAWQ6dbkYEYeUgqWEliHEDdnZsy/oFsbdenxMg
+	Q1H3g==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202503e; d=unwrap.rs; c=relaxed/relaxed;
+	h=Message-ID:Date:Subject:To:From:Content-Type; t=1794115121; bh=Q7Bfjkkm4t
+	TsSxgf0XNVqkmYHoK3twG9SMLsLcNULmo=; b=l4uuMeG22fYIzY4+8H2mk1LE5ddlOhH77QlGu
+	hh05avwOZDtY/4SZPam0ipEL3gou4NrGbNErmOA70p+PYP5AQ==;
+From: Cole Leavitt <cole@unwrap.rs>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	linux-pci@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] thunderbolt: Don't resume the software CM if the host controller is gone
+Date: Sun,  8 Nov 2026 00:18:29 -0500
+Message-ID: <20261108051829.152803-1-cole@unwrap.rs>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261019042920.GX176164@black.igk.intel.com>
+References: <20261018163750.130470-1-cole@unwrap.rs> <20261018163910.132231-1-cole@unwrap.rs> <20261018163910.132231-2-cole@unwrap.rs> <20261019042920.GX176164@black.igk.intel.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -66,84 +73,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+Hi Mika,
 
-Low priority / nit picks for your consideration:
+On Mon, Oct 19, 2026 at 06:29:20AM +0200, Mika Westerberg wrote:
+> This is not supposed to happen with SW CM systems. I've seen a couple of
+> times Lenovo BIOS has the PCIe root port hotplug enabled and that's against
+> what the Barlow Ridge BIOS configuration checklist says. Please check if
+> there is newer BIOS (Lenovo has been fixing these) and of not report it to
+> Lenovo.
 
-- [Low] The new kernel-doc for parse_mac_pton() in lib/net_utils.c says
-  "@s must be MAC_ADDR_STR_LEN characters long", which reads as an…
+Thanks, and sorry for the slow reply. You were right. Every oops I
+captured was on BIOS N4FET30W (1.11), where pciehp was bound to the
+Barlow Ridge root port (0000:80:1b.4, "pciehp: Slot(25)"). The machine
+now runs N4FET52W (1.33), and that root port no longer gets the hotplug
+service: only PME, AER and bandwidth control are bound to it. So the
+slow-link "replacement" that started all of this cannot happen there
+anymore.
 
---
+Please drop this patch.
 
-lib/net_utils: allow mac_pton() to take a custom delimiter
+For 1/2: the trigger on this machine is gone with the new BIOS, but the
+ordering problem is in pciehp itself. A device replacement detected in
+pciehp_resume_noirq() still starts the removal from the IRQ thread in
+the middle of the noirq phase, unserialized against ->resume_noirq() of
+the drivers below the port (on today's mainline, fa4ad798f6f6,
+pciehp_core.c:310 calls pciehp_request(), and pciehp_ctrl.c:145 wakes
+the IRQ thread directly unless pciehp_poll_mode is set). Bjorn, Lukas:
+if that is not worth changing without a reproducer on correctly
+configured hardware, I will drop 1/2 as well.
 
-This commit moves the body of mac_pton() into a new exported function,
-parse_mac_pton(), which takes a string of accepted delimiter characters.
-mac_pton() becomes a static inline wrapper that passes ":", so existing
-callers behave as before.
-
-Link: https://lore.kernel.org/all/20261023110113.2969708-1-liuc63@xiaopeng.com/
-
-> diff --git a/lib/net_utils.c b/lib/net_utils.c
-> index 215cda672fee1..011857cc978b4 100644
-> --- a/lib/net_utils.c
-> +++ b/lib/net_utils.c
-> @@ -5,7 +5,18 @@
->  #include <linux/export.h>
->  #include <linux/hex.h>
->  
-> -bool mac_pton(const char *s, u8 *mac)
-> +/**
-> + * parse_mac_pton - convert a MAC address string using a custom delimiter
-> + * @s: string to be parsed
-> + * @mac: buffer to store the result, left untouched if @s is malformed
-> + * @delim: characters accepted as a separator between the byte pairs
-> + *
-> + * @s must be MAC_ADDR_STR_LEN characters long and use a character from
-> + * @delim at every separator position, e.g. "aa.bb:cc.dd:ee.ff" with ".:".
-> + *
-> + * Return: true on success, false if @s is malformed.
-> + */
-
-[Severity: Low]
-Does this kernel-doc match what parse_mac_pton() actually checks? The text
-"@s must be MAC_ADDR_STR_LEN characters long" reads as an exact length, but
-the code only checks for a minimum length:
-
-lib/net_utils.c:parse_mac_pton() {
-    ...
-	if (strnlen(s, MAC_ADDR_STR_LEN) < MAC_ADDR_STR_LEN)
-		return false;
-    ...
-}
-
-strnlen() is capped at MAC_ADDR_STR_LEN (17), and the validation loop only
-reads s[0] to s[16]. Nothing after the 17th character is looked at. So
-inputs like "aa:bb:cc:dd:ee:ff:00", "aa:bb:cc:dd:ee:ffXYZ" or
-"aa:bb:cc:dd:ee:ff\n" return true and fill @mac.
-
-The Return: line says false means "@s is malformed". A caller could read
-that as saying true means the whole string was a well-formed MAC address.
-
-The old mac_pton() parsed only the prefix in the same way, and existing
-callers depend on it. Sysfs and configfs input usually ends in a newline,
-and some callers parse a MAC address embedded in a longer string. So the
-code looks right and the comment is what is off.
-
-Since this is a newly exported general-purpose API, could the comment say
-something like "@s must contain at least MAC_ADDR_STR_LEN characters; only
-the first MAC_ADDR_STR_LEN are parsed and any trailing characters are
-ignored"? Enforcing an exact length would break existing mac_pton() users.
-
-> +bool parse_mac_pton(const char *s, u8 *mac, const char *delim)
->  {
->  	int i;
->  
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261104025058.2650911-1-liuc63%40xiaopeng.com
+Thanks,
+Cole
