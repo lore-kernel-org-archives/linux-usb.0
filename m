@@ -1,57 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.29
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794176836;
-	b=sBYhGcQpU6Ie9/KUbJ1ql7ms/nTjUpdl6wG0NlU8anjJIOtSaHKTncWQvH72V4BSu51C
-	 CF1TnP4V4k875zQtnCg2m+2gV5F2yGWtL/GFsoo7IYcaEV58iJRzGqXVJXHZvcCcupVrT
-	 Kgyln9AmD86Ixk056bwsFgLJLMpNl0P/USaEf/X4eOiqVDie37O9kMjmntzfxCtBarxPx
-	 NNuivcvZZedEZo4tz9fhubfD5zJ3A/tDn0DVCOXjWeWArY1OF1Yc9LYui63uCMBBnVINQ
-	 Dfqw7dM6bK01EMTWfmyrHlMa153z3BSnQCsw6hCHk1tB3wHVeGLG6RQ2IsSCyaOXuBg==
+	t=1794177179;
+	b=pmrbJGc/gn66jdic1idk+zts5dr0ZgricQtXIuNjxOJJt53jY6/QnMB+EOTEVKz3O5mR
+	 e2N575GJ4wMn0wwfcSJwGsSwmeU3A9ZbJRFhhVcEV6fxMeRsoNG0DpyS+dqpYkUESoEsH
+	 euLvNJl9wvd022b8ntc6VhaE+RLQf4TQLOhazF8ExXiPvJgzEGOh23RxNOBXs0X8MLmI3
+	 FMsSxcr5676qUgd67vPx8Fxyb+UqOBlwZy9bfoJf50j5gnfOL5opRwXYVjUf8ka6OCGir
+	 2w/XFldmN9tDa33azHsDiRzMcr7Xx7GSm3XSR3AQvZz/P4hz9TOqNt7YfabpJG6+KTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794176836;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794177179;
 	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
 	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=3X8z9HiQ90Esek9ry3qYxDhUP6ikQF/zd5RI1d+W1YE=;
-	b=CQXVCCEsmOYyjKlPxygHT2yQqLDw8zEFKttF0yAOxJ7zP2ueqNFzGZPDxVIbOos1PK08
-	 qg31kqNw2JelzhODNYxk+Jt1Bj4vuOkep2w5Xlrgh/XZqbtG3ct5C6uR8/tOsw8euEGFJ
-	 I5u73sWwlVAExz4xeFIUvT1m8wNsa+2+tOjCXBha4EAcZ7jFCIBmcHhBUevhlCHOwlQFL
-	 JVePndawljRnNyML5x8wEYLdArlm9vKdI5Uaxf+vDvhdv6ZGj4P/96TygW5US7xx/+kjJ
-	 azGZmVeiGdD0+0yVrfuvrbBqFanI3ldbhajDiZ4J8vMj4xaWSCPJAhx3THAWwQd3vJA==
+	bh=ZgBAYp6aSHgh2UGYksaSW/6IjKs1l3nEYgboAEjjug0=;
+	b=eIwqoV6CBXoWXsWZG0dlycRyOdWThjjbl6D79JkOAba0b82VsNo7wJ0QAGiagcaPfPpO
+	 /lHy65Op4v3DRUVtJe6Z1Gzd5KhJiVJHELJSRkRrB/EMIvajfRw7Bvxk2dGb9jArB+jib
+	 iv3HWj5Xbdu1xIeOllXECQ7y+ms+PkJTgHQRsKDpiZAsd3uKyz2T4FekBdaDUs5dAJNkZ
+	 /d0JEu5AgZcTra3seW5rdjoGNZh+CTTAdKTdNgjiTHISWoYjjrgmuWUOa1Ylsxg2O+/FA
+	 aoCOyW/NL6uwK48HihJMZh0rwzJRPOr2Dn8Eb5nAV2OWPqf7RNgtHDtwZoAIxvS3Gag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=proton.me;
 	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=MyVYzr3f;
-	arc=none smtp.remote-ip=79.135.106.29
-Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch [79.135.106.29])
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=v0OOwBLe;
+	arc=none smtp.remote-ip=109.224.244.17
+Received: from mail-24417.protonmail.ch (mail-24417.protonmail.ch [109.224.244.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82D0606A321;
-	Sun,  8 Nov 2026 22:27:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D82D0606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70699606A31C
+	for <linux-usb@vger.kernel.org>; Sun,  8 Nov 2026 22:32:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70699606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=MyVYzr3f
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=v0OOwBLe
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1794176833; x=1794436033;
-	bh=3X8z9HiQ90Esek9ry3qYxDhUP6ikQF/zd5RI1d+W1YE=;
+	s=protonmail2; t=1794177176; x=1794436376;
+	bh=ZgBAYp6aSHgh2UGYksaSW/6IjKs1l3nEYgboAEjjug0=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=MyVYzr3fGjcb8IVV6SUd7vXptT969yI81velePfFgEwJ8ccdIDM2lWiIXILjNbq7Q
-	 h2XwGgQTDf0Lq5qentju0Mx6r4+cuiYIoePN0N0DSkvroClbyWd2A+CL4q2ebaVHzC
-	 I4+FgpSHyq0RFoNXTi2bJpP5UYDiXg04ySJaFzxr2uLq1Ng596IDr56bF5VQU+ZdXN
-	 MmTYW86LeQbYV/kugxrfV+sc+vzTeOZN0mL0L23jWTTfvkS6kET7hUQfeEiNEHE4ug
-	 AYKvGUu5Afz336Ky16nmw/5rb1LLF+bZa5OjR6j3NTrJexriJQWBwxyM6FaSSXZTnF
-	 SnHJNqZNjhLtw==
-Date: Sun, 08 Nov 2026 22:27:08 +0000
+	b=v0OOwBLemlbjCrQF6I+GFKlFfAlJiS9WAr+fTBHoY9RTAeAwQraImnyjjW/k0Bfxz
+	 Kvg3glBuEt0yTg4Vr5oH5rOABaN8jzwa8vphQYcYUWdG2iCodVNsFWbbkDOPlag819
+	 EqsAmnyo7C2kTgqkb29vgLXdVrKpJasM2BYHsWNnXjbpwW19Uy0okM5aSHQAbBD7II
+	 6piU9XLHLO9t/vZhjqU4wxi5oZN8pf+b6RwDKc0qEp7PWNQqhefRbn1sTmXl9tch81
+	 2rtC2mrS/jfHvbF9iTDGzItgPhL3mdbCRLYjR4OTx/hjnYScL0U8wX/iwNgvoSj/TY
+	 JqJj1VBd9v0ZA==
+Date: Sun, 08 Nov 2026 22:32:51 +0000
 To: "nkapron@google.com" <nkapron@google.com>, "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
 From: Noah Weinberger <NoahWeinberger2003@proton.me>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH] usb: gadget: f_ncm: bound NDP length against the NTB
-Message-ID: <VFFcAz18YOCdAGLJxQp8TZxPPL6-T5bPEHLSdIkdyWPj4Rr7dRgBoUrlYHMc_CYxsZXLbk2_xPPKx8uMzHzck8QUAC84Q2ZlluLo7JG-Ry8=@proton.me>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH] usb: gadget: f_hid: free report list on release
+Message-ID: <1QsGBy1k7rgvDtVuIrw8wkuScqkmKf-h2yKjARCmaLFH2TFGvlr8izECUG0Pq-FRMo3NqA6bmTOayxrZ8xc0xwSOKjLLpz9flCzQomrlnqk=@proton.me>
 Feedback-ID: 186545857:user:proton
-X-Pm-Message-ID: 5d8d5eeb64b5057d721702834f3b47afb57c5df8
+X-Pm-Message-ID: b516be455eb068567a30e49e16bf2be43d708eeb
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -66,27 +66,19 @@ Content-Transfer-Encoding: quoted-printable
 
 Hello,
 
-ncm_unwrap_ntb() validates the NDP wLength only for a minimum size and
-alignment; the sum ndp_index + ndp_len is never checked against
-block_len. The NDP *start* is bounded, but the datagram-pointer-entry
-walk then advances through up to wLength/8 entries regardless of where
-the block ends.
+Entries added to hidg->report_list by the GADGET_HID_WRITE_GET_REPORT
+ioctl are never freed: hidg_release() releases report_desc,
+set_report_buf and hidg itself, but never walks the list (and
+hidg_unbind() does not either). Each distinct report_id used over the
+lifetime of a function instance therefore leaks one entry (~72 bytes),
+which adds up across gadget reconfiguration cycles.
 
-A hostile USB host can send an NTB whose NDP claims wLength close to
-64K while the block is 16K: the walk reads 2-4 byte entries past the end
-of the RX skb, continuing as long as the out-of-bounds-derived values
-happen to pass the per-datagram validation (index/length checks). The
-practical overread distance depends on adjacent heap contents, but KASAN
-flags the first OOB access. The bytes are not returned to the host, so
-this is an out-of-bounds read/DoS rather than a disclosure channel.
-
-Bound the NDP length against the remaining block, mirroring the
-existing minimum-size check.
+Free the list when the device's last reference is dropped.
 
 Affected version/commit: mainline fa4ad798f6f681031775266044ba1b0cf3c670bd =
-(v7.4-rc1, 2026-11-07), drivers/usb/gadget/function/f_ncm.c:1254-1346 (ncm_=
-unwrap_ntb NDP walk).
-Longstanding code.
+(v7.4-rc1, 2026-11-07), drivers/usb/gadget/function/f_hid.c:679-682 (list a=
+dd), 121-128 (hidg_release).
+The report-list mechanism is newer; the leak is present at HEAD.
 
 This was found during an assisted (AI-supported) static source review of
 mainline fa4ad798f6f681031775266044ba1b0cf3c670bd (v7.4-rc1, 2026-11-07); e=
@@ -98,19 +90,24 @@ verification rather than a battle-tested fix.
 
 Reported-by: Noah Weinberger <noahweinberger2003@proton.me>
 ---
-diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/funct=
-ion/f_ncm.c
-index 500c9c1..a0e2049 100644
---- a/drivers/usb/gadget/function/f_ncm.c
-+++ b/drivers/usb/gadget/function/f_ncm.c
-@@ -1262,7 +1262,8 @@ parse_ntb:
- =09=09 */
- =09=09if ((ndp_len < opts->ndp_size
- =09=09=09=09+ 2 * 2 * (opts->dgram_item_len * 2)) ||
--=09=09=09=09(ndp_len % opts->ndplen_align !=3D 0)) {
-+=09=09=09=09(ndp_len % opts->ndplen_align !=3D 0) ||
-+=09=09=09=09=09(ndp_index + ndp_len > block_len)) {
- =09=09=09INFO(port->func.config->cdev, "Bad NDP length: %#X\n",
- =09=09=09     ndp_len);
- =09=09=09goto err;
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/funct=
+ion/f_hid.c
+index 3c6b43d..dcf6dce 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -121,6 +121,13 @@ static inline struct f_hidg *func_to_hidg(struct usb_f=
+unction *f)
+ static void hidg_release(struct device *dev)
+ {
+ =09struct f_hidg *hidg =3D container_of(dev, struct f_hidg, dev);
++=09struct report_entry *entry, *tmp;
++
++=09list_for_each_entry_safe(entry, tmp, &hidg->report_list, node) {
++=09=09list_del(&entry->node);
++=09=09kfree(entry);
++=09}
++
+=20
+ =09kfree(hidg->report_desc);
+ =09kfree(hidg->set_report_buf);
 
