@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794145843;
-	b=Xy2sufdyC7AWMxohZlzZ3fFlTk9X1vFJQVCIxE0xE2jFNcSyEQfM1icYtM7aGUBv5IrE
-	 fOCDx0pmo6ub/6GEOmEzmqCaqKdfnFHfixjJiPgpXZbJxr6GQrqKsDwvYgipu6AXqnx0H
-	 QmW7E88j14hnb44F7vWwdkXTbL8LoAUOI/4NAUkm4J+cEVz6DAQEQcGiL94yQiJ6DclrN
-	 5ijk1gXfV5SMYDz6vjqgPH1H1hP6GwQrVF+SC9IpS6GVSGU+oubY2OxhthIWuvy64z351
-	 CC75q77F/WTzzgSOZwa6r+T8GNW21OPIpqaCVKIchXBn0fjRuWkfDj6j4/VE5aq+eqg==
+	t=1794146310;
+	b=I/o9NVPVJR63tAoGxZy5wAaVnhjGrVY04kA4I/9pKikW0JkYoWlr/sjw6nKEB8Ps3ZkK
+	 UxwY4woJf5u58603JQM+gXEq2DN7LSIgXsCmu7JtAKXMKZPDof2Mvbv8eTaRCYPBJUKdq
+	 VNwkNOwP3PQT+tUMXFJmGIPUyXgj03NUZ4jKvlkmEworwF/kHOfd394VgnIWepSTrdJQY
+	 dPzpneESisLTowlFMk3oEv39A0wcMP/POXMBXy1UZdD1icA6LT8CuuAMslDk2c7NKB390
+	 ovuxMv5HHWOZos0dTjVqEwMUaxNDL3HWPSbrVcMFvxNtWIV2piLLxrhF06tzcQSmtCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794145843;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794146310;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=VjQf/6t3QpR1GaKUFn4pMp+azt3f1UNhlNRA6UX/wpw=;
-	b=yeGnBjjEJorxstPUsBd4+AyWbXY4Rph+p7DYPX7PaYPVNY6hAGChocsuHSRv1sUya6M+
-	 N82F6deRGbVpKU4ICnOIIu60A47wgzODzwdUK58zzeZlhVjYI0wcg8dGrjKzzUIfL3wH1
-	 T8l2JcvWmjdUFXc/oo++tuJD8gtEmhBk0dHtLOxTm1KDwIzefKARGPU2apdhgHV6zsjOW
-	 0pLomL7JkxOHWvRyrbLJyxWvVOs/PeeiI4t3G0ohhk62vXh8vmynerMDCzSscniddGv7e
-	 1tQSO2agBXmYOdau5ZLNlU8434YrU+bITDUQOWg1yS7MgHT8hCVYhc0z3Q7DAa4IkCQ==
+	bh=p8wn1QrckdSnP9tkXOfUlEYHYXl7ijcO5wcAJs87bmw=;
+	b=tYk1BeGsuge+r1R8bBU+8M4CK74lwhnfg1zLb3A1QTml2iawNjIMtIxDaRot3XC9je14
+	 T55Rfydyd7JdE4l1b/WVDYNmtYmCLrYLmPYi+Mt1gXzxd5FhXasvn+U5hUlOQOyIRBE08
+	 kbjbqBmaICppeDebwCuEN4RFg8HpwkH/1YNLrCNE4wzf2BSd41Sh7jvKe3aoXTXdcQl/7
+	 6gq4DsP3FKZS4V/Wo7v33/zhMCE2v1qYfUrx1x7YnHZvx9Vojug0aFYevboUzgThgOOQR
+	 uvrJNnloi8I/z9BEk+iNOg73jITdilUDxjpvk1+a4zKQrOEBFi2tI5k7VEqYeILpisw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cEGZY9+u;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZwGqUrIO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F357F606A31C
-	for <linux-usb@vger.kernel.org>; Sun,  8 Nov 2026 13:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5222606A31C
+	for <linux-usb@vger.kernel.org>; Sun,  8 Nov 2026 13:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cEGZY9+u
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E681F0089F;
-	Sun,  8 Nov 2026 13:50:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZwGqUrIO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E00C1F0089F;
+	Sun,  8 Nov 2026 13:58:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794145842;
-	bh=VjQf/6t3QpR1GaKUFn4pMp+azt3f1UNhlNRA6UX/wpw=;
+	s=k20260515; t=1794146309;
+	bh=p8wn1QrckdSnP9tkXOfUlEYHYXl7ijcO5wcAJs87bmw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=cEGZY9+uZHdZsbuf4lnba8YXjsNKzYNBVGQWOlyBS46ymQ3Jx+2UUTtZh2mW1Vxd5
-	 3uiQHXSkMgGTXkWwe1awvMESml9u7eMqlHz6+9l9eKxbdL+8CfWAInTrBBqYuvIZAw
-	 fbIKAdSG/KZEo2U1w36b0isk0LXGuzXonXtF2s9v/IlBa9ArcySbOFqhjYCJSxDN1C
-	 iU5DeLXB4ecRJPQNXX7bBX0f/SF0qXockKnAMdD5zMm0hfjer9HJYCCR5DwYNLiE3G
-	 nUO7OFTAwOpp3mK8wWjVgS/DaUUlCBEwBfnFXaCtkqQzDlAm7IWOgGbjxGO7H+vEew
-	 kfJ/zCaazi8zQ==
-Message-ID: <sashiko-outbox-203786@kernel.org>
+	b=ZwGqUrIOtPYTweibITcILTGNT4SLol1ALewORn3PpFqhBockjK1+surHEL78SwvhR
+	 esK3DPbCLasWclPqDYRYrSLmqL6Ej3jsXtzPwxy9wlPhjsNhubfL8FFRO2nIH04Opt
+	 FEruFetbmtuiGM6I7DMm439i4SHWULThZhxOoaem2K+/3RMSwj6gzKju67KKN6mc98
+	 Dy28/p5A26z01WpgayNY0k0KuCC3pgR49IdRE+tpJwdPWTe/s+k433xzudsx3ELmIu
+	 UkL7EixMQP2nj7NTx8ksAqv0mQtCtNy06u3WVnetnnRz1Y5L52YkAWvk/qvVjTnYgE
+	 BXzJbn8cZ8tmQ==
+Message-ID: <sashiko-outbox-203789@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: phy: cancel charger work in usb_remove_phy() to
- avoid use-after-free
+Subject: Re: [PATCH v3] usb: gadget: f_uac1_legacy: disable OUT ep and drain
+ work on teardown
 Reply-To: sashiko-reviews@lists.linux.dev
 To: hyunjungg <hj351016@gmail.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261108134001.536207-1-hj351016@gmail.com>
-References: <20261108134001.536207-1-hj351016@gmail.com>
+In-Reply-To: <20261108133532.532633-1-hj351016@gmail.com>
+References: <20261108133532.532633-1-hj351016@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2026 13:50:41 +0000
+Date: Sun, 08 Nov 2026 13:58:29 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,107 +62,74 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] usb: phy: chg_work re-queued after cancel_work_sync() in
-  usb_remove_phy()
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [Critical] usb: phy: use-after-free in usb_get_phy() [1]
+- [Medium] usb: gadget: f_uac1_legacy: playback_work not drained in
+  f_audio_unbind()
 --
 
-commit 4a4ffa5316b9cec2015871ada70b2fe24ed654b1
+commit f6964e1af41714a76f0159ade1c7d3f32bb5da89
 Author: Hyunjung Ko <hj351016@gmail.com>
 
-usb: phy: cancel charger work in usb_remove_phy() to avoid use-after-free
+usb: gadget: f_uac1_legacy: disable OUT ep and drain work on teardown
 
-This commit calls cancel_work_sync(&x->chg_work) in usb_remove_phy() after
-removing the PHY from phy_list so pending charger notification work finishes
-before the usb_phy is freed.
+This commit disables the OUT endpoint in f_audio_disable() and cancels
+audio->playback_work in f_audio_free() before tearing down the audio card
+and freeing f_audio.
 
-> diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
-> index 5a9b9353f343d..caae74988fd95 100644
-> --- a/drivers/usb/phy/phy.c
-> +++ b/drivers/usb/phy/phy.c
-> @@ -731,6 +731,15 @@ void usb_remove_phy(struct usb_phy *x)
->  	if (x)
->  		list_del(&x->head);
->  	spin_unlock_irqrestore(&phy_lock, flags);
-> +
+> diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/ga=
+dget/function/f_uac1_legacy.c
+> index 7c8d60c7e87d1..c07f323bcf9b0 100644
+> --- a/drivers/usb/gadget/function/f_uac1_legacy.c
+> +++ b/drivers/usb/gadget/function/f_uac1_legacy.c
+
+[ ... ]
+
+> @@ -943,6 +953,15 @@ static void f_audio_free(struct usb_function *f)
+>  	struct f_audio *audio =3D func_to_audio(f);
+>  	struct f_uac1_legacy_opts *opts;
+> =20
 > +	/*
-> +	 * The charger-notify work, scheduled from usb_phy_set_charger_*()
-> +	 * and the charger-type detection, dereferences the usb_phy. The PHY
-> +	 * is now off the lookup list, so no new work can be queued; drain any
-> +	 * work still pending before the caller frees the usb_phy.
+> +	 * The OUT endpoint was disabled in f_audio_disable(), so no new
+> +	 * playback_work can be queued. Drain any still-pending work here, in
+> +	 * sleepable context and before gaudio_cleanup() tears down the card
+> +	 * that f_audio_playback_work() -> u_audio_playback() dereferences,
+> +	 * otherwise the work runs against freed memory.
 > +	 */
-> +	if (x)
-> +		cancel_work_sync(&x->chg_work);
->  }
+> +	cancel_work_sync(&audio->playback_work);
+> +
+>  	gaudio_cleanup(&audio->card);
+>  	opts =3D container_of(f->fi, struct f_uac1_legacy_opts, func_inst);
+>  	kfree(audio);
 
 [Severity: Medium]
-Can x->chg_work still be re-queued after cancel_work_sync(&x->chg_work)
-returns?
+Should audio->playback_work also be drained in f_audio_unbind()?
 
-Removing x from phy_list does not stop extcon charger notifications,
-because usb_add_extcon() registers x->type_nb on x->edev via
-devm_extcon_register_notifier(), and usb_phy_get_charger_type() obtains
-the struct usb_phy with container_of(nb, struct usb_phy, type_nb) rather
-than looking it up in phy_list:
+When a ConfigFS gadget using uac1_legacy is unbound from its UDC or the UDC
+is unregistered via usb_del_gadget_udc(), purge_configs_funcs() calls
+f_audio_unbind() without calling f_audio_free(), which only runs when the
+function symlink is removed.  A pending f_audio_playback_work() ->
+u_audio_playback() can therefore keep running after gadget_unbind_driver()
+returns, and if it hits an ALSA error and logs via ERROR(card, ...), it
+dereferences audio->card.gadget->dev on a detached or freed usb_gadget
+(use-after-free).
 
-drivers/usb/phy/phy.c:usb_phy_get_charger_type() {
-	struct usb_phy *usb_phy =3D container_of(nb, struct usb_phy, type_nb);
+CPU0                                  kworker
+usb_del_gadget_udc()
+  gadget_unbind_driver()
+    f_audio_disable()
+    configfs_composite_unbind()
+      purge_configs_funcs()
+        f_audio_unbind()
+  device_unregister(&gadget->dev)
+                                      f_audio_playback_work()
+                                        u_audio_playback()
+                                          ERROR(card, ...)
+                                            &card->gadget->dev
+                                            <-- use-after-free
 
-	__usb_phy_get_charger_type(usb_phy);
-	return NOTIFY_OK;
-}
-
-PHY drivers call usb_remove_phy() from their .remove() callback before
-devres_release_all() unregisters x->type_nb (and fsl_otg_remove() calls
-kfree(fsl_otg_dev) immediately after usb_remove_phy()):
-
-CPU0                              CPU1
-fsl_otg_remove()
-  usb_remove_phy(&fsl_otg_dev->phy)
-    list_del(&x->head)
-    cancel_work_sync(&x->chg_work)
-                                  usb_phy_get_charger_type()
-                                    __usb_phy_get_charger_type()
-                                      schedule_work(&usb_phy->chg_work)
-  kfree(fsl_otg_dev)
-                                  usb_phy_notify_charger_work()
-                                    usb_phy->chg_state ... <-- use-after-fr=
-ee
-
-Unregistering the extcon notifiers in usb_remove_phy() before calling
-cancel_work_sync(&x->chg_work) would prevent extcon events from
-re-scheduling the work.
-
-[Severity: Critical]
-This problem wasn't introduced by this patch, but can a consumer holding a
-reference from usb_get_phy() [1] still trigger a use-after-free on
-struct usb_phy when the PHY provider unbinds?
-
-usb_get_phy() pins phy->dev with get_device(phy->dev) under phy_lock:
-
-drivers/usb/phy/phy.c:usb_get_phy() {
-	...
-	phy =3D __usb_find_phy(&phy_list, type);
-	if (IS_ERR(phy) || !try_module_get(phy->dev->driver->owner)) {
-		...
-		goto err0;
-	}
-
-	get_device(phy->dev);
-}
-
-However, most PHY drivers allocate the structure embedding struct usb_phy
-with devm_kzalloc() during probe.  When the provider driver unbinds,
-usb_remove_phy() removes the PHY from phy_list and devres_release_all()
-frees the devm-allocated struct usb_phy even though the consumer still
-holds get_device(phy->dev).  Any later call by that consumer (such as
-usb_phy_set_charger_current(), PHY callbacks, or usb_put_phy()) then
-dereferences freed memory.
-
-[1] https://sashiko.dev/#/bug/linux-7f476623-2458-498a-85ca-75ee73ec5f0c
+Calling cancel_work_sync(&audio->playback_work) in f_audio_unbind() as well
+(which also runs in sleepable process context) would ensure the work is
+drained across UDC unbind.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108134001.5362=
-07-1-hj351016@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108133532.5326=
+33-1-hj351016@gmail.com?part=3D1
