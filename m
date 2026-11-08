@@ -1,55 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.242
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794177889;
-	b=jRtxJjFqY7sk4cRcbcIqJ9yjsGPKK3RofgNTvbWxZYwOLZF+Gfjh6uU/P+jVEeHvwcmU
-	 OgziE3moi/hSrgZu4BtPmdD9p2IQ+Rqp6G8Y/eYsZw4weuZmLo/2vjFTM1fm1WTHhoJq5
-	 UWPjvLvgpQt8o9+89fCkfe3peJB16EbIE1k6ZoOKea43ZR7twYyg09F7Uddg4zoB4AO3e
-	 5eaXIurV1BeFgm6eNVdMnZKVVCaQDwbHPVj6v67AGOsycmA1ubPjsDHbyE0UAL8OT9iuz
-	 mPMDMNELYHfMBZGQYtpZBQIDNkSbpJrs99j9XT8aN4WFVUzzUx6HYY6G1ID82Ql8g4g==
+	t=1794180835;
+	b=Hn8WPPHyZvfaXMgtxgWSzgSn3UOuxVtoNyDOt9XOjldDrvIuZTYs72KiOue3MTetDzqd
+	 oH5vx9yhxiMo30P3inUvZ4JO1fBPXte2jtPxDkMOKYuIaNVZnSuvKtiYKca5gNB3BLkWc
+	 6BWtMojkGrAqbnJonO9u5FRaA0sG9InZT6ZF/lc1PXVcNgHH6bUemfDlMNiTS4M6eNhxV
+	 +W5jtDRIj6RXQGIiKziDsSUUj65IGj28aiVXM5xh2hRVjvumkXzSoUL4kV2Mrgg/9oxPl
+	 1ZmLzG+8DgqIIXkt+cLopyNgvLgetQ2XFoXAmZrwFAEMNzPw+zzeyYNbWNdibrpkvaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794177889;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=g1CwH36nhLXqw+8XCuUnUv7MfkbZsFXyFt3hVg+rxdc=;
-	b=e3RqUkQSjrH2ynfCNyLAwtjfV9EZ492s873yMuR8sJh5mBITJnLgY2vM9iZGsLElxw47
-	 Vv9aFyQXdYUa+RoHm1NCtarQ71wDskyrETHirf/QCBtbuA4oWWGBpZX6tTZuVpWJwXCVA
-	 htjR++AkIqITfx5bEJ26AL8eTlwi+pjjhChs2p74KYRN40iOQfuCj0A42dkxdILJ7WGmY
-	 bULCTgVKva8q9UkRhXo4ARAyQQaqD8w/LepyTZoSFhxCOJPV7cVYWbnS63tS1HcWfmVrt
-	 yXpptINoAxtTdHrzbL4p0sKrrTggvtift1l5nSz4nKDWkuoyBWT+/cVQa5qZCwxDk/g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794180835;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=yWuo+qUaNy+CrX5cBE9Tcp6js8VodOqkc1PAcZwO4YY=;
+	b=5nhTi/XlsrKJW/TtdceW7nkfX3d6eO9DPhWTjLvJRn4PuQjpxv1nCHmvu4Ho6nNE5KAy
+	 atSnAhe1yo394xN3cnoJGW+fyvXUJCVcNrB9CwSWFtdWUsIKjeBlrYQaqSP9zsHIVTkN+
+	 AGlVrQJfAnxlx7FpdpKakKqtgTaOh9cbw9I4tL9HXosQYgX5r5imOQ4jym6F4r60BGsgd
+	 ZrYvNkwoLVdFD9Xip4fvm1m+GcX09qKQiVtuJ3umU5fa6XEvIsCgicM3NhZiqOs+v9zWt
+	 vDPDW74MqcOxe1EESgWgLdU5Q4du1LW1foSUqGUl+66KsNDK+iVA5D/Z/5OqccRP4YA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="frTWl/n1";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=yX7bCq4u;
+	arc=none smtp.remote-ip=203.205.221.242
+Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA6D606A31C
-	for <linux-usb@vger.kernel.org>; Sun,  8 Nov 2026 22:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76C5606A326;
+	Sun,  8 Nov 2026 23:33:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C76C5606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=frTWl/n1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 293D21F0089F;
-	Sun,  8 Nov 2026 22:44:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794177888;
-	bh=g1CwH36nhLXqw+8XCuUnUv7MfkbZsFXyFt3hVg+rxdc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=frTWl/n1sVH+iWKGr1cT5ZNiWvFWpIRgdDuCW/G4kt+CCGcb8ZYDViku9fuKeRNg3
-	 6s1ET5fs9mYtuAxaKcxOuHXb7SAwEZU/Sze2HCWzHLr2Lot+5G+4uejE8Iy0vjxtAj
-	 qNqG0rx2Vcg+KOldPTEAIXnKL4y9TgrPdPnjw8IOdU01NbNerKmxXvOJuMn2rVH6YM
-	 OtsAd0GUA0Bj0BJORT9U9yzAP6Di4nRLov8t5i8LO32CuDEMjQYe/vAfYb3vdcjosY
-	 xI473ZJZX72DwQCX04ueGqtTClcQwndhGsAIahAXqwNs1IjUSnptRpOuCBmeZtngYJ
-	 F/QDbd7cc/kYQ==
-Message-ID: <sashiko-outbox-204126@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: f_hid: free report list on release
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Noah Weinberger" <NoahWeinberger2003@proton.me>
-Cc: =?utf-8?b?bGludXgtdXNiQHZnZXIua2VybmVsLm9yZw==?= <linux-usb@vger.kernel.org>
-In-Reply-To: <1QsGBy1k7rgvDtVuIrw8wkuScqkmKf-h2yKjARCmaLFH2TFGvlr8izECUG0Pq-FRMo3NqA6bmTOayxrZ8xc0xwSOKjLLpz9flCzQomrlnqk=@proton.me>
-References: <1QsGBy1k7rgvDtVuIrw8wkuScqkmKf-h2yKjARCmaLFH2TFGvlr8izECUG0Pq-FRMo3NqA6bmTOayxrZ8xc0xwSOKjLLpz9flCzQomrlnqk=@proton.me>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2026 22:44:46 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=yX7bCq4u
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1794180830; bh=yWuo+qUaNy+CrX5cBE9Tcp6js8VodOqkc1PAcZwO4YY=;
+	h=From:To:Cc:Subject:Date;
+	b=yX7bCq4us2yrx2MT916VYXCtW3aSlV2f1cE8MAYbWhtVe7zPSkFD7Zg7ysAg12u7c
+	 W3nUommaOiSH+27vR77KwetlR1S2PhiTzDK1cwBSHolkJk8F5kPEiVrcSHZIemwO6v
+	 wx+uMMrxc92pFXISIFyd3q8LyF8zCVW6adqr8u00=
+Received: from shuai-VMware-Virtual-Platform ([223.88.55.127])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id 86F832D0; Mon, 09 Nov 2026 07:33:47 +0800
+X-QQ-mid: xmsmtpt1794180827tjqid6cjz
+Message-ID: <tencent_7682CAFD52BA8845497EA2C9047754EC6605@qq.com>
+X-QQ-XMAILINFO: Nz6nvCBXF1ZF3ql4O4D6KEtocM9df17vmXp+qzIII9C7LRTdXp81dhcsbKKmYT
+	 MDrhdo0CEiAunx4BRm/xaBS3LFQmw3V/wIlYOsrp77m0CWaU/ASD4inqNL4WMqfm8Lt6lgltndDs
+	 8VFSJlhStgzHOXk169lbsNF6kA8Lgft/kr3D444Bsk8sA+fkP+7pkS2MYmKwqt7qRAiFmev/NNrS
+	 QSXUM6MO62QGrKtRa7B7498TzL6nfcYk48lVAho9azMWqN/cvSyYvfkx5f3CC9JK6IfcTvybbCbX
+	 O9fMrv+H56pDIRLZkRJC/avmS3rydaJ613kC9AD1jtOIfh9Gd0aITIF9tdgiGeo2UoxNOc+R3LrD
+	 g0d5jeZE6NXhqeWgNWuSi5P5Px451dxgpEFUmMm4p3UckXuneuEcKQm0f/KL8j3YTOHZVxLlGHpo
+	 mLZZmYkolDQ9N3Vj8RJIDiER9UAjsKbIcr3Lgnc47+85jyTokiXasXBrn1Fcz+A92nnzE9W7FCkL
+	 Xzno5EANCkK2tMn82qAhkSCxLtMsLZ39TbPn3y3Cp7Q4+lNQGYKxhbqbKejxa7Wr1lxhllZo7n+x
+	 V9MKb1vgxB3LJBxaGaG9SkLRnX6QKcxo6xT3OvNeFe6PglHZOXXWd3vY51z3xAz7GB99eWAiypej
+	 tb2gqAzTqiDQq83id8RBaXeAk/Dsn8lOGx5kD2z5njVAjc0LTWbvY/kAp0L120cGpiKWHsp3tFwf
+	 M5+oPVgRv75Al92w4A2+bn3sUEGyoQ35FSZIZauOjjOXRsBMCbApVvzJLvLoDM4oqzuNZ4Ht8xrQ
+	 OdGYSaaiOnVtT/+mYSPwP90Y4ZkqbrMROAiiyV7Z50x/Y3baTpJJx2QQFxSXahwRcmmESO60CGvC
+	 YRc2cokSwzpu9dZDPFFoOX2mmpvxreYZWi5fjEyWRGS+3I4NjT/mad8S6qRf2IA98Jr0MDDp/Gup
+	 K6zzfIUn5gIF8xJGZSH8S2JVUrt04e+XxTUpsdxgm3hU/wTQGhx6LO/WgGaLMXPdZ3PWU9Opl0qu
+	 Nmyjta+rH21Y5xY9KHbz/mDHr0jsBYA9E8JjEbjnH045e3EFDjNBDpJ7zmt0GWvY07CQ/7mrc1u3
+	 CzbKZf
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+From: Shuai Liu <847807867@qq.com>
+To: Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com,
+	Shuai Liu <847807867@qq.com>
+Subject: [PATCH] usb: storage: don't hold dev_mutex across the max_lun control transfer
+Date: Mon,  9 Nov 2026 07:33:47 +0800
+X-OQ-MSGID: <20261108233347.1021054-1-847807867@qq.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,113 +80,138 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] usb: gadget: f_hid: missing Fixes/Signed-off-by tags and
-  changelog/style nits
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [Medium] usb: gadget: f_hid: memory leak of hidg->get_req in
-  hidg_unbind() [1]
---
+usb_stor_scan_dwork() acquires us->dev_mutex and then calls
+usb_stor_Bulk_max_lun(), which issues a synchronous GET_MAX_LUN control
+transfer (usb_stor_control_msg -> usb_control_msg, 10s timeout).  The
+reset and suspend callbacks (usb_stor_pre_reset / usb_stor_suspend) also
+acquire us->dev_mutex, but they run while the USB core already holds the
+device lock (udev->dev.mutex) during usb_reset_device() or disconnect.
+This creates an AB-BA deadlock:
 
-commit 6b437be3613ff7b4c0c239461caa731cf0c00ade
-Author: Noah Weinberger <NoahWeinberger2003@proton.me>
+  scan work           reset/disconnect
+  ---------           ----------------
+  mutex_lock(dev_mutex)
+                      device_lock(udev)      [USB core]
+  usb_control_msg() -- blocks waiting for
+                        the device lock
+                      mutex_lock(dev_mutex)  [pre_reset]
+                        -- blocks forever
 
-> usb: gadget: f_hid: free report list on release
->
-> Hello,
->
-> Entries added to hidg->report_list by the GADGET_HID_WRITE_GET_REPORT
-> ioctl are never freed: hidg_release() releases report_desc,
-> set_report_buf and hidg itself, but never walks the list (and
-> hidg_unbind() does not either). Each distinct report_id used over the
-> lifetime of a function instance therefore leaks one entry (~72 bytes),
-> which adds up across gadget reconfiguration cycles.
->
-> Free the list when the device's last reference is dropped.
->
-> Affected version/commit: mainline fa4ad798f6f681031775266044ba1b0cf3c670b=
-d (v7.4-rc1, 2026-11-07), drivers/usb/gadget/function/f_hid.c:679-682 (list=
- add), 121-128 (hidg_release).
-> The report-list mechanism is newer; the leak is present at HEAD.
->
-> This was found during an assisted (AI-supported) static source review of
-> mainline fa4ad798f6f681031775266044ba1b0cf3c670bd (v7.4-rc1, 2026-11-07);=
- every code path cited below was re-verified by the
-> reporter against that tree. The patch below has NOT been compiled and has
-> NOT been runtime tested, and no reproducer was produced - the triggering
-> conditions are described above instead. Please treat this as a report for
-> verification rather than a battle-tested fix.
->
-> Reported-by: Noah Weinberger <noahweinberger2003@proton.me>
+syzbot reports this as a task hung in usb_stor_scan_dwork(), with
+cancel_delayed_work_sync() in quiesce_and_remove_host() unable to make
+progress.
 
-[Severity: Low]
-This commit fixes the report_list leak introduced in a139c98f760e ("USB:
-gadget: f_hid: Add GET_REPORT via userspace IOCTL"), so it should include:
+Fix it by making usb_stor_Bulk_max_lun() self-contained: use a private
+on-stack buffer and the usbcore usb_control_msg() helper instead of the
+shared per-device resources (us->iobuf, us->cr, us->current_urb) that
+also belong to the control thread and the reset path.  With no shared
+state touched, the transfer no longer needs us->dev_mutex.
 
-  Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IO=
-CTL")
+In usb_stor_scan_dwork() call usb_stor_Bulk_max_lun() outside the lock
+and only take us->dev_mutex briefly to publish us->max_lun (and the
+SCSI host max_lun).  us->recv_ctrl_pipe and us->ifnum are set during
+probe and never change, so they are safe to read lockless.
 
-Note that 4e0a88254ad5 ("usb: gadget: f_hid: move list and spinlock inits
-from bind to alloc") is a prerequisite for stable backports so that
-hidg->report_list is initialized in hidg_alloc() before device_initialize().
+Reported-by: syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=30552b4cbe99d6d91306
+Signed-off-by: Shuai Liu <847807867@qq.com>
+---
+ drivers/usb/storage/transport.c | 27 +++++++++++++++++----------
+ drivers/usb/storage/usb.c       | 20 ++++++++++++++++----
+ 2 files changed, 33 insertions(+), 14 deletions(-)
 
-The commit message is also missing a Signed-off-by: trailer, and the
-greeting and testing disclaimers belong below the "---" tear line rather
-than in the permanent changelog.  Finally, the diff adds a second
-consecutive blank line after the list_for_each_entry_safe() loop in
-hidg_release().
+diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transport.c
+index 8de3015bce05..961595a6faca 100644
+--- a/drivers/usb/storage/transport.c
++++ b/drivers/usb/storage/transport.c
+@@ -1075,27 +1075,34 @@ EXPORT_SYMBOL_GPL(usb_stor_CB_transport);
+ /* Determine what the maximum LUN supported is */
+ int usb_stor_Bulk_max_lun(struct us_data *us)
+ {
++	u8 lun;
+ 	int result;
+ 
+-	/* issue the command */
+-	us->iobuf[0] = 0;
+-	result = usb_stor_control_msg(us, us->recv_ctrl_pipe,
+-				 US_BULK_GET_MAX_LUN, 
+-				 USB_DIR_IN | USB_TYPE_CLASS | 
++	/*
++	 * Issue the GET_MAX_LUN request using a private buffer and the
++	 * usbcore control-message helper.  This avoids touching the shared
++	 * per-device resources (us->iobuf, us->cr, us->current_urb) that are
++	 * also used by the control thread and the reset path, so the caller
++	 * does not need to hold us->dev_mutex while this (possibly sleeping)
++	 * transfer runs.
++	 */
++	result = usb_control_msg(us->pusb_dev, us->recv_ctrl_pipe,
++				 US_BULK_GET_MAX_LUN,
++				 USB_DIR_IN | USB_TYPE_CLASS |
+ 				 USB_RECIP_INTERFACE,
+-				 0, us->ifnum, us->iobuf, 1, 10*HZ);
++				 0, us->ifnum, &lun, 1, 10 * HZ);
+ 
+ 	usb_stor_dbg(us, "GetMaxLUN command result is %d, data is %d\n",
+-		     result, us->iobuf[0]);
++		     result, lun);
+ 
+ 	/* If we have a successful request, return the result if valid. */
+ 	if (result > 0) {
+-		if (us->iobuf[0] <= US_BULK_MAX_LUN_LIMIT) {
+-			return us->iobuf[0];
++		if (lun <= US_BULK_MAX_LUN_LIMIT) {
++			return lun;
+ 		} else {
+ 			dev_info(&us->pusb_intf->dev,
+ 				 "Max LUN %d is not valid, using 0 instead",
+-				 us->iobuf[0]);
++				 lun);
+ 		}
+ 	}
+ 
+diff --git a/drivers/usb/storage/usb.c b/drivers/usb/storage/usb.c
+index 823a4b2e9033..43d333f3ec4f 100644
+--- a/drivers/usb/storage/usb.c
++++ b/drivers/usb/storage/usb.c
+@@ -980,19 +980,31 @@ static void usb_stor_scan_dwork(struct work_struct *work)
+ 
+ 	dev_dbg(dev, "starting scan\n");
+ 
+-	/* For bulk-only devices, determine the max LUN value */
++	/*
++	 * For bulk-only devices, determine the max LUN value.
++	 *
++	 * usb_stor_Bulk_max_lun() performs a synchronous control transfer and
++	 * must NOT run while holding us->dev_mutex: the reset and suspend
++	 * callbacks acquire us->dev_mutex (via usb_stor_pre_reset() /
++	 * usb_stor_suspend()) while the USB core holds the device lock, and a
++	 * concurrent scan would then deadlock against them.  The transfer now
++	 * uses only private resources, so take the lock only to publish the
++	 * result.
++	 */
+ 	if (us->protocol == USB_PR_BULK &&
+ 	    !(us->fflags & US_FL_SINGLE_LUN) &&
+ 	    !(us->fflags & US_FL_SCM_MULT_TARG)) {
++		int max_lun = usb_stor_Bulk_max_lun(us);
++
+ 		mutex_lock(&us->dev_mutex);
+-		us->max_lun = usb_stor_Bulk_max_lun(us);
++		us->max_lun = max_lun;
+ 		/*
+ 		 * Allow proper scanning of devices that present more than 8 LUNs
+ 		 * While not affecting other devices that may need the previous
+ 		 * behavior
+ 		 */
+-		if (us->max_lun >= 8)
+-			us_to_host(us)->max_lun = us->max_lun+1;
++		if (max_lun >= 8)
++			us_to_host(us)->max_lun = max_lun + 1;
+ 		mutex_unlock(&us->dev_mutex);
+ 	}
+ 	scsi_scan_host(us_to_host(us));
+-- 
+2.53.0
 
-> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/fun=
-ction/f_hid.c
-> index 3c6b43d06a6d1..dcf6dce1e1d6c 100644
-> --- a/drivers/usb/gadget/function/f_hid.c
-> +++ b/drivers/usb/gadget/function/f_hid.c
-> @@ -121,6 +121,13 @@ static inline struct f_hidg *func_to_hidg(struct usb=
-_function *f)
->  static void hidg_release(struct device *dev)
->  {
->  	struct f_hidg *hidg =3D container_of(dev, struct f_hidg, dev);
-> +	struct report_entry *entry, *tmp;
-> +
-> +	list_for_each_entry_safe(entry, tmp, &hidg->report_list, node) {
-> +		list_del(&entry->node);
-> +		kfree(entry);
-> +	}
-> +
-> =20
->  	kfree(hidg->report_desc);
->  	kfree(hidg->set_report_buf);
-
-[Severity: Medium]
-This problem wasn't introduced by this patch, but does hidg_unbind() also
-leak hidg->get_req when no GET_REPORT request is pending [1]?
-
-hidg_bind() unconditionally allocates hidg->get_req via
-usb_ep_alloc_request(c->cdev->gadget->ep0, GFP_ATOMIC), whereas
-hidg_disable() only frees it when a GET_REPORT request is in flight:
-
-drivers/usb/gadget/function/f_hid.c:hidg_disable() {
-	...
-	spin_lock_irqsave(&hidg->get_report_spinlock, flags);
-	if (!hidg->get_report_returned) {
-		usb_ep_free_request(f->config->cdev->gadget->ep0, hidg->get_req);
-		hidg->get_req =3D NULL;
-		hidg->get_report_returned =3D true;
-	}
-	spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
-	...
-}
-
-When the gadget is unbound while idle, hidg->get_report_returned is true
-and hidg_unbind() never frees hidg->get_req, leaking the usb_request on
-every bind/unbind cycle.
-
-[1] https://sashiko.dev/#/bug/linux-b7d8a0a0-a788-48be-a1a4-1106b659764e
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/1QsGBy1k7rgvDtVuIrw=
-8wkuScqkmKf-h2yKjARCmaLFH2TFGvlr8izECUG0Pq-FRMo3NqA6bmTOayxrZ8xc0xwSOKjLLpz=
-9flCzQomrlnqk=3D@proton.me?part=3D1
