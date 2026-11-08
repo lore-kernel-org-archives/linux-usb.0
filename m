@@ -1,56 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.191
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794181520;
-	b=Ftis8c0xOJ2TfTq4L0s29pdwOVWYz7ZA5eT2xodUorJZr6+yLUzYHw+1PApolkovuYLy
-	 vBOeCgrRiNladUI4kBDlMsmVbIklDdMCa+rzFlYdALWGhxnxay90ZNWZMH0QdnL98EB9H
-	 fgS0sivVbrjoJdGOyfnHczpeUfRkH1IK7fFQKyTnzea3iKJjufsUPUVKugstfWtIsB+b7
-	 IBXLeo4bupsqE25/WR2XRHIU4NNw/9YarqqDHLJQl4jGK8CiUpw7CliDzIekph2jG6u1Y
-	 LI7BIpbQjT8juBjRmMFwCqQ+LlbMdTfcsBN9MDxdkQHk0xWZ1c4G14YDIPPEtalOmwA==
+	t=1794182015;
+	b=eVOq+CgSVaKUAG1gq1Pj4Ez9ZBpMG82uD4/qXqZllCgtGJrQbuFg9bRsWlGEk6vNnU6r
+	 npM0+GSdbzmNLWKC/7/S7U6pc/SuSB0rOTYe/CNlPYA50FbBOib+iRxRtxT2OghcARoeS
+	 SPuWNQvdQ8sOFPJ4vgxVLEQDNK4PoYpF2PzhOZq5LnsxA5HaHsiV3krtDBqIwKLCwojUo
+	 5cMmfeeQ/3m+RdRHsMoeVxa3T1fRvdX/8jV/MRhdRpNnCr3GmvEbp2Bc0Bh8UDZpeCHWZ
+	 94YRA7KJK076hQ/1+IAXzl76A+GSBCvs4z00Xqg8C/7Hqcpqs3pxFCsar9PJC02GAVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794181520;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=zb+Ig2UpZij+/Ntz5LTCrjKh6qLZGANvBXvGh5f64Iw=;
-	b=Og84Qi+EmN3rPRwOitR5tcFHb6amc3yY3DLONs3oPaX6BvGZhtqoym9bsP1aVHfvXxEb
-	 +717a606t727TJSGQSsuqSAfPFrrCqXkj8Q03uA9CBjbqiJDgqHOh2BVweMBs5FCdkXS6
-	 VWFIg0/t6pu0z+ZWSXOL0uKX+3qC50uFL3A13VYwE+y2DjGmMdXvM8ZvTHr7HRJpjP5uv
-	 9JhLqmL3srtwkiGu52jxgQJkYCF3MzPYoL32iIlZD5LKJ9VzEAtPEw6hHOycSfYYky5KD
-	 qEi9cZhIlWn39FsAu1yeQmBmHpkg69+42lA573CtzV0f0f/43XhEv6RgLOCv50yOd8g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794182015;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=RSCGrdgSArfXCMEcOW6bRIMjbLBp+rhO/w5fSd/2roM=;
+	b=AupvFu0LVvzHyJN7Z503VXFLQirwquu8yuVq1VUoD9gfTE4y5wxUL13ZXAhmjNathqjr
+	 o+OCxRqFSY9BPf9pf+jcCllpJhJMqwbXr0Ho7NdjM+e4rhnroazk+wrlgmCVqsI4XS0OJ
+	 4WKdd6JyhuloXQSQMy+9gz6XtxA0/K8Xl3mb1vuVgVAbLT6HadCrDPCFtB01X40KwBdZR
+	 A+e4I4Bm1mW4xaIUbT9ARlkIu0tLoH97fJxfjuyYfzvH9paC5tCc5BCbioB0E+74kippn
+	 H8VZq+yDY6z3iBQnwzaHjeP0//9WBp5IuoY0kqUqK7gncNu+vpdv/9APDIOpahHaxtw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aniiMCIk;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=LcBQYlf9;
+	arc=none smtp.remote-ip=203.205.221.191
+Received: from out203-205-221-191.mail.qq.com (out203-205-221-191.mail.qq.com [203.205.221.191])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8CD606A31C
-	for <linux-usb@vger.kernel.org>; Sun,  8 Nov 2026 23:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709FD606A31C;
+	Sun,  8 Nov 2026 23:53:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 709FD606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aniiMCIk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 618FC1F008A1;
-	Sun,  8 Nov 2026 23:45:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794181519;
-	bh=zb+Ig2UpZij+/Ntz5LTCrjKh6qLZGANvBXvGh5f64Iw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aniiMCIkmRUz/inxU9j6bwx+mBM25pkSdx/NnrMryF68j99e9loclK8Y89qL8hV+r
-	 v/FMJlw6sJBYcF6tbywmaVaZ3MDya0sz1t9JKN6Kqdrf3R5u2zh387Ja5b0908uwRM
-	 Au9jiyMkrnWivhPuJ+lMo9uge4iFbPbyW4DRNd4ue6PyzuQG6DZR95BHu1uObWtPtf
-	 ljWxYAyJqdv14y1dKOEXJz7gXNl6gfJGyTfEM0TbAqI3HMBy0VeESrfLhGv+G5/Ofd
-	 poygtF2woTmHWqbqoz2FwVqkWRscEBHiFohXMGV+1U7udVYIvAzn72oNlMnpyhkgfJ
-	 l0sKBYMad0p1g==
-Message-ID: <sashiko-outbox-204170@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: storage: don't hold dev_mutex across the max_lun
- control transfer
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Shuai Liu" <847807867@qq.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <tencent_7682CAFD52BA8845497EA2C9047754EC6605@qq.com>
-References: <tencent_7682CAFD52BA8845497EA2C9047754EC6605@qq.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2026 23:45:18 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=LcBQYlf9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1794182011; bh=RSCGrdgSArfXCMEcOW6bRIMjbLBp+rhO/w5fSd/2roM=;
+	h=From:To:Cc:Subject:Date;
+	b=LcBQYlf9sA9/LfqnHzgTVVVzG0AbQ/UsAyROtCZC0ipZVflIcOH+Qv6Sl9g5pWTti
+	 eyxO0hWcTdEtUWcelhAnlQf2i3HKQ5mCSuj2PgOMePMT0iEM1hmsQiaFMFFalrCnGl
+	 /knVo+OXmpZ7IfKOJJkiNp+TJWNjn/x7nmSiZqHI=
+Received: from shuai-VMware-Virtual-Platform ([223.88.55.127])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id D5C0AC33; Mon, 09 Nov 2026 07:53:28 +0800
+X-QQ-mid: xmsmtpt1794182008t877zz9sc
+Message-ID: <tencent_5A9A9E45415EADE916B7558C66A2C4DD4F05@qq.com>
+X-QQ-XMAILINFO: MxLtP9q6S0tz+8IY8BI97Pf+ZFkJG+7wgtya4aH1huNEMVDtaOiWIQ7j4PnDJj
+	 cj8ia803+7IUIDD7s+pI6t1XGWsOdMxPTBs/tD1oRiJ6JkDxW8pOiqJSxXqSzRg5OE+h+4HXeNG8
+	 DS+rV4TQKYM5eidrae9j7GnWFk4RMpqVLe0bKUN9KLOZF7yV04XtNEsVWQHJbR1Lrlne4iL4jA+L
+	 XZqDo/jliemrhiIUTI4ctlKK7g/sfgFcYBAZTDB1LeZUvcEKZQp+mIS5Knp7pjRmBjVX+HLE+Is7
+	 fV/qTKK0wQORBYeHEY/nVqDO1k6mizkj2/FWwms1ogGYNkGy9vV835E/f11a+/vRLbcBgbHUKO9M
+	 /0U4F0C/NU5sKI7za/bV0r4y1ppbWiovVJgyBD5jb0E6oiJdBv5YFRFdWttIwXJUG6ctx1rfLa0k
+	 C5YUdDpmvmMOB5uLnpIeR1F5hVeaM5rh7vMfX7FoCQ6VmBOz1wsEz0G+Pmd8wvZIrshVUIL9zspl
+	 hJdS725UqXL2gRq8oaaIklklz84sWvxA+8rfxfuaB+RTGcsujNsLoZcuP5Ax33UjnE0Ki6hS+0sO
+	 GJspGvpYqumA0fYKbLSj6rB756QKrKxNtF7VsYCUk2JCEWkcXkvxtBRzQvG4JmyLNCU5SYPnhaMQ
+	 orPG0ZR0ki6NVj/+lE+e2IEz+ZiuZCwk8ye5c8sue4OfVh32wbhydHm66K0s2rTe4ZZSLJa4M2hu
+	 NmT+x94I8NMcWho++G2SFn6V98M2N9mOtMDuVxqq1aabj9nfnM18j2cSOkeH56ltcVODjVaNVvov
+	 yDD0NG0q3kuEL0LBz5x6vuELLlh5JWz8yemh/7hQeE+9nF+Pl0BL5OWAXDkhDGJiL9t96u1L9oZv
+	 OTtVTSKyZcizUAvIY0C3y1KLIu3olxTmu/vR1nIT1cl8jWxjDSXETKO9tQ+wVsTpVAtLjvoYDqqN
+	 bZoCcCO6HCjCiFFbtMzCK3C58eqQNmP+FZupw5xKuEuoCpOAwHtd14n9JYWDdcpWUEqeQrlZBbTf
+	 W8Ikxbll8Ykle0C+tXVfLlL9aC+gRi9vahytxL74ROXznPNq/IM8zrcY9BuNO3TVHbGiUEr5gGXH
+	 BDDktij0Al2dFwd0inrUV6B6M8ym82i8/OB+pAAM1qr/vReZk=
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+From: Shuai Liu <847807867@qq.com>
+To: Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com,
+	Shuai Liu <847807867@qq.com>
+Subject: [PATCH v2] usb: storage: don't hold dev_mutex across the max_lun control transfer
+Date: Mon,  9 Nov 2026 07:53:07 +0800
+X-OQ-MSGID: <20261108235308.1023796-1-847807867@qq.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,194 +80,147 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [High] usb: storage: DMA from stack buffer in usb_stor_Bulk_max_lun()
-- [High] usb: storage: unlocked usb_stor_Bulk_max_lun() races with reset
-  and I/O
-- [Medium] usb: storage: uninitialized lun read in
-  usb_stor_Bulk_max_lun()
-- [Medium] usb: storage: wrong timeout unit in usb_stor_Bulk_max_lun()
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [High] usb: storage: scan_dwork race with usb_stor_disconnect() causes
-  hub stall [1]
---
+usb_stor_scan_dwork() acquires us->dev_mutex and then calls
+usb_stor_Bulk_max_lun(), which issues a synchronous GET_MAX_LUN control
+transfer (10s timeout).  The reset and suspend callbacks
+(usb_stor_pre_reset / usb_stor_suspend) also acquire us->dev_mutex, but
+they run while the USB core already holds the device lock
+(udev->dev.mutex) during usb_reset_device() or disconnect.  This
+creates an AB-BA deadlock:
 
-commit 92856a6bb6e2428e581352525fb02cdea2d9e022
-Author: Shuai Liu <847807867@qq.com>
+  scan work           reset/disconnect
+  ---------           ----------------
+  mutex_lock(dev_mutex)
+                      device_lock(udev)      [USB core]
+  control transfer  -- blocks waiting for
+                        the device lock
+                      mutex_lock(dev_mutex)  [pre_reset]
+                        -- blocks forever
 
-usb: storage: don't hold dev_mutex across the max_lun control transfer
+syzbot reports this as a task hung in usb_stor_scan_dwork(), with
+cancel_delayed_work_sync() in quiesce_and_remove_host() unable to make
+progress.
 
-This commit changes usb_stor_Bulk_max_lun() to issue the GET_MAX_LUN
-control transfer via usb_control_msg() using a stack variable and calls
-it outside us->dev_mutex in usb_stor_scan_dwork().
+Fix it by making usb_stor_Bulk_max_lun() self-contained: use
+usb_control_msg_recv(), which bounces the one-byte reply through a
+DMA-safe buffer, instead of the shared per-device resources (us->iobuf,
+us->cr, us->current_urb) that also belong to the control thread and the
+reset path.  With no shared state touched, the transfer no longer needs
+us->dev_mutex.  If the transfer races with a reset it simply fails and
+we fall back to a single LUN, which is the existing behavior for
+devices that reject GET_MAX_LUN.
 
-> diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transp=
-ort.c
-> index 8de3015bce050..961595a6facad 100644
-> --- a/drivers/usb/storage/transport.c
-> +++ b/drivers/usb/storage/transport.c
-> @@ -1075,27 +1075,34 @@ EXPORT_SYMBOL_GPL(usb_stor_CB_transport);
->  /* Determine what the maximum LUN supported is */
->  int usb_stor_Bulk_max_lun(struct us_data *us)
->  {
-> +	u8 lun;
->  	int result;
-> =20
-> -	/* issue the command */
-> -	us->iobuf[0] =3D 0;
-> -	result =3D usb_stor_control_msg(us, us->recv_ctrl_pipe,
-> -				 US_BULK_GET_MAX_LUN,=20
-> -				 USB_DIR_IN | USB_TYPE_CLASS |=20
-> +	/*
-> +	 * Issue the GET_MAX_LUN request using a private buffer and the
-> +	 * usbcore control-message helper.  This avoids touching the shared
-> +	 * per-device resources (us->iobuf, us->cr, us->current_urb) that are
-> +	 * also used by the control thread and the reset path, so the caller
-> +	 * does not need to hold us->dev_mutex while this (possibly sleeping)
-> +	 * transfer runs.
-> +	 */
-> +	result =3D usb_control_msg(us->pusb_dev, us->recv_ctrl_pipe,
-> +				 US_BULK_GET_MAX_LUN,
-> +				 USB_DIR_IN | USB_TYPE_CLASS |
->  				 USB_RECIP_INTERFACE,
-> -				 0, us->ifnum, us->iobuf, 1, 10*HZ);
-> +				 0, us->ifnum, &lun, 1, 10 * HZ);
+In usb_stor_scan_dwork() call usb_stor_Bulk_max_lun() outside the lock
+and only take us->dev_mutex briefly to publish us->max_lun (and the
+SCSI host max_lun).  us->recv_ctrl_pipe and us->ifnum are set during
+probe and never change, so they are safe to read lockless.
 
-[Severity: High]
-Does passing &lun to usb_control_msg() perform DMA into the kernel stack?
+Reported-by: syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=30552b4cbe99d6d91306
+Signed-off-by: Shuai Liu <847807867@qq.com>
+---
+v2:
+- switch to usb_control_msg_recv() so the reply goes through a
+  DMA-safe bounce buffer instead of a stack buffer (Sashiko)
+- initialize lun to 0 so the debug print never reads it unset (Sashiko)
+- pass the timeout in milliseconds (10000), not jiffies (Sashiko)
+- trim comments; the full deadlock analysis is in this changelog
 
-Unlike usb_control_msg_recv(), usb_control_msg() uses the caller's data
-pointer directly as urb->transfer_buffer without copying to a heap buffer.
-On DMA-capable host controllers, usb_hcd_map_urb_for_dma() rejects
-stack-allocated transfer buffers with a WARN_ONCE() splat and returns
--EAGAIN, which makes usb_stor_Bulk_max_lun() fall back to 0 and breaks
-multi-LUN detection.
+The remaining Sashiko finding (unlocked GET_MAX_LUN may race with a
+reset) is benign: the transfer simply fails and we fall back to one
+LUN, which is the existing fallback for devices rejecting the request.
+The reported scan_dwork vs disconnect stall is pre-existing and not
+introduced by this change.
 
-[Severity: Medium]
-Does usb_control_msg() also expect its timeout argument in milliseconds
-rather than jiffies?
+ drivers/usb/storage/transport.c | 27 +++++++++++++++------------
+ drivers/usb/storage/usb.c       | 15 +++++++++++----
+ 2 files changed, 26 insertions(+), 16 deletions(-)
 
-usb_stor_control_msg() took jiffies, whereas usb_control_msg() passes
-timeout to usb_start_wait_urb() -> msecs_to_jiffies().  Passing 10 * HZ
-shortens the timeout from 10 seconds to 1 second on CONFIG_HZ=3D100 kernels
-(or 2.5 seconds on CONFIG_HZ=3D250), risking premature -ETIMEDOUT failures
-on slow devices.
+diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transport.c
+index 8de3015bce05..f32393634415 100644
+--- a/drivers/usb/storage/transport.c
++++ b/drivers/usb/storage/transport.c
+@@ -1075,27 +1075,30 @@ EXPORT_SYMBOL_GPL(usb_stor_CB_transport);
+ /* Determine what the maximum LUN supported is */
+ int usb_stor_Bulk_max_lun(struct us_data *us)
+ {
++	u8 lun = 0;
+ 	int result;
+ 
+-	/* issue the command */
+-	us->iobuf[0] = 0;
+-	result = usb_stor_control_msg(us, us->recv_ctrl_pipe,
+-				 US_BULK_GET_MAX_LUN, 
+-				 USB_DIR_IN | USB_TYPE_CLASS | 
+-				 USB_RECIP_INTERFACE,
+-				 0, us->ifnum, us->iobuf, 1, 10*HZ);
++	/*
++	 * Use a private buffer via usb_control_msg_recv() (which bounces
++	 * through DMA-safe memory) so this transfer touches no shared state
++	 * and need not run under us->dev_mutex.
++	 */
++	result = usb_control_msg_recv(us->pusb_dev, 0, US_BULK_GET_MAX_LUN,
++				      USB_DIR_IN | USB_TYPE_CLASS |
++				      USB_RECIP_INTERFACE,
++				      0, us->ifnum, &lun, 1, 10000, GFP_NOIO);
+ 
+ 	usb_stor_dbg(us, "GetMaxLUN command result is %d, data is %d\n",
+-		     result, us->iobuf[0]);
++		     result, lun);
+ 
+ 	/* If we have a successful request, return the result if valid. */
+-	if (result > 0) {
+-		if (us->iobuf[0] <= US_BULK_MAX_LUN_LIMIT) {
+-			return us->iobuf[0];
++	if (result == 0) {
++		if (lun <= US_BULK_MAX_LUN_LIMIT) {
++			return lun;
+ 		} else {
+ 			dev_info(&us->pusb_intf->dev,
+ 				 "Max LUN %d is not valid, using 0 instead",
+-				 us->iobuf[0]);
++				 lun);
+ 		}
+ 	}
+ 
+diff --git a/drivers/usb/storage/usb.c b/drivers/usb/storage/usb.c
+index 823a4b2e9033..d973bfd0f23d 100644
+--- a/drivers/usb/storage/usb.c
++++ b/drivers/usb/storage/usb.c
+@@ -980,19 +980,26 @@ static void usb_stor_scan_dwork(struct work_struct *work)
+ 
+ 	dev_dbg(dev, "starting scan\n");
+ 
+-	/* For bulk-only devices, determine the max LUN value */
++	/*
++	 * For bulk-only devices, determine the max LUN value.
++	 * usb_stor_Bulk_max_lun() sleeps in a synchronous transfer, so it
++	 * must not run under us->dev_mutex (the reset path takes dev_mutex
++	 * while holding the device lock).  Lock only to publish the result.
++	 */
+ 	if (us->protocol == USB_PR_BULK &&
+ 	    !(us->fflags & US_FL_SINGLE_LUN) &&
+ 	    !(us->fflags & US_FL_SCM_MULT_TARG)) {
++		int max_lun = usb_stor_Bulk_max_lun(us);
++
+ 		mutex_lock(&us->dev_mutex);
+-		us->max_lun = usb_stor_Bulk_max_lun(us);
++		us->max_lun = max_lun;
+ 		/*
+ 		 * Allow proper scanning of devices that present more than 8 LUNs
+ 		 * While not affecting other devices that may need the previous
+ 		 * behavior
+ 		 */
+-		if (us->max_lun >= 8)
+-			us_to_host(us)->max_lun = us->max_lun+1;
++		if (max_lun >= 8)
++			us_to_host(us)->max_lun = max_lun + 1;
+ 		mutex_unlock(&us->dev_mutex);
+ 	}
+ 	scsi_scan_host(us_to_host(us));
+-- 
+2.53.0
 
-> =20
->  	usb_stor_dbg(us, "GetMaxLUN command result is %d, data is %d\n",
-> -		     result, us->iobuf[0]);
-> +		     result, lun);
-
-[Severity: Medium]
-Can usb_stor_dbg() read uninitialized stack memory from lun when
-usb_control_msg() fails or transfers 0 bytes?
-
-Previously us->iobuf[0] was zero-initialized before the transfer.  Here
-lun is uninitialized, so when a single-LUN device stalls GET_MAX_LUN
-(-EPIPE) or returns a zero-length packet, usb_stor_dbg() reads an
-uninitialized value before the result > 0 check.
-
-[ ... ]
-
-> diff --git a/drivers/usb/storage/usb.c b/drivers/usb/storage/usb.c
-> index 823a4b2e9033b..43d333f3ec4fe 100644
-> --- a/drivers/usb/storage/usb.c
-> +++ b/drivers/usb/storage/usb.c
-> @@ -980,19 +980,31 @@ static void usb_stor_scan_dwork(struct work_struct =
-*work)
-> =20
->  	dev_dbg(dev, "starting scan\n");
-> =20
-> -	/* For bulk-only devices, determine the max LUN value */
-> +	/*
-> +	 * For bulk-only devices, determine the max LUN value.
-> +	 *
-> +	 * usb_stor_Bulk_max_lun() performs a synchronous control transfer and
-> +	 * must NOT run while holding us->dev_mutex: the reset and suspend
-> +	 * callbacks acquire us->dev_mutex (via usb_stor_pre_reset() /
-> +	 * usb_stor_suspend()) while the USB core holds the device lock, and a
-> +	 * concurrent scan would then deadlock against them.  The transfer now
-> +	 * uses only private resources, so take the lock only to publish the
-> +	 * result.
-> +	 */
->  	if (us->protocol =3D=3D USB_PR_BULK &&
->  	    !(us->fflags & US_FL_SINGLE_LUN) &&
->  	    !(us->fflags & US_FL_SCM_MULT_TARG)) {
-> +		int max_lun =3D usb_stor_Bulk_max_lun(us);
-> +
->  		mutex_lock(&us->dev_mutex);
-> -		us->max_lun =3D usb_stor_Bulk_max_lun(us);
-> +		us->max_lun =3D max_lun;
-
-[Severity: High]
-Does running usb_stor_Bulk_max_lun() outside us->dev_mutex allow a
-GET_MAX_LUN control transfer to run concurrently with port resets, PM
-suspend, or active SCSI commands?
-
-usb_stor_pre_reset() and usb_stor_suspend() lock us->dev_mutex specifically
-to ensure no URBs are in flight or submitted during a USB reset or suspend:
-
-drivers/usb/storage/usb.c:usb_stor_pre_reset() {
-	/* Make sure no command runs during the reset */
-	mutex_lock(&us->dev_mutex);
-	return 0;
-}
-
-Also, because scsi_add_host() has already been called in usb_stor_probe2(),
-usb_stor_control_thread() can acquire us->dev_mutex while GET_MAX_LUN is
-still in flight, check srb->device->lun > us->max_lun against the stale 0
-value, and issue bulk transfers or resets concurrently with GET_MAX_LUN.
-Note as well that neither usb_stor_control_msg() nor usb_control_msg()
-takes udev->dev.mutex.
-
->  		/*
->  		 * Allow proper scanning of devices that present more than 8 LUNs
->  		 * While not affecting other devices that may need the previous
->  		 * behavior
->  		 */
-> -		if (us->max_lun >=3D 8)
-> -			us_to_host(us)->max_lun =3D us->max_lun+1;
-> +		if (max_lun >=3D 8)
-> +			us_to_host(us)->max_lun =3D max_lun + 1;
->  		mutex_unlock(&us->dev_mutex);
->  	}
->  	scsi_scan_host(us_to_host(us));
-
-[Severity: High]
-This problem wasn't introduced by this patch, but can usb_stor_scan_dwork()
-proceed to scsi_scan_host() on a disconnecting or failed device and stall
-the USB hub workqueue [1]?
-
-In subdrivers such as ene_ub6250_probe(), usb_stor_probe2() schedules
-scan_dwork before hardware initialization completes, and on failure the
-probe path calls usb_stor_disconnect():
-
-CPU0 (probe thread)               CPU1 (scan_dwork)
--------------------               -----------------
-ene_ub6250_probe()
-  usb_stor_probe2()
-    schedule_delayed_work(&us->scan_dwork, ...)
-                                  usb_stor_scan_dwork()
-  mutex_lock(&us->dev_mutex)
-                                    mutex_lock(&us->dev_mutex)
-  ene_get_card_type() (fails)
-  mutex_unlock(&us->dev_mutex)
-                                    ...
-                                    mutex_unlock(&us->dev_mutex)
-  usb_stor_disconnect()             scsi_scan_host()  <-- stalls on dead dev
-    quiesce_and_remove_host()
-      cancel_delayed_work_sync()
-
-Because quiesce_and_remove_host() waits in cancel_delayed_work_sync()
-before setting US_FLIDX_DISCONNECTING, scsi_scan_host() issues SCSI
-commands that time out against the unresponsive device, blocking the USB
-hub thread for over 90 seconds.
-
-[1] https://sashiko.dev/#/bug/linux-0529026a-086b-4e39-8ee0-4a1314c92146
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/tencent_7682CAFD52B=
-A8845497EA2C9047754EC6605@qq.com?part=3D1
