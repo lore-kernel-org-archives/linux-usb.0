@@ -1,69 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.29
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794169472;
-	b=gNg4TmQd1yxGjhFgTIiIz7EXjLy5pKVc28Lku8RXxDW4j6/Ohk/Ni+Yqn4Xda3P50gWx
-	 2mkZeFWW8sbGC49YlHCHP0LyCW3qzpQuDuZROEZcJ4nBq9JhyrIIWejOsC5Tmv7ZlR5o7
-	 IbzGVgHsKZ9Rg64zZpA336uNAGY7H9cF4jxLRDKB47DdzOmr4uo+RNUadgHXDvnD00J7p
-	 DbtwNp/Th0U8dKx793Xs4Exyt7uS9o4eUvWxbrWX7g0QR8ElbgqPgHppBXtTcTfYUvS/r
-	 1MLrdKKDuzaHsM2S4fJFPgp+AlWpJDgJ8u9POf0ek1qCKEjvoAnGMa+ZqI5U5xq/7Hw==
+	t=1794176836;
+	b=sBYhGcQpU6Ie9/KUbJ1ql7ms/nTjUpdl6wG0NlU8anjJIOtSaHKTncWQvH72V4BSu51C
+	 CF1TnP4V4k875zQtnCg2m+2gV5F2yGWtL/GFsoo7IYcaEV58iJRzGqXVJXHZvcCcupVrT
+	 Kgyln9AmD86Ixk056bwsFgLJLMpNl0P/USaEf/X4eOiqVDie37O9kMjmntzfxCtBarxPx
+	 NNuivcvZZedEZo4tz9fhubfD5zJ3A/tDn0DVCOXjWeWArY1OF1Yc9LYui63uCMBBnVINQ
+	 Dfqw7dM6bK01EMTWfmyrHlMa153z3BSnQCsw6hCHk1tB3wHVeGLG6RQ2IsSCyaOXuBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794169472;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794176836;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=1qj5y87MsXlthtvZZz8XPLqswZ+P7fk/lt42PqGvom8=;
-	b=v3hhyGFj/DKokbZdcyxVNvR2rVh+Ywhd0LXFSCa7JTmVJS4ps461itxA+C1iqntXEAxS
-	 0K9uVahw6uBQFpr5X4wEX6tRFAmTPLkNizukWztdIcGMhtlCA/hBT1ouXSQjdrAAHBa6i
-	 o5ftYh/FtXOdWRJB+lCkn8ToX1ifg8IDsoPV9P6kgbUwPXUe76HpCWx2kemkPR1wx2nt3
-	 iRxIDpVUVHGy8uc8Yq2KENxASqT2uhUnTcnk1pz7ov6OtO2/+Kp2VWG5e/kq6cEtHLXYM
-	 /QlA7hCufzErYu8xjYlcdWkoy08e6pTJA3h7tPKkzLajT/WfOMxvA7EZTB3oEgIeB3w==
+	bh=3X8z9HiQ90Esek9ry3qYxDhUP6ikQF/zd5RI1d+W1YE=;
+	b=CQXVCCEsmOYyjKlPxygHT2yQqLDw8zEFKttF0yAOxJ7zP2ueqNFzGZPDxVIbOos1PK08
+	 qg31kqNw2JelzhODNYxk+Jt1Bj4vuOkep2w5Xlrgh/XZqbtG3ct5C6uR8/tOsw8euEGFJ
+	 I5u73sWwlVAExz4xeFIUvT1m8wNsa+2+tOjCXBha4EAcZ7jFCIBmcHhBUevhlCHOwlQFL
+	 JVePndawljRnNyML5x8wEYLdArlm9vKdI5Uaxf+vDvhdv6ZGj4P/96TygW5US7xx/+kjJ
+	 azGZmVeiGdD0+0yVrfuvrbBqFanI3ldbhajDiZ4J8vMj4xaWSCPJAhx3THAWwQd3vJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qd4h5e5N;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=MyVYzr3f;
+	arc=none smtp.remote-ip=79.135.106.29
+Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch [79.135.106.29])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818C5607C5C0;
-	Sun,  8 Nov 2026 20:24:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82D0606A321;
+	Sun,  8 Nov 2026 22:27:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D82D0606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qd4h5e5N
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 901AD1F008BF;
-	Sun,  8 Nov 2026 20:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794169472;
-	bh=1qj5y87MsXlthtvZZz8XPLqswZ+P7fk/lt42PqGvom8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Qd4h5e5Nu4wcvRZs0U8ziIXcQyLPVqXRbzN0kDAbpXNFr6M9iZPVvWCEiwyH/97PS
-	 guhL44mxVarxRPmq76fSaR4JW8ORP8Mz5fmFLEHONo22GUSYfiJ3Z2SHWQyW0zZ2ID
-	 aaKpPee8a1kaJXORQ/eqFK6PbrRSKpfCM1xxsxHcm75XlX+EuHOnu89IICLu4H2wH5
-	 Aaex8mWRb0FjvAZUvMnGpKK0OyOuMZwRUSqi8xT58anzpTZ6+P0IAU8VnAx8gMNaQ0
-	 1otXIKFLQjy4r6s/d6+tcTpFOWPYgvsuv9YSNhfPNPK/2hshdZCERHPggNyu4+JJp1
-	 1RE89s9df2J8A==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Konrad Dybcio <konradybcio@kernel.org>,
-	Peter Chen <peter.chen@oss.qualcomm.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Abel Vesa <abel.vesa@oss.qualcomm.com>,
-	Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
-	Udipto Goswami <udipto.goswami@oss.qualcomm.com>,
-	Jack Pham <jack.pham@oss.qualcomm.com>,
-	Pratham Pratap <pratham.pratap@oss.qualcomm.com>,
-	Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 0/4] arm64: dts: qcom: Set snps,resume-hs-terminations for M31 eUSB2 PHY platforms
-Date: Sun,  8 Nov 2026 14:21:04 -0600
-Message-ID: <179416929418.628393.5000758873214058787.b4-ty@b4>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261019021547.1694088-1-peter.chen@oss.qualcomm.com>
-References: <20261019021547.1694088-1-peter.chen@oss.qualcomm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=MyVYzr3f
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1794176833; x=1794436033;
+	bh=3X8z9HiQ90Esek9ry3qYxDhUP6ikQF/zd5RI1d+W1YE=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=MyVYzr3fGjcb8IVV6SUd7vXptT969yI81velePfFgEwJ8ccdIDM2lWiIXILjNbq7Q
+	 h2XwGgQTDf0Lq5qentju0Mx6r4+cuiYIoePN0N0DSkvroClbyWd2A+CL4q2ebaVHzC
+	 I4+FgpSHyq0RFoNXTi2bJpP5UYDiXg04ySJaFzxr2uLq1Ng596IDr56bF5VQU+ZdXN
+	 MmTYW86LeQbYV/kugxrfV+sc+vzTeOZN0mL0L23jWTTfvkS6kET7hUQfeEiNEHE4ug
+	 AYKvGUu5Afz336Ky16nmw/5rb1LLF+bZa5OjR6j3NTrJexriJQWBwxyM6FaSSXZTnF
+	 SnHJNqZNjhLtw==
+Date: Sun, 08 Nov 2026 22:27:08 +0000
+To: "nkapron@google.com" <nkapron@google.com>, "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+From: Noah Weinberger <NoahWeinberger2003@proton.me>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH] usb: gadget: f_ncm: bound NDP length against the NTB
+Message-ID: <VFFcAz18YOCdAGLJxQp8TZxPPL6-T5bPEHLSdIkdyWPj4Rr7dRgBoUrlYHMc_CYxsZXLbk2_xPPKx8uMzHzck8QUAC84Q2ZlluLo7JG-Ry8=@proton.me>
+Feedback-ID: 186545857:user:proton
+X-Pm-Message-ID: 5d8d5eeb64b5057d721702834f3b47afb57c5df8
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -73,25 +61,56 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+Hello,
 
-On Sun, 18 Oct 2026 19:15:43 -0700, Peter Chen wrote:
-> The DWC3 controllers on Qualcomm SoCs paired with the M31 eUSB2 PHY
-> need GUCTL1[10] (RESUME_OPMODE_HS_HOST) set for host-mode USB2 L2/L1
-> resume, as required by the HPG. Without it, a USB2 HS device cannot be
-> reset after it is runtime resumed: PORTSC.PR never clears
-> (PORTSC = 0xe11) and the hub driver fails with
-> "port_wait_reset: err = -16".
-> 
-> [...]
+ncm_unwrap_ntb() validates the NDP wLength only for a minimum size and
+alignment; the sum ndp_index + ndp_len is never checked against
+block_len. The NDP *start* is bounded, but the datagram-pointer-entry
+walk then advances through up to wLength/8 entries regardless of where
+the block ends.
 
-Applied, thanks!
+A hostile USB host can send an NTB whose NDP claims wLength close to
+64K while the block is 16K: the walk reads 2-4 byte entries past the end
+of the RX skb, continuing as long as the out-of-bounds-derived values
+happen to pass the per-datagram validation (index/length checks). The
+practical overread distance depends on adjacent heap contents, but KASAN
+flags the first OOB access. The bytes are not returned to the host, so
+this is an out-of-bounds read/DoS rather than a disclosure channel.
 
-[4/4] arm64: dts: qcom: hawi: Set snps,resume-hs-terminations for USB controller
-      commit: 3c7371a907cff175fe316fce61e875e3f8db0897
+Bound the NDP length against the remaining block, mirroring the
+existing minimum-size check.
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+Affected version/commit: mainline fa4ad798f6f681031775266044ba1b0cf3c670bd =
+(v7.4-rc1, 2026-11-07), drivers/usb/gadget/function/f_ncm.c:1254-1346 (ncm_=
+unwrap_ntb NDP walk).
+Longstanding code.
+
+This was found during an assisted (AI-supported) static source review of
+mainline fa4ad798f6f681031775266044ba1b0cf3c670bd (v7.4-rc1, 2026-11-07); e=
+very code path cited below was re-verified by the
+reporter against that tree. The patch below has NOT been compiled and has
+NOT been runtime tested, and no reproducer was produced - the triggering
+conditions are described above instead. Please treat this as a report for
+verification rather than a battle-tested fix.
+
+Reported-by: Noah Weinberger <noahweinberger2003@proton.me>
+---
+diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/funct=
+ion/f_ncm.c
+index 500c9c1..a0e2049 100644
+--- a/drivers/usb/gadget/function/f_ncm.c
++++ b/drivers/usb/gadget/function/f_ncm.c
+@@ -1262,7 +1262,8 @@ parse_ntb:
+ =09=09 */
+ =09=09if ((ndp_len < opts->ndp_size
+ =09=09=09=09+ 2 * 2 * (opts->dgram_item_len * 2)) ||
+-=09=09=09=09(ndp_len % opts->ndplen_align !=3D 0)) {
++=09=09=09=09(ndp_len % opts->ndplen_align !=3D 0) ||
++=09=09=09=09=09(ndp_index + ndp_len > block_len)) {
+ =09=09=09INFO(port->func.config->cdev, "Bad NDP length: %#X\n",
+ =09=09=09     ndp_len);
+ =09=09=09goto err;
+
