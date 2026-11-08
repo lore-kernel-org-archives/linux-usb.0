@@ -1,87 +1,46 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.25
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794136154;
-	b=l1skM2H6YGtYQuaaILNdCsvpZ6qCIT8aKpK3+CXVBWuBnLcIv2+iJT+9PY3I5bFaszms
-	 5hGhhWM/RPJK2MnLHR2zKz+pDs8tc6Zv3EaIVNC31Tp6fKMVL6Ff/Qa4a6SIIsEJGytca
-	 bQKMwSaP5UMpfY4sRcdDJ5rZptHykZ4F4l7QRar9ACco4fYYjeibyYAcC28lU3r1LG0AF
-	 BBfuM/tQYS8mko/u38oEStvC/IShILZMOL0Noit3CK5guQz7oSd4WGvciy2wzXsQAjCQf
-	 mMtX73ZOVOLk8s2w/KIOnDxF3LF+yITMLJkrSor86KuuTZ7GaC17xsZURANqrsx0WBg==
+	t=1794140731;
+	b=1PCjCr7KLUbQbkeYGyS9e2bb+ybGjr1B+13OKG+YMJ68rQgT5ozS3iI5VFEE7SmSlVRa
+	 xAnFJq+AnZcBW5L4aQu/l+ijOFeooTYSaIND8uG4s+u8U8YUobLw9l8jhqII91f9qQTsO
+	 iPUhRZx6hhLy9NZnnQHTkfrRxf0yntD7mOFfhlNEJGzFau0aBpVXUSOj+k6/Px48Iucb3
+	 yKJtswbv2/h+mCMoD+U2BpfwjYOIjeWVqs6mMueHOp9JZaUAFC0E3mgkdY7/si93Eaem4
+	 oA/S+Qs3x5plu9oI4wF6ghsPFe8UrKH9d6BD0XsXMjCSexImgPOrI+izsaDhi2i2N6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794136154;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=rRMDSUzD/4dqXKQ7EKZyKnxoCi/M0piqkjg2dM9fwCI=;
-	b=1ZRCRebOhBeS7O8eGQabP124RSjWW59es5u+++aT5TCVmq69xg1SbVKqyDGN7QtVSF1t
-	 5sHQ8lkim3CEQfkw3JHrlaBxVdP/6L0M0M+VLDx7x72/DWrE9g34buOXaXkksBg2JqU4j
-	 nxAGA7kAFiyGB4QVsoQSp/2+6kZ36uI6ertqwTFbYqmWTVrqZboP3VrBbsZut/rHNmuWD
-	 DMv+bmNZkEsRXoJny/S4Qz6V5mbrM8sjx37bnusqfqUmBvOy+aCyHiQierIQ1yMVaUkHP
-	 7dkhlQ4LcGjczgLce5Ynd5bHZhsQQwpnBln+5KZyr7wDFH5WNtjJK3DvdhT6/O/N77g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794140731;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Date:Message-ID:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=yx8ncRKYNGa+7YMS3xP0ZSRzr5YwBBV35qzim36e95o=;
+	b=1YGMSybuHm7YJMwzdsUrWAmLbsH0UQSpRSrNITcUG4A0dZVI+h9Bfpqiz+PJeV4IcqNZ
+	 pamequriQ+jiXYYxTyPLDLj6jnBaWDuXh+Kq/ZkYtfo8JhlzNolryFP+6ZBgb4aS7UIFr
+	 WdkmVbOJLoJNCQ2Wbu3tzcr9yeNE4wYSC1yNqtyBwC4aaNITCzTLHbLjzo2Vd6/sHo2UW
+	 bQkxgf9wz5APIkscfxkgX1iL7N2RuAabgjJASTBtmFGbBLHwH556xkguJnhLo+av26yde
+	 Kmlzak1yWA0ANoTVfPQAnpYQTfD1U4Jk4oIg35rjHEbd2oRaZ4AQz6cfMwj5Ctd4oFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N0YYA4cp;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=iscas.ac.cn;
+	spf=pass smtp.mailfrom=iscas.ac.cn;
+	arc=none smtp.remote-ip=159.226.251.25
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CF4606A31C;
-	Sun,  8 Nov 2026 11:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N0YYA4cp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBFD11F008A1;
-	Sun,  8 Nov 2026 11:09:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794136153;
-	bh=rRMDSUzD/4dqXKQ7EKZyKnxoCi/M0piqkjg2dM9fwCI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=N0YYA4cpwk2rSpGMMYuOqSqMumav/sn0wLJeni7+D5sRDUh6oQesbQll0590AxfPg
-	 YHZL34AcSy3m/oA/+Mg50SxmE2ticTBJ0JeVPjSjHFm7kxxRs5L8DQMA7BTnLRn9Qu
-	 2ZAZr5kKEMP1mX37TLY8VAg7PQwGUVqeJOcMERAGlH5l3zZZEjSFO6rqxrHnW3bvxF
-	 j8U2+HgWFrfZqDiA8t9jLRXdMwzd73OoApHczJMktKFXOELRAAGT46mdFrtZFBMPZ4
-	 MVG5MgmA0/z1plVr0CdzxGC6RsARpcD0nOIKT0WnIOzRGRQJttYGclefHMO9alDFAo
-	 8foRVxDwmD7Ew==
-Date: Sun, 8 Nov 2026 13:09:09 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 05/17] USB: Lock registered interfaces during manual
- driver binding
-Message-ID: <20261108110909.GA8635@unreal>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-5-1e536825b4eb@nvidia.com>
- <bb83fe3c-cebb-4bc8-bfc9-24df1cf72b0b@rowland.harvard.edu>
- <20261105184442.GF8298@unreal>
- <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28931606A31C;
+	Sun,  8 Nov 2026 12:25:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28931606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from [172.100.0.8] (unknown [36.110.52.2])
+	by APP-05 (Coremail) with SMTP id zQCowADnfbM0avBqlkabAA--.19995S2;
+	Sun, 08 Nov 2026 20:25:25 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: Johan Hovold <johan@kernel.org>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, oneukum@suse.com, vulab@iscas.ac.cn
+Subject: Re: [PATCH] usb: cdc-acm: Fix urb reference leak in acm_resume()
+In-Reply-To: <aqze0EBONnOb2gNF@hovoldconsulting.com>
+References: <20260917161217.2161883-1-vulab@iscas.ac.cn>
+ <aqze0EBONnOb2gNF@hovoldconsulting.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,46 +50,44 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Date: Sun, 08 Nov 2026 12:25:35 +0000
+Message-ID: <20261108122535.261628-1-vulab@iscas.ac.cn>
+X-CM-TRANSID:zQCowADnfbM0avBqlkabAA--.19995S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Wr1fKw47urWxWFWrKFy7trb_yoWxtFXEka
+	yjya17K3yUG3yxZF4jyF1a9rs5KwsxurnxG34rWw1Y934UZF1UXFW5K3s2k3WxAaykt3Z8
+	Arn5t34Skw1j9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbIAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+	wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+	vE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280
+	aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
+	x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWr
+	XwAv7VC2z280aVAFwI0_Cr1j6rxdMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+	ACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
+	r41l42xK82IY6x8ErcxFaVAv8VW8GFyrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
+	026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
+	JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20x
+	vEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE
+	14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyT
+	uYvjfUw_-PUUUUU
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAEFA2rv4qjUeAAAso
 
-On Thu, Nov 05, 2026 at 03:04:18PM -0500, Alan Stern wrote:
-> On Thu, Nov 05, 2026 at 08:44:42PM +0200, Leon Romanovsky wrote:
-> > On Thu, Nov 05, 2026 at 12:24:33PM -0500, Alan Stern wrote:
-> > > On Thu, Nov 05, 2026 at 01:42:18PM +0200, Leon Romanovsky wrote:
-> > > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > > 
-> > > > Interface claims hold the USB device lock, but device_bind_driver()
-> > > > requires the target interface lock. Without it, trust-policy writes can
-> > > > race admission.
-> > > 
-> > > This says nothing about usb_driver_release_refused_claim() and the code 
-> > > related to it.  It is an incomplete description of the patch.
-> > > 
-> > > Note that nothing prevents drivers from using an interface they claim 
-> > > before that interface is registered.  For your scheme to work properly, 
-> > > you should make sure the claim is authorized when 
-> > > usb_driver_claim_interface() is called, not when the interface is 
-> > > registered.
-> > 
-> > This patch is unrelated to authorization;
-> 
-> I meant "authorization" in its generic sense.  When you don't trust 
-> something, you don't authorize it to do anything.  Pretend I had written 
-> "the interface being claimed is trusted" in place of "the claim is 
-> authorized" above.
+Hi Johan,
 
-I will combine existing USB authorization scheme with device trust in v2.
+Sorry for the very late reply, and for the extra work. Thank you for the
+review. Both points are right: the reference from usb_get_from_anchor()
+should be dropped as a put, and acm_port_shutdown() needed the same fix. I
+see you took care of both in 648b08aa37c1 ("USB: cdc-acm: fix urb leak on
+disconnect"); it is in mainline and has already been queued for stable, so I
+am not resending anything and patchwork 14825884 can be dropped.
 
-> 
-> >  it ensures that the lock is
-> > acquired when the driver is bound.
-> 
-> That may have been your intention when the patch was created, but if you 
-> read the patch you'll see that it includes a whole bunch of material 
-> not related to locking during binding.  Namely, this part:
+On how this was found and fixed: I have described it once, in my reply to the
+sierra patch, rather than repeating the same explanation in every thread.
 
-Once I added `device_lock()` to `bind`, I had to add it to `unbind` as well.
+I am working through the outstanding feedback by hand now and will not send
+patches in bulk again.
 
-Thanks
+Thanks,
+Wentao
+
