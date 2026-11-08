@@ -1,48 +1,87 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794134133;
-	b=lLn87ns9AWY31b3wA0ZA6eo4XDM2Q13GL2CkRGio/y5NYmZiqqjOqhk5Z+GX+jSzdlOV
-	 uuyYpZJNn5SLzZx6G/lZT9mIDhy/pXjt06sNCGL/w4T3WQNccOxZwmTjNmbjBvTUa+/LU
-	 Ui20R9wnMPsR2ML9Aiu4Q1UGozAekFfNGYl++GjB5rl5gE472J0iWAkGmCoiR2EhdoRAU
-	 GGqzKoB8BoIwzRXEa2STd8hWBVEDDsuew9b31L1Nix7qGhJRriqXMOTNAZUdmd6TY92/s
-	 pnxzmVDVCb7Gvpf/ng/Gv5Nx/QS+YJH+GD5iRyGU5Mq7SpakkRg/z74dnpV96PLqpkg==
+	t=1794136154;
+	b=l1skM2H6YGtYQuaaILNdCsvpZ6qCIT8aKpK3+CXVBWuBnLcIv2+iJT+9PY3I5bFaszms
+	 5hGhhWM/RPJK2MnLHR2zKz+pDs8tc6Zv3EaIVNC31Tp6fKMVL6Ff/Qa4a6SIIsEJGytca
+	 bQKMwSaP5UMpfY4sRcdDJ5rZptHykZ4F4l7QRar9ACco4fYYjeibyYAcC28lU3r1LG0AF
+	 BBfuM/tQYS8mko/u38oEStvC/IShILZMOL0Noit3CK5guQz7oSd4WGvciy2wzXsQAjCQf
+	 mMtX73ZOVOLk8s2w/KIOnDxF3LF+yITMLJkrSor86KuuTZ7GaC17xsZURANqrsx0WBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794134133;
-	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=biMNnuk3Zlmj9i5odT0zZonccKXcOUkOod+xD4mMBfI=;
-	b=uRNWcpJTwwIvxR6j1Evsw+aDRz6SDzwpcBqM5G28VkdNYNIWsYhtTAyNWIyr3zjQpmf4
-	 g3Wjp3SzPsi2LALmfbH2tj7fL3bF0UIhQ323eCsj+pk77GjIgpoP241JeP/gzC1FATXod
-	 C3TEGOnBYPM95C9btCWdV2yDvXR5SDIPinr8paPwY3A1jldN6hu0RUWqkqrHBifidqbLu
-	 l7vVYubixcb/jv/xqfQYyueZpG3OBsvCwRzMnNe5/Ryoqod3exPI07BIglFo4ncnOOm/4
-	 k5zgpp26AyvCAssCrI2pjjF1HJdTG050TQch/jDXIponAaULsNAOGpHDQUTZKZwKg9A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794136154;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=rRMDSUzD/4dqXKQ7EKZyKnxoCi/M0piqkjg2dM9fwCI=;
+	b=1ZRCRebOhBeS7O8eGQabP124RSjWW59es5u+++aT5TCVmq69xg1SbVKqyDGN7QtVSF1t
+	 5sHQ8lkim3CEQfkw3JHrlaBxVdP/6L0M0M+VLDx7x72/DWrE9g34buOXaXkksBg2JqU4j
+	 nxAGA7kAFiyGB4QVsoQSp/2+6kZ36uI6ertqwTFbYqmWTVrqZboP3VrBbsZut/rHNmuWD
+	 DMv+bmNZkEsRXoJny/S4Qz6V5mbrM8sjx37bnusqfqUmBvOy+aCyHiQierIQ1yMVaUkHP
+	 7dkhlQ4LcGjczgLce5Ynd5bHZhsQQwpnBln+5KZyr7wDFH5WNtjJK3DvdhT6/O/N77g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6m3DuiP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N0YYA4cp;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBAD4606A31C;
-	Sun,  8 Nov 2026 10:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CF4606A31C;
+	Sun,  8 Nov 2026 11:09:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6m3DuiP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 634381F0089F;
-	Sun,  8 Nov 2026 10:35:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N0YYA4cp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBFD11F008A1;
+	Sun,  8 Nov 2026 11:09:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794134132;
-	bh=biMNnuk3Zlmj9i5odT0zZonccKXcOUkOod+xD4mMBfI=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=S6m3DuiPCro/XVd9cTVILY+yPCtzVh9cHIV+UfdN6l8+YrF40Kn2cFHQ8q2z1DCtD
-	 4s8UKkireKEwxex+AFmUaSCEcEbwna400Hlm3HcUr961wosTKtozeUVLHX0k0hgrGv
-	 uZ6aTNHBksLDsX3C5IogzhsQTh3Xs2kdeyhJHHOmpaOoKvXYIB9Gl3AZj7mXsDBz5o
-	 DQa5n3qXqViIIUWS1gpYcwxv6BrOmAh9CH/wvwTdBtscnuQyIpNj7m+BsLgrITzmsN
-	 ECGCu7Tq6B5AdbnecxOgF9vIU0YfCNvDhOsOnyyrN2tYALCRMaBr/OyvfiBufmCWxv
-	 KNAz4FCcHKIKw==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 7861D2BDF2ED;
-	Sun, 08 Nov 2026 10:35:30 +0000 (GMT)
+	s=k20260515; t=1794136153;
+	bh=rRMDSUzD/4dqXKQ7EKZyKnxoCi/M0piqkjg2dM9fwCI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=N0YYA4cpwk2rSpGMMYuOqSqMumav/sn0wLJeni7+D5sRDUh6oQesbQll0590AxfPg
+	 YHZL34AcSy3m/oA/+Mg50SxmE2ticTBJ0JeVPjSjHFm7kxxRs5L8DQMA7BTnLRn9Qu
+	 2ZAZr5kKEMP1mX37TLY8VAg7PQwGUVqeJOcMERAGlH5l3zZZEjSFO6rqxrHnW3bvxF
+	 j8U2+HgWFrfZqDiA8t9jLRXdMwzd73OoApHczJMktKFXOELRAAGT46mdFrtZFBMPZ4
+	 MVG5MgmA0/z1plVr0CdzxGC6RsARpcD0nOIKT0WnIOzRGRQJttYGclefHMO9alDFAo
+	 8foRVxDwmD7Ew==
+Date: Sun, 8 Nov 2026 13:09:09 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 05/17] USB: Lock registered interfaces during manual
+ driver binding
+Message-ID: <20261108110909.GA8635@unreal>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-5-1e536825b4eb@nvidia.com>
+ <bb83fe3c-cebb-4bc8-bfc9-24df1cf72b0b@rowland.harvard.edu>
+ <20261105184442.GF8298@unreal>
+ <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -52,95 +91,46 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 17/25] spi: atcspi200: add optional interrupt support
-From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jun Chang <jun.chang@metanoia-comm.com>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Sebastian Reichel <sre@kernel.org>, 
- Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, Conor Dooley <conor@kernel.org>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Ben Zong-You Xie <ben717@andestech.com>, 
- Daniel Lezcano <daniel.lezcano@kernel.org>, Ulf Hansson <ulfh@kernel.org>, 
- Jisheng Zhang <jszhang@kernel.org>, CL Wang <cl634@andestech.com>, 
- Mark Brown <broonie@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>, Adrian Hunter <adrian.hunter@intel.com>, 
- Minas Harutyunyan <hminas@synopsys.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- =?utf-8?q?Randolph_Sheng-Kai_Lin=28=E6=9E=97=E8=81=96=E5=87=B1=29?= <randolph@andestech.com>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org, 
- linux-phy@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>, 
- linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
-In-Reply-To: <20261106-mt2824-v1-17-86087eaf5af4@bootlin.com>
-References: <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
- <20261106-mt2824-v1-17-86087eaf5af4@bootlin.com>
-Date: Sun, 08 Nov 2026 10:35:28 +0000
-Message-Id: <179413412862.3424803.13503591139483354665.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1694; i=broonie@kernel.org;
- h=from:subject:message-id; bh=nZ4p7qaMdUmUqeh0nBYdZQklXm66HLo9DRQs7Nyk6nw=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+BBSp6d+beeDcy2WPH+13K7z/edOeA5c2WgYkFUt/2
- b5CKJGPq6OUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQATSVFgZPg3m+NHgS/D5yks
- Qh36OjbTa86LF9nmHJ6w4fPxPbf/ip8GqtBw2vv6YbL1paYdsqznI81qzuZ5rO73OWFmLW6uxv2
- KBwA=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
 
-> For PIO transfers, the driver busy-polls the FIFO empty/full flags and
-> the SPI active bit for completion. When the controller's interrupt is
-> available, use it instead of polling to keep the FIFO serviced and to
-> detect the end of transfer.
+On Thu, Nov 05, 2026 at 03:04:18PM -0500, Alan Stern wrote:
+> On Thu, Nov 05, 2026 at 08:44:42PM +0200, Leon Romanovsky wrote:
+> > On Thu, Nov 05, 2026 at 12:24:33PM -0500, Alan Stern wrote:
+> > > On Thu, Nov 05, 2026 at 01:42:18PM +0200, Leon Romanovsky wrote:
+> > > > From: Leon Romanovsky <leonro@nvidia.com>
+> > > > 
+> > > > Interface claims hold the USB device lock, but device_bind_driver()
+> > > > requires the target interface lock. Without it, trust-policy writes can
+> > > > race admission.
+> > > 
+> > > This says nothing about usb_driver_release_refused_claim() and the code 
+> > > related to it.  It is an incomplete description of the patch.
+> > > 
+> > > Note that nothing prevents drivers from using an interface they claim 
+> > > before that interface is registered.  For your scheme to work properly, 
+> > > you should make sure the claim is authorized when 
+> > > usb_driver_claim_interface() is called, not when the interface is 
+> > > registered.
+> > 
+> > This patch is unrelated to authorization;
+> 
+> I meant "authorization" in its generic sense.  When you don't trust 
+> something, you don't authorize it to do anything.  Pretend I had written 
+> "the interface being claimed is trusted" in place of "the claim is 
+> authorized" above.
 
-> +static irqreturn_t atcspi_irq(int irq, void *dev_id)
-> +{
+I will combine existing USB authorization scheme with device trust in v2.
 
-> +	if (st & ATCSPI_TX_FIFO_INT) {
-> +		n = min(atcspi_tx_fifo_avail(spi, status), spi->tx_words);
-> +		atcspi_fifo_write(spi, spi->tx_ptr, n);
-> +		spi->tx_words -= n;
-> +		spi->tx_ptr = (unsigned char *)spi->tx_ptr + n * num_byte;
+> 
+> >  it ensures that the lock is
+> > acquired when the driver is bound.
+> 
+> That may have been your intention when the patch was created, but if you 
+> read the patch you'll see that it includes a whole bunch of material 
+> not related to locking during binding.  Namely, this part:
 
-You're casting away const here for some reason...
+Once I added `device_lock()` to `bind`, I had to add it to `unbind` as well.
 
-> +	regmap_read(spi->regmap, ATCSPI_CTRL, &ctrl);
-> +	ctrl &= ~(CTRL_TX_THRES | CTRL_RX_THRES);
-> +	ctrl |= FIELD_PREP(CTRL_TX_THRES, spi->txfifo_size / 2) |
-> +	FIELD_PREP(CTRL_RX_THRES, spi->rxfifo_size / 2);
-
-Weird indentation of the continuation.
-
-> +	if (spi->tx_words) {
-> +		unsigned int status, nb_words;
-> +
-> +		regmap_read(spi->regmap, ATCSPI_STATUS, &status);
-> +		nb_words = min(atcspi_tx_fifo_avail(spi, status), spi->tx_words);
-> +		atcspi_fifo_write(spi, spi->tx_ptr, nb_words);
-> +		spi->tx_words -= nb_words;
-> +		spi->tx_ptr = (unsigned char *)spi->tx_ptr + nb_words * num_byte;
-> +	}
-> +
-> +	regmap_write(spi->regmap, ATCSPI_INTR_ST, ATCSPI_INTR_ALL);
-> +	regmap_write(spi->regmap, ATCSPI_INTR_EN, en);
-
-Do we need the TX interrupt if everything fit into the FIFO?
-
-> +	regmap_write(spi->regmap, ATCSPI_INTR_EN, 0);
-> +	regmap_write(spi->regmap, ATCSPI_INTR_ST, ATCSPI_INTR_ALL);
-
-This just blindly clears all the interrupts, including the under/overrun
-interrupts but we didn't handle them all.
-
--- 
-Mark Brown <broonie@kernel.org>
+Thanks
