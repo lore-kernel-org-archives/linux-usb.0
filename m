@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794209652;
-	b=ueRJ3rd8jdospcvnu3pvWUcmbE7L6IMIyOvYsSQnFyjXy7uMcvtyvDBIb+luJDPpgEkI
-	 VLy/vaqKDNtoxIglpj9oh8z4Xvnc3C4/JKAkA/MP97CqMUvJcaebqI1Eit8tEXajM/w99
-	 reFO1/Rly7H+MqGV8ZGjiTJWIjBKTjJUP27q+7FFUjJfW+t5V1XfkstwWEQxjlJJymoHJ
-	 URCSSB48SncW90hXM1ViCdorzH2nPJV9l9Gi2b4ehHsIGpGS+BJFazKnKieoT0HDZn2DI
-	 kcRMtx4GfpwXjuY848+m+wyoOzT6oyH5NB7bOLJCKLptGKzGZSlY6LV7igTG+xHZCrw==
+	t=1794209666;
+	b=bcrxhVhM5WhBflfMC8r9th2vmRYt9ndIZH5gsIboviwBHhrBU/hmkZhiKfGEyY/jSPLQ
+	 px+wHXUA2dythwZTgRdLKx0v5hk3gzrP2df4Nb00SrwRchki9qwKY+azW4c56b0cGsKhk
+	 qQnOtSPQGkZOy4qtZktO0jKgel4YOk/ZSH++ZlK9C/maF9FhuGAeymdGtKnkd6iYjuZ3J
+	 ssJxNme44aE6RJ1VrUcRA/bwm0fYjv1Z41MChpnjez9VA+TkZl7Ad93aageGDp3CUrTTe
+	 M1Q31QsudmA/Shc7LEFB/DX6VlsOA7sL6N4AQBTsn025eMlGQIZ4rtQV9QePoJrNeeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794209652;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794209666;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 Content-Transfer-Encoding;
-	bh=5KpZyXTyDaeCpFL09xfcSddfcVQz8Z2BLa6aTzaRrnw=;
-	b=kIrpUDg7h4QzTP+CD/Lnd48zHcPGiFoqWCqL5t+ztsfJ6Y1KCPhZBgZWcE5QNouGiTVx
-	 YmKkGkqxtkLpog7RUX3zYCyEDD6nCmBiuBcaGaKmzFiqIi8ZyNeFG90EiGsY4D5q5q+Yw
-	 5jt12kvfHl8KRJNRGWdE1cxiF9QaGWZB9egZG5jXSUSMSK8dxx7a3Zzf8ps/KpYZW1pGj
-	 mlv4YeD3A1tKClMeNv+n9zg5T6J5DxdPAnLmElEZyYo+qvTxfr4d3WeYlV1t34Gu7SjxJ
-	 nSLUzxSU00zRpbt1jafZMkwZ+KXyBo9+rfjB+geKyE9bzBmy3B8/gPOAjFT4nz9yVWQ==
+	bh=17G9DyFZAfFH8GPfbZpTsBWMIRvPnSGk4HUp+ACrROo=;
+	b=LOyKpItrmNg58MRReXmhaVkERXQBWah0V0pNsKEtQT+bPEvBdKLd5ku/z7Vmd1gkVa/B
+	 0nAgeNTEPEaUh+9Z0jIdDbyx2ug1m6MkbO6rVNoJkfBrDmH/CWD9msgDToo5V7CCXlpFR
+	 OjziO1au26IzT43DEoAo8WpEutz2zSpjQQF+iNIgmnpajPSuMJaNgi1pv40OyuHCjYd5Q
+	 zO5KgPjtOOE2EfhOSIB+PTSU8ZsjBSt854JmYIIsseQLym/zk7hDTJpu17IW1gy4E/RB8
+	 hxLODMu520L7c+9daTBQSBdnntmqJWAn0HTHHaTAFn+3kxmq53qEpTg4W86TqmPq1kw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lwKBHRrg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QvvEjfNi;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDA1606D827;
-	Mon,  9 Nov 2026 07:34:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886756083623;
+	Mon,  9 Nov 2026 07:34:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lwKBHRrg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 410D21F0089F;
-	Mon,  9 Nov 2026 07:34:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QvvEjfNi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52E721F008A2;
+	Mon,  9 Nov 2026 07:34:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794209652;
-	bh=5KpZyXTyDaeCpFL09xfcSddfcVQz8Z2BLa6aTzaRrnw=;
+	s=k20260515; t=1794209666;
+	bh=17G9DyFZAfFH8GPfbZpTsBWMIRvPnSGk4HUp+ACrROo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=lwKBHRrgtLlHdfSIgSshSm3e0EGD/FzxILn/oHZ/MBhIlxI92zK1vyP/KinI0O+dq
-	 N1lkFUZ1d1LxsJFXpKksY6sxA+asTaTHkZoul7zy9272bic517JX89oNFsIZ1y5Xpo
-	 lpJVehQ2mPpV8DtjN9VWns0x+h74ukvpSJnGqPF3qV7WMyHiEty6/9IUL4NqOH9sbO
-	 N4Xg0BfHVzBLU8JKOsEAtqqFC/KoByvzJTCTdkwPkrln1oXePe+/4LOBk5b6PTvakB
-	 qGWrjTRcTvelnyEbe0ToJwLbaTKoeQR0FT/RT6LxYj1L0gDGKgW+DHEKRPmlndd15f
-	 1L7qwcpsIsz/A==
+	b=QvvEjfNis/KFwU9vzGAN8pvLgr0fjdkgdejTc8BPExlNctb8aqJEdc1YUwPCMEieC
+	 zepVu8tmJY11WUNpUij3xiIsi9aPDztCQ7qoGN1Qag3KKiWeeh8n56QAK+8zw63iQi
+	 e8siadnuZ5lGPjVShUaXOWy8Hs3qDf8JV57dNDZaKm/42XtntE9dewOyaueFtSzVzP
+	 /BFAxu0AHtcl9i/soVQSIT9Q5G1vqeS9V6AVj4PDJGh3xJf/4CQBQd0aVqqtoNTb2u
+	 vH7TDY8saDgHRYN3AXmY8qAZsHOsbFzKz1pajC9vKykthSAG2ZZG3k8g6Pwl+6SFwj
+	 SS/4zRJ2ly1jg==
 From: Leon Romanovsky <leon@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -82,9 +82,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-pci@vger.kernel.org,
 	iommu@lists.linux.dev,
 	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH v2 04/19] USB: Release interface claims refused during registration
-Date: Mon,  9 Nov 2026 09:33:34 +0200
-Message-ID: <20261109-device-trust-core-v2-4-3b12d9a9f861@nvidia.com>
+Subject: [PATCH v2 03/19] USB: Lock registered interfaces during manual driver binding
+Date: Mon,  9 Nov 2026 09:33:33 +0200
+Message-ID: <20261109-device-trust-core-v2-3-3b12d9a9f861@nvidia.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
 References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
@@ -103,91 +103,107 @@ Content-Transfer-Encoding: 8bit
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-An interface can be claimed by a sibling's probe before registration.
-If its later binding fails, driver core clears the driver pointer while
-USB retains the bound state and claimant data. Device registration still
-succeeds, leaving the claimant unaware that its binding was refused.
+Interface claims hold the USB device lock, but device_bind_driver()
+requires the target interface lock. Without it, trust-policy writes can
+race admission. The MediaTek btusb setup path instead holds the target
+interface lock and would deadlock if the claim took it again.
 
-Remember the claimant across device_add() and invoke USB unbinding when
-driver core drops the claim. Hold the claimant's module while running its
-disconnect callback, and clear the retained interface state.
+Lock registered interfaces around binding. Change btusb setup to hold the
+USB device lock with a PM reference and disconnect-aware acquisition,
+because disconnect waits for this work while holding that lock. Publish
+the claim state before releasing the lock.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/usb/core/driver.c  | 18 ++++++++++++++++++
- drivers/usb/core/message.c |  8 ++++++++
- drivers/usb/core/usb.h     |  2 ++
- 3 files changed, 28 insertions(+)
+ drivers/bluetooth/btusb_main.c | 42 ++++++++++++++++++++++++++++++------------
+ drivers/usb/core/driver.c      |  5 ++++-
+ 2 files changed, 34 insertions(+), 13 deletions(-)
 
+diff --git a/drivers/bluetooth/btusb_main.c b/drivers/bluetooth/btusb_main.c
+index 92a78a7e60396..8fe6bd1bff906 100644
+--- a/drivers/bluetooth/btusb_main.c
++++ b/drivers/bluetooth/btusb_main.c
+@@ -2993,10 +2993,13 @@ static int btusb_recv_event_realtek(struct hci_dev *hdev, struct sk_buff *skb)
+ 	return hci_recv_frame(hdev, skb);
+ }
+ 
++/* usb_lock_device_for_reset() gives up after one second of contention */
++#define BTUSB_MTK_ISO_LOCK_TRIES	5
++
+ static void btusb_mtk_claim_iso_intf(struct btusb_data *data)
+ {
+ 	struct btmtk_data *btmtk_data;
+-	int err;
++	int err, i;
+ 
+ 	if (!data->hdev)
+ 		return;
+@@ -3011,22 +3014,37 @@ static void btusb_mtk_claim_iso_intf(struct btusb_data *data)
+ 	}
+ 
+ 	/*
+-	 * The function usb_driver_claim_interface() is documented to need
+-	 * locks held if it's not called from a probe routine. The code here
+-	 * is called from the hci_power_on workqueue, so grab the lock.
++	 * Disconnect holds the device lock while draining this setup work, so
++	 * the lock must be taken with disconnect-aware acquisition. Hold a PM
++	 * reference so the device cannot suspend first. A slow interface
++	 * registration can keep the lock past the one-second limit of a single
++	 * attempt, so retry a few times, but not without bound: a teardown
++	 * that holds the lock may be waiting for this work.
+ 	 */
+-	device_lock(&btmtk_data->isopkt_intf->dev);
+-	err = usb_driver_claim_interface(&btusb_driver,
+-					 btmtk_data->isopkt_intf, data);
+-	device_unlock(&btmtk_data->isopkt_intf->dev);
++	err = usb_autopm_get_interface(data->intf);
++	if (!err) {
++		for (i = 0; i < BTUSB_MTK_ISO_LOCK_TRIES; i++) {
++			err = usb_lock_device_for_reset(data->udev, data->intf);
++			if (err != -EBUSY)
++				break;
++		}
++		if (!err) {
++			err = usb_driver_claim_interface(&btusb_driver,
++							 btmtk_data->isopkt_intf,
++							 data);
++			if (!err) {
++				init_usb_anchor(&btmtk_data->isopkt_anchor);
++				set_bit(BTMTK_ISOPKT_OVER_INTR,
++					&btmtk_data->flags);
++			}
++			usb_unlock_device(data->udev);
++		}
++		usb_autopm_put_interface(data->intf);
++	}
+ 	if (err < 0) {
+ 		btmtk_data->isopkt_intf = NULL;
+ 		bt_dev_err(data->hdev, "Failed to claim iso interface: %d", err);
+-		return;
+ 	}
+-
+-	set_bit(BTMTK_ISOPKT_OVER_INTR, &btmtk_data->flags);
+-	init_usb_anchor(&btmtk_data->isopkt_anchor);
+ }
+ 
+ static void btusb_mtk_release_iso_intf(struct hci_dev *hdev)
 diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index ad5d9d5fc7598..ee36eae34bdcc 100644
+index d3a61ebc6afb0..ad5d9d5fc7598 100644
 --- a/drivers/usb/core/driver.c
 +++ b/drivers/usb/core/driver.c
-@@ -652,6 +652,24 @@ void usb_driver_release_interface(struct usb_driver *driver,
- }
- EXPORT_SYMBOL_GPL(usb_driver_release_interface);
- 
-+/*
-+ * The driver core refused to bind an interface that a sibling claimed before
-+ * it was registered, and dropped the claim. Let the claimant release the
-+ * interface instead of operating it with a bound interface but no driver.
-+ */
-+void usb_driver_release_refused_claim(struct usb_interface *iface,
-+				      struct device_driver *claimant)
-+{
-+	struct device *dev = &iface->dev;
-+
-+	device_lock(dev);
-+	dev->driver = claimant;
-+	usb_unbind_interface(dev);
-+	dev_set_drvdata(dev, NULL);
-+	dev->driver = NULL;
-+	device_unlock(dev);
-+}
-+
- /* returns 0 if no match, 1 if match */
- int usb_match_device(struct usb_device *dev, const struct usb_device_id *id)
- {
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index a738d03c23eac..d35a7710c8ef4 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -2264,6 +2264,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+@@ -584,8 +584,11 @@ int usb_driver_claim_interface(struct usb_driver *driver,
+ 	/* if interface was already added, bind now; else let
+ 	 * the future device_add() bind it, bypassing probe()
  	 */
- 	for (i = 0; i < nintf; ++i) {
- 		struct usb_interface *intf = cp->interface[i];
-+		struct device_driver *claimant;
+-	if (device_is_registered(dev))
++	if (device_is_registered(dev)) {
++		device_lock(dev);
+ 		retval = device_bind_driver(dev);
++		device_unlock(dev);
++	}
  
- 		if (intf->dev.of_node &&
- 		    !of_device_is_available(intf->dev.of_node)) {
-@@ -2277,7 +2278,14 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
- 			dev_name(&intf->dev), configuration,
- 			intf->cur_altsetting->desc.bInterfaceNumber);
- 		device_enable_async_suspend(&intf->dev);
-+		claimant = intf->dev.driver;
-+		if (claimant && !try_module_get(claimant->owner))
-+			claimant = NULL;
- 		ret = device_add(&intf->dev);
-+		if (!ret && claimant && !intf->dev.driver)
-+			usb_driver_release_refused_claim(intf, claimant);
-+		if (claimant)
-+			module_put(claimant->owner);
- 		if (ret != 0) {
- 			dev_err(&dev->dev, "device_add(%s) --> %d\n",
- 				dev_name(&intf->dev), ret);
-diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-index a9b37aeb515be..293340a48b6c5 100644
---- a/drivers/usb/core/usb.h
-+++ b/drivers/usb/core/usb.h
-@@ -49,6 +49,8 @@ extern int usb_set_isoch_delay(struct usb_device *dev);
- extern int usb_get_bos_descriptor(struct usb_device *dev);
- extern void usb_release_bos_descriptor(struct usb_device *dev);
- extern int usb_set_configuration(struct usb_device *dev, int configuration);
-+void usb_driver_release_refused_claim(struct usb_interface *iface,
-+				      struct device_driver *claimant);
- extern int usb_choose_configuration(struct usb_device *udev);
- extern int usb_generic_driver_probe(struct usb_device *udev);
- extern void usb_generic_driver_disconnect(struct usb_device *udev);
+ 	if (retval) {
+ 		dev->driver = NULL;
 
 -- 
 2.56.0
