@@ -1,127 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794260763;
-	b=PUebl1Z397pzS/d922OZVlA2LNKhODPWrv9GPHNxakx4hMfiBGlH9/Vpw2ZgwMhtt3Xd
-	 TFyHOtxSwatGrG31N/mVCA0Nd+OKT5vsfDI4bqwNk0WUT37uH/aynf3Q8ukzMwFvfyHzl
-	 3iJnvslQvJpeYoBBCSueAweQwNPDlP+/CYacD9QOLhvpufyAGxViJFbkcLh4ERKMzS4L9
-	 aexGVnyi05J8Ruif1Rwd0mER6fWjracz7rldsAUcAHdpCmPOG/sdp+VhRFcmRywEKYmO2
-	 pnM5k+gBLmb0aa11IcmbOn2xnB57NfYzALrlhLpmt5DwBKrkB/xAXj6Ls1N4kQeUxPw==
+	t=1794263244;
+	b=ddCbcfByS2DNBOTwCJtVhBGTUXuwEvFsOjopV5LagdxWDnNJ1RBPxLQIE5Km/tCjuuxt
+	 WTDuQnKEt5obX6h3fZYYI5UUDc0y8dZnOCpxxRnqG1iHKuhsXCVtR2hmRNgK0NVlAGxs1
+	 VvETWPePtC+Q2oN8S0LI1RRWdHT4NGWkLEnQkSvNzJc/fcXu7qhn8muLm8sDqccYIVqwQ
+	 8emODJo4SdZk9yPEx6sTQf5RSkeW3Sx0sDCCWNgWr7x6qSKy4SNmxvEHS0BxfPC2CTG78
+	 NGvWQaceTlWF0d2K55QImfEcA3yvRwqvFZEhhq63sXoM/4d/n2A1KfOvIugIrv3868g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794260763;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=874yjmK9ypxK94+nKOJ/uR1d6HpqK0owgIThZQA8ZUA=;
-	b=iMgTK16ObYoCW6NQRFCdPXJ83FVnVBWkVh3sZW7vUevoDip2jQQRXWfkrJB7Pi+T0pwu
-	 K6wgfTcai54NhK3XCvSd506eP39ahLuXTR0Ww7kVJi7MXUdZcSijI1XWRjb2HkNiyk381
-	 msVmUPsToLIl7x7FqIAOv3rkEvZwIGVMVURDVYnaxcnuV1rIiI7HLtTlewIvT3holZthe
-	 lS22Zwj73j8ZLx5zqZrbO7mD24Onwgn0jfGCFk495iaYeRagRvJ60xq9FjAkA+/s9Xe00
-	 jUrk7f3KR9YxMquQE4qawhTH76Yeh8wJZrfk4Lf/uUq0S2TihpKO8o08ADBiGj4VPeg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794263244;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=mtAR5b7tdCwWoVmNePkOazmLOf6VmZSTkZ4HOeorcBc=;
+	b=lO9Zjkw9S4rJyg8XQHrtH/wkP30Y7ISRH9iFGB7yFj3ypNbdyQtmeqsIwiRsuD/ggXlP
+	 N4UvOvJmP04tLN6HaMzQVuuhA2e38R5yRoqE7q1P3J3GNhEXetsphzOvKGUefZ8UCIJET
+	 GurlNHgOK8f6Kd6nmsNmVifxZdGoCHU+BuSwDeYcxZl4WVJXUOGeN8Pja0yj1+rvGPyZP
+	 /CW+OwySPyB6nK6IiujW4RZ8jmzixKiZBhLRbCljRhUAEoZT4Z/ZIHqdroI+KbVdEM6NH
+	 9U9+dbBtmw18sZpseFUJIMGHYlz8P9DLsZcgKUjnrTVyQqRRsZD6g+NpFy8TJHWuoBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LaZ0qPv5;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mKsPMHJo;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8C2606A33A
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 21:46:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A8C2606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB755606A31C
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 22:27:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LaZ0qPv5
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-490a0e72588so737608f8f.3
-        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 13:46:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794260761; x=1794865561; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=874yjmK9ypxK94+nKOJ/uR1d6HpqK0owgIThZQA8ZUA=;
-        b=LaZ0qPv5+whTFQHjIA7oYo021SUS2QeXnWN8ii9Y4im7Ue68o46nz2xh/hHMwIUfQ/
-         ICad5fyoXePYl6/8nNVhZk6UxBKiDwJbHcHq6QklDSJskt7Ox2MaUqpcgklbAASOb1WD
-         7U13gt1MK2zXHTSuMFiAfjmE40I4QhfpTIR2Mc6nMOBQW6Dg/mqe6U/h69Hyf/QnrKae
-         CyKIviPRPYc2tnG0IM8qOylYYY2PKnrUJzf833wY0ZcFYDbyZdAS7ekVESO+FaUUNtdA
-         WzN6sPDUCv7pE3hPSGmxzNcqgZM1jmpktE+mpPCXGo9ukB9qCsiBySNit7DIM51G+Ivt
-         K68Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794260761; x=1794865561;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=874yjmK9ypxK94+nKOJ/uR1d6HpqK0owgIThZQA8ZUA=;
-        b=SI2V6JH+Ol7t3decPpf+8fnyiLqQOyFKsweYja9BPOPrtkEsWkfbtP+q5wOxjtEfra
-         ygmVy1FBN24aNpZw8Ynj+s9FDaaBx8niViLadGWTCNVsr3Gucb+fbhmFzCTnkjnMvhNM
-         4i4uSkdrNx+uIyN5j8uvJktLEJ3RhMrIMnj1x5JrLPdF97ACVCK/RBh70R4YGFlSox3s
-         Ly0OqJXFsgoISLKspJoAKQMHwQdyGZcNEgW4kErruPTB46ecAJWidN4fvjKoFu7NhhpV
-         ehgn0aIEYljSRITofV/FIBh9RqTvqusVd2wsKHkEh4bfsI9wVh7kWCeFqyaVMZND45Pq
-         ZYcg==
-X-Forwarded-Encrypted: i=1; AL+hErEyxPfG8iIIU1JQ/z15cKTEko4wihxd7ZPtIB0SbpdZkEHTevsIS+PT+mXY8BUJcqF/DD5UA1wsI+s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z92Lqof0hu5o8XlABWKbc/ZDRbAb3qT7++xJHwG89X5tuQFmOL8
-	3co6zJuRVZV+N4y1yJmJN8Qi3IeMAgpnYCray/fQer8ux4UbPhIXdEuC
-X-Gm-Gg: AYBFou3OH+KvPulryWj8GwSqByQxVRSvXQ013h6edtk0jHit5Jr909CEctSpPqzJOyt
-	FLhaqdJDRXuilblS+0WcNqo6Yvj3abcLa9SF1yKI6ksNWiVMhkP29oiJM4SHMGUaNZsTN8FjkeD
-	42eGizl4/bvxRjDghGZaZl1mBfJJXkcHMYPN/2gh+1673EyNwtpbo7qcw83xBsnTSl8uoyWiAAl
-	IkwhdsPsTMximrXPeTM1pFLG4CiBbGYEk4WRMxsX+qCa8qRyDHwLX43qVrmmPcDY4w6yCWN0CNB
-	AHYA2ePe7dyBHx6ahQgAcK6CflyJUoW5O8AYxrfOxB5DD8tM0upFYCurstiCP+1RFDrJDwN/nDU
-	KxISz7MpDezSZjwDAcbx1KXgoj9u+e74ZfrtzMJWzjPrPHlxB8zauNGud2oro8SBYkLQ9b7MGeI
-	T9Ke9b8Spu1+ajWAY5dUDJ3kw6gDId489ZQALOy8whMxDCrzG/xXwGTjSz5hBgE9lXXRZxg9AXg
-	MUfaf5QtREyr/K3TBznrlrgVNKnueYpwC5xZlmcJD2BL7yuGeHLxl1wL3P36evV/BV1vF5cJ+a3
-	3/FJz4s/WVe8SE/5AlKbOSmqknXpPEK9nSt6IDNBOQVy532XkS5rVUY2VoVBeNt2bw==
-X-Received: by 2002:a05:6000:288d:b0:48e:25e1:5eb8 with SMTP id ffacd0b85a97d-4982b28aa42mr1487213f8f.3.1794260760763;
-        Mon, 09 Nov 2026 13:46:00 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4983585c4fdsm1213644f8f.10.2026.11.09.13.45.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 13:46:00 -0800 (PST)
-Date: Mon, 9 Nov 2026 21:45:58 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: Christian Brauner <brauner@kernel.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, linux-fsdevel@vger.kernel.org, Linus Torvalds
- <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik
- <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, Jeff Layton
- <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet
- <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Al Viro
- <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph
- Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados
- <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, Jan Kara
- <jack@suse.cz>, Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-um@lists.infradead.org,
- linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- netdev@vger.kernel.org, ntfs3@lists.linux.dev,
- platform-driver-x86@vger.kernel.org, coreteam@netfilter.org,
- kexec@lists.infradead.org, linux-pci@vger.kernel.org,
- linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net,
- jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-mm@kvack.org, linux-sh@vger.kernel.org, linux-usb@vger.kernel.org,
- samba-technical@lists.samba.org, sparclinux@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
- Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org,
- linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, Chuck Lever
- <cel@kernel.org>
-Subject: Re: [PATCH RESEND v2 14/23] proc: let procfs copy in writes before
- pinning the entry
-Message-ID: <20261109214558.0d9d5228@pumpkin>
-In-Reply-To: <alpine.DEB.2.21.2611090504170.17804@angie.orcam.me.uk>
-References: <20261104-work-procfs-core-v2-14-76ace653a773@kernel.org>
-	<CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com>
-	<20261107-akteur-gemieden-eckdaten-21304d085e35@brauner>
-	<20261108185953.28054fb3@pumpkin>
-	<alpine.DEB.2.21.2611090504170.17804@angie.orcam.me.uk>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mKsPMHJo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26B471F0089F;
+	Mon,  9 Nov 2026 22:27:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794263243;
+	bh=mtAR5b7tdCwWoVmNePkOazmLOf6VmZSTkZ4HOeorcBc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=mKsPMHJoS3x9pVKKsgPSwcnliW0WUPfUKuD5y/kdnhUTPSJBMrNl+Th4EIN0IsL/7
+	 Z5zSYLwqcyadtBuKp2xLenjqnk3Aa3+O/JWcG9ksiNJWQxE1bWB20I07aYZgZQKTqk
+	 qzgj7wlLHYbaAphG8Pmijn25asnQIhGYesOIg1TxZWASTHJdxbEGpvewaiOi9i246R
+	 6iSFUAjTbIZn3e9MWQ0ljjcKqXofFf4tP2y3jggYayfk0Xf2nPHzT53nkssepLcngU
+	 5sXRjaHQcWeyhzQkC/EjZdTLvQimxUk2fdrPpEPqdCPFYmh8t3pzV1tOxzAkxm4urI
+	 cTYF4lQYbscsA==
+Message-ID: <sashiko-outbox-205726@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: gadget: f_ncm: bound NDP length against the NTB
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Noah Weinberger" <NoahWeinberger2003@proton.me>
+Cc: =?utf-8?b?bGludXgtdXNiQHZnZXIua2VybmVsLm9yZw==?= <linux-usb@vger.kernel.org>
+In-Reply-To: <VFFcAz18YOCdAGLJxQp8TZxPPL6-T5bPEHLSdIkdyWPj4Rr7dRgBoUrlYHMc_CYxsZXLbk2_xPPKx8uMzHzck8QUAC84Q2ZlluLo7JG-Ry8=@proton.me>
+References: <VFFcAz18YOCdAGLJxQp8TZxPPL6-T5bPEHLSdIkdyWPj4Rr7dRgBoUrlYHMc_CYxsZXLbk2_xPPKx8uMzHzck8QUAC84Q2ZlluLo7JG-Ry8=@proton.me>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2026 22:27:22 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -130,35 +58,109 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 9 Nov 2026 05:05:57 +0000 (GMT)
-"Maciej W. Rozycki" <macro@orcam.me.uk> wrote:
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Low] usb: gadget: f_ncm: missing Fixes trailer for ncm_unwrap_ntb()
+  bounds fix
+- [Low] usb: gadget: f_ncm: missing Signed-off-by and raw report text in
+  changelog
+It also noticed 1 related pre-existing issue this patch does not
+introduce:
+- [Critical] usb: gadget: f_ncm: infinite loop in ncm_unwrap_ntb() [1]
+--
 
-> On Sun, 8 Nov 2026, David Laight wrote:
-> 
-> > > > While at it, I think it would be good to use this conversion as an
-> > > > opportunity to replace "char *" by "void *", which will probably let
-> > > > you drop several casts from users.    
-> > > 
-> > > So I tried that too. The thing is it drops exactly one u8 * cast in
-> > > ntfs3's label write.   
-> > 
-> > Since char is now unsigned that one isn't even needed...  
-> 
->  Please excuse me missing the context, but what circumstances does your 
-> claim refer to?
+commit 11f0a9e46d1b84c8d72b0c4bd312240ac8168fb4
+Author: Noah Weinberger <NoahWeinberger2003@proton.me>
 
-Just that the cast would have to be:
-	u8 *foo = (u8 *)bar;
-where 'bar' is 'char *', and I don't think you need a cast there when
-char is unsigned.
+> usb: gadget: f_ncm: bound NDP length against the NTB
+>
+> Hello,
+>
+> ncm_unwrap_ntb() validates the NDP wLength only for a minimum size and
+> alignment; the sum ndp_index + ndp_len is never checked against
+> block_len. The NDP *start* is bounded, but the datagram-pointer-entry
+> walk then advances through up to wLength/8 entries regardless of where
+> the block ends.
+>
+> A hostile USB host can send an NTB whose NDP claims wLength close to
+> 64K while the block is 16K: the walk reads 2-4 byte entries past the end
+> of the RX skb, continuing as long as the out-of-bounds-derived values
+> happen to pass the per-datagram validation (index/length checks). The
+> practical overread distance depends on adjacent heap contents, but KASAN
+> flags the first OOB access. The bytes are not returned to the host, so
+> this is an out-of-bounds read/DoS rather than a disclosure channel.
+>
+> Bound the NDP length against the remaining block, mirroring the
+> existing minimum-size check.
+>
+> Affected version/commit: mainline fa4ad798f6f681031775266044ba1b0cf3c670b=
+d (v7.4-rc1, 2026-11-07), drivers/usb/gadget/function/f_ncm.c:1254-1346 (nc=
+m_unwrap_ntb NDP walk).
+> Longstanding code.
+>
+> This was found during an assisted (AI-supported) static source review of
+> mainline fa4ad798f6f681031775266044ba1b0cf3c670bd (v7.4-rc1, 2026-11-07);=
+ every code path cited below was re-verified by the
+> reporter against that tree. The patch below has NOT been compiled and has
+> NOT been runtime tested, and no reproducer was produced - the triggering
+> conditions are described above instead. Please treat this as a report for
+> verification rather than a battle-tested fix.
+>
+> Reported-by: Noah Weinberger <noahweinberger2003@proton.me>
 
-David
- 
-> 
->   Maciej
-> 
+[Severity: Low]
+This fixes an out-of-bounds read in ncm_unwrap_ntb().  Should it include a
+Fixes: tag, such as:
 
+  Fixes: 9f6ce4240a2b ("usb: gadget: f_ncm.c added")
+
+[Severity: Low]
+This commit is missing a Signed-off-by: trailer required by the Developer's
+Certificate of Origin, and the changelog still contains the conversational
+salutation ("Hello,"), report metadata, and untested-patch disclaimer that
+do not belong in git history.
+
+> diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/fun=
+ction/f_ncm.c
+> index ab6da3ef87836..3cc90fc02e270 100644
+> --- a/drivers/usb/gadget/function/f_ncm.c
+> +++ b/drivers/usb/gadget/function/f_ncm.c
+> @@ -1267,7 +1267,8 @@ static int ncm_unwrap_ntb(struct gether *port,
+>  		 */
+>  		if ((ndp_len < opts->ndp_size
+>  				+ 2 * 2 * (opts->dgram_item_len * 2)) ||
+> -				(ndp_len % opts->ndplen_align !=3D 0)) {
+> +				(ndp_len % opts->ndplen_align !=3D 0) ||
+> +					(ndp_index + ndp_len > block_len)) {
+>  			INFO(port->func.config->cdev, "Bad NDP length: %#X\n",
+>  			     ndp_len);
+>  			goto err;
+
+[Severity: Critical]
+This problem wasn't introduced by this patch, but can a crafted NTB trigger
+an infinite loop in ncm_unwrap_ntb() [1]?
+
+Right below this check, the outer NDP loop updates ndp_index from the packet
+without checking that the next NDP offset strictly advances:
+
+drivers/usb/gadget/function/f_ncm.c:ncm_unwrap_ntb() {
+	do {
+		...
+		/* Check for another NDP (d)wNextNdpIndex */
+		ndp_index =3D get_ncm(&tmp, opts->next_ndp_index);
+		...
+	} while (ndp_index);
+}
+
+A hostile USB host can supply an NDP whose next_ndp_index points back to
+itself or forms a cycle within block_len.  The loop then spins forever in
+softirq context while repeatedly allocating and queueing skbs via
+netdev_alloc_skb_ip_align() until atomic memory is exhausted.
+
+[1] https://sashiko.dev/#/bug/linux-7e5803c6-1df0-4e59-9dcc-28f332907cc2
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/VFFcAz18YOCdAGLJxQp=
+8TZxPPL6-T5bPEHLSdIkdyWPj4Rr7dRgBoUrlYHMc_CYxsZXLbk2_xPPKx8uMzHzck8QUAC84Q2=
+ZlluLo7JG-Ry8=3D@proton.me?part=3D1
