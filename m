@@ -1,52 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.154.241.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794220658;
-	b=MhreYdRl48rtHqrxXo2JiSnha+kVx3l7Q9iXbjUs7lcOaSoIOmhj4ZNNSexlJAtpAo70
-	 G/HOglDy834pmTytzM/mUWHc7/6DtlDRw8hkx2wEUSHv0S4Wek8eF0GSDHVKwTO12uNCr
-	 BEKBOvFBIucGTEql1EUff4dkcjOYAvNOqwpoEs3TUJSS64COVxM/7x3jb9I63kS+bnIpa
-	 +Z8Ej60FFr2960ykt90/4l+xjputNn3KWhkSzoZVz1IcYmASnIlEVpKLy2pH78og6nmKU
-	 SsfV3W9cVMsBjKjwncduaIQbp3WAyUXo9Qj7aYD5zryu5uYUIhgDZ7MuzcmoSoGZ8bQ==
+	t=1794220914;
+	b=EZIXJQgi8SnwoDv7wd1JK26zgG3HtqglscaPAh0uvtn9VVJH+3yUuHycwESu0BZ7B5Z4
+	 WJlyKgsslA+9WJHENhIhrOEiMUWxRSvOeUUWaZlQ4FrXtTmBgNvgu+pR4iyDq+bVqgmKm
+	 wGoKozZeUGWAnarG5pszYX4v5SxXMvZGO4qMr80qaOfXN6mgA7GNrtZk20mg296u8Smdz
+	 xBhkaMRi+67z9/KBeeh7PkdITureJWsdhmu96eTEFj9hmw2uEvPvEk1QE/+fl9fBzILdI
+	 pYLqDn4x3rVn6vvuGLW8UMvdebMPct/dkE7AtUoHvG8Xmz8ZniEf+e7s5q4R+GMAVoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794220658;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:X-Bm-Milter-Handled:
-	 X-Bm-Transport-Timestamp;
-	bh=DXCdZ0zqW7cyN4edtqpnghY1JVRAIFTb9zduHznDVao=;
-	b=XN9z3mQd6ei9Wkp7U6lr0+7kLgBAXe0t7pW/4W9SYQfXrstLQkm2G+50yVPVfwPnu6zx
-	 gntp3iXixrnHzVgKeM0UxAIetPBkaMmrnydqiPu1YdDrTLHKJQfkiQWUZ5REocxlCxD/Z
-	 Pe6KpMMNV+olvW6PaFbS3jchZC2a24kBx2h0R8NvGBrmdU2SWGi4+f0gMGEizAKSiraag
-	 L52YKb8P4C1/6msmbbeQjKbNajAbLWZNtiwlpcka9S1NaA1TfrI0RVn+w8OUeAYzoeFv9
-	 xI131AvR4sBjN3GpUuCv6Hhnu24d9/uZdjw2Km13JuTJHd5Ze463AeLzHN77iWFAI9A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794220914;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=FVutMJGxfKTrFtXYwtz9U3hWU0+h4RoBPEV8gtNFRRM=;
+	b=SJfoFH2+wM2qoxGV+0RaAFTwHpOem8sfHluQx7OOHTWpxhpOzkIK2+S7xyybqr2+WDuD
+	 ZEHJ5x2zDVH9i0x8h2isMSkEnJsWP2uczRrNqWYCXqX6qkCjwEwGogWttqjQiADoOWIVb
+	 USsVaq0U2TfRRHd69VORcRh0EcoT+DK1qYkso7SOtTGVJcAbn5hPZIukcHa+Adq5NqzlN
+	 ws1yvPIe0L4Ljt/xw1HcKGKHpG8kbriSvIjnQ8cB4RDZvZNCROBS8dcUQZFFj/o/HYaki
+	 LAd0BbifgsHmGU5mclRlBpKeK1I/uKgZDevpnnWU1/gslSit/50s0hM6HXue7WaoH3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=lauterbach.com;
-	spf=pass smtp.mailfrom=lauterbach.com;
-	arc=none smtp.remote-ip=62.154.241.218
-Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PxLn+JSx;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FF8606A31C;
-	Mon,  9 Nov 2026 10:37:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77FF8606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
-Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
-	(Authenticated sender: ingo.rohloff@lauterbach.com)
-	by bm.lauterbach.com (Postfix) with ESMTPSA id B58239B52E20;
-	Mon, 09 Nov 2026 11:37:27 +0100 (CET)
-From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-To: gregkh@linuxfoundation.org
-Cc: viro@zeniv.linux.org.uk,
-	nkapron@google.com,
-	me@samcday.com,
-	michael.bommarito@gmail.com,
-	linux-usb@vger.kernel.org,
-	Ingo Rohloff <ingo.rohloff@lauterbach.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: gadget: f_fs: Fix mmgrab()/mmdrop() balance.
-Date: Mon,  9 Nov 2026 11:37:14 +0100
-Message-ID: <20261109103714.4000-1-ingo.rohloff@lauterbach.com>
-X-Mailer: git-send-email 2.55.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E28606A31C
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 10:41:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PxLn+JSx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6C0E1F0089F;
+	Mon,  9 Nov 2026 10:41:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794220913;
+	bh=FVutMJGxfKTrFtXYwtz9U3hWU0+h4RoBPEV8gtNFRRM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=PxLn+JSxCl9Yfu6b0zCUzJsXpITheDojDRocgGkBYVKsr4Wh4c6JOIGtIl8UT4lV/
+	 YUSw2GYpkB5odDQHxTQsX65vcm0LGerhXAj2P6P+vRHe8MGd2bPSz5RvR1FWpBY/ws
+	 Klxw16P8a5bwJQs+IeiOpKI1hUDeoCLtyKfVpFHZCuByWzflcS+b367vXTPp3NUsQJ
+	 Htecmpn3gbGO0lxvjxj0OOQJAGdBfYMhfRDjY7pJeWThYAce204x8erMGIcpKVojza
+	 8oLH4nxOtsrKC0Qmb+bY39aqqUUXP5lZn7vQXCICfEzLyMn/Qd0Qc6NGw3kwvd0k4o
+	 7hXleg5rc+9Cw==
+Message-ID: <sashiko-outbox-204833@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: gadget: f_fs: Fix mmgrab()/mmdrop() balance.
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ingo Rohloff" <ingo.rohloff@lauterbach.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261109103714.4000-1-ingo.rohloff@lauterbach.com>
+References: <20261109103714.4000-1-ingo.rohloff@lauterbach.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2026 10:41:53 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,43 +58,18 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
-X-Bm-Transport-Timestamp: 1794220647799
 
-This fixes commit 5eb5c72c72fe ("USB: gadget: ffs: fix mm lifetime
-handling").  The problem is that the previous patch calls mmgrab() for
-reads and writes, but it only calls mmdrop() for reads.  So with each
-completed async IO write (via an USB IN endpoint) the number of mm_count
-increases.
+> This fixes commit 5eb5c72c72fe ("USB: gadget: ffs: fix mm lifetime
+> handling").  The problem is that the previous patch calls mmgrab() for
+> reads and writes, but it only calls mmdrop() for reads.  So with each
+> completed async IO write (via an USB IN endpoint) the number of mm_count
+> increases.
+>=20
+> Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
 
-Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-Link: https://lore.kernel.org/r/20260901120908.14386-4-ingo.rohloff@lauterbach.com
-Fixes: 5eb5c72c72fe ("USB: gadget: ffs: fix mm lifetime handling")
-Cc: stable@vger.kernel.org
----
-- Originally posted as patch 3/3 of "usb: gadget: f_fs: cancellation and mm fixes"
-  https://lore.kernel.org/r/20260901120908.14386-1-ingo.rohloff@lauterbach.com.
-  Resend because rest of the series is still to be discussed.
+Sashiko has reviewed this patch and found no issues.
 
- drivers/usb/gadget/function/f_fs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index c64a268e98a4..704cfae49f11 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -884,8 +884,8 @@ static void ffs_user_copy_worker(struct work_struct *work)
- 		} else {
- 			ret = -EFAULT;
- 		}
--		mmdrop(io_data->mm);
- 	}
-+	mmdrop(io_data->mm);
- 
- 	io_data->kiocb->ki_complete(io_data->kiocb, ret);
- 
--- 
-2.55.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109103714.4000=
+-1-ingo.rohloff@lauterbach.com?part=3D1
 
