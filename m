@@ -1,85 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794239410;
-	b=UyKHsooNL0033KpCdlBcyTqd6vqKQP44J/kAhiddbiHnXH0paKEZm2AYmrfq7ogu71tm
-	 mat9IOMTeprfhcp6Ji6BW2AThzZKP0h0Nv9OWKBjLamtwbcu3YMb/jXb5PIHQWsH6pc0Q
-	 CEwMAH5fuFSxjKaZsuO1kfokGx/JhywRwMF7/+MaB1bCrYzWjbpH8RDm8T8EaM9NyBVRv
-	 5IVw5Za7Fos6r0iMrtuPavANiOVnQk/GHPZ65pqa8wXSNYVg4puL7EtumG1pY/UausoBY
-	 MZKIAt88PxaEw+Rs+bERxJNn3/WcQ6uHlZ5IppEAC+4kmtrr/Qd3IxTWFtA+UAXzwmg==
+	t=1794239513;
+	b=VP/DDpqioFXzwRl2hicPgg9itaSIHxm7Cfiry8K/6GR88+aCnbNxRL21zlMRgrsZmjSg
+	 bX9PMs90aRF/7o1piA4VI0hIBfB9diLfHUcJVscnz3swk8eFjrz4gDSG8ve01UF5jfbx8
+	 EUSj32RS6aEmUrwpQqNdQircHv5jHscj3nCAbCZRGX/8nlWTwH7q/+IeGF9TLk/td47tB
+	 qApgTqV2NGRLn9hET7JNloYV3NFGgu14qnW0I9TuJgFLF++Zbog/NtsGePpR56CqMzLGB
+	 VoAkeVZUXHQ3c97jI3O8xcOjLYzsl4KbQha2NJX0hQC2MY+++jHgGEmg5hIGVYOp/Wg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794239410;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=83vGVTAc/ZH81XS8vndiLAU18fHWaMHmXA7A3pxvB10=;
-	b=yKCHs/w/edgHwwM4KmXYpvCIjoczmDxGBo8jShRR53pH9cjS4drB+HhBvyVChVKA0Cis
-	 EYZohyWnwX/xwqJ0JiBMJgSyYkf7Az+UmVHec1Y8YRPRJ44fRa3o5o3PP1RjG8xEEHXcI
-	 lt4u+XLgHbx9nqfXlUU7FduGGBRjk3DYP45gAExiCampMudtLN1KwcMJ1rws4fw00C8pO
-	 6MvNjKb19QS1T8xSmi9aL2rkuRqqNx7n1aOk9Vu03sNlucoTvzNghroqKPkfoyWImJOKQ
-	 R99cem02MyNiyd7MOzKADXWG3Wy3qknzgyPugInmC8bOLaGyHy8EI07jIvwakWvdVmA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794239513;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:Cc:References:
+	 Content-Language:To:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=GqcUVOE8YZm1FPDzDze4+rCKgn8rK0xiBVztztTok30=;
+	b=XQnkq4CiOw+tSXUpYPAOZfTVbCbf9BJSXebbi/9nd/P4zxMm6keAZtNgtLiNXssllAYV
+	 JxXUst9IMT4q+f4XZFHn4JOjDKgMcUjBccnOPxuZPO9zOaCzmmBfpatURlEp2QjBO1MW2
+	 lvEvyD+Dcoi2KmkxWUaZsbiHzhbT4VlWroZG9Awdh3EAG9lX79uw3JVTxBkY98PGml+49
+	 AJ3Dl8Plvvb2XD0tfQVQ32oW0IYl47EteUF6unsYxSa/A4XB/5wSUrhLq/ZhtW3Kqrhi2
+	 zxxfzDPSivyTz3zsjE3qQ65SwvW8NcSP/ImwWU70ZPonRLCS2Wj2Uf7trsLY380qN8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cqUhiktI;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=I6Gf+TJ+;
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD29606A31C
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 15:50:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AD29606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF265606A333
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 15:51:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF265606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cqUhiktI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794239410; x=1825775410;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n7yOQt2gk6kH3F9dC7Dy4Qayp79BK+3L87JeNPePtYo=;
-  b=cqUhiktIh4254sGwp8ujXZe7xXUYdAEkLSVCMAUXq2Wzd4m8EEtm7WiS
-   zgVAL4h58SU0t+m7FLaYSn/tldj2GV3S1pLJ392vj+0ipTPXPTbNK97yp
-   ZsUaegW8RBPimHQCFfZB130dCmb4dEtRUf8vJ200cxooqXz0+yKw/e3ei
-   dO+bsJIqwJ6YQ7TrxkiuXLTOngthjR25lhFBqxEydIrikQM5oTomxQOPQ
-   jHprr7KSE+g6q8zSvmyzAcD+UPxDbaefWJrCeXLb4W0B3NAfRrmwhKHy0
-   pnS9WdGl7MQn87z4t3+5WcPFVuIKYFnEC9bUciAALk/ssgVXXY1Z+Y4n4
-   Q==;
-X-CSE-ConnectionGUID: PrH2qXajSSm+0KW9If/HEA==
-X-CSE-MsgGUID: YqRkvUgMSzGj4A7Qy5GG7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3065724"
-X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="3065724"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 07:50:10 -0800
-X-CSE-ConnectionGUID: QSwHNJr1Q/ufyyRRvEZnoA==
-X-CSE-MsgGUID: NRmdUakEQWKk657fcwh5AQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="8062224"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Nov 2026 07:50:08 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 5C61899; Mon, 09 Nov 2026 16:50:07 +0100 (CET)
-Date: Mon, 9 Nov 2026 16:50:07 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: James R Taylor <jrtaylor11@gmail.com>
-Cc: linux-usb@vger.kernel.org,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Sanath S <Sanath.S@amd.com>,
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Subject: Re: thunderbolt: AMD Phoenix USB4 host advertises Gen3 Support=0 in
- SB LINK_CONF with TB5 device, link stuck at Gen2
-Message-ID: <20261109155007.GV176724@black.igk.intel.com>
-References: <1794143745.17311.hermes@gmail.com>
- <20261109111852.GQ176724@black.igk.intel.com>
- <1794223545.366398.reply.hermes@gmail.com>
- <20261109142041.GS176724@black.igk.intel.com>
- <1794235167.3657.reply.hermes@gmail.com>
- <20261109153955.GU176724@black.igk.intel.com>
- <6af1e999.9efe04cf.8f35d.ae23@mx.google.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=I6Gf+TJ+
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-492fcbfaa87so674584f8f.3
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 07:51:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1794239511; x=1794844311; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:to
+         :content-language:references:cc:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GqcUVOE8YZm1FPDzDze4+rCKgn8rK0xiBVztztTok30=;
+        b=I6Gf+TJ+xx28C6M6wGa7IriJIxP64CATq5xKa5KY4/dVEF70L68u8oNbC3qDhkhEI7
+         7ia14iP5TbkPq0pUWtgTMNnR57unFzAtVelBZ6VlJdQ4CrgVYgxw4RobiXpnUn7hkB+D
+         nzTyACD0+MFjBaqWPAWXlFUgKFrj/LJmZ6fQQvFA0wYX9Z+YdDx7xP/wSzXM8J7jhI3Y
+         cnv1opUi8bNDC5CGiUC5RyhE5sufSwg94ps4g0+w/MIT3GHEM+nHtCTD6yBD+zcjVMzC
+         KM6SnUFC/LBhWAJoh5/3RAr1pEMN+dTTDdPPEWzL92kIaF0QNP3pX9QYFDhi6xIlcLq5
+         xWjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794239511; x=1794844311;
+        h=content-transfer-encoding:content-type:in-reply-to:from:to
+         :content-language:references:cc:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GqcUVOE8YZm1FPDzDze4+rCKgn8rK0xiBVztztTok30=;
+        b=hwn34GRnkN/iI72a4mKWM+IaZCYIRQCSpsqV2j5MqfYrHJLYjqrAlCj33+kb7aSdSZ
+         X1q3H4cyGUHw8EtDR4LN9oiEmjljbJ0XFKzU0QI1NVc34qxSFlk2QIPZx01gLJjdduIf
+         TPNW2i9fEVuWa6pMKxKDMiIpu/fMIqGYnID0fWCCfBVzynZHs7O8gSORW3DXTAbp0P/a
+         X7b/nL9exCwm1sIF4LzwL5y48N8yCc5cbvwxNHEfTpnrTkOvMQP1uTxzx2GrCxvZ+HA7
+         fDT/3VMg7b6aAdn5KLkwH5K9j2nUaCgYBdK6NRTyrdTiKk8qWa9pRgzd8Ma+twqfHJep
+         5q9A==
+X-Forwarded-Encrypted: i=1; AL+hErEDFQPFFSQ4WVjTNvlKZM2ULPkkBLrh82lhWBa4te0GCC40NPUWtIOBLZ7VfkL+Xnekro46CUT1Huk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/89kaCq2+Od4BmxZgDfvFA16SalL2XqaKwSifPD+NCJqwnpCFf
+	XOzlzMI/dpULrxtEbQk4cimZCbrdCXyhH1MPDrXMh4+eUsWxhAuadjaXQOmslGiapb0=
+X-Gm-Gg: AYBFou0XHoDO6lJ1ADV2XGBCQRO9HtVdv8BMWKf/s1xGxaKyGsi2HmZ36QrdxfbWG7S
+	dnKip5B7iXYVIhATsQ4ET+Kf07pYNNv7lD3KtJLCEu+zQtN9zenRpagU4uSO8ijaU0+ZFuF7FFt
+	ujingvlky9DWRKGW7yU8lX8e5vjYYyXI0dKepqq0k1ZoRzWytGqZAXPlcw2Yz9mQK151iGtNpq4
+	H8gByNi8DREO+NddMtWf6DMiDsbKne0Z0sgIYS5Cc6ZKgE+zW/r6FvCcVDsCKP/BmHDYZ4axy2+
+	5HTUlenBWI39/5/wQUrhUZRMNDTY9+ldgIFasn9phln4mpA5KtmI9VddfAOnY5Epyedp1t/XtRh
+	kiGNjLMIRkDesdpIs6NbWeo0EpE0yz+zcJ/hXBKAT/v4Eoq3jI9u+3942jsAF4XJpABe0XhkF9T
+	bn5PoxgYSDTzpp3QK5kYK39j8xTsdsK8Xfnr38cfwJpyDd8XsTzkWlW89w//UoyZ6MqKgDEmU9m
+	/LHM3uJxHxhVRliIaxcPV2A9QWq+6BVdO80ILPDjkGE/5QAGPq1CyS22fwDfvzo5X8JOgYluXCU
+	06LpIjNEjHr0Dbk03fvkL5HNJlII9EmZ2UajyvKT7upJRoSfLVM4kzJ+iZFX1vsy
+X-Received: by 2002:a05:6000:25f5:b0:492:e1a6:90eb with SMTP id ffacd0b85a97d-49582e8e516mr8245452f8f.10.1794239511204;
+        Mon, 09 Nov 2026 07:51:51 -0800 (PST)
+Received: from ?IPV6:2a07:de40:8100:0:89a9:fd0e:583d:4a53? ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49597186eb9sm10435718f8f.35.2026.11.09.07.51.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Nov 2026 07:51:50 -0800 (PST)
+Message-ID: <a190f981-d668-4208-8148-f4e50adb31a6@suse.com>
+Date: Mon, 9 Nov 2026 16:51:48 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -89,69 +91,68 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6af1e999.9efe04cf.8f35d.ae23@mx.google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] Remove obsolete __MODULE_STRING()
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Ian Abbott <abbotti@mev.co.uk>,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rudolf Marek <r.marek@assembler.cz>, Andi Shyti <andi.shyti@kernel.org>,
+ Chris Snook <chris.snook@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Duncan Sands <duncan.sands@free.fr>,
+ Chas Williams <3chas3@gmail.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-watchdog@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+ netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
+ linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261002-module-string-v2-0-fc7438acaf4d@suse.com>
+ <2e88806e-57dd-47e0-a9ef-a8507d22aa3e@suse.com>
+Content-Language: en-US
+To: Petr Pavlu <petr.pavlu@suse.com>
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <2e88806e-57dd-47e0-a9ef-a8507d22aa3e@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On Mon, Nov 09, 2026 at 07:41:13AM -0800, James R Taylor wrote:
-> Hi Mika,
+On 10/14/26 11:36 AM, Petr Pavlu wrote:
+> On 10/2/26 10:31 AM, Petr Pavlu wrote:
+>> __MODULE_STRING() has been an alias for __stringify() since "[PATCH]
+>> MODULE_PARM support for older modules" [1] in 2002-12. That change also
+>> moved it to the graveyard section at the end of linux/module.h
+>>
+>> Replace the remaining uses of __MODULE_STRING() with __stringify() and
+>> remove the macro.
+>>
+>> Apologies for the wide distribution. Acked-bys are appreciated.
+>>
+>> [1] https://git.kernel.org/tglx/history/c/136839a1b4
 > 
-> On Mon, Nov 09, 2026 at 04:39:55PM +0100, Mika Westerberg wrote:
-> > We could still look at the PORT_CS_18 but the driver log already tells that
-> > it is in TBT3 mode. What kind of cable you are using? Is it short TB4/5
-> > cable or something else?
+> I've queued the second patch ("drivers: Replace __MODULE_STRING() with
+> __stringify()") on modules-next for v7.4-rc1. Thanks for the Acked-byes
+> and reviews.
 > 
-> It is a short Thunderbolt 5 cable: StarTech TBLT5MM50CM240W, 0.5 m.
+> The first patch ("hwmon: Replace __MODULE_STRING() with __stringify()")
+> should go through the hwmon tree. Once these changes are in mainline,
+> I plan to pick up the final patch ("module: Remove obsolete
+> __MODULE_STRING()").
 
-Okay so definitely it should enter USB4 mode.
+v7.4-rc1 no longer contains any __MODULE_STRING() calls, so I've queued
+the final removal in patch 3 on modules-next for 7.5-rc1.
 
-> One retimer enumerates on the link, 1-0:2.1 (vendor 0x7fea, device
-> 0x1032, "retimer NVM format of vendor 0x7fea unknown"), and it goes
-> away when the dock is unplugged. I haven't been able to tell from
-> Linux whether it sits in the cable or on the DEG2 board.
-
-That's the host side retimer.
-
-> In case it is useful, here is PORT_CS_18 from both ends, read just now
-> (same boot as my last mail):
-> 
->     $ tbdump -d 1 -r 0 -vv -a 2 -N 1 PORT_CS_18
->     0x00d2 0x00002f00 0b00000000 00000000 00101111 00000000 ../. PORT_CS_18
->       [00:07]        0x0 Cable USB4 Version
->       [08:08]        0x1 Bonding Enabled (BE)
->       [09:09]        0x1 TBT3-Compatible Mode (TCM)
->       [10:10]        0x1 CLx Protocol Support (CPS)
->       [11:11]        0x1 RS-FEC Enabled (Gen 2) (RE2)
->       [12:12]        0x0 RS-FEC Enabled (Gen 3) (RE3)
->       [13:13]        0x1 Router Detected (RD)
->       [20:20]        0x0 Cable Gen 3 Support (CG3)
->       [21:21]        0x0 Cable Gen 4 Support (CG4)
->       [22:22]        0x0 Cable Asymmetric Support (CSA)
->       [23:23]        0x0 Cable CLx Support (CSC)
-> 
->     $ tbdump -d 1 -r 2 -vv -a 1 -N 1 PORT_CS_18
->     0x00d2 0x00902f01 0b00000000 10010000 00101111 00000001 ../. PORT_CS_18
->       [00:07]        0x1 Cable USB4 Version
->       [08:08]        0x1 Bonding Enabled (BE)
->       [09:09]        0x1 TBT3-Compatible Mode (TCM)
->       [10:10]        0x1 CLx Protocol Support (CPS)
->       [11:11]        0x1 RS-FEC Enabled (Gen 2) (RE2)
->       [12:12]        0x0 RS-FEC Enabled (Gen 3) (RE3)
->       [13:13]        0x1 Router Detected (RD)
->       [20:20]        0x1 Cable Gen 3 Support (CG3)
->       [21:21]        0x0 Cable Gen 4 Support (CG4)
->       [22:22]        0x0 Cable Asymmetric Support (CSA)
->       [23:23]        0x1 Cable CLx Support (CSC)
-> 
-> (The wake status bits and TIP, 16-19 and 24, are 0 on both sides.)
-> 
-> So both ends are in TBT3-compatible mode, but the host side reports
-> Cable USB4 Version 0 and Cable Gen 3 Support 0, while the DEG2 side
-> reports Cable USB4 Version 1 and Cable Gen 3 Support 1 for the same
-> cable.
-
-Agree it looks like the AMD host only gets the link up Gen2 for some
-reason. It could be retimer/PD firmware issue. Anyways I'm adding the AMD
-experts if they have any ideas.
+-- Petr
