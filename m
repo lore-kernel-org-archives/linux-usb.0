@@ -1,94 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.154.241.218
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794240508;
-	b=C2FRxD+YUlmTBaC0ICJbkROcY/HzT8wsl/iMNJ7BCm/g0eui90qqhGqEWOomEJHEr8fS
-	 Y5cXm280NZAcbejgIyMUEQSaqifVoso5ZC7IhNQtGfVm3EovnGYd5UoO4pfHxLucTn0V2
-	 Mv5C2hHcbTHK7NyEz5lbvQqXHORFMXZBVB3bRg2bpnYL2DX7wKuS4w+dxH//fDVujp+Vi
-	 M/sVDzXDtvgWhZa+LNwvJMr76LFpYq7Fsq2QDSQN25Eu7wexQuQEK6LFrrGKvFbF+3ljb
-	 ED2hruyVguiqsrg4R5fY/kMvNvp7JHY0NC/227x2tl9HC/NvcWqp8tahvivKU9ykj3Q==
+	t=1794241201;
+	b=cPoOZQav5D3646f1KETOAksFJCvqa7J0OycvTIXShUgryG02cB++SO8VtObDj2X5wCfr
+	 Tzu10UOMle1Y2RZZ6ImPlfGdTDu7HtxcEEWTiutcIfelw7SLxtAJElUpkxTORewjkx/VU
+	 UZRZbvzVMtmp0cPRSBLuFIAG8vN3i3kA7GdSgOjqxJih+b7zakew9VetZ7k6/Fz5zVtfo
+	 AXHhHzrth0ezA3xAV/QCMnQ6RAs/YCQwnNrvsH14lPmzXcSdWN7RPYmhb0S1LSeCK7D/J
+	 LJa1xlCKhz1Q6ETBZKuvh7/bCix4bA4CirKzG/6K34I2v3cwmEtJcxCuNPJ87rW2faA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794240508;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=4SBBPsSc3/Ep6nC8xR1PMHfDpiIh8UItfXg1xvFovQw=;
-	b=DQYNnVSu1clXkm732M/KGliqqmhvlgs9rnEiiq7aWklBopyCcef3VjmStYDujxHsaQa2
-	 zbNvoq8G2X4o9RyIS7OyOhFhTbHVXSo7weDxb83NPWaGGGB/yuR1vBgSaEcnJnALA9/UG
-	 k7IdcgBo0erdW4Gid/ygqlOhGZ5/nQHvAalSf+Nq4/q0hy5QKbnC7Jf7CYziEF3pY3FQt
-	 uYnQkyy0jlWmDLUpBwP5294V61oRP6MWoK5OCMOCZG02PUBjKkeIujH2lYAdVKCaB3qZY
-	 Yy04QJqxh1/05XFIrZ30GMxVOXesr8MhO0mCKqP2Im7Y/jihUHZCw2Qp7K/m7F3Xacg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794241201;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
+	 References:Organization:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Bm-Milter-Handled:
+	 X-Bm-Transport-Timestamp;
+	bh=GzvmJ1ANBGc7M0nBA/Blki2Tx+LwsBmOg3kTL/32+TY=;
+	b=g3nvZFm7b/N+pktKo7LC5+tcPkfZFn2dpwCPAf+S1pBZrKgireztTh4JhlWhZsxBXJOy
+	 j24GUmtlxIcJku4722ZKSJpCW0qYenpkjwrO6gx5O38w06wbrHGORxYrsxcMiv42jMBcl
+	 /utTxvzIjX+5UCzckmllTadcg36zUN6QLHBrlqOg+6EHEMwfJX+evFwHi66IqizX8elLc
+	 aWHjbGqgvz7JVJ3RcKsCRae8kNKSgC3Yr2Nu479z9snWT/PUxJgQ3MxROqr/AfVugmFwu
+	 TiO/ewB/TmiCIL0r6U8V7dHlHPKUgv+JeNshYuTZIu5THLgXNxTfuLe6l6Dff5S0lHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=jJd+VzFL;
-	arc=none smtp.remote-ip=209.85.222.173
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=lauterbach.com;
+	spf=pass smtp.mailfrom=lauterbach.com;
+	arc=none smtp.remote-ip=62.154.241.218
+Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B977606A31C
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 16:08:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B977606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=jJd+VzFL
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-93f269e335eso116163885a.3
-        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 08:08:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1794240507; x=1794845307; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=4SBBPsSc3/Ep6nC8xR1PMHfDpiIh8UItfXg1xvFovQw=;
-        b=jJd+VzFLTL+ZpWFvm5Dym8sZpj1ikUvXlM0hb+Wyi3zxnNynzqBQeftpgrryufVtVJ
-         y7chtGrXlZK2cVsDP5jFyj3gm1d5fXI8qtPPjKDodBkgyqIGTrGXm+P57mpFD0QriSYy
-         iMHR26EC7QiNg1whxqC+RBFvOJ0VhK63ynrmf+ke50xcCvgvx8AqtMqf1/yLO3FNseZ5
-         +fBWxztt94xZ4EToQBgtXfui+tFJ5cLhr6Z689dshtk6mC5Y5f0KqKoVwYMVnIlzQQGm
-         6F+QLFbpspUK7AY/+08fIQ4H8eoW3ePVC6xrn80uov5Zai+rCx6Jp2Z4AIfh6WXDMgWz
-         GiQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794240507; x=1794845307;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4SBBPsSc3/Ep6nC8xR1PMHfDpiIh8UItfXg1xvFovQw=;
-        b=icGRti4JAHquouLCyiewaTRiT+G9SH3mKAwFGc+TYOLCCpV9LUiPhn1diuexTxeSZf
-         WMWWzgkRDUQz9gOWwf6rjbn0BhGJamJ2Pb8Sfw/rA4TFgZHaNXLXXjU8PCJVfP11E2A1
-         hwH2Dmf6Lwrx+n1YSqmJMvS2xbt/GbFrr59J6Hvu0+ZPud/0LiiZpY3Vm79JXsayWBOx
-         uKySbsI1kYprpTiqPRw+CA4Jdp/vPdsA9Tml/+V9Y0TFaOS2WBdEUG5XYV8kpUQSnmqT
-         tdHju1WKhx3Rwl4xnbpu502EfDxahv3s6xbV7PlljoLf4x/ULp0vOqET8RSrcYBdB1Xm
-         uVxQ==
-X-Forwarded-Encrypted: i=1; AL+hErFlrhfS7w1QlZvKxqGhX2j0f/PnCm0ZcOF+DZ0QqolfOxy6z3K7fQyzcWoYovXfcXluJhb+wHDzib0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+MaJ9pC6T+cDh2PNc8t3SzQFmRtsonuPnSWnnXDeRys+mnxwEU
-	G4bXmrUGOldQbK3vE+BXO7zcqHw+EC5gFYy/rkCf4lULNPILK4OjOwUYNTOy51qTIw==
-X-Gm-Gg: AYBFou1a/3GByD+fmEwj4fPmXxKgMKLiChVwe05yQpw/DM/eINAvcrCg5OKD2DcWKsL
-	PimYhR8DXtrZLxmOOuEUwRGWnZEX9v79eZyERhr9SKNCdYO8nBa3mIN3IQvIHd6foERDtQCtuoU
-	X2jnCpzIGr8cZDuxFd5F7kGss03FZRZl5xil01rnL0hxZOLHglDVuIzexyAoLM0RGDMuhy7Wgbg
-	/Hg4h6IAOrRbrhL8LaF04erkTkx/Y66FBl9SG7jDR2Nz4z7Hm1dToWHpM0PczD4YtkYTWZd1WiC
-	Vws9F7LP1v+jxyHNQcqJgJgIZGo5HgKGa+mHGHFk+znx/CC3qznIBs4DgtsOJCm3ZA0H8+qnZLk
-	O8QpYaXkW88w+9TESEJCTHe+TNStChKvYj5bVwxhA2BWwE14jreDzPKWwg6cQJEWeyJ8+7kG8cZ
-	nv3fFskN4LSl0IdmbIFcdHH7FSZQwRswXzvet3ZR0r4GF+jlxuyfx7InUmzXKL1SSNgPGeAka4d
-	wh/HN8URsw+LvKmtt7ReWRN3+HqsMCrmCqhfQG7Q8wMJ18m8LBZq0u2YduPf5J8TS2NkdNm11OC
-	ZVrGhS8SlwDnvZjRQ28TrpvJ+Che
-X-Received: by 2002:a05:620a:440f:b0:93e:d5c1:da49 with SMTP id af79cd13be357-947842cc78cmr674785385a.82.1794240506826;
-        Mon, 09 Nov 2026 08:08:26 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e61c333sm7310285a.3.2026.11.09.08.08.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 08:08:24 -0800 (PST)
-Date: Mon, 9 Nov 2026 11:08:22 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>, linux-usb@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] USB: usbfs: replace __get_free_page() with kmalloc()
-Message-ID: <b39fd45c-657c-46dd-94e5-af7d633d297d@rowland.harvard.edu>
-References: <20261108-usb-v2-1-c9209d527559@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFD0606A31C
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 16:19:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FFD0606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
+Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
+	(Authenticated sender: ingo.rohloff@lauterbach.com)
+	by bm.lauterbach.com (Postfix) with ESMTPSA id 88AAA14643215;
+	Mon, 09 Nov 2026 17:19:57 +0100 (CET)
+Date: Mon, 9 Nov 2026 17:19:57 +0100
+From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+To: Neill Kapron <nkapron@google.com>
+Cc: gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk, me@samcday.com,
+ michael.bommarito@gmail.com, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/3] usb: gadget: f_fs: register cancellation handler
+ only after request queueing
+Message-ID: <20261109171957.2cf2bcbb@ingpc2.intern.lauterbach.com>
+In-Reply-To: <20261109123140.7e57597b@ingpc2.intern.lauterbach.com>
+References: <20260901120908.14386-1-ingo.rohloff@lauterbach.com>
+	<20260901120908.14386-3-ingo.rohloff@lauterbach.com>
+	<au5ZFAei8LcpYNgY@google.com>
+	<20261109123140.7e57597b@ingpc2.intern.lauterbach.com>
+Organization: Lauterbach GmbH
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-unknown-linux-gnu)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -98,79 +59,143 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261108-usb-v2-1-c9209d527559@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
+X-Bm-Transport-Timestamp: 1794241197590
 
-On Sun, Nov 08, 2026 at 10:39:34AM +0200, Mike Rapoport (Microsoft) wrote:
-> do_proc_control() allocates a temporary buffer for the data stage of a
-> control transfer issued from userspace.
-> 
-> This buffer can be allocated with kmalloc() as there's nothing special
-> about it to go directly to the page allocator.
-> 
-> kmalloc() provides a better API that does not require ugly casts and
-> kfree() does not need to know the size of the freed object.
-> 
-> Performance difference between kmalloc() and __get_free_pages() is not
-> measurable as both allocators take an object/page from a per-CPU list for
-> fast path allocations.
-> 
-> For the slow path the performance is anyway determined by the amount of
-> reclaim involved rather than by what allocator is used.
-> 
-> Replace use of __get_free_page() with kmalloc() and free_page() with
-> kfree().
-> 
-> Link: https://lore.kernel.org/all/635405e4-9423-4a25-a6e7-e03c8ea0bcbe@redhat.com
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
-> This is essentially a resend of the "USB: usbfs: replace __get_free_page()
-> with kmalloc()" patch that fell between the cracks.
-> 
-> Alan and Vlastimil agreed on v1 that the kmalloc() overhead does not matter
-> for usbfs memory accounting:
-> 
-> https://lore.kernel.org/all/8cbe558e-7f53-4ce4-be8e-52fdba9105d4@rowland.harvard.edu
-> ---
-> v2 changes:
-> * drop already merged patches
-> 
-> v1: https://patch.msgid.link/20260830-usb-v1-0-aa349c302246@kernel.org
-> ---
+Hello Neill,
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+> On Fri, 6 Nov 2026 22:47:48 +0000
+> Neill Kapron <nkapron@google.com> wrote:
+> 
+> > On Tue, Sep 01, 2026 at 02:09:07PM +0200, Ingo Rohloff wrote:  
+> > > Call kiocb_set_cancel_fn() only after usb_ep_queue() completes
+> > > successfully.
+> > > ...  
+> >
+> > Unfortunately, I don't think this is safe. The cancel handler has to be
+> > set before the request is queued.  
+> ...
+> You should **NOT** call "kiocb_set_cancel_fn(...)",
+> before the request is successfully queued via "usb_ep_queue()".
 
->  drivers/usb/core/devio.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+I just had another look at the code and I am even more convinced than
+before that commit  ("usb: gadget: f_fs: Fix Use-After-Free in
+AIO error path") is wrong. Especially this code part
+
+	if (res == -EIOCBQUEUED)
+		return res;
+	/* Comment by Ingo: Code here menans there was an error */
+	if (p->aio) {
+		kiocb->ki_complete(kiocb, res);
+		mmdrop(p->mm);
+		kfree(p);
+		return -EIOCBQUEUED;
+	}
+
+Returning "-EIOCBQUEUED" when in fact nothing has been queued
+(because of an error) doesn't make any sense to me.
+
+As far as I can tell, the whole point of returning "-EIOCBQUEUED" is  to tell
+aio.c that something is "in progress"; which is exactly  the opposite of
+what's happening here.
+
+Returning -EIOCBQUEUED is just a hack here, to prevent
+"aio_rw_done(...)" (in aio.c) from calling "kiocb->ki_complete(...)" after 
+ffs_epfile_write_iter/ffs_epfile_read_iter
+has returned.
+
+with best regards
+  Ingo
+
+On Mon, 9 Nov 2026 12:31:40 +0100
+Ingo Rohloff <ingo.rohloff@lauterbach.com> wrote:
+
+> Hello Neill,
 > 
-> diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-> index 101cb94254809..9a7cc7cdf00be 100644
-> --- a/drivers/usb/core/devio.c
-> +++ b/drivers/usb/core/devio.c
-> @@ -1190,7 +1190,7 @@ static int do_proc_control(struct usb_dev_state *ps,
->  		return ret;
->  
->  	ret = -ENOMEM;
-> -	tbuf = (unsigned char *)__get_free_page(GFP_KERNEL);
-> +	tbuf = kmalloc(PAGE_SIZE, GFP_KERNEL);
->  	if (!tbuf)
->  		goto done;
->  	urb = usb_alloc_urb(0, GFP_NOIO);
-> @@ -1265,7 +1265,7 @@ static int do_proc_control(struct usb_dev_state *ps,
->   done:
->  	kfree(dr);
->  	usb_free_urb(urb);
-> -	free_page((unsigned long) tbuf);
-> +	kfree(tbuf);
->  	usbfs_decrease_memory_usage(PAGE_SIZE + sizeof(struct urb) +
->  			sizeof(struct usb_ctrlrequest));
->  	return ret;
+> On Fri, 6 Nov 2026 22:47:48 +0000
+> Neill Kapron <nkapron@google.com> wrote:
 > 
-> ---
-> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-> change-id: 20260829-usb-ad052ea1ffad
+> > On Tue, Sep 01, 2026 at 02:09:07PM +0200, Ingo Rohloff wrote:  
+> > > Call kiocb_set_cancel_fn() only after usb_ep_queue() completes
+> > > successfully.
+> > > ...  
+> >
+> > Unfortunately, I don't think this is safe. The cancel handler has to be
+> > set before the request is queued.   
 > 
-> --
-> Sincerely yours,
-> Mike.
+> Why do you think, that the cancel handler has to be set before 
+> the request is queued?
+> 
+> I can't find any reason for this.
+> 
+> I will describe this in terms of an AIO write (read is the same),
+> referring to the current kernel (without my patch):
+> 
+> The request enters the kernel via
+> SYSCALL_DEFINE3(io_submit
+> ...
+>   io_submit_one(ctx, user_iocb, false);
+>     __io_submit_one(ctx, &iocb, user_iocb, req, compat);   
+>       ...
+>         case IOCB_CMD_PWRITE:
+>           return aio_write(&req->rw, iocb, false, compat);
+>       aio_write
+>           ...
+>           aio_rw_done(req, file->f_op->write_iter(req, &iter));
+>             file->f_op->write_iter == ffs_epfile_write_iter
+>         ffs_epfile_write_iter(struct kiocb *kiocb, struct iov_iter *from)
+>             kiocb_set_cancel_fn(...)
+>             ffs_epfile_io(...)
+>               ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
+> 
+> 
+> I can't see why you should need to call "kiocb_set_cancel_fn(...)"
+> before you call "usb_ep_queue()".
+> In fact I think that's exactly wrong:
+> You should **NOT** call "kiocb_set_cancel_fn(...)",
+> before the request is successfully queued via "usb_ep_queue()".
+> 
+> Unfortunately f_fs.c seems the only place where "kiocb_set_cancel_fn()"
+> is used, so there is no other code to compare to.
+> 
+> If "usb_ep_queue()" fails, then "ffs_epfile_io()"
+> will **NOT** return -EIOCBQUEUED.
+> 
+> This in turn means the code in "aio_rw_done(...)"
+> will call "req->ki_complete(req, ret)", because that's
+> what "aio_rw_done(...)" does, if you **DO NOT** return -EIOCBQUEUED.
+> 
+> As far as I can tell, this is exactly what we want:
+> The request is completed with an error,
+> which indicates that the request was not queued.
+> 
+> Because the request is completed, why should you ever
+> set a cancel handler for it?
+> So why should you call kiocb_set_cancel_fn before the
+> request is queued successfully?
+> 
+> with best regards
+>   Ingo
+> 
+
+
+
+-- 
+
+-------------------------------------------------------------------------
+Dipl.-Inform.
+Ingo ROHLOFF
+Senior Staff Engineer
+phone +49 8102 9876-142 - ingo.rohloff@lauterbach.com
+
+Lauterbach Engineering GmbH & Co. KG
+Altlaufstrasse 40, 85635 Hoehenkirchen-Siegertsbrunn, GERMANY
+www.lauterbach.com
+
+Registered Office: Hoehenkirchen-Siegertsbrunn, Germany,
+Local Court: Munich, HRA 87406, VAT ID: DE246770537, 
+Managing Directors: Stephan Lauterbach, Dr. Thomas Ullmann
+
+-------------------------------------------------------------------------
