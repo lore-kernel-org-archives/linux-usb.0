@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794209663;
-	b=5sFaYNPrHprXAexrFFK7oIGCBXzsh1he+OYaRPqV1GS7xs+wGegfbbqj0NABqbGtPrkF
-	 C9HTvhYn1qPv/fk+u6gcoGrYSEk2Xmncys2oyaJi3+fbkLIJHWPCHs5AsfLEwSQacutbX
-	 1WCtdhWB48wUHmMlq1rAU6dQqppGbykZRJb//P1YTtODHQVL2b4NehYDsvv/jYzTsC3vK
-	 tPRIppOLYMY7due0G+ItSU7H//tGugP9ZJ6hjMOioKkXtVMql0PHgRwAgZxwG4A8OJ31T
-	 5qOeG0fTY7CFW+cbYOk0fEEnHWox7NnKC5gVMrH3C9sk+shDzSF662P1AOWB7P5N/kQ==
+	t=1794209683;
+	b=Y1Mpyyu/18XzItb0KBe1OmtIPfmqf62NNGBN32vETTb+ZXvqW5bwJ8qIC9TOpgSb1pN4
+	 L/M6th77zj83FdwBGgjdQOkhY/aKAODw6VvupkwHDIN+IIusjpR4FNSlz6RMxEHOYAIm1
+	 xu/UBeq81LxRadteuC29vCwVPIKFPpXDhaF2p2H0zWjgu5zxkrxzJtDGsXut4NTnaK5hD
+	 XX5fnmCMNw0f3IgJ+610R1tdCAHjpf5dVDSQfFdVF30OhVyX6SVTru30WMCaDkj3E16nr
+	 Vzrb+oonmQl7+m2hwJJa0HotFbvGgVFUSW4xvBIYjUs3nZZS1M6eLlFDnx4GPZrrY3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794209663;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794209683;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 Content-Transfer-Encoding;
-	bh=Kya3esT+ja5CoFsJojA0B+sdCKA8A1pbdw4lgiA8vnE=;
-	b=rcrTfWxEaABGTvXPY8DyElQ3bIYpIPDPUEwu/f0ULOV1iuPCTgFuvHqePZhQqhyQzO1t
-	 Kw5dunzPrkikeA7YnUzZQXkVjKY9lTSK+nKDMg+ZrM3GK00Q9+AUuoTNzZ5rFf6wJwh0F
-	 xQV1NiiWwHLGBJPJWg0Bnw5D3su2Pv+GHaY0kONsynSb9z20dSp48gdBOFNy3GfXARYR1
-	 otpxsskmYOouJpJYQuNvctHtSvQ9lP51i9dwxNft5/lmGhP0CmE/nRRDtWQZ7EewmtmRw
-	 mFdZC9aUQFkuo2mFptJlxgUEak+5o1/poaAbcc3k9wnrXiy5QTCu48LE8Z7JIbaXSpw==
+	bh=MpimnCg02HZciFk2g0S8/wZfNZukhRQXczEg3LroMuI=;
+	b=MQZ8IN8nL8er0qkiGpObIn1danznM2igVNBoi6zxn8kAx05lGpyPhvyiBYGY9wd2TiKk
+	 z85ctYbFIG/jXVJvAg7uxAmhsOavVvlDdZO172GlBhI5Cloj0xkgCR1U1K+vp0goO8PW/
+	 4LhSuw6iTVPTtsEWjIQLH9YMQFeoBm1dRoLW9lKSqLzFUCh1X8h15kwQ+hJPMG4ThxisT
+	 9Sq+pbKiWx7yMFq7qLLhAY7HQjvcar6EZZHia3H+ywPpzdRzcDmp0jsDXpQjlc/KccSSt
+	 UqBcioA4TRFUpxyJMQzk3cQmiuhxY41Zl6W4nsXUBiT3TwbFK31NofVTIwzsj+yhyFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YfNN0+N4;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MKr63xQC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DD6606EE81;
-	Mon,  9 Nov 2026 07:34:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2972A60A6F7E;
+	Mon,  9 Nov 2026 07:34:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YfNN0+N4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 238EC1F008A3;
-	Mon,  9 Nov 2026 07:34:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MKr63xQC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0FD71F008A5;
+	Mon,  9 Nov 2026 07:34:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794209662;
-	bh=Kya3esT+ja5CoFsJojA0B+sdCKA8A1pbdw4lgiA8vnE=;
+	s=k20260515; t=1794209682;
+	bh=MpimnCg02HZciFk2g0S8/wZfNZukhRQXczEg3LroMuI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=YfNN0+N4So4tkvt4WfCeInlWHoD/4kPLBlBnFfJ0JgvY1mvme/G/1EYi9aUGb3Oag
-	 wFVlAhC1MDqV/SVGdSnWGm47kMCESUEI74OMDvDo+JYhtNj8BUN2ZYKh4JmwjuJQHu
-	 ArBIIDjzsOHKK39DdwkvxeEtJvmc9stNwmFvLuVFXKbaiFLsiuTfd3p7XnyBxYqUxc
-	 CXhhAH2yRgcg26kaB2jOkurFASrYlSMgSn/LaV2RUfmBlg4WfJ5ku0hBiwJb5UCSax
-	 2pJhKLrCZgwknCAlZvsKYz6zdBHIbFw1uafrBOdsyIktdv6Z5v6jjNgOPcoMl8Xxz7
-	 n+CuFlQO83Fbg==
+	b=MKr63xQCZG0Kx/uDf562/8osJmX+c3VIP3ZLP2fy+N3p2uMLmr261yWJN04SAid33
+	 4qJxdMBJEuJjdAYJgwhRUQoVw6QBjlAGGjoc7Y54KLCCEhufLWIW048UgQ4IzodCVv
+	 wU6UbWG/JabptBOI2k3O1pXRAAZc3jfaVJ1HMHVghqwOsOIlcicfIxkciYOpZyn3mj
+	 QotY5+kzCshox9OAqzDTEATR1ApsmuZxkEzUdHzUfiOkCIjb/ySQqk81vs6EyoFaZo
+	 bdSaWl9jfQIvtVJDkJZBmj4xW209iqY7h7Bs68bjZ6U9e2NDfpuBJWxUOIjNVD6CXx
+	 F0QG94RhDBeWw==
 From: Leon Romanovsky <leon@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -82,9 +82,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-pci@vger.kernel.org,
 	iommu@lists.linux.dev,
 	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH v2 07/19] driver core: Report deferred probes through sysfs drivers_probe
-Date: Mon,  9 Nov 2026 09:33:37 +0200
-Message-ID: <20261109-device-trust-core-v2-7-3b12d9a9f861@nvidia.com>
+Subject: [PATCH v2 08/19] driver core: Add a compatibility API for manual driver attachment
+Date: Mon,  9 Nov 2026 09:33:38 +0200
+Message-ID: <20261109-device-trust-core-v2-8-3b12d9a9f861@nvidia.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
 References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
@@ -103,82 +103,132 @@ Content-Transfer-Encoding: 8bit
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-commit b8c5cec23d5c ("Driver core: udev triggered device-<>driver
-binding") introduced the concept of "Systems who want to control the
-driver binding with udev" can use the drivers_probe sysfs to trigger a
-driver bind based on the kernel's match list.
+Existing manual binding paths probe drivers under subsystem locks before
+publishing their bindings. Normal attachment would add device locking to
+these paths.
 
-If attaching the driver is deferred before its probe callback runs,
-userspace sees EINVAL and cannot tell it should try again, maybe after
-loading other drivers.
-
-Map that deferral to EAGAIN and add missed documentation for the
-drivers_probe sysfs. A deferral requested by the probe callback itself
-is still not reported.
+Add device_driver_attach_full() to preserve their serialization while
+centralizing probe and binding cleanup. This compatibility API must not
+be used in any new code: it prevents devices from using the device trust
+authorization infrastructure. New code must use device_driver_attach().
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- Documentation/ABI/testing/sysfs-bus-drivers-probe | 13 +++++++++++++
- MAINTAINERS                                       |  1 +
- drivers/base/bus.c                                |  9 +++++++--
- 3 files changed, 21 insertions(+), 2 deletions(-)
+ drivers/base/dd.c      | 74 +++++++++++++++++++++++++++++++++++++++++++++-----
+ include/linux/device.h |  2 ++
+ 2 files changed, 69 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-drivers-probe b/Documentation/ABI/testing/sysfs-bus-drivers-probe
-new file mode 100644
-index 0000000000000..851c65b9331ae
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-drivers-probe
-@@ -0,0 +1,13 @@
-+What:		/sys/bus/.../drivers_probe
-+Date:		February 2007
-+Contact:	driver-core@lists.linux.dev
-+Description:
-+		(WO) Writing a device name requests driver attachment on this
-+		bus, even when drivers_autoprobe is disabled. A successful
-+		write does not guarantee that a driver bound. The device's
-+		driver link reports the result.
-+
-+		EAGAIN means attachment was deferred before the driver's probe
-+		callback, for example while a supplier or the device itself
-+		is not ready. ENODEV means the device was not found. Other
-+		attachment errors return EINVAL.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 93abbb315065d..b726344362b41 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8149,6 +8149,7 @@ M:	Johan Hovold <johan@kernel.org>
- L:	driver-core@lists.linux.dev
- S:	Supported
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
-+F:	Documentation/ABI/testing/sysfs-bus-drivers-probe
- F:	Documentation/core-api/kobject.rst
- F:	Documentation/driver-api/driver-model/
- F:	drivers/base/
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index 396097fdb3162..ecff32c3704b5 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -310,13 +310,18 @@ static ssize_t drivers_probe_store(const struct bus_type *bus,
- 				   const char *buf, size_t count)
- {
- 	struct device *dev;
--	int err = -EINVAL;
-+	int err;
- 
- 	dev = bus_find_device_by_name(bus, NULL, buf);
- 	if (!dev)
- 		return -ENODEV;
--	if (bus_rescan_devices_helper(dev, NULL) == 0)
-+	err = bus_rescan_devices_helper(dev, NULL);
-+	if (!err)
- 		err = count;
-+	else if (err == -EPROBE_DEFER)
-+		err = -EAGAIN;
-+	else
-+		err = -EINVAL;
- 	put_device(dev);
- 	return err;
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index 52123251965de..0f56c3d825731 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -526,6 +526,21 @@ static void driver_sysfs_remove(struct device *dev)
+ 	}
  }
+ 
++static int __device_bind_driver(struct device *dev)
++{
++	int ret;
++
++	ret = driver_sysfs_add(dev);
++	if (ret) {
++		bus_notify(dev, BUS_NOTIFY_DRIVER_NOT_BOUND);
++		return ret;
++	}
++
++	device_links_force_bind(dev);
++	driver_bound(dev);
++	return 0;
++}
++
+ /**
+  * device_bind_driver - bind a driver to one device.
+  * @dev: device.
+@@ -542,19 +557,64 @@ static void driver_sysfs_remove(struct device *dev)
+  * Callers should prefer to use device_driver_attach() instead.
+  */
+ int device_bind_driver(struct device *dev)
++{
++	return __device_bind_driver(dev);
++}
++EXPORT_SYMBOL_GPL(device_bind_driver);
++
++/**
++ * device_driver_attach_full - attach a driver using subsystem serialization
++ * @drv: driver to attach
++ * @dev: device to attach it to
++ *
++ * This compatibility API must not be used in any new code. It prevents
++ * devices from using the device trust authorization infrastructure.
++ * New code must use device_driver_attach().
++ *
++ * Callers must serialize attachment and removal using their subsystem's
++ * existing locks. This function does not acquire the device or parent lock.
++ * It calls the bus or driver probe callback and publishes the binding without
++ * performing the normal driver-core DMA, pinctrl or power-domain setup.
++ *
++ * Return: 0 on success, or a negative error before binding.
++ */
++int device_driver_attach_full(const struct device_driver *drv, struct device *dev)
+ {
+ 	int ret;
+ 
+-	ret = driver_sysfs_add(dev);
+-	if (!ret) {
+-		device_links_force_bind(dev);
+-		driver_bound(dev);
+-	}
++	if (!device_is_registered(dev) || dev->p->dead)
++		return -ENODEV;
++	if (dev->driver)
++		return -EBUSY;
++
++	device_set_driver(dev, drv);
++	if (dev->bus->probe)
++		ret = dev->bus->probe(dev);
+ 	else
+-		bus_notify(dev, BUS_NOTIFY_DRIVER_NOT_BOUND);
++		ret = drv->probe(dev);
++	if (ret)
++		goto clear_driver;
++
++	ret = __device_bind_driver(dev);
++	if (ret)
++		goto bus_remove;
++
++	return 0;
++
++bus_remove:
++	if (dev->bus->remove)
++		dev->bus->remove(dev);
++	else
++		drv->remove(dev);
++clear_driver:
++	devres_release_all(dev);
++	device_set_driver(dev, NULL);
++	dev_set_drvdata(dev, NULL);
++	if (ret == -EPROBE_DEFER)
++		return -EAGAIN;
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(device_bind_driver);
++EXPORT_SYMBOL_GPL(device_driver_attach_full);
+ 
+ static atomic_t probe_count = ATOMIC_INIT(0);
+ static DECLARE_WAIT_QUEUE_HEAD(probe_waitqueue);
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 429e39f647cf9..42e966ebaa2d3 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -1314,6 +1314,8 @@ static inline void *dev_get_platdata(const struct device *dev)
+  */
+ int __must_check device_driver_attach(const struct device_driver *drv,
+ 				      struct device *dev);
++int __must_check device_driver_attach_full(const struct device_driver *drv,
++					  struct device *dev);
+ int __must_check device_bind_driver(struct device *dev);
+ void device_release_driver(struct device *dev);
+ int  __must_check device_attach(struct device *dev);
 
 -- 
 2.56.0
