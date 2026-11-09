@@ -1,99 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.86
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794203037;
-	b=MT/nAyM+L0EO7JrL31w1Ka7mAR7Sz5gKAgEF5xstS1ler+xORjOxMxtWu9mm4Ap9ePzR
-	 vYsYVhmYg5y6AnUe7tWzYP6GLBvyE1CKJF+uKkAjCJiGNtrZT5qqvqxv8ilQkh2rAyeFt
-	 7xG09GXQPQA566G7ySlPelbVooP0bd0F4hkVolJHReih+HCyFlZv3hj7Joimg1h9qWikH
-	 PKNh1cyuOZymaxytLt4UtzbNi2cwoJAU/FK4CV9pHJpI0w4BQjVPoW6rniLlIInDdNMYY
-	 XwdpDazZlQoq7S1pyyJhUHdMWKDpZjwOvyg8BFyGwvtkJA+5OiuNA/1ORwuTA2+JMMA==
+	t=1794203744;
+	b=BYf/MSPUN93thOtZPK3SqdH83RWx+Z/p5D1+Is4Iu/h+u03e9MipeS5NFEcc1Bs/QCec
+	 8xHdwQ3yK1D0rshTm0y1xj9/Wl5LyhW8hIOPMNJbklb2zZYQTj67f0MB4CIwduZNPL8bt
+	 e6VmOP1Bt+fPMNgyp1CW9hexBcsl9w441Cd3qLCIiJiqJdGGosz4Kvn7AoT3dHoN2VbPL
+	 W+r296bpgHCralKbHu6ucxauyKlH7m6KOAMdDuusHLlNfS5ynNoeIhPDmLksratZomq8g
+	 UkcSFYE05A5nNXTVRXJq3G5xpbNtcLvXeeGIT3TG895v4ngi8P1ZDgePCovozoGegrw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794203037;
-	h=DMARC-Filter:Received:Received:X-MS-Exchange-Authentication-Results:
-	 Received-SPF:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=7QnQYZGVKpOUq+Cn4ItFvxSn8Y1iyGaY96n1SQ9ct1A=;
-	b=pOPaLrZrJ+g278MEfpetnxjUiSmGyapY0QyZ8mMdVhRkaBWznV8gbK4FhHGKLldVHDZM
-	 KgP+us7fk1f32qsfC+lYSpeQOvsewdawLXQNTfJyrxCltMUcYheMSlNEaodyDcZEwQP9I
-	 VLpnZjmkggq/1gfr5WWyq39SJeIYyZBW3VAy8mtXwq8P8HxR7KkFJweQ5dWIoNSvC/Xu9
-	 tuJM9K2MmdVZBWerUMLYTIoeEJIvAx338KB1GcWkiA3qQC6ErkB7NvyH1yOfjYam/p0qz
-	 LeeDasaVl3IDGMjTgbhuhWnHuH9anBI2UPxdzi/U3+DL1lZpbAzBK8Lfo8DEdt6LiUw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794203744;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=6OUSNSxMZsg67QBLvCHwQmVqNkeStUkNWeSYAio0bFw=;
+	b=Xd2nXkPSK+gBF9YXzZeBbEUiMqPpHC/Nm2MhKmRHsuxV8JJYLn/SB+4Z/GE8vvyBld8p
+	 oLUzOMCP3o7FiCEaK90cCqQSwK0D/st/EldWKclXvmh9hqjNj1P7MlEqRzVeQS6U+gehR
+	 owU0je4U7sav9dcvVjtYpigUG8eaAfwKdkENig00yy0F1Fg/dRe1FA2k04xO/EAoTXJSp
+	 J1+BCIrFx92GHNZVzv1ag7D2cwqeSG/JaeVNqhiM5z9spg9P4JoGy9FkMKSoZot94P5Ri
+	 y6B44qIzhJLPQKHh1SA9iwZhLfPAkYQOIpIlf6xPwXcRA4rwk1Oufuiv4N70tnbLmHA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=cixtech.com;
-	spf=pass smtp.mailfrom=cixtech.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.86
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023086.outbound.protection.outlook.com [40.107.44.86])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UW6DQUiD;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B53606A31C;
-	Mon,  9 Nov 2026 05:43:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26B53606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nwxuH1HK+sTaqV9q1Z0suColMhYm+ZEzhn4npqgv7Qe1/Lv/el34/EGkoWmX7pUQNo21bQK5nakHpiHzuwMwLu3IqmOgn9SA0FXxVP++kGr8x3o0RySZzkMHSR7CzXNXN3ywuDZUCrJ66xTSXSC2mjSo5rdwFNk3/H2sjyeUhW8uUUlej92Pghj5Rmky2gcgMKqlbE5CMEKzFZmEhtKAzOpqU2bzo0rH7Z/z6kMJF/ySiWCluLCh623noSL1ryiUkdIhOnli0QPskeKPlqsBEQQf1xCqdlXUrIfb0f2BnJLKJ2tKLDDkSlekawZ7anLrb2fl2T1gs5MVo/Ij2VQr2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7QnQYZGVKpOUq+Cn4ItFvxSn8Y1iyGaY96n1SQ9ct1A=;
- b=hzCXCkUg70jHwRWlHk5uGOvPCm3kcnnnPvw/7y2ur21kZ3A8p2sQSt9eISxOYiqJVH45hLlE52Db7EF7lvbDlyVE9lDDgP52NkiR+OWstEeVY0JGPN+nb1mli+LJXFyTR3k0mUufrFqi51cGvjvS46Y/HxIy1KS8xzguDdRDmTXXLvgnu1h8LjNGDJufFFe7Wjgp612QHN2LRT9ClFZKN7cnG2/tpHij9dwlfRoYEtqs/pOzKoc1xbHtqf3P0T6+ApdX2+Yo/Z9UnbOiidDp/3NsMTpkVZUIrDs2O5ku/iKIWndU6oP9dJtMCuLHVfZLNm9JjMXzz8Dw0799+zX/cA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 222.71.101.198) smtp.rcpttodomain=cixtech.com smtp.mailfrom=cixtech.com;
- dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
- not signed); arc=none (0)
-Received: from TYCP286CA0321.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:3b7::14)
- by SG2PR06MB5239.apcprd06.prod.outlook.com (2603:1096:4:1d9::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.7; Mon, 9 Nov 2026
- 05:43:49 +0000
-Received: from TY2PEPF0000AB87.apcprd03.prod.outlook.com
- (2603:1096:400:3b7:cafe::2c) by TYCP286CA0321.outlook.office365.com
- (2603:1096:400:3b7::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.12 via Frontend Transport; Mon, 9
- Nov 2026 05:43:49 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 222.71.101.198) smtp.mailfrom=cixtech.com; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
- 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
-Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- TY2PEPF0000AB87.mail.protection.outlook.com (10.167.253.6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Mon, 9 Nov 2026 05:43:48 +0000
-Received: from gary-System-Product-Name (unknown [172.16.64.55])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 06AFB4102E61;
-	Mon,  9 Nov 2026 13:43:48 +0800 (CST)
-Date: Mon, 9 Nov 2026 13:43:46 +0800
-From: Gary Yang <gary.yang@cixtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Fugang Duan <fugang.duan@cixtech.com>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, cix-kernel-upstream@cixtech.com
-Subject: Re: [PATCH 2/4] usb: typec: add CIX Type-C PD controller driver
-Message-ID: <avFdktTtnReGiccu@gary-System-Product-Name>
-References: <20261107011012.3655873-1-gary.yang@cixtech.com>
- <20261107011012.3655873-3-gary.yang@cixtech.com>
- <b214585d-4944-4c86-8ed8-58701974ccc4@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB481606A32A;
+	Mon,  9 Nov 2026 05:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UW6DQUiD
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794203743;
+	b=mJHyGbBWTR+hSWQ/lI6AJ/B4r9lIrwTi/UfLEFgvuZDFkpwH+oXfhK/sY5bY53WN9Y/F
+	 7HQZVzgZlrb1mT28582flLLMBt+bwJDHN0AEATJgY+V/hPhzM+sX1+Ic3au2MuC2OBN0H
+	 T4mP4U6lkgEHFKW06OOMD9naHsAEdVmkwIEc77wm8q0RQCUm2TrReaUEfjmsQTjffy3rB
+	 zN+CTrfy+v3QawoBRYgK9IHCehV8XlYNPygqp6d1y2W/tJkb5WhKWylfV10X/LnVD87uh
+	 GfP6KYvyrJWGklpEYaAOrx4r4ha/VnTR4a2fZf2/519fPsi6sGHb3KH8DDr9Uv4u6uA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794203743;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=6OUSNSxMZsg67QBLvCHwQmVqNkeStUkNWeSYAio0bFw=;
+	b=rCqtwIsTymITiNW111/vswiJjidD7RaBmf9/hH13EumhbYu/e4i6XRjb2Neo1lM18J7g
+	 P0iL8GA8gsgsSSFt9LEkf1ruhs8mXLg0ZndgpSKwp7Q0jMghKwuvSq+sBZotlTAO6NtDq
+	 jSb1xSFvzYFMpNSLpxnM4Mt6Cr/dFg5aYuXw9zyqHa3pA6CshJ59LR41ec/wmpJ+Q+2Dx
+	 KH5yhjQNs74MrsVasT10fDL6xE5owJ0QcpMA9WQWB8g3BUy27VN0qpc7R/qcXUyBv2V+4
+	 VzJhYMdg8GFb2he0EKmz3xArFzp9b0ds7Cms33fewIxp6FyCDOniuNxu4Tv57P9P/FA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 132B41F0089F;
+	Mon,  9 Nov 2026 05:55:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794203743;
+	bh=6OUSNSxMZsg67QBLvCHwQmVqNkeStUkNWeSYAio0bFw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=UW6DQUiD6YrtcpuRUACP6U5L7+Y1yF0D66vh7NZIG2A3HA0aSBAl/IQLadrXcieu1
+	 b4hDQzwp/FlmfUtVqkwTmFPc/5Bq1W8CWk/tUgTc+8Hq1tGaa20Ha223kgAnWK8Aij
+	 xNdNM7dnypPjrshvsmOsTLTrH14h94JNE0bQv5N+/f2zMZ+eSncFh60+zivgOigQ6O
+	 ahCh21cZcxATf1I4EIwWTaoR3epFws1Z57Yf6wz8UFJ41XBWUsCrpXoQHhdj4FLQSG
+	 iMgtXqMxTUaqOsptXVxrWtxtxewbF5qKqEOZq5BEfle1GLITLZotht+1Y1w36s4MPU
+	 n6k1d1r0VLouA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 7C30348295;
+	Mon,  9 Nov 2026 05:55:41 +0000 (UTC)
+From: Jing Lin via B4 Relay <devnull+kayano050408.gmail.com@kernel.org>
+Date: Mon, 09 Nov 2026 13:55:39 +0800
+Subject: [PATCH v5 1/3] usb: gadget: gadgetfs: fix ep0 request lifetime on
+ disconnect
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,411 +83,428 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b214585d-4944-4c86-8ed8-58701974ccc4@kernel.org>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB87:EE_|SG2PR06MB5239:EE_
-X-MS-Office365-Filtering-Correlation-Id: cd2fae5f-ed03-480a-1444-08df3e246dc9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|376014|7416014|23010399003|1800799024|22082099003|18002099003|6133799003|10067099003|56012099006|4143699003|5023799004|261028144727099003|261026121527099003|261102123227099003|261022075727099003|261022105027099003|261021121427099003|261026140227099003|261009223027099003;
-X-Microsoft-Antispam-Message-Info:
-	AjwyKLNA7TahdsJohp/RxrRbxrWEU1SpOCXIWc7sgA/JMo3czPD0KQpoU6JEUJ/r90Gg4vzup33ks1ABZFGiWQEqtn6X9ypAjFD83P6IKqTSx4K/ksIUnd5poonbM8eC+SvnNB9HOROJ8gVCEmsd0LtfVNcp9RcTfMV/tewPqWQ5w2WQWbNgdVP21HXp2XrCACp26xt5mFJDwn+EobYT0zOLP+TQoa+cLes2tFwIar+rK6hGq9oOhSAu5hrnVfGgO0S7u1XweCyu8cUxo5GPq6q5BMIOvntiZnx5Sq5rPJTRtRje/jPvGdaMF2AT8HgTrznCciv6MC8aNyz50vmSNAmR6WIKgQp/72V+LBuzTaUP1bKKDR1waHPthqIJyQhngrZof/zzqrehUDTb7cto88uvv7/JVgoXLqLRe9D/jvF6ATeaDjQg7AfcPIywfamUDN22nM2gGW7Fkej4bD6+FmVmz/Kp4lFGSxBBWd+/j7LXZpML2yJroBPRz4wcdQ2c8NJ44ezor0Nl1d+vPnxt8zQKGgwhncO6hA65BVfOe9Ci0c7B0icv4mgsHLvHumoVWrfXh7bKHTcJkLD+KmWa/AFIE+DtVMGnoEoMEarK3Va8Pscm1/CbW5+QdhexaRK92hfiUV8lD5QFl7BiesH70ahi4ikXypPcXV0zHLqTFUA+KxTUhSE66N0QldLxXcNeJTXQGdmL40Gr2Z8l7sH9Fw==
-X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(7416014)(23010399003)(1800799024)(22082099003)(18002099003)(6133799003)(10067099003)(56012099006)(4143699003)(5023799004)(261028144727099003)(261026121527099003)(261102123227099003)(261022075727099003)(261022105027099003)(261021121427099003)(261026140227099003)(261009223027099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	7ijXzE8mR6VovoOANziY/oa/4C6C4gtK1miT34W5vJtJ3iAsXFdnlzGS84hb2ClWQwFyGuHM+JFX+bPpaUJQ8VrtpATItiUy/gzhOtiGvoQsdLkdG3LWQbhw3cTSPme9wI3elEpPwbiV4slJcD1QW4EIUPPU25wZL87AzTWLwyFygysT4v/x1VmshJ1pG8kwIUGalPn/W3wLr2mc10FldVvJtPlQJKYKltbPJkW9YWP5P7AyQPfiEDpXg5+u7bZiC4Zy7bi5mePsD/0FLDgF3wWYTL7QxJLtaMYHKPUU/i4E3BNT5+cUq3S4KAUonHvKN2q8RtrtOxLhHvSL8+KOT+wNQjrHo5GoFk92jC7HtrFz71uOrumjGq8+hBcCGqT91+NdUg92dvpxYZoGGLjzWTsB0VQ5BJSAYkT897b6M5bayEiyqOpKsG/B73NJYfmG
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 05:43:48.9111
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd2fae5f-ed03-480a-1444-08df3e246dc9
-X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	TY2PEPF0000AB87.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB5239
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261109-b4-gadgetfs-ep0-v5-1-f16d0b648bc2@gmail.com>
+References: <20261109-b4-gadgetfs-ep0-v5-0-f16d0b648bc2@gmail.com>
+In-Reply-To: <20261109-b4-gadgetfs-ep0-v5-0-f16d0b648bc2@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Neill Kapron <nkapron@google.com>
+Cc: Jing Lin <kayano050408@gmail.com>, 
+ syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com, 
+ Alan Stern <stern@rowland.harvard.edu>, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, linux-usb@vger.kernel.org
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794203739; l=13085;
+ i=kayano050408@gmail.com; s=default; h=from:subject:message-id;
+ bh=T+EewESsLpTheAavrmZE/3zf4CnpZRva/EsRTBgSYfI=;
+ b=w9p6vdHpDgQDz/+3F8FL2/tVAuwgkN67gMIByHVAriwEMPd/yXlp0uG9YuRcLdCw2h9UeOp+q
+ bQTOglm57q7A2TY68d4ngzMHwpUxSDLQCHc2/613NWJjNxL/snrmUPd
+X-Developer-Key: i=kayano050408@gmail.com; a=ed25519;
+ pk=pr6i8RN1WEON1jbXPdghSglxaBSzfuJjXNGFknX//+A=
+X-Endpoint-Received: by B4 Relay for kayano050408@gmail.com/default with
+ auth_id=1441
+X-Original-From: Jing Lin <kayano050408@gmail.com>
+Reply-To: kayano050408@gmail.com
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof:
+From: Jing Lin <kayano050408@gmail.com>
 
-Thanks for your comments!
+gadgetfs_unbind() frees the preallocated ep0 request after disconnecting
+the gadget, assuming that no I/O remains active.
 
-On 2026-11-07 11:56, Krzysztof Kozlowski wrote:
+With dummy_hcd, disconnecting does not necessarily drain ep0, so a delayed
+userspace response can leave dev->req queued when it is freed.  This
+triggers the warning in dummy_free_request() and a use-after-free when
+dummy_udc_stop() subsequently drains the endpoint queue.
 
-> EXTERNAL EMAIL
-> 
-> On 07/11/2026 02:10, Gary Yang wrote:
-> >  CLANG CONTEXT ANALYSIS
-> >  M:   Marco Elver <elver@google.com>
-> >  R:   Bart Van Assche <bvanassche@acm.org>
-> > diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
-> > index 2f80c2792dbd..b81a0d946d00 100644
-> > --- a/drivers/usb/typec/Kconfig
-> > +++ b/drivers/usb/typec/Kconfig
-> > @@ -110,6 +110,17 @@ config TYPEC_WUSB3801
-> >         If you choose to build this driver as a dynamically linked module, the
-> >         module will be called wusb3801.ko.
-> >
-> > +config TYPEC_CIX_PD
-> > +     tristate "CIX Type-C PD controller driver"
-> > +     depends on I2C
-> 
-> depends on your ARCH || COMPILE_TEST
+gadgetfs_setup() and the userspace copy helpers also race on dev->req and
+req->buf:
 
-agree. add it in v2.
+1. ep0_read() versus gadgetfs_setup().  A delegated control OUT request
+   is queued by gadgetfs_setup() and completed by ep0_complete(), which
+   leaves the payload in dev->req->buf and sets setup_out_ready.
+   ep0_read() copies that payload with copy_to_user() after dropping
+   dev->lock, so the copy can fault and sleep.  If a new control transfer
+   arrives during that window, gadgetfs_setup() reuses dev->req for it;
+   for example, GET_DESCRIPTOR(config) points req->buf at dev->config.
+   When ep0_read() resumes, clean_req() frees whatever req->buf points to
+   at that moment, which is now dev->config.  The following
+   GET_DESCRIPTOR(config) dereferences the freed descriptor.
 
-> 
-> > +     select REGMAP_I2C
-> > +     help
-> > +       Say Y or M here if your system has a CIX Type-C PD controller.
-> > +       This driver currently supports the Realtek RTS5453H controller.
-> > +
-> > +       If you choose to build this driver as a dynamically linked module, the
-> > +       module will be called cix_pd.ko.
-> 
-> 
-> ...
-> 
-> 
-> > +static int cix_pd_init_ports(struct cix_pd *typec)
-> > +{
-> > +     struct device *dev = typec->dev;
-> > +     struct typec_altmode_desc desc = cix_pd_dp_altmode;
-> > +     int ret, nports;
-> > +
-> > +     nports = device_get_child_node_count(dev);
-> > +     if (nports == 0) {
-> > +             dev_err(dev, "No port entries found.\n");
-> > +             return -ENODEV;
-> > +     }
-> > +
-> > +     if (nports > 1) {
-> > +             dev_err(dev, "More ports listed than can be supported.\n");
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     device_for_each_child_node_scoped(dev, fwnode) {
-> > +             ret = fwnode_property_read_u32(fwnode, "reg", &typec->id);
-> > +             if (ret)
-> > +                     goto unregister_ports;
-> > +
-> > +             ret = cix_pd_typec_parse_port_props(&typec->caps, fwnode,
-> > +                                                 dev);
-> > +             if (ret)
-> > +                     goto unregister_ports;
-> > +
-> > +             typec->port = typec_register_port(dev, &typec->caps);
-> > +             if (IS_ERR(typec->port)) {
-> > +                     ret = PTR_ERR(typec->port);
-> > +                     typec->port = NULL;
-> > +                     dev_err(dev, "Failed to register port: %d\n", ret);
-> > +                     goto unregister_ports;
-> > +             }
-> > +
-> > +             desc.roles = typec->caps.data;
-> > +             typec->port_altmode = typec_port_register_altmode(typec->port,
-> > +                                                               &desc);
-> > +             if (IS_ERR(typec->port_altmode)) {
-> > +                     ret = PTR_ERR(typec->port_altmode);
-> > +                     typec->port_altmode = NULL;
-> > +                     dev_err(dev, "Failed to register DP altmode: %d\n", ret);
-> > +                     goto unregister_ports;
-> > +             }
-> > +
-> > +             ret = cix_pd_typec_get_handles(typec, fwnode, dev);
-> > +             if (ret)
-> > +                     goto unregister_ports;
-> > +     }
-> > +
-> > +     return 0;
-> > +
-> > +unregister_ports:
-> > +     cix_pd_unregister_ports(typec);
-> > +     return ret;
-> > +}
-> > +
-> > +/*
-> > + * The IRQ is disabled when either the user asked for it or the device is
-> > + * suspended. Keep the disable/enable calls balanced and idempotent.
-> > + */
-> > +static void cix_pd_sync_irq(struct cix_pd *rts)
-> > +{
-> > +     bool disable = rts->pd_int_disabled || rts->suspended;
-> > +
-> > +     if (!rts->irq_requested || rts->irq_disabled == disable)
-> > +             return;
-> > +
-> > +     rts->irq_disabled = disable;
-> > +     if (disable)
-> > +             disable_irq(rts->irq);
-> > +     else
-> > +             enable_irq(rts->irq);
-> > +}
-> > +
-> > +static ssize_t disable_pd_interrupt_show(struct device *dev,
-> > +                                      struct device_attribute *attr,
-> > +                                      char *buf)
-> > +{
-> > +     struct i2c_client *client = to_i2c_client(dev);
-> > +     struct cix_pd *rts = i2c_get_clientdata(client);
-> > +     const char *p;
-> > +
-> > +     if (rts->pd_int_disabled)
-> > +             p = "disabled";
-> > +     else
-> > +             p = "enabled";
-> > +
-> > +     return sysfs_emit(buf, "%s\n", p);
-> > +}
-> > +
-> > +static ssize_t disable_pd_interrupt_store(struct device *dev,
-> > +                                       struct device_attribute *attr,
-> > +                                       const char *buf, size_t count)
-> > +{
-> > +     struct i2c_client *client = to_i2c_client(dev);
-> > +     struct cix_pd *rts = i2c_get_clientdata(client);
-> > +     bool value;
-> > +     int ret;
-> > +
-> > +     ret = kstrtobool(buf, &value);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     mutex_lock(&rts->irq_lock);
-> > +     rts->pd_int_disabled = value;
-> > +     cix_pd_sync_irq(rts);
-> > +     mutex_unlock(&rts->irq_lock);
-> > +
-> > +     dev_alert(dev, "Only for USB Compliance test, PD int is %s\n",
-> > +               value ? "disabled" : "enabled");
-> 
-> What?
-> 
-> > +
-> > +     return count;
-> > +}
-> > +
-> > +DEVICE_ATTR_RW(disable_pd_interrupt);
-> 
-> You need to document the ABI. But really, we do not enable/disable
-> interrupts through custom sysfs hooks. Drop.
-> 
+2. ep0_write() versus gadgetfs_setup().  For a delegated control IN
+   request, ep0_write() prepares dev->req and copies the response from
+   userspace with copy_from_user() after dropping dev->lock.  A control
+   request that arrives during that copy can point req->buf at dev->dev
+   or dev->config, so the userspace copy overwrites a descriptor buffer,
+   or it can reset req->buf to dev->rbuf, so the request is queued with
+   the wrong buffer.  Completion then calls clean_req() on the wrong
+   object.
 
-agree. drop it in v2
+Copy completed control OUT payloads into a separate setup_buf in
+ep0_complete(), copy control IN payloads from userspace into a stack
+buffer before preparing dev->req in ep0_write(), and reset req->buf when
+control transfers finish.  Track whether dev->req is queued, reject reuse
+while it is queued, and dequeue it without dev->lock before freeing it in
+gadgetfs_unbind().
 
-> > +
-> > +static int cix_pd_probe(struct i2c_client *client)
-> > +{
-> > +     struct cix_pd *rts;
-> > +     int ret;
-> > +
-> > +     dev_dbg(&client->dev, "IRQ %d supplied\n", client->irq);
-> 
-> Drop
+Return to STATE_DEV_CONNECTED when a delegated data read is aborted by a
+new setup, so that the following event read is not misdirected into the
+control data path.
 
-agree
+The setup() callback runs in interrupt context and may not sleep, so a
+mutex cannot be used to serialize it against ep0_read() and ep0_write().
+The shared request state is protected by dev->lock and the payloads are
+handed off through private buffers instead.
 
-> 
-> > +     rts = devm_kzalloc(&client->dev, sizeof(*rts), GFP_KERNEL);
-> > +     if (!rts)
-> > +             return -ENOMEM;
-> > +
-> > +     rts->dev = &client->dev;
-> > +     rts->irq = client->irq;
-> > +     mutex_init(&rts->lock);
-> > +     mutex_init(&rts->irq_lock);
-> > +     cix_pd_typec_init_state(rts);
-> > +
-> > +     if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-> > +             return dev_err_probe(&client->dev, -ENODEV,
-> > +                                  "i2c check functionality failed\n");
-> > +
-> > +     rts->regmap = devm_regmap_init_i2c(client, &cix_pd_regmap_config);
-> > +     if (IS_ERR(rts->regmap))
-> > +             return dev_err_probe(&client->dev, PTR_ERR(rts->regmap),
-> > +                                  "failed to init regmap\n");
-> > +
-> > +     i2c_set_clientdata(client, rts);
-> > +
-> > +     ret = cix_pd_init_ports(rts);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     ret = cix_pd_event_handler(rts, 0);
-> > +     if (ret) {
-> > +             dev_err(&client->dev, "failed to read initial status: %d\n", ret);
-> > +             if (ret == -ESHUTDOWN)
-> > +                     ret = -EIO;
-> > +             goto err_unregister_ports;
-> > +     }
-> > +
-> > +     if (client->irq > 0) {
-> > +             irq_set_status_flags(client->irq, IRQ_DISABLE_UNLAZY);
-> > +             ret = request_threaded_irq(client->irq, NULL, cix_pd_irq_handle,
-> > +                                        IRQF_SHARED | IRQF_ONESHOT,
-> > +                                        dev_name(&client->dev), rts);
-> > +             if (ret) {
-> > +                     dev_err(&client->dev, "failed to request irq: %d\n", ret);
-> > +                     goto err_unregister_ports;
-> > +             }
-> > +             rts->irq_requested = true;
-> > +     }
-> > +
-> > +     ret = device_create_file(&client->dev, &dev_attr_disable_pd_interrupt);
-> > +     if (ret)
-> > +             dev_warn(&client->dev,
-> > +                      "Failed to create sysfs attribute, ret = %d\n", ret);
-> > +
-> > +     device_set_wakeup_capable(&client->dev, true);
-> > +
-> > +     return 0;
-> > +
-> > +err_unregister_ports:
-> > +     cix_pd_unregister_ports(rts);
-> > +     return ret;
-> > +}
-> > +
-> > +static void cix_pd_remove(struct i2c_client *client)
-> > +{
-> > +     struct cix_pd *rts = i2c_get_clientdata(client);
-> > +
-> > +     device_remove_file(&client->dev, &dev_attr_disable_pd_interrupt);
-> > +
-> > +     mutex_lock(&rts->irq_lock);
-> > +     if (rts->irq_requested) {
-> > +             rts->suspended = true;
-> > +             cix_pd_sync_irq(rts);
-> > +             if (rts->wake_enabled) {
-> > +                     disable_irq_wake(rts->irq);
-> > +                     rts->wake_enabled = false;
-> > +             }
-> > +             free_irq(rts->irq, rts);
-> > +             rts->irq_requested = false;
-> > +     }
-> > +     mutex_unlock(&rts->irq_lock);
-> > +
-> > +     cix_pd_unregister_ports(rts);
-> > +}
-> > +
-> > +static const struct of_device_id cix_pd_of_match[] = {
-> > +     { .compatible = "realtek,rts5453h", },
-> > +     {}
-> > +};
-> > +MODULE_DEVICE_TABLE(of, cix_pd_of_match);
-> > +
-> > +static const struct i2c_device_id cix_pd_id[] = {
-> > +     { "rts5453h" },
-> > +     {}
-> > +};
-> > +
-> > +static int __maybe_unused cix_pd_suspend(struct device *dev)
-> > +{
-> > +     struct i2c_client *client = to_i2c_client(dev);
-> > +     struct cix_pd *rts = i2c_get_clientdata(client);
-> > +
-> > +     mutex_lock(&rts->irq_lock);
-> > +     if (rts->irq_requested) {
-> > +             rts->suspended = true;
-> > +             cix_pd_sync_irq(rts);
-> > +             if (device_may_wakeup(dev)) {
-> > +                     enable_irq_wake(rts->irq);
-> > +                     rts->wake_enabled = true;
-> > +             }
-> > +     }
-> > +     mutex_unlock(&rts->irq_lock);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int __maybe_unused cix_pd_resume(struct device *dev)
-> > +{
-> > +     struct i2c_client *client = to_i2c_client(dev);
-> > +     struct cix_pd *rts = i2c_get_clientdata(client);
-> > +
-> > +     mutex_lock(&rts->irq_lock);
-> > +     if (rts->irq_requested) {
-> > +             if (rts->wake_enabled) {
-> > +                     disable_irq_wake(rts->irq);
-> > +                     rts->wake_enabled = false;
-> > +             }
-> > +             rts->suspended = false;
-> > +             cix_pd_sync_irq(rts);
-> > +     }
-> > +     mutex_unlock(&rts->irq_lock);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int __maybe_unused cix_pd_restore(struct device *dev)
-> > +{
-> > +     struct i2c_client *client = to_i2c_client(dev);
-> > +     struct cix_pd *rts = i2c_get_clientdata(client);
-> > +     int ret;
-> > +
-> > +     ret = cix_pd_resume(dev);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     /* Re-trigger PD event if PD event occurs during std */
-> > +     ret = cix_pd_event_handler(rts, 0);
-> > +     if (ret)
-> > +             dev_err(&client->dev, "typec event handling error %d\n", ret);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static void cix_pd_shutdown(struct i2c_client *client)
-> > +{
-> > +     struct cix_pd *rts = i2c_get_clientdata(client);
-> > +
-> > +     mutex_lock(&rts->irq_lock);
-> > +     rts->suspended = true;
-> > +     cix_pd_sync_irq(rts);
-> > +     mutex_unlock(&rts->irq_lock);
-> > +}
-> > +
-> > +static const struct dev_pm_ops cix_pd_pm_ops = {
-> > +     .suspend = pm_sleep_ptr(cix_pd_suspend),
-> > +     .resume = pm_sleep_ptr(cix_pd_resume),
-> > +     .freeze = pm_sleep_ptr(cix_pd_suspend),
-> > +     .thaw = pm_sleep_ptr(cix_pd_resume),
-> > +     .restore = pm_sleep_ptr(cix_pd_restore),
-> > +};
-> > +
-> > +MODULE_DEVICE_TABLE(i2c, cix_pd_id);
-> 
-> This is placed next to the table.
+Fixes: 1da177e4c3f41 ("Linux-2.6.12-rc2")
+Reported-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c73e1942197af9f54ca3
+Cc: stable@vger.kernel.org
+Signed-off-by: Jing Lin <kayano050408@gmail.com>
+---
+ drivers/usb/gadget/legacy/inode.c | 146 ++++++++++++++++++++++++++++----------
+ 1 file changed, 108 insertions(+), 38 deletions(-)
 
-Yes, you're right. It's my mistakes and fix it in v2.
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index 7f6d84601..e9380538e 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -140,6 +140,8 @@ struct dev_data {
+ 					setup_abort : 1,
+ 					gadget_registered : 1;
+ 	unsigned			setup_wLength;
++	unsigned int			setup_out_len;
++	bool				ep0_req_queued;
+ 
+ 	/* the rest is basically write-once */
+ 	struct usb_config_descriptor	*config, *hs_config;
+@@ -153,6 +155,7 @@ struct dev_data {
+ 
+ 	/* except this scratch i/o buffer for ep0 */
+ 	u8				rbuf[RBUF_SIZE];
++	u8				setup_buf[RBUF_SIZE];
+ };
+ 
+ static inline void get_dev (struct dev_data *data)
+@@ -984,6 +987,17 @@ static inline void ep0_readable (struct dev_data *dev)
+ 	kill_fasync (&dev->fasync, SIGIO, POLL_IN);
+ }
+ 
++static void dev_req_complete(struct usb_ep *ep, struct usb_request *req)
++{
++	struct dev_data		*dev = ep->driver_data;
++	unsigned long		flags;
++
++	spin_lock_irqsave(&dev->lock, flags);
++	req->buf = dev->rbuf;
++	dev->ep0_req_queued = false;
++	spin_unlock_irqrestore(&dev->lock, flags);
++}
++
+ static void clean_req (struct usb_ep *ep, struct usb_request *req)
+ {
+ 	struct dev_data		*dev = ep->driver_data;
+@@ -992,30 +1006,31 @@ static void clean_req (struct usb_ep *ep, struct usb_request *req)
+ 		kfree(req->buf);
+ 		req->buf = dev->rbuf;
+ 	}
+-	req->complete = epio_complete;
+-	dev->setup_out_ready = 0;
++	req->complete = dev_req_complete;
+ }
+ 
+ static void ep0_complete (struct usb_ep *ep, struct usb_request *req)
+ {
+ 	struct dev_data		*dev = ep->driver_data;
+ 	unsigned long		flags;
+-	int			free = 1;
+ 
+ 	/* for control OUT, data must still get to userspace */
+ 	spin_lock_irqsave(&dev->lock, flags);
+-	if (!dev->setup_in) {
++	dev->ep0_req_queued = false;
++	if (!dev->setup_in && dev->setup_wLength) {
+ 		dev->setup_out_error = (req->status != 0);
+-		if (!dev->setup_out_error)
+-			free = 0;
++		if (dev->setup_out_error) {
++			dev->setup_out_len = 0;
++		} else {
++			dev->setup_out_len = min_t(unsigned int, req->actual,
++						   sizeof(dev->setup_buf));
++			memcpy(dev->setup_buf, req->buf, dev->setup_out_len);
++		}
+ 		dev->setup_out_ready = 1;
+-		ep0_readable (dev);
++		ep0_readable(dev);
+ 	}
+ 
+-	/* clean up as appropriate */
+-	if (free && req->buf != &dev->rbuf)
+-		clean_req (ep, req);
+-	req->complete = epio_complete;
++	clean_req(ep, req);
+ 	spin_unlock_irqrestore(&dev->lock, flags);
+ }
+ 
+@@ -1023,12 +1038,14 @@ static int setup_req (struct usb_ep *ep, struct usb_request *req, u16 len)
+ {
+ 	struct dev_data	*dev = ep->driver_data;
+ 
+-	if (dev->setup_out_ready) {
++	if (dev->ep0_req_queued) {
+ 		DBG (dev, "ep0 request busy!\n");
+ 		return -EBUSY;
+ 	}
+ 	if (len > sizeof (dev->rbuf))
+ 		req->buf = kmalloc(len, GFP_ATOMIC);
++	else
++		req->buf = dev->rbuf;
+ 	if (req->buf == NULL) {
+ 		req->buf = dev->rbuf;
+ 		return -ENOMEM;
+@@ -1045,6 +1062,7 @@ ep0_read (struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+ 	struct dev_data			*dev = fd->private_data;
+ 	ssize_t				retval;
+ 	enum ep0_state			state;
++	u8				tmp[RBUF_SIZE];
+ 
+ 	spin_lock_irq (&dev->lock);
+ 	if (dev->state <= STATE_DEV_OPENED) {
+@@ -1073,13 +1091,20 @@ ep0_read (struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+ 			struct usb_request	*req = dev->req;
+ 
+ 			if ((retval = setup_req (ep, req, 0)) == 0) {
++				dev->state = STATE_DEV_CONNECTED;
+ 				++dev->udc_usage;
++				dev->ep0_req_queued = true;
+ 				spin_unlock_irq (&dev->lock);
+ 				retval = usb_ep_queue (ep, req, GFP_KERNEL);
+ 				spin_lock_irq (&dev->lock);
+ 				--dev->udc_usage;
++				if (retval < 0) {
++					dev->ep0_req_queued = false;
++					clean_req(ep, req);
++				}
++			} else {
++				dev->state = STATE_DEV_CONNECTED;
+ 			}
+-			dev->state = STATE_DEV_CONNECTED;
+ 
+ 			/* assume that was SET_CONFIGURATION */
+ 			if (dev->current_config) {
+@@ -1109,25 +1134,37 @@ ep0_read (struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+ 			if (retval)
+ 				goto done;
+ 
+-			if (dev->state != STATE_DEV_SETUP) {
++			if (dev->setup_abort) {
++				dev->setup_abort = 0;
++				dev->state = STATE_DEV_CONNECTED;
++				retval = -EIDRM;
++				goto done;
++			}
++			if (dev->state != STATE_DEV_SETUP ||
++			    dev->setup_in || !dev->setup_out_ready) {
+ 				retval = -ECANCELED;
+ 				goto done;
+ 			}
+ 			dev->state = STATE_DEV_CONNECTED;
+ 
+-			if (dev->setup_out_error)
++			if (dev->setup_out_error) {
++				dev->setup_out_ready = 0;
++				dev->setup_out_error = 0;
++				dev->setup_out_len = 0;
+ 				retval = -EIO;
+-			else {
+-				len = min (len, (size_t)dev->req->actual);
++			} else {
++				len = min_t(size_t, len, dev->setup_out_len);
++				memcpy(tmp, dev->setup_buf, len);
++				dev->setup_out_ready = 0;
++				dev->setup_out_len = 0;
+ 				++dev->udc_usage;
+ 				spin_unlock_irq(&dev->lock);
+-				if (copy_to_user (buf, dev->req->buf, len))
++				if (copy_to_user(buf, tmp, len))
+ 					retval = -EFAULT;
+ 				else
+ 					retval = len;
+ 				spin_lock_irq(&dev->lock);
+ 				--dev->udc_usage;
+-				clean_req (dev->gadget->ep0, dev->req);
+ 				/* NOTE userspace can't yet choose to stall */
+ 			}
+ 		}
+@@ -1267,29 +1304,41 @@ ep0_write (struct file *fd, const char __user *buf, size_t len, loff_t *ptr)
+ 
+ 		len = min_t(size_t, len, dev->setup_wLength);
+ 		if (dev->setup_in) {
+-			retval = setup_req (dev->gadget->ep0, dev->req, len);
++			u8	tmp[RBUF_SIZE];
++			bool	zero = len < dev->setup_wLength;
++
++			dev->state = STATE_DEV_CONNECTED;
++			spin_unlock_irq(&dev->lock);
++			if (copy_from_user(tmp, buf, len)) {
++				spin_lock_irq(&dev->lock);
++				return -EFAULT;
++			}
++			spin_lock_irq(&dev->lock);
++			if (dev->setup_abort) {
++				dev->setup_abort = 0;
++				return -EIDRM;
++			}
++			if (dev->state != STATE_DEV_CONNECTED)
++				return -ECANCELED;
++			retval = setup_req(dev->gadget->ep0, dev->req, len);
+ 			if (retval == 0) {
+-				dev->state = STATE_DEV_CONNECTED;
++				memcpy(dev->req->buf, tmp, len);
++				dev->req->zero = zero;
+ 				++dev->udc_usage;
+-				spin_unlock_irq (&dev->lock);
+-				if (copy_from_user (dev->req->buf, buf, len))
+-					retval = -EFAULT;
+-				else {
+-					if (len < dev->setup_wLength)
+-						dev->req->zero = 1;
+-					retval = usb_ep_queue (
+-						dev->gadget->ep0, dev->req,
+-						GFP_KERNEL);
+-				}
++				dev->ep0_req_queued = true;
++				spin_unlock_irq(&dev->lock);
++				retval = usb_ep_queue(
++					dev->gadget->ep0, dev->req,
++					GFP_KERNEL);
+ 				spin_lock_irq(&dev->lock);
+ 				--dev->udc_usage;
+ 				if (retval < 0) {
++					dev->ep0_req_queued = false;
+ 					clean_req (dev->gadget->ep0, dev->req);
+ 				} else
+ 					retval = len;
+-
+-				return retval;
+ 			}
++			return retval;
+ 
+ 		/* can stall some OUT transfers */
+ 		} else if (dev->setup_can_stall) {
+@@ -1483,6 +1532,10 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 	}
+ 
+ 	spin_lock (&dev->lock);
++	if (dev->ep0_req_queued) {
++		spin_unlock(&dev->lock);
++		return -EBUSY;
++	}
+ 	dev->setup_abort = 0;
+ 	if (dev->state == STATE_DEV_UNCONNECTED) {
+ 		if (gadget_is_dualspeed(gadget)
+@@ -1618,6 +1671,7 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 			dev->setup_wLength = w_length;
+ 			dev->setup_out_ready = 0;
+ 			dev->setup_out_error = 0;
++			dev->setup_out_len = 0;
+ 
+ 			/* read DATA stage for OUT right away */
+ 			if (unlikely (!dev->setup_in && w_length)) {
+@@ -1627,12 +1681,14 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 					break;
+ 
+ 				++dev->udc_usage;
++				dev->ep0_req_queued = true;
+ 				spin_unlock (&dev->lock);
+ 				value = usb_ep_queue (gadget->ep0, dev->req,
+ 							GFP_KERNEL);
+ 				spin_lock (&dev->lock);
+ 				--dev->udc_usage;
+ 				if (value < 0) {
++					dev->ep0_req_queued = false;
+ 					clean_req (gadget->ep0, dev->req);
+ 					break;
+ 				}
+@@ -1663,21 +1719,26 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 	if (value >= 0 && dev->state != STATE_DEV_SETUP) {
+ 		req->length = value;
+ 		req->zero = value < w_length;
++		req->complete = dev_req_complete;
+ 
+ 		++dev->udc_usage;
++		dev->ep0_req_queued = true;
+ 		spin_unlock (&dev->lock);
+ 		value = usb_ep_queue (gadget->ep0, req, GFP_KERNEL);
+ 		spin_lock(&dev->lock);
+ 		--dev->udc_usage;
+-		spin_unlock(&dev->lock);
+ 		if (value < 0) {
++			dev->ep0_req_queued = false;
++			req->buf = dev->rbuf;
+ 			DBG (dev, "ep_queue --> %d\n", value);
+ 			req->status = 0;
+ 		}
++		spin_unlock(&dev->lock);
+ 		return value;
+ 	}
+ 
+ 	/* device stalls when value < 0 */
++	req->buf = dev->rbuf;
+ 	spin_unlock (&dev->lock);
+ 	return value;
+ }
+@@ -1771,6 +1832,7 @@ static void
+ gadgetfs_unbind (struct usb_gadget *gadget)
+ {
+ 	struct dev_data		*dev = get_gadget_data (gadget);
++	bool			queued;
+ 
+ 	DBG (dev, "%s\n", __func__);
+ 
+@@ -1781,15 +1843,21 @@ gadgetfs_unbind (struct usb_gadget *gadget)
+ 		usleep_range(1000, 2000);
+ 		spin_lock_irq(&dev->lock);
+ 	}
++	queued = dev->ep0_req_queued;
+ 	spin_unlock_irq (&dev->lock);
+ 
++	if (dev->req) {
++		if (queued)
++			usb_ep_dequeue(gadget->ep0, dev->req);
++		clean_req(gadget->ep0, dev->req);
++		usb_ep_free_request(gadget->ep0, dev->req);
++		dev->req = NULL;
++	}
++
+ 	destroy_ep_files (dev);
+ 	gadget->ep0->driver_data = NULL;
+ 	set_gadget_data (gadget, NULL);
+ 
+-	/* we've already been disconnected ... no i/o is active */
+-	if (dev->req)
+-		usb_ep_free_request (gadget->ep0, dev->req);
+ 	DBG (dev, "%s done\n", __func__);
+ 	put_dev (dev);
+ }
+@@ -1816,11 +1884,13 @@ static int gadgetfs_bind(struct usb_gadget *gadget,
+ 	get_dev (dev);
+ 
+ 	/* preallocate control response and buffer */
++	dev->ep0_req_queued = false;
+ 	dev->req = usb_ep_alloc_request (gadget->ep0, GFP_KERNEL);
+ 	if (!dev->req)
+ 		goto enomem;
+ 	dev->req->context = NULL;
+-	dev->req->complete = epio_complete;
++	dev->req->complete = dev_req_complete;
++	dev->req->buf = dev->rbuf;
+ 
+ 	if (activate_ep_files (dev) < 0)
+ 		goto enomem;
 
-If I miss your any information, please kindly remind me.
+-- 
+Git-155)
 
-Best Regards,
-Gary
-> 
-> > +static struct i2c_driver cix_pd_i2c_driver = {
-> > +     .driver = {
-> > +             .name = "rts5453h",
-> > +             .of_match_table = cix_pd_of_match,
-> > +             .pm = pm_ptr(&cix_pd_pm_ops),
-> > +     },
-> > +     .id_table = cix_pd_id,
-> > +     .probe = cix_pd_probe,
-> > +     .remove = cix_pd_remove,
-> > +     .shutdown = cix_pd_shutdown,
-> > +};
-> > +
-> > +module_i2c_driver(cix_pd_i2c_driver);
-> > +MODULE_DESCRIPTION("CIX Type-C PD controller driver");
-> > +MODULE_AUTHOR("Chao Zeng <Chao.Zeng@cixtech.com>");
-> > +MODULE_AUTHOR("Gary Yang <gary.yang@cixtech.com>");
-> > +MODULE_LICENSE("GPL");
-> 
-> 
-> Best regards,
-> Krzysztof
+
