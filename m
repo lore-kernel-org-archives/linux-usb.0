@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794192191;
-	b=w8i88po/7t9uP0G9DBqP9gQdnMIIRGxrcLlYKMFKNUvMPc9ibBBeRoCUUfKxmJW05LVp
-	 ylEjb2cUQY4y4TP+Xo7Zx8k8Vr7j5niLhY2oc/XiDRTwb+RcCy41AUsgTrasefDHUz/Yd
-	 NkvgCbkJTjpNvWIgR72LIypKcVuM+djiUG5P3IsAm5+g3Q13KCf+Kn3JjoPIHNhat2oBO
-	 BcjnB5HP2qBAUVFl4T3AcCGQnalFeSzxTa9Dr646V2hwjCH/pSyNAf9OCNhc4jkR/x5ke
-	 RY9SFH8jIIB/4HyITHQtB8367D3Fw34CAGHvvviW2sDMmUSNkrSEtO5N0InJMMOXVYA==
+	t=1794192718;
+	b=BJ2lbw7AcJDf34Ng0prBiIOvK/cQRTlEPsCDYLpyRC1+KneqGzm5sTZEVh5ENNPAO4Q2
+	 m+2tyfvONyG8oYpr3PxrOnaxINtife03uuClaKnRWq5ZZp5a3aZ3ResF49KNgd46Ee0Ib
+	 VS++g8xNmqfyz6T94QuNclKTPPIN/ic9Q4Jfp0w2nI2EQHLO2X2yRlXvKceai1DYizAz0
+	 1MAtZ1wdbqfGDwrmEZOCDOm17r1qreVbtDOmDY/H2yW21rGjdQSTZPd3rGBUZMZThfpL+
+	 wdvu5snH3n3LJEzYcZucQVCwknf/R38jMaHfeDMR0CuJ8hvALXLLKlckAt32XsAJlXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794192191;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794192718;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=lbsHrjkpK1cq0QRwZ9oauLF2GZ88NqZOcvz5poLBJyg=;
-	b=hflS4DgY7syNf33NfDOGLW1DTyODTCXTEVS0iWjyhtiDjDiaayFwNiWEsm6LS78WaEwW
-	 IGq1HIU+D1rOVN8pQjuITWGjBaP2EYBF0Y8UhMU4RUNp78fsDEdNG2MLVGsLAuZpeGbOn
-	 cgSqlOuOylOmkxn0stRZ89L+2sG7TYzgSIa12c9IirNBaD/s7Mb4g/u2Wq/3irQUMsQz9
-	 BAYgNwAurMNxQEQ/yJNtkrawYI5OuMxK1AkAMzUHP1sCF2tir8CNE5a3qIQnARekMaFjr
-	 /AB/utfKcl+ObPlti4t6x2ulEqT81EZ0GS6HUe7G8TRDWyn72yHq3tLiuq5FEGbARcw==
+	bh=+ThjTfZ/MJMf53cu8iV1tYBuaT0UO+WOxcCiqTzZZCs=;
+	b=OXZS7JH8eMGIxJ2Zygqvo7rFXI8cEVqZzUhBrryRLaAQnxWcNfjGvpPnKQhZ5ytsT5jD
+	 P0i2fwbiPdLqtN1TziKdvVbWIfgJA8D9smqimZdVIB0JIUBgN41ifO70jMzdWacg3N0+p
+	 JlttzGdJg7iCloQIyQ/LmTM0woi+fYpPkKR/QUCw8NsMpLAgnbV2AZiA9qMAA+ieBciz2
+	 yrTKIfQ5v7/mbuq3nXp+VA22ExlDlHfC7yHk5d7aHY2AWQiRUyY8MQFKNwLKh7+yjX6or
+	 IXa2TyOYAUUeyhsRzTzqTBlPj8TzlvC1+ZGvG+IAt/IZLsLHMgxnAOduxUWR7EGvRLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=rowland.harvard.edu;
 	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=YcxiUDXn;
-	arc=none smtp.remote-ip=209.85.219.48
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=mjV4alyH;
+	arc=none smtp.remote-ip=209.85.222.180
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB295606A320
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 02:43:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB295606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6DA606A321
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 02:51:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA6DA606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=YcxiUDXn
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91ecbdf5343so6151596d6.0
-        for <linux-usb@vger.kernel.org>; Sun, 08 Nov 2026 18:43:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=mjV4alyH
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-93f269e335eso46710885a.3
+        for <linux-usb@vger.kernel.org>; Sun, 08 Nov 2026 18:51:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1794192189; x=1794796989; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1794192717; x=1794797517; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=lbsHrjkpK1cq0QRwZ9oauLF2GZ88NqZOcvz5poLBJyg=;
-        b=YcxiUDXnpdGoN4UNDIjKRdgGGnZ7IRZGhZUgW1CW2MmQjyiWTVq/iI6rZBEyBNanWG
-         70ITRqnL3KyUYCT/cvLsnbU0qUMz25jd3QcK2rTT7u87tj1fygaqibdYiu8qEIUBgKs6
-         NphDETyO5bAZCWj2PTY3FeQ1Q0oeqPX4LlDqqoShUa8jLwDzLTjVqyO1aKZKmtczdlr4
-         e0+/yOx1oyVcg+ZaLQkakN+pOjILyPOY1OsJsxZzbwsIaJoM7zLJqAuL+fdj/sBJ9FF8
-         kufmmipNSiQbSwCVTCukxAP+WpH47MV6JYZKq30EXJl2LjPFHpqV+BTny1NNG6VaBJvs
-         +2JQ==
+        bh=+ThjTfZ/MJMf53cu8iV1tYBuaT0UO+WOxcCiqTzZZCs=;
+        b=mjV4alyHvHteDJGUx79A+Yh6O4U2gvVx/bauhnUf3WUFunfdjR99dVqiZzt1ielCh/
+         MvEzmdzoVCayVexgIrh7SDM91evMyZtu6MAIEJDd/4mJTDsUnGYO4umRJ81sO9yFciaT
+         uLoA8ulj5z9VkElVo/wjHij+4vx79bBjDQeixW9/icdEEgnNEjy0zp8ZrUz2QfN+atQb
+         BMrUK9k69uKWW6Z0CVNzW/2mnyZ3PnuuCmK91CmRemMd766NcF+9WkirI7v3L5dvYivT
+         hz3YOuUN73tGBCH6tMPVR4iZRRRBbMvXEZsfGEHZxJ6Gfh8UONKP4Et9WsCh7lnJS8Tg
+         zchA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794192189; x=1794796989;
+        d=1e100.net; s=20260707; t=1794192717; x=1794797517;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=lbsHrjkpK1cq0QRwZ9oauLF2GZ88NqZOcvz5poLBJyg=;
-        b=b+JJcEfp4BLOOQcWfEi0uun16x1VIZDZXgD+Wq94pfA/p8H4xjnVf+j+AbcS2u4t5+
-         XT0C5uHicod/y0XZ374s+cySucZS/xkL/f7ZV6OmubPJo9gMCs3/gc9TsEp8gqUmc7k1
-         aVANJSUPbg36XZTjDehfLZDhDO5kUmbXebq0INFqE9UU2rRVusGpuKnhZ4eVen+rsFEo
-         JvKIw+yNLMbb6SgurD4MiyZd3/IbKRVD9Dr74FSvVLm8a3xA4PL2S7WPo87e/MCfNx1E
-         9PqTAli6vq6z0NWm5/3kSv64mpneWPtLzeAZgGbC6mIEd3JsW32KBmbdMcXe7fVjlAnM
-         03GQ==
-X-Forwarded-Encrypted: i=1; AL+hErGHwArClxctnMSjTiD4jLt7WCHQgkDkOJfV1vjKtbA8gMvsPHEMDQWQkSLTDMYNdJ+I0ynUaGmSf+E=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/SV+3aUkV5nMOTAPZki4swXZfCXAjwZU6NiNclEhmIYWwaz/R6
-	GQmPm5FVeYy6H7W5cS6BIcStRetvJcIZcTfVQDeI//tWSWpGdQqMqZBgiIL3DvCKvA==
-X-Gm-Gg: AYBFou2HPEY17he2R+KUel4ApVcMmZAFFAZJmFLwDMazKZg/M6btFkzNCgtLmkqp3iK
-	5wf3nFTZeccjGYkjlFyev9/vtODwdExhvCLF5yGHmCHf2LNuKLIVWgd/qJKUm19LXEyKw+wJABd
-	Lnc3OaMTFe8uwwWRO9/Ik91DweegvHKEe5XIClosVcdINYMiK5ZGY6ZPMB4dYuu9SbXnZzK72fW
-	7w2gVjYbJOoBczM4gDhfUSX9Bshk2NKFlNTopGpirjO1tJoqK9PwvhFIlATdIybr0a7V9NPdMGQ
-	eNnh4Gp0O57cZ/awClrYgzo5dqBdyu+6+iWSeLqzxzmTWw/POtyGW4Qo/emHlQR1lrhMxGDsU6B
-	Nu7yJwsV52rJO/Z75Bkmj4g5wRynk+N695RWpqV73rkG+xQfoZExtpxWg/BKgr4x0MLXOgD8+NR
-	TTh9ZYmGEtRMBt1eQND9UttngiTwXoFotfjWzjsS0DXDlVHoBVqur7Fi8QO5jGeKNvjK1F4ciyJ
-	+ojjC48oIVPMhO9vc08Bo2EWvY5EMHi3mP8h8gh3hh+SOtAsoKc7/ZsM4qX9m+yRIzpa0C4SGD0
-	0B8ZiZ2rjdD0evSdp2MGwQinJnYG
-X-Received: by 2002:a05:6214:c4b:b0:91c:8ff2:51ed with SMTP id 6a1803df08f44-91ebd14d862mr87689676d6.2.1794192189470;
-        Sun, 08 Nov 2026 18:43:09 -0800 (PST)
+        bh=+ThjTfZ/MJMf53cu8iV1tYBuaT0UO+WOxcCiqTzZZCs=;
+        b=SBPx6tJhc/6HBW4mBq3YBurztgRmsgBFpGsf/S382D03BoSzNZQvKs/bbJCYySINFh
+         m0//f0oeluAvTFZGEkfeeEAWXRzYfecFvBPnKQIiGcHIeZF2Bn2k29R1DIHxBUq6+Kfg
+         xuQmj8FhtS+pCmzHANLO8KtV2BilatxKb7rVTogX1mVbbUpsLP6ZflTJ4Jq4d52q0sJy
+         IezsNujSYmG6v0S9c5Tioq4P9gndEV3j8ZVUYlWYmv1pjQPUS0VX3HOF2FPoXftezNpy
+         KBRnkHr8zK1qOHbzl5MCvCBZLA70JWRFIdSaZoTKVZ9EwzAjeP9LYlVewVRvmvPSD+Uc
+         XG9g==
+X-Forwarded-Encrypted: i=1; AL+hErElu/0EtAkuKrK31cIo5nHVLUIfeezmPcmvE9wcJJC9SO1tQvvL20nuG7ZnO0bPUbh3wNTPeiUpsF4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9w/BdHZXscNdB8L7/sNigfh3udi8Vop4AuuB0bK4yNOZmmFMgQ
+	Fj8S8sqBWatcIDsRMs0s+2OFgE6k3PUtdeBC4pas4vuBm+JB6VY1JghNXYNTg0vfEg==
+X-Gm-Gg: AYBFou0kboCbTVURMdv96E+tre+55XgVl6QScZZurgYUm7Yxtq4ICPiX38Obue7dfGa
+	kIEh//GNdcZDXGGcxt6HsKhLBjcRO8lnrN+o+fM3dSgROgN584v7vfBfJWIaY1bUfwad5qsqT/r
+	2Sm3rMFMRmD+wATil+B0hmDgU5hzztiIxccRxls1srjwm0lpG5lcikZXvdhYQU8notc9NyJn/zE
+	VyoZ7agdFtRkle+UciyX6/xZXI+TwV9baSOJyQitv9FZnc5zsivkvOMQZligySVwEJBPVjjal2v
+	PB3JKebr9kHiVfj6RFizuOOppEk+kdozWBdhjvJdq6hapZtt7z0S/DOkt3Oq00ay9YQ+z/M6vK4
+	GTsJuDAtyCzUU8nDm1tneOhi99odJmgedNfY7Iu4SbBps/kOfKtgtuPV+Sjm+nJFF0nRUjhLVuJ
+	qh4PI9c+bFQDQ/MUI12+tvWr89JCfGBEiLVlaa7dwEmKtl2v0geIwaKQI81Jv+Dp9y9dSzZy0d7
+	Zb9ZD/SvCCuRoKvFfTiG929QiCbgRi2Cge+XWuFG7Iyoo1wBPV4svYwVRMX/90M+hAUBTJi8vZo
+	aXOWVhxAxzsbYCO+I+t+SyLFFgJk
+X-Received: by 2002:a05:620a:684a:b0:93e:5e2c:8c12 with SMTP id af79cd13be357-9478429958cmr426106785a.60.1794192716567;
+        Sun, 08 Nov 2026 18:51:56 -0800 (PST)
 Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ecee18a77sm32078146d6.26.2026.11.08.18.43.08
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ecee18a77sm32225636d6.26.2026.11.08.18.51.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 18:43:08 -0800 (PST)
-Date: Sun, 8 Nov 2026 21:43:05 -0500
+        Sun, 08 Nov 2026 18:51:55 -0800 (PST)
+Date: Sun, 8 Nov 2026 21:51:53 -0500
 From: Alan Stern <stern@rowland.harvard.edu>
 To: kayano050408@gmail.com
 Cc: Neill Kapron <nkapron@google.com>,
@@ -87,10 +87,11 @@ Cc: Neill Kapron <nkapron@google.com>,
 	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
 	syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com,
 	stable@vger.kernel.org
-Subject: Re: [PATCH v4 0/2] usb: gadget: gadgetfs: fix ep0 request lifetime
- and event counter
-Message-ID: <071e601f-4a8d-4ff6-bf1f-bae9606ade0d@rowland.harvard.edu>
+Subject: Re: [PATCH v4 1/2] usb: gadget: gadgetfs: fix ep0 request lifetime
+ on disconnect
+Message-ID: <bcb55195-2ed3-4b20-9afb-44b5e0efaa61@rowland.harvard.edu>
 References: <20261107-b4-gadgetfs-ep0-v4-0-86bdfd684b54@gmail.com>
+ <20261107-b4-gadgetfs-ep0-v4-1-86bdfd684b54@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,33 +103,60 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261107-b4-gadgetfs-ep0-v4-0-86bdfd684b54@gmail.com>
+In-Reply-To: <20261107-b4-gadgetfs-ep0-v4-1-86bdfd684b54@gmail.com>
 
-On Sat, Nov 07, 2026 at 09:46:12PM +0900, Jing Lin via B4 Relay wrote:
+On Sat, Nov 07, 2026 at 09:46:13PM +0900, Jing Lin via B4 Relay wrote:
+> From: Jing Lin <kayano050408@gmail.com>
+> 
 > gadgetfs_unbind() frees the preallocated ep0 request after disconnecting
-> the gadget, assuming that no I/O remains active. With dummy_hcd, a
-> delayed userspace response can leave the request queued when it is freed,
-> which triggers the warning in dummy_free_request() and a use-after-free
-> when dummy_udc_stop() drains the endpoint queue.
-
-That's right; gadget drivers in general are responsible for cancelling 
-any outstanding ep0 requests when they unbind, and not submitting any 
-new ones.
-
-Another thing worth fixing is near the start of gadgetfs_setup(), 
-where it casts away the constness of ctrl.  This may not cause problems 
-in practice, but it definitely has a bad look.
-
-> gadgetfs_setup() and ep0_write() also race on dev->req and req->buf
+> the gadget, assuming that no I/O remains active.
+> 
+> With dummy_hcd, disconnecting does not necessarily drain ep0, so a delayed
+> userspace response can leave dev->req queued when it is freed. This
+> triggers the warning in dummy_free_request() and a use-after-free when
+> dummy_udc_stop() subsequently drains the endpoint queue.
+> 
+> gadgetfs_setup() and ep0_write() can also race on dev->req and req->buf
 > while a control transfer is in flight or while a completed delegated OUT
 > transfer is waiting for ep0_read() to copy the payload to userspace.
+> Overwriting req->buf with a descriptor pointer causes clean_req() to free
+> the descriptor buffer instead of the request buffer.
+> 
+> Copy completed control OUT payloads into a separate setup_buf in
+> ep0_complete(), copy control IN payloads from userspace into a stack
+> buffer before preparing dev->req in ep0_write(), and reset req->buf when
+> control transfers finish. Track whether dev->req is queued, reject reuse
+> while it is queued, and dequeue it without dev->lock before freeing it in
+> gadgetfs_unbind().
+> 
+> Fixes: 1da177e4c3f41 ("Linux-2.6.12-rc2")
+> Reported-by: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=c73e1942197af9f54ca3
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jing Lin <kayano050408@gmail.com>
+> ---
 
-Can you explain these races in greater detail, showing how they occur?
+Quick question...
 
-> Overwriting req->buf with a descriptor pointer causes clean_req() to
-> free the descriptor buffer instead of the request buffer.
+> @@ -1781,15 +1842,21 @@ gadgetfs_unbind (struct usb_gadget *gadget)
+>  		usleep_range(1000, 2000);
+>  		spin_lock_irq(&dev->lock);
+>  	}
+> +	queued = dev->ep0_req_queued;
+>  	spin_unlock_irq (&dev->lock);
+>  
+> +	if (dev->req) {
+> +		if (queued)
+> +			usb_ep_dequeue(gadget->ep0, dev->req);
 
-Can some of these problems be solved more simply, by using a new mutex 
-to protect dev->req and related values?
+Suppose another thread wants to submit dev->req, and has got as far as 
+setting dev->ep0_req_queued and releasing the spinlock, but hasn't 
+called usb_ep_queue() yet.  What prevents it from making that call right 
+now?  Then the request would be active -- same problem as before, right?
+
+> +		clean_req(gadget->ep0, dev->req);
+> +		usb_ep_free_request(gadget->ep0, dev->req);
+> +		dev->req = NULL;
+> +	}
 
 Alan Stern
