@@ -1,56 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794255631;
-	b=4rGdz04Hzpg6bwfMa5ZMVS5njMe4smmu5GZ3MV6E+oZ8+A1Z+pIyaMNRgLa6pw5Zeetg
-	 ycNGCF8bwM5/f+Dn4yEpl2Rmac9FwVyr6IfL5z66AOg36WpNz3hkp0jf3SYMz9+scFAD7
-	 1YIj2Bqh8i8M05A2Uyx8+7iD8OH1Eui0ukvdLH7yguleLf4lPHeqFLAzdfstddup3lTs/
-	 cbKDZ6+bOqtljoGYll+jyN+oVXLMLlTwnCkFZ8KtOtfA2rVAX3LUn3OtLpsqSo9GJJAsm
-	 +JUzoVCuUt2lDV9lJmU3ueqm38kZQ47+YueX1m4lbbdwgHl0KV5pJS2BQMOYwy2Cp4Q==
+	t=1794256485;
+	b=OaaVWdoM62QTbQWcrTkw5fjvtKxPuMD7wX/Fv1BjJSX6enyyAr27TBWA57XAKTjmMlD4
+	 0w96ldFalOCq8whClalMJeq7uwQgKCVO5cQBeEwElzTTTj5GAjPQSOeelHWkRxyP+saEg
+	 aGABG5FeVjpQY9mlEphzZZn08Qi+Z6W8aj6jFptlDqIZ5KhY2tLMKNG1BTH8JRf1Zrzal
+	 ZxkxrFbTfeILV0gzdzKZommyXpATJjCeim9KcgGbKN9xJLh1LbIJO6JddboIO7GwLx3IV
+	 RlD4XKgefcxanEPU6+mJJUhC1cRb+8ffGGuB/p9njDBJ5DdluYLkrKaAwju2KHx7//w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794255631;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=FAiNAUy6lGZ1UiTjy77G6Yso/QTFRvI5QQmO7y+TLJ8=;
-	b=WVr/tr9sclf82/dOqJ+0QgKXRep2YOqsT/XlK3C6bmPE4A2UTbl6YdLIteyBsL+cB22N
-	 w8LL4N5wK3ATrqz1fazNAM8wil8hfkLVEuK/3rv6Y04Yy6ikXL8SXXwwVnIVm50w34Zm/
-	 BYuYqDKHJ9x+pp/lDaC/mXJs95YR5AGapMjBXnRg+5eKh5ftY9uMyq51hSi2bl3UJBKQ9
-	 e0LWJ3jKWqEW/YkjgAwCGRrl0dJuoL1/gHX8MaDcZHe6KvRpK+COAdR3dO70GhWEbpjdx
-	 D58rInAQma8CubICPSzcvsJwkWG+k3/kzIOguauAg3rqdDEXdrQfjuLop9YUP/u4NuQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794256485;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=IBxWV0bMHBiaBYABre4CeRklD+VEvSYRbNLDT7mR5OE=;
+	b=DyJLaEuPHWW3PF7lXbAuIfsfeVNMvLCQOYr1YAFzp/451hqLMQWEj9dnO1LWopl5xLm5
+	 PW4mADq4X0x1A1BYhbMQp452Lom7csuFEEMvfVFWhaWUsusVWChz5Ee67R6FWwD176/EP
+	 TievCVinsLTN/fgCiemAO78UO3YzQrCualw2NWCkVpjSXiYB7nC8Vep3Su+VasPWguK5T
+	 RFoAklBqjAg9owUmBn0pt8slBfKvRYSTA1kqLYWz+f8hN22yeNcPGM52pl3202ccPShyr
+	 S8gcFUaoZ2CdRUUhKG/gCMnAeKDrdXmceO59Ky3rzvVZk9ftOW4aKr0NAK6MhDWoSuw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H4kIM6xI;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=c9TmK+9W;
+	arc=none smtp.remote-ip=209.85.221.45
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19127606A321;
-	Mon,  9 Nov 2026 20:20:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5DF606A321
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 20:34:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A5DF606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H4kIM6xI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71C351F0089F;
-	Mon,  9 Nov 2026 20:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794255630;
-	bh=FAiNAUy6lGZ1UiTjy77G6Yso/QTFRvI5QQmO7y+TLJ8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=H4kIM6xInwlHLiovnSJ09riixJ0JXuu4duduvyWIr3yXIryCxMapKA08Qgep6X9JV
-	 m1PnD+mQ5wjFCqx8cI7BAyweY7a5DlkApxngXBMPhQTiWnx8D2XJEqx38MlF67QiJ3
-	 iE53l6GkgSfB5Ab0mmX1+83OwB9gXxxIAH1MbknPMO8Ca4Y2KfGi5aeDz+/5H6na6r
-	 /jWIAGaTEjdMJwKwyyU991xboFJ5y7ktiWM4TW0bfSJ8oQ71UbHgxu3cEWHhlqv3Cl
-	 MSOZyYNVQgX3TwH+JRZfJ3u31FDknRRp+DHrIBxBw6nIum8RZ9maRYoqFeL2Zjwf2I
-	 PhgWXX7x3Gh9Q==
-Message-ID: <sashiko-outbox-205571@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/2] usb: typec: add CIX Type-C PD controller driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Gary Yang" <gary.yang@cixtech.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261109092400.202219-3-gary.yang@cixtech.com>
-References: <20261109092400.202219-1-gary.yang@cixtech.com>
- <20261109092400.202219-3-gary.yang@cixtech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 20:20:30 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=c9TmK+9W
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-490f38e9688so1063131f8f.0
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 12:34:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794256483; x=1794861283; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=IBxWV0bMHBiaBYABre4CeRklD+VEvSYRbNLDT7mR5OE=;
+        b=c9TmK+9WzrGyvd+dKsPN5CRanNi3KrAxYt7LKAN24BULUbEELTKz9a3REq0gnaF1eU
+         96dkvLHUhT+Dey24BA803kWLvqWppZfKGlgK/KTSDJWb8BEvoi7SQKLyu0+qFBBTQre6
+         c3ApfaIZXvk4P+K3nfi3o4lJT5hPfKjNev4vephwJOukoaCVqawno6zNEU4T8EiQ2QXW
+         9yEl7K8t58m72puXrbI19fiGd0WImOk5Oiyyr49pOh9OIc3MUl6WSRXs2+54rV0TOQsK
+         Ia7OO0PJANNhk8znn9Z2t/YF+YVTLM0vpswHDvvA4LmBeyZ/HMzX3fo3LpnpsBPzg7u7
+         xlGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794256483; x=1794861283;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IBxWV0bMHBiaBYABre4CeRklD+VEvSYRbNLDT7mR5OE=;
+        b=gug0WBXQxEn9GNy9H2gxiH+OSJemKQ+qSGoH35rF00wjFO0/XzWQqs+ca3RB5aJv5f
+         jkkSVFDYOzyav7qVXlouP6z18ZBnJUCSQc/YpiAfoRcCZulaUulrmV+9o/hMkmOiQFHG
+         PcMXu7JFNob6LjuljrDgczCizLsXkdgcwRbTPqwQjTr3s/QIOWopybUsAGiyMkg7tqGi
+         pahrg98jBbZb9VpNtFHsnONdpr+uq7QFFwAs14f8ZCtkCCbcD7cy6vXe9qXl0JwZcg0G
+         v1LRRjmFqdYf7TEBkXfN2aWysu49h+N1FPjaNjwBNbArBX9R0ImEH7EKxLk0zTbdhKa2
+         J4Nw==
+X-Forwarded-Encrypted: i=1; AL+hErFA7xzAwhXx7/e8JN7CDot4dZ+QO1PwDApQTBLSa/RrLjASHnr4USXZNMfmlQtjlEFz0yCMOnsEvEc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9nFPH/glaBXv9pMVwNYFyXjY2rHkrQQCgrhk4UYkbUL6mAtP0l
+	5MIyxO5x3nXVnpwHrsFT+M7Mflf06DTkj/1tjuhO5LEz55QJaERQHAae
+X-Gm-Gg: AYBFou2S12An2Okyeyx62SvEdx4yQEJ/EJmpbguHChTWL39NKHuQltBuNgbg8d22hlm
+	BwLPw3pDCNr2SoMXldbcl3+MvZZSOh3IpTPOKI5mStcN+CX5zEwROXk3d/33Ra75Atl15COcGng
+	y5J+qXHuI5cADLkCGeKhsjZyh2cfOpcdID1OQkJd/YXULau6tZCu7BZDPvnvQCyeK8BqHfzMF89
+	WewskTfsEgqAYmkjpodW+Du9yfaDWaE491hmjfEHDyeVx/Q8v1ZF24umtQoz/Zr1V/jN7Y7o7V+
+	Fwl+/UJk7HOVgQTJOFoHKFzQ1Q8qjM8LZnzD33x2+F9tlcyUX+n7cJMuYZM+qFATp3ujAC6L1yd
+	EqK+TbDujGqAbRhFyYt32TsSNRVa9PmtVWZxqz7zc2PIAm++7VMXZu4I5vLzKSNMnbDlRK05K6w
+	/F3CmId88V3mVrZlqr3n38R3VP4e2qduCJnI51JDaFFyIFgPBwb3puSIG5yTCgUKvB2YNRbX887
+	2QhJg03gqwEkq0wwWvk61FmvS+2B8R7ka3DnXbmaXh46OLX+V9EDLVsnJbKiXbqokAxm2R52hC2
+	X/RHirt0/frwDYGaW7Sq/hyK4uC27NsGGxJwmCsUM/eOcaNGrC16wF7Evgg=
+X-Received: by 2002:a05:6000:4b10:b0:48e:678d:396e with SMTP id ffacd0b85a97d-4982e362a4emr1059772f8f.9.1794256482703;
+        Mon, 09 Nov 2026 12:34:42 -0800 (PST)
+Received: from foxbook (bfj76.neoplus.adsl.tpnet.pl. [83.28.47.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498365cbfc6sm917789f8f.41.2026.11.09.12.34.41
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 09 Nov 2026 12:34:42 -0800 (PST)
+Date: Mon, 9 Nov 2026 21:34:37 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Pengfei Lv <lvpengfei20@huawei.com>, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, xuhaiyang5@hisilicon.com, xuetao09@huawei.com,
+ caiyadong@huawei.com, suzhuangluan@hisilicon.com
+Subject: Re: [PATCH v3] usb: core: hub: Re-guess ep0 maxpacket size after
+ reset
+Message-ID: <20261109213437.5c693895.michal.pecio@gmail.com>
+In-Reply-To: <3daf18d4-4936-4ed7-8846-b67f1664be13@rowland.harvard.edu>
+References: <20261106031625.1824732-1-lvpengfei20@huawei.com>
+	<20261109093935.2634235-1-lvpengfei20@huawei.com>
+	<3daf18d4-4936-4ed7-8846-b67f1664be13@rowland.harvard.edu>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,290 +101,90 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 5 potential
-issues to consider:
-- [Medium] usb: typec: cix_pd: double fwnode put in cix_pd_init_ports()
-  on parse error
-- [Medium] usb: typec: cix_pd: broken role reset and race in
-  cix_pd_resume()
-- [Medium] usb: typec: cix_pd: missing data role update on DP-only
-  connections
-- [Medium] usb: typec: cix_pd: check enable_irq_wake() return in
-  cix_pd_suspend()
-- [Medium] usb: typec: cix_pd: unconditional IRQ_HANDLED in
-  cix_pd_irq_handle()
---
+On Mon, 9 Nov 2026 11:05:30 -0500, Alan Stern wrote:
+> > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> > index 199d3f535a89..d86bbba1457c 100644
+> > --- a/drivers/usb/core/hub.c
+> > +++ b/drivers/usb/core/hub.c
+> > @@ -4969,31 +4969,29 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+> >  	}
+> >  	oldspeed = udev->speed;
+> >  
+> > -	if (initial) {
+> > -		/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
+> > -		 * it's fixed size except for full speed devices.
+> > +	/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
+> > +	 * it's fixed size except for full speed devices.
+> > +	 */
+> > +	switch (udev->speed) {
+> > +	case USB_SPEED_SUPER_PLUS:
+> > +	case USB_SPEED_SUPER:
+> > +		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
+> > +		break;
+> > +	case USB_SPEED_HIGH:		/* fixed at 64 */
+> > +		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+> > +		break;
+> > +	case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
+> > +		/* to determine the ep0 maxpacket size, try to read
+> > +		 * the device descriptor to get bMaxPacketSize0 and
+> > +		 * then correct our initial guess.
+> >  		 */
+> > -		switch (udev->speed) {
+> > -		case USB_SPEED_SUPER_PLUS:
+> > -		case USB_SPEED_SUPER:
+> > -			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
+> > -			break;
+> > -		case USB_SPEED_HIGH:		/* fixed at 64 */
+> > -			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+> > -			break;
+> > -		case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
+> > -			/* to determine the ep0 maxpacket size, try to read
+> > -			 * the device descriptor to get bMaxPacketSize0 and
+> > -			 * then correct our initial guess.
+> > -			 */
+> > -			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+> > -			break;
+> > -		case USB_SPEED_LOW:		/* fixed at 8 */
+> > -			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
+> > -			break;
+> > -		default:
+> > -			goto fail;
+> > -		}
+> > +		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+> > +		break;
+> > +	case USB_SPEED_LOW:		/* fixed at 8 */
+> > +		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
+> > +		break;
+> > +	default:
+> > +		goto fail;
+> >  	}  
+> 
+> The usb_ep0_reinit() call belongs here, right after 
+> udev->ep0.desc.wMaxPacketSize is set.
+> 
+> >  
+> >  	speed = usb_speed_string(udev->speed);
+> > @@ -5062,6 +5060,9 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+> >  				goto fail;
+> >  			}
+> >  
+> > +			/* Sync the guessed ep0 maxpacket size to hardware if needed */
+> > +			usb_ep0_reinit(udev);  
+> 
+> Not here.  And not inside the retry loop -- ep0_reinit should be
+> called only once since the maxpacket value is changed only once.
 
-commit 03dd05a69907e7c85cf26147fe9e902253dd9e55
-Author: Gary Yang <gary.yang@cixtech.com>
+Sashiko pointed out that xhci-hcd may not perform ep0_reinit() properly
+until address_device() or enable_device() is called.
 
-usb: typec: add CIX Type-C PD controller driver
+So it's either this kludge, or dependency on an xhci-hcd patch which
+didn't exist until today:
 
-This commit adds an I2C driver for the CIX Type-C PD controller (Realtek
-RTS5453H), reporting port status, DisplayPort alternate mode, orientation,
-and USB role changes to the Type-C framework.
+https://lore.kernel.org/linux-usb/20261109112846.04bfeb0f.michal.pecio@gmail.com/
 
-> diff --git a/drivers/usb/typec/cix_pd.c b/drivers/usb/typec/cix_pd.c
-> new file mode 100644
-> index 0000000000000..30c879f976c25
-> --- /dev/null
-> +++ b/drivers/usb/typec/cix_pd.c
-> @@ -0,0 +1,687 @@
-
-[ ... ]
-
-> +static int cix_pd_typec_port_update(struct cix_pd *typec)
-> +{
-> +	struct typec_displayport_data *dp_data =3D &typec->dp_data;
-> +	enum typec_orientation orientation;
-> +	enum usb_role role;
-> +	bool usb2, usb3, dp, connected;
-> +	int ret, err;
-> +
-> +	usb2 =3D typec->data_status[1] & USB2_CONNECTION;
-> +	usb3 =3D typec->data_status[1] & USB3_2_CONNECTION;
-> +	dp =3D typec->data_status[1] & DP_CONNECTION;
-
-[ ... ]
-
-> +	if (!connected || !(usb2 || usb3))
-> +		role =3D USB_ROLE_NONE;
-> +	else if (typec->data_status[1] & USB_DATA_ROLE)
-> +		role =3D USB_ROLE_DEVICE;
-> +	else
-> +		role =3D USB_ROLE_HOST;
-> +
-> +	if (typec->role !=3D role) {
-> +		err =3D 0;
-> +		if (typec->role_sw) {
-> +			err =3D usb_role_switch_set_role(typec->role_sw, role);
-> +			if (err)
-> +				dev_err(typec->dev,
-> +					"typec port(%d): failed to set USB role: %d\n",
-> +					typec->id, err);
-> +		}
-> +
-> +		/* Only cache the role once the switch accepted it. */
-> +		if (!err) {
-> +			typec->role =3D role;
-> +			if (role =3D=3D USB_ROLE_DEVICE)
-> +				typec_set_data_role(typec->port, TYPEC_DEVICE);
-> +			else if (role =3D=3D USB_ROLE_HOST)
-> +				typec_set_data_role(typec->port, TYPEC_HOST);
-> +		}
-> +	}
-
-[Severity: Medium]
-Does skipping typec_set_data_role() when role is USB_ROLE_NONE leave
-typec->port in TYPEC_DEVICE on 4-lane DisplayPort-only connections?
-
-When a 4-lane DisplayPort partner connects (dp is true while usb2 and usb3
-are false), role is set to USB_ROLE_NONE and typec_set_data_role() is not
-called.  If the port was initialized to TYPEC_DEVICE (such as a dual-role
-port without try-power-role set to source) or was previously in device
-mode, registering cix_pd_dp_partner_altmode below fails in
-dp_altmode_probe() with -EPROTO because it requires the port data role to
-be TYPEC_HOST:
-
-drivers/usb/typec/altmodes/displayport.c:dp_altmode_probe() {
-	...
-	/* Port can only be DFP_U. */
-	if (typec_altmode_get_data_role(alt) !=3D TYPEC_HOST)
-		return -EPROTO;
-	...
-}
-
-Updating typec->port's data role from USB_DATA_ROLE whenever connected is
-true, independently of the USB controller's role switch state, would avoid
-this.
-
-[ ... ]
-
-> +static int cix_pd_typec_parse_port_props(struct typec_capability *cap,
-> +					 struct fwnode_handle *fwnode,
-> +					 struct device *dev)
-> +{
-> +	int ret;
-> +
-> +	memset(cap, 0, sizeof(*cap));
-> +	ret =3D typec_get_fw_cap(cap, fwnode);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "failed to parse connector properties\n");
-> +
-> +	cap->fwnode =3D fwnode_handle_get(fwnode);
-> +	cap->orientation_aware =3D true;
-> +	/* Alternate modes are entered and exited by the controller firmware. */
-> +	cap->no_mode_control =3D true;
-> +
-> +	return 0;
-> +}
-
-[ ... ]
-
-> +static void cix_pd_unregister_ports(struct cix_pd *typec)
-> +{
-
-[ ... ]
-
-> +	usb_role_switch_put(typec->role_sw);
-> +	typec->role_sw =3D NULL;
-> +	typec_mux_put(typec->mux);
-> +	typec->mux =3D NULL;
-> +	fwnode_handle_put(typec->caps.fwnode);
-> +	typec->caps.fwnode =3D NULL;
-> +}
-> +
-> +static irqreturn_t cix_pd_irq_handle(int irq, void *data)
-> +{
-> +	struct cix_pd *rts =3D data;
-> +
-> +	if (cix_pd_event_handler(rts, 1) =3D=3D -ESHUTDOWN)
-> +		return IRQ_NONE;
-> +
-> +	return IRQ_HANDLED;
-> +}
-
-[Severity: Medium]
-Can returning IRQ_HANDLED unconditionally on a shared level-triggered
-interrupt line cause an unthrottled interrupt storm?
-
-cix_pd_event_handler() returns 0 whenever I2C transfers to this controller
-succeed, even if this instance did not assert the interrupt.  If another
-controller sharing the IRQ line holds it active while not yet probed,
-probe-deferred, unbound, or unresponsive over I2C, this handler still
-returns IRQ_HANDLED on every pass, preventing the IRQ core from detecting
-and disabling the stuck interrupt line.  Additionally, cix_pd_probe() calls
-cix_pd_event_handler(rts, 0) without acknowledging a pending interrupt
-before requesting the IRQ.
-
-> +
-> +static int cix_pd_init_ports(struct cix_pd *typec)
-> +{
-> +	struct device *dev =3D typec->dev;
-> +	struct typec_altmode_desc desc =3D cix_pd_dp_port_altmode;
-> +	struct fwnode_handle *fwnode;
-> +	int ret;
-> +
-> +	fwnode =3D device_get_named_child_node(dev, "connector");
-> +	if (!fwnode)
-> +		return dev_err_probe(dev, -ENODEV, "no connector node found\n");
-> +
-> +	ret =3D cix_pd_typec_get_handles(typec, fwnode, dev);
-> +	if (ret)
-> +		goto out_put_fwnode;
-> +
-> +	ret =3D cix_pd_typec_parse_port_props(&typec->caps, fwnode, dev);
-> +	if (ret)
-> +		goto out_unregister_ports;
-
-[ ... ]
-
-> +out_unregister_ports:
-> +	cix_pd_unregister_ports(typec);
-> +out_put_fwnode:
-> +	fwnode_handle_put(fwnode);
-> +	return ret;
-> +}
-
-[Severity: Medium]
-Does cix_pd_init_ports() put fwnode twice when
-cix_pd_typec_parse_port_props() fails?
-
-typec_get_fw_cap() assigns cap->fwnode =3D fwnode before validating the
-connector properties:
-
-drivers/usb/typec/class.c:typec_get_fw_cap() {
-	cap->fwnode =3D fwnode;
-
-	ret =3D fwnode_property_read_string(fwnode, "power-role", &cap_str);
-	if (ret < 0)
-		return ret;
-	...
-}
-
-When typec_get_fw_cap() returns an error, cix_pd_typec_parse_port_props()
-returns before calling fwnode_handle_get(fwnode), leaving
-typec->caps.fwnode pointing to fwnode without an extra reference.  Jumping
-to out_unregister_ports then calls fwnode_handle_put(typec->caps.fwnode) in
-cix_pd_unregister_ports() and fwnode_handle_put(fwnode) at out_put_fwnode,
-underflowing the fwnode reference count.
-
-[ ... ]
-
-> +static int __maybe_unused cix_pd_suspend(struct device *dev)
-> +{
-> +	struct i2c_client *client =3D to_i2c_client(dev);
-> +	struct cix_pd *rts =3D i2c_get_clientdata(client);
-> +
-> +	if (client->irq > 0 && device_may_wakeup(dev)) {
-> +		mutex_lock(&rts->irq_lock);
-> +		if (!rts->wake_enabled) {
-> +			enable_irq_wake(client->irq);
-> +			rts->wake_enabled =3D true;
-> +		}
-> +		mutex_unlock(&rts->irq_lock);
-> +	}
-> +
-> +	return 0;
-> +}
-
-[Severity: Medium]
-What happens if enable_irq_wake() fails in cix_pd_suspend()?
-
-cix_pd_probe() marks the device wakeup-capable unconditionally, so
-enable_irq_wake() can fail if the interrupt controller does not support
-wakeup.  Setting rts->wake_enabled =3D true without checking the return val=
-ue
-causes cix_pd_resume() or cix_pd_remove() to call disable_irq_wake(),
-triggering an "Unbalanced IRQ wake disable" warning in irq_set_irq_wake().
-
-> +
-> +static int __maybe_unused cix_pd_resume(struct device *dev)
-> +{
-> +	struct i2c_client *client =3D to_i2c_client(dev);
-> +	struct cix_pd *rts =3D i2c_get_clientdata(client);
-> +	int ret;
-> +
-> +	mutex_lock(&rts->irq_lock);
-> +	if (rts->wake_enabled) {
-> +		disable_irq_wake(client->irq);
-> +		rts->wake_enabled =3D false;
-> +	}
-> +	mutex_unlock(&rts->irq_lock);
-> +
-> +	/* Force the USB role to be reprogrammed after system resume. */
-> +	rts->role =3D USB_ROLE_NONE;
-> +
-> +	ret =3D cix_pd_event_handler(rts, 0);
-
-[Severity: Medium]
-Does setting rts->role =3D USB_ROLE_NONE before cix_pd_event_handler() prev=
-ent
-clearing the USB role when a partner was unplugged during suspend?
-
-If the port was in host or device mode before suspend and the cable was
-unplugged while suspended, cix_pd_typec_port_update() computes
-role =3D USB_ROLE_NONE, sees typec->role =3D=3D role, and skips
-usb_role_switch_set_role(typec->role_sw, USB_ROLE_NONE), leaving the USB
-controller stuck in its pre-suspend role.
-
-Also, device interrupts are re-enabled before cix_pd_resume() runs, so
-writing rts->role without holding rts->lock races with
-cix_pd_irq_handle() -> cix_pd_event_handler():
-
-CPU0                              CPU1
-cix_pd_irq_handle()
-  cix_pd_event_handler()
-    mutex_lock(&rts->lock)
-    cix_pd_typec_port_update()
-      rts->role =3D USB_ROLE_HOST;
-                                  cix_pd_resume()
-                                    rts->role =3D USB_ROLE_NONE;  <-- data =
-race
-    mutex_unlock(&rts->lock)
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109092400.2022=
-19-1-gary.yang@cixtech.com?part=3D2
+Regards,
+Michal
