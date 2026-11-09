@@ -1,92 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=78.133.224.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794195967;
-	b=WCRpAp+bB007gzzjDeolucEUD0j8E4kyp1ux4/vKwPrMZbN/gmClDRcHfrCVNoqsw+e4
-	 08ysCdlmFfXyKsOgP4MlPZt+mKLlK+k8fx99wrAVUKnJnEVlySTHDyyouruKHQKY41HEE
-	 Y0mA3+sIyugpEnM4h9w4RVDAEIY34z0V7cFr9292e/EYaTDOpynZo9ovXRxt5NB2uip4m
-	 3Z9/GV0DkayKsEX+JYXmGbuMVGMXF8QRGKbeTvcXA9rY7faoc6PROD31RRfxwdu3elxsu
-	 C7MWrmnvbfXw5GLrXwv4tkHPorMZ7QJARc6TrzhYR6uO7rasn4HBaDypavriWikf8gg==
+	t=1794200762;
+	b=LrG+DEEu60gJ62vzns+suZGrmEKRK0YtqaHn5WXr5tf1yY7yw2FGKosUn4N+BWIWmOzs
+	 8YH/Z6kAKOq4DRdwxOIEF0uum3MNQ6sCiYT0Fw65sBfM4bp/fX8HEACI+pycPrG3ANgmF
+	 0e10FM85Y90n9GEZcqj87xUzIjkfQ/2fgrRTTZEIXUQNyHeEJpNXiahk1rg7KYhStQ9op
+	 YLCUgBffpmj2YMNgfPSXl3fGEOwwhzwTt0uQ206cqbDieW5ZiklOrT9pcbyG39aXWuNZx
+	 VvAsG/FBocSTQw9IdspRDLu10fZf/+qpupZfv4YzTLCI7UtjDMFiAtdlH9J7SNs3TFw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794195967;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=nH4e+ShaHxg0yD7t+cKfkO7S7Rl+fkjW9TwRh1qSvFw=;
-	b=X46QUZuUJQHf7djEunBIiMeIjSJxT8yEYuI6Iw40XENjtJUXUZ24CkBqavfc74jRKnTB
-	 0jEHcd46yyXo8aS8N6Ulkm8pIU840r3MlGUYyMsKypmF4Dk3j6yOg/enJf86TwBfDb6q0
-	 /YTklrmVtJwS4vLqXTI+ywMgN/IP06LW5kPrwYQS9CE19k1vUlsmHBPiCMVXTiqSBUg7f
-	 j7XW8pV0oa+eAxnhhlRhAVckSEYZ8VTY9M5owcQFfWh9SDa8zaxgI/3teoVUxVQS2Qb1E
-	 nljM+A7WFfsFhTINq6M/qYRY0ZmJoXJD5AGjTYS+MuWk4uKHSv1ondHz5X5UL8r6RmA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794200762;
+	h=DMARC-Filter:Received:Received:Date:From:To:cc:Subject:In-Reply-To:
+	 Message-ID:References:User-Agent:MIME-Version:Content-Type;
+	bh=+UmCB5muc9jAh5/NVu2M6h8Lcfrpgge2sRUuegusfl0=;
+	b=0OuLEIAgKXU7KAvFozkBBa3f1Mv708ZV/mV7AuEqlv+uNv4RQQ6oxLuRg70CaAlrcQda
+	 kU+/oTwNmCk/zqSL6WGacdL2KhGdhRBP6iAjFnQhUyBufPVmyVo9NSydGNXPPqZidzbqi
+	 rRT5RxlkRrYqJHI5/17JfeD3gW4i53LeqT0Re6P4C2VxMjHeIXqA+pU6csayT4bFkvyt4
+	 s5t29sErJRBTR2rzX/A9fzsDpt6mOW6cR2LBeiVOQFpMyu9K53GhNNVYS7dh5dhlWNz11
+	 w9LLnBMkuA51LXElSj1oFDY8oQxhCWOlue9fVSB2NQO3QDlefZUvazzMdeLxRtRqsDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iugLvctS;
-	arc=none smtp.remote-ip=209.85.210.179
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BB5606A322
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 03:46:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18BB5606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iugLvctS
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8b5e147f101so75519b3a.3
-        for <linux-usb@vger.kernel.org>; Sun, 08 Nov 2026 19:46:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794195966; x=1794800766; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=nH4e+ShaHxg0yD7t+cKfkO7S7Rl+fkjW9TwRh1qSvFw=;
-        b=iugLvctSPvvFWyQfZeYytbNlbvrkcDlf80fqBY9HidkESaEshGf2IMnSu7fa90l5fi
-         gZb0XvgH1f4SWiw32sZANR4o4mo9wZEH6xVgEhkIQSgBX8q/8FdWEKVzqSAWsKr3we6P
-         hxe+XDJIIc2FLjrLmzSe/bGCiHWxw0/+52JWFqIc1W4qyGoP0DdkCwTRBNdDgOvITmzW
-         KX+0I18pBoPRlBzr3m88afhLhifWZlIFrh5tuGwuokkG5yn9DtIWW3+5AB1qnF10nFnL
-         KFtM46F3fP2kC6ZXPF1MSXtgxlLjOfzlu92bDL0LV9ppwx9NNBhnzdcC3t04ILUcs36d
-         QhoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794195966; x=1794800766;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nH4e+ShaHxg0yD7t+cKfkO7S7Rl+fkjW9TwRh1qSvFw=;
-        b=ql+gHfWxNyC6vWYCzAQK22LKwKvz2Cw6jIbPbQYeX1iYO4jVD0/YD2YiD0hje/v1rj
-         gTCysb3CGXsVqNfi4oPN4rgdiIOWVKgOddxqKlJsMezKuIWepeUwDbnIjTaUjYdLIGoV
-         RM4NU5ZcHp/UdsgDi4SVq9w4jS/unXaixcLpyjJXNonHysUKAu1OnIX3x2ZXN+PUPsuo
-         rTYwdVYnC/eOHiEak48UmbC/34YGRNAA1LISYfqAkkkrWH/gSn9JHB5Vmc2+Xv0FOiTg
-         wJiY8MKlpsPbNecg/pkZtmlPF+Yo3wTmeEGXP81MEnsBUsHWsc362TZH+v/Q6/3sjFWT
-         vSbA==
-X-Forwarded-Encrypted: i=1; AL+hErGvHlKllJuYSUFEvdLF5uhm7FsPBQy5IC2TWMZzHmM8qAT/kaj8ZTjw/MoO9E0yOWt21adqBwGNQkA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z94tw5E5EdT/WWYM0BFiDK90fCLkZJHj4a15YRerz6zYY02/Qy+
-	hipsA/NZZSw7O7RItA73a1YkdLjPlFe5dSe4U7Lyt0oJec1IovqmISXm
-X-Gm-Gg: AYBFou2MvaLo5gDRHmdXQGwm2PFVN/C/MdQeHxQ/k9HuHCSR+Jjhe7eJMXDurcYcUG+
-	zAvkNKizQbhEkS0mh/a3rzJy8Fr+who+3rdCrfToQSrBY7AcLWqMSNt1+AGuCYIbYpWvrwVjyO3
-	UdNSo9mW6DkIvCEz1zc+OUI6x1a9qicw7UtuOFc0zQRlvso/ReQcmy8wVlTy0BF5WiOTMnr70I5
-	YLzud+FKvN3hTGIS9xg0OeA46RKLLDj1GhwhDhkhaPadloT1HyQDCpXuJDkFmvZEMkI3g2CgIV1
-	KYP+QUqNdbsDJ0I1aye/EAB+bFZxMdRJaTgIks9zEDPiPdwt9enTq14TuOeKbOq9WgOTOSkOOs+
-	sIiSLQraFh1kpbia4spNLFr3HdAIrXPAigha6OassvGZtQbNIVc83jJWV06HVIhJrSW9MRsKrvB
-	v8Rzh6NCtRZa63KkX0K1MNseAGyFB+l631ShzMDnncsydxkqMbIE7W9hiX51UCOo/3eY2PO4ke/
-	xDZeFEsKaVue822tIdHMADvgfuALNqhrUCc1OdbONhoSDa4qplP7HmTbqnasJEMLqH3R0zw9LO/
-	z+v5FsZ7OR0QwQgnzgdLI3nMoBj6s1PPIOgyJ1AQo+Ae92zyZmz/Te4=
-X-Received: by 2002:a17:90b:3b86:b0:3a8:9db2:a59 with SMTP id 98e67ed59e1d1-3b12cb48076mr4663253a91.0.1794195966295;
-        Sun, 08 Nov 2026 19:46:06 -0800 (PST)
-Received: from [10.188.246.87] ([61.171.219.37])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb969627a6sm1066853a12.24.2026.11.08.19.46.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 19:46:05 -0800 (PST)
-From: Anfernee Cao <anferneemelokc5@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Bin Liu <b-liu@ti.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: musb: fix double put of gadget device on setup failure
-Date: Mon, 09 Nov 2026 11:46:02 +0800
-Message-ID: <179419596286.2244.11782596409403661076@gmail.com>
-In-Reply-To: <179250629747.20696.17364135141613638741@gmail.com>
-References: <179250629747.20696.17364135141613638741@gmail.com>
+	dmarc=none header.from=orcam.me.uk;
+	spf=none smtp.mailfrom=orcam.me.uk;
+	arc=none smtp.remote-ip=78.133.224.34
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 187C9606A322;
+	Mon,  9 Nov 2026 05:05:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 187C9606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id B42DD92009C; Mon,  9 Nov 2026 06:05:57 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id B0D2992009B;
+	Mon,  9 Nov 2026 05:05:57 +0000 (GMT)
+Date: Mon, 9 Nov 2026 05:05:57 +0000 (GMT)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: David Laight <david.laight.linux@gmail.com>
+cc: Christian Brauner <brauner@kernel.org>, 
+    Geert Uytterhoeven <geert@linux-m68k.org>, linux-fsdevel@vger.kernel.org, 
+    Linus Torvalds <torvalds@linux-foundation.org>, 
+    Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+    Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+    NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+    Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+    Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+    Greg Kroah-Hartman <gregkh@suse.de>, 
+    Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, 
+    Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+    linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+    linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+    linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+    linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
+    linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
+    ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+    coreteam@netfilter.org, kexec@lists.infradead.org, 
+    linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+    netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+    ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+    linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+    linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+    linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org, 
+    linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+    sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+    linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
+    linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>, 
+    linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+    linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+    linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>
+Subject: Re: [PATCH RESEND v2 14/23] proc: let procfs copy in writes before
+ pinning the entry
+In-Reply-To: <20261108185953.28054fb3@pumpkin>
+Message-ID: <alpine.DEB.2.21.2611090504170.17804@angie.orcam.me.uk>
+References: <20261104-work-procfs-core-v2-14-76ace653a773@kernel.org> <CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com> <20261107-akteur-gemieden-eckdaten-21304d085e35@brauner> <20261108185953.28054fb3@pumpkin>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -96,14 +80,20 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Greg,
+On Sun, 8 Nov 2026, David Laight wrote:
 
-Friendly ping on this one. Sashiko reviewed it and found no issues, but I
-don't see it in usb-linus/usb-next/usb-testing or mainline. Could you take a
-look, or should I resend it?
+> > > While at it, I think it would be good to use this conversion as an
+> > > opportunity to replace "char *" by "void *", which will probably let
+> > > you drop several casts from users.  
+> > 
+> > So I tried that too. The thing is it drops exactly one u8 * cast in
+> > ntfs3's label write. 
+> 
+> Since char is now unsigned that one isn't even needed...
 
-Thanks,
-Anfernee
+ Please excuse me missing the context, but what circumstances does your 
+claim refer to?
+
+  Maciej
