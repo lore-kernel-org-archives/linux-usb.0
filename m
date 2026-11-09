@@ -1,81 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794233493;
-	b=igtopT3td75KN733w3/GPTEuwXK1tGW5LwpNq6BiCt/GpgOLlcw5Nb/PRHt2BxF9+3Mr
-	 gJhU3r9uh4etbQic0p9YoEJz/ePUlIpeExb+7er2r+0NmxbiByxCZSIVIkdIm/3osK2yG
-	 Rffl8+3LeYabnNuPLezspyhytE/6EUwlWL2ptakeVQLabEVmDSlRSC+QzplqQcBOfTtVX
-	 6qaEV7PP4nR5S5A8fpBB/wzmFxzvuD51WILpxpEbJ67HulVsO4piS39dTG3ObZMVM7A7o
-	 232F13ISDojMqngp3huE1p/c8SWkLQTM9VCodYT2UkEp8fvyHtpxGk4ejNH/cOfFaBA==
+	t=1794233504;
+	b=fXkLXpbjenxzd3qrBmvzuIPegsrcouLsruTQ2rNVkguTGRTKiL/8fqET+5PvFMRYayhB
+	 XJ+VW7vQ0hLnF1Hfzso8nXhUoLpnhrGs/cH8wTJH5i0aC+sSL2VvZTDo3PnUXLm4vqj/E
+	 2dqqGXr2M92FPV7a/IHO59Lmjsw5Gz1CFaEL6blgetbXOXFkXdxdJS6xhFdJrs/P7n1oT
+	 ALvfgvS0BWEhah9zWIWL0oGPnanmkOuTMLh74ceWgedX4t69HubEXngst9vJHaF0LqLuY
+	 311ApQUfmkLMWUqq3O/U5fJgZKNkGgVlitMTmqrhGGO+Dl5WPhpqMkGIemXVt2BylBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794233493;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794233504;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=94IXRk93nt74TzOoS1Le6GCJeHsVAm9GcFaLl22SAUQ=;
-	b=i+oiA/WI23moabnl/iZ1gchvyx2skM/Nf1ckwmDv2WNQ3vxXwf9oxUfewx7SMubkdGc7
-	 PU6x3Oa2BzSqeiG8Y9aVnxNDwgk+w2vHzUqsWmeQsU1FaQHpQzvkdX3eJFcxs6ARZuPRC
-	 vrFWUBzj/hAH9BRcEDhs53iKdBvHg2KTzo8Gg3DAJlA3Yw+rqtEWYYtfr9DMVE721weVP
-	 FjvEVWZzqROr00YxYBZDnULspTu3JRewCKNo1JU35Qa5lwHlVQWm0yIvs6vDMDr217V+F
-	 OR7a9I8hoJPRrQGNa2VVpgSCReq4ojojqnW+JGlGoi2aiIYdp8P6acj63rTShPK0/jw==
+	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=OZAb6lnBWKXnQecNrOS09cug5s14VwaaeGt2z/u1g1w=;
+	b=dVNfd3fQ0B4hnPZZ7auM8yA2T602Y44GcaIlitj9HUPhppQZ4x0PM57w1Dgajd72jili
+	 i3vjG9AEN1ekLIzMi6ErHkWZorQlRRk9trJk4voWWP2kDqsNEmqdixArDLJNVM29jN/3/
+	 dIELjciX8z39WdqOMAcuX5DefTaOLfR+di7ZqYGcVYcjAdA+G4TQOJD7GsNbvdFpINS7p
+	 1Eoq7kH4OH/c01xyBX6W+yzUCLLuculSG1OLt2++VraAjAtgXmLWnpROXlcnP03714ob5
+	 56uJTJfmdpsGs0p9d2iT+jfs5IPH74NUU1KdmaKl1n4KoRJk2wPgdyWSG0MtcnXz1IQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Iwb6fJkc;
-	arc=none smtp.remote-ip=74.125.82.176
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RpY5AHzR;
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53456606D826
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 14:11:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53456606D826
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F608606A330
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 14:11:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F608606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Iwb6fJkc
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-36f8cdd30beso544319eec.1
-        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 06:11:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RpY5AHzR
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-36ff9c9da34so1570966eec.1
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 06:11:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794233492; x=1794838292; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=94IXRk93nt74TzOoS1Le6GCJeHsVAm9GcFaLl22SAUQ=;
-        b=Iwb6fJkcCT8MXHNa1hBk0ISw11TIiSTAdr0h7XAg57SBCSoOHrOwiuTzAYiLgyQNQ5
-         vi1y5iwawn/PmPReXz5YF8g+EpzVqCVlcnbQkzkLVGeRwTVAg4YdlSGagCKjiZ7peiSh
-         pIyd/zFfPkB/ju6TppD8IW1VnwX30tpWacTyeD09txT1PtP6TQDAbxf+0pRjz5ufUGpf
-         kLTXwh+spXEXMFo5KDYh2VmYffIKZt4d95w0R8r7DVyRDq0wAgn+6t7zMBilWUyLQQvm
-         bC3Qyg0nS/HPN97EEOQCdxzi/lpDAS8mRIdtx0e4TeudwoW1tt0c4ERSYLSini2KsrcX
-         aKVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794233492; x=1794838292;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794233503; x=1794838303; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=94IXRk93nt74TzOoS1Le6GCJeHsVAm9GcFaLl22SAUQ=;
-        b=sPG1uXH3OUTKs6G+BjdQ/nOm56xRZ0B31NfI7GXE/QJm5amwF/8lEaIukzz/WNOOyT
-         1Q+OyRE2xjoInX1El6JSGq8ZUwdtdiFiutXOJSwuMmEmhmQX2nFQqB6buwiflRrhyrIl
-         YC80422rAOHe6ZOvp7ZWX+SO9ZMdND+tj7O8B+8duaxARiTY/2Dvtlrz+4NJmsqoBybN
-         ob9DpCVKI4LkPa7jMSne9wHZvKjzlnnvL8MQ3uAKDE/3E9CFv3rbOxhHmOVEG/dFdiBQ
-         KOiWBTKjKGCDXlMimneKkx2LZ2gsjSsR6PoRNgb2o+SsC3quayxAM3d0gF2jsyGyuzEA
-         U9ag==
-X-Gm-Message-State: APuU4Z/wAgC+O0kzlD1RMrTsBfwwbctwJcx1FmK2I2DFPuPUPx0c6m3t
-	GJNHytCjwzxAhclyPoVYQ/2FPcJKdxr8EZ+XVmfYvYI1tpQpVReMiQ5n
-X-Gm-Gg: AYBFou0/xXdK3VDbtTSrZVWGXJcqfvV2bH7a9c1XRgbNVzgMb8lhwpQvjwBmQUIhsx8
-	fkTlWyCxKgDTDBp30+eDWf5J1VtADHbsC4UeEOqdqPvAsSshS8MifdTNXivua07QS45ZwTgv00h
-	Vg93tNYpn/tvEusytRQq3nDTdH+HZ89IOL1dnxisTkohAocqXkVy68XffnIrFxo4xGfhjhoI8ii
-	nWrU7rhKyO+exFD21WUGmuEVeTvKuhzAh3yGRDGZmdxRaLl4IIwIRaTaY54fOuXgsMm4cngZy38
-	VogurOXmgOsJ/mD7/1DQ13RtqHqILnRMPy2VqsAMUs6XNCET8Ugkjwi3qdZ2+IW7/jZ/WatCjeX
-	dzF5VNcvAed+F8vw1hTW/BzRj6AYHnilQFwIf6pYKBlV3x+J2sCyWuL9Sw3obCwITLkISfuq2kX
-	Hda1R/upUdLc+q+KO8aTFKsC2BhVVXsuRF2zndiL5SR1+MlKISLZ/aZQoWwpL9+cS269k7DYwIU
-	kw4FM/E8iqkO9o7oqof3L79fYQvIlwvP3f/ECmjaSU5WlnaOrs5OD+syhg0W1I9UccUZFWiTBvD
-	1qdVci6ZEtfoGlVxSQWNbdeZcUC+VWf9ZCkW+nIX1+rLVmIFEoO2Hok9m/TyyjjYNLeNXcRLF3s
-	EmnRXqgrIJKh8DczV0n2sH9N24fLVp1AKGS9s5ucydnpoUKfD//gKQzI=
-X-Received: by 2002:a05:693c:62cc:b0:36c:9afe:fcd8 with SMTP id 5a478bee46e88-3725e829ec5mr6713983eec.30.1794233492230;
-        Mon, 09 Nov 2026 06:11:32 -0800 (PST)
+        bh=OZAb6lnBWKXnQecNrOS09cug5s14VwaaeGt2z/u1g1w=;
+        b=RpY5AHzRxwJ+7kg2LOASUK53qzNOCbDaOc+YyJElnpVvPXtu2C4IIuwgjeWaOEjV8e
+         mDOKck7Q0x8Dw7Hmfqw7XARxIKeGyU/dnG6DgEfZ5tlVZ0HymvJxCGUdoZxnz/Gi/nQc
+         LlQRNHIljkjNCwQIVVvtpLoFY6zPA7tIYKUPGMFnOIw95DsYmi0Bxubd3kKIom97MX7D
+         i8iqS+ass2MijyM3i0nDZz1snvV2V/5UjSTUfVC96yLb1LsokkS6ckoVL9jG9m17dH4/
+         dmLJeMjBT8T0TO63NYF5Bpg4kyC0fehPpTZWolz3u2fQsyD4cjo9n+TAJveXQegS7/4w
+         FzbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794233503; x=1794838303;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OZAb6lnBWKXnQecNrOS09cug5s14VwaaeGt2z/u1g1w=;
+        b=xEXS0jHsE1b+I8gxwGlxA/Gnyvq4AiEAV4cqtmGVzn0DX0izDWaj66RnHb+EX15Dnr
+         Ky1wDgk8I3UX2JEZ5d7P2fNnIA+Jq3cihTbs2QRLtQ35vUzNnZrGl0NxQSJt9W34y7Rd
+         hH1WCaDdcaVZdynuW3HPVoL7Fj4QdiSlmp1OA/4ix7lm8RuNJrv3nwQ+pBOaVWR0NLlr
+         YfSpVz9PhwEfq9Ridz4z5yAhs7FbsggB/7N2j992gBfmy4WcN1aqpVCqaBrMuYu74wpC
+         Rmjoup2hwampEgUODfU2/IbY0soTKjnMiy/a12HH5PMSN3bCgdoLJzCLKDsJHvErMDQe
+         lbBw==
+X-Gm-Message-State: APuU4Z9syh6NFglF2wUA9t4XdzilVTOP+15UywDMy6X4+uDCgGYN3QN4
+	+sDTjYpHJM8nTQ7NHIlF+4fF9Ho3pxsVLOAC4FL6p0v+htuO1RwRO0Pm
+X-Gm-Gg: AYBFou3TSOFxwJCCsvz38mPECN0Kl0yoQpAMKTqDqwY5TlWHLPH+pVCGTwikhEOpncV
+	V24ys2u3J7fQO9urj521w9Cqv6wAPKlv1fszPuKAlDHtQdqA1DgZpWXPPjq7DDm6le7KltQ2fIh
+	z+K78Zz3VCPyH/B9nH/pzAv49H51dHDiDYv6HsV+iX9C3mVGyj4UX6lIx1fV94XbGavFxmgM8ss
+	SG6MMi1DoD/NY05dW8q/jr5KvmzplQ8Gr4A3X2XOjxiWuRwtZ7tkveaaAoTupEnfTZEaTAYJplZ
+	sl6KP2A8BoCdASLDWBH39a1EVlcykW6HnbLFGbWRKM2iFOvg/TmF530oaHUTwJ0RpshEs0ufq/I
+	EJGHptmROhAmvthsom4afCZ9eyy8zJKq0+lMHDDOAVQ8A4s4IUuv09T++m/DRA7ZtUnSDzw+PHa
+	EHvy2xlJVe/pwEVBkz/UTOiIbTvJnNZSRZOQeRNP4MZQafeaiE9ghQEOIKKLoG3XrLpuhACRbPV
+	B8vNgO2jtxZpivWqD7S4D+0ZL6jZm+XEl3g2XFxm4KZi/AuKuO1lZ5CTNkVkQ4QNcCl3T6DO/Vm
+	mjLaBx3QySg6jDSnXntIke4xC3SdjU+dVWm2R133XxQq9XeBU4lkFnbXDrreEI4YjZUdb4EUnRr
+	EMDSQlBwHJcEno2wECXNvmYIk4B8HfQHt
+X-Received: by 2002:a05:7300:de4b:b0:36c:a42d:9bc9 with SMTP id 5a478bee46e88-37256bf17d9mr7672054eec.25.1794233502484;
+        Mon, 09 Nov 2026 06:11:42 -0800 (PST)
 Received: from localhost.localdomain ([103.71.17.60])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37265a16c49sm12727082eec.10.2026.11.09.06.11.29
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37265a16c49sm12727082eec.10.2026.11.09.06.11.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 06:11:31 -0800 (PST)
+        Mon, 09 Nov 2026 06:11:42 -0800 (PST)
 From: Varun Singh <varun.singh10011@gmail.com>
 To: nkapron@google.com,
 	gregkh@linuxfoundation.org
@@ -84,10 +86,12 @@ Cc: linux-usb@vger.kernel.org,
 	bigeasy@linutronix.de,
 	syzbot+39a2135de1558208d3b3@syzkaller.appspotmail.com,
 	Varun Singh <varun.singh10011@gmail.com>
-Subject: [PATCH v3 0/2] usb: gadget: u_serial: fix gs_port use-after-free on open/unbind race
-Date: Mon,  9 Nov 2026 19:41:08 +0530
-Message-Id: <20261109141110.3538-1-varun.singh10011@gmail.com>
+Subject: [PATCH v3 1/2] usb: gadget: u_serial: serialise line setup against line teardown
+Date: Mon,  9 Nov 2026 19:41:09 +0530
+Message-Id: <20261109141110.3538-2-varun.singh10011@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261109141110.3538-1-varun.singh10011@gmail.com>
+References: <20261109141110.3538-1-varun.singh10011@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -99,55 +103,163 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-2/2 fixes the use-after-free reported by syzbot in check_tty_count(). It
-is based on v2, with the device unregistration change moved into 1/2.
+Creating a u_serial gadget function can fail with -EEXIST for no reason:
 
-1/2 is new. While reviewing v2 I noticed that ports[n].lock protected the
-ports[n].port slot but not the matching tty device registration, letting
-concurrent function creation and removal race so that creation fails with
--EEXIST. That is independent of the reported use-after-free, but 2/2
-relies on the slot and the device changing together, so it goes first.
+  sysfs: cannot create duplicate filename '/devices/virtual/tty/ttyGS0'
+  gserial_alloc_line_no_console: failed to register tty for port 0, err -17
 
-v2 -> v3:
- - new 1/2: hold ports[n].lock across slot assignment and device
-   registration, and across slot clearing and device unregistration
- - 2/2: unregister-before-free moved into 1/2; otherwise unchanged
+ports[n].lock protects the ports[n].port slot, but the line's tty device
+is registered and unregistered outside it, so the two can change
+independently:
 
-v1 -> v2:
- - look the port up in .install and hold a tty_port reference for the
-   lifetime of the tty, instead of clearing tty->driver_data on close
- - drop the close_wait handshake: with a correct port count it blocks
-   rmdir until userspace closes /dev/ttyGS*, seen as a hung task
- - hang up any tty still installed on a freed line, and recheck in
-   gs_open() that tty->driver_data matches the registered port
+  gserial_alloc_line_no_console()        gserial_free_line()
+    gs_port_alloc()
+      mutex_lock(ports[n].lock)
+                                           mutex_lock(ports[n].lock)
+                                           ports[n].port = NULL
+                                           mutex_unlock(ports[n].lock)
+      ports[n].port = new
+      mutex_unlock(ports[n].lock)
+    tty_port_register_device(n)            <- device for n still there
+                                           tty_unregister_device(n)
 
-Testing, in QEMU against a configfs mkdir/rmdir and open() race
-reproducer, A/B against unmodified master each time:
- - clean under KASAN and, separately, under lockdep (PROVE_LOCKING,
-   DEBUG_ATOMIC_SLEEP, DETECT_HUNG_TASK); kmemleak reported no leaks
- - slab fault injection exercised 1/2's registration-failure rollback
-   107 times, after which the line was still allocatable and openable
- - 1/2 was built and booted on its own, to check bisectability
- - the series passed #syz test on 2026-11-08 against syzbot's own
-   reproducer, which covers the acm path the local one does not:
-   "testing succeeded, no crash reproduced"
+The allocator claims a slot whose old device is still registered, which
+is the -EEXIST above. The reverse order leaves a slot with no device
+node.
 
-Not addressed here: gserial_alloc_line() re-reads ports[0].port after the
-line's lock has been dropped and passes it to gs_console_init(), which has
-no NULL check, so a concurrent gserial_free_line(0) can leave it NULL.
-This predates the series. I have left it out rather than pull
-register_console() under ports[n].lock without investigating that further,
-and can send a separate patch for it.
+Hold ports[n].lock across slot assignment and device registration, and
+across slot clearing and unregistration, so a concurrent caller sees
+either both or neither. gs_port_alloc() is now called with the lock
+held. Neither tty_port_register_device() nor tty_unregister_device()
+takes tty_lock or ports[n].lock, and gserial_free_line() already slept
+under this mutex, so this adds no new lock dependency.
 
-Link: https://lore.kernel.org/all/20261102193436.6044-1-varun.singh10011@gmail.com/ [v2]
+With two gadgets racing for line 0, 25 of 383 function creations failed
+on an unpatched kernel; 0 of 530 with this patch.
 
-Varun Singh (2):
-  usb: gadget: u_serial: serialise line setup against line teardown
-  usb: gadget: u_serial: fix gs_port use-after-free on open/unbind race
+Found with the assistance of Claude Opus 5.
 
- drivers/usb/gadget/function/u_serial.c | 132 ++++++++++++++++---------
- 1 file changed, 85 insertions(+), 47 deletions(-)
+Signed-off-by: Varun Singh <varun.singh10011@gmail.com>
+---
+ drivers/usb/gadget/function/u_serial.c | 54 ++++++++++++++------------
+ 1 file changed, 30 insertions(+), 24 deletions(-)
 
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index cdd1dfc666c4..e172050f1392 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -1203,23 +1203,18 @@ static void gs_console_exit(struct gs_port *port)
+ 
+ #endif
+ 
++/* Caller must hold ports[port_num].lock. */
+ static int
+ gs_port_alloc(unsigned port_num, struct usb_cdc_line_coding *coding)
+ {
+ 	struct gs_port	*port;
+-	int		ret = 0;
+ 
+-	mutex_lock(&ports[port_num].lock);
+-	if (ports[port_num].port) {
+-		ret = -EBUSY;
+-		goto out;
+-	}
++	if (ports[port_num].port)
++		return -EBUSY;
+ 
+ 	port = kzalloc_obj(struct gs_port);
+-	if (port == NULL) {
+-		ret = -ENOMEM;
+-		goto out;
+-	}
++	if (!port)
++		return -ENOMEM;
+ 
+ 	tty_port_init(&port->port);
+ 	spin_lock_init(&port->port_lock);
+@@ -1236,9 +1231,8 @@ gs_port_alloc(unsigned port_num, struct usb_cdc_line_coding *coding)
+ 	port->port_line_coding = *coding;
+ 
+ 	ports[port_num].port = port;
+-out:
+-	mutex_unlock(&ports[port_num].lock);
+-	return ret;
++
++	return 0;
+ }
+ 
+ static int gs_closed(struct gs_port *port)
+@@ -1267,17 +1261,23 @@ void gserial_free_line(unsigned char port_num)
+ 	struct gs_port	*port;
+ 
+ 	mutex_lock(&ports[port_num].lock);
+-	if (!ports[port_num].port) {
++	port = ports[port_num].port;
++	if (!port) {
+ 		mutex_unlock(&ports[port_num].lock);
+ 		return;
+ 	}
+-	port = ports[port_num].port;
+ 	gs_console_exit(port);
+ 	ports[port_num].port = NULL;
++
++	/*
++	 * Unregister under the lock, so the device cannot outlive its slot:
++	 * otherwise a concurrent gserial_alloc_line() could claim the line
++	 * and register a device that this unregister would tear down.
++	 */
++	tty_unregister_device(gs_tty_driver, port_num);
+ 	mutex_unlock(&ports[port_num].lock);
+ 
+ 	gserial_free_port(port);
+-	tty_unregister_device(gs_tty_driver, port_num);
+ }
+ EXPORT_SYMBOL_GPL(gserial_free_line);
+ 
+@@ -1294,13 +1294,18 @@ int gserial_alloc_line_no_console(unsigned char *line_num)
+ 	coding.bParityType = USB_CDC_NO_PARITY;
+ 	coding.bDataBits = USB_CDC_1_STOP_BITS;
+ 
++	/*
++	 * Hold the line's lock across both, so a concurrent
++	 * gserial_free_line() sees the slot and the device together.
++	 */
+ 	for (port_num = 0; port_num < MAX_U_SERIAL_PORTS; port_num++) {
++		mutex_lock(&ports[port_num].lock);
+ 		ret = gs_port_alloc(port_num, &coding);
+-		if (ret == -EBUSY)
+-			continue;
+-		if (ret)
++		if (!ret)
++			break;
++		mutex_unlock(&ports[port_num].lock);
++		if (ret != -EBUSY)
+ 			return ret;
+-		break;
+ 	}
+ 	if (ret)
+ 		return ret;
+@@ -1315,15 +1320,16 @@ int gserial_alloc_line_no_console(unsigned char *line_num)
+ 				__func__, port_num, PTR_ERR(tty_dev));
+ 
+ 		ret = PTR_ERR(tty_dev);
+-		mutex_lock(&ports[port_num].lock);
+ 		ports[port_num].port = NULL;
+ 		mutex_unlock(&ports[port_num].lock);
+ 		gserial_free_port(port);
+-		goto err;
++		return ret;
+ 	}
++	mutex_unlock(&ports[port_num].lock);
++
+ 	*line_num = port_num;
+-err:
+-	return ret;
++
++	return 0;
+ }
+ EXPORT_SYMBOL_GPL(gserial_alloc_line_no_console);
+ 
 -- 
 2.34.1
 
