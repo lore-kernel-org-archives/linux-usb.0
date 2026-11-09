@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794184492;
-	b=Q+JH/OtBIA6kuFVk+LiCQe33ijJo8cVJgBPBhBXHUVldSvPicymmzgP9ZTX1+j2BBhxE
-	 lKTwK2yXBLRJrwpmHYzxGo9pW+O2lgAYxRCUazCpdD410HhJuC92GQRWVGzrOHY5hcSSD
-	 Xw5AEbNtG0KQmXvhnTaWJjDu/JMt1yiNt92fl4YbWQrVUhJEoCKQjt+6VKiB3rGk242+v
-	 lnsasTQoBHt1JMgbTtPFS65NBuzlyU4ZrLi+S+20QJQLy5IyhphKxwSX7f99jebkHFdyY
-	 QOv11o/7n4REv+FqxzpvtemGNxudWU2ojocBA4JlVJpokKVg2rgdY2UudZsm4PyojZg==
+	t=1794184502;
+	b=FWva0+5w5v8i+EO3vnPt0f7tBcJY0x/YYHnJZFTnaV/nFVnJQVi7vnaMp1ot1mKl7e87
+	 Qg7YTV5XlqnAaYL6sfEaUuPjNnNyll8Fobv9T9KIwP2Bh/Nr4kPvJWHOOwgn0C1H3UsrF
+	 zmAGsOsKJP2UjWWcNFFnMVVNLoHDn1Xix+bEtaxWvTdvf6x1ynOEzJ+1wULokcLPKjYsz
+	 PH/Pxuw2GOKjGhjiGqpbB/XFDGcXygCcHobgBDmxES6PBh2EWZO0OmJGGm1+DuS9Rx/bL
+	 yYjMbMslxXkC5KM48RE9iN8Tq4RaRX9o++kJ0JB9OJ3MkchJbcuqMOoeW9fOT+ts4ww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794184492;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794184502;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=bqalaJtZ5/g9y9/6SBPqjpN1E4M1h8fqL8PuTjv/KSk=;
-	b=DjHHiCG2gH7nKBB1BttMJe5Gs6ZCAO8AHeML8IOHqx0t3sV42ZnEAiJvdqVyef9BkZFu
-	 y2AWxVUwPHsV4vBwEf/xOqd2tex9UQq0Eq2NE3odTdW2EIt+OrdWusM5XkA50KM0rII30
-	 +wLFRZ4GSr4i2c17NdcWT6CHxJ6VbUw/PhA01mZ9ssaYYdM2gNAcZUmU7Yqjq9o/uNwtE
-	 2B+NvS8Za+0BP0Tk/PQjgv4j5DZu/eLl8no3QjgxVwXSIxb2RZo0GEX7M1ArcSCYN7Jyu
-	 QWx5ZlTbOtsyIjeiF1DvqG9j6a5s2WWAEvYmC3aYqo5XDtJlFD5L5q4mhZJLcDKC9lg==
+	bh=D2sogilGhixAwSVKv2/1vVAMIjVLbZglsGwhA4tnyNM=;
+	b=MYWdKVyhlyWyFku005UadgIBbHa50JyVnurIkmDaF6zSV/QCcgwzYXxLofQ2YW2PUngN
+	 fpDQuzlr7YqAF/u0DRvemM8GnCIjK+e7zOFao/UwDwLZGMj5cRpjWIIwRobDwsQQU83Ja
+	 RxibcVi0RlA0gMQNOUwN0tRQDUfVUJZolRBtts7SMDfdSLyQcmBkcZQHE9rKPTBBG1aja
+	 tpGT0/+BlF+ydYD8jyt0tG37hvFrK2G1bzXNH1RtWtDPbf7EdxGi+KzRO/dAyyA6f0psX
+	 LJxUFuGGcoLFgTZj1VyTXgitX5nM4fWnZzXzwiTSZIYcvlSskUf6MQZWEr4q9DpxGtQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E4mD95aN;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="R1U/C/tA";
+	arc=none smtp.remote-ip=209.85.128.45
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A424B60A263D
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 00:34:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A424B60A263D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBDB6082BFC
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 00:35:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ABBDB6082BFC
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E4mD95aN
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a549cd7fd2so2796395e9.0
-        for <linux-usb@vger.kernel.org>; Sun, 08 Nov 2026 16:34:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R1U/C/tA
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so3574215e9.2
+        for <linux-usb@vger.kernel.org>; Sun, 08 Nov 2026 16:35:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794184490; x=1794789290; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794184500; x=1794789300; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=bqalaJtZ5/g9y9/6SBPqjpN1E4M1h8fqL8PuTjv/KSk=;
-        b=E4mD95aN6utgtguVmche9wruQufBYUmPr7se0FjMNh58DsSqVSMujoYr0keBmRpW8v
-         uWQWheuyiSWXxKez1vN9DHsvkz3dIxygT3PejUT5UR97F27EKdO7WTr8MwR/DYX5j7If
-         J5n5+NU+o62GTMTKrKJF4U0oIX+yriKVSodOXqH3bAcyiqaL4rHDO9eNXyjje0tgioF3
-         kJjFsybCFmRigW6JjznYVc4hYOd89F4ZaDco6gDgRFm/z6xDqoQPjP4mGVKFK2BAHaN1
-         NUR9o08rR/2JzDfKTWO51s5/9EiaI8Jvltmy1OQJ6WmNNyfpZkFqT0xbMVSgVs34YbYY
-         WCmg==
+        bh=D2sogilGhixAwSVKv2/1vVAMIjVLbZglsGwhA4tnyNM=;
+        b=R1U/C/tAkz4tppeGzCF0InWU0EbB+SPNwOYInvAbX5NiFpL/rkfI8iTinnWVJ6Na3p
+         femmzgyKHjCfEds8/mujKodEYblhYJKRk7mCH4uDJ+OS5TxB8zD3rJFP5Qus1N2t0fEq
+         nZvU3sdgt2Y6uZlPnRSyktf3lQ/FugWoeM+u8ODiyMZTmyUHG99LiMm6LgsrtPzTI22C
+         jl1BfsB3yG0eMgaJ+VN9Mgna6pIWE5puxrYUt2+iyCGF85PWbc/RAqkIrUmH0ov9hTVs
+         jf0uePbTom0WtghbQLO+uFuqFzkwdCaRhcuaWVli/icEBOiUczfVysKI8Pu2M1pZN/LI
+         UKkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794184490; x=1794789290;
+        d=1e100.net; s=20260707; t=1794184500; x=1794789300;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=bqalaJtZ5/g9y9/6SBPqjpN1E4M1h8fqL8PuTjv/KSk=;
-        b=LEU0rxBlP4l5I7e9Ovfjv0JTx3Gq5sPwyIzl+wft37C2vM2G4IsW7/QJAK8OkE63Dc
-         5mjwhWx2OR6O19bQ2CYzApDkk9m8LjHehvfe87brc/4lX8I/CqCQrvvCAKZyhKX4mfG5
-         Gra60Tk3SBEGCO8wPIUdS890sr63Mr9KbEY5Ee6tPhnsUtN9SGFPHYfKETDy6/hHb563
-         dq5tWNkfRNGIOzYfLvgarZ1bUbf0GStDPKL5YsMT9hZZNwIu43cRJYuaboy+gQugJvvl
-         e2soPRGqAtcwO7Zel6RpxdLc419oEvt07XP9FOmVgMLuw8iJ3alsD5x5yeyEsLp3wjuW
-         9h+A==
-X-Forwarded-Encrypted: i=1; AL+hErFjH7qJg5SrABLQSQENw+i6HCkf2LixDsF3ouUrDnAI6msXBuAM5wjSeHQJQBgIi53+aW9Sd4wqwTI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ckoLrx09Se8eRCOCRKGr0F8QXL2iCtypbnJxCS9PPSRzozd+l
-	0wHr0AJ8U/otxkmndqOKcRkCYpz4vVaYhCxrES0CHDklrOkKN9vBwF+C
-X-Gm-Gg: AYBFou1wL6Nln9+udYk3KgQap4aIC2sWQ68Rk51ksMvo/Je7jl/rS1vxNUWCD5WHA8C
-	vxC4XzPxvOVFIS/KnUicfBu9R7LekP3M1eaysGp6nDKYQtoZlJ9RL65vdUSW3Hy6oxcO5MsN2VC
-	b+8knLqDEg7zbhdlVpOvLt25YNkOocPo1vOd71opVXNQ3tQbrmBkfmf4oS1IhNYESPh4GY9Bo90
-	lzLUdVBMOIExliYJxWJ8DCSouua7TWaQqX5EXU8jwkL35ITMzhX2nCAV1bUP43ptAs8f7SRvsQB
-	6k5F2oAb/zdEIS/kWHwcWv0x1ZW0ALFkxV/nW6YA5Bbg4WlQReQagbaVvUn/piAsHzAydjDrESl
-	cluFUsDJz9TTHeR7cdgu2BLTW8AMXcjvnIYDUABrm0yjUGMjWxt9FXkbDm3fRVqom6NBWt0GrwV
-	5wKpGFwz2wddp9UQwAKvfLlEdBl5C/7kCERDKqmy+W7uG/H1GhUdCYfSqAgyV/qoqWDSGDxhRor
-	zauR5z5/elNFFky5rgecoHZEVej7/poHNNfeLmtQ8wga119JlncWiunwdzQ+Ny49HyDoBf/PQ49
-	ExMkOBVQw1eH+asRplmCG8n/na+tGMMpo/BlRJxw
-X-Received: by 2002:a05:600c:6218:b0:4a2:1002:223e with SMTP id 5b1f17b1804b1-4b8205955e1mr111833455e9.7.1794184490117;
-        Sun, 08 Nov 2026 16:34:50 -0800 (PST)
+        bh=D2sogilGhixAwSVKv2/1vVAMIjVLbZglsGwhA4tnyNM=;
+        b=yxDHR3bnDM2q0Tx8DFCufXloTlGWsGcJwAt118GvMvrrb8qvhGRUkaC8gkPT4t6zDo
+         ooRTAhY6xksO2JxYJLHzZkjNGAOoBm6tmcOqKzN8uwHMB/Fw+vHIoC1MMYcwq2+MvRMv
+         JxmznbRuCSLEC2bRdmhmBCxXpJ8QI3v/S0PGtML1BiB9Zz7AeT8saI2DFpAVDRnRISLq
+         cpOy3UXJe1iWAUPpeU5C0fwrnKeN8S6YXe7H5q4N+uQRH04xMUZSd1kZoy1FWWuluOAX
+         oLG6ZpSekbaaZxOu0Y2ULWjd7FpnjQsRh+mCh+wsqrgKVzotxxICGKW9J3os3pgxZoii
+         LDrg==
+X-Forwarded-Encrypted: i=1; AL+hErFSpNhD/lgpqPKCvgcqKspFVg4wJ2z7Q9JBZ9nRDM1NXmOPRLclj8nN65EDvJfry58b7JVsLsQG1Sw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/UbPkF+LsPPA/E7pK32M5oOPL7IwQ02UW3QvJOd+YJ5uewaSdR
+	NRp36DuXtMKgt8XZ73pSnyp/yT/NMY3S6bLOJnrlbL1V/+8QoznM4wP+
+X-Gm-Gg: AYBFou0G7UFDWZ4yqZTRDvWDoBRewyQGuDBItD+f2rxSCp/w6Gx4a5gI1QfWzdU2vd6
+	c0eGudJcWvvTiKKtAbsrCDxb8HHE8h4UEQ7//HjXwDrqlCYIlt99nM2Gfn72WlSIjU7FJUTSECR
+	t0lzMobsAQK4hlrOVYlLD1ZFhA/+168IM71g/YreZzHVWCY/kiG41WYHfEjOFcwe6xSXso/TgBK
+	/V3n0wPnS7Vvji6JXv/aT87mr3MC2EnnBDGMmJbD0XG5bSreNstA17WtTVa5qSuYwNMp5M61rg0
+	fvXZ0yjh/hz5eetLffZqOmP9U5+BypNcUfgs1Uxg9/Vi90N81PQWOQ/pFrjg0iKNwsVaB3bZxei
+	SpJZhsVuKppwj8y1P+R2pOj9jSzLGO5ehkePJok+69lxwD+ssK15SZwxVuXwx916Cn0Iydt5Ji0
+	G/PC2M+YRtVct1nZXfJmPnmW0aP8Xc+8oQyYHOz8TsMOgQISczTkLkNO4MR7PjujIZN55Ypskyb
+	Pl2kR/ogRZKHXwfOC42NeOYgoXaIioblQtN8oIR1NS2bOLMAOMqUahiNplgwT20jhmu7ss+FUwj
+	7mRyEHuzzDzzQB+9CjbLMtLNzzyG0Oo/JXq24NW7pV1nlf9YKEvYzDbTj5r13Q==
+X-Received: by 2002:a05:6000:3c5:b0:48f:bc59:ab9c with SMTP id ffacd0b85a97d-4958a016012mr4828443f8f.12.1794184500086;
+        Sun, 08 Nov 2026 16:35:00 -0800 (PST)
 Received: from [192.168.10.105] ([212.58.121.92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49592f39c8asm6541675f8f.7.2026.11.08.16.34.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49592f39c8asm6541675f8f.7.2026.11.08.16.34.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 16:34:49 -0800 (PST)
+        Sun, 08 Nov 2026 16:34:59 -0800 (PST)
 From: Stanislav Aleksandrov <lightofmysoul@gmail.com>
-Date: Mon, 09 Nov 2026 00:33:27 +0000
-Subject: [PATCH 15/17] dt-bindings: arm: qcom: Add Samsung Galaxy XR
+Date: Mon, 09 Nov 2026 00:33:29 +0000
+Subject: [PATCH 17/17] arm64: dts: qcom: Add Samsung Galaxy XR
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -94,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261109-halliday-dts-v1-15-289114ab8197@gmail.com>
+Message-Id: <20261109-halliday-dts-v1-17-289114ab8197@gmail.com>
 References: <20261109-halliday-dts-v1-0-289114ab8197@gmail.com>
 In-Reply-To: <20261109-halliday-dts-v1-0-289114ab8197@gmail.com>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -126,38 +126,262 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-scsi@vger.kernel.org, linux-crypto@vger.kernel.org, 
  linux-pm@vger.kernel.org, Stanislav Aleksandrov <lightofmysoul@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794184395; l=822;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794184395; l=6303;
  i=lightofmysoul@gmail.com; s=20261108; h=from:subject:message-id;
- bh=GR/L35KkjRTQHIwoej6N0ZVQiPJDeokJdA0dH1/xcVk=;
- b=+pMC0hU92qIlScFgbvyLG0yeciXJR70jYMcQsgbMkAruvtq441EcqoAR24w8+H8PddfDvxdW7
- NeEMu0FiaHdAmbbpArcsFtCmr29OynUnIXhIC1Struq0XQSLzW/yMcu
+ bh=y/EGwYn3OegTfhhAjBy+BLZpt3BRFT7nLk8y0rwM1aY=;
+ b=EE2CuyxFeLuYILxYnmzMMdJ4b5InIwlCkrb2hmAyL/+yARRcMgXdQkt+X5f7DHL9c+XlBgutf
+ q9ou3vk8AH9CoMawi2MR2HIclr81ueelPElGnbbQLMdTKbKv+sDtkGS
 X-Developer-Key: i=lightofmysoul@gmail.com; a=ed25519;
  pk=jeRUlfmkhE53CJPoeIIXgu7rTE0ybDRH0HQrEwbydzg=
 
-Document the Samsung Galaxy XR headset, which is based on the Qualcomm
-Halliday SoC (SXR2250P).
+Add the device tree for the Samsung Galaxy XR headset, which is based on
+the Qualcomm Halliday SoC (SXR2250P).
+
+Supported so far: the PMICs and their regulators, the power and volume
+down keys, USB in high-speed peripheral mode and UFS storage.
 
 Signed-off-by: Stanislav Aleksandrov <lightofmysoul@gmail.com>
 ---
- Documentation/devicetree/bindings/arm/qcom.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/arm64/boot/dts/qcom/Makefile                  |   1 +
+ .../boot/dts/qcom/halliday-samsung-xrvst2.dts      | 218 +++++++++++++++++++++
+ 2 files changed, 219 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
-index 121ca557ce1e..b96ee339956d 100644
---- a/Documentation/devicetree/bindings/arm/qcom.yaml
-+++ b/Documentation/devicetree/bindings/arm/qcom.yaml
-@@ -94,6 +94,11 @@ properties:
-               - qcom,glymur-qcb
-           - const: qcom,glymur
+diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+index 88230c4e00ea..1a2638503f64 100644
+--- a/arch/arm64/boot/dts/qcom/Makefile
++++ b/arch/arm64/boot/dts/qcom/Makefile
+@@ -22,6 +22,7 @@ dtb-$(CONFIG_ARCH_QCOM)	+= glymur-crd.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= glymur-hp-elitebook-x-g2q.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= glymur-lenovo-yoga-slim7x.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= glymur-qcb.dtb
++dtb-$(CONFIG_ARCH_QCOM)	+= halliday-samsung-xrvst2.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= hamoa-advantech-som-db5830.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= hamoa-iot-evk.dtb
  
-+      - items:
-+          - enum:
-+              - samsung,xrvst2
-+          - const: qcom,halliday
+diff --git a/arch/arm64/boot/dts/qcom/halliday-samsung-xrvst2.dts b/arch/arm64/boot/dts/qcom/halliday-samsung-xrvst2.dts
+new file mode 100644
+index 000000000000..6fcc1aaafd59
+--- /dev/null
++++ b/arch/arm64/boot/dts/qcom/halliday-samsung-xrvst2.dts
+@@ -0,0 +1,218 @@
++// SPDX-License-Identifier: BSD-3-Clause
++/*
++ * Copyright (c) 2026, Stanislav Aleksandrov <lightofmysoul@gmail.com>
++ */
 +
-       - items:
-           - enum:
-               - 8dev,jalapeno
++/dts-v1/;
++
++#define PMK8550VE_SID 5
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
++#include <dt-bindings/regulator/qcom,rpmh-regulator.h>
++
++#include "halliday.dtsi"
++#include "pm7550.dtsi"
++#include "pm8550ve.dtsi"
++#include "pm8550vs.dtsi"
++#include "pmk8550.dtsi"
++
++/delete-node/ &adsp_mem;
++/delete-node/ &cdsp_mem;
++/delete-node/ &video_mem;
++
++/ {
++	model = "Samsung Galaxy XR";
++	compatible = "samsung,xrvst2", "qcom,halliday";
++	chassis-type = "headset";
++
++	reserved-memory {
++		video_mem: video-region@87c00000 {
++			reg = <0x0 0x87c00000 0x0 0x700000>;
++			no-map;
++		};
++
++		adsp_mem: adsp-region@88300000 {
++			reg = <0x0 0x88300000 0x0 0x3400000>;
++			no-map;
++		};
++
++		cdsp_mem: cdsp-region@8b700000 {
++			reg = <0x0 0x8b700000 0x0 0xf00000>;
++			no-map;
++		};
++
++		sec_xbl_ramdump_mem: sec-xbl-ramdump-region@a7d00000 {
++			reg = <0x0 0xa7d00000 0x0 0x300000>;
++			no-map;
++		};
++
++		uh_heap_mem: uh-heap-region@b0200000 {
++			reg = <0x0 0xb0200000 0x0 0x40000>;
++			no-map;
++		};
++
++		uh_guest_mem: uh-guest-region@b1000000 {
++			reg = <0x0 0xb1000000 0x0 0x1e00000>;
++			no-map;
++		};
++
++		splash_mem: splash-region@bfc00000 {
++			reg = <0x0 0xbfc00000 0x0 0x7e90000>;
++			no-map;
++		};
++
++		sec_debug_pool_mem: sec-debug-pool-region@800100000 {
++			reg = <0x8 0x00100000 0x0 0xff000>;
++			no-map;
++		};
++
++		sec_debug_log_mem: sec-debug-log-region@8001ff000 {
++			reg = <0x8 0x001ff000 0x0 0x901000>;
++			no-map;
++		};
++	};
++};
++
++&apps_rsc {
++	regulators-0 {
++		compatible = "qcom,pm7550-rpmh-regulators";
++		qcom,pmic-id = "b";
++
++		vreg_l1b_0p912: ldo1 {
++			regulator-name = "vreg_l1b_0p912";
++			regulator-min-microvolt = <912000>;
++			regulator-max-microvolt = <912000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l3b_1p2: ldo3 {
++			regulator-name = "vreg_l3b_1p2";
++			regulator-min-microvolt = <1200000>;
++			regulator-max-microvolt = <1200000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l10b_1p8: ldo10 {
++			regulator-name = "vreg_l10b_1p8";
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <1800000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l13b_2p504: ldo13 {
++			regulator-name = "vreg_l13b_2p504";
++			regulator-min-microvolt = <2504000>;
++			regulator-max-microvolt = <2504000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
++		vreg_l15b_3p072: ldo15 {
++			regulator-name = "vreg_l15b_3p072";
++			regulator-min-microvolt = <3072000>;
++			regulator-max-microvolt = <3072000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++	};
++
++	regulators-1 {
++		compatible = "qcom,pm8550vs-rpmh-regulators";
++		qcom,pmic-id = "c";
++
++		vreg_l2c_1p2: ldo2 {
++			regulator-name = "vreg_l2c_1p2";
++			regulator-min-microvolt = <1200000>;
++			regulator-max-microvolt = <1200000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++	};
++
++	regulators-2 {
++		compatible = "qcom,pm8550vs-rpmh-regulators";
++		qcom,pmic-id = "d";
++
++		vreg_l1d_0p88: ldo1 {
++			regulator-name = "vreg_l1d_0p88";
++			regulator-min-microvolt = <880000>;
++			regulator-max-microvolt = <880000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++	};
++
++	regulators-3 {
++		compatible = "qcom,pm8550ve-rpmh-regulators";
++		qcom,pmic-id = "f";
++
++		vreg_l2f_0p88: ldo2 {
++			regulator-name = "vreg_l2f_0p88";
++			regulator-min-microvolt = <880000>;
++			regulator-max-microvolt = <880000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++	};
++};
++
++&gcc {
++	vdda-refgen-0p9-supply = <&vreg_l2f_0p88>;
++	vdda-refgen-1p2-supply = <&vreg_l2c_1p2>;
++};
++
++&pm8550vs_c {
++	status = "okay";
++};
++
++&pm8550vs_d {
++	status = "okay";
++};
++
++&pon_pwrkey {
++	status = "okay";
++};
++
++&pon_resin {
++	linux,code = <KEY_VOLUMEDOWN>;
++
++	status = "okay";
++};
++
++&sleep_clk {
++	clock-frequency = <32764>;
++};
++
++&ufs_mem_hc {
++	reset-gpios = <&tlmm 224 GPIO_ACTIVE_LOW>;
++
++	vcc-supply = <&vreg_l13b_2p504>;
++	vcc-max-microamp = <1300000>;
++	vccq-supply = <&vreg_l3b_1p2>;
++	vccq-max-microamp = <1200000>;
++
++	status = "okay";
++};
++
++&ufs_mem_phy {
++	vdda-phy-supply = <&vreg_l2f_0p88>;
++	vdda-pll-supply = <&vreg_l2c_1p2>;
++
++	status = "okay";
++};
++
++&usb_1 {
++	dr_mode = "peripheral";
++	maximum-speed = "high-speed";
++	qcom,select-utmi-as-pipe-clk;
++
++	status = "okay";
++};
++
++&usb_1_hsphy {
++	vdda-pll-supply = <&vreg_l1d_0p88>;
++	vdda18-supply = <&vreg_l10b_1p8>;
++	vdda33-supply = <&vreg_l15b_3p072>;
++
++	status = "okay";
++};
++
++&xo_board {
++	clock-frequency = <76800000>;
++};
 
 -- 
 2.55.0
