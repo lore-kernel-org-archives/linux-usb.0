@@ -1,47 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794209405;
-	b=bPg+AzXXXNR87kFFt+R8i3GZOt3+Ahv8pTVwcZlsPRaQ4spxhvOHvO9/Al5cNLYi7QgB
-	 gl/sPWyQmiSejBfB0+gdHf0Oz0MNAs0oBnCH+pAECcg03xntAMuofIz2g64LaAjF4CHck
-	 CbSGM/4TMnkg79CdWH6tOVh79rUHdD7IPFsjQVScZfIOULiQWSaSKlNZ5UTsZt/gxYpnk
-	 zVQ8ieDHaDUshLKiSgzT79QZxHXYezCdYYk1n3Z7BPRtIRT275nA9624uC5HRvnRHGa9C
-	 xjLYy2YXgq6i+Ps2FBH1cUJjmf33b81bPB8M2yhLhTZfy7zTSn8hrvxcTUfID5eVZ1Q==
+	t=1794209525;
+	b=z8V9+8DVKJQKzdUqw4eOMdO1fLJ4L2C7MmwPcAONB0a2Hl/PrLJfwnpcwtX/DgjCAECS
+	 BLr7XyDyTzcPr9ErdnmSaixZBj8xlJA/zFToQkvNvzCVI6nwwJnSqkWbIb9EtY0VMjv7r
+	 Mtfx+C/8Bzr9HecMnSCQMNyttK3XaUAOHjcIZ3bI9jwCS1YfVOfuOwLuPDikvUM28qSRs
+	 BVL28iJ3ys8ucCEMJuuPko1vVaswvAC68vKm2rfA6pLZVff+RwYLiNzyESEes/Vv3m/II
+	 aFhhnn1nuySDVaZT2PEMujwm19dW+g1dyVsiZlw8rUQky/KO6g+3bjOQXh0uG4OLwNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794209405;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=YHsIe+6yk2rHtgcsN9K0X9/VIE4GS8pTEpwTi7k8aRA=;
-	b=xkAPnBKCGF0OCB/lNhAIKmWGMhZJ869/jLvycOa/9qzZu82dPFm2zI3UXk5Hou1AfiU1
-	 VVulpeHmokeqtkjX4QIx4/nQ2UStx6R4DjHSQ0hcug9Qcl4cUhnexkJj6dbC3GZQhjB1z
-	 hGjc+1w8SWTdGAEozgrP7IoK+5HFzIm8qq+zTd/+yVbPmc2WR74Y1Xp/FzEJgWl9pIYAx
-	 IVzlpKgDrRxqDEQEeGNF/yZpUBAVjaOfJZRVlX3sBoWIK0MRe4ZtH8bA3dt0HHyUpIPbo
-	 JhDdKdWLsJqt7ikkJiNjJgaZy5jlcYh5XqwY+lJpX7ayiPAl84HnEe7FE4Y5VcPa5Bg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794209525;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=Dum3C+vg8LxmrbCTXH0i3d9x2FDCTE8m8rwmfdoY+OI=;
+	b=1TVc1tm5GVGMgRXxvSXiXoe2qvdJRvGe8iqVLTF6c98p75+VURyOc8P9kPLswf7pZLpM
+	 UcZjnJgueXIArK5VUqhC3rFLxvjCWSzUTIL3Sh/jNtXUmaWX37c7qBD/f8Zeclo2mtoJi
+	 Q1upS+cPBs5GObYt7oDb4t6lk8S0LePXX3+lp2tSrHGOB1I+3RaofC3elHLD8UWtV2Aui
+	 1io5UoVH2MQC+NlN1fctTJJHJDt+7dagJYwCFIRuSE/XZGfJKvzWD7NYa5vnqgFIYL9Oo
+	 xX+NhhyARpJoWNHvbGQaWT59xVYhC9PNiNNYDh2u3NqzHoLBNavm/tJ0MR6jBrR5ukA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QUJUZjuY;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DfkR2BiY;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA05606A323;
-	Mon,  9 Nov 2026 07:30:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFD6606A321
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 07:32:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QUJUZjuY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 712221F008BE;
-	Mon,  9 Nov 2026 07:30:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DfkR2BiY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B70861F0089F;
+	Mon,  9 Nov 2026 07:32:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794209404;
-	bh=YHsIe+6yk2rHtgcsN9K0X9/VIE4GS8pTEpwTi7k8aRA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=QUJUZjuYfxOSz6pip8ibC3zrHMpsfA9to2z6CC8oBADDu4wRuFdZ1VAuPzyjzGkv4
-	 IDkKSPvcAFqjmVXJGzxdDnUslUlpY7nHHzwaY2ZLCnmCqPd1aVmqiXsUWXkAyoZoQK
-	 mhkTgk23JMEo4CTlxYPiNu7GkPw0KQsfb9X7l5uhdJ0SFPc+YVNdikfJgi2g+LsvaB
-	 vPPHrFvU0pr1yP0cQRRrWc4AQXcySghNhEFvneKpj4fcv9IaO2KZQ/Z64vNJUzctuQ
-	 YN0QHUqL1M1ZB6d0EHtnJ3eD5cSEK2kS6fHJmWNQg6TOIxmlc5lGYin+Lr5dzJQ55s
-	 FB3nD2lNuIdjA==
-Message-ID: <391f12cf-d86e-428b-906f-df6d8128ee05@kernel.org>
-Date: Mon, 9 Nov 2026 08:29:59 +0100
+	s=k20260515; t=1794209524;
+	bh=Dum3C+vg8LxmrbCTXH0i3d9x2FDCTE8m8rwmfdoY+OI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=DfkR2BiY1RvKLatLZI0Y6o8SYLfSgirFbiGQDnsD5EjO/1yRYvwhE5aS2WXWFz3N9
+	 cWn8thM1Kqjc6OlxbXY/qRErnmubZdFubXWcH+xuX07rcRu7GsG/5Fc16ftL1INnv/
+	 LfR53/7Wt8AEKFba+YH76Ck98zyW69Zv6i8dnrM5JBBVHsE9NBiFNqFEVpP/4Ko//d
+	 MJBypDYntI0tgQZdYshQ9PNAG49OLx6fELp9DyfjzyHfkm4ESq9vyhV2iM3Vm9+T+t
+	 NNZnQ3mLv29zr1X9qUiplW5pktmJ0CXH0A7mdxCutJduOXHIjlbdF5htQLASgwIqIu
+	 qDLp5O+Vik2jw==
+Message-ID: <sashiko-outbox-204544@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 1/3] usb: gadget: gadgetfs: fix ep0 request lifetime
+ on disconnect
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jing Lin" <kayano050408@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261109-b4-gadgetfs-ep0-v6-1-b410e3dced89@gmail.com>
+References: <20261109-b4-gadgetfs-ep0-v6-0-b410e3dced89@gmail.com>
+ <20261109-b4-gadgetfs-ep0-v6-1-b410e3dced89@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2026 07:32:04 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -50,112 +60,432 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] arm64: dts: cix: add RTS5453 PD controllers to Orion
- O6
-To: Gary Yang <gary.yang@cixtech.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Fugang Duan <fugang.duan@cixtech.com>,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- cix-kernel-upstream@cixtech.com
-References: <20261107011012.3655873-1-gary.yang@cixtech.com>
- <20261107011012.3655873-5-gary.yang@cixtech.com>
- <65af581e-caac-430a-88b1-3b7425c5209e@kernel.org>
- <avEq_ngShxlvFSbS@gary-System-Product-Name>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <avEq_ngShxlvFSbS@gary-System-Product-Name>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On 09/11/2026 03:07, Gary Yang wrote:
-> hi Krzysztof:
-> 
-> Thanks for your comments!
-> 
-> On 2026-11-07 11:53, Krzysztof Kozlowski wrote:
-> 
->> EXTERNAL EMAIL
->>
->> On 07/11/2026 02:10, Gary Yang wrote:
->>> Describe the two Realtek RTS5453H port controllers on the Orion O6
->>> I2C1 bus and add the I2C1 pin configuration.
->>>
->>> The controllers route orientation and DisplayPort mode changes
->>> through the USB/DP combo PHY lane switches, but that PHY support is
->>> not upstream yet, so the connector graph endpoints are left out for
->>> now. The Type-C ports are still registered and reported, only the
->>> lane switching is deferred until the PHY nodes are available.
->>>
->>> Both controllers report through the same level-triggered interrupt
->>> line, which the driver handles with a shared interrupt. The I2C bus
->>> runs at 100 kHz because the RTS5453H I2C interface does not support
->>> higher rates.
->>>
->>> Signed-off-by: Gary Yang <gary.yang@cixtech.com>
->>> ---
->>>  arch/arm64/boot/dts/cix/sky1-orion-o6.dts | 51 +++++++++++++++++++++++
->>>  1 file changed, 51 insertions(+)
->>
->> DTS cannot be combined in this patchset and must be split. Don't mix
->> patches from independent subsystems when you send something explicitly
->> targeting only one subsystem.
->> See also: Documentation/devicetree/bindings/submitting-patches.rst
->>
-> 
-> Do you mean the driver does not depend on DTS? Previously, it was acceptable
-> to put the DTS at the end of a patchset or place the DTS in a separate patchset. 
-> That’s why I put the DTS at the end of the patchset. Has the rule changed now?
-> 
+Thank you for your contribution! Sashiko AI review found 8 potential
+issues to consider:
+- [High] usb: gadget: gadgetfs: unbind race with dev_req_complete() and
+  ep0_complete()
+- [High] usb: gadget: gadgetfs: unbounded hang in gadgetfs_unbind() when
+  ep0 dequeue fails
+- [Medium] usb: gadget: gadgetfs: ep0_poll() consumes setup_abort via
+  ep0_check_abort()
+- [Medium] usb: gadget: gadgetfs: early returns in gadgetfs_setup() skip
+  setup_abort
+- [Medium] usb: gadget: gadgetfs: ep0_read() wait misses state and
+  generation changes
+- [Medium] usb: gadget: gadgetfs: 0-length ep0_read() clobbers control
+  OUT payload state
+- [Medium] usb: gadget: gadgetfs: ep0_write() sets STATE_DEV_CONNECTED
+  before user copy
+- [Medium] usb: gadget: gadgetfs: ep0_read() overwrites
+  STATE_DEV_UNBOUND on setup event
+--
 
-Why can't you read the docs I pointed?
+commit 143b1de0fb83afcb84b9c88be79a0db5944a14a3
+Author: Jing Lin <kayano050408@gmail.com>
 
-Best regards,
-Krzysztof
+usb: gadget: gadgetfs: fix ep0 request lifetime on disconnect
+
+This commit serializes ep0 request lifetime and buffer ownership across
+control transfers, userspace ep0 reads and writes, and gadget unbind.
+
+> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legac=
+y/inode.c
+> index 7f6d8460152f9..1277982f194c2 100644
+> --- a/drivers/usb/gadget/legacy/inode.c
+> +++ b/drivers/usb/gadget/legacy/inode.c
+
+[ ... ]
+
+> @@ -984,54 +989,82 @@ static inline void ep0_readable (struct dev_data *d=
+ev)
+>  	kill_fasync (&dev->fasync, SIGIO, POLL_IN);
+>  }
+> =20
+> -static void clean_req (struct usb_ep *ep, struct usb_request *req)
+> +static void dev_req_complete(struct usb_ep *ep, struct usb_request *req);
+> +
+> +static void clean_req(struct usb_ep *ep, struct usb_request *req)
+>  {
+>  	struct dev_data		*dev =3D ep->driver_data;
+> =20
+> -	if (req->buf !=3D dev->rbuf) {
+> -		kfree(req->buf);
+> -		req->buf =3D dev->rbuf;
+> -	}
+> -	req->complete =3D epio_complete;
+> -	dev->setup_out_ready =3D 0;
+> +	/*
+> +	 * req->buf may also point into dev->buf, which holds the
+> +	 * descriptors; only the buffer allocated by setup_req() belongs
+> +	 * to the request and may be freed here.
+> +	 */
+> +	kfree(dev->ep0_req_buf);
+> +	dev->ep0_req_buf =3D NULL;
+> +	req->buf =3D dev->rbuf;
+> +	req->complete =3D dev_req_complete;
+> +}
+> +
+> +static void dev_req_complete(struct usb_ep *ep, struct usb_request *req)
+> +{
+> +	struct dev_data		*dev =3D ep->driver_data;
+> +	unsigned long		flags;
+> +
+> +	spin_lock_irqsave(&dev->lock, flags);
+> +	clean_req(ep, req);
+> +	dev->ep0_req_queued =3D false;
+> +	spin_unlock_irqrestore(&dev->lock, flags);
+> +
+> +	/* gadgetfs_unbind() waits for this before freeing the request */
+> +	wake_up(&dev->wait);
+>  }
+> =20
+>  static void ep0_complete (struct usb_ep *ep, struct usb_request *req)
+>  {
+>  	struct dev_data		*dev =3D ep->driver_data;
+>  	unsigned long		flags;
+> -	int			free =3D 1;
+> =20
+>  	/* for control OUT, data must still get to userspace */
+>  	spin_lock_irqsave(&dev->lock, flags);
+> -	if (!dev->setup_in) {
+> +	if (!dev->setup_in && dev->setup_wLength) {
+>  		dev->setup_out_error =3D (req->status !=3D 0);
+> -		if (!dev->setup_out_error)
+> -			free =3D 0;
+> +		if (dev->setup_out_error) {
+> +			dev->setup_out_len =3D 0;
+> +		} else {
+> +			dev->setup_out_len =3D min_t(unsigned int, req->actual,
+> +						   sizeof(dev->setup_buf));
+> +			memcpy(dev->setup_buf, req->buf, dev->setup_out_len);
+> +		}
+>  		dev->setup_out_ready =3D 1;
+> -		ep0_readable (dev);
+> +		ep0_readable(dev);
+>  	}
+> =20
+> -	/* clean up as appropriate */
+> -	if (free && req->buf !=3D &dev->rbuf)
+> -		clean_req (ep, req);
+> -	req->complete =3D epio_complete;
+> +	clean_req(ep, req);
+> +	dev->ep0_req_queued =3D false;
+>  	spin_unlock_irqrestore(&dev->lock, flags);
+> +
+> +	/* gadgetfs_unbind() waits for this before freeing the request */
+> +	wake_up(&dev->wait);
+>  }
+> =20
+>  static int setup_req (struct usb_ep *ep, struct usb_request *req, u16 le=
+n)
+>  {
+>  	struct dev_data	*dev =3D ep->driver_data;
+> =20
+> -	if (dev->setup_out_ready) {
+> +	if (dev->ep0_req_queued) {
+>  		DBG (dev, "ep0 request busy!\n");
+>  		return -EBUSY;
+>  	}
+
+[ ... ]
+
+> @@ -1073,13 +1123,20 @@ ep0_read (struct file *fd, char __user *buf, size=
+_t len, loff_t *ptr)
+>  			struct usb_request	*req =3D dev->req;
+> =20
+>  			if ((retval =3D setup_req (ep, req, 0)) =3D=3D 0) {
+> +				dev->state =3D STATE_DEV_CONNECTED;
+>  				++dev->udc_usage;
+> +				dev->ep0_req_queued =3D true;
+>  				spin_unlock_irq (&dev->lock);
+>  				retval =3D usb_ep_queue (ep, req, GFP_KERNEL);
+>  				spin_lock_irq (&dev->lock);
+>  				--dev->udc_usage;
+> +				if (retval < 0) {
+> +					dev->ep0_req_queued =3D false;
+> +					clean_req(ep, req);
+> +				}
+> +			} else {
+> +				dev->state =3D STATE_DEV_CONNECTED;
+>  			}
+> -			dev->state =3D STATE_DEV_CONNECTED;
+
+[Severity: Medium]
+Can a zero-length ep0_read() during a delegated control OUT transfer queue
+a bogus status-stage request and clobber dev->setup_out_len?
+
+Previously, setup_req() rejected requests while dev->setup_out_ready was
+set.  Now ep0_complete() clears dev->ep0_req_queued as soon as the OUT data
+stage completes, and the len =3D=3D 0 branch in ep0_read() does not check t=
+hat
+dev->setup_wLength =3D=3D 0.  If userspace calls read(fd, buf, 0) after the=
+ OUT
+data stage finishes, setup_req() succeeds and queues a 0-length request
+whose ep0_complete() callback sees !dev->setup_in && dev->setup_wLength,
+overwriting dev->setup_out_len with 0 and setting dev->setup_out_ready =3D 1
+after dev->state has already returned to STATE_DEV_CONNECTED.
+
+> @@ -1102,32 +1159,43 @@ ep0_read (struct file *fd, char __user *buf, size=
+_t len, loff_t *ptr)
+>  			}
+>  			spin_unlock_irq (&dev->lock);
+>  			retval =3D wait_event_interruptible (dev->wait,
+> -					dev->setup_out_ready !=3D 0);
+> +					dev->setup_out_ready ||
+> +					dev->setup_abort);
+> =20
+>  			/* FIXME state could change from under us */
+>  			spin_lock_irq (&dev->lock);
+>  			if (retval)
+>  				goto done;
+> =20
+> -			if (dev->state !=3D STATE_DEV_SETUP) {
+> +			if (ep0_check_abort(dev)) {
+> +				retval =3D -EIDRM;
+> +				goto done;
+> +			}
+> +			if (dev->state !=3D STATE_DEV_SETUP ||
+> +			    dev->setup_in || !dev->setup_out_ready) {
+>  				retval =3D -ECANCELED;
+>  				goto done;
+>  			}
+
+[Severity: Medium]
+Can wait_event_interruptible() in ep0_read() miss a disconnect, unbind, or
+superseded control transfer?
+
+The wait condition only checks dev->setup_out_ready || dev->setup_abort, so
+if dev->state leaves STATE_DEV_SETUP without setting either flag (such as
+in gadgetfs_disconnect() or gadgetfs_unbind()), ep0_read() stays blocked
+instead of waking to return -ECANCELED.  In addition, ep0_read() does not
+snapshot dev->setup_generation before dropping dev->lock, so if a new
+delegated control OUT request is read and completes while the first reader
+is asleep, the first ep0_read() can wake and consume the new transfer's
+dev->setup_buf.
+
+[ ... ]
+
+> @@ -1267,29 +1334,45 @@ ep0_write (struct file *fd, const char __user *bu=
+f, size_t len, loff_t *ptr)
+> =20
+>  		len =3D min_t(size_t, len, dev->setup_wLength);
+>  		if (dev->setup_in) {
+> -			retval =3D setup_req (dev->gadget->ep0, dev->req, len);
+> +			u8	tmp[RBUF_SIZE];
+> +			bool	zero =3D len < dev->setup_wLength;
+> +			unsigned int generation =3D dev->setup_generation;
+> +
+> +			dev->state =3D STATE_DEV_CONNECTED;
+> +			spin_unlock_irq(&dev->lock);
+> +			if (copy_from_user(tmp, buf, len)) {
+> +				spin_lock_irq(&dev->lock);
+> +				return -EFAULT;
+> +			}
+> +			spin_lock_irq(&dev->lock);
+> +			/*
+> +			 * A control request that arrived while dev->lock was
+> +			 * dropped supersedes this data stage; do not queue the
+> +			 * stale response for it.
+> +			 */
+> +			if (dev->setup_generation !=3D generation)
+> +				return -EIDRM;
+> +			if (dev->state !=3D STATE_DEV_CONNECTED)
+> +				return -ECANCELED;
+
+[Severity: Medium]
+Does setting dev->state =3D STATE_DEV_CONNECTED before copy_from_user()
+leave the state machine out of STATE_DEV_SETUP if the copy faults or races
+with gadgetfs_setup()?
+
+If copy_from_user() returns -EFAULT, ep0_write() returns without restoring
+dev->state to STATE_DEV_SETUP even though no response was queued.  Also, if
+a new SETUP packet arrives in gadgetfs_setup() while dev->lock is dropped
+for copy_from_user(), gadgetfs_setup() sees dev->state =3D=3D
+STATE_DEV_CONNECTED instead of STATE_DEV_SETUP and skips setting
+dev->setup_abort =3D 1.
+
+[ ... ]
+
+> @@ -1360,8 +1443,7 @@ ep0_poll (struct file *fd, poll_table *wait)
+>  	spin_lock_irq(&dev->lock);
+> =20
+>  	/* report fd mode change before acting on it */
+> -	if (dev->setup_abort) {
+> -		dev->setup_abort =3D 0;
+> +	if (ep0_check_abort(dev)) {
+>  		mask =3D EPOLLHUP;
+>  		goto out;
+>  	}
+
+[Severity: Medium]
+Does calling ep0_check_abort() in ep0_poll() consume dev->setup_abort and
+reset dev->state before ep0_read() or ep0_write() can see the abort?
+
+ep0_check_abort() clears dev->setup_abort and transitions dev->state from
+STATE_DEV_SETUP to STATE_DEV_CONNECTED.  If a process polls ep0 before
+issuing read() or write(), or if a concurrent poll runs while ep0_read() is
+waking from wait_event_interruptible(), ep0_poll() consumes the abort:
+a waiting ep0_read() can miss dev->setup_abort and stay asleep, while a
+subsequent control-data ep0_read() sees STATE_DEV_CONNECTED and falls
+through into the event-reading path instead of returning -EIDRM.
+
+> @@ -1470,6 +1552,10 @@ gadgetfs_setup (struct usb_gadget *gadget, const s=
+truct usb_ctrlrequest *ctrl)
+>  	u16				w_value =3D le16_to_cpu(ctrl->wValue);
+>  	u16				w_length =3D le16_to_cpu(ctrl->wLength);
+> =20
+> +	spin_lock(&dev->lock);
+> +	/* invalidate userspace copies started for an older control request */
+> +	dev->setup_generation++;
+> +
+>  	if (w_length > RBUF_SIZE) {
+>  		if (ctrl->bRequestType & USB_DIR_IN) {
+>  			/* Cast away the const, we are going to overwrite on purpose. */
+> @@ -1478,11 +1564,15 @@ gadgetfs_setup (struct usb_gadget *gadget, const =
+struct usb_ctrlrequest *ctrl)
+>  			*temp =3D cpu_to_le16(RBUF_SIZE);
+>  			w_length =3D RBUF_SIZE;
+>  		} else {
+> +			spin_unlock(&dev->lock);
+>  			return value;
+>  		}
+>  	}
+> =20
+> -	spin_lock (&dev->lock);
+> +	if (dev->ep0_req_queued) {
+> +		spin_unlock(&dev->lock);
+> +		return -EBUSY;
+> +	}
+>  	dev->setup_abort =3D 0;
+>  	if (dev->state =3D=3D STATE_DEV_UNCONNECTED) {
+>  		if (gadget_is_dualspeed(gadget)
+> @@ -1505,8 +1595,11 @@ gadgetfs_setup (struct usb_gadget *gadget, const s=
+truct usb_ctrlrequest *ctrl)
+>  	 * then ep0_{read,write} will report the wrong status. controller
+>  	 * driver will have aborted pending i/o.
+>  	 */
+> -	} else if (dev->state =3D=3D STATE_DEV_SETUP)
+> +	} else if (dev->state =3D=3D STATE_DEV_SETUP) {
+>  		dev->setup_abort =3D 1;
+> +		/* wake an ep0_read() waiting for the aborted data stage */
+> +		ep0_readable(dev);
+> +	}
+
+[Severity: Medium]
+If gadgetfs_setup() returns early on w_length > RBUF_SIZE or
+dev->ep0_req_queued while dev->state =3D=3D STATE_DEV_SETUP, does it leave =
+the
+aborted transfer in STATE_DEV_SETUP without setting dev->setup_abort?
+
+Both early returns happen after dev->setup_generation++ but before the
+dev->state =3D=3D STATE_DEV_SETUP check.  An ep0_read() waiting for the pri=
+or
+transfer's OUT data stage is never woken, and a subsequent ep0_write()
+called to answer the aborted IN transfer sees dev->setup_abort =3D=3D 0,
+snapshots the already-incremented dev->setup_generation, and queues its
+stale response onto ep0.
+
+[ ... ]
+
+> @@ -1781,15 +1883,29 @@ gadgetfs_unbind (struct usb_gadget *gadget)
+>  		usleep_range(1000, 2000);
+>  		spin_lock_irq(&dev->lock);
+>  	}
+> +	queued =3D dev->ep0_req_queued;
+>  	spin_unlock_irq (&dev->lock);
+> =20
+> +	if (dev->req) {
+> +		if (queued) {
+> +			usb_ep_dequeue(gadget->ep0, dev->req);
+> +			/*
+> +			 * usb_ep_dequeue() may return before the completion
+> +			 * routine runs.  Do not free the request until the
+> +			 * controller has given it back.
+> +			 */
+> +			wait_event(dev->wait, !dev->ep0_req_queued);
+> +		}
+> +		dev->req->buf =3D dev->rbuf;
+> +		clean_req(gadget->ep0, dev->req);
+> +		usb_ep_free_request(gadget->ep0, dev->req);
+> +		dev->req =3D NULL;
+> +	}
+> +
+>  	destroy_ep_files (dev);
+>  	gadget->ep0->driver_data =3D NULL;
+>  	set_gadget_data (gadget, NULL);
+> =20
+> -	/* we've already been disconnected ... no i/o is active */
+> -	if (dev->req)
+> -		usb_ep_free_request (gadget->ep0, dev->req);
+>  	DBG (dev, "%s done\n", __func__);
+>  	put_dev (dev);
+>  }
+
+[Severity: High]
+Can gadgetfs_unbind() race with dev_req_complete() or ep0_complete() on
+dev->req and dev->wait?
+
+CPU0                                    CPU1
+dev_req_complete() / ep0_complete()     gadgetfs_unbind()
+  spin_lock_irqsave(&dev->lock, flags)
+  clean_req(ep, req)
+  dev->ep0_req_queued =3D false
+                                          wait_event(dev->wait,
+                                                     !dev->ep0_req_queued)
+                                          clean_req(gadget->ep0, dev->req)
+                                          usb_ep_free_request(..., dev->req)
+                                          ...
+                                          put_dev(dev) -> kfree(dev)
+  spin_unlock_irqrestore(&dev->lock, ...)
+  wake_up(&dev->wait)  <-- use-after-free
+
+wait_event() can observe !dev->ep0_req_queued and return before CPU0
+releases dev->lock or calls wake_up(&dev->wait) (especially in
+ep0_complete(), where ep0_readable() wakes dev->wait before clearing
+dev->ep0_req_queued).  gadgetfs_unbind() then runs clean_req() and
+usb_ep_free_request() without holding dev->lock while the completion
+handler is still executing, and if the last reference on dev is dropped,
+wake_up(&dev->wait) touches freed memory or triggers the
+BUG_ON(waitqueue_active(&data->wait)) in put_dev().
+
+[Severity: High]
+Can wait_event(dev->wait, !dev->ep0_req_queued) hang forever in
+gadgetfs_unbind() when usb_ep_dequeue() fails on ep0?
+
+usb_ep_dequeue() only guarantees a completion callback when it returns 0,
+and several UDC drivers (such as musb_g_ep0_dequeue(), mtu3_ep0_dequeue(),
+pxa27x, pxa25x, and at91) do not support dequeuing ep0 requests and return
+-EINVAL without giving back the request.  When pullup() on disconnect does
+not nuke ep0 before unbind(), ignoring the usb_ep_dequeue() return value
+leaves gadgetfs_unbind() sleeping in TASK_UNINTERRUPTIBLE forever.
+
+[Severity: Medium]
+Can setting dev->req =3D NULL and gadget->ep0->driver_data =3D NULL in
+gadgetfs_unbind() lead to a NULL pointer dereference in setup_req() if a
+GADGETFS_SETUP event was already queued?
+
+gadgetfs_unbind() sets dev->state =3D STATE_DEV_UNBOUND but leaves queued
+events in dev->event[].  If userspace calls ep0_read() after unbind, the
+scan loop still transitions dev->state to STATE_DEV_SETUP when delivering a
+queued GADGETFS_SETUP event:
+
+drivers/usb/gadget/legacy/inode.c:ep0_read() {
+    ...
+		for (i =3D 0; i < n; i++) {
+			if (dev->event [i].type =3D=3D GADGETFS_SETUP) {
+				dev->state =3D STATE_DEV_SETUP;
+				n =3D i + 1;
+				break;
+			}
+		}
+    ...
+}
+
+A subsequent ep0_write() or 0-length ep0_read() then sees STATE_DEV_SETUP
+and calls setup_req(dev->gadget->ep0, dev->req, ...), where ep->driver_data
+and dev->req are now NULL.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-b4-gadgetf=
+s-ep0-v6-0-b410e3dced89@gmail.com?part=3D1
