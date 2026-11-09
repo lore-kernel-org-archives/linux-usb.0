@@ -1,54 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.154.241.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794223904;
-	b=JQ87nUZhtyTdScz8cCZ2ywwe6301ArjgNrcxn/5VBHIOY/psVPmUBdIPPlK1U8bhSBCe
-	 nqE2D1OBGqiz5/nQrEnjbMlr1OEl0l22X1KYUB9FGGhbcf37a49yphnQpRXh5OPrFHFCe
-	 VArJPa0TaQGR7om+OXRCHIb3XlYQBgz+EwaGG9jSKmgVXOkbAaVFGbuSF+f8/uXdZsE6I
-	 TdIiFY/WHGdNH5q19dLj1TGx4XQxkRYpwEtxvY2u1ncXWlrzipVGMgTWxA+5T/vgb7Lqh
-	 OCwRsJiDdiXDARSFzQZBrB0Cr47kJ4eM5k3kJRDkPrXwSzvvV1yNwRT2qje+t4JFsaw==
+	t=1794226249;
+	b=zf1z7eHGPpZgjwhyoUKAuD4Xu4k8a9l8CT3Tuq6LYjJm1oaZrZizkFfgnpoNLJ3Cm1/U
+	 mPhrKnRKl8UZSj0UgfL+xS4lnVzBdtJKg15y0fdntAjq13ReAb24myWiWfCLAMSeKNw1v
+	 C84NwM59XiZFUSHeIQLvdyTL06MZeMNiyHM88KcVjyvr35NfkGewnoD8MjMS5arlUnmC9
+	 94QbieMtlmBW30ujRVH/3Xzysnu0UCKazjHcdD225YnvwMZgBGPyHvl9x06zWFutSr8fy
+	 pcPnIp68SGBZH56pHBLQ1LELl7d2gX53VFAH8bw0ZkejujM2o0mLhI6qyHLQzyzMeLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794223904;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
-	 References:Organization:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Bm-Milter-Handled:
-	 X-Bm-Transport-Timestamp;
-	bh=cx4WmsYLbglr0McGkrzYXvDkGp+KjAolGaIY8vtD+aM=;
-	b=oharETP79lPQF5pm40CA3c/Cd0uvOvFJVUGwcZ5fxJ3HNpgypP3FlL0hXvN8Qp6EJIjL
-	 fXe8f80rRK9yxbEnN/DjmM+W6q361C9dzV8S+WWbfmjVF1fETjn7uzZXKQXpbK2e6XmuL
-	 MpPJ/YetyqP2Kn1pk8JOjBkBW/P/mU9EFmBk3+zdxHO69eVZhWRdelfjlnZhlq77GV5xB
-	 069WFll8mIekGhI2jk7EWhWoTF0dPiG+aQPIUIChoBAQPQBmS0lswfMipKZwYxX1C0EJe
-	 kuzp8mj2/3/BVJpgukXsoWTMnKEfGnkLyhkuaxHGaBFHxqo9NcaZnpIMDPRB8tnspPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794226249;
+	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=zueww4+1NwCyF5cy2SwCRp8wZjZi0tJ4fAEc3gDf94o=;
+	b=w13Ybdjshn/rLhVBj9PAjHXktYH6VWLVjCj7GYgYbKAA+xNYKRdZNZ/s3fHzYsWdfr3i
+	 Gm06okN/Eqh04M2CJF/toabqkw7FTr32lakuZTr4l++ksSntd9yt3hPGtwHrnDGJPyHpW
+	 0LqjfG3n13rlG6EEH3KvGh/nvzJf4BkreKTP1vyn4nrE1blBxXR4TpH4rgCCOw6qJY2Da
+	 Nu5b2mMUs7M+lWNtxaKsYp0PtWKWkvefmp6lDmxvjnuwZrzWgC4hJWLUjhj65JHbY5rL/
+	 7MJK/jHWnZxnbvA6i2yaklv0uugh5hI4blzn2f6hIqDRwgWchBX9Ot0sh+o1KYAHqug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=lauterbach.com;
-	spf=pass smtp.mailfrom=lauterbach.com;
-	arc=none smtp.remote-ip=62.154.241.218
-Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
+	dmarc=none header.from=xiaopeng.com;
+	spf=pass smtp.mailfrom=xiaopeng.com;
+	dkim=pass header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=eX0EEoO9;
+	arc=none smtp.remote-ip=115.124.28.197
+Received: from out28-197.mail.aliyun.com (out28-197.mail.aliyun.com [115.124.28.197])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6C5606A321
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 11:31:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE6C5606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
-Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
-	(Authenticated sender: ingo.rohloff@lauterbach.com)
-	by bm.lauterbach.com (Postfix) with ESMTPSA id 900B41464F2E9;
-	Mon, 09 Nov 2026 12:31:40 +0100 (CET)
-Date: Mon, 9 Nov 2026 12:31:40 +0100
-From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-To: Neill Kapron <nkapron@google.com>
-Cc: gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk, me@samcday.com,
- michael.bommarito@gmail.com, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 2/3] usb: gadget: f_fs: register cancellation handler
- only after request queueing
-Message-ID: <20261109123140.7e57597b@ingpc2.intern.lauterbach.com>
-In-Reply-To: <au5ZFAei8LcpYNgY@google.com>
-References: <20260901120908.14386-1-ingo.rohloff@lauterbach.com>
-	<20260901120908.14386-3-ingo.rohloff@lauterbach.com>
-	<au5ZFAei8LcpYNgY@google.com>
-Organization: Lauterbach GmbH
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-unknown-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B5D606A31C;
+	Mon,  9 Nov 2026 12:10:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27B5D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=eX0EEoO9
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xiaopeng.com; s=default;
+	t=1794226237; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=zueww4+1NwCyF5cy2SwCRp8wZjZi0tJ4fAEc3gDf94o=;
+	b=eX0EEoO91t/GJMC+Z1PGzRv9jJ6ohf6MPP3JUAEsZErLLpFyd8f8UEdLvsAeJZkh4UUGcqGdre43nV7R97bPH6oA+RYz09rm9rtIoOms22JOwuyt9L88dXqyz6F4IiTTDDeeV5A2jN/Mgv98qyAYzDQHfrumP1OzBljnHfVh28g=
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.04439086|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.02383-0.000494716-0.975675;FP=9592083956290293074|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037034020;MF=fangxy@xiaopeng.com;NM=1;PH=DS;RN=10;RT=10;SR=0;TI=SMTPD_---.k-86pZ7_1794226235;
+Received: from localhost.localdomain(mailfrom:fangxy@xiaopeng.com fp:SMTPD_---.k-86pZ7_1794226235 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Mon, 09 Nov 2026 20:10:36 +0800
+From: Fang Xieyan <fangxy@xiaopeng.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Cc: Vladimir Zapolskiy <vz@mleia.com>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	Johan Hovold <johan@kernel.org>,
+	Roland Stigge <stigge@antcom.de>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Guanglei Zhu <zhugl3@xiaopeng.com>
+Subject: [PATCH] usb: gadget: lpc32xx_udc: handle interrupts with an empty queue
+Date: Mon,  9 Nov 2026 20:10:35 +0800
+Message-ID: <20261109121035.34561-1-fangxy@xiaopeng.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,92 +66,87 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
-X-Bm-Transport-Timestamp: 1794223900647
+Content-Transfer-Encoding: 8bit
 
-Hello Neill,
+A request can be dequeued after a DMA transfer has completed and filled
+both endpoint buffers, while the delayed endpoint or DMA interrupt is
+still pending.  lpc32xx_ep_dequeue() removes the request from ep->queue
+and gives it back via done() without clearing the pending endpoint or
+DMA interrupt status.
 
-On Fri, 6 Nov 2026 22:47:48 +0000
-Neill Kapron <nkapron@google.com> wrote:
+When the interrupt handler then runs with an empty queue,
+list_entry(ep->queue.next, ...) derives an invalid request pointer from
+the list head; list_entry() does not return NULL.  Passing that pointer
+to done() in udc_handle_eps(), or dereferencing req->dd_desc_ptr in
+udc_handle_dma_ep(), results in invalid memory accesses and can crash
+the kernel.
 
-> On Tue, Sep 01, 2026 at 02:09:07PM +0200, Ingo Rohloff wrote:
-> > Call kiocb_set_cancel_fn() only after usb_ep_queue() completes
-> > successfully.
-> > ...
->
-> Unfortunately, I don't think this is safe. The cancel handler has to be
-> set before the request is queued. 
+Check whether the request queue is empty before touching the request in
+both handlers.  In udc_handle_eps(), do this before sending the deferred
+ZLP and disable the endpoint interrupt when there is nothing to
+complete.  In udc_handle_dma_ep(), still disable the DMA channel and
+clear the pending EOT/NDDRT (and SYSERR) interrupt status so the
+interrupt does not keep firing, without dereferencing the missing
+request.
 
-Why do you think, that the cancel handler has to be set before 
-the request is queued?
+Fixes: 24a28e428351 ("USB: gadget driver for LPC32xx")
+Cc: stable@vger.kernel.org
+Reviewed-by: Guanglei Zhu <zhugl3@xiaopeng.com>
+Signed-off-by: Fang Xieyan <fangxy@xiaopeng.com>
+---
+ drivers/usb/gadget/udc/lpc32xx_udc.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-I can't find any reason for this.
-
-I will describe this in terms of an AIO write (read is the same),
-referring to the current kernel (without my patch):
-
-The request enters the kernel via
-SYSCALL_DEFINE3(io_submit
-...
-  io_submit_one(ctx, user_iocb, false);
-    __io_submit_one(ctx, &iocb, user_iocb, req, compat);   
-      ...
-        case IOCB_CMD_PWRITE:
-          return aio_write(&req->rw, iocb, false, compat);
-      aio_write
-          ...
-          aio_rw_done(req, file->f_op->write_iter(req, &iter));
-            file->f_op->write_iter == ffs_epfile_write_iter
-        ffs_epfile_write_iter(struct kiocb *kiocb, struct iov_iter *from)
-            kiocb_set_cancel_fn(...)
-            ffs_epfile_io(...)
-              ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
-
-
-I can't see why you should need to call "kiocb_set_cancel_fn(...)"
-before you call "usb_ep_queue()".
-In fact I think that's exactly wrong:
-You should **NOT** call "kiocb_set_cancel_fn(...)",
-before the request is successfully queued via "usb_ep_queue()".
-
-Unfortunately f_fs.c seems the only place where "kiocb_set_cancel_fn()"
-is used, so there is no other code to compare to.
-
-If "usb_ep_queue()" fails, then "ffs_epfile_io()"
-will **NOT** return -EIOCBQUEUED.
-
-This in turn means the code in "aio_rw_done(...)"
-will call "req->ki_complete(req, ret)", because that's
-what "aio_rw_done(...)" does, if you **DO NOT** return -EIOCBQUEUED.
-
-As far as I can tell, this is exactly what we want:
-The request is completed with an error,
-which indicates that the request was not queued.
-
-Because the request is completed, why should you ever
-set a cancel handler for it?
-So why should you call kiocb_set_cancel_fn before the
-request is queued successfully?
-
-with best regards
-  Ingo
-
+diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
+index 044c31869cfb..67b0d6f73e43 100644
+--- a/drivers/usb/gadget/udc/lpc32xx_udc.c
++++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
+@@ -1945,6 +1945,13 @@ static void udc_handle_eps(struct lpc32xx_udc *udc, struct lpc32xx_ep *ep)
+ 	/* Get endpoint status */
+ 	epstatus = udc_clearep_getsts(udc, ep->hwep_num);
+ 
++	/* If there isn't a request waiting, something went wrong */
++	if (list_empty(&ep->queue)) {
++		ep->req_pending = 0;
++		uda_disable_hwepint(udc, ep->hwep_num);
++		return;
++	}
++
+ 	/*
+ 	 * This should never happen, but protect against writing to the
+ 	 * buffer when full.
+@@ -1958,7 +1965,6 @@ static void udc_handle_eps(struct lpc32xx_udc *udc, struct lpc32xx_ep *ep)
+ 	} else
+ 		return;
+ 
+-	/* If there isn't a request waiting, something went wrong */
+ 	req = list_entry(ep->queue.next, struct lpc32xx_request, queue);
+ 
+ 	done(ep, req, 0);
+@@ -1985,6 +1991,23 @@ static void udc_handle_dma_ep(struct lpc32xx_udc *udc, struct lpc32xx_ep *ep)
+ 	ep->totalints++;
+ #endif
+ 
++	if (list_empty(&ep->queue)) {
++		u32 mask = 1U << ep->hwep_num;
++
++		ep->req_pending = 0;
++		ep_err(ep, "DMA interrupt on no req!\n");
++
++		/* Disable DMA and clear pending interrupts */
++		udc_ep_dma_disable(udc, ep->hwep_num);
++		writel(mask, USBD_EOTINTCLR(udc->udp_baseaddr));
++		writel(mask, USBD_NDDRTINTCLR(udc->udp_baseaddr));
++
++		if (readl(USBD_SYSERRTINTST(udc->udp_baseaddr)) & mask)
++			writel(mask, USBD_SYSERRTINTCLR(udc->udp_baseaddr));
++
++		return;
++	}
++
+ 	req = list_entry(ep->queue.next, struct lpc32xx_request, queue);
+ 	dd = req->dd_desc_ptr;
+ 
 -- 
+2.50.1
 
--------------------------------------------------------------------------
-Dipl.-Inform.
-Ingo ROHLOFF
-Senior Staff Engineer
-phone +49 8102 9876-142 - ingo.rohloff@lauterbach.com
-
-Lauterbach Engineering GmbH & Co. KG
-Altlaufstrasse 40, 85635 Hoehenkirchen-Siegertsbrunn, GERMANY
-www.lauterbach.com
-
-Registered Office: Hoehenkirchen-Siegertsbrunn, Germany,
-Local Court: Munich, HRA 87406, VAT ID: DE246770537, 
-Managing Directors: Stephan Lauterbach, Dr. Thomas Ullmann
-
--------------------------------------------------------------------------
