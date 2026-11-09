@@ -1,78 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794234044;
-	b=IUYyTsCUwSKuW5b1MbJ4/xo9jIVSUabN9ZHZylnrKlKGYRnoyyyRNAzbMEADjKBjQnOJ
-	 N3G+S/QN5iakeJeUqnIKm7kSOnpWrzf8oM+6+CWoZjaP+9W3PjlxDrggB0QJIqmSlRI3t
-	 vi/gje1bonYHatNfn6708GLwCl1Rw5rBjn+av24P5lbhEMwv4+Bkr8CgVKJZB/Hh7n/Gg
-	 /SfTTpY2apZkI4HbsVlBBiT8EkRcGwM+yD6+dcA0UycqB13KpclCDfoDGV2vQmOKBwTL/
-	 pDf3+OxV4Z3IYEt54FDOawFPpyLWovZ1a3jIHH2lsrfBgp4y0nH3+2Y1GygT3sUdRjA==
+	t=1794234516;
+	b=zINpna0+m1oyDELCln2OfG0nk487Y1LBWONTZtUxwsIDv32FVEcHmpcfVyp3MrNvpB0p
+	 9uriSaU3OMZxSBLgt9iQkFHraeJ9rwL4k6dLJhnyvMMJ3fh6NR8VqlqQLLGEaVqKGRg9V
+	 KojnbyKa9VB9uGzKrE4Q/GPGCm3ajOiDXyS52Ph8qAL4Fg1eyRUxCasc8NaNFrlGNUoZj
+	 qMYg/u8CI3jDIlWZDHgyFcQeSlGJOXroEHd0aaSDhArNTmSO2KK05hWax+o3oBLEVV+eO
+	 KHIUlzYoB4wmeAp083nb5BUi9SJNxHD0sv9QLhCaxFrDUv+o17xRwCNbBnzs+a/X/ag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794234044;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=M71iMpKdMfHIP6yiMa4Z2DhA06G/FZRvI25PBkVKJ8U=;
-	b=n9M2KFG7oCL3meT3tE9s2WnQHRQd02a/Q5/j1A2D472bMdinIwz0G6TMzBHFYFTTP2YT
-	 PNWROawqCynKd9k+2H7aIvkqwDJwNJD/teLZPmqdj4ycijqgt6qu1jzAm59ut87Bu9jeX
-	 Ah6+CdnYgGITPSNe45hQWe/UVDfXbL52Kgv+mDntt3HioBsYNMd5trRGq+L02n5FJa9tL
-	 4RgdbKpp2M68wSr/t2jL6nbnr0FUR+GrM+kosgysCZ3QK77Rhw+ITynAPWocODMnp+Irp
-	 uE+Ttw79arVEyu62KWd9xpbHVSCw+m/ZYB4r8SDCFavtQXwsFbyEF+R3UlU3VZT6oiA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794234516;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=4mPPXH3aJnZxVYx37Wxl7Lr/b+DLAle+zs+cy9uzIU4=;
+	b=2Fr80z/TRUjyl2M/Ah4Vsy+qt3FqppfZZ7N0ixKFpcM7OFwmEgRpa5MaGZcKjb35MKDC
+	 LOMaYgDLpPErv3N+w125M80Sn7mgUkWH16fv0Ci2ysUGd009kNOaZwZqKEyv1i7lxOYj1
+	 gHmEpvo3KxKGO7aqOq022DymsuYZzIvivYScnzTzAg8lEIrkTzMH0uWhK2G/FNuf+7BKD
+	 OBPyuVxFRc/SVS3ZrywoxVv1GHru4xurPbvCEjFOhS0+QWTrHvcxfeiVJLsmk+yyL6Kez
+	 x9dksXVgxLvoiWBGwmcGWny8tO0WtBPKVcsGYcDZBvXumCcBbRF6VoEVymVVkF0qmYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZiksYaQc;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=ieee.org;
+	spf=pass smtp.mailfrom=ieee.org;
+	dkim=pass header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=QToSrRLd;
+	arc=none smtp.remote-ip=209.85.167.179
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5F3606A31C
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 14:20:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B5F3606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5376606D80B
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 14:28:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5376606D80B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZiksYaQc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794234045; x=1825770045;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HlgYlRgX09uOdMgma0cSlhrAT3HYbD5uFhejD1If/5I=;
-  b=ZiksYaQcOpB3AgFbC4uCzl/yds5njlSXub64I2XAOpCDCwmYT/ldhgCs
-   3V0EhE4Syohnwrhvv9fXoRIF9mmFWbd/WswIfesXyjqoDRVk1h76Q8rRp
-   9hc//hQhXe96jNa3PHYoRVvBUzfFIIurfghOGqHpuR0PjEigUrm89ig4B
-   4zz/gvNb8gxeK6UUQzt2qTD2bJORSP/gl45zn4bSOe4fX2+4hhdYxxpHp
-   MWCj1cXXLpWPYlH421AP0ZeGRvOSLSK25YjZieDmha0hP8bqiL+eR/LsV
-   jUxzgZygeJwK99vLB57HkZhGV6DkA2HlnFm+H2ShyurSeYHs5S9WOfoH7
-   Q==;
-X-CSE-ConnectionGUID: G2tlL1+vR76G7fDmFQvRSQ==
-X-CSE-MsgGUID: du9Iq0O2QrCZqSgdHbLHYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2873335"
-X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="2873335"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 06:20:44 -0800
-X-CSE-ConnectionGUID: 6tEybwtQSxWrh+6L+wr/Yg==
-X-CSE-MsgGUID: iSnBkkbIR5iPo3GYKmxxFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="8446828"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Nov 2026 06:20:42 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id AE21399; Mon, 09 Nov 2026 15:20:41 +0100 (CET)
-Date: Mon, 9 Nov 2026 15:20:41 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: James Taylor <jrtaylor11@gmail.com>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: thunderbolt: AMD Phoenix USB4 host advertises Gen3 Support=0 in
- SB LINK_CONF with TB5 device, link stuck at Gen2
-Message-ID: <20261109142041.GS176724@black.igk.intel.com>
-References: <1794143745.17311.hermes@gmail.com>
- <20261109111852.GQ176724@black.igk.intel.com>
- <1794223545.366398.reply.hermes@gmail.com>
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=QToSrRLd
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-4ab8cb2a6e4so533879b6e.0
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 06:28:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1794234515; x=1794839315; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4mPPXH3aJnZxVYx37Wxl7Lr/b+DLAle+zs+cy9uzIU4=;
+        b=QToSrRLd4t7HkK/8/o4zJPpEAuQS72r5AsdEqGxsfs3VQep2BS+ODfK/0F7W3Z1rc/
+         tBbwNxS+IXjBBrpvsaLMbhTj+SAFf8+iPVMYOibtHJhgTg9dnW3tuVGfbA6BgqcFUscx
+         84KtGfnFSdWbppCe9hBZzzxNj7c/tdZTvLFdY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794234515; x=1794839315;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4mPPXH3aJnZxVYx37Wxl7Lr/b+DLAle+zs+cy9uzIU4=;
+        b=XgmoDHgNTkMNmU9hOOnw+tJTVIlVwVf30BZQYz6N1lR/xEEdeFl6ReS9YHemGNKDbj
+         5To2a8fGyxIaTBJBiqQEHTtchuMTu6xmAL+Fuep4shfNKDD2uCiXUKL6Zi4LtLkoNWUa
+         yVuDEv6yoUAXDijAALS8/IAOstQsUIpBJv/vCy+cETMOg+JBJI2ANfGU4331DoUsjiNv
+         +aqt5aLO95t273c4IIeolKzbOycTNfptl+aPro/a3MtgIyLYi3NeYqqwx6fzWdOqBssc
+         k0FgAheyH6tKVNm8ZQ4Go5zdjVZQpb5nfm0xpWXVSzVbnFAJEIFc3Jp2d4256HJBbWPb
+         cFMw==
+X-Forwarded-Encrypted: i=1; AL+hErH9rw5mb0V1j2ykKWQQsK5U/VPreEdSRIO2bCZCkJ/8lSUYl0q9eGvRwYTUnNlrodOSipdAIybuxDQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/UkxWKIhMxUX4+vh5Lo8fvQKT6liJ6RcksRM3r63GhFErOoQyX
+	QAXzSnrGhMTYsuqi0+vFjrf91Q/yXN/AdXwkrVhYmxVfu7JRIwFzRObBDopdXKfc3w==
+X-Gm-Gg: AYBFou3DIThIb6sJjoYXt55FGc+QdT2DiCg0lOpbv4zLxpTh1OOxHDSjHCHw0bSYpR+
+	BPK++4tt+XlQ9XqsZxXc5OBrINKpQfkRjAqD87TmHWvzOWMYUowIKvOkVhAArHQzOVr6S5kYMda
+	rhMcD96TF7p54qM9sldlacZW5mbtmVZtKA5SVIxnKoZ0jlpZW5D0G++duAmoa+PlY3f5+Lz4u/D
+	2xFe7xyYQl1tGJXnuGgDm7bu05cOLQdgXVHzmPmnQwiw3urawtnwr2qSS2HzfZ/5mZdn/F54Noi
+	117zBn95fOAXDFtKTR59K7FKcBuZEt/4p7dM9GMb1/6j72Jzt/zyY4yKhWWITOuGVNlh5anRa14
+	pTOWwd7eGqyk9A7VggKVpGWKVd01lVlmwQQY7VdBUdv0lolvcQbGZxitR2U4+iKa2PTIeplaD9c
+	jWj/tIK3kph2f161e9Qlq6uvxCw8gIDujAdXeln5duBR6RCOJfOXpb6stYhitVz/KPJPNiwGeIB
+	7nfblY1+97w88l35FyF9BrXclQeDbYYBt5uFMhKYzN4zTDnCzalUfCqEoVShzSMXoXcrobj7FMh
+	+VeqRHLyw/8j6Ery+zNN5vSWV/npYU/uVgQG/lvopCvT
+X-Received: by 2002:a05:6808:1495:b0:4fc:3dc7:66af with SMTP id 5614622812f47-5681432edb1mr2821350b6e.10.1794234514790;
+        Mon, 09 Nov 2026 06:28:34 -0800 (PST)
+Received: from [172.22.22.28] ([73.62.185.64])
+        by smtp.googlemail.com with ESMTPSA id 5614622812f47-56813e56700sm4463564b6e.17.2026.11.09.06.28.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Nov 2026 06:28:32 -0800 (PST)
+Message-ID: <5a2b5e08-c33b-4513-8457-b8ac21563121@ieee.org>
+Date: Mon, 9 Nov 2026 08:28:31 -0600
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -82,30 +89,80 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1794223545.366398.reply.hermes@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [greybus?] [usb?] KASAN: slab-out-of-bounds Read in
+ gb_svc_request_handler
+To: Chandradhar Kumar <chandradhar.2003@gmail.com>
+Cc: syzbot <syzbot+693652ded53d3eb9cb91@syzkaller.appspotmail.com>,
+ elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+ johan@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com
+References: <6aec63fd.5f5735a5.290c1c.0002.GAE@google.com>
+ <46a139a9-198c-45c1-b41c-521def10a0df@ieee.org> <au8s1_tIBa0mpTSL@TheRealOne>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <au8s1_tIBa0mpTSL@TheRealOne>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 11/7/26 8:17 AM, Chandradhar Kumar wrote:
+> On Thu, Nov 05, 2026 at 08:08:01AM -0600, Alex Elder wrote:
+>> Here is what I see happening at the beginning of gb_connection_recv():
+>> - If the connection is disabled or offloaded, return immediately
+>> - If the size of the buffer (passed in as the "size" argument) is less
+>>    than the size of an operation message header, return
+>> - If the 16-bit size embedded in the message header is less than the
+>>    size of the buffer, return
+>>
+>> In other words, after these checks, we know:
+>>
+>>    sizeof(header) <= buffer size (size)       AND
+>>    buffer size (size) <= size encoded in the header (msg_size)
+> No, it does not verify this, it verify:
+> 	size encoded in the header <= size (buffer size)
 
-On Mon, Nov 09, 2026 at 11:25:45AM +0000, James Taylor wrote:
-> Hi Mika,
+You're right, I misread this.
+
+We don't read the header unless size tells us the entire
+message ("buffer size") is at least the size of the header.
+
+And then we ensure the buffer contains the entire message
+(whose msg_size is decoded from the header).
+
+But if the size encoded in the message header is bogus
+(and in particular, smaller than the header size) we
+have a problem.
+
+>> Therefore (transitive property), this is true:
+>>
+>>    sizeof(header) <= size encoded in the header (msg_size)
+> So, the transitive property is not true.
+
+Agreed.  Thanks for explaining where I was wrong.
+
+> I have sent a patch for this bug which verify the msg_size and header
+> separately, which fixes the out of bounds read.
+> patch link: https://lore.kernel.org/all/20261106094303.55158-1-chandradhar.2003@gmail.com/
+
+					-Alex
+> Hey please review the patch if there is something wrong or there are any
+> other way to fix the bug.
 > 
-> On Mon, Nov 09, 2026 at 12:18:52PM +0100, Mika Westerberg wrote:
-> > Please use tbdump from tbtools [1]. It knows the registers. Something like
-> > this:
-> >
-> > https://github.com/intel/tbtools/wiki/Useful-Commands#dump-lane-adapter-capability-for-current-link-capabilities-and-status
-> 
-> Thanks, here it is (tbtools 0.8.0). Domain 1 route 0 is the AMD host
-> router, route 2 is the DEG2 (JHL9480). Both lane adapters on each side
-> are included, followed by tbadapters for reference.
+> Thanks.
+>>
+>> And it's not possible after these checks for this to be true:
+>>
+>>      header.size < sizeof(struct gb_operation_msg_hdr)
+>>
+>> or put another way:
+>>
+>>      msg_size < sizeof(header)        cannot hold
+>>
+>>
+>> It surprises me this would be missed in the AI summary--and I
+>> fear I'm mistaken.  If I'm missing something or wrong about this,
+>> please feel free to say so.
+>>
+>> 					-Alex
 
-In your command line:
-
-[    0.000000] Command line: initrd=\EFI\nixos\c18phgd1m2qpc2g72pz14fg9h9i38j6w-initrd-linux-7.2.15-initrd.efi init=/nix/store/2m5ckvjrfdbcxrfpklc7rg16jwi11spa-nixos-system-nyx-26.11.20261106.4fe25e1/init usb-storage.quirks=0bc2:3343:u thunderbolt.host_reset=0 pcie_aspm=off nohibernate root=fstab loglevel=4 lsm=landlock,yama,bpf
-
-Please drop thunderbolt.host_reset=0 and pcie_aspm=off. The later disables
-much more than just ASPM so it may affect everything. Once you have done
-that please take another dmesg (and check also the link registers via
-tbdump).
