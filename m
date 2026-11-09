@@ -1,85 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794234516;
-	b=zINpna0+m1oyDELCln2OfG0nk487Y1LBWONTZtUxwsIDv32FVEcHmpcfVyp3MrNvpB0p
-	 9uriSaU3OMZxSBLgt9iQkFHraeJ9rwL4k6dLJhnyvMMJ3fh6NR8VqlqQLLGEaVqKGRg9V
-	 KojnbyKa9VB9uGzKrE4Q/GPGCm3ajOiDXyS52Ph8qAL4Fg1eyRUxCasc8NaNFrlGNUoZj
-	 qMYg/u8CI3jDIlWZDHgyFcQeSlGJOXroEHd0aaSDhArNTmSO2KK05hWax+o3oBLEVV+eO
-	 KHIUlzYoB4wmeAp083nb5BUi9SJNxHD0sv9QLhCaxFrDUv+o17xRwCNbBnzs+a/X/ag==
+	t=1794234535;
+	b=XkmVWKzR0ZtC9EVzbja74fnbCuYLo1B5pN2hVOHPjusbGkSWgi9gPKw4t2s+O4J+BkLP
+	 mQTvsscKhtuw1/sDNzWcNrWRplg+2uP//VO1yGc1nJpg+o8AUQCTWJPdyZT3gY8IKrT9S
+	 ZHKCZKvve/iTNJg2s6o4CD+cV53W2dkMida742Kg3PUCtZsbtjEEJrUVlo7Oln3a+6hbj
+	 9HiyrzdoxIUH2OQzoUB7bx1okjT+QwYGs1k6rPQYpBTEqhY8r6n5LZO3AEm5VxdD1/pQI
+	 OTOdoVqKeC51F6VDopozO/HCogy57QFLd8+j2yig+ecmsIi9gE0rZrm9pH/N6xrfXag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794234516;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=4mPPXH3aJnZxVYx37Wxl7Lr/b+DLAle+zs+cy9uzIU4=;
-	b=2Fr80z/TRUjyl2M/Ah4Vsy+qt3FqppfZZ7N0ixKFpcM7OFwmEgRpa5MaGZcKjb35MKDC
-	 LOMaYgDLpPErv3N+w125M80Sn7mgUkWH16fv0Ci2ysUGd009kNOaZwZqKEyv1i7lxOYj1
-	 gHmEpvo3KxKGO7aqOq022DymsuYZzIvivYScnzTzAg8lEIrkTzMH0uWhK2G/FNuf+7BKD
-	 OBPyuVxFRc/SVS3ZrywoxVv1GHru4xurPbvCEjFOhS0+QWTrHvcxfeiVJLsmk+yyL6Kez
-	 x9dksXVgxLvoiWBGwmcGWny8tO0WtBPKVcsGYcDZBvXumCcBbRF6VoEVymVVkF0qmYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794234535;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=htmiOX7ybxvq/PluCdMFe5WUHFb7XMbBigt0pDSlweo=;
+	b=yEE0Bq9Yk4XoGNPV3hUHrX1qeOnIZqW03iyIzYxlOaau0j5Sv43HJoOFpKTTa4nOwGdJ
+	 FYH7Hq88WJskeR7EOTz8ZPpqMkMGuI2R6hnfesWBghWzNBajd+pz+5/4DMsJbFc3NXAvt
+	 nh4BENkTj30eoCED4S2NJXIic2knu8nL1d0FUK4KnpidohPxT2D+zckVNZHhvZjh316ki
+	 eAZmZqstwmv0Q+gPigeoszfxR7ZX9psmytF+vGk2NcY6VowRALEKI+i20FaEuPXp2XpYL
+	 DCKAJUumJhK5szomtFRzawyFOXuqvpT9No2k6yio5aXcRveoUhcDTKgTdNes+HBaGxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ieee.org;
-	spf=pass smtp.mailfrom=ieee.org;
-	dkim=pass header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=QToSrRLd;
-	arc=none smtp.remote-ip=209.85.167.179
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DAsRt5tD;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5376606D80B
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 14:28:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5376606D80B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6198A606A321
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 14:28:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=QToSrRLd
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-4ab8cb2a6e4so533879b6e.0
-        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 06:28:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1794234515; x=1794839315; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4mPPXH3aJnZxVYx37Wxl7Lr/b+DLAle+zs+cy9uzIU4=;
-        b=QToSrRLd4t7HkK/8/o4zJPpEAuQS72r5AsdEqGxsfs3VQep2BS+ODfK/0F7W3Z1rc/
-         tBbwNxS+IXjBBrpvsaLMbhTj+SAFf8+iPVMYOibtHJhgTg9dnW3tuVGfbA6BgqcFUscx
-         84KtGfnFSdWbppCe9hBZzzxNj7c/tdZTvLFdY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794234515; x=1794839315;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4mPPXH3aJnZxVYx37Wxl7Lr/b+DLAle+zs+cy9uzIU4=;
-        b=XgmoDHgNTkMNmU9hOOnw+tJTVIlVwVf30BZQYz6N1lR/xEEdeFl6ReS9YHemGNKDbj
-         5To2a8fGyxIaTBJBiqQEHTtchuMTu6xmAL+Fuep4shfNKDD2uCiXUKL6Zi4LtLkoNWUa
-         yVuDEv6yoUAXDijAALS8/IAOstQsUIpBJv/vCy+cETMOg+JBJI2ANfGU4331DoUsjiNv
-         +aqt5aLO95t273c4IIeolKzbOycTNfptl+aPro/a3MtgIyLYi3NeYqqwx6fzWdOqBssc
-         k0FgAheyH6tKVNm8ZQ4Go5zdjVZQpb5nfm0xpWXVSzVbnFAJEIFc3Jp2d4256HJBbWPb
-         cFMw==
-X-Forwarded-Encrypted: i=1; AL+hErH9rw5mb0V1j2ykKWQQsK5U/VPreEdSRIO2bCZCkJ/8lSUYl0q9eGvRwYTUnNlrodOSipdAIybuxDQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/UkxWKIhMxUX4+vh5Lo8fvQKT6liJ6RcksRM3r63GhFErOoQyX
-	QAXzSnrGhMTYsuqi0+vFjrf91Q/yXN/AdXwkrVhYmxVfu7JRIwFzRObBDopdXKfc3w==
-X-Gm-Gg: AYBFou3DIThIb6sJjoYXt55FGc+QdT2DiCg0lOpbv4zLxpTh1OOxHDSjHCHw0bSYpR+
-	BPK++4tt+XlQ9XqsZxXc5OBrINKpQfkRjAqD87TmHWvzOWMYUowIKvOkVhAArHQzOVr6S5kYMda
-	rhMcD96TF7p54qM9sldlacZW5mbtmVZtKA5SVIxnKoZ0jlpZW5D0G++duAmoa+PlY3f5+Lz4u/D
-	2xFe7xyYQl1tGJXnuGgDm7bu05cOLQdgXVHzmPmnQwiw3urawtnwr2qSS2HzfZ/5mZdn/F54Noi
-	117zBn95fOAXDFtKTR59K7FKcBuZEt/4p7dM9GMb1/6j72Jzt/zyY4yKhWWITOuGVNlh5anRa14
-	pTOWwd7eGqyk9A7VggKVpGWKVd01lVlmwQQY7VdBUdv0lolvcQbGZxitR2U4+iKa2PTIeplaD9c
-	jWj/tIK3kph2f161e9Qlq6uvxCw8gIDujAdXeln5duBR6RCOJfOXpb6stYhitVz/KPJPNiwGeIB
-	7nfblY1+97w88l35FyF9BrXclQeDbYYBt5uFMhKYzN4zTDnCzalUfCqEoVShzSMXoXcrobj7FMh
-	+VeqRHLyw/8j6Ery+zNN5vSWV/npYU/uVgQG/lvopCvT
-X-Received: by 2002:a05:6808:1495:b0:4fc:3dc7:66af with SMTP id 5614622812f47-5681432edb1mr2821350b6e.10.1794234514790;
-        Mon, 09 Nov 2026 06:28:34 -0800 (PST)
-Received: from [172.22.22.28] ([73.62.185.64])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-56813e56700sm4463564b6e.17.2026.11.09.06.28.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2026 06:28:32 -0800 (PST)
-Message-ID: <5a2b5e08-c33b-4513-8457-b8ac21563121@ieee.org>
-Date: Mon, 9 Nov 2026 08:28:31 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DAsRt5tD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C58E31F0089F;
+	Mon,  9 Nov 2026 14:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794234535;
+	bh=htmiOX7ybxvq/PluCdMFe5WUHFb7XMbBigt0pDSlweo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=DAsRt5tDmbYPgJ6FSjFOLpQxasZR6gb4h8dnAddwzV77i2H5wV3O6i/DoQ/EHux7F
+	 VlJPBHHYKTAf/n5I8ECWhxfdwWzC1HRSBRGU6msVK6Q6YRahssyD9cYyRhYylX9XpT
+	 CiTL1ifWTqYfdXpkhbOFiXACdl1EJ+E2ea42wDSciqnU9Erco+2daTptN2Ta18/lm9
+	 dEEectyTEMC3FBX2Ho/nz0TWA3Lcv2vO0slvupybWib/HalKrgYLzVKetbj4bVGBv0
+	 Ptv2/DHdpcSJvoG3aaH7jB27pfRImJkHWfDYTEOolLMBSpbEBXhg/kjwNmQTsQTrEf
+	 fJ9eFkT8MxooQ==
+Message-ID: <sashiko-outbox-205101@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 1/2] usb: gadget: u_serial: serialise line setup
+ against line teardown
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Varun Singh" <varun.singh10011@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261109141110.3538-2-varun.singh10011@gmail.com>
+References: <20261109141110.3538-1-varun.singh10011@gmail.com>
+ <20261109141110.3538-2-varun.singh10011@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2026 14:28:54 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -88,81 +60,65 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [greybus?] [usb?] KASAN: slab-out-of-bounds Read in
- gb_svc_request_handler
-To: Chandradhar Kumar <chandradhar.2003@gmail.com>
-Cc: syzbot <syzbot+693652ded53d3eb9cb91@syzkaller.appspotmail.com>,
- elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
- johan@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
- syzkaller-bugs@googlegroups.com
-References: <6aec63fd.5f5735a5.290c1c.0002.GAE@google.com>
- <46a139a9-198c-45c1-b41c-521def10a0df@ieee.org> <au8s1_tIBa0mpTSL@TheRealOne>
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <au8s1_tIBa0mpTSL@TheRealOne>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 11/7/26 8:17 AM, Chandradhar Kumar wrote:
-> On Thu, Nov 05, 2026 at 08:08:01AM -0600, Alex Elder wrote:
->> Here is what I see happening at the beginning of gb_connection_recv():
->> - If the connection is disabled or offloaded, return immediately
->> - If the size of the buffer (passed in as the "size" argument) is less
->>    than the size of an operation message header, return
->> - If the 16-bit size embedded in the message header is less than the
->>    size of the buffer, return
->>
->> In other words, after these checks, we know:
->>
->>    sizeof(header) <= buffer size (size)       AND
->>    buffer size (size) <= size encoded in the header (msg_size)
-> No, it does not verify this, it verify:
-> 	size encoded in the header <= size (buffer size)
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] usb: gadget: u_serial: missing Fixes trailer for commit
+  19b10a8828a6
+--
 
-You're right, I misread this.
+commit 7fc863482be78ba089c79dd3a13d5ea59b19a79c
+Author: Varun Singh <varun.singh10011@gmail.com>
 
-We don't read the header unless size tells us the entire
-message ("buffer size") is at least the size of the header.
+> usb: gadget: u_serial: serialise line setup against line teardown
+>
+> Creating a u_serial gadget function can fail with -EEXIST for no reason:
+>
+>   sysfs: cannot create duplicate filename '/devices/virtual/tty/ttyGS0'
+>   gserial_alloc_line_no_console: failed to register tty for port 0, err -=
+17
+>
+> ports[n].lock protects the ports[n].port slot, but the line's tty device
+> is registered and unregistered outside it, so the two can change
+> independently:
+>
+>   gserial_alloc_line_no_console()        gserial_free_line()
+>     gs_port_alloc()
+>       mutex_lock(ports[n].lock)
+>                                            mutex_lock(ports[n].lock)
+>                                            ports[n].port =3D NULL
+>                                            mutex_unlock(ports[n].lock)
+>       ports[n].port =3D new
+>       mutex_unlock(ports[n].lock)
+>     tty_port_register_device(n)            <- device for n still there
+>                                            tty_unregister_device(n)
+>
+> The allocator claims a slot whose old device is still registered, which
+> is the -EEXIST above. The reverse order leaves a slot with no device
+> node.
+>
+> Hold ports[n].lock across slot assignment and device registration, and
+> across slot clearing and unregistration, so a concurrent caller sees
+> either both or neither. gs_port_alloc() is now called with the lock
+> held. Neither tty_port_register_device() nor tty_unregister_device()
+> takes tty_lock or ports[n].lock, and gserial_free_line() already slept
+> under this mutex, so this adds no new lock dependency.
+>
+> With two gadgets racing for line 0, 25 of 383 function creations failed
+> on an unpatched kernel; 0 of 530 with this patch.
+>
+> Found with the assistance of Claude Opus 5.
+>
+> Signed-off-by: Varun Singh <varun.singh10011@gmail.com>
 
-And then we ensure the buffer contains the entire message
-(whose msg_size is decoded from the header).
+[Severity: Low]
+Should this bug fix include a Fixes: tag for the commit that introduced
+dynamic serial line allocation and teardown without holding
+ports[port_num].lock across tty device registration and unregistration?
 
-But if the size encoded in the message header is bogus
-(and in particular, smaller than the header size) we
-have a problem.
+  Fixes: 19b10a8828a6 ("usb: gadget: allocate & giveback serial ports inste=
+ad hard code them")
 
->> Therefore (transitive property), this is true:
->>
->>    sizeof(header) <= size encoded in the header (msg_size)
-> So, the transitive property is not true.
-
-Agreed.  Thanks for explaining where I was wrong.
-
-> I have sent a patch for this bug which verify the msg_size and header
-> separately, which fixes the out of bounds read.
-> patch link: https://lore.kernel.org/all/20261106094303.55158-1-chandradhar.2003@gmail.com/
-
-					-Alex
-> Hey please review the patch if there is something wrong or there are any
-> other way to fix the bug.
-> 
-> Thanks.
->>
->> And it's not possible after these checks for this to be true:
->>
->>      header.size < sizeof(struct gb_operation_msg_hdr)
->>
->> or put another way:
->>
->>      msg_size < sizeof(header)        cannot hold
->>
->>
->> It surprises me this would be missed in the AI summary--and I
->> fear I'm mistaken.  If I'm missing something or wrong about this,
->> please feel free to say so.
->>
->> 					-Alex
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109141110.3538=
+-1-varun.singh10011@gmail.com?part=3D1
