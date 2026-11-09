@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794184630;
-	b=Dubh8UWwTu7ZyM13qE4YvX3f23Kd5L5yA7t1l7RnOew7KfAKIBEp6RBsh7fgY/ZEMGJ7
-	 S4F7RruDuZAd6+KhmCeFgSNQSwy/brjKrXe5lRB+4TLYLjCiuUiZ7lFo6w1BcJt6qQlwF
-	 LLj0dlhQ2aWy0VZR2y0cSD9dwjxxy6KSitGbqzIsE+q4nGCBEOHIyIq8hN53U5v9Zc6g/
-	 vwXC6ch/mYFmnVx1XEMTHhhyQ4MGqEZwNVbkNJXGWiv8D/5E215rtl3K58Tq0AB7EUFL/
-	 aqMj1Forun53z9LrCP84/SFmxImXsQbnjF0AXKDlqWck4WNoS0booki+h71HRpGVNzQ==
+	t=1794184646;
+	b=LhhtlzuwiPdCenVlBeh0C7W6ABYiTPuC+CrCIZdgwHNvuf29WTWr+z7BPp8I3XiSZNSD
+	 /H03y9W5ujk0JtLR5Y2g3gJIDhxe/0B+KuT470t1+4tqwJOan9JeFYx9Eb4IwsTXHn2bO
+	 tRFam52JGHdMlksXFfIdxqjBg7zawWgFN9QpcaLOiehMmGc9XkhOq9Ke3aTImNvF53KcS
+	 WDDOn2gTspc3ltPY3Vwt9ld6u87S1RQHM/hN39fMRxQPEGdRaDzB9ByoDzklmnMCTohCy
+	 9cckxbf3krGhaPyhkmeBLqFxEV+tq00PGY20s3NKR4IfflctbJuw8EvvnsvoI2wkT4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794184630;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794184646;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=rk5Ff5+xSPdiNMomM0VETEdFOqZfkGsFVbPPDEUKt20=;
-	b=Z+8ApIAbAUkrP7/qrc3tbqoFVH11ht8SxJTaT/Aw1L7ZEh6jIAoVSCC71nFgjOudXmx4
-	 RdZCppzHXI8BkpXAGpzmSe7Dios4SLSvjOIfdOEK0GDRBqqwILtHh6jXDaAUzpxf16h5F
-	 zOQSrZfhEU5Mf1N3Q0ZPtA2OSalL6d2/uzCCJk8q+/r0PiMuxjDOpokQbEP+FItlalP80
-	 79kyvs/bDGVWA/7bVZIUKrS9Ny7A1prEs0yAVS2XrFt5QdL6yNs4GSsT27TlK0V//wB+P
-	 4Z4W9JGNEWLGziSnKI3J0mE6b9wbJCEKCb4SvHZXyTD4y1XmEY/Lt42obeyg0B+6cTw==
+	bh=AW30Te2NwYUoTIRAep9N4BNVIbLDHc7cdqYxdZAgoUU=;
+	b=flVCGLF5NYPPrpWuV2HIIyvktHDf1Ql0FUCkAbl0qBaY5JqFJYwOlBg6KYC6d/c4oP4q
+	 ctauSKOJvIA3gc/RhQzHnEbFVwqdHRvo+wzBgpZeyWWfiJkluLHLsTWwPg7ygOOZmzIe7
+	 az+egaTAOffHUOjnaroFYG4AXcV38/RagDu/3R/as+5V4IZRwJ2/cc3dVEy4mBE2etmr4
+	 5zJHcv5Owc2MA3FaAQKzP12z8204uIM4b7Z5bIpgJXQ2Rejib39+9me9s2YwNQbjLo51U
+	 OndHzquNsPUWbSkVL3dA5/HRoreWRLkajzsiwbuy8GcP1pQWt3yFxsdtlBL3VrzwGog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QVyhmryL;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jF2nHkGs;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E8F606D807;
-	Mon,  9 Nov 2026 00:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0F9606A31C;
+	Mon,  9 Nov 2026 00:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QVyhmryL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A2531F008A5;
-	Mon,  9 Nov 2026 00:37:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jF2nHkGs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1C831F0089F;
+	Mon,  9 Nov 2026 00:37:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794184630;
-	bh=rk5Ff5+xSPdiNMomM0VETEdFOqZfkGsFVbPPDEUKt20=;
+	s=k20260515; t=1794184646;
+	bh=AW30Te2NwYUoTIRAep9N4BNVIbLDHc7cdqYxdZAgoUU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QVyhmryLx7cS75XQfyfaHDoaCsMXmBEBzyBJnZ0OpJtYTEIbMOHWdX5yG3MEfm8Zr
-	 0IWR7sWP4uDvdJFOJddojw9ntzGmHPj1J/SeiQdx6dakdKCwsWcE7s8eNdfu+6s5Dq
-	 A6PpoL2/wBg2I5dacM2/o2KjpNEw6n1AWq4LpBDHhxDioMwRCvnb8vWaZdO4uJPocq
-	 Kgk6Wv7lVT5I10GiF/z6921Og/uwvw58QeXN4Mlju2tTszbieDoQLc9iCAF76Rm1h1
-	 //q1+dE8HX+sdOE7N9CQvDJyo9GQlCmDegLRsFON2/DJTEBFDe/I2YxZ/WAiNr2m2i
-	 bRclN7MxUOF3A==
-Message-ID: <sashiko-outbox-204223@kernel.org>
+	b=jF2nHkGsJgxzuPpGvwkO5Jx8NtOnewF0tutTkPwMfi/+FVbBA5Ek+prCQL3ISku2W
+	 ac8fnj3b1m0L3FZ92/57ds3M9zYfQ7Fyak+eiwIdSAuxA7fKH5F35Scdv7HRo/nysi
+	 xreDGnV4eZkwniUAWSjLs9HTZ1X+J5NXFkRWhdg5SQ93t2bXp00Mo25EemdzCmDtwl
+	 yp6Kq2ZJUqSbfWqNpk6e4J42QLv8Nf6NmL1hmEX6mH7T354bclD2ihlh0zL3C+ml8J
+	 fepn4XZVWeKXs71d6Al6OmZodoj8YJH0zd1V357P3vYpiaspLt3WJPo3zZVUcGbJsX
+	 kmkjK3uS/eyzA==
+Message-ID: <sashiko-outbox-204225@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 03/17] dt-bindings: interrupt-controller: qcom,pdc:
- Document Halliday PDC
+Subject: Re: [PATCH 01/17] dt-bindings: arm: qcom-soc: Add Halliday
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Stanislav Aleksandrov" <lightofmysoul@gmail.com>
 Cc: mfd@lists.linux.dev, linux-usb@vger.kernel.org, lee@kernel.org
-In-Reply-To: <20261109-halliday-dts-v1-3-289114ab8197@gmail.com>
+In-Reply-To: <20261109-halliday-dts-v1-1-289114ab8197@gmail.com>
 References: <20261109-halliday-dts-v1-0-289114ab8197@gmail.com>
- <20261109-halliday-dts-v1-3-289114ab8197@gmail.com>
+ <20261109-halliday-dts-v1-1-289114ab8197@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 00:37:09 +0000
+Date: Mon, 09 Nov 2026 00:37:25 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,7 +60,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Document the Power Domain Controller on the Qualcomm Halliday SoC.
+> Add Halliday to the SoC codenames allowed in Qualcomm compatibles.
 >=20
 > Signed-off-by: Stanislav Aleksandrov <lightofmysoul@gmail.com>
 
@@ -69,5 +68,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-halliday-d=
-ts-v1-0-289114ab8197@gmail.com?part=3D3
+ts-v1-0-289114ab8197@gmail.com?part=3D1
 
