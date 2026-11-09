@@ -1,72 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794185826;
-	b=SKfUbROtKzwiB5s/96Hf/47lxvNGh/pEUtpnEKKOfCtmxegs+tbTdSXbFJtXnQgRzR9m
-	 zaR/l9rWb8TEGXx8FWacL9lVRXN4qpe9hPB6mLBSNGXKTehip7pLZLhkRg06/qx51ESM2
-	 f5Do5xwomRrI+R+Wv7285j0H2ZqVKfnY8DkGKmxynrJ8eI0CDcUKmRmde7hQDHpn32AEo
-	 qjrCduojldnrooBt+CcauUKCoec66WNLEhE/tbGEhtlR7baeLeSeNiJnbKo5np2jD1k4V
-	 f8NGt0duX3AJ+GkmsSrMaIqp7zz66/UiJY13L3J0Nk7DJhLq+yihU7uuxySGzBKHNEA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794185826;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=UgV8KA7Cu5ZAaXYWYDbHu7HAyaZ/X9DN4CiRecqVryU=;
-	b=aLdUk17uPBWBXdS5sEQp3J9GLCyz9+6sjdNfqpAkFFURhSLZxyLM7rMzdMqGV8qQOIqS
-	 cklxu2j8Pe7lJFugibXVWH/DzeYW8hWQpoUlO8nZaYpF+Jp3YTDgwi12iJchTvBZXIYdY
-	 XTRS/W8eQ3ZRcpUA8n885zM+ty6g/Y8PC0TO+LoJhpL6AKICwCqASxtTLrT3Wf9lKtARX
-	 83Pxrg07Ikix4fyBW/MJyCiLyoWlcFhJric5rhYsiF66Q4PCn8MBW/9TInr9FiwLAXoyy
-	 UlmEWCEghMFmVKbzaNBNt0rbWhtleY0a8DG6SXk9Z8isd27IksogEK4QUtYBullHR5A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="aCLHo9/6";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.127.132
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794190086;
+	b=lJAzLyAjYR8R0XgnIFWK4HkFRQEJ957LXiJ/YmajSwfUPlHp1IbYxhWjFysC5TL+tey1
+	 oGZPpVXPE99+ddE4GjCREWvAcuLSbfGzd4WhwYVMLMnb6mCc0AtzOD7777LZ1e/jRRBHl
+	 R+mLjufMtqIXlMlejSoX0zSAI2p+5dtJ5nje34gvdb+FEjlNgEfVSc9aVL/T+OBzan58+
+	 6EdiBytYlX/MtRhcuWmU+cTkQdwM8IQqsBr2OLbrgwLFpW2r5lNaCGTjCcUojn0bPQ2/9
+	 k+N9ldwfPfaRm8/qli2J25KBIVbSR2b8vSS5TgC9YGVGtKhtpvyZ15vLKe+V3K51SLg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794190086;
+	h=DMARC-Filter:Received:Received:X-MS-Exchange-Authentication-Results:
+	 Received-SPF:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=get9ljy+UfLeTYxtFfA5K653EnMiLg25/XGdzuB6N6Q=;
+	b=yzMu789ekLvLxDH3bjWUNvjPn6DYAn9y+DW+IGLrSh5rRkcAVC4S9FZMo9FFAnkA3nmM
+	 W/Ge6wbi7po/4fSlnV8AlJ5+okXImKZzr5EAPwBKomUVqGHmIqtOXRaY0roDjjPTw7xen
+	 f6dp2JDMf5/Ttheai0vTlbxriFJNuEovsX5D3DjmRN3kZOtYRdbrDcQXiTD5yxOyf6Dvi
+	 jwzmYHDvi5skeehH/tSwCsF4rc1eZoFn5mdGoHJhpoQs64geCHv3CucAa4YVGeNGliq/H
+	 +m+E5+rRrI8uBJSgeMcRmRkFR0hCIguIFXWwXnkBsczKo+dB33H/eRIGz28kRhclD+Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=cixtech.com;
+	spf=pass smtp.mailfrom=cixtech.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.127.132
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023132.outbound.protection.outlook.com [52.101.127.132])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F38606A320;
-	Mon,  9 Nov 2026 00:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aCLHo9/6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB0461F008A6;
-	Mon,  9 Nov 2026 00:57:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794185825;
-	bh=UgV8KA7Cu5ZAaXYWYDbHu7HAyaZ/X9DN4CiRecqVryU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aCLHo9/66kPxeQ3IlSV3ZYw9X11Y8ElsAX6H6zq2gRhS8i5w9QzUtaTRIqcLj2c50
-	 wNcZ4HApf8c6WjEaVg23WQXbHYNl8X46GGcsTFdfb6z8xL0XwRFd0J+psV6dMO79/O
-	 29Pfb3DCr22DF0WYm5d5fSq1p2OfWoH/5R2VwlwCchRLYS3qrMsut9/Ly1LALQRaE/
-	 ZT7EdN53KZ7DzAn7nuB0As9a6t9BGPo4vMoa44LJhlNwRTzQ5Bgu3qZhDQFXAM0PFd
-	 /bFuGsUALoDM0/f5WnN/BWYUh+vnJF4STVtD2OLic8D//ycbHylWRDxUpBqWSSME/W
-	 t3ai4PjYZ5fWg==
-Message-ID: <sashiko-outbox-204265@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 17/17] arm64: dts: qcom: Add Samsung Galaxy XR
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Stanislav Aleksandrov" <lightofmysoul@gmail.com>, "Bjorn Andersson" <andersson@kernel.org>, "Konrad
- Dybcio" <konradybcio@kernel.org>, "Abel Vesa" <abelvesa@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Robert Marko" <robimarko@gmail.com>, "Guru
- Das Srinagesh" <linux@gurudas.dev>, "Thomas Gleixner" <tglx@kernel.org>, "Radu
- Rendec" <radu@rendec.net>, "Lee Jones" <lee@kernel.org>, "Will Deacon" <will@kernel.org>, "Robin
- Murphy" <robin.murphy@arm.com>, =?utf-8?b?Sm9lcmcgUm9lZGVsIChBTUQp?= <joro@8bytes.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Wesley Cheng" <wesley.cheng@oss.qualcomm.com>, "Vinod
- Koul" <vkoul@kernel.org>, "Neil Armstrong" <neil.armstrong@linaro.org>, "Manivannan
- Sadhasivam" <mani@kernel.org>, "Alim Akhtar" <alim.akhtar@samsung.com>, "Bart
- Van Assche" <bvanassche@acm.org>, "Bean Huo" <beanhuo@micron.com>, "Stanley
- Jhu" <stanleyjhu@google.com>, "Herbert Xu" <herbert@gondor.apana.org.au>, "David
- S. Miller" <davem@davemloft.net>, "Rafael J. Wysocki" <rafael@kernel.org>, "Viresh
- Kumar" <viresh.kumar@linaro.org>, "Amit Kucheria" <amitk@kernel.org>, "Thara
- Gopinath" <thara.gopinath@gmail.com>, "Daniel Lezcano" <daniel.lezcano@kernel.org>, "Zhang
- Rui" <rui.zhang@intel.com>, "Lukasz Luba" <lukasz.luba@arm.com>, "Georgi
- Djakov" <djakov@kernel.org>, "Sibi Sankar" <sibi.sankar@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, mfd@lists.linux.dev, linux-usb@vger.kernel.org, linux-phy@lists.infradead.org, linux-scsi@vger.kernel.org, linux-crypto@vger.kernel.org, olteanv@gmail.com
-In-Reply-To: <20261109-halliday-dts-v1-17-289114ab8197@gmail.com>
-References: <20261109-halliday-dts-v1-0-289114ab8197@gmail.com>
- <20261109-halliday-dts-v1-17-289114ab8197@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 00:57:03 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6A1606A31C;
+	Mon,  9 Nov 2026 02:08:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA6A1606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FVlnhv54xzclJQURjS3peZpYc5+b/aLFECQN/jCp4oISNuKWOPsArB3LzgcD2Amzv23gppSCppNIivb+ur3NS1n8dQvQETvBXLbTu4lPiDfL7g+i/1JVDSlnrHdb8mcXMzxC6TLE/+LAerrmoyCMSgixzqA4xSNtSFCfgL671fgjBvEaOCCoqqTUMdyk0xmxLey7+Uq8z8h872wRu4Z1iswiX8N7iBRZdfcHAmyzn6kyvCz7/Gdp8NE38Bl5kP7IbAxjlPODiwi+r15Iewl/iNwU8yrXwXSjXdZ0vKkQ1/Wr/YA0fuIoBKqIFonU6b1auyjAJQkENknrURaqE2VjaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=get9ljy+UfLeTYxtFfA5K653EnMiLg25/XGdzuB6N6Q=;
+ b=vWbYoVpkCAakQYa/EBRIlj4UQuPb97HQmUidAQFYlVs63myQoJ5swNc8zpKi/AJk2xDFoUQI9LV78oKZXnmoPtleEraZ5c/3I7zIgwKuuTphOEAFoL51spHdgLSEg8+mvbeuFC8a0J0UlyWpF0UeIoMDkybnWcaIeuqd8XSwkVzCkVgzaRKgdHe3mxZwrW70Exw6jNYADsE9q1vaj30OXHRiugczFxWiRJBYVWlvKqbgzaW0qQG6ZcWKivhnZihoczxHRH3zUHKfHwjc/D3ugWN2fGnlcSieS1jvhI6BhIuIXIK18nJeDGOlG5sNf8x1DAl44nuwiH+7vkXWkKyh4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 222.71.101.198) smtp.rcpttodomain=cixtech.com smtp.mailfrom=cixtech.com;
+ dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
+ not signed); arc=none (0)
+Received: from SE2P216CA0153.KORP216.PROD.OUTLOOK.COM (2603:1096:101:2c1::9)
+ by TY0PR06MB5428.apcprd06.prod.outlook.com (2603:1096:400:219::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.6; Mon, 9 Nov 2026
+ 02:08:00 +0000
+Received: from TY2PEPF0000AB8A.apcprd03.prod.outlook.com
+ (2603:1096:101:2c1:cafe::5e) by SE2P216CA0153.outlook.office365.com
+ (2603:1096:101:2c1::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.12 via Frontend Transport; Mon, 9
+ Nov 2026 02:08:00 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 222.71.101.198) smtp.mailfrom=cixtech.com; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
+Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
+ 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
+Received: from smtprelay.cixcomputing.com (222.71.101.198) by
+ TY2PEPF0000AB8A.mail.protection.outlook.com (10.167.253.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.615.4 via Frontend Transport; Mon, 9 Nov 2026 02:08:00 +0000
+Received: from gary-System-Product-Name (unknown [172.16.64.55])
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 498C74102E61;
+	Mon,  9 Nov 2026 10:07:59 +0800 (CST)
+Date: Mon, 9 Nov 2026 10:07:58 +0800
+From: Gary Yang <gary.yang@cixtech.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Fugang Duan <fugang.duan@cixtech.com>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, cix-kernel-upstream@cixtech.com
+Subject: Re: [PATCH 4/4] arm64: dts: cix: add RTS5453 PD controllers to Orion
+ O6
+Message-ID: <avEq_ngShxlvFSbS@gary-System-Product-Name>
+References: <20261107011012.3655873-1-gary.yang@cixtech.com>
+ <20261107011012.3655873-5-gary.yang@cixtech.com>
+ <65af581e-caac-430a-88b1-3b7425c5209e@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -75,41 +103,78 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <65af581e-caac-430a-88b1-3b7425c5209e@kernel.org>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB8A:EE_|TY0PR06MB5428:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9bed19be-9232-4f0b-eed6-08df3e0647c0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|23010399003|36860700016|1800799024|82310400026|4143699003|56012099006|261021121427099003|261022105027099003|261022075727099003|261009223027099003|261026140227099003|261028144727099003|261026121527099003|261102123227099003|10067099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	aApyjdlYxx+w0NF/Wj269Haomxp6Ah/RuCzIcrQwsgv/zvE3l0EnBNJx1Rsllle2CWYqGQ3DY8yushgQbn7Nh93efV/e4rHbjBcgj+JQCriJmIlDATjba/HRF91fzmMqlJmWh6FJqFlI0auv/RED85AqB51JsJWPPpej9Uec1sNsI7PXQ1Ib1TolXGjSv6pDee6IsqqVgV3x0ZhB5jRuMNeAfb5ZYVPSk40+M5N6VrMs/pM7Rz2emwIFtEJG558ThLp8qAvlKWZDmxIetiEJANmtsEoxFdvNI1cUFzmcr09Z08ymwv9n77S/DaCrPXwafpdaYxX1YdQsCVRA2Dz9W5rTzVS78PD0WFZZRMWQ82eYb5B6Z+3J9jqrsmrPzSkFRFYm+vnGIeE3r2XBxgk6QQpttW7XYEEgGfRVqapX+etloSMKXFYZMJ3GgIsuuE19zkwEYIArIDd/ErKcf+tpNKdpS3khyGZTVVvs3oOQ+Zw8aUCHZJO+bXP9RvAPEcnoyHHYoLOpdu6fTnRdMn8tO1uwl6liB4rvVtcQ7QUKq4CN/DFtMgrtQvZ9iiehmr96UW6WF6Z3YjoNAwmZhSLsd05ytR6QOL1KPUPwmtWrJfFRMDMnW/S8wshTygGgnuQPhSyQ8aaJqryNQ1FXsuDkIMYYuKtxhLhbovRZOKjm2hlh7KpOrvB9LzzMEycaUiJA
+X-Forefront-Antispam-Report:
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(36860700016)(1800799024)(82310400026)(4143699003)(56012099006)(261021121427099003)(261022105027099003)(261022075727099003)(261009223027099003)(261026140227099003)(261028144727099003)(261026121527099003)(261102123227099003)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	FAgghdDsfqbUMu6ATlLEBYTh2e/E9bho5XTpx7MNcDwwAufvyZVFA+dIoNFtsnd0KCcVVsdRjhcN5R4BF6geF5PFsX8nrH3EoGufWydgrL6BVLHZHkRaIOKquy7k5vjFa2toicSz2GKm/VTMoAbP1CW7ccFIThk2JplIEe05+uRURdsgEW99G0dvbMvZm1+feaY4OEjzOJ56ddT3/vICUmcRzL9M1h06pErIrkLBT3TsJMjCt0Xzb1t3wfXZy6Ri05hyKpBcO6NtyDmKgaSpUEnV5S76RAk92fXowkzaftpZY0b+3L8MXjuvnrwneR0vD45GQUuIO0A69NoZ5uWIO26AimsBBNqdqct/gZRE5bs2nXaUmmA/rAJc/XGhXI7LXVhAglAO5eVhRf74npJeSvx3CiguFbHTldUcheJ85asM2ZjBYisq3ofJk5eO0Xs2
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 02:08:00.2028
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9bed19be-9232-4f0b-eed6-08df3e0647c0
+X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	TY2PEPF0000AB8A.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5428
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] arm64: dts: qcom: invalid chassis-type value in
-  halliday-samsung-xrvst2.dts
---
+hi Krzysztof:
 
-commit d2d9cbc7744fd9c3d95a63b1d3df85d5cbe99afb
-Author: Stanislav Aleksandrov <lightofmysoul@gmail.com>
+Thanks for your comments!
 
-arm64: dts: qcom: Add Samsung Galaxy XR
+On 2026-11-07 11:53, Krzysztof Kozlowski wrote:
 
-This commit adds the device tree for the Samsung Galaxy XR headset based
-on the Qualcomm Halliday SoC (SXR2250P).
+> EXTERNAL EMAIL
+> 
+> On 07/11/2026 02:10, Gary Yang wrote:
+> > Describe the two Realtek RTS5453H port controllers on the Orion O6
+> > I2C1 bus and add the I2C1 pin configuration.
+> >
+> > The controllers route orientation and DisplayPort mode changes
+> > through the USB/DP combo PHY lane switches, but that PHY support is
+> > not upstream yet, so the connector graph endpoints are left out for
+> > now. The Type-C ports are still registered and reported, only the
+> > lane switching is deferred until the PHY nodes are available.
+> >
+> > Both controllers report through the same level-triggered interrupt
+> > line, which the driver handles with a shared interrupt. The I2C bus
+> > runs at 100 kHz because the RTS5453H I2C interface does not support
+> > higher rates.
+> >
+> > Signed-off-by: Gary Yang <gary.yang@cixtech.com>
+> > ---
+> >  arch/arm64/boot/dts/cix/sky1-orion-o6.dts | 51 +++++++++++++++++++++++
+> >  1 file changed, 51 insertions(+)
+> 
+> DTS cannot be combined in this patchset and must be split. Don't mix
+> patches from independent subsystems when you send something explicitly
+> targeting only one subsystem.
+> See also: Documentation/devicetree/bindings/submitting-patches.rst
+> 
 
-> diff --git a/arch/arm64/boot/dts/qcom/halliday-samsung-xrvst2.dts b/arch/=
-arm64/boot/dts/qcom/halliday-samsung-xrvst2.dts
-> new file mode 100644
-> index 0000000000000..6fcc1aaafd59c
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/qcom/halliday-samsung-xrvst2.dts
-> @@ -0,0 +1,218 @@
-[ ... ]
-> +/ {
-> +	model =3D "Samsung Galaxy XR";
-> +	compatible =3D "samsung,xrvst2", "qcom,halliday";
-> +	chassis-type =3D "headset";
+Do you mean the driver does not depend on DTS? Previously, it was acceptable
+to put the DTS at the end of a patchset or place the DTS in a separate patchset. 
+That’s why I put the DTS at the end of the patchset. Has the rule changed now?
 
-[Severity: Low]
-Is "headset" a valid value for chassis-type in the root node?  The
-Devicetree Specification and dtschema (schemas/root-node.yaml) only permit
-desktop, laptop, convertible, server, tablet, handset, watch, embedded,
-television, and all-in-one, so dtbs_check fails on this DTB unless a
-standard value (such as "embedded") is used or chassis-type is omitted.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-halliday-d=
-ts-v1-0-289114ab8197@gmail.com?part=3D17
+Best Regards,
+Gary
+> 
+> Best regards,
+> Krzysztof
