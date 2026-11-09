@@ -1,55 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.154.241.218
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794220480;
-	b=cJELGCiovf8HFewuA/eD4VvDu5Udef2Q3t+X06Jmhor3cmUNQsfUI+5ZIvvlB423cIOc
-	 jthwEAmn2m26sjj5ibcGXQQnLVpFwvynJBI2B3dOEBqJSBJYy7ElQ7wTC4E1aDCjtFQiY
-	 vBKOn50oxhD5DlSo/OWai3cl4nZsUyrMn+7icYbUK06biTVasI0tHuNpjFENAVLevvgyG
-	 1/fCA/P/duJriSoAdLFE/kEQQoWjzcs1XsLF6oCc3lnu58GgXkM48Vz0+5G1FABvnavLW
-	 qP0P9wDxIOSC///X7510jFKZb4IPAPBp7HJ811AUE34qYcQnrv+GUkRUCDK7wMbjOlg==
+	t=1794220658;
+	b=MhreYdRl48rtHqrxXo2JiSnha+kVx3l7Q9iXbjUs7lcOaSoIOmhj4ZNNSexlJAtpAo70
+	 G/HOglDy834pmTytzM/mUWHc7/6DtlDRw8hkx2wEUSHv0S4Wek8eF0GSDHVKwTO12uNCr
+	 BEKBOvFBIucGTEql1EUff4dkcjOYAvNOqwpoEs3TUJSS64COVxM/7x3jb9I63kS+bnIpa
+	 +Z8Ej60FFr2960ykt90/4l+xjputNn3KWhkSzoZVz1IcYmASnIlEVpKLy2pH78og6nmKU
+	 SsfV3W9cVMsBjKjwncduaIQbp3WAyUXo9Qj7aYD5zryu5uYUIhgDZ7MuzcmoSoGZ8bQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794220480;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=dd44aJTKjIJ6wKz3jqo/SSE0ytNxuRCH5j/kJZBVp5s=;
-	b=JEbPyhMPMpVQ+FjQdaauO171NV0DMgRHcI2JIqM3yqp5q+rtSg1HNktMZVKHInv6uRkU
-	 +i+zohAccbt5YI68o3NzN0f81o7cqWcvM6pQthD76XGLVtUmQbILDETIw6T5zJdtZwbVv
-	 RWphkSuiHsI+o8anBHK6qDVQzCdg4MYHVbUBlVTbCcZdocidyjCtwEkbUwsfJbpo4uJpB
-	 VSKBAiuDIiKdX1X1LtSwoVheC2+KyBk9qpudRTzCc3uzyjN9aPBmRhdvx1kFqflppMGPK
-	 jZJ+wnxDBYUpZ0hvA/v+10x2Owy+2vOThrfJuWBaHTkzhxdtNHqulv+hTE8d9ghF3bQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794220658;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-Bm-Milter-Handled:
+	 X-Bm-Transport-Timestamp;
+	bh=DXCdZ0zqW7cyN4edtqpnghY1JVRAIFTb9zduHznDVao=;
+	b=XN9z3mQd6ei9Wkp7U6lr0+7kLgBAXe0t7pW/4W9SYQfXrstLQkm2G+50yVPVfwPnu6zx
+	 gntp3iXixrnHzVgKeM0UxAIetPBkaMmrnydqiPu1YdDrTLHKJQfkiQWUZ5REocxlCxD/Z
+	 Pe6KpMMNV+olvW6PaFbS3jchZC2a24kBx2h0R8NvGBrmdU2SWGi4+f0gMGEizAKSiraag
+	 L52YKb8P4C1/6msmbbeQjKbNajAbLWZNtiwlpcka9S1NaA1TfrI0RVn+w8OUeAYzoeFv9
+	 xI131AvR4sBjN3GpUuCv6Hhnu24d9/uZdjw2Km13JuTJHd5Ze463AeLzHN77iWFAI9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NOvkYUvW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=lauterbach.com;
+	spf=pass smtp.mailfrom=lauterbach.com;
+	arc=none smtp.remote-ip=62.154.241.218
+Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5916F606A33C
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 10:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NOvkYUvW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C10781F008AB;
-	Mon,  9 Nov 2026 10:34:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794220479;
-	bh=dd44aJTKjIJ6wKz3jqo/SSE0ytNxuRCH5j/kJZBVp5s=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NOvkYUvWjbZaT9n/Gg52EuC8WXo/IXxdfJ+Uythc0wnDF1/poMztvcrcztjFMpKY8
-	 nSf/ScoqcehoQ6za9dYVhoj2l/i78JxR5rCt+PEaXOS1C6aPpgIAIStOtdMgkRfdxZ
-	 H5nWJ5JPXk/MenrqUx6eAPL+opN6g/Q6sk1MG+HhTc4bKZaDHIuoKhZ6g7r21l/cUG
-	 vRiwueIob5HikLyJYFRYVepEboTxX/jar3ZU8kj7eBKYfZfYwMB4F9e/ir+MfWN1ph
-	 QsukRQoH/+AX0NHLb7jA66A67FF2h/4AVMuJOYtDHz3r8ou3yysuCCc03r4zE5CWdq
-	 hSEkkQYk+nFTA==
-Message-ID: <sashiko-outbox-204826@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: xhci: Fix ep0 maxpacket update on enabled slots
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Michal Pecio" <michal.pecio@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261109112846.04bfeb0f.michal.pecio@gmail.com>
-References: <20261109112846.04bfeb0f.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 10:34:39 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FF8606A31C;
+	Mon,  9 Nov 2026 10:37:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77FF8606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
+Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
+	(Authenticated sender: ingo.rohloff@lauterbach.com)
+	by bm.lauterbach.com (Postfix) with ESMTPSA id B58239B52E20;
+	Mon, 09 Nov 2026 11:37:27 +0100 (CET)
+From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+To: gregkh@linuxfoundation.org
+Cc: viro@zeniv.linux.org.uk,
+	nkapron@google.com,
+	me@samcday.com,
+	michael.bommarito@gmail.com,
+	linux-usb@vger.kernel.org,
+	Ingo Rohloff <ingo.rohloff@lauterbach.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: gadget: f_fs: Fix mmgrab()/mmdrop() balance.
+Date: Mon,  9 Nov 2026 11:37:14 +0100
+Message-ID: <20261109103714.4000-1-ingo.rohloff@lauterbach.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,34 +55,43 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
+X-Bm-Transport-Timestamp: 1794220647799
 
-> A slot in Enabled state has uninitialized output contexts;
-> it doesn't need and cannot accept Evaluate Context command.
-> Attempting the command only results in a (harmless) warning,
-> observed when core uses "old scheme" on a full-speed device:
->=20
->   WARN: invalid context state for evaluate context command.
->=20
-> This problem doesn't seem to have existed before ep0 update
-> was moved from urb_enqueue() to endpoint_reset(). USB core
-> doesn't use URBs before enable_device() or address_device(),
-> but it may call endpoint_reset() on ep0.
->=20
-> A more serious bug has been identified by Sashiko review bot.
-> Transaction Error of Address Device may cause the slot to be
-> reallocated and left in Enabled state, but the input context
-> [ ... ]
-> at the time of address_device() and enable_device() calls.
->=20
-> Fixes: e34900f46cd6 ("xhci: Reconfigure endpoint 0 max packet size only d=
-uring endpoint reset")
-> Fixes: af8e119f52e9 ("xhci: Fix Panther point NULL pointer deref at full-=
-speed re-enumeration")
-> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+This fixes commit 5eb5c72c72fe ("USB: gadget: ffs: fix mm lifetime
+handling").  The problem is that the previous patch calls mmgrab() for
+reads and writes, but it only calls mmdrop() for reads.  So with each
+completed async IO write (via an USB IN endpoint) the number of mm_count
+increases.
 
-Sashiko has reviewed this patch and found no issues.
+Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+Link: https://lore.kernel.org/r/20260901120908.14386-4-ingo.rohloff@lauterbach.com
+Fixes: 5eb5c72c72fe ("USB: gadget: ffs: fix mm lifetime handling")
+Cc: stable@vger.kernel.org
+---
+- Originally posted as patch 3/3 of "usb: gadget: f_fs: cancellation and mm fixes"
+  https://lore.kernel.org/r/20260901120908.14386-1-ingo.rohloff@lauterbach.com.
+  Resend because rest of the series is still to be discussed.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109112846.04bf=
-eb0f.michal.pecio@gmail.com?part=3D1
+ drivers/usb/gadget/function/f_fs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index c64a268e98a4..704cfae49f11 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -884,8 +884,8 @@ static void ffs_user_copy_worker(struct work_struct *work)
+ 		} else {
+ 			ret = -EFAULT;
+ 		}
+-		mmdrop(io_data->mm);
+ 	}
++	mmdrop(io_data->mm);
+ 
+ 	io_data->kiocb->ki_complete(io_data->kiocb, ret);
+ 
+-- 
+2.55.0
 
