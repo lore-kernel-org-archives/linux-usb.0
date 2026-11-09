@@ -1,80 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1794203743;
-	b=pLokPq/E2kZQcXQGHH0zIhQudzx1IBwf3JsQpZtRBL9HbKCEKo+My/w15kSJkuLOu6i0
-	 21HDWoynWqXFbK3SbpQ96Sf5jnHge6kgSlFbvXYlABviEiPVOQbzreyu4rcMF11nrAgUj
-	 m0YY2UywrkcfL5mdIYjzriEBYkXqY9jMbOLJmsrgjTPgkJmqxquqnto4riDNb18nxqxvQ
-	 RIS1aX1hTZ7zNf8KYZsIiRsPn+qWooO1A735YcazM1PE2rlyqjRty7iCIpseTnTUI1qyK
-	 TAdK4Prlf/Ld5/Oai6PdN/8XUIlcOxabunJ3xhrP4wOEAcnnGtCtgdEVgFaJqxVxzTw==
+	b=NC4eklO1fR3dMHNt51P0/krJeHeAkmwV6m1GqWN8Zm+YU5PrAKr6eahqGb+eaRTIv2ct
+	 Z1LOROnnnOTG9lr0fhtktxjxyr1rLn79Wl22c8nhzuaT8tqV6vfAeYdHugsU209cFqX1f
+	 kpukiBUpMFWRDaRRbBfOVLXLUvK3QtwkCGTzH/DFLE3vHolkrHUibfsvQUK//L2N8Jity
+	 paL3kTuUiwbbHo4NSwGXthCiUu/ePLvgfGplRnOoGxWagvz1GZJpSCtMeGaDpqCAeQ2zp
+	 GylWgT5jVL3pyK2b4mfVFR2HAhq4CuBoiny5Zj7xbmWy9xejQuzNq9Y049Nz3oli4mQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794203743;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=z3oJgnptaN19AejKVh/vbHNPExVc9fLWO+Fq+4OfdiU=;
-	b=HT/GeV36HBEJmM0NvRKrp4m4Go9WKkNOG+u89GXs0cdPVVVsaDF7ZV8Sgl9ODkCxVhAP
-	 GTkAx6oU8K90KXNRo+KvUYB0L/xRmW/2j+cr/DYpUbsfJgQUEvyIwD1mzajwCWK/b1iJH
-	 n1wAAaM312tzTJ4k3fMIRztvI1zoBAasseLT8RcNCZ9tIzmOnuTOSPR5KtWXkN7MalYRz
-	 uQJ4LBX7uobvvyJvskDdfgbPk072MqU0Rsb4JAwqhkGkCaLidHMqnT0jz4GJ/n6cB/x/A
-	 nlZcB1JPJIVuF6nER0938j/uTIV1ywTMpMGJrlm6MUVxcLQKsbYkXc+ToAauqomKUKQ==
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=WIIMhlyT6bJG5iobFdCE4wO+AjJlp7bbmR8f4x8NNmc=;
+	b=eARxrPrJXow7woXR4u6IgZmmp3TabUpaRmPi8MJVgi5mIVQWyNETbtMfcIZ/MDJshOEd
+	 5aUb32CrhDWCUvUeyOXMCxxTnIncXA0Ja8tINu+k4/y3jVzs0rBvoSRgli9mkYGEKA0HA
+	 j3vQDY/0DExmWLOHAtTS9+okURg8ybyam039j2sRlL4hMf34h0JAx5WFyrhEmbYye1xYC
+	 WS0zuLCyjMyUMyLq2+aANvvIK6YkEnlyiM7/U7QqhrdEaZ7Dtl1kbBiN47QOhnZKVxeQk
+	 AhEa1OyB0zOxIxCdNnMlMLkMXrtG1Zcw8Si+s3/NZ/jEXMtPi1v9dadk4CXt7EFfJZQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DvsriZZo;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kQOOoFlK;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4503C606A31C;
-	Mon,  9 Nov 2026 05:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A01C606A321;
+	Mon,  9 Nov 2026 05:55:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DvsriZZo
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kQOOoFlK
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794203742;
-	b=bzREgmdFeWF8VeLypbBCeXF6HM/4iQhEVAOnBw3SREwP2C3VxS0l50Ak1DsSsXg2qyfB
-	 omhNLayS/SGNf99IVSzKDfQQIJczI+oo1vSjuoW9ksy9y4EXH2jeVJXFuiiXIbi1N6tEp
-	 uNlRsPkBn+r4iBeb61mC06QnXNvNcm4529m8Apcfc7TLPm/r6BisMEBKr6jVfw/NPn3gD
-	 c94jXE6ZIY0PWELzukcJN9IUGQdkum0BGhGSnd3PSylrqZZL2EVdmyC9r+D7P5NeTD4WL
-	 JDLU/Tw/1J5fYCVDkOJt+IrTYtK9GO5Pubtfc0IgXLHTYrvK7hvyX0dApLSzRiVJbxA==
+	t=1794203743;
+	b=HllokmyKsaH9YMYubtW9N66kz29elxJpOqUWnBgNWK+RsyIjJ/bLRq1PSYzWSb0gAlbJ
+	 WACdJKl93X2BXr+GpydsNxwqEXCiCtlVIDf3oxZM2co+XdEB2DkP7idzaVFAf87g8kzR8
+	 KvsEcdTJDmxxOg8iL49mobTlqq1HP1m04iToseghXWn2EBaCIgCtxlHb5WyYQMA/40xCa
+	 qv/QjSryWq46YCF0bGv8YuiHorB5cDWvsrFYCDmJCdurAlOSoRj33SZiTPamESxVdSI6T
+	 sax32pJQK67FS5uxcFZgWQR3iwYF3Le+Bu8eyO743KmQJP5b7Q4+sDcj7c88iNorKww==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794203742;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=z3oJgnptaN19AejKVh/vbHNPExVc9fLWO+Fq+4OfdiU=;
-	b=akCPm9MlDzsepk7uuvaBcf2qYtwI797KooIQhyfFuikcAxjecKTI/RokAJQY0ShLs3Wy
-	 aeGh0gSXhqxPqdln42XjgojWWmMMLgekEtjP1nJ1rKYgInhieVyCHvEhiM5xRrliDWzeS
-	 7jyd/A44BMmKfNgXaYHfZJGyX2BOrHYic5HlyZp0LqN4N9cTdC5iMoup7Dkbpf+S8LJ08
-	 qpsubai4N9AIKIMQLzs9c2RhfMBHWV6Pf+jPLmmhwFFB0IfPsemorN+XOn0QTPDetLVfP
-	 d4lrpebJcwo9v9SJpO6XqJjtKuZbvmewIM+OvUgowIAjIvvvUlm0CNCPpXuhdkIQpFA==
+	c=relaxed/relaxed; t=1794203743;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=WIIMhlyT6bJG5iobFdCE4wO+AjJlp7bbmR8f4x8NNmc=;
+	b=zESQemZO4o6xtD2SrRfbbjNvYnE5qCp8kYo50Nn1gs7MaBAWR+5CVbbJjvQOK8Uir7lK
+	 5IP2QAU6+F6oDM8jG9GrUA7qoPX17UAq6Qpw124X43XaO01s8gdXsHdhTPGZ0EW5m6m1r
+	 6s67dPuhGNuPmQ7h1KhSQ5Sfgwrv2hNsP8FAWIs9NEQ8NFuOOAcAI4Wn14ufKhJf0rYwh
+	 rZDnsTxxejbkHU58uwzOTvsEpmoxo+GolvBvNEkv1MzrZeI5O+hnsYxAuQTExV1D8DJiT
+	 aJ9FDgQMbdg8KEVv00jJE54mOlcZ00C9g6JfuqfI/GkY4ULqe2hF494ea9KczdCYfAA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 14F991F008A2;
+	by smtp.kernel.org (Postfix) with ESMTPS id 1F64D1F008A3;
 	Mon,  9 Nov 2026 05:55:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794203742;
-	bh=z3oJgnptaN19AejKVh/vbHNPExVc9fLWO+Fq+4OfdiU=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=DvsriZZor1ke6u5VCQaS3JjFnN6TJViBlqN0HomgSMcuffHlGieCnHxnRm0k4C8cE
-	 5/fN49Nex8+BSePUmOIJ3MaOBYC6KLDDPWGPJeeykmAsDhnb7Vug6xUuh+hdsCxtZd
-	 AhVidgNtNUUT3r1BJZrvGl0pNEAJMQL80eceU77TV/I2x4112DVuZgIWSVXRm5K1IG
-	 TnALAxHY8CMBtHZ2Z82qdHUcGujzO934cPBdTiTt2wfDgA5XxWQhsY1qXyfeGzmPbH
-	 eJy3+tTR6XfPn4nJUc4yVTkvdz7RzKrN1lNHb629O9WAmj+RsihCzZHvnc9Pf7us8U
-	 5Dy+Zog0rlpVg==
+	s=k20260515; t=1794203743;
+	bh=WIIMhlyT6bJG5iobFdCE4wO+AjJlp7bbmR8f4x8NNmc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=kQOOoFlKBXfsuIu/RUvUkKiRFLnKAdt034B7w6H7ygAZd203GoiM+fRSXgNmW7+qc
+	 fTkZAWHVXIZRRCF0fUcZQNg2bgtv7TrJIRxGwiBXNmRwkj1fWHT7s/koaMR5UX8QmX
+	 hOz3iHVB8rJHxtay1XAb3XVrSBdHQIXdcBIOgT70SafaMIazYXeikIvIsvl/3haXUF
+	 78XGcRUbXG8HcTtwME6Mx0mPy7pNMFbC5bBqCuownpr52y6O+/NbBcCuJ/Bcx9t0Ch
+	 gpNmm0RFMe0mxS+d9IwNbD8o7XCLTswGu/z8BsuKo+Tczp/H2IePN7dfGhLSWOMs/p
+	 rUrdCVDTKY/dg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 65F64482D4;
+	by lkml.kernel.org (Postfix) with ESMTP id 9F7EB482DC;
 	Mon,  9 Nov 2026 05:55:41 +0000 (UTC)
 From: Jing Lin via B4 Relay <devnull+kayano050408.gmail.com@kernel.org>
-Subject: [PATCH v5 0/3] usb: gadget: gadgetfs: fix ep0 request lifetime and
- event counter
-Date: Mon, 09 Nov 2026 13:55:38 +0800
-Message-Id: <20261109-b4-gadgetfs-ep0-v5-0-f16d0b648bc2@gmail.com>
+Date: Mon, 09 Nov 2026 13:55:41 +0800
+Subject: [PATCH v5 3/3] usb: gadget: gadgetfs: avoid writing through the
+ const setup pointer
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -85,11 +84,9 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAA/yXMMQ6DMAxA0asgz1iKUYC2V0EMITipO1AUA6qEu
- HsDjG/4fwflJKzwKnZIvInKd8qoywL8202RUcZsqEzVEJkGB4vRjZGXoMizwfAg68m21Lon5Gp
- OHOR3Hbv+tq7Dh/1ybuA4/nZnaIBzAAAA
-X-Change-ID: 20261106-b4-gadgetfs-ep0-f814c14717a9
+Message-Id: <20261109-b4-gadgetfs-ep0-v5-3-f16d0b648bc2@gmail.com>
+References: <20261109-b4-gadgetfs-ep0-v5-0-f16d0b648bc2@gmail.com>
+In-Reply-To: <20261109-b4-gadgetfs-ep0-v5-0-f16d0b648bc2@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Neill Kapron <nkapron@google.com>
 Cc: Jing Lin <kayano050408@gmail.com>, 
@@ -97,68 +94,63 @@ Cc: Jing Lin <kayano050408@gmail.com>,
  Alan Stern <stern@rowland.harvard.edu>, linux-kernel@vger.kernel.org, 
  stable@vger.kernel.org, linux-usb@vger.kernel.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794203739; l=2478;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794203739; l=1685;
  i=kayano050408@gmail.com; s=default; h=from:subject:message-id;
- bh=DF1axyv67iSuG+wzHaBzMijjoGW1EVzMAH6xitD2aQA=;
- b=F1GfACeEdJiCFHx9fxiPDGc5KPHyAloblPu5sPW7JYotxvczXHMMb7fbfnYBRBAflAHB9PSis
- 4OIknUGXDE5Cckhan+yHB/qZ2XOvyx113NweETMvJWFk7/gKjzM1vly
+ bh=b6MoNxME4f44lJnt8mP7Bi+ISns5QSLf02GNPFd9pf4=;
+ b=ippID2JFWPISCSEuMYPgtr32/xjHzFRd56V+ja8sr0eTSIw1bsTRCyHB2YPmak+ot9LGZ7vNc
+ vw/8H2pC0N6DZFkBz/vCPszw7xGWWvwgiSww3DxRTFalt+mmKpsxg7I
 X-Developer-Key: i=kayano050408@gmail.com; a=ed25519;
  pk=pr6i8RN1WEON1jbXPdghSglxaBSzfuJjXNGFknX//+A=
 X-Endpoint-Received: by B4 Relay for kayano050408@gmail.com/default with
  auth_id=1441
 X-Original-From: Jing Lin <kayano050408@gmail.com>
 Reply-To: kayano050408@gmail.com
+Content-Transfer-Encoding: 7bit
 
-This series fixes the ep0 request lifetime and the shared request buffer
-races in gadgetfs, and the pre-existing event counter underflow.
+From: Jing Lin <kayano050408@gmail.com>
 
-The first patch covers the request lifetime and buffer ownership
-problems, the second patch the event counter underflow, and the third
-removes the const cast in gadgetfs_setup().
+gadgetfs_setup() receives the setup packet as const, but clamps an
+oversized control IN request by casting away the constness and writing
+the truncated length back into the caller's wLength field.
 
-Changes in v5:
-- Expand the first patch's changelog with the concrete interleavings of
-  the ep0_read()/ep0_write() races and explain why a mutex cannot be
-  used, as requested by Alan Stern.
-- Add a patch that clamps a local copy of the control request instead of
-  casting away the constness and writing into the caller's setup packet,
-  also suggested by Alan Stern.
-- Restore STATE_DEV_CONNECTED when a delegated data read is aborted by a
-  new setup, so the following event read is not misdirected into the
-  control data path.
-- Link to v4: https://lore.kernel.org/all/20261107-b4-gadgetfs-ep0-v4-0-86bdfd684b54@gmail.com/
+The setup() callback has no business modifying the setup packet.  Use a
+local copy of the request for the clamped length instead.  Userspace
+still observes the truncated wLength in the GADGETFS_SETUP event, and
+the queued request length is unchanged.
 
-On the submit/unbind window: every ep0 submission increments udc_usage
-under dev->lock before the lock is dropped, and gadgetfs_unbind() sets
-STATE_DEV_UNBOUND and waits for udc_usage to reach zero before it samples
-ep0_req_queued.  A thread that has set ep0_req_queued but has not yet
-called usb_ep_queue() therefore keeps unbind waiting; when unbind
-resumes, the queue call has completed and the flag and the endpoint queue
-agree.  The request that is still queued at unbind is then dequeued
-before it is freed.  With a test-only delay between setting the flag and
-calling usb_ep_queue(), close() blocked for the remaining delay (610 ms,
-versus 3 ms without the delay), confirming that teardown waits for the
-submission to finish.
-
-The series was tested with the syzbot reproducer and with targeted
-lifecycle, request-reuse, wedge, and event-counter tests on arm64 QEMU
-with dummy_hcd, KASAN, and lockdep.
-
+Suggested-by: Alan Stern <stern@rowland.harvard.edu>
 Signed-off-by: Jing Lin <kayano050408@gmail.com>
 ---
-Jing Lin (3):
-      usb: gadget: gadgetfs: fix ep0 request lifetime on disconnect
-      usb: gadget: gadgetfs: prevent ep0 event counter underflow
-      usb: gadget: gadgetfs: avoid writing through the const setup pointer
+ drivers/usb/gadget/legacy/inode.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
- drivers/usb/gadget/legacy/inode.c | 181 ++++++++++++++++++++++++++------------
- 1 file changed, 123 insertions(+), 58 deletions(-)
----
-base-commit: f66469d9905b39d2c260a15d7d6db450f4db67c1
-change-id: 20261106-b4-gadgetfs-ep0-f814c14717a9
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index 4635a603e..23a36d556 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -1510,15 +1510,16 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 	struct usb_request		*req = dev->req;
+ 	int				value = -EOPNOTSUPP;
+ 	struct usb_gadgetfs_event	*event;
++	struct usb_ctrlrequest		ctrl_buf;
+ 	u16				w_value = le16_to_cpu(ctrl->wValue);
+ 	u16				w_length = le16_to_cpu(ctrl->wLength);
+ 
+ 	if (w_length > RBUF_SIZE) {
+ 		if (ctrl->bRequestType & USB_DIR_IN) {
+-			/* Cast away the const, we are going to overwrite on purpose. */
+-			__le16 *temp = (__le16 *)&ctrl->wLength;
+-
+-			*temp = cpu_to_le16(RBUF_SIZE);
++			/* Report the length we can actually handle to userspace. */
++			ctrl_buf = *ctrl;
++			ctrl_buf.wLength = cpu_to_le16(RBUF_SIZE);
++			ctrl = &ctrl_buf;
+ 			w_length = RBUF_SIZE;
+ 		} else {
+ 			return value;
 
-Best regards,
---  
-Jing Lin <kayano050408@gmail.com>
+-- 
+Git-155)
 
 
