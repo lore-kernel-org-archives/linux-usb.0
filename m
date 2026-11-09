@@ -1,80 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794243161;
-	b=JlnuCZdjDbnMuSk9vnEIzB+HvP6EydrpD/E3SOSQ70OcEaafLSTE24Mc3DQA16QcjINh
-	 FbJu3upIzi57npuW41yK9zddg5JHOYB6CcRnx27GV0+eEqb41iIq/RxrJSf8eH2Voc2+o
-	 ZhL9t7CC4K4nrBBRFhOQ27Na8opYmY5AGzg2tioafdQ+okcbWQ+sRcn8p36tcP2BKDpKL
-	 YLCZuO+eXQ99ftodRkz1jIdimP61Fq+d8rwa+RWcjaoVTovFX0j2fPcweiFqaRV8Ts4Vk
-	 7wuy71Rt59PZvprEiGW5YTzERDjnvveKJWRLTELaYYmVCmyhc7SDPWgoByjHAJT7Xlw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794243161;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=qEvsgASyiiyks7x4vS2QsfumVfMFULPYeul4eGRCqq8=;
-	b=0wjsIaQzbLbgW6HcoBB+Q24aNBnmT4EcxoBV1pTivk0RIznQnoGra8fnZ0jk/OPIBv0z
-	 rC2qEmcQHuOZdmLdykD5tiPwDn8IAqHaCaP54BO93UPhOmyZPFQk0zV1w89WqW6J81qkt
-	 aLMmoyi2XQxl8EHgILJsIopCP6uTa3z/XXy02ndfvZRg5WQHJJTnoJW3Ybze9Vwa5Iz7C
-	 T4n9/aD8TBfYx9FN5BhrBdX6M59aIIaHttfqobLDzTz1LbDcmNYy0Ket1HlkuxQsR8TpH
-	 pKti9k1QVXeimxyy0SJ4OWL8KqiecwPOc6GGlGUpD71d2J4IZTZKCigNOTP+iVxbBjg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=U49LbYej;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794243499;
+	b=H2Ybi0ZW3aT/8gKJfBwTe4rhkSzbEvk4d530LNc8mtzDdKnM4EZJaHq7AU8gnZAzPVDj
+	 m2EndbHs81HvI/fDvjRabXKMBHqqfc/EAoBD3PFZ6j6zDkh1nO2nsnV/55b6u/LME/s0S
+	 YE7Q7YAWc/KH1ZIMTZElWuJ9yU3pUypIk50AZyW0TRvZYQXIWspLHSVBItLhEYXZaYAfF
+	 FIwaBBZugzBDHqk1ErtqpGj/l954RT5CSFHZUksFEcfxKRATKGrpTF4WZBYTHJphQwFoK
+	 7w4oNKAttuqHMmSICGrB6ziZ9DsNKzavEGSvFuZdi1asTJUVZlGpHBnh/xMjJvoB6Nw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794243499;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=04wIlAZbBBFLI1pA4/Ovc7MOg/six0fgzdXInH7VT0c=;
+	b=aZamLma4KTNdk8iM1oXZSV6AYIoH1GOsXlR705XH03YuiTynjxnPe7DezjeRkf9ylE3l
+	 Dx9f/GoKZQgLNOvDvPJHC/OD78TcpttzTkxwlVoY9CAVRdTne21+HxoTtLk7A9ld68eaD
+	 EFKNRkKyPnWhuavbJzcKI1DaS5VqIJVCGTf3ZVS2d/MMxf4kyLdFI6oezF/IlWaxp37DI
+	 IIUEdSGil2JFocK0cDs5K4CdiIxGOQ8nRB/WN7zfRTpxx0vVE84kAXGaiTCZ+hX9yQCJ2
+	 b0lqn6LU2TBkMjku8VBOH+GYwkFGH1IgQlr06onk4ViXyhi1Zmi9JsuHKga9c75H4wQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="oK8pr/6H";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6569E60A2617;
-	Mon,  9 Nov 2026 16:52:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6569E60A2617
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A260E606A42B;
+	Mon,  9 Nov 2026 16:58:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=U49LbYej
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794243161; x=1825779161;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TqNuFJ4AUkWwd8Ol2yEOSN/851PbYbnaXPGmKn08RS4=;
-  b=U49LbYej3/zOLAX/s/zRPBUEzofEwKDU7pldh60XkBiN9/4agMCAbAH8
-   Rs2a/ddAk0emizRfpkR8r96dgM803krBxOlUtxXHTAf3q0VDNEVlDMCvi
-   iBxcqWsGXn8RGz5eRQSrvx0tSw/6/K4kTk3DfMKoeuQCc/kc/JUM/EEtT
-   WjZXmjO1VpaZGnepsXZtANQarxZ+Dp7eptLMuO9mLS9iARFBe+gpT4oZR
-   jZ4zI+fFrOAAj+DIu33SoxiZm5gDHEKpYJKqI1ucn/q7BJbb3MSw2o6ce
-   gPphiRIMfsQ7XIuM4t5iYcWH2Lru/2eTS+F51wcYxnscAsngN0n/y/fiq
-   w==;
-X-CSE-ConnectionGUID: mO1uaeDIQ0+O4yys5UsRDQ==
-X-CSE-MsgGUID: WaryQF38TruNwiTb0+quxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2869706"
-X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="2869706"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 08:52:40 -0800
-X-CSE-ConnectionGUID: rAJgo+LIQ5qJaAcLhRcsAA==
-X-CSE-MsgGUID: DyX+TZT8Tfq6txXlnCdk3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="7773963"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa007.jf.intel.com with ESMTP; 09 Nov 2026 08:52:37 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 0E10F99; Mon, 09 Nov 2026 17:52:36 +0100 (CET)
-Date: Mon, 9 Nov 2026 17:52:36 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
-Cc: Dominique Martinet <asmadeus@codewreck.org>, ericvh@kernel.org,
-	lucho@ionkov.net, andreas.noever@gmail.com, YehezkelShB@gmail.com,
-	corbet@lwn.net, linux-usb@vger.kernel.org, v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux_oss@crudebyte.com
-Subject: Re: [PATCH 0/3] net/9p: Add 9P transport over USB4STREAM
-Message-ID: <20261109165236.GW176724@black.igk.intel.com>
-References: <20260924162333.147033-1-alan.borzeszkowski@linux.intel.com>
- <auKzZIyFW2CTci1b@codewreck.org>
- <bc1ec916278d94116bd9b60e40b549612e3ff3a4.camel@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oK8pr/6H
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794243499;
+	b=pI+ZnuNCKpntsuE6pArlg8hOOa1LyKtngxd+y8/xKV5axXimOUJgBLlN1aBLVAKbI4RL
+	 Wx2uRSeHkpArNeecnF2k9+r2ZDfN2YG5UfsEsMSXdFfDnEwDHpLI0wZelBLgcFNatuF0J
+	 5ggYmw8YjqV3UagbrNUXOKL17MZwB61xakLWz1h1S8Ry3fncWfTLZkdtYHafA0Pv7G5T1
+	 Z56+FJeTOtwo3ETGhJwb4B6oN0qF63QmVbAPflZvs6i6eBM9YBwal6j4SFJM1elwR7WS3
+	 gqL1HIENeY7B/PaWcqWLHdNDCBDWvgjGlokd7GuBmLJuIsYdH7QrDF0bdHsiqbNpi2A==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794243499;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=04wIlAZbBBFLI1pA4/Ovc7MOg/six0fgzdXInH7VT0c=;
+	b=cP8dFBE1DrFpxIK6h1xM3EcrdGgq377q2epItrzV05Qh3QGuJSeYCgu5nfgiMPqkgU96
+	 Ew+Me+nd6mWuICULB016T+Zy4HNMVh2ALTUkjt7JwuFWhX3qucYZCfBWIqqatjNLzyMs8
+	 3a17h4dtf8gjxCLFNLN/fmnznbDlgwDKIOcg7ncYzfDAyxQaf4R7Hhjjl+BzgyE3Z/GDe
+	 joNQxFNl3YdQiSJNNen/gxHF/acKju93Onety9rkXjq3bzSQwtYJsyfpOmlPzYu3Lp0s+
+	 0RkLHmhH1or4crOB8DdwHtbrmfubo5BRgULiLTMvqucNxbkKfKoNM1v7KJjF/3lkq7w==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 98C671F0089F;
+	Mon,  9 Nov 2026 16:58:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794243499;
+	bh=04wIlAZbBBFLI1pA4/Ovc7MOg/six0fgzdXInH7VT0c=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=oK8pr/6HljH8ktY2RK8fjE+m+xekvFRuwnJj2YTb7j+2Cul0gCe3bPBqjwp/Mj1mP
+	 JxQ43pDi6ghAMiz1mlLinJ118NS84gV/JqDbUdgr3tfzl0O2AAsJ9cuLxjENingGUL
+	 Bw3Scde8oJabjH9f41d1kRzIHGrBrxr8ofVlUHj197wB4i+tHbjEOUzphdtqjdLNuZ
+	 ynvLfHZWubAyyuOesbmwK9W9vE96MpiDprAExsv/FShKubwHGPpnf//aABsptuMgSg
+	 E3JI0xScB4glfcliatw55aiI6Qpj1W1Yjp6gdfE5pyviUe76eZMXwXmVwfPUL9iLno
+	 Q8ZnMR3KS7kmQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 2CA1E4853A;
+	Mon,  9 Nov 2026 16:58:18 +0000 (UTC)
+From: Blake Alexander via B4 Relay <devnull+blake.alexander.airbus.com@kernel.org>
+Date: Mon, 09 Nov 2026 17:56:30 +0100
+Subject: [PATCH net-next] net: usb: name usb ethernet mdio buses reliably
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,98 +82,109 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <bc1ec916278d94116bd9b60e40b549612e3ff3a4.camel@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261109-net-usb-mdio-naming-v1-1-f4cca6737784@airbus.com>
+X-B4-Tracking: v=1; b=H4sIAD378WoC/yWNQQqEMBAEvyJzdiCJbHD3K+JB46hzcNQkiiD+f
+ aMei6K6TwjkmQL8shM87Rx4lgQ6z8CNjQyE3CUGo4zVWn1RKOIWWpw6nlGaiWVA1xamt6X6uMJ
+ CKhdPPR/PagV3IHREqF/jad3STXx1fV1/74gEGYQAAAA=
+X-Change-ID: 20261109-net-usb-mdio-naming-cb32f6805c36
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Thangaraj Samynathan <Thangaraj.S@microchip.com>, 
+ UNGLinuxDriver@microchip.com
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Blake Alexander <blake.alexander@airbus.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794243402; l=3082;
+ i=blake.alexander@airbus.com; s=20261109; h=from:subject:message-id;
+ bh=Aq+iM0Hh6B0JDL8TaEt+jovCKbEtmkgqtg3fnPSTJ7g=;
+ b=zQtsDUC3IQ/9zbR59Oke/23oXkcipe+Aoo0hYfR0yshRy6+pJHAYpnxqU6DhpgCnfUZ9j4sO6
+ creHUuquyHCC2m7dmNf0wVECO2+pfqkrStd6/TlvRj0bQ5/4SNqnNdh
+X-Developer-Key: i=blake.alexander@airbus.com; a=ed25519;
+ pk=cfpa2FQbYHF1zxIJuHbr8W+NR9T4DK/baAknnTv2I68=
+X-Endpoint-Received: by B4 Relay for blake.alexander@airbus.com/20261109
+ with auth_id=1461
+X-Original-From: Blake Alexander <blake.alexander@airbus.com>
+Reply-To: blake.alexander@airbus.com
+Content-Transfer-Encoding: 7bit
 
-Hi,
+From: Blake Alexander <blake.alexander@airbus.com>
 
-On Mon, Nov 02, 2026 at 04:39:15PM +0100, Alan Borzeszkowski wrote:
-> Hi,
-> 
-> On Thu, 2026-10-29 at 11:45 +0900, Dominique Martinet wrote:
-> > Alan Borzeszkowski wrote on Thu, Sep 24, 2026 at 06:23:30PM +0200:
-> > > This series adds trans=thunderbolt, a 9P transport over the
-> > > Thunderbolt/USB4 DMA tunnels exposed by the tbstream character
-> > > devices
-> > > (USB4STREAM). It's designed for simple host-to-host file sharing
-> > > over
-> > > single Thunderbolt/USB4 cable.
-> > > 
-> > > Today the only practical way to use 9P over a USB4 link is trans=fd
-> > > which, due to its design, cannot fully utilize USB4STREAM
-> > > capabilities.
-> > > Thunderbolt transport offers a simpler mount (no fd redirection
-> > > required),
-> > > busy-poll support and substantial throughput increase compared to
-> > > FD
-> > > transport.
-> > > 
-> > > User may mount 9P export with following command:
-> > > 
-> > > mount -t 9p -o trans=thunderbolt,aname=<exported_remote>
-> > > /dev/tbstreamX /mnt
-> > > 
-> > > Thunderbolt transport achieves a median 1.21x more throughput
-> > > compared
-> > > to FD transport under same conditions, and the advantage grows with
-> > > concurrency: 1.03-1.09x at 1-2 threads, 1.14-1.27x at 4, and 1.34-
-> > > 2.28x
-> > > at 8-16.
-> > > 
-> > > As an example, 4K random reads, 4 worker threads. FD transport
-> > > achieves
-> > > ~53k IOPS, Thunderbolt transport ~66k (+24.7%). 4K random writes
-> > > follow:
-> > > FD ~28k IOPS, Thunderbolt ~33k (+19.4%).
-> > 
-> > Thanks for the patches
-> > 
-> > We've kept adding new transports for 9p lately but maintenance is
-> > becoming a burden so let me push back a bit: is the increased
-> > performance really worth it over trans=fd ?
-> 
-> >From the data I've collected, yes. trans=thunderbolt is at worst on par
-> with trans=fd and with increasing amount of threads, trans=fd lags
-> behind.
-> 
-> Thunderbolt transport also offers busy-poll support, which boosts
-> performance significantly at low thread counts. It cannot be used by
-> trans=fd due to its design around polling.
-> 
-> And regarding maintenance, this transport is simple and much smaller
-> than existing ones.
-> 
-> > 
-> > If this could be used to bringup a system with a root filesystem like
-> > it
-> > was done for trans=usbg I'd see the point, but otherwise the simpler
-> > usage could be addressed with a simple mount.9p helper, and at this
-> > point I'd consider usb4stream to be used for perhaps one-shot copy
-> > and
-> > not care too much about 4k random IOs (so less affected by latency
-> > if msize is large enough, and for a one-shot backup it doesn't matter
-> > too much if it takes 6 instead of 5 minutes)
-> 
-> In case of one-shot backup, I think my drag&drop scenario from cover-
-> letter fits it well. Assuming single thread copy, both transports
-> achieve similar results, but with busy-poll enabled, trans=thunderbolt
-> cuts about 1/3rd of copy time:
-> Copy from 9P client to a server, using trans=fd, takes 22m29s while
-> trans=thunderbolt + busy-poll takes 14m50s (~1.5x faster).
-> Reverse direction, same improvement: reducing copy time from 41m07s to
-> 26m56s. All done on default msize.
+Embedded systems may utilize fixed USB ethernet controllers (such as the
+LAN78xx series) which are soldered directly onto the board. Currently,
+the MDIO bus names for USB ethernet devices are non-deterministic as
+they rely on the USB bus and device numbers (e.g.
+"usb-${bus_num}:${dev_num}").
 
-That sounds like a good reason to include it IMHO. Also I like the
-simplicity - no need to run a separate descriptor feeding process :)
+For hot-pluggable devices a stable MDIO bus name cannot be assumed.
+However, for systems using fixed devices, user-space configuration
+scripts and tools require predictable bus names.
 
-> > If you can convince me this is worth it and can take care of the
-> > transport for the forseable future I'm not dead set to refuse this,
-> > but
-> > I can't say I'm convinced right now, especially as I can't even test
-> > this (I don't own two computers with working usb-c...)
-> 
-> I would be happy to maintain Thunderbolt transport.
+Use usb_make_path() to generate the MDIO bus name instead, ensuring a
+predictable and deterministic bus naming scheme when attached at the
+same position within the USB hierarchy.
 
-If Dominique is okay with this, I suggest to send v2 with a MAINTAINERS
-update as well.
+Signed-off-by: Blake Alexander <blake.alexander@airbus.com>
+---
+ drivers/net/usb/asix_devices.c | 5 ++---
+ drivers/net/usb/ax88172a.c     | 5 ++---
+ drivers/net/usb/lan78xx.c      | 3 +--
+ 3 files changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
+index 293ef80c4e30..c752fa3868b8 100644
+--- a/drivers/net/usb/asix_devices.c
++++ b/drivers/net/usb/asix_devices.c
+@@ -680,9 +680,8 @@ static int ax88772_init_mdio(struct usbnet *dev)
+ 	priv->mdio->write = &asix_mdio_bus_write;
+ 	priv->mdio->name = "Asix MDIO Bus";
+ 	priv->mdio->phy_mask = ~(BIT(priv->phy_addr & 0x1f) | BIT(AX_EMBD_PHY_ADDR));
+-	/* mii bus name is usb-<usb bus number>-<usb device number> */
+-	snprintf(priv->mdio->id, MII_BUS_ID_SIZE, "usb-%03d:%03d",
+-		 dev->udev->bus->busnum, dev->udev->devnum);
++
++	usb_make_path(dev->udev, priv->mdio->id, MII_BUS_ID_SIZE);
+ 
+ 	ret = mdiobus_register(priv->mdio);
+ 	if (ret) {
+diff --git a/drivers/net/usb/ax88172a.c b/drivers/net/usb/ax88172a.c
+index f5036451f086..9f050de0cddb 100644
+--- a/drivers/net/usb/ax88172a.c
++++ b/drivers/net/usb/ax88172a.c
+@@ -73,9 +73,8 @@ static int ax88172a_init_mdio(struct usbnet *dev)
+ 	priv->mdio->read = &asix_mdio_bus_read;
+ 	priv->mdio->write = &asix_mdio_bus_write;
+ 	priv->mdio->name = "Asix MDIO Bus";
+-	/* mii bus name is usb-<usb bus number>-<usb device number> */
+-	snprintf(priv->mdio->id, MII_BUS_ID_SIZE, "usb-%03d:%03d",
+-		 dev->udev->bus->busnum, dev->udev->devnum);
++
++	usb_make_path(dev->udev, priv->mdio->id, MII_BUS_ID_SIZE);
+ 
+ 	ret = mdiobus_register(priv->mdio);
+ 	if (ret) {
+diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+index d73002b2c21a..153aa56b8e68 100644
+--- a/drivers/net/usb/lan78xx.c
++++ b/drivers/net/usb/lan78xx.c
+@@ -2117,8 +2117,7 @@ static int lan78xx_mdio_init(struct lan78xx_net *dev)
+ 	dev->mdiobus->name = "lan78xx-mdiobus";
+ 	dev->mdiobus->parent = &dev->udev->dev;
+ 
+-	snprintf(dev->mdiobus->id, MII_BUS_ID_SIZE, "usb-%03d:%03d",
+-		 dev->udev->bus->busnum, dev->udev->devnum);
++	usb_make_path(dev->udev, dev->mdiobus->id, MII_BUS_ID_SIZE);
+ 
+ 	switch (dev->chipid) {
+ 	case ID_REV_CHIP_ID_7800_:
+
+---
+base-commit: fa5196392691051963726787944db872420dfa75
+change-id: 20261109-net-usb-mdio-naming-cb32f6805c36
+
+Best regards,
+--  
+Blake Alexander <blake.alexander@airbus.com>
+
+
