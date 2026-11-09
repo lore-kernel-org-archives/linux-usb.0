@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794184861;
-	b=wWe8CxrHDgtFgz0/V+4AyHwccRTKFraMyKGR1RoC+0csEVpuJCoaHM6x4NfWygA3kfiN
-	 XgrSnivUIiVnL7TQzKOWFt1yI4usOgp0TiJshoMGMfRFxpdapTBDqfm6YaKdY+hWtFty4
-	 dP3RnIuztpV50Qf4zCs303BrVj6YJOJsdyuoHbTlSy2sDVEBysCrPrqE/cGg8TYRNstnp
-	 fODRZweNy0oXEqJNyMeNhuIBd2GvkqQcvBSsv+wfDb+LvVLHPvbMhAmBhyjUG8UzCvjRb
-	 dM5PTMEWLZ4C/K8mE9yalaw6mz/HF+TjDBpOkuXCJnH9+xzbiOwDLbecNyzAHvz52dg==
+	t=1794184948;
+	b=Kwda44ayLBHcTPC0abcSPtOugrmIc7rsZxSr4MMREQ+wNMeK95Sqkhisxh5v1lB3Y+zM
+	 C3SU8OtGzxYtYaMv2L+SBpzpNhsaOwGWPTJFB8Srk0jaOzYsDSC7xdr03ahvUnqoPAI4w
+	 J3lrj3v3ErnmyxfLb9TOmAldPDnL4oKPkGFF9uON/7ZnwOZPc7swZfGs4bUgccnktKm1W
+	 6qZnP6Ca/Nn7W5LGllwVnW4N832eS/swCdoCrEOmCMI1TbbPbjaTOKdflWvlz3T7prUq1
+	 IUYclYHwOvrUwtl4b7xzVCeilzDXlM+eAHdqDAgmYIkLcitsvgokHh591Rtz3iZMYBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794184861;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794184948;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=f0Kl+Arth854YQdg0wVgiQA59pq+B2C0oMm4CoUVGGM=;
-	b=wHUUEhRa2LR8CWMhZjAiuIgceurJROQwPFwzg249AyfhcU2fwIXOqesWqcBbRrcqqXer
-	 M6EnFFp4gdTacvIuzjYsHXILCxlqWKySvPh7f6kG3KMSiSwi8sHekVftGGQhiaZNGsJ1/
-	 khPf2amDXzI/4yPp2CLFvi4ggE0xaaIKV4f00/DHjO0kYpxhPp9rMEBcvz093RnUVE28n
-	 lQpEX1xdZf/SngS/YwiAs8DR5jq1+/lVCFLlEa2STOTvl+6Zo4nOuDJFWcRNubaQge7eP
-	 KOTqJGtI8O4Jz+YiA+Hvm5SsrS3HcDBL3RbrCltH3KyYjlYpYxDECaGvgWM49l0mYcA==
+	bh=34gF0cNPpY2383eWIJliMbnb9k/LHL5qQeS0Ls2RclU=;
+	b=oB8aO3Qo4H/fz9nLsHDXYlFTePCt0oZseT4ioUWnqAoStOb80v9NyX7p+9cUebvkdNEU
+	 TpyXKSIrUSQ5oQrk49nap+CmzvvfZCxhjZnFbjgSTjhuiUravmV9UZwEbXJ12SDZMM+ii
+	 aKpOiXGA7EaEshh9QfBRg9KN7R0KsnEXvKo6F9AR66N3WfIlkjsF7CmQ0iodjeX76Ix1Z
+	 4lNvednMEcH4D/CxVo/1jbHCZ2VBmI9zYpQ6xvAuSZpo+3EQCrnUS58VYZNpV8DxKvbXh
+	 psAKk1d4Rryaj1qFOPKIfCUHUTMZsoxrFWB92BvDZ9O/WHabxlkC/KPx7LRpF4Y4U4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iQI17n22;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="aeEa1/aw";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1654A606A31C;
-	Mon,  9 Nov 2026 00:41:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9874C606A322;
+	Mon,  9 Nov 2026 00:42:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iQI17n22
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB4721F0089F;
-	Mon,  9 Nov 2026 00:41:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aeEa1/aw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D0821F008A1;
+	Mon,  9 Nov 2026 00:42:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794184860;
-	bh=f0Kl+Arth854YQdg0wVgiQA59pq+B2C0oMm4CoUVGGM=;
+	s=k20260515; t=1794184948;
+	bh=34gF0cNPpY2383eWIJliMbnb9k/LHL5qQeS0Ls2RclU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iQI17n22FsuH1eyYeQ8dGbbE/bmSOKdLvUsuOjVMrHvFWjNdvYslqu7up3lyImSG6
-	 6wn+7ekLz78sva3ZMJCYfm6WlvRIxKdBodX3YVp7VwfApSaXRALZLRXLnuPXIxGsNX
-	 HlLk9eohbj8pbRww7kAUPZIEfocLF9p6sHQyxpZjPWWha35ZXD96SIchdgUBd4ni6o
-	 GXY+Cf6ro4Q2vs8Wy/rnjTr6FA7L69L2FDn+opYy6t/wcMxyGETttx5TPuGlZATAlL
-	 enj0kAxpufp4rm9FZkcNieMqh/rgGN9Q6pCMJiLu0npnC8ZwoRaze97xs3w4D0sVIr
-	 46EiuUgrGpNcA==
-Message-ID: <sashiko-outbox-204237@kernel.org>
+	b=aeEa1/awhC1ohK0TlVfN6/C3I1dpAij33Jo9UdG2dQ243paRqK2G2zLPdVcnf3qx9
+	 Mt/M0IgaQDMy32yw07gMq1tUh/bYFh4jcNq93tQv4+DmluelhyuB8kMcfP5rDoaaME
+	 c+6KITnQwn9pfIIdy/jbvWRorvsLxKSqbX/Ww/5XpbyOEZIgC8+IvVJ6ArK28csPu7
+	 LFKkIJetzKQY4WQJmgltUi7uHQDecS22+7m2Bv9ux2olle5wwHTU1H9gyslbul3RJ7
+	 PuDjUsr8TLT+KIngWrhQeY8Ge0ie+gRj3//xhMKjR2B1NIFUH2qQF00/wDG/zEyULD
+	 NbmObPbXNDgEA==
+Message-ID: <sashiko-outbox-204244@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 04/17] dt-bindings: power: qcom,rpmpd: document the
- Halliday RPMh Power Domains
+Subject: Re: [PATCH 07/17] dt-bindings: usb: qcom,snps-dwc3: Add Halliday
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Stanislav Aleksandrov" <lightofmysoul@gmail.com>
 Cc: mfd@lists.linux.dev, linux-usb@vger.kernel.org, lee@kernel.org
-In-Reply-To: <20261109-halliday-dts-v1-4-289114ab8197@gmail.com>
+In-Reply-To: <20261109-halliday-dts-v1-7-289114ab8197@gmail.com>
 References: <20261109-halliday-dts-v1-0-289114ab8197@gmail.com>
- <20261109-halliday-dts-v1-4-289114ab8197@gmail.com>
+ <20261109-halliday-dts-v1-7-289114ab8197@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 00:41:00 +0000
+Date: Mon, 09 Nov 2026 00:42:27 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,10 +60,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Document the RPMh Power Domains on the Qualcomm Halliday SoC
-> (SXR2250P). Its command DB has the same power domains as SM8450
-> (CX, EBI, GFX, LCX, LMX, MMCX, MSS, MX and MXC), so use
-> qcom,sm8450-rpmhpd as the fallback compatible.
+> Document the DWC3 USB controller on the Qualcomm Halliday SoC.
 >=20
 > Signed-off-by: Stanislav Aleksandrov <lightofmysoul@gmail.com>
 
@@ -72,5 +68,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-halliday-d=
-ts-v1-0-289114ab8197@gmail.com?part=3D4
+ts-v1-0-289114ab8197@gmail.com?part=3D7
 
