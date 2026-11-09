@@ -1,87 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794239513;
-	b=VP/DDpqioFXzwRl2hicPgg9itaSIHxm7Cfiry8K/6GR88+aCnbNxRL21zlMRgrsZmjSg
-	 bX9PMs90aRF/7o1piA4VI0hIBfB9diLfHUcJVscnz3swk8eFjrz4gDSG8ve01UF5jfbx8
-	 EUSj32RS6aEmUrwpQqNdQircHv5jHscj3nCAbCZRGX/8nlWTwH7q/+IeGF9TLk/td47tB
-	 qApgTqV2NGRLn9hET7JNloYV3NFGgu14qnW0I9TuJgFLF++Zbog/NtsGePpR56CqMzLGB
-	 VoAkeVZUXHQ3c97jI3O8xcOjLYzsl4KbQha2NJX0hQC2MY+++jHgGEmg5hIGVYOp/Wg==
+	t=1794239604;
+	b=CyidlyXCETGjPFK2dCtsWHQG2woupxROW/RN+kTJB6L7KctqBA8hja09KwenQ6hBBcZ/
+	 ReddTCDsXoSOSskEKLhGF6jmAzyLkBPRvVa2AM1B0Aup1nblkavI8mwJ36VyE0jejZ15a
+	 DAakfie5lFZfGj80QxtBCWplmx+gvXrrXkj5VRIl1UJ+vDMr9cSxZ4TRtjgyJ35FmNY26
+	 rGW1qcF79Q817rKSEAjC7Ddt0qNJnnxUqaRRvjgbyqGH/0puc2TdaApkNZgpGj9dGynjt
+	 /R6+mV5WfaV9SR0HsMZiSzNROLeQbosgYJJJctHhy+pPHatHa2E/IYSO4ySbxBSmO8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794239513;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794239604;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:Cc:References:
-	 Content-Language:To:From:In-Reply-To:Content-Type:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:From:
+	 To:Cc:Subject:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=GqcUVOE8YZm1FPDzDze4+rCKgn8rK0xiBVztztTok30=;
-	b=XQnkq4CiOw+tSXUpYPAOZfTVbCbf9BJSXebbi/9nd/P4zxMm6keAZtNgtLiNXssllAYV
-	 JxXUst9IMT4q+f4XZFHn4JOjDKgMcUjBccnOPxuZPO9zOaCzmmBfpatURlEp2QjBO1MW2
-	 lvEvyD+Dcoi2KmkxWUaZsbiHzhbT4VlWroZG9Awdh3EAG9lX79uw3JVTxBkY98PGml+49
-	 AJ3Dl8Plvvb2XD0tfQVQ32oW0IYl47EteUF6unsYxSa/A4XB/5wSUrhLq/ZhtW3Kqrhi2
-	 zxxfzDPSivyTz3zsjE3qQ65SwvW8NcSP/ImwWU70ZPonRLCS2Wj2Uf7trsLY380qN8A==
+	bh=D5Q+E9tn7HiIeANz8X44oObsdVCCkRXBa32pfwmLNBg=;
+	b=utLdTpigtEs563luNNj5cWaryIgMXuSVkgSqPRP6+/2bOPnekoB0Xd7umfcmipjRW5EP
+	 hUbsiooOekMxlSjeTmHSk56E7HKHPboC2OsWHukUD8mJAFEsFePRfXBsfkqFHs8Ue9gix
+	 WcAj0FnKT3TRAB4ISghG9tJnSV7q8nmr2Cj/PlN0+MWeC85jrNlqs6+L8YqaecaiqIDLH
+	 RANHMOI/mvGe/FjoAXT53PPQiQXxpBfQwR+X2RAGV5SnuXX+xFqwXRbDyCZ4nt/MtQo9S
+	 Zwq5+dOQUmct26uZx1r/i7c3cFWXLHGyy8Uc/0II6zXu9qQHwDFl1rSGb3qGQk7O0uw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=I6Gf+TJ+;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BiwCV20l;
+	arc=none smtp.remote-ip=209.85.128.49
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF265606A333
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 15:51:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF265606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB364606A321
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 15:53:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB364606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=I6Gf+TJ+
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-492fcbfaa87so674584f8f.3
-        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 07:51:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BiwCV20l
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4afe2d546f9so15206425e9.3
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 07:53:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1794239511; x=1794844311; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:to
-         :content-language:references:cc:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GqcUVOE8YZm1FPDzDze4+rCKgn8rK0xiBVztztTok30=;
-        b=I6Gf+TJ+xx28C6M6wGa7IriJIxP64CATq5xKa5KY4/dVEF70L68u8oNbC3qDhkhEI7
-         7ia14iP5TbkPq0pUWtgTMNnR57unFzAtVelBZ6VlJdQ4CrgVYgxw4RobiXpnUn7hkB+D
-         nzTyACD0+MFjBaqWPAWXlFUgKFrj/LJmZ6fQQvFA0wYX9Z+YdDx7xP/wSzXM8J7jhI3Y
-         cnv1opUi8bNDC5CGiUC5RyhE5sufSwg94ps4g0+w/MIT3GHEM+nHtCTD6yBD+zcjVMzC
-         KM6SnUFC/LBhWAJoh5/3RAr1pEMN+dTTDdPPEWzL92kIaF0QNP3pX9QYFDhi6xIlcLq5
-         xWjw==
+        d=gmail.com; s=20260707; t=1794239602; x=1794844402; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=D5Q+E9tn7HiIeANz8X44oObsdVCCkRXBa32pfwmLNBg=;
+        b=BiwCV20loLeAuRIumegQxBnzOzUvf9h2vlrTkSgt2cc+mnoTpIIIBu6670VXvlFSHj
+         XNaGXCX/kDi5i5jgxlNeG2PPHVIVYvqapQaj9m1Xf/ff1RNqMhR/Bfrb2eGAppCLY1hn
+         1SdUcuz/bfZmOUqVE2oxERMsX1V4r/uMVqP2aQAtY5wxsPoB3y6PI66LkDjxl0unfQE4
+         vAgq04Opt4dTu2FBY343D1oWxJ50lHYGNMWUx1ZAKBJ3Fd8/BQEOjmBZxDwBionfwwZZ
+         EPU0yEqBQ+rSTBZAA3Gc85jXY1SNyXnV0rjUw+Iq31w2dX+OxYxHlQ7CIsjObnc3TKCx
+         aQpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794239511; x=1794844311;
-        h=content-transfer-encoding:content-type:in-reply-to:from:to
-         :content-language:references:cc:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GqcUVOE8YZm1FPDzDze4+rCKgn8rK0xiBVztztTok30=;
-        b=hwn34GRnkN/iI72a4mKWM+IaZCYIRQCSpsqV2j5MqfYrHJLYjqrAlCj33+kb7aSdSZ
-         X1q3H4cyGUHw8EtDR4LN9oiEmjljbJ0XFKzU0QI1NVc34qxSFlk2QIPZx01gLJjdduIf
-         TPNW2i9fEVuWa6pMKxKDMiIpu/fMIqGYnID0fWCCfBVzynZHs7O8gSORW3DXTAbp0P/a
-         X7b/nL9exCwm1sIF4LzwL5y48N8yCc5cbvwxNHEfTpnrTkOvMQP1uTxzx2GrCxvZ+HA7
-         fDT/3VMg7b6aAdn5KLkwH5K9j2nUaCgYBdK6NRTyrdTiKk8qWa9pRgzd8Ma+twqfHJep
-         5q9A==
-X-Forwarded-Encrypted: i=1; AL+hErEDFQPFFSQ4WVjTNvlKZM2ULPkkBLrh82lhWBa4te0GCC40NPUWtIOBLZ7VfkL+Xnekro46CUT1Huk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/89kaCq2+Od4BmxZgDfvFA16SalL2XqaKwSifPD+NCJqwnpCFf
-	XOzlzMI/dpULrxtEbQk4cimZCbrdCXyhH1MPDrXMh4+eUsWxhAuadjaXQOmslGiapb0=
-X-Gm-Gg: AYBFou0XHoDO6lJ1ADV2XGBCQRO9HtVdv8BMWKf/s1xGxaKyGsi2HmZ36QrdxfbWG7S
-	dnKip5B7iXYVIhATsQ4ET+Kf07pYNNv7lD3KtJLCEu+zQtN9zenRpagU4uSO8ijaU0+ZFuF7FFt
-	ujingvlky9DWRKGW7yU8lX8e5vjYYyXI0dKepqq0k1ZoRzWytGqZAXPlcw2Yz9mQK151iGtNpq4
-	H8gByNi8DREO+NddMtWf6DMiDsbKne0Z0sgIYS5Cc6ZKgE+zW/r6FvCcVDsCKP/BmHDYZ4axy2+
-	5HTUlenBWI39/5/wQUrhUZRMNDTY9+ldgIFasn9phln4mpA5KtmI9VddfAOnY5Epyedp1t/XtRh
-	kiGNjLMIRkDesdpIs6NbWeo0EpE0yz+zcJ/hXBKAT/v4Eoq3jI9u+3942jsAF4XJpABe0XhkF9T
-	bn5PoxgYSDTzpp3QK5kYK39j8xTsdsK8Xfnr38cfwJpyDd8XsTzkWlW89w//UoyZ6MqKgDEmU9m
-	/LHM3uJxHxhVRliIaxcPV2A9QWq+6BVdO80ILPDjkGE/5QAGPq1CyS22fwDfvzo5X8JOgYluXCU
-	06LpIjNEjHr0Dbk03fvkL5HNJlII9EmZ2UajyvKT7upJRoSfLVM4kzJ+iZFX1vsy
-X-Received: by 2002:a05:6000:25f5:b0:492:e1a6:90eb with SMTP id ffacd0b85a97d-49582e8e516mr8245452f8f.10.1794239511204;
-        Mon, 09 Nov 2026 07:51:51 -0800 (PST)
-Received: from ?IPV6:2a07:de40:8100:0:89a9:fd0e:583d:4a53? ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49597186eb9sm10435718f8f.35.2026.11.09.07.51.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2026 07:51:50 -0800 (PST)
-Message-ID: <a190f981-d668-4208-8148-f4e50adb31a6@suse.com>
-Date: Mon, 9 Nov 2026 16:51:48 +0100
+        d=1e100.net; s=20260707; t=1794239602; x=1794844402;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=D5Q+E9tn7HiIeANz8X44oObsdVCCkRXBa32pfwmLNBg=;
+        b=ecJs+JZDVz2IZsQosn+RVnynLPsi2Y02T8Dz8m52IsC5W5BZkpClLR6YbEMiLrQimn
+         HCDqzx72vloDHTI6hz0z3m9OvBfJ5BwAw+kDlVtbFutRepWRz0UOrpybZ5D5Z6t+HT9K
+         FoHRNclMl+uU9WT1BCmgAEZj0Gldz07/Bz8UKpCp0TWWCCGdE8Sch3zNru6N4FSn8bND
+         31vg6ve/vXnIuBbJ12FlVrXPR7J58I6Y2hqPe0S0iqOlL/Ve1Qi9y6voNSNHmVtUmqML
+         lVWXXY6ZAexKwToGyMUt3elmT7J4PhnXfCrNdcOK1YTX27vprEHsVyi9+NL67SSvDixx
+         de2Q==
+X-Gm-Message-State: APuU4Z81Kr4osiNh/bvHfFt2nB1wjkkIyO84WWSAbD+/Nrp4cpbt7pi9
+	zz+Op431PaUVlqOH3m+LBPnEy7rwc1Ue7ru1dt+I0i+Ru7D5u1dNkstSNacXdXeC
+X-Gm-Gg: AYBFou2HOyC+MkjrUTRcA74SPzjoPqVhOJzS3Yi2G/xteAYl5Och9C5K8XPoa4chIlq
+	bGTbKzDxWd4fNOuWauymPKOlqK/V2r8jtBBeZa1z4QWkYs1CPeNamUaDaQQpz+nk7EHYGw27b42
+	5xFDieQKJ1a8+1VZSQypTrJ00DREb9Tg01HXtWP27Hx2n7VxZLiUhEwTinxRbVvQrqjYlGwLrg1
+	qSxAGbykjcWK5+NFEwCoV4XbO8KcVZZYGF/3QUaNhvLi10L4bJgzLhMWntdAQEK8AsyrrioXrGu
+	pyjX5W9G+p6aS9dC3w4oswyu+uKdPISuaC02O4nmg9JOV/lpDZTITtIqB2pDkvxQZsDHLvz+/Gl
+	4NeZBT3/3704UUVAODa0eM1RTKD6T1uprIuUjPQGHbjftytClqHXnj4joTtbCaABzFvFf/8uBZC
+	MzTCGy5e93/2fSimguWKcPaicKeKWokdKOd6cuU8NsmA30S3hGq5MafVlhOr+c60Fs5uviCHkLV
+	JNR9vswE/F298q2n0KETLzanqUMjyV0ZPbK5Jh+haHh/ANqLWZ1tPWup3MICJW5DXhPVX5GaSym
+	2dG/ZTEjwYeC3vMAMWNVjmUpNcUlfGydUBj+kspLQ8F5SNrpnWneaKRfA4Usj2Z08g==
+X-Received: by 2002:a05:600c:470a:b0:4ad:5e09:ae43 with SMTP id 5b1f17b1804b1-4b963c81531mr74299565e9.29.1794239601929;
+        Mon, 09 Nov 2026 07:53:21 -0800 (PST)
+Received: from mika-amd-reply.eml (host86-185-73-183.range86-185.btcentralplus.com. [86.185.73.183])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4959783f1d6sm10542798f8f.46.2026.11.09.07.53.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 07:53:21 -0800 (PST)
+Message-ID: <6af1ec71.fb59a2f3.1b24d6.5d62@mx.google.com>
+Date: Mon, 09 Nov 2026 07:53:21 -0800 (PST)
+From: James R Taylor <jrtaylor11@gmail.com>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: linux-usb@vger.kernel.org,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Sanath S <Sanath.S@amd.com>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Subject: Re: thunderbolt: AMD Phoenix USB4 host advertises Gen3 Support=0 in
+ SB LINK_CONF with TB5 device, link stuck at Gen2
+In-Reply-To: <20261109155007.GV176724@black.igk.intel.com>
+References: <1794143745.17311.hermes@gmail.com>
+ <20261109111852.GQ176724@black.igk.intel.com>
+ <1794223545.366398.reply.hermes@gmail.com>
+ <20261109142041.GS176724@black.igk.intel.com>
+ <1794235167.3657.reply.hermes@gmail.com>
+ <20261109153955.GU176724@black.igk.intel.com>
+ <6af1e999.9efe04cf.8f35d.ae23@mx.google.com>
+ <20261109155007.GV176724@black.igk.intel.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,68 +106,46 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] Remove obsolete __MODULE_STRING()
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, Ian Abbott <abbotti@mev.co.uk>,
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rudolf Marek <r.marek@assembler.cz>, Andi Shyti <andi.shyti@kernel.org>,
- Chris Snook <chris.snook@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Duncan Sands <duncan.sands@free.fr>,
- Chas Williams <3chas3@gmail.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-watchdog@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
- linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261002-module-string-v2-0-fc7438acaf4d@suse.com>
- <2e88806e-57dd-47e0-a9ef-a8507d22aa3e@suse.com>
-Content-Language: en-US
-To: Petr Pavlu <petr.pavlu@suse.com>
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <2e88806e-57dd-47e0-a9ef-a8507d22aa3e@suse.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/14/26 11:36 AM, Petr Pavlu wrote:
-> On 10/2/26 10:31 AM, Petr Pavlu wrote:
->> __MODULE_STRING() has been an alias for __stringify() since "[PATCH]
->> MODULE_PARM support for older modules" [1] in 2002-12. That change also
->> moved it to the graveyard section at the end of linux/module.h
->>
->> Replace the remaining uses of __MODULE_STRING() with __stringify() and
->> remove the macro.
->>
->> Apologies for the wide distribution. Acked-bys are appreciated.
->>
->> [1] https://git.kernel.org/tglx/history/c/136839a1b4
-> 
-> I've queued the second patch ("drivers: Replace __MODULE_STRING() with
-> __stringify()") on modules-next for v7.4-rc1. Thanks for the Acked-byes
-> and reviews.
-> 
-> The first patch ("hwmon: Replace __MODULE_STRING() with __stringify()")
-> should go through the hwmon tree. Once these changes are in mainline,
-> I plan to pick up the final patch ("module: Remove obsolete
-> __MODULE_STRING()").
+Hi Mika,
 
-v7.4-rc1 no longer contains any __MODULE_STRING() calls, so I've queued
-the final removal in patch 3 on modules-next for 7.5-rc1.
+On Mon, Nov 09, 2026 at 04:50:07PM +0100, Mika Westerberg wrote:
+> That's the host side retimer.
 
--- Petr
+Thanks, that clears it up.
+
+> Agree it looks like the AMD host only gets the link up Gen2 for some
+> reason. It could be retimer/PD firmware issue. Anyways I'm adding the AMD
+> experts if they have any ideas.
+
+Thank you very much for looking at this and for adding them.
+
+For Mario, Sanath and Basavaraj, a short summary of the setup and
+what has been measured so far (the full logs and tbdump output are
+earlier in this thread):
+
+  - Host: Minisforum UM890 Pro (AMD Phoenix), BIOS 1.06
+    (11/10/2025), AGESA PhoenixPI-FP8-FP7 1.2.0.0a, kernel 7.2.15.
+  - Device: Minisforum DEG2 (TB5 eGPU dock, NVM 62.42), StarTech
+    TBLT5MM50CM240W 0.5 m TB5 cable.
+  - Host-side retimer 1-0:2.1, vendor 0x7fea device 0x1032.
+  - Link comes up as TBT, 10.0 Gb/s x2. Host PORT_CS_18 reports
+    Cable USB4 Version 0 and CG3=0; the DEG2 side reports Version 1
+    and CG3=1.
+  - Sideband LINK_CONFIGURATION (0x0c): host 03 d3 03 (Gen3 bit not
+    set), DEG2 03 f3 1b (Gen3 bit set). Writing the Gen3 bit on the
+    host side from Linux fails with -EIO.
+  - Same result with thunderbolt.host_reset=0 and =1, and on a clean
+    boot without host_reset/pcie_aspm=off.
+  - The firmware exposes no UCSI device (no USBC000/PNP0CA0 in ACPI),
+    so /sys/class/typec is absent and I can't see from Linux which
+    mode the PD controller chose.
+
+I'm happy to collect any other register reads or logs that would
+help.
+
+Thanks again,
+James
+
