@@ -1,102 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794239604;
-	b=CyidlyXCETGjPFK2dCtsWHQG2woupxROW/RN+kTJB6L7KctqBA8hja09KwenQ6hBBcZ/
-	 ReddTCDsXoSOSskEKLhGF6jmAzyLkBPRvVa2AM1B0Aup1nblkavI8mwJ36VyE0jejZ15a
-	 DAakfie5lFZfGj80QxtBCWplmx+gvXrrXkj5VRIl1UJ+vDMr9cSxZ4TRtjgyJ35FmNY26
-	 rGW1qcF79Q817rKSEAjC7Ddt0qNJnnxUqaRRvjgbyqGH/0puc2TdaApkNZgpGj9dGynjt
-	 /R6+mV5WfaV9SR0HsMZiSzNROLeQbosgYJJJctHhy+pPHatHa2E/IYSO4ySbxBSmO8Q==
+	t=1794240339;
+	b=lpAFsb/9h6/RK4Ws2Qy7YJwH9rEM+7KKcClub74XM7Fh6MUQR9lbNqgf9YVd1vV09vxb
+	 xTocaPDW35N26D3mDaRz3nfR12sYJFabaKieBlztjT0075/GFD+2wSM0TG0e5f3Cpix0q
+	 7dqQwloYAVnTJDb+JCQoD9PWYX3VxuuoNl3t7VpXSvGyayYBkti0z8KLIqELm8q7USDTn
+	 PKOf+jbtGxlgwIPLZWk8Gjw7hqMFJZTfbr0a8/Pdg2Dt9i7ACyccQCF46xtLq2o5dXsYL
+	 qyeotJla8KMdygJgn5L8C7zsSvSG0/crX5E6Z72lq9XUZXu8I7kK0u8ZUKUwMnVrceA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794239604;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794240339;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:From:
-	 To:Cc:Subject:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=D5Q+E9tn7HiIeANz8X44oObsdVCCkRXBa32pfwmLNBg=;
-	b=utLdTpigtEs563luNNj5cWaryIgMXuSVkgSqPRP6+/2bOPnekoB0Xd7umfcmipjRW5EP
-	 hUbsiooOekMxlSjeTmHSk56E7HKHPboC2OsWHukUD8mJAFEsFePRfXBsfkqFHs8Ue9gix
-	 WcAj0FnKT3TRAB4ISghG9tJnSV7q8nmr2Cj/PlN0+MWeC85jrNlqs6+L8YqaecaiqIDLH
-	 RANHMOI/mvGe/FjoAXT53PPQiQXxpBfQwR+X2RAGV5SnuXX+xFqwXRbDyCZ4nt/MtQo9S
-	 Zwq5+dOQUmct26uZx1r/i7c3cFWXLHGyy8Uc/0II6zXu9qQHwDFl1rSGb3qGQk7O0uw==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=LYVRQAtFLjHuxWJpTC5BWZlDIFuYh9qn66gBupwgfMM=;
+	b=d4DHExe1z4efdfnAqQNUNjLyWqTWnWrriEGLwDjQUY/wBoRTwL8Fm3M/FmeZjzyFWLpR
+	 OfG8H7q9R58TXGRGLUqZralgNs2014bCE47JaysTSlC9eiqAMTTeEGFdIxBrcSy4XaCs6
+	 p5qD446Yaftsc81p9udhxJyuMLiBdepxDQM9t0nJe7PUep2s31tUcEs0t5xIirtU0x/DU
+	 rgKKdYZPClAhTOA2kqwHYDnL+wzpoycRAVhSPgGMywTL+dUb6e8/1QhmHQ4uaY4qPsYfH
+	 +BwyVUKuuWNDFnKRNd3I8zVYvhOa2iArvTp9qwCLI2XI0WCWM/0sj9rFfIqmh10nR2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BiwCV20l;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b="quZUOiS/";
+	arc=none smtp.remote-ip=209.85.222.182
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB364606A321
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 15:53:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB364606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7096606A331
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 16:05:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7096606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BiwCV20l
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4afe2d546f9so15206425e9.3
-        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 07:53:23 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=quZUOiS/
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93e515769d3so102235985a.3
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 08:05:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794239602; x=1794844402; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
+        d=rowland.harvard.edu; s=google; t=1794240338; x=1794845138; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=D5Q+E9tn7HiIeANz8X44oObsdVCCkRXBa32pfwmLNBg=;
-        b=BiwCV20loLeAuRIumegQxBnzOzUvf9h2vlrTkSgt2cc+mnoTpIIIBu6670VXvlFSHj
-         XNaGXCX/kDi5i5jgxlNeG2PPHVIVYvqapQaj9m1Xf/ff1RNqMhR/Bfrb2eGAppCLY1hn
-         1SdUcuz/bfZmOUqVE2oxERMsX1V4r/uMVqP2aQAtY5wxsPoB3y6PI66LkDjxl0unfQE4
-         vAgq04Opt4dTu2FBY343D1oWxJ50lHYGNMWUx1ZAKBJ3Fd8/BQEOjmBZxDwBionfwwZZ
-         EPU0yEqBQ+rSTBZAA3Gc85jXY1SNyXnV0rjUw+Iq31w2dX+OxYxHlQ7CIsjObnc3TKCx
-         aQpQ==
+        bh=LYVRQAtFLjHuxWJpTC5BWZlDIFuYh9qn66gBupwgfMM=;
+        b=quZUOiS/45XOhrcf2A8zebaDNso7Ajy8i+ydu7kRxHPFU/SNOet5JU2UtdacDV2sLo
+         +OoX2IbLYca18HAYpQpGDVeFsjAC2jzA9rzhJbO/DYs+4RwLZdzdnJjBdBrC9nOzJe9b
+         uQPD5HXZF/1/cyL63PiOw9aXg6Hua+eN9XHjnfzoaHowl+1BdGom6goYYuMpp5VcpWTT
+         LrRhVjzFG4RjUzxTEirRFUP5R/wmpi3vZxuZKhyQOWHsXa/rTRQDq9/+3l4oM++2VdN8
+         YKSGO4zYRusztntG3nmmLmMgHnC9xbD4nCUX5FzRiWly3s8SwrK5Z2dnFe9SjlTBHjsR
+         LrrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794239602; x=1794844402;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
+        d=1e100.net; s=20260707; t=1794240338; x=1794845138;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=D5Q+E9tn7HiIeANz8X44oObsdVCCkRXBa32pfwmLNBg=;
-        b=ecJs+JZDVz2IZsQosn+RVnynLPsi2Y02T8Dz8m52IsC5W5BZkpClLR6YbEMiLrQimn
-         HCDqzx72vloDHTI6hz0z3m9OvBfJ5BwAw+kDlVtbFutRepWRz0UOrpybZ5D5Z6t+HT9K
-         FoHRNclMl+uU9WT1BCmgAEZj0Gldz07/Bz8UKpCp0TWWCCGdE8Sch3zNru6N4FSn8bND
-         31vg6ve/vXnIuBbJ12FlVrXPR7J58I6Y2hqPe0S0iqOlL/Ve1Qi9y6voNSNHmVtUmqML
-         lVWXXY6ZAexKwToGyMUt3elmT7J4PhnXfCrNdcOK1YTX27vprEHsVyi9+NL67SSvDixx
-         de2Q==
-X-Gm-Message-State: APuU4Z81Kr4osiNh/bvHfFt2nB1wjkkIyO84WWSAbD+/Nrp4cpbt7pi9
-	zz+Op431PaUVlqOH3m+LBPnEy7rwc1Ue7ru1dt+I0i+Ru7D5u1dNkstSNacXdXeC
-X-Gm-Gg: AYBFou2HOyC+MkjrUTRcA74SPzjoPqVhOJzS3Yi2G/xteAYl5Och9C5K8XPoa4chIlq
-	bGTbKzDxWd4fNOuWauymPKOlqK/V2r8jtBBeZa1z4QWkYs1CPeNamUaDaQQpz+nk7EHYGw27b42
-	5xFDieQKJ1a8+1VZSQypTrJ00DREb9Tg01HXtWP27Hx2n7VxZLiUhEwTinxRbVvQrqjYlGwLrg1
-	qSxAGbykjcWK5+NFEwCoV4XbO8KcVZZYGF/3QUaNhvLi10L4bJgzLhMWntdAQEK8AsyrrioXrGu
-	pyjX5W9G+p6aS9dC3w4oswyu+uKdPISuaC02O4nmg9JOV/lpDZTITtIqB2pDkvxQZsDHLvz+/Gl
-	4NeZBT3/3704UUVAODa0eM1RTKD6T1uprIuUjPQGHbjftytClqHXnj4joTtbCaABzFvFf/8uBZC
-	MzTCGy5e93/2fSimguWKcPaicKeKWokdKOd6cuU8NsmA30S3hGq5MafVlhOr+c60Fs5uviCHkLV
-	JNR9vswE/F298q2n0KETLzanqUMjyV0ZPbK5Jh+haHh/ANqLWZ1tPWup3MICJW5DXhPVX5GaSym
-	2dG/ZTEjwYeC3vMAMWNVjmUpNcUlfGydUBj+kspLQ8F5SNrpnWneaKRfA4Usj2Z08g==
-X-Received: by 2002:a05:600c:470a:b0:4ad:5e09:ae43 with SMTP id 5b1f17b1804b1-4b963c81531mr74299565e9.29.1794239601929;
-        Mon, 09 Nov 2026 07:53:21 -0800 (PST)
-Received: from mika-amd-reply.eml (host86-185-73-183.range86-185.btcentralplus.com. [86.185.73.183])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4959783f1d6sm10542798f8f.46.2026.11.09.07.53.21
+        bh=LYVRQAtFLjHuxWJpTC5BWZlDIFuYh9qn66gBupwgfMM=;
+        b=XmSrI+ugkxejhZHAzrKlGs0Fv1Y7bAbtM06StTz4Rrbj65Bce81Vsyb2eTo02kPNxi
+         R4FSVgMDB3dq00O3amXoMxSy/9LuJvP4vjQnJ4WPq8Ax+T6AirAh/r7IldkVksjgFISQ
+         e+ECf+5KURJdv/+Xoal3Wjk+yO2baFmdHforh1+ppU5oVDNZC1zdwp+0fq7XOHZTGA6E
+         RqiyiO6/7KuNFwG6lBXHpvMKp42JKjywuAadWGP5VNs41yb2qRGM0tNSchR7ueY1Dl/R
+         y/sOqXi0cFZH+hox4Qp1hrAngvjQGSe6RmQaEERkuiAC0azae/BfJbTA3DXTy9REWC3u
+         2Dyw==
+X-Forwarded-Encrypted: i=1; AL+hErFErTde9xKgOPcCdqeYrjRi5wkuuhmdvcze+4X0qpqAeOIACua6YmzXPGXHzTn8QRW/yj3O1Qy6w6o=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/wZrKWNrgx62xUNui4Nklg2ByEGrO3420GpuW2W1WaKOf+8rZt
+	3L98au4JW5NBF8VApb8Yg1xOqTbW/ljD2Nv2zKyMgW4kGbauVkDKw7AwKsZq+bK0muvboENrmsb
+	tFV844P/U
+X-Gm-Gg: AYBFou0Gq4wYjjxLXCRP2S9Gfyza0TDLzF7ifCSZN80CnkBF+LHOXHjnBULSunqLwqH
+	xMrHQYJnrzGCkcMiNid80bz5gEGaq3fqtiBbpcE+Dgphtook0xojdDfkspoe2Rq5f6XM5rVKZ99
+	afovpeO623qDCRgl8R6W5p7zpiyNcZeaGNnCR+8fP8d366SioPWL0U4nUi4yhCyxgd1IYgOxD6J
+	mYxPg2Xoe2dW3jvPHw+hrAew8aae7otm1ixbIYJWjZF1tIidwKcndwY4n885a1/QH5ibsK4zCo1
+	pRzaqYK7z3uve431+fIMXSt3rAQDArPSwQCvW/KyRpA1EafUrxTAukPwupaI4DXtRcIMym/eo9d
+	lyaqWgLrN7ugBiqRnccIr0MwwOoMSXT7xFllUFoQTeS/fKlyy9gRjOxoepnJ/vfESa9gC93iXkm
+	vqlYfgeea7kdPqOL6djUJxA7C/+GUX3yjaUgTttmxf3bpWouis/xFhBIa+amURqB3W8MdCdV9gc
+	S0DvFwWWG10ngwTBcUt0qEAdKbV8ZUtKdZC+rOQPYBFhO1RepD51T44G9B7h+2MBlk8B8YWGAlv
+	AXfYmQevmJp7mn5rvcshsnbXsGV3
+X-Received: by 2002:a05:620a:6cc3:b0:943:ff70:dbeb with SMTP id af79cd13be357-9478485e17dmr658497385a.17.1794240337529;
+        Mon, 09 Nov 2026 08:05:37 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e61b8f8sm7023385a.1.2026.11.09.08.05.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 07:53:21 -0800 (PST)
-Message-ID: <6af1ec71.fb59a2f3.1b24d6.5d62@mx.google.com>
-Date: Mon, 09 Nov 2026 07:53:21 -0800 (PST)
-From: James R Taylor <jrtaylor11@gmail.com>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-usb@vger.kernel.org,
- Mario Limonciello <mario.limonciello@amd.com>,
- Sanath S <Sanath.S@amd.com>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Subject: Re: thunderbolt: AMD Phoenix USB4 host advertises Gen3 Support=0 in
- SB LINK_CONF with TB5 device, link stuck at Gen2
-In-Reply-To: <20261109155007.GV176724@black.igk.intel.com>
-References: <1794143745.17311.hermes@gmail.com>
- <20261109111852.GQ176724@black.igk.intel.com>
- <1794223545.366398.reply.hermes@gmail.com>
- <20261109142041.GS176724@black.igk.intel.com>
- <1794235167.3657.reply.hermes@gmail.com>
- <20261109153955.GU176724@black.igk.intel.com>
- <6af1e999.9efe04cf.8f35d.ae23@mx.google.com>
- <20261109155007.GV176724@black.igk.intel.com>
+        Mon, 09 Nov 2026 08:05:35 -0800 (PST)
+Date: Mon, 9 Nov 2026 11:05:30 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Pengfei Lv <lvpengfei20@huawei.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, michal.pecio@gmail.com,
+	stable@vger.kernel.org, xuhaiyang5@hisilicon.com,
+	xuetao09@huawei.com, caiyadong@huawei.com,
+	suzhuangluan@hisilicon.com
+Subject: Re: [PATCH v3] usb: core: hub: Re-guess ep0 maxpacket size after
+ reset
+Message-ID: <3daf18d4-4936-4ed7-8846-b67f1664be13@rowland.harvard.edu>
+References: <20261106031625.1824732-1-lvpengfei20@huawei.com>
+ <20261109093935.2634235-1-lvpengfei20@huawei.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,46 +102,158 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109093935.2634235-1-lvpengfei20@huawei.com>
 
-Hi Mika,
+On Mon, Nov 09, 2026 at 05:39:35PM +0800, Pengfei Lv wrote:
+> Per USB 2.0 spec section 5.5.3, the ep0 maxpacket size is fixed for
+> all device speeds except full-speed devices, where it can be 8, 16,
+> 32, or 64 bytes and can only be determined by reading the device
+> descriptor.  During initial enumeration the USB core guesses 64 bytes
+> for full-speed devices; after reading the descriptor, the real value
+> is stored in udev->ep0.desc.wMaxPacketSize and applied to hardware by
+> usb_ep0_reinit().
+> 
+> Commit ff33299ec8bb ("USB: core: Fix race by not overwriting
+> udev->descriptor in hub_port_init()") guarded the ep0 maxpacket guess
+> block with "if (initial)", so on the reset path the guess is skipped
+> and the host keeps using the value from the previous enumeration.  If
+> a buggy full-speed device responds with one 8-byte packet and NAKs
+> all further polling, the HC doesn't recognize a short transfer but
+> keeps polling for the rest of the descriptor till unlink, and the
+> device cannot be re-enumerated.
+> 
+> This was observed in production on a 6.6 LTS kernel with a full-speed
+> USB banking token (bMaxPacketSize0 = 8) in a virtual-machine USB
+> passthrough scenario; the reset re-enumeration hangs 100% of the time
+> after the VM issues USBDEVFS_RESET.  The device is not strictly
+> compliant (it should continue answering IN tokens), but this class of
+> USB banking token is widely deployed in enterprise environments, and
+> the regression breaks a configuration that previously worked.
+> 
+> The 18-byte GET_DESCRIPTOR that runs after SET_ADDRESS (wLength=18)
+> is unaffected: the device sends the full 18 bytes as 8 + 8 + 2, and
+> the final 2-byte packet is always a short packet regardless of
+> maxpacket.  This is why the device completes initial enumeration yet
+> hangs on reset re-enumeration.
+> 
+> Fix this by removing the "if (initial)" guard so that the ep0
+> maxpacket size is re-guessed on every reset, and by calling
+> usb_ep0_reinit() before each device-descriptor read so that the
+> re-guessed value is applied to hardware before the GET_DESCRIPTOR
+> data stage.
+> 
+> Fixes: ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Pengfei Lv <lvpengfei20@huawei.com>
+> 
+> ---
+> 
+> v3: Per review by Alan Stern and Michal Pecio, drop the !initial guard
+> and move the usb_ep0_reinit() calls from after the re-guess block to
+> right before each get_bMaxPacketSize0() invocation, so that ep0 is
+> re-initialised before every descriptor read.  The commit message is
+> reworded to be HCD-agnostic.
+> 
+> v2: https://lore.kernel.org/linux-usb/20261106031625.1824732-1-lvpengfei20@huawei.com/
+> ---
 
-On Mon, Nov 09, 2026 at 04:50:07PM +0100, Mika Westerberg wrote:
-> That's the host side retimer.
+This is looking pretty good.  However...
 
-Thanks, that clears it up.
+>  drivers/usb/core/hub.c | 52 +++++++++++++++++++++++-------------------
+>  1 file changed, 28 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 199d3f535a89..d86bbba1457c 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -4969,31 +4969,29 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+>  	}
+>  	oldspeed = udev->speed;
+>  
+> -	if (initial) {
+> -		/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
+> -		 * it's fixed size except for full speed devices.
+> +	/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
+> +	 * it's fixed size except for full speed devices.
+> +	 */
+> +	switch (udev->speed) {
+> +	case USB_SPEED_SUPER_PLUS:
+> +	case USB_SPEED_SUPER:
+> +		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
+> +		break;
+> +	case USB_SPEED_HIGH:		/* fixed at 64 */
+> +		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+> +		break;
+> +	case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
+> +		/* to determine the ep0 maxpacket size, try to read
+> +		 * the device descriptor to get bMaxPacketSize0 and
+> +		 * then correct our initial guess.
+>  		 */
+> -		switch (udev->speed) {
+> -		case USB_SPEED_SUPER_PLUS:
+> -		case USB_SPEED_SUPER:
+> -			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
+> -			break;
+> -		case USB_SPEED_HIGH:		/* fixed at 64 */
+> -			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+> -			break;
+> -		case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
+> -			/* to determine the ep0 maxpacket size, try to read
+> -			 * the device descriptor to get bMaxPacketSize0 and
+> -			 * then correct our initial guess.
+> -			 */
+> -			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+> -			break;
+> -		case USB_SPEED_LOW:		/* fixed at 8 */
+> -			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
+> -			break;
+> -		default:
+> -			goto fail;
+> -		}
+> +		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+> +		break;
+> +	case USB_SPEED_LOW:		/* fixed at 8 */
+> +		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
+> +		break;
+> +	default:
+> +		goto fail;
+>  	}
 
-> Agree it looks like the AMD host only gets the link up Gen2 for some
-> reason. It could be retimer/PD firmware issue. Anyways I'm adding the AMD
-> experts if they have any ideas.
+The usb_ep0_reinit() call belongs here, right after 
+udev->ep0.desc.wMaxPacketSize is set.
 
-Thank you very much for looking at this and for adding them.
+>  
+>  	speed = usb_speed_string(udev->speed);
+> @@ -5062,6 +5060,9 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+>  				goto fail;
+>  			}
+>  
+> +			/* Sync the guessed ep0 maxpacket size to hardware if needed */
+> +			usb_ep0_reinit(udev);
 
-For Mario, Sanath and Basavaraj, a short summary of the setup and
-what has been measured so far (the full logs and tbdump output are
-earlier in this thread):
+Not here.  And not inside the retry loop -- ep0_reinit should be called 
+only once since the maxpacket value is changed only once.
 
-  - Host: Minisforum UM890 Pro (AMD Phoenix), BIOS 1.06
-    (11/10/2025), AGESA PhoenixPI-FP8-FP7 1.2.0.0a, kernel 7.2.15.
-  - Device: Minisforum DEG2 (TB5 eGPU dock, NVM 62.42), StarTech
-    TBLT5MM50CM240W 0.5 m TB5 cable.
-  - Host-side retimer 1-0:2.1, vendor 0x7fea device 0x1032.
-  - Link comes up as TBT, 10.0 Gb/s x2. Host PORT_CS_18 reports
-    Cable USB4 Version 0 and CG3=0; the DEG2 side reports Version 1
-    and CG3=1.
-  - Sideband LINK_CONFIGURATION (0x0c): host 03 d3 03 (Gen3 bit not
-    set), DEG2 03 f3 1b (Gen3 bit set). Writing the Gen3 bit on the
-    host side from Linux fails with -EIO.
-  - Same result with thunderbolt.host_reset=0 and =1, and on a clean
-    boot without host_reset/pcie_aspm=off.
-  - The firmware exposes no UCSI device (no USBC000/PNP0CA0 in ACPI),
-    so /sys/class/typec is absent and I can't see from Linux which
-    mode the PD controller chose.
+> +
+>  			maxp0 = get_bMaxPacketSize0(udev, buf,
+>  					GET_DESCRIPTOR_BUFSIZE, retries == 0);
+>  			if (maxp0 > 0 && !initial &&
+> @@ -5127,6 +5128,9 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+>  		if (do_new_scheme)
+>  			break;
+>  
+> +		/* Sync the guessed ep0 maxpacket size to hardware if needed */
+> +		usb_ep0_reinit(udev);
 
-I'm happy to collect any other register reads or logs that would
-help.
+And also not here.
 
-Thanks again,
-James
+> +
+>  		maxp0 = get_bMaxPacketSize0(udev, buf, 8, retries == 0);
+>  		if (maxp0 < 0) {
+>  			retval = maxp0;
+> -- 
+> 2.34.1
 
+Alan Stern
