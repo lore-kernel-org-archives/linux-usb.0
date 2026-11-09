@@ -1,80 +1,122 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794214499;
-	b=PTz8VnU9laTxX1Jhc2+oq3gAylarKp/ulFsOunockn+YztI1C/Ec5HhdW4LgW2zq+GvT
-	 EGGyRoFofAIr7Hdm2ULUnbG/tVQpPV/WgpktNYlWPUwLcE3Shuw1orjNUa1UH6QIPf/Wx
-	 AamekqAha6j4EqQ/jkH2oj9UYCjo8pS9ANT44enYehKC2sRbiNijLRlb1hH412FIVXWNk
-	 UdsgIag+Oomh61uo+i/FtxKp7HnkiyHvlKY3ycnXBssz8/YscnvSpCKbhDiIvh1Bh/Vmn
-	 M4HIS8nC1bq2tvhJweM4VvsInvxYXZ1ZWEYbAxlhKlzu7VeljDl/pMDtauU3zbHLEzw==
+	t=1794214861;
+	b=c6vIUwZHstI+KqxHRycq8+H9+GxP6ft/IBLWSlaPF6gCkIOFol/oA9X6WPUZzFzb1t0h
+	 rdcjD2eOW47w8r9bgq+QHzuAEzp6N9TC3HVhYsnYcjxSq2ux7XTfds7kNCXvBwJaCWzRN
+	 w9lfB/XHaeUyPpcOZH1aMsee+idK0Af5LFRRo0JjM0TvdzC976dDLlrRBoqMFYiedWqWf
+	 ebKqGxuXEBUZW18uQnEOMX9wns32SkggWOs6W3sL4dvJWz5xEVr28YSGFTXKIi4AyVU3T
+	 0Nz11VUttTdoWwayYskXEtdZkKaiyrjnManWjxsWUBqdTPOWR+CmG/PWWMu3RkEz/Ew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794214499;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
-	 X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:Date:Message-Id:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=0Rhxsu2l8SKxK6ZPng9+7j8nAKxus/Gd71FEzth3lsQ=;
-	b=WRi98R55AmjUKF/UbsctVAWxCGRs0hDQU1Zl+CmWLRlTTbEdbRamn01UpPTMBAXixJtr
-	 0xv16zc5GlCsUN+egJKxbMzTVsBWcgTBF6vp+QqBksVLc1xw4jiB/gKh/vAOHn/mTbZo8
-	 inCq1XWtse4TTIIoMIYiid9oKmbKDxO/wOsSogJPmDvfCikQ2M2NbBSTwADHM/VOj3kWC
-	 obbuz97CrCwG+Ilgv3g6fKOsQ9+kAh921f3XHQUYWFfABnQb7ARrIVG5tC7pjcG0VDckc
-	 eczW09rPKEAlu6CaIEx/dtODMlMzNcSDIBBXJ3TGokVrWycTVaBTDGIFwCEd4KKi3eA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794214861;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=jg4upLHUrM6H1fsgp5Xb2gkT8KIhNg+n3t7qrZRLzsU=;
+	b=JWcuyTYbVqonilRtVdJ2u5GTOzUcmIsgu0cfmqZxAN7k1Fo5zp2Uoe8pIHtkvQSL2Ou3
+	 Igs6KRtr6tCyhcMClmCJ3DeU6nTjlY06oHn2GdDPe3grB5QBra44JvlQTceEYm31Nz4se
+	 qjPFxCk1U6mj/Ss/BlsQtqGc3BEgs5h8ajI2E7i2uU+R0agfHvCKtDcIY2RvlVK1boMf+
+	 IDNBSyhYgxss4OoCo4frgOu9CLEU5tr8wbb8tR011JuWFiBIdmoOF2T3hC3t8lrUFsREq
+	 1/wi5glKvOnrXx9wmj5wg+3KtVV7QbRkk8uWoi13FDtFpq1Yn23bxNRyH48b2nvNLXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.210.170
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=CwF7Z76K;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=X8YPIZOL;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C3A606A325
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 08:54:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16C3A606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8a052aff9e9so449532b3a.0
-        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 00:54:57 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8C4606D819
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 09:01:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC8C4606D819
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=CwF7Z76K;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=X8YPIZOL
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A96AMuo3634725
+	for <linux-usb@vger.kernel.org>; Mon, 9 Nov 2026 09:00:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=jg4upLHUrM6H1fsgp5Xb2gkT
+	8KIhNg+n3t7qrZRLzsU=; b=CwF7Z76KP0m38XRhVKLHCxvumfvreMoizoCQK9YF
+	X66jwKO3Nra60tif2qVyMXpobdRj5RjZ82dbMypq4VGE5dBV4mwRVaVdbPuikw2N
+	x5hypu0YtE881MMAsBptBHxyuD/rTmzvU2BfSCpgvgJH7S78gY4F/XKrV8leUHp3
+	gzi423PJU112uRme3IU0/6mSO9V2d/j4qQgIpjSdO8kmCc2PSacad/P0E6q5WvBW
+	EWT6b5boWa4jF259uPqRYhdbR9BIWixj33bFQcqV1BOvO2YTxzKjAypJZ8CPN9Up
+	0HIb8xjDbyIwaFMlX6zEb8k67FlVw3+6Yc1cO/R+xU3wsw==
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hu6x2gwmg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 09:00:56 +0000 (GMT)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso1704745eec.1
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 01:00:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794214856; x=1794819656; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jg4upLHUrM6H1fsgp5Xb2gkT8KIhNg+n3t7qrZRLzsU=;
+        b=X8YPIZOL17UNJQBymnl2REs182T5suJdVB8JlV+jK72+V8M1hSkBRTDrT+HjiCYwdE
+         t3Y7fJkaOyFDlOTdc8imXs5AnkgmsjCNV3jpNiZDTKPuLG7RklgVtB+0XXNeN/aOGqsZ
+         klnyTdN6Aez1MDr0lTQSt10Uf5Gf6/epDJlDHt3JxrRxO/kZWfL/DoV1Vp2NXJ89RSPr
+         FxsypetbaFkehnAW/ebf+wBDrLCmVyh5+FqF7Dys2uxI/XJP17IeNdbmy32TdjGYXcjJ
+         TOUWBWlDySaF7OSo8wXxq8TqpCSNK/JCOVuZlmODDbQPxzeu03EqtRZ4y7TrVl3mNkka
+         gfyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794214497; x=1794819297;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0Rhxsu2l8SKxK6ZPng9+7j8nAKxus/Gd71FEzth3lsQ=;
-        b=yjeK4BIZ4vDBB2D9WJY1O3oPTqIXefsPabr52ujScqDXkwt+f7EWq5G2vdfLHANQNh
-         Z7y2rFksbJPRU82lvXKBL7MJUP5nZFSIaBmDdRoSRnzwMI+SZx3aiunyNVx70UTu2on5
-         /JW7OA6FHjf/ZNmSz8Reo91ruk19TMjJDED41O0hdah4CEEjegLUFES1sHG4E9RB+IJz
-         6bubGsRXYXd1EFVMk5UKStDz8v0k3/Ip5Sc3cKV1j/L7LTlbDB6Ggg9T+YrcBQ0YM9fP
-         ds1GhUF0jgI1IaGSb1pttWcd1rsRmzTzz+Tprw3a/EmTgmghnfGL6/gcw64GxqBoO8+C
-         k8wQ==
-X-Gm-Message-State: APuU4Z/1nDJqB/BzosjFXxXuDVrU0+Sf21nB7Db+N2pCtLWeYiuvV2tz
-	Fr9jCFKVaNHdxuRblUNrY2qbcbkBIDgYTbNb7BE3yFusScS9sAJ3YPcSyaqRTz2f
-X-Gm-Gg: AYBFou3Ll99q60U2llOP4nSFRregVlji1QoXTwhqOvQxfoR1KPOdIoYcbiRFw3BViJc
-	SCchYxXVA4KEItUbrsYeqrmP5PNaa0EB8C0JkuSb4xz9Qqzttg55BB2eVp0aDShq5pgzPRtyf1H
-	qbG21JQE2FTo7nYMLcvvw4ggIxK9IsJ8SX6FNbgEbVgHhhEazXOzANHkVMg5/hELAQAdpHiCL4W
-	jyDL474Dc1znJu1XZP5zUSzt0LhvUuuLAY16JxwQAssG3+kX3z4fwjWeZgMYf7GHpxXAPSxdJPu
-	6W7yn58wTBbWB9LlX4g209kcTOyZsh25MZzurQvFOPmyWtnc5NKSxMJ9AglvKxkWTqoNNF4/Ifq
-	VKSxDcOT3aZT8fPgNdzXZuMwldb1Fk5dqUe1xe4Ty7yzEWd0yNY6nHKcutfvt3H4k4ejbPUvkn+
-	iOmhsgvF1QAgqtbExCxuttw4B3GjP2HekEXTzv8IGOfdGOlnF4HvfZD/AgsDjuSq8Ncn3XGRYvX
-	j1EEUAEcOH7HKWMeNOMXIj2K6+vqKg8zuxVDrKTxFLu03R6b7CwpzVyFneVwYyk7+ndKDl8d85O
-	46lhm5ognqjP4et52EjG5800UsUnXimoP2IAKsCoVP3KL48=
-X-Received: by 2002:a05:6a20:cfa9:b0:3de:8ee8:8323 with SMTP id adf61e73a8af0-3eed43a478amr3356688637.29.1794214497217;
-        Mon, 09 Nov 2026 00:54:57 -0800 (PST)
-Received: from localhost.localdomain ([116.128.244.171])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb96814158sm1396221a12.8.2026.11.09.00.54.52
+        d=1e100.net; s=20260707; t=1794214856; x=1794819656;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jg4upLHUrM6H1fsgp5Xb2gkT8KIhNg+n3t7qrZRLzsU=;
+        b=R39zm093l59tvVdX6L86UeoUoxbYbWKgEmy/tUVZmsw+0b3b3fwYOm0KG78Yd94a/3
+         tT6H9WRspTJfjWt2puOJ5YVu+YS2WHKj4ySZp7nwHM+L28f+096vBfL79JvBc94kRq6a
+         FiD2WWvjiboGqWoGOpBlnrWBG9r5k/vjMpKgHjc/qmvLMsuh5nfLZO0pp25B8O3CKHVH
+         DqkzJWnysHLwf0Mluc73tVWoTe3Vsnh+RpPBQMAVD+jqsPXSLPTfHR8pYI9cRp07k6PD
+         X0b8X+FBsMN/XKQ0ut4a/H4z4RG7aiwtXr+8lY7z4av+fVxfZUhibNNMwWT8cqhgdPx7
+         IqsA==
+X-Forwarded-Encrypted: i=1; AL+hErHll6SJ8REcJvW1wChefUsi6QU3g1WjRitcDZlaA0AnCx8KRnlrELsHijXm00PjmYL7Rva5nKPmV6w=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+cED+Rf5k+djE/qGwnh9HgUOr/C7uXmFDtptgB8YNX0P3eldmS
+	51gPZAKF64/t1zDDeCUxjJzzwG3hP43fxgVAMGR5bFVTUq34nNGd7DtC/COaT4DIuQSxro3fA+T
+	NTBUuXMUJ5ntiPnzs6Jf/qSxLzEipCyxoorMEZxEvx7fm6Bhs1DgpmTbys0sCZgRvoapHzuhU9A
+	==
+X-Gm-Gg: AYBFou2/qMP9yUjNKZpwHoJ1FX4OByJqDkBJ2N1XXAHTk1azJOhioEKFDZM6BF7+M8l
+	YH2iG+2E0WFT0iYnGgbR0N2Md9uOS5BCuff9F73kPcBg5xR8HJyDkxhM7kpnkgzU7B1UViA9hqC
+	q4CtPNczOUw9TYAWAqgZ77kxDHAaDgf5vrJ5F+L9Tuyi8W2VgIHWGgdMYdy9wvFo+9AaxOPT/AH
+	ZkEp6FVUaQQ+Hz5uEhhI074Y7ko7yd3Blw+eAfYWeJrFf20armBXPgJFGEgdPGQMALwPZNNB6A4
+	YxeSu6ayTrGEe5xpOqEIW+HC4kibAub4ha4JQWuQYuXjxmqxDjuP5PpspEzLINTAAI6fSjyQKyW
+	8V3rMAlXehR07gGWYr7fNH8V+SdANDTxW3cjtUfKc83LmeCr9L5Df76SBxafmy2RLUIYqXFOm4a
+	9oVjErJ8qXC3JXJmg1ZdXCIA==
+X-Received: by 2002:a05:7300:de4b:b0:36c:a42d:9bc9 with SMTP id 5a478bee46e88-37256bf17d9mr6702808eec.25.1794214855295;
+        Mon, 09 Nov 2026 01:00:55 -0800 (PST)
+X-Received: by 2002:a05:7300:de4b:b0:36c:a42d:9bc9 with SMTP id 5a478bee46e88-37256bf17d9mr6702737eec.25.1794214854259;
+        Mon, 09 Nov 2026 01:00:54 -0800 (PST)
+Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37265a179c1sm10908331eec.11.2026.11.09.01.00.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 00:54:56 -0800 (PST)
-From: Hongyu Xie <xiehongyu1@kylinos.cn>
-To: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	usb-storage@lists.one-eyed-alien.net,
-	Hongyu Xie <xiehongyu1@kylinos.cn>,
-	syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com,
-	Liu Qi <liuqi@longcheer.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v4] usb-storage: ene_ub6250: don't let the card-type probe hang forever
-Date: Mon,  9 Nov 2026 16:54:49 +0800
-Message-Id: <20261109085449.83117-1-xiehongyu1@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+        Mon, 09 Nov 2026 01:00:52 -0800 (PST)
+Date: Mon, 9 Nov 2026 01:00:50 -0800
+From: Peter Chen <peter.chen@oss.qualcomm.com>
+To: Akash Kumar <akash.kumar@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] usb: dwc3: Update nominal max votes for qcom usb
+Message-ID: <avGLwjn6yZRqpBhF@hu-petche-lv.qualcomm.com>
+References: <20261105100626.2003771-1-akash.kumar@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,440 +126,107 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105100626.2003771-1-akash.kumar@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=TMjQ2Fla c=1 sm=1 tr=0 ts=6af18bc8 cx=c_pps
+ a=Uww141gWH0fZj/3QKPojxA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=rNO_JpGmdzbLC-vSDh4A:9 a=CjuIK1q_8ugA:10
+ a=PxkB5W3o20Ba91AHUih5:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA5MDAzNSBTYWx0ZWRfX0+rpe76WCErN
+ eSWnjGTqtmTulNuYehy3ijFZhBjVStqqo7qrxoQ8L4FRKIyV9NNocxV69rlZWybqvh6L/NmBEU8
+ hgIDbmQTbYNFAtnRyyXbrFlbbuCKZIqWD0tnOY/8exRPU1pPTU1HLMXdyPDisPOwhP7gKIMLxgN
+ M01yOYOZej1CH42AplRHTqDuyIATybSGiK0nT8sHW24APW74HgXWJrTIKCf2xwcRTHex22X6x6C
+ pglccfLm8hPySyiEePlkaDjKy8r9g3lgYcqttjXBvafO5l+6Sga3Lu/bWjXmJCAcoNHIT0Usv3H
+ g8WDTfotxDr7K0o81U5Hq9r83YT76XPjMc36QkbdOzbVqa5ZaiohE9tdPiKVomGG594Mj3Wtvyg
+ M6JNnZA4XShnnYfU86dGgId6Ik2memA5znSVC5t14mIFEq9ZzhEWBnmAAhEVSgkN+LDFpdyNBE3
+ a4mT2cE6VdZ6B/eVogg==
+X-Proofpoint-GUID: vTAgCgZ6-t5Gip4Ypb2j2_Lxn68aXl78
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA5MDAzNSBTYWx0ZWRfX42GTZ1oyY2Ct
+ 330PF3fs7YKzjnPhYFn4X8LE8eAcKGiItiKZ5B/pAqgKEEj2bC1Jp9x/VW57cAcDjq5Hoz2mUZd
+ AosoNo2ciJ865YuuQgFk6HbpY3yiSuw=
+X-Proofpoint-ORIG-GUID: vTAgCgZ6-t5Gip4Ypb2j2_Lxn68aXl78
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-09_03,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0
+ phishscore=0 priorityscore=1501 spamscore=0 bulkscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611090035
 
-ene_ub6250_probe() reads the card type with ene_get_card_type() right
-after usb_stor_probe2() has added the SCSI host.  The query is a
-bulk-only transaction (CBW, one-byte data-in, CSW) sent through
-ene_send_scsi_cmd(), which uses usb_stor_bulk_transfer_buf() and
-therefore waits for URB completion without any timeout.  That is safe
-only for transfers belonging to a SCSI command, where the command's
-timeout and abort handling terminate the wait.  A card-type query has
-no SCSI command behind it, so a device which enumerates but never
-services bulk transfers blocks the probe forever.
+On 26-11-05 15:32:16, Akash Kumar wrote:
+> Increase the nominal max USB memory bandwidth vote to let DDR scale
+> higher within its nominal corner, fixing glitches seen during
+> simultaneous USB audio use cases.
+> 
+> USB_MEMORY_PEAK_SS_BW is raised from 2500 MB/s to 4500 MB/s (+2000
+> MB/s, ~1.8x). This ICC vote does not by itself determine DDR
+> frequency; the vote-to-frequency mapping is platform-specific and
+> comes from each target's interconnect/OPP table. On the tested
+> targets, the old vote kept DDR pinned at 1 GHz within the nominal
+> corner, even though DDR can run at 1.5 GHz (+50%) within the same
+> corner. At 1 GHz, glitches were observed during multiple concurrent
+> USB audio use cases.
 
-commit 445fc368c6bc ("usb-storage: ene_ub6250: fix race between scan
-work and probe") added us->dev_mutex around the query to keep it from
-racing with the scan work for us->current_urb.  usb_stor_probe2()
-queues that work with a one-second delay, so it now waits for a
-transfer which may never finish.  The query itself has been unbounded
-since commit 41e568d14ec0 ("Staging: Merge ENE UB6250 SD card codes
-from keucr to drivers/usb/storage"), but only the latter turns the
-hang into the lockup reported here, hence the Fixes tag.
-syzbot reports:
+How we decide which value is suitable, eg, you set 4500 here?
+If DDR can run higher, and we have more stress test case like UAS
+transfer + UVC transfer, do we need this value to be higher?
 
- INFO: task kworker/0:2:53 blocked for more than 143 seconds.
- ...
- __mutex_lock
- usb_stor_scan_dwork
- ...
- INFO: task syz-executor339:5675 blocked for more than 143 seconds.
- ...
- device_lock
- usbdev_open
+Is it okay we just set the highest value for USB, there is a platform
+OPP table, and we let ICC choose the highest value for USB at specific 
+platform?
 
-with the hub worker holding both locks stalled in
-ene_ub6250_probe() -> ene_get_card_type() -> usb_stor_msg_common().
+Peter
 
-Run the query from ->initFunction instead.  usb_stor_acquire_resources()
-calls it before the control thread is started and before the scan work
-is queued, so nothing else can be using us->current_urb and the
-dev_mutex from that commit can go away.  A failed query now unwinds
-through usb_stor_probe2() before the SCSI host is registered, instead
-of going through usb_stor_disconnect() and cancel_delayed_work_sync()
-on a scan work which is itself stuck on the dead device.
+> 
+> Tested internally on RB3, RB4, RB8, Shikra, and other KLM targets.
+> With the updated vote, DDR is allowed to run at the higher nominal
+> frequency, and the following were measured (not merely projected):
+> 
+> - USB memory throughput: 125 MB/s -> 145 MB/s (+16%)
+> - RTD-USBC audio latency: 17.9 ms -> 16.6 ms (-7.3%)
+> 
+> RTD-USBC is the round-trip audio latency measured over a USB-C audio
+> path; lower is better. Note the +50% DDR frequency headroom does not
+> map linearly to the +16% throughput gain, since throughput is also
+> bounded by other factors along the USB/DDR path; the frequency
+> increase is necessary but not sufficient to explain the full gain on
+> its own.
+> 
+> Signed-off-by: Akash Kumar <akash.kumar@oss.qualcomm.com>
+> ---
+> v2: Added Details of targets Tested.
+>     Added details for usb vote.
+>     Added KPI Details.
+>     Dropped USB AVG BW vote change which is not needed.
+> 
+> Link to v1: https://lore.kernel.org/all/20260611081831.2743464-1-akash.kumar@oss.qualcomm.com/
+> ---
+>  drivers/usb/dwc3/dwc3-qcom.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+> index ac68b4218b56..3a19385969dc 100644
+> --- a/drivers/usb/dwc3/dwc3-qcom.c
+> +++ b/drivers/usb/dwc3/dwc3-qcom.c
+> @@ -46,7 +46,7 @@
+>  #define USB_MEMORY_AVG_HS_BW MBps_to_icc(240)
+>  #define USB_MEMORY_PEAK_HS_BW MBps_to_icc(700)
+>  #define USB_MEMORY_AVG_SS_BW  MBps_to_icc(1000)
+> -#define USB_MEMORY_PEAK_SS_BW MBps_to_icc(2500)
+> +#define USB_MEMORY_PEAK_SS_BW MBps_to_icc(4500)
+>  #define APPS_USB_AVG_BW 0
+>  #define APPS_USB_PEAK_BW MBps_to_icc(40)
+>  
+> -- 
+> 2.43.0
+> 
+> 
 
-Also bound the whole query with a 10-second budget covering the CBW,
-the data stage and the CSW.  Per-transfer timeouts would not be
-enough, since a device can stretch the query over the data stage and
-the two CSW retries; each transfer gets the time remaining in the
-budget.
-
-Reported-by: syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=30552b4cbe99d6d91306
-Fixes: 445fc368c6bc ("usb-storage: ene_ub6250: fix race between scan work and probe")
-Cc: Liu Qi <liuqi@longcheer.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
----
-
-v4:
- - Run the query from ->initFunction and drop the dev_mutex added by
-   445fc368c6bc.  usb_stor_acquire_resources() calls it before the control
-   thread is started and before the scan work is queued, so nothing else
-   can be using us->current_urb, and a failed query unwinds before the
-   SCSI host and the scan work exist.  The previous failure path went
-   through usb_stor_disconnect() and cancel_delayed_work_sync() on a scan
-   work stuck on the dead device.
- - Replace the 30-second per-transfer timeout with a single 10-second
-   budget for the whole CBW/data/CSW sequence, including the CSW retries.
-   Each transfer gets the time remaining in the budget, computed from one
-   jiffies sample per step; the start time and the budget stay separate
-   so that a wrapped deadline cannot be mistaken for the zero "no limit"
-   value.
- - Return -EIO instead of -ENODEV when the query fails, like the other
-   usb-storage initFunctions.  -ENODEV is only logged at dev_dbg as a
-   rejected match, which would hide a real transfer failure at the
-   default log level.
- - Keep Fixes: 445fc368c6bc, and spell out that the unbounded query
-   predates it (41e568d14ec0); 445fc368c6bc is what turns the hang into
-   the lockup reported here.
- - Fold the coding-style cleanup into this patch: the timeout code was
-   rewritten and is checkpatch clean, so the separate 2/2 style patch is
-   dropped.
-
-v3: https://lore.kernel.org/r/20261001123135.38831-1-xy521521@gmail.com/
-v2: https://lore.kernel.org/r/20261001091523.16934-1-xy521521@gmail.com/
-v1: https://lore.kernel.org/r/20260929144640.2028-1-xy521521@gmail.com/
----
- drivers/usb/storage/ene_ub6250.c         | 153 +++++++++++++++++------
- drivers/usb/storage/transport.c          |  31 +++--
- drivers/usb/storage/transport.h          |   5 +
- drivers/usb/storage/unusual_ene_ub6250.h |   2 +-
- 4 files changed, 143 insertions(+), 48 deletions(-)
-
-diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-index fea2614e767c7..2b4fab31e900d 100644
---- a/drivers/usb/storage/ene_ub6250.c
-+++ b/drivers/usb/storage/ene_ub6250.c
-@@ -24,6 +24,15 @@
- 
- #define DRV_NAME "ums_eneub6250"
- 
-+/*
-+ * Time budget for the card-type query done while probing, in jiffies.  It
-+ * is a bulk transfer with no SCSI command behind it, so nothing else would
-+ * terminate the wait if the device stopped responding.
-+ */
-+#define ENE_PROBE_TIMEOUT (10 * HZ)
-+
-+static int ene_ub6250_init(struct us_data *us);
-+
- MODULE_DESCRIPTION("Driver for ENE UB6250 reader");
- MODULE_LICENSE("GPL");
- MODULE_IMPORT_NS("USB_STORAGE");
-@@ -487,39 +496,76 @@ static void ene_ub6250_info_destructor(void *extra)
- 	kfree(info->bbuf);
- }
- 
--static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
-+/*
-+ * Return what is left of a budget of @timeout jiffies which started at
-+ * @start, in jiffies, or -ETIMEDOUT if the budget has been used up.  A zero
-+ * @timeout means no limit.
-+ */
-+static int ene_time_left(unsigned long start, unsigned int timeout)
-+{
-+	unsigned long elapsed;
-+
-+	if (!timeout)
-+		return 0;
-+
-+	elapsed = jiffies - start;
-+	if (elapsed >= timeout)
-+		return -ETIMEDOUT;
-+
-+	return min_t(unsigned long, timeout - elapsed, INT_MAX);
-+}
-+
-+/*
-+ * Send an ENE SCSI command.  @timeout is the time budget for the whole
-+ * transaction (CBW, data and CSW), in jiffies; zero means no limit.
-+ */
-+static int ene_send_scsi_cmd_timeout(struct us_data *us, u8 fdir, void *buf,
-+				     int use_sg, unsigned int timeout)
- {
- 	struct bulk_cb_wrap *bcb = (struct bulk_cb_wrap *) us->iobuf;
- 	struct bulk_cs_wrap *bcs = (struct bulk_cs_wrap *) us->iobuf;
--
--	int result;
-+	unsigned long start = jiffies;
-+	int result, left;
- 	unsigned int residue;
- 	unsigned int cswlen = 0, partial = 0;
- 	unsigned int transfer_length = bcb->DataTransferLength;
- 
-+	left = ene_time_left(start, timeout);
-+	if (left < 0)
-+		return USB_STOR_TRANSPORT_ERROR;
-+
- 	/* usb_stor_dbg(us, "transport --- ene_send_scsi_cmd\n"); */
- 	/* send cmd to out endpoint */
--	result = usb_stor_bulk_transfer_buf(us, us->send_bulk_pipe,
--					    bcb, US_BULK_CB_WRAP_LEN, NULL);
-+	result = usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
-+						    bcb, US_BULK_CB_WRAP_LEN,
-+						    NULL, left);
- 	if (result != USB_STOR_XFER_GOOD) {
- 		usb_stor_dbg(us, "send cmd to out endpoint fail ---\n");
- 		return USB_STOR_TRANSPORT_ERROR;
- 	}
- 
- 	if (buf) {
--		unsigned int pipe = fDir;
-+		unsigned int pipe = fdir;
- 
--		if (fDir  == FDIR_READ)
-+		if (fdir == FDIR_READ)
- 			pipe = us->recv_bulk_pipe;
- 		else
- 			pipe = us->send_bulk_pipe;
- 
- 		/* Bulk */
- 		if (use_sg) {
-+			/*
-+			 * Scatter-gather transfers belong to SCSI commands,
-+			 * whose timeout and abort machinery bound the wait.
-+			 */
- 			result = usb_stor_bulk_srb(us, pipe, us->srb);
- 		} else {
--			result = usb_stor_bulk_transfer_sg(us, pipe, buf,
--						transfer_length, 0, &partial);
-+			left = ene_time_left(start, timeout);
-+			if (left < 0)
-+				return USB_STOR_TRANSPORT_ERROR;
-+			result = usb_stor_bulk_transfer_buf_timeout(us, pipe,
-+								    buf, transfer_length, &partial,
-+								    left);
- 		}
- 		if (result != USB_STOR_XFER_GOOD) {
- 			usb_stor_dbg(us, "data transfer fail ---\n");
-@@ -527,21 +573,36 @@ static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
- 		}
- 	}
- 
-+	left = ene_time_left(start, timeout);
-+	if (left < 0)
-+		return USB_STOR_TRANSPORT_ERROR;
-+
- 	/* Get CSW for device status */
--	result = usb_stor_bulk_transfer_buf(us, us->recv_bulk_pipe, bcs,
--					    US_BULK_CS_WRAP_LEN, &cswlen);
-+	result = usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-+						    bcs, US_BULK_CS_WRAP_LEN,
-+						    &cswlen, left);
- 
- 	if (result == USB_STOR_XFER_SHORT && cswlen == 0) {
- 		usb_stor_dbg(us, "Received 0-length CSW; retrying...\n");
--		result = usb_stor_bulk_transfer_buf(us, us->recv_bulk_pipe,
--					    bcs, US_BULK_CS_WRAP_LEN, &cswlen);
-+		left = ene_time_left(start, timeout);
-+		if (left < 0)
-+			return USB_STOR_TRANSPORT_ERROR;
-+		result = usb_stor_bulk_transfer_buf_timeout(us,
-+							    us->recv_bulk_pipe, bcs,
-+							    US_BULK_CS_WRAP_LEN, &cswlen,
-+							    left);
- 	}
- 
- 	if (result == USB_STOR_XFER_STALLED) {
- 		/* get the status again */
- 		usb_stor_dbg(us, "Attempting to get CSW (2nd try)...\n");
--		result = usb_stor_bulk_transfer_buf(us, us->recv_bulk_pipe,
--						bcs, US_BULK_CS_WRAP_LEN, NULL);
-+		left = ene_time_left(start, timeout);
-+		if (left < 0)
-+			return USB_STOR_TRANSPORT_ERROR;
-+		result = usb_stor_bulk_transfer_buf_timeout(us,
-+							    us->recv_bulk_pipe, bcs,
-+							    US_BULK_CS_WRAP_LEN, NULL,
-+							    left);
- 	}
- 
- 	if (result != USB_STOR_XFER_GOOD)
-@@ -567,6 +628,15 @@ static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
- 	return USB_STOR_TRANSPORT_GOOD;
- }
- 
-+/*
-+ * Unbounded variant for the command path: a SCSI command's timeout and
-+ * abort machinery terminate the transfer if the device stops responding.
-+ */
-+static int ene_send_scsi_cmd(struct us_data *us, u8 fdir, void *buf, int use_sg)
-+{
-+	return ene_send_scsi_cmd_timeout(us, fdir, buf, use_sg, 0);
-+}
-+
- static int do_scsi_request_sense(struct us_data *us, struct scsi_cmnd *srb)
- {
- 	struct ene_ub6250_info *info = (struct ene_ub6250_info *) us->extra;
-@@ -1824,7 +1894,8 @@ static int ms_scsi_write(struct us_data *us, struct scsi_cmnd *srb)
-  * ENE MS Card
-  */
- 
--static int ene_get_card_type(struct us_data *us, u16 index, void *buf)
-+static int ene_get_card_type(struct us_data *us, u16 index, void *buf,
-+			     unsigned int timeout)
- {
- 	struct bulk_cb_wrap *bcb = (struct bulk_cb_wrap *) us->iobuf;
- 	int result;
-@@ -1837,7 +1908,7 @@ static int ene_get_card_type(struct us_data *us, u16 index, void *buf)
- 	bcb->CDB[2]			= (unsigned char)(index>>8);
- 	bcb->CDB[3]			= (unsigned char)index;
- 
--	result = ene_send_scsi_cmd(us, FDIR_READ, buf, 0);
-+	result = ene_send_scsi_cmd_timeout(us, FDIR_READ, buf, 0, timeout);
- 	return result;
- }
- 
-@@ -2191,7 +2262,7 @@ static int ene_init(struct us_data *us)
- 	struct ene_ub6250_info *info = (struct ene_ub6250_info *)(us->extra);
- 	u8 *bbuf = info->bbuf;
- 
--	result = ene_get_card_type(us, REG_CARD_STATUS, bbuf);
-+	result = ene_get_card_type(us, REG_CARD_STATUS, bbuf, 0);
- 	if (result != USB_STOR_XFER_GOOD)
- 		return USB_STOR_TRANSPORT_ERROR;
- 
-@@ -2319,13 +2390,34 @@ static int ene_transport(struct scsi_cmnd *srb, struct us_data *us)
- 
- static struct scsi_host_template ene_ub6250_host_template;
- 
-+/*
-+ * Probe-time card-type query.  It runs from usb_stor_acquire_resources(),
-+ * before the usb-storage control thread and the SCSI scan work exist, so
-+ * nothing else can be using us->current_urb.  Bound it explicitly: there
-+ * is no SCSI command whose timeout or abort handling could end the wait.
-+ */
-+static int ene_ub6250_init(struct us_data *us)
-+{
-+	struct ene_ub6250_info *info = (struct ene_ub6250_info *)us->extra;
-+	int result;
-+
-+	result = ene_get_card_type(us, REG_CARD_STATUS, info->bbuf,
-+				   ENE_PROBE_TIMEOUT);
-+	if (result != USB_STOR_XFER_GOOD)
-+		return -EIO;
-+
-+	if (!(info->bbuf[0] & 0x01))
-+		pr_info("ums_eneub6250: SM cards are not supported\n");
-+
-+	return 0;
-+}
-+
- static int ene_ub6250_probe(struct usb_interface *intf,
- 			 const struct usb_device_id *id)
- {
--	int result;
--	u8  misc_reg03;
- 	struct us_data *us;
- 	struct ene_ub6250_info *info;
-+	int result;
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 		   (id - ene_ub6250_usb_ids) + ene_ub6250_unusual_dev_list,
-@@ -2352,26 +2444,7 @@ static int ene_ub6250_probe(struct usb_interface *intf,
- 	us->transport_reset = usb_stor_Bulk_reset;
- 	us->max_lun = 0;
- 
--	result = usb_stor_probe2(us);
--	if (result)
--		return result;
--
--	/* probe card type */
--	mutex_lock(&us->dev_mutex);
--	result = ene_get_card_type(us, REG_CARD_STATUS, info->bbuf);
--	mutex_unlock(&us->dev_mutex);
--	if (result != USB_STOR_XFER_GOOD) {
--		usb_stor_disconnect(intf);
--		return USB_STOR_TRANSPORT_ERROR;
--	}
--
--	misc_reg03 = info->bbuf[0];
--	if (!(misc_reg03 & 0x01)) {
--		pr_info("ums_eneub6250: This driver only supports SD/MS cards. "
--			"It does not support SM cards.\n");
--	}
--
--	return result;
-+	return usb_stor_probe2(us);
- }
- 
- 
-diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transport.c
-index 8de3015bce050..424293658918a 100644
---- a/drivers/usb/storage/transport.c
-+++ b/drivers/usb/storage/transport.c
-@@ -378,12 +378,17 @@ static int usb_stor_intr_transfer(struct us_data *us, void *buf,
- }
- 
- /*
-- * Transfer one buffer via bulk pipe, without timeouts, but allowing early
-- * termination.  Return codes are USB_STOR_XFER_xxx.  If the bulk pipe
-- * stalls during the transfer, the halt is automatically cleared.
-+ * Transfer one buffer via bulk pipe, allowing early termination.  Return
-+ * codes are USB_STOR_XFER_xxx.  If the bulk pipe stalls during the
-+ * transfer, the halt is automatically cleared.
-+ *
-+ * A nonzero @timeout bounds the wait for URB completion, in jiffies.  It
-+ * must only be used for transfers which are not part of a SCSI command:
-+ * those rely on the command's timeout and abort handling.
-  */
--int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
--	void *buf, unsigned int length, unsigned int *act_len)
-+int usb_stor_bulk_transfer_buf_timeout(struct us_data *us, unsigned int pipe,
-+				       void *buf, unsigned int length,
-+				       unsigned int *act_len, int timeout)
- {
- 	int result;
- 
-@@ -392,14 +397,26 @@ int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
- 	/* fill and submit the URB */
- 	usb_fill_bulk_urb(us->current_urb, us->pusb_dev, pipe, buf, length,
- 		      usb_stor_blocking_completion, NULL);
--	result = usb_stor_msg_common(us, 0);
-+	result = usb_stor_msg_common(us, timeout);
- 
- 	/* store the actual length of the data transferred */
- 	if (act_len)
- 		*act_len = us->current_urb->actual_length;
--	return interpret_urb_result(us, pipe, length, result, 
-+	return interpret_urb_result(us, pipe, length, result,
- 			us->current_urb->actual_length);
- }
-+EXPORT_SYMBOL_GPL(usb_stor_bulk_transfer_buf_timeout);
-+
-+/*
-+ * Same as usb_stor_bulk_transfer_buf_timeout() with an unbounded wait.
-+ */
-+int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
-+			       void *buf, unsigned int length,
-+			       unsigned int *act_len)
-+{
-+	return usb_stor_bulk_transfer_buf_timeout(us, pipe, buf, length,
-+			act_len, 0);
-+}
- EXPORT_SYMBOL_GPL(usb_stor_bulk_transfer_buf);
- 
- /*
-diff --git a/drivers/usb/storage/transport.h b/drivers/usb/storage/transport.h
-index 74ffd0d7e7b6c..361dbd77f15e3 100644
---- a/drivers/usb/storage/transport.h
-+++ b/drivers/usb/storage/transport.h
-@@ -77,6 +77,11 @@ extern int usb_stor_clear_halt(struct us_data *us, unsigned int pipe);
- extern int usb_stor_ctrl_transfer(struct us_data *us, unsigned int pipe,
- 		u8 request, u8 requesttype, u16 value, u16 index,
- 		void *data, u16 size);
-+extern int usb_stor_bulk_transfer_buf_timeout(struct us_data *us,
-+					      unsigned int pipe, void *buf,
-+					      unsigned int length,
-+					      unsigned int *act_len,
-+					      int timeout);
- extern int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
- 		void *buf, unsigned int length, unsigned int *act_len);
- extern int usb_stor_bulk_transfer_sg(struct us_data *us, unsigned int pipe,
-diff --git a/drivers/usb/storage/unusual_ene_ub6250.h b/drivers/usb/storage/unusual_ene_ub6250.h
-index a3b32abc2b2ff..bc9d7ea4e398b 100644
---- a/drivers/usb/storage/unusual_ene_ub6250.h
-+++ b/drivers/usb/storage/unusual_ene_ub6250.h
-@@ -5,6 +5,6 @@
- UNUSUAL_DEV(0x0cf2, 0x6250, 0x0000, 0x9999,
- 		"ENE",
- 		"ENE UB6250 reader",
--		USB_SC_DEVICE, USB_PR_DEVICE, NULL, 0),
-+		USB_SC_DEVICE, USB_PR_DEVICE, ene_ub6250_init, 0),
- 
- #endif /* defined(CONFIG_USB_STORAGE_ENE_UB6250) || ... */
 -- 
-2.25.1
 
+Thanks,
+Peter Chen
