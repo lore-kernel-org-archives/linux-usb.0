@@ -1,57 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794208371;
-	b=Xhrlo+vVqAlYklDznqAExuyHQhEgG7Z6vVdSrSXIBUY82bkstVo2yh78cq9frG3Ajodo
-	 WpXB1Ie70pyEE1+PgfNA03JJaPjrt9jGIlfK0KlbxOdEsT2Y6tst4FZREHbbIl7yGf0Hh
-	 nXURSPoRzThGgAGyapPWdvyYpTdn535JGml9W/MOuHteTvzqP4sY6VY5Xm+5n2kQl8nN3
-	 PFcNi+1vdq/NZoX+yI+VNjLPdAuOZv7IBc4J+hofqruKFy1UOAJppYyG0E6MU/b4lAlze
-	 y+5uT+FrrbspkdFJCbfaYmEspIUhAn0wG0q+v1jJFOV1B3z4/wwLKX75W98RGTXbxrg==
+	t=1794209405;
+	b=bPg+AzXXXNR87kFFt+R8i3GZOt3+Ahv8pTVwcZlsPRaQ4spxhvOHvO9/Al5cNLYi7QgB
+	 gl/sPWyQmiSejBfB0+gdHf0Oz0MNAs0oBnCH+pAECcg03xntAMuofIz2g64LaAjF4CHck
+	 CbSGM/4TMnkg79CdWH6tOVh79rUHdD7IPFsjQVScZfIOULiQWSaSKlNZ5UTsZt/gxYpnk
+	 zVQ8ieDHaDUshLKiSgzT79QZxHXYezCdYYk1n3Z7BPRtIRT275nA9624uC5HRvnRHGa9C
+	 xjLYy2YXgq6i+Ps2FBH1cUJjmf33b81bPB8M2yhLhTZfy7zTSn8hrvxcTUfID5eVZ1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794208371;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=1riSLZfoWaz271t/fvKN3KfaEHPOR5iDelP5GjNFgbc=;
-	b=UTpwaInUtaQssqptgdzKnx9DNGc3NNMPM/TdeX2oyXm4LlR5puBb+lqpzHjWjlOwCznj
-	 Gf2vG4osIt0zoDEu4OqU55Nwxc5VYgZjJ4iAPvzcmEtRTZp/eXW1FpejOf1gSyxoDFJrK
-	 seWN84MEd5uzGUoYVbqer/bDutGfYw2GLL0pOWgHMLg8N4MK3Cv50IzvLsXfyLXp0nv0U
-	 dBWFE5GaeQcKE6tarb7eYfYvb28Z2K/rUz76F1ZSK2bHn5sG+FjaIgz4A7MltjTU2ZMPR
-	 kwTJSyP0K4tiydbNsJHUnBq5ktUTBz4OhU/1sIW0Q1aoAchDDerBL4NPmv33D+fy0Bw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794209405;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=YHsIe+6yk2rHtgcsN9K0X9/VIE4GS8pTEpwTi7k8aRA=;
+	b=xkAPnBKCGF0OCB/lNhAIKmWGMhZJ869/jLvycOa/9qzZu82dPFm2zI3UXk5Hou1AfiU1
+	 VVulpeHmokeqtkjX4QIx4/nQ2UStx6R4DjHSQ0hcug9Qcl4cUhnexkJj6dbC3GZQhjB1z
+	 hGjc+1w8SWTdGAEozgrP7IoK+5HFzIm8qq+zTd/+yVbPmc2WR74Y1Xp/FzEJgWl9pIYAx
+	 IVzlpKgDrRxqDEQEeGNF/yZpUBAVjaOfJZRVlX3sBoWIK0MRe4ZtH8bA3dt0HHyUpIPbo
+	 JhDdKdWLsJqt7ikkJiNjJgaZy5jlcYh5XqwY+lJpX7ayiPAl84HnEe7FE4Y5VcPa5Bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UGaVTrvE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QUJUZjuY;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DDB606A322
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 07:12:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA05606A323;
+	Mon,  9 Nov 2026 07:30:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UGaVTrvE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D2851F0089F;
-	Mon,  9 Nov 2026 07:12:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QUJUZjuY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 712221F008BE;
+	Mon,  9 Nov 2026 07:30:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794208371;
-	bh=1riSLZfoWaz271t/fvKN3KfaEHPOR5iDelP5GjNFgbc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UGaVTrvEOxlbhnv1fv24uVnzRUkZ74TM8EybSCBIFTbmFhGXRt/ocIYw0jfinlg1U
-	 VzvqWL33DLBMTNc/QHcWByftVNQh5WMTxQV9TMCP7+s/+PUnj3OrVQbwWCPTMfRoru
-	 teJKI/JaMwFVi5X4JUE9JHzlxTKDRtqMK1cIND0XrMiFgx/yeFkbiCphvIgCkVCaKP
-	 ulCZAsAKya/WZ+BdnaVv3I89vksTIxQkqTnEOVfvzATwjZ3EBFAMAUXwGUFmLBzBN5
-	 ACcOnQB/XUO1gy4WAk9/w/hCFUnUs+37QyX6HBmImINKQuvUa6zOsu/V0cTtXKu+tQ
-	 dXd1AjUD6iivg==
-Message-ID: <sashiko-outbox-204534@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 2/3] usb: gadget: gadgetfs: prevent ep0 event counter
- underflow
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jing Lin" <kayano050408@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261109-b4-gadgetfs-ep0-v6-2-b410e3dced89@gmail.com>
-References: <20261109-b4-gadgetfs-ep0-v6-0-b410e3dced89@gmail.com>
- <20261109-b4-gadgetfs-ep0-v6-2-b410e3dced89@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 07:12:50 +0000
+	s=k20260515; t=1794209404;
+	bh=YHsIe+6yk2rHtgcsN9K0X9/VIE4GS8pTEpwTi7k8aRA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=QUJUZjuYfxOSz6pip8ibC3zrHMpsfA9to2z6CC8oBADDu4wRuFdZ1VAuPzyjzGkv4
+	 IDkKSPvcAFqjmVXJGzxdDnUslUlpY7nHHzwaY2ZLCnmCqPd1aVmqiXsUWXkAyoZoQK
+	 mhkTgk23JMEo4CTlxYPiNu7GkPw0KQsfb9X7l5uhdJ0SFPc+YVNdikfJgi2g+LsvaB
+	 vPPHrFvU0pr1yP0cQRRrWc4AQXcySghNhEFvneKpj4fcv9IaO2KZQ/Z64vNJUzctuQ
+	 YN0QHUqL1M1ZB6d0EHtnJ3eD5cSEK2kS6fHJmWNQg6TOIxmlc5lGYin+Lr5dzJQ55s
+	 FB3nD2lNuIdjA==
+Message-ID: <391f12cf-d86e-428b-906f-df6d8128ee05@kernel.org>
+Date: Mon, 9 Nov 2026 08:29:59 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,26 +50,112 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] arm64: dts: cix: add RTS5453 PD controllers to Orion
+ O6
+To: Gary Yang <gary.yang@cixtech.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Fugang Duan <fugang.duan@cixtech.com>,
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ cix-kernel-upstream@cixtech.com
+References: <20261107011012.3655873-1-gary.yang@cixtech.com>
+ <20261107011012.3655873-5-gary.yang@cixtech.com>
+ <65af581e-caac-430a-88b1-3b7425c5209e@kernel.org>
+ <avEq_ngShxlvFSbS@gary-System-Product-Name>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <avEq_ngShxlvFSbS@gary-System-Product-Name>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> From: Jing Lin <kayano050408@gmail.com>
->=20
-> ep0_read() snapshots dev->ev_next, drops dev->lock while copy_to_user()
-> runs directly from dev->event[], and subtracts the snapshot afterwards.
-> A concurrent disconnect, connect, setup, or another reader can reset,
-> deduplicate, or consume the queue in that window. This races on
-> dev->event[], can drop newly arrived GADGETFS_SETUP events, and wraps
-> dev->ev_next if the queue shrinks below the snapshot.
->=20
-> Dequeue the events into the local buffer and update dev->ev_next before
-> dropping dev->lock for copy_to_user().
->=20
-> Fixes: 1da177e4c3f41 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jing Lin <kayano050408@gmail.com>
+On 09/11/2026 03:07, Gary Yang wrote:
+> hi Krzysztof:
+> 
+> Thanks for your comments!
+> 
+> On 2026-11-07 11:53, Krzysztof Kozlowski wrote:
+> 
+>> EXTERNAL EMAIL
+>>
+>> On 07/11/2026 02:10, Gary Yang wrote:
+>>> Describe the two Realtek RTS5453H port controllers on the Orion O6
+>>> I2C1 bus and add the I2C1 pin configuration.
+>>>
+>>> The controllers route orientation and DisplayPort mode changes
+>>> through the USB/DP combo PHY lane switches, but that PHY support is
+>>> not upstream yet, so the connector graph endpoints are left out for
+>>> now. The Type-C ports are still registered and reported, only the
+>>> lane switching is deferred until the PHY nodes are available.
+>>>
+>>> Both controllers report through the same level-triggered interrupt
+>>> line, which the driver handles with a shared interrupt. The I2C bus
+>>> runs at 100 kHz because the RTS5453H I2C interface does not support
+>>> higher rates.
+>>>
+>>> Signed-off-by: Gary Yang <gary.yang@cixtech.com>
+>>> ---
+>>>  arch/arm64/boot/dts/cix/sky1-orion-o6.dts | 51 +++++++++++++++++++++++
+>>>  1 file changed, 51 insertions(+)
+>>
+>> DTS cannot be combined in this patchset and must be split. Don't mix
+>> patches from independent subsystems when you send something explicitly
+>> targeting only one subsystem.
+>> See also: Documentation/devicetree/bindings/submitting-patches.rst
+>>
+> 
+> Do you mean the driver does not depend on DTS? Previously, it was acceptable
+> to put the DTS at the end of a patchset or place the DTS in a separate patchset. 
+> That’s why I put the DTS at the end of the patchset. Has the rule changed now?
+> 
 
-Sashiko has reviewed this patch and found no issues.
+Why can't you read the docs I pointed?
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-b4-gadgetf=
-s-ep0-v6-0-b410e3dced89@gmail.com?part=3D2
-
+Best regards,
+Krzysztof
