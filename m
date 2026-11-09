@@ -1,47 +1,136 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794245705;
-	b=FVJ3fiNy1xgDagR2/FWaUKFx2ZO2QrW1iObNNYkgdtwJLqJ2F9CyY6B+76mu4zz6hD+D
-	 tT1FC6aNynl9YlcfvGJoNbA958j25EcK4c9l37d/GxmEmIDk+gZjx9wAOpajZU7aB7Zbn
-	 Y4wrtDxelT5HQ6qxw2NraY0qS9Cl+QLvVj2UpO7Dw9ICZzedQqJXg4+sVHf7w2pwzfRB2
-	 QMEMEKwawD6t7bo8LosyI/MoxvzaB2DW6ua1vS5o2tBmwPYst6rLT8SY7bgjKfptwjmGb
-	 M73VN/Tcbco54quXnrQYLMMT6yemqIDePpL6j4g60DF2Cqdh4Wz/n4yLgXIAyWWy6GA==
+	t=1794245938;
+	b=ZuQezPvSki2qC80QT/r9Uw/WK+Brl0vdevkpQQmq2iqnSZQdT1QCz3DDA8JgmBRrkTAU
+	 eMH50tO1k9oSezu2qPdCM5nyROafV2B4OvvwfY4y609tVpdbQWDeAO9oekCWx5v8EtNkc
+	 VZPTpFSv+Tsmi4rd6+SlNZj2KITnxJNod4R+rcUHo/BigHYpY81b37UtSynYiqAarLxkT
+	 k2/vJ2vBsK8AYdvpOmoxqq3e61O+/KMX97i7QtD9Duw7q0dfLLrHJKGRQmae5KrZIdfuQ
+	 A2YVu5IR8IkWWslFcUknQCB0l8o2yxe1sMG7J2DK1eAst+UpC/HEV8LnkB+nFbYuehA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794245705;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=YWyZaiNe5GxohF5WpdTcbObCq/5yd0L96m7mUMGnuk0=;
-	b=s4QkfB/wcXfrXOEDIDfMLcnftnirwq70RF7O4D4dymNMNI1JFyD/9tov+7qegCT0x3yW
-	 yHnSeDjSJZCtrakBpAOdoA3KEXKdN10PYf64jlTeEeMD7x2kfvGmRyUC0ilzsRXLUlQWh
-	 SXeoLCEp98kfvaPUqdcGEmcsAvqHRXAHiyPDtTJPvbuxNpk9RZhR7wl1SDC8vjCoOPKms
-	 cIVVgqj7LZQHljjudXZxY6HPdXOGoop0ROgFir1isgZrPUJt+DWhpl/s4Xa8qx4iMsAYF
-	 JBowkC786heMgsS/i5BHc51jlxGG6t81rsI6lojoei6otaFQ51ALoNqCi5pRo7cIjFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794245938;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=VSgAu1YCz0/TBDQtz025D2yh3sRQq8BFfiF0sq3qrAw=;
+	b=WWVJA0iAicAEV+UEdC0SlXUV0Wn600FfPnSTPZUqa9Wpf9VQoGBxcBeZ5g2INPL7ImRy
+	 cd8OI7MRtOYpKLeuIPHATjaPpogHh/9Kl2xKJtNagSmMDowLDBtaXL5KKCzmY42qK1UF2
+	 HwJX1D3c8Him/XofuU69WTqexZ0AnLVR7vYgLe5gYMvkJwEnLBSDRqHjntsF3VHCCWCxq
+	 nct6Kc473iPuL/RbHvUseNlLUdBgyiR2/lOovJZ4/0thBFaL4raoEIYDbYqJ2MmUwqJFv
+	 qYqfYX9vMa132rwsYjWQ+TxVyoC3zhsgkmAhxORnPrTbJKytKk+cElRhkO3UgSZrsdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mMq7DEim;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ET4UmX4l;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1B5606A326;
-	Mon,  9 Nov 2026 17:35:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148EA606A321
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 17:38:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 148EA606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mMq7DEim
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35E561F0089F;
-	Mon,  9 Nov 2026 17:35:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794245704;
-	bh=YWyZaiNe5GxohF5WpdTcbObCq/5yd0L96m7mUMGnuk0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mMq7DEimjcUCIphKWzE6JxeOF01ABa/MvIAqjE9icP6aPUTsIz3PQC6apWI+V8P7a
-	 dYZqfTJKygv48p6R0/+OAmXAxOY0xfc43X+ttiABghQOi5pkPQ8zaY1BVp2S6zdfM/
-	 y3n7ulkWe3bvIEYqowOhCaSDu3rGs16PrHexI++6DrSddtOokoC/ui2b7aLhyAn5l1
-	 oHM/VIJvWSU0fkWtV7dD5B0lVPLwCbCBSLFixB4qHqmBj5JgzqgVVZl4/VH+w7Goz8
-	 jNU733/imcACns0SgZCL8EFIf++D5RTDpR9bwOdUfjcrdEyP4LYo/9xuZAGnEhsH73
-	 ev/f5aXIVoOYg==
-Message-ID: <65707815-7510-4f85-ba95-ec71b78fb6b2@kernel.org>
-Date: Mon, 9 Nov 2026 18:35:00 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ET4UmX4l
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so9269695e9.3
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 09:38:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794245936; x=1794850736; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VSgAu1YCz0/TBDQtz025D2yh3sRQq8BFfiF0sq3qrAw=;
+        b=ET4UmX4lnrqCC21B5oGoVYsMQvX/uO5ZDK9wo7RPCXLUSHAzor2KKP7C7D4g9dOSKl
+         T9tIynx1iZ7nScEbu/rROoW0ihwiLqJhnnQ61YL9jqzvok+DK3S1a+gguxLlBKC8w5O1
+         moTFTURhfavgIUyQOJfzNwN7KB0x4LD4UGwaMonewXo+m5sWjx57U6MMJmglEzxfuxMO
+         LmUAzY4EtqQeiNxES10G3nMFPkiJj/jPtOOkesOWKBy7x6Ryd1/Cph6kqfXQpWmPijOY
+         8IbZFuODa/za16J/GDh0DmEFHyP77cWRenI/CjjMSrzXFx4Mn5aU+7EARh+lKdHOYquD
+         rC7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794245936; x=1794850736;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VSgAu1YCz0/TBDQtz025D2yh3sRQq8BFfiF0sq3qrAw=;
+        b=JbHPuXw5wk8yiJR7qQTJvKT6m2zL7MjyFwuY1hEpVMvh/qgW+wo2ehRBNBrNmyrrqa
+         CzLk+55oNGKx3kznDwwTW94eTvxYAnsL/GFac8UqRM8zfewovXq4DVNMWMyDZOed0QGl
+         4OPKIjgFUielXppWoefy2fH/6NLo8L3BF74BdjM6nxespI5+rZPW3MWDvjUPo81uAPyc
+         2a5s5QJLi1FiR1r5MY0Sak6QK/s010BtT5zGTgU82YwMZeJusOa3HwlvksSyLyj/tfee
+         erL276xAUbqMYGy9RDdAzFsZBVVVCebho/LCvBWUaS17LwJO51xPd3xVpQ7IFck6EctZ
+         yefg==
+X-Forwarded-Encrypted: i=1; AL+hErH3jq/UNXW0yqzPN6GtKcOS8aoUiXqYYg1v/IJrRHgp7dchFl4gqEDZBz8J6bvgAE+B/svP5Exe1kI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/wk2ocFI97h2YP/LqOATTeZ4IOFmhHOtOnZFs/PfH7zDyQGy7M
+	zWkCUwGDsB85y8L8JRPymWDi7Yww0axDDeEt3qSgOTu5MXEfX2paMeHD
+X-Gm-Gg: AYBFou3HAi8QKTERm4grduZaOq0IA2f8qtgxVosCyqlHiCzJVSP7vzAu3F+xnyFU/i3
+	IyYE2SB1dXpBMoV1K2+Pd0hA1v8SV8WrDWNopBv4acLDsZqU8N4GuGbpIoISlf1soVDcK5hZeqH
+	H4mgNeIK+BiNgheEc4Q+bYoTuqFI/+omTOxa/on1KvkI5ftTh/HY+GBZ4CyMWNbTZxoG8KwodqT
+	s3AHHTDM1L/9RWGgVcK7IcuhLjg1lcM0TyuNo+F4i/r05gt6EOTgHS9QSTrr4yItyO3Pqw0QMaQ
+	vBdN92AUgBxR9G3USQjDoJni6KJugTu2vTBhHQ8UVZhYU4cJXvE3v7talunBJjVSlUjctYAdx1w
+	vLkp31quzW7I5/vsMwNxDYDgnWzbXZ5YuXUUQ7iCD7VCAmNoJp5s+xYChl7kjTwg6TJwtPd+xRr
+	IB2dUS9tDZIgtIyDGsuiVIx5m0jU1YNbdHE/6kmU8opJU3JoKmEkLvYMNrB4vzQ78+08PuhVT3w
+	+og5vx+KHfERUJVMy8YGXFnFtO6x0Z++KvD3ImMdUTLM57aqVnzd06NmrJ+hQsP/zczuopyt1vq
+	u8ApYgZ+r6AkfvgE7e6vcvG2Yxs=
+X-Received: by 2002:a05:600c:608a:b0:4a0:1b14:e283 with SMTP id 5b1f17b1804b1-4b94d76329cmr92154365e9.1.1794245936334;
+        Mon, 09 Nov 2026 09:38:56 -0800 (PST)
+Received: from flare5 ([212.58.121.92])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba0157b707sm2522005e9.0.2026.11.09.09.38.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 09:38:54 -0800 (PST)
+From: Stanislav Aleksandrov <lightofmysoul@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Robert Marko <robimarko@gmail.com>,
+	Guru Das Srinagesh <linux@gurudas.dev>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Radu Rendec <radu@rendec.net>,
+	Lee Jones <lee@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Bean Huo <beanhuo@micron.com>,
+	Stanley Jhu <stanleyjhu@google.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Amit Kucheria <amitk@kernel.org>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Georgi Djakov <djakov@kernel.org>,
+	Sibi Sankar <sibi.sankar@oss.qualcomm.com>,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mfd@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH 01/17] dt-bindings: arm: qcom-soc: Add Halliday
+Date: Mon,  9 Nov 2026 17:38:37 +0000
+Message-ID: <20261109173837.2084788-1-lightofmysoul@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <78a88d4d-11af-40c1-b063-b6a4d4298ecd@kernel.org>
+References: <20261109-halliday-dts-v1-0-289114ab8197@gmail.com> <20261109-halliday-dts-v1-1-289114ab8197@gmail.com> <78a88d4d-11af-40c1-b063-b6a4d4298ecd@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -51,78 +140,14 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] thunderbolt: add platform nhi driver
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Mika Westerberg <westeri@kernel.org>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
- Yehezkel Bernat <YehezkelShB@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Chunfeng Yun <chunfeng.yun@mediatek.com>
-References: <20261030082539.1208733-1-chunfeng.yun@mediatek.com>
- <20261030082539.1208733-2-chunfeng.yun@mediatek.com>
- <179407827117.165429.11777170722243752189.b4-review@b4>
- <747061c1-def6-44ed-af18-18c4b7c2df09@oss.qualcomm.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <747061c1-def6-44ed-af18-18c4b7c2df09@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+On 09/11/2026 09:25, Krzysztof Kozlowski wrote:
+> This should be squashed with patch #15. Also, there is no benefit in
+> organizing patches within patchset where patches to the SAME subsystem
+> are split all over. #1 and #2 targets SoC, then there is a break and
+> again we are at SoC at #15.
 
+Thanks, I'll squash it into #15 and keep the SoC patches together in v2.
 
-On 11/9/26 14:56, Konrad Dybcio wrote:
-> On 11/7/26 8:04 PM, Sven Peter wrote:
->>> Add a new file plat.c to register platform NHI driver for MediaTek
->>> mt8901/mt8992 SoCs.
->>>
->>> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
->>>
->> [...]
->>
->>> +
->>> +static void nhi_plat_shutdown(struct platform_device *pdev)
->>> +{
->>> +	nhi_plat_do_remove(pdev, true);
->>> +}
->>> +
->>> +
->>> +#ifdef CONFIG_OF
->>> +static const struct of_device_id nhi_plat_of_match[] = {
->>> +	{ .compatible = "thunderbolt-platform" },
->> Do you already have hardware that probes via device tree? You'll have to
->> write bindings and get them reviewed before adding any compatible here.
->> Generic ones like you used here aren't usually allowed.
->>
->> If you don't have a dts based platform I'd probably drop this, not much of
->> this code here is e.g. re-usable for Apple since they like to think very
->> different, see my series in [1] that I can pick up again now that we
->> made progress on how to represent connections between the NHI and the
->> protocol adapters.
->>
->> Not sure about qualcom since I haven't seen a series for the NHI yet but
->> I'm sure Konrad can comment there. I kinda expect that it won't have
->> much shared code either.
-> We're in the same boat regarding thinking different. This driver is
-fun!
-
-> for implementations where the underlying hardware is abstracted away
-> (be it through architecture or intermediate firmware) and the TBT
-> layer writes are enough to e.g. power sequence the connected buses,
-> just like on Intel.
->
-> For the OF compatible, we definitely do need bindings and I too would
-> like to know if this is actually exercised - if not, we should cut it
-> out and trivially bring it back when/if the need comes around.
-Yeah, agreed, and ideally directly with a vendor,XXXX-thunderbolt 
-compatible (or similar) only with the generic one (assuming the dt 
-maintainers agree) as a fallback.
-
-
-
-Sven
-
+Stanislav
