@@ -1,55 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794247326;
-	b=NMh+wQaiEUY4n07aBvoH2iXwfOc1yGYc0YNoHhIrt7Pp4SZeirRK+Lh5a3vb5gH3p0ve
-	 eqikKMEjlGM9gDQp7Ri1xCJnIWYVh4R3wPSVN6rPWWitEzdaGL6P4GYHNdiWI3wQGeMze
-	 qQJnh8E6IKKZxpqW83tqaK/5ItOgGL/tQuPUQ4DiZsB1ukVTWVgksP7PBRRTrF8uV6u7c
-	 UZoAOL0IZ8xKPM0c5BBTf0eI+n3aqE3EZWO2A8kYAn7oGnsVZNmKbYSULBK4j1rl7B6R2
-	 DMCzMoOFoAVXVIIOGGt97SAC/ZmHLlZB5SOIjjz4CRXoaRs+EU37sUKzzgDF7hImmFg==
+	t=1794247691;
+	b=aVpbieldmcYU17f+d9zsetxI+RqK7lZBA41OytWLSDFnOZdUTqabVk2TMfxXD0lwHozU
+	 6W2ik3ycQwP3YVOvDU05r9KeZ0YtHPeRsiNh4OoLW41sOmBz0xQdYmvMrUrPJjyHgXEDT
+	 8lG8t8oD9emmXZxyEdzDV7bc6VhC0zNcLmsvqtO1fKPT6iYkbuwXHAMnIZHqYcFrMtPZ1
+	 eSTTkk6gfaz5yjgqF1CisEEdkCgqBAkzAssvWFnSOINK4ncHFCZU+8ma0s1d4w5JpwJCi
+	 Yzjkq/F27VS435XqJBxSaUx/6Wy0IhWHD3b+GaJwUPM1gbu5UyyIcfeqB0wpL6IHESg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794247326;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Uk7OojTGo2t3Bzb8xgre/so9JJ7xwQk+dP6u4vmmeuA=;
-	b=ucsxXRMCIgLQFklGG9plJAlvSgsMJ3PsZIj7bb0Wf9OQwEjfQ9yTFXqYDxNmMMxNyWED
-	 RScmzFfrKYQEzIWd9UHFpF2jaH5UkaxBOpKR9nw0RBUd+tDBZ2jFc2YKwQOY1SXpqxKia
-	 21WIs41k7qrPgsKNA4rbauef+M9wmC6lZRgvfpOdiouw/hiBcAiV3f9m05z3YGcUAa7xi
-	 QwvTUZyHczKjBTSCn8NFFdbOs3ElE+4rzgqRfGzP8EuLUmHlN8wXbbkzl4sAEsKYRn3qQ
-	 EZ+rTW1GozvoY16EdLIxIMFLMnQcWfJQXwPQPoUbmoU0hpSPUAHFJCgnRTw+9pAN41g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794247691;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 In-Reply-To:Organization:References:Date:Message-ID:MIME-Version:
+	 Content-Type;
+	bh=s7U/x5CE+niXpSBFgBUHJahPZfA7nFuXi/iUGvk2YDg=;
+	b=j/Buw4lHRWZmII5hShFBtLq+bIMvLla8pe4WlITN2TFhdciVHL3dZsT7hDXIMC8S5zEF
+	 cFlwy6BxhIrV9KBjvfq4+lT8WAOR2gVtd9q7KBqRlxrsoZrhRvbiVXTn6oH5qZ92Mai9c
+	 Gz2JD3+57stYEXDfpPwKkiLv4W4LSuZY3Y11arpqinai4xbPn76swOQrThf4I4sS6xfyw
+	 66/DV6HTsUuv3hw1Pir7wEqTYUqwNRvP+CLtA3e0iGPj2iNE5GYhwVAGTNO0sJbqDqabJ
+	 WcJJ6jHBXeOEBv57ETWcG+pzZqCJHZFVuQCHBMDkMFnothPtr0vhTN7RkhycURWHsDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWWK+3Ur;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IP9SxyfD;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28283606A321
-	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 18:02:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F481606A325;
+	Mon,  9 Nov 2026 18:08:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F481606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWWK+3Ur
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA2C91F0089F;
-	Mon,  9 Nov 2026 18:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794247326;
-	bh=Uk7OojTGo2t3Bzb8xgre/so9JJ7xwQk+dP6u4vmmeuA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IWWK+3UrtaeR9XPmAdGP1WU5nwfQU3uWGKm/6DH9IiVF4FDqbPxJrUet8dyURUGRp
-	 XjO2ycfNRSdLGiOYzVENa6ndZmoAiW/hgmsw7w4jLz4/kZKpAqN+EeVL7OVNsp3wBu
-	 s6I4CtZJXuO0wCLQgJl+wCFnZpLlozWAKvj3A0UjzUEibyC8HUoveqO7Yu2q8GB4IB
-	 BdM6S/vTEtl0VxE6q1YHqRfGqgUlGSDV0FfjhPG8d22jfNBHfPC5NAJpzfDgHXvliK
-	 biWgBWP6guKbLvLliMX1Y8MLqFEhXJxu8n5u/rPqoDoGUNtJReNtJP++V4JBOee+4G
-	 UxmnEzgmkrmDg==
-Message-ID: <sashiko-outbox-205365@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next] net: usb: lan78xx: use phylink for Wake-on-LAN
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Prashant Sengar" <prashantsengar25031@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261108180137.3488023-1-prashantsengar25031@gmail.com>
-References: <20261108180137.3488023-1-prashantsengar25031@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 18:02:05 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IP9SxyfD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794247691; x=1825783691;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=wfrbeowEpzlsOOtS5Xzt/Z99rOONWv91scfsMt1LT1o=;
+  b=IP9SxyfDSB6EGFGs7A0bVCps7q2rwZcFhAiDYps8uP26aAu5UsHuIxSf
+   tlmYluqa8O0Vkzw3iTrVKhijz+FC+kmiN5XaQ71GLb+8eONi8JfI0J27i
+   gAac0Ey+5zHnjNqUoGr9URlzdDJ+F39/qK50JinS21ss/u/G8rc4vPQ7x
+   mqFEASpQPYKebvqnlIxIvZKEEeurzQ5f47Zp+zwzxQZxNVFZvEO6oQe8W
+   qyB2XD0JMOX45lgejPKqDw7YfMTajxl51pPK45w+PADjiswcG2ePqK5eB
+   51DxM3/Q69Vre2Thnw8Y200cdNemMOs78amfHRZkMWzOSK6HYmZMgrBl8
+   w==;
+X-CSE-ConnectionGUID: KecGYyTSRKKI8ipgzy4cvw==
+X-CSE-MsgGUID: CyDqiia7S7WO37n5QGEFUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2894249"
+X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
+   d="scan'208";a="2894249"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 10:08:09 -0800
+X-CSE-ConnectionGUID: REOqqbgbSlKUYG/hgL23ew==
+X-CSE-MsgGUID: M/rq1zH2TtK3zErWiBcqiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
+   d="scan'208";a="8094048"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.93])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 10:07:59 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Petr Pavlu <petr.pavlu@suse.com>, Petr Pavlu <petr.pavlu@suse.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+ <linux@roeck-us.net>, Ian Abbott <abbotti@mev.co.uk>, H Hartley Sweeten
+ <hsweeten@visionengravers.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rudolf Marek <r.marek@assembler.cz>, Andi
+ Shyti <andi.shyti@kernel.org>, Chris Snook <chris.snook@gmail.com>, Andrew
+ Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>, Marek =?utf-8?Q?Beh=C3=BA?=
+ =?utf-8?Q?n?=
+ <kabel@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andreas Noever <andreas.noever@gmail.com>, Mika Westerberg
+ <westeri@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
+ <jirislaby@kernel.org>, Duncan Sands <duncan.sands@free.fr>, Chas Williams
+ <3chas3@gmail.com>, Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez
+ <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, Aaron
+ Tomlin <atomlin@atomlin.com>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, linux-watchdog@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+ linux-i2c@vger.kernel.org, netdev@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-rtc@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, linux-modules@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] Remove obsolete __MODULE_STRING()
+In-Reply-To: <a190f981-d668-4208-8148-f4e50adb31a6@suse.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20261002-module-string-v2-0-fc7438acaf4d@suse.com>
+ <2e88806e-57dd-47e0-a9ef-a8507d22aa3e@suse.com>
+ <a190f981-d668-4208-8148-f4e50adb31a6@suse.com>
+Date: Mon, 09 Nov 2026 20:07:56 +0200
+Message-ID: <6c00fc009f4e61e87895eb2dd3d77c5dfb28183d@intel.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,264 +107,41 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [High] net: usb: lan78xx: phylink MAC WoL breaks suspend and
-  lan78xx_resume()
-- [Medium] net: usb: lan78xx: missing WAKE_PHY in
-  lan78xx_phylink_setup() breaks PHY WoL
-- [Medium] net: usb: lan78xx: pdata->wol overwrite conflicts with
-  phylink PHY WoL
-- [Medium] net: usb: lan78xx: inconsistent WoL state in lan78xx_probe()
-  and lan78xx_set_wol()
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [High] net: usb: lan78xx: missing rtnl_lock() in lan78xx_phy_uninit()
-  [1]
---
+On Mon, 09 Nov 2026, Petr Pavlu <petr.pavlu@suse.com> wrote:
+> On 10/14/26 11:36 AM, Petr Pavlu wrote:
+>> On 10/2/26 10:31 AM, Petr Pavlu wrote:
+>>> __MODULE_STRING() has been an alias for __stringify() since "[PATCH]
+>>> MODULE_PARM support for older modules" [1] in 2002-12. That change also
+>>> moved it to the graveyard section at the end of linux/module.h
+>>>
+>>> Replace the remaining uses of __MODULE_STRING() with __stringify() and
+>>> remove the macro.
+>>>
+>>> Apologies for the wide distribution. Acked-bys are appreciated.
+>>>
+>>> [1] https://git.kernel.org/tglx/history/c/136839a1b4
+>> 
+>> I've queued the second patch ("drivers: Replace __MODULE_STRING() with
+>> __stringify()") on modules-next for v7.4-rc1. Thanks for the Acked-byes
+>> and reviews.
+>> 
+>> The first patch ("hwmon: Replace __MODULE_STRING() with __stringify()")
+>> should go through the hwmon tree. Once these changes are in mainline,
+>> I plan to pick up the final patch ("module: Remove obsolete
+>> __MODULE_STRING()").
+>
+> v7.4-rc1 no longer contains any __MODULE_STRING() calls, so I've queued
+> the final removal in patch 3 on modules-next for 7.5-rc1.
 
-commit 2aa41b74c1faf1ee028bdb9727321bf174890b23
-Author: Prashant Sengar <prashantsengar25031@gmail.com>
+Perhaps send it for v7.4-rc3 to prevent *new* __MODULE_STRING() users
+from cropping up between now and v7.5-rc1?
 
-net: usb: lan78xx: use phylink for Wake-on-LAN
+BR,
+Jani.
 
-This commit converts lan78xx Wake-on-LAN handling to use phylink helpers
-and adds a phylink .mac_wol_set callback so MAC-based Wake-on-LAN can be
-configured with or without an attached PHY.
 
-> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-> index d73002b2c21ac..7d67dd150271b 100644
-> --- a/drivers/net/usb/lan78xx.c
-> +++ b/drivers/net/usb/lan78xx.c
-[ ... ]
-> @@ -1799,25 +1791,45 @@ static int lan78xx_set_wol(struct net_device *net=
-dev,
->  {
->  	struct lan78xx_net *dev =3D netdev_priv(netdev);
->  	struct lan78xx_priv *pdata =3D (struct lan78xx_priv *)(dev->data[0]);
-> +	struct ethtool_wolinfo actual =3D { .cmd =3D ETHTOOL_GWOL };
-> +	bool old_wakeup, enable;
-> +	int rollback_ret;
->  	int ret;
-> =20
->  	if (wol->wolopts & ~WAKE_ALL)
->  		return -EINVAL;
-> =20
-> -	if (!netdev->phydev)
-> -		return -EOPNOTSUPP;
-> -
->  	ret =3D usb_autopm_get_interface(dev->intf);
->  	if (ret < 0)
->  		return ret;
-> =20
-> -	pdata->wol =3D wol->wolopts;
-> -
-> -	ret =3D device_set_wakeup_enable(&dev->udev->dev, (bool)wol->wolopts);
-> -	if (ret < 0)
-> +	phylink_ethtool_get_wol(dev->phylink, &actual);
-> +	if (wol->wolopts & ~actual.supported) {
-> +		ret =3D -EINVAL;
->  		goto exit_pm_put;
-> +	}
-> +
-> +	old_wakeup =3D device_may_wakeup(&dev->udev->dev);
-> +	enable =3D !!wol->wolopts;
-> =20
-> -	ret =3D phy_ethtool_set_wol(netdev->phydev, wol);
-> +	if (old_wakeup !=3D enable) {
-> +		ret =3D device_set_wakeup_enable(&dev->udev->dev, enable);
-> +		if (ret < 0)
-> +			goto exit_pm_put;
-> +	}
-> +
-> +	ret =3D phylink_ethtool_set_wol(dev->phylink, wol);
-> +	if (ret < 0) {
-> +		if (old_wakeup !=3D enable) {
-> +			rollback_ret =3D device_set_wakeup_enable(&dev->udev->dev, old_wakeup=
-);
-> +			if (rollback_ret)
-> +				netdev_warn(dev->net, "USB wakeup rollback failed: %d\n",
-> +					    rollback_ret);
-> +		}
-> +		goto exit_pm_put;
-> +	}
-> +	phylink_ethtool_get_wol(dev->phylink, &actual);
-> +	pdata->wol =3D actual.wolopts;
-
-[Severity: Medium]
-Does overwriting pdata->wol with actual.wolopts here (and in
-lan78xx_probe()) desynchronize pdata->wol from phylink's pl->wolopts_mac
-when an attached PHY handles Wake-on-LAN?
-
-With pc->wol_phy_legacy set, phylink_ethtool_set_wol() first passes the
-requested options to phy_ethtool_set_wol() and strips any bits reported by
-phy_ethtool_get_wol() before calling lan78xx_mac_wol_set() and recording
-pl->wolopts_mac.  On a LAN7801 with an external RGMII PHY whose driver
-implements .set_wol and .get_wol for WAKE_MAGIC, phylink delegates
-WAKE_MAGIC to the PHY and sets pl->wolopts_mac to 0, but reading back
-phylink_ethtool_get_wol() overwrites pdata->wol with the combined PHY+MAC
-mask (WAKE_MAGIC).  On suspend, phylink_suspend() then sees
-pl->wolopts_mac =3D=3D 0 and stops the MAC via phylink_stop(), while
-lan78xx_set_suspend() programs WUCSR_MPEN_ on the stopped MAC without
-enabling PMT_CTL_PHY_WAKE_EN_ for the PHY wakeup interrupt.
-
-In addition, checking wol->wolopts & ~WAKE_ALL at the top of
-lan78xx_set_wol() rejects PHY-supported modes outside WAKE_ALL (such as
-WAKE_MAGICSECURE or WAKE_FILTER) even when lan78xx_get_wol() advertises
-them via phylink_ethtool_get_wol().
-
-> @@ -2617,12 +2629,24 @@ static int lan78xx_mac_enable_tx_lpi(struct phyli=
-nk_config *config, u32 timer,
->  	return lan78xx_mac_eee_enable(dev, true);
->  }
-> =20
-> +static int lan78xx_mac_wol_set(struct phylink_config *config,
-> +			       u32 wolopts, const u8 *sopass)
-> +{
-> +	struct lan78xx_net *dev =3D netdev_priv(to_net_dev(config->dev));
-> +	struct lan78xx_priv *pdata =3D (struct lan78xx_priv *)dev->data[0];
-> +
-> +	pdata->wol =3D wolopts;
-> +
-> +	return 0;
-> +}
-> +
->  static const struct phylink_mac_ops lan78xx_phylink_mac_ops =3D {
->  	.mac_config =3D lan78xx_mac_config,
->  	.mac_link_down =3D lan78xx_mac_link_down,
->  	.mac_link_up =3D lan78xx_mac_link_up,
->  	.mac_disable_tx_lpi =3D lan78xx_mac_disable_tx_lpi,
->  	.mac_enable_tx_lpi =3D lan78xx_mac_enable_tx_lpi,
-> +	.mac_wol_set =3D lan78xx_mac_wol_set,
->  };
-
-[Severity: High]
-Does populating .mac_wol_set break link recovery across lan78xx_suspend()
-and lan78xx_resume()?
-
-Once .mac_wol_set is implemented, phylink_mac_supports_wol() returns true
-and phylink_suspend() ignores its mac_wol parameter in favor of
-!!pl->wolopts_mac:
-
-drivers/net/phy/phylink.c:phylink_suspend() {
-	ASSERT_RTNL();
-
-	if (phylink_mac_supports_wol(pl))
-		mac_wol =3D !!pl->wolopts_mac;
-
-	if (mac_wol) {
-		/* Wake-on-Lan enabled, MAC handling */
-		mutex_lock(&pl->state_mutex);
-		/* Stop theWatchdog, but keep link up */
-		__set_bit(PHYLINK_DISABLE_MAC_WOL, &pl->phylink_disable_state);
-		mutex_unlock(&pl->state_mutex);
-
-		netif_carrier_off(pl->netdev);
-	} else {
-		phylink_stop(pl);
-	}
-}
-
-Because lan78xx_probe() enables WAKE_MAGIC by default, phylink_suspend() in
-lan78xx_suspend() (which runs on both runtime autosuspend after the 10s
-idle delay and system suspend) now sets PHYLINK_DISABLE_MAC_WOL and drops
-carrier instead of calling phylink_stop().  However, lan78xx_resume() never
-calls phylink_resume() (only lan78xx_reset_resume() does), and
-PHYLINK_DISABLE_MAC_WOL is only cleared by phylink_resume().  After the
-first runtime autoresume or non-reset system resume, PHYLINK_DISABLE_MAC_WOL
-remains permanently set, leaving carrier off, dropping deferred TX packets
-in lan78xx_submit_deferred_urbs(), and preventing phylink_resolve() from
-bringing the link back up even if the interface is cycled through
-lan78xx_stop() and lan78xx_open().
-
-Skipping phylink_stop() during lan78xx_suspend() also leaves the phylib
-state machine running in PHY_POLL mode on LAN7800/LAN7850 (since
-pc->mac_managed_pm is true), so phy_state_machine() fires 1 second into USB
-runtime autosuspend and calls lan78xx_mdiobus_read() ->
-usb_autopm_get_interface(), waking the device back up.
-
-> @@ -2848,6 +2872,10 @@ static int lan78xx_phylink_setup(struct lan78xx_ne=
-t *dev)
->  	       dev->phylink_config.supported_interfaces,
->  	       sizeof(dev->phylink_config.lpi_interfaces));
-> =20
-> +	pc->wol_mac_support =3D WAKE_MAGIC | WAKE_UCAST | WAKE_BCAST |
-> +		      WAKE_MCAST | WAKE_ARP;
-> +	pc->wol_phy_legacy =3D true;
-> +
->  	phylink =3D phylink_create(pc, dev->net->dev.fwnode,
->  				 dev->interface, &lan78xx_phylink_mac_ops);
-
-[Severity: Medium]
-Does omitting WAKE_PHY from pc->wol_mac_support regress link-change
-Wake-on-LAN on LAN7800 and LAN7850?
-
-Previously lan78xx_get_wol() advertised WAKE_ALL and lan78xx_set_wol()
-accepted WAKE_PHY, which lan78xx_set_suspend() uses to program
-PMT_CTL_PHY_WAKE_EN_ in the MAC's PMT_CTL register.  The integrated PHY on
-LAN7800 and LAN7850 uses the Microchip LAN88xx driver
-(drivers/net/phy/microchip.c), which implements .set_wol =3D lan88xx_set_wol
-but does not implement .get_wol.  Because phy_ethtool_get_wol() leaves
-wol->supported untouched when .get_wol is NULL, phylink_ethtool_get_wol()
-only reports pc->wol_mac_support, so WAKE_PHY is no longer advertised by
-lan78xx_get_wol() and is rejected with -EINVAL by lan78xx_set_wol().
-
-[ ... ]
-
-> @@ -4803,6 +4835,24 @@ static int lan78xx_probe(struct usb_interface *int=
-f,
->  	if (ret < 0)
->  		goto free_urbs;
-> =20
-> +	/* Preserve the default magic-packet wakeup configuration. */
-> +	rtnl_lock();
-> +
-> +	ret =3D phylink_ethtool_set_wol(dev->phylink, &wol);
-> +	if (!ret) {
-> +		struct lan78xx_priv *pdata =3D (struct lan78xx_priv *)dev->data[0];
-> +
-> +		wol.cmd =3D ETHTOOL_GWOL;
-> +		phylink_ethtool_get_wol(dev->phylink, &wol);
-> +		pdata->wol =3D wol.wolopts;
-> +		netdev->ethtool->wol_enabled =3D !!wol.wolopts;
-> +	}
-> +
-> +	rtnl_unlock();
-> +
-> +	if (ret)
-> +		netdev_warn(netdev, "failed to initialize WoL: %d\n", ret);
-> +
->  	ret =3D register_netdev(netdev);
-
-[Severity: Medium]
-Can this leave the driver's Wake-on-LAN state inconsistent with the
-hardware and USB wakeup settings?
-
-First, lan78xx_bind() pre-sets pdata->wol =3D WAKE_MAGIC, and after
-register_netdev() succeeds, lan78xx_probe() unconditionally calls
-device_set_wakeup_enable(&udev->dev, true).  If phylink_ethtool_set_wol()
-fails here, phylink and netdev->ethtool->wol_enabled treat WoL as disabled,
-while pdata->wol remains WAKE_MAGIC and udev->dev wakeup is still enabled;
-calling device_set_wakeup_enable() after register_netdev() also races with
-userspace changing WoL immediately after netdev registration.
-
-Second, lan78xx_get_wol() checks USB_CFG_RMT_WKP_ in USB_CFG0 and reports
-wol->supported =3D 0 and wol->wolopts =3D 0 when clear, but neither
-lan78xx_probe() nor lan78xx_set_wol() checks USB_CFG_RMT_WKP_.  When
-USB_CFG_RMT_WKP_ is not set, lan78xx_probe() and lan78xx_set_wol() still
-enable WoL in phylink, pdata->wol, and udev->dev while lan78xx_get_wol()
-reports WoL as unsupported and disabled.
-
-[Severity: High]
-This problem wasn't introduced by this patch, but if register_netdev()
-fails right below (or if lan78xx_phy_init() fails after
-lan78xx_phylink_setup()), the error path calls lan78xx_phy_uninit() ->
-phylink_disconnect_phy() without holding rtnl_lock() [1], triggering
-ASSERT_RTNL() in phylink_disconnect_phy().
-
-[1] https://sashiko.dev/#/bug/linux-f22d0679-ab9c-4543-b756-3c93ec69c79d
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108180137.3488=
-023-1-prashantsengar25031@gmail.com?part=3D1
+-- 
+Jani Nikula, Intel
