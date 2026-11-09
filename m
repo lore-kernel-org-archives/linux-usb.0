@@ -1,100 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.127.132
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794190086;
-	b=lJAzLyAjYR8R0XgnIFWK4HkFRQEJ957LXiJ/YmajSwfUPlHp1IbYxhWjFysC5TL+tey1
-	 oGZPpVXPE99+ddE4GjCREWvAcuLSbfGzd4WhwYVMLMnb6mCc0AtzOD7777LZ1e/jRRBHl
-	 R+mLjufMtqIXlMlejSoX0zSAI2p+5dtJ5nje34gvdb+FEjlNgEfVSc9aVL/T+OBzan58+
-	 6EdiBytYlX/MtRhcuWmU+cTkQdwM8IQqsBr2OLbrgwLFpW2r5lNaCGTjCcUojn0bPQ2/9
-	 k+N9ldwfPfaRm8/qli2J25KBIVbSR2b8vSS5TgC9YGVGtKhtpvyZ15vLKe+V3K51SLg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794190086;
-	h=DMARC-Filter:Received:Received:X-MS-Exchange-Authentication-Results:
-	 Received-SPF:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-EOPAttributedMessage:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=get9ljy+UfLeTYxtFfA5K653EnMiLg25/XGdzuB6N6Q=;
-	b=yzMu789ekLvLxDH3bjWUNvjPn6DYAn9y+DW+IGLrSh5rRkcAVC4S9FZMo9FFAnkA3nmM
-	 W/Ge6wbi7po/4fSlnV8AlJ5+okXImKZzr5EAPwBKomUVqGHmIqtOXRaY0roDjjPTw7xen
-	 f6dp2JDMf5/Ttheai0vTlbxriFJNuEovsX5D3DjmRN3kZOtYRdbrDcQXiTD5yxOyf6Dvi
-	 jwzmYHDvi5skeehH/tSwCsF4rc1eZoFn5mdGoHJhpoQs64geCHv3CucAa4YVGeNGliq/H
-	 +m+E5+rRrI8uBJSgeMcRmRkFR0hCIguIFXWwXnkBsczKo+dB33H/eRIGz28kRhclD+Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=cixtech.com;
-	spf=pass smtp.mailfrom=cixtech.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.127.132
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023132.outbound.protection.outlook.com [52.101.127.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.178
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794190256;
+	b=iwXHw01ugM/cqO3d6mIVoVDuKabm0Sbxm6YBKsf2s1bNnbzGMTNY0sxKHFB2WWT2LO3X
+	 T/NhlZU0BCnM8LAvmUS/8h1P0vUuDcK8Jjc0qwCObz2PYEHGbnZrtvik8ayXmuqXwE7Vy
+	 gX18eQLPbHCjkuo9UEugrmzUDjfp9IU/dO1Ntj+FD7exZdBoW6DwTZgow1y09Ne9v53kI
+	 MsiwKpZjEKGcH/YwSb6+t3CyIlpXKxO29pURFs/tDjrCLRC3WC+5uNYVGK0QB5yn2A7MS
+	 ouw010S4VgeNbjwPehAm09OpgPiAknhCwr5xH15XPtCzOeRXEyWRk7xw9nA1C4f+ihg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794190256;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=fr4oHlRGypzWA8ygCEHVFzZC4J10YvJK1tg2b4hPWXQ=;
+	b=JfMnZUpCtXqhy4GjBbM3JuNaytjKUbJuU+jYeW+FlE5TYDOgRTkdI8q0sZZuE41sSjJD
+	 UnJ76ift+CeDWg9OTKL0ne9eGVSQBxXde2YUTZthcuaLG7KkBDo7HqFVhWW78wmCBbzjU
+	 nNCxViOBEQ4pSap6QUPlFrgkFeCGMs6hNlIjXqo7mTeOtH3/ui/FoDse99M1RwIRqjh8e
+	 IpP7ftW1+EI/toD+60YouxmRcnAIUB6zhabNN3cYLv1g5O7V1sZpRR7ty4y6C2C8Z62gw
+	 7LxRfHhc7IEjSJkgyQAeCQ9Z68r2Wr7Im0CdOdYo9k9T/pAxhAiBAzUR5ajkfzu9A0g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=qFM5h12i;
+	arc=none smtp.remote-ip=209.85.160.178
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6A1606A31C;
-	Mon,  9 Nov 2026 02:08:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA6A1606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FVlnhv54xzclJQURjS3peZpYc5+b/aLFECQN/jCp4oISNuKWOPsArB3LzgcD2Amzv23gppSCppNIivb+ur3NS1n8dQvQETvBXLbTu4lPiDfL7g+i/1JVDSlnrHdb8mcXMzxC6TLE/+LAerrmoyCMSgixzqA4xSNtSFCfgL671fgjBvEaOCCoqqTUMdyk0xmxLey7+Uq8z8h872wRu4Z1iswiX8N7iBRZdfcHAmyzn6kyvCz7/Gdp8NE38Bl5kP7IbAxjlPODiwi+r15Iewl/iNwU8yrXwXSjXdZ0vKkQ1/Wr/YA0fuIoBKqIFonU6b1auyjAJQkENknrURaqE2VjaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=get9ljy+UfLeTYxtFfA5K653EnMiLg25/XGdzuB6N6Q=;
- b=vWbYoVpkCAakQYa/EBRIlj4UQuPb97HQmUidAQFYlVs63myQoJ5swNc8zpKi/AJk2xDFoUQI9LV78oKZXnmoPtleEraZ5c/3I7zIgwKuuTphOEAFoL51spHdgLSEg8+mvbeuFC8a0J0UlyWpF0UeIoMDkybnWcaIeuqd8XSwkVzCkVgzaRKgdHe3mxZwrW70Exw6jNYADsE9q1vaj30OXHRiugczFxWiRJBYVWlvKqbgzaW0qQG6ZcWKivhnZihoczxHRH3zUHKfHwjc/D3ugWN2fGnlcSieS1jvhI6BhIuIXIK18nJeDGOlG5sNf8x1DAl44nuwiH+7vkXWkKyh4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 222.71.101.198) smtp.rcpttodomain=cixtech.com smtp.mailfrom=cixtech.com;
- dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
- not signed); arc=none (0)
-Received: from SE2P216CA0153.KORP216.PROD.OUTLOOK.COM (2603:1096:101:2c1::9)
- by TY0PR06MB5428.apcprd06.prod.outlook.com (2603:1096:400:219::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.6; Mon, 9 Nov 2026
- 02:08:00 +0000
-Received: from TY2PEPF0000AB8A.apcprd03.prod.outlook.com
- (2603:1096:101:2c1:cafe::5e) by SE2P216CA0153.outlook.office365.com
- (2603:1096:101:2c1::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.12 via Frontend Transport; Mon, 9
- Nov 2026 02:08:00 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 222.71.101.198) smtp.mailfrom=cixtech.com; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
- 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
-Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- TY2PEPF0000AB8A.mail.protection.outlook.com (10.167.253.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Mon, 9 Nov 2026 02:08:00 +0000
-Received: from gary-System-Product-Name (unknown [172.16.64.55])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 498C74102E61;
-	Mon,  9 Nov 2026 10:07:59 +0800 (CST)
-Date: Mon, 9 Nov 2026 10:07:58 +0800
-From: Gary Yang <gary.yang@cixtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Fugang Duan <fugang.duan@cixtech.com>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, cix-kernel-upstream@cixtech.com
-Subject: Re: [PATCH 4/4] arm64: dts: cix: add RTS5453 PD controllers to Orion
- O6
-Message-ID: <avEq_ngShxlvFSbS@gary-System-Product-Name>
-References: <20261107011012.3655873-1-gary.yang@cixtech.com>
- <20261107011012.3655873-5-gary.yang@cixtech.com>
- <65af581e-caac-430a-88b1-3b7425c5209e@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66321606A320
+	for <linux-usb@vger.kernel.org>; Mon,  9 Nov 2026 02:10:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66321606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=qFM5h12i
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-53644ab1f7bso3222711cf.3
+        for <linux-usb@vger.kernel.org>; Sun, 08 Nov 2026 18:10:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1794190255; x=1794795055; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=fr4oHlRGypzWA8ygCEHVFzZC4J10YvJK1tg2b4hPWXQ=;
+        b=qFM5h12iA2QiRGNmQcKbd9pY9WjI6kV6vewDrd45WU5jikIbsXswyd0g0PxHbrvgGl
+         XNn6Jslh+6efi4qKP4YrsRxmqoOamtRr9rAdgcXiaoy7yViUVlb0rAAN6iagLwNKFji+
+         j0ivDj2Kt4/OGoYv4vwd9NLsRwCZo76dDSfWSdzTCCmmXDfFj90W7jBrDQzTIX+FXFDq
+         bbIXn/1KsqrvqkJ/7p6ecnoOPAFaaVncx/Rbuu+SlZe0/DT+lry2EmvtgojmUgB+Ympl
+         eifFP0UNg2bfgciOI1scf2hVYKai5PkhDXHnOD2ttXIDPQ90RCqvrHeB9gzDnLODPoVw
+         rwdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794190255; x=1794795055;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fr4oHlRGypzWA8ygCEHVFzZC4J10YvJK1tg2b4hPWXQ=;
+        b=VnzgUGc8ROnshmzpHWVYTJCRCMNprEgN/DPUZuwMMk0qKteP2W5TRHHs5FjFfZiDkQ
+         kJ2TFcojaZZN8E2u7t7QiJBDvb8ICvkzkuEFek8Djl49QBs7JaoClk97jVibxvEr8f9p
+         k7IFkqkCTK8KUv3KjrzHAqhuEnKXdwaDKZv0fGNANVCG+Ooziulk1pbENsgySP/zvyv1
+         Ubsxc/+FDqpoEeYEL7uI8a21cMfX9/w9m/YCJdic6xvXN4SCrAX1BlXmRkUitbiXzXa4
+         T3QuHG6hm5EkADeUnScv0K80Yxfpde+MwiGrnObVzrZz321On9cddtth+oaTNmCFFPtZ
+         vBZA==
+X-Forwarded-Encrypted: i=1; AL+hErFNCxmy60aZOAlVOdD7ZMCSQKuLDI5AEF1Mx49p/90nWSRcvZDu12gF/y3VVPg53uHHad+BFr0TzeA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+hWw+LxKKyhCOUMy9NDyKzeAAqnJd2406cifgU8hKF9LhE6QFE
+	0U6iNPMJso1/z4ujRERimFLieJ/F9epINhTkufgljW3Rtzb+l7RECLyUccpJ81yQoz0cU+2BlBv
+	W7ra8TQ==
+X-Gm-Gg: AYBFou019qlbWdCpn5T3NCJ/exRE3OT98oCJJnCW4bHJ37GubJZHxvi2c8MR5mRgNwx
+	O/1eWhfo1nAd+wq7fGcrV1EMnCDZyyVeKnlkjkdiQu3L2ZFxZ92thg2BBSOVBKNSz8d1d0A6e53
+	bnqe41AhOJ5WeA9KGIrLpyG7hlCGkMBve1uYfR6rDpIhcZc0PcxHYWv0PLBbmkOjqKSJOvFpu8y
+	nxNwbd4vo6/9D04HyI2laNNEDdzvUmllU46sSz/kO6C23yXmXYpZd2X7DbYNcju4D3CFVqnu/Qp
+	jXKyn1uFwU43KGDdLdfc86TkCBuE+87xXgO9x6RfOGpU+luxOIufj5L79QqX8JizOoUiHn7jESR
+	4JmgZELW4DBl8/m+X2g6ygpy8+xSGnEh+J5uYzDHWwP6wlFy6IbCax7xNW2iTaMSGhcsF4R4Tzy
+	VYXhO29y72xVhKfmnea7jITZgZXDd4YbRSEMSTxNosmKyT3pjrX/IWRJMvlHDZePaG+7JID2qbS
+	57sNomQw5LI1DOFXtR6zJkvxs5ocZ5kZv2meFWebcclblay9SJWcfsAkYUA4CCgE2usxk8TszpX
+	rkwCQjAhkUbvcsOn0DzlU3zqFNJB
+X-Received: by 2002:a05:622a:587:b0:54f:856e:6793 with SMTP id d75a77b69052e-552a578ba94mr43781591cf.70.1794190255024;
+        Sun, 08 Nov 2026 18:10:55 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55264b242b7sm29792751cf.28.2026.11.08.18.10.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 18:10:53 -0800 (PST)
+Date: Sun, 8 Nov 2026 21:10:50 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Shuai Liu <847807867@qq.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com
+Subject: Re: [usb-storage] [PATCH v2] usb: storage: don't hold dev_mutex
+ across the max_lun control transfer
+Message-ID: <2957b6ab-f1ea-4d1a-9124-7ebeba7ed617@rowland.harvard.edu>
+References: <tencent_5A9A9E45415EADE916B7558C66A2C4DD4F05@qq.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,77 +100,40 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <65af581e-caac-430a-88b1-3b7425c5209e@kernel.org>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB8A:EE_|TY0PR06MB5428:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9bed19be-9232-4f0b-eed6-08df3e0647c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|36860700016|1800799024|82310400026|4143699003|56012099006|261021121427099003|261022105027099003|261022075727099003|261009223027099003|261026140227099003|261028144727099003|261026121527099003|261102123227099003|10067099003|18002099003|22082099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	aApyjdlYxx+w0NF/Wj269Haomxp6Ah/RuCzIcrQwsgv/zvE3l0EnBNJx1Rsllle2CWYqGQ3DY8yushgQbn7Nh93efV/e4rHbjBcgj+JQCriJmIlDATjba/HRF91fzmMqlJmWh6FJqFlI0auv/RED85AqB51JsJWPPpej9Uec1sNsI7PXQ1Ib1TolXGjSv6pDee6IsqqVgV3x0ZhB5jRuMNeAfb5ZYVPSk40+M5N6VrMs/pM7Rz2emwIFtEJG558ThLp8qAvlKWZDmxIetiEJANmtsEoxFdvNI1cUFzmcr09Z08ymwv9n77S/DaCrPXwafpdaYxX1YdQsCVRA2Dz9W5rTzVS78PD0WFZZRMWQ82eYb5B6Z+3J9jqrsmrPzSkFRFYm+vnGIeE3r2XBxgk6QQpttW7XYEEgGfRVqapX+etloSMKXFYZMJ3GgIsuuE19zkwEYIArIDd/ErKcf+tpNKdpS3khyGZTVVvs3oOQ+Zw8aUCHZJO+bXP9RvAPEcnoyHHYoLOpdu6fTnRdMn8tO1uwl6liB4rvVtcQ7QUKq4CN/DFtMgrtQvZ9iiehmr96UW6WF6Z3YjoNAwmZhSLsd05ytR6QOL1KPUPwmtWrJfFRMDMnW/S8wshTygGgnuQPhSyQ8aaJqryNQ1FXsuDkIMYYuKtxhLhbovRZOKjm2hlh7KpOrvB9LzzMEycaUiJA
-X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(36860700016)(1800799024)(82310400026)(4143699003)(56012099006)(261021121427099003)(261022105027099003)(261022075727099003)(261009223027099003)(261026140227099003)(261028144727099003)(261026121527099003)(261102123227099003)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	FAgghdDsfqbUMu6ATlLEBYTh2e/E9bho5XTpx7MNcDwwAufvyZVFA+dIoNFtsnd0KCcVVsdRjhcN5R4BF6geF5PFsX8nrH3EoGufWydgrL6BVLHZHkRaIOKquy7k5vjFa2toicSz2GKm/VTMoAbP1CW7ccFIThk2JplIEe05+uRURdsgEW99G0dvbMvZm1+feaY4OEjzOJ56ddT3/vICUmcRzL9M1h06pErIrkLBT3TsJMjCt0Xzb1t3wfXZy6Ri05hyKpBcO6NtyDmKgaSpUEnV5S76RAk92fXowkzaftpZY0b+3L8MXjuvnrwneR0vD45GQUuIO0A69NoZ5uWIO26AimsBBNqdqct/gZRE5bs2nXaUmmA/rAJc/XGhXI7LXVhAglAO5eVhRf74npJeSvx3CiguFbHTldUcheJ85asM2ZjBYisq3ofJk5eO0Xs2
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 02:08:00.2028
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bed19be-9232-4f0b-eed6-08df3e0647c0
-X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	TY2PEPF0000AB8A.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5428
+In-Reply-To: <tencent_5A9A9E45415EADE916B7558C66A2C4DD4F05@qq.com>
 
-hi Krzysztof:
-
-Thanks for your comments!
-
-On 2026-11-07 11:53, Krzysztof Kozlowski wrote:
-
-> EXTERNAL EMAIL
+On Mon, Nov 09, 2026 at 07:53:07AM +0800, 'Shuai Liu' via USB Mass Storage on Linux wrote:
+> usb_stor_scan_dwork() acquires us->dev_mutex and then calls
+> usb_stor_Bulk_max_lun(), which issues a synchronous GET_MAX_LUN control
+> transfer (10s timeout).  The reset and suspend callbacks
+> (usb_stor_pre_reset / usb_stor_suspend) also acquire us->dev_mutex, but
+> they run while the USB core already holds the device lock
+> (udev->dev.mutex) during usb_reset_device() or disconnect.  This
+> creates an AB-BA deadlock:
 > 
-> On 07/11/2026 02:10, Gary Yang wrote:
-> > Describe the two Realtek RTS5453H port controllers on the Orion O6
-> > I2C1 bus and add the I2C1 pin configuration.
-> >
-> > The controllers route orientation and DisplayPort mode changes
-> > through the USB/DP combo PHY lane switches, but that PHY support is
-> > not upstream yet, so the connector graph endpoints are left out for
-> > now. The Type-C ports are still registered and reported, only the
-> > lane switching is deferred until the PHY nodes are available.
-> >
-> > Both controllers report through the same level-triggered interrupt
-> > line, which the driver handles with a shared interrupt. The I2C bus
-> > runs at 100 kHz because the RTS5453H I2C interface does not support
-> > higher rates.
-> >
-> > Signed-off-by: Gary Yang <gary.yang@cixtech.com>
-> > ---
-> >  arch/arm64/boot/dts/cix/sky1-orion-o6.dts | 51 +++++++++++++++++++++++
-> >  1 file changed, 51 insertions(+)
-> 
-> DTS cannot be combined in this patchset and must be split. Don't mix
-> patches from independent subsystems when you send something explicitly
-> targeting only one subsystem.
-> See also: Documentation/devicetree/bindings/submitting-patches.rst
-> 
+>   scan work           reset/disconnect
+>   ---------           ----------------
+>   mutex_lock(dev_mutex)
+>                       device_lock(udev)      [USB core]
+>   control transfer  -- blocks waiting for
+>                         the device lock
 
-Do you mean the driver does not depend on DTS? Previously, it was acceptable
-to put the DTS at the end of a patchset or place the DTS in a separate patchset. 
-That’s why I put the DTS at the end of the patchset. Has the rule changed now?
+You lost me.  Exactly where does usb_stor_scan_dwork() or 
+usb_stor_Bulk_max_lun() try to lock udev?  Taking that lock while 
+holding us->dev_mutex certainly would be a violation of the locking 
+order used by the rest of the driver.
 
-Best Regards,
-Gary
+>                       mutex_lock(dev_mutex)  [pre_reset]
+>                         -- blocks forever
 > 
-> Best regards,
-> Krzysztof
+> syzbot reports this as a task hung in usb_stor_scan_dwork(), with
+> cancel_delayed_work_sync() in quiesce_and_remove_host() unable to make
+> progress.
+
+Are you certain this diagnosis is correct?  I can imagine the task being 
+hung inside the mutex_lock(&us->dev_mutex) call, but that's not what you 
+are claiming.
+
+Alan Stern
