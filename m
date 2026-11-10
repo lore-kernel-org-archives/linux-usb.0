@@ -1,56 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794292877;
-	b=AE1+dt/WLV3cCrXfONRnB+k1Nl+CpRpCdfYgFdDmyqXNiqEuw57Dfr5Yp3Ix74LUBQ3b
-	 VhV8xBUrLNmmcxpYIAmDokLVpdVonT78SJD8tQkV3ujktb8H8n7XrlMS9TtPW0mvqRa9z
-	 +1/Isy2AqzQQXjR2GDuuBQm+DQLhPgqmpqa65sUpX58NG+nn03Ul1GnyxWmoC8KRdO+ls
-	 gr9+LzWTEGSHcm3bDDQoZPAKx2/WZtZMB1xezH0J8EgBvUK4Z/pB9h1r0687ACLDaV6QF
-	 Q+XB3fxrfa9U6qBroBv1Qv1mf7NxLJtCwvfuLUjMy19fzv/LAE39mP5To8MBJGOILtw==
+	t=1794292883;
+	b=OpJvy+lXqQPlzSNYsMg2YLIcDu0NnmWWkBn3EtyPEpraA1uN7s5eXx0pH5V7uTVk9nbe
+	 3V/emW+1fKgesFqiY+MS0xcIAvcq+FChMRXsCXbENfAOXbD7MzLZaqTDUj27vCCeR0EiW
+	 FrcTw4H1BpDIVr366I6khRTwZgUt5NgI8j9IzJ2uHeXtnd0qNvUxLmZXuTh8hXLlJjZRd
+	 paDU9FT0W9rv2K4h1Pm8KUjzJ3MKo5VaaseelEOqsvqJXF4WSOjZA9J9GaTbqY8wDIN96
+	 2ELtg/V9dxdkwsbcUPzIcLPMMCenG6nZXW5IcQDMcpcyj8r3t82O7JNkjPsiTHgq0yQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794292877;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=p0nCxZRWX0FAY+MfCM0M+T39BzVT6HL+KGDJQAzDvMQ=;
-	b=GqN225o+x8QmlCemohQd6kR0GJptS/G6/R7OlP8RHBq0jUh28Cqy15kz/jZO5QF73iR+
-	 HkjIYF4MNQqo27njmyG8IsrrNj7LLxjjNTKC+I8r1eA/lemQIKA3S07cb1UzgBFsJleIK
-	 TxAy8yN73KRXO60JansU7BBy3BFDZIxX4HEl9wUnDN/Q58MvQsO2AISIyp4oa/kdf7d6w
-	 4eaXWXtUh7BgqY6rixTCKazPRMrAGdFwwyPnAsKVZWahjzNZV40uU89LuzMLUXKyzlgT3
-	 rK+PSGluEs7laHgLwgc8eS/htMuDwOwWxmLzVgFEmfXyLQ1Wt10u8t6P0ezkCYUpv+Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794292883;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=xXxoNAlKa/PBpV5ol5S8Xdd6kzfXK1Yx10K2yYA4fw0=;
+	b=fDSp7VH66ocWZfrg1M8yQVA/fgm8Qpxl0HEHez9RfxHQjxmvy6wIk72yhm77qsWES5Uk
+	 36tKOQbDdyxUoXYcMjDg1eSf1LXHIGGv6Nqb6K2jqFId0zx0cYHEdvgCHNfck8Brns6lD
+	 dfEo8lJTWfVdSK3L4mm0mS3dw3l1NlWdKUTP9Dn0z3doLSGNR9J0z7e+Hgn3b2zeSp5ci
+	 rooVPVpWxOZW2TpV10wv9cWlzX4I6ZS8KifZoxfhK5vvYj+Gi4XGEhYqeW/K4lVHRtOdZ
+	 r9y1DW8+h5ITqmjlwuL3RdFyzWTXY2GDMVpA4UqTij4njLR9m9aTwhK5WE8/x/AoZPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DYLvJiM2;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8046A606A339
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 06:41:17 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=ULDv3TpI;
+	arc=none smtp.remote-ip=111.22.67.137
+Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69EA960A5BCA;
+	Tue, 10 Nov 2026 06:41:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69EA960A5BCA
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DYLvJiM2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8F321F0089F;
-	Tue, 10 Nov 2026 06:41:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794292877;
-	bh=p0nCxZRWX0FAY+MfCM0M+T39BzVT6HL+KGDJQAzDvMQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DYLvJiM2CPgRccWH1WaBue1mFJAui+IVixtc8QDNq8TOqVNZg+5FJj3I5eK3AOTWg
-	 kp9NT+pq/Gm0OK1PTXhgKcZrmf1cd784hlezmqcWHTib3UowDBtfV6zJUIm6xSegxK
-	 mFAaTWF6ujEpXyWeK7vXwNiwNplXobNhLRmdSW+dhbqjbG6z45AVM6BCU8mjI+c81q
-	 IoyDZyjG7Zi52XMUIbYFbLLup1o0FszJNR4CT/jNe901PzC3rPn69eSYznLriybRS9
-	 ysT9rRVOApFZO3h3iogCf+XnJ/+FVr0kbw29q57z6jV5plpNKA/8ahDGXC179xlmzD
-	 APHXSRZFvz0TA==
-Message-ID: <sashiko-outbox-206424@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net] net: usb: cdc_ncm: don't underflow the NDP room
- check
-Reply-To: sashiko-reviews@lists.linux.dev
-To: xujiahao <xujiahao@cmss.chinamobile.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261109060913.526268-1-xujiahao@cmss.chinamobile.com>
-References: <20261109060913.526268-1-xujiahao@cmss.chinamobile.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 06:41:16 +0000
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=ULDv3TpI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=ULDv3TpI5s9dq82wvbKiK6lo3e21/yMtzSZpXfnO8tYVJ9A9LVAbdOCL3ZgVdHp56kD8vPPU1ZOZK
+	 1PyDFiicKvPzpgzGJaHxANEsntky82mqw93OMxqkhZf4naqwKlIqeme55lpGLhdMRHxQ+r3Wn/vZce
+	 7UaTcnHt6Ii/zqg8=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee46af2bc8f847-6b65d;
+	Tue, 10 Nov 2026 14:41:20 +0800 (CST)
+X-RM-TRANSID:2ee46af2bc8f847-6b65d
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from  (unknown[223.108.79.97])
+	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea6af2bc812f6-aa12a;
+	Tue, 10 Nov 2026 14:41:19 +0800 (CST)
+X-RM-TRANSID:2eea6af2bc812f6-aa12a
+From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 21/22] usb: typec: fix a few spelling mistakes in comments
+Date: Tue, 10 Nov 2026 06:41:04 +0000
+Message-ID: <20261110064105.20335-22-shishunbo@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
+References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,60 +68,119 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] net: usb: cdc_ncm: missing Fixes trailer for NDP room check
-  underflow fix
---
+No functional changes.
 
-commit af2c2a63b21a4cf89327e3f98f1ee6e70ffe8420
-Author: xujiahao <xujiahao@cmss.chinamobile.com>
+Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+---
+ drivers/usb/typec/class.c            | 2 +-
+ drivers/usb/typec/tcpm/tcpm.c        | 6 +++---
+ drivers/usb/typec/tipd/core.c        | 2 +-
+ drivers/usb/typec/ucsi/displayport.c | 2 +-
+ drivers/usb/typec/ucsi/psy.c         | 2 +-
+ drivers/usb/typec/ucsi/ucsi.h        | 2 +-
+ 6 files changed, 8 insertions(+), 8 deletions(-)
 
-> net: usb: cdc_ncm: don't underflow the NDP room check
->
-> cdc_ncm_ndp16() and cdc_ncm_ndp32() verify that the new NDP and the
-> datagram fit into the NTB with an unsigned subtraction:
->
->         if ((ctx->tx_curr_size - skb->len - reserve) < ctx->max_ndp_size)
->                 return NULL;
->
-> tx_max is only clamped to max_datagram_size + max_ndp_size + the NTH
-> header size, so tx_curr_size is just big enough for one datagram and
-> one NDP.  A second datagram in the same NTB is therefore exactly the
-> case this check has to reject, and that is also the case where
-> skb->len + reserve exceeds tx_curr_size: the subtraction wraps around to
-> a huge value, the check passes, and the skb_put_zero() of max_ndp_size
-> bytes that follows overruns the buffer:
->
->   skbuff: skb_over_panic: text:ffff80000db33558 len:428 put:172
->   head:ffff0000c2c66100 tail:0x1ac end:0x140
->   kernel BUG at net/core/skbuff.c:200
->   skb_put_zero include/linux/skbuff.h:2595 [inline]
->   cdc_ncm_ndp16 drivers/net/usb/cdc_ncm.c:1132 [inline]
->   cdc_ncm_fill_tx_frame+0xdf0/0x30e0 drivers/net/usb/cdc_ncm.c:1309
->
-> Here end is 0x140 =3D 320 =3D 140 + 172 + 8, i.e. the one-datagram minimu=
-m.
->
-> The room check in the aggregation loop cannot catch this, because it is
-> done after the NDP has already been pushed.
->
-> Rewrite the test as an addition, which cannot underflow and gives the
-> same answer whenever the original subtraction did not wrap.
->
-> Reported-by: syzbot+1994e2ecf323ed90f255@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D1994e2ecf323ed90f255
-> Signed-off-by: xujiahao <xujiahao@cmss.chinamobile.com>
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 54c7810b563b..ea2564b9eff6 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -564,7 +564,7 @@ static const struct attribute_group *typec_altmode_groups[] = {
+  * @adev: Handle to the alternate mode
+  * @ops: Ops for the alternate mode
+  *
+- * After setting ops, attribute visiblity needs to be refreshed if the alternate
++ * After setting ops, attribute visibility needs to be refreshed if the alternate
+  * mode can be activated.
+  */
+ void typec_altmode_set_ops(struct typec_altmode *adev,
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index d721baef5210..dabb91319e8a 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -2520,7 +2520,7 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 			/*
+ 			 * PD2.0 Spec 6.10.3: respond with NAK as DFP (data host)
+ 			 * PD3.1 Spec 6.4.4.2.5.1: respond with NAK if "invalid field" or
+-			 * "wrong configuation" or "Unrecognized"
++			 * "wrong configuration" or "Unrecognized"
+ 			 */
+ 			if ((port->data_role == TYPEC_DEVICE || svdm_version >= SVDM_VER_2_0) &&
+ 			    port->nr_snk_vdo) {
+@@ -4461,7 +4461,7 @@ static int tcpm_pd_select_pdo(struct tcpm_port *port, int *sink_pdo,
+ 
+ 	/*
+ 	 * Select the source PDO providing the most power which has a
+-	 * matchig sink cap.
++	 * matching sink cap.
+ 	 */
+ 	for (i = 0; i < port->nr_source_caps; i++) {
+ 		u32 pdo = port->source_caps[i];
+@@ -5960,7 +5960,7 @@ static void run_state_machine(struct tcpm_port *port)
+ 			}
+ 			/*
+ 			 * Although tAvsSrcTransSmall is expected to be used
+-			 * for voltage transistions smaller than 1V, using
++			 * for voltage transitions smaller than 1V, using
+ 			 * tAvsSrcTransLarge to be resilient against chargers
+ 			 * which strictly cannot honor tAvsSrcTransSmall to
+ 			 * improve interoperability.
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index 02539378ffed..67471c363a68 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -950,7 +950,7 @@ static irqreturn_t cd321x_interrupt(int irq, void *data)
+ 		if (!tps->data->read_data_status(tps))
+ 			goto err_unlock;
+ 
+-	/* Can be called uncondtionally since it will check for any changes itself */
++	/* Can be called unconditionally since it will check for any changes itself */
+ 	cd321x_connect(tps, status);
+ 
+ err_unlock:
+diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
+index 572da7bbd29c..56cf7deb2312 100644
+--- a/drivers/usb/typec/ucsi/displayport.c
++++ b/drivers/usb/typec/ucsi/displayport.c
+@@ -165,7 +165,7 @@ static int ucsi_displayport_status_update(struct ucsi_dp *dp)
+ 	dp->data.status = DP_STATUS_ENABLED;
+ 
+ 	/*
+-	 * If pin assignement D is supported, claiming always
++	 * If pin assignment D is supported, claiming always
+ 	 * that Multi-function is preferred.
+ 	 */
+ 	if (DP_CAP_CAPABILITY(cap) & DP_CAP_UFP_D) {
+diff --git a/drivers/usb/typec/ucsi/psy.c b/drivers/usb/typec/ucsi/psy.c
+index c8ebab8ba7e7..8eb1ed42fbbd 100644
+--- a/drivers/usb/typec/ucsi/psy.c
++++ b/drivers/usb/typec/ucsi/psy.c
+@@ -255,7 +255,7 @@ static int ucsi_psy_get_charge_type(struct ucsi_connector *con, union power_supp
+ 		return 0;
+ 	}
+ 
+-	/* The Battery Charging Cabability Status field is only valid in sink role. */
++	/* The Battery Charging Capability Status field is only valid in sink role. */
+ 	if (UCSI_CONSTAT(con, PWR_DIR) != TYPEC_SINK) {
+ 		val->intval = POWER_SUPPLY_CHARGE_TYPE_UNKNOWN;
+ 		return 0;
+diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
+index 1996f04ed5e6..d363e9a64763 100644
+--- a/drivers/usb/typec/ucsi/ucsi.h
++++ b/drivers/usb/typec/ucsi/ucsi.h
+@@ -509,7 +509,7 @@ struct ucsi {
+ #define UCSI_NO_PARTNER_PDOS	BIT(0)	/* Don't read partner's PDOs */
+ #define UCSI_DELAY_DEVICE_PDOS	BIT(1)	/* Reading PDOs fails until the parter is in PD mode */
+ 
+-/* USB4 connection can imply that USB communcation is supported */
++/* USB4 connection can imply that USB communication is supported */
+ #define UCSI_USB4_IMPLIES_USB	BIT(2)
+ };
+ 
+-- 
+2.53.0
 
-[Severity: Low]
-Since this fixes the unsigned subtraction underflow in cdc_ncm_ndp16() and
-cdc_ncm_ndp32(), should the commit message include these Fixes: tags?
 
-  Fixes: c78b7c586657 ("net: cdc_ncm: refactoring for tx multiplexing")
-  Fixes: 0fa81b304a79 ("cdc_ncm: Implement the 32-bit version of NCM Transf=
-er Block")
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109060913.5262=
-68-1-xujiahao@cmss.chinamobile.com?part=3D1
