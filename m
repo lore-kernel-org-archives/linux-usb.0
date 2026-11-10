@@ -1,96 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.47
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794311049;
-	b=PyrKrzxYvj+B/3qnUTOWEwnb4PkCiQ+VgG8bFGnKxerbxOmgfnhaIAG9u8fN+ghLL5F3
-	 t16oE/W9ZOxRA1vcQg0/nV+W4NJfKrT+RGGMpqojRZh3lfiNACD3uqXasgJ1s3aucYm0B
-	 uxUH4iIngtL2ucSkBEKaScowIrcRo0EwbsFjSWeWuDby2D4vV5g0VitAMRWu0xkXYLrOb
-	 9DfJFT3cIf6qlEP0+4NkdFzMk4aM1z0vyy8DB3S2fcfWh6/Otx5IP0OFa3OEKTQdemMtw
-	 SKzzThiNNYIGgTvnufkd+6/28EDx9nVlHny4TjeWh95dIbtCkVMAnSCBDLf5ZqVd5vg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794311049;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.54
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794311320;
+	b=JSyoGJOnO6d3mW7t1+arKRwMtO65DcPUWzBqNMHmiqQG5FUCUp2Qa0iYx8bV4z/eQRF+
+	 6IcfEUTl0CEbdZn9Hl3VgkF3h2aZAp4ymBWNaKsr1nAm2xnFPSdQH0tbK8VoDKdwtuF56
+	 ExCJ24OiPgNnb0dTDySyzIzLrX8JNxGYvWI9q3fM02nqea0Bc9wQQqdFbHzTvl+w8tuGr
+	 vRgIaqbdEdyE1gzqNon1JjGShHLpcgMrkjYG2sqIAjMKfcF7TQzSk+8hYgf7EEhTEz/l8
+	 KCGVPFeykAEPb6tW1MeGTX7MrfiWnI2/Vh80GIllQZuKE8PqeG0agmVJlEQLd+syN1w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794311320;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=sTrsrtp/N3MsoFW0Udr/uhsvW3buCcp/9OPmY8EXS9s=;
-	b=jenkAQpWy0EesryYZE4NRzzo0YXvp5LLdhIfuQKIJ4fs3+DEzXZocIvY+nnGsS+onrbz
-	 Cvhdo4CwclvxSCV5tXcSSeUOoFgwa4+rs0E59oZh5Ugqu41tVVWrGROyiQH/I4S2xUmgP
-	 hLQpN63cJySebU5JXhOQe0WleM55KnUHsDc0dbV4BYFTqKfdhlSfBYzl1DymZAjl4rvwG
-	 kpBq5zRZyzCme5XrIzfsSMH7JBhMYcPhym4SwoWwrD5ufOARl8ElqwwUko7CgxE7GHt2y
-	 HFyXaJgM9h+M+yxKY6dr0KGHRxdzImcq/vT5Qu5dAUnruaMHTYyLP7x4fHEI8M5Fk8w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=TCGSXQkkp9CYRjtPCbFI0n0SwhiyqiBh4xY4kDY/tRc=;
+	b=XZ31JfYZsEnEqfGLjzUD8NXjbjrBavbDdJNDyq+bJiwBIVQxgZU6axAaAbR5Lc5csorI
+	 1SH1yJXqK2/fCPVhdrjBPePm/1pel/T09CFLIh19OiefSx80ugMQ62OgKUO9HRmLYFxZZ
+	 dXH83q5IEe6lSdwRfgkNN1LIXA/yHKJXbmzHsm8WuJTSEPq7o3BR8jIGtz4WqpsXaAVhU
+	 ZE4BuA/DTmzP23RkiayGmIf2DKb8/NOw5TIkFAY/ofxiU7+3y/OMxbsOvygokEjB3KdnQ
+	 pFCgA/CMdTMHPMNKTkHhfUegPHJNIuKndtgNKnZl9BWibAesRYUZWaWFEs1gIt5HFkw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O6HMWVBV;
-	arc=none smtp.remote-ip=74.125.82.47
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CbpO7pmJ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.54
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B26606A325
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 11:44:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92B26606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF4A606A336
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 11:48:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AF4A606A336
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O6HMWVBV
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-15ea896ddc8so3130584c88.0
-        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 03:44:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CbpO7pmJ
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-91ebec7d5dcso15122036d6.3
+        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 03:48:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794311318; cv=none;
+        d=google.com; s=arc-20260327;
+        b=MM/XK+JTzO+REjXIxX6a55arRpI2fOPtA2cGRLWyY10USZTy5plLgKOISt0WiorcPR
+         jvYpruyQKbSM8SI4izfdZg8SlbmiZ74IUZpEgIokLTYiOVurspegd5uOK020UXEZl1F1
+         2kjdgTJzvVuSeGQ/XhwWCRcLNpGYJy28HogribEhGQBaDXA7oTryaSVTmvat/VCtq/P0
+         Ow1REdHmxEygut5KR/9bk0QK6YXSaQeCR9FP/f9zGJWXH7YZIzND7Gytoz5HYgWy+2fy
+         UtuAZBDCzzMivs53nqdEb0xZ3SpA2NNRMcU9k2MXVVxi00sW8DzfqGJdaV3zcFWFMx81
+         hdyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=TCGSXQkkp9CYRjtPCbFI0n0SwhiyqiBh4xY4kDY/tRc=;
+        fh=/XafWwXInU6xSAMitUKTVJtcnn7zkW/jx5Qszu7SSug=;
+        b=AzYnvLlJaVnw8jmRSODogJyz1gHfJK7GN3ACPYuO5mJQHRv24frfq6/FWptnajA6IE
+         8FX0rqAMh8AMikIO8q6YRGFVIh/aTi8rIb8INTq2BD4vzHE8hV1ZFnm29RZmKev6XzTg
+         +Gg9gwW+PstQ83ddkEEjzJljngL8xosDgagiBeTRuUEWAMD/1OMVBa0nPZlrX/qkaUkI
+         xlPoRkrKJshcXBqYhSDl2Z5zsr4wG4rC7m/v0b2QoVSQRxZRrUtkn7qgIvHh6LoFab/D
+         021KwZU+yyt/4Lj27gGAktIk/hKOf1ttsTGmT5BfScISqrHVToEwJjuE4E6MGc/CQs4o
+         IArA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794311048; x=1794915848; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sTrsrtp/N3MsoFW0Udr/uhsvW3buCcp/9OPmY8EXS9s=;
-        b=O6HMWVBVln5XP80c2bMEK8+zD7RjvqUj8izRi31qCuDgXZ4dYDMjCL+gRh4os4IzmA
-         1nuQGss7B7ZgejBA+qzsIHKjGh3cxcTB8YsHbxCAIlBIoqIt2Wevjo2asv0YjOZqt+w8
-         EcKbYVGSvRzodNPjM7fVMqfBsMwVx08e+XX1vYee1/0joE9wbdyvnyC4IPBK7ngcY2tN
-         LkxmqpQZvLKJntF6zADGKa8xXba7omnUSlsdABiro03BZVe96JK5NPFwV6c0QN/yfl1r
-         LpA9286AFWzQkEoK1qBW8jt0CwB5G5PVttu/ree8u/aXOU/odXxkkMfF+UFKnBM+2HYA
-         KJEw==
+        d=gmail.com; s=20260707; t=1794311318; x=1794916118; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TCGSXQkkp9CYRjtPCbFI0n0SwhiyqiBh4xY4kDY/tRc=;
+        b=CbpO7pmJDcvsexNCmDtpmtSl++6kvPetaro2TmZj6r7PlQdD/MjMAYQykKyx4WvAP+
+         n9+4LoCZX9JPuxQRZVXhsCQtS7bLzVT9ewQEH79FwIcemzZ8lzhfOUVRcgA5U9LpBHHr
+         EG2j8eJRDjnShtsNiXWvYlaT8bFgc8KXaw1TSmJrQJGuUQLc0MNpQXx6ADqGPjkjvgWX
+         ekO5COsQnb17UNKRvuTOuKWBT6G8hfNEAsRThN0z6CpFczdvpm6WEiHtJ8eUwUYHVabn
+         DKRam6FDsPJaTqwflGMfE12KbcvWCa6Yzy25VnykIAgzaLNztqmys7lg4AgcecON/fdI
+         4jrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794311048; x=1794915848;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sTrsrtp/N3MsoFW0Udr/uhsvW3buCcp/9OPmY8EXS9s=;
-        b=0/RYL8vf7ovo315DHKWGVq02gbQBmUenhqHzTnoJNL89WSmV85uvOAo9RnzMVBNo1t
-         7CaiB7fECB2FqmALS1IvnFHuiut9+o3m7+F4BLfpTBbXtbet//SYM/PIQDzcHw3R6oLI
-         iIkxzanKUV9ZWlSnr/iMYzpOS9WxJmf5ubZIRj//WqEGR/czJdEUFdS9zGT3KQR2g6Ah
-         FhWt+Sh/nbMAVOlxF2QOq4ix+qKCoxnYbRQH3JeLe6nRIhDcUt6Vk9gTSbhQLB0+MUW6
-         cWGYNDTeNzDxfmDUVnnp7Y65DopiHXhNvMBlIXImDUR/xcQElzTfEy1mPam83NTCuofy
-         ZukQ==
-X-Forwarded-Encrypted: i=1; AL+hErFdjUr2MNXuNyFPL3uas8DbXdjb9yeg7tuL4KWESTJfI1ZgbfG8UySG6/DURnU2bb+feO8nlf0tC0E=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/4FBBID6/3JaCmV1uD3wGdOkg13qGoMnrN1U6l11omGSyXBghn
-	cPcfxQ8PD/xK6yfdnpm+C2X+bIpUSsB6tyqovQLbqvk/2J59omOFhOC1
-X-Gm-Gg: AYBFou3m+L8l4QwgOfTrbyl/7pcJW8f7HCZB/S33gLlB2S2pqiGM+NQvts810iF8OS7
-	Ub9WlqcgZDExnWgRkayY4WfJl6WiU4WKK/iyWFoOyKCIrJJj1mn+hO3lGjTPxILPER0NKAHtCBc
-	WxAqes4bketaI+TWEITUhonNJ910ZcFSLPhIldTyKxRPv4eangisZhsS6q8Vf7t3DpjHm+Wfo78
-	mWpoAbO/pjK1WFp/yC3hPZ8cYWekZkGp/E9Kfx9jLH0rmgj+oM33mipLxpoywJT0AN2LpEIL3om
-	OriFTS9UNC/3AdAD8P4jUh/O/2n69KabXB7WwOMP2L6ClmsfhAzoEzD1ty+3tN8Z2iNNbcrvp1r
-	tgEwdEsR5P9Ad4xY76Gdsv0vdX/RcUoGyYxxzfycEFMbsnW9J3SpvTVl/CeDtd+fC75bbtlzGEt
-	Du2pSBmqSHruX7TaYt4OGzknKcpydCEBxz+czmBT3QRcZX1JU3DFtUvUKPB8cmSG6YJb9/lmkRD
-	zPaTy5KFRG8tXA6W9/Z92asrH4ObcblCLCa395o5KZANHYinkyp4e2ZThxEGlgwceZnqg7YvLki
-	128gMLonPzXxNxg4NRacvwHJapOimVocyguUG7qvfUDTdFDv
-X-Received: by 2002:a05:7022:3a86:b0:1b3:a881:4d9f with SMTP id a92af1059eb24-1b3b60249b4mr3330257c88.20.1794311046423;
-        Tue, 10 Nov 2026 03:44:06 -0800 (PST)
-Received: from hj.. ([163.239.22.29])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b1003fsm6648791c88.6.2026.11.10.03.44.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 03:44:05 -0800 (PST)
-From: Hyunjung Ko <hj351016@gmail.com>
-To: Neill Kapron <nkapron@google.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Hyunjung Ko <hj351016@gmail.com>
-Subject: [PATCH] usb: gadget: lpc32xx_udc: drain the pullup work on removal
-Date: Tue, 10 Nov 2026 20:43:51 +0900
-Message-ID: <20261110114351.2524921-1-hj351016@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20260707; t=1794311318; x=1794916118;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TCGSXQkkp9CYRjtPCbFI0n0SwhiyqiBh4xY4kDY/tRc=;
+        b=brx283OEhROx/t0Zp21Jvm4eA9ytK8Upa01B1DtqcymPETEKDqqtPmLm5sR4QjyQ11
+         QbulBderrQRl3m9aFHmxgfxE2FmDfX89oVIS0hHEnDJWzO3yc7ropTSidjQxU+WJrZnS
+         LlGuRgUFPUx4DWGwRwtWoZyDp2Pi3HHdnk2N3t8MZvMCM0SjDn0g7h7NQlbxzCgrFT5D
+         RWkuQXVy7DL8EO1xErP3y62CdEq/O+dFvRvP23Vq0R7Mw7cyIxCcyM8hIMnmIQqC6qT3
+         4TrP0s1Ip4cvzqrQ75ptBLh4CS8vejyLKgoWgIY7MEx4ZIl/FfvJSrMmKAf0n5sh7hLN
+         uJ+w==
+X-Gm-Message-State: APuU4Z+SMOjTW/rPXdjeXIglGDvX4zxvJP4fGYFLP3fEimZWl9TWKHvJ
+	+eceEeWElAMr+c/HEPRalw0n2RSsYGdTxemKXqnxPWiVQYth2HVw1J+qcChNIeaqpjNAuJPEJE7
+	eTZU6QUnnsrqEjLeovw0WxAvstBGnu9hMmEIHKE4=
+X-Gm-Gg: AYBFou10lrYvEI9x/D9eS2PmWPNalrItosauVZynI4Nm2BW5ItFseiyKm8NChvKLVOX
+	Q//UXXSQG6heMxgf9RoK02jbvnpfU/GnIbw3hxOvizoTm2kyJzbTc34speBdBAN09dMMJ+pYaK1
+	qujkW+xxw6nYABuGxmaXdaAIsFEVArZt60LdcPf7xJPgZwhe6+MjxSpxTg5tRXphLbbv+aSWbe+
+	1PF+1pWt210cB2OatWswynyvQaWscWYi8ox+HusY6w1xJZwvbA8L202d+0bWRFj7SjGhbZcILMb
+	tP9NyytefwPzzL7QWIoS6w93/kKM9Qc5F1wiRhUPwmp/dH/Q0MC42kt9XgHe3H2WCUDXPmccI1Q
+	Oa972afIwKo/huF0ChiN0WDXSdyDTWnN1jklgxwomTooNMB56zV/LI12Iqb2eO6KrNH3A
+X-Received: by 2002:a05:6214:411d:b0:917:a278:ce0c with SMTP id
+ 6a1803df08f44-91eef953c89mr38462386d6.43.1794311318387; Tue, 10 Nov 2026
+ 03:48:38 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -100,50 +103,102 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261110113523.2517891-1-hj351016@gmail.com> <sashiko-outbox-206950@kernel.org>
+In-Reply-To: <sashiko-outbox-206950@kernel.org>
+From: khj <hj351016@gmail.com>
+Date: Tue, 10 Nov 2026 20:48:26 +0900
+X-Gm-Features: AclHuK-hlRCBmE0NXc2HkIod5l2gSiVzm8_S6uudo7AfNbetvFYsjZ296z-4DPI
+Message-ID: <CAGr5VtP3FAJLYDRfMumwJR4ALceYA9i-N11Ff_GkUik3SqBjYw@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: aspeed_udc: cancel wake work on device removal
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-isp1301_pullup_enable() schedules udc->pullup_job to perform the slow
-isp1301 i2c pull-up access from process context. The work handler
-(pullup_work) dereferences udc and touches the isp1301 i2c client.
+Thanks -- you're right, please disregard this patch.
 
-udc is allocated with devm_kmemdup(), so devres frees it after
-lpc32xx_udc_remove() returns. remove() calls pullup(udc, 0) -- which can
-schedule pullup_job -- and also puts the isp1301 i2c client, but it never
-drains the work. A pullup_job still pending can then run after udc has
-been freed (and the isp1301 client put), dereferencing freed memory -- a
-use-after-free.
+udc->wakeup_en is never set to true in aspeed_udc: there is no
+.set_remote_wakeup op, and ast_udc_ep0_handle_setup() forwards
+SET/CLEAR_FEATURE to the gadget driver without handling
+USB_DEVICE_REMOTE_WAKEUP. So ast_udc_wakeup() always returns -EINVAL before
+ast_udc_wakeup_all(), wake_work is never scheduled, and the use-after-free =
+I
+described cannot occur. The cancel is harmless but unnecessary; drop it.
 
-Cancel pullup_job in lpc32xx_udc_remove(), after the final pullup(udc, 0)
-and before the udc and its isp1301 client are released.
+(The dead wake_work plumbing could be removed instead, but that's a separat=
+e
+cleanup, not a fix.)
 
-Found by static analysis; not runtime-reproduced (needs LPC32xx USB
-gadget hardware with the isp1301 transceiver).
+Thanks,
+Hyunjung
 
-Fixes: 24a28e428351 ("USB: gadget driver for LPC32xx")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hyunjung Ko <hj351016@gmail.com>
----
- drivers/usb/gadget/udc/lpc32xx_udc.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
-index 94355d3..210fa1f 100644
---- a/drivers/usb/gadget/udc/lpc32xx_udc.c
-+++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
-@@ -3186,6 +3186,13 @@ static void lpc32xx_udc_remove(struct platform_device *pdev)
- 	udc_clk_set(udc, 1);
- 	udc_disable(udc);
- 	pullup(udc, 0);
-
-+	/*
-+	 * pullup() schedules pullup_job to do the slow isp1301 i2c access; the
-+	 * work dereferences udc, so drain it before the devm-allocated udc (and
-+	 * the isp1301 i2c client it uses) are released.
-+	 */
-+	cancel_work_sync(&udc->pullup_job);
-+
- 	device_init_wakeup(&pdev->dev, 0);
- 	remove_debug_file(udc);
-
---
-2.43.0
+2026=EB=85=84 11=EC=9B=94 10=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 8:43, =
+<sashiko-bot@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [Medium] usb: gadget: aspeed_udc: wake_work is unreachable in
+>   ast_udc_wakeup()
+> --
+>
+> commit 59e63d484d3cece4c9053b24c7e169339b0f2919
+> Author: Hyunjung Ko <hj351016@gmail.com>
+>
+> usb: gadget: aspeed_udc: cancel wake work on device removal
+>
+> This commit cancels udc->wake_work in ast_udc_remove() after unregisterin=
+g
+> the gadget.
+>
+> > diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/u=
+dc/aspeed_udc.c
+> > index 10214232c08fa..2acf84c489909 100644
+> > --- a/drivers/usb/gadget/udc/aspeed_udc.c
+> > +++ b/drivers/usb/gadget/udc/aspeed_udc.c
+> > @@ -1460,6 +1460,14 @@ static void ast_udc_remove(struct platform_devic=
+e *pdev)
+> >       struct ast_udc_dev *udc =3D platform_get_drvdata(pdev);
+> >
+> >       usb_del_gadget_udc(&udc->gadget);
+> > +
+> > +     /*
+> > +      * ast_udc_wakeup() schedules wake_work, whose handler dereferenc=
+es udc.
+> > +      * The gadget is unregistered above, so no new work is queued; dr=
+ain a
+> > +      * pending one before the devm-allocated udc is freed.
+> > +      */
+> > +     cancel_work_sync(&udc->wake_work);
+>
+> [Severity: Medium]
+> Can udc->wake_work ever be scheduled in this driver?
+>
+> ast_udc_wakeup_all() is only called from ast_udc_wakeup() after checking
+> udc->wakeup_en:
+>
+> drivers/usb/gadget/udc/aspeed_udc.c:ast_udc_wakeup() {
+>         ...
+>         if (!udc->wakeup_en) {
+>                 UDC_DBG(udc, "Remote Wakeup is disabled\n");
+>                 rc =3D -EINVAL;
+>                 goto err;
+>         }
+>
+>         UDC_DBG(udc, "Device initiated wakeup\n");
+>         ast_udc_wakeup_all(udc);
+>         ...
+> }
+>
+> Nothing in drivers/usb/gadget/udc/aspeed_udc.c ever sets udc->wakeup_en t=
+o
+> true: ast_udc_ep0_handle_setup() forwards USB_REQ_SET_FEATURE and
+> USB_REQ_CLEAR_FEATURE directly to req_driver without handling
+> USB_DEVICE_REMOTE_WAKEUP, and ast_udc_ops does not implement
+> .set_remote_wakeup.  As a result, ast_udc_wakeup() always returns -EINVAL=
+,
+> udc->wake_work is unreachable dead code, and the use-after-free described
+> in the commit message cannot happen.
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110113523.25=
+17891-1-hj351016@gmail.com?part=3D1
