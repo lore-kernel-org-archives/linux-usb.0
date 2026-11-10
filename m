@@ -1,95 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794298527;
-	b=En92WuYgCtC3kc/THC7hDNH4D1lI/2z7P4y4iWTweEPTg8pDyeIp9mY9cT1T6zgS7NQS
-	 ImnzVe+azmG32Qd2VWdle6rMzN6MXIfNgw9PWIs/3bOgTb50Cr0MxtiwZdtTvlJgc6gPk
-	 NcA8voHV+GS8qpUOISV5jEDR5obi5ftkmNg2YfMdNY5L7W1uoww3gjlKdmOBtcc3TZ2OY
-	 eimpnC82MGuErRjYY4qb8oUucif6savdiLtzlQt7+4GF9Q2D27YmhA0dBAZDUocjwJXW7
-	 2VuAjqFnRZ0iHT8YE7zo+gZiviAUoFB05jshBS0X1ouW7atM6b9l297hoPbOGyedg9Q==
+	t=1794299145;
+	b=Y/anC8h77N+Pr/LpW2++ujQbrI4p+bqFZlZgzSg5sSt4AA0EvyL56Disy2C29LNQ1uy1
+	 qJXc8gwY+uoGYkixYPvwkSX9I/KUBXXELw718mWNXjGI47hquxDvEVyvJ+aEXfcMvCvW8
+	 Q9F1slyu7CesrqC72OLPW4fhG0ICpDtv9LqORTXK5o8Xlri9HLr+qD6dI8nHtmY94iZir
+	 cUGdQU1Br2Wgw5c3KNse2jB9NjJJ7WPV87UQz4LzmkFAnl+bsQHr6FbAKDNiLbiQ3LKBN
+	 tUZwEv6usRYLw6A2ucr2y6w3LPOxlQuNFwCPXQHpoxbkRqlNKKDUnN5MHGey2ZC+FxQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794298527;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=admPb6RDUUyQnHF1uTkWAohc96AfvEkkjESWlPY5zhM=;
-	b=ZyTZZr7NgmNYV7n7BBYO25Yq0XLe5Jm8OJICVn6GjgiVZ+lxq39lYW9VkGKN4INz6DE/
-	 6gpIwK1G+SKK6djn7HvFvyfCc4SgWX5YIJTv1Qlzix4VLnmSAFCd2bZbAATVe3FQnxxn7
-	 PE/V1ltdiSj4qfw5q/vDzKXe2MehPYUeamiOyf20+oe1BVKlFm7IrD4X3jD/liMyMZiMS
-	 HkS0E1blngtb8YU/MVVnyRByiZnYQeAhsXmZu3Q9PxADu8r/SPGL5YcFRdxyqWK0E9jwa
-	 jL35MKC9V3kvR6fJ2UhVaQtenrvJqPN9nbD5L052fTMaGR8atV8pA2ci2K+Oybw9w4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794299145;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=AQAAmgkAJ2N7z6or5zK/Wmjvv/xT0bZlGZgV3QvIlJg=;
+	b=mBCa7feOvi49olHWCB+UNhHi26kE3PvlOaqRElsEHO3/BjOLYZyFTBprqsvm92spM1yP
+	 PzjqWZgP+yoDxUUXKc1A6jI8XdHFhBGYcFvnt4doo5F5gNXHzZxTNSLsHvsc1RIeajBOb
+	 /6HNxG6gEIo9SiyUxGCCLgWiDQfSqL42AcnzTmFOZCR7SbUxZUb3iOsUvKtUJXMNPHCKV
+	 TKRscBlqnU8ahoemTKMcIOmk8uVZUpJZkbeJltfjURep8ac3QqPdh5MMGe2IRZJ+/8nZZ
+	 pAI/0jtDtMr/XqaImLSljWDP0A2Ukiqm7prqgvNweC683KvQA9snpZTxaPsNOwhV2gA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=emsPOiXv;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i6xSlQFv;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B59606A321
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 08:15:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75B59606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEEC606CFA9;
+	Tue, 10 Nov 2026 08:25:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=emsPOiXv
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a214af2076so12260135e9.0
-        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 00:15:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794298526; x=1794903326; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=admPb6RDUUyQnHF1uTkWAohc96AfvEkkjESWlPY5zhM=;
-        b=emsPOiXvGAeFGRN0CI8WxjOJ7m7Q/pdVYyfqSJP8DcPGvR42tGpNsIEKSu4j2lzP+D
-         yWYxuniT5fg9REsuhnAZ1IyVY/dfwI0PsjG6c96Jl6pcb/NjhWw9l9Rdljx2q3dRsR2j
-         OMroWnfthaHER4DSRaS07lLqmZoEZre9o63cIFzvJYOIx7+K9u7kVzU0FNUv8lgqAc1G
-         izmBJ2sNV4X0REgRqOafG3SURAHQixfjny8REEa96jvb1V7kMxn61UJJVIr5w1g+b8qf
-         RZLabBQoRchMO3OCyvaJ9+inGbG2BdMj3NW8va4AFpmL+8fLyCOTe7zC4twgbCkXhwsL
-         i8GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794298526; x=1794903326;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=admPb6RDUUyQnHF1uTkWAohc96AfvEkkjESWlPY5zhM=;
-        b=rWa/r3AnmK+ftZ43VaAWxsJDEaP8oJkT0ovll5Cb1/eVyiHt/jHtgG7gKupe9Lyy+V
-         GaVEcCFt3mNf3qfmqqwonLW2KO+G1c8wpR5ihKf6R1C6/V1iB45+sqJA/QEneun0iWTj
-         VKhMBWkfeNYZNSQnbwFPqnDDCFQTd165JnTduV3GnU8J3/1OinmbvhcJ+bVDzwuf39GF
-         blsFlJl37SpbwaOY7VvQ9ckyE30YtJ5z8MRkExlfk3UQQjcL2miDhh54ZoKTfVkW2lYt
-         MBFXjFle5EBjeTZfGPOoch9Q9TLKiFM5YiD3svMCmbcflcXrxrGg+Wuxu0nUwIrz18u3
-         V8hA==
-X-Forwarded-Encrypted: i=1; AL+hErGgtZJluABQU/ceQrDxxTiDUVv+1crFXsjXtIRfXannF2s83apw3iEhIR+H9SsKeRFyDRt4056RBVo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8gZZ5ShqCuAsgBx2WCYhRX0sJhSYSiHBzw5V8fM//VrjprIeos
-	UqtcFat6ImHqxuKK/dKt67ioMj2LD7yyX24iq9gRa1Y9ZmFjd6Pf2hAF
-X-Gm-Gg: AYBFou1scKqStsAjwZ/LUJfJrqLZWqew6IWku4z8Gb4hRaOWU810ESq1tSHxikJD0w9
-	fcCOnkEWN4nSiv881ao+RbC2IW+/DHXiHPZGh94RPTEv9bzl3IiuwRCzT6XtLdF1FZ87rOTl3KY
-	oDYaGfYFLrN0efr0Z22PswGXlA/9OCgbD2khol5aTAHrpzYmPZVTIjAOk1GCVD4AfykauioA9zo
-	h+35/MWYNiIwevgsJ6eY5xnE2yZ3onLI+ovrjMbPljRbsjj88izx3/REHFNdiEPfvEU1GrmJl3L
-	MFEIqaQIaHKntHrV9T7sjPxCdQZ5yewTCz1qCmsIcxNl1T56JTzMc3boL8HgJiMLrBQpbiinuf6
-	u/j/RyVfl2A1XX+Xj7QiLWWObDCehHU2k5Co8bmQXhXbmugpBauSbiHTVIrUXjCLl4jYtK5BFe3
-	caWKTRv1eHLsyWyguxTgvfohINg9KH2nqE7dxymasHLuQhpR/N9otzg7Q4s3vBN4DEAmeDtaEyT
-	Itwxg3046/cHzBYC+4GIfOU27ytzp9v9muMPLx1JhMU7J361gLv+lO2EDErGlNB6vwY3OreeHNV
-	QLZHGfONtBPLLMrisz8bnSZiJ0+A7xdt8eJQ7gpK
-X-Received: by 2002:a05:600c:1989:b0:4a1:80d8:aed5 with SMTP id 5b1f17b1804b1-4ba0233f99amr27733965e9.6.1794298525424;
-        Tue, 10 Nov 2026 00:15:25 -0800 (PST)
-Received: from HachikujiMayoi.amicon.wifi ([83.237.12.186])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba0204784esm63280915e9.10.2026.11.10.00.15.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 00:15:25 -0800 (PST)
-From: Daniil Iskhakov <shkiper325@gmail.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Agalakov Daniil <empt1nesss@proton.me>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	Roman Razov <bonenooo@gmail.com>,
-	Daniil Iskhakov <shkiper325@gmail.com>
-Subject: [PATCH RESEND] USB: serial: mos7720: fix actual baud rate not reported back to TTY
-Date: Tue, 10 Nov 2026 11:14:23 +0300
-Message-ID: <20261110081426.26265-1-shkiper325@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i6xSlQFv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBCA31F008A5;
+	Tue, 10 Nov 2026 08:25:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794299145;
+	bh=AQAAmgkAJ2N7z6or5zK/Wmjvv/xT0bZlGZgV3QvIlJg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=i6xSlQFv3u/gaeDf8Bn5BFIAcUeJRAnWPg7ZlyXisgslqVw83XB2YkxIkYXqYaKow
+	 hE9nPxl9+z+njHc5ReP4Y4TPqqXEDfY9I9uSohgHmZBgWhun+8IFSu6iXuhyp1uESn
+	 txH7o1secI/ddYvPTp7/+5oK9hAc498iSRNhH+olmdri/vQerMk4ue36tNYDP2RHzB
+	 Er+RtSdCfK3wDQ7TV266Ck5ZBo9HFBmDtlLHbUPjzOgZ/qFiqYFZCHJR3m1jD3+RXu
+	 OpFXXmRITUoV3zrClDQFEVm+kFqUE53ifxyJcnoZSya/rrQxPSv1g1xUOn3CRSlEmW
+	 dNp1rH8JF6v5A==
+Message-ID: <sashiko-outbox-206609@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 3/4] usb: hub: Retry SuperSpeed for a device stuck on
+ its USB 2.0 peer
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Arun Iyengar" <aiyengar1990@gmail.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261110-usb-port-pairing-v1-3-9307e29d2ed2@gmail.com>
+References: <20261110-usb-port-pairing-v1-0-9307e29d2ed2@gmail.com>
+ <20261110-usb-port-pairing-v1-3-9307e29d2ed2@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2026 08:25:44 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -98,124 +60,210 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Agalakov Daniil <empt1nesss@proton.me>
+Thank you for your contribution! Sashiko AI review found 4 potential
+issues to consider:
+- [High] usb: hub: hub_reset_peer_child() resets external USB 3.0 hub
+  USB 2.0 half
+- [High] usb: hub: hub_reset_peer_child() resets suspended peer on
+  HUB_RESET_RESUME
+- [Medium] usb: hub: peer_reset_work not canceled in hub_quiesce() or
+  hub_disconnect()
+- [Medium] usb: hub: missing runtime PM reference in
+  hub_queue_peer_reset()
+--
 
-The calc_baud_rate_divisor() function computes a divisor from the
-requested baud rate using integer arithmetic, which means the actual
-hardware baud rate may differ from the requested one. Previously this
-rounded value was never propagated back to the TTY layer, so
-tty_encode_baud_rate() was called with the requested rate rather than
-the actual one.
+commit 764ab1aa27d71134800c09ef7673211be6ab0bc2
+Author: Arun Iyengar <aiyengar1990@gmail.com>
 
-Change baudrate parameters in calc_baud_rate_divisor() and
-send_cmd_write_baud_rate() to pointers so the actual resulting baud
-rate can be written back to the caller. Update *baudrate with the
-computed value (230400 / custom) after divisor calculation.
+usb: hub: Retry SuperSpeed for a device stuck on its USB 2.0 peer
 
-In change_port_settings(), pass &baud to send_cmd_write_baud_rate()
-and guard tty_encode_baud_rate() with a status check, so the TTY is
-only updated on success and receives the true hardware baud rate.
+This commit queues a work item when a SuperSpeed hub activates to check
+connector-paired USB 2.0 peer ports and reset any SuperSpeed-capable
+device connected at high speed so it can re-enumerate at SuperSpeed.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 199d3f535a891..df88de5bbf54d 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -1076,6 +1076,89 @@ int usb_remove_device(struct usb_device *udev)
+>  	return 0;
+>  }
+> =20
+> +/*
+> + * A SuperSpeed port paired through a connector with a port of another h=
+ost
+> + * controller can start after a SuperSpeed-capable device has connected =
+at
+> + * high speed on that peer: with VBUS always on, the device looks for a
+> + * SuperSpeed link while the SuperSpeed host is still down, gives up, and
+> + * connects at high speed. It only tries SuperSpeed again after VBUS is =
+cycled
+> + * or after a USB 2.0 bus reset, so reset it now that the link can train.
+> + */
+> +static void hub_reset_peer_child(struct usb_device *peer_hdev, int peer_=
+port1)
+> +{
+> +	struct usb_hub *peer_hub;
+> +	struct usb_device *udev;
+> +
+> +	/* Wait for an enumeration in progress on the peer port to finish */
+> +	usb_lock_device(peer_hdev);
+> +	peer_hub =3D usb_hub_to_struct_hub(peer_hdev);
+> +	if (!peer_hub || peer_port1 > peer_hdev->maxchild)
+> +		goto out;
+> +
+> +	udev =3D peer_hub->ports[peer_port1 - 1]->child;
+> +	if (!udev || udev->speed !=3D USB_SPEED_HIGH)
+> +		goto out;
+> +
+> +	usb_lock_device(udev);
+> +	if (udev->state !=3D USB_STATE_NOTATTACHED &&
+> +	    udev->bos && udev->bos->ss_cap) {
+> +		dev_info(&udev->dev,
+> +			 "SuperSpeed peer port available, resetting\n");
+> +		usb_reset_device(udev);
+> +	}
+> +	usb_unlock_device(udev);
+> +out:
+> +	usb_unlock_device(peer_hdev);
+> +}
 
-Fixes: 65d063ab21fe ("USB: mos7720: clean up termios")
-Signed-off-by: Agalakov Daniil <empt1nesss@proton.me>
-Co-developed-by: Daniil Iskhakov <shkiper325@gmail.com>
-Signed-off-by: Daniil Iskhakov <shkiper325@gmail.com>
----
- drivers/usb/serial/mos7720.c | 29 ++++++++++++++---------------
- 1 file changed, 14 insertions(+), 15 deletions(-)
+[Severity: High]
+Does hub_reset_peer_child() reset the USB 2.0 half of an external USB 3.x
+hub and disconnect all of its downstream USB 1.1/2.0 devices?
 
-diff --git a/drivers/usb/serial/mos7720.c b/drivers/usb/serial/mos7720.c
-index 94459408e7fb..1052217edf26 100644
---- a/drivers/usb/serial/mos7720.c
-+++ b/drivers/usb/serial/mos7720.c
-@@ -1264,9 +1264,9 @@ static const struct divisor_table_entry divisor_table[] = {
- /*****************************************************************************
-  * calc_baud_rate_divisor
-  *	this function calculates the proper baud rate divisor for the specified
-- *	baud rate.
-+ *	baud rate and updates the baudrate parameter with the actual value.
-  *****************************************************************************/
--static int calc_baud_rate_divisor(struct usb_serial_port *port, int baudrate, int *divisor)
-+static int calc_baud_rate_divisor(struct usb_serial_port *port, int *baudrate, int *divisor)
- {
- 	int i;
- 	__u16 custom;
-@@ -1274,10 +1274,10 @@ static int calc_baud_rate_divisor(struct usb_serial_port *port, int baudrate, in
- 	__u16 round;
- 
- 
--	dev_dbg(&port->dev, "%s - %d\n", __func__, baudrate);
-+	dev_dbg(&port->dev, "%s - %d\n", __func__, *baudrate);
- 
- 	for (i = 0; i < ARRAY_SIZE(divisor_table); i++) {
--		if (divisor_table[i].baudrate == baudrate) {
-+		if (divisor_table[i].baudrate == *baudrate) {
- 			*divisor = divisor_table[i].divisor;
- 			return 0;
- 		}
-@@ -1285,18 +1285,19 @@ static int calc_baud_rate_divisor(struct usb_serial_port *port, int baudrate, in
- 
- 	/* After trying for all the standard baud rates    *
- 	 * Try calculating the divisor for this baud rate  */
--	if (baudrate > 75 &&  baudrate < 230400) {
-+	if (*baudrate > 75 && *baudrate < 230400) {
- 		/* get the divisor */
--		custom = (__u16)(230400L  / baudrate);
-+		custom = (__u16)(230400L  / *baudrate);
- 
- 		/* Check for round off */
--		round1 = (__u16)(2304000L / baudrate);
-+		round1 = (__u16)(2304000L / *baudrate);
- 		round = (__u16)(round1 - (custom * 10));
- 		if (round > 4)
- 			custom++;
- 		*divisor = custom;
-+		*baudrate = 230400L / custom;
- 
--		dev_dbg(&port->dev, "Baud %d = %d\n", baudrate, custom);
-+		dev_dbg(&port->dev, "Baud %d = %d\n", *baudrate, custom);
- 		return 0;
- 	}
- 
-@@ -1307,10 +1308,10 @@ static int calc_baud_rate_divisor(struct usb_serial_port *port, int baudrate, in
- /*
-  * send_cmd_write_baud_rate
-  *	this function sends the proper command to change the baud rate of the
-- *	specified port.
-+ *	specified port and updates the baudrate parameter with the actual value.
-  */
- static int send_cmd_write_baud_rate(struct moschip_port *mos7720_port,
--				    int baudrate)
-+				    int *baudrate)
- {
- 	struct usb_serial_port *port;
- 	struct usb_serial *serial;
-@@ -1325,7 +1326,7 @@ static int send_cmd_write_baud_rate(struct moschip_port *mos7720_port,
- 	serial = port->serial;
- 
- 	number = port->port_number;
--	dev_dbg(&port->dev, "%s - baud = %d\n", __func__, baudrate);
-+	dev_dbg(&port->dev, "%s - baud = %d\n", __func__, *baudrate);
- 
- 	/* Calculate the Divisor */
- 	status = calc_baud_rate_divisor(port, baudrate, &divisor);
-@@ -1474,10 +1475,8 @@ static void change_port_settings(struct tty_struct *tty,
- 	}
- 
- 	dev_dbg(&port->dev, "%s - baud rate = %d\n", __func__, baud);
--	status = send_cmd_write_baud_rate(mos7720_port, baud);
--	/* FIXME: needs to write actual resulting baud back not just
--	   blindly do so */
--	if (cflag & CBAUD)
-+	status = send_cmd_write_baud_rate(mos7720_port, &baud);
-+	if (!status && (cflag & CBAUD))
- 		tty_encode_baud_rate(tty, baud, baud);
- 	/* Enable Interrupts */
- 	write_mos_reg(serial, port_number, MOS7720_IER, 0x0c);
--- 
-2.51.0
+An external USB 3.x hub contains both a SuperSpeed hub and a separate
+high-speed USB 2.0 hub wired in parallel.  The USB 2.0 hub enumerates on
+peer_hdev at USB_SPEED_HIGH and advertises udev->bos->ss_cap in its BOS
+descriptor, but it stays on the USB 2.0 bus permanently alongside the
+SuperSpeed hub rather than migrating on reset.  Because neither
+udev->descriptor.bDeviceClass =3D=3D USB_CLASS_HUB nor port_dev->child is
+checked, calling usb_reset_device(udev) runs hub_pre_reset() ->
+hub_quiesce(hub, HUB_PRE_RESET), which calls usb_disconnect() on every
+child attached to the external USB 2.0 hub.
+
+> +
+> +static void hub_peer_reset_work(struct work_struct *ws)
+> +{
+> +	struct usb_hub *hub =3D container_of(ws, struct usb_hub, peer_reset_wor=
+k);
+> +	struct usb_device *hdev =3D hub->hdev;
+> +	int port1;
+> +
+> +	for (port1 =3D 1; ; port1++) {
+> +		struct usb_device *peer_hdev =3D NULL;
+> +		struct usb_port *port_dev;
+> +		int peer_port1 =3D 0;
+> +
+> +		mutex_lock(&usb_port_peer_mutex);
+> +		if (port1 > hdev->maxchild) {
+> +			mutex_unlock(&usb_port_peer_mutex);
+> +			break;
+> +		}
+> +		port_dev =3D hub->ports[port1 - 1];
+> +		if (port_dev->connector_peer && port_dev->peer) {
+> +			peer_hdev =3D to_usb_device(port_dev->peer->dev.parent->parent);
+> +			peer_port1 =3D port_dev->peer->portnum;
+> +			usb_get_dev(peer_hdev);
+> +		}
+> +		mutex_unlock(&usb_port_peer_mutex);
+> +
+> +		if (peer_hdev) {
+> +			hub_reset_peer_child(peer_hdev, peer_port1);
+> +			usb_put_dev(peer_hdev);
+> +		}
+> +	}
+> +
+> +	hub_put(hub);
+> +}
+
+[Severity: Medium]
+Should hub_quiesce() cancel or flush hub->peer_reset_work, and should
+hub_peer_reset_work() stop when hub->quiescing or hub->disconnected is
+set?
+
+Unlike hub->post_resume_work, hub->leds and hub->tt.clear_work,
+hub->peer_reset_work is never canceled or flushed in hub_quiesce() or
+hub_disconnect().  If the SuperSpeed hub is suspended, reset or
+disconnected while hub->peer_reset_work is pending or running, the work
+continues and resets the USB 2.0 peer device while the SuperSpeed hub is
+no longer active to accept the connection, and usb_hub_cleanup() can
+return from usb_deregister(&hub_driver) while hub->peer_reset_work is
+still running on system_power_efficient_wq.
+
+> +
+> +static void hub_queue_peer_reset(struct usb_hub *hub)
+> +{
+> +	int port1;
+> +
+> +	for (port1 =3D 1; port1 <=3D hub->hdev->maxchild; port1++) {
+> +		if (hub->ports[port1 - 1]->connector_peer) {
+> +			hub_get(hub);
+> +			if (!queue_work(system_power_efficient_wq,
+> +					&hub->peer_reset_work))
+> +				hub_put(hub);
+> +			return;
+> +		}
+> +	}
+> +}
+
+[Severity: Medium]
+Can the SuperSpeed hub autosuspend before hub_peer_reset_work() finishes
+resetting the peer device?
+
+hub_probe() sets a 0 ms autosuspend delay and enables
+pm_suspend_ignore_children() on the hub interface.  When the device is
+stuck on the USB 2.0 peer, the SuperSpeed hub has no attached children,
+and hub_activate() drops its HUB_INIT2/HUB_INIT3 runtime PM reference
+immediately after calling hub_queue_peer_reset().  Because
+hub_queue_peer_reset() does not take an interface runtime PM reference
+(unlike kick_hub_wq() and the HUB_RESUME path), the SuperSpeed hub and
+bus can runtime-suspend while hub_peer_reset_work() is waiting on
+usb_lock_device(peer_hdev) or resetting udev, preventing the SuperSpeed
+link from training.
+
+[ ... ]
+
+> @@ -1346,6 +1429,10 @@ static void hub_activate(struct usb_hub *hub, enum=
+ hub_activation_type type)
+> =20
+>  	/* Scan all ports that need attention */
+>  	kick_hub_wq(hub);
+> +
+> +	/* Let devices stuck at high speed on a connector peer move over */
+> +	if (hub_is_superspeed(hdev) && type !=3D HUB_RESUME)
+> +		hub_queue_peer_reset(hub);
+>   abort:
+
+[Severity: High]
+During system resume (type =3D=3D HUB_RESET_RESUME), can hub_peer_reset_wor=
+k()
+run before the peer child device has resumed or before hub_wq has thawed?
+
+system_power_efficient_wq is not freezable, so when hub_reset_resume() ->
+hub_activate() queues hub->peer_reset_work during dpm_resume(), the work
+can run while udev on the USB 2.0 peer port still has udev->state =3D=3D
+USB_STATE_SUSPENDED and udev->can_submit =3D=3D 0.  hub_reset_peer_child()
+only checks udev->state !=3D USB_STATE_NOTATTACHED and calls
+usb_reset_device(udev), which runs drv->pre_reset() or
+usb_forced_unbind_intf() on the suspended interfaces before
+usb_reset_and_verify_device() fails with -EINVAL without resetting the
+port or rebinding the drivers:
+
+drivers/usb/core/hub.c:usb_reset_and_verify_device() {
+	if (udev->state =3D=3D USB_STATE_NOTATTACHED ||
+			udev->state =3D=3D USB_STATE_SUSPENDED) {
+		dev_dbg(&udev->dev, "device reset not allowed in state %d\n",
+				udev->state);
+		return -EINVAL;
+	}
+
+Conversely, if the device fell back to the USB 2.0 peer during system
+suspend/resume, hub_wq (which is WQ_FREEZABLE) has not thawed yet when
+hub_peer_reset_work() runs, so peer_hub->ports[peer_port1 - 1]->child is
+still NULL and the reset is missed.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-usb-port-p=
+airing-v1-0-9307e29d2ed2@gmail.com?part=3D3
