@@ -1,57 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794279577;
-	b=2UYoqn55MsI+SfbnmfhmAG/AEZw93GFydEcj9u0RrBUEpeX6TRfnqlni+YhUUKwQzLRW
-	 ggqWaeSjD8ZXngYjDwI6uXztfLKpFgFu51sOD9w5MJ9UBibgZOMZZ1iqu2sPhHz/3U+g5
-	 Q2pa/aKVi3abDPTZeBiEYsFmbW1TiHBtBgN2epG03v/2TfPicEjn9h/pJrRCk5xaE0Lde
-	 Jky/8DzltYjj25YwWNY3kcZmg+2K/2Jt8fDSYJlq4KY7tbznR+YkTEr2ItOWudHd099or
-	 /VIK4z2gxZJs+Ylmv6+oijkuo4M7igv+ACNhDy4Fc1D6IO8kGQxSyIYbdh4AXWWoJmQ==
+	t=1794279633;
+	b=JeN/ThUph4If4k3uvOsCW7KCUi/pbJlpBxcxsY7Vtgq+Nm8vMtbBkFYRWUwdeVkMkAnC
+	 KfV9O3dDKCbcsEbaLygmI+KGyLo2Q2CerfBdIbCM1AELsbt75m/XkdZUO776ccOlNAXjK
+	 5JwW4MKMkk1nlt37lw/R44fyWJdkZsZGqdIaGaVN3nzDi9tm6pNZKrg0Lwjwqrd/kDZa3
+	 u9FGmffNgolbbgTQqEVDKb+FnveuMRChJ+nKuI321nYz2JxK3gNm56j5O35QfHEQxsarM
+	 63I/iQ3QTcucBEctjAE6yHsyKM3JPvuvnmr5QZug3qH9RNUwmUxYASME/D7zh7U05SA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794279577;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ZeryhIiPWCTdnjrmEcUqpvHl6bFeoAvGE/90ly4u5Jk=;
-	b=ZIMKOctDBSMvI/8nN/MS9V37izWR6UWYa4sqA/i2MuaB2cbk4HEfCUbfq5hdmkzszTNe
-	 5ejaMQmfNV/rKOiHuH4GZAkia7FcPuJ1Xmx3gcvzanSCjJ1rB//i4lGRx2XzkGCTTzPfy
-	 y7bMK+qjsbJ4YYZ2FBrQCu89psiT1I7Gu4DowdXISK44hXamXFvjP/hxBWnC46zddigdW
-	 tDo6f9KCSsN4SKaBItLlUiTiVf8p10ZOqx/V5kzS5BkGuBZvn+0qkUln8IrstWLxLMGIi
-	 GyZvLYISDbLdMbzD+OCfUtgO5BGFVPRnKAz9ilcDetFvtT1YczzYcY1f+T9UdxxLKQQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794279633;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=4wBXUZ6FpdwTYkG0jag9ba1skQI+CQfpR4wutPYZULU=;
+	b=YWLAn3zggw64dKErvUUrrWtU5XKcLsN4qb8qZKHfP8gyR5luasCwVsFK1vPikmSjMSVW
+	 PiVmcprE4LRfmxrRZn27jkNBbqYrNYnDTuCWtPRVOWuAW0pxdQ4C3EsOJjI1iP5gHlP6X
+	 xxwqSPxsZkMsagv2n8TTcHVBPE6RWd3SbOVu8pXWFTpN/vKg5Pe3J0Vg42YIBGI/UlJX6
+	 +xBcu93NBKcGUxfosPM/d1QVpx9sjz5IHUT4MIe45US5tYnfFI7DA263f5+/8UALlVIli
+	 0i+K4qtcC3FKqw1dhVLYu8yVr7XL0M78VM5ZgnRZw7T5LCjfht5ou7SH+kMgN0lFz8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ca3KqGJZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=pQmSb3gf;
+	arc=none smtp.remote-ip=209.85.219.50
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6EF606A325
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 02:59:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B21606A326
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 03:00:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45B21606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ca3KqGJZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 870701F0089F;
-	Tue, 10 Nov 2026 02:59:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794279576;
-	bh=ZeryhIiPWCTdnjrmEcUqpvHl6bFeoAvGE/90ly4u5Jk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Ca3KqGJZszybAd/Vj5mhtfwuFaN4hMoAHB1eSRnFCmIPyIXUIOLPe9lHwZAc8px3V
-	 rEfKV0goP6tV6P3233sZkOvnYFmHC5xBXnOdG4JydDd2Lrda7Chfq4ilMwyzuR0nRO
-	 pPlgocIieGo5sN4Ez1vNKwaG7rkejS5gdSwVsG8DzdPogcN0yOznhHsVWBELcCu3HY
-	 FB/BimrSDVczBCX7APZUsYkDohIFQxA+ejNUYAB/SGYuZ+/ky+ZNN9Jz3jI7ESo+/p
-	 0xBAWDWvQlWvYaxW8isTkl8oyrcEdXapPHYWbkd0yEX7OcofHzLP2Hj/7TfbV1Y3vJ
-	 syQ4kJcbPBUSQ==
-Message-ID: <sashiko-outbox-206073@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 3/4] usb: gadget: gadgetfs: prevent ep0 event counter
- underflow
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jing Lin" <kayano050408@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261110-gadgetfs-v7-v7-3-6d05409cc61a@gmail.com>
-References: <20261110-gadgetfs-v7-v7-0-6d05409cc61a@gmail.com>
- <20261110-gadgetfs-v7-v7-3-6d05409cc61a@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 02:59:36 +0000
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=pQmSb3gf
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-91ec14f4369so16679706d6.0
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 19:00:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1794279632; x=1794884432; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4wBXUZ6FpdwTYkG0jag9ba1skQI+CQfpR4wutPYZULU=;
+        b=pQmSb3gfLqpuEfsLBm1LR5zUz9XYLmKQzpAiD5nGQZQWa8EMFU7bkUSQtaCJmU+Pl8
+         hUFh39i7QuRUOPA4YnZjm3jVwIGvrn12Tjruy8C/94/6dhkHViwJlNfAenaA2GDJN1HY
+         5pABHMLSWRgX/3mAXR6HOrozb5CcQgK1VGmbClFLcWLtSg20aqNFbiE8gaOLy5F4UPn8
+         FSOnDl5z8LlhZNPWePXLCXP20aPpPkYIEp6HPP5wBdT0v5EXOm7tTcA988JHZEPhgHeY
+         ZRU2qe/k40k5cNRwyFipHNiVogP/rgC+sP01NEv5otoocKnfI2PNSnq2A8Z97QHAYjLq
+         cQZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794279632; x=1794884432;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4wBXUZ6FpdwTYkG0jag9ba1skQI+CQfpR4wutPYZULU=;
+        b=aNmM7zG7O6Mr2aATwGCllAAdN6SQTmAbHm5FKRkrwq2AyLXNrfLBSqh0LPeIMAXz1Y
+         W1HbghmWe6hkSvwFGGeiiNWfGdH/XVp71txggs7l8Hcjv6llhzpIYm+iMgltFZnUTMlw
+         p2VOZUH4W8zNvbiUkLVapPYDHmqbphkuR8guDdh6XZXWh9doxiU0VITW/zORhHUy9j3n
+         pL8+iX91Tirr3LLfDzhqxh3FMt/++80MckhwWg+PQM74N4Jkei023hrCwxuLymArAUMp
+         Vg5C38OIU/SCuJdxw10Uql2Fr2G0SNlDOo2OQUvAA9Lf1gxUCe3hlrshaN+QngmdJDI/
+         ihHA==
+X-Forwarded-Encrypted: i=1; AL+hErEkjRv+zXtPDARcsMXZ3b1pIT2bOnfDsNnbkOP8Q44TC/1oAVvn1jcweWuX7BlQ7UCWnlLed4Hb9H0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8fN2BA0EogtgDxyZi3E9gFQwaZ5T309bj8YLEs7ACqECYEHjRk
+	KTzP0VwDPQWLK0mB9QdWCYc8cVoYKArbS8VtOEGyDDWzQDCkkgrVRFV0ZF5tnC0nMw==
+X-Gm-Gg: AYBFou1JN+2OpQ2dSUkZfG47u0BJv84zCzPr8JcflSo/D4vRt5vsvsjTaNS1CGNEoKp
+	AT+W/MzLnuDJCm4gWXdtdhvBhfAf6P2u3IKOzTvk7S97BS7un6gUCvea0c5hZAkh2FXs9D+wU3a
+	nBwk/7vU+hyckz0fOXvE/zptzgcJosQNDeqSZ2O647kbzMuz/47Rt8nNwZy267mUUA5ky9KbNV5
+	B5yQ25i3ZsZP+PAcIajjZAoc4LRau2wF7yL17LGKQQqI2ACeppGDEf9aFASLw3PAxQa0lzZNuqU
+	S0geiGrLr1asZNlChguiMZzNl84aDd57RtnBmNqE603eA2TsAjFpXcil1uxrCuvAnaBNPtezY1L
+	tWdh7cScXRXaYcosqy6cM97HuPmjcrHp59mIj764WsYPc6hmZnCZNcj+2zIGWhvdOjP2UegwUf8
+	5rThV8dtZpf4jQGgFtU0UGHqRRzEBse/l7b+uy+CSu07Ptj3VzisJiOCwascmHVcQXZlZVevsR9
+	dUXhftsoGCnQwuz13qHOx+WI47kltRtnrI55g+O817y/f9LDrV+Omfh+OnE2PNkvI9DmFeE9rOW
+	2WlNNVyCqu+l971XwNLSx923/DxE
+X-Received: by 2002:a05:620a:890a:b0:939:5cd5:e243 with SMTP id af79cd13be357-9479f1b9ef3mr232773385a.6.1794279631842;
+        Mon, 09 Nov 2026 19:00:31 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e7ae756sm121214985a.27.2026.11.09.19.00.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 19:00:29 -0800 (PST)
+Date: Mon, 9 Nov 2026 22:00:27 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Pengfei Lv <lvpengfei20@huawei.com>, gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, xuhaiyang5@hisilicon.com,
+	xuetao09@huawei.com, caiyadong@huawei.com,
+	suzhuangluan@hisilicon.com
+Subject: Re: [PATCH v3] usb: core: hub: Re-guess ep0 maxpacket size after
+ reset
+Message-ID: <1df531f4-380d-4762-ae01-4554acef2c89@rowland.harvard.edu>
+References: <20261106031625.1824732-1-lvpengfei20@huawei.com>
+ <20261109093935.2634235-1-lvpengfei20@huawei.com>
+ <3daf18d4-4936-4ed7-8846-b67f1664be13@rowland.harvard.edu>
+ <20261109213437.5c693895.michal.pecio@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,26 +102,24 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109213437.5c693895.michal.pecio@gmail.com>
 
-> From: Jing Lin <kayano050408@gmail.com>
->=20
-> ep0_read() snapshots dev->ev_next, drops dev->lock while copy_to_user()
-> runs directly from dev->event[], and subtracts the snapshot afterwards.
-> A concurrent disconnect, connect, setup, or another reader can reset,
-> deduplicate, or consume the queue in that window.  This races on
-> dev->event[], can drop newly arrived GADGETFS_SETUP events, and wraps
-> dev->ev_next if the queue shrinks below the snapshot.
->=20
-> Dequeue the events into the local buffer and update dev->ev_next before
-> dropping dev->lock for copy_to_user().
->=20
-> Fixes: 1da177e4c3f41 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jing Lin <kayano050408@gmail.com>
+On Mon, Nov 09, 2026 at 09:34:37PM +0100, Michal Pecio wrote:
+> On Mon, 9 Nov 2026 11:05:30 -0500, Alan Stern wrote:
+> > Not here.  And not inside the retry loop -- ep0_reinit should be
+> > called only once since the maxpacket value is changed only once.
+> 
+> Sashiko pointed out that xhci-hcd may not perform ep0_reinit() properly
+> until address_device() or enable_device() is called.
+> 
+> So it's either this kludge, or dependency on an xhci-hcd patch which
+> didn't exist until today:
+> 
+> https://lore.kernel.org/linux-usb/20261109112846.04bfeb0f.michal.pecio@gmail.com/
 
-Sashiko has reviewed this patch and found no issues.
+If you're asking my opinion, I say merge both patches.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-gadgetfs-v=
-7-v7-0-6d05409cc61a@gmail.com?part=3D3
-
+Alan Stern
