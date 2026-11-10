@@ -1,80 +1,127 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794320132;
-	b=xUApseu1aQDwkBQMdUqtJkgRVJGOW/w0S11duKgXFCmTRdPT1kVp6AvudSY6iuaibaDa
-	 eAhSjwCdMwJw4D6HsswZeu133qPSzEq0KZUb4leowcKzQrAofxpXL4WaPpkLAQw0LTwaK
-	 3hmPkqeClRruI7yrPgbOIqanTMSaUNeVSl3cwbfhTIIFZn2Oun2YgLdDPrKQ9MI0jE5Sq
-	 XQEP9/IhBlGLZ2srJTeeso6HMVH6cWRDeHnOR3BU2vUBtY6LIWVXDE+LGIryFQJhjlRgJ
-	 A5B7yLVuqNI2xXCO8mIQ/ZHo4quiCx46Gzy/7zq3zxjdZEpV5JliePguiHpw5TPwxGA==
+	t=1794320380;
+	b=JFR6l95J84YQccGdU/PiN56TOizfEGjL6OGyWW4N4fQYz9K9ueON70SZf5TdSAsfO519
+	 APfPVUP7Z+b1v2flshQ+twfwQgSIC4YL6VUKYitqktG2RRBY1pqDBvZadUpL7m5jn2VP4
+	 72CU3ooklhptgzyCgD3g7B/e0nwTa/oEATvh2m5QQlWYEAnjULuymULD2lv8aYYXXNdhO
+	 6u76Aa1q78MBltLcr21nz1zm/ZmIfS1cv3GrJBDVacloWS76m3Cu27rw5sS5UxHBvAN2u
+	 KqBj9GF3oaB4dRJcLDkwMkOFe++fiY+KlKa/7reHYmz4pUIG5C9+0s6DMmsuWiXTXlA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794320132;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=GxIvKSga2N66MM4PPKy/zEU2KBU8daUXspv11nGly7g=;
-	b=nK4J39nQDeKUUV8qfE0c3OuLKUCJNPWlE6krjyQXf9orwN/no5SAT+sYXwoGf3w9F6Uu
-	 R6SevGsA5tms7Fiy1Z+5vLE417e3+ZVXOAGDCTueJNwnVzy5Lu1cB5Am6sdWnpGDFgIZ1
-	 4ILoSvWsrKvxZKKcbGol4MfgjaMEoT2hC3/TcHVqJs/JkTodVJl1RLDcTY7puKR004nnI
-	 O5YQAcqTSZBejdx4cQ5X1jofRrkX6mLUyf7SlWn4+GtgNDW0ozOcURspiiPTiCRyx0mW2
-	 m6L4VZAOa7puAvl2VqUypCnvyI7cC4RAFyPEz37NcoxfXqk35n/Msy7i6U7Q9G0JA5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794320380;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=bkc2xvu/oS7jkyiRl13UQfET4/JhxuqXfaoJZnlX0jhiEiuXLTTJZBocmDCZLU20JWgW
+	 0Y5XX2Pxhlz2L2u2pzOi4mPcmaRm6vi6cPFmMFZ++ZVbWnaLZKq2HocH93dHhA8OT65uz
+	 YFBN0+zjpGDeMhQC8/FhclE97QM/pjzHbTy0Uq7qkzbHkcP0pJCU23I8B5SG6VxxHp8Xd
+	 Rrhgq38p2j35945InRprycPWMj34DiX7nFOi5or35e1yyQabCRR2h7FRqtrd+uMjLVpti
+	 USvVGo40zcs/J9UBc2uvuw10tXLLRKDGVfUHM3o6/Sdh26qtzQRooyeB1bgkyBsnSfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GxARJiRs;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ZVPXUmC4;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hlc3f2E7;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=24m00Mxy;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gWL5bCh6;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00F8606A321;
-	Tue, 10 Nov 2026 14:15:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C00F8606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD7660A2600;
+	Tue, 10 Nov 2026 14:19:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5DD7660A2600
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GxARJiRs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794320132; x=1825856132;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TmN61axYmllJcj7cTJcrh3bkPcrCqfZguo5XcJlLpcc=;
-  b=GxARJiRs9Go5BP5+n0QGo1EpP9k7UO0SRaAkTUfYZTcZjuzbnM1/O9g1
-   awac/OkyZ1cZ7yuxuXy/4jJvjOZxlLFny2IXLM2O3PuiEOmUsHSVGggRl
-   XxoMlmlDTUbQifnQE+g8B8TWLmyiY48Gon6NV9P1nF9yi/pklffD8m33D
-   hBBHQBpilr+z0surG4yH3IVNY/N206VMxNnoec2w/QMK0MJvv9BWZQVy7
-   +nb5y0vFgv97n2Ga63lwt5bJZQ8E/kYADQ/svJQV46xwrxn3ZZpiBnoaV
-   N3zeOKwdcXkR+fe8AqcnyrRw9Qp5dfhDTLwvgE75EBV5fd7ZabjPEuQcZ
-   A==;
-X-CSE-ConnectionGUID: Ypqqyf9OQACwO9R7XijXTQ==
-X-CSE-MsgGUID: zYH9iI/AQ8CHo5BHXL+x/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3082567"
-X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
-   d="scan'208";a="3082567"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 06:15:31 -0800
-X-CSE-ConnectionGUID: Scheq46MTLWRyxadEA8KpQ==
-X-CSE-MsgGUID: 4kTFNcGLS8eqjxHmDzBYGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
-   d="scan'208";a="8039505"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.244])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 06:15:27 -0800
-Date: Tue, 10 Nov 2026 16:15:25 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: netdev-bot+sashiko@kernel.org
-Cc: liuc63@xiaopeng.com, gregkh@linuxfoundation.org,
-	akpm@linux-foundation.org, davem@davemloft.net, edumazet@kernel.org,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	khtsai@google.com, fangxy@xiaopeng.com, rdunlap@infradead.org,
-	dbrownell@users.sourceforge.net, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] lib/net_utils: allow mac_pton() to take a custom
- delimiter
-Message-ID: <avMm_f2-2PZOU9v5@ashevche-desk.local>
-References: <20261106030605.576584-2-liuc63@xiaopeng.com>
- <179431528628.994134.9205744622940373491@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ZVPXUmC4;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hlc3f2E7;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=24m00Mxy;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gWL5bCh6
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A6CE81F769;
+	Tue, 10 Nov 2026 14:19:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794320378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=ZVPXUmC4mGewMANDq+XWqMfufiC34pXna6eT0w/isfdeZ5z4jQWmJ3C5blgfM/blFxbxRi
+	GXx2I6Zj1FEb7O7GZyCw3PQ9vVoHcaTlnyF2iDNG/b95INh8IAF4Heax/yxvfkvdjUes86
+	ZeBBBpN/JMM61PPOsv+BlSE1bUf86L0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794320378;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=Hlc3f2E73UolHpexWZ0OEqOYGnAZGJUiTOZcmRyhsLWloTpsXT3IbdvFQy181tx+6xfr/R
+	LZMnMJkUpESuzgBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794320377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=24m00MxyS14C4kCTYYtxKWJP25EBVNVIxLRshWhDnl2XZwRpRipDNZJw4Avu/J2svsqCMy
+	VTYT/SHAlqxbP0FIU7B9V7eV3/1rBXkEe/Lcm9f8ja9SENmigoj1MKRmnopRtQWBaY3OFh
+	eux20BDfQ6AJqBojuMAzQiJJg3QKDxU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794320377;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=gWL5bCh6bmxfDaClyKTxrGr/cthAMhYHhVBSAgTvyrROUNgpSm1do5CLIUVQzQAzFJlTzk
+	zIhImlSyPcZvZwDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7A2B2134F4;
+	Tue, 10 Nov 2026 14:19:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id nYVvEPkn82qNGgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 14:19:37 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id D0CEC22536; Tue, 10 Nov 2026 15:19:36 +0100 (CET)
+Date: Tue, 10 Nov 2026 15:19:36 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 29/51] proc: don't walk through a non-directory when
+ resolving a name
+Message-ID: <okuebbxuf5q6xy452dlnxaqwainsafs5waulvn54j3vqxg2dhx@hh6ql7sg3pte>
+References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
+ <20261104-work-procfs-bugfixes-v2-29-bbf7d5546809@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -86,61 +133,102 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <179431528628.994134.9205744622940373491@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-29-bbf7d5546809@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[60];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Score: -11.30
 
-On Tue, Nov 10, 2026 at 12:54:46PM +0000, netdev-bot+sashiko@kernel.org wrote:
-
-> > +/**
-> > + * parse_mac_pton - convert a MAC address string using a custom delimiter
-> > + * @s: string to be parsed
-> > + * @mac: buffer to store the result, left untouched if @s is malformed
-> > + * @delim: characters accepted as a separator between the byte pairs
-> > + *
-> > + * @s must be MAC_ADDR_STR_LEN characters long and use a character from
-> > + * @delim at every separator position, e.g. "aa.bb:cc.dd:ee.ff" with ".:".
-> > + *
-> > + * Return: true on success, false if @s is malformed.
-> > + */
+On Wed 04-11-26 18:47:15, Christian Brauner wrote:
+> __xlate_proc_name() walks the components of a name like "a/b/c" and
+> takes whatever it finds for "a" and "b" as the directory to go on in.
+> It never checks that they actually are directories. So
+> proc_create("file/x") hangs x into the subdir tree of the regular file
+> "file". Nobody can look x up there, but remove_proc_subtree() on the
+> file removes and frees x along with it, behind the back of whoever
+> registered x.
 > 
-> [Severity: Low]
-> This isn't a bug, but does this kernel-doc describe what parse_mac_pton()
-> actually does?
+> pktgen passes the name the writer of "add_device" picks to
+> proc_create_data(), and only the part in front of the '@' has to name
+> a network device:
 > 
-> The only length check in the function is:
+>   echo "add_device lo@"   > /proc/net/pktgen/kpktgend_0
+>   echo "add_device lo@/x" > /proc/net/pktgen/kpktgend_1
+>   echo "rem_device_all"   > /proc/net/pktgen/kpktgend_0
+>   echo "rem_device_all"   > /proc/net/pktgen/kpktgend_1
 > 
-> 	if (strnlen(s, MAC_ADDR_STR_LEN) < MAC_ADDR_STR_LEN)
-> 		return false;
+> The third write frees both entries and the fourth one makes kpktgend_1
+> call proc_remove() on the freed second one:
 > 
-> strnlen() is capped at MAC_ADDR_STR_LEN, so this check only rejects
-> strings that are too short. The parsing loops read only s[0] through
-> s[16], and nothing checks that s[MAC_ADDR_STR_LEN] is '\0'.
+>   BUG: KASAN: slab-use-after-free in proc_remove+0x8f/0xa0
+>   Read of size 8 at addr ff110001134c8e70 by task kpktgend_1/243
+>   Call Trace:
+>    proc_remove+0x8f/0xa0
+>    pktgen_remove_device.isra.0+0x118/0x500
+>    pktgen_rem_all_ifs+0xeb/0x1a0
+>    pktgen_thread_worker+0x1b42/0x7280
 > 
-> So input such as "aa:bb:cc:dd:ee:ffJUNK", or the 7-octet
-> "aa:bb:cc:dd:ee:ff:00", returns true and fills @mac with the first six
-> octets. That doesn't fit "@s must be MAC_ADDR_STR_LEN characters long"
-> or "false if @s is malformed".
+> The files of a network namespace belong to the root of its user
+> namespace and these writes don't require a capability. So once pktgen
+> is loaded an unprivileged user can do this in namespaces of its own.
+> 
+> Treat a component that isn't a directory like one that doesn't exist.
+> All names with a '/' that the tree passes in as literals only walk
+> through directories. pktgen is fixed separately to not pass such names
+> in the first place.
+> 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-> The runtime behaviour is the same as the old mac_pton(). The current
-> callers (the mac_pton() wrapper, and get_ether_addr() in u_ether.c later
-> in this series) don't depend on long strings being rejected. However, a
-> new caller that trusts this doc could skip its own end-of-string check.
+Looks good. Feel free to add:
 
-> Could the doc say instead that @s must have at least MAC_ADDR_STR_LEN
-> characters and that anything after them is ignored?
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Yes, this needs to be fixed in v5. Adding two words "at least" into the
-mentioned line of the kernel-doc.
+								Honza
 
-> The other option is
-> to reject strings where s[MAC_ADDR_STR_LEN] != '\0', but that would
-> change behaviour for existing mac_pton() callers.
-
-Yep, that's why it's a bad idea.
-
+> ---
+>  fs/proc/generic.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/proc/generic.c b/fs/proc/generic.c
+> index 4c3fcaf68ef4..6ac9c4c13897 100644
+> --- a/fs/proc/generic.c
+> +++ b/fs/proc/generic.c
+> @@ -170,7 +170,7 @@ static int __xlate_proc_name(const char *name, struct proc_dir_entry **ret,
+>  	de = *ret ?: &proc_root;
+>  	while ((next = strchr(cp, '/')) != NULL) {
+>  		de = pde_subdir_find(de, cp, next - cp);
+> -		if (!de) {
+> +		if (!de || !S_ISDIR(de->mode)) {
+>  			WARN(1, "name '%s'\n", name);
+>  			return -ENOENT;
+>  		}
+> 
+> -- 
+> 2.53.0
+> 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
