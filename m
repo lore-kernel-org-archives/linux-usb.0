@@ -1,59 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794302737;
-	b=KlAOsJibreqiuZvP0x9ZZQxvG2aF+5jEyzWKoifFSmDXLGgPvclPXxja9fIBdARNr//4
-	 H6+9N+r19dSEuJMcMRZ0QQHM4W76c11pS7qvMkUkqSkJEr+wMrpBVnFpY9uFyqcIekCe6
-	 tGl8At9JXVE/VSEHA8nnA1l1rk+ghDr1qMPBoA7zxSh1Lu+Mh+tdFPmCRb9EzrX+B/2tC
-	 AArRs1c4XXm+Uq9JWDVBznLx4j1c0bngXgvf7NaQ5ajjfG0RmfgQ8E4egYIJpIvw3Kgho
-	 ENBwgQ4Vbp6wt9Ib5jq3WDGFTty44/SbTpJhWovtBlQS+lRW2ZSFiu7W1YhxI9LyiZA==
+	t=1794302762;
+	b=FAKXeemntJiVY9btrMfJkC8BIy4A8kBkLthHzDuVWOUVw3S6w9vUq/eXTdJC8/lIVavE
+	 VJDE+dEaSdu6ifZUmXm2li4/Ev/NOd9lGneMKvu6EMvEeVJDZYHBltPt/ucpL44d0cW+n
+	 PEU8g9cpOcaG/v4rPKdMgBrIMYMpH1RpLoaBLyTt2mfP4N+4hNaWHwwZRy18kfhoaxToc
+	 rnLOjQmNsYgo2XX8IShnUlzROpxTRHu26OR7xNfjznX67+hsTlzd+b7RtvLr1cjhtunP3
+	 Ue9tx2ObF0qeGL0tgXnQwxw7c1MSltd3Jvz1akk7lOx338mQaH1CWTv3grlnIX2E8mA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794302737;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794302762;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ei0Nac/7OpJT3HJNSHolBFGJUc5DhDgjuYGi2QWDpFk=;
-	b=lt/lmdHD42D/GBiWI1EY7sPB1R3FjRqgSZJu7QwdHWDiPX7cPQjZXfXC008ZSuN+w3oi
-	 KqCRyB3KjxmozGbMFTD7SlBXS32tFV0FXTneM/aIMf8kH4Qw5dp4N307agFYZZTUMXcBs
-	 WgVs/5Hzs49sxAO2XehwcqeAFuKGQwB//nJ7I7GmCzvoHjJgVp9ts5R9NqOOQ0yeLzov/
-	 iiJgQpGQCr3HgQys9N3e1nhyrUCvjea3XHWP4b8a35ZWduKIvMUvNzGD+r7P2DMfnhcBR
-	 8uUrZqrlytMwGEk6FRV60hR5pOn0xuy5gRv3XfRY6PSZfaMQaqtWMEhlYBLwC56Yl9A==
+	bh=xMWTk+1VSpxAE/dWDE0kurAC4VHgQ0XpphVOACfKnlo=;
+	b=QO79KqQ/Xgy9zyPNljZRfa9eagJA/1R4FvBUWZyTHY6QYjojpcSYeJhMFbpBWFdX7AvN
+	 GZFzhlV1F95Ss1vELdMYqh09fsbBVZ5col633o065hqQWW+fNXLSbmarYGCNy6T9owRxp
+	 cjcY/o2hskB++dQKx8vcYxDYTVtPg6Y/TV1+NMYtAlAIWrl0tvkxyUf1D6rfWdY7O4af1
+	 WFf2U+dHMlGLtzhHKCSjGaY0uWQPQ/Ydb/Pw08JNkif9VxK8iscYdRIFs7qOQ38/Vtvbn
+	 mqhhObilJ6BF7xkpeeNaOFK39safIy5w/MfuC8i3SsdA838StJ2U7MtxvAItYn62MqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gea06Cjd;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FcI0W4ZW;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D02606B2D9;
-	Tue, 10 Nov 2026 09:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AA1606B2E5;
+	Tue, 10 Nov 2026 09:26:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gea06Cjd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 203701F0089F;
-	Tue, 10 Nov 2026 09:25:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FcI0W4ZW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83BF81F0089F;
+	Tue, 10 Nov 2026 09:26:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794302736;
-	bh=ei0Nac/7OpJT3HJNSHolBFGJUc5DhDgjuYGi2QWDpFk=;
+	s=k20260515; t=1794302762;
+	bh=xMWTk+1VSpxAE/dWDE0kurAC4VHgQ0XpphVOACfKnlo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Gea06CjdTAbxuMqRBOPp/hV/PWBhpS9/lyqAiI5MvEu692F7RzBsOa9iw7KS7hmX5
-	 7OjNbIXVMo1H8rLmvc0EPzFrQLWLznVfMQQw6G7KPogUM7Pz1rKysCT0VkUnSnNAy4
-	 1pibEqJ1JvnBVmRQU4sR8QHf1BZRCviCBlAEm+8gi7bdND08RnCiXt8x58DbIgnCoF
-	 Y0+3YYCB4RoMLIOYAZnqUJd3zq+HYO+jrhGm4PZKPO1TRtOcNj8PWFd8/01t2qZ2df
-	 d1qykVQm6NOByLn0mby6mF0wgvScRUO32CRR7vI9JySxianyW4b96aqDjM7+1skKF7
-	 vlgvsrRmM0gqQ==
-Message-ID: <sashiko-outbox-206740@kernel.org>
+	b=FcI0W4ZW8rv2RuwFhRLugPxNIedRicmCCsF2x0PBLXl40O7GBh9PuEQcCiYpLtg3p
+	 /mxKxHRzBcSEHstlQ7GPqL67PCTyuG8AHPxWta8l1/CSxV6WR0qZJpxY4T5puHgpxY
+	 oZLA1app6DrK8QFTsdvgPt4B4omm6VAHJq27mdRrQQzZIq/qXFOceInzBg4qXVuM9C
+	 U89yLXkSU/yF3OwcRSVSPrE6EYBrlB+rlrMqR0gjlw4gXyVk9/t8Eo1VBhCqof6I+m
+	 tjJ9NO9Y7O7Ztnf+LcokMBFS/bK1onD3nxyF2SScwJmz6fwt3klZ8NdF7i+K6Fr1Sh
+	 5tFb/GbD+xg1Q==
+Message-ID: <sashiko-outbox-206743@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC 24/41] efivarfs: use fc_init_pseudo()
+Subject: Re: [PATCH RFC 18/41] selinux: use fc_init_pseudo() for selinuxfs
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Christian Brauner" <brauner@kernel.org>
 Cc: linux-security-module@vger.kernel.org, selinux@vger.kernel.org, linux-s390@vger.kernel.org, linux-usb@vger.kernel.org, "Heiko
  Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
  Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Mark
  Fasheh" <mark@fasheh.com>, "Joel Becker" <jlbec@evilplan.org>, "Joseph Qi" <joseph.qi@linux.alibaba.com>
-In-Reply-To: <20261110-work-loop-pseudo-v1-24-4c998976c6c7@kernel.org>
+In-Reply-To: <20261110-work-loop-pseudo-v1-18-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-24-4c998976c6c7@kernel.org>
+ <20261110-work-loop-pseudo-v1-18-4c998976c6c7@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 09:25:35 +0000
+Date: Tue, 10 Nov 2026 09:26:01 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,9 +63,16 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Initialize efivarfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-> also SB_I_NOEXEC and SB_I_NODEV. efivarfs never holds executables or
-> device nodes.
+> Initialize selinuxfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+> SB_I_NOEXEC. selinuxfs never holds executables. SB_I_NOEXEC also
+> refuses PROT_EXEC mappings but the status and policy files are only
+> ever mapped for reading.
+>=20
+> But selinuxfs needs device nodes. The kernel replaces file descriptors
+> with /sys/fs/selinux/null on exec via dentry_open() which doesn't care
+> about SB_I_NODEV. Android init however opens /sys/fs/selinux/null by
+> path as /dev/null doesn't exist yet at that point. So clear SB_I_NODEV
+> again in sel_fill_super().
 >=20
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
@@ -73,5 +80,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-work-loop-=
-pseudo-v1-0-4c998976c6c7@kernel.org?part=3D24
+pseudo-v1-0-4c998976c6c7@kernel.org?part=3D18
 
