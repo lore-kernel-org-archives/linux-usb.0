@@ -1,62 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794292887;
-	b=ny4YIPX1wHCzZQTpPInZshhoG8wBElv44hFso2gM1EyCgTa4D5gqzX68xX7lvAXwspbp
-	 8ueSnmfbu8bbHwxSpqz1+2wmaJ3w/pF0IWiKXYwruCSrbBNSU3KwiwHoHfYD0xGi5bkyl
-	 Ejo2XZlikJORYs07uSJVjn0sRmwRoXodXzbcGsmCZqkoQMkqS70FWSj44P8DfVawuIF7H
-	 kBR4RqqYfp/V4XauLrfuUgrslgRiuyuxWNai7t+JqGvsJxu/zPmHY10ZRLcE633MRnB+p
-	 GbAoMu85leAdqN8pD90V2vtfbldyKv5yOMWJY1GyIO1CHFN1weVWtCTiVjm7nKE80Vg==
+	t=1794292879;
+	b=pjuimw8JclRXCsW2GDZEMBUcNepWYwjeYwaSqhQTubb6XA8T3QInAZcRjMgpjOgYRv9/
+	 eTDD8XpfIoXZtPLjieU6mcqcltYJI5fBSHDvF0nf1S8QDcmWGWctIHt7TVehpv9AA9bsB
+	 qaVhNGr4Xa3Vt9nmDOnorYmGFn2J9SVTXJ3BuYRX85EPKN0JqL9IUPxanjUDfP3p2Vhv9
+	 rys0jGGB85KmJ6l7QEgzUxRzwHEGPpBvEBCs/0MubqmLn3s7pTllZ2j2BsMvIEPvBUhuc
+	 pURtSP9ZWpXG+eg2W/a+OKJ5PGrFoHmhhJe2lkRjhGUHbrPiZY306NTD16FSUaEuUsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794292887;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794292879;
 	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
 	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
 	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=NoBZTVv1shVwmkJvvV8aDCWMUpsFZmi4eqE2fdU6/kQ=;
-	b=tLX6x4/BCpZNZx1HJq8MJt4xy/q1sd9oSL69n/YzCan8DWjqlo+6l23DGfCloVstk1+k
-	 3i0dOuXeyEkRIdUo8iAIH651nXvczp03+K+RCj6AFmlcHQiOybnuK3P1GN5XrFvYKNUZX
-	 Cb6gQrOOReUlnzVdHBejyeHZeDPSD3YOvPFA815ulG5rqsy8JL0Q94ut7qcWOtxtDxFxF
-	 VGjSaUmb3zjDd7QaSJrhXPIM9TO6DGorSB+fUkKlHqfMcl5wJcXT+X87rXCRczTXlXG20
-	 9zIeo4pS8wIiKmdKFzXwk++drWgwcMqJaJWSp15pOBtJ6umMvSeCB1Lpzr49nX8vWdw==
+	bh=teyQ2+VYGBxUxxmzECjiOKDl2bPB0P335b7uU7olMrw=;
+	b=Thbfp+mFusCbwHT1geli+AQY5th16dMzMy90xZnpTLiBTqz9Pq/cCFSCJ6qlgB8yJOvH
+	 CCmvSZYq97+TAZGHHI2AQDH0B16IAoBSQ6iE4rdweJh7/FxE8JoSn81fZ+THLPyTTYDkc
+	 TqledE4XUNzmLvgrjFhs/OE+ehlhxMoP7M64NBdGPiT7WxWOmfWaEzCueo5bjGpmNCxmB
+	 9xXn6JxNJ3bUzVkcX4epslsV70I5w/WrhUUH0OGATL+oshC4zXjx+lko/xbAaFxdSLY+n
+	 dU4/4AFNXlOWDDX3r4W0HCXiQHTsm1YBwICgbeYn4+stGIYgsDVY0dsQBmlt/CmyTmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cmss.chinamobile.com;
 	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=PwpMzumV;
-	arc=none smtp.remote-ip=111.22.67.139
-Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5BB960A380A;
-	Tue, 10 Nov 2026 06:41:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5BB960A380A
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=YCQwVVwT;
+	arc=none smtp.remote-ip=111.22.67.151
+Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08D7A60A2609;
+	Tue, 10 Nov 2026 06:41:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08D7A60A2609
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=PwpMzumV
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=YCQwVVwT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=cmss.chinamobile.com; s=default; l=0;
 	h=from:subject:message-id:to:cc:mime-version;
 	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=PwpMzumV15M1q6vJ97fEFZH37xAytKL9YfjvE6kCPxilC1fWf8khqC3Cb3GYcbviOF/8OhatM2IcE
-	 h31Hmq6niUFdGwcZl7VC4IEufRhtC6JecCrEtL72tNyFIR6U5fVXx5fjTdvvhfFYHWjU4jXQv7jn9k
-	 QG67uLiSekDWMOj8=
+	b=YCQwVVwTxKyF57w6Is+rJtEKTMNYNwKl67uaxig1NjxdnH4Vj9hpTF+UHTgxkk32EHEumNq/rA7Lp
+	 /So2/H/QGZkd+O6rz4vRouol8vyRzv6ID5bIY1fVWVKDHwmUOEbGgAEjzrhIdoY2czCmkwoSg4v1At
+	 zGpvcqZcdpQtdCok=
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee16af2bc8d1fb-a75ee;
-	Tue, 10 Nov 2026 14:41:18 +0800 (CST)
-X-RM-TRANSID:2ee16af2bc8d1fb-a75ee
+	by rmmx-syy-dmz-app02-12002 (RichMail) with SMTP id 2ee26af2bc8cc80-07a52;
+	Tue, 10 Nov 2026 14:41:16 +0800 (CST)
+X-RM-TRANSID:2ee26af2bc8cc80-07a52
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from  (unknown[223.108.79.97])
-	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea6af2bc812f6-aa122;
-	Tue, 10 Nov 2026 14:41:18 +0800 (CST)
-X-RM-TRANSID:2eea6af2bc812f6-aa122
+	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea6af2bc812f6-aa11a;
+	Tue, 10 Nov 2026 14:41:16 +0800 (CST)
+X-RM-TRANSID:2eea6af2bc812f6-aa11a
 From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 17/22] usb: renesas_usbhs: fix a few spelling mistakes in comments
-Date: Tue, 10 Nov 2026 06:41:00 +0000
-Message-ID: <20261110064105.20335-18-shishunbo@cmss.chinamobile.com>
+Subject: [PATCH 13/22] usb: isp1760: fix a few spelling mistakes in comments
+Date: Tue, 10 Nov 2026 06:40:56 +0000
+Message-ID: <20261110064105.20335-14-shishunbo@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
 References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
@@ -75,54 +75,22 @@ No functional changes.
 
 Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 ---
- drivers/usb/renesas_usbhs/mod_gadget.c | 2 +-
- drivers/usb/renesas_usbhs/mod_host.c   | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/isp1760/isp1760-if.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/renesas_usbhs/mod_gadget.c b/drivers/usb/renesas_usbhs/mod_gadget.c
-index 0c7fe109d5c7..92f4f35f8bb1 100644
---- a/drivers/usb/renesas_usbhs/mod_gadget.c
-+++ b/drivers/usb/renesas_usbhs/mod_gadget.c
-@@ -852,7 +852,7 @@ static int usbhsg_try_start(struct usbhs_priv *priv, u32 status)
- 	usbhs_pipe_config_update(dcp->pipe, 0, 0, 64);
+diff --git a/drivers/usb/isp1760/isp1760-if.c b/drivers/usb/isp1760/isp1760-if.c
+index a64190addba6..e09d509b4de0 100644
+--- a/drivers/usb/isp1760/isp1760-if.c
++++ b/drivers/usb/isp1760/isp1760-if.c
+@@ -94,7 +94,7 @@ static int isp1761_pci_init(struct pci_dev *dev)
+ 		return -ENOMEM;
+ 	}
  
- 	/*
--	 * system config enble
-+	 * system config enable
- 	 * - HI speed
- 	 * - function
- 	 * - usb module
-diff --git a/drivers/usb/renesas_usbhs/mod_host.c b/drivers/usb/renesas_usbhs/mod_host.c
-index f7ef3a9f82a4..1a35f54203c0 100644
---- a/drivers/usb/renesas_usbhs/mod_host.c
-+++ b/drivers/usb/renesas_usbhs/mod_host.c
-@@ -1319,7 +1319,7 @@ static int usbhsh_irq_attch(struct usbhs_priv *priv,
- 	usbhsh_port_stat_set(hpriv, USB_PORT_STAT_C_CONNECTION << 16);
+-	/* Grab the PLX PCI mem maped port start address we need  */
++	/* Grab the PLX PCI mem mapped port start address we need  */
+ 	mem_start = pci_resource_start(dev, 0);
+ 	mem_length = pci_resource_len(dev, 0);
  
- 	/*
--	 * attch interrupt might happen infinitely on some device
-+	 * attach interrupt might happen infinitely on some device
- 	 * (on self power USB hub ?)
- 	 * disable it here.
- 	 *
-@@ -1347,7 +1347,7 @@ static int usbhsh_irq_dtch(struct usbhs_priv *priv,
- 	usbhsh_port_stat_set(hpriv, USB_PORT_STAT_C_CONNECTION << 16);
- 
- 	/*
--	 * enable attch interrupt again
-+	 * enable attach interrupt again
- 	 *
- 	 * usbhsh_is_running() becomes invalid
- 	 * according to this process.
-@@ -1468,7 +1468,7 @@ static int usbhsh_start(struct usbhs_priv *priv)
- 	usbhsh_pipe_init_for_host(priv);
- 
- 	/*
--	 * system config enble
-+	 * system config enable
- 	 * - HI speed
- 	 * - host
- 	 * - usb module
 -- 
 2.53.0
 
