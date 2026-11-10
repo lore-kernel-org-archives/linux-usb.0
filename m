@@ -1,57 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794295840;
-	b=lsJnbAtPte9bjCYfVMPq+O0G0z2T5ZbqzdcdmPrPu7SEHe/OzNPtHNWeVDlA71nNcaNg
-	 7mUAEuZvwQEvvsOyV15Y+jYitjtKIX3IiLq1Ia6CcWFvAPsXBpE1H0XXYxxghuC7onxuU
-	 pleHEFwDTN96YlI/9z5sFv6qn9kQZqf2j/F+tjiecBsBir2OV9i0WHCgru7cl4xgigzwz
-	 1bg4itPZRmADNRTxiAn1d8gdw/ubgTflex9MV9Yiqd95knWkwwqHEaJjj3tYSbZIhV9W5
-	 omibCTdn290XdGr/p8ODM6sB2TxDgCK/0knOgtE7VW4r/Za7p4ApyvJhL+d34LIz4Ng==
+	t=1794296113;
+	b=rMyHaGyJ6KLVjtncf2KEAmZMYQr8eabzjcTvKFKFvuROyqzlckxMGAPNqIN7JhXQ7iRw
+	 wu+LU2ve7vA3/QYj2b6D0AmTthNFdChwH4HH8oDuyip2x/0/KaADJAIp15gcQlj2nRdWd
+	 +rPa9h4PvHULL5tjBDYxS7jCt2UQxAKjzj/KJNt+moYLIEfKyYwVQ14jvD2RXwfYUXOCh
+	 CaYfld0keMQOIYCw25OXD3MMVyEzBVhtrj7QNSiol7RhTElSTgKuTBAvbl828lku9dIKX
+	 bkjOOv7QOQbxVGYq6fc6bVPjM4uTZZyCgXsVT2pPrehW8iEuaLHF6Q9b18VxEKYMlaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794295840;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=9BmqCrnWA+vYnxRz4y8YGN4103Pu3D6uxItb+3l82Hg=;
-	b=yvnVZL9m+dlu9Lc84rVBtBbOeqeMtpfcCI3ZMYzJr3BmpT857fUrrRkZceEKmOxTE0d3
-	 y33z6xo5jccQfj6fw5ePU8uE5Ox6PraOvYkA4ZKEh9EMdBRLs6498ULgV4szs57KRlSmP
-	 CQypLtiNYg0wRaxLkfr8qzxClpSvyv3gvwzrJgOZOWNz61JHh/7rqQwa8hHYY/6UOPXl1
-	 tkytXET+AktR9xGvRzC2e7zPR2lu1yB3W2JwPS9Bukc/HIUtKBmPdrxRvI1pGG/eeNP3B
-	 fqgcW2vRgIQ/+Pk6SdQXo5nkS5FI8e0O1zgwtDw2Zw7LtwEZErKsFslGzIfi8DGKC8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794296113;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=GWxb5M47FUHbNZgaCk7nl7LYD4f5UQwoaQh7lgRpLkc=;
+	b=TeMP4hi5z8o6WRDiHV0VALRFxBG7Ssbrme2S5uJ+FUC8UrN0JU+8JQLMm48uf23VV8YW
+	 If8HikSGLAOII8YaAlahBDhNJo6nPwvhieXYpFonVsyTSi02wV5Y0r2RfFEge3NxTgr+t
+	 Xt+blXU5AjVUZ/udN9dUE/RA8oTeuTLmKzRv0UVQX/I27JGLWAtLJjAxC97zIqJM+2gdg
+	 cXWwEKrzmPOOMzvTez6i7igyW1w2QKQJfIhWDHjVrYpyROq5QzxfC8nwXrSa1L4ZIDy0z
+	 8SaNdIPzebh7bBbDw8De1LCDe+Y9RkXzpY6SzrMBpg6gtHzDflZgJVda8mUB+2J76Ig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="P98/VDPd";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b="Z0/V1+WM";
+	arc=none smtp.remote-ip=117.135.210.4
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD01E606A325
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 07:30:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BCD606A31C;
+	Tue, 10 Nov 2026 07:35:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3BCD606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P98/VDPd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70B9A1F0089F;
-	Tue, 10 Nov 2026 07:30:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794295839;
-	bh=9BmqCrnWA+vYnxRz4y8YGN4103Pu3D6uxItb+3l82Hg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=P98/VDPdeKE4P9uTwscF2qTAjna45HKQc7o42V0jUw/BuWxTUpBYH32lCiMDPRm1d
-	 0tDjSmULMzzzNyINBsrxtS9ybM2iwj984NF1XDupY/NNLdOmyLD31mK0aa/+y+iJJf
-	 hWCK8ywx2Uff41mtF8P0NhWVsz8A5sqV4AU8q7luzBXLTRHgskvczgVuYzOYoys/mR
-	 HDJt58mIZ8CHLP9SZHpxSuayvjEcVksRTD/D0roBJe0Z1XjVUMUj64k9PAkzEntNk9
-	 mkE3SspN/7fSx48hd5laUB7IN/ciI/Q56A1Odfm1I+zfzgALprr0rz/FMdJaQNS5RK
-	 WhyHT4sqJRdig==
-Message-ID: <sashiko-outbox-206496@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: usb: generic-ehci: Allow describing
- the root hub ports
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Arun Iyengar" <aiyengar1990@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261110-usb-port-pairing-v1-1-9307e29d2ed2@gmail.com>
-References: <20261110-usb-port-pairing-v1-0-9307e29d2ed2@gmail.com>
- <20261110-usb-port-pairing-v1-1-9307e29d2ed2@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 07:30:39 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Z0/V1+WM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=GW
+	xb5M47FUHbNZgaCk7nl7LYD4f5UQwoaQh7lgRpLkc=; b=Z0/V1+WMCKWwqfLFg7
+	myFYupHrzaMUMQhvd3C9q5JGlCyN4XP/+L9m23O9WfmFWcOXnQft2fChhq5mxGN+
+	fF2kL1GMSwA+8u+MC5Nxz+meheG6pydxaAlmjygr4z4Pt1VIW/xLoHwOvZF/IFR9
+	4J0fxLMDuaHxK05JgyZeN2qL0=
+Received: from Spiking.lan (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wDnj4MayfJqZGpyGg--.65503S2;
+	Tue, 10 Nov 2026 15:34:51 +0800 (CST)
+From: Ju Nan <junan76@163.com>
+To: nkapron@google.com,
+	gregkh@linuxfoundation.org,
+	junan76@163.com
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: gadget: Remove duplicate VIDEO_DEV dependency
+Date: Tue, 10 Nov 2026 15:34:43 +0800
+Message-ID: <20261110073442.79443-2-junan76@163.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,25 +60,35 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnj4MayfJqZGpyGg--.65503S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Xw1rKw1ktF15Jw1UJF43Wrg_yoWxZrX_Ga
+	1q9r4xGrW5Aasagr1UXayFvry7K3WkWrn29FZ8tw13XrW2gr4fX3WxXFZrX3W3Ga47Gr9I
+	v3yrZFWqkrn5XjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRiAwI5UUUUU==
+X-CM-SenderInfo: pmxqt0ixw6il2tof0z/xtbC1BvPgWryyRtVMgAA3s
 
-> From: Arun Iyengar <aiyengar1990@gmail.com>
->=20
-> The USB 2.0 lines and the SuperSpeed lanes of a USB 3 connector don't
-> always reach the same host controller. On the Rockchip RK3588, the
-> SuperSpeed-only USB 3.0 host 2 (xHCI) is paired on the board with one
-> of the separate USB 2.0 hosts (EHCI/OHCI). Only the device tree knows
-> which EHCI root hub port shares a connector with which SuperSpeed port.
->=20
-> The USB core already reads a hub's OF graph, with one graph port per
-> downstream port, and uses it for the port connect type. Allow the same
-> "ports" node on EHCI controllers, so that a root hub port can be linked
-> to its usb-connector node.
->=20
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+USB_CONFIGFS_F_UVC lists "depends on VIDEO_DEV" twice. Remove the
+duplicate dependency without changing the configuration behavior.
 
-Sashiko has reviewed this patch and found no issues.
+Signed-off-by: Ju Nan <junan76@163.com>
+---
+ drivers/usb/gadget/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-usb-port-p=
-airing-v1-0-9307e29d2ed2@gmail.com?part=3D1
+diff --git a/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
+index 76521555e3c1..c85efae6f3e9 100644
+--- a/drivers/usb/gadget/Kconfig
++++ b/drivers/usb/gadget/Kconfig
+@@ -469,7 +469,6 @@ config USB_CONFIGFS_F_UVC
+ 	bool "USB Webcam function"
+ 	depends on USB_CONFIGFS
+ 	depends on VIDEO_DEV
+-	depends on VIDEO_DEV
+ 	select VIDEOBUF2_DMA_SG
+ 	select VIDEOBUF2_VMALLOC
+ 	select USB_F_UVC
+-- 
+2.43.0
 
