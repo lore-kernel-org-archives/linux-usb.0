@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794302404;
-	b=5HQwyfr6SDL8Ki/iPzSTNdt6/uI8XzAAeYZekR4c/4HEkCJBHaXxZzNMpv6ANw+z8Ixb
-	 4ZORe18LPt1znEDeu6qPlSbWbgb3f2ZBkv8LQv1efE1+JkpSWvO3ZD1fGK/ZyrGqbwA6O
-	 Rd0b7oLQLALrbDhGLyznMOfU5x2EfOaBrcUi83QpCmjE6W98j/VEm0tgIcVykPEgruUkM
-	 yF0WNRtwr6Cpz2jQ0dtKqPIS7D/foPBPV5CU0FpgZvu+jYQIZvtu/lyGO/WSWoWa07Bak
-	 qjCTMQ2ZPs0C3ldGJzeGp+/rtHqtS6cw4yxP6drAnL9m4PuWdvHTemLTQDlj5enVLlQ==
+	t=1794302425;
+	b=XJv75ARIlNdgk0M2nJtnvqtYw6+h/2qRS/vV9B8PcHqO5ob0eRfIgFjcHdOJ40pi6Sgu
+	 su7oYsRP8cTwaSO/ZvVraJYrMQWSYsqqDtaPXJ4t5daL+PFK7FnBMjI8uLLJLyziO0prl
+	 yXzcvXlMH6P1+BtTycVWP4OwtaBGxJ8GxGfj7UXIk8a18q0vkieu95jVZJotkdfsiKVAB
+	 hcIRR+U0pbcWhmFNhMoZp5eFyt0F5N0jkGLE8nxuP3wistfmt7Al6KzqT0w2W2DcUmIbK
+	 YRejg7HE/u8ir8DtxHobeZMt8yr6wFghlynemb5S2cReRIKv4oPKwQFAsKF+lkdM54g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794302404;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794302425;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=E+IOyvszTPpv67WVfApXcw8urPUkzwLhKXwxrxd5Q2U=;
-	b=jqnG59mLReAFTyf+vYQYb9HtoFxWppUtJh6evm6LHklriLxdDrPV3yt0ZlK67OIPJt00
-	 A09KcWOHLn/8tAybmk5iiaa0jxhtfyLSnWZ2NUUJGyhJlk5X3jIyYcpuQuvXmOjJJJ6Ur
-	 L2M8SLWrfoUzP+NSjnek+3nrydvsZIOUV/sJTRkrR0g4GwpPpB9oI+MJrujzfZLQKi51Q
-	 IFElsQrMdGxbdgEdHy+kXeiwPvf7Hl06Eelr7D5Z3LSri1wtqCcIG6j0kHA16Gp8EeABL
-	 UIbwznUImdDa6FgaiSCgvy308hGY0OLGU7nLePjhkKtxS+E4qH3/3Uf8lDPv0ckJTww==
+	bh=5v6oTkZQz6qlfBhdJSuXnvnO8rYqx/rzC+7+Nl5/OGM=;
+	b=iD08AoSh0gQECC1jh9zW9fpnu19dtOX9V4wVeEXGCUSP4M4KOU8/4veQC3dVeDheeIsv
+	 vEBdcqaTziZBI8BaXFq/IyKsX50H/wqjG7j15sN/joUkwTx9ZmlwQ1gdP+LxmGAgTUJ+Y
+	 mwFaQa/jhnfdWmEEnzfAI1gSvqhcUb3yodGApQtex3jSUZsnLgj4D7EL0tWo2PDtNgJaW
+	 5sfd2U1dAPtEcqjMVwHrWinI0rMtunSVKFE9TiPv5hQ0KO9dJpRqxcUhqBr6yClLcA2Ah
+	 HepyCzCE1vmVOzFAnlljfHj/3qalIOJVJXzgOyUr672hZl+R1ApK2hEei4luKhKMGWQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GRiIgHwN;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eIJ0bZ6Y;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D82606C66C;
-	Tue, 10 Nov 2026 09:20:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1124D606DABA;
+	Tue, 10 Nov 2026 09:20:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GRiIgHwN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5968D1F0089F;
-	Tue, 10 Nov 2026 09:19:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eIJ0bZ6Y
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 515E81F0089F;
+	Tue, 10 Nov 2026 09:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794302403;
-	bh=E+IOyvszTPpv67WVfApXcw8urPUkzwLhKXwxrxd5Q2U=;
+	s=k20260515; t=1794302424;
+	bh=5v6oTkZQz6qlfBhdJSuXnvnO8rYqx/rzC+7+Nl5/OGM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=GRiIgHwNZvImcyL7ZrhwcHTim1Tcg8ha0BAVLvCt63eibDuBdqoGnn3+IZ3T7OBIq
-	 kT6r8YMuTD7me3jVVO4LuvwQYkPqosPEVX8f4q9eZuJZsQvKrNsIgO5JMMLqqeNIuC
-	 5Cpr1r58rbzBBX6KMjeREg5OUsa/9eOU65Z5i70WZg176K2uk1tQ1kAhA4U0o0Rctw
-	 xZ/y1A7h5XbjDTP8H3oewDpTzB4kJ0kw8bjZG9JUpDxnNRmZc91S3mqwbwSIu6bKQ1
-	 710KWpylBRJOXcVv5bGIBzE03omQg/l6rlLylLNvB6cAWjRRFZkeN1M+920TaGjY0B
-	 2UXvy+J5ImDmQ==
+	b=eIJ0bZ6YykzyfYaq0uQnsLuPNj+m0vg4MOIRUUV7WyIHrzOWlMn5BpzKyvQO1xQnK
+	 lIgHxLYXr0xM6gXAPduca8fCpGnrbXmRu3n7sX++lmrPokRdnMxOQCvAaieuNDey1/
+	 rDMY2lnbcyTg88AQ5EnW+l0uOlH6KcCfGavMFZPvkrzrCwVDMo4o1H9usL4RbMeid9
+	 8ju7v6AtrNpyzqVV8uy5DYhL2Vr+eLE/ymRsWc8pcaS97R4A8Z95dfIgLeSJCXVpWi
+	 mDeT0clD8WfcFmQfLKdl3Rcurbo/W+eyqIPzNmzhefzjE4bnqF8y5kxjx80v9c4Gko
+	 v/as+SN9c7AFA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 10 Nov 2026 10:14:52 +0100
-Subject: [PATCH RFC 36/41] nvmet: refuse files on pseudo filesystems as
- namespace backing files
+Date: Tue, 10 Nov 2026 10:14:55 +0100
+Subject: [PATCH RFC 39/41] usb: gadget: f_mass_storage: refuse files on
+ pseudo filesystems
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-work-loop-pseudo-v1-36-4c998976c6c7@kernel.org>
+Message-Id: <20261110-work-loop-pseudo-v1-39-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 In-Reply-To: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -76,41 +76,43 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=834; i=brauner@kernel.org;
- h=from:subject:message-id; bh=agqenJdWQq7gypo76jkCFbW4mXy4h6l0lNCXX+ASm3g=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9erDvm3yLxwpNhn3Vf/xC/LZIi53fJ7yLL7tHITliz
- 91kU4+kjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIm8FmJk6Auyf5jNeWOi0OnH
- C2RnbHW9nXtha/oTsYTE2efzD909cIzhf93azF97BBdfrrbP5nki8XXrjrDbU/+oPHgTKJzVsWp
- jPzcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1124; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=5CZmEVUvUM8phb7GCUC0PbdIONUtutPPh5jN88b8MUg=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9enDwpOymfbk/lix9c8OUO8H7nMDJjqNuYfXt8RN5b
+ SZ7VM/p6yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIsgXDP81qmQUMxt7JIhtj
+ H769H+D76yOfp7vrv8Uv+XNqFL+3cjL8szGK7szT6zNcPi0pgC3zv/C19XHNGld3L/vwMHyKxLW
+ bjAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-The file backend takes any path that isn't a block device. With
-buffered_io=1 that includes files on procfs or sysfs which then get read
-and written by a kernel worker on behalf of the host. Refuse files on
-pseudo filesystems just like loop does.
+fsg_lun_open() takes any regular file as the backing file of a LUN. The
+file-storage kthread then reads and writes it with kernel_read() and
+kernel_write() on behalf of the USB host. With a procfs or sysfs file
+behind a LUN the host gets to read and write kernel interfaces with
+kernel credentials. Refuse files on pseudo filesystems just like loop
+does.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/nvme/target/io-cmd-file.c | 5 +++++
+ drivers/usb/gadget/function/storage_common.c | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index dfa8aa46188c..71c69bac5394 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -52,6 +52,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
- 		goto err;
+diff --git a/drivers/usb/gadget/function/storage_common.c b/drivers/usb/gadget/function/storage_common.c
+index 75831f2c7abe..83683ade20c2 100644
+--- a/drivers/usb/gadget/function/storage_common.c
++++ b/drivers/usb/gadget/function/storage_common.c
+@@ -211,6 +211,11 @@ int fsg_lun_open(struct fsg_lun *curlun, const char *filename)
+ 		goto out;
  	}
  
-+	if (file_is_pseudo(ns->file)) {
-+		ret = -EINVAL;
-+		goto err;
++	if (file_is_pseudo(filp)) {
++		LINFO(curlun, "file on a pseudo filesystem: %s\n", filename);
++		goto out;
 +	}
 +
- 	nvmet_file_ns_revalidate(ns);
- 
  	/*
+ 	 * If we can't read the file, it's no good.
+ 	 * If we can't write the file, use it read-only.
 
 -- 
 2.53.0
