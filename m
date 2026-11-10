@@ -1,49 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794302171;
-	b=XBo0ztfDUDzzRBZnGPJTv3mVeNJav+NltBtqFPDKLxUmmkZ2KwQdgr5MEi6HsvKYfhdW
-	 Lfep2b/0DDYjQEGynV9y/V50chfu1A/bmJKd6E/q8lQWaOgm49Z0KEHZk/dBIb5mVLjxD
-	 MeAEO6dFt/a41Z55JVWcFuiy23xVtJQClq3u1WkFe4Tx54jngpTb2mNwDEb+gwTUdh+/v
-	 z4Qmwi2OyFsmUp534LGZ9m/BW2x45ZUN+M/oJynLeLlsfcFVWob0WKVLS6Iuvz36DuNuW
-	 iaKsyv2FFHfgGBeEPLjX5kGmg28wlp1c1iWbKj6Vh6FP//wB44mXYRBcSPBe90GjPjg==
+	t=1794302199;
+	b=Y5rYSj1XLZZ766NZHDQasr6JuyC35uwPL+y3ULzW+nyy5yAqlUtXGBo13b6jS8pfYjln
+	 Ml1prBTA93DzorTP4h8b5xbBNsVE2P4k17Ydv1J5RsZ3TG6bV81BpDnci2UszymScYeGg
+	 fnZ377kAC2kM/c7vd2W5qmUjy3gtTv1BjdwZAcjIRXDLxzk6G/zdzzuIg+z2qeHOzUAMX
+	 EkzLGehNgeVGKOGjG9xB65mY6sTLH68z0HqsC5X6d3/ePaaDSeCvLyssCO6ILfHbWBOf3
+	 dKAlE3fRKclDnhL8sT0gisf5It+rL1bf2PN4lUAGHiu1qLQb2HX8aVDajR6qlcOQ1Gg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794302171;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794302199;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=48wS641dZNlMgTbgKHYJJRZjCIIpBYSCk6vN7nPVst0=;
-	b=DR+dwbHrptfZhTChU9EVE8BOBIF54/7M6fH5dqWSjfGkYUWpK5s/rzjy6iJd74c3+dv2
-	 o4VXtAj9jziof5IoWK0n3LgOr7vX7cChgiwkj5osckXe6R/V6sio3GShjTlOcVEsUqHQJ
-	 3cA0JYkMkAz+5gsvZK1vcdOH/lk+M8l7esCrhIeA4IxH0PMAvmlHXRTeAq8QHYxJO2bOX
-	 wyt61hQQjHWekiCq1D+4CM+yvAucApRPOYRfTzLizJirt+Kcvv51T6xrBTxnY6J0c4AkX
-	 551Y42Ab7LDAhwTRGRVmL+ddcV35eWxQOJLz3B8JHh20exlxApu5yIt4Ka8pNwrlaZA==
+	bh=mLVLyIpRLrs15SgdOEdgXbdYk/BZhN4swU0iCuBOyic=;
+	b=AVgIaSbRI5rLF69ObaNN2gR2s1xmDQPDWBPu5rXYDIb1yQucrhR9/DXNKHHyRcf70SaT
+	 ZRgZsyqw6dWuRBXyBsDbm1NEAoJQJZYoW5UQaYychZaeIRwMbbmvAGpzJb0NX9Xgnvh46
+	 CcQmz512PwbQSm9dTw7Tghvp+/EIXVjqJCGbJkQay6//XGv8Cq0OOCMtgAS7Og3Lu9Cat
+	 cc2ZFGmEyBnnW2tVOMXfdj1aDAmBf5JhaSVl8i8sQwNxzAXB3+UJV/CeKE60ZC4cwzAru
+	 oBw+MKr73oaeIQlR89ZRaR8VqJupkxGm1azUKk8fSjjkuqwHFXJLAsk44498gjo9+Qg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B3k5bbEA;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IIsjfWUO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CFE606A325;
-	Tue, 10 Nov 2026 09:16:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CC8606B144;
+	Tue, 10 Nov 2026 09:16:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B3k5bbEA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF7381F0089F;
-	Tue, 10 Nov 2026 09:16:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IIsjfWUO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4050E1F008A1;
+	Tue, 10 Nov 2026 09:16:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794302171;
-	bh=48wS641dZNlMgTbgKHYJJRZjCIIpBYSCk6vN7nPVst0=;
+	s=k20260515; t=1794302198;
+	bh=mLVLyIpRLrs15SgdOEdgXbdYk/BZhN4swU0iCuBOyic=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=B3k5bbEAWfpJtZp1vzeXux0KzrY0ieZxwUJi/83P+f7eKHCKBYc9mkYVfNK2b/51Z
-	 IE7odp0lQqQ7mwusK6pgB1WlHVkO/UlsckyLpTfE8Yp89sMOk+QjYT1he8sjTHJobl
-	 zbSxv5PQZ8XY+Ts/6iaugpn66hCj3rJCosVRpDg0+EuqU7+TpcsCN1TcwITx1L6QCL
-	 1C6NNljvCVnJ+dNekIZ/1LCG3UXVW6y81kv+eHD0umTjqyrBp3lV94BaeU5UIyHZKc
-	 zDKybfsspnrP1qhiqd+dsnxznVfYXFvZSeoRYSBElTyxocH2QJC3b5d8zXbtpIhziF
-	 ygU0pzxGVue5w==
+	b=IIsjfWUOtMl2CEA++5Jt8EWp6KRTI2HXcARdUBvCdmTdKWE1uX1aMYAXg8Ea/e8Ql
+	 Xql4YvlNPt9K9QrXupja0AV8uGJ4ZeQk3gDHw7i85Y4EbqZiDD29w/gu3h4vBD1pOY
+	 iAVha3oPB1bPlmff69yHag/xubD/tLzqQTssa1t0tgnGT7QGrFnYsIwcF9XMVmtUiW
+	 K1WSiuD3LOVOs5EqoSIS8TpSROn1Jiuyybk5PLeAHpwhWS+d9EjZQcuJHs/HljUe2V
+	 MtagQG38QZOlSaCBeycYDsPJbjUtRGiQhZJCiEt9y8RKsVtp69sly7RCCFqaYz3x8K
+	 aiwArWlZiPSgQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 10 Nov 2026 10:14:18 +0100
-Subject: [PATCH RFC 02/41] nvmet: check that the file backend supports
- ->{read,write}_iter
+Date: Tue, 10 Nov 2026 10:14:22 +0100
+Subject: [PATCH RFC 06/41] proc: use fc_init_pseudo()
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-work-loop-pseudo-v1-2-4c998976c6c7@kernel.org>
+Message-Id: <20261110-work-loop-pseudo-v1-6-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 In-Reply-To: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -76,47 +75,52 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1206; i=brauner@kernel.org;
- h=from:subject:message-id; bh=9rTO3vQgbbKMLgtf9DhInii/7oHGTrugRkWUh4dwMMs=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9ejBtltmGmxnek3mf9QvZzp8xjWWx5Y+Awzls7lyHP
- /4+2Dk3oqOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAivzwZGU4478oq2RB1Nuut
- 48Jj7Tu4n8+545UyJdpwumO4VdS2g7kM/9TW5p9ep3/AsD+mInRXw3I+rR/SC0xnPXVmN7wifGZ
- vBB8A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1267; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=gjYrjHbn+wcxnIFNb/oa4teQqFEsQIh0Sk5lJ439ovI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9ejD77u+nlaqnLf4kFGhsen2irk6irPw3z+y/Bi4hN
+ TdYuKQPdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExEgY/hJ+PsE4F/232+vH/y
+ jeuV3N6zU727BJZKTjAty7kdyLHqgSYjw3K5k6+bop64Mr3ov9715vvhKE+JtjurFy9306rKeaY
+ hyQYA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-The file backend calls ->read_iter() and ->write_iter() of the backing
-file directly but never checks that they exist. Everything that isn't a
-block device ends up in the file backend. So a namespace pointing to a
-file without them calls a NULL pointer on its first I/O. Only
-buffered_io=1 gets that far as the O_DIRECT open fails for such files.
+Initialize procfs as a pseudo filesystem instead of raising
+SB_I_NOEXEC and SB_I_NODEV by hand. This adds SB_I_PSEUDO.
 
-Refuse them when the namespace is enabled the same way zloop does since
-commit 0c10f8a1a7ae ("zloop: check that the zone backing file support
-->{read,write}_iter").
-
-Fixes: d5eff33ee6f8 ("nvmet: add simple file backed ns support")
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/nvme/target/io-cmd-file.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ fs/proc/root.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index 695963dd932e..dfa8aa46188c 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -47,6 +47,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+diff --git a/fs/proc/root.c b/fs/proc/root.c
+index 7fbbe92bf73a..ca0e75081934 100644
+--- a/fs/proc/root.c
++++ b/fs/proc/root.c
+@@ -17,6 +17,7 @@
+ #include <linux/bitops.h>
+ #include <linux/user_namespace.h>
+ #include <linux/fs_context.h>
++#include <linux/pseudo_fs.h>
+ #include <linux/mount.h>
+ #include <linux/pid_namespace.h>
+ #include <linux/fs_parser.h>
+@@ -265,8 +266,6 @@ static int proc_fill_super(struct super_block *s, struct fs_context *fc)
+ 	if (ret)
  		return ret;
- 	}
  
-+	if (!ns->file->f_op->read_iter || !ns->file->f_op->write_iter) {
-+		ret = -EINVAL;
-+		goto err;
-+	}
-+
- 	nvmet_file_ns_revalidate(ns);
- 
- 	/*
+-	/* User space would break if executables or devices appear on proc */
+-	s->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
+ 	s->s_flags |= SB_NODIRATIME | SB_NOSUID | SB_NOEXEC;
+ 	s->s_blocksize = 1024;
+ 	s->s_blocksize_bits = 10;
+@@ -350,6 +349,7 @@ static int proc_init_fs_context(struct fs_context *fc)
+ 	put_user_ns(fc->user_ns);
+ 	fc->user_ns = get_user_ns(ctx->pid_ns->user_ns);
+ 	fc->fs_private = ctx;
++	fc_init_pseudo(fc);
+ 	fc->ops = &proc_fs_context_ops;
+ 	return 0;
+ }
 
 -- 
 2.53.0
