@@ -1,56 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794281348;
-	b=l9kWf8XtDJvY+Rosxxu/AwBIJM1UFQxCs5cRJw1Izx1t7InwqbjE/RcvZCE5qoJr3rVD
-	 1k+++HpW31DMR8FZ6HQu058O26Plg5JCE5dkN0VGrTxR8Bn+lZk6A67CZ5DEobNHZtgpF
-	 O4bP9BwhhcecDYpmLEoOTkSYwoMa7Za3rswJjd3KCjqp3H1SPrx8KfDGKZomsE3RqDvVJ
-	 l9GvmUsAYR0KgbBXqgBHz7Oq3DPa2Y0MUSMxGfrQ01Q+omonHQIogwauC9qhoIEAu8BGd
-	 lSGpp1Bq+/tp3SWmfA8nIdqIXbQKRPv+Wuk0G1Ax7165pUMq6kQoFdJ3E6fLI8vYh4g==
+	t=1794281531;
+	b=eIw28RoLBYnXXriWalxisVrZUiy9t9el2+zK/OXVvC+Q0kdiGlIFUnb+fx82dwntZp9R
+	 F6eXxHyRwqnP6AlAi5kUxkpdNQ5nEKXtHu2EWbeW1iwUWVlEwU3NqHRMdNVKZPDQiL67I
+	 w1SY+bU0IUSOXvRoscsABLMffSHZEZoM97dsq+HfFOZ5mlXI8TYC6LF477Rec3Mtfo4Ul
+	 Z6k/lpJTyhROzEQyTgQeNpmy4ytYygCGkgWUT4CMYTldLA+Ofcj8RPSX/JwH8UC204Oim
+	 Ofw8C2vOU+3uPgk1yDfDIwl9hngx9xj7CHgOn1h8mojrm6lsFMT/pSnCjdkvVcAHTGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794281348;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=dhPtgnH28emxIkd3Cfandn0cSfoyzvmL2ASLY3fT6n4=;
-	b=5U0PSYpE2nFwah+dxGOpv7Gsl95m2mxJ1Z/tuJTZyPFHvlUAE10f2xxIyDZX0XiqZ0RZ
-	 50UzMVa5zxZvyycYhIs4fSkBjYPvA8X9v1Vpr8YAfkN2OTu2Wib664mF37zyK/F2FBPWw
-	 gjh87ZLkrtUK4gd3I6l98XwEyheQuuxuV4XKFaH+mK/CN7cYwAaJARad2PrZxfEhMw+RX
-	 vwsNhV2D65Ku9dFVWcdqKV4VSiAiM4WNU54/rs11qg82loKsXmKz/HSOhMT4t+WUci00b
-	 4iDcwQITwyo391Wk/wrVjSlkHLeIlEVMK58u8n7wrYiZ7YbfIeJa71GgDyYCwSJ3GHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794281531;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=kYZL4rnheTABX8WBq6es/I5ToDAjBICPT1On+50K6v8=;
+	b=2gIN67958Owbtm7f3i+X6oOcIdkZwnh4yTdfio5HcmVkiwl5JWZga8XDPjejBs137Dkj
+	 2v8AadwjCegFc+a5X/P2oG16PO8joi4v3bK7NsZaL69JxzVy1EWqq2d4QKu9u2KvJT9hj
+	 hr7v57T8u4MNzbl/n4FnYIaFLe0vdkWAl+rTmcvNvgTihx//KoDxm6ZZCYQAADQ46VCs9
+	 mYucsaCsQUCo/2A9Jiohtg3D1xS1oFxt0Ta55U/hxpY3ZaX5t7hZ/AIsJVHwpj4fOIPcJ
+	 h7HVu8h9504vl8FAYWac7z68msIzGUvZVTt+FNHfWaDhT+G7aBxmc2uJFOfSxVhXwDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=En84xvOe;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=O+pJ2ISY;
+	arc=none smtp.remote-ip=113.46.200.222
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8067606A31C
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 03:29:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BA3606A31C;
+	Tue, 10 Nov 2026 03:32:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6BA3606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=En84xvOe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34D141F0089F;
-	Tue, 10 Nov 2026 03:29:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794281347;
-	bh=dhPtgnH28emxIkd3Cfandn0cSfoyzvmL2ASLY3fT6n4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=En84xvOerc95P2zv6fBYGVIYkmY1dCAsurh87DQuFyoFBa3Ctq03g4mQF7PkB04D/
-	 eVJddcM5vNGSIP+53hAk39DirqTcqljmSAnjytBwaZuu5cFAxhVZ6pOLTSV2GB6Fju
-	 xVrCBqC+Pubx4TDuOy9MtYi8J55ZUwhQu0OsPD/UBWjoXNkZeVOcdEce7eOtbhlL+J
-	 ygCVRPn+CUzAzfW5fCtxHAi+v25kX+/6n+vpWid9LQXRZGIQCK+k8HAS70vSRGfIxx
-	 eHUhIOxwzEct1cK0AmZjxUc5YI9RP574ZrLHrRNate6GHabjq8huZXYmKqJfB0JJVY
-	 M4y92grepxXDQ==
-Message-ID: <sashiko-outbox-206117@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: f_printer: Fix fsync waiting for active
- transfers
-Reply-To: sashiko-reviews@lists.linux.dev
-To: raoxu <raoxu@uniontech.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <09D38BF2C904A309+20261110031832.219431-1-raoxu@uniontech.com>
-References: <09D38BF2C904A309+20261110031832.219431-1-raoxu@uniontech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 03:29:06 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=O+pJ2ISY
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=kYZL4rnheTABX8WBq6es/I5ToDAjBICPT1On+50K6v8=;
+	b=O+pJ2ISYefi+uQbSG8ycqQGnH/z7NrmGZHSo+XHWOuf0vcZKcfEd23EplWUiXpDkHM96r0NeU
+	yp3dz/6B5Buz52OiYksk+F92u09V4ADKRXMBrHLxaEh6QFMGkriWAiR+Dr9URWjPjfxIw379wqV
+	Y9WUrbQtUnqsarRTCUL3VOM=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4jNsdg1lvmzLlTm;
+	Tue, 10 Nov 2026 11:31:51 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id A765C4048B;
+	Tue, 10 Nov 2026 11:32:05 +0800 (CST)
+Received: from vm.huawei.com (7.238.34.231) by whupemk100010.china.huawei.com
+ (7.152.184.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 10 Nov
+ 2026 11:32:04 +0800
+From: Pengfei Lv <lvpengfei20@huawei.com>
+To: <gregkh@linuxfoundation.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<stern@rowland.harvard.edu>, <michal.pecio@gmail.com>,
+	<stable@vger.kernel.org>, <xuhaiyang5@hisilicon.com>, <xuetao09@huawei.com>,
+	<caiyadong@huawei.com>, <suzhuangluan@hisilicon.com>, Pengfei Lv
+	<lvpengfei20@huawei.com>
+Subject: [PATCH v4] usb: core: hub: Re-guess ep0 maxpacket size after reset
+Date: Tue, 10 Nov 2026 11:30:38 +0800
+Message-ID: <20261110033038.2882473-1-lvpengfei20@huawei.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261109093935.2634235-1-lvpengfei20@huawei.com>
+References: <20261109093935.2634235-1-lvpengfei20@huawei.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,61 +72,126 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
-Thank you for your contribution! Sashiko AI review found no new issues
-in this patch, but noticed 1 related pre-existing issue it does not
-introduce:
-- [Critical] usb: gadget: f_printer: missing lock on error path in
-  printer_write() [1]
---
+Per USB 2.0 spec section 5.5.3, the ep0 maxpacket size is fixed for
+all device speeds except full-speed devices, where it can be 8, 16,
+32, or 64 bytes and can only be determined by reading the device
+descriptor.  During initial enumeration the USB core guesses 64 bytes
+for full-speed devices; after reading the descriptor, the real value
+is stored in udev->ep0.desc.wMaxPacketSize and applied to hardware by
+usb_ep0_reinit().
 
-commit 0f81a8331b5725aa0fef1a2421c8f88ca088bb9f
-Author: Xu Rao <raoxu@uniontech.com>
+Commit ff33299ec8bb ("USB: core: Fix race by not overwriting
+udev->descriptor in hub_port_init()") guarded the ep0 maxpacket guess
+block with "if (initial)", so on the reset path the guess is skipped
+and the host keeps using the value from the previous enumeration.  If
+a buggy full-speed device responds with one 8-byte packet and NAKs
+all further polling, the HC doesn't recognize a short transfer but
+keeps polling for the rest of the descriptor till unlink, and the
+device cannot be re-enumerated.
 
-usb: gadget: f_printer: Fix fsync waiting for active transfers
+This was observed in production on a 6.6 LTS kernel with a full-speed
+USB banking token (bMaxPacketSize0 = 8) in a virtual-machine USB
+passthrough scenario; the reset re-enumeration hangs 100% of the time
+after the VM issues USBDEVFS_RESET.  The device is not strictly
+compliant (it should continue answering IN tokens), but this class of
+USB banking token is widely deployed in enterprise environments, and
+the regression breaks a configuration that previously worked.
 
-This commit updates printer_fsync() to check dev->tx_reqs_active instead
-of dev->tx_reqs before waiting for pending TX transfers to complete.
+The 18-byte GET_DESCRIPTOR that runs after SET_ADDRESS (wLength=18)
+is unaffected: the device sends the full 18 bytes as 8 + 8 + 2, and
+the final 2-byte packet is always a short packet regardless of
+maxpacket.  This is why the device completes initial enumeration yet
+hangs on reset re-enumeration.
 
-> diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget=
-/function/f_printer.c
-> index 1857d786110b4..a2437c8e668da 100644
-> --- a/drivers/usb/gadget/function/f_printer.c
-> +++ b/drivers/usb/gadget/function/f_printer.c
-> @@ -736,7 +736,7 @@ printer_fsync(struct file *fd, loff_t start, loff_t e=
-nd, int datasync)
->  		return -ENODEV;
->  	}
-> =20
-> -	tx_list_empty =3D (likely(list_empty(&dev->tx_reqs)));
-> +	tx_list_empty =3D (likely(list_empty(&dev->tx_reqs_active)));
->  	spin_unlock_irqrestore(&dev->lock, flags);
-> =20
->  	if (!tx_list_empty) {
+Fix this by removing the "if (initial)" guard so that the ep0
+maxpacket size is re-guessed on every reset, and by calling
+usb_ep0_reinit() right after the maxpacket size is re-guessed so that
+the re-guessed value is applied to hardware before the GET_DESCRIPTOR
+data stage.
 
-[Severity: Critical]
-This problem wasn't introduced by this patch, but can printer_write()
-corrupt dev->tx_reqs [1] when copy_from_user() fails?
+Fixes: ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Pengfei Lv <lvpengfei20@huawei.com>
 
-drivers/usb/gadget/function/f_printer.c:printer_write() {
-	...
-		/* Don't leave irqs off while doing memory copies */
-		spin_unlock_irqrestore(&dev->lock, flags);
+---
 
-		if (copy_from_user(req->buf, buf, size)) {
-			list_add(&req->list, &dev->tx_reqs);
-			mutex_unlock(&dev->lock_printer_io);
-			return bytes_copied;
-		}
-	...
-}
+v4: Per further review by Alan Stern, move the usb_ep0_reinit() call
+to right after the ep0 maxpacket re-guess block.  Each layer does the
+right thing on its own side.
 
-printer_write() drops dev->lock before copy_from_user() and adds req back
-to dev->tx_reqs on the error path without re-acquiring dev->lock, racing
-with TX completion handlers that also modify dev->tx_reqs.
+v3: https://lore.kernel.org/linux-usb/20261109093935.2634235-1-lvpengfei20@huawei.com/
+---
+ drivers/usb/core/hub.c | 48 +++++++++++++++++++++---------------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
-[1] https://sashiko.dev/#/bug/linux-76584f8a-a4f9-490d-8c0c-3cdb1c0cb7cb
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 199d3f535a89..e3d8ee3271cb 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -4969,33 +4969,33 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+ 	}
+ 	oldspeed = udev->speed;
+ 
+-	if (initial) {
+-		/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
+-		 * it's fixed size except for full speed devices.
++	/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
++	 * it's fixed size except for full speed devices.
++	 */
++	switch (udev->speed) {
++	case USB_SPEED_SUPER_PLUS:
++	case USB_SPEED_SUPER:
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
++		break;
++	case USB_SPEED_HIGH:		/* fixed at 64 */
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
++		break;
++	case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
++		/* to determine the ep0 maxpacket size, try to read
++		 * the device descriptor to get bMaxPacketSize0 and
++		 * then correct our initial guess.
+ 		 */
+-		switch (udev->speed) {
+-		case USB_SPEED_SUPER_PLUS:
+-		case USB_SPEED_SUPER:
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
+-			break;
+-		case USB_SPEED_HIGH:		/* fixed at 64 */
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+-			break;
+-		case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
+-			/* to determine the ep0 maxpacket size, try to read
+-			 * the device descriptor to get bMaxPacketSize0 and
+-			 * then correct our initial guess.
+-			 */
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+-			break;
+-		case USB_SPEED_LOW:		/* fixed at 8 */
+-			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
+-			break;
+-		default:
+-			goto fail;
+-		}
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
++		break;
++	case USB_SPEED_LOW:		/* fixed at 8 */
++		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
++		break;
++	default:
++		goto fail;
+ 	}
+ 
++	usb_ep0_reinit(udev);
++
+ 	speed = usb_speed_string(udev->speed);
+ 
+ 	/*
+-- 
+2.34.1
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/09D38BF2C904A309+20=
-261110031832.219431-1-raoxu@uniontech.com?part=3D1
