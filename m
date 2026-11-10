@@ -1,62 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794297519;
-	b=aYQyrmk0LZyDFsxQaEd3woWnn3e+vioHyg6WQwuHzt1vX9us0U2xYK0zNFaG5PbKTS79
-	 MBRAKzhM8fSmwLdnkU8jEMYKR/9qlCxQzwrDdttUMhw1CJiLVzfW2dQFh/a2PSPk13Ry1
-	 8fL4Z0XqyWNg40xtC4HtcOOWsIfd6+6nK6KcR7Xomc1DA5Y4SPBALnpYpUWKgLjt/U5hV
-	 hUP2sHwbt16E5A2C6YgfwxAHwQpjpSHBMZLFL0z0d0v7JgBMImrYlbPXP7UCBsgYYWMfn
-	 fDVnveHgdmL33tFdM6m3E6FYkBBJYDR2v5y6Ut4HLT1PEIlU/ZOJthuqtLjKkpHm8lw==
+	t=1794297520;
+	b=mxD4YuNuwu5FOukT+O2B+z/sRX2GcQPq25Er9G+jndkwcllXu8TGjdjbloaaTxdljl1e
+	 HQ3QuIQOwvBOBRPcklHCrj0trQvpIQXHEVo8OISJ4klIP+/ZoUTy386hx/psENrFEJfYg
+	 JeMdfBLD7H5inxyc4hKoTS1Ms8E0begjObPSQbk121kZDXJmgFxhblmSW/Fr6OMBSkHNy
+	 +ljFHZeHqXDk47oGiAke2STiiYmcTNzx1EZFf5POpOaoOeqfuChsi5DLu0o8byP+SDHqM
+	 6DBDBHtWRYXa8YAlWJ9KGlxVRVAelRU9EYpAObRBBrE6nQqTCmyr7EN5T2YBKxEPrsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794297519;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794297520;
 	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
 	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
 	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=MIkKETPDKopSj2qx633NwzZl1BsL9LyD65cxss5a3yQ=;
-	b=KCsnvA6JhnD2WhIB2bYr1sGC65jbvXydqJzD1QVLxW128wT40dLSF9qR5o0BqukLPyD2
-	 aKIAE4dYJ79oyD3LOclsElC3rkSZiTze7ufoK3mTD0lN4PBrmZiUW6XaHa+FLQ5jgLJip
-	 n/uvZWSroV8c9g3gLMgwaND6/N1I2yR6HaPjQph+nfWdqDghxV0GwvAc0vsqipdIus0B3
-	 nMWOKHDupW4K0ZTKBmnluoRN5QeD14qSwl74Fub9DzaxLQ6iuG5I8/DSraBZ38ruACvH4
-	 k7ASGwd684NNoIYEtfreQ0AwMznJhRyqSc1Zu6AausHQqKHTOFjtK1RVGFRyh3mBLRg==
+	bh=EY0QXRPsyGQggfDsnk5pErX06fnxt3+UhfrEJXGmf4k=;
+	b=qp61H7ExcvzNS4aQlt9CxvblW0RKoK2srZtbk9FHGxM5bfNSvPtdpJPIByvh8WnT7Uuo
+	 sd83f+4mvWsKr72t/nVYYPwm3jcH4VEZjmCCYYodUYUS/cOUdGaWUo9nUkf0flltvAytW
+	 zLOURXzz0kqG6BwS+M+DzkuJvQS2Sn0SP4bA5cBhGSdqbwiw8rLwb9MXmoyuBFOS3hE7I
+	 DLZ+5wqTuIoTh9PQ45MS346a5R5sZakj2523P6S52NWzQgOgCU30zCi8KtA66zK7ghRho
+	 nNUVoIqE975FR7o+FB2QIxzcrMgY38Mjc0tKJKaXQ08Oe5NzdwpbCYqkpYscM2GSB8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cmss.chinamobile.com;
 	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=rSbCE8nV;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=MEDbKJ3F;
 	arc=none smtp.remote-ip=111.22.67.151
 Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1D9760A6F45;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3987060A2606;
 	Tue, 10 Nov 2026 07:58:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1D9760A6F45
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3987060A2606
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=rSbCE8nV
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=MEDbKJ3F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=cmss.chinamobile.com; s=default; l=0;
 	h=from:subject:message-id:to:cc:mime-version;
 	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=rSbCE8nVhgyOdT7lYQOP6bE6MVkuIYhRd45/FKJ4GB5pN5IjCnOyLHNpC75yUfaaupf6tzsYds1Nf
-	 8+jlgVTdxD0gcFUajMFGa6IINjMpTcVWNNrKltp+lR1eSxVQVg1RQbIueTckrzy6x0pM2e6BLVHye6
-	 5dw7WxHcSUgYrL+w=
+	b=MEDbKJ3FnFTby0Uc25nrY8wAhsOyusCUJUi9/Z366B/1QX840YgsecTJ20LjypHiYLRYGxUPhMJ9m
+	 eF7CWiIE8ppp3twncvlDpWe3YhZKSjfcthPB5UAYg6mnT9+9/t6d1S7zN+3DzB66r51WWiSXk4J/Nl
+	 4C88mhXIEnC3dF/g=
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app02-12002 (RichMail) with SMTP id 2ee26af2ceada31-08805;
-	Tue, 10 Nov 2026 15:58:37 +0800 (CST)
-X-RM-TRANSID:2ee26af2ceada31-08805
+	by rmmx-syy-dmz-app02-12002 (RichMail) with SMTP id 2ee26af2ceaea33-08807;
+	Tue, 10 Nov 2026 15:58:38 +0800 (CST)
+X-RM-TRANSID:2ee26af2ceaea33-08807
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from  (unknown[223.108.79.97])
-	by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee76af2cea2027-acdeb;
-	Tue, 10 Nov 2026 15:58:37 +0800 (CST)
-X-RM-TRANSID:2ee76af2cea2027-acdeb
+	by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee76af2cea2027-acdec;
+	Tue, 10 Nov 2026 15:58:38 +0800 (CST)
+X-RM-TRANSID:2ee76af2cea2027-acdec
 From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 18/22] usb: roles: fix a few spelling mistakes in comments
-Date: Tue, 10 Nov 2026 07:58:21 +0000
-Message-ID: <20261110075825.24946-19-shishunbo@cmss.chinamobile.com>
+Subject: [PATCH v2 19/22] usb: serial: fix a few spelling mistakes in comments
+Date: Tue, 10 Nov 2026 07:58:22 +0000
+Message-ID: <20261110075825.24946-20-shishunbo@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261110075825.24946-1-shishunbo@cmss.chinamobile.com>
 References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
@@ -76,22 +76,85 @@ No functional changes.
 
 Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 ---
- drivers/usb/roles/class.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/serial/cypress_m8.c | 2 +-
+ drivers/usb/serial/f81534.c     | 8 ++++----
+ drivers/usb/serial/mos7720.c    | 2 +-
+ drivers/usb/serial/oti6858.c    | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-index edec139b68b5..8ea703e63ffb 100644
---- a/drivers/usb/roles/class.c
-+++ b/drivers/usb/roles/class.c
-@@ -414,7 +414,7 @@ usb_role_switch_register(struct device *parent,
- EXPORT_SYMBOL_GPL(usb_role_switch_register);
+diff --git a/drivers/usb/serial/cypress_m8.c b/drivers/usb/serial/cypress_m8.c
+index 78fb1389b34c..bd9b68b691de 100644
+--- a/drivers/usb/serial/cypress_m8.c
++++ b/drivers/usb/serial/cypress_m8.c
+@@ -462,7 +462,7 @@ static int cypress_generic_port_probe(struct usb_serial_port *port)
+ 		return -ENOMEM;
+ 	}
  
- /**
-- * usb_role_switch_unregister - Unregsiter USB Role Switch
-+ * usb_role_switch_unregister - Unregister USB Role Switch
-  * @sw: USB Role Switch
+-	/* Skip reset for FRWD device. It is a workaound:
++	/* Skip reset for FRWD device. It is a workaround:
+ 	   device hangs if it receives SET_CONFIGURE in Configured
+ 	   state. */
+ 	if (!is_frwd(serial->dev))
+diff --git a/drivers/usb/serial/f81534.c b/drivers/usb/serial/f81534.c
+index 0037767e4bbf..502c1c0260ec 100644
+--- a/drivers/usb/serial/f81534.c
++++ b/drivers/usb/serial/f81534.c
+@@ -83,7 +83,7 @@
+ #define F81534_TOKEN_MSR_CHANGE		0x04
+ 
+ /*
+- * We used interal SPI bus to access FLASH section. We must wait the SPI bus to
++ * We used internal SPI bus to access FLASH section. We must wait the SPI bus to
+  * idle if we performed any command.
   *
-  * Unregister switch that was registered with usb_role_switch_register().
+  * SPI Bus status register: F81534_BUS_REG_STATUS
+@@ -755,7 +755,7 @@ static int f81534_find_config_idx(struct usb_serial *serial, u8 *index)
+  * The F81532/534 will not report serial port to USB serial subsystem when
+  * H/W DCD/DSR/CTS/RI/RX pin connected to ground.
+  *
+- * To detect RX pin status, we'll enable MCR interal loopback, disable it and
++ * To detect RX pin status, we'll enable MCR internal loopback, disable it and
+  * delayed for 60ms. It connected to ground If LSR register report UART_LSR_BI.
+  */
+ static bool f81534_check_port_hw_disabled(struct usb_serial *serial, int phy)
+@@ -824,9 +824,9 @@ static bool f81534_check_port_hw_disabled(struct usb_serial *serial, int phy)
+  * f81534_calc_num_ports() will run to final we marked as "oldest version"
+  * for this IC.
+  *
+- * 2rd is designed to more generic to use any transceiver and this is our
++ * 2nd is designed to more generic to use any transceiver and this is our
+  * mass production type. We'll save data in F81534_CUSTOM_ADDRESS_START
+- * (0x2f00) with 9bytes. The 1st byte is a indicater. If the token is
++ * (0x2f00) with 9bytes. The 1st byte is a indicator. If the token is
+  * F81534_CUSTOM_VALID_TOKEN(0xf0), the IC is 2nd gen type, the following
+  * 4bytes save port mode (0:RS232/1:RS485 Invert/2:RS485), and the last
+  * 4bytes save GPIO state(value from 0~7 to represent 3 GPIO output pin).
+diff --git a/drivers/usb/serial/mos7720.c b/drivers/usb/serial/mos7720.c
+index 104f43a8f4d8..312fa11cea95 100644
+--- a/drivers/usb/serial/mos7720.c
++++ b/drivers/usb/serial/mos7720.c
+@@ -1208,7 +1208,7 @@ static int set_higher_rates(struct moschip_port *mos7720_port,
+ 	/***********************************************
+ 	 *              Set for higher rates           *
+ 	 ***********************************************/
+-	/* writing baud rate verbatum into uart clock field clearly not right */
++	/* writing baud rate verbatim into uart clock field clearly not right */
+ 	if (port_number == 0)
+ 		sp_reg = MOS7720_SP1_REG;
+ 	else
+diff --git a/drivers/usb/serial/oti6858.c b/drivers/usb/serial/oti6858.c
+index c6364e8ff71f..0e527fe56da0 100644
+--- a/drivers/usb/serial/oti6858.c
++++ b/drivers/usb/serial/oti6858.c
+@@ -13,7 +13,7 @@
+  * Warning! You use this driver on your own risk! The only official
+  * description of this device I have is datasheet from manufacturer,
+  * and it doesn't contain almost any information needed to write a driver.
+- * Almost all knowlegde used while writing this driver was gathered by:
++ * Almost all knowledge used while writing this driver was gathered by:
+  *  - analyzing traffic between device and the M$ Windows 2000 driver,
+  *  - trying different bit combinations and checking pin states
+  *    with a voltmeter,
 -- 
 2.53.0
 
