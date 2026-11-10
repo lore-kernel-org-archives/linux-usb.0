@@ -1,77 +1,74 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=211.75.126.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794281108;
-	b=W2aRWR728TOz5Q9xTONXfN/KrRZCPyRKgzQT/+iU89w27iXox+Z2bwW5Xop8MtA6/XLb
-	 olDvuXMCdHKFGXDfHxWTv0WtnPgH3UYYWMHl7A2Ex1hGybEz6ID5dkAwtGmFkFxYPQmh1
-	 cJWk48OoGMcAhjtwHN/56/0G5hJ0au6hPAtrhM/f4cSTIyQmkVsXKtrV//CCnP5FpB3TG
-	 vlMM5bV19a/kWoJW1JjeH6sEQ8VXtR2HjnmvXAzdPKki7ibJEwWTaL4kHuL96fF5LOFUJ
-	 C0Xx1VrxSaF3ZUreac0DIMj5QPXKrrgxqnTGPxfRZEZ9B4MkEcdNh0nhIXFQKYgt87w==
+	t=1794281109;
+	b=UsrtU2g3xED3xgpSyFK0+Bw72ea3dF8cXgYExLsLxnQjfXqELP6PWioQ/1FuJxiUANQi
+	 eUulTe/gv36mzLqnHaTW2REgqsN8NwZq9eLOkdDiSyH9g63YhGi//wDRArY4LofdhdFa3
+	 +lK353NymAlRiLZo8nyl81ozhBBGEhrRWIxi+fCcK02J6g7nHURGnuzzOQsvTU/LQVEE0
+	 7jOdMIj+34ANGLOR1Iwyd5OvlgrzHV0C6uh5hnI7iqCQ8SOFeEwB0D9lZ132ujE0/Bwv3
+	 01zemQfGNiPE7ZO3UqXC7Y5O38a8lj4igkLSc/IGXHOi6qyDls5atvpC4wRO3SoRSAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794281108;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794281109;
 	h=DMARC-Filter:X-SpamFilter-By:DKIM-Signature:Received:Received:
 	 Received:Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
-	 Content-Type;
-	bh=sZliCLo916JCPahREn9UZDNuXo8Py42ip6LbvVSYL9M=;
-	b=PZDFibbEN+Fb7ULdnP+WtU3WhuUhRY01knDe0j1bgyz2G37VZdog8230EhBkaigugjmt
-	 jugOO7tYTRJnkaVAHKsOu6phgq3kMsc6l0JtRcwCGungECbYfmswpmw0ZBVY6oM+/drBD
-	 KUqscvSrst9b8uQXZOvkHmaBZq5cEfN0bJDeK4bzTdbpvv1KuI/Usj7ulsihhOmsowsVX
-	 UWzQl6Z/Fr1ndj3+HC6Kd63eW8/4TXFpE5rpU2u0GGeCwY5QIVJSjpN2Ldm3w5FG6SkR2
-	 jnwD/qWFgNgZy0tFlXnh9MmjUcKVIfgpW+8EEyWwBKbVvmzjOB+/wu4lsXloMylvLsQ==
+	 MIME-Version:Content-Transfer-Encoding:Content-Type;
+	bh=4GTtx+qJJAm1fkTbvIwwB8OpXttQZUYLykIBNGh/GKQ=;
+	b=dW1xSpkllaVE0L9eIC9+sibRVYrRx6PVeH29304NbLUgy+s+lUshyG3Cnv+HLhL2VyQs
+	 xywZWavBGctJSRco1wMNAtBK78Hv4H6iXQoxvWZ2lz8W30yxjWOxAND55Vcs5Nj8Ico9w
+	 gnY+rUKRR+SJkz41gF5m54kGq30ZttHtSQ8r81ScMg92y604p6wMCU5mUqSl0QVIl5S3B
+	 /YX9W/42fMTCDiWs8PBZrv4Z7/3dcr5lUtZ8ijE1a4DL6PuwYV5Y572VlM2vJ8uLFTea6
+	 +L40kPxGGVsc3PCvQJRP27FN0vJAya0anFQR3CLoSUEM7fwhLXHyHMcudy2cLHl061g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=realtek.com;
 	spf=pass smtp.mailfrom=realtek.com;
-	dkim=pass header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=TPENfVTv;
+	dkim=pass header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=HImLGgc4;
 	arc=none smtp.remote-ip=211.75.126.72
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9FA60A2622;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8E860A2620;
 	Tue, 10 Nov 2026 03:25:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA9FA60A2622
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA8E860A2620
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=TPENfVTv
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6AA3OOO20884407, This message is accepted by code: ctloc85258
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=HImLGgc4
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6AA3OJ2Z0884546, This message is accepted by code: ctloc85258
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1794281064; bh=sZliCLo916JCPahREn9UZDNuXo8Py42ip6LbvVSYL9M=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	b=TPENfVTvXc4kIL4UgauwgWy9eDRk9ZmC/c6ZT/Ccgs2J+PBee4dS4MVexA10Xngy7
-	 SUGlzSfCYfJhECQq/4dFh3+oR+kJmLvTKa9zsLS8NZ3xKCV+FZgaA0phpr7YIZZnH2
-	 sUIBIQvgJsg/4FWjSuSf7vGc0we1qXw/tqf98JDrxyEcvQFxCnoEvsxOhAXL5wxp5J
-	 MDsRmCOGd5oIbvpym+xpwTuEi5Lcst8+YNBtkWbKSw0ILs4mRoZskU0p36pDYTFjwh
-	 3JIAMJJrSsKJpQa3UgCRN9RqwfKsQAa1Ar10mQek1wnTEa/0JLzLYG0uyozxNClxia
-	 epgiF2kCjGSrg==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6AA3OOO20884407
+	t=1794281059; bh=4GTtx+qJJAm1fkTbvIwwB8OpXttQZUYLykIBNGh/GKQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=HImLGgc4h2Uueo6SZFFN7bC6sFnnmAIjHB4UXzmD5zJoCktqG1Iux3mwLg23JiY48
+	 aokewZ22TLtCQNpx7FocLssvGrLjmsMyKWN02GGFMBc6CJ3pa/wljMmfTf5wpnwaUx
+	 IkL1zy0AdxTHrPLt6y2rvuNHII/TzAMCpWcVtM6tjoQQq/IzotlCGVJjF7YAALKGtw
+	 baRwhXDpfVqAteuYY9uB9hMzWLYw3n9yNameiQad1Ar65wgRTeOqYGg8BYO1SEsoM/
+	 qPljGh/TX1thMVO5arDoZqCeDac4nxVeC5iDLusherUEa8aaVV6fhyD5xKjsQCMqO1
+	 VzZJA8VOvzZ3w==
+Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6AA3OJ2Z0884546
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 10 Nov 2026 11:24:24 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+	Tue, 10 Nov 2026 11:24:19 +0800
+Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Tue, 10 Nov 2026 11:24:23 +0800
+ 15.2.2562.56; Tue, 10 Nov 2026 11:24:19 +0800
 Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
+ RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Tue, 10 Nov 2026 11:24:21 +0800
+ 15.2.2562.56; Tue, 10 Nov 2026 11:24:17 +0800
 Received: from fc44.realtek.com.tw (172.22.241.7) by
  RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
- 15.2.2562.56 via Frontend Transport; Tue, 10 Nov 2026 11:24:21 +0800
+ 15.2.2562.56 via Frontend Transport; Tue, 10 Nov 2026 11:24:17 +0800
 From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 To: <davem@davemloft.net>, <kuba@kernel.org>
 CC: <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
 	<linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
 	<edumazet@google.com>, <bjorn@mork.no>, <pabeni@redhat.com>,
 	<hsu.chih.kai@realtek.com>, <andrew+netdev@lunn.ch>, <mail@birger-koblitz.de>
-Subject: [PATCH net-next v8 07/11] r8152: split RTL_VER_17 into QFN68 and QFN100 package variants
-Date: Tue, 10 Nov 2026 11:24:12 +0800
-Message-ID: <20261110032416.16968-8-nic_swsd@realtek.com>
+Subject: [PATCH net-next v8 00/11] r8152: refactor and extend RTL8157/8159 support
+Date: Tue, 10 Nov 2026 11:24:05 +0800
+Message-ID: <20261110032416.16968-1-nic_swsd@realtek.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261110032416.16968-1-nic_swsd@realtek.com>
-References: <20261110032416.16968-1-nic_swsd@realtek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,316 +81,230 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-RTL8159 is sold in QFN68 and QFN100 packages, and only QFN68 needs
-the u2phy backup-restore patch and enables UPS (in a later patch).
-There was previously no way to tell the two apart at runtime, since
-both used the same RTL_VER_17.
+RTL8157 and RTL8159 have different init, enable, up/down, hw_phy_cfg,
+and PHY access sequences from RTL8156. This series first fixes the
+up/down, unload, change_mtu and flow control settings that these chips
+shared with RTL8156 but need to be different, then separates the shared
+callbacks by chip generation and adds the missing RTL8157/RTL8159
+functionality: TGPHY register access via phy_read/phy_write pointers in
+struct rtl_ops, and UPS support via r8157_ups_en().
 
-Split RTL_VER_17 into RTL_VER_17_QFN68 and RTL_VER_17_QFN100 and
-update every switch/case on RTL_VER_17 in the driver to handle both.
-Detect the package by reading the new PLA_PKG_DET register
-(0xdc48, masked with PKG_MASK = 0x1e) via a new __rtl_get_pkg_det()
-helper, called from __rtl_get_hw_ver() when the chip ID is 0x2020:
-pkg_det value 0x1e/0x1c selects QFN68, 0x18/0x1a selects QFN100, and
-any other value logs "Unknown package" and falls back to
-RTL_VER_UNKNOWN.
+v8:
+- Move the fixes to the front of the series, so that they can be
+  backported without the refactoring, and add Fixes tags:
+  - Patch #1 (was v7 #5): fix up and down register settings, now
+    applied to the shared rtl8156_up()/rtl8156_down() before they are
+    split.
+  - Patch #2 and #3 (were v7 #7): split rtl8157_unload() and
+    rtl8157_change_mtu() into separate patches. Reword the commit
+    messages.
+  - Patch #4 (was v7 #9): fix flow control for
+    RTL8156/RTL8156B/RTL8157/RTL8159. It is now applied to the shared
+    rtl8156_init() and rtl8156_enable(), and goes ahead of the
+    refactoring. Rework the commit message: describe what was missing
+    on each chip, and note that the 500 and 1250 Mbit/s rates the
+    hardware can report disarm the pause limit.
 
-r8157_init() gains a QFN68-only write ("Enable u2phy backup restore
-patch", 0xb99c BIT(0)) that does not apply to QFN100.
+- Patch #5 (was v7 #1): the RTL8156B-only part of r8156_init() is now
+  the AUTO_SPEEDUP clear, as the flow control setup moved to patch #4.
+  Update the commit message.
 
-Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
----
- drivers/net/usb/r8152.c | 106 ++++++++++++++++++++++++++++++++--------
- 1 file changed, 86 insertions(+), 20 deletions(-)
+- Patch #6 (was v7 #2): RTL_VER_12 no longer gets
+  r8156b_u2phy_backup().
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index a1c2e1e08b161..b6f252722a5eb 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -64,6 +64,7 @@
- #define PLA_MACDBG_POST		0xd38e	/* RTL_VER_04 only */
- #define PLA_EXTRA_STATUS	0xd398
- #define PLA_GPHY_CTRL		0xd3ae
-+#define PLA_PKG_DET		0xdc48
- #define PLA_POL_GPIO_CTRL	0xdc6a
- #define PLA_EFUSE_DATA		0xdd00
- #define PLA_EFUSE_CMD		0xdd02
-@@ -291,6 +292,9 @@
- #define IFG_144NS		BIT(9)
- #define IFG_96NS		(BIT(9) | BIT(8))
- 
-+/* PLA_PKG_DET */
-+#define PKG_MASK		0x1e
-+
- /* PLA_MTPS */
- #define MTPS_JUMBO		(12 * 1024 / 64)
- #define MTPS_DEFAULT		(6 * 1024 / 64)
-@@ -1258,7 +1262,8 @@ enum rtl_version {
- 	RTL_VER_14,
- 	RTL_VER_15,
- 	RTL_VER_16,
--	RTL_VER_17,
-+	RTL_VER_17_QFN68,
-+	RTL_VER_17_QFN100,
- 
- 	RTL_VER_MAX
- };
-@@ -3423,7 +3428,8 @@ static void rtl8152_nic_reset(struct r8152 *tp)
- 		break;
- 
- 	case RTL_VER_16:
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		ocp_byte_clr_bits(tp, MCU_TYPE_PLA, PLA_CR, CR_RE | CR_TE);
- 		break;
- 
-@@ -3463,7 +3469,7 @@ static void rtl_eee_plus_en(struct r8152 *tp, bool enable)
- 
- static void rtl_set_eee_plus(struct r8152 *tp)
- {
--	if (tp->version == RTL_VER_17)
-+	if (tp->version == RTL_VER_17_QFN68 || tp->version == RTL_VER_17_QFN100)
- 		return rtl_eee_plus_en(tp, false);
- 
- 	if (rtl8152_get_speed(tp) & _10bps)
-@@ -3651,7 +3657,8 @@ static void r8153_set_rx_early_timeout(struct r8152 *tp)
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EARLY_TIMEOUT,
- 			       640 / 8);
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EXTRA_AGGR_TMR,
-@@ -3696,7 +3703,8 @@ static void r8153_set_rx_early_size(struct r8152 *tp)
- 			       ocp_data / 8);
- 		break;
- 	case RTL_VER_16:
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EARLY_SIZE,
- 			       ocp_data / 16);
- 		break;
-@@ -3812,6 +3820,8 @@ static void rtl_rx_vlan_en(struct r8152 *tp, bool enable)
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 	default:
- 		if (enable)
- 			ocp_word_set_bits(tp, MCU_TYPE_PLA, PLA_RCR1,
-@@ -4492,6 +4502,8 @@ static void r8153_teredo_off(struct r8152 *tp)
- 	case RTL_VER_14:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 	default:
- 		/* The bit 0 ~ 7 are relative with teredo settings. They are
- 		 * W1C (write 1 to clear), so set all 1 to disable it.
-@@ -4546,7 +4558,8 @@ static void rtl_clear_bp(struct r8152 *tp, u16 type)
- 		break;
- 	case RTL_VER_14:
- 	case RTL_VER_16:
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 	default:
- 		ocp_write_word(tp, type, USB_BP2_EN, 0);
- 		bp_num = 16;
-@@ -4658,7 +4671,8 @@ static bool rtl8152_is_fw_phy_speed_up_ok(struct r8152 *tp, struct fw_phy_speed_
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 	default:
- 		break;
- 	}
-@@ -5818,7 +5832,8 @@ static void rtl_eee_enable(struct r8152 *tp, bool enable)
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		if (enable) {
- 			r8156_eee_en(tp, true);
- 			ocp_reg_write(tp, OCP_EEE_ADV, tp->eee_adv);
-@@ -6009,7 +6024,8 @@ static void rtl_fc_pause_pkt_en(struct r8152 *tp, u16 speed)
- 		ocp_word_set_bits(tp, MCU_TYPE_USB, USB_FW_TASK, FC_PATCH_TASK);
- 		break;
- 	case RTL_VER_16:
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_RCR, SLOT_EN);
- 
- 		num_pause_pkts = 0xa;
-@@ -6506,7 +6522,7 @@ static int rtl8156_enable(struct r8152 *tp)
- 	set_tx_qlen(tp);
- 	rtl_set_eee_plus(tp);
- 
--	if (tp->version >= RTL_VER_12 && tp->version <= RTL_VER_17)
-+	if (tp->version >= RTL_VER_12 && tp->version <= RTL_VER_17_QFN100)
- 		ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_RX_AGGR_NUM, RX_AGGR_NUM_MASK);
- 
- 	r8153_set_rx_early_timeout(tp);
-@@ -7002,7 +7018,8 @@ static void rtl8156_up(struct r8152 *tp)
- 		ocp_word_set_bits(tp, MCU_TYPE_USB, 0xd3ca, BIT(15));
- 		break;
- 	case RTL_VER_16:
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		/* Enable Clear_SDR */
- 		ocp_byte_set_bits(tp, MCU_TYPE_USB, 0xd378, BIT(7));
- 		/* Clear SDR bit */
-@@ -7046,7 +7063,8 @@ static void rtl8156_down(struct r8152 *tp)
- 
- 	switch (tp->version) {
- 	case RTL_VER_16:
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		ocp_write_word(tp, MCU_TYPE_PLA, PLA_RMS, 1526);
- 		ocp_write_byte(tp, MCU_TYPE_PLA, PLA_MTPS, 10 * 1024 / 64);
- 		break;
-@@ -8252,7 +8270,8 @@ static void r8157_hw_phy_cfg(struct r8152 *tp)
- 		sram2_write_w0w1(tp, 0x809d, 0xff00, 0x5000);
- 		break;
- 
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		/* Disable bypass turn off clk in ALDPS */
- 		ocp_byte_clr_bits(tp, MCU_TYPE_PLA, 0xd3c8, BIT(0));
- 
-@@ -8646,7 +8665,8 @@ static void r8157_init(struct r8152 *tp)
- 		return;
- 
- 	switch (tp->version) {
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		if (r8159_wait_backup_restore(tp)) {
- 			rtl_set_inaccessible(tp);
- 			dev_err(&tp->intf->dev,
-@@ -8693,7 +8713,8 @@ static void r8157_init(struct r8152 *tp)
- 	ocp_word_clr_bits(tp, MCU_TYPE_USB, 0xcd06, BIT(11));
- 
- 	switch (tp->version) {
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		/* Disable FW u1u2 patch option */
- 		ocp_byte_clr_bits(tp, MCU_TYPE_USB, 0xb9a6, BIT(0));
- 		break;
-@@ -8731,7 +8752,11 @@ static void r8157_init(struct r8152 *tp)
- 	ocp_byte_clr_bits(tp, MCU_TYPE_USB, 0xd4ae, BIT(1));
- 
- 	switch (tp->version) {
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+		/* Enable u2phy backup restore patch */
-+		ocp_byte_set_bits(tp, MCU_TYPE_USB, 0xb99c, BIT(0));
-+		fallthrough;
-+	case RTL_VER_17_QFN100:
- 		/* Enable u3phy patch backup */
- 		ocp_write_word(tp, MCU_TYPE_USB, 0xb9a2, 0x0448);
- 		break;
-@@ -10125,7 +10150,8 @@ static int rtl_ops_init(struct r8152 *tp)
- 		r8157_desc_init(tp);
- 		break;
- 
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		tp->eee_en		= true;
- 		tp->eee_adv		= MDIO_EEE_100TX | MDIO_EEE_1000T | MDIO_EEE_10GT;
- 		tp->eee_adv2		= MDIO_EEE_2_5GT | MDIO_EEE_5GT;
-@@ -10217,7 +10243,8 @@ static int rtl_fw_init(struct r8152 *tp)
- 	case RTL_VER_16:
- 		rtl_fw->fw_name		= FIRMWARE_8157_1;
- 		break;
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		rtl_fw->fw_name		= FIRMWARE_8159_1;
- 		break;
- 	default:
-@@ -10227,9 +10254,38 @@ static int rtl_fw_init(struct r8152 *tp)
- 	return 0;
- }
- 
-+static u32 __rtl_get_pkg_det(struct usb_device *udev)
-+{
-+	u32 pkg_det = 0;
-+	__le32 *tmp;
-+	int ret, i;
-+
-+	tmp = kmalloc_obj(*tmp);
-+	if (!tmp)
-+		return 0;
-+
-+	for (i = 0, ret = 0; i < 3 && ret != 4; i++)
-+		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
-+				      RTL8152_REQ_GET_REGS, RTL8152_REQT_READ,
-+				      PLA_PKG_DET, MCU_TYPE_PLA, tmp,
-+				      sizeof(*tmp), USB_CTRL_GET_TIMEOUT);
-+
-+	if (ret == sizeof(*tmp)) {
-+		if (i != 1)
-+			dev_warn(&udev->dev,
-+				 "Needed %d retries to read package\n", i - 1);
-+
-+		pkg_det = __le32_to_cpu(*tmp) & PKG_MASK;
-+	}
-+
-+	kfree(tmp);
-+	return pkg_det;
-+}
-+
- static u8 __rtl_get_hw_ver(struct usb_device *udev)
- {
- 	u32 ocp_data = 0;
-+	u32 pkg_det = 0;
- 	__le32 *tmp;
- 	u8 version;
- 	int ret;
-@@ -10312,7 +10368,16 @@ static u8 __rtl_get_hw_ver(struct usb_device *udev)
- 		version = RTL_VER_16;
- 		break;
- 	case 0x2020:
--		version = RTL_VER_17;
-+		pkg_det = __rtl_get_pkg_det(udev);
-+		if (pkg_det == 0x1e || pkg_det == 0x1c) {
-+			version = RTL_VER_17_QFN68;
-+		} else if (pkg_det == 0x18 || pkg_det == 0x1a) {
-+			version = RTL_VER_17_QFN100;
-+		} else {
-+			version = RTL_VER_UNKNOWN;
-+			dev_info(&udev->dev, "Unknown package 0x%04x\n",
-+				 pkg_det);
-+		}
- 		break;
- 	default:
- 		version = RTL_VER_UNKNOWN;
-@@ -10471,7 +10536,8 @@ static int rtl8152_probe_once(struct usb_interface *intf,
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
--	case RTL_VER_17:
-+	case RTL_VER_17_QFN68:
-+	case RTL_VER_17_QFN100:
- 		netdev->max_mtu = size_to_mtu(16 * 1024);
- 		break;
- 	case RTL_VER_01:
+- Patch #7 (was v7 #3): rebase on the new order, with the VER_17 cases
+  in rtl_fc_pause_pkt_en(), rtl8156_up() and rtl8156_down() split into
+  QFN68 and QFN100.
+
+- Patch #8 (was v7 #4): rebase on the new order. The register fixes
+  and rtl8157_change_mtu() now come from patches #1 to #3, so this
+  patch is a pure split with no functional change intended. Add
+  rtl8156b_enable() for RTL8156B (VER_12/13/15), so that
+  rtl8156_enable() serves RTL8156 only and neither needs version
+  checks.
+
+- Patch #9 (was v7 #6): rebase on the new order.
+
+- Patch #10 (was v7 #8):
+  - Log a TGPHY busy timeout ratelimited, so that a stuck busy bit does
+    not flood the log.
+  - Propagate the PHY access failure also in
+    rtl8152_get_link_ksettings(), r8153_get_eee() and
+    r8152_mdio_read(), and stop on a failed read in rtl8153_in_nway(),
+    r8156_mdio_force_mode(), r8156_eee_en() and rtl8152_fw_phy_fixup().
+  - rtl8152_get_pauseparam() reports no flow control, and
+    r8153_phy_status() keeps polling, when a read fails.
+  - rtl8152_set_speed() leaves the cached advertising and a pending PHY
+    reset untouched when a write fails.
+  - read_mii_word() reports a failed read as 0, as the MII library
+    takes the return value for register content.
+  - rtl_phy_patch_request() returns the errno of a failed write and
+    releases PATCH_REQUEST when a later step fails.
+  - Rewrite the commit message and list what is left to a follow-up
+    series.
+
+- Patch #11 (was v7 #10): in r8157_ups_en(), stop waiting for the
+  backup restore, and return, as soon as the device is marked
+  RTL8152_INACCESSIBLE.
+
+v7:
+- Patch #1: split r8156_init() by chip generation rather than per
+  chip. RTL8156 and RTL8156B share r8156_init(), and RTL8157 and
+  RTL8159 share r8157_init(), since their sequences are near-identical.
+  The few differences are selected with switch (tp->version).
+  r8156b_init() and r8159_init() are gone.
+
+- Patch #2: apply the new init writes to the merged r8156_init() and
+  r8157_init().
+
+- Patch #3:
+  - The RTL8159 QFN68/QFN100 differences become cases of the version
+    switches in r8157_init(), and the QFN68-only u2phy backup restore
+    write falls through to the common u3phy backup write.
+  - Report the number of retries (i - 1) in the "Needed %d retries to
+    read package" warning.
+  - Update the commit message.
+
+- Patch #4:
+  - Share the exit-OOB and enter-OOB sequences of RTL8156, RTL8156B,
+    RTL8157 and RTL8159 through r8156_exit_oob() and r8156_enter_oob(),
+    as RTL8152B and RTL8153 do.
+  - Serve RTL8156 and RTL8156B (VER_10/11/12/13/15) with a single
+    rtl8156_enable() instead of adding rtl8156b_enable(). The
+    r8156_fc_parameter() call stays behind a version check, so it is
+    no longer dropped.
+  - Retitle and update the commit message.
+
+- Patch #5: adapt to the shared r8156_exit_oob() and r8156_enter_oob().
+  Update the commit message.
+
+- Patch #7: r8156_exit_oob() now calls tp->rtl_ops.change_mtu() instead
+  of rtl8156_change_mtu(), so that rtl8157_up() gets
+  rtl8157_change_mtu(). Update the commit message.
+
+- Patch #9: apply rtl_fc_pause_pkt_en() in the merged r8156_init().
+  AUTO_SPEEDUP is still cleared there for RTL8156B only. Update the
+  commit message.
+
+- Patch #10: replace r8156_ups_en() with r8157_ups_en() in the merged
+  r8157_init() only. Update the commit message.
+
+v6:
+- Patch #1: make it a pure split of r8156_init() per chip, plus the
+  wait_autoload_done() helper, with no functional change. The new
+  init writes it used to carry move to patch #2. Also convert
+  r8152b_init() to wait_autoload_done().
+
+- Patch #2 (new): add the new init writes for RTL8156B/8157/8159,
+  taken out of patch #1.
+
+- Patch #3:
+  - Fix the "Needed %d retries" warning in __rtl_get_pkg_det() to
+    trigger only when a retry was actually needed (i != 1).
+  - Reword the commit message.
+
+- Patch #6:
+  - r8159_hw_phy_cfg() ends with rtl_eee_enable(tp, tp->eee_en) so
+    that the configured state is applied in both directions.
+  - Reword the commit message.
+
+- Patch #8:
+  - A TGPHY busy timeout no longer sets RTL8152_INACCESSIBLE.
+    wait_tgphy_cmd_ready() logs and returns the poll error, as the
+    ADV command channel does, and returns -ENODEV only if the device
+    is already marked inaccessible.
+  - Drop the RTL8152_INACCESSIBLE exceptions from the LAN_ON
+    WARN_ON_ONCE() checks in hw_phy_cfg, which are no longer needed.
+  - Narrow the commit message to what the patch does and list what is
+    left to a follow-up series: the remaining callers, the MII library
+    callbacks, and the recovery from a TGPHY timeout.
+
+- Patch #9:
+  - Explain the symptom, that RTL8157/RTL8159 could keep sending pause
+    frames indefinitely, and add Fixes tags for RTL8156, RTL8157 and
+    RTL8159.
+  - Keep the FC patch in r8156b_init() split from the AUTO_SPEEDUP
+    clearing, and call rtl_fc_pause_pkt_en() right before it.
+
+- Patch #10: note in the commit message that a backup-restore timeout
+  in r8157_ups_en() follows what r8159_init() does for the same wait
+  (mark the device inaccessible and log, without queuing a reset), and
+  that recovery is left to a follow-up series.
+
+v5:
+- Patch #1: in r8157_init()/r8159_init(), call
+  r8156b_wait_loading_flash() before wait_autoload_done(). Document
+  in the commit message that the "Bulk In End" bit is cleared in
+  r8157_init(), and drop the claim about the FC-timer block.
+
+- Patch #2: accept the package read only if the full word was returned,
+  warn when a retry was needed, and print an unknown package as
+  0x%04x. Say "firmware" instead of "PHY tuning" in the commit
+  message.
+
+- Patch #3: make it a pure split with no functional change. Its
+  register fixes move to the new patch #4.
+
+- Patch #4 (new): fix up and down register settings for
+  RTL8156/8156B/8157/8159.
+
+- Patch #5: document the new RTL8159 PHY tuning parameters in the
+  commit message.
+
+- Patch #6: add Fixes tags.
+
+- Patch #7:
+  - A TGPHY busy timeout now sets RTL8152_INACCESSIBLE and returns
+    -ENODEV.
+  - sram_write() returns the data-write result.
+  - The PHY firmware version checks, the BMCR reset poll,
+    rtl8152_set_speed(), the pause parameters and the PHY patch
+    handshake handle PHY access failures.
+  - SIOCGMIIREG returns 0 with val_out set on success, or the error.
+  - Commit message rewritten.
+
+- Patch #8: drop the "no link" case, since the caller checks the link.
+  An unknown speed now disarms the pause limit. Commit message
+  rewritten.
+
+- Patch #9: wait for the backup-restore flag with a timeout in
+  r8157_ups_en(). Rename USB_FW_USE_VER to USB_FW_USB_VER.
+
+v4:
+- Patch #1: make wait_autoload_done() bail out immediately on
+  RTL8152_INACCESSIBLE instead of waiting out the full 10 second
+  timeout.
+- Patch #6: propagate PHY access failures instead of ignoring them.
+  ocp_reg_read()/ocp_reg_write() and every helper built on top of them
+  (sram_read/write, sram2_read/write, the ocp_reg_*_bits and MDIO bit
+  helpers) now return int and stop silently operating on stale data
+  when a TGPHY access times out.
+
+v3:
+Rebase on top of latest net-next to resolve merge conflicts.
+
+v2:
+- For patch #1, use read_poll_timeout() to replace the manual
+  for-loop polling.
+- For patch #2 and #3, rewrite the commit message.
+
+Chih Kai Hsu (11):
+  r8152: fix RTL8156/RTL8156B/RTL8157/RTL8159 up and down settings
+  r8152: add rtl8157_unload() for RTL8157 and RTL8159
+  r8152: add rtl8157_change_mtu() for RTL8157 and RTL8159
+  r8152: fix flow control for RTL8156/RTL8156B/RTL8157/RTL8159
+  r8152: split r8156_init by generation and factor out
+    wait_autoload_done
+  r8152: add new init writes for RTL8156/8156B/8157/8159
+  r8152: split RTL_VER_17 into QFN68 and QFN100 package variants
+  r8152: split rtl8156_enable/up/down into per-generation functions
+  r8152: split r8157_hw_phy_cfg into RTL8157 and RTL8159 variants
+  r8152: add TGPHY register access for RTL8157 and RTL8159
+  r8152: enable UPS for RTL8157 and RTL8159 QFN68
+
+ drivers/net/usb/r8152.c | 1778 +++++++++++++++++++++++++++++----------
+ 1 file changed, 1341 insertions(+), 437 deletions(-)
+
 -- 
 2.34.1
 
