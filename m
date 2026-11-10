@@ -1,62 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794297520;
-	b=gNQ1JV3IVbp62Rjv7TiVv/ekzgKac+GzVNFQydwCfbaf/9CYiAkghnAgPpZh7yVj0n/F
-	 0E4aCjHA85PjT4BGcQ1x9JoStMSVCTOKP8C4FB05CUoUgvVO9zeF1Z9GGtm/8WK4a8DNR
-	 iwH1G7w6KcO4KLx0wgvqRoZmDbGbpP7cfxD37NVXVOZZ9nKlesH0joyrPyi+Se0lYC/is
-	 MCR/THps49ZUau3fFkrUrjUOf6mARRgIRyJ3+QtWMXl4WV5OMT0gBb7NbwJTpizZVl9sQ
-	 Yt7fOrKFIlFodfEsnN6tbd0IJgJgFuZSE6DWm6ehK84VUb9RDHQZBIjnOLhTVqf4Bww==
+	t=1794297521;
+	b=muGGkobQ5IRDeRbWBXjE5If0szBun3FFKGfnP2aGm6d5dsDDCS7vl3HWrTlJuOrcVFAd
+	 EmD/FybTpXy8ZlggD1tT9ngFSxongwjcRYHrKA/lNJPW8eGp6YlLRZfBft9Vk4NaSJjdw
+	 r3vdAQMZzRawE4fjUk74OIetQ/ZPOwIulVaisShsA5w63I1boCxEhjIjePmm6AQUg1VTA
+	 f8LuyWB1YP+70h2OVpb4E8ygiboMxl8w1KCn6X6e9NfSAozwbEwxUsEramIP4Bj6962fg
+	 mnfGRAqb2I098gnoSYQmx2IhJe4a2F9leAwGqSRszx/3D3HLy3iqni9G5P7x26nzKIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794297520;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794297521;
 	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
 	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
 	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=NoBZTVv1shVwmkJvvV8aDCWMUpsFZmi4eqE2fdU6/kQ=;
-	b=ehBsMWXF4lVdcIoEKcG1qr3Q7frShzEc7Y5JHl1+S3x0RvFMMWEOePzkh4L7b/9l4wBA
-	 ujCMelKmoGFXwEsY7qxKzKe8hT5F0p0/HCTJ3hKYzKEZO+/kdlKsPKZOCZQy6pUpHAXZZ
-	 zLKgQkFmPdLMTkBblgAqY4YDF7dHQN1G8JPFLvMCuaHkwm7kwGXiV1ppf5lSDDn+SSsA1
-	 dvi4cCkWDcQC8tTtQr5qW6xTCwynDQPGVGJ+2AoEXzGlUSzm+pceITNuvPThOOAKGEzzV
-	 btHo0PeeB7nh3NEDK+xC+TmZeAsnh/U9ZzWttk+7zsWMBQXSrymW4dyzg1kps16jXgQ==
+	bh=xXxoNAlKa/PBpV5ol5S8Xdd6kzfXK1Yx10K2yYA4fw0=;
+	b=BeeKTeWxZ7RBBWbMAlh/gdK70WPtOnMeI0K2uQT6QofAvGzNFiIkcIrVVw1peYNiH4Hf
+	 LFxOHNt0rNifadvOttLx8gQJNCEg36BWI7Sec1lHpPTKHtacECUuLqTUduqMz4UezRIWi
+	 WDs6E1MsasUakUg+08gIvUXUDFaISDHRwrVSo96fsrXyNAHL3FRuvzTymP/QQiEl2Q+aY
+	 TneGMgCHjkd0N6+H8DuIHZCJwvjxiY1rqmOoHxZmzZ/WH+4rRbt1JkZT9a/E93EQSFiAb
+	 uekJVexfx1jKeuize4wc8xix4Qoj+QTtqETnv4i/+GulSX10mBbT2Oj0YIkUGiqwCPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cmss.chinamobile.com;
 	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=rxxDcuj3;
-	arc=none smtp.remote-ip=111.22.67.151
-Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 962A860A5BFD;
-	Tue, 10 Nov 2026 07:58:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 962A860A5BFD
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b="N4Xo6Z/S";
+	arc=none smtp.remote-ip=111.22.67.137
+Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9A406077D4E;
+	Tue, 10 Nov 2026 07:58:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9A406077D4E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=rxxDcuj3
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=N4Xo6Z/S
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=cmss.chinamobile.com; s=default; l=0;
 	h=from:subject:message-id:to:cc:mime-version;
 	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=rxxDcuj39Tk+ij5f68oU1/VdCog8NfmItoDd46NLBFbn8kdh5z2XaLFjeu4NKvKzb/eBCMuEvIDr0
-	 Tgup6f9gSNp6WTRwslsmSraLCDSr2AmhhUkHdUkZJck/0WIQehmKKNd1vzefasdlBntigKR/y6emZw
-	 4njZvpq1LOQ2PnIk=
+	b=N4Xo6Z/S/55J+hunyQ6nJNQ5nKptG/8QbtR5cxpjCQDR0jL5iX3TsqprHCi293U29p1OTEnxiPaxD
+	 EFjuNmUnauB7hkQMpMkAtz77UwkZI0FjdOXQoMCzrfBAIUsl2i1fZexctw/D/cRpzzJuOoJhzmmci9
+	 dAHxe4ENookoH0Eo=
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app02-12002 (RichMail) with SMTP id 2ee26af2ceada30-08804;
-	Tue, 10 Nov 2026 15:58:37 +0800 (CST)
-X-RM-TRANSID:2ee26af2ceada30-08804
+	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86af2ceae5ca-6c6c2;
+	Tue, 10 Nov 2026 15:58:39 +0800 (CST)
+X-RM-TRANSID:2ee86af2ceae5ca-6c6c2
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from  (unknown[223.108.79.97])
-	by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee76af2cea2027-acde9;
-	Tue, 10 Nov 2026 15:58:37 +0800 (CST)
-X-RM-TRANSID:2ee76af2cea2027-acde9
+	by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee76af2cea2027-acdef;
+	Tue, 10 Nov 2026 15:58:39 +0800 (CST)
+X-RM-TRANSID:2ee76af2cea2027-acdef
 From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 17/22] usb: renesas_usbhs: fix a few spelling mistakes in comments
-Date: Tue, 10 Nov 2026 07:58:20 +0000
-Message-ID: <20261110075825.24946-18-shishunbo@cmss.chinamobile.com>
+Subject: [PATCH v2 21/22] usb: typec: fix a few spelling mistakes in comments
+Date: Tue, 10 Nov 2026 07:58:24 +0000
+Message-ID: <20261110075825.24946-22-shishunbo@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261110075825.24946-1-shishunbo@cmss.chinamobile.com>
 References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
@@ -76,54 +76,110 @@ No functional changes.
 
 Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 ---
- drivers/usb/renesas_usbhs/mod_gadget.c | 2 +-
- drivers/usb/renesas_usbhs/mod_host.c   | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/typec/class.c            | 2 +-
+ drivers/usb/typec/tcpm/tcpm.c        | 6 +++---
+ drivers/usb/typec/tipd/core.c        | 2 +-
+ drivers/usb/typec/ucsi/displayport.c | 2 +-
+ drivers/usb/typec/ucsi/psy.c         | 2 +-
+ drivers/usb/typec/ucsi/ucsi.h        | 2 +-
+ 6 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/renesas_usbhs/mod_gadget.c b/drivers/usb/renesas_usbhs/mod_gadget.c
-index 0c7fe109d5c7..92f4f35f8bb1 100644
---- a/drivers/usb/renesas_usbhs/mod_gadget.c
-+++ b/drivers/usb/renesas_usbhs/mod_gadget.c
-@@ -852,7 +852,7 @@ static int usbhsg_try_start(struct usbhs_priv *priv, u32 status)
- 	usbhs_pipe_config_update(dcp->pipe, 0, 0, 64);
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 54c7810b563b..ea2564b9eff6 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -564,7 +564,7 @@ static const struct attribute_group *typec_altmode_groups[] = {
+  * @adev: Handle to the alternate mode
+  * @ops: Ops for the alternate mode
+  *
+- * After setting ops, attribute visiblity needs to be refreshed if the alternate
++ * After setting ops, attribute visibility needs to be refreshed if the alternate
+  * mode can be activated.
+  */
+ void typec_altmode_set_ops(struct typec_altmode *adev,
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index d721baef5210..dabb91319e8a 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -2520,7 +2520,7 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 			/*
+ 			 * PD2.0 Spec 6.10.3: respond with NAK as DFP (data host)
+ 			 * PD3.1 Spec 6.4.4.2.5.1: respond with NAK if "invalid field" or
+-			 * "wrong configuation" or "Unrecognized"
++			 * "wrong configuration" or "Unrecognized"
+ 			 */
+ 			if ((port->data_role == TYPEC_DEVICE || svdm_version >= SVDM_VER_2_0) &&
+ 			    port->nr_snk_vdo) {
+@@ -4461,7 +4461,7 @@ static int tcpm_pd_select_pdo(struct tcpm_port *port, int *sink_pdo,
  
  	/*
--	 * system config enble
-+	 * system config enable
- 	 * - HI speed
- 	 * - function
- 	 * - usb module
-diff --git a/drivers/usb/renesas_usbhs/mod_host.c b/drivers/usb/renesas_usbhs/mod_host.c
-index f7ef3a9f82a4..1a35f54203c0 100644
---- a/drivers/usb/renesas_usbhs/mod_host.c
-+++ b/drivers/usb/renesas_usbhs/mod_host.c
-@@ -1319,7 +1319,7 @@ static int usbhsh_irq_attch(struct usbhs_priv *priv,
- 	usbhsh_port_stat_set(hpriv, USB_PORT_STAT_C_CONNECTION << 16);
+ 	 * Select the source PDO providing the most power which has a
+-	 * matchig sink cap.
++	 * matching sink cap.
+ 	 */
+ 	for (i = 0; i < port->nr_source_caps; i++) {
+ 		u32 pdo = port->source_caps[i];
+@@ -5960,7 +5960,7 @@ static void run_state_machine(struct tcpm_port *port)
+ 			}
+ 			/*
+ 			 * Although tAvsSrcTransSmall is expected to be used
+-			 * for voltage transistions smaller than 1V, using
++			 * for voltage transitions smaller than 1V, using
+ 			 * tAvsSrcTransLarge to be resilient against chargers
+ 			 * which strictly cannot honor tAvsSrcTransSmall to
+ 			 * improve interoperability.
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index 02539378ffed..67471c363a68 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -950,7 +950,7 @@ static irqreturn_t cd321x_interrupt(int irq, void *data)
+ 		if (!tps->data->read_data_status(tps))
+ 			goto err_unlock;
+ 
+-	/* Can be called uncondtionally since it will check for any changes itself */
++	/* Can be called unconditionally since it will check for any changes itself */
+ 	cd321x_connect(tps, status);
+ 
+ err_unlock:
+diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
+index 572da7bbd29c..56cf7deb2312 100644
+--- a/drivers/usb/typec/ucsi/displayport.c
++++ b/drivers/usb/typec/ucsi/displayport.c
+@@ -165,7 +165,7 @@ static int ucsi_displayport_status_update(struct ucsi_dp *dp)
+ 	dp->data.status = DP_STATUS_ENABLED;
  
  	/*
--	 * attch interrupt might happen infinitely on some device
-+	 * attach interrupt might happen infinitely on some device
- 	 * (on self power USB hub ?)
- 	 * disable it here.
- 	 *
-@@ -1347,7 +1347,7 @@ static int usbhsh_irq_dtch(struct usbhs_priv *priv,
- 	usbhsh_port_stat_set(hpriv, USB_PORT_STAT_C_CONNECTION << 16);
+-	 * If pin assignement D is supported, claiming always
++	 * If pin assignment D is supported, claiming always
+ 	 * that Multi-function is preferred.
+ 	 */
+ 	if (DP_CAP_CAPABILITY(cap) & DP_CAP_UFP_D) {
+diff --git a/drivers/usb/typec/ucsi/psy.c b/drivers/usb/typec/ucsi/psy.c
+index c8ebab8ba7e7..8eb1ed42fbbd 100644
+--- a/drivers/usb/typec/ucsi/psy.c
++++ b/drivers/usb/typec/ucsi/psy.c
+@@ -255,7 +255,7 @@ static int ucsi_psy_get_charge_type(struct ucsi_connector *con, union power_supp
+ 		return 0;
+ 	}
  
- 	/*
--	 * enable attch interrupt again
-+	 * enable attach interrupt again
- 	 *
- 	 * usbhsh_is_running() becomes invalid
- 	 * according to this process.
-@@ -1468,7 +1468,7 @@ static int usbhsh_start(struct usbhs_priv *priv)
- 	usbhsh_pipe_init_for_host(priv);
+-	/* The Battery Charging Cabability Status field is only valid in sink role. */
++	/* The Battery Charging Capability Status field is only valid in sink role. */
+ 	if (UCSI_CONSTAT(con, PWR_DIR) != TYPEC_SINK) {
+ 		val->intval = POWER_SUPPLY_CHARGE_TYPE_UNKNOWN;
+ 		return 0;
+diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
+index 1996f04ed5e6..d363e9a64763 100644
+--- a/drivers/usb/typec/ucsi/ucsi.h
++++ b/drivers/usb/typec/ucsi/ucsi.h
+@@ -509,7 +509,7 @@ struct ucsi {
+ #define UCSI_NO_PARTNER_PDOS	BIT(0)	/* Don't read partner's PDOs */
+ #define UCSI_DELAY_DEVICE_PDOS	BIT(1)	/* Reading PDOs fails until the parter is in PD mode */
  
- 	/*
--	 * system config enble
-+	 * system config enable
- 	 * - HI speed
- 	 * - host
- 	 * - usb module
+-/* USB4 connection can imply that USB communcation is supported */
++/* USB4 connection can imply that USB communication is supported */
+ #define UCSI_USB4_IMPLIES_USB	BIT(2)
+ };
+ 
 -- 
 2.53.0
 
