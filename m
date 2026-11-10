@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.154.241.218
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794330758;
-	b=iwK//plroRdXe5hTp0w9MJMMm6aSBg2WJpZnVhTZ5csiz8Jh/LugDKa/HcCofyMUp3Ou
-	 r5zLXa25rB94VO/HT9BEQJMxPECB3NK1/dr6yro0WC5X/GKYOjYWVcgNptIKxeGqS1v5k
-	 I5XysNjsBqCxUDI7zaaJ7bVj4reT9WjYhuHpmG50YOoGt+Q9btayn3ovk1snWQqTS/5uS
-	 6A/Z07ny9C4rNLA22++lvYc1hoUNkB31W4MAxQygtfL3PoeAZfzLb67UCizY1FT9M2IGp
-	 C2Ih9l7XPCtyB1KsjPKrZxFQEAbz5+xvP6jlBVjLxI2X87tInn7Akme9LdY/BDDsE9A==
+	t=1794330759;
+	b=CNJjaS38R2i/JhVvPsw9Uo9SkDTiW/ljs6lbLS55EISDyM8DsvJX692dBXVAHMZUURf3
+	 zKaxQRGF8tP0W+lP2JsbqF+UA1LfyZN9DfSNc7I48iCbvmDrDdy2z5EUuJxs5ylCofs5O
+	 F1EsKfwLSehHMaT0LUg9QqOj65Fw5RkNXqwIrREVwwTeDf2Ta2FxRSN6xSkZxKb6UbLCJ
+	 8XiIO1KgSGbWV6jDfagkVvdY0RtW6Gq6KrW50zQyWYp++U+hZRxEjdNd58BEuet4coUEH
+	 +m8b2cIyyLoREcVQ4nXqIqyJpBzZxy95Im5MMGNI7fxrbewzAnvWWxBMlZ1NjoWwtnQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794330758;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794330759;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
 	 X-Bm-Milter-Handled:X-Bm-Transport-Timestamp;
-	bh=n7pf/UzTRZTKsxrqy72hiWP4nEzW6tzF5H5XOx09a/E=;
-	b=UnlUb4xV0FeIFa9pFtQwvX9931/clup5DmR7oud+kkt16QfzR8NuM7yBGDqJqQBlTNMP
-	 FBf3SLYH/LfOOCX+onnvZvu+2l7KCrUH0u1Zt51t/vT3J+PRP1Fb9OJnCphWjgf28Mrqq
-	 b1RHn3uApu9OYirks4d/M3UTrmHQGaCg5HsLsCrMxcI2luz8p26wvjJ9QlsQouYS5X+qk
-	 TSljGsIGKn+Eg88aBHk/GaYtUk2QFRNNTiHkmJkfR4C4JuUcIqy+LNzPelNhxetOlfKU+
-	 +KJebAhR4ZZaJfz8gYcpbBpTX086hr/qtFJD/zwfwoB6vdF2NREs4flYXTPn0lXaMEg==
+	bh=HGO0kY7L1vwvuSzBcqp9pytkKWMETO8Xh2wGYXXgAQY=;
+	b=TVpZyYyrRo7X6wVYm+7PCFPjG1APTulHxxX5LjhX9m+uqUvWpqv74anqrCHihlR04Xp3
+	 YEQSINyQOQDwzsuGZuY45u2shrtfkWut9+qyK08buIRFWxEWuXdbj5VGQ6+DDI7gjqFPc
+	 uKoEATKs2lU4ftXE39uw3jD0aBs+cBxWQOawSQawasT4OHB6Y4HjdjOq1MnZYazXOh76A
+	 FiIF6sSGxm6KaaTf8Hh9EV4p4003DDje7XddoGH6U/LyrK1Q+Az2AxxODEGAvgw7FD5cE
+	 CKcoWgzJyxe9SDULR0aZm0ggqIicdpwAHAFWymyiCK9DVmJnppKEqO4aejXTkADWkvA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=lauterbach.com;
 	spf=pass smtp.mailfrom=lauterbach.com;
@@ -25,15 +25,15 @@ Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966BF606A31C
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 17:12:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 966BF606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE8F606A320
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 17:12:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AE8F606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
 Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
 	(Authenticated sender: ingo.rohloff@lauterbach.com)
-	by bm.lauterbach.com (Postfix) with ESMTPSA id D987645B7B3C;
-	Tue, 10 Nov 2026 18:12:35 +0100 (CET)
+	by bm.lauterbach.com (Postfix) with ESMTPSA id AE93945D72E8;
+	Tue, 10 Nov 2026 18:12:36 +0100 (CET)
 From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
 To: gregkh@linuxfoundation.org
 Cc: viro@zeniv.linux.org.uk,
@@ -42,9 +42,9 @@ Cc: viro@zeniv.linux.org.uk,
 	michael.bommarito@gmail.com,
 	linux-usb@vger.kernel.org,
 	Ingo Rohloff <ingo.rohloff@lauterbach.com>
-Subject: [PATCH v2 1/2] usb: gadget: f_fs: simplify error handling using goto
-Date: Tue, 10 Nov 2026 18:12:21 +0100
-Message-ID: <20261110171222.22633-2-ingo.rohloff@lauterbach.com>
+Subject: [PATCH v2 2/2] usb: gadget: f_fs: register cancellation handler only after request queueing
+Date: Tue, 10 Nov 2026 18:12:22 +0100
+Message-ID: <20261110171222.22633-3-ingo.rohloff@lauterbach.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261110171222.22633-1-ingo.rohloff@lauterbach.com>
 References: <20261110171222.22633-1-ingo.rohloff@lauterbach.com>
@@ -59,143 +59,181 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
-X-Bm-Transport-Timestamp: 1794330755943
+X-Bm-Transport-Timestamp: 1794330756767
 
-Refactor conditional checks to use direct error returns/gotos instead of a
-long if/else chain. This makes failure paths more obvious.
+Call kiocb_set_cancel_fn() only after usb_ep_queue() completes
+successfully.
 
-At the end of the function AIO request handling is done.
+This also undoes commit e78dcb1f7ec2 ("usb: gadget: f_fs: Fix
+Use-After-Free in AIO error path"): The described error is avoided by
+making sure the cancellation handler is only registered, if there is
+something to cancel.
+
+Registering the cancellation handler adds the kiocb to the context's
+active request list (active_reqs in aio.c).  If usb_ep_queue() fails, the
+request was never actually submitted to the hardware, which means the
+request is not active.  The aio framework already deals with calling the
+completion function ki_complete() automatically if you do not return
+-EIOCBQUEUED.
 
 Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
 ---
- drivers/usb/gadget/function/f_fs.c | 82 +++++++++++++++++-------------
- 1 file changed, 48 insertions(+), 34 deletions(-)
+ drivers/usb/gadget/function/f_fs.c | 70 +++++++++++++++---------------
+ 1 file changed, 34 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 704cfae49f11..e347916923df 100644
+index e347916923df..d40059eebd49 100644
 --- a/drivers/usb/gadget/function/f_fs.c
 +++ b/drivers/usb/gadget/function/f_fs.c
-@@ -1104,11 +1104,17 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 	if (epfile->ep != ep) {
- 		/* In the meantime, endpoint got disabled or changed. */
- 		ret = -ESHUTDOWN;
--	} else if (halt) {
-+		goto error_lock;
-+	}
-+
-+	if (halt) {
- 		ret = usb_ep_set_halt(ep->ep);
- 		if (!ret)
- 			ret = -EBADMSG;
--	} else if (data_len == -EINVAL) {
-+		goto error_lock;
-+	}
-+
-+	if (data_len == -EINVAL) {
- 		/*
- 		 * Sanity Check: even though data_len can't be used
- 		 * uninitialized at the time I write this comment, some
-@@ -1122,7 +1128,10 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 		 */
- 		WARN(1, "%s: data_len == -EINVAL\n", __func__);
- 		ret = -EINVAL;
--	} else if (!io_data->aio) {
-+		goto error_lock;
-+	}
-+
-+	if (!io_data->aio) {
- 		bool interrupted = false;
+@@ -264,6 +264,7 @@ struct ffs_io_data {
  
- 		req = ep->req;
-@@ -1141,7 +1150,7 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 		io_data->buf = data;
+ 	int status;
+ 	struct completion done;
++	spinlock_t aio_completion_lock;
+ };
  
- 		init_completion(&io_data->done);
--		req->context  = io_data;
-+		req->context = io_data;
- 		req->complete = ffs_epfile_io_complete;
- 
- 		ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
-@@ -1176,44 +1185,49 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 		else
- 			ret = io_data->status;
- 		goto error_mutex;
--	} else if (!(req = usb_ep_alloc_request(ep->ep, GFP_ATOMIC))) {
-+	}
-+
-+	/* It's an AIO request */
-+	req = usb_ep_alloc_request(ep->ep, GFP_ATOMIC);
-+	if (!req) {
- 		ret = -ENOMEM;
--	} else {
--		if (io_data->use_sg) {
--			req->buf = NULL;
--			req->sg	= io_data->sgt.sgl;
--			req->num_sgs = io_data->sgt.nents;
--		} else {
--			req->buf = data;
--			req->num_sgs = 0;
--		}
-+		goto error_lock;
-+	}
- 
--		req->zero = !io_data->read ? epfile->zlp_enabled : 0;
--		req->length = data_len;
-+	if (io_data->use_sg) {
-+		req->buf = NULL;
-+		req->sg = io_data->sgt.sgl;
-+		req->num_sgs = io_data->sgt.nents;
-+	} else {
-+		req->buf = data;
-+		req->num_sgs = 0;
-+	}
- 
--		io_data->buf = data;
--		io_data->ep = ep->ep;
--		io_data->req = req;
--		io_data->ffs = epfile->ffs;
-+	req->zero = !io_data->read ? epfile->zlp_enabled : 0;
-+	req->length = data_len;
- 
--		req->context  = io_data;
--		req->complete = ffs_epfile_async_io_complete;
-+	io_data->buf = data;
-+	io_data->ep = ep->ep;
-+	io_data->req = req;
-+	io_data->ffs = epfile->ffs;
- 
--		ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
--		if (ret) {
--			io_data->req = NULL;
--			usb_ep_free_request(ep->ep, req);
--			goto error_lock;
--		}
-+	req->context  = io_data;
-+	req->complete = ffs_epfile_async_io_complete;
- 
--		ret = -EIOCBQUEUED;
--		/*
--		 * Do not kfree the buffer in this function.  It will be freed
--		 * by ffs_user_copy_worker.
--		 */
--		data = NULL;
-+	ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
-+	if (ret) {
-+		io_data->req = NULL;
-+		usb_ep_free_request(ep->ep, req);
-+		goto error_lock;
+ struct ffs_desc_helper {
+@@ -887,7 +888,9 @@ static void ffs_user_copy_worker(struct work_struct *work)
  	}
+ 	mmdrop(io_data->mm);
  
-+	ret = -EIOCBQUEUED;
-+	/*
-+	 * Do not kfree the buffer in this function.  It will be freed
-+	 * by ffs_user_copy_worker.
-+	 */
-+	data = NULL;
++	spin_lock(&io_data->aio_completion_lock);
+ 	io_data->kiocb->ki_complete(io_data->kiocb, ret);
++	spin_unlock(&io_data->aio_completion_lock);
+ 
+ 	if (io_data->ffs->ffs_eventfd && !kiocb_has_eventfd)
+ 		eventfd_signal(io_data->ffs->ffs_eventfd);
+@@ -1014,8 +1017,22 @@ static struct ffs_ep *ffs_epfile_wait_ep(struct ffs_epfile *epfile, struct file
+ 	return ep;
+ }
+ 
+-static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
++static int ffs_aio_cancel(struct kiocb *kiocb)
++{
++	struct ffs_io_data *io_data = kiocb->private;
++	int value;
 +
++	if (!io_data || !io_data->ep || !io_data->req)
++		return -EINVAL;
++
++	value = usb_ep_dequeue(io_data->ep, io_data->req);
++	return value;
++}
++
++static ssize_t ffs_epfile_io(struct ffs_io_data *io_data)
+ {
++	struct kiocb *kiocb = io_data->kiocb;
++	struct file *file = kiocb->ki_filp;
+ 	struct ffs_epfile *epfile = file->private_data;
+ 	struct usb_request *req;
+ 	struct ffs_ep *ep;
+@@ -1210,24 +1227,30 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
+ 	io_data->ep = ep->ep;
+ 	io_data->req = req;
+ 	io_data->ffs = epfile->ffs;
++	spin_lock_init(&io_data->aio_completion_lock);
+ 
+ 	req->context  = io_data;
+ 	req->complete = ffs_epfile_async_io_complete;
+ 
++	/*
++	 * prevent ffs_user_copy_worker from calling
++	 *    io_data->kiocb->ki_complete
++	 * before kiocb_set_cancel_fn was called.
++	 */
++	spin_lock(&io_data->aio_completion_lock);
+ 	ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
+ 	if (ret) {
+ 		io_data->req = NULL;
+ 		usb_ep_free_request(ep->ep, req);
+-		goto error_lock;
++		goto aio_completion_lock;
+ 	}
++	kiocb->private = io_data;
++	kiocb_set_cancel_fn(kiocb, ffs_aio_cancel);
+ 
+ 	ret = -EIOCBQUEUED;
+-	/*
+-	 * Do not kfree the buffer in this function.  It will be freed
+-	 * by ffs_user_copy_worker.
+-	 */
+-	data = NULL;
+ 
++aio_completion_lock:
++	spin_unlock(&io_data->aio_completion_lock);
  error_lock:
  	spin_unlock_irq(&epfile->ffs->eps_lock);
  error_mutex:
+@@ -1266,19 +1289,6 @@ ffs_epfile_open(struct inode *inode, struct file *file)
+ 	return stream_open(inode, file);
+ }
+ 
+-static int ffs_aio_cancel(struct kiocb *kiocb)
+-{
+-	struct ffs_io_data *io_data = kiocb->private;
+-	int value;
+-
+-	if (io_data && io_data->ep && io_data->req)
+-		value = usb_ep_dequeue(io_data->ep, io_data->req);
+-	else
+-		value = -EINVAL;
+-
+-	return value;
+-}
+-
+ static ssize_t ffs_epfile_write_iter(struct kiocb *kiocb, struct iov_iter *from)
+ {
+ 	struct ffs_io_data io_data, *p = &io_data;
+@@ -1299,21 +1309,15 @@ static ssize_t ffs_epfile_write_iter(struct kiocb *kiocb, struct iov_iter *from)
+ 	p->data = *from;
+ 	p->mm = current->mm;
+ 
+-	kiocb->private = p;
+-
+-	if (p->aio) {
++	if (p->aio)
+ 		mmgrab(p->mm);
+-		kiocb_set_cancel_fn(kiocb, ffs_aio_cancel);
+-	}
+ 
+-	res = ffs_epfile_io(kiocb->ki_filp, p);
++	res = ffs_epfile_io(p);
+ 	if (res == -EIOCBQUEUED)
+ 		return res;
+ 	if (p->aio) {
+-		kiocb->ki_complete(kiocb, res);
+ 		mmdrop(p->mm);
+ 		kfree(p);
+-		return -EIOCBQUEUED;
+ 	} else {
+ 		*from = p->data;
+ 	}
+@@ -1349,23 +1353,17 @@ static ssize_t ffs_epfile_read_iter(struct kiocb *kiocb, struct iov_iter *to)
+ 	}
+ 	p->mm = current->mm;
+ 
+-	kiocb->private = p;
+-
+-	if (p->aio) {
++	if (p->aio)
+ 		mmgrab(p->mm);
+-		kiocb_set_cancel_fn(kiocb, ffs_aio_cancel);
+-	}
+ 
+-	res = ffs_epfile_io(kiocb->ki_filp, p);
++	res = ffs_epfile_io(p);
+ 	if (res == -EIOCBQUEUED)
+ 		return res;
+ 
+ 	if (p->aio) {
+-		kiocb->ki_complete(kiocb, res);
+ 		mmdrop(p->mm);
+ 		kfree(p->to_free);
+ 		kfree(p);
+-		return -EIOCBQUEUED;
+ 	} else {
+ 		*to = p->data;
+ 	}
 -- 
 2.55.0
 
