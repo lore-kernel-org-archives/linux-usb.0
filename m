@@ -1,57 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794295129;
-	b=V1lT9iwHxvmYnCuH1gfHoe+sj/cnmXyPrpSAmXqPPFRjMOmf1kpkKSHFsUkLI5RJv8EP
-	 0l+rLNKNCUaTelLlxCyCGIfKeqvdx5B2hEckn+6cdH+jmlBTkuIeLwfkhafIFBfpUtOq7
-	 SO04mEaAPy0bjbkkebrULhUBOi6N5RhADeNjGPYmgeRlpobIAvqxytauA85j5t/8386zT
-	 aTmBTkpcGpiuJ2FWVm5U6xwnr0Gw+H+VvtRQFMH5D8/5PatDfQd9dSdk0Un1wQCnJ1xdH
-	 mKO0kA58MWW0HJ/QwsCUlkA9K1jVJj0Q/K3R48IwlHmLuzt6FFdJHNeRry7f5wu7nKw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794295129;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=vpM6k5IVbwV5N5ETw9k/gapWsNK4pksqXs8fIpIJmiE=;
-	b=XqSwOoK0ZFdDh0YOvbaqaEwcGLHymKGggpwAXLovhPT2era2siaVqzVgv8X7nujrsqxK
-	 wjhDQDs4/QsXBLIZhurssK3bprL1QOSLHgo4Ge63Sjke9heRgPA5nx+2pm39lSGg1c0PM
-	 b35PtPBlF6vpcaWS2KiU7pqWHBIG62PQ9SyJAJv4xRENDL+4ouPD6/sm+iMsWO9yfKxK5
-	 fEHNyTz7vaYEkW5QZG3TWiAFPlzhk45aIDm0b3zdAJjQ/9bs98ASySO99L1HpVdklrwS6
-	 Aox61QpcIJKG67+ja+yuQ/g0Qa993t1Jta1P1hSG0FtavVMjHAXMQlwPZLADecicFFQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hc+5rew6;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794295208;
+	b=TRQkEnsSyyNoPYq+KRNFp/nCa4gZAyg3KQcG39PcAqU87jq0FOhmpQBsfY5mzqYcENfm
+	 g8DJpRoqeBkAq9ZEPRd3SCwmSanfGujI9EX3gbgvBgVfEdrF+w7VFnNCSrQvIP1IaudH8
+	 61PxNnVcyxxYbRgfhvKvrGsiV4qbVOWCKJ9v8TCGrQmbOUmDPFD+dNvMSyatrTxRBkiUM
+	 7Zo9ujpy1C+jTwT6AgCrMbZNn3eJC0aIDqSj6QNj11ltcydKlS/fsO3lYra2gSa5q90Xb
+	 LJeSu7NxKfkRjypfK9WoJA3EpThXOd1oeM3q3CU5O3HEm9uJGjPLjLQtHbvsqCMaDmg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794295208;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=u5ar0IdD2xhCoOiqg/+TLUUAN76uGgDBJI3EEPDiaE8=;
+	b=2LCDilp+ONO3he8tXIPXHGUS446AAkGt+GTQIYQr0g2Nc1vZSk2IF7M1C9Mx1HqnhGPo
+	 7jTgmSkjWoidEup7c98HBMj+obRxjiyYpF33eH9OuzaVHDBcAsxOS3GBH0nT+Tb8ToRVq
+	 E7xgbWcOdXXxJkRF2sys0JN99yNrnZpkQqbNAAL0ZOq5BSaLCpPplPr974cJ2OpaCVdx8
+	 lbsXKcCYfIJ/3oObQiX0dlYE6OiHpXMS8z/rb6ZkkdwZpvyjLIEFc4kxzbcP1WdR4qOGo
+	 YQ5bnC3JtmI8RfohEwVEriyOWOdDwkNvgLEQ2fk5qsqrVrI+PkbWoyomRxRelMGZqsQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CPtk9OJu;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D2860A2606;
-	Tue, 10 Nov 2026 07:18:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076CF606A33A;
+	Tue, 10 Nov 2026 07:20:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hc+5rew6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7C211F008AB;
-	Tue, 10 Nov 2026 07:18:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CPtk9OJu
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794295207;
+	b=AML0NIOpF22WQsjMrcLVHU5qZMiL1vcej/27dBa9ttCxB4G5Cf1Dgsoyfk2WsLgkRHtv
+	 lGv8LiBEOwpkPVPz1bxrWkoHjZe9oo40yVj6Mjh7BR1FhXR4le089VLo/ItG0OBMWu/hm
+	 dIyDm0KPa+Kk0DfyPQMZDQ2YkTSW72D5pqphufp1hwl8FgRwJQFea5rldffugTvUUH2ET
+	 XImCDaAYrDHsJluwC/UdHkExzmxMM9Q22LD369mNShrNAfeDJZZlqsJ1PUX3jKBW4r14X
+	 Np7TmjQ8vugAwwycTMVOYwL8jXB37PLY/chz0VFuYJiKUCcjnG0RhugDtoBg9P8+LTg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794295207;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=u5ar0IdD2xhCoOiqg/+TLUUAN76uGgDBJI3EEPDiaE8=;
+	b=0n9AzTLLDPz0rNSrRwsZg36SrYxORBcnvNDZOdeUg4xan8GsFlliVfOAngC8I23t476K
+	 JwQMlVJK1ZnyxJhnFKNLuce537hmopPbYekh7gooTIMPoBpK+sGfvdyEFxrgf4pnMpOmw
+	 W7nClDAC38dvHqZSAN/JmKABiAjVl0f7Q/a1LfvJWH+DTa1GulQ24i+++rKZrluAuxJNU
+	 S61KbSdzgUdFzo8c1iuJla9kck10oXmbC5As1yKxVE1RQTj4WZTft3bza1mUgIa8/6Ey7
+	 /hyYCdvArvPRL0jau8cic7kNiufRPZA26aukEgjJeht7Tw2DHCKNgzyItP4iv6q+pTQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 066CB1F0089F;
+	Tue, 10 Nov 2026 07:20:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794295129;
-	bh=vpM6k5IVbwV5N5ETw9k/gapWsNK4pksqXs8fIpIJmiE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Hc+5rew6jb+sv33mkkgV2DV6Adx2tkAS6z/zzBFw8rtnePG2jJkgH70pdRa9BzwDs
-	 Eots2HmIrIhdJbEzvu6Bnpil8Soeiwnh8Fxn7DH59OQhmEGVsu0/B01KRK+sv0qG0t
-	 BrEIdx+pKYhjszYeUdE7HwX2dS54ON7suk18jPbRU9LXOeTp6HjWe/g77yBDTD0NZO
-	 lpO9270rlU4NsWx6DhJGm+PElu7IHde65NGiogZTqUDgyIXfoVv/ZpcGgiIieytovg
-	 ioXL8mc5qVA66N9YjMXB/d1j0Lx5jywni+LVR2n/Ty6lpolOfqnzdob1fvWKBwSypv
-	 ea4dG9GCugl5w==
-Message-ID: <sashiko-outbox-206474@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/4] usb: dwc2: drd: Sync the generic PHY mode with role
- requests
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Inochi Amaoto" <inochiama@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-usb@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261110070627.217946-3-inochiama@gmail.com>
-References: <20261110070627.217946-1-inochiama@gmail.com>
- <20261110070627.217946-3-inochiama@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 07:18:48 +0000
+	s=k20260515; t=1794295207;
+	bh=u5ar0IdD2xhCoOiqg/+TLUUAN76uGgDBJI3EEPDiaE8=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=CPtk9OJuusWe6oMKIyOjOnbFMrzrmYk83V/+fCmvPbBYVBkFcL+1E6AH3kRC/cm+R
+	 X132EY6caXaJpMIzUS0UKbCPkI9oXZELe/RztJoCquF9nKzboat00E1WTai2idVzOn
+	 Agm23Gy0B9NG5zxkb9ouToJNnsh+ELQBiYCo1NiY6JdaGLKdXMbG6iRVUOTBZdKUAS
+	 IkuMc7rSG/kPcRWzAhYMAEEokQ8BDNxW1nwWPq2Gwm9/Qhr0j4wHxbvjTQv5tlSmhO
+	 y3aqHQ/wJdiZPT/h+4nsRDvAAy6PzqL2xaZoMRXfpmePIk9fiUaydJTnTPYb7iWRKy
+	 a5gcpBCwjQlFA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 8EC25489C1;
+	Tue, 10 Nov 2026 07:20:06 +0000 (UTC)
+From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
+Subject: [PATCH 0/4] usb: core: Pair ports of different host controllers
+ through their connector
+Date: Tue, 10 Nov 2026 07:20:05 +0000
+Message-Id: <20261110-usb-port-pairing-v1-0-9307e29d2ed2@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,160 +83,125 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMMQ7DIAxA0atEnmsJGBhylaoDUJO4A0F2qCJF3
+ D00Hd/w/wlKwqQwTycIfVl5KwP2MUFaQ1kI+T0MzjhvrTXYNGLdZMcaWLgsGLLJ3mcToiMYWRX
+ KfNzL5+tvbfFDaf99oPcLeeyAeXQAAAA=
+X-Change-ID: 20261110-usb-port-pairing-af0f66f0ab2e
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794295206; l=5057;
+ i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
+ bh=5QKUfHPW3+xcVKyI0NDq5EzfqKIVMb0aDobvRO6Oo8U=;
+ b=IcJ8AgVLByKYBVSrtphHEuo9ppLlzRjx+W1Sw0tObyGKPtuNlJmRNOcgsI0Fx9X2sFhjqNvK9
+ Vu0pCcLz9j+AsupJpIXfO87sLsSnubzmbGgAAEin0iTqs8ZW6wfG09t
+X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
+ pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
+X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
+ auth_id=1480
+X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
+Reply-To: aiyengar1990@gmail.com
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] usb: dwc2: drd: inverted default mode check in dwc2_drd_init()
-- [Medium] usb: dwc2: drd: unupdated PHY mode on USB_ROLE_NONE in
-  dwc2_drd_role_sw_set()
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [High] usb: dwc2: early role switch registration race in
-  dwc2_driver_probe() [1]
---
+The USB core pairs the USB 2.0 and SuperSpeed halves of a USB 3 port
+only within one xHCI (shared_hcd, same port number) or through ACPI
+location data. Some SoCs route the two halves of a connector to
+different host controllers: on the Rockchip RK3588, USB 3.0 host 2 is
+SuperSpeed-only (its own USB 2.0 root hub port is not wired to a PHY)
+and the connector's USB 2.0 lines go to a separate EHCI/OHCI pair.
+Today the SuperSpeed port is paired with the dead USB 2.0 port of its
+own xHCI, and the EHCI port that really shares the connector has no
+peer.
 
-commit 5fa24c9321d10a0419f734968d84804314b53dd6
-Author: Inochi Amaoto <inochiama@gmail.com>
+That is more than a cosmetic problem on boards where VBUS of such a
+port is always on. On the Orange Pi 5 the Type-A USB 3 port has no
+VBUS switch at all (no enable GPIO in the vendor or mainline device
+tree; confirmed on the board), so a device that is plugged in across
+power-up or a reboot is powered long before the kernel runs. It looks
+for a SuperSpeed link while the xHCI is still down, gives up, and
+connects at high speed to the EHCI, which starts ~10 ms before the
+xHCI. It then stays at 480 Mb/s until it is unplugged: USB 3 devices
+only look for a SuperSpeed link again after a VBUS cycle or a USB 2.0
+bus reset.
 
-usb: dwc2: drd: Sync the generic PHY mode with role requests
+The series describes the connector in the device tree and lets the
+USB core use it:
 
-This commit updates the generic PHY mode via phy_set_mode() during DRD
-initialization, role switch updates, and system resume.
+  1. dt-bindings: allow a "ports" graph on generic-ehci (one port per
+     root hub port, as usb-hub.yaml already has for hubs).
+  2. usb: core: when a port's graph endpoint leads to a usb-{a,b,c}
+     connector whose other half ends on a different hub or host
+     controller, pair the two ports through the connector and keep them
+     out of the default pairing. Connectors whose halves end on the same
+     node (Type-C on a dwc3) are unchanged.
+  3. usb: hub: when a SuperSpeed hub with connector-paired ports starts
+     (or comes back from a reset / reset-resume), reset a
+     SuperSpeed-capable device that sits at high speed on the USB 2.0
+     peer, once, so that it can train its SuperSpeed link now that the
+     host is up. A device that still does not train stays at high
+     speed; there is no loop.
+  4. arm64: dts: describe the Orange Pi 5/5B Type-A USB 3 connector.
+     Other RK3588 boards with the same split would need the same node.
 
-> diff --git a/drivers/usb/dwc2/drd.c b/drivers/usb/dwc2/drd.c
-> index 1ad8fa3f862a1..1ad3804cbc805 100644
-> --- a/drivers/usb/dwc2/drd.c
-> +++ b/drivers/usb/dwc2/drd.c
+Honest limits: patch 3 only helps devices that retry SuperSpeed after
+a USB 2.0 bus reset. A SanDisk Extreme does; a SanDisk Ultra Fit does
+not and stays at high speed after the single reset. The hardware fix
+(a switchable VBUS, cycled once the SuperSpeed host is up) is not
+available on this board. The pairing itself (patch 2) also makes the
+existing peer runtime-PM rules apply to such connectors.
 
-[ ... ]
+Tested on an Orange Pi 5 (RK3588S): with the series the EHCI root hub
+port 1 and the xHCI SuperSpeed port 1 show each other as "peer" in
+sysfs. A SanDisk Extreme present at boot enumerates at high speed on
+the EHCI at ~3.2 s, "SuperSpeed peer port available, resetting" is
+logged once, and it re-enumerates at 5 Gb/s on the xHCI at ~3.8 s, on
+every boot; without the series (two different kernels) it came up at
+480 Mb/s on the EHCI on every boot and stayed there until replugged. A
+SanDisk Ultra Fit that ignores the USB 2.0 reset stays at high speed
+after the one reset. Hot-plug after boot (5 Gb/s), the Type-C port
+(both halves on the same dwc3 node) and USB 2.0-only devices in the
+port behave as before. dt_binding_check for generic-ehci and
+CHECK_DTBS for the Orange Pi 5 and 5B are clean on this base.
 
-> @@ -111,14 +113,11 @@ static int dwc2_drd_role_sw_set(struct usb_role_swi=
-tch *sw, enum usb_role role)
->  	 * mode and sessions. It is the case if cable is plugged at boot.
->  	 */
->  	if (!hsotg->ll_hw_enabled && hsotg->clk) {
-> -		int ret =3D clk_prepare_enable(hsotg->clk);
-> -
-> +		ret =3D clk_prepare_enable(hsotg->clk);
->  		if (ret)
->  			return ret;
->  	}
-> =20
-> -	spin_lock_irqsave(&hsotg->lock, flags);
-> -
->  	if (role =3D=3D USB_ROLE_NONE) {
->  		/* default operation mode when usb role is USB_ROLE_NONE */
->  		if (hsotg->role_sw_default_mode =3D=3D USB_DR_MODE_HOST)
-> @@ -127,6 +126,15 @@ static int dwc2_drd_role_sw_set(struct usb_role_swit=
-ch *sw, enum usb_role role)
->  			role =3D USB_ROLE_DEVICE;
->  	}
-> =20
-> +	if (role =3D=3D USB_ROLE_HOST || role =3D=3D USB_ROLE_DEVICE) {
-> +		ret =3D phy_set_mode(hsotg->phy, role =3D=3D USB_ROLE_HOST ?
-> +				   PHY_MODE_USB_HOST : PHY_MODE_USB_DEVICE);
-> +		if (ret)
-> +			goto out_clk;
-> +	}
+Open point for the dwc3 binding: snps,dwc3-common.yaml describes
+"ports" as used together with usb-role-switch; patch 4 uses port@1 of
+a host-only dwc3 for the SuperSpeed lanes, as rk3588s-indiedroid-nova
+and rk3588-lubancat-5io already do. I can send a wording update if
+wanted.
 
-[Severity: Medium]
-Does guarding phy_set_mode() on USB_ROLE_HOST || USB_ROLE_DEVICE leave
-hsotg->phy stuck in PHY_MODE_USB_HOST when switching from USB_ROLE_HOST to
-USB_ROLE_NONE?
+This series was developed with Claude (Anthropic) as a coding assistant:
+it wrote the code and the commit messages, and I reviewed and tested
+every change as described above.
 
-When hsotg->role_sw_default_mode is USB_DR_MODE_UNKNOWN and hsotg->dr_mode
-is USB_DR_MODE_OTG, role remains USB_ROLE_NONE.  This skips phy_set_mode(),
-whereas dwc2_force_mode(hsotg, role =3D=3D USB_ROLE_HOST) below forces the
-controller into device mode (matching dwc2_drd_init() and
-dwc2_drd_resume(), which both set PHY_MODE_USB_DEVICE for USB_ROLE_NONE).
+Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+---
+Arun Iyengar (4):
+      dt-bindings: usb: generic-ehci: Allow describing the root hub ports
+      usb: core: Pair ports of different hubs through their connector
+      usb: hub: Retry SuperSpeed for a device stuck on its USB 2.0 peer
+      arm64: dts: rockchip: Describe the USB3 Type-A connector on Orange Pi 5/5B
 
-[ ... ]
+ .../devicetree/bindings/usb/generic-ehci.yaml      |  13 +++
+ .../boot/dts/rockchip/rk3588s-orangepi-5-5b.dtsi   |  60 ++++++++++++
+ drivers/usb/core/hub.c                             |  88 ++++++++++++++++++
+ drivers/usb/core/hub.h                             |   3 +
+ drivers/usb/core/of.c                              | 101 +++++++++++++++++++++
+ drivers/usb/core/port.c                            |  54 ++++++++++-
+ include/linux/usb/of.h                             |   9 ++
+ 7 files changed, 324 insertions(+), 4 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261110-usb-port-pairing-af0f66f0ab2e
 
-> @@ -160,26 +168,40 @@ static int dwc2_drd_role_sw_set(struct usb_role_swi=
-tch *sw, enum usb_role role)
->  		/* This will raise a Connector ID Status Change Interrupt */
->  		dwc2_force_mode(hsotg, role =3D=3D USB_ROLE_HOST);
+Best regards,
+--  
+Arun Iyengar <aiyengar1990@gmail.com>
 
-[Severity: High]
-This problem wasn't introduced by this patch, but registering the role
-switch in dwc2_drd_init() before dwc2_driver_probe() finishes initializing
-the core and workqueue allows concurrent role switches to race with probe
-[1]:
 
-CPU0 (probe)                      CPU1 (role switch / IRQ)
-dwc2_driver_probe()
-  dwc2_drd_init()
-    usb_role_switch_register()
-                                  dwc2_drd_role_sw_set()
-                                    dwc2_force_mode()
-                                      /* unlocked RMW on GUSBCFG */
-  dwc2_core_init()
-    /* RMW on GUSBCFG */
-                                  dwc2_handle_conn_id_status_change_intr()
-                                    if (hsotg->wq_otg) /* NULL */
-                                      queue_work(...)  <-- event dropped
-
-dwc2_force_mode() modifies GUSBCFG without holding hsotg->lock, racing with
-dwc2_core_init().  In addition, because hsotg->wq_otg is not allocated yet,
-dwc2_handle_conn_id_status_change_intr() drops the connector ID status
-change interrupt, leaving the controller in a mismatched state.
-
-> =20
-> -	if (!hsotg->ll_hw_enabled && hsotg->clk)
-> -		clk_disable_unprepare(hsotg->clk);
-> -
->  	dev_dbg(hsotg->dev, "%s-session valid\n",
->  		role =3D=3D USB_ROLE_NONE ? "No" :
->  		role =3D=3D USB_ROLE_HOST ? "A" : "B");
-> =20
-> -	return 0;
-> +out_clk:
-> +	if (!hsotg->ll_hw_enabled && hsotg->clk)
-> +		clk_disable_unprepare(hsotg->clk);
-> +
-> +	return ret;
->  }
-> =20
->  int dwc2_drd_init(struct dwc2_hsotg *hsotg)
->  {
->  	struct usb_role_switch_desc role_sw_desc =3D {0};
->  	struct usb_role_switch *role_sw;
-> +	bool is_host;
->  	int ret;
-> =20
->  	if (!device_property_read_bool(hsotg->dev, "usb-role-switch"))
->  		return 0;
-> =20
->  	hsotg->role_sw_default_mode =3D usb_get_role_switch_default_mode(hsotg-=
->dev);
-> +
-> +	if (hsotg->role_sw_default_mode !=3D USB_DR_MODE_UNKNOWN)
-> +		is_host =3D hsotg->dr_mode =3D=3D USB_DR_MODE_HOST;
-> +	else
-> +		is_host =3D hsotg->role_sw_default_mode =3D=3D USB_DR_MODE_HOST;
-> +
-> +	ret =3D phy_set_mode(hsotg->phy,
-> +			   is_host ? PHY_MODE_USB_HOST : PHY_MODE_USB_DEVICE);
-
-[Severity: High]
-Are the if and else branches inverted here?
-
-When role_sw_default_mode is configured (for example USB_DR_MODE_HOST on an
-OTG controller where dr_mode is USB_DR_MODE_OTG), the if branch ignores
-role_sw_default_mode and checks dr_mode instead.  When role_sw_default_mode
-is USB_DR_MODE_UNKNOWN, the else branch evaluates USB_DR_MODE_UNKNOWN =3D=3D
-USB_DR_MODE_HOST, which is always false.  This sets hsotg->phy to
-PHY_MODE_USB_DEVICE while dwc2_ovr_init() at the end of dwc2_drd_init()
-forces the controller into host mode:
-
-drivers/usb/dwc2/drd.c:dwc2_ovr_init() {
-    ...
-	dwc2_force_mode(hsotg, (hsotg->dr_mode =3D=3D USB_DR_MODE_HOST) ||
-				(hsotg->role_sw_default_mode =3D=3D USB_DR_MODE_HOST));
-}
-
-[1] https://sashiko.dev/#/bug/linux-a825f666-6a3b-40af-8377-023f8afa7caf
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110070627.2179=
-46-1-inochiama@gmail.com?part=3D2
