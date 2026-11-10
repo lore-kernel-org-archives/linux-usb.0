@@ -1,129 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794321503;
-	b=XojXzzQHszjHqYisVDGU+TnEewbdgus2Wf5E+t1/wzv/Qr7ykOS+HoZhOK4VziX1RkfR
-	 nyq5/gY+AsxoWhvlEiWjhBAY88JFqDBI+mwwnjINpsrPlgNBL1y4WXSDRQntXDm3LvOyr
-	 ELRa/0TYR97Im4K3s8jPa7ElrdeIjKEseWpEZNWmys5McaVB5MZ630mQRV/8PxpnA7iS1
-	 6xUtwDs6voTHgEQHoHryrAejdCtF+9VjUYm7iO396jw4twWmsJOLFMCszPevp4rxnxRO+
-	 MGVEJK/GzQUSv5xsqNCN+pLxxfA/53WqzeW0VeoiGgBHGGDPw5bJyljRTtiw72HER4A==
+	b=pTii59aySqSvf904/7SM0cyjzQ3qkz9uZ11aRIre9GR0Hb0SCaobveCzLJRAaN95kNHP
+	 nxtG/kfQ33Dh+MXtxecJVjqQARsrnXyPl2e8za7gdOmaNBRD1eTulMos8idr3YQUBz4gn
+	 6fD714eRBcI4a2h8eRlz1kj84bpnX1yd+BzN9sYVpSZgRDQs9qPVCo+I3O06Oj0HjpT2/
+	 wgPEJW4P+kJeNGUfM/K0Rg32n8Lc70E03BR7xIZY4hfSlWssDlt6OH4u7eHI+ZqBIQgYi
+	 fF89MInYdapwqO6nL3L8BJhqQ/1geJxnDVSnWYSD3O1SnrEj5o5SlRZqxVR2Xb7bKyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794321503;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=Fh5qOtVM6KsLzFpIRsYYHC+bSYz/O+LnqFiFi3TOwW4=;
-	b=Ek6y6WjsOPj8b/KK7ffE1rMlX32sDIpMSs1tvROAUjkM77OFen1R4l4kARA9sbUp6Hiz
-	 eWdSkNYqzq3AWJ29wegImDlVsnEjumZrHEX1ViSqTXgUs9ePERvChd3GkaFqLker2ZGk2
-	 MGcIeFjHOc58PIFc1C1Zn7latxCN3jEMm51SsoNLMxdgeXTDUjH+1V4btusIz97OqLzvJ
-	 6YGjwU0Vmj8z+BKewh1xvADYxSeeU4pl0NJ1VX/mR+OCOv/aiTO3uHFi0A7UurxO5lD5P
-	 797pEXC3m/1my3+jFoSumpFXe/rDfDaCB1swnhzjIT4DV5sLGCjeFh5NIr7Vz+J7qtA==
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=5lBnGw323nAZPFcKAE7f2MC4rO4RnvcfKystGSLQS/o=;
+	b=rdGWPIMye9y0DQ/ltpyQCjZfC+z0xq5qEhQNSpGnjGST35luxgky51vE4Ugj6PYkExvk
+	 GkhbhiDDTvIU54zR0C5hW9HspS1u6BPdkMQYCaToMShP6OCXM3RK8msCZSqMEiENtBKNj
+	 Hb4qs6tsiuABMQdeQO7nh+zTTLvm0bqtDxX6Mc9DrVQ2BKUR+ayQ36T7DYRW9rqfzyecH
+	 C19lOpGnIu5uCk3pPh4OiM94CNKPYyh3WGNK1c8o57a9cHITwbelQwHr3Q8FHpv9OpUGr
+	 2vpimFaqy4QPkotbvLBqpRtX0G21QZDCoclrMZ4MWu9SFGS1N+qAjSY5HDW1bvEkrbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MUVsr+ph;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zZopj+90;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MUVsr+ph;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zZopj+90;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AB7gxzkL;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB22606A33D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBF8606A33E;
 	Tue, 10 Nov 2026 14:38:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FB22606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EBF8606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MUVsr+ph;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zZopj+90;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MUVsr+ph;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zZopj+90
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6B7421F769;
-	Tue, 10 Nov 2026 14:38:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794321500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fh5qOtVM6KsLzFpIRsYYHC+bSYz/O+LnqFiFi3TOwW4=;
-	b=MUVsr+phhfZbFW8xjR4b3N1UtGCeg+l0uYLOI5bLig6ZTedYwIElDXlSxhCLTjeiSHCd6k
-	bg+NDUgRn4V4Cz63o4lwC/9gvtBeJXiSrYK+hYpxXqxLvSnhU0GeyZW39zoyzRQ0nyBJQY
-	pyMpVSkOGDsd5a+gix4rvbt7CSWAcbw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794321500;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fh5qOtVM6KsLzFpIRsYYHC+bSYz/O+LnqFiFi3TOwW4=;
-	b=zZopj+90aGJKBJGWq3ccQNKWjno338Dvu06+ctjiTjzqDLlDaVJHiPN7g0hSfMYZ4HR0wM
-	fsnCVhe8MldfL9AQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=MUVsr+ph;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=zZopj+90
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794321500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fh5qOtVM6KsLzFpIRsYYHC+bSYz/O+LnqFiFi3TOwW4=;
-	b=MUVsr+phhfZbFW8xjR4b3N1UtGCeg+l0uYLOI5bLig6ZTedYwIElDXlSxhCLTjeiSHCd6k
-	bg+NDUgRn4V4Cz63o4lwC/9gvtBeJXiSrYK+hYpxXqxLvSnhU0GeyZW39zoyzRQ0nyBJQY
-	pyMpVSkOGDsd5a+gix4rvbt7CSWAcbw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794321500;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fh5qOtVM6KsLzFpIRsYYHC+bSYz/O+LnqFiFi3TOwW4=;
-	b=zZopj+90aGJKBJGWq3ccQNKWjno338Dvu06+ctjiTjzqDLlDaVJHiPN7g0hSfMYZ4HR0wM
-	fsnCVhe8MldfL9AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 329C9134F4;
-	Tue, 10 Nov 2026 14:38:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XpbVAVws82qdLgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 14:38:20 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 7F6FA22545; Tue, 10 Nov 2026 15:38:15 +0100 (CET)
-Date: Tue, 10 Nov 2026 15:38:15 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>
-Subject: Re: [PATCH v2 34/51] proc: let proc_remove() remove the entry it was
- given
-Message-ID: <gb7ibchjlghrlulokvwae7khr6w3uxutfbfq6kuvypmhiinha6@4557bv2sr4im>
-References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
- <20261104-work-procfs-bugfixes-v2-34-bbf7d5546809@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AB7gxzkL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794321503; x=1825857503;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LUB0SAz/HO+Q2s5dKRUfbVOv0PKX7CcPXZfgiRpkBMo=;
+  b=AB7gxzkLmmc0QeROs4y7UvSNaLTEXxobLMdjRqPZdhnVu1ZdpEM/jMVi
+   LRqN6PWv/0qGIWhLSsj7Dt8K1xX0/ESwwRuqhrGrAwxt7oUjd6EVVcqVB
+   /6F9Y/yG6acgowL7CBjAa7A7JUMQLS5y15jxGeyYgQjKiftUN+MsTYCen
+   G07vbTIK0f3ylCj4/1ISQrN+akDZ99+asp+0GkgUU1ypFbN3MHyf2n5qv
+   HBsIPfrocHPd1q2dQQkS2Z8DoOw0e6q1iELTVGOPmpCjgwwfr17HHBYoT
+   zpppeBIj8DEmuzw62bVSXk5ItUwkvAJwuuL9s2DUqaRZU0ZOJrWVExO34
+   g==;
+X-CSE-ConnectionGUID: 3HKND3+QSXyqrTjNoUyVWA==
+X-CSE-MsgGUID: YqElB2KDRMqFnH3Y1JDMnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3085218"
+X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
+   d="scan'208";a="3085218"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 06:38:22 -0800
+X-CSE-ConnectionGUID: 6mJiu9m+RQSI1D+JhS403A==
+X-CSE-MsgGUID: uvAvjTj9R4qZlPcChftrtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
+   d="scan'208";a="8491558"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa008.fm.intel.com with ESMTP; 10 Nov 2026 06:38:00 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id C171799; Tue, 10 Nov 2026 15:37:58 +0100 (CET)
+Date: Tue, 10 Nov 2026 15:37:58 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Mika Westerberg <westeri@kernel.org>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Sven Peter <sven@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 4/7] thunderbolt: add platform NHI driver
+Message-ID: <20261110143758.GC259790@black.igk.intel.com>
+References: <20261110114925.722014-1-chunfeng.yun@mediatek.com>
+ <20261110114925.722014-5-chunfeng.yun@mediatek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -133,184 +90,360 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-34-bbf7d5546809@kernel.org>
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[59];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -11.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 6B7421F769
+In-Reply-To: <20261110114925.722014-5-chunfeng.yun@mediatek.com>
 
-On Wed 04-11-26 18:47:20, Christian Brauner wrote:
-> proc_remove() looks the entry up by its name in its parent and removes
-> whatever it finds there:
+On Tue, Nov 10, 2026 at 07:48:52PM +0800, Chunfeng Yun wrote:
+> Historically, the Thunderbolt/USB4 Native Host Interface (NHI)
+> controller has been exposed as a PCI device handled by
+> drivers/thunderbolt/pci.c. However, some SoCs (such as MediaTek
+> mt8901/mt8992) integrate the NHI as a memory-mapped platform device
+> described via Device Tree or ACPI.
 > 
->   remove_proc_subtree(de->name, de->parent);
+> To support platform-attached NHI controllers:
 > 
-> If the entry was removed already, say along with its parent, that is
-> either nothing or a different entry that got the same name in the
-> meantime, and de->parent may well be gone. Two removals of the same
-> entry are a bug in the caller, but going by the name turns it into
-> removing an entry that belongs to somebody else.
+> Introduce platform.c to register a platform driver matching
+> "usb4-nhi-platform" (OF) and "ACPI0015" (ACPI);
+> Implement platform tb_nhi_ops hooks for pm, interrupts related;
 > 
-> Since commit 895b4c0c79b0 ("fs/proc: fix uaf in proc_readdir_de()")
-> an entry that was unlinked has an empty rb node. So check for that
-> under proc_subdir_lock and otherwise remove the entry itself, with the
-> loop of remove_proc_subtree() moved into a helper both of them use.
-> Nothing can help a caller that passes an entry that has been freed
-> already.
+> Support an optional dedicated wake interrupt: on integrated SoCs,
+> the MAC/PHY reside in a power domain whose clocks and power can be
+> gated during sleep, preventing the primary NHI interrupt from
+> acting as a wakeup source; so add an optional dedicated wakeup
+> interrupt which comes from the always-on power domain.
 > 
-> Reported-by: Chris Mason <mason@kernel.org>
-> Fixes: a8ca16ea7b0a ("proc: Supply a function to remove a proc entry by PDE")
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
+> Clean up the unused nhi_enable_int_throttling() prototype.
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 > ---
->  fs/proc/generic.c | 78 ++++++++++++++++++++++++++++++++++++-------------------
->  1 file changed, 51 insertions(+), 27 deletions(-)
+> v2 changes:
+> * Added CONFIG_USB4_PLATFORM to build the platform driver as a separate
+>   module (thunderbolt_platform.ko), instead of statically embedding it
+>   into thunderbolt.o.
+> * Renamed plat.c to platform.c, renamed internal functions from nhi_plat_*
+>   to nhi_platform_*, and updated the Device Tree compatible string from
+>   "thunderbolt-platform" to "usb4-nhi-platform".
+> * Removed domain lifecycle changes (domain.c) and PCI driver cleanups
+>   (pci.c) from this patch, handled by previous patches.
+> * Squashed the optional dedicated wake IRQ support (previously a separate
+>   patch in v1) directly into this patch.
+> * Replaced the custom local ISR with the shared tb_nhi_isr(), adopted
+>   the renamed tb_nhi_probe() / tb_nhi_shutdown() / tb_nhi_pm_ops
+>   interfaces, and added -EPROBE_DEFER handling for the wake IRQ.
+> ---
+>  drivers/thunderbolt/Kconfig    |   9 ++
+>  drivers/thunderbolt/Makefile   |   3 +
+>  drivers/thunderbolt/nhi.h      |   1 -
+>  drivers/thunderbolt/pci.c      |   1 +
+>  drivers/thunderbolt/platform.c | 172 +++++++++++++++++++++++++++++++++
+>  include/linux/thunderbolt.h    |   4 +
+>  6 files changed, 189 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/thunderbolt/platform.c
 > 
-> diff --git a/fs/proc/generic.c b/fs/proc/generic.c
-> index 588999058e66..9a0a2fcac7c7 100644
-> --- a/fs/proc/generic.c
-> +++ b/fs/proc/generic.c
-> @@ -818,33 +818,14 @@ void remove_proc_entry(const char *name, struct proc_dir_entry *parent)
->  }
->  EXPORT_SYMBOL(remove_proc_entry);
+> diff --git a/drivers/thunderbolt/Kconfig b/drivers/thunderbolt/Kconfig
+> index 605af440457a..846ab51df7ab 100644
+> --- a/drivers/thunderbolt/Kconfig
+> +++ b/drivers/thunderbolt/Kconfig
+> @@ -27,6 +27,15 @@ config USB4_PCI
+>  	  To compile this driver a module, choose M here. The module will be
+>  	  called thunderbolt_pci.
 >  
-> -int remove_proc_subtree(const char *name, struct proc_dir_entry *parent)
+> +config USB4_PLATFORM
+> +	tristate "Support for platform USB4 and Thunderbolt controllers"
+> +	help
+> +	  Say Y here to add support the USB4 and Thunderbolt host routers
+> +	  for a platform device on such as ARM64 SoCs.
+> +
+> +	  To compile this driver a module, choose M here. The module will be
+> +	  called thunderbolt_platform.
+> +
+>  config USB4_CONFIGFS
+>  	def_tristate USB4
+>  	depends on CONFIGFS_FS && !(USB4=y && CONFIGFS_FS=m)
+> diff --git a/drivers/thunderbolt/Makefile b/drivers/thunderbolt/Makefile
+> index a563bf2b0345..334fa4ebdfc8 100644
+> --- a/drivers/thunderbolt/Makefile
+> +++ b/drivers/thunderbolt/Makefile
+> @@ -8,6 +8,9 @@ thunderbolt-objs += usb4_port.o nvm.o retimer.o quirks.o clx.o
+>  obj-${CONFIG_USB4_PCI} += thunderbolt_pci.o
+>  thunderbolt_pci-y := pci.o icm.o
+>  
+> +obj-${CONFIG_USB4_PLATFORM} += thunderbolt_platform.o
+> +thunderbolt_platform-y := platform.o
+> +
+>  thunderbolt-${CONFIG_ACPI} += acpi.o
+>  thunderbolt-$(CONFIG_DEBUG_FS) += debugfs.o
+>  thunderbolt-$(CONFIG_USB4_CONFIGFS) += configfs.o
+> diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
+> index 65f9daf36068..ef5d24d81251 100644
+> --- a/drivers/thunderbolt/nhi.h
+> +++ b/drivers/thunderbolt/nhi.h
+> @@ -27,7 +27,6 @@ enum nhi_mailbox_cmd {
+>  	NHI_MAILBOX_ALLOW_ALL_DEVS = 0x23,
+>  };
+>  
+> -void nhi_enable_int_throttling(struct tb_nhi *nhi);
+>  void nhi_disable_interrupts(struct tb_nhi *nhi);
+>  irqreturn_t tb_nhi_isr(int irq, void *data);
+>  irqreturn_t tb_ring_msix(int irq, void *data);
+> diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+> index 9379c598a221..698f47ec63da 100644
+> --- a/drivers/thunderbolt/pci.c
+> +++ b/drivers/thunderbolt/pci.c
+> @@ -736,4 +736,5 @@ static struct pci_driver nhi_driver = {
+>  	.shutdown = nhi_pci_shutdown,
+>  	.driver.pm = &tb_nhi_pm_ops,
+>  };
+> +
+
+I guess this is unintented change?
+
+>  module_pci_driver(nhi_driver);
+> diff --git a/drivers/thunderbolt/platform.c b/drivers/thunderbolt/platform.c
+> new file mode 100644
+> index 000000000000..3562b6c7ea7d
+> --- /dev/null
+> +++ b/drivers/thunderbolt/platform.c
+> @@ -0,0 +1,172 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
 > +/*
-> + * Remove @root, already erased from its parent, and everything below it.
-> + * Called with proc_subdir_lock held for writing, returns with it dropped.
+> + * Thunderbolt driver - NHI driver (Platform bus specific implementation)
+> + *
+> + * Author: Chunfeng Yun <chunfeng.yun@mediatek.com>
 > + */
-> +static int __remove_proc_subtree(struct proc_dir_entry *root)
->  {
-> -	struct proc_dir_entry *root = NULL, *de, *next;
-> -	const char *fn = name;
-> -	unsigned int len;
-> -
-> -	write_lock(&proc_subdir_lock);
-> -	if (__xlate_proc_name(name, &parent, &fn) != 0) {
-> -		write_unlock(&proc_subdir_lock);
-> -		return -ENOENT;
-> -	}
-> -	len = strlen(fn);
-> +	struct proc_dir_entry *de = root, *next;
->  
-> -	root = pde_subdir_find(parent, fn, len);
-> -	if (!root) {
-> -		write_unlock(&proc_subdir_lock);
-> -		return -ENOENT;
-> -	}
-> -	if (unlikely(pde_is_permanent(root))) {
-> -		write_unlock(&proc_subdir_lock);
-> -		WARN(1, "removing permanent /proc entry '%s/%s'",
-> -			root->parent->name, root->name);
-> -		return -EINVAL;
-> -	}
-> -	pde_erase(root, parent);
-> -
-> -	de = root;
->  	while (1) {
->  		next = pde_subdir_first(de);
->  		if (next) {
-> @@ -872,6 +853,34 @@ int remove_proc_subtree(const char *name, struct proc_dir_entry *parent)
->  	pde_put(root);
->  	return 0;
->  }
 > +
-> +int remove_proc_subtree(const char *name, struct proc_dir_entry *parent)
+> +#include <linux/acpi.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/errno.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/pm_wakeirq.h>
+> +#include <linux/slab.h>
+> +
+> +#include "nhi.h"
+> +#include "tb.h"
+> +
+> +static int nhi_platform_init(struct tb_nhi *nhi)
 > +{
-> +	struct proc_dir_entry *root = NULL;
-> +	const char *fn = name;
-> +	unsigned int len;
+> +	/* avoid device link fail for pcie tunnel */
+
+Do you have the ACPI _DSD there in place? Then I don't think you need
+these. And "pcie" -> "PCIe" everywhere (except in code).
+
+> +	pm_runtime_set_active(nhi->dev);
+> +	pm_runtime_get_noresume(nhi->dev);
+> +	pm_runtime_enable(nhi->dev);
 > +
-> +	write_lock(&proc_subdir_lock);
-> +	if (__xlate_proc_name(name, &parent, &fn) != 0) {
-> +		write_unlock(&proc_subdir_lock);
-> +		return -ENOENT;
-> +	}
-> +	len = strlen(fn);
+> +	device_set_wakeup_capable(nhi->dev, true);
+> +	device_enable_async_suspend(nhi->dev);
+
+I also suggest not to enable all the fancy power management until you have
+the basic stuff like tunneling fully functional.
+
 > +
-> +	root = pde_subdir_find(parent, fn, len);
-> +	if (!root) {
-> +		write_unlock(&proc_subdir_lock);
-> +		return -ENOENT;
-> +	}
-> +	if (unlikely(pde_is_permanent(root))) {
-> +		write_unlock(&proc_subdir_lock);
-> +		WARN(1, "removing permanent /proc entry '%s/%s'",
-> +			root->parent->name, root->name);
-> +		return -EINVAL;
-> +	}
-> +	pde_erase(root, parent);
-> +	return __remove_proc_subtree(root);
+> +	return 0;
 > +}
->  EXPORT_SYMBOL(remove_proc_subtree);
->  
->  void *proc_get_parent_data(const struct inode *inode)
-> @@ -883,8 +892,23 @@ EXPORT_SYMBOL_GPL(proc_get_parent_data);
->  
->  void proc_remove(struct proc_dir_entry *de)
->  {
-> -	if (de)
-> -		remove_proc_subtree(de->name, de->parent);
-> +	if (!de)
-> +		return;
 > +
-> +	write_lock(&proc_subdir_lock);
-> +	/* Removed already, maybe along with its parent. */
-> +	if (RB_EMPTY_NODE(&de->subdir_node)) {
-> +		write_unlock(&proc_subdir_lock);
-> +		return;
+> +static void nhi_platform_clear_wake_irq(void *dev)
+> +{
+> +	dev_pm_clear_wake_irq(dev);
+> +}
+> +
+> +static int nhi_platform_init_irq(struct tb_nhi *nhi)
+> +{
+> +	struct device *dev = nhi->dev;
+> +	int ret;
+> +
+> +	ret = devm_request_irq(dev, nhi->irq, tb_nhi_isr, IRQF_NO_SUSPEND,
+> +			       dev_name(dev), nhi);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "request irq failed\n");
+
+failed to request interrupt
+
+Please be consistent with the rest of the driver.
+
+> +
+> +	if (nhi->wake_irq) {
+> +		ret = dev_pm_set_dedicated_wake_irq(dev, nhi->wake_irq);
+> +		if (ret) {
+> +			return dev_err_probe(dev, ret, "set wake irq %d failed\n", nhi->wake_irq);
+
+Split this into 2 lines.
+
+> +		}
+> +
+> +		dev_info(dev, "wake irq %d\n", nhi->wake_irq);
+
+Remove this. The driver should be silent when it works. You can add debug
+but I don't think this is useful.
+
+> +
+> +		ret = devm_add_action_or_reset(dev, nhi_platform_clear_wake_irq, dev);
+
+Can you pass dev_pm_clear_wake_irq directly here?
+
 > +	}
-> +	if (unlikely(pde_is_permanent(de))) {
-> +		write_unlock(&proc_subdir_lock);
-> +		WARN(1, "removing permanent /proc entry '%s/%s'",
-> +		     de->parent->name, de->name);
-> +		return;
-> +	}
-> +	pde_erase(de, de->parent);
-> +	__remove_proc_subtree(de);
->  }
->  EXPORT_SYMBOL(proc_remove);
->  
-> 
+> +
+> +	return ret;
+> +}
+> +
+> +static void nhi_platform_exit(struct tb_nhi *nhi)
+> +{
+> +	devm_free_irq(nhi->dev, nhi->irq, nhi);
+
+Isn't it released automatically?
+
+> +	flush_work(&nhi->interrupt_work);
+> +
+> +	pm_runtime_put_noidle(nhi->dev);
+> +	pm_runtime_disable(nhi->dev);
+> +	pm_runtime_set_suspended(nhi->dev);
+> +}
+> +
+> +static const struct tb_nhi_ops nhi_platform_default_ops = {
+> +	.init = nhi_platform_init,
+> +	.shutdown = nhi_platform_exit,
+> +	.init_interrupts = nhi_platform_init_irq,
+> +};
+> +
+> +static int nhi_platform_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct tb_nhi *nhi;
+> +
+> +	nhi = devm_kzalloc(dev, sizeof(*nhi), GFP_KERNEL);
+
+devm_kzalloc_obj()
+
+> +	if (!nhi)
+> +		return -ENOMEM;
+> +
+> +	nhi->dev = dev;
+> +	nhi->ops = &nhi_platform_default_ops;
+> +
+> +	nhi->iobase = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(nhi->iobase))
+> +		return PTR_ERR(nhi->iobase);
+> +
+> +	nhi->irq = platform_get_irq(pdev, 0);
+> +	if (nhi->irq < 0)
+> +		return nhi->irq;
+> +
+> +	/* ignore error */
+
+This should explain why it's okay to ignore the error.
+
+> +	nhi->wake_irq = platform_get_irq_optional(pdev, 1);
+> +	if (nhi->wake_irq == -EPROBE_DEFER)
+> +		return nhi->wake_irq;
+> +	else if (nhi->wake_irq < 0)
+> +		nhi->wake_irq = 0;
+> +
+> +	return tb_nhi_probe(nhi);
+> +}
+> +
+> +static void nhi_platform_do_remove(struct platform_device *pdev, bool reset)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct tb *tb = platform_get_drvdata(pdev);
+> +	struct tb_nhi *nhi = tb->nhi;
+
+Reverse-christmas tree if possible:
+
+	struct tb *tb = platform_get_drvdata(pdev);
+	struct device *dev = &pdev->dev;
+	struct tb_nhi *nhi = tb->nhi;
+
+> +
+> +	/*
+> +	 * On system shutdown/reboot force a host router reset so the
+> +	 * CM asserts DPR on connected tbt3 devices before the router tree
+
+Thunderbolt 3
+
+> +	 * is removed (see tb_stop()).
+> +	 */
+> +	if (reset)
+> +		nhi->host_reset = true;
+> +
+> +	pm_runtime_get_sync(dev);
+> +	pm_runtime_dont_use_autosuspend(dev);
+> +
+> +	tb_domain_remove(tb);
+> +	wait_for_completion(&nhi->domain_released);
+> +	tb_nhi_shutdown(nhi);
+> +}
+> +
+> +static void nhi_platform_remove(struct platform_device *pdev)
+> +{
+> +	nhi_platform_do_remove(pdev, false);
+> +}
+> +
+> +static void nhi_platform_shutdown(struct platform_device *pdev)
+> +{
+> +	nhi_platform_do_remove(pdev, true);
+> +}
+> +
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id nhi_platform_of_match[] = {
+> +	{ .compatible = "usb4-nhi-platform" },
+> +	{ }
+> +};
+
+I think this was agreed to be dropped for now.
+
+> +MODULE_DEVICE_TABLE(of, nhi_platform_of_match);
+> +#endif
+> +
+> +#ifdef CONFIG_ACPI
+> +static const struct acpi_device_id nhi_platform_acpi_match[] = {
+> +	{ "ACPI0015", 0 },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(acpi, nhi_platform_acpi_match);
+> +#endif
+> +
+> +static struct platform_driver nhi_platform_driver = {
+> +	.probe = nhi_platform_probe,
+> +	.remove = nhi_platform_remove,
+> +	.shutdown = nhi_platform_shutdown,
+> +	.driver = {
+> +		.name = "thunderbolt",
+> +		.of_match_table = of_match_ptr(nhi_platform_of_match),
+> +		.acpi_match_table = ACPI_PTR(nhi_platform_acpi_match),
+> +		.pm = &tb_nhi_pm_ops,
+> +	},
+> +};
+> +
+> +module_platform_driver(nhi_platform_driver);
+> +MODULE_ALIAS("platform:thunderbolt");
+> +MODULE_DESCRIPTION("Thunderbolt/USB4 platform host interface driver");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+> index 57502da29080..72497acac254 100644
+> --- a/include/linux/thunderbolt.h
+> +++ b/include/linux/thunderbolt.h
+> @@ -511,6 +511,8 @@ void tb_service_properties_changed(struct tb_service *svc);
+>   * @going_away: The host controller device is about to disappear so when
+>   *		this flag is set, avoid touching the hardware anymore.
+>   * @iommu_dma_protection: An IOMMU will isolate external-facing ports.
+> + * @irq: interrupt number of NHI.
+> + * @wake_irq: optional dedicated wakeup interrupt.
+>   * @interrupt_work: Work scheduled to handle ring interrupt when no
+>   *		    MSI-X is used.
+>   * @hop_count: Number of rings (end point hops) supported by NHI.
+> @@ -532,6 +534,8 @@ struct tb_nhi {
+>  	u32 *interrupt_mask;
+>  	bool going_away;
+>  	bool iommu_dma_protection;
+> +	int irq;
+> +	int wake_irq;
+>  	struct work_struct interrupt_work;
+>  	u32 hop_count;
+>  	unsigned long quirks;
 > -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> 2.45.2
