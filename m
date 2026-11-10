@@ -1,46 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794274723;
-	b=N0+lzbKcGb/0Be7JR9kKlfKHVq6I+UjtdyriOFhknSd2tyIDt2bK15HaRGktjscFTZR6
-	 ueqpqxzeq9ycrA7sQIrT3iIna5QlGLUmtG6c0dEDRAuHVd/EdaqtyjmyCU5YBQts/4ESE
-	 26er82+dvrksgf5kNmizF2p37eirrK6hck4SH+lLbGTG5o37Lt0jOu8/Z3DfEf4hX6BdZ
-	 g83EMbNFiOjHh7qGYy5EmuuAnnsdNkWSYlZY7ih+sMr/N8WjSsp09tDbwJ3QlVuAY4Tgg
-	 K7HOeHw+dWyOUtj/+IIJIvapwNFBkBwP7JCnk687BEOHWaad8L7lZariZoRDs+2LMDA==
+	t=1794274726;
+	b=zZE35qwso4r7vbBQ+z3j45vnGLFOmWTrUSICNebX9ZSlEUq6O23pHT5ajf5+MUeCwXRS
+	 DhmAKaMvdPFzeIbTRxUeASZ8NACKNWkPEv63enZAgsUBjH2icB5+OYm2uANdjBeoQSfAb
+	 c9jWh7RwfpNuS9e3VzGptBfC/ETCVLdfU3GQG9YcgYr0D3cSYtTx7fmlh9tYb6cOSJnuJ
+	 MURe2p2SWIaODWijSutw3BPIA+r1g6psrAY+9j5koX5oyj5GY1q03DTk4qgOUiWs4kRW+
+	 sm+Pf+nKFMIv6klapHmZgsJxV6i011iNYLBRpwFswc1iIju3iJYJJ4JQQitGO09ybzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794274723;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794274726;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=doZoe4aIFR153J4DeHnx0h6Brqb1kP7U8s4t1gWPqrw=;
-	b=G6Vl2sqgYAPzUZlsTRP5wD5x4lGcCU45Kt8Wvd6dYVvg9Fs63Y1oNPtUpaTqfUdKhBRr
-	 8c1GA8FV8J0l0lYmHp+ocx+hyiP/47asl00nBEoYn3PT5Md3m+XE3T80xvedfP8aH82QC
-	 lsdQh7RxoyUgxwKq4poOVX3DHvwD25Y0jIWzoM4WqV2xxsazdYfqhfzAdEC4bHXmmaalV
-	 GjFjRmTgYNH6DpkGP8cWE1FuG8o2GJKykoC4ckrsgoxAC0nQR2lTKnImVTXu8KUV2/GEu
-	 s8lR1v5SABkh844sgpwiFbFewgM3GffgQkpfjalbnpbx37M8TojpSUKj75sS7upwEaA==
+	bh=2gT4xkmYTZQ1QAjCys64b42dgibXNxZEFuSdlN9sffs=;
+	b=bk9IfGCVcsICggyk5Y0kjGJ91eqKiJakOk9iv5RswfxT5iu1AQTpEgzXPMBUA0SmknGg
+	 TGanZE0+bV2FkOOupJEM7+rwCTwSKW+b8feunjg9kvV8i9lqd/Pyq/ZZ7MRKLfaqlRx/2
+	 3qJuLsBoYdKSzzXomBOULvuDgycpkiqneqjkCFmdxRi3s0RQo7tb0N7f0PdL+3XgpuSr0
+	 nqOzx9bye9H92pLn304RA10Z4077sb8OYAq19F/91LZLNAH+XE+T7KKF5KegZfrIaAVjS
+	 4vZ+l0EVVB3Qdv1YS/q/V/xwapHiT3soISbhtghRd4qaLfhY/b0gT2PBAtw6LYmZ3ZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eZgYQ6v3;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gLz4jP3i;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7B6606A923;
-	Tue, 10 Nov 2026 01:38:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E34260A380C;
+	Tue, 10 Nov 2026 01:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eZgYQ6v3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02B4F1F008A1;
-	Tue, 10 Nov 2026 01:38:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gLz4jP3i
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39021F0089F;
+	Tue, 10 Nov 2026 01:38:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794274722;
-	bh=doZoe4aIFR153J4DeHnx0h6Brqb1kP7U8s4t1gWPqrw=;
+	s=k20260515; t=1794274725;
+	bh=2gT4xkmYTZQ1QAjCys64b42dgibXNxZEFuSdlN9sffs=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=eZgYQ6v32m3laP4GzmNCTFoNzlivGQYASsZ64kjndKUbgJFCqUFzJOd/8uSRjkHLe
-	 xrkUwU9+2J8/S5NrssKKLwpe2kqkrPnZlzGFDvxYm2Ik/rZ+RX0ln36bhmN+7PhhWV
-	 Gaawzk/rBZkx3geHkz0jK/so4rnKM/3M/Ms7qwnorC4OjOvvTY40E8ZajFR/5WpKTF
-	 TNPoT8zvxWd71k/lZbeMa+rSxiOuhurqVhf6x7NW4Z2z6SZGBfpxUPTNdtC8pZymqc
-	 hKa0PS8uSgdhQ/0gzEHdnpWXK08ZbSwKLhclZ1HJHP13LeN8D6RUQlEXneIokKw7fb
-	 WmbhnieJACgNQ==
-Subject: Re: [PATCH net-next v20 10/13] ax88179_178a: Add ethtool get_drvinfo
+	b=gLz4jP3iyleYaVGjPMkdPys2zSbH1I6rbzb22Rtr28kAVdZewFJVM1S5oqwkJJMLk
+	 39zhsSyX1ZuhQ2cUXtuZGb/LAqyYiLB4WF70ed0V23DxPvKr3UU9NxUJ1n9ZwxVz81
+	 SYlLZFRJiQAjhIXtRgS8wN3/vrw8x/gw/s6gXzF2jcy9db9NKY58rw8oNJnpBEnuP0
+	 zBtl7kbUkMuVSsP57MUVcyUApjOWxnChPIOACNM4nQyODbslVyKazSouIUpjGTauuC
+	 XkbBJweLnwTPb9+WaPmY+DjTQ459TFHKPPWnJkNkPEqMQhlUJtMH4zPA7qHcb/bBWP
+	 oGRExSre9AKOg==
+Subject: Re: [PATCH net-next v20 12/13] ax88179_178a: Add support for
+ AX88179A/772D/279 EEPROM access
 From: netdev-bot+sashiko@kernel.org
 To: mail@birger-koblitz.de
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, kuba@kernel.org,
@@ -49,11 +50,11 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, kuba@kernel.org,
  edumazet@kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
  neuromoments@gmail.com, beganovic.emir@gmail.com
-Date: Tue, 10 Nov 2026 01:38:41 +0000
-Message-ID: <179427472156.994134.3745486112542949621@kernel.org>
-In-Reply-To: <20261106-ax88179a-v20-10-37b5a1189983@birger-koblitz.de>
-References: <20261106-ax88179a-v20-10-37b5a1189983@birger-koblitz.de>
-X-sashiko-severity: Low
+Date: Tue, 10 Nov 2026 01:38:44 +0000
+Message-ID: <179427472449.994134.11592093531851838540@kernel.org>
+In-Reply-To: <20261106-ax88179a-v20-12-37b5a1189983@birger-koblitz.de>
+References: <20261106-ax88179a-v20-12-37b5a1189983@birger-koblitz.de>
+X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -66,85 +67,185 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-Low priority / nit picks for your consideration:
+Critical: 0 · High: 0 · Medium: 1 · Low: 1
 
-- [Low] ax88179a_get_drvinfo() (drivers/net/usb/ax88179a_devices.c)
-  always overwrites info->fw_version with the cached…
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [Medium] The EEPROM request encoding is split across two independent
+  sources that can disagree.
+- [Low] struct ax88179_data has two fields, eeprom_write_cmd and
+  eeprom_wen, that both bind routines set and nothing ever reads.
 
 --
 
-ax88179_178a: Add ethtool get_drvinfo
+ax88179_178a: Add support for AX88179A/772D/279 EEPROM access
 
-This commit adds ax88179a_get_drvinfo() as the get_drvinfo ethtool
-callback. It uses the usbnet defaults and then, for AX88179A and newer
-chips, overwrites fw_version with the four firmware bytes cached at
-bind time.
+This patch extends ax88179_get_eeprom() to read the efuses on the
+AX88179A/772D and the FLASH on the AX88279. The opcode and block size
+come from per-bind state, and a new helper computes wValue/wIndex.
+ax88179_set_eeprom() now returns -EOPNOTSUPP for AX88179A and later
+chips.
 
-> diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179a_devices.c
-> index 01d6a35f68b2c..69095110e7043 100644
-> --- a/drivers/net/usb/ax88179a_devices.c
-> +++ b/drivers/net/usb/ax88179a_devices.c
-> @@ -235,6 +235,20 @@ static int ax88179a_resume(struct usb_interface *intf)
->  	return usbnet_resume(intf);
+> diff --git a/drivers/net/usb/ax88179_lib.c b/drivers/net/usb/ax88179_lib.c
+> index b54e98e781f33..d5bbaa0c4e4c6 100644
+> --- a/drivers/net/usb/ax88179_lib.c
+> +++ b/drivers/net/usb/ax88179_lib.c
+> @@ -210,36 +210,61 @@ int ax88179_set_wol(struct net_device *net, struct ethtool_wolinfo *wolinfo)
+>  	return 0;
 >  }
->  
-> +static void ax88179a_get_drvinfo(struct net_device *net, struct ethtool_drvinfo *info)
+>
+> +static void
+> +ax88179_eeprom_access_params(struct ax88179_data *ax179_data, int i, u16 *value, u16 *idx)
 > +{
-> +	struct ax88179_data *priv = netdev2data(net);
-> +
-> +	/* Inherit standard device info */
-> +	usbnet_get_drvinfo(net, info);
-> +	if (priv->chip_version < AX_VERSION_AX88179A)
-> +		return;
-> +
-> +	snprintf(info->fw_version, sizeof(info->fw_version), "%d.%d.%d.%d",
-> +		 priv->fw_version[0], priv->fw_version[1],
-> +		 priv->fw_version[2], priv->fw_version[3]);
-
-[Severity: Low]
-Could this report a firmware version that the device never returned?
-
-In ax88179a_bind(), a failed firmware read is replaced with 0xff and
-bind keeps going:
-
-drivers/net/usb/ax88179a_devices.c:ax88179a_bind() {
-    ...
-	for (int i = 0; i < 3; i++) {
-		ret = ax88179_read_cmd(dev, AX88179A_ACCESS_BL, AX88179A_SW_VERSION + i,
-				       1, 1, &ax179_data->fw_version[i]);
-		if (ret < 0)
-			ax179_data->fw_version[i] = 0xff;
-	}
-	ret = ax88179_read_cmd(dev, AX88179A_ACCESS_BL, AX88179A_SW_REVISION,
-			       1, 1, &ax179_data->fw_version[3]);
-	if (ret < 0)
-		ax179_data->fw_version[3] = 0xff;
-    ...
-}
-
-If any of these USB control transfers fail, ethtool -i would show
-"255.255.255.255", or something mixed like "1.2.255.3" when only some
-reads fail. That string also replaces the driver_info->description
-default that usbnet_get_drvinfo() has just written.
-
-Before this patch the 0xff sentinel only appeared in the netdev_info()
-line printed by bind.
-
-Would it make sense to record whether the reads succeeded and, when
-they did not, skip the overwrite (keeping the usbnet default) or report
-something like "unknown"?
-
-aqc111_get_drvinfo() in the same directory also reports firmware bytes
-without checking for read errors.
-
+> +	/* AX88179 has a word-addressable EEPROM
+> +	 * AX88179A uses EFUSES with 20 bytes length
+> +	 * AX88279 has an EEPROM addressable in 256 byte blocks
+> +	 */
+> +	if (ax179_data->chip_version < AX_VERSION_AX88179A) {
+> +		*value = i;
+> +		*idx = 1;
+> +	} else if (ax179_data->chip_version == AX_VERSION_AX88279) {
+> +		*value = (i * ax179_data->eeprom_block) >> 16;
+> +		*idx = (i * ax179_data->eeprom_block) & 0xffff;
+> +	} else {
+> +		*value = i << 4;
+> +		*idx = 0;
+> +	}
 > +}
-> +
 
 [ ... ]
+
+> +	for (i = first; i <= last; i++) {
+> +		u16 value, idx;
+> +
+> +		ax88179_eeprom_access_params(ax179_data, i, &value, &idx);
+> +		ret = __ax88179_read_cmd(dev, ax179_data->eeprom_read_cmd,
+> +					 value, idx, ax179_data->eeprom_block,
+> +					 eeprom_buff + (i - first) * ax179_data->eeprom_block);
+
+[Severity: Medium]
+
+Can the addressing mode and the rest of this request disagree?
+
+ax88179_eeprom_access_params() picks value/idx from chip_version alone.
+The opcode and transfer length passed to __ax88179_read_cmd() come from
+eeprom_read_cmd and eeprom_block, which are set at bind time. chip_version
+is the raw upper nibble of AX_CHIP_STATUS, and neither bind routine
+validates it.
+
+In ax88179_bind() in ax88179_178a.c:
+
+	ax179_data->chip_version = (ax179_data->chip_version & 0xf0) >> 4;
+	...
+	ax179_data->eeprom_read_cmd = AX_ACCESS_EEPROM;
+	ax179_data->eeprom_write_cmd = AX_ACCESS_EEPROM;
+	ax179_data->eeprom_block = 2;
+
+Suppose a device bound by ax88179_bind() (generic 0b95:1790, AX88178A,
+Cypress GX3, or one of the OEM IDs) reports a nibble >= 6. Would it then
+get AX_ACCESS_EEPROM requests with efuse or FLASH style value/idx? Before
+this patch the value=i, idx=1 encoding was always used.
+
+The loop only checks ret == eeprom_block, so that data would go back to
+userspace as EEPROM contents. ax88179_set_eeprom() would also start
+returning -EOPNOTSUPP for a device that bind set up for word EEPROM
+writes.
+
+In ax88179a_bind() in ax88179a_devices.c, the geometry is chosen by
+== AX_VERSION_AX88279 versus everything else:
+
+	if (ax179_data->chip_version == AX_VERSION_AX88279) {
+		...
+		ax179_data->eeprom_read_cmd = AX88179A_FLASH_READ;
+		...
+		ax179_data->eeprom_block = 256;
+	} else {
+		...
+		ax179_data->eeprom_read_cmd = AX_ACCESS_EFUS;
+		...
+		ax179_data->eeprom_block = 20;
+
+ax88179a_get_eeprom_len() uses >= instead:
+
+	if (ax179_data->chip_version >= AX_VERSION_AX88279)
+		return AX88279_EEPROM_LEN;
+
+With chip_version > 7, ethtool would see 16 KiB while the reads use the
+20-byte efuse geometry. Couldn't that request efuse indices up to 819
+when only 32 efuses exist?
+
+ax88179a_get_drvinfo() and ax88179a_reset() both check for
+chip_version < AX_VERSION_AX88179A. If that case happens under
+ax88179a_bind(), this helper would send AX_ACCESS_EFUS with word EEPROM
+value/idx and a 20-byte length.
+
+ax88179_set_eeprom() doesn't block that case either. The legacy
+AX_ACCESS_EEPROM word write loop and AX_RELOAD_EEPROM_EFUSE would then run
+against the advertised 640-byte length.
+
+Would it be more robust to store an explicit addressing mode in
+ax88179_data at bind time, next to eeprom_read_cmd and eeprom_block?
+ax88179_eeprom_access_params(), ax88179_set_eeprom() and the
+get_eeprom_len callbacks could all use it. ax88179a_bind() could also
+reject unknown chip versions, or default them consistently.
+
+> +
+> +		if (ret != ax179_data->eeprom_block) {
+>  			kfree(eeprom_buff);
+>  			return -EIO;
+>  		}
+>  	}
+
+[ ... ]
+
+> @@ -247,12 +272,17 @@ int ax88179_get_eeprom(struct net_device *net, struct ethtool_eeprom *eeprom, u8
+>  int ax88179_set_eeprom(struct net_device *net, struct ethtool_eeprom *eeprom, u8 *data)
+>  {
+>  	struct usbnet *dev = netdev_priv(net);
+> +	struct ax88179_data *ax179_data;
+>  	u16 *eeprom_buff;
+>  	int first_word;
+>  	int last_word;
+>  	int ret;
+>  	int i;
+>
+> +	ax179_data = dev->driver_priv;
+> +	if (ax179_data->chip_version >= AX_VERSION_AX88179A)
+> +		return -EOPNOTSUPP;
+> +
+
+[Severity: Low]
+
+This isn't a bug, but with writes disabled here for AX88179A/AX88279, are
+the eeprom_write_cmd and eeprom_wen fields in struct ax88179_data used
+anywhere?
+
+Both bind routines set them. For example, ax88179a_bind() does this for
+the AX88279:
+
+	ax179_data->eeprom_write_cmd = AX88179A_FLASH_WRITE;
+	ax179_data->eeprom_block = 256;
+	ax179_data->eeprom_wen = 1;
+
+There don't seem to be any readers, though. The only write path,
+ax88179_set_eeprom(), still hard-codes AX_ACCESS_EEPROM:
+
+	ret = ax88179_write_cmd(dev, AX_ACCESS_EEPROM, i, 1, 2,
+				&eeprom_buff[i - first_word]);
+
+The commit message says "no write access is provided". Should these
+fields be dropped until a write implementation actually uses them?
+
+>  	netdev_dbg(net, "write EEPROM len %d, offset %d, magic 0x%x\n",
+>  		   eeprom->len, eeprom->offset, eeprom->magic);
+>
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261106-ax88179a-v20-0-37b5a1189983%40birger-koblitz.de
