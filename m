@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794296126;
-	b=Gm4MiULDBExAelpawbbIbyDrPEan97Gj07yyXaOo7Yf30kauabHBsSR84keAe0aQjzlj
-	 cTfaOLvJHdzh1qc5M5ieUm8OnCz4Oe9ZdSC5CYHoJzBeTSxic94AbPknlF5TsEnQC/1S2
-	 lOOze1Zxgxo16kEXgpviHmArQ7t/8BQgTfi7xhNQI2hKMokO8HdlQmdPrS+tcJKjE8PXG
-	 oRhL0w6bXXMlauIe90efmHtrcXjUHDHmiPBYO/ZAjuO/2czKKIpxdxUClZKeccVHCFNAb
-	 G7IyWJs2qS0W1mfNQmNze+mJ+gHXpWukA/nHVIqP7LYwpxrhsvlq0UKnWJsNbxGf/Jw==
+	t=1794296121;
+	b=UVztYePBn+/+bSv8eVNW4XRzFtpSnn1ml+MrKjoD9IC70dgSfS4MAT9mipYef0PC5xRw
+	 WY1gvQReLpTgWsVQMJGwZ4QP69P5RZsnBvYhDn9KnlkXMylvSnvD4w8aIyi2Nhll1KcS4
+	 SNCR7Z9BvNsd1d8anBTAogxaLSRZgpIhvv1GiZD1XYT6egpPzScGq65DAxR3YLWebOviw
+	 1hHWt98ajR7KN+bU9z9c4CaKm2pZEit7OiBrOjPvVL5j+8bynSOAV2OgipfE0wZt0ntV8
+	 GoN8VA1dH5jG4h6jqfSDpJY+DTph4RpNZcREqU3dCzpknSbWYEiarnLlFp0EdnCwoiQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794296126;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794296121;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=q+yJXt6spYj6cFd13Oy/u8WgXewaen8OtT+ASGGqLYE=;
-	b=SQ9xTINyzcKX1aRUyMZaHFQbhlsrzhaQZBxUrGUPvRB7tnHEa7wrmCTIPiaIRMXpr+z2
-	 c3bMvhwvno3jFRtys5erJ5MxuKkpfaU2XDCOxelGBWBUu7jEpyZO0px/ddWhFl9GYINQW
-	 +mmO3/em4y7nB+fmP3Es8oSQGKsjTw8JK/N7SOyMsDWH5Xwlvoc5YJRvelRdJH4elSEcT
-	 nz4KCPqW8FBkSKGKZtjRqnZUkBd+raMfy/g0Xxe2WKiYHeDiO2wYPyF46SUSMPP++yBku
-	 X7/PVB31S6n7WzZPYlgTwMeK8Y8QYb+ZBoG1i8AGRPOMogxfsDv2lQdTp8oRZ4amEUA==
+	bh=9DMlLWJvde8wccRhIrUuWmQV2u0Aw/z18x+VnGnqLi8=;
+	b=JnCr9vZIjWJ+XqM2HT0iAHsrCCNQ0iDCt1W/PyBKg6m6yj5G+vl+5R8i1kywfitMOL5L
+	 YigfGrUwCF5JqzKE9KQ6ATXE5bAQ2qV9OBPc4Wl7DQIs6FnkI4VCGyzlObstl/8DyzTJi
+	 qUTjVYGLn15eNDUPKo+BMjh4UcW4C0PWuMZXkHF/l1ry4lpFza7DJglvW2TQAg7t+9JVm
+	 VhJcuXIpPJ8nznwjaViCweZmexd8NFgqtz/sMCjjdZQ847TIJCva1PdSPj08sgqz0dg6X
+	 MeYBq7A/yyY5X4ZM2K+jFoDMDn+HIvKs7J4ZM1TdJY7f0tYrScI4puGxeckVCCSlUeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mYnvWBab;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bB4wca6B;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C34160A5BC9;
-	Tue, 10 Nov 2026 07:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F0560A381C;
+	Tue, 10 Nov 2026 07:35:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mYnvWBab
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BA781F008A5;
-	Tue, 10 Nov 2026 07:35:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bB4wca6B
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 975CC1F008A3;
+	Tue, 10 Nov 2026 07:35:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794296125;
-	bh=q+yJXt6spYj6cFd13Oy/u8WgXewaen8OtT+ASGGqLYE=;
+	s=k20260515; t=1794296120;
+	bh=9DMlLWJvde8wccRhIrUuWmQV2u0Aw/z18x+VnGnqLi8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mYnvWBabC6mZ9f4CmsUDgsNCBC4Sh69qio8Xw/vhXHWgGqQgeifIqHre6wxk7Cq6u
-	 SD6CEOfyYwQ+CmLEfo5AEk1pV3zFvFlhIC+yPEWhfPzyZR2nhJi/epWC+d+zYU6NGI
-	 7oRuhi+o8nYSFPHCi8NBnq+LmmQBhLqEgzVyOq16yOsOHr5BPxRea8H96Ezvs4xaRm
-	 pfS1XmRVtk/buipxoMtGDlXE9M9A67QfDaCG8DdtD+2fhptnTRSp06RrC7KXIhFS8/
-	 A10rdgtvwhMgbc34rukW0NGs5aQ2O3x7yNQuhA9d4s6pC8R2CtnGNM3tW/cwoSR460
-	 Iwf0H9Nff6b9A==
-Message-ID: <sashiko-outbox-206517@kernel.org>
+	b=bB4wca6Bcls0jWIWpnLtG4cyHOyLwU8FkzM/IdmnxTaSzh+eIYlLJ1mGHBCBIGS6f
+	 D9S6CXq+NZKRoEoVDMtB3cZN151MZ/g+M30Xra7DGarnhjKanUXnSC1tAWKhAd6Cvu
+	 E1qXSoFWWB3mFAzb2tKJvZ7N93XfT+NGHpc2i4wFDXXepF/Rkmemwq0+v4YXRBWTgK
+	 q22GKEYNCd1T7fh3lWS4C6xTA5HI6f7H/CX6BZKcHehqIVeopwv1EvsdiO20FxUhXT
+	 fKRxSCsmh8xD5nrkylPcVtlRNsf7+8NyFW6sIka8q7CBuh4vA1bE4+wn2TG/3E0DlZ
+	 Inpqbvj9O+Abg==
+Message-ID: <sashiko-outbox-206511@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 17/19] driver core: Document trust admission and
- initrd authorization
+Subject: Re: [PATCH v2 11/19] driver core: Introduce a generic device trust
+ level
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Leon Romanovsky" <leon@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-pci@vger.kernel.org
-In-Reply-To: <20261109-device-trust-core-v2-17-3b12d9a9f861@nvidia.com>
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org, linux-pci@vger.kernel.org, dmitry.torokhov@gmail.com
+In-Reply-To: <20261109-device-trust-core-v2-11-3b12d9a9f861@nvidia.com>
 References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
- <20261109-device-trust-core-v2-17-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-11-3b12d9a9f861@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 07:35:25 +0000
+Date: Tue, 10 Nov 2026 07:35:20 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,23 +61,119 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> From: Leon Romanovsky <leonro@nvidia.com>
->=20
-> Policy agents and bus drivers need a shared definition of authorization,
-> commitment and active trust across boot and device lifetime.
->=20
-> Document the admission state machine and disabled-to-authorized initrd
-> sequence, including built-in probes and pending work. Explain DMA domain
-> preparation, binding restrictions, device replacement and current userspa=
-ce
-> integration requirements. Distinguish attestation and containment from the
-> permission to bind a functional driver.
->=20
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] driver core: device_trust_prepare_full() breaks default boots
+  with -EPERM
+- [Medium] driver core: device_trust_prepare_full() calls
+  trust_resolve() unlocked
+--
 
-Sashiko has reviewed this patch and found no issues.
+commit cc9d85465ea19f97fc7a0889f6993f37d1a58048
+Author: Leon Romanovsky <leon@kernel.org>
+
+driver core: Introduce a generic device trust level
+
+This commit adds generic device trust admission and a device_trust.default
+boot parameter to resolve a device's trust policy into an active trust
+level before driver probing.
+
+> diff --git a/drivers/base/trust.c b/drivers/base/trust.c
+> new file mode 100644
+> index 0000000000000..6a71abf10b3bb
+> --- /dev/null
+> +++ b/drivers/base/trust.c
+> @@ -0,0 +1,132 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/device.h>
+> +#include <linux/errno.h>
+> +#include <linux/export.h>
+> +#include <linux/init.h>
+> +#include <linux/string.h>
+> +#include <kunit/visibility.h>
+> +
+> +#include "base.h"
+> +
+> +static enum device_trust_policy device_trust_default_policy __ro_after_i=
+nit;
+
+[ ... ]
+
+> +static int __device_trust_prepare(struct device *dev,
+> +				  const struct device_driver *drv, bool full_only)
+> +{
+> +	enum device_trust_policy policy;
+> +	enum device_trust_level level;
+> +	int ret;
+> +
+> +	policy =3D dev->trust_policy;
+> +
+> +	if (policy =3D=3D DEVICE_TRUST_POLICY_DISABLED)
+> +		return -EPERM;
+> +	if (dev->bus && dev->bus->trust_resolve) {
+> +		ret =3D dev->bus->trust_resolve(dev, drv, policy, &level);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		level =3D policy =3D=3D DEVICE_TRUST_POLICY_ADVERSARY ?
+> +			DEVICE_TRUST_ADVERSARY : DEVICE_TRUST_FULL;
+> +	}
+> +	if (level =3D=3D DEVICE_TRUST_DISABLED)
+> +		return -EPERM;
+> +	if (full_only && level !=3D DEVICE_TRUST_FULL)
+> +		return -EPERM;
+> +	if (dev->p->trust_state =3D=3D DEVICE_TRUST_COMMITTED &&
+> +	    dev->trust_committed_level !=3D level)
+> +		return -EINVAL;
+> +
+> +	WRITE_ONCE(dev->trust_committed_level, level);
+> +	dev->p->trust_state =3D DEVICE_TRUST_COMMITTED;
+> +	WRITE_ONCE(dev->trust_level, level);
+> +	return 0;
+> +}
+> +
+> +int device_trust_prepare(struct device *dev, const struct device_driver =
+*drv)
+> +{
+> +	device_lock_assert(dev);
+> +	return __device_trust_prepare(dev, drv, false);
+> +}
+> +
+> +int device_trust_prepare_full(struct device *dev, const struct device_dr=
+iver *drv)
+> +{
+> +	if (device_trust_default_policy !=3D DEVICE_TRUST_POLICY_FULL)
+> +		return -EPERM;
+
+[Severity: High]
+Does requiring device_trust_default_policy =3D=3D DEVICE_TRUST_POLICY_FULL
+here cause device_driver_attach_full() to fail with -EPERM on every
+default boot where device_trust.default=3D is not passed on the command
+line?
+
+When device_trust.default=3D is omitted, device_trust_default_policy remains
+DEVICE_TRUST_POLICY_DEFAULT, even though that policy resolves to
+DEVICE_TRUST_FULL on buses without trust_resolve.  Callers converted to
+device_driver_attach_full(), such as phy_attach_direct() when attaching
+the generic PHY fallback driver and serio_bind_driver(), will then fail
+with -EPERM unless the kernel is booted with device_trust.default=3Dfull.
+
+> +
+> +	return __device_trust_prepare(dev, drv, true);
+> +}
+
+[Severity: Medium]
+Can device_trust_prepare_full() end up calling dev->bus->trust_resolve()
+without holding the device lock?
+
+The kernel-doc for struct bus_type::trust_resolve requires the device lock
+to be held, and the kernel-doc for device_driver_attach_full() states that
+buses with a trust resolver must use device_driver_attach().  Unlike
+device_bind_driver(), which rejects dev->bus->trust_resolve with
+-EOPNOTSUPP, device_trust_prepare_full() calls __device_trust_prepare()
+unlocked without checking dev->bus->trust_resolve.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-device-tru=
-st-core-v2-0-3b12d9a9f861@nvidia.com?part=3D17
-
+st-core-v2-0-3b12d9a9f861@nvidia.com?part=3D11
