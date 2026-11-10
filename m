@@ -1,59 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794292881;
-	b=PuueJnPZZpuBT2C/6MTOP7YtKMX+Zu53uVByVNUJ7P4tGbY3hqVF0rq0RFpiXefBdRWG
-	 w8iCoxIQAaq+lD5Ao8e6D26ZNmTATp8gj/4mEatPW070aYYULRNn/khLof0unN6UYTfMD
-	 rKe6zUbwcd7mv9CbxsWqOnyowoyaqt7VyR8vELgALiWDBVFZeJX87qy5iq+dsdmjUHbEH
-	 7gVUjtO/Elxessta1RwTSE8f7TimgNsFFFaUxuZRiw2CcF4IQ9z3QSEUqeHWjtgzqoUpi
-	 RHMWPCMkKO22ISHQQccQatHP0Jycrs4ZSk7ig9pw8x3PEzWOj/bmgtp4eLQ/3adaitg==
+	b=aumNx7c7XvM1QTPfQ6C4PKtm1U4VJaYQ0ZDFtIOuc11xtpp0zFtWjVQOUt/L7dDvxcnq
+	 1wdBfLarU/jLEuILCqNnMhf1NrLjNXU2vqiTOTIZDKR0J+tNruRmaYBEQRz1mbx1zqIPC
+	 j1r0jsYXHd1mxj1Ve25WmvZ0z5eLtjACJe7DSCtJLc/bxdGIemq1O1QLbC3seOOdfk3qV
+	 RVjdI1h9k3l5PXJfXZADjNhtQF7Hwj3OoyxEVN5mpHF3jbYYehAfjaT+scwC6XBhMhKxf
+	 JIpjQfWRAInBaNSSVq/ezpSm19mVjClYPzq3NTY1cXE0fwxd4TEzZLHe0ol+91yj1pA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794292881;
 	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
 	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
 	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=2JFZFDYVdATotefp7Zy4yVOt+9nOnmZbJSkewmSL7Qo=;
-	b=4g8/mx4NKh1tltwyhEbN6OaUwIQCfBanhKJLBtmWSzSZTa0vN1uZM572r4G2JCG4t0o4
-	 NXRje37C5p72WC6aqt3Ofdzn8J99R+4L45pSuh4nborKiQXQ55w/IoabrFZKiLPOWNW3z
-	 go8aJ/52FzQbQH9qmZFaC6TybICWjHIow1FU/z0kKOArivzve1zyzAT9ga6PGF5Nk2sc0
-	 Jb3YBCVvjl3ehNvhedNbe5FUGIhdyApRkXtjMPNnknZ638GZt/QajRbIco3pA/SGCMB1Q
-	 lJwtIlwf+E5vQILubEQkwF4nKN/+zxgbJq6/lF0H5Va9YzeS5VlmM+oln8XpxDXRUPw==
+	bh=E779vxBqds6yPR6ZwX/UxnHoDlIF7E6mtXjWmN/CZEc=;
+	b=wtb+wEtiuY1gq8N775Ko3SNIMTBA/R/Aopgj7L9dzXsCl1+HjcapgfPSqAgq00RXyn1u
+	 jeOI9ZumnzlMYlsLDMEqVG48jABoJlI0bWAxyS9CGgq0yBwWUPsiw7y/ojRx/71nlcpsz
+	 MvmpS6hCI5uU0BMnQzqVhSPqoID4O1vMSzxb5hazXq6hgtQvnY+Ck+pRm/nZ1PNNAdNBJ
+	 WDaiewedSdUgT7bmlnix4gQEYNbn2h8WQCy/qrIMnykzrsnaOvAyPoEEMKe0bZqbzLupB
+	 7jr15+W/KPeKbM/eJbPYcuGYTjaB6myQGFd+ChNrRllGU+8pfOIDOyK96K+gEEjL5Pw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cmss.chinamobile.com;
 	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	arc=none smtp.remote-ip=111.22.67.137
-Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20BAC606A31C;
+	arc=none smtp.remote-ip=111.22.67.139
+Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99EE1606A326;
 	Tue, 10 Nov 2026 06:41:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20BAC606A31C
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99EE1606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=cmss.chinamobile.com; s=default; l=0;
 	h=from:subject:message-id:to:cc:mime-version;
 	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=RR3z1RrYP4Q08RQCmTuRHQUrRpb85QVZVYMnd/IA5oIrUjOnCTpVpuRfS2zhYwZz8o1BZnpxmzHA6
-	 30yWC8GJkXyBqlhVZCgNGqV4aslty2Eo9mUOTWtLwdIbSOugjSKZDZ869EEJ6eUIUGHTtHp+ybC7qZ
-	 equqclaLL4FKzYRk=
+	b=rKQDRXENjeIXrHubJoXIVx2qjK0Scybh69WM2FY5RUxhhczVE0TdOwz3dUW4T1hznusgN73qrm0GR
+	 wntBev/pHbrUaUuPjyH9ooX891kJ+vGL+Aq3rn+Lgfr/gD1dr20FVAzOHTxf7Gr6zL2oa9B+Mz6XZU
+	 QRCjjm12cRLtkgFA=
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86af2bc867fe-6b8f5;
+	by rmmx-syy-dmz-app05-12005 (RichMail) with SMTP id 2ee56af2bc85d4d-c92b9;
 	Tue, 10 Nov 2026 14:41:10 +0800 (CST)
-X-RM-TRANSID:2ee86af2bc867fe-6b8f5
+X-RM-TRANSID:2ee56af2bc85d4d-c92b9
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from  (unknown[223.108.79.97])
-	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea6af2bc812f6-aa101;
+	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea6af2bc812f6-aa100;
 	Tue, 10 Nov 2026 14:41:10 +0800 (CST)
-X-RM-TRANSID:2eea6af2bc812f6-aa101
+X-RM-TRANSID:2eea6af2bc812f6-aa100
 From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 02/22] usb: cdns3: fix a few spelling mistakes in comments
-Date: Tue, 10 Nov 2026 06:40:45 +0000
-Message-ID: <20261110064105.20335-3-shishunbo@cmss.chinamobile.com>
+Subject: [PATCH 01/22] usb: atm: fix a few spelling mistakes in comments
+Date: Tue, 10 Nov 2026 06:40:44 +0000
+Message-ID: <20261110064105.20335-2-shishunbo@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
 References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
@@ -72,96 +72,22 @@ No functional changes.
 
 Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 ---
- drivers/usb/cdns3/cdns3-ep0.c    | 4 ++--
- drivers/usb/cdns3/cdns3-gadget.c | 6 +++---
- drivers/usb/cdns3/drd.c          | 2 +-
- drivers/usb/cdns3/drd.h          | 4 ++--
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/usb/atm/ueagle-atm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/cdns3/cdns3-ep0.c b/drivers/usb/cdns3/cdns3-ep0.c
-index e29989d57bef..5d6d3616bfc6 100644
---- a/drivers/usb/cdns3/cdns3-ep0.c
-+++ b/drivers/usb/cdns3/cdns3-ep0.c
-@@ -643,7 +643,7 @@ void cdns3_check_ep0_interrupt_proceed(struct cdns3_device *priv_dev, int dir)
-  * @desc: pointer to usb endpoint descriptor
-  *
-  * Function shouldn't be called by gadget driver,
-- * endpoint 0 is allways active
-+ * endpoint 0 is always active
-  */
- static int cdns3_gadget_ep0_enable(struct usb_ep *ep,
- 				   const struct usb_endpoint_descriptor *desc)
-@@ -656,7 +656,7 @@ static int cdns3_gadget_ep0_enable(struct usb_ep *ep,
-  * @ep: pointer to endpoint zero object
-  *
-  * Function shouldn't be called by gadget driver,
-- * endpoint 0 is allways active
-+ * endpoint 0 is always active
-  */
- static int cdns3_gadget_ep0_disable(struct usb_ep *ep)
+diff --git a/drivers/usb/atm/ueagle-atm.c b/drivers/usb/atm/ueagle-atm.c
+index 61723e7ab351..d569ee93b493 100644
+--- a/drivers/usb/atm/ueagle-atm.c
++++ b/drivers/usb/atm/ueagle-atm.c
+@@ -2189,7 +2189,7 @@ static void uea_stop(struct uea_softc *sc)
+ 	release_firmware(sc->dsp_firm);
+ }
+ 
+-/* syfs interface */
++/* sysfs interface */
+ static struct uea_softc *dev_to_uea(struct device *dev)
  {
-diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-index f4dfd0131708..ba10ef9ea656 100644
---- a/drivers/usb/cdns3/cdns3-gadget.c
-+++ b/drivers/usb/cdns3/cdns3-gadget.c
-@@ -452,7 +452,7 @@ static void __cdns3_descmiss_copy_data(struct usb_request *request,
- 			       descmiss_req->actual);
- 			request->actual = length;
- 		} else {
--			/* It should never occures */
-+			/* It should never occurs */
- 			request->status = -ENOMEM;
- 		}
- 	} else {
-@@ -1062,7 +1062,7 @@ static int cdns3_ep_run_stream_transfer(struct cdns3_endpoint *priv_ep,
- 
- 	if (!(priv_ep->flags & EP_STALLED)) {
- 		trace_cdns3_ring(priv_ep);
--		/*clearing TRBERR and EP_STS_DESCMIS before seting DRDY*/
-+		/*clearing TRBERR and EP_STS_DESCMIS before setting DRDY*/
- 		writel(EP_STS_TRBERR | EP_STS_DESCMIS, &priv_dev->regs->ep_sts);
- 
- 		priv_ep->prime_flag = false;
-@@ -1404,7 +1404,7 @@ static int cdns3_ep_run_transfer(struct cdns3_endpoint *priv_ep,
- 
- 	if (!priv_ep->wa1_set && !(priv_ep->flags & EP_STALLED)) {
- 		trace_cdns3_ring(priv_ep);
--		/*clearing TRBERR and EP_STS_DESCMIS before seting DRDY*/
-+		/*clearing TRBERR and EP_STS_DESCMIS before setting DRDY*/
- 		writel(EP_STS_TRBERR | EP_STS_DESCMIS, &priv_dev->regs->ep_sts);
- 		writel(EP_CMD_DRDY, &priv_dev->regs->ep_cmd);
- 		cdns3_rearm_drdy_if_needed(priv_ep);
-diff --git a/drivers/usb/cdns3/drd.c b/drivers/usb/cdns3/drd.c
-index 42f13757d904..7465a2a4fb2d 100644
---- a/drivers/usb/cdns3/drd.c
-+++ b/drivers/usb/cdns3/drd.c
-@@ -58,7 +58,7 @@ static int cdns_set_mode(struct cdns *cdns, enum usb_dr_mode mode)
- 			/*
- 			 * Enable work around feature built into the
- 			 * controller to address issue with RX Sensitivity
--			 * est (EL_17) for USB2 PHY. The issue only occures
-+			 * est (EL_17) for USB2 PHY. The issue only occurs
- 			 * for 0x0002450D controller version.
- 			 */
- 			if (cdns->phyrst_a_enable) {
-diff --git a/drivers/usb/cdns3/drd.h b/drivers/usb/cdns3/drd.h
-index 1e2aee14d629..0b134c1e5a49 100644
---- a/drivers/usb/cdns3/drd.h
-+++ b/drivers/usb/cdns3/drd.h
-@@ -160,11 +160,11 @@ struct cdns_otg_irq_regs {
-  * Value of the strap pins for:
-  * CDNS3:
-  * 000 - no default configuration
-- * 010 - Controller initiall configured as Host
-+ * 010 - Controller initially configured as Host
-  * 100 - Controller initially configured as Device
-  * CDNSP:
-  * 000 - No default configuration.
-- * 010 - Controller initiall configured as Host.
-+ * 010 - Controller initially configured as Host.
-  * 100 - Controller initially configured as Device.
-  */
- #define OTGSTS_STRAP(p)			(((p) & GENMASK(14, 12)) >> 12)
+ 	struct usb_interface *intf;
 -- 
 2.53.0
 
