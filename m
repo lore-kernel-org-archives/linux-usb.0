@@ -1,57 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794296113;
-	b=rMyHaGyJ6KLVjtncf2KEAmZMYQr8eabzjcTvKFKFvuROyqzlckxMGAPNqIN7JhXQ7iRw
-	 wu+LU2ve7vA3/QYj2b6D0AmTthNFdChwH4HH8oDuyip2x/0/KaADJAIp15gcQlj2nRdWd
-	 +rPa9h4PvHULL5tjBDYxS7jCt2UQxAKjzj/KJNt+moYLIEfKyYwVQ14jvD2RXwfYUXOCh
-	 CaYfld0keMQOIYCw25OXD3MMVyEzBVhtrj7QNSiol7RhTElSTgKuTBAvbl828lku9dIKX
-	 bkjOOv7QOQbxVGYq6fc6bVPjM4uTZZyCgXsVT2pPrehW8iEuaLHF6Q9b18VxEKYMlaA==
+	t=1794296116;
+	b=vIIZQIdSWDc2Snp5MiGV8xvR7gOQEldcsnRZnUYmpHbzE5yUdvpJp7eZln4GceZHMrYH
+	 aqPXULh7Yof5Kwundwprs48CprdTDAr7Zx2QClnlPkWuZyXpZflyVXfmVoPMDVcoZICB8
+	 grkqH8lwPg5ZfTK1ZBqFaccfIKOng08UeKzgcs0Mcz3K+kJ+PTHDmxXg4ToXS2fpKeb9K
+	 KuAV59tPyOmIjn0ViAWbOIz0oGYOwKOEnJjydXegTzhDnJFcwsgfYDfQHxSGqNpNdacrh
+	 qgNv7ny/1LZx/P9oQrQSDAFU2/1+3j87pJwK0Bxrp9dVs6c3cIlsD6JfGXKLe2hfqXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794296113;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=GWxb5M47FUHbNZgaCk7nl7LYD4f5UQwoaQh7lgRpLkc=;
-	b=TeMP4hi5z8o6WRDiHV0VALRFxBG7Ssbrme2S5uJ+FUC8UrN0JU+8JQLMm48uf23VV8YW
-	 If8HikSGLAOII8YaAlahBDhNJo6nPwvhieXYpFonVsyTSi02wV5Y0r2RfFEge3NxTgr+t
-	 Xt+blXU5AjVUZ/udN9dUE/RA8oTeuTLmKzRv0UVQX/I27JGLWAtLJjAxC97zIqJM+2gdg
-	 cXWwEKrzmPOOMzvTez6i7igyW1w2QKQJfIhWDHjVrYpyROq5QzxfC8nwXrSa1L4ZIDy0z
-	 8SaNdIPzebh7bBbDw8De1LCDe+Y9RkXzpY6SzrMBpg6gtHzDflZgJVda8mUB+2J76Ig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794296116;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=TqCAxrkAkWZ7VSQuQz+1RFID+0fmcA5gtvZ2j/M13Zs=;
+	b=lTWlQyvzyPCRXlcK0yoOuK4CivZGp1O7eAz/6DsyaMq0cJioaI3MOfGBJTn5T5z1MTl+
+	 81czb9q6Z0865LYCzF+ZNaegc+kQBrKkwACpXTJsU5I35gEwpNSr1GBJtWCGUkOwlRQ6C
+	 vnLjaH+Tn7zKMpOmWgQihv/mKtdhcnWt2+Ni0Wk5cxB/lRT2ZtGL6aM+2iafwo3qnjg7K
+	 HkO5XQA4P9+k3pguNBNBMxKEaweAdt3g05K9GNTPBdpif/vdqo94nD+DWVvqUQ4i2kzL7
+	 mNAORWYwI/6zwGnSQimsYfrZVkC4R44R/UUxub3LnKusmFbjmW9hbB1wHid+Cg7f8vQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b="Z0/V1+WM";
-	arc=none smtp.remote-ip=117.135.210.4
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dMLbrdbV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BCD606A31C;
-	Tue, 10 Nov 2026 07:35:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3BCD606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F927606A32A;
+	Tue, 10 Nov 2026 07:35:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Z0/V1+WM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=GW
-	xb5M47FUHbNZgaCk7nl7LYD4f5UQwoaQh7lgRpLkc=; b=Z0/V1+WMCKWwqfLFg7
-	myFYupHrzaMUMQhvd3C9q5JGlCyN4XP/+L9m23O9WfmFWcOXnQft2fChhq5mxGN+
-	fF2kL1GMSwA+8u+MC5Nxz+meheG6pydxaAlmjygr4z4Pt1VIW/xLoHwOvZF/IFR9
-	4J0fxLMDuaHxK05JgyZeN2qL0=
-Received: from Spiking.lan (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wDnj4MayfJqZGpyGg--.65503S2;
-	Tue, 10 Nov 2026 15:34:51 +0800 (CST)
-From: Ju Nan <junan76@163.com>
-To: nkapron@google.com,
-	gregkh@linuxfoundation.org,
-	junan76@163.com
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: Remove duplicate VIDEO_DEV dependency
-Date: Tue, 10 Nov 2026 15:34:43 +0800
-Message-ID: <20261110073442.79443-2-junan76@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dMLbrdbV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB0171F008A2;
+	Tue, 10 Nov 2026 07:35:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794296116;
+	bh=TqCAxrkAkWZ7VSQuQz+1RFID+0fmcA5gtvZ2j/M13Zs=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=dMLbrdbVsnFqQjNRx0vFT+cOWRF7nHffUVF96MMASDBcFwyohrWnFkuNoeF80D7Op
+	 x4ZFoAIlwyd16lUMm9CBbYt0OSSoNZzSaif2hmFuBVZ87RUyfFxjB/5AXQ6UozAERR
+	 uGKznCr3KO8vF8mWtYTwGyufakvJF8oGoVPTfJEaEBI2FBXyaeiflINvXl1vVPcnyY
+	 o787mAGx46w/qnji+5oGc06LNvwJcJRw9wnbEkEXaaXQxbMkLO2Q5YKXHNhN/gac6K
+	 SHq4vcz+IGFXkcoVvoo+1xYLbIs5cN3PcmYN+H4wTzYeIKsIITfl7vygndJfr39OGC
+	 YXI1AltPVNvVg==
+Message-ID: <sashiko-outbox-206505@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 05/19] PNP: Attach card devices through the driver
+ core
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Leon Romanovsky" <leon@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-pci@vger.kernel.org
+In-Reply-To: <20261109-device-trust-core-v2-5-3b12d9a9f861@nvidia.com>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-5-3b12d9a9f861@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2026 07:35:15 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,35 +60,22 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnj4MayfJqZGpyGg--.65503S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Xw1rKw1ktF15Jw1UJF43Wrg_yoWxZrX_Ga
-	1q9r4xGrW5Aasagr1UXayFvry7K3WkWrn29FZ8tw13XrW2gr4fX3WxXFZrX3W3Ga47Gr9I
-	v3yrZFWqkrn5XjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRiAwI5UUUUU==
-X-CM-SenderInfo: pmxqt0ixw6il2tof0z/xtbC1BvPgWryyRtVMgAA3s
 
-USB_CONFIGFS_F_UVC lists "depends on VIDEO_DEV" twice. Remove the
-duplicate dependency without changing the configuration behavior.
+> From: Leon Romanovsky <leonro@nvidia.com>
+>=20
+> Card device requests probe the selected link driver before driver core can
+> perform admission and setup.
+>=20
+> Use device_driver_attach() for the normal binding transaction. Keep the
+> card link owned by the enclosing card probe until the device is bound, so
+> probe cleanup and debug removal cannot free a link still in use by that
+> transaction.
+>=20
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
-Signed-off-by: Ju Nan <junan76@163.com>
----
- drivers/usb/gadget/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+Sashiko has reviewed this patch and found no issues.
 
-diff --git a/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
-index 76521555e3c1..c85efae6f3e9 100644
---- a/drivers/usb/gadget/Kconfig
-+++ b/drivers/usb/gadget/Kconfig
-@@ -469,7 +469,6 @@ config USB_CONFIGFS_F_UVC
- 	bool "USB Webcam function"
- 	depends on USB_CONFIGFS
- 	depends on VIDEO_DEV
--	depends on VIDEO_DEV
- 	select VIDEOBUF2_DMA_SG
- 	select VIDEOBUF2_VMALLOC
- 	select USB_F_UVC
--- 
-2.43.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-device-tru=
+st-core-v2-0-3b12d9a9f861@nvidia.com?part=3D5
 
