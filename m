@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794353521;
-	b=WgUrXNJUjQQ/p/2RLvYcnMACM/wei3jjiCpr1o127glEUlquBchnaHeQXg+/bv5I+xgY
-	 7YrVRVUNVmao3m1uES0W5I3s7gxsVLIwjF2XnqsOaJehUyUniz1vtUETwERSFYga9DJbl
-	 HCZzmrGvLzlkigbiob0v0F1i6aaLBOJR29L4wQd5Ogsb+hOAOHW50HHsrpVr6q3w6V0dv
-	 x2tf9D5BLdMx0A4gp7D9KVTbeZcLDbhOW4gbLkJoqUZPfe4QaWqlCLNI0D9byObRoSo8h
-	 1gOhQnRyps8MDn6s1Hd1VjWxZRgo9EUxfL91hHqdwGV2qzr1GOZMz/RAPNLhxrwtw7Q==
+	t=1794353527;
+	b=IX7OC1iSf2xQXh6ZioGTN2K0NBmfXHRukbCOYVPv0SclDTZA7L6Jh3ty6gP1T0zm6xWU
+	 1zqJsqfXYUoe4QbBfTNnuUwR28E+OHqFceH/4CzfN4kClyLatFeBZHWa5aTOGPGpzuXWn
+	 M9ucFv3n8um2YN/EAl/AV0r6j9JIwtLry9PH4Y+FLJKmfEGmSZUnKfB9I/ZjH2v/BI2tk
+	 eqiSK99ZRVVf+Mcf7lRvWj93Ct9C74zFz0wsxYtYRyJpjbVa19liQKDNDtur2XZiaxOXt
+	 tbhHZDgYNPSeLH23/BldP4BDnKdNyc7PNSWATXEnDC8RWQ6sCQ0Hmyg4AqbH8PBY7Sw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794353521;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794353527;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=t20asftrfRk7z5XEXGSmpj68oEQ3qjLe+U7bRm32em8=;
-	b=NVO9duGppkxXEWZHpuDLaLgLus9mHEK5JpzzUQNnpF9R67vvxtpTwyTOoewpC3O+bNyA
-	 Uh41L25LeqledgIP8Z0iuy2T8Ps0UWhKqfcbcNX3dATZztyftvUCIKQC2ckXf5t9uMkaI
-	 NGAhc0WCf+JM4/3E1pru7tV1fnjv8t/wW+UrubqhD8QE+H69Aq3xgbjylrQU7A7GzmDNk
-	 COinvAKHs0wy7aHsJ5+CmbFPbzpCkUmkGZlZ6M7uZF+ZeqolAwhu4I59k2T7+DBO9mRJX
-	 ckn1BGaIN+lewvNKoamkKEx8clreF+cS6S7FX+MQYqXT2WGsz/sJlrC2gp44W7bbPRQ==
+	bh=ODByUjEBuhVWJAAo31u8DKJeObV2r7v+/WIT1vOrveE=;
+	b=0gS//E+V5ABdS2putIEVk0XcN4OK4dvhW5stHc4cCBpAAq3RNBVer6ERJR1+Fdfj9SV3
+	 kp+NTfSAgFVu35H4lccypUdJYzu8kC3HHZ8Ce/Cx3hQQVhW9I1o1VxTysIqF0J6atorbb
+	 cjvSRL/X4mGsswWTBHPpVyyVldZv8A6cPoe1Y6R03cNe4E6aTCC6fFbEWYDLwIN1bK0PU
+	 2mkvGUYX1nsGv3VZJXWOFYUfJRPrGrv8/POo15SvXjdfNlE7NL6UL3UUT6+hnxS90SVWy
+	 NdZhuRcEp6Slwyw4F150ZSKOYPFlp2hBbozvJjiVJHeGCcuPoKZc1lkulCZAmiKSFmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="I/GR7WYK";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hw9vL4mY;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0ED606A320
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 23:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAA3606A31C
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 23:32:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I/GR7WYK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F91C1F0093C;
-	Tue, 10 Nov 2026 23:32:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hw9vL4mY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9D6D1F0093C;
+	Tue, 10 Nov 2026 23:32:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794353521;
-	bh=t20asftrfRk7z5XEXGSmpj68oEQ3qjLe+U7bRm32em8=;
+	s=k20260515; t=1794353527;
+	bh=ODByUjEBuhVWJAAo31u8DKJeObV2r7v+/WIT1vOrveE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=I/GR7WYKuE9+GxT0SU118WWD7+1W2UCzW1cd6uSMd1fmscc79B2nVLAwib7xDPhoB
-	 s3qV2TVpKc5IwZK4dEVnjFIr9FAIhglrz8MNxLky5NyAr29ThP34WFato6CvbOhrcS
-	 bn3sBOmjkZnswChn5GVJ2DPc9O7ZWNQFM4CpV2tnpDCoRMCpO0aW8fs5cRp1p457fp
-	 6cNH6171RaYc/SR0/pJjIJemK4JJKlzwsO7hmVn7oTA4+dDS677Aw9qPyT0d3gC4mV
-	 ubJODO2QaGFZgayOnTu7T+DJnWyp5AnGVqLAJt3uq9Q+0GAXm8HffZbujdxNXzdGwz
-	 02urVXXEhtvIg==
-Message-ID: <sashiko-outbox-207923@kernel.org>
+	b=hw9vL4mYr8NyfbnRu5AlUwUzodS06o/nDG3WCirf+uHvxHpkegOxAwiaQ1bMUexRY
+	 /GaGhY/PGHr0nxhu2yvp4CnHNKrSLm9LUcgFdglmTmjJur7Hs9wE67HhNvq6QnSZ6Q
+	 vTFXDuyDoLuaos4x4GmVgiICfk+w61JZE/tfm82HJjgL5fUhROMnMeIZ94o6/sD8Xo
+	 gO1JIXRRQicIM4er8rEDXFC+S2AiXmcl8W6CwkfllmqCW8/emCqivfE1HZdUG0CVX/
+	 S6+zxOqTiohg0WaaK9UM6K+yEHiw4cyOICOYkM9Zow3lm6he41i6FzfkL0zr9rx4NC
+	 +MBJEaYKx/J/g==
+Message-ID: <sashiko-outbox-207924@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 12/22] usb: image: fix a few spelling mistakes in
+Subject: Re: [PATCH v2 06/22] usb: core: fix a few spelling mistakes in
  comments
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261110075825.24946-13-shishunbo@cmss.chinamobile.com>
+In-Reply-To: <20261110075825.24946-7-shishunbo@cmss.chinamobile.com>
 References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
  <20261110075825.24946-1-shishunbo@cmss.chinamobile.com>
- <20261110075825.24946-13-shishunbo@cmss.chinamobile.com>
+ <20261110075825.24946-7-shishunbo@cmss.chinamobile.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 23:32:00 +0000
+Date: Tue, 10 Nov 2026 23:32:06 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,13 +62,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> No functional changes.
->=20
-> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] usb: core: comment typo wakeup up above usb_set_lpm_mel()
+--
 
-Sashiko has reviewed this patch and found no issues.
+commit 4d89b6e99df2b30286e869e88db58e1d24d63a0e
+Author: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+
+usb: core: fix a few spelling mistakes in comments
+
+This commit fixes several spelling mistakes in comments across
+drivers/usb/core/.
+
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 199d3f535a891..9478b23e506d5 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -215,7 +215,7 @@ int usb_device_supports_lpm(struct usb_device *udev)
+>  }
+> =20
+>  /*
+> - * Set the Maximum Exit Latency (MEL) for the host to wakup up the path =
+from
+> + * Set the Maximum Exit Latency (MEL) for the host to wakeup up the path=
+ from
+>   * U1/U2, send a PING to the device and receive a PING_RESPONSE.
+>   * See USB 3.1 section C.1.5.2
+>   */
+
+[Severity: Low]
+Since "up" already follows the word, should "wakup up" be changed to
+"wake up" rather than "wakeup up"?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110075825.2494=
-6-1-shishunbo@cmss.chinamobile.com?part=3D12
-
+6-1-shishunbo@cmss.chinamobile.com?part=3D6
