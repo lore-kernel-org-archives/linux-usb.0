@@ -1,116 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794315273;
-	b=V+L6jiAaA7Vani9rutz5lTm6u5EiXT5QielEbWEIjBj2O3x2cO6BUSrCHCP0e1tkwduA
-	 Eg2YrRB2T/4qsaxDp2qBV+8MIVVutG61men8NVHFEdI7e9m78xkItphmqL5JC8188R2mV
-	 rKQTSuC7qiMElonasrJotP4xZthiUfeTk8hmj8ij5v2A70EBNvVajKmHD4r7P3BWzs/LP
-	 cet9ReADJDWPMfupTSjbMN00hRwSe2jRB+JAtjQBKyj2m0tebPcPEn1Gqv3a34pkVNvCc
-	 lwFiqdOI68bEz3+wpOqGTPJHi9ceZZNIe3HsQ/aQWwx7WDdqv7HDw0pPUeYUq/1cqiQ==
+	t=1794315288;
+	b=Q/cNuOcqBaV+9k8PD1eblK37GR8q9DsgLuBRsIuWwhbRa0P+ZDm+MSJDIuWjqWW9RCgw
+	 0NjrpdwPtB63p3+VQtY+yZY8bn7itHttbuadaNjD3DL6OMwTwiOkrKXH8uFKBMe9uVt98
+	 W2j/1REcYq3dsFJTefia8fMEG8wsTCl4ZCCHq4J8mc7qubbz8ZHCpmKYJSJhSHWDH4KmU
+	 HoDnrRFzdnvILgKxpqxWRKOn+WoBSdiiqWF/bt7cJxzE+XB5mzHb9fPzt7mNHCspgvSpY
+	 JecYWNkQ2VxiCK+9wQxaaS3912ceZ+c3yov0+CDRKXq1A3hyseDyWS3ozOoIGRdbsOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794315273;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=OJ/prrn965jMvrgfLjF+vFRorAc5HNvJ6Vj8L/XmMbo=;
-	b=lwn2EBfqcPEyb3G3X3pSc6m1tlW55aSS35+kSSHwjGfJtKJ9+vEj1yMU3A1z3CviY8JG
-	 462Kyu+DVWLXsj99L538Pr0j+XC9WSIEJNsK7Lnd/ufv80qAFwhUlzMCUZdAkT/SDzyfX
-	 qKhcX4X6kkGqrfLX+lKSfpSB07950fcgEpDPC9G+7z4zXeaUss3ODKDSJ8QDbpR05H+jM
-	 OiN081MRcht8i302l1w/l9PQsyoaoz9xCIsWkJDnI4dmO5C7MwBXDb9WTJNzge0pz6Hl3
-	 MPNi4qadAusWwnaXkI1U/epZdKzh8dqiTORjxBn07W0PA0M5mJ2sFgDiQNrrIGer5Mg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794315288;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=1+2k5LckoMlRz1UsGVfXPTvJfkXcF184agG+LHhQ6uI=;
+	b=elMIeUoLsCm+wGFifJcBh3aYOEFYtyz1hXZJObi7gzgUAE6/YCr/4h8OP8cKgdk2xoWl
+	 e/xmu5QzMGi21cVdUENa/D5Zr1zS7VyXQAmzkOl9fY+me57/8KIvnJpEPji7c9CkKAOqY
+	 VbqIaz9cuZB5qzfQi15br59/7doKi2XYnV/JzA98OGxeNxq7Q76xaxuK7jJSQ4yVeiHsi
+	 YZG/lKkeo+enzJoBJhnvpb9rRo4dI7h9ZvP24PxlHYkjHn1Aw9/wYyWS1H913Wpfg28+e
+	 KKdzQq5EaUg9WJNokDLn8AWiEuyyodY7vDl5DAUzljlcnlGw7CFGytkkv2NKs5v2DuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Q2H6Mk4O;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=29N3zImF;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Q2H6Mk4O;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=29N3zImF;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="f/zSVM8/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F273E60A260E;
-	Tue, 10 Nov 2026 12:54:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F273E60A260E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3464606A336;
+	Tue, 10 Nov 2026 12:54:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Q2H6Mk4O;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=29N3zImF;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Q2H6Mk4O;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=29N3zImF
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5BBCB21EC3;
-	Tue, 10 Nov 2026 12:54:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794315270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OJ/prrn965jMvrgfLjF+vFRorAc5HNvJ6Vj8L/XmMbo=;
-	b=Q2H6Mk4O1KaxEREOj5DevP2kMmH/Jidslcr1s6/vZIMu9WIDtdkSn5EG2n6fd0LuRLcdyR
-	OsFZv9uv7UMWguBVt0RqvpxAGlKN3MHZdrq5jMlTWssQy62BIT2qg2AoLOn1LWDhgCr5PN
-	XMWF0Y0SpbRpnTpFBSi/pSKP5wkCCts=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794315270;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OJ/prrn965jMvrgfLjF+vFRorAc5HNvJ6Vj8L/XmMbo=;
-	b=29N3zImFuoXZ3FcTPq5PwxpXmvPvhMRlDBfBJL8lW84IsbdkpNdw1G7KrJbgDQqTwApVDr
-	s36m1YzU5P2ufNAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794315270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OJ/prrn965jMvrgfLjF+vFRorAc5HNvJ6Vj8L/XmMbo=;
-	b=Q2H6Mk4O1KaxEREOj5DevP2kMmH/Jidslcr1s6/vZIMu9WIDtdkSn5EG2n6fd0LuRLcdyR
-	OsFZv9uv7UMWguBVt0RqvpxAGlKN3MHZdrq5jMlTWssQy62BIT2qg2AoLOn1LWDhgCr5PN
-	XMWF0Y0SpbRpnTpFBSi/pSKP5wkCCts=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794315270;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OJ/prrn965jMvrgfLjF+vFRorAc5HNvJ6Vj8L/XmMbo=;
-	b=29N3zImFuoXZ3FcTPq5PwxpXmvPvhMRlDBfBJL8lW84IsbdkpNdw1G7KrJbgDQqTwApVDr
-	s36m1YzU5P2ufNAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2EA8D1339F;
-	Tue, 10 Nov 2026 12:54:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LWGGBQYU82p9QQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 12:54:30 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id D65A3224DC; Tue, 10 Nov 2026 13:54:25 +0100 (CET)
-Date: Tue, 10 Nov 2026 13:54:25 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 03/41] target: fileio: check that the backing file
- supports ->{read,write}_iter
-Message-ID: <7gknb2zk5u322p4hwxmbkwko4oqnmtroz6evgxcfgaqv43e2lf@4ys3f4ojdwvu>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-3-4c998976c6c7@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f/zSVM8/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7F5D1F008A2;
+	Tue, 10 Nov 2026 12:54:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794315287;
+	bh=1+2k5LckoMlRz1UsGVfXPTvJfkXcF184agG+LHhQ6uI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=f/zSVM8/aG5/mr1KV04vTH9V5U8+FsOb/Jzgzli3GSTfjY2Ch1qqMEg0reZipXUvj
+	 I5DWAFQMn/iYdo+zlXIveCaSxSkK2TKCLj9RGnH06zCE6QByvF9mKIdKdkvKRSuZEx
+	 sxMfN2kUl9ndSIn3jl3m0taYiDibWw5YHu1bwzgPoFRFXXdR+e+JyOg9JT4qUr76HR
+	 DkZGYcGE+n9yPol4hB7iM676ji6+LgDFd/s+KiArvaYW3DNh1fdXjhAbPP1kt8x/Nr
+	 DrLnwR+JO48GaFQ9lEcK0WnqGVwrkFJLEnMge8Jq+WnlX28iespYtHCM2yigBF28Z0
+	 99sHnlDcJMeyA==
+Subject:
+ Re: [PATCH v4 1/2] lib/net_utils: allow mac_pton() to take a custom delimiter
+From: netdev-bot+sashiko@kernel.org
+To: liuc63@xiaopeng.com
+Cc: gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+ andriy.shevchenko@intel.com, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, khtsai@google.com,
+ fangxy@xiaopeng.com, rdunlap@infradead.org, dbrownell@users.sourceforge.net,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org
+Date: Tue, 10 Nov 2026 12:54:46 +0000
+Message-ID: <179431528628.994134.9205744622940373491@kernel.org>
+In-Reply-To: <20261106030605.576584-2-liuc63@xiaopeng.com>
+References: <20261106030605.576584-2-liuc63@xiaopeng.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -120,84 +66,82 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261110-work-loop-pseudo-v1-3-4c998976c6c7@kernel.org>
-X-Spamd-Result: default: False [-16.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLdu9otajk16idfrkma9mbkf9b)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,google.com,kernel.org,toxicpanda.com,lst.de,lists.infradead.org,zeniv.linux.org.uk,suse.cz,lists.linux.dev,kvack.org,lists.ubuntu.com,lists.xenproject.org,lists.ozlabs.org,gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
-X-Spam-Score: -16.80
-X-Spam-Level: 
-X-Spam-Flag: NO
 
-On Tue 10-11-26 10:14:19, Christian Brauner wrote:
-> With fd_async_io=1 the fileio backend calls ->read_iter() and
-> ->write_iter() of the backing file directly. The synchronous path goes
-> through vfs_iter_read() and vfs_iter_write() which check for them but
-> the aio path doesn't. So a backing file without them calls a NULL
-> pointer on its first I/O.
-> 
-> Refuse such files when configuring the device. On the synchronous path
-> every read or write that needed the missing method failed with EINVAL
-> anyway.
-> 
-> Fixes: 769031c92c8b ("scsi: target: target/file: Add support of direct and async I/O")
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-Looks good. Feel free to add:
+Low priority / nit picks for your consideration:
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+- [Low] The kernel-doc this patch adds for parse_mac_pton() in
+  lib/net_utils.c does not match what the function does.
 
-								Honza
+--
 
-> ---
->  drivers/target/target_core_file.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/target/target_core_file.c b/drivers/target/target_core_file.c
-> index ab9824a4852f..a5391e57e9aa 100644
-> --- a/drivers/target/target_core_file.c
-> +++ b/drivers/target/target_core_file.c
-> @@ -144,6 +144,14 @@ static int fd_configure_device(struct se_device *dev)
->  		goto fail;
->  	}
->  	fd_dev->fd_file = file;
-> +
-> +	if (!file->f_op->read_iter || !file->f_op->write_iter) {
-> +		pr_err("FILEIO: %s lacks ->read_iter or ->write_iter\n",
-> +		       fd_dev->fd_dev_name);
-> +		ret = -EINVAL;
-> +		goto fail;
-> +	}
-> +
->  	/*
->  	 * If using a block backend with this struct file, we extract
->  	 * fd_dev->fd_[block,dev]_size from struct block_device.
-> 
-> -- 
-> 2.53.0
-> 
+lib/net_utils: allow mac_pton() to take a custom delimiter
+
+This commit moves the body of mac_pton() into a new parse_mac_pton(),
+which takes a string of accepted separator characters. mac_pton()
+becomes a static inline wrapper that passes ":", so existing callers
+behave as before.
+
+Link: https://lore.kernel.org/all/20261105072147.3383565-2-liuc63@xiaopeng.com/
+
+> diff --git a/lib/net_utils.c b/lib/net_utils.c
+> index 215cda672fee1..011857cc978b4 100644
+> --- a/lib/net_utils.c
+> +++ b/lib/net_utils.c
+> @@ -5,7 +5,18 @@
+>  #include <linux/export.h>
+>  #include <linux/hex.h>
+>  
+> -bool mac_pton(const char *s, u8 *mac)
+> +/**
+> + * parse_mac_pton - convert a MAC address string using a custom delimiter
+> + * @s: string to be parsed
+> + * @mac: buffer to store the result, left untouched if @s is malformed
+> + * @delim: characters accepted as a separator between the byte pairs
+> + *
+> + * @s must be MAC_ADDR_STR_LEN characters long and use a character from
+> + * @delim at every separator position, e.g. "aa.bb:cc.dd:ee.ff" with ".:".
+> + *
+> + * Return: true on success, false if @s is malformed.
+> + */
+
+[Severity: Low]
+This isn't a bug, but does this kernel-doc describe what parse_mac_pton()
+actually does?
+
+The only length check in the function is:
+
+	if (strnlen(s, MAC_ADDR_STR_LEN) < MAC_ADDR_STR_LEN)
+		return false;
+
+strnlen() is capped at MAC_ADDR_STR_LEN, so this check only rejects
+strings that are too short. The parsing loops read only s[0] through
+s[16], and nothing checks that s[MAC_ADDR_STR_LEN] is '\0'.
+
+So input such as "aa:bb:cc:dd:ee:ffJUNK", or the 7-octet
+"aa:bb:cc:dd:ee:ff:00", returns true and fills @mac with the first six
+octets. That doesn't fit "@s must be MAC_ADDR_STR_LEN characters long"
+or "false if @s is malformed".
+
+The runtime behaviour is the same as the old mac_pton(). The current
+callers (the mac_pton() wrapper, and get_ether_addr() in u_ether.c later
+in this series) don't depend on long strings being rejected. However, a
+new caller that trusts this doc could skip its own end-of-string check.
+
+Could the doc say instead that @s must have at least MAC_ADDR_STR_LEN
+characters and that anything after them is ignored? The other option is
+to reject strings where s[MAC_ADDR_STR_LEN] != '\0', but that would
+change behaviour for existing mac_pton() callers.
+
+> +bool parse_mac_pton(const char *s, u8 *mac, const char *delim)
+>  {
+>  	int i;
+>  
+
+[ ... ]
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261106030605.576584-1-liuc63%40xiaopeng.com
