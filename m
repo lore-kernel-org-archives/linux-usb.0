@@ -1,57 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794293362;
-	b=TPHw0R5Xp795UGudmMEon/X0pSZXLazighDb8fu0WqWEwFOqjvbPodO28iXYrQK1F6AA
-	 kpq5sE/uMb5t24WUKIZuZWZCtRrimxYqtxAt7NZbtFBA/b827G6rK1vpAxGThvuX+qCXH
-	 4Npg0Ga3BO6OsHXOF1Is+WVBXpAFw8VkLJaRJkL98r/NuAJ+2JlagzEfQPvKdZF3Fsvvu
-	 HyNewbNybQwQFX/E7dWVXtK8bmyJ6KQ5DGuSkleA19DdByytiR2XbigomYfN/LUO14AxL
-	 Tu0aBw4g303FUlB5XsKL9sRy6xWjrt7Iy6JkU4PCd8n1622+zKHEmmLIt4OIYJB7G+g==
+	t=1794294409;
+	b=Y/xvEAdycXxBoixmkDWi9CPw5pOq0mDY2Eojo4mNQz1rGC6mP6A9UQnG+EAOWAu6gWBa
+	 7NEpHRiUyYgjeFkDQXzKNp/OlQ6TGs/IGqHPxSXxBySzbQ3PhZN4fRYZchN6PL6cOJXS8
+	 9gabfhOM6zr1gQynBPJwQpKri+ELOESSbeFD4oY3RgkFOpHkTjLI0TQUsIo1kRqE9aprb
+	 rQsqFY1IurZHvwUP9+XxIAMrmx6ksE0VHYMXmFhPmF8Lz+/PYeBjveZoyCQCk8Sdjgljv
+	 7/cWIkRUQH823LZEBoGTlC3KU4UTtyRN7xQzQZ9jZ1ImuFC3gqonSN6y9o0x9VTsM0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794293362;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=+shFParTKpAcgNRu/wnNMqsWciTYmgOft7VQdtJObWA=;
-	b=eI4ik1NLejXJWmwwRaAOyJHlDJ3BTuubwoD23hOxYAUplpRsLpHA/zJF5SXVT5VeeiXP
-	 5DReEa+oUSZh4w1vsMS5wyCKfNO6biagPBD57nDyqNy4VskE7zEa2yEA60POO89A3zWUY
-	 /pdHyCMRX2KTGHkv7VUgtCB9Hun7qB048k6NSs0by7XeCAx2dtRWjAsDHad1FnvyEYI5f
-	 uvrvFFb2TehqooXh6/Cxttnq/vtqbb3zNM/3l4fH7qUv5JsiiGobsAO7L521gcq3g1Nhp
-	 cjrtir5dYk1ozh6LTWDAu+5dMURpoRaVUdr7uJBLqcs34T0WDEUFw1BtAy50lNLCK6A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794294409;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=oK7s+kTj8JHO9aImQkcN2MWu+t89MEslq0oYBzkYn0I=;
+	b=vJgLgV1MSqBenB8quNo+nrQGCBktpxywR1Wl1qtKje4TXLm/bX2YbMZe5i7lXnJszN7+
+	 W75nnJZYtqoDOMvUNhpMvhclQ+sFjsfG66+2d6ThXf4G/rzv6rJsd6HAQVqXNbFMZKe1e
+	 8jYiwHYRUfqwwqpusQ5yfARutdZ6NjeJDQEMZOsSgmjzhJLNUMuakbX5yuRJ3j/N8yTUo
+	 CVD6ZjPbcsuqgSVf9aFa1Ud5kIhzshkGTKLkRNRIkSTr+g0ca5Cxk3vATtjuTwJwyCMQS
+	 cLWvvq/vyNIexmvSA2FsoV/HcfikkqfoAtecEwQEFC7KR+gkdmx539IUzmGf2xz4kBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e+93Iamc;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xur0yAYh;
+	arc=none smtp.remote-ip=209.85.210.180
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708D3606A31C
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 06:49:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC69606A321
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 07:06:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7CC69606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e+93Iamc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07CE31F0089F;
-	Tue, 10 Nov 2026 06:49:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794293362;
-	bh=+shFParTKpAcgNRu/wnNMqsWciTYmgOft7VQdtJObWA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=e+93Iamc7InSZyWWnpx9tecM5dvocokxhYMOLMEiymGToCBUwpeK27a4NlkRaq69j
-	 0/zIEoTc5AXjoj59wYU2H6uQ5ktRpLCmCWi1CJjYt7BY57Orf759kZmEJUMBDuY2lO
-	 dEtDkoEQHwc/Vjaxf276jq+sTWENgLTVl3xpOYGsRezyY3OEBGdchufB9ea0GfjjLh
-	 uNK1bkfhaU5XDXdm35eVOXHgP4n0sLae+fOLFtIQWSWuysSPwatRrJxESo3gsTnxpU
-	 PJdhu+gPwP41LIIVZjCiQ7fyHk0f0I1QLLoion8FUC/cBYS+1quvcoZsiyyENx2/4N
-	 CyzsnsDp9gobw==
-Message-ID: <sashiko-outbox-206449@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 10/22] usb: gadget: fix a few spelling mistakes in
- comments
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261110064105.20335-11-shishunbo@cmss.chinamobile.com>
-References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
- <20261110064105.20335-11-shishunbo@cmss.chinamobile.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 06:49:21 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xur0yAYh
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8b66d1a08ccso1571432b3a.1
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 23:06:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794294408; x=1794899208; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oK7s+kTj8JHO9aImQkcN2MWu+t89MEslq0oYBzkYn0I=;
+        b=xur0yAYhREMTd55KzyJm5zbg3HXoHVb1qk1JhWPSqNWMyhGSzmKR/0NOqEfdIcTGt0
+         032kXl//6GeRrYO5qabzdcEi8jRvx4DVKz+MNvgE/1lwV+fx5cQFmDjKq4RUmRtrZeUQ
+         Kvaq9CHdh6vGjJsFmWKcvF7/EAB8A983xBzQ/6y76Cr7kR2XCMWDx1EUsQ2XVq8CGeT6
+         kqaj9pDmn5Xu7+u96+GHsAzuG5w1pkt7iYlII3g+7Jp44BWV5xvUqQpn3jLqzgK4HT7E
+         32Y5YB7O00VbjWH4JbEY4HOoCWPn32OeG0vC4vAGmYyrPu3Cqpy+MIoFVqmyM2gpmczD
+         fo7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794294408; x=1794899208;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oK7s+kTj8JHO9aImQkcN2MWu+t89MEslq0oYBzkYn0I=;
+        b=ovTTzQronyDIvJyiBBFC9hxWhOxr7P6sngzYnM98zNmmc/G8+aOatrLvYHYbCdKH9/
+         PHJLplCf57vXTNRD3DAu3cOdT4RReU6H4oj1fVQlawKwix23vL4Sd2QH9VFlUV2Ee8jP
+         vmTGwAUiGmW4rAxuZRd2OUXHg9/ElJyB0AnwZA/95RyAaiZ85wP2Ze1K3t8Aj2wRGkj7
+         NLm9FiBFjtsQpYFzZlMhLxD/Sco6k8H29CIdwhlJxqc6s7rKIVXfkj52W+Tdu+RsM9P3
+         sOshZQEHMBgTlWB7tDbEZfNyKo03JT2v/yocbuZV067/KihsKfEmO7FL4dbuaDzrgxOA
+         vAUw==
+X-Forwarded-Encrypted: i=1; AL+hErFmL5+wIBu+B2T3lrWQfXLYrqKhlKS3yeNoz9ZJkQEtlmsg6F67SM+dmCZALHH7aK81S1OibeyfdL4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9UsumNcDfEn7WmDKdtE4DOxz1E8I7lakeC04Bh0jzPllo9MwrX
+	Aiun5zmJzow1CmWVpQLBJUuc4ikmOxt1Y9hB5OipoyQ7aHCtl0utac3G
+X-Gm-Gg: AYBFou2uQX7ByK4jmTf8+6YelwOxXO10zFZfT3MTs/cC82OsCcHWh2HNAStSIDPKAPo
+	sMWQh/g6G/KdGP/zrhR3qyUwXLgS+BW3A6btumJ/h85DDZeZo7oXFq4VJ2Hh84OlEpBdznsvli5
+	lFdJRZ1RhpRrvQKPGlSsthD7bklnuj/skucAe0ykXlwL/qgODaVfr08WrASgpxCeSktD+u7g8i8
+	vnVUnsYlOPl6UO8oKwYa7qd385WwApXdhWU8kcz2ak2nuQIKLqQfQu+5ks8k1jZUiDIw+a4Wo3y
+	D8U+Eo/p2+uYqwCdr9IgFyBHlZZGezvjpeAqTepFOXPmFwZnZ9zfFnGM/u6kpI4x0aQkuaxwXC0
+	McqKmBruYOy2hh0v/tXt89i6Jj5X/LEpTNeSIawyoOHqjZb8kKVBhfojSi0CX1zNKE3FkyNs9jB
+	1nXrTA/QQMXyBK5kAp3ene7CDDc2Vip2vlYRchRIOIdPF52nBQId0cg1Rh5pCcQmjbEs1YsU5pT
+	xr69WSjBU/xi3XWcD7xNnSbHydg+gqQMfPbqYn1990AaTmDyWgM3cLEwjSOxKYy02TXsQPFe5z5
+	zUSsVxXIjO+ow86AenbImota344=
+X-Received: by 2002:a05:6a00:1389:b0:89a:19ae:10e9 with SMTP id d2e1a72fcca58-8ba8725e415mr1910547b3a.38.1794294407637;
+        Mon, 09 Nov 2026 23:06:47 -0800 (PST)
+Received: from localhost ([2001:19f0:8000:3bef:5400:6ff:fef9:667])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8baaae3f3e7sm511794b3a.40.2026.11.09.23.06.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 23:06:47 -0800 (PST)
+From: Inochi Amaoto <inochiama@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen Wang <chen.wang@linux.dev>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Minas Harutyunyan <hminas@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Longbin Li <looong.bin@gmail.com>,
+	Dinh Nguyen <dinguyen@opensource.altera.com>,
+	Paul Zimmerman <paulz@synopsys.com>,
+	Felipe Balbi <balbi@ti.com>
+Cc: devicetree@vger.kernel.org,
+	sophgo@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Yixun Lan <dlan@gentoo.org>
+Subject: [PATCH 0/4] usb: dwc2: Add USB DRD support on CV1800 Series SoC
+Date: Tue, 10 Nov 2026 15:06:21 +0800
+Message-ID: <20261110070627.217946-1-inochiama@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,112 +111,41 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found no new issues
-in this patch, but noticed 2 related pre-existing issues it does not
-introduce:
-- [Critical] usb: gadget: f_hid: concurrent DMA buffer modification in
-  f_hidg_get_report() [1]
-- [High] usb: gadget: f_printer: hang in printer_read() on soft reset or
-  disconnect [2]
+The current DRD implementation of DRD will cause a interrupt flow on
+CV1800 Series SoC. It has two reasons:
+1. The DRD does not sync the phy mode when change the controller mode,
+   it is a violation of the DRD as it does not rely on a OTG phy.
+2. The CV1800 is entered with a Session End Detected interrupt, but the
+   DRD code has no change on it, so the controller will enter the
+   interrupt storm.
+
+This patch add fixes for these two problem, and I have tested this on
+a Huashan PI board (it has a CV1812H SoC).
+
+Note: This patches set does not resolve all the problems, as
+      usb_add_hcd() will override the role set by dwc2, but I am not
+      sure whether it should change skip_phy_initialization of hcd.
+      So I kept it as it is and users still needs to set the role
+      in the userspace as "role-switch-default-mode" in devicetree
+      takes no effect.
+
+Inochi Amaoto (4):
+  usb: dwc2: gadget: honor pullup requests in core_connect
+  usb: dwc2: drd: Sync the generic PHY mode with role requests
+  usb: dwc2: Add USB DRD support on CV1800 series SoC
+  riscv: dts: sophgo: Enable USB role switch on Huashan PI
+
+ .../boot/dts/sophgo/cv1812h-huashan-pi.dts    |  4 +-
+ drivers/usb/dwc2/core.h                       |  5 +-
+ drivers/usb/dwc2/drd.c                        | 77 +++++++++++++++----
+ drivers/usb/dwc2/gadget.c                     |  3 +-
+ drivers/usb/dwc2/params.c                     |  1 +
+ drivers/usb/dwc2/platform.c                   |  4 +-
+ 6 files changed, 73 insertions(+), 21 deletions(-)
+
 --
+2.56.0
 
-commit 8f8dba8a29efc1fdd5e1c811223c191a86a07a95
-Author: Shunbo Shi <shishunbo@cmss.chinamobile.com>
-
-usb: gadget: fix a few spelling mistakes in comments
-
-This commit fixes spelling mistakes in comments across the USB gadget
-drivers.
-
-[ ... ]
-
-> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/fun=
-ction/f_hid.c
-> index 3c6b43d06a6d1..cf54704b7655b 100644
-> --- a/drivers/usb/gadget/function/f_hid.c
-> +++ b/drivers/usb/gadget/function/f_hid.c
-> @@ -618,7 +618,7 @@ static void get_report_workqueue_handler(struct work_=
-struct *work)
->  			 */
->  			req->buf =3D ptr->report_data.data;
->  		} else {
-> -			/* If there are no prevoiusly sent reports send empty report */
-> +			/* If there are no previously sent reports send empty report */
->  			req->buf =3D hidg->get_report.data;
->  			memset(req->buf, 0x0, req->length);
->  		}
-
-[Severity: Critical]
-This problem wasn't introduced by this patch, but can f_hidg_get_report()
-overwrite ptr->report_data.data while it is queued for DMA [1]?
-
-CPU0                              CPU1
-get_report_workqueue_handler()
-  spin_lock_irqsave(&hidg->get_report_spinlock, ...)
-  req->buf =3D ptr->report_data.data;
-  usb_ep_queue(cdev->gadget->ep0, req, ...)
-  spin_unlock_irqrestore(&hidg->get_report_spinlock, ...)
-                                  f_hidg_get_report()
-                                    spin_lock_irqsave(&hidg->get_report_spi=
-nlock, ...)
-                                    ptr =3D f_hidg_search_for_report(...)
-                                    copy_from_user(&ptr->report_data, ...)
-                                      <-- sleeps in atomic & overwrites DMA=
- buffer
-
-When a host GET_REPORT request races with a GADGET_HID_WRITE_GET_REPORT
-ioctl, f_hidg_get_report() calls copy_from_user() into ptr->report_data
-while the buffer is still in flight on ep0, corrupting the transmitted data
-and violating DMA coherency.  Calling copy_from_user() under
-hidg->get_report_spinlock also sleeps in atomic context.
-
-[ ... ]
-
-> diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget=
-/function/f_printer.c
-> index 1857d786110b4..3f25d99be34d8 100644
-> --- a/drivers/usb/gadget/function/f_printer.c
-> +++ b/drivers/usb/gadget/function/f_printer.c
-> @@ -557,7 +557,7 @@ printer_read(struct file *fd, char __user *buf, size_=
-t len, loff_t *ptr)
-> =20
->  		/* If we not returning all the data left in this RX request
->  		 * buffer then adjust the amount of data left in the buffer.
-> -		 * Othewise if we are done with this RX request buffer then
-> +		 * Otherwise if we are done with this RX request buffer then
->  		 * requeue it to get any incoming data from the USB host.
->  		 */
->  		if (size < current_rx_bytes) {
-
-[Severity: High]
-This problem wasn't introduced by this patch, but can printer_read() hang
-forever on dev->rx_wait when a soft reset or disconnect occurs [2]?
-
-drivers/usb/gadget/function/f_printer.c:printer_read() {
-	...
-	if ((current_rx_bytes =3D=3D 0) &&
-			(likely(list_empty(&dev->rx_buffers)))) {
-		...
-		wait_event_interruptible(dev->rx_wait,
-				(likely(!list_empty(&dev->rx_buffers))));
-		spin_lock_irqsave(&dev->lock, flags);
-		if (dev->interface < 0)
-			goto out_disabled;
-	}
-	...
-}
-
-printer_soft_reset() and printer_func_disable() move all entries from
-dev->rx_buffers to dev->rx_reqs, set dev->reset_printer =3D 1 or
-dev->interface =3D -1, and wake dev->rx_wait.  Because the wait condition
-only checks !list_empty(&dev->rx_buffers), printer_read() goes back to
-sleep while holding dev->lock_printer_io, deadlocking subsequent I/O on the
-gadget.
-
-[1] https://sashiko.dev/#/bug/linux-59b5d9cb-e0c6-4190-8add-226d731d01e5
-[2] https://sashiko.dev/#/bug/linux-05ce2087-0db6-45a4-8d55-98d851217360
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110064105.2033=
-5-1-shishunbo@cmss.chinamobile.com?part=3D10
