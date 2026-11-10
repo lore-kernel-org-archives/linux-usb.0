@@ -1,69 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794329894;
-	b=a0xS6hfVOZ8zNOzy6/H/ihoYdz0geJcu5jyh/HDXq5TAR0ifdwGewjmLCfH++f+OhAoW
-	 BHXj8+kUS5vG0PZaL5oeiI35/ooS3CY7Oo82OcL89WMvdyU1UafI6UHkNuG7hFeNkZaEF
-	 NPTcbfJOAtN26agV80jm0MqURSS8SifKJL3XSw+GaIGh2fS1rXNmzzSp3k8YdhNcy/HkE
-	 Iah4YNwMb/HFC2T/egEln8rFMfChA0s87WsdC5RxI/dFnZEOjiW2+bK1KD0jcZuwMlJti
-	 rZfX1nwSt6ogEPNl5oz8mIJcIw0XB9RJtxtmUSUmq/tVCEx8INzslLd8u+BAX9I+DnQ==
+	t=1794330175;
+	b=1EH1XRZCsyF7tfPKK9c3COZUDSSStc4xXdu37JlnzKTJWuDZ+APhAhwqAMfjyUEopcN3
+	 JA6RwkJOj/H7s3xjLe+3bar4w16HJJ7QwTeEhAT1UfR8hjxngIV59npX3JahztkorN3TP
+	 Qw6AZDZCvlo5QfK6WFyULKjB9HOaossd8Re02VKpVaZAZHbtrxhRFZnC1t5/cxsCRceI8
+	 ARl/VpjeRHSGg6dGNumelRc/T/fGIN7uhhOUkUIzrw1N3r3NWyy8XCJWJmY+l20RcKS01
+	 tuoJ2ZZK7Z4mrEBJec+LbRq4XZzroUpg4R5EjnvLMkqJWy5Y1/Zq3+7DZywSwDOs56Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794329894;
-	h=DMARC-Filter:DKIM-Signature:Received:X-Spam-Checker-Version:
-	 X-Spam-Level:X-Spam-Status:DKIM-Signature:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=s3ZpsLefq0PS3uaqYJOnZLAzmDkCm1zInxr8ygQtDk4=;
-	b=Jahf6HYpQcaUaqNmGYOpUd8xoGyf93NHrzz9imXj6VkBrb2bRuMANinKVFZfwBVYZHQC
-	 BDe41oQlmud8xCutj6uUx6lmJhRwt87DNxjdAxfvJb0NCNEJ0arV7uz+iLX8cn+7wbN67
-	 PXQ1ysETW3nQs39buwu7b4GkJuiHYeOsFZtAocxIk4Bg8pKAWMd+JhyLO9sfMbq4h94TS
-	 ga7tFAlExToWl8W1FchdU8G86qvPcheQRt4bcnDZ5idZlrXeqpiMPp6kAZmmgEoTBqL+b
-	 mAwFu4Q9VLAQ4yd9kI0UaYmgcVJRkMzQPux2eN3UXZfoFTtpspcyq0WNou9kXEuVEbg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794330175;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=PZooZTegmia+/CXyAFMYe45djfCuOxizt8wtz2PxZ60=;
+	b=XPvl2MvXBaOKrqIx54upbmamc68vBLIx0+tvOEuFD67OLrG+jhkXB8DiqgBPW+2x6Qdj
+	 gNflpF7XGTgZ7cFuYyiOwqD1JEO/P7MHjBH4aJ9dlidL14BoVzOXeXSYNbVaVLoevLLRp
+	 t7AZeE4mJMzHJYEqyWb/tkZ8hw/eP5s1oKmvUX5BZLxxFsYbZL4Xny6w3QY+hWqNuB+ei
+	 oG3ALFtVxAsAGgty6LkBVwS9N0ou0lr37TtHr+LWhPmxq+c3hl2P5Pf3u0/dwpuiahxdB
+	 ziwy+K9SNV2R1dt4a6a+VX+40l/zywhe26tMlq7ye7Zwkp/NcFPsPFuZXIvIA0+522w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=birger-koblitz.de;
-	spf=pass smtp.mailfrom=birger-koblitz.de;
-	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=riiQUoNY;
-	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=aAkSBjnr;
-	arc=none smtp.remote-ip=23.88.97.239
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FUHg8PXn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173C8606A326;
-	Tue, 10 Nov 2026 16:58:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 173C8606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA06606A330
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 17:02:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=riiQUoNY;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=aAkSBjnr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1794329892;
-	bh=lwXpiQWNsd10Fs35VIZ488kyDttlHk6T6F9tVKnC+TY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=riiQUoNYeaWTF5rnjmzgAPzYASJAB/80t+W5xkpyo7ivzIHRDEI74VqMDs/1HSPeb
-	 6AdInDHlo7hIYfFFOmfr23olRAJ57aBfU/zJNS0qRLU/smMzvgrn0K+Z6Z+DAcBwFp
-	 9epDPX6PaCn+hH1nZ90eig9U5dn9iOO6RuJhB4/T2TK9enIfXtFIMw3JfHgX/ouyWj
-	 igLpWMo7sEeUanrOJGuhD4yzAYD51dxaNa3njqezVdGuhjzV50XVP1Ng5gkVnfYoX0
-	 N6wIpPDAJIAVoXnGDrgXwb+WDFQOwZfY6JEyzKD2mCoVWufjtkXSPXGpQ/Z+pt6yCk
-	 +ChtT0BaDXNhQ==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 3A2EB48C38; Tue, 10 Nov 2026 16:58:12 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1794329891;
-	bh=lwXpiQWNsd10Fs35VIZ488kyDttlHk6T6F9tVKnC+TY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aAkSBjnryZUzF5b5kst1ruM6mNj04NduSil4+W11e2bQwS0JgiH4A+Il+RgtVwgmb
-	 5sO+jRGkEbVTYQQMh0A76Lw4f8cA1fBvZ+AzdAUa90HempNLeWV5cRymmnQ8pyn8Hh
-	 JIB7tm87jEYKsA5gC9PB9f/lkjoo0/nIIH11k8AaY/hygravG5zqGDM2fx7DMvt5Wt
-	 hxlinDt5rkZXX54LOThio+AIgY7El5nhKOl395Al2moYBsgJwKH384EbjHY1Aj8mcb
-	 3JBSqzWB1a89N84UGdTmsh1vxDYmZG7Vbugyb94zhglopHua8+5F3BJcZtvlPQoIlI
-	 yPg6glaMJnclw==
-Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 0D6AC48C1C;
-	Tue, 10 Nov 2026 16:58:11 +0000 (UTC)
-Message-ID: <b1aba44e-754a-4968-873e-d7db88fa70dc@birger-koblitz.de>
-Date: Tue, 10 Nov 2026 17:58:07 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FUHg8PXn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B7DF1F008A3;
+	Tue, 10 Nov 2026 17:02:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794330174;
+	bh=PZooZTegmia+/CXyAFMYe45djfCuOxizt8wtz2PxZ60=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=FUHg8PXnStgpX5K5Itx8MV/6WRrb2JxpbGkKB/JW0Ob9a9am0/xlzGBFoHDUUQc6w
+	 xju1UX9tcmRS+y4lqqQLyoIjHA9dSCmWOGYDoU5WE9iwMvF0EAaG+8225fe/9KGg12
+	 NitgwMe1SUqKnEX59xSgafb50wWQLsqzERTB2r/XyDjm4hmYbFU1VHBB/VJlzTy1z7
+	 7HksJirKxxsHkvV7PQrIfG7PtmcL+s+C17spIzIuZMlkibtDeMSbIFFKLuhPhg050e
+	 omiuJBzuImi+zAjqw6CZLaTrA5PRcKClZksBvOhvc8Zll01M634uGkmcYfDOKQCyy9
+	 vyNliulO9QeBg==
+Message-ID: <sashiko-outbox-207439@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next] net: usb: name usb ethernet mdio buses
+ reliably
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Blake Alexander" <blake.alexander@airbus.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261109-net-usb-mdio-naming-v1-1-f4cca6737784@airbus.com>
+References: <20261109-net-usb-mdio-naming-v1-1-f4cca6737784@airbus.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2026 17:02:53 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,38 +59,112 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v20 01/13] phylink: Add phylink_mac_interrupt
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: netdev-bot+sashiko@kernel.org, andrew+netdev@lunn.ch,
- davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
- linux@armlinux.org.uk, hkallweit1@gmail.com, chenhuacai@kernel.org,
- kernel@xen0n.name, edumazet@kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- loongarch@lists.linux.dev, neuromoments@gmail.com, beganovic.emir@gmail.com
-References: <20261106-ax88179a-v20-1-37b5a1189983@birger-koblitz.de>
- <179427470922.994134.16776316201780098943@kernel.org>
- <64d05861-c4e1-4506-ac2f-4109f1062932@birger-koblitz.de>
- <7c78c868-efe4-4b0a-b09a-c196210644e7@lunn.ch>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <7c78c868-efe4-4b0a-b09a-c196210644e7@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 10/11/2026 5:30 pm, Andrew Lunn wrote:
->> At this point I am asking a human to intervene and tell me whether anything
->> really still needs to be done.
-> 
-> Do any of the patches not have a Reviewed-by: from me?
-> I thought i had given such tags.
-No. They are all reviewed by you. Many additionally by Nicolai.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] net: usb: MDIO bus name collision via usb_make_path() on
+  shared bus_name
+- [Low] net: usb: missing usb_make_path() MDIO bus naming in
+  smsc95xx_bind()
+--
 
-Birger
+commit 29b6f41fcf0619fc5074a9aed4a761b5bff3fdf8
+Author: Blake Alexander <blake.alexander@airbus.com>
 
-> 
-> We should merge this code.
-> 
->     Andrew
+net: usb: name usb ethernet mdio buses reliably
 
+This commit replaces the "usb-%03d:%03d" MDIO bus naming in asix_devices,
+ax88172a, and lan78xx with usb_make_path() so that USB Ethernet devices at
+fixed topology positions receive deterministic MDIO bus names.
+
+> diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_device=
+s.c
+> index 293ef80c4e302..c752fa3868b81 100644
+> --- a/drivers/net/usb/asix_devices.c
+> +++ b/drivers/net/usb/asix_devices.c
+> @@ -680,9 +680,8 @@ static int ax88772_init_mdio(struct usbnet *dev)
+>  	priv->mdio->write =3D &asix_mdio_bus_write;
+>  	priv->mdio->name =3D "Asix MDIO Bus";
+>  	priv->mdio->phy_mask =3D ~(BIT(priv->phy_addr & 0x1f) | BIT(AX_EMBD_PHY=
+_ADDR));
+> -	/* mii bus name is usb-<usb bus number>-<usb device number> */
+> -	snprintf(priv->mdio->id, MII_BUS_ID_SIZE, "usb-%03d:%03d",
+> -		 dev->udev->bus->busnum, dev->udev->devnum);
+> +
+> +	usb_make_path(dev->udev, priv->mdio->id, MII_BUS_ID_SIZE);
+> =20
+>  	ret =3D mdiobus_register(priv->mdio);
+>  	if (ret) {
+> diff --git a/drivers/net/usb/ax88172a.c b/drivers/net/usb/ax88172a.c
+> index f5036451f0869..9f050de0cddbd 100644
+> --- a/drivers/net/usb/ax88172a.c
+> +++ b/drivers/net/usb/ax88172a.c
+> @@ -73,9 +73,8 @@ static int ax88172a_init_mdio(struct usbnet *dev)
+>  	priv->mdio->read =3D &asix_mdio_bus_read;
+>  	priv->mdio->write =3D &asix_mdio_bus_write;
+>  	priv->mdio->name =3D "Asix MDIO Bus";
+> -	/* mii bus name is usb-<usb bus number>-<usb device number> */
+> -	snprintf(priv->mdio->id, MII_BUS_ID_SIZE, "usb-%03d:%03d",
+> -		 dev->udev->bus->busnum, dev->udev->devnum);
+> +
+> +	usb_make_path(dev->udev, priv->mdio->id, MII_BUS_ID_SIZE);
+> =20
+>  	ret =3D mdiobus_register(priv->mdio);
+>  	if (ret) {
+> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+> index d73002b2c21ac..153aa56b8e681 100644
+> --- a/drivers/net/usb/lan78xx.c
+> +++ b/drivers/net/usb/lan78xx.c
+> @@ -2117,8 +2117,7 @@ static int lan78xx_mdio_init(struct lan78xx_net *de=
+v)
+>  	dev->mdiobus->name =3D "lan78xx-mdiobus";
+>  	dev->mdiobus->parent =3D &dev->udev->dev;
+> =20
+> -	snprintf(dev->mdiobus->id, MII_BUS_ID_SIZE, "usb-%03d:%03d",
+> -		 dev->udev->bus->busnum, dev->udev->devnum);
+> +	usb_make_path(dev->udev, dev->mdiobus->id, MII_BUS_ID_SIZE);
+> =20
+>  	switch (dev->chipid) {
+>  	case ID_REV_CHIP_ID_7800_:
+
+[Severity: Medium]
+Can usb_make_path() produce duplicate mii_bus->id strings across the USB
+2.0 and USB 3.0 buses of an xHCI controller?
+
+usb_make_path() formats "usb-%s-%s" from udev->bus->bus_name and
+udev->devpath, omitting udev->bus->busnum.  Dual-roothub xHCI drivers
+(such as xhci-pci and xhci-plat) register both the USB 2.0 main_hcd and
+the USB 3.0 shared_hcd with the same controller device name as bus_name,
+and number their roothub ports independently starting at 1:
+
+drivers/usb/host/xhci-pci.c:xhci_pci_common_probe() {
+	...
+	xhci->shared_hcd =3D usb_create_shared_hcd(&xhci_pci_hc_driver, &dev->dev,
+						 pci_name(dev), hcd);
+}
+
+When a USB 2.0 adapter on main_hcd and a SuperSpeed adapter (such as a
+LAN7800) on shared_hcd sit at the same relative devpath (for example,
+when USB 2.0 port N and USB 3.0 port N map to different physical
+connectors or match behind downstream hubs), both receive the same
+mii_bus->id.  __mdiobus_register() then fails with -EEXIST in
+device_register(&bus->dev), causing probe or bind of the second network
+interface to fail.
+
+[Severity: Low]
+Should smsc95xx_bind() also be updated to match the other USB Ethernet
+MDIO bus drivers?
+
+drivers/net/usb/smsc95xx.c:smsc95xx_bind() still formats
+pdata->mdiobus->id using busnum and devnum, even though it already uses
+usb_make_path() earlier in the same function for its IRQ domain fwnode:
+
+drivers/net/usb/smsc95xx.c:smsc95xx_bind() {
+	...
+	snprintf(pdata->mdiobus->id, ARRAY_SIZE(pdata->mdiobus->id),
+		 "usb-%03d:%03d", dev->udev->bus->busnum, dev->udev->devnum);
+}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-net-usb-md=
+io-naming-v1-1-f4cca6737784@airbus.com?part=3D1
