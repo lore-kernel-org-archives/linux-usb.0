@@ -1,111 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794294416;
-	b=zPIle4lpruMVoBENYLIishQLBTkjazqzZ84MoX3OWz1OF+Cy9avjCCqFgNKZTNMMTqqN
-	 /o2y5q473pZW4nuctFejUD1bO7yP3U0uy3NZ3X6jVxilPYJJbL62YpOKJG8ZQ38uKbuYt
-	 vPjpUeTV/ZAcGhwaShy+3lop5AKbm0+OHn4RUo+hiaCNdueGzKzYQlKizdS6Ub+3BGLA2
-	 KKZFysQGtuValeMngIXewpgJZcGucg0a25K5pW2g9Yk4cta1rsG/dpYyGCskfRc5MogJO
-	 OLaqRbzyVJ5tQZ6eSH4kS6UroZ4YfvJ+VmjiJk6lmlEzGr/xGjtsn1NWXjXdZwnsWVA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794294416;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=c6zK+GaiWFIPNNFR8ZSdROw2IY+x8dIA3wZEKaYc0CA=;
-	b=Z/KXPLQpwr3LC9b0FOf+lQVJNBaHgMrf6AxQ3HV8xzJVJ7tBeGeSyI2KPX/xx84FV/pL
-	 YEGx0KYZGSsU1KxDzQ5GX/aer4qkwi3Zk2qIA0A+Fh12WLixTzCF1dBsw/ohNT6rDOAkt
-	 utgBhsHOVashFZVRkzxg7WQqhFMuoQGbAFS7aH0JJBWQFLjwmvAqh8oWxDoEHzdIOx8lX
-	 DJT+wsZAia7FZF0cG7tdtMmC4F6rLRDNtUVd09+dH5L7XqfkScVckZrUjIQarsMhkhGf+
-	 JKgQhzOwNGyrYnW9aUhI8jSRZKaL/WE41zbKqXQlg1mu/D7s8veetskyxp95mzwKKkg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HUFbWsOo;
-	arc=none smtp.remote-ip=209.85.214.177
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1794294534;
+	b=a5xs+UjfvyrS1pKLAXru89JE2uZNOqvQ/o/iprKDNgAri3Wb8zSZOJBgVKDiCFg5F4AB
+	 hWmdoxdy5cHocjMvdmFVSwQeAVF4gx0N3XSsP9nEIvtmyIK1tR7OjQvphpWwvpjGLEyKS
+	 VkcKPE3MW5C4Lqc5hU+2V5xMEB9zjFDWX8Dlg98VN1Ck53z0rKaZL4Al7cJp3xpCYMLJz
+	 PGcy/6vJL/bA5rozlu4JBxCRpmN06Tcbhtyzrfxw+n8CMtc4GUbyvTLC09GOOpBtAgjyd
+	 nyy1Uu+Pjq/3s3N0mFjqttIaEiOEae/tu7dS0AfLWRVxiMsSGZpHwafrJKpw+iZfprg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794294534;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=1zci30K6XDnk6LwA+I1Lc3l3JUyNgpA+En7a0rv3or0=;
+	b=DsihNkq8o+k8TBjGkTfew7cwZCVPNh/8eU6zk8QLts5CI6IJVQAYTWNfTSAINK84DBio
+	 IU7QalyJjYDiDfeCRqAQ/lotk8IwfaxVPQome6LkT8MCju4KHIAJRTTTNf+Q2cT+Z1xor
+	 ztEJiLE2RCh1m+iLFZFB3Wku5N7OhdK58+7QyN+PCNAo3IQN4QksuKccK0VwttT6+N2EG
+	 kK3oNPNpAjm4waDBWE0QbooBCTuH9b7Niy4muB/1j32zLTXjlAIfu+v1QyyZE6PYBrKWl
+	 1664T5goOywIPVl81vnva0Vyv7uece7Q0xPOMUYrlsI7hveEO3naDA1Gkx5l+/2PqIw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lK1FHumx;
+	arc=fail smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFAA606A31C;
+	Tue, 10 Nov 2026 07:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lK1FHumx
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794294533;
+	b=jXSbsFhtEM1cXGe2NwhKVxQcjhgtUwt2/ZDxKClCp62K2Y96k0SnJlmFWUvHQ+FJoKBj
+	 w5lZB8MWUQdA7BfeHotwnG5TdqentG8iEkQ1Lk55tyooXxdihX5op/Gv/obmj+l7kqxZE
+	 4t0eY4GVCzsUamCErj3XUHadO9OFtfonRjVbczbA3CnaJ8IoTRFjGl4XrdBjyftXvpQI/
+	 cXUGcqeXqR6FJKvvDkuWSSWnFPldWK8bORr6VNPzYEpIPuRMrrRMdNXG99SokMaM740RX
+	 cv/v8NFSsyhRb4WL01kSVjIvwYUP/S9DGEvX+TfVVRcLxsP9X+0ZtYQ1FP3jzWwmbZg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794294533;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=1zci30K6XDnk6LwA+I1Lc3l3JUyNgpA+En7a0rv3or0=;
+	b=xbgzStDbXSoSVHiOHIBvnqrSaaz8o6E+wVYUzWR0cH5trHv6v8FLlTFNj/lgMnecI+sq
+	 kcjs8jeLGrS0/rKYwvy6AbdvTmHApVNTV97a/LE7tYpZoarouAGpi/bd8iBXFP8gvdN4y
+	 jXRjGV5gA3qbh3/h2v754snU6PlCVdR1zWtGaoQ33B/9VlHWD2wZjgmTETTE7r718hrS+
+	 GCYwcXdqnMSBzfbiY9+mj0BINDyKQhL9zAxTlbX+VUSBO/clzdHiBwrKpOMBpO34ceFjM
+	 J8+EF5q++8ZchHEO3zKeNOcvyIOkCMI42PK7OafCuZpbO/U6miWtK7bcbQt2A8ndDnw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7429606A336
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 07:06:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7429606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HUFbWsOo
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ed3d8877e6so9658775ad.3
-        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 23:06:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794294415; x=1794899215; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=c6zK+GaiWFIPNNFR8ZSdROw2IY+x8dIA3wZEKaYc0CA=;
-        b=HUFbWsOoBiq6NXRLuu3wRodYsgyh4ZBLi0BfoFsRrWxBxkO/VE8uq+dK789V3DWOcj
-         ZdDqevOfVWonZ079zfUUBNdLVHnWAYw0IJSaJZRBV+KcICSpljXFNNu4kxrPYeQhZROm
-         bHXIdNwoF4POr5U1aQQ6NuDt4VENm3L4rQaMN5ZTh8NsSpQ2dxu0niwKxwRyRCM9X1az
-         +vPue60i6fHU0IFHVhF+do8U8A8nwGU785k/I5LWXzchFSGmSTBUoF/FvoSrYOK1zmOr
-         tT2jn1d5MzOY+lyC3c+/KtHRqtqjvHyf9u6+Z6UBwumECEN/iLIfzq+nUBdEb52gpDqK
-         kCIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794294415; x=1794899215;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=c6zK+GaiWFIPNNFR8ZSdROw2IY+x8dIA3wZEKaYc0CA=;
-        b=D1NjjxcG5mDxyTpXNeVGG9RDN2PgzBzEKfj6QEWmyB5ew/PKJbw7ppPO/qJyD2ssRB
-         eQn74hZP+Bxe+d8tZaRE2bfsJgDE3u1Z5KnD9D1N7RwdtrlGgg6B8cXmEOAqbkiWSh1S
-         OSvdqRCCLHAa9qyzyXrFmTIC1EfXTxA6O+9AnrJgp3DyuAlKCAi7geY32a1++NKQ6RzO
-         IYHCGEaT9Oum7VtndP5OS0OFrY3LWM7+J7z9/skE6kOrZJcDAv87u6vXmXtclFFtRFD7
-         Cb18XzF2DHxUSxiLiS/GCaQIIjeZKG/EaQLiAOqH+Zw6ga6Tk6QB74sb9QphsLtiasDD
-         Gatw==
-X-Forwarded-Encrypted: i=1; AL+hErFM5tTCUyZd9Jn8Z0JMRIzjwydQH47MdjZt6+VLtnKUMSVCvbw+sIj0A+IkWBonzp6IvyPkgoxoiv8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z80x2aCtCFy37dy+jNti4AdMu/pNrI6ZQ1tzfa+XTQwvBYKt3t/
-	qbQQAf8m5au2g1tbtOjpe+SOdCDXfwABuDx/iT9J8AjaZ8vLqEmzCcjk
-X-Gm-Gg: AYBFou1eCcVnrHaElbLcuR5NT1UNnxR91H9wxXXw/oTD/y/DSAA8BUcqbfcrNw3Cjr/
-	GHhDkA2MztXX5SF8RpsReeMWVE2N6IHsGx/YCaN8WizLl4mEERJ5V22TvtqW5VXuXqJcLKyqJu2
-	ozPhAZ3LY4p3Z/KlzhgxyczwKoQmPVSbCNllWpaaVWMCAzpwDW+d1OdNyoYdl2Csw5IZ+iZ8/GE
-	if2NqqQ01pNfZuCJx7/M6kNddOTsSCBjtGilzMSqT6LvPMS8M1vXGA859KeFU2aST+rpnGYDlLX
-	3jgI1zwRAB1M6xOhLMBfCZxt1UuBt6tGi8MS6m/nfVCtMaoD08T7Sbz7ZLlIGX2Q7HE5xd+GKIM
-	/Mpnuxw2gDD1wUDfQ020VQj1mdNtLV84bPdAR/bf8u2iJlN2+oQZLa3asR/6oJdvrK/ZxhGP0H2
-	NOCI8V+7/fYK0yVrhmvy6sWi8IKCfxQA/egBzVq/zqJyv7+7NybK0k6OMIO4fsR6vFd3bD5CbXA
-	Zvyi62aoh8iySwvBGpXsPTprO8AeoVSGeC8Oe2qei6omTJFL20VY+esJf+kG59PB6HnCIn/+V11
-	YhCRdRYlroA+dPjXtxPex52NvC8=
-X-Received: by 2002:a17:90b:5101:b0:3b1:12ba:867e with SMTP id 98e67ed59e1d1-3b166c817c9mr2153597a91.13.1794294415185;
-        Mon, 09 Nov 2026 23:06:55 -0800 (PST)
-Received: from localhost ([2001:19f0:8000:3bef:5400:6ff:fef9:667])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b16797069bsm2551932a91.14.2026.11.09.23.06.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 23:06:54 -0800 (PST)
-From: Inochi Amaoto <inochiama@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen Wang <chen.wang@linux.dev>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Minas Harutyunyan <hminas@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Longbin Li <looong.bin@gmail.com>,
-	Dinh Nguyen <dinguyen@opensource.altera.com>,
-	Paul Zimmerman <paulz@synopsys.com>,
-	Felipe Balbi <balbi@ti.com>
-Cc: devicetree@vger.kernel.org,
-	sophgo@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Yixun Lan <dlan@gentoo.org>
-Subject: [PATCH 2/4] usb: dwc2: drd: Sync the generic PHY mode with role requests
-Date: Tue, 10 Nov 2026 15:06:23 +0800
-Message-ID: <20261110070627.217946-3-inochiama@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261110070627.217946-1-inochiama@gmail.com>
-References: <20261110070627.217946-1-inochiama@gmail.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id D94791F008A2;
+	Tue, 10 Nov 2026 07:08:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794294533;
+	bh=1zci30K6XDnk6LwA+I1Lc3l3JUyNgpA+En7a0rv3or0=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=lK1FHumxoGl9QnROk4S3uSWekbUoI4VYyVWXofmCb4hSVq+fpewUBkkRix0DwZ7B3
+	 iPEH5HzT3rDfx11OtVydtifwHy0e7Zw7AEidFfvufBsr9xhzLVPTQnSE2oR5LV8bqS
+	 7zot5Rj+wiBtd19YVzVkYNWYcwI2TWAgIR/p6NDQhzLS7kw1tOpI7+jUXDhpHAvQD7
+	 BKf7aSWVMD+2mkGbfrsDm+DXbG2Hc+Hlep779wFjpKUf4GicxOfGd5bX/2pcvR/BmL
+	 UHby3Qchv64EFewvjIy2jifdtER2OHuLd5SpftwteD9VVjjN8aeVlI8UkCmN1fiLjB
+	 0uX7GpgoVgTXA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 634864891A;
+	Tue, 10 Nov 2026 07:08:52 +0000 (UTC)
+From: Rajan Yadav via B4 Relay <devnull+rajanyadav0307.gmail.com@kernel.org>
+Subject: [PATCH 0/2] usb: musb: sunxi: Fix unbinding and rebinding
+Date: Tue, 10 Nov 2026 01:08:51 -0600
+Message-Id: <20261110-musb-sunxi-unbind-v1-0-d821584fc4a4@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -115,182 +83,73 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAPD8moC/yXMwQqDMAyA4VeRnBdoi1TYq8gOps1mBmajWUUQ3
+ 91uO36H/9/BuAgbXLsdCq9i8tIGf+kgzZM+GCU3Q3Aheu8dLtUIreomWJVEM4aJ+uxypDREaN2
+ 78F2233O8/W2Vnpw+3xEcxwmkW2RHdQAAAA==
+X-Change-ID: 20261110-musb-sunxi-unbind-2ab4d0d6bc76
+To: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: regressions@lists.linux.dev, Zijun Hu <zijun.hu@oss.qualcomm.com>, 
+ linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Rajan Yadav <rajanyadav0307@gmail.com>, stable@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794294532; l=1975;
+ i=rajanyadav0307@gmail.com; s=20261103; h=from:subject:message-id;
+ bh=ldGUp6lz3WZtjMz69tdwqzZtvWjZqidFlVH8uvgeKIc=;
+ b=MCB2MXQIdsbIGlvQgYsC0+8HOab+meeL5xETwA9UXFgrRetKIiqDkp3ZBmxw5ibeaoItFqvdY
+ SxhZe4UzrdbBNjvD868U2pKK9n2EYB1vzSaSz86Lk+g/UQm2F+QdMzd
+X-Developer-Key: i=rajanyadav0307@gmail.com; a=ed25519;
+ pk=4ZPeiP5qrv2b44q/Obxi2koUS70Q6npbttJnpUoTlgg=
+X-Endpoint-Received: by B4 Relay for rajanyadav0307@gmail.com/20261103 with
+ auth_id=1391
+X-Original-From: Rajan Yadav <rajanyadav0307@gmail.com>
+Reply-To: rajanyadav0307@gmail.com
 
-The USB DRD does not reply on a OTG phy, which means the controller
-should not reply on the switch behavior from PHY. Instead, it should
-sync the phy state to avoid a brolen role.
+Unbinding musb-sunxi crashes on current mainline: KASAN reports a
+use-after-free in devm_usb_phy_release(), followed by a NULL pointer
+dereference. This came back in v6.12 with commit 498dbd9aea20 ("usb:
+musb: sunxi: Fix accessing an released usb phy"), which removed the 2017
+fix for the same oops. Patch 1 lets devres unregister the generic PHY
+after the PHY reference has been dropped.
 
-Set the generic PHY mode after resolving the default role and before
-updating the controller. And disable the controller clock if there
-is a failure and it is disabled.
+While testing it, binding the musb-hdrc child again, the case that
+498dbd9aea20 was about, turned out to fail with -EEXIST: since 2017 the
+extcon notifier is registered with devm on the glue device, so it is
+never unregistered when the child goes away. Patch 2 pairs the
+registration with sunxi_musb_init() and sunxi_musb_exit() again.
 
-Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
+The two patches are independent. Both were tested on a KickPi K5C
+(Allwinner A133) with v7.4-rc1 and KASAN, without out-of-tree modules,
+using the board's device tree, which is not in mainline yet. The
+details, and what was not tested, are in each patch.
+
+From reading the code only, drivers/usb/musb/mediatek.c seems to have
+the same problem as patch 1: mtk_musb_remove() unregisters the generic
+PHY while devm_usb_get_phy() still holds a reference to it. I have no
+hardware to test it.
+
+As in the patches, I used Claude Code (Anthropic) to find the causes,
+write the fixes and the commit messages, and help with the tests; I
+reviewed everything and ran the tests on the board.
+
+Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
 ---
- drivers/usb/dwc2/core.h     |  2 +-
- drivers/usb/dwc2/drd.c      | 48 ++++++++++++++++++++++++++++++-------
- drivers/usb/dwc2/platform.c |  4 +++-
- 3 files changed, 43 insertions(+), 11 deletions(-)
+Rajan Yadav (2):
+      usb: musb: sunxi: Unregister the generic PHY after dropping its reference
+      usb: musb: sunxi: Unregister the extcon notifier in sunxi_musb_exit()
 
-diff --git a/drivers/usb/dwc2/core.h b/drivers/usb/dwc2/core.h
-index 015a5fb7842d..298b418e6859 100644
---- a/drivers/usb/dwc2/core.h
-+++ b/drivers/usb/dwc2/core.h
-@@ -1400,7 +1400,7 @@ static inline int dwc2_is_device_mode(struct dwc2_hsotg *hsotg)
- 
- int dwc2_drd_init(struct dwc2_hsotg *hsotg);
- void dwc2_drd_suspend(struct dwc2_hsotg *hsotg);
--void dwc2_drd_resume(struct dwc2_hsotg *hsotg);
-+int dwc2_drd_resume(struct dwc2_hsotg *hsotg);
- void dwc2_drd_exit(struct dwc2_hsotg *hsotg);
- 
- /*
-diff --git a/drivers/usb/dwc2/drd.c b/drivers/usb/dwc2/drd.c
-index 1ad8fa3f862a..1ad3804cbc80 100644
---- a/drivers/usb/dwc2/drd.c
-+++ b/drivers/usb/dwc2/drd.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/clk.h>
- #include <linux/iopoll.h>
-+#include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/usb/role.h>
- #include "core.h"
-@@ -88,6 +89,7 @@ static int dwc2_drd_role_sw_set(struct usb_role_switch *sw, enum usb_role role)
- 	struct dwc2_hsotg *hsotg = usb_role_switch_get_drvdata(sw);
- 	unsigned long flags;
- 	int already = 0;
-+	int ret = 0;
- 
- 	/* Skip session not in line with dr_mode */
- 	if ((role == USB_ROLE_DEVICE && hsotg->dr_mode == USB_DR_MODE_HOST) ||
-@@ -111,14 +113,11 @@ static int dwc2_drd_role_sw_set(struct usb_role_switch *sw, enum usb_role role)
- 	 * mode and sessions. It is the case if cable is plugged at boot.
- 	 */
- 	if (!hsotg->ll_hw_enabled && hsotg->clk) {
--		int ret = clk_prepare_enable(hsotg->clk);
--
-+		ret = clk_prepare_enable(hsotg->clk);
- 		if (ret)
- 			return ret;
- 	}
- 
--	spin_lock_irqsave(&hsotg->lock, flags);
--
- 	if (role == USB_ROLE_NONE) {
- 		/* default operation mode when usb role is USB_ROLE_NONE */
- 		if (hsotg->role_sw_default_mode == USB_DR_MODE_HOST)
-@@ -127,6 +126,15 @@ static int dwc2_drd_role_sw_set(struct usb_role_switch *sw, enum usb_role role)
- 			role = USB_ROLE_DEVICE;
- 	}
- 
-+	if (role == USB_ROLE_HOST || role == USB_ROLE_DEVICE) {
-+		ret = phy_set_mode(hsotg->phy, role == USB_ROLE_HOST ?
-+				   PHY_MODE_USB_HOST : PHY_MODE_USB_DEVICE);
-+		if (ret)
-+			goto out_clk;
-+	}
-+
-+	spin_lock_irqsave(&hsotg->lock, flags);
-+
- 	if ((IS_ENABLED(CONFIG_USB_DWC2_PERIPHERAL) ||
- 	     IS_ENABLED(CONFIG_USB_DWC2_DUAL_ROLE)) &&
- 	     dwc2_is_device_mode(hsotg) &&
-@@ -160,26 +168,40 @@ static int dwc2_drd_role_sw_set(struct usb_role_switch *sw, enum usb_role role)
- 		/* This will raise a Connector ID Status Change Interrupt */
- 		dwc2_force_mode(hsotg, role == USB_ROLE_HOST);
- 
--	if (!hsotg->ll_hw_enabled && hsotg->clk)
--		clk_disable_unprepare(hsotg->clk);
--
- 	dev_dbg(hsotg->dev, "%s-session valid\n",
- 		role == USB_ROLE_NONE ? "No" :
- 		role == USB_ROLE_HOST ? "A" : "B");
- 
--	return 0;
-+out_clk:
-+	if (!hsotg->ll_hw_enabled && hsotg->clk)
-+		clk_disable_unprepare(hsotg->clk);
-+
-+	return ret;
- }
- 
- int dwc2_drd_init(struct dwc2_hsotg *hsotg)
- {
- 	struct usb_role_switch_desc role_sw_desc = {0};
- 	struct usb_role_switch *role_sw;
-+	bool is_host;
- 	int ret;
- 
- 	if (!device_property_read_bool(hsotg->dev, "usb-role-switch"))
- 		return 0;
- 
- 	hsotg->role_sw_default_mode = usb_get_role_switch_default_mode(hsotg->dev);
-+
-+	if (hsotg->role_sw_default_mode != USB_DR_MODE_UNKNOWN)
-+		is_host = hsotg->dr_mode == USB_DR_MODE_HOST;
-+	else
-+		is_host = hsotg->role_sw_default_mode == USB_DR_MODE_HOST;
-+
-+	ret = phy_set_mode(hsotg->phy,
-+			   is_host ? PHY_MODE_USB_HOST : PHY_MODE_USB_DEVICE);
-+	if (ret)
-+		return dev_err_probe(hsotg->dev, ret,
-+				     "failed to set default PHY mode\n");
-+
- 	role_sw_desc.driver_data = hsotg;
- 	role_sw_desc.fwnode = dev_fwnode(hsotg->dev);
- 	role_sw_desc.set = dwc2_drd_role_sw_set;
-@@ -214,10 +236,11 @@ void dwc2_drd_suspend(struct dwc2_hsotg *hsotg)
- 	}
- }
- 
--void dwc2_drd_resume(struct dwc2_hsotg *hsotg)
-+int dwc2_drd_resume(struct dwc2_hsotg *hsotg)
- {
- 	u32 gintsts, gintmsk;
- 	enum usb_role role;
-+	int ret;
- 
- 	if (hsotg->role_sw) {
- 		/* get last known role (as the get ops isn't implemented by this driver) */
-@@ -230,6 +253,11 @@ void dwc2_drd_resume(struct dwc2_hsotg *hsotg)
- 				role = USB_ROLE_DEVICE;
- 		}
- 
-+		ret = phy_set_mode(hsotg->phy, role == USB_ROLE_HOST ?
-+				   PHY_MODE_USB_HOST : PHY_MODE_USB_DEVICE);
-+		if (ret)
-+			return ret;
-+
- 		/* restore last role that may have been lost */
- 		if (role == USB_ROLE_HOST)
- 			dwc2_ovr_avalid(hsotg, true);
-@@ -250,6 +278,8 @@ void dwc2_drd_resume(struct dwc2_hsotg *hsotg)
- 		gintmsk |= GINTSTS_CONIDSTSCHNG;
- 		dwc2_writel(hsotg, gintmsk, GINTMSK);
- 	}
-+
-+	return 0;
- }
- 
- void dwc2_drd_exit(struct dwc2_hsotg *hsotg)
-diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
-index ef0d73077034..ab39d6b36b19 100644
---- a/drivers/usb/dwc2/platform.c
-+++ b/drivers/usb/dwc2/platform.c
-@@ -783,7 +783,9 @@ static int __maybe_unused dwc2_resume(struct device *dev)
- 		/* Need to restore FORCEDEVMODE/FORCEHOSTMODE */
- 		dwc2_force_dr_mode(dwc2);
- 	} else {
--		dwc2_drd_resume(dwc2);
-+		ret = dwc2_drd_resume(dwc2);
-+		if (ret)
-+			return ret;
- 	}
- 
- 	if (dwc2_is_device_mode(dwc2))
--- 
-2.56.0
+ drivers/usb/musb/sunxi.c | 43 +++++++++++++++++++++++++++++++------------
+ 1 file changed, 31 insertions(+), 12 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261110-musb-sunxi-unbind-2ab4d0d6bc76
+
+Best regards,
+--  
+Rajan Yadav <rajanyadav0307@gmail.com>
+
 
