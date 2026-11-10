@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794293102;
-	b=0Mvy+SK26pVg7xK7a5vEg94itsdUooUQcRzWqV3JEruFBls3ynbNaCR8a5vgbKgGWB5/
-	 YKd7wk6CYRA3sqUeGog2amwsCHJtSPgmDWeyYWMWqCW9XfnkhqjTWrYLdvY5Px21+v7sC
-	 TsneGxEPR4oL3Zqy19wW4UUFma/c/tKXT6P8hx+f2Vyt5IYtp5iydr919mmGIl5L4Iq2K
-	 A90xC71xpvALvnDnd+H+IG0esoaAIF0UNMHVh2tIa54vjtAp+qS2ktMXpCHpMU/o+mdoP
-	 LygqvFztXZ9+RbrhXi6Npl89O/57hoZ+YHe42obDDVj1nUPusmBRwpNCQIkKbCCpJLg==
+	t=1794293153;
+	b=NP0bTMee0nITjAF9m1s6Yi2csujiNICb9WUng/lnbU5HSTXb0lQA/ovT+/zIRZ4XDZnV
+	 wIb6l8YE23U4sJcgmgS/csx3nUwwjLqD1KTijFRccYbBlL3lFoZJxRWtXwD6nuugi4pDk
+	 iNnbFbHI5vIfjcvNJHDPmuvSwtFQH3waxbU+e5fFandg76tqgyijnbBrvuT1IJfNDQl6h
+	 ibBxx12wZO2VmyLOImcQMzU3dfNWhHYAvvuHQJsz//2fAoavp2CiM7KdEsAMbVW5Do3tC
+	 UxHAS+iUoPemtGT+p8ZSh6q4PMGPFp8pMKuZFPne4L34RGdFgzPMDPlOgGtdGLwqbNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794293102;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794293153;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=YuO985nSaaJLHAAYPoGlcKXMh9PR7UjvA94NdcFLt08=;
-	b=1PpvntfdWLWeaeYCwm/6I1EhsieVsRwnuioViiH+T6jy9iWmr8Pg2Bkb9VB4oCDZTC3u
-	 XtZJ3gqXOhK3ZuVHi0BnReFJAwEYoZVCa/QoSSpVgaubDwbEP3eEdbirL7ro9vxYzxCh1
-	 tHrHFnJAiZj4Vk+oQfdm1gmYHxWtzikQlg5YPjgGYSoH/WlZIukd3MQDgIPjCA6IbVUu2
-	 01aPm/E12gNJTfa3S4QDEjraUvXSYbbcehaPCf3L5i7H72yKIf3poE2Rmc5G9MOyuACaG
-	 LmvVDFoFFrL+/EYyRQzT2nXL3dzAc0+eBHzRFD+grg7lCrCAAXfv+srYbuD20bncQeg==
+	bh=UCUohQmjj94i3sQRDnNbU0PyB3JUGH++RfhpldVEfUM=;
+	b=qMSC0IRbfOhxxNlp+l+yQZFg5vFHmpfvoHLBdXkmMln/7Nt27pMELEBAGiU9263O6c7j
+	 7FSO0yF5GkOiyQBSUkh7KHdcrs8oLUuV+sxe4RZp6+95IOYP6RbhmVRhTMLpiKmVQxnqZ
+	 v7Okrv1J5adpNk2mDqQZ9fEu0tT3c1+CzYd+51EdB61sUHIE1YVdrVw34vXoYh8+bzGmi
+	 Ylp/sFTeMOqMSQcXfONwwvquEx2sLZS/vtBqfXNQ0WvHg2OfePDPslrrQO4UkI5J2DLC0
+	 hRGKsyt+k0IbcmvBjtKTYMWSEwukSLaxBcfB/RBjTubNSG5gq0y4WPo6cbbLZ0uiVvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ijwomB8O;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y7kByG1T;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C147606BD69
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 06:45:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274BA606A656
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 06:45:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ijwomB8O
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F7381F008A2;
-	Tue, 10 Nov 2026 06:45:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y7kByG1T
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3DC71F0089F;
+	Tue, 10 Nov 2026 06:45:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794293102;
-	bh=YuO985nSaaJLHAAYPoGlcKXMh9PR7UjvA94NdcFLt08=;
+	s=k20260515; t=1794293152;
+	bh=UCUohQmjj94i3sQRDnNbU0PyB3JUGH++RfhpldVEfUM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ijwomB8OBVKV0rfuhes1CDaB/WTbRuH4yDFBmHa8mnB+VDkRKfAg0kqfmsrE1836x
-	 Gl4LJvB9A1J1bAjT6PrNbp4V2S1+L3MNC4N1ROe8IOh3gMNgRrhUoV06qXyA516ypu
-	 25nfamxJmwpHKJqEPrgrw41g+JmaSKE54j4IXCk3NaWlj1qVfNKRJiC+INSPNI1W9Z
-	 s9b6WJJSGrk9het1yTpOcOY4T3xxtP8zyUkuGseHg2pMPVKdnIQKtaWwPtbNEBo/v8
-	 KkQzn+nSfEaWPaTrdtU0YyJBwG9HZwIdzoiBwq9caY5vsM+bTKhOzgboubPVfCj0st
-	 QY29viUzQM4ig==
-Message-ID: <sashiko-outbox-206441@kernel.org>
+	b=Y7kByG1TrpX9Sa74UeGzJITovXum5ur0M+zm47Pfg8KakafJTceVDOJe/BctN16Xb
+	 Uai6IpOgTY6IZVulPYd1jw8Ov8X4SkKRJOe1giPjSfBdhFfQqvBMjx4+Isn2JUjk6f
+	 pqYi6dbnEX8r6QNd3znFwWStmTZobDKxnb14Ei9RAWwRNeq0xogmwsEMgVdTM+i2G7
+	 /Q/8cX9RW92ityk/XPyN91EM3TevH7rVuLbxFmK98y8BK3NNeYUH0BQ3/SHXcnciTJ
+	 xyvzho9tWALWBYviqEGFvgWEccSTBTLRWVK4aYT/ReY1+6Cf9VVcDAV1xe1IFAoy7r
+	 rASl/nZGEkjvw==
+Message-ID: <sashiko-outbox-206442@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 17/22] usb: renesas_usbhs: fix a few spelling mistakes
- in comments
+Subject: Re: [PATCH 14/22] usb: misc: fix a few spelling mistakes in
+ comments
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261110064105.20335-18-shishunbo@cmss.chinamobile.com>
+In-Reply-To: <20261110064105.20335-15-shishunbo@cmss.chinamobile.com>
 References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
- <20261110064105.20335-18-shishunbo@cmss.chinamobile.com>
+ <20261110064105.20335-15-shishunbo@cmss.chinamobile.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 06:45:01 +0000
+Date: Tue, 10 Nov 2026 06:45:52 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,13 +61,79 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> No functional changes.
->=20
-> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+Thank you for your contribution! Sashiko AI review found no new issues
+in this patch, but noticed 1 related pre-existing issue it does not
+introduce:
+- [High] usb: misc: emi26: infinite loop in emi26_load_firmware() [1]
+--
 
-Sashiko has reviewed this patch and found no issues.
+commit dcf01fbf19632d3a153a43eecd101490f0323a24
+Author: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+
+usb: misc: fix a few spelling mistakes in comments
+
+This commit fixes spelling mistakes in comments in the emi26, emi62, and
+ldusb drivers.
+
+> diff --git a/drivers/usb/misc/emi26.c b/drivers/usb/misc/emi26.c
+> index 24d841850e056..a0fd800820438 100644
+> --- a/drivers/usb/misc/emi26.c
+> +++ b/drivers/usb/misc/emi26.c
+> @@ -198,7 +198,7 @@ static int emi26_load_firmware (struct usb_device *de=
+v)
+>  		goto wraperr;
+>  	msleep(250);	/* let device settle */
+> =20
+> -	/* return 1 to fail the driver inialization
+> +	/* return 1 to fail the driver initialization
+>  	 * and give real driver change to load */
+>  	err =3D 1;
+> =20
+> diff --git a/drivers/usb/misc/emi62.c b/drivers/usb/misc/emi62.c
+> index 3eea60437f567..d29b5312f6270 100644
+> --- a/drivers/usb/misc/emi62.c
+> +++ b/drivers/usb/misc/emi62.c
+> @@ -211,7 +211,7 @@ static int emi62_load_firmware (struct usb_device *de=
+v)
+> =20
+>  	kfree(buf);
+> =20
+> -	/* return 1 to fail the driver inialization
+> +	/* return 1 to fail the driver initialization
+>  	 * and give real driver change to load */
+>  	return 1;
+
+[Severity: High]
+This problem wasn't introduced by this patch, but can emi26_load_firmware()
+and emi62_load_firmware() enter an infinite loop [1] if a bitstream_fw
+ihex record has a length of at least FW_LOAD_SIZE (1023)?
+
+drivers/usb/misc/emi26.c:emi26_load_firmware() {
+	...
+	rec =3D (const struct ihex_binrec *)bitstream_fw->data;
+	do {
+		i =3D 0;
+		addr =3D be32_to_cpu(rec->addr);
+
+		/* intel hex records are terminated with type 0 element */
+		while (rec && (i + be16_to_cpu(rec->len) < FW_LOAD_SIZE)) {
+			memcpy(buf + i, rec->data, be16_to_cpu(rec->len));
+			i +=3D be16_to_cpu(rec->len);
+			rec =3D ihex_next_binrec(rec);
+		}
+		err =3D emi26_writememory(dev, addr, buf, i, ANCHOR_LOAD_FPGA);
+		if (err < 0)
+			goto wraperr;
+	} while (rec);
+	...
+}
+
+When be16_to_cpu(rec->len) >=3D FW_LOAD_SIZE, the inner while loop does not
+execute even with i =3D=3D 0 and leaves rec unchanged, so the outer do-while
+loop repeatedly issues a 0-byte write and spins forever during probe.
+
+[1] https://sashiko.dev/#/bug/linux-c69bd064-7969-4899-86f0-dc199358fd96
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110064105.2033=
-5-1-shishunbo@cmss.chinamobile.com?part=3D17
-
+5-1-shishunbo@cmss.chinamobile.com?part=3D14
