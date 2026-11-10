@@ -1,47 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794307305;
-	b=YsCNqEWkGz1Ih8ar+YBmhBgcZZZgHPpAkFzDtxlHrBqgPbeBDNxInU3ZHrQ5DIUIjOL8
-	 B5pRLhbC6dsLkeQztTX5FfPCeHg7M+VkNR0XLnMfhF/XioJ2rV/bTkAQ3cXPFo2GwQtsw
-	 Qn6a1Zhoafv2zfRKftekidu8JHU0VoyZT5/wnxz9+jjc/d73fmAhbmi+Htbglrsv5oaT8
-	 XbmE6b+QMaZmcadLJ2hdENo/DaW/ObQTEaaqmA4ZPFq82emWLjGxCy5btXQdk7dgvRqeF
-	 nWKxsHshlY3zZpOwe8lnPiQs0X95i2yHkTG2vgtq1ot8VNmVirpPJT3/t/hcpZx2tgQ==
+	t=1794307678;
+	b=ZNFBhIuoDjwR8MRnoLKMr7b4sNY7AMI5MAO272RRODkMnVXRO5z4nIpdYQM+zpUZEI2/
+	 H6hl1WPw9Qq9PdAE5hQAleA4B1tg3jMdvYzbtlTjcJYBW9/h+7iDOhEoXGr0wgKJQnHFJ
+	 hVQrXLDkR3KQXy9oku+7yLvEM8H9kqMo4K1Pj2AB6Ce5sR5DZuLsHQ7zUNgBHCeoFsjYZ
+	 DWBjp0wbbahrqs55u4teZfl6AVFx9tTjH4danlJc7e7MvQRjXp8rGd0cn2QcmT3R5gBZG
+	 6elbszXo4GaioDEy8bWyyEs6k8Y5wm+BeFBEKK541Mhey/FtyL4AA5paYdNY1qkO0lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794307305;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=TrUCkLH/luW4Lq8qxENFCmJBtDYj2YjkTU7I0UeIPkY=;
-	b=vOJdwOlYqCLcwVDoU+KXvZE1LSWi93SaCeHozuhYTXqJrJsJ7+zIxEa8vYCmEBn0Z01K
-	 ucYRBZsLT+Ip/D1x1Ijco80gM4kI0q+cItR3WfP+iwbmbSYAhYNyAtyhCzJELtTEQP9x/
-	 Uc34J6jpyvHebq4SCsl3ylrXqIT3ko+VtxoRLCG4R5iWDcgMoJLXtCtlzrbCEzZZTtmdL
-	 SNmxK5P9178lRwNcDxVNxeeGpio62uXPZ1OkcBDD8ki+4yUP6EJ5W29Pn928FytvZ+Ta4
-	 FLdN3Z89k8Z+wvHDUKbNByTYA0aAvD1m3a3TClyD9wT5lER6TxXTZSU2I/I+r+vKoTA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794307678;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=cwqqtGKSObQo6sioE4MYMB0xb22rxzndsyyujOZGXhI=;
+	b=mS9pTKQ/s4xVVs19hkCAkSlvMNN79D2r+/Uqm4LkaPs3YxmjfWyz4ii/M40hGLoH747K
+	 uN666c71knOwa/bTMbfu0rr/jBF2Fmqr7VGQ4fZSkDFqyQ08gnt9/bQH4anXq+ASNamXl
+	 XNpg0e/x9URvB/Gk+q20/q2GFO6G8kbZtpmclWngidALhJsf26e4xj+gLXKBjlBcN5ZLK
+	 aNdS66tejWALi/xDg1FefN7qXz9Uf/7xNYI8TctmEpi7WTR45dUB3qCE/i3NYHMLCnUH4
+	 UMxyc/6nqDm9DmIdgC4gxo71ImxhBEuqZUwEckr0uZLT4hieXP+uMx+iEsyv35obHfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OTrfXiUE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="WMg/Zty+";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E2F606A33E;
-	Tue, 10 Nov 2026 10:41:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96153606A325
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 10:47:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OTrfXiUE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56DF31F008A2;
-	Tue, 10 Nov 2026 10:41:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WMg/Zty+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C3B21F008A2;
+	Tue, 10 Nov 2026 10:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794307305;
-	bh=TrUCkLH/luW4Lq8qxENFCmJBtDYj2YjkTU7I0UeIPkY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=OTrfXiUErQbonlOA/WsjAetIgyIbgZqKQoipPvgALRJVYDpgVI65lYLgQArSIJ69z
-	 ScvOSlKfS/3iCZE08WSDRRURPLzRIWu6N8LROrY474CApSRHySQikM6TcNwsQEUnXC
-	 1UJeYMBHZpV82Q5LFACMhy4MioMHbhC6pSjIHjZb/HGrvyHJjzZ8UQctqmtMXPzC4h
-	 O76vWqsrv5Cf+YVug4jDJ+F635VJUR6/BfKIJKRfJ7B4VT7RTg9OCW+0QrNvZh2hHk
-	 7ru498g7/6AhrjlZ9K77t9leDHEjz/J3/xK4CY1pkAHGMDzHLPNDqqP1l/hAXc+g8S
-	 hK4ZOIGTauXVg==
-Message-ID: <2e878ad2-1a20-4ee7-8460-64e0d9774ff5@kernel.org>
-Date: Tue, 10 Nov 2026 11:41:37 +0100
+	s=k20260515; t=1794307678;
+	bh=cwqqtGKSObQo6sioE4MYMB0xb22rxzndsyyujOZGXhI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=WMg/Zty+j40Jcs95fxlCD2KQPg/W9sz45VyjnlMo/MljhrZKj8pPspTUH9wMqI/jh
+	 zINMZRomEYhH8DDzxvzlr/YXD3Eip+4157FNybDSmzAepSZvuLZTLmKUCSjXNxE0Ml
+	 rnKFNL20/05nIzyxUUTvDA+X2luFLlWyP2f68UbykBo1sQZoj3Li9szXWYha5F9DIw
+	 gpsOTXq+D0/CUTRxWjDU1rxK433jYz7ElTZ8P7qu1HNt0+u9cocSnpoV0kSRo/xMBI
+	 SMs9mB7Azo/43ATrbHS98HIyknaKEw4NiQfWCPiVHFtDHJj/JdFrtHZJlF4g96wj9Q
+	 Re7QN6gJVtK3w==
+Message-ID: <sashiko-outbox-206888@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 3/3] arm64: dts: rockchip: Mark the Orange Pi 5/5B
+ Type-C port self-powered
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Arun Iyengar" <aiyengar1990@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261110-tcpm-attach-reboot-v1-3-7657cc1e2dca@gmail.com>
+References: <20261110-tcpm-attach-reboot-v1-0-7657cc1e2dca@gmail.com>
+ <20261110-tcpm-attach-reboot-v1-3-7657cc1e2dca@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2026 10:47:57 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -50,88 +60,24 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] riscv: dts: sophgo: Enable USB role switch on Huashan
- PI
-To: Inochi Amaoto <inochiama@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen Wang <chen.wang@linux.dev>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Minas Harutyunyan <hminas@synopsys.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Longbin Li <looong.bin@gmail.com>,
- Dinh Nguyen <dinguyen@opensource.altera.com>,
- Paul Zimmerman <paulz@synopsys.com>, Felipe Balbi <balbi@ti.com>
-Cc: devicetree@vger.kernel.org, sophgo@lists.linux.dev,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, Yixun Lan <dlan@gentoo.org>
-References: <20261110070627.217946-1-inochiama@gmail.com>
- <20261110070627.217946-5-inochiama@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261110070627.217946-5-inochiama@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 10/11/2026 08:06, Inochi Amaoto wrote:
-> As current the DWC2 support role switch on CV18XX SoCs. Enable it
-> on Huashan PI.
-> 
-> Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
-> ---
->  arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dts | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> From: Arun Iyengar <aiyengar1990@gmail.com>
+>=20
+> The board is powered from its separate power-only USB-C input. The
+> FUSB302 port's VBUS comes from vcc5v0_sys through a load switch, so the
+> board never runs from this port's VBUS.
+>=20
+> Without self-powered, tcpm keeps Rp on CC during PORT_RESET (error
+> recovery), because opening CC on a port-powered device would remove its
+> own supply. With self-powered, the port opens CC for tErrorRecovery
+> whenever it resets, including at boot. A partner left in a stale state
+> by a warm reboot then sees a real detach.
+>=20
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 
-DTS cannot be combined in this patchset and must be split. Don't mix
-patches from independent subsystems when you send something explicitly
-targeting only one subsystem.
-See also: Documentation/devicetree/bindings/submitting-patches.rst
+Sashiko has reviewed this patch and found no issues.
 
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-tcpm-attac=
+h-reboot-v1-0-7657cc1e2dca@gmail.com?part=3D3
 
-Best regards,
-Krzysztof
