@@ -1,129 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794320486;
-	b=qvsQ59ds9iF7DW+0iS3e30WvU1opNee4W3bwOPDJpsqWzpfpaVbxzefj5rEpkyrSU/vt
-	 qafLNIZUu4rieZh5oFNBUNqDmcTta4xwyRAgE1aQ+B/tdPT0w5mhYTtyfXFeptiguOhYI
-	 UpxcJgZAioj39E4Rx12ZJ/l4OeiwNUqSAVqeEcsN/Puc8/g59oKEBz2vh9qyCy3e64PJn
-	 gdfEe2wH978Pn2W0F9stBTatjC8G1nOnkwu0rFqKe0lM1irbkiEgmrAYtlRtL1F4Xq5qv
-	 XRqc434Jye6BbP0SF7Siu36yaC4+j3pNT2iN0h2TOYk94441ermxAMhdNsD2dPMMR+Q==
+	t=1794320648;
+	b=NtZ/T5LKO6SnoCAW/eOiUw6I9ZC+17q5Wj/pXn6Spl+unb+xSWMNLg5l0yGMS/6hZxTI
+	 i6KmOUI8KkCkQ+NPtKcn9lBRyS7e9rKQjb8C3JiqEzYStmMapNRlwB60uT4Bps4OeQoBy
+	 bLYrdMkwPOlRuzbnqWtlP0gwikMLoq0MZ7TdW9ft+XYhbq1cr+yFD/UEMD/BUsLbGJcOu
+	 TrPmdBnsUqLcNlgeZcR759huY4mFOoAJt/Em3wPy1XmnDY7TiNSJ1qU5mtqKaExYPXRQI
+	 Rojt3z5lQrvrZmFoWNMmjDWo+MUGtbNeOiImr0A/jlKlKwN9H7prjlX625P5Lw7p4qA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794320486;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=BAgS5IG5Q6cmw/IjXmlog3zuTwHd5kSy1jWUQMAUfKY=;
-	b=ibMhozCS0TZx9aZRcfsw3D2umRHe/DUx5z1rMgYP8ycGhlR61yJIe2uIAQl/YURZJC6k
-	 +zd7Lu4bBPIE7Mp+0ALnDLX5T06VlI2ejepA1YWfuop+n9NGq6lZcgtrhp1s1zTKj6FpS
-	 f+2/KoE4HXnbq9Ccz+8LReTXmm8beQReUH41JrISk9P+fE2drmLRAKGCjfvLKfEnLdGGN
-	 riFKaU8dxg9KWx/nLB1DtfT7fu6BzYbe+2BzArfjZzF7h79JH+svVEn/TBlkLnfS7VkNr
-	 nX5xp6i752+Z/mZ0P/pHrh3E3djiRiMOXUXyySedLqQoQ6/dP4iPjAem5LhDK9Pc+dQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794320648;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=fq7yBG2EXssub3S97JK0z+L/pcM8GEbETAN8w1h7jq8=;
+	b=lt7InlKmYTXwbbAlS9sYrkj8zFVjIPAroKQ2eOgBgfq8AFDfdXM7FjgXQVh/iyigiBJa
+	 now9Y7eYXUAv4rfRvWVFO+8IjHV4Gj6uKiJ6u+1cTzwPP0Yt6DTy6CSmLJ9rT6KYy5iDf
+	 ioDKo2XDlQJMqd9olgoC1wHIuDGP6Y5WzjYj/TKAC/yq68h0FRQGIiydE970JBaOd1jMO
+	 bAdgonLJ2rBqtLBbQThwBmOGV4My/tgxFRJucwjBXZZU8wLkqxomSZjc7b/+fBwZ0QiHe
+	 750kKOX1wPkThbiNzYhEKmUbJuZLOSYrE5xqE/cIdvQame9CqBKKttErBNe9en4wwhA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=dfqcbUnK;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=I8IcNdZF;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=OFZt5G3N;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lARv1EHw;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RULuRR84;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98996606A326;
-	Tue, 10 Nov 2026 14:21:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98996606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057E6606A333;
+	Tue, 10 Nov 2026 14:24:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 057E6606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=dfqcbUnK;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=I8IcNdZF;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=OFZt5G3N;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lARv1EHw
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 98D081F769;
-	Tue, 10 Nov 2026 14:21:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794320482; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BAgS5IG5Q6cmw/IjXmlog3zuTwHd5kSy1jWUQMAUfKY=;
-	b=dfqcbUnKWeMMrbbtQxI4HQM7qrIh4AZ0rdet9B/6ElOBIqFSiDGiuE+1U00ut3ACwyb91k
-	r11g0ukmfmgZpAkPLIoBt7FBxKQ00ygdxuqdgmhj2u4V8/naZ4cHPSCZhNnU3P0rUj/quR
-	5maXirFkXXk4Lg3EkYDJXPDsbTG0ICY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794320482;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BAgS5IG5Q6cmw/IjXmlog3zuTwHd5kSy1jWUQMAUfKY=;
-	b=I8IcNdZFZSFtUgRgMf53UkGbuTtSJb1zzUPCSb1BODWP/tylJEZx0BmLFYU3bDgA6b05ut
-	5Oej5bk5j+xTBnDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=OFZt5G3N;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=lARv1EHw
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794320481; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BAgS5IG5Q6cmw/IjXmlog3zuTwHd5kSy1jWUQMAUfKY=;
-	b=OFZt5G3NjcxxJh9jY6RWrC7bvaHuyGavEEbdiAXuJUz/f1dYZmor5n2FYPrRYiQoiCED+w
-	1FijM1hEbGwM1P7v2pYubJuTrAUHD24tVDcOF18S7gaHWryxvKiASS6IebdlsiiUolZCHc
-	0QuxJjJxTEoiCmYYKfGjg6OEvasGjOc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794320481;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BAgS5IG5Q6cmw/IjXmlog3zuTwHd5kSy1jWUQMAUfKY=;
-	b=lARv1EHwNdS7tCNwBSn9srQwOl9Kg5/ztnfBrMPMFrjJm7RNq+r333D6UmkiyHiKi5q76w
-	+hVROod2CCZjqIBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 653AD13479;
-	Tue, 10 Nov 2026 14:21:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id H5UxD2Eo82oxHAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 14:21:21 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id D4BBB22538; Tue, 10 Nov 2026 15:21:16 +0100 (CET)
-Date: Tue, 10 Nov 2026 15:21:16 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>
-Subject: Re: [PATCH v2 07/51] lockd: don't hand out the terminator of
- nlm_end_grace
-Message-ID: <4isxnxlzjedh4t3hq73g5wjuwdtiudxx6llf6do2noyrno5lsb@6xwb4gw7wi7b>
-References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
- <20261104-work-procfs-bugfixes-v2-7-bbf7d5546809@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RULuRR84
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794320648; x=1825856648;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Dz6xB3nsXb84v6j5VtTKjJDy0mJj1gdNzuH6mAq71Ss=;
+  b=RULuRR84jhTXa+NK1by853h6EG245PHpoxfKEoGRqcRt9IV3WQgmfomc
+   gOC06UDv0rRTLd+evWLMZBoJI/v0Pf/LBZELmuKwC3F/tcymoky7drT12
+   wA3whn/I1ZOr8jsec8r1u11POhC1d9+szZ9/PB6Tq/QLNpIgDX1x56Vew
+   5Ru1x9+SHMwBc7UUlFxmXCbAQcLvD+ghCChSG3adH9I3rVJ5N86B7xn0q
+   kFhVyX5O6TB9jotk44WgsDUzjV52Y2DgntA25NWRpdpoBb2BXmq+iVmXD
+   KRaXv4Ps9tNd2+c/YlbCDo4h0biDSaB3vvaUO/6E8KIYomd1FLD1ZljmX
+   A==;
+X-CSE-ConnectionGUID: 8Lg9qf36SgWcbzTQ+nfUNQ==
+X-CSE-MsgGUID: wfrJnsd3RJ+nfXmqo8PWeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3065733"
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="3065733"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 06:24:08 -0800
+X-CSE-ConnectionGUID: 1yUDu6o1R2Co+TQB5tXA8g==
+X-CSE-MsgGUID: HgVuWmi6QhWzn+a9bSH62A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="8467520"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa009.fm.intel.com with ESMTP; 10 Nov 2026 06:24:04 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 7D26C99; Tue, 10 Nov 2026 15:24:03 +0100 (CET)
+Date: Tue, 10 Nov 2026 15:24:03 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Mika Westerberg <westeri@kernel.org>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Sven Peter <sven@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 2/7] thunderbolt: Move ICM mailbox functions to icm.c
+ and internalize interrupt work
+Message-ID: <20261110142403.GB259790@black.igk.intel.com>
+References: <20261110114925.722014-1-chunfeng.yun@mediatek.com>
+ <20261110114925.722014-3-chunfeng.yun@mediatek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -133,77 +91,235 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-7-bbf7d5546809@kernel.org>
-X-Rspamd-Queue-Id: 98D081F769
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:email,suse.com:email];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[59];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Score: -11.51
+In-Reply-To: <20261110114925.722014-3-chunfeng.yun@mediatek.com>
 
-On Wed 04-11-26 18:27:24, Christian Brauner wrote:
-> nlm_end_grace_read() answers with "Y\n" or "N\n" from a three byte
-> buffer and hands out all three bytes, the terminating NUL included.
-> Leave the NUL out.
+On Tue, Nov 10, 2026 at 07:48:50PM +0800, Chunfeng Yun wrote:
+> In preparation for modularizing PCIe NHI and ICM support as a separate
+> driver, clean up internal helper functions so that they do not need to
+> be exported:
 > 
-> Fixes: d68e3c4aa416 ("lockd: add a /proc/fs/lockd/nlm_end_grace file")
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-
-Makes sense. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
+> nhi_mailbox_cmd() and nhi_mailbox_mode() are only used by the Intel
+> firmware Connection Manager (icm.c) to exchange mailbox commands with
+> firmware running on Intel PCIe NHIs. The Thunderbolt core framework,
+> software connection manager, and non-PCIe platform controllers do
+> not use this mailbox interface. Move both functions into icm.c and
+> mark them static.
+> 
+> nhi_interrupt_work was previously initialized in pci.c within
+> nhi_pci_init_msi(), requiring it to be visible across files. Move
+> INIT_WORK(&nhi->interrupt_work, ...) into tb_nhi_probe() so that
+> the workqueue item is initialized by the NHI core and
+> nhi_interrupt_work() can be marked static in nhi.c.
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 > ---
->  fs/lockd/procfs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> new patch
+> ---
+>  drivers/thunderbolt/icm.c | 59 ++++++++++++++++++++++++++++++++++++
+>  drivers/thunderbolt/nhi.c | 64 ++-------------------------------------
+>  drivers/thunderbolt/nhi.h |  3 --
+>  drivers/thunderbolt/pci.c |  2 --
+>  4 files changed, 62 insertions(+), 66 deletions(-)
 > 
-> diff --git a/fs/lockd/procfs.c b/fs/lockd/procfs.c
-> index a01f08c8c2f3..74f7ab77535a 100644
-> --- a/fs/lockd/procfs.c
-> +++ b/fs/lockd/procfs.c
-> @@ -57,7 +57,7 @@ nlm_end_grace_read(struct file *file, char __user *buf, size_t size,
->  	resp[1] = '\n';
->  	resp[2] = '\0';
+> diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
+> index a295a5e6cc9c..736f551cd567 100644
+> --- a/drivers/thunderbolt/icm.c
+> +++ b/drivers/thunderbolt/icm.c
+> @@ -45,6 +45,7 @@
+>  #define ICM_RETRIES			3
+>  #define ICM_APPROVE_TIMEOUT		10000	/* ms */
+>  #define ICM_MAX_LINK			4
+> +#define ICM_MAILBOX_TIMEOUT		500 /* ms */
 >  
-> -	return simple_read_from_buffer(buf, size, pos, resp, sizeof(resp));
-> +	return simple_read_from_buffer(buf, size, pos, resp, sizeof(resp) - 1);
+>  static bool start_icm;
+>  module_param(start_icm, bool, 0444);
+> @@ -269,6 +270,64 @@ static int pcie2cio_write(struct icm *icm, enum tb_cfg_space cs,
+>  	return pci2cio_wait_completion(icm, 5000);
 >  }
 >  
->  static const struct proc_ops lockd_end_grace_proc_ops = {
-> 
+> +/**
+> + * nhi_mailbox_cmd() - Send a command through NHI mailbox
+> + * @nhi: Pointer to the NHI structure
+> + * @cmd: Command to send
+> + * @data: Data to be send with the command
+> + *
+> + * Sends mailbox command to the firmware running on NHI.
+> + *
+> + * Return: %0 on success, negative errno otherwise.
+> + */
+> +static int nhi_mailbox_cmd(struct tb_nhi *nhi, enum nhi_mailbox_cmd cmd, u32 data)
+> +{
+> +	ktime_t timeout;
+> +	u32 val;
+> +
+> +	iowrite32(data, nhi->iobase + REG_INMAIL_DATA);
+> +
+> +	val = ioread32(nhi->iobase + REG_INMAIL_CMD);
+> +	val &= ~(REG_INMAIL_CMD_MASK | REG_INMAIL_ERROR);
+> +	val |= REG_INMAIL_OP_REQUEST | cmd;
+> +	iowrite32(val, nhi->iobase + REG_INMAIL_CMD);
+> +
+> +	timeout = ktime_add_ms(ktime_get(), ICM_MAILBOX_TIMEOUT);
+> +	do {
+> +		val = ioread32(nhi->iobase + REG_INMAIL_CMD);
+> +		if (!(val & REG_INMAIL_OP_REQUEST))
+> +			break;
+> +		usleep_range(10, 20);
+> +	} while (ktime_before(ktime_get(), timeout));
+> +
+> +	if (val & REG_INMAIL_OP_REQUEST)
+> +		return -ETIMEDOUT;
+> +	if (val & REG_INMAIL_ERROR)
+> +		return -EIO;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * nhi_mailbox_mode() - Return current firmware operation mode
+> + * @nhi: Pointer to the NHI structure
+> + *
+> + * The function reads current firmware operation mode using NHI mailbox
+> + * registers and returns it to the caller.
+> + *
+> + * Return: &enum nhi_fw_mode.
+> + */
+> +static enum nhi_fw_mode nhi_mailbox_mode(struct tb_nhi *nhi)
+> +{
+> +	u32 val;
+> +
+> +	val = ioread32(nhi->iobase + REG_OUTMAIL_CMD);
+> +	val &= REG_OUTMAIL_CMD_OPMODE_MASK;
+> +	val >>= REG_OUTMAIL_CMD_OPMODE_SHIFT;
+> +
+> +	return (enum nhi_fw_mode)val;
+> +}
+> +
+>  static bool icm_match(const struct tb_cfg_request *req,
+>  		      const struct ctl_pkg *pkg)
+>  {
+> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+> index c574c336f25b..1e3a58636d3d 100644
+> --- a/drivers/thunderbolt/nhi.c
+> +++ b/drivers/thunderbolt/nhi.c
+> @@ -35,8 +35,6 @@
+>   */
+>  #define RING_E2E_RESERVED_HOPID	RING_FIRST_USABLE_HOPID
+>  
+> -#define NHI_MAILBOX_TIMEOUT	500 /* ms */
+> -
+>  static bool host_reset = true;
+>  module_param(host_reset, bool, 0444);
+>  MODULE_PARM_DESC(host_reset, "reset USB4 host router (default: true)");
+> @@ -964,65 +962,7 @@ int tb_ring_throttling(struct tb_ring *ring, unsigned int interval_nsec)
+>  }
+>  EXPORT_SYMBOL_GPL(tb_ring_throttling);
+>  
+> -/**
+> - * nhi_mailbox_cmd() - Send a command through NHI mailbox
+> - * @nhi: Pointer to the NHI structure
+> - * @cmd: Command to send
+> - * @data: Data to be send with the command
+> - *
+> - * Sends mailbox command to the firmware running on NHI.
+> - *
+> - * Return: %0 on success, negative errno otherwise.
+> - */
+> -int nhi_mailbox_cmd(struct tb_nhi *nhi, enum nhi_mailbox_cmd cmd, u32 data)
+> -{
+> -	ktime_t timeout;
+> -	u32 val;
+> -
+> -	iowrite32(data, nhi->iobase + REG_INMAIL_DATA);
+> -
+> -	val = ioread32(nhi->iobase + REG_INMAIL_CMD);
+> -	val &= ~(REG_INMAIL_CMD_MASK | REG_INMAIL_ERROR);
+> -	val |= REG_INMAIL_OP_REQUEST | cmd;
+> -	iowrite32(val, nhi->iobase + REG_INMAIL_CMD);
+> -
+> -	timeout = ktime_add_ms(ktime_get(), NHI_MAILBOX_TIMEOUT);
+> -	do {
+> -		val = ioread32(nhi->iobase + REG_INMAIL_CMD);
+> -		if (!(val & REG_INMAIL_OP_REQUEST))
+> -			break;
+> -		usleep_range(10, 20);
+> -	} while (ktime_before(ktime_get(), timeout));
+> -
+> -	if (val & REG_INMAIL_OP_REQUEST)
+> -		return -ETIMEDOUT;
+> -	if (val & REG_INMAIL_ERROR)
+> -		return -EIO;
+> -
+> -	return 0;
+> -}
+> -
+> -/**
+> - * nhi_mailbox_mode() - Return current firmware operation mode
+> - * @nhi: Pointer to the NHI structure
+> - *
+> - * The function reads current firmware operation mode using NHI mailbox
+> - * registers and returns it to the caller.
+> - *
+> - * Return: &enum nhi_fw_mode.
+> - */
+> -enum nhi_fw_mode nhi_mailbox_mode(struct tb_nhi *nhi)
+> -{
+> -	u32 val;
+> -
+> -	val = ioread32(nhi->iobase + REG_OUTMAIL_CMD);
+> -	val &= REG_OUTMAIL_CMD_OPMODE_MASK;
+> -	val >>= REG_OUTMAIL_CMD_OPMODE_SHIFT;
+> -
+> -	return (enum nhi_fw_mode)val;
+> -}
+> -
+> -void nhi_interrupt_work(struct work_struct *work)
+> +static void nhi_interrupt_work(struct work_struct *work)
+>  {
+>  	struct tb_nhi *nhi = container_of(work, typeof(*nhi), interrupt_work);
+>  	int value = 0; /* Suppress uninitialized usage warning. */
+> @@ -1331,6 +1271,8 @@ int tb_nhi_probe(struct tb_nhi *nhi)
+>  	if (!nhi->tx_rings || !nhi->rx_rings || !nhi->interrupt_mask)
+>  		return -ENOMEM;
+>  
+> +    INIT_WORK(&nhi->interrupt_work, nhi_interrupt_work);
+> +
+
+This has weird indent.
+
+>  	nhi_reset(nhi);
+>  
+>  	/* In case someone left them on. */
+> diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
+> index a36c62c49a5c..3dd6ace6150d 100644
+> --- a/drivers/thunderbolt/nhi.h
+> +++ b/drivers/thunderbolt/nhi.h
+> @@ -27,11 +27,8 @@ enum nhi_mailbox_cmd {
+>  	NHI_MAILBOX_ALLOW_ALL_DEVS = 0x23,
+>  };
+>  
+> -int nhi_mailbox_cmd(struct tb_nhi *nhi, enum nhi_mailbox_cmd cmd, u32 data);
+> -enum nhi_fw_mode nhi_mailbox_mode(struct tb_nhi *nhi);
+>  void nhi_enable_int_throttling(struct tb_nhi *nhi);
+>  void nhi_disable_interrupts(struct tb_nhi *nhi);
+> -void nhi_interrupt_work(struct work_struct *work);
+>  irqreturn_t tb_nhi_isr(int irq, void *data);
+>  irqreturn_t tb_ring_msix(int irq, void *data);
+>  int tb_nhi_probe(struct tb_nhi *nhi);
+> diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+> index 2f0abf4d27a3..275389903090 100644
+> --- a/drivers/thunderbolt/pci.c
+> +++ b/drivers/thunderbolt/pci.c
+> @@ -206,8 +206,6 @@ static int nhi_pci_init_msi(struct tb_nhi *nhi)
+>  		if (nvec < 0)
+>  			return nvec;
+>  
+> -		INIT_WORK(&nhi->interrupt_work, nhi_interrupt_work);
+> -
+>  		irq = pci_irq_vector(pdev, 0);
+>  		if (irq < 0)
+>  			return irq;
 > -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> 2.45.2
