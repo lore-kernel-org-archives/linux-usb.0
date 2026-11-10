@@ -1,87 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794322210;
-	b=vZXP+sq98Lh1Jn6ufNiKawgjNMUeeRnsL/BWu58ptsuJhwA5/mGSevRJojUEm6nrwG9F
-	 0v8PmPoMEpaHrqgktrkKhDpqQIVdDa+rlfkQ1OppIJpBvq7W+e6bFc1XkV1JOf6WvjNjG
-	 3J0Po/sL/JDMcra4BnAOPeHKfPbjQRnwhfU4W7zXb8vbcBISN3+r32kvIyhkGID2zDHQW
-	 SZ/NXvkqSfDnEYoANwSSlcNOuE5xvvpbcsBvdnBnya8aBUzS6maXeWlSe1neVuv/bNCmL
-	 RzIYPbrwrXkU1uUem6GiGmLw7Mi+u1bQ/oJK7FvABm3xfxDGz3we9rOL302hJFvrwOw==
+	t=1794322549;
+	b=yCDXNxsGT/yrdvS5aDbxt9QWi/67ooLgb4x7UYxobjBHL/uhKtCjTs64014oRfgxVbI4
+	 O6b99TJX0mcW2/MRayJhflzCn6amYiniSQfPyKHHpM7605KaRqsRFNj0kWmis1sYkEBiv
+	 ffeyRaWt+lMepgTM9FVYasE+zrgF8dHtyw4dUXmXzXZlVxIKrmetF/QT3RLOjTniBQYP3
+	 XurIxTdlTswlgSKnp516UyfxPONBC6/kURo/qwBFZBYbcEeW5YGUd9rK4eyUhSeiGhHuK
+	 FTgrZXbPzEYhsXT/Qd9MSNwAfzCMrSXvhnxIFnEstceIOi9RmaHuYlxrxFDGiWe/ohA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794322210;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=T2slujxCqhiL/TtLbPV2Q/sOsPxDWPy8sLnJEd7macQ=;
-	b=ueYC0LDQi/F6pkyGnUsftkWXDaAlOBpuXjhAiTM5zQPRRnnxfyOOVeztTJVV27cWYHQa
-	 FGHO3wXEuPMtLra5XfsxwLRq5mzBqM81PeiPaX0rjwgeLSM2gJwkJi4b9D2ZVEAXBYmf6
-	 Ba6FpwAOkGHCb8+DBw2t6bm7WnacaE3ZOr43bQ7e3SVFEFGTk7D/QEBBMHrksEVH9l65j
-	 IYCtwyme8yC9m+Dj7GWHOt9INzZ3UQX3SjVs/g80bJoFiMcIz8fJ+G6Vy6FBo1Hw5bcWl
-	 dshdQRktKIe7GeTAW/S/45usl4e6xzbWMWUca+mpWPAQ9JGny2TczSJOyb4KaC1LH7g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794322549;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=zSjXnOetE5oKa5v8S9LBrUhcmgizc8ch93AeD/W6gEI=;
+	b=d2IcXSEVbVXFqDkS10/KP8lc3kHMGnVTqbPQ02a/hd2KBjjDPNAiAyU+HixpD+j2HkZH
+	 KGngR46XaGLTRECz1WWUyC6a3rgX3GI6yVHYPYH4HZbGcWVZH0b5sNgF4s6hOxHFTPvX6
+	 Mh/oQ+irELtztP4PCVl+gCl/dTEz4NMDzYOZ1yK1m7tc16oSJ6aQ0410VpWQWT41U9NPV
+	 tNqW46E4biIDyiD3W9uVY7LS6WppTYKg/RuHsmY9/mqzQ2lB5WeW8U+0l8uaa8/4Jn+Wf
+	 qZlh3tBIRJc4E/294YrWiGI2UjSosK5xy3nZLoZ9FXlzhC0zya4QnZfPYMwcCTtWPJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=A05tbcK0;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Tcwd7Q8/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60689606A320;
-	Tue, 10 Nov 2026 14:50:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60689606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B09F606A325;
+	Tue, 10 Nov 2026 14:55:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=A05tbcK0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794322210; x=1825858210;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uVB2hb/dzQMegqJR/q5Ve1qnf38fN2lGeR/LzyMybZ0=;
-  b=A05tbcK0dDgvMF6YtwBIhRkIijKgF4LtIemuAVTExsTwFNSOy/icmljF
-   G/VrPAGYbUp8Ed4HJL2xmoPYK61WX4n/ziAungFzCdqu6U5AGw1P9TtB5
-   +CDVxvnYovXkC+XSvY+BXxABBZOdcZgbqDSSwoaI+kO8FHjobnkPd3yUa
-   1yQIvfO/yHhnemNcNGhYwsXKOIbNUiuFt6qvP80Ydd1KC04AbC1vtW89k
-   Kj0X5RXqaIUcsuPbyvxHZzvKwyMrD72Kf6Kpa6t+5IEVMFz8yaSTiGDz3
-   eeu/hghYxHYwjIfRytOuSkIEd7nQkRqMK8w5SnbLp9FIkTreoK3K154NX
-   w==;
-X-CSE-ConnectionGUID: 2iPW7Ek+QQyaPrLNfu3K8g==
-X-CSE-MsgGUID: NGhiC/uJQLqhVHiAg5xHlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3102777"
-X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="3102777"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 06:50:09 -0800
-X-CSE-ConnectionGUID: 6PJl7mS2QpqaIYmHcAXf/A==
-X-CSE-MsgGUID: SrOSSITAQHGAwt5w0e5rPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="8037500"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa005.jf.intel.com with ESMTP; 10 Nov 2026 06:50:06 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id A69E499; Tue, 10 Nov 2026 15:50:04 +0100 (CET)
-Date: Tue, 10 Nov 2026 15:50:04 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc: Mika Westerberg <westeri@kernel.org>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Sven Peter <sven@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 7/7] thunderbolt: prevent pcie tunnel
- activation/teardown warnings
-Message-ID: <20261110145004.GF259790@black.igk.intel.com>
-References: <20261110114925.722014-1-chunfeng.yun@mediatek.com>
- <20261110114925.722014-8-chunfeng.yun@mediatek.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tcwd7Q8/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90E4C1F008A3;
+	Tue, 10 Nov 2026 14:55:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794322549;
+	bh=zSjXnOetE5oKa5v8S9LBrUhcmgizc8ch93AeD/W6gEI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=Tcwd7Q8/BgCZr0AJA+q53XtkaEXHNBQAptcCIoE3INOkDT8T++JPLwFgnijhu6LIp
+	 QoJCfJqeBNhK26M7LL9xd4MzXxKVISVDOEW1cYrYEyBiFKRmR2hdLsioEex6m+2Rc5
+	 2AgfVzjCsuMDtAVvAKOrFX1qXAfAYeUYjVl2rownrESZ29DXkmWTHYRM7alPMZLQ6M
+	 DZH727vPlYTYzZb+oco6o/Bkhlk4m5LBSezhlvCb0bhHHiXIMbUlIMDObU3PIfYN46
+	 k7napT6YlagBuXnh78UDBF3WtFBwiJfcd2zG9H8WTZ7Zkc62YNaLopDBhwYuzfc472
+	 iPuH2WgxnRVeQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id B2761F40069;
+	Tue, 10 Nov 2026 09:55:47 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Tue, 10 Nov 2026 09:55:47 -0500
+X-ME-Sender: <xms:czDzahOxHA_IGoa_FJdwV0BFPQw-nSdKO6kKGUN5puCfrxj2G2sK_w>
+    <xme:czDzauxKYck9zKSqhpZaTHxPL9lIOi42MPCnrNTR7eaQqnpkmbe8dEx0PuhUogQkg
+    tb2W38kOzksOJlDJ4uTGR7-rkbiwtctKuF5oVtOm556TqS1yjjUw9U>
+X-ME-Proxy-Cause: dmFkZTE8jIcOTzT9axQiHwEjJScKTRkNH3ZVhgYbwXrBMnGwr/PZk5kUfGxy+RC0ezRM03
+    2Axgl1A3kstcvJQqQJ+tEirxS634eXBQm2b+wwk+7byJnMoEdYYw7Lfb7185Bnwoliq1Mt
+    XZ8lliUhOZ8AACZwbl4T2Tc7NYRy4GvnOujvSweRGBGAD4OQXGjTipshhA5n2cB6RQlk4p
+    zmTRFZMOMjoY8cueG7e24ndoN2R/gq/lSNUbCVZu/PUOrAg9f6aovYYa9SSKBBYGtgXYMN
+    0qbpFOi4S4kwXDcxuFcZlmK43Jt2p3+0W9uSzX8U3QJynW/odwma6a1hhpAbc8zEaSnbtk
+    CFI/IAk8YwHJ0hyg7qaH8oiiVC3V/1ZiobIhoPO231VrqQk5oaP4jl+jS7yMnBbNxynDhF
+    /tTsfxMaF/A9xwJBu4sKm+3lzwzMEEbqt79mE4Lq/VAgowI2/Z3gVdFMTE48DIB1KcUvAe
+    gGFx1Bx/tQmWXfeE09uUSkiQ2KYN+OrlgTMnrepjVRxO73rY2t7sodPh2AhJIAG1ZYT5ga
+    3nwb3G0mQrnmFOm4Qa4C2JwbajMdJBWMeam4uZKQraajbqcBHzCXvMtQm1fQbm3S2rexTo
+    KA6wW/vDabSoXlut9Nm5uKTSjp20eGQ9lpLOxOz31c8eLm8Mlp10sjOYDNZA
+X-ME-Proxy: <xmx:czDzaoanLMdLTFqhzMhrxv5H09chgFe3GMMhc1XBCkfiMJQ_ckta8Q>
+    <xmx:czDzauzWTK7EYc76X_4JSXvP7e9Yqejr2yggz6O-tuvCpsEWBQGUaQ>
+    <xmx:czDzasWQEDY8T3p3eaJhPzKDKFxYGPCQnFb1-n-prg7tBs3f0gJpWA>
+    <xmx:czDzaqbpJaYjvNkk5zy3xoww5EsXMA5_awnvU25FYCgSdhgQQ41Hfg>
+    <xmx:czDzavOKwCwywHfR1JNgdmNe33GAeUXrw31wmu_3YBRbMsucyl2ChD_t>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 7D2B9780070; Tue, 10 Nov 2026 09:55:47 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,149 +77,71 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261110114925.722014-8-chunfeng.yun@mediatek.com>
+X-ThreadId: AKCAcWHxcB8B
+Date: Tue, 10 Nov 2026 09:55:27 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: "Jann Horn" <jannh@google.com>, "Chris Mason" <mason@kernel.org>,
+ "Josef Bacik" <josef@toxicpanda.com>, "Christoph Hellwig" <hch@lst.de>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ target-devel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-mm@kvack.org, bpf@vger.kernel.org,
+ linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+ apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
+ fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org,
+ xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev,
+ linux-s390@vger.kernel.org, "Linuxppc Dev" <linuxppc-dev@lists.ozlabs.org>,
+ linux-usb@vger.kernel.org, "Amir Goldstein" <amir73il@gmail.com>,
+ linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Message-Id: <47b8b8cb-aadb-4f84-aa5c-c5a74d73fac1@app.fastmail.com>
+In-Reply-To: <20261110-work-loop-pseudo-v1-21-4c998976c6c7@kernel.org>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+ <20261110-work-loop-pseudo-v1-21-4c998976c6c7@kernel.org>
+Subject: Re: [PATCH RFC 21/41] nfsd: use fc_init_pseudo()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 10, 2026 at 07:48:55PM +0800, Chunfeng Yun wrote:
-> When usb4 enter sleep mode, echo 1 to authorized of sysfile,
-> will wakeup usb4 driver, but fail to create pcie tunnel, cause
-> the warning due to a race condition between router disconnect
-> during resume and user authorization
 
-This is hard to understand.
 
-Also PCIe, USB4 and so on.
-
-> 
-> [  278.831186] usb4_hi NVDA8100:00: 0:1: is unplugged (state: 7), retrying...
-> [  278.943031] usb4_hi NVDA8100:00: 0:1: failed to reach state TB_PORT_UP. Ignoring port...
-> [  278.951125] usb4_hi NVDA8100:00: 0:1: lost during suspend, disconnecting
-> ...
-> [  279.013763] usb4_hi NVDA8100:00: 0:7 <-> 1:9 (PCI): activating
-> [  279.019587] usb4_hi NVDA8100:00: activating PCIe Down path from 0:7 to 1:9
-> [  279.026468] usb4_hi NVDA8100:00: 1:1: Writing hop 1
-> [  279.031335] usb4_hi NVDA8100:00: 1:1:  In HopID: 8 => Out port: 9 Out HopID: 8
-> [  279.038546] usb4_hi NVDA8100:00: 1:1:   Weight: 1 Priority: 3 Credits: 32 Drop: 0 PM: 0
-> [  279.046536] usb4_hi NVDA8100:00: 1:1:    Counter enabled: 0 Counter index: 2047
-> [  279.053834] usb4_hi NVDA8100:00: 1:1:   Flow Control (In/Eg): 1/0 Shared Buffer (In/Eg): 0/0
-> [  279.062259] usb4_hi NVDA8100:00: 1:1:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
-> [  279.069730] ------------[ cut here ]------------
-> [  279.074335] usb4_hi NVDA8100:00: PCIe Down path activation failed
-> [  279.080426] WARNING: CPU: 5 PID: 2433 at drivers/thunderbolt/path.c:587 tb_path_activate+0x1a4/0x5b0
-> ...
-> [  279.220285] Call trace:
-> [  279.222722]  tb_path_activate+0x1a4/0x5b0 (P)
-> [  279.227068]  tb_tunnel_activate+0x140/0x498
-> [  279.231241]  tb_tunnel_pci+0x180/0x490
-> [  279.234980]  tb_domain_approve_switch+0x74/0xb0
-> [  279.239500]  authorized_store+0x214/0x270
-> [  279.243498]  dev_attr_store+0x20/0x70
-> ...
-> [  279.288888] ---[ end trace 0000000000000000 ]---
-> [  279.293497] usb4_hi NVDA8100:00: 0:7 <-> 1:9 (PCI): activation failed
-> 
-> When usb4 enter sleep mode, echo 0 to authorized of sysfile,
-> will wakeup usb4 driver, but fail to disconnect pcie due to
-> the PCIe tunnel had already been torn down and freed if the port
-> is fail to resume,
-
-Please put the steps like:
-
-1) Boot the system, nothing connected.
-2) Once booted up, connected device.
-3) Authorize PCIe tunnel via echo 1 > ..
-...
-
-So that we can see what are the steps you reproduce this. The above is
-really hard to follow at least to me.
-
-> 
-> [  545.887822] usb4_hi NVDA8100:00: 0:1: is unplugged (state: 7), retrying...
-> [  545.998689] usb4_hi NVDA8100:00: 0:1: failed to reach state TB_PORT_UP. Ignoring port...
-> [  546.006778] usb4_hi NVDA8100:00: 0:1: lost during suspend, disconnecting
-> [  546.013474] usb4_hi NVDA8100:00: 0:4 <-> 1:16 (USB3): deactivating
-> [  546.020449] usb4_hi NVDA8100:00: deactivating USB3 Down path from 0:4 to 1:16
-> [  546.027959] usb4_hi NVDA8100:00: deactivating USB3 Up path from 1:16 to 0:4
-> [  546.035649] usb4_hi NVDA8100:00: 0:7 <-> 1:9 (PCI): deactivating
-> [  546.042463] usb4_hi NVDA8100:00: deactivating PCIe Down path from 0:7 to 1:9
-> [  546.050320] usb4_hi NVDA8100:00: deactivating PCIe Up path from 1:9 to 0:7
-> [  546.057790] usb4_hi NVDA8100:00: 0: TMU: mode change off -> bi-directional, HiFi requested
-> [  546.067910] usb4_hi NVDA8100:00: 0: TMU: mode set to: bi-directional, HiFi
-> [  546.076120] usb4_hi NVDA8100:00: 0:1: total credits changed 66 -> 66
-> [  546.082844] usb4_hi NVDA8100:00: 1: link width set to symmetric, dual lanes
-> [  546.089815] ------------[ cut here ]------------
-> [  546.094420] WARNING: CPU: 7 PID: 2433 at drivers/thunderbolt/tb.c:2245 tb_disconnect_pci+0x108/0x120
-> ...
-> [  546.238810] Call trace:
-> [  546.241246]  tb_disconnect_pci+0x108/0x120 (P)
-> [  546.245680]  tb_domain_disapprove_switch+0x24/0x60
-> [  546.250464]  disapprove_switch+0xbc/0xe8
-> [  546.254378]  authorized_store+0x19c/0x270
-> [  546.258378]  dev_attr_store+0x20/0x70
-> ...
-> [  546.303767] ---[ end trace 0000000000000000 ]---
-> 
-> The check prevents a redundant lookup and eliminates the warning
-> 
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+On Tue, Nov 10, 2026, at 4:14 AM, Christian Brauner wrote:
+> Initialize the nfsd filesystem as a pseudo filesystem. This raises
+> SB_I_PSEUDO and also SB_I_NOEXEC and SB_I_NODEV. It never holds
+> executables or device nodes.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
-> v2: no changes
-> ---
->  drivers/thunderbolt/switch.c | 5 +++++
->  drivers/thunderbolt/tb.c     | 7 +++++++
->  2 files changed, 12 insertions(+)
+>  fs/nfsd/nfsctl.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/fs/nfsd/nfsctl.c b/fs/nfsd/nfsctl.c
+> index f32311f2d7cf..ce2666deddbd 100644
+> --- a/fs/nfsd/nfsctl.c
+> +++ b/fs/nfsd/nfsctl.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/namei.h>
+>  #include <linux/ctype.h>
+>  #include <linux/fs_context.h>
+> +#include <linux/pseudo_fs.h>
 > 
-> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-> index e12546bfb869..6e9f439ebf3f 100644
-> --- a/drivers/thunderbolt/switch.c
-> +++ b/drivers/thunderbolt/switch.c
-> @@ -1850,6 +1850,11 @@ static int tb_switch_set_authorized(struct tb_switch *sw, unsigned int val)
->  	if (!!sw->authorized == !!val)
->  		goto unlock;
->  
-> +	if (sw->is_unplugged) {
-> +		ret = -ENODEV;
-> +		goto unlock;
-> +	}
-> +
->  	switch (val) {
->  	/* Disapprove switch */
->  	case 0:
-> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-> index 57c11ba13459..69310622d786 100644
-> --- a/drivers/thunderbolt/tb.c
-> +++ b/drivers/thunderbolt/tb.c
-> @@ -2266,6 +2266,10 @@ static int tb_disconnect_pci(struct tb *tb, struct tb_switch *sw)
->  	struct tb_tunnel *tunnel;
->  	struct tb_port *up;
->  
-> +	/* If the switch has already been unplugged, tunnels are already freed */
-
-router
-
-everywhere
-
-> +	if (sw->is_unplugged)
-> +		return 0;
-> +
-
-Actually I'm thinking that we can just get rid of the WARN_ON()s instead.
-If the router is gone we cannot find the upstream port nor the tunnel and
-that's fine so just return error instead.
-
->  	up = tb_switch_find_port(sw, TB_TYPE_PCIE_UP);
->  	if (WARN_ON(!up))
->  		return -ENODEV;
-> @@ -2288,6 +2292,9 @@ static int tb_tunnel_pci(struct tb *tb, struct tb_switch *sw)
->  	struct tb_cm *tcm = tb_priv(tb);
->  	struct tb_tunnel *tunnel;
->  
-> +	if (sw->is_unplugged)
-> +		return -ENODEV;
-> +
->  	up = tb_switch_find_port(sw, TB_TYPE_PCIE_UP);
->  	if (!up)
->  		return 0;
+>  #include <linux/sunrpc/cache.h>
+>  #include <linux/sunrpc/svcsock.h>
+> @@ -1375,6 +1376,7 @@ static int nfsd_init_fs_context(struct fs_context *fc)
+>  {
+>  	put_user_ns(fc->user_ns);
+>  	fc->user_ns = get_user_ns(fc->net_ns->user_ns);
+> +	fc_init_pseudo(fc);
+>  	fc->ops = &nfsd_fs_context_ops;
+>  	return 0;
+>  }
+>
 > -- 
-> 2.45.2
+> 2.53.0
+
+Acked-by: Chuck Lever <cel@kernel.org>
+
+
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
