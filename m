@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794307288;
-	b=TmswgSGBNd9xnsJWAzuNvq9AI43zHPlyBAWtGJ1DGIdt8gdKXbs/nt9Cb/ypwV1m7PHJ
-	 LuEcJGlCF2f/6Y0okGfXiGJ6LXutf3PoB4xIfhIV4gnrDj6FGAjRW3X7xvd37tsZx5fx8
-	 U3SiHwnnpy+EBum7EjS47MPBkuGXlmhUs1wZ7lrEgUzVENoym0NlT/0iTUpqV0uK8zdM2
-	 UWSCjSuF2z8oggoWyW3TZMhCTV37oHan9LF5T7MI4yypPVxeQ0KX3H5ooNKvUprVBYVP/
-	 GKcNvtxPWWGzCEr0/lWZPc7jAGygf/ZKXAn4sNtfSewjSbcEXwR+XRc5A2RLm4+5idg==
+	t=1794307305;
+	b=YsCNqEWkGz1Ih8ar+YBmhBgcZZZgHPpAkFzDtxlHrBqgPbeBDNxInU3ZHrQ5DIUIjOL8
+	 B5pRLhbC6dsLkeQztTX5FfPCeHg7M+VkNR0XLnMfhF/XioJ2rV/bTkAQ3cXPFo2GwQtsw
+	 Qn6a1Zhoafv2zfRKftekidu8JHU0VoyZT5/wnxz9+jjc/d73fmAhbmi+Htbglrsv5oaT8
+	 XbmE6b+QMaZmcadLJ2hdENo/DaW/ObQTEaaqmA4ZPFq82emWLjGxCy5btXQdk7dgvRqeF
+	 nWKxsHshlY3zZpOwe8lnPiQs0X95i2yHkTG2vgtq1ot8VNmVirpPJT3/t/hcpZx2tgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794307288;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794307305;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=1JSKtyJeBKbXkGGW3NfSoidRzUvmtli6dOhv6QjYw5M=;
-	b=HbGsILX91KuUn7oA1e/5KTu9HugPzgHG+6g2sTMLOZ3U6GcMvqIoB++3P7HkuJU7uC26
-	 R4iwJX1z4M6ajm4wUanZglWEsn4HaTI2Rns+v+qnVdg34kjCNmEWrtRy/bt5aeDc5iCOV
-	 wUHYExkwFRkQEU7CK3+VnIckZolLHga9uRgf77AIBorlq4RwH34HFj68/j2bHoKCXuJ87
-	 n7GAXpJR6AR3xB9jMMVwfKBlrJPdbd53KZrhDlAwUvaRJtRMNuWplPYWG9GQwRtT+EGEE
-	 YNbkxzu8fI2mjaQlzlJyozqXyKqMxEuwaYS5ZeI6CZq1uxOp/2fJz40hXZLjkz7ojqA==
+	bh=TrUCkLH/luW4Lq8qxENFCmJBtDYj2YjkTU7I0UeIPkY=;
+	b=vOJdwOlYqCLcwVDoU+KXvZE1LSWi93SaCeHozuhYTXqJrJsJ7+zIxEa8vYCmEBn0Z01K
+	 ucYRBZsLT+Ip/D1x1Ijco80gM4kI0q+cItR3WfP+iwbmbSYAhYNyAtyhCzJELtTEQP9x/
+	 Uc34J6jpyvHebq4SCsl3ylrXqIT3ko+VtxoRLCG4R5iWDcgMoJLXtCtlzrbCEzZZTtmdL
+	 SNmxK5P9178lRwNcDxVNxeeGpio62uXPZ1OkcBDD8ki+4yUP6EJ5W29Pn928FytvZ+Ta4
+	 FLdN3Z89k8Z+wvHDUKbNByTYA0aAvD1m3a3TClyD9wT5lER6TxXTZSU2I/I+r+vKoTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KKaAoDLQ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OTrfXiUE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9AD606A325;
-	Tue, 10 Nov 2026 10:41:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E2F606A33E;
+	Tue, 10 Nov 2026 10:41:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KKaAoDLQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD61E1F0089F;
-	Tue, 10 Nov 2026 10:41:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OTrfXiUE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56DF31F008A2;
+	Tue, 10 Nov 2026 10:41:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794307288;
-	bh=1JSKtyJeBKbXkGGW3NfSoidRzUvmtli6dOhv6QjYw5M=;
+	s=k20260515; t=1794307305;
+	bh=TrUCkLH/luW4Lq8qxENFCmJBtDYj2YjkTU7I0UeIPkY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=KKaAoDLQblsfg/eXiGJP3JUJ9YUD4F8xzGF+0WunmkTv+sjD2MOjUuWEcM0/0A0Mr
-	 5z1erOsZmE1vTY9P4QCJ1bIwii8UFYwT/1mBUONKGPFyctYMlLYczbyC23+2TtmRGW
-	 h92sF1r4sWebrF84u/4K4foJNDcqPbQs+81j+mbDHUhHH+fGmelGrQl7CwgKacBSD0
-	 fYWp9bzrmKmf9QMVkW1MAvHH2Z1HyzYM0ct3EIHF6qSGkPRqE1gZ0wB72raRFz/40G
-	 J6QHn6GqrqbGXTqVgxFzFVGhyzNAXGq66STt1QhUIk661wVHmQmG+r8MHUSTiN30RN
-	 Lh8enkyahzXfw==
-Message-ID: <b1ebdcbe-2f2f-4fcd-8567-13e77fc2311b@kernel.org>
-Date: Tue, 10 Nov 2026 11:41:22 +0100
+	b=OTrfXiUErQbonlOA/WsjAetIgyIbgZqKQoipPvgALRJVYDpgVI65lYLgQArSIJ69z
+	 ScvOSlKfS/3iCZE08WSDRRURPLzRIWu6N8LROrY474CApSRHySQikM6TcNwsQEUnXC
+	 1UJeYMBHZpV82Q5LFACMhy4MioMHbhC6pSjIHjZb/HGrvyHJjzZ8UQctqmtMXPzC4h
+	 O76vWqsrv5Cf+YVug4jDJ+F635VJUR6/BfKIJKRfJ7B4VT7RTg9OCW+0QrNvZh2hHk
+	 7ru498g7/6AhrjlZ9K77t9leDHEjz/J3/xK4CY1pkAHGMDzHLPNDqqP1l/hAXc+g8S
+	 hK4ZOIGTauXVg==
+Message-ID: <2e878ad2-1a20-4ee7-8460-64e0d9774ff5@kernel.org>
+Date: Tue, 10 Nov 2026 11:41:37 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -52,17 +52,23 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] arm64: dts: rockchip: Describe the USB3 Type-A
- connector on Orange Pi 5/5B
-To: aiyengar1990@gmail.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-References: <20261110-usb-port-pairing-v1-0-9307e29d2ed2@gmail.com>
- <20261110-usb-port-pairing-v1-4-9307e29d2ed2@gmail.com>
+Subject: Re: [PATCH 4/4] riscv: dts: sophgo: Enable USB role switch on Huashan
+ PI
+To: Inochi Amaoto <inochiama@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen Wang <chen.wang@linux.dev>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Minas Harutyunyan <hminas@synopsys.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Longbin Li <looong.bin@gmail.com>,
+ Dinh Nguyen <dinguyen@opensource.altera.com>,
+ Paul Zimmerman <paulz@synopsys.com>, Felipe Balbi <balbi@ti.com>
+Cc: devicetree@vger.kernel.org, sophgo@lists.linux.dev,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, Yixun Lan <dlan@gentoo.org>
+References: <20261110070627.217946-1-inochiama@gmail.com>
+ <20261110070627.217946-5-inochiama@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,29 +114,18 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20261110-usb-port-pairing-v1-4-9307e29d2ed2@gmail.com>
+In-Reply-To: <20261110070627.217946-5-inochiama@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/11/2026 08:20, Arun Iyengar via B4 Relay wrote:
-> From: Arun Iyengar <aiyengar1990@gmail.com>
+On 10/11/2026 08:06, Inochi Amaoto wrote:
+> As current the DWC2 support role switch on CV18XX SoCs. Enable it
+> on Huashan PI.
 > 
-> The upper Type-A port of the Orange Pi 5 and 5B has its USB 2.0 lines
-> on USB 2.0 host 1 (EHCI/OHCI) and its SuperSpeed lanes on the
-> SuperSpeed-only USB 3.0 host 2 (xHCI). The lower Type-A port is USB 2.0
-> only, on host 0.
-> 
-> Describe the upper port as a usb-a-connector linked to both
-> controllers, so that the USB core pairs the EHCI root hub port with the
-> xHCI SuperSpeed port. Without that, a USB 3 device plugged in at boot
-> is enumerated by the EHCI before the xHCI is up and stays at high
-> speed.
-> 
-> VBUS of the port is not switched (the vendor DT has it on an always-on
-> 5 V rail), so it is described as coming from vcc5v0_sys.
-> 
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+> Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
 > ---
+>  arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dts | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
 DTS cannot be combined in this patchset and must be split. Don't mix
 patches from independent subsystems when you send something explicitly
