@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794293100;
-	b=BXcwP4i4VxUeO33sRo0ocgKUxcamdi1Y+29v/O4atrKgLytMFn6yZxXSUXVAR7M7rEzb
-	 iNXrDQVgCZjV9pOJGJ5Z6uJwC27UQcwrkZdHNN4kHUd0yDn5lck0vKuumpBj0h0XfLUb1
-	 dabUyMairBr5j/xXcdIlKprSJdd2SF6TmNJX1qQOuXy6zSvjqautFgp6cjz6esaxfEkxa
-	 +LykFgp8nbmWFppfz4w6tEOFk3KTVyUWYRKNAUSgCS4SYBXbgAwv286OrMAmS+BowhFIe
-	 ge04aKzqR6yjNjb071Eo6bmc4Eocx5v+kBQUF6qa9ZGzOt+qxTrQ1e17zK7WndxgRMQ==
+	t=1794293101;
+	b=HYpWb/7N+yyeaXz6ga2RK4Mc+I6VwTjjRfVsvPPWS8TIGsuoF+UDOyLmkSWPAtLudI4h
+	 z8HLOAV55E2Atr0HCM+vf/xZHTqxKZaamN3Ruy3fQbeKV9aQJhaLpBLQT+NXoUg1i9NvO
+	 s9RcHcFLr5oxoOFImDvTyssdxChtz5z+9wqBtQGgWMWTv0u01cfc//KNgPYVDWNnqRI1t
+	 dYlZb7yF+HV/H7b6UHCwCo6mTRiDoDa6+uZ8gK6OIIlv9uELtyE7+sFjeVjZ6SU5JxQxz
+	 YyPpO6HzOQiT3rjyruKBmkOswbaGlpQdMATi21+worVHZdWN950nPxHKL06Rd6W8YXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794293100;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794293101;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=s8nTOw5DB7megcgpM1aLxS0O+GWtvhzBnsIdeBNFTTQ=;
-	b=lVLxAxdHv7y/QNtHEX4RBfsGWo+tFqPJzgPPd22Hf4U6r9UFTOew4xSOb8dmmt2BgKWT
-	 cITlBAwqGGv/qX3a8x5GcaDatwQ7snvTZNBIBhMQLNKdIZbMxxsev1ZYLgJ4sQLXlbgJJ
-	 mGfLnGqKmsyQAzUT3PqwBJFP3WYuXDbDfHbzMP1/dysviXxgqUmeESyoBzUh+JjIcgupt
-	 rUyPd0+dRebg3y+yjeK7eI8xUwNQIbvZrJ00aSbeK12xq8PY/o+9yPB0f0MSvTwijrUCY
-	 RYdPWO7sggUyub2dImzHZOtFtdBuvPMNJvK8Uvk3FhLABY5QHoAZHuO9u5wvyHEYr/A==
+	bh=RCEO6dS8JVv6qGMPEEhV0CrwdYucxnzedvrv9oS/sa0=;
+	b=aPLAsB+ejhxEBbFZcuqmbHQB8xohM995pIv/owWPAyGHs0wIA6kn/TgE7LQImZ3kMJPA
+	 twkwh3zVj7Kq/v23hXPmWutKBexdPb6AIl+jzLtDzyegdz6vlCMAn5HuXLCasmUqXe3ui
+	 pbOJ0WtYfYgZ9hP4zM7zeP6qYkkK6XUAAnyhgDhjB2qmdDhEUTUSjYnJvgEJw6YDr+nRu
+	 MTsYKkphHBklo51tOr4HkYCByAPPj5Imtb90zdYR7X8Rew5KTbC16PJZlUcUpEYE7EzC1
+	 a7NMikrVGJhRypirLDT6KiQGqmBo8Ykcz4N6pBBcH8lEb9y3jgXwKXPl5fOxn9sOuUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="P/2P9VPt";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TR5Sy0q+;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498A4606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18E6606BD58
 	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 06:45:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P/2P9VPt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF6A1F0089F;
-	Tue, 10 Nov 2026 06:44:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TR5Sy0q+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9886A1F008A1;
+	Tue, 10 Nov 2026 06:45:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794293100;
-	bh=s8nTOw5DB7megcgpM1aLxS0O+GWtvhzBnsIdeBNFTTQ=;
+	bh=RCEO6dS8JVv6qGMPEEhV0CrwdYucxnzedvrv9oS/sa0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=P/2P9VPtQQrFAYqQv/5H9zXEjLsD2hTQqpTmUv7c/Y4soNjB2Y2sB0SqhKMcsr/YQ
-	 H3PK+DVMvcAJ65ajLhOm4g70+U0e8mNCd8aUi9X62Yc58Rie/lo6OKyN8GAN6k87Lb
-	 LTTlHJrdkku7OWYQlcjU3/0J67SWmP/soJPSTC6/1zH5+SCZdkN0FNv61WNSYtMdGb
-	 lYBphl1LA3DdEcxI+ANE1odjcvW1xtd2N1qDjZbxWxjNyF+Kv8M/PJemvXYevwV3pd
-	 0Og95qbBp0wo6zj9Yze21nscozEgaOV9QXh84U944p8c2HACQGRWY/IFrcWK3fS6kM
-	 q5ms96XOSsDig==
-Message-ID: <sashiko-outbox-206438@kernel.org>
+	b=TR5Sy0q+CHQ7AJUKf8zyrVN5X8U87Lq/r97wkL6xVbVN31xqxT6kUjs1WHBwREgZx
+	 0enu+CgdUUDjdD3fk/04EPTcN2ueZgG79gpr+nXQg7ijybfmFP3XXK79vrZJaYhjLC
+	 +yXNo5KyLzKJyH6Yd7zqSJbD1aI1yrtQ3e/E64TNn0vgF7WEh/09enxyjAnx22DAdx
+	 DSQ/YYvzEiXmfa18aYqoWJBQu+IltPEXYWEiRqfFHgjt3U/3ke+0L3LC8rY5qDgK2h
+	 Yv0luqVm/R3JjcLJOOlzAuLk38YEDOxgrH2YvCpTIBLFPkXoKwCA0PT50Ip3Z9Proq
+	 BDxJFm2Jqr/FA==
+Message-ID: <sashiko-outbox-206439@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 02/22] usb: cdns3: fix a few spelling mistakes in
+Subject: Re: [PATCH 19/22] usb: serial: fix a few spelling mistakes in
  comments
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261110064105.20335-3-shishunbo@cmss.chinamobile.com>
+In-Reply-To: <20261110064105.20335-20-shishunbo@cmss.chinamobile.com>
 References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
- <20261110064105.20335-3-shishunbo@cmss.chinamobile.com>
+ <20261110064105.20335-20-shishunbo@cmss.chinamobile.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 06:44:59 +0000
+Date: Tue, 10 Nov 2026 06:45:00 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -69,5 +69,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110064105.2033=
-5-1-shishunbo@cmss.chinamobile.com?part=3D2
+5-1-shishunbo@cmss.chinamobile.com?part=3D19
 
