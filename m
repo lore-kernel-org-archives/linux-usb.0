@@ -1,89 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794323279;
-	b=5sOU63ebCCHoxaRuswU0f0smZ2PRtHAK7FW+KbtAfJIaHAQDwk9tcpNuH/wCzxMFLYLP
-	 gN8Ms7D8hhuyj5/a6Nuzu6jffKexAi+2+g7WNZ0XGCcBD1lxcQz1udyZXIZR7nvmsGdxt
-	 FPLh5RH9a3JBOl/dIYgSR5/KIVkEqJbRXKp4RfJTUdm0XIFRs5hLXI+llKiZHiJandGlW
-	 11LCfh+tmDXjVdGihgO+9w9hJmGfcB8z7vkFR8My8EWTvE6p6so0Fsyp3Rafy+zSvrw+3
-	 QH5gOhv2R+L9DqTyHo5xMWaPft5wbGXfTgboLotCYkzSMnUMcksloAitgpzg9QClm/g==
+	t=1794323548;
+	b=xWpFoT9fVQQxORTHDL/CJNdtVSn9vAKpg1pv2ibHM6mcQA/NiXWKoVTA8DpFmQ9VY38T
+	 WGeCaUUM+rZkyKLt8MrviXcpEDMOu6FsLAOAYyQPVogIB/5NTMsKe0AYt6YEI4H5AiyY0
+	 FAfj8mR0KSDXaKkPfcgNyeSgZ/PvsnpTqqcbxyiOVVBC39q+GdTGNVBXgF5jNreTYVdDB
+	 Bwu1o2p6OKwY5sZBPZ55jJOJUGOVM/vvuZu6qMe8e/orOqGUdZAN7WCiOdQXNH/6homJX
+	 lojaRniShqj6lGbsYbrfRcHYUSswpRAKImWo4wffR/Mz/dpmDdV8hgBJaNYy0PFWgig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794323279;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=JtM9UtzYhAWCxTCfoBKbcmHIR3U4Wq7tzdw7gboBY64=;
-	b=QMmV2tgyANctuMIyOo99tNOKHtgZolH5kJxE7i8VQlPw+7D2RdYig3FqF3x3d5hm5RIn
-	 QPxPEMFEJKfkqALAzzB0aLzhFQNv+iuBA+8p1fQ1ZjZT++jWe2ForXsRWTCcdX1hXd1Am
-	 jmmr1RdKhOg+cQrbNCUOVkMPXZUpaYPfP35NLYgIpwakbx3A1Z7srRdNXaptbbnBZaTmF
-	 t6Z3efhRTFQ6PWZN84bQ6AYiT3+j1fatWW+Jg2jc/jpvbBe7bJLQtKW3g7CXTdS+jtfCu
-	 pQoOG5C2iDDemXS2SQb/Bn+FrOdp16mRDy3Bq7L+ghwDo2G6f4aSElNnXgTvuaDUHKw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794323548;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=6huyC42OcEJSJtNBsLbohvdWKdl0MB/0OpnZcQwVFMs=;
+	b=JFLrEKiP3+ZgYNcYSW6e4RaVnY1f9Gz221fwyCIPefqAsMkP6GRxyAtyDDglJPHPO4Ie
+	 q1ijSjT5xoUBBSebS7WZzEPcCXqd6OdnHmkINZku3Vh4DKKdX6bwn8BRciaGTHeAZvCzV
+	 gRs7EGJw9oCuX/ZpgpgNWxCph+Jv0342tuTrIIrbPq8DLwTrwMjSMTMExIPhLKdhypkzM
+	 +uZf1e1Hx4aqOiZC6ct9UZ97WDsNECHVsKkhpFNIW0X+sfmxmCC6hsoADBbIiojWT8OcW
+	 j0MuUNboHakMrMIRuX25sB8jkIxv43U3TXYnHE77tb9A0FODyO0SLiOY0/gjEBhEcyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LHozpx7Z;
-	arc=none smtp.remote-ip=209.85.214.170
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lpfpxs9e;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A9060A2625
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 15:07:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27A9060A2625
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3476960A262C;
+	Tue, 10 Nov 2026 15:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LHozpx7Z
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2e8da6ef7ddso12775885ad.3
-        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 07:07:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794323277; x=1794928077; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JtM9UtzYhAWCxTCfoBKbcmHIR3U4Wq7tzdw7gboBY64=;
-        b=LHozpx7ZkQyIUBsAkv4C311vzxfheFN2pzrL9Y/FTHkEXQzaVUkMAz9U9wFUejAOr8
-         YATASi40x9WcOvyF4dkS6SJQ2bBJHO0yE68WsOT8oewufPXMhMYT6O7d4/5H33a+EMHR
-         jjCu1KqktdAA/9c8ZIpbjFjA/3BLyNbgEZc3fS3F9+PTZ5y3jCgkJQ9rhGft5ONP+cJO
-         aTEF5vn9sQP8UWqDXO8UszNcV0yZFTKvtrsUk25y1Sz/3h5njQt9uj1PBQLO+FuWPgpB
-         LsGoLTWDE/iFYFuKD+GJLya2PXFipxPXM8zYDthkWkjgd0549O004Xgoom3qc/ylK84T
-         vykg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794323277; x=1794928077;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JtM9UtzYhAWCxTCfoBKbcmHIR3U4Wq7tzdw7gboBY64=;
-        b=fLWyb+bu2BfXCg2nBtpQ5tK40UtY23Q1OLm4niOBY7zD29MoNfMhXk5kfOpdPwZPhL
-         Y33GU6RMUI7k9u+1hvZM/g/bjseioFdfdGoY2vjaMd9bIG6XXhR9CxEHUs0FxSHj3JMI
-         WUaQRqkM2ee8tlfGN/YmrrFQBnXcrZVwa/EbEBROKy+WPOrjcbn64jCVFWc+o19LEiy+
-         vv+8dJZguiiT3qGh6tdG4n27qTKE+kDZjmhq46wSqdZBlTfBe8F5NLuhHAKyx9Maf5pg
-         sf/SISOkT/2tMINtIPKLtgvJftbx9DBlY6yO1VpiTk0V0mHWLI+Eo+HbINFLr1eS0ZRZ
-         bqxw==
-X-Forwarded-Encrypted: i=1; AL+hErFoMaPC3k2sudZgWdg8N6rrOYgElX6vZ5LKJ7s6izxhm6adl/peeufk6bYR9OVsbLRoV3dBYB0KH1s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/QUAvCqVjslJYzHsXzpK+WjBV+gybyuwoXjrsDOfKFociavWpA
-	lCpdHdK5BalUFtGp8WgjZ4dXm6HDy+YuGvb1FVBPmo4AkKyMYEedQpv8
-X-Gm-Gg: AYBFou0bGXbq3R1w18NDH1kiLR4CLonVSee1WrDliKzp1UL5GnOlMT7+ebLKbgEK/zL
-	wLEQDv3gpMduAmwDufLTsBJM57iTmK1k/yZ2OQMQTDDnDAN+e3OAmo4ywM60rdgU2Pks4/9vDhQ
-	aeWJ9QweKfZBqk75HzwvG0eqK8ospmDTh0+A/or/S0NeEFdZIRt4HAkbZxASnpRelZp47N2NtQc
-	6/Df7FH+IYw6bTOkdZ0zZAGe3mDYHPcRQrgqt4mZw54v9X1EsfUFttcJE5MIPPjeM2cyoQnayW4
-	2fWJnGKYdlmHVNpmvPRwvb1RfuPrGE7aELG28g7ZyCkkWibt8G03fd/k/eJ9IPyGHtZMmTqzPVY
-	fnrrxfzpCkDiZDd/ckPJwwDcMK1OMqgxmFRlCaslDkRhcqdhx/JCug0z5OozCEGG7KtU7POilNF
-	0V20I5gRESmnUgX5wnc3l6LLIxRuiz1KpIs7mKZ2gGUMeZmHWYv7FDsRB0DICQi6bJ1r/q5a0f0
-	LWEOgDfkjweam8Z0yF4dvxtU69yiz1M5CXWQ7161An1tVZQaqi3YL54v2qCtDJzSQlm5rXo/vRM
-	tBv8DIGehJW4FoSo+8g69YnxaYQwl+P/yh/4KkqS6BLdD6++PuwszahN5YXV+zfEbTz/WSpOmb6
-	mvXw0YE78Kmg=
-X-Received: by 2002:a17:902:d481:b0:2ed:1ef3:9ec with SMTP id d9443c01a7336-2edb9172a2dmr26826345ad.14.1794323276968;
-        Tue, 10 Nov 2026 07:07:56 -0800 (PST)
-Received: from [192.168.2.6] ([27.75.101.24])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2edb6d78dbcsm10397575ad.27.2026.11.10.07.07.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 07:07:56 -0800 (PST)
-Message-ID: <71f76e5e-ce24-4a71-863a-169ad262c510@gmail.com>
-Date: Tue, 10 Nov 2026 22:07:46 +0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lpfpxs9e
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A3991F008A7;
+	Tue, 10 Nov 2026 15:12:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794323548;
+	bh=6huyC42OcEJSJtNBsLbohvdWKdl0MB/0OpnZcQwVFMs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Lpfpxs9emOazBU7AL1hCo/630IvsrlOz5UJdUCX+dEP38ciQK7jdOOzdcdj8WBu7/
+	 RXSi9LKOQcoaDp2B6FNrt+YCu+R5yQnoGm5r8wZRMgGcQFk+o6ws5ur5/oelhKtm8r
+	 r+biD8Khm7nt07eRZcUSrwxZwueHSob8JAVMrVzsZ80e07oIVI/ib06SKmv+LmG3rb
+	 lB4VnKm+u0er+qwEmYO5SO0sNfgdOcR+g7A2Wo8kf2lHAzsKP8xb0/AQNppG6zeIoE
+	 fnAmFSECXkYGaWHby7yF6C/mPqiqriIBqrLjB5LzMApvASBOHY2mYwiwkVyCLLvDW8
+	 ADm8ozkBk56ug==
+Date: Tue, 10 Nov 2026 17:12:24 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-pci@vger.kernel.org, dmitry.torokhov@gmail.com
+Subject: Re: [PATCH v2 11/19] driver core: Introduce a generic device trust
+ level
+Message-ID: <20261110151224.GM8635@unreal>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-11-3b12d9a9f861@nvidia.com>
+ <sashiko-outbox-206511@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,66 +60,133 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 36/41] nvmet: refuse files on pseudo filesystems as
- namespace backing files
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
- Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-mm@kvack.org, bpf@vger.kernel.org,
- linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
- apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, fuse-devel@lists.linux.dev,
- linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org,
- ocfs2-devel@lists.linux.dev, linux-s390@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org,
- Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org,
- linux-kselftest@vger.kernel.org
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-36-4c998976c6c7@kernel.org>
-Content-Language: en-US
-From: Bui Nguyen Nhu Quynh <kaylovefoss@gmail.com>
-In-Reply-To: <20261110-work-loop-pseudo-v1-36-4c998976c6c7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <sashiko-outbox-206511@kernel.org>
 
-On 11/10/2026 4:14 PM, Christian Brauner wrote:
-> The file backend takes any path that isn't a block device. With
-> buffered_io=1 that includes files on procfs or sysfs which then get read
-> and written by a kernel worker on behalf of the host. Refuse files on
-> pseudo filesystems just like loop does.
+On Tue, Nov 10, 2026 at 07:35:20AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [High] driver core: device_trust_prepare_full() breaks default boots
+>   with -EPERM
+> - [Medium] driver core: device_trust_prepare_full() calls
+>   trust_resolve() unlocked
+> --
 > 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  drivers/nvme/target/io-cmd-file.c | 5 +++++
->  1 file changed, 5 insertions(+)
+> commit cc9d85465ea19f97fc7a0889f6993f37d1a58048
+> Author: Leon Romanovsky <leon@kernel.org>
 > 
-> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-> index dfa8aa46188c..71c69bac5394 100644
-> --- a/drivers/nvme/target/io-cmd-file.c
-> +++ b/drivers/nvme/target/io-cmd-file.c
-> @@ -52,6 +52,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
->  		goto err;
->  	}
->  
-> +	if (file_is_pseudo(ns->file)) {
-> +		ret = -EINVAL;
-> +		goto err;
-> +	}
-> +
->  	nvmet_file_ns_revalidate(ns);
->  
->  	/*
+> driver core: Introduce a generic device trust level
 > 
+> This commit adds generic device trust admission and a device_trust.default
+> boot parameter to resolve a device's trust policy into an active trust
+> level before driver probing.
+> 
+> > diff --git a/drivers/base/trust.c b/drivers/base/trust.c
+> > new file mode 100644
+> > index 0000000000000..6a71abf10b3bb
+> > --- /dev/null
+> > +++ b/drivers/base/trust.c
+> > @@ -0,0 +1,132 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +
+> > +#include <linux/device.h>
+> > +#include <linux/errno.h>
+> > +#include <linux/export.h>
+> > +#include <linux/init.h>
+> > +#include <linux/string.h>
+> > +#include <kunit/visibility.h>
+> > +
+> > +#include "base.h"
+> > +
+> > +static enum device_trust_policy device_trust_default_policy __ro_after_init;
+> 
+> [ ... ]
+> 
+> > +static int __device_trust_prepare(struct device *dev,
+> > +				  const struct device_driver *drv, bool full_only)
+> > +{
+> > +	enum device_trust_policy policy;
+> > +	enum device_trust_level level;
+> > +	int ret;
+> > +
+> > +	policy = dev->trust_policy;
+> > +
+> > +	if (policy == DEVICE_TRUST_POLICY_DISABLED)
+> > +		return -EPERM;
+> > +	if (dev->bus && dev->bus->trust_resolve) {
+> > +		ret = dev->bus->trust_resolve(dev, drv, policy, &level);
+> > +		if (ret)
+> > +			return ret;
+> > +	} else {
+> > +		level = policy == DEVICE_TRUST_POLICY_ADVERSARY ?
+> > +			DEVICE_TRUST_ADVERSARY : DEVICE_TRUST_FULL;
+> > +	}
+> > +	if (level == DEVICE_TRUST_DISABLED)
+> > +		return -EPERM;
+> > +	if (full_only && level != DEVICE_TRUST_FULL)
+> > +		return -EPERM;
+> > +	if (dev->p->trust_state == DEVICE_TRUST_COMMITTED &&
+> > +	    dev->trust_committed_level != level)
+> > +		return -EINVAL;
+> > +
+> > +	WRITE_ONCE(dev->trust_committed_level, level);
+> > +	dev->p->trust_state = DEVICE_TRUST_COMMITTED;
+> > +	WRITE_ONCE(dev->trust_level, level);
+> > +	return 0;
+> > +}
+> > +
+> > +int device_trust_prepare(struct device *dev, const struct device_driver *drv)
+> > +{
+> > +	device_lock_assert(dev);
+> > +	return __device_trust_prepare(dev, drv, false);
+> > +}
+> > +
+> > +int device_trust_prepare_full(struct device *dev, const struct device_driver *drv)
+> > +{
+> > +	if (device_trust_default_policy != DEVICE_TRUST_POLICY_FULL)
+> > +		return -EPERM;
+> 
+> [Severity: High]
+> Does requiring device_trust_default_policy == DEVICE_TRUST_POLICY_FULL
+> here cause device_driver_attach_full() to fail with -EPERM on every
+> default boot where device_trust.default= is not passed on the command
+> line?
+> 
+> When device_trust.default= is omitted, device_trust_default_policy remains
+> DEVICE_TRUST_POLICY_DEFAULT, even though that policy resolves to
+> DEVICE_TRUST_FULL on buses without trust_resolve.  Callers converted to
+> device_driver_attach_full(), such as phy_attach_direct() when attaching
+> the generic PHY fallback driver and serio_bind_driver(), will then fail
+> with -EPERM unless the kernel is booted with device_trust.default=full.
 
-I noticed patch 41/41 doesn't include a test for nvmet. Would it make
-sense to add one with buffered_io=1? The test would need a pseudo file
-that can be opened with O_RDWR and supports both read_iter and
-write_iter. Otherwise, it could pass without ever reaching the new
-file_is_pseudo() check.
+While I did this intentionally to make sure that missing option won't
+leave system unprotected, I had second thought now as it will break
+backward compatibility.
 
-Thanks.
+> 
+> > +
+> > +	return __device_trust_prepare(dev, drv, true);
+> > +}
+> 
+> [Severity: Medium]
+> Can device_trust_prepare_full() end up calling dev->bus->trust_resolve()
+> without holding the device lock?
+
+Not for the upstream code, both serio and PHY are connected to the
+buses without ->trust_resolve().
+
+Thanks
+
+> 
+> The kernel-doc for struct bus_type::trust_resolve requires the device lock
+> to be held, and the kernel-doc for device_driver_attach_full() states that
+> buses with a trust resolver must use device_driver_attach().  Unlike
+> device_bind_driver(), which rejects dev->bus->trust_resolve with
+> -EOPNOTSUPP, device_trust_prepare_full() calls __device_trust_prepare()
+> unlocked without checking dev->bus->trust_resolve.
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com?part=11
+> 
