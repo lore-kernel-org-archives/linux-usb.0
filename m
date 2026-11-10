@@ -1,69 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794281531;
-	b=eIw28RoLBYnXXriWalxisVrZUiy9t9el2+zK/OXVvC+Q0kdiGlIFUnb+fx82dwntZp9R
-	 F6eXxHyRwqnP6AlAi5kUxkpdNQ5nEKXtHu2EWbeW1iwUWVlEwU3NqHRMdNVKZPDQiL67I
-	 w1SY+bU0IUSOXvRoscsABLMffSHZEZoM97dsq+HfFOZ5mlXI8TYC6LF477Rec3Mtfo4Ul
-	 Z6k/lpJTyhROzEQyTgQeNpmy4ytYygCGkgWUT4CMYTldLA+Ofcj8RPSX/JwH8UC204Oim
-	 Ofw8C2vOU+3uPgk1yDfDIwl9hngx9xj7CHgOn1h8mojrm6lsFMT/pSnCjdkvVcAHTGw==
+	t=1794281716;
+	b=kZxlUjWzaLhJAYkXD5y8WGihLPp+zyVIx4IgShnoITntekwCFp3C49tE4bMLAsOdbhGp
+	 mWNH883TiVQQnpkzd1ux5jPFuyukaUMirGPosomdbPtZTseiNk+iCqNCHHd5lxA4zn6ZS
+	 8/byD2a454bNlS8Gqk5mRUPqzBY/SmVKA8132btPlzAG6BNHpFbWxa4axoTfCMaKtHfYB
+	 Dwt+jDrG4qhFThy8VKTZ4Xaf7SIE2/Ml/zcT8vqEPkydFi1LlkbqtsCE+Wrr+lx+S/Y58
+	 6oq0Inkw4+bZapkS0T28Vwuxa3QqSR0jXL8usMHPSeBIS4Hf2zfCQ0eDK+uQFOh3KIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794281531;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=kYZL4rnheTABX8WBq6es/I5ToDAjBICPT1On+50K6v8=;
-	b=2gIN67958Owbtm7f3i+X6oOcIdkZwnh4yTdfio5HcmVkiwl5JWZga8XDPjejBs137Dkj
-	 2v8AadwjCegFc+a5X/P2oG16PO8joi4v3bK7NsZaL69JxzVy1EWqq2d4QKu9u2KvJT9hj
-	 hr7v57T8u4MNzbl/n4FnYIaFLe0vdkWAl+rTmcvNvgTihx//KoDxm6ZZCYQAADQ46VCs9
-	 mYucsaCsQUCo/2A9Jiohtg3D1xS1oFxt0Ta55U/hxpY3ZaX5t7hZ/AIsJVHwpj4fOIPcJ
-	 h7HVu8h9504vl8FAYWac7z68msIzGUvZVTt+FNHfWaDhT+G7aBxmc2uJFOfSxVhXwDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794281716;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=t111Z5ZVS7PeCXQdsj8l6nyoiLjplHZhuxx+kxKc2aQ=;
+	b=Sezuu/sx6ajl6IS3oZgpa3Cj/Aia6e1sP3X4OYmF56kmDy3Dteh+k90UDDhec3RdBD1a
+	 Knl8svjSP7CwCeZ+RIVkw96y5q+KKGiuvBlsBWTB+WSz6ARlblJWSJ7xtXvdZWbxIUypr
+	 nSGaO7yw4U89DbCPsP81IiXG9DCjZo81l4Cf5FiXUXpyZX9oamZ7qlnTtZMtc30iGUbAe
+	 JkVNp2rDzjyBRMKGTiBae8yAgt/rcEYuAQactbP5YNJfKpE8PTTJ5S9NbxEpFK4+/Vxg4
+	 4HjQ1HNium0HHQ1BXx890qsBkusPbwNKytMo2C6KGn7rmpC8+5MTm6EnnylxTtHnH3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=O+pJ2ISY;
-	arc=none smtp.remote-ip=113.46.200.222
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vcHuEEPG;
+	arc=none smtp.remote-ip=209.85.222.175
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BA3606A31C;
-	Tue, 10 Nov 2026 03:32:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6BA3606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69758606A31C
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 03:35:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69758606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=O+pJ2ISY
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=kYZL4rnheTABX8WBq6es/I5ToDAjBICPT1On+50K6v8=;
-	b=O+pJ2ISYefi+uQbSG8ycqQGnH/z7NrmGZHSo+XHWOuf0vcZKcfEd23EplWUiXpDkHM96r0NeU
-	yp3dz/6B5Buz52OiYksk+F92u09V4ADKRXMBrHLxaEh6QFMGkriWAiR+Dr9URWjPjfxIw379wqV
-	Y9WUrbQtUnqsarRTCUL3VOM=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4jNsdg1lvmzLlTm;
-	Tue, 10 Nov 2026 11:31:51 +0800 (CST)
-Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
-	by mail.maildlp.com (Postfix) with ESMTPS id A765C4048B;
-	Tue, 10 Nov 2026 11:32:05 +0800 (CST)
-Received: from vm.huawei.com (7.238.34.231) by whupemk100010.china.huawei.com
- (7.152.184.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 10 Nov
- 2026 11:32:04 +0800
-From: Pengfei Lv <lvpengfei20@huawei.com>
-To: <gregkh@linuxfoundation.org>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<stern@rowland.harvard.edu>, <michal.pecio@gmail.com>,
-	<stable@vger.kernel.org>, <xuhaiyang5@hisilicon.com>, <xuetao09@huawei.com>,
-	<caiyadong@huawei.com>, <suzhuangluan@hisilicon.com>, Pengfei Lv
-	<lvpengfei20@huawei.com>
-Subject: [PATCH v4] usb: core: hub: Re-guess ep0 maxpacket size after reset
-Date: Tue, 10 Nov 2026 11:30:38 +0800
-Message-ID: <20261110033038.2882473-1-lvpengfei20@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261109093935.2634235-1-lvpengfei20@huawei.com>
-References: <20261109093935.2634235-1-lvpengfei20@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vcHuEEPG
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-93ece7a73b9so172194885a.3
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 19:35:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794281715; x=1794886515; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=t111Z5ZVS7PeCXQdsj8l6nyoiLjplHZhuxx+kxKc2aQ=;
+        b=vcHuEEPGEfS9GtHdi1oSomu34fd2QFM5OBHgNS/GrPPOfyFLmWZUAF6xrjz+9wFZmE
+         cJlmqTGzsmKPzjsLZ1bGn3ZfftvGChh6fjP1TgutcGSfDtMX8uZ+ch7yp8EPXwbPT0Hq
+         U6T5CZAR5dJLHpjOAqLwBw7QjzFmM6rRFgrLaZwUifXZIL9DyPBxpb5e52p03r4AfNTm
+         Ws2CdoHm+eLYIDShdbcU9DpSEjCD7iEkFF86Fe10fY+SiD2unK22Kvp9GWvohEWuVHFy
+         mxvCr6R1/9edUkg/C7CslJKekIYZKe+CC/fTYmmT726MDOTgUEmcYgY6CCbVT3L6kM0E
+         Bviw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794281715; x=1794886515;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=t111Z5ZVS7PeCXQdsj8l6nyoiLjplHZhuxx+kxKc2aQ=;
+        b=vDv7YCpc7rbHvW35KSptUTYMcAejX1KFAnU2mZIr+pAbwhj+XY9G8niNALnf4NZOC4
+         bm/mWcF/sNzxx5qMpEFZ9F8pjXxc8GJOSxbOkiahagh2VzZPAcJ0kmPjnkAOwyaIiR0f
+         bH0rwan6lm8A9c7NdDDcxcgSdOeeoeb2FArhKrK1K8ziHuHwKIlIyNG4R4+x/n3DdG3x
+         LjcBL5+xNwKTOqGs0tOZ7dVA26wipOGUtCqUTbmDNlX6U1Tm1WYUS/LNXigRg1WORSFM
+         QlxQ4CSjd11Mp/yZV3YA4bfPCtZIR7EMtZvqR7drZexPWw5PEywM0hVqIHGn+vDF+tho
+         kTvw==
+X-Forwarded-Encrypted: i=1; AL+hErGDGI4VvBg+8dW0Qdu+R9G9AnM3cdJZQsuKLAsRIqGm+8HXHudDGLW3aauCTSytjepYj4psDMnT4sM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+uJF8kFWbOyCH2ouvuzer9E+WyfkfKFad9EicA11EwHNri5ipv
+	NybCnBWByOyRNmQZT/blcHbpj4nTNHIXesB4pnWuRya3YQ5fv4PPIuNC
+X-Gm-Gg: AYBFou0qy1Pb28bkgITG5uy3n8N6CVkfDu8KKIZs6R9S6+mBxl442nw2qJ/h2IPr+XB
+	nCOfXwgkbsU1USIecj3do8r/QJRrc9o05INmF4wY8mhJdhE1rsjVG9VZwaFKuWuzrdrY95pnOvl
+	Toa/OJ+bZD5W0iHr/4Naz2kYrZHSzyDVsiGRu0/Fnv/InozYEJo2NB1e/ebpEcvl+rha0opoERq
+	VFYYXy88OIhcgL1L6G6GzuI3uqNtFmchmlAHGHQrnaxYuvFyxLvso5mjFz3yGO3hUXU9a9Artxt
+	vQrDkaNyuLR34Ur4nsV7wEWSiRwcCn1gcsZHngvXOKnejNYKzKkwcljZatqaZEY7MivrsDcU8iW
+	KTyj2fRl7UsxxeVqLf+WSHcgKvAk5ZvcbKuXVZJ2yyC0lQO4MJisi4WxmO/zXaLSra74WYceCs9
+	NbinL3zQxjCylsWnKK25I+PlNcw/tWMkRa+j1FQU3edsqfFFQ4k2euyUyqRN++Mp/GMJL88qApM
+	tQ5XlIc7GCyOOxIHh9Md0qw2c1BmUcjqNwx85mDrKh1UIXAGJvzp5yhSxX7LQnZY0zSr/zRJHrT
+	EVEOCloN323IsGSQ611r1/mntKJXOfFHky0kIjeMqD4iUqqcol51EGe1qLg3AyFRHBQ=
+X-Received: by 2002:a05:620a:4385:b0:93e:d1d0:67f with SMTP id af79cd13be357-9479f3bf9damr224060085a.51.1794281715382;
+        Mon, 09 Nov 2026 19:35:15 -0800 (PST)
+Received: from nerdopolis2.mynetworksettings.com ([2600:4040:5e70:4900:9dc4:9216:4f52:6891])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e7ffa11sm125282585a.43.2026.11.09.19.35.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 19:35:14 -0800 (PST)
+From: Adam Simonelli <adamsimonelli@gmail.com>
+To: Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Adam Simonelli <adamsimonelli@gmail.com>
+Subject: [PATCH v4] USB: serial: visor: add vendor/device IDs for PalmSource devices from inf file
+Date: Mon,  9 Nov 2026 22:34:52 -0500
+Message-ID: <20261110033452.306269-1-adamsimonelli@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -74,124 +97,72 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- whupemk100010.china.huawei.com (7.152.184.41)
 
-Per USB 2.0 spec section 5.5.3, the ep0 maxpacket size is fixed for
-all device speeds except full-speed devices, where it can be 8, 16,
-32, or 64 bytes and can only be determined by reading the device
-descriptor.  During initial enumeration the USB core guesses 64 bytes
-for full-speed devices; after reading the descriptor, the real value
-is stored in udev->ep0.desc.wMaxPacketSize and applied to hardware by
-usb_ep0_reinit().
+PalmUSBD.inf from Palm Desktop 6.2's driver defines two PalmSource 'devices'.
 
-Commit ff33299ec8bb ("USB: core: Fix race by not overwriting
-udev->descriptor in hub_port_init()") guarded the ep0 maxpacket guess
-block with "if (initial)", so on the reset path the guess is skipped
-and the host keeps using the value from the previous enumeration.  If
-a buggy full-speed device responds with one 8-byte packet and NAKs
-all further polling, the HC doesn't recognize a short transfer but
-keeps polling for the rest of the descriptor till unlink, and the
-device cannot be re-enumerated.
+Vendor ID 0x13e8 in the inf file indicates PalmSource as the vendor.
 
-This was observed in production on a 6.6 LTS kernel with a full-speed
-USB banking token (bMaxPacketSize0 = 8) in a virtual-machine USB
-passthrough scenario; the reset re-enumeration hangs 100% of the time
-after the VM issues USBDEVFS_RESET.  The device is not strictly
-compliant (it should continue answering IN tokens), but this class of
-USB banking token is widely deployed in enterprise environments, and
-the regression breaks a configuration that previously worked.
+PALMSOURCE_DEVICE_1_ID (0x0600) appears to indicate PalmOS 6.0 Cobalt. No
+devices were actually released with PalmOS Cobalt, but a development ROM from
+a Tungsten T3 made its way onto the Internet. This ROM can now be loaded and
+booted into RAM on a T3, which once loaded, the T3 now presents this deviceid.
 
-The 18-byte GET_DESCRIPTOR that runs after SET_ADDRESS (wLength=18)
-is unaffected: the device sends the full 18 bytes as 8 + 8 + 2, and
-the final 2-byte packet is always a short packet regardless of
-maxpacket.  This is why the device completes initial enumeration yet
-hangs on reset re-enumeration.
+PALMSOURCE_DEVICE_2_ID (0xff00) is just included for completeness since the
+INF file from the driver also defines this one.
 
-Fix this by removing the "if (initial)" guard so that the ep0
-maxpacket size is re-guessed on every reset, and by calling
-usb_ep0_reinit() right after the maxpacket size is re-guessed so that
-the re-guessed value is applied to hardware before the GET_DESCRIPTOR
-data stage.
-
-Fixes: ff33299ec8bb ("USB: core: Fix race by not overwriting udev->descriptor in hub_port_init()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Pengfei Lv <lvpengfei20@huawei.com>
-
+Signed-off-by: Adam Simonelli <adamsimonelli@gmail.com>
 ---
+Changes since v1:
+ * Fix compile error when changing from 
+   PALMSOURCE_DEVICES_2_ID to PALMSOURCE_DEVICE_2_ID
+Changes since v2:
+ * Add note for what changed in v2
+Changes since v3
+ * Fix up commit message
 
-v4: Per further review by Alan Stern, move the usb_ep0_reinit() call
-to right after the ep0 maxpacket re-guess block.  Each layer does the
-right thing on its own side.
+ drivers/usb/serial/visor.c | 6 ++++++
+ drivers/usb/serial/visor.h | 4 ++++
+ 2 files changed, 10 insertions(+)
 
-v3: https://lore.kernel.org/linux-usb/20261109093935.2634235-1-lvpengfei20@huawei.com/
----
- drivers/usb/core/hub.c | 48 +++++++++++++++++++++---------------------
- 1 file changed, 24 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 199d3f535a89..e3d8ee3271cb 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -4969,33 +4969,33 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
- 	}
- 	oldspeed = udev->speed;
+diff --git a/drivers/usb/serial/visor.c b/drivers/usb/serial/visor.c
+index 5706c46c49c2..18c586d552d7 100644
+--- a/drivers/usb/serial/visor.c
++++ b/drivers/usb/serial/visor.c
+@@ -75,6 +75,10 @@ static const struct usb_device_id id_table[] = {
+ 		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
+ 	{ USB_DEVICE(PALM_VENDOR_ID, PALM_ZIRE_ID),
+ 		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
++	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_1_ID),
++		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
++	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_2_ID),
++		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
+ 	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_4_0_ID),
+ 		.driver_info = (kernel_ulong_t)&palm_os_4_probe },
+ 	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_S360_ID),
+@@ -133,6 +137,8 @@ static const struct usb_device_id id_table_combined[] = {
+ 	{ USB_DEVICE(PALM_VENDOR_ID, PALM_TREO_650) },
+ 	{ USB_DEVICE(PALM_VENDOR_ID, PALM_TUNGSTEN_Z_ID) },
+ 	{ USB_DEVICE(PALM_VENDOR_ID, PALM_ZIRE_ID) },
++	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_1_ID) },
++	{ USB_DEVICE(PALMSOURCE_VENDOR_ID, PALMSOURCE_DEVICE_2_ID) },
+ 	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_3_5_ID) },
+ 	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_4_0_ID) },
+ 	{ USB_DEVICE(SONY_VENDOR_ID, SONY_CLIE_S360_ID) },
+diff --git a/drivers/usb/serial/visor.h b/drivers/usb/serial/visor.h
+index 622d639ce74e..0f86bd06c4fe 100644
+--- a/drivers/usb/serial/visor.h
++++ b/drivers/usb/serial/visor.h
+@@ -32,6 +32,10 @@
+ #define PALM_ZIRE_ID			0x0070
+ #define PALM_M100_ID			0x0080
  
--	if (initial) {
--		/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
--		 * it's fixed size except for full speed devices.
-+	/* USB 2.0 section 5.5.3 talks about ep0 maxpacket ...
-+	 * it's fixed size except for full speed devices.
-+	 */
-+	switch (udev->speed) {
-+	case USB_SPEED_SUPER_PLUS:
-+	case USB_SPEED_SUPER:
-+		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
-+		break;
-+	case USB_SPEED_HIGH:		/* fixed at 64 */
-+		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
-+		break;
-+	case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
-+		/* to determine the ep0 maxpacket size, try to read
-+		 * the device descriptor to get bMaxPacketSize0 and
-+		 * then correct our initial guess.
- 		 */
--		switch (udev->speed) {
--		case USB_SPEED_SUPER_PLUS:
--		case USB_SPEED_SUPER:
--			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(512);
--			break;
--		case USB_SPEED_HIGH:		/* fixed at 64 */
--			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
--			break;
--		case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
--			/* to determine the ep0 maxpacket size, try to read
--			 * the device descriptor to get bMaxPacketSize0 and
--			 * then correct our initial guess.
--			 */
--			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
--			break;
--		case USB_SPEED_LOW:		/* fixed at 8 */
--			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
--			break;
--		default:
--			goto fail;
--		}
-+		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
-+		break;
-+	case USB_SPEED_LOW:		/* fixed at 8 */
-+		udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
-+		break;
-+	default:
-+		goto fail;
- 	}
- 
-+	usb_ep0_reinit(udev);
++#define PALMSOURCE_VENDOR_ID		0x13e8
++#define PALMSOURCE_DEVICE_1_ID		0x0600
++#define PALMSOURCE_DEVICE_2_ID		0xff00
 +
- 	speed = usb_speed_string(udev->speed);
+ #define GSPDA_VENDOR_ID		0x115e
+ #define GSPDA_XPLORE_M68_ID		0xf100
  
- 	/*
 -- 
-2.34.1
+2.55.0
 
