@@ -1,57 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794293326;
-	b=YCf3C5JGUubm8Bv+X4HjE6bsvTVChgDH3uxr5hVNNEMUsXVM56uZyPC8SiNBJrTAsDaq
-	 gdV27eFw9GqEfyjZ2K8wk91iaL0NDNEm+4U10Oi1Cf4SzPVEqi7Utp4y2SWUND16plqXG
-	 BifTfTzfpa7Y5R8vGvxwSFZ3DHU+6SwmfqeB3U+C1kDJ9F6imCGK7PTs7DYWOgQlMfkWo
-	 SUargO7BGk/JEgqC+j8dlll1VAIoRZCAX1h4KM0KwYsF48Px5rRRg3EJfyHNGuRhQiI+F
-	 +ijFpefw/ClS5+cARBC0na3WgnycExF2vAZMXjQfSK5NM4BcuejM+5CXhm3KJZSG9mA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794293326;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=HP16hQ5uRKUy1kXGdhs5BfgGw+cW/SfyfUA4rYkeI3I=;
-	b=JjMhB7FfGl3xEmSU3iZaSzmvcC+1tIzW25aA3MvTug3HG/JWLsQPu3cLTNOklefqkru4
-	 +dDDW3I3C8sfSafQ9Oh32JlpnsMyy8be2U4iTT//N/Wi9Rb6I78up9QWg3SiDY6ADqPZO
-	 wzhIV7c7g0xXyRfBq30khkoj3UclIcaIP94dw6bzJrW8LdRIJXVedjhB0NPHP1VmI181T
-	 bJ9UmmLn0kKGN5fZgwm6VTUbJhDD+ykXJ/+jQLAnflQl0Eu4ibUeXfWSkSvfHnfaFzkpI
-	 6TOba5JtjRE80nJbkCcGBvBNRWTjhwA1Er1f26erymKnD6jAmukyrjO3xlEGfNyGXww==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="aa416I/0";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.53
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794293342;
+	b=45WlbOLPta2w6wxl552kSr+T0D34zR4CvnVRDZJyiMDMRyMNflb930FnWDizUIkV2mHQ
+	 gwsNDOYTzXCGDjRsyrTWIFGhUG0ptkVbzhfyUIED8eqnTuJ5k0QG3faxKdo14VcmOzmXc
+	 6ZeZjmfRx9JGmF0/9fCBeTju1+pU1WkZ7XDuiN+yAWnWt2zqcNNkWW7vshEEznALCi+nd
+	 W7a9NkJa8aQgFkzIciCd1V5rHDPKUgkGZ+I7LN2LXBMdyoZ8WGUssJn1RzkJRNyoRO0tC
+	 72G2VCCvOLSyanCctTQtSrvWFFmCg9sl9E6JdMH4hxmvHoNcmv5twrIOt8FcEu4K3lA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794293342;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=KKyLVbUOrxto+yw0ERPnW2hFW57/DV0SAW81TWBnLaM=;
+	b=0q1wCHW3bX7/BCllGngID1g8WmTjY70Vu45Bh9YNky6q8/OCZGrr3twImvxB6+PBYpXj
+	 vZX7Wyfz3Vwd3sIwEVTJ1KUWpIpWfM/vbB5UWzRG/Wzh+d3Bfi3anJv7KUVAVcqfD4oXw
+	 2kSSo2g0g0JV5b/X7Z8TEzygzQOZGCEjrPim7/PWE7gF/F9Oaq1J9hnz/ORT/LoX5bldN
+	 BrGBmIN0HZJwuQxYT8M2TeJWUlzZ3ynmU05qzHhy08Mc2WqJ7ru7ajuFr7JwMM+mMTTcB
+	 H1dTLVIMkzoE82+1iAI0jgKHXZrUh8ewAs/SSMAi8cTEFJV9N/9QmK8JblvLdKcEPpA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=flipper.net;
+	spf=pass smtp.mailfrom=flipper.net;
+	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b="v/xFnZxD";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.53
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3359C606A321
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 06:48:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC62D606A31C
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 06:49:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC62D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aa416I/0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC9211F0089F;
-	Tue, 10 Nov 2026 06:48:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794293326;
-	bh=HP16hQ5uRKUy1kXGdhs5BfgGw+cW/SfyfUA4rYkeI3I=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aa416I/0trvhDwNPkjan2uDQHO8Ng17pYHWJuhKGwFe1Y4WQ56JVpCaHhvF3JqEoh
-	 Cfs1tjx6pO5+PMxpX8MiyAQcg/piJ44ngrzRUKYQmmlM5QHwkATV+jFWNVvtAIpHvV
-	 SB9QTXV3XdKAQ595cts+FuKzLDzM8k4MXpSWOBhUUD/1r4hSqQrMPLv3tWGWoGR8oi
-	 NxWkfmGF4sfHDwCOwWdSTDDH6Zu9IFYJsX6vJMfl1Ezbx0DAT0pmTmQcakUat6DxBQ
-	 nZ1ftEqC2zjpbak0LoDp9IjQtP0syxnqw7T+JRXHLV4PG/pMdcnTB34ET4l6Hd64iY
-	 /WyGvZFvqeYQw==
-Message-ID: <sashiko-outbox-206448@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 08/22] usb: dwc3: fix a few spelling mistakes in
- comments
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261110064105.20335-9-shishunbo@cmss.chinamobile.com>
-References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
- <20261110064105.20335-9-shishunbo@cmss.chinamobile.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 06:48:45 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=v/xFnZxD
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c169ae1cb26so256643466b.1
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 22:49:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794293340; cv=none;
+        d=google.com; s=arc-20260327;
+        b=L6LgeIsDsLQE+YWGv/yeaRnNUq4h4glzGIdw9X4ZTGKIjHjufIwaIHCHfDAzumxV64
+         P/wgn36gFxY3XF+C6CSII2zyFnCFoUMwgVHR+pWwYfKxYZt9RDIUL9nUk3s/Ucff8v6w
+         iITlKIBiciBUUssVtbVApSAq+uBZD8W6SiW0ywYTgoSQJd4vvez5rPqfy42rDWv9j5jq
+         TIIXpyE6LxNdrC53kxegZx4mYJ8VS4I3/UKNrUD4UsI6/z3ir1rovCHWrIJ9iMYe7PgG
+         B7yX2i/IpeZBgZt+ipvcyBCn8Hf28B8DdOJO+osAjg47VztKTDbiA52N4/jH577ScA+I
+         CFBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KKyLVbUOrxto+yw0ERPnW2hFW57/DV0SAW81TWBnLaM=;
+        fh=PbVRVItEssm/FCXDXcGfkxfQF6vlUJcdr8rC742F8gk=;
+        b=gyGqKFRWBAERua+W2h/fWCMEbVg+ULLNY8fTKwUwua7TSOq5vYEWMymXydGDuoHUZF
+         S6y+Hy0qRpZKKyg/cXFGj6erqMw/1fo43kjQP787VsCGIPU009cie/IGr1G5R4nHa8cW
+         dAbagsg9xqufwr16zO0gPiubUlWuQZC8/qoyuyjsllhX7Dkwirh+5RWudA5BLfsbVFdX
+         /vZAhdn/7Pa70wCbhdDNxI7wdAXujA3MuYl42Sguhd+sGCDS+KtwPgE/3GWoqXHONiI2
+         lcsfQgnkVAFVuk5GpxtcPknWO7Wbv/Yo0J2nEZTRcCDT/2LkjaB+DlFG+NSda4Kv0zS+
+         2cbg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=flipper.net; s=google; t=1794293340; x=1794898140; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KKyLVbUOrxto+yw0ERPnW2hFW57/DV0SAW81TWBnLaM=;
+        b=v/xFnZxDW7Zensqy+66n2ss4c4o2iS+l8sXiArC22O+q0Tt298ZmgkqlFe/4tGCP7e
+         cA9qy6Zy5WIy+m8L4XtILmziLwza8O9z0w3128bKOrZrPxsMhh1UtF35TxXjJCHGDA8T
+         YBwGZYXXSlkvsyAAb396Rgz61antrvfz35ZE/VpkXfV3inrAI1BKiQnboCPKEB1iJsP/
+         eO+l3d14L6sxjHT8LuIb7rUKE5V+38nosJzn6IAYihUiW0AIVwePe1vdseG8v5FGb+Bg
+         cyyPPod57JNbG0oyfYPQHf8d+XKRWhhi2tqXEauZ1/vej6/9OikEInuylh9IHrLXoODh
+         zLiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794293340; x=1794898140;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KKyLVbUOrxto+yw0ERPnW2hFW57/DV0SAW81TWBnLaM=;
+        b=cv+d0pQbfJma43FyXzD/KBlOUgRFMoR8MfrT85AySjubAWyzxUtBuBlgtAQmqTPuE6
+         n2syQNLcLSNTxJwE/EkG0uwBlWOD/VRgDJMSm3c0h9ZhRcAKILX1hGJ68xolE8M/t0TO
+         6RSZOyuH/0vZkFMT4nbt8fdnJDA95dpgDlhTIJMne2ddz8EbzmI2/2YKHj0472A0OuFV
+         e5syWSS/WQ7fuLJb32lIvVi7VOmD+P7VuAjzCu0yN3j+XZ7EUyVu0yqs6SX6yg7yPpWq
+         JmZgg8xv57dN8/lFj6yBLzmYE5+o/NCGBjc7W+S6J9OhpIMCBLcwdPfxt/VENNjjrY4Y
+         QcFg==
+X-Forwarded-Encrypted: i=1; AL+hErEchL7tbIm7ayVV3Y7dy30wQL0GYaJq27+kf4jqltva71c2PlR1sTb3ZEb8p5x8ZwCWf68wLc0OSpw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+6oKO3Bw6x6fim7ZLp3ls4UHcZMXgwRzlUESaYlg48DTCKvjGQ
+	ktul/II2wwfkmSZJERSO7EQctWCzeSBYMq7aErxvpiGDiuGuMhXL+yyN/ZMqUETn/nwgKYwJ8wj
+	8ubpfMMXQOrS2AasJTaCKLVmVs19jijVOuOwO7v/0eQ==
+X-Gm-Gg: AYBFou3WqnzuZKxtiQAAjyN1ZtUDa2HoKFAjpiJPCg7rspZ8bzSPjuVfLJHsu6bENGV
+	eRY9z0gw+NaiYSb8Ek8JZuItD0ye0udz64BTkG+o7105JDb9kK754IdcZcdJ0IjFC8v3lNOYqdH
+	SFis36CrVjU/Gj2+aNhLdufPYH3BwvZBq5tXl5420uWKqzrQdmAbA/rmSl5n/5umTsHY1BIQIFC
+	Dojbrmr8IL19g9uX76CcYJo5VKbU7JdMJK5ThpwfzH7YsHWjrsUJCWmTzk8st4HT/SeWy9qwZB7
+	B6AlznJOQRCrPP9fjZ9eIcxjfv2KbYZdkxYi2Lp6Hx4o0Z0+pPRyEfpMyLDSNoFFop3JajYHzRo
+	JaKB4JejNIjEbXqv9Hh+Y8BLVY0AkYr11HPPKbwA1T0/IT4raGnhLkowUpy/8zugxjBI/
+X-Received: by 2002:a17:907:608a:b0:c4d:939:526b with SMTP id
+ a640c23a62f3a-c5048c7308cmr131939066b.0.1794293340165; Mon, 09 Nov 2026
+ 22:49:00 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,14 +103,79 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+References: <20261102-fusb302-getsourcecap-v1-1-26b5bfea4b2b@flipper.net> <au3KYk13lFTjhltb@black.igk.intel.com>
+In-Reply-To: <au3KYk13lFTjhltb@black.igk.intel.com>
+From: Alexey Charkov <alchark@flipper.net>
+Date: Tue, 10 Nov 2026 10:48:46 +0400
+X-Gm-Features: AclHuK8C2BllbiAztLfGIWD27mCMRqMO8z3FrQU5M1iK3j9Y9ry0AtiAIQOgt7A
+Message-ID: <CAKTNdwHpSNhtxp3eaUHt8N5ea6cwXPc6pE_HVVOwtGgk-xWxzA@mail.gmail.com>
+Subject: Re: [PATCH] usb: typec: fusb302: Drop unacknowledged Get_Source_Cap_Extended
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> No functional changes.
->=20
-> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+On Fri, Nov 6, 2026 at 4:39=E2=80=AFPM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> On Mon, Nov 02, 2026 at 05:09:05PM +0400, Alexey Charkov wrote:
+> > The chip mistakes Get_Source_Cap_Extended for a GoodCRC, as it apparent=
+ly
+> > decodes only the low four bits of the message type. As a result, it sen=
+ds
+> > no GoodCRC for it, but still queues it in the RX FIFO. The partner neve=
+r
+> > sees the message as delivered due to no GoodCRC, so it retries and then
+> > sends a Soft_Reset. When FUSB302 receives the Soft_Reset, it finally
+> > raises its interrupt, at which point TCPM sees Get_Source_Cap_Extended =
+in
+> > the RX FIFO instead of the Soft_Reset it just received, and answers it
+> > Not_Supported, which is not a valid reply to Soft_Reset, so the partner
+> > escalates to a hard reset instead of getting a chance to gracefully han=
+dle
+> > a lost Get_Source_Cap_Extended.
+> >
+> > Discard Get_Source_Cap_Extended, which FUSB302 can never properly recei=
+ve
+> > due to its inability to automatically GoodCRC it, and answering it from
+> > the host within the protocol specified 250us window without so much as =
+an
+> > interrupt cannot be made to work.
+> >
+> > This way the TCPM view of the PD exchange at least matches what the
+> > partner saw on the wire. This lets the TCPM complete a PD negotiation o=
+ver
+> > the FUSB302 with e.g. an Apple Studio Display, which otherwise always e=
+nds
+> > in hard resets.
+> >
+> > Signed-off-by: Alexey Charkov <alchark@flipper.net>
+>
+> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Sashiko has reviewed this patch and found no issues.
+Thanks for acking it Heikki, but let's please hold off applying this
+patch. My colleagues have done broader testing with Apple hardware.
+While this patch prevents hard reset loops and lets TCPM negotiate a
+PD contract, it can't yet complete Alt Modes negotiation in PD 3.0.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110064105.2033=
-5-1-shishunbo@cmss.chinamobile.com?part=3D8
+I've done another attempt locally to send GoodCRC from the driver
+instead of discarding Get_Source_Cap_Extended altogether. It lands
+wildly out of spec timing wise (close to 2ms vs. the spec-prescribed
+250us to start transmitting GoodCRC on the wire). However, it works by
+sheer luck because the partner waits up to 1ms for a GoodCRC and
+retries the message with the same ID up to 3 times, so the first
+GoodCRC lands in the window of the second or third retry and gets
+accepted. Everyone is happy, and the negotiation completes just fine.
 
+It's a bit more invasive for the driver, though (as can be expected),
+and relies heavily on the bus speed being at least 400 kHz (FUSB302
+can do up to 1 MHz) and not a single extra I2C transaction being added
+in the timing-critical path before the GoodCRC goes out. I'll send it
+for review separately, and if it proves palatable, it will supersede
+this patch.
+
+Best regards,
+Alexey
