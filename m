@@ -1,59 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794319709;
-	b=hNkCbHcEBXb7Gdf+iNtzHyXol+w4cDlBvv7NshV/jSKEPaQjfu2IzHUtBvoMEsjwQpMy
-	 6XbdtJ5m0rAN2FMWml8mIVVkWJr3XOcmMDL0MjbZ5epOC7mxGxSJHfel2/cvS5R5vV+6s
-	 P609Xj0vtFGYvI9b3HZSp3fF8C2kcT8Dq8JeNhz/QhBWXiHUi0Q5aEDMLmZGFyZa3u1nV
-	 wFw2v0NWm9c6UWmYHjgJFx0QJtRwG9h3s5NzfWgw/15AekNRfjhph6bnHHTOB+GyS6r0D
-	 qN7TeJcH+kl3oLG5mpzE5m4OeSoMwxVrg4TiGliCJzWlQsK3DnsPHFFGKInP2g2bCcQ==
+	t=1794320132;
+	b=xUApseu1aQDwkBQMdUqtJkgRVJGOW/w0S11duKgXFCmTRdPT1kVp6AvudSY6iuaibaDa
+	 eAhSjwCdMwJw4D6HsswZeu133qPSzEq0KZUb4leowcKzQrAofxpXL4WaPpkLAQw0LTwaK
+	 3hmPkqeClRruI7yrPgbOIqanTMSaUNeVSl3cwbfhTIIFZn2Oun2YgLdDPrKQ9MI0jE5Sq
+	 XQEP9/IhBlGLZ2srJTeeso6HMVH6cWRDeHnOR3BU2vUBtY6LIWVXDE+LGIryFQJhjlRgJ
+	 A5B7yLVuqNI2xXCO8mIQ/ZHo4quiCx46Gzy/7zq3zxjdZEpV5JliePguiHpw5TPwxGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794319709;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=vNhlnmri8tkpaocxey5A5RblYZYq0RJUqjnsKn079Qw=;
-	b=nTMkwOX4IxfV2cejl80Ci4NSOS969OOX5t/ibIH5lCWYYwayJOk/fBwm705M7N22X7k2
-	 1fF8ciczgK4G6CPU338jrA4OXk2z51WqQwV+Nj0nzxCw3j0gVwPVKvAbKQzUFyj2WqsmS
-	 p4d8/PveeZDngXSGWf7qlJukmhd1OJQ0mKmf+6vLSxgtTaH+7rGoKy+THCzH0gWv2yaoS
-	 5V/nF2kWKRLC7iifa8xZC+e7gRDD/7UE8c2zXXxD3d52bPGuLQoNqqrW9W+XyzeZIWjlG
-	 VN0VqBY1C/9eTSOo8gafzCudQg15hhmNnNNrLaSohU9eCIyMKl/nX+mvHqVQBfKyHLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794320132;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=GxIvKSga2N66MM4PPKy/zEU2KBU8daUXspv11nGly7g=;
+	b=nK4J39nQDeKUUV8qfE0c3OuLKUCJNPWlE6krjyQXf9orwN/no5SAT+sYXwoGf3w9F6Uu
+	 R6SevGsA5tms7Fiy1Z+5vLE417e3+ZVXOAGDCTueJNwnVzy5Lu1cB5Am6sdWnpGDFgIZ1
+	 4ILoSvWsrKvxZKKcbGol4MfgjaMEoT2hC3/TcHVqJs/JkTodVJl1RLDcTY7puKR004nnI
+	 O5YQAcqTSZBejdx4cQ5X1jofRrkX6mLUyf7SlWn4+GtgNDW0ozOcURspiiPTiCRyx0mW2
+	 m6L4VZAOa7puAvl2VqUypCnvyI7cC4RAFyPEz37NcoxfXqk35n/Msy7i6U7Q9G0JA5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M8TfEccC;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GxARJiRs;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CAA60A2621;
-	Tue, 10 Nov 2026 14:08:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00F8606A321;
+	Tue, 10 Nov 2026 14:15:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C00F8606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M8TfEccC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6661F008A6;
-	Tue, 10 Nov 2026 14:08:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794319708;
-	bh=vNhlnmri8tkpaocxey5A5RblYZYq0RJUqjnsKn079Qw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=M8TfEccCouOUESmLlJqg3IFNnXQUfJhN6Hyi5ZhIIjk+ot590bStHPSEdzTRuoD0s
-	 M6MUokkz6i/N9ym2tE+It2Sh9TjM1Murw1VOhjkNHur9br0NBq84/lXGVUrH4YPXK1
-	 vsxWo1QrbA6nUJ2EawdLlURiuzD7I2ZhpxbyLPDWeMp/demSJAOeOTiqUDHalPQKlf
-	 qHTJ4iBPcFXi1EFHvn6aa6QC4H3whldeqzFn/7pTkkCxc0GQ7jfQYq5bSxAEoAYIa9
-	 xRBOCkWrKrf3zwaG4nDd7kt5VSpHcAxaIXojoIsEUQjV2IGQv5Jme/2vzlquRHoaym
-	 xalRsHKTyUPMg==
-Subject: Re: [PATCH net] net: usb: cdc_ncm: don't underflow the NDP room check
-From: netdev-bot+sashiko@kernel.org
-To: xujiahao@cmss.chinamobile.com
-Cc: oliver@neukum.org, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzbot+1994e2ecf323ed90f255@syzkaller.appspotmail.com
-Date: Tue, 10 Nov 2026 14:08:27 +0000
-Message-ID: <179431970794.994134.5397680174063039863@kernel.org>
-In-Reply-To: <20261109060913.526268-1-xujiahao@cmss.chinamobile.com>
-References: <20261109060913.526268-1-xujiahao@cmss.chinamobile.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GxARJiRs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794320132; x=1825856132;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TmN61axYmllJcj7cTJcrh3bkPcrCqfZguo5XcJlLpcc=;
+  b=GxARJiRs9Go5BP5+n0QGo1EpP9k7UO0SRaAkTUfYZTcZjuzbnM1/O9g1
+   awac/OkyZ1cZ7yuxuXy/4jJvjOZxlLFny2IXLM2O3PuiEOmUsHSVGggRl
+   XxoMlmlDTUbQifnQE+g8B8TWLmyiY48Gon6NV9P1nF9yi/pklffD8m33D
+   hBBHQBpilr+z0surG4yH3IVNY/N206VMxNnoec2w/QMK0MJvv9BWZQVy7
+   +nb5y0vFgv97n2Ga63lwt5bJZQ8E/kYADQ/svJQV46xwrxn3ZZpiBnoaV
+   N3zeOKwdcXkR+fe8AqcnyrRw9Qp5dfhDTLwvgE75EBV5fd7ZabjPEuQcZ
+   A==;
+X-CSE-ConnectionGUID: Ypqqyf9OQACwO9R7XijXTQ==
+X-CSE-MsgGUID: zYH9iI/AQ8CHo5BHXL+x/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3082567"
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="3082567"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 06:15:31 -0800
+X-CSE-ConnectionGUID: Scheq46MTLWRyxadEA8KpQ==
+X-CSE-MsgGUID: 4kTFNcGLS8eqjxHmDzBYGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="8039505"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.244])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 06:15:27 -0800
+Date: Tue, 10 Nov 2026 16:15:25 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: netdev-bot+sashiko@kernel.org
+Cc: liuc63@xiaopeng.com, gregkh@linuxfoundation.org,
+	akpm@linux-foundation.org, davem@davemloft.net, edumazet@kernel.org,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	khtsai@google.com, fangxy@xiaopeng.com, rdunlap@infradead.org,
+	dbrownell@users.sourceforge.net, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] lib/net_utils: allow mac_pton() to take a custom
+ delimiter
+Message-ID: <avMm_f2-2PZOU9v5@ashevche-desk.local>
+References: <20261106030605.576584-2-liuc63@xiaopeng.com>
+ <179431528628.994134.9205744622940373491@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,136 +84,63 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179431528628.994134.9205744622940373491@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+On Tue, Nov 10, 2026 at 12:54:46PM +0000, netdev-bot+sashiko@kernel.org wrote:
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
+> > +/**
+> > + * parse_mac_pton - convert a MAC address string using a custom delimiter
+> > + * @s: string to be parsed
+> > + * @mac: buffer to store the result, left untouched if @s is malformed
+> > + * @delim: characters accepted as a separator between the byte pairs
+> > + *
+> > + * @s must be MAC_ADDR_STR_LEN characters long and use a character from
+> > + * @delim at every separator position, e.g. "aa.bb:cc.dd:ee.ff" with ".:".
+> > + *
+> > + * Return: true on success, false if @s is malformed.
+> > + */
+> 
+> [Severity: Low]
+> This isn't a bug, but does this kernel-doc describe what parse_mac_pton()
+> actually does?
+> 
+> The only length check in the function is:
+> 
+> 	if (strnlen(s, MAC_ADDR_STR_LEN) < MAC_ADDR_STR_LEN)
+> 		return false;
+> 
+> strnlen() is capped at MAC_ADDR_STR_LEN, so this check only rejects
+> strings that are too short. The parsing loops read only s[0] through
+> s[16], and nothing checks that s[MAC_ADDR_STR_LEN] is '\0'.
+> 
+> So input such as "aa:bb:cc:dd:ee:ffJUNK", or the 7-octet
+> "aa:bb:cc:dd:ee:ff:00", returns true and fills @mac with the first six
+> octets. That doesn't fit "@s must be MAC_ADDR_STR_LEN characters long"
+> or "false if @s is malformed".
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+> The runtime behaviour is the same as the old mac_pton(). The current
+> callers (the mac_pton() wrapper, and get_ether_addr() in u_ether.c later
+> in this series) don't depend on long strings being rejected. However, a
+> new caller that trusts this doc could skip its own end-of-string check.
 
-- [Medium] The code change is correct.
-- [Low] The patch fixes a syzbot-reported skb_over_panic() (BUG() in
-  net/core/skbuff.c) in the cdc_ncm/cdc_mbim TX path but has no Fixes:…
+> Could the doc say instead that @s must have at least MAC_ADDR_STR_LEN
+> characters and that anything after them is ignored?
 
---
+Yes, this needs to be fixed in v5. Adding two words "at least" into the
+mentioned line of the kernel-doc.
 
-net: usb: cdc_ncm: don't underflow the NDP room check
+> The other option is
+> to reject strings where s[MAC_ADDR_STR_LEN] != '\0', but that would
+> change behaviour for existing mac_pton() callers.
 
-This patch rewrites the NDP room check in cdc_ncm_ndp16() and
-cdc_ncm_ndp32() as an addition instead of an unsigned subtraction. The
-check can then no longer wrap and let the following skb_put_zero() of
-max_ndp_size bytes overrun the NTB, which was reported by syzbot as an
-skb_over_panic() in cdc_ncm_fill_tx_frame().
-
-Closes: https://syzkaller.appspot.com/bug?extid=1994e2ecf323ed90f255
-
-> tx_max is only clamped to max_datagram_size + max_ndp_size + the NTH
-> header size, so tx_curr_size is just big enough for one datagram and
-> one NDP.  A second datagram in the same NTB is therefore exactly the
-> case this check has to reject, and that is also the case where
-> skb->len + reserve exceeds tx_curr_size: the subtraction wraps around to
-> a huge value, the check passes, and the skb_put_zero() of max_ndp_size
-> bytes that follows overruns the buffer:
-
-[Severity: Medium]
-The code change looks right, but does this paragraph describe the
-trigger and the root cause accurately?
-
-Can a second datagram in the same NTB reach this check at all? Before
-the room check, cdc_ncm_ndp16() walks the NDP chain and returns any
-existing NDP that has the same signature:
-
-drivers/net/usb/cdc_ncm.c:cdc_ncm_ndp16() {
-    ...
-	while (ndpoffset) {
-		ndp16 = (struct usb_cdc_ncm_ndp16 *)(skb->data + ndpoffset);
-		if  (ndp16->dwSignature == sign)
-			return ndp16;
-		ndpoffset = le16_to_cpu(ndp16->wNextNdpIndex);
-	}
-    ...
-}
-
-cdc_ncm_tx_fixup() always passes one fixed signature
-(USB_CDC_NCM_NDP16_NOCRC_SIGN or USB_CDC_NCM_NDP32_NOCRC_SIGN). On plain
-cdc_ncm the check therefore only runs for the first datagram of each
-NTB.
-
-As far as I can tell, the only way to add another NDP to an NTB that
-already holds datagrams is cdc_mbim_tx_fixup()->cdc_ncm_fill_tx_frame().
-That path uses a different signature for each MBIM session.
-
-The clamp also doesn't seem to guarantee room for one datagram plus one
-NDP. cdc_ncm_setup() clamps tx_max before it sets the datagram size:
-
-drivers/net/usb/cdc_ncm.c:cdc_ncm_setup() {
-    ...
-	/* clamp rx_max and tx_max and inform device */
-	cdc_ncm_update_rxtx_max(dev, def_rx, def_tx);
-
-	/* sanitize the modulus and remainder values */
-	cdc_ncm_fix_modulus(dev);
-
-	/* set max datagram size */
-	cdc_ncm_set_dgram_size(dev, cdc_ncm_max_dgram_size(dev));
-    ...
-}
-
-ctx is allocated with kzalloc() in cdc_ncm_bind_common(), so
-ctx->max_datagram_size is still 0 when cdc_ncm_check_tx_max() computes:
-
-	min = ctx->max_datagram_size + ctx->max_ndp_size + sizeof(struct usb_cdc_ncm_nth16);
-
-That makes the floor only 172 + 12 = 184 bytes. def_tx is
-min(CDC_NCM_NTB_DEF_SIZE_TX, dwNtbOutMaxSize), so a device that reports
-dwNtbOutMaxSize = 320 gets tx_max = 320. That matches end:0x140.
-
-With that tx_max, the reported len:428 put:172 (skb_out->len is 256 when
-the NDP is pushed) could come from either of two paths:
-
-  - an NDP for a second MBIM session on cdc_mbim
-
-  - the first datagram on plain cdc_ncm, when the device reports
-    wNdpOutAlignment = 256. cdc_ncm_fix_modulus() accepts this because
-    256 < tx_max. cdc_ncm_align_tail() then pads the 12-byte NTH up to
-    256 before the room check.
-
-> Here end is 0x140 = 320 = 140 + 172 + 8, i.e. the one-datagram minimum.
-
-Where do the 140 and the 8 come from? sizeof(struct usb_cdc_ncm_nth16)
-is 12, and 8 is sizeof(struct usb_cdc_ncm_ndp16). max_datagram_size
-doesn't appear to ever be 140, and it is 0 when the tx_max floor is
-computed.
-
-Could the commit message be updated to describe the actual triggers?
-Those are a device-controlled dwNtbOutMaxSize/wNdpOutAlignment, or MBIM
-multi-session NDPs. It could also mention that cdc_ncm_setup() clamps
-tx_max before max_datagram_size is set.
-
-> Reported-by: syzbot+1994e2ecf323ed90f255@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=1994e2ecf323ed90f255
-> Signed-off-by: xujiahao <xujiahao@cmss.chinamobile.com>
-
-[Severity: Low]
-Should this have a Fixes: tag? The patch fixes a kernel BUG that can be
-reached from the cdc_ncm and cdc_mbim TX paths. netdev expects a Fixes:
-tag on fixes, and stable backports rely on it.
-
-According to blame, the subtraction-based room check in cdc_ncm_ndp16()
-was added by:
-
-  c78b7c586657 ("net: cdc_ncm: refactoring for tx multiplexing")
-
-and its current tx_curr_size form comes from:
-
-  e1069bbfcf3b ("net: cdc_ncm: Reduce memory use when kernel memory low")
-
-cdc_ncm_ndp32() has the same check.
+Yep, that's why it's a bad idea.
 
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261109060913.526268-1-xujiahao%40cmss.chinamobile.com
+With Best Regards,
+Andy Shevchenko
+
+
