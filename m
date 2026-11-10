@@ -1,78 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794301402;
-	b=EVSymZDtsGHDH7ac6M5Ml4WBrw/mFwhuAbw4NIiD6CiwLvpPDnea81gIbgrFItDpcTlM
-	 Ac2z4JRytrGW+2zRdHj8GbnVmx+TxSqB7f7BqntsPXnQL5acVIG2XKlQFPr3dQKhghA2h
-	 P3DrcK0mps2R7z4glR/9mH30UqRkFBy1FKMUOKXfeT70HLaa7Yb9n0mhugIQL+l8F5Vam
-	 c2fYJbGxvtk1VG0bHhdhpnm+CfM5l3+5bU/YXBUGoH6aCsBQ//N/nG8fxcMwY9dSpukNZ
-	 /1m+oz6LvMK2AG2d642pSzHCWupO+nMZ0FS3eYej6ZWpc5GOPr89rADcKFLtrIyDxsA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794301402;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=cBdLGql5qq7PJAdgce+bLZBSDKa16JrnsVeVNrIquuM=;
-	b=ZEWLPQBdXlcx8BRT385b/mNI4E3bB6EdYpR5sfbe2YdSqhs25Aqsxo7oXuxfPAfmwDCl
-	 HFId5H7rmIAS4Gnj39PyJ1vyvOZRd30lDzeelc3zIORNdEPQHLUizBYKGUtS5uFz8XytT
-	 rxndetm9V7dwho9unnO4AOePa98u5irZsN69BzxK0FipTnscc+EOJOm4DleKlXD58a4Kt
-	 mtbP9XYIsur21HRMCSxRUI3sFOZjcRp9hrAwaYc9+Gr/0k+lfL+5l7Ua1FKW4mv7dhiol
-	 XxnJzbApLqeYUNs2liZ6CikqWE6O2Mn7LqcWORC1OP6VrLIAsubICTyiOpUrcMHBVBQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PaZc33gW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794301707;
+	b=wV+XxPFQb/w6q01kgvmeYx4lBSsFYaNLIxmxOHxgI7HJoNP2rQWvCn8BlQsAkeEdJUZF
+	 GkX/nXVYot0W+uvNUz9bgCpNDSNnNa4NFWAQnbhix87c56jrJhwTtIydZuilmQUIN59Ex
+	 01KDIt84owVQeqZe1Eevuf5toxdjqr74Bp7dQwZsgHmh8drmvN5wLPI+fovU5HR9zmnGD
+	 QUoG3cXOIXo9yAS2hzwNSIiiuiol7lGvyC5aQ2sEMTSzW7MtPV9sobMKhZt87Iiovtpm0
+	 CGRJQFJJTR3y+63jJkZwNGkTJ5dkJh9fWZeAgGWDKIp5GTGXxNFkx+U62AU6q5v9I6w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794301707;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=wPEmE3oAUNXorCdVLTl71phWzDoQSIVdHdBcXFCl8jw=;
+	b=eUIA6rWg92qj0E/Vxa7f6nQ/XPwP0DXXMrkygpSSpYfimmfJl5Ls6jYSrVJsO0Ka9GDm
+	 zB9XgXWQGZn1SDOsL5xwFUC+0N27tgBx4tLHD327CZCkEoLSjwaQv0WP1ddrQwOGDRDLI
+	 WDSLGRx4A90wsyJcX8bkCRtVWXfs1DauKWoKIXNb1OC8RSGsRUwFPQJfqqBlYCfvabh3J
+	 z9PR744ZiFnj+iLvYiaKoViPjZT0mCe81/2aKJCDiGZYiFqPVicDezfQqT8wttiaH/M6F
+	 hWCEGWYHTt9SJhcV0iZ6bb7uPQoU8rUgL3x9Wtaq5d9ZLqS6j3SINXgUfZT/Y55qi3w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e+IaFWbT;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7091C60A260D;
-	Tue, 10 Nov 2026 09:03:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4273D606A31C
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 09:08:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4273D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PaZc33gW
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794301402;
-	b=uv+xUwLbFqd5NbNB/qeLBKWueU5s/9+B37zcr+z9eCne4k8NBu2qWVRIflQsHDHp0mUS
-	 na0FmYGZTsflnjbfoMIzUM8rzARU+9mnM7ksUdeOw/pOeE7xyWc1XfdgLuTvFYIntORXU
-	 sAS7+Emav4LTHGd+kEdKCSl//a1R3EiGWDPAGEXJmNIWflYbBR4BddNWdr8/1ULIwNzou
-	 ixucQ/EToV2uZy3hjX7gr4OyRtNuZNVtJ3gg4NuDLLYxc1fkBAltqnMN6WhaudV+Ug95/
-	 KHyK9bDoeC+N3bOYf1CyoeW6qUoROXirh+62XYQ/dG63ll7Se4v8PM76ZaY7RL3chlw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794301402;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
-	 Content-Transfer-Encoding;
-	bh=cBdLGql5qq7PJAdgce+bLZBSDKa16JrnsVeVNrIquuM=;
-	b=sCqLMuDa0snlcSMHYkJJNojGMTbPKYXrU1u6zepvHaZpjxRz6jJQg+U/7VbYbA3Ysbrv
-	 zVrKwegwAAodts3+LOeGXWrENeKZGrA4J8LKdsZ/5/a4BnGoU5/qOygnRErnVLevvv8bT
-	 6P7i0hvqGsrfKTaPOvFUMf8AHjSbsReucKBAT2aIOk2wMcky+HccN0tkx8jHNSnGp/RDm
-	 cedSa2cVGp14JtL/Yncg0PP8dQmrs9y8eXPNOd0EFwpAQNgkUZaTT7ONJXV6E43eeKB9p
-	 cXzmABQ+oKybSr68fmvIJ68hWpg3gqsu0w2tDmR9gdMEc9KAKhrW6cQPq3F3ATzBv9Q==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8DF671F008A4;
-	Tue, 10 Nov 2026 09:03:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794301402;
-	bh=cBdLGql5qq7PJAdgce+bLZBSDKa16JrnsVeVNrIquuM=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=PaZc33gWB1OtK0/tMHG8mbymqqShas6FfY70ncQ+AHyzsSv0oGG30u2v7VecK05Ue
-	 eSpAJWvlsfTivGG1uaiOgJEnNLx1QkTGZsq+WJh9qq3jGhY0OmVsCeP5hv1oro7xYK
-	 I9L6YMg4XzwaKlHr8PmYEk01CnclWsTt8H9ZJen9nZctSWR0pZSqmArEoLEMGMtff2
-	 0hsl5SwnXikU0rNUpghx5S3d59NC3oDDT83QPmtf4/4qD1U3IBYQKkSet22vhMX8M8
-	 lhi7asrA+8zt75z3L8zrkCr0EXLmes9xNzTaC986qBUiaXAXmqfMTlDD7Io45R/sM6
-	 HVDFEpVOd56Pg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id E28B148A4B;
-	Tue, 10 Nov 2026 09:03:20 +0000 (UTC)
-From: Joas Antonio dos Santos via B4 Relay <devnull+joasantonio108.gmail.com@kernel.org>
-Date: Tue, 10 Nov 2026 09:03:21 +0000
-Subject: [PATCH net] net: usb: smsc75xx: reject frames shorter than the FCS
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e+IaFWbT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794301707; x=1825837707;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=k99JnI/WD6zvga5NLJLf7Q6SMbxYBqfCjxjzj3UkZT0=;
+  b=e+IaFWbTWzx0fS0geuIyKHrl/DqMGU3siHFO5S2pNfE8/Qaq45gP1cMY
+   sjoOu4ifGbawY4yj6aA/hCFyT8bes9qmQ9kJys8TVYA3GXgMh5DB3cKyY
+   1AgiyaucA+kBbYFO2xGC2ZYBzhv3HEt2gghhinHRHFHGOdK0JN8YLUJ46
+   Wh4yhmekzxH285JZHHjNbaKB0gOiCfjkjp6woBXdJZAGAGz5bhnhjzQUP
+   TYrVYOpFflykKfZEqWu93Jq1V+x068BHO2BKZQIw5sZz+M76pGxYO6tUS
+   e9dZ6TbeTXqBZuFXiSI52YcQVpLb9QtX6djVpp+vGSOzvhu2JMOzrBsL1
+   g==;
+X-CSE-ConnectionGUID: z7+IhHPQR0KHiYsAFcTUSQ==
+X-CSE-MsgGUID: jdv5FTWCT/qxMtGRRpeQOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3125621"
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="3125621"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 01:08:18 -0800
+X-CSE-ConnectionGUID: NfAn0gJbS+atryh8YzUobg==
+X-CSE-MsgGUID: c/jrgX95SoqwQ8qo25Umqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="9878929"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.245.1]) ([10.245.245.1])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 01:08:17 -0800
+Message-ID: <d15451e1-b89f-4db3-95a8-21b188cd0030@linux.intel.com>
+Date: Tue, 10 Nov 2026 11:08:14 +0200
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -82,91 +72,91 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261110-smsc75xx-rx-fcs-v1-1-4e048bfc28f3@gmail.com>
-X-B4-Tracking: v=1; b=H4sIANjd8moC/x2MuwqAMAwAf6VkNmAKPn9FHKRNNYNVGpGC+O8Wh
- xtuuHtAOQkrjOaBxLeoHLEIVQbctsSVUXxxsLVtiahG3dV1Tc6YMganhWVoex/IO4ZSnYmD5P8
- 4QeQL5vf9AAyj1IhmAAAA
-To: joasantonio108@gmail.com, steve.glendinning@shawell.net, 
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org, 
- kuba@kernel.org, pabeni@redhat.com
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794301400; l=2363;
- i=joasantonio108@gmail.com; s=20261031; h=from:subject:message-id;
- bh=G1cAL4e/Pmr3AzCsbxnGrjhhPlyOjfRjUMp1/pULOYE=;
- b=p47NHnLvmlqjWX1hzQxuofh7VEdXnFhY3NCjZj6MpBzk3zeO8NcmasCQR8/uUCoyO2fKF92W7
- aHXxY9fV06dAOPQfEnMx8MrmlR/DWsrO407E5TgGXibSp0E65RTRccb
-X-Developer-Key: i=joasantonio108@gmail.com; a=ed25519;
- pk=ZxAznJT/FcPPdzLrDDFJQm4LLjjHVGBBqDSG3TXS23w=
-X-Endpoint-Received: by B4 Relay for joasantonio108@gmail.com/20261031 with
- auth_id=1371
-X-Original-From: Joas Antonio dos Santos <joasantonio108@gmail.com>
-Reply-To: joasantonio108@gmail.com
+User-Agent: Mozilla Thunderbird
+Subject: =?UTF-8?Q?Re=3A_xhci=5Fhcd_0000=3A00=3A0d=2E0_=28Panther_Lake=2C_80?=
+ =?UTF-8?B?ODY6ZTQzMSk6IOKAnFVua25vd24gZXZlbnQgY29uZGl0aW9uIDE5OeKAnSwgdGhl?=
+ =?UTF-8?Q?n_HC_died=2C_with_a_TB4_dock_and_two_displays?=
+To: Phani Kumar <phanigudipally@gmail.com>
+Cc: linux-usb@vger.kernel.org, mika.westerberg@linux.intel.com
+References: <CAMcR36+hWzhS_Pytej3uoDvOU6160v5vtuWXSnyFb=zEoRFQJQ@mail.gmail.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <CAMcR36+hWzhS_Pytej3uoDvOU6160v5vtuWXSnyFb=zEoRFQJQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-From: Joas Antonio dos Santos <joasantonio108@gmail.com>
+On 11/3/26 20:18, Phani Kumar wrote:
+> Hi,
+> 
+> On a Framework Laptop 13 Pro (Panther Lake), the Type-C Subsystem xHCI
+> controller (0000:00:0d.0, 8086:e431) reports a vendor-defined completion
+> code 199 and then stops responding, taking down every USB 3 device behind a
+> Thunderbolt 4 dock. It is triggered by Ethernet traffic through the dock.
+> With two displays connected to the dock at boot it happens reliably within
+> 1 to 4 minutes; without displays it happens intermittently.
+> 
+> Hardware:
+>    Laptop:   Framework Laptop 13 Pro (Intel Core Ultra Series 3)
+>    CPU:      Intel Core Ultra X7 358H, microcode 0x11a
+>    BIOS:     03.02 (2026-05-26), ME firmware 21.0.6.1503
+>    xHCI:     00:0d.0 Intel Core Ultra (Series 3) Type-C Subsystem xHCI
+> [8086:e431] (rev 01)
+>    TB host:  Intel Gen16 USB4 host router (8087:a000)
+>    Dock:     Razer Thunderbolt 4 Dock Chroma (TB vendor 0x127, device 0x8),
+> NVM 30.0
+>    Ethernet: RTL8153 (0bda:8153) inside the dock, in-tree r8152 driver
+>    Displays: two 2560x1440@60 on the dock's downstream TB4 ports
+>              (one USB-C to DisplayPort, one USB-C to HDMI adapter)
+> 
+> Kernel: 7.3.1 (Ubuntu mainline build 7.3.1-070301-generic)
+> 
+> Reproduction:
+>    1. Boot with the dock and both displays connected.
+>    2. Generate network traffic over the dock's Ethernet (e.g. open a
+> browser).
+>    3. Within about 1 minute the xHCI controller dies, and every USB 3 device
+> behind the dock disconnects.
+> 
+> Log:
+>    xhci_hcd 0000:00:0d.0: ERROR Unknown event condition 199 for slot 5 ep 3
+> , HC probably busted
+>    r8152 2-3.4.5:1.0 eth0: NETDEV WATCHDOG: CPU: 11: transmit queue 0 timed
+> out 5665 ms
+>    r8152 2-3.4.5:1.0 eth0: Tx timeout
+>    r8152 2-3.4.5:1.0 eth0: Tx status -2
+>    r8152-cfgselector 2-3.4.5: reset SuperSpeed USB device number 6 using
+> xhci_hcd
+>    xhci_hcd 0000:00:0d.0: ERROR Unknown event condition 199 for slot 5 ep 3
+> , HC probably busted
+>    r8152 2-3.4.5:1.0 eth0: Stop submitting intr, status -71
+>    xhci_hcd 0000:00:0d.0: xHCI host not responding to stop endpoint command
+>    xhci_hcd 0000:00:0d.0: xHCI host controller not responding, assume dead
+>    xhci_hcd 0000:00:0d.0: HC died; cleaning up
+>    usb 2-3: USB disconnect, device number 3
+> 
+> Full kernel log attached.
+> 
 
-smsc75xx_rx_fixup() takes the frame length from the RX command word
-supplied by the device and strips the FCS by using "size - 4" for the
-allocation, skb_put() and memcpy() of each frame that is not the last
-one in the URB.  The length is only checked against an upper bound and
-against skb->len, so a device can report a length field of 2..5, which
-gives a size of 0..3 after RXW_PADDING is subtracted.
+Could you take both xhci traces, and log with xhci and usb core dynamic debug enabled?
 
-size is a u32, so "size - 4" then wraps to 0xfffffffc..0xffffffff.
-__netdev_alloc_skb() adds NET_SKB_PAD to the unsigned length, which
-wraps back to a small value and the allocation succeeds.  skb_put()
-adds the length to the 32-bit skb->tail and skb->len, which also wrap,
-so the skb_over_panic() check does not fire.  The following memcpy()
-then tries to copy almost 4 GiB from the URB buffer into that small
-allocation and writes far beyond it.
+Looks like the endpoint or its contexts may be in some odd state
+(vendor event for specific endpoint, and failure to stop endpoint)
 
-A malicious or malfunctioning USB device can use this to corrupt
-kernel memory or crash the machine.
+mount -t debugfs none /sys/kernel/debug
+echo 'module xhci_hcd =p' >/sys/kernel/debug/dynamic_debug/control
+echo 'module usbcore =p' >/sys/kernel/debug/dynamic_debug/control
+echo 81920 > /sys/kernel/debug/tracing/buffer_size_kb
+echo 1 > /sys/kernel/debug/tracing/events/xhci-hcd/enable
+echo 1 > /sys/kernel/debug/tracing/tracing_on
+< Reproduce issue >
+Send output of dmesg
+Send content of /sys/kernel/debug/tracing/trace
 
-Reject frames that are too short to hold an FCS, as lan78xx_rx() does.
+xHC may also refuse to add an endpoints if it doesn't have the bandwidth to handle it.
 
-Found by LLM-assisted source review.
+What do files under /sys/kernel/debug/usb/xhci/0000:00:0d.0/port_bandwidth'
+show right after starting network traffic?
 
-Fixes: 1b3b2d9e772b ("net: usb: smsc75xx: stop lying about skb->truesize")
-Cc: stable@vger.kernel.org
-Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
----
-This issue was found with the help of an LLM-based code review tool
-(Claude).  I checked the code paths by hand against v7.4-rc3 and
-reviewed the fix myself.  It is build-tested only (W=1, arm64); I do
-not have the hardware to test it at runtime.
----
- drivers/net/usb/smsc75xx.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/net/usb/smsc75xx.c b/drivers/net/usb/smsc75xx.c
-index 6f72a3f15907..e923fa6c1785 100644
---- a/drivers/net/usb/smsc75xx.c
-+++ b/drivers/net/usb/smsc75xx.c
-@@ -2217,6 +2217,13 @@ static int smsc75xx_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
- 				return 0;
- 			}
- 
-+			if (unlikely(size < ETH_FCS_LEN)) {
-+				netif_dbg(dev, rx_err, dev->net,
-+					  "size err rx_cmd_a=0x%08x\n",
-+					  rx_cmd_a);
-+				return 0;
-+			}
-+
- 			/* last frame in this batch */
- 			if (skb->len == size) {
- 				smsc75xx_rx_csum_offload(dev, skb, rx_cmd_a,
-
----
-base-commit: b3dfbde62cf1981c4638939c159dfd087b7a72e9
-change-id: 20261110-smsc75xx-rx-fcs-fca968df1dce
-
-Best regards,
--- 
-Joas Antonio dos Santos <joasantonio108@gmail.com>
-
+Thanks
+Mathias
 
