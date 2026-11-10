@@ -1,50 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794334864;
-	b=nZv5ushcsGrzvApml1Isp2V2RQ+cXJs49RhkS57jZpSHKch5Z4DuGYKNXL7Gvq/dkVY2
-	 HUiRzvJQUeM6QUVfp790jXNx42X44DGdewVk1oL2b/6ZzeaFx1nDPC66yVpDm3gec/Dwa
-	 jvc/6NIdeREq0gikNvQRqf0VyVHU1ymHkCVEkeePidexuetHiIScHQ2g0HOKo98Q9NVXx
-	 2oBr3ieLczlvUwLgqg0XdmOUsL1NUBNLWj12SBnmQsVuM+zSh65RqEULfF2jfhCt4DOi/
-	 wCEelfUWW4MgSLfRYdVEAJ9SClQNgj8vHhcctPa/YGqY7nqYEAd4aFyc7m8hnxv/Fxg==
+	t=1794334986;
+	b=kkzg7vpUTq/MFCIClzPtO7VYKTnkWVMoU5t9LRnrNNWYbnqAdHKvxUZbYbl5Y9zgyVda
+	 qbtgFYiNnsj7LtFtKhmdARvO+oVrhVU8v6f22nwgN4w1rAng4Lcyq1J646vDjVXR4rYjq
+	 lm/HOx5NHDlv18Zq/iBK9W53h+LrLeJfPPw/JHnoCxnmzU5it8VAJK+26Z/zeSyeUsOA7
+	 SZheSME302+DTZomJnF37XXC7tqqDW2pN50+L+i10Z7fcijS7AbSD5nJzvcpDgZCp5mdu
+	 tIngeq9crqKiz31UhLIa09wGqGQ/qPTSuePy77m184ZoBUHFhiIzr1m8qmkAp09UPPQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794334864;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=fV0CHpd4GdUMteugWLcIsYrdIucekIRCl0bvZtdLPQ0=;
-	b=nTi1ssd/fX0gS3toir1YMcZXahqYDERemVI5t+jFZHoQ0IwXKoA3yp0ydE0/Wae6cJVj
-	 URT8pG/QOQsfihDDTvjMgqlFy6fy3683ThnTF8r7S8x1t/134SY+O88tGenSA83lkke98
-	 vC5lU0c5oSpTkvJyggKdAZ6TEXBb+MgGWoai//f6Vh6aPvpNaJTJAwwARx3WYMBY7MlEw
-	 P8n0/VfIhiGGNPAsgjVv+bkHSqYDb+rhJmlQeGGkHmWoTyDv7cmLPElueseP2Wp9RnFXD
-	 b1LcDZA/Nlp1kyCR8/khO3fEkoMjzLMzWF3sBA1J3EiXmaUxZKHs2cvNey+IcBdIbJA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794334986;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=9sE8gzaydrNHDIN+s0tYeRlNamt0qF0RhgBxRYsfIv0=;
+	b=ZcN7NZCrbmoETq80k2Gl2LRPYfLDUckwCkkyKSM3XfG9kfr1sFjRol7NdVmo6LXrbmnl
+	 5ND0QsIa8O9zdrNTP4UizvVB69krahH+iJbl4YfKrrF0k/X66ZM3oPZCANdNPRNHwfJSK
+	 jGL1qHIC1jk2Dw6APYBTqnS+ihM5eeApOV0zdk/VIsPMPbfrHdqvFMw+rspR8gFQKw8Tl
+	 8kkJ0YKVwvbkcKHvJd2+0TTqiIZOccU9HmWdCgf0WiH+0MYpUnvJw+AzvzgXhMXAJjNwi
+	 3JStBL9VKjYCzt0UrmWETRpeDabH0nPiOSJnmXO0jMFuuCTQri2cGqxpWoW6rlkyyrQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=yleqlEpg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dIfL55HO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF52606A320;
-	Tue, 10 Nov 2026 18:21:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8280060A2607;
+	Tue, 10 Nov 2026 18:23:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=yleqlEpg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3565D1F0089F;
-	Tue, 10 Nov 2026 18:21:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1794334863;
-	bh=fV0CHpd4GdUMteugWLcIsYrdIucekIRCl0bvZtdLPQ0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=yleqlEpgVolSOIsVsH8PGR5sAa5b7qADEq03UUlGeTZf2/IC+23znJPr5KSG6vPRJ
-	 MhjGdAJB07HFQA20df8RHJux4ejUPxJm4GNJwScRbP8UZ6VjDFm4JEbg1mUs9EuWy4
-	 QJmjFA0yoyyhcPoA6ynoG2+6+vRenRtUad5xVWec=
-Date: Tue, 10 Nov 2026 13:21:02 -0500
-From: Greg KH <gregkh@linuxfoundation.org>
-To: mdshahid03@gmail.com
-Cc: starblue@users.sourceforge.net, legousb-devel@lists.sourceforge.net,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] USB: legousbtower: use stream_open for stream semantics
-Message-ID: <2026111054-reversing-gurgling-94fd@gregkh>
-References: <20261028182802.25212-1-mdshahid03@gmail.com>
- <179433189678.152716.11457478975708955224.b4-reply@b4>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dIfL55HO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F0EA1F008A1;
+	Tue, 10 Nov 2026 18:23:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794334986;
+	bh=9sE8gzaydrNHDIN+s0tYeRlNamt0qF0RhgBxRYsfIv0=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=dIfL55HOXbwYPWyq6dX5QadDojD9GRw/005QwnPDkenjdFn4T84RpwI3O3tJn3pS8
+	 Df7unLDv/XnCWoSfAMNGidQLjlVLuWuNdoN1Nj+U2UFUKY/c8Gn2yReOxqqFCFey9Z
+	 o8dz8ghEZJl87qkwMSX7SXDtmkvnf9wES3Iu/z4GXS/MmHEgx1XSLqEl/O4t1z1rTT
+	 3FOaKGDdEwTOYNpyuV7WjDyY1d15V9qwCFbW7SL8e6d6qwmyssKMW8sPehJsZhT0ZL
+	 CO00WsxQbD4N5balZWdF8SACptEKMK6d3+5ijpA8Xmw7Bfw8yCmFhZ26BR8GlAF9+Y
+	 lW+ZLn2QvrLlg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 210B939D608B;
+	Tue, 10 Nov 2026 18:23:06 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -54,33 +53,45 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179433189678.152716.11457478975708955224.b4-reply@b4>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v2] net: usb: lan78xx: let unregister_netdev() stop
+ phylink
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179433498467.4118637.205536379890905372.git-patchwork-notify@kernel.org>
+Date: Tue, 10 Nov 2026 18:23:04 +0000
+References: <20261031165213.2738-1-25031212351@stu.xidian.edu.cn>
+In-Reply-To: <20261031165213.2738-1-25031212351@stu.xidian.edu.cn>
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: Thangaraj.S@microchip.com, UNGLinuxDriver@microchip.com,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, andrew+netdev@lunn.ch, linux@armlinux.org.uk,
+ o.rempel@pengutronix.de, stable@vger.kernel.org, byu@xidian.edu.cn,
+ wencheng@xidian.edu.cn
 
-On Tue, Nov 10, 2026 at 11:01:36PM +0530, mdshahid03@gmail.com wrote:
-> Hi,
-> 
-> Could you please review patch and give your feedback,when time permits.
-> 
-> Thanks
-> Shahid.
-> 
-> On 2026-10-28 23:58 +0530, mdshahid03@gmail.com wrote:
-> > From: Mohammad Shahid <mdshahid03@gmail.com>
-> > 
-> > The LEGO USB Tower driver uses nonseekable_open() in tower_open()
-> > However, its read and write have stream semantics.
-> > 
-> > Use stream_open instead to mark the file as a stream and disable
-> > unnecessary file position handling.
-> > 
-> > The issue is reported by stream_open.cocci script as potential
-> > deadlock between read and write operation.
-> > 
-> > Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
-> > ---
-> >  drivers/usb/misc/legousbtower.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+Hello:
 
-How was this tested?
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Sun,  1 Nov 2026 00:52:13 +0800 you wrote:
+> lan78xx_disconnect() stops phylink before unregistering the net device.
+> phylink_start() is only called from lan78xx_open(), so when the device is
+> unplugged before the interface has been brought up, the attached PHY is
+> still in PHY_READY and phy_stop() reports:
+> 
+>   called from state READY
+>   WARNING: drivers/net/phy/phy.c:1670 at phy_stop+0xad/0x380
+> 
+> [...]
+
+Here is the summary with links:
+  - [net,v2] net: usb: lan78xx: let unregister_netdev() stop phylink
+    https://git.kernel.org/netdev/net/c/928012824561
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
