@@ -1,61 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794350500;
-	b=lVd8UPX4LHdnFzCWsZntFU3lIUPfE24Y8curULulwtcbxKa5dFicdbo3YM9d3gGG47V3
-	 7pUB8vnaEl3zlfOPekQ+Wfx/2M8Xr/6SJp0W/2J6RQz1op5uYz72r/WZmsDF4Y7vho8mL
-	 kHcOCUNkHX6XAz74nf336bE3FzCb9d8TfU+e2mNXJkygVYaK+5fShj+zzNJFrxAP3Oglk
-	 gAU4V12IOjIupl/4IiQDyG09TMdqS/8FXNGNyhTAVqmzYwuPRLsG9w0K7O2JKWjGq7xoe
-	 BbumZN8INMwa5zXH1ERn3ZaXyXePUwMQGR9UGzFUsd6lKGoFBOsJmm2ciWexJFRMfAg==
+	t=1794350983;
+	b=enBrirNrcmD19zh4TY//EtOzClZD33+lw5QDyHMR3sGt9S96vSXE0/Cx/yI3g5MbYZbM
+	 x7LMCuFG4P4/Ot9veTE6YePv0YXurQeKpcOninfzwX6eVksU48HMaZEXN5UriprrFRZ9V
+	 NXamBzHV4SK/agQUuVCuoY806h20WUYUwp8pzyII/p9H2IeLj8ZPLA8nYmtQU+YCIDCwC
+	 VVPH1WLaBUtiBZS8PD8yJaK9gq1xoZwXWG0VQDY+CMZ37RVnlnA5FfznfAtBXB7rab2Tu
+	 Iu+HfOn7KHMeaONhAcm0JRpU/64ZyttgcZ9SFL1hL6z6D6IWtl0spGejpCCtiYb2o8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794350500;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=NijWXXvdHVUP6AQHOboqPYVhaLdHKiYRLTT2DOKoP9M=;
-	b=xbBO5hsESSK6O4dsHPEiVkYSioA+jn11aL6nfS9NXCOnH234v6YPWl2CotPPC6Cxe1iC
-	 Y73wP53BTnXTUSqQne7XMuyp9R8W6NfdXs82UB/lm/QIS2X6EUclAcn6e/isBE7IApXi9
-	 +meNxhwqzoiDyWrAK5Kly6PfO45p5A0pUSGrEacNBvVpqCQqUQx3vyYY6thnb+aZcPBng
-	 UgX3ymQSf/S6SgBcSO8/nJPUxOeICxULVWaUIbggjew5GPbNPjkgLIPFR6+AC9rRr+cN+
-	 2dHKQdeCh/QQnGwJmmhPJjeXGFUyKklaMszsWiibx0yG6rrieauCf12crwazfEnv/4A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794350983;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=Zb5GE7voOWxwh8UbV4qumyj78WA5sPTQl21oSAR4TuY=;
+	b=c7qo2FzXzBqyZKeYW1vLMXrl1s/aTwKkHWjeV0DV9rKjtrZXlVMJlSLwyydBrqloMJGs
+	 zFd41LUYZd4ZBEh0fHv59CJXqkayDyCUn4QKu6Rikx1DzJHmsPNqLf7blvB19F5NrWH62
+	 4RntEdBi/0UIZSu8witvyV88OyRyHIOLrRKPzptS+dbHBhGdbQCtRXqqaEhtG3/3hh4Dw
+	 z33YUMng7y71R/gPdK+yBkC9Dsznr4RWloyUZhh1YZUnXKdo9URb3miYVxrJNEnBhJKR6
+	 blR9xCZLHr2kRbNduSEyYN7GR+QyYgUgGAXhCJhoMkGf9FpE9z6o14/mctIxrJbsKiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=T6x9htG2;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=q6wsO1oT;
+	arc=none smtp.remote-ip=209.85.222.177
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6B0606A31C;
-	Tue, 10 Nov 2026 22:41:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA6B0606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93F1606A31C
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 22:49:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D93F1606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=T6x9htG2
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=NijWXXvdHVUP6AQHOboqPYVhaLdHKiYRLTT2DOKoP9M=; b=T6x9htG2JWq3vI26F++miy+joo
-	D3sjp0DeI/7GWaX+8eA5RzAUSTl9nuN9EX5FjvzvVdp6p/vup/wUoyEvOMelo/eq2zmyZosuGxKbA
-	X25FIvBqu9Zf4okRNNa8GqlCugPh/kTzkgRCz6Kq/xpH9XkQnEdbZVdJ3NLTRYaYjtwg=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xQuWx-00Fb2E-5f; Tue, 10 Nov 2026 23:41:31 +0100
-Date: Tue, 10 Nov 2026 23:41:31 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: joasantonio108@gmail.com
-Cc: steve.glendinning@shawell.net, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
-	pabeni@redhat.com, netdev@vger.kernel.org,
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=q6wsO1oT
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-93f3c895a0eso220522485a.2
+        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 14:49:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1794350982; x=1794955782; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Zb5GE7voOWxwh8UbV4qumyj78WA5sPTQl21oSAR4TuY=;
+        b=q6wsO1oTqdGikupBZB0pAkfYl8nLQNYg2IW1q2B4ZhBGHY6PT5ozHH3XZ5pkwQ1qXN
+         QY8MLEglOGyRWF+Ab9VavTiAfZnnHryJ/VU5+k+ZxCPDX3ySe3JA8V3TU5razLymCST9
+         BKWvX++hciMqb4NRiXYcrQssLabmACzVmlJlMwI3+5VW9iXTJFCQd0Qeac/tl7NhfOq8
+         VxtDmwKx0CmCwUcqfiZ6W07fHrJpaHfW+9VvYucycnEfsdPGmBg4SmlUTu1ohw2OOTMt
+         dvKKageeSbyuPekO3ReSnE6nYPorGpatcyjYf654TwUKchrGGL3QJ9FgcCXRIOjTKlKB
+         oEEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794350982; x=1794955782;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Zb5GE7voOWxwh8UbV4qumyj78WA5sPTQl21oSAR4TuY=;
+        b=caFsD0hzY75CayMluBgwehHCIJuat30xsNzwlo5ZOv4Fm+CnrrC5KK5Q4bk2TWie3w
+         FDxDmdGp11dViDR4SA7tiCsGeGbMWsj/k80vA2K/d8u7EKHrFTpUey1+zWMmuoTWYrLO
+         5rl2lInScIhMMPxBD5xrel4QO1VWl90C1Sud29gnrD2j9Y155+eWe1NQy3772/6+n51p
+         Ck1vJ/jhTUXaZ6a3mf3akapkNvXxfLUdMvWUJNe3nnDg3hYehj5CnZtiuVcyGipl+JoC
+         b3AclK/RlTDCCWPKNT+orTT9X97fBj7Ife2v7iLigbKKKblxOyOUl0WsGRNBQMzseEZi
+         Jtng==
+X-Forwarded-Encrypted: i=1; AL+hErFMzWtEH9TRIXmFMO7VTgFVSZv299K4eNp4luFR8e3uYNSeCktUA37pf5O5P7sxueefn2uBuLqtjgY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8zjOPWmDU64j4qyrAl07EfXZRqUcw1nxBLe80K3xg7XllQSkzV
+	n9o22JNinlZzDOCfVKqCsB9gEoTe3Z5QP4QwfXGnDDazsufI3g8vaWIX5tQAD2VHX1oMQrg12+8
+	KrL7Gmg==
+X-Gm-Gg: AYBFou0kqFhaqxWxIoym8tzwfjT82w3EZejNO6zYxmkA4z8L8f5/6OcwQ1rdwcCU2HG
+	bn0SP2yCYJY5tHDVxf54w+3B4HTDl0jEj35zcKexH6OK7AzUstGh8odFgH4a4cNtFTkBdgbXtUa
+	0P1l/fiEkRRb47IYY5G3EnOh7okDzeRp+ko+zAABnalwxZEKgyE+sI4f71cX0SUb7BbpNiDgeBu
+	osTMhAFwGb5HsK/WmoJdrUaOxehlpi8rdhSaEGXCkTdKxdL3wppGBoO1Sx3AVF1gi8FllwADtR7
+	5dcoE0jZF0ivKRijJ4pRUr39khHMQ/fwuBdoiTVXqQPUbD73bfJO2U13ScH166fDarOEqxSeUrw
+	5mH/bOQ6Mih3CPKofUegSfuoc9SBUXFh7+2OFHqcgoUZ1ntkMfpfpF/nbkGkySHGMb9JZZyHkmL
+	3mHFsq61YWHEOHQjnnijgDza61I0XYZntN+Suzpz4bngVm+lbBF7t4p/BrBVF9YmUULQWeRJNYx
+	cAzj9b0TOopqA8xsyMcsun3QAcBuxu5loKEnAOCHWmCeKc/Awi/x+15snCwj1ADC6cOFNgN6Bv4
+	Y+czM9tKRLgapKaOGBEdFv28E7DSEQVUuTmo156l9jNclpSSblU=
+X-Received: by 2002:a05:620a:3710:b0:93e:e531:b78d with SMTP id af79cd13be357-947afcd2ef5mr91279985a.7.1794350981531;
+        Tue, 10 Nov 2026 14:49:41 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::d355])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e7e3c34sm335467185a.36.2026.11.10.14.49.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 14:49:41 -0800 (PST)
+Date: Tue, 10 Nov 2026 17:49:38 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: kayano050408@gmail.com
+Cc: Neill Kapron <nkapron@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com,
 	stable@vger.kernel.org
-Subject: Re: [PATCH net] net: usb: smsc75xx: reject frames shorter than the
- FCS
-Message-ID: <137b3cc5-7077-45d9-8ba3-ea4c584f1992@lunn.ch>
-References: <20261110-smsc75xx-rx-fcs-v1-1-4e048bfc28f3@gmail.com>
+Subject: Re: [PATCH v8 0/4] usb: gadget: gadgetfs: fix ep0 request lifetime
+ and event counter
+Message-ID: <a63177cc-ab89-411a-a6f0-a8a71925aa43@rowland.harvard.edu>
+References: <20261110-gadgetfs-ep0-v8-v8-0-8f90434574fe@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -67,33 +103,61 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-smsc75xx-rx-fcs-v1-1-4e048bfc28f3@gmail.com>
+In-Reply-To: <20261110-gadgetfs-ep0-v8-v8-0-8f90434574fe@gmail.com>
 
-On Tue, Nov 10, 2026 at 09:03:21AM +0000, Joas Antonio dos Santos via B4 Relay wrote:
-> From: Joas Antonio dos Santos <joasantonio108@gmail.com>
+On Tue, Nov 10, 2026 at 12:13:21PM +0800, Jing Lin via B4 Relay wrote:
+> This series fixes the ep0 request lifetime and shared request buffer
+> races in gadgetfs, and the pre-existing event counter underflow.
 > 
-> smsc75xx_rx_fixup() takes the frame length from the RX command word
-> supplied by the device and strips the FCS by using "size - 4" for the
-> allocation, skb_put() and memcpy() of each frame that is not the last
-> one in the URB.  The length is only checked against an upper bound and
-> against skb->len, so a device can report a length field of 2..5, which
-> gives a size of 0..3 after RXW_PADDING is subtracted.
+> The first patch covers request lifetime and buffer ownership, the second
+> the ep0 setup abort and unbind state races, the third the event counter
+> underflow, and the fourth removes the const cast in gadgetfs_setup().
 > 
-> size is a u32, so "size - 4" then wraps to 0xfffffffc..0xffffffff.
-> __netdev_alloc_skb() adds NET_SKB_PAD to the unsigned length, which
-> wraps back to a small value and the allocation succeeds.  skb_put()
-> adds the length to the 32-bit skb->tail and skb->len, which also wrap,
-> so the skb_over_panic() check does not fire.  The following memcpy()
-> then tries to copy almost 4 GiB from the URB buffer into that small
-> allocation and writes far beyond it.
+> The setup() callback runs in interrupt context and may not sleep, so a
+> mutex cannot be used to serialize it against ep0_read() and ep0_write().
+> The shared request state remains protected by dev->lock and the control
+> payloads are handed off through private buffers.
 > 
-> A malicious or malfunctioning USB device can use this to corrupt
-> kernel memory or crash the machine.
+> The series was tested with the syzbot reproducer and with targeted
+> lifecycle, request-reuse, abort, unbind, stale-setup, and event-counter
+> tests on arm64 QEMU with dummy_hcd, KASAN, and lockdep.  The syzbot
+> reproducer still exits 137 on the fixed kernel without a BUG, WARNING,
+> KASAN report, or lockdep splat.
 > 
-> Reject frames that are too short to hold an FCS, as lan78xx_rx() does.
+> Signed-off-by: Jing Lin <kayano050408@gmail.com>
+> ---
 
-I assume there is soon going to be another check to ensure the frame
-is big enough to have an ethernet header? Can these checks be
-combined?
+I'm going to need some time to refresh my memory on how all this stuff 
+works in the current driver before I can review these patches properly.  
+And since I'm going to be very busy during the next few days with other 
+matters, it will be a while before I can reply.
 
-	Andrew
+But first, one thought about coordinating setup packets and their 
+replies.  It seems that there's an unavoidable race between a gadget 
+driver queuing a request in response to an old setup packet and the UDC 
+driver invoking the gadget driver's ->setup() callback for a newly 
+arrived setup packet:
+
+	UDC driver		Gadget driver
+	----------		-------------
+	Setup packet arrives
+	  Call ->setup()
+				->setup() returns DELAYED_STATUS
+				Prepare proper reply to IN request
+				  or carry out actions needed for
+				  OUT request
+	New setup packet arrives
+	  Call ->setup		Call usb_ep_queue() with reply to
+				  or status for first setup
+
+At this point there's no way for the UDC driver to know whether the 
+request it was just asked to queue is a response to the old setup packet 
+or the new one.  This is a real flaw in the gadget API.
+
+I've often thought that UDC drivers should assign a sequential ID number 
+to each setup packet and pass this number to the ->setup() callback, and 
+gadget drivers should include the number in their response so that the 
+UDC driver can tell whether the response is obsolete.  Too late to 
+change the API now, unfortunately.
+
+Alan Stern
