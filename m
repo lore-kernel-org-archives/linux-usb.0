@@ -1,67 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=60.244.123.138
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794311389;
-	b=BMci1VXzg9v9nBDlx2l5Kj4Jc0pzzii+C7gzaf1d1kfzYciqV06Z+JPDclAhLsA8ccUU
-	 860GY5iEANqhXDzyn4TvOkSGvbZYoaNROEtMN0hSnf3pOcu9oyG1ErVyTlTI4xYYgSZ74
-	 om3bPqgUl6fiV+9Xe+qeZEW4D4BkGglnwAeWt20u9LCjuj0J6HRbAADgDkctQL8fNBsXt
-	 biI6rjrTAvQA5jbFlGSrZCmyCQMHDZ71EQw7lbhc1fP1PpPkOQsmiXgphZQjGwVV6wetH
-	 JoSO8iBX6b/6ePLODqTMUJRNPmGQDyoNqHR9G3ennh0aApDvGMbFJg07V0lb4f9ApGQ==
+	t=1794311392;
+	b=JwkmVJG3jiF1R7xViWkm/i9mfOUSqhlclG+sc03OfC+rVsKdLCzTm0CHE8R40bG55zp8
+	 khoCCwjVc/UhhwPD0RvgwUKUzy1/RMpMD0TVS8jEULSaJnPbijCchv+a20kCU+TpKbg++
+	 OJt1/CUyZMZLTq4glR+IvGrpdpDSMdCLdmSmUME1nRNOHpyMM3c8rK3SMU2n91Dz/NVQR
+	 ffKx2NoVhoq7W2qoAFnH6ftYF5He/XWh1yN8FMBpHK8dgaBTEHdzb0YtgiQB+C5GtuYPV
+	 3Iwkq1jDibTws8kyp5E+G2wkov3DOTqNWiRBzRga7PILqdfkkOLHc4ABy70FZ935X0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794311389;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794311392;
 	h=DMARC-Filter:X-UUID:DKIM-Signature:X-CID-P-RULE:X-CID-O-INFO:
 	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:Received:
 	 Received:Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-MTK;
-	bh=CZ27xK6IHcnAGaEHdGwRWZS9iObODCSj/ll8dw4bp3g=;
-	b=k+O3AX075wZD1bgCqTUKA4Dz/09jFrPdH5xCqdQUSRrKDC6LQzaGl203D3RbG33n7vQP
-	 MMW8lmdkYRr0LTbgF4AeAmm93MffW6UmVlW/Podzv/k6TCoOPwmShdlyK16vJYXDEyHSP
-	 X3AIaTFP5cfKydKYMZ+hylqk4H4CSlfBQGOMEriJ4TW11ccGlWQYuVznIVsO7GrDvNuh+
-	 pzzv8qParK1W+BrTZ0U5wzlLBsGuNc6BBLnyQkWtNp+8mtvMJLlndUR7IyYQ4r+x9/aQ7
-	 7yXVq8961EBC379+fLdKfgTESAXlrDnBdlqFD+/6cF75pknNgWKN+3gzjEI3TQ/F9xQ==
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type:X-MTK;
+	bh=FSFelfKBI5tEx0FyiHC8xy7LPF/tCXOOERQd7UO+AKw=;
+	b=DVEdJefOlqQl4ozgm62CXI8eEMu8dj3xRfp8Ner2RwKFBFB3I+9c0PrwDNUqeuwobyc5
+	 E3H0XTBcDDe2XwQtbGjgRS4eUeFeuSgg/w19oBHV+5zDTTY8C2sq804edqs7PF7CH7IxU
+	 SOJSojXdO22ArVzHxewyKcxMHK5nrdj6rIf5jkEgDh5SetL3eWZWFh+mEhJgrMSBK9edS
+	 ErFK8x0cxm8sxlz6I2mWPstP2ZTvVkZ8Vj+Y0PN3o8rrY2hJ8NggBEHNTt8bqneK43AVR
+	 3Hwmj3RYvCwCzAq7wPEYDg2jXVthwdr5fRkzDF1423K2vn3GdwnM75wInCjEGYyvLOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=mediatek.com;
 	spf=pass smtp.mailfrom=mediatek.com;
-	dkim=pass header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=lPucZqKA;
-	arc=none smtp.remote-ip=210.61.82.184
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	dkim=pass header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=lOscPn5h;
+	arc=none smtp.remote-ip=60.244.123.138
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952BF606A325;
-	Tue, 10 Nov 2026 11:49:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 952BF606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5333B606A332;
+	Tue, 10 Nov 2026 11:49:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5333B606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=lPucZqKA
-X-UUID: d0a88980dcfc11f18dc8c9802ae25ab1-20261110
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=lOscPn5h
+X-UUID: d1b17c1adcfc11f1b1788b6acf885367-20261110
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=CZ27xK6IHcnAGaEHdGwRWZS9iObODCSj/ll8dw4bp3g=;
-	b=lPucZqKA38DBAKjXCwSkuvUDU74rHZ9lwl+/f8s4V8oTxkWroqZv/iRqSi6Hm3DoQKxETHNuVZdvgSlIPVergtr0aMokt5Mejp1Xs/SLNV0PxzYAn36A1NW9ZfawKlxXBHPrDWDh/gJiST6aktAKKAIZ9HHQdtgpUIlJyYe3Xfo=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=FSFelfKBI5tEx0FyiHC8xy7LPF/tCXOOERQd7UO+AKw=;
+	b=lOscPn5hlljahIZb7u+MvJm2pT1iq18zHrlPjP4FdSppa6x+flXQkAkWIQhAnq2AsBrFPOuZg4BmEpna/3j1QbGDtjMjZ+USdsLHKOibzXKCejG9IAc47VL29D9QkGxysZkZCLz4Ag/cv6qxiGtFdwdvzmBR624zrPVGW622F30=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.21,REQID:dfeb11cd-2ef8-45dd-9375-212006edb065,IP:0,U
+X-CID-O-INFO: VERSION:1.3.21,REQID:0e69bf9b-0edd-4881-b7c1-9d24f39d8e74,IP:0,U
 	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
 	N:release,TS:-25
-X-CID-META: VersionHash:b0318ac,CLOUDID:81b91457-a87d-42b7-8ffd-9e23ca174329,B
-	ulkID:nil,BulkQuantity:0,SF:102|136|836|865|888|898,TC:-5,Content:0|15|50|
-	99,EDM:-3|-100,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
-	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-META: VersionHash:b0318ac,CLOUDID:88b91457-a87d-42b7-8ffd-9e23ca174329,B
+	ulkID:nil,BulkQuantity:0,SF:81|82|102|836|865|888|898,TC:-5,Content:0|15|5
+	0|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: d0a88980dcfc11f18dc8c9802ae25ab1-20261110
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
+X-UUID: d1b17c1adcfc11f1b1788b6acf885367-20261110
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
 	(envelope-from <chunfeng.yun@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 568629884; Tue, 10 Nov 2026 19:49:41 +0800
+	with ESMTP id 1878143288; Tue, 10 Nov 2026 19:49:43 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 10 Nov 2026 19:49:40 +0800
+ 15.2.2562.29; Tue, 10 Nov 2026 19:49:42 +0800
 Received: from gcnsap21.gcn.mediatek.inc (10.17.81.22) by
  mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.2562.29 via Frontend Transport; Tue, 10 Nov 2026 19:49:39 +0800
+ 15.2.2562.29 via Frontend Transport; Tue, 10 Nov 2026 19:49:41 +0800
 From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 To: Mika Westerberg <westeri@kernel.org>
 CC: Andreas Noever <andreas.noever@gmail.com>, Konrad Dybcio
@@ -72,10 +73,12 @@ CC: Andreas Noever <andreas.noever@gmail.com>, Konrad Dybcio
 	<linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-mediatek@lists.infradead.org>, Chunfeng Yun
 	<chunfeng.yun@mediatek.com>
-Subject: [PATCH 0/7] thunderbolt: Add support platform NHI driver
-Date: Tue, 10 Nov 2026 19:48:48 +0800
-Message-ID: <20261110114925.722014-1-chunfeng.yun@mediatek.com>
+Subject: [PATCH v2 2/7] thunderbolt: Move ICM mailbox functions to icm.c and internalize interrupt work
+Date: Tue, 10 Nov 2026 19:48:50 +0800
+Message-ID: <20261110114925.722014-3-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261110114925.722014-1-chunfeng.yun@mediatek.com>
+References: <20261110114925.722014-1-chunfeng.yun@mediatek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -85,110 +88,232 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="y"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-MTK: N
 
-Historically, the USB4 / Thunderbolt subsystem has had a hard dependency
-on PCI, bundling the core framework, the PCIe-attached Native Host
-Interface (NHI) driver (pci.c), and the Intel Connection Manager (icm.c)
-into a single module (thunderbolt.ko).
+In preparation for modularizing PCIe NHI and ICM support as a separate
+driver, clean up internal helper functions so that they do not need to
+be exported:
 
-Modern ARM64 SoCs (such as MediaTek MT8901 / MT8992) integrate the USB4
-host router / NHI directly as an MMIO platform device rather than sitting
-on an external PCIe bus. Furthermore, embedded and SoC-based platforms
-often do not include PCIe-attached host routers or require Intel ICM
-support, making a mandatory PCI dependency and bundled PCIe code
-undesirable.
+nhi_mailbox_cmd() and nhi_mailbox_mode() are only used by the Intel
+firmware Connection Manager (icm.c) to exchange mailbox commands with
+firmware running on Intel PCIe NHIs. The Thunderbolt core framework,
+software connection manager, and non-PCIe platform controllers do
+not use this mailbox interface. Move both functions into icm.c and
+mark them static.
 
-This series decouples PCIe NHI and Intel ICM support from the Thunderbolt
-core framework, introduces a generic platform NHI driver supporting DT and
-ACPI bindings, and addresses link training timing and race condition issues
-observed during suspend/resume and authorization.
+nhi_interrupt_work was previously initialized in pci.c within
+nhi_pci_init_msi(), requiring it to be visible across files. Move
+INIT_WORK(&nhi->interrupt_work, ...) into tb_nhi_probe() so that
+the workqueue item is initialized by the NHI core and
+nhi_interrupt_work() can be marked static in nhi.c.
 
-Overview of Changes
-===================
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+new patch
+---
+ drivers/thunderbolt/icm.c | 59 ++++++++++++++++++++++++++++++++++++
+ drivers/thunderbolt/nhi.c | 64 ++-------------------------------------
+ drivers/thunderbolt/nhi.h |  3 --
+ drivers/thunderbolt/pci.c |  2 --
+ 4 files changed, 62 insertions(+), 66 deletions(-)
 
-1. Modularization & Namespace Cleanups (Patches 1-3)
-   - Patches 1 & 2 clean up internal interfaces before exporting. Core NHI
-     functions are prefixed with standard tb_/tb_ring_ namespace prefixes.
-     Intel ICM mailbox helpers (nhi_mailbox_cmd/mode) are moved into icm.c
-     and made static, and interrupt work initialization is internalized in
-     tb_nhi_probe().
-   - Patch 3 drops the hard "depends on PCI" from CONFIG_USB4, introduces
-     CONFIG_USB4_PCI to build PCIe NHI and ICM as an opt-in module
-     (thunderbolt_pci.ko), and adds a .select_cm() hook in tb_nhi_ops to
-     allow connection manager selection without core hardcoding.
-
-2. Platform NHI Driver (Patch 4)
-   - Introduces CONFIG_USB4_PLATFORM (thunderbolt_platform.ko), adding
-     support for memory-mapped USB4 NHIs via Device Tree ("usb4-nhi-platform")
-     and ACPI ("ACPI0015").
-   - Implements platform-specific tb_nhi_ops hooks and runtime PM.
-   - Adds support for an optional dedicated wakeup interrupt from an
-     always-on power domain, necessary for SoCs where the primary NHI MAC/PHY
-     power domain is gated during suspend.
-
-3. Link Training and Disconnect Improvements (Patches 5-6)
-   - Patch 5 increases the port link training timeout in tb_wait_for_port()
-     from 1s to 2s. According to the USB4 specification, Phase 5 (Link
-     Equalization) alone may take up to 1000 ms. When combined with Phases 2-4
-     (~200 ms) and retimer command transaction delays across dual-retimer
-     topologies, physical link establishment can legitimately exceed 1.2s–1.5s,
-     which previously led to spurious disconnects during wakeups.
-   - Patch 6 decouples the TB_PORT_UNPLUGGED wait time from the overall 2s
-     link-up timeout. Under normal link training, the port enters
-     TB_PORT_CONNECTING within ~200 ms. Capping TB_PORT_UNPLUGGED retries to
-     400 ms allows genuine device disconnect wakeups to be handled promptly
-     without waiting the full 2s.
-
-4. Prevent Authorization/Teardown Race Warnings (Patch 7)
-   - Prevents WARNING splats in tb_path_activate() and tb_disconnect_pci()
-     when sysfs 'authorized' is modified while a downstream router is lost or
-     unplugged during suspend/resume. Checking sw->is_unplugged avoids
-     redundant lookups and activation attempts on already-freed tunnels.
-
-Testing
-=======
-This series has been tested on MediaTek ARM64 SoC platforms with an
-integrated platform USB4 NHI, verifying:
-- Cold boot, device discovery, and tunnel allocation (PCIe, USB3).
-- System/runtime Suspend and wake-on-connect/disconnect/remote wakeup.
-- Concurrent sysfs authorization changes during disconnect events.
-- Verification of modular builds with CONFIG_USB4_PCI=m and
-  CONFIG_USB4_PLATFORM=m.
-
-Chunfeng Yun (6):
-  thunderbolt: Prefix NHI core functions with tb_ and tb_ring_
-  thunderbolt: Move ICM mailbox functions to icm.c and internalize
-    interrupt work
-  thunderbolt: add platform NHI driver
-  thunderbolt: increase the lane adapter link-up timeout value
-  thunderbolt: decouple the waiting time of TB_PORT_UNPLUGGED and
-    TB_PORT_UP
-  thunderbolt: prevent pcie tunnel activation/teardown warnings
-
-Konrad Dybcio (1):
-  thunderbolt: Make PCIe NHI support opt-in
-
- drivers/thunderbolt/Kconfig    |  20 +++-
- drivers/thunderbolt/Makefile   |  10 +-
- drivers/thunderbolt/ctl.c      |   6 +-
- drivers/thunderbolt/domain.c   |  14 ++-
- drivers/thunderbolt/icm.c      |  59 +++++++++++
- drivers/thunderbolt/nhi.c      |  92 ++++--------------
- drivers/thunderbolt/nhi.h      |  16 ++-
- drivers/thunderbolt/pci.c      |  50 ++++------
- drivers/thunderbolt/platform.c | 172 +++++++++++++++++++++++++++++++++
- drivers/thunderbolt/switch.c   |  26 ++++-
- drivers/thunderbolt/tb.c       |   7 ++
- drivers/thunderbolt/tb.h       |   2 -
- drivers/thunderbolt/tunnel.c   |   1 +
- drivers/thunderbolt/xdomain.c  |   5 +
- include/linux/thunderbolt.h    |   4 +
- 15 files changed, 356 insertions(+), 128 deletions(-)
- create mode 100644 drivers/thunderbolt/platform.c
-
+diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
+index a295a5e6cc9c..736f551cd567 100644
+--- a/drivers/thunderbolt/icm.c
++++ b/drivers/thunderbolt/icm.c
+@@ -45,6 +45,7 @@
+ #define ICM_RETRIES			3
+ #define ICM_APPROVE_TIMEOUT		10000	/* ms */
+ #define ICM_MAX_LINK			4
++#define ICM_MAILBOX_TIMEOUT		500 /* ms */
+ 
+ static bool start_icm;
+ module_param(start_icm, bool, 0444);
+@@ -269,6 +270,64 @@ static int pcie2cio_write(struct icm *icm, enum tb_cfg_space cs,
+ 	return pci2cio_wait_completion(icm, 5000);
+ }
+ 
++/**
++ * nhi_mailbox_cmd() - Send a command through NHI mailbox
++ * @nhi: Pointer to the NHI structure
++ * @cmd: Command to send
++ * @data: Data to be send with the command
++ *
++ * Sends mailbox command to the firmware running on NHI.
++ *
++ * Return: %0 on success, negative errno otherwise.
++ */
++static int nhi_mailbox_cmd(struct tb_nhi *nhi, enum nhi_mailbox_cmd cmd, u32 data)
++{
++	ktime_t timeout;
++	u32 val;
++
++	iowrite32(data, nhi->iobase + REG_INMAIL_DATA);
++
++	val = ioread32(nhi->iobase + REG_INMAIL_CMD);
++	val &= ~(REG_INMAIL_CMD_MASK | REG_INMAIL_ERROR);
++	val |= REG_INMAIL_OP_REQUEST | cmd;
++	iowrite32(val, nhi->iobase + REG_INMAIL_CMD);
++
++	timeout = ktime_add_ms(ktime_get(), ICM_MAILBOX_TIMEOUT);
++	do {
++		val = ioread32(nhi->iobase + REG_INMAIL_CMD);
++		if (!(val & REG_INMAIL_OP_REQUEST))
++			break;
++		usleep_range(10, 20);
++	} while (ktime_before(ktime_get(), timeout));
++
++	if (val & REG_INMAIL_OP_REQUEST)
++		return -ETIMEDOUT;
++	if (val & REG_INMAIL_ERROR)
++		return -EIO;
++
++	return 0;
++}
++
++/**
++ * nhi_mailbox_mode() - Return current firmware operation mode
++ * @nhi: Pointer to the NHI structure
++ *
++ * The function reads current firmware operation mode using NHI mailbox
++ * registers and returns it to the caller.
++ *
++ * Return: &enum nhi_fw_mode.
++ */
++static enum nhi_fw_mode nhi_mailbox_mode(struct tb_nhi *nhi)
++{
++	u32 val;
++
++	val = ioread32(nhi->iobase + REG_OUTMAIL_CMD);
++	val &= REG_OUTMAIL_CMD_OPMODE_MASK;
++	val >>= REG_OUTMAIL_CMD_OPMODE_SHIFT;
++
++	return (enum nhi_fw_mode)val;
++}
++
+ static bool icm_match(const struct tb_cfg_request *req,
+ 		      const struct ctl_pkg *pkg)
+ {
+diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+index c574c336f25b..1e3a58636d3d 100644
+--- a/drivers/thunderbolt/nhi.c
++++ b/drivers/thunderbolt/nhi.c
+@@ -35,8 +35,6 @@
+  */
+ #define RING_E2E_RESERVED_HOPID	RING_FIRST_USABLE_HOPID
+ 
+-#define NHI_MAILBOX_TIMEOUT	500 /* ms */
+-
+ static bool host_reset = true;
+ module_param(host_reset, bool, 0444);
+ MODULE_PARM_DESC(host_reset, "reset USB4 host router (default: true)");
+@@ -964,65 +962,7 @@ int tb_ring_throttling(struct tb_ring *ring, unsigned int interval_nsec)
+ }
+ EXPORT_SYMBOL_GPL(tb_ring_throttling);
+ 
+-/**
+- * nhi_mailbox_cmd() - Send a command through NHI mailbox
+- * @nhi: Pointer to the NHI structure
+- * @cmd: Command to send
+- * @data: Data to be send with the command
+- *
+- * Sends mailbox command to the firmware running on NHI.
+- *
+- * Return: %0 on success, negative errno otherwise.
+- */
+-int nhi_mailbox_cmd(struct tb_nhi *nhi, enum nhi_mailbox_cmd cmd, u32 data)
+-{
+-	ktime_t timeout;
+-	u32 val;
+-
+-	iowrite32(data, nhi->iobase + REG_INMAIL_DATA);
+-
+-	val = ioread32(nhi->iobase + REG_INMAIL_CMD);
+-	val &= ~(REG_INMAIL_CMD_MASK | REG_INMAIL_ERROR);
+-	val |= REG_INMAIL_OP_REQUEST | cmd;
+-	iowrite32(val, nhi->iobase + REG_INMAIL_CMD);
+-
+-	timeout = ktime_add_ms(ktime_get(), NHI_MAILBOX_TIMEOUT);
+-	do {
+-		val = ioread32(nhi->iobase + REG_INMAIL_CMD);
+-		if (!(val & REG_INMAIL_OP_REQUEST))
+-			break;
+-		usleep_range(10, 20);
+-	} while (ktime_before(ktime_get(), timeout));
+-
+-	if (val & REG_INMAIL_OP_REQUEST)
+-		return -ETIMEDOUT;
+-	if (val & REG_INMAIL_ERROR)
+-		return -EIO;
+-
+-	return 0;
+-}
+-
+-/**
+- * nhi_mailbox_mode() - Return current firmware operation mode
+- * @nhi: Pointer to the NHI structure
+- *
+- * The function reads current firmware operation mode using NHI mailbox
+- * registers and returns it to the caller.
+- *
+- * Return: &enum nhi_fw_mode.
+- */
+-enum nhi_fw_mode nhi_mailbox_mode(struct tb_nhi *nhi)
+-{
+-	u32 val;
+-
+-	val = ioread32(nhi->iobase + REG_OUTMAIL_CMD);
+-	val &= REG_OUTMAIL_CMD_OPMODE_MASK;
+-	val >>= REG_OUTMAIL_CMD_OPMODE_SHIFT;
+-
+-	return (enum nhi_fw_mode)val;
+-}
+-
+-void nhi_interrupt_work(struct work_struct *work)
++static void nhi_interrupt_work(struct work_struct *work)
+ {
+ 	struct tb_nhi *nhi = container_of(work, typeof(*nhi), interrupt_work);
+ 	int value = 0; /* Suppress uninitialized usage warning. */
+@@ -1331,6 +1271,8 @@ int tb_nhi_probe(struct tb_nhi *nhi)
+ 	if (!nhi->tx_rings || !nhi->rx_rings || !nhi->interrupt_mask)
+ 		return -ENOMEM;
+ 
++    INIT_WORK(&nhi->interrupt_work, nhi_interrupt_work);
++
+ 	nhi_reset(nhi);
+ 
+ 	/* In case someone left them on. */
+diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
+index a36c62c49a5c..3dd6ace6150d 100644
+--- a/drivers/thunderbolt/nhi.h
++++ b/drivers/thunderbolt/nhi.h
+@@ -27,11 +27,8 @@ enum nhi_mailbox_cmd {
+ 	NHI_MAILBOX_ALLOW_ALL_DEVS = 0x23,
+ };
+ 
+-int nhi_mailbox_cmd(struct tb_nhi *nhi, enum nhi_mailbox_cmd cmd, u32 data);
+-enum nhi_fw_mode nhi_mailbox_mode(struct tb_nhi *nhi);
+ void nhi_enable_int_throttling(struct tb_nhi *nhi);
+ void nhi_disable_interrupts(struct tb_nhi *nhi);
+-void nhi_interrupt_work(struct work_struct *work);
+ irqreturn_t tb_nhi_isr(int irq, void *data);
+ irqreturn_t tb_ring_msix(int irq, void *data);
+ int tb_nhi_probe(struct tb_nhi *nhi);
+diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+index 2f0abf4d27a3..275389903090 100644
+--- a/drivers/thunderbolt/pci.c
++++ b/drivers/thunderbolt/pci.c
+@@ -206,8 +206,6 @@ static int nhi_pci_init_msi(struct tb_nhi *nhi)
+ 		if (nvec < 0)
+ 			return nvec;
+ 
+-		INIT_WORK(&nhi->interrupt_work, nhi_interrupt_work);
+-
+ 		irq = pci_irq_vector(pdev, 0);
+ 		if (irq < 0)
+ 			return irq;
 -- 
 2.45.2
 
