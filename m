@@ -1,57 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794278865;
-	b=zak/iAPxH6aIwlfj9aejjw+FQC9MLWQwU1/sNZO18C7us2G/TTHs3ZQpPSZ5QTA9FyLV
-	 aSg4QG75f4FR0awkY/VA0pbb9uqs2D9HgFGwt+bo/ZWrNlB/Y7Z73Zx6qmO0PnxgBQay6
-	 PFZKBl7MqePUAJHnI1sr8kQdm8WqhOSK/ahnZBEJhqp3ul/Qer/nSZw21j8RplwoEodJk
-	 Q0f+wdDgGAcB9rS4oPjUgwAqLlHu3P66YGuNrHfAJdP7E4JPf77pehg3YKEIa8Ab+eQxp
-	 Dtz8JJeEu+ZuAjBZk7VS0ctJJUHMBBuNIUmVMdqv0vHrDQfhxrnmp1EHJeNug/UOiTQ==
+	t=1794279282;
+	b=yOZSjq8Tc1QmUx73ahsW4zd2xtbxjG21JbUlB1TCQZzGau62HTpf1BZmTQi+ou0hrfj6
+	 xsfov1f1q1OfyNKPBJyXLlQlYB/I/QW94pZqbU41NoPsKDr1rg4k0O7Z7RIStyIVl9o9G
+	 2bsJp5ws3DEPZqGIMC+ucmsFAP9LkACH1apuIzdDwB2MjuSUe2r+CTVPxBZXblbGsDrgy
+	 8LSuM60JQeBoTyJwkvTApKI88qSo695r7ZDHYKAI7M/o9BrmaHs0euHOhpmi20/t75SEB
+	 vP52mSlY6vDnvWM0fdihyXJcjgQul1un8zSgtbP2mdbUDx+AofiNnXk4rBYG4hm8qgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794278865;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=cRFVotjwxyEnUFwAioisC41iSDmtFTz7CO2s4CRCYB8=;
-	b=QxrJpKJYjj5oiUGn3zKQlHbZpnzh08aTJ+ZJd4+Y++p6Ll8oVxrCuf0OfUy/AaTNpza6
-	 9kfnsmGL2Och/SrnmeixhGf7Z7FQS+8yiqSwVb4GCg2ZqJYWk4nzwlpGX4vtAvogVXuDz
-	 Ke1O9k3X4z0Rrnw1JlX5mIJRDbKi3zO1RjMegvycAv2rw1sjBwBt1RNk/XShDqTsSkYtd
-	 DkmcWxYbBwQjAGwHhTcwNvZPz3BL7CLZyaE56r0ohVh/LF0zn7VtX0YDS3RcM39SCPqR4
-	 99Ycn2LgGow/01FKi38hNS4mIatdHX9FPPVEun33pywmdO0AD8a7gPBt6pWxPHiMrwA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794279282;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=pGDVjv9GCVnC1zC0BjKIXRdwsel73N9am2wcYD2t6H4=;
+	b=OATc5xjtZj/WRuSsQK2+oCHwOFc3nNNFVx3An822li0J+42d56QmyC4xFRUgTt35/jmI
+	 LKGUpqPnuv4M3kYPClNurL3C1CAx5oGB8TwddT1JFVaYnlmRgLkk14RRwYOnryhoNBl/A
+	 M/7CbLakYXfWziUo8jwkUsyEM15bqn85+wRKybn2fgCXZ+oCJtP8emAslxbUxePoxlxHi
+	 gfIHukZkd4iEviUkedyEiWmrcGpYIyyd0XM6MSpO411uxKwl/d/gITIafkEe8jfQlvqrB
+	 wiXoAtnFkb/w+vmk9zA3Hx/YqDr6RFF0xPiu02mALEwWBwuOZ/LODL5qNUt80leAVlw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=koCifuVO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IilU8Oe7;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEA9606A31C;
-	Tue, 10 Nov 2026 02:47:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B14606A321;
+	Tue, 10 Nov 2026 02:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=koCifuVO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5125D1F008A5;
-	Tue, 10 Nov 2026 02:47:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IilU8Oe7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BE8F1F008A2;
+	Tue, 10 Nov 2026 02:54:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794278865;
-	bh=cRFVotjwxyEnUFwAioisC41iSDmtFTz7CO2s4CRCYB8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=koCifuVO5onqqUk8z+gfmINZzJYBgBU10DdvKfIu+onI80rrzRd7QtRnM1qyrck65
-	 qZfPCpyYITeG1u5k+1e//Z0B6Lev7AS2IWfRQrhICntzwcQfgH5Si0Hu9h6aXSIPLE
-	 pgezl8H/V7MnRkK4TnD/0d4muvQFCLy02fyvUG6+VzBM1Vjzkc1Vz6KNtvg3Qf8Sju
-	 2ifiw9Au7qFKWFmmN0k4PnKv9bAi59DKCrMyTpHaqXzvs9NRTrhsKoPnDE1q84Z/jm
-	 eQZp4milIoOfFzio2Od179Tinq1VrroMAKReM4vXXwNRcx+6AA4b4q6gUH+VEOKIP2
-	 adHmzBwi0PjZw==
-Message-ID: <sashiko-outbox-206067@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 1/4] usb: xhci: sideband: fix ring sg table for
- sub-page TRB segments
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wesley Cheng" <wesley.cheng@oss.qualcomm.com>
-Cc: linux-usb@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20261109-16k_offload_v1_b4-v6-1-858c6e0e007d@oss.qualcomm.com>
-References: <20261109-16k_offload_v1_b4-v6-0-858c6e0e007d@oss.qualcomm.com>
- <20261109-16k_offload_v1_b4-v6-1-858c6e0e007d@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 02:47:44 +0000
+	s=k20260515; t=1794279282;
+	bh=pGDVjv9GCVnC1zC0BjKIXRdwsel73N9am2wcYD2t6H4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=IilU8Oe7uG7wi0bIXVG57RfUcH7zKAiDLG0eVYZpYGGphn+6cAUwz+UGYNeE3pvAC
+	 hflta5RFJEhEi9GwOQPsbaKHx5izVJo0VeXfDYd1Z8Q73j76U6MnuVqM9CcGTcGD3O
+	 2xACmmyhTk+mZDjXa47YxfkgQYKOzv+4F87flZVhf8ApQ8iDpByiEAotoO/K+OBwlF
+	 kD7WReH9Y39zxgFL1YcKvyTXxyRQyhzoarNhGNDwhl2sWKSgG7M0Tyy+TtGiOBwEzI
+	 I/EQP6lDP7VxdoqMpJLsW/77Ay7dGtW2Q1NlHTOcTmgu8geNlKw33bMBiNakIJeb6i
+	 wZvFB8svx3GxQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 21208391AFCB;
+	Tue, 10 Nov 2026 02:54:42 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,41 +52,45 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] net: usb: lan78xx: resume phylink on non-reset USB
+ resume
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179427928067.3612825.12651783871819914627.git-patchwork-notify@kernel.org>
+Date: Tue, 10 Nov 2026 02:54:40 +0000
+References: <20261102235133.23011-1-stefanomunari.sm@gmail.com>
+In-Reply-To: <20261102235133.23011-1-stefanomunari.sm@gmail.com>
+To: Stefano Munari <stefanomunari.sm@gmail.com>
+Cc: Thangaraj.S@microchip.com, UNGLinuxDriver@microchip.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, linux@armlinux.org.uk,
+ o.rempel@pengutronix.de, rmk+kernel@armlinux.org.uk, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] usb: xhci: sideband: missing Fixes trailer in
-  xhci_ring_to_sgtable() fix
---
+Hello:
 
-commit daeb30414f41a889c527fcde183d2b47baf749d5
-Author: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-> usb: xhci: sideband: fix ring sg table for sub-page TRB segments
->
-> xhci_ring_to_sgtable() populated its sg_table via dma_get_sgtable()
-> per segment and sg_alloc_table_from_pages(), both of which only
-> operate at whole PAGE_SIZE granularity. Since TRB_SEGMENT_SIZE (4096)
-> can be smaller than PAGE_SIZE, these helpers describe a full page for
-> each ring segment on larger-PAGE_SIZE kernels (16K/64K), and cannot
-> correctly represent segments that share the same physical page.
->
-> Build the sg_table directly instead: allocate one sg entry per ring
-> segment with sg_alloc_table(), and fill each entry explicitly with
-> sg_set_page() using the segment's own page, TRB_SEGMENT_SIZE as the
-> length, and offset_in_page() for the exact intra-page offset. Walk the
-> table with for_each_sg() so this also works for chained sg tables.
->
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+On Tue,  3 Nov 2026 00:51:33 +0100 you wrote:
+> lan78xx_suspend() calls phylink_suspend(dev->phylink, false) on an open
+> interface, which always stops phylink and halts the PHY. The matching
+> phylink_resume() is only called from lan78xx_reset_resume().
+> When the USB device stays powered across system sleep (e.g. s2idle) and
+> the USB core calls .resume instead, the link stays down until the interface
+> is brought down and up by hand. The ifdown triggers:
+> 
+> [...]
 
-[Severity: Low]
-Since this fixes xhci_ring_to_sgtable() on kernels with PAGE_SIZE larger
-than TRB_SEGMENT_SIZE, should it include a Fixes tag?
+Here is the summary with links:
+  - [net] net: usb: lan78xx: resume phylink on non-reset USB resume
+    https://git.kernel.org/netdev/net/c/be9587c47db1
 
-  Fixes: de66754e9f80 ("xhci: sideband: add initial api to register a secon=
-dary interrupter entity")
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-16k_offloa=
-d_v1_b4-v6-0-858c6e0e007d@oss.qualcomm.com?part=3D1
+
