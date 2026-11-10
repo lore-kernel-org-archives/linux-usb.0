@@ -1,80 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1794307146;
-	b=ch8SbZJnwTf2ao8uTVQPzMCgtigPYVnLIYtsG6kB+V/h3YpmjQSjqz7BijKfWxrCMwmY
-	 TLgYlkHovI+c98G4mN+2EyAWQK8u2xQH/2x0q5gzXeCHcxG3pZk7hucQK9GnfcaBBG37Y
-	 hQPgnQxuXV+ktVRmgPeint+o6HfzFwv+yaBlxJQU3JM60VkJkU8fmS2CDjGH6on5eTdWV
-	 RBjuate5V9A52CrE7Tpei7TXYz8XvJP2ST/6MnVb0jJGmDIIfszw36QZjarUALRqhB1mx
-	 cQI5qLe7VjRFd2I630JzYdWYXS8qbNTTGvPcgrw8uhRq2+nuksZF41RszFozWxz1IEQ==
+	b=46p3NwqcPqqsIWe+J1JyA1XIcK1QePXwoig92Tom3BxVpXLA3Z/ZGP0quGZ3rFp0x6sh
+	 +fmGN7/K+txm2SO2FI0iAgdQgynLJdisNds34OA7ftr1PwlZoXkpZ1dKuIkj5+rkwRRMW
+	 CpZAqzUfNhSPG/JHNqvYgbed0vCwGQ7sKPUgb0yTd130WeF2bjAWXU/VFE+Yax60+sQtv
+	 vyLfpBFJqtp9ufGnpN9bqviqhdsmAss2l7E6CMypjgLorNpqG6hp88sgWuBo+vLcBlpBU
+	 crJ+oA7Qvr3zEAK7FROTha3mxw/b0lNPBquevrdK/PyckKt2jdY+I8GuOWFxNaq9DFw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794307146;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=NHmyoMsCMwSG2/nuYw9a6DHQhzdO61SK7Mg+66RUzM8=;
-	b=2jOKI9qFkzFvkL2q1hk0nnwR4hqyXm6tkqPARIXbEc7iauUFrQfrtP9M+NeNu3NKGTzP
-	 vPVP614n3j0dwqMv1uswk/G5Shq7AA9yRvuqMu3gTs7+lgDdt0fCqForPrPBacd7Bpgns
-	 l2cvj1myPQr+IKA0KmAQNXOBI/WSPHzt74GYHdIjIcGj/wLXcJwzK4LVE9/cYd/UxeuOq
-	 gaH7bGlwNeskFId20QB6INgHgFEBYhY/pvDq+PZce6oT8bC649zkKzUT4oskxtVQXvpTm
-	 iWnvsz3aimkPwxJ8OOtnQubicmAzt6nNwqtA4WZRehyQS557bpw/f+N6nVxamtriciQ==
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=g5RQKUG5bh8bp1Y7KkAg3WudRjo1nNv/KFbkLN7VwaE=;
+	b=WpvHzA0NmAyExzKQQzLOYgN7GVd+8nK2RoGLPp6/WSyJQiURBLPLCDtXXk2gSPAdwPzc
+	 j8Kk4v0z7lz9NXfYR8H3+u2Mc0wowgGebGPZgCXyQK1Xr596tdcphh51/aUjrNoPxFbBg
+	 UBVS4LZbufM+Mi/DYvqeKlhy/8jac8Zkl8f7ZDW5PKTNQBAk/1etmqMwmpR4PidHCaJwn
+	 OoX9JgS+XCIkUtAUMCp2Xq4ZC0uPRdc+KgTd8Tlw+L5clfM5bpJVbny5I9Jhfe+WqoL0e
+	 Klv2xrrTXnMHOlJRrgTunxMJ534t5EWNVZ0MgYTcM65BJx2M24fOOBUD7lW2zqWKe9Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uxr76c0F;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=edt3XDD9;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320F3606A325;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32133606A326;
 	Tue, 10 Nov 2026 10:39:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uxr76c0F
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=edt3XDD9
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794307146;
-	b=3ATie1GfSKhRegJXXJMGYzgpDC9ZovxaRSsL/uDWrlQfof62/g5T/r/OjcQy5/seFXpP
-	 /Ol4fDRaj8O3ilz5N6HoHJS29ZqJMdggv0ePWSZXxJA4ThGJqejN1UdZsk5XFPb6wzSGt
-	 7Pc17itxJ+gqUBcGit+7alijWTugxeIaoPxqJVjoR9mM/4DI0K6nofJoElka5MuVR20TI
-	 VEPtZyNssxQrM29nnVdU9cpCJ6qC0wZTqTbbjpEB5cJK3vVsJO5oHFWpQMkddDqX69T7a
-	 kENVId6bJltN6czt56YFo6cqqMZwev5f+7cPbaJRTSP6GUez6rtTMUuvaQpBKWmUx2w==
+	t=1794307145;
+	b=GoIImfyIRoYg7sTzLx6OdruXOmsi5q1bwxY52A79qC7zq7OHrTSom86lC+T+JdmJ4Rh6
+	 gAQRmbNRhZLaaoQ3sHARqvP31/LjBpzvLYp13SV/3tC+KMQPceHssjmuLJ55I1nHhVqHc
+	 Yk2yqeaSZ2ctYe0YJ5nWO2ovkvZjOIi2TsBpFbhdkLEUahoqUi2oYFg7UXYBH6JZzLuZe
+	 iJNMhO+SMLjdoqeljFYxLz+MNpeiNkfvqNUPeZfqB/IGX3BcGdMk2D/Y/1kECmkHz9tBe
+	 YSVNp9hhpNtO/bRtQMArerPiCGp32e69SWFf6hKesmKtLe9Nqkt4fTk8pp69O0UD35w==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794307146;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=NHmyoMsCMwSG2/nuYw9a6DHQhzdO61SK7Mg+66RUzM8=;
-	b=L5Be5wDU8FN/svyjDfJlff1fur3fht18BHxJ+rJQ/KE62HypyrFVvRvOwerDWcAzIaF6
-	 sDQvhyDXdzo2VpRqXNp+e4dYVdQDEY1NCf/hrdzbMz2GCZbfJ1nX94lti0q4c/wmIkHSe
-	 ByNokswUzpiJlnqClZ0RgPZzpw+3VPHJojVJep2sk8/AabHiP2ZoBO6z2cz8FFejbF/iI
-	 R7EHBH9BFJm1UTnyk95/jCIxILd6GW7XmxMa4WiV5aWf8TzMX5Ws1WUA5d9cC3KwKcWDU
-	 QmbmEigHr+EO7GKpW6HwvhDmYB6pdC9a9glBKoduREuTHgQ+0aqKZY7+sXiOOXx0cLQ==
+	c=relaxed/relaxed; t=1794307145;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=g5RQKUG5bh8bp1Y7KkAg3WudRjo1nNv/KFbkLN7VwaE=;
+	b=vDX8HmLCV8D+wMO7U1WzZKfuoVuYo1ARfbx8POfj5BFSoFzaX14Y3Yi6B0B4c+UmJfGp
+	 izWyFwW5Y7AzKj4WCR4L7ROgIRgaYhgKvQd0NBSqGcd752RMxNO1YYEK9ZSeAxVh+oZnf
+	 58iwH8j1W5Y8OmhQrzcuPXuhIUjrxZ3HOodo6n9i1+UIy3G/v9UQ92Jd7UXW0B+kAIfHZ
+	 iNJcYfCD8Inz6h2JfA2UtfzX+26q4AMj9QMiY7+/8JUfYaJP1XFWQm+RlMO3O9WiPbOR3
+	 Zkbdatz19yEy3bR8Guk1UM/GTcBBhJIVVgCrTeMO40Jb0qiZvNAWvZAMUYC2wB4U9Fg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C53811F008A7;
+	by smtp.kernel.org (Postfix) with ESMTPS id D73591F008BC;
 	Tue, 10 Nov 2026 10:39:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794307145;
-	bh=NHmyoMsCMwSG2/nuYw9a6DHQhzdO61SK7Mg+66RUzM8=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=Uxr76c0FGZe6yCa5hI0SSagc6Van0FKeqctAX1xi+anCBP2y0vzWiXCEHqPNStE73
-	 E/boD53TXhrkVysDbf3rKc2QEciqrjqZyCf1zf15EjYuw44vgIArnJ53TZyAhN4KYc
-	 UW+X84RmDBdgPIUhQ0jZNy3CgcSq+5gdJNbuONeJIMa5IohXVDsAB2tTCNRjxaCO5v
-	 yddUVrGGTSLHXpLG1v8fUpOOrMtY21zKNy5tottvbATSBhhVL+64IUuJRJCaCfciDO
-	 7UBAbqaMPtTLoyTvqEItstQmkYW4W6JnTjBmXUwfv1Jcj/9Kr0CsMjD15VpyqHh7OU
-	 ACQROmCBIeOqw==
+	bh=g5RQKUG5bh8bp1Y7KkAg3WudRjo1nNv/KFbkLN7VwaE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=edt3XDD9mNaeibOSvdmf4xo+pLavm+3qXiIiXpqa+5Ihm/vdh83E07bml/KApz+Kh
+	 LxsevU9KwRLea6mzmJrCU9Eq+Gvs5wka/I527E9/QECgvROZ27cPxODEZlqUQmWzSq
+	 EBBWSEbhXE5mLDuAcLbxGK1Bc8egVwkHdKd/pAm0wZWa2OK4c6g7YorfnOEX0b8i0r
+	 bnGdZeCeFyY8hDyF8J2G8/3yXmFK19a8HWsjzX3g4eDJUkgTYLGMfCjOH+G56tRmkY
+	 KzTeYh/EDDRjjrKW0dUadgjuz8mmH/EEhSS+dpbUNN1Uldbt6GOJelaw3J6KNd3ayD
+	 vLDmMb1kaIP/A==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 25C8748ADF;
+	by lkml.kernel.org (Postfix) with ESMTP id 64B6F48AFA;
 	Tue, 10 Nov 2026 10:39:04 +0000 (UTC)
 From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Subject: [PATCH 0/3] usb: typec: Find a Type-C partner after a warm reboot
- on the Orange Pi 5
-Date: Tue, 10 Nov 2026 10:39:03 +0000
-Message-Id: <20261110-tcpm-attach-reboot-v1-0-7657cc1e2dca@gmail.com>
+Date: Tue, 10 Nov 2026 10:39:06 +0000
+Subject: [PATCH 3/3] arm64: dts: rockchip: Mark the Orange Pi 5/5B Type-C
+ port self-powered
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -85,11 +84,9 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQqDMBBA4avIrDuQmCroVaSL/Iw6Qo0kowji3
- Zu2y2/x3gWZElOGvrog0cGZ41qgHxX42a4TIYdiqFXdaq0Vit/eaEWsnzGRi1EwdCY0o2mfyjg
- o4ZZo5PM3HV5/590t5OV7gvv+AGKCFY12AAAA
-X-Change-ID: 20261110-tcpm-attach-reboot-d93d5f36403b
+Message-Id: <20261110-tcpm-attach-reboot-v1-3-7657cc1e2dca@gmail.com>
+References: <20261110-tcpm-attach-reboot-v1-0-7657cc1e2dca@gmail.com>
+In-Reply-To: <20261110-tcpm-attach-reboot-v1-0-7657cc1e2dca@gmail.com>
 To: Badhri Jagan Sridharan <badhri@google.com>, 
  Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -98,84 +95,52 @@ To: Badhri Jagan Sridharan <badhri@google.com>,
  Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, Arun Iyengar <aiyengar1990@gmail.com>, 
- stable@vger.kernel.org
+ linux-rockchip@lists.infradead.org, Arun Iyengar <aiyengar1990@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794307143; l=3436;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794307143; l=1209;
  i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=iGPQ954ODCaz+2pIX0GxmrENRgHVatfGiGCahDtE+GM=;
- b=nGR6DIkFNsf6kRM8uWdYzOdsBCNyoOpAc44KAMwDdS41o8nk4dhn65CoIsEK9OkpUeJHJW0my
- tqQhYt+fWPjB1vnMrS5oq7kcyeSyQOvqVT5cjhkpuc4tdukMhi/hDo6
+ bh=z+vxGhU01KVE5a3ZqBJ+uJfWrWfvjtfbECzmzBJv814=;
+ b=xRGXBDxcq1rtQtvPBSmY6c9nPZGec9E/oqmuDrREyarhSKPghY6jUNc9pw5Z7FO5MVhqW8bgx
+ x3+AsXJbZyeCCMfqsaVtE742F0t4NQQBol9+ZKjFUGtI6E1xkkfMeMb
 X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
  pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
 X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
  auth_id=1480
 X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
 Reply-To: aiyengar1990@gmail.com
+Content-Transfer-Encoding: 7bit
 
-After a warm reboot, an Orange Pi 5 (RK3588S, FUSB302) often did not
-see a Genesys Logic based USB-C to DisplayPort cable that stayed
-plugged in: tcpm toggled in SRC_UNATTACHED, the FUSB302 raised no
-interrupt at all, and only a replug at the board brought DisplayPort
-back. Three changes fix it:
+From: Arun Iyengar <aiyengar1990@gmail.com>
 
-  1. tcpm: tcpm_init() sets two states back to back with the port lock
-     held, so the state machine work is queued twice, and the second
-     run applies the PORT_RESET -> PORT_RESET_WAIT_OFF transition at
-     once: tErrorRecovery (100 ms) took 6 us. A pending delay is now
-     re-armed for the time left. This is generic, with Fixes: and
-     Cc: stable.
-  2. fusb302: toggle with the default Rp current. The FUSB302 found
-     the cable within seconds when it toggled with the default current
-     (after another device was detached), never while it toggled with
-     Rp 3.0A. tcpm still sets the configured Rp level through set_cc()
-     once the port is attached.
-  3. arm64: dts: rockchip: the Orange Pi 5/5B Type-C port is
-     self-powered (its VBUS comes from vcc5v0_sys, the board runs from
-     a separate power input), so tcpm opens CC during error recovery
-     and the partner sees a real detach at boot. This one is for the
-     Rockchip tree; it does not depend on 1 and 2 to build, but without
-     patch 1 the open-CC period at boot is cut short. It is based on
-     usb-next; on top of my pending "arm64: dts: rockchip: Add USB-C DP
-     AltMode for Orange Pi 5/5B", which adds a node next to the same
-     line, it needs git am -3 (no conflict). I can resend it rebased.
+The board is powered from its separate power-only USB-C input. The
+FUSB302 port's VBUS comes from vcc5v0_sys through a load switch, so the
+board never runs from this port's VBUS.
 
-Testing, on an Orange Pi 5 with 7.3-based kernels: before, after a
-warm reboot the cable was not detected (0 FUSB302 interrupts since
-boot) until it was replugged at the board. With the three patches it
-was detected on 4/4 boots, the first one starting from that stuck
-state, with DP connected 1-2 s after boot; the three were tested
-together, not one at a time. The patches have been in every kernel I
-have run since; in a later run of 30 reboots with a USB-C DisplayPort
-monitor, the partner was attached on 30/30 boots, and the tcpm log of
-every boot shows CC opened in PORT_RESET and 100-112 ms spent there
-before PORT_RESET_WAIT_OFF. Not tested: other TCPCs (patch 1 is
-generic, patch 2 only changes fusb302), and the Orange Pi 5B (same
-dtsi). W=1 arm64 builds of drivers/usb/typec at every patch,
-CHECK_DTBS for the Orange Pi 5 and 5B and checkpatch --strict are
-clean.
-
-This series was developed with Claude (Anthropic) as a coding
-assistant: it wrote the code and the commit messages, and I reviewed
-and tested every change as described above.
+Without self-powered, tcpm keeps Rp on CC during PORT_RESET (error
+recovery), because opening CC on a port-powered device would remove its
+own supply. With self-powered, the port opens CC for tErrorRecovery
+whenever it resets, including at boot. A partner left in a stale state
+by a warm reboot then sees a real detach.
 
 Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 ---
-Arun Iyengar (3):
-      usb: typec: tcpm: Don't cut a pending state delay short on a re-queue
-      usb: typec: fusb302: Toggle with the default Rp current
-      arm64: dts: rockchip: Mark the Orange Pi 5/5B Type-C port self-powered
+ arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5-5b.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
- arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5-5b.dtsi |  1 +
- drivers/usb/typec/tcpm/fusb302.c                        | 13 +++++++++++--
- drivers/usb/typec/tcpm/tcpm.c                           | 12 ++++++++++++
- 3 files changed, 24 insertions(+), 2 deletions(-)
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261110-tcpm-attach-reboot-d93d5f36403b
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5-5b.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5-5b.dtsi
+index 6e081bc06cfe..b621fc8638c7 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5-5b.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5-5b.dtsi
+@@ -117,6 +117,7 @@ usb_con: connector {
+ 				<PDO_FIXED(5000, 1000, PDO_FIXED_USB_COMM)>;
+ 			source-pdos =
+ 				<PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)>;
++			self-powered;
+ 			try-power-role = "source";
+ 
+ 			ports {
 
-Best regards,
---  
-Arun Iyengar <aiyengar1990@gmail.com>
+-- 
+2.55.0
 
 
