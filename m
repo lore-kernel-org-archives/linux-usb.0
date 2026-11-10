@@ -1,99 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.54
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794311320;
-	b=JSyoGJOnO6d3mW7t1+arKRwMtO65DcPUWzBqNMHmiqQG5FUCUp2Qa0iYx8bV4z/eQRF+
-	 6IcfEUTl0CEbdZn9Hl3VgkF3h2aZAp4ymBWNaKsr1nAm2xnFPSdQH0tbK8VoDKdwtuF56
-	 ExCJ24OiPgNnb0dTDySyzIzLrX8JNxGYvWI9q3fM02nqea0Bc9wQQqdFbHzTvl+w8tuGr
-	 vRgIaqbdEdyE1gzqNon1JjGShHLpcgMrkjYG2sqIAjMKfcF7TQzSk+8hYgf7EEhTEz/l8
-	 KCGVPFeykAEPb6tW1MeGTX7MrfiWnI2/Vh80GIllQZuKE8PqeG0agmVJlEQLd+syN1w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794311320;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=TCGSXQkkp9CYRjtPCbFI0n0SwhiyqiBh4xY4kDY/tRc=;
-	b=XZ31JfYZsEnEqfGLjzUD8NXjbjrBavbDdJNDyq+bJiwBIVQxgZU6axAaAbR5Lc5csorI
-	 1SH1yJXqK2/fCPVhdrjBPePm/1pel/T09CFLIh19OiefSx80ugMQ62OgKUO9HRmLYFxZZ
-	 dXH83q5IEe6lSdwRfgkNN1LIXA/yHKJXbmzHsm8WuJTSEPq7o3BR8jIGtz4WqpsXaAVhU
-	 ZE4BuA/DTmzP23RkiayGmIf2DKb8/NOw5TIkFAY/ofxiU7+3y/OMxbsOvygokEjB3KdnQ
-	 pFCgA/CMdTMHPMNKTkHhfUegPHJNIuKndtgNKnZl9BWibAesRYUZWaWFEs1gIt5HFkw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CbpO7pmJ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.54
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.61.82.184
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794311391;
+	b=smHHkl8x2/uTxf7srcPpVvdQMwNaQ2XgjMFOw1xfSIIKlTAegxQw7WEI7zzTY47eOX0/
+	 j6rTgcj6C/VQzCCXSVo6UmokDfPRzeFqhdwCrSvj3TXSfRfs1nbE/hQNzDOzyxK4UO7AN
+	 mjR7h23tfOYkTZITc6NXF0OCDXMCC4vdSunMYNSovDgDWOHeXGg6sJhC2rBerjgkNQLlF
+	 ckXB2TKWFhJlL/zzppHmWFzHo43JmZIio8jh26wsMA81KNOe1cw1fCbMVxU/ZdvtOaOJt
+	 L85OO1TJnz20yv8oNSxnrqIazzSIRVqhvsuwn/Vv8bSpkiw6qW2X+Xlti69fMFkJQLw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794311391;
+	h=DMARC-Filter:X-UUID:DKIM-Signature:X-CID-P-RULE:X-CID-O-INFO:
+	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:Received:
+	 Received:Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type:X-MTK;
+	bh=UxQvBCWTGDJp0csChHCGxtym2Bdka/KsE4W82hKPGgY=;
+	b=amxQ3p5r+EnUkHzF35giRDepn1I4a0s6uxw86LLAfZ38dU1de83BooHKRhnYXjBmxqHN
+	 SG+zFpPRzWFlaiJTLoK4WatAY1TmUCp1sPSgjZZ7DZ4iiCdUJIzBFy2OkMZ1iOw8jrJl5
+	 fSnPdw+V7DH+MKLRtlIvoCN62MVwz72td8cuoka1Lqd1y4UiiJuqD85mRjenNkaQ12Ywk
+	 ncEKLcrT4VsM8rh65DHUYW1L6tUG51TflxyKOHON5NQk4+YXPtIx4kijx1iH6FTfZrTpu
+	 T4tvklEIyd/rFFP0X1OzBrwN6vyANr23NZirNWTZ/yuneV/R8wMD7mnEDYov7Ib3Fpg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=mediatek.com;
+	spf=pass smtp.mailfrom=mediatek.com;
+	dkim=pass header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=sEzBpdmI;
+	arc=none smtp.remote-ip=210.61.82.184
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF4A606A336
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 11:48:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AF4A606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CD7606A331;
+	Tue, 10 Nov 2026 11:49:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50CD7606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CbpO7pmJ
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-91ebec7d5dcso15122036d6.3
-        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 03:48:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794311318; cv=none;
-        d=google.com; s=arc-20260327;
-        b=MM/XK+JTzO+REjXIxX6a55arRpI2fOPtA2cGRLWyY10USZTy5plLgKOISt0WiorcPR
-         jvYpruyQKbSM8SI4izfdZg8SlbmiZ74IUZpEgIokLTYiOVurspegd5uOK020UXEZl1F1
-         2kjdgTJzvVuSeGQ/XhwWCRcLNpGYJy28HogribEhGQBaDXA7oTryaSVTmvat/VCtq/P0
-         Ow1REdHmxEygut5KR/9bk0QK6YXSaQeCR9FP/f9zGJWXH7YZIzND7Gytoz5HYgWy+2fy
-         UtuAZBDCzzMivs53nqdEb0xZ3SpA2NNRMcU9k2MXVVxi00sW8DzfqGJdaV3zcFWFMx81
-         hdyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TCGSXQkkp9CYRjtPCbFI0n0SwhiyqiBh4xY4kDY/tRc=;
-        fh=/XafWwXInU6xSAMitUKTVJtcnn7zkW/jx5Qszu7SSug=;
-        b=AzYnvLlJaVnw8jmRSODogJyz1gHfJK7GN3ACPYuO5mJQHRv24frfq6/FWptnajA6IE
-         8FX0rqAMh8AMikIO8q6YRGFVIh/aTi8rIb8INTq2BD4vzHE8hV1ZFnm29RZmKev6XzTg
-         +Gg9gwW+PstQ83ddkEEjzJljngL8xosDgagiBeTRuUEWAMD/1OMVBa0nPZlrX/qkaUkI
-         xlPoRkrKJshcXBqYhSDl2Z5zsr4wG4rC7m/v0b2QoVSQRxZRrUtkn7qgIvHh6LoFab/D
-         021KwZU+yyt/4Lj27gGAktIk/hKOf1ttsTGmT5BfScISqrHVToEwJjuE4E6MGc/CQs4o
-         IArA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794311318; x=1794916118; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TCGSXQkkp9CYRjtPCbFI0n0SwhiyqiBh4xY4kDY/tRc=;
-        b=CbpO7pmJDcvsexNCmDtpmtSl++6kvPetaro2TmZj6r7PlQdD/MjMAYQykKyx4WvAP+
-         n9+4LoCZX9JPuxQRZVXhsCQtS7bLzVT9ewQEH79FwIcemzZ8lzhfOUVRcgA5U9LpBHHr
-         EG2j8eJRDjnShtsNiXWvYlaT8bFgc8KXaw1TSmJrQJGuUQLc0MNpQXx6ADqGPjkjvgWX
-         ekO5COsQnb17UNKRvuTOuKWBT6G8hfNEAsRThN0z6CpFczdvpm6WEiHtJ8eUwUYHVabn
-         DKRam6FDsPJaTqwflGMfE12KbcvWCa6Yzy25VnykIAgzaLNztqmys7lg4AgcecON/fdI
-         4jrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794311318; x=1794916118;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TCGSXQkkp9CYRjtPCbFI0n0SwhiyqiBh4xY4kDY/tRc=;
-        b=brx283OEhROx/t0Zp21Jvm4eA9ytK8Upa01B1DtqcymPETEKDqqtPmLm5sR4QjyQ11
-         QbulBderrQRl3m9aFHmxgfxE2FmDfX89oVIS0hHEnDJWzO3yc7ropTSidjQxU+WJrZnS
-         LlGuRgUFPUx4DWGwRwtWoZyDp2Pi3HHdnk2N3t8MZvMCM0SjDn0g7h7NQlbxzCgrFT5D
-         RWkuQXVy7DL8EO1xErP3y62CdEq/O+dFvRvP23Vq0R7Mw7cyIxCcyM8hIMnmIQqC6qT3
-         4TrP0s1Ip4cvzqrQ75ptBLh4CS8vejyLKgoWgIY7MEx4ZIl/FfvJSrMmKAf0n5sh7hLN
-         uJ+w==
-X-Gm-Message-State: APuU4Z+SMOjTW/rPXdjeXIglGDvX4zxvJP4fGYFLP3fEimZWl9TWKHvJ
-	+eceEeWElAMr+c/HEPRalw0n2RSsYGdTxemKXqnxPWiVQYth2HVw1J+qcChNIeaqpjNAuJPEJE7
-	eTZU6QUnnsrqEjLeovw0WxAvstBGnu9hMmEIHKE4=
-X-Gm-Gg: AYBFou10lrYvEI9x/D9eS2PmWPNalrItosauVZynI4Nm2BW5ItFseiyKm8NChvKLVOX
-	Q//UXXSQG6heMxgf9RoK02jbvnpfU/GnIbw3hxOvizoTm2kyJzbTc34speBdBAN09dMMJ+pYaK1
-	qujkW+xxw6nYABuGxmaXdaAIsFEVArZt60LdcPf7xJPgZwhe6+MjxSpxTg5tRXphLbbv+aSWbe+
-	1PF+1pWt210cB2OatWswynyvQaWscWYi8ox+HusY6w1xJZwvbA8L202d+0bWRFj7SjGhbZcILMb
-	tP9NyytefwPzzL7QWIoS6w93/kKM9Qc5F1wiRhUPwmp/dH/Q0MC42kt9XgHe3H2WCUDXPmccI1Q
-	Oa972afIwKo/huF0ChiN0WDXSdyDTWnN1jklgxwomTooNMB56zV/LI12Iqb2eO6KrNH3A
-X-Received: by 2002:a05:6214:411d:b0:917:a278:ce0c with SMTP id
- 6a1803df08f44-91eef953c89mr38462386d6.43.1794311318387; Tue, 10 Nov 2026
- 03:48:38 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=sEzBpdmI
+X-UUID: d3360cf4dcfc11f18dc8c9802ae25ab1-20261110
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=UxQvBCWTGDJp0csChHCGxtym2Bdka/KsE4W82hKPGgY=;
+	b=sEzBpdmIMpkLNhDRTseC9NI/0H8iuovYvsE/TvjNnuzaKTi2i6MNoG/imoDhqJ1RqpuE+qaP5R5N0chTVF2Yizq5J8uH5zEFNUz8ZX6RU7DiJ4gWUcQsw/X5aQjLh3kC2nruW5Zt3C8HcHdGTDoyDASJnvnLHxS3Y/mi7TyGEPo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.21,REQID:3ce510e2-18b3-43a5-9cfe-7780639db0b3,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:b0318ac,CLOUDID:96428d8d-b3e7-4795-ae33-b1b4d51e21d7,B
+	ulkID:nil,BulkQuantity:0,SF:81|82|102|836|865|888|898,TC:-5,Content:0|15|5
+	0|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: d3360cf4dcfc11f18dc8c9802ae25ab1-20261110
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
+	(envelope-from <chunfeng.yun@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 891433865; Tue, 10 Nov 2026 19:49:45 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Tue, 10 Nov 2026 19:49:44 +0800
+Received: from gcnsap21.gcn.mediatek.inc (10.17.81.22) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.2562.29 via Frontend Transport; Tue, 10 Nov 2026 19:49:44 +0800
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+To: Mika Westerberg <westeri@kernel.org>
+CC: Andreas Noever <andreas.noever@gmail.com>, Konrad Dybcio
+	<konrad.dybcio@oss.qualcomm.com>, Sven Peter <sven@kernel.org>, Yehezkel
+ Bernat <YehezkelShB@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, <linux-kernel@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, Chunfeng Yun
+	<chunfeng.yun@mediatek.com>
+Subject: [PATCH v2 5/7] thunderbolt: increase the lane adapter link-up timeout value
+Date: Tue, 10 Nov 2026 19:48:53 +0800
+Message-ID: <20261110114925.722014-6-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261110114925.722014-1-chunfeng.yun@mediatek.com>
+References: <20261110114925.722014-1-chunfeng.yun@mediatek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,102 +88,60 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110113523.2517891-1-hj351016@gmail.com> <sashiko-outbox-206950@kernel.org>
-In-Reply-To: <sashiko-outbox-206950@kernel.org>
-From: khj <hj351016@gmail.com>
-Date: Tue, 10 Nov 2026 20:48:26 +0900
-X-Gm-Features: AclHuK-hlRCBmE0NXc2HkIod5l2gSiVzm8_S6uudo7AfNbetvFYsjZ296z-4DPI
-Message-ID: <CAGr5VtP3FAJLYDRfMumwJR4ALceYA9i-N11Ff_GkUik3SqBjYw@mail.gmail.com>
-Subject: Re: [PATCH] usb: gadget: aspeed_udc: cancel wake work on device removal
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-Thanks -- you're right, please disregard this patch.
+when plug into a USB3 device into USB4 hub's downstream facing port
+to trigger usb4 driver wakeup, encounter the lane link up timeout
+issue, then cause usb3 hub disconnect:
 
-udc->wakeup_en is never set to true in aspeed_udc: there is no
-.set_remote_wakeup op, and ast_udc_ep0_handle_setup() forwards
-SET/CLEAR_FEATURE to the gadget driver without handling
-USB_DEVICE_REMOTE_WAKEUP. So ast_udc_wakeup() always returns -EINVAL before
-ast_udc_wakeup_all(), wake_work is never scheduled, and the use-after-free =
-I
-described cannot occur. The cancel is harmless but unnecessary; drop it.
+usb4_hi NVDA8100:00: 0:1: failed to reach state TB_PORT_UP. Ignoring port...
+usb4_hi NVDA8100:00: 0:1: lost during suspend, disconnecting
+usb4_hi NVDA8100:00: 0:4 <-> 1:20 (USB3): deactivating
+usb4_hi NVDA8100:00: deactivating USB3 Down path from 0:4 to 1:20
+usb4_hi NVDA8100:00: deactivating USB3 Up path from 1:20 to 0:4
+...
+thunderbolt 0-1: device disconnected
+usb 2-1: USB disconnect, device number 10
 
-(The dead wake_work plumbing could be removed instead, but that's a separat=
-e
-cleanup, not a fix.)
+Completes link training at ~1.48s (with two retimer) and transitions
+to TB_PORT_UP after change the timeout to 2s;
 
-Thanks,
-Hyunjung
+In the USB4 spec, Phase 5 (Link Equalization) alone is allowed up to
+1000 ms. When add tPhase2~4 (200 ms), and retimer transaction delays
+(tCmdResponse = 50 ms), the physical link is allowed by spec to take
+1200 ms to 1500 ms+ to complete initialization.
 
-2026=EB=85=84 11=EC=9B=94 10=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 8:43, =
-<sashiko-bot@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Medium] usb: gadget: aspeed_udc: wake_work is unreachable in
->   ast_udc_wakeup()
-> --
->
-> commit 59e63d484d3cece4c9053b24c7e169339b0f2919
-> Author: Hyunjung Ko <hj351016@gmail.com>
->
-> usb: gadget: aspeed_udc: cancel wake work on device removal
->
-> This commit cancels udc->wake_work in ast_udc_remove() after unregisterin=
-g
-> the gadget.
->
-> > diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/u=
-dc/aspeed_udc.c
-> > index 10214232c08fa..2acf84c489909 100644
-> > --- a/drivers/usb/gadget/udc/aspeed_udc.c
-> > +++ b/drivers/usb/gadget/udc/aspeed_udc.c
-> > @@ -1460,6 +1460,14 @@ static void ast_udc_remove(struct platform_devic=
-e *pdev)
-> >       struct ast_udc_dev *udc =3D platform_get_drvdata(pdev);
-> >
-> >       usb_del_gadget_udc(&udc->gadget);
-> > +
-> > +     /*
-> > +      * ast_udc_wakeup() schedules wake_work, whose handler dereferenc=
-es udc.
-> > +      * The gadget is unregistered above, so no new work is queued; dr=
-ain a
-> > +      * pending one before the devm-allocated udc is freed.
-> > +      */
-> > +     cancel_work_sync(&udc->wake_work);
->
-> [Severity: Medium]
-> Can udc->wake_work ever be scheduled in this driver?
->
-> ast_udc_wakeup_all() is only called from ast_udc_wakeup() after checking
-> udc->wakeup_en:
->
-> drivers/usb/gadget/udc/aspeed_udc.c:ast_udc_wakeup() {
->         ...
->         if (!udc->wakeup_en) {
->                 UDC_DBG(udc, "Remote Wakeup is disabled\n");
->                 rc =3D -EINVAL;
->                 goto err;
->         }
->
->         UDC_DBG(udc, "Device initiated wakeup\n");
->         ast_udc_wakeup_all(udc);
->         ...
-> }
->
-> Nothing in drivers/usb/gadget/udc/aspeed_udc.c ever sets udc->wakeup_en t=
-o
-> true: ast_udc_ep0_handle_setup() forwards USB_REQ_SET_FEATURE and
-> USB_REQ_CLEAR_FEATURE directly to req_driver without handling
-> USB_DEVICE_REMOTE_WAKEUP, and ast_udc_ops does not implement
-> .set_remote_wakeup.  As a result, ast_udc_wakeup() always returns -EINVAL=
-,
-> udc->wake_work is unreachable dead code, and the use-after-free described
-> in the commit message cannot happen.
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110113523.25=
-17891-1-hj351016@gmail.com?part=3D1
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+v2: change timeout from 2.5s to 2s
+---
+ drivers/thunderbolt/switch.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 7ff3da79da76..7daee83c7ed8 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -486,7 +486,7 @@ int tb_port_state(struct tb_port *port)
+  * @port: Port to wait
+  * @wait_if_unplugged: Wait also when port is unplugged
+  *
+- * Wait up to 1 second for a port to reach state TB_PORT_UP. If
++ * Wait up to 2 seconds for a port to reach state TB_PORT_UP. If
+  * wait_if_unplugged is set then we also wait if the port is in state
+  * TB_PORT_UNPLUGGED (it takes a while for the device to be registered after
+  * switch resume). Otherwise we only wait if a device is registered but the link
+@@ -500,7 +500,7 @@ int tb_port_state(struct tb_port *port)
+  */
+ int tb_wait_for_port(struct tb_port *port, bool wait_if_unplugged)
+ {
+-	int retries = 10;
++	int retries = 20;
+ 	int state;
+ 	if (!port->cap_phy) {
+ 		tb_port_WARN(port, "does not have PHY\n");
+-- 
+2.45.2
+
