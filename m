@@ -1,100 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.75.130
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.181
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794287852;
-	b=UFZ0UVU2F53qENnKULSyTU0G5o0EG81El3VekkKxJz9VNF2NAo5gtQUjpIJc6LTaQbMV
-	 9qrdnMNs82r10nkz/xfRDFmykghodqBgjnJ5CA38Gu31FwqrfZY271Ev/9iN54tszE54v
-	 16VopdeIkO7emMM7oMajMeU+GDfguiSSRwKREaCmTmX6QBKZ0AKCA9WRM4CqOO7T7Kmib
-	 6GKWfmTsLMpPNbWR8ZCGUk24VWgHih/wIiZxHc9MlJZuu+MgNjnPzrlNvTeLKmcQGP20+
-	 +oTHB8ObYEhPjH0gWmsu3Pkt9phYBeumbVNnlWwPH/K6JC8cSQ/bfYP40IdSaytP9+g==
+	t=1794289495;
+	b=GaCysUpKGl3BU52sGYgKq3TK61jWdcVpC00gFiQz77zy3XISnt6gNESiAxugNEKbFiCW
+	 isKHX1vrApwChxeVuOmBQCCtFVVIAS2VvUEdlur6IFPCEoKbvhGdYE64hiiK29LiaNQEW
+	 k/fbO5nBHgflaROvFpYry7PuczH61Eu60VR84+eLhJQYfDkrBy57QmGiLCw0NJZUcrmlz
+	 qAqpUyMwZhsP2aAOtUo5B+jPGKl++E4ghS2tCuIAP8fjXu/KggOIOqOvrFDTj8ilmdKeZ
+	 LugEdvWLu5ixIeQfCXjABntVjUwqhejFpulauK/vbNRoPnbiq4300mym4t//Pt99zxg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794287852;
-	h=DMARC-Filter:Received:Received:X-MS-Exchange-Authentication-Results:
-	 Received-SPF:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:Content-Type:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=Esdlc4NhWp+vhZfkjJWLLxZIVnbspe/Ab+wjBlyTwyQ=;
-	b=JwqkmBgkWXb+duHFjx8sNtwkHUYtc95KcVTgYTl5FGkuAL8UEiXI+lpwFwrCvwXNpW2i
-	 M93vPUIj/KSx/68dYxTCLxD48BCOC8/+oXMNeUuQ6bE/VmwL5Iia1dSiFtu5h0zsTfzga
-	 rZEWC+daEmLNCu8N7GP4O0/fGGZJafjsaeooT8fr7vVLKjdP8RWy1ElW2SgCZoT9fMyev
-	 UgPvXxpdcPJjBQH3tx7Nt7IBglqL2zMRYBCSBh5IVrMOsSa2jzB8J4/HxAnHPMTYfp19S
-	 vQ/b/MkXamvUoHRboy75Y1UmZmDwVJRNP/3BW97MCUqmcQUMzOeI33mvQpF9x+GTwIg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794289495;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=g39QjZX8zY3AOOtpXk7OF2YWb6Q3Y2gF3RAt0e8I4Pk=;
+	b=j4l4JQE4qaNbjsasM3qDcXt188UNzlfvYw8wP6DN7wtX1sd6TA+fikh0B7FsJ3eHdh2t
+	 AFKbnGrZj84jyjvX+0PfAJ9gXpT2tXZn9DTYUv20GEzZPsqrB5dj33gN0RmD5rOJVjo75
+	 QTCeUnnD37HGhNepqbFoLy4/2hK2Oe/e0kOP2GS14wxWNpOgLJoWLgNhiu/VjKxZquVW1
+	 N3ghSjt5CSCUuCjd2oc4htYhXmGqS9g1xm6dl7YHl6relhqrdmfCPyeGsEWuO2/LgEL8V
+	 zDnm0iFYQAotuSwqoI/qnXMtKZwfQBB18FZIHOG4y8bzOZGInvAm2txuOV1oXrMLtZg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=cixtech.com;
-	spf=pass smtp.mailfrom=cixtech.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.75.130
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022130.outbound.protection.outlook.com [40.107.75.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PabbqmSG;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5601D606A325;
-	Tue, 10 Nov 2026 05:17:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5601D606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q9Ih28Tw0Rh0naDX9M7K9zblv1YDCaUgGab5Zrza2dJJiD1l9MqzTYk4+fPxZ9YuWg3HUYje6q/Ck420aQpRqJgyHxF0IFMxltUrkAbB9Gr5/PoduI8jNu9cfGxRyWR6/6wx8h+gGiOYi85NgT8RFzUrJnRUwQprOJLKXhUkRSOenTobCv9NN27Tinm8ObMkwYNWM53Z4XUMhfCrpxy/f/uDk2ZJhrBoDmG8Nmbt5FhJt7kAknjq8XHF7a3bFoeFW0+adXTzYJ9zyl2A0tnDTCTEcKUpisubCF2YCvlcL3RYfEIIVnmwbqDu6t9ty8lhuFc9pXuMruUxhKx6xc7utQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Esdlc4NhWp+vhZfkjJWLLxZIVnbspe/Ab+wjBlyTwyQ=;
- b=N1DMjprLrbCRmciJRkJbwd4B6P3hqpCbuT2jpOSp5m4YoelaPJ8wdYmJupAJbz61TNY3Bc/z65NrBlepu3Jxy8y9EwzTGgRPd+5PmY8AnJJGyzOvhv81lv7UKVWcPLck8BMtmFN6Nt85EmFJsgBUVCbNA8r6l5ydGIq9s1q5i76KYvC7QJIVYXazXtcT5oZWHwYpODSgZI2QU8vGU4UlurJbpfX/p9VDb0A0QEdjCnnFREi28R/kXSWptcrPwZzPE7O6e+P+nQN/D5VUBUAtU20S/QtAmHg5gBm+/2XWDdophTEjb+1EmTpE9qaegSt5IIyvz6IxHO169lGa9XgfPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 222.71.101.198) smtp.rcpttodomain=cixtech.com smtp.mailfrom=cixtech.com;
- dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
- not signed); arc=none (0)
-Received: from SI1PR02CA0032.apcprd02.prod.outlook.com (2603:1096:4:1f6::12)
- by TYZPR06MB6500.apcprd06.prod.outlook.com (2603:1096:400:44d::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Tue, 10 Nov
- 2026 05:17:26 +0000
-Received: from OSA0EPF000000CD.apcprd02.prod.outlook.com
- (2603:1096:4:1f6:cafe::29) by SI1PR02CA0032.outlook.office365.com
- (2603:1096:4:1f6::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.8 via Frontend Transport; Tue, 10
- Nov 2026 05:17:26 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 222.71.101.198) smtp.mailfrom=cixtech.com; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
- 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
-Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- OSA0EPF000000CD.mail.protection.outlook.com (10.167.240.59) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Tue, 10 Nov 2026 05:17:25 +0000
-Received: from gary-System-Product-Name (unknown [172.16.64.55])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id ECE594102E73;
-	Tue, 10 Nov 2026 13:17:23 +0800 (CST)
-From: Gary Yang <gary.yang@cixtech.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Fugang Duan <fugang.duan@cixtech.com>
-Cc: linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	cix-kernel-upstream@cixtech.com,
-	gary.yang@cixtech.com
-Subject: [PATCH v3 0/2] usb: typec: add CIX Type-C PD controller driver
-Date: Tue, 10 Nov 2026 13:17:21 +0800
-Message-ID: <20261110051723.434009-1-gary.yang@cixtech.com>
-X-Mailer: git-send-email 2.50.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE56606A325
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 05:44:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BE56606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PabbqmSG
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-36f8cdd30beso2114740eec.1
+        for <linux-usb@vger.kernel.org>; Mon, 09 Nov 2026 21:44:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794289494; cv=none;
+        d=google.com; s=arc-20260327;
+        b=HmVNCN537TpI2AnhEnEdxLgf4kfGhzfQVsi4zqajiW1k2z1/gvfphGLEVaMGqhO/aW
+         CVbUUHYAZpfsfMvVEW7jqSWnS3izylvhv4K0Hv2FSEXT4s49cVxF+rx5sGixKIs4KmGT
+         XjxHTuRmOfIj0Rr69DYy6ZL0UbYIdEtN/W7N3GtmUOvodgruveiDY7r6eJLCKMAJz03A
+         N+x4UE0nCLshCeg56/Sx2wJVUwsPVb048ex6nCSzHCIn1NHJKXk3inuEiTtaEOsqSiS3
+         3Atq4CBRb+lQcjzEJ/SxNQQIatb6s69gVjb++Ze866XsvAqRe2lgZKHm2hZ3P9JBdjHZ
+         KuDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=g39QjZX8zY3AOOtpXk7OF2YWb6Q3Y2gF3RAt0e8I4Pk=;
+        fh=/XafWwXInU6xSAMitUKTVJtcnn7zkW/jx5Qszu7SSug=;
+        b=I/CIlhzKTkFR9/J68GGBkcJr1cB1Sah2cHwxdPfVawVFNtluKl9OoVbjnQRe0SuWeU
+         wAw7WMniCPlYIYuHtSi5B3cN8ySDykpZv1APtH1bGKiA01Ckcd8S4JAKyRG5ISuC0WuM
+         Lt4VHpK6/XWhylO8F4VezXkS4tjo38Z2KsY6Ty4/maaS/hM+goEYer9hp/JWQeSsjAUC
+         XJbxT/ez3rOJQ1pHFRC3IVIbF6KmoDBO5TY8nCRqVFt50cFS772oVthQEJxxQ4i2H0cM
+         Z641HPhoa7Gm6v2+sjIbOetxbojYXqeBKqKCBwUzP5jxGHlEc4J3TMCMsIBBbe4TJJ3w
+         sqaQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794289494; x=1794894294; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=g39QjZX8zY3AOOtpXk7OF2YWb6Q3Y2gF3RAt0e8I4Pk=;
+        b=PabbqmSGaz7sCxlTPHEOJHotFOy+Jt2UOMkCjtmXh3k9HmMD2XHpd4TfQmsbhDT2Gp
+         JQjsxGjzVgD9P9VhZlytoTI5OB5zWS+QvDRhFB5+FlV6Ny9A4SzPHkSHht2uE9B67tR/
+         liM0DaRKg2trJiyJkE6uo3+CN8QxOrRNlXSrDsWpCPpWu/2/ulNbeC748CBDb7P0uSw0
+         /Ld/OnqsSpQixZ86jHGCZ4GNWSfyR9XxrUyMD821OASe4sWvoRlXlcIWxIDldiuwc5QR
+         FO5vc15c3lOSkKuZAQdKyeuEwCEpi47d/GAq94Mgk/i3QasggueFM3Douttc+3dmmUgC
+         KPpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794289494; x=1794894294;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=g39QjZX8zY3AOOtpXk7OF2YWb6Q3Y2gF3RAt0e8I4Pk=;
+        b=a+SQDaR9kplVrW11frPtOx689PsDSnWYnrKMe2BS0OtjynXQ9Yr5CQGIE5Vs5RU+zx
+         BTmcW7ncN6EYxN9aawgRjFcfL3iPqxrcoOlKX4t0R80kea64cuGsUDc9UrBvmKtyq2ag
+         m6TEeEOwitmtAseGpA1+ULxR2swdCl9MwEZiDuVfACBLnr/GH8D7FVliBu6+L0v06Y51
+         diAqd4Eldp/J6cArNnMGsKn9u9s4NF3UN2SYm3+/9USVRcm3sd+xohkK3HT9QktLWhTb
+         /L8UQqVduQVOn3MON50AecF4I4tCV2B65zfV44proQMTtLVT8KhyPLoxJYg6Z3VSe78P
+         OEOg==
+X-Gm-Message-State: APuU4Z8QfhBTqItD70pK1pSfF/cJtTbps2DbrSYHrskPHnd9Zk0Qz+gX
+	wf1SffBYKr/TM/kqeIExUkLaISUB94n3AAX58W0nKcnC9JTbB2dIlRMdVeCgWxi/Bc46wtiu98R
+	SGiNutbGIA/c5M4mdGvisVaimqths7/3XSBQ4wu0=
+X-Gm-Gg: AYBFou1KWsjV5Q66w69iBsG1oMXP14Tz5gE7d2VVKlXHKD0l3pwsSuPlrhZlMeWaquY
+	6JGobCTL2Dm+vfrnkIFPLShHhOtoZdkjrD+4oTsp38ANw7859rkZLv/V3jC9UNeySA6mu7s7KLs
+	X2s7OxfRwpyZn5U62iGVqecXKSLEcPiksRti5YacKLaVs+HbJ3DJbR2T9e41nGQVYf4Gq49s43G
+	G9Hua3F8PIEVLV09b7qKp+jNTgQaswJ5/JF0lHRacqx970y87yzPlzYv1hRkeBrGl69sOPEJvTa
+	ab8CcDPnsQ5dCbcC284cGxn295XD8IzZXsQTEtxnn1aaEnKq93pYsl2kThtUm5HuDC7O1zXD19h
+	pIBUxdTA6ly8je2jd84mPg081M2f1ah4Z7ReH33WxoS0vwc4+opi6qFBxuF26h9dx4otr
+X-Received: by 2002:a05:693c:6384:10b0:369:f05d:6c5c with SMTP id
+ 5a478bee46e88-3751f467bcamr2356563eec.28.1794289493975; Mon, 09 Nov 2026
+ 21:44:53 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,86 +103,159 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSA0EPF000000CD:EE_|TYZPR06MB6500:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 9c981454-95eb-4183-b23d-08df3ee9e884
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|36860700016|1800799024|82310400026|261021123027099003|261022105027099003|261022075727099003|261021121427099003|261009223027099003|261102123227099003|261026140227099003|261028144727099003|261026121527099003|56012099006|10067099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	mVR6YMoZTO+ZS7O/4ZoVuOL+JlTgQplbW6jyglUH0Q6KjbvRbQIer19LNKh7ENvgaipW1wU9W4IW2pOHWxODppksfP6MuZb2TVKEfkKgju4C6g2SYnYrjPYTdnlnJUyVtOKXCr07m989CvR384W9Ce4+6oEE1hZyzsS+4B1v1Y7PTj21pYMyqpAhf/N43bfnpvoBYaTVqecipVF6f4rSMgMdbqb/D7hnIt+MjeK496kPIephojUrlKZJwk4axbugggnMujgyIlnftZe5MR5NLll35YOQoc6eOBVf2XMsx2WRCO/xrPGKrhZZdeAknxCA4eTkyscefWR1E4BTh08jJdWZIVnQHTEwboUNJ5IiauBvOv35D7p13ku6a+od+Dr7WFw3DWkusGyKacnimH+ai2Xm1kynuZt1I7B0QEpfVd0cwKPL1iL0Ac953MktRTBVQTDLhLSe9Xtfgu1HtgP34fV1Y323O359chzxupU+6ze5QDFVZcOuN0WHNRye+aDBFP37PERBGyqCEKs7u2e2LNzjhpj69/7b6gf5sYRtIA0YeRK/UruGd1FcfDTy+UH1s+bYYvtwySO9B9C/xRMQPjydX3hyp59FaUzC3/diY/QnG+IpGwBOxuDUzo0mBsOd+JYvZNCNy0wTphKcjCXnUfe0pOisF8v6TtSYbCpEGoipHiiWd2KNqAM2hmjeZ5HF4VNrZXxU17YCEE0lTBEZ1w==
-X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(36860700016)(1800799024)(82310400026)(261021123027099003)(261022105027099003)(261022075727099003)(261021121427099003)(261009223027099003)(261102123227099003)(261026140227099003)(261028144727099003)(261026121527099003)(56012099006)(10067099003)(18002099003)(6133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	ZMArDvTAde+v3/IlJ7VCz3i0j/6IAgMJ6IfXALp9H+x+A7CYfkVYUj707hm/L3zKl3qzwiKUAwpEF0Y4s8N99iu03xr1fezJuY3gbJnSWWDJ+WM2BIltGRCtUgufusn3uFkkjn9S8pkOaxpT6pYMDWrdYS52gJZqLnfrzu9uvP7ieDE54JdRnrIP6gASn1qqzQbFEb+ZYvrCgGbG9w+kGFyWKlNIMkghJnj3m0uvIBLFvChbzGq4ONJTZhv6NcIOGyTARY+HL+r9ipc8trtU/zkyku/MwHFjWaiAIk/xwYs98J9CJJT2Cn3nWOtanRo7IqUFJnKDxT2a1VYUj72Nsf0L994yeR/2L/6xDNhNXyNyp+PFioPH7OZU+iALb5YjGe4NaTBAne0EGwdLd8hMH4sEYQIFnPkxUYiIHI+KDMxd1Vv2Uv384gXwPIbSo6Yu
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 05:17:25.7141
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c981454-95eb-4183-b23d-08df3ee9e884
-X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	OSA0EPF000000CD.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6500
+References: <20261108134001.536207-1-hj351016@gmail.com> <sashiko-outbox-203786@kernel.org>
+In-Reply-To: <sashiko-outbox-203786@kernel.org>
+From: khj <hj351016@gmail.com>
+Date: Tue, 10 Nov 2026 14:44:42 +0900
+X-Gm-Features: AclHuK83zmSBicAkhGXR_nnbiD7uLYv-Y5HwVWYFh-U9eG4xV_6xhYX0d6KFHCc
+Message-ID: <CAGr5VtOWtjDFraii2qMu20=_mePfjFUwMU_dhnGm7aiw6QTwUQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: phy: cancel charger work in usb_remove_phy() to
+ avoid use-after-free
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This series adds a Type-C PD controller driver for CIX platforms.
+Thanks, both are valid.
 
-The first supported controller is the Realtek RTS5453H, a stand-alone
-port controller: the CC and USB Power Delivery state machines run in
-its firmware and are configured through vendor registers rather than
-the TCPC register interface, so it cannot be driven by the tcpm
-framework. The driver translates the controller status registers into
-Type-C class notifications and drives the platform PHY's orientation
-switch and mode mux.
+You're right that cancel_work_sync() alone doesn't fully close this: the
+extcon type_nb notifier reaches the usb_phy via container_of() (not the
+phy_list), so an extcon event can re-queue chg_work after the cancel, and
+for providers that free the containing struct in .remove() the devm extcon
+notifiers are torn down only later (at the provider's devres), after the
+struct is already gone.
 
-The driver is named after the CIX platform integration rather than the
-RTS5453H so that further register-compatible PD controllers can be
-supported without renaming it.
+This patch is a partial mitigation of the chg_work window; the complete
+fix is an architectural one for the usb_phy framework lifetime -- the
+notifiers would need to be unregistered symmetrically before the work is
+drained in usb_remove_phy(), and more fundamentally struct usb_phy is
+devm-allocated yet handed to consumers via usb_get_phy()/get_device(), so
+a consumer holding a reference can still use it after the provider's devres
+frees it (the Critical you point to). That wants proper get/put refcounting
+of the usb_phy rather than devm, which affects every USB PHY provider.
 
-Patch 1 adds the devicetree binding and patch 2 adds the driver and its
-MAINTAINERS entry. The DTS patches from v1 are sent separately through
-the SoC tree.
+I'd rather not fold a core-framework lifetime rework into this one-line
+teardown fix and risk regressing every PHY driver. Happy to take this
+either way you prefer: keep this as the incremental chg_work fix and do the
+notifier-unregister + refcount rework as a separate series, or drop this in
+favour of that series. What would you like?
 
-Changes since v2:
-- Report the Type-C data role from the controller status for every
-  connection, including DisplayPort-only configurations where no USB
-  data role is available, instead of deriving it from the USB role
-  switch.
-- Pass the port alternate mode in the mux state, matching other
-  firmware-driven port drivers.
-- Force the USB role switch to be reprogrammed on system resume and
-  check the enable_irq_wake() return value.
-- Acknowledge a pending controller interrupt during probe so that a
-  shared interrupt line is not left asserted.
-- Do not drop the borrowed fwnode reference when parsing the connector
-  properties fails.
-- Treat all fwnode_usb_role_switch_get() errors as fatal; a connector
-  without a role switch link returns NULL, not -ENODEV.
-- Drop a redundant include.
+Thanks,
+Hyunjung
 
-Tested on a Radxa Orion O6 (Sky1): attach/detach, USB-only and DP-only
-alt modes, cable orientation detection and HPD reporting all work.
-
-Gary Yang (2):
-  dt-bindings: usb: add Realtek RTS5453H Type-C port controller
-  usb: typec: add CIX Type-C PD controller driver
-
- .../bindings/usb/realtek,rts5453h.yaml        | 112 +++
- MAINTAINERS                                   |   7 +
- drivers/usb/typec/Kconfig                     |  13 +
- drivers/usb/typec/Makefile                    |   1 +
- drivers/usb/typec/cix_pd.c                    | 701 ++++++++++++++++++
- 5 files changed, 834 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/realtek,rts5453h.yaml
- create mode 100644 drivers/usb/typec/cix_pd.c
-
---
-2.50.1
-
+2026=EB=85=84 11=EC=9B=94 8=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 10:50, =
+<sashiko-bot@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [Medium] usb: phy: chg_work re-queued after cancel_work_sync() in
+>   usb_remove_phy()
+> It also noticed 1 related pre-existing issue this patch does not
+> introduce:
+> - [Critical] usb: phy: use-after-free in usb_get_phy() [1]
+> --
+>
+> commit 4a4ffa5316b9cec2015871ada70b2fe24ed654b1
+> Author: Hyunjung Ko <hj351016@gmail.com>
+>
+> usb: phy: cancel charger work in usb_remove_phy() to avoid use-after-free
+>
+> This commit calls cancel_work_sync(&x->chg_work) in usb_remove_phy() afte=
+r
+> removing the PHY from phy_list so pending charger notification work finis=
+hes
+> before the usb_phy is freed.
+>
+> > diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
+> > index 5a9b9353f343d..caae74988fd95 100644
+> > --- a/drivers/usb/phy/phy.c
+> > +++ b/drivers/usb/phy/phy.c
+> > @@ -731,6 +731,15 @@ void usb_remove_phy(struct usb_phy *x)
+> >       if (x)
+> >               list_del(&x->head);
+> >       spin_unlock_irqrestore(&phy_lock, flags);
+> > +
+> > +     /*
+> > +      * The charger-notify work, scheduled from usb_phy_set_charger_*(=
+)
+> > +      * and the charger-type detection, dereferences the usb_phy. The =
+PHY
+> > +      * is now off the lookup list, so no new work can be queued; drai=
+n any
+> > +      * work still pending before the caller frees the usb_phy.
+> > +      */
+> > +     if (x)
+> > +             cancel_work_sync(&x->chg_work);
+> >  }
+>
+> [Severity: Medium]
+> Can x->chg_work still be re-queued after cancel_work_sync(&x->chg_work)
+> returns?
+>
+> Removing x from phy_list does not stop extcon charger notifications,
+> because usb_add_extcon() registers x->type_nb on x->edev via
+> devm_extcon_register_notifier(), and usb_phy_get_charger_type() obtains
+> the struct usb_phy with container_of(nb, struct usb_phy, type_nb) rather
+> than looking it up in phy_list:
+>
+> drivers/usb/phy/phy.c:usb_phy_get_charger_type() {
+>         struct usb_phy *usb_phy =3D container_of(nb, struct usb_phy, type=
+_nb);
+>
+>         __usb_phy_get_charger_type(usb_phy);
+>         return NOTIFY_OK;
+> }
+>
+> PHY drivers call usb_remove_phy() from their .remove() callback before
+> devres_release_all() unregisters x->type_nb (and fsl_otg_remove() calls
+> kfree(fsl_otg_dev) immediately after usb_remove_phy()):
+>
+> CPU0                              CPU1
+> fsl_otg_remove()
+>   usb_remove_phy(&fsl_otg_dev->phy)
+>     list_del(&x->head)
+>     cancel_work_sync(&x->chg_work)
+>                                   usb_phy_get_charger_type()
+>                                     __usb_phy_get_charger_type()
+>                                       schedule_work(&usb_phy->chg_work)
+>   kfree(fsl_otg_dev)
+>                                   usb_phy_notify_charger_work()
+>                                     usb_phy->chg_state ... <-- use-after-=
+free
+>
+> Unregistering the extcon notifiers in usb_remove_phy() before calling
+> cancel_work_sync(&x->chg_work) would prevent extcon events from
+> re-scheduling the work.
+>
+> [Severity: Critical]
+> This problem wasn't introduced by this patch, but can a consumer holding =
+a
+> reference from usb_get_phy() [1] still trigger a use-after-free on
+> struct usb_phy when the PHY provider unbinds?
+>
+> usb_get_phy() pins phy->dev with get_device(phy->dev) under phy_lock:
+>
+> drivers/usb/phy/phy.c:usb_get_phy() {
+>         ...
+>         phy =3D __usb_find_phy(&phy_list, type);
+>         if (IS_ERR(phy) || !try_module_get(phy->dev->driver->owner)) {
+>                 ...
+>                 goto err0;
+>         }
+>
+>         get_device(phy->dev);
+> }
+>
+> However, most PHY drivers allocate the structure embedding struct usb_phy
+> with devm_kzalloc() during probe.  When the provider driver unbinds,
+> usb_remove_phy() removes the PHY from phy_list and devres_release_all()
+> frees the devm-allocated struct usb_phy even though the consumer still
+> holds get_device(phy->dev).  Any later call by that consumer (such as
+> usb_phy_set_charger_current(), PHY callbacks, or usb_put_phy()) then
+> dereferences freed memory.
+>
+> [1] https://sashiko.dev/#/bug/linux-7f476623-2458-498a-85ca-75ee73ec5f0c
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108134001.53=
+6207-1-hj351016@gmail.com?part=3D1
