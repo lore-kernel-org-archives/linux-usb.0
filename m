@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794293101;
-	b=HYpWb/7N+yyeaXz6ga2RK4Mc+I6VwTjjRfVsvPPWS8TIGsuoF+UDOyLmkSWPAtLudI4h
-	 z8HLOAV55E2Atr0HCM+vf/xZHTqxKZaamN3Ruy3fQbeKV9aQJhaLpBLQT+NXoUg1i9NvO
-	 s9RcHcFLr5oxoOFImDvTyssdxChtz5z+9wqBtQGgWMWTv0u01cfc//KNgPYVDWNnqRI1t
-	 dYlZb7yF+HV/H7b6UHCwCo6mTRiDoDa6+uZ8gK6OIIlv9uELtyE7+sFjeVjZ6SU5JxQxz
-	 YyPpO6HzOQiT3rjyruKBmkOswbaGlpQdMATi21+worVHZdWN950nPxHKL06Rd6W8YXw==
+	t=1794293102;
+	b=QZ+lwHxaw+jdxro0KYn1VLeIxunLyGpV+x8UB0ciaatUn4xueTGIoXkSvnFqvzVZKV+C
+	 MUOeiwcXjkdmAPA71sS4sWhhGBLunNlqdwray3u+4RVtcboD/sBKCPSfVuM2l0syJ8otL
+	 1JqdThk2qVNIMDFw240id40EhLLz+55lCYIEjGYT9ju+5668zZWxChAdojcLzsrU8JRhm
+	 XdFu1tUi/WWih41Cz4r+G7691JrmzaVaXsvd6OjdNumVxK23WfixoOn0RKX0GToSES3Of
+	 Dexe+dZur272YS59HgEYUKuZW92tv0+j4Ir3VQB8GOzp6BYvYOJWBFpiwKY0CDZ8ohQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794293101;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794293102;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=RCEO6dS8JVv6qGMPEEhV0CrwdYucxnzedvrv9oS/sa0=;
-	b=aPLAsB+ejhxEBbFZcuqmbHQB8xohM995pIv/owWPAyGHs0wIA6kn/TgE7LQImZ3kMJPA
-	 twkwh3zVj7Kq/v23hXPmWutKBexdPb6AIl+jzLtDzyegdz6vlCMAn5HuXLCasmUqXe3ui
-	 pbOJ0WtYfYgZ9hP4zM7zeP6qYkkK6XUAAnyhgDhjB2qmdDhEUTUSjYnJvgEJw6YDr+nRu
-	 MTsYKkphHBklo51tOr4HkYCByAPPj5Imtb90zdYR7X8Rew5KTbC16PJZlUcUpEYE7EzC1
-	 a7NMikrVGJhRypirLDT6KiQGqmBo8Ykcz4N6pBBcH8lEb9y3jgXwKXPl5fOxn9sOuUQ==
+	bh=670+UuhLM6Eixn3ciIIqOnCfj/djpgYakUIXQNUMybQ=;
+	b=055Krg/U4MaaDCSQp/sbBsk1TVv3CMCbrSwkG7SuMBCGr3i6sMouVcxctnszE0pQ3U4c
+	 VJhuTKpcmpdVT/jPEmVEYBaaTJlUW0bxu6QzvvJhnmbblfmtcYli1vtxb/xIXt0V9FKou
+	 XlE6jDSFhdd9E5fzqC+UKc8T1YsGK21p2q4KrsVn0F7nn2lqPHm4L9CWy5cVcUQ/fjAiL
+	 NOZ19ryN2yLCaeymMr4ylg6arEmGC1oLbZ7InZaPPytpszD4IXgfurpVv24HCYRibmICZ
+	 U1Nm0bDPp6/m1CumW/PARapIKPdSu6lFVNcNBapXqeCjrLlsnAEYVFSCAFUv0z4Eysg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TR5Sy0q+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WzohzE3t;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18E6606BD58
-	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 06:45:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276A4606BD60
+	for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 06:45:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TR5Sy0q+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9886A1F008A1;
-	Tue, 10 Nov 2026 06:45:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WzohzE3t
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420D51F0089F;
+	Tue, 10 Nov 2026 06:45:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794293100;
-	bh=RCEO6dS8JVv6qGMPEEhV0CrwdYucxnzedvrv9oS/sa0=;
+	s=k20260515; t=1794293101;
+	bh=670+UuhLM6Eixn3ciIIqOnCfj/djpgYakUIXQNUMybQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TR5Sy0q+CHQ7AJUKf8zyrVN5X8U87Lq/r97wkL6xVbVN31xqxT6kUjs1WHBwREgZx
-	 0enu+CgdUUDjdD3fk/04EPTcN2ueZgG79gpr+nXQg7ijybfmFP3XXK79vrZJaYhjLC
-	 +yXNo5KyLzKJyH6Yd7zqSJbD1aI1yrtQ3e/E64TNn0vgF7WEh/09enxyjAnx22DAdx
-	 DSQ/YYvzEiXmfa18aYqoWJBQu+IltPEXYWEiRqfFHgjt3U/3ke+0L3LC8rY5qDgK2h
-	 Yv0luqVm/R3JjcLJOOlzAuLk38YEDOxgrH2YvCpTIBLFPkXoKwCA0PT50Ip3Z9Proq
-	 BDxJFm2Jqr/FA==
-Message-ID: <sashiko-outbox-206439@kernel.org>
+	b=WzohzE3tcvVbG3/J+/hTDZNIXX7pxemzSLVLRNpnYrdejjRTDAOsTwt1CnbXzAXVX
+	 nCpu6g17BtQ8tTvBWxEN6DfWiytCqn1fyaMLfuLuFsU31R+JsCB+fubGuRmRmhWO8W
+	 TtaZ3rE4otHPCUhvImORE1KSirJ+ZJoIjaZJ4Q85gkGdg0YcSIV2MhDvq6XJPA0JcI
+	 aaRT3pP/swHdjf2WrHgKDh4XE0RaLbyNwUB6GEMfuT4sbGh2VEiCH3BifXt/Ipu+9s
+	 R8Oy1B1ixT5tQ55AxA1+cWuSSES/mw2HJA9Cfvmut9YL21eHsMTLudDsv4lOCwoyvG
+	 0gW0G7d7V3r4Q==
+Message-ID: <sashiko-outbox-206440@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 19/22] usb: serial: fix a few spelling mistakes in
+Subject: Re: [PATCH 18/22] usb: roles: fix a few spelling mistakes in
  comments
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261110064105.20335-20-shishunbo@cmss.chinamobile.com>
+In-Reply-To: <20261110064105.20335-19-shishunbo@cmss.chinamobile.com>
 References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
- <20261110064105.20335-20-shishunbo@cmss.chinamobile.com>
+ <20261110064105.20335-19-shishunbo@cmss.chinamobile.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Date: Tue, 10 Nov 2026 06:45:00 +0000
@@ -69,5 +69,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110064105.2033=
-5-1-shishunbo@cmss.chinamobile.com?part=3D19
+5-1-shishunbo@cmss.chinamobile.com?part=3D18
 
