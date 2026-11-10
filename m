@@ -1,62 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794292883;
-	b=OpJvy+lXqQPlzSNYsMg2YLIcDu0NnmWWkBn3EtyPEpraA1uN7s5eXx0pH5V7uTVk9nbe
-	 3V/emW+1fKgesFqiY+MS0xcIAvcq+FChMRXsCXbENfAOXbD7MzLZaqTDUj27vCCeR0EiW
-	 FrcTw4H1BpDIVr366I6khRTwZgUt5NgI8j9IzJ2uHeXtnd0qNvUxLmZXuTh8hXLlJjZRd
-	 paDU9FT0W9rv2K4h1Pm8KUjzJ3MKo5VaaseelEOqsvqJXF4WSOjZA9J9GaTbqY8wDIN96
-	 2ELtg/V9dxdkwsbcUPzIcLPMMCenG6nZXW5IcQDMcpcyj8r3t82O7JNkjPsiTHgq0yQ==
+	b=2IIRApB1i010iFAUu1QACmyPBFGTgllbOu/0W4kyeAO69aW930imMm5a3VBUw16KuExb
+	 MGj2BNZ6KUFUjehdbqeFACoZ4C0Iv+5ag47iMbjH2wSkQWatc4qu/39yfMxA6NjMwqIvP
+	 vb4fXcWFpKRpnssUHJzhNOCgi+GCvgi8drqxOE7zJKK2wDda9WjSSP/kiq0OPLVODVtsS
+	 +AEZhLYOOQGk76nABouxAtTwdN7dl/+r9pViokFuKVGllQyy9QqJg4Me+pR4wd/IN7ns2
+	 l9w8B24DCcXy4xWwukFu+9KcWoSJD2KykQEFbt5hCFfZhccdG/tADrxXtTJ96lK5x3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794292883;
 	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
 	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
 	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=xXxoNAlKa/PBpV5ol5S8Xdd6kzfXK1Yx10K2yYA4fw0=;
-	b=fDSp7VH66ocWZfrg1M8yQVA/fgm8Qpxl0HEHez9RfxHQjxmvy6wIk72yhm77qsWES5Uk
-	 36tKOQbDdyxUoXYcMjDg1eSf1LXHIGGv6Nqb6K2jqFId0zx0cYHEdvgCHNfck8Brns6lD
-	 dfEo8lJTWfVdSK3L4mm0mS3dw3l1NlWdKUTP9Dn0z3doLSGNR9J0z7e+Hgn3b2zeSp5ci
-	 rooVPVpWxOZW2TpV10wv9cWlzX4I6ZS8KifZoxfhK5vvYj+Gi4XGEhYqeW/K4lVHRtOdZ
-	 r9y1DW8+h5ITqmjlwuL3RdFyzWTXY2GDMVpA4UqTij4njLR9m9aTwhK5WE8/x/AoZPg==
+	bh=XlqmMTmdQY0yvkWH+OmhyR8vbh/qufmYoAUMw4jsvAE=;
+	b=CboP+Il15gvmNg2zqkHLozaZ9/xuvbKuYvm+qiDQzWIe5hobLzA4yYYaJOlcNkfRnV/X
+	 85tF4fBRrDXdrsQHtwfaa0d8H0Mg5/pujqqOEKNhXwi+aJwvEqwFyLgLNPixKfLh3BYRc
+	 wd3STpyyc8fOJvKg1XEnDW4WkPtdnDnH2xLzW8Lzv7c1hlo3ku3r1k9Hly5z2+XZaH8yk
+	 qoKC9B9SYl3G2M5VSQa2L7x+y41ItJwjy6TgQxIZ3c7DXqpyEAn33osrvUUtdaOpMM4Ry
+	 ny7vowj/mSz5JYioJzAma+CiPMdXQ6rxLyktz7Lo5FNw5tnFZmoXFb2spIsqqpu8i/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cmss.chinamobile.com;
 	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=ULDv3TpI;
-	arc=none smtp.remote-ip=111.22.67.137
-Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69EA960A5BCA;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=PFF9s9J0;
+	arc=none smtp.remote-ip=111.22.67.151
+Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FA4C60A5BCB;
 	Tue, 10 Nov 2026 06:41:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69EA960A5BCA
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6FA4C60A5BCB
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=ULDv3TpI
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=PFF9s9J0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=cmss.chinamobile.com; s=default; l=0;
 	h=from:subject:message-id:to:cc:mime-version;
 	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=ULDv3TpI5s9dq82wvbKiK6lo3e21/yMtzSZpXfnO8tYVJ9A9LVAbdOCL3ZgVdHp56kD8vPPU1ZOZK
-	 1PyDFiicKvPzpgzGJaHxANEsntky82mqw93OMxqkhZf4naqwKlIqeme55lpGLhdMRHxQ+r3Wn/vZce
-	 7UaTcnHt6Ii/zqg8=
+	b=PFF9s9J05KcO8+Uch4nlglJSypF8jLy9dQzyVdnVnfcveUtihqlKoSo/ubJTnxBgUlITEfiScfFf0
+	 A7S49/F80Jg6CoG64uUsSF+LAPf+lHj+eFA5aCUfNiocEgC82jrdtmEHiXbpnCa98kuX18NtuT3MaB
+	 beJN4Nlq8nTkZYSw=
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee46af2bc8f847-6b65d;
+	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66af2bc8f83c-983db;
 	Tue, 10 Nov 2026 14:41:20 +0800 (CST)
-X-RM-TRANSID:2ee46af2bc8f847-6b65d
+X-RM-TRANSID:2ee66af2bc8f83c-983db
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from  (unknown[223.108.79.97])
-	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea6af2bc812f6-aa12a;
-	Tue, 10 Nov 2026 14:41:19 +0800 (CST)
-X-RM-TRANSID:2eea6af2bc812f6-aa12a
+	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea6af2bc812f6-aa12c;
+	Tue, 10 Nov 2026 14:41:20 +0800 (CST)
+X-RM-TRANSID:2eea6af2bc812f6-aa12c
 From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 21/22] usb: typec: fix a few spelling mistakes in comments
-Date: Tue, 10 Nov 2026 06:41:04 +0000
-Message-ID: <20261110064105.20335-22-shishunbo@cmss.chinamobile.com>
+Subject: [PATCH 22/22] usb: usbip: fix a few spelling mistakes in comments
+Date: Tue, 10 Nov 2026 06:41:05 +0000
+Message-ID: <20261110064105.20335-23-shishunbo@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
 References: <20261110064105.20335-1-shishunbo@cmss.chinamobile.com>
@@ -75,110 +75,36 @@ No functional changes.
 
 Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 ---
- drivers/usb/typec/class.c            | 2 +-
- drivers/usb/typec/tcpm/tcpm.c        | 6 +++---
- drivers/usb/typec/tipd/core.c        | 2 +-
- drivers/usb/typec/ucsi/displayport.c | 2 +-
- drivers/usb/typec/ucsi/psy.c         | 2 +-
- drivers/usb/typec/ucsi/ucsi.h        | 2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/usb/serial/ftdi_sio.h | 2 +-
+ drivers/usb/usbip/stub.h      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 54c7810b563b..ea2564b9eff6 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -564,7 +564,7 @@ static const struct attribute_group *typec_altmode_groups[] = {
-  * @adev: Handle to the alternate mode
-  * @ops: Ops for the alternate mode
+diff --git a/drivers/usb/serial/ftdi_sio.h b/drivers/usb/serial/ftdi_sio.h
+index b053e038bda4..55ea61264f91 100644
+--- a/drivers/usb/serial/ftdi_sio.h
++++ b/drivers/usb/serial/ftdi_sio.h
+@@ -15,7 +15,7 @@
+  * USB on the other.
   *
-- * After setting ops, attribute visiblity needs to be refreshed if the alternate
-+ * After setting ops, attribute visibility needs to be refreshed if the alternate
-  * mode can be activated.
-  */
- void typec_altmode_set_ops(struct typec_altmode *adev,
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index d721baef5210..dabb91319e8a 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -2520,7 +2520,7 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
- 			/*
- 			 * PD2.0 Spec 6.10.3: respond with NAK as DFP (data host)
- 			 * PD3.1 Spec 6.4.4.2.5.1: respond with NAK if "invalid field" or
--			 * "wrong configuation" or "Unrecognized"
-+			 * "wrong configuration" or "Unrecognized"
- 			 */
- 			if ((port->data_role == TYPEC_DEVICE || svdm_version >= SVDM_VER_2_0) &&
- 			    port->nr_snk_vdo) {
-@@ -4461,7 +4461,7 @@ static int tcpm_pd_select_pdo(struct tcpm_port *port, int *sink_pdo,
- 
- 	/*
- 	 * Select the source PDO providing the most power which has a
--	 * matchig sink cap.
-+	 * matching sink cap.
- 	 */
- 	for (i = 0; i < port->nr_source_caps; i++) {
- 		u32 pdo = port->source_caps[i];
-@@ -5960,7 +5960,7 @@ static void run_state_machine(struct tcpm_port *port)
- 			}
- 			/*
- 			 * Although tAvsSrcTransSmall is expected to be used
--			 * for voltage transistions smaller than 1V, using
-+			 * for voltage transitions smaller than 1V, using
- 			 * tAvsSrcTransLarge to be resilient against chargers
- 			 * which strictly cannot honor tAvsSrcTransSmall to
- 			 * improve interoperability.
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 02539378ffed..67471c363a68 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -950,7 +950,7 @@ static irqreturn_t cd321x_interrupt(int irq, void *data)
- 		if (!tps->data->read_data_status(tps))
- 			goto err_unlock;
- 
--	/* Can be called uncondtionally since it will check for any changes itself */
-+	/* Can be called unconditionally since it will check for any changes itself */
- 	cd321x_connect(tps, status);
- 
- err_unlock:
-diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
-index 572da7bbd29c..56cf7deb2312 100644
---- a/drivers/usb/typec/ucsi/displayport.c
-+++ b/drivers/usb/typec/ucsi/displayport.c
-@@ -165,7 +165,7 @@ static int ucsi_displayport_status_update(struct ucsi_dp *dp)
- 	dp->data.status = DP_STATUS_ENABLED;
- 
- 	/*
--	 * If pin assignement D is supported, claiming always
-+	 * If pin assignment D is supported, claiming always
- 	 * that Multi-function is preferred.
- 	 */
- 	if (DP_CAP_CAPABILITY(cap) & DP_CAP_UFP_D) {
-diff --git a/drivers/usb/typec/ucsi/psy.c b/drivers/usb/typec/ucsi/psy.c
-index c8ebab8ba7e7..8eb1ed42fbbd 100644
---- a/drivers/usb/typec/ucsi/psy.c
-+++ b/drivers/usb/typec/ucsi/psy.c
-@@ -255,7 +255,7 @@ static int ucsi_psy_get_charge_type(struct ucsi_connector *con, union power_supp
- 		return 0;
- 	}
- 
--	/* The Battery Charging Cabability Status field is only valid in sink role. */
-+	/* The Battery Charging Capability Status field is only valid in sink role. */
- 	if (UCSI_CONSTAT(con, PWR_DIR) != TYPEC_SINK) {
- 		val->intval = POWER_SUPPLY_CHARGE_TYPE_UNKNOWN;
- 		return 0;
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index 1996f04ed5e6..d363e9a64763 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -509,7 +509,7 @@ struct ucsi {
- #define UCSI_NO_PARTNER_PDOS	BIT(0)	/* Don't read partner's PDOs */
- #define UCSI_DELAY_DEVICE_PDOS	BIT(1)	/* Reading PDOs fails until the parter is in PD mode */
- 
--/* USB4 connection can imply that USB communcation is supported */
-+/* USB4 connection can imply that USB communication is supported */
- #define UCSI_USB4_IMPLIES_USB	BIT(2)
- };
- 
+  * Thanx to FTDI (http://www.ftdichip.com) for so kindly providing details
+- * of the protocol required to talk to the device and ongoing assistance
++ * of the protocol required to talk to the device and ongoing assistence
+  * during development.
+  *
+  * Bill Ryder - bryder@sgi.com formerly of Silicon Graphics, Inc.- wrote the
+diff --git a/drivers/usb/usbip/stub.h b/drivers/usb/usbip/stub.h
+index d11270560c24..1fea0190de7f 100644
+--- a/drivers/usb/usbip/stub.h
++++ b/drivers/usb/usbip/stub.h
+@@ -29,7 +29,7 @@ struct stub_device {
+ 	 * It is allocated as stub_priv_cache and assigned to urb->context.
+ 	 *
+ 	 * stub_priv is always linked to any one of 3 lists;
+-	 *	priv_init: linked to this until the comletion of a urb.
++	 *	priv_init: linked to this until the completion of a urb.
+ 	 *	priv_tx  : linked to this after the completion of a urb.
+ 	 *	priv_free: linked to this after the sending of the result.
+ 	 *
 -- 
 2.53.0
 
