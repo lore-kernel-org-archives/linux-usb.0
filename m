@@ -1,100 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.49
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794360942;
-	b=1qFy9ETMFeo7DVIpcqDRXgXdipxEmauFNDu5xAUOQ5sOQJuiPw6Yj8X/vpL9DyHSqKUB
-	 HKTwnfho8dcSD/891fXazxq8bfC4gPrEQIcMAXxIov7d3pM0wScbcB2j+2IkDUVJ9IStE
-	 vUivDQta7zfQdc5+tDji8yBI8uEsazV/8LqFQGV/mszPGmd3OSxz70uiLuJlNo6mPGnE0
-	 S7hhq67eIjdME5X+FTUbjMHLqz7z4ZxYyv/7iK8R0o/ehV6CSoCELwtnNN/0ZKn5x1B4K
-	 qkU5dcueEjWxzrYGNXT5UHnjjCCDA4PNKBRRkxT40k/vUhz7JGlXzp2UJ7CQrLyiZwQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794360942;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.175
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794362420;
+	b=LKtNfyInC7D7QgVekG0z9UwjpXOImwTpmQa7lEg+qbJRveX0TUUOvWL/i/NdpE0Ibnhe
+	 Al5CfdO4lmjYuy9ZTcJXC7AvUoLq2Dg8vhkSBNxJPrPT/VZ9+WZU9vJpymKO+Jita0LWz
+	 xHGHHkYLFshSf1guHMiOu4zauoIKYVPtn3cyGhfKlRACAqqUcjieObo84OABzoTBjoW7w
+	 FKQlKq46dT3KM0Gnhb6+IFvoB3vTVpXwyPPRDGs4c2rxV+PQ/tYwjQGhl7EqhFHU8bIAn
+	 YhlKi2ubkGmdmS6JgE0dzwXERTNEtGLWztz+qj7U/gpkYC/CIFIAYGvANXtXO0m6VzA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794362420;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=pfQqYpokmZVzyF+aracTrgq2mm2QsLoqIsns9BsxbLs=;
-	b=C+8E+xm9y5aDqZ0xTqWNXD7OgWLV4wOPx62prPg/XoRHEdDArzqee/Gn2gXCiL5YaTPY
-	 j7bEB0q4Y8OGL+N8yXnufc31ybysfPjA6EI3rX3cr5HW6aBFpCnwrIWQ1G1D4B+Ua0euz
-	 7QOITup/nzUGVmvO4mlXBMEApX17jKFOMBGangHKj9os11xRqgnMVlIJACJYh47h9SbG8
-	 lXHde3A2f78F5MEzxG5aPP0uDHDmrMgjS2wWy9TeqxHR3pZMS0ZZig6WmttJ9BgT4ayE/
-	 rNIGJaQDLRQGUkC4HppHEqQo1UspXVAP+I+wOOvBgGrV1kWuJITMmRwxbQx8s2EghRA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gt.tech.gov.sg;
-	spf=pass smtp.mailfrom=gt.tech.gov.sg;
-	dkim=pass header.d=gt.tech.gov.sg header.i=@gt.tech.gov.sg header.a=rsa-sha256 header.s=google header.b=Bx+xqW+D;
-	arc=none smtp.remote-ip=74.125.82.49
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=dtC/s3IFvRHvWLM5ctW+2r/vaRjYMyyM7FY+73RqcL0=;
+	b=tazZqlyPQ3VsHFmccL0hPg4t4CMrcDseFe62NguH7rC+DqzlVLjsIAbtu4vqPNF2XRau
+	 XMEtmbfE2WvcdTMegSUT9+XUziTgQS4LrjbDhE7sgdme1DyH5eNNM3RNP7AVfAQdJABnf
+	 RZi7xzp6ku4zErfC8C4+VEpcx93Bwi/3Vy6EaD6ct8YGFlOtnTSWHlcKDNeQKLnC1WUxT
+	 5NXoVqctjnFc2qxFEWlerK6J1rbc1EmoN6wg9RLKp+DvkQZUV3IvqzNGGA+h1NvzcJ0CO
+	 FC6xSSjvgjG9n+hd/Yjq73hCYwXFD0/mgg4s4LXoJ5sABwUYCevQsjDHb8GkSzkNxjw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xjVuYftf;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.175
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9455606A330
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 01:35:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9455606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gt.tech.gov.sg
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gt.tech.gov.sg
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8CC606A321
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 02:00:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA8CC606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gt.tech.gov.sg header.i=@gt.tech.gov.sg header.a=rsa-sha256 header.s=google header.b=Bx+xqW+D
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1a3c08d6928so4598121c88.0
-        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 17:35:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xjVuYftf
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso5474266eec.0
+        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 18:00:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794362419; cv=none;
+        d=google.com; s=arc-20260327;
+        b=DzsLnCTNPWwypYGS020bTTjAvnEmxGNvF5iqsCTxnOYKdBDv9wC4stGvzUzA3Yjynh
+         ofIJdftLbcLsUneqVxfh6+6OKlhSi3VMtG9g9myQjIzXFgqrqjWzj9fQtOXx5NISQcI8
+         +mvisqZ6Q0EhRiRvTCQdzF5wWgJlnzIsvD2/YONlQdurbiQxkVPdSRyadsm82f/jucwo
+         fzX+hrA/fyWW+fKMFY3Z+eNXxINFlaZ4Es974QR94/eOpFpXgCgh72tP3Ne9GSgvTOui
+         89VvXRAAzCfcXgKoD6gHDEbTVH0IztiYZg9/Pqc3MbYmYCjyAq7OVUrUmcovP/aqGcwc
+         k4Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dtC/s3IFvRHvWLM5ctW+2r/vaRjYMyyM7FY+73RqcL0=;
+        fh=WcRiJkMg2cWJk2SfEg1wpUhAUdEZyYY6ZgDExnCSSCk=;
+        b=KsWCU7IHej1B2WNK2YJ0a2J7xn+dHyM+vUFSvs2VW01FQLG2NVPjY1V/2Pd74vrKmu
+         2RrzOzkX1c5ia6UAxyZoddkgUKZS7SkdunIPGBLAWdL6w02pBKxu3UV58hjHWMneI0ng
+         wfmhp1BPCeYlkc52NPeq/FLzthSLzRw8+YgC4J0ZD9DP6uyw1rbUSPvyEHIKub7M8p5m
+         3WJKeA16t0+5Iy20eR8FS+TPL5Jk20Pjo9Q0UKi4xoZk/vZVMBdrsvcyLcX2SIVOt2av
+         tTJUGKXteJQGW3Pg/UTR1HEAWI/kVEQEEbrqq4revCFXW6l3a5Q0BQjOGuP/AqUo1DgD
+         M2zQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gt.tech.gov.sg; s=google; t=1794360941; x=1794965741; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pfQqYpokmZVzyF+aracTrgq2mm2QsLoqIsns9BsxbLs=;
-        b=Bx+xqW+DV9goEpGGY/QAN0sUO8vxR2YZAfom2OG6TW9RgB6WMH5OunJGSLrsDWpWSa
-         m20S6DoegeayR1BMrWO9L6DcrlUtGBpoATX4Q6C4xa2YFTzkVWcdWjI5dViI2bcu1aQi
-         9mqL1FNImrGZ2sXzF/uXwUBiBHa9gMHCAEFd4=
+        d=gmail.com; s=20260707; t=1794362419; x=1794967219; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=dtC/s3IFvRHvWLM5ctW+2r/vaRjYMyyM7FY+73RqcL0=;
+        b=xjVuYftfbW22npZtzpf6WhiVEWc0WBE+dsO2rihWR0FYjSd/7fa30rhy8p66cRLOlz
+         yLw0MmIsSOmTbhPY608xIBUcXOkLqMYc25ks2a90fKMKMPMwn00YOoOx1pKNS6riR1hb
+         YDkro7/E+f9ueS6/aq6FCSN+nVSqAqsITh4gvP9JgOJw3v/jjMmaqvzEQZxUiGQiEldV
+         ldbxyijCYbqphrruR4lSSgq2tf5dXYtae0+7B/R1DCSjytQH3Sj6Dt3FsftJuD1xSO2F
+         ++sIfyPL98r5wg1WLFulDNojhNamprh7ctnCrznqJyMS+XINnL8M4Q8W+2dlkLrWDGJt
+         TlNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794360941; x=1794965741;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pfQqYpokmZVzyF+aracTrgq2mm2QsLoqIsns9BsxbLs=;
-        b=QGMu1N+l1OG3Obi3q1bnkEtyxK4caLGXBJOY4QSz6r0vo1sPFE+Ayvs/9YiduHJGnw
-         F8jTbxEhAzbuG/y7jgjNU8Tx50Mo9ktaDZiJltFsCnGuGNwlzFUE21V+a/zBf7OO5RHH
-         io2t0q8wAIOoZ+ciLiE+LHDxCwdHnk00w2DX9eWWCgzo5dOG/eb5H3/aKPPTX2HXCgFZ
-         UM0NgAG3BOf6b/2s9LY/zMZd0urXrGsalo+3T35A0P8lXbbrcpWMVDgLVZolhhEtNDfs
-         KXXLcGAlrg1xaPCHQwmeCU3PA2EaxoOYAHEN0pki0V/J4dPGEjapbXg5BVgjcPd96A//
-         h+jQ==
-X-Forwarded-Encrypted: i=1; AL+hErEHi+RqFpLS4Eu5n219ZoaBMA61dqM9Bijo2r11Ds+eAIITGfR5KNWjBu9HFooL90zddJYgHN+cWgo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+DBV/Pejeyjt8jzHq1SmqYHzXSqEugY87GpXze45RpWYuQ8IWj
-	MeQhqDmMdnLN233uXVs9u6Et0rDSh3mp35Xcuy1qeyGeSEWtMeuLci03tdQ8fiRiYF8=
-X-Gm-Gg: AYBFou2Le5pN15RwMLsxNoeWPhe0Yzk1l/cycH9v0VhEzdQ64DBSI3x/wiA02VJsdWp
-	DqYsnzh/McNO3MTjbTRKBLAjqqtt695gg/WBQsRb4eIvqqYtjnxRxVpJjfmCSjbg/0yCtRHNxno
-	0lH3P5oMUI55b0619868qILBhnwnpghSI52PBopvU/pDnfzKPjQIUao312jCt6gfYhi+tcU9zxS
-	xhJYuG5GaAn1yqdbXnkASHE2GYxoG03HQwWtA+jTWFVjrmaX/mGiqDRDXVCofWTY04Xk60ggtnu
-	zdgSDNxJkuMoDC+lLscZ+Bp9erRxRMzNYAaIPSD/RZHyrYTF1IA4ELLeg+5mALK9uN4dLhQSpnx
-	8aUkHJo82H9bRJ03nh7UGfdOOskQeTwkBk/Bh3yrbtRpwjmWQU5ch4VB+sbp67tcRofp89iAEwe
-	XzRYUXjjudWoEL1Kbza9zasnlc0zAEwm59cRdN03Wt+QJHszp0Yi/QAs3f9pXtGZhYpUGr9VFJZ
-	Lz6RtEpQZSqQetzErWjWR5pFL3Nq92lc32thMBNsn1VAkYj7Ilt/GN5MnMQMg+mawzmRTh2obIL
-	ISmfcRff/0BWqFhb5VsmgY+Aoc6TD1ARnz7I74beU/Gt/ZuDNQSuf2zOkw==
-X-Received: by 2002:a05:7022:671e:b0:1a3:dbb2:478a with SMTP id a92af1059eb24-1b3c0332a06mr1071478c88.27.1794360940616;
-        Tue, 10 Nov 2026 17:35:40 -0800 (PST)
-Received: from LAPTOP-UUUVNN1I.localdomain ([129.126.57.197])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b20c55sm9696223c88.8.2026.11.10.17.35.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 17:35:40 -0800 (PST)
-From: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>
-To: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Woojung Huh <woojung.huh@microchip.com>,
-	netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wei Jie Law <98lawweijie@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: [PATCH net-next v5 2/2] net: usb: lan78xx: reject short register and statistics transfers
-Date: Wed, 11 Nov 2026 09:34:54 +0800
-Message-ID: <20261111013454.34542-3-law.wei.jie@gt.tech.gov.sg>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261111013454.34542-1-law.wei.jie@gt.tech.gov.sg>
-References: <20261111013454.34542-1-law.wei.jie@gt.tech.gov.sg>
+        d=1e100.net; s=20260707; t=1794362419; x=1794967219;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dtC/s3IFvRHvWLM5ctW+2r/vaRjYMyyM7FY+73RqcL0=;
+        b=1U4wR/oHqrkto+zyeRsHkmkmMe8dSNJrnCQ8+PTankLdIIYfKtYfyOqJOjpIJEdNMc
+         4NceQZBixzvG3j+pyDkdqwfFYD+IlNgD2CzdHBwnlkFuH9+TudBU+uCwcWyoo1hQAgrg
+         NQ2pmiE1aY5kFUa2/NFq5kAE30IFMq3pjpA++Bb/sAT/VifJRIhn0W3EnI8tZ/5wz01K
+         qgEIzvIeGHeaW1LpBnciX4Ms49PY95iEeiZ6Jhjtf/Ev57gltEUpsKuD43w+ErjuSaJ4
+         8G5NhQORwsOWH/S13p0LC4VAOVSzIwnjXZ0xC5NAKKiX6QleGcwkhps4RmbqaLNYIPxG
+         wL6g==
+X-Forwarded-Encrypted: i=1; AL+hErEfA0KEYTno6RxhSL6GuI/f+RUEXm+FPC8eG50rzfKaulsT3fDcAUjSFDptHjEfEcZdyuiGNE3RqFA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+nMGbJkDtMNiEyDoqc+VEjHqgh9PQv9FwFUUUBdGqYsDITBAFn
+	XK4i/W268xDEsJ+9/N2Uay+mX4/pEwsU5kJU1tT95PkdsBgZexXTh4Joh0Iuuwnt54mGpKXq1Ir
+	vtpOcnZWZPHkMko+M6mSkawMmR+aKfYU=
+X-Gm-Gg: AYBFou0mOYojStDqwbPAowIXYWu++31Vbr4r2nvuPxMHMxUcQb0e2rEbcXBqrwE7jsX
+	UtSb9V2e1F74Dqw0uvQFgGhyc2W9QX5sNlXvwq641SBp04E9GYLcrvmuQTo6ua6IAP52j2asqTF
+	dq3qGj3YNiyyqkm/162UF4sFqS3CjR029aOcMyok4FIGKcoXwUd/fGRos4n1G48+Ctnif1ziMdt
+	c1YP4nqvS8FbgfmYKO8dMudptVZCgtGByTknQ4+VZ8kixW5heC7ZC2BgwQAzhdTAFf2bW7A0+ER
+	Wf7kIUkeNqFdDeJKowUpC61i6pNIIXjWkVA4mg8Dtv1X1kc1O44EA+JwraZrm/REdZNKCf9pDxy
+	IH/muNA/TKzzvy6c26Jf5LL8wPR0fQLouzs3vZRmjXEkKw9+T3lhbrtTXNX5DQojCgYN6mMFNi0
+	ZgN58NOiagdJN8EBhkrwPeLRru+k0=
+X-Received: by 2002:a05:7301:795:b0:36e:e349:f2cb with SMTP id
+ 5a478bee46e88-3768579dfa3mr1470248eec.19.1794362417519; Tue, 10 Nov 2026
+ 18:00:17 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,70 +105,77 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261110-smsc75xx-rx-fcs-v1-1-4e048bfc28f3@gmail.com> <137b3cc5-7077-45d9-8ba3-ea4c584f1992@lunn.ch>
+In-Reply-To: <137b3cc5-7077-45d9-8ba3-ea4c584f1992@lunn.ch>
+From: Joas Antonio <joasantonio108@gmail.com>
+Date: Tue, 10 Nov 2026 23:00:05 -0300
+X-Gm-Features: AclHuK8ROedb8-shxTvKJCqZsFUqIT-32EYB708a8vtoB04n-gGoY_3AV2iFUVI
+Message-ID: <CAOCBhwFSS_weykmFvmHQJ0VuMxW-dxHytBn81rn47wfWwnsV9Q@mail.gmail.com>
+Subject: Re: [PATCH net] net: usb: smsc75xx: reject frames shorter than the FCS
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: steve.glendinning@shawell.net, andrew+netdev@lunn.ch, davem@davemloft.net, 
+	edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, 
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-lan78xx_read_reg() and lan78xx_read_stats() read from the device into
-a freshly kmalloc()ed buffer, but only treat a negative return value
-from usb_control_msg() as an error. A device that answers with fewer
-bytes than requested leaves part or all of the buffer uninitialized,
-and those bytes are then used as the register value or the counters.
+> I assume there is soon going to be another check to ensure the frame
+> is big enough to have an ethernet header? Can these checks be
+> combined?
 
-Treat a short transfer as -EIO in both helpers. lan78xx_write_reg()
-does not use uninitialized data, since it fills its buffer before the
-transfer, but make it fail on a short transfer as well, so that all the
-register helpers report a partial transfer as an error.
+Yes, that makes sense, thanks.
 
-Found by code review with LLM assistance and reproduced with an
-emulated USB device (raw-gadget + dummy_hcd).
+Looking at it again, short frames are only half covered today.  For
+the last frame in the URB usbnet drops anything shorter than ETH_HLEN
+after rx_fixup() returns.  The other frames are copied and passed
+directly to usbnet_skb_return(), so a frame of 4..17 bytes (0..13
+after the FCS is stripped) reaches eth_type_trans() without a complete
+Ethernet header.
 
-Suggested-by: Andrew Lunn <andrew@lunn.ch>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>
----
+I will send a v2 that tests for size < ETH_HLEN + ETH_FCS_LEN in the
+one place, which covers both the underflow and the missing header.
 
-Notes:
-    This patch depends on the previous one. Without it, a failed statistics
-    read would make lan78xx_update_stats() compute the counters from its
-    uninitialized on-stack buffer, so the leak would move from the heap to the
-    stack.
+Regards,
+Joas
 
- drivers/net/usb/lan78xx.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Em ter., 10 de nov. de 2026 =C3=A0s 19:41, Andrew Lunn <andrew@lunn.ch> esc=
+reveu:
+>
+> On Tue, Nov 10, 2026 at 09:03:21AM +0000, Joas Antonio dos Santos via B4 =
+Relay wrote:
+> > From: Joas Antonio dos Santos <joasantonio108@gmail.com>
+> >
+> > smsc75xx_rx_fixup() takes the frame length from the RX command word
+> > supplied by the device and strips the FCS by using "size - 4" for the
+> > allocation, skb_put() and memcpy() of each frame that is not the last
+> > one in the URB.  The length is only checked against an upper bound and
+> > against skb->len, so a device can report a length field of 2..5, which
+> > gives a size of 0..3 after RXW_PADDING is subtracted.
+> >
+> > size is a u32, so "size - 4" then wraps to 0xfffffffc..0xffffffff.
+> > __netdev_alloc_skb() adds NET_SKB_PAD to the unsigned length, which
+> > wraps back to a small value and the allocation succeeds.  skb_put()
+> > adds the length to the 32-bit skb->tail and skb->len, which also wrap,
+> > so the skb_over_panic() check does not fire.  The following memcpy()
+> > then tries to copy almost 4 GiB from the URB buffer into that small
+> > allocation and writes far beyond it.
+> >
+> > A malicious or malfunctioning USB device can use this to corrupt
+> > kernel memory or crash the machine.
+> >
+> > Reject frames that are too short to hold an FCS, as lan78xx_rx() does.
+>
+> I assume there is soon going to be another check to ensure the frame
+> is big enough to have an ethernet header? Can these checks be
+> combined?
+>
+>         Andrew
 
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index 76c2d98b49df..4a58febcddcf 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -612,6 +612,9 @@ static int lan78xx_read_reg(struct lan78xx_net *dev, u32 index, u32 *data)
- 			      USB_VENDOR_REQUEST_READ_REGISTER,
- 			      USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
- 			      0, index, buf, 4, USB_CTRL_GET_TIMEOUT);
-+	if (ret >= 0 && ret != sizeof(*buf))
-+		ret = -EIO;
-+
- 	if (likely(ret >= 0)) {
- 		le32_to_cpus(buf);
- 		*data = *buf;
-@@ -645,6 +648,9 @@ static int lan78xx_write_reg(struct lan78xx_net *dev, u32 index, u32 data)
- 			      USB_VENDOR_REQUEST_WRITE_REGISTER,
- 			      USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
- 			      0, index, buf, 4, USB_CTRL_SET_TIMEOUT);
-+	if (ret >= 0 && ret != sizeof(*buf))
-+		ret = -EIO;
-+
- 	if (unlikely(ret < 0) &&
- 	    net_ratelimit()) {
- 		netdev_warn(dev->net,
-@@ -695,6 +701,9 @@ static int lan78xx_read_stats(struct lan78xx_net *dev,
- 			      (void *)stats,
- 			      sizeof(*stats),
- 			      USB_CTRL_SET_TIMEOUT);
-+	if (ret >= 0 && ret != sizeof(*stats))
-+		ret = -EIO;
-+
- 	if (likely(ret >= 0)) {
- 		src = (u32 *)stats;
- 		dst = (u32 *)data;
--- 
-2.43.0
 
+
+--=20
+Joas Antonio dos Santos
+Cyber Security Specialist and Ethical Hacker
+joasantonio108@gmail.com
+LinkedIn
