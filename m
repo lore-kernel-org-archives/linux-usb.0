@@ -1,50 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.254.49.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794399794;
-	b=0qugjk1yAE75pPluMFIVgT7O2exZeREKiqJybr41LfGAotkLEcd54OlMvpKpmzUkeSbW
-	 LliNVco0rt0VrA9IryNipAlUEi/LCWMNWWDC2bnAKI6i+o312Gv82IpQjB3d3XG5jdMiP
-	 6JhlMn4dPMpmQmeigloJoRw/uyHEg2MZME54JozW03HwbRW+EzvklmiscPvE5K51U/O1O
-	 ovVldN+RZDTIudRPQOT/6U1yd8xtdTAt6tgYChktEwJTtRno/pvXD0ZfXRVMPEhjKsZKn
-	 bmb9KnRhtKDDpcsXA6H8FgX0GbjktXA5kRmM7kLgZKu0UkNzVC7bCdthNE2Ax2Xsy8w==
+	t=1794400081;
+	b=lYpYGTSuSVvrzqB19xszkzkxIBYCRZa5PfCKqSG+G+ELZofzK6WOcPyPU0CfOSVMW498
+	 74n/Hs9CrI0Cv8PUWwPtfrZgSfETEA7v06WuhlDDr4O2GAr72EApoYXlp+C3maN0iVqUW
+	 HDxhizch0oc2ljn4LohmEhk50NMDuQbqnvXj402WO+wrqIRoDxCis+JfP+DQaT1xoyN9H
+	 aywciipDj1HaS/UyvJnVIHTENhEe7TiDV7MmmZQHAOdBLLYh7DIfpZZZFul/neSq5DhHc
+	 gIQLn4PBpdf7cAcO743MF4+c1fpwzzI1PdtHF9rhSUkIdqHqTwMd9z6DNWWCxaQGOng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794399794;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-HM-Tid:
-	 X-HM-MType:X-HM-Spam-Status:DKIM-Signature;
-	bh=8yT5RQn07qxJIcLtF1+NCilgjj5UsIVp9Ozf/hILwJI=;
-	b=k2RrE1VvqCC9xXc8rI4V4B0i1J1UPAHGrCi2BpOHqan4rNcevHSh3A9AZAnxMoFeJLb7
-	 Y1EPZ4jhQ56gwUgVecoGOGUd2mVlLHCnZnGFH0+PFj+ZBQa+Xr6z3HjXf6EUXUg83G2of
-	 6q7m3vBhaU775Hk9xlOxIvG2053R0m5OO7pENgjebS37XcSx0VWhO6UOsA2WDKwLyQfM7
-	 KbjKxGGfMbTrMUyaYwrg0KEw22Zo7fwHdFNSwYUGb46i4Hwhlpg/R/B2DwvM0zLQjK0qO
-	 YMM0xtaP2jhaiK+P42m3hQGM3Lw1Q6KKlY0npBBXjHsPi/6QVaYdyz3ZeidXajtjEoA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794400081;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=47lVK3cOyaNIyjPMt8H8DbVBV5H9SqcaWOsJ4QNlPsY=;
+	b=g23smWZK+BOLTNvLoiBVKODFdYr24HAswE582Ha2Soqk4c5T84G7v33pe/vFlUPwZ4x+
+	 bOT0J+3ouJhsfJy1WlZZzkOLA23ayjgzm2t48nRCuRDLETMxSt319dy9o3gjbFfCuEXTK
+	 al/MDyJT2MqLdBZxEFxHtcns4/+awZfdsVVO2CAXsXMwlzvjxMqyppmGsQNhb4YVUO9Ak
+	 SiH177gpkhSarwoquBMUXNj5wqKFV1J9azhVApLOs5Tuz6pvk4S4f2+Gz6Dlm38Y5JCTK
+	 Mts2eKgN+I+3RARBps6FcF1DiHw1JQEdwE+4DTSzgjuUN2lhzZG6UtdVkkiMD/Fd17g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.sdu.edu.cn;
-	spf=pass smtp.mailfrom=mail.sdu.edu.cn;
-	dkim=pass header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=PKbGPA9U;
-	arc=none smtp.remote-ip=45.254.49.197
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m1SjANHJ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A4D606A32E;
-	Wed, 11 Nov 2026 12:23:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 82A4D606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sdu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sdu.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E242606A31C;
+	Wed, 11 Nov 2026 12:28:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=PKbGPA9U
-Received: from lgs.. (unknown [101.76.249.61])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 54502a16f;
-	Wed, 11 Nov 2026 20:23:09 +0800 (GMT+08:00)
-From: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
-To: Neill Kapron <nkapron@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: pch_udc: Fix potential ep0 DMA descriptor leak
-Date: Wed, 11 Nov 2026 20:23:08 +0800
-Message-ID: <20261111-e5624093d6-usb-pch-udc@mail.sdu.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m1SjANHJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA3CC1F00A05;
+	Wed, 11 Nov 2026 12:27:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794400080;
+	bh=47lVK3cOyaNIyjPMt8H8DbVBV5H9SqcaWOsJ4QNlPsY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=m1SjANHJ+Mi0oTsBGnxlg+2Ju1lu+wi4uIGVlaj1AE6czkPKkPgH0Qw8GWoTSmK5/
+	 EJ24qp/39mVkPX2kxa/5u0xlDAWUZ4teFxX/BhT5Y67VvkTjwUQ5MBzLMUdNXoQHty
+	 yjLB9lMTLQpqvBiK22zy8FuBoRhl+Efkbfrl5KYqaYUf/mp3e9i3QHjm/b2sgBfAef
+	 2lybkqHwVj34L9dRmib3HUbxkThkoH2lyeq1IFfZ4REjUcFp+HcSFBKNBA0A668db0
+	 gxh80Fw7BcAo/lLMJVXwVPCY2ohzXlW6dCbay/xl13qWd6Cz/C7TSltq6XnAf+6zDX
+	 ZBrwmTtoihG8g==
+Date: Wed, 11 Nov 2026 13:27:56 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: christian.koever-draxl@student.uibk.ac.at
+Cc: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, neil.armstrong@linaro.org, khilman@baylibre.com, 
+	jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Christian Stefan =?utf-8?B?S8O2dsOpci1EcmF4bA==?= <ckoever@outlook.de>
+Subject: Re: [PATCH] dt-bindings: usb: amlogic,meson-g12a-usb-ctrl: add S4
+ support
+Message-ID: <20261111-beryl-fossa-of-excitement-eff7eb@quoll>
+References: <20261106104632.54161-1-christian.koever-draxl@student.uibk.ac.at>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -54,59 +62,25 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa1ca8fe13c03a1kunm9ed480831b365d
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDS0pDVkhIGUtDT01IQktOSFYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlKS0pVTE1VSU9CVU1KWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0
-	NMVUpLS1VLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=PKbGPA9U9jMcZU152VsbhOLasx96y/RXB+4jQbFqRNNdTYyPfXDUfj97wK7iNOIzy5bk9W3vwQLfxzVK1Zsn3AeqH0x7Y8AD2KttNSsockOiU7ojMPz1qfYN4gOtKqGEDXTggd9Q0pO0ecmT7f5SOqnoNys6ApdO9nAx5A/TC6I=; s=default; c=relaxed/relaxed; d=mail.sdu.edu.cn; v=1;
-	bh=8yT5RQn07qxJIcLtF1+NCilgjj5UsIVp9Ozf/hILwJI=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20261106104632.54161-1-christian.koever-draxl@student.uibk.ac.at>
 
-Removal destroys data_requests while the ep0 data descriptor is still
-allocated, then tries to return that descriptor to stp_requests. The
-busy data pool cannot release its DMA backing memory.
+On Fri, Nov 06, 2026 at 11:46:32AM +0100, christian.koever-draxl@student.ui=
+bk.ac.at wrote:
+> From: Christian Stefan K=C3=B6v=C3=A9r-Draxl <ckoever@outlook.de>
+>=20
+> The S4 USB glue is the G12A one, but it fronts an xHCI host controller
+> instead of a DWC3 core, with two USB2 PHYs and no USB3 PHY. Add an S4
+> compatible with the G12A one as fallback, and allow a generic xHCI
+> child node.
+>=20
+> Signed-off-by: Christian Stefan K=C3=B6v=C3=A9r-Draxl <ckoever@outlook.de>
+> ---
 
-Return the descriptor to data_requests before destroying that pool.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-This issue was found by our static analysis tool under development.
+Best regards,
+Krzysztof
 
-Fixes: f646cf94520e ("USB device driver of Topcliff PCH")
-Signed-off-by: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
----
- drivers/usb/gadget/udc/pch_udc.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
-index 99b3ce28210f..5996f1d16aed 100644
---- a/drivers/usb/gadget/udc/pch_udc.c
-+++ b/drivers/usb/gadget/udc/pch_udc.c
-@@ -2989,6 +2989,10 @@ static void pch_udc_remove(struct pci_dev *pdev)
- 		dev_err(&pdev->dev,
- 			"%s: gadget driver still bound!!!\n", __func__);
- 	/* dma pool cleanup */
-+	if (dev->ep[UDC_EP0OUT_IDX].td_data)
-+		dma_pool_free(dev->data_requests,
-+			      dev->ep[UDC_EP0OUT_IDX].td_data,
-+			      dev->ep[UDC_EP0OUT_IDX].td_data_phys);
- 	dma_pool_destroy(dev->data_requests);
- 
- 	if (dev->stp_requests) {
-@@ -2998,11 +3002,6 @@ static void pch_udc_remove(struct pci_dev *pdev)
- 				dev->ep[UDC_EP0OUT_IDX].td_stp,
- 				dev->ep[UDC_EP0OUT_IDX].td_stp_phys);
- 		}
--		if (dev->ep[UDC_EP0OUT_IDX].td_data) {
--			dma_pool_free(dev->stp_requests,
--				dev->ep[UDC_EP0OUT_IDX].td_data,
--				dev->ep[UDC_EP0OUT_IDX].td_data_phys);
--		}
- 		dma_pool_destroy(dev->stp_requests);
- 	}
- 
-
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
