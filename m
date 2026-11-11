@@ -1,56 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=141.14.17.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794355145;
-	b=zRrB+ZXsNpoe7iS/dEZoyiM97i48/gqOZKIMEijsTWmI98itFcqLQKnZPVq/5NzjpcbT
-	 3qJyuhzbv1avC/HMxuzR24FBujt8JiunVEU62OVuWGuJGDSH9lUDSfswGG8gyX4ygJ3rs
-	 q6hNiN4AlNP9wFP9EOvz7FyFczAxyfRRNbwGg6ogAH8UqzQwKKE+S8PYwLCxttdSc34bw
-	 ib7h2MRCv98AX7Dz5lirwV3Mks8xEYnFn1jIAyex//pJfL/pTJOld+ypln7Gdj+Wh0x42
-	 rR9ta2OpCTzXsp4HfdleYqW4IoQjKnL+daWTZ/Z15ohWwxhZlNCshopHeNb9165kg6Q==
+	t=1794358373;
+	b=10yxGaLrOse4bENdIYVnslWjWw5cxSt3gaEc1Vye7qi9pjcm2TqPlUzfQj0L0M3h8+zA
+	 5gOzULZE7S1ugcJGLgSxyee4i+EBMOoXlT9FVW7bRQMcTLIDq+6eAKlHnPuWcJcB6VwFx
+	 c2FopQ27SVUCpn0P5jr89i8A8htpFUSJIVXHYiuGUidT2y4f3Gy0mfHBUDk7TYfJac18A
+	 9v9q8h5sGvJBL53xp5UDohi9E2weFoHPso5OdQMb7ekU7uIKeCVxooTAk/4WjJ6Mv8G1P
+	 ezAI5qCYhazKswexmnmlxX5Z9vHb4UV2KdjSBqUnDUNdYPWWkYdQQJKCDEM1xphAvoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794355145;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=gTjQQ0hv6nEnHTZSzSTYgIUZrrKlVjfKW7eaOQ1C+N4=;
-	b=p/mT6zfO6FI5BL9hhjq856CGAtnU+NXvqz//oqHoB4HGhk695GTnvbraxxZ7pIr8xOes
-	 IgxMci50hnJaCPIws7aEW/dEdRbMi3NJsDueO25ANAMAEPVHSp2ASYiDQCh2cC+TK6p3v
-	 /GcHlFbtXd2rIK+KVKGpUK263LXmAz2uqixFndvpmIfI+uftyx/torLry9O2eGaGV2lsE
-	 ZAeMaFKC69lqdHyDGn/k7zJj7HADOHPd+7jfq0IW4dJXNh3PCTU7OvS0HTmTrWv/5UAzN
-	 rLRym34nVh7NlMb0KIPbAqH+uKcVIgV2iSDsl+r0er13cUNPmAKFQAWtjTq74TBwkxw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794358373;
+	h=DMARC-Filter:Received:Content-Type:Message-ID:Date:MIME-Version:
+	 User-Agent:Content-Language:To:Cc:From:Subject:DKIM-Signature;
+	bh=QVEMt+HYEI4BVQvtwvGVs0ryoeQ+4WXnggXDfCpqQYM=;
+	b=2/TvqoHMhwBMTMWB7d9/Al6/9JMqm0H1WsW4MKbCwMbxQnnJmwIDLa985t8IRQNIdTtk
+	 XKbDSWeFWRm0tzDbB2j1UUQu+U8r+mDqHg+M7BEN2BcXpug4ROWLtEuKg1NAJ/IwSXuTZ
+	 0NtUW70YEaXdNZHphRSajrEcGbdp7xfLeKOpYAnLOHg57k80WwWZoWjGq2mQF76B9DJLA
+	 sOkj7I1Hc2gXTbldgW31FKolY3SNU9vqzo6eomkHMQQkcrF21kcf4/s12WbiCK+Yjoo4+
+	 PJVQsjwDboiTFcHjfYkeQty6Haa/IKcl1mdugPcg/tC4NVu7baXuwWnseOrrNIcIa4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R2E9AEZm;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=molgen.mpg.de;
+	spf=pass smtp.mailfrom=molgen.mpg.de;
+	dkim=pass header.d=molgen.mpg.de header.i=@molgen.mpg.de header.a=rsa-sha256 header.s=20260906 header.b=EleUomX5;
+	arc=none smtp.remote-ip=141.14.17.11
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C3E606A31C;
-	Tue, 10 Nov 2026 23:59:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECF6606A31C;
+	Wed, 11 Nov 2026 00:52:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1ECF6606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R2E9AEZm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66C671F0093C;
-	Tue, 10 Nov 2026 23:59:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794355145;
-	bh=gTjQQ0hv6nEnHTZSzSTYgIUZrrKlVjfKW7eaOQ1C+N4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=R2E9AEZmd/UYIFVTACDAv4IwZhE8LtxeC9vvHLirSTrOHNzlvUKsI2o/PwyiVd9Bd
-	 FNsfRNBpPiTtJ8SaH4vVPIgKIEiFY7B0gxaixTfErdtZI90Fc+MBZmeSTZs8sNxe7H
-	 knL4BPFOOiEZpW+aOyFIKkQi9Ek32gvdAdW7Zv75wzgsqLeVPZY9LKcIhbSAa6Yh+7
-	 Lc+r2wiR/GITJ8x+CirpOliWeFnaGoQpHMyXO3Mik/Vyrwj7bLzxnt6fGkNcZW3eGI
-	 iV5tzoS3/eZsO0fNYAqoflLcriYEk0bBLdRLeOuwkcJ26s7QjJol9kEV55Ibx61HB3
-	 6YPFHHw978HDg==
-Message-ID: <sashiko-outbox-207987@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 2/2] usb: typec: add CIX Type-C PD controller driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Gary Yang" <gary.yang@cixtech.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261110051723.434009-3-gary.yang@cixtech.com>
-References: <20261110051723.434009-1-gary.yang@cixtech.com>
- <20261110051723.434009-3-gary.yang@cixtech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 23:59:04 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=molgen.mpg.de header.i=@molgen.mpg.de header.a=rsa-sha256 header.s=20260906 header.b=EleUomX5
+Received: from [192.168.0.32] (ip-095-090-243-046.vkd79.pools.vodafone-ip.de [95.90.243.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 950094C2C90B4B;
+	Wed, 11 Nov 2026 01:52:35 +0100 (CET)
+Content-Type: multipart/mixed; boundary="------------21EOPq6sspZNCb0LjSJz0DdR"
+Message-ID: <fba64030-4f1e-4158-ae39-bc072bc5751d@molgen.mpg.de>
+Date: Wed, 11 Nov 2026 01:52:34 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,184 +50,170 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Hayes Wang <hayeswang@realtek.com>
+Cc: Chih Kai Hsu <hsu.chih.kai@realtek.com>,
+ Birger Koblitz <mail@birger-koblitz.de>, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+Subject: r8152: RTL8153 never runtime suspends with link up on a network with
+ broadcast traffic
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=molgen.mpg.de; s=20260906; 
+	t=1794358355; 
+	h=from:from:subject:date:message-id:mime-version:content-type:content-transfer-encoding; 
+	bh=QVEMt+HYEI4BVQvtwvGVs0ryoeQ+4WXnggXDfCpqQYM=; 
+	b=EleUomX54/L90emFdnEDx+BcdycWSJzuDmyL0UIGUkQhd09MTveJGTPsTKUeVMrpX12vItndY55u
+	4Dwtzbk3q3jY+oEoyzOyLFzI8FITXkjSGkFDJUdanlxwGBx8MFeldJcWXqDiTtdhwraASUnhwYQ82x
+	JI8WFCpIM+NrCKGkKrjHfWtMTCJpV6fi1EKQjBQ7NJIMOlsRa0OgjFQZnsL1e62BsgCoJOUwchMENw
+	qK0ZBZ+MGTan3xp7AbvS78hB1at++5tYUiCw7k8eZukANaHwZz8fmemON/NKAGfZskWtmO6VWwggmf
+	7BeYrcZYtwBtnC612QEqMz4CWTMv8E1g==
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Medium] usb: typec: cix_pd: missing IRQ disable across system suspend
-  and resume
-- [Medium] usb: typec: cix_pd: unserialized mux state changes via
-  partner_altmode()
-- [Medium] usb: typec: cix_pd: unconditional IRQ_HANDLED in
-  cix_pd_irq_handle()
---
+This is a multi-part message in MIME format.
+--------------21EOPq6sspZNCb0LjSJz0DdR
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-commit 02feb7b4ab5ba21a4874114738a3f180152e2832
-Author: Gary Yang <gary.yang@cixtech.com>
+Dear Hayes, dear Linux folks,
 
-usb: typec: add CIX Type-C PD controller driver
 
-This commit adds an I2C driver for the CIX Type-C PD controller (Realtek
-RTS5453H) to report port status, orientation, USB data role, and
-DisplayPort alternate mode state to the Type-C framework.
+On a Dell XPS 13 9310 with a VIA Labs USB-C hub plugged in that has an 
+RTL8153 (0bda:8153, bcdDevice 30.00, firmware rtl8153a-4 v3 06/12/25), 
+the adapter never runtime suspends while the link is up, even with 
+power/control set to auto. The hub and the Thunderbolt xHCI controller 
+00:0d.0 therefore stay in D0, and the package does not go deeper than 
+PC8. I would like to ask how you would want this solved before sending a 
+patch.
 
-> diff --git a/drivers/usb/typec/cix_pd.c b/drivers/usb/typec/cix_pd.c
-> new file mode 100644
-> index 0000000000000..5a7a3efd3ac12
-> --- /dev/null
-> +++ b/drivers/usb/typec/cix_pd.c
+AI disclaimer: claude-fable-5.2 analyzed and measured this on the laptop 
+and drafted this message; I reviewed it.
 
-[ ... ]
+With Linux 7.3.3 (Debian 7.3.3-1), link up at 1000 Mb/s, 
+power/control=auto and autosuspend_delay_ms=2000, 60 s apart:
 
-> +		if (typec->partner && dp && !typec->partner_altmode) {
-> +			typec->partner_altmode =3D
-> +				typec_partner_register_altmode(typec->partner,
-> +							       &cix_pd_dp_partner_altmode);
-> +			if (IS_ERR(typec->partner_altmode)) {
-> +				dev_err(typec->dev,
-> +					"typec port(%d): failed to register DP altmode: %ld\n",
-> +					typec->id,
-> +					PTR_ERR(typec->partner_altmode));
-> +				typec->partner_altmode =3D NULL;
-> +			} else {
-> +				typec_altmode_update_active(typec->partner_altmode,
-> +							    true);
-> +			}
-> +		}
+     2-1.1.3: active susp=0 act=140886
+     2-1.1.3: active susp=0 act=201150
 
-[Severity: Medium]
-Can dp_altmode_driver reconfigure the shared Type-C mux behind cix_pd's
-back when bound to typec->partner_altmode?
+     $ sudo turbostat --quiet --Summary --show 
+Pkg%pc2,Pkg%pc3,Pkg%pc8,Pkg%pc9,Pk%pc10,SYS%LPI,PkgWatt --interval 30 
+--num_iterations 1
+     Pkg%pc2 Pkg%pc3 Pkg%pc8 Pkg%pc9 Pk%pc10 SYS%LPI PkgWatt
+       14.26    9.19   71.33    0.00    0.00    0.00    0.84
 
-cix_pd_init_ports() registers typec->port_altmode with USB_TYPEC_DP_SID
-without setting typec_altmode_ops, which gives port_altmode its own handle
-to the platform Type-C mux.  When dp_altmode_driver binds to
-typec->partner_altmode, writing to sysfs displayport/configuration or
-unbinding dp_altmode_driver calls typec_altmode_notify() or
-typec_altmode_set_state(), switching the physical mux to TYPEC_STATE_USB or
-TYPEC_STATE_SAFE outside rts->lock while leaving typec->mode stale at
-TYPEC_DP_STATE_D/E.
+The cause is traffic that is not addressed to the station. In a 30 s 
+capture of inbound frames on our institute network, 816 of 824 frames 
+are broadcast (688, mostly ARP) or multicast (128), and 7 are addressed 
+to the station. read_bulk_callback() calls usb_mark_last_busy() for 
+every completed receive URB, so the autosuspend delay never elapses. If 
+the device did suspend, rtl_runtime_suspend_enable() arms WAKE_ANY, so 
+the next broadcast frame would wake it again.
 
-In addition, calling typec_altmode_update_active(typec->partner_altmode,
-true) immediately after registration runs before a modular
-typec_displayport driver finishes binding, so try_module_get() is skipped
-while the disconnect path still calls module_put() on the bound driver.
+As an experiment, I added a module parameter (patch attached, against 
+Linus’ master fa4ad798f6f6; tested as an out-of-tree build of the v7.3.3 
+driver). When set, only frames with a unicast destination address call 
+usb_mark_last_busy(), and runtime suspend arms WAKE_PHY | WAKE_MAGIC | 
+WAKE_UCAST instead of WAKE_ANY. With it, the adapter is suspended for 
+27.5 s of a 30 s interval:
 
-[ ... ]
+     2-1.1.3: suspended susp=130671 act=534403
+     2-1.1.3: suspended susp=158210 act=536981
 
-> +static int cix_pd_event_handler(struct cix_pd *rts, u8 clear_irq, bool f=
-orce)
-> +{
-> +	int ret, err =3D 0;
-> +	u8 data_control[3] =3D {0};
-> +
-> +	mutex_lock(&rts->lock);
-> +	if (clear_irq) {
-> +		data_control[0] =3D 2;
-> +		data_control[1] =3D I2C_INT_ACK_BIT;
-> +		data_control[2] =3D 0;
-> +
-> +		ret =3D cix_pd_block_write(rts, RTS_DATA_CONTROL, data_control, 3);
-> +		if (ret)
-> +			goto i2c_err;
-> +	}
-> +
-> +	ret =3D cix_pd_block_read(rts, RTS_DATA_STATUS, rts->data_status, 6);
-> +	if (ret)
-> +		goto i2c_err;
+and, with runtime PM also enabled for the other devices in the hub, the 
+xHCI controller reaches D3 and the package PC10:
 
-[ ... ]
+     Pkg%pc2 Pkg%pc3 Pkg%pc8 Pkg%pc9 Pk%pc10 SYS%LPI PkgWatt
+       13.40    7.53   15.40    1.39   59.08   56.32    0.84
 
-> +static irqreturn_t cix_pd_irq_handle(int irq, void *data)
-> +{
-> +	struct cix_pd *rts =3D data;
-> +
-> +	if (cix_pd_event_handler(rts, 1, false) =3D=3D -ESHUTDOWN)
-> +		return IRQ_NONE;
-> +
-> +	return IRQ_HANDLED;
-> +}
+A ping from another subnet still wakes the device. In three attempts, 
+the first echo request was answered once, after 78 ms, and lost twice.
 
-[Severity: Medium]
-Does cix_pd_irq_handle() returning IRQ_HANDLED unconditionally prevent the
-IRQ core from detecting a stuck shared level-triggered interrupt line?
+The experiment has an obvious cost: broadcast and multicast frames are 
+lost while the device is suspended. That includes ARP requests and IPv6 
+neighbour solicitations for the station’s own addresses, so a peer 
+without a neighbour entry cannot reach the station until it transmits or 
+receives a unicast frame.
 
-cix_pd_event_handler() acknowledges I2C_INT_ACK_BIT and returns 0 without
-checking whether this controller instance actually asserted the interrupt.
-If a sibling controller sharing the line holds the level-triggered IRQ
-asserted while not yet probed, while probe-deferred in cix_pd_init_ports()
-(which runs before cix_pd_probe() acknowledges pre-existing interrupts), or
-while unresponsive over I2C, any healthy bound instance on the same IRQ
-line still returns IRQ_HANDLED on every pass, causing an unbounded IRQ
-thread loop and I2C bus storm instead of letting note_interrupt() disable
-the stuck line.
+My questions:
 
-[ ... ]
+1.  Do the RTL8153 and its successors support ARP and neighbour 
+solicitation offload, or wake patterns, while selectively suspended? 
+With that, the driver could program the addresses of the interface 
+before suspending and keep answering for them, similar to what Wi-Fi 
+drivers do with the ARP address list from mac80211. No new switch and no 
+loss of reachability would be needed. If the hardware can do it, could 
+Realtek add it or share the register description?
 
-> +static int __maybe_unused cix_pd_suspend(struct device *dev)
-> +{
-> +	struct i2c_client *client =3D to_i2c_client(dev);
-> +	struct cix_pd *rts =3D i2c_get_clientdata(client);
-> +	int ret;
-> +
-> +	if (client->irq > 0 && device_may_wakeup(dev)) {
-> +		mutex_lock(&rts->irq_lock);
-> +		if (!rts->wake_enabled) {
-> +			ret =3D enable_irq_wake(client->irq);
-> +			if (ret)
-> +				dev_err(dev, "failed to enable IRQ wake: %d\n",
-> +					ret);
-> +			else
-> +				rts->wake_enabled =3D true;
-> +		}
-> +		mutex_unlock(&rts->irq_lock);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused cix_pd_resume(struct device *dev)
-> +{
-> +	struct i2c_client *client =3D to_i2c_client(dev);
-> +	struct cix_pd *rts =3D i2c_get_clientdata(client);
-> +	int ret;
-> +
-> +	mutex_lock(&rts->irq_lock);
-> +	if (rts->wake_enabled) {
-> +		disable_irq_wake(client->irq);
-> +		rts->wake_enabled =3D false;
-> +	}
-> +	mutex_unlock(&rts->irq_lock);
-> +
-> +	/* Force the USB role to be reprogrammed after system resume. */
-> +	ret =3D cix_pd_event_handler(rts, 0, true);
+2.  If the hardware cannot do it, would you accept a per-device switch 
+for the behaviour of the experiment, off by default? A module parameter 
+is surely the wrong interface. A private flag (ethtool --set-priv-flags) 
+would need no new uAPI, and userspace that knows the network 
+configuration (systemd-udevd .link files, NetworkManager) could set it. 
+Or do you see a generic interface for a "runtime wake filter", as other 
+drivers that runtime suspend with the link up would have the same problem?
 
-[Severity: Medium]
-Can cix_pd_irq_handle() run while the parent I2C adapter is still suspended
-during system sleep transitions?
+3.  Is losing the first frame that wakes the device expected, or should 
+it be delivered after the resume?
 
-cix_pd_suspend() does not call disable_irq(client->irq), so the interrupt
-remains enabled during dpm_suspend_late() after runtime PM is disabled on
-the parent I2C controller, and resume_device_irqs() unmasks it at the end
-of dpm_resume_noirq() before dpm_resume_early() and dpm_resume() resume the
-I2C controller, USB role switch, and Type-C mux:
+4.  Is power/control=on by default intended for these adapters? I did 
+not find 0bda:8153 in the autosuspend lists of systemd’s hwdb [1] either.
 
-dpm_resume_noirq()
-  resume_device_irqs()
-    <threaded IRQ>
-      cix_pd_irq_handle()
-        cix_pd_event_handler()
-          cix_pd_block_write()  <-- I2C adapter still suspended
-dpm_resume_early()
-  device_resume_early()         <-- I2C adapter runtime PM re-enabled here
-dpm_resume()
-  cix_pd_resume()
 
-When the I2C transfer fails, cix_pd_event_handler() returns -ESHUTDOWN
-without acknowledging the level-triggered interrupt in RTS_DATA_CONTROL,
-leaving the line asserted so it repeatedly re-fires.  In addition,
-cix_pd_resume() calls cix_pd_event_handler(rts, 0, true), which clears
-HPD_IRQ via HPD_IRQ_ACK without writing I2C_INT_ACK_BIT.
+Kind regards,
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110051723.4340=
-09-1-gary.yang@cixtech.com?part=3D2
+Paul
+
+
+[1]: https://github.com/systemd/systemd/tree/main/hwdb.d
+--------------21EOPq6sspZNCb0LjSJz0DdR
+Content-Type: text/x-patch; charset=UTF-8;
+ name="r8152-runtime-suspend-broadcast.diff"
+Content-Disposition: attachment;
+ filename="r8152-runtime-suspend-broadcast.diff"
+Content-Transfer-Encoding: base64
+
+LS0tCiBkcml2ZXJzL25ldC91c2IvcjgxNTIuYyB8IDIyICsrKysrKysrKysrKysrKysrKysr
+LS0KIDEgZmlsZSBjaGFuZ2VkLCAyMCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoK
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L3VzYi9yODE1Mi5jIGIvZHJpdmVycy9uZXQvdXNi
+L3I4MTUyLmMKaW5kZXggZDNiYjdlZTljOWJmMy4uMzljNTg2ZGM3ZDBjZiAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9uZXQvdXNiL3I4MTUyLmMKKysrIGIvZHJpdmVycy9uZXQvdXNiL3I4MTUy
+LmMKQEAgLTgwMiw2ICs4MDIsMTcgQEAgZW51bSBydGw4MTUyX2ZsYWdzIHsKICNkZWZpbmUg
+REVWSUNFX0lEX1RISU5LUEFEX1VTQl9DX0RPQ0tfR0VOMwkJMHgzMDYyCiAjZGVmaW5lIERF
+VklDRV9JRF9USElOS1BBRF9IWUJSSURfVVNCX0NfRE9DSwkJMHhhMzU5CiAKKy8qIFdoaWxl
+IHJ1bnRpbWUgc3VzcGVuZGVkLCB3YWtlIG9ubHkgZm9yIGxpbmsgY2hhbmdlcywgbWFnaWMg
+cGFja2V0cyBhbmQKKyAqIGZyYW1lcyBhZGRyZXNzZWQgdG8gdGhpcyBzdGF0aW9uLiBCcm9h
+ZGNhc3QgYW5kIG11bHRpY2FzdCBmcmFtZXMgdGhlbgorICogbmVpdGhlciB3YWtlIHRoZSBk
+ZXZpY2Ugbm9yIHBvc3Rwb25lIGF1dG9zdXNwZW5kLCBzbyB0aGV5IGFyZSBsb3N0IHdoaWxl
+CisgKiB0aGUgZGV2aWNlIGlzIHN1c3BlbmRlZCwgaW5jbHVkaW5nIEFSUCByZXF1ZXN0cyBh
+bmQgSVB2NiBuZWlnaGJvdXIKKyAqIHNvbGljaXRhdGlvbnMgZm9yIHRoZSBhZGRyZXNzZXMg
+b2YgdGhpcyBzdGF0aW9uLgorICovCitzdGF0aWMgYm9vbCBydW50aW1lX3dha2VfdW5pY2Fz
+dF9vbmx5OworbW9kdWxlX3BhcmFtKHJ1bnRpbWVfd2FrZV91bmljYXN0X29ubHksIGJvb2ws
+IDA2NDQpOworTU9EVUxFX1BBUk1fREVTQyhydW50aW1lX3dha2VfdW5pY2FzdF9vbmx5LAor
+CQkgIklnbm9yZSBicm9hZGNhc3QgYW5kIG11bHRpY2FzdCBmcmFtZXMgZm9yIHJ1bnRpbWUg
+UE0gKGRlZmF1bHQ6IE4pIik7CisKIHN0cnVjdCB0YWxseV9jb3VudGVyIHsKIAlfX2xlNjQJ
+dHhfcGFja2V0czsKIAlfX2xlNjQJcnhfcGFja2V0czsKQEAgLTIxOTIsNyArMjIwMyw4IEBA
+IHN0YXRpYyB2b2lkIHJlYWRfYnVsa19jYWxsYmFjayhzdHJ1Y3QgdXJiICp1cmIpCiAJaWYg
+KCFuZXRpZl9jYXJyaWVyX29rKG5ldGRldikpCiAJCXJldHVybjsKIAotCXVzYl9tYXJrX2xh
+c3RfYnVzeSh0cC0+dWRldik7CisJaWYgKCFydW50aW1lX3dha2VfdW5pY2FzdF9vbmx5KQor
+CQl1c2JfbWFya19sYXN0X2J1c3kodHAtPnVkZXYpOwogCiAJc3dpdGNoIChzdGF0dXMpIHsK
+IAljYXNlIDA6CkBAIC0zMDY4LDYgKzMwODAsMTAgQEAgc3RhdGljIGludCByeF9ib3R0b20o
+c3RydWN0IHI4MTUyICp0cCwgaW50IGJ1ZGdldCkKIAkJCXNrYi0+aXBfc3VtbWVkID0gdHAt
+PmRlc2Nfb3BzLnJ4X2NzdW0odHAsIHJ4X2Rlc2MpOwogCQkJdHAtPnJ4X2Rlc2Mudmxhbl90
+YWcocnhfZGVzYywgc2tiKTsKIAorCQkJaWYgKHJ1bnRpbWVfd2FrZV91bmljYXN0X29ubHkg
+JiYKKwkJCSAgICAhaXNfbXVsdGljYXN0X2V0aGVyX2FkZHIocnhfZGF0YSkpCisJCQkJdXNi
+X21hcmtfbGFzdF9idXN5KHRwLT51ZGV2KTsKKwogCQkJaWYgKHVzZV9mcmFncykgewogCQkJ
+CWlmIChyeF9mcmFnX2hlYWRfc3opIHsKIAkJCQkJbWVtY3B5KHNrYi0+ZGF0YSwgcnhfZGF0
+YSwKQEAgLTM4NDEsNiArMzg1Nyw3IEBAIHN0YXRpYyBpbnQgcnRsODE1Ml9zZXRfZmVhdHVy
+ZXMoc3RydWN0IG5ldF9kZXZpY2UgKmRldiwKIH0KIAogI2RlZmluZSBXQUtFX0FOWSAoV0FL
+RV9QSFkgfCBXQUtFX01BR0lDIHwgV0FLRV9VQ0FTVCB8IFdBS0VfQkNBU1QgfCBXQUtFX01D
+QVNUKQorI2RlZmluZSBXQUtFX1JVTlRJTUVfVU5JQ0FTVCAoV0FLRV9QSFkgfCBXQUtFX01B
+R0lDIHwgV0FLRV9VQ0FTVCkKIAogc3RhdGljIHUzMiBfX3J0bF9nZXRfd29sKHN0cnVjdCBy
+ODE1MiAqdHApCiB7CkBAIC00MzQ2LDcgKzQzNjMsOCBAQCBzdGF0aWMgYm9vbCBydGxfY2Fu
+X3dha2V1cChzdHJ1Y3QgcjgxNTIgKnRwKQogc3RhdGljIHZvaWQgcnRsX3J1bnRpbWVfc3Vz
+cGVuZF9lbmFibGUoc3RydWN0IHI4MTUyICp0cCwgYm9vbCBlbmFibGUpCiB7CiAJaWYgKGVu
+YWJsZSkgewotCQlfX3J0bF9zZXRfd29sKHRwLCBXQUtFX0FOWSk7CisJCV9fcnRsX3NldF93
+b2wodHAsIHJ1bnRpbWVfd2FrZV91bmljYXN0X29ubHkgPworCQkJICAgICAgV0FLRV9SVU5U
+SU1FX1VOSUNBU1QgOiBXQUtFX0FOWSk7CiAKIAkJb2NwX3dyaXRlX2J5dGUodHAsIE1DVV9U
+WVBFX1BMQSwgUExBX0NSV0VDUiwgQ1JXRUNSX0NPTkZJRyk7CiAK
+
+--------------21EOPq6sspZNCb0LjSJz0DdR--
