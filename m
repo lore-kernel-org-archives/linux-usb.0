@@ -1,88 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794394130;
-	b=cQJVIk5F1wSHsUJrxqIytJJtUJLTfoNA6vXblW+xJ251QPn80BvftW8Xg9tc5EUa7H+G
-	 NgrQNkTmtpXSbA0bPFQ193z24Y0u+bOTc6bbPDUGz9qsf1cJITjefwMf+Fa7wdllb5gG2
-	 pEkOkxnNHZnyCLtaTrSZX5XgcDtQxzqzu85AHSnYv9bUNdshALuKW3dEqTot0tqUabwJy
-	 nx7wrLOyJQdw0DdusVZpBDkxlUqpxKTYmq4v+/i1guK4zxYVMCgZG7YLGk/8gDbTRHfZj
-	 eouw6hC+0sWQeMtLl3T/dB11bXGPvn7AiqpxRFddYzLT471XZtgyjLlcSbC+hCC9wdQ==
+	t=1794395427;
+	b=qFPx8r7L2/CutATpkc09ssC7ZDM/nVGbvnwJqPlrdqkiRFNzUXuhAZW7WYx7tuU8bomW
+	 8RBhqwat0WVRyWKvfkdXJHGv2SKFzTSr190Zlk/6b1WhL9HEkEOfK4sbtWM/a52VonkyE
+	 2F8iocPoJsshy9QJZncyXI/59iLqvZJY97QGp8qDCQuxl1UE96HYnEbbXOFiHGLJl99Mx
+	 34kxRVKw1In8jErsCu80OPHGPipXMSPpugyWgu+C3dUo6UeaYvnmeNV0056yMuP+grdIJ
+	 VaG/k8mPW4gpQGPCYBp1bxlCNvZmox6297xRBdSjMatTE1JBYahvSuv8ucRCSxWz/Gg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794394130;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794395427;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=SJE8c/dZm+CWhQbZBqBGTdaX2jwL8ZWmvduRU6X8Ew0=;
-	b=4ij5Ureq7KnxocaY1PIPo8PiaD6+/A4lsFyszcIIbGjgBpSNOUANpDdv/e2+/FZnEALX
-	 +Nc77xFkWDkBQmONlEpj5ZBRsFmc/l02bvCcABlq14TPE5OZd2AeWwVuEvY7nadgvLirn
-	 SL26I7A5uqry/ErwHrSc5y0AJMbL+CFyCipDH6cLU5P9QwWcvls33Yt+2htJzJV2jIsIz
-	 nb2ISqvEN4rSte1G/1nuODwzOViMWzLfU3yFqhXQSxntWaCMWc/yKBOSUFRrHH5wkqoqy
-	 UGpNwemc6dTnLf72jbGBgSBVT/Js955RIqF6lADuh8BNV+k45aC/uGh4TlGzAFESz+Q==
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=XwkuBLy5toj4xmSecRyiSJuZGOX5kjvXYj7mL+5wNR8=;
+	b=sS1qLD6JOhWOl0Jl12l5srhHd7NAPLXEOthquYq79jyqZqzSA+I78sbwYvpPQUD2z+TS
+	 w15o7EclRxWU7C+rs9kDPuRwgGIxIzx1HvqePqjtqv1b76U0EWj4rgAtC206X9uaDbkpb
+	 imlS+qlBxWm1XAz+kN8nHu+0zZJS+dcjI2sm9l1+L5wPz01nl4DbwrWtpoEFCzR8PYdFH
+	 NmeJ8o/OITj9OGW0j5/QvAOE7Pe1qqkSWhsG7pX3nuCiaY+7zQ4jvEDUkS/daUkz2ikMd
+	 SsKAk4SYp080z4udDSdovdlW1Zse/U/HPDWgioIdP46dQjytZkSQqkdkvpyrgEsgiIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=GBKkvpuR;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="AMltq5/y";
+	arc=none smtp.remote-ip=209.85.221.47
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB000606A32E
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 10:48:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB000606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0461D606A32D
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 11:10:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0461D606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=GBKkvpuR
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a5720b0a57so17954575e9.0
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 02:48:49 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AMltq5/y
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-498f5fa4f70so1400210f8f.0
+        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 03:10:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1794394128; x=1794998928; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SJE8c/dZm+CWhQbZBqBGTdaX2jwL8ZWmvduRU6X8Ew0=;
-        b=GBKkvpuR5r+JH+yFSCx2MRbxX6k1mn+PDhE0+d7qG4hyFMh2NoIazPozMTmQIzj+JD
-         9V8o/DugtUDYfrwFdXFHHxGzNFBYTu7e76oRigVpHZa80NBx+zbfSyUnBxDqxg3KoAOA
-         I2K6lq0c9BVy7Cbjw4IwNKTP+XHg7DTaHTxQbG5Nh6/cbrNOti3bTUOFGssN6RfM71le
-         ijhIsPf9Un9wqeCXlb5W6zgWPLYabiBOKuih/2tp/XV9plgnBLPIiy+2ydMVk2wWH3eO
-         jqtcIRFucEU87Lf0iApwLllYGg7Jt9b4puTC3EpxpXWCSs10ncEoku0H26XlqImr5k37
-         xJ9A==
+        d=gmail.com; s=20260707; t=1794395425; x=1795000225; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=XwkuBLy5toj4xmSecRyiSJuZGOX5kjvXYj7mL+5wNR8=;
+        b=AMltq5/yGNWP58DK7r+glzzonp8mh5I4LgGC006a2C30lJF69tWzRY+aJchL9xmHEP
+         b1SnLObtvr3c3H6UYX1tsjwRxjqrbVY/3bHPMOVIoXSB7m/H5y6Ir6wB6lPkpgWweLnt
+         nJs5F1QW95WlZl8enGFIVzt8Hk5NxtaVUIe6FBU6YjpbImBMrPYQ2+czBAPY8Efy1MCw
+         rLt1YgY7g7UP6zadrTCg8G509eaDtGAuzJATMGrjiowta9aWhcOtGUEsppjtq6BWyozI
+         UJ46hvK4IdPUKlcWZQlN2705oEehi1IEVoK90eJnOT/4XJJpQcVJmlYiC8kcQLMv1Xt9
+         UY4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794394128; x=1794998928;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SJE8c/dZm+CWhQbZBqBGTdaX2jwL8ZWmvduRU6X8Ew0=;
-        b=13CH0nw+ZvDyK15nr8pedrRZpyNa8BWuCqR8Pa5tWrAfYHQfV0z1ZoO6SF7cN6wN9W
-         3O3qyfZ3+C/kxmXFigtu1hUI/qBC/x0kUKS2/AUGLJYJs74fLIz4csEdDRq4W8bQ7wxO
-         XQ85eRraXdhbWS405djqF7TQpZoxx7ysXA/YQc8b+N8mz0N1F2JBtrCay8i8kosyfxFt
-         ZzRmvSqIGNr1Ic7bswTGwjtD6P9qDRavJvH/btOQqnivGEnyEAehBDdpzUQPspSqF4Eh
-         Afu+30ZbcnhYCdBSbaxTL9JQat564Nk2w1AaGGSnj13M4zKIq9yoIjnBuuwbPMHBNrPI
-         Bi7A==
-X-Forwarded-Encrypted: i=1; AL+hErGdJD5QxxFRizffrus0H9JKDuAEMGGMjXo8xbaJLr7zHz4b9xj1DEbgf7OyLOmvGu5Pq/2HvJIQM5I=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+qv+WoG9wmaGAiPw/GxImduwkTeJMgY/KHkiIWjLldXvShQtzr
-	ujIy/EcDNiHyyyq2A1CFBtOvzf0gPz81YYFZJhxK+Z6ojE9ytrl9DlTpKFSjvtZicWU=
-X-Gm-Gg: AYBFou0tE3wpTQaBCvGdASeyJSMG7J3iLOYfLKyx1lglO/ZkQldVeAgQ817AIzmwaXD
-	oghhkhUPuWWmmx0Ndh4ymChCLqx6GQeqDk4Ri+CXXkxSDgxhA6a1+t78Od+Y7Qcnx+DPyoxTINn
-	OyyzjJ+QL5cPQA0bORDE+xHAMjFLcEb1RwSMJjtkhi2+CSemGKnhXuY+YrYbo8Rcq43DJvcQIIL
-	+fPTmptlzYqMyV0angKV7LePm8wgKYLZOaC92f2l89hPxE5c1PrkPkXXupQojvTOexoIfgWCwz8
-	VJLc7wLDlNGrllisIxZcJ9pmR2aWtZAb9Sm232KiSt5x/2PqyIrELNYS1YR6J0Uxwys/3dzuuFS
-	tPubRh8cdJxsIT/tcOKJI6KfocrCkBqw2TqHNln5JbXAdbHVC+Iq4a501UYwWkbuAN80FNZXQm7
-	9Vqt9+Ol0CMjABe3BkI0fpzt1C796gkAp5lR22Dcus9amLL3JZgD8F7cl9Nr06x3x2qNLidIEie
-	gSnfbJBfG2bKqlwSAxyT4d8TnjYzGXD7TlhzpFWJp/rXtdExjIgvM26v0+YMsilO6TAi1nWEABX
-	TbwMLZL6uORKebqtW81gp/m3XCtoN+0vVZiAjaqtvI6NFMSs2YmdEH0TPMrVSr3pkg==
-X-Received: by 2002:a05:600c:1f93:b0:4a0:20b4:ba93 with SMTP id 5b1f17b1804b1-4ba0938124fmr41926975e9.16.1794394127955;
-        Wed, 11 Nov 2026 02:48:47 -0800 (PST)
-Received: from ?IPV6:2a07:de40:8100:0:89a9:fd0e:583d:4a53? ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba0951fe22sm54693255e9.3.2026.11.11.02.48.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2026 02:48:47 -0800 (PST)
-Message-ID: <2e392c2b-3fde-42fd-82e0-8130d2de48d2@suse.com>
-Date: Wed, 11 Nov 2026 11:48:45 +0100
+        d=1e100.net; s=20260707; t=1794395425; x=1795000225;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XwkuBLy5toj4xmSecRyiSJuZGOX5kjvXYj7mL+5wNR8=;
+        b=y7pWeJ4GJIwozPItdY+RB1+/VORvnPWenLIzSt0bfnlAConyBWnxBjhDwJmbp8mvA7
+         hyJZCyTAHylAuaEzwCL/JNYxmEIdQZDq6z4GbXpsgjAMqaPNMxU8uS1YY4j74U1dvnOX
+         Y0Ym+3jNMp4nek/zWo2f40sGf/y/WR/729HIxotrmJlzl76BlAn/TcFM1YZHs9J8TBcg
+         F4D76mGWBB/yrqdrU2YAM7HZmXwAFNeiJXpiLIokzjgevu6JSxnwIhazxM96v0ehJOtP
+         gMc5QdFJO0MoqWVUXc0imfuQ+J86boraHfoZqojM9LCHcdsGZbFjdlUNFtG8uMRrSMA/
+         LNpw==
+X-Forwarded-Encrypted: i=1; AL+hErF7A5Dw3J9W257xHCJLupJp11RTlIpUq1k5cI+49QdHmeoD+CFG5uqd5rNaFRVH4Fj2Ru0ovLzCUjE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+SayRKqEoQY6BHNez0cAgg1sfMwjtYgOo/FgefPZYxXTgEwNf0
+	661NatQLumk2kjFF4qTSl+fTXchpA/qC/z/lg1oFsvBOuwrP36GFT6pVFjLk69LC
+X-Gm-Gg: AYBFou0NgS7pGP5doh+KTR+mUNdmVHwiE1hGYUgB2G9xKmQnI051QCOK0qsmmacfwqj
+	4CuH7dYmYL5YBRz/X4n3TWRRS4WXZQEEtfNE1tRs5DBsEY346ODaSW0x0J+Vv54+Pnk3W6CK6SG
+	bvCPJkNgAnpVFAodRNU6jg1hlFfWlmKh5DHLFdh5+jd5jtpguJDaoi3ZGR6C7Up9pR14Z/+H2hK
+	Q2iQoAGBiP6ojJm3ZI+Rw9Rl8IEDyjG6lKCpkYP/98w/gn7rdYat2YgWzGu/0GOd2+Ok6w/sJhB
+	1BfS6I5AaX9pANZwsvUY80wKWaQ009pHms9OVaD0IPj1qLTBM/06dv41U/GKFeDtyJlXuwApTA7
+	8wJvxdyrbr5EcEclFjNatolkBKDR5bhv9tv//6swX+NeNJz0jfTWEl1KfpNRcvKKjX7wAOkB+0i
+	CaFpoipcsPMDDvv5YhrQ1aaQl6Gxe4CasOR1IeeL5+rSL7AxpTFvbzF5K4aZc2sp+SbKtj6ohLT
+	YOtJWkOsR84+rIcCKYmqRBLZFxdZS0gqPHl71KODSJGcai94PhPSJVQporUxK1azJq2No3k58Cb
+	vut5RVYo4uFToP+VD3SiccgKBmsjrvd66KLel1s=
+X-Received: by 2002:a5d:64e9:0:b0:48f:bed6:4d79 with SMTP id ffacd0b85a97d-499c792ef43mr3394834f8f.48.1794395425185;
+        Wed, 11 Nov 2026 03:10:25 -0800 (PST)
+Received: from foxbook (bfj76.neoplus.adsl.tpnet.pl. [83.28.47.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4983585923bsm10645983f8f.11.2026.11.11.03.10.23
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 11 Nov 2026 03:10:24 -0800 (PST)
+Date: Wed, 11 Nov 2026 12:10:18 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Olli Salenius <opsalenius@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
+ linux-input@vger.kernel.org, bentiss@kernel.org, jikos@kernel.org,
+ linux-usb@vger.kernel.org, git@mayer-bgk.de, "hadess@hadess.net"
+ <hadess@hadess.net>, "srimanachanta@gmail.com" <srimanachanta@gmail.com>,
+ "mathias.nyman@intel.com" <mathias.nyman@intel.com>
+Subject: Re: [BUG] HID: steelseries-arctis: NULL deref in xhci_urb_enqueue
+ from status timer during resume from suspend (Arctis 9) -> system hang
+Message-ID: <20261111121018.49797328.michal.pecio@gmail.com>
+In-Reply-To: <CACQx0bFrJYn60_QAogb23n0yiSy4hu5ZHQWXbRb_WBfS908tSQ@mail.gmail.com>
+References: <CACQx0bG8+c9+CjLRa-tbgGkc5_4Wxhmanbd2vToo8Aj8k_WUYw@mail.gmail.com>
+	<CACQx0bG4bvt4bHa+WG4u2UGmUc_YMUnhpWovz5+rzp76Jpb9ZA@mail.gmail.com>
+	<079cf13d-542b-4084-9023-06a89fa4ea97@linux.intel.com>
+	<20261110105709.5fdec4a9.michal.pecio@gmail.com>
+	<CACQx0bFrJYn60_QAogb23n0yiSy4hu5ZHQWXbRb_WBfS908tSQ@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -92,77 +105,47 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] Remove obsolete __MODULE_STRING()
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, Ian Abbott <abbotti@mev.co.uk>,
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rudolf Marek <r.marek@assembler.cz>, Andi Shyti <andi.shyti@kernel.org>,
- Chris Snook <chris.snook@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Duncan Sands <duncan.sands@free.fr>,
- Chas Williams <3chas3@gmail.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-watchdog@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
- linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261002-module-string-v2-0-fc7438acaf4d@suse.com>
- <2e88806e-57dd-47e0-a9ef-a8507d22aa3e@suse.com>
- <a190f981-d668-4208-8148-f4e50adb31a6@suse.com>
- <6c00fc009f4e61e87895eb2dd3d77c5dfb28183d@intel.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <6c00fc009f4e61e87895eb2dd3d77c5dfb28183d@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 11/9/26 7:07 PM, Jani Nikula wrote:
-> On Mon, 09 Nov 2026, Petr Pavlu <petr.pavlu@suse.com> wrote:
->> On 10/14/26 11:36 AM, Petr Pavlu wrote:
->>> On 10/2/26 10:31 AM, Petr Pavlu wrote:
->>>> __MODULE_STRING() has been an alias for __stringify() since "[PATCH]
->>>> MODULE_PARM support for older modules" [1] in 2002-12. That change also
->>>> moved it to the graveyard section at the end of linux/module.h
->>>>
->>>> Replace the remaining uses of __MODULE_STRING() with __stringify() and
->>>> remove the macro.
->>>>
->>>> Apologies for the wide distribution. Acked-bys are appreciated.
->>>>
->>>> [1] https://git.kernel.org/tglx/history/c/136839a1b4
->>>
->>> I've queued the second patch ("drivers: Replace __MODULE_STRING() with
->>> __stringify()") on modules-next for v7.4-rc1. Thanks for the Acked-byes
->>> and reviews.
->>>
->>> The first patch ("hwmon: Replace __MODULE_STRING() with __stringify()")
->>> should go through the hwmon tree. Once these changes are in mainline,
->>> I plan to pick up the final patch ("module: Remove obsolete
->>> __MODULE_STRING()").
->>
->> v7.4-rc1 no longer contains any __MODULE_STRING() calls, so I've queued
->> the final removal in patch 3 on modules-next for 7.5-rc1.
-> 
-> Perhaps send it for v7.4-rc3 to prevent *new* __MODULE_STRING() users
-> from cropping up between now and v7.5-rc1?
-If I need to send an earlier pull request for the module loader, I'll
-include this patch as well.
+On Tue, 10 Nov 2026 22:46:27 +0200, Olli Salenius wrote:
+> Disclaimer, I am not well versed kernel level stuff and using Claude
+> Opus 5.5 in debugging this issue, so the following info may not be
+> accurate, however the patch did seem to fix the hang at least on a few
+> test suspend/resume -cycles.
 
--- Petr
+Your LLM is right. The test patch makes no difference, but commit
+555040535 removed the trigger. If you revert 555040535, the crash
+will be back.
+
+It happens because xhci_reset_or_discover_device() allocates new
+state for the device, but it doesn't bother to update the root hub
+pointer, leaving this job to xhci_setup_device().
+
+To fix the crash we need either the dumb patch below or some rework
+to preserve more state during resets. Probably the dumb fix is the
+only viable short-term option.
+
+It doesn't solve my problem #2, but that one is a race condition,
+so much less likely to actually happen in practice.
+
+Regards,
+Michal
+
+---
+
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index e5c8b3a945a6..81656bfdaf66 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1662,6 +1662,11 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
+ 		goto free_priv;
+ 	}
+ 
++	if (!xhci->devs[slot_id]->rhub_port) {
++		ret = -EHOSTUNREACH;
++		goto free_priv;
++	}
+ 	if (xhci->devs[slot_id]->rhub_port->link_inactive) {
+ 		xhci_dbg(xhci, "Can't queue urb, port error, link inactive\n");
+ 		ret = -ENODEV;
