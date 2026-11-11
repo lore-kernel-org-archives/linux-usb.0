@@ -1,56 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794400156;
-	b=qvikqk+vXAGfyp9pgqJGnev6J952j4jNXY+W4we9FrJ7fQPtI2t9s/zMcFZKGehlLuc4
-	 kPWxT9XympozFonmDnaTPyM0QdkL9NOowhVsJ2iUvfBpjkioAqExxyIJW0ZUpobry7RY9
-	 c0kz4JIo7b9t9oTupTAFUY/AgoyjkFl5LJtdA9jc+V9royO7GFBx1S3RARudddAd3gCKr
-	 1r1ExwSjPMlNClXFKU5H3R9Fy10cKu/TyZtM51tczqHSaIJve92RLcmyxcpPUU4AS1ea1
-	 yQNnAAHayUIRxbz965I3Sd1f8kBQeXg1u/XZtgYDtp1IdRNBj/bOFqZlcnh72msav1Q==
+	t=1794400372;
+	b=vL51DVrnxgpehoP41jtZRg7M0gL6+pzK1MskPBbKhMSu8og5haRk36qgcV0UAXlwzy4t
+	 PFYPD6hFASw4pgLcoX1drblczlO9QePmAKP6nAuwlOM5jcRDQzJg5Rwe8yvuisQyuVlRD
+	 9dyBzAqx92ckCBs34wigO3R2Di2yGVkEd4LMMehqqi03cDufDbOntBpNDaSjBafi8bP1G
+	 WsfwMqtzUfFiH/0LN5DtzLNL38WXkVw+Hn47ytcGZsYj00Qf4kXnMT4ufw7sMUhvKrfK8
+	 OJ8Cward46byqaqqCva/W7Y0B77oJ0UKeGCZTV9BfEli856rF6ze577JcJVwKn26U1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794400156;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=OBwRK5pGGJMYsWkaCww8n1SdRSnvR6gMpb/zdDD+h6o=;
-	b=yxb5YUkX6cxnUD202ZUN6bGdEeMWlcF2UZwDduViEakzkCPuKP0LYOBdHPjfckNbPhRT
-	 Y1rimstJ+lKTrX681vvd4ZKJy3JDEPc8Qee1g3ULUaaxEHdzKbchS7X4M/7FiLCmEIsMd
-	 ktcZyfoiMFjgoONL6+m88GKoruW9EF5T+gHCHFOxXB/F0CUMcRixudIJ+Pf2RuWgl/6AD
-	 Fa7OESWyv9onX6rGUCPd3GFyRhbxdElRC81+t/SUxVvRDuO88ebONwG9BPsIjflW14Sjl
-	 UvmsgPVmmgxXiu7q6xTRW5Udj8kG8Y2dR2JrniWEMWz0JpGU2SqbZROpRzOBVbyuR7A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794400372;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Knxk3WTu0JrykHzA6hEarKkEvqlhmu3XzNuaF2LqpoY=;
+	b=sVtePV3x31FxDZ2h6bwwXROx/pR3nfDQ/PZilgbYif4brd+HpP3DU7p5oY7AyWJFrZg1
+	 3p8eOLWWWB+OZNaEKcPdcvoAGNjNvr0y8fHmlYq3yp13IqCKp8Osrx69228vzslOko3T7
+	 AkvNy1I6O1HqJEQCAxqwtnghaCwzlX8PPdgg1p9xId+D32hOOKPQCZGRRtJGVV7KaGlST
+	 iz3293YBVRxmMRwMpTUMvAv5tfOjXkH1BbPhAjdybWeBmXQSW/7CBiCKfYegA3i0ltr/D
+	 a1QELpRIIlOLFIrAzbT30UW3kdLPVVGE+f0wswiKjRnQih9F4R1ebIeE2w32M4p/cyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="c5eO/+e0";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VDmnB14k;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F34606A334
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 12:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B031606A326
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 12:32:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B031606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c5eO/+e0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DED4A1F00A06;
-	Wed, 11 Nov 2026 12:29:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794400156;
-	bh=OBwRK5pGGJMYsWkaCww8n1SdRSnvR6gMpb/zdDD+h6o=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=c5eO/+e0LNgq62WGKP99mQSYrP7qUpRQuRf+9TpThaH8h6hC/EVwNl/4HmGrV1ghj
-	 YYh7cHJrpvgoaqIig50Q90Cxde3V5qZA1N8Zr7w2HMr95qcL92Q5u7CLeAqICj7VNQ
-	 rrsBtxNkGLIAQuHs6q5cw8pgn3VZJTX27khdPuvOA5j4MaxkP1vRxCoRz3nTteY4xn
-	 YehQWLNpNP8je93yVUiYq7j9Mz0Bsf5evo+eTY9MKl3Vt/N12Oj823JLRBpknPDcFp
-	 ix5jZzunXJBsgUHS8WNqWhgz+loHsu56E2u0ReK3n8PTBOHr/5k05qxuqEXIT+ptj8
-	 9OlvuUyT+qZHA==
-Message-ID: <sashiko-outbox-208977@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb-storage: onetouch: Fix potential use-after-free on
- input failure
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Guangshuo Li" <liguangshuo@mail.sdu.edu.cn>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261111-e5624093d6-usb-storage@mail.sdu.edu.cn>
-References: <20261111-e5624093d6-usb-storage@mail.sdu.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 12:29:15 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VDmnB14k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794400372; x=1825936372;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rBNOENBeudy9/Ymf6wNtC76Atz7vZznqXZ/2VzO3w6E=;
+  b=VDmnB14kH59XUMPhZiFreyPegfK1KZ6BGJFeExvWXLF/mqsEDENa4Ztz
+   9o2yyUZ7fCPZth1mB+bbuuEHTgG9xzjI0xH34JCtbmvzbAtkw/eEnwoqi
+   npSxfRoTsexpIRVf1RmjUmBDzQ4su5OfqJ65l1O8G1za/lB/QTN4XCacI
+   wuzLe2Hn4UGZJux7ix200K2/gcwpqB7olV0hunXO5bRIj7zUe7I6i2EFx
+   JxDigL/ZTJ34Uu8T/FsI1ioA5SWkod2vUPFmn0q02mY4iS5p6zb3clHAr
+   e9D+cRk6gfFCJuwg+q2ypz173h2f5rKYLaq6NOavee2PdQ3A/4qT6GA85
+   A==;
+X-CSE-ConnectionGUID: /E5ZD0EySa2UM8o+VeHZww==
+X-CSE-MsgGUID: rDTgn4ZtQzi42bsWw31cwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3071453"
+X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
+   d="scan'208";a="3071453"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 04:32:51 -0800
+X-CSE-ConnectionGUID: qk+vGxjBQOe4ys7Q96n6ig==
+X-CSE-MsgGUID: jFY/oyu5REKJEveemO+bZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
+   d="scan'208";a="10197365"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa011.fm.intel.com with ESMTP; 11 Nov 2026 04:32:50 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 854999B; Wed, 11 Nov 2026 13:32:48 +0100 (CET)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 1/2] thunderbolt: debugfs: Use DEBUGFS_MODE with path config space access
+Date: Wed, 11 Nov 2026 13:32:47 +0100
+Message-ID: <20261111123248.1312997-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,24 +81,33 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> If input_register_device() fails, onetouch_connect_input() frees the
-> onetouch state but leaves it installed in ss->extra. USB-storage cleanup
-> then calls onetouch_release_input() on the freed state.
->=20
-> Install the extra state and callbacks only after input registration
-> succeeds.
->=20
-> This issue was found by our static analysis tool under development.
->=20
-> Fixes: 17efe155253e ("USB: onetouch - handle errors from input_register_d=
-evice()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
+Commit 398da8e64321 ("thunderbolt: debugfs: Add write capability to path
+config space") added write support to path config spaces but forgot to
+update the mode accordingly. This fixes it to use correct mode via
+DEBUGFS_MODE.
 
-Sashiko has reviewed this patch and found no issues.
+Fixes: 398da8e64321 ("thunderbolt: debugfs: Add write capability to path config space")
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111-e5624093d6=
--usb-storage@mail.sdu.edu.cn?part=3D1
+diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
+index 6a6875eb07ba..0d9f41a0f2cd 100644
+--- a/drivers/thunderbolt/debugfs.c
++++ b/drivers/thunderbolt/debugfs.c
+@@ -2519,7 +2519,7 @@ void tb_switch_debugfs_init(struct tb_switch *sw)
+ 		debugfs_dir = debugfs_create_dir(dir_name, sw->debugfs_dir);
+ 		debugfs_create_file("regs", DEBUGFS_MODE, debugfs_dir,
+ 				    port, &port_regs_fops);
+-		debugfs_create_file("path", 0400, debugfs_dir, port,
++		debugfs_create_file("path", DEBUGFS_MODE, debugfs_dir, port,
+ 				    &path_fops);
+ 		if (port->config.counters_support)
+ 			debugfs_create_file("counters", 0600, debugfs_dir, port,
+-- 
+2.50.1
 
