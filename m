@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794365556;
-	b=UgTY8Xz1NLaVsQMA1/PW/yerd5uwSiOCx4cj9wGKb91+8b9T8dUHYtRa3uLGwOFh00Ni
-	 4yNIDhTAtupDcZgNpRSZM23n6fvqQSq9s/aHPjsu/6jhZbHi9kPfdsCBVFVqagc7WhNA+
-	 MD+Lz+gRNQrQpFZ1eFpOQ8Hqne1wej7Oe95MYW9vlfKt/xEkCovpl8k6BJd8DwZas69nw
-	 Dxf9Vp0gWsEv2n/guGf70aUvjXKLLtzkysAA05shrkf7CIr356gBJkOCrLss+TJDusC0x
-	 SyV6dFcwmDsXxuiY3tNTlc5LoqS8Jej33j7+O3zdgbeqhzbUOUFX6+GrhkGj9zxZvJQ==
+	t=1794365892;
+	b=Vw245f+2iLIbbAEcfDVFlhVfGNFJzVjTtrQZPrxkzq7KK2Hlz6OHOm0u89an37vlZFkz
+	 MGMB+t5ygEioduBK+dvtOSrEXAibWtqrwa6YfRRD2Xfrn2LQcfX+POMVY9VsG4CtbJoUD
+	 nj8KJx2ziX0lWIHCj3jkkEbzoUP2ovLhmYJykwLa8Yczl7zcWpmRBb11xKuoa+WX2frt1
+	 01ptVwdWY6yKKsrNV87aT73s0RUjLVr8YAZaTH8J+xOsbLrofItpyNYY/2gOJKkb7WqBV
+	 mWIw/mVX2bu+YVrSIa1xWE3BC6tHpSTCbih7lFlBbz/XcyNGOZJfso1MfDY6o/yfeSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794365556;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794365892;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=X79ly+Uh6q05PH6EE1OdB84wP1NrkI+3btb0HDkbYSc=;
-	b=c0a8cfO6Aofd/SSDBSvnKajtN01chfbeTEOYoQmDZvbaW58NZoOYGfuJM1po7i9EHLH1
-	 slk3Bzm7l7EwyNXJFsseSfvHkxaEpBayZJMAMTLlK+CvNamF5BewYNKBT0FW+lflnjfj+
-	 c28EsWhTMoPBVxLSxZWGbrWrXBniryooovz2p7WDpynp4pJCiIEjP6X+ZEp3EIeNezyLu
-	 tv7r2q/lP89e9u8A0g1glifAmHUmL3pmN1NIi3G5lD0ktsuACKfGkZqU98LAAAOyuj3in
-	 QIkuK5QuXX7SR9oHIa19fjnU790sEuFqM2jhvylJwXpDo6Zp5Tw2BcYWYyA/wTz65Aw==
+	bh=gpAlmhXGG6gASqzCwEnDKABZMhn9wCgLuWyIAbaWX74=;
+	b=H8/aVlFgptymS5KVltCCwsew1OWO6jKBpxjNd9eN5y+RlCCuL0bAIl/iqaEdUArSx3/2
+	 RwVXF/6qQv96qOC6J36/P9SoSU8hFcM3VUBi22+gOL8w2ag7GkYPDS0vPG6t7IS+nXdvW
+	 RTATiFCwviArhearQc5Vo8D81NtSiYwm+W06rTOBz056vehgFtBDoMHs0aNas0LSSHGZZ
+	 kL3N09iSBzV4oYrGL8uMSHCbCN88zYasPRophjWx5tI3wT2ob3ZGCzqSi+87ZggviXI81
+	 fR6iow+zoLcam4r3I1ZLWnfFdouuIStNm/csPhr0oa+PmkIfRnVUXPJkh9WLR436EXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BTAZxTTd;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ZqB/sG+b";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF90606A320
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 02:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDED2606A320
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 02:58:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BTAZxTTd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2088F1F0089F;
-	Wed, 11 Nov 2026 02:52:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZqB/sG+b
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 238FC1F0089F;
+	Wed, 11 Nov 2026 02:58:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794365556;
-	bh=X79ly+Uh6q05PH6EE1OdB84wP1NrkI+3btb0HDkbYSc=;
+	s=k20260515; t=1794365892;
+	bh=gpAlmhXGG6gASqzCwEnDKABZMhn9wCgLuWyIAbaWX74=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BTAZxTTdnMaQMgv47oFQLYSMKCv/c4X0tqiQx2Us4iogEB6Wpb9xgv/Pe4Ew4ASJv
-	 8ZjaJbm8if3I1546rJM6eKzxA6uUCcCTz+Rsrvs5/vhJCnk8IKxEcm4Um5IhBp5RwI
-	 YJoccnWhnBJ9GG/Elh0zUSzBypv9dtAZ1ISkz6+Y5m+rADNE0NiFJy3jCgT+ZDA04A
-	 /Om/EOhQyzijsqShYRGcDaQjSXw5DErXwzMzgRzcRGBr2aIL2HxAp0Vb0Gan6HPSw0
-	 Vnk3ne2V/K7skZzxvYCcqmu6x98WsjvP3akgVF5i+ee+QjB2BEMVWbhNSnINPT474V
-	 uaW5Ng57ywLMg==
-Message-ID: <sashiko-outbox-208124@kernel.org>
+	b=ZqB/sG+bAz7xk5wQeHQul8vsaRL883NoatCC/+7upfJ0ymMW6HVkW+Ed5+mJu/EMs
+	 PSfimPGbZfrauKVWQMpFGOFK8cvE1NvSeSyzm1S4GSFZ4HCTcbWd6VIIzjRkU2k7ni
+	 1yCLp+h3hlPBeXsD2+g5bOOEAzyiZOll/Q93uYrHoHAR3KxbOrxSlSAojNS5R7LYT+
+	 duaHJilmoovYLeJmUsQon+z2obg0wttAZ36wpylFJEowf9b4Kx0gi/wikGOIUlHJ/n
+	 ZckbqRSZI8UF3/bBrqIWUrgbgKmzRLDfy9c0pRO9tBhHjArlzSmjPnAC++ZltdwEQ9
+	 kxcZZCLX6unDQ==
+Message-ID: <sashiko-outbox-208138@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/3] usb: gadget: f_hid: fix report_list entries leak
+Subject: Re: [PATCH] usb: gadget: udc: snps_udc_plat: use platform_get_irq
+ for IRQ lookup
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
+To: "Rosen Penev" <rosenp@gmail.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261111021655.37851-3-shishunbo@cmss.chinamobile.com>
-References: <20261111021655.37851-1-shishunbo@cmss.chinamobile.com>
- <20261111021655.37851-3-shishunbo@cmss.chinamobile.com>
+In-Reply-To: <20261111023221.70102-1-rosenp@gmail.com>
+References: <20261111023221.70102-1-rosenp@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 02:52:35 +0000
+Date: Wed, 11 Nov 2026 02:58:11 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,24 +60,16 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Each GADGET_HID_WRITE_GET_REPORT ioctl for a report ID that is not
-> yet in hidg->report_list allocates a report_entry and adds it to
-> the list.  hidg_release() frees report_desc and set_report_buf, but
-> never walks report_list, so every accumulated entry leaks on
-> function destroy (e.g. when the HID gadget is unbound and the
-> device is removed).
+> Replace irq_of_parse_and_map() with platform_get_irq() and move the
+> IRQ acquisition to the top of the probe function, before any resource
+> allocation. This provides proper error propagation including
+> -EPROBE_DEFER support and removes the need for a manual error message.
 >=20
-> Free the entries in hidg_release().  This is safe without extra
-> locking: at release time the function is unbound (the workqueue is
-> already destroyed and userspace has no way to reach the ioctl).
->=20
-> Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IO=
-CTL")
-> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111021655.3785=
-1-1-shishunbo@cmss.chinamobile.com?part=3D2
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111023221.7010=
+2-1-rosenp@gmail.com?part=3D1
 
