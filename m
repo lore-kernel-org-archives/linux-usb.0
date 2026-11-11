@@ -1,61 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.100
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794366139;
-	b=xJb+/iv9ujg2/V0FgLixawzMOHKmMrZgMmRZsD0ZBPEp60Sgs7qc5cTOnOFWaqaMY8d5
-	 KCxINEzaenW3p4KTwE/7pzVI5OaIp1Ck9P17aLjz2G5nK96wQcAVijfp8Zaselq/KuiKj
-	 +kUPQ0PZyclKgXU6pjN7nWBBy56vH2xWRP5ouGdymLmD9HNswHSNORBE7fEH+OHr32ltp
-	 vI5M9Wfy529oAXP4/xAtujs75okFIH9JfNzToIUZFMfIxEgOLf/UFzxovAsw401WX1+3E
-	 iBEguWYny8Ok9lP68QJJiaXatQrJbs1e+OB0bLz54q/9qQ0rRCkpf98MNEwD9g3No2Q==
+	t=1794366201;
+	b=wWvKcMSatCWtY2HJ1RbPcY67aRK9ggr5ETBHhSwpPWIDiFY5eRS+kJT4DA/GNxrkE+FE
+	 Cy/VH6okVvdwjVOQGHRTJxHZWaiq8COv0hKTLOZ96ivF1Y/nHGE95Ft3Xs9kaQkPIesOf
+	 /gWnvkI5DADqhMptLbSYsOD1Rn9Jk733LHefmjcQo4ymjPArQvPZDHyWP07Ia1k6DR20n
+	 qr3CaNw+PX/+nY44Wi2dourtyowbNpTfnqn5DUlK6KnGAfU3dxKvZ4GJs6qzs3Hyyc1yR
+	 erwiJlHrU6Y/4bcnQYBldksYaOt80NOuS13mwmkVyZUhyQzxf2n0BH2pOHPJW8w3Bjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794366139;
-	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=KQ5hKSkXjTEw8NyA3dDB+jLHVek2ETy4pxYZDW9Dn5c=;
-	b=JH979MaH60LauKm3p7N/wTiMQXIB+2mBZXprA5211D7JVTfMXrHbP2yQzp5dQFbykpfy
-	 xwxyvAbMl2gE/XkHv8D/nTdPEm81ZihoXNMl8JXf1OBx5S1VzorvLoJTwtgmBjH5tLR5f
-	 RSmHwFysJqbHFnzcTZkvj90oJThQOceTb2z+6eBkSPZsi7u+dQpC7yBHX4sd7FZoEBxr6
-	 J6ZN255v+IiZuZ9GYYvOw9GJpyVUf2wB75uSZw5fCqs7AbKzyJwuh7iPjWXSSVM3SBkGa
-	 B78T8YEBXmzUQG/25D9ZkxZB2e67jAJqB1DpeojJaLY64nFjWRcJgOwJ5HYEJmPovfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794366201;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=CMOAA88aRzO8n3P5K3lrE4+ZVeXCYjpacfZgqF9fBYY=;
+	b=iXbLkBDndLSRdQX9NLXyOBbO+B092TZNBTZzRz/uU/sTbyTRkLtgFDJ0qIKeilYZrUuI
+	 +HgBcI//OkCSYuuB29Iqm7ZixEtIPw2b3lQ0SyWmcrzTqqEkauQhwFS3S7EOhPFDd4Of2
+	 deiVG3e6bZYiXiR9YzDgjiHBvHS8VmsFaV3Iuo8EsRneYYCNsoAdDgsVDPZAk5tlb91ED
+	 cKxFkc1TUVar5W3EwfM1YnqlgVQl9L62J4yuMRqqkpGtDHvG1WFSKeRDshIZJ1jvIKdwq
+	 M/2Pk4AGNYvqBe8bo4c2eWMECIskAYrbgISz0vOCoiok2eKasMCX33YjIXl3hERY/3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=xiaopeng.com;
-	spf=pass smtp.mailfrom=xiaopeng.com;
-	dkim=pass header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=fi7l2q1k;
-	arc=none smtp.remote-ip=115.124.28.100
-Received: from out28-100.mail.aliyun.com (out28-100.mail.aliyun.com [115.124.28.100])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MnRmhFe+;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C121F606A31C;
-	Wed, 11 Nov 2026 03:02:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C121F606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842CB606A31C
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 03:03:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=fi7l2q1k
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xiaopeng.com; s=default;
-	t=1794366128; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=KQ5hKSkXjTEw8NyA3dDB+jLHVek2ETy4pxYZDW9Dn5c=;
-	b=fi7l2q1k8jlVJtbdHxPLfcQ5y0LRan/bjZDyQza4bRHyZDvk0R6Qkp1a/lzkE/xIqENgbHFrRomJ+jH7grl/zIShNDXDauSd86Zw0VlPWA0pVtw8mm9SDThQW0WQ+SSshBiSTW7sgMUGbkdo+p8ousjdb/PC6wJXg4YUbX/TBoI=
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.04480233|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0194357-0.000237223-0.980327;FP=9691735388033927120|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam011083032240;MF=fangxy@xiaopeng.com;NM=1;PH=DS;RN=9;RT=9;SR=0;TI=SMTPD_---.k.Jtk90_1794366126;
-Received: from localhost.localdomain(mailfrom:fangxy@xiaopeng.com fp:SMTPD_---.k.Jtk90_1794366126 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Wed, 11 Nov 2026 11:02:07 +0800
-From: Fang Xieyan <fangxy@xiaopeng.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Yoshihiro Shimoda <shimoda.yoshihiro@renesas.com>,
-	Paul Mundt <lethal@linux-sh.org>,
-	Hongyan Xu <getshell@seu.edu.cn>,
-	Slavin Liu <220245772@seu.edu.cn>,
-	stable@vger.kernel.org,
-	Liu Chao <liuc63@xiaopeng.com>
-Subject: [PATCH] usb: gadget: r8a66597: fix NULL dereference for unmapped endpoints
-Date: Wed, 11 Nov 2026 11:02:06 +0800
-Message-ID: <20261111030206.64608-1-fangxy@xiaopeng.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MnRmhFe+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB7241F0089F;
+	Wed, 11 Nov 2026 03:03:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794366201;
+	bh=CMOAA88aRzO8n3P5K3lrE4+ZVeXCYjpacfZgqF9fBYY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=MnRmhFe+O4PlWWo7t8StkcmN5LWX7PGHAO4xUuI43yFSUSelN/Yf1SRH4de1YRWWW
+	 BilgPSY5u6MLocGr8bLtLyuvLhYKQz9nJ058SVl/DQ0ngX2K/cTVwoQkRyB1S/xg9V
+	 OX1AGUr0wHzEooHmAz8Lj4zdpaPcXBqkHS65iUnhpGtBg2QNX9be72OYqepIfo615H
+	 3D8fr4Ug6iKtvXAQHyrvS/A9pUtDSEw8ij7F9dyn9isgaWGYaoUcbocdsDRcH3YHWd
+	 vWG1XR/CvOnQvURPDKd0FW287eAjDgnTv1O2szGKUawUYKYSj5ZteC+tNHDFGY3uCm
+	 t0tGkhB6U4xmQ==
+Message-ID: <sashiko-outbox-208153@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 3/3] usb: gadget: f_hid: fix race between userspace
+ report update and GET_REPORT response
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261111021655.37851-4-shishunbo@cmss.chinamobile.com>
+References: <20261111021655.37851-1-shishunbo@cmss.chinamobile.com>
+ <20261111021655.37851-4-shishunbo@cmss.chinamobile.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 11 Nov 2026 03:03:20 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -64,72 +60,142 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The epaddr2ep[] table is initialized with EP0 at probe time and
-populated for other endpoints when the gadget driver successfully
-enables them.  Entries for endpoint numbers that have never been
-enabled remain NULL.  The table is indexed by endpoint number and the
-lookup mask is USB_ENDPOINT_NUMBER_MASK, so the access itself stays in
-bounds; what is missing is the check for the NULL entry.
+Thank you for your contribution! Sashiko AI review found 4 potential
+issues to consider:
+- [High] usb: gadget: f_hid: use-after-free of get_req_buf after
+  hidg_disable()
+- [Medium] usb: gadget: f_hid: leak of get_req_buf in hidg_bind() and
+  hidg_unbind()
+- [Medium] usb: gadget: f_hid: uninitialized memory leak in
+  get_report_workqueue_handler()
+- [Low] usb: gadget: f_hid: unused get_report field in struct f_hidg
+--
 
-get_status(), clear_feature() and set_feature() index this table using
-the host-controlled wIndex and immediately dereference the result
-without checking it.  A malicious host can send a standard
-endpoint-recipient GET_STATUS, CLEAR_FEATURE or SET_FEATURE request for
-an unmapped endpoint number, triggering a NULL pointer dereference and
-crashing the kernel.
+commit d402239570ba7e6af5cac6cc1d8f6985f6ff4af7
+Author: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 
-Check the looked-up endpoint before using it.  If the entry is NULL,
-stall the control pipe (pipe_stall(r8a66597, 0)) and abort the request,
-matching the existing handling of unsupported recipients.
+usb: gadget: f_hid: fix race between userspace report update and GET_REPORT=
+ response
 
-Fixes: c41442474a26 ("usb: gadget: R8A66597 peripheral controller support.")
-Cc: stable@vger.kernel.org
-Reviewed-by: Liu Chao <liuc63@xiaopeng.com>
-Signed-off-by: Fang Xieyan <fangxy@xiaopeng.com>
----
- drivers/usb/gadget/udc/r8a66597-udc.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+This commit allocates a dedicated get_req_buf buffer at bind time and
+copies report_list data into it in get_report_workqueue_handler() before
+queueing GET_REPORT responses on ep0.
 
-diff --git a/drivers/usb/gadget/udc/r8a66597-udc.c b/drivers/usb/gadget/udc/r8a66597-udc.c
-index d190e16d43fc..d769ea530409 100644
---- a/drivers/usb/gadget/udc/r8a66597-udc.c
-+++ b/drivers/usb/gadget/udc/r8a66597-udc.c
-@@ -1174,6 +1174,10 @@ __acquires(r8a66597->lock)
- 		break;
- 	case USB_RECIP_ENDPOINT:
- 		ep = r8a66597->epaddr2ep[w_index & USB_ENDPOINT_NUMBER_MASK];
-+		if (!ep) {
-+			pipe_stall(r8a66597, 0);
-+			return;		/* exit */
-+		}
- 		pid = control_reg_get_pid(r8a66597, ep->pipenum);
- 		if (pid == PID_STALL)
- 			status = 1 << USB_ENDPOINT_HALT;
-@@ -1210,6 +1214,10 @@ static void clear_feature(struct r8a66597 *r8a66597,
- 		u16 w_index = le16_to_cpu(ctrl->wIndex);
- 
- 		ep = r8a66597->epaddr2ep[w_index & USB_ENDPOINT_NUMBER_MASK];
-+		if (!ep) {
-+			pipe_stall(r8a66597, 0);
-+			break;
-+		}
- 		if (!ep->wedge) {
- 			pipe_stop(r8a66597, ep->pipenum);
- 			control_reg_sqclr(r8a66597, ep->pipenum);
-@@ -1270,6 +1278,10 @@ static void set_feature(struct r8a66597 *r8a66597, struct usb_ctrlrequest *ctrl)
- 		u16 w_index = le16_to_cpu(ctrl->wIndex);
- 
- 		ep = r8a66597->epaddr2ep[w_index & USB_ENDPOINT_NUMBER_MASK];
-+		if (!ep) {
-+			pipe_stall(r8a66597, 0);
-+			break;
-+		}
- 		pipe_stall(r8a66597, ep->pipenum);
- 
- 		control_end(r8a66597, 1);
--- 
-2.50.1
+> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/fun=
+ction/f_hid.c
+> index d7ba30323414c..1810e31635187 100644
+> --- a/drivers/usb/gadget/function/f_hid.c
+> +++ b/drivers/usb/gadget/function/f_hid.c
+> @@ -94,6 +94,7 @@ struct f_hidg {
+> =20
+>  	/* get report */
+>  	struct usb_request		*get_req;
+> +	void				*get_req_buf;
+>  	struct usb_hidg_report		get_report;
+>  	bool				get_report_returned;
+>  	int				get_report_req_report_id;
 
+[Severity: Low]
+Since get_report_workqueue_handler() no longer points req->buf at
+hidg->get_report.data, can the unused get_report member be removed from
+struct f_hidg?
+
+> @@ -587,7 +588,8 @@ static void get_report_workqueue_handler(struct work_=
+struct *work)
+>  	ptr =3D f_hidg_search_for_report(hidg, hidg->get_report_req_report_id);
+>  	if (ptr && !ptr->report_data.userspace_req) {
+>  		/* Report exists in list and it is to be used for immediate response */
+> -		req->buf =3D ptr->report_data.data;
+> +		memcpy(req->buf, ptr->report_data.data,
+> +		       min(req->length, (unsigned int)ptr->report_data.length));
+>  		status =3D usb_ep_queue(cdev->gadget->ep0, req, GFP_ATOMIC);
+>  		hidg->get_report_returned =3D true;
+>  		spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
+> @@ -622,10 +624,10 @@ static void get_report_workqueue_handler(struct wor=
+k_struct *work)
+>  			 * Either get an updated response just serviced by userspace
+>  			 * or send the latest response in the list
+>  			 */
+> -			req->buf =3D ptr->report_data.data;
+> +			memcpy(req->buf, ptr->report_data.data,
+> +			       min(req->length, (unsigned int)ptr->report_data.length));
+>  		} else {
+>  			/* If there are no prevoiusly sent reports send empty report */
+> -			req->buf =3D hidg->get_report.data;
+>  			memset(req->buf, 0x0, req->length);
+>  		}
+> =20
+
+[Severity: Medium]
+Can this send uninitialized slab memory or stale report bytes to the USB
+host when ptr->report_data.length is smaller than req->length?
+
+hidg->get_req_buf is allocated with kmalloc(), and req->length is set to
+min(hidg->get_report_req_report_length, hidg->report_length,
+MAX_REPORT_LENGTH).  Both paths copy only min(req->length,
+ptr->report_data.length) bytes into req->buf without clamping req->length
+or zeroing the remainder before usb_ep_queue() transmits req->length
+bytes.
+
+> @@ -1007,6 +1009,8 @@ static void hidg_disable(struct usb_function *f)
+>  		hidg->get_req =3D NULL;
+>  		hidg->get_report_returned =3D true;
+>  	}
+> +	kfree(hidg->get_req_buf);
+> +	hidg->get_req_buf =3D NULL;
+>  	spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
+> =20
+>  	spin_lock_irqsave(&hidg->read_spinlock, flags);
+
+[Severity: High]
+Does freeing hidg->get_req_buf here cause a use-after-free on subsequent
+GET_REPORT requests?
+
+hidg->get_req and hidg->get_req_buf are allocated only in hidg_bind(),
+where hidg->get_req->buf is set to hidg->get_req_buf.  When hidg_disable()
+runs on a USB reset or disconnect while hidg->get_report_returned is true,
+hidg->get_req is kept alive, but hidg->get_req_buf is unconditionally
+freed and never reallocated in hidg_set_alt().  The next GET_REPORT
+request after re-enumeration then runs get_report_workqueue_handler(),
+which writes into the dangling req->buf via memcpy() or memset() and
+queues it to ep0.  Also, because get_report_workqueue_handler() sets
+hidg->get_report_returned =3D true as soon as usb_ep_queue() is called,
+hidg_disable() can free hidg->get_req_buf while the controller is still
+reading from req->buf.
+
+> @@ -1160,6 +1164,19 @@ static int hidg_bind(struct usb_configuration *c, =
+struct usb_function *f)
+>  	if (!hidg->get_req)
+>  		return -ENOMEM;
+> =20
+> +	/*
+> +	 * The GET_REPORT response is served from a dedicated buffer, not
+> +	 * from the report_list entries: userspace may update an entry
+> +	 * (f_hidg_get_report()) while the controller is still reading the
+> +	 * previous response, which would corrupt the data on the wire.
+> +	 */
+> +	hidg->get_req_buf =3D kmalloc(MAX_REPORT_LENGTH, GFP_KERNEL);
+> +	if (!hidg->get_req_buf) {
+> +		usb_ep_free_request(c->cdev->gadget->ep0, hidg->get_req);
+> +		return -ENOMEM;
+> +	}
+> +	hidg->get_req->buf =3D hidg->get_req_buf;
+> +
+>  	hidg->get_req->zero =3D 0;
+>  	hidg->get_req->complete =3D hidg_get_report_complete;
+>  	hidg->get_req->context =3D hidg;
+
+[Severity: Medium]
+Does this leak hidg->get_req_buf on hidg_bind() failure or when
+hidg_unbind() runs without a prior hidg_disable()?
+
+In hidg_bind(), the early error return when usb_gstrings_attach() fails
+and the fail label both omit kfree(hidg->get_req_buf), and
+usb_ep_free_request() only frees the usb_request itself.  Likewise,
+hidg_unbind() does not free hidg->get_req_buf, so unbinding a function
+that was never configured and disabled by a host leaks the buffer.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111021655.3785=
+1-1-shishunbo@cmss.chinamobile.com?part=3D3
