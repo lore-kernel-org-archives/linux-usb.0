@@ -1,75 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794372710;
-	b=SGjktFyNrR7W8WoUO6rDrhXapOZB0eIXxZzUKgCkq8fTPWQd7Xew9zmoKFbrwOP5Pj42
-	 tJp/ldD0ywQq67AEZMBVisWXQDGkwqtHlke7iD3M+chXXCoKa06wEuwsXJ2xA3qb4SYXg
-	 ttbfhZOS3rzJnedetQA6t87Ur7TeWFvC5McBfpJ9+KRCWUbRPEVClOvyMRidNwsz6Gxz/
-	 gVfix92vLfUR28uv5q58rkXBRUwukBNjkQ/J/ZRooVG5KXOGli5zMF/mmgxOs8/qUqZ8m
-	 MeI3HAQEOgixuORgWrOhzxpcS0P06CbjiVjhxRh+8et+nrcSxDE4yFdJxBpT+OeP0MA==
+	t=1794373541;
+	b=cWhNxelA3Hvtn3GTwY63fLFCRQxEtO1Ss194WBspGlH3Y7rNUFKbWA5i9GTW43H4OO3W
+	 RGXxsszmMuI8LlwRaVPE7xdEmi1NsWFOlxIlCoBED9MUTRgdBR+zoNeFxeyV9mYY46AId
+	 uWsuPEzWOkUDMcPo/6VlZdIfQMPYp10iZxcR5P5PS7Ypr5cVEnKzFp96HfpI6TUlclbM8
+	 msO3gNOoPT1n35sxdrglfxFtH07qO/2Is3gcnuH9QWnVhwDZVZd89R4lnCYnI/0EbdXEM
+	 rSKsbEknzuSNKp8lnzufxL/XP+FQe/Aps0XJ3pY2sipuWRQFIHYhwyTV8jpuyR/F15w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794372710;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=PdkaeDBkQPMcZsP8x8dXInLvq16R0F/aoOqvWMheSX0=;
-	b=r1LhDtuEQRwoUMc82cPlML7du315xlhjs+AXb5OkzuJqh177SVIJ6AFP9Bw/ib/whaPM
-	 DiTZQR6ybTK7vWihMYryQiDpdF26qUGqvIN6PBpbhlzZl0l9hRvLz5otugv+A/E4glFDZ
-	 1jtF0oxdksCvoPVpmJPj2b8M+tBYIEVXfxezAlpesVaR7VZgx5bxuig8WNqx1y5v+7+ZA
-	 TQUeAUPIU8TcTOwBU7FxBEFJ2a7Xr4WBT1Ft/Upgs53R4FWR2Rlog7eysgoAVNrRkiV+t
-	 IvCoBbQrFUfpHBvP+O0jiz7CFG90AONTUpmcaQd+EQlCdx5UfYNn5P1KVJFoXybfpqw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794373541;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=Cz+XG45qZrC9EnGGGZY8XxWsj9YcRv31iZYlSoiPMvM=;
+	b=IobE6ELof7OWDBuqmPHUVZT3Bwk/K6azqVHz4D5HFBxtILz0Sg7rTwcCsteFNovdiwzN
+	 E3f3b2rLWVGMwrEJ6q79ntRVGAoC51SdHPByiniVvCiTWNqk6gCYsJ77/VPPX/B1J7ojk
+	 DTA8OdZ3bCkqnyfcWrt6lz59kT0bYk6i1Xy+QqFdoCUcISwiBpVfhmqx9/Fbg9n1oPV0I
+	 TB1HoXQhxcUZo1Dq+ycpTX05Dm6FLANiZeq+D5867f7A3pTsKHYHksZokHBYhNcmJOywG
+	 YvxA/TrUavrr0yAhkgYfXz5aBykswlD34wJuHeKMwwq4UNFGbKqcGysrVRD38v1nUVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b="cR59v/eg";
-	arc=none smtp.remote-ip=162.62.57.137
-Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PeyP15UR;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F2C606A320;
-	Wed, 11 Nov 2026 04:51:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25F2C606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972F5606A31C
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 05:05:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=cR59v/eg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1794372678; bh=PdkaeDBkQPMcZsP8x8dXInLvq16R0F/aoOqvWMheSX0=;
-	h=From:To:Cc:Subject:Date;
-	b=cR59v/egOY0iEFUchsVcdCFYnmPyQaQkG2gyTWRk8kYZ54njuRU6eBdh7QIbkg62+
-	 WyMniU10LID+ZI2vCl0fiDhqUCSxt46eOMIDHqzFfPNHCJXLt5k9H6SdakEUHTE/Yt
-	 9pyjo+yUYXyLUVYt9+ysYuyGwyMdLqq2BjxLjhPs=
-Received: from localhost.localdomain ([2001:250:4000:5114:b573:5664:a517:f40d])
-	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
-	id C8211CBB; Wed, 11 Nov 2026 12:50:02 +0800
-X-QQ-mid: xmsmtpt1794372602t8hws913d
-Message-ID: <tencent_924108DBAEA30F3DD09C66FEC41A965A970A@qq.com>
-X-QQ-XMAILINFO: NGZp1yYNf7Y+NsHQm9vJZQnypQN9OSiEG/eIobvkb+ciMqifAF58A+l04etCU8
-	 fxfHEu3l4fiAJIF/ID9TbrcHMdaru0ksZW9bXS4SwI/PbbJZL69w0SpxxiDcJuz3PSPh4yCxEfFq
-	 mldS3F1QBQ3/BSnVEBoC7ROBX5whvWqlyMBl6ij8Q87ZEfqnOcivCH3LFDyCYwOabDEVedTABBsx
-	 +BrEKkq45nd9+SyB9THP0JQ2TPvtESg7Osv8S281BlzA9wp35s7OR4Xp0SnSajnCmez07t7wcF5s
-	 xHAfO+rcfqE523D2GuWS0kRff73XSOC95Tfw9DycVjAusIgyCTs1HfQbMnckwK8/1cn37KyuAfTU
-	 ORWPULoRo03i3E/i5iezR9xYL4Bmbys46z5Y0viUKqZKBHkwpvTQVgve84g75gE3r+ZpTBrwbbJF
-	 wn9CezRUnvoZa6zfFhj3t/rRlGWNQlzUTTN64ooRWYxGgj/Bfra/4MMhJZM0JoyxZ7t6tCbxAkM+
-	 fOFoSY+bd0qiDSgTxFQXhP8eL0aV5jxzdj7kQIcTX6Ejs7P8BsSu5SYHrbiLxYw9P9b5MjuwB+FS
-	 IOslDmz3Og/ZSmddhdmjTqjQHn2rArSLMi9qW/2sPV0DqDU0bmN1eGQu7VXO1xC7lr8MKJ/2mbLS
-	 kOehpKF9febhcXp5iD1wxrJNlGfrg7OL3nj5s+4NEKypfPjTqvfLLMP2eb/qsF2IaRLHDqkzl1wY
-	 ub4nOFmFyzgYRUnpjgiKMuySBoFNRczzNt1tYSy+Gly35jl6z+WnoFipcljWzvcQtBlmXv0nCyNZ
-	 Ak8S/yqdHJ8MzkbdvwljswXGwdcSpg6xOP96dw8DCSes2HPlDcU5M78Km2jgM5zsLvtXHYJLyNMV
-	 v0/8lxGe01TuUtXAxsM+5ulpxEf18EEyFbqZTLRMPmhpY6/XzGD/MxBTrBNzTv/cNklvFdAypiqT
-	 6/S7fl3TqAfPDY0bCX7yJ+0v2srT8CZwilhLUC8swN3jGjFinv0qDxr7AW3uDn7fF0boZsa5zNuP
-	 XsWPdcNbjkGgwuwuTEtv9EkoLOn7yKqKAscY9xn2zYww99NEtT
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-From: LiuJunyuan <2058432396@qq.com>
-To: nkapron@google.com
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+2a7ce560c30c4ca3bc22@syzkaller.appspotmail.com,
-	LiuJunyuan <2058432396@qq.com>
-Subject: [PATCH] usb: gadget: udc: handle NULL request in tracepoint
-Date: Wed, 11 Nov 2026 12:50:01 +0800
-X-OQ-MSGID: <20261111045001.13625-1-2058432396@qq.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PeyP15UR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53BCD1F0089F;
+	Wed, 11 Nov 2026 05:05:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794373541;
+	bh=Cz+XG45qZrC9EnGGGZY8XxWsj9YcRv31iZYlSoiPMvM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=PeyP15URuE3aEXlf61Z2qk0jJaAyTsKu5qqEjTiX/6Av6l+fcu+rMw5xQsyynV7aT
+	 ObXL4O2bGfHTa8ASPQw5LTsalJmIgT/QlV5MEFFOiC0T6xBllTQf8xXBi9EIxRaEVV
+	 UXwjUvrI0QOOroHFx+JAix6vDbxKFN9WNPi7gmrxDii+OP9pYnufIqxweIzDHuQ21U
+	 XN23wGjrTLhjiti2rTa1MTBxZIzNRMvVE6TFE9dpvOvqt6QfUFSDbBOo+1rNjcRF3O
+	 eMLmRKl/gVDq9I2fGeqF+KlYlimTj5lKKO6Zqo9B1ZxsSUXsiDc/zuRyw1zHvZyUH1
+	 T30G1WvXBtP9A==
+Message-ID: <sashiko-outbox-208322@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: gadget: udc: handle NULL request in tracepoint
+Reply-To: sashiko-reviews@lists.linux.dev
+To: LiuJunyuan <2058432396@qq.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <tencent_924108DBAEA30F3DD09C66FEC41A965A970A@qq.com>
+References: <tencent_924108DBAEA30F3DD09C66FEC41A965A970A@qq.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 11 Nov 2026 05:05:40 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -78,66 +58,37 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-usb_ep_alloc_request() passes a NULL request to
-trace_usb_ep_alloc_request() when ep->ops->alloc_request() fails.
-The udc_log_req tracepoint assumes req is non-NULL and dereferences
-req->length, causing a NULL pointer dereference.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [High] usb: gadget: udc: single-word name in Signed-off-by trailer
+--
 
-Make the tracepoint handle req == NULL so allocation failures can still
-be recorded safely.
+commit 6804b1034e0597891cfe25f25e74344c3996cdb7
+Author: LiuJunyuan <2058432396@qq.com>
 
-Reported-by: syzbot+2a7ce560c30c4ca3bc22@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=2a7ce560c30c4ca3bc22
-Fixes: 5e42d710a108 ("usb: gadget: add tracepoints to the gadget API")
-Signed-off-by: LiuJunyuan <2058432396@qq.com>
----
- drivers/usb/gadget/udc/trace.h | 30 +++++++++++++++++++++---------
- 1 file changed, 21 insertions(+), 9 deletions(-)
+> usb: gadget: udc: handle NULL request in tracepoint
+>
+> usb_ep_alloc_request() passes a NULL request to
+> trace_usb_ep_alloc_request() when ep->ops->alloc_request() fails.
+> The udc_log_req tracepoint assumes req is non-NULL and dereferences
+> req->length, causing a NULL pointer dereference.
+>
+> Make the tracepoint handle req =3D=3D NULL so allocation failures can sti=
+ll
+> be recorded safely.
+>
+> Reported-by: syzbot+2a7ce560c30c4ca3bc22@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D2a7ce560c30c4ca3bc22
+> Fixes: 5e42d710a108 ("usb: gadget: add tracepoints to the gadget API")
+> Signed-off-by: LiuJunyuan <2058432396@qq.com>
 
-diff --git a/drivers/usb/gadget/udc/trace.h b/drivers/usb/gadget/udc/trace.h
-index fa3e6ddf0a12..bcf89b5693db 100644
---- a/drivers/usb/gadget/udc/trace.h
-+++ b/drivers/usb/gadget/udc/trace.h
-@@ -239,15 +239,27 @@ DECLARE_EVENT_CLASS(udc_log_req,
- 	),
- 	TP_fast_assign(
- 		__assign_str(name);
--		__entry->length = req->length;
--		__entry->actual = req->actual;
--		__entry->num_sgs = req->num_sgs;
--		__entry->num_mapped_sgs = req->num_mapped_sgs;
--		__entry->stream_id = req->stream_id;
--		__entry->no_interrupt = req->no_interrupt;
--		__entry->zero = req->zero;
--		__entry->short_not_ok = req->short_not_ok;
--		__entry->status = req->status;
-+		if (req) {
-+			__entry->length = req->length;
-+			__entry->actual = req->actual;
-+			__entry->num_sgs = req->num_sgs;
-+			__entry->num_mapped_sgs = req->num_mapped_sgs;
-+			__entry->stream_id = req->stream_id;
-+			__entry->no_interrupt = req->no_interrupt;
-+			__entry->zero = req->zero;
-+			__entry->short_not_ok = req->short_not_ok;
-+			__entry->status = req->status;
-+		} else {
-+			__entry->length = 0;
-+			__entry->actual = 0;
-+			__entry->num_sgs = 0;
-+			__entry->num_mapped_sgs = 0;
-+			__entry->stream_id = 0;
-+			__entry->no_interrupt = 0;
-+			__entry->zero = 0;
-+			__entry->short_not_ok = 0;
-+			__entry->status = 0;
-+		}
- 		__entry->ret = ret;
- 		__entry->req = req;
- 	),
--- 
-2.43.0
+[Severity: High]
+The Author and Signed-off-by lines use a single-word name ("LiuJunyuan")
+without a space between the family name and given name.  Per
+Documentation/process/submitting-patches.rst, DCO sign-off requires a
+space-separated full real name (e.g., "Liu Junyuan" or "Junyuan Liu").
 
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/tencent_924108DBAEA=
+30F3DD09C66FEC41A965A970A@qq.com?part=3D1
