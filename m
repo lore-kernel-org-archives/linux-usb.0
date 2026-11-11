@@ -1,101 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.81.71.239
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794395427;
-	b=qFPx8r7L2/CutATpkc09ssC7ZDM/nVGbvnwJqPlrdqkiRFNzUXuhAZW7WYx7tuU8bomW
-	 8RBhqwat0WVRyWKvfkdXJHGv2SKFzTSr190Zlk/6b1WhL9HEkEOfK4sbtWM/a52VonkyE
-	 2F8iocPoJsshy9QJZncyXI/59iLqvZJY97QGp8qDCQuxl1UE96HYnEbbXOFiHGLJl99Mx
-	 34kxRVKw1In8jErsCu80OPHGPipXMSPpugyWgu+C3dUo6UeaYvnmeNV0056yMuP+grdIJ
-	 VaG/k8mPW4gpQGPCYBp1bxlCNvZmox6297xRBdSjMatTE1JBYahvSuv8ucRCSxWz/Gg==
+	t=1794396910;
+	b=3P8hbQoQPK//XHAl4q2UDbyz+5/eU+5mwcu0LE8Utv/00G4UioUfCpXDm8eMRMoKV/fQ
+	 A7t7h/LhCqj/umPGXHabpS4xisXNUbUpJVJ7oK1/yqkOSF5p2dlBZeuCrl+Cc0Ewgo1jp
+	 nBvhyQ1PMYsbYYtpJMhQ+gGXwygFOkwu6K8xxnsqLRg/nTwYRhSct/gO1+jL1KrFimg/D
+	 UsPeS+8oi+ei3vZozt5ORyIgvHAeb6ku0nsIAHtefdyYsLxP9jomRK1iFQ1OntmAOIStm
+	 6OaOTxav8djQZN3zmQq7xOga/MzWKyK5VgAPPX7GqD2YFgu393UjWX22SCImUnY9GxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794395427;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=XwkuBLy5toj4xmSecRyiSJuZGOX5kjvXYj7mL+5wNR8=;
-	b=sS1qLD6JOhWOl0Jl12l5srhHd7NAPLXEOthquYq79jyqZqzSA+I78sbwYvpPQUD2z+TS
-	 w15o7EclRxWU7C+rs9kDPuRwgGIxIzx1HvqePqjtqv1b76U0EWj4rgAtC206X9uaDbkpb
-	 imlS+qlBxWm1XAz+kN8nHu+0zZJS+dcjI2sm9l1+L5wPz01nl4DbwrWtpoEFCzR8PYdFH
-	 NmeJ8o/OITj9OGW0j5/QvAOE7Pe1qqkSWhsG7pX3nuCiaY+7zQ4jvEDUkS/daUkz2ikMd
-	 SsKAk4SYp080z4udDSdovdlW1Zse/U/HPDWgioIdP46dQjytZkSQqkdkvpyrgEsgiIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794396910;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:From:
+	 x-ms-reactions:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=6VRlRGj6K6JEINUEFGOSW7SlQDEDIC26Ju9SSAJCmBc=;
+	b=MKF8fEqtApmoi+L7vSoxGGcU5z3wo1O71VlS0HkzhIGXoijanlmfE5POta1069mv9ELJ
+	 UG+9pbIdS8+8TfYxC4f2avEMuc7NDt3GUfQGgdm9IX2vZoShPbU6k655MwDMuGLHYG5aM
+	 ZH/Mv/u+51FGnMopl+fE5KFMjYSvhNiczwjcErMELwoRicClE4Zmz+kl+P3C/FNOzBhG+
+	 o6uiF0fbw5ZyONXYY1AQqKHS8tPumIdMo0RusbwFB5xKCWH7Q4gwMUgJuSebwF+38sX+k
+	 RIzIlEq0NWOJI7pA41I0EbG6tR9pdtGUzKp4z1WIBu/H5xjRzOgOS/Kx7FPBHyeQeuw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="AMltq5/y";
-	arc=none smtp.remote-ip=209.85.221.47
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=puzzle.ch;
+	spf=pass smtp.mailfrom=puzzle.ch;
+	dkim=pass header.d=puzzle.ch header.i=@puzzle.ch header.a=rsa-sha256 header.s=20211230 header.b=UTwERfHn;
+	dkim=pass header.d=puzzle.ch header.i=@puzzle.ch header.a=rsa-sha256 header.s=20211209 header.b="XtGe/DMu";
+	arc=none smtp.remote-ip=45.81.71.239
+Received: from mx04.puzzle.ch (mx04.puzzle.ch [45.81.71.239])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0461D606A32D
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 11:10:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0461D606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5EA2606A326;
+	Wed, 11 Nov 2026 11:35:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5EA2606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=puzzle.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puzzle.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AMltq5/y
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-498f5fa4f70so1400210f8f.0
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 03:10:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794395425; x=1795000225; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XwkuBLy5toj4xmSecRyiSJuZGOX5kjvXYj7mL+5wNR8=;
-        b=AMltq5/yGNWP58DK7r+glzzonp8mh5I4LgGC006a2C30lJF69tWzRY+aJchL9xmHEP
-         b1SnLObtvr3c3H6UYX1tsjwRxjqrbVY/3bHPMOVIoXSB7m/H5y6Ir6wB6lPkpgWweLnt
-         nJs5F1QW95WlZl8enGFIVzt8Hk5NxtaVUIe6FBU6YjpbImBMrPYQ2+czBAPY8Efy1MCw
-         rLt1YgY7g7UP6zadrTCg8G509eaDtGAuzJATMGrjiowta9aWhcOtGUEsppjtq6BWyozI
-         UJ46hvK4IdPUKlcWZQlN2705oEehi1IEVoK90eJnOT/4XJJpQcVJmlYiC8kcQLMv1Xt9
-         UY4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794395425; x=1795000225;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XwkuBLy5toj4xmSecRyiSJuZGOX5kjvXYj7mL+5wNR8=;
-        b=y7pWeJ4GJIwozPItdY+RB1+/VORvnPWenLIzSt0bfnlAConyBWnxBjhDwJmbp8mvA7
-         hyJZCyTAHylAuaEzwCL/JNYxmEIdQZDq6z4GbXpsgjAMqaPNMxU8uS1YY4j74U1dvnOX
-         Y0Ym+3jNMp4nek/zWo2f40sGf/y/WR/729HIxotrmJlzl76BlAn/TcFM1YZHs9J8TBcg
-         F4D76mGWBB/yrqdrU2YAM7HZmXwAFNeiJXpiLIokzjgevu6JSxnwIhazxM96v0ehJOtP
-         gMc5QdFJO0MoqWVUXc0imfuQ+J86boraHfoZqojM9LCHcdsGZbFjdlUNFtG8uMRrSMA/
-         LNpw==
-X-Forwarded-Encrypted: i=1; AL+hErF7A5Dw3J9W257xHCJLupJp11RTlIpUq1k5cI+49QdHmeoD+CFG5uqd5rNaFRVH4Fj2Ru0ovLzCUjE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+SayRKqEoQY6BHNez0cAgg1sfMwjtYgOo/FgefPZYxXTgEwNf0
-	661NatQLumk2kjFF4qTSl+fTXchpA/qC/z/lg1oFsvBOuwrP36GFT6pVFjLk69LC
-X-Gm-Gg: AYBFou0NgS7pGP5doh+KTR+mUNdmVHwiE1hGYUgB2G9xKmQnI051QCOK0qsmmacfwqj
-	4CuH7dYmYL5YBRz/X4n3TWRRS4WXZQEEtfNE1tRs5DBsEY346ODaSW0x0J+Vv54+Pnk3W6CK6SG
-	bvCPJkNgAnpVFAodRNU6jg1hlFfWlmKh5DHLFdh5+jd5jtpguJDaoi3ZGR6C7Up9pR14Z/+H2hK
-	Q2iQoAGBiP6ojJm3ZI+Rw9Rl8IEDyjG6lKCpkYP/98w/gn7rdYat2YgWzGu/0GOd2+Ok6w/sJhB
-	1BfS6I5AaX9pANZwsvUY80wKWaQ009pHms9OVaD0IPj1qLTBM/06dv41U/GKFeDtyJlXuwApTA7
-	8wJvxdyrbr5EcEclFjNatolkBKDR5bhv9tv//6swX+NeNJz0jfTWEl1KfpNRcvKKjX7wAOkB+0i
-	CaFpoipcsPMDDvv5YhrQ1aaQl6Gxe4CasOR1IeeL5+rSL7AxpTFvbzF5K4aZc2sp+SbKtj6ohLT
-	YOtJWkOsR84+rIcCKYmqRBLZFxdZS0gqPHl71KODSJGcai94PhPSJVQporUxK1azJq2No3k58Cb
-	vut5RVYo4uFToP+VD3SiccgKBmsjrvd66KLel1s=
-X-Received: by 2002:a5d:64e9:0:b0:48f:bed6:4d79 with SMTP id ffacd0b85a97d-499c792ef43mr3394834f8f.48.1794395425185;
-        Wed, 11 Nov 2026 03:10:25 -0800 (PST)
-Received: from foxbook (bfj76.neoplus.adsl.tpnet.pl. [83.28.47.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4983585923bsm10645983f8f.11.2026.11.11.03.10.23
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 11 Nov 2026 03:10:24 -0800 (PST)
-Date: Wed, 11 Nov 2026 12:10:18 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Olli Salenius <opsalenius@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
- linux-input@vger.kernel.org, bentiss@kernel.org, jikos@kernel.org,
- linux-usb@vger.kernel.org, git@mayer-bgk.de, "hadess@hadess.net"
- <hadess@hadess.net>, "srimanachanta@gmail.com" <srimanachanta@gmail.com>,
- "mathias.nyman@intel.com" <mathias.nyman@intel.com>
-Subject: Re: [BUG] HID: steelseries-arctis: NULL deref in xhci_urb_enqueue
- from status timer during resume from suspend (Arctis 9) -> system hang
-Message-ID: <20261111121018.49797328.michal.pecio@gmail.com>
-In-Reply-To: <CACQx0bFrJYn60_QAogb23n0yiSy4hu5ZHQWXbRb_WBfS908tSQ@mail.gmail.com>
-References: <CACQx0bG8+c9+CjLRa-tbgGkc5_4Wxhmanbd2vToo8Aj8k_WUYw@mail.gmail.com>
-	<CACQx0bG4bvt4bHa+WG4u2UGmUc_YMUnhpWovz5+rzp76Jpb9ZA@mail.gmail.com>
-	<079cf13d-542b-4084-9023-06a89fa4ea97@linux.intel.com>
-	<20261110105709.5fdec4a9.michal.pecio@gmail.com>
-	<CACQx0bFrJYn60_QAogb23n0yiSy4hu5ZHQWXbRb_WBfS908tSQ@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=puzzle.ch header.i=@puzzle.ch header.a=rsa-sha256 header.s=20211230 header.b=UTwERfHn;
+	dkim=pass (2048-bit key, unprotected) header.d=puzzle.ch header.i=@puzzle.ch header.a=rsa-sha256 header.s=20211209 header.b=XtGe/DMu
+Received: from mailstore02.cloud.puzzle.ch (mail.puzzle.ch [IPv6:2a06:c00::5086])
+	by mx04.puzzle.ch (Postfix) with ESMTPS id E193E104;
+	Wed, 11 Nov 2026 12:35:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=puzzle.ch; s=20211230;
+	t=1794396901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6VRlRGj6K6JEINUEFGOSW7SlQDEDIC26Ju9SSAJCmBc=;
+	b=UTwERfHnmIzPlOIEN7bmQyrqwPmpL91qpLi90ACSUaVY5mlTjCU3CvTT+cJn9geVRGsvvB
+	pS5Ij1ndcxvn2nEacv8Q/QvmRDkTGHexIfy4c/VT7ChzHdAQPTKEVy6ATHYFRZsT3IxWo7
+	lXsKYdC101YQHL0rQncAQG99/9ht52NScczUz2yFiUwzEib/u48DH4mj3u54pd54raX8j3
+	KcCPExvBwvwFUAsut4GWhcFlzghkLZW30t0GC857rjIROv3jfLTwt+FPwsg803PCBgOPRS
+	iu2hWcUJFkAYvpRvIWdmjsELW3vymPsjkB2A3DOQOAomyPdlluoEt2lwCDnqDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=puzzle.ch; s=20211209;
+	t=1794396901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6VRlRGj6K6JEINUEFGOSW7SlQDEDIC26Ju9SSAJCmBc=;
+	b=XtGe/DMueqBeRt6Bji1TfT698ElMYOp0zPlN6FbBet63oEVjUW0b1SZgDoxFrOqm/hy3RH
+	rCXR/81+Z4XH1aGTdp7xZtejDjWQxZ4xYFIGg2eYQTix24QOhFd3u+y3mFAcQwfYsslg8I
+	daVRCv0Hv4gulYBoP2E0m0BZJYg4rw3y6l1yU+8jcqAdxOc5taQ9NgEh9KYu9JsVSVK8ym
+	b07UnVNXOLenPEASInhraBMRXchMiptbXm4af1BqCybmn5H2evPLZ2nlSBE2n8hkXayYUQ
+	pHSrVRwNh0J2yYS5oyG8wMCw/dWFfmzTLF2x5IHVaIxd2x/CFpCvEJnxFQPqDg==
+From: Michael Grzeschik <grzeschik@puzzle.ch>
+x-ms-reactions: disallow
+Date: Wed, 11 Nov 2026 12:34:54 +0100
+Subject: [PATCH 2/2] usbip: identify the event handler with current_work()
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -105,47 +76,82 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20261111-usbip-v1-2-da5217ac71d7@puzzle.ch>
+References: <20261111-usbip-v1-0-da5217ac71d7@puzzle.ch>
+In-Reply-To: <20261111-usbip-v1-0-da5217ac71d7@puzzle.ch>
+To: Valentina Manea <valentina.manea.m@gmail.com>, 
+ Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Michael Grzeschik <grzeschik@puzzle.ch>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1641; i=grzeschik@puzzle.ch;
+ h=from:subject:message-id; bh=wkKlVjQai+vEb7fVdaCCjzQfEn5vwaaPEVsaP9Nb4oU=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBq9FLkM4To6o+H8S+8hmDUaRZzmKxnMyyo5SrXM
+ Wro1ndZ87iJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCavRS5AAKCRC/aVhE+XH0
+ q3LrD/91Gnuf2xzHAsbGEFPl4liPoRmem+G5JGOa3JzIho3beZUuKFT7YYegMnWy/K8gN4VQjvQ
+ p5pQsXOQIlUGK+Q01VDc94u01oScLFosp9W6k99lpO0WQDvImQl7SVwQbzd5oMp5UKXxsITD8jd
+ aSwiEWrV8gOCQ0mN0zMJr68GegqhF2a8SvEcrMvicm7tpNsZSyhhFEg5/VOAQyIFi4mt5waxZhy
+ TV8uB9IsRVs/gSEFrH7RUJwaQfxeoh3UwpX0yw7YGp2G+pN7LrYN9tIQ1b6G3ho524+mx7DCOLl
+ Rsei0cluOJtvE8eCgY0XBcaCaHwsTuiF7qjf9j3yCVm0shxAp3sarozY6b3xAtD1ibhF0hxMFfH
+ YJALS9AULU/BEo+orP4b0pQ9CKbTNsnch2X75T0Gq34jSZgxBF0gfg/ZoDG6I2ML7sY191REFIw
+ DhJIdRTfotWX9Gb0I0/9fQMFM8D27jv6f5u9i8+QX2Pl6qVwl7xMEh9agcHjwmEgPyWnKS6mDZk
+ fZr0p/ejYbU8/4CnjdNvSafu7PlsLpuwMRND3IN4+5QO68lZZM5Q6tJKknY2XZUF6nTLjkebu9n
+ HJt1UakZv4RVhkG62OwtuwFs1dsqw/K7Riobr93Hxit+rDUv6SOqco3OlzU6lwnyoiC/hBO0ZX7
+ FjbXeTtkf5x6LHA==
+X-Developer-Key: i=grzeschik@puzzle.ch; a=openpgp;
+ fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
 
-On Tue, 10 Nov 2026 22:46:27 +0200, Olli Salenius wrote:
-> Disclaimer, I am not well versed kernel level stuff and using Claude
-> Opus 5.5 in debugging this issue, so the following info may not be
-> accurate, however the patch did seem to fix the hang at least on a few
-> test suspend/resume -cycles.
+usbip_in_eh() compares the task with worker_context, the first worker
+that ever ran the event handler. Workers of the unbound usbip_event
+workqueue are reaped when idle and new ones run the handler later, so the
+check fails inside the event handler, and the remembered task_struct may
+be reused by any other task, which then wrongly counts as the event
+handler. stub_disconnect() relies on it to skip the shutdown of a device
+reset from the event handler.
 
-Your LLM is right. The test patch makes no difference, but commit
-555040535 removed the trigger. If you revert 555040535, the crash
-will be back.
+Ask the workqueue which work item the current task executes instead.
 
-It happens because xhci_reset_or_discover_device() allocates new
-state for the device, but it doesn't bother to update the root hub
-pointer, leaving this job to xhci_setup_device().
-
-To fix the crash we need either the dumb patch below or some rework
-to preserve more state during resets. Probably the dumb fix is the
-only viable short-term option.
-
-It doesn't solve my problem #2, but that one is a race condition,
-so much less likely to actually happen in practice.
-
-Regards,
-Michal
-
+Signed-off-by: Michael Grzeschik <grzeschik@puzzle.ch>
 ---
+ drivers/usb/usbip/usbip_event.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index e5c8b3a945a6..81656bfdaf66 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1662,6 +1662,11 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 		goto free_priv;
- 	}
+diff --git a/drivers/usb/usbip/usbip_event.c b/drivers/usb/usbip/usbip_event.c
+index eea9a71f0eac..e00bc535a822 100644
+--- a/drivers/usb/usbip/usbip_event.c
++++ b/drivers/usb/usbip/usbip_event.c
+@@ -57,16 +57,11 @@ static struct usbip_device *get_event(void)
+ 	return ud;
+ }
  
-+	if (!xhci->devs[slot_id]->rhub_port) {
-+		ret = -EHOSTUNREACH;
-+		goto free_priv;
-+	}
- 	if (xhci->devs[slot_id]->rhub_port->link_inactive) {
- 		xhci_dbg(xhci, "Can't queue urb, port error, link inactive\n");
- 		ret = -ENODEV;
+-static struct task_struct *worker_context;
+ 
+ static void event_handler(struct work_struct *work)
+ {
+ 	struct usbip_device *ud;
+ 
+-	if (worker_context == NULL) {
+-		worker_context = current;
+-	}
+-
+ 	while ((ud = get_event()) != NULL) {
+ 		usbip_dbg_eh("pending event %lx\n", ud->event);
+ 
+@@ -194,9 +189,7 @@ EXPORT_SYMBOL_GPL(usbip_event_happened);
+ 
+ int usbip_in_eh(struct task_struct *task)
+ {
+-	if (task == worker_context)
+-		return 1;
+-
+-	return 0;
++	/* only the worker running usbip_work is the event handler */
++	return task == current && current_work() == &usbip_work;
+ }
+ EXPORT_SYMBOL_GPL(usbip_in_eh);
+
+-- 
+2.53.0
+
