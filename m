@@ -1,81 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794405622;
-	b=qV5YPQ5Mo/qO60gKrZ+Yl1J6JohQUPzxJz5dclwrtKz4U7F64y0/fNTzW+VKgUQYKWMs
-	 kqfNlJjiwHKju3gAclTBKLROtyH9Gp3l/8m359xlOaD7CwXNXVguSTgUNRme9rVAAl1cF
-	 nQfIbYlDganRKKtQHvDspgP3IHqaV8cIgF8ValCVjj7sEwQNciUWS04bcCDg8tnoK15cl
-	 w+NdSy6SR6HtaRJgFmO90VFJI4m4FF+KML7U2Cw9dfB7K5Lnsvk6KgLmllSDokpse9l2m
-	 GhbEMghY/YqObRzJ64tiWrcIkBUZ6BEvappgOJwd09fxi4Rwc7x/8f5R/vyVv2G2fBA==
+	t=1794405920;
+	b=Pu8+bOTTpwpp658JwHPmP4M2TEEo4JNwYX0oNIlTKnMFLfiKx3yHIMmhbXxtp1K5Dbjp
+	 WlUAr9OAdqEa9dLJWm0eRv777PyqJzm5DiYZ47iNvLMjFg434U8U+pYwMfl3ykv3vJhHK
+	 QYo/YGxQeBs3uUuraMF4MWsPK+VHGfcrijkCmmBEEgOM5EoIrGCGwbZI+XFSy/GL1lu3P
+	 L671rdpnkApvyrzhYJFMPruPl31Nd4JcXJkBfIbzvAqr8JntHS0OKy279QT3Yryzg/anL
+	 1OGivdCPMH5jalB2f/NRlskBMjN2Shwgiley17FuOlOnPVaAGxp7iYbz7G02yqEASUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794405622;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794405920;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=72RedqSRj8wj0gbesJ4FFuwugiOLntBxqq9IL6zM74U=;
-	b=2JArT4xZQmjC7dJVOCl19joZ/n7cciuO0nqAWxCXDJ26Q0FX5WJgaw6BM6y28QAibvhx
-	 L8UrdZbVTQ124CMwMaegO0cYfmIlvxkai2brJfmTKwDPPjCEpE+q7mm/j6wtG1fmsXjyF
-	 fW/JVwsvjILRBJHQSWTFRMScuO5/o8b1Y32JZEF7JEwR1fjNTRqpPYDoT0hi4I7YOHaSw
-	 APiTu5/kLjn9UkBYHl8OnqGYi3Ib1hQ+GCS+Iq1l4Z6P0jIUt2xzf2KJQ/HzndCjbx+25
-	 vpxepkX3Tg4COvBZH9cGf1oicutHC53TfErnuMhvndvd3idtsEFuVOKf4biBob3AF+g==
+	bh=kO0azMBxoXq9M5QT/qyEj+5H+3IMTlm3RJDmjb9koLA=;
+	b=TpPKb6uEoOVMlirKMMiFsK2Z/aXh30L0EM04Ca9WoKDiJv3jtRBGaAflh8BG6BN7WCkv
+	 oelmdzoBu9OoqvpcJS/7q8OSUL2Nb2haYGdwUf1Utqgrhn9rP8BDJvrCn4AsFLNlnvPEx
+	 jOk11iXtAAS4La7ouWsoUWSCaVqKlHVX7yrixdXb5FmEhnhe8f8som12QNw4n183K4TE5
+	 u5EXUWWzQKFDKSt5ONThZV5a1VVPMjOFVneFZrVZZff/a1ABnsHeH6P1xGTNgp7t4lQMa
+	 QTbM9JfC/ubRQuK2Pd77QjrIzRvuiVQN01O+Q7KXJ1ncp91Lt1nao9zB6JgqWJKyACA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KJpUfPEB;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AHn03s9l;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31B2606A327;
-	Wed, 11 Nov 2026 14:00:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B31B2606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E37B606A336;
+	Wed, 11 Nov 2026 14:05:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E37B606A336
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KJpUfPEB
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AHn03s9l
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794405622; x=1825941622;
+  t=1794405921; x=1825941921;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CxSnup0BBLqBjt4RQz3Yb7cZrq1BAMox75Jj3crU0Yk=;
-  b=KJpUfPEBE/P1+g2+n5y6/SGU2QAF9o8Fewlt5AfCyPu6XtcTecE1EXHD
-   Pv6MtePP0WAxDeZkw1JM2OZVVSKwq3+2rFvaXobEKCw5jzOoHFijB/Bu/
-   FFVFTyeyVKaw4Z2ybiSncZK5BM4nVbhcBi4hH4J+6JGSQ2lFo8ELXCbqi
-   Ad/HDkU85wvMV4Q3j5gd39U6dQWnbb2V8KIobbdXIgRpIoecVcs8QDoLb
-   xYEg5zEwHg6Wx94jiqXnUWmQJLT+NRXq3vAZJroQeJREaqaR5KPBiS1ZP
-   3DNDLdoUohZZNg/ovyHk68Ezvm4TeObNqa7Sa4TF0xR4I4pwfPx3xZiZY
+  bh=sNjZft24xr7laXif2MdlCiMuF0+/w6pJG+fNtzq7h+c=;
+  b=AHn03s9lY7UDrNQq6IpuNnojyvUVzqcP8R3+nb+STTtPbcOyjGyS6nbm
+   RHrarDoyHdSNG93xthXRUCBj/gBISNhYyIeaeIa2WJ2z+KFOvf8r8Xuka
+   XHZnWa1Tav9yBq1tXdOKKMCz62j6i8NRdmt4OIboK0p9gPDpepV21XVNg
+   16w9BAgkDFa4tQzaXxKZWkZB6jFFR8UOLxkLMUAQd/rrQOvmpt/SQDuyn
+   dRuyoSgUKJbm/tUMI001fcNLneWj0I6SNzI4Vmp8hhfQBHhjOSYACeROf
+   gVVw6ViNE8+QI/HMwHOmgtSjSUL9fLMw+I9lMqrSTUrMteexSUedknifV
    A==;
-X-CSE-ConnectionGUID: K2nL9Tr7TM+yT/IZA28u9g==
-X-CSE-MsgGUID: vjglvPQyTYW4CkqClJlS7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3173255"
+X-CSE-ConnectionGUID: rEB7VqG/RUaFc56cV1GxKw==
+X-CSE-MsgGUID: ImyaIjEtRs28lV1QxTpsQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3261549"
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="3173255"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 06:00:21 -0800
-X-CSE-ConnectionGUID: b+h7LCqkSbCsj2u85RSz8A==
-X-CSE-MsgGUID: OO+nQO2LR52dGizoz1nquQ==
+   d="scan'208";a="3261549"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 06:05:17 -0800
+X-CSE-ConnectionGUID: oT9Cbor5Qni6BQCUdyKTLg==
+X-CSE-MsgGUID: 0F6K0J6gQBqAceNzhSvsFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="10148410"
+   d="scan'208";a="8999654"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa012.fm.intel.com with ESMTP; 11 Nov 2026 06:00:16 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 11 Nov 2026 06:05:16 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 65C0899; Wed, 11 Nov 2026 15:00:15 +0100 (CET)
-Date: Wed, 11 Nov 2026 15:00:15 +0100
+	id 25CCF99; Wed, 11 Nov 2026 15:05:14 +0100 (CET)
+Date: Wed, 11 Nov 2026 15:05:14 +0100
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Alexey Charkov <alchark@flipper.net>
-Cc: Badhri Jagan Sridharan <badhri@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	RD Babiera <rdbabiera@google.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
+To: Daniel Baluta <daniel.baluta@nxp.com>
+Cc: badhri@google.com, gregkh@linuxfoundation.org,
 	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 0/5] usb: typec: cable comms on RT1711H-compatible TCPCs
- and FUSB302
-Message-ID: <avR073vYmypIFVGY@black.igk.intel.com>
-References: <20261103-husb311-cable-comm-v1-0-6217dabc1a85@flipper.net>
+	stefan.ghetu@nxp.com, imx@lists.linux.dev, Li Jun <jun.li@nxp.com>
+Subject: Re: [PATCH] usb: typec: tcpm: allow external charger detection to
+ set USB_TYPE
+Message-ID: <avR2GnwIdOKSrTlE@black.igk.intel.com>
+References: <20261106115742.730704-1-daniel.baluta@nxp.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -87,73 +84,60 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261103-husb311-cable-comm-v1-0-6217dabc1a85@flipper.net>
+In-Reply-To: <20261106115742.730704-1-daniel.baluta@nxp.com>
 
-On Tue, Nov 03, 2026 at 03:21:21PM +0400, Alexey Charkov wrote:
-> Neither the RT1711H family (including the HUSB311 and ET7304) nor the
-> FUSB302 lets TCPM talk to cable plugs today, so cable discovery is
-> skipped, and with it the cable's current and speed ratings.
+On Fri, Nov 06, 2026 at 01:57:41PM +0200, Daniel Baluta wrote:
+> From: Li Jun <jun.li@nxp.com>
 > 
-> The RT1711H family handles SOP' like any other TCPCI-compliant TCPC, but
-> enabling it exposed a problem in the TCPCI core: it set SOP' in
-> RECEIVE_DETECT whenever the TCPC can talk to cables, regardless of who
-> sources VCONN. With the partner as the VCONN Source, the port then acks
-> and processes the partner's own traffic with the cable plug.
+> Teach tcpm_psy_set_prop() to accept writes of
+> POWER_SUPPLY_PROP_USB_TYPE and store the value in port->usb_type, and
+> advertise the BC1.2 USB types (SDP/DCP/CDP/ACA) in
+> psy_desc.usb_types so power_supply_set_property() callers are not
+> rejected by power_supply_has_property().
 > 
-> Patch 1 fixes a TCPM bug that cable communication on the FUSB302 made
-> visible: after a VCONN swap, a source resets the cable plug twice.
-> Patch 2 lets a TCPCI TCPC receive SOP' only while it sources VCONN,
-> which also affects the Maxim TCPCs, the only ones that enable SOP'
-> today. Patch 3 enables SOP' on the RT1711H family. Patches 4 and 5 add
-> SOP' to the FUSB302 driver, receiving it under the same VCONN rule.
+> This is a prerequisite for a follow-up PHY charger-detection driver
+> that calls power_supply_set_property() on the tcpm-backed power
+> supply once it determines the attached BC1.2 charger type.
 > 
-> Tested on an RK3576 EVB1 (HUSB311, source-only) and Flipper One boards
-> (FUSB302B):
-> - Without patch 2, a FUSB302 sink sent SOP' Discover Identity over a
->   cable with no e-marker, so the HUSB311 had no VCONN to source. The
->   HUSB311 acked each one and its TCPM answered over SOP, after which the
->   sink soft reset the contract every time.
-> - With patch 2, the same messages went unacked and the HUSB311 port
->   correctly ignored them.
-> - Over an e-marked 5A EPR cable, the HUSB311 sourced VCONN, read the
->   cable identity and completed discovery, while the FUSB302 sink kept
->   SOP' reception off.
-> - With a FUSB302 as source on the same cable, it sourced VCONN, read
->   the cable identity and completed discovery. The cable plug accepted
->   the FUSB302's automatic GoodCRC to its replies, which the datasheet
->   leaves undocumented for SOP'.
-> - Between two FUSB302 ports on the same cable, VCONN swaps both ways
->   moved SOP' reception along with VCONN, and each new VCONN Source
->   soft reset the cable plug over SOP'. Without patch 1, the source did
->   so twice.
-> 
-> Signed-off-by: Alexey Charkov <alchark@flipper.net>
+> Signed-off-by: Li Jun <jun.li@nxp.com>
+> Signed-off-by: Daniel Baluta <daniel.baluta@nxp.com>
 
-These look okay to me, but let's still wait for Badhri and RD.
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
-> Alexey Charkov (5):
->       usb: typec: tcpm: Stop a source from repeating a cable Soft_Reset
->       usb: typec: tcpci: Receive SOP' only while sourcing VCONN
->       usb: typec: tcpci_rt1711h: Enable SOP' communication
->       usb: typec: fusb302: Tell SOP' messages apart from SOP
->       usb: typec: fusb302: Enable SOP' communication
+>  drivers/usb/typec/tcpm/tcpm.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
->  drivers/usb/typec/tcpm/fusb302.c       | 63 ++++++++++++++++++++++++++---
->  drivers/usb/typec/tcpm/fusb302_reg.h   | 10 +++++
->  drivers/usb/typec/tcpm/tcpci.c         | 72 +++++++++++++++++++++++-----------
->  drivers/usb/typec/tcpm/tcpci_rt1711h.c |  1 +
->  drivers/usb/typec/tcpm/tcpm.c          |  2 +
->  5 files changed, 119 insertions(+), 29 deletions(-)
-> ---
-> base-commit: 2637bdec0535a2044cd830eba9a79363651d9043
-> change-id: 20261103-husb311-cable-comm-46f2e77e4c18
-> 
-> Best regards,
-> --  
-> Alexey Charkov <alchark@flipper.net>
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index d721baef52104..24f4e8854f37f 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -8766,6 +8766,10 @@ static int tcpm_psy_set_prop(struct power_supply *psy,
+>  	case POWER_SUPPLY_PROP_CURRENT_NOW:
+>  		ret = tcpm_aug_set_op_curr(port, val->intval / 1000);
+>  		break;
+> +	case POWER_SUPPLY_PROP_USB_TYPE:
+> +		port->usb_type = val->intval;
+> +		ret = 0;
+> +		break;
+>  	default:
+>  		ret = -EINVAL;
+>  		break;
+> @@ -8807,7 +8811,11 @@ static int devm_tcpm_psy_register(struct tcpm_port *port)
+>  		 port_dev_name);
+>  	port->psy_desc.name = psy_name;
+>  	port->psy_desc.type = POWER_SUPPLY_TYPE_USB;
+> -	port->psy_desc.usb_types = BIT(POWER_SUPPLY_USB_TYPE_C)  |
+> +	port->psy_desc.usb_types = BIT(POWER_SUPPLY_USB_TYPE_SDP) |
+> +				   BIT(POWER_SUPPLY_USB_TYPE_DCP) |
+> +				   BIT(POWER_SUPPLY_USB_TYPE_CDP) |
+> +				   BIT(POWER_SUPPLY_USB_TYPE_ACA) |
+> +				   BIT(POWER_SUPPLY_USB_TYPE_C)  |
+>  				   BIT(POWER_SUPPLY_USB_TYPE_PD) |
+>  				   BIT(POWER_SUPPLY_USB_TYPE_PD_PPS) |
+>  				   BIT(POWER_SUPPLY_USB_TYPE_PD_PPS_SPR_AVS) |
+> -- 
+> 2.45.2
 
 -- 
 heikki
