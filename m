@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794367515;
-	b=KyKeZOJj/jrzHw2HlimknxN6vpSXdnu5bS7E6Hc67fGFD+jGYTDeyCLod7sko6prS+85
-	 ugE5crFOFpK9V/xjAbjKMERCH6/Bk05d6GJw3wrVKC7hq96tRA/19ffzjyr9zdDGR8okS
-	 FStA1y+DtlNqFJxXlhMO3cj/GJbgJYKc5VCCv+aXEVsnv+Mf8ebY57kQRlBJk5MK3F/cT
-	 5ISmA3eDAQoSPyQbLRcX2u4a9BQ/gZHFh6gdX70PVMZ62iu9TBRfrbGaOxjfLWdT4ywDu
-	 bWKN+TwiN7UAcO9cQ8qKsOYBdZRY2j183vfnrmcemxTp7zPiLd3pkOAdBAG3yjWzBdw==
+	b=JeBvSsJCgdB/59l2MZjmcHf1GW6GqpOyqSI/yzUioIq4U9PD3qLr/AVeMM/qPNwokYY/
+	 J6zrSHtWaQ90ehyCPtWck070V8fAnotJNgV8x52RqHsWHv0eNQaIp9+sQ5QkbYf2LDXGZ
+	 BOwJdEUUvvDBkpM7YAr5efoeJXncxlG362UOj+RIWGx+6PBCWAqzpL62SR+3Q9+v4JFZu
+	 MKoD7GmsYBSfaHwgqdJTPPhLq5NT9UxdzgaMnflOYLSl8VgyWwo2uTJc6BTI+TPVPUrPr
+	 lArSMj1v0P/OJ/qPjKH7/Ynb4EsHSFEMkiM6qsLtvumrbCN/1MlnHFp+l/mRv4xaU4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794367515;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=UnfPNTEyGdrSdu3JoUeUrQc5Zj7OkIkLzkCv0h05PAk=;
-	b=RB0g+M2ldYtmFPAezF7QyuiWy/KaVNZfVRRWBBIo1/xL730quw2PbS7F+k9KARp/o+iL
-	 jDUbOsgJ0UPgBYShWhJ9YVyy7qblymG+/QmNhWMqE7vcpkSkYz8bxFRk4qAHDwqn+zJ0m
-	 Jp92RlXRcUudE1KT/pWUVBBBe00cnVPUA4HcjcHNVeS66V36aIHucELY9oVAlO9VbMJHJ
-	 r5iPknOFIXxrYtMDzbleOFkNFiUwngb7AB6kdoOUfl1nOBHPChZ+jpO+SCC76/grXoxA2
-	 b4Et58ILO2+UVilV3EGQrjG0HDX6IEYjojOGIpb1bJyhziG9glAQUCVsv4aZ4DzLi0w==
+	bh=jBqNg8YaqUI9WZo9AE3NoAPkuC9HFAC5U4xcc/pHndE=;
+	b=KFW/5nmB0yNTYVGN2jfTvPL4UHhVhPybetTfVMGikPa1nXYUylFSPiHrVV+1vbbJ5sID
+	 6Lz10ciAN9XmNhmqHJYwqQmp/FmOmxPXcYZ37q63VqRuzqXKGNbjjnQdjrnLSrhDgmFAt
+	 LtPo4LMva4/V+zhO3itCahGkKJ+foVn2Vw4ofPFQxGPaXWQ4qQyCA6DqqVm7Dws670nvF
+	 Ww0bH9i4/+Kb+QnELKU24avEo2SIIfi3vznZGF0pMZni1sWUA46kwvYavX1PPQS61QTS1
+	 fgTk4UtuXn6l6z0tP94LGqK31rgpToLvIyY2zWSKwPuzwiWwf/V8Z5RwbgcMmS/VyqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ag1wJB4D;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="h4Qwmw/x";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C65E60A2600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11D160A2608
 	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 03:25:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ag1wJB4D
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D81851F0089F;
-	Wed, 11 Nov 2026 03:25:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h4Qwmw/x
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 823691F0089F;
+	Wed, 11 Nov 2026 03:25:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794367515;
-	bh=UnfPNTEyGdrSdu3JoUeUrQc5Zj7OkIkLzkCv0h05PAk=;
+	bh=jBqNg8YaqUI9WZo9AE3NoAPkuC9HFAC5U4xcc/pHndE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Ag1wJB4DeVOHhIyKU1pt5rMSVEB/BVERx+y9jpTxSR9+9/QqgHYVumriigUmYU4Jz
-	 K7+1ou72g6GhgeqKnQWz4wGn6PmsDSV1kZicXkgBDiCgfpjxMvbJFFRz1G6uJRFkRW
-	 Y/du8nRlv9Duz3A4/V0tcWGNcCzzaY3b655b+deMAuJFc0hvzv46QiipkY1sCrQRUi
-	 5COPzyC3LmrWbxdx4OoELqqQJuYJA7oCZr0QTTkz4k4gJn463pg/1ShC5CwH9FyzKS
-	 QeU7MBeg4LdfAlwNsR/ezAdMUARX73pVxZ+bu96woWfc3JmYGqvayKS+wEDjsqvtMu
-	 9hFWlh2MA4X2w==
-Message-ID: <sashiko-outbox-208186@kernel.org>
+	b=h4Qwmw/xi0LhsoWBcXC1f+TJDg0j79wX529P7nX2cW4or3bjPwijZ35LguZW6TdsE
+	 drYIzyJhuKgd1MQ95sOzmQY7t1rTApdHqjEB2nVjsV0KYOCpWHZ5iNgr2EJL4ds4/G
+	 WZv+Yxr90MD/uIRiFYXwtOUS9vFhMtV0GHce3HZxEfW1il+a8AdpQJvpSWqOwahMsz
+	 n/ifU8GBbFe/VBQ63RTVcxCOPvSiWOaRx/xOisjD2bRlwZ2GQnN9ZPFwd8/lq8nfk0
+	 WpjmcEvsf7Yq1N3dOnXYEz0YvVRQY+uOwpe54ACxYHiyCeK/RPvmRwgfJlUeoM6fsc
+	 b9p2vj8XTNrAQ==
+Message-ID: <sashiko-outbox-208187@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v8 05/11] r8152: split r8156_init by generation
- and factor out wait_autoload_done
+Subject: Re: [PATCH net-next v8 06/11] r8152: add new init writes for
+ RTL8156/8156B/8157/8159
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Chih Kai Hsu" <hsu.chih.kai@realtek.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261110032416.16968-6-nic_swsd@realtek.com>
+In-Reply-To: <20261110032416.16968-7-nic_swsd@realtek.com>
 References: <20261110032416.16968-1-nic_swsd@realtek.com>
- <20261110032416.16968-6-nic_swsd@realtek.com>
+ <20261110032416.16968-7-nic_swsd@realtek.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 03:25:14 +0000
+Date: Wed, 11 Nov 2026 03:25:15 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,78 +61,34 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] r8152: uninitialized stack memory read via
-  read_poll_timeout() in wait_autoload_done()
---
+> Bring the per-generation init functions in line with the vendor init
+> sequence by adding writes the shared r8156_init() never performed.
+>=20
+> - Clear PREBOOT_OPTION and RMT_WAKE_EN in r8156_init() and
+>   r8157_init().
+>=20
+> - Add r8156b_u2phy_backup() for RTL8156B (VER_13/15).
+>=20
+> - Clear AUTO_SPEEDUP in r8157_init().
+>=20
+> - Disable interrupt mitigation (0xcf04) in r8157_init().
+>=20
+> - Clear the Warm RST / Bus RST event flag (0xcd06 BIT(11)) in
+>   r8157_init().
+>=20
+> - Clear the FW u1u2 patch option (0xb9a6 BIT(0)) and enable the u3phy
+>   patch backup (0xb9a2) for RTL8159 (VER_17) only.
+>=20
+> - Clear RX_END_TRANSFER_EN (0xd406 BIT(11)) for RTL8157 (VER_16), too.
+>   While it is set, incoming packets are buffered in the RX FIFO and
+>   Bulk-in transfers are suspended. The bit is zero by default and
+>   isn't used now. Clear it unconditionally for safety.
+>=20
+> Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 
-commit 0223d579ae41de9da02eeed7c11b0b17d1632cc5
-Author: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-
-r8152: split r8156_init by generation and factor out wait_autoload_done
-
-This commit splits r8156_init() into r8156_init() and r8157_init() by chip
-generation and factors the PLA_BOOT_CTRL polling loops into a shared
-wait_autoload_done() helper using read_poll_timeout().
-
-> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-> index 6f55aed4709e1..364a0573f6cd1 100644
-> --- a/drivers/net/usb/r8152.c
-> +++ b/drivers/net/usb/r8152.c
-> @@ -4177,6 +4177,23 @@ static u16 r8153_phy_status(struct r8152 *tp, u16 =
-desired)
->  	return data;
->  }
-> =20
-> +static int wait_autoload_done(struct r8152 *tp)
-> +{
-> +	u16 ocp_data;
-> +	int ret;
-> +
-> +	ret =3D read_poll_timeout(ocp_read_word, ocp_data,
-> +				test_bit(RTL8152_INACCESSIBLE, &tp->flags) ||
-> +				(ocp_data & AUTOLOAD_DONE),
-> +				20000, 10 * USEC_PER_SEC, false, tp,
-> +				MCU_TYPE_PLA, PLA_BOOT_CTRL);
-> +
-> +	if (ret)
-> +		dev_err(&tp->intf->dev, "autoload done timeout\n");
-> +
-> +	return test_bit(RTL8152_INACCESSIBLE, &tp->flags) ? -ENODEV : 0;
-> +}
-
-[Severity: Medium]
-As reported by Jakub Kicinski on v7 [1], does read_poll_timeout() cause
-ocp_read_word() to read and return uninitialized stack memory when
-RTL8152_INACCESSIBLE is set?
-
-read_poll_timeout() runs ocp_read_word() before evaluating the stop
-condition test_bit(RTL8152_INACCESSIBLE, &tp->flags).  When
-RTL8152_INACCESSIBLE is set (for instance if a USB transfer fails during the
-polling sleep, or in r8153b_ups_en() when the preceding ocp_read_word()
-fails and returns 0xffff), generic_ocp_read() returns -ENODEV immediately
-without initializing tmp, which ocp_read_word() then converts and returns by
-value:
-
-drivers/net/usb/r8152.c:ocp_read_word() {
-	...
-	generic_ocp_read(tp, index, sizeof(tmp), &tmp, type | byen);
-
-	data =3D __le32_to_cpu(tmp);
-	data >>=3D (shift * 8);
-	data &=3D 0xffff;
-
-	return (u16)data;
-}
-
-Returning an uninitialized value triggers a KMSAN uninit-value report, and
-if generic_ocp_read() instead fails with -ENOMEM in get_registers() without
-setting RTL8152_INACCESSIBLE, wait_autoload_done() also branches on the
-uninitialized ocp_data.
-
-[1] https://lore.kernel.org/r/20261021005210.1254886-1-kuba@kernel.org
+Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110032416.1696=
-8-1-nic_swsd@realtek.com?part=3D5
+8-1-nic_swsd@realtek.com?part=3D6
+
