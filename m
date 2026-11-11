@@ -1,80 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794393460;
-	b=cpEp1H/cTupSZhpsIvnP7HLsV7of+iyF2PIizMxFKp5gTbNqiPkXG4QNYaHNCc3iJbNl
-	 /ayYDjCmhDShSVuDiaWvxfmuf7AG3RoPd2rie0wIhknnlPL+W9e+A8D2t5u+rw1/lXtV1
-	 JgzDqaQGTl7SMFP9201mcseJJNPQzzN8LnqOrmByPIyIkscjWW+FMQVNP42fvAqJ0vVtA
-	 FmwcA0TGVHcSTCITvw1ASbUglo60H9fdlZLfwyCgnxEE361rUZFv/r7Gs116yt5LQPEWS
-	 hM+oXWaUOiOHVSOFTfQxCSbv56mOmyuXlJZNab23NvFKYydKCZWwCZKVc5XmJcIE9pg==
+	t=1794393464;
+	b=4tPHjGTOHGQKbUdr1okmNwMiUiQVDYX6iBbeNJeju5VN6b2nL2XU2D+AiEF7hyiZ73fa
+	 fDaWZXyhusjDFavzmJimfeDDbCqtk6oPolpJSHJ/tGaeo8BF+20gkumlMusPi5KhhmQhq
+	 UasbLPso1YuIZ2/4FX5IokR2uHcGAI/GiyE/wGncZPvGja2y6W57bqcC2NPB+9C5yaW5V
+	 jfehxJn0ZX2f3JoZwQ15aQ1fjCXfMNc+GKDRTDCF4+EXmSu2zTHNn99YKUV9jd0shAfx8
+	 r4858jrZ4PTZrNesc5ZB1zbxVKsXjYDAKxRY3P9PyZ0xRn+Y0vG/OFdmnJPE/L/FHdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794393460;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794393464;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=oOsEgmtZ69SxpFbETr57+D9pSIer3EWHG4MXYrOTcB4=;
-	b=tFCVhN8/OzLckNmapriLxePf+EYRjY2Q/Y9BGLCNgQJ/zwn05dFOlioka4kN9jZFMOPE
-	 VVlvpi2IJz+KtUCfw0MdoV38TJ6i1xKyBjS0VqsnxeowmQ9uElUFHXX5AuKUTg/10TKLK
-	 no7XbGvnxFfQsi0QuF5Nd71VIW1Sud5/g09u9OKfX+/8FnkhoMkODymttbT0tSkbXJ5tX
-	 dQ7xNXzjf8NZT0FsCBvcjx70FXMfoEAktyEMAttI2eoTmNdoN9RkjlKYlun+tE6cUuw2l
-	 8fBDi5mf0OAbVeFOAN+jLp+VetR8uXlQyQhlCRz0BW2lxjg/Kg+wkoc0UP2cbo8qwvg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=0qMWUwpenvvRooHCV912wT6twGzrEe+8/IZ/0k0HJCU=;
+	b=E3+mdDw8MPmcSfe0BS5rlwFU6PYwh5t+cv+r1FeK7LyZZJOUxYo6kCZwh9Oc8JMqNIcx
+	 nuG/UX0DszeTUH8Jtv6suqV1DlkFL8RhPskRuKHEag623Dx3P45eF0iauEJNDLC1SbDDf
+	 kocfozSZlCUklg7gH1rIH78yVFsfBN10hdYXzQCr33F5MPoLVkrYnwQHAjkcKRAs4DGlf
+	 4MZtkjGDwTQb0+T7nFIJzG8/YOn19V4VSBFreTsDmdRy3kX75C9LZKksufDiWLEz3b7dD
+	 Ky1BW0nTF+MTh5Czd86Hi9RkYPpITHORuY2Ulz/fPlQNiYlLMZIqv/MnhidY+z8CqtQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chromium.org;
 	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=IQrdNLmU;
-	arc=none smtp.remote-ip=74.125.82.54
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Qc8xrak4;
+	arc=none smtp.remote-ip=74.125.82.52
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F4C606A32D
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 10:37:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52F4C606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB91606A895
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 10:37:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DEB91606A895
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=IQrdNLmU
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1b3acec6677so4682229c88.1
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 02:37:40 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Qc8xrak4
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-15ea896ddc8so4696192c88.0
+        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 02:37:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1794393459; x=1794998259; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oOsEgmtZ69SxpFbETr57+D9pSIer3EWHG4MXYrOTcB4=;
-        b=IQrdNLmUkTb0QulDRJPXkTLdVZNJIHZmsCFZg8DmIwe8hOHt38+G1g4Gh8LFJ9XZgX
-         ckC1QGiDDqplvyYcReSFKBteQ1ervRy/byGtlQgUftKiu9gTWV2veG1eBb6ffpt0EYXv
-         4u7c+oCWTKeV9N4W56wNzW5TO0y3fmyAkqTK4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794393459; x=1794998259;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1794393463; x=1794998263; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oOsEgmtZ69SxpFbETr57+D9pSIer3EWHG4MXYrOTcB4=;
-        b=0NpTYX94aEigvGG9Hi7DUmbVEL96lVhuGQzu9x+ANjkZg+nT/Bi9BTE7KLd3+bpAxQ
-         CCAIhd0uhHUifNoC1p9Zdm95Z3WBMkiIv4EOknWPr+4W6o+jHLSNZn/9PdlYdVb+AMJY
-         utwjdVMGPqtcIScuwbZ+2wT3Yb7uF0gz8komaUltEkh0dCCvbAHcgKwB4esAfAuStLGI
-         HZySAa5vpsxMI51F48wsl0yh8SOhRGT7omcwgZHtGINPLklEEkEmN1rCpc0ZS551AKFU
-         vAnXb0EauwUpN5bPYP3wysuX8aa7H5Xar159O79y1mTxlMsDczF6aaeeBLhuDxmw8vEl
-         nHKw==
-X-Forwarded-Encrypted: i=1; AL+hErF9O9O6K7BvuJktuocOLTnIhPJi2ENALvUamSczJyIb34MQZxlemI5a8Rmjq+c3E5Pl+AqE7GNDTqk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z88+hBtom2Ick3kEdKHqTV5XDLBMFYTcEptkVM9NHEemiC6stnK
-	mCDMnc1q6tY2d6nMVkNK1il6sjunVaW+G+6eE0I0uuhbCJN2h+8lfwj6sZKGb8ufgg==
-X-Gm-Gg: AYBFou1tJFEnRqNWv4203EnvYFIy24x0SUilUTHXkcn0DyqrvXWeZmmBbecxf1KxgdV
-	A1ytrdvWUTKJFG8y0WQLR8nzNO1sO5wrqxBWgUuGgZtXXOLWVJ4Aq1n8DiQ7MdUChisTLdUPpVg
-	VuAx4fbOmU/h89Glty6jr2tc+3NIgJtAoCN9cg2jmnaI5DfOn0d6TBqglVaatfxOWcwCQgRb345
-	a2JJQBiw8zA3X2p6G7xU9uIx+aXp1vwKOxSMA7vkzBKJaFdkRp+mDuRgl6B+zq6kLk/T8iEzgcU
-	REy/80IQaLEDzuc4K9zqUW4Y2EaaIem/+l59ns0YQeGhsXwVFD9MCISXClWIZInABuQPGrY0i5K
-	CEvBDd8Muwpc1sqO1kWhh/WTaqNzzDIvAmCxfHKR7c3hxujbPhiq3UTqc3HwjnIeossE1pV9KDS
-	iKRg4v5nO94lalEQO8OzG1p1p6aBIxwpzkJToRzXV5NHWqYaqYnrelVAipROISiYdnIFnsvLeTF
-	WsnVZN5wxpwlqaYIYZB9RV00wLOLOayKtaseXqHbjqfuxSweUhOlMQ1T05PVzI2hoDRyTbvwc5Y
-	bM62ZKMre5SomxOaKFxcdYnqa17Kgby1CrmaGzPhMsxzS3cUCvZNsgUTseWEPp6UTfsEfScAPu0
-	I4fsuRnqJUlLFrGw0
-X-Received: by 2002:a05:7023:a4c:b0:19d:6484:869f with SMTP id a92af1059eb24-1b3c02fcd46mr1947792c88.7.1794393459210;
-        Wed, 11 Nov 2026 02:37:39 -0800 (PST)
+        bh=0qMWUwpenvvRooHCV912wT6twGzrEe+8/IZ/0k0HJCU=;
+        b=Qc8xrak4/32Gna3SdE8hXByhMXfk5ZZ39ef3KlM7LHsk/FC0f7Gjv11KdQfftmNbKi
+         ZtMFOwXoIgdUsue1L1z9jsQjczEeNfC+aru77qwkE0bRpriBwNJj/5HhYqznr8rtacKj
+         JcoVLxM3d59zgKMcBFHGHPpODNY+xk7Tqy/b4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794393463; x=1794998263;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0qMWUwpenvvRooHCV912wT6twGzrEe+8/IZ/0k0HJCU=;
+        b=s4kF5XkxbLQynKhgygghSlcyhpmsdJPIL1ifNyl7PgEeb8GWlOrmWfQ6ZEx1+zVyLq
+         Ez+gWeZ+QB9KVELYEQ7+gChQDHSdLbCIYl3Xlny/C5DLK5ArOX29mCuTessXLxb1Ddje
+         AlCVHLLHBFlSDMthGSTtwhPdeCO2iat5PyeVwA1xpXgN2pncdMNcvrEVDUo2rw+4RTSw
+         ztZrBncY8w79qHE0+RJXzuBcYPR3MYWVk4eeOY7rgcGeJRfH1WQaDkxrDp38PdojTdf8
+         SGGctu2jOL5TjzvZn4/odDekluywAlVrzWm+8aJ08WNkZlcj6q2wcOQNQjZcpqdXJRXc
+         7H6Q==
+X-Forwarded-Encrypted: i=1; AL+hErEsR08g45ebS21pHGHj/+6foSARFVng9YbazGubUqkEupAZvw00p8gja7Ki8m0ojU7u8+iiiI5u2DM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8jfPElKRK2kMt9U4GV5rvxOGX7VXPS+CsmupaIMC5+7oavaWgp
+	EK95XfKpT00/0k2WvYXZLJ1zEFFNn8I6CavhCl7VP3JGa+wUxRLrDBdIdY42oIVGzm0LhAqptuz
+	e510=
+X-Gm-Gg: AYBFou1DKm3+iVSdApHAPucQhVIB49nFURftByODGms3R/v1SKri0vO/bumK5R+0jtn
+	2IaRUc/X4MkaKC/kpnB9v5PXe7YNk8zlqcI8Zrh1UTV2z9NIK7jahfBecN/Q1XdKNExe73oYQKC
+	dltNHGKV/fHLIBKWI6oWPr+PnAnmEGB+RpvySc1xPOALysKWLTGZDJ7rOJ7CssO3IgSbGp7gFNQ
+	I54wc6njnpKA2mfC/WN6p2aIKkFpxXWMo8nRpPVRUzeHlbk1KIONJgi3GPnpIATXVbC3Qn5biZA
+	PIurKWfky3ZZ+pgZlsM/UOaFgvimlLHDTlMIKSBSsSKjx8GykgkSNbV5+/yDPh40ch6yojBjyaP
+	OXI/PLI7kz/U/6KX9qjpH63kDioZg4sGc3BzhGmqXAEVYOV0g3wJXKKBe23KNt/Cb2eaTQVm3Y6
+	smGzs/z18OYBRhKXBWZF+Kpnkh6XqlNa9MEHsd41kOWg+ZjetTC0kvIugFZ/qaM/wBcRvOSdLGR
+	In5bG2vSVhXME9WNiVpJMjE7Vdag/W/aPdIVARlV8e3IyXeZnxym0XSZ69PuLaRCzaFanY8q8bs
+	cwJ2o/tTw/u1yzpXtlHFXklpVKwr2KcXojEvc1KHUZO6ldq9koVBCEipBvshRuQFtzHACzDmhpc
+	qIldPEvNBtjau3rLTyLlhRxUtqLR6yE2Tsgf/Yg==
+X-Received: by 2002:a05:7022:c91:b0:143:2968:564c with SMTP id a92af1059eb24-1b3c0318478mr1829313c88.26.1794393462774;
+        Wed, 11 Nov 2026 02:37:42 -0800 (PST)
 Received: from fshao-cloudtop.c.googlers.com.com (61.14.81.34.bc.googleusercontent.com. [34.81.14.61])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5890e04sm14735194c88.2.2026.11.11.02.37.36
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5890e04sm14735194c88.2.2026.11.11.02.37.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 02:37:38 -0800 (PST)
+        Wed, 11 Nov 2026 02:37:42 -0800 (PST)
 From: Fei Shao <fshao@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Matthias Kaehlcke <mka@chromium.org>
@@ -85,10 +87,12 @@ Cc: Fei Shao <fshao@chromium.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH 0/2] usb: misc: onboard_usb_dev: Add Genesys Logic GL3525 hub support
-Date: Wed, 11 Nov 2026 18:36:11 +0800
-Message-ID: <20261111103710.1393311-1-fshao@chromium.org>
+Subject: [PATCH 1/2] dt-bindings: usb: Add Genesys Logic GL3525 hub controller
+Date: Wed, 11 Nov 2026 18:36:12 +0800
+Message-ID: <20261111103710.1393311-2-fshao@chromium.org>
 X-Mailer: git-send-email 2.56.0.542.g3ef89b7020-goog
+In-Reply-To: <20261111103710.1393311-1-fshao@chromium.org>
+References: <20261111103710.1393311-1-fshao@chromium.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -100,19 +104,38 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series adds DT binding and onboard_usb_dev driver support for the
-Genesys Logic GL3525 hub controller.
+Add USB 3.2 (usb5e3,629) and USB 2.0 (usb5e3,630) compatibles for the
+Genesys Logic GL3525 hub controller, which is powered by a 5V VDD supply
+like GL3523.
 
-
-Fei Shao (2):
-  dt-bindings: usb: Add Genesys Logic GL3525 hub controller
-  usb: misc: onboard_usb_dev: Add Genesys Logic GL3525 hub support
+Signed-off-by: Fei Shao <fshao@chromium.org>
+---
 
  Documentation/devicetree/bindings/usb/genesys,gl850g.yaml | 4 ++++
- drivers/usb/misc/onboard_usb_dev.c                        | 2 ++
- drivers/usb/misc/onboard_usb_dev.h                        | 2 ++
- 3 files changed, 8 insertions(+)
+ 1 file changed, 4 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
+index e8b8c03f87a0..5153a988a835 100644
+--- a/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
++++ b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
+@@ -17,6 +17,8 @@ properties:
+       - usb5e3,620
+       - usb5e3,625
+       - usb5e3,626
++      - usb5e3,629
++      - usb5e3,630
+ 
+   reg: true
+ 
+@@ -70,6 +72,8 @@ allOf:
+             enum:
+               - usb5e3,610
+               - usb5e3,620
++              - usb5e3,629
++              - usb5e3,630
+     then:
+       properties:
+         peer-hub: true
 -- 
 2.56.0.542.g3ef89b7020-goog
 
