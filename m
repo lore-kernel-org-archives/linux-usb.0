@@ -1,55 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794404560;
-	b=4ntJT/rokQs9u+m0JZLV0XMfBZD9Xd5vqZHxS7mosqmUq2XFL32TSQ+mn8MG6vQpTKnG
-	 LKAbeUg70tGLB8FUsWLWeLXfWTopRtku5VnuUjKcFFBnIENJBU8TfS8Qecb7lTQ6FA0hI
-	 EOmXcqlHaH1v1It37g5zJ4Fz/VNkWL8D0gq4XeihqraRzwGCPNRRe1/OyJuglqicrbrIW
-	 SuGf4Ke8cAzM55RIJj9iNRx+Uov63vuKL5omgIJK7ioI80FcxOahZQPBaT7d6UgJerwb8
-	 Jq3zKODgdirYbabRF2Qt0RO7yGaNbcLSeZdBHjmk8sGeao7RHOf6RAfgiqamib4onMg==
+	t=1794404672;
+	b=mz8RNCJki8yDZE6vNJoFSknSwNpxzeDKjqTZY50YeXOw1CnL5b4ncoldu2TqyqCcuprG
+	 e/wkqeUeq3oA9qMR0SePJlfR4EKz6AiBb9FmANuA5erbnALuVhH7SjkozNM03NCiCek/g
+	 4LlwaNm+3wZuHzE7Oe5GQdjqPYt7my4Zl2ReTCeLZTUMh69DlSEZAHFOKV4y3WLFDR1ty
+	 sD/MJPCjHiAIgMpzZlFEcVTyryZJ5/f4DvO6NajpXbSGzO7sfrWnKL1ebcd7z9A/zWJZ9
+	 +N4z5aeb7JyZMBcpJhevt1L3e+xBK/Yb5ZwV6G62oS7Cr1cowdSDotWLws8IDBXS7Hg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794404560;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794404672;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=7eSK4JQokF1Z+ta8uvEGtD+TiX1LlB0BjXUrxKgUmZs=;
-	b=U8iym08FKTzxEoXSvZXUfpmwJmAYElnDY/xkHsnyAGg1OS6TErxrq00nY5ztb2aen42h
-	 cSO0rNmZFqkziwZcDlx1FoRTXonIO7JWsqFj8LLiv3KhAADf+tFRRCqJ56GFLl4BA00KY
-	 Ta+mXO/6Sppo71Dy+A2a8dFvcIcgqxhJ83CI2ymB+IwhmwKoH8nNGE/kUyYwrfnhzMMYg
-	 YJ4BiyTZ7+14nyG3Ap6PpLK7sHsndjPt3691PMLIy1KvLPzSNsiX8fSJmPpfiKzNtQK43
-	 CY0v/fZfHUfvJD+b7kmkD6EkUxNxEyGiTjKViG2Cs2ig+zDRlflc/WAMp8f3M3M3kFA==
+	bh=+TBhAwKXawCIwwvzYW4YqyE1PZDfdZwtHJmYHJ8fFMY=;
+	b=XEWr59PJjfhwTqEcntAooHlYcYfb7fzlmmv9AZ+tyon/3ZE3XvDAzlCYZGCtHVGfQb8l
+	 fnfv+YMjjIhU3RN7yuDc8AI+SHMXkvuJTzlzEmQJmX7zJoajAOaG6QCp/UvE4VIlnjyak
+	 Nfdy6dmsoMPOv6eTyvX4zP+6ad7Pi9bKp95xSE0gSfMTHEJAyzDggYN6e5Ay2bMC52PeE
+	 C/2EmBMkuBTWq0x0JVkSpp4DNQVZd/Vib76kkZwMfWWxnjHHLPj6O2iyZQgurGlPlA/Tu
+	 vMiajwnvPNSmxIyxViWW2780ifllqd+X+J/zkng9LFSkRsrv61NBtyxktjSf583ZVbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Iv2bnNnp;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SZuof2ox;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EEF606A321
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 13:42:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C76606A330
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 13:44:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Iv2bnNnp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D87BA1F00A05;
-	Wed, 11 Nov 2026 13:42:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SZuof2ox
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 615031F00A05;
+	Wed, 11 Nov 2026 13:44:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794404560;
-	bh=7eSK4JQokF1Z+ta8uvEGtD+TiX1LlB0BjXUrxKgUmZs=;
+	s=k20260515; t=1794404672;
+	bh=+TBhAwKXawCIwwvzYW4YqyE1PZDfdZwtHJmYHJ8fFMY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Iv2bnNnpHVNVT7DEIQeaVoq/Gg4yY+YifH2OgeXUymx+1KRJ+rIl1vxWwMGL8rrVG
-	 rb4oasZBL3Azd6sldPOuvUziaWrIgOIJ2ALLiQsmnoqdI1oIpiDlhIo8FHAciKI/Z8
-	 jkYYIfY81/aFaT0rZJ1lxGHA1BPRnfUdacUFBztXvO4uPFaU4x0HwmzwZGOG4MOwIl
-	 VrXQrYHaszHk4jI30myd8q3ejFX93VDZv0uqeL3GkDxrshbRJsZ95MQiRGd5158BmA
-	 HiD/hDZdNPAqv1ZHYLBbSuyMxJeJqowUYkOcZFF9hNfQ3U6zT59HOosSE6aQY6U2uk
-	 bI/ujykwBfbAw==
-Message-ID: <sashiko-outbox-209083@kernel.org>
+	b=SZuof2ox3ZzLmqhXOc1RuNdljLSUR/CXMe1fTe9UrwU7SjKesRPSwScvcK3oEGNr5
+	 mo7xzpYIVZQf7sTH9a73TzcnjyEtAbU8A2NL3ZxKVTHkQLAH9YUAKKrR4KTL5PlI1s
+	 oSsD7lX3E5MWBtf/hSqoJoXaLlbGGxdab4lVl6/F6JDE8ICLlFgXjfq9C5UqiIsXWQ
+	 c8M9n3J7vPKwByj4NHGW+tmeLUdy+BSq0+v5ClXcgVfzicyuaxHWx1m5NEkr+QnXZC
+	 PBSGgXDIrO7AUjyDmXFW2EFzk9xMpDXPYp7gQ1xDlPz56QKWpafP9Rsa2/7JMAxatQ
+	 LxjDlxvsVPeHA==
+Message-ID: <sashiko-outbox-209085@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1] usb: cdns3: Fix WA2 request UAF on endpoint disable
+Subject: Re: [PATCH] thunderbolt: Enable runtime PM for the Ice Lake router
+ with the software CM
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jaeyeong Lee" <lee@jaeyeong.cc>
+To: "Andre Eikmeyer" <dev@deq.rocks>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261111132346.9262-1-lee@jaeyeong.cc>
-References: <20261111132346.9262-1-lee@jaeyeong.cc>
+In-Reply-To: <20261111130851.62101-1-dev@deq.rocks>
+References: <20261111130851.62101-1-dev@deq.rocks>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 13:42:39 +0000
+Date: Wed, 11 Nov 2026 13:44:32 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,51 +60,88 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] usb: cdns3: missing DMA unmap for deferred WA2 requests in
-  cdns3_gadget_ep_disable()
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] thunderbolt: root switch skipped in tb_lc_set_wake() and lane
+  init on ICL
+- [High] thunderbolt: missing DL_FLAG_RPM_ACTIVE in add_link() suspends
+  active PCIe
 --
 
-commit 15008f28246eb4c2cca9af667c3695fb8684956a
-Author: Jaeyeong Lee <lee@jaeyeong.cc>
+commit 7b8fe879e2da1e2a2041c441ee239114a6aec29b
+Author: Andre Eikmeyer <dev@deq.rocks>
 
-usb: cdns3: Fix WA2 request UAF on endpoint disable
+thunderbolt: Enable runtime PM for the Ice Lake router with the software CM
 
-This commit initializes priv_req->request.list when adding an internal WA2
-request to wa2_descmiss_req_list and removes it during
-cdns3_gadget_ep_disable() before freeing the request.
+This commit adds tb_switch_is_ice_lake() and enables software connection
+manager runtime PM on the Ice Lake host router.
 
-> diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-g=
-adget.c
-> index 380c4fde8298e..770fbeee53484 100644
-> --- a/drivers/usb/cdns3/cdns3-gadget.c
-> +++ b/drivers/usb/cdns3/cdns3-gadget.c
+> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+> index 418ad0a61a5de..139ef49b49e5c 100644
+> --- a/drivers/thunderbolt/tb.c
+> +++ b/drivers/thunderbolt/tb.c
+> @@ -3044,8 +3044,9 @@ static int tb_start(struct tb *tb, bool reset)
+>  	 * implement the necessary router operations.
+>  	 */
+>  	tb->root_switch->no_nvm_upgrade =3D !tb_switch_is_usb4(tb->root_switch);
+> -	/* All USB4 routers support runtime PM */
+> -	tb->root_switch->rpm =3D tb_switch_is_usb4(tb->root_switch);
+> +	/* All USB4 routers support runtime PM. Ice Lake also supports RTD3 */
+> +	tb->root_switch->rpm =3D tb_switch_is_usb4(tb->root_switch) ||
+> +			       tb_switch_is_ice_lake(tb->root_switch);
 
-[ ... ]
+[Severity: High]
+Does enabling runtime PM on the Ice Lake root switch put its link
+controllers to sleep without configuring wakeups or restarting lane
+initialization on resume?
 
-> @@ -2547,6 +2549,7 @@ static int cdns3_gadget_ep_disable(struct usb_ep *e=
-p)
->  	while (!list_empty(&priv_ep->wa2_descmiss_req_list)) {
->  		priv_req =3D cdns3_next_priv_request(&priv_ep->wa2_descmiss_req_list);
->  		list_del_init(&priv_req->list);
-> +		list_del_init(&priv_req->request.list);
-> =20
->  		kfree(priv_req->request.buf);
->  		cdns3_gadget_ep_free_request(&priv_ep->endpoint,
+Ice Lake is a generation 3 (non-USB4) router, so tb_switch_suspend() uses
+the link controller path: it disables plug events, calls
+tb_switch_set_wake() -> tb_lc_set_wake(), and then calls tb_lc_set_sleep()
+to set TB_LC_SX_CTRL_SLP on each link controller.  However, tb_lc_set_wake()
+bails out on the root switch:
 
-[Severity: Medium]
-Does this free priv_req->request.buf while it is still mapped for DMA when
-an internal WA2 request is on priv_ep->deferred_req_list?
+drivers/thunderbolt/lc.c:tb_lc_set_wake() {
+	if (sw->generation < 2)
+		return 0;
 
-__cdns3_gadget_ep_queue() calls usb_gadget_map_request_by_dev() before
-adding priv_req->request.list to priv_ep->deferred_req_list.  Requests on
-priv_ep->pending_req_list are unmapped by cdns3_gadget_giveback() in the
-preceding loop, but unlinking priv_req->request.list here removes a
-deferred WA2 request before the deferred_req_list giveback loop runs,
-leaking the DMA mapping and triggering a DMA-API warning when
-priv_req->request.buf is freed.
+	if (!tb_route(sw))
+		return 0;
+    ...
+}
+
+When a connected device is runtime-suspended, icl_nhi_suspend() keeps force
+power on and leaves the root switch in link controller sleep with no wake
+bits (WOC, WOD, WOU4, WOP, WODPC, WODPD) programmed.  On runtime resume,
+tb_runtime_resume() -> tb_switch_resume() -> tb_port_resume() ->
+tb_lc_start_lane_initialization() also returns early on !tb_route(sw)
+instead of asserting TB_LC_SX_CTRL_SLI on disconnected downstream lane
+adapters.
+
+[Severity: High]
+Can enabling runtime PM on Ice Lake allow nhi->dev and the root switch to
+runtime-suspend while a tunneled PCIe root port is still active?
+
+On Apple Ice Lake systems, nhi_select_cm() creates the runtime PM device
+links to the tunneled PCIe root ports through icl_nhi_add_links() ->
+add_link() rather than tb_acpi_add_links():
+
+drivers/thunderbolt/pci.c:add_link() {
+	link =3D device_link_add(&pdev->dev, nhi->dev,
+			       DL_FLAG_AUTOREMOVE_SUPPLIER |
+			       DL_FLAG_PM_RUNTIME);
+    ...
+}
+
+Unlike tb_acpi_add_link(), which was updated in f3380cac0c0b ("thunderbolt:
+Runtime PM activate both ends of the device link") to wrap device_link_add()
+with pm_runtime_get_sync(&pdev->dev), DL_FLAG_RPM_ACTIVE, and
+pm_runtime_put(&pdev->dev), add_link() does not pass DL_FLAG_RPM_ACTIVE.
+When a PCIe tunnel is already up at boot and the consumer PCIe root port is
+already runtime-active when add_link() runs, nhi->dev's runtime PM usage
+count is not incremented, allowing the Thunderbolt domain and root switch to
+autosuspend underneath the active PCIe tunnel.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111132346.9262=
--1-lee@jaeyeong.cc?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111130851.6210=
+1-1-dev@deq.rocks?part=3D1
