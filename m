@@ -1,85 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.51
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794412824;
-	b=mmPEvY5bSlppcJqR2Xm5vQzttvJW6XENlpUYaID2qpcV8C0L50fpC9hxWecEc3WKdu4E
-	 f7pCmukKKO2Hcg5S/wqHunHThE2xPPE5kD9RAARcxWG3ShHTMi9xCVqtgSbwr3nuMZc2U
-	 +0rUoaYaSyUzAW0Xz0v31S37lqnPxfI1ccDXGnv2TBsZXZUuLa/CPVRHOBNc0r7oNwUgg
-	 jtKgGG0nPOOjx0Si+Nr+lHW4GT7EJoyyfWN4cFpU7M/rKSOORkQl12ygktIW6v1rjRoAq
-	 Be2wWJP3fQrKOTzqDsNy/5R/FCEoPiNf5dlBqOGbCUGPAwcs/lVxwViq/M+jtPuZP6g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794412824;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794414147;
+	b=HrUqHqK3BN8Dxq+CjO/X8ps1tl3SFYA//qRBBg6L9bHQJDsawYR3hmkjKHVCoH4DfI3I
+	 MqUhYCAWNL7X/JIksabnucJi80sFCB3YAcGn1qm29+ryStuqKbmBaCY7etc09zgegrmg/
+	 nZ82sAgeJ9yvi+4cZ0tslihFLSSdGKZ6JNGCktsYfBY+HBXbZh000Yxuhj3z/Up754J2u
+	 nMV8HXGX0dbOIu94M26CD7nfsc1GGPGOVIzu7Qu/WYQnSfA0zIkBNayWh2n1qJfZb2+fj
+	 ocRY0aSCAx4HGRILJ5sYJCLKtZuTqZXFRvsdb2YB8tC25pyv1Vrc3Yu+BZLN9i9rhWA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794414147;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=q8mOpRnf+Di73N3yU2eDEU0GPveFfttiuju/Wh/wS8w=;
+	b=pqI7wPpVJxSsaru6iQzV3+EXLTqw5a+wN4De7yH7Zr8yEtxgp+/Z9Av6mt8m93eu4Gi7
+	 Zh5LlN59c3/eWU0F1pi3Ywwa+NXyHZqn6jXADUC+pvO26G4KD15l1VB44MZ5HVwAWWdUX
+	 imgjZqgUpamT2g20aa57Rd6xHZjfFYtglL51CqlAmR+jQBNZV7VCHsyBdfBsLMiT1pgyK
+	 OfFnxr2GRNOt4RJX+crIq+LM9f0TV5gKuDChjhpEdlsfyRmp6+/OQN35LTcONvO8oZfyI
+	 eaAon/WUGsWRvHnHBQCsZUnk7R0vNIHAIC0rRP1JNSSEEaEpTvNqRW6QkpEcIyjjdbw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HukQX5kZ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A31E606A32A;
+	Wed, 11 Nov 2026 16:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HukQX5kZ
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794414147;
+	b=wYwlAyyARqfvEsVdiqYU2G+yd4Ntvwv/6F9gGI/la3liVvhwTEf3GveWBOJVvNn46x7g
+	 g544yRo1rkI4KKclBkvSRWzL8DQer8rKo7KIPgr4Ojpf3gS04OtiTfQwNp1a/+XR//6r1
+	 g+DhJ+5BXuxdhLQiASekkq3B6OFtv3orwvvbo3Oz4kK1EXDOLJE3S/xB3gDfuSfNh1GgX
+	 05m3Z5s0LLn+oS8kfyJ9a0PVgNeWAh2cV1CL5LEyDOGsgPik/+mBnwv4wD32e513JVM7K
+	 DbLQ2WtBf6ntR5cJqFSsLxZkaqA3J2tl8xa9e9TeGfAknjSy4i/RSWurCT8Gn5tTAWg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794414147;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
 	 Content-Transfer-Encoding;
-	bh=r3PeQNY0DfEO2GjO5oRC5P+QTt5goOUxQY7pwUgYFM0=;
-	b=Gcq8dX4ntKNOlyYUowpScYsf6pW0MAxDy7HC3wq0KO/e1ZRo+u6xMYPTndqkvfYpQSdE
-	 +SszWpU0PXycHPgQ7EB2d7di9y8y1aspCK3MgUHlCaRGVzKME0LFpigqTxBqRP45IKlw4
-	 bB64ivlkB9k8UVgohQ70sXYXWubwuaWy4yeC1ZAmFGNE4dqdwnqJxV7NEp0FU9nfq44js
-	 v/4hScOqKLabpc73znV9IS6yyUR841ZXOXkpPjQ3sX6ASrECWy0qSu4f1eszzVQJLJLrY
-	 Q702fA+SJOmlSx7XaZ+SpgAijyTitK7WhEeofm0/ELj/Bw7fGDyhwFibhbRzA5r2wkQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linuxfoundation.org;
-	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=KYdQsLwF;
-	arc=none smtp.remote-ip=209.85.161.51
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	bh=q8mOpRnf+Di73N3yU2eDEU0GPveFfttiuju/Wh/wS8w=;
+	b=wO5LFu6haaOahJAHlJAHjn1vQSKYcXNOTySl4kemQaLFzt4KV0Jr/p4u6qIvN3oixRll
+	 3EK0vkO+X2RVvprvsPUZi+SlnPSxr3nvM+z85BZfN4TnvwOhaNs1raybY5gYkp5dN6z75
+	 Jkez4A8uHZIkIfi8EFl9H5xWTg/ptmfPJMGlNTqiC7/QIQBbVATJ7w843bkZ9DDdNgfVT
+	 Uvyf+C353qjt4RAYlWqkIdyaj8XQSsjE1oVrWLLc3YOS0kpy2K/x6CWF+vJA9PvarbdVD
+	 NypQnptO0hpOEExRRwGT9dzSoTYlEgbrdAedNj5+5F1Mcz/86l+zOaDfoDYv5BZkxkQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07742606A321
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 16:00:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07742606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=KYdQsLwF
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-702dedeb70dso1763141eaf.1
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 08:00:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1794412822; x=1795017622; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=r3PeQNY0DfEO2GjO5oRC5P+QTt5goOUxQY7pwUgYFM0=;
-        b=KYdQsLwF3lUuhJ6ty5RYTwjolw/TuaksX9yO0x7jCvIXn8xWUTsdNONDuqveeHYfuc
-         FPaK9IVRnQ0EcLzyY47lDvi5CiOangS0CpbTDsfpbDtMhpNj5U946kcvCUFmept7mVlQ
-         57sw6Awm+OdVYF/sS5tnoRVFLVYbMZMCQgxRQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794412822; x=1795017622;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=r3PeQNY0DfEO2GjO5oRC5P+QTt5goOUxQY7pwUgYFM0=;
-        b=SfJvHeLO6Y4u5rk4dw6K9I45l3dYRJeuRn4v47lMKnvbX59hQNFL8TIPn5coLx0AWs
-         QGsLgFn0zXJwscsyrtOUdV8xwPeWEsmeEx2NAXvbZdVkftfezE0ceOxm8sOaFLMVLoK2
-         yueLPRR94yjEKEEAvrfKXKfbXG/+wcKbO0/a+09dky1Ix1M2WGblIERzCY/j27T891U9
-         wHDVL8DmFf8R7MG7T9/v6Dbqn9UCruW8Z1TbR5pgG0HWpIveRTW3NCLUy9uz2VRRmI9l
-         VMSWLjNWzoE31r/yeDf0dziiXgLw6eEB3NVAERlysxusG+rcimxPhgWphjtNniHj8qYV
-         dpqA==
-X-Forwarded-Encrypted: i=1; AL+hErEOmA28+t9/DlRy4pSAQty0ldfI2psEdWo8DhOBQB+UpqBGg46DAR7Pd40lFl1DNe6iF5a6RsASWdo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8j6Y96tLV+5Tf3XSjps61+4CHQ/ZVUClKo5js7OF+cj46X7cng
-	RfE4jCpcZH3qt6XGhUTTvgryHHWY5ez035IsInW5wEux7TxfbRkDX+2nqncMu/11nvw=
-X-Gm-Gg: AYBFou3qS8EZ0Pjfq8ujCZXRaRKxDKNZQh3FuE+iE3w3VlcHM6pnYCEvvz/npy+wlsq
-	joJ/GdGdeZbvdHAtO172P882Yw+g7IGSxa8egcHoNuvCiyCJ3QK2zJ+alCSuAfp0zjMvkAuArzt
-	IiXHbrC0pKN9bC08lQfbv1/JUJ1B2gDMTpZeZAQBAQJSXomhdHvqm5tbuqissBQHED3d5B8Xng/
-	KLldCrEMl2yhNFrajpdQC0tyBFrAFjoIv/bh/CtIRzHSfmj9vhkXOz74Dnni8k1YYX1OdFMsOZJ
-	gcHjnugF59XJXHt8NnKrkykva+JibIucqzlEhGJLZCBEj03HCajJs0+tWGUJQyJWJJxeyDW8SgF
-	FEpqvXWGLlZ+PuUHNcF2NINkt27SKuT8U2KIc/vsliBZ8gIBNMs6WVtnw/T/VJwbwBZ5y3P2GKB
-	6mcnQqukDeNcebZwdp18A4aZsLz4PG8miwRuhWB5qV8jNlknM8VgtvKl5juKWxkmdzg24KXDIZn
-	a1FGX4fv8sxCy+bgfezVgjrjC8IWPjZuvBpqyhmTQbxiYEmuQSj0j3dgLDg3I5WGJnu5eeB98XC
-	u9Ax/Q2SF+VZIR65mraPKhaBTWXz/Cf/p6/iSnwfyE0etx9UEgQDslcGXmI=
-X-Received: by 2002:a05:6820:82b:b0:717:da:ba22 with SMTP id 006d021491bc7-71925f79c3emr233818eaf.89.1794412821742;
-        Wed, 11 Nov 2026 08:00:21 -0800 (PST)
-Received: from [192.168.1.128] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4ae2302d8a0sm3334206fac.12.2026.11.11.08.00.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2026 08:00:21 -0800 (PST)
-Message-ID: <89461e8e-68e0-44ad-8e75-57797886198d@linuxfoundation.org>
-Date: Wed, 11 Nov 2026 09:00:19 -0700
+	by smtp.kernel.org (Postfix) with ESMTPS id 9E1411F00A05;
+	Wed, 11 Nov 2026 16:22:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794414147;
+	bh=q8mOpRnf+Di73N3yU2eDEU0GPveFfttiuju/Wh/wS8w=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=HukQX5kZVzKv62Uw4vbqoKlv+mT0ZtoCTZW8Mrn9LU+fuONL2rgbvXY+KS8Fjp672
+	 hpvtNVPyAEc5XeMiGtHdM4O9pWk/e2mm/Uf4vUJNum0/Qiav8YOJ8vQZ+ze3ln1gO/
+	 YrrdnzvAkj+61G1WDjk/w02FLqq4MpcMV9ddecgJ7/E4JraZPC16t6X8ySszwjG5MD
+	 Z2BgOYi+uKohTM79INMyYGTwnkjBndmqujq8PdWIfRtJEHomb8wcKg+dlfwge+wc59
+	 xLsEYrT0ZRT0jreXOcucvqbXgAQtmfKwJLtYe3fYopliWXFWn/lSfA8REYNVVZr+Ut
+	 bq74+OqcPdPhA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id F269749025;
+	Wed, 11 Nov 2026 16:22:25 +0000 (UTC)
+From: Joas Antonio dos Santos via B4 Relay <devnull+joasantonio108.gmail.com@kernel.org>
+Date: Wed, 11 Nov 2026 16:22:26 +0000
+Subject: [PATCH net v2] net: usb: smsc75xx: reject frames without a full
+ header and FCS
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -89,100 +83,106 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usbip: vhci: do not give back URBs with an unchecked
- actual_length
-To: Vlatko Kosturjak <kost@linux.hr>,
- Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan
- <shuah@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hongren Zheng <i@zenithal.me>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <aurLXADfuLjs-dm-@griffin.linux.hr>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <aurLXADfuLjs-dm-@griffin.linux.hr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261111-smsc75xx-rx-fcs-v2-1-216a5f26842a@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAEGW9GoC/3WNvQ7CMBCDX6W6maBeKCUw8R6oQ0ku7Un0R7kqC
+ qr67kTZGTx8tmzvIBSYBB7VDoEiCy9zBn2qwI79PJBilxl0rVtErJVMYm/XlFRIylvJ6u+tcR6
+ dJcitNZDnVBZfMNMGXTZHlm0J3/ISsUR/ByMqVA3VjXl7q42/PIep58/ZLhN0x3H8AOCp+x+zA
+ AAA
+To: steve.glendinning@shawell.net, andrew+netdev@lunn.ch, 
+ davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, 
+ pabeni@redhat.com, joasantonio108@gmail.com
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794414145; l=3049;
+ i=joasantonio108@gmail.com; s=20261031; h=from:subject:message-id;
+ bh=UakfyXge5Z7dCorT5L2tCidbQJeCZJFs6IXcWJSAcH0=;
+ b=X3LdGQ0gmxyYqtbCxoFYV/DavCK6B5PoaonNbH+/qj6xL6UcK7taMtAk6ZVCvgO6LnrJkQk1K
+ DShzMr0btrABu3f+q47WR8v7Vh5Qo+iUn+I5TZWfi4bCr6YBhITayeo
+X-Developer-Key: i=joasantonio108@gmail.com; a=ed25519;
+ pk=ZxAznJT/FcPPdzLrDDFJQm4LLjjHVGBBqDSG3TXS23w=
+X-Endpoint-Received: by B4 Relay for joasantonio108@gmail.com/20261031 with
+ auth_id=1371
+X-Original-From: Joas Antonio dos Santos <joasantonio108@gmail.com>
+Reply-To: joasantonio108@gmail.com
 Content-Transfer-Encoding: 7bit
 
-On 11/3/26 23:06, Vlatko Kosturjak wrote:
-> vhci_recv_ret_submit() copies actual_length from the RET_SUBMIT header
-> into the URB before usbip_recv_xbuff() checks it. When the server reports
-> more data than the URB's transfer buffer holds, usbip_recv_xbuff() rejects
-> the reply and shuts the connection down, but the URB is still given back
-> with the oversized actual_length (and status -EPROTO).
-> 
-> Completion handlers trust actual_length. usbfs copies that many bytes from
-> the transfer buffer to user space in copy_urb_data_to_user(), whatever the
-> URB status, so the kernel reads past the kmalloc()ed buffer. With
-> CONFIG_HARDENED_USERCOPY this is a BUG in the context of the process
-> reaping the URB:
-> 
->    usb 1-1: recv xbuf, 0
->    usercopy: Kernel memory exposure attempt detected from SLUB object 'kmalloc-rnd-05-16' (offset 0, size 22)!
->    kernel BUG at mm/usercopy.c:102!
->    RIP: 0010:usercopy_abort+0x6c/0x80
->    Call Trace:
->     copy_urb_data_to_user+0x122/0x160
->     processcompl+0xe3/0x160
->     usbdev_do_ioctl+0x14d/0x1900
-> 
-> Without it, the adjacent heap contents are copied to user space.
-> 
-> This was hit with a buggy user-space USB/IP device implementation (it
-> answered an IN URB with more data than requested) while pcscd read from
-> the device; any server, buggy or malicious, can trigger it.
-> 
-> Do not trust actual_length when the transfer buffer could not be
-> received: give the URB back with actual_length 0. A short read leaves the
-> buffer partly unfilled too, so this covers both failure cases.
-> 
-> Fixes: b348d7dddb6c ("USB: usbip: fix potential out-of-bounds write")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Vlatko Kosturjak <kost@linux.hr>
-> ---
-> Tested on host 7.0 (Ubuntu 7.0.0-34-generic) in QEMU with a small reproducer: a
-> user-space program that attaches a fake device to vhci_hcd through a Unix
-> socketpair (no network or usbip tools needed), answers a 16-byte bulk IN
-> URB with actual_length 22, and reaps the URB through usbfs:
-> 
->    unpatched, CONFIG_HARDENED_USERCOPY=y:  the BUG above
->    unpatched, hardened_usercopy=off:       reaped actual_length 22 for a 16-byte
->                                            buffer; with 200 extra bytes, 200 bytes
->                                            of adjacent heap reach user space
->    patched:                                reaped status -EPROTO, actual_length 0
-> 
-> The vhci_rx.c hunk is the same in v7.0 and in mainline. Happy to send the
-> reproducer (about 300 lines of C plus a QEMU script) if useful.
-> 
-> The 2026 hardening of RET_SUBMIT (number_of_packets, iso frame lengths)
-> does not cover this path; it is the non-isochronous actual_length.
-> 
->   drivers/usb/usbip/vhci_rx.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/usb/usbip/vhci_rx.c b/drivers/usb/usbip/vhci_rx.c
-> index a678e7c89..720dafa72 100644
-> --- a/drivers/usb/usbip/vhci_rx.c
-> +++ b/drivers/usb/usbip/vhci_rx.c
-> @@ -78,6 +78,14 @@ static void vhci_recv_ret_submit(struct vhci_device *vdev,
->   
->   	/* recv transfer buffer */
->   	if (usbip_recv_xbuff(ud, urb) < 0) {
-> +		/*
-> +		 * The transfer buffer was not filled: either a short read or
-> +		 * an actual_length larger than transfer_buffer_length, which
-> +		 * usbip_recv_xbuff() rejects. Do not give the URB back with
-> +		 * that actual_length: completion handlers trust it, e.g.
-> +		 * usbfs copies actual_length bytes out of transfer_buffer.
-> +		 */
-> +		urb->actual_length = 0;
->   		urb->status = -EPROTO;
->   		goto error;
->   	}
+From: Joas Antonio dos Santos <joasantonio108@gmail.com>
 
-Greg, please pick this up.
+smsc75xx_rx_fixup() takes the frame length from the RX command word
+supplied by the device and strips the FCS by using "size - 4" for the
+allocation, skb_put() and memcpy() of each frame that is not the last
+one in the URB.  The length is only checked against an upper bound and
+against skb->len, so a device can report a length field of 2..5, which
+gives a size of 0..3 after RXW_PADDING is subtracted.
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+size is a u32, so "size - 4" then wraps to 0xfffffffc..0xffffffff.
+__netdev_alloc_skb() adds NET_SKB_PAD to the unsigned length, which
+wraps back to a small value and the allocation succeeds.  skb_put()
+adds the length to the 32-bit skb->tail and skb->len, which also wrap,
+so the skb_over_panic() check does not fire.  The following memcpy()
+then tries to copy almost 4 GiB from the URB buffer into that small
+allocation and writes far beyond it.
 
-thanks,
--- Shuah
+A malicious or malfunctioning USB device can use this to corrupt
+kernel memory or crash the machine.
+
+A frame that holds an FCS but less than an Ethernet header is not
+valid either.  usbnet drops it when it is the last frame in the URB,
+but the other frames go straight to usbnet_skb_return(), where
+eth_type_trans() reads an Ethernet header that was never copied into
+the new skb.
+
+Reject frames that are too short to hold an Ethernet header and an
+FCS, which covers both cases with one check.
+
+Found by LLM-assisted source review.
+
+Fixes: 1b3b2d9e772b ("net: usb: smsc75xx: stop lying about skb->truesize")
+Cc: stable@vger.kernel.org
+Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
+---
+This issue was found with the help of an LLM-based code review tool
+(Claude).  I checked the code paths by hand against v7.4-rc3 and
+reviewed the fix myself.  It is build-tested only (W=1, arm64); I do
+not have the hardware to test it at runtime.
+---
+Changes in v2:
+- Also reject frames too short for an Ethernet header, combined with
+  the FCS check into a single test (review feedback on v1).
+- Subject changed accordingly; it was "net: usb: smsc75xx: reject
+  frames shorter than the FCS".
+- Link to v1: https://lore.kernel.org/r/20261110-smsc75xx-rx-fcs-v1-1-4e048bfc28f3@gmail.com
+---
+ drivers/net/usb/smsc75xx.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/net/usb/smsc75xx.c b/drivers/net/usb/smsc75xx.c
+index 6f72a3f15907..893de273adef 100644
+--- a/drivers/net/usb/smsc75xx.c
++++ b/drivers/net/usb/smsc75xx.c
+@@ -2217,6 +2217,13 @@ static int smsc75xx_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+ 				return 0;
+ 			}
+ 
++			if (unlikely(size < ETH_HLEN + ETH_FCS_LEN)) {
++				netif_dbg(dev, rx_err, dev->net,
++					  "size err rx_cmd_a=0x%08x\n",
++					  rx_cmd_a);
++				return 0;
++			}
++
+ 			/* last frame in this batch */
+ 			if (skb->len == size) {
+ 				smsc75xx_rx_csum_offload(dev, skb, rx_cmd_a,
+
+---
+base-commit: b3dfbde62cf1981c4638939c159dfd087b7a72e9
+change-id: 20261110-smsc75xx-rx-fcs-fca968df1dce
+
+Best regards,
+-- 
+Joas Antonio dos Santos <joasantonio108@gmail.com>
+
+
