@@ -1,91 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794364354;
-	b=LGDRa8AxpuRqx4Yu/CN8mAL69DE6a7F9zIKYgpAsY0f/J77XrH3pSwIvecvB4DZuXhtJ
-	 JDQXWVRK4pDdOrhPQjOJHhFFsGOOhcGZSko5MGh9V31HXTBiUiYTsn3O4QJuHYrO/6fdH
-	 2sZtsuk1d/xgk4qnAGEAYw4062JM0ef7vHnSWbeViLOpSEm8btTgHoQcMloWjYbUaLgCl
-	 nq3iy9PbpdBxpzx+QCA2t2M/gHhuMjk1YXVeydYJmu2LwypZ8QVS8eoAnUbIw2q3hHkDQ
-	 L3xkepTnYQ6L7bfI0oHk9Qrurf2DvRH79qw73kOjSHEa1xitNPBJY55Ka6TPSDeOHnQ==
+	t=1794364530;
+	b=BirRSoKxwmuynhzVPWG/kRKp7tsZP4SRdtp6qHT3QAJgLkUA/MVwTw2kFWBAHMX9fVRA
+	 mIexJM3qEuc43Ka0gtK0WcZ+ayYycpgMBnTGsBqQgk15rhhArEtW3UL2thHINdtqUp/vx
+	 UEuFz5Dss3upqFX0VCOn5LiP0vJ8bDlrJKXuISJAtKrfJnVDJ+QTyBViuxDfFmUeoAnit
+	 CWSeUgvzV83yuxFdAQOm0QfgC0MCDDTlJ1oms6McoLLsPq/UuOW/+dVn7gfHZFt9cUXC6
+	 bytx0+Bm30JzpG6Cy2yCBwfBgnGkTPGaEQBuBsty/vPGDOuTvH1t/cETAWjJmHBeW/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794364354;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=LDdiip4JC5hPOAy/PQcmBPBdRiD+HONG44FBf5k6Tfc=;
-	b=ZCdCy9UzQClYw41r0nxWbhPMRtqVYj9UmX/J315iHafdGLL5HyvSt2CdIpAhra8l0Tay
-	 s6l89/YwI3TC05J6zuTlb6iBButrgBZtjPb/kpN/IdYzuv0eBjckbD3lLPSpbvZA9gP0I
-	 5ss1L+NF3mjlJ05qbIb4jGcIfBXvQXPvM8Oo45Mxz7fH1Z/Nv5jFryt3agGUJ6VUW1aeT
-	 4gZy+igb13TQ04iMY+//jIESUTpkBtYr6y4XWbAfszKq915spd6j2+dv8bKS96R8Eiiqb
-	 QEodIZOGUg01bNe5q0g91cNnB9TCMzaNmzsr+7EPDLRmZXDAYa40+Y1VwQ6T2yDU2WA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794364530;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=/TGkmkl5EXAQoGi2DbHL8eyxYqMYYgybSMdpzQ49ATc=;
+	b=v6fPAT7Jp5F/+CgTIkmUxfhkD+y5OVfXSJU7rpRX2Du1I268DJQJ8tkGEhw+HuYj50cJ
+	 1R/QvjWsycN1TKCKi6fV7q+VpUk4HlZ0XV/h4+caeyhF425h+L/NlpBTrndYdxe1wVuKK
+	 BMl7fqf5gUWPIVpt8vtAmEkRFY7bfEZEPC37L1aLfjazec6Wq8iwDkJV3Am9VmqB+bucq
+	 Uifx/erk/fRyJBLrnzehZPOUd0l4zi90C3JHHjOeKDRQtZS/b4lBEVV5qLiutm+rgS6Xj
+	 ioj/b4HZHFhFVBw50SUHAnjwSYaM5QPtY8S8IcZiGXSn3N2mSRQ8NPWlUQRfTccVoHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ewb6ltT0;
-	arc=none smtp.remote-ip=209.85.167.169
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="KjpTvGb/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F59606A321
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 02:32:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76F59606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A962606A31C
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 02:35:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ewb6ltT0
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-53ec2cc397aso1436424b6e.1
-        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 18:32:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794364353; x=1794969153; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LDdiip4JC5hPOAy/PQcmBPBdRiD+HONG44FBf5k6Tfc=;
-        b=ewb6ltT0oNcgOET9OClEThGLAWDJfZnrUIdUAN8Ir8iQ5AuAS46cbgxdsJ264rm8Jb
-         yMqgeKBeF6EdhjGjGHX0FUXsXacGGCpCFtUw85AiH2yL36Vxi7BhgHloWfGQ4aGIpKMl
-         kaXaKIo+M8Udnd9mMLGrZuiki1iCJ1r9MZV8vBZPJeOpR5bEQfcrrY/v/oVuGdEy2uOq
-         EZrH9xhUnbEIvpYci3SHnAA7/GstkBActbFZmaD88hT4ZThs4HeL4Bo4nyP+16Ggy/2O
-         z8AKMjXFgaKfZfUHpuN6bYZiW2gLsWxuy347qCEOKZM+5MFWtYcb9ExpmWEgRxYOwGiH
-         8A6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794364353; x=1794969153;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LDdiip4JC5hPOAy/PQcmBPBdRiD+HONG44FBf5k6Tfc=;
-        b=sqYgmr0XKv1VPMvDHNYXDyOOo9EJ6Sq+tZCcviA124375vztutT7Lyu/cp1poX63Kg
-         XStgXyc/KQCL6y2XZ7N5xkHLn+0wxsG8w2FqPRvym2GACLfCETqdZm1NLjjSV/FhkNqC
-         jm4mhaDoaXmbaA2Zno9NbTm3src0WxepNAVznpJvoFkI67LGlV1p7Q7ln9gk9hYaWQFi
-         jGnVnEhU7OcZHnjSWx5kmuNedkNGJmSTwCsdJ3dcDRTHu2+9QAgIzbHLipbamqjgip06
-         sM+CdGMmznNhOQOOQ0g7fCPH8mK419NDijn500WH4Q9zc81sWjohF/qZMffVM7BCB05H
-         hEHA==
-X-Gm-Message-State: APuU4Z+/yJwTToUZBXzts5rOW3h+cOyuNRzhmpx5uMz53dZhD3dHqFiB
-	oKaXBPeX0wA0vdjvFN3WxU+1Z/PH390MVYxw0A2tgAIEU/+Leydx71PTR+ALVXNU
-X-Gm-Gg: AYBFou2xZwfcV5aHnb4FZoW0AHlUMskMneaT+QzDX5RotVLPse4KhfnILBoGX4AyElW
-	xFULWqdwSVIv9UC70MIGx3jHak9S3hMxZ+pZRaGI4MIApMBGHiXQempnJHK7AoW42NTD9g4ovta
-	6v5W2aKPaHjqvOFMRVzAX75VLJfsAmcLWm9Cz4nMX+Tylz+JQufV67r8JxELWKGdXjeyRgWl5Xh
-	x4bvfDQAbO8SSxN/s91BvK6PxrzEJ6psQhdMHdNMYIEVRyanWG0VyNmgLTYTcAwlurU4TNlWL6K
-	CgvpWu0l6o3neltYP77ewLH6Pw9AWkD9Ws1lTSBLKDK0g1gBk3ZBtQp5VAcHXkzmfSw/TNy00sD
-	Cl8J2GkW+du1ne6pSXkolB2jQr6ISlukWI0JT5cV9H/ofnZgwsuMSzp9HNH7OADou6v88GwsKD5
-	m7VcYzZbasOlachH/0vRaf0KUQfGjmLAmp0mRAUEdgXykANBuanCyb09YNo+TI1pG6ynauQXTeC
-	kSjnUzCKCYprFo7jfwcqZGok8dpp4ROo2HSJJ0RkqhKKmxvxY/mJF9HXQDGR5kZHLzQGMgLEWdv
-	/ArfLBWO2Ma48iaanjoMRS1ibd0Q1FY+ldmeTPDl+SEW3wPmhHySUk0b6rxWGXMPunZR7RxQ5Hp
-	OU/P2+JSvERatR5mFe+qfiY08QxVKz64rYzn7RA8aEmZR5YCMqb6v6r4z9LGh+loeveevuQaUT0
-	KvjA==
-X-Received: by 2002:a05:6808:5391:b0:4d6:90d3:e183 with SMTP id 5614622812f47-56b97b1de0dmr793806b6e.44.1794364353319;
-        Tue, 10 Nov 2026 18:32:33 -0800 (PST)
-Received: from ryzen.lan ([2601:644:8000:37f::e34])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-5690504fdb5sm3917813b6e.3.2026.11.10.18.32.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 18:32:32 -0800 (PST)
-From: Rosen Penev <rosenp@gmail.com>
-To: Neill Kapron <nkapron@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: udc: snps_udc_plat: use platform_get_irq for IRQ lookup
-Date: Tue, 10 Nov 2026 18:32:21 -0800
-Message-ID: <20261111023221.70102-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KjpTvGb/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BED971F00A0F
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 02:35:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794364529;
+	bh=/TGkmkl5EXAQoGi2DbHL8eyxYqMYYgybSMdpzQ49ATc=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=KjpTvGb/4X9mKEH810dOhhaUHOo5iLr8WVxnxqmWYRpJuVVJU2ofYZVL93GJ5cgju
+	 saSlTXA5okLlbwFk3Vx248sug+H1celxydL/n8VJ3zCmI6R1kESsERdAVMYN6P9/cq
+	 im7CyIwzgDfu/3dZnhOlNWeBR6DVpOANkbo4m+ePKATjzCXWAgUTKachbkzbU/+OoL
+	 bOrf4m24aoleTvqhKcsuJRDPbarAzEIKLzm3bkPj3ljzAtlxdUz/fvkF2Qdl3Tikb4
+	 wHT23gf6FnFbm94HxmTH1LKmXDLJZvs0qMgaqrT6K+hY5Od4/rNrPoCp/NCo+/U/bZ
+	 YjnjAbs9w8euA==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3acef9307c7so21947501fa.2
+        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 18:35:29 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFUVRWGyLWCdSO/iWNM0cvbp4Mtu2/y731JzdJMazhgH7+XLkmQXngk7Y5bj/8ZDDmffI7DvidmN1M=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/1cenC9T079X7HGCqQQhKVF157nnpuRn1u9UazBbreyQ1kC37O
+	OK1SQHadL/HrEOEkktbZUiqqoDsyIXEudSw4Zxzd4DMNj1X/pEv70qdtPEQOFPXhlUIMOeHMDn1
+	qB7r/qAnG4ZlW7xHvGEd3Zwl3xqMNgl4=
+X-Received: by 2002:a2e:bc03:0:b0:3a9:9a60:2c47 with SMTP id
+ 38308e7fff4ca-3ae126ed0f1mr1190701fa.29.1794364528033; Tue, 10 Nov 2026
+ 18:35:28 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -95,49 +59,85 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261110-usb-port-pairing-v1-0-9307e29d2ed2@gmail.com> <20261110-usb-port-pairing-v1-1-9307e29d2ed2@gmail.com>
+In-Reply-To: <20261110-usb-port-pairing-v1-1-9307e29d2ed2@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Wed, 11 Nov 2026 11:35:15 +0900
+X-Gmail-Original-Message-ID: <CAGb2v65goAuKgYu-849171FGeCxZ8Cq3GUxQLDLaHLbhRTMmqA@mail.gmail.com>
+X-Gm-Features: AclHuK9N0O7U9-W_pxCYXlT-RQ5jch4QkX4b2hO5JJ4vf-cajfPSp8p0sSn_nO4
+Message-ID: <CAGb2v65goAuKgYu-849171FGeCxZ8Cq3GUxQLDLaHLbhRTMmqA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] dt-bindings: usb: generic-ehci: Allow describing the
+ root hub ports
+To: aiyengar1990@gmail.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Replace irq_of_parse_and_map() with platform_get_irq() and move the
-IRQ acquisition to the top of the probe function, before any resource
-allocation. This provides proper error propagation including
--EPROBE_DEFER support and removes the need for a manual error message.
+On Tue, Nov 10, 2026 at 4:20=E2=80=AFPM Arun Iyengar via B4 Relay
+<devnull+aiyengar1990.gmail.com@kernel.org> wrote:
+>
+> From: Arun Iyengar <aiyengar1990@gmail.com>
+>
+> The USB 2.0 lines and the SuperSpeed lanes of a USB 3 connector don't
+> always reach the same host controller. On the Rockchip RK3588, the
+> SuperSpeed-only USB 3.0 host 2 (xHCI) is paired on the board with one
+> of the separate USB 2.0 hosts (EHCI/OHCI). Only the device tree knows
+> which EHCI root hub port shares a connector with which SuperSpeed port.
+>
+> The USB core already reads a hub's OF graph, with one graph port per
+> downstream port, and uses it for the port connect type. Allow the same
+> "ports" node on EHCI controllers, so that a root hub port can be linked
+> to its usb-connector node.
+>
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/usb/generic-ehci.yaml | 13 +++++++++++=
+++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Do=
+cumentation/devicetree/bindings/usb/generic-ehci.yaml
+> index 908b02d9175e..9dcba539d60d 100644
+> --- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> @@ -160,6 +160,19 @@ properties:
+>        - host
+>        - otg
+>
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    description:
+> +      The root hub's downstream facing ports, linked to the connectors t=
+hey
+> +      are wired to. Needed when a connector's SuperSpeed lanes go to a
+> +      different host controller, which then pairs with the root hub port
+> +      through the connector.
+> +
+> +    patternProperties:
+> +      "^port@[1-9a-f][0-9a-f]*$":
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Root hub port, numbered from 1.
+> +
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/usb/gadget/udc/snps_udc_plat.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Would this patch covering all HCDs be better?
 
-diff --git a/drivers/usb/gadget/udc/snps_udc_plat.c b/drivers/usb/gadget/udc/snps_udc_plat.c
-index 3687690ca33d..38aa077a56b5 100644
---- a/drivers/usb/gadget/udc/snps_udc_plat.c
-+++ b/drivers/usb/gadget/udc/snps_udc_plat.c
-@@ -102,8 +102,13 @@ static int udc_plat_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct resource *res;
- 	struct udc *udc;
-+	int irq;
- 	int ret;
- 
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return irq;
-+
- 	udc = devm_kzalloc_obj(dev, *udc);
- 	if (!udc)
- 		return -ENOMEM;
-@@ -130,11 +135,7 @@ static int udc_plat_probe(struct platform_device *pdev)
- 
- 	udc->phys_addr = (unsigned long)res->start;
- 
--	udc->irq = irq_of_parse_and_map(dev->of_node, 0);
--	if (udc->irq <= 0) {
--		dev_err(dev, "Can't parse and map interrupt\n");
--		return -EINVAL;
--	}
-+	udc->irq = irq;
- 
- 	udc->udc_phy = devm_of_phy_get_by_index(dev, dev->of_node, 0);
- 	if (IS_ERR(udc->udc_phy)) {
--- 
-2.56.0
+https://lore.kernel.org/all/20261014082037.1774672-2-wenst@chromium.org/
 
+Also see Rob's comment about covering the port numbers.
+
+ChenYu
+
+>  required:
+>    - compatible
+>    - reg
+>
+> --
+> 2.55.0
+>
+>
+>
