@@ -1,56 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794398848;
-	b=NEkY8ysI9SPjUMRXSze7EaRCczLNQP3+9H0Whj6NCnA4/P19N0lqlXBL61XrLqcNqDj3
-	 GfGliSFomSNFLs6CwltiPLf2Rt1vRNKXXlPrnHre8RGnXVsnrsXy8p+ZWIC48UXx9fahe
-	 TRI4+6IsxQpEDfefpSe0txLu8Kq3+f3WnwyoQAOJqHSs4KsDkPPE6RMTCmEEh3lvuZNDA
-	 ANlqSHoWtccMHXWzD0dDlJrMWQFFInuroC/yNu2VTzoQ7Y9IyTP24OIpFcfVedMi62tta
-	 LQjvEZUxclgQb4So3PaW0FGjxcCtp+PYjecyY9eovkV3XITEY/0RF3MjcEtZPI9QziQ==
+	t=1794399373;
+	b=kvtS7MB0sBptPalkHimKNKovEyQmdmlyxhiMvRMCCGkwmpNDaTKRTEzkSmKH2y2fEBto
+	 lbYMgU9CPPhW9zxQuPcj/nnnmT2ar39N85UAH39xc1ZqjG64Zs415Tk0brae5yjFshUFw
+	 QmlFN3MSu/aZv0TYCdlQ7zI1ZHuIOj+Rm66n6QxsSRw+2qjjhVF69mp53uju/wQE5Awz2
+	 UDyIdhVP5Bh53fgYmSalHM2sWPYmKUcvZ9yn2YlgGhl0S+6AfF3pYxjL1NN25PGVDMctB
+	 Lmk0Yp4CArg2Kqlyw22BbYW3LAskZaiba6xP4RtOLYuFZvqAIRPHd68YtRyFiM3j2fQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794398848;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=kWecpJPGbRlw+A786bmo3nA/kSIcKAM6GVAfORMJ4hU=;
-	b=UePnY+H4HUbK0OkMsnFPlTeSk/HJAMbStcg6vRMu2GqA51i1Xgmd/R42CeLF6xYaBwo1
-	 kfl2UV9d3PeoTXGBKJZNG2Fn9kwXsRRRmQX1rR8SmOqb6xRs5pp5RBmWr7WWGvYJGhZa2
-	 g32hRXdDf4sN+xeVINs1Tk9HCYUmuwe+oJmNFOilzIjy71HwQIHiprJGUAsle4OY2YbvN
-	 w6Ehr0sY0XwdXHGeq6ZqXOOf/Q3ERavGIBQFycViSZkT7PqodM40VyZndw6J8z6ngvLpe
-	 tVz12N6uYGdkbWJuvQlxpErrJfmDtvBsbtpRXtJUXoCV6lC0g/oCGkJ+ydYmGPViBgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794399373;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=ShfGnGUwV/ETQzS6rKCsRFXhPpVChrJE2EQuNOxREuU=;
+	b=2pVxBTyxCNxsW8e6rzE/RktDfcBeCVbIsJbwsz4G7z+UtIcqTGt4vmmYzIPZEy2qp03w
+	 qvEd3VRsnLIGfAuz+ib37DGnXZ/Dzyirt7+uO0oauJ2QR6qjg2uQfAl/f3fJ43u20PZbg
+	 wKScAeMrLl8yXO4yOJdv4Rz3MXzzdW+NoV2U3YXggnsaxGPJA88uxx3KvF0RbcU9oNaoK
+	 Qr01SwIxqjVZl8H8+BfzOpN3aotIPa/i//2CihShxhgJCssTN0vydZLHvowUHd89zP8sv
+	 QtxD53yv2VCJfmEHHd2RBlo0Q+Cbe+1IPKTbmsEdW3I349bkOzI4PFdHlreZpUPB21w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="l50tjuJ/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qEVRdnEH;
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7854A606A31C
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 12:07:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9CF606A8BB
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 12:16:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A9CF606A8BB
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l50tjuJ/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB6341F00A05;
-	Wed, 11 Nov 2026 12:07:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794398848;
-	bh=kWecpJPGbRlw+A786bmo3nA/kSIcKAM6GVAfORMJ4hU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=l50tjuJ/RA4gMWNh80gNb8ljeqcde0m502p7yJRmufkpMNp3h+U5jgwrBmHPqaZ3V
-	 ItC0SR0A68lmH5FzSA5Rxc8f/XBiDlTjBbFFTCUFAwDXyQ6aqCF9iTqMPO7MDvGvfu
-	 Yvf2SUCczHDwr1XdakBYJBNyAqXhea38lMus5dmgvEPlQ93fxSfMOD6Vf+LvzgmFqE
-	 0caPYRrvhlXv3vIOHjCOHd9DQZLy1MdXozhVkl2IC6oZFgLKOPLI2NKtxRjwTJuyIB
-	 +cSZ8l5kgSAhm5j7z0ij1Yj63tPp3OgaqmX1pmzyPSoWDITARD4xtBObkp1kG/S+RZ
-	 cLNS5mhn2o9Gw==
-Message-ID: <sashiko-outbox-208935@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] usbip: stub: reference count struct stub_device
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Michael Grzeschik" <grzeschik@puzzle.ch>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261111-usbip-v1-1-da5217ac71d7@puzzle.ch>
-References: <20261111-usbip-v1-0-da5217ac71d7@puzzle.ch>
- <20261111-usbip-v1-1-da5217ac71d7@puzzle.ch>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 12:07:27 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qEVRdnEH
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-492f563d1c6so1200151f8f.3
+        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 04:16:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794399371; x=1795004171; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ShfGnGUwV/ETQzS6rKCsRFXhPpVChrJE2EQuNOxREuU=;
+        b=qEVRdnEHKR9SJkjIwuqUlDKDa/eqsVO8f8iPfjDn4hG/N9WCGa5Nx2Yzwf4jVz/kHP
+         S9iJpa6mOIjzz9wzGG9xnlTiqQFb04tfHmnI2GpXWYoH7Ypb/cYSbYUMfOGZ7Z6pXusm
+         26YrjScF08lM9kmPxMQDDfXOV14+jJMUASRjw/dswBk6bQ+pEJATDLKwR1bFJzUYXI43
+         3Yr1kJ1/SOlD9lyDQxxHULgcLQtFLfdxu5o6tH1gR8wwTgQSWcNXM5mVk7u1YtT+cEFj
+         ZMPphlKliUqEb84X0pOLOA2MaQqmVRS2zr3IeJPU/5O//YJj61HeVp0d4OiEZZJbogkV
+         yM+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794399371; x=1795004171;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ShfGnGUwV/ETQzS6rKCsRFXhPpVChrJE2EQuNOxREuU=;
+        b=wkVs3UAbZgW7ZKwf+mYuHLfTa2AkYhpycD6TG3Ljs9ac078Q2cCtWjv1g6+Wyc+Xdw
+         l8Keg9sWdp7ruobs3N/QYfGvFFdvj1s9NPWRZ5u14XWuumV2ldkudn5yVc8OJJHVgHSl
+         gWTk03nRy/vCSLg3hW8YPIbf++erqxFxdN+285aJGpbAX0+TI0MkwloIMR/dbfyII66t
+         UoNeDhChyMIKxu62XQXlco5E39AhTf5HfIhj8CIBzp+Y0xl36MabZDyjNF8gbi4RINDT
+         ETPOGcOsSAKSCs444v5e3nDpqr63CGb8chiqPxYaBZHknFBdjGrtjZz3zqV8hdnCq2CB
+         SEfA==
+X-Forwarded-Encrypted: i=1; AL+hErFa+aOwkz+BpXd56GRUz9RYtE1WaEuwd+WgjT63Dt3AFj1peow2EGTLdSeyC6Ty0LxONFf1duRHJCU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/xXRDkxkLAS4JpzWc6x1X4OGIr88E1JJMgR+D6Yc9wug2hzbuL
+	bSW3ojvAPjj62DWVU/4M0Ua6XcPQ7XEFZChygbd5hqSYXqt1e8InD0hL
+X-Gm-Gg: AYBFou2s12nzd0iWOKq2LhEP+8x0TZB/clVPBl6Z6Bdc6RiqwSnE2muqdOd9iXhP0ow
+	y41wjVGpvOdhNgq9ZndDzfrv/0CF4422pp6+Q9sjN3EuHM2vEeBJ44DZmGvplgPBpR1oMPKtxA3
+	jiFUILSxjBEUku0ks5nhzZ+uxvc6n1gGauw0eAVWj4QJracWqqSNYZ6ORpRjtQZsQ1fVNhXKMDk
+	Z7qfYpQcR2l4o0h+49I2P+FvuHpDbvJkAuQETRFyp8JIalh03XSUekSdGt/pkN3ta7iwL9J52fR
+	o8M65Jh9Bhq0PqWKetsbG90HTWWWA6lFYV8O1wBe/eVeeN19jBl5mw2HTks23rFJ5I2YYzy97MW
+	DXEp+QIwmpBCFHiY5ACEnQ2CBL+ZpGI3FO6QFVR2t87bTai5MxtKzywbYaqJN/sznTIDIl96XOO
+	zBgyxZSBT7u/sSG8sSFOeR6CnQvWL0AgVULEqZkVSKAWkfSCp5ihSXZm3ewfSLAxgNkF10LtN1o
+	1rx41Bh81Xin97vVvjpfqaRSjuIF6LC2cXMfEhzMqaJyCa3scbiFGoSfec9EAiPZ+gI0/6oC/Hv
+	Qrc8Y6X8d5kIv7/WVVRjK5L1WYHGBqT+nK9mpRbdTJpCAShMpZiJ5wSw
+X-Received: by 2002:a05:6000:2308:b0:48e:6f76:de9c with SMTP id ffacd0b85a97d-499c6e9636amr3846243f8f.28.1794399370646;
+        Wed, 11 Nov 2026 04:16:10 -0800 (PST)
+Received: from localhost.localdomain ([188.190.249.216])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49884b99869sm9544010f8f.4.2026.11.11.04.16.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 04:16:10 -0800 (PST)
+From: Vlad <tvlad744@gmail.com>
+To: Arun Iyengar <aiyengar1990@gmail.com>
+Cc: Vladyslav Tymoshchuk <tvlad744@gmail.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] usb: dwc3: Keep the host bus suspended, not torn down, across suspend-to-idle
+Date: Wed, 11 Nov 2026 14:15:56 +0200
+Message-ID: <20261111121556.1871-1-tvlad744@gmail.com>
+X-Mailer: git-send-email 2.45.1.windows.1
+In-Reply-To: <20261110-dwc3-s2idle-v1-2-2ef4cc3f8130@gmail.com>
+References: <20261110-dwc3-s2idle-v1-0-2ef4cc3f8130@gmail.com> <20261110-dwc3-s2idle-v1-2-2ef4cc3f8130@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,123 +100,43 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] usbip: stub: hung stub_tx, leaks, and URB UAF when shutdown is
-  missed
-- [Medium] usbip: use-after-free in event_handler() reading eh_ops.put
-  after wake_up()
---
+From: Vladyslav Tymoshchuk <tvlad744@gmail.com>
 
-commit cd9a80911da15b88ceb306a5e8d623b311108647
-Author: Michael Grzeschik <grzeschik@puzzle.ch>
+On Tue, Nov 10, 2026 at 07:16:44AM +0000, Arun Iyengar wrote:
+> Suspend-to-idle does not power anything down behind the drivers'
+> back, so there is no reason to end the power sessions there. Keep the
+> core, its PHYs and the suspended ports, as is already done for wakeup,
+> and mark the device as being on the awake path so that a power domain
+> with GENPD_FLAG_ACTIVE_WAKEUP stays on as well.
 
-usbip: stub: reference count struct stub_device
+A data point from a Qualcomm board where the first sentence does not
+hold. I have not run this series; what follows is the existing "kept
+for wakeup" path, which this patch extends to every suspend-to-idle.
 
-This commit adds kref reference counting to struct stub_device and holds
-references across device binding, the rx/tx kthreads, and queued events so
-that stub_device and its usb_device are not freed while still in use.
+On SM8750 (OnePlus Pad 3, v7.3-rc5 plus board patches) the controller
+node is a wakeup source, so dwc3 keeps the core in host mode. The USB
+GDSCs are PWRSTS_OFF_ON in gcc-sm8750 and the qcom GDSC driver does not
+set GENPD_FLAG_ACTIVE_WAKEUP, so genpd powers them off in s2idle all
+the same. With a USB stick on the port the xHCI then comes back like
+this, in 3 of 3 cycles of 150 s:
 
-> diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
-> index abfa11d6bde79..27d1e9c8db176 100644
-> --- a/drivers/usb/usbip/stub_dev.c
-> +++ b/drivers/usb/usbip/stub_dev.c
-> @@ -11,6 +11,42 @@
->  #include "usbip_common.h"
->  #include "stub.h"
-> =20
-> +/*
-> + * A stub_device is referenced by its binding to the USB device (from pr=
-obe
-> + * until disconnect), by the rx and tx threads while they run, and by the
-> + * event handler while an event for it is queued or being handled. It mu=
-st
-> + * not be freed before all of them are done with it: stopping the threads
-> + * relies on the event handler, which can miss a shutdown request or sti=
-ll
-> + * have an event queued when disconnect wants to free the device.
-> + */
-> +static void stub_device_release(struct kref *kref)
-> +{
-> +	struct stub_device *sdev =3D container_of(kref, struct stub_device, kre=
-f);
-> +
-> +	usb_put_dev(sdev->udev);
-> +	kfree(sdev);
-> +}
+  arm-smmu 15000000.iommu: Unhandled context fault: fsr=0x402, iova=0x669fd3200, fsynr=0x370011, cbfrsynra=0x40, cb=5
+  xhci-hcd xhci-hcd.3.auto: WARNING: Host System Error
+  xhci-hcd xhci-hcd.3.auto: xHCI host not responding to stop endpoint command
+  xhci-hcd xhci-hcd.3.auto: xHCI host controller not responding, assume dead
+  xhci-hcd xhci-hcd.3.auto: HC died; cleaning up
 
-[Severity: High]
-If the rx and tx threads outlive stub_disconnect() because
-stub_shutdown_connection() was missed, does stub_tx_loop() hang forever on
-sdev->tx_waitq, or does stub_device_release() free sdev while in-flight
-URBs and connection resources are still active?
+With the GDSCs in retention [1], as SM8650 and X1E80100 have them, the
+same 150 s cycle passed 5 of 5 times, and two shorter cycles of 25 s
+passed as well.
 
-Once shutdown_busid() queues SDEV_EVENT_REMOVED during stub_disconnect(),
-USBIP_EH_BYE is set in ud->event, which causes any later usbip_event_add()
-call to return early without scheduling stub_shutdown_connection():
+This is the third point of the Sashiko review seen on hardware:
+device_set_awake_path() does nothing for a domain without the flag,
+and the core is treated as kept although its power went away. I would
+expect 2/2 to bring this failure to SM8750 controllers with wakeup
+disabled too, unless [1] is applied.
 
-drivers/usb/usbip/usbip_event.c:usbip_event_add() {
-	if (ud->event & USBIP_EH_BYE)
-		return;
-}
-
-Without stub_shutdown_connection() calling kthread_stop_put(ud->tcp_tx),
-stub_tx_loop() blocks indefinitely in wait_event_interruptible() on
-sdev->tx_waitq because neither socket closure nor usbip_event_add() wakes
-that queue.
-
-Even if both threads exit on a socket error and drop their references,
-stub_device_release() only drops sdev->udev and frees sdev without running
-the cleanup from stub_shutdown_connection().  That leaks the ud->tcp_rx and
-ud->tcp_tx task structs, ud->tcp_socket, and the sdev->unlink_tx and
-sdev->unlink_free lists, and leaves in-flight URBs on sdev->priv_init to
-dereference the freed sdev in stub_complete().  In addition, letting
-stub_disconnect() return while threads or events are still running allows
-usbip_host_exit() to destroy stub_priv_cache and finish unloading the
-module while sdev is still in use.
-
-[ ... ]
-
-> diff --git a/drivers/usb/usbip/usbip_event.c b/drivers/usb/usbip/usbip_ev=
-ent.c
-> index 0e00c2d000f89..eea9a71f0eac2 100644
-> --- a/drivers/usb/usbip/usbip_event.c
-> +++ b/drivers/usb/usbip/usbip_event.c
-> @@ -94,6 +94,10 @@ static void event_handler(struct work_struct *work)
->  		mutex_unlock(&ud->sysfs_lock);
-> =20
->  		wake_up(&ud->eh_waitq);
-> +
-> +		/* drop the reference taken by usbip_event_add() */
-> +		if (ud->eh_ops.put)
-> +			ud->eh_ops.put(ud);
->  	}
->  }
-
-[Severity: Medium]
-Can waking ud->eh_waitq before reading ud->eh_ops.put cause a
-use-after-free on ud?
-
-vhci and vudc do not set eh_ops.get or eh_ops.put, and their removal paths
-free the enclosing device as soon as usbip_stop_eh() returns from waiting
-on ud->eh_waitq:
-
-CPU0 (event_handler)              CPU1 (vudc_remove)
-unset_event(ud, ...)
-wake_up(&ud->eh_waitq)
-                                  usb_del_gadget_udc()
-                                    vgadget_pullup()
-                                      usbip_stop_eh(&udc->ud)  /* returns */
-                                  kfree(udc)
-if (ud->eh_ops.put)  <-- use-after-free
-
-For stub_device, waking usbip_stop_eh() before ud->eh_ops.put(ud) runs (or
-while a second event queued for the same ud is still on event_list) also
-lets stub_disconnect() and usbip_host_exit() finish unloading usbip-host.ko
-while event_handler() in usbip-core.ko is still about to call
-stub_eh_put().
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111-usbip-v1-0=
--da5217ac71d7@puzzle.ch?part=3D1
+[1] https://lore.kernel.org/all/20261110213346.1359-1-tvlad744@gmail.com/
