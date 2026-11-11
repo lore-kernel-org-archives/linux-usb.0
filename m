@@ -1,88 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794407042;
-	b=HqN0s+p86BvlXELltH06OPIg+hTfa9hD4w8R5Q/mXscBZolj7APxdG/uFFxhwrV+Ync6
-	 PMlRWqtkt6FSqjqKfXhQ+B7GYXbOuOH7c9ewseLj5QVv7wC+8V8im2cADfS4yrHTxWY55
-	 6X85ASjB0mXt2mRyQiZFh8o2AAQYA6fev+QJFPVbBq4W6lm2UNJ3hv1OCHwHbXVTB4LYe
-	 LgFKxM69afqwQDiF6b7yfkKE1L/N80XQH9SsWB8/sRumCEG1Vg6OL7JrXLsG6tJgGWOwq
-	 7NQWaZNaga16wyV5Y5T/w30lhsySIkf3YBbv+dmtg66vuSS/osbC6SKBGv2/qRBAExQ==
+	t=1794407174;
+	b=bgl+YVpxCJm0QitCKrQDme3OISjEvfNMw4RUxTfx+mdeWTxX5LhHhog2h1VoLy/nmOHf
+	 d3ggLd0bPWRQp2HKlWqGhKmw+jUqen3+D9RJPEFlsx8ViEDri66leBmw1wnJAidlFtiNI
+	 8hfXorFFfv5rjT1jZ9udCJmMz0y/YfCPRZ7uHG9/PF9C/RPBSR9/52lvW49Bbu6/8H2Uh
+	 4to8KdWQwI7WfZKfiR5+pfY78sp+C2wpEHdrQTPGaadeqRjGBxkrvOpGuj+lk5+ZlcN9r
+	 9bhiTp/6H4JwcDcy1VtDRGdytBG6IK3scNSRB7XU3UeF/gUcmddEkbZd4n4OU8uOzqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794407042;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Content-Type:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To;
-	bh=GPKo4koA3ufpIp1+KsRjZrw01aF4JlFJbSRD0WS29MI=;
-	b=2M2nlTDnUIq1Dd+jT9Rdyqj8l7ccpfOoOMj4hQDUQ1TJvMMdZmwJTFcDabkItnu2RQiV
-	 MgSroqpzN8+D5SUkO+R1t7j6r9lQh+Q3WKIEn8wQQ+ZPM0ETpHQ1kM/inR+EhjFyKBhQk
-	 A7oLy8Wgpfy3Vyc//UTNrqe2BSTTen1UmGlcdEd2j7PgV8YdP1Cv5KQL1OteeXUb68/0j
-	 T0JNoVN5u7m7mqYpfuTP+Y4vqkZZPrHxko8cJpcSUUEqjqAwQc7rcN5Yea/CpfbrV41ll
-	 LV3BhMFwU9E9iYgM1waYZNK4hPEL/asloUehhmcYbMc0j6qdIpTvASLnHWS3B2RPX+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794407174;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=p06BpfxDacpShmZgqEuc//PUu1v9zCba4rUpMbz25eE=;
+	b=vX1OMSg2gW+y5JtgRdvLS3f406H05CHF4oj1w8a/n+QgqxHWr2Z0cAxThyASDl/X+QIW
+	 H9LkZSj+mkAyZWYr0yCaTYbiMuUjPRX7Ga2GRs1HjhBAiBdWdDKZyh9ryXCWZQ3DUht0+
+	 N+pr7WYcn8/ZJiKJ1h5f6n6fGZWbkbL4nD6djLqY9jK0Jy+4f4cQMy12AnnEkLxuDNRW3
+	 P+ZZoSor36Vtal6ipCoBQrhc7K3fm2mRr45BiYG0BTuaq5lY1/fv61cwRWEcfhAXryvl6
+	 0QfK2OxzGpAOr+TPqN6Lhwa5kBbi8ELdGzlX58OWzUV4R4kZAIYABRdP9Z6S3bK3B8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=S4sVeSBj;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CL9Q6XaP;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96670606A324
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 14:24:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96670606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21778606A326
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 14:26:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21778606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=S4sVeSBj
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4ac95761c85so24014955e9.2
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 06:24:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1794407040; x=1795011840; darn=vger.kernel.org;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:content-type:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GPKo4koA3ufpIp1+KsRjZrw01aF4JlFJbSRD0WS29MI=;
-        b=S4sVeSBjV9U6CXeK5ynYSQlS6qejxHP5LN1hQer2cNSk6gDy4fIG+0uqNVUurK1t9H
-         guKiEW8o1WL3Jnk52q2RTUlITpne1NbTv6C2bFPcpXQhTPlOu8/E0+tVGZ3QDrj2sT5N
-         aqmFiDxQjjd/OEaTqiDzmeoNNbUZm8QGDikDkis0pc0mlJmgr7zDXulYbIyH8R2iasOg
-         54xM6kU3/S++eFPYk2xEwfYVPx+VeFFPZU9eDjSlLbxxJUrAI9u8slP/PtHk30jNZlWu
-         8SICR/EtVCDmGR0/Lcn56/DUPIn+u4i2HAU16GIvrBMnYorc1cCl78/a7l/Xl7B3SdWK
-         G47w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794407040; x=1795011840;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:content-type:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GPKo4koA3ufpIp1+KsRjZrw01aF4JlFJbSRD0WS29MI=;
-        b=yJeWSNrpOkpdA/64jytPLvq1hwsnLZHdkldKtuhXKETBRCFqZFyqYJgqLP63FEltE7
-         O2Dbc60LSkg0ZCzGI/Y66GUQP8+ZY8v1zuKTEnZ8QzpFd4gpOmDmYuvUYl+nQig0GGs4
-         trj7o4JplCN5sgGaO9Qw5BUi3+01BrcWMO8R//1ZBdDIUbbvzMtGJdmsK91UcrWuCTPC
-         fzKX9hqat6tjLoM+oPi5D0lKl0MUNgkk3FAX4kijAeiFua5XkEXC2mfKmcMBcRiHpHkX
-         ap1SlA/JQhsaj18mXPJbio4TsxDlp5PeErVfZ3WBdY53r+Wp/J1MZWON6QUbu4/mCTKK
-         7ayw==
-X-Gm-Message-State: APuU4Z/w23VfgrATdkB+VAfgXmTsFltBPSNmRwxf0+wc0x6c7BecIXyJ
-	548MxGiW4QYLis7FcAxuZMNufNbKZwQlSCz54dsGyhXziryVLAu4uG1pDLAp3yqAzl7wC+j5Hnd
-	3iSY6
-X-Gm-Gg: AYBFou26Y3KnIxyy391qwMvpf3zpE8f0xiZ2ncECS0lS3SsHmNhkFy1Cj5eUqCKa7IY
-	3jOA8lDGAPUQpN5hyZJjXpxnp7fsNvWo8iVSCLt3XJ3JufSsh40KlWWMoSxrNZuotJWusWdHVcb
-	I0ptsERiw4BfD4HoIdZUr6qG7oUWLF9A4b0jMVlUTb0tNDYoJxvdFWUmgqiulQ0X5nmEnB46re3
-	8VISApC2khGR9o5x7du3YaqqM9r5jvQvDNEy5X6n887XSmauD88Pew6Ybg/KTzIuxwbI6/qFEl0
-	IxYFH+3g64q5gxQAPuFQKLE9/w0/m59/k+fFVGFVuqerRebYWQg9NtPoYouWZDsFCAqSEax0i9F
-	st7myno1b4a4W1iqeNfJhXabDSAr+ow2/HVbmnwdvlfTM41YjwJjaDe2LKVhIhksRBxrH6eAoEm
-	jY6m/d+cEl6CGlsGG0hIlvZnsQmxar6ATPNgFEXxT+FhODjIPKEdx3M43RIMx6DWQXR5hEb7IJV
-	YtMiPX89cpnHC9H3BlYS++RHLflZJE4XIKzoPXFi9DgIFogKAZ1drIUEpLEcKNWZWu1ctJKQkNV
-	kTgYmKg1uDdgt/4SJGkDnOuE47stBGeh0gxBSoQ8kuaCIeWnU6APPwY4vSJJijhpoBnY9fAbzw=
-	=
-X-Received: by 2002:a05:600c:4444:b0:4b3:6900:280c with SMTP id 5b1f17b1804b1-4ba09377988mr44817675e9.19.1794407039801;
-        Wed, 11 Nov 2026 06:23:59 -0800 (PST)
-Received: from ?IPV6:2001:a61:1376:cb01:cda8:a0d6:623a:2ff5? ([2001:a61:1376:cb01:cda8:a0d6:623a:2ff5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498369a495csm11346798f8f.55.2026.11.11.06.23.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2026 06:23:59 -0800 (PST)
-Content-Type: multipart/mixed; boundary="------------w0g21uaD0TQxVNCaf7UltPpH"
-Message-ID: <a0dd6b5d-d82b-4586-9a96-725f1ed45eb6@suse.com>
-Date: Wed, 11 Nov 2026 15:23:58 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CL9Q6XaP
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794407173; x=1825943173;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZzDGdrtEaxLl3nU5t9IoJ3KeCuxTpuwjVZxJhhB7wxw=;
+  b=CL9Q6XaPu0AKNkbos6tjuNFF94aaL4Id3oR39KglhyIaSCmqc97ik5Az
+   hh6eA2g/nbVKi6YFyUWELm0nc9wjqhjn/V71b4ENP0iUxD9CKPEvBkPW1
+   xZj3rBnCZeNOXa2OqpE79AHlhKiTP4IVuDxMB9uAD4oebS2sAXx5kEJVy
+   +2S2HHee5vUDdYOUnLAS9++5YZfI7LSyoFVfawOvgDx4R1AfII5ZwhNSk
+   ql66ebPs1mXLglA0QXqUKg0xnXiVPd0neCGq9MJwdYzqMHQR4rGT/SBJc
+   0gUN4h30/IQCkabG/ST/i61ZAVjSv4jpKYVoaTEyIPpE+KGKn2FtfqWyJ
+   g==;
+X-CSE-ConnectionGUID: mBVw/P9ATjmD6nCUsRiDfQ==
+X-CSE-MsgGUID: EZPVUG8zQ76oAbqRspqNlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3182634"
+X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
+   d="scan'208";a="3182634"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 06:26:12 -0800
+X-CSE-ConnectionGUID: asXOq1EOR+6Rqgi2r1bGlw==
+X-CSE-MsgGUID: ergF3TQOSu2mSc9ViPfmIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
+   d="scan'208";a="8767859"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa001.fm.intel.com with ESMTP; 11 Nov 2026 06:26:12 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 6946D99; Wed, 11 Nov 2026 15:26:10 +0100 (CET)
+Date: Wed, 11 Nov 2026 15:26:10 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Peter Walker <peter.walker78@gmail.com>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: ucsi_acpi: "bogus connector number in CCI: 2" flood on Acer
+ Aspire A14-61M
+Message-ID: <avR7Akf3n4G6QKtz@black.igk.intel.com>
+References: <CAPv=dGA4maJEzJ1mt6udD71WFD8SbxGFfun5Hg8PpvGEb038HA@mail.gmail.com>
+ <ausGNtWlRzZN29ux@black.igk.intel.com>
+ <CAPv=dGA6ygdQ8StHwht6nPJZyb2FTH0n03txOOWhb4SSHkG9zw@mail.gmail.com>
+ <CAPv=dGBgnxKoyOrcbKBwym5sm3M9+oO+L5R1do7pP9X6cBDXUg@mail.gmail.com>
+ <au4TbIvSBLxIWxnQ@black.igk.intel.com>
+ <CAPv=dGC9FCbqW1hBnRz8Axy8FmdD4vohFZ+Q03fmsz3pDRod4Q@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -92,302 +85,65 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC]alpha implementation of eh_abort_handler for UAS
-To: Jiayi Li <lijiayi@kylinos.cn>
-Cc: linux-usb@vger.kernel.org
-References: <38f81744-9122-4109-90b6-b0a1ac92d248@suse.com>
- <20261106103342.3945373-1-lijiayi@kylinos.cn>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261106103342.3945373-1-lijiayi@kylinos.cn>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPv=dGC9FCbqW1hBnRz8Axy8FmdD4vohFZ+Q03fmsz3pDRod4Q@mail.gmail.com>
 
-This is a multi-part message in MIME format.
---------------w0g21uaD0TQxVNCaf7UltPpH
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-
-On 06.11.26 11:33, Jiayi Li wrote:
-> Hi,
+On Fri, Nov 06, 2026 at 09:25:26PM +0000, Peter Walker wrote:
+> On Fri, Nov 06, 2026 at 06:50:36PM +0100, Heikki Krogerus wrote:
+> > On Wed, Nov 04, 2026 at 11:28:12AM +0100, Peter Walker wrote:
+> > > I don't have the laptop with me at the moment, I can run the command you
+> > > provided this weekend if that helps?
+> >
+> > It would help.
+> >
+> > Please try to avoid top-posting on the mailing list.
 > 
-> On Thu, Nov 05, 2026 at 08:33:33PM +0100, Oliver Neukum wrote:
->> the older version had serious bugs.
+> Sorry about that. The laptop has two USB-C ports.
 > 
-> I tested RFCv2 and the local changes described below on 7.0.0-38-generic
-> with USB streams enabled. The host_lock accesses were adapted to that
-> kernel's API. All tag numbers below refer to UAS IU tags.
+> I tested your patch on 7.2.11-ogc4.1.fc44 (Bazzite): ucsi_acpi.c
+> from stable v7.2.11 with the Nitro ANV15-41 line removed, built out
+> of tree against the running kernel and loaded in place of the stock
+> module. It makes no difference here.
 > 
-> 1) RC_OVERLAPPED_TAG can reach the original Status receiver
+> - "UCSI version is zero, assuming 1.2" is never logged.
+
+Okay, but it would not help in any case. The first problem is that the
+PPM reports the wrong number of connector, right?
+
+That is a pretty obvious FW bug. Did you report that to Acer?
+
+We can prepare a quirk where that is fixed, but it means that the FW
+may never get fixed. So let's try to get the FW fixed first.
+
+> - At probe, "UCSI_GET_PDOS failed (-70)" is logged twice, as on
+> every boot.
+
+This is probable another issue. Let's tackle these one by one.
+
+> - The first "bogus connector number in CCI: 2" came 4.7 s after the
+> first of those, and acer_wmi logged a charger unplug 0.3 s later.
+> The stock module had been printing them until I unloaded it, about
+> 100 s before.
 > 
-> On ZX1, I submitted READ(tag2) through a test helper, cancelled its Data
-> and Status URBs after its Command OUT URB completed successfully, and
-> kept the interface and streams unchanged. A subsequent SCSI READ(tag1)
-> timed out, and uas_eh_abort_handler() automatically submitted TUR(tag1).
+> - From then on they kept coming at 17 every 10 s, the same rate as
+> the stock module just before, while the charger went back in, out
+> and in again, and across an s2idle cycle. Four were logged during
+> the suspend and resume, and the next came 2.4 s after
+> "PM: suspend exit".
 
-Am I correct assuming that this is supposed to say tag1 in all references?
+Can you share the complete dmesg output?
 
-> During the abort wait, RC_OVERLAPPED_TAG reached the original 112-byte
-> Status receiver. The additional 8-byte receiver remained pending and
-> was subsequently cancelled.
-
-So it did not also get an RC_OVERLAPPED_TAG?
-I am asking because the spec is unclear in that respect.
-  
-> uas_stat_cmplt() processed the Response IU but did not notify
-> cmdinfo->cancel, so abort continued waiting and returned FAILED. For
-> subsequent tests, I added this notification to its IU_ID_RESPONSE path:
+> - port0 never followed the charger: no partner, power_operation_mode
+> "default" and ucsi-source-psy-USBC000:001 online=0, whether the
+> charger was plugged in or not.
 > 
-> 
->    if ((cmdinfo->state & COMMAND_ABORTED) &&
->         ((struct response_iu *)iu)->response_code == RC_OVERLAPPED_TAG) {
-> 	  cmdinfo->cleanly_cancelled = 1;
-> 	  wake_up_all(&cmdinfo->cancel);
->    }
+> One correction to my first report: a charger unplug may not be the only
+> trigger. Going back through the journal, on 8 of the 20 boots on
+> 7.2.x kernels the messages started 3.9-4.6 s after the probe's first
+> "UCSI_GET_PDOS failed (-70)", before any charger event was logged.
 
-Thank you. If you allow me to do so, I will take up the suggestion.
+Thanks,
 
-> The locally modified RFCv2 also uses u rather than cmdinfo->killer for
-> the follow-on Status submission in uas_abort_complete(), and leaves
-> final URB freeing to uas_eh_abort_handler(), including on submission
-> failure.
-> 
-> 2) Recovery after read cancellation: single and concurrent requests
-> 
-> These tests used the Ugreen enclosure (0bda:9210) with an SK hynix BC501
-> and the locally modified RFCv2 described above. The filesystems were
-> unmounted, and reads used the normal block/SCSI path with O_DIRECT.
-> 
-> For a single request, I cancelled the Data and Status URBs of one
-> 512 KiB READ and waited for recovery before issuing further reads.
-> EH submitted a same-tag TUR, RC_OVERLAPPED_TAG reached the additional
-> Status receiver through uas_dummy_sense(), and abort returned SUCCESS
-> without a USB reset. A new 4 MiB read and 128 further 512 KiB reads
-> matched the reference data.
-
-Very good.
-
-> For concurrent requests, I ran four workers issuing 512 KiB reads,
-> cancelled one READ's Data and Status URBs, and immediately submitted
-> another 4 MiB read, which was split into eight SCSI READ commands.
-> I repeated this twice.
-> 
-> Each run had 12 calls to uas_eh_abort_handler(): one returned SUCCESS
-> after RC_OVERLAPPED_TAG reached the original 112-byte Status receiver,
-> and 11 returned FAILED. One automatic USB reset followed. The added
-> 4 MiB read and 128 further 512 KiB reads passed data validation in
-> both runs.
-
-This is interesting. Can you tell whether TURs were submited for these
-eleven commands?
-
-  
-> RC_OVERLAPPED_TAG was not observed in the ZX1 rebind case, and I have
-> not yet established why.
-OK. Maybe it would be best to first get the original error handling
-to work?
-
-Could you review and test the attached version?
-
-	Regards
-		Oliver
-
---------------w0g21uaD0TQxVNCaf7UltPpH
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-usb-uas-cancel-outstanding-commands.patch"
-Content-Disposition: attachment;
- filename="0001-usb-uas-cancel-outstanding-commands.patch"
-Content-Transfer-Encoding: base64
-
-RnJvbSAxODc1MTg5MmE0YjA5YzAxZTM5Y2M0OThlOGMzYjlmOGFkMzhlOWZlIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29t
-PgpEYXRlOiBXZWQsIDQgTm92IDIwMjYgMTE6MTc6MzQgKzAxMDAKU3ViamVjdDogW1BBVENI
-XSB1c2I6IHVhczogY2FuY2VsIG91dHN0YW5kaW5nIGNvbW1hbmRzCgpUaGlyZCBkcmFmdCBv
-ZiBhbiBhY3R1YWxseSB3b3JraW5nIGVoX2Fib3J0X2hhbmRsZXIuCgpTaWduZWQtb2ZmLWJ5
-OiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgotLS0KIGRyaXZlcnMvdXNiL3N0
-b3JhZ2UvdWFzLmMgfCAyMDMgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0t
-LS0KIDEgZmlsZSBjaGFuZ2VkLCAxODYgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25zKC0p
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2Ivc3RvcmFnZS91YXMuYyBiL2RyaXZlcnMvdXNi
-L3N0b3JhZ2UvdWFzLmMKaW5kZXggODY1NWVkYmQ2NmIxLi4xOTBlMzA1ZWJmMGUgMTAwNjQ0
-Ci0tLSBhL2RyaXZlcnMvdXNiL3N0b3JhZ2UvdWFzLmMKKysrIGIvZHJpdmVycy91c2Ivc3Rv
-cmFnZS91YXMuYwpAQCAtMzgsNiArMzgsNyBAQCBzdHJ1Y3QgdWFzX2Rldl9pbmZvIHsKIAlz
-dHJ1Y3QgdXNiX2FuY2hvciBjbWRfdXJiczsKIAlzdHJ1Y3QgdXNiX2FuY2hvciBzZW5zZV91
-cmJzOwogCXN0cnVjdCB1c2JfYW5jaG9yIGRhdGFfdXJiczsKKwlzdHJ1Y3QgdXNiX2FuY2hv
-ciBraWxsZXJfdXJiczsKIAl1NjQgZmxhZ3M7CiAJaW50IHFkZXB0aCwgcmVzZXR0aW5nOwog
-CXVuc2lnbmVkIGNtZF9waXBlLCBzdGF0dXNfcGlwZSwgZGF0YV9pbl9waXBlLCBkYXRhX291
-dF9waXBlOwpAQCAtNzEsNiArNzIsOSBAQCBzdHJ1Y3QgdWFzX2NtZF9pbmZvIHsKIAlzdHJ1
-Y3QgdXJiICpjbWRfdXJiOwogCXN0cnVjdCB1cmIgKmRhdGFfaW5fdXJiOwogCXN0cnVjdCB1
-cmIgKmRhdGFfb3V0X3VyYjsKKwlzdHJ1Y3QgdXJiICpraWxsZXI7CisJd2FpdF9xdWV1ZV9o
-ZWFkX3QgY2FuY2VsOworCWludCBjbGVhbmx5X2NhbmNlbGxlZDsKIH07CiAKIC8qIEkgaGF0
-ZSBmb3J3YXJkIGRlY2xhcmF0aW9ucywgYnV0IEkgYWN0dWFsbHkgaGF2ZSBhIGxvb3AgKi8K
-QEAgLTE2Niw3ICsxNzAsNyBAQCBzdGF0aWMgdm9pZCB1YXNfemFwX3BlbmRpbmcoc3RydWN0
-IHVhc19kZXZfaW5mbyAqZGV2aW5mbywgaW50IHJlc3VsdCkKIAkJY21kaW5mbyA9IHNjc2lf
-Y21kX3ByaXYoY21uZCk7CiAJCXVhc19sb2dfY21kX3N0YXRlKGNtbmQsIF9fZnVuY19fLCAw
-KTsKIAkJLyogU2Vuc2UgdXJicyB3ZXJlIGtpbGxlZCwgY2xlYXIgQ09NTUFORF9JTkZMSUdI
-VCBtYW51YWxseSAqLwotCQljbWRpbmZvLT5zdGF0ZSAmPSB+Q09NTUFORF9JTkZMSUdIVDsK
-KwkJY21kaW5mby0+c3RhdGUgJj0gfihDT01NQU5EX0lORkxJR0hUIHwgQ09NTUFORF9BQk9S
-VEVEKTsKIAkJY21uZC0+cmVzdWx0ID0gcmVzdWx0IDw8IDE2OwogCQllcnIgPSB1YXNfdHJ5
-X2NvbXBsZXRlKGNtbmQsIF9fZnVuY19fKTsKIAkJV0FSTl9PTihlcnIgIT0gMCk7CkBAIC0y
-NzQsNiArMjc4LDcgQEAgc3RhdGljIHZvaWQgdWFzX3hmZXJfZGF0YShzdHJ1Y3QgdXJiICp1
-cmIsIHN0cnVjdCBzY3NpX2NtbmQgKmNtbmQsCiAKIHN0YXRpYyBib29sIHVhc19ldmFsdWF0
-ZV9yZXNwb25zZV9pdShzdHJ1Y3QgcmVzcG9uc2VfaXUgKnJpdSwgc3RydWN0IHNjc2lfY21u
-ZCAqY21uZCkKIHsKKwlzdHJ1Y3QgdWFzX2NtZF9pbmZvICpjbWRpbmZvID0gc2NzaV9jbWRf
-cHJpdihjbW5kKTsKIAl1OCByZXNwb25zZV9jb2RlID0gcml1LT5yZXNwb25zZV9jb2RlOwog
-CiAJc3dpdGNoIChyZXNwb25zZV9jb2RlKSB7CkBAIC0yODYsNiArMjkxLDExIEBAIHN0YXRp
-YyBib29sIHVhc19ldmFsdWF0ZV9yZXNwb25zZV9pdShzdHJ1Y3QgcmVzcG9uc2VfaXUgKnJp
-dSwgc3RydWN0IHNjc2lfY21uZCAqCiAJY2FzZSBSQ19UTUZfTk9UX1NVUFBPUlRFRDoKIAkJ
-c2V0X2hvc3RfYnl0ZShjbW5kLCBESURfQkFEX1RBUkdFVCk7CiAJCWJyZWFrOworCWNhc2Ug
-UkNfT1ZFUkxBUFBFRF9UQUc6CisJCXNldF9ob3N0X2J5dGUoY21uZCwgRElEX0FCT1JUKTsK
-KwkJY21kaW5mby0+Y2xlYW5seV9jYW5jZWxsZWQgPSAxOworCQl3YWtlX3VwX2FsbCgmY21k
-aW5mby0+Y2FuY2VsKTsKKwkJYnJlYWs7CiAJZGVmYXVsdDoKIAkJdWFzX2xvZ19jbWRfc3Rh
-dGUoY21uZCwgInJlc3BvbnNlIGl1IiwgcmVzcG9uc2VfY29kZSk7CiAJCXNldF9ob3N0X2J5
-dGUoY21uZCwgRElEX0VSUk9SKTsKQEAgLTY3OCw2ICs2ODgsNyBAQCBzdGF0aWMgZW51bSBz
-Y3NpX3FjX3N0YXR1cyB1YXNfcXVldWVjb21tYW5kX2xjayhzdHJ1Y3Qgc2NzaV9jbW5kICpj
-bW5kKQogCW1lbXNldChjbWRpbmZvLCAwLCBzaXplb2YoKmNtZGluZm8pKTsKIAljbWRpbmZv
-LT51YXNfdGFnID0gaWR4ICsgMTsgLyogdWFzLXRhZyA9PSB1c2Itc3RyZWFtLWlkLCBzbyAx
-IGJhc2VkICovCiAJY21kaW5mby0+c3RhdGUgPSBTVUJNSVRfU1RBVFVTX1VSQiB8IEFMTE9D
-X0NNRF9VUkIgfCBTVUJNSVRfQ01EX1VSQjsKKwlpbml0X3dhaXRxdWV1ZV9oZWFkKCZjbWRp
-bmZvLT5jYW5jZWwpOwogCiAJc3dpdGNoIChjbW5kLT5zY19kYXRhX2RpcmVjdGlvbikgewog
-CWNhc2UgRE1BX0ZST01fREVWSUNFOgpAQCAtNzMwLDM1ICs3NDEsMTkwIEBAIHN0YXRpYyBl
-bnVtIHNjc2lfcWNfc3RhdHVzIHVhc19xdWV1ZWNvbW1hbmRfbGNrKHN0cnVjdCBzY3NpX2Nt
-bmQgKmNtbmQpCiBzdGF0aWMgREVGX1NDU0lfUUNNRCh1YXNfcXVldWVjb21tYW5kKQogCiAv
-KgotICogRm9yIG5vdyB3ZSBkbyBub3Qgc3VwcG9ydCBhY3R1YWxseSBzZW5kaW5nIGFuIGFi
-b3J0IHRvIHRoZSBkZXZpY2UsIHNvCi0gKiB0aGlzIGVoIGFsd2F5cyBmYWlscy4gU3RpbGwg
-d2UgbXVzdCBkZWZpbmUgaXQgdG8gbWFrZSBzdXJlIHRoYXQgd2UndmUKLSAqIGRyb3BwZWQg
-YWxsIHJlZmVyZW5jZXMgdG8gdGhlIGNtbmQgaW4gcXVlc3Rpb24gb25jZSB0aGlzIGZ1bmN0
-aW9uIGV4aXRzLgorICogV2UgYWJvcnQgYSBjb21tYW5kIGJ5IHJldXNpbmcgdGhlIHRhZywg
-dGh1cyBmb3JjaW5nIGFuIGVycm9yCiAgKi8KKworc3RhdGljIHN0cnVjdCBjb21tYW5kX2l1
-ICphbGxvY2F0ZV9kb3VibGVfY29tbWFuZChpbnQgdGFnLCBzdHJ1Y3Qgc2NzaV9kZXZpY2Ug
-KnNkZXYpCit7CisJc3RydWN0IGNvbW1hbmRfaXUgKnRlc3RfdW5pdF9yZWFkeTsKKworCXRl
-c3RfdW5pdF9yZWFkeSA9IGt6YWxsb2Moc2l6ZW9mKCp0ZXN0X3VuaXRfcmVhZHkpLCBHRlBf
-QVRPTUlDKTsKKwlpZiAoIXRlc3RfdW5pdF9yZWFkeSkKKwkJcmV0dXJuIE5VTEw7CisKKwl0
-ZXN0X3VuaXRfcmVhZHktPml1X2lkID0gSVVfSURfQ09NTUFORDsKKwl0ZXN0X3VuaXRfcmVh
-ZHktPnRhZyA9IGNwdV90b19iZTE2KHRhZyk7CisJdGVzdF91bml0X3JlYWR5LT5wcmlvX2F0
-dHIgPSBVQVNfU0lNUExFX1RBRzsKKwlpbnRfdG9fc2NzaWx1bihzZGV2LT5sdW4sICZ0ZXN0
-X3VuaXRfcmVhZHktPmx1bik7CisJLyoKKwkgKiBXZSBuZWVkIHNvbWV0aGluZyB0aGF0IGRv
-ZXMgbm90IGRvIGhhcm0KKwkgKiBpZiB0aGUgY29tbWFuZCB0byBiZSBhYm9ydGVkIGRvZXMg
-ZmluaXNoCisJICogcmVndWxhcmx5CisJICovCisJdGVzdF91bml0X3JlYWR5LT5jZGJbMF0g
-PSBURVNUX1VOSVRfUkVBRFk7CisKKwlyZXR1cm4gdGVzdF91bml0X3JlYWR5OworfQorCitz
-dGF0aWMgdm9pZCB1YXNfZHVtbXlfc2Vuc2Uoc3RydWN0IHVyYiAqdSkKK3sKKwlzdHJ1Y3Qg
-c2NzaV9jbW5kICpjbW5kID0gdS0+Y29udGV4dDsKKwlzdHJ1Y3QgdWFzX2NtZF9pbmZvICpj
-bWRpbmZvID0gc2NzaV9jbWRfcHJpdihjbW5kKTsKKwlzdHJ1Y3QgdWFzX2Rldl9pbmZvICpk
-ZXZpbmZvID0gKHZvaWQgKiljbW5kLT5kZXZpY2UtPmhvc3RkYXRhOworCWludCB0YWcgPSBj
-bWRpbmZvLT51YXNfdGFnOworCXVuc2lnbmVkIGxvbmcgZmxhZ3M7CisJLyoKKwkgKiBBbiBl
-cnJvciBpbXBsaWVzIHN1Y2Nlc3MKKwkgKi8KKwlpbnQgc3RhdHVzID0gdS0+c3RhdHVzOwor
-CisJLyoKKwkgKiBUaGUgdGFnIG11c3QgYmUgZnJlZWQgaW4gZXZlcnkgY2FzZQorCSAqLwor
-CXNwaW5fbG9ja19pcnFzYXZlKCZkZXZpbmZvLT5sb2NrLCBmbGFncyk7CisJZGV2aW5mby0+
-Y21uZFt0YWcgLSAxXSA9IE5VTEw7CisJc3dpdGNoIChzdGF0dXMpIHsKKwljYXNlIC1FU0hV
-VERPV046CisJY2FzZSAtRU5PRU5UOgorCWNhc2UgLUVDT05OUkVTRVQ6CisJY2FzZSAwOgor
-CQljbWRpbmZvLT5jbGVhbmx5X2NhbmNlbGxlZCA9IDE7CisJCWJyZWFrOworCX0KKwlzcGlu
-X3VubG9ja19pcnFyZXN0b3JlKCZkZXZpbmZvLT5sb2NrLCBmbGFncyk7CisKKwlrZnJlZSh1
-LT50cmFuc2Zlcl9idWZmZXIpOworCXdha2VfdXBfYWxsKCZjbWRpbmZvLT5jYW5jZWwpOwor
-CWRldl9lcnIoJnUtPmRldi0+ZGV2LCAiRHVtbXkgc2Vuc2UgY29tcGxldGVkIHdpdGggc3Rh
-dHVzICVkXG4iLCBzdGF0dXMpOworfQorCitzdGF0aWMgdm9pZCB1YXNfYWJvcnRfY29tcGxl
-dGUoc3RydWN0IHVyYiAqdSkKK3sKKwlpbnQgc3RhdHVzID0gdS0+c3RhdHVzOworCXN0cnVj
-dCBzY3NpX2NtbmQgKmNtbmQgPSB1LT5jb250ZXh0OworCXN0cnVjdCB1YXNfZGV2X2luZm8g
-KmRldmluZm8gPSAodm9pZCAqKWNtbmQtPmRldmljZS0+aG9zdGRhdGE7CisJc3RydWN0IHVh
-c19jbWRfaW5mbyAqY21kaW5mbyA9IHNjc2lfY21kX3ByaXYoY21uZCk7CisJc3RydWN0IHVz
-Yl9kZXZpY2UgKnVkZXYgPSBkZXZpbmZvLT51ZGV2OworCXN0cnVjdCByZXNwb25zZV9pdSAq
-ZHVtbXk7CisJaW50IHRhZyA9IGNtZGluZm8tPnVhc190YWc7CisJdW5zaWduZWQgbG9uZyBm
-bGFnczsKKwlpbnQgcnY7CisKKwlzd2l0Y2ggKHN0YXR1cykgeworCWRlZmF1bHQ6CisJCS8q
-CisJCSAqIGltbWVkaWF0ZSBjbGVhbnVwCisJCSAqLworCQlrZnJlZSh1LT50cmFuc2Zlcl9i
-dWZmZXIpOworCQlzcGluX2xvY2tfaXJxc2F2ZSgmZGV2aW5mby0+bG9jaywgZmxhZ3MpOwor
-CQlkZXZpbmZvLT5jbW5kW3RhZyAtIDFdID0gTlVMTDsKKwkJc3Bpbl91bmxvY2tfaXJxcmVz
-dG9yZSgmZGV2aW5mby0+bG9jaywgZmxhZ3MpOworCQl3YWtlX3VwX2FsbCgmY21kaW5mby0+
-Y2FuY2VsKTsKKwkJYnJlYWs7CisJY2FzZSAwOgorCQlrZnJlZSh1LT50cmFuc2Zlcl9idWZm
-ZXIpOworCQlkdW1teSA9IGt6YWxsb2Moc2l6ZW9mKCpkdW1teSksIEdGUF9BVE9NSUMpOwor
-CQlpZiAoIWR1bW15KSB7CisJCQlzcGluX2xvY2tfaXJxc2F2ZSgmZGV2aW5mby0+bG9jaywg
-ZmxhZ3MpOworCQkJZ290byBiYWlsb3V0OworCQl9CisJCXVzYl9maWxsX2J1bGtfdXJiKGNt
-ZGluZm8tPmtpbGxlciwgdWRldiwgZGV2aW5mby0+c3RhdHVzX3BpcGUsCisJCQkJZHVtbXks
-IHNpemVvZigqZHVtbXkpLCB1YXNfZHVtbXlfc2Vuc2UsIGNtbmQpOworCQlzcGluX2xvY2tf
-aXJxc2F2ZSgmZGV2aW5mby0+bG9jaywgZmxhZ3MpOworCQlpZiAoZGV2aW5mby0+dXNlX3N0
-cmVhbXMpCisJCQljbWRpbmZvLT5raWxsZXItPnN0cmVhbV9pZCA9IGNtZGluZm8tPnVhc190
-YWc7CisJCXVzYl9hbmNob3JfdXJiKHUsICZkZXZpbmZvLT5raWxsZXJfdXJicyk7CisJCXJ2
-ID0gdXNiX3N1Ym1pdF91cmIoY21kaW5mby0+a2lsbGVyLCBHRlBfQVRPTUlDKTsKKwkJaWYg
-KHJ2IDwgMCkgeworYmFpbG91dDoKKwkJCWRldmluZm8tPmNtbmRbdGFnIC0gMV0gPSBOVUxM
-OworCQkJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmZGV2aW5mby0+bG9jaywgZmxhZ3MpOwor
-CQkJdXNiX3VuYW5jaG9yX3VyYih1KTsKKwkJCWtmcmVlKGR1bW15KTsKKwkJCXVzYl9mcmVl
-X3VyYih1KTsKKwkJfSBlbHNlIHsKKwkJCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJmRldmlu
-Zm8tPmxvY2ssIGZsYWdzKTsKKwkJCWRldl9lcnIoJnUtPmRldi0+ZGV2LCAiU3VibWl0dGVk
-IGR1bW15IHRhZyAlZFxuIiwgdGFnIC0xKTsKKwkJfQorCQlicmVhazsKKwl9Cit9CisKIHN0
-YXRpYyBpbnQgdWFzX2VoX2Fib3J0X2hhbmRsZXIoc3RydWN0IHNjc2lfY21uZCAqY21uZCkK
-IHsKKwlERUNMQVJFX1dBSVRRVUVVRSh3YWl0LCBjdXJyZW50KTsKIAlzdHJ1Y3QgdWFzX2Nt
-ZF9pbmZvICpjbWRpbmZvID0gc2NzaV9jbWRfcHJpdihjbW5kKTsKIAlzdHJ1Y3QgdWFzX2Rl
-dl9pbmZvICpkZXZpbmZvID0gKHZvaWQgKiljbW5kLT5kZXZpY2UtPmhvc3RkYXRhOworCXN0
-cnVjdCB1c2JfZGV2aWNlICp1ZGV2ID0gZGV2aW5mby0+dWRldjsKIAlzdHJ1Y3QgdXJiICpk
-YXRhX2luX3VyYiA9IE5VTEw7CiAJc3RydWN0IHVyYiAqZGF0YV9vdXRfdXJiID0gTlVMTDsK
-LQl1bnNpZ25lZCBsb25nIGZsYWdzOworCXN0cnVjdCB1cmIgKmtpbGxlciA9IE5VTEw7CisJ
-c3RydWN0IGNvbW1hbmRfaXUgKmJ1bGxldCA9IE5VTEw7CisJaW50IHRhcmdldF90YWcsIHJ2
-OworCWludCByZXN1bHQgPSBGQUlMRUQ7CiAKLQlzcGluX2xvY2tfaXJxc2F2ZSgmZGV2aW5m
-by0+bG9jaywgZmxhZ3MpOworCWtpbGxlciA9IHVzYl9hbGxvY191cmIoMCwgR0ZQX05PSU8p
-OwogCi0JdWFzX2xvZ19jbWRfc3RhdGUoY21uZCwgX19mdW5jX18sIDApOworCXNldF9jdXJy
-ZW50X3N0YXRlKFRBU0tfVU5JTlRFUlJVUFRJQkxFKTsKKwlhZGRfd2FpdF9xdWV1ZSgmY21k
-aW5mby0+Y2FuY2VsLCAmd2FpdCk7CisJc3Bpbl9sb2NrX2lycSgmZGV2aW5mby0+bG9jayk7
-CisJaWYgKGRldmluZm8tPnJlc2V0dGluZykKKwkJZ290byBmdXRpbGU7CisJdGFyZ2V0X3Rh
-ZyA9IGNtZGluZm8tPnVhc190YWc7CiAKIAkvKiBFbnN1cmUgdGhhdCB0cnlfY29tcGxldGUg
-ZG9lcyBub3QgY2FsbCBzY3NpX2RvbmUgKi8KIAljbWRpbmZvLT5zdGF0ZSB8PSBDT01NQU5E
-X0FCT1JURUQ7CiAKLQkvKiBEcm9wIGFsbCByZWZzIHRvIHRoaXMgY21uZCwga2lsbCBkYXRh
-IHVyYnMgdG8gYnJlYWsgdGhlaXIgcmVmICovCi0JZGV2aW5mby0+Y21uZFtjbWRpbmZvLT51
-YXNfdGFnIC0gMV0gPSBOVUxMOwotCWlmIChjbWRpbmZvLT5zdGF0ZSAmIERBVEFfSU5fVVJC
-X0lORkxJR0hUKQotCQlkYXRhX2luX3VyYiA9IHVzYl9nZXRfdXJiKGNtZGluZm8tPmRhdGFf
-aW5fdXJiKTsKLQlpZiAoY21kaW5mby0+c3RhdGUgJiBEQVRBX09VVF9VUkJfSU5GTElHSFQp
-Ci0JCWRhdGFfb3V0X3VyYiA9IHVzYl9nZXRfdXJiKGNtZGluZm8tPmRhdGFfb3V0X3VyYik7
-Ci0KLQl1YXNfZnJlZV91bnN1Ym1pdHRlZF91cmJzKGNtbmQpOworCWlmICgha2lsbGVyKQor
-CQlnb3RvIGFkbWl0X2ZhaWx1cmU7CisJY21kaW5mby0+a2lsbGVyID0ga2lsbGVyOworCWJ1
-bGxldCA9IGFsbG9jYXRlX2RvdWJsZV9jb21tYW5kKHRhcmdldF90YWcsIGNtbmQtPmRldmlj
-ZSk7CisJaWYgKCFidWxsZXQpCisJCWdvdG8gYWRtaXRfZmFpbHVyZTsKKworCXVzYl9maWxs
-X2J1bGtfdXJiKGtpbGxlciwgdWRldiwgZGV2aW5mby0+Y21kX3BpcGUsCisJCQlidWxsZXQs
-IHNpemVvZigqYnVsbGV0KSwgdWFzX2Fib3J0X2NvbXBsZXRlLCBjbW5kKTsKKworCWNtZGlu
-Zm8tPmtpbGxlciA9IGtpbGxlcjsKKworCXVzYl9hbmNob3JfdXJiKGtpbGxlciwgJmRldmlu
-Zm8tPmtpbGxlcl91cmJzKTsKKwlydiA9IHVzYl9zdWJtaXRfdXJiKGtpbGxlciwgR0ZQX0FU
-T01JQyk7CisJaWYgKHJ2IDwgMCkgeworYWRtaXRfZmFpbHVyZToKKwkJLyogRHJvcCBhbGwg
-cmVmcyB0byB0aGlzIGNtbmQsIGtpbGwgZGF0YSB1cmJzIHRvIGJyZWFrIHRoZWlyIHJlZiAq
-LworCQlkZXZpbmZvLT5jbW5kW2NtZGluZm8tPnVhc190YWcgLSAxXSA9IE5VTEw7CisJCWlm
-IChjbWRpbmZvLT5zdGF0ZSAmIERBVEFfSU5fVVJCX0lORkxJR0hUKQorCQkJZGF0YV9pbl91
-cmIgPSB1c2JfZ2V0X3VyYihjbWRpbmZvLT5kYXRhX2luX3VyYik7CisJCWlmIChjbWRpbmZv
-LT5zdGF0ZSAmIERBVEFfT1VUX1VSQl9JTkZMSUdIVCkKKwkJCWRhdGFfb3V0X3VyYiA9IHVz
-Yl9nZXRfdXJiKGNtZGluZm8tPmRhdGFfb3V0X3VyYik7CiAKLQlzcGluX3VubG9ja19pcnFy
-ZXN0b3JlKCZkZXZpbmZvLT5sb2NrLCBmbGFncyk7CisJCXVhc19mcmVlX3Vuc3VibWl0dGVk
-X3VyYnMoY21uZCk7CisJCXNwaW5fdW5sb2NrX2lycSgmZGV2aW5mby0+bG9jayk7CisJCXVz
-Yl91bmFuY2hvcl91cmIoa2lsbGVyKTsKKwkJa2ZyZWUoYnVsbGV0KTsKKwl9IGVsc2Ugewor
-CQlzcGluX3VubG9ja19pcnEoJmRldmluZm8tPmxvY2spOworCQlydiA9IHNjaGVkdWxlX3Rp
-bWVvdXQoSFopOworCQlpZiAocnYpCisJCQlyZXN1bHQgPSBjbWRpbmZvLT5jbGVhbmx5X2Nh
-bmNlbGxlZCA/IFNVQ0NFU1MgOiBGQUlMRUQ7CisJCXNwaW5fbG9ja19pcnEoJmRldmluZm8t
-PmxvY2spOworCQlpZiAoY21kaW5mby0+c3RhdGUgJiBEQVRBX0lOX1VSQl9JTkZMSUdIVCkK
-KwkJCWRhdGFfaW5fdXJiID0gdXNiX2dldF91cmIoY21kaW5mby0+ZGF0YV9pbl91cmIpOwor
-CQlpZiAoY21kaW5mby0+c3RhdGUgJiBEQVRBX09VVF9VUkJfSU5GTElHSFQpCisJCQlkYXRh
-X291dF91cmIgPSB1c2JfZ2V0X3VyYihjbWRpbmZvLT5kYXRhX291dF91cmIpOworCQlzcGlu
-X3VubG9ja19pcnEoJmRldmluZm8tPmxvY2spOworCX0KKwlzZXRfY3VycmVudF9zdGF0ZShU
-QVNLX1JVTk5JTkcpOworCXJlbW92ZV93YWl0X3F1ZXVlKCZjbWRpbmZvLT5jYW5jZWwsICZ3
-YWl0KTsKKwkvKgorCSAqIHdlIGtub3cgYSBjYWxsYmFjayB3aWxsIGZyZWUgdGhlIHRhZwor
-CSAqLworCXNwaW5fbG9ja19pcnEoJmRldmluZm8tPmxvY2spOworCWNtZGluZm8tPmtpbGxl
-ciA9IE5VTEw7CitmdXRpbGU6CisJc3Bpbl91bmxvY2tfaXJxKCZkZXZpbmZvLT5sb2NrKTsK
-Kwl1c2Jfa2lsbF91cmIoa2lsbGVyKTsKKwl1c2JfZnJlZV91cmIoa2lsbGVyKTsKIAogCWlm
-IChkYXRhX2luX3VyYikgewogCQl1c2Jfa2lsbF91cmIoZGF0YV9pbl91cmIpOwpAQCAtNzY5
-LDcgKzkzNSw3IEBAIHN0YXRpYyBpbnQgdWFzX2VoX2Fib3J0X2hhbmRsZXIoc3RydWN0IHNj
-c2lfY21uZCAqY21uZCkKIAkJdXNiX3B1dF91cmIoZGF0YV9vdXRfdXJiKTsKIAl9CiAKLQly
-ZXR1cm4gRkFJTEVEOworCXJldHVybiByZXN1bHQ7CiB9CiAKIHN0YXRpYyBpbnQgdWFzX2Vo
-X2hvc3RfcmVzZXRfaGFuZGxlcihzdHJ1Y3Qgc2NzaV9jbW5kICpjbW5kKQpAQCAtNzk2LDYg
-Kzk2Miw3IEBAIHN0YXRpYyBpbnQgdWFzX2VoX2hvc3RfcmVzZXRfaGFuZGxlcihzdHJ1Y3Qg
-c2NzaV9jbW5kICpjbW5kKQogCXVzYl9raWxsX2FuY2hvcmVkX3VyYnMoJmRldmluZm8tPmNt
-ZF91cmJzKTsKIAl1c2Jfa2lsbF9hbmNob3JlZF91cmJzKCZkZXZpbmZvLT5zZW5zZV91cmJz
-KTsKIAl1c2Jfa2lsbF9hbmNob3JlZF91cmJzKCZkZXZpbmZvLT5kYXRhX3VyYnMpOworCXVz
-Yl9raWxsX2FuY2hvcmVkX3VyYnMoJmRldmluZm8tPmtpbGxlcl91cmJzKTsKIAl1YXNfemFw
-X3BlbmRpbmcoZGV2aW5mbywgRElEX1JFU0VUKTsKIAogCWVyciA9IHVzYl9yZXNldF9kZXZp
-Y2UodWRldik7CkBAIC0xMDM4LDYgKzEyMDUsNyBAQCBzdGF0aWMgaW50IHVhc19wcm9iZShz
-dHJ1Y3QgdXNiX2ludGVyZmFjZSAqaW50ZiwgY29uc3Qgc3RydWN0IHVzYl9kZXZpY2VfaWQg
-KmlkKQogCWluaXRfdXNiX2FuY2hvcigmZGV2aW5mby0+Y21kX3VyYnMpOwogCWluaXRfdXNi
-X2FuY2hvcigmZGV2aW5mby0+c2Vuc2VfdXJicyk7CiAJaW5pdF91c2JfYW5jaG9yKCZkZXZp
-bmZvLT5kYXRhX3VyYnMpOworCWluaXRfdXNiX2FuY2hvcigmZGV2aW5mby0+a2lsbGVyX3Vy
-YnMpOwogCXNwaW5fbG9ja19pbml0KCZkZXZpbmZvLT5sb2NrKTsKIAlJTklUX1dPUksoJmRl
-dmluZm8tPndvcmssIHVhc19kb193b3JrKTsKIAlJTklUX1dPUksoJmRldmluZm8tPnNjYW5f
-d29yaywgdWFzX3NjYW5fd29yayk7CkBAIC0xMjI1LDYgKzEzOTMsNyBAQCBzdGF0aWMgdm9p
-ZCB1YXNfZGlzY29ubmVjdChzdHJ1Y3QgdXNiX2ludGVyZmFjZSAqaW50ZikKIAl1c2Jfa2ls
-bF9hbmNob3JlZF91cmJzKCZkZXZpbmZvLT5jbWRfdXJicyk7CiAJdXNiX2tpbGxfYW5jaG9y
-ZWRfdXJicygmZGV2aW5mby0+c2Vuc2VfdXJicyk7CiAJdXNiX2tpbGxfYW5jaG9yZWRfdXJi
-cygmZGV2aW5mby0+ZGF0YV91cmJzKTsKKwl1c2Jfa2lsbF9hbmNob3JlZF91cmJzKCZkZXZp
-bmZvLT5raWxsZXJfdXJicyk7CiAJdWFzX3phcF9wZW5kaW5nKGRldmluZm8sIERJRF9OT19D
-T05ORUNUKTsKIAogCS8qCi0tIAoyLjU2LjAKCg==
-
---------------w0g21uaD0TQxVNCaf7UltPpH--
+-- 
+heikki
