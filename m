@@ -1,56 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794371239;
-	b=xSH7kCiEoSpq16h2IuNU8LIHnz1QJUHNCPzmCHCqoV5rX349kuFoe2KOukdvMERfan/x
-	 uJwEp8hWiGl2cgB0tu3/PB4P0/L96k1JEiapr1QdCGYdPHR3d+6LpO/mPeRU7mW7ooy5a
-	 MLQl1lo9gnb2icrrMJ5Wn13GPQ1c/05WBlwalOtscYZ7qhe4Ui2SRMZHokBuT8mFlIy9H
-	 f324rKRnn0LMFYJfKrjspePiCpwSIGEAOVFhcXTChPME0esH/MKJ5Y9OCNJXFamgc5aJF
-	 jG8G/mD7y8yqUaMVlFVldvR2UlEs0Xj6X4VjLhtYRi5Tm3hlhEZu2h55BP0LE6CT4/w==
+	t=1794371428;
+	b=QuVhbA2Zb7YrtW1NhMddJw3q41Mct3Uy50ZnY0OsLFS+5RWr+nAEEZ+yZ+Ll34La0rQQ
+	 g5wxqxT1vXeMB/OGoEMkk9Qot6z9HO5MlMZwR4IkwTOEXnaxHW1rHLtoeBOCg3umStZ2/
+	 ulYQa5MYdPfh+6YY9SK/HuqGN5MrTQ/hrO+WUa4OaLzB9fV8kBwiQJ3ERovmsxG9aVUGY
+	 n2CFcanw5P+sIrdDE1SNSSIYXRFPvbFRUZ9wOSxdLcHiUjBrge+ixNSKSiGDUX7WeoAVo
+	 Li9j+FtUNzSe+Ro6G+pmuc7foOfsSaEjo3+lwDr5hMeiqffEjO6is+dmuLwFd9kyI2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794371239;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=teh1xlXsx1Mj02Z3mta+x5vLotB3TB7zFvCFKh59hgI=;
-	b=iSyXBPfh/8zFlU1AbzoOgjyDpBZ3XyZ7DSLmDPzOPNDJkjWpa3RjYF1EKMSyOsD7KEVw
-	 NzW7475rTClTa1I7pZK2HfTg7RcohGLjztxgOt4erQBTrPdbc8rDv/i5ZQJp8MF5XvDE3
-	 xsDdyBtAp7lP+ZHVXsPvAR71quuv4ntMN6Cj73h3BC4H/eCVXXzlGm/RQdiSKcwH/8i/M
-	 6Q/cClI1VOFQ/QTMqxOGqhltMWpzboJCb5UooVkvFcG70iVq0wc7G4ayG29QBhlxtXjrO
-	 mE0duEAm2oLuvaft2UOvA/0p9tw55mJq2ZOzV1hSqVI8EQymVH87kYo8pGkYWFSi45g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794371428;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=Si6MSlu3RUwj/HwWiWYl6GV3URXCS64ssYkt9IuSeLE=;
+	b=O+YUVecEDhfFZlLQkE2KaQ+WnUiMrvVn+dK+iB0ngrREa/LEEnGUR/P0c8L7uB8RKwfD
+	 txHXVJMHx+7Eil2AX+7ZZSgJDyuGMh2WtmwUOTo5zaa9EgnhtLGl/+WVz+haWR6q7dUa8
+	 0u/0SOq3BmY5NWrQwPGZnrOdpHGIu00VBsL8bF2P1VjVdV8K04JXF/ALKlue1t/CAFkAj
+	 MJZr5V9LyySAmzFAieM6BhUDaqE3KLzH/OMLLT++SKiPo9YmgiV8Vs+55Aw8zk3RLmXO6
+	 j4eeXMo/tm5Z5JKnAHjBA8h3GzteJCWK66cCpReNzzkl2NuUCusXvJ0ELe2T7f7EHvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 237BB60A2611;
-	Wed, 11 Nov 2026 04:27:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 237BB60A2611
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:In-Reply-To:References:MIME-Version:Content-Type:
-	Content-Transfer-Encoding; bh=teh1xlXsx1Mj02Z3mta+x5vLotB3TB7zFv
-	CFKh59hgI=; b=J/IO5lPZP1Iyb/v+gDcuPnYrZWrH/u23ElNpXm5S33/gxkbwPf
-	TrVg7Sz0qSh7fAde7IwhY+8Nn4uhT2jplwRio9KBkyT4x/19N17/QcWMQ0Vitl/H
-	XOT5zwMynQjljwwirvFebQIOIONKv0ddbW5zb6dSn+DI4hq2cAZdKgGL4=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.33])
-	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPA id BrQMCkAmRfuX7vNq1x5zAQ--.13394S2;
-	Wed, 11 Nov 2026 12:27:05 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] usb: usbfs: Require claiming a hub interface for hub class requests
-Date: Wed, 11 Nov 2026 12:27:03 +0800
-Message-Id: <20261111042703.4784-1-25031212351@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261106105056.4601f826.michal.pecio@gmail.com>
-References: <0aa5c25e-465f-4168-8833-387acced222f@rowland.harvard.edu> <20261106091048.4056-1-25031212351@stu.xidian.edu.cn> <20261106105056.4601f826.michal.pecio@gmail.com>
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q7+6TVRc;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0BA606A31C
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 04:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q7+6TVRc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEC761F0089F;
+	Wed, 11 Nov 2026 04:30:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794371428;
+	bh=Si6MSlu3RUwj/HwWiWYl6GV3URXCS64ssYkt9IuSeLE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Q7+6TVRcLzFQFhxLCsBdztWNrd05hISylypbP2ztlI99bAGM2aqRv8oFUdU6uIiTX
+	 yv46D+u5/QvZe5283o5tkGMFInlAMFhpaFT/f23YygzkWvBCZUIS+B3wUDIzVPO9Wr
+	 qE8q4L5+b8ErJ9a9lts6sJzhcE+8paOtOxyEZpApNxmCIG3lAQH/aWTnOuzW3kjtJ2
+	 4KkHct3L83klnCTayP/gv7wm/Oj/0opO1rFVwVTOcVDP+xEcnevXW7qHyBS2mGATT/
+	 6t4LqCPGzocd8njIymHHPHHOmUu4A3zwRfMxiX7fNYVibBRH9ufW9PoSrwv0EZNsbG
+	 4EZxDeKFwai0Q==
+Message-ID: <sashiko-outbox-208285@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net] net: usb: rtl8150: fix rx tasklet use-after-free on
+ disconnect
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Myeonghun Pak" <mhun512@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261110043016.56986-1-mhun512@gmail.com>
+References: <20261110043016.56986-1-mhun512@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 11 Nov 2026 04:30:27 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,56 +59,94 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BrQMCkAmRfuX7vNq1x5zAQ--.13394S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KF4rKw4kGr48Gr4ftFyfCrg_yoW8GrW7pa
-	yrtFZrtrn8CrWUur47tF48CFyrZrsrCFs8Zrn8Aws8urW5ArWFqFyfK3y3CFWUArZ5ZFsI
-	yrWjgr93Ga4qyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9vb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
-	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq
-	07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r
-	17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
-	r41lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6r45MxAIw28IcxkI7VAKI48JMxC20s
-	026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
-	JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
-	v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
-	j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
-	W8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0zVbDUUUUU==
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUOD2rzM1aSBwABst
 
-Hi Michal,
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [High] net: usb: rtl8150: tasklet_kill() livelock in
+  rtl8150_disconnect()
+--
 
-> Does this really belong in devio.c?
->
-> If anyone thinks that the trivial "bDeviceClass == USB_CLASS_HUB" isn't
-> enough (Alan seemed to believe that it is, but hub_id_table has matches
-> for interface class too), then perhaps this should be placed in hub.c
-> near the ID table, so that it's more likely to be kept in sync?
+commit 80f52c420ee74481f60c886504dda8b0ad26ab4b
+Author: Myeonghun Pak <mhun512@gmail.com>
 
-> Seems overly specific to this case.  It isn't safe in general: it could
-> confuse the hub driver itself, disrupt functioning of child devices and
-> their drivers, or break HCDs relying on core serializing any actions.
+net: usb: rtl8150: fix rx tasklet use-after-free on disconnect
 
-Both fair.
+This commit adds a second tasklet_kill(&dev->tl) call after
+unlink_all_urbs(dev) in rtl8150_disconnect() to drain any RX tasklet
+scheduled by a late URB completion handler.
 
-I'll fix the comment.  The general reason for the check is that OUT
-requests change state the hub driver owns: they can confuse the hub
-driver, disrupt the devices behind the ports and their drivers, or
-break an HCD that expects the core to serialize; the suspend/release
-race is one way that goes wrong, not the reason for the check.
+> diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+> index d51e43170e033..98c36c3779564 100644
+> --- a/drivers/net/usb/rtl8150.c
+> +++ b/drivers/net/usb/rtl8150.c
+> @@ -971,6 +971,8 @@ static void rtl8150_disconnect(struct usb_interface *=
+intf)
+>  		tasklet_kill(&dev->tl);
+>  		unregister_netdev(dev->netdev);
+>  		unlink_all_urbs(dev);
+> +		/* A completion may have scheduled it after the first kill. */
+> +		tasklet_kill(&dev->tl);
 
-On placement, the simplest answer may be to drop the interface class
-test altogether.  Alan already said it is more than is needed, and the
-spec does not allow a hub to be a composite device, so bDeviceClass is
-enough and there is no helper left to place.  I kept the interface
-match only because hub_id_table has one.  If you would rather keep it
-for hubs that declare the class at the interface level, then hub.c next
-to hub_id_table is the right home and I will move it there.
+[Severity: High]
+Can this tasklet_kill(&dev->tl) livelock and hang rtl8150_disconnect() in
+TASK_UNINTERRUPTIBLE when a late read_bulk_callback() schedules dev->tl?
 
-YuanZhe
+During driver unbind, usb_unbind_interface() disables the endpoints before
+calling rtl8150_disconnect(), so usb_submit_urb(dev->rx_urb, GFP_ATOMIC)
+returns -ENOENT rather than -ENODEV.  Unlike read_bulk_callback(),
+rx_fixup() does not check RTL8150_UNPLUG and reschedules dev->tl whenever
+usb_submit_urb() fails with a non--ENODEV error:
 
+drivers/net/usb/rtl8150.c:rx_fixup() {
+	...
+	status =3D usb_submit_urb(dev->rx_urb, GFP_ATOMIC);
+	if (status =3D=3D -ENODEV) {
+		netif_device_detach(dev->netdev);
+	} else if (status) {
+		set_bit(RX_URB_FAIL, &dev->flags);
+		goto tlsched;
+	} else {
+		clear_bit(RX_URB_FAIL, &dev->flags);
+	}
+
+	return;
+tlsched:
+	tasklet_schedule(&dev->tl);
+}
+
+When read_bulk_callback() schedules dev->tl before tasklet_kill() runs,
+TASKLET_STATE_SCHED is already set on entry to wait_on_bit_lock().
+tasklet_action_common() clears TASKLET_STATE_SCHED, wakes the waiter, and
+immediately invokes rx_fixup() in softirq context, which sets
+TASKLET_STATE_SCHED back to 1 before rtl8150_disconnect() can acquire the
+bit:
+
+CPU0                                  CPU1 (<softirq>)
+read_bulk_callback()
+  tasklet_schedule(&dev->tl)
+    /* sets TASKLET_STATE_SCHED */
+rtl8150_disconnect()
+  tasklet_kill(&dev->tl)
+    wait_on_bit_lock(...,
+      TASKLET_STATE_SCHED, ...)
+      /* sleeps */
+                                      tasklet_action_common()
+                                        tasklet_clear_sched(t)
+                                          clear_bit_unlock(...)
+                                          wake_up_bit(...)
+                                        rx_fixup()
+                                          usb_submit_urb() -> -ENOENT
+                                          tasklet_schedule(&dev->tl)
+                                            /* re-sets TASKLET_STATE_SCHED =
+*/
+      /* wakes up */
+      test_and_set_bit(...) -> fails
+      /* sleeps again */              <-- livelock
+
+Checking test_bit(RTL8150_UNPLUG, &dev->flags) at the start of rx_fixup()
+(as pegasus.c does) or using tasklet_disable() before killing the URBs
+would prevent rx_fixup() from rescheduling itself during disconnect.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110043016.5698=
+6-1-mhun512@gmail.com?part=3D1
