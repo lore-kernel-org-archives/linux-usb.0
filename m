@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794387807;
-	b=hxGTTNVSivehXrMjHI0arpj6bt4kNm3P4dVqETDzGOY2BAiNfSPvJSHR/4NxjkR1tUK6
-	 sGQ7MxRvy1lAndnB12+e6kxYvCshtMfcOFc3bWcpQg2IgvsSawxfFOr36U6NllAqlYVgC
-	 WcjM7rcvqpTo0gOeRZJOGXXQ10ECgVV4stUA7iYddcQUPktLfZU2FjX51oUIMVqv6Q3a+
-	 dxe+ifeUrcPZ2S3+gh6+5sZGMQDRyTAZoTXnkr5hq7zW4NJm3Ed4zPamAEkwv6mccC+g2
-	 lTcRCOC4FzZmCpbBxyipNvAZkJ7MsMaj2pkwPXJK1Bdhcs6/CnpaQF4S0Zr2BmH0mkA==
+	t=1794388692;
+	b=DBDNpPlXPXX5oAP7xsSJMykGlBIHSlKgJBTLC7L+qs0Lm4tWIY/hvIg9a2TdPHfCkcBT
+	 V16PUSB8p8ZafQv84uqsX8MIY+PZXBp/mx0Z/QKafMeQCSwT+v4S7KlX0Iu0HhWvhtmLh
+	 MZDZ33OvtGup1cLpdFHBxIA3p8VHRXW7SpqBqNUp6BOfVEXXTCV0IhkaEpVdqrRU4UmlR
+	 8HprQbr+UIuCGT7EthwKx5ym2VWlmTENo7RgYna9R/y72z3eU4PKkoDvsygOhjjGxrIM9
+	 71YtZa9PeYtaAbuLY5cNdat89pwG5csQam5EtT5WM6fR0g+yEsczq/+E+h3yd4J2W+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794387807;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794388692;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=OaO/cuO8wGEE6lFURN0id05OgY2a4r0QYE8lPAVuA2g=;
-	b=v4WWKchyppccRLWD2aQh43sfWOXb5oI4a4RvKIruvrEgsQ5Rj7cnDNF2l2GfK7OKQDSC
-	 zRXYyKEDOv3Yd5bcUlIF4jUYl+bALKoKKgOfRwv25lEed23TH+FCOptZJxwO4sKjZZEyf
-	 +vzuL0nn071SBcr0zvWkQztTDQY6lxwy1FKPcPM9vHsZHpTmy54DaETOYQxOe4G1Hllhs
-	 LM6Z2CAKq3v1tYMYw7hHzsKnfhWuZmkQ3rLe38arJIWaN02ZQ/tMnYn/QP0xvBEd61QoH
-	 xOf32ZerBhI02+ss1j/QqnRtZc5Yz2WNdPDIkdNYp+aWX8kD6BQ/IPy1+J609Qlxxrw==
+	bh=2A5VloERchtvuhjSsO0e2rwutxH7y1QS+ZMi3Rqo7as=;
+	b=gzaAHzHL7HqKIV/m59u+92QwQN1jC/dlll3U80BPP+TIOklDEVSUx0PfPpaLEhqVybEN
+	 bEwJJeIAZddRr/EMOap+NRPZMuhxyU1CtVpCKditAcZ8kT+Uvl1d2dTsFusGJD/xPHSK/
+	 pOWGTGlYoxGvQMqpFNUXd6mq7IcWXpHY1pxoL8WMu9t0+FNOZgO08WS8z5CnqJ7KfOCP7
+	 1BHOeZd3zTpGJQ6Jj+6eMzeiShswaTPETP6teN4IsxTOjvmdYWI7Dp77vnUofHaC4BFqY
+	 4QYbK2bGWxeFMhDEblVNVv+KF8RmD7jGL9h5YNegBUuAGD0i/8QZRDedVny8Bs0NAVg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Oqp7gfca;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d885vXhh;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E75A606A321
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 09:03:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD4F606A321
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 09:18:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Oqp7gfca
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AEFB1F00A09;
-	Wed, 11 Nov 2026 09:03:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d885vXhh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFE331F00A06;
+	Wed, 11 Nov 2026 09:18:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794387806;
-	bh=OaO/cuO8wGEE6lFURN0id05OgY2a4r0QYE8lPAVuA2g=;
+	s=k20260515; t=1794388692;
+	bh=2A5VloERchtvuhjSsO0e2rwutxH7y1QS+ZMi3Rqo7as=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Oqp7gfcaDhXui6/1+aVwNNAkpyWRxU4ivDtsxZnpuVd+DBxWe7EGtAFoGmHlPFN3K
-	 8L9BydFp97OYmPHEK3CflC69HB0WAJ6x6PI1Fc6pJuujOFS9ToqRcllAo5WElnEPVQ
-	 ehPYoS0CYa+tkc7vFa1QbRagd3WXyD3zXrqC9kl8R9/+B+qiyc9wKWUjlSvdNUsOdP
-	 x1dODS1Isqh09FkKH83inST3T9XrFelH5GQ1VK06cD+uT9aXmBJ7r/zR1E+J2aaiTl
-	 utWsdlMG94QM/7d+fszwpQphNCGumV+I05tZuhtU0m0XEtYdl9NMiBZZ5dwymm8MjX
-	 ca7WO1P1vuI2w==
-Message-ID: <sashiko-outbox-208652@kernel.org>
+	b=d885vXhhqucgDMIq0iFLOPk3uBQeCC+c7TU5fe25Ps55c5dfMPCkWabiO1yNYhS87
+	 X+UVbGGP+Tksx38jc1mFLhZNNGUGVw69ctn9kumFx255DKyoebZJf+jzmkWQoetRte
+	 GY907uULBEzIeEZZhPOX2umqyhKcWRxyBeIGuMbLzcNA6o1oLZrVOa7LotFjR/gtpZ
+	 gW79ek4AXowYNYsyhSzZ95id8PFzKnWHi/wJb+1VKe2pV6sOUo7D7PQPG0CZAkJbpb
+	 EnEG6qZJnFsljxOdDVfd+Z24FMEgJxgWnNt1RbK9f9LD8GBkut5hvc834DykbFY6BC
+	 Pts1wROuLW93g==
+Message-ID: <sashiko-outbox-208679@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net] net: usb: smsc75xx: reject frames shorter than the
- FCS
+Subject: Re: [PATCH v3] usb: dwc3: Notify the glue of role changes from the
+ mode switch work
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joas Antonio dos Santos" <joasantonio108@gmail.com>
+To: "Vladyslav Tymoshchuk" <tvlad744@gmail.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261110-smsc75xx-rx-fcs-v1-1-4e048bfc28f3@gmail.com>
-References: <20261110-smsc75xx-rx-fcs-v1-1-4e048bfc28f3@gmail.com>
+In-Reply-To: <20261111090122.134-1-tvlad744@gmail.com>
+References: <20261111090122.134-1-tvlad744@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 09:03:26 +0000
+Date: Wed, 11 Nov 2026 09:18:11 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,52 +60,41 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] net: usb: smsc75xx: short non-final frames in
-  smsc75xx_rx_fixup() read uninit memory
---
+> dwc3_usb_role_switch_set() and dwc3_drd_notifier() call the glue's
+> pre_set_role() synchronously, from the context of whoever changes the
+> role, while the mode switch itself runs from drd_work on a freezable
+> workqueue. Not every caller is frozen during system sleep: the UCSI
+> connector work, for one, runs on the non-freezable system workqueue.
+>=20
+> On SM8750, when the USB cable is unplugged while the system is in
+> s2idle, the UCSI connector work for the change runs before the devices
+> have resumed. It switches the role to USB_ROLE_NONE, and
+> dwc3_qcom_set_role_notifier() accesses QSCRATCH while the glue clocks
+> are still off. The access does not complete and the SoC resets.
+> pm_runtime_resume_and_get() does not prevent this: runtime PM is
+> disabled at that point and the device is still marked active, so it
+> returns success without resuming anything.
+>=20
+> Record the role and call pre_set_role() from __dwc3_set_mode() instead,
+> so that the glue is not called while the system is suspended. The mode
+> alone can't carry this: USB_ROLE_NONE maps to the default mode, so a
+> switch between it and that role leaves the mode unchanged, and the glue
+> still has to be told. Make the call before the checks that skip the
+> mode switch, and only when a role was recorded, as the mode can also
+> change without one from debugfs and from dwc3_setup_role_switch().
+>=20
+> Role changes that come in while the work is frozen collapse into the
+> last one, which is the state the hardware has to end up in.
+>=20
+> Fixes: 21188e8d6d75 ("usb: dwc3: qcom: Implement glue callbacks to facili=
+tate runtime suspend")
+> Cc: stable@vger.kernel.org
+> Suggested-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> Signed-off-by: Vladyslav Tymoshchuk <tvlad744@gmail.com>
 
-commit c9531c5cff866a425adb994e4854a216487a72e0
-Author: Joas Antonio dos Santos <joasantonio108@gmail.com>
-
-net: usb: smsc75xx: reject frames shorter than the FCS
-
-This commit adds a minimum frame size check in smsc75xx_rx_fixup() to
-reject frames shorter than ETH_FCS_LEN before subtracting 4 for the FCS.
-
-> diff --git a/drivers/net/usb/smsc75xx.c b/drivers/net/usb/smsc75xx.c
-> index 6f72a3f159079..e923fa6c17857 100644
-> --- a/drivers/net/usb/smsc75xx.c
-> +++ b/drivers/net/usb/smsc75xx.c
-> @@ -2217,6 +2217,13 @@ static int smsc75xx_rx_fixup(struct usbnet *dev, s=
-truct sk_buff *skb)
->  				return 0;
->  			}
-> =20
-> +			if (unlikely(size < ETH_FCS_LEN)) {
-> +				netif_dbg(dev, rx_err, dev->net,
-> +					  "size err rx_cmd_a=3D0x%08x\n",
-> +					  rx_cmd_a);
-> +				return 0;
-> +			}
-> +
->  			/* last frame in this batch */
->  			if (skb->len =3D=3D size) {
->  				smsc75xx_rx_csum_offload(dev, skb, rx_cmd_a,
-
-[Severity: Medium]
-Should this check for size < ETH_HLEN + ETH_FCS_LEN instead of
-size < ETH_FCS_LEN?
-
-For a non-final frame in a batch (skb->len !=3D size) with size in 4..17,
-smsc75xx_rx_fixup() copies only 0..13 bytes (size - 4) into ax_skb->data
-and passes ax_skb directly to usbnet_skb_return().  Unlike rx_process(),
-which checks skb->len < ETH_HLEN for the final frame, usbnet_skb_return()
-calls eth_type_trans() unconditionally, where eth_skb_pkt_type() and
-eth_type_trans() read eth->h_dest and eth->h_proto from uninitialized
-memory past the copied bytes in ax_skb->data.
+Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-smsc75xx-r=
-x-fcs-v1-1-4e048bfc28f3@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111090122.134-=
+1-tvlad744@gmail.com?part=3D1
+
