@@ -1,57 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794397325;
-	b=zOp1TI+6B0zx1W7XTmszi8GoRntyD0s82ssQ3ZkKW2E59ubu9qBa3SzafWt2cR0bC2Vz
-	 BRG4/Q3fjI09JxL3vFMJdKWKiCTg3IXqfj2QwgE3LJIKcMK3la0lxksb0FuHaAfgqLVyP
-	 TapappS0ZdCPLYHWyIHG/pcsq72XUXSpyUBgynR61b5qk0y4BkaT1pvjTD10PwbOxYBQs
-	 mYZ/9cQ4Vkyf8rQoblZ2hqYWc/aQPiYs5Zak2UmZfH2n8dZMTuotnbJfHNdcVddAAGn+n
-	 HsdXvg3AmNTqTrtP7tITE2VsVeevSAc8W8KAy6lrkR9ngmmtX9mubzIVYn6Rc4GVy7w==
+	t=1794398064;
+	b=eBaSdccKQpBHGgvYilgSk5nY1nsrRJApqPHXTfJqLhJbAXt6oWRDVwg2DIna5NpEJxFx
+	 3PjRg2F53FP/ohb3jalNgRok/rLnQsc66QQA6Y3nchx7q2odXZ1sjSGdGvTlvvuzGIfoH
+	 pAvhCYUPKpxYBXYkzJKJhcUXtZlqjT1cvy8TZJFspFZnnT84yEmOkVavMvvWca7aUKN3j
+	 5SDwW/Zk9ZM6n2XxKNu2NgoujIBAwl5c7ZXpvP2rNVQaiwo4QfdsOnjqFk684yzx6qpii
+	 93eE1ac5INl/0t0Qy8DbyVy9UUgiH4i/uZ5FBkWpsT+pPSPipJ20xZOGXq5Lm43r0Gw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794397325;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=RCUz6VgeDQ1VaS2ABqu5i5iCnRzg81Wk1raGh4IsPbI=;
-	b=IjK9pPlyCOEaXcFjxG0sOArdoZs41H2ZJjOUzbS+SZbwwEd0+c64Lnut8HiqNqri77Zt
-	 6pLeYAuI8Y/NyGajWmFt0lSSDQpxT5gNLuLgnn7NCU6fBjIpt4kFX6w/mxo2izg21403W
-	 SLmsrSEUnJ+zK6Mnr1fJNI1mcpdlZylv/iMLuxA2f3SUbki+LXWjWNM4ogEDoFuOP+xVd
-	 mvF2XHlIcduXzarI3C41gpAqbmby32wB7Wqn3Nrl2+9+P6DsC6FhLmxuP8XNL4ZS7nTZZ
-	 xDUVP0Pj93qQyTgJIMYC4lcKgQ+lnrXqLYMPMYaINKmUO5mTcxJxEJAkMXb47o+LHnw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794398064;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=Ep5AJlsUvRo/Sl9Rg+NwP6D7Lq/wQPVEaLy1Gie9QQ4=;
+	b=kSLfRzPZ+UKsasYkIbpqJ/vITapkU0elP5o0JXeuaDjOpN+g3TP59lLBg2hg5PXjNGJt
+	 vwgPYlXZR1d9ZvixRGmUHeOkWt+tsdyV0qBn9ZAY5xzYVzXf7hmuGyTFX6S57GOTnpIzF
+	 AcnCBHNlTmWJ5edE+ZyX1yJLTuL6ve8DMStbkxWbSK+bfFfRnr8+kFgNTssE4l4ykYMFS
+	 M6LTGpqnK4ylkmAdd9kx7/CPXQ14EKwSdB/OAXpAMzpoK7U+2i6ZyeY1r7zS9k45HxshI
+	 LG6WpR1UQ4lYITagxJN5ayExy30UWYFegZa4g5E4JZiBEI2ZpVK+KshwtMpXC/95joA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F2DDKKSh;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=vV5nh+mu;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72C4606A31C
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 11:42:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E310B606A321;
+	Wed, 11 Nov 2026 11:54:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E310B606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F2DDKKSh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 417E91F00A05;
-	Wed, 11 Nov 2026 11:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794397324;
-	bh=RCUz6VgeDQ1VaS2ABqu5i5iCnRzg81Wk1raGh4IsPbI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=F2DDKKSh6tsxrUWzH48a2MSVRDbbNOhEHyrqxqWuQ3fEyMeH4YGxHERnJ3dx0qjf3
-	 j79L6KRf+PQ/JFCBPOA6MxwjFIWFd+9Zmxq+e0FDKLyUWDQS+NoTsrMhDy+IN4pCaJ
-	 NyrKrDcVzl0EqQMZnZYmLLXdpyiD2GfHkx1TOoM9mTblvMEGxmHcFeSmDSYpX3L0uB
-	 Es/T+e2LJKaxtioxDQJ8tWnPGiaYuYrAt0uKKHBTzXcjgIhpflOb54eGm7vCGyjB4m
-	 IdnYjI9mAg5zqJ6h1q4ITC0JHxt1AQ3Ub69HgQqN0n5aO7QYTW5rlqXPe4cdu4Ig+H
-	 31bLSHIwccW2g==
-Message-ID: <sashiko-outbox-208894@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] usbip: identify the event handler with
- current_work()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Michael Grzeschik" <grzeschik@puzzle.ch>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261111-usbip-v1-2-da5217ac71d7@puzzle.ch>
-References: <20261111-usbip-v1-0-da5217ac71d7@puzzle.ch>
- <20261111-usbip-v1-2-da5217ac71d7@puzzle.ch>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 11:42:03 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=vV5nh+mu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Ep5AJlsUvRo/Sl9Rg+NwP6D7Lq/wQPVEaLy1Gie9QQ4=; b=vV5nh+muii9KUwMXfoK65C9FPK
+	aNSl0OiG0j4I+LFXc7WeA74kYOFf834TBtI7qS+ZEF0cf7hSHSrnoI47iOSAXQPCAXQU9fne6O/8R
+	G2wk/XluU5ugbAZ7f5jU4JBscAk6nd/VyyPFhAk65/tq7U9wZjt9SJD8a8A/m2R6Cxj7l7C76kg9H
+	1KIPLAQYQ/Fv+JWvD04uouKwGYT/8gu4uHiCPUf9Bg4PxVdqeWdNvrfltP4AIW+MdO1/5WBfOmizl
+	DellelcAiKmJM9KaaC82wP83/72jAdgWurCb/I4tMo/beG16KgajqNT/PO+VCT1shIIGmoQlyuzr0
+	Arg3hVEA==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xR6u3-00DA6f-37;
+	Wed, 11 Nov 2026 11:54:12 +0000
+Date: Wed, 11 Nov 2026 03:54:00 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 25/38] powerpc/crash_dump: check ioremap_cache() in
+ copy_oldmem_page()
+Message-ID: <avRXHYDKemkiDvoj@gmail.com>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+ <20261102-work-procfs-bugfixes-v1-25-59422ed3e465@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,35 +87,25 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-25-59422ed3e465@kernel.org>
+X-Debian-User: leitao
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] usbip: missing Fixes: trailer for commit bb7871ad99ea
---
+On Mon, Nov 02, 2026 at 03:21:40PM +0100, Christian Brauner wrote:
+> copy_oldmem_page() maps a page of the old kernel that isn't in the
+> linear mapping with ioremap_cache() and copies from it without checking
+> whether the mapping worked. If it didn't, the copy reads from an offset
+> into the NULL page. That oopses unless the copy happens to be a user
+> copy, whose exception table entries turn the fault into a short copy.
+> 
+> Return -ENOMEM like the other architectures do. read_from_oldmem()
+> turns that into -EFAULT like any other short copy.
+> 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-commit 823e2d0c8c9cae9400078a44aab5ee7919c0b1e1
-Author: Michael Grzeschik <grzeschik@puzzle.ch>
-
-> usbip: identify the event handler with current_work()
->
-> usbip_in_eh() compares the task with worker_context, the first worker
-> that ever ran the event handler. Workers of the unbound usbip_event
-> workqueue are reaped when idle and new ones run the handler later, so the
-> check fails inside the event handler, and the remembered task_struct may
-> be reused by any other task, which then wrongly counts as the event
-> handler. stub_disconnect() relies on it to skip the shutdown of a device
-> reset from the event handler.
->
-> Ask the workqueue which work item the current task executes instead.
->
-> Signed-off-by: Michael Grzeschik <grzeschik@puzzle.ch>
-
-[Severity: Low]
-This fixes the worker_context check introduced when the event handler was
-converted to a workqueue.  Should this include:
-
-  Fixes: bb7871ad99ea ("usbip: event handler as one thread")
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111-usbip-v1-0=
--da5217ac71d7@puzzle.ch?part=3D2
+Reviewed-by: Breno Leitao <leitao@debian.org>
