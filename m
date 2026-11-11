@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.175
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794376603;
-	b=SeTJI5sszxkffzcraqUOO+upZL4S5gTCBpgUN8k+f6JkhzSmiIFUpmotKUhWFZ8o392O
-	 KJ/rbrSIDLIUOcNQ3MODFqH43LtrOZz5qheR/d++Px/8D9RJRbLTAePrGd/nih0YTnKTn
-	 TN/TaIj5NEejEsIBCou07oaxoWOX38bHXuC62kijnDeYsBlCC2ePC+VxfFyiJUyvHyYuh
-	 //PrepZFHoT6t3ydAZ7dbIJHVp3qXuJ7V4T2hZJzKe+/002mxgZpk+rIfAN/TiDJ3UQu/
-	 2X82VRWZMnJEzfC5+rKwT8Y/AVVufVRiu7EChtH9dgPfXiHq9nPXBq/s7M7BXpQqswA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794376603;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.180
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794376613;
+	b=dmYMqQbn2yKOL97kxlZGKPlhm8EbHCx+QzMR0z4vMSEmR0psotSWuW4KtM5sRbIjoDcx
+	 dew6H5RD8N5Mrrcw9AZzvM2hSYua5OKrEwRVttlIJcKp1M6z4Ogmtm/NmevO/wKO29VhJ
+	 ES0f/WRRen9Z1EHk90qjCWvTgtH7cZR1/qN4J2GLGuXeadbmc/cONbvEhaLS6WB6RExdf
+	 laU3OPMNKP9CtuiDTNMg7cOv3jBh0c1nAdj/WabqYRqVwEbDVG2RRz6JxLscP5udcTDp5
+	 bwdvf/fLOCXv8vvgu9s18XR7dqeDwpLeUKhMsmWtwP3LylFLdOuFaCNkGa5H1wdmcSg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794376613;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=SVdC4NoqsEAb0xjeu4zg9bcnEb0TfO6Tqq8G+6Aa5+w=;
-	b=z3BRbWOUGvj1Kq+cv9+3jZbgNh0GQjBr/UALuz8fs7ZhPj0RKnjokYHAieJO9q5rrIxC
-	 dk+hu6ZoVf6O9bOVnsSuMJYlt4DTmRo8fnd9X3rXudQwBAAeByMlVV2ado7CNZpNKi9iE
-	 Mjur78PAQ4SgZFItqKTrwCY5rMFeJ4FYXMy3dGEFsH8u4OpgTXK0OuW5Lkz2PnG2Gbr1z
-	 tVdFBcOAPUIE5asUZ4gcvA5KL05BJSl5J+qCWMGVEaabQNZqHxp69zWXgw4gnS7/0UVBZ
-	 /HPBieJo9qroixd0edQR8L+EoFK1ETtgMlewlCpknmwllcOhnbZ1z8CKsNTn237X60Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=unKmJDdAUE6W9/H4slkPzsgdbPWz7GOGEzJyQiys7w0=;
+	b=Faq6HV78TlB+tQV0fnN5tyPEiHnmllrz3qGjJuljoC/ZTCUKbn+kunUMlhQ+7X9OIUF8
+	 +ZvlzxZ2qEAFtna1x28ZE4zG4WJdgSuXjgmCYIhPwjQiPsKU0rFbzMZPZ3HPUIiqJ2gGK
+	 BO8qHZ8CPbnAV3HDMMq1vuFfwgQn1pd6vjyXwcobY4UD0uY9M+A5XSzRBExdfAFzZRzQF
+	 NxQY8Qz/azvUqsT/7sAxwbYN4bbe2YGufvDlDF0I2RB1F4gyZMPfTIY25epPwSlNkqM9U
+	 PoIKZrhM1KYg7NRfhvRU2KEVgTpYoJ97SHYlL6BO+Xv0ORrqQIOHozob020Jokf/YBg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=j8DnNixo;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.175
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="vRjqI5/h";
+	arc=none smtp.remote-ip=209.85.210.180
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFDF606A321
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 05:56:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FFDF606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E70606A332
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 05:56:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54E70606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=j8DnNixo
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-53ec92375d2so1098536b6e.1
-        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 21:56:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794376601; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cWgTBm55kz7LnvvQnD0Xhyrqm5m+BEaIZOvdahHq4L0isgaVoK8WK3KG39dP3f01bh
-         fNwSf5qqTiT7Y3JXynUQFKs66yWZh9MHczZOWuk/TIpQQMo3IyDf64tg6wSPVR9FQllT
-         1VU6ZT+DfRzOUjoWvqcGJ90EcCwu3VIJUdq9AG824kU3LHfP6fHzCw6UKCHQuLf3X4y7
-         xVULjmuyAU67Bup2homE6gadYSI4qU6XsburHct2Ny//vbXNm0hOz4Z3oRzgwfS6EzID
-         Cpu+OZUcFcyEOoJ4v8ehDzmuZRj82MSRNyjlLBjN1VI8mtvauszwjJeA9zY544oyfmAw
-         d8/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=SVdC4NoqsEAb0xjeu4zg9bcnEb0TfO6Tqq8G+6Aa5+w=;
-        fh=E1b1Wrz0giXQ1BhfhOLfO0Faro5kmqLeWSGuolMv33g=;
-        b=B5a2403fF+z+kioQSuZatJpfJU0HwGh3urff3TaPsu5aCiYV8WF7JwLcbXO6TVsb4Q
-         XLF9lUF69PX9wLBFRDfBNZxFMTiny+YAKJ3PT9BNdGNZK4PmIcctk6Ja9Qz+ChrDzeYE
-         W3IYvAmYtSaQHgKIhn0eJcwuQJN7eYcGz684Z8hU/VcDZYUydW95HRz4SsLrp329ipSD
-         QjB5dzKj8JK2S+z2Yg6Kky25PAMLXoOfFbkvyU0279CfyTWrDy80mWpfyywQgrEjPtJ7
-         8ddyFraeFRbww8HzudkvwYp+RZho9hrn7izk3IXxtVkTShfcRsD14RxNBaLDUdt15iHd
-         G4+w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vRjqI5/h
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8b2382bf051so1661959b3a.3
+        for <linux-usb@vger.kernel.org>; Tue, 10 Nov 2026 21:56:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794376601; x=1794981401; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SVdC4NoqsEAb0xjeu4zg9bcnEb0TfO6Tqq8G+6Aa5+w=;
-        b=j8DnNixo91ABh6Ud1k1J3g8aT3pLJT9qPII6YHh2PMwH0GPT0uCz17ceNKSWkB4kSo
-         zNlqE6pisPqCcWJ0rHOnmVMs0oCFgNLWxkXLb9XHr1uelXj91icqJRc1JoDF3Uir7d0y
-         yq12Y/L5wojdgHri6yXzY9qQI0EiKOx1GoVa9QHA3NobFrl/0nYgHysu1rp2yqjLQd72
-         KUVmDsMyQ0hEVI2V9+KVllo1Pob7VGPMUxJ/aoyOOT4k4/f6jDvOXvzEgeecLyH5ydTq
-         cORxLEcFj1HltGhuJswiKqhQ//CWBKlYTTSVjhNP4fuu7iClRZCv8tAMyZPZWUN8leqc
-         YsxA==
+        d=gmail.com; s=20260707; t=1794376613; x=1794981413; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=unKmJDdAUE6W9/H4slkPzsgdbPWz7GOGEzJyQiys7w0=;
+        b=vRjqI5/hclABu2QBc8ugqYu29kWFKF471I54hASrrOmzpvUosM6GGhNNOXKwSf2Rny
+         otPaF1vhAv9F+Gqd4sQ7S89YwToXCBeTAZMyk7BQmytpZTRmeOSWnbcbzrwG8URDFd9V
+         i0UrPQfxnDQkd0p+x8T2aUS2qMrN/StcvQbd/J3u86cftty1Zi0lSXlqD3cwdjt0bUgu
+         KTuprj0iNZlK1UDK153M2wgq55pqMLP7n7agORZIDonftNX3d6AXXOVeudTlwtgAYMLU
+         +lOuSsxD8CX/bLnhQAM5vrxT26CX5AGUUaO9sVdE1OxuTIXqEVYqS7C0u1VXNoSMm750
+         2pbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794376601; x=1794981401;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SVdC4NoqsEAb0xjeu4zg9bcnEb0TfO6Tqq8G+6Aa5+w=;
-        b=XiNgL2AfNmxbyR6mWbhxrHBySuBuCpgjIf5nu/l3rCRbgXkqxeies8JrCV6kRzDkGd
-         oNvJRj5fieXJq8gILj+2irr/whkDPPc/7YRAKJr457e+douy98bNTnqt5pyoge3cxjlH
-         ZfOf6/HcNhyjcUyLdey94SdurM9yOUHvRdM1A+QX1/wYbXfeYEGlj5WUSsCV9OZHaDC/
-         s9nubAkSXXeW7Dxf0BBZWsq27myAGDOuogQUkwvum/MO03zyOitsqYCLQM+ATq+LjxJ5
-         xKyITBo4AtfgDf/tNPguXEBa5lkRCPJ3zKJSeDj8nxUBvQkDjoVRAtHxttxLPnC/nBKg
-         cnbA==
-X-Forwarded-Encrypted: i=1; AL+hErF4OLGUB4dE4pzVFg7sEnomrYAixpOA3CIQTi9J2AiWYxnhx1Cy8H7xMqi10TrpMDRlMACdmRF2LNc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+F6H6NAnosHRMdG0XpXmOVoTti3XsnL9+6fjLSyhFKSfEp4TZb
-	A8pf16BeufZbgUidTCBzyCrEG/XEVFb61zzDs/0Pv5pDEw0E2VEFCDse7lGANAtdMLFb79Vjbab
-	XxnyJlin1PSjRai0POW7eoi5Bd9FVt/o=
-X-Gm-Gg: AYBFou3Tp5AX0ZdScZMXTCzJxdhwbrXKTo4U0w7dtQoH0tqTanrMHzpPX4Dn+XtCJfQ
-	WmyG2Q4KKJa3kWtMcMYSbv4Dnaqk2ZV9UTFbc+QSrU5MbxOSgg31Cjw9oBDvXs8MWLU2OZVld1F
-	S2XdbZA0g0ke32RDXKE0rUSG88s593r+IWnj+txF0pM8/e+2e6rDArlPt4s9LfMm6KccaDwp8Jt
-	7M8GI8dmbCf60Q9odv5Ab0b3nmfpttLjcScpycdrcD3VLMGBH8a9mWkDu9YQiskvKYu9yOVpdfv
-	g/L+KVPaHQk6ouYeOW2rZJUuNhZMfYtGh2Qt8biveelrCodbDJeKdQ0HpSwCWd5F1uzhHmC1JTb
-	d1Z63AVwavB8Qi76cTuv/phR/Hq1JitPO22s+XMhQ9slkDFO+rQGUQ2q+Pkx7O/qesPesF6lYVF
-	vg9fu0D5vzdGIEVeBhys0AaEWo5tF2B/taZVZzsqEZiE5UjlztT2c=
-X-Received: by 2002:a05:6808:4f23:b0:53a:e153:e901 with SMTP id
- 5614622812f47-56b932504ffmr1277212b6e.2.1794376601509; Tue, 10 Nov 2026
- 21:56:41 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794376613; x=1794981413;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=unKmJDdAUE6W9/H4slkPzsgdbPWz7GOGEzJyQiys7w0=;
+        b=1XqxUon7LFq3CpqS3ZL5E8VyUgsmOjt3GMorbFW1zYd5uHkAM7qxDnJ4Wtf5NCdlZH
+         1rAveLRMe+ue477/4GL7OMEnXRGkfeXrxwh7Q+Cd1MzRbtIhTyUL2k/2fg8aSxyO9mi2
+         GwHs7mj1LUiOEYUUkESpy8cuPaD+jKTHXJl5wxqcmpHOcKArieeeAQ8c3mpBMiP7595a
+         GRGb//PQ8I0gL9Vn4JDsn5JbHC5b5eOdgyCXEXzCKN0yvYen8m66iqra0ibLF1n2gETY
+         nrjwvFbTzJZ+q8bLZoKQ5qxrJf2hVuV05j+muv3r3drPzsBL8e5nZDiztrh//hRlq2gb
+         I2gg==
+X-Forwarded-Encrypted: i=1; AL+hErE1y4VnvYfRA476i3/o1gDXPo9Zk6lUAyy9NXhdLkNlpzDjrrJoHK5Kmrkb7VYJMz6yHP+prE9a58E=@vger.kernel.org
+X-Gm-Message-State: APuU4Z90H0kLotXW2xgKIg+r1FA/+HqyttQhAmhXX5xVo+bcDmK4pZu4
+	xLugFmk1ev0iRFCCBUihV2d23K2inqBDxUaYbLyR5X7iJ6891r7aWr3T
+X-Gm-Gg: AYBFou1RTQDQ7DeNjoTzEmzSDn6Tl4a2CpCqKESyUx4jZ8wyAXMI+t9J/Inf2BkRXin
+	5rPY+9MEiJimXTBy3UvUBRcmvxX2LKs11nkTfvMRv9CSmJZUr2ciBqaKzkYyrEQDaDcMzd50CPH
+	4xOHkeRnk7h3FjxPO4Ampwm08TlDmANMhK5eRuw9Ln7Zj1vCPRyr/qhHx9RnSO3BnrPQPW9GQtS
+	idwL5TbiY0k+aklqi6L78Y3Zf5Wh9AZHUWEG48Ic39hdCBGFgDNpHFDxxMYbAnexfbAUFWJs3nB
+	unv11S8wAoQ7HQrorpm2qLARb7/QAvkbLbPEOhN0ql5+4Wan9PE4w0bHHMs4JWYuFQkAlXuJbt+
+	9dMDbkieA7H+siQ/S/gV+1hq60xOe1n1NhspPY46uL2nHngjl+RlWcpRQcAptRlPxKARjlnGunx
+	48ka2YhxagVGTbirSjcWKwo7ZcabAzNNij+xeDTqOt83cQdUUD98NKcAdK9AuB14VIZnbvwx4Du
+	KCKUgIzncJ+/kgCfGxhW8Mo60NQm1Bpc4/cH4oXu8yONvuTbz47uGinpxmIs+G3QX573KDNUlHe
+	OmF6z0vPr2rsFt8LZ86643YOVkM=
+X-Received: by 2002:a05:6a21:648a:b0:3e2:1656:b7c7 with SMTP id adf61e73a8af0-3f2fe3d46dbmr1571001637.58.1794376612581;
+        Tue, 10 Nov 2026 21:56:52 -0800 (PST)
+Received: from localhost ([2001:19f0:8000:3bef:5400:6ff:fef9:667])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdd8d695905sm1393894a12.11.2026.11.10.21.56.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 21:56:51 -0800 (PST)
+From: Inochi Amaoto <inochiama@gmail.com>
+To: Minas Harutyunyan <hminas@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Felipe Balbi <balbi@ti.com>,
+	Paul Zimmerman <paulz@synopsys.com>,
+	Dinh Nguyen <dinguyen@opensource.altera.com>
+Cc: Inochi Amaoto <inochiama@gmail.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yixun Lan <dlan@gentoo.org>,
+	Longbin Li <looong.bin@gmail.com>
+Subject: [PATCH v2 1/3] usb: dwc2: gadget: honor pullup requests in core_connect
+Date: Wed, 11 Nov 2026 13:56:16 +0800
+Message-ID: <20261111055628.183891-2-inochiama@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261111055628.183891-1-inochiama@gmail.com>
+References: <20261111055628.183891-1-inochiama@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,90 +104,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <6ae09458.f0fe5aea.79aa1.008e.GAE@google.com> <20261027101009.18e9136537144533915008e4@linux-foundation.org>
-In-Reply-To: <20261027101009.18e9136537144533915008e4@linux-foundation.org>
-From: Rohith Matam <rohithmatham@gmail.com>
-Date: Tue, 10 Nov 2026 21:56:30 -0800
-X-Gm-Features: AclHuK-vbFkZZTGrimsL-YTV39zkF7VzvFxaCKkhVtRTZJlOUBJ0WGB_WgVtgM8
-Message-ID: <CA+FtcErvvvg8EQUpgravNPTib4_CnFb3W20PY-xMYSTdDH4=4A@mail.gmail.com>
-Subject: Re: [syzbot] [mm?] [usb?] WARNING in corrupted (4)
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: syzbot <syzbot+9fe09db3795456e0b442@syzkaller.appspotmail.com>, cl@gentwo.org, 
-	hao.li@linux.dev, harry@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-usb@vger.kernel.org, rientjes@google.com, 
-	roman.gushchin@linux.dev, syzkaller-bugs@googlegroups.com, vbabka@kernel.org, 
-	mchehab@kernel.org, hverkuil@kernel.org, duoming@zju.edu.cn, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Andrew,
+The connector ID work initializes the peripheral controller and calls
+dwc2_hsotg_core_connect() even when no gadget driver has requested a
+connection. After a host-to-device role change, this clears SFTDISCON
+and lets the host enumerate an unconfigured gadget.
 
-I retested my v6 patch against the October reproducer, and syzbot
-reported the patch test as OK.
+Check enabled in the connection helper. So the device will keep
+disconnect until the controller is ready
 
-The patch removes URB_FREE_BUFFER from the Siano-owned buffer and also
-fixes the related work initialization and teardown ordering.
+Fixes: 510ffaa48eac ("usb: dwc2: Initialize the USB core for peripheral mode")
+Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
+---
+ drivers/usb/dwc2/gadget.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Patch:
-https://lore.kernel.org/r/20260601201639.63171-1-rohithmatham@gmail.com
+diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+index 6c8a9f05fff0..5c8e85493289 100644
+--- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -3664,7 +3664,8 @@ void dwc2_hsotg_core_disconnect(struct dwc2_hsotg *hsotg)
+ void dwc2_hsotg_core_connect(struct dwc2_hsotg *hsotg)
+ {
+ 	/* remove the soft-disconnect and let's go */
+-	if (!hsotg->role_sw || (dwc2_readl(hsotg, GOTGCTL) & GOTGCTL_BSESVLD))
++	if (hsotg->enabled &&
++	    (!hsotg->role_sw || (dwc2_readl(hsotg, GOTGCTL) & GOTGCTL_BSESVLD)))
+ 		dwc2_clear_bit(hsotg, DCTL, DCTL_SFTDISCON);
+ }
+ 
+-- 
+2.56.0
 
-Mauro, Hans, could you please take another look at v6 for inclusion?
-
-Thanks,
-Rohith
-
-
-On Tue, 27 Oct 2026 at 10:10, Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Tue, 27 Oct 2026 05:08:56 -0700 syzbot <syzbot+9fe09db3795456e0b442@syzkaller.appspotmail.com> wrote:
->
-> > Hello,
-> >
-> > syzbot found the following issue on:
-> >
-> > HEAD commit:    5b0764a53235 Merge tag 'drm-next-2026-10-21' of https://gi..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=13739fc9580000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=fd1433abd362f255
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=9fe09db3795456e0b442
-> > compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-> > userspace arch: i386
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11cb9b0d580000
-> >
-> > Downloadable assets:
-> > disk image: https://storage.googleapis.com/syzbot-assets/05ac8658d211/disk-5b0764a5.raw.xz
-> > vmlinux: https://storage.googleapis.com/syzbot-assets/9cfb73243216/vmlinux-5b0764a5.xz
-> > kernel image: https://storage.googleapis.com/syzbot-assets/fc45c7faf785/bzImage-5b0764a5.xz
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+9fe09db3795456e0b442@syzkaller.appspotmail.com
-> >
-> > ------------[ cut here ]------------
-> > !PageLargeKmalloc(page)
-> > WARNING: mm/slub.c:6855 at free_large_kmalloc+0x97/0x110 mm/slub.c:6855, CPU#0: kworker/0:1/10
-> >
->
-> Thanks.
->
-> > This report is generated by a bot.
->
-> So is this report ;)
->
-> This looks like a double free in the Siano USB media driver, rather
-> than an MM bug.
->
-> The failure occurs during USB probe error recovery. The allocation
-> comes from smscore_register_device(), and the page-owner records show
-> that smscore_unregister_device() has already freed it. The USB core
-> can then attempt to free the same memory because smsusb_submit_urb()
-> sets URB_FREE_BUFFER on a buffer owned by the Siano core.
->
-> Rohith Matam posted a patch in June which removes URB_FREE_BUFFER
-> and fixes several related URB teardown races:
->
-> https://lore.kernel.org/r/20260601201639.63171-1-rohithmatham@gmail.com
->
-> I don't know why that patch hasn't resolved this problem, but it
-> would be worth revisiting before developing another fix.
->
-> This doesn't appear to need any MM changes.
