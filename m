@@ -1,58 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794385950;
-	b=kHSV5pvS7Ddrf5O9jaQgeIDeACw1jKZSgSW7UBSOUKFJstKHHC4Vv++C7ALcSxbZX4xX
-	 GozAcMixkasc4EHF9rjRp8x9jVPvgwJnVwxse/8aDqURF+0MHau0qi+AAZ4nFd5WyZbkE
-	 +i2VccTvZo9XNrk21rlwS5I91G07t2lKuJsq7/hoBUmx++PZ1hKzD3Itgl9FgBBRqGsVJ
-	 xrRAzekHd1ATGuQ1tJYe2+NhpZSCqbsp2tLaWkJN1CUb81N1JD6Ioh8HbYeOpK8qGIOVX
-	 ajdHSuixtWI3wubkwdW+RQyZFnu40/ovKKcwJ6B6q3/T1LzLj0IdVDHjSBTjAEvDo1A==
+	t=1794386072;
+	b=uHhTUNizKgwqrKOtTvU4UFViuBWc4GwSWjbUgHs7VVEj9K6YsSm9L2us5bEn7ruzAXhx
+	 vYvKPJwn+9imkyLEggt7dYnz7K/xOrdpPCRKUT2HJd2amKx4r1VmYQYqciSR/ojBdim3x
+	 Vztk0qG0uen5vq4sdpc0k1ntwBagT7zTjOvyTN1B6QKao5Q82ARQVfXAnmmV5p6KEsBWT
+	 YczL7TFStnSU2yMsDkWGpme8Jxjh9iI7H+qoqZTYtNjvZ6rCdh77oD79v+hbexpOWxUgB
+	 UYYpr987peejnWjarwYDUW3XenG2IZzOrZbAInqYmwRFa8dfzkH30Q3w+tE2HR/7eRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794385950;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794386072;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=/Pq3qspxC8lHlMLhYCqfunKuM5Bl2MSEB8l7SnB6qqc=;
-	b=Haa8yAel5R1C2gkyJ5yfmq0oWP0GFHEPmE4QvfKbCZ+oHfx4NkW3niWiFb6o14mgSuzy
-	 4eZ+/56GnEdA7OtXmPArug2xVpyAy141JV0IvLuucSj2e2tCOmEyDpWcXOu8SkfqvpIM7
-	 eQTYSjKsQl5RIl4M9bV9MTDwKALJvV054D/EoMArfDvyekgBEe8TeACki0advE1BbwyrJ
-	 DVtOXzr9XgYvyl1T77cvKMpNA+5nqz+NUwlbM6GgqQkdk5gYboWIPIsSf9UkcQ66phO3l
-	 u5Tz+UolATnfC2aWjgU449eJj96tVMZp2MAojqa4I1nnwW4q2Z2G9lXXEKGvzMDVKrw==
+	bh=gkrIN7grscyAN1Tpg8KtXb+iXCgvVfbLQcR7djNEHpE=;
+	b=thC0j/1Z1QOFzw2AtiB6rmDHXlDrsid6VmyMLaT2dbqAnWXINFO4Lta6XBd/o+Vtf4ZH
+	 hpp3DyF1Hog9OyFg4MxhpAfJY+LXayDRHzdGS8d9js15jMK286vkYEAlgT0Bh0NcJwSEy
+	 UedQix/pjIB+eKB/w+1b4oVX1NIxuT9lU4h8ZIgIwQrU10WMedrikWgajOOH8cFiKpD4J
+	 Jr5/+GS0BAsJnuw9CJmDcOkx0l8/8YA2JgCTy0dxS8fynfiHX9Xs6R6aIq5084FVCo2JQ
+	 K7j8TYqExMTu/MpEzimT54Oi9ICrbrM+1lOSpIrJJWJVrFanBPqDGmPCyPV1t58P3sQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IGNDVo5L;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dXjcYt5J;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A815606A31C
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 08:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17653606A321
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 08:34:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IGNDVo5L
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 956651F00A05;
-	Wed, 11 Nov 2026 08:32:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dXjcYt5J
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B2701F00A06;
+	Wed, 11 Nov 2026 08:34:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794385949;
-	bh=/Pq3qspxC8lHlMLhYCqfunKuM5Bl2MSEB8l7SnB6qqc=;
+	s=k20260515; t=1794386071;
+	bh=gkrIN7grscyAN1Tpg8KtXb+iXCgvVfbLQcR7djNEHpE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IGNDVo5LzROFSiJiAdaELR30TGxru6K4ApOD/s5Dh1MHP8lcTMWLbrIH4bbm9c8Gs
-	 0h6Mo6x5pkX+IVM7chwJWVL4ivvIdiaLxIJ84kda/SwbRBPKXSdc1oQG52Pf754dER
-	 kA9h+nKW+PUo53dBX3eQlwwvHvYk8JHpgqB64r4nO/NXobhGK3LSB+zblJOhxYbz06
-	 fQMtbvQPSZKiOLKrmrXuudyrxCZh4p4zlgPh6NrpC/7WDPIgVRGe8pL0rHAyhjE9CQ
-	 vMAahxewsDnHOoZJX7vLATjHwgDP59LASIktCwAWcVrv5SJ1haYiyGfRJfhrZcq8xL
-	 vxFAAMo3KEeMQ==
-Message-ID: <sashiko-outbox-208608@kernel.org>
+	b=dXjcYt5Jo2c8zJZLduqjlKLrhI07eXnDQHodzLhjyHTpzxfLps6Fk9aa8Dk/u33sc
+	 KrRWPLeZjHehXgcyEGhGX02nBQkE4Xy/jh7hbMHpIHxsSbNQkLDc1jilbGWZ330O92
+	 dD+pLm3WCgck76HIcplXiAunrFcZk1e1WDnEz7OYsr4rqNAxvOFySIyWBk49U1SMyt
+	 n5oYJ3Nt55vkQiw8699V8lYx1IAuXcdXFpEmOiUfH68YqrH9gy38uyKm8eQobnwyIT
+	 o42kDg6i2axakCU806MoejccMX5WUpXnCNaMr1DaugFSOe+uKlsclWCmTFXVLFx5t+
+	 W10xcd7c0MLgg==
+Message-ID: <sashiko-outbox-208616@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 3/4] usb: gadget: f_hid: fix race between userspace
- report update and GET_REPORT response
+Subject: Re: [PATCH v2 3/3] usb: dwc2: Handle OTG interrupts that GINTSTS
+ does not flag
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
+To: "Joseph Telaak" <joseph@telaak.dev>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261111081313.16626-4-shishunbo@cmss.chinamobile.com>
-References: <20261111021655.37851-1-shishunbo@cmss.chinamobile.com>
- <20261111081313.16626-1-shishunbo@cmss.chinamobile.com>
- <20261111081313.16626-4-shishunbo@cmss.chinamobile.com>
+In-Reply-To: <20261111-sf19a2890-dwc2-v2-3-cba9dd4a4256@telaak.dev>
+References: <20261111-sf19a2890-dwc2-v2-0-cba9dd4a4256@telaak.dev>
+ <20261111-sf19a2890-dwc2-v2-3-cba9dd4a4256@telaak.dev>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 08:32:29 +0000
+Date: Wed, 11 Nov 2026 08:34:31 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,57 +61,37 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] usb: gadget: f_hid: use-after-free of get_req_buf in
-  hidg_unbind()
---
+> From: Chuanhong Guo <gch981213@gmail.com>
+>=20
+> The DWC OTG 3.30a of the Siflower SF19A2890 has battery charger support
+> enabled. It raises the MultValIpChng interrupt (bit 20 of GOTGINT)
+> without setting OTGInt in GINTSTS, so the interrupt is never handled
+> and the kernel disables the USB interrupt because nobody cared.
+>=20
+> On a GL.iNet GL-SFT1200 it shows differently: after a few replugs of a
+> USB stick the system stops making progress, the console repeating its
+> last message with the same timestamp, until a power cycle.
+>=20
+> Add an otg_int_unflagged parameter for such cores. With it set, the
+> common interrupt handler also reads GOTGINT on every interrupt and
+> handles any OTG interrupt it finds there, as it does when OTGInt is
+> set. The SF19A2890 sets it; other cores are unchanged.
+>=20
+> Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
+> [Joseph Telaak:
+>   - handle the unflagged OTG interrupts only on cores with the new
+>     otg_int_unflagged parameter, which the SF19A2890 sets
+>   - do it in the one place that already handles flagged OTG
+>     interrupts, and return IRQ_HANDLED
+>   - describe what a GL-SFT1200 does without the patch, and the fix as
+>     it is now
+>   - subject]
+> Co-developed-by: Joseph Telaak <joseph@telaak.dev>
+> Signed-off-by: Joseph Telaak <joseph@telaak.dev>
 
-commit e3eb22ae89791d0f4572b69a78a39ec433f7be8d
-Author: Shunbo Shi <shishunbo@cmss.chinamobile.com>
-
-usb: gadget: f_hid: fix race between userspace report update and GET_REPORT=
- response
-
-This commit allocates a dedicated buffer (get_req_buf) at bind time and
-copies GET_REPORT response data into it before queueing hidg->get_req on
-ep0, avoiding a race with userspace report updates.
-
-> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/fun=
-ction/f_hid.c
-> index d7ba30323414c..426bc1743cbb9 100644
-> --- a/drivers/usb/gadget/function/f_hid.c
-> +++ b/drivers/usb/gadget/function/f_hid.c
-
-[ ... ]
-
-> @@ -1593,6 +1619,8 @@ static void hidg_unbind(struct usb_configuration *c=
-, struct usb_function *f)
-> =20
->  	cdev_device_del(hidg->cdev, &hidg->dev);
->  	destroy_workqueue(hidg->workqueue);
-> +	kfree(hidg->get_req_buf);
-> +	hidg->get_req_buf =3D NULL;
->  	usb_free_all_descriptors(f);
->  }
-
-[Severity: Medium]
-Can freeing hidg->get_req_buf here cause a use-after-free if hidg->get_req
-is still queued on cdev->gadget->ep0?
-
-get_report_workqueue_handler() queues hidg->get_req (with req->buf set to
-hidg->get_req_buf) asynchronously on ep0 and sets hidg->get_report_returned
-to true before the transfer completes.  During gadget unbind,
-hidg_disable() skips hidg->get_req when hidg->get_report_returned is true,
-and destroy_workqueue(hidg->workqueue) in hidg_unbind() can also drain a
-pending work item that queues hidg->get_req onto ep0 right before
-kfree(hidg->get_req_buf) runs.  Because hidg_unbind() neither dequeues nor
-frees hidg->get_req, the UDC can access freed slab memory via req->buf and
-hidg->get_req is leaked with a dangling buffer pointer.
-
-Should hidg_unbind() dequeue and free hidg->get_req on ep0 before freeing
-hidg->get_req_buf?
+Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111081313.1662=
-6-1-shishunbo@cmss.chinamobile.com?part=3D3
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111-sf19a2890-=
+dwc2-v2-0-cba9dd4a4256@telaak.dev?part=3D3
+
