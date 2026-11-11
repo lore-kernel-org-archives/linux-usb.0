@@ -1,96 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794412287;
-	b=fZe6KkMLn+Jzu9txiIln6Zrf6AnueEGtbfcisCVyzATsVeQifvQ22+lLlvUE5tN3gCyS
-	 0PA6rIsJbX0guqC5TW6bV12tL6FjB4cf5H22watPFj1R0UXKJgjtEhuXbLdDddhKsBICj
-	 iqDiXB0bfgnuKm9/pZaQLWOZUyPQUJ4lrCUZtsyBl23VeWtbyD+ejlYHgNaEPYJMsDQoJ
-	 QiSphFWXr4xC8oLjiFwRPnIBx5PcY5L0YnxGQB7DCrMeFWyO8BRaMb5ROUYYqtPQhGi8x
-	 0XD+NgvK3EfTBajW9MdRAiyUVZKA9QKRxor78Jwjq5i7e8sclBGYaGZKD2jMw8g0LAg==
+	t=1794412583;
+	b=w471HtC2vfd+3pEzQAeS4drnVY+zOVtHkp6ARCVnFiMYYMn2i4DZkAjiknM+kOUtmbdd
+	 fDWK7atW2FR687RslX6pNDC/K3+KyPMT2dpMNs+kyFSzRHcmDGwNm/+gAeOJuxfj37y68
+	 4+sbU0d5rGVQyfoUEVL2Nsjk0c14mmf+/MZSjP1LjZQPqA/mwVmIG0SQTC6GdWP0+9C2q
+	 zeHcZgwtUEcCsKYR+gWmSLkl0kGsNsskhm6nwcIaqPx+BVvA0rvy+y5MZbe/79wOziTT/
+	 Ycj7yb+huAq8nJnDv6fqYYLHcu2aWwhZo3V+fxIISgT76p7j1TcZ92svnOChkI198zg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794412287;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794412583;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=Vl76NkBrsjra54BZPnVGhoYiAY72Zkf6QXN+CElH2+E=;
-	b=RCQt3lH8t/wdUfro2NIkbSYjfRokybK14MFqqbKUQ10aKlLrb6OOnq0xTSWelBzNwGUb
-	 JENnYxSpBRRvsW2jVYj+gbCRPR1oa7nx3Vh6+wdspxAcZBc4t2zcuk8RQqvmBykroU1wP
-	 AEkUwTnUKD28q6PFK/14hG0gWW4oe8nTsJzZXturqUTl4lzfJNNrQXka2vMmMkoMNm7Tx
-	 brAIhfc/edF7ZfeULn9V0jYBJXMzjUnG0EevgMT7dlHGWfDRLV6Rj5wZ8ZLsuwIJey+Y+
-	 2lQoxcnnwfdppBt0UXP6lb5DP8I8AwOc+fXu1LYZKQzmK8Y0WO3iIMPXYoJ+awlzWLA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Y0UAXs1+0nAZfPmRj+PFNvx6nKwxNy3aasNLrMSA9g8=;
+	b=jVGDhghgzJWEi7vHCbN30jxmIRCCFP7SHD9t3jnY9XDnzSrVuzLJoaEj/4Z1eP4j/ED9
+	 xrY4uRURgKT2jzlnjl5i7bbl6YS3YjgzpnvY/4UY51huBMIHzAOrcFNZE2Ct7z43W+03V
+	 O7ZNmejRsexfbH2YHSpfBiiS8mUwvUbxLlUWTWwGxHnKFjEMak2ZFQSDaH3DOk1lvlrnv
+	 x19426/VAlzCVANlKM/AWpAsAFKsU97/bIkh7Na/FK+LfT7aIp7cYN/L9gK5t9JsW1StW
+	 FRaGoDiha+3bOkNK/ZjfPo1pqrRLl5RtV7ha9xyCQRUdTWU0/BUMCpMt90cslgvW6BQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=MyJJI0di;
-	arc=none smtp.remote-ip=209.85.160.172
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	dmarc=pass header.from=linuxfoundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=XON1dO3V;
+	arc=none smtp.remote-ip=209.85.161.41
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48750606A8AC
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 15:51:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48750606A8AC
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0D2606A324
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 15:56:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A0D2606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=MyJJI0di
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5365d26ccbdso39426711cf.0
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 07:51:27 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=XON1dO3V
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-6df7f544919so1789990eaf.1
+        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 07:56:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1794412286; x=1795017086; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Vl76NkBrsjra54BZPnVGhoYiAY72Zkf6QXN+CElH2+E=;
-        b=MyJJI0di1JWnjdifNmE39raOew4q/89RmtWKRO7XbhkqnBJmDhm4Xly/kgvhQJUdFg
-         x/bFLXYrAZmYFbTByGvgDijddHld3rDGyllpuZFEo4riI1ChaU7VCKxn90NyICucAbHj
-         Ph89ThUZb3k0bqnTQ6zucWJ347aQmSl2zZbQINjQMKMZHZtIJunEerxAi9r9YQSCFAC5
-         hDujWMAAkFB8vKzhcEpMCbyp5o1IT8kyrXz2hLv1ZvG6RQ7YYlFRQN/anEEqws6ir71H
-         Qqq/rk5vuHqB9ImSuG6/UIYefAVn9c/q2BQ+XMI+Y8yg5gzJLQ7S3kdHJvBepXpZwrh4
-         o1kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794412286; x=1795017086;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=linuxfoundation.org; s=google; t=1794412581; x=1795017381; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Vl76NkBrsjra54BZPnVGhoYiAY72Zkf6QXN+CElH2+E=;
-        b=Bo/1gdi/4VfNs1qJ3P7ykmhHWospqocNli4EWSaZZ7dUgn1bvF5sealazxfcexwWP0
-         D13Oepay176A2W/zdmkTFYaTuDInPJc06zDsls3RqzuZhVZwoCyKctG/EqVW5TimYvgL
-         YgJeMtQCu9m/LSuavx4kyd/74z2Xa5YExqPvvdun2dHHBcF84ySOfiJQy3xug1pvY6iQ
-         IhdG2SczKX4rM4chHT7mVfwRUMTORyG/TjhArcgglRhLe4631LFTR/9bGaz2VOw3yr+O
-         OPBYkFFl4nu28DrTIGI75CltWF69iLQQin63PVQdKwiwr1pi0/9HrMvoBMotnF49ZJJF
-         XdRA==
-X-Gm-Message-State: APuU4Z84oZEDDuQR9915OFgXrACBkTKgHfgxtnqNC1GbXZo3AJTju4aq
-	MXuYYlPJcx2C5he9zwBiqisYPeMsMpr4aG63a1cxt//b8URXn4Jybfah9V0mJ7VvqOJPGChipk3
-	n2IYFqA==
-X-Gm-Gg: AYBFou35kUF1HnqHCqlX5I/8+zIEIC6FbMGmatadAUmNbS6XXklUikRNj7ksz7WatsH
-	atbs6wFKzfaylZ8uUIejORwrSPkpjPEzBuFAALSYJl2e3iEATttKNM8NPTuPrWATEl89kPaX/Kf
-	FvKnytPJT4vPganLfFG24rUGYsUDW+iHGLa2g7khgKydxodlDrPzlnbpliSmPEIMqfL+qSoIv5A
-	vVPVgMfjWE/XaAbDZkLia7WkzcszIpnn/I32gYzzEN6tV5UqSR1J0iYelvSAf4sFVr6mmPX1sdm
-	FDkhwOK1evuu0DXt/A4BRbDbfLEpIPg9XEZ2ApwBTRVy6SpZpw5FxFq9i1phzs1BCs5L3tikAk8
-	X8e58j2Whv2sIZo9qQ5Fjdnx2Jowem3gzOTdxfB3yep1BBlAojc0CanMkESyiq/t++NJ+ROmq+E
-	Wa2yVT1D93ckYs/KCP3DXww222u5Pb4ItutWRn97GmWgnmGySgv3V4eTxU0FB6v5+Z9i90Kpjk1
-	hUi6RXHPzJfm7MAIb52euWesGal3bWEIZ4QTF5vpDpi7//frXv8voYWaWHJH0WW3sRNcDDWGS40
-	zhlJ7YIkrTs1lyk8dHynYZfyVwZATQ==
-X-Received: by 2002:a05:622a:1ba5:b0:538:68b:a2d9 with SMTP id d75a77b69052e-556bdfce39cmr42117721cf.3.1794412285943;
-        Wed, 11 Nov 2026 07:51:25 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::d355])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5550b9438dbsm53462371cf.19.2026.11.11.07.51.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 07:51:25 -0800 (PST)
-Date: Wed, 11 Nov 2026 10:51:22 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Hongyu Xie <xiehongyu1@kylinos.cn>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	usb-storage@lists.one-eyed-alien.net,
-	syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com,
-	Liu Qi <liuqi@longcheer.com>, stable@vger.kernel.org
-Subject: Re: [usb-storage] [PATCH v4] usb-storage: ene_ub6250: don't let the
- card-type probe hang forever
-Message-ID: <b07b5f5b-4722-4f1c-84b9-205ba9b8943f@rowland.harvard.edu>
-References: <20261109085449.83117-1-xiehongyu1@kylinos.cn>
+        bh=Y0UAXs1+0nAZfPmRj+PFNvx6nKwxNy3aasNLrMSA9g8=;
+        b=XON1dO3VFm2jKu5PlDdxw00zEK4dt2fLz3UFu8HgZKpOdAqpRJJJ9v4t5/3Fw3NbN8
+         BWJhcKOZmvI0fyDMFBy9N6xbEdaBhHBaaxnPVwtgsW156bPo9b1afNvP0U+cDcKY+WpZ
+         hGrRZe1orfh+wlQ/GfJwS/JPAxZAi26vTqygI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794412581; x=1795017381;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Y0UAXs1+0nAZfPmRj+PFNvx6nKwxNy3aasNLrMSA9g8=;
+        b=c3EJ3exEkBmRTtiA60IW8v65M/+1MEQDIAyfsJ3FKlTo9EBJYEBOgESPTBkD6o7hWX
+         GWbyFUNsFgZb6rbRPzIkBjz8bYMj5LSbFMbdSti9w+XtRvrPLtkhqAH6j1I/rD7Dm0cg
+         xXtvBgvHRtmajX2bKikGlbuz+jL8RxL5iEl1k0SCANoBiB3JcRThp/VAckB7ENWO8E8X
+         /6sy3cXUbWnUtYLAyHNgDiuYI8QfrlPm9cX2a/E74GLxmAlzZGR3+D/mC4QBWS8MEk2+
+         XsVvctbSSocE68ZORhNA1KCaFs8M49Lhv4ouZK3c8NdNCNGdYraoFquLPy0T2cIKgSvQ
+         GJJQ==
+X-Forwarded-Encrypted: i=1; AL+hErEGj2AyDZZvROExzJc85Hs3MGHA0Io82TI0yL6hQMUsulmfYKvb2WqYQr9i1HqbvEOPE84smB/KBF0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9gJ3i8Ez8NnzJehQ6S4lrYzPZkNVzE4ancMr49Q032AtcCWL7H
+	/rVSpDC7EGTVqMCKQ7Qftb9GFlMeo+F/5FmxcUHKE2b7yKhDW/NwohrIDawqQoqnNFg=
+X-Gm-Gg: AYBFou1ecjaQVoNXvqJ0Jg7MQFX0X1wihSKIoWsEjhh4lM123HqVOHVuFkp/q/PDrTL
+	Id43QNzyiendkzY6NEEi4aV/2vwJhpULDQTxHujgYzDAWZctmHHv76ZyEQ+Wl9UnwmgW809ckjG
+	8Obj1RNwXKE5cEvV3Hl5D2DttP3W9ur2FyX0w4YgNxCFs7Yd/lUrV7JkzE2rtBmwV9NRyYZPJ1u
+	5+6RSQK/IZEtd66HuPmXwRbCQeN8riSkTx6daEPLMU5UcAOKxvMb4VnHy6kPl8JLmQsCBsFKvLa
+	kRuwekknsKGZJ7Hjsn1RtAtp8dDHno8Fnqt65A0BliJI16QTomqlYObtlh1s+J3nAUeC+kBePr6
+	MHiugvX9wWv6F+ma7z2Z8C4+qPjqpUXqwDyS+9NDdQS2pnOs6OAUtWlP3sP1K+CwSJmmTkctjso
+	862uAgFt0+TpVP7qPYh0F15/OS4lyKtsULsorb/Q4K4pLnW1UZk+cLHxbQF15EtotndIkPZB1KG
+	7D0HxkqkXP7xLEHQw6tiCXxk940VpmXoir7nEIMaG3IQetJJLI/QevbRgwR1oSirJDhhHabZFM8
+	SROO+FXiIfpjMRSOqULl3cj0G+hvyylXCO76Jg==
+X-Received: by 2002:a05:6820:7708:b0:716:adb7:3f57 with SMTP id 006d021491bc7-719179f72eamr1482448eaf.86.1794412580991;
+        Wed, 11 Nov 2026 07:56:20 -0800 (PST)
+Received: from [192.168.1.128] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-860dcbc5e1csm4926122a34.14.2026.11.11.07.56.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Nov 2026 07:56:20 -0800 (PST)
+Message-ID: <248619eb-9164-477f-89c0-f391214cd273@linuxfoundation.org>
+Date: Wed, 11 Nov 2026 08:56:18 -0700
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -100,199 +89,78 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109085449.83117-1-xiehongyu1@kylinos.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] usbip: clear actual_length after a failed receive
+To: Alan Stern <stern@rowland.harvard.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Cheng Yongkang <teel4res@gmail.com>,
+ Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <179328314073.648427.8311262845412746237@gmail.com>
+ <179328314074.648427.388274461758949120@gmail.com>
+ <a0772d9b-83e8-4502-9e02-f61345e406bb@linuxfoundation.org>
+ <179333358668.2111112.12827497703998022783@gmail.com>
+ <3648026e-e93b-4543-87db-e56020770831@linuxfoundation.org>
+ <94436653-ae58-46c9-a2cf-241231ac8eab@rowland.harvard.edu>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <94436653-ae58-46c9-a2cf-241231ac8eab@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 09, 2026 at 04:54:49PM +0800, Hongyu Xie wrote:
-> ene_ub6250_probe() reads the card type with ene_get_card_type() right
-> after usb_stor_probe2() has added the SCSI host.  The query is a
-> bulk-only transaction (CBW, one-byte data-in, CSW) sent through
-> ene_send_scsi_cmd(), which uses usb_stor_bulk_transfer_buf() and
-> therefore waits for URB completion without any timeout.  That is safe
-> only for transfers belonging to a SCSI command, where the command's
-> timeout and abort handling terminate the wait.  A card-type query has
-> no SCSI command behind it, so a device which enumerates but never
-> services bulk transfers blocks the probe forever.
+On 11/10/26 14:29, Alan Stern wrote:
+> On Tue, Nov 10, 2026 at 11:57:34AM -0700, Shuah Khan wrote:
+>> On 10/29/26 22:13, Cheng Yongkang wrote:
+>>> Hi Shuah,
+>>>
+>>> Without this change the URB is still completed to usbfs, with status
+>>> -EPROTO but with the peer-supplied actual_length intact:
+>>>>     vhci_recv_ret_submit()
+>>>       usbip_pack_pdu() -> usbip_pack_ret_submit():
+>>>           urb->actual_length = rpdu->actual_length;   (usbip_common.c:471)
+>>>       usbip_recv_xbuff():
+>>>           size = urb->actual_length;                  (usbip_common.c:849)
+>>>           if (size > urb->transfer_buffer_length)     (usbip_common.c:856)
+>>>                   goto error;  /* rejects the packet, returns < 0 */
+>>>       urb->status = -EPROTO; goto error;
+>>>     error:
+>>>       usb_hcd_giveback_urb(hcd, urb, urb->status);    (vhci_rx.c:107)
+>>>         -> urb->complete(urb)                         (hcd.c:1657)
+>>>         -> usbfs async_completed()                    (devio.c:1911)
+>>>
+>>> usbfs copies data on reap whenever actual_length is non-zero, and does
+>>> not look at the URB status:
+>>
+>> It sounds like fixing usbfs to check the URB status before copying
+>> sounds like the right fix.
+
+Cheng, I missed that the you sent usbfs patch to bound the length. Thank
+you for both patches.
+
 > 
-> commit 445fc368c6bc ("usb-storage: ene_ub6250: fix race between scan
-> work and probe") added us->dev_mutex around the query to keep it from
-> racing with the scan work for us->current_urb.  usb_stor_probe2()
-> queues that work with a one-second delay, so it now waits for a
-> transfer which may never finish.  The query itself has been unbounded
-> since commit 41e568d14ec0 ("Staging: Merge ENE UB6250 SD card codes
-> from keucr to drivers/usb/storage"), but only the latter turns the
-> hang into the lockup reported here, hence the Fixes tag.
-> syzbot reports:
+> No, that's not possible.  A transfer may terminate with an error partway
+> through, after some data has been sent/received.  The URB status would
+> then be a negative error code, but actual_length would still need to
+> reflect the amount of data that usbfs has to copy back to userspace (for
+> an IN transfer) or tell userspace was sent (for an OUT transfer).
 > 
->  INFO: task kworker/0:2:53 blocked for more than 143 seconds.
->  ...
->  __mutex_lock
->  usb_stor_scan_dwork
->  ...
->  INFO: task syz-executor339:5675 blocked for more than 143 seconds.
->  ...
->  device_lock
->  usbdev_open
+> In general, the USB core relies on HCDs to set urb->actual_length
+> correctly even when there was an error.
 > 
-> with the hub worker holding both locks stalled in
-> ene_ub6250_probe() -> ene_get_card_type() -> usb_stor_msg_common().
+>> Changing vhci to zero out a filed in an URB that it received, itsn't
+>> something we want to do. Why not fix this in usbfs and that would work
+>> for other invalid lengths?
 > 
-> Run the query from ->initFunction instead.  usb_stor_acquire_resources()
-> calls it before the control thread is started and before the scan work
-> is queued, so nothing else can be using us->current_urb and the
-> dev_mutex from that commit can go away.  A failed query now unwinds
-> through usb_stor_probe2() before the SCSI host is registered, instead
-> of going through usb_stor_disconnect() and cancel_delayed_work_sync()
-> on a scan work which is itself stuck on the dead device.
+> HCDs are _supposed_ to set the actual_length field in URBs.  It's not
+> a mistake to do so.
 
-Makes sense.
+Alan, Thank you for weighing on this.
 
-> Also bound the whole query with a 10-second budget covering the CBW,
-> the data stage and the CSW.  Per-transfer timeouts would not be
-> enough, since a device can stretch the query over the data stage and
-> the two CSW retries; each transfer gets the time remaining in the
-> budget.
+Greg, please pick this patch up.
 
-I don't think this matters.  A timeout at any stage should cause the 
-entire transfer to fail immediately.  As for the possibility of slow 
-stages completing just before the timeout expires...  How often do you 
-expect that case to come up?  Does we care if the initialization 
-sometimes is a little slow, so long as the total time is still limited?
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
 
-However, it's not a big deal one way or the other.
-
-> diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-> index fea2614e767c7..2b4fab31e900d 100644
-> --- a/drivers/usb/storage/ene_ub6250.c
-> +++ b/drivers/usb/storage/ene_ub6250.c
-> @@ -24,6 +24,15 @@
->  
->  #define DRV_NAME "ums_eneub6250"
->  
-> +/*
-> + * Time budget for the card-type query done while probing, in jiffies.  It
-> + * is a bulk transfer with no SCSI command behind it, so nothing else would
-> + * terminate the wait if the device stopped responding.
-> + */
-
-Detailed explanation not needed here; you explain the reasoning in 
-ene_ub6250_init() below.
-
-> +#define ENE_PROBE_TIMEOUT (10 * HZ)
-> +
-> +static int ene_ub6250_init(struct us_data *us);
-
-Unnecessary forward declaration.
-
-> +
->  MODULE_DESCRIPTION("Driver for ENE UB6250 reader");
->  MODULE_LICENSE("GPL");
->  MODULE_IMPORT_NS("USB_STORAGE");
-> @@ -487,39 +496,76 @@ static void ene_ub6250_info_destructor(void *extra)
->  	kfree(info->bbuf);
->  }
->  
-> -static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
-> +/*
-> + * Return what is left of a budget of @timeout jiffies which started at
-> + * @start, in jiffies, or -ETIMEDOUT if the budget has been used up.  A zero
-> + * @timeout means no limit.
-> + */
-> +static int ene_time_left(unsigned long start, unsigned int timeout)
-> +{
-> +	unsigned long elapsed;
-> +
-> +	if (!timeout)
-> +		return 0;
-> +
-> +	elapsed = jiffies - start;
-> +	if (elapsed >= timeout)
-> +		return -ETIMEDOUT;
-> +
-> +	return min_t(unsigned long, timeout - elapsed, INT_MAX);
-
-You're mixing unsigned long and unsigned int in a confusing way.  Why 
-can't elapsed be an unsigned int?  You don't expect ever to encounter 
-delays longer than 4 billion jiffies, do you?
-
-Also, if you don't care about an overall timeout, this routine isn't 
-needed.
-
-> +}
-> +
-> +/*
-> + * Send an ENE SCSI command.  @timeout is the time budget for the whole
-> + * transaction (CBW, data and CSW), in jiffies; zero means no limit.
-> + */
-> +static int ene_send_scsi_cmd_timeout(struct us_data *us, u8 fdir, void *buf,
-> +				     int use_sg, unsigned int timeout)
->  {
->  	struct bulk_cb_wrap *bcb = (struct bulk_cb_wrap *) us->iobuf;
->  	struct bulk_cs_wrap *bcs = (struct bulk_cs_wrap *) us->iobuf;
-> -
-> -	int result;
-> +	unsigned long start = jiffies;
-> +	int result, left;
->  	unsigned int residue;
->  	unsigned int cswlen = 0, partial = 0;
->  	unsigned int transfer_length = bcb->DataTransferLength;
->  
-> +	left = ene_time_left(start, timeout);
-> +	if (left < 0)
-> +		return USB_STOR_TRANSPORT_ERROR;
-
-What point is there in checking for a timeout before anything has 
-happened?
-
-> +
->  	/* usb_stor_dbg(us, "transport --- ene_send_scsi_cmd\n"); */
->  	/* send cmd to out endpoint */
-> -	result = usb_stor_bulk_transfer_buf(us, us->send_bulk_pipe,
-> -					    bcb, US_BULK_CB_WRAP_LEN, NULL);
-> +	result = usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
-> +						    bcb, US_BULK_CB_WRAP_LEN,
-> +						    NULL, left);
->  	if (result != USB_STOR_XFER_GOOD) {
->  		usb_stor_dbg(us, "send cmd to out endpoint fail ---\n");
->  		return USB_STOR_TRANSPORT_ERROR;
->  	}
->  
->  	if (buf) {
-> -		unsigned int pipe = fDir;
-> +		unsigned int pipe = fdir;
-
-Unnecessary initialization.
-
->  
-> -		if (fDir  == FDIR_READ)
-> +		if (fdir == FDIR_READ)
->  			pipe = us->recv_bulk_pipe;
->  		else
->  			pipe = us->send_bulk_pipe;
->  
->  		/* Bulk */
->  		if (use_sg) {
-> +			/*
-> +			 * Scatter-gather transfers belong to SCSI commands,
-> +			 * whose timeout and abort machinery bound the wait.
-> +			 */
->  			result = usb_stor_bulk_srb(us, pipe, us->srb);
->  		} else {
-> -			result = usb_stor_bulk_transfer_sg(us, pipe, buf,
-> -						transfer_length, 0, &partial);
-> +			left = ene_time_left(start, timeout);
-> +			if (left < 0)
-> +				return USB_STOR_TRANSPORT_ERROR;
-> +			result = usb_stor_bulk_transfer_buf_timeout(us, pipe,
-> +								    buf, transfer_length, &partial,
-
-Things like this are why I maintain that the policy of aligning 
-continuation lines with the preceding open paren is a mistake.  Grumble.
-
-The rest of the material looks pretty much okay.  However, I would 
-prefer this to be made into a series of two patches, one with the 
-modifications to transport.[ch] and the other with the modifications to 
-ene_ub6250.
-
-Alan Stern
+thanks,
+-- Shuah
