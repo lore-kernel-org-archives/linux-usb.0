@@ -1,92 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794411911;
-	b=bymCF0dPkkkgaDGGehhgap0sjG7L6iglLre9MjW1JcnASOY54QY556x9cM/dZ6Nn5DM+
-	 L5xr+r/QY7qPNgOBvrNSvB8nbm3xLXAxbHCRz3cC1ZWOpz1FAERgQBW2sj7hjyQF4Wyor
-	 or6pQctXkDnCu6n5VOmxhn9inMD37Szm+pEbTJ7iaT8Lz23cVL0cKgCX80Jfqb/Ln/1Bw
-	 EwqyPsmjz6kcQ2SXlp4+YPaYZL+dx2cY/eAUjiXwhPQVF7khdoys2j/UdmZL6b4svXwPV
-	 BhRBNO62/nEbAlvAvfMMUrYdFn5HIVdRNro47qdv4K02kp/F/9otCVQVt93FKj6TW4g==
+	t=1794412287;
+	b=fZe6KkMLn+Jzu9txiIln6Zrf6AnueEGtbfcisCVyzATsVeQifvQ22+lLlvUE5tN3gCyS
+	 0PA6rIsJbX0guqC5TW6bV12tL6FjB4cf5H22watPFj1R0UXKJgjtEhuXbLdDddhKsBICj
+	 iqDiXB0bfgnuKm9/pZaQLWOZUyPQUJ4lrCUZtsyBl23VeWtbyD+ejlYHgNaEPYJMsDQoJ
+	 QiSphFWXr4xC8oLjiFwRPnIBx5PcY5L0YnxGQB7DCrMeFWyO8BRaMb5ROUYYqtPQhGi8x
+	 0XD+NgvK3EfTBajW9MdRAiyUVZKA9QKRxor78Jwjq5i7e8sclBGYaGZKD2jMw8g0LAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794411911;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794412287;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=YVhpQdien6ClW81XRhljqG17Ko+dXVxzUCRkvlPhS+s=;
-	b=x2HKFzMxZze5HgBUjp3R6p2xBAOksrxrUUkiyEIGxR4SeCveln+D5+L+LZk2INj3/R0S
-	 xI7lTzOt60Aw1z7ljQrMNcHg2h2ozwVO+PRG8xUiCp6hTaQTan3UfsRQj2pIV9/1hjUq0
-	 3nGZ4YwJ3TOYMm84rkG2TyTA5jLrWG/qYpN2cf3//CH7do9okK3SIbi8fec20RgqU1Rsw
-	 s08sRVbs2jv2Z/hwLTVx+OqwaRq8MhGncDu/7tLM+j5S0/ZAlFjgjrsOzI4/yJY4v7xuX
-	 3vr3mj6TkvuhWsZMn7eXu72WC2MhiSFVUMxOK3Ro/5U0g3JdWsk9U2DpbYp/99E8BFw==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Vl76NkBrsjra54BZPnVGhoYiAY72Zkf6QXN+CElH2+E=;
+	b=RCQt3lH8t/wdUfro2NIkbSYjfRokybK14MFqqbKUQ10aKlLrb6OOnq0xTSWelBzNwGUb
+	 JENnYxSpBRRvsW2jVYj+gbCRPR1oa7nx3Vh6+wdspxAcZBc4t2zcuk8RQqvmBykroU1wP
+	 AEkUwTnUKD28q6PFK/14hG0gWW4oe8nTsJzZXturqUTl4lzfJNNrQXka2vMmMkoMNm7Tx
+	 brAIhfc/edF7ZfeULn9V0jYBJXMzjUnG0EevgMT7dlHGWfDRLV6Rj5wZ8ZLsuwIJey+Y+
+	 2lQoxcnnwfdppBt0UXP6lb5DP8I8AwOc+fXu1LYZKQzmK8Y0WO3iIMPXYoJ+awlzWLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=N7eQiWBs;
-	arc=none smtp.remote-ip=209.85.222.172
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=MyJJI0di;
+	arc=none smtp.remote-ip=209.85.160.172
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1620A606A881
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 15:45:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1620A606A881
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48750606A8AC
+	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 15:51:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48750606A8AC
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=N7eQiWBs
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-943e8d35f74so285326185a.0
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 07:45:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=MyJJI0di
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5365d26ccbdso39426711cf.0
+        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 07:51:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794411910; x=1795016710; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YVhpQdien6ClW81XRhljqG17Ko+dXVxzUCRkvlPhS+s=;
-        b=N7eQiWBsJoz1GfZmtmTsNRAJN0A0bODBk5+JYy/c6BAIKZtPkUFoZcR5hLaK99LX8k
-         4cgCEbC96C8iztbsYDb5TaCLcBYM+qk5o1DOMTWUEwqJQ6cP9R5xjwcQwD3NbtHOGY+R
-         iGFVbU8TTiAQSDckgLgYaudMbdpLrQuoKRHKXqZEdVoWC6Q1P3zZ6Xo8X4/dykwBirEA
-         9ypnR8aucL2ziH0x27HJF2utvhazPfgE9y+sCxn//cwWah0NQGhuAUJ2L969gCy/iTGG
-         vi0c/MzCQuFwyby+cIIz8Gg59mOaEVwG8R/KSSpknhkS0BN+Y+Bb9AL6mpcP329cScTc
-         xXFA==
+        d=rowland.harvard.edu; s=google; t=1794412286; x=1795017086; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Vl76NkBrsjra54BZPnVGhoYiAY72Zkf6QXN+CElH2+E=;
+        b=MyJJI0di1JWnjdifNmE39raOew4q/89RmtWKRO7XbhkqnBJmDhm4Xly/kgvhQJUdFg
+         x/bFLXYrAZmYFbTByGvgDijddHld3rDGyllpuZFEo4riI1ChaU7VCKxn90NyICucAbHj
+         Ph89ThUZb3k0bqnTQ6zucWJ347aQmSl2zZbQINjQMKMZHZtIJunEerxAi9r9YQSCFAC5
+         hDujWMAAkFB8vKzhcEpMCbyp5o1IT8kyrXz2hLv1ZvG6RQ7YYlFRQN/anEEqws6ir71H
+         Qqq/rk5vuHqB9ImSuG6/UIYefAVn9c/q2BQ+XMI+Y8yg5gzJLQ7S3kdHJvBepXpZwrh4
+         o1kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794411910; x=1795016710;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YVhpQdien6ClW81XRhljqG17Ko+dXVxzUCRkvlPhS+s=;
-        b=xxYFTLbyoJ+ZzRmHAa/8twSbjbJoOHqUU4oMlYF5MKdsTmwwm6fKot02m/v8P/4SLF
-         jy1eRbDECSzLFDHtELi5PxWqLiiZffqRZ+3KeXkfLowjsHzQxrdV9LeH2zGkreZw2rxi
-         cyPkZk8bhwwgE3j+lDx/iFP2UCl5b7EuCJT1VwYsnL5rqYVT7rHZzEpy/pbwBxr1FJC1
-         XmMA5cJ+kexRCTdX7Ov0lhCWxrG5mLSChwdaA9KGlRPglaFXCkEhE1IRVwd8I2fjuw8q
-         GBG6iM18XZGkO9HOZ/OiwQgDCn+i5BoQPMor/F25elrqstHOWxrdVtm3HhnnSGXxTZix
-         a2sw==
-X-Gm-Message-State: APuU4Z/ZvzA+++rnsBaYQhf6mQ9ejVxitKpbwOGoOf1DPX4wel9fk89y
-	4hymw/qAqPFRBA0qH7wjznzccOmEaE5SVFFb/13v7knfvTreqJ4l5emHXzvO+9pD
-X-Gm-Gg: AYBFou3ftgx7dil430KIJdKc0ISaoVDUL/rJYkbW/yjO08YNe+iyp/BHf72wNPKN1Zb
-	pi0giCQby0oalLZ9heT+oRxs1Lk6bhkK/0PF8q8njXrBGB3IiCdtFoMSFb84M2+BvDD9V3go7fe
-	0qJCbpSkoJQowA0t9Ge1ZTByAiyFtbMc40RuCeb0S/xA9nGQ8bx85tZpCgvdG/Ce1VtMtQf6XJC
-	mL0Su4sTMsEnmuDsZqI55+Tqwl/de8Ym5TvG1u4mh+waJq08kNohuGVHV4XP9p6yd70o2ICdrLi
-	Omiln/KiX0VtHwXpcDpdZSS+3VEYmD+/LiSVwkgdZTgeCRbpF4SoZ+TguWVCfNtc8mpzMd8WKMz
-	NtMjXB0IPukjW/7REo8tldZR9kr05tCGTeeHUp4o+b/zxJcHm7gOqPTAQ8dksuJH9LWYY5rDOoa
-	VCb06ygXagFS1rcdj6l38ACgL42G+4G6ZttTUYGHKhSmfRKmwXve6DdCrK0XCtLVGCrBwyW5vQC
-	jy91190bFYpqZicgBL+fVPVv74b4EGCi0DL5aHAPnG6pWeU7sEbwpnnJZu0aVNMIoRH335onH3D
-	8VrCdTwMEFExSg27/vuYylxznwClSDUaTogUIp8y6f/XuyM91Wue0nwPsp5iQurMM+V3u0nfhrA
-	UjMYeVGfL0KSZSnqcwodj
-X-Received: by 2002:a05:620a:1a02:b0:945:f275:76fb with SMTP id af79cd13be357-947b002ccbbmr439213085a.42.1794411909629;
-        Wed, 11 Nov 2026 07:45:09 -0800 (PST)
-Received: from linux.. ([8.34.174.240])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e7f2edesm510783885a.40.2026.11.11.07.45.07
+        d=1e100.net; s=20260707; t=1794412286; x=1795017086;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Vl76NkBrsjra54BZPnVGhoYiAY72Zkf6QXN+CElH2+E=;
+        b=Bo/1gdi/4VfNs1qJ3P7ykmhHWospqocNli4EWSaZZ7dUgn1bvF5sealazxfcexwWP0
+         D13Oepay176A2W/zdmkTFYaTuDInPJc06zDsls3RqzuZhVZwoCyKctG/EqVW5TimYvgL
+         YgJeMtQCu9m/LSuavx4kyd/74z2Xa5YExqPvvdun2dHHBcF84ySOfiJQy3xug1pvY6iQ
+         IhdG2SczKX4rM4chHT7mVfwRUMTORyG/TjhArcgglRhLe4631LFTR/9bGaz2VOw3yr+O
+         OPBYkFFl4nu28DrTIGI75CltWF69iLQQin63PVQdKwiwr1pi0/9HrMvoBMotnF49ZJJF
+         XdRA==
+X-Gm-Message-State: APuU4Z84oZEDDuQR9915OFgXrACBkTKgHfgxtnqNC1GbXZo3AJTju4aq
+	MXuYYlPJcx2C5he9zwBiqisYPeMsMpr4aG63a1cxt//b8URXn4Jybfah9V0mJ7VvqOJPGChipk3
+	n2IYFqA==
+X-Gm-Gg: AYBFou35kUF1HnqHCqlX5I/8+zIEIC6FbMGmatadAUmNbS6XXklUikRNj7ksz7WatsH
+	atbs6wFKzfaylZ8uUIejORwrSPkpjPEzBuFAALSYJl2e3iEATttKNM8NPTuPrWATEl89kPaX/Kf
+	FvKnytPJT4vPganLfFG24rUGYsUDW+iHGLa2g7khgKydxodlDrPzlnbpliSmPEIMqfL+qSoIv5A
+	vVPVgMfjWE/XaAbDZkLia7WkzcszIpnn/I32gYzzEN6tV5UqSR1J0iYelvSAf4sFVr6mmPX1sdm
+	FDkhwOK1evuu0DXt/A4BRbDbfLEpIPg9XEZ2ApwBTRVy6SpZpw5FxFq9i1phzs1BCs5L3tikAk8
+	X8e58j2Whv2sIZo9qQ5Fjdnx2Jowem3gzOTdxfB3yep1BBlAojc0CanMkESyiq/t++NJ+ROmq+E
+	Wa2yVT1D93ckYs/KCP3DXww222u5Pb4ItutWRn97GmWgnmGySgv3V4eTxU0FB6v5+Z9i90Kpjk1
+	hUi6RXHPzJfm7MAIb52euWesGal3bWEIZ4QTF5vpDpi7//frXv8voYWaWHJH0WW3sRNcDDWGS40
+	zhlJ7YIkrTs1lyk8dHynYZfyVwZATQ==
+X-Received: by 2002:a05:622a:1ba5:b0:538:68b:a2d9 with SMTP id d75a77b69052e-556bdfce39cmr42117721cf.3.1794412285943;
+        Wed, 11 Nov 2026 07:51:25 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::d355])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5550b9438dbsm53462371cf.19.2026.11.11.07.51.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 07:45:08 -0800 (PST)
-From: Changyul Lee <lcy8047@gmail.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Changyul Lee <lcy8047@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] usb: typec: Check the alternate mode ID allocation
-Date: Wed, 11 Nov 2026 10:45:03 -0500
-Message-ID: <20261111154503.3621477-1-lcy8047@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 11 Nov 2026 07:51:25 -0800 (PST)
+Date: Wed, 11 Nov 2026 10:51:22 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Hongyu Xie <xiehongyu1@kylinos.cn>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	usb-storage@lists.one-eyed-alien.net,
+	syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com,
+	Liu Qi <liuqi@longcheer.com>, stable@vger.kernel.org
+Subject: Re: [usb-storage] [PATCH v4] usb-storage: ene_ub6250: don't let the
+ card-type probe hang forever
+Message-ID: <b07b5f5b-4722-4f1c-84b9-205ba9b8943f@rowland.harvard.edu>
+References: <20261109085449.83117-1-xiehongyu1@kylinos.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -96,62 +100,199 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109085449.83117-1-xiehongyu1@kylinos.cn>
 
-typec_register_altmode() stores the return value of altmode_id_get()
-in an unsigned int without checking it. When ida_alloc() fails, the
-error code becomes the ID, and the alternate mode is registered under
-a name such as "port0-partner.4294967284". A second failure on the same
-partner then fails with a duplicate name:
+On Mon, Nov 09, 2026 at 04:54:49PM +0800, Hongyu Xie wrote:
+> ene_ub6250_probe() reads the card type with ene_get_card_type() right
+> after usb_stor_probe2() has added the SCSI host.  The query is a
+> bulk-only transaction (CBW, one-byte data-in, CSW) sent through
+> ene_send_scsi_cmd(), which uses usb_stor_bulk_transfer_buf() and
+> therefore waits for URB completion without any timeout.  That is safe
+> only for transfers belonging to a SCSI command, where the command's
+> timeout and abort handling terminate the wait.  A card-type query has
+> no SCSI command behind it, so a device which enumerates but never
+> services bulk transfers blocks the probe forever.
+> 
+> commit 445fc368c6bc ("usb-storage: ene_ub6250: fix race between scan
+> work and probe") added us->dev_mutex around the query to keep it from
+> racing with the scan work for us->current_urb.  usb_stor_probe2()
+> queues that work with a one-second delay, so it now waits for a
+> transfer which may never finish.  The query itself has been unbounded
+> since commit 41e568d14ec0 ("Staging: Merge ENE UB6250 SD card codes
+> from keucr to drivers/usb/storage"), but only the latter turns the
+> hang into the lockup reported here, hence the Fixes tag.
+> syzbot reports:
+> 
+>  INFO: task kworker/0:2:53 blocked for more than 143 seconds.
+>  ...
+>  __mutex_lock
+>  usb_stor_scan_dwork
+>  ...
+>  INFO: task syz-executor339:5675 blocked for more than 143 seconds.
+>  ...
+>  device_lock
+>  usbdev_open
+> 
+> with the hub worker holding both locks stalled in
+> ene_ub6250_probe() -> ene_get_card_type() -> usb_stor_msg_common().
+> 
+> Run the query from ->initFunction instead.  usb_stor_acquire_resources()
+> calls it before the control thread is started and before the scan work
+> is queued, so nothing else can be using us->current_urb and the
+> dev_mutex from that commit can go away.  A failed query now unwinds
+> through usb_stor_probe2() before the SCSI host is registered, instead
+> of going through usb_stor_disconnect() and cancel_delayed_work_sync()
+> on a scan work which is itself stuck on the dead device.
 
-  [    0.423055] sysfs: cannot create duplicate filename '/devices/platform/altfail/typec/port0/port0-partner/port0-partner.4294967284'
+Makes sense.
 
-Return the error when the ID allocation fails.
+> Also bound the whole query with a 10-second budget covering the CBW,
+> the data stage and the CSW.  Per-transfer timeouts would not be
+> enough, since a device can stretch the query over the data stage and
+> the two CSW retries; each transfer gets the time remaining in the
+> budget.
 
-Fixes: 8a37d87d72f0 ("usb: typec: Bus type for alternate modes")
-Cc: stable@vger.kernel.org
-Signed-off-by: Changyul Lee <lcy8047@gmail.com>
----
-Changes in v2:
-- Add Cc: stable@vger.kernel.org
+I don't think this matters.  A timeout at any stage should cause the 
+entire transfer to fail immediately.  As for the possibility of slow 
+stages completing just before the timeout expires...  How often do you 
+expect that case to come up?  Does we care if the initialization 
+sometimes is a little slow, so long as the total time is still limited?
 
-v1: https://lore.kernel.org/all/20261111041446.3072716-1-lcy8047@gmail.com/
+However, it's not a big deal one way or the other.
 
-Found with a static analysis tool we are developing.
+> diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
+> index fea2614e767c7..2b4fab31e900d 100644
+> --- a/drivers/usb/storage/ene_ub6250.c
+> +++ b/drivers/usb/storage/ene_ub6250.c
+> @@ -24,6 +24,15 @@
+>  
+>  #define DRV_NAME "ums_eneub6250"
+>  
+> +/*
+> + * Time budget for the card-type query done while probing, in jiffies.  It
+> + * is a bulk transfer with no SCSI command behind it, so nothing else would
+> + * terminate the wait if the device stopped responding.
+> + */
 
-Reproduced in QEMU (x86_64) with a test module that registers a port,
-a partner and 63 partner alternate modes, and then two more with
-failslab (task-filter) making ida_alloc() fail with -ENOMEM. Without
-this patch, the first of the two is registered as
-"port0-partner.4294967284" and the second fails with -EEXIST and the
-error above. With it, both return -ENOMEM. Same result in three runs
-each.
+Detailed explanation not needed here; you explain the reasoning in 
+ene_ub6250_init() below.
 
- drivers/usb/typec/class.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+> +#define ENE_PROBE_TIMEOUT (10 * HZ)
+> +
+> +static int ene_ub6250_init(struct us_data *us);
 
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 54c7810b563b..29fb13ca9f28 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -641,11 +641,14 @@ typec_register_altmode(struct device *parent,
- 		       const struct typec_altmode_desc *desc,
- 		       const struct device_type *type)
- {
--	unsigned int id = altmode_id_get(parent);
-+	int id = altmode_id_get(parent);
- 	bool is_port = is_typec_port(parent);
- 	struct altmode *alt;
- 	int ret;
- 
-+	if (id < 0)
-+		return ERR_PTR(id);
-+
- 	alt = kzalloc_obj(*alt);
- 	if (!alt) {
- 		altmode_id_remove(parent, id);
+Unnecessary forward declaration.
 
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
--- 
-2.43.0
+> +
+>  MODULE_DESCRIPTION("Driver for ENE UB6250 reader");
+>  MODULE_LICENSE("GPL");
+>  MODULE_IMPORT_NS("USB_STORAGE");
+> @@ -487,39 +496,76 @@ static void ene_ub6250_info_destructor(void *extra)
+>  	kfree(info->bbuf);
+>  }
+>  
+> -static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
+> +/*
+> + * Return what is left of a budget of @timeout jiffies which started at
+> + * @start, in jiffies, or -ETIMEDOUT if the budget has been used up.  A zero
+> + * @timeout means no limit.
+> + */
+> +static int ene_time_left(unsigned long start, unsigned int timeout)
+> +{
+> +	unsigned long elapsed;
+> +
+> +	if (!timeout)
+> +		return 0;
+> +
+> +	elapsed = jiffies - start;
+> +	if (elapsed >= timeout)
+> +		return -ETIMEDOUT;
+> +
+> +	return min_t(unsigned long, timeout - elapsed, INT_MAX);
 
+You're mixing unsigned long and unsigned int in a confusing way.  Why 
+can't elapsed be an unsigned int?  You don't expect ever to encounter 
+delays longer than 4 billion jiffies, do you?
+
+Also, if you don't care about an overall timeout, this routine isn't 
+needed.
+
+> +}
+> +
+> +/*
+> + * Send an ENE SCSI command.  @timeout is the time budget for the whole
+> + * transaction (CBW, data and CSW), in jiffies; zero means no limit.
+> + */
+> +static int ene_send_scsi_cmd_timeout(struct us_data *us, u8 fdir, void *buf,
+> +				     int use_sg, unsigned int timeout)
+>  {
+>  	struct bulk_cb_wrap *bcb = (struct bulk_cb_wrap *) us->iobuf;
+>  	struct bulk_cs_wrap *bcs = (struct bulk_cs_wrap *) us->iobuf;
+> -
+> -	int result;
+> +	unsigned long start = jiffies;
+> +	int result, left;
+>  	unsigned int residue;
+>  	unsigned int cswlen = 0, partial = 0;
+>  	unsigned int transfer_length = bcb->DataTransferLength;
+>  
+> +	left = ene_time_left(start, timeout);
+> +	if (left < 0)
+> +		return USB_STOR_TRANSPORT_ERROR;
+
+What point is there in checking for a timeout before anything has 
+happened?
+
+> +
+>  	/* usb_stor_dbg(us, "transport --- ene_send_scsi_cmd\n"); */
+>  	/* send cmd to out endpoint */
+> -	result = usb_stor_bulk_transfer_buf(us, us->send_bulk_pipe,
+> -					    bcb, US_BULK_CB_WRAP_LEN, NULL);
+> +	result = usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
+> +						    bcb, US_BULK_CB_WRAP_LEN,
+> +						    NULL, left);
+>  	if (result != USB_STOR_XFER_GOOD) {
+>  		usb_stor_dbg(us, "send cmd to out endpoint fail ---\n");
+>  		return USB_STOR_TRANSPORT_ERROR;
+>  	}
+>  
+>  	if (buf) {
+> -		unsigned int pipe = fDir;
+> +		unsigned int pipe = fdir;
+
+Unnecessary initialization.
+
+>  
+> -		if (fDir  == FDIR_READ)
+> +		if (fdir == FDIR_READ)
+>  			pipe = us->recv_bulk_pipe;
+>  		else
+>  			pipe = us->send_bulk_pipe;
+>  
+>  		/* Bulk */
+>  		if (use_sg) {
+> +			/*
+> +			 * Scatter-gather transfers belong to SCSI commands,
+> +			 * whose timeout and abort machinery bound the wait.
+> +			 */
+>  			result = usb_stor_bulk_srb(us, pipe, us->srb);
+>  		} else {
+> -			result = usb_stor_bulk_transfer_sg(us, pipe, buf,
+> -						transfer_length, 0, &partial);
+> +			left = ene_time_left(start, timeout);
+> +			if (left < 0)
+> +				return USB_STOR_TRANSPORT_ERROR;
+> +			result = usb_stor_bulk_transfer_buf_timeout(us, pipe,
+> +								    buf, transfer_length, &partial,
+
+Things like this are why I maintain that the policy of aligning 
+continuation lines with the preceding open paren is a mistake.  Grumble.
+
+The rest of the material looks pretty much okay.  However, I would 
+prefer this to be made into a series of two patches, one with the 
+modifications to transport.[ch] and the other with the modifications to 
+ene_ub6250.
+
+Alan Stern
