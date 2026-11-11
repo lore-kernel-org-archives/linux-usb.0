@@ -1,55 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794414475;
-	b=xYzaWwiSojQVBafTSsrSjtbvZSttXnVg7WgC34xjkZMSJeJE5ayeqLKLSPit2fgVvLfa
-	 sgMr8KVtXsXUNur0w7GY/NB8hjcZZale2NdBhYEbGAho2LmYHxPtJDKuZNkhrkMyOCQeq
-	 jtgrL2dwVYsNQih/9w529wX1XaM9dHOJVKTKldqZjpB6bxVATzIEdpXY8wXUjLa1lNesN
-	 HouHIvBdrx83pkeQqteoN/HUbUblCWTHgRKEn8/okv7wbA8fEYVzaWCyKN8KhlP2na7PS
-	 tTsQ8TmpOfTBnqGy3+2Lnf2TB3M+yep+hAXzn8lx+OrkjeWk+YBAcDaF6EgVuD74gQA==
+	t=1794415707;
+	b=ESdhTqrM5BV5iQQNh1Lex2FyCUP3kDMEW3BWiw9T7DotYpj7u+GKRlvMW5j+KiG/SEJq
+	 llOboz9IDBrQ4bEy1pLIzKOhAfz4hTDaGu50yumSmmh6lE85oWk66dGQ9Ai1zMiqONRV5
+	 2NcHArOOvxmwfBrpmEkyvsLZLtO+NrhnXH+cNqHXJcCfSIDQdENFiy/Ig6gp+5KFnA3Gz
+	 wvX6w+okDasJQNO5iAnOtoKwno8WZdEtQ0jHd7hyYNSMRZc2Kkx2dLQjWqEiz5Bvlwdpw
+	 QiI3U8qTTXsR/xBYj2FvaE2M25pjWWnp0tZEpcoeT1luruawVs+RbYwumj1TEMtSjxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794414475;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Lu1YSvBvwVRle8y1Zi+EHZxgZgXoCEE7GmuiaLL6YAw=;
-	b=Qb26vYdxVbr68pA/lbRAsp5CksnQDG60wjPo3OBpWiVEPb8sipXZL0WAhtyS1lihJXjt
-	 ycW8QW+uEf757n3o9fWTANqNeDtx/iFmL4nQuLJhX4dqUs4MOQJWp1AXcxfXXdpDQfUFR
-	 64OlTg1YxqPzVd0fgzABbzWme26w5LvyT+xGc2lFCZiFw2BajtRi5QgrMMvD3QzCNKuQk
-	 Ln2MfQG9klGOl8el3iAPqTpD2Ef2jIzl+5lW3bRhF0SGcBsX21PFI+jFlR/pcH5QMIBJA
-	 Q0zAqJhtvmj2BhsnrjW2nlAEdCxP/08LESn7v0tuT5GCXEKuXzUaaWZlrJD+xdeV3XA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794415707;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=0sydFHNzITW/W9RiZ5lrBlSfj6odwN80cmBBE2TsUzo=;
+	b=DMaG1oScvXebnHPukm3lvGfM4nM44VS9QpWXkxdrstvizyiKZ2N/x7Ip90uPIfEnSdSC
+	 9cwlST1SB9qtbQsnbSqt6YHqDe4gg4xzvsq5laAucKFmYcbMxfMfsthCq/7H3x8SwNNcI
+	 JfljXvDjql5JQrZlGVOSSkC+hDhBzC8ZuFQ7lQJ4f6id9aV/LSw+RQN67runW5sWKNfUm
+	 ENdd8KW0da9IA6CPivQK5bmZiUfeM50WRuCuzoccVWX/p38UP/Bys5Obshne411YVJjHs
+	 zEz+H8/RHTJuz0ly4AeN72zGTpE5v4GLiu4VpqPaTHG7J+RuXsrwS4PIRi9LQEA+/Fw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HVMqmRWj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=dyHdbNbZ;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D69C606A321
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 16:27:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB49606A321;
+	Wed, 11 Nov 2026 16:48:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CB49606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HVMqmRWj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E7251F00A05;
-	Wed, 11 Nov 2026 16:27:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794414474;
-	bh=Lu1YSvBvwVRle8y1Zi+EHZxgZgXoCEE7GmuiaLL6YAw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=HVMqmRWjWo2tUowQ8pTVOQmKeuGxHc6m/ESPiCl/g8zMwakM7R8B8nvH6HhKKoGOJ
-	 shoGNQ/XgiV2Ruq7f6BLfWNFzDnrlnriaIi2mwsRq+jnF50VMjGRJYJf3tsXl7oeuO
-	 OEVHSXdVUPyrnjZXQFwuHphSl1CNIdW0LYrXfYf7OQs3H1L6I6c2RHcv1chHXKfErt
-	 hnDX1ldaHjx4VyaprkDk/StblYKKvDI2p2INO03ZzPBOQ6pSNqqALU7FJzz2qBIcoo
-	 g3fMb1dmDRf++HOuj9kua0wu1euB39J7CTJKy8kUnTQbcJkVgIdwDnqfNkBYlKTES5
-	 JBZ7bepq4Y0xA==
-Message-ID: <sashiko-outbox-209283@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: typec: Check the alternate mode ID allocation
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Changyul Lee" <lcy8047@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261111154503.3621477-1-lcy8047@gmail.com>
-References: <20261111154503.3621477-1-lcy8047@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 16:27:54 +0000
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=dyHdbNbZ
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=0sydFHNzITW/W9RiZ5lrBlSfj6odwN80cmBBE2TsUzo=; b=dyHdbNbZ8KfDHmZzWygnexSWkp
+	vxdIR0q/Nyu3ONUYl8xOsXtkPy0E+7DA1dun3kA+Wv/u0AoStyC68/1gZnroCLRnlH2EG5MclmXD8
+	X1C0Iq7Nl/vCyDH80En9gEWCh5IkC3bc3Gov4Bdc87NZr9EyilnA4v2p1UqKM2NIGkRo=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xRBUg-00FnDz-HB; Wed, 11 Nov 2026 17:48:18 +0100
+Date: Wed, 11 Nov 2026 17:48:18 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: joasantonio108@gmail.com
+Cc: steve.glendinning@shawell.net, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+	pabeni@redhat.com, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH net v2] net: usb: smsc75xx: reject frames without a full
+ header and FCS
+Message-ID: <e4a20579-2576-4c2e-9120-b675a175a1da@lunn.ch>
+References: <20261111-smsc75xx-rx-fcs-v2-1-216a5f26842a@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,25 +64,44 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111-smsc75xx-rx-fcs-v2-1-216a5f26842a@gmail.com>
 
-> typec_register_altmode() stores the return value of altmode_id_get()
-> in an unsigned int without checking it. When ida_alloc() fails, the
-> error code becomes the ID, and the alternate mode is registered under
-> a name such as "port0-partner.4294967284". A second failure on the same
-> partner then fails with a duplicate name:
->=20
->   [    0.423055] sysfs: cannot create duplicate filename '/devices/platfo=
-rm/altfail/typec/port0/port0-partner/port0-partner.4294967284'
->=20
-> Return the error when the ID allocation fails.
->=20
-> Fixes: 8a37d87d72f0 ("usb: typec: Bus type for alternate modes")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Changyul Lee <lcy8047@gmail.com>
+> +			if (unlikely(size < ETH_HLEN + ETH_FCS_LEN)) {
+> +				netif_dbg(dev, rx_err, dev->net,
+> +					  "size err rx_cmd_a=0x%08x\n",
+> +					  rx_cmd_a);
+> +				return 0;
+> +			}
 
-Sashiko has reviewed this patch and found no issues.
+This looks good as far as it goes.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111154503.3621=
-477-1-lcy8047@gmail.com?part=3D1
+However:
 
+static inline int rx_process(struct usbnet *dev, struct sk_buff *skb)
+{
+	if (dev->driver_info->rx_fixup &&
+	    !dev->driver_info->rx_fixup(dev, skb)) {
+		/* With RX_ASSEMBLE, rx_fixup() must update counters */
+		if (!(dev->driver_info->flags & FLAG_RX_ASSEMBLE))
+			dev->net->stats.rx_errors++;
+
+What is the value of FLAG_RX_ASSEMBLE in flags?
+
+		return -EPROTO;
+	}
+	// else network stack removes extra byte if we forced a short packet
+
+	/* all data was already cloned from skb inside the driver */
+	if (dev->driver_info->flags & FLAG_MULTI_PACKET)
+		return -EALREADY;
+
+	if (skb->len < ETH_HLEN) {
+		dev->net->stats.rx_errors++;
+		dev->net->stats.rx_length_errors++;
+
+Should rx_length_errors also be incremented?
+
+       Andrew
