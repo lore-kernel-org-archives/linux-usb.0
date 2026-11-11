@@ -1,56 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794434656;
-	b=FeV1rO0bOwPgnWas+BoEuBULWfs9WmRSiew5RdI97gSlNDVKmL2TpIOZnhlZOM497Vo+
-	 sVkPI+K3WGB9HvSXKPj6916VQHCyF4my/xqCWM2+KJpwcD5fg81OSS20KFiMrzFC3EiZO
-	 oM0fp79nU8GHYU1CNj2xHqgMbZebbUbg/gvmjX8kGtYPQOIzRGVcybV7X9ITDNqh9Titq
-	 s9cs+pxRQ42aUPtSmsY0d3s6r2EnDaQSuRPXnpE+Rgvx2hMxVw75tUlAEv/mrHPT+DVzS
-	 T6ITRN1y1nDdLFy8tzIooB3LRXL8k037QM5Fag5XrQiaZF2WYPY4xzUg0xErWZvHqbA==
+	t=1794435199;
+	b=GvH04D+9OJyujXI9gq0D+KVIm99ZKgFuPFjxuI0zoQidNLVI8L3QncEfJ24Oez9HVQOP
+	 r6b9fz3PAeMygwrR4tyPPWF2AVv8tD4jmKviBdQxEJZiFfJOYn4BnvUNo8oRd6j50Nvdj
+	 m5YMhDCvHSViGl9x+6rcveSkgmCVkN8davKX+AjJ9pNi6DGWf38SUH6jxhKMiJYwc0zYC
+	 F0XMFQvcUUpiPYVJStL0oumMvic89d8bZMNxUw27y7HmDnBG8PNdSp33/w1qtkREAfHE4
+	 emg3Q9fUFWwU4M3DPR/vuw1f76grUgKIuyNZ41FiG2jZYW8EUyFRKL/ppM1cLhtqWzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794434656;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Chx82LJUkzMD/HltP55OCxteXpcxj4C6GwbrRzCeb6o=;
-	b=jyWPwLdxoZ7eSOOsY9EhxjuunVgk22jEHRTvJBfZxtouGR85/79l3HC/9PaVGHB+DlOU
-	 cVZwX3xwC76107PJ/OsY0GgcnfzjSI9AxLFnT44qJGrq5b1rjtpi6Mf+6MYClEaSDBrfd
-	 yGzjKEQ8aKiZfZwrBsTr8uXucowi9+YJKMFxsjViR2rgTJK6UFu3gCjM1VA633YPXymxV
-	 +NbssJNXQwjisAGJ5lwqC0bMG4w5mRHXo5PWbtrAqKxkWIdJLS3+HC34NRxjKb+Nae+4s
-	 ZTRW50lOr7JhtcE4CCq9Vwzn3PPL5YQbSBWBvMfoYWomat6wY9BbwNH/7y55Y7egSDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794435199;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=CkL1DxVgDMrAwGiDxbno089zDqxJvFCxMrqWkJjJQ+Q=;
+	b=IbRMXhfPMg0fbttepx2ocby3xcLqB1YxhJWBjO886JEWBK57aKNvKIolox+RHpxqqHxw
+	 1ROGJwCm1LNwcJg4LkAnPerQ55434St0DiylA5DZTQE0YugfiBZwFMUYh9ULvWTj2s2TP
+	 PcC4XXw7IixrFGD6pRRT8hY39J1iOOMo7DBXn8cF/FeoBTxoIJmaSNKUlWla3D48cyQ5O
+	 mfBGZCKiwfXkjoDA+AlYNQPXcUGaW53DSzCj13zK1gK+2Osch4IWwxSDyz76BiWzXtU8w
+	 0oA2j4H0t6b/VRdHmaWWjntYBuqp7jAE92RwybWOW53AlNLgLMWL2cJGi0nfHgKI++g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ei39C7sl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aJBMnGSK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25DD4606A326
-	for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 22:04:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC44606A321;
+	Wed, 11 Nov 2026 22:13:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ei39C7sl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9979C1F00A05;
-	Wed, 11 Nov 2026 22:04:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aJBMnGSK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011151F00A05;
+	Wed, 11 Nov 2026 22:13:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794434655;
-	bh=Chx82LJUkzMD/HltP55OCxteXpcxj4C6GwbrRzCeb6o=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ei39C7sl7Odc5lehCQ4qP//WCoHrkohMMOjY3NWY45Druqq+RmHxKr9fLlFoP/r4Z
-	 TnX0uKf3raHPbYH7q980RAuCxvufcj92qmapxHwtxDIQKqWXcycR/B8TPZfoRDpcir
-	 Z75pe27PoqKL1dYbnIjPt9ebGEC84NkLYH/dYXVLGV0obqEE+bKkLT6Cs6wtKGA4AI
-	 +UCwCVe8W5ptgu4kG7+kXOvz1e+9y0gm6zQJw5kDFiNly6vROH9JRUumDyN04lGfEX
-	 ycp+XZnq7aeGBfDgqMGzF+x3GD0jnYce8z4J0wllTgK93JE+nhukL4lYyo2YCYEL3n
-	 cHXcQMo58iXEA==
-Message-ID: <sashiko-outbox-209739@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] Input: yealink - remove driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261111215723.3802209-3-dmitry.torokhov@gmail.com>
-References: <20261111215723.3802209-1-dmitry.torokhov@gmail.com>
- <20261111215723.3802209-3-dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 22:04:15 +0000
+	s=k20260515; t=1794435199;
+	bh=CkL1DxVgDMrAwGiDxbno089zDqxJvFCxMrqWkJjJQ+Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=aJBMnGSK6XwDmQVb+2IsS7eW5mLAilJoTyGJqyQm0u0n165S5t7Xa+NnP+2LwQEb0
+	 VWHzNfnESLI60Sh4mY/mXoTjHfHQWhNFYDj8/Tn/5FeajuZFYp//kk9H/cHPi48gNu
+	 QSM+s4/vLZ4hgFwEjk1LLbZXBiCjD5L/sy1it3QrzRbu9JPQ7Xv63XSbcBgFMXSqy7
+	 L3e7rkmytAmyFVyEnepW43u3LD3afyW9ukLUonfC+hYJs/kLPi2Uo3xG0jTFwn0KBT
+	 5Qlzgtu4tD3VUZPESXlTy8mC/TJwr1oHXav+xiNTy98KAQbFNY9MEdUz81ULH/FsnK
+	 oyGs/pCjQ52ZQ==
+Date: Wed, 11 Nov 2026 23:13:14 +0100
+From: Michael Grzeschik <mgr@kernel.org>
+To: John Ernberg <john.ernberg@actia.se>
+Cc: Valentina Manea <valentina.manea.m@gmail.com>,
+	Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nobuo Iwata <nobuo.iwata@fujixerox.co.jp>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Wiliam Puranen <wiliam.puranen@actia.se>,
+	Michael Grzeschik <grzeschik@puzzle.ch>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH] usbip: Stop tracking work context in event_handler()
+Message-ID: <avToeux2DxhBWGN4@toad.puzzle.ch>
+References: <20260803104342.2790105-1-john.ernberg@actia.se>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,33 +62,41 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260803104342.2790105-1-john.ernberg@actia.se>
 
-> The Yealink USB-P1K (0x6993:0xb001) is a mid-2000s USB 1.1 telephone
-> handset with a segmented LCD, keypad, and ringer marketed as a
-> "USB phone for Skype" and desktop VoIP/SIP softphones, where audio was
-> handled by snd-usb-audio and the yealink driver drove the keypad,
-> segmented LCD, and tones via custom sysfs attributes.
->=20
-> Operating the handset required dedicated userspace bridge software such
-> as usbb2k-api / kb2kskype (targeting the defunct legacy Skype desktop
-> API and KDE3/Qt3) or yeaphone (an archived 2000s liblinphone wrapper).
-> The entire userspace ecosystem has been unmaintained for over 15 years,
-> the legacy Skype API it was built around is gone, and modern USB
-> telephony devices rely on standard USB HID telephony usages instead of
-> custom sysfs display drivers.
->=20
-> The driver has had no functional changes, hardware testing, or new
-> device IDs since 2008, while continuing to generate syzbot USB fuzzing
-> reports and drive-by cleanup churn. Remove the driver, its
-> documentation, Kconfig and Makefile entries, the MAINTAINERS section,
-> and the HID ignore-list entry that only existed to prevent usbhid from
-> binding ahead of yealink.
->=20
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Hi John,
 
-Sashiko has reviewed this patch and found no issues.
+On Mon, Aug 03, 2026 at 10:43:58AM +0000, John Ernberg wrote:
+> From: Wiliam Puranen <wiliam.puranen@actia.se>
+> 
+> The work queue used by usbip is not pinned to a specific context.
+> 
+> When usbip_in_eh() evaluates if the call comes from the event handler
+> it doesn't actually check if the call comes from the event handler but
+> if the call comes from the same context as the event handler was first
+> called from.
+> 
+> This can result in "sticky" devices on the client side, due to the
+> teardown path in stub_disconnect() being lied to, and thus skipping
+> the teardown when it shouldn't, or vice versa.
+> 
+> Fixes: bb7871ad99ea ("usbip: event handler as one thread")
+> Cc: stable@vger.kernel.org # v4.6+
+> Assisted-by: claude:opus-5
+> Signed-off-by: Wiliam Puranen <wiliam.puranen@actia.se>
+> Signed-off-by: John Ernberg <john.ernberg@actia.se>
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111215723.3802=
-209-1-dmitry.torokhov@gmail.com?part=3D2
+Just as I stated in my other mail [1]. I just did send a near copy of
+the change without knowing of this mail. But this one is the patch to
+be taken.
 
+Fixes: bb7871ad99ea ("usbip: event handler as one thread")
+Reviewed-by: Michael Grzeschik <grzeschik@puzzle.ch>
+
+[1]: https://lore.kernel.org/linux-usb/427d908d-1fa2-442c-ac91-b3e925e5c7bb@actia.se/T/#m2d50ad8abda5dc92fe6d8690edc0cab58983ab74
+
+Thanks
+Michael
