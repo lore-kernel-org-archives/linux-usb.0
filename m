@@ -1,64 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794440608;
-	b=wWYGXRNt9WpVk/2HNXG11XvwgcN+YbUiBCUbpZl0ozVaMbofMx6Vs2+Muyf4WjEu9S0t
-	 cSDKmE4O0rm6PsVMJddn7FqWFlf7p6aitdslxRy/4l+e8UL5aq8C/+jiTmNa9E/RlgM3o
-	 oWPm42W7Suqbf2zlrJN/AN7CJzWj5HK0LLFsJINRWNphjL+zCqxNYiuxGU1nUxBK2FEaH
-	 +sKHUfNmseVY4QBYG7FJjyfR6O0ZXTMgY+B7yYsR6rhLQRKU0l9Zt8nRlPh5gVRzqZog3
-	 db1/O00ar0hPJcfniVDMH40juzONVZGyEv+qGUOZ3We9LYYYdMZjXoqro80PaFG3yAQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794440608;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Zoho-Virus-Status:X-Zoho-AV-Stamp:
-	 X-ZohoMailClient;
-	bh=Y0DPhWDGCAl8AXWho1ttYK+VaSR0hirYI/i/ympk22U=;
-	b=vmaaXqX+w05fI7JSq9cUKVYqbEQgKEQba6NaKTMnV6rtv2b3xsejlZBjw5n0g7+1APK+
-	 IQeaX+p4WvpOueDek+gSNVKrLWir27RDib55BXSins5gSooZOENGjTYAHOxtc/8NZk9Sb
-	 wNQGTltkk+4yeS6hym7SjQeJ3S3l3Cgefbq/Yb3ycK14ZJShjSI7MtKFrxi6XMWvmwcjl
-	 u9LvAfvYWZsEwgpOoFSLoxmbZeu7qNEVS2ABTb8XfqmtN41FpU5FkXpe0ZK2m//p+1ay7
-	 W95ln07/8scHfPDCMH5bJaE3oDCJF0FRJ/6kaNgiNhGZjU7zdv8sRuDJEmvi/NbpxSA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=jtlAh+Va;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794442609;
+	b=J1vm+pIvk3GOXForpwuS7dBctkn4qmz23KvHWfv8Hd169uT0VUuT0m+BL7VOUkyPtQoB
+	 Sk7+doCFSWVn0aLxoLBF5hww+JBizHxne3KoHmYbJ4Y0kutJ9psC8cQ00nk7Xm4HuDNJL
+	 qgN6RBfzP5blkVlXdWeDqxwDZVS55JCPxtQCT75e7WIPymV2WxfESuc3Kj5NzhRsolR+j
+	 ifiozQAiteSITYL6EkQ1wKsIDgJ1SPjJDVSmaxt1uR3JrQ3aDM4D+UVn7ZOYUmae1yhNj
+	 X0sd99btdLaQHltN3slLxxSz69ae54K2gn+c1VH/9w/hg7UMR3y4GiPFauF5CC4Jh+g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794442609;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=PGexwgK5GsfrYlYAzT+bpSfeXRNUax72AD2f2NRfT8M=;
+	b=kvyt4Zmffz0LI1TIcJAW8IfK9JE3NVnQEvRPzLIQ2rx2yYARfLVyPFJcqdxKIcgJvGz3
+	 +OdsL9nrzvrGDsXqJKBWQChPNMVGUx/xeBnKV65dEiINQA17x81xe0V3LJOFUcePxBuIB
+	 Ge7eWTM8wfYbaMdr4f7zimjkelAApl4R5O8RP7Wf4yhXIhGxJRuhqVDnLYy4sd+XKzenU
+	 FsAKZnmG6pSH3ag9w3IhvzftSnp9cPHLaRbzNIBWn65Zltxu2L1T3rnE50K0i2BkMHKiV
+	 GOzfAmUZ2f5FHLDVkz0z8Mq5CtDrTf0jL27r/5upPvZjUmlEi0JuwdyCNsGoSNvPptQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oYsbeP7c;
+	arc=none smtp.remote-ip=74.125.82.175
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01675606A326;
-	Wed, 11 Nov 2026 23:43:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01675606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5081606A31C
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 00:16:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5081606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=jtlAh+Va
-ARC-Seal: i=1; a=rsa-sha256; t=1794440566; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=FHwE49+0n9QYPLepTlh99nmt2+owAv5olRorS8PSn86GXGe04Lw/1bxgw/O3fBE63/4tUylxpQzFBZEC7D3nu1AGynQelZszZ19XdHtjqecNiyoWnwUjZmmmhpaHQkxhC4trC+2+iNM9Q0t749cAWe19Ik9fSFwzcvVvJsRynKI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1794440566; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Y0DPhWDGCAl8AXWho1ttYK+VaSR0hirYI/i/ympk22U=; 
-	b=FKoUtux3CSTJcCHigGoMB6JMvqYfZSes7IPtJj7eM2E9p5u45OYAmCYlTH/sElDt5yPt7ChIBE8U8aSCVCLY2adpBEu3MHYK0skzAzr4IFoWPE1j9MhuasBJLKIfUU5usc/vnfq22HajEjSOu9/k8TyfzZbtRr0ua6WOKwN71fg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: a=rsa-sha256; b=jtlAh+Va4DX3ctCXwghLOqJRssCbOuJOJWzQExa+sB1tIEEutcCTKwNsL+arsFNVQ6BbfkCOSR/kPFiaGlPcLBO0Zcsf7mGgVm4N5kwkhu2y1xR52CQHBlPywAggY2ouQ7wVK2iHmWVrAYoll9SM+yxM2jDrsI0utr0FX4NV7WI=; c=relaxed/relaxed; s=zohomail; d=collabora.com; v=1; bh=Y0DPhWDGCAl8AXWho1ttYK+VaSR0hirYI/i/ympk22U=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1794440564379638.9691780582154;
-	Wed, 11 Nov 2026 15:42:44 -0800 (PST)
-Received: by venus (Postfix, from userid 1000)
-	id 4F506180BC0; Thu, 12 Nov 2026 00:42:41 +0100 (CET)
-Date: Thu, 12 Nov 2026 00:42:41 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Alexey Charkov <alchark@flipper.net>
-Cc: Badhri Jagan Sridharan <badhri@google.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: tcpm: Record the partner's Product Type VDOs
-Message-ID: <avT9WdUgL02MXMpn@venus>
-References: <20261102-tcpm-product-type-vdo-v1-1-02e90dadbc2d@flipper.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oYsbeP7c
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-36e99cf7bb3so5614239eec.0
+        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 16:16:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794442608; x=1795047408; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=PGexwgK5GsfrYlYAzT+bpSfeXRNUax72AD2f2NRfT8M=;
+        b=oYsbeP7czHMN8STkrlG9EQASwg8LH9HR4yZ2fph1J+MVwj0VdxpbC030HkYSoHGdcv
+         LrVHhmJ960HrTsEhYE7nZxQ6HZPTBX07IVdDx/nzgkntOiHig5/JwJFwXGWi49sBlWGv
+         GEio3pcvQGErbq7nJI2niWk9wbuvLpW0vNB7H6lL4aSmAVm9/eaayucx3b8NS0k381ju
+         PuX/mGJUqJathYlYtHcvMeYRHlTQYxqs52aoAGzlan4gDP1+eYHvZ9fzZHdLn5+kq1NG
+         hUPRhaJeUto1AQmLisDwksEDttf6arV4JvwftiMOljF+zpf2ZXTD95TiLMZ1wxrs7sCf
+         uRjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794442608; x=1795047408;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=PGexwgK5GsfrYlYAzT+bpSfeXRNUax72AD2f2NRfT8M=;
+        b=WlVgsaWC4ftkIMY3qQdw4IRlkGFTz14OGRQw28Wd+RxV0vpfBsqDwjH5EwLIAPn5t9
+         mi5ryhkm7w670gCwL78nMDlHNuoMzWYVHTGtY/x2ddz3KCiPaiHzb2tloJv73vOxtc83
+         ieJwK0gVcXLaRGB2yDKGWlvPapsKusvVFEgA3nuSYRjh4rqJaYPr54OQPdfB0cBGAbG6
+         1omjfzk82S9Hl0ws/R4u96JZC1mAi57mut+M4hjfu6UEr4LSxc/b6Td43L/HNPjFhz8M
+         BDHo5p0brRJp/NTtAO8S8kgDjEFXsgoB0BJ16xLLO9ehB4RKqBHU8agMuFqFGdtr3Xtf
+         iQ2Q==
+X-Forwarded-Encrypted: i=1; AL+hErEfJAwVCiM/yFwCwBhDsAhETTl7pAQmS/05V+o8K6DAldnU0z3JW3NgoffLzlxOe9EjSm8+GEzyu1I=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9oEDgdPpGSjSzEWh6tVP+BD3yKF9gBkAvIjS9fL5l7A3nNuDSh
+	X30ijAGccWzq85hpTfIzNDZ8h3K+sITUjDklh4ziPaROGWDhljJ2EU5F
+X-Gm-Gg: AYBFou3MVSTp3ToNlig4UYUPSw0Sy4vMq2B/kZAX1NjLzSyt/+WheoZ8KBVihuN0fPG
+	aOdw0pan9hWMLAeqsN8nWNGoFDLymppzhA95AzF5OeDWd56D4GQQqM23pbaqJF5DXhDQ7/dYl7U
+	jFlCbtrIzGCTC3YUNQGExs0pepvH0GFWSSgE+u8lLND2K3Ym5R4Uhw2euMmz08ZWfzptWyUKnZt
+	hqWs9xiVznL//8gtMIKCr3Io/GUZp4iG3HlpQPs61BgCswFoYjCYOoTYNDmCDj7riM4TPkPfSa9
+	sKa+NCVcoR6tz+03gQmT7O2lgFzY+C0fbVDUHNr08TNdF3o0TWReU9ZYnyJHSkJA6BQWQ/FWLLO
+	NqJAHmdXbAT9KGfG3gAQ/71IDH2NXhuofUKcNOrgKbqif+jMJD6MVd6DuVgMAmkPGQ8vZvL0BHD
+	o+1FbUoNxVy52NCVBl9vMkrqVJwgf2Bi8KKGrQ0wbcRSdzD2rNgSL91gH8GVvJ8sI2VaoLpWx1G
+	c1faSW0EgIgu0Fiw2hV3nIAAXtjzJNdDsj7n5MY4ja8cU1srP4cXi549ZwBFVubxFdXJ9R4e2nu
+	NPcQChzrZKjj1MlUozvK/GaBR1tGuYA625w5rovHbyP43wxu2M/DFk2hLO/k9xGe2LJ+LXb4uRs
+	7c5sYv54IQ89oeO45
+X-Received: by 2002:a05:7301:514a:b0:36a:7b3c:4e0a with SMTP id 5a478bee46e88-3768675676dmr4358326eec.24.1794442607773;
+        Wed, 11 Nov 2026 16:16:47 -0800 (PST)
+Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:182d:659:ffce:39a4])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37520bf3e18sm40492697eec.16.2026.11.11.16.16.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 16:16:46 -0800 (PST)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: "Alfred E . Heggestad" <aeh@db.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>
+Cc: Oliver Neukum <oneukum@suse.com>,
+	Thomas Reitmayr <treitmayr@devbase.at>,
+	Shaun Jackman <sjackman@gmail.com>,
+	Daniel Gimpelevich <daniel@gimpelevich.san-francisco.ca.us>,
+	Florian Euchner <florian.euchner@gmail.com>,
+	Johan Hovold <johan@kernel.org>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Xue Lei <Xue.Lei@windriver.com>,
+	linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Input: remove obsolete cm109 USB phone driver
+Date: Wed, 11 Nov 2026 16:16:40 -0800
+Message-ID: <20261112001642.243554-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.56.0.567.gdb80ae8cd5-goog
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -68,100 +111,48 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="v3h6xjzlfvroq4wu"
-Content-Disposition: inline
-In-Reply-To: <20261102-tcpm-product-type-vdo-v1-1-02e90dadbc2d@flipper.net>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/294.427.16
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
+This short series removes the obsolete cm109 driver for mid-2000s USB
+VoIP/Skype handsets based on the C-Media CM109 USB audio and HID
+controller (0x0d8c:0x000e) and drops its module selection from
+ppc6xx_defconfig.
 
---v3h6xjzlfvroq4wu
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] usb: typec: tcpm: Record the partner's Product Type VDOs
-MIME-Version: 1.0
+The driver was written in 2007-2008 (modeled after yealink) to poll a
+4x4 phone keypad matrix and toggle a buzzer wired to the chip's GPIO
+pins across four phone models (Komunikate KIP1000, Genius G-talk,
+Allied-Telesis Corega USBPH01, and ATCom AU-100), relying on a module
+parameter (phone=...) to choose the keymap. The mid-2000s userspace
+VoIP/Skype bridge ecosystem for these handsets is long defunct, and the
+driver has seen no new hardware support since 2008 while continuing to
+attract syzbot crashes in its custom URB state machine.
 
-Hi,
+Furthermore, because 0x0d8c:0x000e is the generic default C-Media CM109
+VID:PID and was added to hid_ignore_list[] so cm109 could claim the USB
+interface, cm109 actively interferes with non-phone CM109 devices still
+in use today: amateur radio interfaces (Direwolf, AllStarLink, SVXLink,
+UniPager, Hamlib) have to blacklist cm109 so usbhid can expose
+/dev/hidraw* and so opening the input device does not pulse the GPIO
+pins and key the radio transmitter's PTT line, while standard USB
+headsets with 0x0d8c:0x000e can bind to usbhid directly via the chip's
+standard HID Consumer Page volume and mute descriptors once the
+hid_ignore_list[] entry is dropped.
 
-On Mon, Nov 02, 2026 at 06:21:24PM +0400, Alexey Charkov wrote:
-> A Discover Identity response can carry up to three Product Type VDOs
-> after the Product VDO, describing what the partner is as a UFP, DFP or
-> alternate mode adapter. The Type-C class keeps them in the identity and
-> shows them as product_type_vdo1-3, but TCPM stores only the ID header,
-> Cert Stat and Product VDOs of a partner, so those always read 0. Cable
-> identities already get their VDOs.
->=20
-> Store the Product Type VDOs as received and zero the ones the partner
-> does not send, leaving their PD revision specific layout to the reader.
->=20
-> Signed-off-by: Alexey Charkov <alchark@flipper.net>
-> ---
+Thanks.
 
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Dmitry Torokhov (2):
+  powerpc/configs: drop CONFIG_INPUT_CM109 from ppc6xx_defconfig
+  Input: cm109 - remove driver
 
-Greetings,
+ arch/powerpc/configs/ppc6xx_defconfig |   1 -
+ drivers/hid/hid-ids.h                 |   1 -
+ drivers/hid/hid-quirks.c              |   1 -
+ drivers/input/misc/Kconfig            |  12 -
+ drivers/input/misc/Makefile           |   1 -
+ drivers/input/misc/cm109.c            | 940 --------------------------
+ 6 files changed, 956 deletions(-)
+ delete mode 100644 drivers/input/misc/cm109.c
 
--- Sebastian
+-- 
+2.56.0.567.gdb80ae8cd5-goog
 
->  drivers/usb/typec/tcpm/tcpm.c | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index d721baef5210..8fd6b1f842b3 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -2064,6 +2064,7 @@ static void svdm_consume_identity(struct tcpm_port =
-*port, const u32 *p, int cnt)
->  {
->  	u32 vdo =3D p[VDO_INDEX_IDH];
->  	u32 product =3D p[VDO_INDEX_PRODUCT];
-> +	int i;
-> =20
->  	if (cnt <=3D VDO_INDEX_PRODUCT)
->  		return;
-> @@ -2073,6 +2074,10 @@ static void svdm_consume_identity(struct tcpm_port=
- *port, const u32 *p, int cnt)
->  	port->partner_ident.id_header =3D vdo;
->  	port->partner_ident.cert_stat =3D p[VDO_INDEX_CSTAT];
->  	port->partner_ident.product =3D product;
-> +	/* Product Type VDOs, if any, follow the Product VDO */
-> +	for (i =3D 0; i < ARRAY_SIZE(port->partner_ident.vdo); i++)
-> +		port->partner_ident.vdo[i] =3D VDO_INDEX_PRODUCT + 1 + i < cnt ?
-> +					     p[VDO_INDEX_PRODUCT + 1 + i] : 0;
-> =20
->  	if (port->partner)
->  		typec_partner_set_identity(port->partner);
->=20
-> ---
-> base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
-> change-id: 20261102-tcpm-product-type-vdo-af873ef1fdf4
->=20
-> Best regards,
-> -- =20
-> Alexey Charkov <alchark@flipper.net>
->=20
-
---v3h6xjzlfvroq4wu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmr0/XAACgkQ2O7X88g7
-+poxuQ//Z6pr81dPA9c2GQT/w+mm2cVFbGVgCXMw23o/NYRD9kraTBU9hZA3Lkra
-tCrglt7pj2yvIk1ocjQx1x3F3BkMpEx3qFAKkbdFp6ZYseaF94WAWoVBeV7dtDXb
-PdcCICI93qja77tvChk6GCQfcU+ynAkbWHR+bA4FMRY3+m1Ty20agprkLXw9uHTX
-u6DJTWvBq9vvUpnBgwdkIiWGr7xULbjK90IzqwUR8jeaWX0FlQBE1JXW8xRB13k5
-a4PcPHnI47HunyciJFa9yfweln7qKc92Ldv/U/zhPmY9RXVS/Nc48S2caQ6Ya5+r
-V0aff0Q5deQINAqcRJtmEEhfvXG7dcZJ5HFF2wTZjI5roCboFkjF4MdqiFJCh6Fb
-KsFKDpRrcy27hSYATbrnUkExnVGL+6Lws4CdZUho12f/HDuwfDi9ZCbJcbGKVNn4
-rhrwNdTC8zQTqHUZdXhigBcLjEJyfWHB2vc5xTk2o+/whQxF5jqHHjx2BVL+EoqP
-f9+/NiBwgu3ylF+S8yEBK2uMsWIAqZge5JQiAUaExWTxryeTo/J9uGDIv9kmGEtd
-YWo3NFl/TZVmm6Ufrtjp7ToPFHemFB/M5b/gQkJLvxyNOS8apeVykGEOARj+k6BV
-KA3fqa1Z55CtC58HQwtuXye84ufaMRhKI7nI87zkeaoMf7n5G4c=
-=g58g
------END PGP SIGNATURE-----
-
---v3h6xjzlfvroq4wu--
