@@ -1,44 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.209.128.105
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794473301;
-	b=MlLWxnSmrIP5MM584+KuhkyqcsU37fHQw6D0KzEl5ipIDAivCCg+okhlbYZW2S7q3fCP
-	 83fslyxwdnd8+j3VQrfBL4NU3HRZoE0rIUGeOMpNmgEJQc6bXm1kPJ4P1PZAfJtbQb6Mg
-	 cXwvjqVC4IXHZBfdsJV+r7a27qaL5BswWOm4JxQkyF0f+XAThrsIhzZKfHNFkqZhydscq
-	 hrOjlLKVItebm1CqOu24sGJwhHKz5CbfLm+5JM4NcgHfPJI0PMgJAO0oiibyZLICfvcJY
-	 8s4IopgzbyZU1PNmqZ70fKo/KjUhH7H9ZmIoMNSVHYc+Le96WkouyjOxmnoGViWNCFg==
+	t=1794473350;
+	b=FQMjk63/1lipV51FfbPzViFy9AYq/HbfOaov9kMImx6YjWejQubkG5EZZx//vZLPKHEd
+	 ZTD+t3VYFQIM6xuUYZ0zDaewcZtmFXszMZKWEOg6vn++Gls0phbx+G96e4Km8VmZsh5RH
+	 psRtCOUP73oIcpT899i5WDppPN3qLpL2Dg7L8POi2PW+Me6XZAH3fQc8b1pCahrlNEYpm
+	 A8jdyP4Cf6/awuwdJQ5BA/eOCMGqS2z8H+TH97PZTWQyh7kaX48E6i3GuraHDUkO4h+8c
+	 q5TPvaGbyxUI7TBidyZr43eEEejcACLhMuHzVKXvgtUgyZ0fMfE/fPmaMZPt9dKFwCQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794473301;
-	h=DMARC-Filter:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
-	 X-HM-Spam-Status:DKIM-Signature;
-	bh=YW52iYa3PS22kVrKBhZRqo+7XMDGvxdxdBLom1iDW5U=;
-	b=icc3vlK8lJ62ca8T3AB0cMwAAjf7FkZ0QovVU/VHKRxvoM5fHtqdtlRWQMZ/KvZ88ioP
-	 CriOJL1SweBRIESStwQjuxcV1Lv+81iM4GzVNRXB4hmE4aAUmKf830wjmzA+zhMjJG5EX
-	 hOqckV3lcc5RR0Z2Pv60dYKzaxSlVRpcpnMGCyG++TUY6Jo1s5ZQmLf1jqvd+vXm0DyPv
-	 1iSVozMiq2ABc8HFy8Ogc8dBP4G6A+Wtfx8TYzznHNF4z6bYlCMRZCRE4OBy1FKSyOx/4
-	 bk8/V5YzlXOJGAoRSkcIz5WjXJ18RBSCTYnNxxc7e+MmDbdyDs/dDyW4gppMAmEaFDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794473350;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=TjwuT3TdgNBmN9q7TxciGrk5LYdYYDH+gISjP1+bO0o=;
+	b=aZo25tqmmfEez0rLOjpJbxsXT00BczOb3eyQp1PeN2sVFlCnBYK6d6jyMl+10mPlcj7Y
+	 VXEVnMDI+QnN9xP6tr8TYkEieAXxJtWBjn4GAePlcykthfRL+OiZsq2KEH8BBbhGpeGbK
+	 CTjOhj7z62X7tOp3v9endIjGjxwGobI7pStZlqgQXq3azk0PITex6L8Q5zch+aS/HVgjn
+	 gk78eaKV21uUeOIx+oNqqnuLAJpD2DssE+YjbJOVw+Tr3/QBVMECzOop02xYQhQfRfZ8f
+	 YL8Lbo3dL7kcrGivEu2L1kFsE4mCJ0IdqX6ZSqteb2z32NumqGB8n9ttReJpQ6dlpQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rock-chips.com;
-	spf=pass smtp.mailfrom=rock-chips.com;
-	dkim=pass header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b=HTjyU8HA;
-	arc=none smtp.remote-ip=103.209.128.105
-Received: from mail-m128105.netease.com (mail-m128105.netease.com [103.209.128.105])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gmNu7l1E;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94FA606A31C;
-	Thu, 12 Nov 2026 08:48:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B94FA606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFC7606B59A
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:49:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b=HTjyU8HA
-Received: from [172.16.12.90] (unknown [61.154.14.86])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 546f2be92;
-	Thu, 12 Nov 2026 16:48:08 +0800 (GMT+08:00)
-Message-ID: <051621ab-a8b5-4120-afde-fbeeae48690d@rock-chips.com>
-Date: Thu, 12 Nov 2026 16:48:06 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gmNu7l1E
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA7041F00A07;
+	Thu, 12 Nov 2026 08:49:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794473349;
+	bh=TjwuT3TdgNBmN9q7TxciGrk5LYdYYDH+gISjP1+bO0o=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=gmNu7l1EiR6mSBNST3ijZufw7uDXeM54InqATZnrMYUxx2jZJtHpqGipmpxXrcfNr
+	 0TQVHj2VcCYiJWdR/sEqvOK0jUo+EcWC3r382uH1S1jbIuKn6BHBQEDu7nmFKz5uFD
+	 UaNBSQibUpeG4T7blEeZ0d1OnNTowZ1FcG6/0alJNDvmn0eKkLD4FS/n5Ij/MmNXlp
+	 v1OWLRabW/nnwhfEKpQP+o/LGl2KeoMXg5SSTLprWne9DdrCS8x4Qo81ge4oNnsyxA
+	 more+16hBNek9zGNuzxYfds1XxT6EW8ddJD8eFvoPR8iJhEPjQjdMYIDwukQde5Eyo
+	 29FnQ4drydT8Q==
+Message-ID: <sashiko-outbox-210786@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC 1/2] usb: dwc3: Let the glue keep the host bus
+ suspended across suspend-to-idle
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Arun Iyengar" <aiyengar1990@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261112-dwc3-s2idle-optin-v1-1-842e3f8413d0@gmail.com>
+References: <20261112-dwc3-s2idle-optin-v1-0-842e3f8413d0@gmail.com>
+ <20261112-dwc3-s2idle-optin-v1-1-842e3f8413d0@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Nov 2026 08:49:09 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -47,60 +60,32 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 0/7] usb: dwc3: introduce Rockchip glue driver
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heiko Stuebner <heiko@sntech.de>, Vinod Koul <vkoul@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Igor Paunovic <royalnet026@gmail.com>, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org,
- kernel@collabora.com, Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-References: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa1cef161e603a7kunm25f03da89714c0
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaSBofVkIeGUgfSEJJQx9KHVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlNSlVKTk9VSk9VQ01ZV1kWGg8SFR0UWUFZT0tIVUpLSU
-	9PT0hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=HTjyU8HAzlfGIH2zaWksvL0FatkZsBVvluGDZ0gXv7vdsLYvXtsI1AWIvGnpoKDX4/o3OOAfMNjPJk2bzP/cP7pzvx9KI8SL489WjcGeQL4HNW+4jNEWl43izC+LKg0zo4Ip/zGfA514bSOwoCB604D0QANS08DlCPVPFi8nZk4=; c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=YW52iYa3PS22kVrKBhZRqo+7XMDGvxdxdBLom1iDW5U=;
-	h=date:mime-version:subject:message-id:from;
 
-Hi Sebastian,
+> From: Arun Iyengar <aiyengar1990@gmail.com>
+>=20
+> In host mode, dwc3_suspend_common() tears the core down for system
+> suspend (dwc3_core_exit(): PHYs off, core reset) unless the controller
+> is a wakeup source. By then xhci-plat has already suspended the bus:
+> the root ports and every device behind them are in U3/suspend and
+> expect to keep their power session (Documentation/driver-api/usb/
+> persist.rst). Resetting the core ends all of them. On resume xhci-plat
+> finds a reset controller ("root hub lost power or was reset") and the
+> USB core has to reset-resume every device, which only works for devices
+> that come back within the 2 s that usb_port_resume() waits for a
+> connection.
+>=20
+> Devices that are cut off in U3 do not necessarily come back that fast.
+> On an Orange Pi 5 (RK3588S) a SanDisk Extreme drive on the Type-A USB3
+> [ ... ]
+> exactly when suspend tore it down, which xhci_power_lost now records.
+> Nothing changes for platforms that do not set the flag, nor for
+> suspend-to-RAM, hibernation and needs_full_reinit controllers.
+>=20
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 
-On 10/22/2026 2:05 AM, Sebastian Reichel wrote:
-> The recent Rockchip platform have a combined PHY, which does USB3 and
-> DisplayPort as well as muxing the lines in arbitrary order. Changing its
-> enabled functionality requires a PHY reset and as the PHY provides a
-> clock to the DWC3 controller, this can result in an SError. Apart from
-> that the PHY might not start up correctly when the DWC3 PIPE interface
-> is running. This series prepares a Rockchip specific DWC3 glue driver to
-> help out with these problems. To become useful more patches are needed
-> on the Rockchip USBDP PHY side, which are send separately.
-> 
-> This was split from the USBDP cleanup series. v17 has a dependency on
-> the patches that have been merged to phy's for-next branch. There are
-> some additional Rockchip USBDP phy fixes, which depend on this series
-> (which is effectively also a fix).
-> 
+Sashiko has reviewed this patch and found no issues.
 
-I'm not sure whether this is the right thing to do, but I tried applying
-all the v18 patches on top of v14 patch1–patch27, and tested Type-C DP
-on the RK3576 EVB1 board. And it seems to work fine.
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112-dwc3-s2idl=
+e-optin-v1-0-842e3f8413d0@gmail.com?part=3D1
 
-Tested-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-
--- 
-Best, 
-Chaoyi
