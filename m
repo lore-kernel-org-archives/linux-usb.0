@@ -1,93 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.29
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794455541;
-	b=ZEIOS/DYy+aNEqZbGXqpOfpuYsXALDZFZq2J2nxTnwKhHr2UO7FlLM+eCqVCFzpjlkZ4
-	 Az0zzBmBFWdQLs8O8/Q1V1owgdiKh3JXuJ6o81YHmk8+nPVepzij3jEbP5zUqfnwvtGW/
-	 EJrUi93Unj9/ddj2owNihWeCOwJOL9yuEaXupFIQMtZBu/1znW2pXsY64OYaVxV/eXrf1
-	 WzEkA7JtVXmFWpLahI+OVWDLGLvCs6b8SOJabWMZltuJCcAAYzPBPcSpnGR65ScfgIm0n
-	 RDQkwGQ7yhJswoHt0GHVMtXan8fuVIX+ej/Bts2voPJADnyInxfZVtdNq7DqAvhktoA==
+	t=1794457694;
+	b=YYL0XjGke1KHYw6wsO1Ap7CaQy+ZILhV/ZcnsRIlMXWMZC869Ah5rWKfCzkP4Vfl5MYA
+	 loemg9nkL9IEjaSBu5oEtiQ3i+lanzjUmbTCd+F/FUi9PEzPDfpgo8t3zq1CoedV8PeBA
+	 Zw8nZXRllMLNTpKJSSiCAytOAYPwflp2knfXA87Jc+iX35UMsUtTF82N6QItsMy0JNVMn
+	 6x+Xb6rbLvjHz3uLxEEFerRKqfvCkQjxFfhxq8QspI/29PSQedgW1caBCquBuljdT8kC7
+	 tXJH+zHpgoxERNDNC5XkeB5q7GuzI3bgXzEy9WiIUU4WYeycbDDT6a+M5C5xRq9rAZw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794455541;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=OkSSk25yYebPTKvL8/XVIlobib0R9HQV/wvec0AsU3o=;
-	b=oxbKh0wgQoQp2+uSTOHPFF/IwNsQEfkiSJTc8syHhGW3neqAX6OSXA2ssqGlv0lycMGd
-	 itAutIhFkjcxD7VKb+6V4K6evE3a2rle8lKzfy8HwyMN08RpdXuy8hGlcX+1JccqF9WXe
-	 wDxTvQrT6F4BaWC8Vxq1ShJHerhgButRbwJiSpqtYnWYl9qefQI4iFUy3FMXjc0sSbTal
-	 d0LPI8L3A9IEXxUxrEWVXuhuSxG1UhRXf0E+kntn+KqD50usBJAD/xQPtoTtsBSxlK9CP
-	 mFMSrKJVwJRS+YOSyLtuXi5dqe3BlvsjpYDkD4FkFEE3jUqUpzrrMUm5qANn+Fypi8A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794457694;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=72SUPaxQEhtOUv0mlFo4kwCDiyNMot1/Xsy1W1QLG5M=;
+	b=vyCjWHNqANMHx/BE+QTw9leLEgo2BwhS5xq6NXH3j8nHOWPi+Vnk7cDCeyfHKnOtATT5
+	 d37m9XBhpKGqeoXGvklR9oMlzC3TmkEtp061+IHokQdrOXdYxYb/y1h9Y9+YI1WhhPFmN
+	 R9z7TxexUYqcIMIpgR1qa4FwfGLFrdawRtcvM5KEvwfjwUSjUANd1Ywdifojmrqrj0IeO
+	 TL0XhX62kLxuWIEY4DxcYCSIf3E4ldlPhXz0q3zs/kcZWjAbQQjGFUHLW4ldmOtwKntrT
+	 cxYHXxunzFQGwi+hkAfDuXOwbFW1QnFE3HDo5bv+FfRM9Hdb0qOWP6slgF9RqcQAP3Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.nxp.com;
-	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=l6UjnO3k;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.29
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011029.outbound.protection.outlook.com [52.101.65.29])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jAYdlGdb;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B82606A881;
-	Thu, 12 Nov 2026 03:52:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61B82606A881
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CCE606A321;
+	Thu, 12 Nov 2026 04:28:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=l6UjnO3k
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jpPJ4aROdsNQuT/drBJm4dsd79UF+C807UhsmQcJZxKL4AL5URw98jgKNstb/eDQz50zUwPqUnqC+Rf5YBnK9bXMjoZLy0LF6elmOpYcdxRhktZh8UZomuHULPIeHe+gtxjYWoy/3G226y3y5chOk6196E3z/eAzZfYj3sxS5uQVdssTZYBeDQGqRjVGl+beldeTHgPdQ4OycCMzSbR3n8DoVJuzsvfQBcjWsg/nu0hx5wwMpuVDl5+bEzIMulwpu06jpgxXpHX1fwAInbbDtzQAMKi+1alPcazeUXn9qWIRf6qpYh9bgsWcuhMmAyrnNOHSe6f7raEcY1IJgASw6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OkSSk25yYebPTKvL8/XVIlobib0R9HQV/wvec0AsU3o=;
- b=LvKA+R6WCShL3sSVUl/sE29zRfQwqOaSwhLJuozf5pi4KtJcT/XeF0RtRmfCxntitwAMUJhR84y5x9tfhkWE9hflgDH2UlXSJR9oabshSBinpmQ7im0kNMqUektEYpHvHvhNXhyEox14QTRo0ttSh3vicpNb2wEGp9XHqw4C4uS+ow+9qOttRwBKwYpaaWyyiHkoNHokygsSOKoYosfo01ZT45xdV/T2e/JNkR/2wdqPY7aqWdQUIKgwe1XuxM75DjnY4jF9R2xVLXd2gJMd6XV4ouXILd7YrW1gVsk0/AlhPyukdiVC/rojiu0IxKnZbCQeiH9ir0M0RzTNKQqU2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OkSSk25yYebPTKvL8/XVIlobib0R9HQV/wvec0AsU3o=;
- b=l6UjnO3kYWYW83lSSo867XhhpF9aciAwRLgSd/B4vtx+XbNZU1+PSvIBsL6Tshgb0dwLcOZ3v50WOKPIYbv+AMYIExtu6LKL+pTIHLDBgGD9edBpgcmr7qgLF0BO5E5JtLKq4unySd2OdtBz3yfRqzM/tZszI3ZKEohKfwHZLSDxfaufgdZ6k2U1PnJ0euUcet56FDFIKjILXHyWniKkSjcKSskI2S95/Quj1ghSrORjrc/5HLzRSrk7/hDrPtHY+vNdUC2Po6coANOZCkHavvaClU4T5XjqL1H+mf26BmenaEQocynbFDfablbffhSzvUxcRG9REpZuzmpDJyesZg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
- by MI7PR04MB118002.eurprd04.prod.outlook.com (2603:10a6:290:108::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Thu, 12 Nov
- 2026 03:52:18 +0000
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d%3]) with mapi id 15.21.0615.007; Thu, 12 Nov 2026
- 03:52:18 +0000
-Date: Thu, 12 Nov 2026 11:49:15 +0800
-From: Xu Yang <xu.yang_2@oss.nxp.com>
-To: Yaohan Li <shunsheng1218@gmail.com>
-Cc: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org, 
-	badhri@google.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: typec: tcpci: quiesce the IRQ before
- unregistering the TCPM port
-Message-ID: <2d5fwluqeouhbjnjg2czo5gsltqlkjj46d4bfewgwxsnkqs4rt@pynplsavt3zc>
-References: <tiszwydkunhgdxmu2lucgxntzbcosncxxzrzgggudhtnvubkcs@lcllktxpuwrc>
- <20261112020000.1001.yaohan@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112020000.1001.yaohan@gmail.com>
-X-ClientProxiedBy: JH0PR02CA0009.apcprd02.prod.outlook.com
- (2603:1096:990:5::8) To PAXPR04MB9422.eurprd04.prod.outlook.com
- (2603:10a6:102:2b4::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jAYdlGdb
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794457694;
+	b=SFWBhESwlidwwEV0qKMgBY2ZnL4PlBbqnmLLn8Xc0OuTrnlQpqXOEHdcZ1ZARWXB4r3Z
+	 C0QaXlosLxcykZ1fhQdFQLkECXcnqLPOeNMxgOKvkrAxqJIAVg7R+O7GVtFOpG1E0NAG4
+	 9DkEyMrwj7/k9/aTu/4rxRv3klfWn1YABBPwhFbq1dN6J2Ac0p6tP3fBA0arW1ved5M3K
+	 DPBoTGyl8cxi9pReYSfPCVcR3Gpxn1jP7DnxP9EPu4y7b/eEUqGXxtOmBGMCk3/OQAMuM
+	 0s67sooqKZiopzdaSXWaTd0FvIOQcY5kEe2mw6Fydm/2l1w26QswRAlSkvkiUMO6m/g==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794457694;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=72SUPaxQEhtOUv0mlFo4kwCDiyNMot1/Xsy1W1QLG5M=;
+	b=Qexr0B5DD9ZfgQrL78js+v4VQeODkmbGTvyMTH1fjUqyxXWzL3666RgSaz+EZPZoVBCi
+	 U67qdks5MT6e2ZOKa/aPbWALQgKXQde+KlX4qEWPT36ueQjxfwojfb2byKa9vPAvX/6Ex
+	 m46hhpAWq2c+mTbBgikvLIQHi519m1ae3QfOaVV/lIbnrA6EnZ9ba7Vjao6A6JBcmodx5
+	 YsLsV5spMFcccUzMTVCPJa94PcG0wqPBMa47V4TzGIE3QbkpX0Nk28KyA0Ir4es7OX27a
+	 IEoA4ECc19TXbHv3oNWsZeO0IAeLo6hR6XGjinKo8L3xo2cyA7iQ3Y04Av7YP6BcLXw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id B31FB1F00A05;
+	Thu, 12 Nov 2026 04:28:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794457694;
+	bh=72SUPaxQEhtOUv0mlFo4kwCDiyNMot1/Xsy1W1QLG5M=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=jAYdlGdb2kyRa3L+kma6sqWrC33UCCk0UGKVw++zzTKTkVb5CGv28i/LhDGhRC1nb
+	 NJU93Ie/o0EITV1N4Tx3FxE7WxYa4nZpkoQOJILTdicpSga6fsb1ZHaln/YC+Z73Sz
+	 WxzUGzU4CTzmfd1Ytosbbyr7ZxGxgLRngnteJS8cW47IwrxZ2xf06KykVq5kc37QLL
+	 vJOgh4yIZNjg+0kWwBhqBWh9nA8yhgrNKUzYbRY4LS8yZsCyFujZKymoaNk1A5fBAn
+	 5RJlXzjZCLku+Lxyc70mE1DKGZjfs4Vyqf/cqKL6iZ8L3oih/4RHQiXtDPGn1thzBV
+	 b1yHBmtxhoa1g==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 0F79E4927F;
+	Thu, 12 Nov 2026 04:28:13 +0000 (UTC)
+From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
+Date: Thu, 12 Nov 2026 04:28:13 +0000
+Subject: [PATCH] usb: typec: tcpm: Cancel the timers before destroying the
+ worker too
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -97,117 +83,122 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|MI7PR04MB118002:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf471d96-00c3-44d5-bec6-08df407058de
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|376014|23010399003|366016|1800799024|18002099003|22082099003|4143699003|11063799006|261028144727099003|261026121527099003|261026140227099003|261022105027099003|261022075727099003|56012099006|261009223027099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	XNxSYIuhQbq0woDiqrruiUNQU0sbjwUIIa5dBEUe6BdKrg5Um4/UyIHkOHO+s0Ybfs2zVZUHp/9047OKlwSKelQAtnPOAzJmlPfEWoDGgpbI6RKXqgRM6fFk0ksPTPN1i+y+pJl+mOJ6vM+lURMXo+8tCDVnAAyW93HeJQ+roo6oUCO5hU/Lld31dEI6bdnpqhPNPv4cKfXccZM2znL+7FyabRlwlI4RkMJz3a4defe0siWWHUdt9z31UmBA7u0nTzUBpfeBFrjP6ECo8NKTaWDsFEYxG2ppscPASrurU2g/lENyNhPBMCGMgRo76rJ9A94NOhUsgmIfqsSMv7IGv+RwdJ3+m0L/te+sg2HhkxYhCN9bor1ALdt2g2rNt2zknAZ79hOzDkw7J57h0sni2S1WZpV8HAaYdYS6XnjrgfXfiXtJNdulTpGaGJ+A/XTiGkZ1fAGI9EZUIuVIqC7VkTt9WfoDq5/XPyB1FD7K0n/+roAINyDJw6+Ds0ZoJpZvroE8XxuFVHepCrfspm4uvye9+cCdW19SGvvsXqSY7e9FbR1BsLqaXbhjpZJgiU7xqlAqrRfwFS0kkp5/u4mwtZoSDCLQsLuU/pl0uH81K+xyC8xL6rrnqTjdvdepjqpwZqmlQ0MGzM8PmRTuN0OjdWtjSMucztXb9iGcUw7XvtI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(23010399003)(366016)(1800799024)(18002099003)(22082099003)(4143699003)(11063799006)(261028144727099003)(261026121527099003)(261026140227099003)(261022105027099003)(261022075727099003)(56012099006)(261009223027099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?suKxrzyFB3aBIEzWxwyrc/UtzGp6d/emV0vISAvXPFm3NK3zNnmu5W0K2QJS?=
- =?us-ascii?Q?FB9hEyCIjtxPKkqnWTlwwJxIm1iRUGF4Ww0f5PNOTo9PxOUxn92DsWy7HkXC?=
- =?us-ascii?Q?nt5kWMgeq+wfxQ0w0RDEo1Uvyw1CslZfnxkbfqSI48p3Uo5m7/8uMiL5y32p?=
- =?us-ascii?Q?G45vNUgi5nh9HPPIds5DOxOk+j11QZX33inhHgG+wUcBlrbi253AWUI1uUNi?=
- =?us-ascii?Q?BzOykeaJ8R5yGO/dUl0towqipWNnGtV+Yo4gQFEbP+GDiwP/a+W5V6X5cd0+?=
- =?us-ascii?Q?APSHR5ik4HTj3GJwzXxydKRkEPvhZmIEJJWqpNEZHIFPpJXj/NO1sR4I6u95?=
- =?us-ascii?Q?OAC1aE4x9Fo/+1QvvsHCacePZSidD7DfQxI+4VW9KKBhHbulnMvnbxWfjvx5?=
- =?us-ascii?Q?QVlp7jIVLWRCnQe4T2jCnHOMBYYn4pZ6GqWjI2NB65Ax7BmezDplkTOHWhxg?=
- =?us-ascii?Q?jrSSEATYtfeSPvFevTKzS7qvKBmSBtCwphsfATWdN2YGtZroyXIKzMrGJC+A?=
- =?us-ascii?Q?fSsE2CzAYTz0GG0/f6T/yWZDggSywF6xSwm7omfnzZVaZtkNQYs7qonUdBpe?=
- =?us-ascii?Q?TF+CH1M3UzqR50fnUxg5YRyXKSATyleKdfPEGzij9SkQUm9dnO4snrROccOC?=
- =?us-ascii?Q?LWVQU5bwBLM31sGLGGo4zGLRN1jJjnPrDxYI5Mq2pA4sNrHM/r6RBw1P9yaZ?=
- =?us-ascii?Q?aj7f2Du1QP6iy6aFezh00jE9xwj6tdQMQCX/KKxA7/rSU4JWPwnCV26VKqzj?=
- =?us-ascii?Q?vCrdLLXa6sYRdSgOlhVE+qa4wiCA7IQQsv7kPdgIytDj0jO60MKoqw+n4VK/?=
- =?us-ascii?Q?Xk9E789lpGyW2dajO3JST4gMb8XUefByxM1qOI30Ekwqt7hId7PBWcKMOqgG?=
- =?us-ascii?Q?YZWEvv7UFwZeDtVvy9LtLp9Q9bN9iKl5sszj3B/jR7aYCajSrNTteRmqtZM6?=
- =?us-ascii?Q?r9t3EIh3NKrW+VWOzXEaQYW5DwLi/Ce3X6aNjXe7dyhBl6OEm02QaqL9gC/H?=
- =?us-ascii?Q?6FNKiopdr1OWLn41NzbbA9/9lxZZ3QQHdNWKzNUyY7HRsldIMF/mT7xEDv3l?=
- =?us-ascii?Q?h2/GqrvWEcaqIqJTsFPgggEOcjiEAyrELF4ELL3OgGvn2YGg/+ohX2R/eISl?=
- =?us-ascii?Q?wq4DmNvZMcJYxlghhN7wDbMudeyAaTASGel00VazfXfPvNGDOkJ4GZ7B0rdw?=
- =?us-ascii?Q?kjYEL7OMYY7opAOLIWtBaZKxztlW09rNxbISfHKIVQ5FZFXNEHDAZq+qTMV9?=
- =?us-ascii?Q?k955D/7AOkFyWWxdgCTcosplLJ2qSNeY1/R/stR79HJsoXzAFUcKHD3cRt9T?=
- =?us-ascii?Q?567gTf1Dho/4wF8Aiu+9/5BDii09f/XpjfhwLKVCt0G0GUEwVlH3VytTu6MQ?=
- =?us-ascii?Q?V+Iru2G3U5q421yMKkd6Hx/fjO2pzcozHwY20ONm/N+GlYTKj5kdfoO7ts+K?=
- =?us-ascii?Q?lz4ppjf37NMuVh5VQh2Z6T4UKD4HbwSeF/CJVZV7gvKrRRWbVchWG2jlmGkX?=
- =?us-ascii?Q?wEBym0RzQPi8JiNtPMoaR9jY3Xnn/kH0jrJvP2ZgcFkHPydLYWtvzGlOp3MJ?=
- =?us-ascii?Q?dD1WTznO7zA/wDpYXZ8nxh0rENO3aAWokUAG3B5JSym9d/YHS6NdMANIWrZN?=
- =?us-ascii?Q?oweRBMuGWVwdJ+aIIL4TIgaN1FcafMBEkoQGmSY4Ardcp+KYsqtS/9eDOyV1?=
- =?us-ascii?Q?VTyNMIugkHUYxYmjwz+BiiNetL0eqPlzIQlBUs1hsWJswttczTyvGcIaW2h3?=
- =?us-ascii?Q?TmGQhsL+7qb3hCSFBy4w7u+Xy2nzL7FjL8NUWyjTwie36JUHWMsN?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf471d96-00c3-44d5-bec6-08df407058de
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2026 03:52:18.3102
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pWK5iyWjxaSLieNEkyieG0VppESWa/R5bh8Y/fOJ6VMFfH+JnwNOjGXtUnVGWE4M8h/PrtPnfcCAeTrx2SLCpLxSaoOliRk30kcDAFfdF7r4cuhbF77xkp5ukpIFW0WI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI7PR04MB118002
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261112-tcpm-unregister-timers-v1-1-7230fda5612b@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQrCQAxG4auUrA00g4rjVcRFnf6tETqWZCpC6
+ d0ddfkt3lvJYQqnc7OS4aWuz1whu4bSvcsjWPtqCm04ikjgkuaJl2wY1QuMi04w5zD0coj7Uxt
+ jpBrPhkHfv/Hl+rcvtwdS+d5o2z4PaLCIegAAAA==
+X-Change-ID: 20261112-tcpm-unregister-timers-2fd159480999
+To: Badhri Jagan Sridharan <badhri@google.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Guenter Roeck <linux@roeck-us.net>, Xu Yang <xu.yang_2@nxp.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Arun Iyengar <aiyengar1990@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794457692; l=3576;
+ i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
+ bh=uO7oLFJ9U2ade7oBvcd7yir9nsFmvPybpTlJOuoRoAM=;
+ b=12OwEeV8fEQtCgyW1E7aRWtRJbppNwN/xgiR2qmXBfUwQldX0xlNfYjZAL3iuCnkAOaajjTJV
+ gO/caxTbEwSBO/Und6USQU0+xqw8TQo1001UkPihPbgv2oWHVqWPt23
+X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
+ pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
+X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
+ auth_id=1480
+X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
+Reply-To: aiyengar1990@gmail.com
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 12, 2026 at 09:56:38AM +0800, Yaohan Li wrote:
-> Hi Xu,
-> 
-> Thanks for taking another look. I'll shorten the commit message.
-> 
-> I checked the IRQ path again. tcpci_irq() reads TCPC_ALERT and handles the status bits directly. The alert_mask field is used for the IRQ return value and the loop condition, but it doesn't filter those initial TCPM callbacks.
-> 
-> My concern is the case where an alert is still latched, or the mask write fails during removal. Since the IRQ is shared, another device could cause _tcpci_irq() to run after synchronize_irq() has returned. Without the stopping check, that handler could still reach TCPM after the port has been unregistered.
-> 
-> Does the TCPCI specification guarantee that TCPC_ALERT reads as zero once its mask is cleared, including for previously latched alerts? If so, I've missed that guarantee and can simplify the patch. Otherwise, I think the stopping check is still needed for that last window.
+From: Arun Iyengar <aiyengar1990@gmail.com>
 
-In TCPCI spec:
+tcpm_unregister_port() clears port->registered, destroys the kthread
+worker and only then cancels the hrtimers. A timer handler running on
+another CPU that has already seen port->registered set can still call
+kthread_queue_work() once the worker is freed, or with port->wq
+already NULL:
 
-4.4.3 Mask Registers
-The registers in this section define the masks that may be set for the ALERT registers. A
-masked register will still indicate in the ALERT register, but shall not set the Alert# pin low.
+  CPU0                           CPU1
+  tcpm_unregister_port()         state_machine_timer_handler()
+                                   if (port->registered)
+    port->registered = false;
+    kthread_destroy_worker(port->wq);
+    port->wq = NULL;
+                                   kthread_queue_work(port->wq, ...);
 
-So TCPC_ALERT may be not 0 if TCPC_ALERT_MASK is 0.
+The timers are cancelled after the worker is destroyed on purpose:
+works that run while the worker is flushed can start a timer again
+(see the commit in Fixes). Cancelling only before would bring that
+back, so cancel them on both sides. hrtimer_cancel() waits for a
+handler that is running, so after the first round no handler that
+missed the cleared flag is left; the second round removes a timer that
+a work started during the flush. tcpm_reset_port(), called later, only
+cancels.
 
-Your analysis is right, but I think it's another potential issue in tcpci_irq()
-where masked events get handled. "status" should be ANDed with alert_mask as well.
+Fixes: ca4d8344a72b ("usb: typec: tcpm: fix tcpm unregister port but leave a pending timer")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/all/sashiko-outbox-206898@kernel.org/
+Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+---
+Sashiko found this while reviewing an unrelated tcpm patch of mine:
+https://lore.kernel.org/all/sashiko-outbox-206898@kernel.org/
+Its suggestion was to cancel the timers before destroying the worker
+instead of after; that would undo the commit in Fixes, hence both.
 
-Like below:
+Compile-tested only (arm64 W=1): the window is a few instructions in
+the unbind path and I have no reproducer.
 
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index 6717ac914c6a..4eb97f5a523c 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -724,6 +724,7 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+This patch was developed with Claude (Anthropic) as a coding assistant:
+it wrote the change and the commit message, and I reviewed it.
+---
+ drivers/usb/typec/tcpm/tcpm.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-        tcpci_read16(tcpci, TCPC_ALERT, &status);
-        irq_ret = status & tcpci->alert_mask;
-+       status = irq_ret;
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index d721baef5210..c7e0e09b1cbe 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -8987,18 +8987,29 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
+ }
+ EXPORT_SYMBOL_GPL(tcpm_register_port);
+ 
++static void tcpm_cancel_timers(struct tcpm_port *port)
++{
++	hrtimer_cancel(&port->vdm_discovery_timer);
++	hrtimer_cancel(&port->enable_frs_timer);
++	hrtimer_cancel(&port->vdm_state_machine_timer);
++	hrtimer_cancel(&port->state_machine_timer);
++}
++
+ void tcpm_unregister_port(struct tcpm_port *port)
+ {
+ 	int i;
+ 
+ 	port->registered = false;
++	/*
++	 * A timer handler that saw port->registered still set may queue
++	 * work: wait for it before the worker goes away. Works that run
++	 * while the worker is flushed may start a timer again, so cancel
++	 * the timers once more afterwards.
++	 */
++	tcpm_cancel_timers(port);
+ 	kthread_destroy_worker(port->wq);
+ 	port->wq = NULL;
+-
+-	hrtimer_cancel(&port->vdm_discovery_timer);
+-	hrtimer_cancel(&port->enable_frs_timer);
+-	hrtimer_cancel(&port->vdm_state_machine_timer);
+-	hrtimer_cancel(&port->state_machine_timer);
++	tcpm_cancel_timers(port);
+ 
+ 	power_supply_put_system_batteries(port->fixed_batt, port->fixed_batt_cnt);
+ 	tcpm_reset_port(port);
 
- process_status:
-        /*
-@@ -807,7 +808,8 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261112-tcpm-unregister-timers-2fd159480999
 
-        tcpci_read16(tcpci, TCPC_ALERT, &status);
+Best regards,
+--  
+Arun Iyengar <aiyengar1990@gmail.com>
 
--       if (status & tcpci->alert_mask)
-+       status &= tcpci->alert_mask;
-+       if (status)
-                goto process_status;
 
-        return IRQ_RETVAL(irq_ret);
-
-Then you should set alert_mask to 0 and use it to mask ALERT. 
-
-/* Disable chip interrupts before unregistering port */
-chip->tcpci->alert_mask = 0;
-err = tcpci_write16(chip->tcpci, TCPC_ALERT_MASK, chip->tcpci->alert_mask);
-
-Thanks,
-Xu Yang
-
-> 
-> Thanks,
-> Yaohan
