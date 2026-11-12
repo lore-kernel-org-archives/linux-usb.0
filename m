@@ -1,98 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.29
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794454131;
-	b=E6fzaMLTJHLXxdK/RU0cv18v6wwkBFyaoDQZqrhdO/4f7UqJK/AaAkLRxGRo+rZ1OKRj
-	 eiUr9wfuo7vKvLDnDbC1vEYWosSLxtfeIrVoaXH3/XsU9CmZ3+NROITrcNNOIMvneHJxP
-	 tEUqJa8PKlQuXySWQk9FC/BbGzG7uGWF62TRC+k4K6FljowWQmtCYplQOCvn//VnEpGFg
-	 YaHuzVeV4MpGG2ZJXhsc2dw5duUSuZ3IhTF9qWbAL3QrCAxTk2eFcoqS9Y7+dxikfGx0k
-	 9AMALPuJbemCGXVEDtSz358lVo6jXTM+blFske0+uzpG5vIdRcuqqohH2g7nEgXb1cA==
+	t=1794455541;
+	b=ZEIOS/DYy+aNEqZbGXqpOfpuYsXALDZFZq2J2nxTnwKhHr2UO7FlLM+eCqVCFzpjlkZ4
+	 Az0zzBmBFWdQLs8O8/Q1V1owgdiKh3JXuJ6o81YHmk8+nPVepzij3jEbP5zUqfnwvtGW/
+	 EJrUi93Unj9/ddj2owNihWeCOwJOL9yuEaXupFIQMtZBu/1znW2pXsY64OYaVxV/eXrf1
+	 WzEkA7JtVXmFWpLahI+OVWDLGLvCs6b8SOJabWMZltuJCcAAYzPBPcSpnGR65ScfgIm0n
+	 RDQkwGQ7yhJswoHt0GHVMtXan8fuVIX+ej/Bts2voPJADnyInxfZVtdNq7DqAvhktoA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794454131;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:MIME-Version:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=HcHn4DaRv2+hECQT8RVUZ+tHgwgVlXbHmAhJXlXXpmo=;
-	b=gLO/DeycPSnRPY1e+kHDj4GbycUQlMxXyqXLwXWzc5stSZrXC20UMh7S1VdAcKKTjPsc
-	 Ep9y6rXsgbZfJq0UlTUeslFExWiGUJyOXr0imwfxQ/hfhjaTUJyKgqbW6+Dyfhv0LPhxg
-	 HZMxBtQUlFMsMvgp0LKHscySH0GzZZODdp+WxKgKMfq8k2qMh5JLnXtcWbbQFI4lY9Evt
-	 A+3cvJ9dIrNBss16b0nG+UamZlYdYHcrVi9B9UZ4QjhFW9B335//eDbolnmMDz4h9QuEa
-	 bmNok/N+6WbP9yH8daK4SvyhDeWWEda6Qcp+7ATce7D+doGCa6yvVfQfvfi8pd1U1ng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794455541;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=OkSSk25yYebPTKvL8/XVIlobib0R9HQV/wvec0AsU3o=;
+	b=oxbKh0wgQoQp2+uSTOHPFF/IwNsQEfkiSJTc8syHhGW3neqAX6OSXA2ssqGlv0lycMGd
+	 itAutIhFkjcxD7VKb+6V4K6evE3a2rle8lKzfy8HwyMN08RpdXuy8hGlcX+1JccqF9WXe
+	 wDxTvQrT6F4BaWC8Vxq1ShJHerhgButRbwJiSpqtYnWYl9qefQI4iFUy3FMXjc0sSbTal
+	 d0LPI8L3A9IEXxUxrEWVXuhuSxG1UhRXf0E+kntn+KqD50usBJAD/xQPtoTtsBSxlK9CP
+	 mFMSrKJVwJRS+YOSyLtuXi5dqe3BlvsjpYDkD4FkFEE3jUqUpzrrMUm5qANn+Fypi8A==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KKwaDcxd;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.49
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=oss.nxp.com;
+	spf=pass smtp.mailfrom=oss.nxp.com;
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=l6UjnO3k;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.29
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011029.outbound.protection.outlook.com [52.101.65.29])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22291606A323
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 03:28:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22291606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B82606A881;
+	Thu, 12 Nov 2026 03:52:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61B82606A881
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KKwaDcxd
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c4d58c50743so368322866b.1
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 19:28:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794454129; cv=none;
-        d=google.com; s=arc-20260327;
-        b=S/p/KDy5wfamwM84cMzLiMZQnQk1wWnVxHj2aK3AcEsRy8ToUEAXjuMw7oe4xzqM4f
-         5ZbkKV0dN0YcqUibvzh6MDz12kKcCoyM//FfVJxLMyoW9TPXCvmSt3eqRYiEWR5ia5xW
-         0tM05Pxp4EOXCyuRVNPezPaMdBoA9F9VmmgSfTO5o31EB0Oe4wjt+w8lA1vwrZ9x+D9Z
-         pMnWLFrVG36ILqR7MBUyvXdzwjLuBf2QvhmY4neKUaMsTGP6ta0dhFYkAm2OBufG/fbi
-         +bIJGl4CfrpUBcRok+04Z1OvT/NdRqx1GlZqKb/6cTYcTf7DC9o5+8JCoDqaPUI5PU7t
-         RbgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=HcHn4DaRv2+hECQT8RVUZ+tHgwgVlXbHmAhJXlXXpmo=;
-        fh=pU6ey+KNMRLC7HAQLDh4XLOfoNkJrzBBX1iK5bYJRsI=;
-        b=DvJYC9bT79agYN1isF97ATb876Mvz3vI4GGDa8Wdk2fu+w0aTSz7PxOi4kDRdN1dlt
-         iZT2J5GiTkUthnXH9X6wCr6VIPAZ81F9kJJ+P1tpbqqXXFz5mDxSWXxrTB1gfr3irEub
-         qWLdDJeuD46Z0zOfmepGXAEaB3v5z84GJgarbBwY5fkablcDtpTJRdMS51StMg/+F1gk
-         nRCgIf0NAFaVwa6g8FP+8oR8KYXNfNXAzG7J05h0V09aH0sRiPRDa1YGYOt9YJZofJmR
-         AzRzWG6aGtv4IYFWM0V/aj0BsYVBiFJlYYv1+wysNGlEsmgYC4g6HmiJVR7NGtkmWEw6
-         CUHQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794454129; x=1795058929; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HcHn4DaRv2+hECQT8RVUZ+tHgwgVlXbHmAhJXlXXpmo=;
-        b=KKwaDcxdz5o8gx8Uc7mBh3ET55XrPKo2I2NHYBp3FlN7JyG3CJ0C/mX7f8aG0wQO9N
-         5RhazaX/AQr0tpdtwjnk7gPvc/sCM6B2lae8g6sdMIKb68+zhaJcMeM8gbCM3YNbIn5L
-         VkNCSzFK2tXXCMRlas5gTbxHMdnpN3oJaq2aOo4jDJ2eg2ygmrJrydteO1vc290P798f
-         dafsoZVm0gIfyBLh3wVbmNPAEBOB/o8ekKdSUgWdHDpuIr1SyQBAI88w+Iw0JQbqEHM9
-         uSa8VWEllyLL22ZJ8nflZyDv8TGhgQDEEIeSwYbYaxNOT7iCziF/G6HBZSvlDlLnvHhB
-         m5/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794454129; x=1795058929;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=HcHn4DaRv2+hECQT8RVUZ+tHgwgVlXbHmAhJXlXXpmo=;
-        b=ZFaj/tim1JxT8m5vJlres92kKwpta3jbIhTD5eDihaeWEy4caoptmAIPVjMFg2g1SO
-         0QiUk3KfiLGAwxsSj4sYQFp5u7Dn9nl29PaNkgnG+jwuX4/5km+vGg7ko+6iEoOM9UIU
-         yGJZNFBErNveWfdR2C2bFje/Qxp8taSnXEEewGbTaNqN3n+VPCNL5dJcf4C39K3fmPVY
-         Z+Oi1r9EZ4RozmIL7BchzmyY357FQbDOndXoSM8Vhr8fpF+SGiSkQUq1sQJWhJvAUqTF
-         uUVI7GYdjBDz8zzLOFJPieJP3a3OaWfCo10KEh/8K7jOfLU9Zs+DxEZdzygabmGkUZdP
-         nNiQ==
-X-Gm-Message-State: APuU4Z9jIdbdzmHv/4BhrOoBtfxs/j4DL3LN5CLMsN5Ip1X0/XwJp1W8
-	0wh1U0WciooOKReYx8tBRk0WF3y5qYJbyGkveLaH3UU3BfUU24/Jv7ga5GPdWXqa3k9n572Ie8p
-	G1+Pvrw22McrRynsjv1GM6VXwcW79VDWybQ==
-X-Gm-Gg: AYBFou2IDFtFZIOanIcbNR3X/2IdADjswQnNUIDssfme2L+uMDzKs/kPJd1UF0+52L8
-	uuvvpKHg8RkjrXjQxzzBs2yFFZnlXh5y7mpQnkZnx2YADQVlbVqJMSv60FVtJYw02kr/KTt4EEb
-	YGGCGNZp3dPiycFiNbdNZeQc2WVQp/2C169Lrt/hiDlh70tcFMBl3Vc6/Vwk66udxJqIpnq+ywh
-	B6Qz2Ubk7W1tKxkuqMYHSTVDMjPxF+T628wXOpq6H58AGfVvGWPUpErlea5LIPiyYhsXwvyrIR9
-	Ckbdpik45WtUXTAwmeSfTH+sBwu9SWmTWl75ApcZmXpAv4X5SMoxg5pLf+CDk1QeCLvACL5rLMD
-	D11hQcZ9QXuxwmY6R6sNahQ8rRcrfmxcOfOrG2mm4QWjrMDomAK0beprGBjg3xbv7TYL1ZKtoXK
-	n2N5i9+RYmCU1P
-X-Received: by 2002:a17:907:3e1e:b0:c50:475d:9804 with SMTP id
- a640c23a62f3a-c5066aea7a1mr322211866b.13.1794454129277; Wed, 11 Nov 2026
- 19:28:49 -0800 (PST)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Wed, 11 Nov 2026 22:28:48 -0500
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=l6UjnO3k
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jpPJ4aROdsNQuT/drBJm4dsd79UF+C807UhsmQcJZxKL4AL5URw98jgKNstb/eDQz50zUwPqUnqC+Rf5YBnK9bXMjoZLy0LF6elmOpYcdxRhktZh8UZomuHULPIeHe+gtxjYWoy/3G226y3y5chOk6196E3z/eAzZfYj3sxS5uQVdssTZYBeDQGqRjVGl+beldeTHgPdQ4OycCMzSbR3n8DoVJuzsvfQBcjWsg/nu0hx5wwMpuVDl5+bEzIMulwpu06jpgxXpHX1fwAInbbDtzQAMKi+1alPcazeUXn9qWIRf6qpYh9bgsWcuhMmAyrnNOHSe6f7raEcY1IJgASw6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OkSSk25yYebPTKvL8/XVIlobib0R9HQV/wvec0AsU3o=;
+ b=LvKA+R6WCShL3sSVUl/sE29zRfQwqOaSwhLJuozf5pi4KtJcT/XeF0RtRmfCxntitwAMUJhR84y5x9tfhkWE9hflgDH2UlXSJR9oabshSBinpmQ7im0kNMqUektEYpHvHvhNXhyEox14QTRo0ttSh3vicpNb2wEGp9XHqw4C4uS+ow+9qOttRwBKwYpaaWyyiHkoNHokygsSOKoYosfo01ZT45xdV/T2e/JNkR/2wdqPY7aqWdQUIKgwe1XuxM75DjnY4jF9R2xVLXd2gJMd6XV4ouXILd7YrW1gVsk0/AlhPyukdiVC/rojiu0IxKnZbCQeiH9ir0M0RzTNKQqU2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OkSSk25yYebPTKvL8/XVIlobib0R9HQV/wvec0AsU3o=;
+ b=l6UjnO3kYWYW83lSSo867XhhpF9aciAwRLgSd/B4vtx+XbNZU1+PSvIBsL6Tshgb0dwLcOZ3v50WOKPIYbv+AMYIExtu6LKL+pTIHLDBgGD9edBpgcmr7qgLF0BO5E5JtLKq4unySd2OdtBz3yfRqzM/tZszI3ZKEohKfwHZLSDxfaufgdZ6k2U1PnJ0euUcet56FDFIKjILXHyWniKkSjcKSskI2S95/Quj1ghSrORjrc/5HLzRSrk7/hDrPtHY+vNdUC2Po6coANOZCkHavvaClU4T5XjqL1H+mf26BmenaEQocynbFDfablbffhSzvUxcRG9REpZuzmpDJyesZg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
+ by MI7PR04MB118002.eurprd04.prod.outlook.com (2603:10a6:290:108::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Thu, 12 Nov
+ 2026 03:52:18 +0000
+Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
+ ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
+ ([fe80::54e:28bf:aa85:d25d%3]) with mapi id 15.21.0615.007; Thu, 12 Nov 2026
+ 03:52:18 +0000
+Date: Thu, 12 Nov 2026 11:49:15 +0800
+From: Xu Yang <xu.yang_2@oss.nxp.com>
+To: Yaohan Li <shunsheng1218@gmail.com>
+Cc: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org, 
+	badhri@google.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: typec: tcpci: quiesce the IRQ before
+ unregistering the TCPM port
+Message-ID: <2d5fwluqeouhbjnjg2czo5gsltqlkjj46d4bfewgwxsnkqs4rt@pynplsavt3zc>
+References: <tiszwydkunhgdxmu2lucgxntzbcosncxxzrzgggudhtnvubkcs@lcllktxpuwrc>
+ <20261112020000.1001.yaohan@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112020000.1001.yaohan@gmail.com>
+X-ClientProxiedBy: JH0PR02CA0009.apcprd02.prod.outlook.com
+ (2603:1096:990:5::8) To PAXPR04MB9422.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b4::21)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,87 +97,117 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: Daniel Burbridge <daniel.john.burbridge@gmail.com>
-Date: Wed, 11 Nov 2026 22:28:48 -0500
-X-Gm-Features: AclHuK_1bVADescIpj98PN2zi2aUzoZ4LlepeVyddi8KH2aU99nDSErjL3391xA
-Message-ID: <CALbTNWk-0OE=3HkF6Sd+ujBeVpvjL=OwE9QHG2LNbEd3yY4Tyw@mail.gmail.com>
-Subject: Realtek 0bda:0328 rev 2908: ~5.6s S3 resume stall avoided by RESET_RESUME
-To: linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, stern@rowland.harvard.edu
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|MI7PR04MB118002:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf471d96-00c3-44d5-bec6-08df407058de
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|376014|23010399003|366016|1800799024|18002099003|22082099003|4143699003|11063799006|261028144727099003|261026121527099003|261026140227099003|261022105027099003|261022075727099003|56012099006|261009223027099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	XNxSYIuhQbq0woDiqrruiUNQU0sbjwUIIa5dBEUe6BdKrg5Um4/UyIHkOHO+s0Ybfs2zVZUHp/9047OKlwSKelQAtnPOAzJmlPfEWoDGgpbI6RKXqgRM6fFk0ksPTPN1i+y+pJl+mOJ6vM+lURMXo+8tCDVnAAyW93HeJQ+roo6oUCO5hU/Lld31dEI6bdnpqhPNPv4cKfXccZM2znL+7FyabRlwlI4RkMJz3a4defe0siWWHUdt9z31UmBA7u0nTzUBpfeBFrjP6ECo8NKTaWDsFEYxG2ppscPASrurU2g/lENyNhPBMCGMgRo76rJ9A94NOhUsgmIfqsSMv7IGv+RwdJ3+m0L/te+sg2HhkxYhCN9bor1ALdt2g2rNt2zknAZ79hOzDkw7J57h0sni2S1WZpV8HAaYdYS6XnjrgfXfiXtJNdulTpGaGJ+A/XTiGkZ1fAGI9EZUIuVIqC7VkTt9WfoDq5/XPyB1FD7K0n/+roAINyDJw6+Ds0ZoJpZvroE8XxuFVHepCrfspm4uvye9+cCdW19SGvvsXqSY7e9FbR1BsLqaXbhjpZJgiU7xqlAqrRfwFS0kkp5/u4mwtZoSDCLQsLuU/pl0uH81K+xyC8xL6rrnqTjdvdepjqpwZqmlQ0MGzM8PmRTuN0OjdWtjSMucztXb9iGcUw7XvtI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(23010399003)(366016)(1800799024)(18002099003)(22082099003)(4143699003)(11063799006)(261028144727099003)(261026121527099003)(261026140227099003)(261022105027099003)(261022075727099003)(56012099006)(261009223027099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?suKxrzyFB3aBIEzWxwyrc/UtzGp6d/emV0vISAvXPFm3NK3zNnmu5W0K2QJS?=
+ =?us-ascii?Q?FB9hEyCIjtxPKkqnWTlwwJxIm1iRUGF4Ww0f5PNOTo9PxOUxn92DsWy7HkXC?=
+ =?us-ascii?Q?nt5kWMgeq+wfxQ0w0RDEo1Uvyw1CslZfnxkbfqSI48p3Uo5m7/8uMiL5y32p?=
+ =?us-ascii?Q?G45vNUgi5nh9HPPIds5DOxOk+j11QZX33inhHgG+wUcBlrbi253AWUI1uUNi?=
+ =?us-ascii?Q?BzOykeaJ8R5yGO/dUl0towqipWNnGtV+Yo4gQFEbP+GDiwP/a+W5V6X5cd0+?=
+ =?us-ascii?Q?APSHR5ik4HTj3GJwzXxydKRkEPvhZmIEJJWqpNEZHIFPpJXj/NO1sR4I6u95?=
+ =?us-ascii?Q?OAC1aE4x9Fo/+1QvvsHCacePZSidD7DfQxI+4VW9KKBhHbulnMvnbxWfjvx5?=
+ =?us-ascii?Q?QVlp7jIVLWRCnQe4T2jCnHOMBYYn4pZ6GqWjI2NB65Ax7BmezDplkTOHWhxg?=
+ =?us-ascii?Q?jrSSEATYtfeSPvFevTKzS7qvKBmSBtCwphsfATWdN2YGtZroyXIKzMrGJC+A?=
+ =?us-ascii?Q?fSsE2CzAYTz0GG0/f6T/yWZDggSywF6xSwm7omfnzZVaZtkNQYs7qonUdBpe?=
+ =?us-ascii?Q?TF+CH1M3UzqR50fnUxg5YRyXKSATyleKdfPEGzij9SkQUm9dnO4snrROccOC?=
+ =?us-ascii?Q?LWVQU5bwBLM31sGLGGo4zGLRN1jJjnPrDxYI5Mq2pA4sNrHM/r6RBw1P9yaZ?=
+ =?us-ascii?Q?aj7f2Du1QP6iy6aFezh00jE9xwj6tdQMQCX/KKxA7/rSU4JWPwnCV26VKqzj?=
+ =?us-ascii?Q?vCrdLLXa6sYRdSgOlhVE+qa4wiCA7IQQsv7kPdgIytDj0jO60MKoqw+n4VK/?=
+ =?us-ascii?Q?Xk9E789lpGyW2dajO3JST4gMb8XUefByxM1qOI30Ekwqt7hId7PBWcKMOqgG?=
+ =?us-ascii?Q?YZWEvv7UFwZeDtVvy9LtLp9Q9bN9iKl5sszj3B/jR7aYCajSrNTteRmqtZM6?=
+ =?us-ascii?Q?r9t3EIh3NKrW+VWOzXEaQYW5DwLi/Ce3X6aNjXe7dyhBl6OEm02QaqL9gC/H?=
+ =?us-ascii?Q?6FNKiopdr1OWLn41NzbbA9/9lxZZ3QQHdNWKzNUyY7HRsldIMF/mT7xEDv3l?=
+ =?us-ascii?Q?h2/GqrvWEcaqIqJTsFPgggEOcjiEAyrELF4ELL3OgGvn2YGg/+ohX2R/eISl?=
+ =?us-ascii?Q?wq4DmNvZMcJYxlghhN7wDbMudeyAaTASGel00VazfXfPvNGDOkJ4GZ7B0rdw?=
+ =?us-ascii?Q?kjYEL7OMYY7opAOLIWtBaZKxztlW09rNxbISfHKIVQ5FZFXNEHDAZq+qTMV9?=
+ =?us-ascii?Q?k955D/7AOkFyWWxdgCTcosplLJ2qSNeY1/R/stR79HJsoXzAFUcKHD3cRt9T?=
+ =?us-ascii?Q?567gTf1Dho/4wF8Aiu+9/5BDii09f/XpjfhwLKVCt0G0GUEwVlH3VytTu6MQ?=
+ =?us-ascii?Q?V+Iru2G3U5q421yMKkd6Hx/fjO2pzcozHwY20ONm/N+GlYTKj5kdfoO7ts+K?=
+ =?us-ascii?Q?lz4ppjf37NMuVh5VQh2Z6T4UKD4HbwSeF/CJVZV7gvKrRRWbVchWG2jlmGkX?=
+ =?us-ascii?Q?wEBym0RzQPi8JiNtPMoaR9jY3Xnn/kH0jrJvP2ZgcFkHPydLYWtvzGlOp3MJ?=
+ =?us-ascii?Q?dD1WTznO7zA/wDpYXZ8nxh0rENO3aAWokUAG3B5JSym9d/YHS6NdMANIWrZN?=
+ =?us-ascii?Q?oweRBMuGWVwdJ+aIIL4TIgaN1FcafMBEkoQGmSY4Ardcp+KYsqtS/9eDOyV1?=
+ =?us-ascii?Q?VTyNMIugkHUYxYmjwz+BiiNetL0eqPlzIQlBUs1hsWJswttczTyvGcIaW2h3?=
+ =?us-ascii?Q?TmGQhsL+7qb3hCSFBy4w7u+Xy2nzL7FjL8NUWyjTwie36JUHWMsN?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf471d96-00c3-44d5-bec6-08df407058de
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2026 03:52:18.3102
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pWK5iyWjxaSLieNEkyieG0VppESWa/R5bh8Y/fOJ6VMFfH+JnwNOjGXtUnVGWE4M8h/PrtPnfcCAeTrx2SLCpLxSaoOliRk30kcDAFfdF7r4cuhbF77xkp5ukpIFW0WI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI7PR04MB118002
 
-Hello,
+On Thu, Nov 12, 2026 at 09:56:38AM +0800, Yaohan Li wrote:
+> Hi Xu,
+> 
+> Thanks for taking another look. I'll shorten the commit message.
+> 
+> I checked the IRQ path again. tcpci_irq() reads TCPC_ALERT and handles the status bits directly. The alert_mask field is used for the IRQ return value and the loop condition, but it doesn't filter those initial TCPM callbacks.
+> 
+> My concern is the case where an alert is still latched, or the mask write fails during removal. Since the IRQ is shared, another device could cause _tcpci_irq() to run after synchronize_irq() has returned. Without the stopping check, that handler could still reach TCPM after the port has been unregistered.
+> 
+> Does the TCPCI specification guarantee that TCPC_ALERT reads as zero once its mask is cleared, including for previously latched alerts? If so, I've missed that guarantee and can simplify the patch. Otherwise, I think the stopping check is still needed for that last window.
 
-I have measured a long USB resume callback on the built-in Realtek SD
-reader in a Lenovo ThinkPad X1 Carbon. The locked desktop looks frozen
-after wake, before password entry. A reader-specific RESET_RESUME quirk
-removed the long delay in the attended tests described below.
+In TCPCI spec:
 
-This was tested on Omarchy's vendor kernel 7.2.15-2-omarchy, not a vanilla
-mainline build. I have not established a last-known-good kernel, checked
-taint status, or reproduced this on a second machine. This is an initial
-hardware report and request for guidance, not a regression claim or patch.
+4.4.3 Mask Registers
+The registers in this section define the masks that may be set for the ALERT registers. A
+masked register will still indicate in the ALERT register, but shall not set the Alert# pin low.
 
-Hardware and original settings
-------------------------------
-- USB ID 0bda:0328, bcdDevice 0x2908, product USB3.0-CRW.
-- Fixed internal reader at USB 2-3, below PCI 0000:00:14.0.
-- Interface driver: usb-storage.
-- Before the workaround: device quirks 0x0, power/persist=1,
-  power/control=on; runtime autosuspend was already disabled.
-- System sleep was deep/S3.
+So TCPC_ALERT may be not 0 if TCPC_ALERT_MASK is 0.
 
-Observed behaviour and measurements
------------------------------------
-Closing the lid normally, waiting about ten seconds, then opening it
-produced a several-second delay before the lock screen accepted input.
+Your analysis is right, but I think it's another potential issue in tcpci_irq()
+where masked events get handled. "status" should be ANDed with alert_mask as well.
 
-One temporarily enabled pm_print_times trial identified this callback:
+Like below:
 
-  usb 2-3: PM: usb_dev_resume returned 0 after 5588546 usecs
+diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+index 6717ac914c6a..4eb97f5a523c 100644
+--- a/drivers/usb/typec/tcpm/tcpci.c
++++ b/drivers/usb/typec/tcpm/tcpci.c
+@@ -724,6 +724,7 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
 
-Its SCSI descendants resumed afterwards, followed by task restart.
-Graphics and camera callbacks completed much earlier. A separate
-Thunderbolt xHCI controller also reported a restore warning, but its
-measured callback was short and was not this reader's long callback.
+        tcpci_read16(tcpci, TCPC_ALERT, &status);
+        irq_ret = status & tcpci->alert_mask;
++       status = irq_ret;
 
-After safely unmounting and physically removing the SD card, the empty
-reader still showed a 6.373817-second interval from
-"ACPI: PM: Low-level resume complete" to "PM: suspend exit".
-Removing the card therefore did not resolve the delay.
+ process_status:
+        /*
+@@ -807,7 +808,8 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
 
-Tested workaround
------------------
-I added only the reader-specific dynamic quirk 0bda:0328:b
-(USB_QUIRK_RESET_RESUME), then performed one USBDEVFS_RESET on that
-specific reader while all its block nodes were empty and unmounted.
-Readback confirmed quirks=0x2, persist=1, control=on and usb-storage.
+        tcpci_read16(tcpci, TCPC_ALERT, &status);
 
-With pm_print_times restored to 0:
-- Empty reader: low-level resume to suspend exit was 1.136717 seconds.
-- Original card reinserted and mounted normally as vfat, read/write:
-  the matched S3 wake took 1.143450 seconds over that same kernel phase
-  interval. The perceived input delay was about one second or instant.
-- The reader and mounted media remained present with no reader
-  disconnect or card I/O/FAT error recorded in that matched cycle.
-  No filesystem write test or integrity check was performed.
+-       if (status & tcpci->alert_mask)
++       status &= tcpci->alert_mask;
++       if (status)
+                goto process_status;
 
-Those intervals use native kernel source monotonic timestamps, not
-journal ingestion or buffered SSH arrival times. They do not measure
-first paint or exact first-input readiness.
+        return IRQ_RETVAL(irq_ret);
 
-A failed normal status request before reset recovery is a possible
-explanation for the long callback, but the individual USB transfer was
-not traced. I am not claiming that internal step has been proved.
+Then you should set alert_mask to 0 and use it to mask ALERT. 
 
-The boot argument usbcore.quirks=0bda:0328:b has also been included in
-the generated UKI and checked there. A later boot with that argument
-has not yet been tested; the successful wake tests used the live quirk.
-
-Would a device/revision-scoped RESET_RESUME quirk be appropriate here,
-or is there a more suitable existing fix or next measurement? I realise
-that confirming on a current vanilla kernel may be needed before a
-kernel patch can be justified.
+/* Disable chip interrupts before unregistering port */
+chip->tcpci->alert_mask = 0;
+err = tcpci_write16(chip->tcpci, TCPC_ALERT_MASK, chip->tcpci->alert_mask);
 
 Thanks,
-Daniel Burbridge
+Xu Yang
+
+> 
+> Thanks,
+> Yaohan
