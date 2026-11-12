@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794499519;
-	b=4PNgl+x48pnXFRGWD740Alu265v/nEQ32NnwxzHqohAbrzvMGPnpFgV3DJAKQii2CU71
-	 mnqnyPK9pcXp64Lju7F2LG9e7642QPOMB1oHt5m/Q85KiNH+IWIlXqo/1vMyZAe/yhO/F
-	 j7WSbLDJwWT0p27jCIyzvNQz7RxgCd/dDumX9wvMrLTdHcVyrDFK/5FQrwEOrqWW9lI/r
-	 ylZDVwrvlhoR3dc58SuXRZblMJXRWcqZiJIJOI5Y9QeZ72Kl9vyChE33EZQ5E3V2hLm3B
-	 CKHIUIA+NKWDZCV/saa2YgtFz5cJSxTxQrieAtIoXelvm+V6ZM+oOsen0nsInEdjIcw==
+	t=1794499524;
+	b=47A6XJfO9QJICbrQZpBy2Al+e/v3qPaphHd65b7xpTf4UsLqAJ1dFd0bZQkLyBsBpUZr
+	 5Kdn7xLPniKhw4xQxk/PEl5qGC5IvToCCvqX11L5TKTFeMHn1cO8278udVzh0P8k385pb
+	 tgY3HDNvObbamAwtSQlcR6SGUPObll5EOjRYapXbKKmtXdB/ZLPOnHpNhC3DB9LaLU2Vq
+	 x4lWiyB6Hsqx32v1yFeXyhry0zgWe8yaSrUeuNA//0aMDqkpbYPjdNcs375G3RlMnW1yj
+	 Eis1z3F+OMVzsQQiO91SNOYdzTq4w1g1/0Z7jfzGbu7O+kyYm75ItUhwBGH2gKGM2vA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794499519;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794499524;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=VirwsWcUGB+wftXqJRXa0lz3ydc4K0zhD+XqX/ctFlE=;
-	b=XdSQbRUWheg6Qfdu0H2ot7zns67HDtUCvOAim0I9+eIzGQRSErjeJs1zgoXv09j2rysS
-	 e6f5M9dlsMEVzhl7C0yFtuAWOFMKhPHpDBuklLGTOoBu3/Ydlg5snShi2at55Fkz/63SD
-	 scuJOtEiyrJSbKqRVnhp3mUZuFSl+wMun6ts9OWnYqzI3W/vXVAkguMVQQQECOn1jXiU+
-	 DqYQPCP/2wY4Uhqi0AzaYGdi3EAgmSFws/sNkgzVRpHd04EXe6qA+ha3BtAv5fxaCB2bU
-	 qhKVEap13wKp/K8EsaO4+176TH4dirRZ7WA0+2fBhAjxr8KM9vAhkFFrelqpDO6PVzA==
+	bh=tE76MrQH8XJvj1ul1v3QW0sYF6230jiCP1A1lYdk1PE=;
+	b=DOqG0WFzTnjBVFvquWklRIGR1uu73He/0DeujpeBb3QyewF9WfI9Locjyn1TIFWGawqZ
+	 WG0cASze2pjPRO1bH0iJ7/yjSs+PNftUUKJoY4bI5YinDFbMY4zmXsF9uMvjxRmmQUq6r
+	 RwX5VE9zmt32s1zzU064GXoGyaHXPVOEet/F8ojgxxPl4SLvfZc/vCtkdjDGgAn5879yv
+	 2+Vg2+9cAXkbktzB9yk+e3A95Y1Nuzb9tlxjtBc8cxmCjrlwfcGCLKV3jdxR4xuVVnqOL
+	 74wq+A2m8uY60Q/i0AUYgygrLC+wLF8RIbEQYm3v71/WqwI3xYCpYvhjEPp2p/p/dOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Lbtqx6Wn;
-	arc=none smtp.remote-ip=74.125.82.170
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="lA/WgH/8";
+	arc=none smtp.remote-ip=74.125.82.172
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E615A606A32A
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 16:05:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E615A606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F5B606A327
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 16:05:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80F5B606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Lbtqx6Wn
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-370f4e5cfc9so3997eec.0
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:05:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lA/WgH/8
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-37123334649so1866eec.1
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:05:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794499518; x=1795104318; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794499524; x=1795104324; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VirwsWcUGB+wftXqJRXa0lz3ydc4K0zhD+XqX/ctFlE=;
-        b=Lbtqx6WnoZZ4GrZkjqNDkqtKMu4Kf04rdxL3HRa2UyzFiubru0ZQ0AF4hszqZwGKat
-         1DeXVciKbWge2j09D7H8ZD2JJxAAMgwdSVzr0XEVDCFy6wfR1/i+F2eY4oGJYoyUitp7
-         FZm68hwwLtuRZ8jw7O1yLjl+32OKpKSV12fW1twpEdkbPVtiqcnpE93D2RCTneiIJDtF
-         lRLbum0Fx64UHvMwCiLz9fvcT5dGHLQsGLYx+8wH5eTuLq/NEyXwntvp1SGLh0vCr+UQ
-         hEqBK5wZ69KR3D25qCp2sjel0+wSZm3PbXiRX+ooXjlQgr5pExSiaiOANgJO7/TYwf1I
-         vVxA==
+        bh=tE76MrQH8XJvj1ul1v3QW0sYF6230jiCP1A1lYdk1PE=;
+        b=lA/WgH/8VpTAAvkenjCckrLDv6u+z8zGa6rBI28SHmsRN2iQKYpA17c7IHozKLle+o
+         LC0Zv+ldNOygUQfalmvImLv3i7vNbmdfc7vB7E+b7S087kyVhfOjg7hwHi5TH7JZOUO/
+         Xz8g+xlOleZCWbZPmGZtldPlHzyHhUvgvf9iwWGJeCAwAujBncP1pOySJpBJQLqVuI+t
+         ddfh6Vv4W/1Q5K0lh7Rb6U7e4hKg51jCl3zHSRMO+m2LjOe75YcxlpJc6qZ5TmxFVRTm
+         6ERHSpyxJqx464i6bhI59V1EDLIZ9+KpzrTCt921OdiDxdiIIzniWcEUa+ZOttdSJWci
+         vJ6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794499518; x=1795104318;
+        d=1e100.net; s=20260707; t=1794499524; x=1795104324;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VirwsWcUGB+wftXqJRXa0lz3ydc4K0zhD+XqX/ctFlE=;
-        b=uZdnZU30azw1PmXCru86/iiNSoT26aEJBldsp1zVQOp/z0f7FJaarGvKS9MKUpLuSs
-         x+wX6+n2O69zwwb3oD/zMudnJnb5WD8XogkN0bNTTZbF4+7HCLrAchb07ENV3757E9fR
-         CFXFUjv/Ea3PMPUEPW2h6sJ4cbVJV4AVaDNTuMSaNBOHzqdpRqr6VEXgCc4cLxJgZIld
-         XhGATSXKBkiMfMs3APcBOFX+iY1tSh/bbXMBobzSi3ixg7QoxwMbgXJyUkIdhwiDzFcx
-         /bo+LX7F9LnXFbEya8qCALI9xcJJqOCr5rUB+5vLAWYbS05g/dBZV5dGkNCxcenEl/Lc
-         T9Cw==
-X-Gm-Message-State: APuU4Z8E9QsccXG9/zALiQwSQDOTKK0m+lPI0b7AzVxJIaJaTNnfg0/b
-	eJ4bI7iWW1AlvUER2qLl41QEUqmV7LjNBuM7+XSS1Q03S96MKZ6YSeGjZhqoz0z0kLQ=
-X-Gm-Gg: AYBFou3ngCFTUyDCRcRpGrZr6qSyyATt/pXYKRdtVrA1Z77nZctnAaA11YZtnJpfQiY
-	omCDYkHXLdkKPDXzx4ekcdU11WETmDqgZISvP+Fn/TMGLJZE+77Srtn0ZGCAj0zCDvuj9uXK0nf
-	rJaZ4aKVBLtyszP+7QjRG6MCNbw7ZwjSxYC37vV/+fTuuPfx1ohj+zb2q38vU9o+SNlggt2fCv1
-	k+FB3JhAZmLepmRmmo3MYJ13Hj7rhSUEV9vTz0UnatK9HzlZoTnsGhPVV+NNFlvxWwB6KQyaU4U
-	yP4CvLkPNbmvTUGsX9OVEyrOIIALFKzUa65AZgn7Vcw8bA9coA5fQIPHi4OZZ+xvyeJwQgN6zXl
-	F+iuYFfKi8onl6GFWFRcBgYAp8562060LZSgfY5BAPUJtfPyFrhLEnrSQaDSPLG6DKclFfRBeiK
-	5dA2dm7ShRExRHd9MNNzpzLGEEv29DV6sZeMy4fygRLCj2pPCaAlC3223/2WRKYbpK+i20rBeka
-	F+W35jvl3xh3npARk5imkLUQ5ykSeXhxxvYpiGE8/FoI71tuwmxwhniYsadDGsZx7edJzGHkaoL
-	LygTZvsqXh234Yw+QkpPPART6Nw0lAGIDzHkmcV+cm4=
-X-Received: by 2002:a05:7301:4d10:b0:377:d6e5:e642 with SMTP id 5a478bee46e88-377d6e5e7damr4248214eec.1.1794499517613;
-        Thu, 12 Nov 2026 08:05:17 -0800 (PST)
+        bh=tE76MrQH8XJvj1ul1v3QW0sYF6230jiCP1A1lYdk1PE=;
+        b=nX/PEMlrZoCX+VZlpDcDTZ+syjqhfwVaPGxgpZHhWSBxR+ajwdbDzOo1HgEQofeEms
+         rspkUDkBxDUyVx3yrbzmX08PoouswFflDMLQcNVtm5bKMFsa5Icopu86F8FK5V8xOMKj
+         CI2nH2EgUCIuCQ7Hfrxm6+rSx2m+NODc+8n8/LMestn1lP3EFjE+FmIZrGh7A0jfYpNw
+         /3wtE3LaunBMatIp4RMVA/27S+o3B89ehQyXY1p7TG3J+eAd3eGKgTnCRgPD2d2+cm2S
+         dDQCdaDUoswUGb53fKlRVYza27BzkUY4y1WxW0oW8l7TK/JLEqXxuRcGi9I0UI4v2yMc
+         hXAA==
+X-Gm-Message-State: APuU4Z8/Puozn/0ivKwXwvAkN2Jbna95GyPiaoJG4krpBCyX8w1KEEGu
+	tNY8A5q+uVL66jbKotw5QMo+GVaBg1lOsWgXgAdv4W834oQk5rpYeZIOkTvE4BEIkY0=
+X-Gm-Gg: AYBFou0klCBitFW1lRS5CbjCaEyyijyGHMjM1zJr3kFeALDKF7a1rhfoUac9xn3w6qf
+	QOdWx0VskMjP8on88RZd3HUUSEF1py+3hpNkLPDt9noNopI5DKuWu747BH6IJPNtsGQR+Ek52cx
+	87Bl8IKDSDtbjO0RXqUM6JAoNqvW7PeQFNWNRp7q/VgFFeaHNceQPXRPZYzLlaB6qcSuh2216L+
+	JMs0A1kRymclirew2wnNpKZXz8ORP+q5VILV+KnXri1c3DVzFEvXFR8PpCvKYf1Qouw09z9SXlN
+	Wb5XuV24TEsWag9X0nU4/dHWC2+1uR76sE1Vv7QSQsiOO+VHfhmn9/X/c2DfR7Qap+XVQ4U65KQ
+	c0tR9FJVgXtjmQRVGEr2BAyVik0au9AEeFnIjPCv/VHlDIysn8FURuTocYh84L48WBqVtRiXstX
+	jHjtnnr2l0uJI9T4oYOs5kmRIg2nSNMdmhZ13SxaNsyl+6F3HAqkLHutwt1h5O9QS6ckLSUkFQn
+	yWTSmOtzEfypbQstbCWvqYUHbSEo1T4dFsxc3cLDmyrINFuLnTbvvhR8OSLKJosIiRxbcV90Cd9
+	o2RBvFIuo/D0Z8WIvz3l3buOHpFmrES7NAZ7oV2lRQ==
+X-Received: by 2002:a05:693c:8113:b0:35f:ea17:d171 with SMTP id 5a478bee46e88-37684ceea1emr10292277eec.2.1794499523507;
+        Thu, 12 Nov 2026 08:05:23 -0800 (PST)
 Received: from CRASHEDROM.localdomain ([142.249.36.161])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37922d49049sm613673eec.1.2026.11.12.08.05.13
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37922d49049sm613673eec.1.2026.11.12.08.05.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 08:05:16 -0800 (PST)
+        Thu, 12 Nov 2026 08:05:21 -0800 (PST)
 From: Chengyu Liu <lui2012qwq@gmail.com>
 To: linux-usb@vger.kernel.org
 Cc: b-liu@ti.com,
@@ -89,9 +89,9 @@ Cc: b-liu@ti.com,
 	robert.jarzmik@free.fr,
 	Chengyu Liu <lui2012qwq@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH 3/4] usb: gadget: r8a66597: free the IRQ before deleting the timer
-Date: Fri, 13 Nov 2026 00:04:47 +0800
-Message-Id: <20261112160448.41566-4-lui2012qwq@gmail.com>
+Subject: [PATCH 4/4] usb: phy: gpio-vbus: free the interrupt before cancelling the work
+Date: Fri, 13 Nov 2026 00:04:48 +0800
+Message-Id: <20261112160448.41566-5-lui2012qwq@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20261112160448.41566-1-lui2012qwq@gmail.com>
 References: <20261112160448.41566-1-lui2012qwq@gmail.com>
@@ -106,68 +106,55 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-r8a66597_remove() deletes r8a66597->timer while the interrupt is
-still live: the IRQ is devm-managed and only freed at detach, and
-r8a66597_irq() re-arms the timer when sampling VBUS (VBINT).  An
-interrupt landing after timer_delete_sync() re-arms the timer, and
-r8a66597_timer() then runs on freed memory.
+gpio_vbus_remove() cancels gpio_vbus->work while the VBUS sensing GPIO
+interrupt is still live: it is devm-managed and freed only at detach,
+and gpio_vbus_irq() schedules the work with a 100 ms debounce delay.
+A plug event landing after the cancel re-arms the work, and its timer
+then fires on the freed gpio_vbus_data.
 
-Store the requested IRQ number at probe time and free it before
-deleting the timer; freeing also waits for any running handler, so
-nothing can re-arm the timer past the delete.
+Free the interrupt first, which also waits for any running handler,
+so nothing can re-arm the work past the cancel.
 
-Found by static analysis.
+Found by static analysis and confirmed with a KASAN reproducer:
+slab-use-after-free write in __run_timer_base() within one debounce
+interval of unregistering the device while its VBUS GPIO is toggled
+(object allocated by gpio_vbus_probe() via devm_kmalloc(), freed by
+devres_release_all() at unbind).
 
-Fixes: c41442474a26 ("usb: gadget: R8A66597 peripheral controller support.")
+Fixes: c2344f13b59e ("USB: gpio_vbus: add delayed vbus_session calls")
 Cc: stable@vger.kernel.org
 Signed-off-by: Chengyu Liu <lui2012qwq@gmail.com>
 ---
-Build-tested on x86_64: r8a66597-udc.o compiles clean
-(USB_R8A66597 + COMPILE_TEST).  No runtime reproducer: requires
-R8A66597 hardware.  Fix written with AI assistance.
+The reproducer instantiates the unmodified driver on a gpio-sim
+chip in QEMU and toggles the line while the device is unregistered;
+it widens the remove()-to-detach window with a 500 ms sleep, logic
+otherwise unmodified.  Repeated runs: 5/5 KASAN splats without the
+fix, 0/5 with it.  The KASAN report and the reproducer kit follow
+in this thread.  Also build-tested on x86_64 (USB_GPIO_VBUS).
+Fix written with AI assistance.
 
- drivers/usb/gadget/udc/r8a66597-udc.c | 8 ++++++++
- drivers/usb/gadget/udc/r8a66597-udc.h | 1 +
- 2 files changed, 9 insertions(+)
+ drivers/usb/phy/phy-gpio-vbus-usb.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/r8a66597-udc.c b/drivers/usb/gadget/udc/r8a66597-udc.c
-index 469075b064ba..bfccc6565e0a 100644
---- a/drivers/usb/gadget/udc/r8a66597-udc.c
-+++ b/drivers/usb/gadget/udc/r8a66597-udc.c
-@@ -1810,6 +1810,13 @@ static void r8a66597_remove(struct platform_device *pdev)
- 	struct r8a66597		*r8a66597 = platform_get_drvdata(pdev);
+diff --git a/drivers/usb/phy/phy-gpio-vbus-usb.c b/drivers/usb/phy/phy-gpio-vbus-usb.c
+index 60b7c1219dd2..82d2301c3804 100644
+--- a/drivers/usb/phy/phy-gpio-vbus-usb.c
++++ b/drivers/usb/phy/phy-gpio-vbus-usb.c
+@@ -325,6 +325,14 @@ static void gpio_vbus_remove(struct platform_device *pdev)
+ 	struct gpio_vbus_data *gpio_vbus = platform_get_drvdata(pdev);
  
- 	usb_del_gadget_udc(&r8a66597->gadget);
+ 	device_init_wakeup(&pdev->dev, 0);
 +
 +	/*
-+	 * The interrupt handler re-arms the timer on VBUS changes; the
-+	 * IRQ is devm-managed and freed only at detach, so free it
-+	 * before deleting the timer.
++	 * The VBUS sensing GPIO interrupt is devm-managed and freed only
++	 * at detach, and its handler schedules the work with a 100ms
++	 * delay; free the interrupt before cancelling the work so a
++	 * late plug event cannot re-arm it past the cancel.
 +	 */
-+	devm_free_irq(&pdev->dev, r8a66597->irq, r8a66597);
- 	timer_delete_sync(&r8a66597->timer);
- 	r8a66597_free_request(&r8a66597->ep[0].ep, r8a66597->ep0_req);
++	devm_free_irq(&pdev->dev, gpio_vbus->irq, pdev);
+ 	cancel_delayed_work_sync(&gpio_vbus->work);
  
-@@ -1896,6 +1903,7 @@ static int r8a66597_probe(struct platform_device *pdev)
- 			       udc_name, r8a66597);
- 	if (ret < 0)
- 		goto clean_up2;
-+	r8a66597->irq = irq;
- 
- 	INIT_LIST_HEAD(&r8a66597->gadget.ep_list);
- 	r8a66597->gadget.ep0 = &r8a66597->ep[0].ep;
-diff --git a/drivers/usb/gadget/udc/r8a66597-udc.h b/drivers/usb/gadget/udc/r8a66597-udc.h
-index 9a115caba661..08acabe02421 100644
---- a/drivers/usb/gadget/udc/r8a66597-udc.h
-+++ b/drivers/usb/gadget/udc/r8a66597-udc.h
-@@ -110,6 +110,7 @@ struct r8a66597 {
- 	unsigned char interrupt;
- 	unsigned char isochronous;
- 	unsigned char num_dma;
-+	int irq;
- 
- 	unsigned irq_sense_low:1;
- };
+ 	usb_remove_phy(&gpio_vbus->phy);
 -- 
 2.25.1
 
