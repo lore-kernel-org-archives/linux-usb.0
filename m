@@ -1,100 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794499774;
-	b=ytBAw7+cacRhWkuWPzsr1CKT5uLRS6jfd6cIlBK2G1HVpDucYi7f61ps+ID1wNvDhDT0
-	 itbfQuAqRfqREQdAVz7KdF6LqsyKWshdlNi5423wkjmZdBWKWE1gUjPx+GXfUvI1gZVvy
-	 GU4j1s0np+/ynxXJSogA0vc88gt4AR0F/gm0pMwrCe2YAVjqsnbH+J1eyKvjqLz46gzuq
-	 loYlwLoXNCzGMhu4v/D3brvAOmu7PH9gQqEpoP0+zronEs67HD2qH/bUPqCqTwpE02fhO
-	 Zo3WCv1dPOSbHZi//yqtniXRgStso725r1MIQA0PWT2o4kfXdC/HnO/SGO70LftibsQ==
+	t=1794499856;
+	b=gqH/IpAIkQNgPo0s+8stnTIkVSR8qbGko0kpA8POW0EzUxaG6Nb32WWJ4oBv4XQcezLQ
+	 92ueBk/b0rTfbSqgiio6zzhOkYKigj+LCDXdRAexeTmLcEzJAVQ6NH6LbXNiDeiq5Bnth
+	 qOOYv6rM3gygOQDFZlBBZzlEpah8C/2MJDNNkJ8ENUyV5fKFNCEfBQOPGxMdWGJWnzuqj
+	 zp8vfqw7d9LbkBQsKZotuhAtIWMGFdB/hmV0pG+Y1Q5YN8WeuuOjbCLIjyVYQD3ju8KGO
+	 qOoTYQJSLVtd+Zwqo7wX5VTAJ/y0v76oQ0dnunG4H45ZRz2wsC82zBeTXzyIP88zc6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794499774;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794499856;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=NprontI3S6wSUIPA9DtkrQi2JmNtITe/mB5h8L/dO/4=;
-	b=Cosh0TMFdKnVx1+eb+zn3pwHDPMPppPPZIJXVURllCzMWOTSObKxvI3TeqXSH17WfjxK
-	 aowLZUYzcyzivFbs967VNldFAhX9Eeij4/Eo9tYSdNctqrClV4fc9/dENySlRVDq13Obc
-	 wHbzyI7tZZKg3oH42W5P/f/RNwFGQVMEN+feLz/tsNu16SnFtkfP9h4LPVwxmUoknWM9N
-	 xRb60p6q+12zEyTfBrLVbHydybnHfGo/xQJifWUfDfSsya7VFo8e9Ivbw873sL7BPxd0u
-	 pISqAhbHpOiT03p27UW4ixFGQaJHgn4s9FzDkmEYwVw2XEB4ARNAalvnU2k07hm8OyA==
+	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=maGKPjuPDjFwiRJHkqqNz4qyu3Zdr26AqAsUEOdA+5w=;
+	b=hmuzN1IuZh3PBEDK0oaeWVe9os3DqGrwZv+LzldT5QIzq7l7jQ1CxAGMxNVb5AaFbUIy
+	 JnkhYTfxOOuHysa1EbWenIUDDKCyqUBS/bVkaNASn4E9qCR2vxuPqHbIq9TuEU8bUseCz
+	 ORNM0ISRrMqLaI6fIIHVOsTHTkH/IhuBp1mIB8IYCZ52Cx1n4CQ/dSJtRIy96Sz8h25Eg
+	 PhGyLKFqj6PG5iZgtv/bIVAvEukVB97ZannunQd4JTG+cXrVrOVlFqgp+mgUBKHL2XKQz
+	 2CeQ3YjCJYKi43oUpiiCmFcOw32lApPRCfMLXQ0tnmILVFAXrOrnrGIhcSh8LuVSzsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SDW+3APw;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AnGZi0lQ;
+	arc=none smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA99606A337
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 16:09:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4AA99606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D871606A327
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 16:10:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D871606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SDW+3APw
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a60f9474c4so55643775e9.0
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:09:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AnGZi0lQ
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-378915168c7so1874eec.3
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:10:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794499773; x=1795104573; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=NprontI3S6wSUIPA9DtkrQi2JmNtITe/mB5h8L/dO/4=;
-        b=SDW+3APw35sGo9ekbc/cfecReuJ9i1TnBef80x3C1JAK0/avQz1v9UcwccYU4FKSz0
-         pVPWt0hwSsrG8Uv+XL9jeNx27BavcBj9zz4GD3I6zAklojicL2h5/PerDzzG2lk434qa
-         IjXY65JigmaiHQVtD9uCZM8QadnjylirJg/8u7+E8m7brITD+QWHNDdrR2vUYbHkVY1/
-         OpMiQNa5ZT6BQjbVphKxey9DoD7qJI3L3ridMThYOM5eu3UUSUqTJybUT62tZdrkp7l9
-         a6D+aJPjA+i9y2PQ09xB52CTKbbYf0oF8WcybOMYN2ghJw9AxcaCvzEBJcoiV9+9ZX5U
-         G8KQ==
+        d=gmail.com; s=20260707; t=1794499855; x=1795104655; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=maGKPjuPDjFwiRJHkqqNz4qyu3Zdr26AqAsUEOdA+5w=;
+        b=AnGZi0lQgMR/4V4KFwmGq7IqFlRFtluLA1byLs1wK+NLmFXv4AwaJtDMx76wHMzmLb
+         uM3US2FZLWDdHL8W47B/xM3+RQxsGTx8KBhfDCAErB4bd2DDYBxXQ8yBda3tzQucEAkm
+         RPQAblzcLzYCcRdJYzbgfsX+D8geOK6YbPF3ArJK8ndsOsIcEYMhNKbDwI4zJXrxh31B
+         ++yhJGuDSn0IJ4H2/JMIAESfO+UpFYR/ZA5WuLobDwlpGz8LMFYdV4OdbA28en/EBv2u
+         H1XmTNbtnRzvV0e1JcIyWS7ZFkysF6GINQuz92s61GP9FyH3OrhYBSm2V6N0/gLROM1L
+         ZEPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794499773; x=1795104573;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NprontI3S6wSUIPA9DtkrQi2JmNtITe/mB5h8L/dO/4=;
-        b=R+FVwPHV3YBFT80b9EoymXj4VNH9xwdlgLowv7BhKgi0HjcgeRIul6tPb1SN1gtSMq
-         32xtg3UXKL1xkIYj9iDGorVQC6KxrNTNDCwyPhPgDmwiPDmIBkfS5lKBcWUPG7rcrYm2
-         MHGru+bxnXd+kh5u7xgQoCwqPFNrG+xWsEuMXe0+4uh0MuIVaQtqiPDKMdMnKy3y2bsr
-         /I8J9YE2bgixMsvihL36UiJSZQIBSRCefrCs/EbjyEktLY9NK6qJG6EDx07auRzBj78q
-         OtEiVHASHTeCyzUWlMGA3XCk5pMi0c/0UO3U+/RQaw3ae7m8Rpml7VI35z6ArKZROv8C
-         PnMg==
-X-Gm-Message-State: APuU4Z9gRkmaOvFS9uWVr5Z/OO5hhuyEEYMoAjwRgsIOSQagDjpAeW21
-	dW7X3XEr/hPccotDXdO0w3dhc8zjGXuTzFAT2vyzfwQmkN6n9leh2mHC
-X-Gm-Gg: AYBFou3wAFqwhNQlpKBa64hgZLNwbh4ZGZDE5FpePT0qZUiqsREawirLjm40M4KrCI2
-	jfi0xAb5gkP+dIGDWWo6yKbqsIiVYX8i2sheVz/ZKMDqMnzJUBUWfrj1V/M4W4JQ9N1XIxg4brQ
-	Kh4YnNk6KmrLO5aa4C3C2zo9cW/vP97XwN//620pnbRcoaI4QQ+ho1fZf0tfI4IRmIIdGUK/7XI
-	WWPbzHURRuQZIf1vCgjN7Ii95+j82beqw55lPuI0oXh/8OEa0CfaDErVlh0vXCz4ugsbg63wmIu
-	v80HNhYnMrLkjsPdjFEPQw0MLnd0zFnPz9BKLc/4Pd0pAsmxdOA38YiM9KpZTwadQLt+daoWXq7
-	bFs4FttiiZ80xNv0nnpKjQAMSZfRY2LyiKAePbNSZW0sAxo1/kOrnamsrRWJLbV2lrzcS/Xt1bW
-	MVa/neht1ctHfTfABgsXr4oHXJBuDSA0QF06IBOfluDeWpGH7VxqvhQRphlwLGkqVkE0SMLBXe0
-	LS2x/lkQqf6/Eq3jR+z1uQ/a1qIp3EeYgnu43WsKZNfs+MWViMY6TNZ1NfDk5OXhPZzZ4H/ACmy
-	xzvjZh6HX2hVC5PNMcz3HZfQngulkVwniSgMNiOflM6JFoul9dWxB6gaHsZMKjng7WWxb1MB41P
-	V70ES3s0c/Lp+MNX/sAqi1nq/PYO/mU7LwMubDvfCbvlRPwIHT+lXtYgPPpYFp0iVCt3SZ7rsXi
-	PKHYFDxZN+40e6Z2N49ejaM9PItQSDjhJ314Mzexq5qX/XjAQAIBJ+wB/ohghe+EWss2GC8fc2e
-	VM3vizV6xTUS0aQ9J+jNJ0p26DHHMW0YOQPQ5Yu4BYR76Opc7U=
-X-Received: by 2002:a05:600c:871b:b0:4a1:fe26:24f0 with SMTP id 5b1f17b1804b1-4ba0938a4cdmr112713305e9.20.1794499772615;
-        Thu, 12 Nov 2026 08:09:32 -0800 (PST)
-Received: from localhost.localdomain ([2a0d:e487:413e:7996:2027:fa29:7e27:899b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e258e8dsm121173795e9.4.2026.11.12.08.09.31
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 12 Nov 2026 08:09:32 -0800 (PST)
-From: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
-To: oneukum@suse.com
-Cc: linux-usb@vger.kernel.org,
-	stern@rowland.harvard.edu,
+        d=1e100.net; s=20260707; t=1794499855; x=1795104655;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=maGKPjuPDjFwiRJHkqqNz4qyu3Zdr26AqAsUEOdA+5w=;
+        b=wpmBsdTS/H2adnYt0BmpyW1jiY4eebctxSRnPMbFrLFBccr2mihPWyyFz6wyojSioe
+         32cwkJME5VShiuVgFf6Ocnibp3SC8cHtfMJ+pXrrjUBNTAp19UPupHy4UI0E3Q5zHobE
+         qGQqaV2BEbK/xC4AsJ2VmrFC5xtV0LiziU5f/ESKu76NKDphLn13Zi7GSasPSB4zJfMz
+         LUV8kRH0CDhXQSy0Lt+noa0NGVyO4uotZ6E4lB/yyWG8oh+2IeXkySLTkTqmPHGqnL7k
+         sFqCX2wQIC8hiyWd9PwasIMz3/5qwaRDP+BEcFMiYxsyt0NlBLt8lMe/W10AbvwwM1e8
+         TdKg==
+X-Gm-Message-State: APuU4Z9V0bIKHxEumoBMZ75QMFjx1QusbSWgzquAYsQgcX+uu8ULX0nC
+	qYDo/Z5AutFqYwd05HK+N8SxTtjrMI4OBxRiP2EX6iqgjQ6zkgH7uh6n2BgCLe13pNw=
+X-Gm-Gg: AYBFou0H8yDOQakgZa/Lyi/kCsVuZoR1tP/I/HTOHJCRtM2Gzoddb6Xl6qVvI5UMcYd
+	UstdCnyi60yVqyNMGDgbr3Rz+nnnb3xVbKEpMknxoimwfnwNxxdyJfIbtC+p6uEzfd5AEjXj/2N
+	bbyP8/e8LFVo1/DEPJgy/9jB3HFO3hOYaDZusCm0tblQI2wCjaRnsUZIemHAwa0laE94Rsy0M3Z
+	X6+ekC3u6d3GOMkww7wkx0pz2YtCLdTyAULtBT9SXhcBqTEEgHRqiLKAC5NL5y0B25wvIypfpZi
+	6wzTVMqVhrjyhiO09Im4dXMl6e0wB72HR4HXwEENoJVSvGYMp92uafX1TnPeW6gy2NMX7mewh0r
+	gK5M5jGXeoLI8jncp/A4ez31iy6SdSyUL37mzqrvx5OG38kzvUX8bnslSEquLJ2bJ00w0HUwpF0
+	51wq//91zGCl8fk2rYghMi97ZTBHA+HTTKzegPs0m44UWQ14jcTbjrl2HZW39BRARwn7wesdHGZ
+	OJiH1ZOCHi/CZvWtUDUj6x0NOKaV+HQWXyJU2O5X602pTA8cjaavBDJi2QbKwHbdycHY7gKRyvB
+	ZLJbnUzc4HaRNp9lKTHm5cKGidP9xx5Ax5dmzb5EXw==
+X-Received: by 2002:a05:693c:41cb:20b0:36e:66d8:1424 with SMTP id 5a478bee46e88-37680a60bbdmr9294161eec.0.1794499854338;
+        Thu, 12 Nov 2026 08:10:54 -0800 (PST)
+Received: from CRASHEDROM.localdomain ([142.249.36.161])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37926746345sm656279eec.28.2026.11.12.08.10.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 08:10:52 -0800 (PST)
+From: Chengyu Liu <lui2012qwq@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: b-liu@ti.com,
 	gregkh@linuxfoundation.org,
-	usb-storage@lists.one-eyed-alien.net,
-	stable@vger.kernel.org,
-	Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
-Subject: Re: [PATCH v3] usb: uas: ignore UAS for ASMT135x bridges (174c:55aa)
-Date: Thu, 12 Nov 2026 17:09:29 +0100
-Message-ID: <20261112160929.6479-1-olivier.kaloudoff@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: e6593c6e-63b3-4198-b587-85b5636e033b@suse.com
-References: 
+	nkapron@google.com,
+	tony@atomide.com,
+	bigeasy@linutronix.de,
+	balbi@ti.com,
+	shimoda.yoshihiro@renesas.com,
+	robert.jarzmik@free.fr,
+	Chengyu Liu <lui2012qwq@gmail.com>
+Subject: Re: [PATCH 0/4] usb: stop timers/works left armed on teardown
+Date: Fri, 13 Nov 2026 00:10:42 +0800
+Message-Id: <20261112161042.41747-1-lui2012qwq@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20261112160448.41566-1-lui2012qwq@gmail.com>
+References: <20261112160448.41566-1-lui2012qwq@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,47 +103,475 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-On 05.11.26 20:43, Oliver Neukum wrote:
-> May I ask you to test once more, harder?
-> If that remains inconclusive, we will go with blacklisting.
-> We cannot risk filesystems.
+The KASAN report and the reproducer kit for the gpio-vbus instance
+[4/4], as promised in the cover letter.
 
-Ran the harder soak. Setup: the same 174c:55aa enclosure (iProduct
-"ASMT135x") behind a 4 TB disk on xhci_hcd, kernel 7.3.0-rc5-vanilla+.
-The device was bound to uas for the whole run (rebound after the
-usb-storage.quirks=174c:55aa:u cmdline override took it at plug-in).
+Environment: QEMU x86_64, generic KASAN kernel (v7.3-rc7 plus unrelated
+local commits; config: KASAN/KASAN_GENERIC=y, GPIOLIB=y, GPIO_SIM=y,
+CONFIGFS_FS=y, USB_GADGET=m, USB_GPIO_VBUS=m),
+phy-gpio-vbus-usb built as a module.  The driver under test is
+unmodified except for the disclosed 500 ms sleep widening the
+remove()-to-detach window.
 
-Enumeration: the cold stall reproduced once, at the first UAS probe —
-the usual READ(16) at LBA 0 timed out, uas_eh_abort_handler followed by
-uas_eh_host_reset_handler, then clean re-enumeration. Same signature as
-reported before, still only at enumeration.
+Setup: a one-line gpio-sim chip labelled "vbus-sim" stands in for the
+VBUS sense GPIO; writing its "pull" sysfs attribute generates real GPIO
+edge interrupts.  The vbus_rig module registers a gpiod lookup table and
+the "gpio-vbus" platform device, so the real driver probes it, and
+attaches a dummy usb_gadget to phy->otg->gadget so gpio_vbus_irq() takes
+its normal schedule_delayed_work() path (a UDC provides this on real
+hardware); the module fails to load if the phy cannot be attached, so a
+clean run cannot be a setup artifact.  rmmod vbus_rig runs the real
+gpio_vbus_remove() while the line is being toggled.
 
-Load: three fio runs, all against the device under uas:
+Results over repeated runs of the same script:
 
- 1. randrw 64KiB, iodepth=32, 4 procs — 143 GiB total, 30 min
- 2. seqwrite 64MiB iodepth=8 + randread 64KiB iodepth=16 — 342 GiB
-    written, 75 min
- 3. randrw 64KiB, iodepth=16, 4 procs — 161 GiB total, 60 min
+    vulnerable kernel: 5/5 runs, KASAN slab-use-after-free each time
+    patched kernel:    5/5 runs, clean
 
-Roughly 640 GiB of mixed I/O over ~2h45 of sustained queue depth, disk
-util pegged at ~100%. Result: zero uas_eh events, zero aborts, zero
-host resets, zero disconnects; every fio job completed without an I/O
-error.
+Representative vulnerable splat (VBUS edges toggle at max rate while the
+device is unregistered; an interrupt lands after the
+cancel_delayed_work_sync(), re-arms the 100 ms debounce work, and the
+work's timer fires after the devm release has freed gpio_vbus_data):
 
-So by your criteria this stays inconclusive — I cannot reproduce the
-queue-depth wedge on demand. The enumeration stall remains the only
-repeatable failure and it self-recovers via the host reset. I still
-think the blacklist is right for 174c:55aa/ASMT135x: two filesystems
-were lost to this failure mode in the field, and UAS buys nothing here
-— BOT gives ~3x the sequential write throughput on this bridge
-(~136 MiB/s vs ~45 MiB/s) with none of the instability.
+[    3.571772] BUG: KASAN: slab-use-after-free in __run_timer_base.part.0+0x80c/0x900
+[    3.571779] Write of size 8 at addr ffff8880033291d8 by task sh/89
+[    3.571781] 
+[    3.571784] CPU: 0 UID: 0 PID: 89 Comm: sh Tainted: G        W  O        7.3.0-rc7-00036-gf9532d351e12-dirty #29 PREEMPT(lazy) 
+[    3.571788] Tainted: [W]=WARN, [O]=OOT_MODULE
+[    3.571788] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
+[    3.571790] Call Trace:
+[    3.571791]  <IRQ>
+[    3.571792]  dump_stack_lvl+0x55/0x70
+[    3.571808]  print_report+0x10d/0x5d0
+[    3.571811]  ? __run_timer_base.part.0+0x80c/0x900
+[    3.571813]  kasan_report+0x96/0xd0
+[    3.571815]  ? __run_timer_base.part.0+0x80c/0x900
+[    3.571817]  __run_timer_base.part.0+0x80c/0x900
+[    3.571819]  ? __pfx___run_timer_base.part.0+0x10/0x10
+[    3.571821]  ? __pfx___hrtimer_get_next_event+0x10/0x10
+[    3.571825]  ? kvm_clock_read+0x15/0x30
+[    3.571827]  ? __hrtimer_run_queues+0x2aa/0x580
+[    3.571829]  ? clockevents_program_event+0x2b0/0x7c0
+[    3.571833]  ? hrtimer_update_next_event+0x8a/0x100
+[    3.571835]  run_timer_softirq+0xd6/0x190
+[    3.571837]  handle_softirqs+0x184/0x5c0
+[    3.571840]  ? __hrtimer_rearm_deferred+0x15d/0x460
+[    3.571841]  irq_exit_rcu+0x6e/0x150
+[    3.571843]  sysvec_apic_timer_interrupt+0x70/0x80
+[    3.571845]  </IRQ>
+[    3.571846]  <TASK>
+[    3.571846]  asm_sysvec_apic_timer_interrupt+0x1a/0x20
+[    3.571849] RIP: 0010:stack_depot_save_flags+0x61/0x830
+[    3.571852] Code: 70 05 05 00 74 16 48 83 c4 30 44 89 e8 5b 5d 41 5c 41 5d 41 5e 41 5f c3 cc cc cc cc 89 c1 48 01 c9 89 cf 8d 04 8d 7b 71 f5 75 <83> f9 03 0f 86 36 01 00 00 89 c3 89 c1 4c 89 fe 03 5e 08 03 06 83
+[    3.571854] RSP: 0018:ffff888002207a08 EFLAGS: 00000216
+[    3.571856] RAX: 0000000075f571cb RBX: ffff888003880988 RCX: 0000000000000014
+[    3.571858] RDX: ffffffffb3000130 RSI: 000000000000000a RDI: 0000000000000014
+[    3.571859] RBP: ffff888001041640 R08: 0000000000000000 R09: ffffffffb87baec6
+[    3.571859] R10: ffff888002207978 R11: ffff888002207f50 R12: 0000000000000001
+[    3.571860] R13: 0000000000000000 R14: 000000000000000a R15: ffff888002207a70
+[    3.571862]  ? entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[    3.571864]  ? stack_depot_save_flags+0x2d/0x830
+[    3.571866]  ? kernfs_fop_write_iter+0x168/0x480
+[    3.571868]  kasan_save_stack+0x34/0x50
+[    3.571870]  ? kasan_save_stack+0x24/0x50
+[    3.571871]  ? kasan_save_track+0x14/0x30
+[    3.571872]  ? kasan_save_free_info+0x3a/0x60
+[    3.571874]  ? __kasan_slab_free+0x43/0x70
+[    3.571875]  ? kfree+0x18e/0x3c0
+[    3.571877]  ? kernfs_fop_write_iter+0x168/0x480
+[    3.571878]  ? vfs_write+0x87a/0xd40
+[    3.571880]  ? ksys_write+0xf3/0x1c0
+[    3.571881]  ? do_syscall_64+0xee/0x500
+[    3.571883]  ? entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[    3.571885]  ? do_sys_openat2+0x308/0x450
+[    3.571886]  ? kasan_save_stack+0x34/0x50
+[    3.571888]  ? kasan_save_stack+0x24/0x50
+[    3.571889]  ? kasan_save_track+0x14/0x30
+[    3.571890]  ? kasan_save_free_info+0x3a/0x60
+[    3.571892]  ? __kasan_slab_free+0x43/0x70
+[    3.571893]  ? kmem_cache_free+0x1d4/0x3c0
+[    3.571895]  ? do_sys_openat2+0x308/0x450
+[    3.571896]  ? do_sys_open+0x8d/0xe0
+[    3.571898]  ? __x64_sys_openat+0x9d/0x110
+[    3.571899]  ? do_syscall_64+0xee/0x500
+[    3.571901]  ? entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[    3.571902]  ? __pfx_path_openat+0x10/0x10
+[    3.571905]  ? kasan_save_stack+0x34/0x50
+[    3.571906]  ? kasan_save_stack+0x24/0x50
+[    3.571907]  ? mutex_unlock+0x82/0xd0
+[    3.571909]  ? __pfx_mutex_unlock+0x10/0x10
+[    3.571911]  ? _raw_spin_lock_irqsave+0x8b/0xf0
+[    3.571913]  ? gpio_sim_apply_pull+0x1c8/0x4e0
+[    3.571915]  ? __pfx_gpio_sim_apply_pull+0x10/0x10
+[    3.571917]  ? kasan_save_track+0x14/0x30
+[    3.571918]  kasan_save_track+0x14/0x30
+[    3.571920]  kasan_save_free_info+0x3a/0x60
+[    3.571921]  __kasan_slab_free+0x43/0x70
+[    3.571923]  kfree+0x18e/0x3c0
+[    3.571925]  ? __pfx_sysfs_kf_write+0x10/0x10
+[    3.571926]  kernfs_fop_write_iter+0x168/0x480
+[    3.571928]  vfs_write+0x87a/0xd40
+[    3.571929]  ? alloc_fd+0x2c6/0x5d0
+[    3.571932]  ? __pfx_vfs_write+0x10/0x10
+[    3.571933]  ? __do_sys_wait4+0xf2/0x100
+[    3.571935]  ? fdget_pos+0x1cd/0x4c0
+[    3.571937]  ksys_write+0xf3/0x1c0
+[    3.571939]  ? __pfx_ksys_write+0x10/0x10
+[    3.571940]  do_syscall_64+0xee/0x500
+[    3.571942]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[    3.571944] RIP: 0033:0x49a227
+[    3.571945] Code: 64 89 02 48 c7 c0 ff ff ff ff eb bb 0f 1f 80 00 00 00 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
+[    3.571947] RSP: 002b:00007ffd89cad1e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+[    3.571948] RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 000000000049a227
+[    3.571949] RDX: 000000000000000a RSI: 000000003e0afe50 RDI: 0000000000000001
+[    3.571951] RBP: 000000003e0afe50 R08: 000000003e0afe50 R09: 006e776f642d6c6c
+[    3.571952] R10: 0000000000000000 R11: 0000000000000246 R12: 000000000000000a
+[    3.571953] R13: 000000003e0ad8a0 R14: 0000000000609c01 R15: 00007ffd89cad250
+[    3.571955]  </TASK>
+[    3.571955] 
+[    3.571956] Allocated by task 86:
+[    3.571957]  kasan_save_stack+0x24/0x50
+[    3.571959]  kasan_save_track+0x14/0x30
+[    3.571960]  __kasan_kmalloc+0x7f/0x90
+[    3.571961]  __kmalloc_node_track_caller_noprof+0x1d4/0x4a0
+[    3.571963]  devm_kmalloc+0x81/0x240
+[    3.571965]  gpio_vbus_probe+0x30/0x670 [phy_gpio_vbus_usb]
+[    3.571968]  platform_probe+0x9e/0x140
+[    3.571970]  really_probe+0x1cf/0x5c0
+[    3.571972]  __driver_probe_device+0x1a1/0x3b0
+[    3.571974]  driver_probe_device+0x49/0xd0
+[    3.571975]  __device_attach_driver+0x183/0x200
+[    3.571977]  bus_for_each_drv+0x105/0x190
+[    3.571979]  __device_attach+0x20b/0x380
+[    3.571981]  device_initial_probe+0x7d/0xa0
+[    3.571982]  bus_probe_device+0x5a/0x130
+[    3.571983]  device_add+0xd6f/0x14c0
+[    3.571984]  platform_device_add+0x253/0x5a0
+[    3.571986]  platform_device_register_full+0x3c3/0x560
+[    3.571988]  0xffffffffc02250aa
+[    3.571989]  do_one_initcall+0x89/0x350
+[    3.571990]  do_init_module+0x2a1/0x890
+[    3.571992]  load_module+0x5166/0x6750
+[    3.571994]  init_module_from_file+0x162/0x190
+[    3.571996]  idempotent_init_module+0x325/0x680
+[    3.571997]  __x64_sys_finit_module+0xc2/0x130
+[    3.571999]  do_syscall_64+0xee/0x500
+[    3.572001]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[    3.572002] 
+[    3.572002] Freed by task 91:
+[    3.572003]  kasan_save_stack+0x24/0x50
+[    3.572004]  kasan_save_track+0x14/0x30
+[    3.572005]  kasan_save_free_info+0x3a/0x60
+[    3.572007]  __kasan_slab_free+0x43/0x70
+[    3.572008]  kfree+0x18e/0x3c0
+[    3.572009]  release_nodes+0xbe/0x120
+[    3.572011]  devres_release_all+0x127/0x1a0
+[    3.572012]  device_unbind_cleanup+0x76/0x260
+[    3.572014]  device_release_driver_internal+0x163/0x210
+[    3.572015]  bus_remove_device+0x256/0x3e0
+[    3.572017]  device_del+0x3a8/0x960
+[    3.572019]  platform_device_del.part.0+0x1f/0x1e0
+[    3.572020]  platform_device_unregister+0x20/0x40
+[    3.572022]  0xffffffffc022008c
+[    3.572023]  __x64_sys_delete_module+0x32c/0x4a0
+[    3.572025]  do_syscall_64+0xee/0x500
+[    3.572026]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[    3.572027] 
+[    3.572028] Last potentially related work creation:
+[    3.572028]  kasan_save_stack+0x24/0x50
+[    3.572029]  kasan_record_aux_stack+0x89/0xa0
+[    3.572031]  insert_work+0x2d/0x240
+[    3.572033]  __queue_work+0x44e/0xd70
+[    3.572034]  call_timer_fn+0x27/0x210
+[    3.572035]  __run_timer_base.part.0+0x3cc/0x900
+[    3.572037]  run_timer_softirq+0xd6/0x190
+[    3.572039]  handle_softirqs+0x184/0x5c0
+[    3.572040]  irq_exit_rcu+0x6e/0x150
+[    3.572041]  sysvec_apic_timer_interrupt+0x70/0x80
+[    3.572042]  asm_sysvec_apic_timer_interrupt+0x1a/0x20
+[    3.572044] 
+[    3.572044] Second to last potentially related work creation:
+[    3.572045]  kasan_save_stack+0x24/0x50
+[    3.572046]  kasan_record_aux_stack+0x89/0xa0
+[    3.572047]  insert_work+0x2d/0x240
+[    3.572048]  __queue_work+0x44e/0xd70
+[    3.572050]  call_timer_fn+0x27/0x210
+[    3.572051]  __run_timer_base.part.0+0x3cc/0x900
+[    3.572052]  run_timer_softirq+0xd6/0x190
+[    3.572054]  handle_softirqs+0x184/0x5c0
+[    3.572055]  irq_exit_rcu+0x6e/0x150
+[    3.572056]  sysvec_apic_timer_interrupt+0x39/0x80
+[    3.572058]  asm_sysvec_apic_timer_interrupt+0x1a/0x20
+[    3.572059] 
+[    3.572059] The buggy address belongs to the object at ffff888003329000
+[    3.572059]  which belongs to the cache kmalloc-1k of size 1024
+[    3.572061] The buggy address is located 472 bytes inside of
+[    3.572061]  freed 1024-byte region [ffff888003329000, ffff888003329400)
+[    3.572062] 
+[    3.572063] The buggy address belongs to the physical page:
+[    3.572064] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888003328000 pfn:0x3328
+[    3.572066] head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+[    3.572067] flags: 0x100000000000240(workingset|head|node=0|zone=1)
+[    3.572069] page_type: f5(slab)
+[    3.572071] raw: 0100000000000240 ffff888001041dc0 ffff888001040590 ffffea0000110610
+[    3.572073] raw: ffff888003328000 000000000010000f 00000000f5000000 0000000000000000
+[    3.572075] head: 0100000000000240 ffff888001041dc0 ffff888001040590 ffffea0000110610
+[    3.572076] head: ffff888003328000 000000000010000f 00000000f5000000 0000000000000000
+[    3.572077] head: 0100000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+[    3.572078] head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+[    3.572078] page dumped because: kasan: bad access detected
+[    3.572079] 
+[    3.572079] Memory state around the buggy address:
+[    3.572080]  ffff888003329080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[    3.572081]  ffff888003329100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[    3.572082] >ffff888003329180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[    3.572083]                                                     ^
+[    3.572084]  ffff888003329200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[    3.572084]  ffff888003329280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[    3.572085] ==================================================================
 
-dmesg baseline and fio logs available if useful.
+(The "gpiod_get_value can_sleep" WARNINGs earlier in the boot are a
+gpio-sim artifact - simulated chips set can_sleep - and are unrelated
+to the bug.  One of the five runs faulted in gpio_vbus_work() itself
+instead of __run_timer_base(); same object, same free site.)
 
-Please take the v3 patch.
+Reproducer kit (against the KASAN kernel tree above):
 
-Regards,
-Olivier
+vbus_rig.c:
+
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * vbus_rig - PoC rig for the gpio-vbus teardown UAF (F-138).
+ *
+ * Instantiates a "gpio-vbus" platform device wired via a gpiod lookup
+ * table to line 0 of a gpio-sim chip labelled "vbus-sim", so the real
+ * phy-gpio-vbus-usb platform driver probes it.  Attaches a dummy
+ * usb_gadget to phy->otg->gadget so the driver's IRQ handler takes its
+ * normal schedule_delayed_work() path (it skips scheduling when no
+ * gadget is attached - on real hardware a UDC provides the gadget).
+ * rmmod vbus_rig runs the real gpio_vbus_remove() path.  Contains no
+ * vulnerable logic itself.
+ */
+#include <linux/module.h>
+#include <linux/platform_device.h>
+#include <linux/gpio/machine.h>
+#include <linux/usb/phy.h>
+#include <linux/usb/gadget.h>
+#include <linux/usb/otg.h>
+
+static struct gpiod_lookup_table vbus_lookup = {
+	.dev_id = "gpio-vbus.0",
+	.table = {
+		GPIO_LOOKUP("vbus-sim", 0, "vbus", GPIO_ACTIVE_HIGH),
+		{ }
+	},
+};
+
+static const struct usb_gadget_ops vbus_rig_gadget_ops; /* all NULL */
+static struct usb_gadget vbus_rig_gadget = {
+	.ops	= (struct usb_gadget_ops *)&vbus_rig_gadget_ops,
+	.name	= "vbus_rig",
+};
+
+static struct platform_device *vbus_pdev;
+static struct usb_phy *rig_phy;
+
+static int __init vbus_rig_init(void)
+{
+	gpiod_add_lookup_table(&vbus_lookup);
+	vbus_pdev = platform_device_register_simple("gpio-vbus", 0, NULL, 0);
+	if (IS_ERR(vbus_pdev)) {
+		gpiod_remove_lookup_table(&vbus_lookup);
+		return PTR_ERR(vbus_pdev);
+	}
+
+	rig_phy = usb_get_phy(USB_PHY_TYPE_USB2);
+	if (IS_ERR(rig_phy)) {
+		pr_err("vbus_rig: no phy found (%ld) - setup broken\n",
+		       PTR_ERR(rig_phy));
+		goto fail;
+	}
+	if (!rig_phy->otg) {
+		pr_err("vbus_rig: phy has no otg - setup broken\n");
+		usb_put_phy(rig_phy);
+		goto fail;
+	}
+	rig_phy->otg->gadget = &vbus_rig_gadget;
+	pr_info("vbus_rig: gpio-vbus.0 registered, phy attached\n");
+	return 0;
+
+fail:
+	platform_device_unregister(vbus_pdev);
+	gpiod_remove_lookup_table(&vbus_lookup);
+	return -ENODEV;
+}
+
+static void __exit vbus_rig_exit(void)
+{
+	/*
+	 * Drop our phy reference first; the driver module stays put via
+	 * the bound device.  Keep the gadget attached across the
+	 * unregister: the driver's IRQ handler must keep taking its
+	 * normal schedule_delayed_work() path all the way through
+	 * remove().
+	 */
+	usb_put_phy(rig_phy);
+	platform_device_unregister(vbus_pdev);
+	gpiod_remove_lookup_table(&vbus_lookup);
+	pr_info("vbus_rig: gpio-vbus.0 unregistered\n");
+}
+
+module_init(vbus_rig_init);
+module_exit(vbus_rig_exit);
+MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("gpio-vbus teardown UAF PoC rig");
+
+Makefile:
+
+obj-m += vbus_rig.o
+
+guest init script (packed into a busybox initramfs with udc-core.ko,
+phy-gpio-vbus-usb.ko and vbus_rig.ko):
+
+#!/bin/sh
+# PoC init: gpio-vbus teardown re-arm UAF (F-138)
+#
+# mode=vuln    : kernel has the unpatched gpio_vbus_remove() + a 500ms
+#                POC-WITNESS msleep() after cancel_delayed_work_sync().
+# mode=fixed   : kernel has the fix (devm_free_irq before the cancel)
+#                plus the same witness sleep.
+#
+# A busy toggler flips the gpio-sim line pull (= VBUS edges) while
+# rmmod runs the real remove path.  In vuln mode an edge lands after
+# the cancel, re-arms the 100ms debounce work, and the work fires on
+# the freed gpio_vbus_data -> KASAN slab-use-after-free.
+#
+# The toggler prints nothing; the console between "rmmod starts" and
+# the verdict carries only kernel output.  If a run comes out clean,
+# just run it again (IRQ delivery timing varies).
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t devtmpfs dev /dev
+mount -t configfs none /sys/kernel/config
+
+# 1. one-line gpio-sim chip labelled "vbus-sim"
+SIM=/sys/kernel/config/gpio-sim/sim0
+mkdir -p $SIM/bank0
+echo vbus-sim > $SIM/bank0/label
+echo 1 > $SIM/bank0/num_lines
+echo 1 > $SIM/live
+PULL=$(echo /sys/devices/platform/gpio-sim.0/gpiochip*/sim_gpio0/pull)
+
+# 2. load the gadget core, the real driver + rig (probe runs now)
+insmod /udc-core.ko || { echo "SETUP FAIL: udc-core"; poweroff -f; }
+insmod /phy-gpio-vbus-usb.ko || { echo "SETUP FAIL: phy module"; poweroff -f; }
+insmod /vbus_rig.ko || { echo "SETUP FAIL: rig (phy attach broken)"; poweroff -f; }
+ls /sys/bus/platform/drivers/gpio-vbus/
+grep -i vbus /proc/interrupts || { echo "SETUP FAIL: no vbus irq"; poweroff -f; }
+
+# 3. toggle VBUS edges at max rate, then run the real remove path
+( while :; do echo pull-up > $PULL; echo pull-down > $PULL; done ) &
+T=$!
+sleep 1
+echo "=== rmmod vbus_rig: remove path ==="
+rmmod vbus_rig
+sleep 2
+kill $T
+
+# 4. verdict
+if dmesg | grep -q 'BUG: KASAN'; then
+	echo "=== RESULT: KASAN SPLAT (vuln confirmed) ==="
+else
+	echo "=== RESULT: clean (no KASAN splat) ==="
+fi
+poweroff -f
+
+run.sh (QEMU wrapper; its first argument is only a log label, the
+vulnerable/fixed state comes from which witness diff was applied at
+build time):
+
+#!/bin/bash
+# run.sh -- boot the PoC in QEMU.  usage: run.sh <label> [logfile]
+#
+# NOTE: <label> is only a name for the log; it does NOT switch kernel
+# state.  The vulnerable/fixed state comes from which witness diff is
+# applied to the kernel tree when the modules and initramfs were last
+# built (see README.md: vuln = witness-vuln.diff, fixed =
+# witness-fixed.diff).
+set -o pipefail
+cd "$(dirname "$0")"
+K=${KDIR:-$HOME/patternmine/worktrees/vm-hdlc}
+MODE=${1:-vuln}
+LOG=${2:-/tmp/f138-$MODE.log}
+
+timeout 120 qemu-system-x86_64 -enable-kvm -cpu host -smp 2 -m 1024 \
+	-kernel "$K/arch/x86/boot/bzImage" \
+	-initrd initramfs.cpio \
+	-append "console=ttyS0 loglevel=8 panic_on_oops=0" \
+	-nographic -no-reboot 2>&1 | tee "$LOG"
+
+matrix.sh (repeated runs):
+
+#!/bin/bash
+# matrix.sh -- run N VMs with the current build, print the tally.
+# usage: matrix.sh <N> <label>   (label is only for log naming; the
+# vulnerable/fixed state comes from which witness diff was applied at
+# build time -- see README.md)
+cd "$(dirname "$0")"
+N=${1:-5}
+MODE=${2:-vuln}
+HIT=0
+for i in $(seq 1 "$N"); do
+	./run.sh "$MODE" "/tmp/f138-matrix-$MODE-$i.log" >/dev/null 2>&1
+	if grep -q 'BUG: KASAN' "/tmp/f138-matrix-$MODE-$i.log"; then
+		HIT=$((HIT+1))
+	elif grep -q 'SETUP FAIL' "/tmp/f138-matrix-$MODE-$i.log"; then
+		echo "run $i: SETUP FAIL - do not count"; continue
+	fi
+	echo "run $i: $(grep -m1 'RESULT' "/tmp/f138-matrix-$MODE-$i.log" | sed 's/.*=== //;s/ ===//')"
+done
+echo "== $MODE: $HIT/$N KASAN splats =="
+
+witness diff applied to the vulnerable kernel (window widening only,
+logic unchanged):
+
+diff --git a/drivers/usb/phy/phy-gpio-vbus-usb.c b/drivers/usb/phy/phy-gpio-vbus-usb.c
+index ce09e789afd8..f3e1c3f3b125 100644
+--- a/drivers/usb/phy/phy-gpio-vbus-usb.c
++++ b/drivers/usb/phy/phy-gpio-vbus-usb.c
+@@ -332,6 +332,12 @@ static void gpio_vbus_remove(struct platform_device *pdev)
+ 	device_init_wakeup(&pdev->dev, 0);
+ 	cancel_delayed_work_sync(&gpio_vbus->work);
+ 
++	/* POC-WITNESS: widen the re-arm window so the reproducer's
++	 * interrupt lands reliably between the cancel and the devm
++	 * release.  Not part of the bug; logic unchanged.
++	 */
++	msleep(500);
++
+ 	usb_remove_phy(&gpio_vbus->phy);
+ }
+
+and for the patched control run, the fix plus the same window:
+
+diff --git a/drivers/usb/phy/phy-gpio-vbus-usb.c b/drivers/usb/phy/phy-gpio-vbus-usb.c
+index ce09e789afd8..25e0dcd36b34 100644
+--- a/drivers/usb/phy/phy-gpio-vbus-usb.c
++++ b/drivers/usb/phy/phy-gpio-vbus-usb.c
+@@ -330,8 +330,15 @@ static void gpio_vbus_remove(struct platform_device *pdev)
+ 	struct gpio_vbus_data *gpio_vbus = platform_get_drvdata(pdev);
+ 
+ 	device_init_wakeup(&pdev->dev, 0);
++
++	devm_free_irq(&pdev->dev, gpio_vbus->irq, pdev);
+ 	cancel_delayed_work_sync(&gpio_vbus->work);
+ 
++	/* POC-WITNESS: same artificial window as the vuln run, to show
++	 * the fix closes it.
++	 */
++	msleep(500);
++
+ 	usb_remove_phy(&gpio_vbus->phy);
+ }
