@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794523389;
-	b=ECOV39lQJPCVAtsyzIhTOQ2+wTYq+Q6nHOaFeTqHtyaf5elENrhr9v+L2KcHTQRbz5rh
-	 VxrdEiLUb0ojFerHh9KStpYQQIa6E2YMpJwRqJNBZkmeZkMchN8zJMcYw94T3mPhfgJJn
-	 zTMwTbS9NnCDXDMm+aZOTDB7qijILR8Evy7MoRgHTPdbguVhNen+qi1bRaCaWvuZnzSnd
-	 ndEEQOBBnLlWHGkZylqtOxyS7e5qeM2tYdjSugxfQcwTe5I9yLaV3YYvv1BqY8VeIABIH
-	 Fa+cqaGnnflDXhFxg9TizJqxM/uHI3ODl7XDeDn74ZcMjLIrUf1hOin/LnRATU0QKAw==
+	t=1794523499;
+	b=0jFgBNvVGO4r7A4FhQlw1sz9CcGLtI/HGGf/ho5zBgouFKktDJe8kCS0vnAEcNWMt78T
+	 3jbCbR+lK0U2Qoh19KLl68ZH6WQmX+w6bGo91mpIzKHeJ6dgj4SZdy6hwVdgie1P/jdSj
+	 cb561q6u/KEKSObOmuybRgXgHfjLRPykDd2CCXjTyYjVQwCRoJVi5qgScNhiVX/abWGOs
+	 J/q65s3h9m2tyTwGaKwgFGIyLsmXNMSPwuY8JYCbUEGDYqZFzzRAQkNo/VM7E4gCmO13u
+	 z1+BeqSxobrTYe615ophOvjrQj0wTsWR5vTtiE2ziyPA3GR0wLnYgfk24gSuN/r2mMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794523389;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794523499;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=wCaaAge3cM/XhxhpSkdSCksiqauk2dfp6q6vtBYhikQ=;
-	b=uFYGQB/Ex+Wm+6NCeOScaVsXCVNAg32yJfo3NAQIiF9vXSWdJWMMN7BbEKnev6R2KQTN
-	 vhZPjBTssSPuiGhJxJ6vrdsPcKn0J1OAxLF5LMNx4YFx47NQd1eV7OgD/72R48/yuD6Eb
-	 QYgpARISROT3fIVU8mCvDA9+0abMXtm3tvrJLCEWUcWb2MEZ7ih3I7FjZ/GSHPj/5PUrg
-	 B7pmyzTzxHT/J3VPnDVSW3WMF9OMjIf0txtNd/b03xG3id9evEl8KrlnZrzbl3N1cU/6D
-	 JKc5dC8cqqoDaEdNOvvVuGLZmE2K2Un+/bbC0es5OI2sl8NCBDC+PkSFCEhru/1pxkw==
+	bh=afihCwaweNiVKsVg+YutBoDQwrNLI3A1qT+IzWvjoio=;
+	b=KwpxbU4HsmgOY0UmQfdrdj2IeFzzwZY4ayoFef7sLQG53nJ0OOG/u4yaDkOq1gameSIq
+	 Iu9hmALsFX2JvqISGakJq59Zkfrqy7xpbtWVQoeH+wk9AMnc6Fds/Er3EftCIWkxTVC9E
+	 XP29VBbeOiTe+TODo3CzemfV6t+5NUQmr8xtb7pa9EdGBrBtHItSr86PQp5NTD8smXOry
+	 3BxPNBFClKd9nwBdZaNXNyQRkw0e8j5LzV2gB5czMXKppClxRhPCwjmt+xxdkCU0dGae6
+	 mkBKeudywhJF8J4T+ThbW26/WgzpugC+ZZdjBCYAg/YkPYavMr6GzVp/yXCQaoa9JqQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linuxfoundation.org;
 	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=eDwDj0qH;
-	arc=none smtp.remote-ip=209.85.210.43
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=AcAVkfOj;
+	arc=none smtp.remote-ip=209.85.161.43
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E319606A321
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 22:43:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E319606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F047C606A31C
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 22:44:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F047C606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=eDwDj0qH
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-84e513877a3so479605a34.0
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 14:43:07 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=AcAVkfOj
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-705cb6ceebaso352022eaf.3
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 14:44:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1794523387; x=1795128187; darn=vger.kernel.org;
+        d=linuxfoundation.org; s=google; t=1794523498; x=1795128298; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wCaaAge3cM/XhxhpSkdSCksiqauk2dfp6q6vtBYhikQ=;
-        b=eDwDj0qHuHsyjDj1H4jVJgU/+TYQqgx59VsX+h2U3AOWBjgrr4HCswaOMuqyccknSj
-         VFX6wS+UfIbc8bzU6kRP7vzl+FBL6ydQQyjrfaqRehErkY5KirZHLpHIZhbk+AyuMrj7
-         HugKOOKpX1PCgkV6aKlkeOMNG+5zpCyKBzaPs=
+        bh=afihCwaweNiVKsVg+YutBoDQwrNLI3A1qT+IzWvjoio=;
+        b=AcAVkfOjkQSdoVtH+9OLXEJQBQp2t8ZbFDq89fPWB7IeggvCLJhUXFGrNObr5HlHWP
+         0TfsWFM2M0g6s5piLPlsky4HgDj9QghV9jsfi7aN/cDrW9IlSnOez5WiF8WkB2WpFYpr
+         QZQcJ3luqmITNdWnBY1qRGF7JYw3RAgeQiokY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794523387; x=1795128187;
+        d=1e100.net; s=20260707; t=1794523498; x=1795128298;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wCaaAge3cM/XhxhpSkdSCksiqauk2dfp6q6vtBYhikQ=;
-        b=njCxeKH9AdJhTizxWvTjDiwzI+wWWdBm39saH1E6/YNgzbKf3Pph6WiEF9jVX8EGI8
-         bcRO/FxoosbYYv23tFsVfjJnV4YRnCSZySKxQmoMPHqgoLKT8XAMLgaQcRVZANp336P+
-         YfklWfKfcCgZaEAY60gxAxJPjPuAUXFD/Y9+fZZsKR3tQyiENV/DBcm0GIHPvfVDFthp
-         jhn3REf/wRaQrMwnD23XueG19lyZ6Q2Su0QEuyNCgT38j54y9bPNnkg7JKRk4Cn4NvQd
-         j5SI9RpOplNW9SZkLojNnKqmKA8DIPiEiWxe9Fdk60GTCYbo3ESjmX1e7Hse4quoYTPC
-         XIew==
-X-Forwarded-Encrypted: i=1; AL+hErGXpi2TGHtjKKiXL22v16M0QuNU0cjk84RiQQzmJlsDPDQgzCsbVRqTTqc+IDMPPLCfU32KJagb0xg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8gDjLPkH94WDpPclTqceZWYY0U+YG90XV5Z6WWca1zDq0x9AR3
-	ZcbVC5qavn/fodiLQRDfA8C2qV+1gKaD3a/5BAYeuDwwa3BYL8Hwh9pe3zVdxvkco8M=
-X-Gm-Gg: AYBFou25p3xqrD3b8JRs5+qJwTa1EefeIfySDQ7Dvvc52G8hDU3txAY9QuQRTaXFK9/
-	DBkVvP2d+f2Vh88Wb4wcDJS3SbTK/NLrwsj2/zpKRjoEfy2eKGdc6Jpm7fVCeTb4czJPR02V+/N
-	UoqooVi24uZ8hVAQCyCnsK56W2//p28S1vn1Az5k/7OcU5oQWT3NSrPCj/MTyebdm7eQ4gpMfpk
-	Ax7b5tOJgDfh9xtwYS9np6prSbGZKFnOViHGKB2NmiFxSIiBSoBdYTHidHJKl2M9LL3iC5B4Es5
-	Y+Mm988S/qkcE0VAf/D/4fhCzZSSK07EnhsyZDf592a2G1vp83BITFhrrttcnq7PpU24+62bMfW
-	BTjALWfoxqeKKg7aqh1aSmEWuzyrVunzkJLH1VnTBc4QW326nqmVu/Di3R6MsIkDNyzZAjGSYm4
-	15V2BSMfX0VQO+JW4/uLZ2tUY0+1jPHb35wLCm9mWljAvDHGyY9h4wDSoE6bjTjk7ZD2hieysh8
-	+mZZfvsy+ZGBdzeDsB9kALOj/LGuSXrntis26TkjCxsfep0h7jdMtzp3KRwbUrycA/qHD6G/35V
-	OtsTDezP0MntRKed9pWqdFqUXV6IrXN3kpSAXQ==
-X-Received: by 2002:a05:6830:442a:b0:845:614b:eab9 with SMTP id 46e09a7af769-86152677024mr2746654a34.6.1794523387032;
-        Thu, 12 Nov 2026 14:43:07 -0800 (PST)
+        bh=afihCwaweNiVKsVg+YutBoDQwrNLI3A1qT+IzWvjoio=;
+        b=jWmRDBo15Xl2ExhGuCBgFUidnQOf998GEF839honxxBE1xDokjaczDtyiSTNOdKTAG
+         cyJ6OVXZ5V/N/C2oiyMcPl1G3lDj9avTde4Van4o+q8BLIVzVprqdVnIuwhUfSuL2kFL
+         D4j4wsTNw/5UTIkOnZdgJyXfLiGtjAVOEPMFu+/l3Tvah+a6PO5G7dR5wSxm7Z+2CUvX
+         t/1vCVv8BrlWlTRyJg1XF6SxEZDAQUkz6lPcNZHG2QdZCHVGJZCcYKsdb7CTW4utWaCd
+         cxTrN/qoP4PuEtMS1ndV80J4aqIYV1fjtlmYPsE/sA5GJmnjGj8FU1mumc6BKcgFmtDH
+         pptQ==
+X-Forwarded-Encrypted: i=1; AL+hErEsEVOp164o8AM9p6jKJkY6GSY0ZH/0tYPzrx7qgwTfbc2yJyTSJBH43riSBQ/nQB03xxTU1BWn6tM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z97MoTVhV+HFktvztDgb/AeR9ugvVRh68KfL4geyZmTviRKKzw/
+	F+IizOGXanAIUE/PvNkmz0JxhiGcW8xjwNXRb17rUoty6p+1KeJA9HEKb/U2hAXi5EQ=
+X-Gm-Gg: AYBFou2+AoPhMsEwFnrS/cqaW4uWQZ+C+5HC7gWaL7G4gjsGpe/bPeI50Jp1r2AiMv1
+	YE1ytKcT+8XJaZpsEvzmPr1UeZ5bdBwSuRot2sRWaFTTrFLULvZI7dZ62unDe9xpb5OVasESpLH
+	hZNL2iPT1xMIvsTepiiIsIs2j+bMWTmSes1bMF+LyImSUtz+RvHzKpQ1+m+2oV0bYmhpmNIsSOU
+	CmDBFCcT+NEfmlDnqc6HxD/RQjtW4x7IrIAOl46dfUcS7KYClomFwIFwLt32+Mpg1M3I7BFQldR
+	j33wa887XPLUxakTQGHjAzcIUWubIOzBmJ9Fd68DBOHGhyToQZbmOTQR5TFltaJS5lGIbNS1hTt
+	PJmvrhwXV7kewfewgmzz2kk/+3RyTvHYJVnLUXyZ7WqE9MkuJUav8nQnMH60+9hdGmTTT3vJZHq
+	hLWcgdj9FLfZT4whXytYlbz6mU9MzXB9bN4mw9MC1gwLijHbVbRjvbUVZ6ym49NKclOADYNf/1k
+	YJjYUcgoCdStxejRlqYMk81fnPa8++aWrbdSMSNeIC3BTBeecN4FPzAqfi347V0a9urElop+7Al
+	icu6J+DchCtGMi+PJSN2Gq1xm2fFvDu1CKIEInw=
+X-Received: by 2002:a05:6820:2218:b0:70a:df8e:8f64 with SMTP id 006d021491bc7-71ab4f0c26fmr517770eaf.22.1794523497862;
+        Thu, 12 Nov 2026 14:44:57 -0800 (PST)
 Received: from [192.168.1.128] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-86287f0e3d0sm886096a34.3.2026.11.12.14.43.05
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-71ab42c41e9sm479599eaf.6.2026.11.12.14.44.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2026 14:43:06 -0800 (PST)
-Message-ID: <c9154293-a804-44a2-9eca-d27d1f6cdb03@linuxfoundation.org>
-Date: Thu, 12 Nov 2026 15:43:03 -0700
+        Thu, 12 Nov 2026 14:44:56 -0800 (PST)
+Message-ID: <f849dfc1-c7ab-4285-b668-b37eb15e37b4@linuxfoundation.org>
+Date: Thu, 12 Nov 2026 15:44:54 -0700
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -90,65 +90,52 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] usbip: vhci_hcd: fix URB giveback leaks and
- disconnect races
+Subject: Re: [PATCH] usbip: tools: add --sockfd option to usbip attach
 To: Raul E Rangel <rrangel@chromium.org>,
  Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan
  <shuah@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hongren Zheng <i@zenithal.me>, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, Anirudh Rayabharam <mail@anirudhrb.com>,
- "Brian G. Merrell" <bgmerrell@novell.com>, Suwan Kim
- <suwan.kim027@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20261021150704.3129446-1-rrangel@chromium.org>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ Hongren Zheng <i@zenithal.me>, Shuah Khan <skhan@linuxfoundation.org>
+References: <20261021214808.58609-1-rrangel@chromium.org>
 Content-Language: en-US
 From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20261021150704.3129446-1-rrangel@chromium.org>
+In-Reply-To: <20261021214808.58609-1-rrangel@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/21/26 09:06, Raul E Rangel wrote:
-> This series fixes a set of URB lifecycle, locking, and disconnect
-> teardown bugs in drivers/usb/usbip/vhci_hcd that can orphan pending URBs
-> and wedge usb_kill_urb() and usb_hub_wq in uninterruptible D state when
-> a virtual USB port disconnects under concurrent transfer/unlink load.
+On 10/21/26 15:48, Raul E Rangel wrote:
+> 'usbip attach' always opens its own TCP connection to --remote. A client
+> that reaches the USB/IP server some other way, for example over a UNIX
+> domain socket or a channel forwarded by a multiplexed SSH connection,
+> therefore has to expose a listening TCP port on the local host just so
+> usbip can connect back to it. Any local user can connect to that port
+> while it is open.
 > 
-> Patch breakdown:
->    1. Protect urb->hcpriv accesses in vhci_urb_dequeue() with
->       vdev->priv_lock inside vhci->lock (matching vhci_urb_enqueue() and
->       the cleanup helpers), and add a !portnum || portnum > VHCI_HC_PORTS
->       bounds guard to both vhci_urb_enqueue() and vhci_urb_dequeue().
->    2. Track whether an URB has been moved from vdev->priv_tx to
->       vdev->priv_rx via priv->submitted under vdev->priv_lock, and
->       complete unsent (!priv->submitted) URBs locally in
->       vhci_urb_dequeue() instead of queuing a CMD_UNLINK PDU. This
->       prevents vhci_device_unlink_cleanup() from freeing the unlink entry
->       and orphaning an unsent URB on priv_tx, and prevents CMD_UNLINK
->       from being transmitted before CMD_SUBMIT on an active connection.
->    3. Clear vdev->ud.tcp_socket under vhci->lock and vdev->ud.lock in
->       vhci_shutdown_connection(), reject vhci_urb_enqueue() once
->       USBIP_EH_SHUTDOWN is set or tcp_socket is NULL, and drain all
->       remaining URBs on vdev->priv_tx and vdev->priv_rx in
->       vhci_device_unlink_cleanup().
->    4. Move the URB_DMA_MAP_SG clearing from vhci_recv_ret_submit() into
->       pickup_urb_and_free_priv() and also clear URB_DMA_MAP_SG in
->       vhci_urb_dequeue() and vhci_cleanup_priv_list() so USB core does
->       not call dma_unmap_sg() on unmapped scatterlists on any giveback
->       path.
->    5. Allocate struct vhci_priv with mem_flags before acquiring spinlocks
->       in vhci_urb_enqueue(), and return 0 (with VDEV_EVENT_ERROR_MALLOC
->       triggered) if struct vhci_unlink allocation fails in
->       vhci_urb_dequeue() after usb_hcd_check_unlink_urb() has already
->       marked urb->unlinked.
->    6. Serialize vdev->udev clearing in vhci_device_reset() under
->       vhci->lock and ud->lock (dropping old usb_device and socket
->       references outside the spinlocks in both vhci_device_reset() and
->       vhci_urb_enqueue()), and reject URBs from a stale usb_device
->       (including address-0 requests from an already-registered
->       usb_device undergoing USBDEVFS_RESET) if the same rhport is
->       re-attached before usb_hub_wq finishes disconnecting the old
->       device.
+> Add a '--sockfd <fd>' option (short option '-s') that attaches the
+> device over an inherited, already-connected stream socket instead.
+> '--sockfd' and '--remote' are mutually exclusive. Because sudo closes
+> file descriptors >= 3 by default but preserves stdin, the typical
+> invocation passes the socket as stdin:
+> 
+>    sudo usbip attach --sockfd 0 --busid <busid>
+> 
+> The descriptor must be a connected SOCK_STREAM socket: fstat() must
+> report S_ISSOCK, getsockopt(SO_TYPE) must return SOCK_STREAM and
+> getpeername() must succeed. Both AF_UNIX and AF_INET/AF_INET6 sockets
+> are accepted, since vhci_hcd only requires a SOCK_STREAM socket. For
+> AF_INET/AF_INET6 sockets, TCP_NODELAY and SO_KEEPALIVE are set as
+> usbip_net_tcp_connect() does.
+> 
+> The connection recorded in /var/run/vhci_hcd/port<N> for 'usbip port'
+> uses the numeric peer address and port for AF_INET/AF_INET6 sockets.
+> UNIX sockets have no port, so 'unix' and '-' are recorded instead; this
+> keeps read_record() working and 'usbip port' shows
+> 'usbip://unix:-/<busid>'.
+> 
+> Update doc/usbip.8 and the usage text accordingly.
 
-What problems does this series fix? Do you have reproducers for these?
+Does this patch fix a problem or does this add an enhancement?
+What doesn't work without this patch?
 
 thanks,
 -- Shuah
