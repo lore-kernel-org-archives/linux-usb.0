@@ -1,60 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.102
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794471737;
-	b=Bh75vb54k95UeF7UsTzs2h3qXs7LipMao/PPr1UqgM8AIPwN5JzIgLfZOw1O5u5qbiAq
-	 1c04TKrZhBkkuRnZ1TRxZGRjGbhwsFSN1ZLEDHouxPRQi29sSeeVFVeHXxcOodCI4jb+7
-	 VdKffVu5zoEGM6rf5rIu6g3jv+FNS31zYbj/HutX+sggV5yT2m9SvKCX5YPD14e1fHfzk
-	 AWGI2pUhJSapYyJMwxrSnov96KLtNDHAUE0Lv/jD30jB2hslg7KUkJggjiRdo0FCJO3ID
-	 DU64nTvdrs11HDaZuqA8oh4+XZWBbYjMVygYte02iOVvV5KgLx4VWc89sNQKvTkvlTA==
+	t=1794471757;
+	b=OuMYQvETVWqXPLGm0i/DiQ7gfdjnsniqM5BIyCig6wnzAYS/CgmYdYO8c/twxR72hrSv
+	 YFqu0YZr13q3KxGlIk4q8uz6N98zgYxnq1GZbrTF0THrGtZvqWaPELq9ljSTAdmbnaqfs
+	 VzcC4jpnPCexjPKp3/Ep2T1eq26jsT6OZSrWTUN0gU0qpiYAAMVbsprFTfBUPHXHuZTuq
+	 CZOOfFy3EnUhnZ1Z22maEBpIT0lkIzT07vHuUNXUrLQLeGIXmn8fW1LpVXvssQaSW90Aw
+	 q/SN6L4bAib1MMeVS4kARRtlbvN9MBR3TkJuK0QtijIoNgzcT3vspA760YJ05pJHBeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794471737;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=y3VGdkCUnkt2V5Pv8M04oyZ8QIftmWWOUYUBeD+hMlE=;
-	b=PYqLQB+UNLiWgLNtBmbD+mN/xCfMkmSjfumQwWwLOu/0Mc7WIUjp1fmr5ijYFL3KDc18
-	 xuelDTQs57w864RdYxjAjqFWuhR02hE8umCvJoXy//GVZn4v3tRQRLHtpdf04WgaIDI/l
-	 i7f5owpqhCYIvWVtO2KrnynCPDgMMqkESZ86OR89T0Cd4M1TyJ48OYN2y7qlaWp0l2Dl4
-	 h0R8eTx0aHKGgwQnBokUv/+qZIuwdCWAhZciRlB+n39dRt6A5YTARk8aUBCENpYNQRxKY
-	 XnmRybiej7S0OF1seGvWvS0+WlXRfTQ726WM+DNClX4mzFr4xq25BMJLG9DL0ksyRlg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794471757;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=BDpJwbTGNyEZBddgupUtTkbcG64c1MCzi1j9+WCer18=;
+	b=lqW8rNBMfQhRDCz2DkirgFsO5LYclF8L7M4ttJG7wALF4AAUVY30aNd0J9aMs9CxHZ1d
+	 XeuxxSgl9tNHGcKftKgYQx7+aNVnFK7oxeGzZ2wPpjXMDKcYowmyvymcVoHwBUAw7orFf
+	 e5AR1T+XcEREw+3ah68zU7e5KaouPglyTFpc95XCyzuNRr67T1RpAP24jV7scwiAJIu66
+	 IpAKyg6oO57LieV+xixdoVP81H6JYoXUQKWBE9jbuErDZHLVfHNGDLXLftgp5Fhv4xWak
+	 ruFdmYSSAk1zUUIvmt+IdFAuRXzraMb701DDM7RJvPGmLrpgH2E/LANzo5l7jzq12vg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=protonmail.com;
-	spf=pass smtp.mailfrom=protonmail.com;
-	dkim=pass header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b="F3eBT2/p";
-	arc=none smtp.remote-ip=185.70.43.102
-Received: from mail-43102.protonmail.ch (mail-43102.protonmail.ch [185.70.43.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A39606A31C;
-	Thu, 12 Nov 2026 08:22:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66A39606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=JMY58nXi;
+	arc=none smtp.remote-ip=111.22.67.137
+Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51F61606A323;
+	Thu, 12 Nov 2026 08:22:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51F61606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=F3eBT2/p
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1794471734; x=1794730934;
-	bh=y3VGdkCUnkt2V5Pv8M04oyZ8QIftmWWOUYUBeD+hMlE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=F3eBT2/puTi8pHKtTA2uyLhocY0H2qITMaARVSvZjLH1wWT9WzGU1cK68P8lEwxGK
-	 azU5VU0zW56OQZpXQrenu0EgYFvsfKUMR9bRVdbawIhLeSPoci6hjCtt8wNPweNcd1
-	 D3CiuqGSCruGEnevxVMMoRivT8Ht7dgPVv9czjcO/dR3EBNK7oy1hHbHg1AzqBmHtu
-	 ZWimbyn6vsaQnpYKq9Y3VlbEXY7Kue59b5wffvmbki6k/Tqp5FGxYttnvLIfVoD39y
-	 e29rpn3dr5v2tlzGeM9KXNTubnu/biFGh27ENr8Y4gMPRx8/tf6IJzjHeIgolkTY8s
-	 ryYjcizh23igw==
-Date: Thu, 12 Nov 2026 08:22:09 +0000
-To: Oliver Neukum <oliver@neukum.org>
-From: Ryan Prinz <rc4d5a@protonmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, linux-usb@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Ryan Prinz <rc4d5a@protonmail.com>
-Subject: [PATCH net v3] net: usb: cdc_ncm: fix out-of-bounds read of chained NDP32 offset
-Message-ID: <20261112082022.995351-1-rc4d5a@protonmail.com>
-In-Reply-To: <20261107140432.647365-1-rc4d5a@protonmail.com>
-References: <20261107140432.647365-1-rc4d5a@protonmail.com>
-Feedback-ID: 190731814:user:proton
-X-Pm-Message-ID: a5706a62db05980e620ddf4924f1684f0585a100
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=JMY58nXi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=JMY58nXirTmLFo6cDYgwP5FTqY56vSQPrYRHGbZ936HHki5HZygNb/JvGTbs4HmHbwFANl2Me0/F0
+	 8TfqMfbiMK/Dma+Yhib2L71+0mfuX0SqFgXLhODoR/TohudZXc3JS62s7V78m/tvuSF444g9Bjkff9
+	 tig0kCZ5eWn/e6zw=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86af5774a1f4-80478;
+	Thu, 12 Nov 2026 16:22:34 +0800 (CST)
+X-RM-TRANSID:2ee86af5774a1f4-80478
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from utest (unknown[223.108.79.97])
+	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee66af57744de0-f911e;
+	Thu, 12 Nov 2026 16:22:34 +0800 (CST)
+X-RM-TRANSID:2ee66af57744de0-f911e
+From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+To: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
+Cc: elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	johan@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] greybus: verify the received message size covers the message header
+Date: Thu, 12 Nov 2026 08:22:29 +0000
+Message-ID: <20261112082230.33584-1-shishunbo@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <6af55517.a0c627da.5d811.0010.GAE@google.com>
+References: <6af55517.a0c627da.5d811.0010.GAE@google.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -64,94 +76,68 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-The NDP offset read from dwNextNdpIndex on the 32-bit NTB (NDP32)
-path is not checked for a negative value before use. A
-device-supplied dwNextNdpIndex in the 0xFFFFFFF0-0xFFFFFFFF range
-sign-converts to a small negative int. cdc_ncm_rx_verify_ndp32()'s
-existing bounds check then double-wraps: promoting the negative int
-to size_t first produces a huge value, and adding
-sizeof(struct usb_cdc_ncm_ndp32) to that wraps it back down to a
-small value that passes the "> skb_in->len" check, causing an
-out-of-bounds read of up to 16 bytes before the skb's data buffer.
+In gb_connection_recv(), the size of the received data is checked
+against sizeof(struct gb_operation_msg_hdr) and against the message
+size encoded in the header (msg_size), but msg_size itself is never
+checked against the header size.
 
-Fixes: 0fa81b304a79 ("cdc_ncm: Implement the 32-bit version of NCM Transfer=
- Block")
-Signed-off-by: Ryan Prinz <rc4d5a@protonmail.com>
+If a peer sends a message whose header claims a size smaller than
+the header itself (e.g. header.size == 3), the two existing checks
+both pass (size >= sizeof(header) and size >= msg_size), and the
+message is dispatched with the undersized msg_size.
+
+In gb_operation_create_incoming(), this leads to an unsigned
+integer underflow in:
+
+	request_size = size - sizeof(struct gb_operation_msg_hdr);
+
+The underflowed request_size then wraps back around in
+gb_operation_message_alloc():
+
+	message_size = payload_size + sizeof(*header);
+
+causing kzalloc() to allocate a buffer that is too small to hold
+the message header.  When the response is later prepared in
+gb_operation_response_alloc(), reading
+request_header->operation_id reads past the end of the undersized
+allocation, triggering a KASAN slab-out-of-bounds report.  When
+header.size is zero, kzalloc(0) returns ZERO_SIZE_PTR and the
+same read dereferences an invalid address.
+
+Verify msg_size >= sizeof(header) in gb_connection_recv() so that
+the "Caller has made sure we at least have a message header"
+assumption in gb_operation_create_incoming() actually holds.
+
+Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
+Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
+Closes: https://syzbot.org/bug?extid=0b456664585fa81a47f6
+Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 ---
-v3:
- - Moved the fix from the cdc_ncm_rx_fixup() call site into
-   cdc_ncm_rx_verify_ndp32() itself, at the actual point of the
-   size_t wraparound, so it covers every caller instead of just the
-   one chained-NDP jump. The old call-site check is dropped rather
-   than kept alongside it, since it would just be dead code once the
-   helper rejects the same value first.
- - Fixed the adjacent netif_dbg() to print ndpoffset with %d instead of
-   %u, since it's a signed int and can now legitimately be negative.
- - Added a sentence on where the out-of-bounds bytes actually come from
-   on real hardware.
- - Resent as plain text; v1/v2 picked up a PGP/MIME envelope from the
-   mail client that leaked into the changelog.
+ drivers/greybus/operation.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Reproduced by calling cdc_ncm_rx_fixup() directly from a small
-out-of-tree test module with a hand-crafted NTB. With memory-sanitizer
-instrumentation enabled to pinpoint the vulnerability:
+diff --git a/drivers/greybus/operation.c b/drivers/greybus/operation.c
+index 7e12ffb2dd60..da53c0e026f0 100644
+--- a/drivers/greybus/operation.c
++++ b/drivers/greybus/operation.c
+@@ -1047,6 +1047,13 @@ void gb_connection_recv(struct gb_connection *connection,
+ 	/* Use memcpy as data may be unaligned */
+ 	memcpy(&header, data, sizeof(header));
+ 	msg_size = le16_to_cpu(header.size);
++	if (msg_size < sizeof(header)) {
++		dev_err_ratelimited(dev,
++				    "%s: invalid message header size (%zu < %zu)\n",
++				    connection->name, msg_size,
++				    sizeof(header));
++		return;
++	}
+ 	if (size < msg_size) {
+ 		dev_err_ratelimited(dev,
+ 				    "%s: incomplete message 0x%04x of type 0x%02x received (%zu < %zu)\n",
+-- 
+2.53.0
 
-    BUG: KASAN: slab-out-of-bounds in cdc_ncm_rx_verify_ndp32+0x11e/0x130 [=
-cdc_ncm]
-    Read of size 2 at addr ffff88800fcd2a34 by task insmod/367
-     cdc_ncm_rx_verify_ndp32+0x11e/0x130 [cdc_ncm]
-     cdc_ncm_rx_fixup+0x7a3/0xed0 [cdc_ncm]
 
-Scope/impact:
-- Triggering the 32-bit NTB (NDP32) path requires the host driver to
-  set CDC_NCM_FLAG_PREFER_NTB32 for the device. The only driver that
-  does so unconditionally is huawei_cdc_ncm.c, for Huawei mobile
-  broadband hardware. Local/physical-USB-attachment or
-  compromised-device-firmware attack surface, not remote.
-- Reachable offset range is -1 to -16, bounded by
-  sizeof(struct usb_cdc_ncm_ndp32); the subsequent dpe32 array read
-  always lands back inside the legitimate buffer, so this doesn't
-  escalate into a larger OOB excursion.
-- The rx skb is allocated by usbnet's rx_submit() via
-  __netdev_alloc_skb()/__netdev_alloc_skb_ip_align(), both of which
-  reserve NET_SKB_PAD (>=3D 32 bytes) of headroom ahead of skb->data.
-  Since the reachable negative range is only -1 to -16, the read
-  stays inside that same headroom/allocation and picks up stale
-  bytes rather than crossing into unmapped memory.
-- No out-of-bounds write found, and the leaked bytes only feed a
-  signature-match comparison. There is no path found for them to
-  reach a delivered packet or the device/attacker.
-
-Given the local-only trigger and lack of a confirmed write primitive
-or crash, my read is this doesn't need security@kernel.org handling,
-but happy to redirect there if you think otherwise.
-
-AI Disclosure: An AI assistant (Claude) was used to assist with the
-analysis and testing. I have verified the vulnerability, the fix,
-and the test results myself and take responsibility for this
-contribution, per Documentation/process/coding-assistants.rst.
-
- drivers/net/usb/cdc_ncm.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
---- a/drivers/net/usb/cdc_ncm.c
-+++ b/drivers/net/usb/cdc_ncm.c
-@@ -1698,8 +1698,9 @@ int cdc_ncm_rx_verify_ndp32(struct sk_buff *skb_in, i=
-nt ndpoffset)
- =09int ret =3D -EINVAL;
- =09size_t ndp_len;
-
--=09if ((ndpoffset + sizeof(struct usb_cdc_ncm_ndp32)) > skb_in->len) {
--=09=09netif_dbg(dev, rx_err, dev->net, "invalid NDP offset  <%u>\n",
-+=09if (ndpoffset < 0 ||
-+=09    (ndpoffset + sizeof(struct usb_cdc_ncm_ndp32)) > skb_in->len) {
-+=09=09netif_dbg(dev, rx_err, dev->net, "invalid NDP offset  <%d>\n",
- =09=09=09  ndpoffset);
- =09=09goto error;
- =09}
---=20
-2.51.0
 
