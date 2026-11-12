@@ -1,82 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794490772;
-	b=NwWfaWb8YHmlCz8U2yGvLR2u+ne6W2VMaRb1OGX1e4+/fW/Kb9KIQSMUmjj3Ga3RKLZK
-	 WJnoq7OxfcCz9FN9w89EpxZMREaWTwf90buFIuv9YGI+DASGqDluBsrElBPBOedyrWE7+
-	 jmykkh0ZCD0cgfYb0iJqUvgrn/xzMPlaHor0KXA4NckPUnG5JyOsmNaEmGD6TJHUJXE6u
-	 z73mRhxq0q6hTda7DawxFwc8ivpwX1qdMqEUif/dUrtRgkG1bxg7SzwCBWibY6hJCio6S
-	 G8QnFiTgA0VN+tnNto0iS7DPHHgiLfJgZsfttUFKKqTf0ij3Aj1Js6BnQKKDQM96Ehw==
+	t=1794490863;
+	b=Pns4VtNrhwTv/gUcrROCympl3n7Y5urcaVN4N2ftQi2M7iSDQwD5Lf+yZfXSITew3HVT
+	 YA+54vDkdxyXD20itW664JauxqM5vSSeNXTRaT/K3eSZ+FKkdBLiaUrBAhhmPmCEzcUpp
+	 Ba+nb2l+hDpKdVft3d0MH5qhFBPR53jTmSIJTTBL2So8c0PIbCa+gs9PAxNUrjn1vhoUl
+	 9/Z/icHZ3E02VdYliov+ae1D1tywV9B9pRZSRRoqAPyXoiUwTIUProSz4AHxekLMV63eI
+	 SA2p3wMOoBW52u3P4Kl2R//JjChHwUJaiIPhMjXl/dL5a9eXQVUY1fcot1TY/WiIyjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794490772;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Rspamd-Queue-Id:X-Spam-Level:
-	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=QfoQYK5GTllfN8cs3tAtillMPMU+lGS2lXGFEwCI3Kk=;
-	b=rCCy8VX5/rsE4JNeV+nexo5LSabUeH9VI1+Mjh+pju3Sp49nV/9mUiGE8z6ncbGJbz3s
-	 8XM634Tr+0gfiiC+8xHNv/zrBC2EzJT1mC/YT3UJREDto5AMezCqQKLkTgDb6HgJhPoE3
-	 ZpKlyNqGpZoFzagvSVVSVOMQiW/fdRnRiJBWkPIK5ZbIwTdJkF00zhzaCw1hJ5G9vWKZz
-	 UwEnyabb1ALtZyRExplgbvV9Mh8GTd944arQvXVuyKUh4JGh2KY2jQ2o/fXgRGUmHCoZq
-	 NKAUfdEqbBxuAHu1HWErQsKNnr2K51dJHgVG7AyDnsbUbNyWatPlfS3w4mIEvQYpXBw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794490863;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=zcZOYtsVTv31lVYaNP6RLbKLvR8+yhhBm9mhbhr/iKE=;
+	b=B7+IsURkPOG903rPP3UOcFc5Lo7c5p6cwmQSsaY1c79XHQvkFFCRKHK6xxVieHPOIq2X
+	 CGDrFtYFsEjpfFXBigiz0quOemFeKGZkw8rv93GGWqUxadqe0QLkc7JRyzG0nxF3Li1Uk
+	 jgOc9r7b13lXXP6kt7rTKRIIZAxPWGnHKOkDnh9SYq48HlMhAuyzs+KJEm5Ge4K515HTv
+	 FHEUcbmR87klXleHdUn2zXHQI30U6Ns+AiW9gc13ERu1vcCi8cPcmAjkT8z06Wz48FBuN
+	 xTKKvtha26mbtswhy0VsAAGjCF5BseQtsrRzvsh9y1i37D4aLk7WM5SeBDAcNgr9G8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=ub+J5JYu;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=ub+J5JYu;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yonu3wmr;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6335606A897
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 13:39:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6335606A897
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C995606A327;
+	Thu, 12 Nov 2026 13:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=ub+J5JYu;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=ub+J5JYu
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id ADC981F863;
-	Thu, 12 Nov 2026 13:39:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1794490769; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=QfoQYK5GTllfN8cs3tAtillMPMU+lGS2lXGFEwCI3Kk=;
-	b=ub+J5JYu2PlfqJKn5sKT2reov0JTEMSqgsUF7ilAc8sSr0OTJg1HkVOxi8UkmWlLP90G4L
-	XNHM7khph8Nl9W9CuSiu7jMggkbO6cz9u7K41SvM5Pua0kcCSYzD5I5WiaprftRK7oDlur
-	CVZP33ixLa1uK+qBuIcWA6BhohD4080=
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=ub+J5JYu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1794490769; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=QfoQYK5GTllfN8cs3tAtillMPMU+lGS2lXGFEwCI3Kk=;
-	b=ub+J5JYu2PlfqJKn5sKT2reov0JTEMSqgsUF7ilAc8sSr0OTJg1HkVOxi8UkmWlLP90G4L
-	XNHM7khph8Nl9W9CuSiu7jMggkbO6cz9u7K41SvM5Pua0kcCSYzD5I5WiaprftRK7oDlur
-	CVZP33ixLa1uK+qBuIcWA6BhohD4080=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B277134A0;
-	Thu, 12 Nov 2026 13:39:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WYwUEJHB9WrLDgAAD6G6ig
-	(envelope-from <oneukum@suse.com>); Thu, 12 Nov 2026 13:39:29 +0000
-From: Oliver Neukum <oneukum@suse.com>
-To: linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net
-Cc: Oliver Neukum <oneukum@suse.com>
-Subject: [RFC]usb: uas: cancel outstanding commands
-Date: Thu, 12 Nov 2026 14:38:02 +0100
-Message-ID: <20261112133926.878432-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yonu3wmr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB38C1F00A05;
+	Thu, 12 Nov 2026 13:41:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794490862;
+	bh=zcZOYtsVTv31lVYaNP6RLbKLvR8+yhhBm9mhbhr/iKE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Yonu3wmrYZO8QH3w1HXbsKpwGYVcENzULirtc+rC4xIhTzxXLe8imyh9Wsy+ItVwd
+	 hBl+SPQuH39iG8rpqFyAQ74d4UzPaV07pGSCOB28vRxa1+zx2HbmHl2HwkXEZiC5FV
+	 2Ju2NdqmaRS6aAzWIyDH1qU5TAlYWns+gGL0Kf5AbK43+c3NDoXVayjIFKOSQsK+od
+	 FEc3DT4RbjS8MqKXnAy9xJppBHvp+WF28kcptd3ykeZ017qen8Nftwz21ZwL18j0CP
+	 cK6nlnzRa5dODjVazj/M9h4B7NCVTp9EzoOX3bm0Kh8h8j01eubv/h+kWEFXnXkjHA
+	 r9D+pUlHgkl9Q==
+Date: Thu, 12 Nov 2026 19:10:58 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Igor Paunovic <royalnet026@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org,
+	kernel@collabora.com,
+	Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Subject: Re: [PATCH v18 0/7] usb: dwc3: introduce Rockchip glue driver
+Message-ID: <avXB6ga-QVfks8RF@parshuram>
+References: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com>
+ <179353091270.2955.16595397888583885694.b4-reply@b4>
+ <aufM3PCuU9CM8zFo@venus>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -86,359 +66,61 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: ADC981F863
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.com:+]
-X-Spam-Score: -12.01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aufM3PCuU9CM8zFo@venus>
 
-Draft of an actually working eh_abort_handler.
-It works by reusing the tag, which forces the
-devices to generate and report an error.
+On 02-11-26, 00:46, Sebastian Reichel wrote:
+> Hi,
+> 
+> On Sun, Nov 01, 2026 at 04:31:52PM +0530, Manivannan Sadhasivam wrote:
+> > On 2026-10-21 20:05 +0200, Sebastian Reichel wrote:
+> > > The recent Rockchip platform have a combined PHY, which does USB3 and
+> > > DisplayPort as well as muxing the lines in arbitrary order. Changing its
+> > > enabled functionality requires a PHY reset and as the PHY provides a
+> > > clock to the DWC3 controller, this can result in an SError. Apart from
+> > > that the PHY might not start up correctly when the DWC3 PIPE interface
+> > > is running. This series prepares a Rockchip specific DWC3 glue driver to
+> > > help out with these problems. To become useful more patches are needed
+> > > on the Rockchip USBDP PHY side, which are send separately.
+> > > 
+> > > This was split from the USBDP cleanup series. v17 has a dependency on
+> > > the patches that have been merged to phy's for-next branch. There are
+> > > some additional Rockchip USBDP phy fixes, which depend on this series
+> > > (which is effectively also a fix).
+> > 
+> > What is the merge strategy for this series?
+> 
+> I see these options (ordered by my preference):
+> 
+> 1: Vinod merges everything; the USB side is mostly a new driver
+>    and thus there is not much conflict potential
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/storage/uas.c | 212 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 195 insertions(+), 17 deletions(-)
+I need ack from Greg for that
+> 
+> 2: Vinod provides an immutable branch with the first two patches,
+>    USB tree merges the immutable branch and the remaining series.
 
-diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-index 8655edbd66b1..99ded579349a 100644
---- a/drivers/usb/storage/uas.c
-+++ b/drivers/usb/storage/uas.c
-@@ -38,6 +38,7 @@ struct uas_dev_info {
- 	struct usb_anchor cmd_urbs;
- 	struct usb_anchor sense_urbs;
- 	struct usb_anchor data_urbs;
-+	struct usb_anchor killer_urbs;
- 	u64 flags;
- 	int qdepth, resetting;
- 	unsigned cmd_pipe, status_pipe, data_in_pipe, data_out_pipe;
-@@ -71,6 +72,9 @@ struct uas_cmd_info {
- 	struct urb *cmd_urb;
- 	struct urb *data_in_urb;
- 	struct urb *data_out_urb;
-+	struct urb *killer;
-+	wait_queue_head_t cancel;
-+	int cleanly_cancelled;
- };
- 
- /* I hate forward declarations, but I actually have a loop */
-@@ -166,7 +170,7 @@ static void uas_zap_pending(struct uas_dev_info *devinfo, int result)
- 		cmdinfo = scsi_cmd_priv(cmnd);
- 		uas_log_cmd_state(cmnd, __func__, 0);
- 		/* Sense urbs were killed, clear COMMAND_INFLIGHT manually */
--		cmdinfo->state &= ~COMMAND_INFLIGHT;
-+		cmdinfo->state &= ~(COMMAND_INFLIGHT | COMMAND_ABORTED);
- 		cmnd->result = result << 16;
- 		err = uas_try_complete(cmnd, __func__);
- 		WARN_ON(err != 0);
-@@ -274,6 +278,7 @@ static void uas_xfer_data(struct urb *urb, struct scsi_cmnd *cmnd,
- 
- static bool uas_evaluate_response_iu(struct response_iu *riu, struct scsi_cmnd *cmnd)
- {
-+	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
- 	u8 response_code = riu->response_code;
- 
- 	switch (response_code) {
-@@ -282,10 +287,17 @@ static bool uas_evaluate_response_iu(struct response_iu *riu, struct scsi_cmnd *
- 		break;
- 	case RC_TMF_SUCCEEDED:
- 		set_host_byte(cmnd, DID_OK);
-+		/* in case we win the race */
-+		cmdinfo->cleanly_cancelled = 1;
- 		break;
- 	case RC_TMF_NOT_SUPPORTED:
- 		set_host_byte(cmnd, DID_BAD_TARGET);
- 		break;
-+	case RC_OVERLAPPED_TAG:
-+		set_host_byte(cmnd, DID_ABORT);
-+		cmdinfo->cleanly_cancelled = 1;
-+		wake_up_all(&cmdinfo->cancel);
-+		break;
- 	default:
- 		uas_log_cmd_state(cmnd, "response iu", response_code);
- 		set_host_byte(cmnd, DID_ERROR);
-@@ -678,6 +690,7 @@ static enum scsi_qc_status uas_queuecommand_lck(struct scsi_cmnd *cmnd)
- 	memset(cmdinfo, 0, sizeof(*cmdinfo));
- 	cmdinfo->uas_tag = idx + 1; /* uas-tag == usb-stream-id, so 1 based */
- 	cmdinfo->state = SUBMIT_STATUS_URB | ALLOC_CMD_URB | SUBMIT_CMD_URB;
-+	init_waitqueue_head(&cmdinfo->cancel);
- 
- 	switch (cmnd->sc_data_direction) {
- 	case DMA_FROM_DEVICE:
-@@ -730,35 +743,197 @@ static enum scsi_qc_status uas_queuecommand_lck(struct scsi_cmnd *cmnd)
- static DEF_SCSI_QCMD(uas_queuecommand)
- 
- /*
-- * For now we do not support actually sending an abort to the device, so
-- * this eh always fails. Still we must define it to make sure that we've
-- * dropped all references to the cmnd in question once this function exits.
-+ * We abort a command by reusing the tag, thus forcing an error
-  */
-+
-+static struct command_iu *allocate_double_command(int tag, struct scsi_device *sdev)
-+{
-+	struct command_iu *test_unit_ready;
-+
-+	test_unit_ready = kzalloc(sizeof(*test_unit_ready), GFP_ATOMIC);
-+	if (!test_unit_ready)
-+		return NULL;
-+
-+	test_unit_ready->iu_id = IU_ID_COMMAND;
-+	test_unit_ready->tag = cpu_to_be16(tag);
-+	test_unit_ready->prio_attr = UAS_SIMPLE_TAG;
-+	int_to_scsilun(sdev->lun, &test_unit_ready->lun);
-+	/*
-+	 * We need something that does not do harm
-+	 * if the command to be aborted does finish
-+	 * regularly
-+	 */
-+	test_unit_ready->cdb[0] = TEST_UNIT_READY;
-+
-+	return test_unit_ready;
-+}
-+
-+static void uas_dummy_sense(struct urb *u)
-+{
-+	struct scsi_cmnd *cmnd = u->context;
-+	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
-+	struct uas_dev_info *devinfo = (void *)cmnd->device->hostdata;
-+	int tag = cmdinfo->uas_tag;
-+	unsigned long flags;
-+	/*
-+	 * An error implies success
-+	 */
-+	int status = u->status;
-+
-+	/*
-+	 * The tag must be freed in every case
-+	 */
-+	spin_lock_irqsave(&devinfo->lock, flags);
-+	devinfo->cmnd[tag - 1] = NULL;
-+	spin_unlock_irqrestore(&devinfo->lock, flags);
-+
-+	kfree(u->transfer_buffer);
-+	wake_up_all(&cmdinfo->cancel);
-+	dev_info(&u->dev->dev, "Dummy sense completed with status %d\n", status);
-+}
-+
-+static void uas_abort_complete(struct urb *u)
-+{
-+	int status = u->status;
-+	struct scsi_cmnd *cmnd = u->context;
-+	struct uas_dev_info *devinfo = (void *)cmnd->device->hostdata;
-+	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
-+	struct usb_device *udev = devinfo->udev;
-+	struct response_iu *dummy;
-+	int tag = cmdinfo->uas_tag;
-+	unsigned long flags;
-+	int rv;
-+
-+	switch (status) {
-+	default:
-+		/*
-+		 * immediate cleanup
-+		 */
-+		kfree(u->transfer_buffer);
-+		spin_lock_irqsave(&devinfo->lock, flags);
-+		devinfo->cmnd[tag - 1] = NULL;
-+		spin_unlock_irqrestore(&devinfo->lock, flags);
-+		wake_up_all(&cmdinfo->cancel);
-+		break;
-+	case 0:
-+		kfree(u->transfer_buffer);
-+		dummy = kzalloc(sizeof(*dummy), GFP_ATOMIC);
-+		if (!dummy) {
-+			spin_lock_irqsave(&devinfo->lock, flags);
-+			goto bailout;
-+		}
-+		usb_fill_bulk_urb(cmdinfo->killer, udev, devinfo->status_pipe,
-+				dummy, sizeof(*dummy), uas_dummy_sense, cmnd);
-+		if (devinfo->use_streams)
-+			cmdinfo->killer->stream_id = cmdinfo->uas_tag;
-+
-+		spin_lock_irqsave(&devinfo->lock, flags);
-+		usb_anchor_urb(u, &devinfo->killer_urbs);
-+		rv = usb_submit_urb(cmdinfo->killer, GFP_ATOMIC);
-+		if (rv < 0) {
-+bailout:
-+			devinfo->cmnd[tag - 1] = NULL;
-+			spin_unlock_irqrestore(&devinfo->lock, flags);
-+			usb_unanchor_urb(u);
-+			kfree(dummy);
-+			usb_free_urb(u);
-+		} else {
-+			spin_unlock_irqrestore(&devinfo->lock, flags);
-+			dev_info(&u->dev->dev, "Submitted dummy tag %d\n", tag -1);
-+		}
-+		break;
-+	}
-+}
-+
- static int uas_eh_abort_handler(struct scsi_cmnd *cmnd)
- {
-+	DECLARE_WAITQUEUE(wait, current);
- 	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
- 	struct uas_dev_info *devinfo = (void *)cmnd->device->hostdata;
-+	struct usb_device *udev = devinfo->udev;
- 	struct urb *data_in_urb = NULL;
- 	struct urb *data_out_urb = NULL;
--	unsigned long flags;
-+	struct urb *killer = NULL;
-+	struct command_iu *bullet = NULL;
-+	int target_tag, rv;
-+	int result = FAILED;
- 
--	spin_lock_irqsave(&devinfo->lock, flags);
-+	killer = usb_alloc_urb(0, GFP_NOIO);
- 
--	uas_log_cmd_state(cmnd, __func__, 0);
-+	set_current_state(TASK_UNINTERRUPTIBLE);
-+	add_wait_queue(&cmdinfo->cancel, &wait);
-+	spin_lock_irq(&devinfo->lock);
-+	if (devinfo->resetting)
-+		goto futile;
-+	target_tag = cmdinfo->uas_tag;
- 
- 	/* Ensure that try_complete does not call scsi_done */
- 	cmdinfo->state |= COMMAND_ABORTED;
- 
--	/* Drop all refs to this cmnd, kill data urbs to break their ref */
--	devinfo->cmnd[cmdinfo->uas_tag - 1] = NULL;
--	if (cmdinfo->state & DATA_IN_URB_INFLIGHT)
--		data_in_urb = usb_get_urb(cmdinfo->data_in_urb);
--	if (cmdinfo->state & DATA_OUT_URB_INFLIGHT)
--		data_out_urb = usb_get_urb(cmdinfo->data_out_urb);
--
--	uas_free_unsubmitted_urbs(cmnd);
-+	if (!killer)
-+		goto admit_failure;
-+	cmdinfo->killer = killer;
-+	bullet = allocate_double_command(target_tag, cmnd->device);
-+	if (!bullet)
-+		goto admit_failure;
-+
-+	usb_fill_bulk_urb(killer, udev, devinfo->cmd_pipe,
-+			bullet, sizeof(*bullet), uas_abort_complete, cmnd);
-+
-+	cmdinfo->killer = killer;
-+
-+	usb_anchor_urb(killer, &devinfo->killer_urbs);
-+	rv = usb_submit_urb(killer, GFP_ATOMIC);
-+	if (rv < 0) {
-+admit_failure:
-+		/* Drop all refs to this cmnd, kill data urbs to break their ref */
-+		devinfo->cmnd[cmdinfo->uas_tag - 1] = NULL;
-+		if (cmdinfo->state & DATA_IN_URB_INFLIGHT)
-+			data_in_urb = usb_get_urb(cmdinfo->data_in_urb);
-+		if (cmdinfo->state & DATA_OUT_URB_INFLIGHT)
-+			data_out_urb = usb_get_urb(cmdinfo->data_out_urb);
- 
--	spin_unlock_irqrestore(&devinfo->lock, flags);
-+		uas_free_unsubmitted_urbs(cmnd);
-+		spin_unlock_irq(&devinfo->lock);
-+		usb_unanchor_urb(killer);
-+		kfree(bullet);
-+	} else {
-+		spin_unlock_irq(&devinfo->lock);
-+		/*
-+		 * if something woke us up the command
-+		 * has been cancelled.
-+		 * If we do take the timeout we have lost
-+		 * the race against the hardware or
-+		 * the hardware is broken. If the
-+		 * command succeeded we can count this
-+		 * as success. Otherwise we've failed.
-+		 *
-+		 * We will kill the URB later, thereby
-+		 * freeing the tag
-+		 */
-+		rv = schedule_timeout(HZ);
-+		if (rv)
-+			result = SUCCESS;
-+		else
-+			result = cmdinfo->cleanly_cancelled ? SUCCESS : FAILED;
-+		spin_lock_irq(&devinfo->lock);
-+		if (cmdinfo->state & DATA_IN_URB_INFLIGHT)
-+			data_in_urb = usb_get_urb(cmdinfo->data_in_urb);
-+		if (cmdinfo->state & DATA_OUT_URB_INFLIGHT)
-+			data_out_urb = usb_get_urb(cmdinfo->data_out_urb);
-+		spin_unlock_irq(&devinfo->lock);
-+	}
-+	set_current_state(TASK_RUNNING);
-+	remove_wait_queue(&cmdinfo->cancel, &wait);
-+	/*
-+	 * we know a callback will free the tag
-+	 */
-+	spin_lock_irq(&devinfo->lock);
-+	cmdinfo->killer = NULL;
-+futile:
-+	spin_unlock_irq(&devinfo->lock);
-+	usb_kill_urb(killer);
-+	usb_free_urb(killer);
- 
- 	if (data_in_urb) {
- 		usb_kill_urb(data_in_urb);
-@@ -769,7 +944,7 @@ static int uas_eh_abort_handler(struct scsi_cmnd *cmnd)
- 		usb_put_urb(data_out_urb);
- 	}
- 
--	return FAILED;
-+	return result;
- }
- 
- static int uas_eh_host_reset_handler(struct scsi_cmnd *cmnd)
-@@ -796,6 +971,7 @@ static int uas_eh_host_reset_handler(struct scsi_cmnd *cmnd)
- 	usb_kill_anchored_urbs(&devinfo->cmd_urbs);
- 	usb_kill_anchored_urbs(&devinfo->sense_urbs);
- 	usb_kill_anchored_urbs(&devinfo->data_urbs);
-+	usb_kill_anchored_urbs(&devinfo->killer_urbs);
- 	uas_zap_pending(devinfo, DID_RESET);
- 
- 	err = usb_reset_device(udev);
-@@ -1038,6 +1214,7 @@ static int uas_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	init_usb_anchor(&devinfo->cmd_urbs);
- 	init_usb_anchor(&devinfo->sense_urbs);
- 	init_usb_anchor(&devinfo->data_urbs);
-+	init_usb_anchor(&devinfo->killer_urbs);
- 	spin_lock_init(&devinfo->lock);
- 	INIT_WORK(&devinfo->work, uas_do_work);
- 	INIT_WORK(&devinfo->scan_work, uas_scan_work);
-@@ -1225,6 +1402,7 @@ static void uas_disconnect(struct usb_interface *intf)
- 	usb_kill_anchored_urbs(&devinfo->cmd_urbs);
- 	usb_kill_anchored_urbs(&devinfo->sense_urbs);
- 	usb_kill_anchored_urbs(&devinfo->data_urbs);
-+	usb_kill_anchored_urbs(&devinfo->killer_urbs);
- 	uas_zap_pending(devinfo, DID_NO_CONNECT);
- 
- 	/*
+I can do that
+
+> 
+> 3: Everything is merged through USB; this would block the final
+>    cleanup for USBDP from being applied for yet another cycle.
+> 
+> 4: Vinod merges patches 1+2, USB patches are merged one cycle
+>    later and final USBDP patches are merged two cycles later.
+> 
+> P.S.: I will have to send another version for the correct Sashiko
+> feedback on the DWC3 side.
+
+Ok
+
+> 
+> Greetings,
+> 
+> -- Sebastian
+
+
+
 -- 
-2.56.0
-
+~Vinod
