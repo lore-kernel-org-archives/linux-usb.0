@@ -1,80 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.163.188.212
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794448237;
-	b=dieQyVqxtzSbBhwW8+n3yOJ6dRM1oM+jlyngAPssLmaozxjoRyE4mJb8L/3whru+6SRi
-	 F3nt8vuxEyAlX8XjCU4evfNAQGYBlzWngN5zYuihfpqvtjIA3S3tf2td9dFekQe0MmZTg
-	 GXQWrCVqHaEQ9JM42G/+5UxS80xvK30ry0LydoM9FEQWY2FMS4pyLTFSyZ6CcENvEj8PR
-	 TfY/60auvj1UnmDr1ZMWnhK8plR+c6IG0VlWkiFiNps7V/7MSEChHPLWT8ddzxmwsXtIx
-	 jhCTAvF5gEw48w24J4NB4ODqWW/4cOi1+8HV19vGRaTIDpgBfzbI7iumfI/3+waaZYQ==
+	t=1794448253;
+	b=dHUcSX7L6zyTmUg2qtp7TK8lYqEoZerjUWf3nhKzHTz0i3PCy0P2iLd1dr2+yEKHWg4I
+	 0rtzp7ATJP87kwzmZK+Xe54fGrLrIgneu+NEcsWdnH747CVjiadNBDYf8+WhDA3bu1x8+
+	 1adMQJMa52qKwQuNAEWehtSG7Me0n5h8ZcOq3USf1Qym9U+vEiu6BjXOgpkMj7Txj33gl
+	 k0WhYouLg4E2YV0KN6KAkF0pCeKM+k5EpaNbsOJqUlB70rU1FEhgbM5nGMvOQ6fOK9uL/
+	 M5ZPmfIGC2VK+DkxGhS/VyuRpe37MYxCWPv1Fj+5IKpgtTpvaYB56APmWiIu9BNFTag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794448237;
-	h=DMARC-Filter:DKIM-Signature:X-SONIC-DKIM-SIGN:X-YMail-OSG:X-Sonic-MF:
-	 X-Sonic-ID:Received:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Mailer;
-	bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=;
-	b=SNhxuhewRuHQJ7Q/rRW38modsiKjWoBgMGsLzu6qxx+60x6TSVGs7dMkDY+hygtB9CTL
-	 rnM5s4RRzDOHZ+CA+PiuToGdO9yTAViMXNY1H0ZVwQ2TJlVLI/rGkKXdq1euXomxixmIa
-	 uaOeJ9xgxh2OG/107Pxm2wLPbj/2v+AsbryKH0idgnrO1u3YUlkjUrb8F3sAGXJMcGH7D
-	 dwwOg5Ixkfy5m7QbVHo/rhSP20B/uTtuadjTUKIeFclHvUemF2zmYHTl0sjlO9FfEd2OJ
-	 X9Kwrttfag4i6Zm+gO/FBVHbvZGpRpoXWCQDB/hWqJXrOZzdRD7XvnorA/b7rFfu7lw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794448253;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=5ZYy7ctc7utUoIVhnyDGifPpeprYczBSsfkhk/+gwZs=;
+	b=KH8QhELBX/f1cX2hwzOfW9R2hfRoJfXBeZtEFC43IU/iumV3TmIFYExuNxvX2akoMVSB
+	 T698GZ8157lDG3Pe0MrRcsCH8tWmXpaLabRXyYSr1msQpWMp4PcAFwQ0jRkNvRIWrynNE
+	 LxRADsVMLcvHmRYg+qe7JXgdWiQBCXtxEEyLzQUatCYrZA7D4xcgCR5fXWqe3x8N4WixM
+	 PG9BWQD6/jhVTgD+DQqVZg3KgGz3yFzfSsYuDfa1FZNElK65CaKbWffk+gK2aCT7P4XJN
+	 yNdW3Rszi4wgzJK9D0sgOD3Q91ckOKjVLvV1fTXePi8vlI20O0odyerD6QJuosXc3gw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=schaufler-ca.com;
-	spf=pass smtp.mailfrom=schaufler-ca.com;
-	dkim=pass header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=F+m434hx;
-	arc=none smtp.remote-ip=66.163.188.212
-Received: from sonic311-31.consmr.mail.ne1.yahoo.com (sonic311-31.consmr.mail.ne1.yahoo.com [66.163.188.212])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N7EhVmQS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BD5606A880
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 01:50:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6BD5606A880
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schaufler-ca.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6E3606A88E;
+	Thu, 12 Nov 2026 01:50:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=F+m434hx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:Content-Type:From:Subject:Reply-To:Content-Type; b=F+m434hxnazo+znIsDN87b1q6q2BjDXrSK85l4sPO4/7/Nv6ouklEMGBpfrTHUnO8eGiNQoV5Bbw/uB3JZACliQBg8PtdTRYRP97HHZoegx3ArYwH69kAdVaUPkV7WcyNd89YKs91cZCwmWeziNsUM+FCRLahqzZW3a6Ku8pvIiJlMO/7XaKbdkzRicymfmmSk9XFsFNG+fkHI8UO70pZ1hFT9v2XQiwRrAslvpHUFbDR+3rpTT4Ikh/N/oSBL0qRMnhxDrBkdI0Mmku6tTsyJWpgcJjSTSvBuepznmh0kGiP8yElqSHRAm6ov8qvVTBbZJZj+71HtVfmpD+WAp7XA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=cB6ms4YZu3OSr7Oj5Ktyy9vRYllWqlKKBSjCDtAOhd3=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=Wh5tO+A7k6l9RAB9CmF+7nFPpV+s7vwQOvHRCpB836zmpk+EmZdiT1obFQYb3eEYUV/ZZrDMNSGrpqiSFrVBvEAP1+BcX3bVXL8AkZe5aM0djERGyxVy+oivb40ItIA89tHRP/kW5BzO7GaPGZrOTfFkDQF1HHnKQVH/ifoH5PYTL/BXjLkbPViq5JKecTMlRIryhz3iU6NkOHkP1F3oliaijdeTD+Tk00HCA4w802Q1PFZvsZSndMk6hlb4A1wMRPh3z4tVeu12oZckS5JIJR1ywCFknBKWBE+hVxojbZ57Qr3RCaKJrua5vLBD1s/SnsdmRZ+/JLOhUlVDaAQyJw==
-X-YMail-OSG: zqmnDtkVM1n5t6ueog55b_vkFHSYM5E1qoECEJywzBr3UwiKAfUIVI_o6w7R9SH
- CQ1t93f4qyBpZEcVGjU2OBO9C0Of8.lRAD_UtcVdUMSf6_GiG98G7rNXb1ZhUGsyYLDyJE5oLG69
- MPpknxdoviNcfunvMa.q1ATsxUiRNZaaYFEtaSi7o3ARz3uzFbYwa4zXUFVTxVNR1M4yEm8E_vMu
- CX3lc6b1b0MWbnmh3DAeGebLmTpZwI12LuF9QH7MRRpV.Y7YkiPkkooycQl42qWPa_ZCsKSCVnTi
- cfYjzn7ZtEqmGYVjYEY1kEbVCA4JoS5GMMDKMoO39G5YhBugROnX2jrgGh0AwdwAby30.ZBxmd.l
- S62hS2hlPvIDoPxGhzS2whxCcIZrt8XbiUGRsBq2lfu8t9x.TIubZ4wIiRqzfDYoZIwioLDCjm6k
- .cljRFJEOnSix_ImX_sSyVP7eQAAEJ1GsHeUHb7atzAIHDlw0lV7YT_EQZaDbjuCghjYyGwMa7FJ
- LxdRDFOXlr05WMcbROqV0a4sd0J7UyT01rGVa2p8mqlfg_ZPSk1p0.zKLMJDr5A1o8n0sxe4LbiR
- qbREBgT6XAwECEJNbNHKO1YTM4iOmevp8GvnGDd6MDNapigfFoPwfu59SMy7zYd9LO3Z8_0VkIJt
- aPlGTgcyxBF.v1wQggIdb30_WaSmydGJlcGPdQ03irHq2wrwxiCoQO6IJUZEr0jypo3mUQnAGyDG
- k9vUUntKtCsyi.w0t_vFjR1T1M3Z6Xk5RLKDL9njS7LNW.CupQSEmNQ1GkX7kSwPFQP21HwmyMsp
- i9SdJowJ0s5y.bw2SrHxrP7sM6YbNToNL5ZVELMODpe5VuCBtDWl7VcCxYMmahr5455.ZE_hGmHs
- LrmFJx1uQ46OcZ2Ii956498sukETOy0INQsrtoq.ypS01I6QTO8GSI7rVFeq81ZNfcHhvUGJ06ME
- B8yJmeeVBase_8cBDx_Yk7y0xRppCWZz9S9bNwiHzQcmhSHJ99JaTf4E0zOIsgLWqU5tZh4wLZKp
- MnYneLIuBkBNwjBcYTuKXcpCwff8fTcsfan2g9ag6_HRqbKvb3lqTrnQRPIG.IGMBIXdu4D1HB2r
- Ygn65JHFmN1QF2ROBGshwilsGajQNSqHXHgx.co9RO5Evfjv8vx67t__1ew7rn3sc1C.7W_m4N4M
- cSR8SYdV43PcknGSee9yB1x8pWannWLYRUROzisZnoPLwDPX1S0a5pIeYojUo9jnHaAdfaOw5IJs
- bc0nB3tQZQ.0b782FrYX_n_pf05DxifKK1hrJ0OqXSo23BlRt.p63_4auT8X4tq9HTs9fxQLg0OA
- ydi2BtTIKopjFdQtWH0NOUC1U6_wILbgtZfZnlVsbVhHJ7Tk.UZGmAVff_vQl8b4id5D4T9jwtS9
- 8nKfk1Ghey2tqeZDF9SgVACRH_x6kJa81R1e4J_83TMyBY4Ays_MTt39YbFzXRfBMRqG0I92h9IS
- Xl4i4wMK_gUqmjpP0P_oaDsTzptxLp7NMOmOY3T81w3i60pQpmuYMvggEU3dv.ebRC4Brat.KcXq
- ZyjrZ4BouQUvapbNSNNP1Y253sBId7Ys37DryRT0fCsyFp6LIN0DYA1xElaICSH34S2v84muDGZe
- .CGRnjEo0Q2679LeUfRrG7eDmdHtGbtXa02kyQjntuOc7VrR9y8jRUHqkLiiITgSdxH1QGB5PWuQ
- ARpFP1xjX3OHKFGeQd7o8WX3xDhKeppcWAPJEhIosno79RY0IQ4.4JX7WCaXgDYbj6BL4okuPPnu
- 9CEiWKr_A1oRBHcXo_t2XyX1N2Jd1tPqjLAB1WY0vIGe1SVdGRdRloM6.RT24mU1pbFP4DjeRn1w
- _aXrAymHoztvd7BVNk78MI6f1URU2iBFJ6msmP6JgXQac5cfrtvlS9yn2eohnwEPfv__IKNy26n1
- mYs7i0yOvj6LH9jEvBJfejsFOAeuf8LBdL.MbTk8ZZiVorhzaxO81Zf4PRAQwZfM29CLtP5dAKbb
- klVicXy3HgsPrMZiM94qTb2yOlO2WSLEgrPS_2Vx31FNEHJNJpuKXHkfgTtKgjLPmpCr4Taq44yO
- KB8vbaoDybAHzNwFN22pWQG3NDp.x8aciLmMT8fUQgwMgW8NlLKb6ErL7ChYlwsHUhzhzMbUfvnT
- 2bA6QlHpoN4OcRsGeb2ygbIpUCMhvL1tqClAnkg41oGlCJa3crNRCKKeXXqZBarf9KzLHJa8i581
- 0YgHHROuHzbtZ8GRm6ggBoLbsrITMfTGKIshO9uwpGYYxl6nVscbC6LtZUsxlV5iP8t8XsYi.ga0
- EDsRWYHlK
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 4e6572e0-628c-4102-8309-f6caa349ac8e
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Thu, 12 Nov 2026 01:50:35 +0000
-Received: by hermes--production-gq1-fd7994565-9vhlr (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 15d81e1a8a6348ae9dcd84771e3b8196;
-          Thu, 12 Nov 2026 01:50:33 +0000 (UTC)
-Message-ID: <41617b0a-90d9-484e-a143-78e2a92e872c@schaufler-ca.com>
-Date: Wed, 11 Nov 2026 17:50:30 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N7EhVmQS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B855A1F00A05;
+	Thu, 12 Nov 2026 01:50:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794448253;
+	bh=5ZYy7ctc7utUoIVhnyDGifPpeprYczBSsfkhk/+gwZs=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=N7EhVmQSaYXYi85isumOgVusEFVRh7hwRMPi7KX4YI5bXir0N6C9Z7DcoHc2Na9QQ
+	 kKEDr6p177/6y93P848ruzaYb4r3gckLtJRxZZ2hjqwQ3WlQMzk0MkXqmCXW8y17DZ
+	 AQBKU7bMh9FRUyDR63mjcYxrgyONB5gg9XlJI1RAC5oyklde/6JEZQp/BcTmaczOLH
+	 Ik10ihXe/1ZmcuUwH2XBWtGoUuKLg5l+AiCRtT92tmiJOg6gCvEfpS9B/FedmnWWYC
+	 L3OsRUkjhlGW44vT4wP9EmD4jZDcziqPvhyJt509zVkI13cqlCXePZ2Slevil3tDKz
+	 Un04PHga+YYbA==
+Message-ID: <sashiko-outbox-210101@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 6/7] rust: usb: remove the disconnect() callback
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Danilo Krummrich" <dakr@kernel.org>
+Cc: linux-pci@vger.kernel.org, linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, ojeda@kernel.org, gary@garyguo.net
+In-Reply-To: <20261112005455.1224352-7-dakr@kernel.org>
+References: <20261112005455.1224352-1-dakr@kernel.org>
+ <20261112005455.1224352-7-dakr@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Nov 2026 01:50:52 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,69 +59,51 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [apparmor] [PATCH RFC 19/41] smack: use fc_init_pseudo() for
- smackfs
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: linux-efi@vger.kernel.org, Jan Kara <jack@suse.cz>,
- Amir Goldstein <amir73il@gmail.com>, linux-nvme@lists.infradead.org,
- fuse-devel@lists.linux.dev, linux-mm@kvack.org,
- target-devel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Chris Mason <mason@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-s390@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
- driver-core@lists.linux.dev, Jann Horn <jannh@google.com>,
- selinux@vger.kernel.org, apparmor@lists.ubuntu.com,
- Josef Bacik <josef@toxicpanda.com>, linux-block@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, Alexander Viro <viro@zeniv.linux.org.uk>,
- linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Casey Schaufler <casey@schaufler-ca.com>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
-Content-Language: en-US
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.26943 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-On 11/10/2026 1:14 AM, Christian Brauner via AppArmor wrote:
-> Initialize smackfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-> also SB_I_NOEXEC and SB_I_NODEV. smackfs never holds executables or
-> device nodes.
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] rust: usb: missing Sync impl for Interface<Bound> breaks
+  Driver::Data
+--
 
-Please include me at least as a CC on Smack patches.
-I ain't dead yet. Nonetheless,
+commit 92376533106fabfcec7a799d05c1ddbb68a85c37
+Author: Danilo Krummrich <dakr@kernel.org>
 
-Acked-by: Casey Schaufler <casey@schaufler-ca.com>
+rust: usb: remove the disconnect() callback
 
-> ---
->  security/smack/smackfs.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/security/smack/smackfs.c b/security/smack/smackfs.c
-> index a72bc7fabea9..4a56bbeaeca3 100644
-> --- a/security/smack/smackfs.c
-> +++ b/security/smack/smackfs.c
-> @@ -25,6 +25,7 @@
->  #include <linux/magic.h>
->  #include <linux/mount.h>
->  #include <linux/fs_context.h>
-> +#include <linux/pseudo_fs.h>
->  #include "smack.h"
->  
->  #define BEBITS	(sizeof(__be32) * 8)
-> @@ -2880,6 +2881,7 @@ static const struct fs_context_operations smk_context_ops = {
->   */
->  static int smk_init_fs_context(struct fs_context *fc)
->  {
-> +	fc_init_pseudo(fc);
->  	fc->ops = &smk_context_ops;
->  	return 0;
->  }
->
+This commit removes the usb::Driver::disconnect() callback and updates
+the trait documentation and USB sample driver to perform device teardown
+in Drop or PinnedDrop instead.
+
+> diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
+> index 993760ff332b8..2126378abc959 100644
+> --- a/rust/kernel/usb.rs
+> +++ b/rust/kernel/usb.rs
+
+[ ... ]
+
+> @@ -291,6 +271,10 @@ pub trait Driver {
+>      type IdInfo: 'static;
+> =20
+>      /// The type of the driver's bus device private data.
+> +    ///
+> +    /// Device teardown should be performed in [`Drop`] or [`PinnedDrop`=
+](pin_init::PinnedDrop)
+> +    /// for this type. The `'bound` lifetime allows the data to retain d=
+evice resources and an
+> +    /// [`Interface<device::Bound>`] reference for use during teardown.
+>      type Data<'bound>: Send + 'bound;
+
+[Severity: Medium]
+Can a driver store &'bound Interface<device::Bound> in Driver::Data<'bound>
+when Interface<device::Bound> does not implement Sync?
+
+Interface<Ctx> wraps Opaque<bindings::usb_interface> and only implements
+Sync for the default Interface<device::Normal> parameter (whereas Sync for
+device::Bound was implemented on the private usb::Device type instead).
+Because Interface<device::Bound> is !Sync, &'bound Interface<device::Bound>
+is !Send and fails to satisfy the Data<'bound>: Send bound at compile time.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112005455.1224=
+352-1-dakr@kernel.org?part=3D6
