@@ -1,56 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.135
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794467837;
-	b=GnBE5qcW5pIN48viOplKURPG9LVpp89CVFs6dAxTIiddZdcEhY5diZo089Ur2c0q1C0W
-	 ZH0/P+3ZFn/daUmWIEwkF7jHuL+9RFl4gRVvYWyB3QNNk7qfhyHsdwBXq0is9UR1lCh0D
-	 Wg63+pkZSYpBC8Xv8IFwQChYTdbUAdycfF5vWTXzUt2uywGkCu77Hmqi7Bm9Th10f0HFn
-	 rkEi3mJHkHG3xglnF/pdHm5I69chyojLgmLLbithxAcvCz54VEubxXmVnFjTd4c9hWqSA
-	 EaEmGqwKFShA6tzYAgOHwj6znGtnsDKuCPGCOEt8lDsaIOch2mQKrOE39Spr+xzAbmQ==
+	t=1794467846;
+	b=t88+dZOefPjaGvIZv59lofiLZAJtp2kP7EP6d0FJf8Eu7tQ7JempAZoN3l2LZqBX/hUr
+	 qX8bxx2DhcExZ3msQbzkMdR31zdItaJ3mykLv8lOyfmVKCFCPltQNMQQaNWjyfJErTXYS
+	 ov1ZtpyyGyKsGQ1JpiwCXXuy/zRUgQVCUoB6SnvEqriOmwHXKp4r045zfhCYRscx5qZGr
+	 YnI3ufRI2QPCfKpjxi2U9zE2FNjF8G8oKubcG57LBpgDUsaVsvLUi8OW2XpA10lXUfI7p
+	 rg2Gbne/IIkJL9sM4UbYyOToh58x15tqldtBWHjDZSdbzeoJSjpkbHkRcDNosEKwhhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794467837;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=2tQvFaS9XEnwb/iVBBvKwCJsTXYu2HRE1kkB2T5cmcE=;
-	b=sqo8LMHvqNzkmThQTW7zrDIugNXnin50F5pehA9OrYbBJnXFHwc7I7a37pf3gkOUEnbg
-	 F9yeQgjIImOVyKd4bmVDfLgEtCT7IXvlgFAtJGvZT2gBK2mlZNajcH6DPFVTnFHOEbAIS
-	 GAYZuCoq2brHXy0P+EdFJKO+1Pez8TIsWganYTgUP40oF14tONOpHqKhuh8u8qi5Qf/q0
-	 pv2ZTx/+2QF64UCBjNY36hvtd8v4l/Farzga4n1MXTXUaWbjw77Zf/s4olRqGS7Mhsm6D
-	 cxfcVmpInbnSxWuw6Zr6ZGxXr3Yz+zhy6TZvSgBwqCwee/hwOVhaQ9/ZKdpw+SPAvNg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794467846;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=ETG2r6xcANES8ls4NekjnSw6kcURnMiwQbnXx3FK7m4=;
+	b=Tx1KqhcTr8eecyblZ7LWVzCUfIZm01I3WPy4DSAT77p1H5Psv8bvmiy4pt/6foS5q0eQ
+	 9ky9h9xxOSb9Zorw1IGuzEoJJ11wKqAxCt1v3GznSa81WdqNUG+/pfiNH+tkyY4SfY1l6
+	 KHhVeMm6FiNkebT+nhOFEk5fw3LQspczfcAh6bg4iTxAA8NBU3Rd7yKldaTha+98HxZFz
+	 J1PDI3RMPvuszX3DFxwKEGqEb0S1jpccnILkqF+Q3aoMXBgDmOVJw8R7pw2MEhNm/wLg8
+	 7rjzc5xoo6cbyY0+t0qvoyYcQdvVubvphMklf4MNw8byUqss9j2SLJV3REQK08F+MWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zbux40mx;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5709606A8A3
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 07:17:17 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=nSJxNIf3;
+	arc=none smtp.remote-ip=111.22.67.135
+Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DB4660A3832;
+	Thu, 12 Nov 2026 07:17:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DB4660A3832
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zbux40mx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6630B1F00A07;
-	Thu, 12 Nov 2026 07:17:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794467837;
-	bh=2tQvFaS9XEnwb/iVBBvKwCJsTXYu2HRE1kkB2T5cmcE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Zbux40mxLQKi+c8X6vtzIwlB1Iq9Z/FrcaTdcSl0NI4Y2almtmjJyq6HZrdL4jzLD
-	 +XFk8uM3wPHPNXC001bg4lyKn2VeeXFX3N74Den5QzFoA4IHugXj2aeEPrvCWVfYcN
-	 kgWpzw8olI8x9+UhEAAS02yt3vNG+u4QCPDoHylBcUkKxFDV08sqRkvPfEPO/TF8qZ
-	 m2kT41kq6K0u1jHSisIlf0q9GU/exqexbJU+0qnSazsQHKh3uwwMtGciEDZrWB7yES
-	 lHIV31TX6BHqQPXc/yOgKHwwC/qMTMnp0xdPMcA35wwKobn/0VAvMKsUO/VKesD4lf
-	 Ts7LJ54cP8hCA==
-Message-ID: <sashiko-outbox-210582@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] greybus: verify the received message size covers the
- message header
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261112071228.33017-1-shishunbo@cmss.chinamobile.com>
-References: <20261112071228.33017-1-shishunbo@cmss.chinamobile.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2026 07:17:17 +0000
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=nSJxNIf3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=nSJxNIf3ybX4NBp7AM4epEJ6VVn3R3wvLfSAB8z2ZFp7Jbc1mV2cCY95RlIyldZ85jd+LnhG6Ot/C
+	 3JZ6NXi6mcGCFt+NJpKN5C0AYPaBlmkr68Twlu28hf4UEJn9uxMrwMNGH4Z4YiQB1Y56Gn7gLvnTNG
+	 B/IMnTQV0Jd8g5M4=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee76af568043f7-dfe68;
+	Thu, 12 Nov 2026 15:17:24 +0800 (CST)
+X-RM-TRANSID:2ee76af568043f7-dfe68
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from devin-VMware-Virtual-Platform.localdomain (unknown[10.55.1.72])
+	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea6af568032f9-f685c;
+	Thu, 12 Nov 2026 15:17:24 +0800 (CST)
+X-RM-TRANSID:2eea6af568032f9-f685c
+From: Zhu Jun <zhujun2@cmss.chinamobile.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhu Jun <zhujun2@cmss.chinamobile.com>
+Subject: [PATCH] usb: usb3503: Propagate resume errors and unwind the clock
+Date: Thu, 12 Nov 2026 15:17:23 +0800
+Message-ID: <20261112071723.154558-1-zhujun2@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,32 +67,50 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> In gb_connection_recv(), the size of the received data is checked
-> against sizeof(struct gb_operation_msg_hdr) and against the message
-> size encoded in the header (msg_size), but msg_size itself is never
-> checked against the header size.
->=20
-> If a peer sends a message whose header claims a size smaller than
-> the header itself (e.g. header.size =3D=3D 3), the two existing checks
-> both pass (size >=3D sizeof(header) and size >=3D msg_size), and the
-> message is dispatched with the undersized msg_size.
->=20
-> In gb_operation_create_incoming(), this leads to an unsigned
-> integer underflow in:
->=20
-> 	request_size =3D size - sizeof(struct gb_operation_msg_hdr);
->=20
-> [ ... ]
->=20
-> Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
-> Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
-> Closes: https://syzbot.org/bug?extid=3D0b456664585fa81a47f6
-> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+usb3503_resume() ignores failures when enabling the reference clock
+and restoring the hub mode. It can report a successful resume while
+the hub remains unusable. A failed mode switch also leaves the clock
+reference enabled.
 
-Sashiko has reviewed this patch and found no issues.
+Stop if clock preparation fails. Return the mode-switch result and
+disable the clock when restoring the mode fails.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112071228.3301=
-7-1-shishunbo@cmss.chinamobile.com?part=3D1
+Fixes: ecdc071d02a0 ("usb: usb3503: add PM functions")
+Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
+---
+ drivers/usb/misc/usb3503.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/misc/usb3503.c b/drivers/usb/misc/usb3503.c
+index 9f356b4bd84e..bcc6174b80d1 100644
+--- a/drivers/usb/misc/usb3503.c
++++ b/drivers/usb/misc/usb3503.c
+@@ -353,10 +353,17 @@ static int __maybe_unused usb3503_suspend(struct usb3503 *hub)
+ 
+ static int __maybe_unused usb3503_resume(struct usb3503 *hub)
+ {
+-	clk_prepare_enable(hub->clk);
+-	usb3503_switch_mode(hub, hub->mode);
++	int ret;
+ 
+-	return 0;
++	ret = clk_prepare_enable(hub->clk);
++	if (ret)
++		return ret;
++
++	ret = usb3503_switch_mode(hub, hub->mode);
++	if (ret)
++		clk_disable_unprepare(hub->clk);
++
++	return ret;
+ }
+ 
+ static int __maybe_unused usb3503_i2c_suspend(struct device *dev)
+-- 
+2.51.0
+
+
 
