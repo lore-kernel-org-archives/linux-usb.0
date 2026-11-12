@@ -1,110 +1,217 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794442613;
-	b=hancnwUKXsn+9iyeXIMSHAsWnL78XhYfNMDEZnQeQauc7rQPTsnMW702wUFmfEG00k8V
-	 NgSqVU0FBWZkmc2P1FyOqP/W5ELeLnBXGnpJnIT10Rqpr20G6hLLJWI2+TpYOXwlxBzSQ
-	 zQrztnptm2EnnKtWCG01Rqx9oc48IEBgpxLDQc4EEQ4dtMp+q+cIkBk6sRIKyGnFxgc79
-	 vkYUU2K430W3T26fHOW8QdR7F0THbEBE6vioRPiNYvUmsQNl+lTFABr9gewSlCU1C/qLM
-	 Yj77j9xwzZLoltW2ZyOQpaMaU0782rcPR5gHbWjg3oGS1d5dV5SJiWguHeFbfB+MyRA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794442613;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=lT7QylMbD9F1F6uRIBMcbNPNSWEKBWGTEWa84Sr6aB0=;
-	b=PeqgQIdOjoH6/ZIR+4XyuPrqdkTM+wKIwDiWXLWT71/TLUWt47ydOLj5Gc6dlosFLPWA
-	 muIMVsSuuCjnqAcEZvOxfb+ZBDphalW844AB/nzFC3qMe/rX0xEKLqmJ/B/9kXT36JmOn
-	 4KA4J+HsWg9updrB21dLyS6/MOO0ijlrrVQ53nNAlIEmIHujdY0I9R17PkMODwOrGkEIb
-	 jVv7mSlHdCvBCW8famnQxVSPmD9a6/I93gGpalF55FBotchWal6MbWzp2diRwWusA/oB/
-	 4Npfn4MZrRMdBW2pvfVDYFaObnEm/BcLnQnGCYzdHqQ7OtCOULjwAyw19GHhZu8HJzA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YZp1UdDF;
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=148.163.158.9
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1794442973;
+	b=Uk2R6X1ekojwpkrVGZ1P9ia5fKWOv/pjpEWlxyH60QGQXjP8cXyHoCUHvq2pHSZCO7PC
+	 Dka1crDv8SfYzBdykJgnk3QJbNTzNr2oeeFcTcTSIh3j4UeW6zbNyp3GXirQ+L8pVPXif
+	 XaTUULLWnl6Q5mviiNBMVP6hwYE4x1XR8HtuN4ZWnOgimTslX50cwDMtihoPub22HfDFe
+	 GSNwZn1FDEYn7qbGKhoVylh9s+129NfhMyoOPYa5iyHSr23OSm8y1PUATiufpPVi6hh49
+	 ODDWkQCQdb1Y+GEeIxO0ck7wj5YYIJqnOSbA9MqQ6vaN3cclvwSSGCky03tVafutB3g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794442973;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:Received:DKIM-Signature:Received:Received:
+	 X-SNPS-Relay:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:
+	 Message-ID:References:In-Reply-To:Accept-Language:Content-Language:
+	 X-MS-Has-Attach:X-MS-TNEF-Correlator:x-ms-publictraffictype:
+	 x-ms-traffictypediagnostic:x-ms-office365-filtering-correlation-id:
+	 x-ms-exchange-senderadcheck:x-ms-exchange-antispam-relay:
+	 x-microsoft-antispam:x-microsoft-antispam-message-info:
+	 x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:Content-ID:
+	 Content-Transfer-Encoding:MIME-Version:
+	 X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=K5nOGCws0utlYgFQ7XA/tXtyIRcvB2rcmUbXCbJtvTQ=;
+	b=HFGTuLplMbed8swA6e02dCvFyV9vSbosj5diq4PCvftv4cAqzlEoEDz8J2QNk8PjhR1D
+	 8CsWtjtRoZ9QTC8J7qt/amoVmoLhgvNTJbd/lPTW1uO6NcpyJylCyhtP7Ex1GdptgiD55
+	 bhzWWFFgc0/JwBO5FrqYMf4S0liKRMwoHFpYW37QCRs4N9fb3iAoheiuTXJ/DMPjm+iXZ
+	 ijGbGMm07TyBUiVV3Gej8Sh6J3XjC5GqMo1+JCwBxiKm1FecH7pipYsx9Q412VaMZaayR
+	 FXgO/E9f+dPD5U43mJJ0rdEJpIWhhFU2D4LrbfDe5ecRbHsAXN2kNo4tc4LEYJQ8khQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=synopsys.com;
+	spf=pass smtp.mailfrom=synopsys.com;
+	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=LiyQBrjH;
+	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=Is9Ut6P2;
+	dkim=fail reason="signature verification failed" header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=dkS5gAXD;
+	arc=fail smtp.remote-ip=148.163.158.9
+Received: from mx0b-00230701.pphosted.com (mx0b-00230701.pphosted.com [148.163.158.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B502B606A8AA
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 00:16:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B502B606A8AA
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446A8606A32E;
+	Thu, 12 Nov 2026 00:22:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 446A8606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YZp1UdDF
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-3704d30b84fso4702986eec.1
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 16:16:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794442612; x=1795047412; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lT7QylMbD9F1F6uRIBMcbNPNSWEKBWGTEWa84Sr6aB0=;
-        b=YZp1UdDFdwKAz9IZmd56kfzgIzZmggyDfpTLihGjEhRnN8bxH8DD4rgdz4ZdZfKvt4
-         6tL75OmmiNIrnmveIRIySHNnBFKufg1PyinzbJrHMImdXokg6ml41X1/aePYJHsHw/FD
-         WBb4iJm5WUsx3sx+nuyEz8giJ/mDguuk2Ra1ardaPzd0aB2w6TfMyfYwFfoYGlwJ7//e
-         opQKT65edxCMfRgr2BaCAAnUh1GWzVvHNDfwYEjOk6Z3ZokZitB4epF/SRYiIdScWu3i
-         Ypr7kPaUkrVqMuEZsYiepbTb+t63Yo//3/KBWoFqxMUDpO0vg7wODMSZ1ZnQ6QXf3YPR
-         6R8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794442612; x=1795047412;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lT7QylMbD9F1F6uRIBMcbNPNSWEKBWGTEWa84Sr6aB0=;
-        b=V+ZiFFR69BB+JRToq7k871HcZ+aTHaoRO8IM5GV3OTa65LOhdSml3o7zsSdXE49u3V
-         NmwCKsQbQXnq+WkGyP752bRelHzQhPT9YZRWsTBTtXdCoMWwqShoz3KnpDuK5lh3umpq
-         cTzuB3rJs8kLUw3iDWVcHsU5Wr3rU1ARwmjtScfakYdkHnH0Bh9Hu4RQ+Mi8ip8MKshG
-         CqwipBf9x71gvAylZEdOk1veRtlE74G88hnj9R4EYw5dkJm34dKTU14S76s5ORCJbmA3
-         4EdNMlcxDJBeH0uU8lW9Y/RjReilkYHvu3PbwJKMmUcrrqLl+kxtD+ovola+vCCAyMuz
-         iERQ==
-X-Forwarded-Encrypted: i=1; AL+hErE32LJ3fkBD68LOlSHAw9wdhUoPixDVeFuqDmcuAGo2Cak4rZ5bqGF6a1RESke7nFILNDbnW6HEDJg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8DLWcBRlGxsLRuDYb9CVxOMbob2yXQAsFIF2gD4PFtphBFZ2KX
-	ccIc9kJDMMb8Mxz9DrW1mULls8Ckye/o9HgxLnQweBfDjsENBidl09MY
-X-Gm-Gg: AYBFou1ek8aEzDQPzuSxLZ31Zf15UlBiPpq6Zv4NKnu66/RHShNVl7A9HDQU1DwfTCa
-	2Y34535twilqiLxxU7B14jx2GdnAumbTUyCG4BDoDAP+KpteWt1I5VMAfCplNUokKjrDfsPCiZ7
-	ldlkHAy05SKVu55/e4rVpck7tOfB94Kc1prJ1VibHcQkCLS/KtAIwj0Lv+AY6b3t+VjvkUl4lic
-	PnZnUNEsXQEeLWxF3KaQHtOBkuNAnt2JDfLfAKXknz4bk3vM7/WMW10IHzwWbRXJYHGOAAvyf96
-	TIpbjrnwNmTY0sc6nWcoKNKDQ2dZrCtMfydp26sjg4FUE6a8ID7CZYRGZbRwJUA2zXBVrBsLFAk
-	3kyAsI38LbNTV0h3YcbvoDEo83Uuk/7TmVMaSi6VdlQ+nY4ly2QUmIRNGRhWDIiBiilEVRc0/k3
-	68jdYvnGVCLN83gsD23YB5R4D1xAIbWUDGUflZPmFVnAfwxNZGvwE5fn1dmS2d7oDMmgbP+6/B9
-	1OpCU40ctK2ibto7bZkaxzBs6DjxTB0h8utaqG7y2YaNbO2xEG8USek001nDV0LvtgWdFJzPGtI
-	VAmJtHhYIkPnFTQL8N3i7+9HYnpVVCvyXvPxGRmkdOOF9Aq3clXBldJNpYshZRH1NbaE2yhpduv
-	zTXNaTS59IoqYFWxGA3kFJ2bI5ZC3WmElmAmNsg==
-X-Received: by 2002:a05:7301:4902:b0:376:f63a:cb24 with SMTP id 5a478bee46e88-376f63ad124mr3435535eec.3.1794442611578;
-        Wed, 11 Nov 2026 16:16:51 -0800 (PST)
-Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:182d:659:ffce:39a4])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37520bf3e18sm40492697eec.16.2026.11.11.16.16.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 16:16:50 -0800 (PST)
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: "Alfred E . Heggestad" <aeh@db.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <chleroy@kernel.org>
-Cc: Oliver Neukum <oneukum@suse.com>,
-	Thomas Reitmayr <treitmayr@devbase.at>,
-	Shaun Jackman <sjackman@gmail.com>,
-	Daniel Gimpelevich <daniel@gimpelevich.san-francisco.ca.us>,
-	Florian Euchner <florian.euchner@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Xue Lei <Xue.Lei@windriver.com>,
-	linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] Input: cm109 - remove driver
-Date: Wed, 11 Nov 2026 16:16:42 -0800
-Message-ID: <20261112001642.243554-3-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.56.0.567.gdb80ae8cd5-goog
-In-Reply-To: <20261112001642.243554-1-dmitry.torokhov@gmail.com>
-References: <20261112001642.243554-1-dmitry.torokhov@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=LiyQBrjH;
+	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=Is9Ut6P2;
+	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=dkS5gAXD
+Received: from pps.filterd (m0098572.ppops.net [127.0.0.1])
+	by mx0b-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ABMbm3R2518831;
+	Wed, 11 Nov 2026 16:22:49 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
+	cc:content-id:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	pfptdkimsnps; bh=K5nOGCws0utlYgFQ7XA/tXtyIRcvB2rcmUbXCbJtvTQ=; b=
+	LiyQBrjHnQD8ttSWyuftwIQFNPJwtcFp94eb8Bb+DHbRvJk8N4MyiVobHFe0vMg3
+	2BBxlObn25CzG/Byie7Loxs3wvST/FtnlWY/H472EnhwKJVVyXc8Ybj/JkGFjYVS
+	DJec1WsdkSUJyzgjLlgwvHBXkZXbE1sOCq/o5dBBYht5gfV1x5wQibdel0aohG6u
+	3Y9sXrJkdJTp7Q34mxjX/ezMmoxcv3CZ+JKvJq9UEb2ks2+1YExABufcZPYFilUM
+	frDU1isOWlL8cPvZRJ+r9Al1XKkZcNnZzmuw5v9Q4/p3hufmc2OII0WWhl+meOcW
+	e4aPf4eAqP2QQ2ujtHkD8w==
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
+	by mx0b-00230701.pphosted.com (PPS) with ESMTPS id 4hvvaytwb9-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 11 Nov 2026 16:22:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1794442968; bh=K5nOGCws0utlYgFQ7XA/tXtyIRcvB2rcmUbXCbJtvTQ=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=Is9Ut6P2ceSRW5vZF9HvJjjvhXmmMDdrTSt84GE/ePZrPmcJkC1J7AHKdwiZzrpcc
+	 oZy3lAWvSyt1bG5z9xwZJv/ZKS0JcQdffxfBtpZr/5abI2UPkxKB1u9PMLdA1LebRd
+	 t/pvDyJnhw4ht1XQl5/TtFZaSDE8Rto1lpZqPaLKePO5cYuFD9sG2xhAMfxs75ncKN
+	 ENmhKDZEsLH/Ak1jzKPXvho5ICy+EGlYYPAArMZHnORkxZfr5AV7Spjzznzn3IcihJ
+	 qQzuneiCsC7WSMVrJpCuJeApSjuqMdQEpb8Ruc4wEHQt88cPIUKMuD96c640t+aIbs
+	 JZgZNnFZt3uLw==
+Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com [10.205.2.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id C139B405B4;
+	Thu, 12 Nov 2026 00:22:47 +0000 (UTC)
+Received: from o365relay-in.synopsys.com (sv2-o365relay7.synopsys.com [10.202.1.143])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "o365relay-in.synopsys.com", Issuer "Sectigo Public Server Authentication CA OV R36" (not verified))
+	by mailhost.synopsys.com (Postfix) with ESMTPS id 5957DA0899;
+	Thu, 12 Nov 2026 00:22:47 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=dkS5gAXD;
+	dkim-atps=neutral
+Received: from DM2PR0701CU001.outbound.protection.outlook.com (mail-dm2pr0701cu00105.outbound.protection.outlook.com [40.93.13.69])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
+	(Client CN "mail.protection.outlook.com", Issuer "DigiCert SHA2 Secure Server CA" (not verified))
+	by o365relay-in.synopsys.com (Postfix) with ESMTPS id 7F2EF2208AE;
+	Thu, 12 Nov 2026 00:22:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=J8cu5bAxl4rwIaIiBfC1896dFpBDKF+Piimn3ES62FLvedZ+jO1RHqYlXva/NSsBs1+kLPXaIGSuA9O4QAjbniznLqnMr+hLudNJswJSOV5E2DyCy9wpoEhlsxlgLozt83DDVtXQtxXZq8CFzr8yDlqHvdXAarYNFEqt/H8E16Hav4lxncvVAKPMtxS1D1O5m4pXZuP+UBlFeuRrlXw+bO4eNjPAG+rxd7zY0yEouqK7gmrAQbl+nr/o95OOOQYyDQXlWQ+unKNXq8Rfok5cnxkmu4pYnwe0udkR3KC2ExWc/t/rJQWdn/o3T/E3nNMBPK7sfFVsahSBMR5fUw+S7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K5nOGCws0utlYgFQ7XA/tXtyIRcvB2rcmUbXCbJtvTQ=;
+ b=jtCj/oh1w2QLLKNbHRv/djQoGcwE2FI036S+YZyB7oI3dA3iqB2rL8UYUbzRTcmVEMwb2QGTWpgacB789LOfTOniI65wzTalwS40xdI4E8jeo4pPCMjQNnxxga7O+NVBFJZDbmHrpjYOkbBpRT6wGi2P2vrAUnmtS0ygYpIduk5Dn3osENjjNsNy2I2LSaFH4GGgUEVJvcB9zVQhdD+j++gQsdgyq/k0Q13eK5tlJNXKNQKLusLP7KWh/pf58Rb0wmlqYQjizg2sEDMGFntoDb8OEn2NtNkzNZdWIkL3aDzDOC933Yk/Bb4yBK8gFvIKUFQCiE5nvhh8QPhtRgVFdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K5nOGCws0utlYgFQ7XA/tXtyIRcvB2rcmUbXCbJtvTQ=;
+ b=dkS5gAXDFQdQ6GXOJMd/LxmFqELTU3edkU0YE6Y8/2IxtRlmcFoS5GPkw4Pv6/MRFK1GgQcu7jSFD8dBhZ5f+PCTTATZbXyUd82EuQnwFkIqNAsg1OXO041SQl/E8AuSrjoMtpSxDUJBuciuqQ6n7UiqPOvQF5qv3PP1raGem4I=
+Received: from SJ0PR12MB7473.namprd12.prod.outlook.com (2603:10b6:a03:48d::8)
+ by DS2PR12MB9712.namprd12.prod.outlook.com (2603:10b6:8:275::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Thu, 12 Nov
+ 2026 00:22:36 +0000
+Received: from SJ0PR12MB7473.namprd12.prod.outlook.com
+ ([fe80::fd38:a665:ba4:95d7]) by SJ0PR12MB7473.namprd12.prod.outlook.com
+ ([fe80::fd38:a665:ba4:95d7%6]) with mapi id 15.21.0615.008; Thu, 12 Nov 2026
+ 00:22:36 +0000
+X-SNPS-Relay: synopsys.com
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+To: Uttkarsh Aggarwal <uttkarsh.aggarwal@oss.qualcomm.com>
+CC: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH] usb: dwc3: wait for USB2 PHY clock recovery during
+ role switch
+Thread-Topic: [RFC PATCH] usb: dwc3: wait for USB2 PHY clock recovery during
+ role switch
+Thread-Index: AQHdaDd17Bzy7/zfo0KvmaNZFXsN+bcpp2WA
+Date: Thu, 12 Nov 2026 00:22:36 +0000
+Message-ID: <avUBz_JfXLIqK5yj@vbox>
+References: <20261030062509.3475322-1-uttkarsh.aggarwal@oss.qualcomm.com>
+In-Reply-To: <20261030062509.3475322-1-uttkarsh.aggarwal@oss.qualcomm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=synopsys.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ0PR12MB7473:EE_|DS2PR12MB9712:EE_
+x-ms-office365-filtering-correlation-id: 86141729-d4f1-4df0-d089-08df40530db0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|38070700021|261021121427099003|261021123027099003|261022075727099003|261022113327099003|261022105027099003|261028144727099003|56012099006|5023799004|261026121527099003|261026140227099003|11063799006|261102123227099003|10067099003|22082099003|6133799003|18002099003;
+x-microsoft-antispam-message-info:
+ I+SUZJtPrhrykMc75929tUbg6zrEZNgdB7XqSFYSd7dvRrQ8AmjRHaLbbAwcVGYlWoxpiHThIbA6ZsDREX/UHnOBWXCbHfkLIuFzU/DlWLgqTD+2kEutkiz58ukU6e8MCvYEpZiKJCTFHS+8y8Mo0aRocDM1F28JPjkqixla45w/YI91a6ZVhHCmMbynK0ErzEamdZAqjOC2ONBlmKbhj/mmIIW9dukT+nNatwePhuW+Enf6f6bmR3zI2wBlQZOchpO1pPycjYRchRQBdscHrLIirGVlIYPHrk0A00izjlVidaSXQQvQhtxa4Us/Tvn/QLV7LyYwEmyhnd6VV98+Ytf4F3vBdL/mkMw91syM0KyLqKkz7vSZkY6l1FT/QMFy0dXJmJEzsELTnYzbpkgHw63FX3Dr0+DNz25hJzaSRAUmYA5I0ihHkD7Qw9VYloU21TGsJvssbiOlkcWcwSlCcWqX+BrkLuVTHmswokA4L3mWM4ja4QSZzWWVGES6oP6Ph25YqGS8GpbGlaASkVdhQf1wvVErDzKcxlEhZWMwuGssfXE7n7jyRt+sC/CKIaXRkNBs63GlE7lMcIHzndYNggI+QlvJrh5FajsBG9uto6M6fASf58JqETEJ6ly7kf67tAl2KnjoChCmi+8GwLleDZo4rBoyBhxnNmdXTpT/t4eIgmvvTQCtGqLYHqEvSLDB9+EYjbLkJtaSb9LXmrDgIc8/HG4dbAwcgdIW9jkfUlg=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR12MB7473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(38070700021)(261021121427099003)(261021123027099003)(261022075727099003)(261022113327099003)(261022105027099003)(261028144727099003)(56012099006)(5023799004)(261026121527099003)(261026140227099003)(11063799006)(261102123227099003)(10067099003)(22082099003)(6133799003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?NFptbUhOUkRFc3d6cUVRN21sbCtnNGN5N2ovUUw2SHpSTVlQYTNKdjV3VWxK?=
+ =?utf-8?B?YTVFZi9wQStUSmJZWlVMcVU5S1VmUHh1QjI1aXY1RjJnaHBkdDVMYkJvS3Va?=
+ =?utf-8?B?OWN1SlZteWRqMFZzZ0tGMWVaalVkS0x2M3ViT2I3R3VCQ2pmeE9kYzhwd2lZ?=
+ =?utf-8?B?Vk5OSVJ0MW9Qc2tkUktEOGc3d0xJTERKSjB3WEhUR2w1b2N3VnJPUFRzMWJn?=
+ =?utf-8?B?cFVRREExM0o1R0huMEsyL2dMRXRKRU5RT0FPbXRyZXpTZHF2alVFMWRhckdr?=
+ =?utf-8?B?UnV6eFdCMm0ydFd3bFdjUm9hLytET0tubnFJVGVuamlYaHZlRjFncEZTai9m?=
+ =?utf-8?B?OXRmYnRjK0pFZ0JnYllJZjJXaEVzYkVETmNlU3ZYZmNoNjJnSVB2cUR1bkJG?=
+ =?utf-8?B?YU1sTktWbkptYXNqcVkzOENhcVQ5Y2RvVjE5amR2V09TemQzV0pKYUNtQktF?=
+ =?utf-8?B?YUlYMzZFUGkrV3hoVGNGT0hBbjZwR3RaYzlTVXZiZ25BeHJva3hDNjEybzJj?=
+ =?utf-8?B?RW81eXc0a1c5TldNVVdJVXVWVHdjVjZ3NG1NRzhQVHZlR1lBM0VoZ0dId3Qr?=
+ =?utf-8?B?Q2RCaXNmNDdkTDNxY0tVTm95MGlIcENBbU5iaUdkZlltOThkaVoycHpIKzFj?=
+ =?utf-8?B?MTczK3d3QXR0cTVOaWtIT3FJZ1RYRko5em95WGI0ejdCZDFJVE1NaU1sLzV6?=
+ =?utf-8?B?WllTTit6MlRPNjY5Zk1iSDlDN2dveVI5R0pRQ0VhTWhMVkdNOGxzc2ZGaUFH?=
+ =?utf-8?B?TlpnQmVuTUZwNC9kVENJemdqSjAxWmpYVmhWZjFwTjVXS29yd2xWM0lodncx?=
+ =?utf-8?B?R3o4U2VGRFRGQjc0YlA4QlRueTJDTVRSUk9GVGxuN2pSU1FMSVJEUmxvVmp2?=
+ =?utf-8?B?WGhYSzVvZzZ5RnYvOGQxZkZIMHh1Tm1aZ2ZWUTJ0VW5UK3RDWTBuUzFqV294?=
+ =?utf-8?B?U2RXcm5QZ29xNHZDM2tZbFlLMVdlNFVwdkwzWW5YbS9pUyt6V3ZIOTE0czVZ?=
+ =?utf-8?B?UlN1MzJEOW1ZbW9nQ3VlWEN0RWdjSmlzdHpERXIyR3EvTmh1eTRkai9NaDJv?=
+ =?utf-8?B?ZGxySEhuckFMekM3Ykc0R2dMMnBnU2wrU3FVRnJQWUJzUGtWdXBBQVovSSsv?=
+ =?utf-8?B?Y3dFaTVPL3hmZ1JjV3Z4YzRtdmpDbVF5dmVaZTE5OGlXaE5zSlQyYnJ6ZnBz?=
+ =?utf-8?B?dmZWQ2dDZ3VHSFhmRHBuMy84bHdKUzhwZlZKNG9IaXE4b2hkLzZ6MXdYOU9a?=
+ =?utf-8?B?NW4yeFZ3Z0l6OHk2NHR5Q0U4eFJUQVRTUTRxTmlYb2poT3RVS1dLZDRyekpx?=
+ =?utf-8?B?MEtrV1JVMDlwQmoyRVpkVFVSWnVlb3UwZ2hSczl1V2NqblFkOVBJRkhrNHAz?=
+ =?utf-8?B?OGVyTnJSVENqNE5haVBmVkxDcDNQTmtKWnhiNTFBSTNUYksybWtDUk13MW52?=
+ =?utf-8?B?T2tBVXBFUFd4VW54bUptdTUvNmROeUMva1RMR1hYYVhQMmN1ZmI3L1VTT2s0?=
+ =?utf-8?B?ZDVjSTlTTmNrLzdqV0txLzZJZktBbzh0MHBJSjdDWXlBYTNRb2cxMkpBeFpT?=
+ =?utf-8?B?ZVcyT1BhRzdCY05oSmJDM1l3NTBnUTIxcFJURGxXQmpGN2FMOVhsbTIzbnZn?=
+ =?utf-8?B?NElBTUVrOEdLSXpxU3FTZXdJRGQrQ1c5eVMyRHB2QUduQ3VMYTlRUlVKdDFh?=
+ =?utf-8?B?V3RjeUw4dTdacUJVUUtuTGRyWlBlTmUvZXAyTkNHTEJpYzhKVHhJbTFwMXZD?=
+ =?utf-8?B?TW5Ba1lBL2tBb3ZlSFhxRXJyenZqRDRhQU5yNlplZW9MWFZ4RWwya05uTmdv?=
+ =?utf-8?B?Z0dVK1dCVk5ZRWEwVVMzNEl6Vm9HWTRVNUFkTkZ0RnNQaG5SY2Q3bUdhUDQ3?=
+ =?utf-8?B?ZUpyWTRaMGdEaEJOdEk2bjFkK255VG5DSmNWQlRJejVZUU5GYWswQjZvQTFQ?=
+ =?utf-8?B?VXJGdjI5dkNBZVJWaGs2RzdMY2JlUjRzbWkwTFNNaWU0b0lkZTNNSTdqUkNa?=
+ =?utf-8?B?VUpVajIyenNDaDEwL2hXWlYrV1NhT25acTNTMmJ1dndSbUxWQ2J4L3RzVUZx?=
+ =?utf-8?B?dWFlenZMT2hDblZwZGhvSCtyTFl0YzlTNlRuSVFlcTRFUTh3UTNrN29mRlN6?=
+ =?utf-8?B?ZEVPZGFkOE42Q2JSQnVycUh4VVR1dytvN0QybUtzcVUxb1Y2M0QzVU8wMzhh?=
+ =?utf-8?B?aHBmdDcxcDBMVjF3Y1NBZWx5cGV2aFlZZ2FIKy9iV0k0bVJDQU94VDRBVFVs?=
+ =?utf-8?B?SGtGeEZ6Q3NoR1RVa2YxdmJIa2JocDRyQ0lya2FSa1k3aERhdXpJaDY3dDZH?=
+ =?utf-8?B?cFFzUytmck13L2dFU3lvNHg5bUY3UFhJL1owaGtZejA2bFdQaHlhdz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <572DEA6F2825AE4DBDDB7943D15144AF@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -114,1051 +221,103 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Exchange-RoutingPolicyChecked:
+	nsZPg2d9+GQlr9VcTSckGqVYDL8AtaOKAy1QscV0J9bFiE3jZ7SVboRehy5gb44fGStJTVolO1Q636ltHXCverXx0754GMJfuk5GIQvJYf1V0k2vn+okqjSA9aCpvZK2kJKogq/VTI8V0Wepqq5RyTrsGOIBqc095uwi84BMtRb7z+wLsoj+rGvuoYR9Aq5j/czQHgi6dqoVs++HjQl3fMo7jEK8ThhwlPEd0BMVPk0jClHIWJPXAPCykj7e4zbou0MD50n+q/n49un7+B09iziNGNf6bW7KgHdTu+yxCqHIlqyeVJrG28yfs/S+2VWhiLSwIAsMFAAHQsMKu1ssMA==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	8hXCAIYpfoPZL6ek/ixuY6RfeADbRSL4ZyMBPrr3NN5rL2mm/hUiq1sZ9AKjLBAz42MrPm5p7+BMUY19hwFWM4o4s9UKhVBIT/qYdJRElsMzCqPcPBJEn6MoWrPytPkUyvnaZ9WxFiLWb/O2VoXnbhNsxsnz8vXdveSHY4fFdNm3Xg5FzKr6UO7M0AsYfal+CwVHpwygaVuAbSsJ+tXgjyW2obKq/JOemLIO/69+6oBz7Vv4JoGKK0gB5Zl4uDNih1dErTW2iO+cV0ujkoOcY22t/MKXLJfiTjcRZUZzguV1YQs1WH0vJersG7/grlRUMkTwKRVgropM9AzhADdgDSS4AUMWpBfrnc3DlnegPf4LgJzki10yW5x7JGiKz/MxffDTWfsWQfCnFMacR8YvqmCyMvNPhK31gybLqaZeArz/Goo2AqfTluK2XRtX27q2IQusB6QEsdmhS/VKASSZLJo/OY0kO+pBq03lcli/uHqGhECMyB56LN6o7q6dAiDxPu/kAbXaBnFjEz1ljC1XW3+GLyu5bpcynWCnpXhTPpq36gmH1gzmXXyFPP44eRZLTHLU/scjxirSZjFdkG9Pq79Z8yqKyxTjlVdUbNTp0mY0ZlTqPeC6nngOZB8kVZj8Zy8ptcH8rtdHtlJdtdvwVQ==
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB7473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86141729-d4f1-4df0-d089-08df40530db0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2026 00:22:36.5588
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fhAbCZgok5DVB8DtdhP6nYWocXHf1QzSEcXrPxLaWKinoNf9weO62zE8S+VTzNBPEG/e+1xbLHdHEJ0ZxzHT9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9712
+X-Proofpoint-GUID: KnuUC5lBnAZUsgYzoz5Oh0FsnPPMmJQq
+X-Proofpoint-ORIG-GUID: KnuUC5lBnAZUsgYzoz5Oh0FsnPPMmJQq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDAwMSBTYWx0ZWRfX5IWZMNvgJFtq
+ 36+nEd9MSNLbcVlLExry7AgfXg7cDNv1AzJjLDlluOhw9nWcV2WPFnOZnqiaEI61EblBzbyYPng
+ SAtg1cc9DfkmpCLLJTaAaBbEVPE0cA1Nhr/AvlKMFNhp4+M3i5jFR9Q/VI3H3kfLfqMwSwGH18e
+ L7EZhh6D3rSI6372+oBzXYwDncXRWufUxksZ4fDAbkarHscd0Q9JNeMOe0B+xSkbDhV45j/H56p
+ tDL3MfEVpG3qYr2RlPmdci50Q3RZOWomP+/Asq+Lupfw9fyBmkmtEGFf6tfGUFgkp3HfrbFP57V
+ mBmsTzUhXq5TDPfI/hMBIIhc+iKVEGHFk/hTbtkIPRiKpUHVsWe3aWMLis3/5oXjEbyWiD1wR/a
+ SqorMwExov2wDeusM+vUf8uRLf49loXAUxjPCiWcu7MfDuHRKBbj1nBiZkqlH5u5ao9z3BBg1yi
+ 3q9xMF7ZEUgaCyhaoIg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDAwMSBTYWx0ZWRfX6gfBefhJVWgu
+ kWUw44HHjLJCrvtK+kf/JnfZqSggDKCeho1wcDOBEBr6mmdES/cRsBtCZRIKrSKhIslaTgECo1n
+ wg8F5FouGBGQY+hfVrc0D99NqVLo/mQ=
+X-Authority-Analysis: v=2.4 cv=VNdIDNPX c=1 sm=1 tr=0 ts=6af506d8 cx=c_pps
+ a=t4gDRyhI9k+KZ5gXRQysFQ==:117 a=t4gDRyhI9k+KZ5gXRQysFQ==:17
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=qPHU084jO2kA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=tU_645BZ7FZt8VqRJtHG:22 a=jSPayVjLy6xbsuKauFBc:22
+ a=EUspDBNiAAAA:8 a=oUALdR2W8bb3cd-rQ0cA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-11_06,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam
+ policy=outbound_active_cloned score=0 clxscore=1015 priorityscore=1501
+ malwarescore=0 lowpriorityscore=0 impostorscore=0 phishscore=0 adultscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 classifier=typeunknown authscore=0
+ authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2611040001 definitions=main-2611120001
 
-The cm109 driver was written in 2007-2008 (modeled after yealink) for
-four mid-2000s USB VoIP/Skype handsets (Komunikate KIP1000, Genius
-G-talk, Allied-Telesis Corega USBPH01, and ATCom AU-100) built around
-the C-Media CM109 USB audio and HID controller (0x0d8c:0x000e). Audio
-was handled by snd-usb-audio, while cm109 polled a 4x4 phone keypad
-matrix and drove a buzzer wired to the chip's GPIO pins via vendor HID
-reports, relying on a module parameter (phone=...) to select the phone
-keymap.
-
-The mid-2000s userspace VoIP/Skype bridge ecosystem for these handsets
-is long defunct, the driver has had no new hardware support since 2008
-(and has had broken keycodesize = sizeof(unsigned char) for
-KEY_NUMERIC_* keycodes > 255), while its custom URB state machine
-continues to generate syzbot crashes.
-
-Furthermore, because 0x0d8c:0x000e is the generic C-Media CM109 VID:PID
-and was added to hid_ignore_list[] so cm109 could claim the USB
-interface, cm109 actively interferes with non-phone CM109 hardware
-still in use today. Amateur radio interfaces (Direwolf, AllStarLink,
-SVXLink, UniPager, Hamlib) must blacklist cm109 so usbhid can expose
-/dev/hidraw* and to prevent cm109 from pulsing the GPIO pins (which
-keys the radio transmitter's PTT line) when the input device is
-opened. Standard USB headsets with 0x0d8c:0x000e can use usbhid
-directly via the chip's standard HID Consumer Page volume and mute
-descriptors once the hid_ignore_list[] entry is removed. Remove the
-driver, its Kconfig and Makefile entries, and the HID ignore-list
-entry.
-
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/hid/hid-ids.h       |   1 -
- drivers/hid/hid-quirks.c    |   1 -
- drivers/input/misc/Kconfig  |  12 -
- drivers/input/misc/Makefile |   1 -
- drivers/input/misc/cm109.c  | 940 ------------------------------------
- 5 files changed, 955 deletions(-)
- delete mode 100644 drivers/input/misc/cm109.c
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index acfd6fafed73..4f6fe0986b28 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -355,7 +355,6 @@
- #define USB_DEVICE_ID_NITROKEY_U2F	0x4287
- 
- #define USB_VENDOR_ID_CMEDIA		0x0d8c
--#define USB_DEVICE_ID_CM109		0x000e
- #define USB_DEVICE_ID_CMEDIA_HS100B	0x0014
- #define USB_DEVICE_ID_CM6533		0x0022
- 
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index f4735b0f01ec..d550dff92c66 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -846,7 +846,6 @@ static const struct hid_device_id hid_ignore_list[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CIDC, 0x0103) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI470X) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI4713) },
--	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM109) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYPRESS, USB_DEVICE_ID_CYPRESS_HIDCOM) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYPRESS, USB_DEVICE_ID_CYPRESS_ULTRAMOUSE) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DEALEXTREAME, USB_DEVICE_ID_DEALEXTREAME_RADIO_SI4701) },
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 955cca77e9fe..b108776ae09e 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -469,18 +469,6 @@ config INPUT_POWERMATE
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called powermate.
- 
--config INPUT_CM109
--	tristate "C-Media CM109 USB I/O Controller"
--	depends on USB_ARCH_HAS_HCD
--	select USB
--	help
--	  Say Y here if you want to enable keyboard and buzzer functions of the
--	  C-Media CM109 usb phones. The audio part is enabled by the generic
--	  usb sound driver, so you might want to enable that as well.
--
--	  To compile this driver as a module, choose M here: the module will be
--	  called cm109.
--
- config INPUT_REGULATOR_HAPTIC
- 	tristate "Regulator haptics support"
- 	depends on REGULATOR
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index d4576869aff9..46aadeaba67b 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -26,7 +26,6 @@ obj-$(CONFIG_INPUT_ATMEL_CAPTOUCH)	+= atmel_captouch.o
- obj-$(CONFIG_INPUT_AW86927)		+= aw86927.o
- obj-$(CONFIG_INPUT_BBNSM_PWRKEY)	+= nxp-bbnsm-pwrkey.o
- obj-$(CONFIG_INPUT_BMA150)		+= bma150.o
--obj-$(CONFIG_INPUT_CM109)		+= cm109.o
- obj-$(CONFIG_INPUT_CMA3000)		+= cma3000_d0x.o
- obj-$(CONFIG_INPUT_CMA3000_I2C)		+= cma3000_d0x_i2c.o
- obj-$(CONFIG_INPUT_COBALT_BTNS)		+= cobalt_btns.o
-diff --git a/drivers/input/misc/cm109.c b/drivers/input/misc/cm109.c
-deleted file mode 100644
-index 353d3c1d347d..000000000000
---- a/drivers/input/misc/cm109.c
-+++ /dev/null
-@@ -1,940 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * Driver for the VoIP USB phones with CM109 chipsets.
-- *
-- * Copyright (C) 2007 - 2008 Alfred E. Heggestad <aeh@db.org>
-- */
--
--/*
-- *   Tested devices:
-- *	- Komunikate KIP1000
-- *	- Genius G-talk
-- *	- Allied-Telesis Corega USBPH01
-- *	- ...
-- *
-- * This driver is based on the yealink.c driver
-- *
-- * Thanks to:
-- *   - Authors of yealink.c
-- *   - Thomas Reitmayr
-- *   - Oliver Neukum for good review comments and code
-- *   - Shaun Jackman <sjackman@gmail.com> for Genius G-talk keymap
-- *   - Dmitry Torokhov for valuable input and review
-- *
-- * Todo:
-- *   - Read/write EEPROM
-- */
--
--#include <linux/kernel.h>
--#include <linux/init.h>
--#include <linux/slab.h>
--#include <linux/module.h>
--#include <linux/moduleparam.h>
--#include <linux/rwsem.h>
--#include <linux/usb/input.h>
--
--#define DRIVER_VERSION "20080805"
--#define DRIVER_AUTHOR  "Alfred E. Heggestad"
--#define DRIVER_DESC    "CM109 phone driver"
--
--static char *phone = "kip1000";
--module_param(phone, charp, S_IRUSR);
--MODULE_PARM_DESC(phone, "Phone name {kip1000, gtalk, usbph01, atcom}");
--
--enum {
--	/* HID Registers */
--	HID_IR0 = 0x00, /* Record/Playback-mute button, Volume up/down  */
--	HID_IR1 = 0x01, /* GPI, generic registers or EEPROM_DATA0       */
--	HID_IR2 = 0x02, /* Generic registers or EEPROM_DATA1            */
--	HID_IR3 = 0x03, /* Generic registers or EEPROM_CTRL             */
--	HID_OR0 = 0x00, /* Mapping control, buzzer, SPDIF (offset 0x04) */
--	HID_OR1 = 0x01, /* GPO - General Purpose Output                 */
--	HID_OR2 = 0x02, /* Set GPIO to input/output mode                */
--	HID_OR3 = 0x03, /* SPDIF status channel or EEPROM_CTRL          */
--
--	/* HID_IR0 */
--	RECORD_MUTE   = 1 << 3,
--	PLAYBACK_MUTE = 1 << 2,
--	VOLUME_DOWN   = 1 << 1,
--	VOLUME_UP     = 1 << 0,
--
--	/* HID_OR0 */
--	/* bits 7-6
--	   0: HID_OR1-2 are used for GPO; HID_OR0, 3 are used for buzzer
--	      and SPDIF
--	   1: HID_OR0-3 are used as generic HID registers
--	   2: Values written to HID_OR0-3 are also mapped to MCU_CTRL,
--	      EEPROM_DATA0-1, EEPROM_CTRL (see Note)
--	   3: Reserved
--	 */
--	HID_OR_GPO_BUZ_SPDIF   = 0 << 6,
--	HID_OR_GENERIC_HID_REG = 1 << 6,
--	HID_OR_MAP_MCU_EEPROM  = 2 << 6,
--
--	BUZZER_ON = 1 << 5,
--
--	/* up to 256 normal keys, up to 15 special key combinations */
--	KEYMAP_SIZE = 256 + 15,
--};
--
--/* CM109 protocol packet */
--struct cm109_ctl_packet {
--	u8 byte[4];
--} __attribute__ ((packed));
--
--enum { USB_PKT_LEN = sizeof(struct cm109_ctl_packet) };
--
--/* CM109 device structure */
--struct cm109_dev {
--	struct input_dev *idev;	 /* input device */
--	struct usb_device *udev; /* usb device */
--	struct usb_interface *intf;
--
--	/* irq input channel */
--	struct cm109_ctl_packet *irq_data;
--	dma_addr_t irq_dma;
--	struct urb *urb_irq;
--
--	/* control output channel */
--	struct cm109_ctl_packet *ctl_data;
--	dma_addr_t ctl_dma;
--	struct usb_ctrlrequest *ctl_req;
--	struct urb *urb_ctl;
--	/*
--	 * The 3 bitfields below are protected by ctl_submit_lock.
--	 * They have to be separate since they are accessed from IRQ
--	 * context.
--	 */
--	unsigned irq_urb_pending:1;	/* irq_urb is in flight */
--	unsigned ctl_urb_pending:1;	/* ctl_urb is in flight */
--	unsigned buzzer_pending:1;	/* need to issue buzz command */
--	spinlock_t ctl_submit_lock;
--
--	unsigned char buzzer_state;	/* on/off */
--
--	/* flags */
--	unsigned open:1;
--	unsigned resetting:1;
--	unsigned shutdown:1;
--
--	/* This mutex protects writes to the above flags */
--	struct mutex pm_mutex;
--
--	unsigned short keymap[KEYMAP_SIZE];
--
--	char phys[64];		/* physical device path */
--	int key_code;		/* last reported key */
--	int keybit;		/* 0=new scan  1,2,4,8=scan columns  */
--	u8 gpi;			/* Cached value of GPI (high nibble) */
--};
--
--/******************************************************************************
-- * CM109 key interface
-- *****************************************************************************/
--
--static unsigned short special_keymap(int code)
--{
--	if (code > 0xff) {
--		switch (code - 0xff) {
--		case RECORD_MUTE:	return KEY_MICMUTE;
--		case PLAYBACK_MUTE:	return KEY_MUTE;
--		case VOLUME_DOWN:	return KEY_VOLUMEDOWN;
--		case VOLUME_UP:		return KEY_VOLUMEUP;
--		}
--	}
--	return KEY_RESERVED;
--}
--
--/* Map device buttons to internal key events.
-- *
-- * The "up" and "down" keys, are symbolised by arrows on the button.
-- * The "pickup" and "hangup" keys are symbolised by a green and red phone
-- * on the button.
--
-- Komunikate KIP1000 Keyboard Matrix
--
--     -> -- 1 -- 2 -- 3  --> GPI pin 4 (0x10)
--      |    |    |    |
--     <- -- 4 -- 5 -- 6  --> GPI pin 5 (0x20)
--      |    |    |    |
--     END - 7 -- 8 -- 9  --> GPI pin 6 (0x40)
--      |    |    |    |
--     OK -- * -- 0 -- #  --> GPI pin 7 (0x80)
--      |    |    |    |
--
--     /|\  /|\  /|\  /|\
--      |    |    |    |
--GPO
--pin:  3    2    1    0
--     0x8  0x4  0x2  0x1
--
-- */
--static unsigned short keymap_kip1000(int scancode)
--{
--	switch (scancode) {				/* phone key:   */
--	case 0x82: return KEY_NUMERIC_0;		/*   0          */
--	case 0x14: return KEY_NUMERIC_1;		/*   1          */
--	case 0x12: return KEY_NUMERIC_2;		/*   2          */
--	case 0x11: return KEY_NUMERIC_3;		/*   3          */
--	case 0x24: return KEY_NUMERIC_4;		/*   4          */
--	case 0x22: return KEY_NUMERIC_5;		/*   5          */
--	case 0x21: return KEY_NUMERIC_6;		/*   6          */
--	case 0x44: return KEY_NUMERIC_7;		/*   7          */
--	case 0x42: return KEY_NUMERIC_8;		/*   8          */
--	case 0x41: return KEY_NUMERIC_9;		/*   9          */
--	case 0x81: return KEY_NUMERIC_POUND;		/*   #          */
--	case 0x84: return KEY_NUMERIC_STAR;		/*   *          */
--	case 0x88: return KEY_ENTER;			/*   pickup     */
--	case 0x48: return KEY_ESC;			/*   hangup     */
--	case 0x28: return KEY_LEFT;			/*   IN         */
--	case 0x18: return KEY_RIGHT;			/*   OUT        */
--	default:   return special_keymap(scancode);
--	}
--}
--
--/*
--  Contributed by Shaun Jackman <sjackman@gmail.com>
--
--  Genius G-Talk keyboard matrix
--     0 1 2 3
--  4: 0 4 8 Talk
--  5: 1 5 9 End
--  6: 2 6 # Up
--  7: 3 7 * Down
--*/
--static unsigned short keymap_gtalk(int scancode)
--{
--	switch (scancode) {
--	case 0x11: return KEY_NUMERIC_0;
--	case 0x21: return KEY_NUMERIC_1;
--	case 0x41: return KEY_NUMERIC_2;
--	case 0x81: return KEY_NUMERIC_3;
--	case 0x12: return KEY_NUMERIC_4;
--	case 0x22: return KEY_NUMERIC_5;
--	case 0x42: return KEY_NUMERIC_6;
--	case 0x82: return KEY_NUMERIC_7;
--	case 0x14: return KEY_NUMERIC_8;
--	case 0x24: return KEY_NUMERIC_9;
--	case 0x44: return KEY_NUMERIC_POUND;	/* # */
--	case 0x84: return KEY_NUMERIC_STAR;	/* * */
--	case 0x18: return KEY_ENTER;		/* Talk (green handset) */
--	case 0x28: return KEY_ESC;		/* End (red handset) */
--	case 0x48: return KEY_UP;		/* Menu up (rocker switch) */
--	case 0x88: return KEY_DOWN;		/* Menu down (rocker switch) */
--	default:   return special_keymap(scancode);
--	}
--}
--
--/*
-- * Keymap for Allied-Telesis Corega USBPH01
-- * http://www.alliedtelesis-corega.com/2/1344/1437/1360/chprd.html
-- *
-- * Contributed by july@nat.bg
-- */
--static unsigned short keymap_usbph01(int scancode)
--{
--	switch (scancode) {
--	case 0x11: return KEY_NUMERIC_0;		/*   0          */
--	case 0x21: return KEY_NUMERIC_1;		/*   1          */
--	case 0x41: return KEY_NUMERIC_2;		/*   2          */
--	case 0x81: return KEY_NUMERIC_3;		/*   3          */
--	case 0x12: return KEY_NUMERIC_4;		/*   4          */
--	case 0x22: return KEY_NUMERIC_5;		/*   5          */
--	case 0x42: return KEY_NUMERIC_6;		/*   6          */
--	case 0x82: return KEY_NUMERIC_7;		/*   7          */
--	case 0x14: return KEY_NUMERIC_8;		/*   8          */
--	case 0x24: return KEY_NUMERIC_9;		/*   9          */
--	case 0x44: return KEY_NUMERIC_POUND;		/*   #          */
--	case 0x84: return KEY_NUMERIC_STAR;		/*   *          */
--	case 0x18: return KEY_ENTER;			/*   pickup     */
--	case 0x28: return KEY_ESC;			/*   hangup     */
--	case 0x48: return KEY_LEFT;			/*   IN         */
--	case 0x88: return KEY_RIGHT;			/*   OUT        */
--	default:   return special_keymap(scancode);
--	}
--}
--
--/*
-- * Keymap for ATCom AU-100
-- * http://www.atcom.cn/products.html 
-- * http://www.packetizer.com/products/au100/
-- * http://www.voip-info.org/wiki/view/AU-100
-- *
-- * Contributed by daniel@gimpelevich.san-francisco.ca.us
-- */
--static unsigned short keymap_atcom(int scancode)
--{
--	switch (scancode) {				/* phone key:   */
--	case 0x82: return KEY_NUMERIC_0;		/*   0          */
--	case 0x11: return KEY_NUMERIC_1;		/*   1          */
--	case 0x12: return KEY_NUMERIC_2;		/*   2          */
--	case 0x14: return KEY_NUMERIC_3;		/*   3          */
--	case 0x21: return KEY_NUMERIC_4;		/*   4          */
--	case 0x22: return KEY_NUMERIC_5;		/*   5          */
--	case 0x24: return KEY_NUMERIC_6;		/*   6          */
--	case 0x41: return KEY_NUMERIC_7;		/*   7          */
--	case 0x42: return KEY_NUMERIC_8;		/*   8          */
--	case 0x44: return KEY_NUMERIC_9;		/*   9          */
--	case 0x84: return KEY_NUMERIC_POUND;		/*   #          */
--	case 0x81: return KEY_NUMERIC_STAR;		/*   *          */
--	case 0x18: return KEY_ENTER;			/*   pickup     */
--	case 0x28: return KEY_ESC;			/*   hangup     */
--	case 0x48: return KEY_LEFT;			/* left arrow   */
--	case 0x88: return KEY_RIGHT;			/* right arrow  */
--	default:   return special_keymap(scancode);
--	}
--}
--
--static unsigned short (*keymap)(int) = keymap_kip1000;
--
--/*
-- * Completes a request by converting the data into events for the
-- * input subsystem.
-- */
--static void report_key(struct cm109_dev *dev, int key)
--{
--	struct input_dev *idev = dev->idev;
--
--	if (dev->key_code >= 0) {
--		/* old key up */
--		input_report_key(idev, dev->key_code, 0);
--	}
--
--	dev->key_code = key;
--	if (key >= 0) {
--		/* new valid key */
--		input_report_key(idev, key, 1);
--	}
--
--	input_sync(idev);
--}
--
--/*
-- * Converts data of special key presses (volume, mute) into events
-- * for the input subsystem, sends press-n-release for mute keys.
-- */
--static void cm109_report_special(struct cm109_dev *dev)
--{
--	static const u8 autorelease = RECORD_MUTE | PLAYBACK_MUTE;
--	struct input_dev *idev = dev->idev;
--	u8 data = dev->irq_data->byte[HID_IR0];
--	unsigned short keycode;
--	int i;
--
--	for (i = 0; i < 4; i++) {
--		keycode = dev->keymap[0xff + BIT(i)];
--		if (keycode == KEY_RESERVED)
--			continue;
--
--		input_report_key(idev, keycode, data & BIT(i));
--		if (data & autorelease & BIT(i)) {
--			input_sync(idev);
--			input_report_key(idev, keycode, 0);
--		}
--	}
--	input_sync(idev);
--}
--
--/******************************************************************************
-- * CM109 usb communication interface
-- *****************************************************************************/
--
--static void cm109_submit_buzz_toggle(struct cm109_dev *dev)
--{
--	int error;
--
--	if (dev->buzzer_state)
--		dev->ctl_data->byte[HID_OR0] |= BUZZER_ON;
--	else
--		dev->ctl_data->byte[HID_OR0] &= ~BUZZER_ON;
--
--	error = usb_submit_urb(dev->urb_ctl, GFP_ATOMIC);
--	if (error)
--		dev_err(&dev->intf->dev,
--			"%s: usb_submit_urb (urb_ctl) failed %d\n",
--			__func__, error);
--}
--
--static void cm109_submit_ctl(struct cm109_dev *dev)
--{
--	int error;
--
--	guard(spinlock_irqsave)(&dev->ctl_submit_lock);
--
--	dev->irq_urb_pending = 0;
--
--	if (unlikely(dev->shutdown))
--		return;
--
--	if (dev->buzzer_state)
--		dev->ctl_data->byte[HID_OR0] |= BUZZER_ON;
--	else
--		dev->ctl_data->byte[HID_OR0] &= ~BUZZER_ON;
--
--	dev->ctl_data->byte[HID_OR1] = dev->keybit;
--	dev->ctl_data->byte[HID_OR2] = dev->keybit;
--
--	dev->buzzer_pending = 0;
--	dev->ctl_urb_pending = 1;
--
--	error = usb_submit_urb(dev->urb_ctl, GFP_ATOMIC);
--	if (error)
--		dev_err(&dev->intf->dev,
--			"%s: usb_submit_urb (urb_ctl) failed %d\n",
--			__func__, error);
--}
--
--/*
-- * IRQ handler
-- */
--static void cm109_urb_irq_callback(struct urb *urb)
--{
--	struct cm109_dev *dev = urb->context;
--	const int status = urb->status;
--
--	dev_dbg(&dev->intf->dev, "### URB IRQ: [0x%02x 0x%02x 0x%02x 0x%02x] keybit=0x%02x\n",
--	     dev->irq_data->byte[0],
--	     dev->irq_data->byte[1],
--	     dev->irq_data->byte[2],
--	     dev->irq_data->byte[3],
--	     dev->keybit);
--
--	if (status) {
--		if (status == -ESHUTDOWN)
--			return;
--		dev_err_ratelimited(&dev->intf->dev, "%s: urb status %d\n",
--				    __func__, status);
--		goto out;
--	}
--
--	/* Special keys */
--	cm109_report_special(dev);
--
--	/* Scan key column */
--	if (dev->keybit == 0xf) {
--
--		/* Any changes ? */
--		if ((dev->gpi & 0xf0) == (dev->irq_data->byte[HID_IR1] & 0xf0))
--			goto out;
--
--		dev->gpi = dev->irq_data->byte[HID_IR1] & 0xf0;
--		dev->keybit = 0x1;
--	} else {
--		report_key(dev, dev->keymap[dev->irq_data->byte[HID_IR1]]);
--
--		dev->keybit <<= 1;
--		if (dev->keybit > 0x8)
--			dev->keybit = 0xf;
--	}
--
-- out:
--	cm109_submit_ctl(dev);
--}
--
--static void cm109_urb_ctl_callback(struct urb *urb)
--{
--	struct cm109_dev *dev = urb->context;
--	const int status = urb->status;
--	int error;
--
--	dev_dbg(&dev->intf->dev, "### URB CTL: [0x%02x 0x%02x 0x%02x 0x%02x]\n",
--	     dev->ctl_data->byte[0],
--	     dev->ctl_data->byte[1],
--	     dev->ctl_data->byte[2],
--	     dev->ctl_data->byte[3]);
--
--	if (status) {
--		if (status == -ESHUTDOWN)
--			return;
--		dev_err_ratelimited(&dev->intf->dev, "%s: urb status %d\n",
--				    __func__, status);
--	}
--
--	guard(spinlock_irqsave)(&dev->ctl_submit_lock);
--
--	dev->ctl_urb_pending = 0;
--
--	if (unlikely(dev->shutdown))
--		return;
--
--	if (dev->buzzer_pending || status) {
--		dev->buzzer_pending = 0;
--		dev->ctl_urb_pending = 1;
--		cm109_submit_buzz_toggle(dev);
--	} else if (likely(!dev->irq_urb_pending)) {
--		/* ask for key data */
--		dev->irq_urb_pending = 1;
--		error = usb_submit_urb(dev->urb_irq, GFP_ATOMIC);
--		if (error)
--			dev_err(&dev->intf->dev,
--				"%s: usb_submit_urb (urb_irq) failed %d\n",
--				__func__, error);
--	}
--}
--
--static void cm109_toggle_buzzer_async(struct cm109_dev *dev)
--{
--	guard(spinlock_irqsave)(&dev->ctl_submit_lock);
--
--	if (dev->ctl_urb_pending) {
--		/* URB completion will resubmit */
--		dev->buzzer_pending = 1;
--	} else {
--		dev->ctl_urb_pending = 1;
--		cm109_submit_buzz_toggle(dev);
--	}
--}
--
--static void cm109_toggle_buzzer_sync(struct cm109_dev *dev, int on)
--{
--	int error;
--
--	if (on)
--		dev->ctl_data->byte[HID_OR0] |= BUZZER_ON;
--	else
--		dev->ctl_data->byte[HID_OR0] &= ~BUZZER_ON;
--
--	error = usb_control_msg(dev->udev,
--				usb_sndctrlpipe(dev->udev, 0),
--				dev->ctl_req->bRequest,
--				dev->ctl_req->bRequestType,
--				le16_to_cpu(dev->ctl_req->wValue),
--				le16_to_cpu(dev->ctl_req->wIndex),
--				dev->ctl_data,
--				USB_PKT_LEN, USB_CTRL_SET_TIMEOUT);
--	if (error < 0 && error != -EINTR)
--		dev_err(&dev->intf->dev, "%s: usb_control_msg() failed %d\n",
--			__func__, error);
--}
--
--static void cm109_stop_traffic(struct cm109_dev *dev)
--{
--	dev->shutdown = 1;
--	/*
--	 * Make sure other CPUs see this
--	 */
--	smp_wmb();
--
--	usb_kill_urb(dev->urb_ctl);
--	usb_kill_urb(dev->urb_irq);
--
--	cm109_toggle_buzzer_sync(dev, 0);
--
--	dev->shutdown = 0;
--	smp_wmb();
--}
--
--static void cm109_restore_state(struct cm109_dev *dev)
--{
--	if (dev->open) {
--		/*
--		 * Restore buzzer state.
--		 * This will also kick regular URB submission
--		 */
--		cm109_toggle_buzzer_async(dev);
--	}
--}
--
--/******************************************************************************
-- * input event interface
-- *****************************************************************************/
--
--static int cm109_input_open(struct input_dev *idev)
--{
--	struct cm109_dev *dev = input_get_drvdata(idev);
--	int error;
--
--	error = usb_autopm_get_interface(dev->intf);
--	if (error < 0) {
--		dev_err(&idev->dev, "%s - cannot autoresume, result %d\n",
--			__func__, error);
--		return error;
--	}
--
--	scoped_guard(mutex, &dev->pm_mutex) {
--		dev->buzzer_state = 0;
--		dev->key_code = -1;	/* no keys pressed */
--		dev->keybit = 0xf;
--
--		/* issue INIT */
--		dev->ctl_data->byte[HID_OR0] = HID_OR_GPO_BUZ_SPDIF;
--		dev->ctl_data->byte[HID_OR1] = dev->keybit;
--		dev->ctl_data->byte[HID_OR2] = dev->keybit;
--		dev->ctl_data->byte[HID_OR3] = 0x00;
--
--		dev->ctl_urb_pending = 1;
--		error = usb_submit_urb(dev->urb_ctl, GFP_KERNEL);
--		if (!error) {
--			dev->open = 1;
--			return 0;
--		}
--	}
--
--	dev->ctl_urb_pending = 0;
--	usb_autopm_put_interface(dev->intf);
--
--	dev_err(&dev->intf->dev, "%s: usb_submit_urb (urb_ctl) failed %d\n",
--		__func__, error);
--
--	return error;
--}
--
--static void cm109_input_close(struct input_dev *idev)
--{
--	struct cm109_dev *dev = input_get_drvdata(idev);
--
--	scoped_guard(mutex, &dev->pm_mutex) {
--		/*
--		 * Once we are here event delivery is stopped so we
--		 * don't need to worry about someone starting buzzer
--		 * again
--		 */
--		cm109_stop_traffic(dev);
--		dev->open = 0;
--	}
--
--	usb_autopm_put_interface(dev->intf);
--}
--
--static int cm109_input_ev(struct input_dev *idev, unsigned int type,
--			  unsigned int code, int value)
--{
--	struct cm109_dev *dev = input_get_drvdata(idev);
--
--	dev_dbg(&dev->intf->dev,
--		"input_ev: type=%u code=%u value=%d\n", type, code, value);
--
--	if (type != EV_SND)
--		return -EINVAL;
--
--	switch (code) {
--	case SND_TONE:
--	case SND_BELL:
--		dev->buzzer_state = !!value;
--		if (!dev->resetting)
--			cm109_toggle_buzzer_async(dev);
--		return 0;
--
--	default:
--		return -EINVAL;
--	}
--}
--
--
--/******************************************************************************
-- * Linux interface and usb initialisation
-- *****************************************************************************/
--
--struct driver_info {
--	char *name;
--};
--
--static const struct driver_info info_cm109 = {
--	.name = "CM109 USB driver",
--};
--
--enum {
--	VENDOR_ID        = 0x0d8c, /* C-Media Electronics */
--	PRODUCT_ID_CM109 = 0x000e, /* CM109 defines range 0x0008 - 0x000f */
--};
--
--/* table of devices that work with this driver */
--static const struct usb_device_id cm109_usb_table[] = {
--	{
--		.match_flags = USB_DEVICE_ID_MATCH_DEVICE |
--				USB_DEVICE_ID_MATCH_INT_INFO,
--		.idVendor = VENDOR_ID,
--		.idProduct = PRODUCT_ID_CM109,
--		.bInterfaceClass = USB_CLASS_HID,
--		.bInterfaceSubClass = 0,
--		.bInterfaceProtocol = 0,
--		.driver_info = (kernel_ulong_t) &info_cm109
--	},
--	/* you can add more devices here with product ID 0x0008 - 0x000f */
--	{ }
--};
--
--static void cm109_usb_cleanup(struct cm109_dev *dev)
--{
--	kfree(dev->ctl_req);
--	usb_free_coherent(dev->udev, USB_PKT_LEN, dev->ctl_data, dev->ctl_dma);
--	usb_free_coherent(dev->udev, USB_PKT_LEN, dev->irq_data, dev->irq_dma);
--
--	usb_free_urb(dev->urb_irq);	/* parameter validation in core/urb */
--	usb_free_urb(dev->urb_ctl);	/* parameter validation in core/urb */
--	kfree(dev);
--}
--
--static void cm109_usb_disconnect(struct usb_interface *interface)
--{
--	struct cm109_dev *dev = usb_get_intfdata(interface);
--
--	usb_set_intfdata(interface, NULL);
--	input_unregister_device(dev->idev);
--	cm109_usb_cleanup(dev);
--}
--
--static int cm109_usb_probe(struct usb_interface *intf,
--			   const struct usb_device_id *id)
--{
--	struct usb_device *udev = interface_to_usbdev(intf);
--	struct driver_info *nfo = (struct driver_info *)id->driver_info;
--	struct usb_host_interface *interface;
--	struct usb_endpoint_descriptor *endpoint;
--	struct cm109_dev *dev;
--	struct input_dev *input_dev = NULL;
--	int ret, pipe, i;
--	int error = -ENOMEM;
--
--	interface = intf->cur_altsetting;
--
--	if (interface->desc.bNumEndpoints < 1)
--		return -ENODEV;
--
--	endpoint = &interface->endpoint[0].desc;
--
--	if (!usb_endpoint_is_int_in(endpoint))
--		return -ENODEV;
--
--	dev = kzalloc_obj(*dev);
--	if (!dev)
--		return -ENOMEM;
--
--	spin_lock_init(&dev->ctl_submit_lock);
--	mutex_init(&dev->pm_mutex);
--
--	dev->udev = udev;
--	dev->intf = intf;
--
--	dev->idev = input_dev = input_allocate_device();
--	if (!input_dev)
--		goto err_out;
--
--	/* allocate usb buffers */
--	dev->irq_data = usb_alloc_coherent(udev, USB_PKT_LEN,
--					   GFP_KERNEL, &dev->irq_dma);
--	if (!dev->irq_data)
--		goto err_out;
--
--	dev->ctl_data = usb_alloc_coherent(udev, USB_PKT_LEN,
--					   GFP_KERNEL, &dev->ctl_dma);
--	if (!dev->ctl_data)
--		goto err_out;
--
--	dev->ctl_req = kmalloc_obj(*(dev->ctl_req));
--	if (!dev->ctl_req)
--		goto err_out;
--
--	/* allocate urb structures */
--	dev->urb_irq = usb_alloc_urb(0, GFP_KERNEL);
--	if (!dev->urb_irq)
--		goto err_out;
--
--	dev->urb_ctl = usb_alloc_urb(0, GFP_KERNEL);
--	if (!dev->urb_ctl)
--		goto err_out;
--
--	/* get a handle to the interrupt data pipe */
--	pipe = usb_rcvintpipe(udev, endpoint->bEndpointAddress);
--	ret = usb_maxpacket(udev, pipe);
--	if (ret != USB_PKT_LEN)
--		dev_err(&intf->dev, "invalid payload size %d, expected %d\n",
--			ret, USB_PKT_LEN);
--
--	/* initialise irq urb */
--	usb_fill_int_urb(dev->urb_irq, udev, pipe, dev->irq_data,
--			 USB_PKT_LEN,
--			 cm109_urb_irq_callback, dev, endpoint->bInterval);
--	dev->urb_irq->transfer_dma = dev->irq_dma;
--	dev->urb_irq->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
--	dev->urb_irq->dev = udev;
--
--	/* initialise ctl urb */
--	dev->ctl_req->bRequestType = USB_TYPE_CLASS | USB_RECIP_INTERFACE |
--					USB_DIR_OUT;
--	dev->ctl_req->bRequest = USB_REQ_SET_CONFIGURATION;
--	dev->ctl_req->wValue = cpu_to_le16(0x200);
--	dev->ctl_req->wIndex = cpu_to_le16(interface->desc.bInterfaceNumber);
--	dev->ctl_req->wLength = cpu_to_le16(USB_PKT_LEN);
--
--	usb_fill_control_urb(dev->urb_ctl, udev, usb_sndctrlpipe(udev, 0),
--			     (void *)dev->ctl_req, dev->ctl_data, USB_PKT_LEN,
--			     cm109_urb_ctl_callback, dev);
--	dev->urb_ctl->transfer_dma = dev->ctl_dma;
--	dev->urb_ctl->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
--	dev->urb_ctl->dev = udev;
--
--	/* find out the physical bus location */
--	usb_make_path(udev, dev->phys, sizeof(dev->phys));
--	strlcat(dev->phys, "/input0", sizeof(dev->phys));
--
--	/* register settings for the input device */
--	input_dev->name = nfo->name;
--	input_dev->phys = dev->phys;
--	usb_to_input_id(udev, &input_dev->id);
--	input_dev->dev.parent = &intf->dev;
--
--	input_set_drvdata(input_dev, dev);
--	input_dev->open = cm109_input_open;
--	input_dev->close = cm109_input_close;
--	input_dev->event = cm109_input_ev;
--
--	input_dev->keycode = dev->keymap;
--	input_dev->keycodesize = sizeof(unsigned char);
--	input_dev->keycodemax = ARRAY_SIZE(dev->keymap);
--
--	input_dev->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_SND);
--	input_dev->sndbit[0] = BIT_MASK(SND_BELL) | BIT_MASK(SND_TONE);
--
--	/* register available key events */
--	for (i = 0; i < KEYMAP_SIZE; i++) {
--		unsigned short k = keymap(i);
--		dev->keymap[i] = k;
--		__set_bit(k, input_dev->keybit);
--	}
--	__clear_bit(KEY_RESERVED, input_dev->keybit);
--
--	error = input_register_device(dev->idev);
--	if (error)
--		goto err_out;
--
--	usb_set_intfdata(intf, dev);
--
--	return 0;
--
-- err_out:
--	input_free_device(input_dev);
--	cm109_usb_cleanup(dev);
--	return error;
--}
--
--static int cm109_usb_suspend(struct usb_interface *intf, pm_message_t message)
--{
--	struct cm109_dev *dev = usb_get_intfdata(intf);
--
--	dev_info(&intf->dev, "cm109: usb_suspend (event=%d)\n", message.event);
--
--	guard(mutex)(&dev->pm_mutex);
--
--	cm109_stop_traffic(dev);
--
--	return 0;
--}
--
--static int cm109_usb_resume(struct usb_interface *intf)
--{
--	struct cm109_dev *dev = usb_get_intfdata(intf);
--
--	dev_info(&intf->dev, "cm109: usb_resume\n");
--
--	guard(mutex)(&dev->pm_mutex);
--
--	cm109_restore_state(dev);
--
--	return 0;
--}
--
--static int cm109_usb_pre_reset(struct usb_interface *intf)
--{
--	struct cm109_dev *dev = usb_get_intfdata(intf);
--
--	mutex_lock(&dev->pm_mutex);
--
--	/*
--	 * Make sure input events don't try to toggle buzzer
--	 * while we are resetting
--	 */
--	dev->resetting = 1;
--	smp_wmb();
--
--	cm109_stop_traffic(dev);
--
--	return 0;
--}
--
--static int cm109_usb_post_reset(struct usb_interface *intf)
--{
--	struct cm109_dev *dev = usb_get_intfdata(intf);
--
--	dev->resetting = 0;
--	smp_wmb();
--
--	cm109_restore_state(dev);
--
--	mutex_unlock(&dev->pm_mutex);
--
--	return 0;
--}
--
--static struct usb_driver cm109_driver = {
--	.name		= "cm109",
--	.probe		= cm109_usb_probe,
--	.disconnect	= cm109_usb_disconnect,
--	.suspend	= cm109_usb_suspend,
--	.resume		= cm109_usb_resume,
--	.reset_resume	= cm109_usb_resume,
--	.pre_reset	= cm109_usb_pre_reset,
--	.post_reset	= cm109_usb_post_reset,
--	.id_table	= cm109_usb_table,
--	.supports_autosuspend = 1,
--};
--
--static int __init cm109_select_keymap(void)
--{
--	/* Load the phone keymap */
--	if (!strcasecmp(phone, "kip1000")) {
--		keymap = keymap_kip1000;
--		printk(KERN_INFO KBUILD_MODNAME ": "
--			"Keymap for Komunikate KIP1000 phone loaded\n");
--	} else if (!strcasecmp(phone, "gtalk")) {
--		keymap = keymap_gtalk;
--		printk(KERN_INFO KBUILD_MODNAME ": "
--			"Keymap for Genius G-talk phone loaded\n");
--	} else if (!strcasecmp(phone, "usbph01")) {
--		keymap = keymap_usbph01;
--		printk(KERN_INFO KBUILD_MODNAME ": "
--			"Keymap for Allied-Telesis Corega USBPH01 phone loaded\n");
--	} else if (!strcasecmp(phone, "atcom")) {
--		keymap = keymap_atcom;
--		printk(KERN_INFO KBUILD_MODNAME ": "
--			"Keymap for ATCom AU-100 phone loaded\n");
--	} else {
--		printk(KERN_ERR KBUILD_MODNAME ": "
--			"Unsupported phone: %s\n", phone);
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
--static int __init cm109_init(void)
--{
--	int err;
--
--	err = cm109_select_keymap();
--	if (err)
--		return err;
--
--	err = usb_register(&cm109_driver);
--	if (err)
--		return err;
--
--	printk(KERN_INFO KBUILD_MODNAME ": "
--		DRIVER_DESC ": " DRIVER_VERSION " (C) " DRIVER_AUTHOR "\n");
--
--	return 0;
--}
--
--static void __exit cm109_exit(void)
--{
--	usb_deregister(&cm109_driver);
--}
--
--module_init(cm109_init);
--module_exit(cm109_exit);
--
--MODULE_DEVICE_TABLE(usb, cm109_usb_table);
--
--MODULE_AUTHOR(DRIVER_AUTHOR);
--MODULE_DESCRIPTION(DRIVER_DESC);
--MODULE_LICENSE("GPL");
--- 
-2.56.0.567.gdb80ae8cd5-goog
-
+SGksDQoNCk9uIEZyaSwgT2N0IDMwLCAyMDI2LCBVdHRrYXJzaCBBZ2dhcndhbCB3cm90ZToNCj4g
+RHVyaW5nIGEgZGV2aWNlLXRvLWhvc3Qgcm9sZSBzd2l0Y2gsIHRoZSBVU0IyIFBIWSBtYXkgc3Rp
+bGwgYmUNCj4gc3VzcGVuZGVkIGZyb20gdGhlIHByZXZpb3VzIGdhZGdldCBzZXNzaW9uLiBBZnRl
+ciBjbGVhcmluZyBTVVNQSFksDQo+IHRoZSBQSFkgcmVxdWlyZXMgdXAgdG8gMS41IG1zIGJlZm9y
+ZSB0aGUgVVRNSSBjbG9jayBpcyBzdGFibGUuDQo+IFRoaXMgd2FzIG9ic2VydmVkIGR1cmluZyBh
+IGRldmljZS10by1ob3N0IHJvbGUgc3dpdGNoIHdpdGgNCj4gYSBVU0IgZWFycGhvbmUgYXR0YWNo
+ZWQuIFRyYWNlcyBzaG93ZWQgdGhhdCBTVVNQSFkgcmVtYWluZWQgYXNzZXJ0ZWQNCj4gdW50aWwg
+X19kd2MzX3NldF9tb2RlKCkgY2xlYXJlZCBpdCwgYWZ0ZXIgd2hpY2ggaG9zdCBpbml0aWFsaXph
+dGlvbg0KPiBpbW1lZGlhdGVseSBzdGFydGVkIGFjY2Vzc2luZyB0aGUgeEhDSSBQT1JUU0MgcmVn
+aXN0ZXJzLg0KPiBUaGUgVVNCMiBQSFkgc3BlY2lmaWNhdGlvbiByZXF1aXJlcyB1cCB0byAxLjUg
+bXMgZm9yIGNsb2NrIHJlY292ZXJ5DQoNCldoaWNoIHNwZWMgaXMgdGhpcz8gVVRNSSBhbGxvd3Mg
+dXAgdG8gNS42bXMgZm9yIHRoZSBmaXJzdCBjbG9jaw0KdHJhbnNpdGlvbiBhZnRlciBTdXNwZW5k
+TSBpcyByZWxlYXNlZC4gVGhlIDEuNW1zIGxvb2tzIGxpa2UgaXQncw0Kc3BlY2lmaWMgdG8gdGhp
+cyBwYXJ0aWN1bGFyIHBoeS4NCg0KVGhlIGNvbnRyb2xsZXIgYXNzdW1lcyB0aGF0IHV0bWlfY2xr
+IGlzIGJhY2sgd2l0aGluIDk5MHVzIGFmdGVyIGl0DQpkZWFzc2VydHMgdXRtaV9zdXNwZW5kX24u
+IFRoYXQncyBzdHJpY3RlciB0aGFuIHRoZSBVVE1JIHNwZWMsIGJ1dCBpdCdzDQp0aGUgY29udHJv
+bGxlcidzIGludGVncmF0aW9uIHJlcXVpcmVtZW50LiBBIHBoeSB0aGF0IHRha2VzIH4xLjVtcyBp
+cw0KVVRNSSBjb21wbGlhbnQgYnV0IGRvZXNuJ3QgbWVldCB0aGlzIHJlcXVpcmVtZW50Lg0KDQpU
+aGVyZSB3aWxsIGJlIHByb2JsZW1zIHdpdGggZml4aW5nIHRoaXMgd2l0aCBkZWxheXMgaW4gdGhl
+IGRyaXZlci4gV2hlbg0KU1VTUEhZIGlzIHNldCwgdGhlIGNvbnRyb2xsZXIgYWxzbyB3YWtlcyB0
+aGUgcGh5IG9uIGl0cyBvd24gKGUuZy4gb24NCmNvbm5lY3QsIHJlc3VtZSwgYW5kIHBvcnQgcmVz
+ZXQgZHVyaW5nIHJvb3QgaHViIGVudW1lcmF0aW9uKSB3aXRob3V0IGFueQ0KU1cgaW52b2x2ZW1l
+bnQuIEEgZGVsYXkgaGVyZSBvbmx5IGNvdmVycyB0aGUgU1cgaW5pdGlhdGVkIHBhdGguIE90aGVy
+DQpwYXRocyBzdWNoIGFzIHJvb3RodWIgZW51bWVyYXRpb24sIHJ1bnRpbWUgcmVzdW1lLCBhbmQg
+ZGlzY29ubmVjdCBpbiBMMg0Kd291bGQgc3RpbGwgYmUgZXhwb3NlZC4NCg0KPiBhZnRlciBleGl0
+aW5nIHN1c3BlbmQuIEFjY2Vzc2luZyB0aGUgY29udHJvbGxlciBiZWZvcmUgdGhlIFVUTUkgY2xv
+Y2sgaGFzDQo+IHN0YWJpbGl6ZWQgY2FuIHRoZXJlZm9yZSBvY2N1ciBkdXJpbmcgdGhpcyByZWNv
+dmVyeSBpbnRlcnZhbC4NCj4gV2FpdCBmb3IgdGhlIFBIWSBjbG9jayByZWNvdmVyeSB3aGVuIFNV
+U1BIWSB3YXMgc2V0IGJlZm9yZSBzd2l0Y2hpbmcNCj4gdG8gaG9zdCBtb2RlLiBBdm9pZCB0aGUg
+ZGVsYXkgd2hlbiB0aGUgUEhZIHdhcyBhbHJlYWR5IGFjdGl2ZS4NCj4gVGhpcyBjaGFuZ2UgaXMg
+bGltaXRlZCB0byB0aGUgcm9sZS1zd2l0Y2ggcGF0aC4gUnVudGltZSBzdXNwZW5kDQo+IHJlcXVp
+cmVzIHNlcGFyYXRlIGhhbmRsaW5nDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBVdHRrYXJzaCBBZ2dh
+cndhbCA8dXR0a2Fyc2guYWdnYXJ3YWxAb3NzLnF1YWxjb21tLmNvbT4NCj4gLS0tDQo+ICBkcml2
+ZXJzL3VzYi9kd2MzL2NvcmUuYyB8IDE0ICsrKysrKysrKysrKysrDQo+ICAxIGZpbGUgY2hhbmdl
+ZCwgMTQgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMv
+Y29yZS5jIGIvZHJpdmVycy91c2IvZHdjMy9jb3JlLmMNCj4gaW5kZXggZmQ1YzJjZDM2YzU5Li44
+ODViYjkzMDE4NjYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdXNiL2R3YzMvY29yZS5jDQo+ICsr
+KyBiL2RyaXZlcnMvdXNiL2R3YzMvY29yZS5jDQo+IEBAIC0yMzMsNiArMjMzLDIwIEBAIHN0YXRp
+YyB2b2lkIF9fZHdjM19zZXRfbW9kZShzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspDQo+ICAJCWR3
+YzNfd3JpdGVsKGR3YywgRFdDM19HQ1RMLCByZWcpOw0KPiAgCX0NCj4gIA0KPiArCS8qDQo+ICsJ
+ICogSWYgdGhlIFVTQjIgUEhZIHdhcyBsZWZ0IHN1c3BlbmRlZCAoZS5nLiBieQ0KPiArCSAqIGR3
+YzNfZ2FkZ2V0X3J1bl9zdG9wKCkvZHdjM19nYWRnZXRfZXhpdCgpIGR1cmluZyBhIGRldmljZS0+
+aG9zdA0KPiArCSAqIHN3aXRjaCksIGl0cyBVVE1JIGNsb2NrIG5lZWRzIHRpbWUgdG8gYmVjb21l
+IHZhbGlkIGFnYWluIGJlZm9yZQ0KPiArCSAqIGR3YzNfc2V0X3BydGNhcCgpIGZsaXBzIEdDVEwu
+UFJUQ0FQIGFuZCB0aGUgbmV3IHJvbGUgc3RhcnRzDQo+ICsJICogZHJpdmluZyBmdXJ0aGVyIHJl
+Z2lzdGVyIGFjY2Vzc2VzIG9uIGl0IChlLmcuIGhvc3Qgcm9vdCBodWINCj4gKwkgKiBQT1JUU0Mg
+d3JpdGVzIGluIGR3YzNfaG9zdF9pbml0KCkpLg0KPiArCSAqLw0KPiArCXJlZyA9IGR3YzNfcmVh
+ZGwoZHdjLCBEV0MzX0dVU0IyUEhZQ0ZHKDApKTsNCj4gKwlpZiAocmVnICYgRFdDM19HVVNCMlBI
+WUNGR19TVVNQSFkpIHsNCj4gKwkJZHdjM19lbmFibGVfc3VzcGh5KGR3YywgZmFsc2UpOw0KPiAr
+CQl1c2xlZXBfcmFuZ2UoMTUwMCwgMjAwMCk7DQoNCkFsc28gbm90ZSB0aGF0IHRoaXMgYXBwbGll
+cyB0byBldmVyeSByb2xlIHN3aXRjaCwgbm90IGp1c3QNCmRldmljZS10by1ob3N0LCBhbmQgaXQg
+b25seSBjaGVja3MgcG9ydCAwIHdoaWxlIGR3YzNfZW5hYmxlX3N1c3BoeSgpDQpjbGVhcnMgYWxs
+IHBvcnRzLg0KDQpJZiB0aGUgUEhZIGNhbid0IGJlIGNvbmZpZ3VyZWQgdG8gcmVzdG9yZSBpdHMg
+Y2xvY2sgd2l0aGluIDk5MHVzLA0KcGxlYXNlIGtlZXAgc25wcyxkaXNfdTJfc3VzcGh5X3F1aXJr
+IGZvciB0aGVzZSBwbGF0Zm9ybXMuDQoNClRoYW5rcywNClRoaW5o
