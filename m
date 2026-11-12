@@ -1,68 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794525766;
-	b=0Y0cwRSYPbVQtiFoOaC67vTp8BLoEdTJJtQ/+JY1t/AsWUVzcMkKbwQlIIsmbpB9RIIX
-	 kjlOi4ZrNy/8L3NY/7u8RZxdgkAyNM+krMkbPtZ6rf+crQWYv9QA3I/HbOL1RbkwvVgJg
-	 70+8tnUTVfQpdY1noE1mBKMrv/qukn4dS6/cgggFwyPHLW8r2Dkr+ShQq9ckF4gCLJ2Fw
-	 gmf1ogsSuaXTY3h0c6KOBYBsw6cLe4hKjr8C2SNgFhlkdHNWungcT2cKOAUpV+at0gnUa
-	 nL/rY3PAX2tLSPRGZ+eFzK0Qi+OlKa9q9gTeiAIOsebnfxxZosUa21CWq601c1+HW1w==
+	t=1794526525;
+	b=BRtczdytjqYfEO1FVGi9a/uguw6lMH25g1freGe5Lm0W7v+Uz3swRoqPE3J9OWiZKj1P
+	 Gzet9Hkt6oafFql6OCXpcJDWxduMvKFSjJk7XLDTa5d7CGfC3JxueffsF8Djjaa6ac9Xx
+	 Z3fQnFJgfYAxHxwJN0VHOSEz+oIC+BiD/7BtDd8F6rh+Ciuhy7IhFH3AEZ+ALLg5igFgE
+	 /vMjs1EF6/yuDcAfrkoJNoxvb+1zINGl/Z8REzZHX9SVLQO93KCs85lW8CRkwggKB9fWR
+	 wH4j1CPJ4UR4WmCE6sxyVAZdVgtsU6AguATmxhUO3weOPVRczBrdp8aiWwtTRozglUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794525766;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Content-Language:To:Cc:From:Subject:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=Yabi90sXOn5M/2jFX1MOF55oAnLsAp4+otqWtjtCm8A=;
-	b=JMd0+FnoPMo/H8Vpm8CqL6ZSKdxYND6aw4sVwTgGmHBIqsLmHYc8Dscgjk3T45W/Loj9
-	 W6sZ+JtYEvVx+qoXennZ/CjAlcQmhmfhreEVEf/h53x8joIq3D8U45vfLYYu9bSh8Kg8q
-	 uC0woT/c7UM4cIMcU0SzI5dtRBomiogKXsAYkcpgbN7fm/Wdx32COcg6r91rBi65ItRaC
-	 UK1m0LHwvZLR63+ma2uuU8ZCEkuur4LD6QYMEplWyG9gHHCR2SG908QDWBaGTc5MCSOV7
-	 MSfVc6X2EthpKxvXLbYNpU8floL57cedyBHUSg9nfAnxDAv7CbPDzCcPrmG/v468Ayg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794526525;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Last-TLS-Session-Version;
+	bh=VXZSMq9bS+pv1r23/W5YZTxBrtghVTtZRlA85g7hY0A=;
+	b=14E9p8KByofbfMlKRhMNhs3TqHCpHS2Jrl1RXdJTuOx111DcrvDQPcoueQbYAieXIIJB
+	 sMBzdL5GguXHzWLX4QHeTXfb1qd29U1XoXiXJb1FdKqzXKcu46xxE9vcuq9IJYQqZjg3U
+	 PAqRMSMtCw3HaE1bE7yLiQsAChxfwE7DN/slxCeBZG8z4ZE/MHtYInXyDCDSifJXJpAUH
+	 fYjleseWXMp8sQdZYAqox6L/mKs559Ldcn+zoQLAJYW38lYFy3DHXGDVpCgQZVYHLohUA
+	 tteb8rEd7nnszYzAYgQCMEzUyyzCHaJMyWwEh7icEjNKORZdBIJbncnGibA3e5jC9Wg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bKJ7WR0+;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=WAqvoOxH;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D52606A321
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 23:22:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1D52606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBDA606A31C
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 23:35:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EBDA606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bKJ7WR0+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794525765; x=1826061765;
-  h=message-id:date:mime-version:to:cc:from:subject:
-   content-transfer-encoding;
-  bh=b/4X6Q6kTElgF00Z1iBm4EknWIo7QbRogOqzN9uUFnQ=;
-  b=bKJ7WR0+bQ81XymLp3xu2VNlUCKWxjdDXo2JYOjzQZlUxn9Gq33QSwW4
-   g1bhlahafSTfqldKXSRArqFpptjnxKpJUGfFor4W9HxGpdUUaK6pkeRFa
-   Ha4P3vzo7VlM9C7C2m+5QfKTVGwUzD6lCL+jtgyKMdPZhD9N75vXslXU0
-   eq3QpKDXgaHssqZB/lccrWwHty1gh68YlLivIyzbZtlFF9eT0rMh3jGjF
-   +zoxkzDjFXrg6SEB1NoVKblH0dGLXmd3OUnngpz3Vy8Ts+WFFl23x57Lz
-   S+0wgRUt3pgxXUyU4BuDk+mV3sxNqRERJ+E/WDW0NdNu0zeR78i7uY2zC
-   w==;
-X-CSE-ConnectionGUID: DvnaKU4sSfClv+AOsJy/lg==
-X-CSE-MsgGUID: Kc365y9sRu2cxlQvlnWHcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3407620"
-X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="3407620"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 15:22:45 -0800
-X-CSE-ConnectionGUID: +GcMbUlNSw2uy9tFIepXXw==
-X-CSE-MsgGUID: 1MVnRT57Slmon9yBatlIVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="8944435"
-Received: from rmodi-mobl.amr.corp.intel.com (HELO [10.124.161.66]) ([10.124.161.66])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 15:22:45 -0800
-Message-ID: <087d879a-e8fd-402f-b8d2-2531244ff69f@linux.intel.com>
-Date: Thu, 12 Nov 2026 15:22:44 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=WAqvoOxH
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id C406A1A1639;
+	Thu, 12 Nov 2026 23:35:21 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 910F2601AD;
+	Thu, 12 Nov 2026 23:35:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CC67011BC138E;
+	Fri, 13 Nov 2026 00:35:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1794526517; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=VXZSMq9bS+pv1r23/W5YZTxBrtghVTtZRlA85g7hY0A=;
+	b=WAqvoOxH6uPg5TMia1mxs+Fnv6flJYlFSJ0zdTdafZ3tkxLdMgAWulcXPLKEaXQ5eh4OWe
+	iT64iWd6CjqhHKKWTX18tQKVKws+JtCig4gwZ5mV/HvqG64ER7x5EGMjbmCdppY8TVzhzt
+	H6PDjLrfek3i4AnFfOeBkjQH6s21ZqcDrSuxX/Y7bPCY/eeO1Rkj37nvDBCcTkjk3CJH87
+	gEix9EfZvefjo2XEmKxYaOOF7Vd5PVMmgoduchUv651ItfwITitDoCed7NOtU9lrP0xhaK
+	Pah42EaFaanWo6bsEi2YnHlk7IlVbtzB+ZWPjZgCwtyj6W+LxKNs1UB3Dgcnlw==
+Date: Fri, 13 Nov 2026 00:35:13 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: "Pathak, Asutosh" <asutosh.pathak@linux.intel.com>
+Cc: Frank.Li@nxp.com, Frank.li@oss.nxp.com, linux-i3c@lists.infradead.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [RFC] i3c: USB-I3C (class 0x3C) master + userspace access -
+ which way do you want it?
+Message-ID: <202611122335131c454ddf@mail.local>
+References: <087d879a-e8fd-402f-b8d2-2531244ff69f@linux.intel.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,61 +67,69 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: alexandre.belloni@bootlin.com
-Cc: Frank.Li@nxp.com, Frank.li@oss.nxp.com, linux-i3c@lists.infradead.org,
- linux-usb@vger.kernel.org
-From: "Pathak, Asutosh" <asutosh.pathak@linux.intel.com>
-Subject: [RFC] i3c: USB-I3C (class 0x3C) master + userspace access - which way
- do you want it?
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <087d879a-e8fd-402f-b8d2-2531244ff69f@linux.intel.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Alexandre,
+On 12/11/2026 15:22:44-0800, Pathak, Asutosh wrote:
+> Hi Alexandre,
+> 
+> Before I send a real series I want to settle one design question, because the
+> answer decides whether half of this is even worth submitting.
+> 
+> We have an out-of-tree driver for the USB-I3C device class (USB class 0x3C) - a
+> USB device that bridges the host to an I3C bus. It's two modules:
+> 
+>  - a controller driver: USB class driver that also calls i3c_master_register()
+>    and implements the usual master ops (do_daa, send_ccc_cmd, priv xfers, IBI).
+>    It's a normal I3C master that just happens to talk over USB. I think this
+>    belongs in drivers/i3c/master/ and goes upstream the usual way.
+> 
+>  - a target driver: binds the I3C devices behind it and hands a char dev +
+>    ioctls to userspace (OpenIPC and similar tools) so they can drive the bus.
+> 
+> The whole reason this hardware exists is userspace-driven I3C from a host PC.
+> But as far as I can tell the I3C subsystem has no userspace interface at all -
+> no i3c-dev, no uapi header - so anything we add there is new ABI you'd have to
+> live with. Hence the RFC instead of a patch bomb.
+> 
+> So, which of these do you want?
+> 
+>  a) nothing in userspace upstream - we only send the master, keep the ioctls
+>     out of tree.
+>  b) a generic i3c-dev (like i2c-dev), proper include/uapi/linux/i3c-dev.h,
+>     usable by any master. Happy to do it, but I'm not going to design that ABI
+>     without you on board.
+>  c) what we already have: the controller stays a pure master with no userspace
+>     ABI, and the target side is a normal I3C device driver (drivers/i3c/device.c)
+>     where each bound target exposes its own char dev + ioctl and reaches the bus
+>     through the standard priv-xfer path. It's the least churn for us and matches
+>     our architecture doc - so if you're fine with a per-target ioctl node living
+>     inside the USB-I3C driver (not a generic subsystem ABI), we'll run with it.
+> 
+> I'll build whichever one you pick.
+> 
+> Rough plan either way: master in drivers/i3c/master/ first (useful on its own,
+> no userspace ABI), then the userspace piece separately, then docs + MAINTAINERS.
+> 
+> Mainly I'd like your call on (a)/(b)/(c), and confirmation that a USB-transport
+> master is OK in drivers/i3c/master/. For what it's worth (c) is our preference,
+> since it's already working and keeps the ABI contained. Would rather get this
+> right now than argue about it at v3.
+> 
 
-Before I send a real series I want to settle one design question, because the
-answer decides whether half of this is even worth submitting.
+USB-transport master is not an issue and you can submit it. For the
+i3c-dev related question, you should probably have a look at the current
+threads so you can add your use case:
 
-We have an out-of-tree driver for the USB-I3C device class (USB class 0x3C) - a
-USB device that bridges the host to an I3C bus. It's two modules:
+https://lore.kernel.org/linux-i3c/ati3c2JBNLGRnPen@ashevche-desk.local/T/#mb42d9b2785f8508d39eaf782b3d29189226b8029
 
- - a controller driver: USB class driver that also calls i3c_master_register()
-   and implements the usual master ops (do_daa, send_ccc_cmd, priv xfers, IBI).
-   It's a normal I3C master that just happens to talk over USB. I think this
-   belongs in drivers/i3c/master/ and goes upstream the usual way.
+https://lore.kernel.org/linux-i3c/20260911210935.1353126-1-meaganlloyd@linux.microsoft.com/
 
- - a target driver: binds the I3C devices behind it and hands a char dev +
-   ioctls to userspace (OpenIPC and similar tools) so they can drive the bus.
+Regards,
 
-The whole reason this hardware exists is userspace-driven I3C from a host PC.
-But as far as I can tell the I3C subsystem has no userspace interface at all -
-no i3c-dev, no uapi header - so anything we add there is new ABI you'd have to
-live with. Hence the RFC instead of a patch bomb.
-
-So, which of these do you want?
-
- a) nothing in userspace upstream - we only send the master, keep the ioctls
-    out of tree.
- b) a generic i3c-dev (like i2c-dev), proper include/uapi/linux/i3c-dev.h,
-    usable by any master. Happy to do it, but I'm not going to design that ABI
-    without you on board.
- c) what we already have: the controller stays a pure master with no userspace
-    ABI, and the target side is a normal I3C device driver (drivers/i3c/device.c)
-    where each bound target exposes its own char dev + ioctl and reaches the bus
-    through the standard priv-xfer path. It's the least churn for us and matches
-    our architecture doc - so if you're fine with a per-target ioctl node living
-    inside the USB-I3C driver (not a generic subsystem ABI), we'll run with it.
-
-I'll build whichever one you pick.
-
-Rough plan either way: master in drivers/i3c/master/ first (useful on its own,
-no userspace ABI), then the userspace piece separately, then docs + MAINTAINERS.
-
-Mainly I'd like your call on (a)/(b)/(c), and confirmation that a USB-transport
-master is OK in drivers/i3c/master/. For what it's worth (c) is our preference,
-since it's already working and keeps the ABI contained. Would rather get this
-right now than argue about it at v3.
-
-Thanks,
-Asutosh
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
