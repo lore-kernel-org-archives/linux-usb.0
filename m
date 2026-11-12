@@ -1,57 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794472947;
-	b=sXom/n+NCAc73/teCFxMVikl9YFXUEwdiNb31hexQBXux25wJPHvbJ456k+J16g5QfkM
-	 GKVqFidRxr1akNAnd2YJxlgBqiSiGM4idC3bmjYpVTVVQGmcdObUJc+GcHjFB+1A0fMtw
-	 CpD+IFShuadVcI7ai6oI2WSLhsG6B/ghFpOxb07GT1KrD6Z1NgXXk3Kh5zBgWqjcksVHq
-	 Q3aHmheS5RJfUFHzIJxElW45QVdyP458Qg732Ji+14WJYhAX71RGpy0g4TXn0RkuwJWYW
-	 EzbD5c3Tiju/Tk2kvKgSnChmV0HgSAILJoZSCnA0oT+9pA+5dU5K1z28/iDK2AWgvHA==
+	t=1794473002;
+	b=bHu1SyO8qjVbL/ambcGAlqSC1OXf232Uj8bytie24c+4LSv+xgm7nPChs9eyDf0NT+/n
+	 OGULys10GmMiO4yt8XbGEYH3oMJmUCRalk6/YT7/e2WakbYunViOZ4q4ZmmLZo3OnjMZv
+	 A3ioK7D8yQZS80uWUXR7dzBTJlRBmPs4sgeXduRuRWwfY4MqfD2YlxZka5raQbmmWSiP7
+	 xlYgOKLo9N2Temp2YjnAL/59Hz8m1xFIkP/y4h14m4KWizRSwCKoCeeI7dNfAlG/rR39O
+	 Jb5VO2DIPBxvXqk4Vi2kfYpr6SE9n1wATgpGMXBCWOlslRUTJVxWpKr5w3vWheAAh3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794472947;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=gra8IdmveXO3pgYgGGEoA7JKxTPZ5vc4kjxxr/JfxDQ=;
-	b=UvZeuwLxYeoUitwJGtcs48ik5Jl3qszqefUCqwNYOehNnID9DPJKmwKGnAZNSUqHtA37
-	 1V4Zl5+WXLSdSQQaGWrJd1TVJW8eZKX5ZD6Qu2iIcppuosa5Py0wpEF4vIn/cgIDThQIa
-	 ssWDVv2x/qfAlvdh9RHIqjCOhH7LfPdYcjdJ1ErbZyMJ3tZUjgR6r9VVeFxvQSXZ/VnWJ
-	 +t2fsknR77W1gHIAQX6oM2izgl9ss1IUV+SqxIrZaE+gxQlDDt05/uqqvUqvkhs2F/wq5
-	 PMrr8G3U+rQTtDvBb+QQzwr3/G9NRW2+D8J6l86w9oeu7VTa+Q8V5HPM7Gd0gAefS3Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794473002;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Ccrg0Ah5/raiZe23O01HRQmfIbLS9+N0hKSJNBgmJXY=;
+	b=R8hBUpyk7e4QnsjPyzoiYiDIoe2ADW+LIDbcKXjZNvWE3TciGYVsDz6txGEoL56rc8+n
+	 W1UD5NVSPOjvS22MSgu5RE3mkAS72u6CxLpkiCBrILhlNgBtV3wO9nxcIcxslOFiTAOKj
+	 3fxREjVpesJfmRbCwPOEBwpDN//6dAh+J0qcV3YlSqfS3PG/bLW7JlFhJ3WnzMV6YGVZg
+	 Xuswad0Hwu3o3CP4eitUO0cGGkODunW2ZyaXgostVS63Jle5AI8RIwPx5SbCuR7i0djh9
+	 ee3b6yNzwAJBqPfEho2ch56tWmSpIWKr4CJeE8cO0N/Pl3e6VidzlJ7HT36V3/5uakw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cFvA5YGv;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=pereq.eu;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C646072804
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cFvA5YGv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90ABD1F00A11;
-	Thu, 12 Nov 2026 08:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794472947;
-	bh=gra8IdmveXO3pgYgGGEoA7JKxTPZ5vc4kjxxr/JfxDQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=cFvA5YGvNqfLFEav9+l75Jw+DteCGclq/gTONmSYC5bkVY1l4sFq/dIQQBFp4gvKQ
-	 PRaKcpoNZXbq0SEusAd+pzPMUXlggF5kKJMeOLWBvIyKHZKYSi5whLc5c74oRrApfw
-	 gwp1e+pHBctPGssxwRo5l57WoPzMXBeHBh62lZZh+zSxwZEvro/pAUStwQ8MBzu9Gc
-	 TaE7tc2pCLUAfzjvMur4ePFBCIqUHY5dBBzkCkAhYDBSWsSpbd/YlyceyTsmHPVkwS
-	 5y4u5fYm9vHGJZb3323PPsNZStpm0GBfBNveDl93EIhJGCSfotB1a3nPVF4WjCm20Q
-	 JWNZzQ+b/CRDw==
-Message-ID: <sashiko-outbox-210764@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/2] usb: hub: Retry SuperSpeed for a device stuck on
- its USB 2.0 peer
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Arun Iyengar" <aiyengar1990@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261112-usb-port-pairing-v2-2-45f5a1a29f1f@gmail.com>
-References: <20261112-usb-port-pairing-v2-0-45f5a1a29f1f@gmail.com>
- <20261112-usb-port-pairing-v2-2-45f5a1a29f1f@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2026 08:42:27 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4FD606A8B6
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:43:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D4FD606A8B6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=pereq.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso35077105e9.3
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 00:43:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794473000; x=1795077800;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ccrg0Ah5/raiZe23O01HRQmfIbLS9+N0hKSJNBgmJXY=;
+        b=HpBl5aZr62+DP+t/ezrnUcH/DGR1gYPagVKvrVTXgew/RggtjTSowUj3o+FXLfxU0P
+         F/PAuxB9MU/gogFJMsH92RyMFE5e3uH/lEXXLxmhWxgcfjihlHxcpKFxrdw8kSgdYlf9
+         MWp5csOWkC7r6gRwH5sV15wiHyeQMsaQV+oOopYp4RBiaQPlccyK8YMSr8qzBCmHd6HD
+         rjhSC3z4LouAZnRzUlQRyMT+OQAiXw892MXWS8uBF6XqtONrw5kipZjwz5RAoe6I11JF
+         pwhrDyLsZsGmeqxjWPV1Sz5FYjqpX2/YqE2d5vCF8dpGLHCwujswx+9ZnkvBqcsIJ3GX
+         aJYw==
+X-Forwarded-Encrypted: i=1; AL+hErG/cKGwYXILzfGJ//lwvYmGdFGhHVFsd3Rqx6gh36v8i7xIJCJ3eI2F/XBKjgLSjTTWp3Ulu4MpvxY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9pM5p95MoaLvIr80Ck4ItLnW2sdZf9c5yCkhy+zuBSFiYJSmSL
+	RZDNx04gpDO2IelgeG8KU3YzcV1Y68vJyC1u6EENJh+XYr6urTm2DPZq
+X-Gm-Gg: AYBFou2Yj8ibM714TDjplq7Qj9ehoGEB54nMMj4O9L/E1Q4H9abZzdCdC/8+B9bcBZG
+	MQs9r9FEuhxQjWgce+0niCLliKVr7M71xK/uRJILVlFkMRhi/Z6hbNv9l3/91ie4wyi1vnDRapq
+	n/nB2yElcX3NCNiWKu3H9eMIILlV5xNgjWTyHq38Aj+igL/UkoSpAJolIIBYLdl8LXp0lIikgdJ
+	BgGgr6naZGJsyRW4AgRwscGUavv0ECrKCFX3mzNJ1+nboKqbKtcgeFQJFT+LaAqtm1j8hsg90eH
+	LWhjAL3w4WM1NtJ9CydzNXadArmHvulT8LrpNDev02gDHiQgrJUWWI/keCHuWMH92iDyisp/XeM
+	hXEEen3W+OSCIa7pnvPlATKPUCBtemmpAd8xSsHapC5nf5uW96LSsiNf8NFwgzc9V+/1nLchjwv
+	6MTsZURK/m1ESPrmAyAWo6NSsqRgyOYVkAFdZTbeZAE6tQSxqYYX+gz7/DbOFtEeLE/mGvpIU2t
+	0/BIjdmcm4Y5tZqR0txvViAYbp4/5P7vSRNNgQVQi57Q8eRyEPlOvaVgnfj5/Ty4amqFvbRyUvU
+	ra/P6wIswooDy3CiQQNu4RVq9Da8blovnPlYrpqym814J35NkM1Qc6esrMTypZY/3G46Wy6xex4
+	1bSqUcst1K1cx5xERZVpsoLHAiLq2qpd00Krk8Iv9VYBaUNEWpqa8B/jQdtycehd8ry1aqk8LXK
+	kLURog5Q==
+X-Received: by 2002:a05:600c:470d:b0:4b1:4017:c4f4 with SMTP id 5b1f17b1804b1-4ba093805b3mr88234605e9.20.1794472999607;
+        Thu, 12 Nov 2026 00:43:19 -0800 (PST)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e258e8dsm82532545e9.4.2026.11.12.00.43.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 00:43:18 -0800 (PST)
+Date: Thu, 12 Nov 2026 11:43:15 +0300
+From: Dan Carpenter <dan@pereq.eu>
+To: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+Cc: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com, elder@kernel.org,
+	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+	johan@kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] greybus: verify the received message size covers the
+ message header
+Message-ID: <avV8I97uZJgX8Osk@stanley.mountain>
+References: <6af55517.a0c627da.5d811.0010.GAE@google.com>
+ <20261112082230.33584-1-shishunbo@cmss.chinamobile.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,32 +87,80 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112082230.33584-1-shishunbo@cmss.chinamobile.com>
 
-> From: Arun Iyengar <aiyengar1990@gmail.com>
->=20
-> A SuperSpeed device looks for a SuperSpeed link first when it sees
-> VBUS, and connects at high speed when the link doesn't come up. It
-> looks again only when VBUS is cycled or after a USB 2.0 bus reset.
->=20
-> When a connector's two halves belong to different host controllers,
-> the USB 2.0 host can start first. On the Orange Pi 5 (RK3588S), whose
-> USB 3 Type-A port has VBUS on from power-up, a USB 3 flash drive
-> plugged in at boot was reset by the EHCI about 10 ms before the
-> SuperSpeed-only xHCI registered, so it came up at 480 Mb/s on the EHCI
-> in every one of 6 boots, while plugging it in after boot gave
-> 5 Gb/s. It stays at high speed until it is unplugged.
->=20
-> When a SuperSpeed root hub with ports paired through a connector to a
-> [ ... ]
-> to its SuperSpeed half. The work runs on the freezable hub_wq, holds a
-> runtime PM reference on the SuperSpeed hub and is cancelled when the
-> hub is quiesced.
->=20
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+On Thu, Nov 12, 2026 at 08:22:29AM +0000, Shunbo Shi wrote:
+> In gb_connection_recv(), the size of the received data is checked
+> against sizeof(struct gb_operation_msg_hdr) and against the message
+> size encoded in the header (msg_size), but msg_size itself is never
+> checked against the header size.
+> 
+> If a peer sends a message whose header claims a size smaller than
+> the header itself (e.g. header.size == 3), the two existing checks
+> both pass (size >= sizeof(header) and size >= msg_size), and the
+> message is dispatched with the undersized msg_size.
+> 
+> In gb_operation_create_incoming(), this leads to an unsigned
+> integer underflow in:
+> 
+> 	request_size = size - sizeof(struct gb_operation_msg_hdr);
+> 
+> The underflowed request_size then wraps back around in
+> gb_operation_message_alloc():
+> 
+> 	message_size = payload_size + sizeof(*header);
+> 
+> causing kzalloc() to allocate a buffer that is too small to hold
+> the message header.  When the response is later prepared in
+> gb_operation_response_alloc(), reading
+> request_header->operation_id reads past the end of the undersized
+> allocation, triggering a KASAN slab-out-of-bounds report.  When
+> header.size is zero, kzalloc(0) returns ZERO_SIZE_PTR and the
+> same read dereferences an invalid address.
+> 
+> Verify msg_size >= sizeof(header) in gb_connection_recv() so that
+> the "Caller has made sure we at least have a message header"
+> assumption in gb_operation_create_incoming() actually holds.
+> 
+> Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
+> Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
+> Closes: https://syzbot.org/bug?extid=0b456664585fa81a47f6
+> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+> ---
+>  drivers/greybus/operation.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/greybus/operation.c b/drivers/greybus/operation.c
+> index 7e12ffb2dd60..da53c0e026f0 100644
+> --- a/drivers/greybus/operation.c
+> +++ b/drivers/greybus/operation.c
+> @@ -1047,6 +1047,13 @@ void gb_connection_recv(struct gb_connection *connection,
+>  	/* Use memcpy as data may be unaligned */
+>  	memcpy(&header, data, sizeof(header));
+>  	msg_size = le16_to_cpu(header.size);
+> +	if (msg_size < sizeof(header)) {
+> +		dev_err_ratelimited(dev,
+> +				    "%s: invalid message header size (%zu < %zu)\n",
+> +				    connection->name, msg_size,
+> +				    sizeof(header));
+> +		return;
+> +	}
+>  	if (size < msg_size) {
 
-Sashiko has reviewed this patch and found no issues.
+Combine the conditions:
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112-usb-port-p=
-airing-v2-0-45f5a1a29f1f@gmail.com?part=3D2
+	if (msg_size < sizeof(header) || msg_size > size) {
 
+regards,
+dan carpenter
+
+>  		dev_err_ratelimited(dev,
+>  				    "%s: incomplete message 0x%04x of type 0x%02x received (%zu < %zu)\n",
+> -- 
+> 2.53.0
+> 
+> 
+> 
