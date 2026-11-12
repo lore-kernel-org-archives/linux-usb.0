@@ -1,56 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.207.22.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794484809;
-	b=N9Wh3XYdHWiRJLA99w5SDlIFZ4NTJh9AtDMu2U3hVbR/HjWYcuGdps0LCZvlGk9KeeoB
-	 +8hXjWOcrBK4/VIecK5E6GdZc/bnN49BiAF8oVsuQX7z/2kut3QF7ZBF9qy+bEcMqCjmC
-	 QHzfZwnAm0mzyfK5G6Hm7Y+zMBJaUwUuF0DH+Ok8Hm2xS+Zx5QLjDQ9ZSSHaOcZPQ+lEJ
-	 Hpukuxg5cIKmQVBdugOxBkKrj46Y5m/0/4JcCrXkJo7woZpY/oSOybSwSXGkmthKFueTo
-	 77AgzFTPaSO/ya7CggpxT3febDu+uzr1Tp0xwbrGXrY562CMCebVYDNj9RaRSGx71pQ==
+	t=1794485902;
+	b=0ReI497mONuJOwRd3qaKFZ/wNC5kOiy6W8brnJBRlRUGkIAMwFkiI+WJR7OmESTEipfW
+	 PXN4H6KEnQplO4J6vuQlHogx7qNP40SOQzw9WZ7MKaXoNBYPiw4m5XMaErzwPDfVvbfue
+	 dWoVTWQObl3meWvgqRrvvcWFdoEv2qrcENE5O+48GDtV81H84hYS84x5D1c5tQ2KLSdB4
+	 gsMk+D08zA5x/qYMhLaexyDrqKfMCM+8sHvVdx+sHh8hmivzPu7qNRVLD83IWRi1Oz5/g
+	 E9COg8Vyq1jQDTTMf6WeCh6fxGWIx/uwB4/j5YAB/EwQumtGAfCFC1I6tyqog5j53OQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794484809;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=y3yHS9AEQqsr4Cg05GwJ241KovlI9XYEeMiW7OczNNg=;
-	b=I4FScWkamQXfP7+kZY7LEpHLjSEgImQYQmWsKdRAu7UBuQsLMGzg+x0Cp6/74UyygQx1
-	 4CPNYGWlpwNCmsm3y/3N5elhQg7Tx4gSpPYREr2Jx4os4lku4B5SRgO/TVSkM55xIvJfO
-	 l7AQnL3XC/RiA6hBIuQXkuNR2m80gLHTgKyDd5tNds5rrx3Vo781/RyQglPPQmNRx6r3M
-	 7PmDwFH0yZB+HX/EPxEy3NzsizZkvhJGZX5W624h9dF7un9eTfikPA+7kk3aKeuRKyObP
-	 vlcD8JQbwJ7rZAVY6Hx26RG/wLQP/YOCbFLmAo+MSXUbAjh8clXYKpgP2jlYtChPcVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794485902;
+	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
+	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
+	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
+	bh=YPGrZtQTSZxURuuST0ifATlw9hrQHZEhB5CNPEdDARA=;
+	b=qC2ZtkzeFdTXH7mG0oD/VE+McHIWODCgaiYm2eKYihJywbvIFVUGAMTy7JjGc4eQ0Z1g
+	 E+hfmnJHGpBHxBFM9J0CxD6pERluHwH9Z3OiPdz3b9ZbPy41VVVDNvN0EsEptLBudNUvM
+	 vc8ItkhifLBqepZ1+iymO2XzttbqZjFZXAT7zZRI3xdB9+d4H6w7yXN4FXOegzrw77/Xy
+	 PaajO5qEcUOZsal7su4/CmllLVgkP+V3TnYf1JYtUToFTtUhqQ+vPzr0aU/v5AZOMUu2d
+	 kM2U7BiuGIG+AonEV0U2CCpRqUR1ZHWPba4gn73AEfL9e/p1E0LWCjQ/PD2HqbYsizA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V1YgEiYL;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=uniontech.com;
+	spf=pass smtp.mailfrom=uniontech.com;
+	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=oYoVbiv6;
+	arc=none smtp.remote-ip=54.207.22.56
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72925606A32E
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 12:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C10606A334;
+	Thu, 12 Nov 2026 12:18:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18C10606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V1YgEiYL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E04071F00A06;
-	Thu, 12 Nov 2026 12:00:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794484809;
-	bh=y3yHS9AEQqsr4Cg05GwJ241KovlI9XYEeMiW7OczNNg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=V1YgEiYL+1U6KuvDaAf5U5RHEQ3PwGq0tggxGqIm2XdC0CvknT0IMWAN0qVORp0aF
-	 +JwLH6DOXRA/AZpOZPJdEKOzDpjCtJEACpoMXZhPXxfkEe7En3yfqNerldw/gGENKI
-	 3nrzCarFMsw4F3bODFwwbNQVdIMp7cx6SI6/wARMNfHtG26CD71zFZyXPvseUOGllc
-	 Q0WzunaPnMECIBTIFsdZ0oMmno2RUCkqCxLm2IxXlyGL7FKmA6cAg0iMtmvsilOGkI
-	 cPwXbW61OH1SiurLY92FsJejPuw9HKu/05ABXbOcQe39JvHjuHMYrgdZzJK0bzBFzF
-	 K+fOgUGdNNrsQ==
-Message-ID: <sashiko-outbox-211064@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RESEND] usb: dwc3: tell xHCI that it lost its state when
- the core is powered off
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joonhoe Kim" <26rote@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261112114053.412-1-26rote@gmail.com>
-References: <20261112114053.412-1-26rote@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2026 12:00:08 +0000
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=oYoVbiv6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1794485830;
+	bh=YPGrZtQTSZxURuuST0ifATlw9hrQHZEhB5CNPEdDARA=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=oYoVbiv6JF63br5AxkgTecrgbT/P2oS+gTpYkdgsxw9eOb7KEuJ/fPsz8Kc+xlTLw
+	 r0OCusPZnsfAuxXLDmGw/h5lPQyA4jzVwgbv+/iUWEm8L6gmXULURRCFt5sUiYo3Pf
+	 Nauq8h0sXxs8oeBaTamOSIzTsC0rdsADc4ccvpx0=
+X-QQ-mid: zesmtpgz8t1794485812t43c5ec44
+X-QQ-Originating-IP: JL79jULWRDamYAJoOF8fuylu44LwFj2biUTYVg1xBn0=
+Received: from PEN202512010004 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 12 Nov 2026 20:16:50 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 6304755034306503568
+EX-QQ-RecipientCnt: 13
+From: raoxu <raoxu@uniontech.com>
+To: valentina.manea.m@gmail.com
+Cc: shuah@kernel.org,
+	i@zenithal.me,
+	luiz.von.dentz@intel.com,
+	pengpeng@iscas.ac.cn,
+	brgl@kernel.org,
+	pmenzel@molgen.mpg.de,
+	raoxu@uniontech.com,
+	gregkh@linuxfoundation.org,
+	ihadzic@research.bell-labs.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] usbip: Close all listening sockets in request workers
+Date: Thu, 12 Nov 2026 20:16:48 +0800
+Message-ID: <E063498E65C71B8D+20261112121648.1458957-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,125 +76,93 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MTGYztYhR5ETyfZumcjdLN40YyxkhYD2BBnNrNzfjJXFx9vmD0dS2X41
+	rPrCLwPj6QuVrUPTIDlylAsS6TW2B0SPG1qXynqLec9ZJGq7kUntJxlvMXdVGCtO72ojdwS
+	njRA71BBbVgUhzc+goP3uoLOArmF1qxhyaW2YSa3C+mXAaPKYYUPDBfEqg1vBCg3Pu7jILN
+	RvlaoK7lMsI9yI2Sx4hXC59JyFyFSrH/Mzg2rEiwLNNm6kthFI9GXNsUjGoZpDAk7DZe5RT
+	Q7aJV5E36Vl0SY0T19fdYKTVQHtT9FO2l3D73SDUw+/nP5Xm7O0n2SjyLDd9mE7epVRSWW8
+	P0SwOSm1fh/beBSHXXhljnTwoltkkXJJnc4pDD5NjYsUPi5+JzR5fCMrFik8FmCKbxn6Z17
+	yCv7oVxKBHRVH0oJK2l84tAop1ZG4O2aT4/jBLT31YoD3gsilB891xo7OCJC/Al5EGTteEv
+	ZqUgRZ80+Xry3Q5YxeBqA3h2OjX8ZOCoHU02AoEak11xntEmOKq2JSXVwECBAMOEsgCjj9h
+	kmts8mUBrkBPa4z9dO+U48MFarTpFmngRS8o6WoRIQ1zmLN+aFyfUOPoHYlBsNrimAgaKlS
+	pvEtiq2rYPHvC379rB7hKrVstSFmsXLq1/6q5vx1eQx0sXUVQmQcuE2cZY21E+DAtDIXf5M
+	6/8eHkt13/5kzSB/E80VtuKJ7epJV27b7HFAI8CGxZFRsc1Q0t8PZkZCDIXOwk0twrF2mQ4
+	07c/Xt1YKA0TSlP3ST921GqVAbnnz7QJ21uOmgUR7KSe6M9Ozv6AF7yU3OEAFHLv27I1OW0
+	I7AB1H6BReEtIIza2GrT1IsuoNgOT6AwFg5miOqD+vKZGCTkZ+csmxSI7QnpXAb0WBrTWD1
+	34G57OUxoM80ovJVPwP2XhmAM7k0DCHnY+li1hyjLNL+B8kVIZdQiCOIPX5AU7oBcyi3XsF
+	8yBNW5Pilv7BUK5pREf3NDNlIGePdMW13naXj95Wdq6fLXoKNwJQmF9SgfN47J46drV2uWO
+	Ya6u2KqNFg/3phjheM/NuqekKzE61lJnQUKbFO3n8jiX7dSOcKcTWH2Xdgy+1NK1I6HopAP
+	g==
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-RECHKSPAM: 0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] usb: dwc3: stale xhci_power_lost after resume in
-  dwc3_xhci_resume_quirk()
-- [Medium] usb: dwc3: missing xhci_power_lost set for OTG host in
-  dwc3_suspend_common()
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [High] usb: dwc3: missing xhci_power_lost for OTG mode in
-  dwc3_suspend_common() [1]
+From: Xu Rao <raoxu@uniontech.com>
+
+process_request() forks a worker after accepting a connection, but the
+child only closes the listener used for that connection. All other
+listening sockets are inherited and remain open until the worker exits.
+This occurs when usbipd listens on multiple addresses, including the
+default IPv4 and IPv6 setup.
+
+A worker waiting for a client request can therefore keep an unrelated
+listener alive after the main daemon exits. Restarting usbipd then fails
+to bind that address with EADDRINUSE, or starts with only the addresses
+that are still available. A single-listener configuration is unaffected.
+
+Pass the complete listening socket array and its count to
+process_request(), and close every listener in the child before handling
+the request. The accepted connection remains open, and the parent's
+descriptors are unaffected. Make process_request() static as its only
+caller is in the same file.
+
+Fixes: 328f7f8a0a1c ("staging: usbip: userspace: eliminate glib dependency")
+Cc: stable@vger.kernel.org
+Signed-off-by: Xu Rao <raoxu@uniontech.com>
+---
+ tools/usb/usbip/src/usbipd.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/tools/usb/usbip/src/usbipd.c b/tools/usb/usbip/src/usbipd.c
+index 3e22b651c754..5ff5b46674a2 100644
+--- a/tools/usb/usbip/src/usbipd.c
++++ b/tools/usb/usbip/src/usbipd.c
+@@ -339,17 +339,20 @@ static int do_accept(int listenfd)
+ 	return connfd;
+ }
+
+-int process_request(int listenfd)
++static int process_request(int listenfd, const int *listenfds, int nlistenfds)
+ {
+ 	pid_t childpid;
+ 	int connfd;
++	int i;
+
+ 	connfd = do_accept(listenfd);
+ 	if (connfd < 0)
+ 		return -1;
+ 	childpid = fork();
+ 	if (childpid == 0) {
+-		close(listenfd);
++		/* Do not keep unrelated listening sockets alive in workers. */
++		for (i = 0; i < nlistenfds; i++)
++			close(listenfds[i]);
+ 		recv_pdu(connfd);
+ 		exit(0);
+ 	}
+@@ -568,7 +571,8 @@ static int do_standalone_mode(int daemonize, int ipv4, int ipv6)
+ 				if (fds[i].revents & POLLIN) {
+ 					dbg("read event on fd[%d]=%d",
+ 					    i, sockfdlist[i]);
+-					process_request(sockfdlist[i]);
++					process_request(sockfdlist[i], sockfdlist,
++							nsockfd);
+ 				}
+ 			}
+ 		} else {
 --
+2.50.1
 
-commit 1536e0b07384ff8dbfd40131768e7772947697b4
-Author: Joonhoe Kim <26rote@gmail.com>
-
-usb: dwc3: tell xHCI that it lost its state when the core is powered off
-
-This commit records when dwc3_suspend_common() powers off the DWC3 core
-during host-mode system suspend and passes that state to xhci-plat as
-power_lost via a resume_quirk callback.
-
-> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> index fd5c2cd36c595..b5490b9a8474f 100644
-> --- a/drivers/usb/dwc3/core.c
-> +++ b/drivers/usb/dwc3/core.c
-> @@ -2572,8 +2572,10 @@ static int dwc3_suspend_common(struct dwc3 *dwc, p=
-m_message_t msg)
->  		if (!PMSG_IS_AUTO(msg) &&
->  		    (!device_may_wakeup(dwc->dev) || dwc->needs_full_reinit)) {
->  			dwc3_core_exit(dwc);
-> +			dwc->xhci_power_lost =3D 1;
->  			break;
->  		}
-> +		dwc->xhci_power_lost =3D 0;
-
-[Severity: Medium]
-Does the DWC3_GCTL_PRTCAP_OTG case in dwc3_suspend_common() also need to
-set dwc->xhci_power_lost?
-
-When the controller operates in OTG mode with the host role active
-(dwc->current_otg_role =3D=3D DWC3_OTG_ROLE_HOST), dwc3_otg_update() regist=
-ers
-the xhci-hcd device while dwc->current_dr_role stays DWC3_GCTL_PRTCAP_OTG.
-On system suspend, the DWC3_GCTL_PRTCAP_OTG branch unconditionally calls
-dwc3_core_exit(dwc) without setting dwc->xhci_power_lost:
-
-drivers/usb/dwc3/core.c:dwc3_suspend_common() {
-    ...
-	case DWC3_GCTL_PRTCAP_OTG:
-		/* do nothing during runtime_suspend */
-		if (PMSG_IS_AUTO(msg))
-			break;
-    ...
-		dwc3_otg_exit(dwc);
-		dwc3_core_exit(dwc);
-		break;
-}
-
-On resume, dwc3_resume_common() reinitializes the core from scratch, but
-dwc3_xhci_resume_quirk() still sees xhci_power_lost =3D=3D 0 and xhci_resum=
-e()
-attempts to restore state onto the reset controller.
-
-[Severity: High]
-This problem wasn't introduced by this patch, but in OTG host mode
-[1] does dwc3_suspend_common() power off the core via
-dwc3_core_exit() without telling xhci-plat that power was lost?  When a
-dual-role controller in DWC3_GCTL_PRTCAP_OTG mode is acting as host,
-system suspend tears down the core in the DWC3_GCTL_PRTCAP_OTG branch while
-leaving xhci_power_lost unset, so xhci_resume() tries to restore saved
-registers to a reset controller and triggers unhandled IOMMU context faults
-or command ring timeouts.
-
-> diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-> index c5674161b2b08..c7143a8e3e326 100644
-> --- a/drivers/usb/dwc3/host.c
-> +++ b/drivers/usb/dwc3/host.c
-
-[ ... ]
-
-> @@ -78,7 +76,23 @@ static void dwc3_xhci_plat_start(struct usb_hcd *hcd)
->  	dwc3_enable_susphy(dwc, true);
->  }
-> =20
-> +/*
-> + * dwc3_suspend_common() powers the core off for system suspend in host =
-mode
-> + * when the controller may not wake the system. The xHCI registers and i=
-ts
-> + * saved internal state are gone then: tell xhci-plat, so that xhci_resu=
-me()
-> + * resets the controller instead of restoring registers and asking it to
-> + * restore a state it no longer has.
-> + */
-> +static int dwc3_xhci_resume_quirk(struct usb_hcd *hcd)
-> +{
-> +	struct dwc3 *dwc =3D dev_get_drvdata(hcd->self.controller->parent);
-> +
-> +	hcd_to_xhci_priv(hcd)->power_lost =3D dwc->xhci_power_lost;
-> +	return 0;
-> +}
-
-[Severity: Medium]
-Can dwc->xhci_power_lost remain 1 after resume and cause an unnecessary
-xHCI reset on a later aborted suspend?
-
-Neither dwc3_xhci_resume_quirk() nor dwc3_resume_common() clears
-dwc->xhci_power_lost after a power-off suspend/resume cycle.  If a
-subsequent system suspend aborts after the child xhci-hcd device runs
-xhci_plat_suspend() but before the parent dwc3 device runs
-dwc3_suspend_common(), dpm_resume() calls dwc3_xhci_resume_quirk(), which
-reads the stale dwc->xhci_power_lost =3D=3D 1 and forces xhci_resume() to r=
-eset
-the controller and re-enumerate all attached devices even though the core
-stayed powered.
-
-[1] https://sashiko.dev/#/bug/linux-d6c3b577-381b-4dd2-a215-d44eec3c0bbf
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112114053.412-=
-1-26rote@gmail.com?part=3D1
