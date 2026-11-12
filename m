@@ -1,98 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.170
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794501242;
-	b=SgMEoN/bUXWDvQVyRPWIUXWPhHVLe9YdO41n3oZTCQIpThGrso7xBkV/2ldPc5iwYPyR
-	 oHFi/bHNXLRgLU9oU7bfX9bJQtWfi2zXQKCkQgYaG6tqcTzhuoLHfq6BND28gSlOqxyln
-	 omr2gYb/PQxX0FuFnrc7hHQYCJFM7ffzcy+JLrcB/IBYeFj4LAIB1l4rAXTWR5U8PU7Vd
-	 T3Gv27lDoOXm17usHTqXiglTeR0ZB0yV2FnlQra4IGrxdp2jGDWXajDnOMlIjK4uhoxm9
-	 ZUMFadqA6inzWdUzRq6iR1gILcTOrTQZpbvfKpcGw9gxTMll3J5+lrObj096pRY9YUg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794501242;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=vjlOuJZpJu27IF2Rqol8GEHXhnQ6E8+vGutgYf/KK4M=;
-	b=w3FVEmf1CgNYsvUzjKrc7pzte4q139MOTAtPI6K4fAFQfy3xZn15qqjYW2Iaoyo6qIXa
-	 LA4CSYwzyzePXEGrcewPtBXbqKlSJ59XaL2ne4xOxXHsX1bv3zezj00x61ycp7eYrzd7h
-	 olKb6+NdrHbmZQa6ymJeuP7O36dC/7OlAj7aAi/NASxkOnG1iavGCRtdPOjhTWZP/Mrvv
-	 cRJm+t38kb3OLy6MRnej8/vNnfAtJ/5icBaf8ijxxphFDbzZhAQljUfkjYBRSnJacmt9D
-	 DZFp60dPKh0U5apgR9iUDbqNtt5YaeWYGOFSOPgVUKA02qjKOvqVw4Zta9BH+/GUECA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MOOkggqM;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.170
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794501780;
+	b=3eURPYLO7TglfgNmVkTbQCnKjXIRkNBgf5ocjE1AbziTvU6OdMOpVKc0AqR2AlkSM8Nu
+	 bRV1GGjYfVsvmvkU2JAW87TSRiSNO/oWtWoWBy+F5FQzqTQoWIcuofKuTtMeuq6w7AzG/
+	 9idlDFnrqj8oWFCEAF/ikaY7lkRVr5B3jB+4lBhOTx3E6/kam2gEntM/pdz73w/B9YMGM
+	 CjIE++pPKUOSDVA0T01rOb87tdXklV8rRg599BlTq8cMy8FMe+FmPapYcd9lsYpMx23U4
+	 nZQQOItYeRk7WprompwjpJZd/etCbanHy3FFBD/TsAQI2umMQga0rBVRLIDgKs7zpFQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794501780;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=Qi0GHDoo0d+sgVHHbsbvf3TVWeYwlShut9QGcVyVR/c=;
+	b=p1EgziHgMDwFrPOkBdS0CacO0VkaS3S84TJYN95F3xjj01181i57hUclMPEXoljXo7sS
+	 eI5APW8SyRiGGwHTEV3XrT72mEFYvjtn12UOvVMLo7BDHOo9ivOXzVOiUixiL2ObXeiwD
+	 JFOzJ+z+hQpbhC7wuhNkw36nHFIKRHJWJv9Etl588zHqhXf93Db1AK/pFJBHZVgVY7UUO
+	 8zd9pRRJ2xbWrnVQ4cx92NdVhH7+D01sG3iwIN0ZlLSaVkWS+efVcsOqil9KnEbS0mGCP
+	 cm2ntNxraOpNkWjtsh82iHASw4mFu1aHMsn+7xjx7y4WcltO3KOwGlsRpI41XyUodpQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=4CVmn4gH;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FC9606A332
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 16:34:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29FC9606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8769F606A327;
+	Thu, 12 Nov 2026 16:43:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8769F606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MOOkggqM
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-533972e1731so2215351cf.1
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:34:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794501241; cv=none;
-        d=google.com; s=arc-20260327;
-        b=s8m1KIKcHlNGFSfLWUjNPoBK+pLZoLfuTOt5TiVqjbvQBOM+o6pbRykxZTRsnIInmD
-         7v1DW1L2DF8PLvO43HxX17P/lUS0CeiPksP17TOzKJwPXYt00Aw0mB1+NB7ZFAWGn0xk
-         0NIDnurhkgUg+2mJXexDG0tlEgHPKdghBhKW85bQGYFSGsD9miZIsOOhiv4sFQQHxEEa
-         w+nnb+CrOtW01Wk97gR8ly7perZwz5yp5NLu1kMIcY/5pedpajZ8grldjobfBM7ZfHBF
-         CvYmBfuVk7WNTJRHPou6Qvax3LOb79jcNpQ5C0ricILUMor3o2M8qCCt6pMYqP5GpOXl
-         VjaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vjlOuJZpJu27IF2Rqol8GEHXhnQ6E8+vGutgYf/KK4M=;
-        fh=/XafWwXInU6xSAMitUKTVJtcnn7zkW/jx5Qszu7SSug=;
-        b=NoZtEXX+pHESwDgCpD6XmriKMMFysfQ/lsGq6OP5coUKH2r0rhE/YivEsj3/0MF6+U
-         4ln+Wlx/fPddS39FDhrfp8LFi3JOzGhav+HvSWVS89qpmnMSfFfJv4/LQ5Vk1LrBsdpB
-         vASx2BiNB004jEMi9iJwM4hgPhs0CaOvAlPMJBjehZ2H0Ud1n2w7w5rAm5JDukTH2G4/
-         yAFX0o+L6x5XslHF4mOy2h4q4jEOcKgsAfLjBbjp85I5II8yg0/OlYvfNqutBssPxH8l
-         oDI9vZBHiYreTS6iAdm4avTWxt4QgPNCl+7etmBBHOubyLGn1vh0twp/jWFsiobPLKYx
-         pF/Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794501241; x=1795106041; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vjlOuJZpJu27IF2Rqol8GEHXhnQ6E8+vGutgYf/KK4M=;
-        b=MOOkggqMikZh71X1uCu9H4go/idBNHEOlTgcRRbyZm3rmCZNGKuwmCsZAsR0EZHMAz
-         oVvjA3/ta64JtZTTafXPw6uFT8AG4SAKLb0uY2F7xdtw+5Q1Wu2f7O6WFJcLW5FQ+tLJ
-         /JwxZLoRb3tUULXk/jJqERfMXT82NtUz8lpT0pmDmd8WuKRXaqYdSCeTlZQR93bALHih
-         IeXBDwsaUeBskT18Pb/fUay031/kg08iHM1J5KFLC5KwYlSwDnl5ozIGXSgj5OMXa5mi
-         w1W3yfk2k0okvjOwzoM8fHVUuS3aGRYJBdbqPAjriQfUGF5+llridn2GK58+/jA74MVx
-         z2KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794501241; x=1795106041;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=vjlOuJZpJu27IF2Rqol8GEHXhnQ6E8+vGutgYf/KK4M=;
-        b=0nLhNqvukC6epF8/yKSgVYrxTKciFKCbG07QqQn528nL5QlTrf6GQXl882QQRHb48t
-         q6GFhIrXPmL2CwRnz6XME9ODZi1meyrQzm27UiQHTucHpoJ9UlHp0veRyw90x4EO3JcP
-         IY1Dn5IRPm9rz95arp8uBhD0f39+IHAHasGdsTjf+pPB6D0qP+Vwdcx5zoAsrKF5SCck
-         wWequHXjf6w5Mc6i9fCevPIantDnKaVGE8usCWGg8OZXCZfbaUr9cmjYFr7OIW81tIKV
-         USA8GPoz+tC4HBpAeUlT5OrLCpYLjIUYlNJ0fHQFgsILfe9oimGiGQ62MQ5serKCayfU
-         yc7A==
-X-Gm-Message-State: APuU4Z+CH9ZPbjPq0RwvB0JrHpMEZ+S/Bl7F0hLNoUimszj9wgRX3gpt
-	QZUgbZBloD3qqBQ9MiE6qGw6VhpoVtoYvzAzcaZJjvWaEgyRuhCqXY0jtbXckUwO7NdLoEjfQfx
-	E1Qh96xmHA2ucUAbuDc5w8hWLQPS6BwjwHrkF9tRb9Q==
-X-Gm-Gg: AYBFou0n1ecLSzjJCOLT/lwVRKfBhSkSXi60xsgQXbxSqnR8uJWHkaBaIJuJkOZNs/n
-	FnH6oFX2Ns0OPz+Hb3sD4ABYfxvpULwqBEIQ8dvnQ4tF5rtLkmvw7aT9zDpxCcBTrfvO4eeN2Pw
-	RlooZ9KIvgVN1AAJyt5Il/tuFUdJlnBuQFR+5CTfgEcURCsOiQhHRv5ebILueIDGvlhbv1XN7gM
-	/jbLd+ZZYI/7K64Yw+eFrH5Uc44UHQlvfD/ixcnpODFE+do0VSVbDNbaFimPV4cMK+5tLjD0fxd
-	QM+aBVuLVD88qhKeQDHWqBoQFPrE30/rpRP1I0mHiQImBSmRwAZhChkuMTkesQKLOR28H7/PKXM
-	wGe0RQV+6/L5yP5D9zp8zNtpOU6kh42iUpEwbDw==
-X-Received: by 2002:ad4:5d69:0:b0:91e:cba3:43c1 with SMTP id
- 6a1803df08f44-91f041ce878mr141426566d6.4.1794501240930; Thu, 12 Nov 2026
- 08:34:00 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=4CVmn4gH
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=Qi0GHDoo0d+sgVHHbsbvf3TVWeYwlShut9QGcVyVR/c=; b=4CVmn4gHc58+kdPEr6KQHyRLM6
+	7CsjW9eILTwcKAO6a/Wno1mZdbmfykAM8wAaz6f1tnw1xBbC1WDEin9GwhVlxqMHleHb6BUhOi+tW
+	UPQhyVz+dYfjCPdB0ag3KhcQgObIDXrLW/sP6CnHViWSgmBLTEdGhgGdipySpTnot6mc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xRXsw-00G4X8-PW; Thu, 12 Nov 2026 17:42:50 +0100
+Date: Thu, 12 Nov 2026 17:42:50 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: joasantonio108@gmail.com
+Cc: steve.glendinning@shawell.net, andrew+netdev@lunn.ch,
+	davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+	mim@microchip.com, Eric Dumazet <edumazet@kernel.org>,
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH net v3] net: usb: smsc75xx: reject frames without a full
+ header and FCS
+Message-ID: <cec36b10-1344-4ad1-9440-a6af8f5f6b00@lunn.ch>
+References: <20261112-smsc75xx-rx-fcs-v3-1-6ad0378d0384@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,18 +65,51 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261112160448.41566-1-lui2012qwq@gmail.com> <20261112160448.41566-2-lui2012qwq@gmail.com>
- <sashiko-outbox-211493@kernel.org>
-In-Reply-To: <sashiko-outbox-211493@kernel.org>
-From: Chengyu Liu <lui2012qwq@gmail.com>
-Date: Fri, 13 Nov 2026 00:33:48 +0800
-X-Gm-Features: AclHuK8V5VMmiaN-I58vSc2_c6jPp-maU1OVmpTHdynIFXySAJKBi6nA1SaldYk
-Message-ID: <CAE=Q7=4PdubbUYnNwcVHg1kbChe5ukOxD_uj8ee3+J7sW5OhUg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] usb: musb: cancel irq_work after masking interrupts
- in musb_remove()
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112-smsc75xx-rx-fcs-v3-1-6ad0378d0384@gmail.com>
 
-Thanks, f730f205cc51 is the right one. I'll carry the corrected Fixes
-tag if the series needs a respin.
+On Thu, Nov 12, 2026 at 04:23:27PM +0000, Joas Antonio dos Santos via B4 Relay wrote:
+> From: Joas Antonio dos Santos <joasantonio108@gmail.com>
+> 
+> smsc75xx_rx_fixup() takes the frame length from the RX command word
+> supplied by the device and strips the FCS by using "size - 4" for the
+> allocation, skb_put() and memcpy() of each frame that is not the last
+> one in the URB.  The length is only checked against an upper bound and
+> against skb->len, so a device can report a length field of 2..5, which
+> gives a size of 0..3 after RXW_PADDING is subtracted.
+> 
+> size is a u32, so "size - 4" then wraps to 0xfffffffc..0xffffffff.
+> __netdev_alloc_skb() adds NET_SKB_PAD to the unsigned length, which
+> wraps back to a small value and the allocation succeeds.  skb_put()
+> adds the length to the 32-bit skb->tail and skb->len, which also wrap,
+> so the skb_over_panic() check does not fire.  The following memcpy()
+> then tries to copy almost 4 GiB from the URB buffer into that small
+> allocation and writes far beyond it.
+> 
+> A malicious or malfunctioning USB device can use this to corrupt
+> kernel memory or crash the machine.
+> 
+> A frame that holds an FCS but less than an Ethernet header is not
+> valid either.  usbnet drops it when it is the last frame in the URB,
+> but the other frames go straight to usbnet_skb_return(), where
+> eth_type_trans() reads an Ethernet header that was never copied into
+> the new skb.
+> 
+> Reject frames that are too short to hold an Ethernet header and an
+> FCS, which covers both cases with one check.
+> 
+> The driver does not set FLAG_RX_ASSEMBLE, so usbnet already counts
+> rx_errors when smsc75xx_rx_fixup() returns 0.  Also count
+> rx_length_errors for these frames, as usbnet does for the short frames
+> it drops itself.
+> 
+> Found by LLM-assisted source review.
+> 
+> Fixes: 1b3b2d9e772b ("net: usb: smsc75xx: stop lying about skb->truesize")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
+
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
+    Andrew
