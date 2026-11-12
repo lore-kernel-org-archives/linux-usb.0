@@ -1,56 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794467264;
-	b=dl+2OGuP+D2zBFO9wkU5bITJHl+PPsny3MvUwuCWlOlH35jOe3VTkSjqS/H6UW+cVVnd
-	 l4saxw+bdl2ixbE7EUzUDuvaR9OyCJtV4AhYK0zI72+dRlWmdhTd7/xbi3JTi8IelP+kB
-	 3jAFYWJ1yJoQrP7i2HL4n40BBg8JF/y8afxtZLCl9vQ7+FWTPbQNIeyoguCzeAf0yw958
-	 RWyVFo5XfhGHArgqfcdqE+/foan+GYkI+7ymHQJpMoGbyTbFj40HAKtNV/BnU+xnyLdCK
-	 cCCcmqnocqPCl3hPvPKe6I73ki0vAIQb0iL5hMSYIaL205iLy+y2x4ZpngCYCnCxowA==
+	t=1794467555;
+	b=eCxsj97EyKgaPATosz72YFcjvmFMHenYPu/xsaeNHVzYVaoesSTL3BwuqRyHUflcvH0A
+	 uLDIU149lQiBlU75yJtXh5m/SdbQ4Rwm6Wa/MeGAFQQDJMJx3mbJ72i+zUGQa2We1aQSO
+	 G0CzAd1839jLrrf7+LO/uZfhg17nLhdhkmhWQmkTDrZc8GaZ5lONkfYBNwURlkv3wQOrp
+	 vufl7SOn/LD6/boHgN4ATYFaskwY+oSuqo2ZMbIeOF+8XVF8eizCgJ0FEdPdMdiPixe85
+	 tkGQZ+wMU+DNjkFJwVpH+YBRhpC+zJll3L+xniyMK9crhf0JPVZRZuqy6RB5IDiUZUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794467264;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=2//YoWSOq5dYQBQQahPIBv6U4QFWTeJ5V1uNMemqYDo=;
-	b=3Z6IySQAZtbp3AZ19uZ5DIXCdGUFU52zTMHDbYyFGOs99UTho5QyqKleXyWOB112QyA5
-	 /VnTMWM0Ro439mvsU2fXZ4nRujZ/Yv374AwGUIyL0c6dsQdSD9RSWMSZncaE3YT+VS1r3
-	 mj/aO6CucOtG62OgRiYu8fu9N/PZTMFeqDe3JzG1SCK01husCG/9mNI+h6ZatwXadghED
-	 XGbQio2rpT53rOL9Do4Nf58DtzQAZNocKBJhmRluvsHTx0cHmhD6BumTv1uieTau4AR0C
-	 2h5VmbaQ/CCLyXCzPhb0lmobFI/I810DRZdFgIfQrWQBcfsM+klC6/RvHi7DZskhBgA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794467555;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=BDpJwbTGNyEZBddgupUtTkbcG64c1MCzi1j9+WCer18=;
+	b=hMbrPlcPW/We1zaNF5rVFq06vmcUQ1Z39OKUT3tzSCM3vW6DUkPKuNI3povOPAz16x9X
+	 9U6TL8knZ5soz8Dn1ctMMPEf2nWIsAv/YviTXqQLMrmzLVfGtQH8GwZBMyQEhUn4nEUGz
+	 wrorzr/BIokVOwEgmdUai8SpzOTSwFPGYCgirTMvYGvRIRcawasdvrRGfgdAtQcdLwDh0
+	 lRlvY6WKMRFYHOQLMtzpGderGtA5WO83dyHkUMg9NDuILYVZ5FMmniuLlIx5GAPN7Q6XH
+	 WOZzpqA42yv1qpaU0vcvYsEthfNJNUqPUBDu4XaKexlo4fr+L/7KAC3b0h/ApnyKiOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SeiybPSp;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABEBC606A32E
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 07:07:44 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=v35jfiA3;
+	arc=none smtp.remote-ip=111.22.67.139
+Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57BD7606A323;
+	Thu, 12 Nov 2026 07:12:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57BD7606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SeiybPSp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AA7A1F00A05;
-	Thu, 12 Nov 2026 07:07:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794467264;
-	bh=2//YoWSOq5dYQBQQahPIBv6U4QFWTeJ5V1uNMemqYDo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SeiybPSpoVJh69/ZWxnNis/UtV6Tr2Z6NP8wEcgPYac9FX8jaJ7uYT2Njof5L4clQ
-	 FOxneTf44tnD0GAZDgwqDiF2r04LFzviF4kGL8e4btvuIse20h/2V7UH5AnZux7NI7
-	 OXYt9NdNi9mxjpdMTFEUgDDbqv/o7G1cM4Cpae9kJ3BKxuzRWAs9d27/Ow9GuLWOaK
-	 1H1pUWm5tjoHxRnql/5R/Xqk/UKWr18aTqHg08/rmyC0ANTCQ1ra3iEhlcM0wHXOrc
-	 6cZukDb9JiH8HM+dHrJZggZeG61UzCuDIVYk2F3UqMqZJP1lUmwdR93NxCdfx/n0cC
-	 sjEFBOmOfh5XQ==
-Message-ID: <sashiko-outbox-210571@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: typec: hd3ss3220: disable the interrupt before
- unregistering the port
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Myeonghun Pak" <mhun512@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261112065613.34182-1-mhun512@gmail.com>
-References: <20261112065613.34182-1-mhun512@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2026 07:07:43 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=v35jfiA3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=v35jfiA3K7Barhu8YaUKyPBQ3IGtmumoNQWPTjok9dzcH/PihpJxbG4iy4ddhiUVIybk1YiUHJbuU
+	 3BoUVr19rZMPag9wXkIARdklxAy7gikD+/F/Hfe0B4FGOIkOguj8uP7VRCsz38bZNF9gTFWzH2haWO
+	 KW8iU5ZeJdnMgp6U=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app05-12005 (RichMail) with SMTP id 2ee56af566de23e-dc962;
+	Thu, 12 Nov 2026 15:12:30 +0800 (CST)
+X-RM-TRANSID:2ee56af566de23e-dc962
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from utest (unknown[223.108.79.97])
+	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea6af566db076-f65d7;
+	Thu, 12 Nov 2026 15:12:30 +0800 (CST)
+X-RM-TRANSID:2eea6af566db076-f65d7
+From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	greybus-dev@linuxgreybus.org,
+	syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
+Subject: [PATCH] greybus: verify the received message size covers the message header
+Date: Thu, 12 Nov 2026 07:12:28 +0000
+Message-ID: <20261112071228.33017-1-shishunbo@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,79 +68,69 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found no new issues
-in this patch, but noticed 1 related pre-existing issue it does not
-introduce:
-- [Critical] usb: typec: hd3ss3220: IRQ race in hd3ss3220_probe() and
-  hd3ss3220_remove() [1]
---
+In gb_connection_recv(), the size of the received data is checked
+against sizeof(struct gb_operation_msg_hdr) and against the message
+size encoded in the header (msg_size), but msg_size itself is never
+checked against the header size.
 
-commit 2013fda123b6f1830f8ccc3b96427044ac637553
-Author: Myeonghun Pak <mhun512@gmail.com>
+If a peer sends a message whose header claims a size smaller than
+the header itself (e.g. header.size == 3), the two existing checks
+both pass (size >= sizeof(header) and size >= msg_size), and the
+message is dispatched with the undersized msg_size.
 
-usb: typec: hd3ss3220: disable the interrupt before unregistering the port
+In gb_operation_create_incoming(), this leads to an unsigned
+integer underflow in:
 
-This commit disables client->irq in hd3ss3220_remove() before
-unregistering the Type-C port and releasing the USB role switch.
+	request_size = size - sizeof(struct gb_operation_msg_hdr);
 
-> diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
-> index 60d6de9ba3399..19c5dbdc97a1c 100644
-> --- a/drivers/usb/typec/hd3ss3220.c
-> +++ b/drivers/usb/typec/hd3ss3220.c
-> @@ -554,6 +554,8 @@ static void hd3ss3220_remove(struct i2c_client *clien=
-t)
-> =20
->  	if (hd3ss3220->poll)
->  		cancel_delayed_work_sync(&hd3ss3220->output_poll_work);
-> +	else
-> +		disable_irq(client->irq);
-> =20
->  	typec_unregister_port(hd3ss3220->port);
->  	usb_role_switch_put(hd3ss3220->role_sw);
+The underflowed request_size then wraps back around in
+gb_operation_message_alloc():
 
-[Severity: Critical]
-This problem wasn't introduced by this patch, but can the same race
-[1] still happen on the error path in hd3ss3220_probe()?
+	message_size = payload_size + sizeof(*header);
 
-drivers/usb/typec/hd3ss3220.c:hd3ss3220_probe() {
-    ...
-	if (client->irq > 0) {
-		ret =3D devm_request_threaded_irq(&client->dev, client->irq, NULL,
-					hd3ss3220_irq_handler,
-					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-					"hd3ss3220", &client->dev);
-		if (ret)
-			goto err_unreg_port;
-	}
-    ...
-	ret =3D i2c_smbus_read_byte_data(client, HD3SS3220_REG_DEV_REV);
-	if (ret < 0)
-		goto err_unreg_port;
-    ...
-err_unreg_port:
-	typec_unregister_port(hd3ss3220->port);
-err_put_role:
-	usb_role_switch_put(hd3ss3220->role_sw);
-}
+causing kzalloc() to allocate a buffer that is too small to hold
+the message header.  When the response is later prepared in
+gb_operation_response_alloc(), reading
+request_header->operation_id reads past the end of the undersized
+allocation, triggering a KASAN slab-out-of-bounds report.  When
+header.size is zero, kzalloc(0) returns ZERO_SIZE_PTR and the
+same read dereferences an invalid address.
 
-If reading HD3SS3220_REG_DEV_REV fails after devm_request_threaded_irq()
-succeeds, hd3ss3220_probe() tears down hd3ss3220->port and
-hd3ss3220->role_sw before devres frees client->irq:
+Verify msg_size >= sizeof(header) in gb_connection_recv() so that
+the "Caller has made sure we at least have a message header"
+assumption in gb_operation_create_incoming() actually holds.
 
-CPU0                              CPU1
-hd3ss3220_probe()
-  typec_unregister_port(port)
-  usb_role_switch_put(role_sw)
-                                  hd3ss3220_irq_handler()
-                                    ...
-                                      hd3ss3220_set_role()
-                                        typec_set_data_role(port, ...)
-                                          <-- use-after-free
-devres_release_all()
+Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
+Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
+Closes: https://syzbot.org/bug?extid=0b456664585fa81a47f6
+Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+---
+ drivers/greybus/operation.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-[1] https://sashiko.dev/#/bug/linux-37ab65bb-ba98-4e43-a446-fe1182fefabb
+diff --git a/drivers/greybus/operation.c b/drivers/greybus/operation.c
+index 7e12ffb2dd60..da53c0e026f0 100644
+--- a/drivers/greybus/operation.c
++++ b/drivers/greybus/operation.c
+@@ -1047,6 +1047,13 @@ void gb_connection_recv(struct gb_connection *connection,
+ 	/* Use memcpy as data may be unaligned */
+ 	memcpy(&header, data, sizeof(header));
+ 	msg_size = le16_to_cpu(header.size);
++	if (msg_size < sizeof(header)) {
++		dev_err_ratelimited(dev,
++				    "%s: invalid message header size (%zu < %zu)\n",
++				    connection->name, msg_size,
++				    sizeof(header));
++		return;
++	}
+ 	if (size < msg_size) {
+ 		dev_err_ratelimited(dev,
+ 				    "%s: incomplete message 0x%04x of type 0x%02x received (%zu < %zu)\n",
+-- 
+2.53.0
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112065613.3418=
-2-1-mhun512@gmail.com?part=3D1
+
+
