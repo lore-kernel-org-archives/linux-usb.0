@@ -1,56 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794445737;
-	b=UumrypJ+Zd/7MVIewmHt5zb0VR7mslNaiKJ5FMY5iToNZhtxBV/xdJiD40nKjiKbtoWI
-	 fUZHF8nWTU71jdzoDVG3Nhigf0ZlUyHVu96mTj/thpN/nK8bPNI2TFdrXDpH0jsncx9Vl
-	 +9mTOFZmgzujePAZpgxp9/K3d9oIMIYWsnhLBfsAXLxcCyszllvV7zHyUEvFNaTcD3q3a
-	 Bk9HdW3AhvzGXhdUXNZs3eC5yZC9OBLmR/LRuY+aB3Ihp18wLdrfWed7MFqF+RP8x8m6t
-	 x/LGe8o3IZnkSFNIc3m4O2j9bhhNLqDlmLVpy9G6mGd/sBTKShVYdpvHDT7pYsdjHBw==
+	t=1794445776;
+	b=KXZZ4FhECEk+QezopL1wrbmwZ1lf7y4y/iXXbbvEha0XrFJewpnyCN/s6tSMjRygapKq
+	 Uvi6zxEkAKURz/1+X5LYuHkXyXK7td17J79yfYQQdfDIvUDQ7DKf9rOTOSWwKLNi8R214
+	 bIcX4kzjbunJ6nMvqCTdbJJK45IIghvxpAsn8ZDP7QP3BvkLT3ooTMK3jM40t6WrC+ERp
+	 tQ7SkyfC5rYb9v2UvJBGCe/EtMJyv9GOb/EYh4fYtqVwqYsbDCk/IPzED0QxZ3MDGeUT2
+	 tRC5jGlHKbU2VKyl0QVXBZRWOBAfS+U8ibpXCd9J7vYbYZ/b1oY8Ru8IZ2ZGMI2Rdig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794445737;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=XbyeFzSmyG38QykMDvbTqGgQBC4aNGfv12zQa7/Ahtc=;
-	b=InNJywdqF1ee6LEUz1Yo4VlORo8GSorz1xKwY/rZpap+0O5oynYo5MWcqzkXo2USnYqr
-	 Y6TTPpEzXAaoWS6GWEfBvXNa67y0RwJT9fzJL41LIAq7F2H8J914oJhO4WfjkQeZ6BriV
-	 rsazbqO1GvVrMwcngNHt22bQIeYdBckgHWBDPLR54FkeXZifTOrw7jPLj+mSr1dH73E0T
-	 SIBNuoT96Rj3Go3zTEruxoN8Sqh4Ff2MDkAHqamnwjXrOYlynDVXD5w+v3vPIhkHhOX3S
-	 xtpfTYKETgvl+uE8BKOh6iQT5G6MzK0u8qMY8chWia26v2IpDfvV+MWMIBuUbaTgLMQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794445776;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=pf8HqYSPTYyKboxc4dL4PB/2t78zaL89AV/uuWWONAE=;
+	b=qGH/PCOyx8hEQjMECFW1H8XNfaBkJF5uef6aGH6leeJi7hqNfI6OOJ+4miJSmut0Qn0U
+	 EPif+JxgNGIKSy6yLEYfTOWi1c8uWc66YFQGu4v4EAkHTOBiuMbGjQzaZSokiYWqGRkOd
+	 jBkWaGEnljQzL+zITpXXjWTUJLcW4Uus5bGBt0LUMMO9P9DlIavTnrlZedIWcbdkUrqkw
+	 VwsPkq+u+963Y3M0rMXcMGI40zBuGckKjNBLWs+6KJOsQ/uv2B453lplNXg/N8Jcce13k
+	 I8QSZU9c9lgiSU8/MdfqsHaiJ1cfnX1Ci+5SUomoJ9fRN0lj92IwrslY53AycPhOeKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nD7g9w79;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452FB606A321;
-	Thu, 12 Nov 2026 01:08:57 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=z9A+J2lR;
+	arc=none smtp.remote-ip=111.22.67.137
+Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B790B606A324;
+	Thu, 12 Nov 2026 01:09:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B790B606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nD7g9w79
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A14F61F00A05;
-	Thu, 12 Nov 2026 01:08:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794445736;
-	bh=XbyeFzSmyG38QykMDvbTqGgQBC4aNGfv12zQa7/Ahtc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nD7g9w79dU5XlgY5UhaPhgN3VfRoq5DZZcjkt2lOrLf4O1184GsvMLPMbrsP6uDKU
-	 BHckZllzLpldB9AUrJZ6e1eRWFKzSvzHG0vn4K4sNdywWwOfaq6lK7sWlicHUKKEcM
-	 aFXO5rhmyNOa1qNQvhWXuJ5dabm5iBFm0vKsx41W6ZoMZQdRH6ZvcZbtb9oSFWxJ9c
-	 Adn0t6VJcRbZGaRRhQxMRONSf4f3KlGFy3hNaaUdtOBwntKramwwTjTNwgHI54rdFT
-	 htGUIc+RHiqZqhtftjld+5tVNxjt4mrw2tZUnNOLx/a6rom03PziMpb9TeXPPQ1m0C
-	 uvai41XOF94Mg==
-Message-ID: <sashiko-outbox-210041@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 7/7] rust: driver: document teardown through destructors
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: linux-pci@vger.kernel.org, linux-serial@vger.kernel.org, linux-usb@vger.kernel.org
-In-Reply-To: <20261112005455.1224352-8-dakr@kernel.org>
-References: <20261112005455.1224352-1-dakr@kernel.org>
- <20261112005455.1224352-8-dakr@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2026 01:08:56 +0000
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=z9A+J2lR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=z9A+J2lR6hO/Q+PROF5gSi9Z0BfHt7zllF8RamaBEdve6f2zNgeFP8v+n9srs4UWsibRzDgy1iJgH
+	 LdUEsujSyzuhLJdzPSnXU7dKT0UvpezeHSLTXElS6wM/B+asV+FKNKzXSsHmxloi/J1silWRKTa4ri
+	 ZGBnZLFBltu5MTqs=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86af511c9259-7b4b3;
+	Thu, 12 Nov 2026 09:09:31 +0800 (CST)
+X-RM-TRANSID:2ee86af511c9259-7b4b3
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from utest (unknown[223.108.79.97])
+	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea6af511c8154-ec505;
+	Thu, 12 Nov 2026 09:09:30 +0800 (CST)
+X-RM-TRANSID:2eea6af511c8154-ec505
+From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+To: nkapron@google.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/4] usb: gadget: f_hid: three GET_REPORT fixes
+Date: Thu, 12 Nov 2026 01:09:24 +0000
+Message-ID: <20261112010928.23716-1-shishunbo@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261111021655.37851-1-shishunbo@cmss.chinamobile.com>
+References: <20261111021655.37851-1-shishunbo@cmss.chinamobile.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,19 +69,57 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> The bus driver traits no longer provide an unbind() callback. Remove it
-> from the example driver trait and describe how the generic registration
-> infrastructure drops driver data during unbind cleanup.
->=20
-> Document that device teardown belongs in Drop or PinnedDrop, where the
-> bound device reference and device resources remain accessible.
->=20
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Cover-letter:
 
-Sashiko has reviewed this patch and found no issues.
+Hi Greg,
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112005455.1224=
-352-1-dakr@kernel.org?part=3D7
+v3 of this series.  The only change from v2 is in patch 3: the
+dedicated GET_REPORT response buffer is now allocated in
+hidg_alloc() and freed in hidg_release() instead of being managed
+across bind/unbind.  This eliminates the use-after-free window on
+unbind that the Sashiko AI review found in v2 (the buffer can
+no longer be freed while a request is still queued on ep0), and
+it also removes the need for buffer cleanup on the bind() error
+paths.  Patches 1, 2 and 4 are unchanged.
+
+Original description:
+
+While reviewing the f_hid GET_REPORT userspace ioctl feature
+(a139c98f760e, v6.11) I found these bugs in it:
+
+  1. sleep-in-atomic-context: the second copy_from_user() in
+     f_hidg_get_report() runs under spin_lock_irqsave(); a page
+     fault on the user buffer deadlocks the scheduler.
+
+  2. memory leak: report_list entries allocated by the ioctl are
+     never freed in hidg_release().
+
+  3. data race: the GET_REPORT response is served by pointing
+     get_req->buf directly at a report_list entry's data; the
+     request completes asynchronously after the spinlock is
+     dropped, so a concurrent ioctl updating the same entry
+     corrupts the data on the wire (a torn write).
+
+  4. memory leak: get_req is leaked when usb_gstrings_attach()
+     fails in hidg_bind().
+
+All four were introduced by the same commit and are fixable
+deterministically from the code.
+
+Shunbo Shi (4):
+  usb: gadget: f_hid: fix sleep-in-atomic-context in f_hidg_get_report()
+  usb: gadget: f_hid: fix report_list entries leak
+  usb: gadget: f_hid: fix race between userspace report update and
+  GET_REPORT response
+  usb: gadget: f_hid: fix get_req leak when usb_gstrings_attach() fails
+
+ drivers/usb/gadget/function/f_hid.c | 61 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 48 insertions(+), 13 deletions(-)
+
+--
+2.53.0
+
 
