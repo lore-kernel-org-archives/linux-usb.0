@@ -1,55 +1,130 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794470925;
-	b=cBlnGltF7bBe6wSlLmsqPmBIrbwWMMev6HF4R+XwWqYA2gabJaE7XkdKJlhPB5DfZOZO
-	 YV1apZ0P36ljY2sRLIKzuqSxDerhHGiwoU1Nhq90QKfDYvDoVSkQgUy8R4nOkXpbGXaIY
-	 apHKA1EkJnzoKWksPNFcc3tyEaUDXtkE1tPo1RL0Z4/ch+5NtqdBsGZ/kVBybGkOtuekV
-	 IcHaS6/2YQR02u+farPDPOpY/yFGmL1aymC0A2UuXpWPOGzcTrNMz1eXiPy3qzuc/Ehji
-	 jNX/AxomIgVzjJ+7bQlWjeh9Z+cyWbPTYzfj/Hjg8Hkh4gPLUczqzwohkCMl+zOMazw==
+	t=1794471017;
+	b=scOemdS+BWOVnu0IhnCX+9bz27D1QyOkq3QHVaMXqHD8KigrXASFv0gGOaYJ0D4Z1syn
+	 re5LE44L5rXM5tWEsYhSmdCmOcL/OQSkJPtdE8svoZQok9dG1DTZ0VDxx/RlN0ompquOT
+	 fdxVLq5f7JAeUvHERiLhmmSsZdtCFWtmmtCNHi8+vWNQh124ApWdIlmD03hC1JD4/XjPr
+	 MrmdW+JRj8sqbcmKsv/qps0vjesa+kH1tzseQon4vcH688etB48KtbtrZePYICpDY5zbo
+	 q6NgbUhNS7Z5Ed3CN34lFrojh/I6izAJraYxm4YcHpxiumrBC5K2H/YvdsF5EZGMhWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794470925;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=f/K/dT4G7j/2V0oqueVsADMWh93CbLx6C63d9vDA5x8=;
-	b=Wpx+PL7bBlbbt7tBuxwuquZNRBc9kf1/RPz74YrD2Eclz6ZoMg7FSnnKVCKHLz7OaZYI
-	 uibaqdqSS8JuuWxTZXykFCdWWUw06bvuz0KKMRaqdDMfDojC2GtzcXc7r/TZTE/KlpYgH
-	 fOmR3Yb21HLzz/maDLJp/4hW3Vl9BuwfDkDTNqjE5jXJibfIIdUUbvFZ4pcxA9XeSz424
-	 AQqD5LPz4nsorTl0AiAF1jWeSPOj+EMop/Zcj7hNsO4Ttm9pYHUT/0s6+hmqTncHk99F2
-	 ISWz4OXPjW+CjaRYIURHAKPqoomukM9HkJMFm8HOdi2MTf6Y2tBeJ8Yl+ZmjWImCh6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794471017;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=8TjqoQE8ZgKZIWSYbiau/lZyYWLzMLF76Z8htBhrfbY=;
+	b=MMNRPh6ic/rdYICNtJDiJRNY3GDGOUvMG4ZXAEXmFt8zUALmPuQ7vFq+XfsXn4QM/zJX
+	 vSao/wKcFs91ddS9+MUNLm6NeU+OQL0Ou+c/0JqRymShkk3SZVWzsa1ik7hm0HTo/wczj
+	 KlsTGzRCYowjAqHBLADWZZnr4uGLNEyxOp5yElNY/EKXicyL6ggjVucbI36SqZaXlcnvY
+	 OMbyc4Z0VkB/7cZIsXdYMZZQuS4iUWvaImfD+kSucej2UYUK+Wtp1KlhCoLEkkDlDyjRm
+	 WeA5/GRA4cQBdq5kwDpclE2Ancw2piBnNLNFFauICvakWr7bLr/ieHC6DhtS+umqwfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Dov5eEhJ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=WokwvbsH;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=GQU3PTXZ;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440EA606A338
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:08:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2317F606A323
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:10:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2317F606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Dov5eEhJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D22661F00A06
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:08:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794470924;
-	bh=f/K/dT4G7j/2V0oqueVsADMWh93CbLx6C63d9vDA5x8=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=Dov5eEhJPw9J1UHAeJgAmdh8myoy8L7sxELnUxlL/7fc3MfsnL3rY+pt0+8hcD/OX
-	 NfKVKmZHCSPoyWy7mkKoLnoIxDvrxRcNuwJaJ9nUegaE+61xlN8qMxTFSaSlBvNVnM
-	 gC8nuPC892qUwVuaHk/xtalK+nZ69SYCg9ic+yG4lnTAG2TEzmO6zRtZcNRgERsSEa
-	 f4s1T3y4PWKuTZHs3r2JvaQZMdIEGarXDsPEIPQ2w+5RPQzKNCKE3W65gGTBhc8RhV
-	 pZcgN21CCgADnpJFba1R4Eg+I1DPL3CxzqpVrpcroyk8Fpo0RI9VkvMLVOWn6sVHZh
-	 DApu0rN2toQBg==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-3ab30b3212aso31623571fa.0
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 00:08:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErErZxEPCr0hU7cUtXtnUy1EAczLFXaqoVTE59ZRsz6H6Mp4NbaFrVHRmAzjdaFP7OyptRCJz27TVsU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z90RnVNhRwKzCLDxX5uYWIfZX+KRCqj0OBOWYAWbiMWLqq9OS9j
-	Zgj9RY8GyRth/+bodX7h6XgPTBAU6Sxttxi4V+yzrKpAYmDu2vqReHcP8s1HdBTFTiwBiF8jZxS
-	DG4BwnaR+eKAezSe6tozniR1ljHc6l08=
-X-Received: by 2002:a05:651c:31cb:b0:3ac:ff0a:9d9f with SMTP id
- 38308e7fff4ca-3ae1266bd28mr10702011fa.5.1794470923286; Thu, 12 Nov 2026
- 00:08:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=WokwvbsH;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=GQU3PTXZ
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC2Zb6W597369
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:10:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=8TjqoQE8ZgKZIWSYbiau/lZy
+	YWLzMLF76Z8htBhrfbY=; b=WokwvbsH1PR8baxit+jPs6pBI8sdEjx4amIjmfRj
+	aN852ZUPqzrKubTBc1k/g+R5Z/o86ZHeTSQzaEm+8d9AhckvOLmiX9oYaloVA2gU
+	Q6yUyvdWx9unn4b6dn4Hy3vEXu8EQAl7/nIAp60roXI9E4LDT9qByNW37BDiCZ+q
+	56njf8g93ed/R2P+GHzq0vtXWzdENAjecsXo3FRULvVnEvvU+qsiGwb3AC0gl6JB
+	YDAMXxw8ZdXIn3pzui8cquKE1NTPwuH2KWwDhsCsihvdgqkPMt6LnXr7iUsMm83l
+	YkDh5x8ptH0sZY5uBOn3dUrQA6cusdZ9784XNR0pxEtK+g==
+Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hvt153s07-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:10:16 +0000 (GMT)
+Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-1383723dfddso5788131c88.0
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 00:10:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794471015; x=1795075815; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8TjqoQE8ZgKZIWSYbiau/lZyYWLzMLF76Z8htBhrfbY=;
+        b=GQU3PTXZxNfWolrzaXUT441XlnusybumsSIVtlqjzIj0jqj/RxtnjCsPvgzEhOcVZH
+         oVgI4kC2AUpLGoWgHpAHN8o9N2cbVygjjBGIRloYqOfrRwDpBZUG99n/QRHBcvMPe7MH
+         qcu4xFij+UpK2InGaNXO5xyKAvAKHc/taP2zehyWXNQC1hqIICW/XWUpMhGeE20sgxyb
+         9WArQgSy6PruEhsSO5n8UrjyNk0U54bbDL06jmdhRgPagStHMxQXs4pr2ZOFOvPehn/8
+         7dGGm5NDdLOXcVVQ/4BDlZji6gcwluYkcgtaNcWzRorMU3kgt0/UdmrLU8Vcbb3vd+GR
+         gMog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794471015; x=1795075815;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8TjqoQE8ZgKZIWSYbiau/lZyYWLzMLF76Z8htBhrfbY=;
+        b=SceyZFI7EShj8+Wrpbw4ZNE5QTxWXblPOV4eEOrCgRnAu4bKNJxY6rlSZHwZYQbFDD
+         /2FbYb2wvSrFqExpbcQ+hKaqKly/nTb+NHAbwZwsOyJEcwGymrUVh0dbda1elmfeA2++
+         FRVxqSDn5Xwy1+u+xcnLMAxaoJt3Oz69sNyyPZIlXFidsV0W79g1IdNTzSTq8VVhMBo9
+         PxEK+FR4eAhICMK/4601CTNCmKSFStP4FVl5cXSKJ0FDI6dSbaYjIbFAqGmkWRDZV+na
+         w4JDamueHRJbFK6EX9iD2ZVF+S5+C57aXdb3crbwKNhpOy5sYFUIzTTJaSH2RkAqhbuG
+         2RoA==
+X-Forwarded-Encrypted: i=1; AL+hErEIzSL48TSx30lgNhqNNaai3PvhVZrYePOyl9Jhfw09pMCBpoRATi/Ves52ZhRCRAUCPftb41r574E=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8ml24r3jdei86hCrNICXCJ4/XqZkIS2SYNdrkXpRsehKF638GL
+	lWV6DQ2UxFqr7vtpsz4PIxvjYeL+p+zAAMlBClsYkNQEBjxNdr7Otc971IS2onUhPp3Avwb/KpA
+	0uVtcS4/4EwIB2vbaYzfYTBOVwzAobiFataaQnUhf7uRqbBfEa05eEh9GKaxUvw0=
+X-Gm-Gg: AYBFou29E1wLyOiw3Bl+5pNHDV4uoS1ese5FRckDnLEltp0rfeklqxH7oj8GLAbtlY+
+	D8Xww45PJKe3S0Qt4LMys7pM4gAMVV6/VjA1CRDm5vrIF9xG04gJ/Rcck95rj57XGsu82NDKih2
+	LGx02/1xSQlT+ZT9ec9dSaGl6CX7b0zOVzOINHUDiwo4/jUkWIEKp7m7MlKWB+kTeJ/3M7w7ddj
+	a/K/ijarGC9e7Hqx9+uVbPZIZM7iKsJC3P/7BB3s/iK9bVuCxX//5WVbc4PcoMp+FK1RbwNhBGl
+	1pOOzMNOWnQOsrnMGM8Kan3IiB7KWkaQQhhu7NdIHW+nLVNX91stRZPPGIEvprURxItR36yxmeU
+	RFMM4v36uimZFeSzl/gxtoHD5ys968hJWEH7HlfBS5nALV1o1Vo99qQXjoPaMETmtiL0hjzJBeo
+	H+eEnN+lLTOUfl9F4XQrF4+g==
+X-Received: by 2002:a05:701b:2610:b0:199:e38c:29a0 with SMTP id a92af1059eb24-1b3c03390c1mr3894262c88.31.1794471014608;
+        Thu, 12 Nov 2026 00:10:14 -0800 (PST)
+X-Received: by 2002:a05:701b:2610:b0:199:e38c:29a0 with SMTP id a92af1059eb24-1b3c03390c1mr3894237c88.31.1794471013851;
+        Thu, 12 Nov 2026 00:10:13 -0800 (PST)
+Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5890584sm25032270c88.3.2026.11.12.00.10.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 00:10:13 -0800 (PST)
+Date: Thu, 12 Nov 2026 00:10:11 -0800
+From: Peter Chen <peter.chen@oss.qualcomm.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johan Hovold <johan@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+        Udipto Goswami <udipto.goswami@oss.qualcomm.com>,
+        Jack Pham <jack.pham@oss.qualcomm.com>,
+        Pratham Pratap <pratham.pratap@oss.qualcomm.com>,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        Prashanth K <prashanth.k@oss.qualcomm.com>,
+        Elson Serrao <elson.serrao@oss.qualcomm.com>,
+        "cros-qcom-dts-watchers@chromium.org" <cros-qcom-dts-watchers@chromium.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/1] usb: dwc3: qcom: Keep wakeup option default off
+Message-ID: <avV0Y5dLG0HOD1ny@hu-petche-lv.qualcomm.com>
+References: <20261110092157.2989350-1-peter.chen@oss.qualcomm.com>
+ <avUMs981FKk7Kr3a@vbox>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,141 +134,138 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110-usb-port-pairing-v1-0-9307e29d2ed2@gmail.com>
- <20261110-usb-port-pairing-v1-1-9307e29d2ed2@gmail.com> <CAGb2v65goAuKgYu-849171FGeCxZ8Cq3GUxQLDLaHLbhRTMmqA@mail.gmail.com>
- <CAEy9hNV9saBWyKxuMR5unmLjzBM2+S7u+FewEevuLV-6yo1ztw@mail.gmail.com>
-In-Reply-To: <CAEy9hNV9saBWyKxuMR5unmLjzBM2+S7u+FewEevuLV-6yo1ztw@mail.gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 12 Nov 2026 17:08:31 +0900
-X-Gmail-Original-Message-ID: <CAGb2v64xjbc2t+fMegBUSptiwT5FQBqc8aqiVkLjwfaB+3FV0A@mail.gmail.com>
-X-Gm-Features: AclHuK-4Nt4Ya-T8NosoJJyqrIsgDGmHMB4Vbzc5kPzl1tQ_x9NWcs04d9vsDrI
-Message-ID: <CAGb2v64xjbc2t+fMegBUSptiwT5FQBqc8aqiVkLjwfaB+3FV0A@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dt-bindings: usb: generic-ehci: Allow describing the
- root hub ports
-To: Arun Iyengar <aiyengar1990@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avUMs981FKk7Kr3a@vbox>
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDAzMiBTYWx0ZWRfX9eLfXa8f4R2K
+ +Z6OG4pL6W9K9+HWPT2NfF/cIgf7vB10lPCBVpoaqr+sZ1Tdb532cvqBydt0nGNtatsv7oUxOvo
+ xMSjaJ1nLEaFf6z27+kGumnBNxkXG+k=
+X-Authority-Analysis: v=2.4 cv=Yrya1IYX c=1 sm=1 tr=0 ts=6af57468 cx=c_pps
+ a=kVLUcbK0zfr7ocalXnG1qA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=AgDNYC_bV-aoH5yzN3IA:9 a=CjuIK1q_8ugA:10 a=vr4QvYf-bLy2KjpDp97w:22
+X-Proofpoint-GUID: 4ikKs3yjJhw_FeZFZz0IlPjfSR2Ye0j7
+X-Proofpoint-ORIG-GUID: 4ikKs3yjJhw_FeZFZz0IlPjfSR2Ye0j7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDAzMiBTYWx0ZWRfX3O+OMa2/8GCg
+ hSG3/VgYJsumDjPIe272HxldlPPJGafPmhXqh1gmkQFkUSk8XLO5XViE9135eL7719Ul0C96NlE
+ vge9HsiKwXo7cVYtNioqsJZ9loLfmScQ4PJnMzW+PbnGyYaBkX/vuwgMOnHfbU7dxn1IXsUq1kE
+ ee3gJPhGd+OCwV2VMxOfhiIYqpb9JLP8quJVo4Img5HaHQrpCkHPTYuI58R931JzTjpcHWAB67Z
+ Idew5+hEFilS/84trAmlGLh2ehPMh4PY8gSxv1AVKr/zURP1ZjfJHkw4VGYzrPMHH211VSQ4gpU
+ AowT/+IRYQmo7mImyL4AH6d3m+uID4soFal64HPcxZ+s5MVznaUdl1T5MxhNR5VntO32MaWHKmm
+ NAwoXDjI7scr7P3reamkFP1//1nSaarCE8JekNGfcHBxD14sWnFukxvk/Lzr1/R9605YuyDT+rs
+ DyAoSZ4rUGJuYnl9OCg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-12_01,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 suspectscore=0 impostorscore=0 adultscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611120032
 
-On Thu, Nov 12, 2026 at 5:00=E2=80=AFPM Arun Iyengar <aiyengar1990@gmail.co=
-m> wrote:
->
-> Hi Chen-Yu,
->
-> On Wed, Nov 11, 2026 at 02:35 UTC, Chen-Yu Tsai wrote:
-> > Would this patch covering all HCDs be better?
-> >
-> > https://lore.kernel.org/all/20261014082037.1774672-2-wenst@chromium.org=
-/
-> >
-> > Also see Rob's comment about covering the port numbers.
->
-> Yes, yours is better: it covers every host controller, and
-> generic-ehci.yaml gets it through usb-hcd.yaml. Rob's point about the
-> port numbers applies to my patch too.
->
-> v2 drops this patch and builds on your patch 1 instead. Only the
-> Orange Pi 5/5B DT patch, which now goes to the Rockchip tree on its
-> own, needs it; that DT passes dtbs_check with your patch applied, and
-> also with 'reg' limited to 1 and up as Rob suggested.
->
-> The v2 cover has one question for you: patch 1 there looks the graph
-> ports up by root hub port number, while you have said root hub graph
-> ports should use the raw xHCI port number. Which one do you want?
+On 26-11-12 01:14:44, Thinh Nguyen wrote:
+> > Current policy
+> > --------------
+> > When the controller node has the "wakeup-source" property, dwc3-qcom
+> > calls device_init_wakeup(dev, true). USB is then a system wakeup
+> > source by default. Users who do NOT want the system woken up by USB
+> > have to disable it:
+> > 
+> >   echo disabled > /sys/devices/.../<dwc3 device>/power/wakeup
+> > 
+> > Proposed policy
+> > ---------------
+> > "wakeup-source" only describes that the controller is capable of
+> > waking up the system (see
+> > Documentation/devicetree/bindings/power/wakeup-source.txt), so with
+> > this patch the driver only marks the device as wakeup capable, and
+> > power/wakeup starts out "disabled". Users who NEED USB as a wakeup
+> > source have to enable it:
+> > 
+> >   echo enabled > /sys/devices/.../<dwc3 device>/power/wakeup
+> 
 
-I don't see a v2 yet. So that's patch 2 of v1.
+Thinh, thanks for reviewing it.
 
-It should definitely use the raw port number, since that is what is
-supposed to be used in DT (and what is used in ACPI).
+> That won't work in host mode.
 
-FWIW I'm also pushing a series to wire up USB on M.2 connectors [1].
-That also has some code that does OF graph lookup. I still need to
-push a v10. And I have a few other patches that fix up port lookup
-in other bits of USB OF code.
+At some platforms, USB2 wakeup logic works since there are
+USB2 wakeup signal detection logic beyond controller and at SoC level.
+For wakeup signal detected by controller, you are right, it needs
+to enable controller level wakeup option, eg, WKCN/WKDN at PORTSC.
 
+> dwc->sys_wakeup is read only once in
+> dwc3_core_probe(), so enabling wakeup later from sysfs won't reach the
+> xhci-plat device, and xhci_suspend() clears the port wake bits. Moving
+> the wakeup setup before dwc3_core_probe() won't work either, since
+> wakeup is off at that point. The setting needs to be passed to xhci at
+> suspend time (perhaps in dwc3_pm_prepare()?).
+> 
 
-ChenYu
+When talking about whole system wakeup chain for USB:
+dwc3 -> xhci-plat -> roothub -> downstream device
+it usually depends on user program (per user option), but not bind to
+kernel driver, considering some situations that USB device are disconnected
+and re-connected, its wakeup option may need to re-set, and one typical
+solution is enable wakeup options before system suspend.
 
-[1] https://lore.kernel.org/all/20260916075745.3549953-1-wenst@chromium.org=
-/
+> 
+> > 
+> > Comparison
+> > ----------
+> >                        Current (default on)       Proposed (default off)
+> >                        --------------------       ----------------------
+> > Initial power/wakeup   enabled                    disabled
+> > User action            write "disabled" if USB    write "enabled" if USB
+> >                        wakeup is NOT wanted       wakeup IS wanted
+> > Unexpected wakeups     possible (connect,         none unless the user
+> >                        disconnect, noise)         opted in
+> > Suspend power          higher, even if USB        lower, USB fully powered
+> >                        wakeup is never used       off
+> > Attached devices on    stay suspended, resume     reset-resumed or
+> > resume                 quickly                    re-enumerated
+> > 
+> > Possible regression
+> > -------------------
+> 
+> This rings my alarm bells for me any time we mention a user behavior
+> change or possible regression. Perhaps you can add this to the commit
+> message.
+> 
 
-> Thanks,
-> Arun
->
-> On Tue, Nov 10, 2026 at 6:35=E2=80=AFPM Chen-Yu Tsai <wens@kernel.org> wr=
-ote:
-> >
-> > On Tue, Nov 10, 2026 at 4:20=E2=80=AFPM Arun Iyengar via B4 Relay
-> > <devnull+aiyengar1990.gmail.com@kernel.org> wrote:
-> > >
-> > > From: Arun Iyengar <aiyengar1990@gmail.com>
-> > >
-> > > The USB 2.0 lines and the SuperSpeed lanes of a USB 3 connector don't
-> > > always reach the same host controller. On the Rockchip RK3588, the
-> > > SuperSpeed-only USB 3.0 host 2 (xHCI) is paired on the board with one
-> > > of the separate USB 2.0 hosts (EHCI/OHCI). Only the device tree knows
-> > > which EHCI root hub port shares a connector with which SuperSpeed por=
-t.
-> > >
-> > > The USB core already reads a hub's OF graph, with one graph port per
-> > > downstream port, and uses it for the port connect type. Allow the sam=
-e
-> > > "ports" node on EHCI controllers, so that a root hub port can be link=
-ed
-> > > to its usb-connector node.
-> > >
-> > > Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
-> > > ---
-> > >  Documentation/devicetree/bindings/usb/generic-ehci.yaml | 13 +++++++=
-++++++
-> > >  1 file changed, 13 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml =
-b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-> > > index 908b02d9175e..9dcba539d60d 100644
-> > > --- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-> > > +++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-> > > @@ -160,6 +160,19 @@ properties:
-> > >        - host
-> > >        - otg
-> > >
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +    description:
-> > > +      The root hub's downstream facing ports, linked to the connecto=
-rs they
-> > > +      are wired to. Needed when a connector's SuperSpeed lanes go to=
- a
-> > > +      different host controller, which then pairs with the root hub =
-port
-> > > +      through the connector.
-> > > +
-> > > +    patternProperties:
-> > > +      "^port@[1-9a-f][0-9a-f]*$":
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +        description: Root hub port, numbered from 1.
-> > > +
-> >
-> > Would this patch covering all HCDs be better?
-> >
-> > https://lore.kernel.org/all/20261014082037.1774672-2-wenst@chromium.org=
-/
-> >
-> > Also see Rob's comment about covering the port numbers.
-> >
-> > ChenYu
-> >
-> > >  required:
-> > >    - compatible
-> > >    - reg
-> > >
-> > > --
-> > > 2.55.0
-> > >
-> > >
-> > >
+Sure.
+
+> > This is a user-visible change for existing platforms. Many Qualcomm
+> > arm64 DTs set "wakeup-source" on the USB controller. With this patch:
+> > 
+> > - USB wakeup stops working until userspace (or a udev rule) writes
+> >   "enabled" to the controller's power/wakeup.
+> > 
+> > - In host mode, because device_may_wakeup() is now false by default,
+> 
+> This will be the default in host mode for every qcom platform with
+> "wakeup-source". Which platforms have you tested?
+> 
+
+Yes, it affects all Qcom platforms, that's why I sent RFC patch for it
+last week, most probably it have "regression" since it may never
+be tested under the situation the PHY is powered down at suspend and
+power on at resume, but that kinds of "regression" is the bug we need
+to fix, right?
+
+I have tested at Glymur CRD, external ports work (USB3/USB2), but
+the port with USB2 Footprint IC (USB2) hard-wired does not work
+sometimes, maybe the initial sequence between power-on and suspend/resume
+are different, it needs to debug more.
+
+> >   system suspend takes the full power down path in
+> >   dwc3_suspend_common() (dwc3_core_exit()). Platforms where this
+> >   power down path has not been tested may fail to resume.
+> > 
+> 
+
+-- 
+
+Thanks,
+Peter Chen
