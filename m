@@ -1,85 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794499927;
-	b=WIC7bp2G4boJfmkHjf2jWOfvo53m21vC2471l3HTfLoo26EYiWDplp2j7fMEnw3sPKS0
-	 Q+boBpCArE6GCST3qdRgFEwkuhGasZ3I9RcXh5EONHJz/ilqMejZOZcYN6qYZJz1myRAy
-	 zkZos0jG0gew2HQjL/ZL6HhhvEvfU5dWAgdYWwkNRB/1xafNM2BE+8f0II15J7ua24PNN
-	 ePdRedgqxjL/YCdfj8St6jBkxJfvqdBm5MztArmkuUxIxDp18nYY8MQjvzIZnAPmHtNNd
-	 efiRg6QKhGRBumaWXozh1x4hkBYJLWha6rjty5OVpwucQ6OCkt5/pFxmvO5zrxxA0Ag==
+	t=1794500189;
+	b=r2vi5L2wIgh5FMnFzJYWIYxpSOTyzeYtuGphdfSU0VkIXtQjYX5eQIVskmbZSQfCcHM7
+	 7LdkH7CFPSAnf84ta4lGeQgZ8Hgknu0eR4DZXR5FoU7c3GWoVEQUPzjacuXEqEWnDOYI+
+	 JhHsYv7yLqCOY4+AMxR/tZlPeRY91on9ITTz+sjT/hmWYYwgA6gjiHt3k3f+tEgvgYIRK
+	 KqCaxy3H1b/l40+HVfXF/L1qCov9QUHVkAiHIWbLFywj8etFwAcvkypJP4LloC4XLXyDr
+	 nJMKl+ojhp6mDw8vX6EuoJkWQ+i1lIEXa5DlbuIKlw42ugRPDSj58VWGQ2r6L7rDLAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794499927;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Z5H3JZnDHei4Ba87P8qtf4+QG1tTAZiOmC3aN62AyUA=;
-	b=aEtFbe0O0LxKWLlfpLq0RV7cTk/KdvprBFBNhIskEjduLU30v2sImT+lKwOngBXVlPZx
-	 FuYr87/OYEq6ZF+dXV4578XGLpeOMSOhd40SwBEIcSBCeDuAauqtm5KFvyyjyZ77WE2dW
-	 jcRc4Pv8l5wU/wzzDeA5cXs2a/GRcCMrFzHsy/PfgJslZFIrcj8cBajBMbMYB4Puxm+qQ
-	 3LEfxtz1sFGbBZQTJrl1wkMbk6axeE0LHLgkChwfu+6rvFmLArtMT0QTGUvWtPeT/dhAb
-	 QvEnxG5HQ/hv70A+HwisSuvjl6MGMCvvtase5IgAS86vj/jLaARrqd01f6eaHdj9CPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794500189;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=vM8NZgQwZr1x1zz8/aSNeLRtEnAGwysuR7Q/40aLdYc=;
+	b=aAjFmpCryIoKGpBB17K4m2Ok0TOtw4EqBKTcglvVeHoldzRkiuuaIBE2FeIlbpSJ1PTi
+	 IUfS39f3FdE5IyA/R0xQ1rWDQjumfFnfNYJkh0HfL3cD9caySfXJz0jgnzE2bmeSlmEuR
+	 2BhgsE9/+0+/7qe+rWWOP//WyAHPsN2TY7vRe5pW4y+V+K625WtYyUpRrQqi8rPeKbqU7
+	 32aQadFyKuxk88Eh0Ftq/7QWJju0E/Mv3vesltvMc32T8UGIYsOfY2INnDb31gF1dzTxD
+	 L/RaaYlftaborUTWTSvEipdDcv9uTRBVgVCpggxeTVEJ8VY10w0C6WhPMBsdEbIoysw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linuxfoundation.org;
-	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=hcLBh0np;
-	arc=none smtp.remote-ip=209.85.161.48
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kwNDRUg8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25609606A31C
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 16:12:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25609606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24B0606A8B2
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 16:16:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=hcLBh0np
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-70b875f6f13so3763091eaf.0
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:12:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1794499926; x=1795104726; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Z5H3JZnDHei4Ba87P8qtf4+QG1tTAZiOmC3aN62AyUA=;
-        b=hcLBh0npSAywjr1PPuz57wOFXYve8m2WOyXnzZUgbNEb7c9QtrzqFPE4/Ji9/kuS9m
-         T35iYn9QrePsyCHJni4apXz0my9u0PxqvY3xczQeqTT67q7rHT9/QSDSwMUdDjE74HDs
-         0wbvtRY25iiLFwuM4FQPjau3Iquv+Tce5tUrY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794499926; x=1795104726;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Z5H3JZnDHei4Ba87P8qtf4+QG1tTAZiOmC3aN62AyUA=;
-        b=ms9VV5c4+F+VXEV4IEhWz3O0AGpZa/mMwowtBSLH8QPudX05E7pAhIdV6aNoiwWDLV
-         8EBPDGcGIgfqL8ssq+nFAJm6emb6B/NlABSIrNCwTMYYXBtBD0NwErhlOjvldGayV+uJ
-         MfyBj4ACHy6HYAB15as7EeB4pzA4Oshn5CnPAbTHpEEfkdlZs+e2orW/gRKbNEjB5i49
-         fCxLiaV2VANGEoMLP2zpn5wYg7TyQypTEJIQ3EJ6U9rd481bJgXQ2GUCJajLngY9Hv5N
-         WljdU2APGe45hfsJwxSLBZs/hM4Z03fRjfZAPBmdfqrA+NA7qXE5/1MDdRcAgAOJVSbU
-         dOkQ==
-X-Forwarded-Encrypted: i=1; AL+hErGmg9ezqpGx6b5uHV5ipmE9kK4Skn7HvCp7udjHn5iJb/ZeqjuJtGdZJq017PrC64C44tuJbhLc0YU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8G0zUFPPqed0iWLc70T1tQcSKFpWlhnV7S8a1aS8GIOp/XvSRo
-	pQd8FURSm+nWAnF91lULBpPMYx8p8WjGTlzsLI1OFmQfpYkal60tm2t4WpC+GC6DuH8=
-X-Gm-Gg: AYBFou1OnQcoVGi4K1ctkl08MbpAFkVEvBlvsNjZWFRW9b8JcrGVBCx46Wox+/g8Bds
-	xMKyJO63A1jeLKZ+JrzrGawZplfYThBbUa/NoDytIPseRwreAUD7+99i/SyZNbbjjWhCqUaFKIN
-	/9eVJPJ8Tduk0cEsJeniAMIh9BkpZvjFm5qos5scO95rGSxKKe/8rAi8sQH8wQAU6l/F3dB3trK
-	opQCA30+1qf+dmgENkC7zUkPEcOXVr5Hzf19CJNC73KxVEF67JhIS2tzUdAnwIp7NvRCtYHyrha
-	9iUfiTdGFR3bOLadjGv67hha/V+ANlOznY7TbC9Cn3HUh57VHxipzZSIDZFrNc+s3Hjef8NKnvk
-	QG8i6hKQCBNXexoR+sKllfK9kY6CsTeX5h5KzCBg46o7f9pvDphWkVaQ3kH1DBqrh5jqqdM3jXS
-	N0yS8vzM8+4Zw9LZQHv3SnXek4WLjQ6sgDqwZRqLTLKCcAc09BZY/ChNpCTxk/zwSpGxqatRi26
-	rQQwHpgN6me/fvqbOBM+hzyG0OnJHrBYdMk4exGm5Br4lS24wpcnuphpovHgk4B6PPi7U6NCgff
-	MraePW057PrHC72fMVD345O0LdArLTkr3jtzVkM=
-X-Received: by 2002:a05:6820:806:b0:716:f44b:2dd8 with SMTP id 006d021491bc7-7191785b304mr4102008eaf.31.1794499925700;
-        Thu, 12 Nov 2026 08:12:05 -0800 (PST)
-Received: from [192.168.1.128] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-86287f0e257sm84600a34.1.2026.11.12.08.12.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2026 08:12:04 -0800 (PST)
-Message-ID: <67b2c06e-0caa-4ba1-89ee-17cb814d173c@linuxfoundation.org>
-Date: Thu, 12 Nov 2026 09:12:01 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kwNDRUg8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC3F1F000C5;
+	Thu, 12 Nov 2026 16:16:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794500189;
+	bh=vM8NZgQwZr1x1zz8/aSNeLRtEnAGwysuR7Q/40aLdYc=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=kwNDRUg80ibXLPbipGHbh1pN6Lvh5tFWkET9TJ01zcmRO34GgRKmM3VrX92CTCYTS
+	 mxy0wmwSb61zF3N8aaitjqRiPqB036D8ruzCTNtzSZ1Jxj8DyCPDF/VDJpXw6tXtfP
+	 1TKTBi64bNG9lzSwGIhBLsNebYpZCZkLcB/yB+YU2BY/4Pw5pxs/QYT0mTYx2Jm5Qe
+	 wxuI4ysI7Y1zSJQUFhHoxOUDtbSRXUeuPP4dUB1m8BcnfxsO9ahdXTsPCs9JayyaJd
+	 NBxmVM0hhwZ5BbWlNH4z9v3DCjvrcmXDfXP+elDrs/MEsnfuh9KoouDS0NRo1xRjfG
+	 OCUIKKF/mJ3fA==
+Message-ID: <sashiko-outbox-211486@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 4/4] usb: phy: gpio-vbus: free the interrupt before
+ cancelling the work
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Chengyu Liu" <lui2012qwq@gmail.com>, linux-usb@vger.kernel.org
+In-Reply-To: <20261112160448.41566-5-lui2012qwq@gmail.com>
+References: <20261112160448.41566-1-lui2012qwq@gmail.com>
+ <20261112160448.41566-5-lui2012qwq@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Nov 2026 16:16:29 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -88,93 +59,29 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usbip: Close all listening sockets in request workers
-To: raoxu <raoxu@uniontech.com>, valentina.manea.m@gmail.com
-Cc: shuah@kernel.org, i@zenithal.me, luiz.von.dentz@intel.com,
- pengpeng@iscas.ac.cn, brgl@kernel.org, pmenzel@molgen.mpg.de,
- gregkh@linuxfoundation.org, ihadzic@research.bell-labs.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <E063498E65C71B8D+20261112121648.1458957-1-raoxu@uniontech.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <E063498E65C71B8D+20261112121648.1458957-1-raoxu@uniontech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 11/12/26 05:16, raoxu wrote:
-> From: Xu Rao <raoxu@uniontech.com>
-> 
-> process_request() forks a worker after accepting a connection, but the
-> child only closes the listener used for that connection. All other
-> listening sockets are inherited and remain open until the worker exits.
-> This occurs when usbipd listens on multiple addresses, including the
-> default IPv4 and IPv6 setup.
-> 
-> A worker waiting for a client request can therefore keep an unrelated
-> listener alive after the main daemon exits. Restarting usbipd then fails
-> to bind that address with EADDRINUSE, or starts with only the addresses
-> that are still available. A single-listener configuration is unaffected.
-> 
-> Pass the complete listening socket array and its count to
-> process_request(), and close every listener in the child before handling
-> the request. The accepted connection remains open, and the parent's
-> descriptors are unaffected. Make process_request() static as its only
-> caller is in the same file.
-
-Looks reasonable to me. How did you find the problem? Can you share
-how to reproduce this problem?
-
-> 
-> Fixes: 328f7f8a0a1c ("staging: usbip: userspace: eliminate glib dependency")
+> gpio_vbus_remove() cancels gpio_vbus->work while the VBUS sensing GPIO
+> interrupt is still live: it is devm-managed and freed only at detach,
+> and gpio_vbus_irq() schedules the work with a 100 ms debounce delay.
+> A plug event landing after the cancel re-arms the work, and its timer
+> then fires on the freed gpio_vbus_data.
+>=20
+> Free the interrupt first, which also waits for any running handler,
+> so nothing can re-arm the work past the cancel.
+>=20
+> Found by static analysis and confirmed with a KASAN reproducer:
+> slab-use-after-free write in __run_timer_base() within one debounce
+> interval of unregistering the device while its VBUS GPIO is toggled
+> (object allocated by gpio_vbus_probe() via devm_kmalloc(), freed by
+> devres_release_all() at unbind).
+>=20
+> Fixes: c2344f13b59e ("USB: gpio_vbus: add delayed vbus_session calls")
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Xu Rao <raoxu@uniontech.com>
-> ---
->   tools/usb/usbip/src/usbipd.c | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tools/usb/usbip/src/usbipd.c b/tools/usb/usbip/src/usbipd.c
-> index 3e22b651c754..5ff5b46674a2 100644
-> --- a/tools/usb/usbip/src/usbipd.c
-> +++ b/tools/usb/usbip/src/usbipd.c
-> @@ -339,17 +339,20 @@ static int do_accept(int listenfd)
->   	return connfd;
->   }
-> 
-> -int process_request(int listenfd)
-> +static int process_request(int listenfd, const int *listenfds, int nlistenfds)
->   {
->   	pid_t childpid;
->   	int connfd;
-> +	int i;
-> 
->   	connfd = do_accept(listenfd);
->   	if (connfd < 0)
->   		return -1;
->   	childpid = fork();
->   	if (childpid == 0) {
-> -		close(listenfd);
-> +		/* Do not keep unrelated listening sockets alive in workers. */
-> +		for (i = 0; i < nlistenfds; i++)
-> +			close(listenfds[i]);
->   		recv_pdu(connfd);
->   		exit(0);
->   	}
-> @@ -568,7 +571,8 @@ static int do_standalone_mode(int daemonize, int ipv4, int ipv6)
->   				if (fds[i].revents & POLLIN) {
->   					dbg("read event on fd[%d]=%d",
->   					    i, sockfdlist[i]);
-> -					process_request(sockfdlist[i]);
-> +					process_request(sockfdlist[i], sockfdlist,
-> +							nsockfd);
->   				}
->   			}
->   		} else {
-> --
-> 2.50.1
-> 
+> Signed-off-by: Chengyu Liu <lui2012qwq@gmail.com>
 
-thanks,
--- Shuah
+Sashiko has reviewed this patch and found no issues.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112160448.4156=
+6-1-lui2012qwq@gmail.com?part=3D4
+
