@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794473794;
-	b=GRu+R324mLb18XZmgXl4uTc19NtJA3t5J5xp79zANEWrj1brTw3wVvq2sBNCSiKWbUhP
-	 GaCjxV/q2tGlTr0dvU3k27JfkXqg6zGdymYpUmuP4tcXbGZcjxaTWibAD02+wUYnJceZr
-	 0Spef6g8GAn+EpQA6AEpNHIEioQvQmPQWYI7aPFGWn9OnPA//Dft1yELVKRfsvT8r2YDu
-	 LMIw+HHG43ShcDpZq3kY6Z6SM1tZgQm5ScEWZZ3Rz/NFm6sek6oZIqfblSwnGX6Ynbuyv
-	 W0nv67jlb9feRyazZ0MU7n7Fclyy/m7A71no6lDpybm4R/vT7wbyRBOL5mURUrp1P6Q==
+	t=1794474066;
+	b=0x2ZpT+Fp2usnDMIkLYLazQLSjbvGgWqHI3BtiD+LeTgAPsj6OnMJkJYjJlVHTFU9LYq
+	 1/fj3H3tJoKe3FIavyB/Ut2dpguOBbbQVABD0HT109E9vFEyEXQvour5Q5xCjxFecDWoe
+	 m6msKHBCha0TizI34lWcdSSxTRPc2jKVsGW0AS7aiBUVI+JOlSfWmrkSVgDyNk8vgegHL
+	 +zbobfbHvLgK/TIZpOBHZ6LjDMA14GQ9Vngb2J8Y3KylxuQfy+2Bo55mDk1Hs3+G/WKDS
+	 Ute9sM+HhSBwILiprdu2NYufunbwfb4vQ7LOEwTfAGpnWrEBlpr6Uf4Tg4saImuEHuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794473794;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=EIYSUe+Z+0vLhmfm/Kaq1WZp8c/G1lQwzyJ1tUJollI=;
-	b=ZzAwj/JvxnP6etEoBJuN/un3tnyAMB3vfVIyKA8//YJq2w9+QgRwHdE7JUam7uO5oaYl
-	 BwZ9x0qow2m/v3Ptjo39uh20sEp/QFXkpTbvM1hQ9hkAyJhHYuVTL1SXXeUJ+aZF1y8Ez
-	 QKQ9luRiEjx47Mexn7mvbEupYDrCISCTuICH06ovlOXxAExt3kH7Ammm9JuHTAuWfSWJ/
-	 j5b+xkHGxb3JI2B1bGlgREFZHyes+Qz4Y5SqfC2wKgVMVr/Erd0tJh6omP48RGeE/IYr4
-	 IRkls58MzWAXcwfP7Gqtaf0u04piKPfn5xrf3KHjnD537n9EIYIxOwCF7HTnhjTcTaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794474066;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=meqPxnl6P9uuOtaOHmSMjD4WJKfEEkXK3MoLbOtoy0E=;
+	b=Vio/JkiRzGs46sTajIvMsJAcWFHB2auB0Z1HJ2guzCAwCTb6wSiGNMd9LECk9BZBC412
+	 WYNOKjw4MA2t6e0BWJIBSt6LuqWzt13fGuHn6bRmOhlEUfhZefgXSJf9b3QWNP8O51uZS
+	 ZzJLekLNHwuMpXgf6FG7xpF7XqbRV7GVx6giH5JGH2cc+dlCkEuO8KxfiajY0hX6fV9Et
+	 sVPpuzTEGwfNJhk9shX2/LwvcXs/3K+GXHzS6/h4n3qJdpU8ULCh9OoeE4pMEfO+CGDjL
+	 0Y+V6WAh0X08cJsw5/KDveUB7YjCJDUgYlGEPHWnOHC7X2eT4iS96VWaCnMzM+UPFcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CAlyZqU5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="X3Nr6/or";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B29606A893
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 08:56:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 130F8606A31C;
+	Thu, 12 Nov 2026 09:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CAlyZqU5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D90E1F00A05;
-	Thu, 12 Nov 2026 08:56:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X3Nr6/or
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 262401F00A06;
+	Thu, 12 Nov 2026 09:01:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794473794;
-	bh=EIYSUe+Z+0vLhmfm/Kaq1WZp8c/G1lQwzyJ1tUJollI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=CAlyZqU5PerTcRJaXLVItUg9zehttYuZ2frKDJIkf2RMjM0YJ84VBAT3pm+YIhQFP
-	 mmhVejrKEMGWdL2EUe1/Va6xfkrnUDL+g+xhOjGLcyyE+ZqmqJdyeii+A500hTPHtN
-	 v6637DUvIq6ZnF0Ygvu5BlhtLbq62w01CkQgOuRW7403riODq6IepUF3ER+Fe6Rorn
-	 IBsXI7W5WGQwc+l5GrTt2PPerOnOICev/YqhAbBe4TqsPMJ3+PCPa+W0wu4z/z1h+3
-	 5nPTURpfeIyWTHs0q5UH5KQ5Hh55/ie4oh2kW7MIuCMpOFD8dpRh35W/O/Bg1tmuMj
-	 usI/gtZhdP0Vw==
-Message-ID: <sashiko-outbox-210802@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] usb: typec: tcpci: filter masked alerts and quiesce
- the IRQ
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yaohan Li" <shunsheng1218@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261112084014.2564834-1-shunsheng1218@gmail.com>
-References: <20261112084014.2564834-1-shunsheng1218@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2026 08:56:34 +0000
+	s=k20260515; t=1794474065;
+	bh=meqPxnl6P9uuOtaOHmSMjD4WJKfEEkXK3MoLbOtoy0E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=X3Nr6/or8DZnLtx5b0g5HPBH8eqzJ8Jli2dpF+u1Vl+9o+YX4vqb8PnQPt1aEOYN/
+	 DbbwoubLtBqABXOzhdoGhPKfds1U7BVo0WzWhaDu0aIwJHpouQgSRZrSDtc2y+W2Zq
+	 tDjEVCtJ9EPyIHRmeUZcvqqMg+HM8dqVTmJT92y4YvBKhrXb7U77SUBE0v62eNd0c5
+	 Hyk4SZ7xh1QdshuDCvn9BhUxOc4G8Z69HctZyW+9pYkDP5Ae6xkaLqpmrKIxdFntuQ
+	 6HNSqBBajcAQ/WWFZkox34aDfKBILe/HIknakHqeANvWSsf2DO4nIx4P0bQDsTmVKz
+	 hzdQ5Wat86RMA==
+Date: Thu, 12 Nov 2026 10:01:02 +0100
+From: Bartosz Golaszewski <brgl@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shawn Guo <shengchao.guo@oss.qualcomm.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/2] usb: typec: Add onsemi FUSB15201 support
+Message-ID: <rscry5clkcrwhqaz4hzwzqyg5ijujntv5vcajjqnq5ghbb7f5v@rkvbszy66g77>
+References: <20261103041806.1885974-1-shengchao.guo@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,128 +59,28 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261103041806.1885974-1-shengchao.guo@oss.qualcomm.com>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] usb: typec: tcpci: masking status before clearing TCPC_ALERT
-  causes IRQ storm
-- [Medium] usb: typec: tcpci: zeroing alert_mask before hardware mask
-  write causes IRQ storm
---
+On Tue, Nov 03, 2026 at 12:18:04PM +0800, Shawn Guo wrote:
+> The series adds a driver/binding for onsemi FUSB15201 which can be found
+> on Qualcomm Nord reference design boards as a dual-port USB Type-C
+> controller.
+> 
+> Changes for v5:
+> - Hold chip->lock while seeding the initial port state in
+>   fusb15201_hw_init(), so a data_role or power_role write arriving
+>   while the port is being registered cannot fail with -ENOTCONN. (Sashiko)
+> - Link to v4: https://lore.kernel.org/all/20261102111732.1678646-1-shengchao.guo@oss.qualcomm.com/
+>
 
-commit 3b5f8c5cf280be1359b54eb345cc21c55eeb3247
-Author: Yaohan Li <shunsheng1218@gmail.com>
+Hi Greg!
 
-usb: typec: tcpci: filter masked alerts and quiesce the IRQ
+Gentle ping. This has been on the list for a long time, has all the tags
+and no sashiko comments. Could you please queue this for v7.5? It's
+blocking the DT changes with USB support for Qualcomm Nord.
 
-This commit filters TCPC_ALERT status bits with tcpci->alert_mask in
-tcpci_irq() and adds an alerts_quiesced state and synchronize_irq() calls
-to quiesce interrupts before unregistering the TCPM port on removal and
-probe failure.
-
-> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpc=
-i.c
-> index c6165466c54b6..d413ebca75da2 100644
-> --- a/drivers/usb/typec/tcpm/tcpci.c
-> +++ b/drivers/usb/typec/tcpm/tcpci.c
-
-[ ... ]
-
-> @@ -722,8 +738,12 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
->  	int irq_ret;
->  	unsigned int raw;
-> =20
-> +	if (!READ_ONCE(tcpci->alert_mask))
-> +		return IRQ_NONE;
-> +
->  	tcpci_read16(tcpci, TCPC_ALERT, &status);
-> -	irq_ret =3D status & tcpci->alert_mask;
-> +	status &=3D READ_ONCE(tcpci->alert_mask);
-> +	irq_ret =3D status;
-> =20
->  process_status:
->  	/*
-
-[Severity: High]
-Can masking status with tcpci->alert_mask before writing TCPC_ALERT leave
-hardware-enabled alerts latched and cause a level-triggered IRQ storm?
-
-tcpci_init() never sets TCPC_ALERT_RX_BUF_OVF, TCPC_ALERT_FAULT or
-TCPC_ALERT_VBUS_DISCNCT in tcpci->alert_mask, but vendor drivers that
-delegate interrupt handling to tcpci_irq() unmask those bits in hardware:
-
-drivers/usb/typec/tcpm/tcpci_rt1711h.c:rt1711h_probe() {
-    ...
-	const u16 alert_mask =3D TCPC_ALERT_TX_SUCCESS | TCPC_ALERT_TX_DISCARDED |
-			       TCPC_ALERT_TX_FAILED | TCPC_ALERT_RX_HARD_RST |
-			       TCPC_ALERT_RX_STATUS | TCPC_ALERT_POWER_STATUS |
-			       TCPC_ALERT_CC_STATUS | TCPC_ALERT_RX_BUF_OVF |
-			       TCPC_ALERT_FAULT;
-    ...
-	ret =3D rt1711h_write16(chip, TCPC_ALERT_MASK, alert_mask);
-}
-
-Previously, tcpci_write16(tcpci, TCPC_ALERT, status & ~TCPC_ALERT_RX_STATUS)
-cleared any latched bit read from TCPC_ALERT.  With status masked by
-tcpci->alert_mask first (and again after the re-read at the bottom of
-tcpci_irq()), TCPC_ALERT_FAULT or TCPC_ALERT_RX_BUF_OVF is never written
-back to TCPC_ALERT, so the active-low Alert# line stays asserted while
-tcpci_irq() repeatedly returns IRQ_NONE until the spurious IRQ detector
-disables the interrupt line.
-
-[ ... ]
-
-> @@ -988,10 +1013,19 @@ static void tcpci_remove(struct i2c_client *client)
->  	struct tcpci_chip *chip =3D i2c_get_clientdata(client);
->  	int err;
-> =20
-> -	/* Disable chip interrupts before unregistering port */
-> +	/*
-> +	 * The port's kthread worker is destroyed by tcpci_unregister_port()
-> +	 * below, while the threaded IRQ handler can still queue work on it.
-> +	 * Publish a zero software mask first: tcpci_irq() then ignores any
-> +	 * alert that is still latched, or asserted again on a shared IRQ,
-> +	 * even if the hardware mask write fails.  synchronize_irq() waits
-> +	 * for handlers that already read the old mask.
-> +	 */
-> +	tcpci_quiesce_alerts(chip->tcpci);
->  	err =3D tcpci_write16(chip->tcpci, TCPC_ALERT_MASK, 0);
->  	if (err < 0)
->  		dev_warn(&client->dev, "Failed to disable irqs (%pe)\n", ERR_PTR(err));
-> +	synchronize_irq(client->irq);
-> =20
->  	tcpci_unregister_port(chip->tcpci);
->  }
-
-[Severity: Medium]
-Can zeroing tcpci->alert_mask before masking TCPC_ALERT_MASK in hardware
-trigger an unhandled IRQ storm if an alert fires during the I2C write?
-
-CPU0                              irq/client->irq (SCHED_FIFO)
-tcpci_remove()
-  tcpci_quiesce_alerts()
-    tcpci->alert_mask =3D 0
-  tcpci_write16(..., TCPC_ALERT_MASK, 0)
-    <blocks on I2C transfer>
-                                  <Alert# asserted low>
-                                  _tcpci_irq()
-                                    tcpci_irq()
-                                      if (!READ_ONCE(tcpci->alert_mask))
-                                        return IRQ_NONE;
-                                  irq_finalize_oneshot()
-                                    <unmasks level-low IRQ line>
-                                  <Alert# re-fires immediately>  <-- IRQ st=
-orm
-
-While tcpci_write16() sleeps waiting for the I2C transfer, hardware
-interrupts are still enabled in TCPC_ALERT_MASK.  Because tcpci_irq() now
-returns IRQ_NONE immediately without sleeping on I2C or clearing
-TCPC_ALERT, irq_finalize_oneshot() unmasks the level-triggered line with
-Alert# still asserted low, spinning in the real-time IRQ thread until the
-I2C write finishes or the spurious IRQ detector disables the shared IRQ.
-Should TCPC_ALERT_MASK be cleared in hardware before calling
-tcpci_quiesce_alerts()?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112084014.2564=
-834-1-shunsheng1218@gmail.com?part=3D1
+Thanks,
+Bartosz
