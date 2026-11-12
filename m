@@ -1,79 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794457694;
-	b=YYL0XjGke1KHYw6wsO1Ap7CaQy+ZILhV/ZcnsRIlMXWMZC869Ah5rWKfCzkP4Vfl5MYA
-	 loemg9nkL9IEjaSBu5oEtiQ3i+lanzjUmbTCd+F/FUi9PEzPDfpgo8t3zq1CoedV8PeBA
-	 Zw8nZXRllMLNTpKJSSiCAytOAYPwflp2knfXA87Jc+iX35UMsUtTF82N6QItsMy0JNVMn
-	 6x+Xb6rbLvjHz3uLxEEFerRKqfvCkQjxFfhxq8QspI/29PSQedgW1caBCquBuljdT8kC7
-	 tXJH+zHpgoxERNDNC5XkeB5q7GuzI3bgXzEy9WiIUU4WYeycbDDT6a+M5C5xRq9rAZw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794457694;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=72SUPaxQEhtOUv0mlFo4kwCDiyNMot1/Xsy1W1QLG5M=;
-	b=vyCjWHNqANMHx/BE+QTw9leLEgo2BwhS5xq6NXH3j8nHOWPi+Vnk7cDCeyfHKnOtATT5
-	 d37m9XBhpKGqeoXGvklR9oMlzC3TmkEtp061+IHokQdrOXdYxYb/y1h9Y9+YI1WhhPFmN
-	 R9z7TxexUYqcIMIpgR1qa4FwfGLFrdawRtcvM5KEvwfjwUSjUANd1Ywdifojmrqrj0IeO
-	 TL0XhX62kLxuWIEY4DxcYCSIf3E4ldlPhXz0q3zs/kcZWjAbQQjGFUHLW4ldmOtwKntrT
-	 cxYHXxunzFQGwi+hkAfDuXOwbFW1QnFE3HDo5bv+FfRM9Hdb0qOWP6slgF9RqcQAP3Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jAYdlGdb;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794457891;
+	b=vloR/rdNThHaNbcjNdnvAsB3UvzfRxxzBWzS4FatXve8ZKW8R5E6rJ1NzBrQjhK4lN30
+	 0wIgZNw4JxXwWIsCPKBrIenn+/DKYeVmauBeDPzr+dnqil25kUsvCyyv5aNkAVAVacDem
+	 cb6wYhg8qBKFDyts0/wcpci17vUCR2IL84yFnP/zilxxskZOTGqDCBe4DOfch8gSphz62
+	 8AcXk64R7N80WE5MJ3nRZLIXeGajl2JV9rtqgRMeRyFFEj/2dsu29KpL3TAA4ct8t58sL
+	 JhNIyr1ZP8ci2CP6gc8QvYs4B7Bsy/2XaAo/vT2k7k3W3kXvfNFgpzPLtWp030qzpag==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794457891;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=ewDQkyi302TW6WSeRV08GWmgo3FjljwrHal9OxzqK/0=;
+	b=MwWoK/sCq8pbJhf2LHNL/0M1Fd+ySOMt64IlqzSUrTm/ZIfNJ+pTrY+MWiIL+Zp03V7m
+	 xEeyctWe0gYUugxcGnIn8ZQYLqVGjO4BxoAkib2SO+j9pivy0Ti5Auot1V538ok4bDnTa
+	 nHzBHb7kp6Sws9OY5PW9bnxb6GUAeolSyk2+ED7l6xSoPQ7QyTpQoAegbMGm5auAL5P3y
+	 5mcn+ucx/XkUEa9T2mcI2SgGl8l/LWWD1avrOLaJjbgfPARNkRbSFuJTBI8ltZSfxJwXZ
+	 hpTzIoRi6mxenFVF0O4gfsQOh9w/tbMXH/4y+zod3cWvxXTSO0gmQAuNVqIMqZUPHbA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZRzl8FhK;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CCE606A321;
-	Thu, 12 Nov 2026 04:28:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB84606A32E;
+	Thu, 12 Nov 2026 04:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jAYdlGdb
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794457694;
-	b=SFWBhESwlidwwEV0qKMgBY2ZnL4PlBbqnmLLn8Xc0OuTrnlQpqXOEHdcZ1ZARWXB4r3Z
-	 C0QaXlosLxcykZ1fhQdFQLkECXcnqLPOeNMxgOKvkrAxqJIAVg7R+O7GVtFOpG1E0NAG4
-	 9DkEyMrwj7/k9/aTu/4rxRv3klfWn1YABBPwhFbq1dN6J2Ac0p6tP3fBA0arW1ved5M3K
-	 DPBoTGyl8cxi9pReYSfPCVcR3Gpxn1jP7DnxP9EPu4y7b/eEUqGXxtOmBGMCk3/OQAMuM
-	 0s67sooqKZiopzdaSXWaTd0FvIOQcY5kEe2mw6Fydm/2l1w26QswRAlSkvkiUMO6m/g==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794457694;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=72SUPaxQEhtOUv0mlFo4kwCDiyNMot1/Xsy1W1QLG5M=;
-	b=Qexr0B5DD9ZfgQrL78js+v4VQeODkmbGTvyMTH1fjUqyxXWzL3666RgSaz+EZPZoVBCi
-	 U67qdks5MT6e2ZOKa/aPbWALQgKXQde+KlX4qEWPT36ueQjxfwojfb2byKa9vPAvX/6Ex
-	 m46hhpAWq2c+mTbBgikvLIQHi519m1ae3QfOaVV/lIbnrA6EnZ9ba7Vjao6A6JBcmodx5
-	 YsLsV5spMFcccUzMTVCPJa94PcG0wqPBMa47V4TzGIE3QbkpX0Nk28KyA0Ir4es7OX27a
-	 IEoA4ECc19TXbHv3oNWsZeO0IAeLo6hR6XGjinKo8L3xo2cyA7iQ3Y04Av7YP6BcLXw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B31FB1F00A05;
-	Thu, 12 Nov 2026 04:28:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZRzl8FhK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E64EC1F00A05;
+	Thu, 12 Nov 2026 04:31:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794457694;
-	bh=72SUPaxQEhtOUv0mlFo4kwCDiyNMot1/Xsy1W1QLG5M=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=jAYdlGdb2kyRa3L+kma6sqWrC33UCCk0UGKVw++zzTKTkVb5CGv28i/LhDGhRC1nb
-	 NJU93Ie/o0EITV1N4Tx3FxE7WxYa4nZpkoQOJILTdicpSga6fsb1ZHaln/YC+Z73Sz
-	 WxzUGzU4CTzmfd1Ytosbbyr7ZxGxgLRngnteJS8cW47IwrxZ2xf06KykVq5kc37QLL
-	 vJOgh4yIZNjg+0kWwBhqBWh9nA8yhgrNKUzYbRY4LS8yZsCyFujZKymoaNk1A5fBAn
-	 5RJlXzjZCLku+Lxyc70mE1DKGZjfs4Vyqf/cqKL6iZ8L3oih/4RHQiXtDPGn1thzBV
-	 b1yHBmtxhoa1g==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 0F79E4927F;
-	Thu, 12 Nov 2026 04:28:13 +0000 (UTC)
-From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Thu, 12 Nov 2026 04:28:13 +0000
-Subject: [PATCH] usb: typec: tcpm: Cancel the timers before destroying the
- worker too
+	s=k20260515; t=1794457891;
+	bh=ewDQkyi302TW6WSeRV08GWmgo3FjljwrHal9OxzqK/0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=ZRzl8FhKA1apZMK9+2RxDRRzxQ+PGis7fLpNSLp49YLYMy1JjffLK5WBnjWKDUdsy
+	 3xZW+qkGBRm1om1tjxXQWUYEXPfN7kjvsIZ1A/aETSBXy7uyD+i2OmV7YPJkWgs9WN
+	 eiwUer4ABxovj0XBPvqhUBbR+w80yN84Bkd4qpk5hEBwsfCEJbU/vTIO3IPHA1vkm2
+	 tf2vIp9rAune4VbrCSXiKunlVH11AcAZJKXXN+bDlDZ+UpbBhUGYo7YqvBrrZRIISE
+	 4BXI0prC1WStkj/P085ahCPql7/7lB/m77JtwhMa+5qaFpCugaMmsuZWtcCmjVO7Q6
+	 LMPRSQws2cdpw==
+Subject: Re: [PATCH net] net: usb: rtl8150: fix rx tasklet use-after-free on
+ disconnect
+From: netdev-bot+sashiko@kernel.org
+To: mhun512@gmail.com
+Cc: petkan@nucleusys.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, ae878000@gmail.com
+Date: Thu, 12 Nov 2026 04:31:30 +0000
+Message-ID: <179445789040.2199510.7426210198945271595@kernel.org>
+In-Reply-To: <20261110043016.56986-1-mhun512@gmail.com>
+References: <20261110043016.56986-1-mhun512@gmail.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,122 +64,200 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261112-tcpm-unregister-timers-v1-1-7230fda5612b@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQrCQAxG4auUrA00g4rjVcRFnf6tETqWZCpC6
- d0ddfkt3lvJYQqnc7OS4aWuz1whu4bSvcsjWPtqCm04ikjgkuaJl2wY1QuMi04w5zD0coj7Uxt
- jpBrPhkHfv/Hl+rcvtwdS+d5o2z4PaLCIegAAAA==
-X-Change-ID: 20261112-tcpm-unregister-timers-2fd159480999
-To: Badhri Jagan Sridharan <badhri@google.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Guenter Roeck <linux@roeck-us.net>, Xu Yang <xu.yang_2@nxp.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Arun Iyengar <aiyengar1990@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794457692; l=3576;
- i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=uO7oLFJ9U2ade7oBvcd7yir9nsFmvPybpTlJOuoRoAM=;
- b=12OwEeV8fEQtCgyW1E7aRWtRJbppNwN/xgiR2qmXBfUwQldX0xlNfYjZAL3iuCnkAOaajjTJV
- gO/caxTbEwSBO/Und6USQU0+xqw8TQo1001UkPihPbgv2oWHVqWPt23
-X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
- pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
-X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
- auth_id=1480
-X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
-Reply-To: aiyengar1990@gmail.com
-Content-Transfer-Encoding: 7bit
 
-From: Arun Iyengar <aiyengar1990@gmail.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-tcpm_unregister_port() clears port->registered, destroys the kthread
-worker and only then cancels the hrtimers. A timer handler running on
-another CPU that has already seen port->registered set can still call
-kthread_queue_work() once the worker is freed, or with port->wq
-already NULL:
+Critical: 0 · High: 0 (2) · Medium: 1 · Low: 0
 
-  CPU0                           CPU1
-  tcpm_unregister_port()         state_machine_timer_handler()
-                                   if (port->registered)
-    port->registered = false;
-    kthread_destroy_worker(port->wq);
-    port->wq = NULL;
-                                   kthread_queue_work(port->wq, ...);
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-The timers are cancelled after the worker is destroyed on purpose:
-works that run while the worker is flushed can start a timer again
-(see the commit in Fixes). Cancelling only before would bring that
-back, so cancel them on both sides. hrtimer_cancel() waits for a
-handler that is running, so after the first round no handler that
-missed the cleared flag is left; the second round removes a timer that
-a work started during the flush. tcpm_reset_port(), called later, only
-cancels.
+- [Medium] The patch's new tasklet_kill() calls in rtl8150_disconnect()
+  cannot reliably stop rx_fixup() when it keeps rescheduling itself, and…
 
-Fixes: ca4d8344a72b ("usb: typec: tcpm: fix tcpm unregister port but leave a pending timer")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/all/sashiko-outbox-206898@kernel.org/
-Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
----
-Sashiko found this while reviewing an unrelated tcpm patch of mine:
-https://lore.kernel.org/all/sashiko-outbox-206898@kernel.org/
-Its suggestion was to cancel the timers before destroying the worker
-instead of after; that would undo the commit in Fixes, hence both.
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but the stale
+  dev->rx_skb pointer can lead to a double free or a device DMA into…
+- [High] This problem wasn't introduced by this patch, but pegasus.c, the
+  driver rtl8150 was derived from, has the same late-completion tasklet…
 
-Compile-tested only (arm64 W=1): the window is a few instructions in
-the unbind path and I have no reproducer.
+--
 
-This patch was developed with Claude (Anthropic) as a coding assistant:
-it wrote the change and the commit message, and I reviewed it.
----
- drivers/usb/typec/tcpm/tcpm.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+net: usb: rtl8150: fix rx tasklet use-after-free on disconnect
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index d721baef5210..c7e0e09b1cbe 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -8987,18 +8987,29 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
- }
- EXPORT_SYMBOL_GPL(tcpm_register_port);
- 
-+static void tcpm_cancel_timers(struct tcpm_port *port)
-+{
-+	hrtimer_cancel(&port->vdm_discovery_timer);
-+	hrtimer_cancel(&port->enable_frs_timer);
-+	hrtimer_cancel(&port->vdm_state_machine_timer);
-+	hrtimer_cancel(&port->state_machine_timer);
-+}
-+
- void tcpm_unregister_port(struct tcpm_port *port)
- {
- 	int i;
- 
- 	port->registered = false;
-+	/*
-+	 * A timer handler that saw port->registered still set may queue
-+	 * work: wait for it before the worker goes away. Works that run
-+	 * while the worker is flushed may start a timer again, so cancel
-+	 * the timers once more afterwards.
-+	 */
-+	tcpm_cancel_timers(port);
- 	kthread_destroy_worker(port->wq);
- 	port->wq = NULL;
--
--	hrtimer_cancel(&port->vdm_discovery_timer);
--	hrtimer_cancel(&port->enable_frs_timer);
--	hrtimer_cancel(&port->vdm_state_machine_timer);
--	hrtimer_cancel(&port->state_machine_timer);
-+	tcpm_cancel_timers(port);
- 
- 	power_supply_put_system_batteries(port->fixed_batt, port->fixed_batt_cnt);
- 	tcpm_reset_port(port);
+This adds a second tasklet_kill() in rtl8150_disconnect(), placed after
+unlink_all_urbs(). It is meant to drain an RX tasklet that a late
+read_bulk_callback() could have scheduled after the first kill, before the
+driver data is freed.
 
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261112-tcpm-unregister-timers-2fd159480999
+> diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+> index d51e43170e033..98c36c3779564 100644
+> --- a/drivers/net/usb/rtl8150.c
+> +++ b/drivers/net/usb/rtl8150.c
+> @@ -971,6 +971,8 @@ static void rtl8150_disconnect(struct usb_interface *intf)
+>  		tasklet_kill(&dev->tl);
+>  		unregister_netdev(dev->netdev);
+>  		unlink_all_urbs(dev);
+> +		/* A completion may have scheduled it after the first kill. */
+> +		tasklet_kill(&dev->tl);
 
-Best regards,
---  
-Arun Iyengar <aiyengar1990@gmail.com>
+[Severity: Medium]
+Can this tasklet_kill() actually end the rx_fixup() reschedule loop that the
+commit message describes?
 
+The commit message says "disabled endpoints make RX resubmissions fail, so
+rx_fixup() can keep rescheduling itself". It then says "tasklet_kill()
+drains any late tasklet and prevents self-rescheduling".
 
+rtl8150_driver has no soft_unbind, so usb_unbind_interface() disables the
+endpoints before calling ->disconnect(). The device is still attached, so
+usb_submit_urb() passes its -ENODEV check. usb_hcd_link_urb_to_ep() then
+returns -ENOENT, or -EPERM while usb_kill_urb() is in progress:
+
+drivers/usb/core/hcd.c:usb_hcd_link_urb_to_ep() {
+    ...
+	if (unlikely(!urb->ep->enabled)) {
+		rc = -ENOENT;
+		goto done;
+	}
+    ...
+}
+
+In rx_fixup(), -ENODEV is the only error that skips the reschedule, and
+nothing checks RTL8150_UNPLUG:
+
+drivers/net/usb/rtl8150.c:rx_fixup() {
+    ...
+try_again:
+	status = usb_submit_urb(dev->rx_urb, GFP_ATOMIC);
+	if (status == -ENODEV) {
+		netif_device_detach(dev->netdev);
+	} else if (status) {
+		set_bit(RX_URB_FAIL, &dev->flags);
+		goto tlsched;
+	}
+    ...
+tlsched:
+	tasklet_schedule(&dev->tl);
+}
+
+tasklet_kill() only returns once the waiter sets TASKLET_STATE_SCHED
+itself:
+
+	wait_on_bit_lock(&t->state, TASKLET_STATE_SCHED, TASK_UNINTERRUPTIBLE);
+
+tasklet_action_common() clears TASKLET_STATE_SCHED and wakes the waiter
+just before it calls t->callback(t). rx_fixup() then sets the bit again
+before it returns. All of this runs in non-preemptible softirq context.
+
+On a CONFIG_SMP=n non-RT kernel, or when the waiter runs on the same CPU as
+the tasklet, process context would only ever see TASKLET_STATE_SCHED set.
+Wouldn't rtl8150_disconnect() then sleep in TASK_UNINTERRUPTIBLE forever
+while ksoftirqd keeps running rx_fixup()?
+
+The first tasklet_kill() already had this limitation. The new call relies
+on the same assumption to close the use-after-free.
+
+For tasklet_kill() to be reliable here, would rx_fixup() and the resched
+path in read_bulk_callback() need to stop resubmitting and rescheduling
+once RTL8150_UNPLUG is set?
+
+>  		free_all_urbs(dev);
+>  		free_skb_pool(dev);
+>  		dev_kfree_skb(dev->rx_skb);
+
+[Severity: High]
+This is a pre-existing issue, but can dev->rx_skb still be stale when it is
+freed here?
+
+read_bulk_callback() passes dev->rx_skb to the stack, and if the pool is
+empty it leaves the pointer unchanged:
+
+	netif_rx(dev->rx_skb);
+	...
+	skb = pull_skb(dev);
+	spin_unlock_irqrestore(&dev->rx_pool_lock, flags);
+	if (!skb)
+		goto resched;
+
+	dev->rx_skb = skb;
+
+The pool has only RX_SKB_POOL_SIZE (4) entries, and only rx_fixup() refills
+it. rx_fixup() is also the only place that replaces the pointer. If every
+GFP_ATOMIC allocation in fill_skb_pool() fails, it just reschedules:
+
+	skb = pull_skb(dev);
+	spin_unlock_irq(&dev->rx_pool_lock);
+	if (skb == NULL)
+		goto tlsched;
+	dev->rx_skb = skb;
+
+Suppose rtl8150_disconnect() runs in that state. The tasklet_kill() calls
+stop the loop but leave the pointer as it is. Would dev_kfree_skb(dev->rx_skb)
+then double free an skb that the network stack already consumed?
+
+Something similar looks possible across close and open. rtl8150_close()
+does not kill the tasklet or clear rx_skb. rtl8150_open() then reuses a
+non-NULL rx_skb as the bulk-in buffer:
+
+	if (dev->rx_skb == NULL)
+		dev->rx_skb = pull_skb(dev);
+	...
+	usb_fill_bulk_urb(dev->rx_urb, dev->udev, usb_rcvbulkpipe(dev->udev, 1),
+		      dev->rx_skb->data, RTL8150_MTU, read_bulk_callback, dev);
+
+Could the device then DMA packet data into freed memory?
+
+[Severity: High]
+This isn't a bug introduced by this patch, but pegasus.c, which rtl8150 was
+derived from, seems to have the same late-completion tasklet problem. This
+patch doesn't change it.
+
+In pegasus read_bulk_callback(), when the resubmit fails, rx_tl is scheduled
+without checking PEGASUS_UNPLUG again:
+
+	else if (rx_status) {
+		pegasus->flags |= PEGASUS_RX_URB_FAIL;
+		goto tl_sched;
+	}
+	...
+tl_sched:
+	tasklet_schedule(&pegasus->rx_tl);
+
+During unbind the endpoints are already disabled, so the resubmit fails with
+-ENOENT. It fails with -EPERM once usb_kill_urb() has set urb->reject.
+
+The only tasklet_kill() is in pegasus_close(), and it runs before the URBs
+are killed:
+
+	tasklet_kill(&pegasus->rx_tl);
+	unlink_all_urbs(pegasus);
+
+pegasus_disconnect() then goes from unlink_all_urbs() to free_netdev()
+without draining the tasklet:
+
+	unregister_netdev(pegasus->net);
+	unlink_all_urbs(pegasus);
+	free_all_urbs(pegasus);
+	...
+	free_netdev(pegasus->net);
+
+Consider a completion that passes the netif_running() check before
+__dev_close_many() clears __LINK_STATE_START. If it reaches
+tasklet_schedule() after the tasklet_kill() in pegasus_close(), rx_tl is
+left pending with no later kill.
+
+rx_fixup() returns early on PEGASUS_UNPLUG, so there is no endless loop.
+It still reads pegasus->flags, though, and tasklet_action_common() touches
+the tasklet_struct inside netdev_priv(). Could either of those run after
+free_netdev()?
+
+Does pegasus_disconnect() need a tasklet_kill(&pegasus->rx_tl) after
+unlink_all_urbs() too?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261110043016.56986-1-mhun512%40gmail.com
