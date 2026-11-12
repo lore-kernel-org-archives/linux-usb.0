@@ -1,54 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.197
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794463000;
-	b=jG/NRYSdNPOlvnbWTHG5cI+Jh2vXGK3f4CekS8AHrY4TnixaEacqLGQ2lVQRq/OsZewc
-	 61zvpCWkyUe1ukAclQPTmoLvKhTglpPwpF52I3HbimntcaDIGfvA8vGu4Rb24pPUwh2GZ
-	 4kDwTOGaUnny0HnkqzYJQQgGhVsI5Z31JY4wFbfwwXhL5SyfMLo+Xs3fX+sBHj3UC1dF2
-	 Rek0PVYXEKni49f7w69Or5VRQn53c85ZIPPMqdFUpjKbu7modanzSO9R60jtQcVcECPI+
-	 p0euuI9STqbtQDRYkzdvuH+lFu35sKe9NAgQSx0fbsUAzGWmHNoPtWCHrOKEhM6uW5A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794463000;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=uQf/9IZU6uSCTx/IYygHhrSWPp7hzih38smhNOg2mec=;
-	b=VSeivOIq/Ybo8rKMuCSJEkPJ3ay9wu7hXGSi9C3g3CdSVK/1f59ktzAO9heUj9m9NTkf
-	 T4NvEbno69lLsfuq67wJXkdWywcK3mgqL3HZMxWN9NC/ioYKQNwpuz7h8oskJo0PPt2g8
-	 M7Ben6328PxBh8BXR38y5bWFj9gLlxEgI9q0OTj8esWYcN7ji86lvvKEURsE8DL/kzjaG
-	 Pmy+ahHlaSgDmwhHdxe8kRVid3+P2qg2hKCccxILMNmB6hSpxoz938E68Y05CbYyN/Xfc
-	 01mMy0GtNHhxZpzygDR2IeMuFqCEnggznpfw14Cv10rEUcIpQWIAMiHGkyL3Sade0Mw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.197
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.45
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794464249;
+	b=Dscc+OiFiow9NjnIlnN7xsbYOb+JghrShcVq+C5MCrnB4TuJJauIZzusPBRHJ5ZQPIM9
+	 VWXEY1msi5wj/3+sPqpGraFrklTnNO4ToJpsI8qYg7qKxYj6YUYvXu+gg+I0Jah9A2xg8
+	 ETt5V3lpfELVUXGbuWwinqjn4R67K6xIm1PhjX0lO2MBu+PP/E0y6j1YjxiZBRc7M1HqI
+	 FQtHMnexzxeVX7QluM/XzvyqrjjkK93Viv2+ZMs+J5yP8B9n8+MDQkI4mudcmX2qsWsMo
+	 AstEd1wfHgbPNIkliSRvZ6y3gtlxJ5SJILM6YYYwnIAdIjNwSFRK/g+/AuVYIr8mxPw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794464249;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=LBkvWiELYKcawLYZyUR8viHzi3N0cQ25eaouxLSJFuI=;
+	b=djPB+Y6cFHiuDLHY32QOXpC7MYjFXcCG9qgvrLnsIpQyig4CyzsVscnVi92scIB6YOTo
+	 7T/HjeEYvtFC+Z63fjfwLN2R0CksIuqFEvYc1TZSgNdFe8eDH2+ksSzDcE+mHow9AgBpc
+	 uOo8TxGPBsI30bHmkVUnJFnQpM6AADEyh0lMyU6icWd7NVKdU+hp4obFgOib7Nf6wG0XY
+	 LRyxXsok8e8aUrrUvbE02XY+1kEAi05X15GBi3NALVKvMxfRrIBfcw/E+dcFY4B5WBTSJ
+	 jq8Jld9whF2I0z3ACMusmXB68PrVa6p9tqCZD6qNXXrmlD9Evu0xB+GFKQNnvsf2Hrw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BEvEvhBA;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.45
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504EA606A32D
-	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 05:56:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 504EA606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4ab8b4887d4so2789325b6e.1
-        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 21:56:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC61606A31C
+	for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 06:17:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DC61606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BEvEvhBA
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c169ae1cb26so84556366b.1
+        for <linux-usb@vger.kernel.org>; Wed, 11 Nov 2026 22:17:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794464247; cv=none;
+        d=google.com; s=arc-20260327;
+        b=eDkdPzUozBkFBfnoF/3QjY0MZnQf2eAzlpMK4J+jDfXjribh/amPtC/+aDwAUn6to3
+         Y1uJb4DML0EcnpgpXubt8Xcc6alsAeCvrVZhn+Th0xxAgkFr29C5ij2lFQFRrdDpO9G9
+         TBCcOD8Er2pJp3XLip7iyhM58CdfXbrEtMv8k3aFDVOYpumGpNJ96d92gCCjdwVBE/IO
+         Zh0PjmDTp5IeBl/elN2r8mNv7PighSIUNOTTICmAj166NowughucZ2ctfXIYgSV3ay1L
+         Y6zQhSRCAdtTzp9iOJG7TB+h/cjFTYbMHOn8O65hMqS2FLNVPX/EoZiVHUuEdWNtLQu3
+         mKQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=LBkvWiELYKcawLYZyUR8viHzi3N0cQ25eaouxLSJFuI=;
+        fh=nJqubhMzP8qr0XuhpwjlEhU6g9yneq6z6AIwa0dEbYk=;
+        b=AOjZ/Cz/jxezZAD40jTDFfYpyqtMTghubTmuKJAHWbLLPxeRwlmI9r4FyaRM53LLN6
+         iXDI+mEIUX29c3WT5EOgffZ8Ry+OM0zBn+Ghxr3pcILLdGtTaebTYxWw51RLgQtAPTdV
+         k7ldJ/6jq0nKtbIJ8BkkQgVvH+Wrq3ixfGazzcVxne9Xe4qWkkvwNag3PR7WmrnFs+9l
+         gpVM3qN+u4MUYHpQ9+4HvGSYL6HCbV9OSXBehStMFM2CnpZojVuazI+8oa9IcXZ2/XXU
+         4KYOM608l3VL7wQLgjbGFBjrMNNutcXuyd3+MM7QVG5XI7xmW6HGTKGYi11GRCt8Yeuo
+         iZ7Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794464247; x=1795069047; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=LBkvWiELYKcawLYZyUR8viHzi3N0cQ25eaouxLSJFuI=;
+        b=BEvEvhBAped+W5UE0YDULfJk/MUxg512y1lESWE230SPAvsBVXdB3keD/zpqDobK0u
+         7COYueevNkjlf0zFKBFHoXcBzhi4QEIEfN5Kg4heVi/9xtJ2zZNL7w3fXYlRamv43NdM
+         eCGXRU3y4VqWzSfkmvdr1pzQXmm4r+ToFh5kGf6hEraJnfOKZV+8mCkSZNy/rzNuDxJr
+         fa8j5QyIbKMMLqTEBTuEQfN5vlbbRpqk+SRZqVtOoRN0vwOpRyevhlHlrg96k8o83YiX
+         QO6x6FbUgpXUgzY3Bu4Si7EFbB3bi8mBaFssTI2UeO07Df3kl1nvqGp3+e4/Ly3z/l2B
+         2idg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794462999; x=1795067799;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20260707; t=1794464247; x=1795069047;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uQf/9IZU6uSCTx/IYygHhrSWPp7hzih38smhNOg2mec=;
-        b=lq7XV6LH7HspETvDnTKlprsrAYz5hXTIJcwz+FHbOaA4woBAVa2NAgl8VpXn+LdrTN
-         y9U8/PS2payo67PH01jrIpVwgNnEGe+pEOd/fKMXwc83EJ3KDqDpVoe1gcsrwLsFd306
-         ce/QdUkr7EF+2dJcFvbBUTwz+nPzkNdCZ6Y6or/PDSJ7vPcHpARLjOPt1biQGkPFfuAB
-         CkkI7MGU5zt3XqZivQaVRaDehYxmbRATPRKYtn8AfQyG2eOmReLJQ//+VCTnoCO34JTV
-         0Nhn885bJh1nnhjm33AE7e5wbIa5ClmBkDDd7GcsrXrk/wxtmNb1SG/DLnOEd/DBsS0e
-         xDHw==
-X-Forwarded-Encrypted: i=1; AL+hErG7GTE6JHrc1FUBp92C2JTPKrML02HLSOfD6JoW0HbeY+oenUlsmGWJOb3eYRdFkcLwbMgrnZ/He3c=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8LfDtYAxtC+mvo05jt1SLi5EKUZJg3fh5iLrR8UB7qez/I44+f
-	S2oCRA4jNAhrtZ0zj2kMZnhSgRSsN2YDF/LMUbCBVcekNPfx61jL7zz+T5Yx3E04la26lls+VmS
-	0ePQo3xRB45ztU32pXPozXCk7ebYYDcLOEBEf201SjG5AW5h4rDBO9J2WdVw=
+        bh=LBkvWiELYKcawLYZyUR8viHzi3N0cQ25eaouxLSJFuI=;
+        b=lAPgC5NZKRqY+oN2IDBNsb1rzXwZE6NtbFCU+RNDzqTp4oDWtRaIfr/PjFPT/2+tLD
+         TZwqnAvcIP1PJEgS0kFecfJwbWRYCoKJIabSeIhIeFqJZjCz/skxvDajEcVDnJIpLgDB
+         AoUgi6q+aAmXZ3FtDI/k7ivIDUJ1yVT50GQR1Ixnl+f4MbZ+BOhH/XKhNC0ie5CGPysQ
+         XKEL5QSv8TWkZNslBjY9whBiNCPdBuc4vf3pdMBX75JGV5anGiO4s5igUbhptQqf/KlO
+         kreuIEO1RMInIScR5PDNzy2N6liD6rtjlcDVWfHetIW8CBfmRxIerdOZ/DzxUZfkIFpi
+         1CSg==
+X-Forwarded-Encrypted: i=1; AL+hErF2oMzPMxhALkM5NGxzVcwonFyVikVqmQe1bmYG0SzNRMOCw5ppoT6lJeKELx0oCbxVhcTE9GehceE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/MvypnNOQOTrQogXan3qn7R88hl1sFUdoRKGGKbENbFhBCp3de
+	6ewBEqkjQLxHPZBMaWX4tutoJthnkDSw1068XxHspnQZkqtaOrLqOtqEsls0iY8FfoA1+CtLl1X
+	QQx8cur7FC061EXcY7yus8XIVn8lFOzVyRqo=
+X-Gm-Gg: AYBFou2Mr1Gp8QN7l06QrslKZGSvvVSQWaEaZz3Lgu08ShWMtmHvScHOP6SsCaGKoBB
+	+YeYmtm2dR9M4z7hijUylvop4gj2eD53m/VF1HniCrrWz77FdEcjG7PCpDwk4vbaPwiF2LJn7Yb
+	O9gSPR6j4EaT6n3gXUZaDeBKszfgx+4Zpv6GciRCmEDOcq3ySxrBXhBHyX8V4e62ybCNd0j1I1m
+	fU/+sc1yHeBMEXmis5Q0YZDFRlNN1v++xOjs+hTKW0bA3LlVTJ7JlU8oKX2KX+Fs+r0xpaGOp0n
+	+GR/0K4UJ0F6dN6vrc5cTjKefm3iDJAaalckS2Oq6rk2nrl3E5vuq7TL9VwQZZAswKXMR7plU+k
+	ql0exNC0c0dUB6jwvH+f+ZovQCA4EqSVa1u/7tXGP4xeiI7TqoGUiYypseqzFEnci4+eOhxZd5n
+	CeU9qVEYozuSYBgKMyKnhfjZHi9Umn4tHLfIE9yYUz1qcvMWVj+QzOkNhnTT4gY7GqiqBj
+X-Received: by 2002:a17:906:d54e:b0:c50:8612:d441 with SMTP id
+ a640c23a62f3a-c508612d6e1mr32110666b.21.1794464246673; Wed, 11 Nov 2026
+ 22:17:26 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,189 +105,250 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:30a6:b0:53e:8376:dfbf with SMTP id
- 5614622812f47-56b97307e39mr4405554b6e.40.1794462999296; Wed, 11 Nov 2026
- 21:56:39 -0800 (PST)
-Date: Wed, 11 Nov 2026 21:56:39 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6af55517.a0c627da.5d811.0010.GAE@google.com>
-Subject: [syzbot] [greybus?] [usb?] KASAN: slab-out-of-bounds Read in gb_operation_work
-From: syzbot <syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com>
-To: elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
-	johan@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
+References: <20261110043016.56986-1-mhun512@gmail.com> <179445789040.2199510.7426210198945271595@kernel.org>
+In-Reply-To: <179445789040.2199510.7426210198945271595@kernel.org>
+From: Myeonghun Pak <mhun512@gmail.com>
+Date: Thu, 12 Nov 2026 01:17:14 -0500
+X-Gm-Features: AclHuK_N4Kjnino_xgsBrqlpbKR-zvn6NbL5YTvL81RB09JJGEvG7Ht4_NlvG2c
+Message-ID: <CAGEsz8Gocd4J8-K0sngFmF6NwQqNQh5KtCMp8GrM8fusCNaF5A@mail.gmail.com>
+Subject: Re: [PATCH net] net: usb: rtl8150: fix rx tasklet use-after-free on disconnect
+To: netdev-bot+sashiko@kernel.org
+Cc: petkan@nucleusys.com, andrew+netdev@lunn.ch, davem@davemloft.net, 
+	edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, 
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, ae878000@gmail.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Hi Oliver,
 
-syzbot found the following issue on:
+Thanks for reviewing the patch and preparing the additional fix.
+Please go ahead and submit it. I appreciate your help with addressing
+the URB resubmission issue.
 
-HEAD commit:    6628e7d4c6b2 Linux 7.4-rc1
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=109ac1a1580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f9bf69220d319004
-dashboard link: https://syzkaller.appspot.com/bug?extid=0b456664585fa81a47f6
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=149ac1a1580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=150c9f8d580000
+Thanks,
+Myeonghun
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/d415be35d54e/disk-6628e7d4.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/69e49385122b/vmlinux-6628e7d4.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/51be81fff25f/bzImage-6628e7d4.xz
-
-AI-generated root cause summary:
-In gb_connection_recv() (drivers/greybus/operation.c), the kernel verifies that
-the incoming buffer length is at least sizeof(struct gb_operation_msg_hdr), but
-fails to validate that the message header's claimed size (header.size, parsed as
-msg_size) is also at least sizeof(struct gb_operation_msg_hdr). When msg_size <
-sizeof(struct gb_operation_msg_hdr), gb_operation_create_incoming() subtracts
-the header size from msg_size, causing an unsigned integer underflow when
-calculating request_size. In gb_operation_message_alloc(), the payload size and
-header size wrap back around and kzalloc(msg_size) allocates an undersized
-buffer smaller than the header, leading to out-of-bounds reads when reading
-request_header->operation_id or a ZERO_SIZE_PTR dereference panic when msg_size
-is zero.
-
-full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=0b456664585fa81a47f6
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
-
-greybus 1-svc: unexpected request 0x7f received (state 0)
-==================================================================
-BUG: KASAN: slab-out-of-bounds in gb_operation_response_alloc drivers/greybus/operation.c:490 [inline]
-BUG: KASAN: slab-out-of-bounds in gb_operation_response_send drivers/greybus/operation.c:832 [inline]
-BUG: KASAN: slab-out-of-bounds in gb_operation_request_handle drivers/greybus/operation.c:252 [inline]
-BUG: KASAN: slab-out-of-bounds in gb_operation_work+0x8be/0x990 drivers/greybus/operation.c:280
-Read of size 2 at addr ffff888105f0a642 by task kworker/u8:2/38
-
-CPU: 1 UID: 0 PID: 38 Comm: kworker/u8:2 Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/15/2026
-Workqueue: greybus1:0 gb_operation_work
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
- gb_operation_response_alloc drivers/greybus/operation.c:490 [inline]
- gb_operation_response_send drivers/greybus/operation.c:832 [inline]
- gb_operation_request_handle drivers/greybus/operation.c:252 [inline]
- gb_operation_work+0x8be/0x990 drivers/greybus/operation.c:280
- process_one_work+0xac7/0x1b10 kernel/workqueue.c:3495
- process_scheduled_works kernel/workqueue.c:3578 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3659
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-Allocated by task 28:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
- __kasan_kmalloc+0x8f/0xa0 mm/kasan/common.c:426
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5531 [inline]
- __kmalloc_noprof+0x315/0x7e0 mm/slub.c:5556
- _kmalloc_noprof include/linux/slab.h:995 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- gb_operation_message_alloc+0x9b/0x2c0 drivers/greybus/operation.c:380
- gb_operation_create_common+0x9f/0x710 drivers/greybus/operation.c:532
- gb_operation_create_incoming drivers/greybus/operation.c:644 [inline]
- gb_connection_recv_request drivers/greybus/operation.c:926 [inline]
- gb_connection_recv+0x1dc/0x1050 drivers/greybus/operation.c:1063
- greybus_data_rcvd+0x244/0x600 drivers/greybus/connection.c:89
- cport_in_callback+0x1fb/0x280 drivers/greybus/es2.c:840
- __usb_hcd_giveback_urb+0x38e/0x610 drivers/usb/core/hcd.c:1657
- usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
- dummy_timer+0xdb5/0x3840 drivers/usb/gadget/udc/dummy_hcd.c:2051
- __run_hrtimer kernel/time/hrtimer.c:2079 [inline]
- __hrtimer_run_queues+0x448/0x9a0 kernel/time/hrtimer.c:2136
- hrtimer_run_softirq+0x1ca/0x360 kernel/time/hrtimer.c:2153
- handle_softirqs+0x209/0xa00 kernel/softirq.c:669
- __do_softirq kernel/softirq.c:703 [inline]
- invoke_softirq kernel/softirq.c:542 [inline]
- __irq_exit_rcu+0x17a/0x220 kernel/softirq.c:786
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:809
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-
-The buggy address belongs to the object at ffff888105f0a640
- which belongs to the cache kmalloc-8 of size 8
-The buggy address is located 2 bytes inside of
- allocated 3-byte region [ffff888105f0a640, ffff888105f0a643)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x105f0a
-flags: 0x200000000000000(node=0|zone=2)
-page_type: f5(slab)
-raw: 0200000000000000 ffff888100041500 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000000800080 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2c00(GFP_NOIO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 6490716744
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1856
- prep_new_page mm/page_alloc.c:1864 [inline]
- get_page_from_freelist+0xf4b/0x3440 mm/page_alloc.c:3935
- __alloc_frozen_pages_noprof+0x299/0x2d50 mm/page_alloc.c:5444
- alloc_slab_page mm/slub.c:3384 [inline]
- allocate_slab mm/slub.c:3499 [inline]
- new_slab+0xb1/0x6d0 mm/slub.c:3550
- refill_objects+0xe3/0x410 mm/slub.c:7539
- refill_sheaf mm/slub.c:2917 [inline]
- __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4811
- alloc_from_pcs mm/slub.c:4887 [inline]
- slab_alloc_node mm/slub.c:5021 [inline]
- __do_kmalloc_node mm/slub.c:5530 [inline]
- __kmalloc_node_noprof+0x634/0x820 mm/slub.c:5543
- _kmalloc_array_node_noprof include/linux/slab.h:1297 [inline]
- __blk_mq_realloc_hw_ctxs+0x579/0x820 block/blk-mq.c:4588
- blk_mq_realloc_hw_ctxs block/blk-mq.c:4652 [inline]
- blk_mq_init_allocated_queue+0x36c/0x1500 block/blk-mq.c:4694
- blk_mq_alloc_queue+0x1bd/0x290 block/blk-mq.c:4464
- scsi_alloc_sdev+0x972/0xe90 drivers/scsi/scsi_scan.c:339
- scsi_probe_and_add_lun+0x523/0x720 drivers/scsi/scsi_scan.c:1227
- __scsi_scan_target+0x188/0x420 drivers/scsi/scsi_scan.c:1803
- scsi_scan_channel drivers/scsi/scsi_scan.c:1893 [inline]
- scsi_scan_channel+0x142/0x1e0 drivers/scsi/scsi_scan.c:1868
- scsi_scan_host_selected+0x2b3/0x380 drivers/scsi/scsi_scan.c:1922
- do_scsi_scan_host+0x1f4/0x270 drivers/scsi/scsi_scan.c:2055
-page_owner free stack trace missing
-
-Memory state around the buggy address:
- ffff888105f0a500: 06 fc fc fc 00 fc fc fc 00 fc fc fc 00 fc fc fc
- ffff888105f0a580: fa fc fc fc 06 fc fc fc 06 fc fc fc 06 fc fc fc
->ffff888105f0a600: 06 fc fc fc 00 fc fc fc 03 fc fc fc fa fc fc fc
-                                           ^
- ffff888105f0a680: fa fc fc fc 00 fc fc fc fa fc fc fc 00 fc fc fc
- ffff888105f0a700: fa fc fc fc 05 fc fc fc 05 fc fc fc 05 fc fc fc
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+2026=EB=85=84 11=EC=9B=94 11=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 11:31,=
+ <netdev-bot+sashiko@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue(s) to consider.
+>
+> Critical: 0 =C2=B7 High: 0 (2) =C2=B7 Medium: 1 =C2=B7 Low: 0
+>
+> If you believe none of the issues are legitimate, please reply to each
+> issue of Medium severity or higher and explain why the AI is wrong.
+> If any of them are legitimate and you plan to respin, please let patchwor=
+k
+> know by including "pw-bot: cr" as a separate line at the end of your repl=
+y
+> (one such reply per series is enough).
+>
+> - [Medium] The patch's new tasklet_kill() calls in rtl8150_disconnect()
+>   cannot reliably stop rx_fixup() when it keeps rescheduling itself, and=
+=E2=80=A6
+>
+> Pre-existing issues:
+> - [High] This problem wasn't introduced by this patch, but the stale
+>   dev->rx_skb pointer can lead to a double free or a device DMA into=E2=
+=80=A6
+> - [High] This problem wasn't introduced by this patch, but pegasus.c, the
+>   driver rtl8150 was derived from, has the same late-completion tasklet=
+=E2=80=A6
+>
+> --
+>
+> net: usb: rtl8150: fix rx tasklet use-after-free on disconnect
+>
+> This adds a second tasklet_kill() in rtl8150_disconnect(), placed after
+> unlink_all_urbs(). It is meant to drain an RX tasklet that a late
+> read_bulk_callback() could have scheduled after the first kill, before th=
+e
+> driver data is freed.
+>
+> > diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+> > index d51e43170e033..98c36c3779564 100644
+> > --- a/drivers/net/usb/rtl8150.c
+> > +++ b/drivers/net/usb/rtl8150.c
+> > @@ -971,6 +971,8 @@ static void rtl8150_disconnect(struct usb_interface=
+ *intf)
+> >               tasklet_kill(&dev->tl);
+> >               unregister_netdev(dev->netdev);
+> >               unlink_all_urbs(dev);
+> > +             /* A completion may have scheduled it after the first kil=
+l. */
+> > +             tasklet_kill(&dev->tl);
+>
+> [Severity: Medium]
+> Can this tasklet_kill() actually end the rx_fixup() reschedule loop that =
+the
+> commit message describes?
+>
+> The commit message says "disabled endpoints make RX resubmissions fail, s=
+o
+> rx_fixup() can keep rescheduling itself". It then says "tasklet_kill()
+> drains any late tasklet and prevents self-rescheduling".
+>
+> rtl8150_driver has no soft_unbind, so usb_unbind_interface() disables the
+> endpoints before calling ->disconnect(). The device is still attached, so
+> usb_submit_urb() passes its -ENODEV check. usb_hcd_link_urb_to_ep() then
+> returns -ENOENT, or -EPERM while usb_kill_urb() is in progress:
+>
+> drivers/usb/core/hcd.c:usb_hcd_link_urb_to_ep() {
+>     ...
+>         if (unlikely(!urb->ep->enabled)) {
+>                 rc =3D -ENOENT;
+>                 goto done;
+>         }
+>     ...
+> }
+>
+> In rx_fixup(), -ENODEV is the only error that skips the reschedule, and
+> nothing checks RTL8150_UNPLUG:
+>
+> drivers/net/usb/rtl8150.c:rx_fixup() {
+>     ...
+> try_again:
+>         status =3D usb_submit_urb(dev->rx_urb, GFP_ATOMIC);
+>         if (status =3D=3D -ENODEV) {
+>                 netif_device_detach(dev->netdev);
+>         } else if (status) {
+>                 set_bit(RX_URB_FAIL, &dev->flags);
+>                 goto tlsched;
+>         }
+>     ...
+> tlsched:
+>         tasklet_schedule(&dev->tl);
+> }
+>
+> tasklet_kill() only returns once the waiter sets TASKLET_STATE_SCHED
+> itself:
+>
+>         wait_on_bit_lock(&t->state, TASKLET_STATE_SCHED, TASK_UNINTERRUPT=
+IBLE);
+>
+> tasklet_action_common() clears TASKLET_STATE_SCHED and wakes the waiter
+> just before it calls t->callback(t). rx_fixup() then sets the bit again
+> before it returns. All of this runs in non-preemptible softirq context.
+>
+> On a CONFIG_SMP=3Dn non-RT kernel, or when the waiter runs on the same CP=
+U as
+> the tasklet, process context would only ever see TASKLET_STATE_SCHED set.
+> Wouldn't rtl8150_disconnect() then sleep in TASK_UNINTERRUPTIBLE forever
+> while ksoftirqd keeps running rx_fixup()?
+>
+> The first tasklet_kill() already had this limitation. The new call relies
+> on the same assumption to close the use-after-free.
+>
+> For tasklet_kill() to be reliable here, would rx_fixup() and the resched
+> path in read_bulk_callback() need to stop resubmitting and rescheduling
+> once RTL8150_UNPLUG is set?
+>
+> >               free_all_urbs(dev);
+> >               free_skb_pool(dev);
+> >               dev_kfree_skb(dev->rx_skb);
+>
+> [Severity: High]
+> This is a pre-existing issue, but can dev->rx_skb still be stale when it =
+is
+> freed here?
+>
+> read_bulk_callback() passes dev->rx_skb to the stack, and if the pool is
+> empty it leaves the pointer unchanged:
+>
+>         netif_rx(dev->rx_skb);
+>         ...
+>         skb =3D pull_skb(dev);
+>         spin_unlock_irqrestore(&dev->rx_pool_lock, flags);
+>         if (!skb)
+>                 goto resched;
+>
+>         dev->rx_skb =3D skb;
+>
+> The pool has only RX_SKB_POOL_SIZE (4) entries, and only rx_fixup() refil=
+ls
+> it. rx_fixup() is also the only place that replaces the pointer. If every
+> GFP_ATOMIC allocation in fill_skb_pool() fails, it just reschedules:
+>
+>         skb =3D pull_skb(dev);
+>         spin_unlock_irq(&dev->rx_pool_lock);
+>         if (skb =3D=3D NULL)
+>                 goto tlsched;
+>         dev->rx_skb =3D skb;
+>
+> Suppose rtl8150_disconnect() runs in that state. The tasklet_kill() calls
+> stop the loop but leave the pointer as it is. Would dev_kfree_skb(dev->rx=
+_skb)
+> then double free an skb that the network stack already consumed?
+>
+> Something similar looks possible across close and open. rtl8150_close()
+> does not kill the tasklet or clear rx_skb. rtl8150_open() then reuses a
+> non-NULL rx_skb as the bulk-in buffer:
+>
+>         if (dev->rx_skb =3D=3D NULL)
+>                 dev->rx_skb =3D pull_skb(dev);
+>         ...
+>         usb_fill_bulk_urb(dev->rx_urb, dev->udev, usb_rcvbulkpipe(dev->ud=
+ev, 1),
+>                       dev->rx_skb->data, RTL8150_MTU, read_bulk_callback,=
+ dev);
+>
+> Could the device then DMA packet data into freed memory?
+>
+> [Severity: High]
+> This isn't a bug introduced by this patch, but pegasus.c, which rtl8150 w=
+as
+> derived from, seems to have the same late-completion tasklet problem. Thi=
+s
+> patch doesn't change it.
+>
+> In pegasus read_bulk_callback(), when the resubmit fails, rx_tl is schedu=
+led
+> without checking PEGASUS_UNPLUG again:
+>
+>         else if (rx_status) {
+>                 pegasus->flags |=3D PEGASUS_RX_URB_FAIL;
+>                 goto tl_sched;
+>         }
+>         ...
+> tl_sched:
+>         tasklet_schedule(&pegasus->rx_tl);
+>
+> During unbind the endpoints are already disabled, so the resubmit fails w=
+ith
+> -ENOENT. It fails with -EPERM once usb_kill_urb() has set urb->reject.
+>
+> The only tasklet_kill() is in pegasus_close(), and it runs before the URB=
+s
+> are killed:
+>
+>         tasklet_kill(&pegasus->rx_tl);
+>         unlink_all_urbs(pegasus);
+>
+> pegasus_disconnect() then goes from unlink_all_urbs() to free_netdev()
+> without draining the tasklet:
+>
+>         unregister_netdev(pegasus->net);
+>         unlink_all_urbs(pegasus);
+>         free_all_urbs(pegasus);
+>         ...
+>         free_netdev(pegasus->net);
+>
+> Consider a completion that passes the netif_running() check before
+> __dev_close_many() clears __LINK_STATE_START. If it reaches
+> tasklet_schedule() after the tasklet_kill() in pegasus_close(), rx_tl is
+> left pending with no later kill.
+>
+> rx_fixup() returns early on PEGASUS_UNPLUG, so there is no endless loop.
+> It still reads pegasus->flags, though, and tasklet_action_common() touche=
+s
+> the tasklet_struct inside netdev_priv(). Could either of those run after
+> free_netdev()?
+>
+> Does pegasus_disconnect() need a tasklet_kill(&pegasus->rx_tl) after
+> unlink_all_urbs() too?
+>
+> --
+> Sashiko AI review =C2=B7 https://netdev-ai.bots.linux.dev/sashiko/#/patch=
+set/20261110043016.56986-1-mhun512%40gmail.com
