@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794552487;
-	b=wBolEUFI5HPK+Zph3p1m0oYnzCKT8VVuK/k8oiegBEVI1+RBkHPg6rrjFDoAMx+5b3k8
-	 ifni2Jb0vzXY/wsaS5qZK3znVFL7R1tuKQJXS06UbH/X4hKtar55G7rptOteEyzVqJDno
-	 Y8qS6xlZiBmR7OvgP235J3Wz2+79j+2Fs1qZX3d1RgipPGEHbouYV2wo2PzmLaLd4VVUZ
-	 SZyiVcSwuXhrpk7aKVrp9RSKdnagC9gbGNQo0CHJNHy79c7xSgUTCAL9AC5V+eZPR0n/Y
-	 8ioAKAWoWghK7rG3KMJ5ZlkBvGSNeT5m7pxYvh4GvYY1A6SdeAlScMfLjf32bj0puig==
+	t=1794552537;
+	b=oeLV4AiTcnN85xgkvhnFTEMq79+a2jSLT7Bz/2y+4MptJNtQQC/qPijliOIlTqstsYZt
+	 QqTz7EJa2pIdlAwFtvYF2KHbE4jXtzu07CIhNEwZxcPoMQQKYbf7d/V6Q93PBneuoc0F6
+	 2/DvOYXRR+mdWyOS3f4/lsqrOHc+egTL6H3jLCfbitb19D5cZtyJeYhl8RQ3DcxbmAQ1+
+	 r78Lv3iHP14FuO2PV1QU1P0C88wV/4LhkK/TedFdqQ5K9sNtmKFCBWhGsOkQfwtIRbSuN
+	 zXDOIG00PjZ8vMfsCLFEagZSAZBup1gNI2/tXtOdY/rnA4/KCy5hWyAXKVX6Gqa5cxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794552487;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794552537;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ZuSJwxBzfNmU1sVKgxKqQkuuvkTiFlj2Y8Tu6WwUeJ4=;
-	b=a0jVWSvV0CTwCjpHTJAgLwiAYXnN+4pNGtEXE20zZzAUefo5MbDygGHPcI8othPqtD4W
-	 bp19bxA8GenLIV++NYMcUkRLvgk3KV3cxpAazaA2rwPox6nP0WZewAimaq6SCKsHj40AS
-	 dlbQiScb6KecFTavqkytnkacXuWqSvRdfkUSW82QffCbzexXLYZzLBgkUyZ80eIldSyDa
-	 T8HZxxU/oaqaQ0Gvvr2ISQOX0kCDQdjfgq/vRGtZLrXaehvXMefwuU1bNrO4g/yBJxivj
-	 qtA4Hu95pPIgtQ8eSwhN0cgwfzgZB2MFmJ6qiMnMVHUC6wLbh66GGmBYEXCFKfKCWEw==
+	bh=avZGffoxN8otzjZBy0bYDSrSa0EAiAAy8L2MmgO5b34=;
+	b=1ckdcZ18PF/n3miNRMQ5WNPxgxvtwlqaJyJnoaHy+M5kDp/RE8/XSD9AkPQYauxjmuUc
+	 k3EDpmwY2AkE7Vw577h+dl3TLuLG2nt6uJZAaxOtWTvfi3xdMBN6JDfYlu3wipyxJYu1x
+	 8iDj/U6sC2O1roRbfT2SWWhs/GlcJzV4P8oenZi6slsHTe5IbPT9zFvB5T6o53eErafKZ
+	 roysrc398onZHm/SbSO0NKG0F13drot2JsR3XpdZ+OsuW3tR2BP4OuF+nr4zVvBjjDBGN
+	 6XpNOPqrxj+JeJ5V9wDls43KINnV0nKi9LGCJ+BxGKuuiNtBb4nJqtJB8f3/ZmTPmQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gvQlOFQH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Il+e7dG2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BD6606A31C
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 06:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7387B606A31C
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 06:48:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gvQlOFQH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DFEC1F000C4;
-	Fri, 13 Nov 2026 06:48:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Il+e7dG2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ACC31F000C4;
+	Fri, 13 Nov 2026 06:48:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794552486;
-	bh=ZuSJwxBzfNmU1sVKgxKqQkuuvkTiFlj2Y8Tu6WwUeJ4=;
+	s=k20260515; t=1794552537;
+	bh=avZGffoxN8otzjZBy0bYDSrSa0EAiAAy8L2MmgO5b34=;
 	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=gvQlOFQHiT3GfRpIy8fvDnNZVUCkb/Y5dv8KoYF401FSELuawXb3x58xe3uE2J6Y1
-	 sC242p0mQZ1bL0JqY4w+p2aBe3UFNQtsqZRmt0tXmFn92UzL05wDz0xygrEj8JqLKr
-	 SacJ3TdHZkzkFkuTLUgW1PV+eIk0clh01pGJrKPF2HCjoeiQ30nCQJss4LdZfKnMeY
-	 RuXwsYUT96zregHVcP6S8Khhnr4Fv+7IjnzEFqTdXqX68F2vTj7qOfVNEiexXlfKVf
-	 dgi8RbV3W6yLIafFV/pPDNqcKwZfNCgnHiY14elMkmtnKJ4RWi9tV3qaSkIDr26A8k
-	 i81+mlMhthhwA==
-Message-ID: <sashiko-outbox-212284@kernel.org>
+	b=Il+e7dG24AEOH9DX5ZBB1LiuUeLSGKGigQ/MALzA4LdI5K5H1ChQe/KvU6oOHmWDy
+	 /rExpEcU/V6uCaqBCXXWax409zOlQawISoHWE3qfI7r99jGbq7zH/jIuSrYQcXKzCV
+	 qpPYzgS8f2uCeNm0VXaUenCUiJoptGJCLVAD02Nd1O+5exp5yfxI6g8pgkxzjKx2PH
+	 /z/XZIMVofpYm06/f0yTMcAA4rxHbguWR4azhcGEySsQWotYO0/mRS0lDetVpgGaG4
+	 3EmkbFMbZ9Z9BsOGz935yp9H6HjkNUDckkEoDzeGfiAiF/a4/eLSFeEv/IIrn31Flq
+	 FzAUeg+3zAg5g==
+Message-ID: <sashiko-outbox-212286@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 3/4] usb: gadget: r8a66597: free the IRQ before
- deleting the timer
+Subject: Re: [PATCH v2 2/4] usb: musb: dsps: free the VBUS interrupt before
+ the child teardown
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Chengyu Liu" <lui2012qwq@gmail.com>, linux-usb@vger.kernel.org
-In-Reply-To: <20261113063409.47485-4-lui2012qwq@gmail.com>
+In-Reply-To: <20261113063409.47485-3-lui2012qwq@gmail.com>
 References: <20261113063409.47485-1-lui2012qwq@gmail.com>
- <20261113063409.47485-4-lui2012qwq@gmail.com>
+ <20261113063409.47485-3-lui2012qwq@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 06:48:06 +0000
+Date: Fri, 13 Nov 2026 06:48:56 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,20 +60,21 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> r8a66597_remove() deletes r8a66597->timer while the interrupt is
-> still live: the IRQ is devm-managed and only freed at detach, and
-> r8a66597_irq() re-arms the timer when sampling VBUS (VBINT).  An
-> interrupt landing after timer_delete_sync() re-arms the timer, and
-> r8a66597_timer() then runs on freed memory.
+> dsps_remove() unregisters the musb child, which deletes
+> musb->dev_timer and frees the structure, while the glue's VBUS
+> interrupt is devm-managed and only freed after dsps_remove() returns.
+> dsps_vbus_threaded_irq() re-arms the timer via dsps_mod_timer(), so
+> a VBUS event in between re-arms dev_timer past its deletion and
+> otg_timer() runs on freed memory.
 >=20
-> Store the requested IRQ number at probe time and free it before
-> deleting the timer; freeing also waits for any running handler, so
-> nothing can re-arm the timer past the delete.
+> Free the VBUS interrupt first, which also waits for any in-flight
+> handler, so nothing can re-arm the timer once the child teardown
+> runs.
 >=20
 > Found by static analysis.
 >=20
-> Fixes: c41442474a26 ("usb: gadget: R8A66597 peripheral controller support=
-.")
+> Fixes: 369469a92393 ("usb: musb: Add support for optional VBUS irq to dsp=
+s glue layer")
 > Cc: stable@vger.kernel.org
 > Reviewed-by: Neill Kapron <nkapron@google.com>
 > Signed-off-by: Chengyu Liu <lui2012qwq@gmail.com>
@@ -82,5 +83,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113063409.4748=
-5-1-lui2012qwq@gmail.com?part=3D3
+5-1-lui2012qwq@gmail.com?part=3D2
 
