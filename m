@@ -1,80 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794551665;
-	b=U2I/2Qg4rEYf3EuPeeS+L3w3DQ92iq1WarBZg2gCDwKLDgio3vpVZuSctsesmsX/Tks8
-	 r6A4rEqdxlrJsFPweNfgSDfuEVwA0Rf2zp7my0gIGSynx5sKcsYnA5TwztwCUKHLrnDkk
-	 0nmXLOAp1Uuul1iU1x55wpPW7Yt7hzffUJ0i63g5MEWq7ylYiDYpmrT6YN8Em72kobVPb
-	 Hh41my+//tjs35GGwul4VI7VVdxZtUOBeC/EwuQhtRgbSQCIKiUinsABCEZfj83VTTeXX
-	 m2VDGDq6Ec+17x/BSF2nhgSmJoib9v2sNnpf6BXIsGzVfHV/7udud8PPoBI3ioNLTmQ==
+	t=1794551673;
+	b=n03Bso5yM5nfndCSaweGdPGtD3KbLesuNDPzLx+Wh5WS4AlndlzpI6yj4UIjtBHoytyE
+	 YoRrgJVCsxZY+N+IFyZGAdev+Hz0Z2lj2GD139/e/8YxstAKxcs5FvSslmTnGF7gdG1fY
+	 +z92J4QLu/XWewElBKmVESn4Jwf2uVsBE7gYI3+T7lcLNgxBBLOkLg4fsEIe63R+EodM6
+	 9fj15VG0ti4mpeJrKwUQEF3XVtVb5hRDn+kKmsKTDeycRJ5hAI9DbVD+GdPJJ7h/+fchk
+	 SSMeGHOAMhD1F9lJZUCH7XwN99tXlUmceK+1rZjKPLABa3WdQ8tcLmS/6yYEf7khYDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794551665;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794551673;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=HdXa32DySaS9SpkXLA+JWGuqMHC26ZuT90ihSRHVW/c=;
-	b=cDupiRHSjTyU+KWSBY3mzzYCnopsVgy6h2iw3LwAgXcMvTxyCtaj8RXO37gsw7STRFL4
-	 jkHLqWtpNZo40PaS4Z/0UnsfX1Qz9KAGrKiY/2kqdHeMJ00svEOchyxZRkkSYp7IqR8qx
-	 z9doUuDHtJd39YipBcFkZ2rsoaNV9eSOIGIhqXju9nyIQfBAzcUidex63y0cLJ68J4eh9
-	 9pnhPFjxzcEh/7HNcbadjtl2l2exXFlRoTCT+ID9D3D3HDdgECgv6E9q5QKi1DhLjDSAN
-	 1c5dmqGgXLhb0EIVut8um/aGyOANvx6IRJer8OQoWzNTxhZBYkX7DywZeV4Pmnhqe+g==
+	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=YofMid7RpzpBeuOJEqJTlM4NYFRjnqyXKJCv56rsYTc=;
+	b=vDkRTN/tuq9/K4PWCy2u5XHc+S/irkX78vTD/sqGYunFBhfAHHxxN/rBKYfPpFPBJSzo
+	 YPnQHy6SL63ABLoh6wwT0IR8o5GrF5yMf7ye5WpzhMHBlwG18/cOW9KZhiaIF1zm+n8Vg
+	 IB2S/lgeI5p3JDRfqcnmYM3knR+A1osAPx8fKkkWqkxPnykPy2xECzJwUwR5Ry+Gib/XX
+	 Rr42MeQL0CVWNgFc1T1L8v/rSLCfZl60lGvHmvLDqrXgO8vH+SvUJZ3qgs6rwTV7I0dWK
+	 WvM4c7PtMP1xvMlMu9BQYFiq8uV/D7+CJOTqB2jNP3aGOlMg/EabcEtAuqPlqske2oA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CqIg10sB;
-	arc=none smtp.remote-ip=74.125.82.178
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EqRBi2bH;
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6B8606A321
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 06:34:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B6B8606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B471606A334
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 06:34:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B471606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CqIg10sB
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-378915168c7so88090eec.3
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 22:34:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EqRBi2bH
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-36e2b1db9bfso73113eec.0
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 22:34:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794551664; x=1795156464; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HdXa32DySaS9SpkXLA+JWGuqMHC26ZuT90ihSRHVW/c=;
-        b=CqIg10sBV5rifT+goFLPth1rSZeuLsRydGKO/n0uzRiCabsEmUxwu6H4zF3lqSxGuL
-         vD7eHDVWa54Gfen6aNvbKUxx9NT1tIVFH0WkNyXTrYtctzsak+P1lvQyan62fWTqT4dv
-         qZm1NFg2scCG6DMSWD//QC8dAJEwbdHB7zRlNSc0nGpXWe699WTHJIG/rzrKFDL/ER3L
-         pLMjWMtRMCkay9Z51TLG4hmyyrm/M/yl6DhOiFbe45C9vM1ws0iHj+4W5c+FccmlXauE
-         e07HhyIF/3NuB54thQc6nyifFw5n2XShdtr6jXTxyupIMHr8OCNc5sKUd+es9W3wtKzu
-         Umuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794551664; x=1795156464;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794551673; x=1795156473; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HdXa32DySaS9SpkXLA+JWGuqMHC26ZuT90ihSRHVW/c=;
-        b=idPR+KUM9QeJBPxMDG5qy30OpvFoJALFFSWlym0JVOWaK6VCFOA9umT3511lMA/f0l
-         Zl20BOwpB3AndMwwyFna3WBpq+EyXXYeLI2NNqEhhymOa2ruxPxBo8FWGX8qtZmYUTVE
-         Ld+XVFJHufr9teZavquOAOR2JkC7QJpug+mthMC4pbXJGPZBOs67uu445r7ImUP82J1Q
-         9D0MXEQ0fNLbVkZI99d6VeMht38rpinMjN9tHd9mli/jehNq6cpHqNi7lrrwoD2uzxeE
-         dmMjl6MM9OXEOfHzxv4SalMqSlBMSyvMIfJHsLEw7RVUp1Xg2SDtoYKbhShKIQBNKehK
-         EJOw==
-X-Gm-Message-State: APuU4Z8UKrOcjCh9/Ytrkcg5xGkHHUuh4gWl3wS0m10iSMwMsjX5NxjO
-	/oO/096Y1lV1Ppbo7eM4HwihnKJnnuW74DJ8LZFz63c/50i2wHS5wR1HINEavCjICN8=
-X-Gm-Gg: AYBFou3kZqL3Nh6h/8EKrKCg5N4+92Xfwo0b/m/HXeUH58ja3+lc81i6ryWSXPWIyVS
-	XARZt4Pwwz8gqvSBmeIeKB2IxoyQUibTILPO/70uDrlaOnMpktc2dXh1YdjjP8yEkekFfFpzTjg
-	aorJazOY0O3O7eDKIYHCOp3yNDlMl/xm8gO3vuRrBxS6Agj5AaFGrIvlKYTC+wGm1lHKD+rXyWG
-	Ya/Xf9slywkX4fkavHU2NqLFl457Bk8crUcy/qFQFNEeDW18RKlTP5FK+s8hBDiuxxcXlc8XSdz
-	dTTZMw8zBM1FtI26EbWM0KGt+Kl+apn8MLS6Dvdz0HqjzNd7JNliMugxJpR+O2wc2isOfJjC9de
-	mfPGTHc8oh/89YtQmEjl4cz+VaLBsgXQH677q8vvPqbKjMqySuh2mWs+P5TPeHJKx2xBWm33o1P
-	n6E9ixY26De26nXzP3WAj3MkGAYiQQ2sczAT5Z1vB4bNgdUW0n8xmPCs0MQg6jlpi1E/MliTbYt
-	YeFrKouO/6nxNok9+NhcdeDHDxdgORFRz57TWlQ/KcHYZwUfO58fDp7oCwE63lD0voKsPVVU4sp
-	ayFsL2LN613k+adp/e/o/Y+5IbWKmp8v75jRS35ieQ==
-X-Received: by 2002:a05:7300:6da8:b0:36a:e7a:e89 with SMTP id 5a478bee46e88-379659c6815mr2758249eec.2.1794551663564;
-        Thu, 12 Nov 2026 22:34:23 -0800 (PST)
+        bh=YofMid7RpzpBeuOJEqJTlM4NYFRjnqyXKJCv56rsYTc=;
+        b=EqRBi2bHbscU7Sn1G8o5z/iPY/BRg6yYR3WwKQ2FCgy0LUd85YrE1JZbxjmrsAAclI
+         OYw9FBCaGCg5jTuxUwmLGc0gm+8XEFHEZOxtTrQ0/cJq+WS36HKewvRUdPy8CGOsXhrN
+         1nKMoDOxAd7Ahc9SMBHLMP5Q9rWEoKKIDhnulBxXc8ADBaK76a7gRt2IHBTyiI86+cGd
+         4j8DKaSqiwYBVaaoKVTUPg1ETEJeWCe3inTqp7YZhDp9qZNUezx/rCFyzDlB3aP0o6vS
+         dWxtC9qbF7oXPCwmSdMcMwItrlGcQvAW7i0JvEaG2Z/eKad7KyzcMNj+eNhdRRWtyZzC
+         9nwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794551673; x=1795156473;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YofMid7RpzpBeuOJEqJTlM4NYFRjnqyXKJCv56rsYTc=;
+        b=s6CjU60ds4uqz5cjOJq7tD7fTDsEKEu/XstntDXkm1Lhh4eHoaJN6qeMjA3prk8QIj
+         67HOnvkRil0NwUYEx1PEfUJc62CatiOof8fljCq4enGqaj9GeYfeh9fgHFyFeWJ1//HW
+         C3SRriSlTT61PQNWLiqXdwpwMg8nSpS72TR/kFKAGqPkMSPkoPk8SqOncVG0e8jTmKcZ
+         oyzXZTYgS0OiQpsXZoRBeDm9oMjs3hTKbh1hAeXzH9DwtL5sbAZ2Mae/k+uYE0WDQFSt
+         CRRkKUyfGrcORr+IKcFCZlKeJhMojqdHEFC+FMgjS2UGxnHzZDthVE+OuTbYrXOJxW2t
+         bIpw==
+X-Gm-Message-State: APuU4Z979nMLk5lUE0rnd1GiPDUDflooZ9PhqYsOWQk/aY57EBL+MCZY
+	4xppmJtpPC/gPZkHgAKjqVWpIHRiCN/dOz+C2xtfqdGWN62N64IOph9ql30E3+yl2nw=
+X-Gm-Gg: AYBFou0OtfzB69k3GuTVe+Kdu59ikM/7c1jhAYVDUbmnI5c1K/vQ2i6AJlE2knNl+1P
+	6p3TlJq6v29G1mD+RH5blNTuLIinq8pGLzHCr3H6fyKJD6UyJ8L0poTmX/cMEVwbjdZzkU6ucU2
+	/P/4BrAbDwAEDI1sfyWGiIevNUIyvjLiilxtDOuJoNi8nwfywvGOWhWKOQFuTOJwLf4KDHUcx5b
+	EDKuUOY4jj/SUSC9oNNs6idznFE01dTwK4IX+e2NsuO9YlI2cOAMqYJa65brndkaxa2H/fBAbWW
+	9qZ5EY9fsEpxgt2y2DvX/DO6N0Do9yAF6FnjJ58F3WmWnJ/OKoDhe/ZYByuM5yw4phz0uKKTqAM
+	UagZsmiZWUusmpJIG1U5i+nmrU8hzhdmhWNbpQMZdjta5cE7J5tT4LbY2ciQVHoCD07+bbmpQRh
+	Bw8E8vnLjs60Hki05RVemxpTeyoVi7IJSWSReN8+ITW1QeFAdHMZZ18rq4vDd3TBxqiub2WV4kp
+	8o0XCe3uLVFLOhytV6gt7GEkAjWDMZWO/8ztzIMtkwauo1YhHHdAdNW1W7/atKE22rxz9TVzeQe
+	Pi5JFi30w6Lhw7K0hG6Tlz+3qFEzoNOyDu1MdZNrfA==
+X-Received: by 2002:a05:693c:83cf:20b0:376:6ba5:6090 with SMTP id 5a478bee46e88-37964e03109mr2624201eec.1.1794551672482;
+        Thu, 12 Nov 2026 22:34:32 -0800 (PST)
 Received: from CRASHEDROM.localdomain ([142.249.36.161])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379569b8389sm6745027eec.25.2026.11.12.22.34.20
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379569b8389sm6745027eec.25.2026.11.12.22.34.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 22:34:23 -0800 (PST)
+        Thu, 12 Nov 2026 22:34:32 -0800 (PST)
 From: Chengyu Liu <lui2012qwq@gmail.com>
 To: linux-usb@vger.kernel.org
 Cc: b-liu@ti.com,
@@ -85,11 +87,14 @@ Cc: b-liu@ti.com,
 	balbi@ti.com,
 	shimoda.yoshihiro@renesas.com,
 	robert.jarzmik@free.fr,
-	Chengyu Liu <lui2012qwq@gmail.com>
-Subject: [PATCH v2 0/4] usb: stop timers/works left armed on teardown
-Date: Fri, 13 Nov 2026 14:34:05 +0800
-Message-Id: <20261113063409.47485-1-lui2012qwq@gmail.com>
+	Chengyu Liu <lui2012qwq@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2 1/4] usb: musb: cancel the delayed works after quiescing the interrupt
+Date: Fri, 13 Nov 2026 14:34:06 +0800
+Message-Id: <20261113063409.47485-2-lui2012qwq@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20261113063409.47485-1-lui2012qwq@gmail.com>
+References: <20261113063409.47485-1-lui2012qwq@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,72 +106,89 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The teardown paths in these four drivers do not quiesce every producer
-of asynchronous work before draining it: an interrupt handler may still
-queue or re-arm a timer or work item after the cancellation, while the
-corresponding object is being torn down.  In three of them the IRQ is
-devm-managed and freed only at detach, after remove() returns; in musb
-the plain free_irq() happens later in the same remove path.  Either way
-a late interrupt re-arms the callback, which then runs on freed memory:
+musb_remove() cancels finish_resume_work and deassert_reset_work up
+front, while the interrupt is still enabled and the root hub is still
+registered, and cancels irq_work only later.  All three works can be
+armed past their cancel:
 
-  [1/4] musb core: musb_stage0_irq() can schedule irq_work (and
-        finish_resume_work on remote wakeup) from interrupt context,
-        irq_work can also re-arm itself from the session recheck path,
-        and musb_hub_control() can arm finish_resume_work and
-        deassert_reset_work until the root hub is torn down;
-        musb_remove() cancelled all three too early.
-  [2/4] musb dsps glue: the devm VBUS interrupt outlives the child
-        teardown that deletes musb->dev_timer; its handler re-arms
-        the timer via dsps_mod_timer().
-  [3/4] r8a66597: r8a66597_remove() deletes the timer while the devm
-        IRQ can still re-arm it from the VBINT path.
-  [4/4] gpio-vbus: gpio_vbus_remove() cancels the work while the devm
-        GPIO interrupt can still re-arm it (100 ms debounce delay).
+- musb_handle_intr_resume() schedules finish_resume_work from
+  interrupt context (RESUME in OTG_STATE_A_SUSPEND, via
+  musb_stage0_irq());
+- musb_hub_control() schedules finish_resume_work (ClearPortFeature
+  SUSPEND -> musb_port_suspend()) and deassert_reset_work
+  (SetPortFeature RESET -> musb_port_reset()) from process context,
+  and the root hub is only torn down by musb_host_cleanup();
+- musb_stage0_irq() schedules irq_work, which can also re-arm itself
+  from the session recheck path (musb_pm_runtime_check_session()).
 
-Two further instances of this defect class found in the same sweep -
-pch_udc and lpc32xx_udc - are being handled in Hyunjung Ko's
-"usb: gadget: pch_udc: drain vbus GPIO works before freeing the
-device" and "usb: gadget: lpc32xx_udc: drain the pullup work on
-removal" threads, so they are not part of this series.
+A work armed after its cancel runs musb_host_finish_resume(),
+musb_deassert_reset() or musb_irq_work() after musb_free() has
+released the struct.
 
-Testing:
-  [1-3/4] build-tested on x86_64 (COMPILE_TEST where needed); they
-        require hardware we do not have, so no runtime reproducer.
-  [4/4] additionally confirmed with a KASAN reproducer: the driver
-        probed on a gpio-sim chip in QEMU, slab-use-after-free write
-        in __run_timer_base() after unregister (5/5 runs), clean with
-        the fix (0/5).  The KASAN report and the reproducer kit follow
-        in this thread.
+Tear down the host and gadget sides first so no process-context
+producer remains, mask the interrupts and synchronize the IRQ line so
+no interrupt handler can be running, and only then cancel all three
+works.  This also restores the pre-f730f205cc51 ordering, which had
+the cancels behind the interrupt masking.
 
-All found by static analysis.  Fixes written with AI assistance.
+Found by static analysis.
 
-Changelog:
-v2:
-- [1/4] also move the finish_resume_work and deassert_reset_work
-        cancels behind the interrupt quiesce, per Neill Kapron's
-        review; finish_resume_work is armed from interrupt context as
-        well (musb_handle_intr_resume()), and both it and
-        deassert_reset_work can additionally be re-armed via
-        musb_hub_control() until musb_host_cleanup() tears the host
-        down.  Suggested-by added; Fixes tag corrected to
-        commit f730f205cc51 ("usb: musb: Split PM runtime between wrapper IP and musb core")
-- [2-4/4] unchanged; collected Neill Kapron's Reviewed-by.
-v1: https://lore.kernel.org/linux-usb/20261112160448.41566-1-lui2012qwq@gmail.com/
-
-Chengyu Liu (4):
-  usb: musb: cancel the delayed works after quiescing the interrupt
-  usb: musb: dsps: free the VBUS interrupt before the child teardown
-  usb: gadget: r8a66597: free the IRQ before deleting the timer
-  usb: phy: gpio-vbus: free the interrupt before cancelling the work
-
- drivers/usb/gadget/udc/r8a66597-udc.c  |  8 ++++++++
- drivers/usb/gadget/udc/r8a66597-udc.h  |  1 +
- drivers/usb/musb/musb_core.c           | 15 ++++++++++++---
- drivers/usb/musb/musb_dsps.c           | 11 +++++++++++
- drivers/usb/phy/phy-gpio-vbus-usb.c    |  8 ++++++++
- 5 files changed, 40 insertions(+), 3 deletions(-)
-
-
+Suggested-by: Neill Kapron <nkapron@google.com>
+Fixes: f730f205cc51 ("usb: musb: Split PM runtime between wrapper IP and musb core")
+Cc: stable@vger.kernel.org
 Signed-off-by: Chengyu Liu <lui2012qwq@gmail.com>
+---
+v1 -> v2:
+- also move the finish_resume_work and deassert_reset_work cancels
+  behind the interrupt quiesce, per Neill Kapron's review:
+  finish_resume_work is armed from interrupt context as well
+  (musb_handle_intr_resume()), and both it and deassert_reset_work
+  can additionally be re-armed via musb_hub_control() until
+  musb_host_cleanup() tears the host down.
+- correct the Fixes tag to f730f205cc51 (the 2016 PM-runtime split
+  moved the cancels ahead of the interrupt masking)
+v1: https://lore.kernel.org/linux-usb/20261112160448.41566-2-lui2012qwq@gmail.com/
+
+Build-tested on x86_64: musb_core.o compiles clean
+(USB_MUSB_HDRC).  No runtime reproducer: requires MUSB-based OTG
+hardware.  Fix written with AI assistance.
+
+ drivers/usb/musb/musb_core.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
+index 9b63b56edc45..25115217e0af 100644
+--- a/drivers/usb/musb/musb_core.c
++++ b/drivers/usb/musb/musb_core.c
+@@ -2630,9 +2630,6 @@ static void musb_remove(struct platform_device *pdev)
+ 	 */
+ 	musb_exit_debugfs(musb);
+ 
+-	cancel_delayed_work_sync(&musb->irq_work);
+-	cancel_delayed_work_sync(&musb->finish_resume_work);
+-	cancel_delayed_work_sync(&musb->deassert_reset_work);
+ 	pm_runtime_get_sync(musb->controller);
+ 	musb_host_cleanup(musb);
+ 	musb_gadget_cleanup(musb);
+@@ -2642,6 +2639,18 @@ static void musb_remove(struct platform_device *pdev)
+ 	musb_disable_interrupts(musb);
+ 	musb_writeb(musb->mregs, MUSB_DEVCTL, 0);
+ 	spin_unlock_irqrestore(&musb->lock, flags);
++
++	/*
++	 * musb_stage0_irq() arms irq_work (and finish_resume_work on
++	 * remote wakeup) from interrupt context, so the works can only be
++	 * cancelled for good once interrupts are masked and any in-flight
++	 * handler has completed.
++	 */
++	synchronize_irq(musb->nIrq);
++	cancel_delayed_work_sync(&musb->irq_work);
++	cancel_delayed_work_sync(&musb->finish_resume_work);
++	cancel_delayed_work_sync(&musb->deassert_reset_work);
++
+ 	musb_platform_exit(musb);
+ 
+ 	pm_runtime_dont_use_autosuspend(musb->controller);
 -- 
 2.25.1
+
