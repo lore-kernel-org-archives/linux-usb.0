@@ -1,76 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794611436;
-	b=s+TQxeeLXXcUH1AGmv1uedTARW9xJZ6CSaGUDki5yzVvVpAwE0ilgLq+ZNUw21L01yu6
-	 J0tmfrnGwLPQM1E7qpMZldPCWrWcGS5fvv16vokyAjdiSTgyFLZ0LIHUKwPR8jHzgU4qx
-	 exX0DpT0UbVLJvF1CDCXQD/84mgUzVxOWNDgohP9RN4W71Yva7wh1AcTEh4ntE6sL/D62
-	 tpM7Aw/JF30i6zOT+HtP1Jgigb0+qIU5uaTAuJKH0xuDtgxKhHXdbNvvEtcpJiVDhosaR
-	 RW+Esu3kWqSGDfWQeZrM4NFpgPZHQV31FKQq8yYeS1WsUzVHXDDBUQJkt9q1FCu5MMA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794611436;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=7xpUCUkotIrlT7RwekrVePyqFzmkMEC8BVlR5h4OHtQ=;
-	b=BUiBiF6PS8AxBSz0E+mIl1dvQecLR7U30UyljF454xw3WSikxkkBLmXUrCxTbbym0Sfd
-	 Nh5fOBhs8Lesira1BEKnhGKjiMHjT8xOV47k1LYh8FNaqERka71zc1gnyyNahIaXPRg2M
-	 sAsnFfZg1AueXbE/bDuiWeSkJDIztnJRu8SNzjDKhrJQOAXDuLUiNcdlpCgyBBEWfaoLr
-	 zBO3vfi8yEnFMvFltvO7G5+boObtCiLVFcdPli9RAOEXaxuXheuW2hZB2lvX5NyVbl9AY
-	 AVbGAUDmXDxHNdA4V4xuyB0B9zF37AXKn8z1APrP9eQBYe+48/ALEgXW09Dox7cXdyQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C6ihzLX8;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.11
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794612013;
+	b=1/nvyoVvS1GxgnHLlZBReoLIrPvMWDAGrz+6M28AwT0hng5WA2qqhps3Fhbh0WtA+SDq
+	 TmXCtHHxqIVujFVz4gFvwGQGgfQAddaBLKWRTcZZyFKsng/9e9GruaF93neKAIhRlIYq+
+	 8UOiXfoNSLJYtb88lrIprFewAhhA9ONMKVrtEARnQipJPCruui1UYPLU6aDPkrMZyYP28
+	 Y2jDYaDrmZ93ijrEclH3h1fs0bzoP272M1ywXUlLRHgykfz5NvY/pbl9LWDIx8VZe3HrM
+	 aEvvjlZeracb8OUNbjaebSm+pw5ugJ5VJvLrOvScrf55btglDjxQn9Jpi0kOONpHYWg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794612013;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Zoho-Virus-Status:X-Zoho-AV-Stamp:
+	 X-ZohoMailClient;
+	bh=396mrwK6+J7I5FsFadAXxxySHp8JW5xQvIYTLzX9T0E=;
+	b=Z114hdl6azby+bjoTCTrSLTpx7HebzYyStym3kxS0e0vpI3I2sFSS4rda2qU30jkOLVZ
+	 lyuy/2DKcQpSFM7TPfwhGJgwqUXyy5Ch2CwAemrgT+j0G8sxcxgy6oqeMSL9g85VX7I4B
+	 QBitImi+LhdFQiqMKW8RWY9lPgQjPJKfv22kQ09jW3FDe7cQ6PknzzadpcTQfKdKNTHCf
+	 n1JmDzRQx3ECRIPVIWtYGJh3TbW4UKYgsEl3lEYm4PQzgZBLvlDg0TXlYCzJ8lA6+Vwfd
+	 yEt/ftF/sCm90CxQaOvzad4Gt/VdEyDQf96RDrVOUlLlTO7hpm8Jyh++9HRUvFq2xKw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=bSMnCDyQ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.11
+Received: from sender5-op-o11.zoho.com (sender5-op-o11.zoho.com [165.173.182.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B436A606A334
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 23:10:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B436A606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89448606A330;
+	Fri, 13 Nov 2026 23:20:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89448606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C6ihzLX8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794611434; x=1826147434;
-  h=date:from:to:cc:subject:message-id;
-  bh=5p9pH15CeAuOcz2uwaQUO1ctxdBO/JzYo31tMvHnkYY=;
-  b=C6ihzLX8BtXwDEZN8ZoRYOMUXhVjWohtBHHUUmVJNygCYSRZlcxXdsLU
-   YuLn2i7qCfD3UqKxpepvtngHT1e1J/PEhqUlDbZFdOtRS/WivpxYjVNBf
-   ZDJN8zlufEycsB4bdE+/AKrl6xDcLLd+FtzBEglu1UYgZ3hKlqbMU8TwN
-   JgofgJId5czjuQTyU7gyxgHEF2mCzPlhZypZY40HknHnfuPXehyMDwj+X
-   QLh7kM0cnKZAWO8av/8ynilYbKJTny9UyPE1HyVLK3be8YoddEgjg42If
-   CQ5L7jTS9js+gaXgQDWC0y1wEnXA1mpJi+FDGQwn5Fzl1nFDqigUvYiiN
-   Q==;
-X-CSE-ConnectionGUID: tL/YmfCKRRSuLbP1ktgM4A==
-X-CSE-MsgGUID: GuBtArWUQ5GKpvleGYb+Tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3532735"
-X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="3532735"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 15:10:34 -0800
-X-CSE-ConnectionGUID: 0qpYwvN8TV2PR3W16Yp+uw==
-X-CSE-MsgGUID: ZD+nvBnNQey578bKTODkpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="9193673"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Nov 2026 15:10:32 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xS0Pe-000000014N3-2eSo;
-	Fri, 13 Nov 2026 23:10:30 +0000
-Date: Sat, 14 Nov 2026 07:09:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mika Westerberg <westeri@kernel.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [westeri-thunderbolt:next] BUILD SUCCESS
- 39be11eb69696a3480bac593a52dde3447925e7f
-Message-ID: <20261114070953.rzKltoGa-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=bSMnCDyQ
+ARC-Seal: i=1; a=rsa-sha256; t=1794611993; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=aAQBU41mKIkR/itcVu2Jv0cVvvszPNuNWnrIe9/92kwK+ALxQhz2zn/7tcaXccdy5HNgZsdJf0obqrHI+EEkyUBPHrTFk+FeGXlx54e4BvP1wNyvdMIBIOEtHaPUxZHcf8sVo1WIil7exWta+ni65qVWi4lv9U8tscGGcTzu9gw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1794611993; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=396mrwK6+J7I5FsFadAXxxySHp8JW5xQvIYTLzX9T0E=; 
+	b=IJBe7MdfGVPOznTUBuKTJCUrJ21JGjks/7jg9VPY2aMH7df8EPIab9PHw3jzdfNNs9VEnNgYu/qlViHA/2/hZKC6vnQXm2NfCS/D+uQMlVNJMVqgOjgkYykj328Za6/Y1o7M0zo7DOSiZy+tOTb7xY5HhJvctJS0no8DlBFz7XI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: a=rsa-sha256; b=bSMnCDyQNSUHmc+xnbyHDkeLBa7V8jCscjNLWHTT0KDuZvJvy1VttKXIKr9zzc8RqqsVFqiu4EA8ticrBYzNHQr/I1APuyoE3yRzYLoVTvYCwCp3JMh7w+539DzeuJAyvp7k4oiNB0GZc5LiZIoTykf2oLb7owMKkZTgyx8Ozyw=; c=relaxed/relaxed; s=zohomail; d=collabora.com; v=1; bh=396mrwK6+J7I5FsFadAXxxySHp8JW5xQvIYTLzX9T0E=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zohomail.com with SMTPS id 179461199111667.75435217143877;
+	Fri, 13 Nov 2026 15:19:51 -0800 (PST)
+Received: by venus (Postfix, from userid 1000)
+	id 4148B1803FC; Sat, 14 Nov 2026 00:19:46 +0100 (CET)
+Date: Sat, 14 Nov 2026 00:19:46 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Peter Chen <peter.chen@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, 
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Igor Paunovic <royalnet026@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org, kernel@collabora.com, 
+	Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Subject: Re: [PATCH v18 0/7] usb: dwc3: introduce Rockchip glue driver
+Message-ID: <aveY4hjCgstjkmy7@venus>
+References: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com>
+ <avZvYlYyL3Doc8qt@hu-petche-lv.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -79,286 +72,163 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="y273ql62b2nj3j4n"
+Content-Disposition: inline
+In-Reply-To: <avZvYlYyL3Doc8qt@hu-petche-lv.qualcomm.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/294.590.96
+X-ZohoMailClient: External
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-branch HEAD: 39be11eb69696a3480bac593a52dde3447925e7f  Documentation/thunderbolt: Update Mika Westerberg's email address
 
-elapsed time: 974m
+--y273ql62b2nj3j4n
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v18 0/7] usb: dwc3: introduce Rockchip glue driver
+MIME-Version: 1.0
 
-configs tested: 266
-configs skipped: 6
+Hi,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+On Thu, Nov 12, 2026 at 06:01:06PM -0800, Peter Chen wrote:
+> On 26-10-21 20:05:25, Sebastian Reichel wrote:
+> > - drop generic PHY reset notifier API; I discussed this series at Linux
+> >   Plumbers Conference with Vinod Koul and he prefers a local driver
+> >   hack/quirk instead
+>=20
+> Hi Sebastian and Vinod,
+>=20
+> Sorry to jump out late, do we really decide to use private callback betwe=
+en
+> USB controller and USB Combo PHY, and notify PHY's reset events for
+> controller? Many platforms which support USB/DP altmode feature need this
+> requirement, besides Rockchip, Qualcomm and the platforms use Cadence USB
+> controller and PHY also need this.
+>=20
+> For this scenario, USB controller works at USB3 mode (also configures PHY=
+ for
+> USB3) first. Later, Type-C/DP event tells PHY that it needs to work for D=
+P(4lane),
+> since this event doesn't go to controller now, sudden switch PHY from USB3
+> to DP (4lane) will turn off PIPE clock, and cause all controller's event =
+which
+> needs PHY (PIPE) clock abnormal, that's the reason why controller needs
+> this PHY switch (reset) notification and let the controller know it needs
+> to work at USB2 mode from now on.
 
-tested configs:
-alpha                              allnoconfig    gcc-16.2.0
-alpha                             allyesconfig    gcc-16.2.0
-alpha                                defconfig    gcc-16.2.0
-arc                               allmodconfig    clang-24
-arc                                allnoconfig    gcc-16.2.0
-arc                               allyesconfig    clang-24
-arc                                  defconfig    gcc-16.2.0
-arc                   randconfig-1000-20261113    gcc-10.5.0
-arc                   randconfig-1000-20261114    clang-24
-arc                   randconfig-1001-20261113    gcc-10.5.0
-arc                   randconfig-1001-20261114    clang-24
-arc                         vdk_hs38_defconfig    gcc-16.2.0
-arm                               alldefconfig    clang-24
-arm                               alldefconfig    gcc-16.2.0
-arm                                allnoconfig    gcc-16.2.0
-arm                               allyesconfig    clang-24
-arm                      am200epdkit_defconfig    gcc-16.2.0
-arm                          assabet_defconfig    gcc-16.2.0
-arm                          bcm2835_defconfig    clang-24
-arm                                  defconfig    gcc-16.2.0
-arm                             mps2_defconfig    clang-24
-arm                          mv78xx0_defconfig    gcc-16.2.0
-arm                   randconfig-1000-20261113    gcc-10.5.0
-arm                   randconfig-1000-20261114    clang-24
-arm                   randconfig-1001-20261113    gcc-10.5.0
-arm                   randconfig-1001-20261114    clang-24
-arm                   randconfig-1002-20261113    gcc-10.5.0
-arm                   randconfig-1002-20261114    clang-24
-arm                   randconfig-1003-20261113    gcc-10.5.0
-arm                   randconfig-1003-20261114    clang-24
-arm                            sama7_defconfig    gcc-16.2.0
-arm                            stm32_defconfig    gcc-16.2.0
-arm64                             allmodconfig    clang-24
-arm64                              allnoconfig    gcc-16.2.0
-arm64                                defconfig    gcc-16.2.0
-arm64                 randconfig-1000-20261113    gcc-15.3.0
-arm64                 randconfig-1000-20261114    gcc-16.2.0
-arm64                 randconfig-1001-20261113    gcc-15.3.0
-arm64                 randconfig-1001-20261114    gcc-16.2.0
-arm64                 randconfig-1002-20261113    gcc-15.3.0
-arm64                 randconfig-1002-20261114    gcc-16.2.0
-arm64                 randconfig-1003-20261113    gcc-15.3.0
-arm64                 randconfig-1003-20261114    gcc-16.2.0
-csky                              allmodconfig    gcc-16.2.0
-csky                               allnoconfig    gcc-16.2.0
-csky                                 defconfig    gcc-16.2.0
-csky                  randconfig-1000-20261113    gcc-15.3.0
-csky                  randconfig-1000-20261114    gcc-16.2.0
-csky                  randconfig-1001-20261113    gcc-15.3.0
-csky                  randconfig-1001-20261114    gcc-16.2.0
-hexagon                           allmodconfig    gcc-16.2.0
-hexagon                            allnoconfig    gcc-16.2.0
-hexagon                              defconfig    gcc-16.2.0
-hexagon               randconfig-1000-20261113    clang-24
-hexagon               randconfig-1000-20261114    clang-24
-hexagon               randconfig-1001-20261113    clang-24
-hexagon               randconfig-1001-20261114    clang-24
-i386                              allmodconfig    clang-22
-i386                               allnoconfig    gcc-16.2.0
-i386        buildonly-randconfig-1000-20261113    clang-22
-i386        buildonly-randconfig-1001-20261113    clang-22
-i386        buildonly-randconfig-1002-20261113    clang-22
-i386        buildonly-randconfig-1003-20261113    clang-22
-i386        buildonly-randconfig-1004-20261113    clang-22
-i386        buildonly-randconfig-1005-20261113    clang-22
-i386                                 defconfig    gcc-16.2.0
-i386                  randconfig-1000-20261113    clang-22
-i386                  randconfig-1001-20261113    clang-22
-i386                  randconfig-1002-20261113    clang-22
-i386                  randconfig-1003-20261113    clang-22
-i386                  randconfig-1004-20261113    clang-22
-i386                  randconfig-1005-20261113    clang-22
-i386                  randconfig-1006-20261113    clang-22
-i386                  randconfig-1007-20261113    clang-22
-i386                  randconfig-1007-20261114    clang-22
-i386                  randconfig-1008-20261113    clang-22
-i386                  randconfig-1008-20261114    clang-22
-i386                  randconfig-1009-20261113    clang-22
-i386                  randconfig-1009-20261114    clang-22
-i386                  randconfig-1010-20261113    clang-22
-i386                  randconfig-1010-20261114    clang-22
-i386                  randconfig-1011-20261113    clang-22
-i386                  randconfig-1011-20261114    clang-22
-i386                  randconfig-1012-20261113    clang-22
-i386                  randconfig-1012-20261114    clang-22
-i386                  randconfig-1013-20261113    clang-22
-i386                  randconfig-1013-20261114    clang-22
-loongarch                         allmodconfig    clang-24
-loongarch                          allnoconfig    gcc-16.2.0
-loongarch                            defconfig    clang-24
-loongarch             randconfig-1000-20261113    clang-24
-loongarch             randconfig-1000-20261114    clang-24
-loongarch             randconfig-1001-20261113    clang-24
-loongarch             randconfig-1001-20261114    clang-24
-m68k                              allmodconfig    gcc-16.2.0
-m68k                               allnoconfig    gcc-16.2.0
-m68k                              allyesconfig    clang-24
-m68k                          amcore_defconfig    clang-24
-m68k                          amcore_defconfig    gcc-16.2.0
-m68k                                 defconfig    clang-24
-m68k                         m5407c3_defconfig    clang-24
-m68k                        m5475evb_defconfig    gcc-16.2.0
-m68k                          nettel_defconfig    gcc-16.2.0
-microblaze                         allnoconfig    gcc-16.2.0
-microblaze                        allyesconfig    gcc-16.2.0
-microblaze                           defconfig    clang-24
-mips                              allmodconfig    gcc-16.2.0
-mips                               allnoconfig    gcc-16.2.0
-mips                              allyesconfig    gcc-16.2.0
-mips                           ath79_defconfig    gcc-16.2.0
-mips                         bcm63xx_defconfig    gcc-16.2.0
-mips                   decstation_64_defconfig    gcc-16.2.0
-mips                            ip27_defconfig    gcc-16.2.0
-mips                       malta_kvm_defconfig    gcc-16.2.0
-mips                       pic32mzda_defconfig    gcc-16.2.0
-mips                         qi_lb60_defconfig    gcc-16.2.0
-nios2                             allmodconfig    clang-20
-nios2                              allnoconfig    clang-24
-nios2                                defconfig    clang-24
-nios2                 randconfig-1000-20261113    clang-24
-nios2                 randconfig-1000-20261114    clang-24
-nios2                 randconfig-1001-20261113    clang-24
-nios2                 randconfig-1001-20261114    clang-24
-openrisc                          alldefconfig    gcc-16.2.0
-openrisc                          allmodconfig    clang-20
-openrisc                           allnoconfig    clang-24
-openrisc                             defconfig    gcc-16.2.0
-openrisc                   or1klitex_defconfig    gcc-16.2.0
-parisc                            allmodconfig    gcc-16.2.0
-parisc                             allnoconfig    clang-24
-parisc                            allyesconfig    clang-17
-parisc                               defconfig    gcc-16.2.0
-parisc                randconfig-1000-20261113    gcc-13.5.0
-parisc                randconfig-1000-20261114    gcc-8.5.0
-parisc                randconfig-1001-20261113    gcc-13.5.0
-parisc                randconfig-1001-20261114    gcc-8.5.0
-parisc64                             defconfig    clang-24
-powerpc                           allmodconfig    gcc-16.2.0
-powerpc                            allnoconfig    clang-24
-powerpc                  canyonlands_defconfig    clang-24
-powerpc                        eiger_defconfig    gcc-16.2.0
-powerpc                       ep88xc_defconfig    gcc-16.2.0
-powerpc                   iss476-smp_defconfig    clang-24
-powerpc                      mpc5200_defconfig    clang-24
-powerpc                  mpc8313_rdb_defconfig    gcc-16.2.0
-powerpc                     mvme5100_defconfig    clang-24
-powerpc                       pcm030_defconfig    gcc-16.2.0
-powerpc                       ppc6xx_defconfig    clang-24
-powerpc               randconfig-1000-20261113    gcc-13.5.0
-powerpc               randconfig-1000-20261114    gcc-8.5.0
-powerpc               randconfig-1001-20261113    gcc-13.5.0
-powerpc               randconfig-1001-20261114    gcc-8.5.0
-powerpc                   storcenter_defconfig    gcc-16.2.0
-powerpc                      stx_gp3_defconfig    gcc-16.2.0
-powerpc                       tqm8xx_defconfig    gcc-16.2.0
-powerpc                  xes_mpc85xx_defconfig    gcc-16.2.0
-powerpc64             randconfig-1000-20261113    gcc-13.5.0
-powerpc64             randconfig-1000-20261114    gcc-8.5.0
-powerpc64             randconfig-1001-20261113    gcc-13.5.0
-powerpc64             randconfig-1001-20261114    gcc-8.5.0
-riscv                             allmodconfig    clang-24
-riscv                              allnoconfig    clang-24
-riscv                             allyesconfig    clang-24
-riscv                                defconfig    gcc-16.2.0
-riscv                 randconfig-1000-20261113    gcc-12.5.0
-riscv                 randconfig-1000-20261114    gcc-15.3.0
-riscv                 randconfig-1001-20261113    gcc-12.5.0
-riscv                 randconfig-1001-20261114    gcc-15.3.0
-s390                              allmodconfig    clang-17
-s390                               allnoconfig    clang-24
-s390                              allyesconfig    gcc-16.2.0
-s390                                 defconfig    gcc-16.2.0
-s390                  randconfig-1000-20261113    gcc-12.5.0
-s390                  randconfig-1000-20261114    gcc-15.3.0
-s390                  randconfig-1001-20261113    gcc-12.5.0
-s390                  randconfig-1001-20261114    gcc-15.3.0
-sh                                allmodconfig    gcc-16.2.0
-sh                                 allnoconfig    clang-24
-sh                                allyesconfig    clang-17
-sh                                   defconfig    gcc-14
-sh                         edosk7705_defconfig    gcc-16.2.0
-sh                                j2_defconfig    clang-24
-sh                      magicpanelr2_defconfig    clang-24
-sh                           r7780mp_defconfig    gcc-16.2.0
-sh                    randconfig-1000-20261113    gcc-12.5.0
-sh                    randconfig-1000-20261114    gcc-15.3.0
-sh                    randconfig-1001-20261113    gcc-12.5.0
-sh                    randconfig-1001-20261114    gcc-15.3.0
-sh                    rts7751r2dplus_defconfig    gcc-16.2.0
-sh                            se7619_defconfig    gcc-16.2.0
-sparc                             alldefconfig    gcc-16.2.0
-sparc                              allnoconfig    clang-24
-sparc                                defconfig    gcc-16.2.0
-sparc                 randconfig-1000-20261113    gcc-8.5.0
-sparc                 randconfig-1000-20261114    gcc-12.5.0
-sparc                 randconfig-1001-20261113    gcc-8.5.0
-sparc                 randconfig-1001-20261114    gcc-12.5.0
-sparc64                           allmodconfig    clang-20
-sparc64                              defconfig    gcc-14
-sparc64               randconfig-1000-20261113    gcc-8.5.0
-sparc64               randconfig-1000-20261114    gcc-12.5.0
-sparc64               randconfig-1001-20261113    gcc-8.5.0
-sparc64               randconfig-1001-20261114    gcc-12.5.0
-um                                allmodconfig    clang-17
-um                                 allnoconfig    clang-24
-um                                allyesconfig    gcc-16.2.0
-um                                   defconfig    gcc-14
-um                              i386_defconfig    gcc-14
-um                    randconfig-1000-20261113    gcc-8.5.0
-um                    randconfig-1000-20261114    gcc-12.5.0
-um                    randconfig-1001-20261113    gcc-8.5.0
-um                    randconfig-1001-20261114    gcc-12.5.0
-um                            x86_64_defconfig    gcc-14
-x86_64                             allnoconfig    clang-24
-x86_64      buildonly-randconfig-1000-20261113    clang-22
-x86_64      buildonly-randconfig-1001-20261113    clang-22
-x86_64      buildonly-randconfig-1002-20261113    clang-22
-x86_64      buildonly-randconfig-1003-20261113    clang-22
-x86_64      buildonly-randconfig-1004-20261113    clang-22
-x86_64      buildonly-randconfig-1005-20261113    clang-22
-x86_64                               defconfig    gcc-14
-x86_64                                   kexec    clang-22
-x86_64                randconfig-1000-20261113    clang-22
-x86_64                randconfig-1000-20261114    gcc-14
-x86_64                randconfig-1001-20261113    clang-22
-x86_64                randconfig-1001-20261114    gcc-14
-x86_64                randconfig-1002-20261113    clang-22
-x86_64                randconfig-1002-20261114    gcc-14
-x86_64                randconfig-1003-20261113    clang-22
-x86_64                randconfig-1003-20261114    gcc-14
-x86_64                randconfig-1004-20261113    clang-22
-x86_64                randconfig-1004-20261114    gcc-14
-x86_64                randconfig-1005-20261113    clang-22
-x86_64                randconfig-1005-20261114    gcc-14
-x86_64                randconfig-1006-20261113    clang-22
-x86_64                randconfig-1007-20261113    clang-22
-x86_64                randconfig-1008-20261113    clang-22
-x86_64                randconfig-1009-20261113    clang-22
-x86_64                randconfig-1010-20261113    clang-22
-x86_64                randconfig-1011-20261113    clang-22
-x86_64                randconfig-1012-20261113    gcc-14
-x86_64                randconfig-1012-20261114    clang-22
-x86_64                randconfig-1013-20261113    gcc-14
-x86_64                randconfig-1013-20261114    clang-22
-x86_64                randconfig-1014-20261113    gcc-14
-x86_64                randconfig-1014-20261114    clang-22
-x86_64                randconfig-1015-20261113    gcc-14
-x86_64                randconfig-1015-20261114    clang-22
-x86_64                randconfig-1016-20261113    gcc-14
-x86_64                randconfig-1016-20261114    clang-22
-x86_64                randconfig-1017-20261113    gcc-14
-x86_64                randconfig-1017-20261114    clang-22
-x86_64                                rhel-9.4    clang-22
-x86_64                            rhel-9.4-bpf    gcc-14
-x86_64                           rhel-9.4-func    clang-22
-x86_64                     rhel-9.4-kselftests    clang-22
-x86_64                          rhel-9.4-kunit    gcc-14
-x86_64                            rhel-9.4-ltp    gcc-14
-x86_64                           rhel-9.4-rust    clang-22
-xtensa                             allnoconfig    clang-24
-xtensa                            allyesconfig    clang-20
-xtensa                           iss_defconfig    clang-24
-xtensa                randconfig-1000-20261113    gcc-8.5.0
-xtensa                randconfig-1000-20261114    gcc-12.5.0
-xtensa                randconfig-1001-20261113    gcc-8.5.0
-xtensa                randconfig-1001-20261114    gcc-12.5.0
+This is similar to the Rockchip requirements. But the issue is
+partially covered within the PHY by muxing the clock differently
+(which is also somewhat of a hack, as common clock framework is not
+aware of this). FWIW I expected more platforms to run into this over
+time. Having combined PHYs for USB-C handling makes a lot of sense.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+But I think it makes sense to proceed with this considering it is a
+Fix. It has been going on for a very long time already and meanwhile
+the problem is already there right now. Moving this from the
+internal custom API to an official API is always possible as a
+follow-up - it's all within the kernel, neither DT nor userspace ABI
+is involved. Also having some users makes it easy to figure out how
+the common API should look like.
+
+Greetings,
+
+-- Sebastian
+
+>=20
+> So, it is more like a general requirement, but not quirk for special plat=
+form.
+>=20
+> Peter
+>=20
+> > - rework USBDP and DWC3 rockchip glue for the local driver quirk
+> >   using direct function calls
+> > - Ensure that the reset handler in DWC3 is only called when the PHY is
+> >   initialized (and thus DWC3 is running)
+> > - Also set vbus in the last patch when dwc3 is configured to device only
+> >   mode (in contrast to dual-role mode being in device mode).
+> >=20
+> > Changes in v16:
+> > - Link to v15 (sorry, I missed force setting the revision for this
+> >   part in the series split, so the series says v1 in the patch subject):
+> >   https://patch.msgid.link/20260915-b4-rockchip-dwc3-rockchip-glue-v1-0=
+-763bb546824e@collabora.com
+> > - Update first patch to also build the PM functions even when
+> >   PM is disabled
+> > - Add new patch for defining an empty usb_udc_vbus_handler stub
+> >   when USB_GADGET is disabled
+> > - Add dependency to Rockchip DWC3 glue, which disallows the
+> >   configuration with USB_DWC3_ROCKCHIP=3Dy and USB_GADGET=3Dm
+> > - Collect tags
+> >=20
+> > Changes in v15:
+> >  - Link to v14: https://patch.msgid.link/20260813-rockchip-usbdp-cleanu=
+p-v14-0-b5ad9c68fa11@collabora.com
+> >  - Avoid #ifdef for CONFIG_PM in the new glue driver (Thinh Nguyen)
+> >  - Do not add #if IS_ENABLED around the DT compatible blacklist in the
+> >    generic driver, using the glue driver should be mandatory as the
+> >    generic driver results in arbitrary system hangs. Thinh Nguyen sugge=
+sted
+> >    updating Kconfig for this, but did not clarify what that means.
+> >    Current Kconfig works the same way as the other mandatory glue
+> >    drivers.
+> >  - Split series to simplify review
+> >=20
+> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> > ---
+> > Sebastian Reichel (7):
+> >       phy: rockchip: usbdp: Track PHY power state
+> >       phy: rockchip: usbdp: Add reset hook support for dwc3
+> >       usb: dwc3: rockchip: introduce glue driver
+> >       usb: dwc3: core: add post PHY registration hook for platform glue
+> >       usb: dwc3: rockchip: add USBDP PHY reset quirk
+> >       usb: gadget: define stub for usb_udc_vbus_handler
+> >       usb: dwc3: rockchip: fix USB-C reconnect in gadget mode
+> >=20
+> >  drivers/phy/rockchip/phy-rockchip-usbdp.c |  82 ++++++++++-
+> >  drivers/usb/dwc3/Kconfig                  |  13 ++
+> >  drivers/usb/dwc3/Makefile                 |   1 +
+> >  drivers/usb/dwc3/core.c                   |  17 ++-
+> >  drivers/usb/dwc3/core.h                   |   9 ++
+> >  drivers/usb/dwc3/dwc3-rockchip.c          | 227 ++++++++++++++++++++++=
+++++++++
+> >  drivers/usb/dwc3/trace.c                  |   3 +
+> >  include/linux/phy/rockchip-usbdp.h        |  31 ++++
+> >  include/linux/usb/gadget.h                |   5 +
+> >  9 files changed, 383 insertions(+), 5 deletions(-)
+> > ---
+> > base-commit: 8f56fdf3d8cb9f1dbdc93bf9ac816698aa6f70b7
+> > change-id: 20260914-b4-rockchip-dwc3-rockchip-glue-979ea3735d43
+> >=20
+> > Best regards,
+> > -- =20
+> > Sebastian Reichel <sebastian.reichel@collabora.com>
+> >=20
+> >=20
+>=20
+> --=20
+>=20
+> Thanks,
+> Peter Chen
+
+--y273ql62b2nj3j4n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmr3mwoACgkQ2O7X88g7
++pragA/9FzXXAxsGqNAe5lp4EQDO7Y3egVEb59vzkimcTXPurGE/l4kePSGKJAg4
+MWxXZ1F9OXKrbef+ruuzAE0SpV0QedcA+VFhgxMsB68j37twnkngzmpEiESkyNHR
+/QPiUk0KYTqZyYDSeGmmvUiJWSyOLouIKKPs+hSxJ9CuLdF2+agbPuL7aNRcRK3t
+6HQX6nM1QlcCXoLXhUo57rtplRGngj3l4HAGxrcptCTY6mRAt4gyiFg7cBUB6BNS
+noUZ+GL1sW1wdFB9BMtRoR+ghTir5i+PQpy0TKx/TeEY4WVriTI0j4DCDnIFbpGw
+PxRph0W+C6x+Am65L/LC4wBcL5yhlgNJCJeg+RXK7YJPGZTn5vX1VHUhiRa6wXCJ
+3h8lHZJigfiiGEPbMUvgB+hHCdJBRVCiR7lu8GMS1thwcpcN87x+x7immvgG+sk/
+62Z6mrGVy1ANECRBuNicQ68Nge0HKv6Ea2j1a3Ql1k5ZO8OSe9SZi3qutYUKtGtG
+vk/w+ANGpGKbD3nnHQFLTywivg1ygndoOPVqrTGGWsRFY6yglkm4EvEndMe2khFe
+zaTBuIg63ivrqZ0EQ9kV1vmSHWxgRRgxLK44pjzxCWeoOX3B6ilfEsDSLHoKtAac
+gAUXovjWlFWb6IRTtUtoQsbY5C6HraVIwxniPSO1cuoZx0QFmk8=
+=xdRH
+-----END PGP SIGNATURE-----
+
+--y273ql62b2nj3j4n--
