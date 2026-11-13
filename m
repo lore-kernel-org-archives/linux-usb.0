@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794591677;
-	b=eFWiYFxQNjEa+bynbnYUJcaEwjwikDvgGNLOoyXPki95fqoYJYk4xwRJsaxf0EuHliAS
-	 YFATb4EpE7IC4d+t8jxr6EIK888GzJXcge2QNtDdzakpW2CpdfdNy+6mFTbF9rgqcGS1D
-	 u43kt3fwGDaKeiUilqh+MqF7tNpBQJBT6JuGdfqYLdWqNDEtGhf5nbkCYLATN86m9dCkP
-	 EIWSqNAiW0XRuNbQYrG2m0zT7rZ8pc0+/HSKVylwojKNxt/PWYXJd+WM/aq0G2EGO7dlH
-	 n3SnEi/HRVd9azBhFbFoyfR6Jsqt43f67FLSdxwdfFhmz8Q0PAh83TrQtQGR1nZ4v4Q==
+	t=1794592293;
+	b=4jRQfqe9WSygEkMIzOjXP1KpK2Vh5Gq7kTy9Zk+dTLirvTxpKPf2Gqk0WbyOxZxw37v3
+	 q/Jx1IBZ7T2O0DpZSFqQCWq68SUwt1uB18cD8CQsCYShfo5sF+0Jl/VgjtgoEYJ0OyY3+
+	 TdXP3+rZwQCyH+vJdaj++J9kfrxukq+oxzNzDAf7GD6Lqdws+KMWjYUgtfhpvu8fPIN14
+	 w3kR/00+PGuDRlitc/+Wti1MVjp2i7JhGrtrUXWYvFh6fcz3WdAfXraRrxDaeNR7Gn7P+
+	 7B2gkb6MhDyDlaaIcKFQCueJKsT6Ap9odEZLCeRcBKqcJM/Aq7vo4f0bbTWgzV23DpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794591677;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794592293;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=moupSwQOFm7nFzK8kYp3kFXPJEgkl2hgtqUUUMIwlIY=;
-	b=kRggnQ/lE4+xOnkdK5WEJueBlEwB0SN2zIcoJqM54K8zxV0sGdPMZ4bW961YJzmIe+Wx
-	 0pxHFSdd0EN2bdUgv7iYdkEYmRxGDiOJ1WCOvkSx2OXKbQKbPyG4MvcGc/nzUdwr5Z/c9
-	 rBl0HjDAOkoJIjdTc9qhiBkyewWa3yeP8wmVqRW6G9NgyDctqo38mC5lWMYf1eKC2gZ09
-	 V06N4DU8l66NpGgwxudD+fZNNhK27YpBrY7HhUpv4JrRZnPIKNoHCq+oKgfwowfcLvsz4
-	 stQRF27uKosfUP83b6nCpxX1zda0vb84/r47pUgx4SQSmlC/f1Va3wH2c5oR67/QM9g==
+	bh=evWnccBXOuV3kX30/MPEgEkNgDZA3VhIdQ3kPw1k/Vg=;
+	b=0/Jd0oodSSzr9qJm9DIje110+TJayiAFORgI/WeSOxPKFthHDzHDdSBt7zwbLTXYaZEf
+	 AapjI3jTnoB/Bf+cd42ziNSstE/SZEES304KovqeMLHxsrWb+GxnxYj4u9Px2d/iwXlBa
+	 DwFtExbGU6XKjFsAazlJGRcWM219zxtMlFbE2MCaPhNzAooftSblW4vb2FiG76B+yZrMT
+	 EJgF9empMQYk+o0xlUNJ//IcrMfu6aAhUqvfxN8Wzr16S2UqghjxrUOFz7tqWzU2AVLWQ
+	 JLh/loGxTIXD3erxcCQHGzMyPWKL/U1e7PI5gqvHzLxdibiEgfpxOkHfEwY4DM7uYuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ASWzFwpC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aXoj+duF;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D99606B474
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 17:41:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6A9606D498
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 17:51:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ASWzFwpC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3287B1F000C4;
-	Fri, 13 Nov 2026 17:41:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aXoj+duF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23FE31F000C5;
+	Fri, 13 Nov 2026 17:51:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794591677;
-	bh=moupSwQOFm7nFzK8kYp3kFXPJEgkl2hgtqUUUMIwlIY=;
+	s=k20260515; t=1794592293;
+	bh=evWnccBXOuV3kX30/MPEgEkNgDZA3VhIdQ3kPw1k/Vg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ASWzFwpC6xbescvE3WTQYBe+OcH4nTCSM6oR6M4RNi3imo9kBaaP6c0u134B5wlkz
-	 YKHy1SuIVNZuXvaiJxWJkAGQBhXFbmNZJNRpQFwx3WqwKJ5ZfZxpISECTM4Ghlw2n4
-	 cQmYwfhOFvJp2p6Kxxd0q8glV8Gz1xhwft1kOfp9P0Jdg85TS7H7mCUeHsjxkcDJZR
-	 YZP0NvjKniB2pc/30sUppF9FGZmcFoZZ5lNWjrCdhfXAqEQ9dHfkL6CWB43gZeAotZ
-	 mruZPyS58BOt+apltz62Tjw7H62EFgaGnL+hR0P0lMlws+gcRVr9YFs/GAxk444LiG
-	 /Zem8LryYzAPA==
-Message-ID: <sashiko-outbox-213340@kernel.org>
+	b=aXoj+duFLW+RJc+U1p+/7KDhe3eqUO6g8XQyeQ8sTIXPFmzQic++mJnPNQJi3a6Of
+	 PyVC7telTT+izauPegoP4xd2FFg/ISmjgaf3aplwDUuuKH3njl4WEPoA8+NzQ7CFDq
+	 OQSvyE0BcUMBqPjdwEtPppwdKWQ/CamNFIUWm0paqDnXVqyQLqordXrP3PFmMv8Gdi
+	 F8FkDp0xnwG5dEEP8q0HrJ9PEs9afozkOwLVAFCNzjzwK0NBBSFZvfG1L00HVWw9OE
+	 Ypgcsfu81cGgkos8VNqnF1gSmp4gpl0N/Qkkd+fv8vOCDJlwCbfDMX2GaEBoHWBl4X
+	 J+IAnB56svatQ==
+Message-ID: <sashiko-outbox-213366@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 7/8] usb: typec: fusb302: rework gpio_int_n_irq handling
+Subject: Re: [PATCH 8/8] usb: typec: fusb302: drop custom gpio interrupt
+ logic
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sebastian Reichel" <sebastian.reichel@collabora.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261113-fusb302-probe-cleanup-v1-7-e5c65a8c58c8@collabora.com>
+In-Reply-To: <20261113-fusb302-probe-cleanup-v1-8-e5c65a8c58c8@collabora.com>
 References: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
- <20261113-fusb302-probe-cleanup-v1-7-e5c65a8c58c8@collabora.com>
+ <20261113-fusb302-probe-cleanup-v1-8-e5c65a8c58c8@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 17:41:16 +0000
+Date: Fri, 13 Nov 2026 17:51:32 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,15 +61,55 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Improve the code readability, so that one does not need to jump
-> into fusb302_init_irq() to understand that chip->gpio_int_n_irq
-> is guranteed to be initialized.
->=20
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] usb: typec: fusb302: void stub for fusb302_debugfs_init()
+  breaks !CONFIG_DEBUG_FS build
+--
 
-Sashiko has reviewed this patch and found no issues.
+commit 68b5d98996b526119f13f5957d4fd6cf07fb01e3
+Author: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+usb: typec: fusb302: drop custom gpio interrupt logic
+
+This commit removes the undocumented "fcs,int_n" GPIO fallback from the
+fusb302 driver and requires client->irq to be populated.
+
+> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fu=
+sb302.c
+> index 6105f09f96aad..c392134cdc0c5 100644
+> --- a/drivers/usb/typec/tcpm/fusb302.c
+> +++ b/drivers/usb/typec/tcpm/fusb302.c
+
+[ ... ]
+
+> @@ -1751,13 +1733,10 @@ static int fusb302_probe(struct i2c_client *clien=
+t)
+>  	if (ret < 0)
+>  		return ret;
+
+[Severity: Medium]
+Does fusb302_probe() fail to build when CONFIG_DEBUG_FS is disabled?
+
+Earlier in this series, commit "usb: typec: fusb302: Switch to device
+managed resources" changed fusb302_debugfs_init() to return int and
+assigned its return value to ret right above this check, but the
+!CONFIG_DEBUG_FS stub still returns void:
+
+drivers/usb/typec/tcpm/fusb302.c:
+#ifdef CONFIG_DEBUG_FS
+...
+static int fusb302_debugfs_init(struct fusb302_chip *chip)
+...
+#else
+...
+static void fusb302_debugfs_init(const struct fusb302_chip *chip) { }
+
+#endif
+
+Returning 0 from the !CONFIG_DEBUG_FS stub of fusb302_debugfs_init()
+avoids the build failure.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-fusb302-pr=
-obe-cleanup-v1-0-e5c65a8c58c8@collabora.com?part=3D7
-
+obe-cleanup-v1-0-e5c65a8c58c8@collabora.com?part=3D8
