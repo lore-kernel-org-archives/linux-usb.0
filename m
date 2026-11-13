@@ -1,62 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794588189;
-	b=uvsA4FubC7AYL2RZaWWa/0Ouy8RMk9yrI7WaSoF6Wv289137ks5J6m/zgHMvb5OqAGgq
-	 l6Y7jlkT++Wto/VMCU1BQj6j0AMXJB6mzObsffyFngoxHZgK51SR1kOQYq/lnspeDGyhl
-	 CIyBYRgSvKjSSZE44kQ11KPqM25L2E1rn8/8ILqphS5Hjsrz7cbOHzWCRU5ULJfzIzOBL
-	 BIy4ZYB3V9x6XbtwJfvDer7+pUeLmZZxE4bbAi1synMTm1hR7ePZZSdKSr+iSLSBr7vt+
-	 LgOq+PRm210z8FPcCn7KlYyL3bRlzj/5IAm/Yua/VTOmbEYaYKrFAQgp2d6ZeSx1rpw==
+	t=1794588191;
+	b=RJePEosCj26ul7y95f8bod132KXSNb8SIZhA+ufeMSxmHUwvinn/O9S1fzZBdufdybAG
+	 lYJN03uDi6PoK1peWONphN9OYBh1fInMyXfwaCEhplYLxkTOmQwbdb9ZkoIloneNEYiF4
+	 TMTHgouDk9LTMmV6n3LmCmoS2e8jDGN8/4DUbyPSn2zL/TGVKdsnZmNFHDOy2IFZqSI6L
+	 iEYGUhfWSXSkkZhehvYYM36Z/8dG1O8Ie71DrIw1dwWiQD/uLtw0Oz7d+GM5CJKkEynwb
+	 nfYrO/jeMIjrmVUnkZRutJe5ND7BCEd2911J9DF/05cH5Lgp9nQ5pXFVBYQDxl7U0Mw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794588189;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794588191;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=pkEE+QzVBgT15Zqjrf92OWSogZwDu2RHmoro1Q2SlsA=;
-	b=zYw17D3bsJ2PHSAvRwe14zZYQXsuLx1AWXwSI0NYwfU1JPWkHaEcQgnqMyOT6SQl4hz9
-	 vuaqcskskt8Tc1Xwtxm4mINhb++X/wygacZwENgHSDlbNlkdgCMzZd2vW1AXz9sKPp+se
-	 p4W17eL+HSTI+OgTzSOWvvdx7Q6H9inh3J4th27U34tXzdN6BGd2X10AVCkm+8wXrSDap
-	 f15kCvUw/MbIQ8xjbWRNf00eHHQ8li+ex3ZwSBGCUX0ohAb0UJsoCZ96ogLnhd5SfFKuA
-	 SdlQNH1AgTrOj4qEfflSdl2lgUfnPEipltG5+qCA5KgwQsrg6U7k8XYuHXWvyAVY5gg==
+	bh=cBo38zZJkNnW47FXR3fIHATs1fxo4+uWdsNkjEIJPfY=;
+	b=2sBUr6giwVez2GKcu+I/96sa0GZo3iniQc1KYW/x2SirBx21uLNWA64NkwKgjIPp6/2w
+	 yvIQMzXdrugizeSI6BrbJHhWVlSnAK+vDJ16XHARAPZ2valD09sa2M5tyUn8MhlOQAqv6
+	 4WAUsiCXlI5+QRmsvznhnkZqngv/ZucyTN9OgsgzhD1e0KjLZcHFBCMfilMZpqs66iwg8
+	 1+7mKt0OKhrgPdmYRgFhtbKw6D0fRQQN3KwcnofsdWxAMcCjkST0R4vSYxyti5lg/B+BO
+	 ywFxJDJWpIJyj0y0GaSh/b7y/fViT2DJcupRVxA6O1o7tGEslbrVjRn/QUM5XgB1Fww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=collabora.com;
 	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=SkK1sHhc;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=b+VbuOYM;
 	arc=none smtp.remote-ip=148.251.105.195
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9DB606BCB3;
-	Fri, 13 Nov 2026 16:43:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C9DB606BCB3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAE0606CDF7;
+	Fri, 13 Nov 2026 16:43:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFAE0606CDF7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=SkK1sHhc
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=b+VbuOYM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1794588180;
-	bh=JXwy/eebJOGImzue2Vm26NqH+hFTXYWvFEEQqof62V4=;
+	s=mail; t=1794588181;
+	bh=YZnixClu5S0XwYLBxOhAIUMM3nNBT7+XQ/8KpkQPw0w=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SkK1sHhcrgdeyE5ZD2O3Y/n1U/EX5vSFZA1JYWCQ4s+pIZX+MAQJ6z4s4KSnsHMto
-	 WCb4Wij1YUtnCApblfT05yTGS/M+tsrbaVYzfqR+8unqt03ulYbfslUpCFe+6xgybr
-	 2ilAMoBZRTtVg1HfEz1rV26XslO9tO4qcHcjZ8ZIVhps83obS0surl7xqehwGutrR1
-	 7ohHNKesAMSoW6aMKeM7jJsV7Yi198IWcwNL+lMpt53l0n0K6FwGaNjO9d7tWhTuj7
-	 H+oYejvT5nPVtSsQZlnjUfpZtaBFYShSBbgE/YKVcd8dBbkHPx4IfNf9KkpFVazSSU
-	 l32ronX4aCXeg==
+	b=b+VbuOYMYP+TlbgMKVwznaXzUoMNoSrwYYJ118XRnFExe0qSuhePgN14lTJtpnX0M
+	 rtOvEIIcVsI8N/I/Qa29BjQJI1OXKk1ehHGDkqoWATvIUMcOQexh+V166p5sFW+30W
+	 WnWDAYPkNEBtLDI9P0zGWXY5pn/TrOP6Q29hM436zrz9mPBp6DbAlvgBkCTiYd+USK
+	 74ayPCBST34YMk/yZrt46pGyIRhnZH2Z3YSBLY/S+DPIAV+v3evlE2bw03OixalcrL
+	 PklYgLYRMGjSbTgapztDF0soYtq7DJXSr9iiBdk++/XjWu5cQ8KQ9D3L8c5Y4Qq0eY
+	 2gbQkvUmslQ3g==
 Received: from jupiter.universe (unknown [100.64.1.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A811E17E0F70;
-	Fri, 13 Nov 2026 17:43:00 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0B3DB17E36A3;
+	Fri, 13 Nov 2026 17:43:01 +0100 (CET)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id 62C86480031; Fri, 13 Nov 2026 17:43:00 +0100 (CET)
+	id 6B577480041; Fri, 13 Nov 2026 17:43:00 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Fri, 13 Nov 2026 17:42:39 +0100
-Subject: [PATCH 3/8] usb: typec: fusb302: Switch to device managed
- resources
+Date: Fri, 13 Nov 2026 17:42:44 +0100
+Subject: [PATCH 8/8] usb: typec: fusb302: drop custom gpio interrupt logic
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -68,7 +67,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-fusb302-probe-cleanup-v1-3-e5c65a8c58c8@collabora.com>
+Message-Id: <20261113-fusb302-probe-cleanup-v1-8-e5c65a8c58c8@collabora.com>
 References: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
 In-Reply-To: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
@@ -77,234 +76,126 @@ To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  kernel@collabora.com, Sebastian Reichel <sebastian.reichel@collabora.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6744;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3478;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=JXwy/eebJOGImzue2Vm26NqH+hFTXYWvFEEQqof62V4=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGr3PhSATZeH/k/Qp3e8AVMVHi6Pys58c+N8F
- gXZsrpYLIBs4YkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJq9z4UAAoJENju1/PI
- O/qaCHAP/12IogVRMR46ZcPYwnOt5wNn5cSFEem1RkU+ZqCf1riOAc4nLNlgxjSjcyaRtk7H8vE
- 0xlP+uJ7UNxr1cFvw+mVGkZw+qePOjgTnEJPHfACQEMrcliCOQ07msYCIZDMydFbMAxaochiTRq
- NqZFa4btLmxiu9BEGCSYXrxPd/Y0tJsEcYEC/RUkSvtuEosCwNMbC/K/9f7dOLUuX3zmd68glvy
- 5ZAzL1hhr0VwRmN0/FhjMMlpVVWNkzGCGMGrLl5T5l049b4EAJkrKl+bYPn4i33wiAQ/Iha4XEl
- hWB4Rzl8QlMbELnCzIJ/VictZImRi0lBf/Y9vICRl1OlDpvwC0SGjjoywM/VsL2J1gv3EQdl8/a
- KVUA5NFqgzBj5Zce0tMlYVQLGYYnv8o3dy+iszptqEMp559WrtoAojsrSMZnav4pqMbwWiljigD
- pmyO0xBu98i5TuzfOSnKBbh9gD3znSvDEpPBmsffKrOmQpHMmEFfoDXOAMw0et7DHliSVUVPkzz
- s/b9a6xR5PHcjmFWHNrK3Ay8YputBfmvMGb23GaD8v8+od5dMbqE3GKcdjbNRuKtfkbQrUnykk1
- LbImzsXiJQ5LH3Tq6Tu7te2BtbMDWEAabv3RslvJvu5e+UsfKD7ENE7VbbL42UCFB8Hl5oR6dlj
- 40+Rwa1cV4IB+RzeIoBQ3TA==
+ bh=YZnixClu5S0XwYLBxOhAIUMM3nNBT7+XQ/8KpkQPw0w=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGr3PhQbMNDy/lvzZKvrAdc4ErN/yZaRd5ryb
+ i+DtcC47xO4AokCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJq9z4UAAoJENju1/PI
+ O/qa8KYP/jATsgGEeLnGYVe82YxfGqkodlT5btKsI0hO5F0GY56hlt1bOgumynLFu0l8qIOrhgu
+ 8ZAlzYMXbld6Pncy4/XenzWkaDyVxwJtJed21+2ZZjz6lQSDsupMcm6IyQkokY+sipd/jlt5Zxc
+ +edYxpluoazYTLXIOgzlPRUWdqXopGmRZDr0hYmn8JIjeVT/RpsY95dxaSfXIkjJhAyj4gK6kB3
+ ihVgU91DMz3umUt8FgPqXlcF+Iz88fIh/tgnnGyGuSO2HRWkSBZK4lgxBcJX5qBsa30nwJHD0cr
+ NBbIazyMrrxvffSp/Ww9gS0oT92lq6zQhZKjGFcRKkBYPoOlwQfMl5hJSV5ecdoVcNwwcGL/NIT
+ hRAhciklruk5V7Yl3xbToLQP1WE50nZSeQPdviZcl41lI5RXo7N+Xs3qZYLhN0MWuqnAXpZ9mo/
+ rgF8fFXQ9hb/PJ9nkcW1iLctObc8TzfzjsRaI/mGrL7XVcqPjGU2CVP5DcxOciSCDK/xz+ne2Tj
+ Ozj0BsO9ELi5ltMw05pAT96xEm0BUXJzaKBsObInbxKNtDew0ywS1OV5K3GhnkdWcWsdFTTbQPr
+ dVGMKr8u9EfQ3BrqM15Xtw5JjrIlPUb87m+GDzSSGeKRLKQSyJht1rUxokksPw++yMOswrmJRHX
+ VPSPmbi2MpMuHNq49Ths1FA==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-The driver's probe routine is currently mixing registration calls for
-device managed resources with unmananged ones. This results in issues
-such as resource leaks or use-after-free. Fix this up by fully
-converting the driver to device managed resources.
-
-Resource acquisition has been reordered a bit, so that the work is
-initialized after the TCPM port is registered as the work uses the
-TCPM devices.
+When the driver was upstreamed it contained the logic to fetch a
+"fcs,int_n" GPIO from device-tree, convert it into an interrupt and use
+it. This was never part of the binding and there was only a single
+upstream user, which got converted to follow the proper bindings in 2020
+in commit 89ee3ace7292 ("arm64: dts: rockchip: Fix Pinebook Pro FUSB302
+interrupt"). Drop the custom logic and only allow the properly
+documented ABI.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/usb/typec/tcpm/fusb302.c | 112 ++++++++++++++++++++++-----------------
- 1 file changed, 62 insertions(+), 50 deletions(-)
+ drivers/usb/typec/tcpm/fusb302.c | 39 +++++++++------------------------------
+ 1 file changed, 9 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-index 83bd287dadc7..a7a1dce6cf86 100644
+index 6105f09f96aa..c392134cdc0c 100644
 --- a/drivers/usb/typec/tcpm/fusb302.c
 +++ b/drivers/usb/typec/tcpm/fusb302.c
-@@ -8,6 +8,7 @@
- #include <drm/bridge/aux-bridge.h>
- #include <linux/debugfs.h>
- #include <linux/delay.h>
-+#include <linux/devm-helpers.h>
+@@ -11,7 +11,6 @@
+ #include <linux/devm-helpers.h>
  #include <linux/errno.h>
  #include <linux/extcon.h>
- #include <linux/gpio/consumer.h>
-@@ -210,20 +211,28 @@ static int fusb302_debug_show(struct seq_file *s, void *v)
- }
- DEFINE_SHOW_ATTRIBUTE(fusb302_debug);
+-#include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+ #include <linux/interrupt.h>
+ #include <linux/kernel.h>
+@@ -86,7 +85,7 @@ struct fusb302_chip {
+ 	struct work_struct irq_work;
+ 	bool irq_suspended;
+ 	bool irq_while_suspended;
+-	int gpio_int_n_irq;
++	int irq;
+ 	struct extcon_dev *extcon;
  
--static void fusb302_debugfs_init(struct fusb302_chip *chip)
-+static void fusb302_debugfs_exit(void *data)
-+{
-+	struct fusb302_chip *chip = data;
-+
-+	debugfs_remove(chip->dentry);
-+}
-+
-+static int fusb302_debugfs_init(struct fusb302_chip *chip)
- {
- 	char name[NAME_MAX];
-+	int ret;
-+
-+	ret = devm_mutex_init(chip->dev, &chip->logbuffer_lock);
-+	if (ret < 0)
-+		return ret;
+ 	struct workqueue_struct *wq;
+@@ -1495,7 +1494,7 @@ static irqreturn_t fusb302_irq_intn(int irq, void *dev_id)
+ 	unsigned long flags;
  
--	mutex_init(&chip->logbuffer_lock);
- 	snprintf(name, NAME_MAX, "fusb302-%s", dev_name(chip->dev));
- 	chip->dentry = debugfs_create_dir(name, usb_debug_root);
- 	debugfs_create_file("log", S_IFREG | 0444, chip->dentry, chip,
- 			    &fusb302_debug_fops);
--}
+ 	/* Disable our level triggered IRQ until our irq_work has cleared it */
+-	disable_irq_nosync(chip->gpio_int_n_irq);
++	disable_irq_nosync(chip->irq);
  
--static void fusb302_debugfs_exit(struct fusb302_chip *chip)
--{
--	debugfs_remove(chip->dentry);
-+	return devm_add_action_or_reset(chip->dev, fusb302_debugfs_exit, chip);
- }
- 
- #else
-@@ -231,7 +240,6 @@ static void fusb302_debugfs_exit(struct fusb302_chip *chip)
- static void fusb302_log(const struct fusb302_chip *chip,
- 			const char *fmt, ...) { }
- static void fusb302_debugfs_init(const struct fusb302_chip *chip) { }
--static void fusb302_debugfs_exit(const struct fusb302_chip *chip) { }
- 
- #endif
- 
-@@ -1686,6 +1694,13 @@ static struct fwnode_handle *fusb302_fwnode_get(struct device *dev)
- 	return fwnode;
- }
- 
-+static void fusb302_fwnode_put(void *data)
-+{
-+	struct fusb302_chip *chip = data;
-+
-+	fwnode_handle_put(chip->tcpc_dev.fwnode);
-+}
-+
- static int fusb302_probe(struct i2c_client *client)
- {
- 	struct fusb302_chip *chip;
-@@ -1706,7 +1721,10 @@ static int fusb302_probe(struct i2c_client *client)
- 
- 	chip->i2c_client = client;
- 	chip->dev = &client->dev;
--	mutex_init(&chip->lock);
-+
-+	ret = devm_mutex_init(dev, &chip->lock);
-+	if (ret < 0)
-+		return ret;
- 
- 	/*
- 	 * Devicetree platforms should get extcon via phandle (not yet
-@@ -1725,67 +1743,68 @@ static int fusb302_probe(struct i2c_client *client)
- 	if (IS_ERR(chip->vbus))
- 		return PTR_ERR(chip->vbus);
- 
--	chip->wq = create_singlethread_workqueue(dev_name(chip->dev));
-+	chip->wq = devm_alloc_ordered_workqueue(dev, dev_name(dev), 0);
- 	if (!chip->wq)
- 		return -ENOMEM;
- 
- 	spin_lock_init(&chip->irq_lock);
--	INIT_WORK(&chip->irq_work, fusb302_irq_work);
--	INIT_DELAYED_WORK(&chip->bc_lvl_handler, fusb302_bc_lvl_handler_work);
- 	init_tcpc_dev(&chip->tcpc_dev);
--	fusb302_debugfs_init(chip);
-+
-+	ret = fusb302_debugfs_init(chip);
-+	if (ret < 0)
-+		return ret;
- 
- 	if (client->irq) {
- 		chip->gpio_int_n_irq = client->irq;
- 	} else {
- 		ret = init_gpio(chip);
- 		if (ret < 0)
--			goto destroy_workqueue;
-+			return ret;
+ 	spin_lock_irqsave(&chip->irq_lock, flags);
+ 	if (chip->irq_suspended)
+@@ -1639,24 +1638,7 @@ static void fusb302_irq_work(struct work_struct *work)
  	}
+ done:
+ 	mutex_unlock(&chip->lock);
+-	enable_irq(chip->gpio_int_n_irq);
+-}
+-
+-static int fusb302_init_irq(struct fusb302_chip *chip)
+-{
+-	struct device *dev = chip->dev;
+-	struct gpio_desc *int_gpio;
+-	int ret = 0;
+-
+-	int_gpio = devm_gpiod_get(dev, "fcs,int_n", GPIOD_IN);
+-	if (IS_ERR(int_gpio))
+-		return dev_err_probe(dev, PTR_ERR(int_gpio), "failed to request interrupt GPIO\n");
+-
+-	ret = gpiod_to_irq(int_gpio);
+-	if (ret < 0)
+-		return dev_err_probe(dev, ret, "cannot request IRQ for GPIO\n");
+-
+-	return ret;
++	enable_irq(chip->irq);
+ }
+ 
+ #define PDO_FIXED_FLAGS \
+@@ -1751,13 +1733,10 @@ static int fusb302_probe(struct i2c_client *client)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	if (client->irq)
+-		chip->gpio_int_n_irq = client->irq;
+-	else
+-		chip->gpio_int_n_irq = fusb302_init_irq(chip);
+-
+-	if (chip->gpio_int_n_irq < 0)
+-		return chip->gpio_int_n_irq;
++	chip->irq = client->irq;
++	if (!chip->irq)
++		return dev_err_probe(chip->dev, -ENXIO,
++				     "missing interrupt\n");
  
  	chip->tcpc_dev.fwnode = fusb302_fwnode_get(dev);
  	if (IS_ERR(chip->tcpc_dev.fwnode)) {
- 		ret = PTR_ERR(chip->tcpc_dev.fwnode);
--		goto destroy_workqueue;
-+		return ret;
- 	}
+@@ -1788,7 +1767,7 @@ static int fusb302_probe(struct i2c_client *client)
+ 	if (ret < 0)
+ 		return ret;
  
-+	ret = devm_add_action_or_reset(dev, fusb302_fwnode_put, chip);
-+	if (ret < 0)
-+		return ret;
-+
- 	bridge_dev = devm_drm_dp_hpd_bridge_alloc(chip->dev, to_of_node(chip->tcpc_dev.fwnode));
--	if (IS_ERR(bridge_dev)) {
--		ret = dev_err_probe(chip->dev, PTR_ERR(bridge_dev),
--				    "failed to alloc bridge\n");
--		goto fwnode_put;
--	}
-+	if (IS_ERR(bridge_dev))
-+		return dev_err_probe(chip->dev, PTR_ERR(bridge_dev),
-+				     "failed to alloc bridge\n");
+-	ret = devm_request_threaded_irq(dev, chip->gpio_int_n_irq, NULL,
++	ret = devm_request_threaded_irq(dev, chip->irq, NULL,
+ 					fusb302_irq_intn,
+ 					IRQF_ONESHOT | IRQF_TRIGGER_LOW,
+ 					"fsc_interrupt_int_n", chip);
+@@ -1805,7 +1784,7 @@ static int fusb302_probe(struct i2c_client *client)
+ 	if (ret)
+ 		return ret;
  
--	chip->tcpm_port = tcpm_register_port(&client->dev, &chip->tcpc_dev);
--	if (IS_ERR(chip->tcpm_port)) {
--		ret = dev_err_probe(dev, PTR_ERR(chip->tcpm_port),
-+	chip->tcpm_port = devm_tcpm_register_port(&client->dev, &chip->tcpc_dev);
-+	if (IS_ERR(chip->tcpm_port))
-+		return dev_err_probe(dev, PTR_ERR(chip->tcpm_port),
- 				    "cannot register tcpm port\n");
--		goto fwnode_put;
--	}
- 
--	ret = devm_drm_dp_hpd_bridge_add(chip->dev, bridge_dev);
--	if (ret)
--		goto tcpm_unregister_port;
-+	ret = devm_delayed_work_autocancel(dev, &chip->bc_lvl_handler,
-+					   fusb302_bc_lvl_handler_work);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = devm_work_autocancel(dev, &chip->irq_work, fusb302_irq_work);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = devm_request_threaded_irq(dev, chip->gpio_int_n_irq, NULL,
-+					fusb302_irq_intn,
-+					IRQF_ONESHOT | IRQF_TRIGGER_LOW,
-+					"fsc_interrupt_int_n", chip);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "failed to request IRQ");
- 
--	ret = request_threaded_irq(chip->gpio_int_n_irq, NULL, fusb302_irq_intn,
--				   IRQF_ONESHOT | IRQF_TRIGGER_LOW,
--				   "fsc_interrupt_int_n", chip);
--	if (ret < 0) {
--		dev_err(dev, "cannot request IRQ for GPIO Int_N, ret=%d", ret);
--		goto tcpm_unregister_port;
--	}
--	enable_irq_wake(chip->gpio_int_n_irq);
- 	i2c_set_clientdata(client, chip);
- 
--	return 0;
-+	ret = devm_drm_dp_hpd_bridge_add(chip->dev, bridge_dev);
-+	if (ret)
-+		return ret;
- 
--tcpm_unregister_port:
--	tcpm_unregister_port(chip->tcpm_port);
--fwnode_put:
--	fwnode_handle_put(chip->tcpc_dev.fwnode);
--destroy_workqueue:
--	fusb302_debugfs_exit(chip);
--	destroy_workqueue(chip->wq);
-+	enable_irq_wake(chip->gpio_int_n_irq);
- 
- 	return ret;
- }
-@@ -1795,13 +1814,6 @@ static void fusb302_remove(struct i2c_client *client)
- 	struct fusb302_chip *chip = i2c_get_clientdata(client);
- 
- 	disable_irq_wake(chip->gpio_int_n_irq);
--	free_irq(chip->gpio_int_n_irq, chip);
--	cancel_work_sync(&chip->irq_work);
--	cancel_delayed_work_sync(&chip->bc_lvl_handler);
--	tcpm_unregister_port(chip->tcpm_port);
--	fwnode_handle_put(chip->tcpc_dev.fwnode);
--	destroy_workqueue(chip->wq);
--	fusb302_debugfs_exit(chip);
+-	return devm_pm_set_wake_irq(chip->dev, chip->gpio_int_n_irq);
++	return devm_pm_set_wake_irq(chip->dev, chip->irq);
  }
  
  static int fusb302_pm_suspend(struct device *dev)
