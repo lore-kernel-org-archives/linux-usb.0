@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794589592;
-	b=r0TJt4N8Gkye8tSKQczA7bfscC4rZNIaH48V9xOnyQb6sxAC8tTkwdemkP/MyCzPXOAG
-	 3bSDxtJtBHXuyLEXUwPWIVawpC1wGljGaLdV7YrNdTahVESO5S30kM5WlewnKXJfWb8Ke
-	 DyesK9xLKf/5DQVZ7MOmPqbY6jUNUnTE8xHVWsZF1ibwFjgXmQ8UNgdlpigULV2avpoQl
-	 tYhtQGmgygiy2cQhaDn13DHhhLfmPbrtmV37UndSkKS7CviyOVI9wL8PB5MpDVOIJaoMf
-	 aQSSF1i3Cifv8Q0s2fQxTSsIRqyAj+fHks3O1J9WrcS+OfNiBvk3pQEF0ZQdrr+Pisg==
+	t=1794589682;
+	b=WcH/Lq2ahNEs79Ph4RulxILVhn4RmFwBaQTCWMb6mhKgeXzho4HiOT0W8aWFxM7jdNSk
+	 g1goy4VpPI5SQFjzbPmqN9Z+2K4NGaT10tvDe/hJ28YIAqCTr9RyGQ7AtlD+b/Z4NlLnu
+	 vDLQ35MEzjLQPOnfd5T8cFv/YSbgKHlCROeAmUwqUeYvTkZR8sF9w1oQnGAnfCWziDb9P
+	 IDNpAu5PsP56O8trJaROIp0A5RNwLZiGV2eI4QDBz+KXNhnA6KdOJKvpJmHSzm0eG2WpI
+	 LFe34YRUUvXqIO1mC6AXYi3vpeG2koZ3zQgQrsZ8nQ6kJJPDqdMo7SnZ9mOZvn8YslA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794589592;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794589682;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=6AurjohRKk0j0LXGMtcnkWK+YbRAKBomZSw1goiQgnU=;
-	b=CqyNwyR1TNBkfv6BdatRo9rcphrAZ9AcBEuoA9KKoe6957wp3knTYm4FtAgaF+rMRI3k
-	 BF79TdCJCB/V4liRUkLwy40ZZgDUVpwJ5tNOv/1Ltnq/4OWpNrSwj+UuBMtKP1B1TQSUk
-	 Wi7E2jkvyF4RIau1umTIjYZZvPHLmcsh/XlVh+yochfD+4GC1aMiA6Byx/aFeSa0Z4epm
-	 gelhvHOstDW1cWaxdqqqL0uRmvwDOIc9N4K+SWUm+cLevQ8Z1FoDIJAI85C9AucKpZPHh
-	 NkeT7H0QpHmg9SXhgti56fQxRHFnwAZzPyXvF8OF2IZJddmo2/LhV9A1bcvfZI040Dg==
+	bh=eCff2xNYMAkmauLpO2ibQZV4b31AjD27bamp1dc9ExE=;
+	b=A3NCTK18E2jibeGWwLPTMoWG26Lda6TPcYGaOf0CNxUqXmdS3CbsnjG2A98NliLKduME
+	 8Dw390nxdNL4p35x6LSRJobAVMXWVhJ+kuMahxTKPREf1+cSQ/TezywhSKErxf5Vt2nvB
+	 5ZoVCRMcobMJOA83rz0I35PibxRNKRSTJyfZWuHEHsM6BDDyad5qzABhAUvjBXYcGXmfN
+	 ymHRAXBqpwPIQS3nfiw94AjM/YdqylVxIGL+Ys6x43+3QBA1xK1MSUegO9I7LL8GeqsrZ
+	 1M6apwIVSc4yFQEiaUznOHP57wsHePdgetODtk1ptH16P1JoShwbiOFGbb7ASRblE5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="oT/Qj9Mt";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oQ8e4RNy;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BEC606A327
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 17:06:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FD8606A330
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 17:08:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oT/Qj9Mt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 538501F000C4;
-	Fri, 13 Nov 2026 17:06:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oQ8e4RNy
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A51881F000C4;
+	Fri, 13 Nov 2026 17:08:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794589591;
-	bh=6AurjohRKk0j0LXGMtcnkWK+YbRAKBomZSw1goiQgnU=;
+	s=k20260515; t=1794589681;
+	bh=eCff2xNYMAkmauLpO2ibQZV4b31AjD27bamp1dc9ExE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=oT/Qj9Mt392mnromIzYAFDjfkl5TAfRI2MfkHsU2r1IWACeaAxVxREZ4W2eHBNvpB
-	 rcOCbcXMIZvmkSfRQLhHE9lkh3/zAqt4IOW0X5Pb9JbqTWX2Hfc+fJQ2MHxj0W9abY
-	 /k8PZNUj+WTPx3aQvahYa6/v4i34vMejp0jgKq7uoDpl69xq8i6nucI0Yffzms+HoP
-	 Xf7/D2wdZgXAoY3tlo/HUeNMIyzx+OLMjuxpdR+o4wahlzQZNW+fk6IVE+wytuu/we
-	 jmgZhXKDghXU2KoxFTe0AzATNi56pTygkPR90quZsyl+JQqRaqU8eqhpj1fXkGy8V+
-	 3Te+6a1iYeJHA==
-Message-ID: <sashiko-outbox-213270@kernel.org>
+	b=oQ8e4RNySzHQb1FJdszih07B46l7cbUjTc4JuOuCrhYd/6KKyHBVrQ1AJnSi9bRcK
+	 csJMApPNtACtgSnmfpNgn3uy009vaWUVcbRbBqWFMQeTVGans4IKxD70nDrAZ0Wz+0
+	 Fhhu8hDmj85lWAUEF/ELkML7qBrMzCuqYL4bIMqxDHE1kf7QRW0zX6w7y2yCnkwiOO
+	 N5tPGZACvS0Xw/bA/WZTIH9ELZDiLxanWZzsMu/Pz7JS8M8n/JGDCWVKruh5mzDh9k
+	 A0OLeNJfWFy10y+KdhUuaHCTJlWxxdZdIc49jf5ensQm4h97u4E3dnOdjU+Fk/jh87
+	 I4AX5OO+q0GTA==
+Message-ID: <sashiko-outbox-213277@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/8] usb: typec: tcpm: add device managed port
- registration
+Subject: Re: [PATCH v3 2/2] usb: hub: Retry SuperSpeed for a device stuck on
+ its USB 2.0 peer
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sebastian Reichel" <sebastian.reichel@collabora.com>
+To: "Arun Iyengar" <aiyengar1990@gmail.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261113-fusb302-probe-cleanup-v1-2-e5c65a8c58c8@collabora.com>
-References: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
- <20261113-fusb302-probe-cleanup-v1-2-e5c65a8c58c8@collabora.com>
+In-Reply-To: <20261113-usb-port-pairing-v3-2-d6c6edb4341c@gmail.com>
+References: <20261113-usb-port-pairing-v3-0-d6c6edb4341c@gmail.com>
+ <20261113-usb-port-pairing-v3-2-d6c6edb4341c@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 17:06:30 +0000
+Date: Fri, 13 Nov 2026 17:08:01 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,82 +63,119 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] usb: typec: tcpm: leak of port->pd_list[i] on
-  tcpm_register_port() error paths
+- [Low] usb: hub: hub_peer_reset_work() ignores quiescing state during
+  teardown
 --
 
-commit 4732c69a74cc6f816813133462e97f8deba7b034
-Author: Sebastian Reichel <sebastian.reichel@collabora.com>
+commit 292ab4e7add6e385ccf460779fb12521a3d0b6e7
+Author: Arun Iyengar <aiyengar1990@gmail.com>
 
-usb: typec: tcpm: add device managed port registration
+usb: hub: Retry SuperSpeed for a device stuck on its USB 2.0 peer
 
-This commit adds devm_tcpm_register_port() to support device-managed TCPM p=
-ort
-registration.
+This commit schedules work when a SuperSpeed root hub initializes to reset
+any SuperSpeed-capable device connected at high speed to a peer USB 2.0
+root hub port on another host controller so it can reconnect at
+SuperSpeed.
 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 07d2a03d2b8d7..7d6378acf0183 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -9013,6 +9013,31 @@ void tcpm_unregister_port(struct tcpm_port *port)
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 199d3f535a891..6bbe5fe2c0b52 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -1076,6 +1076,105 @@ int usb_remove_device(struct usb_device *udev)
+>  	return 0;
 >  }
->  EXPORT_SYMBOL_GPL(tcpm_unregister_port);
 > =20
-> +static void devm_tcpm_unregister_port(void *data)
+> +/*
+> + * A device present at boot may have connected at high speed to the USB =
+2.0
+> + * peer before this SuperSpeed root hub was up; a USB 2.0 reset makes it=
+ retry.
+> + */
+> +static void hub_reset_peer_child(struct usb_device *peer_hdev, int peer_=
+port1)
 > +{
-> +	struct tcpm_port *port =3D data;
+> +	struct usb_hub *peer_hub;
+> +	struct usb_device *udev;
 > +
-> +	tcpm_unregister_port(port);
+> +	/* Wait for an enumeration in progress on the peer port to finish */
+> +	usb_lock_device(peer_hdev);
+> +	peer_hub =3D usb_hub_to_struct_hub(peer_hdev);
+> +	if (!peer_hub || peer_port1 > peer_hdev->maxchild)
+> +		goto out;
+> +
+> +	udev =3D peer_hub->ports[peer_port1 - 1]->child;
+> +	if (!udev || udev->speed !=3D USB_SPEED_HIGH)
+> +		goto out;
+> +
+> +	/*
+> +	 * The USB 2.0 half of a USB 3 hub stays at high speed next to its
+> +	 * SuperSpeed half, and resetting it would disconnect its children.
+> +	 */
+> +	if (udev->descriptor.bDeviceClass =3D=3D USB_CLASS_HUB)
+> +		goto out;
+> +
+> +	usb_lock_device(udev);
+> +	if (udev->state !=3D USB_STATE_NOTATTACHED &&
+> +	    udev->bos && udev->bos->ss_cap) {
+> +		dev_info(&udev->dev,
+> +			 "SuperSpeed peer port available, resetting\n");
+> +		usb_reset_device(udev);
+> +	}
+> +	usb_unlock_device(udev);
+> +out:
+> +	usb_unlock_device(peer_hdev);
 > +}
 > +
-> +struct tcpm_port *devm_tcpm_register_port(struct device *dev,
-> +					  struct tcpc_dev *tcpc)
+> +static void hub_peer_reset_work(struct work_struct *ws)
 > +{
-> +	struct tcpm_port *result;
-> +	int ret;
+> +	struct usb_hub *hub =3D container_of(ws, struct usb_hub, peer_reset_wor=
+k);
+> +	struct usb_device *hdev =3D hub->hdev;
+> +	int port1;
 > +
-> +	result =3D tcpm_register_port(dev, tcpc);
-> +	if (IS_ERR(result))
-> +		return result;
+> +	for (port1 =3D 1; ; port1++) {
+> +		struct usb_device *peer_hdev =3D NULL;
+> +		struct usb_port *port_dev;
+> +		int peer_port1 =3D 0;
+> +
+> +		mutex_lock(&usb_port_peer_mutex);
+> +		if (port1 > hdev->maxchild) {
+> +			mutex_unlock(&usb_port_peer_mutex);
+> +			break;
+> +		}
+> +		port_dev =3D hub->ports[port1 - 1];
+> +		if (port_dev->connector_peer && port_dev->peer) {
+> +			peer_hdev =3D to_usb_device(port_dev->peer->dev.parent->parent);
+> +			peer_port1 =3D port_dev->peer->portnum;
+> +			/* Only root hub ports of another host controller */
+> +			if (peer_hdev->parent ||
+> +			    peer_hdev->bus->controller =3D=3D hdev->bus->controller)
+> +				peer_hdev =3D NULL;
+> +			else
+> +				usb_get_dev(peer_hdev);
+> +		}
+> +		mutex_unlock(&usb_port_peer_mutex);
+> +
+> +		if (peer_hdev) {
+> +			hub_reset_peer_child(peer_hdev, peer_port1);
+> +			usb_put_dev(peer_hdev);
+> +		}
+> +	}
 
-[Severity: Medium]
-Does this leak port->pd_list[i] when tcpm_register_port() fails before
-tcpm_port_register_pd()?
+[Severity: Low]
+Should hub_peer_reset_work() and hub_reset_peer_child() check
+hub->quiescing?
 
-To prepare for devm_tcpm_register_port(), the preceding commit "usb: typec:
-tcpm: allocate pd_list entries non device managed" switched port->pd_list[i]
-in tcpm_fw_get_caps() to non-managed kzalloc_obj() and freed the entries in
-tcpm_port_unregister_pd().
-
-However, if tcpm_fw_get_caps() fails after allocating one or more
-port->pd_list[i] entries, or if a subsequent step in tcpm_register_port()
-such as usb_role_switch_get() returning -EPROBE_DEFER fails and jumps to
-out_destroy_wq or out_role_sw_put, tcpm_port_unregister_pd() is bypassed and
-devm_tcpm_register_port() returns before registering its cleanup action:
-
-drivers/usb/typec/tcpm/tcpm.c:tcpm_register_port() {
-	...
-	port->role_sw =3D fwnode_usb_role_switch_get(tcpc->fwnode);
-	if (!port->role_sw)
-		port->role_sw =3D usb_role_switch_get(port->dev);
-	if (IS_ERR(port->role_sw)) {
-		err =3D PTR_ERR(port->role_sw);
-		goto out_destroy_wq;
-	}
-	...
-out_unregister_pd:
-	tcpm_port_unregister_pd(port);
-out_role_sw_put:
-	usb_role_switch_put(port->role_sw);
-out_destroy_wq:
-	tcpm_debugfs_exit(port);
-	kthread_destroy_worker(port->wq);
-	return ERR_PTR(err);
-}
-
-Each failed or deferred probe on a PD-capable port then leaks the allocated
-port->pd_list[i] entries.
+hub_disconnect() only zeroes hdev->maxchild under usb_port_peer_mutex
+after hub_quiesce() has finished waiting in
+cancel_work_sync(&hub->peer_reset_work).  If the SuperSpeed root hub is
+quiesced or disconnected while hub_peer_reset_work() is running (for
+instance, while hub_reset_peer_child() is blocked on
+usb_lock_device(peer_hdev) waiting for USB 2.0 enumeration to finish), the
+work item will still reset the USB 2.0 peer devices across all remaining
+ports to migrate them toward a SuperSpeed root hub that is being torn
+down.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-fusb302-pr=
-obe-cleanup-v1-0-e5c65a8c58c8@collabora.com?part=3D2
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-usb-port-p=
+airing-v3-0-d6c6edb4341c@gmail.com?part=3D2
