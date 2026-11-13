@@ -1,54 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794592306;
-	b=lFH2T2rwclNtSqutq3yaI9DVjmZf91DUGuBPfg4HuUH2VdzKIwoGwS0aCpxol4qIG+T/
-	 ckWkfF2uSodeP4AyggO75jYhOxziB7G2+RiNyxF8HmeqB56JFPpt4zc5QRFRaPKpf79AR
-	 tp5JQJ0oDY5/uVpRIBKn4p17RSop0sGWT0LNwusxEkDLxaJ86RipmpqpYAIk6XHqKRQH3
-	 yz0bmeOQ+10rChWx9Hj97Exd1Tn3aobxOZ01Gamy9p8catWe59UqxuEjV5eiUiI4yxZ0C
-	 VNl4JHYbGEl/yVcqzQ9wuqEj0/ur04HRb3/4anLGBw5SFI/ifBMEqFJWxp7Dutrwvgg==
+	t=1794593950;
+	b=KV8jFPdL7yGQpXbZ2JWLxM4wpJYqM/G6SrvmmhUnYwVYkp9cc6ZXsSBi7MeNXPJiGVhc
+	 bKVn+gluJp08wwkQ8Hfde6jO+ADnebsfiztmEZi6pTtojugFGAI9988PSBy35rfnX92xX
+	 eodWPhyi8LwRse7J75K13DiholefAggqJjL8wBtpKfv9lj6i9w3RjpX7A6OA/qqNBzYpe
+	 axMcXT5zDCHm6cN0Txgq5nlztGDowf8LHUvhMPw02ehUVadQ72Epf3bCmCduoFCNri15x
+	 MvNP9J+P8AgvxX3+pJSL/3aBLprRkCFLaHwkk8V9usYhnwxe6oP7XoU4wsoVDuM6ryg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794592306;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=HDX9FP/gCkD0XZlrFX1/lXfJC5c3lZl1P1CF0qtfO9A=;
-	b=C53Me/14xiuorBaNdF7n002RXKq33hjoj2/7Ce47x7mgA4eF+bNQ31GVEoQnjjiEwTGm
-	 96uSpmj3yBboDLeXISY5TiTUQsWImfGKQmF5B8ZrJzI+uxjT4qOIepELUkfDJ0pK3aHCY
-	 lqPsdds087COsuYa2DYSPF2FP+PjR/4vIGZXYKQsJqLy6zgMoXZhKI+UMpzO8iHm2irL7
-	 r3VjKH7s03+T01ETcM/qr2yVFaEV3ouAchuBjdOO5PxKX0EFZtNIXTspz1Kwv78Lx1MhC
-	 HA/x3FFYa2RkT85+dBZ4ZVYnBiOJ5nqZpwlvz3lmcZp8/O46k+YHVvJ36Bw22ubNl8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794593950;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=/VIh85zZMfzSY6G83+v5V/TjnRLbNiLly0GYfH3nJNs=;
+	b=BnxBt68Gbmd2PHa/DIMw2e9gL/33KZsjjcBIWKj1Uu2J8LEkG8duzMR3kATaXPvETxD4
+	 /j0MCjpWV/GIpN1ioNJg311J9E6maOZ5eTvaNHdso+vLA1mBya3tqdGawYc8EbDApQhbM
+	 IrvKmTZ6BmsdJbITrab7i9Dab4SAnjB/462poTA9VxSvPV1J/2n7ryEw7a4Lwod5slhQF
+	 LuCS8BDZ7rsbgARMt7yHpqhQefW/jWJdDGWuKXxMj91+A54Ym2+c9L7kJI7Gtc4fb6gVm
+	 dle8EOcxOKhllDhvZMjV+gzPc+X3blc4H0s/kfp1For2OCptGQu09eRWV+Ie1MxYW6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.197
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzC7cE78;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37949606D4BB
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 17:51:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37949606D4BB
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-567e742f481so746050b6e.3
-        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 09:51:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794592305; x=1795197105;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HDX9FP/gCkD0XZlrFX1/lXfJC5c3lZl1P1CF0qtfO9A=;
-        b=P7CaVNVPHzhELEgwMMxwrpJj+XEpfDRudk9n+gXDLOXLxkhjfnZdLrIKHElTutcEaf
-         Pd9Ml6rolwrQ7olccSQLIq6CEZ5sIt8P7K8CIzPLNkYp/c1CsmGEeVKCpnTA3ZKi1VPo
-         YS4583D+7DO19PJWUFhei9WTx5lF5OZU8dxV+jwz+jtYrLyn23YAFkcCesKx709dEHFt
-         T8GggzH0JaETsgMQ4ZfskOqWZZtIFGmmk2Lrk8moqdBhiFZmcVAk/5HnM2WD+rbHa02z
-         RB16p6+MMn4xg6vO7xrjkXQ7ndSdtpzrS9D0Zmu7HbHhpos8o/pmveeDz6qn6cozjQDf
-         1NOg==
-X-Forwarded-Encrypted: i=1; AL+hErGRyCG5k6J0lrMyzCcbz0bKz5+Uu0p2sZ5FfR5qAc7AxGl/v9uycETX0GCxbnr9AfpSNx8x7GvaPiQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+DexicBz24SoWRH/S/4mnRQ5Qr21UNEaxyCp1LfHPnxsI0MvtG
-	2YjBtSE2VC9+6thGDJ63Aa3XgooEV86mZIDT7Gar7W76gUIYsTgpOCpwqRx8GqRLsBKz5e10a3Y
-	njrEfJwEQKF1jB1YlFrzPutjrO8hPMq5RaiDCeIy7+zDa3blKcrIBtTzSOXg=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D814606A6D4
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 18:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzC7cE78
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FB4D1F00930
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 18:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794593950;
+	bh=/VIh85zZMfzSY6G83+v5V/TjnRLbNiLly0GYfH3nJNs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=TzC7cE78kKFl2rFE1ESKez8K3/v6Pqk/6PLrXGyiq2H8nW8RaKll1mNR/hvrBhoAX
+	 9WUKboDxL2p3Jax+koelb066IybY3DAyK95vGOnYrQLEWCd8zr9JB2nkLXwMD48oro
+	 eBlcvuFHizULDj5hONrf7IDExHONWpvIf77MgXaUD3OXBqfZQ67bfgb2xPq1SoAoJK
+	 T3NkAz2AcSCaHe3eo20kPD9U/cE84jkgmN3fcFTb3UIgs2jbLigXSsu2MG4WlwRKQd
+	 lN4tR2+CCuZNMvYNucVewMR1jQy7sxt8uriatRDaKQNHlu1Xb8w/7Uzi3R4wDwiNfg
+	 QeLT7VoO7hmng==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5bcdae234ecso2100656e87.3
+        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 10:19:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFDlzMSYF7R+KoKY/+llzfGGmU9BR27aGjDocbFlA5VXWLP9SNwdDTjzLgF+oWEvy3grQw4XMQTmkU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z86PXlQQfQ+uIoDtpDXAbhBFc/LMYfEOhJp8sQTUsol/73jmhCR
+	vEH/yHx9ty9E7/g34+IfCOUt4caVSr0bsSgIGK8iGCbc/79v8rmEvX67cpVwWLLApr1SFeoBtTS
+	ng600Pfo1rpAs3qbgmE8Q6lKFJL93F9w=
+X-Received: by 2002:a05:6512:1310:b0:5bf:cf80:dfd8 with SMTP id
+ 2adb3069b0e04-5c170a0bb47mr1769832e87.23.1794593948320; Fri, 13 Nov 2026
+ 10:19:08 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,124 +59,98 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:238a:b0:4f1:6ab6:8fc0 with SMTP id
- 5614622812f47-56e642d0ae8mr2617802b6e.15.1794592305279; Fri, 13 Nov 2026
- 09:51:45 -0800 (PST)
-Date: Fri, 13 Nov 2026 09:51:45 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6af74e31.fe96acdb.12252b.0009.GAE@google.com>
-Subject: [syzbot] [net?] [usb?] memory leak in ndisc_send_rs (4)
-From: syzbot <syzbot+bf62ca9997f43d2fa521@syzkaller.appspotmail.com>
-To: davem@davemloft.net, dsahern@kernel.org, edumazet@kernel.org, 
-	horms@kernel.org, idosch@nvidia.com, kuba@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	netdev@vger.kernel.org, pabeni@redhat.com, syzkaller-bugs@googlegroups.com
+References: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
+In-Reply-To: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Fri, 13 Nov 2026 19:18:55 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0jyuMjh4En_r2TYui+sNbGveJ0Rz1Da39LEK9e-HxHgGA@mail.gmail.com>
+X-Gm-Features: AclHuK9_YtJ6aWlSAf9yM8R-lWnFcHYi_anHWoQsLhZYkqzdVHJqxA51shEqA-Y
+Message-ID: <CAJZ5v0jyuMjh4En_r2TYui+sNbGveJ0Rz1Da39LEK9e-HxHgGA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] PM: runtime: change stub pm_runtime_get_if_active()
+ return 1 when !CONFIG_PM
+To: Frank.Li@oss.nxp.com
+Cc: Frank Li <Frank.Li@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>, 
+	Karol Wachowski <karol.wachowski@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Matthew Brost <matthew.brost@intel.com>, 
+	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Alex Elder <elder@kernel.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Guan-Yu Lin <guanyulin@google.com>, Mathias Nyman <mathias.nyman@linux.intel.com>, 
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-hwmon@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, netdev@vger.kernel.org, imx@lists.linux.dev, 
+	Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Thu, Oct 29, 2026 at 5:31=E2=80=AFPM <Frank.Li@oss.nxp.com> wrote:
+>
+> From: Frank Li <Frank.Li@nxp.com>
+>
+> When CONFIG_PM is not enabled, all devices runtime PM state should be
+> treated as active.
+>
+> __pm_runtime_resume() returns 1 (called by pm_runtime_get()).
+> pm_runtime_get_if_active() is the try-and-get version of pm_runtime_get()=
+.
+> stub pm_runtime_active() also returns true. So pm_runtime_get_if_active()
+> should return the same value as the stub pm_runtime_get(), which is 1.
+>
+> Analysis of all callers and their behavior with old (-EINVAL) vs new (1):
+>
+> Pattern A: if (!pm_runtime_get_if_active(dev)) -- no impact
+>   Both -EINVAL and 1 are non-zero, so !ret is false in both cases.
+>   Callers: drivers/accel/ethosu/ethosu_perfmon.c,
+>            drivers/gpu/drm/msm/adreno/a6xx_gmu.c,
+>            drivers/gpu/drm/msm/msm_perfcntr.c,
+>            drivers/gpu/drm/v3d/v3d_mmu.c,
+>            drivers/gpu/drm/v3d/v3d_perfmon.c (x4),
+>            drivers/media/i2c/gc08a3.c gc05a2.c og0ve1b.c ov6211.c,
+>            drivers/media/i2c/ccs/ccs-core.c s5kjn1.c lm3560.c (x2),
+>            drivers/media/i2c/s5k3m5.c thp7312.c imx283.c ov64a40.c,
+>            drivers/media/pci/intel/ipu6/ipu6-buttress.c,
+>            sound/hda/core/device.c
+>
+> Pattern B: if (!ret) after get -- no impact
+>   Both -EINVAL and 1 are non-zero, !ret is false in both cases.
+>   drivers/gpu/drm/amd/pm/amdgpu_pm.c (comment says "allow access"
+>     in kernels without CONFIG_PM), drivers/pci/pci.c
+>
+> Pattern C: ret > 0 / ret <=3D 0 / ret !=3D 1 checks -- FIXED
+>   drivers/usb/core/offload.c: checks (!=3D 1), old -EINVAL caused
+>     -EBUSY even with !CONFIG_PM. Fixed: now returns 1, proceeds.
+>   drivers/accel/ivpu/ivpu_job.c: drm_WARN_ON(<=3D 0), old -EINVAL
+>     spuriously triggered WARN. Fixed: 1 > 0, no warn.
+>   drivers/gpu/drm/i915/intel_runtime_pm.c: checks (<=3D 0), old
+>     -EINVAL triggered error path. Fixed: 1 > 0, correct path.
+>   drivers/accel/ivpu/ivpu_sysfs.c: (> 0), old skipped freq read.
+>     Fixed: proceeds correctly without CONFIG_PM.
+>   drivers/gpu/drm/xe/xe_pm.c: wraps (> 0), all xe callers
+>     (xe_bo.c, xe_shrinker.c, xe_vsec.c, xe_ggtt.c, xe_guc_ct.c,
+>     xe_pxp.c) now correctly treat !CONFIG_PM as active.
+>   drivers/net/ipa/ipa_smp2p.c: power_on =3D (> 0), now correctly true.
+>   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: (> 0), now correctly
+>     executes stall register update.
+>   drivers/staging/media/ipu7/ipu7-buttress.c: active (<=3D 0) early
+>     return now skipped, correctly proceeds.
+>
+> Pattern D: explicit -EINVAL check
+>   drivers/hwmon/prom21-xhci.c: checks (> 0) then (=3D=3D -EINVAL).
+>     Old: took -EINVAL fallback. New: takes (> 0) fast path.
+>     Both succeed when CONFIG_PM is disabled; functionally equivalent.
+>   drivers/hwmon/eic7700-pvt.c: call is guarded by IS_ENABLED(CONFIG_PM),
+>     stub is never reached. No impact.
+>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-syzbot found the following issue on:
-
-HEAD commit:    9d66f26fefac Merge tag 'vfs-7.4-rc3.fixes.2' of git://git...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=136da9ea580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4361b1bb937ae1c4
-dashboard link: https://syzkaller.appspot.com/bug?extid=bf62ca9997f43d2fa521
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12e9ba09580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/292d4fa72c6e/disk-9d66f26f.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/78e602f24eea/vmlinux-9d66f26f.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/802a7b846686/bzImage-9d66f26f.xz
-
-AI-generated root cause summary:
-In drivers/net/usb/hso.c, hso_net_start_xmit() takes ownership of an outgoing
-packet by stashing it in odev->skb_tx_buf when hso_get_activity() returns
--EAGAIN (e.g. when the USB device is suspended, disconnected, or not
-configured). However, neither hso_net_close() nor hso_free_net_device() frees
-odev->skb_tx_buf prior to unregistering and freeing the net_device. When a
-packet (such as an IPv6 Router Solicitation generated during interface
-configuration) is queued during device disconnect or suspend, the sk_buff and
-its allocated head buffer are permanently leaked.
-
-full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=bf62ca9997f43d2fa521
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+bf62ca9997f43d2fa521@syzkaller.appspotmail.com
-
-BUG: memory leak
-unreferenced object 0xffff888100e9f200 (size 240):
-  comm "kworker/u8:2", pid 5708, jiffies 4294993435
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 f2 e9 00 81 88 ff ff  ................
-    00 20 bd 23 81 88 ff ff 80 31 48 02 81 88 ff ff  . .#.....1H.....
-  backtrace (crc 28f53d77):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4733 [inline]
-    slab_alloc_node mm/slub.c:5033 [inline]
-    kmem_cache_alloc_node_noprof+0x368/0x400 mm/slub.c:5105
-    __alloc_skb+0xdc/0x4e0 net/core/skbuff.c:705
-    alloc_skb include/linux/skbuff.h:1390 [inline]
-    ndisc_alloc_skb+0x46/0xf0 net/ipv6/ndisc.c:421
-    ndisc_send_rs+0x49/0x2f0 net/ipv6/ndisc.c:708
-    addrconf_dad_completed+0x1f9/0x6c0 net/ipv6/addrconf.c:4422
-    addrconf_dad_begin net/ipv6/addrconf.c:4184 [inline]
-    addrconf_dad_work+0x5c8/0x910 net/ipv6/addrconf.c:4289
-    process_one_work+0x2b7/0x5c0 kernel/workqueue.c:3495
-    process_scheduled_works kernel/workqueue.c:3578 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3659
-    kthread+0x150/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-BUG: memory leak
-unreferenced object 0xffff888106538b00 (size 704):
-  comm "kworker/u8:2", pid 5708, jiffies 4294993435
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    60 00 00 00 00 08 3a ff fe 80 00 00 00 00 00 00  `.....:.........
-  backtrace (crc 261f6968):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4733 [inline]
-    slab_alloc_node mm/slub.c:5033 [inline]
-    kmem_cache_alloc_node_noprof+0x368/0x400 mm/slub.c:5105
-    kmalloc_reserve+0xd2/0x1b0 net/core/skbuff.c:616
-    __alloc_skb+0x15d/0x4e0 net/core/skbuff.c:716
-    alloc_skb include/linux/skbuff.h:1390 [inline]
-    ndisc_alloc_skb+0x46/0xf0 net/ipv6/ndisc.c:421
-    ndisc_send_rs+0x49/0x2f0 net/ipv6/ndisc.c:708
-    addrconf_dad_completed+0x1f9/0x6c0 net/ipv6/addrconf.c:4422
-    addrconf_dad_begin net/ipv6/addrconf.c:4184 [inline]
-    addrconf_dad_work+0x5c8/0x910 net/ipv6/addrconf.c:4289
-    process_one_work+0x2b7/0x5c0 kernel/workqueue.c:3495
-    process_scheduled_works kernel/workqueue.c:3578 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3659
-    kthread+0x150/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+People sent feedback, so I'm wondering if there's going to be a v2 or
+does someone else need to take care of this going forward?
