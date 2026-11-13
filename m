@@ -1,119 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794604476;
-	b=hkBSfgXPZAfv4fCwJFbtr7jWjrwW3c2UOZscaCztCJCFiyzthguaxO8XiEto1cd2mD6M
-	 Mf8JWfTAf2PepyCWzYcyw2d7XafnQ2BLtBp5LqQU4Kx79YQjX5QhFLP6gHYwqVcOnrhYS
-	 aVtIrrTqSk2jBJ56jY6ZkwX+8JiZyEw/eCGshOkcPugyzkAmGcIujcnyZgCy2ToZy+3Qx
-	 6gSoPftKX+ZnX3GBQna35k83DACX7pNFbjWgzAnn5Te8JotcOQvxa2bVTWGxwdvo0lE4w
-	 LuFzFWDLFJbWsT//wWwU6noudC2JCM0Gy8qZfa52IXh8RqjV1wIFFvm/QoiOdSNdb0Q==
+	t=1794606107;
+	b=sGaElCLWxsJ8soOoMvLpNB+AKnUpRwOY5I/VVjfwXFn19VkmtZ2xkdPyYwuSlh0+sirL
+	 C/2Xo2jVdlzIt9Edb2vD8oysX8uKrcXA5622M+MRAFcs4f2bQHzgh1g4I3Is/okYFHW7k
+	 KCDAm6FsAo/3uYKl0K81QPZbE1M1AavLJi8bWpeJS1UlmEWFqGpYLKUVv8PyUPvM2c/Ct
+	 cu76EJUL8wVte2UoB2+AXcxrsN8zrSslaIZxosC0HjBlOvCT1FIaTNZ4BQVfBeWAQ9zDw
+	 +99GTciQmLQL79AwvNz3Vz6qJj/Ojlf44FhAzy+GbQSgT/FmyR/dotjZ1pkl7TOyZoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794604476;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Subject:
-	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP;
-	bh=bi+qbuXC7Kr0qdcc2OWqT62yrf9jqwzAVB3DjteEz/8=;
-	b=YhLa0wn0714F/+OWtfF6OAVGuO3djDzRhRjXxqPQL84v6ZNCRhFujwk2Hqn/Abrs8XNO
-	 +rqIvghzMU41bEQnKn35yGoyZnuEgrcwLdAtYwR/LSXDpputTypwlWuxSnLnUhWcvHhTm
-	 xcmNhOMENp7yAZM1DFPTzALIXJIDXpxNdFLPPNbDDrMOdDabbZMsIWzUnj9px+QyOWMYZ
-	 p9R7+Bmag3EltTGAzAQw0Iz6MiPpnOcoqzEX55Vj4ek6pRP2b/xkUFmYHedIQfDivc5Mx
-	 wVwAdj1U+txQHsAa6veban9Ep2YqJzeFsrLOssOGfpdxJANNDFmjanGeTa6gn7cTG8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794606107;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=xhQIHZA6VTVgBZmCBhoLcYFIgrIijG6i5CWFzX2HxMY=;
+	b=tkwVAY9YL5xZGQFH2JRbdqOI/eQv6rlYEZ7hKASIb7b9Fk60b+sOeT/TYXte8uSleA7d
+	 VR5j+sx41dXRjhCCB5/ShgogVkM39wJg3CA8yXYPK0PEtQVhLzTf6uPHQjEFdZ0PjzXlV
+	 7aZZGXtpynvvYKmPrYm0PxKE5GvmXFxr0BQnw1owRqTHKCUb73w2A81S1GFOKQSMxvTBd
+	 8Xxf4qQz6tdsc7oYIZfrBDuhupwj2UXQIcJ1HCeqijw54TaOmVK+BLdOWSEvgO5dSJbmG
+	 LUxTWpLliBBAbT3pWv1Ugaq1bgk9MOw2yFMli/Duoa9WYEUfi5nOZ4vt+EdzF0bZC0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=posteo.de;
-	spf=pass smtp.mailfrom=posteo.de;
-	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=e66y+Ya3;
-	arc=none smtp.remote-ip=185.67.36.66
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linuxfoundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=FOUZSFM5;
+	arc=none smtp.remote-ip=209.85.167.173
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32C0606A32E
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 21:14:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F32C0606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C790D606A33D
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 21:41:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C790D606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=e66y+Ya3
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id EED90240105
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 22:14:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1794604466;
-	bh=bi+qbuXC7Kr0qdcc2OWqT62yrf9jqwzAVB3DjteEz/8=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=e66y+Ya3CBpmgj5yn6s1yu62nY7pVrXAfMTeZO6eM+InWKyLDt/d+2AzOin1l7mY4
-	 D4xGZ4dUKdoxDYA40buJ8Om9oMSiz1OvYxIKtVeEjoWM6Qj5+cwkktmYTfmH/o7tcH
-	 WfvLaja9IpRnIyL6b3HD1DsioGcV1JAtUK02t9xZbtOnoBPm8Cu55PLZI8U3wO+GBT
-	 C/kCb1yk9g1GALRmSUz0en6i6hCBLcLrLGQt56mOk9NX6TgdE5liu2qViYCd5FEuBY
-	 8n7U/3RIwGmbbuQN6wa6A9WQYuLUbBgryxFamZ7vvdlSn5R2BF3bjl46Or8d1iKsBz
-	 Wrw+Qh0jPyZ6g==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4jR94H1xfCz9rxD;
-	Fri, 13 Nov 2026 22:14:23 +0100 (CET)
-Message-ID: <3e4aafb4c2dab636e9f113199d4cb95e0af9c6bb.camel@posteo.de>
-Subject: Re: [PATCH 4/7] rust: serdev: remove the unbind() callback
-From: Markus Probst <markus.probst@posteo.de>
-To: Danilo Krummrich <dakr@kernel.org>, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, johan@kernel.org, david.m.ertman@intel.com,
- iweiny@kernel.org, 	leon@kernel.org, ojeda@kernel.org, boqun@kernel.org,
- gary@garyguo.net, 	bjorn3_gh@protonmail.com, lossin@kernel.org,
- a.hindborg@kernel.org, 	aliceryhl@google.com, tmgross@umich.edu,
- daniel.almeida@collabora.com, 	tamird@kernel.org, acourbot@nvidia.com,
- work@onurozkan.dev, igor.korotin@linux.dev, 	bhelgaas@google.com,
- kwilczynski@kernel.org
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org
-Date: Fri, 13 Nov 2026 21:14:25 +0000
-In-Reply-To: <20261112005455.1224352-5-dakr@kernel.org>
-References: <20261112005455.1224352-1-dakr@kernel.org>
-	 <20261112005455.1224352-5-dakr@kernel.org>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-EDAa2rzL4vfrR9iRkevA"
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=FOUZSFM5
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-4a451915d8aso2019200b6e.2
+        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 13:41:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1794606105; x=1795210905; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xhQIHZA6VTVgBZmCBhoLcYFIgrIijG6i5CWFzX2HxMY=;
+        b=FOUZSFM5S5d1miA7Lxx0Lf6OhSwlwNfuHZ5Jqx01yrOE9LvH+Q8m8252JavLipl0XJ
+         uTYk6TJLoTtCBo/+0JEVJWlsti+MY7MO5wFKSWClF2sxYLyaHMZ7P0K40cQ0l1G6QM1R
+         SgcPi/Z+Sty77r1hVG6EXHzJoQll7d47WKbik=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794606105; x=1795210905;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xhQIHZA6VTVgBZmCBhoLcYFIgrIijG6i5CWFzX2HxMY=;
+        b=w0FQ8jmbpIhYoMN/5dcq3kKxkZtupmi/c3gwashiTfyNBudUQOhF2tj6B+gEkLuaXe
+         fmeMOgNOLJ/2uV8LA/NDkkzvUIBo+g0lQS1+37DLelWpJI4YV3Cx0sF2milhJR/Ca2cf
+         ezGToJFQcozNxtcncmm5fAPBNTcjiMEaueTBxrZBMIe7ysuy5ph/GSmjAwhpHsWX+bPV
+         yWqC9nNEaufMz/fF7jPaiN5VSjZGZw/SD18gu701rfZvJnqhAvkZLpslPGYgIdN9w6N+
+         qg8F1nNUojaNSM1ZCSQYQCUAdPdMSQXtHLxPi0DIafNi48Qi+GFj9t8DLhYKZ5r923hT
+         EsYw==
+X-Forwarded-Encrypted: i=1; AL+hErEhnRc6zoIEOQYEgKoV7C+lTq4tGNkBqqIxcTHPdlzSW4zdrV6GlNwUdEBTcCASjjyTKH9WaIbpdJ8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9z9qcYmAIix9gHyacBZxsl85iJDDA1UdaMUe2vvVpq1Mc+NmJr
+	8mIFB2RTCWzVtGywEGjyphVuhZYQshkc680yDcHOLwTU0cQut3/G25fSUip7kxVIEFc=
+X-Gm-Gg: AYBFou1TPHmNHV6fzrW67lyIZOEkuSHBb2mxPBRKyhdAPnrlXjtrgQdIQ0m8cMzcZY9
+	yN7K1nU/16Pu54baxfK5B1HeEQUcW0p9At4S0BuAQbYrrkJbWdV2g9vRqMl67F074ZTn9tGAsyc
+	DXCADCoGL7OVad+v1yS+Y4RtNGDb7LAX/YPX1RtClm5N2Xt0IXZrfFpKB+jk9txhK5YHfnIbaQ9
+	rl2qRvXkulVTKEOU9ADAzMcRD6hwH63tEZmA6l3+QwAq1nEyA43DaV9DH2cE/pRgu7tED7bufI+
+	7cSjzsEhlUJqyab+KIjeCXCeMDCpdVA4EwnLOBtsq+kZYHuMoTfCr00S1U/9NFEXnFvinTK8m1H
+	58M4IYS0MtcQelO+TmqDK9us4pXkMc9yPfxU7DQvdYcUvfl8tQS/pozGBu4ik8TRM6Z/XBNVk7s
+	28JnXP/wsSK9ofFFJM1zm5iQPXcZ15bjxcJYmZqZlNNjlgHAoG3iI9Jrkb10nkPP+PWEavfUX+B
+	yP5yuILEeO5DQSnb37kT8z+OJX3RMH9dk17OywomFR2cnsuYA/RHRgoeGtaHJ/z2wnyLaFfpDGi
+	4wKhdYBvjp8ZceKZF2XFxj4j06pCF2hA222gKMQ=
+X-Received: by 2002:a05:6808:3010:b0:568:1e54:3d74 with SMTP id 5614622812f47-56e64df14ffmr3388527b6e.39.1794606105620;
+        Fri, 13 Nov 2026 13:41:45 -0800 (PST)
+Received: from [192.168.1.128] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-56e7094aafcsm3131199b6e.12.2026.11.13.13.41.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Nov 2026 13:41:44 -0800 (PST)
+Message-ID: <573f682d-47ee-4e39-80ed-0ddf0da96cdb@linuxfoundation.org>
+Date: Fri, 13 Nov 2026 14:41:43 -0700
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -123,143 +89,66 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usbip: Close all listening sockets in request workers
+To: raoxu <raoxu@uniontech.com>
+Cc: brgl@kernel.org, gregkh@linuxfoundation.org, i@zenithal.me,
+ ihadzic@research.bell-labs.com, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, luiz.von.dentz@intel.com, pengpeng@iscas.ac.cn,
+ pmenzel@molgen.mpg.de, shuah@kernel.org, stable@vger.kernel.org,
+ valentina.manea.m@gmail.com, Shuah Khan <skhan@linuxfoundation.org>
+References: <67b2c06e-0caa-4ba1-89ee-17cb814d173c@linuxfoundation.org>
+ <351AC939AD9B6359+20261113023710.1746483-1-raoxu@uniontech.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <351AC939AD9B6359+20261113023710.1746483-1-raoxu@uniontech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 11/12/26 19:37, raoxu wrote:
+> Hi Shuah,
+> 
+> Thanks for the review.
+> 
+> I found this while reviewing the listening socket handling across fork() in
+> usbipd.c, and then reproduced the issue with the unmodified usbipd binary on
+> two UOS test machines.
+> 
+> Both machines have usbip 2.0+6.5.10-2 installed, with usbipd located at
+> /usr/sbin/usbipd. This package contains the original listener handling.
+> 
+> I used separate test ports to avoid interfering with the default USB/IP
+> service.
+> 
+> On 10.20.12.188, the reproduction steps were:
+> 
+> 1. Start usbipd as root with both IPv4 and IPv6 listeners:
+> 
+>         sudo /usr/sbin/usbipd -d -4 -6 -t 43241
+> 
+> 2. From a client machine, establish an IPv4 TCP connection and keep it open
+>     without sending a USB/IP request:
+> 
+>         python3 -c 'import socket,time; s=socket.create_connection(("10.20.12.188",43241)); time.sleep(300)'
+> 
+> 3. Terminate only the main usbipd process with SIGTERM, leaving the worker
+>     running.
 
---=-EDAa2rzL4vfrR9iRkevA
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+You removed all the context from the thread :(
 
-On Thu, 2026-11-12 at 01:52 +0100, Danilo Krummrich wrote:
-> The driver model uses native Rust lifetimes to let driver data retain
-> device resources and a Device<Bound> reference for the duration of the
-> binding. Both remain accessible from the destructor, so a separate
-> unbind() callback is no longer needed.
->=20
-> Remove serdev::Driver::unbind() and the adapter's remove callback and
-> document that device teardown belongs in Drop or PinnedDrop.
->=20
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  rust/kernel/serdev.rs | 41 ++++-------------------------------------
->  1 file changed, 4 insertions(+), 37 deletions(-)
->=20
-> diff --git a/rust/kernel/serdev.rs b/rust/kernel/serdev.rs
-> index 17ca504b7f8d..fd998b68b74f 100644
-> --- a/rust/kernel/serdev.rs
-> +++ b/rust/kernel/serdev.rs
-> @@ -81,7 +81,6 @@ unsafe fn register(
->          unsafe {
->              (*sdrv.get()).driver.name =3D name.as_char_ptr();
->              (*sdrv.get()).probe =3D Some(Self::probe_callback);
-> -            (*sdrv.get()).remove =3D Some(Self::remove_callback);
->              (*sdrv.get()).driver.of_match_table =3D of_table;
->              (*sdrv.get()).driver.acpi_match_table =3D acpi_table;
->          }
-> @@ -210,29 +209,6 @@ extern "C" fn probe_callback(sdev: *mut bindings::se=
-rdev_device) -> kernel::ffi:
->          })
->      }
-> =20
-> -    extern "C" fn remove_callback(sdev: *mut bindings::serdev_device) {
-> -        // SAFETY: The serial device bus only ever calls the remove call=
-back with a valid pointer
-> -        // to a `struct serdev_device`.
-> -        //
-> -        // INVARIANT: `sdev` is valid for the duration of `remove_callba=
-ck()`.
-> -        let sdev =3D unsafe { &*sdev.cast::<Device<device::CoreInternal<=
-'_>>>() };
-> -
-> -        // SAFETY: `remove_callback` is only ever called after a success=
-ful call to
-> -        // `probe_callback`, hence it's guaranteed that `Device::set_drv=
-data()` has been called
-> -        // and stored a `Pin<KBox<PrivateData<'_, T>>>`.
-> -        let private_data =3D unsafe { sdev.as_ref().drvdata_borrow::<Pri=
-vateData<'_, T>>() };
-> -
-> -        // SAFETY: No one has exclusive access to `private_data.driver`.
-> -        let data =3D unsafe { &*private_data.driver.get() };
-> -        // SAFETY:
-> -        // - `private_data.driver` is pinned.
-> -        // - `remove_callback` is only ever called after a successful ca=
-ll to `probe_callback`,
-> -        //   hence it's guaranteed that `private_data.driver` was initia=
-lized.
-> -        let data_pinned =3D unsafe { Pin::new_unchecked(data.assume_init=
-_ref()) };
-> -
-> -        T::unbind(sdev, data_pinned);
-> -    }
-> -
->      extern "C" fn receive_buf_callback(
->          sdev: *mut bindings::serdev_device,
->          buf: *const u8,
-> @@ -365,6 +341,10 @@ pub trait Driver {
->      type IdInfo: 'static;
-> =20
->      /// The type of the driver's bus device private data.
-> +    ///
-> +    /// Device teardown should be performed in [`Drop`] or [`PinnedDrop`=
-](pin_init::PinnedDrop)
-> +    /// for this type. The `'bound` lifetime allows the data to retain d=
-evice resources and a
-> +    /// [`Device<device::Bound>`] reference for use during teardown.
->      type Data<'bound>: Send + Sync + 'bound;
-> =20
->      /// The table of OF device ids supported by the driver.
-> @@ -382,19 +362,6 @@ fn probe<'bound>(
->          id_info: Option<&'bound Self::IdInfo>,
->      ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound;
-> =20
-> -    /// Serial device bus device driver unbind.
-> -    ///
-> -    /// Called when a [`Device`] is unbound from its bound [`Driver`]. I=
-mplementing this callback
-> -    /// is optional.
-> -    ///
-> -    /// This callback serves as a place for drivers to perform teardown =
-operations that require a
-> -    /// `&Device<Core>` or `&Device<Bound>` reference. For instance.
-> -    ///
-> -    /// Otherwise, release operations for driver resources should be per=
-formed in `Drop`.
-> -    fn unbind<'bound>(sdev: &'bound Device<device::Core<'_>>, this: Pin<=
-&Self::Data<'bound>>) {
-> -        let _ =3D (sdev, this);
-> -    }
-> -
->      /// Serial device bus device data receive callback.
->      ///
->      /// Called when data got received from device.
+In the following path in process_request(), child exits after
+handling the pdu - all open fds get closed.
 
-Reviewed-by: Markus Probst <markus.probst@posteo.de>
+        childpid = fork();
+         if (childpid == 0) {
+                 close(listenfd);
+                 recv_pdu(connfd);
+                 exit(0);
+         }
 
-Thanks
-- Markus Probst
+How does the problem you are describing happen in the normal
+use-case when a child exits after handling the request. If
+it doesn't there is no need for this change you are proposing.
 
-
---=-EDAa2rzL4vfrR9iRkevA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmr3fakbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPS9NAQAJz35dn34vwO1cHY+moo
-kIjIgv5XKwFm73AdFdW7aqUO9XCW9TQqd4JCG8Sg8++Jq6vkXd+GnrO4jHcuhoAU
-n6+/uv0aG5iH2FF2UbfA7BA0VY5ZTL1wI5WFrpXpsJGPoe2E4NCeNvhkF3PvkDqy
-CSKx5R3xkGoA2v/HB1nEcmkh1s9/qa3gTS6f+vaE/M5XXogmYcX424ktnA42jUdR
-joohrncC/wHKQhShQWNjOhYJh8oPHPZLKJhXq3rtiT1GNNmiijrnK/RhJZbCWwBT
-tVTIkVfmaZxdQ8weTr0FB8OhOyao0NMmrNZvAhv4xuTGx1KHCb267y/35iR7Mg6i
-Fjy9YWiOEboK+fBTIAOtGuAm2XrLtT54KV1u+0R8CoMwsUgcBjZ7F+1hPBiEpkME
-PJhRPSXwYA913kusT3+m8HWlbuObBNyD8kOTyVD44bxYB3C5y6yOxfp+P+J/Ax5x
-qWLXbLRuOGOTzgj6cyluHPbjcsoDewsAFUkvBbk5huHHTGom8LjhAEiHqnajmm4k
-m7ItRvbrxPl+sy6/JTXu/45vZh2xblT7AC8rGvRNZHoErdeY56KVEEio9td08FJE
-qPlLHfuuo/Jy52qpiIlM7ue5VkA/tkGZri/I0krHiTkvRMfTgIoP8ZMt8JOkPqdE
-Zxou2D0rXcA8KBONQi+Nwbxv
-=mwoh
------END PGP SIGNATURE-----
-
---=-EDAa2rzL4vfrR9iRkevA--
+thanks,
+-- Shuah
