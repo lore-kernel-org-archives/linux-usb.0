@@ -1,71 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794538167;
-	b=jNpO3679CiyZzWotLwFmLbsoWAPerNrImiZ7Wrn/xlxPtiSnG26ZW3kKIzGHY5v5hDHz
-	 xunn/voWgU21Ydqr16kHmx8twRwTSdltXnhErW06ROxOC9LzwsbF/honc3TKU8Bx4AcTc
-	 iVEa0uYF32sXCiTVAYMd6kmSSVncoGhTyGROkjn7sTyQXxeLCZDLhz5XFxPO5IVEZRsMy
-	 9H8+RiLaNb5racuR+XcEX14kusAabdnvKR9BI/hRpndxWxu4JiM/7c9MRnoJWI9E5UvBY
-	 2Ps/oyE67UspTq87v/PCWPvqGW5ZjyE44tcPYBuVtT/QgXFmCDGpNVwxCn3CfTzi5NQ==
+	t=1794538173;
+	b=xo6tYvOSzb0vG+pcwcky166bDvbmJ26c+XYkkJ0zic4GseKCxER5wzs4KAXPqXuvMBnM
+	 g1xPXOFsPNI04Bq60fE5gF+hCa79TdTkgs3LdcYJvPSagEDMsb2QhjSibFFe65GzTW3bh
+	 J7nyb4y0qc69RetYETqPN0DvbS83c01g1GmuBwomwlwGbFy+S33AoRxYN5uOoOIokRMeh
+	 BUdYbjESPYoHZm4CjEsZj7wbw5ZyArQKGHbbHyY4QgETplGNh1ptO9lRXeTmYasc5CzfC
+	 gkdU9g8uP6DHnAvM7mOgIdx0XtL/XExcfwhEehwbdLzcXdym2czsF7O4CRP6nuEG8tA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794538167;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794538173;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Received:Date:Mime-Version:X-Mailer:Message-ID:
-	 Subject:From:To:Cc:Content-Type;
-	bh=Ea7AxrGlB7THjQmdukSzo51aXDomAu6+9ySrKXHX0Qw=;
-	b=y4eV4a7ToAalvfyku06+p1a6isoZ6YKj4qmAOpR4KMSEew1bJodGkT7PYHQxzteEfpg0
-	 0Vue572zHxD1yX8zrDS8LcZ8j4rR38Ul58a2BWd5qm1HHTQUU7pPlfu8/TZt088EuhbkC
-	 JfWLnug4IAPmR/ViZph8dYa9M8aRqGLuMnVkOjjBd8n7wno52ChDGww7QJ9ZH5CB8vg4z
-	 A3xOtsVQaNHMjnoUJFdIvtrLqlHVWIztVWhXmhOV0JpXoLdt8YbxzczYBFsaEmhcgtigc
-	 EkRCTDwATCCAqz04Ku4irneAbekOpwGiMKXRgvD3HtppW7vV8rQE1V0sq1he0nqwJXA==
+	 X-Gm-Message-State:X-Received:Date:In-Reply-To:Mime-Version:
+	 References:X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=2bIb6utckDAVVNVMntfTigEadbgFKDZJSoqLLBeE+3I=;
+	b=kcFgj44kOTa9nGarvdFBCx7uiqFhLKTsPRSGw4dwn8epSLMyBnpfSD41+YcH4myfNokQ
+	 LN2cRvydnc7jWlhBdVVzXWIkekwQdChQMvJ0V4AFBFoitQ8OnRaQABwSJ27XcGHDrYfEt
+	 +5eRmkB9pL5IpPdi4pPhted9SFp9N1Dycl4f3JJk+3yB5a9889Cky8vNlOqs0w9fe34wt
+	 wSehGwPkEMVykgLc16Jpid3eysBjk7Yv430MTx0TpLQI1j/URMBFgaAEEz1BAcqz7dHUR
+	 Bg9B/9xgRbq/sabO9J8V5/MNrGfHMQAGZ8RPM7wqk02Pj9CvheB9zUm8KMsfLaaiQtQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--sarthakkukreti.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=jXuN50+C;
-	arc=none smtp.remote-ip=74.125.82.197
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=B5Y9jRcv;
+	arc=none smtp.remote-ip=74.125.82.199
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9618B606A31C
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 02:49:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9618B606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2A7606A8BB
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 02:49:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D2A7606A8BB
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sarthakkukreti.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=jXuN50+C
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-36d1353fdcdso2266497eec.0
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 18:49:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=B5Y9jRcv
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-37158b53d06so845859eec.1
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 18:49:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794538166; x=1795142966; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ea7AxrGlB7THjQmdukSzo51aXDomAu6+9ySrKXHX0Qw=;
-        b=jXuN50+C855ba25WGA7GSVrXfMxVhkFtQLaazvbUEGmLcdy4Bt0H/mu2g3XehK99l5
-         6N88eC+yDLGx076KS8oedkB9G3gNDNtibWw/9GVMvpJ1sxcperHn67rLky4govSaqSmY
-         QKLvmrigziC4+QAc1chb4ZMq0D6KP968s2xd86isE95KAYioHC1djE9SVDyOF65aXFf6
-         XTCpx9ToMpy6moZa0jv/61YyIRfsJ5LSD2SGlCSow5eWX8iHdFnjjQOHbNVRWRs8yowc
-         hHXjn7N3poiIZojQIGVh8MSEFo8aj8P3CCLNkGXWzt0wHLTkCK6KgGDuuBJ0JDM6buX3
-         JUxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794538166; x=1795142966;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20260707; t=1794538172; x=1795142972; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Ea7AxrGlB7THjQmdukSzo51aXDomAu6+9ySrKXHX0Qw=;
-        b=I/LFfGLQOJTpljIdmjaf/PR90100lWWsLHlRi0iNDXQTmEGPiViHv2ArBP4TUwyjPv
-         BnM0zXACn/e7nr485r+4HeaQZPmGyf10MI+LELYRn9IOHtRSXpIviSsCRJ15FTAeH5i0
-         LMwhjsbldOHz6pMsrbcE6lOgy02k2zxTr2vcobHkY1w1OcNRCFNukHIqfngF3weQnwMf
-         Kyhf4dGDzV9PypzsfnuiPwK2IM+x0JsIvFWx7OtiMD3UTCDNnq25L14arhQzJxOgRa72
-         eWVSeHe5jcX/7N0yuaL4IBhvOnMh+mV0Aek2DUZN06xltL+a1abj8GyQCFuhCaiMQk7+
-         YZSA==
-X-Gm-Message-State: APuU4Z8jakB16jmsfnD14IScZTc2wGM5bQgth82nfjRgBCA7BdAQ610t
-	I92VLRhlCB9Eaqmrw+gwzETWAbhNj3v/liLlDyrpr0Rcfs9I6kiEeCBx5iPf+3ErP85TA0FZozB
-	qggdu8chbP4c80SNeByeaTe5C3vHl7eNoEZEfKA==
-X-Received: from dybme13.prod.google.com ([2002:a05:7301:188d:b0:36b:c499:531f])
+        bh=2bIb6utckDAVVNVMntfTigEadbgFKDZJSoqLLBeE+3I=;
+        b=B5Y9jRcvnYhESwdbgUjcg8ov5ov1wIuDYyUmbKT++u8hX91MVPWkdL7Cu9OkLy8Hbw
+         JkfS0yhysawtup8SwukK6WqXpLdH1WetRpEdtRwZmAPMFHWzDM6Q3/IsRtXE9rt4UHtS
+         wpLVJemf3DsYtQOC3Xlw85I7b2ruGw4Xj5alQxr9sfSo9tdMcQEz2q2CwSh6EykRiqDr
+         T4fZS1pTRmae6+bte3NkUH2Dq3ZRYcqVhC4aS2wiFEbyo97jW5Bvh0LpJ0SI1gGnM/DW
+         SM5BNWtj6zPIuj+58KlZlTIyONBsbQ+g8fvkP01O+GLDOCEYQv+8iP5zuNbFbENTRfEA
+         fCaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794538172; x=1795142972;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2bIb6utckDAVVNVMntfTigEadbgFKDZJSoqLLBeE+3I=;
+        b=erom8OI860fxny0B665K8yuxxPCv9nqzr+FCux1lewczG+hOqIBy6uAQXMnnl2ohmd
+         OqinXwtkPxTiyBDbobKydiS71S80I1+RghR59iMXFpiKgm/3M+Cfpp/93O2nFkj/cKhy
+         mxNfvOFHY+KOH3cqf+Ea/rl1fj4lTKvbYCYPF6Boxht3LHIpu9bhG99bg0Pl0LafxHoy
+         H1INYPu8p/JeX7SFQ4b+LP2wfntLMU+rHuym2gNiXGhI7l7MSjvLEVUBHWwSKE5eU2XG
+         gU0oqf1o8i4Q5HQ6Qw3ZCDbncxJGyzmbiSq4OO9v8hiZlYgW8WSaNGAn5YvM8PlffVhb
+         40yg==
+X-Gm-Message-State: APuU4Z9A46LdbgdKGhcEVrwTSXwRlXGLZqXAUniRZOllvI0FugGTAWnE
+	pee8PbB0OnMztMB0PEwvx7kWQ3o4Hzp4ldizLHldhOcZnvwPB64Rot2+ymUbVFO55lkzbfIXxp6
+	EskUgOlniLLFh0f6cv3BqBNkLZC6CZPLnAypJ8w==
+X-Received: from dycue8.prod.google.com ([2002:a05:7300:88:b0:378:1191:3e95])
  (user=sarthakkukreti job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7300:c7c3:b0:376:972f:afa9 with SMTP id 5a478bee46e88-37966387a09mr993929eec.9.1794538165337;
- Thu, 12 Nov 2026 18:49:25 -0800 (PST)
-Date: Thu, 12 Nov 2026 18:49:18 -0800
+ 2002:a05:7301:4104:b0:36d:dcdb:70c5 with SMTP id 5a478bee46e88-377e15f06femr5624665eec.20.1794538171985;
+ Thu, 12 Nov 2026 18:49:31 -0800 (PST)
+Date: Thu, 12 Nov 2026 18:49:21 -0800
+In-Reply-To: <20261113024922.27977-1-sarthakkukreti@google.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -75,10 +77,11 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
+References: <20261113024922.27977-1-sarthakkukreti@google.com>
 X-Mailer: git-send-email 2.56.0.611.g1030f0b940-goog
-Message-ID: <20261113024922.27977-1-sarthakkukreti@google.com>
-Subject: [PATCH v2 0/3] usb: uas / scsi: fail inflight and queued commands on
- dead links
+Message-ID: <20261113024922.27977-4-sarthakkukreti@google.com>
+Subject: [PATCH v2 3/3] scsi: core: do not retry passthrough requests on
+ disconnected targets
 From: Sarthak Kukreti <sarthakkukreti@google.com>
 To: Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -88,59 +91,60 @@ Cc: linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org,
 	linux-kernel@vger.kernel.org, Sarthak Kukreti <sarthakkukreti@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Unplugging a UAS device during system suspend after hub_wq is frozen
-defers usb_disconnect() until hub_wq thaws. When sd_suspend_system()
-issues SYNCHRONIZE_CACHE to the disconnected target:
+Unlike scsi_decide_disposition(), scsi_check_passthrough() matches
+SCMD_FAILURE_RESULT_ANY before checking the host byte and returns
+-EAGAIN on DID_NO_CONNECT, DID_BAD_TARGET, and DID_TRANSPORT_FAILFAST.
+Callers using SCMD_FAILURE_RESULT_ANY (such as sd_sync_cache())
+therefore retry passthrough commands against disconnected targets.
 
-1. If the HCD accepts the URBs, the status URB fails in uas_stat_cmplt()
-   without completing the command, stranding SYNCHRONIZE_CACHE for the
-   60s SCSI timeout and triggering the 25s DPM watchdog. Patch 1 tracks
-   the active sense_urb per command and completes the owning command in
-   uas_stat_cmplt() on status URB failure while unlinking any inflight
-   data URBs.
-2. If usb_submit_urb() fails with -ESHUTDOWN, -ENOENT, or -EHOSTUNREACH,
-   uas_queuecommand_lck() requeues the command instead of failing it,
-   and leaks unsubmitted URBs or orphans already-submitted URBs on
-   partial submission failure. Patch 2 fails the command with
-   DID_NO_CONNECT, frees unsubmitted URBs, and unlinks any submitted
-   status or data URBs.
-3. When the command completes with DID_NO_CONNECT,
-   scsi_check_passthrough() matches SCMD_FAILURE_RESULT_ANY and retries
-   it against the disconnected target. Patch 3 skips retries on
-   DID_NO_CONNECT, DID_BAD_TARGET, and DID_TRANSPORT_FAILFAST.
+Return 0 from scsi_check_passthrough() when the host byte is
+DID_NO_CONNECT, DID_BAD_TARGET, or DID_TRANSPORT_FAILFAST, and update
+scsi_lib_test_any_failure().
 
-Tested using a USB/IP (vhci_hcd) UAS target emulator that freezes
-hub_wq, injects -EPROTO on the status URB during inflight
-SYNCHRONIZE_CACHE and READ(10) commands, and verifies immediate
-completion without DPM watchdog timeouts, along with the scsi_lib KUnit
-test suite.
+Fixes: 994724e6b3f0 ("scsi: core: Allow passthrough to request midlayer retries")
+Signed-off-by: Sarthak Kukreti <sarthakkukreti@google.com>
+---
+ drivers/scsi/scsi_lib.c      | 5 +++++
+ drivers/scsi/scsi_lib_test.c | 9 ++++++++-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
-Changes in v2:
-- Track sense_urb in uas_cmd_info and complete only the command owning
-  the failed status URB in uas_stat_cmplt() instead of looping across
-  all devinfo->cmnd[] slots and orphaning other commands' sense URBs.
-- Set DID_NO_CONNECT only on -ENODEV and -ESHUTDOWN in uas_stat_cmplt()
-  and uas_data_cmplt(), and DID_ERROR on other status/data URB errors.
-- Clear pending submit and work flags and free unsubmitted URBs when
-  completing commands on status URB or partial submission failure.
-- Unlink already-submitted status and data URBs in
-  uas_queuecommand_lck() when a later URB submission fails, and remove
-  the unused out label.
-- Add Fixes tags to all three patches.
-
-v1:
-  https://lore.kernel.org/r/20261113003536.3622755-1-sarthakkukreti@google.com
-
-Sarthak Kukreti (3):
-  usb: uas: complete command on status URB error
-  usb: uas: fail command submission on fatal USB errors
-  scsi: core: do not retry passthrough requests on disconnected targets
-
- drivers/scsi/scsi_lib.c      |   5 ++
- drivers/scsi/scsi_lib_test.c |   9 ++-
- drivers/usb/storage/uas.c    | 128 +++++++++++++++++++++++++++++------
- 3 files changed, 122 insertions(+), 20 deletions(-)
-
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index af27fd3df8d4..fa16a75e810c 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -219,6 +219,11 @@ static int scsi_check_passthrough(struct scsi_cmnd *scmd,
+ 	if (!scmd->result)
+ 		return 0;
+ 
++	if (host_byte(scmd->result) == DID_NO_CONNECT ||
++	    host_byte(scmd->result) == DID_BAD_TARGET ||
++	    host_byte(scmd->result) == DID_TRANSPORT_FAILFAST)
++		return 0;
++
+ 	if (!failures)
+ 		return 0;
+ 
+diff --git a/drivers/scsi/scsi_lib_test.c b/drivers/scsi/scsi_lib_test.c
+index ae8af0e0047a..aafafe676098 100644
+--- a/drivers/scsi/scsi_lib_test.c
++++ b/drivers/scsi/scsi_lib_test.c
+@@ -184,8 +184,15 @@ static void scsi_lib_test_any_failure(struct kunit *test)
+ 
+ 	/* Match SCMD_FAILURE_RESULT_ANY */
+ 	failures.failure_definitions = any_failure_defs;
+-	sc.result = DID_TRANSPORT_FAILFAST << 16;
++	sc.result = DID_ERROR << 16;
+ 	KUNIT_EXPECT_EQ(test, -EAGAIN, scsi_check_passthrough(&sc, &failures));
++
++	sc.result = DID_NO_CONNECT << 16;
++	KUNIT_EXPECT_EQ(test, 0, scsi_check_passthrough(&sc, &failures));
++	sc.result = DID_BAD_TARGET << 16;
++	KUNIT_EXPECT_EQ(test, 0, scsi_check_passthrough(&sc, &failures));
++	sc.result = DID_TRANSPORT_FAILFAST << 16;
++	KUNIT_EXPECT_EQ(test, 0, scsi_check_passthrough(&sc, &failures));
+ }
+ 
+ static void scsi_lib_test_any_status(struct kunit *test)
 -- 
 2.56.0.611.g1030f0b940-goog
 
