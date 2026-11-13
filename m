@@ -1,80 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794587975;
-	b=H4ea7ytxtLDN15ubmfXJ3gv8U9uD/QY72+XjqDhlecy8Af2tBrsF2MThRmzTfUFcmSmi
-	 mRV8rrI/bKU5qX3dfiO2BguIOVTWAQz2zbp0RcxXdfrB/LyAN0+OnpgVaJQtm/abxQGG/
-	 GVJ+tM2FGcn20pwLa1nkZEQ0C0nqTv4frRzQY+6fyhNfcMxjUP1PkN+pfNtdPlTTGWkN4
-	 W1a/mW+9ZLvBsLB7KKajBFzZZnqEd4hOvc2uq+dxcFfvieYUkOl19A4O8Ttjc/nrZG5ev
-	 768oyxSLYar1XDCuwTkwapbOCS5sX3UwPWULFirqg2pzb5wZHa9qDfEFGgeQLa3eDJA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794587975;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=L+8j5OUsBR0easBe4yHHmV7NvUfkY0wWsAfLUlp+Yi0=;
-	b=yg6Tlu09iofg4Yb3VOp3TESxJfWHCUiJihTiFJnOSiDh2e0/pD4j0u/D++zsha0bfkJL
-	 28NhdjSiU438+u7UqGWnbxpNqlUjFS8uLejGsDoFE1wN6WVV7N1obD1qmHBKmoH5sRGjz
-	 I9KKYG4713xeiAizBx4e1z+FGtTGl1oLJBiRHf2JnwHz2VJOjyv7VbzsJnB2Zi99Ui7zF
-	 K+rlzcC3V5KITM2Wjn5TAnklIJG8n0vm83KV3tgqMeDUJIbsZJXfGFAR8bkM3fGbiSONJ
-	 Se4JMIsuNRw/Q78XdXKLP/U0ghgNdGRzqVCmy1xy+2j43XaXWEL5nKN9v01NLvR/RLQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QQfLAZ2u;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F236A60A2628;
-	Fri, 13 Nov 2026 16:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QQfLAZ2u
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794587974;
-	b=LuW5+z01YOe5yzfBQo5jW57/Kp0sfr+uZVvzfhwUbcD/i5Og1J5eQvlwm+fKZ6b/oaad
-	 0MOlKWxRzrWvF4zzZO+k4uzazSuXpj+/cONP3kQVx1GBKbH+nE/WormEu8EWXXJoKYYYK
-	 Lc++16/aQzivk3DA3OJ1ue8Pr+Z5ZXey52Lxe2wm7jJQZ1sPkON93hOBrEiwLx8Do6ocH
-	 DtxFjLdN/8q68kxXqSoW5zjUpdafNjJSzeuW45tM/FJpLFNiUv6KBtHn6MY95OZcHBnC+
-	 Da1chVpKVFgswnvkQmVEtn52QsJk/EP/iFE+rkKSNaBb2bHm6SYlVNUhhh9CHm7496w==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794587974;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=L+8j5OUsBR0easBe4yHHmV7NvUfkY0wWsAfLUlp+Yi0=;
-	b=tyoPTddvnO+WgjXwOX5dvvJh6v9YE7lYfBR1BLjNV6Ewx/lYKuyoQ1kz5m4P8xa1+0DA
-	 aPN8wIFNYwTz+HFIGEDqPJEovBYCX2mlg5QuHu9plJf7ZXLRSTyikyEILd8JvnfE+AC8u
-	 xlBC1tXJ1JPRtXRTVbTxA9dhvTWr2dCO6NFJbGwmE9ZGzFhPGWkYpYWyn2tCjzECRQZak
-	 tlpNuRpLojsocjs+aOTsnOmu2eJTeHOmdDtoFs8sti+O3o09mnK8y2WGTKvbzhl0VB82a
-	 kK9bnDn59OE+aPHEbHbHLmM3/vNi9N0ciY++kq6HaF0PujoqKc2uObK3Qv+PUixaEOA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794588189;
+	b=ebFqvA18melXYHMNp8DUWeTV2pDf2+e0k+YrGDM9BpmPbqDhPkrw/KOxUEV9cF0HaCdC
+	 r5IC1Co2kJgeLRRvBEgJePAPdmeTm0WYh5KaqXMqQJ7FIReMgJmHteKME6xLXB3Dr/ssK
+	 7w0Q8g1L71h3o+ppj8ieWoExkYQS4D6YdXVrFgNyisBEbCB1aISqOCrdvhvNL5NtX5Z/m
+	 /9vVhAJgNveqOLkt3qECgQvtxsfdPr0TJAnQjnsOvAcOsQy1OmrEBWIMdp/c5Q+f7b6k+
+	 t/vJPksxVy8jahWbyzht8nUnGWzSQhLcxY5BL8L8oboLczxmN5oVxdfNKlrdGgtQAzw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794588189;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=gUduWREE8uimErD+JHAl4hb5YFTf7B647K+Gkk9dmUc=;
+	b=ysNOeUIFhkb9FBkbS4EKH1gol6KwOA+2YQr10OK2OhfNz8HppNuaHj0b6bFEyQXQGdWL
+	 tNSrFGrD3/Dy5Q/MjS1+JJpFjbunuG28cQ5hSk3PPYzwAInQfNj+eLV2mk+I8/mTjvhIa
+	 YP18Ku1y+LIh87DxEXwF/94dDYwBvDSl08TP69jSCwfO/n+ktpyvkbUOxJ5nZYeOuYRVw
+	 vD2nzrGEkDIipc2FS8nO22i4T9tYPhM9Lx3tmuQsUcTmMiltNfMVdOnDq5niI9DaCcfri
+	 dY9wPu1Dz6bE3TwUgRZ1yma4ZR2RcP9lW7ZDuRKrz/8Xncrn6DYT/ftfToUqwCcmUrA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=QTq187E2;
+	arc=none smtp.remote-ip=148.251.105.195
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 3BF681F000C9;
-	Fri, 13 Nov 2026 16:39:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794587974;
-	bh=L+8j5OUsBR0easBe4yHHmV7NvUfkY0wWsAfLUlp+Yi0=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=QQfLAZ2u2lqa1W7gimpv02MRC4ZuZpWavtu5KopDbCasFJWtS8jGQYOFTReRGY6lk
-	 zZX7X48aHXLQD6CC5pNt5R94jl7hP3G3djPXZ9EohEPY2tmxZoYrPowq6a+wKMzgqF
-	 k2QAlLvpl6Z098t0dEgcwWaTP0YP0dJlAhdYVo9K6uTJXLnOcB/IBg/lz0pb9vV8pB
-	 O9dFkixN5C06IJ/y7NqakILNFlbFh6+n3Xv+OqtrR2o52ZhZZm9YRxHBtemncdm98I
-	 LJOwkY25jh0X1e7gCYIkv+s95rfHlSXe7WcVzCIyq70iMXCKZlBkSrKLtWCPUaXXpV
-	 AuPJrVEgANknA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id C0C1749996;
-	Fri, 13 Nov 2026 16:39:33 +0000 (UTC)
-From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Subject: [PATCH v3 0/2] usb: core: Pair ports of different host controllers
- through their connector
-Date: Fri, 13 Nov 2026 16:39:33 +0000
-Message-Id: <20261113-usb-port-pairing-v3-0-d6c6edb4341c@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C99F606AFC0;
+	Fri, 13 Nov 2026 16:43:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C99F606AFC0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=QTq187E2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1794588180;
+	bh=o3e+jRFQVUw9l7ZbyzFtsBneMJ6V2msEfKuxV8ZGQLs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=QTq187E28xVYqLrfxoK550wk5gvTW2KEjeQrRSCLZHpYwNMRLpUL11pmnic/IYvJx
+	 zAw5ReG1EVA+r+VxDmkku6n7AhYdJFlg5A1GzumnQ6VUiaDLvQmY9hZtchpuIiR+mB
+	 VbXVlr3wzNkJv8Hq/njuim0jTmlylNITrLa/S8hCviYvNcrs+mJQH2oHxVLVS7t/jX
+	 ZTK9Fc1vq1xwsPkK4GXOz7SM/RGs8Q3a5tjNoah7/zPSPvHguNnadnLmVa/bm3iZma
+	 RpJ44741zevo1dakvdoy4DVjhDL0FPXn3wMREyPWVh7OWm+ULH54bd9OcDy6Pw8Qxd
+	 WE2JxZfky19fw==
+Received: from jupiter.universe (unknown [100.64.1.62])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A940817E0F7F;
+	Fri, 13 Nov 2026 17:43:00 +0100 (CET)
+Received: by jupiter.universe (Postfix, from userid 1000)
+	id 647F8480035; Fri, 13 Nov 2026 17:43:00 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+Date: Fri, 13 Nov 2026 17:42:40 +0100
+Subject: [PATCH 4/8] usb: typec: fusb302: switch to devm_pm_set_wake_irq
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -86,99 +67,87 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33NQQ6CMBCF4auQrq1pB8HgynsYFwWmMEZo00KjI
- dzdFjcsjMs/efPNwjw6Qs8u2cIcBvJkxhj5IWNNr8YOObWxGQgopZSCz77m1riJW0WOxo4rLXR
- ZaqFqQBbPrENNr4283b/t5/qBzZSctOjJT8a9t59Bpt0fPkgueJWLM0LVArZw7QZFz2NjBpb4A
- HsAfgAQgVOhCyUVVFrqPbCu6wd/qm1JAwEAAA==
-X-Change-ID: 20261110-usb-port-pairing-af0f66f0ab2e
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Alan Stern <stern@rowland.harvard.edu>
+Message-Id: <20261113-fusb302-probe-cleanup-v1-4-e5c65a8c58c8@collabora.com>
+References: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
+In-Reply-To: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Badhri Jagan Sridharan <badhri@google.com>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mathias Nyman <mathias.nyman@intel.com>, Chen-Yu Tsai <wenst@chromium.org>, 
- Chen-Yu Tsai <wens@kernel.org>, Arun Iyengar <aiyengar1990@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794587973; l=3327;
- i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=94ljvUhZfOwcriwlLh+HVppbDrBWPBP8YRlEjtdMTao=;
- b=yRzdjuLIBZz2A126kliJbvh1YvnIeRw1y5fu8QBIot7q1f80EXqrlI3kteaqoUIwqlR6DpKnj
- YWHvVDy0DBoDPdejeeLbJ/9Vsn/H8xiduWQgZ39crdMjL0XcLOWBwq1
-X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
- pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
-X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
- auth_id=1480
-X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
-Reply-To: aiyengar1990@gmail.com
+ kernel@collabora.com, Sebastian Reichel <sebastian.reichel@collabora.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1808;
+ i=sebastian.reichel@collabora.com; h=from:subject:message-id;
+ bh=o3e+jRFQVUw9l7ZbyzFtsBneMJ6V2msEfKuxV8ZGQLs=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGr3PhQ3TG8mcA9c92UfTHH2+zmxDg18/hdge
+ 4XzYQeBbz2VkokCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJq9z4UAAoJENju1/PI
+ O/qagWUP/3Zjd85vtADNZ/VL9FCcz98+EUDBvMR1jiFY61XG+nTFeLnVTKkyIfkzRIAhT6lBC0a
+ 3WgMZxf7nYLtOFlDz7S6IfoDrgxJPcNsa02t6OfrcFCweX7BrRpnDA9EtUlXJhSXc+hI0cn/r6H
+ JOrvvh/vw1VQn2tmCxG9YADyGhkzt/EczbF7U16okUzPLdiA7PxENEOTGWwEeOk0zhim8ljy4gJ
+ 4Iraxe1r53/MdE4R92C8gycaU/JT0uAd5tog4ac717OacBB44tULWy0oHohZfNgDfty0mXFAhdw
+ usSWGaVTaHBSSsJoHz3xLTWQYfSeCw6ko6rGSOoRmTdYWTGVkgVciH8/shbo/Jyis26NmN8SwWr
+ Z0S5PgHbnYRE4M4r6aYEjSQ0AxspLYFYENccj3rv48t8rmhnltYpsF303PnALvuadzmP9Nvzi9o
+ x2+5KndFiTZ8NsjCP9GsrNyeSZDXlfwicNfw0zXuz6YBjE8BHZoxLl9hJw6Ad4BNrxmic0+ubDq
+ 2jn5DnyybYFZJWVvhjI7Lf1AkwpoAL9vo8iCeH8Vc+CQ3R5pDd736IVQ86Szd9h+PdpTQ2kJGPO
+ BB7/6ts7+3DZF3GouzIga+b8WchCy0FsB2NzC30mDKHFbXZ5zM7u9BmsdLxlp9n2RYTHVImhkmd
+ 2rAqGqrTFkvOmvzYnsvAxNg==
+X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
+ fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-Chen-Yu Tsai pointed out that root hub graph ports use the raw xHCI
-port number, as in DT and ACPI; v3 does that.
+Use the modern device managed wake IRQ helper provided by the PM layer
+instead of directly calling the interrupt wake enable/disable functions.
 
-On the RK3588, USB 3.0 host 2 is a SuperSpeed-only xHCI and the USB 2.0
-lines of its connector go to a separate EHCI. The USB core pairs the
-SuperSpeed port with the dead USB 2.0 port of the same xHCI. On the
-Orange Pi 5, whose USB 3 Type-A port has VBUS always on, a USB 3 device
-present at boot connects at 480 Mb/s to the EHCI before the xHCI is up
-and stays there.
+This results in the wake capability only being enabled once system suspend
+is entered as its not supposed to be set while the system is running
+normally. Also it now properly reacts to device_may_wakeup().
 
-Patch 1 pairs the two ports through a usb-connector whose halves lead
-to different hubs or host controllers. Patch 2 resets such a device
-once when the SuperSpeed root hub starts, so that it retries
-SuperSpeed. A device that ignores the reset (SanDisk Ultra Fit) stays
-at high speed.
-
-The Orange Pi 5/5B DT goes to the Rockchip tree separately; its EHCI
-"ports" node needs Chen-Yu's usb-hcd binding [1].
-usb_of_get_connect_type() still looks up root hub ports by root hub
-port number; Chen-Yu has fixes for those lookups. His M.2 series [2]
-finds a hub port's graph port with fwnode_graph_get_port_by_id(); this
-series does not depend on it.
-
-Tested on an Orange Pi 5 (RK3588S) with a v7.3 based kernel: a USB 3
-device present at boot came up at 5 Gb/s on host 2 in 4/4 boots and
-stayed there across 8 s2idle cycles, xHCI rebinds and unbind races.
-Type-C port pairing is unchanged. Not tested with an external USB 3 hub.
-
-Developed with Claude (Anthropic), which wrote the code and the commit
-messages. I reviewed every change.
-
-[1] https://lore.kernel.org/all/20261014082037.1774672-2-wenst@chromium.org/
-[2] https://lore.kernel.org/all/20260916075745.3549953-1-wenst@chromium.org/
-
-Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
-Changes in v3:
-- Patch 1: find root hub ports in the graph by the raw controller port
-  number (usb_hcd_find_raw_port_number()) on both sides (Chen-Yu Tsai)
-- Patch 1: don't skip a connector peer whose connect_type is "not
-  used"
-- Shorter commit messages and comments; patch 2 code unchanged
-- Link to v2: https://patch.msgid.link/20261112-usb-port-pairing-v2-0-45f5a1a29f1f@gmail.com
+ drivers/usb/typec/tcpm/fusb302.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-Changes in v2:
-- Dropped v1 patch 1 (generic-ehci binding) for Chen-Yu Tsai's
-  usb-hcd binding (Chen-Yu Tsai, Rob Herring)
-- Patch 2: reset only when the SuperSpeed root hub starts, never a hub,
-  only on USB 2.0 root hub ports of another controller; cancel in
-  hub_quiesce(), runtime PM reference, freezable hub_wq (Sashiko)
-- v1 patch 4 (DTS) split out (Krzysztof Kozlowski)
-- Link to v1: https://patch.msgid.link/20261110-usb-port-pairing-v1-0-9307e29d2ed2@gmail.com
+diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+index a7a1dce6cf86..8b83414c5819 100644
+--- a/drivers/usb/typec/tcpm/fusb302.c
++++ b/drivers/usb/typec/tcpm/fusb302.c
+@@ -19,6 +19,7 @@
+ #include <linux/mutex.h>
+ #include <linux/of.h>
+ #include <linux/pinctrl/consumer.h>
++#include <linux/pm_wakeirq.h>
+ #include <linux/proc_fs.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/sched/clock.h>
+@@ -1804,16 +1805,11 @@ static int fusb302_probe(struct i2c_client *client)
+ 	if (ret)
+ 		return ret;
+ 
+-	enable_irq_wake(chip->gpio_int_n_irq);
+-
+-	return ret;
+-}
+-
+-static void fusb302_remove(struct i2c_client *client)
+-{
+-	struct fusb302_chip *chip = i2c_get_clientdata(client);
++	ret = devm_device_init_wakeup(chip->dev);
++	if (ret)
++		return ret;
+ 
+-	disable_irq_wake(chip->gpio_int_n_irq);
++	return devm_pm_set_wake_irq(chip->dev, chip->gpio_int_n_irq);
+ }
+ 
+ static int fusb302_pm_suspend(struct device *dev)
+@@ -1870,7 +1866,6 @@ static struct i2c_driver fusb302_driver = {
+ 		   .of_match_table = of_match_ptr(fusb302_dt_match),
+ 		   },
+ 	.probe = fusb302_probe,
+-	.remove = fusb302_remove,
+ 	.id_table = fusb302_i2c_device_id,
+ };
+ module_i2c_driver(fusb302_driver);
 
----
-Arun Iyengar (2):
-      usb: core: Pair ports of different hubs through their connector
-      usb: hub: Retry SuperSpeed for a device stuck on its USB 2.0 peer
-
- drivers/usb/core/hub.c  | 109 ++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/core/hub.h  |   3 ++
- drivers/usb/core/of.c   |  98 +++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/core/port.c |  67 +++++++++++++++++++++++++++--
- include/linux/usb/of.h  |   8 ++++
- 5 files changed, 281 insertions(+), 4 deletions(-)
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261110-usb-port-pairing-af0f66f0ab2e
-
-Best regards,
---  
-Arun Iyengar <aiyengar1990@gmail.com>
-
+-- 
+2.53.0
 
