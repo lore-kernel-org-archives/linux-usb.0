@@ -1,57 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=144.76.133.104
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794599002;
-	b=5aiK2E8xYvgjaej/vJOrvsQ+FdIRuAkybj0o+xEGyLNGe6mgukXigelL3YLIW4RQaNhC
-	 l4Jf1hq/lMnItsmul8JnlMeAOYrFD5d2V++5EgcLghQEqJFfT16UJd+HGYSx4QXUeJMvw
-	 QcQxnHX9WCM7myBR0GBivOggynof/P33F9oPfhLAe4tuRE7huyQx7byXTS/6HUSplEHvh
-	 SMRFTMmCiSM2NEWjWzkMCjce+1Gdjfsj9bXaxQkM8YrS+lKCK0nFVDcbrtZub6mUbgP7s
-	 Fi3dBzEejgCV4fIU4Om4AI97MVz/1Jg9V/YKEL/XcYwtnjrtW+/fetz7rkaCMihFEGA==
+	t=1794599154;
+	b=0CppVZNqOKV2ak0g8GyrzWNaZu1yq1rYgG9iSEKzWuAgdrBW7wlKQkmxZa4xnu9oNpX1
+	 cFoTr+mj8qtzVy4V4zkaIPXiaam2DsztWFAGcyYFzUmjqUrTAl0QLe6/5ihiv3gxRfTq5
+	 x5o9CJIsAwSLCniQWaHk+wI1qSB2onqSYgypruKh6Fa0Kc6Smqm85ADDDq7Q5fXaWEDTk
+	 m6c5+foX0CfwmsG3twCh7yoG9U9KheRHnPr2ery0EpVoMeczcr0C4+BYZ9i8VUYeklAuY
+	 6Mlqo5SS5/s4x7cBRXwIK06xLrIwP+/iGyfomYOxcPujOjKhv/DulCPCnORDSlbozrQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794599002;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=aM9UhgltJPsrqk70yRkYK68Rji2JD1XAePrK5PuAiIY=;
-	b=xCXo+rPa9Tt44PLj6VdLJzQ757Cs39PoTKB1hlUyEbUi09cbAuAwnb4F16RKwXIEg9w9
-	 RZxxmRQrZHiLXkMjI7uDuAfdrnTqYnW3nNiXzx149TsoifTwGTaUPXgc6eSk4yUxvbOmB
-	 5FTBX9OQfFiss33mQEh8X3FASHbpwPvxh5ER7KlkRRfq5LMinFUMoGlUwy1/ENBV313uf
-	 yskflVM2sAh/keztcvc3kZXEzNuZ860CLChtt02tFgTboCMxT3Q967AApVe/ecXVAxBPS
-	 ow5Yc1PWDsutFQeEok1QtjfExXoMwhzFtKbn5BTnxMiHcCEv2GV+E/U2QNucxhgTigg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794599154;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=ASvXftBexK4DmELjjpF7dNc5SYpIr2SHmzpncUVYAkU=;
+	b=GrxydGrluI+2JD7VNCd87Gfn3Gi2gllSi/TK0hbGFGSW4jyO44EMIdMLaSXhlmLnjvUX
+	 sz0bS74pxNudpXxqzKJy0MNhnsC/z6F30afwYEiqU1rzlHhiv+7U4LMnu9ZpT8aDbnLu6
+	 K3F33+/Xk9F4Qii9QQHf8xL9Ic3XkIWKLEZ1osc0zBX32YJXWpwz5f7PuRdVN/QszsWZm
+	 3cj2MrYfxeQ/3ksY0l7QTSZpN4v5EfNDkju7oO9muErUnct+58cjvPfZfhNMssaonJIf+
+	 Wrb2yPQRr5WSeH6YyUcesLyfpPIe8U+nCrep1rB5rOXA0BzsXeG3EL7HKmIhYPe6EgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ldHUVA89;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=wunner.de;
+	spf=pass smtp.mailfrom=wunner.de;
+	arc=none smtp.remote-ip=144.76.133.104
+Received: from mailout3.hostsharing.net (mailout3.hostsharing.net [144.76.133.104])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B8C606A32D
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 19:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ldHUVA89
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2FDC1F000C4;
-	Fri, 13 Nov 2026 19:43:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794599002;
-	bh=aM9UhgltJPsrqk70yRkYK68Rji2JD1XAePrK5PuAiIY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ldHUVA89ULBG+anqewABkCb70E5wJs/zhNrYFY54naTWvcLVDNH6VtngO9o/245yV
-	 Q/aKIR4QR7B30rZNSux/pLUKvyviAy65Yjdh4x2h0+8MJLlTl2cJtwyQC9cxhEvEAE
-	 Eo2D8pxy7tpwMwdhmg5NLN3xMb0dPJxZ9G5f+LZYN/M7GYOw6ZElRF7T8Pd+pFQdlb
-	 deCjNl4D/nYGOQBW9h8oG1LGaHo7DuBlcx43uIH5Xn9tX0Pf/MkuU+XLsuNMryyyh3
-	 u2GImey0lFvZhWfjIeYwfMTM9qQqpD50IPtKiNYERieRUxm6SVBRzxm2mBljiSRGzK
-	 sz4fz23eVBqkw==
-Message-ID: <sashiko-outbox-213566@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 3/6] usb: dwc2: fix a possible interrupt storm on
- stm32mp1
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Fabrice Gasnier" <fabrice.gasnier@foss.st.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261113-dwc2-low-power-fixes-stm32-v4-3-08a8c962a09e@foss.st.com>
-References: <20261113-dwc2-low-power-fixes-stm32-v4-0-08a8c962a09e@foss.st.com>
- <20261113-dwc2-low-power-fixes-stm32-v4-3-08a8c962a09e@foss.st.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 19:43:21 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7B9606A330;
+	Fri, 13 Nov 2026 19:45:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D7B9606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
+	 client-signature ECDSA (secp384r1) client-digest SHA384)
+	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
+	by mailout3.hostsharing.net (Postfix) with ESMTPS id DB7871660;
+	Fri, 13 Nov 2026 20:45:43 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 87B77603E12F; Fri, 13 Nov 2026 20:45:43 +0100 (CET)
+Date: Fri, 13 Nov 2026 20:45:43 +0100
+From: Lukas Wunner <lukas@wunner.de>
+To: lionel margueritat <margueritat.lionel@gmail.com>
+Cc: linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
+	bhelgaas@google.com, mathias.nyman@intel.com, westeri@kernel.org
+Subject: Re: [PCI/Thunderbolt] Intel Titan Ridge DD (8086:15ef): ACSViol on
+ link-local LTR Msg (route 100b), possible ACS Source Validation false
+ positive
+Message-ID: <avdo5xUynQEQY22u@wunner.de>
+References: <CAL0aDZ_HOq1Sof90GJoBDzPo7Gmr7P_rSnYJaN75QH4K+iodpw@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,31 +56,78 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL0aDZ_HOq1Sof90GJoBDzPo7Gmr7P_rSnYJaN75QH4K+iodpw@mail.gmail.com>
 
-> On stm32mp1, upon resume from low power (stop) mode, in host mode, a
-> port interrupt storm may be seen before the hardware is accessible.
->=20
-> The core is able to generate interrupts during system resume in
-> platform.c when calling dwc2_resume()->__dwc2_lowlevel_hw_enable(). As
-> the PHY and clocks become available, a resume IRQ can be seen with a
-> Host Port Interrupt (PrtInt).
->=20
-> The wakeup interrupt handler make the controller to exit power down mode,
-> but the HCD handler returns IRQ_NONE, due to the HW accessible flag has
-> been cleared in _dwc2_hcd_suspend() earlier. It ends-up with the bad_irq
-> handler.
->=20
-> So set the HCD_FLAG_HW_ACCESSIBLE flag when the resume IRQ is handled to
-> exit from power down mode.
->=20
-> Fixes: ef5e0eec4764 ("usb: dwc2: Add clock gating exiting flow by system =
-resume")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+On Fri, Nov 13, 2026 at 03:18:46AM -0500, lionel margueritat wrote:
+> [1532.142389] AMD 00:03.1 pciehp Link Up
+> [1532.273384] Intel 06:00.0 bridge configuration invalid ([bus
+> 00-00]), reconfiguring
+> [1532.280...] Bus and BAR assignment completed for endpoints
+> [1532.282964] xhci_hcd 09:00.0: xHCI Host Controller
+> [1532.824413] Intel 07:01.0: Correctable Data Link Layer BadTLP [6]
+> (NVMe-side bridge)
+> [1533.779213] Intel 07:02.0: Uncorrectable (Non-Fatal), Transaction Layer
+> [1533.779233] Intel 07:02.0: [21] ACSViol (First)
+> [1533.779243] Intel 07:02.0: TLP Header 0x34000000 0x00000010
+> 0x00000000 0x00000000
+> [1533.790681] xhci_hcd 09:00.0: AER: can't recover (no error_detected callback)
+> [1533.790732] Intel 07:02.0: AER: device recovery failed
+[...]
+> The packet appears to be a link-local routing 100b Message TLP with
+> code 0x10 (LTR) and Requester ID 0000. PCI-SIG ECN of 15 April 2026,
+> 'Access Control Services (ACS) - Source Validation Clarification',
+> discusses false Source Validation errors for locally routed Msg TLPs
+> (100b, 110b, 111b):
+> https://pcisig.com/PCIExpress/ECN/Base/AccessControlServicesACSSourceValidationClarification
+[...]
+> 1. Is the LTR TLP with route 100b and Requester ID 0000 valid on this
+> downstream switch port, and should ACS Source Validation exempt it?
 
-Sashiko has reviewed this patch and found no issues.
+It's a valid TLP.  The ECN talks about *optionally* ignoring TLPs
+like this one when performing ACS Source Validation ("designers may
+disable Source Validation").
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-dwc2-low-p=
-ower-fixes-stm32-v4-0-08a8c962a09e@foss.st.com?part=3D3
+> 2. Is there a known Intel Titan Ridge DD JHL7540 NVM/silicon
+> limitation, or a device-specific signed firmware correction? ACASIS
+> support has been contacted.
 
+I'm not aware of one, maybe Mika has more info.
+
+> 3. Could an init-time software quirk or firmware correction handle
+> this without weakening device isolation?
+
+CXL has a similar issue when performing a Secondary Bus Reset:
+The Endpoint sends a PM Init message upstream with a zero Requester ID
+and that triggers an ACS Source Validation.
+
+Fabio used to work on this, he's no longer at Intel and the project
+is thus paused:
+
+https://lore.kernel.org/all/20260825022628.3651434-1-fabio.m.de.francesco@linux.intel.com/
+
+According to PCIe r7.1 sec 2.2.9.1:
+
+   "Functions must capture the Bus and Device Numbers supplied with all
+    Type 0 Configuration Write Requests completed by the Function,
+    and supply these numbers in the Bus and Device Number fields of the
+    Completer ID for all Completions generated by the Device/Function.
+    If a Function must generate a Completion prior to the initial device
+    Configuration Write Request, 0's must be entered into the Bus Number
+    and Device Number fields."
+
+So we need to perform one Config Space Write before the device sends any
+LTR message upstream.  The kernel sets PCI_EXP_DEVCTL2_LTR_EN in
+drivers/pci/pcie/aspm.c, but I would think that we perform a lot of
+Config Space Writes before that, so the device should know its bus and
+device/function number by the time PCI_EXP_DEVCTL2_LTR_EN is set.
+
+Is PCI_EXP_DEVCTL2_LTR_EN set by default on this device?  That would indeed
+be a silicon bug because the default value is 0 for the bit per PCIe r7.1
+sec 7.5.3.16.  Or maybe the platform firmware sets the bit?
+
+Thanks,
+
+Lukas
