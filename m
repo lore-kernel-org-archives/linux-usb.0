@@ -1,110 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794565074;
-	b=LHAdnINsu/qFhEXI1HWtyqIUgl8DMGVNhMzF243+Rr02dln/anvEJzkQ+Aaz0ghT2nYo
-	 ioq23MGYRb6trgr95ATDinNMzoaA5SoBrt0gEdam9K2cfFXFBNpWLFksav1NjkY2stkuo
-	 LPz4mE/DrRekFCiwvr1aitkGwdZZvRwtnGfPZ242tKQiNx9BvgW5I3zIfd2ZCHXM8O/pU
-	 wePsHfYkoFIYlY93g3sSvW/Uulh9pG7OuIMDj95MVki+7On4dIgwizDYdJYuBJRbHcHgj
-	 sGrAqxIcijfZ0qU3XVpd31uPBegw75qi4Aj9Ktt+a8urmujhzWI9wHw4oHL+Xv7bemg==
+	t=1794565085;
+	b=jKfg8qQkroSTEfP/c2EK0kPLRlX/PB/7sCoKiceyEds3Lax+o1EHwYS8ep9XYXrWU2jz
+	 6MDLWDgcp+roTm8H4ojEEAkLac/YKW9AN+cd6V/EnFV/iUkyMhepIu/VRE4SQTibsOr6E
+	 890DfueU7X1rG4cHai0K5+OGhaDq38Xtu/CTNhxtwRP8QxrLr9jVrzA8+P+Zb2RiAU2lw
+	 jKNtEDLzuaJ6RYmH3bvzTZv5OU1EKn9vfIaFy/jbF5KAGS2/k8E+ZsXRdUm6bkESOgMq1
+	 uRIk0kr4HilMjoNF4N/rbwL24eza34XjN65pAjl3yeIDm5CUiLos5HZXzejU9YHPM0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794565074;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=zqPqkCGOaO5RL/5NE1UeXRxAO7AqEHmUDDsiHSGxDsA=;
-	b=g9Oak87OXaZObkHd0gYgv/FPVxtgNvYhdt9wr8m7XXWM5w0uzz/3A2zrLjqL2X7k0cSt
-	 aM3rCM2Ua/tA6v0dEtH5zcDO3UvngZpJZZccfqDJcYceYO2OQVu8qxQ0OP+ZBt9rf2XQy
-	 flCQ8lttVBgQVKpStEBNvIXYS+Xw5Rfj830A3ElBgRbfwIijcz7ycxis1BHbje4rwuK69
-	 q7/WRzQX1d2cNmpRVqOjsBWHvevveqOfyEZX1lrH0LEetCivrvjDFpzZZixiJjejV0KCS
-	 uiFa/QNpFrBI6oJU5uknnYoecc98QtJomTBwM4dpQY5QzmmmvIVrzaMP1nIIe3XC1qA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794565085;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=oWpj+fMcU0ldZMemXXF2GwJUPPqvOroaTzblSr6zsuI=;
+	b=aPNPcNCGBCq2CCVLNSK6Pkor8flwBMsJVojDR9V2fJpViGxv6MIKOH6Oa+8yfjKCjzTQ
+	 1dtISpL/J2WSmQtd/AzlnmBdwtDyY29TcwtJfiboOKiZeGX5DuiqjF9CE4YFMYCQ33Mbg
+	 cjX0VdkAaH0FN4QmPf4Vv4zgSorYBbVpp15817xvWsvSrFf1gq8xx6qZEI/DhgLPTc9Gu
+	 BwPU+5IOWdBSgC1rtlHn+ILxscdz2vtyJSv8O115UIz6rj1qY6nmEx/KoJgH2ufBeV3zG
+	 a+23KGLy4AjAh/eRVGJV+v9PzqAoVfZROQ+ZgcDdgbuFknBXXQnLTKzveiUWANHVMsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=hEEG7fG6;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IEGnZ9s7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724FD606A88F
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 10:17:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 724FD606A88F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9247E606B12A
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 10:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=hEEG7fG6
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a2d6d01ecbso7049465e9.0
-        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 02:17:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794565072; x=1795169872; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=zqPqkCGOaO5RL/5NE1UeXRxAO7AqEHmUDDsiHSGxDsA=;
-        b=hEEG7fG6RzQkOoGSL66zkn+hWpy0b8TxpW+CxGFBwGxbhLfdgmFqwESmbjaY7MScGa
-         1TTEC4ZDzMo/nTmQbATUq4OC5CVK8FiegRjrCOceUr+V68t+3IyOPEhrmauT/typpuMH
-         7BtZ7bLX9twnpc3pST7EzNdPnkg3BFhqHXhYG5RTwPNXEKUOMAEYxir+CLBCGEbp4xnq
-         ot2tG8XA7sYEn5cZCga4RcL6w3I4tCQX2A1rGgTmCQohN7lvb4NCOhavzOt0i7fRXz7K
-         0fiOYrUI/s1Mo3f+qCL5v2ciULr5WU1WUhy3OFmgCMCM2mU4bZM+JgAT1J65gELN03wt
-         2Tdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794565072; x=1795169872;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zqPqkCGOaO5RL/5NE1UeXRxAO7AqEHmUDDsiHSGxDsA=;
-        b=hqgaJ8l9nzqge+1cjgiPfvCKPDfrm6sDYuzyqQmUmtLzuRGO/OL3RGAOK0ZZajNvMH
-         0r+Vt7yArRvIS7WCYlTRWXKVYVTalJ++4OWbXdFBK/pkPy/ndGPbfDif4YbW/rAMOfza
-         /8zhZcIPReiqjxHKejYLS/K92Qq0ssKyZtI1osbgakWC285G3ISPrayOfi6gPtQd/1XB
-         Yv1n2RYU1pM809XUgVrZKUL4oPsCMZ59386kmcnu4iL4noqxgYjGr6+MDPvdby41fjx2
-         kgQvr9FCFD9wzT6Hkzq7TG7hW/sUYpjE+6rlTBFyUwdmOr3vXGev5WhuTQDwYU6r9LL5
-         EHdg==
-X-Forwarded-Encrypted: i=1; AL+hErHeXvImBxvCyFuTchkuJ5UIhpg586F1BV5yxq1qpOV9nqxjxTq9DqrAUqdLBRoRiwjx/NA3zJuDlDE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z871IBI+F+m29fRyIHUWyJ3OvzDr91Jn5p/cnOePhsq4+CcWs5u
-	pTyX3GBfc8UVIXLmGJA39x/58stGftI3EAfo1GhjZsz4yrgcpF1YdH1IOwPd7MB429v8
-X-Gm-Gg: AYBFou09jcVUBDYxhoHMoPmWld7wchdhinGWE+KNVo/9Evha6GDvJx7MHExP3RQItpK
-	qP1h6LpwxYEhIgBoZRMn4TgkMycx0fnUHhc5ktFxOiHwrTd0BZkEdNvxHy7en7PndqmhTRwUfjJ
-	vCEdkoimdR+qMM46QYFjEhkOhKAAs3vzLD9ijbnzId2D2hnibluWT8AHX/0kHM16Ccv7bfBw6Jb
-	0MYH/xzSm+HdzMug7lAdXJ+TzS6h9ZfvqOSzl+F2ERSG1lMZENZfFB6pjAhRiEks7tLTXzsc8Uj
-	UCCHlEXEepolHB7EM5A9BuZeYfiz7IhCQ2GLbEqv37O6uWh2924MBiOBDtMul51q2UqIkrkU5q8
-	l7Pz7Ku19KVODhN7EG2EGRw5XeBO7mI3FUZm8A4ZRHNLUO4eN01Yc5t4/nZDFsywUGFnIA/VPcJ
-	+UTvYCQAepm6dDLMJkv7kLW1uH4R86uxGxphE2guuysWY56c9G9wrYzriZpGcOfemnBH8cFFAjY
-	xwEEYg9BNfGFzQsCVj9m3DaStSfG7gDWe7rZ9ZdOeYFH7P7XyQ6bjUonsCKSDpR9dSZniKp7h5c
-	LsF+Hj87JUQQErXqD0P84yDYYEBrZw7pIA8sZXfXXusqqFU8WRp6BX5PFZwIftE=
-X-Received: by 2002:a05:600c:45d4:b0:4a0:23f:8b0d with SMTP id 5b1f17b1804b1-4bb559f6f31mr43851425e9.2.1794565071804;
-        Fri, 13 Nov 2026 02:17:51 -0800 (PST)
-Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c7da37b19sm3937770f8f.5.2026.11.13.02.17.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 02:17:51 -0800 (PST)
-Message-ID: <7cde6f3091f9d90593e4a6441723b6b889cc4024.camel@amutable.com>
-Subject: Re: [PATCH RFC 35/41] zloop: refuse zone files on pseudo filesystems
-From: Alexander Mikhalitsyn <alex@amutable.com>
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
- Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
- linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
- linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
- ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
- <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
- linux-kselftest@vger.kernel.org
-Date: Fri, 13 Nov 2026 11:17:48 +0100
-In-Reply-To: <20261110-work-loop-pseudo-v1-35-4c998976c6c7@kernel.org>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
-	 <20261110-work-loop-pseudo-v1-35-4c998976c6c7@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IEGnZ9s7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8591F000C4
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 10:18:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794565085;
+	bh=oWpj+fMcU0ldZMemXXF2GwJUPPqvOroaTzblSr6zsuI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=IEGnZ9s71CxuM1FatGWVZ7MjS/Ksms7wsHnU0cCjvI8yD6ri1brzQWsOTKwvf9scE
+	 1x6Ik/hWXwA68bNMOJ2qk0IELCj40VL2vurKZg2CBldMMMeZzCnayO4J2Gnj0Az3+8
+	 sLcpEApwpShOgzgYGnsC5zQ/BTQA1pPyK8jNvC4x12yPuP5UtkKRgIIy+9jLBgNocB
+	 L9MMZWBtHuoQNREggu7MnqN8y/aUPyWkH6bNpbqXdfg0nDqFJKcg78yywZyRRLPCde
+	 WmTYkuNtdC17dgd1l0oq+eyfgjAcECX5WMpRB1C91OhxyakR/QzDsp75gUIpaHPi3l
+	 K27CaA5AGXzPw==
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-705cb6ceebaso1222160eaf.3
+        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 02:18:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErEHa1egBSjBVqSjug301KXLM0XbO8E8lgUsJl7JLbQL3ZlFOfrDaqQwy+v9mNdBJ92dl2WDvDVQq/I=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9hFXKY8XmauBeHcdVWnY9U9DInik3aDMeK9LfPT428oz9tDEJd
+	V5lZVIkmdPazePwHjpR65gfMaN0sSh+HZ15ejKswyTmcKzwMJKFeodmibi9GN1f44xWNDbrddSO
+	q73DXwnKnEcJxCv7/MWVW66dK2RECFLE=
+X-Received: by 2002:a05:6820:2228:b0:70a:1787:2696 with SMTP id
+ 006d021491bc7-71ab50522aamr1246436eaf.61.1794565084106; Fri, 13 Nov 2026
+ 02:18:04 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -114,36 +59,54 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+References: <20261022-add-board-ok3572-c-v1-0-0b0fd85a31ee@qq.com> <20261022-add-board-ok3572-c-v1-8-0b0fd85a31ee@qq.com>
+In-Reply-To: <20261022-add-board-ok3572-c-v1-8-0b0fd85a31ee@qq.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 13 Nov 2026 11:17:47 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkJsYtjKOF7wpiUqSLoBuiOe+C5sMEQo7XZ1dW773+pJQ@mail.gmail.com>
+X-Gm-Features: AclHuK9FczXasoO8qxg9IxepytTJahNxlbbuShGYzvO1iLyvCzMkO5H7q2dWjZE
+Message-ID: <CAD++jLkJsYtjKOF7wpiUqSLoBuiOe+C5sMEQo7XZ1dW773+pJQ@mail.gmail.com>
+Subject: Re: [PATCH 08/27] pinctrl: rockchip: Add RK3572 support
+To: 1579567540@qq.com
+Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
+	Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Elaine Zhang <zhangqing@rock-chips.com>, Lee Jones <lee@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Richard Cochran <richardcochran@gmail.com>, 
+	Ulf Hansson <ulfh@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Jisheng Zhang <jszhang@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, David Wu <david.wu@rock-chips.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Jaehoon Chung <jh80.chung@samsung.com>, 
+	Shawn Lin <shawn.lin@rock-chips.com>, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	mfd@lists.linux.dev, linux-gpio@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-phy@lists.infradead.org, 
+	linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
-> zloop opens its zone files by name below the base directory but a
-> bind
-> mount can put any file there, including a procfs or sysfs file.
-> Refuse
-> files on pseudo filesystems as zone files just like loop does.
->=20
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On Wed, Oct 21, 2026 at 6:12=E2=80=AFPM Cunhao Lu via B4 Relay
+<devnull+1579567540.qq.com@kernel.org> wrote:
 
-Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+> From: Cunhao Lu <1579567540@qq.com>
+>
+> Support RK3572 pinmux, bias, drive-strength, and Schmitt controls.
+> Enable input buffers during mux changes for the RGMII receive clocks.
+>
+> Signed-off-by: Cunhao Lu <1579567540@qq.com>
 
-> ---
-> =C2=A0drivers/block/zloop.c | 5 +++++
-> =C2=A01 file changed, 5 insertions(+)
->=20
-> diff --git a/drivers/block/zloop.c b/drivers/block/zloop.c
-> index 65634a39b0bf..dcc06dd47b04 100644
-> --- a/drivers/block/zloop.c
-> +++ b/drivers/block/zloop.c
-> @@ -1137,6 +1137,11 @@ static int zloop_init_zone(struct zloop_device
-> *zlo, struct zloop_options *opts,
-> =C2=A0		goto out_fput;
-> =C2=A0	}
-> =C2=A0
-> +	if (file_is_pseudo(zone->file)) {
-> +		ret =3D -EINVAL;
-> +		goto out_fput;
-> +	}
-> +
-> =C2=A0	if (zlo->block_size) {
-> =C2=A0		ret =3D zloop_get_block_size(zlo, zone);
-> =C2=A0		if (ret)
+This patch 8/27 applied to the pinctrl tree.
+
+Yours,
+Linus Walleij
