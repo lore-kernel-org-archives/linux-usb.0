@@ -1,111 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794563701;
-	b=5Hv5c7ZThYvtk/0FZvjbZbamSAX34T1Eemm2f6OhG5CCRH3Nhcv3JY6zKKsI0YCFGLx9
-	 eTecu9Mj3o9ltRMQA7kqvPKm+02G2nt07MNq3EaxXoQZawoJCffjGki1GY3y+l+UMPPZX
-	 Q3dLxFhnHmALZBFW2Om6oklotIItj9HzBHwaWkdnLdjJMfXqL7a2E0WdBRGh0ZYObl573
-	 AA5jsOoULeWL2TpFWUXyNmDp7RDg1R7t1Cx/jw8mrKIJLWS6GXS1KDeh+ZCdhPLmXJnZW
-	 +IJQP+BLIo+rXs3GrpdMcGbqmQCt2aQbFmV+/LDS013TDfg3dH1IMVWxzppEepepGvw==
+	t=1794564109;
+	b=zilh5uDbUJLTVnMcei0H8YHtXXzd/34sCzj70GYhK7o67lREvdTrurrmkN0mrVlyaAjN
+	 OlS0Ap340qgxdLi40QYhSguKz68Bo7gwCflFVUbYq9BOGnSkN7k1mkxXUdZW987XQMjC8
+	 jT9OCihUjlwuFvjkNhhF3BavDuGKuEKTiPCQ2LT9TKNSiStYq5YxBzZ0JYPsWXDnQgdM3
+	 TsoAbiZliI1Ets//ST0KD2UGE7qhibpZgFtYRFfV/xqjjGsrcCBtYoVVihQBacTsETZK+
+	 GPXmpOsXn7y91M2NP8nnqOedas3rBeOy3F764B5XsRBOPUQHRCQhvJ+kvYy+c56M5Vw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794563701;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=;
-	b=bdN0KegLI8v7TQF6RAtG4DkKJjmw3M0Vwj7FokiF3kCWRa9i1hg/Dm6KJwJx4sHAGX/p
-	 5fSE6tlz4DvhvMAb5ezP26abvYha26YokWd8Crkm67sLTkp54kCzNmSpQC+cfD0AgbUKF
-	 OrtgzG5XDRCz/OQAk/8hqHTdyZM12FxaopibeArs/flIcjk5iCUdpRSDMq1Sl7x+AItE7
-	 Z5Z+PEF5PBeI7CMaFDPrIAX3zCD+4TipZJYI4zjDlH7KGB5CyAb4bWefA07CEs4oIeM2H
-	 PJgfbc61hoIzVIjNfu2dfKUNsZmT8FECp9fcGNbjlIKLfLQsE/RGl0Vw6+o5G40YE5w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794564109;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer;
+	bh=ciHtI+5r+7x2SF+EXZv18M3c3IsV/RFqcUbpTe+Eh4M=;
+	b=JBFFWsTRjLTJdAD0w7mNoErGumyC39iRXiBn3jNSPYhCZaiYXMl8wmI2IK80D8yjGlV5
+	 7KTSyR86U1hN/IsoG7K7m+5Af3o50oFCRzUGOjz0pg+Hxglx9M/psndxVDhz/xuQOrZl2
+	 Lig+OWgfaI/UvO0iF4vl0x9Gu3exevDAmzGw3YQxUkGg6oL+kgMG1a45PZZSWts9H943O
+	 5Lq7BxFJ+uJJNkGBqy6T4FgTo3IvygjIomfqKVFD3xKroHtN4PDAeBNpH0smFSZp/yVMR
+	 Nzv3JgXZk0IVNqZ2etGsoq6zh0YhGQ45UXceTfJcTOljluLs8GLrxbXuSzxlRi0+SoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=sk58W6sW;
-	arc=none smtp.remote-ip=209.85.218.54
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oNXrDDby;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444E660A2606
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 09:55:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 444E660A2606
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D84606A323;
+	Fri, 13 Nov 2026 10:01:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=sk58W6sW
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c5083bc0e28so142297066b.0
-        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 01:55:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794563698; x=1795168498; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=;
-        b=sk58W6sWmN4ERo+6S+koVh/BM/TVuc998Smvb7+dAHAHasLoIxA1PyH7SpTb2sphTs
-         qaL8BceJIK/C5zTluK59TXAg0t7i18MIhSXKzAc74GDtFkVBtJ5XexxofTn2ErTCpEyw
-         wBL0ZIwSoD+QdFLNUYuAtp3uhttIIU+8CcgeY50Q9BuPcdVkRSxffNnvhBi5q+TOT3Z0
-         N0fPVcnw8avDa7R0wdKzwUNoVC/3vPRCD1SmgKjZfrkNv7BBIugYP8aqCryl3mRTzhIm
-         nyzLSOhSkS/Bye+QA00IM2MsjhnUA408QIyungJaHYxvuyXbuTeC6K0dJcKnUnQNsCLo
-         BJGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794563698; x=1795168498;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=;
-        b=HzwFmJyY29JKOT9dZBTav1gdCkKxTvt71kqRZ3/030jFtjosTCvFtCAO0CwcjRgzbf
-         Q6D8y1qSlw2Gh54TI6s1s1Mjw/FfbMOuZ9ue41MAJoCY8WtTLUKG3OiGxVTFahgavYn/
-         N57+XGhQxztQC6XoUGys62BnJx/CQ2n1AS9RTXdD9lpWEMysfHqjZtRd4QYD5HeRLcfl
-         FD1VLH9fsPDIajSVSrn3PqHcz+JoaiMrRf4y/vGesUuATK2rSLOtD5w15NIC72Q9MVTc
-         1JKvsxHdSaSKzuDAiU4E76P8whZQ+S8+mb+PmaXYcFTC+fgzujs0HwS0brWFjvoynOpU
-         ERKw==
-X-Forwarded-Encrypted: i=1; AL+hErEQByfmDV1XePescZ89nPgMazxIf2CTIziQ/1z+heOZg13KuFunK7CZlxrfr/jpGYg/s5nDw/ylicc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9fb/AYrAv1GaX6kMb2sou+W6XyFI7gGg6VY9KorW0V5JqfGWjn
-	KXl6qVpyti+TVWbSPLdvNkVvwZDG+3H6esRBYW+3fwhA5P4AU/CLdFVLvIX9o5CAkixW
-X-Gm-Gg: AYBFou3bmcqkf1Lozpo/YaW9F3mIHk4EXQRizTNkJUsH5vbz1DXclnS2UGpA/KyW4T/
-	z8AiJKfvViSCUwe1QBRRHk/cV8T2OtkkHaZBBlWAcSn6hHdIaThIqOSH/nLrp5t/xRgD7K5Pe79
-	5JKxLww4dEwQyIN0cpkzpeXE2CZNauE956lNa4MjNS5VyCppRegzVKUskxSw+cBL3d1hNDWsFfH
-	tdHDTGaiKZePzOSG4u2arHPyuR062pBkJH8NGGwEnGvgLZ3CIqvrGV8mdp0H+ZmXXdKe7Y1SPwn
-	dR1HocEu7xc6tCH8GnylbMyLzAuElX5t2lPawjHxpbliiIyeRL5JBMLoBXS7Ofhf+3svjfF8Wh6
-	rIaCTE+rIVjEmSxINEw+w1aiDKuN63BtGX+/5KI7dlGgpMnoyUXrHLGCcxYU/kB7rfj9CKH0Dlk
-	8/h95r2G14e+rs1brQrZdaj5LpdjpKdFbg6vzE287mb8SwQ+71jUMHphmOhTNw+xLfLlalQlZo0
-	gr2l3m72YzTLZD1gaL/BBSCvejzXQ9ckne+36t5uu66+MDhpHUKN5cskreGIni9FX8Zf5bXxCrv
-	M6wX1rYdp1iDKJ16bLmc9iidE/QfScpkA8yokdqm+JaHxABuKS+AeDuDeUeCTVI=
-X-Received: by 2002:a17:907:ea93:b0:c41:4c20:5a80 with SMTP id a640c23a62f3a-c50963bdb9bmr198299566b.44.1794563698514;
-        Fri, 13 Nov 2026 01:54:58 -0800 (PST)
-Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c50957c6c1fsm75151566b.0.2026.11.13.01.54.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 01:54:58 -0800 (PST)
-Message-ID: <b42c9f4d29a9cbea66929c95cc8f736f12703c72.camel@amutable.com>
-Subject: Re: [PATCH RFC 01/41] loop: refuse backing files that aren't open
- for reading
-From: Alexander Mikhalitsyn <alex@amutable.com>
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
- Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
- linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
- linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
- ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
- <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
- linux-kselftest@vger.kernel.org, 	stable@vger.kernel.org
-Date: Fri, 13 Nov 2026 10:54:56 +0100
-In-Reply-To: <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
-	 <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oNXrDDby
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47D061F000C4;
+	Fri, 13 Nov 2026 10:01:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794564109;
+	bh=ciHtI+5r+7x2SF+EXZv18M3c3IsV/RFqcUbpTe+Eh4M=;
+	h=From:Date:Subject:To:Cc;
+	b=oNXrDDbycUwETg6fripz3Zax21stfDwqYisSNPtkMSI4Y9D/gIRPY9t1JIb8f6TlE
+	 HJp++5lYZWrTdD64BFbU2dg325tw2Fxdl8TQlh+LlmZbjapBmMxu9xo72dR4bLXR+K
+	 b5oNY1oQKENHVbvBa2cb/AhZcskKpPhTg52hu3Jd8YkDSiPvINtolvwaZg2alTxaTg
+	 I79a1JAQEGZlHVUMt5gjP48Ojn6nrxM/2MQaJIkBL4TYVtFaf4K6ndtAeYLQmRjVSZ
+	 eylnJpWde95K5UcfUDncQff9uvdaZfV4shP7RprcmKBGUPYF8cZBtqdUvYobped9fO
+	 w7g/HsD8eufPQ==
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 13 Nov 2026 11:01:44 +0100
+Subject: [PATCH] dt-bindings: usb: ux500: Convert to DT schema
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -115,58 +52,184 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261113-ux500-musb-bindings-v1-1-553aa97c5c95@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/x3MQQqDMBAF0KsMf+1AJtYWchVxocnUzqJpyaAI4
+ t0LfQd4J1ybqSPRiaa7uX0qEklHyK+5rspWkAgxxLuIRN6OIQR+b77wYrVYXZ2zlKC3R+51iOg
+ I36ZPO/7rOF3XDxbYC9plAAAA
+X-Change-ID: 20261112-ux500-musb-bindings-c1d0e47c3e52
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bin Liu <b-liu@ti.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Linus Walleij <linusw@kernel.org>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.16.0
 
-On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
-> loop_configure() takes any file as long as it implements -
-> >read_iter().
-> Loop itself never checked whether the file was actually opened for
-> reading. Buffered I/O went through vfs_iter_read() which refuses
-> files
-> without FMODE_READ. Direct I/O has called ->read_iter() of the
-> backing
-> file directly ever since loop grew support for it.
->=20
-> Since commit f2fed441c69b ("loop: stop using vfs_iter_{read,write}
-> for
-> buffered I/O") buffered I/O calls ->read_iter() directly as well.
-> That
-> commit was about O_DIRECT handling and the FMODE_READ check went away
-> as a side effect.
->=20
-> So whoever can set up a loop device can read a file it was only
-> allowed
-> to open for writing. Open the file O_WRONLY, configure a loop device
-> with it and read the contents through the loop device.
->=20
-> Refuse backing files that aren't open for reading. Loop always reads
-> from its backing file so a write-only backing file never made sense
-> in
-> the first place.
->=20
-> Fixes: bc07c10a3603 ("block: loop: support DIO & AIO")
-> Fixes: f2fed441c69b ("loop: stop using vfs_iter_{read,write} for
-> buffered I/O")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Convert the Ux500 MUSB text binding to DT schema. Describe the APB
+clock and the existing ordered DMA endpoint channels, and reference
+the common dual-role USB properties.
 
-Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+Signed-off-by: Linus Walleij <linusw@kernel.org>
+---
+Convert the Ux500 MUSB text binding to DT schema, describing the APB
+clock, ordered DMA endpoint channels and common dual-role USB properties.
 
-> ---
-> =C2=A0drivers/block/loop.c | 3 +++
-> =C2=A01 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-> index a3325ceab484..c96e35c3ef42 100644
-> --- a/drivers/block/loop.c
-> +++ b/drivers/block/loop.c
-> @@ -528,6 +528,9 @@ static void loop_assign_backing_file(struct
-> loop_device *lo, struct file *file)
-> =C2=A0
-> =C2=A0static int loop_check_backing_file(struct file *file)
-> =C2=A0{
-> +	if (!(file->f_mode & FMODE_READ))
-> +		return -EBADF;
-> +
-> =C2=A0	if (!file->f_op->read_iter)
-> =C2=A0		return -EINVAL;
-> =C2=A0
+This patch is split from the Ux500 DeviceTree validation cleanup series.
+
+Prepared with Codex.
+---
+ .../bindings/usb/stericsson,db8500-musb.yaml       | 79 ++++++++++++++++++++++
+ .../devicetree/bindings/usb/ux500-usb.txt          | 50 --------------
+ 2 files changed, 79 insertions(+), 50 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/stericsson,db8500-musb.yaml b/Documentation/devicetree/bindings/usb/stericsson,db8500-musb.yaml
+new file mode 100644
+index 000000000000..9edf77aa43b6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/stericsson,db8500-musb.yaml
+@@ -0,0 +1,79 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/stericsson,db8500-musb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ST-Ericsson DB8500 MUSB controller
++
++maintainers:
++  - Linus Walleij <linusw@kernel.org>
++
++allOf:
++  - $ref: usb-drd.yaml#
++
++properties:
++  compatible:
++    const: stericsson,db8500-musb
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  interrupt-names:
++    items:
++      - const: mc
++
++  clocks:
++    maxItems: 1
++
++  phys:
++    maxItems: 1
++
++  phy-names:
++    items:
++      - const: usb
++
++  dmas:
++    minItems: 16
++    maxItems: 16
++
++  dma-names:
++    items:
++      - const: iep_1_9
++      - const: oep_1_9
++      - const: iep_2_10
++      - const: oep_2_10
++      - const: iep_3_11
++      - const: oep_3_11
++      - const: iep_4_12
++      - const: oep_4_12
++      - const: iep_5_13
++      - const: oep_5_13
++      - const: iep_6_14
++      - const: oep_6_14
++      - const: iep_7_15
++      - const: oep_7_15
++      - const: iep_8
++      - const: oep_8
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - dr_mode
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    usb@a03e0000 {
++        compatible = "stericsson,db8500-musb";
++        reg = <0xa03e0000 0x10000>;
++        interrupts = <0 23 4>;
++        interrupt-names = "mc";
++        clocks = <&prcc_pclk 5 0>;
++        dr_mode = "otg";
++    };
+diff --git a/Documentation/devicetree/bindings/usb/ux500-usb.txt b/Documentation/devicetree/bindings/usb/ux500-usb.txt
+deleted file mode 100644
+index 439a41c79afa..000000000000
+--- a/Documentation/devicetree/bindings/usb/ux500-usb.txt
++++ /dev/null
+@@ -1,50 +0,0 @@
+-Ux500 MUSB
+-
+-Required properties:
+- - compatible : Should be "stericsson,db8500-musb"
+- - reg        : Offset and length of registers
+- - interrupts : Interrupt; mode, number and trigger
+- - dr_mode    : Dual-role; either host mode "host", peripheral mode "peripheral"
+-                or both "otg"
+-
+-Optional properties:
+- - dmas       : A list of dma channels;
+-                dma-controller, event-line, fixed-channel, flags
+- - dma-names  : An ordered list of channel names affiliated to the above
+-
+-Example:
+-
+-usb_per5@a03e0000 {
+-	compatible = "stericsson,db8500-musb";
+-	reg = <0xa03e0000 0x10000>;
+-	interrupts = <0 23 0x4>;
+-	interrupt-names = "mc";
+-
+-	dr_mode = "otg";
+-
+-	dmas = <&dma 38 0 0x2>, /* Logical - DevToMem */
+-	       <&dma 38 0 0x0>, /* Logical - MemToDev */
+-	       <&dma 37 0 0x2>, /* Logical - DevToMem */
+-	       <&dma 37 0 0x0>, /* Logical - MemToDev */
+-	       <&dma 36 0 0x2>, /* Logical - DevToMem */
+-	       <&dma 36 0 0x0>, /* Logical - MemToDev */
+-	       <&dma 19 0 0x2>, /* Logical - DevToMem */
+-	       <&dma 19 0 0x0>, /* Logical - MemToDev */
+-	       <&dma 18 0 0x2>, /* Logical - DevToMem */
+-	       <&dma 18 0 0x0>, /* Logical - MemToDev */
+-	       <&dma 17 0 0x2>, /* Logical - DevToMem */
+-	       <&dma 17 0 0x0>, /* Logical - MemToDev */
+-	       <&dma 16 0 0x2>, /* Logical - DevToMem */
+-	       <&dma 16 0 0x0>, /* Logical - MemToDev */
+-	       <&dma 39 0 0x2>, /* Logical - DevToMem */
+-	       <&dma 39 0 0x0>; /* Logical - MemToDev */
+-
+-	dma-names = "iep_1_9",  "oep_1_9",
+-		    "iep_2_10", "oep_2_10",
+-		    "iep_3_11", "oep_3_11",
+-		    "iep_4_12", "oep_4_12",
+-		    "iep_5_13", "oep_5_13",
+-		    "iep_6_14", "oep_6_14",
+-		    "iep_7_15", "oep_7_15",
+-		    "iep_8",    "oep_8";
+-};
+
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261112-ux500-musb-bindings-c1d0e47c3e52
+
+Best regards,
+--  
+Linus Walleij <linusw@kernel.org>
+
