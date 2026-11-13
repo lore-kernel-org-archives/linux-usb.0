@@ -1,62 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794588191;
-	b=eR6O61Fhvsw6s8+yOQbZKGSvUq78gdYDWb+EAEOVpFowgP8W+KgzJDRObp/RrkUV2nQS
-	 RriegKDnuUtpc6LxBP09VA4dMoKmiY1gkNm76OG9IxS4xmJP37pv7WmsY4lhVBHI1BQM9
-	 zTccbW91aYyCxh3/eKXn5tAb2rfp/uBO6PhZSMgsukYfmZtpu3HHCOOzlhai9eUTIVqI7
-	 aEelQlrWYKcqK6NqAd3jye3YDBQ+sSbRT9z94+KsyZ2+pagl652ibs96zdSBY2fm/wFFP
-	 o2tlg++g7A77yS9l79fkLHkqzT7sYIFutb2zZ2kRu13nCMEI2EQtopTNdPEHh1lh2MQ==
+	t=1794588189;
+	b=fqGqruBMZGBEvnrkRzMQNbU2v5HhtdU4Dfrkb63KhaNpUU4eGx0wiNIDnCO18eJzPEoS
+	 vP2EKjOC14IpTfpts4mhMqXtbeG7Iz++E+fNDdQHoSAfLYRpQ4bxY4zCrD9Rl1KGVzURa
+	 uQELcs8TCKe+ZlHaAClV6RmrxAy+lhsGcVeUi0mZaTg2l1874iGFB+BSlm+FNNK5fGF7i
+	 HFfBtHygoHVh3lnnXQCgzaj0ihP7S7OL4nLMdf19EnqM0/0ObjrRkys1H9389xM1aLu8w
+	 A47cECgw5LyB/DOBJrp8ug7v5oEYF50Bx5/koFTl/jmnHEXKKisEFbs9TeJQtwx6b2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794588191;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794588189;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=a56YD2ooIjSXIZl/nWaph56Vp7INQDG2d1B1RufEDAY=;
-	b=DakyaDuVAyVFZHncMlFkQw6ka6cpeJIKFQfT6gssGG6eIbmHaf2fo3kiIn/biX7pSlGR
-	 FvhhUXiagL21WC+nr5z4ABzXveSidZy2gUz6dwbc5tt7ZczAfJzwv4EzsjmgyCu4aeAyg
-	 6dmwzC/7RrVnO0MzamCqSWtjf+Nqua/HOHiDnkHJcpfYnvMOrlfARAlMQ79sy8I8XYn0d
-	 mv7WUgBIlaACdB3GY2UVkzO5RHIizz/kBwP8jrF8MAFc2GOA9GqkjCRMYzhaZqGGfpTvu
-	 9EYNqwtOmOSjNZLkmbG3HmSHMdYWYmK5OZg0WvpCh8cF1B24bNd5iaqR0+qOSx65ClQ==
+	bh=2WozcIpvm/P+agvQCkA2mMwvHzAgsOPP2NKplsRrsSk=;
+	b=4Yi19aAh81jonC6ihnVNkZp65UiGbhSPgkLOAKjffuk46Jw7qYIJaj0C4nQum63Hyqfj
+	 VRPDlJnryW2qXGgUjhGxsWmSr+iI723zx6HYyG81IFqSTYbcuCalzbHPjmNdKn3pOb0KR
+	 1DpcA86/y20LFEZcNU899xDNJIcb1MOmaTH8vGcGBoWKBktH2lpHSThTJhj+svgfdyu7A
+	 CYk5MN3iC4+l7U0B71fZ0j8q8HUK37m86UlDxPIrVxedUJWWCSIFI2prlM57xU4zabG+3
+	 jC+2Q80xAZ1SbiIakvjOBkoNbhb77Pl/6jCwMbXiTbiya6VK2ZPxxSJYBS8Qk13ehfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=collabora.com;
 	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=Fhn+IcsW;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=pi0mE35V;
 	arc=none smtp.remote-ip=148.251.105.195
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11FD606CDF3;
-	Fri, 13 Nov 2026 16:43:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A11FD606CDF3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8F7606A8A2;
+	Fri, 13 Nov 2026 16:43:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C8F7606A8A2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=Fhn+IcsW
+	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=pi0mE35V
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1794588181;
-	bh=GlFrJbzLFK+WRqY75D3OWoOb4ctV9AvvTZwRpsTju88=;
+	s=mail; t=1794588180;
+	bh=aPT9SaRq5IqvaePbt4GmJ85MCVmVPjKbwvPnFtra8Wg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Fhn+IcsW3GUWeV5OdllawGhyKP+kHaDne09MPm8Ko7SKm84GWhUG4+cJBLCPg8loT
-	 DhBPqRyheZGKEHQmD0i2pkD1PWOUkeWdEriK93At9QlRYPkJc6CO8TZz8EHOBomagV
-	 HNwZ5ksm53TsfbCHgFN+NaAoBRAVgLEtSTYFe4z8LNms5YZf6xSiBNvV0KabDr04Tk
-	 AMmCGR7XwqZk244UHglqTiD1fj5LpNljgpXLMf+kJDA+mb0QPvtHt/435QCXSltM+B
-	 xvervKqjFlq0ZX1SRm4a0Rzr6n7oTHm9mRDenmpLFO8AV3HIzsoxYib+I+JTXMkHxM
-	 iqpqN93kPznBw==
+	b=pi0mE35VbI8Qo3RmdUt0eSmrJG2Lbv0HgjUnOXnJD9jcZrtsPflXpX+LeMTz1YdZp
+	 E9Sxofh2xJD1fBwMKdPfzB521joAQIml65L/fiw1kgZdOGicDrTvES2YBgsPkIU2BM
+	 iq4jSaR0Q15GX/JZKjEg+DBl1QpaDZ+LxR1a78SfFZowVitNkfFFu3KUkFyWdrBwD2
+	 2J059KbMuFI1dbiEPbaBjnKDgEUoqnrnHYi4HOF6KqUipqTOkx242TmSWE02o3Jju9
+	 viyyQ1CGDaYgGTemIYEX7z9NWLojCPgv95l+Q+/3smTqCojMjUIrhnu/CKSyi0KpW1
+	 xA91Raloo4jPw==
 Received: from jupiter.universe (unknown [100.64.1.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0285617E14AA;
-	Fri, 13 Nov 2026 17:43:01 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A6DAB17E09BC;
+	Fri, 13 Nov 2026 17:43:00 +0100 (CET)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id 67F9B48003A; Fri, 13 Nov 2026 17:43:00 +0100 (CET)
+	id 610EF480030; Fri, 13 Nov 2026 17:43:00 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Fri, 13 Nov 2026 17:42:42 +0100
-Subject: [PATCH 6/8] usb: typec: fusb302: move gpio_int_n into function
- local scope
+Date: Fri, 13 Nov 2026 17:42:38 +0100
+Subject: [PATCH 2/8] usb: typec: tcpm: add device managed port registration
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -68,7 +67,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-fusb302-probe-cleanup-v1-6-e5c65a8c58c8@collabora.com>
+Message-Id: <20261113-fusb302-probe-cleanup-v1-2-e5c65a8c58c8@collabora.com>
 References: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
 In-Reply-To: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
@@ -77,75 +76,84 @@ To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  kernel@collabora.com, Sebastian Reichel <sebastian.reichel@collabora.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1776;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1990;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=GlFrJbzLFK+WRqY75D3OWoOb4ctV9AvvTZwRpsTju88=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGr3PhRx9U6aBA139yx9rAEJP86lTjd8ZoVNA
- nAI8tzlvAeDeokCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJq9z4UAAoJENju1/PI
- O/qadVAP/32IqgsbRKHQfazi9hd/skCO1ck5wAy+IEsg9puLh+9Gysi5c2+dHWHq1XWVhPtGJqQ
- otU7fvD7V9JBljpa74wqdr4HcsJJ1YzhK7/GayTWK56ll0Gu6CLsGjHFeybn+5cjTBPqDmBCCUP
- 0c33Ym6UKb4Z/trz7TtCI9JTW8+TNnnUH7i5QmfTHtah6E7pLc0UpE5/qUQk2H9MgtYJ3xuvVQT
- 8tZbd2nJDMSdCIA+OQrb/0zohGhP6Nj4gO56vZ/RCyBDfEUf6SJdUCf0NC6j5DFGAqCfBj0Bggr
- bVLtniGftY7sOoSwM2fLJeD0BFwMEtUkkDWZvk7EN/AvBV1ZSyYTjs/T8JyqHdPCZ3NgG8EKl8z
- txEFXIFsXu5pXYEjy+T9yHECVMgVkgXL8Ryo14D2j5aoNERo38AZvdZpXLB36UtIteYo5S5RcDM
- cGsiot3kiABv0tFJxyNMYRK03X98k4RyfKq0j2G/afJXNual9tkwM22eG8cSAJ9DUkeY7t8/4vK
- Jr8tQTkKgq17i9tW82AC0Kw7iIjv9pOpaVfblUJoV+aB5LGiO2wmwzs8FxajlDHzwhuixivmS87
- qGLxQquU7uibemT0O4sRC7zz6jtnc8HNkDxfUEyRhnAzLJJX4MVgKcrREYKiQGwYVDGI5kzgrPU
- 5OrYIrtMh3dSUn9c3yUwssw==
+ bh=aPT9SaRq5IqvaePbt4GmJ85MCVmVPjKbwvPnFtra8Wg=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGr3PhTMpifL9Oj+ud0Gm/wAiaER4AbvuUJhN
+ p8LXySufyyUxYkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJq9z4UAAoJENju1/PI
+ O/qaVKoQAIAOZnBzSkIVxlrTf3sof9w5wSZHmGaBojs4RKiXRXxJOOCzyLch+Fo1gxS3MHSheLq
+ K/6fyBq8XvQ6bXvfeD0fMUxQtjvEEPhHho2b2vyBEzokaGGF7yBl1d0UVyAksBeuVnc1qOBB2A0
+ ryg0AO8M1clvUlBcTDPGKTvkviB22uvWownwoDo6Q6Oy8VycKAo+NVIKI+ELmCcROqk0M4rmF/5
+ wqvtEBmyTuzqg0yQ3mFqDmadcVhkjo82ImJ369D8ex+N3O2MN3pgU43VYU8A1fUmMs9XIIMO3v0
+ tOPvndQp6dADrF1IRuGmwHAgsv5N+np+Y0D+TZhD/vVIe0aA70UbjUoBvgNkcVqqD4MkMIYwAuG
+ cJN30mhKqb6BCcXayo28Ik5CUg/95UIZLTCuyaY4bJ9dAVQ3vMLpQtACqr1UDX02DhSwPw7opLO
+ jtW9qSGs4wA5axnYDWzSTgaackXBNmKbSnaQBR+eW4Y3fCl78P2D+Bpqj+GzuOPCTZlNbKKQJ58
+ O7ia65xMqONOWILMFgDOmjByoWs0wSzppfYWpOm2jNgPoUaInFRs+HsG7jx9fLvyARn206hMh48
+ a4iNpuccvnWyhCuMdp9+TmCbzsxpSLOm4UsC52bEsD1ompmcI+uW7hBt76NFoGZwZxvp7U7kBmZ
+ gDQPIj1cCrUroqPDhPgwmHg==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-The driver only cares about the interrupt and the GPIO itself is
-device managed, so drop the reference from the device structure
-and only keep it in the function scope. While at it cleanup the
-error handling by using dev_err_probe.
+A few drivers would benefit from having device managed TCPM
+port registration, so that their probe routine does not mix
+device managed and non-device managed calls.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/usb/typec/tcpm/fusb302.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ drivers/usb/typec/tcpm/tcpm.c | 25 +++++++++++++++++++++++++
+ include/linux/usb/tcpm.h      |  3 +++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-index 1b3ee5715a74..76851e2b9ce5 100644
---- a/drivers/usb/typec/tcpm/fusb302.c
-+++ b/drivers/usb/typec/tcpm/fusb302.c
-@@ -86,7 +86,6 @@ struct fusb302_chip {
- 	struct work_struct irq_work;
- 	bool irq_suspended;
- 	bool irq_while_suspended;
--	struct gpio_desc *gpio_int_n;
- 	int gpio_int_n_irq;
- 	struct extcon_dev *extcon;
- 
-@@ -1646,19 +1645,17 @@ static void fusb302_irq_work(struct work_struct *work)
- static int fusb302_init_irq(struct fusb302_chip *chip)
- {
- 	struct device *dev = chip->dev;
-+	struct gpio_desc *int_gpio;
- 	int ret = 0;
- 
--	chip->gpio_int_n = devm_gpiod_get(dev, "fcs,int_n", GPIOD_IN);
--	if (IS_ERR(chip->gpio_int_n)) {
--		dev_err(dev, "failed to request gpio_int_n\n");
--		return PTR_ERR(chip->gpio_int_n);
--	}
--	ret = gpiod_to_irq(chip->gpio_int_n);
--	if (ret < 0) {
--		dev_err(dev,
--			"cannot request IRQ for GPIO Int_N, ret=%d", ret);
--		return ret;
--	}
-+	int_gpio = devm_gpiod_get(dev, "fcs,int_n", GPIOD_IN);
-+	if (IS_ERR(int_gpio))
-+		return dev_err_probe(dev, PTR_ERR(int_gpio), "failed to request interrupt GPIO\n");
-+
-+	ret = gpiod_to_irq(int_gpio);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "cannot request IRQ for GPIO\n");
-+
- 	chip->gpio_int_n_irq = ret;
- 	return 0;
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 07d2a03d2b8d..7d6378acf018 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -9013,6 +9013,31 @@ void tcpm_unregister_port(struct tcpm_port *port)
  }
+ EXPORT_SYMBOL_GPL(tcpm_unregister_port);
+ 
++static void devm_tcpm_unregister_port(void *data)
++{
++	struct tcpm_port *port = data;
++
++	tcpm_unregister_port(port);
++}
++
++struct tcpm_port *devm_tcpm_register_port(struct device *dev,
++					  struct tcpc_dev *tcpc)
++{
++	struct tcpm_port *result;
++	int ret;
++
++	result = tcpm_register_port(dev, tcpc);
++	if (IS_ERR(result))
++		return result;
++
++	ret = devm_add_action_or_reset(dev, devm_tcpm_unregister_port, result);
++	if (ret  < 0)
++		return ERR_PTR(ret);
++
++	return result;
++}
++EXPORT_SYMBOL_GPL(devm_tcpm_register_port);
++
+ MODULE_AUTHOR("Guenter Roeck <groeck@chromium.org>");
+ MODULE_DESCRIPTION("USB Type-C Port Manager");
+ MODULE_LICENSE("GPL");
+diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
+index 93079450bba0..fc60980f9f41 100644
+--- a/include/linux/usb/tcpm.h
++++ b/include/linux/usb/tcpm.h
+@@ -177,6 +177,9 @@ struct tcpm_port;
+ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc);
+ void tcpm_unregister_port(struct tcpm_port *port);
+ 
++struct tcpm_port *devm_tcpm_register_port(struct device *dev,
++					  struct tcpc_dev *tcpc);
++
+ void tcpm_vbus_change(struct tcpm_port *port);
+ void tcpm_cc_change(struct tcpm_port *port);
+ void tcpm_sink_frs(struct tcpm_port *port);
 
 -- 
 2.53.0
