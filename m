@@ -1,47 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.16.62.121
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794529019;
-	b=IGmfcq8DVtLOVOICsl6IqS/i5ws1YW/dtkcUk864n8zaDq7ThlJEC4P16qqasJiBNqjC
-	 Hzquqo1vEIR+cpIlawbs2TSvuAsed4An4m4kFvTa0inl1eh8Ghx6ks7YWha2eHNUqvI91
-	 MRq4PAHAjKYfSDx3ZRPpJluxrtJYuYLmOLVBVqHj52tfRrOU2AijE0PdZAv9lmF3NMzmd
-	 jM3NsL9/l3sT80v3gpjWKstCrZTR4gYujnnlzV+WsHcYW1NujJYq7CIghKDfhr9GUn0YF
-	 noG8GgiWQ/hOKUUAQa5yPqsSuonM3WItj4IAlSMusiiDr+bK/Q7eRoIswEaxAJk/row==
+	t=1794530144;
+	b=dgUTo7xZCrXYq895gfhxNAijEmcvLxdsQA937uM9XE2vWeeYHKAenpwIxsnNxdHI4UIE
+	 9mVSoIppr+/Ey+WNrCXj8hzVrITZObl/9658VrKLOQa0H978+4Jug1L1+p8GlxVdDx/If
+	 ODKzAKcH5ghBB8dLb2vP8meC7qPJJTj45vKGF3hIyHaWcW2w8Diezq18ZXZ+ZCOfoZSjj
+	 r+Q1pnUCjpsrw10RpK74nm7E9oZ/BxxWMCjvla/X4E0SpPc5TkKIz/zS5LMVMx2luxjju
+	 Oc+oGLc2U6rQVUxihaTU50idRGMADATyzBLt4Dc9AwT2/pkF0xWxIMkryeQ138MujlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794529019;
-	h=DMARC-Filter:Received:DKIM-Filter:To:From:X-Ip:X-Ip-source:
-	 Precedence:List-Unsubscribe:List-Unsubscribe-Post:Subject:
-	 Mime-Version:Content-Type:Content-Transfer-Encoding:X-MagazineId:
-	 X-uId:X-Sender:X-Url:Message-Id:Date;
-	bh=NOfNgTyd0uEr6RzFm0WGakXbVq4eVhUqaBjZ/gzkpPY=;
-	b=cA3n8WcKCMbPyOXOA8QbjF0oNEOdW8A9cVxUBSF9F5q8ed5VlZdEz0DzW7IBOOayPA0W
-	 EEH/FJhE8SDSzqsofbf3lLcvB3JX4aKRS9P8pwirpAp8jhAkI63cMTJAIrCk0njwN6q6w
-	 RAeWjw0xqRru7X8ktEs6ivrSvqa3SccAt0RJ5WXFQQOEq4xgDVRjdqnfM4x7MSInB7yds
-	 VH5F3ECgjBQedJrtdgFNHIbl8nSLuHxr/deGghs8mCeM1PfVhrmgx8oAodjWzxhqyiPOL
-	 YaFGvbc0BoB9KeLC62eU/MGXlqBwXI3kL7EhHnFvJXuVosvmXcILZE5EWhpYo+y2YLw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794530144;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Received:Date:Mime-Version:X-Mailer:Message-ID:
+	 Subject:From:To:Cc:Content-Type;
+	bh=FXNL5WQI5c02nExDW7bQODazz59dETjZrgoxn+webag=;
+	b=Ba2i7038moRH/DPHJveY6kSjFWg61NGYPtWmbvj7nUUvznwdQu86TMicnlyFulFJlx81
+	 zXn1khFrqHOvRC+O/uvszO0dOLSpGmvW7eHq7EDhO8+OImdWUE4kYgFbWBKvvK4mv/+Io
+	 NIq4qIIVULOPRlBKV7ok2mmPHJ6Og7ZbdHdtc1iEq3pBVZdb84Pc5MXiFqi2xDrtQ3002
+	 PGuvL1zr0QdFet8deP9SLTA8JnrPloCNrxIjvAPVkqkYPygwI8VTh2N3UucSJko0C8c3m
+	 MT/QHTajOtxUUhVMzXv8bKALKhQkUpzrjjXdy1ChcB/Zfh8xbeTOEgUgM23lbYeEBAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=knowledgelink-corp.jp;
-	spf=pass smtp.mailfrom=magerr.combzmail.jp;
-	arc=none smtp.remote-ip=160.16.62.121
-Received: from r9205.ps.combzmail.jp (r9205.ps.combzmail.jp [160.16.62.121])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--sarthakkukreti.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OrwtgJrv;
+	arc=none smtp.remote-ip=74.125.82.198
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925F9606A331
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 00:16:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 925F9606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=knowledgelink-corp.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=magerr.combzmail.jp
-Received: by r9205.ps.combzmail.jp (Postfix, from userid 99)
-	id 69DE9C5328; Fri, 13 Nov 2026 09:11:48 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 r9205.ps.combzmail.jp 69DE9C5328
-To: linux-usb@vger.kernel.org
-From: =?ISO-2022-JP?B?GyRCP0BFRCFDMGxITDxSQ0RLIT9NJUolbCVDJTglaiVzJS8bKEI=?= <info@knowledgelink-corp.jp>
-X-Ip: 6388031638722809
-X-Ip-source: k85gj72848dnsad1u0p6gd
-Precedence: bulk
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-Subject: =?ISO-2022-JP?B?GyRCPFJEOSROMnE8UiROIVYlKCE8JTkhVyEiGyhC?=
- =?ISO-2022-JP?B?GyRCJCQkRDwtJGEkXiQ5JCshKSFaN1AxRDxUOEJEaiU7GyhC?=
- =?ISO-2022-JP?B?GyRCJV8lSiE8IVsbKEI=?=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E345606A31C
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 00:35:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E345606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sarthakkukreti.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OrwtgJrv
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-30bcb065bfdso570476eec.0
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 16:35:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794530142; x=1795134942; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FXNL5WQI5c02nExDW7bQODazz59dETjZrgoxn+webag=;
+        b=OrwtgJrv0GSp75zK9qepCyORCRFMOaz0QBAwUAaVzAZA6CBYYqy8bb7W5v18PaBBKx
+         mnewPJjFrMNlMEGhJmBzcynp6qWFBTzp0lkRKDkvyuckZOGUu4diiSdPHnvX3Nw87Jt+
+         dt2FbRpEJfrIoAws88U2YU6hGLjaF2VDQ6DXAPeP/tczWy2Cm96bq7bOOwF0Gyu1EcC+
+         emIufjAOryps7LvSVbPJZvZ6x8o13iw4QiP0Ssp6sUmEQvb/XnGRAF4jATZdQHQO8b2w
+         as6l/bKML0hCH2l4bf39MbStNTFkZr5mNiulsnLWfCEWtpahwwDpKqJIRR6+t0VhAx2z
+         8g6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794530142; x=1795134942;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FXNL5WQI5c02nExDW7bQODazz59dETjZrgoxn+webag=;
+        b=jAmITORadcdFusOvDn4o8I6qcjyEvKNwA9Dmy1K2GfAKJ/nESkPXWJRMfIFfgkrei2
+         4YTGCrTrC6nYQ7hA3rUEnohMUPZ5JXi6RLABFE1dlA5Q1pup0X/k1ajA8fE0/T59N4zi
+         im2RudM3mc2h4e54ASjbnL61+lgcbp1NUYKXvZi4VYPL8bY8GjLSWY8Is4Up5EZy1dkR
+         B/k5UgiucghH5yJcsExJQYJHeDx1Tj3LNepZuANbaWYVZYPyhufECuVcFca2l30JHstK
+         pRApDfTeCCM8v8nrTgBiDxE085pveZCOCLqRGk12NP2AeYfUCSJpDGxFwFTsbDVi+zkj
+         zh6g==
+X-Gm-Message-State: APuU4Z+RL/w1LftkkXuKpBS2+gYH4VUftV3t31nxYS+L7J1FjOgAOtrW
+	7dE3P8TaWGJoOrGnSbdA0Uwuv9n/wcN1Jbctcceh0kXIXDW359fh5evfuJGRkV+USl7pPI4cvC3
+	XIo2bVY/ARBvVwZcUedmyJWqJ4SClkbhkw+/Ozg==
+X-Received: from dloo10.prod.google.com ([2002:a05:7023:a4a:b0:163:a42e:b837])
+ (user=sarthakkukreti job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7023:a41:b0:164:4e36:f956 with SMTP id a92af1059eb24-1b5030d494cmr970998c88.16.1794530142096;
+ Thu, 12 Nov 2026 16:35:42 -0800 (PST)
+Date: Thu, 12 Nov 2026 16:35:33 -0800
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -51,87 +75,55 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-2022-jp
-Content-Transfer-Encoding: 7bit
-X-MagazineId: 28d1
-X-uId: 6764325137486067654956401026
-X-Sender: CombzMailSender
-X-Url: http://www.combzmail.jp/
-Message-Id: <20261113001248.69DE9C5328@r9205.ps.combzmail.jp>
-Date: Fri, 13 Nov 2026 09:11:48 +0900 (JST)
+X-Mailer: git-send-email 2.56.0.611.g1030f0b940-goog
+Message-ID: <20261113003536.3622755-1-sarthakkukreti@google.com>
+Subject: [PATCH 0/3] usb: uas / scsi: fail inflight and queued commands on
+ dead links
+From: Sarthak Kukreti <sarthakkukreti@google.com>
+To: Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>, 
+	"Martin K . Petersen" <mkp@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Sarthak Kukreti <sarthakkukreti@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-　
-　ルールを決めたら、社員は辞めるどころか
-　「迷わなく」なった。
-　
-　これまでに4,800社以上への支援から分かった
-　
-　“凡人”を常勝集団に変える
-　ルールのつくり方を
-　
-　次の朝礼から実践できる形で
-　分かりやすく丁寧にお伝えします。
+Unplugging a UAS device during system suspend after hub_wq is frozen
+defers usb_disconnect() until hub_wq thaws. When sd_suspend_system()
+issues SYNCHRONIZE_CACHE to the disconnected target:
 
-┏… Overview …………………………………………┓
-　
-　「あいつが辞めたら、うちは回るのか？」
-　
-　　エースに頼らず“凡人”を
-　　常勝集団に変えるルールのつくり方
+1. If the HCD accepts the URBs, the status URB fails in uas_stat_cmplt()
+   without completing inflight commands, stranding SYNCHRONIZE_CACHE for
+   the 60s SCSI timeout and triggering the 25s DPM watchdog. Patch 1
+   completes inflight commands with DID_NO_CONNECT on non-unlink status
+   URB errors, unlinks inflight data URBs, and preserves non-DID_OK host
+   bytes in uas_data_cmplt().
+2. If usb_submit_urb() fails with -ESHUTDOWN, -ENOENT, or -EHOSTUNREACH,
+   uas_queuecommand_lck() requeues the command instead of failing it,
+   and leaks unsubmitted URBs if status URB submission succeeded first.
+   Patch 2 fails the command with DID_NO_CONNECT and frees unsubmitted
+   URBs.
+3. When the command completes with DID_NO_CONNECT,
+   scsi_check_passthrough() matches SCMD_FAILURE_RESULT_ANY and retries
+   it against the disconnected target. Patch 3 skips retries on
+   DID_NO_CONNECT, DID_BAD_TARGET, and DID_TRANSPORT_FAILFAST.
 
-　　　　　　　　―――
-　　日　時　11月24日（火）13:00-15:00
-　
-　　会　場　Zoom無料開催／定員100名
-　　事務局　ナレッジリンクセミナー窓口
-　
-　　詳細はこちら
-　　https://knowledge-co.jp/rule/
+Tested using a USB/IP (vhci_hcd) UAS target emulator that freezes
+hub_wq, injects -EPROTO on the status URB during inflight
+SYNCHRONIZE_CACHE and READ(10) commands, and verifies immediate
+DID_NO_CONNECT completion without retries or DPM watchdog timeouts,
+along with the scsi_lib KUnit test suite.
 
-┗……………………………………………………………┛
-　
-　
-　多くの社長とお話しする中で
-　このようなお悩みをよく伺います。
-　
-　　・エースが辞めたら、売上が大きく落ちる
-　　・朝礼に遅れてくる社員がいても、誰も何も言わない
-　　・同じミスに、毎回説教。その後、自己嫌悪になる
+Sarthak Kukreti (3):
+  usb: uas: complete inflight commands on status URB error
+  usb: uas: fail command submission on fatal USB errors
+  scsi: core: do not retry passthrough requests on disconnected targets
 
-　研修も、クレドも、評価制度も試した。
-　それでも改善は続かず「結局は人次第なのか」と感じている。
-　
-　
-　そんなお悩みを解決し、成果を生み出す会社に一変させる
-　本質をついた、ルールづくりをお伝えします。
+ drivers/scsi/scsi_lib.c      |  5 ++++
+ drivers/scsi/scsi_lib_test.c |  9 ++++++-
+ drivers/usb/storage/uas.c    | 51 +++++++++++++++++++++++++++++++++---
+ 3 files changed, 60 insertions(+), 5 deletions(-)
 
-　
-― セミナーで得られること ―
+-- 
+2.56.0.611.g1030f0b940-goog
 
-　・ルールを増やすと社員は辞めるのか？への答え
-　・「姿勢のルール」の決め方
-　・「完全結果」の指示に書き換える方法
-　・エラー時に上司がかける「一言」
-　
-　
-　いずれも、翌日の朝礼から試していただける内容です。
-　
-　自社の組織に希望を持つための気づきを得られる
-　内容となっておりますので、ぜひご視聴ください。　
-　
-　
-_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-　一般社団法人ナレッジリンク
-　東京都千代田区神田小川町1-8-3
-　セミナー窓口：03-5256-7638
-
-……………………………………………………………………
-　メール案内が不要な方にはご迷惑をお掛けしまして
-　大変申し訳ございません。
-　お手数ですが下記URLより手続きをお願い致します。
-　
-　配信の解除依頼はこちら
-　https://fc-knowledgelink-corp.jp/mail/
-
-_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
