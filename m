@@ -1,57 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794592293;
-	b=4jRQfqe9WSygEkMIzOjXP1KpK2Vh5Gq7kTy9Zk+dTLirvTxpKPf2Gqk0WbyOxZxw37v3
-	 q/Jx1IBZ7T2O0DpZSFqQCWq68SUwt1uB18cD8CQsCYShfo5sF+0Jl/VgjtgoEYJ0OyY3+
-	 TdXP3+rZwQCyH+vJdaj++J9kfrxukq+oxzNzDAf7GD6Lqdws+KMWjYUgtfhpvu8fPIN14
-	 w3kR/00+PGuDRlitc/+Wti1MVjp2i7JhGrtrUXWYvFh6fcz3WdAfXraRrxDaeNR7Gn7P+
-	 7B2gkb6MhDyDlaaIcKFQCueJKsT6Ap9odEZLCeRcBKqcJM/Aq7vo4f0bbTWgzV23DpQ==
+	t=1794592306;
+	b=lFH2T2rwclNtSqutq3yaI9DVjmZf91DUGuBPfg4HuUH2VdzKIwoGwS0aCpxol4qIG+T/
+	 ckWkfF2uSodeP4AyggO75jYhOxziB7G2+RiNyxF8HmeqB56JFPpt4zc5QRFRaPKpf79AR
+	 tp5JQJ0oDY5/uVpRIBKn4p17RSop0sGWT0LNwusxEkDLxaJ86RipmpqpYAIk6XHqKRQH3
+	 yz0bmeOQ+10rChWx9Hj97Exd1Tn3aobxOZ01Gamy9p8catWe59UqxuEjV5eiUiI4yxZ0C
+	 VNl4JHYbGEl/yVcqzQ9wuqEj0/ur04HRb3/4anLGBw5SFI/ifBMEqFJWxp7Dutrwvgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794592293;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=evWnccBXOuV3kX30/MPEgEkNgDZA3VhIdQ3kPw1k/Vg=;
-	b=0/Jd0oodSSzr9qJm9DIje110+TJayiAFORgI/WeSOxPKFthHDzHDdSBt7zwbLTXYaZEf
-	 AapjI3jTnoB/Bf+cd42ziNSstE/SZEES304KovqeMLHxsrWb+GxnxYj4u9Px2d/iwXlBa
-	 DwFtExbGU6XKjFsAazlJGRcWM219zxtMlFbE2MCaPhNzAooftSblW4vb2FiG76B+yZrMT
-	 EJgF9empMQYk+o0xlUNJ//IcrMfu6aAhUqvfxN8Wzr16S2UqghjxrUOFz7tqWzU2AVLWQ
-	 JLh/loGxTIXD3erxcCQHGzMyPWKL/U1e7PI5gqvHzLxdibiEgfpxOkHfEwY4DM7uYuA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794592306;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=HDX9FP/gCkD0XZlrFX1/lXfJC5c3lZl1P1CF0qtfO9A=;
+	b=C53Me/14xiuorBaNdF7n002RXKq33hjoj2/7Ce47x7mgA4eF+bNQ31GVEoQnjjiEwTGm
+	 96uSpmj3yBboDLeXISY5TiTUQsWImfGKQmF5B8ZrJzI+uxjT4qOIepELUkfDJ0pK3aHCY
+	 lqPsdds087COsuYa2DYSPF2FP+PjR/4vIGZXYKQsJqLy6zgMoXZhKI+UMpzO8iHm2irL7
+	 r3VjKH7s03+T01ETcM/qr2yVFaEV3ouAchuBjdOO5PxKX0EFZtNIXTspz1Kwv78Lx1MhC
+	 HA/x3FFYa2RkT85+dBZ4ZVYnBiOJ5nqZpwlvz3lmcZp8/O46k+YHVvJ36Bw22ubNl8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aXoj+duF;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.197
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6A9606D498
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 17:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aXoj+duF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23FE31F000C5;
-	Fri, 13 Nov 2026 17:51:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794592293;
-	bh=evWnccBXOuV3kX30/MPEgEkNgDZA3VhIdQ3kPw1k/Vg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aXoj+duFLW+RJc+U1p+/7KDhe3eqUO6g8XQyeQ8sTIXPFmzQic++mJnPNQJi3a6Of
-	 PyVC7telTT+izauPegoP4xd2FFg/ISmjgaf3aplwDUuuKH3njl4WEPoA8+NzQ7CFDq
-	 OQSvyE0BcUMBqPjdwEtPppwdKWQ/CamNFIUWm0paqDnXVqyQLqordXrP3PFmMv8Gdi
-	 F8FkDp0xnwG5dEEP8q0HrJ9PEs9afozkOwLVAFCNzjzwK0NBBSFZvfG1L00HVWw9OE
-	 Ypgcsfu81cGgkos8VNqnF1gSmp4gpl0N/Qkkd+fv8vOCDJlwCbfDMX2GaEBoHWBl4X
-	 J+IAnB56svatQ==
-Message-ID: <sashiko-outbox-213366@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 8/8] usb: typec: fusb302: drop custom gpio interrupt
- logic
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sebastian Reichel" <sebastian.reichel@collabora.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261113-fusb302-probe-cleanup-v1-8-e5c65a8c58c8@collabora.com>
-References: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
- <20261113-fusb302-probe-cleanup-v1-8-e5c65a8c58c8@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 17:51:32 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37949606D4BB
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 17:51:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37949606D4BB
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-567e742f481so746050b6e.3
+        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 09:51:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794592305; x=1795197105;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HDX9FP/gCkD0XZlrFX1/lXfJC5c3lZl1P1CF0qtfO9A=;
+        b=P7CaVNVPHzhELEgwMMxwrpJj+XEpfDRudk9n+gXDLOXLxkhjfnZdLrIKHElTutcEaf
+         Pd9Ml6rolwrQ7olccSQLIq6CEZ5sIt8P7K8CIzPLNkYp/c1CsmGEeVKCpnTA3ZKi1VPo
+         YS4583D+7DO19PJWUFhei9WTx5lF5OZU8dxV+jwz+jtYrLyn23YAFkcCesKx709dEHFt
+         T8GggzH0JaETsgMQ4ZfskOqWZZtIFGmmk2Lrk8moqdBhiFZmcVAk/5HnM2WD+rbHa02z
+         RB16p6+MMn4xg6vO7xrjkXQ7ndSdtpzrS9D0Zmu7HbHhpos8o/pmveeDz6qn6cozjQDf
+         1NOg==
+X-Forwarded-Encrypted: i=1; AL+hErGRyCG5k6J0lrMyzCcbz0bKz5+Uu0p2sZ5FfR5qAc7AxGl/v9uycETX0GCxbnr9AfpSNx8x7GvaPiQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+DexicBz24SoWRH/S/4mnRQ5Qr21UNEaxyCp1LfHPnxsI0MvtG
+	2YjBtSE2VC9+6thGDJ63Aa3XgooEV86mZIDT7Gar7W76gUIYsTgpOCpwqRx8GqRLsBKz5e10a3Y
+	njrEfJwEQKF1jB1YlFrzPutjrO8hPMq5RaiDCeIy7+zDa3blKcrIBtTzSOXg=
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,56 +57,125 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:238a:b0:4f1:6ab6:8fc0 with SMTP id
+ 5614622812f47-56e642d0ae8mr2617802b6e.15.1794592305279; Fri, 13 Nov 2026
+ 09:51:45 -0800 (PST)
+Date: Fri, 13 Nov 2026 09:51:45 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6af74e31.fe96acdb.12252b.0009.GAE@google.com>
+Subject: [syzbot] [net?] [usb?] memory leak in ndisc_send_rs (4)
+From: syzbot <syzbot+bf62ca9997f43d2fa521@syzkaller.appspotmail.com>
+To: davem@davemloft.net, dsahern@kernel.org, edumazet@kernel.org, 
+	horms@kernel.org, idosch@nvidia.com, kuba@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] usb: typec: fusb302: void stub for fusb302_debugfs_init()
-  breaks !CONFIG_DEBUG_FS build
---
+Hello,
 
-commit 68b5d98996b526119f13f5957d4fd6cf07fb01e3
-Author: Sebastian Reichel <sebastian.reichel@collabora.com>
+syzbot found the following issue on:
 
-usb: typec: fusb302: drop custom gpio interrupt logic
+HEAD commit:    9d66f26fefac Merge tag 'vfs-7.4-rc3.fixes.2' of git://git...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=136da9ea580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4361b1bb937ae1c4
+dashboard link: https://syzkaller.appspot.com/bug?extid=bf62ca9997f43d2fa521
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12e9ba09580000
 
-This commit removes the undocumented "fcs,int_n" GPIO fallback from the
-fusb302 driver and requires client->irq to be populated.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/292d4fa72c6e/disk-9d66f26f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/78e602f24eea/vmlinux-9d66f26f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/802a7b846686/bzImage-9d66f26f.xz
 
-> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fu=
-sb302.c
-> index 6105f09f96aad..c392134cdc0c5 100644
-> --- a/drivers/usb/typec/tcpm/fusb302.c
-> +++ b/drivers/usb/typec/tcpm/fusb302.c
+AI-generated root cause summary:
+In drivers/net/usb/hso.c, hso_net_start_xmit() takes ownership of an outgoing
+packet by stashing it in odev->skb_tx_buf when hso_get_activity() returns
+-EAGAIN (e.g. when the USB device is suspended, disconnected, or not
+configured). However, neither hso_net_close() nor hso_free_net_device() frees
+odev->skb_tx_buf prior to unregistering and freeing the net_device. When a
+packet (such as an IPv6 Router Solicitation generated during interface
+configuration) is queued during device disconnect or suspend, the sk_buff and
+its allocated head buffer are permanently leaked.
 
-[ ... ]
+full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=bf62ca9997f43d2fa521
 
-> @@ -1751,13 +1733,10 @@ static int fusb302_probe(struct i2c_client *clien=
-t)
->  	if (ret < 0)
->  		return ret;
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+bf62ca9997f43d2fa521@syzkaller.appspotmail.com
 
-[Severity: Medium]
-Does fusb302_probe() fail to build when CONFIG_DEBUG_FS is disabled?
+BUG: memory leak
+unreferenced object 0xffff888100e9f200 (size 240):
+  comm "kworker/u8:2", pid 5708, jiffies 4294993435
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 f2 e9 00 81 88 ff ff  ................
+    00 20 bd 23 81 88 ff ff 80 31 48 02 81 88 ff ff  . .#.....1H.....
+  backtrace (crc 28f53d77):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4733 [inline]
+    slab_alloc_node mm/slub.c:5033 [inline]
+    kmem_cache_alloc_node_noprof+0x368/0x400 mm/slub.c:5105
+    __alloc_skb+0xdc/0x4e0 net/core/skbuff.c:705
+    alloc_skb include/linux/skbuff.h:1390 [inline]
+    ndisc_alloc_skb+0x46/0xf0 net/ipv6/ndisc.c:421
+    ndisc_send_rs+0x49/0x2f0 net/ipv6/ndisc.c:708
+    addrconf_dad_completed+0x1f9/0x6c0 net/ipv6/addrconf.c:4422
+    addrconf_dad_begin net/ipv6/addrconf.c:4184 [inline]
+    addrconf_dad_work+0x5c8/0x910 net/ipv6/addrconf.c:4289
+    process_one_work+0x2b7/0x5c0 kernel/workqueue.c:3495
+    process_scheduled_works kernel/workqueue.c:3578 [inline]
+    worker_thread+0x255/0x4a0 kernel/workqueue.c:3659
+    kthread+0x150/0x1a0 kernel/kthread.c:436
+    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
+    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
-Earlier in this series, commit "usb: typec: fusb302: Switch to device
-managed resources" changed fusb302_debugfs_init() to return int and
-assigned its return value to ret right above this check, but the
-!CONFIG_DEBUG_FS stub still returns void:
+BUG: memory leak
+unreferenced object 0xffff888106538b00 (size 704):
+  comm "kworker/u8:2", pid 5708, jiffies 4294993435
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    60 00 00 00 00 08 3a ff fe 80 00 00 00 00 00 00  `.....:.........
+  backtrace (crc 261f6968):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4733 [inline]
+    slab_alloc_node mm/slub.c:5033 [inline]
+    kmem_cache_alloc_node_noprof+0x368/0x400 mm/slub.c:5105
+    kmalloc_reserve+0xd2/0x1b0 net/core/skbuff.c:616
+    __alloc_skb+0x15d/0x4e0 net/core/skbuff.c:716
+    alloc_skb include/linux/skbuff.h:1390 [inline]
+    ndisc_alloc_skb+0x46/0xf0 net/ipv6/ndisc.c:421
+    ndisc_send_rs+0x49/0x2f0 net/ipv6/ndisc.c:708
+    addrconf_dad_completed+0x1f9/0x6c0 net/ipv6/addrconf.c:4422
+    addrconf_dad_begin net/ipv6/addrconf.c:4184 [inline]
+    addrconf_dad_work+0x5c8/0x910 net/ipv6/addrconf.c:4289
+    process_one_work+0x2b7/0x5c0 kernel/workqueue.c:3495
+    process_scheduled_works kernel/workqueue.c:3578 [inline]
+    worker_thread+0x255/0x4a0 kernel/workqueue.c:3659
+    kthread+0x150/0x1a0 kernel/kthread.c:436
+    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
+    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
-drivers/usb/typec/tcpm/fusb302.c:
-#ifdef CONFIG_DEBUG_FS
-...
-static int fusb302_debugfs_init(struct fusb302_chip *chip)
-...
-#else
-...
-static void fusb302_debugfs_init(const struct fusb302_chip *chip) { }
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
 
-#endif
 
-Returning 0 from the !CONFIG_DEBUG_FS stub of fusb302_debugfs_init()
-avoids the build failure.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-fusb302-pr=
-obe-cleanup-v1-0-e5c65a8c58c8@collabora.com?part=3D8
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
