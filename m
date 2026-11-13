@@ -1,74 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794543612;
-	b=BR7ajy9GUg0pjLm8QcxX7vJ6aXVshzb73tQxxfomhjKmrVHyXDbdUMsmmCViwG8cfIiS
-	 F4K/smD/Hhmb9aT7jesSBUYL64f1d/FAujSELPOsSLfn9aW0cTrygGfPsRAgIfUGoboD0
-	 iATx/h5Dw/uDrjchH8ixdw2uTuzMeIXHFStWvKAmnZBYSlXdmrsxUwQPDxnko5Aq7pcco
-	 PH7tnMv4/x33fRqqgMGBVOOZzS6oaqltp/8reSlf02iJ1tndiu/ww0RCHQAkiBfoAfkN4
-	 g0yB5E/dVmdOPiBoqmT7y5brJnhwDEKvUCJT9QzLO6Y2tCxE6mr/6Q92/J1N0zh6D7g==
+	t=1794544025;
+	b=07EhFOgzwNbliOYRWo6wX+/h4RNnJKhK0nWJlmZzQElrHELm7yd8Y+0yzH0IcC+GJfbV
+	 jLJJmI93Z0O6xc7vFLtvN5TCGUzsy/0UrZPdfNiA4nj5qgmLQIJ0ZKRDZCbe79xi0IUPu
+	 +3Pvql4zw3aDqimdvXGQ0g4f7gKb02tyYeprGtBPm4H5ZaXgkSdWrGv9jz6jotCeD/n60
+	 xBy5QfF35FbYdXs/4PVsjO3pd9BHV/Pip+tUdpOzA2IiFAedOaJRyBFB+xOwQe75nVrZS
+	 jHVtkFrYomnUJ/xVsrHBC8yXeCDhig7WArV3WVO2cQttcZ3FEg48NcYQkNlmVM6GVwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794543612;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=KFG0JH/dMpan8/wpUyzRuxwvuYfdwzdSydgnFcr2KHk=;
-	b=F/pNNhg7jxdTSbnRDe7LZZC28HQh2u3RhpEBn3Vs0NGvR4dNvW0JTHWP45E767q1/+NK
-	 UJ73NPNRjEug7UI+gSSfMtZDGVkPzsVCPrTj+It0zh4x4j/Ue6LKDwuy+ApotwfToTXuD
-	 J5MFeSM9Za7UetLiY1NFclQ/7dlEd8lItzaQIZp8C4zIF8jF4HEwE0LzLsH4wNHXelzfd
-	 YkEOT3j/SE5BbJbNlgHs3mwGx633Xe5tES4c0NlO4HHCFzpM6waTIhoAKvHgqX4BWkVe5
-	 ZkfqRORlg9pu4B+YtI+GAnJ3sa7/EIpiM1e2GsR7vqkkx/lEzn4LeghLxAN4TRfVB3Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794544025;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=+YZakwN8aWlZF7Tz515MWe8LxLuHqgkizjgmsLc6dIU=;
+	b=mpmIS/usFhA1C0A20IjkpNoAHtZdbCrtK6FEXyZJsGGZY4OBGexGuJi6peKX2YKyE3kO
+	 D2xsgl0HIY9pCP/kTMZtGlclXbI2YrUQIR8h7CT7Uht8cGrlIBG1WQAqYMtdRKwyWIHss
+	 paPTf1Un2Fh2caSKaLymm8qbAYzuxtjHFBkq8Jm/G322/fohG8gLveeSACjz1A86UHaov
+	 CRnie1GMbEXdZ4jL2xujDlww1goQQ3Nh3ApDboOB0DP7+8CRYINgvxjQxWF3dSORUYqJ1
+	 1hTS+aMxhSXnjqXvSGqkzXFWLbS/vCRC0wD2zTHvTZRmXWo0gxqW47uS/9q5jjAv2qg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--rickyniu.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PmYkRXSc;
-	arc=none smtp.remote-ip=209.85.210.199
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=brbQpsgs;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9FD606A894
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 04:20:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB9FD606A894
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rickyniu.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E356E606A31C
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 04:27:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PmYkRXSc
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-8b69b8c6dd5so768082b3a.3
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 20:20:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794543611; x=1795148411; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KFG0JH/dMpan8/wpUyzRuxwvuYfdwzdSydgnFcr2KHk=;
-        b=PmYkRXScSdXalPPR67/gXO2L754wW/MWd64f8P+OayBvFvlAV//p5+SnU1KM0So+GY
-         jkV3WMiU4FBXNIUr9hbnL6V2lTrGC1y92GzztziWz7oPzBJCIg6mwF4vlS0xsEY+Ai0h
-         OF7bafxEJTEO7Zr2wcwFSTP4LlBI3/gZ3KJoVrWvVJaIYag9MCF4kdmDw6jiaLU81qXS
-         nzSi2TDSKs1IiUaFuBxVYCeR1vIT1WLViEnaVpoPeceYM2qRDrwtHxjtXYx+NgvYsUVZ
-         G+r0BOxDSbvOMGWN0MHWysFeja5xBJc3o70IrZQ3QZ6Dfm7D1TOryioAV2KLGId8lBTx
-         DqMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794543611; x=1795148411;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KFG0JH/dMpan8/wpUyzRuxwvuYfdwzdSydgnFcr2KHk=;
-        b=q4gHGOvHJNZLS6fW+erxNHw98r1i4jyqKLfItL6mHHMx6txPktTsdEzk2KaceYa88h
-         2hz1Gu8w8RPmKodz6YaxpaOJeTcOH9Abjmcy3Z0rP3xqc6nDxd8WC2jXeyEkVaX/oymr
-         2f6+fFdDb07VcKkYNh0+09aWZwXblPchO5ZSQQIx1AfUq3vIT7tIdkq/dArtqde5dlrK
-         vpWPJpTPViMVJX15YjgA3a2yYL67MtW93zY0a8ZTB8zEEwUZ07u70Np5YwR/isW2v6R6
-         B9oVgr9ht7z2f/J1pwhtvxfKdMe0p3IM6kmCylFwTkbX4Xq9jKItlZq19MDfKB+tXkQg
-         m/tg==
-X-Forwarded-Encrypted: i=1; AL+hErHscQpO8MAL3Wjerbg9PbShXpSUXljGIIm0y02isNaBVKykbHxuq0Wq9iZx/FC960vPpd3ICXv1jfQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9wf+WUPnAXzglyRmhDcSEWNXaLfCzQd2bHfms9w3GgXTGdt5UP
-	oryLZJRhYTbNltel8jMNY+8/kQxmpbGxt/QjUOjW9SQ0mgPJT5oWYC5sV/OITJFFY3Qbb37SpmV
-	CwbeDglYcs7L/rQ==
-X-Received: from pfbft6.prod.google.com ([2002:a05:6a00:81c6:b0:8a0:91b7:e7b9])
- (user=rickyniu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:bc8c:b0:89e:fe2d:abe2 with SMTP id d2e1a72fcca58-8beb84e0741mr1406322b3a.44.1794543610494;
- Thu, 12 Nov 2026 20:20:10 -0800 (PST)
-Date: Fri, 13 Nov 2026 04:02:36 +0000
-In-Reply-To: <20261113041948.1280304-1-rickyniu@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=brbQpsgs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30BC01F000C4;
+	Fri, 13 Nov 2026 04:27:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794544024;
+	bh=+YZakwN8aWlZF7Tz515MWe8LxLuHqgkizjgmsLc6dIU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=brbQpsgsvOV9F9TMAr3Sziga6VAVQY0A3zqYqGKj+Y2SZC6oXWqiFMPHXHHullWZX
+	 6o0i3qCv2jPPgTO+wLwAXmxpS0KrM+bGxkp1gXxi5xBJQhphrQ59AWkMlDDfW6pBMU
+	 rIiVlTFTgasTuK9LIF/KvWV31dBxAvgFX8tR9Q+vBJ0tBXETzdxPTEkwSZ4PrO1z3D
+	 o0yOZxFr98x+eMTj+KiVCk0ADecLD8k+Eogar+l9xKNj5SNqESjS9SMbe9X4u3/O+W
+	 J75Cc+DQL8w8PIDCghZH+3wsBimvUXGy7UHWlyMDkXeutkolhANEGy7SD4BIucDNn0
+	 wIF9aoOIzXDzg==
+Message-ID: <sashiko-outbox-212167@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/2] usb: core: hcd: Disable IRQs when taking bh->lock
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Chien Kun Niu" <rickyniu@google.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261113041948.1280304-2-rickyniu@google.com>
+References: <20261113041948.1280304-1-rickyniu@google.com>
+ <20261113041948.1280304-2-rickyniu@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Nov 2026 04:27:03 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -77,57 +59,82 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261113041948.1280304-1-rickyniu@google.com>
-Message-ID: <20261113041948.1280304-3-rickyniu@google.com>
-Subject: [PATCH 2/2] xhci: Give back URB under lock in xhci_urb_dequeue()
-From: Chien Kun Niu <rickyniu@google.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Chien Kun Niu <rickyniu@google.com>
-Content-Type: text/plain; charset="UTF-8"
 
-Before commit 36dc01657b49 ("usb: host: xhci: Support running urb
-giveback in tasklet context") set HCD_BH, usb_hcd_giveback_urb() ran
-urb->complete() synchronously, so xHCI had to drop xhci->lock before
-giving back an URB. That commit updated xhci_giveback_urb_in_irq() to
-keep xhci->lock held across usb_hcd_giveback_urb(), covering normal
-completions, xhci_process_cancelled_tds(), and xhci_hc_died(), while
-the open-coded err_giveback path in xhci_urb_dequeue() was missed.
+Thank you for your contribution! Sashiko AI review found no new issues
+in this patch, but noticed 1 related pre-existing issue it does not
+introduce:
+- [Critical] usb: core: hcd: missing BH work cancellation on error path
+  in usb_add_hcd() [1]
+--
 
-Dropping xhci->lock between usb_hcd_unlink_urb_from_ep() and
-usb_hcd_giveback_urb() breaks per-endpoint giveback serialization: a
-concurrent xhci_urb_dequeue() or xhci_hc_died() can acquire xhci->lock
-and queue a later URB onto bh->head ahead of this one, completing URBs
-out of order. When spinlocks disable interrupts, unlocking first also
-causes a redundant IRQ restore/save bounce into bh->lock, and without
-an IRQ-safe bh->lock it exposed task-context unlinks to a same-CPU
-deadlock.
+commit 4dc28efe0885658abc7f649ad1d1ba25793691d1
+Author: Chien Kun Niu <rickyniu@google.com>
 
-Move usb_hcd_giveback_urb() before spin_unlock_irqrestore(&xhci->lock,
-flags) in err_giveback to match xhci_giveback_urb_in_irq().
+usb: core: hcd: Disable IRQs when taking bh->lock
 
-Fixes: 36dc01657b49 ("usb: host: xhci: Support running urb giveback in tasklet context")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chien Kun Niu <rickyniu@google.com>
----
- drivers/usb/host/xhci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This commit switches usb_hcd_giveback_urb() from spin_lock() to
+spin_lock_irqsave() when acquiring bh->lock to prevent same-CPU hardirq and
+softirq deadlocks.
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 30ac1bc45..3bca3a91f 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1879,8 +1879,8 @@ static int xhci_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
- 	if (urb_priv)
- 		xhci_urb_free_priv(urb_priv);
- 	usb_hcd_unlink_urb_from_ep(hcd, urb);
--	spin_unlock_irqrestore(&xhci->lock, flags);
- 	usb_hcd_giveback_urb(hcd, urb, -ESHUTDOWN);
-+	spin_unlock_irqrestore(&xhci->lock, flags);
- 	return ret;
- }
- 
--- 
-2.56.0.611.g1030f0b940-goog
+> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> index 8e8a5f59b319b..7bb25e7c447d4 100644
+> --- a/drivers/usb/core/hcd.c
+> +++ b/drivers/usb/core/hcd.c
+> @@ -1731,6 +1731,7 @@ static void usb_giveback_urb_bh(struct work_struct =
+*work)
+>  void usb_hcd_giveback_urb(struct usb_hcd *hcd, struct urb *urb, int stat=
+us)
+>  {
+>  	struct giveback_urb_bh *bh;
+> +	unsigned long flags;
+>  	bool running;
+> =20
+>  	/* pass status to BH via unlinked */
+> @@ -1747,10 +1748,10 @@ void usb_hcd_giveback_urb(struct usb_hcd *hcd, st=
+ruct urb *urb, int status)
+>  	else
+>  		bh =3D &hcd->low_prio_bh;
+> =20
+> -	spin_lock(&bh->lock);
+> +	spin_lock_irqsave(&bh->lock, flags);
+>  	list_add_tail(&urb->urb_list, &bh->head);
+>  	running =3D bh->running;
+> -	spin_unlock(&bh->lock);
+> +	spin_unlock_irqrestore(&bh->lock, flags);
 
+[Severity: Critical]
+This problem wasn't introduced by this patch, but can usb_giveback_urb_bh()
+access a freed struct usb_hcd [1] if register_root_hub() fails in
+usb_add_hcd()?
+
+During register_root_hub(), root-hub URBs have is_root_hub(urb->dev) set, so
+usb_hcd_giveback_urb() queues them on hcd->low_prio_bh.bh or
+hcd->high_prio_bh.bh.  In usb_giveback_urb_bh(), __usb_hcd_giveback_urb()
+invokes urb->complete() and wakes the waiting task before finishing its own
+bookkeeping on struct giveback_urb_bh:
+
+CPU0                                CPU1
+usb_add_hcd()
+  register_root_hub()
+    ...
+      usb_hcd_giveback_urb()
+        queue_work(..., &bh->bh)
+                                    usb_giveback_urb_bh()
+                                      __usb_hcd_giveback_urb()
+                                        urb->complete()
+    // fails and returns error
+  goto err_register_root_hub;
+usb_put_hcd(hcd)                    // frees hcd
+                                      bh->completing_ep =3D NULL;
+                                      spin_lock_irq(&bh->lock);  <-- use-af=
+ter-free
+
+Neither the err_register_root_hub error path in usb_add_hcd() nor
+usb_stop_hcd() cancels hcd->high_prio_bh.bh and hcd->low_prio_bh.bh before
+the caller drops the last reference to hcd.
+
+[1] https://sashiko.dev/#/bug/linux-6f3b1df1-c32a-430a-a126-7f20495af396
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113041948.1280=
+304-1-rickyniu@google.com?part=3D1
