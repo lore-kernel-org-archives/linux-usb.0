@@ -1,56 +1,121 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794580311;
-	b=F43FA5jtP6b0o2CSKTq6gGlNYwZPP8TqajQCXvYQiFghRP4zp9PJLqHmjqxCrsWEWK+t
-	 zRuVucmHxUQdiz8bY5HW3WfXM2wjS26E6vN0RHZbI6yifw12v4EUPi72TIIsvUbfmcDZ3
-	 ND6/ifWxFGRKS0ieB3Rs7JQS2dwZe5ylvqEPNo6bpAl/uLOm4p674k8xZ4MlzY+cxCv2j
-	 DnZGO6zbrgAyi3w7LPnssGYo68JelFxDOwP57ns1dhJrbWf4MuIRdE8EGKQIVjZ2ty+ke
-	 +7LtlN+5iN7NYXUia7kcb50nx2pYrTh9Zrz+r0fPEImWEE4D4NrckOz4Fih4WkXREMQ==
+	t=1794580831;
+	b=3CvGlIJ0lAkY50LdWwpyfYV1XxWSJxDjc3jOzDPJZ7vwTKN7D5KDDso09E4XI3g+fTwW
+	 AqIl3/xI6D48fneUEF64Zsv2pvkczt/BTvXxaTtROIzECpq3xR5SkXaxi3wYFZYfRdEP/
+	 gUtHKZwAZcw/SPwb/ZuYmLllQ2CYpUYmaV8PUAa1UcmPxsiEZ9NXxjW8UcNzeXGvteSZF
+	 Mo8W+CaE9hpd491O55+9/bx0EhZb+Dwhnu8xjBwQjdgwbP2uUsF9Uzn78TX4GE7VmgEXo
+	 Ts6+vRtiRc3Ur6Ww1hx6e6ojSTnqG+Vq0Z/aVmP+J9EFdKuF+4NKdkW69zAPlg1FO4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794580311;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=AQTIB2teJWY+3iKjLCvBtV2MVtGJ+izUY3kckVI52ZI=;
-	b=qJbStJs1mb0/M0hOKqlOlDXgyz2BroKIkWtOt1gNGJb5ThfAA6VTTKtR65Pg2CpOM9fP
-	 vJuXd+Ov/OB8oIxMDJ19r3xchrBw3W9WC34/0Kcsg3ekA7hW1ui47DbAPSC358ECF6i7F
-	 BxvRAGLJ+mQ9LEddpL4CtjuI5viSlEkpSw9ayETt3nnz541VllqmKgacfWyJPQLEjc8F5
-	 7ZQ0UiSnpTi2kkyzkLe17FQPXqx3nGI6hysPucW1nikbtc48Yok2AeVde28ud1wqU7mdz
-	 Kf5SQUVNsT1SJqEnlMmQVsagr5LwE8x684KV+B5hahL2D6av1c2cgNCs3H0sbhVzJKQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794580831;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=8ollal9lC/jW3r3KXGudN37lOSY1Es9hEPHi5dbEpOQ=;
+	b=X7x4WHNGPG1wLABkXw25XwkzWBMCtFF71EYQ9UFiB432XnjZ+0fMBK8wiBfWQbs4WPUB
+	 Woxx1rv2H3k81Kda0e20ddREFEXKb5MJTJz1WgZghl5ON2pXlkB8bbc+HRrfjOdjWLbAW
+	 nBnKTnvM6BZyAJn36BNUY8h1ycXQtIyh4cbO2hpBUYOsr1ur0qOdvQbaaiBAS+G67h4Ca
+	 CArAZiRzodBMQfyCkNypABuHyRFnjIWK1K8i5KVoyd+SG6Nl3BFFCFmmeF92T8C5JVUji
+	 rDaELC3ROB/FZYdcRTBF5t7W4qXrYOnBCz+wD+6CaS/MEk3L3GmqWAFCkgbuaBdlF4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UqrBfwe8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=WbhEI07d;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=J7qCx5Gh;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB50F606A327;
-	Fri, 13 Nov 2026 14:31:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7764E606A32D
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 14:40:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7764E606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UqrBfwe8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 421191F000C8;
-	Fri, 13 Nov 2026 14:31:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794580310;
-	bh=AQTIB2teJWY+3iKjLCvBtV2MVtGJ+izUY3kckVI52ZI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UqrBfwe8c9QtGqXnxpQlLzJCY8fpZF9KhrJ7adps0zEIdWmNdTmE1nPHeE06Ar/38
-	 vD8kMEA311lnNRh6Kn4L5/S2AdWS+NU0zo40C+lxNFMntdd4hq+RO2d6usfU5JTzf9
-	 Ywe+/EcB1qRNAWqmUqGkuM67lQFl0HEbmKwcXtalHm7DuiNX5wuaCN8ladbRyx4c15
-	 oWdtxWDdIRojKwgwwUkxEQBT77DKiLWcFyN3vgoyo6qGx6xvWqVjxQWKuP68msyMqa
-	 x46mqW7WBdHoqp6TcD4fGMQNEyg2qFJPqX736NEjGfwiRMsT2tLkRUmwQlc3qiyu+A
-	 3mnDVcFvQRA5A==
-Message-ID: <sashiko-outbox-212990@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 2/2] usb: typec: add CIX Type-C PD controller driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Gary Yang" <gary.yang@cixtech.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261113125304.1693911-3-gary.yang@cixtech.com>
-References: <20261113125304.1693911-1-gary.yang@cixtech.com>
- <20261113125304.1693911-3-gary.yang@cixtech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 14:31:49 +0000
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=WbhEI07d;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=J7qCx5Gh
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ADCJcPp058841
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 14:40:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=8ollal9lC/jW3r3KXGudN37l
+	OSY1Es9hEPHi5dbEpOQ=; b=WbhEI07dx7cZ1kAtfq8QwVG6XjXHLpK0pIGXf5RH
+	rrq53Gdka8hceXufxBA1d2Xge9bI0e4s51ZQYxjc6Ma9zGe8dypH3TZ08JxhtWsx
+	U0XB/b+OUdtCJNHjqxPXlPDnlCA+AirUEPRllFrJfgfCH0X1MmZhsEWjGuWbyXJy
+	toBEjXTRYtpIzWLa0UT0P4Zg3943Z0e4H6ausfQMQhdMzVAWX9OEmPT94QM26Z0N
+	4LfeSxRlPDIJ4Q6x2xxuvS1oyb0OvoClySnqRTbo16LBaiIMxV3ebccnlUkMI6wK
+	SjuqQVXiC2x3deWGgSQbMTN3nrNbNg71oaEmKjUxReQxwg==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hwkgwbeah-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 14:40:29 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-93f5844e383so195262185a.1
+        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 06:40:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794580829; x=1795185629; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8ollal9lC/jW3r3KXGudN37lOSY1Es9hEPHi5dbEpOQ=;
+        b=J7qCx5Ghhp905FgI7O9RpG9Pbb49GJ7Nel7q041CewyraUy54AqoUkYrZF0FGeHUxY
+         UF5EAHLci/P8WCd6F7B5Ju6ZLOJJkzfziHdULagHIz9qw1PLpri/vQMy35HamOSTpnq3
+         O1OY0X7hLpxT0aGavsm9h6W5F8YMb+C7Ihn2ANZG8tQc+p1JdaZmQn/gMwxsA/o0zj87
+         PpqzD/ObRJwOIMwylTtRpQhEj4wQ25v6SF2z8toGdQZXN5J/RIP7IA/Nhq8gqo6qhSWZ
+         Ar1m3uML5iTyadnXFnEfx7rSKLfjbeIaf1iHV0j3zuaCXIlAYqONo6msBFLuZeDH+mPY
+         /eHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794580829; x=1795185629;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8ollal9lC/jW3r3KXGudN37lOSY1Es9hEPHi5dbEpOQ=;
+        b=FtmMHSOMlYI5ZtJF05N2BLD5DQ2QOfEv3ycocTUQ3gGHmLL4xQuCM895NXKxWd4geU
+         Xm/eWUVAHQ7GqVgtSztA9GHonV5VPY+qsEHHnft+qqJzoeD95g1IAw3ksPAWPX8Zhy2r
+         ooMAkh7vNmVXxq5Ed9TUV45eG/pYr0trnHEZyeEmb5mWa3fkIeZ3Dv1lYhI5uAg1NHyU
+         GdYhDAxR8x6dOLwQ4Czm74Le+j3T5iP7H3w9SZuseybt+v+EB9NZS5DuZ4JEjz/IdeKa
+         ae+P/yzDZUVsmUbZxvu0gp0p7m3jwyS4dlhZtB/FpVuLexZAvcRDZc0yT8iz9SEJJf7U
+         rXGg==
+X-Forwarded-Encrypted: i=1; AL+hErFBj4VhddlQmvj4zyLnJrBMDexMcYPGTtryeHjpEbRgPgXlsMT69/yzTiTu4RmkR6YwFOm6Efyswrs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+CXP8wr8AszqmyPFrL/8be5DkmJy+6gKSe8Rx6eS0PrNNMT6e7
+	sD5ZfIE2SpObZQEw3FS6DXdO6KxgQpW5BSTRUFXBWG0342n9h3aZtABXaHlftZWd+MySiQDjiEA
+	buO8qp/uP7+fj5fk1cthjPtHzdwL7n71QgGOrFJy8bCKxl6S+8aLXyf9KJhOeIrk=
+X-Gm-Gg: AYBFou1724+NyV5lP7qEerkdEWZ2QISvecdnFav9FjR1iRuJ+m3Q8V0AM6eOu56Pc02
+	W3Tol8Xh7CVQvjlKdqiECALtlz+PDwM4wdd8tc56ssZu4yKPFPthMUJBdR3OUEIv/TIxxB4aRm3
+	Gyfmdvg1zZi7USUffLOmHsQxLJmRw4MamRHVeS5q4kvVsK3kIUvbi4wPtDy7NYLCRutV5KSlpMV
+	Q5FZ0Ye9evu5Kt7WdjUEA25O2dOmczGijxswkZJ3/XW+eNceTxfqVBcPRnjc5L8jK5Z4IWZ2qZY
+	3mcljC2R/6EHopPEw+4AJfhVkuYUxS0oajkgAQoPdr8JEI+0wZJ4JUrr1G16Brs2FKu+wTwExQV
+	UjYHGZBMhqRL9tjIKosItJLI5TXEJ4mN5kjh6Hp+uqbOH4plzlI1Tb2BD4KvpWW2/sxJ9NsSOOb
+	zPqmbGj4jzB8wLlvwuuHyZtT8Kdhebo+OdNYStEwsRr85Rj7ELgfGzisGRinrDZA==
+X-Received: by 2002:a05:620a:1712:b0:93c:635e:6f3e with SMTP id af79cd13be357-9494bbf3f82mr450047185a.35.1794580828540;
+        Fri, 13 Nov 2026 06:40:28 -0800 (PST)
+X-Received: by 2002:a05:620a:1712:b0:93c:635e:6f3e with SMTP id af79cd13be357-9494bbf3f82mr450041385a.35.1794580827847;
+        Fri, 13 Nov 2026 06:40:27 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3ae2b7d2318sm9229931fa.35.2026.11.13.06.40.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 06:40:26 -0800 (PST)
+Date: Fri, 13 Nov 2026 16:40:25 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Akash Kumar <akash.kumar@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v3] arm64: dts: qcom: shikra: Add CYPD6129/CYPD6229
+ Type-C controller support
+Message-ID: <xjmbkr55gwoxe47nkntzhct6dfvsqasft3ghhsgveqmkruzpme@3dkyryogacwd>
+References: <20261012094835.647882-1-akash.kumar@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,317 +124,438 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261012094835.647882-1-akash.kumar@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=DNgacCNb c=1 sm=1 tr=0 ts=6af7215d cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=FRlco6f4c1jZEPcQdwcA:9 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: Kb24q0uO0ROX_Y0-GC0VeoXEdEtz-Ok8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEzMDA1OCBTYWx0ZWRfXw2qkHCWkMJFT
+ ZSKhW886QAuh+/Gt0331oT7auYIgyur3+g8cEDVitOjynHJPuIQnXeNfLarBjRfTNXfXbTEFidv
+ otvmFUUSgYXbKNiBbtnuj8T+GXfGcesNx3xV3+ZvzEKxwNiyp1KuCKY6pAq4JA4IiIxWBnEO6Ts
+ Z8ColD/ILdwqETZDMiHVgxxSaRKDJNQVqcydKKf9/ltbflKb0K5LMIZZgN/2/P3IeBT7fc0qOFr
+ BqFZtzFlTEOUxEV+ahRa0NTlhZiP5LLUO5z7/CrEmIpHn2IkbKf1xuJGfj99Q7wIAeypY2HjNzM
+ nNqutOujOhZSTcZBzUgZue1xx25J5He4Y+fjn6aJ5IPsUNYrLc7q4Lc5XCCAUokuo4M9L7t+bfn
+ HUQdbEuHHUaEfCjHju33yUrfH18uMSTtLcmindaU9sLbi9pFrucsDGXAersEIAP/NrYdmaGDOGY
+ O7En+9HIKZGOny0/BXg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEzMDA1OCBTYWx0ZWRfX0bqz5E0XdjHP
+ oKpsOt9FDjgpZz1yL3y34DzH0ec8o4adCdeGfbeCMjTXbAce/IUpCW7lE+u5zUYIEejPvmo9cC9
+ cMzCW+pHEPzKBYldWupK4sIgQ9kIRIk=
+X-Proofpoint-GUID: Kb24q0uO0ROX_Y0-GC0VeoXEdEtz-Ok8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-13_04,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
+ impostorscore=0 priorityscore=1501 clxscore=1015 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611130058
 
-Thank you for your contribution! Sashiko AI review found 5 potential
-issues to consider:
-- [High] usb: typec: cix_pd: HPD_IRQ latched in prev_status in
-  cix_pd_event_handler()
-- [Medium] usb: typec: cix_pd: unacknowledged IRQ on status refresh in
-  cix_pd_resume()
-- [Medium] usb: typec: cix_pd: unconditional port update in
-  cix_pd_event_handler()
-- [Medium] usb: typec: cix_pd: unlocked device_is_bound() in
-  cix_pd_typec_port_update()
-- [Medium] usb: typec: cix_pd: IRQ re-enabled on wake error in
-  cix_pd_suspend()
---
+On Mon, Oct 12, 2026 at 03:15:00PM +0530, Akash Kumar wrote:
+> This series adds support for the Cypress cypd6129/cypd6229 dual
+> Type-C PD controllers used on the Shikra CQM/CQS/IQS platforms to
+> handle usb-role-switch, and wires up the corresponding DT nodes.
 
-commit df6c3014329332ed5d36e38c30e57956677e5273
-Author: Gary Yang <gary.yang@cixtech.com>
+Which series it's a single patch.? Write something useful, e.g. if the USB ports are HS or
+SS.
 
-usb: typec: add CIX Type-C PD controller driver
+> 
+> Signed-off-by: Akash Kumar <akakum@qti.qualcomm.com>
+> ---
+> Patch v3 adds the Shikra board-specific Device Tree changes required to
+> connect the CYPD6129/CYPD6229 Type-C PD controllers to the USB controllers.
+> 
+> On the CQM and CQS platforms, enable the CYPD6129 controller on I2C3,
+> configure its GPIO136 interrupt, and connect its Type-C connector to USB2.
+> Both USB controllers are configured in OTG mode to allow role switching.
+> 
+> On the IQS platform, enable the CYPD6229 controller with the CYPD6129
+> fallback compatible, configure its GPIO50 interrupt, and describe both
+> Type-C connectors. The first connector is connected to USB2, while the
+> second connector is connected to USB1, including its SuperSpeed path.
+> 
+> The changes also add the required pinctrl configuration, wakeup-source
 
-This commit adds an I2C driver for the CIX Type-C PD controller (Realtek
-RTS5453H), reporting orientation, USB data role, power role, and DisplayPort
-alternate mode state changes to the Type-C framework.
+You haven't read Documentation/process/submitting-patches.rst
 
-> diff --git a/drivers/usb/typec/cix_pd.c b/drivers/usb/typec/cix_pd.c
-> new file mode 100644
-> index 0000000000000..b413a125c7e6a
-> --- /dev/null
-> +++ b/drivers/usb/typec/cix_pd.c
-
-[ ... ]
-
-> +static int cix_pd_typec_port_update(struct cix_pd *typec, bool force)
-> +{
-
-[ ... ]
-
-> +	if (!connected) {
-> +		if (typec->partner_altmode) {
-> +			typec_altmode_update_active(typec->partner_altmode,
-> +						    false);
-> +			typec_unregister_altmode(typec->partner_altmode);
-> +			typec->partner_altmode =3D NULL;
-> +		}
-> +		if (typec->partner) {
-> +			dev_info(typec->dev, "typec port(%d): unregister partner\n",
-> +				 typec->id);
-> +			typec_unregister_partner(typec->partner);
-> +			typec->partner =3D NULL;
-> +		}
-> +	} else {
-> +		if (!typec->partner) {
-> +			dev_info(typec->dev, "typec port(%d): register partner\n",
-> +				 typec->id);
-> +			typec->partner =3D typec_register_partner(typec->port,
-> +								&typec->desc);
-> +			if (IS_ERR(typec->partner)) {
-> +				dev_err(typec->dev,
-> +					"typec port(%d): failed to register partner: %ld\n",
-> +					typec->id, PTR_ERR(typec->partner));
-> +				typec->partner =3D NULL;
-> +			}
-> +		}
+> property, I2C alias, VBUS boost GPIO hog, and USB endpoint
+> remote-endpoint connections.
+> 
+> Link to v2: Link: https://lore.kernel.org/all/20260820145036.2035641-1-akash.kumar@oss.qualcomm.com/
+> 
+> Link to v1: https://lore.kernel.org/all/20260820145036.2035641-1-akash.kumar@oss.qualcomm.com/
+> 
+> Link to Driver and DT-binding change:
+> https://lore.kernel.org/all/20261012091658.635441-1-akash.kumar@oss.qualcomm.com/
+> 
+> base commit Link: https://lore.kernel.org/all/20260912-usb-shikra-v7-v9-0-c7b507a0ec27@oss.qualcomm.com/
+> commit e77b5e2b5816bfb8fab930156a320550ee5a0ffe
+> 
+> ---
+>  arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts |  57 ++++++++++
+>  arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts |  57 ++++++++++
+>  arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts | 109 ++++++++++++++++++++
+>  3 files changed, 223 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts b/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts
+> index 2d26435b257a..508c24a2ce99 100644
+> --- a/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts
+> +++ b/arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts
+> @@ -14,6 +14,7 @@ / {
+>  	chassis-type = "embedded";
+>  
+>  	aliases {
+> +		i2c3 = &i2c3;
+>  		mmc0 = &sdhc_1;
+>  		serial0 = &uart0;
+>  	};
+> @@ -23,6 +24,43 @@ chosen {
+>  	};
+>  };
+>  
+> +&i2c3 {
+> +	status = "okay";
 > +
-> +		if (typec->partner_altmode && !dp) {
-> +			typec_altmode_update_active(typec->partner_altmode,
-> +						    false);
-> +			typec_unregister_altmode(typec->partner_altmode);
-> +			typec->partner_altmode =3D NULL;
-> +		}
+> +	typec@40 {
+> +		compatible = "cypress,cypd6129";
+> +		reg = <0x40>;
+> +		interrupts-extended = <&tlmm 136 IRQ_TYPE_LEVEL_LOW>;
+> +		pinctrl-0 = <&usb0_intr_state>;
+> +		pinctrl-names = "default";
+> +		wakeup-source;
 > +
-> +		if (typec->partner && dp && !typec->partner_altmode) {
-> +			typec->partner_altmode =3D
-> +				typec_partner_register_altmode(typec->partner,
-> +							       &cix_pd_dp_partner_altmode);
-> +			if (IS_ERR(typec->partner_altmode)) {
-> +				dev_err(typec->dev,
-> +					"typec port(%d): failed to register DP altmode: %ld\n",
-> +					typec->id,
-> +					PTR_ERR(typec->partner_altmode));
-> +				typec->partner_altmode =3D NULL;
-> +			}
-> +		}
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
 > +
-> +		/*
-> +		 * typec_altmode_update_active() takes a reference to the
-> +		 * alternate mode driver's module only when a driver is bound
-> +		 * to the mode device. Reporting the mode as active without a
-> +		 * driver would leave that reference unbalanced, and the later
-> +		 * deactivation would drop a reference that was never taken.
-> +		 * Report the mode only once a driver is bound, and retry on
-> +		 * the next status update so that a driver loaded after the
-> +		 * cable was attached still learns about the active mode.
-> +		 */
-> +		if (typec->partner_altmode &&
-> +		    device_is_bound(&typec->partner_altmode->dev))
-> +			typec_altmode_update_active(typec->partner_altmode, true);
-> +	}
+> +		ccg_typec_con0: connector@0 {
 
-[Severity: Medium]
-Does calling device_is_bound(&typec->partner_altmode->dev) and
-typec_altmode_update_active() without holding
-device_lock(&typec->partner_altmode->dev) race with driver unbind?
+Unused label, drop.
 
-device_is_bound() requires the caller to hold device_lock(dev).  During dri=
-ver
-unbind, __device_release_driver() runs typec_remove() ->
-typec_altmode_update_active(adev, false) and device_unbind_cleanup() (which
-sets adev->dev.driver =3D NULL) before detaching knode_driver:
-
-CPU0                                  CPU1
-cix_pd_typec_port_update()            device_release_driver_internal()
-                                        __device_release_driver(dev)
-                                          typec_remove(dev)
-                                            typec_altmode_update_active(...=
-, false)
-  device_is_bound(dev) =3D=3D true
-  typec_altmode_update_active(..., true)
-    if (adev->dev.driver)
-                                          device_unbind_cleanup(dev)
-                                            dev->driver =3D NULL
-      try_module_get(adev->dev.driver->owner)
-        <-- NULL pointer dereference
-
-Depending on the exact timing against __device_release_driver(), this can a=
-lso
-leak a module reference, set adev->active =3D true without taking a module
-reference, or double-put the module reference when
-typec_altmode_update_active(typec->partner_altmode, false) runs on disconne=
-ct
-or in cix_pd_unregister_ports().
-
-In addition, when the DisplayPort alternate mode driver is built as a module
-and loaded asynchronously by udev after typec_partner_register_altmode(),
-device_is_bound() is false during the initial status update; if the hardware
-raises no further interrupt after the module binds, partner_altmode remains
-inactive in sysfs.
-
-[ ... ]
-
-> +static int cix_pd_event_handler(struct cix_pd *rts, u8 clear_irq, bool f=
-orce)
-> +{
-> +	int ret, err =3D 0;
-> +	bool changed;
-> +	u8 data_control[3] =3D {0};
+> +			compatible = "usb-c-connector";
+> +			reg = <0>;
+> +			label = "USB-C";
+> +			data-role = "dual";
+> +			power-role = "dual";
 > +
-> +	mutex_lock(&rts->lock);
-> +	if (clear_irq) {
-> +		data_control[0] =3D 2;
-> +		data_control[1] =3D I2C_INT_ACK_BIT;
-> +		data_control[2] =3D 0;
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
 > +
-> +		ret =3D cix_pd_block_write(rts, RTS_DATA_CONTROL, data_control, 3);
-> +		if (ret)
-> +			goto i2c_err;
-> +	}
+> +				port@0 {
+> +					reg = <0>;
 > +
-> +	ret =3D cix_pd_block_read(rts, RTS_DATA_STATUS, rts->data_status, 6);
-> +	if (ret)
-> +		goto i2c_err;
+> +					ucsi_ccg_port: endpoint {
+> +						remote-endpoint = <&usb_2_dwc3_hs>;
+
+Are SS and SBU lines not wired?
+
+> +					};
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
 > +
-> +	dev_dbg(rts->dev,
-> +		"typec port(%d): data status =3D 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x\n",
-> +		rts->id, rts->data_status[0], rts->data_status[1],
-> +		rts->data_status[2], rts->data_status[3], rts->data_status[4],
-> +		rts->data_status[5]);
+>  &pm4125_hs_in {
+>  	remote-endpoint = <&usb_1_dwc3_hs>;
+>  };
+> @@ -66,6 +104,15 @@ &sdhc_1 {
+>  	status = "okay";
+>  };
+>  
+> +&tlmm {
+> +	usb0_intr_state: usb0-intr-state {
+> +		pins = "gpio136";
+> +		function = "gpio";
+> +		drive-strength = <2>;
+> +		bias-pull-up;
+> +	};
+> +};
 > +
-> +	/*
-> +	 * Only bytes 1..3 are decoded by this driver. Byte 0 and bytes 4..5
-> +	 * have no known meaning, so they are excluded from the comparison: a
-> +	 * change in an undecoded bit must not be reported as a port event.
-> +	 */
-> +	changed =3D !rts->status_valid ||
-> +		  memcmp(&rts->data_status[1], &rts->prev_status[1],
-> +			 DATA_STATUS_COUNT - 3);
-> +	memcpy(rts->prev_status, rts->data_status, DATA_STATUS_COUNT);
-> +	rts->status_valid =3D true;
-> +
-> +	err =3D cix_pd_typec_port_update(rts, force);
+>  &usb_1 {
+>  	dr_mode = "otg";
+>  };
+> @@ -82,6 +129,16 @@ &usb_1_hsphy {
+>  	status = "okay";
+>  };
+>  
+> +&usb_2 {
+> +	dr_mode = "otg";
 
-[Severity: Medium]
-Should cix_pd_event_handler() skip cix_pd_typec_port_update() when neither
-changed nor force is true?
-
-Because all controller instances share one interrupt line, an interrupt on =
-one
-port runs cix_pd_event_handler() on every sibling instance.  Calling
-cix_pd_typec_port_update() unconditionally when !changed && !force causes
-every unchanged sibling port to call typec_set_orientation() and
-typec_mux_set(), which reprogram the orientation switch and mode mux and em=
-it
-spurious KOBJ_CHANGE uevents and sysfs notifications on every unaffected po=
-rt.
-
-> +	if (err)
-> +		dev_err(rts->dev, "typec port(%d): failed to update port: %d\n",
-> +			rts->id, err);
-> +
-> +	if (rts->data_status[2] & HPD_IRQ) {
-> +		data_control[0] =3D 2;
-> +		data_control[1] =3D 0;
-> +		data_control[2] =3D HPD_IRQ_ACK;
-> +		ret =3D cix_pd_block_write(rts, RTS_DATA_CONTROL, data_control, 3);
-> +		if (ret)
-> +			goto i2c_err;
-> +	}
-
-[Severity: High]
-Does copying rts->data_status into rts->prev_status with HPD_IRQ still set
-break shared-interrupt attribution on subsequent interrupts?
-
-When a DisplayPort sink generates an HPD_IRQ pulse, rts->prev_status[2] sav=
-es
-HPD_IRQ =3D 1 (and cix_pd_typec_port_update() saves DP_STATUS_IRQ_HPD in
-typec->hpd_status), and then writing HPD_IRQ_ACK clears HPD_IRQ in the
-controller hardware.  If the sink generates a second HPD_IRQ while the rest=
- of
-data_status[1..3] is unchanged, rts->data_status[2] again has HPD_IRQ =3D 1,
-matching the stale HPD_IRQ =3D 1 in rts->prev_status[2]; memcmp() reports no
-change and cix_pd_irq_handle() returns IRQ_NONE for a valid interrupt it ju=
-st
-acknowledged, which can cause the spurious interrupt detector to disable the
-shared IRQ line.  Conversely, if a sibling port interrupts next while this
-port has HPD_IRQ =3D 0, this port sees a difference against its stale
-rts->prev_status[2], returns IRQ_HANDLED for the sibling's interrupt, and l=
-ogs
-a duplicate mode message because dp_data->status no longer matches
-typec->hpd_status.
-
-[ ... ]
-
-> +static int __maybe_unused cix_pd_suspend(struct device *dev)
-> +{
-
-[ ... ]
-
-> +	disable_irq(client->irq);
-> +	rts->irq_disabled =3D true;
-> +
-> +	if (device_may_wakeup(dev)) {
-> +		ret =3D enable_irq_wake(client->irq);
-> +		if (ret) {
-> +			dev_err(dev, "failed to enable IRQ wake: %d\n", ret);
-> +			enable_irq(client->irq);
-> +			rts->irq_disabled =3D false;
-> +		} else {
-> +			rts->wake_enabled =3D true;
-> +		}
-> +	}
-> +	mutex_unlock(&rts->irq_lock);
-> +
-> +	return 0;
-> +}
-
-[Severity: Medium]
-If enable_irq_wake() fails, doesn't re-enabling client->irq while returning=
- 0
-allow the interrupt handler to run before the I2C adapter resumes?
-
-Returning 0 lets system suspend proceed with the IRQ enabled, so
-resume_device_irqs() unmasks the line before the I2C adapter is resumed and
-cix_pd_irq_handle() can attempt I2C transfers on a suspended bus.  Also, wh=
-en
-multiple controller instances share client->irq, calling disable_irq() in e=
-ach
-instance increments the IRQ disable depth to the number of instances, where=
-as
-suspend_device_irq() on IRQCHIP_ENABLE_WAKEUP_ON_SUSPEND chips decrements t=
-he
-depth only once, leaving the shared wakeup interrupt masked during sleep.
+It's default and can be dropped.
 
 > +
-> +static int __maybe_unused cix_pd_resume(struct device *dev)
-> +{
-> +	struct i2c_client *client =3D to_i2c_client(dev);
-> +	struct cix_pd *rts =3D i2c_get_clientdata(client);
-> +	int ret;
+> +	port {
+> +		usb_2_dwc3_hs: endpoint {
+
+Move the endpoint definition to shikra.dtsi.
+
+> +			remote-endpoint = <&ucsi_ccg_port>;
+> +		};
+> +	};
+> +};
 > +
-> +	if (client->irq > 0) {
-> +		mutex_lock(&rts->irq_lock);
-> +		if (rts->wake_enabled) {
-> +			disable_irq_wake(client->irq);
-> +			rts->wake_enabled =3D false;
-> +		}
-> +		if (rts->irq_disabled) {
-> +			enable_irq(client->irq);
-> +			rts->irq_disabled =3D false;
-> +		}
-> +		mutex_unlock(&rts->irq_lock);
-> +	}
+>  &usb_2_hsphy {
+>  	vdd-supply = <&pm4125_l12>;
+>  	vdda-pll-supply = <&pm4125_l13>;
+> diff --git a/arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts b/arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts
+> index fcafd8aa6384..eaa79b2960a9 100644
+> --- a/arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts
+> +++ b/arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts
+> @@ -14,6 +14,7 @@ / {
+>  	chassis-type = "embedded";
+>  
+>  	aliases {
+> +		i2c3 = &i2c3;
+>  		mmc0 = &sdhc_1;
+>  		serial0 = &uart0;
+>  	};
+> @@ -23,6 +24,43 @@ chosen {
+>  	};
+>  };
+>  
+> +&i2c3 {
+> +	status = "okay";
 > +
-> +	/* Force the USB role to be reprogrammed after system resume. */
-> +	ret =3D cix_pd_event_handler(rts, 0, true);
+> +	typec@40 {
+> +		compatible = "cypress,cypd6129";
+> +		reg = <0x40>;
+> +		interrupts-extended = <&tlmm 136 IRQ_TYPE_LEVEL_LOW>;
+> +		pinctrl-0 = <&usb0_intr_state>;
+> +		pinctrl-names = "default";
+> +		wakeup-source;
+> +
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		ccg_typec_con0: connector@0 {
 
-[Severity: Medium]
-Does calling cix_pd_event_handler(rts, 0, true) after enable_irq() consume
-sleep-time status changes without acknowledging the controller interrupt?
+Drop the label.
 
-If a port status change occurred while the system was suspended, the
-controller keeps the shared level-triggered interrupt line asserted until
-I2C_INT_ACK_BIT is written.  When multiple instances share client->irq,
-enable_irq() keeps the line masked until the last instance resumes, while e=
-ach
-earlier instance's cix_pd_event_handler(rts, 0, true) updates rts->prev_sta=
-tus
-without clearing the hardware interrupt (and on the last or sole instance,
-enable_irq() races the IRQ thread against cix_pd_event_handler()).  When
-cix_pd_irq_handle() then runs for the still-asserted line, rts->prev_status
-already matches rts->data_status, so every instance returns IRQ_NONE.
+> +			compatible = "usb-c-connector";
+> +			reg = <0>;
+> +			label = "USB-C";
+> +			data-role = "dual";
+> +			power-role = "dual";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +
+> +					ucsi_ccg_port: endpoint {
+> +						remote-endpoint = <&usb_2_dwc3_hs>;
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113125304.1693=
-911-2-gary.yang@cixtech.com?part=3D2
+Are SS and SBU not wired?
+
+> +					};
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>  &pm4125_hs_in {
+>  	remote-endpoint = <&usb_1_dwc3_hs>;
+>  };
+> @@ -66,6 +104,15 @@ &sdhc_1 {
+>  	status = "okay";
+>  };
+>  
+> +&tlmm {
+> +	usb0_intr_state: usb0-intr-state {
+> +		pins = "gpio136";
+> +		function = "gpio";
+> +		drive-strength = <2>;
+> +		bias-pull-up;
+> +	};
+> +};
+> +
+>  &usb_1 {
+>  	dr_mode = "otg";
+>  };
+> @@ -82,6 +129,16 @@ &usb_1_hsphy {
+>  	status = "okay";
+>  };
+>  
+> +&usb_2 {
+> +	dr_mode = "otg";
+
+Drop
+
+> +
+> +	port {
+> +		usb_2_dwc3_hs: endpoint {
+> +			remote-endpoint = <&ucsi_ccg_port>;
+> +		};
+> +	};
+> +};
+> +
+>  &usb_2_hsphy {
+>  	vdd-supply = <&pm4125_l12>;
+>  	vdda-pll-supply = <&pm4125_l13>;
+> diff --git a/arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts b/arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts
+> index 779b9582c011..f7dc3026d028 100644
+> --- a/arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts
+> +++ b/arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts
+> @@ -14,6 +14,7 @@ / {
+>  	chassis-type = "embedded";
+>  
+>  	aliases {
+> +		i2c3 = &i2c3;
+>  		mmc0 = &sdhc_1;
+>  		serial0 = &uart0;
+>  	};
+> @@ -23,6 +24,72 @@ chosen {
+>  	};
+>  };
+>  
+> +&i2c3 {
+> +	status = "okay";
+> +
+> +	typec@40 {
+> +		compatible = "cypress,cypd6229", "cypress,cypd6129";
+> +		reg = <0x40>;
+> +		interrupts-extended = <&tlmm 50 IRQ_TYPE_LEVEL_LOW>;
+> +		pinctrl-0 = <&usb0_intr_state>;
+> +		pinctrl-names = "default";
+> +		wakeup-source;
+> +
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		ccg_typec_con0: connector@0 {
+
+Drop the label
+
+> +			compatible = "usb-c-connector";
+> +			reg = <0>;
+> +			label = "USB2-Type-C";
+> +			data-role = "dual";
+> +			power-role = "dual";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +
+> +					ucsi_ccg_port0_hs: endpoint {
+> +						remote-endpoint = <&usb_2_dwc3_hs>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		ccg_typec_con1: connector@1 {
+> +			compatible = "usb-c-connector";
+> +			reg = <1>;
+> +			label = "USB3-Type-C";
+> +			data-role = "dual";
+> +			power-role = "dual";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +
+> +					ucsi_ccg_port_1_hs: endpoint {
+> +						remote-endpoint = <&usb_1_dwc3_hs>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +
+> +					ucsi_ccg_port_1_ss: endpoint {
+> +						remote-endpoint = <&usb_qmpphy_out>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>  &remoteproc_cdsp {
+>  	firmware-name = "qcom/shikra/cdsp.mbn";
+>  
+> @@ -58,6 +125,32 @@ &sdhc_1 {
+>  	status = "okay";
+>  };
+>  
+> +&tlmm {
+> +	vbus_boost_5v: vbus-boost-5v-hog {
+> +		gpio-hog;
+> +		gpios = <79 GPIO_ACTIVE_HIGH>;
+> +		output-high;
+> +		line-name = "vbus-boost-5v";
+> +	};
+
+Why is it a hog rather than a regulator?
+
+> +
+> +	usb0_intr_state: usb0-intr-state {
+> +		pins = "gpio50";
+> +		function = "gpio";
+> +		drive-strength = <2>;
+> +		bias-pull-up;
+> +	};
+> +};
+> +
+> +&usb_1 {
+> +	dr_mode = "otg";
+> +
+> +	status = "okay";
+> +};
+> +
+> +&usb_1_dwc3_hs {
+> +	remote-endpoint = <&ucsi_ccg_port_1_hs>;
+> +};
+> +
+>  &usb_1_hsphy {
+>  	vdd-supply = <&pm8150_l4>;
+>  	vdda-pll-supply = <&pm8150_l12>;
+> @@ -66,6 +159,18 @@ &usb_1_hsphy {
+>  	status = "okay";
+>  };
+>  
+> +&usb_2 {
+> +	dr_mode = "otg";
+> +
+> +	status = "okay";
+> +
+> +	port {
+> +		usb_2_dwc3_hs: endpoint {
+> +			remote-endpoint = <&ucsi_ccg_port0_hs>;
+> +		};
+> +	};
+> +};
+> +
+>  &usb_2_hsphy {
+>  	vdd-supply = <&pm8150_l4>;
+>  	vdda-pll-supply = <&pm8150_l12>;
+> @@ -80,3 +185,7 @@ &usb_qmpphy {
+>  
+>  	status = "okay";
+>  };
+> +
+> +&usb_qmpphy_out {
+> +	remote-endpoint = <&ucsi_ccg_port_1_ss>;
+> +};
+> -- 
+> 2.43.0
+> 
+
+-- 
+With best wishes
+Dmitry
