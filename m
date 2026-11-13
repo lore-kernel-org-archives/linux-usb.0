@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794562783;
-	b=w05PVlQDVTzkZF4KUqANg/BMftdyretdL1n6Xf3+nnEfshrus/QrTfbA30EqA1XEgEbt
-	 A0dm6HlTxIuBLNz9zKitHQhLw1tcLZoCN7e2XIZOx9cXG3PjvhnVjakbkimFx0aTgmWto
-	 F+G2CEMvK95gGHMXleYl/2p6VTKk0xGyKfuvDp+nN+ZNE3fAtzPfCy4ZzhICnKV26Ntz7
-	 FDDUo8Lz0ryGS6e/3RH5ZlNPPqBYpXHFgjn3jgHIMq2IA4Va+AOIzuUWYwcTwwHC3zdZQ
-	 HxLfLgVwJpHq6poXYziwwIf1ds571s25rEW8Tlsiq5+t66uZZL6rOZrIjoDZbdm0hdA==
+	t=1794563169;
+	b=IS7QpZoybJ9Ezdezl6kEzsI5GgjqpwsD+++UoSevP3aBM72Ab7w4sFHfTak2PayIP92e
+	 SOpTbCn2mJpkbiI7WAGma7iojlB6iz1iHzlJyM1cwQA/kFDTK46ZOpVMV5EHJ+FkfryZm
+	 SOpySALhugZ60/sKW5u9g1PJ18uQq++aEWlxRrWLWzm/UAik8Js1yV4QCkBOMS2bzip6k
+	 LHKHaxJmaEJVvYtBaCJMSC3v8AlOhgHsd/x9o7anbfLaZlOsKcNZ3YKttlvX9669sZVRM
+	 Q/BmhnjbnMsPNFuqjo1NKWoANW8WzanFZL2HHIJcbvjW4/HTA02HQXU63h7K1mxdbmA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794562783;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794563169;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=zh7pcFtCA46MmyeieJNAmk2ZyNJdNs1ZRNsokMmyz5U=;
-	b=GAVxNLFlRWloARJSnCmi/qtzpgGMdKPg/8elFkDXesEeffn2EIU+Xh+ckLdeNM5nqmoT
-	 4BS/lQcy5Xm7/xapAzUeU4IzeB73QcZ+kmwbwaSrJswGG1+vgalPVI4hkqu7kRyOwlZtl
-	 78WR63n7YvbcRu1Fq1uuL14LbY1IZdFDXlUCwrW3KcCH7pOgRRqioKPXNp8l+bLxJocdh
-	 MNlxi2AvrhIAw1Ng2HBcttmxmtHm86TEUXzKuD3uCQpUjwFQ/aNnh8WU+0pKbWGBFW8nw
-	 bWWxyk/q5nChPBjUPmqjHHKMrUxS5UbThIqHfqWH4vkLPjUK49D94UuGl6j1D9mYwEg==
+	bh=oC8fAxyrEzbIzyNs6s6z/0pqiAk2pC5gMZcaNZ210Vk=;
+	b=byKxYNxTPjVQ7PgWsDxsrC9AhQ0NBuf0QB0iFtl507lpc5e52N1qcK5WNlHhpFF8KA+9
+	 I+Qd4fTy0FTtMZWl4OaL2WSdFzXg0tNtfLjzmnbrZPLozV6ETAruFQXdbcHzTFxjkp9bs
+	 A0banRxIAPXShBfqqmPIsYfWvHiPIfzW8ZlHU4NdQMftmAw1CQB/vKaDcnT0FW3qlHLiv
+	 NIkdoIQXlqgVN8nKZ1Pgdf+21gcBuFRQJn2hiz5rp4z8WaFl319HjR0MVURhMae8YC9Yk
+	 wXYhsj52exc0+e23kG+RRUWLw5qMK4M00NRrwhV3Zt7n9ufaEJolwdRud98p2uYHe7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nFcHPyFT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="BGeF/1VI";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96090606A31C
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 09:39:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B8E606A31C
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 09:46:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nFcHPyFT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18A6F1F000C4;
-	Fri, 13 Nov 2026 09:39:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BGeF/1VI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BFE81F000C4;
+	Fri, 13 Nov 2026 09:46:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794562783;
-	bh=zh7pcFtCA46MmyeieJNAmk2ZyNJdNs1ZRNsokMmyz5U=;
+	s=k20260515; t=1794563168;
+	bh=oC8fAxyrEzbIzyNs6s6z/0pqiAk2pC5gMZcaNZ210Vk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nFcHPyFT4gaQm9vpENpY+nfJcP7Fy159d5HhITAGqSNWn7OrIy8d0ad6tlLGLv4yI
-	 IPib2RjOL1ym3NhVyUeuMRsHa6Vo62G+Juna1vPTwRln1/N7HGEb9zprmFRv2LiyZ7
-	 WZ5KA4XNm/Xnw/G6t5I2Bc9WyOUvMhPboh4lWD+DbKTqoPF3tE4X1vAbBfGdNGtx/b
-	 /g3wrB2uOsu3DATfggxtUHDK2VLwLk5ZkBoPm5I39eXjVPNqXAWhwF2VNtwPTn4T53
-	 e2DB7EMLsSdfCzAG4p/3kbliYBU3dbLmrJhUWP4hoo6tq20urAHPXagX8du5szqs99
-	 HGujwrlDH8F8w==
-Message-ID: <sashiko-outbox-212560@kernel.org>
+	b=BGeF/1VItopZjdmjVtX/xk1IHlre+eyMgBXePfZGIdnMN4kiCdcQktFhrjk9M+H3K
+	 iBVL9aPea1BeD7Mp/xFdPdQOMuPww4NQo8UNB83y8oIUwQ4zBWPywX5xYHc/rAezYK
+	 tO26un1JVM/4f1hh2kofebhyMsDuiJ5L1jrRMmdS3yjYfGPEXTu/ppz8u0TNYNgcnw
+	 Or05J7MSdEBzrE54Qwy2LKH9yVQJi8KRbGHh3g6MLB5xp0NETAfOWasuZzGqrlgeuc
+	 0rroovsniboOJjPEGNIBb6EZu8IjnW1DjhHsKMWmvModTNB7uBQnubRWwhQmIxc7co
+	 +JrRmln+mt1KA==
+Message-ID: <sashiko-outbox-212565@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/4] usb: gadget: udc: Clear a pending connection
- when starting the UDC
+Subject: Re: [PATCH v2 4/4] usb: gadget: udc: Decide on connecting in one
+ place
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Alexey Charkov" <alchark@flipper.net>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261113-udc-connect-v2-1-f51b11f07eb8@flipper.net>
+In-Reply-To: <20261113-udc-connect-v2-4-f51b11f07eb8@flipper.net>
 References: <20261113-udc-connect-v2-0-f51b11f07eb8@flipper.net>
- <20261113-udc-connect-v2-1-f51b11f07eb8@flipper.net>
+ <20261113-udc-connect-v2-4-f51b11f07eb8@flipper.net>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 09:39:42 +0000
+Date: Fri, 13 Nov 2026 09:46:08 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,33 +61,92 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Since commit 62911bc82b03 ("usb: gadget: udc: skip pullup() if already
-> connected"), usb_gadget_connect_locked() returns early when
-> gadget->connected is set. A connection requested while the UDC is
-> stopped sets that flag too, without enabling the pullup. A later
-> gadget_bind_driver() or soft_connect "connect" then finds it set and
-> never enables the pullup, so the host doesn't see the gadget until it is
-> unbound and bound again.
->=20
-> This happens whenever a UDC driver reports VBUS through
-> usb_udc_vbus_handler() while no gadget driver is bound, e.g. when a
-> Type-C port controller switches the controller to the device role at
-> boot, seconds before userspace binds a configfs gadget.
->=20
-> The pullup is never enabled while the UDC is stopped, so clear
-> gadget->connected once it starts. The bind connects according to the
-> VBUS state that the core tracks anyway, and a function that deactivates
-> the gadget during bind still has the connection recorded for
-> usb_gadget_activate().
->=20
-> Fixes: 62911bc82b03 ("usb: gadget: udc: skip pullup() if already connecte=
-d")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Alexey Charkov <alchark@flipper.net>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] usb: gadget: udc: stale gadget->connected if pullup disable
+  fails on unbind
+--
 
-Sashiko has reviewed this patch and found no issues.
+commit 8198ac49b976bc4f15b1f15c4abb55ae61ceb982
+Author: Alexey Charkov <alchark@flipper.net>
+
+usb: gadget: udc: Decide on connecting in one place
+
+This commit centralizes the UDC connection rules in
+usb_udc_update_connection_locked() so that gadget->connected only tracks
+whether the pullup is enabled.
+
+> diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+> index 84dc0820c2cb9..e592705de55e4 100644
+> --- a/drivers/usb/gadget/udc/core.c
+> +++ b/drivers/usb/gadget/udc/core.c
+[ ... ]
+> @@ -1236,16 +1238,8 @@ static inline int usb_gadget_udc_start_locked(stru=
+ct usb_udc *udc)
+>  	}
+> =20
+>  	ret =3D udc->gadget->ops->udc_start(udc->gadget, udc->driver);
+> -	if (!ret) {
+> +	if (!ret)
+>  		udc->started =3D true;
+> -		/*
+> -		 * The pullup is never enabled while the UDC is stopped, so any
+> -		 * connection recorded meanwhile was only a request. Forget it,
+> -		 * so that the next usb_gadget_connect_locked() enables the
+> -		 * pullup rather than returning early.
+> -		 */
+> -		udc->gadget->connected =3D false;
+> -	}
+> =20
+>  	return ret;
+>  }
+[ ... ]
+> @@ -1733,15 +1729,17 @@ static void gadget_unbind_driver(struct device *d=
+ev)
+> =20
+>  	dev_dbg(&udc->dev, "unbinding gadget driver [%s]\n", driver->function);
+> =20
+> -	udc->allow_connect =3D false;
+> -	cancel_work_sync(&udc->vbus_work);
+>  	mutex_lock(&udc->connect_lock);
+> -	usb_gadget_disconnect_locked(gadget);
+> +	udc->bound =3D false;
+> +	usb_udc_update_connection_locked(udc);
+>  	usb_gadget_disable_async_callbacks(udc);
+>  	if (gadget->irq)
+>  		synchronize_irq(gadget->irq);
+>  	mutex_unlock(&udc->connect_lock);
+> =20
+> +	/* A VBUS event can no longer connect the gadget, so just wait it out */
+> +	cancel_work_sync(&udc->vbus_work);
+
+[Severity: Medium]
+Can gadget->connected stay set across unbind and prevent the next bound
+gadget driver from enabling the pullup?
+
+In usb_gadget_disconnect_locked(), gadget->connected is only cleared when
+gadget->ops->pullup(gadget, 0) returns 0, and some UDC drivers fail that
+call when VBUS is already inactive:
+
+drivers/usb/gadget/udc/fsl_udc_core.c:fsl_pullup() {
+	...
+	if (!udc->vbus_active)
+		return -EOPNOTSUPP;
+	...
+}
+
+When that happens during gadget_unbind_driver(), neither
+usb_gadget_udc_stop_locked() nor usb_udc_forget_driver_locked() clears
+gadget->connected, and usb_gadget_udc_start_locked() no longer resets it
+either.  On the next gadget_bind_driver(), usb_gadget_connect_locked() sees
+gadget->connected =3D=3D 1 and returns early without calling
+gadget->ops->pullup(gadget, 1).
+
+Also, if vbus_work is pending when cancel_work_sync() runs after
+usb_gadget_disable_async_callbacks(), a lingering gadget->connected =3D=3D 1
+causes vbus_event_work() -> usb_gadget_disconnect_locked() to invoke
+driver->disconnect() after async callbacks have been disabled.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-udc-connec=
-t-v2-0-f51b11f07eb8@flipper.net?part=3D1
-
+t-v2-0-f51b11f07eb8@flipper.net?part=3D4
