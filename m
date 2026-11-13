@@ -1,143 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=23.103.209.74
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.126.86
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794585014;
-	b=pfwqBBUO9s+fbklOO/DdIZZpiU4JBcnlzfpQeC1MpS68SsadCvXO2SxzACCUkbb+OUEw
-	 dhzqPMQpGPfgS+KnOtBYl2zZgBULfQTNmxjHAPl7Fbr0sGHK/3qkwc+vK2HQe3xIRYH/s
-	 RdG/1pNs6sSlvPIfSL6H3C8fvgX0kW7n1Ap9quaKiovNWbua+IQTPiuSk1E9V8rFGQ+Jw
-	 +2SqoWUxQb+VNHx/TJrA14gCFT2LPpf5QBfjBURNCh6maXRUpRnuR+CbEv4+BYY2CMia1
-	 e6rlaujGblxKexuhG9dHx0/dzcEB1fvekelXOrscfCqZopiVu9kZJwR0TOX04caKN6w==
+	t=1794585846;
+	b=N3iD0nNFTe0aJ2vI703gh49WyWRzwENSacc1DpDa849osnXQiEvHB+jrS3qQKIkeNmVk
+	 68D9MrNXpW9mUGaUC6mKlyuCTtXd4ewehJQTdk26cXZmm1wVlhFt1MreVRU4SIyDC/bVa
+	 fYYJNhYTVtdhOiTNCd25WXUAI0c6gIwNcK+tk/yWVbzoEvuALTrP9jFyD/Dfj6ZZkgSIb
+	 b/klsKwKelGxGCKJhgwxMnqwUdv6qNlAvcu0ZGa5JKvnQFtgJFKK7e3zXf5CZbOJ2xRne
+	 9bHpCHHaajBGPYKqYGSLTmY8BNRp2LC/o96EuQGL+z/AVILNzwEcfKyqIblCwnLd2Ig==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794585014;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 msip_labels:x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:
-	 x-ms-exchange-atpmessageproperties:x-ms-exchange-senderadcheck:
-	 x-microsoft-antispam:x-microsoft-antispam-message-info:
-	 x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794585846;
+	h=DMARC-Filter:Received:Received:X-MS-Exchange-Authentication-Results:
+	 Received-SPF:Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:Content-Type:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
 	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=rEc1hUlIqap3ExV++CfjhodnQ1yadV5xXJdepLPJ148=;
-	b=4y2HdDeikRjAbSjguKbc9mzaI+CRApVJIHF1zZ3xEvVriD+qnJclaiWd7FSokD8G9FBM
-	 gr6NFB3ubGH9s3Y0gXLZCbEm8wRZltXb/dsyErSLdAXeshYqcrelhXx/mRwIYHCnd6E31
-	 wye57evLjoJYfR/69KDtprCNdDVUASUhxUiRRoS3KTjF8ZWV36eMJRrJstodDnujt6jA5
-	 SXpS8/rMx3hPJEBY7FfHLcAofJCwCdIPmmvGhVOctSTMJmii+9d/Uibgv5aY76kENl9yA
-	 Vx5juasOIIZvU/oPtoiRzw444vH7HwdyefsZLOTTBFVPacZ1Lnk2uRFPfRg4PNuvXdg==
+	bh=WngfGjRncINeVNYDlRokTVicUnjpqrAZJQiuhDN9Ysc=;
+	b=Y/wdFJYB2l5fz0N+FSCvqaTBcMJ/cJCM+RhXUeGB4JM4t8HGpbg5pCU4A7zAoHtm1Yfj
+	 sR4h0Iel/0B1bdID4tsWLKCDbjkpz+gKvqT67bxZw1J0PuWQWXJo8SZBPg0uJLPAT4tSM
+	 0cFkEwqo6wusbR3qyYYQl/F6l0zqQqFequQwrnKeTlBHacexhnTMnfHyQxmNJaA6nGhCw
+	 JXBCnXXTyscU8FDTvF7fEUpwjZfNDvw26XD2aUvVllOt82hosZlSjAVoftfm5C6aqaKbV
+	 0V9zVn0WvO6MAq4fZkdpPtUZoUEu5Rh56vzZ2p9zvY6h/xoZX5b4LCQQJfdMvqN3TMQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gotenna.com;
-	spf=pass smtp.mailfrom=gotenna.com;
-	dkim=pass header.d=gotenna.com header.i=@gotenna.com header.a=rsa-sha256 header.s=selector1 header.b=ezWB1Pgp;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=23.103.209.74
-Received: from USG02-CY1-obe.outbound.protection.office365.us (mail-cy1usg02on0074.outbound.protection.office365.us [23.103.209.74])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=cixtech.com;
+	spf=pass smtp.mailfrom=cixtech.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.126.86
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022086.outbound.protection.outlook.com [52.101.126.86])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62A4606A33D;
-	Fri, 13 Nov 2026 15:50:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B62A4606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gotenna.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gotenna.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gotenna.com header.i=@gotenna.com header.a=rsa-sha256 header.s=selector1 header.b=ezWB1Pgp
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector5401; d=microsoft.com; cv=none;
- b=IliaAckQHXEFTAWywtASKr0wzalfemAwh0dUYVJdzUCkmsEbaM0pJFCTzN1odzfSlLeL2rfALZ9aK/NrL4CN4MPwoIS1zlzg/xXuEnIBKc0UXaTeAvZkIBBgk1Eaj5/MrotTyFCFocHpUAEpci7cUmMavEhAOPdkZ37bbdRq4T/2Zcu94RQ8cN1dVPv2FUBDhdg4/3ROjmSLAXtj2BgLyGHK1CznMfRQ62hpPFdlXwEwaXavGy7jeDboqtDC8K5iY2E3Uj64SBuVxm1tUDNQG3wAz//jJ3qvUxgk/TVzIXxAAV3gbQaJ0fJjV/gu5LiHPNAEVsDwtT0Xn05LySFSjA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF4C606A88A;
+	Fri, 13 Nov 2026 16:04:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CF4C606A88A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YzOZX+GLCVJXYEiKBFwmwq9Lys3ygMCFwzb7yF4JFGuSgVBDpl28FktjDJnjdDXw6Vd6+5Ezd3GRuelgDkva2ZibfTDDo1iFRJKGOqldznOARSaVwCoRC2mjrc89aXCIhW1HpKxihqkxE4HryjpxqQ31oCkJtOYPkAyuZjotPLxmo9QQY2i4hUGzCIBgVN3q1UVKkI38Akp3jtuf+XUQrNjzerGitgmXT3DBihQ3z2TVusHfwkUj1IcWNZMMtXfFfRLtgitNx1pYs15Wq+Wz/jXnH1DSCIy3KU2eBysOH41ovqHoEbfhm6wmVnr+prgfH9Q1uQ5EaGPXqh4LlaruTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector5401;
+ s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rEc1hUlIqap3ExV++CfjhodnQ1yadV5xXJdepLPJ148=;
- b=cs0nLrHQGvE3z40ZgE2+b7JdJUVU7zg1ok9PAydTFChle+SJKuz5jzxCr2Jcmg5lS5mU4pCnxEQpAgLZjQ6qh2FGYGX2/rj1Kodl1QQ/x6aQlyHGC1Szs3t+cYyQ7xYvfVyxlVucWO+0F7fbzEpSmgqI7xRa3MRIHmGSklFtht9oCyJh3hCXTbQPxfH+F5fZoPekhvP69BKBlCpoJOrfS21d2bIj2GMjEvc9BWfPXhSNXz+kicPZzuHO2za8BuPjSWe78AZdDkpLIsZUm6+aC5XgH9/6ZQJf8YQ896eeVq0wJiYEessSV1ffh2AsYWCkxQeaNTmDWmEhpcDlRTpWyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=gotenna.com; dmarc=pass action=none header.from=gotenna.com;
- dkim=pass header.d=gotenna.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gotenna.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rEc1hUlIqap3ExV++CfjhodnQ1yadV5xXJdepLPJ148=;
- b=ezWB1PgpYg4hZv460XTjB/B/Y9pF/j4ufMxseW4DIL5nKQvzfJpOwS0HHE+qRnArZT18fdslsVcLTunXgNSsvYXiRMDxst5fadSllIje6xSol/x8SaBgmBPKCVOvqcprSrwPcJut42gdrOENR7fIKJHHlzDeY0SKM2zsYcn0acwUyiZDudarADiFiEo0vSVXJdITnlarHEC4B8aIycIOTe2DuLFwUZabOZMKgSsQjHv31iSaov1tF1LXdZoaaitLot8eDQmOS/kREziPG/8aadJhWdlWIAHEnYmM2pkL4LkRzETlig0iEzMHp+AL7BFWi6XFVpjSsQg4Agtlk+BOTA==
-Received: from SA1P110MB0976.NAMP110.PROD.OUTLOOK.COM (2001:489a:200:170::10)
- by BN0P110MB1370.NAMP110.PROD.OUTLOOK.COM (2001:489a:200:181::14) with
+ bh=WngfGjRncINeVNYDlRokTVicUnjpqrAZJQiuhDN9Ysc=;
+ b=BhElquhTAO20KLNIfMdqtEYlO26InQrtZ4JPDJ+ypMNLSqW/CZ9GJcpYvC2Y59N5Ddtfw498QG53pL1o3U5bpVIwsE5VNLOPHqH/Pqkv53M/h7S/nKpwwNdTgqALFXdhW5kYzK525r91qbTHy1Qu0MDdrNJtYUhvqUScxANQywBhURQPFFFieXpC3fkTDBLsgz1A67Q2LrE2v2gq/0HQL2sOnK9q30jkERqPCJDn4NPPYDWAIYsz2gEeaqVfCbe3ECAEeIe9ErGIpWyUQd0JZFymryDEWp1gtNzcNuEH76AxQKFpku0H2Fpn5JvmVScInaXH8loHlQs1og/W5AFvHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 222.71.101.198) smtp.rcpttodomain=cadence.com smtp.mailfrom=cixtech.com;
+ dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
+ not signed); arc=none (0)
+Received: from SI2P153CA0017.APCP153.PROD.OUTLOOK.COM (2603:1096:4:140::10) by
+ SE1PPF7C5444CB3.apcprd06.prod.outlook.com (2603:1096:108:1::41e) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.16; Fri, 13 Nov
- 2026 15:50:05 +0000
-Received: from SA1P110MB0976.NAMP110.PROD.OUTLOOK.COM
- ([fe80::4e82:7de2:f390:82d8]) by SA1P110MB0976.NAMP110.PROD.OUTLOOK.COM
- ([fe80::4e82:7de2:f390:82d8%5]) with mapi id 15.21.0569.015; Fri, 13 Nov 2026
- 15:50:05 +0000
-From: "Brian Ellis (US)" <brianellis@gotenna.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] usb: ulpi: warn when a PHY with no DT node cannot be read
-Thread-Topic: [PATCH] usb: ulpi: warn when a PHY with no DT node cannot be
- read
-Thread-Index: AQHdcHdceYwjOP3np0qJhDaKl4bTtLco+KiAgAMykZU=
-Date: Fri, 13 Nov 2026 15:50:05 +0000
-Message-ID:
- <SA1P110MB0976DFE0F4B8BB25AA2447D2C47FA@SA1P110MB0976.NAMP110.PROD.OUTLOOK.COM>
-References:
- <20261109-ulpi-warn-unidentified-phy-v1-1-64537f455dd8@gotenna.com>
- <avSCDSv15j7KBrDa@black.igk.intel.com>
-In-Reply-To: <avSCDSv15j7KBrDa@black.igk.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=gotenna.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1P110MB0976:EE_|BN0P110MB1370:EE_
-x-ms-office365-filtering-correlation-id: f7e0515c-84c0-491c-83f4-08df419dc95d
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|41320700013|10070799003|366016|23010399003|22082099003|18002099003|6133799003|55112099003|38070700021|56012099006|5023799004|261026140227099003|4143699003|10067099003|261028144727099003|261021123027099003|261102123227099003|261009223027099003|261022105027099003|261026121527099003|261021121427099003|261022075727099003;
-x-microsoft-antispam-message-info:
- N4AVVPv6NpFP0FfZGg348pU0kp1SM0cNqsEgbY7s0Klg14zqd1oJuAAe/KnBZ+Ink9xLSTmuYOT94lIsOrnKBhpKWxEDHeUxQ2v3G7GdcKt5evERVmSjEkMZf1wuT8aQvZNi3np7aZ2zbbljNF72w4geqTKX3R1mu835Xgan/wRALnzd+bjxpdZqY0vBBpPuPzNwZrR9uBMbjeyZhu82I8w297/3z8cU1D+MxJbrd77uJMAjiU+nDvnuZ3We4mDEAczH3ZcbUV400r+ebg4jtldri1sFR8hlsiw5pEx3oBhdnHRPm/gmTXqfRsak8vP6kFqBbTcS9FNlpYre7VTvjfrVCtTM9fr3yQxvDkJ19R0zLv+eoerPE0CHbQOCdZvhDm5lkxPJfrXRyeJpvA+rDYGpCwexesQaWoK8KCMTivv6NqwSHnowJTaOBTq0u72DmbH4CYlOvCQU37TT1hdjoyndX7sK1q8s8y+OLBBoNWyZ33mA/EO9bQfnkUXKBiUO+CkmFgP2FmxWOrnPweAjtljqUaBzleHaypJqAy2oL1ONAVVUxhf2h0qfA8Uoq4LJd1hbbO643tb2Dl4N6uEoU3BchFbLe0h7l8s+HLQlET4fc/lSjzayTzq66n0c2xClB/ISRy22bJd33YCp4EsoyhXvLeCzz5NttSoU3iw+ftMkohCbwUaFOVKGWSJY2+cD3hS3s5edsT9WATxgTaaEV1qBXWUhL8izyCdXfLvXV9I=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1P110MB0976.NAMP110.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(41320700013)(10070799003)(366016)(23010399003)(22082099003)(18002099003)(6133799003)(55112099003)(38070700021)(56012099006)(5023799004)(261026140227099003)(4143699003)(10067099003)(261028144727099003)(261021123027099003)(261102123227099003)(261009223027099003)(261022105027099003)(261026121527099003)(261021121427099003)(261022075727099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?2Y9fcw8F+SclfOpmCHZOrVKFVBzKNW/5xKF+/55nhQqsxU/sW1hcmvbLvE?=
- =?iso-8859-1?Q?a6fTnxQfaT3gLUZJkVyGMFDJrRnKUSgIDE37GwofEeHD4tWcvfhz1OPEwk?=
- =?iso-8859-1?Q?LjdLx05NgOcInfHJGxp22552Xbo14ejersD4C307PwOpRBjSzRjEjQ9Sx3?=
- =?iso-8859-1?Q?7wF4LhrFwLWkxv1BQJcvCV/0oijj1N+x54ZX6rD767hZDmXCJ4ardFKd0z?=
- =?iso-8859-1?Q?29AdAYhMxdtXEt8LhGljYjpAbjC2H3CWChHkcWNTV6KdyVNkEau0bOaUU3?=
- =?iso-8859-1?Q?UMNA1egVbYruSoH6PxpCSlwSvFu+f/8pOKq0TjVMQ3VFTD4CZySJho/jPF?=
- =?iso-8859-1?Q?lJBEGadZ6Wp5XSZzLufiYjmj70oIO2KYq/l1EpTZpjsgnfQOo2GctTkSHa?=
- =?iso-8859-1?Q?sB32mN5qjj9JWSkDb/U2f8lQqnO1TsHxPOrTAdP0jJh3vfHuXrzBuGoLaY?=
- =?iso-8859-1?Q?TGpBC/owAEJO2pmdJPVd4p6u45nZrGdWQelgr51HBaMnNExG3pD/XCJNs/?=
- =?iso-8859-1?Q?5glFL37bF+xsCmvpv2cfzOFtPIyDsCwDxUoFv3MsT3ilnLr6sXevP06fdO?=
- =?iso-8859-1?Q?669mwvnUoDmpnuSI5rOfBdXzRuB5rPtWVfGH+LeyP1HAbStQsiMyhr2M4f?=
- =?iso-8859-1?Q?qxmli0l9vqpGXXVSWgE1I4kaimLOyiTeRdehnzp26yCGSjYkXag6isEqQF?=
- =?iso-8859-1?Q?HoivDsZQQVpd8P9C4jNkS3SwhimdK5gnNAcByK/irYMlEUTfwfcBja/Fue?=
- =?iso-8859-1?Q?2TRwMYL/nbmEZnPwk0NvZbX3Sq5be/pMu4VXK34u1xnT5JIqgTJaVZ17NI?=
- =?iso-8859-1?Q?s1idCDfviWwXbf+Uu+PrEFOlcGpE5oDxx1CUGEASc6mK763KO3hYWFD+X8?=
- =?iso-8859-1?Q?v5bZOFfA65N49OIyU316BYk0yet4pedEcMvlK+FKw8+Lt37Sjd0QLzjYJD?=
- =?iso-8859-1?Q?ynFaxmk4PKZyLxitFqyBgsvUIxak7BjiGmrlMwDhQ9mnCmJRwBXwzSQbye?=
- =?iso-8859-1?Q?o1vjMD8mMBaxiHE4h1eiE4rZs+kGt6nIrGzClJZJTTY04tQQL+vuWGn82r?=
- =?iso-8859-1?Q?aQZVohbjJQVMgHsuz+FDlbOpzaTrI6UCYNynoqICvFOgvmwYoGg5vhrjFK?=
- =?iso-8859-1?Q?utUbRneKHjR/xDxy5VGq5dtsWiYbecTK2yd1dX7hu4URlOwuDYCkElXfth?=
- =?iso-8859-1?Q?/P3sN+z9nAtqcj//HSdX8LLUP6aRcE+swqnSEt5BwNZd2kxGLf2MjKN/Xc?=
- =?iso-8859-1?Q?Y47dnOImPU90k1blKUmAke7t/DDXrJr1qSvsSpoEUJGq053N6RA7qscvXt?=
- =?iso-8859-1?Q?OGl0THDU7/u5w/5N+WZguRwYzIb2GxYFDrcWR7MrrUUNHFy9eTFXWNo0HO?=
- =?iso-8859-1?Q?ukxjIjsIQWFaMuIJw9c8qe60Xiv6w461sboQ2j09PH/a0L/SxNY2ydsgTu?=
- =?iso-8859-1?Q?Ff34X17Dpuqa0+FT+eYFonYwbwntpzqwRZIyZC73SI/i8VWQr4XZIABDb1?=
- =?iso-8859-1?Q?Ygk2gvW5i2Pcm/9zrs2Ju1cT3cSIOg+NP1lxKBb44eUGCk47G1i/UnXBUc?=
- =?iso-8859-1?Q?qwiQXNDwQJ2PI7XS3ToYQ2o9bxfLKk1HbV7+vrJ0Wp9RXJSKW0yIaKW6r1?=
- =?iso-8859-1?Q?+1KZ1jjOtr0VKXV2WVU2rDoUEDxX9iRD2b2rDOsPXJESfGJlL3XJbb4jxq?=
- =?iso-8859-1?Q?us1CQfm3PBVsInyQ29OWOszgYEAOTWUfkI8cYbJU9jTCMRHDbXL+EmdiPi?=
- =?iso-8859-1?Q?/K2exUhYuF1w8LFGkUDZAom7I=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.10; Fri, 13 Nov
+ 2026 16:04:01 +0000
+Received: from SG2PEPF000B66CD.apcprd03.prod.outlook.com
+ (2603:1096:4:140:cafe::9) by SI2P153CA0017.outlook.office365.com
+ (2603:1096:4:140::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.639.0 via Frontend Transport; Fri, 13
+ Nov 2026 16:04:01 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 222.71.101.198) smtp.mailfrom=cixtech.com; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
+Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
+ 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
+Received: from smtprelay.cixcomputing.com (222.71.101.198) by
+ SG2PEPF000B66CD.mail.protection.outlook.com (10.167.240.27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.615.4 via Frontend Transport; Fri, 13 Nov 2026 16:04:01 +0000
+Received: from hongliang-System-Product-Name (unknown [172.20.64.180])
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 7C69B41A9A83;
+	Fri, 13 Nov 2026 11:31:24 +0800 (CST)
+From: Hongliang Yang <hongliang.yang@cixtech.com>
+To: linux-usb@vger.kernel.org
+Cc: Hongliang Yang <hongliang.yang@cixtech.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Chen <peter.chen@kernel.org>,
+	Pawel Laszczak <pawell@cadence.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Gary Yang <Gary.Yang@cixtech.com>,
+	Fugang Duan <fugang.duan@cixtech.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	cix-kernel-upstream <cix-kernel-upstream@cixtech.com>
+Subject: Re: [PATCH v8 2/2] usb: cdns3: Add CIX Sky1 glue driver
+Date: Fri, 13 Nov 2026 11:31:22 +0800
+Message-ID: <20261113033122.1438152-1-hongliang.yang@cixtech.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <sashiko-outbox-210229@kernel.org>
+References: <20261112022141.4136099-1-hongliang.yang@cixtech.com> <20261112022141.4136099-3-hongliang.yang@cixtech.com> <sashiko-outbox-210229@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -147,123 +110,90 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: gotenna.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1P110MB0976.NAMP110.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7e0515c-84c0-491c-83f4-08df419dc95d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2026 15:50:05.3795
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2PEPF000B66CD:EE_|SE1PPF7C5444CB3:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 5595ac13-ac34-41c8-9b5c-08df419fbbaa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|36860700016|1800799024|23010399003|82310400026|261009223027099003|10067099003|261026140227099003|4143699003|261021121427099003|56012099006|261022113327099003|261022105027099003|261022075727099003|261102123227099003|261028144727099003|261026121527099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	M8mENAsBv2Jm7ic3d9VFOqNb+2oiQyMLlE3ys0KAh4gHF8NTXb0NDhGt1YjUovmGtZ+Dl7LO3cF/YzJVkecdQcjJQbvbVjt18jyxhlKz6sHa3TpdaifUL2HIwmHvl+TLwtWJ6Gr27W3n9nnPGqqOonkJn9Pi8V11lOUStoWTApEvf5FkfGXUE5JhPCWAU0p9XpO7R7k5IW2FzMfc7ndEWIotQ8dh4yomGNw9XcMgLdEoI3aKnpYmYHND74NCpLmPQMaPfxdX4DZscUmHU40yM7fpEm2uFNGRzmePGACqPMg9Rqo37mjhIdQW0K8UuquWLNPguu712e3LbYgT7flvzcxKyMOTamO9HvlRT9dZw1g/vyMYXm91hA7W4v3azTkoRIkbxt8quKfyMkb2zsZHuNhusRZGX8qxU9Wqr0QaCYm50yi4pH6rCtC4vjy81aggT5x5daMryuO1NQEDNCnkje6lDfp1a0Xz3pxJl2U2HW6+9YXTiZWBViNYhWMzJf9bMDzHOBl6SNIOGzV5vZZsJ5T2OQzplfjirI2mZeNp3ZT70saTRODSwbRZGFZxoToOGCCQGIlYOvwWn3/iZL3zRshCMfopTkkCz4gB0OsIyLR/MMBrcBsGbNrtPpqzUjMxuUfCzB5owIeaPecAtUMO0KJyfg4n3LHjN6y+cmIYJmmNfVLNAsKSBXpmbuCVoJH/Wx8jgBRvIRUrsAc2xVuK2Q==
+X-Forefront-Antispam-Report:
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700016)(1800799024)(23010399003)(82310400026)(261009223027099003)(10067099003)(261026140227099003)(4143699003)(261021121427099003)(56012099006)(261022113327099003)(261022105027099003)(261022075727099003)(261102123227099003)(261028144727099003)(261026121527099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	iXGPzLXhkbKRobYftR+WusIyIeok5j+ABBKoovn75qf2rWFjcZZdTYuw+I0dbCoL+mC1xsFxnDbU/LHY5ba5ciaeTuBXXpRxisrje8ul/i17tqNxBC3Uog88mYg/VAp7xW9RgT/olWwcTHReaA6qWrmapkwuHqPrfNR/8UFcwGeNFvnNm4coE7YMxlSiW94yBKnh0B3pY5mxVMygMQ2wuJCGYjGxrzk0zHdUdxAUNkVgR0NRjbGDpzrjkrxkotECJsYtawvj7S7w2pvrFU6kkYpdXWqrFzvCBgbGW6bX6VIOmwiAUAaULEmw5SN+tdxEtBOIAmYyFUGiwVfwJ537u02/px1or80qGq6Bx7GQKIMvPHJnhrp/QfW3qTLDaIplnDDMNOXOBdrNzojJjeVFQiclN4rwWDLwJY42MF5O/TUgLud/jJJ78Hr9M4hanOhG
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2026 16:04:01.2368
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d9997302-4e5a-473e-a9f5-f3ed9cd16249
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0P110MB1370
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5595ac13-ac34-41c8-9b5c-08df419fbbaa
+X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SG2PEPF000B66CD.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1PPF7C5444CB3
 
-Hello Heikki,
+All five are real. Fixes go into v9; the binding patch is unaffected.
 
-Thanks for looking at this.  Nothing in software powers it on: our
-board feeds the USB3340's VBAT from the connector's VBUS, so the PHY
-only comes up when a cable is plugged in.  Booted without one, there is
-no ULPI clock and the scratch write times out.  That was a bad design
-choice, and the next board spin fixes it.
+> [Low] missing MFD_SYSCON dependency for USB_CDNSP_SKY1
 
-So the root problem is our board, not ulpi, and I agree a warning is
-the wrong answer.  A dev_dbg version would only help boards wired like
-ours, so I won't send one.  Greg, please don't apply this patch; I
-withdraw it.
+Confirmed. ARCH_CIX does not select MFD_SYSCON, and without it
+syscon_regmap_lookup_by_phandle_args() returns -ENOTSUPP, so probe fails
+with a minimal configuration. v9 adds "select MFD_SYSCON".
 
-An LLM assistant (Claude) helped draft this reply.
+> [Medium] clock refcount underflow after resume failure
 
-Thanks,
-Brian
+Confirmed, and it is not limited to a failed resume: shutting the system
+down or removing the driver after system suspend, without an intervening
+resume, reaches cdnsp_sky1_clk_disable_all() and disables the sof and axi
+clocks a second time.
 
-________________________________________
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Sent: Wednesday, November 11, 2026 7:56 AM
-To: Brian Ellis (US) <brianellis@gotenna.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>; linux-usb@vger.kernel.=
-org <linux-usb@vger.kernel.org>; linux-kernel@vger.kernel.org <linux-kernel=
-@vger.kernel.org>
-Subject: Re: [PATCH] usb: ulpi: warn when a PHY with no DT node cannot be r=
-ead
+v9 records which clocks are on in a bitmap and routes every user through
+one idempotent pair, cdnsp_sky1_clk_enable(data, mask) and
+cdnsp_sky1_clk_disable(data, mask). A clock that is already on is skipped,
+and the enable error path disables only the clocks that call enabled.
+CIX_USB_CLK_OFF_NUM goes away; the suspend window is a mask instead.
 
-[You don't often get email from heikki.krogerus@linux.intel.com. Learn why =
-this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> [Low] PS_PME_En not cleared in cdns_sky1_platform_suspend()
 
-CAUTION: This email originated from outside of the organization. Do not cli=
-ck links or open attachments unless you recognize the sender and know the c=
-ontent is safe.
+Confirmed, the read-modify-write keeps whatever PS_PME_En was left in the
+register. v9 clears PS_PME_En together with PS_MASK before setting the new
+power state.
 
+You are also right that the core drops the return value. That means
+-ETIMEDOUT does not prevent the half-suspended state, so v9 restores PS_D0
+when the D3 entry times out, as the vendor driver does, and keeps the error
+return for when the core propagates it.
 
-On Mon, Nov 09, 2026 at 11:22:57AM -0700, Brian Ellis via B4 Relay wrote:
-> From: Brian Ellis <brianellis@gotenna.com>
->
-> ulpi_read_id() checks that the PHY's registers can be reached by writing
-> ULPI_SCRATCH and reading it back.  If the write fails or the value does
-> not come back, it falls back to OF matching and returns success, with
-> nothing logged and ulpi->id left at 0000:0000.
->
-> Commit ef6a7bcfb01c ("usb: ulpi: Support device discovery via DT") added
-> that fallback for PHYs described in DT, which may not be powered yet when
-> the ID is read.  For a PHY with no DT node it does nothing:
-> of_request_module() returns -ENODEV for a NULL node, and ulpi_match() can
-> only match a zero vendor ID through OF.  The PHY is never identified and
-> nothing says why, so code that keys off ulpi->id, such as dwc3's USB3340
-> detection, silently does not apply.
->
-> Commit 8a7b31d545d3 ("usb: ulpi: defer ulpi_register on ulpi_read_id
-> timeout") made the failed write an error for this reason.  It was
-> reverted by commit b659b613cea2 ("Revert "usb: ulpi: defer
-> ulpi_register on ulpi_read_id timeout"") because QEMU's Zynq machines,
-> where this write times out, then could not boot from USB.  So keep the
-> behaviour and only report it.
->
-> We hit this on a ZynqMP board whose USB3340 takes its PLL supply from
-> VBUS, so its ULPI clock only runs with a cable attached.  Booted without
-> one, the scratch write times out, the PHY reads as 0000:0000, and dwc3
-> never enables the USB3340 transceiver delay, all without a message.
->
-> Warn when register access fails and there is no DT node to fall back on.
-> PHYs described in DT, and PHYs whose registers work but report no vendor
-> ID, stay silent as before.
->
-> Signed-off-by: Brian Ellis <brianellis@gotenna.com>
-> ---
-> How this was tested: the failure was observed on our board, on AMD's
-> 6.6-based vendor kernel, where an earlier version of this patch warned on
-> every fallback and printed
->
->   dwc3 fe200000.usb: ULPI id read failed or unavailable (0000:0000); rely=
-ing on OF match
->
-> on a boot without a cable.  That version would also have warned for
-> DT-described PHYs and for PHYs with no vendor ID, which is why it was
-> narrowed to this one.  This version has not been run on hardware.  On
-> usb-next it is compile-tested only (x86_64 allmodconfig, W=3D1, no
-> warnings).
->
-> On QEMU's Zynq machines, where the scratch write times out (see
-> b659b613cea2), this prints one line at boot.  That is accurate there too:
-> the PHY is not identified.
->
-> Tool use: an LLM coding assistant (Claude) helped investigate this, wrote
-> the code change, and drafted this changelog and these notes.  The
-> observation above was made on our hardware.
+> [Medium] cdns_sky1_pdata leak in cdnsp_sky1_probe()
 
-Instead of adding this kind noise back, I would prefer to see a patch
-that fixes the root problem. Do you know how is the PHY powered on on
-this system?
+Confirmed. of_platform_bus_create() returns 0 when the child device is not
+created, so the if (ret) branch after of_platform_populate() never runs.
 
-The message is probable only useful for debugging. Maybe it should be
-dev_dbg instead of dev_warn.
+v9 checks the children twice. Before the populate it requires exactly one
+enabled cdns,usb3 child node, so the auxdata platform data can never be
+handed to more than one device, which would be a double free in
+platform_device_release(). After the populate it looks for the created child
+and, when there is none, frees the platform data and fails probe.
 
-Thanks,
+> [Medium] unconditional clock gating in cdnsp_sky1_system_suspend()
 
---
-heikki
-________________________________
-The information contained in this e-mail and any attachments from Forterra =
-may contain confidential and/or proprietary information, and is intended on=
-ly for the named recipient to whom it was originally addressed. If you are =
-not the intended recipient, any disclosure, distribution, or copying of thi=
-s e-mail or its attachments is strictly prohibited. If you have received th=
-is e-mail in error, please notify the sender immediately by return e-mail a=
-nd permanently delete the e-mail and any attachments.
+Confirmed, the function contradicts the comment above it. v9 gates the
+clocks only when both conditions hold:
+
+  - the child device, which owns the shared wakeup interrupt, does not have
+    wakeup enabled;
+  - AXI_CLOCK_VALID reads 0, that is the controller has stopped using AXI.
+
+The second test answers the device/idle role and the D3 entry timeout cases
+without depending on the role, and it is the same status bit that
+cdns_sky1_platform_suspend() polls on a successful D3 entry.
+
+Best regards,
+Hongliang Yang
