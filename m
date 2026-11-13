@@ -1,76 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794537456;
-	b=OPxDkEfg2qaxyJj5B5erZUhfOyG6I9j1xN8MJwpHEEtUwzPQmF2oiSQjFfXViMxUgI/r
-	 zWvYfWcJWPb0z1y8jeEkiWdTpwyJpJ6O+ctCkrMIJOvaXHi5vdeDv125eoIcTf7pNhEEl
-	 mg7H5VRfY7KVZjCelQNU2FvzrvwkcqlzidXJO1g6qh7VQFbipWVdEgBUN3uRl73KaCAy0
-	 /WP/r42R2B0KNu5CTMc9kSFlHKKm/6C1zCh1mjJjHmiD5uK2PWo7qkTM30GYim3ByshE6
-	 kMzCUxhWUZjZ8Wn7U+YwDwFJkZj1sleldKd76/rv3S4YcFO/Gq6T4gzADjhvlLQa2Vw==
+	t=1794538170;
+	b=w3OSFLQD7sqCmwBF9C4JSlbnNCGWyCleaykwfA8qUXWWVP237bq1w9gYPLCF/mmFcqjb
+	 1MfydnwgQNxsBvyIB5pgjtSTdaOcP5tIwvGWB+Z+8LLzfn/u+e/Hnz8tedHdhMI1jSuaF
+	 2AFMVeIqO+wqOweZny8byDOJvPUagMpnT/ZRbzfzY/2warHKrmfDWUvovRGp4Xys4m9Vs
+	 niLus9XapI2EN/Bms9IqWO/xFZCPZhCKAWP3HtEvCSMJDCnux6Nda7ki+dCmPg7myQ6h0
+	 GltvcSxLHKoaLBwTGzfsPPwSW056ro2Za35uELIyHHcpPOi59gQqcEkOl33jscyJtyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794537456;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
-	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=cx2rKaJbOqB/Hvn2K4CIf4NzTLrImGVIRCP3/c1MwVo=;
-	b=ew408xUPYBCwFxBUq5Z4knza5xuIG/jZMzwf11HqZF+lanPqSbXIHZPQZaKV5dgRihWg
-	 miP0/gIM97NIGyrkhC2Z17Hrolhdmb/5zB2Lcvbu8C/lwtl2BqbsBDz3ZPXIh9O2a0mHY
-	 s3+CxG7bhQ1w66ITT7zVhuqRFZMbGfElJjx15X84lxoLql4TZFmvGPKdaCapz0Z46Vk1U
-	 +qPD+6wXyQ7SiA5pYhIoKUFFo9BEFjXkgbc1NplIOUnvQo2oqibOGYxOhxYoo14FQCtE1
-	 qLs79TGrJCOEgzpR+OmsuwyMcdUX5kFfSAwgs0DcIEqijpM7j06tcJ6KJg95J3KBORQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794538170;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Received:Date:In-Reply-To:Mime-Version:
+	 References:X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=UFDe9lCkInupU9qUtl4bkONEihH6NAtH6iCQTIvpiRM=;
+	b=nCQzHZDNVFiL8W1olaWUb92FBkc7KWIuWoFn0wI0f7sKfND5K5MA10+LvTo97UnC8EYh
+	 5cDRqKnmSkiUvREqfF/45JI9kEwpziDEdyqx2mm23/pmXOgxJWpybwG/NL8FRUAAgOytk
+	 1q9CTlkCtVZx3xuo+AgXwoyVYWiZkrHU6EgakdUOOqzshrG0FQ4csx29mUIiEPitLn474
+	 ARWAC3EMXD2dvoS3YXTK/DEIwW4C6pPoFyzUcAaY99kCA9xcj+e9Wkfpo7TZTp6xjNl+6
+	 +TVPx8FRK/J/tm2Q1ToVK29P26CPkKyCU8oI3bFtZQgs0NQIyC6dsl+dUmoAEoyy9UA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=uniontech.com;
-	spf=pass smtp.mailfrom=uniontech.com;
-	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=W1F5bGtk;
-	arc=none smtp.remote-ip=54.243.244.52
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--sarthakkukreti.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=iLrTuznz;
+	arc=none smtp.remote-ip=74.125.82.197
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740D5606A32A;
-	Fri, 13 Nov 2026 02:37:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 740D5606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2E3606A886
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 02:49:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC2E3606A886
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sarthakkukreti.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=W1F5bGtk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1794537449;
-	bh=cx2rKaJbOqB/Hvn2K4CIf4NzTLrImGVIRCP3/c1MwVo=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=W1F5bGtkMKa7dTLuyi0NRQOxTIRo03+TeCPwLYdSgkKAWD8/Hh8MC5/N+T7d4kD/m
-	 QNIB3H9KLhYKDrlvJAN0+8UyRSxolNtnNrMRZd28sGqzX7WvIog8Q5JN6iCBbqtESU
-	 ejo7+zKFWa0xOZWONeFi8+pI7Q1uDuEpd8UVK+rU=
-X-QQ-mid: zesmtpgz8t1794537433t19dda35f
-X-QQ-Originating-IP: c4AZLqPOFpr3nxvrVD2TCH/MbBycDcANaNZ/IKhuuVA=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 13 Nov 2026 10:37:11 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 11128085979388629745
-EX-QQ-RecipientCnt: 14
-From: raoxu <raoxu@uniontech.com>
-To: skhan@linuxfoundation.org
-Cc: brgl@kernel.org,
-	gregkh@linuxfoundation.org,
-	i@zenithal.me,
-	ihadzic@research.bell-labs.com,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	luiz.von.dentz@intel.com,
-	pengpeng@iscas.ac.cn,
-	pmenzel@molgen.mpg.de,
-	raoxu@uniontech.com,
-	shuah@kernel.org,
-	stable@vger.kernel.org,
-	valentina.manea.m@gmail.com
-Subject: Re: [PATCH] usbip: Close all listening sockets in request workers
-Date: Fri, 13 Nov 2026 10:37:10 +0800
-Message-ID: <351AC939AD9B6359+20261113023710.1746483-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <67b2c06e-0caa-4ba1-89ee-17cb814d173c@linuxfoundation.org>
-References: <67b2c06e-0caa-4ba1-89ee-17cb814d173c@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=iLrTuznz
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-36de26cb4b3so618937eec.1
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 18:49:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794538168; x=1795142968; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UFDe9lCkInupU9qUtl4bkONEihH6NAtH6iCQTIvpiRM=;
+        b=iLrTuznz9sLy6cNj9ylnQ0iW06i+WW28+tFuLq2/LPZ7ckr3ucDGMcNtry2QGg3VZR
+         0OFNiwrcfDbEoUbv3uFWJWHHsJFGGkZdYHRgcbOyS+I7xu8Ewj6zDWCaIIPxfZ3KcLFe
+         n5z6+tasYWo/qpLMe38PNcHrBtjrph8G9YApqYRmm+GSZ8JmnUdiGvna6xDzBz7zTXib
+         uzxHqJcd6cM1DUsUe2T44mBAlh5C/TVauI4899Q1fjeXFSzlFCPDsdzAFVPgh11Qpu/W
+         K9j4avVVWlPKNDrmE3Hvq6tLZSsa5vt7IKGHwNbDbjmNZ40L1ItnCHKFRS5KVMVxjJcX
+         gAMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794538168; x=1795142968;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UFDe9lCkInupU9qUtl4bkONEihH6NAtH6iCQTIvpiRM=;
+        b=w2lmnh4EEslc8Dj5tsODXhOF0xWbsAvxiFB6Lq30mkFQ1AhZfOIrkBpiBASqwLhhED
+         UdxWQ7VzlF6Il4awMG0iUfbcAfCzuMNW9xZPnr+w1VwC0c/6Qp4IJfsMFh7BmNFhzdku
+         UOclYFBhvyfR+ybL9J3qTJiNqYBWGMK7daZzs29jYcVfmWDlwj2gCjyCv2jiw68bbYdw
+         /IoqFiTBPsUXB524HY1u8z7dnmkZ0OcqexzMS/c3r2UF07TPF/Rx1X2ZzFyGQxtf2Sh5
+         CcAMyrUD27bo6tIDFoAo29uqSDYWVK7GpkGkgMXdYlOJ1cq8IfayAiYOp1M9cgZ+GUpV
+         krUw==
+X-Gm-Message-State: APuU4Z9Vxtp3/BTBiea3Z+mpQWsagWtveV75ZftvYA6WaEFPFVpy12yQ
+	ape1SRS/72YaW7VeOrMsVxD944X3b8UTNWKc4LWdAezzivdIei2pMxQONCmI9+zm4KfhzZSkhIk
+	t0jbtLC6e0NF7OTP73r1+PvvyPGnnBDRiOuGdwA==
+X-Received: from dlbrp2.prod.google.com ([2002:a05:7022:1602:b0:1ab:7a71:e7])
+ (user=sarthakkukreti job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:701b:290a:b0:151:6e80:ba7e with SMTP id a92af1059eb24-1b503055016mr1176900c88.4.1794538167602;
+ Thu, 12 Nov 2026 18:49:27 -0800 (PST)
+Date: Thu, 12 Nov 2026 18:49:19 -0800
+In-Reply-To: <20261113024922.27977-1-sarthakkukreti@google.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -79,109 +76,200 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: N3hocr3RRwxYAtF1eL2wfGm/DkJurmgZphWaCoCzG18cQ1ooWvXw66s3
-	WFrWHfK3+W16CB3UXSPLFD4qWVJtXaw+sy7mM6cr68ohgsUFxuNUaxiDGMvDTqQJln7Y4u9
-	KDN1x8em4P647it/9xO1NEBPt8As+9W5xch8ZQ6aY8JMZz6TXXHQYNJM5aSXO3QMR6Mbn96
-	kdDMfbtLsNKO19jL6nVR1a+bRGT0GoIHwCYjxN05QhGz1Yv3cOqwb4NQy4r7H7lJLhEBTte
-	5Uu4yVjLVObdkS/igSHUbb+jbUQtPrz/JPNy169zCjDf/7vqN24Ax7vu74JayoKn9R63plZ
-	RZPJr9HxUUznWC3el7ik3E71iPIwrBgXEQsz14G1Ni08eXk/2v69tkg/cHnTDAZSLC5AbhO
-	+yAWVINyf+KR4S8pMFwSb93HBvNn6m6CyZDOa8ihWwkyXLgZTdWvV1Lptf/Mik+1PfQd5xb
-	ZBlSEMsMZYP9lDkpD4MdddYO8Y6CCtcbRjLYu6+ah9UUfx6pCA6DZrwDvbfv8N2y3sbgn/P
-	oLyE3h2Quv7Juk/l67KJOfRKrm+3+Toi87K2mxCzCcI8PCqvFkpWSiqmiGyH4kXq2jrd+iJ
-	BopsfTPzS+8BwfFSzk3jYsFz/SrRlrgTQS5qwZXQaSNktPR4w00Xp4JdLoJ0/LtEQOjhhdP
-	+a4uEg9+DdhgbscdSzYe4FPfrueB5TiSlE4eu+SGPLxekT9BAotofPB4/712Cj4+8/s8POW
-	//Siw+VjyGmIqC4JmCvYFynr6MpXp6I2aoHDsMQR95EtpmN8+BciVfBDbzmb84AP+M7Q++n
-	830KF6C6AkAvH6aoJFrEe6p1A95RYTMpjyIp3Dsk+fAhM/LgeEOJVxqa5BhjF83Dvt7gTWg
-	Dy0CbqC96Vlzqv2IxhJKtUDSVMFCYXIkEegRZWZXtuJYsD5FOYwYYtqFo0ETeYkHErDYPJ2
-	xBilfAMD8kns/D9jn5uS7SJJDP2GtO5JkWEPQXom+3Wf0cVjQtrLpivBZQ7SSvIq2VXaL5o
-	/zjL6T6fYU9gcrf1i1L3c++Ef4QBWodJ2n4x/kMg==
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-X-QQ-RECHKSPAM: 0
+Mime-Version: 1.0
+References: <20261113024922.27977-1-sarthakkukreti@google.com>
+X-Mailer: git-send-email 2.56.0.611.g1030f0b940-goog
+Message-ID: <20261113024922.27977-2-sarthakkukreti@google.com>
+Subject: [PATCH v2 1/3] usb: uas: complete command on status URB error
+From: Sarthak Kukreti <sarthakkukreti@google.com>
+To: Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>, 
+	"Martin K . Petersen" <mkp@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Sarthak Kukreti <sarthakkukreti@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Shuah,
+When a UAS device is unplugged while hub_wq is frozen during system
+suspend, usb_disconnect() is deferred and sd_sync_cache() issues
+SYNCHRONIZE_CACHE to the disconnected target. If the status URB fails in
+uas_stat_cmplt(), uas_stat_cmplt() logs the error and frees the URB
+without completing the command, leaving SYNCHRONIZE_CACHE pending until
+the 60s SCSI timeout and triggering the 25s DPM watchdog.
 
-Thanks for the review.
+Track each command's active sense_urb in uas_cmd_info. When a status URB
+fails in uas_stat_cmplt() while not resetting, complete the command that
+owns the failed status URB (with DID_NO_CONNECT on -ENODEV/-ESHUTDOWN
+and DID_ERROR otherwise), free unsubmitted URBs, and unlink any inflight
+data URBs outside devinfo->lock. Set DID_NO_CONNECT on -ENODEV/-ESHUTDOWN
+and preserve non-DID_OK host bytes in uas_data_cmplt().
 
-I found this while reviewing the listening socket handling across fork() in
-usbipd.c, and then reproduced the issue with the unmodified usbipd binary on
-two UOS test machines.
+Fixes: 115bb1ffa54c ("USB: Add UAS driver")
+Signed-off-by: Sarthak Kukreti <sarthakkukreti@google.com>
+---
+ drivers/usb/storage/uas.c | 76 +++++++++++++++++++++++++++++++-------
+ 1 file changed, 64 insertions(+), 12 deletions(-)
 
-Both machines have usbip 2.0+6.5.10-2 installed, with usbipd located at
-/usr/sbin/usbipd. This package contains the original listener handling.
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index 265162981269..904b4ce04fc6 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -71,6 +71,7 @@ struct uas_cmd_info {
+ 	struct urb *cmd_urb;
+ 	struct urb *data_in_urb;
+ 	struct urb *data_out_urb;
++	struct urb *sense_urb;
+ };
+ 
+ /* I hate forward declarations, but I actually have a loop */
+@@ -232,14 +233,20 @@ static void uas_free_unsubmitted_urbs(struct scsi_cmnd *cmnd)
+ 
+ 	cmdinfo = scsi_cmd_priv(cmnd);
+ 
+-	if (cmdinfo->state & SUBMIT_CMD_URB)
++	if (cmdinfo->state & SUBMIT_CMD_URB) {
+ 		usb_free_urb(cmdinfo->cmd_urb);
++		cmdinfo->cmd_urb = NULL;
++	}
+ 
+ 	/* data urbs may have never gotten their submit flag set */
+-	if (!(cmdinfo->state & DATA_IN_URB_INFLIGHT))
++	if (!(cmdinfo->state & DATA_IN_URB_INFLIGHT)) {
+ 		usb_free_urb(cmdinfo->data_in_urb);
+-	if (!(cmdinfo->state & DATA_OUT_URB_INFLIGHT))
++		cmdinfo->data_in_urb = NULL;
++	}
++	if (!(cmdinfo->state & DATA_OUT_URB_INFLIGHT)) {
+ 		usb_free_urb(cmdinfo->data_out_urb);
++		cmdinfo->data_out_urb = NULL;
++	}
+ }
+ 
+ static int uas_try_complete(struct scsi_cmnd *cmnd, const char *caller)
+@@ -304,23 +311,58 @@ static void uas_stat_cmplt(struct urb *urb)
+ 	struct urb *data_out_urb = NULL;
+ 	struct scsi_cmnd *cmnd;
+ 	struct uas_cmd_info *cmdinfo;
++	struct uas_cmd_info *s_cmdinfo = NULL;
+ 	unsigned long flags;
+ 	unsigned int idx;
++	int s_idx;
+ 	int status = urb->status;
+ 	bool success;
+ 
++	spin_lock_irqsave(&devinfo->lock, flags);
++
++	for (s_idx = 0; s_idx < devinfo->qdepth; s_idx++) {
++		if (!devinfo->cmnd[s_idx])
++			continue;
++		cmdinfo = scsi_cmd_priv(devinfo->cmnd[s_idx]);
++		if (cmdinfo->sense_urb == urb) {
++			s_cmdinfo = cmdinfo;
++			s_cmdinfo->sense_urb = NULL;
++			break;
++		}
++	}
++
++	if (devinfo->resetting)
++		goto out;
++
+ 	if (status) {
+ 		if (status != -ENOENT && status != -ECONNRESET && status != -ESHUTDOWN)
+ 			dev_err(&urb->dev->dev, "stat urb: status %d\n", status);
+-		goto bail;
++		if (!s_cmdinfo)
++			goto out;
++		cmnd = devinfo->cmnd[s_idx];
++		if (s_cmdinfo->state & DATA_IN_URB_INFLIGHT)
++			data_in_urb = usb_get_urb(s_cmdinfo->data_in_urb);
++		if (s_cmdinfo->state & DATA_OUT_URB_INFLIGHT)
++			data_out_urb = usb_get_urb(s_cmdinfo->data_out_urb);
++		uas_free_unsubmitted_urbs(cmnd);
++		s_cmdinfo->state &= ~(COMMAND_INFLIGHT |
++				      SUBMIT_STATUS_URB |
++				      ALLOC_DATA_IN_URB |
++				      SUBMIT_DATA_IN_URB |
++				      ALLOC_DATA_OUT_URB |
++				      SUBMIT_DATA_OUT_URB |
++				      ALLOC_CMD_URB |
++				      SUBMIT_CMD_URB |
++				      IS_IN_WORK_LIST);
++		if (status == -ENODEV || status == -ESHUTDOWN)
++			set_host_byte(cmnd, DID_NO_CONNECT);
++		else if (host_byte(cmnd->result) == DID_OK)
++			set_host_byte(cmnd, DID_ERROR);
++		uas_try_complete(cmnd, __func__);
++		goto out_unlink;
+ 	}
+ 
+ 	idx = be16_to_cpup(&iu->tag) - 1;
+-
+-	spin_lock_irqsave(&devinfo->lock, flags);
+-
+-	if (devinfo->resetting)
+-		goto out;
+ 	if (idx >= MAX_CMNDS || !devinfo->cmnd[idx]) {
+ 		dev_err(&urb->dev->dev,
+ 			"stat urb: no pending cmd for uas-tag %d\n", idx + 1);
+@@ -335,6 +377,10 @@ static void uas_stat_cmplt(struct urb *urb)
+ 		goto out;
+ 	}
+ 
++	if (s_cmdinfo)
++		s_cmdinfo->sense_urb = cmdinfo->sense_urb;
++	cmdinfo->sense_urb = NULL;
++
+ 	switch (iu->iu_id) {
+ 	case IU_ID_STATUS:
+ 		uas_sense(urb, cmnd);
+@@ -375,6 +421,7 @@ static void uas_stat_cmplt(struct urb *urb)
+ 	default:
+ 		uas_log_cmd_state(cmnd, "bogus IU", iu->iu_id);
+ 	}
++out_unlink:
+ 	spin_unlock_irqrestore(&devinfo->lock, flags);
+ 	usb_free_urb(urb);
+ 
+@@ -391,7 +438,6 @@ static void uas_stat_cmplt(struct urb *urb)
+ 
+ out:
+ 	spin_unlock_irqrestore(&devinfo->lock, flags);
+-bail:
+ 	usb_free_urb(urb);
+ }
+ 
+@@ -428,7 +474,10 @@ static void uas_data_cmplt(struct urb *urb)
+ 			uas_log_cmd_state(cmnd, "data cmplt err", status);
+ 		/* error: no data transfered */
+ 		scsi_set_resid(cmnd, sdb->length);
+-		set_host_byte(cmnd, DID_ERROR);
++		if (status == -ENODEV || status == -ESHUTDOWN)
++			set_host_byte(cmnd, DID_NO_CONNECT);
++		else if (host_byte(cmnd->result) == DID_OK)
++			set_host_byte(cmnd, DID_ERROR);
+ 	} else {
+ 		scsi_set_resid(cmnd, sdb->length - urb->actual_length);
+ 	}
+@@ -543,6 +592,7 @@ static struct urb *uas_alloc_cmd_urb(struct uas_dev_info *devinfo, gfp_t gfp,
+ static int uas_submit_sense_urb(struct scsi_cmnd *cmnd, gfp_t gfp)
+ {
+ 	struct uas_dev_info *devinfo = cmnd->device->hostdata;
++	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
+ 	struct urb *urb;
+ 	int err;
+ 
+@@ -555,8 +605,10 @@ static int uas_submit_sense_urb(struct scsi_cmnd *cmnd, gfp_t gfp)
+ 		usb_unanchor_urb(urb);
+ 		uas_log_cmd_state(cmnd, "sense submit err", err);
+ 		usb_free_urb(urb);
++		return err;
+ 	}
+-	return err;
++	cmdinfo->sense_urb = urb;
++	return 0;
+ }
+ 
+ static int uas_submit_urbs(struct scsi_cmnd *cmnd,
+-- 
+2.56.0.611.g1030f0b940-goog
 
-I used separate test ports to avoid interfering with the default USB/IP
-service.
-
-On 10.20.12.188, the reproduction steps were:
-
-1. Start usbipd as root with both IPv4 and IPv6 listeners:
-
-       sudo /usr/sbin/usbipd -d -4 -6 -t 43241
-
-2. From a client machine, establish an IPv4 TCP connection and keep it open
-   without sending a USB/IP request:
-
-       python3 -c 'import socket,time; s=socket.create_connection(("10.20.12.188",43241)); time.sleep(300)'
-
-3. Terminate only the main usbipd process with SIGTERM, leaving the worker
-   running.
-
-4. Inspect the listening sockets:
-
-       ss -lntp 'sport = :43241'
-
-5. Restart usbipd on the same port.
-
-Before the connection, usbipd had two listeners:
-
-    0.0.0.0:43241 -> parent PID 62216, fd 3
-    [::]:43241    -> parent PID 62216, fd 4
-
-After accepting the IPv4 connection, the forked worker inherited the IPv6
-listener:
-
-    [::]:43241 -> parent PID 62216, fd 4
-                 worker PID 62223, fd 4
-
-After terminating the parent, the worker continued holding that listener:
-
-    [::]:43241 -> worker PID 62223, fd 4
-
-Restarting usbipd then produced:
-
-    usbipd: info: listening on 0.0.0.0:43241
-    usbipd: error: bind: :::43241: 98 (Address already in use)
-    usbipd: debug: listening on 1 address
-
-The restarted daemon therefore had only the IPv4 listener available.
-
-I reproduced the same behavior independently on 10.20.12.199 using port
-43242:
-
-    usbipd: info: listening on 0.0.0.0:43242
-    usbipd: error: bind: :::43242: 98 (Address already in use)
-    usbipd: debug: listening on 1 address
-
-This confirms that the worker inherits the unrelated IPv6 listening socket
-and keeps it alive after the parent daemon exits.
-
-I also used a separate TCP socket/fork reproducer to compare the original and
-patched process_request() logic. The original implementation left the
-unrelated listening socket open in the worker, causing the rebind to fail
-with EADDRINUSE. With the patched logic, the listener could be rebound while
-the worker was still alive. The accepted connection remained usable and the
-parent's descriptors were unchanged.
-
-The affected usbipd source also builds successfully with:
-
-    make -C tools/usb/usbip/src usbipd
-
-These tests confirm the inherited listening socket issue and support closing
-all listening sockets in the child after fork().
-
-Thanks,
-Xu
