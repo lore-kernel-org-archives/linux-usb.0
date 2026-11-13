@@ -1,100 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794553151;
-	b=sh4YUyOgrnggMmZtjp8PoQX7J26knPJQqZUN1NmHc6PrkRkMXIKynBT0v6ibYsUTs6Ze
-	 Z5DnFD89B6UtVgqPYCkbY0f73KAzZWngpchtNBGe0OhM7qj874s3yNCyAK4u/CqMmT9Ay
-	 /NMD9Na2yYrrU9vOVmQpneGJzR0LUGWtUxqfTqMQq1n/ct6PXTMPOrFiH6H+sLuAyMd7y
-	 +T2PMV4qgVG8yPNo2q1mB1L0kyPuh+zO6bx5A0u2x73R1ByqddPtzI6Ztjd8B9tQd8yRM
-	 EpzBfZl7Ah6VN/UqDqH17r3469rZImB0Zvpb23oDpCOLSsNUkgdMKr44jNOal/NnjKA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794553151;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.181
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794554610;
+	b=P+dd141J5mU59kAKEwv2gfzLsd6PYGB9iQ0X2Ud3NVUtmQrLDo4DntuifPwRhhCtq0SH
+	 WwtTv42oW7lnFcjSvN1TjuElUyco/AaFCMcwxgfiYRfqGcYuOnHXIIrXx+Ipufj3Qlyo2
+	 QILTYWq1gf/5H2YrcgkKyqcm3eA9JFsuMRM4lK+hJ1D6mq0lwy3L6dVKU7SXtXzQBetE5
+	 hEKqrUvaIllvm1UaLbs6RElHLl6oJcaaTEupCjzmo2awBufN2NK1YQYdlFcHroL6IhG9+
+	 vxT4ipJQm6mOAVYtQV34WGSn9wLmRmDaNJvmkEmKD8WytwBAVU+jr0xIyrwrs0n1Xsw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794554610;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=qeIzGejgUnOZAJR+NUnKQWT+JLX+S3iStcqz+L1EeNc=;
-	b=wToi3x8YphmhGX0SpUoHYTdogVhUSKNF6LBWPj4ay5ifSAhFrAPPvbhxqj+9K1ZY6jyV
-	 hkoOZ5Newid83P1N8UPFuMNtQCRR6eUwuFczoPpZTkxXnbkzPeuuTnk1QoTY9d8sS3snO
-	 0ceDWNbVq2Y1eTc1+5kqIPTFDO0anTgDA7oPtsSpBUR0GgNdU0oiNK3YstK3mAqsmqzVU
-	 Bc0Dkicr9NixEHeZ9qyyO9lL8ketpSgq35/6U9RZkz10Y05h1E6Y5GcGEU28BDE033WOI
-	 y01n5boZT+DyBjikQoXXHRHZoEDMqMERySwMQvQ7faYbFm2B0p7BRKAar3+UGcD3Kgw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=flipper.net;
-	spf=pass smtp.mailfrom=flipper.net;
-	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=yv8UBWw8;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.51
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=VDKHNKMPhCvwPugcpF6BOJrNWHPrkmJauqAcAuvRmCY=;
+	b=paeLLtZV6n1ehEUu24VZAqNO8pHO3S0KOpzO4TuZj8EwrGoy3i+G392pSIIR68dZ5J/x
+	 i+04KT4psBayXsMxy8fMV+VIeN59rvXDaHzM353QZfJnrIx08O2W0DOpbk/uEdrVNd55h
+	 U5kAsVdfUHNT/MSkxQUnMnslBa8NQjkurQV0VflLIWTmFH2kwjDXR77Li3i2WDl2vDdEJ
+	 QXUH/Hl4ZBFEQx/9DCGF/5K1AITVoYIidrJ8yOaQzHG/UZ3Ates/IaXSXGAQ+JH4j6yjo
+	 XxcZC76bg2V/Ld5pV9hjyuzG5o7uHKqLIy6PmiaB6Z91HmfxgN6OYY0DL0rUE5icmzQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=acxBg2gl;
+	arc=none smtp.remote-ip=209.85.210.181
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EDA606A33B
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 06:59:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34EDA606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7DF606A32E
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 07:23:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE7DF606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=yv8UBWw8
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c4d581da0aaso88627066b.2
-        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 22:59:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794553149; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FOF1nIeVbhZqJRJmDwWpaGbkG+Ad+1hSOS+81uLwE8nf7h8SO2Q6UyservJy8HMWxX
-         PeKKPL78F9xEAU8bbQQGP1TbgrB9bQEq6K90n0LdVf9SFbr3xX0mEiGLB/R6dLdxWKNL
-         dzfFNQM/Rtk7fZ8UGzQM30PwGRIO/D6tLVr6zhxOursd7OZDMdvFppjqjO//WWl30EVT
-         T7d5gZ7oOoxIZ2kFFwxBE96QUjC/aovvnqXcVS7Uy1d5e8KXtzMn+YK0CRbPJ3nBOAx/
-         4mapbu4AuVBturBWqMKuLu2ZHHA4zVUSnx3PISJ09wkpVhId/NQf0GzrKGpEb0IAUOrj
-         A1Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qeIzGejgUnOZAJR+NUnKQWT+JLX+S3iStcqz+L1EeNc=;
-        fh=9Utgtcp3xmg0hBAJ6dc6FsxPgXuVTbArhOzGwZhII70=;
-        b=pBJxNpUTPzylDa2cjolM2pnjERaHToyO/cWB6elLTtQ/7Y7QlSpffhE4BH1k7ATdwP
-         bG8E/GeKRQzVijOimFlqeO9Wy5ZYBl0f6LBLpiEvpD90LIFTTyCMcuLgqnN1MyLEfG1H
-         pS+iBbKX8E22fsWOBJld0m+dyuNp2cCKD69YULn4m3vBRvIZQ63xXHtYCPAzgzop28w/
-         2w20RXgHjWE7CGUzOyd/z+Q2a3OzA8yV+t2LJObSEFruiOlBbfKtBvVw6n/yfsDx49LA
-         kcQVRQHCwJrSVggEhaBONgM8z9jZDjJucQhARcP8HRYYVLtAGWt7ewy4uactmKcZDhhS
-         oqBw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=acxBg2gl
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-89ecfdbe443so102364b3a.0
+        for <linux-usb@vger.kernel.org>; Thu, 12 Nov 2026 23:23:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1794553149; x=1795157949; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qeIzGejgUnOZAJR+NUnKQWT+JLX+S3iStcqz+L1EeNc=;
-        b=yv8UBWw8+3wCTR92+nxE0nmLMArTGzE6Ezdymo6t2L6PVidgmuf99L/gf9wApGZVLF
-         MujXKE7gtXTDvh/VTttvmrTZVmwUkWND5tw0R+mmAaHlSi6KAQNCjzEoE8a98Adih5zg
-         OR25M5gaZD3H6FazwL5UKFl/Krjsm2NlIkoP9B5noXVIdYZ4n154vlYzpYg23HvcakLH
-         jisUu+HO8fIGQi3l2MNGLeEjhz74mAZbrMh3TwYvP4ji8KAQUZMsWof7/1w9QRXt6fdi
-         s103+8hy9Ke58DLD8w2P+diercjuAwQqHcvCZdZCvfz2uOq1RgnghI0ljrEgpUbJ/K+w
-         gBsg==
+        d=gmail.com; s=20260707; t=1794554609; x=1795159409; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VDKHNKMPhCvwPugcpF6BOJrNWHPrkmJauqAcAuvRmCY=;
+        b=acxBg2glBEQVmwb3otbkyPsaaQPcoGT0veSWBH5GR/Wq5Vta6S6wWeq//2cRN6085B
+         EsHafeYeYRy2KzjtXTVDLOxd5qhu6/qV2JM20OyWn4TTy9tmAGEmTAmpbEpalu5fSDnB
+         /x6KPy62ntoH8riCQO9JN2WqmKOs0pEKy8jK1p1/gxNPGQRWniVZmzIT+da6upCLrG/p
+         UnKe2eSsm+e4+6oeLzMxrVI6gpZ2J9SuufxaC8tLBowPf0av8iKUxfE9+IEtnANeAKdj
+         4p+VBU98s2a4QUBpgGp+nTedZwRgwWIE4euF80Tn+8T1X/nmfpvIlmue8Qw3Pmv+MICK
+         40iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794553149; x=1795157949;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qeIzGejgUnOZAJR+NUnKQWT+JLX+S3iStcqz+L1EeNc=;
-        b=JfKf9uARrV7EdsO7udBmA/BgqVsaQ2Mfpm607FRq177PUItOj8PI+7YxoiG2RzRja1
-         3+oYQhs7aahh5fIk1Dc3dr4tlTEE1ZPHUR1uQ1NgAoVz5+tkhGJXyOEEBqjQwdzaoKg5
-         MJ+cSEGvHs/I+9QBLxEb1v0xWavsDTeQIliUJNX6WY5UyqL+bZaxqX020sxGcZj+ZVHp
-         Zb4rvpaoDHuv3hJQ9leveXcoTFzNo3yzUFUtZ/NdukJ3sekGaJtueLfkzVSpGhmvpxI2
-         IpZx98j94XijFc7jDFiSkBr4zAq+No8D5PfyYCHzhtHMM34Qs0FtkBe+p917RmkzDm1u
-         Uifw==
-X-Forwarded-Encrypted: i=1; AL+hErEVot0UJg2OZOW6neHdQ51xoHUGiuvOnK1rWAaXUFrUVXKH8Iw7Bprd+JBxd0o/Zktkdmd08pGywd4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z92dYu+IL4KXIa0Fel+VcjiPPpADOKsyoOWCeK5IgWlTS+9T0vX
-	qVFKGFvGri0z4w19CofSjoeLd53uLj3gyYx7GLF6QTlpktvxhw+XgvjVWSLSlStq8LOh1slbjgZ
-	+iLN9NnD4WblDaYfnwxfyptADvUOd/8JFWE5mbSafbqJx8rO9JOIlaNIoIw==
-X-Gm-Gg: AYBFou1ow0jNMwBr9EptbYcmlHpqbItJUcmenXGaofzd8SeaIy+kT95hk1o9cQnOCKE
-	DDu4l+jlw6C0xgDxM5CqpDkVSnzDWUQCz70z2xnUCN1dU+BTPeU8ELPsubUBN8WVSWmbZzcqCRl
-	HxwYSQPaErAoj7x0CmV3QiizLiSsVN14XddcCtuG2jCNiw8EcdjKVIUTTUnXPU0NKh6FMUrKNaW
-	sh+mtSray//Ym9Iv1E+GA2rJ2rdBG68CmSqhQTW4S88GZ0dDJdQ1HeOsHmbmznLmaTL+RmUtPn4
-	8mOtXugWhr4V1vw6zL6QiHPag1yHTlybkkDDlbxm2nwDTKj4jlOWUJvZBRTUavfesjx7/HI9ODw
-	pmcHw2Qn28jPjAheQgVY6K6ev9AugHSsbKRIEvRwcei0anEu/7gWdB5AOGUDKj07bcpNt
-X-Received: by 2002:a17:907:96ac:b0:c29:3c97:c994 with SMTP id
- a640c23a62f3a-c50963bd677mr113775466b.35.1794553149505; Thu, 12 Nov 2026
- 22:59:09 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794554609; x=1795159409;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VDKHNKMPhCvwPugcpF6BOJrNWHPrkmJauqAcAuvRmCY=;
+        b=QPRJ8Xkwj4ulnZDDFLe7aK0sZUcgZvb5Be4x9A/b0f7EI35fAgs4FMqouUf9XGFqJA
+         oRjm2Z/oivoj1IxYLBXjwt2VFUdOxgYJpNfKsk8Sg4MD2mkBMbY48qQZuEGIcVKzNfLq
+         W1UecqtOFZfkFrBYSf8dw6RbdJwP2nKTDb2nRSAd97eDVsoORq+uHfHeukvtb8rghxmR
+         T/rWoajcr7phdF/8Epf3y5m73DjZI0uFXMclXi8TO/xmJC3h9GEM8Mb+5nYR609Al7qN
+         geVKaBNoioHr0B4bdSLxPHlZhjPagnAxatDmMZo4I/f4XJw0ARNkCaeqjODHSDkgIa+L
+         +K3w==
+X-Forwarded-Encrypted: i=1; AL+hErHRHKBj2iataq0ixPJf6iRiI0peR8EG6DSwkYuBKMhlKQkmqC1Rm+ZeCOaFHpVgRlNuIwZiK7AHM70=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8DmwWJ81DkQL8LP0ya1vB/tdAcVva3tCr5R7XjeQPtjM2seLrH
+	MzYIgT27rcIzrytkzIpMkJiFX1R4zXmxdLbKAU3u3VBG7ypbjQTIsj2b
+X-Gm-Gg: AYBFou32n/2MGp4WrjUWcY+iEmGPUGTsx6jrBQh428kEqYxLBA78YmfhqxUEXB9HCjD
+	ntjN6mdhcxC495nQsKnOA0wcUTqPiL5P3xsqJlbiOfQd0wTxcuzCSj8RigGwBOJbBx9dw8XhD/m
+	aGwwvktSWKSx7SZMfzpXy83owbq5bGCTh5vfOehq3avS9FXPRHCr5HPwZb6j+xaYKL3uCD7Gmys
+	fd52+I1jvyk30TiFMjWYYnZub44gh3Gzb9YJwBcgQ/QEknH3/abor8Sm0CbrftPYsnnpMdwfxgi
+	tt2tvGiMsxHAvXzb9PuCa64cWfDf42/U7tcytA6SW79OsGX7OmeHlp1fHHRYVLyoh/gxP3BBcQI
+	IaDYZYgJ/Roc+VUkg5Jce66yhjY2SB5SAMOjYtnPuQDoubTOvwKCMJ6xfe4d7A6kvQh/bNS5Uui
+	yikPu9RVCROBMqqI+RBftnE/Io6AP8N6JgB/wdRQbM4CaRbYs0r/TjrAbyXUD2qNzn7uNkLY+jm
+	oqDi+Z71HKLIZ+pSzdXAOCMvOiE1pEafM5ZNpY0TVIAB5Sz+YT8V+mBUgLrqL8Zb5zZNEN/ZgL4
+	JqjqJ/FuJDX4ALi71rgWwqSmfz11t+0hN62I3Y9vSNoBGTd5AQohh7wR7WqmFvyqSNHxGQKG3Bh
+	d0AF7cJRkSedV
+X-Received: by 2002:a05:6a00:bc8c:b0:8bd:30c8:e414 with SMTP id d2e1a72fcca58-8beb3458494mr3160450b3a.1.1794554609089;
+        Thu, 12 Nov 2026 23:23:29 -0800 (PST)
+Received: from chenyou.. ([140.116.78.205])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8becbad7de3sm649518b3a.0.2026.11.12.23.23.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 23:23:28 -0800 (PST)
+From: Chen-Yu Yeh <chenyou910331@gmail.com>
+To: Inochi Amaoto <inochiama@gmail.com>
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	chen.wang@linux.dev,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	hminas@synopsys.com,
+	gregkh@linuxfoundation.org,
+	looong.bin@gmail.com,
+	dinguyen@opensource.altera.com,
+	paulz@synopsys.com,
+	balbi@ti.com,
+	dlan@gentoo.org,
+	devicetree@vger.kernel.org,
+	sophgo@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Chen-Yu Yeh <chenyou910331@gmail.com>
+Subject: Re: [PATCH 0/4] usb: dwc2: Add USB DRD support on CV1800 Series SoC
+Date: Fri, 13 Nov 2026 15:23:05 +0800
+Message-ID: <20261113072305.220610-1-chenyou910331@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261110070627.217946-1-inochiama@gmail.com>
+References: <20261110070627.217946-1-inochiama@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,113 +117,93 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261112-udc-connect-v1-1-03c73259642b@flipper.net> <57e83596-03c7-4406-b01c-db2ad2298413@rowland.harvard.edu>
-In-Reply-To: <57e83596-03c7-4406-b01c-db2ad2298413@rowland.harvard.edu>
-From: Alexey Charkov <alchark@flipper.net>
-Date: Fri, 13 Nov 2026 10:58:58 +0400
-X-Gm-Features: AclHuK9vJOW-Z7MYq2yRXHeCiiCDHnszsRMvz5_5l2FLX1hDAYnqlpu_XsOjoZY
-Message-ID: <CAKTNdwHb4ahziiFLDCCWsi9_65toGx=HTkvaB7bv3vhqzuCc6w@mail.gmail.com>
-Subject: Re: [PATCH] usb: gadget: udc: Clear a pending connection when
- starting the UDC
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Neill Kapron <nkapron@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Xu Yang <xu.yang_2@nxp.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Alan,
+On Tue, Nov 10, 2026 at 03:06:21PM +0800, Inochi Amaoto wrote:
+> The current DRD implementation of DRD will cause a interrupt flow on
+> CV1800 Series SoC. It has two reasons:
+> 1. The DRD does not sync the phy mode when change the controller mode,
+>    it is a violation of the DRD as it does not rely on a OTG phy.
+> 2. The CV1800 is entered with a Session End Detected interrupt, but the
+>    DRD code has no change on it, so the controller will enter the
+>    interrupt storm.
 
-On Fri, Nov 13, 2026 at 7:36=E2=80=AFAM Alan Stern <stern@rowland.harvard.e=
-du> wrote:
->
-> On Thu, Nov 12, 2026 at 06:31:35PM +0400, Alexey Charkov wrote:
-> > Since commit 62911bc82b03 ("usb: gadget: udc: skip pullup() if already
-> > connected"), usb_gadget_connect_locked() returns early when
-> > gadget->connected is set. A connection requested while the UDC is
-> > stopped sets that flag too, without enabling the pullup. A later
-> > gadget_bind_driver() or soft_connect "connect" then finds it set and
-> > never enables the pullup, so the host doesn't see the gadget until it i=
-s
-> > unbound and bound again.
-> >
-> > This happens whenever a UDC driver reports VBUS through
-> > usb_udc_vbus_handler() while no gadget driver is bound, e.g. when a
-> > Type-C port controller switches the controller to the device role at
-> > boot, seconds before userspace binds a configfs gadget.
-> >
-> > The pullup is never enabled while the UDC is stopped, so clear
-> > gadget->connected once it starts. The bind connects according to the
-> > VBUS state that the core tracks anyway, and a function that deactivates
-> > the gadget during bind still has the connection recorded for
-> > usb_gadget_activate().
->
-> This is good but it doesn't go far enough.
->
-> The UDC core has gone a little overboard in the ways it allows gadgets
-> to connect to or disconnect from the host.  Along with the automatic
-> actions associated with bind and unbind, there's vbus_event_work(),
-> usb_gadget_{de}activate(), and soft_connect_store().  In some respects
-> these interfaces act at cross purposes.
->
-> (There's also usb_gadget_{dis}connect().  Those two routines seem to be
-> EXPORTed solely for the benefit of
-> drivers/power/supply/isp1704_charger.c -- is this really a good idea?)
->
-> In addition, there's a good case to be made that soft_connect_store()
-> should rely entirely on udc->connect_lock, not on
-> device_lock(&udc->gadget->dev), and it should check
-> udc->allow_connect instead of udc->driver, and it should not
-> call usb_gadget_udc_start_locked() or usb_gadget_udc_stop_locked().
->
-> And of course, as you implied but didn't state explicitly,
-> gadget->connected is being used for two different purposes: to indicate
-> the current connection state, and to indicate whether a connection
-> should be started when it becomes possible to do so.  There should be a
-> separate variable -- or none at all -- to handle this secondary purpose.
+Thanks, fixing this in dwc2 makes sense to me. I am dropping my PHY
+series [1].
 
-Thanks a lot for looking into this. I'm happy to look into a broader
-refactor and submit it separately; however, I believe this immediate
-targeted fix for a recent regression would be good to merge
-regardless. Without this patch, the gadget doesn't come up at boot for
-me at all, and a larger refactor would require multiple review rounds.
+I tested patches 1-3 on a Milk-V Duo 256M (SG2002), on top of
+f66469d9905b, with this on the board DTS:
 
-> The whole situation needs to be straightened out.  I think the following
-> approach makes sense:
->
->     1.  Connecting is never allowed if no driver is bound, because
->         in that condition the gadget can't do anything.
->
->     2.  Connecting is not allowed if Vbus power isn't present, because
->         it would violate the USB spec.
->
->     3.  Connecting is not allowed if the gadget driver has
->         deactivated the gadget.  Note that the activation setting has
->         to be forgotten when the gadget driver unbinds, since it is
->         driver-specific.
->
->     4.  soft_connect_store() should be able to force a disconnect,
->         but it shouldn't be able to override 1 - 3 by forcing a
->         connect.
->
->     5.  Whenever the state changes, the gadget should try to connect
->         if not prevented from doing so by 1 - 4.
->
-> In addition, the gadget should be started when it binds to a driver and
-> stopped when it unbinds, with no changes at any other times.  (Read the
-> kerneldoc for usb_gadget_udc_stop_locked() to see why.)
->
-> And the proper way to test whether none of conditions 1 - 3 apply should
-> be to check udc->allow_connect while holding udc->connect_lock.  All the
-> relevant routines should maintain this invariant, perhaps by calling a
-> subroutine to set udc->allow_connect whenever the state changes.
->
-> Have I left anything out?
->
-> We do a lot of this already, but not all of it.  How would you like to
-> implement this scheme fully?
+  &usb {
+  	dr_mode = "otg";
+  	usb-role-switch;
+  	role-switch-default-mode = "peripheral";
+  	status = "okay";
+  };
 
-Let me give it a try and send an RFC series.
+R=/sys/class/usb_role/4340000.usb-role-switch below.
 
-Best regards,
-Alexey
+Bare board on a PC, after booting:
+
+  # echo device > $R/role
+  # devmem 0x03000048 32
+  0x000003C0
+  # cat /sys/class/udc/*/state
+  configured
+
+  PC$ lsusb | grep 0525
+  Bus 003 Device 012: ID 0525:a4a2 Netchip Technology, Inc. Linux-USB Ethernet/RNDIS Gadget
+
+  # echo host > $R/role
+  # devmem 0x04340000 32    (GOTGCTL)
+  0x002C00FC
+  # devmem 0x04340004 32    (GOTGINT)
+  0x00000000
+
+The interrupt count did not move over one second in host mode, so no
+storm. Switching back to device gave "configured" again, and "none"
+went back to device. I did one host/device round on each of two boots.
+
+On the USB & Ethernet IO board, with a USB stick plugged in:
+
+  # echo host > $R/role
+  [  136.556790] hub 1-1:1.0: 4 ports detected
+  [  136.837392] usb 1-1.1: new high-speed USB device number 3 using dwc2
+  [  139.174764]  sda: sda1 sda2 sda3 sda4
+
+  GINTMSK 0xF300081E, HPRT0 0x00001005
+
+Tested-by: Chen-Yu Yeh <chenyou910331@gmail.com> # Milk-V Duo 256M
+
+> Note: This patches set does not resolve all the problems, as
+>       usb_add_hcd() will override the role set by dwc2, but I am not
+>       sure whether it should change skip_phy_initialization of hcd.
+>       So I kept it as it is and users still needs to set the role
+>       in the userspace as "role-switch-default-mode" in devicetree
+>       takes no effect.
+
+I see the same at boot, and the "set mode" print in the PHY driver
+shows the order:
+
+  [    1.777738] phy phy-3000000.syscon:phy@48.0: set mode 6
+  [    1.778979] phy phy-3000000.syscon:phy@48.0: set mode 5
+  [    1.779005] phy phy-3000000.syscon:phy@48.0: set mode 1
+
+That is PHY_MODE_USB_DEVICE from dwc2_drd_init(), then HOST_SS (not
+supported by the PHY) and HOST from usb_add_hcd(). The PHY ends up in
+host (0x03000048 = 0x142) while the controller is still in device mode
+(GINTSTS = 0x04000020). On the bare board the UDC stays "not attached"
+and the PC sees nothing. On the IO board the hub does not show up
+either. So until a role is written, the port does not work in either
+mode. This was the same on all three boots.
+
+I am happy to test the next versions on the Duo 256M, in both device
+and host mode, and send a Tested-by.
+
+Once your series is merged, would you like me to send the DTS change
+for the Duo 256M, or would you prefer to do it yourself?
+
+[1] https://lore.kernel.org/all/avLC68zOj8WKuslb@inochi.infowork/
+
+Regards,
+Chen-Yu
