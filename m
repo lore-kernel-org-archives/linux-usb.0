@@ -1,55 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=78.40.151.100
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794593950;
-	b=KV8jFPdL7yGQpXbZ2JWLxM4wpJYqM/G6SrvmmhUnYwVYkp9cc6ZXsSBi7MeNXPJiGVhc
-	 bKVn+gluJp08wwkQ8Hfde6jO+ADnebsfiztmEZi6pTtojugFGAI9988PSBy35rfnX92xX
-	 eodWPhyi8LwRse7J75K13DiholefAggqJjL8wBtpKfv9lj6i9w3RjpX7A6OA/qqNBzYpe
-	 axMcXT5zDCHm6cN0Txgq5nlztGDowf8LHUvhMPw02ehUVadQ72Epf3bCmCduoFCNri15x
-	 MvNP9J+P8AgvxX3+pJSL/3aBLprRkCFLaHwkk8V9usYhnwxe6oP7XoU4wsoVDuM6ryg==
+	t=1794594740;
+	b=A+by3irjn1SxO1/oo+I9dUJVto7askO7RwGUZaxgrgzarxqj0jXVdU/pzya60WEPGVBN
+	 ZS9cNR/Ka5BvmAUmU3xrGF9DShWC4guoyHgREgfWgV70kVms1UQie4m17GwVPPzyoKKMc
+	 DGsKhtLRDplh5I01Jj7wfdZ5wVsW+m9duUtBO7PMlemE7opux4MBFvI79NfoL9EyCMnpF
+	 d1xTpytIkwf+y6LU5wMQaimROx9r33YuDcoe/i7+LTpjUJeK7eGMrg9BpHbr2fbFvILQ7
+	 k1SpYqv+I5rWNfCCJ/crYUTsgRBVSEK+L4PlpKSCr21qm+eHX/8FzdgXEdZXocTKGWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794593950;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=/VIh85zZMfzSY6G83+v5V/TjnRLbNiLly0GYfH3nJNs=;
-	b=BnxBt68Gbmd2PHa/DIMw2e9gL/33KZsjjcBIWKj1Uu2J8LEkG8duzMR3kATaXPvETxD4
-	 /j0MCjpWV/GIpN1ioNJg311J9E6maOZ5eTvaNHdso+vLA1mBya3tqdGawYc8EbDApQhbM
-	 IrvKmTZ6BmsdJbITrab7i9Dab4SAnjB/462poTA9VxSvPV1J/2n7ryEw7a4Lwod5slhQF
-	 LuCS8BDZ7rsbgARMt7yHpqhQefW/jWJdDGWuKXxMj91+A54Ym2+c9L7kJI7Gtc4fb6gVm
-	 dle8EOcxOKhllDhvZMjV+gzPc+X3blc4H0s/kfp1For2OCptGQu09eRWV+Ie1MxYW6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794594740;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:From:Subject:To:Cc:References:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Scanned-By;
+	bh=Y58XWTkjTLBew+Qz8dT0kBKz2jPaTBqmrF7x3TUDRZs=;
+	b=VQXiB13d0FoaaPDTwAXEdwphHj3rORmhYhCK4Oi0/DjtQJIk0RVnPihVPCnN6DFn6sMT
+	 VowdrbKhUVihM5MCAS+eaDePuZtbp7jU+qHILitjk6iGf/rtpEJjN/VTTVFeTicRtCqjl
+	 JGZ+PCQTHLHrk1vz1i1ADEwQ4K8tGQFAm1/QIZEGUwiq9MKYTCLWM0zqcu2675v/bRozr
+	 0JW69ZMdrUaZw/4+nUKLbtlQAZ58/NcSmvQbquofaC7GDBFRlX53Jq44Ft1RD2ciMAzem
+	 MWu9VpXBLqIQwGvkZiv+o4S/oJxMZpjCFbVWoiJNKBSVQHTGlpOoQsvFKudRX44+eHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzC7cE78;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=ehuk.net;
+	spf=pass smtp.mailfrom=ehuk.net;
+	dkim=pass header.d=ehuk.net header.i=@ehuk.net header.a=rsa-sha256 header.s=default header.b=ths8oLW7;
+	arc=none smtp.remote-ip=78.40.151.100
+Received: from james.steelbluetech.co.uk (james.steelbluetech.co.uk [78.40.151.100])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D814606A6D4
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 18:19:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24DB606A8A2;
+	Fri, 13 Nov 2026 18:32:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D24DB606A8A2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ehuk.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ehuk.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzC7cE78
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FB4D1F00930
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 18:19:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794593950;
-	bh=/VIh85zZMfzSY6G83+v5V/TjnRLbNiLly0GYfH3nJNs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=TzC7cE78kKFl2rFE1ESKez8K3/v6Pqk/6PLrXGyiq2H8nW8RaKll1mNR/hvrBhoAX
-	 9WUKboDxL2p3Jax+koelb066IybY3DAyK95vGOnYrQLEWCd8zr9JB2nkLXwMD48oro
-	 eBlcvuFHizULDj5hONrf7IDExHONWpvIf77MgXaUD3OXBqfZQ67bfgb2xPq1SoAoJK
-	 T3NkAz2AcSCaHe3eo20kPD9U/cE84jkgmN3fcFTb3UIgs2jbLigXSsu2MG4WlwRKQd
-	 lN4tR2+CCuZNMvYNucVewMR1jQy7sxt8uriatRDaKQNHlu1Xb8w/7Uzi3R4wDwiNfg
-	 QeLT7VoO7hmng==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5bcdae234ecso2100656e87.3
-        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 10:19:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFDlzMSYF7R+KoKY/+llzfGGmU9BR27aGjDocbFlA5VXWLP9SNwdDTjzLgF+oWEvy3grQw4XMQTmkU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z86PXlQQfQ+uIoDtpDXAbhBFc/LMYfEOhJp8sQTUsol/73jmhCR
-	vEH/yHx9ty9E7/g34+IfCOUt4caVSr0bsSgIGK8iGCbc/79v8rmEvX67cpVwWLLApr1SFeoBtTS
-	ng600Pfo1rpAs3qbgmE8Q6lKFJL93F9w=
-X-Received: by 2002:a05:6512:1310:b0:5bf:cf80:dfd8 with SMTP id
- 2adb3069b0e04-5c170a0bb47mr1769832e87.23.1794593948320; Fri, 13 Nov 2026
- 10:19:08 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=ehuk.net header.i=@ehuk.net header.a=rsa-sha256 header.s=default header.b=ths8oLW7
+Received: from [10.0.5.25] (tv.ehuk.net [10.0.5.25])
+	by james.steelbluetech.co.uk (Postfix) with ESMTP id BE80BBFC1C;
+	Fri, 13 Nov 2026 18:32:11 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 james.steelbluetech.co.uk BE80BBFC1C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ehuk.net; s=default;
+	t=1794594731; bh=Y58XWTkjTLBew+Qz8dT0kBKz2jPaTBqmrF7x3TUDRZs=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=ths8oLW7xITp6Y4+Jbr4kq70SRk2cgwJdV4y9VUB4WRtumOVE2BjmhcJIo4FlBFxG
+	 mCk0IU3Q9qhbz8HYEMvKDH6wonqZ6hptSZZgeP13wzM6wDluHQjzA4k0L4l+wuQtjB
+	 FwalPvThcZhkTj9WnbiZmWwootgJTcVtCdmCm2iGvVKaQYzVfg5zYsN8b+P5x/FG5Q
+	 gXa3sjDHaOSayD6Q6VKlELCyXg2G5zhid+EokICOB1u4yU5FgOHj78mI2Qa6gI/0QP
+	 JioXCV582RNu2pkXBTegMsk595GhRVZrYPvVAanEZ35L8Elv6E0PcfNcqiSBV9vpHU
+	 wdUvb/wXY9bcw==
+Message-ID: <578d6cf8-264b-44db-8610-59848683ae5e@ehuk.net>
+Date: Fri, 13 Nov 2026 18:32:11 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,98 +58,52 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
-In-Reply-To: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 13 Nov 2026 19:18:55 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jyuMjh4En_r2TYui+sNbGveJ0Rz1Da39LEK9e-HxHgGA@mail.gmail.com>
-X-Gm-Features: AclHuK9_YtJ6aWlSAf9yM8R-lWnFcHYi_anHWoQsLhZYkqzdVHJqxA51shEqA-Y
-Message-ID: <CAJZ5v0jyuMjh4En_r2TYui+sNbGveJ0Rz1Da39LEK9e-HxHgGA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] PM: runtime: change stub pm_runtime_get_if_active()
- return 1 when !CONFIG_PM
-To: Frank.Li@oss.nxp.com
-Cc: Frank Li <Frank.Li@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>, 
-	Karol Wachowski <karol.wachowski@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, Matthew Brost <matthew.brost@intel.com>, 
-	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Alex Elder <elder@kernel.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Guan-Yu Lin <guanyulin@google.com>, Mathias Nyman <mathias.nyman@linux.intel.com>, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-hwmon@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, netdev@vger.kernel.org, imx@lists.linux.dev, 
-	Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Eddie Chapman <eddie@ehuk.net>
+Subject: Re: [PATCH] usb: uas: ignore UAS for ASMT135x bridges (174c:55aa)
+To: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>, linux-usb@vger.kernel.org
+Cc: stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+ usb-storage@lists.one-eyed-alien.net, stable@vger.kernel.org
+References: <20261013221944.41598-1-olivier.kaloudoff@gmail.com>
+Content-Language: en-GB, es-ES
+In-Reply-To: <20261013221944.41598-1-olivier.kaloudoff@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang
 
-On Thu, Oct 29, 2026 at 5:31=E2=80=AFPM <Frank.Li@oss.nxp.com> wrote:
->
-> From: Frank Li <Frank.Li@nxp.com>
->
-> When CONFIG_PM is not enabled, all devices runtime PM state should be
-> treated as active.
->
-> __pm_runtime_resume() returns 1 (called by pm_runtime_get()).
-> pm_runtime_get_if_active() is the try-and-get version of pm_runtime_get()=
-.
-> stub pm_runtime_active() also returns true. So pm_runtime_get_if_active()
-> should return the same value as the stub pm_runtime_get(), which is 1.
->
-> Analysis of all callers and their behavior with old (-EINVAL) vs new (1):
->
-> Pattern A: if (!pm_runtime_get_if_active(dev)) -- no impact
->   Both -EINVAL and 1 are non-zero, so !ret is false in both cases.
->   Callers: drivers/accel/ethosu/ethosu_perfmon.c,
->            drivers/gpu/drm/msm/adreno/a6xx_gmu.c,
->            drivers/gpu/drm/msm/msm_perfcntr.c,
->            drivers/gpu/drm/v3d/v3d_mmu.c,
->            drivers/gpu/drm/v3d/v3d_perfmon.c (x4),
->            drivers/media/i2c/gc08a3.c gc05a2.c og0ve1b.c ov6211.c,
->            drivers/media/i2c/ccs/ccs-core.c s5kjn1.c lm3560.c (x2),
->            drivers/media/i2c/s5k3m5.c thp7312.c imx283.c ov64a40.c,
->            drivers/media/pci/intel/ipu6/ipu6-buttress.c,
->            sound/hda/core/device.c
->
-> Pattern B: if (!ret) after get -- no impact
->   Both -EINVAL and 1 are non-zero, !ret is false in both cases.
->   drivers/gpu/drm/amd/pm/amdgpu_pm.c (comment says "allow access"
->     in kernels without CONFIG_PM), drivers/pci/pci.c
->
-> Pattern C: ret > 0 / ret <=3D 0 / ret !=3D 1 checks -- FIXED
->   drivers/usb/core/offload.c: checks (!=3D 1), old -EINVAL caused
->     -EBUSY even with !CONFIG_PM. Fixed: now returns 1, proceeds.
->   drivers/accel/ivpu/ivpu_job.c: drm_WARN_ON(<=3D 0), old -EINVAL
->     spuriously triggered WARN. Fixed: 1 > 0, no warn.
->   drivers/gpu/drm/i915/intel_runtime_pm.c: checks (<=3D 0), old
->     -EINVAL triggered error path. Fixed: 1 > 0, correct path.
->   drivers/accel/ivpu/ivpu_sysfs.c: (> 0), old skipped freq read.
->     Fixed: proceeds correctly without CONFIG_PM.
->   drivers/gpu/drm/xe/xe_pm.c: wraps (> 0), all xe callers
->     (xe_bo.c, xe_shrinker.c, xe_vsec.c, xe_ggtt.c, xe_guc_ct.c,
->     xe_pxp.c) now correctly treat !CONFIG_PM as active.
->   drivers/net/ipa/ipa_smp2p.c: power_on =3D (> 0), now correctly true.
->   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: (> 0), now correctly
->     executes stall register update.
->   drivers/staging/media/ipu7/ipu7-buttress.c: active (<=3D 0) early
->     return now skipped, correctly proceeds.
->
-> Pattern D: explicit -EINVAL check
->   drivers/hwmon/prom21-xhci.c: checks (> 0) then (=3D=3D -EINVAL).
->     Old: took -EINVAL fallback. New: takes (> 0) fast path.
->     Both succeed when CONFIG_PM is disabled; functionally equivalent.
->   drivers/hwmon/eic7700-pvt.c: call is guarded by IS_ENABLED(CONFIG_PM),
->     stub is never reached. No impact.
->
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+Hi Olivier,
 
-People sent feedback, so I'm wondering if there's going to be a v2 or
-does someone else need to take care of this going forward?
+On 13/10/2026 23:19, Olivier Kaloudoff wrote:
+> The ASMedia chip detection in uas_use_uas_driver() assumes that every
+> device with idVendor/idProduct 174c:5106 or 174c:55aa reporting a
+> config.MaxPower of 0 is an ASM1153 with working UAS.
+> 
+> ASMT135x bridges (iProduct "ASMT135x") share the same 174c:55aa id and
+> also report MaxPower == 0, so they take the "ASM1153, do nothing"
+> path — but their UAS implementation is broken:
+
+I've been following this thread with interest as I have a number of 
+174c:55aa devices in use from different manufacturers.
+
+May I trouble you to say the product/model of the Orico device you have 
+which reports "ASMT135x" as the iProduct? Hopefully that's not too much 
+of a pain to find on the casing or box if you still have it.
+
+Also, is it still running whatever firmware it came with or has that 
+been upgraded?
+
+I'm asking purely for informational purposes. I just thought it would be 
+really useful to have these two things documented in this thread if 
+possible, for the benefit of anyone who might want to debug issues with 
+this hardware in future.
+
+As I'm sure you know, ascertaining the actual chip being used in these 
+products is difficult without opening up the device to inspect the PCB. 
+That's impractical in most cases but product model number can at least 
+give a clue.
+
+Many thanks!
+Eddie
+
+
+
