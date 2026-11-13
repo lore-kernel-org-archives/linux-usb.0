@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794589682;
-	b=WcH/Lq2ahNEs79Ph4RulxILVhn4RmFwBaQTCWMb6mhKgeXzho4HiOT0W8aWFxM7jdNSk
-	 g1goy4VpPI5SQFjzbPmqN9Z+2K4NGaT10tvDe/hJ28YIAqCTr9RyGQ7AtlD+b/Z4NlLnu
-	 vDLQ35MEzjLQPOnfd5T8cFv/YSbgKHlCROeAmUwqUeYvTkZR8sF9w1oQnGAnfCWziDb9P
-	 IDNpAu5PsP56O8trJaROIp0A5RNwLZiGV2eI4QDBz+KXNhnA6KdOJKvpJmHSzm0eG2WpI
-	 LFe34YRUUvXqIO1mC6AXYi3vpeG2koZ3zQgQrsZ8nQ6kJJPDqdMo7SnZ9mOZvn8YslA==
+	t=1794590411;
+	b=Zx8/RDklWPDgty4Kba0q5SpyRFuS7kNdDI9RQf2p55etVoTTjiQHJ/RwfndTDvHt1SdJ
+	 iruVlrNL7eTGeXXN3sdKMuepHQpV5xqHhc3zslQJOKA5pKV41pOCFsgNRhYJVJ2zRkIY/
+	 w0YNkG65HWcCGZHP/d/N9yj/QeCALRs9FjQz7Gu1s0odR+1wreJac4HYXYAzSl5+0wnuf
+	 jhmukyWexwl3DSJBDk8y74qErpptCZOYN6ZKYcsD88o6sd4wxiZyN4/jIA4EwW6EGBPQq
+	 jGDx9El72OX/RawBMsab6X0/6cvT+jOFobODYDmyoAUO9xHnyyAeAhU/N7Mynhedf9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794589682;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794590411;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=eCff2xNYMAkmauLpO2ibQZV4b31AjD27bamp1dc9ExE=;
-	b=A3NCTK18E2jibeGWwLPTMoWG26Lda6TPcYGaOf0CNxUqXmdS3CbsnjG2A98NliLKduME
-	 8Dw390nxdNL4p35x6LSRJobAVMXWVhJ+kuMahxTKPREf1+cSQ/TezywhSKErxf5Vt2nvB
-	 5ZoVCRMcobMJOA83rz0I35PibxRNKRSTJyfZWuHEHsM6BDDyad5qzABhAUvjBXYcGXmfN
-	 ymHRAXBqpwPIQS3nfiw94AjM/YdqylVxIGL+Ys6x43+3QBA1xK1MSUegO9I7LL8GeqsrZ
-	 1M6apwIVSc4yFQEiaUznOHP57wsHePdgetODtk1ptH16P1JoShwbiOFGbb7ASRblE5Q==
+	bh=WxGBcaBJfyi8h+6EC9F556lb9XFngFMVH+gKwL+2sj4=;
+	b=vAEdT5YN9+PNueYXgs33imSn88BW8df3g7Kqmb6lBqb6KbZ0Q5iQiifHiPuErm4zCXhk
+	 H6MgDxRpu0fZDA+bivO4xyMCwYZwfpMpfjGDzghNs4FW1SX90WUW3c6mLJ5TUoCWd9ItY
+	 h7lWmEOeSSXhAoTVpjbX0FNt+EcgiCVlwv89lOk8LTZ4UB30T+D+2Uk9zrEELowUPbdLJ
+	 db0Nj/j27UU7k+E51CY/CAsrCIN/L5ZMOH0StOSyfDmx4xatMlpuhMoTcI9h/XP33+K3g
+	 NDV4MI2WQCdcBKYu4p0PAWnLR4xvFlVb14aKECdvreTeWfQugjdV3qhumbuvTMJoCSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oQ8e4RNy;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QYcIi8KG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FD8606A330
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 17:08:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3112606F700
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 17:20:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oQ8e4RNy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A51881F000C4;
-	Fri, 13 Nov 2026 17:08:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QYcIi8KG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99E9C1F000CA;
+	Fri, 13 Nov 2026 17:20:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794589681;
-	bh=eCff2xNYMAkmauLpO2ibQZV4b31AjD27bamp1dc9ExE=;
+	s=k20260515; t=1794590410;
+	bh=WxGBcaBJfyi8h+6EC9F556lb9XFngFMVH+gKwL+2sj4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=oQ8e4RNySzHQb1FJdszih07B46l7cbUjTc4JuOuCrhYd/6KKyHBVrQ1AJnSi9bRcK
-	 csJMApPNtACtgSnmfpNgn3uy009vaWUVcbRbBqWFMQeTVGans4IKxD70nDrAZ0Wz+0
-	 Fhhu8hDmj85lWAUEF/ELkML7qBrMzCuqYL4bIMqxDHE1kf7QRW0zX6w7y2yCnkwiOO
-	 N5tPGZACvS0Xw/bA/WZTIH9ELZDiLxanWZzsMu/Pz7JS8M8n/JGDCWVKruh5mzDh9k
-	 A0OLeNJfWFy10y+KdhUuaHCTJlWxxdZdIc49jf5ensQm4h97u4E3dnOdjU+Fk/jh87
-	 I4AX5OO+q0GTA==
-Message-ID: <sashiko-outbox-213277@kernel.org>
+	b=QYcIi8KGZMrVBMLaZVEhRLqScFC8MEXz6C+5DC2zpuQTrJcnU/BEqF2BVda+yz2MR
+	 vMcXI8z8ojy5BkzRtWtkjkpJuBUSw/aB2LN89BZik0M4+HturdlraJEpQ0OWBfkhwu
+	 Jw+/KuNgIffBGGhAqVikwjWSEcBvnc9mowDtKhdI+dQC9mwfb8baDSDa8e6nr1T05J
+	 eIT6CieqL/AWR1Kch9ICr+9Z5jTzDPbPauzCn8JhNANfipm2h+JE4o4x2yJrUylaeB
+	 yMDbHGwkSAm+VSJ2ULPqcBLy2o80+iBsbt+IhIQMH7EVz3Ch9fqHKIxOqboOp13+dg
+	 tyuBMSsWsjxwQ==
+Message-ID: <sashiko-outbox-213292@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 2/2] usb: hub: Retry SuperSpeed for a device stuck on
- its USB 2.0 peer
+Subject: Re: [PATCH v3 1/2] usb: core: Pair ports of different hubs through
+ their connector
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Arun Iyengar" <aiyengar1990@gmail.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261113-usb-port-pairing-v3-2-d6c6edb4341c@gmail.com>
+In-Reply-To: <20261113-usb-port-pairing-v3-1-d6c6edb4341c@gmail.com>
 References: <20261113-usb-port-pairing-v3-0-d6c6edb4341c@gmail.com>
- <20261113-usb-port-pairing-v3-2-d6c6edb4341c@gmail.com>
+ <20261113-usb-port-pairing-v3-1-d6c6edb4341c@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 17:08:01 +0000
+Date: Fri, 13 Nov 2026 17:20:10 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,121 +61,140 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] usb: hub: hub_peer_reset_work() ignores quiescing state during
-  teardown
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] usb: core: port numbering mismatch in usb_port_graph_id() for
+  controller DT
+- [Medium] usb: core: wrong port index passed to
+  usb_of_get_connect_type() on root hubs
 --
 
-commit 292ab4e7add6e385ccf460779fb12521a3d0b6e7
+commit 6078d04cbe13cbfa47a3ee5f362dcccb9bc5fd1f
 Author: Arun Iyengar <aiyengar1990@gmail.com>
 
-usb: hub: Retry SuperSpeed for a device stuck on its USB 2.0 peer
+usb: core: Pair ports of different hubs through their connector
 
-This commit schedules work when a SuperSpeed root hub initializes to reset
-any SuperSpeed-capable device connected at high speed to a peer USB 2.0
-root hub port on another host controller so it can reconnect at
-SuperSpeed.
+This commit pairs USB 2.0 and SuperSpeed ports routed to different hubs or
+host controllers by traversing their shared usb-connector OF graph node.
 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 199d3f535a891..6bbe5fe2c0b52 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -1076,6 +1076,105 @@ int usb_remove_device(struct usb_device *udev)
+> diff --git a/drivers/usb/core/of.c b/drivers/usb/core/of.c
+> index a6ee20d8774e3..1b26d20835252 100644
+> --- a/drivers/usb/core/of.c
+> +++ b/drivers/usb/core/of.c
+> @@ -145,6 +145,104 @@ enum usb_port_connect_type usb_of_get_connect_type(=
+struct usb_device *hub, int p
+[ ... ]
+> +struct device_node *usb_of_get_connector_peer(struct usb_device *hub, u3=
+2 port,
+> +					      bool superspeed, u32 *peer_port)
+> +{
+[ ... ]
+> +	/* Peers on the same node are paired without the connector's help */
+> +	peer =3D usb_of_connector_remote(con, superspeed ? 0 : 1, peer_port);
+> +	if (peer && (peer =3D=3D np || !*peer_port ||
+> +		     !of_device_is_available(peer))) {
+> +		of_node_put(peer);
+> +		peer =3D NULL;
+> +	}
+> +out:
+> +	of_node_put(con);
+> +	return peer;
+> +}
+> +EXPORT_SYMBOL_GPL(usb_of_get_connector_peer);
+> +
+>  /**
+>   * usb_of_get_interface_node() - get a USB interface node
+>   * @udev: USB device of interface
+> diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+> index b4452b665f591..6a65dc6f14e7c 100644
+> --- a/drivers/usb/core/port.c
+> +++ b/drivers/usb/core/port.c
+> @@ -649,10 +649,52 @@ static int match_location(struct usb_device *peer_h=
+dev, void *p)
 >  	return 0;
 >  }
 > =20
-> +/*
-> + * A device present at boot may have connected at high speed to the USB =
-2.0
-> + * peer before this SuperSpeed root hub was up; a USB 2.0 reset makes it=
- retry.
-> + */
-> +static void hub_reset_peer_child(struct usb_device *peer_hdev, int peer_=
-port1)
+> +/* Root hub graph ports use the controller's port number, as in ACPI */
+> +static u32 usb_port_graph_id(struct usb_device *hdev, int port1)
 > +{
-> +	struct usb_hub *peer_hub;
-> +	struct usb_device *udev;
-> +
-> +	/* Wait for an enumeration in progress on the peer port to finish */
-> +	usb_lock_device(peer_hdev);
-> +	peer_hub =3D usb_hub_to_struct_hub(peer_hdev);
-> +	if (!peer_hub || peer_port1 > peer_hdev->maxchild)
-> +		goto out;
-> +
-> +	udev =3D peer_hub->ports[peer_port1 - 1]->child;
-> +	if (!udev || udev->speed !=3D USB_SPEED_HIGH)
-> +		goto out;
-> +
-> +	/*
-> +	 * The USB 2.0 half of a USB 3 hub stays at high speed next to its
-> +	 * SuperSpeed half, and resetting it would disconnect its children.
-> +	 */
-> +	if (udev->descriptor.bDeviceClass =3D=3D USB_CLASS_HUB)
-> +		goto out;
-> +
-> +	usb_lock_device(udev);
-> +	if (udev->state !=3D USB_STATE_NOTATTACHED &&
-> +	    udev->bos && udev->bos->ss_cap) {
-> +		dev_info(&udev->dev,
-> +			 "SuperSpeed peer port available, resetting\n");
-> +		usb_reset_device(udev);
-> +	}
-> +	usb_unlock_device(udev);
-> +out:
-> +	usb_unlock_device(peer_hdev);
+> +	if (hdev->parent)
+> +		return port1;
+> +	return usb_hcd_find_raw_port_number(bus_to_hcd(hdev->bus), port1);
 > +}
 > +
-> +static void hub_peer_reset_work(struct work_struct *ws)
+> +struct usb_connector_peer {
+> +	struct usb_port *port_dev;
+> +	struct device_node *np;
+> +	u32 port;
+> +};
+> +
+> +/* Link the port to @peer_hdev's port at graph port cp->port, if it has =
+one */
+> +static int match_connector_peer(struct usb_device *peer_hdev, void *p)
 > +{
-> +	struct usb_hub *hub =3D container_of(ws, struct usb_hub, peer_reset_wor=
-k);
-> +	struct usb_device *hdev =3D hub->hdev;
+> +	struct usb_connector_peer *cp =3D p;
+> +	struct usb_hub *peer_hub =3D usb_hub_to_struct_hub(peer_hdev);
+> +	struct usb_port *peer;
 > +	int port1;
 > +
-> +	for (port1 =3D 1; ; port1++) {
-> +		struct usb_device *peer_hdev =3D NULL;
-> +		struct usb_port *port_dev;
-> +		int peer_port1 =3D 0;
+> +	if (!peer_hub || peer_hdev->dev.of_node !=3D cp->np ||
+> +	    hub_is_superspeed(peer_hdev) =3D=3D cp->port_dev->is_superspeed)
+> +		return 0;
 > +
-> +		mutex_lock(&usb_port_peer_mutex);
-> +		if (port1 > hdev->maxchild) {
-> +			mutex_unlock(&usb_port_peer_mutex);
+> +	for (port1 =3D 1; port1 <=3D peer_hdev->maxchild; port1++) {
+> +		if (usb_port_graph_id(peer_hdev, port1) =3D=3D cp->port)
 > +			break;
-> +		}
-> +		port_dev =3D hub->ports[port1 - 1];
-> +		if (port_dev->connector_peer && port_dev->peer) {
-> +			peer_hdev =3D to_usb_device(port_dev->peer->dev.parent->parent);
-> +			peer_port1 =3D port_dev->peer->portnum;
-> +			/* Only root hub ports of another host controller */
-> +			if (peer_hdev->parent ||
-> +			    peer_hdev->bus->controller =3D=3D hdev->bus->controller)
-> +				peer_hdev =3D NULL;
-> +			else
-> +				usb_get_dev(peer_hdev);
-> +		}
-> +		mutex_unlock(&usb_port_peer_mutex);
-> +
-> +		if (peer_hdev) {
-> +			hub_reset_peer_child(peer_hdev, peer_port1);
-> +			usb_put_dev(peer_hdev);
-> +		}
 > +	}
 
-[Severity: Low]
-Should hub_peer_reset_work() and hub_reset_peer_child() check
-hub->quiescing?
+[Severity: High]
+Does usb_port_graph_id() mismatch the OF graph port numbers used by USB
+controller Device Tree bindings?
 
-hub_disconnect() only zeroes hdev->maxchild under usb_port_peer_mutex
-after hub_quiesce() has finished waiting in
-cancel_work_sync(&hub->peer_reset_work).  If the SuperSpeed root hub is
-quiesced or disconnected while hub_peer_reset_work() is running (for
-instance, while hub_reset_peer_child() is blocked on
-usb_lock_device(peer_hdev) waiting for USB 2.0 enumeration to finish), the
-work item will still reset the USB 2.0 peer devices across all remaining
-ports to migrate them toward a SuperSpeed root hub that is being torn
-down.
+On DWC3/xHCI controllers, usb_hcd_find_raw_port_number() returns 1 for the
+High-Speed root hub port and 2 for the SuperSpeed root hub port, and
+usb_of_get_connector_peer() rejects *peer_port =3D=3D 0.  However, controll=
+er DT
+bindings such as Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+define port@0 as the High-Speed bus and port@1 as the SuperSpeed bus (or use
+a single unnumbered port node parsed as port 0).
+
+On in-tree boards such as arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m=
+.dts,
+usb_a_3_0 routes port@0 to usb_hub port@1 and port@1 to usb_drd1_dwc3
+port@1.  When usb_drd1_dwc3's SuperSpeed port (port1 =3D 1) runs
+find_and_link_peer(), usb_port_graph_id() returns 2, misses port@1, and
+falls back to pairing with usb_drd1_dwc3's USB 2.0 root hub port.  When
+usb_hub port 1 then runs match_connector_peer() with cp->port =3D 1,
+usb_port_graph_id(peer_hdev, 1) returns 2 and fails to link the ports.
+
+> +	if (port1 > peer_hdev->maxchild)
+> +		return 0;
+> +
+> +	/* No connect_type check: the connector shows the port is used */
+> +	peer =3D peer_hub->ports[port1 - 1];
+> +	if (!peer)
+> +		return 0;
+
+[Severity: Medium]
+When a root hub's controller node has an OF graph indexed by
+usb_port_graph_id(), does usb_hub_create_port_device() pass the wrong port
+number to usb_of_get_connect_type()?
+
+drivers/usb/core/port.c:usb_hub_create_port_device() {
+    ...
+	port_dev->connect_type =3D usb_of_get_connect_type(hdev, port1);
+    ...
+}
+
+For a SuperSpeed root hub port where port1 is 1 but usb_port_graph_id() is
+2, usb_of_get_connect_type(hdev, 1) looks up port@1 in the controller's OF
+graph instead of port@2.  When port@1 has no endpoint (as on the
+SuperSpeed-only RK3588 host controller), usb_of_get_connect_type() returns
+USB_PORT_NOT_USED instead of USB_PORT_CONNECT_TYPE_HOT_PLUG.  Although
+match_connector_peer() skips checking connect_type,
+set_usb_port_removable() later marks hotplugged USB 3.0 devices on that
+connector as DEVICE_FIXED and sysfs reports the port as "not used".
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-usb-port-p=
-airing-v3-0-d6c6edb4341c@gmail.com?part=3D2
+airing-v3-0-d6c6edb4341c@gmail.com?part=3D1
