@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794562606;
-	b=nU35kC4PH/wQrbGpZFzlSm0eo56+g55Xu2CiqUjWXEt36iNoXBeS5a3dRKkuMfHBhuu8
-	 FGKM9MyGDSMeM1FsZx8rma01VlXo95C9nSqmF68NuFYT66wQV3zyB6kJU7LAx5R/z3L6k
-	 JFAlDtN65D652XRQu039HD4F5mDpy75fpQwFpH7uPAbTdcVWHsVsv2LIX/76TWz4JgPas
-	 sae5tWqvCCrjZUhDKBBwYI7QrkyG6k7L8AVioyKOgJcVdCh5jMrzBRDMVurSOD8h6HvnZ
-	 EZDlqJt1o3+hYVRrx/t0RTLOpaqQ+e/I+AzcYVI3owbhTx9I3gWEL0Ifc0cM145BeOQ==
+	t=1794562783;
+	b=w05PVlQDVTzkZF4KUqANg/BMftdyretdL1n6Xf3+nnEfshrus/QrTfbA30EqA1XEgEbt
+	 A0dm6HlTxIuBLNz9zKitHQhLw1tcLZoCN7e2XIZOx9cXG3PjvhnVjakbkimFx0aTgmWto
+	 F+G2CEMvK95gGHMXleYl/2p6VTKk0xGyKfuvDp+nN+ZNE3fAtzPfCy4ZzhICnKV26Ntz7
+	 FDDUo8Lz0ryGS6e/3RH5ZlNPPqBYpXHFgjn3jgHIMq2IA4Va+AOIzuUWYwcTwwHC3zdZQ
+	 HxLfLgVwJpHq6poXYziwwIf1ds571s25rEW8Tlsiq5+t66uZZL6rOZrIjoDZbdm0hdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794562606;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794562783;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=/6YqcQt44Py/FasYsJhMneYdiv4WQJsxhKQjwiKKoH0=;
-	b=MWA7B3wdYCkDzSfZaoT+f1PURXIMryZr/io2a+WYK+6s4xwsQcidWADaAW47grEUzbDv
-	 CcVR39lvqBa1PGMz1vOkB4xs6lM1QgU2rYTrT9E2mkA10Hz8/C0SCYVeWMK24Jfb/ZCJV
-	 m2hga3SoRpG/8+7BCnCEhLP/N5efBYOOs2D45R8Bny/3xHeoG6oMWjjpv1pu6A4OYxfmx
-	 yz23llzjwOjUGGAsFxX5oiftcnlG4G+8KkEAGCgJBFmGHUWDZjaX1/wAa/WrkvNy8fdSl
-	 Nm+L4psD7HDJ4iBPfl58ai1zA4HLbZcBWkZtDDsBTyai6rxEtCoH6QzMLrihgP9VlFg==
+	bh=zh7pcFtCA46MmyeieJNAmk2ZyNJdNs1ZRNsokMmyz5U=;
+	b=GAVxNLFlRWloARJSnCmi/qtzpgGMdKPg/8elFkDXesEeffn2EIU+Xh+ckLdeNM5nqmoT
+	 4BS/lQcy5Xm7/xapAzUeU4IzeB73QcZ+kmwbwaSrJswGG1+vgalPVI4hkqu7kRyOwlZtl
+	 78WR63n7YvbcRu1Fq1uuL14LbY1IZdFDXlUCwrW3KcCH7pOgRRqioKPXNp8l+bLxJocdh
+	 MNlxi2AvrhIAw1Ng2HBcttmxmtHm86TEUXzKuD3uCQpUjwFQ/aNnh8WU+0pKbWGBFW8nw
+	 bWWxyk/q5nChPBjUPmqjHHKMrUxS5UbThIqHfqWH4vkLPjUK49D94UuGl6j1D9mYwEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="PJ/kvP6q";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nFcHPyFT;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A79760A2618
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 09:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96090606A31C
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 09:39:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PJ/kvP6q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA82E1F000CB;
-	Fri, 13 Nov 2026 09:36:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nFcHPyFT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18A6F1F000C4;
+	Fri, 13 Nov 2026 09:39:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794562605;
-	bh=/6YqcQt44Py/FasYsJhMneYdiv4WQJsxhKQjwiKKoH0=;
+	s=k20260515; t=1794562783;
+	bh=zh7pcFtCA46MmyeieJNAmk2ZyNJdNs1ZRNsokMmyz5U=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=PJ/kvP6quhaBTNUglqV0CDNYyrQh5+swNAYzkZNbceRUTSmqDtVFMgpuYcPcrAg6e
-	 txCjsyNl5MbZGyIHr3dVFbFB0tAO03MPV84kvM4sMGmKUffmaTUpYL6epbrMy74TBS
-	 KE7JVdNnJE1KJHSLymbYukkeOjLFAuIGoromtMhOUCoHV6KR5yhz6yr1w+zWN2AyMi
-	 twKaFZUpD8Jk69aiqiV+qz3mJTsWMiT4X9uPX73WasvMPnqrLFaE7Zo9UtaBRgt/YQ
-	 iK6OorLT4VEQ9bYMbPca8c4P6nvImFhTRBvIt++Fal+rF9fgOKVNHM4/lIopvEi4gk
-	 EFCVOaN0KlaqA==
-Message-ID: <sashiko-outbox-212558@kernel.org>
+	b=nFcHPyFT4gaQm9vpENpY+nfJcP7Fy159d5HhITAGqSNWn7OrIy8d0ad6tlLGLv4yI
+	 IPib2RjOL1ym3NhVyUeuMRsHa6Vo62G+Juna1vPTwRln1/N7HGEb9zprmFRv2LiyZ7
+	 WZ5KA4XNm/Xnw/G6t5I2Bc9WyOUvMhPboh4lWD+DbKTqoPF3tE4X1vAbBfGdNGtx/b
+	 /g3wrB2uOsu3DATfggxtUHDK2VLwLk5ZkBoPm5I39eXjVPNqXAWhwF2VNtwPTn4T53
+	 e2DB7EMLsSdfCzAG4p/3kbliYBU3dbLmrJhUWP4hoo6tq20urAHPXagX8du5szqs99
+	 HGujwrlDH8F8w==
+Message-ID: <sashiko-outbox-212560@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/4] usb: gadget: udc: Forget a deactivation when the
- gadget driver unbinds
+Subject: Re: [PATCH v2 1/4] usb: gadget: udc: Clear a pending connection
+ when starting the UDC
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Alexey Charkov" <alchark@flipper.net>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261113-udc-connect-v2-2-f51b11f07eb8@flipper.net>
+In-Reply-To: <20261113-udc-connect-v2-1-f51b11f07eb8@flipper.net>
 References: <20261113-udc-connect-v2-0-f51b11f07eb8@flipper.net>
- <20261113-udc-connect-v2-2-f51b11f07eb8@flipper.net>
+ <20261113-udc-connect-v2-1-f51b11f07eb8@flipper.net>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 09:36:45 +0000
+Date: Fri, 13 Nov 2026 09:39:42 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,22 +61,33 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> A gadget driver deactivates the gadget through usb_gadget_deactivate()
-> until its functions are ready, so the deactivation means nothing to the
-> next driver. Yet the UDC core keeps gadget->deactivated set across
-> unbind. Only configfs resets it, from its own unbind callback and
-> without connect_lock, so a legacy gadget driver that unbinds while
-> deactivated leaves the next driver unable to connect.
+> Since commit 62911bc82b03 ("usb: gadget: udc: skip pullup() if already
+> connected"), usb_gadget_connect_locked() returns early when
+> gadget->connected is set. A connection requested while the UDC is
+> stopped sets that flag too, without enabling the pullup. A later
+> gadget_bind_driver() or soft_connect "connect" then finds it set and
+> never enables the pullup, so the host doesn't see the gadget until it is
+> unbound and bound again.
 >=20
-> Clear the flag under connect_lock once the driver has unbound, including
-> when the bind fails after the driver has deactivated the gadget.
+> This happens whenever a UDC driver reports VBUS through
+> usb_udc_vbus_handler() while no gadget driver is bound, e.g. when a
+> Type-C port controller switches the controller to the device role at
+> boot, seconds before userspace binds a configfs gadget.
 >=20
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> The pullup is never enabled while the UDC is stopped, so clear
+> gadget->connected once it starts. The bind connects according to the
+> VBUS state that the core tracks anyway, and a function that deactivates
+> the gadget during bind still has the connection recorded for
+> usb_gadget_activate().
+>=20
+> Fixes: 62911bc82b03 ("usb: gadget: udc: skip pullup() if already connecte=
+d")
+> Cc: stable@vger.kernel.org
 > Signed-off-by: Alexey Charkov <alchark@flipper.net>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-udc-connec=
-t-v2-0-f51b11f07eb8@flipper.net?part=3D2
+t-v2-0-f51b11f07eb8@flipper.net?part=3D1
 
