@@ -1,89 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794562109;
-	b=LQlksyNHn8hT4+Fc2BwvikzOwCu3ifeH3sZ27Pt9qYhlJoVyDlu4vq3ZHCzaEJj9ZO8K
-	 21fkY8QbTSAV3vY+oT5r3b6pcV2a0mJD05rM+qoE0MI7yl6+DMELld/PwNRZKr1Wl9fO5
-	 vXw77LtZ1JQSOB+6FVI8zgiwsnimXqBiWEb9TWBy7kFVtnD1AmX6GGnU9FB4b4KlK+Tuq
-	 k8Y4SQJSzJxk5v96L9Y4cSICpEl1YQhGmkFDvwwHEV4YRYxEGZt18SVHoSnaCsQYRmOzS
-	 Qrt70mz6UtTLa6wsF3GUCEHussBtt++XlsCJR/MGLsX4GkHFPtk8ikz2he26zPcU6sA==
+	t=1794562111;
+	b=p6yoea3O/d1R/LOli2MS5pFS99MU+sj4FpZnpSH4BwZ5GwpUMIcI7/vpV6Uo9G17YN1P
+	 vrxxPHLrgwUjDhZ5Rdy63eQYHxYvk67jhScJ1LLwJzs7kF1pEgPh+tvX2nn6Tn04lpj46
+	 mxARsXYgyhLg3fWmSeC/btjdmPW32evjt/5rL74uPiWL1IXnly+OxjZgypiBwprromiT2
+	 kEojTuwWO2SNUaynt2pDAv739WEcOyp2YohEezNm+6GXkb3bZJ2YbwxHpyLqrof1wn4aY
+	 SKGZ3a7UcrhnWnHIdts1AYKexTwMrcggG3LbQAgruZFKOKNIuGsqtr4ceHZCFCWt/og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794562109;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794562111;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Subject:Date:
-	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=OuPd/zrEz8bnoQVi0hWUxELIPusz8UbhZBM1Yuhapas=;
-	b=q3+zZmVJjF2kM72DJiwItxyJTDm9PkxWNdN82HMaW6TMQE7QfPyHOi2m6ylMw3HC+85T
-	 B46OZyJNyd3nKWayI+CBzQ0FAKmVeXV2xPuAx2cbpHMZiTSDJVZ0laujSjIpSLejRDnbI
-	 4K7ywwH+1y4I074EmD/giiz+A9rCGs9aXK+Zt2t5mwhoMEQ1Id8ySFRyojA0DCY80V75B
-	 icaNIGHL9R5QmtYDgvwiB7JCItbbpfpCptnSlTW2ez03FfSoIpjTnOPqYA7W+OkM7KJMs
-	 wDYCybyG2m/nTW2SSbwB3mnduGlv4KRNOlccrQmUKn04MTB7uUZ0OL06zGOQNv52j2A==
+	bh=CIlAjjzP5ZXkuJIu4Whn5N+9lP8TULOuvWMoUXH2eBk=;
+	b=0YQ+ECoPd5vwUGmoxsnKTwhmPBGz0MGMZpehbxVnguIc/fpkLCgeOx5a8PejgaQfZ/ym
+	 YyBMduHamUjS2QD98uTFZ6xMR2N9xu9GwwxxDLGK8QgIm8t/W6o7L8w1I8NT28mBLNG9P
+	 LgrcUkYG0JU5ix4W8bufoLJX4q6bI2AMVfreh3lZtW5L0fWlk8w78f6G+QrZfvFMEkrD6
+	 2IIRYYPCamqTKrh9UV2KbXslGsx6hqgKsZTAmGxjgcRC1J4Sf3iM7JPvu1nnrPT32MlGb
+	 W0T5wxOSDTkOCY4ca1qQ4QN5uMkQkSsuOrX8uOW5JuEU+uy5DQempRb6fhw3Swu8+mg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=flipper.net;
 	spf=pass smtp.mailfrom=flipper.net;
-	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=tsNIBQol;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=tMyJJZ7d;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2329E606A327
-	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 09:28:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2329E606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CCB606A886
+	for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 09:28:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 82CCB606A886
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=tsNIBQol
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so10177495e9.2
-        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 01:28:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=tMyJJZ7d
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso3849765e9.2
+        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 01:28:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1794562107; x=1795166907; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=OuPd/zrEz8bnoQVi0hWUxELIPusz8UbhZBM1Yuhapas=;
-        b=tsNIBQolbzZNJZ2w3Q3Osb6G4TLdxYgu0qX4HZu2gVwtNQ2SAfLjTclJnIdZ+akvme
-         Pfh4siZ+9dWWl8ASBUC+3UXC+uffRozmiSH1VhCCu4MvthLg5qwhw4qrc6lPogCGowZU
-         rmaGVO8bJGgcMbi5SXkHo1t43K9TPhV6NpVvj9+Wc7Wcr9W4uO0C8qBFgvhP3iB3TYlh
-         uCBgd3eW7/klaplqWtycSg4IvArrFtYccESnyWHo6fFg+xaddCQ/tkF3JsfpEz0+/jAs
-         Ldrr52a3Yzsaq2XiyKfZFlrnCv5CHhZbDeijVBv8C4N1EfmPChIqUY+P4WrxApALMAI0
-         VSKg==
+        d=flipper.net; s=google; t=1794562110; x=1795166910; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CIlAjjzP5ZXkuJIu4Whn5N+9lP8TULOuvWMoUXH2eBk=;
+        b=tMyJJZ7dm0Zrfs81fs07a8kOa0DEdvi9J3wePjDtL0TbRD1onKbr487LUAiBe8MrT/
+         lqXfCfc7Sn+gszaAsV4SKMFIuuXPY3Xxvl5/z1TvQZG1AbNjczFNICpoG3RebBqAWf4X
+         ksWWlPhuFS3F/OMFz9F3fDBoVMB+jd1dp8JfmanVIGzsrK8C2OpHEbBORZsp9G+kDbD7
+         UQHtzMRKEsvG3SB76rE69Aoc+6x+3dSMZN21/bKA4eozJkSZ65R7xm05vTHQtHl2WnbP
+         PlMBUT2SB9LENhOHmkO8Z2tWdEO/A1ffYLg6GUutRg7VQeCIVDp/3Jkki7r1dVyWhlG5
+         Wgww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794562107; x=1795166907;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=OuPd/zrEz8bnoQVi0hWUxELIPusz8UbhZBM1Yuhapas=;
-        b=GfJ6inuYH8Q8GHpT54RbrWgqqSkhrqGkBPwvAoabsU4HyZo5MbItoOQcjo6F3dwcme
-         ZJFSBtkao4W71e/4XWx7IjiZh2AAcG0P4Ia5YYbJb0TadCmV9eRlNUUFIuLOAfUqY/SC
-         dkt6NQUD0pvdvun1ogr3WfydJZimhv+IVTFW+naR5jZKJR/5HP62lpd6xgRO3Et9JQaf
-         0oZAU+1la9rlihYsDNpVoTu/8JpVXmiIc/7gHjmHdo7WDc4kx9ZPfejbbukkQUg/ieaU
-         aKLP0Rt/AxL/+3mD6fRHXbLG7WfZobWGqKgoggcsAQMeFYWIaSObO+sbo9zWnN2Dd09x
-         aaUA==
-X-Gm-Message-State: APuU4Z9ye3ZpjCgwcSuEcmkftdO5oECMn54lPzSyauTycYNbPgN6uoHT
-	O3frbyh8bw4M1kWUJCWLDmhL/Wh33Cq5Q3Y2sdzlDO7phNVJR8ZqYHJnHAI90yW2FtKW22nC9Kq
-	zDY5tos1OAQ==
-X-Gm-Gg: AYBFou0Gdgs9Lxjlu6RMT9oNw7wL2O/sjL5otKtkOlx+bShRWuVxWnBIqwsc7QF6bg7
-	I/3qrKSdKGM8TUj7OFXMccc/OvUqxmEfsyl+WzGgRPHsEmjpjeAf507UJDet+yze5bC41zHi9vu
-	fyUVX12Of8xUzSDl06wcWxmm6Q1APjGTSyitWl5SyeJxyA1adbTWnTnv5yo5iYe4yZVybV63UKz
-	CXcn+1GVE9ouluyld3h2cO3tXU2BIOogP8iJ1pU+35UJJUEeQTcn9OUajoCERXKReyFQWshkvX2
-	twROdxSUjfFktm3EjUCReSorxbkfAgeuggPYespimavsPDQRQTXlMfPxUtutXV8/1dRErXCXonO
-	ZazYUto0vw4mK/XdO9DR71pU6nrjgPFeWuCGDCLpd4XGTBmksWGbjh1WKJHdPgCt3ICpxhQC9Xx
-	3zeygsUdpX+i9iFVmwGpDH9Lcei23cOo0gBqkmqlTjebI+wbiCQndUGzedxR9ybW+2G40c2E9TA
-	p/zTI5wMy8HXNzFjb2GEb1hUSTeUHNi91Spok7+q8UQ2SElbmjHRzd0jeY8WEpdWIcLPmLohMp3
-	xDK/ZSrAF2+obD3jH5Z+aNCO1LFAq6Q4nbskeqvJ3Sv5Hs0etAswA/gt6bCXTnl+qH+c73jiddl
-	ajuLRQxkL
-X-Received: by 2002:a05:600c:6219:b0:4b7:6aac:7406 with SMTP id 5b1f17b1804b1-4bb55a23b41mr34227575e9.3.1794562107357;
-        Fri, 13 Nov 2026 01:28:27 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794562110; x=1795166910;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CIlAjjzP5ZXkuJIu4Whn5N+9lP8TULOuvWMoUXH2eBk=;
+        b=2RAt51Oq9jWrBcNiw4FXYZMhe1PNWztfZmsc7+5/zilAXAgOTx+oB3IE0DSBM+PaBa
+         kn8mLvSjWR1cApOokcSJ2NS0VDbbWYWKQcSXX7VZkAcn9Mtx9FJ8sAAamu2nM/i3M/oY
+         rqu8bDGRzpCe3WLInsdZQYM4lnm2avKsz30JEE/q0pLtSUF+NDIgu/IuIu8wVkmw5dvQ
+         aK2k8pyHlT0X03x3iHOWFHn5ft2NU+Ov9648lvhQSPOuNjM5vXfR8OyL78RhgvpTmtVp
+         4ib/sfLCWE8GWq84OTANP8yUXxB9OToFnuSbp4Ozd8tpQZP+xJsupMfi0OdeFVaXd+nm
+         u/fQ==
+X-Gm-Message-State: APuU4Z8EOY1GSI5tZzbniCi+rsI2teR6ncrK8akp8SCuZLKT7r5BMkS2
+	u++cg8XRVfqZAH278Sw2xz8NcwvY6YlaSB1J5v7EmMY9avzJyxcunxvsxJXNr0apPss=
+X-Gm-Gg: AYBFou0onIzy7UTgTFyemE0XpMRiV9see1Nqfz6FOxaf0wnlgyfGPlyigb2I1rXT5SI
+	QZZ4TEpKznsEhu8YW6J0yX31L0DndIaqOh5UeL1Xlv/qAO2XvfRvMnLy6TyKgSk/TE4MXP32rLt
+	gsfX+hUFLyibwikzS5+Be3S4iSsT0lc1wUH4UBQD7LF62thCUzh449IeksmbTkaoUpFGe8e1uSI
+	orif6VhJ26XCQBFQfva2y3w1Z3toFEhD/NNvwZu2spM2BKU3mPBeuGaBiwv84ULz282PFtKbglO
+	F7jBa0e78XEX2zTotrD+3L2Maf90DtvdlN0PZCgUVadkb6+k8K1mHuSbuc1ukg/5gUv232HltSg
+	b6ulKGi+WKo6DAqHw8g+OTjg32QBhfnmZszl1I4gWWjCHLqwj1aSyeQ/SjepjeiRckaw3gZ3zXw
+	iUYiR57cDEXGe4xOYJ9X0J7UqeU6pmolBAKyPX5xhBhWPc1DNsMvLzR14aPAWhyu1KVEU2DjPnQ
+	xu9gwVqNlVUuXmWdOGeZaKLy49ZM+Hat/1wFSb4gtNT1JIyq8TwNofvGAs/birXa0IoULjO2JQd
+	C5VzDd/GaopdiFUqGiOXEG7lWUgeScf7v3Da5acvzpydgfIzWyCJ7X4kHS1GsXXWL6ix3Cvz4fU
+	+XZ2bQqGL
+X-Received: by 2002:a05:600c:a45:b0:4ac:86c9:b09c with SMTP id 5b1f17b1804b1-4bb55a69123mr38136345e9.13.1794562109875;
+        Fri, 13 Nov 2026 01:28:29 -0800 (PST)
 Received: from alchark-surface.localdomain (bba-86-98-194-229.alshamil.net.ae. [86.98.194.229])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2538b9sm238668335e9.1.2026.11.13.01.28.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2538b9sm238668335e9.1.2026.11.13.01.28.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 01:28:26 -0800 (PST)
+        Fri, 13 Nov 2026 01:28:29 -0800 (PST)
 From: Alexey Charkov <alchark@flipper.net>
-Subject: [PATCH v2 0/4] usb: gadget: udc: Rework when the gadget connects
-Date: Fri, 13 Nov 2026 13:28:15 +0400
-Message-Id: <20261113-udc-connect-v2-0-f51b11f07eb8@flipper.net>
+Date: Fri, 13 Nov 2026 13:28:16 +0400
+Subject: [PATCH v2 1/4] usb: gadget: udc: Clear a pending connection when
+ starting the UDC
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -95,11 +95,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NQQ6CMBBFr0JmbQ3TKgZX3MOwkDKVMaY0LTQa0
- rvb4tblS95/f4NAninAtdrAU+TAs80gDxXo6W4fJHjMDLKWDSJKsY5a6Nla0otokGqDqE2rBsg
- L58nwe6/d+h+HdXhmtSSKMXFYZv/Z7yIW7385okBRK31R8tw2Jzl05sXOkT9aWqBPKX0BBkDpp
- LoAAAA=
-X-Change-ID: 20261112-udc-connect-61e0f11cf93b
+Message-Id: <20261113-udc-connect-v2-1-f51b11f07eb8@flipper.net>
+References: <20261113-udc-connect-v2-0-f51b11f07eb8@flipper.net>
+In-Reply-To: <20261113-udc-connect-v2-0-f51b11f07eb8@flipper.net>
 To: Neill Kapron <nkapron@google.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Xu Yang <xu.yang_2@nxp.com>, Alan Stern <stern@rowland.harvard.edu>
@@ -107,55 +105,64 @@ Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
  Sebastian Reichel <sebastian.reichel@collabora.com>, 
  Alexey Charkov <alchark@flipper.net>, stable@vger.kernel.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2015; i=alchark@flipper.net;
- h=from:subject:message-id; bh=xKH6JPBEauAk2qY839jB1Vb1ODWV8srGYLrwZWkSfMU=;
- b=owGbwMvMwCW2adGNfoHIK0sZT6slMWR9u2GhF7TnQpTsY981pxvzjWQkFq97fyshWeGj2Y+NT
- mvfFJrO6ZjIwiDGxWAppsgy99sS26lGfLN2eXh8hZnDygQyRFqkgQEIWBj4chPzSo10jPRMtQ31
- DI10jHWMGLg4BWCqw4oZ/le9ez6r5t3zZZ/exX7S2LE9xZtvkcmVVK+nv5TLQ8/VbRVk+F9/5+k
- vqetfROPPrTom4Pvpp2z9/9r2OawsvuL2u7yfbuYDAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1994; i=alchark@flipper.net;
+ h=from:subject:message-id; bh=H1NZkbwOLqgox3njeMpCXWj9ST4HT9e/9uVkqeyhY3k=;
+ b=owGbwMvMwCW2adGNfoHIK0sZT6slMWR9u2ExvzC8IC6y1H675PsVR3gZWD/3LjZ8Yfng54IsE
+ ZaV8+q4OyayMIhxMViKKbLM/bbEdqoR36xdHh5fYeawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
+ QyMdYx0jBi5OAZjqKa8YGToDL/KUn7jzeK3VnBOrD/n9ajnlGfAoTyqx42np7Lc29+oYGW65LTX
+ 9fFN/F0OolOvx12cq8h3VBbLPH9nBmfs5XurOL0YA
 X-Developer-Key: i=alchark@flipper.net; a=openpgp;
  fpr=9DF6A43D95320E9ABA4848F5B2A2D88F1059D4A5
 
-The UDC core decides whether to enable the gadget's pullup in several
-places: bind and unbind, VBUS events, usb_gadget_{de,}activate() and the
-soft_connect attribute. Each applies its own rules, and
-gadget->connected records both the pullup state and a request to connect
-later. Since commit 62911bc82b03 ("usb: gadget: udc: skip pullup() if
-already connected"), a VBUS event before bind leaves the gadget
-invisible to the host until it is rebound. That happens on every boot
-of an RK3576 board whose Type-C port controller sets the device role
-before userspace binds a configfs gadget.
+Since commit 62911bc82b03 ("usb: gadget: udc: skip pullup() if already
+connected"), usb_gadget_connect_locked() returns early when
+gadget->connected is set. A connection requested while the UDC is
+stopped sets that flag too, without enabling the pullup. A later
+gadget_bind_driver() or soft_connect "connect" then finds it set and
+never enables the pullup, so the host doesn't see the gadget until it is
+unbound and bound again.
 
-Patch 1 is the v1 fix, small enough for stable. Patches 2-4 implement
-Alan's scheme: the gadget connects only while a driver is bound, VBUS is
-present, the driver hasn't deactivated it and userspace hasn't
-disconnected it through soft_connect. One helper records that in
-udc->allow_connect under connect_lock and switches the pullup to match.
-The UDC starts and stops only at bind and unbind, and the deactivation
-and soft-disconnect requests are forgotten at unbind.
+This happens whenever a UDC driver reports VBUS through
+usb_udc_vbus_handler() while no gadget driver is bound, e.g. when a
+Type-C port controller switches the controller to the device role at
+boot, seconds before userspace binds a configfs gadget.
 
+The pullup is never enabled while the UDC is stopped, so clear
+gadget->connected once it starts. The bind connects according to the
+VBUS state that the core tracks anyway, and a function that deactivates
+the gadget during bind still has the connection recorded for
+usb_gadget_activate().
+
+Fixes: 62911bc82b03 ("usb: gadget: udc: skip pullup() if already connected")
+Cc: stable@vger.kernel.org
 Signed-off-by: Alexey Charkov <alchark@flipper.net>
 ---
-Changes in v2:
-- Add patches 2-4, reworking the connection control as Alan suggested.
-- Link to v1: https://patch.msgid.link/20261112-udc-connect-v1-1-03c73259642b@flipper.net
+ drivers/usb/gadget/udc/core.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
----
-Alexey Charkov (4):
-      usb: gadget: udc: Clear a pending connection when starting the UDC
-      usb: gadget: udc: Forget a deactivation when the gadget driver unbinds
-      usb: gadget: configfs: Leave resetting the deactivation to the UDC core
-      usb: gadget: udc: Decide on connecting in one place
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index d5844384c368..577bc15f61a1 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -1236,8 +1236,16 @@ static inline int usb_gadget_udc_start_locked(struct usb_udc *udc)
+ 	}
+ 
+ 	ret = udc->gadget->ops->udc_start(udc->gadget, udc->driver);
+-	if (!ret)
++	if (!ret) {
+ 		udc->started = true;
++		/*
++		 * The pullup is never enabled while the UDC is stopped, so any
++		 * connection recorded meanwhile was only a request. Forget it,
++		 * so that the next usb_gadget_connect_locked() enables the
++		 * pullup rather than returning early.
++		 */
++		udc->gadget->connected = false;
++	}
+ 
+ 	return ret;
+ }
 
- drivers/usb/gadget/configfs.c |   1 -
- drivers/usb/gadget/udc/core.c | 197 +++++++++++++++++++++++-------------------
- include/linux/usb/gadget.h    |   4 +-
- 3 files changed, 111 insertions(+), 91 deletions(-)
----
-base-commit: 6d582d78fad9d828e575ca0cdcff8ea47a77220b
-change-id: 20261112-udc-connect-61e0f11cf93b
-
-Best regards,
---  
-Alexey Charkov <alchark@flipper.net>
+-- 
+2.56.0
 
