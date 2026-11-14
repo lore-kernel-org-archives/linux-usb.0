@@ -1,47 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794652177;
-	b=JXQBYQAQzel0O8vRPxWytwpAN+9P+NWU8Vs0UDkxHHrZ3ld8FL/icDAqKH3JCHoRVp++
-	 UvP5KA+4Q56yKo4Db1e2DXRxXn2EQIdnBYbkBvmQR1DSTnb+BkaLN2w2sVzzpUpKHHXlt
-	 qYQnOL91f4ojl2vthFwpIb6JLt22paqNSGvODf1MojQYxnuT/mD9IckMrj03e+vdPRvkO
-	 /OVQafArRzPJjOJlxfMPPYZQwPhxUGaU5+MDarBUQWv8+HdVTi5wUAHhhPW+5QdtReeWj
-	 YMRPV1DaeTgegqIsWsK2rFXjDdfWF9QmLsV9PKQJjZyDZTp1mPwP71Z2fCj/664BXzA==
+	t=1794652724;
+	b=oqawjCYXViBhZDOu54mO4rFz5m3zErSirnUbuzXnMAw5PATI/TruwwQCkwdYiSLiYDWT
+	 87+gx8lEZbzpBfhA+I9R/lP3Tj64Irpw9UlSdc+p4na9S7JCuJzxOJ4l/gtzUEqjOMI7V
+	 DJHN6iX/ivzO7lbnKY46RBEEl0JZ42vbCVul1KDbsbqHvMtBf7fP7k5za24lFJMnv2acy
+	 tc9PFjKvxjpUacndXixORGVwbf0veUq8K7TT9dHn+NvEw19syoMtzELWJVlFAnS85jZU2
+	 MsBpOdAkcOgkFCqLIUggxnTJAqvI4a+i6uFgZcE3+rlJwGd7/bwvyVtmWY/ExSPHbTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794652177;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=uErNLi/2OCf74YqDJoADHzHPm15XqcJZ+OFir4+WK/E=;
-	b=f11+CJvHjYx5RQMxdJmjvQwaPqISJqccKAdZpZqSPWkjC57QVJZR7XzA5Ev9OYVk041m
-	 fyoP4eYpBGx2/r2bO2UNoMFmi8XGgwwe8Jk1+U4qIbPiMls5CK22htuBsiIdoH0llBxZi
-	 YwwmkXj+/PjH90AjxK75+xTF+ilV7Y5WaOz2+nxsiNeT0hpS1GRp35Dl64CIVAO2Bo+lS
-	 i8J0H8VwOv9N7Gzf1PvjVgvG2wJIRsifYZzP5mig8zdJxwK58WAr+X3dh9hx3FhAice/o
-	 HflK1IoDzZi4mjk4ESwKGKlXX4OX+SSsjmDZaIhH/1IU7iFaYBspVt+LPs8LW1hx9iw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794652724;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=f0g6P6hsNAkBmmk1dhVL/yqmLVxvhNEJRF73P8Hffz8=;
+	b=XTRFf3I9lNTiXczV41KEJg/FNuIVqDVo2dmDdYyszYgVrx7yTyVRPsPuZfvPA4veCQgQ
+	 jKr/qKLNzZFhQ2jewlC/ZCTk4+8Poh+6hOz3XN5IEfOlepYONBBN/dZ283nK3OXJNhLZ3
+	 LUjdHWsRXLFyh6UM22W5GyemHIlJGs7c/oztRdwvhrP9kxWVJWRUZdqykh/yKnLFBm5zI
+	 jW/KA9kONTlAz0bqr1L/Ybfmzs2qCgDwTbIVbBI+YVwP1Dtp3zII5gIcV0LHpaX/uQIQh
+	 TF5BkI2HzftmVZuRIitvcviJKbYL8yp7+DQl14DOpUMxZZ2GcSxk2dCywnFttGpRBDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d7vsuyjR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ozu7z0Kj;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB3D606A32D;
-	Sat, 14 Nov 2026 10:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCDB606A323;
+	Sat, 14 Nov 2026 10:38:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d7vsuyjR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 088281F000C5;
-	Sat, 14 Nov 2026 10:29:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ozu7z0Kj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CE541F000C4;
+	Sat, 14 Nov 2026 10:38:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794652176;
-	bh=uErNLi/2OCf74YqDJoADHzHPm15XqcJZ+OFir4+WK/E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=d7vsuyjR1VDuLpCZaVnAcs97CnN378lybAxntYArVAIWpBO/G0QY4MowNay3RH1sJ
-	 I/+m4hpMxB6GpMKWDbzb8qtrLlBu3YtDeZvzwuhnMB/yA78hJusU853lj73XvqfQKc
-	 EvGzykvrbS4lq/1O6DTLRc08TU7xDNFp/dLuKD+MFITdLvet4hGZDl9JAlBCEPF0xx
-	 ij3wqSqFhhR6i0TtGjKrrnP3Z3PpGxrdb9mdx3i2B+5EYxPu0H1yqZC4/aKDGWNr5j
-	 ij+bUDu6z74RwEA9jfNDdUvkLcIIa5ya1qlqC26lt0K0Us0aKw8Yg+9nBBNq8D2ZIO
-	 OPqicXdnFAsTg==
-Message-ID: <ea4068bc-be71-4487-b286-68f0ba9f4334@kernel.org>
-Date: Sat, 14 Nov 2026 11:29:29 +0100
+	s=k20260515; t=1794652724;
+	bh=f0g6P6hsNAkBmmk1dhVL/yqmLVxvhNEJRF73P8Hffz8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ozu7z0Kj1tHIOD24bkiz6twDQ59H2LG047bnoA597yeAQD+7loV9AVNQq6/EfNxmA
+	 RAV43n2Xp3rFswhwCvrdVPjCv2twIaBECTwXwjSyPBKOEecSJccYi16iPUffdcy+kX
+	 2KsSYHa0TM5q3kVm9Et0sKjXOYpfJER4fjfggVZYik+Tlk8iLg4VYcTfwPq6hSWTb+
+	 FqNtagBKrLecsr9nZyvU/RGWRSqwrFdabGVO12uSaA2rrQgzv6ROpsZEsD9jdN00pG
+	 9AVp7r2bVcIF0aGX9qNUD3D/9g7VuGmG+jesekdRYeqNRWWlH0zjJp4ZwQJyQCg3y0
+	 VLaLdAkJXNuOg==
+Date: Sat, 14 Nov 2026 11:38:35 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, driver-core@lists.linux.dev, linux-mm@kvack.org, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	ocfs2-devel@lists.linux.dev, linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
+	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 01/41] loop: refuse backing files that aren't open
+ for reading
+Message-ID: <20261114-erfrieren-vorher-taktieren-ef10b08e210f@brauner>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+ <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
+ <20261111145555.GA9996@lst.de>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -51,54 +68,18 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] powerpc/configs: drop CONFIG_INPUT_CM109 from
- ppc6xx_defconfig
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- "Alfred E . Heggestad" <aeh@db.org>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>
-Cc: Oliver Neukum <oneukum@suse.com>, Thomas Reitmayr <treitmayr@devbase.at>,
- Shaun Jackman <sjackman@gmail.com>,
- Daniel Gimpelevich <daniel@gimpelevich.san-francisco.ca.us>,
- Florian Euchner <florian.euchner@gmail.com>, Johan Hovold
- <johan@kernel.org>, Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Xue Lei <Xue.Lei@windriver.com>, linux-input@vger.kernel.org,
- linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-References: <20261112001642.243554-1-dmitry.torokhov@gmail.com>
- <20261112001642.243554-2-dmitry.torokhov@gmail.com>
-Content-Language: fr-FR
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-In-Reply-To: <20261112001642.243554-2-dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261111145555.GA9996@lst.de>
 
+On Wed, Nov 11, 2026 at 03:55:55PM +0100, Christoph Hellwig wrote:
+> But i wonder if we want a thin wrapper around ->read_iter/_write_iter
+> to do this check so that it matches the normal read/write path?
 
+Yes, I had thought about that as well. We could use
+vfs_iocb_iter_{read,write}() for that but it's not thin at all and
+brings in the LSM into these codepaths where they shouldn't meddle.
 
-Le 12/11/2026 à 01:16, Dmitry Torokhov a écrit :
-> The cm109 driver is obsolete and being removed. Drop its module
-> selection from ppc6xx_defconfig.
-> 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Acked-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
-
-> ---
->   arch/powerpc/configs/ppc6xx_defconfig | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/powerpc/configs/ppc6xx_defconfig b/arch/powerpc/configs/ppc6xx_defconfig
-> index 29acc77573d6..4ba35b9377d7 100644
-> --- a/arch/powerpc/configs/ppc6xx_defconfig
-> +++ b/arch/powerpc/configs/ppc6xx_defconfig
-> @@ -537,7 +537,6 @@ CONFIG_INPUT_PCSPKR=m
->   CONFIG_INPUT_ATI_REMOTE2=m
->   CONFIG_INPUT_KEYSPAN_REMOTE=m
->   CONFIG_INPUT_POWERMATE=m
-> -CONFIG_INPUT_CM109=m
->   CONFIG_INPUT_UINPUT=m
->   CONFIG_SERIO_RAW=m
->   CONFIG_GAMEPORT_NS558=m
-
+So maybe as a follow-up series with a new
+vfs_iocb_iter_{read,write}_raw() or whatever. Feel free to make a
+suggestion.
