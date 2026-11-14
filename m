@@ -1,96 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794689085;
-	b=08Hqp2I+YkbyCwKCk2FCEsixww2pl7sfu4CsKKcMNpYgz2J+/RfqRa1ZRs36X3lSYte9
-	 JadSF3QPn6+SEVBXKUQhTIb3r7pak3Aed9IuIklsnIYkNQ8UFJHBz92ySQEbbvH4eIecn
-	 Ne8hUEq1pJHvrHj+bDPo1i03aTWGJ6CpGo1+2BI0K7U1824d8+XJ3H7dAjKP5lTpTliji
-	 IkQBI3F6q39OtXhVbAV6GUIEaTjIycpdQiGEltPSIcjNm2iSMAhmUIe+n02F7rPYucVEW
-	 fh4h943DLzrE0kiosP9HZfCUSxHktSRF0w4rG1CE1lt/5NUVCpgRnq7H8SHlhL7M0Rg==
+	t=1794690192;
+	b=ZqJ7u/C6xdT0GF0T7pUzCcwkYIXeaNKSjsV1gwbZKxj96+WRVn2IHuhz2JKwToBTrjfv
+	 GSELYf72AySBFTyulF/7C4dFcXKJGHCcte5MA6Rf9VcgKfGPcJazH1YLCVsOelwakjSPj
+	 0xm+IHZUa36Y8RGCKaUykby6YcYLaHG0hptnJLZOrsNFP2BaxewyF+nYiPjcddoA2uMRZ
+	 bAN//525I814YvOIHpclHsho0wzk7iawYLjM8BmQeJMUIF2yBJSzN8V++rxfH1tHTFOy1
+	 jSNI8is5IXzRrmC1rc22UE0LaCUhjMpIMJOinHSpkML/qT0O7+uERsuByRLpe/AzMyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794689085;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794690192;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=RF5riISKB3U2P5GXHOTUJqXWoYoCQ7YYxFY6WjpFX3Y=;
-	b=fFUmbXa49OKQnn19Yr0j/3CdqxEhkCtagVkvR6CiM18rVwIZBYizEcs1vr9sXlaRAjan
-	 v+P1MfGxV2eowXjbRXZcpWfGrf3Z++l/N2KpiMnsTsuJHWDaLAu/K3YWUnT6ZDQgFBiwh
-	 ib/cjHKrC30AtPXaxmaXu7FUqW8drSYyL4AP2frcJlD0s8ww1qlnPEVI84RfHMm7LBvRR
-	 s0SfKv0sVPfTU8+FRwB16/S8P6Nq/Y4mfMf9N5/FDukGBaP9Y6Za7eHZ7hJSMs5EhlKFX
-	 3kwSN8SfnCMWyQ4aMDtef2nVKyTlBrTew1rQ9wDD/OGAAXPGztYW8y5YrnX5XyrxvTQ==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=VF3+5ckqjkWo1/tuEiCb28KnOUZrUPKvSXLeZGTLF5Y=;
+	b=UyzSAN6xYsBA6yfJzPjl3q6h69dBqT+fou1kWRoBvDJMtavE7a6W37fxv0pc5prQMdAH
+	 lUxI6DBjvgd9Sr7fi0IZfdqal6rVqR2T2t4LdWYiukX6gMHhUolmS8dNUinECih4LU9uz
+	 J3p91ofnBJzzYkJcrrqAri84qsuKS5cxOHk+eC/7FnOLyzBekxvZbXklB9Zo2XTDhFt5D
+	 jENkKqDDXV0ytaLnGPzhscWpGTwO3emLWQpp9R9d81uDLppAP/UQczsJIcuZE2GQJ1oyT
+	 D621k3s2X/Pnd0pRm7iU7dvc8M4tpHfSpEYpFS2xdmZQ2OPZopntScNX+cRXO3iyi5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=rowland.harvard.edu;
 	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=MrBgLup5;
-	arc=none smtp.remote-ip=209.85.160.174
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=njza3wTA;
+	arc=none smtp.remote-ip=209.85.160.176
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D549606A329
-	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 20:44:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D549606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6DA606A323
+	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 21:03:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB6DA606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=MrBgLup5
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-55d03bfd477so5313201cf.1
-        for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 12:44:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=njza3wTA
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-53644b28706so3124861cf.3
+        for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 13:03:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1794689084; x=1795293884; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1794690190; x=1795294990; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=RF5riISKB3U2P5GXHOTUJqXWoYoCQ7YYxFY6WjpFX3Y=;
-        b=MrBgLup5MVsN3BKP8C0z+OVZ4AjO2TH2ZPH5xlez9jhjeZpX9UXub5mCMkTrMdPx/y
-         +DRYo1Dw1+zgxDcEgZB/ed7ojmwqhTqme4fs8WqqcNLyvdzHNMBJGjBggWsvayK2Hzdk
-         JupTLHLdZpbk6q2De53Yrf4PzrPyctXPSO2Dbz+UOOtQgxYH6rlqVz0LRcUIxeNGhmTG
-         v+5PporayHbaGRcABpguFhQzVdsM82CfVG0oJbCf4SqC1avy1620oqVuRWTLgiaOQok2
-         wZPXhG7BNeLaTzlt+QwWVmZqITI2O5GtzrvGZt7xspQKt6cipCRmmtK1bzE005KJoEbl
-         dJGA==
+        bh=VF3+5ckqjkWo1/tuEiCb28KnOUZrUPKvSXLeZGTLF5Y=;
+        b=njza3wTA94nlZ4biRy1rA18jY9hYlEQqvtu6o8uuNZmpbwAyBvWF3zxdtdfC6KDZ7S
+         Fb3onuJoOjLXeXKcU/4EXQ8jEuRnMkjTYTX7DXsYjlTGfumZaP17roaMT7KFPVF13oHE
+         y8zDyzvIfgegWnYbs3dCWO9cs3viq+AzzRW8WRSvWg+jYOjpM3RAqfprMlaRJuJp82S8
+         bpesaZdJf2oL16toVLPEBMotiWo00LN9egC1p6cFLDfbXVFycFylTjLEWbLhSyWNP6NY
+         /rvqHv0xJtkvd4tY4azMTT+mgnrOcNjrlagBncohReHsGRYDysYwiT2VLFGnaW9yZnG/
+         jFkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794689084; x=1795293884;
+        d=1e100.net; s=20260707; t=1794690190; x=1795294990;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RF5riISKB3U2P5GXHOTUJqXWoYoCQ7YYxFY6WjpFX3Y=;
-        b=bG5V1TXRvWUmyST2WiT8Buktj0Bf9iEw6AC6fuE3od8A4kPShVg3CUtRhWUp7gMDB/
-         IyWRot+/4GwXdXmtJeqiEl9I0Bl9thhmKzq3ykfbk/9JpZj06lIlDdM2ZzsKEBGGk5VD
-         sHYq3ZoKEb6B81mchtKBX30iOB2Pze5cAzUET7I424SSN0hx4CFo0iBNWOATXryjRkCC
-         9M3T4+i0w3/JHDjG22txF1D1f9I3McVpfRiVsQLU/5LirqpqSLg3Aj2/1lljQAKybcpL
-         aP7xZZjYFHzRTAIBwXD6haYoqNGWVkjpXAuyiV/pxI+5/dEpkk36TF7tjIAoky25uqz1
-         2ggA==
-X-Gm-Message-State: APuU4Z+Zywddw3ROlonNcOtMhUs59oAvH1RaG/Y1xdNVZQjy5MEIOFkD
-	8az3o1pX1vnTvjnHjj/qtxApkAekCBqLsDqqINiMKA/mF+o4Vem1QKapQcZfIDZJVA==
-X-Gm-Gg: AYBFou1nyk56qZlc/mz5kmE/aKFz9jOA+wYiXWHJochw40jzTO31Y9564CPr8r0fPTv
-	7p0UiPj0IUE0D/3mKeulNO4l6l9VF+JlQ0c8SekuNij2Ct8lo8IcxMMMCNJEqGP3NVtQYAKVLns
-	G3i6Uu4vwyWN2BUvX8tuk1ItziDFWk7AK4RNIFf6XFFezejakHNEliXyB1eyxvhOC7rsa9vT3M8
-	8E6ofPstmZyFDLaM0+2KAXcKfNMgCXHC4QCSZEFXGdy9skk39Rf2zaG3pJ14cG41YoxIyXPL3qm
-	A7XkJs+who3XLGCqlw2AFwOZ/L8lomSC2urqnHinR+iGNy/dSVQXI2/ePNB6B01Jk10MoDIx/FB
-	mw29im2ezM1GM0wz1ECVcLQWOLSnnSg+tKBMIWYvCF6Kzrf6xky1znn9eyqFAIfcYZ9lAUauSUU
-	JDmSKIynj5/Ofzvcqw4QTnMSmbDbpUc5nQJ4Hvarx53CKWkRHNpRskmHsp85Jpp4qP03aEuYkax
-	60hhXVxfwihdnfivxJPny88c/m+EsnIQBFiUQpp+w2J4Llpc5A30ztacmOJfKi0mhNO0LvvmokU
-	DxZ7jSg0GIfNgJ7BLPctGQBe8NRpBw==
-X-Received: by 2002:a05:622a:250a:b0:535:70b5:806 with SMTP id d75a77b69052e-55ac977d7b3mr99745041cf.62.1794689084098;
-        Sat, 14 Nov 2026 12:44:44 -0800 (PST)
+        bh=VF3+5ckqjkWo1/tuEiCb28KnOUZrUPKvSXLeZGTLF5Y=;
+        b=XfVj6ogcdiEJB8Q2Ajn2xpA0SxkHAnVXDozgBno0luPv4MzaOqLRVL/36rt01NKcQW
+         BUNOtaqTPaP9+H2Cbk16zPdoqJ5KGpvVpH1H3iR78j59yOd56ihn5xKykRToW1gsjB5e
+         sWgJWKIumWkxnEfRtKcw+rI5lKoiNfZoHAbxI3ELFHWTm2F73TeAnqajJ5O1kZeDMJk6
+         JavMo/SdLVsnc0SYoHDbLtCF/0Cv0JGIlPku2LxIUQZl6hHNmlBkHsgfHh9JS70UrD2u
+         NWNLpiEMa/4aYkVJH0mlcuaPkL8s4qDns9vWbmJvh1bzU3fkTamEuJ9SL+Qf//STnCCb
+         wLSg==
+X-Forwarded-Encrypted: i=1; AL+hErH314d8gLlQxdgVt6N3CD6YtjGeGNyJX5F4Md2SXBmP0gsm28j+59czL4VJxPziC//V/1vgc+zf5zM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9xiFSTJ08huxHUx2XIqACBcLJRgTS85WtvFFd8CXNEPxi8zjQJ
+	Xxi9i+MjEIVgc/U7aahaWFfbDeiQGw+BIKvyabqLwKpjKbMPfMtPc3kWSPzzdA6cKg==
+X-Gm-Gg: AYBFou15eO4fpE94yRbRdtfHJsIXrgtrW1RgTl/ni0RKaOJKGd8xg/qwcgvSIIDiE6M
+	JW/LOVPCph7P4Hi9cDAuGxIw7ukGVxD97H68PreprEaqsXvFDi4X4SbeW3KCvfqoPBeQNub0qwO
+	s04EmKtA8SJ+yEeq3LdcQFM5xuOH9FsdGYSnpU7ywYu+LhjfY0uekDDv0YPDuszX8w8HmalRZn+
+	Up8OkOsToB5+8XchMsTvaFoiaxnAQwrr1RiTfxw4eA06ZH0RSQ2C9/4B4Pxp/NeY1pi0o0y+RfS
+	rSRJvdj4ubjAK+FXpdA1F9Lr1z5kHAems+3Q4W2K4FXHtrRGfMRBRtjjA++5sM95cVV5QAnvIsl
+	CvnVzqFUZO3JWSO+RU78vLlN5kpM5FBB4jXliXEVVxNWCtLiQQTzmzfVPTzE12tLTgcauVQTAlX
+	+W0pErA4Z34xqkxfvHCFuCrXjrzoWBljvFu9flBbK1ogPpMcnVZg1noXHCk8wBLZUMEg9lNkTaF
+	cJumTomT8KT9pZnrhFPdk7plUP9h0/DLRC/KSGiRyAzmFXDxIjDUuaf3PA/J4Xy63w3rhaABsJi
+	TQH6hYvo59NFkpElnlP8rd/IYXKsu8gFsh3x2RkUSOdphuosB20=
+X-Received: by 2002:a05:622a:5a11:b0:535:a5f7:d586 with SMTP id d75a77b69052e-55ac9089b1amr95896921cf.64.1794690190346;
+        Sat, 14 Nov 2026 13:03:10 -0800 (PST)
 Received: from rowland.harvard.edu ([2601:19b:d00:161a::d398])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55ad0534196sm47228031cf.9.2026.11.14.12.44.42
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d458fdsm50228666d6.9.2026.11.14.13.03.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 12:44:43 -0800 (PST)
-Date: Sat, 14 Nov 2026 15:44:40 -0500
+        Sat, 14 Nov 2026 13:03:09 -0800 (PST)
+Date: Sat, 14 Nov 2026 16:03:06 -0500
 From: Alan Stern <stern@rowland.harvard.edu>
-To: Hongyu Xie <xiehongyu1@kylinos.cn>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+To: Alexey Charkov <alchark@flipper.net>
+Cc: Neill Kapron <nkapron@google.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	usb-storage@lists.one-eyed-alien.net,
-	syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com,
-	Liu Qi <liuqi@longcheer.com>, stable@vger.kernel.org
-Subject: Re: [usb-storage] [PATCH v5 0/2] usb-storage: bound the ene_ub6250
- probe-time card-type query
-Message-ID: <9b81c4c1-998a-4dd9-a998-1605f4781dd8@rowland.harvard.edu>
-References: <b07b5f5b-4722-4f1c-84b9-205ba9b8943f@rowland.harvard.edu>
- <20261113073638.1225998-1-xiehongyu1@kylinos.cn>
+	Xu Yang <xu.yang_2@nxp.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] usb: gadget: udc: Clear a pending connection when
+ starting the UDC
+Message-ID: <fac47d51-885c-4d83-be9f-860cf70816cd@rowland.harvard.edu>
+References: <20261113-udc-connect-v2-0-f51b11f07eb8@flipper.net>
+ <20261113-udc-connect-v2-1-f51b11f07eb8@flipper.net>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,48 +104,61 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261113073638.1225998-1-xiehongyu1@kylinos.cn>
+In-Reply-To: <20261113-udc-connect-v2-1-f51b11f07eb8@flipper.net>
 
-On Fri, Nov 13, 2026 at 03:36:36PM +0800, Hongyu Xie wrote:
-> This is v5 of the fix for the ene_ub6250 card-type probe hang.  Changes
-> since v4, following Alan's review:
+On Fri, Nov 13, 2026 at 01:28:16PM +0400, Alexey Charkov wrote:
+> Since commit 62911bc82b03 ("usb: gadget: udc: skip pullup() if already
+> connected"), usb_gadget_connect_locked() returns early when
+> gadget->connected is set. A connection requested while the UDC is
+> stopped sets that flag too, without enabling the pullup. A later
+> gadget_bind_driver() or soft_connect "connect" then finds it set and
+> never enables the pullup, so the host doesn't see the gadget until it is
+> unbound and bound again.
 > 
->  - Split the series: the transport helper comes first, the driver change
->    second.
->  - Drop the shared 10-second budget.  Each transfer now gets the full
->    timeout; a timeout at any stage fails the query immediately and the
->    query is bounded to about 50 seconds at most (five transfers),
->    without the remaining-time bookkeeping.
->  - Shorten the comment above ENE_PROBE_TIMEOUT, as the reasoning is in
->    ene_ub6250_init().
->  - Drop the unused initializer of the bulk pipe variable.
+> This happens whenever a UDC driver reports VBUS through
+> usb_udc_vbus_handler() while no gadget driver is bound, e.g. when a
+> Type-C port controller switches the controller to the device role at
+> boot, seconds before userspace binds a configfs gadget.
 > 
-> The transport helper is recorded as a stable prerequisite, so the
-> dependency is available when the fix is backported.
+> The pullup is never enabled while the UDC is stopped, so clear
+> gadget->connected once it starts. The bind connects according to the
+> VBUS state that the core tracks anyway, and a function that deactivates
+> the gadget during bind still has the connection recorded for
+> usb_gadget_activate().
 > 
-> The forward declaration of ene_ub6250_init() is still needed: the
-> unusual-device table is generated by including unusual_ene_ub6250.h
-> before the function definition and takes its address, so removing the
-> declaration breaks the build ("'ene_ub6250_init' undeclared here").
-> realtek_cr.c uses the same declaration for init_realtek_cr().
+> Fixes: 62911bc82b03 ("usb: gadget: udc: skip pullup() if already connected")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Alexey Charkov <alchark@flipper.net>
+> ---
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+
+>  drivers/usb/gadget/udc/core.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> Testing: with the syzbot C reproducer, the unpatched kernel blocks in
-> the probe for more than 143 seconds and the shutdown hangs; with the fix
-> the probe fails after about 10 seconds with -EIO, before the SCSI host
-> and the scan work exist, and the system shuts down cleanly.
-> 
-> Hongyu Xie (2):
->   usb-storage: add usb_stor_bulk_transfer_buf_timeout()
->   usb-storage: ene_ub6250: don't let the card-type probe hang forever
-> 
->  drivers/usb/storage/ene_ub6250.c         | 110 +++++++++++++++--------
->  drivers/usb/storage/transport.c          |  31 +++++--
->  drivers/usb/storage/transport.h          |   5 ++
->  drivers/usb/storage/unusual_ene_ub6250.h |   2 +-
->  4 files changed, 102 insertions(+), 46 deletions(-)
+> diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+> index d5844384c368..577bc15f61a1 100644
+> --- a/drivers/usb/gadget/udc/core.c
+> +++ b/drivers/usb/gadget/udc/core.c
+> @@ -1236,8 +1236,16 @@ static inline int usb_gadget_udc_start_locked(struct usb_udc *udc)
+>  	}
+>  
+>  	ret = udc->gadget->ops->udc_start(udc->gadget, udc->driver);
+> -	if (!ret)
+> +	if (!ret) {
+>  		udc->started = true;
+> +		/*
+> +		 * The pullup is never enabled while the UDC is stopped, so any
+> +		 * connection recorded meanwhile was only a request. Forget it,
+> +		 * so that the next usb_gadget_connect_locked() enables the
+> +		 * pullup rather than returning early.
+> +		 */
+> +		udc->gadget->connected = false;
+> +	}
+>  
+>  	return ret;
+>  }
 > 
 > -- 
-
-For both patches:
-
-Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
+> 2.56.0
+> 
