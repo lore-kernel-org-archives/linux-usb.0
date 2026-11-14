@@ -1,99 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794632496;
-	b=qomBKjiCtgMytLZCfcklm9u0DcuSOjBXKOMacnobsGI7f2e83Ipg7oUwibs5SgyJy0g/
-	 nziLiMM4Cbr8Jvsn1TDZbG5ohpP3uDep2bF2dvqxUFLfhuogU5RM8RF0Pigv+kWrYi3x+
-	 7AYepYl3z8wdNkCLIqYtNlur3iHTNSiXRiubFWCiLi8QWrQGplaVA2Ce3xgTQSHiw1iKv
-	 lA5ulG6bRZMkL/+gKd8z8W0ZMUeXXl5GERHEAzjMkWKugTWLH/uaWMye1bxzTZ9b+OjHn
-	 jjOyd6AUVN7xEB6faqk/ZJvHE+Vhu/7wMVUqXm9PwEuvh8+waqpCZMdaZKkvlYSyoaQ==
+	t=1794633004;
+	b=aXHDE/0mCXZEmQNtpgpxhvzSUmQUwVx/v+aNXDXGOtJ05IL8Bp7gNHJ2EwA/xCj866g3
+	 JH7brqYMlYRm+RZ2HuYiDfhhY+axJFPw/gV/UWmcvoDU/zA8YgpxDd18u1BR0q+lERb6r
+	 5F5A3NZ72RdN237vAG1xH4nHXArMVqdGURpBk/fNQIHbp1Vu895KW9kZ9gVqEg3RmwQeq
+	 wlBd4973KbHEYaKMh2NTf6mQSTAmPyt8gcaaDOHZUXbuduhbFV1uqSDxNQXzZ+F+5L2TX
+	 i6CSfZY22pwn5ewWfanfZSQMj0G5XAHOMTk6RYwGKGy3nvmhZTzPnId0r1mLtOglkqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794632496;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794633004;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=XsyBqFQpB4uqfmK/Q9kt69A4CrjPtbiX6wa6hMkSoPo=;
-	b=kDO9/hMr7UbWyBR2K7SWG5cMydT34GMsGoTKv4X+mgzU/FCC5JOcfArwiIlq5BV27VY1
-	 Pdq5w2d1dns3EAAVXRdGggem+P1rzj40A1oIsH50cK0GOTRNLARYsuWmxOC3JcZsS3Uhc
-	 cInG0C5AGzvR4sKtvIFmp7Dt6CrgIz3S+2j6E/F9G900bnBIjnE+p9hCbju0xYqtMYkqA
-	 MKeiBTLtXZPjk3YMKNUSMf4KJ0bDUIr86H7MJZ+MQEnxaHx7YFG7Cq7a752IojsscY0Fy
-	 oZ7F51DP7qj6oOjevVf1/NBkYOL5DCau6IWG/A0sIbSQrxQaECEnKZXRdYkCPH3gZXA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=VUh/PFi1lDb3micsC8D/BbCK473QFmrlieov/ej0JWU=;
+	b=wBogzZKnIIMPtefOXPue+p2yI6QrwLeMXtpIY96UYBuREwXuaARfXWQ6NZ7oqq5Dg4Cz
+	 CzRTBEzBK9yLQWuoCg8yEVh1uvDw4fg5RxnTF9r3Nh70tzWtlrpvUGueqmp7z2DnOaAMf
+	 y98vu8zWXUIXa2Yq4gdz2iwXFjdltes0z8K7yh12ISOwTPtwmbFnyRBy9WL7qyZ7h++rJ
+	 5ND3fadm5Xaj3lkVqhpdXb8IN6LhOzk311mFOeXkkyNzDgSVDT/VH/O/4VP4v2vLmhy3w
+	 QenNiGPt+6wRBfBg6NaxCgH7EnBvJ2ubtu7DdeBD2RsknjIU0Tu9ZK0exnSv0fUve6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JoOiROaT;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vpXcrQIp;
+	arc=none smtp.remote-ip=209.85.216.52
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC7B606A885
-	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 05:01:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CC7B606A885
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4FB606A88A
+	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 05:10:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA4FB606A88A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JoOiROaT
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4b7252a32c8so23669475e9.0
-        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 21:01:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vpXcrQIp
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3b0a519049aso2316607a91.1
+        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 21:10:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794632494; x=1795237294; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XsyBqFQpB4uqfmK/Q9kt69A4CrjPtbiX6wa6hMkSoPo=;
-        b=JoOiROaTWElWJE/9OqmMcTcIEuBaZ9LFk+zZjR+KV3E2MgEALRFAz8g9l44oWgTpKW
-         qclPPYr9pwJp8ludq/OulNKENxbDXJdVjUDL09hiEt6S4Y/X21V1+cUKZizLzoQx7Asd
-         klCu4PjDeXbR6e511SzOwQ2lngjkAjWv1/vuNQBEHmGQP86DbbsqHK7q8jwWg3pEyFCc
-         RvDxhUgfx+Q3sCp6ZYd6kpIZWXhCS5Jhvz1z6mnydrf2BWaj8ZXV7BBbCEe/DqAx3pDp
-         BdpRZ7NqcVFMXKNUCRmxuXNKatZHpxvdb7cbakINnm7zFC41L2EBYnAVeS3vSHnGZMBq
-         T1PQ==
+        d=gmail.com; s=20260707; t=1794633000; x=1795237800; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VUh/PFi1lDb3micsC8D/BbCK473QFmrlieov/ej0JWU=;
+        b=vpXcrQIpE8QmiuCYPGBGK9RQKIMyMiybG8Uli5btFf8XoUz1ZlpENF//fzVzuCfuMw
+         iOgSjMxwidMCnvs+jdE5E3j4/HMVBdifXsAvIXlIX3EoIgSqvNZz/RvUpaW1L7+rWOEF
+         GPrqv0RGU6YjxGRCplKrxiMD5tl+4eimQQS4Evib6ZX/GpN1lzz970z1vEQgSgONuCNU
+         Zi8hmOn6AzUCslniyq7X8l9os0xrhbnFPgbpkAwLdOynUhzjYYdD8ev++4J1XgAVgrHy
+         vmPYzScg26uhNDwtMaDhNIG5fV+3i/se9+BVmeBkqO8NHT+q9NJjmaTQ/45OgEPK8hmL
+         LHag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794632494; x=1795237294;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XsyBqFQpB4uqfmK/Q9kt69A4CrjPtbiX6wa6hMkSoPo=;
-        b=cAZ866JgnWRFq8IIqN699QpHUh9LubF4lYSTfJnMk9ff6QiCbktO8X7jSB1XOnyG+w
-         It65yJMm35rl9mPqD1AiJ0YvvdfD+qshPeiqKaSGosnWL5xbFFZzJb+3+aoKJhe45oLi
-         QFY6n+0b3Ta6JUSlgqRfEJh0dU29CznzDRk4osTE7mc8UGM5koZzOiQMgHRvgKK7bJjM
-         Eup+v/C32fD8DQu4dsR4hemp1slXUbnVuuc+bhUlAwEiayC+LTqrU6J6IHtryvLr2tpT
-         E5eBDtp0CG/GBPLDPqAs20Nv+C8djxLDRgufZeC0q+dTEAO6uyRr1JMye2LUhU0ulqIt
-         5mRQ==
-X-Forwarded-Encrypted: i=1; AL+hErHSDoiAVK/jdI5YdKlnCmka8MYZ0EHrfg3R8RQC5SgCI7GpCVqdWSwT9Khlsu/pBORfL/BI5me0hxc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z88g4c5h8cNASgUGhp5xRx5sPARU3Q3s+/KwThWYdTBcPQvJR2p
-	YGNnFO3yrXVekn9ceKnUVijVO24+QE+df6BlF83GRJ+0v/32UNRX6BFm
-X-Gm-Gg: AYBFou1PRaNy2H33+wNLewhN5oQI129lnKwMNiuUD93bmvTQKxCDtvtNKRQaJ46OAGe
-	AgFgsAs0fDwXr1OH9kN4oJ5a4TfwmzaVliC0S8hncVTKr9QEz1JPrePMgGyQz8YYbNkNvsNBifL
-	2a1pmHjb78TDCwU5cUC6qOYYRrM0HQuf+WFSj6wcqE/nrGj3M1tuzJVmB3VL7n1QBRnRit8Mrb3
-	cgvaj8qAI7m7J8guBdMC7MHiq3Qjg7AYrXrZ+OsgCM4e7xYsryfhw23WrhIaNdgpO4pV0qlk6gi
-	EDT7gDYW0vGGm0gsL45wdqOlI3emRXWcK3AlhrZ/cwFkrMw1LPAxTsAGRc1KkAnufwI/QS7C6JR
-	WQ3ipg0ODWV7xbfJkUbL0OSzcvyELzlT+qmGgOKUiyc2FY2VHALPIsL/5KnRq8NAP3jIIle5/Gb
-	lJH5G59jyuLmNxcOWYQtlVfLrrDCOLioijV7vJbCPLKRTJ2WaFLLYgB+rYQcX2fr6CksuFJQpS2
-	KeynGEeARbMUtGqGXm5bPvcfktxdgwthfbrHPa3AnYboNmNSNNd9uxKN8q6OK0fWV5fDdz86YKM
-	lm/QRHmcjyD894iHgUfBNRlD4KLICsqZDhKxQ1CpmaVPLvKVGYi5/h9hGIxyd59X+RaNM/FX4aA
-	9s+mEe2vDe4DRxN0be8vsfCHJkpAjII1b95HBmupvR9KZyEJl2umoQje+S3CYAA4293M=
-X-Received: by 2002:a05:600c:1913:b0:4b1:2026:6b41 with SMTP id 5b1f17b1804b1-4bb55ab021bmr98950275e9.30.1794632493836;
-        Fri, 13 Nov 2026 21:01:33 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb5671059bsm65540875e9.1.2026.11.13.21.01.32
+        d=1e100.net; s=20260707; t=1794633000; x=1795237800;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VUh/PFi1lDb3micsC8D/BbCK473QFmrlieov/ej0JWU=;
+        b=I92QCXcS8kNvVcV6Q1M8Di6Y49Iwki+OmeAe98dMEhDc3+baL5/wDQKoGs89EZLCOC
+         CdNdDdFuvtVuyv/Jj0XgEmU9TUePnJzVZUaxqMeDduyL+My5LNngfOEl5nccadI+DQFe
+         B/CbD5gWzmHzmk32N07zxAw9h2fKjd924Oof3/3hJZ0iPsUGMExqgVziTSTw5rUwzhZU
+         5J24gWLHifE+ciX3fmQnVS159GoKpAS1iH1CW9q81bUUavY7hB+qlQsQIGTtFupZLWkW
+         S6lvdYz+2fTvpjzcCIKtLLOK2YbGvuDPwzDECOc6GRXyNNPMmhL31etHGKQhR+LgYu5u
+         yPdg==
+X-Forwarded-Encrypted: i=1; AL+hErFsR995YmjgLgxlwvbb9SOEMy0Nd5l0KI9XcsNOkHBZYdYJh72EZGBxDu4AvggibN8sIFRjQBl8iTk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8IeC6y32qgv8q/5rDFkKJmSpkATovDLcetidFY3/AGx8mkr0jZ
+	nEUbmYY2ysnMMSgsfyDme2oFSjHooSF7oIn1JAA1huO4kBanCLNbuQPX
+X-Gm-Gg: AYBFou1iunsGetvq2ncjtajzvQXzwca5ywTBZtPwQv3pU5jQYVMT0rgGoz5mk/hfDSM
+	/8JEoqoCIs+0lQN+MmbqdI04+JNAVJdA+YM6/ZzOYSk+0kJeny0BnVNuqzDhLrkku1TQnPKipw+
+	1UnBQ2WmoM6D+QC8m1e5xm0EKwynOl0kUyGdp6GmftMSVJ7j71EvkU4OIsAJ7bibgkawGitPte/
+	AgjHw0eKhGPJsTyt+K2gI84WjQ6L1w01um/FXXMmByUJoijWzIF1fS01RXO/vtB3lbMwCcKGFBd
+	ZzYA6SREIsIhJ/hHo4myEHIJVo/GVkwWJNFNYrGEr/x/J3vehecWcBPGiPCf3PQNT1/+m1q7cu5
+	9NEBDMmrI5ET7Da16XTxPpT7ZryPDsgYw5GHReZ5ulqLe2SmK67hj3VOObixQpiJTdWQ2UUvTaE
+	kQD4HRmr+rXh0kbI8SEEuZNykTKt11pkdlE5+PS6g/EcJRp5WgQohYCd61yUtUuQTWyiHGgJIm+
+	nlF4o7ySsWTS5v7M6b0f9f/cjFoB43JkrM3rl0dFxzQ4gxo8PYte8Fbhh/9xiIKMV0meiRRZ4b9
+	lVqAdXR5jtvqLiKOyGFRICm+esfJ16nEcQZqJSAptYFc1LgflDmu
+X-Received: by 2002:a17:90b:3146:b0:3b0:9a13:c5d5 with SMTP id 98e67ed59e1d1-3b1b0b57dd8mr4332886a91.16.1794633000237;
+        Fri, 13 Nov 2026 21:10:00 -0800 (PST)
+Received: from fedora.lan ([172.219.65.15])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197d257a0sm12776577a91.11.2026.11.13.21.09.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 21:01:33 -0800 (PST)
-Date: Sat, 14 Nov 2026 08:01:29 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Shunbo Shi <shishunbo@cmss.chinamobile.com>
-Cc: dan@pereq.eu, elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, johan@kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Fri, 13 Nov 2026 21:09:59 -0800 (PST)
+From: Artem Novak <artem122novak@gmail.com>
+To: Steve Glendinning <steve.glendinning@shawell.net>,
+	UNGLinuxDriver@microchip.com
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Alexandru Tachici <alexandru.tachici@analog.com>,
+	Andre Edich <andre.edich@microchip.com>,
+	netdev@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH v3] greybus: verify the received message size covers the
- message header
-Message-ID: <avfrKSBbpEp7vQyO@stanley.mountain>
-References: <avV8I97uZJgX8Osk@stanley.mountain>
- <20261113234739.1432-1-shishunbo@cmss.chinamobile.com>
+	Artem Novak <artem122novak@gmail.com>
+Subject: [PATCH net 2/2] net: usb: smsc95xx: propagate MDIO write errors
+Date: Fri, 13 Nov 2026 23:09:54 -0600
+Message-ID: <20261114050954.275495-3-artem122novak@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261114050954.275495-1-artem122novak@gmail.com>
+References: <20261114050954.275495-1-artem122novak@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,51 +106,60 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113234739.1432-1-shishunbo@cmss.chinamobile.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 13, 2026 at 11:47:39PM +0000, Shunbo Shi wrote:
-> In gb_connection_recv(), the size of the received data is checked
-> against sizeof(struct gb_operation_msg_hdr) and against the message
-> size encoded in the header (msg_size), but msg_size itself is never
-> checked against the header size.
-> 
-> If a peer sends a message whose header claims a size smaller than
-> the header itself (e.g. header.size == 3), the two existing checks
-> both pass (size >= sizeof(header) and size >= msg_size), and the
-> message is dispatched with the undersized msg_size.
-> 
-> In gb_operation_create_incoming(), this leads to an unsigned
-> integer underflow in:
-> 
-> 	request_size = size - sizeof(struct gb_operation_msg_hdr);
-> 
-> The underflowed request_size then wraps back around in
-> gb_operation_message_alloc():
-> 
-> 	message_size = payload_size + sizeof(*header);
-> 
-> causing kzalloc() to allocate a buffer that is too small to hold
-> the message header.  When the response is later prepared in
-> gb_operation_response_alloc(), reading
-> request_header->operation_id reads past the end of the undersized
-> allocation, triggering a KASAN slab-out-of-bounds report.
-> 
-> Link: https://lore.kernel.org/all/sashiko-outbox-210716@kernel.org/T/
-> Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
-> Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
-> Closes: https://syzbot.org/bug?extid=0b456664585fa81a47f6
-> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
-> ---
-> Changes in v3:
-> - combine the two separate conditions and unify the error message
->  as suggested by dan. Thanks!
+The MDIO write helper currently discards register access errors,
+and the MDIO bus callback consequently reports success even when
+a write fails.
 
-Thanks!
+Return the error from the helper and propagate it through the
+MDIO bus callback. Continue treating -ENODEV as success during
+device disconnect, consistent with the MDIO read path.
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+Fixes: 05b35e7eb9a1 ("smsc95xx: add phylib support")
+Signed-off-by: Artem Novak <artem122novak@gmail.com>
+---
+ drivers/net/usb/smsc95xx.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
+index f85ee5f8a539..52035c160f4b 100644
+--- a/drivers/net/usb/smsc95xx.c
++++ b/drivers/net/usb/smsc95xx.c
+@@ -215,8 +215,8 @@ static int smsc95xx_mdio_read(struct usbnet *dev, int phy_id, int idx)
+ 	return ret;
+ }
+ 
+-static void smsc95xx_mdio_write(struct usbnet *dev, int phy_id, int idx,
+-				int regval)
++static int smsc95xx_mdio_write(struct usbnet *dev, int phy_id, int idx,
++			       int regval)
+ {
+ 	u32 val, addr;
+ 	int ret;
+@@ -255,6 +255,12 @@ static void smsc95xx_mdio_write(struct usbnet *dev, int phy_id, int idx,
+ 
+ done:
+ 	mutex_unlock(&dev->phy_mutex);
++
++	/* Ignore -ENODEV error during disconnect() */
++	if (ret == -ENODEV)
++		return 0;
++
++	return ret;
+ }
+ 
+ static int smsc95xx_mdiobus_reset(struct mii_bus *bus)
+@@ -306,8 +312,7 @@ static int smsc95xx_mdiobus_write(struct mii_bus *bus, int phy_id, int idx,
+ {
+ 	struct usbnet *dev = bus->priv;
+ 
+-	smsc95xx_mdio_write(dev, phy_id, idx, regval);
+-	return 0;
++	return smsc95xx_mdio_write(dev, phy_id, idx, regval);
+ }
+ 
+ static int __must_check smsc95xx_wait_eeprom(struct usbnet *dev)
+-- 
+2.56.0
 
