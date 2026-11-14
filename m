@@ -1,94 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794633417;
-	b=xcVnZIElzlzSyvt+iJ1jo2zMzUyEuiXhrVsf0HqZ0uPZiHGEjq6G+c9iId+CmMyUZPDL
-	 yJWuS8lBz+Z+KzqngXHQn3q5qHh8QbQc6UuyXStal4c7y0rnCR8reFRy4FfFFYsE9da8L
-	 g1FbaZM3SWQAuKs01wVy1Tz8j1iLSRNy6/8saYSW6Uu+JPxlzRqgCpg81EfIRyNIh+SFH
-	 EwSf8i5W/3vr5L3nECy2rg07w8qHB6gkjh5FpUSvT7x0hmhxqODSUSqPlGcWaMgNm8H3z
-	 5jaOw24JHxc4RNLoj0mhPDQUHsVWTiizNN4zxMP19zF3SB5Y4uCKgZrTSC6CA/fL/Ew==
+	t=1794633430;
+	b=DL/ykdmxTPkt4uu8sQNhdLVT4A2tLODkGsVCxAId1mhfjP4iReDcNAlEnMHjq+TfUqYe
+	 4Pz/FTUjFr+hDhrn5g7s8HySpL23ZihzAHUwaxkXwaLPrGpFxTkVA0M6ouz0A72W+7Wmm
+	 xz1VeqLFDMK3Mw4vikiLDTQGEg+RnmlvsT6oVvLxHKIE5nfGLbd4gCrKfzX74QuQ+Oleq
+	 LWsubp02qiCAHOXBM28LNEydIZNRjrJnoBuRfo2+pHQyvQvgJfUpPXKjKiXPdyzFMbJf9
+	 t/EFHTLLqvDySqjLLkSF4KXfB0FgJTt06jaxiTxeVP5nJtUMDPBVbaeFai6cGbWACIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794633417;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794633430;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ll7jhLZgwMwLpIUdadEteFwGCdAM3v9q3dzDrOrzFVc=;
-	b=MFsL87k/V0IMdzcnQ2IVSFDZJ2HovjzWJyxNpo9n5H9Arex/H+tIeIuV8Ih51IAxudUd
-	 Qvve9Xe80d09IWuXisizl3F+ZdrfFqoanzB8kR8CpZVZRjQVl+69WQucZJFNzH19C8EXF
-	 MM1Fxm/GHe4vcqoG3gJ8KES75bKZH2xEgCEW7eewYKaImt/rW2Dx8siRmcFTnsNmoTyFx
-	 ana3ctom/vssvPaueKjZ+DurjXOw7PBIDKzb0D7q6IyMIey6qogdIZJAXQSqVlzg6t8e3
-	 1SHtZxn1j8MYqm8WuwReC0lhYLkgKLuG8HH4enSzRrdPqdx7crqWGWitSoSya4HVSTQ==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=Ul/Mm6esIQglrdbTusQ43Pj+MhZ2aiFEr9hbUrD0IlQ=;
+	b=O+jNnaNX+F0yTkHnwgARkQY9f88gohzfCrCrSTiIcrOn24s+fdSzMks1DcShiG6RVtyp
+	 4mxxRsV8UdU+u7G9V7+JB7ynXzJNEwISIx5WGfCxTXfwmvEFV6KIEAImR0O+zgWQblELi
+	 iyS1AhmefhlTEVeWta4eGHYcTmE3DjNOCBshUSF+XWEI8oIqxdniyWh77ilxGi6jNLpzW
+	 G23/iZQrmOUh3AGeKACJXEQpQz4P5ZhpukiOVWGvh3kosbsfMk0rvUUM29Qj6zArC9GKG
+	 8FkVis/LmpNaOSeyxB/vM/+OWwHgR7+ecl0NqwrGAca9ALEQb+0NteEHbe8cLN4BMzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=wkennington.com;
-	spf=none smtp.mailfrom=wkennington.com;
-	dkim=pass header.d=wkennington-com.20260707.gappssmtp.com header.i=@wkennington-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Q2cPYHkE;
-	arc=none smtp.remote-ip=209.85.216.41
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=F39Vog5H;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92D7606A330
-	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 05:16:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D92D7606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wkennington.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=wkennington.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD449606A339
+	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 05:17:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD449606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wkennington-com.20260707.gappssmtp.com header.i=@wkennington-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Q2cPYHkE
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3b0bbdeae06so1384167a91.1
-        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 21:16:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=F39Vog5H
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-36dbde64409so2551152eec.0
+        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 21:17:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wkennington-com.20260707.gappssmtp.com; s=20260707; t=1794633416; x=1795238216; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ll7jhLZgwMwLpIUdadEteFwGCdAM3v9q3dzDrOrzFVc=;
-        b=Q2cPYHkEpNV1LyzjQlmgMsMJJ0fxIfGK0C8BXWsine5b4wYSJK55dhGjG6v8lsrF9w
-         /Fba20TwkJtE0LUUiPiLrVVOQx3xTlFaE9EsdLi7bb5LelToet7ntiNXVoGHceNj8p7k
-         KfwmhlSyugQj+Qtk89hAMY+Apr4f5plpOWq66C0CxKv09ey2tbHUa4HX2NcVFPcgMq2u
-         4ACGBvE36vJ62TeHP6//oB/L3g5jI/k5rBBZoIOa6zjxRJRnotlLhAS6lspvwiXDXdgb
-         kEhwO0gPE+ZEvoTrMajfyskcEL5fu2EARPGVU4MGI5FE2ESJuqnSVcLjjiCPUR3ByI1z
-         njFA==
+        d=gmail.com; s=20260707; t=1794633429; x=1795238229; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Ul/Mm6esIQglrdbTusQ43Pj+MhZ2aiFEr9hbUrD0IlQ=;
+        b=F39Vog5H0GYnbeXhGNAX3OElbOsU45zIwB5w21GdUbCSHbbxvTpYzo1RGDzRudecMx
+         r33rYXY5+agZRNp7dhPjR+zgwJrLxh9x1CHGXUNAWud/1Epnl6mBbnaF/K2aWnlyac63
+         L5nkkKWJCCI/9pHMcWU9xcY7ZI75cbEc0W0rmWu1jwv51NKzn0AWJKKTcGykMkpHJLo0
+         xqt9/Vp5CHJPkI9wQnFw8tsbfnDz5Eo2Wc3Qgi8n4JtR3Vmw69VpgtRYXCDxedMv40M1
+         XlQ3nOyGHi4L3+7VPTyU00aHGg0QyBq2uD4TTsrQZfViWiBk7dG+D5P7nI/U5r28fInK
+         YU/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794633416; x=1795238216;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ll7jhLZgwMwLpIUdadEteFwGCdAM3v9q3dzDrOrzFVc=;
-        b=w4nA2Gt7ckbqGE6ZnNPgCSUZ8IbelNPi8HtcNTIF0jwsoHV2sCLCU0OHMFhx+j9F2h
-         WcGTnaOiV2TzIqtj4tbsGmFns4B1Gr3FHIbyJ1wLy8LrTKlNSi+xvZXVrG1I8hlkkbwo
-         yt26H8HNiTF418XU+bWERpUJdsBusQZsMWESLhvukx1RHu2+WX03USPFH67FigAUCbbM
-         cVxUxnSuC1ZcHRwHWLIsEwVbpTNPu4cWz6KBn+OaT5CIMSgO70l6UWGop8DUbBmukU8c
-         rurRuiug4tqWs7dJk3GTSnOZf1dkpohiPHGPIA4w2GmaFcjYY5fgDXD0cT7r9aw8AV3E
-         PGiQ==
-X-Forwarded-Encrypted: i=1; AL+hErHKuxfQ+Uw3oW/NJCq7ffu0FxI4wTHTIX103w1lUeFRdV6erdd3VtRxFZf+R3aPqtD06Y0yeHKwLG8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9nSwrYoM2hG7TFBfIOvu2RN6XncyP0a0kAx7JqAsY4ja5HRhzs
-	UiD/VOGLFdAlFi3k3H5NRp+KUdY6z0s68Wn+xOxIaNC5uOAYWDySUZ72FAJaesur6Tu4ctJwKfn
-	m9kc5
-X-Gm-Gg: AYBFou2qJqXNCuRiYtDqGMBLb0qse+UkjJT+3/L/Gc4O/iRpEwX1rVVFBGmNlRS6wv4
-	11OItarU8E7yHYPHFCkOxL0O18AOk74rPHi6w7tgcRfursMKT8uTzqshllIU16NvQScbNeEfgIy
-	hIPz+Tq4BpEqUYPGNH6bvFZwxq71MTrohRjyw12QRnGJz2yN7V1hkbrUdzqzCCeDPrzJTE8J4Ut
-	9GxMVsoJD9y4J/dF5nHNvr4ZxebvX+JSqJJFo1RtBM59hSKMNaFQB97wKtKQtyonduAMqX2qTT3
-	Fv4urW73mw2xQ1qKkME3go5aSe2ZB/npl0thgJQakTkhlT7vfiE5kSkL8/viGHqQuChoK4Xy6yH
-	60cmcH26V1+z71j8JQGQtA29EakcdjPHBZGv3SVETmyY8mUCxhE/bVJ3EG6+eFcFpsUupkS1u7G
-	A+iFa6yCTcK6+PzcA2aW+vUJsHx9fKDmnIoq8epwC3jHVcQkGUgFoHxG/FPCpJHxBFqMzw2wXjJ
-	ujzwl1i/u4thjClqXvJcHFUMLhA/WJMI0lcZN0/4EgjvvBW4aTt+5hTx86wChDuhcW5HMdO+awi
-	Nl16R/Kx5mK7tOQnvzzfVdW82nnnOp7gQbPOhAG3IsVu2GpCiOwGG9EBmFMz+MDW8sagZe5IiGE
-	1zf4s7RH2HT04vA==
-X-Received: by 2002:a17:90b:2e06:b0:3ac:8897:7bab with SMTP id 98e67ed59e1d1-3b1b07e1cd4mr4285508a91.6.1794633415987;
-        Fri, 13 Nov 2026 21:16:55 -0800 (PST)
-Received: from wak.c.googlers.com.com (246.21.127.34.bc.googleusercontent.com. [34.127.21.246])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1ae981c55sm7582410a91.1.2026.11.13.21.16.54
+        d=1e100.net; s=20260707; t=1794633429; x=1795238229;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ul/Mm6esIQglrdbTusQ43Pj+MhZ2aiFEr9hbUrD0IlQ=;
+        b=FPnZwkbe0XalKKYaoUaMV44AcdKHnVCMuPUuYyDBFbtSYYiLIz85ZH0psvlfYzLeFD
+         h8TzmuNnmFma3mJ0rOLDF4JlSptpWeH6uMWXr3q00uXbK+1SJdmbo1htPJ/Jq/WHmIWl
+         EP7NWzus5EzPc88xJD9WZaG67vZTkKQIwUNeo1Unzy2L1U46LrN4Iz0IM3qyXu22dHKA
+         3HglM4xzNc8Dft8B4tchUy+fFZZmGXQ/KexixHLnSeif9o8S21ypPx78AlJyueXfdXLI
+         WwEVHnzi3hvdTaBE//IW9bLC4MsRXVlVCRkNdKrhc7oUFxZcNbF88TeiRi294lwDL0TS
+         3Nyg==
+X-Gm-Message-State: APuU4Z9QuNc3WqN/nLEd844DVqjM4Wm06RzQq5TZYxlFdnWJjbY+XgPn
+	Nf+UgQ97coXEhI7UN8Sn6lu2v4FcMyXfKC32wR5PznUBxL0TN6Puo7bg
+X-Gm-Gg: AYBFou0K5ZfG7bWtBNzHc1m1Zf7USc8k+2RuPSXMAexRqqZLj8YXk1EC+EH2hM23Z+Y
+	Kfz/JFMpWSOlcjCBswwCts1rx4e32vwIf9bdTC2O9dljtwZCb2J95YS5iBueX/7EuzA/ozuV2dt
+	KSwx6f/7L1hikwE1JpDomKGui9A7JR4oyS7JV84wUZ2kPqJKyDPFvUZrNeIbIhh5z8GfeVY+xAW
+	A7v1hgX2SzOBobuZyDAUeAYm9MdDCcvQhhPA9qPrmMbdm1Ugcz1CsAQ7xUsNaJMB+0XyEAkq/Tx
+	3hz613sk7vzmvQ5niBRzNopurMejxnH4lNOJrxkXnoNGuDo1zOCVzM1I0pJOqS7WgUWTTC94HV5
+	gOj8CaDizecIXxWWRa+IyIsAwWpopZk/HgIlzazsWxZEI+TCi3PQ7wByCMlNFdEwtcD8Ale58VT
+	/1NGsUMum6aFeG1hbZkpb3b5fiWa5DhcWjwFpfNYB6kBg/prkPXt7WmIsh+8P8xqs9VV4b9DcQY
+	g1J96A5N+JvqO0J2XCrAw0C2BKhKAOHzLGUJyC4LA6gr9D3lFWhRIbLnWgYZTBDor37KLPeBNmo
+	ibO0hitP4ckojtV1EuQV6cvoZmEf2ApB0OHpNviif34d7G7WUR8WV1Lgn0rkiU0qtAr/SXg5V9L
+	2LcuFozLGappiGiDbEqpqI0Za
+X-Received: by 2002:a05:693c:864b:10b0:35e:f4ac:5f8e with SMTP id 5a478bee46e88-37960384530mr4341028eec.0.1794633427555;
+        Fri, 13 Nov 2026 21:17:07 -0800 (PST)
+Received: from [127.0.1.1] ([2602:feda:30:cafe:ec49:38a8:0:1866])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379563df84fsm23500088eec.20.2026.11.13.21.17.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 21:16:55 -0800 (PST)
-From: "William A. Kennington III" <william@wkennington.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"William A. Kennington III" <william@wkennington.com>
-Subject: [PATCH] usb: ehci: skip companion handoff when no companion exists
-Date: Sat, 14 Nov 2026 05:16:53 +0000
-Message-ID: <20261114051653.1353346-1-william@wkennington.com>
-X-Mailer: git-send-email 2.56.0.567.gdb80ae8cd5-goog
+        Fri, 13 Nov 2026 21:17:07 -0800 (PST)
+From: Yaohan Li <shunsheng1218@gmail.com>
+To: sashiko-bot@kernel.org
+Cc: linux-usb@vger.kernel.org
+Subject: Re: [PATCH v4] usb: typec: tcpci: acknowledge masked alerts and
+ quiesce the IRQ
+Date: Sat, 14 Nov 2026 13:17:03 +0800
+Message-ID: <179463342382.425322.3485675052545000005@gmail.com>
+In-Reply-To: <sashiko-outbox-212527@kernel.org>
+References: <20261113084928.211885-1-shunsheng1218@gmail.com>
+ <sashiko-outbox-212527@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -98,194 +100,29 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-EHCI controllers without an integrated root-hub transaction translator
-unconditionally set PORT_OWNER whenever a root port sees low-speed line
-state before reset, finishes reset without enabling High-Speed mode, or
-is relinquished by usbcore after enumeration fails. When no companion
-controller is present or enabled, setting PORT_OWNER routes the port
-away from EHCI to a nonexistent or disabled controller. A single missed
-High-Speed chirp or transient D+/D- bounce during reset then strands
-downstream USB 2.0 hubs until EHCI is rebound, and connecting a USB 1.1
-device leaves the port dead to later USB 2.0 devices.
+Hi,
 
-Check during ehci_setup() whether HCSPARAMS reports zero companions
-(HCS_N_CC == 0), both CONFIG_USB_OHCI_HCD and CONFIG_USB_UHCI_HCD are
-disabled in Kconfig (such as in aspeed_g4_defconfig,
-aspeed_g5_defconfig, and BMC builds without UHCI or OHCI), or a Device
-Tree companion phandle points to a disabled node. Runtime companion
-binding is intentionally not checked at setup time so modular or
-later-probing companion drivers still receive handoffs.
+Thanks for catching this. You're right: the v4 handler can read
+alerts_quiesced as false, then see alert_mask become zero and return without
+acknowledging a pending alert.
 
-When no companion is available, set ehci->no_companion to skip
-PORT_OWNER handoffs and omit the companion sysfs attribute, matching
-the integrated-TT path so usbcore keeps port ownership on EHCI. USB 1.1
-full- and low-speed devices still cannot enumerate without an
-integrated TT or companion controller and will fail usbcore's normal
-reset retries instead of triggering a PORT_OWNER handoff.
+I reproduced this with a masked-alert test. With v4, the handler returned
+IRQ_NONE and left TCPC_ALERT at 0x0001. The local fix acknowledges the alert
+and returns IRQ_HANDLED without dispatching it to TCPM.
 
-Signed-off-by: William A. Kennington III <william@wkennington.com>
----
- drivers/usb/host/ehci-hcd.c   | 31 +++++++++++++++++++++++++++++++
- drivers/usb/host/ehci-hub.c   | 21 ++++++++++-----------
- drivers/usb/host/ehci-sysfs.c |  8 ++++----
- drivers/usb/host/ehci.h       |  1 +
- 4 files changed, 46 insertions(+), 15 deletions(-)
+The fix also snapshots alerts_quiesced and alert_mask under the same lock.
+I've tested it with a clean kernel build, including alert-read retries, an
+alert arriving during acknowledgment, RX read failures, and IRQ teardown
+under KASAN. The tested cases passed.
 
-diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
-index 75f780ec3ba0..1e813ac5f0cb 100644
---- a/drivers/usb/host/ehci-hcd.c
-+++ b/drivers/usb/host/ehci-hcd.c
-@@ -26,6 +26,7 @@
- #include <linux/moduleparam.h>
- #include <linux/dma-mapping.h>
- #include <linux/debugfs.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- 
-@@ -679,6 +680,33 @@ static int ehci_run (struct usb_hcd *hcd)
- 	return 0;
- }
- 
-+static bool ehci_has_companion(struct ehci_hcd *ehci)
-+{
-+	struct device *dev = ehci_to_hcd(ehci)->self.controller;
-+
-+	if (HCS_N_CC(ehci->hcs_params) == 0)
-+		return false;
-+
-+	if (!IS_ENABLED(CONFIG_USB_OHCI_HCD) &&
-+	    !IS_ENABLED(CONFIG_USB_UHCI_HCD))
-+		return false;
-+
-+	if (dev && dev->of_node) {
-+		struct device_node *node;
-+
-+		node = of_parse_phandle(dev->of_node, "companion", 0);
-+		if (node) {
-+			bool avail = of_device_is_available(node);
-+
-+			of_node_put(node);
-+			if (!avail)
-+				return false;
-+		}
-+	}
-+
-+	return true;
-+}
-+
- int ehci_setup(struct usb_hcd *hcd)
- {
- 	struct ehci_hcd *ehci = hcd_to_ehci(hcd);
-@@ -691,6 +719,9 @@ int ehci_setup(struct usb_hcd *hcd)
- 
- 	/* cache this readonly data; minimize chip reads */
- 	ehci->hcs_params = ehci_readl(ehci, &ehci->caps->hcs_params);
-+	ehci->no_companion = !ehci_has_companion(ehci);
-+	if (ehci->no_companion)
-+		ehci_dbg(ehci, "no companion controller, disabling port handoff\n");
- 
- 	ehci->sbrn = HCD_USB2;
- 
-diff --git a/drivers/usb/host/ehci-hub.c b/drivers/usb/host/ehci-hub.c
-index e676c98b6baa..1f69d9fc93c7 100644
---- a/drivers/usb/host/ehci-hub.c
-+++ b/drivers/usb/host/ehci-hub.c
-@@ -618,18 +618,17 @@ static int check_reset_complete (
- 	/* if reset finished and it's still not enabled -- handoff */
- 	if (!(port_status & PORT_PE)) {
- 
--		/* with integrated TT, there's nobody to hand it to! */
--		if (ehci_is_TDI(ehci)) {
--			ehci_dbg (ehci,
--				"Failed to enable port %d on root hub TT\n",
--				index+1);
-+		/* with integrated TT or no companion, there's nobody to hand it to! */
-+		if (ehci_is_TDI(ehci) || ehci->no_companion) {
-+			ehci_dbg(ehci, "Failed to enable port %d%s\n",
-+				 index + 1,
-+				 ehci_is_TDI(ehci) ? " on root hub TT" : "");
- 			return port_status;
- 		}
- 
- 		ehci_dbg (ehci, "port %d full speed --> companion\n",
- 			index + 1);
- 
--		// what happens if HCS_N_CC(params) == 0 ?
- 		port_status |= PORT_OWNER;
- 		port_status &= ~PORT_RWC_BITS;
- 		ehci_writel(ehci, port_status, status_reg);
-@@ -1145,9 +1144,9 @@ int ehci_hub_control(
- 			 * which can be fine if this root hub has a
- 			 * transaction translator built in.
- 			 */
--			if ((temp & (PORT_PE|PORT_CONNECT)) == PORT_CONNECT
--					&& !ehci_is_TDI(ehci)
--					&& PORT_USB11 (temp)) {
-+			if ((temp & (PORT_PE | PORT_CONNECT)) == PORT_CONNECT &&
-+			    !ehci_is_TDI(ehci) && !ehci->no_companion &&
-+			    PORT_USB11(temp)) {
- 				ehci_dbg (ehci,
- 					"port %d low speed --> companion\n",
- 					wIndex + 1);
-@@ -1244,7 +1243,7 @@ static void ehci_relinquish_port(struct usb_hcd *hcd, int portnum)
- {
- 	struct ehci_hcd		*ehci = hcd_to_ehci(hcd);
- 
--	if (ehci_is_TDI(ehci))
-+	if (ehci_is_TDI(ehci) || ehci->no_companion)
- 		return;
- 	set_owner(ehci, --portnum, PORT_OWNER);
- }
-@@ -1254,7 +1253,7 @@ static int ehci_port_handed_over(struct usb_hcd *hcd, int portnum)
- 	struct ehci_hcd		*ehci = hcd_to_ehci(hcd);
- 	u32 __iomem		*reg;
- 
--	if (ehci_is_TDI(ehci))
-+	if (ehci_is_TDI(ehci) || ehci->no_companion)
- 		return 0;
- 	reg = ehci_portsc(ehci, portnum - 1);
- 	return ehci_readl(ehci, reg) & PORT_OWNER;
-diff --git a/drivers/usb/host/ehci-sysfs.c b/drivers/usb/host/ehci-sysfs.c
-index 5e6b545c30e6..1dcca19b544b 100644
---- a/drivers/usb/host/ehci-sysfs.c
-+++ b/drivers/usb/host/ehci-sysfs.c
-@@ -145,8 +145,8 @@ static inline int create_sysfs_files(struct ehci_hcd *ehci)
- 	struct device	*controller = ehci_to_hcd(ehci)->self.controller;
- 	int	i = 0;
- 
--	/* with integrated TT there is no companion! */
--	if (!ehci_is_TDI(ehci))
-+	/* with integrated TT or no_companion there is no companion! */
-+	if (!ehci_is_TDI(ehci) && !ehci->no_companion)
- 		i = device_create_file(controller, &dev_attr_companion);
- 	if (i)
- 		goto out;
-@@ -160,8 +160,8 @@ static inline void remove_sysfs_files(struct ehci_hcd *ehci)
- {
- 	struct device	*controller = ehci_to_hcd(ehci)->self.controller;
- 
--	/* with integrated TT there is no companion! */
--	if (!ehci_is_TDI(ehci))
-+	/* with integrated TT or no_companion there is no companion! */
-+	if (!ehci_is_TDI(ehci) && !ehci->no_companion)
- 		device_remove_file(controller, &dev_attr_companion);
- 
- 	device_remove_file(controller, &dev_attr_uframe_periodic_max);
-diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
-index 855a9d08b019..8ab5c696717a 100644
---- a/drivers/usb/host/ehci.h
-+++ b/drivers/usb/host/ehci.h
-@@ -238,6 +238,7 @@ struct ehci_hcd {			/* one per controller */
- 	unsigned		no_configured_flag:1;
- 	unsigned		no_tdi_mode:1;
- 	unsigned		no_fsls_isoc:1;
-+	unsigned		no_companion:1;
- 
- 	/* required for usb32 quirk */
- 	#define OHCI_CTRL_HCFS          (3 << 6)
--- 
-2.56.0.611.g1030f0b940-goog
+While preparing the revision, I found that the IRQ handling changes overlap
+with Greg/Josef's pending "[PATCH 12/19] usb: typec: tcpci: don't act on
+unread alerts".
 
+I've kept their patch as a separate local prerequisite rather than copying
+its changes into mine. I'll rebase and submit the revision once the dependency
+is settled.
+
+Thanks,
+Yaohan
