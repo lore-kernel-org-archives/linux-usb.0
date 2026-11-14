@@ -1,102 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794633009;
-	b=wQmy5GQ/eSh3DVMGFEvC3MuBjE7mT4CJ7LZpf/vVkkD1fa5qazEPqWdW1y685ahfcQas
-	 paw0DT336wWiVrv6py9ajBgdugoOrGGN/IMOW1j2OCLxjXZHyV+keZTnyHN932CMMUdNw
-	 dMdKzEWYf7PMfxNrQXLgvEnyocuY1L75lqeG//n4fOwLvPxGbnpxBRcJz+cwBwKUAlxVE
-	 qYTGUVD/jG8oQN6tT+ScB3S/HmRwTvQxg1pZhaBXDK65iMx2Urn5AJyZnn5jza2p7mPfU
-	 HG7KYEn5fleJr9kqS1AgapMx1+TXU3MkyUzA1QjuCpgaQhQrnoMTMnZiM5AQojtrQOg==
+	t=1794633149;
+	b=0RspNYrnpt3zd/kpOB/bsDLEbBNjuvE2+EcC65wL3vNykVxTQ5wsCMXXSguwNjtriGla
+	 HwAGkmhUYgfxi4Yol5yhUa+gpGsd+zateIp9RFvIWMvRKSPfMdIFkY89pMucxq+X0oRQf
+	 YOIDv9zl3BfM+FsSp5aIl1JenKXjgFGzIQZ1+j+kyd365ECI7e1vyc4V4kS2dDVl/nd6j
+	 bqFOhhYSFofvX/irdBgLMIOWdNGwefktl7f8GUJRc8T5bPHHhZCEnV4qf9lai5cfEByCE
+	 mRgmnCqIoTicnN9EXG06ypLXyU6q6U1dA6B/h1+2yMACNuulcLX8/shsgF/FQve+GKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794633009;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=QNw1D5Dt32lz0/D4ctFxMFaPg94rUQWpcHEoRIYdiI0=;
-	b=QVXaCRymoXYqOms2N80AJlDGVB9oyiq/0V8vBTO5z0VQXFYcQNRkd9hx7fD6I2txrUoJ
-	 m689scx1bYDyhYCVJG3G/EcATBGhFAGwAF5rqj1wqzeyjoC1VEuis9HxfvnjNhfhk3r6W
-	 QutB6HUq44hz2PoA+KzPvWfCcAypOXTcyQY7U0NRTXulDwyPGbIEAZcqnd4ug6s1rl0GX
-	 zyTvNWZQxE1/8hgkJe5e0W3n7jircWdniZBS41nXuh6muoL0YrdMNKxBTzeWiotajg86R
-	 d3OKiWndiLrRMX7yFDKWsFASwm3HMIBHtBtwRKg42FdBW2oD6CEt27c0Sk4NM0RsdAw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794633149;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:Auto-Submitted:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
+	b=Lq4lj2pTOMq1vMEOeYsWw42ciNVlr9j1WO3Muc9EktEEmlgl9VNHG5qFiIcXmDCdNuks
+	 MYZ6C4SBRbTxOnPS3QaFRCZcp9mc9/JcQGbUFEXJMBDOsAh+v2OuiMrSuQr13RSU9+t1y
+	 x/y+hg/dxzPnKm86d/pGXvQP66uYVxQeZ7BBdARyEe44LDMDIvGieWyL6gAu2EupDaGFW
+	 dTWdKXQoVa3jBXcf+Rw0c76b4XkatfWS2+cZ6SWYRfbRA5sqfFYsySvWMhWEZT3Cbfjmo
+	 48/Oop7Ljrrg11Tp0N37AQMWoM3b7DRO7JIvftzWATj0bgguivUaV0uEK7irT/vL69w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PCv82Xos;
-	arc=none smtp.remote-ip=209.85.215.176
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LELM8qXl;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C93606A8A8
-	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 05:09:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9C93606A8A8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C107C606A32D;
+	Sat, 14 Nov 2026 05:12:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PCv82Xos
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-cc4be0e5351so658009a12.0
-        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 21:09:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794632999; x=1795237799; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QNw1D5Dt32lz0/D4ctFxMFaPg94rUQWpcHEoRIYdiI0=;
-        b=PCv82XosjaH7HTL3klmxO2Xv4wSrvHyC4HX67ixIo5QwRftFlnvVR7Cat3IRlWglQo
-         PHie/GYajbcMEG63N0RcYRTLylGTAyliEwK75+OVkwl0NZ4dloOG838UR56/wMrACZpr
-         I40sD0oei8fzqv8umjOrRJ1/+ml4hzshpbnjzKLBaMlq7YzkBv+PX92A4hSf3oSZwq1f
-         R0VBUaEGYhlIlIr95OxgKRxb60SsNjTdcdNuidp8vVjEW2L1YIHfMSTgI+TbiT4lLjkG
-         yqs3oam+esxoFvzt/YD9XhbrNTSU5qrkdjDkTl6IDlm6W8hq+rAuzhXRqX8aK23K+JmW
-         k+0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794632999; x=1795237799;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QNw1D5Dt32lz0/D4ctFxMFaPg94rUQWpcHEoRIYdiI0=;
-        b=WfZyaQCywo96aiOLd65Gr2jA9oPTUp9y1+kGkD379IwYCAG5QtfPenypuYxzW21sYP
-         bk92D3XV+8k7ONqwh/t3iL3Gbw6BigNr7sskZEdxnypFNHzpVvXyX9jNj4UzdDyxdF7s
-         88A7NdYj9SY1/Vfg3wKlhaveEVQXn2hbTkrwllYWZrrNDdnRc5b3rOAMpitxVV7/8G+B
-         cRIN04nCgufOwxWcqyNewmqCTYrd/1WhJiIovIxoaCfyeU62/1lM8QFoQkPoU8lXpw9L
-         aQkoVtwZOZNgI6Dc0HcR8qs0Ev065WKK3slvBmytDW0eKziSpHX2NNH7/XHJKVSWXK65
-         1+Ug==
-X-Forwarded-Encrypted: i=1; AL+hErFi5fDgnUTTwZ5D8q79jGOFA1/7Y+mJobtJE+OvOIV7keW2QDApdOtfuu4e+Ddei3RXAvETIhIKrZU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Jq8MqkSGNZwP5A5fREb1gjORjPo5pjxan07uy/FqsLJKWk2N1
-	8zOCYK/djrmJUNCBBSj6V2m/87W77we2uBP96zfK/zgTaGxGbYNIg/e7
-X-Gm-Gg: AYBFou3N3JgHOXSRjE9pZi3pLVSyW16V09OdOuhyFDIe7swsFusJvoTeYXnCiANL0CX
-	bnseAW20Mt8zMDKpxveP27brdCG0st+pC5LqXCUfueZEb9pdxsgG6XadcBQg78XgySGc2Ww6CoR
-	em81bnG1TYv72OC7EYUiSG28ao+A6/mw3KgYvwfZawcg46DNgxezn46oGEec7bnkQRs9hIDDDYH
-	V3HhDLOvYvMg9aI3A8oguGkLxuYISOXwlSLzTBqVsXkorM3ff6WQGsC1Aaco2K7A2RP2pHMEm33
-	xRxkOVgrGkBGRiW3Lwm9iaza+RkiRbI/ej5Os4AUgvOVRUBEEEU2zjCtB3bYb5wXmgB4BJ/Meft
-	rMW5Vtdv6qHwsoBCY9/RSSzIX8eOIJLvvyr+7UTwTKEgEpvxLnJWK9j53d4yd5N6zUAtCaqitei
-	h1D7xdUpAJuTnaYp+tZJRXvFY52b3bn6CvnJckAy+t8KL+ztgEUnRANBkndt/bUWdGw81b9OY9W
-	1L8JQ94W4TEu/ZeVRCg0rDcGZYxfOX0wEoGwKMkdvqJAPtPx4BJeQ5z2Ge+/4jgAHt+xuwI029+
-	CHvAdsb0xb5NzJ/2i4xVJY23nArwYPY=
-X-Received: by 2002:a17:90b:1b06:b0:3ac:b44c:2d84 with SMTP id 98e67ed59e1d1-3b1b0a0e8d1mr4752210a91.13.1794632999243;
-        Fri, 13 Nov 2026 21:09:59 -0800 (PST)
-Received: from fedora.lan ([172.219.65.15])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197d257a0sm12776577a91.11.2026.11.13.21.09.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 21:09:58 -0800 (PST)
-From: Artem Novak <artem122novak@gmail.com>
-To: Steve Glendinning <steve.glendinning@shawell.net>,
-	UNGLinuxDriver@microchip.com
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Alexandru Tachici <alexandru.tachici@analog.com>,
-	Andre Edich <andre.edich@microchip.com>,
-	netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Artem Novak <artem122novak@gmail.com>
-Subject: [PATCH net 1/2] net: usb: smsc95xx: propagate MDIO reset errors
-Date: Fri, 13 Nov 2026 23:09:53 -0600
-Message-ID: <20261114050954.275495-2-artem122novak@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LELM8qXl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0C771F000C4;
+	Sat, 14 Nov 2026 05:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794633149;
+	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=LELM8qXlfYRFHSTJNtTPL6I8xcCGftzWRT+7F6mI14wjfcoCdzRwvWzKJ/MprhRVh
+	 mbIzwqpAby7XSFy+szTaAw5nybTIda3EwUsATq+Xf0miKL/0XW/Dz3ZWKxrjrdBav7
+	 Q+oSDgG5ScEQX87GYG5Gl6EFOZMxemkkG/Ik+/gisy29ZY4SKg1b+zS8Oqng7oMEyr
+	 dDFvNQ3RmGHybOYDmD4ronGct0lY9ORZqA0uTHOgu7Q8d1JX6NfIZUpN3rmNKVE047
+	 Dld7iGsll27/93bdf4PNM4xrlp+c8mOXoZiMBAbOYVIuZQf2fTL5TURbfpANFHBgiO
+	 57JYoJeK2QAHA==
+From: netdev-bot+sinfo@kernel.org
+To: Artem Novak <artem122novak@gmail.com>
+Cc: Steve Glendinning <steve.glendinning@shawell.net>,
+ UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Alexandru Tachici <alexandru.tachici@analog.com>,
+ Andre Edich <andre.edich@microchip.com>, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org
+Subject: Re: [PATCH net 0/2] net: usb: smsc95xx: propagate MDIO errors
+Date: Sat, 14 Nov 2026 05:12:28 +0000
+Message-ID: <179463314815.2168702.3601648779918603836@kernel.org>
 In-Reply-To: <20261114050954.275495-1-artem122novak@gmail.com>
 References: <20261114050954.275495-1-artem122novak@gmail.com>
+Auto-Submitted: auto-generated
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,33 +66,26 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The MDIO bus reset callback returns success even when reading or
-writing the PHY reset control register fails.
+Hi!
 
-Return the register access error so callers can detect a failed
-PHY reset.
+This is an automated message. This series looks like a fix, but its
+commit messages seem to be missing some information:
 
-Fixes: 809ff97a677f ("net: usb: smsc95xx: fix external PHY reset")
-Signed-off-by: Artem Novak <artem122novak@gmail.com>
----
- drivers/net/usb/smsc95xx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ - How the issue was discovered, e.g. hit in production, hit during
+   development, syzbot report, manual code inspection, LLM or static
+   analysis tool scan.
 
-diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
-index 130a460c1f54..f85ee5f8a539 100644
---- a/drivers/net/usb/smsc95xx.c
-+++ b/drivers/net/usb/smsc95xx.c
-@@ -291,7 +291,7 @@ static int smsc95xx_mdiobus_reset(struct mii_bus *bus)
- reset_out:
- 	mutex_unlock(&dev->phy_mutex);
- 
--	return 0;
-+	return ret;
- }
- 
- static int smsc95xx_mdiobus_read(struct mii_bus *bus, int phy_id, int idx)
+ - Whether the issue was actually triggered, or is only theoretical
+   (e.g. found by LLM and not proven at runtime). If it was triggered
+   please include the symptoms, like the stack trace or kernel messages.
+
+Please do not repost the series just to address the above. Instead,
+reply to this email with the missing information, so that reviewers
+can take it into account.
+
+*IMPORTANT*: If you do repost (for other reasons) - please include
+the relevant info in the cover letter or commit messages.
 -- 
-2.56.0
-
+The evaluation is done by an LLM so it may be wrong, if you think
+that is the case please reply and explain.
