@@ -1,56 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794621100;
-	b=rE55UeMiWklCrQa9oYWVRoJokD6ZLkExWnbx467DF4+DCuDlVat1LXbOvJauq7BJh5NB
-	 9bhtf3BsNS9o8O9yMd0G67cQEI7IT43zcCwY+qsQ8MBsmIS8mptcTLkyloGizGyXY9Szo
-	 zC26KJS21kPcue9QlEu1aqkDXSU0ShULW77XjwafD8GCDw6dNKevUvUPixpGnuyOrlF8L
-	 GKsYE4ZGs1wKAH6KozX0NrHuABwFxqD+lzKKVPW1e8AAKnQj8ID7K8iq/hLBRT5m3p+Lg
-	 eTSrSsnU9DNYpbEWGi0mrTTrzrumLXne47qy1d5kfJ9sMA0BwfQDh3H1AD80KaDa1Pg==
+	t=1794625536;
+	b=Mv4WcaEB3/qZJnJVSE4k4ElRLkHDF81OVZV8zBlTxeIbtwYR/fTyjYM2e6Whdl2U99v1
+	 WO/Hh5zOe/OQKJF97k5PolNCeTCw9xCltWu3gXo/11jnYQC9ihHZfNr09Vz5+gOwy/enP
+	 Fb9tAfqIORUcCL5EAq9/0qQ8EYFv/oyG/WM6seo4+PyNI+KtvJnqiqEgsu9S/mszQ7wcq
+	 cULyQaEHwNKhlTQ8mfDvETPM0KleFq4nLikrEFSnc2/ek1Eu+jkuB0oKlGupxxYWDfh2x
+	 DJzVntd8moQZFX0u+a/cGf1BsEdBVCw0+IFLKKslD96eS3xGRXex20n9hcENxcL2FmQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794621100;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=iOE2LDywnv2OowpVHtdspiQ9Db/Ete1DE9pMR2McCnQ=;
-	b=OXNUbwrJw8Co0LJ6Qp+lfaOHuhF+Qj5ElFdJSjHOr0RCxlXdO6g39zQBXszl/YvMTG4r
-	 C4r9JKTzi5C2J3pnvtiDR2utXw654o9gMvQeW7tDqjkQ1eQDl0AKZ5aZKqNAQd5ElGx7D
-	 RL8DdCvBRJulaarw034D0jvxUDa/XFAHmAY/frBY2PBSihWlMm+msDokPxStWbo7UvIGI
-	 eNWW0xvItGeV4ueWPx+eAG2eWk9nq6KdxdFY58mxFlGft9yC3A8L1Mgq7jxNsBmgLRg0J
-	 5EtNnTo5pYK+lbCowoLcUaoRvtLR23rdq66yxjbejQjaqhxX+X2hoHmRvGq6Ayd5EwA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794625536;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=1JkuRp3TNB1JHkU7DQf1wJVxEmAivZrbavKu8XaqjsQ=;
+	b=rqxLvww89b5AOJ0s9QmbVHtkuvaHrt+0z7ML7oVv+pnPxtqy+O+UK72QofdMRjNwjzmf
+	 2Qa2QbP1W4OwhvWc41txLNzaZW7ordXh/A26zGt99gOK4i4l0pUm9YaXkGE3U5u1SLf3k
+	 33c3oaH8DINxSR0hOEeNd0W1b2Ku1nAXP2PUB4+7LlU9KZVgeDqafX70Vr+ZZMFEIMF6U
+	 l+sCgLhaYEPHTWIDumBdvlcTUE1P3A73nYgbTwFRTgEuVwGI74ycL+qVQM+aLIcrdi0ox
+	 g1XqY85HD9GYBDmRXucaciAFfNpz+JqUbaNktdtny03Z8tW90vAYnt4Smi67iaySZyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TPd5txOU;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rbco+J7i;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E535606A32E
-	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 01:51:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80DC606A323;
+	Sat, 14 Nov 2026 03:05:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TPd5txOU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AD5A1F000C4;
-	Sat, 14 Nov 2026 01:51:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rbco+J7i
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 127E01F000C4;
+	Sat, 14 Nov 2026 03:05:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794621099;
-	bh=iOE2LDywnv2OowpVHtdspiQ9Db/Ete1DE9pMR2McCnQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TPd5txOUJbF7i2TQ9+VtpTKXTwRv7Pq06vzrsjKnFQfFlUnm9i8AbuDiaRj7BwO7N
-	 B91qMmHsBhblpSL1n6PFgZiU2j3LRTUZYdAYCEjuykqeItv+M1gsNr+R501nBFIuS+
-	 VJhZl/hpbmJGtKOW9Nibw0EYM7B/rCeMtIUq4VZZSsD/EdtMr7846wZ9T8RdwpKZ5A
-	 oNN5KK4SHEuQQbD60hW46vYs/CxxDjEzt84afQfpwJYYBePZzbUCxD2YqrnmmHU94s
-	 3qV4atJ+TjrCpNl3ido/Q6SwlDrDmG323j0rFYF/esUhuflAvacdDGuNMFZmKdmIBt
-	 CBZ92kltdNSAA==
-Message-ID: <sashiko-outbox-214013@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi_ccg: Don't probe GPUs without a CCGx
- controller
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Hex Lindqvist" <hex@freenixos.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261114013243.1240146-1-hex@freenixos.com>
-References: <20261114013243.1240146-1-hex@freenixos.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Nov 2026 01:51:38 +0000
+	s=k20260515; t=1794625536;
+	bh=1JkuRp3TNB1JHkU7DQf1wJVxEmAivZrbavKu8XaqjsQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Rbco+J7iAydez4dOA0yWH/aFRHm2IHdYBV//QJDafvGG6iIyO2uKNMvWGRmh2+k0A
+	 ol7EJ4D/4z7XxY2JKy5zOS95XAns8NF4Fr8SvAKJBlxdqQ2lxMj3TZVsr9MorfU2fh
+	 FRtJtcUhIIt2TI5oaPc6kh+yiGkKIBAurqJUFQLNHSGOJTXH3rHRQ6lcIQnuhU+Phl
+	 K15ZNJLcA+fVdGDnFGFcGRlXZ68ijn+mqN4nro+6l0yVqk9kfds2YfpjNr5u7G0o7k
+	 oBIvgr85P9ZocZOWVlsKYW4wlxEeFLbhxkAPXFUCVI+yMQkUwBhiEZzviQRVtHNv8h
+	 ufCqfU9qhsNJg==
+Date: Fri, 13 Nov 2026 19:05:35 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Birger Koblitz <mail@birger-koblitz.de>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Russell King
+ <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui
+ <kernel@xen0n.name>, Eric Dumazet <edumazet@kernel.org>,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, Jianhui Xu
+ <neuromoments@gmail.com>, Emir Beganovic <beganovic.emir@gmail.com>,
+ Nicolai Buchwitz <nb@tipi-net.de>
+Subject: Re: [PATCH net-next v20 11/13] ax88179_178a: Update driver name and
+ information
+Message-ID: <20261113190535.0e74cbb7@kernel.org>
+In-Reply-To: <20261106-ax88179a-v20-11-37b5a1189983@birger-koblitz.de>
+References: <20261106-ax88179a-v20-0-37b5a1189983@birger-koblitz.de>
+	<20261106-ax88179a-v20-11-37b5a1189983@birger-koblitz.de>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,33 +66,26 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> The NVIDIA GPU I2C driver adds a ccgx-ucsi client on every GPU, but
-> GPUs without a USB Type-C port, such as the GTX 1660 Ti, have no CCGx
-> controller, and every probe fails with:
->=20
->   ucsi_ccg 4-0008: i2c_transfer failed -110
->   ucsi_ccg 4-0008: ucsi_ccg_init failed - -110
->   ucsi_ccg 4-0008: probe with driver ucsi_ccg failed with error -110
->=20
-> Fix this by reading DEVICE_MODE first for clients created by the GPU
-> driver, and returning -ENODEV if the read times out. Controllers
-> described by firmware are not affected.
->=20
-> Tested on an ASUS TUF Gaming A17 (FA706IU, GTX 1660 Ti): the three
-> errors are gone, probe takes the same time (one timed-out transfer, as
-> before), and the platform's own UCSI port and suspend/resume are not
-> affected.
->=20
-> Assisted by LLM.
->=20
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D206653
-> Link: https://lore.kernel.org/all/20200922054338.GA588161@kroah.com/
-> Signed-off-by: Hex Lindqvist <hex@freenixos.com>
+On Fri, 06 Nov 2026 08:21:26 +0100 Birger Koblitz wrote:
+> -config USB_NET_AX88179_178A
+> -	tristate "ASIX AX88179/178A USB 3.0/2.0 to Gigabit Ethernet"
+> +config USB_NET_AX88179
+> +	tristate "ASIX AX88179/179A/178A USB 2.0/3.0 to 100M/1G/2.5GbE Adapters"
+>  	depends on USB_USBNET
+> -	select CRC32
+>  	select PHYLINK
+> +	select AX88796B_PHY
+> +	select CRC32
+>  	default y
 
-Sashiko has reviewed this patch and found no issues.
+The rename of the symbol causes the question to pop back up and it will
+likely annoy Linus. There's no reason for this to 'default y', let's
+stay on the safe side and drop the 'default y'
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114013243.1240=
-146-1-hex@freenixos.com?part=3D1
-
+You need to rebase the series, too. Someone mass-renamed a bunch of
+kmallocs to kmalloc_objs upstream, let's make sure we use the _obj
+form in the new places too.
