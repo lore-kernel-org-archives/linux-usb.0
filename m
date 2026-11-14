@@ -1,62 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794618169;
-	b=SxoK78XWW2RW24c5mOEQsCg6luP9vl237sGeYiOg2iwJlJtq/PIz2cEMGs8xmAJWJlzl
-	 or6tLslchfx+wYUF0vzRYTOlob+oOyhS8/mAyE5VknMBSZKS/xHJXOpzL+j+oplod2mh+
-	 X+ZZqtwQ3afkClbHqsGRJ/zK2EHivilVEjODmg2gs34s7knNT47m+B3qAE3sVCremC+sK
-	 MXXujypViNB8B5/Kq+d08EbXp6kTXmjDcz8WqYMk6I6Adp/Fn2lUCbIHa5HwQ5z96I+xs
-	 oGBGo2ubsGlDlu9c/g2m/tUaI7VjV/FqjHMcKQBLE5MNfA+GtCwqKdUz+6Cm/lvPMyw==
+	b=QqqoahRjjoGkkcTLxd0dT+yfImptKa1mI+Gvevnr7iWEzrAlpJAORcTLlLB7bX7f+Nd2
+	 fJcw1rWPPdwUSODqdeOQIyFA0x4r93GhXydV9liXkWQV8ZwxYo4LF31GOz1oil7q1yqCu
+	 jXXMHoc0lg4uBHV3Jc01Qa3potd+lnTdIXo8oznN1szdjv7216gaIjBmSbcbtIzNF0xoZ
+	 bqpAlVEvsyU9biXtY3mTmiWpoiRBsPAhMD2V1pGFd2QKVdKwbjD81jk6ryb/5Rg6gqhK1
+	 bMwPTh1kTwK/i6YqI0TAiT/6Uss0SFC6HOUUZDi5SK8a5DjZm2BlAMHtNvEpgoFaF4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794618169;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Subject:Date:
-	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=ulLvjB2y9T1z4HMnQGgYSXrRVyw3ZXpu9ePm+K5Lxeg=;
-	b=yOfeENIUQFxDQaeQmWAnBG3mmOwa/vBZgsOBYKxeNu6WllTXjW8u4G/pTmJyp/6IO7bP
-	 3sgnByUZUU+o7zQskGS4q4SPdSrVaZyIY9qEHk5zzWs6TU9Env00TiLgBGMJRTEwJ0e8D
-	 L1k2wx2TNAtiIQ24IXyiJfQb8Kppyhyp9s9QuROZT5RvTLSZNIgDP+SVqFbtEYoXpZvV5
-	 ASGwoNjsUC42OWcUMhMzlTxpzetNN40Szypfcu4QaDdn2z8pEyw4igr1JM1AYWWAUiCz/
-	 RGHL2mgVQpJIoicLBvUbNvu9hPai3SnHCc//ImPUw+fgeot8C2kdOjY+XcIeTGmoHHQ==
+	bh=G7gtJ7EFpopetofcaPZ+USpXdKxyt9IPghvMVKuyNu0=;
+	b=lSRX+pztAr4ztS5qP2epSwXCqq1ni6IRhFYy1roGJ5iBBCum2P18ZVes+ZoyG3TxUF6A
+	 L4aOB9HDiAsNTtELl0woSVU/EQX4SbrfmD5M0moV0LPBzS4xQRZdQ28FG6508ddd2Y8If
+	 +Vhr+7R0N1ZqjnVgVhu96tb7ctB9C5S7UHmeFsOoRhmdkc8206QEI29H6BdtlmSVg2VcM
+	 dfB5WMIikxi0c0R2fPix33DYg7j2KXWwhzXoSDPggjRSYJ29amnjl7934pCMMRHKqz/QJ
+	 ELZmITHjC3Oam5UtWpv+zjHFLad0yMacW20BYohbo9/ic+i/UroLL5Z6beIdtU7GpLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=collabora.com;
 	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=jBThxsgO;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=Z36M9yIb;
 	arc=none smtp.remote-ip=148.251.105.195
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB4C606A33D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB79606A33E;
 	Sat, 14 Nov 2026 01:02:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DB4C606A33D
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DB79606A33E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=jBThxsgO
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=Z36M9yIb
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1794618166;
-	bh=SRmNH/H+Fk/ZSuR8eQSd2ZZ+GN9wcBRKt9HJ/EgoEgg=;
-	h=From:Subject:Date:To:Cc:From;
-	b=jBThxsgOrhy6IGLdVdNY5cdReZYHBLhCK9lB1LGJUAeFYIStWusGkj1GweLQjXNgS
-	 8pvs+1aUzR4P53/kWYrEUJRNDLhQ9kONJ+oZWAH71fkoGJKnVaSdr6Zkak74+pvrzV
-	 YkISmVX2+5C159OMEmHbsWmzdCD6CgEmmerXecB0w1ECmzDgDikQu0e97KdOAM2y80
-	 pa0KGg9ysElYuAPBJ/gwo4uuEcK5iCXTJlbVUUjksQW39zuRrYCLPX/FJMhUP6tn5f
-	 xgx5yO3398V668mpu+Y0Wre3KgYS1pGjL9FdIA+hAxzwtNjgB0LgoNJnnz2lLeAFXW
-	 yl8xDFJ6T3Rkw==
+	bh=xnlO9in6Z1+Bk+onYHPVFQSnxIJtGXyd6zhQkeV69kQ=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Z36M9yIbOlpBt32GRm2yENOoo3rLJtTIATZHwTfnukEJqVVFULBpL8jHUEULAxmtT
+	 KCsZAxEkuK+je4drdIKfGc1X6YZQAoH2nFY0b3OzLhwa7Ci/VuScQWpXYUSHZR+rLG
+	 WaPIFOtvogAV+BGMoi4XoluI0SEnuERdiQ7RyT/aMtC8XWGLaud2wy5Zz7bkwajZE1
+	 ux6M74zeprPqeJ3oUk6ubNRU6lYPvUF3ta7yXlR1f/OuymqmUQ0NEhzcEe2imoJad+
+	 ILmintbnWhkzt44KF3JxqazTHia6MN/xCFqXK6f7kLXsglOBIKVAuH30RsJ+CZw+0S
+	 2g0kHF77/Iexg==
 Received: from jupiter.universe (unknown [100.64.1.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0A5D517E0A27;
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0CE8B17E0F70;
 	Sat, 14 Nov 2026 02:02:46 +0100 (CET)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id C02BA48002C; Sat, 14 Nov 2026 02:02:45 +0100 (CET)
+	id C481E480031; Sat, 14 Nov 2026 02:02:45 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: [PATCH v19 0/6] usb: dwc3: introduce Rockchip glue driver
-Date: Sat, 14 Nov 2026 02:01:59 +0100
-Message-Id: <20261114-b4-rockchip-dwc3-rockchip-glue-v19-0-b79fb5f4b42a@collabora.com>
+Date: Sat, 14 Nov 2026 02:02:02 +0100
+Subject: [PATCH v19 3/6] usb: dwc3: rockchip: introduce glue driver
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -68,12 +67,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XOTW7DIBAF4KtYrEvEn8Fk1XtUXQAex7RJSMF2W
- 0W+eydO1EZVJLMb9OZ7cyYFcoRCttWZZJhiiemIA7dPFQm9O+6AxhY/iGBCM8sV9YrmFN5DH0+
- 0/Qzyb9rtR6DWWHDSyLpVkiByytDFr6Xh5fU6l9G/QRgu6i2R4WPE6uEaI94VoCEdDnHYVpPZY
- GPg5LLdxzKk/L2cO/ElfDusXjts4pRRo6X3tdKNUPAc0n7vfMpug10LP3F9Zwq1bmpEudBOgOV
- SBvkQNb8oZ7ixihpEG6M7qxsrQXQP0eYOFXwdbRDVDF/LZBec+I/O8/wDOsg0TQ4CAAA=
-X-Change-ID: 20260914-b4-rockchip-dwc3-rockchip-glue-979ea3735d43
+Message-Id: <20261114-b4-rockchip-dwc3-rockchip-glue-v19-3-b79fb5f4b42a@collabora.com>
+References: <20261114-b4-rockchip-dwc3-rockchip-glue-v19-0-b79fb5f4b42a@collabora.com>
+In-Reply-To: <20261114-b4-rockchip-dwc3-rockchip-glue-v19-0-b79fb5f4b42a@collabora.com>
 To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Heiko Stuebner <heiko@sntech.de>, Vinod Koul <vkoul@kernel.org>, 
@@ -88,154 +84,220 @@ Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
  linux-phy@lists.infradead.org, kernel@collabora.com, 
  Sebastian Reichel <sebastian.reichel@collabora.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6809;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6276;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=SRmNH/H+Fk/ZSuR8eQSd2ZZ+GN9wcBRKt9HJ/EgoEgg=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGr3szW+W3M2xcPaPnPMkrHIYO/IdA02fdG05
- ZcGgmsQGNc4PYkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJq97M1AAoJENju1/PI
- O/qam10P/RpkpHIUKHeWI+SXrSwGv7tPRtCeGSnBlMgsCnFMk+pKDbLp84IpbntWLcSrb0FmOlt
- KkFpczMuJmg7xpl0g1cmEpyJDQEP6C9/fOLKLu31PZrdsRkAt1XCONEdC2kJ54m9bTkUj9lz3EP
- PmPc697qAld5zf4y57aMKj1WiYPYMuU6oW/rDRglukj2CXS8Ql/f5oNiLX/hZXkYCb85/5gDaTL
- M2ZSzVDSjqzBWWX5thza09MLEkTcT+ZzfIGBx93yWKxPos0HLK4fLhl+igO+B4OanrT0VbDXsfy
- 43XretOo2na2tu4R23R49e0w9AODI3vv6rf3qveUmXsx8o3xtpJrBd+HRNad02LpiM3S2QyirFE
- FVWW4frc2CXsmR/AYf0GqW2HCkOopJrHZ9WpjiVZfZattFOHlau7/D1Hu5AQfKF77GLxdA+b6v4
- EBgm1AzsOdp7SGKiqTW14so3H0NUhddRN44/bvFMeT3PIhAVFousLPuToRQf486h2n6JSSto+Tr
- SdtZZo3H+uUz/fK2SkzGz/MpuEEtXZTdSlnCijSA0XPkdPsFdrA+Z8HeZBkk53vhLP1YSQymGVX
- 2vl3YpmT/MkwCHSf/9ULHV+V6jYSznoeQscaIhAYkz6/BtbvuK6gTBFWF9r/QjwK9iWQmvGcsgS
- Ta7EmswpvMTCq4Qvv2FEzxQ==
+ bh=xnlO9in6Z1+Bk+onYHPVFQSnxIJtGXyd6zhQkeV69kQ=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGr3szX4/VVcHSguS7oy9qSMstwb6RCISJYF3
+ V1hwH24L2hOUokCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJq97M1AAoJENju1/PI
+ O/qaGL0P/iW1z/JRuqqFXNn9aiW0cZMW3Onlw+3U5hlM45Y7R3BEwy8gUewu5kkyI6KuPv1jUtX
+ Li+vPZPDEZq58XU/30hMps0kLVtUd8+b5Qe/TOKl5ObzjC2K5sYRLfu0WgdVVk7jMkx36gVyZOR
+ Ict1v80Rs57k7A5mCbCb4zOy/t42dA8dx9mcYqDegJiP4SQ4PLi/u+AoX+rGYJoshlpW2QHNX6c
+ fLDb4+ooQLhY65ZS6eQktUnRbKRTc/WM5tr3k417ihsHyWtxFOFnfVaMdfas+zN+8AyGTS5QbZN
+ 1RUYJhRL6mk0AOR9zEu33wDCgGW8g5MnSioitph83MQm5NEVGhi2s0e6Qnl2yQCZ/haYD3w+rA8
+ eC9RDqWciQnd1itNl6UKuqTvyrcmPNugHydcJ0zNHkxgIQBOfEzpmguWTth/GqW/Ha3ctzOGi8e
+ 21OuaohrSJ0X5dXiXIHdeTQ3P7ho1AXRpOc/CoV+PHT7HF5f/rcpc6ErADqhnd8pZUn3auSMfud
+ wabFC4OCQutoOCdgnepwGOS+M3n6FjloN5UEsMDUJJmHMw++Yq/JVkXaDrVqJJ+hHWRRAvbuSpX
+ loBNR6I/nufDtOb9z9GRIcAvrtArHJminTGhQjVJiCuP8rabQ36idN8040Kfm2LmxBC2kTdgV1o
+ qvBz0YR7bsodC6naz3OU4dA==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-The recent Rockchip platforms have a combined PHY, which does USB3 and
-DisplayPort as well as muxing the lines in arbitrary order. Changing its
-enabled functionality requires a PHY reset and as the PHY provides a
-clock to the DWC3 controller, this can result in an SError. Apart from
-that the PHY might not start up correctly when the DWC3 PIPE interface
-is running. This series prepares a Rockchip specific DWC3 glue driver to
-help out with these problems. To become useful more patches are needed
-on the Rockchip USBDP PHY side, which are sent separately.
+Introduce Rockchip specific glue code for the Synopsys DWC3 USB driver.
+For now this handles things identical to the default glue.
 
-This was split from the USBDP cleanup series. There are some additional
-Rockchip USBDP phy fixes, which depend on this series (which is also a
-fix itself).
+After this change the glue driver is mandatory for Rockchip RK3588 and
+RK3576; it does not make sense to fallback to the core driver as the
+whole purpose of the glue driver is fixing race conditions resulting in
+SErrors and non-functional USB.
 
-Possible merge strategies:
-1: Vinod merges everything; the USB side is mostly a new driver
-   and thus there is not much conflict potential
-   => acceptable for Vinod, needs Ack from Greg [0]
-
-2: Vinod provides an immutable branch with the first two patches,
-   USB tree merges the immutable branch and the remaining series.
-   => acceptable for Vinod [0]
-
-3: Everything is merged through USB; this would block the final
-   cleanup for USBDP from being applied for yet another cycle.
-
-4: Vinod merges patches 1+2, USB patches are merged one cycle
-   later and final USBDP patches are merged two cycles later.
-
-[0] https://lore.kernel.org/linux-phy/avXB6ga-QVfks8RF@parshuram/
-
-Changes in v19:
-- Link to v18: https://patch.msgid.link/20261021-b4-rockchip-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com
-- Collected Reviewed-by from Manivannan Sadhasivam on patch 1 & 2
-- Collected Tested-by from Chaoyi Chen on patches 1 - 4
-- Use EXPORT_SYMBOL_GPL instead of EXPORT_SYMBOL
-- Drop the gadget mode patches for now; they can be handled
-  independently once the DWC3 Rockchip glue driver has landed. It's a
-  bad idea to let that delay this series further as it fixes SErrors
-  and/or stuck USBDP PHY.
-- Add new patch ensuring that GUSB3PIPECTL is updated under lock in
-  the core (Sashiko)
-- Completely rework the reset quirk patch in the dwc3 rockchip glue
-  driver; it now blocks PM transitions until reset is done. The
-  mechanism is also used to track suspend state as a simple boolean
-  (Sashiko)
-- No change for Sashiko's concern about GCTL.CoreSoftReset in
-  __dwc3_set_mode() racing with the USBDP PHY reset: CoreSoftReset does
-  not touch GUSB3PIPECTL (verified on Sige5 across a DRD role switch),
-  so it cannot release the PHYSOFTRST held by the quirk.
-
-Changes in v18:
-- Link to v17: https://patch.msgid.link/20261016-b4-rockchip-dwc3-rockchip-glue-v17-0-876f96893e2f@collabora.com
-- Always clear UDPHY_MODE_USB in rk_udphy_usb3_phy_exit (Sashiko)
-- Add reset quirk stub functions for CONFIG_PHY_ROCKCHIP_USBDP=n (Sashiko)
-- Add NULL check in phy for loop, possibly needed on older Rockchip platforms (Sashiko)
-- Hold DWC3 lock in dwc3_rockchip_vbus_handler (Sashiko)
-- Drop 'struct dwc3_rk_phy_nb' left over from prev. versions (Sashiko)
-- Rework the runtime PM code to rely on PHY side serializing it for us,
-  which simplifies things (Sashiko, myself)
-- Skip reset in high-speed only mode, as the USB3 PHY is unused and
-  it does not matter that it wouldn't work. (myself)
-- Due to the rework, make the reset callback return void (myself)
-- Replace useless cleanup from unregister function with WARN_ON; unregister is
-  only called after phy_exit and afterwards reset function can no longer
-  be called (myself)
-- Use modern guard helpers for the spin locks (myself)
-
-Changes in v17:
-- Link to v16: https://patch.msgid.link/20260924-b4-rockchip-dwc3-rockchip-glue-v16-0-126a2e9133c3@collabora.com
-- Add new patch adding just sw_mode, which was part of the "phy:
-  rockchip: usbdp: Fix power state handling" patch in USBDP cleanup
-  part 3 series; sw_mode will be used by the dwc3/usbdp reset quirk now
-- drop generic PHY reset notifier API; I discussed this series at Linux
-  Plumbers Conference with Vinod Koul and he prefers a local driver
-  hack/quirk instead
-- rework USBDP and DWC3 rockchip glue for the local driver quirk
-  using direct function calls
-- Ensure that the reset handler in DWC3 is only called when the PHY is
-  initialized (and thus DWC3 is running)
-- Also set vbus in the last patch when dwc3 is configured to device only
-  mode (in contrast to dual-role mode being in device mode).
-
-Changes in v16:
-- Link to v15 (sorry, I missed force setting the revision for this
-  part in the series split, so the series says v1 in the patch subject):
-  https://patch.msgid.link/20260915-b4-rockchip-dwc3-rockchip-glue-v1-0-763bb546824e@collabora.com
-- Update first patch to also build the PM functions even when
-  PM is disabled
-- Add new patch for defining an empty usb_udc_vbus_handler stub
-  when USB_GADGET is disabled
-- Add dependency to Rockchip DWC3 glue, which disallows the
-  configuration with USB_DWC3_ROCKCHIP=y and USB_GADGET=m
-- Collect tags
-
-Changes in v15:
- - Link to v14: https://patch.msgid.link/20260813-rockchip-usbdp-cleanup-v14-0-b5ad9c68fa11@collabora.com
- - Avoid #ifdef for CONFIG_PM in the new glue driver (Thinh Nguyen)
- - Do not add #if IS_ENABLED around the DT compatible blacklist in the
-   generic driver, using the glue driver should be mandatory as the
-   generic driver results in arbitrary system hangs. Thinh Nguyen suggested
-   updating Kconfig for this, but did not clarify what that means.
-   Current Kconfig works the same way as the other mandatory glue
-   drivers.
- - Split series to simplify review
-
+Tested-by: Igor Paunovic <royalnet026@gmail.com> # Orange Pi 5 Plus
+Tested-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
-Sebastian Reichel (6):
-      phy: rockchip: usbdp: Track PHY power state
-      phy: rockchip: usbdp: Add reset hook support for dwc3
-      usb: dwc3: rockchip: introduce glue driver
-      usb: dwc3: core: add post PHY registration hook for platform glue
-      usb: dwc3: core: only access GUSB3PIPECTL under lock
-      usb: dwc3: rockchip: add USBDP PHY reset quirk
+ drivers/usb/dwc3/Kconfig         |  11 ++++
+ drivers/usb/dwc3/Makefile        |   1 +
+ drivers/usb/dwc3/core.c          |  15 ++++++
+ drivers/usb/dwc3/dwc3-rockchip.c | 106 +++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 133 insertions(+)
 
- drivers/phy/rockchip/phy-rockchip-usbdp.c |  82 +++++++++-
- drivers/usb/dwc3/Kconfig                  |  12 ++
- drivers/usb/dwc3/Makefile                 |   1 +
- drivers/usb/dwc3/core.c                   |  36 ++++-
- drivers/usb/dwc3/core.h                   |   9 ++
- drivers/usb/dwc3/dwc3-rockchip.c          | 250 ++++++++++++++++++++++++++++++
- drivers/usb/dwc3/glue.h                   |   2 +-
- drivers/usb/dwc3/trace.c                  |   3 +
- include/linux/phy/rockchip-usbdp.h        |  31 ++++
- 9 files changed, 416 insertions(+), 10 deletions(-)
----
-base-commit: bc71431221f5ba8bb33918399552636e059c2c45
-change-id: 20260914-b4-rockchip-dwc3-rockchip-glue-979ea3735d43
+diff --git a/drivers/usb/dwc3/Kconfig b/drivers/usb/dwc3/Kconfig
+index 18169727a413..3c120ea9746d 100644
+--- a/drivers/usb/dwc3/Kconfig
++++ b/drivers/usb/dwc3/Kconfig
+@@ -190,6 +190,17 @@ config USB_DWC3_OCTEON
+ 	  Only the host mode is currently supported.
+ 	  Say 'Y' or 'M' here if you have one such device.
+ 
++config USB_DWC3_ROCKCHIP
++	tristate "Rockchip DWC3 Platform Driver"
++	depends on ARCH_ROCKCHIP || COMPILE_TEST
++	depends on OF
++	default USB_DWC3
++	help
++	  Rockchip SoCs with DesignWare Core USB3 IP inside,
++	  and IP Core configured for USB 2.0 and USB 3.0 in host
++	  or dual-role mode.
++	  Say 'Y' or 'M' if you have such device.
++
+ config USB_DWC3_RTK
+ 	tristate "Realtek DWC3 Platform Driver"
+ 	depends on OF && ARCH_REALTEK
+diff --git a/drivers/usb/dwc3/Makefile b/drivers/usb/dwc3/Makefile
+index f37971197203..444e7e7f34b2 100644
+--- a/drivers/usb/dwc3/Makefile
++++ b/drivers/usb/dwc3/Makefile
+@@ -58,6 +58,7 @@ obj-$(CONFIG_USB_DWC3_IMX8MP)		+= dwc3-imx8mp.o
+ obj-$(CONFIG_USB_DWC3_IMX)		+= dwc3-imx.o
+ obj-$(CONFIG_USB_DWC3_XILINX)		+= dwc3-xilinx.o
+ obj-$(CONFIG_USB_DWC3_OCTEON)		+= dwc3-octeon.o
++obj-$(CONFIG_USB_DWC3_ROCKCHIP)		+= dwc3-rockchip.o
+ obj-$(CONFIG_USB_DWC3_RTK)		+= dwc3-rtk.o
+ obj-$(CONFIG_USB_DWC3_GENERIC_PLAT)	+= dwc3-generic-plat.o
+ obj-$(CONFIG_USB_DWC3_GOOGLE)		+= dwc3-google.o
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index fd5c2cd36c59..4b7132887a03 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -2448,11 +2448,26 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
+ }
+ EXPORT_SYMBOL_GPL(dwc3_core_probe);
+ 
++/*
++ * List of compatibles, which have "synopsys,dwc3" as a fallback
++ * compatible, but have a vendor specific glue driver that should
++ * be used instead of this one.
++ */
++static const char *const dwc3_compatible_blocklist[] = {
++	"rockchip,rk3588-dwc3",
++	"rockchip,rk3576-dwc3",
++};
++
+ static int dwc3_probe(struct platform_device *pdev)
+ {
+ 	struct dwc3_probe_data probe_data = {};
+ 	struct resource *res;
+ 	struct dwc3 *dwc;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dwc3_compatible_blocklist); i++)
++		if (device_is_compatible(&pdev->dev, dwc3_compatible_blocklist[i]))
++			return -ENODEV;
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (!res) {
+diff --git a/drivers/usb/dwc3/dwc3-rockchip.c b/drivers/usb/dwc3/dwc3-rockchip.c
+new file mode 100644
+index 000000000000..4129aefd6a8b
+--- /dev/null
++++ b/drivers/usb/dwc3/dwc3-rockchip.c
+@@ -0,0 +1,106 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Copyright (c) 2026, Collabora Ltd. */
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include "glue.h"
++
++struct dwc3_rockchip {
++	struct dwc3		dwc;
++};
++
++static int dwc3_rockchip_probe(struct platform_device *pdev)
++{
++	struct dwc3_probe_data probe_data = {};
++	struct resource *res;
++	struct dwc3_rockchip *dwc_rk;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res) {
++		dev_err(&pdev->dev, "missing memory resource\n");
++		return -ENODEV;
++	}
++
++	dwc_rk = devm_kzalloc(&pdev->dev, sizeof(*dwc_rk), GFP_KERNEL);
++	if (!dwc_rk)
++		return -ENOMEM;
++
++	dwc_rk->dwc.dev = &pdev->dev;
++	dwc_rk->dwc.glue_ops = NULL;
++
++	probe_data.dwc = &dwc_rk->dwc;
++	probe_data.res = res;
++	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
++
++	return dwc3_core_probe(&probe_data);
++}
++
++static void dwc3_rockchip_remove(struct platform_device *pdev)
++{
++	dwc3_core_remove(platform_get_drvdata(pdev));
++}
++
++static int dwc3_rockchip_runtime_suspend(struct device *dev)
++{
++	return dwc3_runtime_suspend(dev_get_drvdata(dev));
++}
++
++static int dwc3_rockchip_runtime_resume(struct device *dev)
++{
++	return dwc3_runtime_resume(dev_get_drvdata(dev));
++}
++
++static int dwc3_rockchip_runtime_idle(struct device *dev)
++{
++	return dwc3_runtime_idle(dev_get_drvdata(dev));
++}
++
++static int dwc3_rockchip_suspend(struct device *dev)
++{
++	return dwc3_pm_suspend(dev_get_drvdata(dev));
++}
++
++static int dwc3_rockchip_resume(struct device *dev)
++{
++	return dwc3_pm_resume(dev_get_drvdata(dev));
++}
++
++static void dwc3_rockchip_complete(struct device *dev)
++{
++	dwc3_pm_complete(dev_get_drvdata(dev));
++}
++
++static int dwc3_rockchip_prepare(struct device *dev)
++{
++	return dwc3_pm_prepare(dev_get_drvdata(dev));
++}
++
++static const struct dev_pm_ops dwc3_rockchip_dev_pm_ops = {
++	SYSTEM_SLEEP_PM_OPS(dwc3_rockchip_suspend, dwc3_rockchip_resume)
++	RUNTIME_PM_OPS(dwc3_rockchip_runtime_suspend, dwc3_rockchip_runtime_resume,
++		       dwc3_rockchip_runtime_idle)
++	.complete = pm_sleep_ptr(dwc3_rockchip_complete),
++	.prepare = pm_sleep_ptr(dwc3_rockchip_prepare),
++};
++
++static const struct of_device_id dwc3_rockchip_of_match[] = {
++	{ .compatible = "rockchip,rk3588-dwc3" },
++	{ .compatible = "rockchip,rk3576-dwc3" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, dwc3_rockchip_of_match);
++
++static struct platform_driver dwc3_rockchip_driver = {
++	.probe		= dwc3_rockchip_probe,
++	.remove		= dwc3_rockchip_remove,
++	.driver		= {
++		.name	= "dwc3-rockchip",
++		.pm	= pm_ptr(&dwc3_rockchip_dev_pm_ops),
++		.of_match_table	= dwc3_rockchip_of_match,
++	},
++};
++
++module_platform_driver(dwc3_rockchip_driver);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("DesignWare DWC3 Rockchip Glue Driver");
 
-Best regards,
---  
-Sebastian Reichel <sebastian.reichel@collabora.com>
+-- 
+2.53.0
 
