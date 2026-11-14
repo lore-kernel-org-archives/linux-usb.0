@@ -1,71 +1,71 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.88.97.239
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794653498;
-	b=ungadMsZ+z2UQtKhvIYi40X1xAkjTr8x71JllMGH7i+B83ZxdN1IszZr7ExzEVhUHMeI
-	 kiQt08K1q7BBBw4Pt0rpcnKgCkYS3KdIOEtOVbImNHLy5rLLrovgcAiCGkxvglqe8Xy+c
-	 MCd/l8BQsOs8xBtaY/HmxU2Ue+m3NUSsDNHf+QDY0K1745n2BaCyjCtYTg3qTVe5J5W7X
-	 BLnFHb/wkGS3Wh3Pt8VkkhmfTNRO08DHCjGbEFWRIRymW4BJK6d/4+z90uJjgBEfTUnvN
-	 lVq+QtCa8gTmUDI8hAD5HRl5Q1xoU4NzfLZjCj8kvsTlmOHtgkGxdy6dytZmWrDi/qg==
+	t=1794653500;
+	b=119SoRI6LxKywYsDRUAP5VYnaV9i65wc7eydV3NRrxuCGBEr+auE1Yok+wwfwVvUAh9m
+	 +LcxtkJoX9JOiF/GLW+Uuv7nOjHLKfeE6cb4T9l9PTNK2E50398T0CEqU/6YCGDH94oYp
+	 R/iNxqBDboDLkGm6RgQn/n6cKk5BDmw572pEvvHNIecKz9/6QqZ3JSFRxKyM8RFwOGE1u
+	 WPoTC9Iwd8fmiCc98+xFZ6jFN6md0x4BeL427+mz89GaVdq0hoZwavR5fcrLOB8RaPlYz
+	 CmHW301ashM7Bj/qpZufec9sK52bOekFB8sUwvL2hcYU13sFdpzH9L2dxqoWy388hzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794653498;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794653500;
 	h=DMARC-Filter:DKIM-Signature:Received:X-Spam-Checker-Version:
 	 X-Spam-Level:X-Spam-Status:DKIM-Signature:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer;
-	bh=7Xw0LE5u83IfzOCq8pe7VuEhWijl3+wCcr3mRDNJTlI=;
-	b=cDllKb4e6xS0DAPICpDhDojzAeNkIC+D2z71O0N2/UerawFpBD/cAeYMA4WkK6N2oXIG
-	 0WvMT8qREGNv54QfbWW85xTZCD5o7uCx9xLtY7nWI2A3hhttmwAGMQerIXYZmpGRpwSWL
-	 CMjRGzst14dB7c2AJN8GJn/fzykEC/8ft+cbQCiEFoXGQyUqdb58J+n/zJMHBeEqF/727
-	 TOAk7ymKow/HT5/1mNdwVaZpacatZ8NDnjnQomU5w8VFUXGWKIMf5uUsnXB74e9Zo76Gu
-	 ojoMyBcZVoTdB1dRINRll1d94ZIHfCoyPLsH36E4x2+pRmRWvks6pPr6eBHu4euhwrQ==
+	bh=Uh6D9C8zw8k2ciF6Aka7QZ/0294duv4CIz41u3J6i30=;
+	b=5ai3rXBL6kiw+6JtJiYW5h/2IF9aq8KTTHLyobql3y4kZ6ZyFHM36mdvUANPlsMys/mj
+	 nC7Eil5VKQOsrw/YZFyxAEA/BkZTtOi6yNayvTjQKwnVGv/SLj+TJV6j+fzqg31Zso0RG
+	 iZiORm89KqInOUBbvjEzQZKubknEdr1TaOlGxhoXLZ/d3Rl77wQVGFb1gsU2mtsXlxcXX
+	 TF0hF6zR9zZEgTeVcimJsK1u5vVjKREyTBafnJix+tBgby7+GlT/JQ0eAVJ3YbxBjqlCp
+	 3GU94Gfdfl7mBD0vtwcSRQEoagZ0hB21kbB4UUynrRNsxKrkpA30mBwkkWHFL87bCJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=birger-koblitz.de;
 	spf=pass smtp.mailfrom=birger-koblitz.de;
-	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=RYyIjLI4;
-	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=BfJFIqYk;
+	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=xzejz1AK;
+	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=nq3noX+6;
 	arc=none smtp.remote-ip=23.88.97.239
 Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAED606CE3D;
-	Sat, 14 Nov 2026 10:51:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BAED606CE3D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F5D606A89D;
+	Sat, 14 Nov 2026 10:51:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02F5D606A89D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=RYyIjLI4;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=BfJFIqYk
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=xzejz1AK;
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=nq3noX+6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1794653496;
-	bh=DMyfS/V8XkCvDQVVam9NrzNnW5N5E9LR5JQt9WDhjKo=;
+	s=default; t=1794653498;
+	bh=ycn+TETni0bFc5LJd2Abvies0NoQSGScwmb4fUcrgL8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=RYyIjLI4hCReOQ77HECsHccDa0ThtntK5j76u6FD0TIkxDYE7a18d5U3iGnpNAA8D
-	 a2uQC1biN2D4WTUlt/Qg5kvFeBrXhCJIHUoYkguWr/Zmc4cVZqO4SbS4gWqnbxzn3A
-	 XfuwgjLNxIPwoxf110tBAUVShZObWNqpR2JoZi5SLJjdfXIEkyN2jOqgvKk4q2hb2x
-	 QKtQ0qVo2NB9LVhoJhAnkaZFKyYVj/RYUhZdM6DsydAB6j0yggjMfVYZrTN9RWkJjX
-	 pLKpB+iGnRQqthiW/pHNCVU/Hf5m6e90KNIQFSEbBdKTNGovNds1FgQIyGCeY5v2z3
-	 Jcf8qhe+nz0Zg==
+	b=xzejz1AKik/M69TDuGG1GldJRB+3aJuPEQxE6V1W0/pZ0e2TSj/2Sy1gYS+N1BcAD
+	 MueAM/M3NYNSk+sEQP+uQd0pLlrT+hWtYdrkJ/IRnPb6fOaaNtOum+1xP82akXBi9+
+	 U5mET8kAZD3is/+UCkapeyv3HKkRPMn5XWaMrjYDMNE3wYAWcNIwnbbN78AxwQF13w
+	 Sa84qHkJTo+fnNYnGGor/6v/MJpbMSxZvxQ1CeAXWr9Zw6NWCjGrgjijp/VBqxh/Zi
+	 YbxmrQeneIefQImb9DY5e7s+kfdhoeBhuk4O1rujf9HtRQR7cRysEVFEoxK0owYXv9
+	 7qclMywuaI8vQ==
 Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id AFEA9489DF; Sat, 14 Nov 2026 10:51:36 +0000 (UTC)
+	id 8F186489BA; Sat, 14 Nov 2026 10:51:38 +0000 (UTC)
 X-Spam-Level: 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1794653484;
-	bh=DMyfS/V8XkCvDQVVam9NrzNnW5N5E9LR5JQt9WDhjKo=;
+	s=default; t=1794653485;
+	bh=ycn+TETni0bFc5LJd2Abvies0NoQSGScwmb4fUcrgL8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=BfJFIqYkm7jkUMJ3cQaJrgjzKAb8fwTf77o7a/YtNS1SQNnOQPHma/tNGs6+4Hphc
-	 dt8mszVLBY9gnNjz6e9onlqDUlMS9nPoLVll/mdCrTF0tpkQ4+2M39uIkvF9XmtnDl
-	 kGG/jLSkAjYOAgHhTgnUG3QxwwMQHvuPF9LK6UFZWAEwMOUtAmqxMWm0hGx8iXx2AZ
-	 iGhlChMEWQ/qHOobWaw2qLHJzmQdHcW4C5h7T5m26QJ6TLg3xe+3HZiFRstdG8Dgvj
-	 Ge3zfqt6qHY7Leo5sJngmYQqvFT8NOVPOy7PWbaPYjkyjwBBtjsHySEJO+BFNi7flN
-	 mTqeX73N1j9XA==
+	b=nq3noX+6RdN08wxJLDLE0J4Da2DLqpavik0CLkzNyUYNbE3OXbVDAdMujnN21+buy
+	 6aleSPLLgBKEaihEF5qWlG0FslhqXoY856MEM+ctcEKJLSkmJfgJcJRM6/zpVbesTY
+	 D+fWoPYQU+JED3WmzFfjcxQNC/N2s8hHbhEsp3hWAAXqc+2vqxDurQv7zXVAvHuWWE
+	 4LbsQlHixbFsmyOE7RpnTdlAv31YDqdtxvge8KKkjqlcWQXT4x+/GME2aofVysEbr+
+	 VXTdhWx3T/ixXxOHC4GAG/ZyF8BxX+4EfRlt4PLtyXha6r+9ocl76Ic+pe8wvSPcCq
+	 h/iSXljNFxJEQ==
 Received: from AMDDesktop.lan (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id E1DA1489AA;
-	Sat, 14 Nov 2026 10:51:23 +0000 (UTC)
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id E0E3D489BD;
+	Sat, 14 Nov 2026 10:51:24 +0000 (UTC)
 From: Birger Koblitz <mail@birger-koblitz.de>
-Date: Sat, 14 Nov 2026 11:51:05 +0100
-Subject: [PATCH net-next v21 09/13] ax88179_178a: Add Suspend/resume
- support for AX88179A/772D/279
+Date: Sat, 14 Nov 2026 11:51:07 +0100
+Subject: [PATCH net-next v21 11/13] ax88179_178a: Update driver name and
+ information
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -77,7 +77,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261114-ax88179a-v21-9-c2d34410bcbe@birger-koblitz.de>
+Message-Id: <20261114-ax88179a-v21-11-c2d34410bcbe@birger-koblitz.de>
 References: <20261114-ax88179a-v21-0-c2d34410bcbe@birger-koblitz.de>
 In-Reply-To: <20261114-ax88179a-v21-0-c2d34410bcbe@birger-koblitz.de>
 To: Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -90,290 +90,125 @@ Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
  Jianhui Xu <neuromoments@gmail.com>, 
  Emir Beganovic <beganovic.emir@gmail.com>, 
- Birger Koblitz <mail@birger-koblitz.de>
+ Birger Koblitz <mail@birger-koblitz.de>, Nicolai Buchwitz <nb@tipi-net.de>
 X-Mailer: b4 0.14.2
 
-The suspend and resume functions are called via the usb_driver structure,
-for which the driver has only a single instance. Add wrapper functions
-for the different implementations for the AX88179 and AX179A architecutres
-in ax88179_lib which calls the 2 implementations in ax88179_178a and
-ax88179a_devices, respectively.
+Add additionally supported devices to Kconfig description, add
+further requirements such as PHYLINK.
+
+Update driver name in usb_driver and update MODULE_DESCRIPTION
+to include the additionally supported chips.
+
+Change Kconfig symbol name from USB_NET_AX88179_178A to USB_NET_AX88179
+and update loongson32_defconfig/loongson64_defconfig to use that
+symbol.
 
 Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
-Suggested-by: Jianhui Xu <neuromoments@gmail.com>
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Reviewed-by: Nicolai Buchwitz <nb@tipi-net.de>
 ---
- drivers/net/usb/ax88179_178a.c     |   9 ++-
- drivers/net/usb/ax88179_lib.c      |  19 ++++++
- drivers/net/usb/ax88179_lib.h      |   4 ++
- drivers/net/usb/ax88179a_devices.c | 129 +++++++++++++++++++++++++++++++++++--
- 4 files changed, 153 insertions(+), 8 deletions(-)
+ arch/loongarch/configs/loongson32_defconfig |  2 +-
+ arch/loongarch/configs/loongson64_defconfig |  2 +-
+ drivers/net/usb/Kconfig                     | 11 +++++++----
+ drivers/net/usb/Makefile                    |  2 +-
+ drivers/net/usb/ax88179_178a.c              |  8 ++++----
+ 5 files changed, 14 insertions(+), 11 deletions(-)
 
+diff --git a/arch/loongarch/configs/loongson32_defconfig b/arch/loongarch/configs/loongson32_defconfig
+index dbef879935f322e6167b4ed878ad4cb20048c6db..a039b8e8d242073c16ea281cf8734068a1a9b29f 100644
+--- a/arch/loongarch/configs/loongson32_defconfig
++++ b/arch/loongarch/configs/loongson32_defconfig
+@@ -641,7 +641,7 @@ CONFIG_USB_RTL8150=m
+ CONFIG_USB_RTL8152=m
+ CONFIG_USB_USBNET=m
+ # CONFIG_USB_NET_AX8817X is not set
+-# CONFIG_USB_NET_AX88179_178A is not set
++# CONFIG_USB_NET_AX88179 is not set
+ CONFIG_USB_NET_CDC_EEM=m
+ CONFIG_USB_NET_HUAWEI_CDC_NCM=m
+ CONFIG_USB_NET_CDC_MBIM=m
+diff --git a/arch/loongarch/configs/loongson64_defconfig b/arch/loongarch/configs/loongson64_defconfig
+index 4f8bb77b8a1e6e30bcbd6e96d7e38b5054630ea0..b30415c03fa185cae77e81ded929c743ef22ee40 100644
+--- a/arch/loongarch/configs/loongson64_defconfig
++++ b/arch/loongarch/configs/loongson64_defconfig
+@@ -657,7 +657,7 @@ CONFIG_USB_RTL8150=m
+ CONFIG_USB_RTL8152=m
+ CONFIG_USB_USBNET=m
+ # CONFIG_USB_NET_AX8817X is not set
+-# CONFIG_USB_NET_AX88179_178A is not set
++# CONFIG_USB_NET_AX88179 is not set
+ CONFIG_USB_NET_CDC_EEM=m
+ CONFIG_USB_NET_HUAWEI_CDC_NCM=m
+ CONFIG_USB_NET_CDC_MBIM=m
+diff --git a/drivers/net/usb/Kconfig b/drivers/net/usb/Kconfig
+index 115990b0d9537aea2776544c9768b034f32aa7a4..cc8f2e150339915908fe1c28dea82e1103bbf17d 100644
+--- a/drivers/net/usb/Kconfig
++++ b/drivers/net/usb/Kconfig
+@@ -195,18 +195,21 @@ config USB_NET_AX8817X
+ 	  This driver creates an interface named "ethX", where X depends on
+ 	  what other networking devices you have in use.
+ 
+-config USB_NET_AX88179_178A
+-	tristate "ASIX AX88179/178A USB 3.0/2.0 to Gigabit Ethernet"
++config USB_NET_AX88179
++	tristate "ASIX AX88179/179A/178A USB 2.0/3.0 to 100M/1G/2.5GbE Adapters"
+ 	depends on USB_USBNET
+-	select CRC32
+ 	select PHYLINK
+-	default y
++	select AX88796B_PHY
++	select CRC32
+ 	help
+ 	  This option adds support for ASIX AX88179 based USB 3.0/2.0
+ 	  to Gigabit Ethernet adapters.
+ 
+ 	  This driver should work with at least the following devices:
+ 	    * ASIX AX88179
++	    * ASIX AX88179A/B
++	    * ASIX AX88279
++	    * ASIX AX88772D/E
+ 	    * ASIX AX88178A
+ 	    * Sitcomm LN-032
+ 
+diff --git a/drivers/net/usb/Makefile b/drivers/net/usb/Makefile
+index 2ecead0181eaf8d66fb6f5dbd6f2905b22b6eb57..4026f19ecb826a6465de38f1d9bb0e4c0af80421 100644
+--- a/drivers/net/usb/Makefile
++++ b/drivers/net/usb/Makefile
+@@ -12,7 +12,7 @@ obj-$(CONFIG_USB_HSO)		+= hso.o
+ obj-$(CONFIG_USB_LAN78XX)	+= lan78xx.o
+ obj-$(CONFIG_USB_NET_AX8817X)	+= asix.o
+ asix-y := asix_devices.o asix_common.o ax88172a.o
+-obj-$(CONFIG_USB_NET_AX88179_178A)      += ax88179.o
++obj-$(CONFIG_USB_NET_AX88179)      += ax88179.o
+ ax88179-y := ax88179_178a.o ax88179a_devices.o ax88179_lib.o
+ obj-$(CONFIG_USB_NET_CDCETHER)	+= cdc_ether.o
+ obj-$(CONFIG_USB_NET_CDC_EEM)	+= cdc_eem.o
 diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
-index f78ad344c1c4f1f057164728e4f21f875e6cdc1a..b077b7153f0c07676aafd5dfd13a2c0d9a826719 100644
+index b077b7153f0c07676aafd5dfd13a2c0d9a826719..88dce368eacfeee5df4062ff277041427f6ff475 100644
 --- a/drivers/net/usb/ax88179_178a.c
 +++ b/drivers/net/usb/ax88179_178a.c
-@@ -685,6 +685,9 @@ static int ax88179_bind(struct usbnet *dev, struct usb_interface *intf)
- 	dev->driver_priv = ax179_data;
- 	mutex_init(&ax179_data->medium_status_mutex);
+@@ -1361,8 +1361,8 @@ static const struct usb_device_id products[] = {
+ };
+ MODULE_DEVICE_TABLE(usb, products);
  
-+	ax179_data->resume = ax88179_resume;
-+	ax179_data->suspend = ax88179_suspend;
-+
- 	ret = ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_CHIP_STATUS,
- 			       1, 1, &ax179_data->chip_version);
- 	if (ret < 0)
-@@ -1362,9 +1365,9 @@ static struct usb_driver ax88179_178a_driver = {
- 	.name =		"ax88179_178a",
+-static struct usb_driver ax88179_178a_driver = {
+-	.name =		"ax88179_178a",
++static struct usb_driver ax88179_driver = {
++	.name =		"ax88179",
  	.id_table =	products,
  	.probe =	usbnet_probe,
--	.suspend =	ax88179_suspend,
--	.resume =	ax88179_resume,
--	.reset_resume =	ax88179_resume,
-+	.suspend =	ax88179_suspend_wrapper,
-+	.resume =	ax88179_resume_wrapper,
-+	.reset_resume =	ax88179_resume_wrapper,
- 	.disconnect =	ax88179_disconnect,
- 	.supports_autosuspend = 1,
+ 	.suspend =	ax88179_suspend_wrapper,
+@@ -1373,8 +1373,8 @@ static struct usb_driver ax88179_178a_driver = {
  	.disable_hub_initiated_lpm = 1,
-diff --git a/drivers/net/usb/ax88179_lib.c b/drivers/net/usb/ax88179_lib.c
-index f27b073e1bccb72a49437cb082a80c8e73a5de46..1523a920f3c38bf5c88a43c8a33645987b569bcd 100644
---- a/drivers/net/usb/ax88179_lib.c
-+++ b/drivers/net/usb/ax88179_lib.c
-@@ -493,3 +493,22 @@ int ax88179_set_mac_addr(struct net_device *net, void *p)
- 	return 0;
- }
- 
-+int ax88179_suspend_wrapper(struct usb_interface *intf, pm_message_t message)
-+{
-+	struct usbnet *dev = usb_get_intfdata(intf);
-+	struct ax88179_data *priv;
-+
-+	priv = dev->driver_priv;
-+
-+	return priv->suspend(intf, message);
-+}
-+
-+int ax88179_resume_wrapper(struct usb_interface *intf)
-+{
-+	struct usbnet *dev = usb_get_intfdata(intf);
-+	struct ax88179_data *priv;
-+
-+	priv = dev->driver_priv;
-+	return priv->resume(intf);
-+}
-+
-diff --git a/drivers/net/usb/ax88179_lib.h b/drivers/net/usb/ax88179_lib.h
-index adc2b4598bb52d80c18a6e2cc467144d3bd57a88..401c0bed3d28b4b94f0a0cad7509cd7087ef0639 100644
---- a/drivers/net/usb/ax88179_lib.h
-+++ b/drivers/net/usb/ax88179_lib.h
-@@ -315,6 +315,8 @@ struct ax88179_data {
- 	struct phy_device *phydev;
- 	struct phylink *phylink;
- 	struct phylink_config phylink_config;
-+	int (*resume)(struct usb_interface *intf);
-+	int (*suspend)(struct usb_interface *intf, pm_message_t message);
  };
  
- struct ax88179_int_data {
-@@ -348,6 +350,8 @@ int ax88179_set_features(struct net_device *net, netdev_features_t features);
- void ax88179_get_mac_addr(struct usbnet *dev);
- int ax88179_change_mtu(struct net_device *net, int new_mtu);
- int ax88179_set_mac_addr(struct net_device *net, void *p);
-+int ax88179_suspend_wrapper(struct usb_interface *intf, pm_message_t message);
-+int ax88179_resume_wrapper(struct usb_interface *intf);
+-module_usb_driver(ax88179_178a_driver);
++module_usb_driver(ax88179_driver);
  
- extern const struct driver_info ax88179a_info;
- extern const struct driver_info ax88772d_info;
-diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179a_devices.c
-index a6b0a3f47118c46db38d483792c083510aa2641a..01d6a35f68b2c56f79acbe2875ce8e99ccdfb197 100644
---- a/drivers/net/usb/ax88179a_devices.c
-+++ b/drivers/net/usb/ax88179a_devices.c
-@@ -5,6 +5,8 @@
- #include <linux/if_vlan.h>
- #include "ax88179_lib.h"
- 
-+static int ax88179a_reset(struct usbnet *dev);
-+
- #define AX88279_EEPROM_LEN			0x4000
- #define AX88179A_EEPROM_LEN			(32 * 20)
- 
-@@ -126,6 +128,63 @@ static void ax88179a_status(struct usbnet *dev, struct urb *urb)
- 	phylink_mac_interrupt(data->phylink);
- }
- 
-+static int ax88179a_suspend(struct usb_interface *intf, pm_message_t message)
-+{
-+	struct usbnet *dev = usb_get_intfdata(intf);
-+	struct ax88179_data *priv;
-+	u8 tmp8 = 0;
-+	u16 tmp16;
-+	int ret;
-+
-+	priv = dev->driver_priv;
-+	ax88179_set_pm_mode(dev, true);
-+
-+	if (netif_running(dev->net)) {
-+		rtnl_lock();
-+		phylink_suspend(priv->phylink, !!priv->wolopts);
-+		rtnl_unlock();
-+	}
-+
-+	ret = usbnet_suspend(intf, message);
-+	if (ret && netif_running(dev->net)) {
-+		rtnl_lock();
-+		phylink_resume(priv->phylink);
-+		rtnl_unlock();
-+		ax88179_set_pm_mode(dev, false);
-+		return ret;
-+	}
-+
-+	/* Enable WoL */
-+	if (priv->wolopts) {
-+		ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD, 1, 1, &tmp8);
-+		tmp8 &= ~(AX_MONITOR_MODE_RWLC | AX_MONITOR_MODE_RWMP);
-+		if (priv->wolopts & WAKE_PHY)
-+			tmp8 |= AX_MONITOR_MODE_RWLC;
-+		if (priv->wolopts & WAKE_MAGIC)
-+			tmp8 |= AX_MONITOR_MODE_RWMP;
-+
-+		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD, 1, 1, &tmp8);
-+
-+		ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, &tmp16);
-+		tmp16 |= AX_MEDIUM_RECEIVE_EN;
-+		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, &tmp16);
-+
-+		if (priv->chip_version == AX_VERSION_AX88279)
-+			ax88179_write_cmd(dev, AX88179A_WAKEUP_SETTING, 8,
-+					  EPHY_LOW_POWER_EN | S5_WOL_EN
-+					  | S5_WOL_LOW_POWER | 0x8000, 0, NULL);
-+		else
-+			ax88179_write_cmd(dev, AX88179A_WAKEUP_SETTING, 0,
-+					  EPHY_LOW_POWER_EN, 0, NULL);
-+
-+	} else if (priv->chip_version == AX_VERSION_AX88279) {
-+		ax88179_write_cmd(dev, AX88179A_WAKEUP_SETTING, 8, 0x8000, 0, NULL);
-+	}
-+
-+	ax88179_set_pm_mode(dev, false);
-+	return 0;
-+}
-+
- static int ax88179a_auto_detach(struct usbnet *dev)
- {
- 	u16 tmp16;
-@@ -135,6 +194,47 @@ static int ax88179a_auto_detach(struct usbnet *dev)
- 	return 0;
- }
- 
-+static int ax88179a_resume(struct usb_interface *intf)
-+{
-+	struct usbnet *dev = usb_get_intfdata(intf);
-+	struct ax88179_data *ax179_data;
-+	u8 reg8 = 0;
-+	int ret;
-+
-+	ax179_data = dev->driver_priv;
-+	ax88179_set_pm_mode(dev, true);
-+
-+	ret = ax88179_read_cmd(dev, AX88179A_PHY_POWER, 0, 0, 1, &reg8);
-+	if (ret < 0)
-+		goto err_out;
-+
-+	if (!(reg8 & AX_PHY_POWER)) {
-+		reg8 = AX_PHY_POWER;
-+		ax88179_write_cmd(dev, AX88179A_PHY_POWER, 0, 0, 1, &reg8);
-+		msleep(250);
-+	}
-+	ax88179_write_cmd(dev, AX_FW_MODE, AX_FW_MODE_179A, 0, 0, NULL);
-+
-+	/* Now, that AX_FW_MODE_179A is enabled, the PHY needs a power-cycle.
-+	 * PHY-power is re-enabled in ax88179a_reset()
-+	 */
-+	ax88179_write_u8(dev, AX88179A_PHY_POWER, 0, 0, 0);
-+	msleep(250);
-+
-+	ax88179a_reset(dev);
-+
-+err_out:
-+	if (netif_running(dev->net)) {
-+		rtnl_lock();
-+		phylink_resume(ax179_data->phylink);
-+		rtnl_unlock();
-+	}
-+
-+	ax88179_set_pm_mode(dev, false);
-+
-+	return usbnet_resume(intf);
-+}
-+
- static void ax88179a_bulkin_config(struct usbnet *dev, u8 link_sts, u8 speed, bool full_duplex)
- {
- 	struct ax88179_data *ax179_data = dev->driver_priv;
-@@ -755,6 +855,9 @@ static int ax88179a_bind(struct usbnet *dev, struct usb_interface *intf)
- 		ax179_data->eeprom_wen = 0;
- 	}
- 
-+	ax179_data->resume = ax88179a_resume;
-+	ax179_data->suspend = ax88179a_suspend;
-+
- 	dev->net->netdev_ops = &ax88179a_netdev_ops;
- 	dev->net->ethtool_ops = &ax88179a_ethtool_ops;
- 	dev->net->needed_headroom = 8;
-@@ -802,6 +905,13 @@ static int ax88179a_bind(struct usbnet *dev, struct usb_interface *intf)
- 	if (ret)
- 		goto initphy_err;
- 
-+	/* Keep this interface runtime-PM active by taking a usage ref.
-+	 * Prevents runtime suspend while bound and avoids resume paths
-+	 * that could deadlock (autoresume under RTNL while USB PM lock
-+	 * is held, phylink/MDIO wants RTNL).
-+	 */
-+	pm_runtime_get_noresume(&intf->dev);
-+
- 	return 0;
- 
- initphy_err:
-@@ -829,7 +939,8 @@ static void ax88179a_unbind(struct usbnet *dev, struct usb_interface *intf)
- 	ax88179a_mdio_unregister(ax179_data);
- 
- 	ax88179_write_u8(dev, AX88179A_PHY_POWER, 0, 0, 0);
--
-+	/* Drop the PM usage ref taken in bind() */
-+	pm_runtime_put_noidle(&intf->dev);
- 	kfree(ax179_data);
- }
- 
-@@ -1055,9 +1166,13 @@ static int ax88179a_reset(struct usbnet *dev)
- 	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_SWP_CTRL, 1, 0);
- 	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_TX_HDR_CKSUM, 1, 0);
- 
--	/* Read MAC address from DTB or asix chip */
--	ax88179_get_mac_addr(dev);
--	memcpy(dev->net->perm_addr, dev->net->dev_addr, ETH_ALEN);
-+	/* Read MAC address from DTB or asix chip, except when called
-+	 * from resume context.
-+	 */
-+	if (!ax179_data->in_pm) {
-+		ax88179_get_mac_addr(dev);
-+		memcpy(dev->net->perm_addr, dev->net->dev_addr, ETH_ALEN);
-+	}
- 
- 	/* The Bulk-Register configuration for the AX88179A is done in
- 	 * ax88179a_mac_link_up(), once the link is up for a given link and USB-speed.
-@@ -1117,7 +1232,11 @@ static int ax88179a_reset(struct usbnet *dev)
- 	/* Ensure EEE state is off, consistent with phylink setup */
- 	ax88179_write_cmd(dev, AX_GPHY_CTL, AX_GPHY_EEE_CTRL, false, 0, NULL);
- 
--	phylink_start(ax179_data->phylink);
-+	/* ax88179a_reset() may also be called from resume context,
-+	 * phylink_resume() will start phylink, then.
-+	 */
-+	if (!ax179_data->in_pm)
-+		phylink_start(ax179_data->phylink);
- 
- 	return 0;
- }
+-MODULE_DESCRIPTION("ASIX AX88179/178A based USB 3.0/2.0 Gigabit Ethernet Devices");
++MODULE_DESCRIPTION("ASIX AX88179/179A/178A/279 based USB 3.0/2.0 100M/1G/2.5GbE Controllers");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS("ax88179_178a");
 
 -- 
 2.47.3
