@@ -1,56 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794617486;
-	b=z5BMY7n31WFVSvZnwe8NNrJrCIivsMmMJW4uV5jtfMmE/MRYdu7KG3R3FXhM+PrsJIfM
-	 x2Qa5kArDzUwP+y8ql3kGMZ1EaIabPU5RoN6/hmg6c372gqY1TwGGoxW6wAtNIoOvQE91
-	 ZcSYWDpTzc2riQT6Ler+biOo/HKH8w3KxdZQbnDSRAjWRRZM/ViIFj5GqXM7lrLgAzjBF
-	 dONjSD7m12Ox0C0IS7JF2wSUJ53/md5+ESENAMfsi9RG+8i2E/zVdgcTCO4tNUFOnkxPy
-	 mpUer0u33x5ZE9YjMyfn6d1SqpeIBu7C2eMRgVqf7pWN0Tk53zwt2uhYkV7bnEABZKg==
+	t=1794618168;
+	b=bEsAyXzC1tUrgNK+9UiRAw8pXnQ9uslZNRMY6kXGMRxqhsB6gRkoP+I/QMaiuqmnRZzw
+	 hwPA4Vt0A/mBTs/EO/Op1wwPr1ivwfxpL8KlsomCQMjvsjKxvBLnCUFgXL3FwIZQYGOeQ
+	 3h7RSZfWTVMtr5AYm61vEduHzFpwRTC0TLkJdYwninsO1q5vT7Nn1qkB0s2B5v3XjfrUM
+	 n6Q7WFMC3OM/QLVNVfaX1XZ3a/nPsfCDCk6ms9F4E+ETm08RzWCqfa63LdzlzibocxzNC
+	 81guJdMY0nNaYZX5IMohoH0Hgil8Pl4hmaxWF09PZh1ew9rHP0xWJDimo3F5eYsszAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794617486;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=JwOs+4Xj/DhRJ9EsZBcddQ2lVtFsvy1o6iMQbmKEXq4=;
-	b=uhHcVw5ZN9H3QqPojwR2n3AEQuOfB1f5OwvEzZV/r4O88zZEnNoXYbDu3eLRQSbr1O3d
-	 GXUUjYhKe0n1kAmJ3u3kuVOFhGGHLC2g6SIXtHmVsTDvedOxqlVKrXTBLkjTYJFQ/wL+a
-	 PxPZuddT28aI9edAs2qsujXD2xD872aoYXvsXg9Uia8H1RqKbuu1+96XwLC6bXg3iL0qi
-	 kFeY83UxBus0NToFtAL9PK0TEgOthHvfY/Tn2DeV1YBSBr+Yvg/BWYWeK9O9aZzdsz5nd
-	 DEn448VYc/Dp1rfN/+MTA17Uf/E7E9aGBtBVsQFB7YmGf/cNEqwmnCswi5PBAvUTJ6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794618168;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=+B9aebVwfiAumfBffTjefgnIhBZHkMO9u3GJcorpwBs=;
+	b=iW+2ajWLLHrEEvr2M6ZrJ/JxLMLNUhsZIYF8fSh0JzN+0q5uZGlQ4J1ROybgnMi3giva
+	 C2tSKZrwK2Gw1agir4lybhAD8D9k0h/l8yUxM7BROnHjSZkINZMEGtB2ziZ6nJoVyAeg1
+	 SZ3vWE6sjEOcKXkKZzku1WME6FojE92PqaoicBSusdIyOI0O20rxeRc2kbfmVxmJ8CryB
+	 hNig+vsOOAzhh0gSG71g3O17R6OafQ+ULrdPVAJo7/vSLLi6y4LaDKJma+8yQMrupRY+U
+	 hniR/wHjMifLuRsSl+v8jAelXz6VnVZkAMUTvGjrrQJi4TAK8Ee7ye1vLNHIE4dMs0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TyX+VqBd;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=GXlLRdUt;
+	arc=none smtp.remote-ip=148.251.105.195
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DAB606A323;
-	Sat, 14 Nov 2026 00:51:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC82606A33F;
+	Sat, 14 Nov 2026 01:02:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DC82606A33F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TyX+VqBd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BE7B1F000C4;
-	Sat, 14 Nov 2026 00:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794617485;
-	bh=JwOs+4Xj/DhRJ9EsZBcddQ2lVtFsvy1o6iMQbmKEXq4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TyX+VqBdvJ4f1sqcVbgmP+Xqwysr5h0LaYnR/er9rwv0Mg4cK3RvKL+aG0nykwWKT
-	 thZX3LeCx4LQ0SMllgf5DNg/Ccnj5IjWxGPD6sHLRnV4v9L/xRu8r1H0ltZrjLbDiG
-	 dtO+RnPDvCWjN699Y40Opfh2b31EGF0ytJTw70wCjJKj/EOQ+3Kl+2USyeqx+gD0BA
-	 faZdc4QJqSnWg8PZiuaWBNQJw2MTdB2uZwDmwlhQLLU7uGjGQ9zMXSDWsm2zE0QELR
-	 FnN8g0o3tHm892Qb1q+nhB45/gucRcSOTJI5mS1Psw+ac4rJRwlxmznm3SfwqXxu4X
-	 ArkUmeCpjbGdA==
-Message-ID: <sashiko-outbox-213955@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [RFC PATCH] PM: sleep: Allow direct-complete for wakeup devices
- in suspend-to-idle
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Paul Menzel" <pmenzel@molgen.mpg.de>
-Cc: linux-pci@vger.kernel.org, linux-usb@vger.kernel.org
-In-Reply-To: <20261114001551.219620-1-pmenzel@molgen.mpg.de>
-References: <20261114001551.219620-1-pmenzel@molgen.mpg.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Nov 2026 00:51:25 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=GXlLRdUt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1794618166;
+	bh=SYxcdDtyKbqLMgK+NpoqNuUD79S7Z8A1s3uyXcWzLZ4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=GXlLRdUtTG1TJUvu9wZ6f1hZfQdHAMNUkjVaMfWTOcAfzZHUn9y5xGR8qJ2iHep/d
+	 gVJL+8INdgMbwfvK2XZmPvnMpJjSEG5DRDmGxoRJsZ06r3n0NfaQYVo6DZpml422cQ
+	 vLh8b9d0qdXTans+eJMniHL4JietSYeRXknFidmNLhvi2NDqZbM/oSZ9P8CEqFbCkJ
+	 ANLReUYKLMNlJqLT65KxuCruNzCmKNe6AxoNtYyItJI7Qj8UffslLX9iljAkMYG2ez
+	 oE22NXttDlBdnOaMAFEzgugEqiqe/ofc/uwGujDuU3jvgoTDEXkSLEB00+chUhsjBS
+	 fvvV8zHmfN9Rg==
+Received: from jupiter.universe (unknown [100.64.1.62])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0E43517E0F7F;
+	Sat, 14 Nov 2026 02:02:46 +0100 (CET)
+Received: by jupiter.universe (Postfix, from userid 1000)
+	id C62AB480035; Sat, 14 Nov 2026 02:02:45 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+Date: Sat, 14 Nov 2026 02:02:03 +0100
+Subject: [PATCH v19 4/6] usb: dwc3: core: add post PHY registration hook
+ for platform glue
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,185 +65,103 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261114-b4-rockchip-dwc3-rockchip-glue-v19-4-b79fb5f4b42a@collabora.com>
+References: <20261114-b4-rockchip-dwc3-rockchip-glue-v19-0-b79fb5f4b42a@collabora.com>
+In-Reply-To: <20261114-b4-rockchip-dwc3-rockchip-glue-v19-0-b79fb5f4b42a@collabora.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
+ Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>, 
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
+ Igor Paunovic <royalnet026@gmail.com>, Alexey Charkov <alchark@flipper.net>, 
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-phy@lists.infradead.org, kernel@collabora.com, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2197;
+ i=sebastian.reichel@collabora.com; h=from:subject:message-id;
+ bh=SYxcdDtyKbqLMgK+NpoqNuUD79S7Z8A1s3uyXcWzLZ4=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGr3szXLxyZak1kTZPsvLz4maLq8PemiO7Yql
+ 76kHj3SupmkCokCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJq97M1AAoJENju1/PI
+ O/qabE0P/iD4GdiX/tOlYqOvtQS88CZ843fg0SfwiPpg9AokapVRQ2qMdAZXaKMUVjT9ZB8LJ3T
+ 14RQc/slbiq/1M5Zd1LrGvmMnikn8E42j3DNWkY58S6GrpTLyu9qV/CzLSVYqvFKyxHtV6XtRdN
+ f2ATTSRGrEZkuOkqiqPjeTTWCXoRiphUSupewknRJ46txys0/Rnr44D1cqyjapHdWPmYFysyFiw
+ 2InDwiveoa6gDVmwFSv0ziba0yWci313/nGgGdYMJhIeuFgsjddDIJiaCoeeGDfgo18byM8Dq1E
+ jVSmJj9cCAAR3PBxGiUNUTv1BudhdNJ9omr8RoL9ppKpm+6INztjZvetAsO0agR7AP+/2lQCy+n
+ RvMqRmYuD99oROPUfqpXTv2mWG7Ok9jNGW4plkyLMRqk5k/345k+8FNBfMBENEix1PAI9EWcmZZ
+ l9fUjutRaFVax2y7ajobW9yZqXBb+3wS5qBEYxYTMwsUhLB+CVHhG6wXDElq8Du6QWrbyWmQPp/
+ 7iX8Z+neJFn2FGzpZ8N1V+KMsJMzJ12vt0qhZcOHs47zi3DuzXs7MGuATStUFbNBQcsydo1/4lD
+ 98qKboGY37qNK8wj6z3Vv0SRw0TgVP/kf6s6lljYATq/ClIu2R4qYgcILkirYCHtdofoPN/75Z/
+ Gaho/E3QoBBqrOYRgPugsrg==
+X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
+ fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [High] PM: sleep: device_suspend() direct_complete in s2idle breaks
-  wakeup setup
-- [High] PM: sleep: device_suspend() direct_complete ignores late
-  wakeup_path
-- [High] PM: sleep: direct_complete disables runtime PM during s2idle
-  wakeup resume
-- [Medium] PM: sleep: direct-completed Thunderbolt NHI resumes in
-  nhi_complete()
---
+Add support for custom PHY handling steps in platform glue code
+by adding a post registration hook. This will be used for handling
+PHY reset notifications on the Rockchip platform.
 
-commit 483a192c54e90f429063c4920d07666e5377cd77
-Author: Paul Menzel <pmenzel@molgen.mpg.de>
+Tested-by: Igor Paunovic <royalnet026@gmail.com> # Orange Pi 5 Plus
+Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Reviewed-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Tested-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ drivers/usb/dwc3/core.c | 2 +-
+ drivers/usb/dwc3/core.h | 9 +++++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-PM: sleep: Allow direct-complete for wakeup devices in suspend-to-idle
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 4b7132887a03..daf5aec07fbf 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1613,7 +1613,7 @@ static int dwc3_core_get_phy(struct dwc3 *dwc)
+ 		}
+ 	}
+ 
+-	return 0;
++	return dwc3_post_phy_registration(dwc);
+ }
+ 
+ static int dwc3_core_init_mode(struct dwc3 *dwc)
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index f3dabb37f806..5f745838b30c 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1002,10 +1002,12 @@ struct dwc3_scratchpad_array {
+  *				need to be passed on to glue layer
+  * @pre_set_role: Notify glue of role switch notifications
+  * @pre_run_stop: Notify run stop enable/disable information to glue
++ * @post_phy_registration: Called directly after PHY got registered
+  */
+ struct dwc3_glue_ops {
+ 	void	(*pre_set_role)(struct dwc3 *dwc, enum usb_role role);
+ 	void	(*pre_run_stop)(struct dwc3 *dwc, bool is_on);
++	int	(*post_phy_registration)(struct dwc3 *dwc);
+ };
+ 
+ /**
+@@ -1674,6 +1676,13 @@ static inline void dwc3_pre_run_stop(struct dwc3 *dwc, bool is_on)
+ 		dwc->glue_ops->pre_run_stop(dwc, is_on);
+ }
+ 
++static inline int dwc3_post_phy_registration(struct dwc3 *dwc)
++{
++	if (dwc->glue_ops && dwc->glue_ops->post_phy_registration)
++		return dwc->glue_ops->post_phy_registration(dwc);
++	return 0;
++}
++
+ #if IS_ENABLED(CONFIG_USB_DWC3_HOST) || IS_ENABLED(CONFIG_USB_DWC3_DUAL_ROLE)
+ int dwc3_host_init(struct dwc3 *dwc);
+ void dwc3_host_exit(struct dwc3 *dwc);
 
-This commit allows runtime-suspended wakeup devices and devices on a wakeup
-path to use direct-complete during suspend-to-idle and propagates
-wakeup_path to their parents.
+-- 
+2.53.0
 
-> For PCI devices, ->prepare() already takes wakeup into account:
-> pci_pm_prepare() only returns 1 if pci_dev_need_resume() is false, which
-> compares device_may_wakeup() with the ACPI wakeup configuration the device
-> got for runtime PM (acpi_pci_need_resume()) and computes the target state
-> with pci_target_state(dev, device_may_wakeup(dev)), and it then adjusts
-> PME with pci_dev_adjust_pme().  For a device with wakeup enabled, this
-> decision is discarded right afterwards.  As PCI bridges that can do D3
-> (pci_acpi_setup()), PCI USB host controllers (usb_hcd_pci_probe()) and
-> Thunderbolt NHIs (nhi_probe()) enable wakeup by default, direct-complete =
-is
-> effectively limited to devices with wakeup disabled on x86 laptops.  On a
-> Dell XPS 13 9310 (Tiger Lake) these runtime-suspended functions are
-> affected:
->
->     0000:00:07.0 pcieport     D3cold  wakeup=3Denabled
->     0000:00:07.2 pcieport     D3cold  wakeup=3Denabled
->     0000:00:0d.0 xhci_hcd     D3cold  wakeup=3Denabled
->     0000:00:0d.2 thunderbolt  D3cold  wakeup=3Denabled
->     0000:00:0d.3 thunderbolt  D3cold  wakeup=3Denabled
->     0000:00:14.0 xhci_hcd     D3hot   wakeup=3Denabled
-
-[Severity: Medium]
-With this change alone, does a direct-completed Thunderbolt NHI avoid being
-powered back up to D0 on resume?  Because direct-complete skips system
-resume callbacks, the NHI reaches dpm_complete() still runtime-suspended,
-where nhi_complete() synchronously resumes it from D3cold anyway:
-
-drivers/thunderbolt/nhi.c:nhi_complete() {
-	if (pm_runtime_suspended(dev))
-		pm_runtime_resume(dev);
-	else
-		tb_domain_complete(tb);
-}
-
-Also, is the commit message accurate that pcieport and xhci_hcd have their
-pci_pm_prepare() decision discarded by the wakeup check in
-device_suspend()?  pcie_portdrv_probe() sets DPM_FLAG_NO_DIRECT_COMPLETE,
-so device_prepare() never enables direct_complete for pcieport, and
-xhci_hcd has child USB root hub devices whose usb_dev_prepare() returns 0,
-which clears direct_complete on xhci_hcd via
-dpm_clear_superiors_direct_complete().
-
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index 88a31e09e4f3f..f36c38d1585b0 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -1999,8 +1999,14 @@ static void device_suspend(struct device *dev, pm_=
-message_t state, bool async)
->  	if (dev->power.syscore)
->  		goto Complete;
-> =20
-> -	/* Avoid direct_complete to let wakeup_path propagate. */
-> -	if (device_may_wakeup(dev) || device_wakeup_path(dev))
-> +	/*
-> +	 * Avoid direct_complete to let wakeup_path propagate.  In
-> +	 * suspend-to-idle, though, no firmware is involved and a device left in
-> +	 * runtime suspend keeps the wakeup configuration it got for runtime PM,
-> +	 * so allow direct_complete there and propagate wakeup_path below.
-> +	 */
-> +	if ((device_may_wakeup(dev) || device_wakeup_path(dev)) &&
-> +	    pm_suspend_target_state !=3D PM_SUSPEND_TO_IDLE)
->  		dev->power.direct_complete =3D false;
-> =20
->  	if (dev->power.direct_complete) {
-
-[Severity: High]
-Does allowing direct_complete for all wakeup-enabled devices in
-PM_SUSPEND_TO_IDLE cause a regression for drivers that only arm wakeup
-interrupts or adjust wakeup masks in their system suspend callbacks?
-
-Even in suspend-to-idle, dpm_suspend_noirq() calls suspend_device_irqs(),
-which disables any device IRQ not marked with enable_irq_wake().  Several
-subsystems return 1 from ->prepare() for runtime-suspended devices in S0
-(such as acpi_subsys_prepare() via acpi_dev_needs_resume() and
-dwc3_pm_prepare()), while their drivers only call enable_irq_wake() in
-->suspend():
-
-drivers/bluetooth/hci_bcm.c:bcm_suspend() {
-	...
-	if (device_may_wakeup(dev) && bdev->irq > 0) {
-		error =3D enable_irq_wake(bdev->irq);
-		if (!error)
-			bt_dev_dbg(bdev, "BCM irq: enabled");
-	}
-}
-
-Skipping ->suspend() via direct_complete leaves those wakeup IRQs unarmed
-so suspend_device_irqs() disables them and the device cannot wake the
-system from s2idle.
-
-Conversely, drivers such as thunderbolt (tb_switch_suspend() and
-usb4_switch_set_wake()) and r8169 (rtl8169_runtime_suspend()) enable wider
-wakeup events for runtime suspend than for system sleep (for example,
-wake-on-connect, wake-on-disconnect, DisplayPort wake, or WAKE_PHY when
-carrier is off) even when wakeup is disabled in sysfs or via ethtool.
-Skipping system suspend leaves those runtime-only wakeup events armed
-during s2idle.
-
-[Severity: High]
-When a direct-completed device wakes the system from suspend-to-idle, does
-disabling runtime PM across the direct_complete path drop the wakeup
-resume request?
-
-Taking direct_complete in device_suspend() calls pm_runtime_disable(dev),
-and device_resume_noirq() and device_resume_early() both skip
-pm_runtime_enable(dev) when dev->power.direct_complete is set, leaving
-runtime PM disabled until device_resume() runs in dpm_resume().  However,
-s2idle wakeup notifications and wakeup IRQs are dispatched before
-dpm_resume() (for example, acpi_s2idle_wake() flushes pci_acpi_wake_dev()
-during platform_resume_noirq(), and dpm_resume_noirq() runs
-resume_device_irqs() and handle_threaded_wake_irq()).  While
-dev->power.disable_depth > 0 and the device is RPM_SUSPENDED, rpm_resume()
-rejects both pm_request_resume() and pm_runtime_resume() with -EACCES
-without queuing RPM_REQ_RESUME, so hardware PME/wakeup status is cleared
-while the waking device stays runtime-suspended after resume completes.
-
-> @@ -2009,6 +2015,10 @@ static void device_suspend(struct device *dev, pm_=
-message_t state, bool async)
->  			if (pm_runtime_status_suspended(dev)) {
->  				pm_dev_dbg(dev, state, "direct-complete ");
->  				dev->power.is_suspended =3D true;
-> +				if (device_may_wakeup(dev))
-> +					dev->power.wakeup_path =3D true;
-> +
-> +				dpm_propagate_wakeup_to_parent(dev);
->  				goto Complete;
->  			}
-> =20
-
-[Severity: High]
-Can propagating wakeup_path from a direct-completed child without clearing
-direct_complete on its ancestors leave the parent misconfigured for child
-wakeup in suspend-to-idle?
-
-dpm_prepare() runs top-down and clears dev->power.wakeup_path before
-invoking ->prepare(), so a parent's ->prepare() always sees
-device_wakeup_path(parent) =3D=3D false.  If a runtime-suspended parent has
-device_may_wakeup(parent) =3D=3D false while its child has wakeup enabled, =
-the
-parent's ->prepare() configures the parent assuming wakeup is not needed.
-For example, on a PCI parent in D1/D2/D3hot, pci_pm_prepare() calls
-pci_dev_adjust_pme(), which disables PME before returning 1:
-
-drivers/pci/pci.c:pci_dev_adjust_pme() {
-	if (pm_runtime_suspended(dev) && !device_may_wakeup(dev) &&
-	    pci_dev->current_state < PCI_D3cold)
-		__pci_pme_active(pci_dev, false);
-}
-
-Similarly, in serial_core, wakeup is enabled on the child tty_dev (which
-has no_pm_callbacks set), while the parent UART port calls
-enable_irq_wake(uport->irq) in uart_suspend_port() during ->suspend().
-Because dpm_clear_superiors_direct_complete() is not called and
-device_suspend() no longer clears direct_complete when
-device_wakeup_path(dev) is set in PM_SUSPEND_TO_IDLE, the parent also
-takes direct_complete and child wakeup fails.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114001551.2196=
-20-1-pmenzel@molgen.mpg.de?part=3D1
