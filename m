@@ -1,45 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794664501;
-	b=cLGcvge92KiX02qJXq7uxyR91ydJhYBePS75pKy/BcgvyWG0Mvc8dn9ki/8lU6dNV/qt
-	 Fo55TModoHknaWL6aiBzxaKXfhTq0pt3GBnPWfQI9x91xFRdjGc04GqatfDKKD42DUqJw
-	 m5pkkpjj6qb+kKEtrqzP5unnEkHArMzJvH9jIymZsJHRk73uq9mlS5JrX41JCkdThkP9y
-	 C1GU/S5jMfYS0BoTp6D7A8AQFrtc+6wvALCiPc3s2tOarcy1NaMTjKqPLLigVBzG7eoC/
-	 8DYaV52B19AxPBJFNGhfcVDf4h5htYV4sf8FFaUJe67Zxp85D+RfQ8L1QvQS+nxe9jQ==
+	t=1794665346;
+	b=Dh/vSgf1POruhGwAbIzkEIyMb5kz+ZwOn4wA36l62ByyxUUGnXZYEIMNIWAQZ4wb7zyr
+	 fLoZ47uvWPkBxlk8C5ECNVcXVg9OuFLoypkVofhdLgAs2bS6dvzTTvI4Xlh//g9SCVuu2
+	 jg5hUA7t79XISl8g/J6WLlhfR4zx7MUK7fsFAKGwxSXhQ4s43e6ZSItF1t8/K9qPStDV7
+	 zbtcpsnx5d4XJAZJY0Q7/Bao2S2RqX8iwNat5ytpZUUECyKbJ5cF6oeSFmLKf1vByVibt
+	 I2HK/6z8xyAu+6g/FzM3ILGW60tX52A79jhCNBAWwg/YXJBfN98yacKR6izrXiUsSSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794664501;
-	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
-	 In-Reply-To:References:Subject:From:To:Cc:Date;
-	bh=Xi+Jp34UVw8n6rWUcn3QcZPlSKYiPMqX7yCNJrzL8oU=;
-	b=V5R/exzs30werKTVaB6ZQc3TTKRigA6AvPUuUBGkEjUzmYfhFLBhm7eo+ZDi9HLGCmqj
-	 2NKSL3pWWn6Yw+wKvZEWD6ofmstErSLauaEeMF88x0YZblQnbV8zVEnH2ou6Oe25aOuuS
-	 OoewL4srl9D025D5TkE+J0RCBrRp4y7MVfhRXoerGAtL6NVj/rSIaPBI32Vbj0KB0RtpA
-	 ekG2pMVTSe4lVtDE98jviAgy9LbNQ6XA/2eE3oHNdCqXN5lIYK47C6Fc0JsWHRhNi2thF
-	 R0+ALYwgRdX8JcW23gHIYtu0K65Hrp8tfE2eHDChoyoVeP+6DjW9QsMMZfcCS6lnW8g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794665346;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=pxxacMxVePFTDz82jsHDl0aYmUO9B1dpY0NS6vSmFbs=;
+	b=1TDytY6fPvQNZkPqdKf8zNjTI9Ffr+8BVtDYhgDm3M6RbbASHvLQ3g9N3sbrmOvSbT5t
+	 v8K2qACTNvh7fO3S7IMRU0xWTa7moZlEaNOZ7kDIyGGP95+zwv792DdLdkLGofC7tgAPH
+	 U7OKO804jIV7//8MyG4n40zfZ0qvMJKRf7BrkTt/1DxLZ2x6J/Jfg6moscEPkuxeXID/4
+	 yEQtEqWEfR3OSPGcGFBavWYqLv9LvwgvqOKEJi/GoxQ5gp32R6L4rujOJMtJNmJ7wnq+b
+	 4pJCsuGIHp59I0DOskzs6R0TNHmtICdeqwfjkomajoEIDbHc4pOkL2WKFrHAZE+wXSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bfkXAKnv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GNT2Nmfi;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918CF606A330;
-	Sat, 14 Nov 2026 13:55:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282A5606A327;
+	Sat, 14 Nov 2026 14:09:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bfkXAKnv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E36F01F000C6;
-	Sat, 14 Nov 2026 13:54:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GNT2Nmfi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1500E1F000C4;
+	Sat, 14 Nov 2026 14:09:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794664501;
-	bh=Xi+Jp34UVw8n6rWUcn3QcZPlSKYiPMqX7yCNJrzL8oU=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=bfkXAKnvyN3NrzfYhrVigeGIKvr/8evEe0tQ8KwSyEafhDf3+AXVoqojleCZ7/Qdh
-	 2b013ZilynaxVntPTxgtS9Fyq3b+7yXhPeXkFfQ9ONM2J9MEOM/JQ3B/znTjkCUpqc
-	 r0tlhXctgE98kfAt1ITbmi9H0tApXPCL2XTcrVOM5qnz/NrX0rxwji+SmXMUOe8YHy
-	 kRbhgqC/kLnhpgS61Qu7Lfu7BuXDWJsHjF+zOY5u5KKN5rR5uvcX/zOV7QTiz8dq9Z
-	 GTd5PKapaf6tpFoOvo6qdgngRWS5W1FIZVvnJWAJ8F5DAYQTkJUN/Wbu5kFv6IHajV
-	 XPu1vrQEYpCgg==
-Content-Type: multipart/mixed; boundary="===============1687560790659556623=="
+	s=k20260515; t=1794665345;
+	bh=pxxacMxVePFTDz82jsHDl0aYmUO9B1dpY0NS6vSmFbs=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=GNT2Nmfi6jEnqJhxLaz4x1wAPeqHnv2My5LpcrnoJCbGBxGJjZ3Q/uiftkNGqA6x/
+	 VffIUjUGvLKKoWJgTsbeQuoY6dCmwVgJVPLeIxcVK0+PtAlmXakIT4hYUEzj8QP77j
+	 zV5oyd7vNWOXg+Hg0mfNd+5JBcFd6HRcY28zI50k42jZytOrJQNOiiYOaXXx3M267h
+	 pfqL1QtZrqs2S9CeZxQFnAhwjTralnWBXcRcZHWVaGIGk1LQ4nZsN4wmdeYAdHzvV8
+	 5mhJpyTjI0c3K67CIhNeSjMJmRTPLaTN864O5jKzaRfwKOOF0yAhlkWAbqz/f0eEz/
+	 ORdaMw52JjE9w==
+Subject:
+ Re: [PATCH net v2] net: usb: cdc_ncm: don't underflow the NDP room check
+From: netdev-bot+sashiko@kernel.org
+To: xujiahao@cmss.chinamobile.com
+Cc: oliver@neukum.org, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+1994e2ecf323ed90f255@syzkaller.appspotmail.com
+Date: Sat, 14 Nov 2026 14:09:04 +0000
+Message-ID: <179466534452.2199510.12286844115122956221@kernel.org>
+In-Reply-To: <20261110151624.696101-1-xujiahao@cmss.chinamobile.com>
+References: <20261110151624.696101-1-xujiahao@cmss.chinamobile.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -49,79 +64,98 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-Id: <df03e637354be695652a787563af21ac77b4c61f813ae4491a3397a91df7688e@mail.kernel.org>
-In-Reply-To: <20261114-work-loop-pseudo-v2-17-98639a2286fb@kernel.org>
-References: <20261114-work-loop-pseudo-v2-17-98639a2286fb@kernel.org>
-Subject: Re: [PATCH RFC v2 17/42] securityfs: use fc_init_pseudo()
-From: bot+bpf-ci@kernel.org
-To: brauner@kernel.org,linux-fsdevel@vger.kernel.org
-Cc: jannh@google.com,mason@kernel.org,josef@toxicpanda.com,hch@lst.de,linux-block@vger.kernel.org,linux-kernel@vger.kernel.org,linux-nvme@lists.infradead.org,viro@zeniv.linux.org.uk,jack@suse.cz,linux-scsi@vger.kernel.org,target-devel@vger.kernel.org,driver-core@lists.linux.dev,linux-mm@kvack.org,bpf@vger.kernel.org,linux-security-module@vger.kernel.org,selinux@vger.kernel.org,apparmor@lists.ubuntu.com,linux-nfs@vger.kernel.org,netdev@vger.kernel.org,fuse-devel@lists.linux.dev,linux-efi@vger.kernel.org,xen-devel@lists.xenproject.org,ocfs2-devel@lists.linux.dev,linux-s390@vger.kernel.org,linuxppc-dev@lists.ozlabs.org,linux-usb@vger.kernel.org,amir73il@gmail.com,linux-erofs@lists.ozlabs.org,linux-kselftest@vger.kernel.org,brauner@kernel.org,alex@amutable.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Sat, 14 Nov 2026 13:54:57 +0000 (UTC)
 
---===============1687560790659556623==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-> securityfs: use fc_init_pseudo()
+Critical: 0 · High: 0 · Medium: 1 · Low: 0
 
-TL;DR: Setting SB_I_NODEV on securityfs may make reopening AppArmor's
-inherited .null fd (e.g. open("/dev/stderr")) fail with -EACCES, which used to
-work; the commit message may also be inaccurate about device nodes.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-> diff --git a/security/inode.c b/security/inode.c
-> --- a/security/inode.c
-> +++ b/security/inode.c
+- [Medium] The code change is correct, but the commit message explains
+  the bug wrongly, so maintainers and backporters get a false picture of…
 
-[ ... ]
+--
 
-> @@ -64,6 +65,7 @@ static const struct fs_context_operations securityfs_context_ops = {
->
->  static int securityfs_init_fs_context(struct fs_context *fc)
->  {
-> +	fc_init_pseudo(fc);
->  	fc->ops = &securityfs_context_ops;
->  	return 0;
->  }
+net: usb: cdc_ncm: don't underflow the NDP room check
 
-The commit message says "AppArmor puts a .null device node into securityfs
-but only ever opens it via dentry_open() which doesn't care about
-SB_I_NODEV."  Is that the whole picture?
+This patch rewrites the NDP room check in cdc_ncm_ndp16() and
+cdc_ncm_ndp32() as an addition instead of an unsigned subtraction. The
+old form could wrap when skb->len + reserve exceeded tx_curr_size, and
+then skb_put_zero() of max_ndp_size bytes could overrun the skb.
 
-aa_inherit_files() installs that dentry_open()ed file into the task's fd
-table:
+Closes: https://syzkaller.appspot.com/bug?extid=1994e2ecf323ed90f255
 
-    devnull = dentry_open(&aa_null, O_RDWR, cred);
+> tx_max is only clamped to max_datagram_size + max_ndp_size + the NTH
+> header size, so tx_curr_size is just big enough for one datagram and
+> one NDP.
+
+[Severity: Medium]
+The code change looks correct. Is this description of the clamp accurate
+at bind time, though?
+
+cdc_ncm_setup() clamps tx_max before max_datagram_size is set:
+
+drivers/net/usb/cdc_ncm.c:cdc_ncm_setup() {
     ...
-    replace_fd(n - 1, devnull, 0);
+	/* clamp rx_max and tx_max and inform device */
+	cdc_ncm_update_rxtx_max(dev, def_rx, def_tx);
+    ...
+	/* set max datagram size */
+	cdc_ncm_set_dgram_size(dev, cdc_ncm_max_dgram_size(dev));
+    ...
+}
 
-The fd is not O_CLOEXEC, and its f_path.mnt is the internal mount from
-simple_pin_fs() in aa_mk_null_file(), which never has MNT_NODEV.
+ctx is zero-allocated. So when
+cdc_ncm_update_rxtx_max()->cdc_ncm_check_tx_max() computes:
 
-Opening /proc/<pid>/fd/N, or /dev/stdout or /dev/stderr, resolves to that
-same path and goes through the normal open path:
+	min = ctx->max_datagram_size + ctx->max_ndp_size + sizeof(struct usb_cdc_ncm_nth16);
 
-    do_open() -> may_open()
-        case S_IFCHR:
-            if (!may_open_dev(path))
-                return -EACCES;
+max_datagram_size is still 0, and the lower bound is just max_ndp_size
+plus the NTH16 header.
 
-may_open_dev() checks path->mnt->mnt_sb->s_iflags & SB_I_NODEV.  That bit
-was clear on the securityfs superblock before this patch and is set now.
+If a device advertises a small dwNtbOutMaxSize, can tx_max end up well
+below one datagram plus one NDP?
 
-Can this make open("/dev/stderr") fail with -EACCES for an unconfined task
-that inherited the .null fd, for example a helper exec'd through a ux/Ux
-transition from a confined task?  That open used to succeed.
+> Here end is 0x140 = 320 = 140 + 172 + 8, i.e. the one-datagram minimum.
 
-Should the commit message say that this reopen path is intended to fail, or
-does .null need separate handling?  The statement that "securityfs never
-holds ... device nodes" also seems to conflict with the .null node described
-in the next paragraph.
+Can max_datagram_size really be 140 here? cdc_ncm_set_dgram_size() clamps
+it to at least cdc_ncm_min_dgram_size(). That is CDC_NCM_MIN_DATAGRAM_SIZE
+(1514) or CDC_MBIM_MIN_DATAGRAM_SIZE (2048).
 
+Also, sizeof(struct usb_cdc_ncm_nth16) is 12 bytes, not 8.
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+Could end = 0x140 instead come from alloc_skb() rounding a small
+tx_curr_size up to its allocation size, rather than from a tx_max minimum?
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/43599461726
---===============1687560790659556623==--
+> A second datagram in the same NTB is therefore exactly the
+> case this check has to reject
+
+Is this the right case? The room check only runs when there is no NDP
+with a matching dwSignature yet, because the chain walk in
+cdc_ncm_ndp16() returns early on a match:
+
+	/* follow the chain of NDPs, looking for a match */
+	while (ndpoffset) {
+		ndp16 = (struct usb_cdc_ncm_ndp16 *)(skb->data + ndpoffset);
+		if  (ndp16->dwSignature == sign)
+			return ndp16;
+		...
+	}
+
+cdc_ncm_tx_fixup() always passes the same NOCRC signature, so a second
+datagram with that signature never reaches the check.
+
+Wouldn't the triggering cases be the first datagram of an NTB, or a
+datagram with a different signature? One example is cdc_mbim_tx_fixup()
+with several MBIM sessions.
+
+Could the commit message be updated to describe how tx_curr_size ends up
+smaller than one datagram plus one NDP?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261110151624.696101-1-xujiahao%40cmss.chinamobile.com
