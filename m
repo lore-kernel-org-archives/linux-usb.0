@@ -1,97 +1,136 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794690462;
-	b=PXMjnEghEbxiflfK9xm8hGOgNVn/+/JeBIIuegqkpv1N6gRI/Hg97QW6QEZuAe86Mgcw
-	 xdhlwg4FXpDBmuuTd8ipQ4Nb62CccTDG1FclHKgY6zLDakj927BCPPTMnEPEAO1V8BSF5
-	 Gz92mTAgaaKlWdo8LdgFqjHseQgR8K5lZkgoj3DxMb1RrpTZLc6XprJ7dwH5rh/uf4XRp
-	 Ue6xPa9wTvDP8iIpDBtj7u8OZc7nAoJvLanfPwoo1iL5IC25HefdK9s8ZgEH54DpqTP65
-	 ebhEcKgzcCSProKEMTxiyaBWPOWREqg7/UyAE2LBbYnQ393XW/BBE5ut8lD4Lqy5VIA==
+	t=1794691849;
+	b=L0KJpbL5nlT9pccWJjezWkaS3bDckjnuJ3Vc3QF07LfU8oTI3XA7BbbjfKR7EX7hZAvi
+	 z1dX4iNb4awViv4QEWivoODqxq5ePKEvetLMOQlnizg1HlSzHmIDbW1nmH6QFKxcgRT7o
+	 RtXNQP1aZzZqJr+t0/Zo7to0G9I7P3gf2vYff6A6DOjc1VgFQAl+5mynNt9p8xDvwbK7K
+	 hBcz2JqpgL+qY6edKS13W6MGUafCYvTwNT5p7uojS25l/hxGyDImxc0dQ8a2BPw7Ek9im
+	 fZo5cq3SYej5ROFFWoQqoxYRc7cVy4aw/pFBv/1vxutjk0cii4X7Cv/EuYrBnHZiZdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794690462;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794691849;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=J1RiYWC1Gtgqr6IRbxXgwNcNyxzKGHZt3TuIm+iR5m8=;
-	b=EK0bigNKx/KCjT1P+unwZBbEa9rsnWD/da+sXhd58rLSMN0scGRmYs1USdPbE7bBR5sL
-	 aWFAIcD+wCD2MZjVHytNkprxlRGZ4LiEar1RTEZ60snvI20zrm/i+7l4mQmFC2cEkSG88
-	 VTCBXRzW9bu4gb0iXML0qO0czcxEv5mL03PBdE8yagU8vU8pICa/WsqMGeXhEBe87exHK
-	 CSEnJqGNLtPG/cyG9ReYv22pnqCn9OGDxaZR3G2fv5jAXhxRXfGoWYnxYSg8Wvhqd/Jte
-	 RTMRgF1bYtAK+SxnFsD3LZL0+8izS9eiU5tohTF91Mh9O+z1LfYVWbnZOBabjCgWioA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=vju4Tmf9HxWLCGDozxlRYY/dKPR1MEju5ORsVHds9AY=;
+	b=pgoNy4JH8lecjfODCJoHpFSokVjOucg7sn/wWGOx0d/lEaErIvPiarur9PzGxQEZ1o+I
+	 rdL/Pztj1Q+PxNLQNLXE/V9/h+tLbLBfjM8iETR8VFVLi4CQBiNfnk5tKQY7v7YtoWafA
+	 uKdEzqJGAyVh+N725xJr1TT4Qz1A1NhHdJo3IDoLLDLWqFCWTBOafqdn4biQWTwAVVMW2
+	 0+3sl+EQ7aeaiXnWPnhxsD7K7bRrimf9ZrIYSNvPpvV/N6m7R3XvolyLgWS4J6n3Qe+O4
+	 dMz6LVgMrP03n+5zv+JRZZ7oGl2jClg2i5RcY7GCcH8upTVH7Oqw7vwkI4ICvs+27IA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=iMNdG1Up;
-	arc=none smtp.remote-ip=209.85.160.179
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lWlSLmZa;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EED606A32D
-	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 21:07:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6EED606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51BE606A330
+	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 21:30:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B51BE606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=iMNdG1Up
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5361e313e63so36505651cf.3
-        for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 13:07:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lWlSLmZa
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a9a8d6cea8so22067595e9.1
+        for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 13:30:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1794690461; x=1795295261; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=J1RiYWC1Gtgqr6IRbxXgwNcNyxzKGHZt3TuIm+iR5m8=;
-        b=iMNdG1Upsv6oTAO9gm7mCjljk8M/S+CvvgXtywU4RoQitKBxzrUwMVxEXtXMrhl89s
-         IL9fbJPyWOuUe9dyy8KuuXfXR7r0aTEaLzPW9cRIuvj5kw5qxhEtCO/GNbrtedgYBjMy
-         lpmE5SdWxfQ4Ooq8xF9kVPfHpuRltpH/CBf1n3igYsLyFX+kGHOksDfPDl/Y8qiXiv/5
-         kPtbIgjOT2b7mt2aTNP8ErVerzFkljic3mTl7g/4YOhvfTme2OA7o79eq2iY8UJIrREU
-         p21zAMkqsrlpOqf2V0DAPKGMEmxxezhOhETHNlxxcyW7f++U7k4X2um3DogPr0sWujBn
-         /QJw==
+        d=gmail.com; s=20260707; t=1794691847; x=1795296647; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vju4Tmf9HxWLCGDozxlRYY/dKPR1MEju5ORsVHds9AY=;
+        b=lWlSLmZaPq3CwNa2GvJ5HLBZxwrHAyR4KYWcNLYDoejqq+bHE47WezKQusTce17cqB
+         UTWjdD/IlmKTsXW86lcI5Re+obIoVIb9t86LrcMAeziz9eDWUmhlf0tEDJWLXl6iumFV
+         A0KOTfltxQB7iH/1NZqAz8vQsctKFp7PZfZL10agBOyW0+/+Nlq4fquLxNOefQolK0q1
+         7b1VyBrgPTzn3K2O93/7d5x0teNBV9W1gjmQsMpDfJX8yxuUQvPJ+6K/Js0FjGNLg/bj
+         pddRJxGyyKNTa55ItmUV+vqh3pU2XKCHu2EjpM7+mnWtIVQHlY7yLwHWBA9Qc69Hd/il
+         +DeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794690461; x=1795295261;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=J1RiYWC1Gtgqr6IRbxXgwNcNyxzKGHZt3TuIm+iR5m8=;
-        b=L/Qw6nRXEEmdyhcjCS7veqPxYC8XNnNd73UoQ66pfdbJVgvxW05nWeISZH0zbDU+K3
-         Y4NOapI94xXES0MhGHdeu/2mp61H+w2I9eXC57SsxSU+h21s8aH/HA0NVG3BllxOuVZP
-         ekb3u6drBvjvUySxYZiQSbIUtBvLKrhQjT3sH2l4PAxKazMOou3ocF5QIqRH/Go0iVeE
-         lRxysVX5z31IFLtiivQXOxRyuzD/gAq4sDE9G83mVIEZQYDysQlxceTC1TZrSv7ofbaU
-         Z7KJ57t6u3VBdF+9x0UhBpTZO4L/ERi7XPqVFRXZX9O1CWSL8KuN0CbStZ8kXOj9YBa2
-         wJAw==
-X-Forwarded-Encrypted: i=1; AL+hErHdvHfmymu1p4EhkIjl6xp0kbdBoJQiSpd2tv20ZCWCX33RwKeCG7na8+g+TtcFgMh4yHT1rK0BbQY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Yn/BhXqX9sN6QnRAWsoMvKCV+wK6cHH4aPktMx4qnXKpBghli
-	jl12hbl+qyIoPHgfAN/LvOIGWRaoy2dxyiWH0zvS6k6kt/w/H3ivMcXlqz3CW6a0zg==
-X-Gm-Gg: AYBFou2P6hNO0UxCEDE7sMwTBKo7yNiLsrNjwmSKlZbL9DTNH5mbeCYrwLYH/viVXsz
-	f1nkzogzuzBOd9y6ShsAQtefpNb2223IAiTkrNK4wLbVUjfOoOw/B95YaVNmtI1jqCVBxoYdOVw
-	GcJ9hlYtxBA5r+w5Lni83yBQTxcvG3927kz4pUbB/T9FeQCzG1YWKVE2UaCdpewX9+4dNLevmlz
-	24mM4P+U1EEFdms7Z//56jsFtYdVj48xEGE9Pv4LL63+Vq+f36UDIhAUEGmpo8vjxw08eE2raM+
-	NGAv231SCVy92jWtq0DAF7ac+nuCYJy4xWZomdOYdvCfySwleF3M9TxB/NUBrzFm4aIxvX19Rgv
-	XMwtV6pOTWf1g6dz74eXAwTdfXGrci3391s3hoBF0lbayluZTqS9SGKQWq+mzqCz6+cAdVXUV5G
-	GDvZtsPEObuJDVo4J2nfhfTq6c/WeUgpyWI5wTcajftuvgXRbcsaZnn6v9fESo2HBCHVLkP4Zj8
-	H+BTiHnVBYva3Adly/LxQ0OyeJ2Oibxogyt7YPAurkCRB30yAzhFSNnM4DfcT7090oahfHBqTL7
-	1nrGji8UlWG2V2DHylvmO4BdXP9hwjw=
-X-Received: by 2002:a05:622a:5a16:b0:55d:10f7:8c72 with SMTP id d75a77b69052e-55d10f78ddamr26486191cf.18.1794690460564;
-        Sat, 14 Nov 2026 13:07:40 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d00:161a::d398])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23c9b30asm50035736d6.2.2026.11.14.13.07.39
+        d=1e100.net; s=20260707; t=1794691847; x=1795296647;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vju4Tmf9HxWLCGDozxlRYY/dKPR1MEju5ORsVHds9AY=;
+        b=yMwcvQ1U+9zL6Bf1SUfc23CG/0MgjoUVjW90OW29u8WyoFpRd6MM1h1FWWRAPJ3hwz
+         HtjKspjXXJ8m+Zn6S8mK64Xg9g4jG1QHBAMnFKWfb+AsTboRbhCjOyfrAFx2zMD4XPNH
+         7pQ7TdLkRCKuF3gSlzAY1AWwDES9MAWOjdtTzVaNIsWPIu8C4R3kvvFD9eJTomc9Ajwf
+         jybtsmCuFdtmGdvo2Y92TBLyaSQrv4lpg7fpMcZlxM44Jh7tgEZfJ6Y9FlonY7l2gkVs
+         YcLjTa5AnJDblsz75mXjWwLdWpcfGW0+RvaVj+2G1RMSuRbKsYSPPRx27PoRpQWwiKfu
+         M/ow==
+X-Forwarded-Encrypted: i=1; AL+hErH/oSi50p8XCyJyxwpKVU4HZbJP8gSyHYNomEfPOGo57z4g5WpvnZMtSeubfBKr+tpda6f9d/yAr4s=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8yoxbH8ehMbTGS/4Kxv7HR+Qk5bKkZMtP78jMjsH56mmShTb6V
+	+4Oh+z7BR5FrsVRB0Qxjf8nHqjqlpekDhutfIlFmLA8a8QhnspYWEQqpy46kve5a3gI=
+X-Gm-Gg: AYBFou3mvmGC9eL5i92IzI1bYxx078f02RNJPu4Uqg6pjHoZ66HvWwabNKSJP/iZAFt
+	7Jmqp3gj2E2aIEgUd+XFiGzfxPa4hv8NlIQ6tVCF6rKL6jPmXyrevVPUrfXPcUpjjxO1g6PCHwG
+	i7TEvnAEmY0RPhT2pSYkAlMRYi2/PA16ZKDqJt6aXUTdQjdBc6vR5Xed4lDv6+zg9mQqLIeOgrG
+	BRy3T+4NvyPMjwCpT01JGYgsR+y09ASnSr7JDPz1156x9hMn0y46PX68IUiDTNbyB/1dVXJJHFf
+	3gdeLgUTgsDWS2R3Yp0EwWvy9GnSoitt/G6FjZL/WF5EkngZIof845Nr4S1VkJPdDrqwAJuOsxB
+	bg734uOmy7+1c84QYc+wYP6TzlPE73BkCli8dSslGq6XACYiHzGKBh0HaVlGJz2OFuVLEvSf5B+
+	WZKVHdN203kgKEt9vJe9ZV0BeYdMOXt4Ex6O//eoVZt6BD/GBO/bv/jrtczWoR8rUk55mtW9yb/
+	fcmzZKj4/QDe6VqejOFopgJ+/Y5RfnzvlKJQ6Lithy3igoqB/SZ+DHlZ6RvHuIHFxEjVTWP1MMF
+	SmhCNwUY1UFa4VvL1fkRfQVMQU4=
+X-Received: by 2002:a05:600c:2784:b0:4a1:d49e:9ce with SMTP id 5b1f17b1804b1-4bb4e2918b1mr187322445e9.2.1794691847097;
+        Sat, 14 Nov 2026 13:30:47 -0800 (PST)
+Received: from flare5 ([212.58.121.92])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c603f4e2esm12803478f8f.36.2026.11.14.13.30.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 13:07:40 -0800 (PST)
-Date: Sat, 14 Nov 2026 16:07:38 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Alexey Charkov <alchark@flipper.net>
-Cc: Neill Kapron <nkapron@google.com>,
+        Sat, 14 Nov 2026 13:30:46 -0800 (PST)
+From: Stanislav Aleksandrov <lightofmysoul@gmail.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Robert Marko <robimarko@gmail.com>,
+	Guru Das Srinagesh <linux@gurudas.dev>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Radu Rendec <radu@rendec.net>,
+	Lee Jones <lee@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xu Yang <xu.yang_2@nxp.com>, linux-usb@vger.kernel.org,
+	Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Bean Huo <beanhuo@micron.com>,
+	Stanley Jhu <stanleyjhu@google.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Amit Kucheria <amitk@kernel.org>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Georgi Djakov <djakov@kernel.org>,
+	Sibi Sankar <sibi.sankar@oss.qualcomm.com>,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH v2 2/4] usb: gadget: udc: Forget a deactivation when the
- gadget driver unbinds
-Message-ID: <cb1a0c88-0288-4296-bc0b-e3a7f2186593@rowland.harvard.edu>
-References: <20261113-udc-connect-v2-0-f51b11f07eb8@flipper.net>
- <20261113-udc-connect-v2-2-f51b11f07eb8@flipper.net>
+	mfd@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH 16/17] arm64: dts: qcom: Add initial Halliday dtsi
+Date: Sat, 14 Nov 2026 21:30:28 +0000
+Message-ID: <20261114213028.1933448-1-lightofmysoul@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <0cac5090-a135-4a6c-8221-846b34ed5513@oss.qualcomm.com>
+References: <20261109-halliday-dts-v1-0-289114ab8197@gmail.com> <20261109-halliday-dts-v1-16-289114ab8197@gmail.com> <0cac5090-a135-4a6c-8221-846b34ed5513@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,73 +140,23 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113-udc-connect-v2-2-f51b11f07eb8@flipper.net>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 13, 2026 at 01:28:17PM +0400, Alexey Charkov wrote:
-> A gadget driver deactivates the gadget through usb_gadget_deactivate()
-> until its functions are ready, so the deactivation means nothing to the
-> next driver. Yet the UDC core keeps gadget->deactivated set across
-> unbind. Only configfs resets it, from its own unbind callback and
-> without connect_lock, so a legacy gadget driver that unbinds while
-> deactivated leaves the next driver unable to connect.
-> 
-> Clear the flag under connect_lock once the driver has unbound, including
-> when the bind fails after the driver has deactivated the gadget.
-> 
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Signed-off-by: Alexey Charkov <alchark@flipper.net>
-> ---
->  drivers/usb/gadget/udc/core.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
-> index 577bc15f61a1..84dc0820c2cb 100644
-> --- a/drivers/usb/gadget/udc/core.c
-> +++ b/drivers/usb/gadget/udc/core.c
-> @@ -1647,6 +1647,13 @@ static int gadget_match_driver(struct device *dev, const struct device_driver *d
->  	return 1;
->  }
->  
-> +/* Forget the state that a gadget driver left behind, so the next starts afresh */
-> +static void usb_udc_forget_driver_locked(struct usb_udc *udc)
-> +	__must_hold(&udc->connect_lock)
-> +{
-> +	udc->gadget->deactivated = false;
-> +}
+On 13/11/2026 13:10, Konrad Dybcio wrote:
+> Please add the other idle states (D4 and E3) from the downstream
+> devicetree and match the order of properties (psci-suspend param)
+> to glymur.dtsi
 
-Is there any reason for making this a separate subroutine?  Just do 
-the assignment inline in the two places where it occurs.
+Thanks for the review. D4 and E3 are already there, as cluster_sleep_0
+(0x41000044) and cluster_sleep_1 (0x4100c344) in domain-idle-states,
+just above idle-states. In v2 I'll move that node below idle-states and
+order the properties like glymur.dtsi.
 
-> +
->  static int gadget_bind_driver(struct device *dev)
->  {
->  	struct usb_gadget *gadget = dev_to_usb_gadget(dev);
-> @@ -1705,6 +1712,11 @@ static int gadget_bind_driver(struct device *dev)
->  		dev_err(&udc->dev, "failed to start %s: %d\n",
->  			driver->function, ret);
->  
-> +	/* The driver may have deactivated the gadget before failing */
-> +	mutex_lock(&udc->connect_lock);
-> +	usb_udc_forget_driver_locked(udc);
-> +	mutex_unlock(&udc->connect_lock);
-> +
->  	mutex_lock(&udc_lock);
->  	udc->driver = NULL;
->  	driver->is_bound = false;
-> @@ -1734,6 +1746,7 @@ static void gadget_unbind_driver(struct device *dev)
->  
->  	mutex_lock(&udc->connect_lock);
->  	usb_gadget_udc_stop_locked(udc);
-> +	usb_udc_forget_driver_locked(udc);
->  	mutex_unlock(&udc->connect_lock);
->  
->  	mutex_lock(&udc_lock);
+> Please use '0x0' for zeroes in reg values
 
-Also, you may as well merge the 3/4 patch with this one.  After all, 
-they are both concerned with the same thing.
+> Let's break up such long lists into one-a-line
 
-Alan Stern
+I'll fix both in v2.
 
-PS: I'll review the 4/4 patch later.
+Best regards,
+Stanislav
