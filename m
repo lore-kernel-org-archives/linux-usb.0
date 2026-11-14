@@ -1,101 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.42
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794640702;
-	b=A6Ri26loV9B1yZYgQ8hsRKQBD6hxbeeaPecduy7Qs+dR1TouMvcbxPXRt7j3Mo4G1tCd
-	 2rspjdbZMo+3XCtWJbwzKBo2avH+h8NYWAkK28yCzI8eAO9kj0B38+sZq3presT9FMFMm
-	 5HXZjVdP3TQJo4qFKYLzUY1YKWGQ3rrBjxLmZIfsI4O59ZDqwxU25EMdJoKDrXhWK1ULF
-	 wllm5+BYGZJxkf5LHY+JC1hmREyR4vjs/cS4oezTPHFRQwoa7hFsj8rp4GmAMoMfN1nno
-	 bEfs6urcX2dq8a7gFvfbUdeLst8TtjPxlC4td1LOxO3LEKytQNI7QrRDjBZiO5gOTwQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794640702;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=x/Pi17jOeYlQgxoGSW7NgC6esxcVBzi0Pl1SIAFuCuE=;
-	b=18Cwx+tG3XEi18wVVkq4ACnvrdmkq+6/ZyiExgeQrETtnjkUv6UgRRKeJJZjP0N1hpPT
-	 NbF+VRtRWJuTiyhwLUjLXQXZ8kMNePXhrsplXWzmdojDD9xNaRw1+8Bksan8GxpE+H3AF
-	 XfFIrbnEebJmU1cpfYmNNVOQPMA2uoQqbXsrKKiqHjD30ro45wPN0w/l4hPb6VCftarn3
-	 tnCtDAr6JevlsCDqVHdSh73AeFNjL3ozjsbEDO7/m4MooFc0kulL70jYhqOuT1uWT/cN0
-	 K/Ujo5ewG/P7qSWQx3FxfNhuJbX+dDUOEYuPvXWesr3LClm/y9QzD0SiFeQE5F81K9A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RwxJcI4o;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.42
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794648511;
+	b=bUCcXVtJJnxwRH5JLoWr2bQB1ls4uNAejM1LEw3hz1bVg1n5e5oSJa/TDsiBigbXon1D
+	 6bCpYOFhQJRqag13BHaFmbT3RyJWeauR75Pb4GR1YurdnhqvSbUhqtawewqitUmmzL5HR
+	 +h+4fTza0TO21mV0v7gnZZDs7wwiBQqy2cgUF5GIVaaQU57L4Llmrqs83OyAU/CDv4DP2
+	 ox42cffT1ciwdejbxn/JfXH5LFJqjoDeaXOu1CtudAFxwRdI9VJi1yJn94pUHhYNgHngF
+	 j2vjVpJiVYgvzKO0WU6MWlhIy9ZK+23Wp5J7IlXnKMlr7weNjccDegEpbQqhfV7XBLA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794648511;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=ReAZj9IHOHT0VSZbe4tm6BtH6npKIpgYzWD4aIHiW1c=;
+	b=15pti4ioK/Eoq1UL4CNPb/xmV7kT/LmB/HqWn60B8fSwjpJOm1XDuXgtuZpiA2YObxEB
+	 qXYsYNI7KgIceP1KpX0u7JLil32/6e5mb6PhmCxDJ+vdQp3+4kEav26Ha7gcJzQQS4Ch6
+	 HHz+2ODiq4R05HWTjKnOhu7dcm4A7FO16J5vXKh25a/M28ecGUaCoGD9h3bjzdNXrkyV1
+	 AEgphlWwCwaaTAFZQ8Ay80Oh4IC8K00J/jdXJDNGWamUVJo8ml4Fn55vbTcT8RnW2xXNo
+	 DnP9uXVI54F5NDpwbD5IejuzXzq4Re9ohvj1wZeH34y08pUaCr++3MSzPsstQ8gYGhQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VImuLngl;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D39606A331
-	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 07:18:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14D39606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69011606A327;
+	Sat, 14 Nov 2026 09:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RwxJcI4o
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3b09a65c76dso2048642a91.1
-        for <linux-usb@vger.kernel.org>; Fri, 13 Nov 2026 23:18:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794640701; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ch82bi3nuXb16rYtfob3bQAltZa3xXc2sQ+e1PeAHVsd2i3fXNJXg2hzplxcyFVEnL
-         rg6y6BZXx08OxdgnJnx5Sv/Ev8cVcLxTijgATAft8j1z9MzkvBFtg5p+/OLQR3qhlQ6Z
-         siggSiUh1/Z849ggTopytf+DHbvlEXXF0NHRif0//9LEhaWuxN4Wq1Oq2vwESch0JA5c
-         E9j648uSGFG24iCq+iMJlYyOQTJGRUTAp+qNATBhSfNT3tU3R1pR/f7wCT1udm9PNQow
-         vvW4nGYSx3ID1WhOQcsMj5RujxoJOSgQlIBYvjG5fqbQvaQ2bX4pxUSPfvgHD9k6UWZ9
-         OxEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=x/Pi17jOeYlQgxoGSW7NgC6esxcVBzi0Pl1SIAFuCuE=;
-        fh=MB7A1+td7XDo9I5+at3UB4YahT9xME8AbnL/WeBONWU=;
-        b=IGI9VCNZLqhKO0REUavOEFJZR8US+DJxzgtPDcf2THdKZWWR09M0iiCUW32RxajZ7+
-         ivIQ49JonT1raiuOLLJQmA0t6dalDp/QlfhYlb2/ziRbyBszDTcOoxnORkxuAFsME3jh
-         aBd1j+BKYUs1v3/Ra5nNFZMSxWdLTgwiQOzeB1aWjOP+YwRdD1QmHYvyqG8HwgQQjVtT
-         KX0SPslxDufgyw4WHtR76XPACoBzMjN01YevH87ARInZN0DHhBtsQozAoURzH7vVsoIp
-         wNIwoF2n+QxFjG+jyAkhWIJwGk+jPSatUEH+JqaWA7anPJxPbIyLpIVugr3PF8oZzYa2
-         2XUA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794640701; x=1795245501; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=x/Pi17jOeYlQgxoGSW7NgC6esxcVBzi0Pl1SIAFuCuE=;
-        b=RwxJcI4o5k4txShP1ACyIu2E3HSVbFXc/DavqXi5iM2Nx+c1HmXr5bZ1djK36fDlqp
-         OxFJondbxtCAKlN8o3/OWNKPZ6VUwc4Grd1hw9EHAWwG3e/zh2YbzMxLwomCPQ0WBDev
-         yNDeQ+SunL8l30yurKTQ+3hPqn6zr9Us5zYsW6m4gxNmHG8IUw3OSMqRmUCa/CQQIQKt
-         apo68HElI3KFO2WPJ2zow7y9mMQ0In36lpUJiLjz/q7VWlLk7+ecpXeZLkYNc7AeqblN
-         uVZuZ999V1FmK+Fq1YqFccnILkvPCqxgrjmvVzyZcE1lfSlwzNQxT9pDa0hQ6I1bPIKL
-         YjYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794640701; x=1795245501;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=x/Pi17jOeYlQgxoGSW7NgC6esxcVBzi0Pl1SIAFuCuE=;
-        b=rXSeKc+DPNSqVOkgMqF0/NutZ7fY0TI/XdwoRUJMQ895ifG2oNFz9EWY6Udrulv8zq
-         58NHCYtzo6USwHxh12mFQXWT2PzP3eDE3ubOD+mfG/LMIb+T9l5hsNQwkqcLdXS+kV4x
-         VFcAFQDs1OUYfcJI4XCSZTJHtSDeQEIIfpmyQUu+hxxkW/pufqcQvZjnxBOBFfDVQhAD
-         Xmc8aB578P8mddVoyHIb7+T7RkHX6QY7knmi3vEUernFUgn6AtOKMA+75OJPfkaNXl6W
-         2SXq+3De/KZSnXikeyqcfZuppkoKX1I6QUAzIlqr2rVIvDGsuIQkB5AgGlNxSID6FIAG
-         sJqA==
-X-Forwarded-Encrypted: i=1; AL+hErFvubKL+13M07KtSKtOukRm2j5vyIZ62xB4uxtRfbd99jmDZCG2frdWr/bDAUDCxnKucb4+wcARrS8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9YmpbVuafqS/gJCJ1cb+PRRwZ8hxy2Zo7X5yP1lKGqy137uCYE
-	Q8M8nwmnkBVuhhcHjgTA0Kns62dE6k4ISx4awfbiCcOGTi8mFoop4TGdeYMW3nBlOQ0SbzdDGmp
-	Z0dCVrsX9g6dmderSLIPZLL33LQnbdJGaIvIZtNQ=
-X-Gm-Gg: AYBFou1N5Vc0aQ3PcXojzl/ivYoqP9Fi7DNkmqOgqL4WUAqnUpURQ3h0UKZbvQbL8dc
-	Q66wSKDbKjZa04XeSts9IjRpdeMRQXDTsx5gz9kFeAJcsIOv8xV48LUdbEJTMOISNxrvhGyv8ZC
-	9K/r+rJLppSt8um2zdDAletDfAnEkMoLih+lKYWv8ohj2WUiekcRyXZcpK6JEl/DIKC9bBdjT1Y
-	c5kf09oZqVe0n2XnNNNqbKayvmhe1ZrmABM2YVAmSorgxIipohbaHrN7CF+tUvyPgpkavNQs6Sv
-	+dohLuy27ufvyFf0XdSAbBf+oJ+jIeCNI4juh4KtDBruqRGuUiQmG7YiYWLla2flNqmTD8vncQ+
-	8vNJR+nVwU5emAgywJqRqTKXGAPeoPnGJkFAMDS33lJjlcvk9vdgY7Pkihj5WzGCSarlK0O5Yzi
-	E6WKf7YGJXAwEfwkGgOmza
-X-Received: by 2002:a17:90b:4e8c:b0:3ac:9d14:fe9f with SMTP id
- 98e67ed59e1d1-3b1b0ba3320mr4593791a91.31.1794640701364; Fri, 13 Nov 2026
- 23:18:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VImuLngl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 524081F000C4;
+	Sat, 14 Nov 2026 09:28:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794648511;
+	bh=ReAZj9IHOHT0VSZbe4tm6BtH6npKIpgYzWD4aIHiW1c=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=VImuLngle11GB820MtTNqaVkqIanNtzWe60tyV1yKlKjLgQny/I3B6+oGvgJqe2t9
+	 qAzoFiuNL7N+QfQC0HdjkLkMMOSpazT3eyfLQcxKNqjcVUwwsWHGDnAwUx/tcU2wph
+	 AYyPu80rmqLL/+yFPxmcC0FxQ0v0DE2b5MOZFRvid233QABaH7AMGQoGafzvbp/lxY
+	 6hHWlViYJqD45MvapNQkkGf1xbCfZvgvyZp5UMEQ9ZoWN3EtNXnMk7fSoIAOK2vpq5
+	 LXQ4oQeZq+ph1XyxZ1FGiy0cqmIjnPyuUrpq37mmoNa+SkGP43t+LaZUpmle3LW1W2
+	 9rQU4eSVZw7jA==
+Subject: Re: [PATCH net-next v8 01/11] r8152: fix
+ RTL8156/RTL8156B/RTL8157/RTL8159 up and down settings
+From: netdev-bot+sashiko@kernel.org
+To: hsu.chih.kai@realtek.com
+Cc: davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+ nic_swsd@realtek.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ edumazet@google.com, bjorn@mork.no, pabeni@redhat.com, andrew+netdev@lunn.ch,
+ mail@birger-koblitz.de
+Date: Sat, 14 Nov 2026 09:28:29 +0000
+Message-ID: <179464850985.2199510.8737117664492189004@kernel.org>
+In-Reply-To: <20261110032416.16968-2-nic_swsd@realtek.com>
+References: <20261110032416.16968-2-nic_swsd@realtek.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -105,30 +64,77 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261111013454.34542-1-law.wei.jie@gt.tech.gov.sg> <20261113163219.16603c83@kernel.org>
-In-Reply-To: <20261113163219.16603c83@kernel.org>
-From: Wei Jie Law <98lawweijie@gmail.com>
-Date: Sat, 14 Nov 2026 15:18:09 +0800
-X-Gm-Features: AclHuK9uXk6vP5W88YBE9Yv3ZhCaOZI4ovsQnoN4ClZqfcPMhl_ARhhXFj-lIZc
-Message-ID: <CAH049wmDwzb+zwQBzuw9+PA7-+My+r0QgbCpOi_snr=+oFpgnQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 0/2] net: usb: lan78xx: do not use
- uninitialized data after short reads
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>, 
-	Thangaraj Samynathan <Thangaraj.S@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Woojung Huh <woojung.huh@microchip.com>, netdev@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 14, 2026 at 8:32=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
-> Why are you testing this on 6.12 if you're just using a gadget and not
-> a real device?
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-I have noted that the patch was applied but to clarify, the reason for
-the tests being on a 6.12 kernel is that I am mirroring my Linux laptop's
-kernel version as part of bug hunting and testing (against real hardware)
-with a malicious USB device.
+Low priority / nit picks for your consideration:
+
+- [Low] The commit message for "r8152: fix
+  RTL8156/RTL8156B/RTL8157/RTL8159 up and down settings" does not say…
+
+--
+
+r8152: fix RTL8156/RTL8156B/RTL8157/RTL8159 up and down settings
+
+This commit changes the register programming in rtl8156_up() and
+rtl8156_down() for the RTL8156, RTL8156B, RTL8157 and RTL8159. It touches
+PLA_RCR1, USB_SPEED_OPTION, Clear_SDR, the OOB entry bits, the OOB RX size
+settings and PLA_MCU_SPDWN_EN, and says the datasheet requires these.
+
+> Several settings the datasheet requires for these chips were either
+> missing or gated on the wrong version range in the shared
+> rtl8156_up()/rtl8156_down():
+
+[ ... ]
+
+> Fixes: 195aae321c82 ("r8152: support new chips")
+> Fixes: fd3c7d080df5 ("r8152: Add support for the RTL8157 hardware")
+> Fixes: ad2a55b63b41 ("r8152: Add support for the RTL8159 chip")
+
+[Severity: Low]
+Could the commit message say what goes wrong for users without these
+changes?
+
+The only reason given is that the datasheet requires the settings. No
+symptom is described, such as WoL or OOB wake failing, RX stalls after
+resume, link problems, or suspend and power regressions.
+
+The three Fixes: tags mean stable will pick this up. It also bundles six
+independent register changes across three chip generations. Without a
+stated impact, it is hard to tell whether this is a user-visible fix for
+net or vendor-recommended tuning for net-next. It is also unclear which
+hunk fixes which problem.
+
+This affects backports, because 195aae321c82 predates RTL_VER_16 and
+RTL_VER_17, which fd3c7d080df5 added later. In older stable trees, the
+hunks that touch the version >= RTL_VER_16 and version < RTL_VER_16
+checks won't apply, and neither will the RTL_VER_16/RTL_VER_17 case arms.
+The RTL8156/RTL8156B parts would have to be pulled out by hand, such as
+these in rtl8156_up():
+
+    ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_RCR1, BIT(3));
+    ...
+    case RTL_VER_13:
+    case RTL_VER_15:
+        /* Enable Clear_SDR */
+        ocp_word_set_bits(tp, MCU_TYPE_USB, 0xd3ca, BIT(15));
+
+and these in rtl8156_down():
+
+    ocp_word_set_bits(tp, MCU_TYPE_PLA, PLA_BDC_CR, ALDPS_PROXY_MODE);
+
+    ocp_byte_set_bits(tp, MCU_TYPE_PLA, PLA_OOB_CTRL,
+                      NOW_IS_OOB | DIS_MCU_CLROOB);
+
+By comparison, the later patch in this series, "r8152: fix flow control
+for RTL8156/RTL8156B/RTL8157/RTL8159", does state its impact ("they could
+keep sending pause frames indefinitely").
+
+Could the message be updated to describe the user-visible impact of each
+change, so maintainers and stable backporters can judge where each one
+belongs?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261110032416.16968-1-nic_swsd%40realtek.com
