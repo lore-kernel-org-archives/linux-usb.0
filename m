@@ -1,64 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.88.97.239
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794652724;
-	b=oqawjCYXViBhZDOu54mO4rFz5m3zErSirnUbuzXnMAw5PATI/TruwwQCkwdYiSLiYDWT
-	 87+gx8lEZbzpBfhA+I9R/lP3Tj64Irpw9UlSdc+p4na9S7JCuJzxOJ4l/gtzUEqjOMI7V
-	 DJHN6iX/ivzO7lbnKY46RBEEl0JZ42vbCVul1KDbsbqHvMtBf7fP7k5za24lFJMnv2acy
-	 tc9PFjKvxjpUacndXixORGVwbf0veUq8K7TT9dHn+NvEw19syoMtzELWJVlFAnS85jZU2
-	 MsBpOdAkcOgkFCqLIUggxnTJAqvI4a+i6uFgZcE3+rlJwGd7/bwvyVtmWY/ExSPHbTw==
+	t=1794653280;
+	b=zPw2v0Do2Gb2piZxrMen5R2smwJdA19mNqWNiQTXSLPu4Q8eWy2hSuT2pOM3U9l2zWbk
+	 UmShUfiakT/QbV0gudzvlXgA68cRsaCnHLbZ8XE3Osyx7VTwFLDo0KKXCYnV2xykgH8e2
+	 NKqbRgFQ3KA+29hEkaPufd9JYBEBuBDfFrSiBti+r4RiLLrOfll581Oee20V38bTxpqbQ
+	 opVf3jBYn4/oPuM8pa+elDg9XlU5QMgcALwRvYLVcDaWea7UMt5/kYxKFA1SjVFu0bQoO
+	 HQb9e1j5ki1K/e0CJlzMoVT/4N39Ghavi1PWoS4q9Ff/zNyyZjbdmjFxcE0EnlxP6sA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794652724;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=f0g6P6hsNAkBmmk1dhVL/yqmLVxvhNEJRF73P8Hffz8=;
-	b=XTRFf3I9lNTiXczV41KEJg/FNuIVqDVo2dmDdYyszYgVrx7yTyVRPsPuZfvPA4veCQgQ
-	 jKr/qKLNzZFhQ2jewlC/ZCTk4+8Poh+6hOz3XN5IEfOlepYONBBN/dZ283nK3OXJNhLZ3
-	 LUjdHWsRXLFyh6UM22W5GyemHIlJGs7c/oztRdwvhrP9kxWVJWRUZdqykh/yKnLFBm5zI
-	 jW/KA9kONTlAz0bqr1L/Ybfmzs2qCgDwTbIVbBI+YVwP1Dtp3zII5gIcV0LHpaX/uQIQh
-	 TF5BkI2HzftmVZuRIitvcviJKbYL8yp7+DQl14DOpUMxZZ2GcSxk2dCywnFttGpRBDw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794653280;
+	h=DMARC-Filter:DKIM-Signature:Received:X-Spam-Checker-Version:
+	 X-Spam-Level:X-Spam-Status:DKIM-Signature:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=CJh0rQjybtbAzplTNGEHCAHXCfQuBs4/UVdR5kq7ds0=;
+	b=RihR2Z2DSNckR+k3EwixSVqDUUbYF7WQyFvKp63FWZgA3F9aX6Ah+6z3emEpWlxItmyd
+	 nhUj6L/i4a6cy8cOzpLRX3MNEBWYA7eIVDj67jq9LlHh2lVzrIpUw/9t16x7QMKJiVkP7
+	 Nb+wSinjw1IMJE1UcnoByxaEJGu4x6pf+dTDBELwlAcIZnqqGelTBJMghO0ADW11zsMrN
+	 TcPEGhu5kivPZ3fV0i06QXK6innzCQL4eeOBtRF6YjkSwnxJrNiTbvS6g4zig9f4Q7/wY
+	 x6SubmxOyY/MagBt+0giXD0U/q9u93GnIJ3bjEnvfK9yXbKwTylv/Z4KeeWeA2f6cGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ozu7z0Kj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=birger-koblitz.de;
+	spf=pass smtp.mailfrom=birger-koblitz.de;
+	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=VroJM849;
+	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=BGRfHca2;
+	arc=none smtp.remote-ip=23.88.97.239
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCDB606A323;
-	Sat, 14 Nov 2026 10:38:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA40C606A894;
+	Sat, 14 Nov 2026 10:47:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA40C606A894
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ozu7z0Kj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CE541F000C4;
-	Sat, 14 Nov 2026 10:38:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794652724;
-	bh=f0g6P6hsNAkBmmk1dhVL/yqmLVxvhNEJRF73P8Hffz8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ozu7z0Kj1tHIOD24bkiz6twDQ59H2LG047bnoA597yeAQD+7loV9AVNQq6/EfNxmA
-	 RAV43n2Xp3rFswhwCvrdVPjCv2twIaBECTwXwjSyPBKOEecSJccYi16iPUffdcy+kX
-	 2KsSYHa0TM5q3kVm9Et0sKjXOYpfJER4fjfggVZYik+Tlk8iLg4VYcTfwPq6hSWTb+
-	 FqNtagBKrLecsr9nZyvU/RGWRSqwrFdabGVO12uSaA2rrQgzv6ROpsZEsD9jdN00pG
-	 9AVp7r2bVcIF0aGX9qNUD3D/9g7VuGmG+jesekdRYeqNRWWlH0zjJp4ZwQJyQCg3y0
-	 VLaLdAkJXNuOg==
-Date: Sat, 14 Nov 2026 11:38:35 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, driver-core@lists.linux.dev, linux-mm@kvack.org, 
-	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	ocfs2-devel@lists.linux.dev, linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
-	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 01/41] loop: refuse backing files that aren't open
- for reading
-Message-ID: <20261114-erfrieren-vorher-taktieren-ef10b08e210f@brauner>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
- <20261111145555.GA9996@lst.de>
+	dkim=pass (2048-bit key, unprotected) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=VroJM849;
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=BGRfHca2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1794653271;
+	bh=VioXCKKaai/212jHFYdg0u5SsfRdIHmnqLj7K8cc+Bg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=VroJM8496zM5m3DklAtZXegP/o6kxv6xl4Q67PpX+EDYdAcN5YCvRigMa770VFw5w
+	 v33A7r0+i87RnsBgmhgxZ1jeZMA/s3OW5rv4Iqu71KY5YuIJRI5o2SGdE0JEYVgmZA
+	 WKnnehsh4eCs5IvU9WzlBmSbzvboZCwyJieXAIcjA5Sd5jYTDjSQ75hfnIO2oLOjEw
+	 YPS/tWPhS4gFV5T/Sdtk1ebI1LPv1/2eaBfnYW+a+VHbhJ7VNm6bE+6zbQW/ZMKJe/
+	 KBqfFgfyE2TdOnDcxqaCWs5Izl4Pqvv5xg9w41UKGx9w5qOxUFv9InHzJsGq4wvM2a
+	 1LaIqqFVqBTFw==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id E8EAF489BF; Sat, 14 Nov 2026 10:47:51 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1794653269;
+	bh=VioXCKKaai/212jHFYdg0u5SsfRdIHmnqLj7K8cc+Bg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BGRfHca2V3wLOB3sZYGm8qgzfbRok0ZSjkjZQWo0bZksICKyxo5wUC8gh+R3ke8pf
+	 oWGK+xidlDbpzkAGVxY2NN6nOexi0XuDjsQY6zNKlaGRRF24Q/zPxDRoeyR023IfTs
+	 ZFu+Bn2N61djsIXRVvK2DRH9qbZqAFd3piEgbbugTWcHIsTIjwpPHBN+KRBzM5Quuw
+	 5JyYbNYz8dmua3B+ZkqYkG+JwtXRVTOURdvOUooCYwxsiqJ6EzeF34vJw83Eb183Ax
+	 FZtAffLQRmcq56xp3h7ZwbD9sH0QBUy7RUEBTlbUvzASn1RZMoVc7jWNWfOQAMf7sp
+	 nwV+o/Dl/s+kA==
+Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 43415489A6;
+	Sat, 14 Nov 2026 10:47:49 +0000 (UTC)
+Message-ID: <b855f0d7-a7ff-4de8-b71f-3822e7b55554@birger-koblitz.de>
+Date: Sat, 14 Nov 2026 11:47:43 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -68,18 +73,52 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261111145555.GA9996@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v20 11/13] ax88179_178a: Update driver name and
+ information
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>, Eric Dumazet <edumazet@kernel.org>,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+ Jianhui Xu <neuromoments@gmail.com>,
+ Emir Beganovic <beganovic.emir@gmail.com>, Nicolai Buchwitz <nb@tipi-net.de>
+References: <20261106-ax88179a-v20-0-37b5a1189983@birger-koblitz.de>
+ <20261106-ax88179a-v20-11-37b5a1189983@birger-koblitz.de>
+ <20261113190535.0e74cbb7@kernel.org>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <20261113190535.0e74cbb7@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 11, 2026 at 03:55:55PM +0100, Christoph Hellwig wrote:
-> But i wonder if we want a thin wrapper around ->read_iter/_write_iter
-> to do this check so that it matches the normal read/write path?
+On 14/11/2026 4:05 am, Jakub Kicinski wrote:
+> On Fri, 06 Nov 2026 08:21:26 +0100 Birger Koblitz wrote:
+>> -config USB_NET_AX88179_178A
+>> -	tristate "ASIX AX88179/178A USB 3.0/2.0 to Gigabit Ethernet"
+>> +config USB_NET_AX88179
+>> +	tristate "ASIX AX88179/179A/178A USB 2.0/3.0 to 100M/1G/2.5GbE Adapters"
+>>   	depends on USB_USBNET
+>> -	select CRC32
+>>   	select PHYLINK
+>> +	select AX88796B_PHY
+>> +	select CRC32
+>>   	default y
+> 
+> The rename of the symbol causes the question to pop back up and it will
+> likely annoy Linus. There's no reason for this to 'default y', let's
+> stay on the safe side and drop the 'default y'
+I will drop the "default y"
 
-Yes, I had thought about that as well. We could use
-vfs_iocb_iter_{read,write}() for that but it's not thin at all and
-brings in the LSM into these codepaths where they shouldn't meddle.
+> 
+> You need to rebase the series, too. Someone mass-renamed a bunch of
+> kmallocs to kmalloc_objs upstream, let's make sure we use the _obj
+> form in the new places too.
+Will fix and re-send shortly.
 
-So maybe as a follow-up series with a new
-vfs_iocb_iter_{read,write}_raw() or whatever. Feel free to make a
-suggestion.
+Thanks for taking the time to look at this!
+   birger
+
