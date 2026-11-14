@@ -1,104 +1,146 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794686762;
-	b=AthwmAaL9X42x2RJdBe8paJKZCEwIEVmHPbGzCF8Xye4IBmg4NiYk1dONuYqdDT3UoHE
-	 rJeU1fOfr3+ZLBDGc+Dgk/SGGlhVKgd29LcbB8ybLp4k7SJTWMVhs6cokeRnX1WPQXttG
-	 Wbq2xkgrLPo04JM6iOUEouH4GB/kRefNbhKCtqCrSRlbR4vrcSVSyF++uEcGxFdKheG3B
-	 0n0bJIFoAXZIIcz/3OMy4MuNYk5Oyst9tnyRRnmA8eCi2a1pr9aD++9cyycwG56oMPqTu
-	 rfa6182a5I6w5HSJeAITBz2ULqevgfJVXM32jI5xbGa/BFcl1ng6ezT6JFkd/DoFP1A==
+	t=1794688036;
+	b=af5VWs8GC1DuI4wVxBYkZtNDy8Fc3VETveRLNSLYJQdJcRbdq9ZBqGtDXpblg/E0WNfQ
+	 Vn58AYeso7GA/lUgX0N6ygqC+VKGYFba4P595USxhCxrH04FDystwN1MO98R+PQcaEaG/
+	 B88JfIWgJywWLQvtiIWobS1oUg1nCoTy/3qsFI1TtPfNguR/SnB6mh2F7srBpSOrspBDR
+	 XH4U5CNFmiDqBJSc7y0CTbpoU2mz9prQTFVLsdS8AaMe4JZZ9T+WyE2Ov8y7zMjUXpKd2
+	 ffZX3gV0cViEOnWz3y+a/OI7rA73QySvIcyipkeuXFUqpbsk1ewY7PFYm92QewYzraQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794686762;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Disposition:Message-ID:User-Agent;
-	bh=L9fh6nGpkdQ3PKE1Pv6VuACg3WWhS00/MicQv00SggM=;
-	b=Eh0tZE+fegXlJcQWr4VKY5dnv/QNWqivXSw2lD+sbFbJbw6fqDW2ig/uLV4LvredpWy3
-	 imEVCBYAZVBOeyCaTB0WrTG9dqntAhtYG0krrpPQakOroBfIV/YD5d7fLhJnou4muwfAE
-	 2/IXHzeYQIV3hbTE85ypWXi74stiF4Leo7zgFMB45XznRXKVi0hOZTIBdAd1F4eVAp5IR
-	 uHEbupQtTofYOYJrHz8L7pwvExqOWG5Q1J1je7db7LfD4GNZSBpXPiv/deGa3QwPKKjIK
-	 pdTTmdJdod7wxm5AnNnCFFMki9HApn7TqVSlF0GB1FjAOizjbE1eRlPzSc3EUQ2fxDw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794688036;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=agUQr/AxBpqR/yoTMSgCDqpX2NxV6QO4XNqgDEsecWM=;
+	b=yVcyoXf/1HvQWlfMCLrpM+FVCWCoTAkVPf1oakBxTm1kOJFA7zg5PJawMqgr1edIAbBx
+	 tI1EQa+IAKs24UvkI0SXXPfRHsov5XUmgpQ1O4Ql8jDOI9YWlwLX/BIkWWwHs35K/pZU2
+	 FO6oJA9HldwAAdckZ0bILA9IsJkuLZJ2zu0P5EfGahkoVOVNEYENIqdJnjsk0MkdTycNr
+	 hIe1ts8puIeftLRNWkJzUQDO2UZa5QE/v1L3+UZ3CKpdxOOC0BobT6VF83+6WO8bvIBDU
+	 cH51nwV/Pw3Y71ZjfYjvnIribYhK8TBKc2/D+JbfSJccnqOoDA3+AwFFSydhZ3iY1VQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=WyNKKpAN;
-	arc=none smtp.remote-ip=209.85.216.41
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=wKQjtRiF;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A106B60A3803
-	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 20:06:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A106B60A3803
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2887606A882;
+	Sat, 14 Nov 2026 20:27:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2887606A882
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=WyNKKpAN
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3b0a519049aso2719785a91.1
-        for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 12:06:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1794686761; x=1795291561; darn=vger.kernel.org;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=L9fh6nGpkdQ3PKE1Pv6VuACg3WWhS00/MicQv00SggM=;
-        b=WyNKKpANsG5sdrHWGAt+Y38DvSIGt+WnCUyNYCZoBM4YbSq3wCVAHI95jQ8BFTGgLn
-         +vM7af/q0i5zrzjZXXnriwzXN4L/RbeBg/iztvO0eyeIXYNiQp/OYlS5LD9yZqr2gKgm
-         1I+5A88e/cV4J0nLZfgp0f7sQwj9jY0Q4quBE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794686761; x=1795291561;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=L9fh6nGpkdQ3PKE1Pv6VuACg3WWhS00/MicQv00SggM=;
-        b=0UtSCOFf2qwOG2Sm1zf5FGU5ocO09IfshmzOPfy1P3qRDNr/UDnwDUFQpsJAUPn4zi
-         tcd0q+P7pTcxnwhN7oh3Q0C5Ix7+jiChoJ9g+GtVgPCvtkRMg//lQDBOvXNueo8L0KPR
-         ZGf2eMamo2mQ00Ix7VQz65ktg2mVOyXDrn9ygGX8VA0ACGHsNFHXyss0SDut+kY4/c3G
-         8yqoX0xAwZkOHDSt+QfK7qJ5MxnmauEGLoYmDpokMn4nkG5TgIAANgoptULxW8J2EZrw
-         4D7U1TcomFFiJ14QMty7+3zIYsZsLgJbxLua6uY9GTnkxZryhVVgKeoBkgCbz/IB1Lew
-         BccQ==
-X-Forwarded-Encrypted: i=1; AL+hErH2oIzyy+7dczIt0vf3GJXxb05Lg8WAYd2zIgpLVajRC4xDayDKAUHHAvrJnRaaO0RcHRAOod/BUbk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8kyw5EB+h11Xbh/ZkEiShbYBlgA+1B0/+7AFsAnoRPAwD3oInd
-	z0t2K7fkGE0FHM2ZQEFiskURAmTt2+Bxzd1qv4T4rFZyahDVLYWCx1TSNSdGtk8KzEg=
-X-Gm-Gg: AYBFou1eXUB0PirP2BqmsdnH1F2xpAeL/oE+HWjhTw/m3HA6O0ahSW5a8oQJ16Q/Vbh
-	Oax4kKlJW2rvZy6/v14GyoEouKzQ1I1zqfoaQz9uQW/xLXiwuP5GTdiUCavXuZDBD44R6y9s/yu
-	fl+ihmqbErZcbM9BT00H8tobI3+2khJo+H20rv3QU+bweo8koREIcpvJiy4RYztZEORoyRgwtI+
-	ZsYuKsIZ8LPZb8iJiS2o1o41vODeUYNh5fcsT0kE6hTmRWWpAEnWyQQ6OtopS/FUKgq75Z4o6xw
-	qelHnU75f7jzwq7af2+ad5OSQWlSDfvz4UFWJOUtrH8qtqH48FNKThAFkG+wrxcp9C4rOCZWNrX
-	nRPxWcOUNviFCPc7GxlXeXLSBUEixQjaHWMvtILAX1ywJrQLxbo02oSEx84HqAOM2WPv3+7ZxFW
-	p7aMDi5hyrho5/Lnv7gKAxxSM8/W3PUIh75uTmSaHbgoSp+PzjTgVxclcY8/ZeDCzZYLAC9TRdh
-	cjXHDUdsqwL0pbqYWTbpkyj3gsDoqlTt4ybqB1iG0kzsDJONyA5uQ0sExEgQ4tEZjE3LLbG1P9d
-	bmNe5W8DO67MKWeUSAzK9b5Mj2JkSO8rrxjclq/NNq5NMBJCbsBL/t1r26DL5ggi8heXls73Yie
-	s23ggwVqEuq4yPim8HMkbl9O9njqweaDR2m0qa4jqvPPoKyAQ5m3i9EQYU2ITmgLgojKzFTi942
-	CNMKh/DXLIlhC+rWPOkAroRxl7lZjhO2ZI/3tjIWxl92rSPQeUY2TSgEmD
-X-Received: by 2002:a17:90b:2584:b0:3ac:9f00:3bc7 with SMTP id 98e67ed59e1d1-3b1b0ba61famr5629200a91.33.1794686761104;
-        Sat, 14 Nov 2026 12:06:01 -0800 (PST)
-Received: from [172.22.0.2] ([64.16.22.130])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1b1e9ef15sm5258887a91.0.2026.11.14.12.05.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 12:06:00 -0800 (PST)
-Date: Sat, 14 Nov 2026 12:05:57 -0800
-From: Chris Down <chris@chrisdown.name>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>,
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
-	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org,
-	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev,
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC v2 33/42] fs: add file_check_backing()
-In-Reply-To: <20261114-work-loop-pseudo-v2-33-98639a2286fb@kernel.org>
-References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
-	<20261114-work-loop-pseudo-v2-33-98639a2286fb@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=wKQjtRiF
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=agUQr/AxBpqR/yoTMSgCDqpX2NxV6QO4XNqgDEsecWM=; b=wKQjtRiFnFlUm+odGRkSre2RML
+	kUbFmePzfrRwfhs83dMhMRZrv/ciIAAPcjOtKw/5hdld85CdWM4AxdrdTgsD880DWDNdXmFuFIErS
+	0IMkezq8UeG9DkfgVsC5G5kkBgJvDEZz7G+EHy0RW0Lzv7Qd/nCZaf6v+cXrkPJkx3GLNPvuSwDBa
+	7XAdBzY1kcvZjJJtEBYz7HmZpeD7KWVbRyAC3J6vng0QRm/e0NV7tKqBDqVCSfsHg211Qio6A8wik
+	gKq8tpH8joqM/xI+N5OezTWpFykZVnxctwGt4ZFbDae9ou4ACwTgcy//9967ywPfn/XG6456ddH+F
+	mi0BZo+A==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xSKKv-0000000Giga-2gx2;
+	Sat, 14 Nov 2026 20:26:57 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	David Hildenbrand <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	linux-mm@kvack.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowangio@gmail.com>,
+	David Heidelberg <david@ixit.cz>,
+	oe-linux-nfc@lists.linux.dev,
+	Chas Williams <3chas3@gmail.com>,
+	linux-atm-general@lists.sourceforge.net,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
+	Helge Deller <deller@gmx.de>,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	MPT-FusionLinux.pdl@broadcom.com,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	linux-scsi@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	linux-mtd@lists.infradead.org,
+	Neill Kapron <nkapron@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	xen-devel@lists.xenproject.org,
+	Hans de Goede <hansg@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	kvm@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	"Theodore Ts'o" <tytso@mit.edu>,
+	linux-ext4@vger.kernel.org,
+	Mike Marshall <hubcap@omnibond.com>,
+	devel@lists.orangefs.org,
+	Paulo Alcantara <pc@manguebit.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	linux-cifs@vger.kernel.org,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	intel-gfx@lists.freedesktop.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Subject: [PATCH 01/12] docs: ioctl-number: update MM entries
+Date: Sat, 14 Nov 2026 12:26:39 -0800
+Message-ID: <20261114202653.3113381-2-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261114202653.3113381-1-rdunlap@infradead.org>
+References: <20261114202653.3113381-1-rdunlap@infradead.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -108,47 +150,45 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Message-ID: <20261114120557.4bc1eb6e57218cdc@chrisdown.name>
-User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
+Content-Transfer-Encoding: 8bit
 
-Hi Christian,
+Add ioctl number entries for test_hmm_uapi and gup_test.
 
-Christian Brauner writes:
->+	/* Look through stacking filesystems at the inode with the data. */
->+	if (d_real_inode(file->f_path.dentry)->i_sb->s_iflags & SB_I_PSEUDO)
->+		return -EINVAL;
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+[Since having multiple maintainers trying to merge these would
+cause some conflicts, it would be more manageable for Jon to
+take all of these through the docs-next tree.]
 
-This looks good in general, but what the bots said about O_PATH files
-here is real. With FMODE_PATH this is reached for a file that was never
-opened, so on overlayfs nothing has been through ovl_open() to look up
-the lowerdata of a metacopy file yet. ovl_d_real() then does the lookup
-itself, and when that fails it hits the WARN(1) at its end and returns
-the overlayfs dentry, so the check passes as well.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
+Cc: David Hildenbrand <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>
+Cc: linux-mm@kvack.org
 
-Only fuse passes FMODE_PATH, so it takes CAP_SYS_ADMIN to get there, but
-it's easy to trigger with that. From a quick test with a metacopy file
-whose redirect into a data-only layer points at nothing, registering an
-O_PATH fd of it with FUSE_DEV_IOC_BACKING_OPEN gives
+ Documentation/userspace-api/ioctl/ioctl-number.rst |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-     ovl_d_real(/f, 0): real dentry not found
-     WARNING: fs/overlayfs/super.c:79 at ovl_d_real+0xc9/0x210
-     [...]
-      file_check_backing+0x308/0x5e0
-      fuse_backing_new+0x219/0x4a0
-      fuse_backing_open+0xe8/0x390
-      fuse_dev_ioctl+0x53a/0x7d0
-
-and the ioctl still succeeds. A normal open of that file fails with
-ENOENT, so nothing could have used it as a backing file anyway, but with
-panic_on_warn this is now a panic.
-
-Maybe ovl_d_real() should just stop warning when the lookup fails, now
-that it has a caller that isn't trace_uprobe? The check would still pass
-for an O_PATH file whose lowerdata couldn't be looked up at that point,
-though.
-
-Thanks!
-
-Chris
+--- linux-next-20261111.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ linux-next-20261111/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -147,6 +147,8 @@ Code  Seq#    Include File
+ 'G'   00-0F  xen/gntalloc.h, xen/gntdev.h                              conflict!
+ 'H'   00-7F  linux/hiddev.h                                            conflict!
+ 'H'   00-0F  linux/hidraw.h                                            conflict!
++'H'   00-0F  lib/test_hmm_uapi.h                                       conflict!
++                                                                       <mailto:linux-mm@kvack.org>
+ 'H'   01     linux/mei.h                                               conflict!
+ 'H'   02     linux/mei.h                                               conflict!
+ 'H'   03     linux/mei.h                                               conflict!
+@@ -252,6 +254,8 @@ Code  Seq#    Include File
+ 'f'   81-8F  linux/fsverity.h
+ 'g'   00-0F  linux/usb/gadgetfs.h
+ 'g'   20-2F  linux/usb/g_printer.h
++'g'   01-0F  mm/gup_test.h                                             conflict!
++                                                                       <mailto:linux-mm@kvack.org>
+ 'h'   00-7F                                                            conflict! Charon filesystem
+                                                                        <mailto:zapman@interlan.net>
+ 'h'   00-1F  linux/hpet.h                                              conflict!
