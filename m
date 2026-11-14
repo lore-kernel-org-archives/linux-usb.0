@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794661593;
-	b=0Oh3nfRe2ORsVi4dPujqMtWHnN6AJubDTFyt0tK27rtRWXjeTgyKeU8Ym8iwAo2mP1Ns
-	 lxKmAIwZRdp7lCyqpVvurk7k9+078eKE1v7JWBdC5H4v2hbz0XCkaS2WfsKPPXxK7xM+6
-	 ZlitDFcRIP6Q8H3QkrYf6RsIKgoW7fkNIYEXPyhRVU4Wn0ngvcxNWlRqHVVLkdjtoAF6W
-	 E4HGo7JGp1i9PjnaJjDFJ0kUoX4qZ6WuoWEtMjJT0Cjm2hFEsR8YyhnE/HDzw767CzG/W
-	 PWP7f5AC/SYkNFylDbmg/hbM0ODNt/4lugX+HObEOrAPnq/7Zift31OkkFOFZQiAbmQ==
+	t=1794661607;
+	b=dSFJL/WCxiUu0VuVV7UvzIzLG0zwMC7ot43foeiH5aQm8uuyZBaLG5qDF/dsqWW9EX/0
+	 kX0Wrba4QCRileA9b5n3orjG8eTHPSUc4AQZk2R9TRceJ9YI3G0v0r1nwNxnXmbUdw0z3
+	 bWZ2+MIDqpe1sKNQ2OPI4J/SavxYjggU0iF2HwXkxiPudLzXTdEq1w8oU9MuJ1AN9WtuR
+	 7XeIyUxl6WmIU8cwo/0+UXax2pWH0h7CKpM5178/DJsda537pTD37dh1t7JdSwXL6G2iO
+	 S9dtseMLHMiENi5bV33HnqnlEh3gel8RH+ko8X19LHcL5Uzaox9gFruNBHQnK2BhDdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794661593;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794661607;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=vEUQcwW4egCFJ1K26houNDRkryaQ/QAvUlLdf7LIxfA=;
-	b=uXYJZRmT0cUqf/Fq8NVXOpJMO999I6enXP9tvi+BY+XQHsjnPhjoQzDHw+ZU+ERw0ZcI
-	 yJ57Sxhj5w0Wz3LvX6qUNIgr9r7upgvkEmzcK/nWFd8qkUTi2Jdo/wKNQ3E8lyUicbNMS
-	 Iodb9Xd/LnJRPaNIDt1S6k4N+7TRHBqQXYXCqeQK9GNX7u3UYynpV9q6jPSFfXZcljD5F
-	 EINcWZ5UJxK/eB81HxlCAUC/mY+fPu5WstVbTXg8AJZsSyS+mgrHMV0qSEMTE9AeSJaw3
-	 /o7G9WzZQXPI/0K9lNWf19kL9I5xkYUot72DZmRGwwXVHVgJHTBFmLgIW/XpfJ9snzg==
+	bh=FpatCwjw3dsO4JQBQMC7kZ13u2vnGsecGcPNuVpa3KA=;
+	b=reGOGbvX4ySENczi47T39IwF0fSAfgocisw7wXKyaM32gDWDr1m07eNVT4zVelIN5EMp
+	 vj56ZZ82Zao8KC+HAfQXeS+kFUa8iPJvvNWDqfML8fGn6VPEtWItCd4oOAEzIOjN28Uqn
+	 ePdpOkkhSaWlgU5v7l7KnpRNTrQsvtEwOY/gJTMM/9D3Crcz/VzNbW+dhoo4GKLfQzVr9
+	 8aQ7Y0Eayhkp/YXwSl4B8/TtU3TzgSvpDRAJOiIC0ZOj23GBWMG5WCjuw+WNuLoh4yvok
+	 6ZHn3xHaHpPINpbYMLQQpNzvCiWkLtVohCV4lQGho/iKXAUzbgOPjYQxG9yIfu7KyJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DJFe+GHm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mb0GFpd2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9A4606B0EE;
-	Sat, 14 Nov 2026 13:06:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3E360A3811;
+	Sat, 14 Nov 2026 13:06:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DJFe+GHm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C2ED1F000C4;
-	Sat, 14 Nov 2026 13:06:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mb0GFpd2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62DE71F000C4;
+	Sat, 14 Nov 2026 13:06:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794661592;
-	bh=vEUQcwW4egCFJ1K26houNDRkryaQ/QAvUlLdf7LIxfA=;
+	s=k20260515; t=1794661607;
+	bh=FpatCwjw3dsO4JQBQMC7kZ13u2vnGsecGcPNuVpa3KA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=DJFe+GHm923QnX6Y5soo7AJQ8SdH4x0drSIbnUS2OWssnfwJSQUV2IZe3ob/XB55y
-	 HGpRKJon2FGC5GmKiKtWRgG+aMur8IjXtGeM7NDvCjs8HeoWosaYHGhW7xvQNJxHnj
-	 V4RGXfeiw/5d9W+tWBHjJSDYHShB/CzKIkoMMvKbF/QdHP9BEN1PAP6X0fpbq+Dajm
-	 CXmweTwa8ua3L0aVTYAucEIcFCy3WE3wxr/DXYLuLhhFs+aHqTQXXM/VppEQlnuEaL
-	 lTMHA2EAW1JBgJmg/Y9PCfE+UFz0cUy0VBh0Br+5g/y+MUzPdQgQ7kbV5gr8gtumMk
-	 0iV1JBfnD/jCA==
+	b=mb0GFpd2C5fDNr1HezZ4StZUVzaHMoEClA0IeuQL8e+ljakrtqDhCEASV8IAXvP4d
+	 RC1oa5y1MsN5q8MWN8GXMEbVUZRKyYW/fl7AOLLjvARkDSTMVvI+gSxb3II3v2DsJg
+	 96C3cn9NrBLsKPz/zWvh7GCVaCkTb4ADqAaobil0bVhIyLY+X8wvCP6duLHOwmTcEu
+	 nUOIlhP4wuqWbLoMwB6uNjziIgKsIHHQgxQhQSZBtr6h25GDdzhH7Odii9UtlPy/VC
+	 EmCy06jsWG4U6l5QmzFbeJBNBHn/Dz6c/O1FULUO7sYXxvju+nwGNQCS8SodWc8ZVk
+	 Uvl0fK6ioapVg==
 From: Christian Brauner <brauner@kernel.org>
-Date: Sat, 14 Nov 2026 14:01:49 +0100
-Subject: [PATCH RFC v2 08/42] mqueue: use fc_init_pseudo()
+Date: Sat, 14 Nov 2026 14:01:51 +0100
+Subject: [PATCH RFC v2 10/42] nullfs: use fc_init_pseudo()
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -54,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261114-work-loop-pseudo-v2-8-98639a2286fb@kernel.org>
+Message-Id: <20261114-work-loop-pseudo-v2-10-98639a2286fb@kernel.org>
 References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 In-Reply-To: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -76,53 +76,47 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  "Christian Brauner (Amutable)" <brauner@kernel.org>, 
  Alexander Mikhalitsyn <alex@amutable.com>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1301; i=brauner@kernel.org;
- h=from:subject:message-id; bh=qF0TT28NFfI9TLhhCqBLUWCBoYJ0XY66UkmFCoZwvwQ=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9iMk78utTVQKnnZ/L9apqi1Ijq5VX3P9v+Dhp6pbtz
- hPnh+z92VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRpqWMDHO2fHNRqMw6vLBd
- svjftwLHIIbl/BEPDSTTuNUk47nebGL4K/l/b+Gahb+vMDEwHLnCfPthSuHM++uyg1evCA3JnNr
- lzgQA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1042; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=5XsIgU6fgQKzvWW2wDjrcokIetPacs/QWCdr4iIPKEo=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9iCk8KTdXmVfntRBnvfSi6up7tXNUNn2+7OgpMrv+X
+ X1Phd3UjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkUvmD472Toe9Lf1rqM+4vC
+ vnQTU32GmsSg7adtuL+nHlrQZ//mDsN/16arDJPabmxYrPfimrJMB6/AxA41v/6kPF6G+28aHm9
+ nAwA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Initialize mqueue as a pseudo filesystem instead of raising
+Initialize nullfs as a pseudo filesystem instead of raising
 SB_I_NOEXEC and SB_I_NODEV by hand. This adds SB_I_PSEUDO.
 
+Reviewed-by: Jan Kara <jack@suse.cz>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- ipc/mqueue.c | 3 ++-
+ fs/nullfs.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/ipc/mqueue.c b/ipc/mqueue.c
-index 322c3dd98c447..8bbe32d0881f2 100644
---- a/ipc/mqueue.c
-+++ b/ipc/mqueue.c
-@@ -18,6 +18,7 @@
- #include <linux/file.h>
- #include <linux/mount.h>
+diff --git a/fs/nullfs.c b/fs/nullfs.c
+index 319c2f5c5a671..2fe24cb97160e 100644
+--- a/fs/nullfs.c
++++ b/fs/nullfs.c
+@@ -2,6 +2,7 @@
+ /* Copyright (c) 2026 Christian Brauner <brauner@kernel.org> */
+ #include <linux/fs/super_types.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/namei.h>
- #include <linux/sysctl.h>
- #include <linux/poll.h>
-@@ -405,7 +406,6 @@ static int mqueue_fill_super(struct super_block *sb, struct fs_context *fc)
- 	struct inode *inode;
- 	struct ipc_namespace *ns = sb->s_fs_info;
- 
--	sb->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
- 	sb->s_blocksize = PAGE_SIZE;
- 	sb->s_blocksize_bits = PAGE_SHIFT;
- 	sb->s_magic = MQUEUE_MAGIC;
-@@ -457,6 +457,7 @@ static int mqueue_init_fs_context(struct fs_context *fc)
- 	put_user_ns(fc->user_ns);
- 	fc->user_ns = get_user_ns(ctx->ipc_ns->user_ns);
- 	fc->fs_private = ctx;
+ #include <linux/magic.h>
+ #include <linux/splice.h>
+ #include <linux/uio.h>
+@@ -174,7 +175,7 @@ static int nullfs_init_fs_context(struct fs_context *fc)
+ {
+ 	fc->ops		= &nullfs_fs_context_ops;
+ 	fc->sb_flags	|= SB_NOUSER;
+-	fc->s_iflags	|= SB_I_NOEXEC | SB_I_NODEV;
 +	fc_init_pseudo(fc);
- 	fc->ops = &mqueue_fs_context_ops;
  	return 0;
  }
+ 
 
 -- 
 2.53.0
