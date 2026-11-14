@@ -1,47 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794659960;
-	b=CqS/sq/ytKJ8lyvP5/sLeBQeaivVQ0v6LpQAv/5OZPQ5+5avmpxJRBAxzKO8dZWvAQIE
-	 J/X2UvEptclcqPyTjIDsBw/CkbcuOdapByakPMd2kEqQa8hc27pR8Z9Pq3OKPOjUaFuOZ
-	 mpBJeG33CUx/5pptN9yG3rf609NKIz4gJPCnnCoKkWBWO+achHDYYN9lk88aBuhwu7zUM
-	 on1WL3YGXVkQcQKs3SJZJtLmhCIijZRhJMP6j6YNf6bNikkP+MaDTFIEcUswMNol3DnfX
-	 mnqTqmxeX8We71iA04Q5Sfn9SiGtGG75ZhrnREBXeu6b1Q6LRLdQzMiiTdwoifDoxCA==
+	t=1794661259;
+	b=keUWzfl/nIXlm/qNlDtZOWB8ll2TQSoZUYnEp7GWNXcCeH7v2ufWUId8CDJpS/KJng8g
+	 Z7wDNDuIj16SVFQMvJSGj0c/W2mDwKwulvOOlRbcEmQVRIUOck90FRCkVnJfPcs5Zeb4e
+	 VmyQKBwwixC3J5jQ9gZVQAnDvFuOBMqPVgnexbCaNmCUuilxLaKRlRsU84O3nJEcJZmly
+	 Erf0xRiE6hPFUrp7CTWIIG7H79uapED40ZCWkVpTWB/CJUwKuI03YvrfzhKsK9AB+xTDU
+	 KJk8NiOOudQuBVnp79cdG1O0sLcWBMjJBC917UVKaiexaxh8Z1AqgFeITGJ/OFmS4eg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794659960;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=8XEVAu3Q5YY9NrcU+7w8i+il8Oym5dFfsCVlgd1WOiw=;
-	b=eGnLtbkB0gRc0yE8HYQp10191W2hpeNqI3Jhz4Pvq83X1Y3ecgBIYz+mhyd0fJ/ZkvGz
-	 kNqwQu4yAEc7UbYXJrZ3YXM9ODEaS3iyi03UUWOuBXP8xu7cDwyljJOWn0ePOlhgzr8Rs
-	 nLqc2uJAicga4SpAux1a1yyh+LZBUyyJmRWXdXd7TW5wl8VyMIsZklPhq7waOf9qZZxTp
-	 Y1g6obJT3L8/e68nmRhXW+Cs+JzoHhIYow49992JiUxZWzv62IQdqMr0EHd+uJsToWte0
-	 YeWkuUr6Hg2gWDGdI7Kz5oK+LPEp/IGlnXSS95Qa+ImZHickjS09Ey0zAO/3UYFv7rg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794661259;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=fdAJLD4zNLOzYjD/OIT0sBm7o7IlZcf0Q2ErKxsWEBk=;
+	b=IdS5n82M5rQ/v68hJN8CP2o3riDIMDRXGuktiGOmAb6TMDLkMVkMF5dFdJ8GtGbovmMx
+	 KpHOFaCJOPEwCOdyAzqcGUKoJcDK9OSnkTm0DcwPc/TIHwMA6Om4FJYqdjAXLG4AaPIWN
+	 H8FSA3W6zhR3PTDxaQ0zP4zS2roq+TWoQduI2FaKaeQNZEn537XD6qf1OsGhiDEIqv15+
+	 03z3KjRyz8IkNZMDJllTtcXGT82/Nv44+ymgH4lDSWAVpqeaRSp3U1WMI95lirG/pD+Bc
+	 nl8O6D4dIofjKAB9O0ffNdHHHakaAF93OwxFY90NDkXTEjuqqkFCY+UfKTTqiu0x03w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AydWBabv;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T3jtUgYm;
+	arc=none smtp.remote-ip=209.85.208.45
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0813606A327;
-	Sat, 14 Nov 2026 12:39:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CEE606A323
+	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 13:00:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42CEE606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AydWBabv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0634B1F000C4;
-	Sat, 14 Nov 2026 12:39:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794659960;
-	bh=8XEVAu3Q5YY9NrcU+7w8i+il8Oym5dFfsCVlgd1WOiw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=AydWBabveP5xFhdWkdfaeXTnAtgjiCu0X9WX8UPy/EvYU1+m+EU8ZIogcTv8BV7hj
-	 JuseC9/ssVWillY0oNyjtvMNfKa1bukl4aHKnEgmg2Clb1/5rmTuMy3LxIsx+9NQgB
-	 fofxyPuHYP3ZHfesbcq09M7ZgNGXKzaoodl8m14paU4YTqVE0Yyh8dbjiroGzlow/K
-	 eVdJSevs8bA2CP5ICJQD34S+epcziXqei9C7llN1nYM5VkyKhPU4WBC7uz67S2XP4e
-	 F2/2scif2N9/aW113A7VidcxnDwbRGXmdvhch9f8P5YNRcAWNIl4OteOC9FDo1TId/
-	 lAEnarg2W9Rgw==
-Message-ID: <3a3f5721-dc37-41d1-8ef5-9a5fdbecc446@kernel.org>
-Date: Sat, 14 Nov 2026 13:39:17 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T3jtUgYm
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b70880c0a4so2568715a12.2
+        for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 05:00:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794661257; x=1795266057; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=fdAJLD4zNLOzYjD/OIT0sBm7o7IlZcf0Q2ErKxsWEBk=;
+        b=T3jtUgYmzy9TE1gZDpvFRcansJmQ3vzKtwK60d8QPgQ5SWlX/aZeq27BC0DqI/TFfx
+         uFUDFSX3yTC+p8x6+pivJVKB+D+ZYxl4DMzMAWD47F4cdg2NAPbNmPKBRhaplPFMHrul
+         2ASkV7EMO6bMX9UWnF79ytpE6Bi6Qj+MBNuJ5pJbEK6COmFQ4wXRT50PU3azcWeBcMQy
+         FXCKnwj773SUT2JeulyTkJtKyhOwR5cQE9R4RyYU2E7A9bYRlzAxZzb1Xioap1FM+60N
+         kSWhEj38z1vs56jzff5a/4oyS58Jt9eU1mdXZxy+26vbcqFu0IPXbCrCfz8D6OP0ntbw
+         3f8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794661257; x=1795266057;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fdAJLD4zNLOzYjD/OIT0sBm7o7IlZcf0Q2ErKxsWEBk=;
+        b=pYgjEp0cE0a9vkTDjqVsLYqjlJOPORFvIsV508M3Hfb+WhmweEn5l/t5UyJned1UvE
+         NuE/GoJn1TEDcrTkkLCJxSndvbmcHeiHxSjY70xCXIHvHiWf8Eld9bnzwaH/vZxuzLtD
+         wmIDPflZ8StyOG28EJa9epRj2M40DzgJU92WEt6p4mkw/trT8Tgfjvx+DUKccPIOfcWp
+         mu40v2wabTOriJjFVfqDrx5IikYqWKVYYMeoO2PEzbjfYP/RJSUCtFOaAbR99M7ifCsV
+         hPVyxkOb7KpQgbeeweu6BiF63cc16W9fmqozv16rSc2xK6A23zeHhG1YCOvvimNMq8xC
+         9fIg==
+X-Forwarded-Encrypted: i=1; AL+hErHU1Pb0i0G/nkusMq1ifYGdAN9Jt1LrxxbAm/rbWi2mkwMeiImQwdXw8bAQv1j9nLJhDokH7rhSVNA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/11dr/hcsZfjyaLYVNP+e7SSpiwkPuKa1z3+deamoFEILWkS+O
+	3ThujS9aDafcyJSgvcHR5bqok5YNGfrnThA0XqxKFbpGe68187HrnwMT
+X-Gm-Gg: AYBFou2uaGPhB+I0qEj+4nNCkOHaACxVJqN4xwZ/KRFNbIlV6AG9lQ0YVfCz059ZmUZ
+	pDnTl8qjmI6XfDONyeTTIWID7VndpPMwERNa6y83gs/YPd0OMSFf77+eVrJTaNGIhCzLbelW2Ke
+	G4wke7THBSeiwANoq7CjeRuYSkN1fCWvpSHRdgMj6jHEZtsQi0K87ys+0LS0Vb2TvClS6BESEk/
+	XnNTxVO5B/4AbAtolOLRTV7WFrbKyljTi2uz09jkN0dNuLXpxpFQb3wOV3xWNAo7bomELB0XIfV
+	IPs5SWe8aJIYCjx4RogFF1++621+395XdxywsxJPJQkmtYAOw6ZjopjWcfe6zkzO2BlJtDl3BDw
+	0Noae9gTjd05oi3t+oNB1R37DxZkkXrXA9sd55LmiojP7+sUMIOr+iViiS4wk3EYbd5T9L0wVFA
+	Bc728SriE4VVyPD21vnrjR/J1rgPmDOcDfDsQ6J6ZJuN+lEBWKFZPquGcr0e8WoHkDlW2NC0MKW
+	Lyq2pGguMJ6w9mEqdoO3eOca66DFPKPMV2tvgHJWa2l+EqJd1xqqyvr7FLb2OoaPMWP3RkDFf70
+	BCYPKp7o7rAZZTlgZshUmzcJ6FmUjtYwBlqlpLwP2R2um8nscTp+x/NZOSfXS5X35rV6FfueIb4
+	f5tkuu0mOiqPJG0JVyfgv2A==
+X-Received: by 2002:a05:6402:1598:b0:6b6:f7cf:8088 with SMTP id 4fb4d7f45d1cf-6b7c0c6f6f1mr4621363a12.32.1794661257359;
+        Sat, 14 Nov 2026 05:00:57 -0800 (PST)
+Received: from nixos-macbook (20-144-89-188.ftth.glasoperator.nl. [188.89.144.20])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7c23dde80sm2383864a12.25.2026.11.14.05.00.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2026 05:00:56 -0800 (PST)
+Date: Sat, 14 Nov 2026 14:00:53 +0100
+From: Jacob Procee <sn125164@gmail.com>
+To: Sven Peter <sven@kernel.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v2] usb: typec: tipd: cd321x: replay the plug on resume
+Message-ID: <20261114140053.0ad11276@nixos-macbook>
+In-Reply-To: <3a3f5721-dc37-41d1-8ef5-9a5fdbecc446@kernel.org>
+References: <20261112122825.7730-1-sn125164@gmail.com>
+	<3a3f5721-dc37-41d1-8ef5-9a5fdbecc446@kernel.org>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; aarch64-unknown-linux-gnu)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -51,61 +101,17 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] usb: typec: tipd: cd321x: replay the plug on resume
-To: Jacob Procee <sn125164@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Janne Grunau <j@jannau.net>
-References: <20261112122825.7730-1-sn125164@gmail.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20261112122825.7730-1-sn125164@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Sat, 14 Nov 2026 13:39:17 +0100
+Sven Peter <sven@kernel.org> wrote:
+ 
+> Nah, making suspend/resume work isn't the job of the type-c
+> controller.
 
-
-On 11/12/26 13:28, Jacob Procee wrote:
-> On Apple Silicon the Type-C PHY and the dwc3 controller behind a CD321x
-> port lose their state during s2idle while the plug stays connected, and
-> the CD321x does not raise an interrupt on resume. xhci notices the lost
-> state and re-initializes the host controller:
->
->    xhci-hcd xhci-hcd.0.auto: xHC error in resume, USBSTS 0x401, Reinit
->    usb usb1: root hub lost power or was reset
->    usb 1-1: USB disconnect, device number 2
->
-> but the PHY is only ever programmed from typec_mux_set(), so a device
-> left plugged in (here a FIDO2 security key) never comes back until it is
-> unplugged and plugged in again.
->
-> Re-initializing only dwc3 after resume does not work: tearing dwc3 down
-> also powers off the PHY, and nothing turns it back on, so xhci then
-> times out ("Host halt failed, -110", "can't setup: -110").
->
-> Instead, make cd321x replay the plug on resume when a partner was
-> connected: mark the plug as changed and queue the update work, which
-> then goes through the same sequence as a real replug (role none, mux
-> safe, mux back to the partner's mode, role back on). Queue the update
-> work on system_freezable_wq, from the interrupt path as well, so that no
-> update runs before all devices have resumed and the work item is only
-> ever queued on one workqueue.
->
-> Tested on a 14" MacBook Pro (M1 Pro, j314s) with a backport of this
-> change to the Asahi 7.3.3 kernel: a USB-C security key left plugged in
-> re-enumerates right after "PM: suspend exit", where it previously stayed
-> gone until replugged. Unplugging the device while the system is asleep
-> also works: after resume the role goes to none, nothing is brought back
-> up, and replugging it later enumerates normally. Booting with the key
-> plugged in and replugging it while awake also still work. This mainline
-> version was build-tested only (W=1, checkpatch --strict clean).
->
-> Fixes: 82432bbfb9e8 ("usb: typec: tipd: Handle mode transitions for CD321x")
-> Assisted-by: LLM
-> Signed-off-by: Jacob Procee <sn125164@gmail.com>
-> ---
-
-
-Nah, making suspend/resume work isn't the job of the type-c controller.
+Thanks. Would you rather have this handled in dwc3-apple
+(dev_pm_ops doing exit/init on resume) with atcphy remembering the last
+mux state and restoring it in its own resume callback, or do you already
+have suspend/resume work for these drivers that I should wait for/test?
+Happy to test on j314s either way.
