@@ -1,98 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794690192;
-	b=ZqJ7u/C6xdT0GF0T7pUzCcwkYIXeaNKSjsV1gwbZKxj96+WRVn2IHuhz2JKwToBTrjfv
-	 GSELYf72AySBFTyulF/7C4dFcXKJGHCcte5MA6Rf9VcgKfGPcJazH1YLCVsOelwakjSPj
-	 0xm+IHZUa36Y8RGCKaUykby6YcYLaHG0hptnJLZOrsNFP2BaxewyF+nYiPjcddoA2uMRZ
-	 bAN//525I814YvOIHpclHsho0wzk7iawYLjM8BmQeJMUIF2yBJSzN8V++rxfH1tHTFOy1
-	 jSNI8is5IXzRrmC1rc22UE0LaCUhjMpIMJOinHSpkML/qT0O7+uERsuByRLpe/AzMyg==
+	t=1794690462;
+	b=PXMjnEghEbxiflfK9xm8hGOgNVn/+/JeBIIuegqkpv1N6gRI/Hg97QW6QEZuAe86Mgcw
+	 xdhlwg4FXpDBmuuTd8ipQ4Nb62CccTDG1FclHKgY6zLDakj927BCPPTMnEPEAO1V8BSF5
+	 Gz92mTAgaaKlWdo8LdgFqjHseQgR8K5lZkgoj3DxMb1RrpTZLc6XprJ7dwH5rh/uf4XRp
+	 Ue6xPa9wTvDP8iIpDBtj7u8OZc7nAoJvLanfPwoo1iL5IC25HefdK9s8ZgEH54DpqTP65
+	 ebhEcKgzcCSProKEMTxiyaBWPOWREqg7/UyAE2LBbYnQ393XW/BBE5ut8lD4Lqy5VIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794690192;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794690462;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=VF3+5ckqjkWo1/tuEiCb28KnOUZrUPKvSXLeZGTLF5Y=;
-	b=UyzSAN6xYsBA6yfJzPjl3q6h69dBqT+fou1kWRoBvDJMtavE7a6W37fxv0pc5prQMdAH
-	 lUxI6DBjvgd9Sr7fi0IZfdqal6rVqR2T2t4LdWYiukX6gMHhUolmS8dNUinECih4LU9uz
-	 J3p91ofnBJzzYkJcrrqAri84qsuKS5cxOHk+eC/7FnOLyzBekxvZbXklB9Zo2XTDhFt5D
-	 jENkKqDDXV0ytaLnGPzhscWpGTwO3emLWQpp9R9d81uDLppAP/UQczsJIcuZE2GQJ1oyT
-	 D621k3s2X/Pnd0pRm7iU7dvc8M4tpHfSpEYpFS2xdmZQ2OPZopntScNX+cRXO3iyi5A==
+	bh=J1RiYWC1Gtgqr6IRbxXgwNcNyxzKGHZt3TuIm+iR5m8=;
+	b=EK0bigNKx/KCjT1P+unwZBbEa9rsnWD/da+sXhd58rLSMN0scGRmYs1USdPbE7bBR5sL
+	 aWFAIcD+wCD2MZjVHytNkprxlRGZ4LiEar1RTEZ60snvI20zrm/i+7l4mQmFC2cEkSG88
+	 VTCBXRzW9bu4gb0iXML0qO0czcxEv5mL03PBdE8yagU8vU8pICa/WsqMGeXhEBe87exHK
+	 CSEnJqGNLtPG/cyG9ReYv22pnqCn9OGDxaZR3G2fv5jAXhxRXfGoWYnxYSg8Wvhqd/Jte
+	 RTMRgF1bYtAK+SxnFsD3LZL0+8izS9eiU5tohTF91Mh9O+z1LfYVWbnZOBabjCgWioA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=rowland.harvard.edu;
 	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=njza3wTA;
-	arc=none smtp.remote-ip=209.85.160.176
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=iMNdG1Up;
+	arc=none smtp.remote-ip=209.85.160.179
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6DA606A323
-	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 21:03:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB6DA606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EED606A32D
+	for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 21:07:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6EED606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=njza3wTA
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-53644b28706so3124861cf.3
-        for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 13:03:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=iMNdG1Up
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5361e313e63so36505651cf.3
+        for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 13:07:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1794690190; x=1795294990; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1794690461; x=1795295261; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=VF3+5ckqjkWo1/tuEiCb28KnOUZrUPKvSXLeZGTLF5Y=;
-        b=njza3wTA94nlZ4biRy1rA18jY9hYlEQqvtu6o8uuNZmpbwAyBvWF3zxdtdfC6KDZ7S
-         Fb3onuJoOjLXeXKcU/4EXQ8jEuRnMkjTYTX7DXsYjlTGfumZaP17roaMT7KFPVF13oHE
-         y8zDyzvIfgegWnYbs3dCWO9cs3viq+AzzRW8WRSvWg+jYOjpM3RAqfprMlaRJuJp82S8
-         bpesaZdJf2oL16toVLPEBMotiWo00LN9egC1p6cFLDfbXVFycFylTjLEWbLhSyWNP6NY
-         /rvqHv0xJtkvd4tY4azMTT+mgnrOcNjrlagBncohReHsGRYDysYwiT2VLFGnaW9yZnG/
-         jFkQ==
+        bh=J1RiYWC1Gtgqr6IRbxXgwNcNyxzKGHZt3TuIm+iR5m8=;
+        b=iMNdG1Upsv6oTAO9gm7mCjljk8M/S+CvvgXtywU4RoQitKBxzrUwMVxEXtXMrhl89s
+         IL9fbJPyWOuUe9dyy8KuuXfXR7r0aTEaLzPW9cRIuvj5kw5qxhEtCO/GNbrtedgYBjMy
+         lpmE5SdWxfQ4Ooq8xF9kVPfHpuRltpH/CBf1n3igYsLyFX+kGHOksDfPDl/Y8qiXiv/5
+         kPtbIgjOT2b7mt2aTNP8ErVerzFkljic3mTl7g/4YOhvfTme2OA7o79eq2iY8UJIrREU
+         p21zAMkqsrlpOqf2V0DAPKGMEmxxezhOhETHNlxxcyW7f++U7k4X2um3DogPr0sWujBn
+         /QJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794690190; x=1795294990;
+        d=1e100.net; s=20260707; t=1794690461; x=1795295261;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VF3+5ckqjkWo1/tuEiCb28KnOUZrUPKvSXLeZGTLF5Y=;
-        b=XfVj6ogcdiEJB8Q2Ajn2xpA0SxkHAnVXDozgBno0luPv4MzaOqLRVL/36rt01NKcQW
-         BUNOtaqTPaP9+H2Cbk16zPdoqJ5KGpvVpH1H3iR78j59yOd56ihn5xKykRToW1gsjB5e
-         sWgJWKIumWkxnEfRtKcw+rI5lKoiNfZoHAbxI3ELFHWTm2F73TeAnqajJ5O1kZeDMJk6
-         JavMo/SdLVsnc0SYoHDbLtCF/0Cv0JGIlPku2LxIUQZl6hHNmlBkHsgfHh9JS70UrD2u
-         NWNLpiEMa/4aYkVJH0mlcuaPkL8s4qDns9vWbmJvh1bzU3fkTamEuJ9SL+Qf//STnCCb
-         wLSg==
-X-Forwarded-Encrypted: i=1; AL+hErH314d8gLlQxdgVt6N3CD6YtjGeGNyJX5F4Md2SXBmP0gsm28j+59czL4VJxPziC//V/1vgc+zf5zM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9xiFSTJ08huxHUx2XIqACBcLJRgTS85WtvFFd8CXNEPxi8zjQJ
-	Xxi9i+MjEIVgc/U7aahaWFfbDeiQGw+BIKvyabqLwKpjKbMPfMtPc3kWSPzzdA6cKg==
-X-Gm-Gg: AYBFou15eO4fpE94yRbRdtfHJsIXrgtrW1RgTl/ni0RKaOJKGd8xg/qwcgvSIIDiE6M
-	JW/LOVPCph7P4Hi9cDAuGxIw7ukGVxD97H68PreprEaqsXvFDi4X4SbeW3KCvfqoPBeQNub0qwO
-	s04EmKtA8SJ+yEeq3LdcQFM5xuOH9FsdGYSnpU7ywYu+LhjfY0uekDDv0YPDuszX8w8HmalRZn+
-	Up8OkOsToB5+8XchMsTvaFoiaxnAQwrr1RiTfxw4eA06ZH0RSQ2C9/4B4Pxp/NeY1pi0o0y+RfS
-	rSRJvdj4ubjAK+FXpdA1F9Lr1z5kHAems+3Q4W2K4FXHtrRGfMRBRtjjA++5sM95cVV5QAnvIsl
-	CvnVzqFUZO3JWSO+RU78vLlN5kpM5FBB4jXliXEVVxNWCtLiQQTzmzfVPTzE12tLTgcauVQTAlX
-	+W0pErA4Z34xqkxfvHCFuCrXjrzoWBljvFu9flBbK1ogPpMcnVZg1noXHCk8wBLZUMEg9lNkTaF
-	cJumTomT8KT9pZnrhFPdk7plUP9h0/DLRC/KSGiRyAzmFXDxIjDUuaf3PA/J4Xy63w3rhaABsJi
-	TQH6hYvo59NFkpElnlP8rd/IYXKsu8gFsh3x2RkUSOdphuosB20=
-X-Received: by 2002:a05:622a:5a11:b0:535:a5f7:d586 with SMTP id d75a77b69052e-55ac9089b1amr95896921cf.64.1794690190346;
-        Sat, 14 Nov 2026 13:03:10 -0800 (PST)
+        bh=J1RiYWC1Gtgqr6IRbxXgwNcNyxzKGHZt3TuIm+iR5m8=;
+        b=L/Qw6nRXEEmdyhcjCS7veqPxYC8XNnNd73UoQ66pfdbJVgvxW05nWeISZH0zbDU+K3
+         Y4NOapI94xXES0MhGHdeu/2mp61H+w2I9eXC57SsxSU+h21s8aH/HA0NVG3BllxOuVZP
+         ekb3u6drBvjvUySxYZiQSbIUtBvLKrhQjT3sH2l4PAxKazMOou3ocF5QIqRH/Go0iVeE
+         lRxysVX5z31IFLtiivQXOxRyuzD/gAq4sDE9G83mVIEZQYDysQlxceTC1TZrSv7ofbaU
+         Z7KJ57t6u3VBdF+9x0UhBpTZO4L/ERi7XPqVFRXZX9O1CWSL8KuN0CbStZ8kXOj9YBa2
+         wJAw==
+X-Forwarded-Encrypted: i=1; AL+hErHdvHfmymu1p4EhkIjl6xp0kbdBoJQiSpd2tv20ZCWCX33RwKeCG7na8+g+TtcFgMh4yHT1rK0BbQY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Yn/BhXqX9sN6QnRAWsoMvKCV+wK6cHH4aPktMx4qnXKpBghli
+	jl12hbl+qyIoPHgfAN/LvOIGWRaoy2dxyiWH0zvS6k6kt/w/H3ivMcXlqz3CW6a0zg==
+X-Gm-Gg: AYBFou2P6hNO0UxCEDE7sMwTBKo7yNiLsrNjwmSKlZbL9DTNH5mbeCYrwLYH/viVXsz
+	f1nkzogzuzBOd9y6ShsAQtefpNb2223IAiTkrNK4wLbVUjfOoOw/B95YaVNmtI1jqCVBxoYdOVw
+	GcJ9hlYtxBA5r+w5Lni83yBQTxcvG3927kz4pUbB/T9FeQCzG1YWKVE2UaCdpewX9+4dNLevmlz
+	24mM4P+U1EEFdms7Z//56jsFtYdVj48xEGE9Pv4LL63+Vq+f36UDIhAUEGmpo8vjxw08eE2raM+
+	NGAv231SCVy92jWtq0DAF7ac+nuCYJy4xWZomdOYdvCfySwleF3M9TxB/NUBrzFm4aIxvX19Rgv
+	XMwtV6pOTWf1g6dz74eXAwTdfXGrci3391s3hoBF0lbayluZTqS9SGKQWq+mzqCz6+cAdVXUV5G
+	GDvZtsPEObuJDVo4J2nfhfTq6c/WeUgpyWI5wTcajftuvgXRbcsaZnn6v9fESo2HBCHVLkP4Zj8
+	H+BTiHnVBYva3Adly/LxQ0OyeJ2Oibxogyt7YPAurkCRB30yAzhFSNnM4DfcT7090oahfHBqTL7
+	1nrGji8UlWG2V2DHylvmO4BdXP9hwjw=
+X-Received: by 2002:a05:622a:5a16:b0:55d:10f7:8c72 with SMTP id d75a77b69052e-55d10f78ddamr26486191cf.18.1794690460564;
+        Sat, 14 Nov 2026 13:07:40 -0800 (PST)
 Received: from rowland.harvard.edu ([2601:19b:d00:161a::d398])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d458fdsm50228666d6.9.2026.11.14.13.03.09
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23c9b30asm50035736d6.2.2026.11.14.13.07.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 13:03:09 -0800 (PST)
-Date: Sat, 14 Nov 2026 16:03:06 -0500
+        Sat, 14 Nov 2026 13:07:40 -0800 (PST)
+Date: Sat, 14 Nov 2026 16:07:38 -0500
 From: Alan Stern <stern@rowland.harvard.edu>
 To: Alexey Charkov <alchark@flipper.net>
 Cc: Neill Kapron <nkapron@google.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Xu Yang <xu.yang_2@nxp.com>, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] usb: gadget: udc: Clear a pending connection when
- starting the UDC
-Message-ID: <fac47d51-885c-4d83-be9f-860cf70816cd@rowland.harvard.edu>
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH v2 2/4] usb: gadget: udc: Forget a deactivation when the
+ gadget driver unbinds
+Message-ID: <cb1a0c88-0288-4296-bc0b-e3a7f2186593@rowland.harvard.edu>
 References: <20261113-udc-connect-v2-0-f51b11f07eb8@flipper.net>
- <20261113-udc-connect-v2-1-f51b11f07eb8@flipper.net>
+ <20261113-udc-connect-v2-2-f51b11f07eb8@flipper.net>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,61 +103,71 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261113-udc-connect-v2-1-f51b11f07eb8@flipper.net>
+In-Reply-To: <20261113-udc-connect-v2-2-f51b11f07eb8@flipper.net>
 
-On Fri, Nov 13, 2026 at 01:28:16PM +0400, Alexey Charkov wrote:
-> Since commit 62911bc82b03 ("usb: gadget: udc: skip pullup() if already
-> connected"), usb_gadget_connect_locked() returns early when
-> gadget->connected is set. A connection requested while the UDC is
-> stopped sets that flag too, without enabling the pullup. A later
-> gadget_bind_driver() or soft_connect "connect" then finds it set and
-> never enables the pullup, so the host doesn't see the gadget until it is
-> unbound and bound again.
+On Fri, Nov 13, 2026 at 01:28:17PM +0400, Alexey Charkov wrote:
+> A gadget driver deactivates the gadget through usb_gadget_deactivate()
+> until its functions are ready, so the deactivation means nothing to the
+> next driver. Yet the UDC core keeps gadget->deactivated set across
+> unbind. Only configfs resets it, from its own unbind callback and
+> without connect_lock, so a legacy gadget driver that unbinds while
+> deactivated leaves the next driver unable to connect.
 > 
-> This happens whenever a UDC driver reports VBUS through
-> usb_udc_vbus_handler() while no gadget driver is bound, e.g. when a
-> Type-C port controller switches the controller to the device role at
-> boot, seconds before userspace binds a configfs gadget.
+> Clear the flag under connect_lock once the driver has unbound, including
+> when the bind fails after the driver has deactivated the gadget.
 > 
-> The pullup is never enabled while the UDC is stopped, so clear
-> gadget->connected once it starts. The bind connects according to the
-> VBUS state that the core tracks anyway, and a function that deactivates
-> the gadget during bind still has the connection recorded for
-> usb_gadget_activate().
-> 
-> Fixes: 62911bc82b03 ("usb: gadget: udc: skip pullup() if already connected")
-> Cc: stable@vger.kernel.org
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
 > Signed-off-by: Alexey Charkov <alchark@flipper.net>
 > ---
-
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-
->  drivers/usb/gadget/udc/core.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>  drivers/usb/gadget/udc/core.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
 > diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
-> index d5844384c368..577bc15f61a1 100644
+> index 577bc15f61a1..84dc0820c2cb 100644
 > --- a/drivers/usb/gadget/udc/core.c
 > +++ b/drivers/usb/gadget/udc/core.c
-> @@ -1236,8 +1236,16 @@ static inline int usb_gadget_udc_start_locked(struct usb_udc *udc)
->  	}
->  
->  	ret = udc->gadget->ops->udc_start(udc->gadget, udc->driver);
-> -	if (!ret)
-> +	if (!ret) {
->  		udc->started = true;
-> +		/*
-> +		 * The pullup is never enabled while the UDC is stopped, so any
-> +		 * connection recorded meanwhile was only a request. Forget it,
-> +		 * so that the next usb_gadget_connect_locked() enables the
-> +		 * pullup rather than returning early.
-> +		 */
-> +		udc->gadget->connected = false;
-> +	}
->  
->  	return ret;
+> @@ -1647,6 +1647,13 @@ static int gadget_match_driver(struct device *dev, const struct device_driver *d
+>  	return 1;
 >  }
-> 
-> -- 
-> 2.56.0
-> 
+>  
+> +/* Forget the state that a gadget driver left behind, so the next starts afresh */
+> +static void usb_udc_forget_driver_locked(struct usb_udc *udc)
+> +	__must_hold(&udc->connect_lock)
+> +{
+> +	udc->gadget->deactivated = false;
+> +}
+
+Is there any reason for making this a separate subroutine?  Just do 
+the assignment inline in the two places where it occurs.
+
+> +
+>  static int gadget_bind_driver(struct device *dev)
+>  {
+>  	struct usb_gadget *gadget = dev_to_usb_gadget(dev);
+> @@ -1705,6 +1712,11 @@ static int gadget_bind_driver(struct device *dev)
+>  		dev_err(&udc->dev, "failed to start %s: %d\n",
+>  			driver->function, ret);
+>  
+> +	/* The driver may have deactivated the gadget before failing */
+> +	mutex_lock(&udc->connect_lock);
+> +	usb_udc_forget_driver_locked(udc);
+> +	mutex_unlock(&udc->connect_lock);
+> +
+>  	mutex_lock(&udc_lock);
+>  	udc->driver = NULL;
+>  	driver->is_bound = false;
+> @@ -1734,6 +1746,7 @@ static void gadget_unbind_driver(struct device *dev)
+>  
+>  	mutex_lock(&udc->connect_lock);
+>  	usb_gadget_udc_stop_locked(udc);
+> +	usb_udc_forget_driver_locked(udc);
+>  	mutex_unlock(&udc->connect_lock);
+>  
+>  	mutex_lock(&udc_lock);
+
+Also, you may as well merge the 3/4 patch with this one.  After all, 
+they are both concerned with the same thing.
+
+Alan Stern
+
+PS: I'll review the 4/4 patch later.
