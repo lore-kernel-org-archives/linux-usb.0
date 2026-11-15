@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794769795;
-	b=VXJwiiokXpFhoDQL8ZuadDB5xlQ/fIhn/nuKMldXak4vI0JioAQXS398DmgUH3JnJqex
-	 0wPx9GcQNPshaHATsbNNE1raRb5AVK3qlD/+IC+z8fnDjHER7OesBuJTzMbiCcthZfXlE
-	 J6tQ7nwOJisW26f3IxLCHjduU1DMUbkLU5H5tq1z6W4lkB/OyX28SFRnAQNb1Abq1JNI1
-	 JJrBh5jl9hBMs2a/szHzxEQpU1RCfvrJGM5rgjrGXv/yOuvKxHYIozNxN0y2LOtDKYvlg
-	 xKYblKyUpazABbNXeWwIsIUFSXBSHV1eRDcEm9v8M6wtJN8hgF8PabUMKx59UNDPG8A==
+	t=1794770429;
+	b=Z8Id8QiwY2eSftrQmm5tsGFppgEYXRJ5ZxPyg4ACpMfvtj8ZXJjZa9fK9cCrICr5XN31
+	 HqlB/J7h+hwE6KWnRzzuPeLXB3Lrusqjfcpf282ah6juRqDZWXiIuBBo0WZUxnrpRQE3M
+	 nFfjmPKaG8hAg03cgglb+0sB8KuvMFDuLO2Za3m0zTevP58sTg0umJ2NGQv/m/HjISlha
+	 VdScC84pHx2bzHV87kZ9ScUwz0tX3vQI/QRNMAXNmkuZL1bLF8xEuVMCq1b4nWEez09Hd
+	 lB6ZIchh6YufFJ0CFfrhfQNVf6/yEx+fm7Oy8giRWer5o5gIVErGMM3dCQtKXWoLpMg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794769795;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794770429;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=nrYrkdgmdrFnElhIcMbDjudrxpre2MP/7oU6XsmcKTk=;
-	b=RPpaBIZhfXS7Sx0b2BAPIwkIi7nMiecBg1FGOnT8V/FDx+Rm1ylCf/NbEoqL+Cmu63QC
-	 REpEmENtso/RMV/6P7INwVkNAIHXNAoYIcAxKIaTbj7ZSdb9AhHISXrbzjaC/WOJM+6nZ
-	 EpAxXIOA1gjhLNbukuSOWpUoOmwbvQDf4yP4nSpSPy8XTTZTXBHe1nlMdQJyzZkjd+ALG
-	 4VXefh55LP9ld+FFBEHteSZUIRKE22I9iPDrRAv6OyTMOu0YPZ4Xt/nLyXp2rGCaXah6L
-	 xOfcUgWkbFPK9zZlHYq92l9yLzhc+fAvGtaVQDAD81lyoR8PKUK/sdTQwIbveGhDjng==
+	bh=a7nPcnTVsce0DsYNyUBTuOLZjYyAoUGswXdWCbk+NyQ=;
+	b=G6ZddZMGmEhfsOcYQZZ05HIBuXiBU6yKTCQaYcxAZ5URCld2QB4XOoJiAt+5DcrhraIt
+	 mij1PmKWV1TzH5QkK/HKtbaWZCA/yHCtys0Flqn/5zMLGO5ldm8Obwdi3JEhfy4kBLE1a
+	 HnKP6YjYEbfX9+wV1ES1jk7wJR7NO0NN3RVBo4dZjYcqmG4TXZnYmRXj/PZnU/4Qp/zXB
+	 KhlWYzR/2BbT8LOFYI97t8uUxDXUMRMxS2hL4uN9uakI6LtPJCeeHcn/C+1J5HabANm38
+	 rbIl2q1JMf4AYdm88xM/e/kqOhYH7hFBqdw8eCMHPGrn2Bnzadh0N05kVERrgjdsnSg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=luE2rb2B;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fR5YLIhe;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFCD606A31E
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 19:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F93606A33B
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 19:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=luE2rb2B
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 088841F000C4;
-	Sun, 15 Nov 2026 19:09:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fR5YLIhe
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28B321F000C5;
+	Sun, 15 Nov 2026 19:20:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794769795;
-	bh=nrYrkdgmdrFnElhIcMbDjudrxpre2MP/7oU6XsmcKTk=;
+	s=k20260515; t=1794770429;
+	bh=a7nPcnTVsce0DsYNyUBTuOLZjYyAoUGswXdWCbk+NyQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=luE2rb2ByCAEJpHtFqUJLsR/4NMsLMuDwGBCFjid3AGaXakMgD7NIFc2+qPjaOIgk
-	 xqfuO9UON9+NP/BbquliXTxRxd4aOS5OTDSdvVPoiM3W77RzDy74IsQ7re9ED/nIKx
-	 V36GZ0d0SaFKr9ja1atD48kf6VOd6P/Cl1vnIsQ5cukQxl3YIi5yuHbC6OyGNK5GdH
-	 JxkZaQtPZayEpY9w6SPWyKquhtlvKx0t1u4ShGx6pekmKy6wsFZ/2ak5MhlElk3PIY
-	 Ah4N9IXRC+b9Jb6yWX1IshtGfysiI6sK1ag4r/4GT0+vTsn70u1m/WrpIgNoHlZwYd
-	 MS40/Okjs3drw==
-Message-ID: <sashiko-outbox-215741@kernel.org>
+	b=fR5YLIhe7mb2MEWY1pi0+NzNAxEMcd8gBbu7xKTO+C5DSXdkx0FGNsA0BV5Qjl4ki
+	 tjaWROFRfjENft7/Y/KqTIbKy0jDN4KFmgUrnDsj/sbm97Ozh+NLGd3gElIMFW6RjQ
+	 FtmubmUZrjGJG25oMJ3VTSaHt+6/f72Nrl77KUX5Udtnun5VAJBGUNEH8u6r0mFtzx
+	 2WGfTLX7c//3cqZP5a5d0glfvPJ7afcpy5vcXaxyD5huSiZjWIsFMAICvzFU8FwNbM
+	 83gfDwpCx9SH8/E8HQ5+Uh3tGOLqa+1i9Y98yi2KpMStuz3+GVtS2HlqcNwh3TqXui
+	 H72RBTi038g8Q==
+Message-ID: <sashiko-outbox-215744@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/3] usb: dwc2: gadget: restart descriptor DMA bulk and
- interrupt endpoints after BNA
+Subject: Re: [PATCH 1/3] usb: dwc2: gadget: restart descriptor DMA
+ isochronous OUT endpoints after BNA
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Vadim Yuzifovich" <vadim@yuzi.co>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261115185335.782678-3-vadim@yuzi.co>
+In-Reply-To: <20261115185335.782678-2-vadim@yuzi.co>
 References: <20261115185335.782678-1-vadim@yuzi.co>
- <20261115185335.782678-3-vadim@yuzi.co>
+ <20261115185335.782678-2-vadim@yuzi.co>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2026 19:09:54 +0000
+Date: Sun, 15 Nov 2026 19:20:28 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,132 +61,188 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 3 potential
 issues to consider:
-- [Medium] usb: dwc2: gadget: wrong DMA offset in
-  dwc2_gadget_handle_nonisoc_bna()
-- [Medium] usb: dwc2: delayed EPDISBLD after BNA skips restart or
-  flushes active TxFIFO
+- [High] usb: dwc2: gadget: ep_disabled restart before
+  dwc2_gadget_handle_isoc_bna()
+- [Medium] usb: dwc2: gadget: empty queue in
+  dwc2_gadget_restart_isoc_out_ddma() stalls
+- [Low] usb: dwc2: gadget: missing Fixes trailer on BNA recovery fix
 --
 
-commit 11858f40d5a168bb783c631975d168ab78609905
+commit b960395b5c5b08d46282314fb63ad59c3e17a74a
 Author: Vadim Yuzifovich <vadim@yuzi.co>
 
-usb: dwc2: gadget: restart descriptor DMA bulk and interrupt endpoints afte=
-r BNA
+> usb: dwc2: gadget: restart descriptor DMA isochronous OUT endpoints after=
+ BNA
+>=20
+> In descriptor DMA mode the core disables an isochronous endpoint when it
+> reaches a descriptor that is not ready (BNA), for example after an
+> interrupt latency longer than the queued requests cover.
+> dwc2_gadget_handle_isoc_bna() resets the endpoint and leaves the restart
+> to the next OUTTKNEPDIS. Two things keep that from happening.
+>=20
+> First, the endpoint-disabled interrupt that comes with the BNA runs
+> dwc2_gadget_handle_ep_disabled(), whose isochronous part is written for
+> buffer DMA: it completes requests frame by frame and advances
+> target_frame up to the current frame. Run after the BNA reset, it moves
+> target_frame off TARGET_FRAME_INITIAL, and the OUT token handler then
+> takes the chain for running and never restarts it.
+>=20
+> Second, after the BNA the core raises BNA again for the disabled
+> endpoint as fast as the handler clears it, and no OUTTKNEPDIS comes.
+>=20
+> On a Sophgo SG2002 (DWC_otg 4.20a) with a UAC1 capture endpoint and
+> eight requests queued, one 8 ms interrupt latency (a line printed on the
+> 115200 baud serial console) caused one BNA. The endpoint stayed
+> disabled and the BNA interrupt kept the CPU busy until the host gave up
+> and reset the port, which took the other functions of the composite
+> gadget down as well.
+>=20
+> In descriptor DMA mode, do not run the buffer DMA completion for a
+> disabled isochronous endpoint; put it back in its initial state. For an
+> OUT endpoint, build the chain again from the queue and enable it at
+> once, both after the BNA and after an endpoint-disabled interrupt that
+> finds it disabled with requests queued. IN endpoints keep restarting on
+> the next NAK.
+>=20
+> Signed-off-by: Vadim Yuzifovich <vadim@yuzi.co>
 
-This commit adds a BNA interrupt handler for non-isochronous endpoints in
-descriptor DMA mode to restart the current request when the endpoint is
-disabled and not halted.
+[Severity: Low]
+This fixes BNA recovery in descriptor DMA mode.  Should it include:
+
+  Fixes: 729cac693eec ("usb: dwc2: Change ISOC DDMA flow")
 
 > diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-> index b0e129061abb6..046b5b04503bd 100644
+> index 6c8a9f05fff00..b0e129061abb6 100644
 > --- a/drivers/usb/dwc2/gadget.c
 > +++ b/drivers/usb/dwc2/gadget.c
-> @@ -2305,6 +2305,45 @@ static void dwc2_gadget_handle_isoc_bna(struct dwc=
-2_hsotg_ep *hs_ep)
->  	dwc2_gadget_restart_isoc_out_ddma(hs_ep);
+> @@ -2259,6 +2259,28 @@ static void dwc2_gadget_complete_isoc_request_ddma=
+(struct dwc2_hsotg_ep *hs_ep)
+>  	}
 >  }
 > =20
 > +/*
-> + * dwc2_gadget_handle_nonisoc_bna - handle BNA interrupt for bulk and
-> + * interrupt endpoints in descriptor DMA mode.
-> + * @hs_ep: The endpoint, not EP0 and not isochronous.
-> + * @ints: The endpoint interrupts that came with the BNA, for the log.
+> + * dwc2_gadget_restart_isoc_out_ddma - build the chain of a disabled ISO=
+C OUT
+> + * endpoint again from its queue and enable it.
+> + * @hs_ep: The isochronous OUT endpoint, in its initial state.
 > + *
-> + * The core raises BNA and disables the endpoint when the descriptor it
-> + * fetches is not marked host ready. The chain of a bulk or interrupt
-> + * endpoint is complete before the endpoint is enabled, and afterwards t=
+> + * After a BNA the core keeps raising BNA for the endpoint, as fast as t=
 he
-> + * descriptor reads host ready, so the core read it before the CPU's wri=
-tes
-> + * to it reached memory. Nothing was transferred and no XferCompl
-> + * follows: the request stays current, the ones queued behind it never
-> + * start, and the function waits until the host gives up and resets the
-> + * port. Start the request again; that fills the descriptor anew.
+> + * handler clears it, and no OUTTKNEPDIS comes to restart the chain. So =
+the
+> + * chain is restarted here at once.
 > + */
-> +static void dwc2_gadget_handle_nonisoc_bna(struct dwc2_hsotg_ep *hs_ep,
-> +					   u32 ints)
+> +static void dwc2_gadget_restart_isoc_out_ddma(struct dwc2_hsotg_ep *hs_e=
+p)
 > +{
 > +	struct dwc2_hsotg *hsotg =3D hs_ep->parent;
-> +	struct dwc2_hsotg_req *hs_req =3D hs_ep->req;
-> +	u32 epctl_reg =3D hs_ep->dir_in ? DIEPCTL(hs_ep->index) :
-> +					DOEPCTL(hs_ep->index);
-> +	u32 epctl =3D dwc2_readl(hsotg, epctl_reg);
-> +	u32 status =3D hs_ep->desc_list ? READ_ONCE(hs_ep->desc_list[0].status)=
- : 0;
-> +	bool restart =3D hs_req && !hs_ep->halted &&
-> +		       !(epctl & (DXEPCTL_EPENA | DXEPCTL_STALL));
-
-[Severity: Medium]
-What happens if DXEPINT_BNAINTR is serviced before the core finishes
-clearing DXEPCTL_EPENA and latching DXEPINT_EPDISBLD?
-
-As noted in 540ccba08599 ("usb: dwc2: gadget: Start and complete DDMA isoc
-transfers") and commit "usb: dwc2: gadget: restart descriptor DMA
-isochronous OUT endpoints after BNA", the endpoint disable can complete
-slightly after DXEPINT_BNAINTR is first read:
-
-1. If DXEPCTL_EPENA is still set when dwc2_gadget_handle_nonisoc_bna()
-   reads epctl_reg, restart is false and the request is not restarted.
-   When DXEPINT_EPDISBLD arrives later, dwc2_gadget_handle_ep_disabled()
-   returns early for non-isochronous endpoints, leaving the endpoint stuck.
-
-2. If DXEPCTL_EPENA clears after dwc2_hsotg_epint() reads and clears
-   DIEPINT, but before dwc2_gadget_handle_nonisoc_bna() reads DIEPCTL,
-   dwc2_gadget_handle_nonisoc_bna() restarts the IN endpoint while
-   DXEPINT_EPDISBLD remains pending in DIEPINT.  On the next interrupt,
-   dwc2_gadget_handle_ep_disabled() unconditionally calls
-   dwc2_hsotg_txfifo_flush(), flushing the TxFIFO of the newly restarted
-   IN transfer.
-
 > +
-> +	dev_warn_ratelimited(hsotg->dev,
-> +			     "%s: BNA, DxEPINT %08x DxEPCTL %08x descriptor %08x, %s\n",
-> +			     hs_ep->name, ints, epctl, status,
-> +			     restart ? "request restarted" : "not restarted");
-> +
-> +	if (!restart)
+> +	if (hs_ep->dir_in || list_empty(&hs_ep->queue) ||
+> +	    hs_ep->target_frame !=3D TARGET_FRAME_INITIAL ||
+> +	    dwc2_readl(hsotg, DOEPCTL(hs_ep->index)) & DXEPCTL_EPENA)
 > +		return;
 > +
-> +	hs_ep->req =3D NULL;
-> +	dwc2_hsotg_start_req(hsotg, hs_ep, hs_req, false);
+> +	hs_ep->target_frame =3D dwc2_hsotg_read_frameno(hsotg);
+> +	dwc2_gadget_start_isoc_ddma(hs_ep);
 > +}
 
 [Severity: Medium]
-Does passing continuing =3D false to dwc2_hsotg_start_req() corrupt the DMA
-offset when a BNA occurs on a continuation chunk of a multi-part request
-(where hs_req->req.actual > 0)?
+What happens if hs_ep->queue is empty when dwc2_gadget_restart_isoc_out_ddm=
+a()
+runs (for example, if dwc2_gadget_handle_isoc_bna() just completed the
+only remaining request and the gadget function queues requests
+asynchronously)?
 
-When a request exceeds dwc2_gadget_get_chain_limit(),
-dwc2_hsotg_complete_in() or dwc2_hsotg_handle_outdone() starts the next
-chunk with dwc2_hsotg_start_req(hsotg, hs_ep, hs_req, true).  In
-dwc2_hsotg_start_req(), length and hs_ep->last_load always account for
-ureq->actual, but the DDMA buffer offset only advances when continuing is
-true:
+Returning early leaves the endpoint disabled, so the core continues
+raising BNA interrupts.  Even when dwc2_hsotg_ep_queue() is later called,
+it sees hs_ep->target_frame =3D=3D TARGET_FRAME_INITIAL and returns without
+filling a descriptor or restarting the endpoint, because no OUTTKNEPDIS
+will arrive after the BNA:
 
-drivers/usb/dwc2/gadget.c:dwc2_hsotg_start_req() {
+drivers/usb/dwc2/gadget.c:dwc2_hsotg_ep_queue() {
     ...
-	length =3D ureq->length - ureq->actual;
+	if (using_desc_dma(hs) && hs_ep->isochronous) {
+		if (hs_ep->target_frame !=3D TARGET_FRAME_INITIAL) {
     ...
-	if (using_desc_dma(hsotg)) {
-		u32 offset =3D 0;
-    ...
-		if (continuing)
-			offset =3D ureq->actual;
-
-		/* Fill DDMA chain entries */
-		dwc2_gadget_config_nonisoc_xfer_ddma(hs_ep, ureq->dma + offset,
-						     length);
+			dwc2_gadget_fill_isoc_desc(hs_ep, dma_addr,
+						   hs_req->req.length);
+		}
+		return 0;
+	}
     ...
 }
 
-Restarting with continuing =3D false programs the descriptors at ureq->dma
-instead of ureq->dma + ureq->actual for the remaining length, re-sending or
-overwriting the start of the buffer.  Passing hs_req->req.actual > 0 as
-continuing (and keeping hs_ep->req set when continuing is true) would
-preserve the offset.
+> @@ -2902,6 +2926,27 @@ static void dwc2_gadget_handle_ep_disabled(struct =
+dwc2_hsotg_ep *hs_ep)
+>  	if (!hs_ep->isochronous)
+>  		return;
+> =20
+> +	/*
+> +	 * In descriptor DMA the requests sit in the descriptor chain rather
+> +	 * than one per frame, so the frame by frame completion below does not
+> +	 * apply. The core disables an isochronous endpoint by itself when it
+> +	 * meets a descriptor that was not filled in time (BNA). Put such an
+> +	 * endpoint back in its initial state and build the chain again from
+> +	 * the queue: at once for OUT, on the next NAK for IN. The loop below
+> +	 * would move target_frame off TARGET_FRAME_INITIAL, which tells the
+> +	 * token handlers that a chain runs: the endpoint then stays disabled
+> +	 * for good, and every request queued again goes into a dead chain.
+> +	 */
+> +	if (using_desc_dma(hsotg)) {
+> +		if (!(dwc2_readl(hsotg, epctl_reg) & DXEPCTL_EPENA)) {
+> +			hs_ep->target_frame =3D TARGET_FRAME_INITIAL;
+> +			hs_ep->next_desc =3D 0;
+> +			hs_ep->compl_desc =3D 0;
+> +			dwc2_gadget_restart_isoc_out_ddma(hs_ep);
+> +		}
+> +		return;
+> +	}
+
+[Severity: High]
+Can dwc2_gadget_handle_isoc_bna() corrupt the newly started descriptor
+chain when DXEPINT_EPDISBLD and DXEPINT_BNAINTR are handled in the same
+dwc2_hsotg_epint() call?
+
+In dwc2_hsotg_epint(), DXEPINT_EPDISBLD and DXEPINT_NAKINTRPT are
+dispatched before DXEPINT_BNAINTR:
+
+drivers/usb/dwc2/gadget.c:dwc2_hsotg_epint() {
+    ...
+	if (ints & DXEPINT_EPDISBLD)
+		dwc2_gadget_handle_ep_disabled(hs_ep);
+
+	if (ints & DXEPINT_OUTTKNEPDIS)
+		dwc2_gadget_handle_out_token_ep_disabled(hs_ep);
+
+	if (ints & DXEPINT_NAKINTRPT)
+		dwc2_gadget_handle_nak(hs_ep);
+    ...
+	if (ints & DXEPINT_BNAINTR) {
+		dev_dbg(hsotg->dev, "%s: BNA interrupt\n", __func__);
+		if (hs_ep->isochronous)
+			dwc2_gadget_handle_isoc_bna(hs_ep);
+	}
+    ...
+}
+
+When both bits are set after interrupt latency,
+dwc2_gadget_handle_ep_disabled() (or dwc2_gadget_handle_nak() for IN)
+rebuilds desc_list[] from hs_ep->queue and sets DXEPCTL_EPENA.
+dwc2_gadget_handle_isoc_bna() then runs on the active endpoint: it
+unmaps and completes get_ep_head(hs_ep) while hardware DMA is armed on
+desc_list[0], shifts hs_ep->queue out of sync with desc_list[], and
+resets hs_ep->target_frame to TARGET_FRAME_INITIAL while DXEPCTL_EPENA is
+still set, so its call to dwc2_gadget_restart_isoc_out_ddma() returns
+early and subsequent dwc2_hsotg_ep_queue() calls stop filling descriptors.
+
+In addition, because dwc2_hsotg_epint() clears DOEPINT at the entry of the
+handler before the endpoint is re-enabled and the core re-asserts
+DXEPINT_BNAINTR while the endpoint is disabled, a newly latched BNA
+interrupt can fire right after the restart and hit the running chain in
+the same way.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261115185335.7826=
-78-1-vadim@yuzi.co?part=3D2
+78-1-vadim@yuzi.co?part=3D1
