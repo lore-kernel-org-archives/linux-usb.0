@@ -1,55 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.222.135.158
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794767206;
-	b=U1mbNToBiU4NzT4EOS8tlnKhZGwrvM1QKp5iW73ggYfaP3Ajdd4QclsDat/lxHHekD6L
-	 7TkPLRz03QOPdfzdyCTVItetSiPgjA1rt6jDDQRgtkmouNPjoXxytthz/k0dj8p9fiOFk
-	 hcKMqzLHSPQ1FooXzGsxMSbR9EZR1MLc2NbXUaNei4RoixoiVljForVmxIaAYr+Ikb9mv
-	 NbeioLLk5U0e12OkBkt/RmDSHn/sN2cXkQSBW9vGQo91K/9fKrnOYb84dsFw3O7mYNGj9
-	 6o3BuIyNvra7dSjHBhZq4t34iip0clfMY2V06oHVnXx6GE9LrBsnwLwoEwPLJ7lqkdw==
+	t=1794768821;
+	b=gLMFdbwLP1HW75d1tP3UxUuPprJIxz6UGTMXeAEggR1pSkQ+Wqi8W8YCQ16Muor05WT7
+	 mMPqUb9WaGU3WlQk+qyV81L6h/u1L+lKK9vmcBLRt+AUkHdHCu8s1lMjwO/O8DBDLqtKw
+	 iPN+9xrw5oHXhHYud7tZ75POtL49GJrABW5JghkcZ6qdZWVgmAI2bqmdBK+kwUUn9fduc
+	 CtqYK6yW3YC0THIRcHfYKYpBtKKfQA0vjjIBzUhuGYj45lpRfvDEJn5aMqPb+v4wHk2mZ
+	 ft/1NcMxfk3xDyTArO88XCt2kAPY3VTYal9J85ZUuyAsE9ien1u09ajc9AVyEg28DTA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794767206;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:Autocrypt:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-WP-MailID:X-WP-AV:X-WP-SPAM;
-	bh=d6Mw+ubXF8sNdhhSz6FQxX5iaQzd+/Pf5yiAG6Xqtuo=;
-	b=duEDwBFsfYGZ5j9oftqOlb9NEVmaBYvomUxcvEoMh4VqAzRQnv3/zLkdeIcUq1vQwmVH
-	 mwSQpN32wdAeQndE0HE7yVTvKmkoNAkfTSh31x4e9SKolNMp2qgeLRBX2dDQCUjFhrwGH
-	 NzyA2F7Tuf56qCM8nfIacqkZ+ULf6G/kElhsPytbBuNAnA+iV9Rc9D3roWP5SUV/WXBsP
-	 x7m/A7JD9mtNMa2+bzC6+TjZBlFm4wIll7Myfv74oZPM/gjUPW3n04yOL88NSUVF9G3P0
-	 C/GGQlOesIUFipF3nf8geQkgiAwN3tjiLsJQ7QFYgQIEpRfRLnUbWYy9hLLBuxrtgtQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794768821;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=kgBPwDDX0CwJQQOHPTuz21QVSBDvEn3NadhaVZDEiYM=;
+	b=O7bX6n+tdHf0iJFYhbKyUOKvhEWUuSvh8FHo4cNSlgagzL2A2GDSJbV4I+OzXaJdWL99
+	 kZC9MyU+eWbL/IKSTbF9KfBxiIUVRCqQzOrj2g4N+xNUnYz5Df5tT7yORvUWuVlwhlH5r
+	 hDv4IEwUx1cdHH/BaofR+muQw1MrFbKYVacEoidvIOw1flS41FKqw63RXM5Bj79mWaWtb
+	 TzKE6Y4Filp9028INvGKeIor2uV7qW3xXmJ6lK34tsMkQM/DdqouV+0ocZ2azceMVBtk+
+	 g6S8fJiPOT0nb0JaLJjN5Leoz0LceVs06KS/c6hvUpQ1yjjth31LGnkjoxy7SANE7LA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=o2.pl;
-	spf=pass smtp.mailfrom=o2.pl;
-	dkim=pass header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=AWKwe+4m;
-	arc=none smtp.remote-ip=193.222.135.158
-Received: from mx-out.tlen.pl (mx-out.tlen.pl [193.222.135.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=yuzi.co;
+	spf=pass smtp.mailfrom=yuzifovich.name;
+	dkim=pass header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=cuSfOPL9;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78EB606A323
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 18:26:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A78EB606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=o2.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=o2.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A888606A31A
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 18:53:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A888606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yuzi.co
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yuzifovich.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=AWKwe+4m
-Received: (wp-smtpd smtp.tlen.pl 41060 invoked from network); 15 Nov 2026 19:26:31 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=o2.pl; s=s20261001;
-          t=1794767191; bh=d6Mw+ubXF8sNdhhSz6FQxX5iaQzd+/Pf5yiAG6Xqtuo=;
-          h=Subject:To:Cc:From;
-          b=AWKwe+4mwqxLmslMtGtvuifajW+ZAgiOmWlm0GNIpHdB2oDLh0rix+p9oogXI+aOn
-           73Lzanp04BhOvi2KiDdzwKNYuYAzNjlV231AZpa3zzLt9qCOuAorIWDltCqJxNTTHT
-           Y+9BgzHWtnVNV/EjZYl7Xf5CgO00zJKv6V+uei/RltlcmtcD/mVMgJ9w2Ut9n2CxSw
-           Wyx6s+jnXqGX6qrxzkGnYHi+/WvsXLH3CgmE/tGPEL+UFqmgFvl04ch9fNlHWh+TSj
-           tweyyBA02IESsN2qHPcbL/mwVjBedvrPm+sls9evWxX3hFtcQkNgL0l8pGehQa7Rgb
-           4DWImfTUlrxfA==
-Received: from [192.168.1.22] (apn-78-30-67-84.dynamic.gprs.plus.pl [78.30.67.84])
-          (envelope-sender <mat.jonczyk@o2.pl>)
-          by smtp.tlen.pl (WP-SMTPD) with TLS_AES_256_GCM_SHA384 encrypted SMTP
-          for <stern@rowland.harvard.edu>; 15 Nov 2026 19:26:31 +0100
-Message-ID: <ae7ce6c0-d1ad-459d-a526-1d52fbb445b6@o2.pl>
-Date: Sun, 15 Nov 2026 19:26:29 +0100
+	dkim=pass (1024-bit key) header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=cuSfOPL9
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb5b8ef642so14711915e9.1
+        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 10:53:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=yuzi.co; s=google; t=1794768819; x=1795373619; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kgBPwDDX0CwJQQOHPTuz21QVSBDvEn3NadhaVZDEiYM=;
+        b=cuSfOPL9SxtWJBIQCPRkCUVbjmCBC3S4+VTz+bTqgxvRZhgftPlGpK2uiuwvIjogDQ
+         CYGi0qIXqJ13VzjJc5XxVsflKsZI7NzypaDFx8hpEwczBtUxebgzAXG9bMyVONf/Pbtt
+         fSt9qTLUWmQvq0iCQ23655ig0PSIsYtrfeqYA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794768819; x=1795373619;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kgBPwDDX0CwJQQOHPTuz21QVSBDvEn3NadhaVZDEiYM=;
+        b=XLQAiO93aclU+NVrlVzcNdQNxrBf1KBlsxVtezO6bUrDTkyKMK9XQM6oqf4hO4gNWb
+         31KRcRkqBa16RFVBkqDkDKdgeMBtJr/uUMSGvX8JyurXZL5KaofjU2xKGtoG2ZlMSw2d
+         izJ4JrKMiYbNaFNx7ULm0VfNTW/CVXkW8e+yspbl3Oasy4EVXOqALWy8bfZo+qLj6aTJ
+         LaTCxXjn+s33sCTtGxUo+8C0zMuDzAatyH1YtWCow1qmtG3CGZhWvlHmql7sccMJpDDi
+         H+xaVkngngCZDRw29aEyzH5kVZf0/a/jQ4CuRI8B50zh+bMt41pn93NLsCS99ts2Ym54
+         Va4g==
+X-Forwarded-Encrypted: i=1; AL+hErEFA9XFwAW/szRiBFI+dhxVE2HrSZBqvQV0FOcedM5ldIx/I5rqfE6e+yzntdJVvnO5LluGAYPt35o=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9nzDk5mFpRGXG5SmOEJkSOwYG/cF2G7Ef/fpOTwNG6Gjkv5nJi
+	srjNLEfSBxtHLBrv6eyXH2qFlypISqI45/OSlVHnKT+GZiw1iu6H1Yhvgcm1dBa0k4Y=
+X-Gm-Gg: AYBFou237MvNPuWKeOc4L0v/W1XyPlc4NcioSvjo+tPWEoscCU4XPwuKZWKA+93XYu+
+	Tjw52GZh6gFy6MyNxJAUEo5q5Hk3Y6wDtAstQ5F8+N8nIARGzY3MaBB8lvuvySDOIAGNO/fpYZb
+	hKpFqSFmfITYEiWMh2cB526q3ZOzcD5HvwI0YNcjkaRqfGIP6cLFTVxDIZYD4iaxuIYj137tucM
+	d5hE2k5n1Ogk8C2DuzhZdHugI2DTE65hcpemsUFHT3AKjHTYjeFY8o1pxoFXcvIz40Hp5NBdArT
+	Cgf1ZFV4hkY8c4L61hJ/o8qrhYBlmYxMsE7ZJflZSXKsNnbGTpbATgDe85eKTz2XyLCv9qjfpFj
+	mVfIxqeK06ovVF16nWGFBPwQCeceeg0WLcK6+5x1yDmV8ojANHzlqkpkbuBslhJZP56/1l0nQcL
+	ocG2ykdf7oqzMqBIJvIoxLtPdNX93cbSwL1AzfT5LpjCR6F6KryRKwAPdA3AmKg7xshFK/bIAVg
+	9130ijmOJyiDyJ5n3NPg6Z6Q/r6D77TzBOu8MW0otAgNCXW6+1oqRuWaERuYtvSJRGD7du0Fj5v
+	BO+PZWQequ5gi8WwMFlqQicja9MB35kwCpC11BZZKe1KvJ1CArDLk2kTLgm8/WrUr8i4plF2Z1H
+	0VrDynqdAkD519m6TyUFUQFUS7h4ANMk/vvbk/MnEf+ukSJMzbGcr1mbDbay5G+Kgt97PyzwKJj
+	K6+FjjK/qq22HabA==
+X-Received: by 2002:a05:600c:3ba1:b0:4bb:6847:792d with SMTP id 5b1f17b1804b1-4bb68477c2dmr82470275e9.20.1794768819503;
+        Sun, 15 Nov 2026 10:53:39 -0800 (PST)
+Received: from terra.lan ([78.83.170.221])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2538b9sm508419145e9.1.2026.11.15.10.53.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 10:53:38 -0800 (PST)
+From: Vadim Yuzifovich <vadim@yuzi.co>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Chen-Yu Yeh <chenyou910331@gmail.com>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	linux-usb@vger.kernel.org,
+	sophgo@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] usb: dwc2: gadget: descriptor DMA fixes for BNA, found on Sophgo SG2002
+Date: Sun, 15 Nov 2026 20:53:32 +0200
+Message-ID: <20261115185335.782678-1-vadim@yuzi.co>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,113 +97,86 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: uas: expose US_FL_NO_ATA_1X in sysfs as
- deny_ata_passthrough
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Oliver Neukum <oneukum@suse.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
- linux-kernel@vger.kernel.org, smartmontools-support@listi.jpberlin.de,
- Christian Franke <Christian.Franke@t-online.de>
-References: <20261115124046.5286-1-mat.jonczyk@o2.pl>
- <1e731b43-93ad-4230-833a-df6949c7d4c6@rowland.harvard.edu>
-Content-Language: en-GB, pl
-From: =?UTF-8?Q?Mateusz_Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
-Autocrypt: addr=mat.jonczyk@o2.pl; keydata=
- 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
- TANkZ3QqXNX2
-In-Reply-To: <1e731b43-93ad-4230-833a-df6949c7d4c6@rowland.harvard.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-WP-MailID: a7c25a38ebf7bf4f20a8e77008d68389
-X-WP-AV: skaner antywirusowy Poczty o2
-X-WP-SPAM: NO 000000A [8eOU]                               
 
-W dniu 15.11.2026 o 16:52, Alan Stern pisze:
-> On Sun, Nov 15, 2026 at 01:40:46PM +0100, Mateusz Jończyk wrote:
->> The uas driver blocks access to ATA passthrough commands for some
->> devices it considers buggy (via the US_FL_NO_ATA_1X flag in
->> unusual_uas.h and uas_detect.h). However, it does not expose any
->> meaningful information whether the command was blocked by the driver or
->> is genuinly not supported by the hardware. This creates a problem for
->> the smartmontools program and makes it difficult for it to provide a
->> useful error message (with instructions to disable UAS on the drive to
->> get SMART readings).
->>
->> So, expose the information in sysfs as deny_ata_passthrough. Other
->> quirks may be added in the future if there is any demand.
->>
->> Link: https://www.smartmontools.org/wiki/SAT-with-UAS-Linux
->> Signed-off-by: Mateusz Jończyk <mat.jonczyk@o2.pl>
-> Why was this change made to uas but not to usb-storage?  Was it because
-> some devices can handle ATA passthrough commands over the Bulk-Only
-> transport but not over the UAS transport?  Note that the
-> US_FL_NO_ATA_1X flag applies to both transports.
->
-> Alan Stern
+These are the three patches offered in [1]. Chen-Yu asked for them as a
+series and offered to test on a Milk-V Duo 256M.
 
-There are only very few devices that cannot handle ATA passthrough commands
-over the Bulk-Only transfer (and with them it's impossible to get ATA
-passthrough by disabling UAS). But that's a fair point, will fix it in v2.
+We run a Sophgo SG2002 (T-Head C906, DWC_otg 4.20a) as a peripheral with
+g_dma and g_dma_desc both on, as a composite gadget: mass storage, HID,
+ACM and UAC1. Descriptor DMA works there, but only with these changes.
 
-Considering the US_FL_NO_ATA_1X flag:
+Patch 1: an isochronous OUT endpoint that takes a BNA is never restarted,
+and the BNA interrupt then repeats until the host resets the port.
 
-- I suspect that many more devices would accept the ATA passthrough 
-commands in
-   UAS mode if these would be issued in isolation (if uas_queuecommand_lck()
-   would stop all other transfers while doing them). After all, Windows
-   apparently does not carry such quirks for modern devices. I do not 
-have the
-   hardware to test, though.
+Patch 2: a bulk or interrupt endpoint that takes a BNA is only logged at
+debug level. It stays disabled with its request current, and the
+function waits until the host times out.
 
-- Since 2017, it is set unequivocally for all Seagate drives, even 
-though most
-   likely modern drives / firmware versions do not need it. I do not see 
-a way
-   out, though.
+Patch 3: why bulk endpoints took BNAs at all on this SoC. The core
+fetches the descriptor before the CPU's stores to it have reached DRAM,
+although writel() orders them before the enable. Reading the last
+descriptor back between two full barriers closes the window. The
+measurements are in the patch.
 
-Greetings,
+Patches 1 and 2 look generic to dwc2 descriptor DMA. Patch 3 is the one
+I am least sure where to put. The effect was seen on the C906 only, and
+the read-back costs one uncached load per transfer on every platform. If
+it should sit behind a quirk or a core parameter, or belongs in the
+RISC-V T-Head errata code instead of dwc2, I will redo it that way.
 
-Mateusz
+Known limit of patch 2: it starts the current request again from its
+beginning, which is right when nothing was transferred. That holds for a
+chain of one descriptor, the only case we hit. A BNA in the middle of a
+scatter-gather chain was not exercised.
+
+Testing. The series as posted here, applied to 7.3, ran on the SG2002
+under the load described in patch 3: 1.47 million TEST UNIT READY in
+8 minutes (about 3060 a second) with a 1080p60 H.264 encode running, no
+BNA and no port reset. The viewer's network link dropped several times,
+so the encode ran for about three quarters of that time. An earlier
+form of the patches, which our tree carries, saw no BNA in 6.2 million
+transfer starts and none in a 60 minute run at 1080p60, where there were
+about 6200 a minute before. In that form patch 2 also waited for the
+core's write-back of the descriptor at XferCompl and changed the AHBErr
+message; both are dropped here, the wait because it never triggered.
+On 7.4-rc1 the series is build tested only (x86_64, W=1 clean for
+gadget.c) and passes checkpatch --strict.
+
+To try it on a CV18XX/SG200X board, gadget DMA has to be allowed, since
+dwc2_set_cv1800_params() turns it off:
+
+  --- a/drivers/usb/dwc2/params.c
+  +++ b/drivers/usb/dwc2/params.c
+  @@ static void dwc2_set_cv1800_params(struct dwc2_hsotg *hsotg)
+   	p->host_dma = false;
+  -	p->g_dma = false;
+   	p->speed = DWC2_SPEED_PARAM_HIGH;
+
+and "usb: dwc2: Disable gadget descriptor DMA for Sophgo CV18XX/SG200X"
+must not be applied. That change is not part of this series. Whether
+DMA should become the default on these SoCs is a separate question, and
+host DMA was not tested.
+
+An AI coding assistant (Claude) was used in the debugging sessions and
+in drafting the code and the changelogs. The measurements were made on
+real hardware, and I have reviewed the patches.
+
+[1] https://lore.kernel.org/r/CAH_=YdDCDyFBn2k18w8Ck5jrmHHZme7TuAA71hSgcAa9ZPb38Q@mail.gmail.com
+
+Vadim Yuzifovich (3):
+  usb: dwc2: gadget: restart descriptor DMA isochronous OUT endpoints
+    after BNA
+  usb: dwc2: gadget: restart descriptor DMA bulk and interrupt endpoints
+    after BNA
+  usb: dwc2: gadget: make descriptors visible before the endpoint is
+    enabled
+
+ drivers/usb/dwc2/gadget.c | 112 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 112 insertions(+)
+
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+-- 
+2.56.0
 
