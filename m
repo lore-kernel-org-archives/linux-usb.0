@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794720090;
-	b=y+ZvOIEv3SAGpnZiGKgQIwY6Mh5SUhlostn/VQNjlprIDIDi8I+AzgejbIRAZCzEnAv7
-	 +hc27ETeDvKtFKNp1zddMrXU1XR1YoLZZFPfBBtr/agbpiKPzuNNtWwIecE4w+78BbP0d
-	 IEUnkE7raU1+KOC7pcif02bGynl0/Nuf0a2DDhvmcQKQiX7mPhKJUHhomCwQcZOqyvx7a
-	 LhRVVFhAkGnD/kkEtkC4DTfF4qmgXe/RC9UFo/BTxdFYU8vT4d7eFFwaqy1S4RxLx905u
-	 siucmt+c9KyncJEcw/UelF7CskXcfzIq/dgkeKAJXat6d45VrBACfThuGxxjbq9BS2g==
+	t=1794720091;
+	b=ojbzdiXx6gp9STodPKtGyuvlZjb4pZzsvA/EdT+dWF+2AQ/Tw1BasR0dqgU0MiWGrp0v
+	 6/LUT776s+nVoFcHAHSc7+gl1yCLi6ePfpfX408bk9ZzVMDcsgHuX7JY7u0Hrjmuy3fA5
+	 l1A5qHFwYzo5guJpTuL4ymD0a6Qm0m7FnoWE9NxFYTujXhcZXHFOLw9GGflFtEq2R546F
+	 xvLO54GMH+BLyVkPdMkE3c6tPgWvG9/RATjB3aQTIXWXNgHutaaH4gq983ZJ9dqhnXGHn
+	 Rn5fuOULYRG3dsd23DTXOp2y5p3Ys2LzfZGENE2y0ChG0Qe8HTVmwy+e7KldEnqTyYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794720090;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794720091;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=xOqIZDOVem0rH3DFVodrMQurwQCioC/lXxRcUKM4shg=;
-	b=Ngjyt4+2whH4ArGch8dtpFM0V8B4yFFpcxeQxn0m+KxMkToKB+Kwn/psfHRWCv3I3R5t
-	 3/2NkPaUuuO7xs4reHOtzn9d45Agx+LO+jIZOv+L9KTMjwQj2obHydJfLCguZ5K/KarqK
-	 8sVymdwDLC+9uStl6z/vXzYcvsNhqeZUhJ2WZkVkgQEjnPrCnzpEcR5l6cUfyGfQelNzf
-	 UkHFJKmpph+nd4E5Ywkk1uBNfbZHU/s3imvpW+msGZrFZjMZIq9S8G7sK2t+fUCRf/yDF
-	 xzWas0pU6g6vhX/JTA1IPkSNRhTF0w48IdQl27wiu+RZWyDhGbI7/CaAvh9YCVm9x/g==
+	bh=1aeL3aZartVWRoaJ+wOqIGtbhTzirIWecZnRwMU3oBQ=;
+	b=Qqh+KehbfFb+JXOluVOW/gu7e0IFIrOi6H0gnOKrsbq6k6TaozJFJRdCXMVJGfv67VYf
+	 AtmAlu7qRlhA63D6bemMEONaUXWRzuLmVDjKvyLAi/g7lIFRI+cBHJBW8bZj27Tqocbsl
+	 8ZJAWRMJFEDcT8EmMwEtypGhMqvqisj5Iq6neTtpGVdiBVWZFq0UxDCjlBsNEzcaOJ1bA
+	 XmN+Uu3Y5o8tKCyF1VwrJDnF0nbLIGdw1cOrBkqvpT4BwRN4jtIWLZRCDEROsXqvl3blX
+	 srzUNaI4GT/e5jbLd9gVADI53M68FG3aTra+kKUTjvWunTXwCj8eo+MP7n77CTdVpEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HhPu2EJM;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gMcx57V2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C793D606A327;
-	Sun, 15 Nov 2026 05:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970E5606A329;
+	Sun, 15 Nov 2026 05:21:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HhPu2EJM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A10E71F000C4;
-	Sun, 15 Nov 2026 05:21:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gMcx57V2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9C241F000C5;
+	Sun, 15 Nov 2026 05:21:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794720090;
-	bh=xOqIZDOVem0rH3DFVodrMQurwQCioC/lXxRcUKM4shg=;
+	s=k20260515; t=1794720091;
+	bh=1aeL3aZartVWRoaJ+wOqIGtbhTzirIWecZnRwMU3oBQ=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=HhPu2EJMu+PVaTix0N0SAs9uIexGMNqwrDgK5YHs++2b5wzyziEkCRZR9Z6598vE1
-	 oM0b/zHtlFvwFJ6feWgehk9dzzZHEkvu83FDFrpLl71RM+pAG6PvCmxx8HdEUwFSwU
-	 0OqGDjOw4GAvKuctUcWozv4wSa0x95p7zCHQBnN0rHwkILLEMnBKxN01WVF8I996++
-	 O1HqTVgip2SvI7nfCd1HqY7nDo7CfcADlyrloKL9YR74UXoXPZj8itEEm5WgKE+tJu
-	 KLKkHmVGDS6hHDUGUQELjc+7gp4iX/GrVWb0mDIPzmvv7QAi/ddzVH3Ys6fyyNfDgx
-	 DYAfHYD/aoriQ==
-Subject: Re: [PATCH net 1/2] net: usb: smsc95xx: propagate MDIO reset errors
+	b=gMcx57V2yLrBvmcA8OqgHuSFoDVTXHMx1TwzWi/IxtAz/WMM75m7uLAJF3bCw5jVa
+	 flhDRJyqEMslA9N/fVwltREE/jpQ/1Del8S+0wAeVbN2l960bNyBk+VrUsum4gpDhq
+	 H5Z89sTSqgUIxYj1oKaovzo3wbIJwievgcw5msChQh1XfOjiL0Ogfe0FBeV3o2uwQy
+	 54aJLy3eVlUYpRvcnITBAtB1R/XQOLCN4TNaxoYEbZv13yfI6fcpj804nBlJbQ0/ZE
+	 KqwBCS3g6S8kJ8smZinWZgTMbYFoc4/V9TZN0wilXyTizUxKsH0D5olcxMesxngGxB
+	 otbZgfzo6Ro0Q==
+Subject: Re: [PATCH net 2/2] net: usb: smsc95xx: propagate MDIO write errors
 From: netdev-bot+sashiko@kernel.org
 To: artem122novak@gmail.com
 Cc: steve.glendinning@shawell.net, UNGLinuxDriver@microchip.com,
  andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
  kuba@kernel.org, pabeni@redhat.com, alexandru.tachici@analog.com,
  andre.edich@microchip.com, netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Date: Sun, 15 Nov 2026 05:21:29 +0000
-Message-ID: <179472008914.2199510.6969426942670882537@kernel.org>
-In-Reply-To: <20261114050954.275495-2-artem122novak@gmail.com>
-References: <20261114050954.275495-2-artem122novak@gmail.com>
-X-sashiko-severity: Critical
+Date: Sun, 15 Nov 2026 05:21:30 +0000
+Message-ID: <179472009047.2199510.16640520776686219500@kernel.org>
+In-Reply-To: <20261114050954.275495-3-artem122novak@gmail.com>
+References: <20261114050954.275495-3-artem122novak@gmail.com>
+X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue(s) to consider.
 
-Critical: 1 · High: 0 · Medium: 0 · Low: 0
+Critical: 0 · High: 0 · Medium: 1 · Low: 0
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -75,114 +75,93 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Critical] The patch makes smsc95xx_mdiobus_reset()
-  (drivers/net/usb/smsc95xx.c) return `ret` instead of 0.
+- [Medium] The patch makes smsc95xx_mdio_write() return an error, but
+  only one of its two callers was updated.
 
 --
 
-net: usb: smsc95xx: propagate MDIO reset errors
+net: usb: smsc95xx: propagate MDIO write errors
 
-This patch changes smsc95xx_mdiobus_reset() so it returns the result of
-the PM_CTRL register accesses instead of always returning 0. The goal is
-to report a failed external PHY reset to the caller.
+This commit changes smsc95xx_mdio_write() from void to int so it returns
+register access errors, while still treating -ENODEV as success during
+disconnect. smsc95xx_mdiobus_write() now passes that error back to the
+MDIO bus instead of always returning 0.
 
 > diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
-> index 130a460c1f546..f85ee5f8a5394 100644
+> index f85ee5f8a5394..52035c160f4b0 100644
 > --- a/drivers/net/usb/smsc95xx.c
 > +++ b/drivers/net/usb/smsc95xx.c
-> @@ -291,7 +291,7 @@ static int smsc95xx_mdiobus_reset(struct mii_bus *bus)
->  reset_out:
->  	mutex_unlock(&dev->phy_mutex);
+> @@ -215,8 +215,8 @@ static int smsc95xx_mdio_read(struct usbnet *dev, int phy_id, int idx)
+>  	return ret;
+>  }
 >  
-> -	return 0;
+> -static void smsc95xx_mdio_write(struct usbnet *dev, int phy_id, int idx,
+> -				int regval)
+> +static int smsc95xx_mdio_write(struct usbnet *dev, int phy_id, int idx,
+> +			       int regval)
+
+[Severity: Medium]
+smsc95xx_mdio_write() has a second caller, smsc95xx_enter_suspend1(),
+and this patch doesn't change it. Both writes there still throw away the
+return value:
+
+drivers/net/usb/smsc95xx.c:smsc95xx_enter_suspend1() {
+    ...
+	if (pdata->features & FEATURE_PHY_NLP_CROSSOVER)
+		smsc95xx_mdio_write(dev, phy_id, PHY_EDPD_CONFIG,
+				    PHY_EDPD_CONFIG_DEFAULT);
+
+	/* enable energy detect power-down mode */
+	ret = smsc95xx_mdio_read(dev, phy_id, PHY_MODE_CTRL_STS);
+	if (ret < 0)
+		return ret;
+
+	ret |= MODE_CTRL_STS_EDPWRDOWN_;
+
+	smsc95xx_mdio_write(dev, phy_id, PHY_MODE_CTRL_STS, ret);
+    ...
+}
+
+Every other access in that function returns on error, including the
+smsc95xx_mdio_read() between the two writes.
+
+What happens if one of these writes fails? That could be an -EIO from
+smsc95xx_phy_wait_not_busy(), or a USB error other than -ENODEV from
+smsc95xx_write_reg().
+
+In that case the function still writes PM_CTRL with PM_CTL_SUS_MODE_1
+and PM_CTL_WUPS_ED_ | PM_CTL_ED_EN_. It then sets SUSPEND_SUSPEND1 in
+pdata->suspend_flags and returns 0. The controller waits for an
+energy-detect wake, but the PHY may not be in energy-detect power-down.
+
+smsc95xx_suspend() gets 0 back from smsc95xx_enter_suspend1(), both from
+the autosuspend path and from the WAKE_PHY path with the link down. So
+the usbnet_resume() recovery at its done: label never runs.
+
+Should smsc95xx_enter_suspend1() check these return values too, since
+the subject says MDIO write errors are propagated?
+
+Also, unlike smsc95xx_read_reg(), smsc95xx_write_reg() and
+smsc95xx_phy_wait_not_busy() in this file, the new int-returning helper
+isn't marked __must_check. Would adding it make the compiler flag
+dropped results like these?
+
+>  {
+>  	u32 val, addr;
+>  	int ret;
+> @@ -255,6 +255,12 @@ static void smsc95xx_mdio_write(struct usbnet *dev, int phy_id, int idx,
+>  
+>  done:
+>  	mutex_unlock(&dev->phy_mutex);
+> +
+> +	/* Ignore -ENODEV error during disconnect() */
+> +	if (ret == -ENODEV)
+> +		return 0;
+> +
 > +	return ret;
 >  }
 
-[Severity: Critical]
-What value does ret hold here when the reset succeeds?
-
-smsc95xx_write_reg() passes back the result of usbnet_write_cmd()
-unchanged. That result is the byte count from usb_control_msg():
-
-drivers/net/usb/smsc95xx.c:smsc95xx_write_reg() {
-    ...
-	ret = fn(dev, USB_VENDOR_REQUEST_WRITE_REGISTER, USB_DIR_OUT
-		 | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-		 0, index, &buf, 4);
-	if (ret < 0 && ret != -ENODEV)
-		netdev_warn(dev->net, "Failed to write reg index 0x%08x: %d\n",
-			    index, ret);
-
-	return ret;
-}
-
-smsc95xx_read_reg() also returns 4 on success. After a successful
-external PHY reset, both "if (ret < 0)" checks pass, and the function
-now returns 4 instead of 0.
-
-__mdiobus_register() treats any non-zero value as a failure:
-
-drivers/net/phy/mdio_bus_provider.c:__mdiobus_register() {
-    ...
-	if (bus->reset) {
-		err = bus->reset(bus);
-		if (err)
-			goto error_reset_gpiod;
-	}
-    ...
-}
-
-It calls device_del() and returns 4. smsc95xx_bind() then takes its
-error path:
-
-	ret = mdiobus_register(pdata->mdiobus);
-	if (ret) {
-		netdev_err(dev->net, "Could not register MDIO bus\n");
-		goto free_mdio;
-	}
-
-That path runs mdiobus_free(), irq_dispose_mapping(),
-irq_domain_remove(), irq_domain_free_fwnode() and kfree(pdata). It
-then returns 4 and leaves dev->driver_priv pointing at the freed pdata.
-
-usbnet_probe() only aborts on negative values:
-
-	status = info->bind(dev, udev);
-	if (status < 0)
-		goto out1;
-
-Probe therefore goes on to register_netdev() with these leftovers:
-
-  - dev->driver_priv pointing at freed memory
-  - a freed mii_bus
-  - a NULL dev->net->phydev
-
-Wouldn't later driver callbacks then use pdata after it was freed? One
-example is the pdata->pm_task dereference in smsc95xx_read_reg() and
-smsc95xx_write_reg().
-
-smsc95xx_unbind() runs on disconnect, or when probe fails after bind
-and calls info->unbind. In that case it would:
-
-  - call phy_disconnect() on a NULL phydev
-  - call mdiobus_unregister() and mdiobus_free() on the freed mii_bus
-  - free the irqdomain and fwnode a second time
-  - call kfree(pdata) a second time
-
-Can this double free pdata?
-
-This path is taken whenever HW_CFG_PSEL_ is set. That seems to break
-every probe of a device with an external PHY, which is the setup
-809ff97a677f was fixing. The bit is read from the device, so an
-emulated or malicious USB device could trigger this as well.
-
-The next patch in the series, "net: usb: smsc95xx: propagate MDIO write
-errors", does not touch smsc95xx_mdiobus_reset(). The problem would
-still be there at the end of the series.
-
-Would something like "return ret < 0 ? ret : 0;", or setting ret = 0
-after the successful write, keep the error propagation and still return
-0 on success?
+[ ... ]
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261114050954.275495-1-artem122novak%40gmail.com
