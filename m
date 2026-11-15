@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794739915;
-	b=0zg591kh2jiv+Avwgi2fNMuGQYPth3KY2FDidLmV6FkHJ0bUMCT5kRo6vKhYg3S01EVV
-	 +S/mR6fXfMQ8QXREm9AJA7hQT4fG7FNWNU8Jqb22OM00o/lUSRaoKTMyQpDVfl6mvy4nC
-	 jE0t0rfHwAoH9Q91QPniqEkPdkWTbn7ZpbLvjLLMFz50CbgBR6lyK03A+qLrwrM5Vndt2
-	 /XI97CBISuvcYOX1m/E1zcPlJEibg5p1dyP31z0AIJU1nKmjq+hCb1eIlkPk2TqrDze85
-	 CeBiyrl6BixGcJn2Qlr7VGu/y3CbVd22Xo0mEUJb5Qe9QdwAhXFpGSZyXVytf1nVU5w==
+	t=1794739916;
+	b=Die6qgAjggGPVmuhwiqHrCQ46zErYG1rft7CD5jCN+RGawCcDqPoi1KfVpDIC81+L/Mo
+	 XUTk3vQMxPmiIKvHQ6/Ui79LPVCpG6odWVwfCuq3uCQHBH3MtJsWnj6BrvlFfop8T0DnQ
+	 ZlVcSnuhbPt/Sd24t0Fmpedlm6VRNCjc0F0KIxiXGGvlal4/5aj8/O8095VEnaCj2fbvk
+	 nrnI8e83YExguME45+AzCPOkCClB903m/7Za61USVHlloF5N7nRXldl7zfx7/Ee5e/BEj
+	 pO+Fr2DMDvvKWW+ZEQ70ecgMd4/nbMgcf7xxYaPTehezzROiv3nTsyECORcT+owBgXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794739915;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794739916;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=/O6ravDzhcUqLGS5JNMnStICCjh9+Auzj0N3oNa5gMY=;
-	b=1AEFdHJCeekIgKZ2NHgDAEqYBFA5hoPVJr6ABVmUrAR/C4gVAMNdABa/YR+CgoSYKfZB
-	 1J/n5YMJIJtTpOi9SIdu5eDiUpRPJ2icCfd8iGJlfa9oMKCAnygNyDASzeHNhwiuGZOIs
-	 BDd94NlQg4FwfzrfUq+QfgKnfm00LTH7pP3qMHgrNPwY5b8SgWRaLskTCkskz5LZB7tsN
-	 jdYh60vqHi1xXZUrUjaUrU2X+XDwxC05Qol6aNLhTix9zKi5TSwOi4TwaoX+rACzM5X0f
-	 nvCuAiCVj0rsN+4go8ajxeYhp8EhMzt2kW6wZANHPX/JKY20LOPp57QeVkoc6rLUEbQ==
+	bh=1QOCy+MvQwz2AaAfRh95ND32y4lKsyWsgmUD9ygXvXk=;
+	b=gSVu+LpR2xyeLTXGM53uwYjbYMLa+q1yeRP3UdIW+PbKP2RzQ/C608ohMfuKqDw1VXmJ
+	 ynRM00RHteh2rY3Jx9pdtmGAjgBEEsG4O0fNQDHtSMaWzks2arKXy6YCfA6oc/I8INkst
+	 jdPK0PCCkqACKuwgoUGgqLFVFG3A4RzdFK5EveA3QzmcWJBbTP1LRB6HR3dKUURxgQUuZ
+	 2w9M3tXWyzmFTp0UGzhGsa6/cT9KBXmCcI2zC9wwWGcsbsw12ZFB9mqzln9v+R2qiUPkU
+	 aV1hMTJeHL2wtlbO8naJ6fazADsNqa/+jJdt8/uA+b47+IBtAjh2gibXJ9qJIfc1+QQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XtoxYEOy;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iIZLsY1E;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8861C606A88A
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 10:51:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B215606A331
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 10:51:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XtoxYEOy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 474431F000C4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iIZLsY1E
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDD0E1F000C4;
 	Sun, 15 Nov 2026 10:51:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794739915;
-	bh=/O6ravDzhcUqLGS5JNMnStICCjh9+Auzj0N3oNa5gMY=;
+	s=k20260515; t=1794739916;
+	bh=1QOCy+MvQwz2AaAfRh95ND32y4lKsyWsgmUD9ygXvXk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=XtoxYEOyv8rls2gB3qksSQ9BA0PcCSsKoGQ93dQZCgS40Gf4ibwi3QKqXIJnhkaHx
-	 wxES4RgEOzy/0v8ROQEEF0ZSnk0Soc1ZG1nbxNTXbb4fWDvXnWKFLYGb4eEk52WtWl
-	 NaGPfInB9r8rbv4STWOTJr62kPgs33/XkRIHV/mk07EfIcc3XLHk0T5q25B9slmeE9
-	 rh1RXee+6QHWtuDl/UDs8tZbggCI9xWJLL/x3CyB+2tc+78HnqjJiOBVFZdFL4kRqI
-	 0Kd6KnisO6iKEhD6tkJIAEkvQse1HpwgZw2hqvYDfhdawdSnOxZQubgXheqBv3/mA0
-	 OKmk43FaxotBw==
-Message-ID: <sashiko-outbox-215420@kernel.org>
+	b=iIZLsY1E9FHLIRwzoWpMBQXXUZfUKvTyve6eN5wGho5kVmVve/84WbpPyVtr4de9X
+	 SoURQJ5zE5q/D9HqDWU53tUPDj6r9awkRiQ9RDne3IenTRLhQGrBhZli82UL4L9Ooh
+	 W0fnglNPEKixujZYPI/XVdGYXs2Zkx+GioXpYj3qtIp+6z/7JTWrVDEHHfwG6c8FEx
+	 E4PwOzmSF2BvZHpcrZ8L2nPXFSn9EUAuobEMLT8kBL2DKNTXgCt6njIlXzMQdHihyW
+	 +JPtd0VwOTSimJ6sinfwjXFa41sfq4/vD4zKrYm8+fpJo4RM0r/uT5mkzGD/NQeaW1
+	 5nXEIm70fZnxA==
+Message-ID: <sashiko-outbox-215421@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v21 07/13] ax88179_178a: Add VLAN offload
- support for AX88179A
+Subject: Re: [PATCH net-next v21 08/13] ax88179_178a: Add AX179A/AX279
+ multicast configuration
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Birger Koblitz" <mail@birger-koblitz.de>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261114-ax88179a-v21-7-c2d34410bcbe@birger-koblitz.de>
+In-Reply-To: <20261114-ax88179a-v21-8-c2d34410bcbe@birger-koblitz.de>
 References: <20261114-ax88179a-v21-0-c2d34410bcbe@birger-koblitz.de>
- <20261114-ax88179a-v21-7-c2d34410bcbe@birger-koblitz.de>
+ <20261114-ax88179a-v21-8-c2d34410bcbe@birger-koblitz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2026 10:51:54 +0000
+Date: Sun, 15 Nov 2026 10:51:55 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,304 +61,123 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 5 potential
-issues to consider:
-- [Medium] net: usb: ax88179: uninitialized stack read and short USB
-  read in VLAN ops
-- [Medium] net: usb: ax88179: unchecked USB writes in
-  ax88179a_set_features() loop
-- [Medium] net: usb: ax88179_178a: TX VLAN tag drop race in
-  ax88179a_tx_fixup()
-- [Low] net: usb: ax88179_178a: partial feature state in
-  ax88179a_set_features()
-- [Low] net: usb: ax88179_178a: duplicated VLAN filter update logic in
-  add/kill vid
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] net: usb: ax88179: unsynchronized AX_RX_CTL updates in
+  ax88179_set_multicast()
 --
 
-commit a2245f1909a4b4c924abeed75400e9c875dcb39c
+commit f349443476b08db9f2083703ec74ef889b46544c
 Author: Birger Koblitz <mail@birger-koblitz.de>
 
-ax88179_178a: Add VLAN offload support for AX88179A
+ax88179_178a: Add AX179A/AX279 multicast configuration
 
-This commit adds hardware VLAN offload and filtering callbacks
-(NETIF_F_HW_VLAN_CTAG_TX, NETIF_F_HW_VLAN_CTAG_RX, and
-NETIF_F_HW_VLAN_CTAG_FILTER) for AX88179A-based USB network devices.
+This commit updates ax88179_set_multicast() to set AX_RX_CTL_DROPCRCERR
+and conditionally set AX_RX_CTL_IPE based on data->ip_align, and wires it
+up as .ndo_set_rx_mode in ax88179a_netdev_ops.
 
+> diff --git a/drivers/net/usb/ax88179_lib.c b/drivers/net/usb/ax88179_lib.c
+> index fa6423f51849e..f27b073e1bccb 100644
+> --- a/drivers/net/usb/ax88179_lib.c
+> +++ b/drivers/net/usb/ax88179_lib.c
+> @@ -319,16 +319,21 @@ int ax88179_set_eeprom(struct net_device *net, stru=
+ct ethtool_eeprom *eeprom, u8
+>  void ax88179_set_multicast(struct net_device *net)
+>  {
+>  	struct usbnet *dev =3D netdev_priv(net);
+> -	struct ax88179_data *data =3D dev->driver_priv;
+>  	u8 *m_filter =3D ((u8 *)dev->data);
+> +	struct ax88179_data *data;
+> +	u16 rxctl =3D 0;
+> +
+> +	data =3D dev->driver_priv;
+> =20
+> -	data->rxctl =3D (AX_RX_CTL_START | AX_RX_CTL_AB | AX_RX_CTL_IPE);
+> +	rxctl =3D (AX_RX_CTL_START | AX_RX_CTL_AB | AX_RX_CTL_DROPCRCERR);
+> +	if (data->ip_align)
+> +		rxctl |=3D AX_RX_CTL_IPE;
+> =20
+>  	if (net->flags & IFF_PROMISC) {
+> -		data->rxctl |=3D AX_RX_CTL_PRO;
+> +		rxctl |=3D AX_RX_CTL_PRO;
+>  	} else if (net->flags & IFF_ALLMULTI ||
+>  		   netdev_mc_count(net) > AX_MAX_MCAST) {
+> -		data->rxctl |=3D AX_RX_CTL_AMALL;
+> +		rxctl |=3D AX_RX_CTL_AMALL;
+>  	} else if (netdev_mc_empty(net)) {
+>  		/* just broadcast and directed */
+>  	} else {
+> @@ -349,9 +354,10 @@ void ax88179_set_multicast(struct net_device *net)
+>  					AX_MCAST_FLTSIZE, AX_MCAST_FLTSIZE,
+>  					m_filter);
+> =20
+> -		data->rxctl |=3D AX_RX_CTL_AM;
+> +		rxctl |=3D AX_RX_CTL_AM;
+>  	}
+> =20
+> +	WRITE_ONCE(data->rxctl, rxctl);
+>  	ax88179_write_cmd_async(dev, AX_ACCESS_MAC, AX_RX_CTL,
+>  				2, 2, &data->rxctl);
+>  }
 > diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179=
 a_devices.c
-> index 272e923656832..4207d2cc2b865 100644
+> index 4207d2cc2b865..a6b0a3f47118c 100644
 > --- a/drivers/net/usb/ax88179a_devices.c
 > +++ b/drivers/net/usb/ax88179a_devices.c
-> @@ -258,6 +258,88 @@ static const struct ethtool_ops ax88179a_ethtool_ops=
- =3D {
->  	.get_ts_info		=3D ethtool_op_get_ts_info,
->  };
-> =20
-> +static int ax88179a_vlan_rx_kill_vid(struct net_device *net, __be16 prot=
-o, u16 vid)
-> +{
-> +	struct usbnet *dev =3D netdev_priv(net);
-> +	u16 reg16 =3D 0;
-> +	u8 vlan_ctrl;
-> +	int ret =3D 0;
-> +	u8 reg8 =3D 0;
-> +
-> +	ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL, =
-1, 1, &reg8);
-> +	if (ret < 0)
-> +		return ret;
-> +	vlan_ctrl =3D reg8;
-> +
-> +	/* Address */
-> +	reg8 =3D (vid / 16);
-> +	ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_ADDRESS,=
- 1, 1, &reg8);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Data */
-> +	reg8 =3D vlan_ctrl | AX_VLAN_CONTROL_RD;
-> +	ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL,=
- 1, 1, &reg8);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_DATA0, 2,=
- 2, &reg16);
-> +	if (ret < 0)
-> +		return ret;
-> +	reg16 &=3D ~(1 << (vid % 16));
-> +	ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_DATA0, 2=
-, 2, &reg16);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	reg8 =3D vlan_ctrl | AX_VLAN_CONTROL_WE;
-> +	ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL,=
- 1, 1, &reg8);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ax88179a_vlan_rx_add_vid(struct net_device *net, __be16 proto=
-, u16 vid)
-> +{
-> +	struct usbnet *dev =3D netdev_priv(net);
-> +	u8 vlan_ctrl;
-> +	int ret =3D 0;
-> +	u16 reg16;
-> +	u8 reg8;
-> +
-> +	ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL, =
-1, 1, &reg8);
-> +	if (ret < 0)
-> +		return ret;
-> +	vlan_ctrl =3D reg8;
-> +
-> +	/* Address */
-> +	reg8 =3D (vid / 16);
-> +	ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_ADDRESS,=
- 1, 1, &reg8);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Data */
-> +	reg8 =3D vlan_ctrl | AX_VLAN_CONTROL_RD;
-> +	ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL,=
- 1, 1, &reg8);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_DATA0, 2,=
- 2, &reg16);
-> +	if (ret < 0)
-> +		return ret;
-> +	reg16 |=3D (1 << (vid % 16));
-> +	ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_DATA0, 2=
-, 2, &reg16);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	reg8 =3D vlan_ctrl | AX_VLAN_CONTROL_WE;
-> +	ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL,=
- 1, 1, &reg8);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
+> @@ -678,6 +678,7 @@ static const struct net_device_ops ax88179a_netdev_op=
+s =3D {
+>  	.ndo_set_mac_address	=3D ax88179_set_mac_addr,
+>  	.ndo_validate_addr	=3D eth_validate_addr,
+>  	.ndo_eth_ioctl		=3D ax88179a_mii_ioctl,
+> +	.ndo_set_rx_mode	=3D ax88179_set_multicast,
+>  	.ndo_set_features	=3D ax88179a_set_features,
+>  	.ndo_vlan_rx_add_vid	=3D ax88179a_vlan_rx_add_vid,
+>  	.ndo_vlan_rx_kill_vid	=3D ax88179a_vlan_rx_kill_vid,
 
 [Severity: Medium]
-Can a 0-byte USB read in ax88179a_vlan_rx_add_vid() or
-ax88179a_set_features() write uninitialized stack memory into
-AX88179A_VLAN_ID_CONTROL?
+Can ax88179_set_multicast() race with ax88179a_mac_link_up() when writing
+AX_RX_CTL?
 
-For 1-byte reads, ax88179_read_cmd() passes the caller's pointer directly
-to __usbnet_read_cmd(), which only copies into the buffer when
-usb_control_msg() returns > 0.  If a control read returns 0, reg8 in
-ax88179a_vlan_rx_add_vid() and tmp in ax88179a_set_features() remain
-uninitialized because the callers only check ret < 0, and that stack byte
-is then modified and written back to AX88179A_VLAN_ID_CONTROL.
+ax88179_set_multicast() runs in BH context under netif_addr_lock_bh(),
+while phylink runs ax88179a_mac_link_up() in process context without any
+shared lock:
 
-Similarly, the 2-byte reads of AX88179A_VLAN_ID_DATA0 only check ret < 0
-instead of ret < 2, so a short read leaves reg16 zeroed or partially
-populated and causes the subsequent write to clear the other 15 VIDs in
-the same (vid / 16) filter entry.
+drivers/net/usb/ax88179a_devices.c:ax88179a_mac_link_up() {
+	/* Stop RX/TX for link configuration */
+	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, AX_RX_CTL_STOP);
+	...
+	mutex_lock(&ax179_data->medium_status_mutex);
+	if (dev->net->mtu > 1500)
+		mode |=3D AX_MEDIUM_JUMBO_EN;
+	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, mode);
 
-[Severity: Low]
-This isn't a bug, but ax88179a_vlan_rx_kill_vid() and
-ax88179a_vlan_rx_add_vid() duplicate the same five-step register sequence
-and only differ in whether they clear or set BIT(vid % 16) in reg16.
-Could they share a common helper taking a boolean flag?
-
-[ ... ]
-
-> @@ -517,6 +599,75 @@ static int ax88179a_mii_ioctl(struct net_device *net=
-, struct ifreq *rq, int cmd)
->  	return phylink_mii_ioctl(data->phylink, rq, cmd);
->  }
-> =20
-> +static int ax88179a_set_features(struct net_device *net, netdev_features=
-_t features)
-> +{
-> +	struct usbnet *dev =3D netdev_priv(net);
-> +	netdev_features_t changed;
-> +	int ret;
-> +	u8 tmp;
-> +
-> +	changed =3D net->features ^ features;
-> +
-> +	ret =3D ax88179_set_features(net, features);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (changed & NETIF_F_HW_VLAN_CTAG_FILTER) {
-> +		if (features & NETIF_F_HW_VLAN_CTAG_FILTER) {
-> +			u8 vlan_state =3D 0;
-> +
-> +			ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC,
-> +					       AX88179A_VLAN_ID_CONTROL, 1, 1, &vlan_state);
-> +			if (ret < 0)
-> +				return ret;
-> +
-> +			for (int i =3D 0; i < 256; i++) {
-> +				/* Address */
-> +				tmp =3D i;
-> +				ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_ADDRESS,
-> +						  1, 1, &tmp);
-> +				/* Data */
-> +				ax88179_write_u16(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_DATA0,
-> +						  2, 0);
-> +				/* Write-Execute */
-> +				ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL,
-> +						 1, vlan_state | AX_VLAN_CONTROL_WE);
-> +			}
-
-[Severity: Medium]
-Should the USB writes inside this loop check for errors?
-
-If any write fails transiently while the final write enabling
-AX_VLAN_CONTROL_VFE succeeds, hardware VLAN filtering is enabled over an
-incompletely cleared filter table with stale VID entries.  On a persistent
-USB error, the loop also runs all 768 synchronous control transfers under
-rtnl_lock instead of bailing out on the first failure.
-
-> +			vlan_state |=3D AX_VLAN_CONTROL_VFE;
-> +			ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC,
-> +						AX88179A_VLAN_ID_CONTROL, 1, 1, &vlan_state);
-> +			if (ret < 0)
-> +				return ret;
-> +		} else {
-> +			ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC,
-> +					       AX88179A_VLAN_ID_CONTROL, 1, 1, &tmp);
-> +			if (ret < 0)
-> +				return ret;
-> +			tmp &=3D ~AX_VLAN_CONTROL_VFE;
-> +			ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC,
-> +						AX88179A_VLAN_ID_CONTROL, 1, 1, &tmp);
-> +			if (ret < 0)
-> +				return ret;
-> +		}
-> +	}
-> +
-> +	if (changed & NETIF_F_HW_VLAN_CTAG_RX) {
-> +		ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL,
-> +				       1, 1, &tmp);
-> +		if (ret < 0)
-> +			return ret;
-> +		if (features & NETIF_F_HW_VLAN_CTAG_RX)
-> +			tmp |=3D AX_VLAN_CONTROL_VSO;
-> +		else
-> +			tmp &=3D ~AX_VLAN_CONTROL_VSO;
-> +		ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL,
-> +					1, 1, &tmp);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +	return 0;
-> +}
-
-[Severity: Low]
-Can a late failure in ax88179a_set_features() leave hardware offload state
-out of sync with net->features?
-
-When multiple features are changed at once and a later register access
-fails, __netdev_update_features() aborts without updating net->features or
-repopulating the VLAN filter table, while earlier changes stay active in
-hardware.  For example, if enabling NETIF_F_HW_VLAN_CTAG_FILTER succeeds
-and the NETIF_F_HW_VLAN_CTAG_RX step fails, AX_VLAN_CONTROL_VFE remains
-enabled with an all-zero filter table, and any checksum bits already
-toggled via XOR in ax88179_set_features() remain inverted relative to
-net->features.
-
-[ ... ]
-
-> @@ -612,9 +766,11 @@ static int ax88179a_bind(struct usbnet *dev, struct =
-usb_interface *intf)
->  		dev->mii.supports_gmii =3D 1;
-> =20
->  	dev->net->features |=3D NETIF_F_SG | NETIF_F_IP_CSUM |
-> -			      NETIF_F_IPV6_CSUM | NETIF_F_RXCSUM | NETIF_F_TSO;
-> +			      NETIF_F_IPV6_CSUM | NETIF_F_RXCSUM | NETIF_F_TSO |
-> +			      NETIF_F_HW_VLAN_CTAG_TX;
-> =20
->  	dev->net->hw_features |=3D dev->net->features;
-> +	dev->net->hw_features |=3D NETIF_F_HW_VLAN_CTAG_RX | NETIF_F_HW_VLAN_CT=
-AG_FILTER;
-
-[Severity: Medium]
-Can toggling NETIF_F_HW_VLAN_CTAG_TX at runtime cause ax88179a_tx_fixup()
-to transmit VLAN-tagged packets without their VLAN tag?
-
-drivers/net/usb/ax88179a_devices.c:ax88179a_tx_fixup() {
-    ...
-	if ((dev->net->features & NETIF_F_HW_VLAN_CTAG_TX) && (vlan_get_tag(skb, &=
-tci) >=3D 0)) {
-		tx_desc |=3D AX179A_TX_DESC_VLAN;
-		tx_desc |=3D FIELD_PREP(AX179A_TX_DESC_VLAN_ID, (u64)tci);
-	}
-    ...
+	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, READ_ONCE(ax179_data->=
+rxctl));
+	mutex_unlock(&ax179_data->medium_status_mutex);
 }
 
-CPU0                              CPU1
-dev_hard_start_xmit()
-  validate_xmit_skb()
-    validate_xmit_vlan()
-      /* tag left in skb->vlan_tci */
-                                  __netdev_update_features()
-                                    /* clears NETIF_F_HW_VLAN_CTAG_TX */
-  ndo_start_xmit()
-    ax88179a_tx_fixup()
-      /* skips AX179A_TX_DESC_VLAN */  <-- sent untagged
+WRITE_ONCE() and READ_ONCE() only protect the in-memory ax179_data->rxctl
+load and store, not the USB control transfers to AX_RX_CTL:
 
-Now that NETIF_F_HW_VLAN_CTAG_TX is exposed in features and hw_features,
-disabling it while packets validated under NETIF_F_HW_VLAN_CTAG_TX are in
-flight causes both the feature check in ax88179a_tx_fixup() and
-vlan_get_tag() to ignore skb->vlan_tci.  Checking skb_vlan_tag_present(skb)
-and reading the tag with skb_vlan_tag_get(skb) avoids dropping the tag.
+CPU0 (kworker)                        CPU1 (<softirq>)
+ax88179a_mac_link_up()
+  val =3D READ_ONCE(ax179_data->rxctl)
+                                      ax88179_set_multicast()
+                                        WRITE_ONCE(data->rxctl, rxctl)
+                                        ax88179_write_cmd_async(..., AX_RX_=
+CTL, ...)
+                                          usb_submit_urb()
+  ax88179_write_u16(..., AX_RX_CTL, val)
+    usb_control_msg()  <-- overwrites AX_RX_CTL with stale val
+
+This leaves the hardware AX_RX_CTL filter out of sync with data->rxctl
+when RX mode updates (such as IPv6 MLD joins during interface bring-up)
+overlap with link resolution.  In addition, if ax88179_set_multicast()
+runs while ax88179a_mac_link_up() is between writing AX_RX_CTL_STOP and
+restoring AX_RX_CTL at the end of link setup, its asynchronous write sets
+AX_RX_CTL_START and re-enables RX in the middle of MAC and bulk-in queue
+reconfiguration.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114-ax88179a-v=
-21-0-c2d34410bcbe@birger-koblitz.de?part=3D7
+21-0-c2d34410bcbe@birger-koblitz.de?part=3D8
