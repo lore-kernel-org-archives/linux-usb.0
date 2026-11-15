@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794768824;
-	b=wZP5SThlRxafpbNGW3XAr7nWpMXoLLwXme1o67e5590c/15f/YqSJNNpmOtv6T7wMYQO
-	 htYFahbG2eKxGtsEvRb/Kn4WlvTneaaI2xuW/plGkkDoHgG9wRU11lv8tsveNFysBkQ/M
-	 6gCBcVG3Q76e7DwuTQLhVSJsCrRCszgZQBsQtAEdFfH2aEb7Q6xca9Z+KnPA52WIEB/cY
-	 Qy2dvDA0xTm1Vo34TgQPLAZU0+VIuW6c5fGTF6SxlIHCUENNobA86JBLzPxFu8xmzKsoe
-	 KPKVI9ZhxsDEvYCzdbQCyIJ7qYbRsCvzqzBx7+tCiGOe6/8gt+L7b+me0ONLeuCMfIA==
+	t=1794768826;
+	b=X4ZlI9mQDIuwOiErbQ3DaWasXPqrRAL9xzD14Ap/JkyCqjai4Tu3YiDvkXfVuPU8e1v8
+	 gAeLpRSE9SjuYKTMS4+Pu5YLEw6+ELZ8U4NLPDZygi4QDUuOBmYS8falvt6Mq2Vwt8lCM
+	 5CErNfpiF12O7AX7jALXEVWZzS8hQJ9j7E0Al7FaD0mERYbAWKR1XNQiXEBSDZq8fIW5D
+	 MqR3k0OW5TnHVm9tIJs1N4Tj0LP6ajtSEfC/yEfzQYdBYhWy04sBwoSja//p2ic/4KR1q
+	 pV3h5lce1uAbKfVZfxmWFQ6HtQ5e6qweF7vV7KuWxsM1lRNkt1aP8b1Ig4Hscv3re3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794768824;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794768826;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=wx347V0wBMRB+bdi/iEwLISPCRcjrM0Qbh9hQtRy44c=;
-	b=v4MYCIcIKjn1DpMgoJyk2hDvTkSxyQ2xXHgMm/prVpsWZMRcv3hv/oL3Gae0WtrFRbYL
-	 wnPO0HYBfOZ03oqdB6Hvf60N7eyGJOB19P5bMTh7na31Diz2/pfQx8/NGdR9/95D6XldI
-	 AaeScOx2xJQGyVn1mfVI+CxaVhngvLkF0XxuUapjT3d74D+G8GSEKUbA7J4Y7BXM3TNdE
-	 Kx5K/nrDGl58z+8f3J9MeCyc112r0CMyEg+tfgFgKWX/yAZ/IfQPEZmrnymwDtg84SKM3
-	 AcspgGvcFVMQWr2iZ+oZT2ZuG1p5W1rZgE9mGA79hmBX5MDPLrxLZ7m/JX+hrrShQRg==
+	bh=ze2yB5gk+HNq39+e9lOoLqG+BRZOAZ1FVtK2xhfyPmE=;
+	b=wA7m+orIfzJaRU9mUASQhjOw2gW9LjnR0/vsZOrd8lJKcj9lMJe4QnoWoB3opSRW7pOi
+	 iesbvk4z8XGGmLZdRQp33yQVCcy3k94HnGxLALB6wMOchz+tEttuIYO7zdPi9LVLlROJm
+	 mN6oKQO5D44hEf2nFMCK6LEFqlE3/o7Ftfr1dvPmOlvtuZRSDnWn2ly/CillxFG+pLVWQ
+	 9845Ec89gDGAB4z+T14yjXKU20eYiS0AWb9hEtrF5PNruLpokX6P+Moz0j1vLeFwBuGnG
+	 Wgdm+2zNPsAEJo8X+KrcFWIZzYN+UHuvDU3evVTPugnaabftty4td8a7gn0S+KBrYog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=yuzi.co;
 	spf=pass smtp.mailfrom=yuzifovich.name;
-	dkim=pass header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=MdAvEU1u;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	dkim=pass header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=fmYESyMc;
+	arc=none smtp.remote-ip=209.85.128.44
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A554606A327
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 18:53:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A554606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A41606A339
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 18:53:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6A41606A339
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yuzi.co
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yuzifovich.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=MdAvEU1u
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so31035675e9.2
-        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 10:53:44 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=fmYESyMc
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so17019505e9.2
+        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 10:53:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yuzi.co; s=google; t=1794768823; x=1795373623; darn=vger.kernel.org;
+        d=yuzi.co; s=google; t=1794768824; x=1795373624; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wx347V0wBMRB+bdi/iEwLISPCRcjrM0Qbh9hQtRy44c=;
-        b=MdAvEU1u7SCn0d4StuDm3qQkvkE5B8JbAYKeGeTi4kItIZzIIlYVWqjC4ofjAP7gwL
-         oSqky2wgYBGRQ7m8pGMpFTqf7S/YsfxlEKMugMOor8109xerzZIYP0i84zounUG6K8iw
-         fkIbsRrmLHXshDjLxLqZkhwd66d/1MEitqoX4=
+        bh=ze2yB5gk+HNq39+e9lOoLqG+BRZOAZ1FVtK2xhfyPmE=;
+        b=fmYESyMcOcPNBrVIG9pTz/GX40rE7ARFytSuS5HISaCYxWT8ylusIM5to96koZ3uIg
+         1kFPQYg741ZgL2bugckZzNhBUIdlxeKMx4iaB68PqxsXF0LcKS6Wky/WFO8RzvCML+Zj
+         CbTpFPPl25R6QbBBK6ORL0Si1PzhV4x5QfTJA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794768823; x=1795373623;
+        d=1e100.net; s=20260707; t=1794768824; x=1795373624;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wx347V0wBMRB+bdi/iEwLISPCRcjrM0Qbh9hQtRy44c=;
-        b=uTuWWL0Ejhzwi3RdmY27a/O67c0B2UU0yPNWRLDsRSO5L5GarjoiH5v/3W5X1VDZ9f
-         HprbDJQXhzb+mUB0XL8aWqWYnnK1nJV9SqEjLC5COEzKk3bK61SwUx3lupj6uVwYThK/
-         Crme8h1Ex1T53f8ntZkEHw7mkvgqEQCXoSTOqZuQrXNpohU+GvsfEXC1jsFnLmw/7r/y
-         1BLxIxUv3EejOZE5kxjsiRQhrC0Cy6jKj5CUGk2AfzovHWap7UJkKy9B6j1y03qUKdEs
-         CbtWaRpKDZ6rye30gxNdMW6twmZfL7elSfKxalAMvs1syQZXr10EILGQUdoUKk03FElH
-         kASw==
-X-Forwarded-Encrypted: i=1; AL+hErF3Z4xBS0JZMD3KzeOIM1Hzr0aC6c9z0dBZnYCQTCjuEpkirxVpg0HGlo9GCav+KGyvmdRDUsag2Jo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8+iM/6pRRzY9JyMnZvlFeDysLXx755zcxv0Cj1BCu3HR8kEpNL
-	6hjVIiXGHOcAqpJpdn4Q2b5mqmlj1DTcEDB2qTb42n1WsG11PhAYTd+js+8gAyEcchM=
-X-Gm-Gg: AYBFou1TE6lwewDLVjfPvnZEOyGyWguU2O5SE7wnPXyS29MDJJz+lAL+IOzJl2m//7+
-	37ck1moOTs5FydkkgBW+vOFHyPb4T+8MUP6l19N+YmI/v6O80fl+dsyZLkJkGo+aiLxLu/fk1+t
-	GwJqTEmJjbouFhO7mpuArDDAhWt8oOLlEWghIVAOxkGgXhpj5jldZ3uFWl0YsxDXaif2NxdH8aN
-	tAcKLcg+ChkBFLe5FQ+5vRQkTP2Nr52EN2Ta/lht9vxnJ8Go8V+PPtvtTTm0Erx4VdW1PCjXVKu
-	UUNnfL5KSvmwbj8YPAJ0pd8t6Ccmbc6qIzct1+jFoCDwkXOw2lc/3x7TEh0GzSVxz7QZ0SmQvd2
-	lLsq3IRTIBAXyP/G7PBuGIznluD0hFldYMXaQhbHT5KpRFT34MrNw/WD65SrSALge77XVgQUwrK
-	+G2BSE2Yxji2fSCJISbB/nFfZnjNN4ductR84ZCGSZQxWi6pbV3Dvru43nNOuPvwSYdjZx2o6TT
-	WNNI9NS8rbDMoXcPdcZlKAMQNT5oIjFWi1qZgUfz+L43FrAgAbUVH+ow03+3veHtwOqk7Qox4KO
-	SW6HhPkIxmda4YO/Tusvx3YDlrFE+gkcN31Zp8CdwuA0IJ0Ml9Sp32WwGwvC0sFRt7pMHweQw37
-	QNxfD5ZBxLHIkFUqsoM4AZ6xVPTdvQ01DMiRUqWked6mqRLHeURRTtFNEU0hyqGQOC/HEZk14G+
-	RtLmLHML3cqvRXuA==
-X-Received: by 2002:a05:600c:a0b:b0:4bb:685e:cc41 with SMTP id 5b1f17b1804b1-4bb685eccc8mr80230305e9.8.1794768822690;
-        Sun, 15 Nov 2026 10:53:42 -0800 (PST)
+        bh=ze2yB5gk+HNq39+e9lOoLqG+BRZOAZ1FVtK2xhfyPmE=;
+        b=dGtBkCE7KcuhYGF/Fe6oEuXs7eJHLb/ojge1dKemdHQdrJyUktN3+tG5Xn80XBY5ZI
+         ay4HkJQDkLpbl1uTyAqWlCToD5BcJPP18/qho3PYjmQNCLWGdV30jz6W/prS16CfdJgE
+         5ffmPFf5uqePXoey4oz9X243VDiSdQqjrELvI/VXKzfObffIkYvJ/mK6VhhyrWv/PjNe
+         MhLHCzowLIn3W1kX7BIz7z+W1dDlFM+mG9CBgkET2zOY89Cv7NrAjaFt7Im2/XkHzqg7
+         Ie+JRw1aIw2HWc0RLwD/lTzZjZ+mchdR4w5u52sW+e4xT2js5NEjhHYdaGV1DOEU/1z7
+         0Gqg==
+X-Forwarded-Encrypted: i=1; AL+hErGo+NdDgBi9vC6ncmrI0pOUvfd4sy457iS9S21Vuw9bty88Mq/iJpBEgip19slUMPHy91kxH9Pte3E=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9JejlnuKKAMU2Ks6qoVKWApwn5ES+JRPEjI21ZLAWYxJn3iDuA
+	Aig3ZNxtShpNcThCwpss7zI+W7HXmosgTT1csRo9Pd7/JGYE8DRJOtW4h6bAZ4+/WnI=
+X-Gm-Gg: AYBFou3O9r/MNBn24wpuj4MidFqvIf1j6RKVfllsSx8UWn+vxglJnAsD2wMgj3akwiK
+	zdCwY7jgOBQBroycbmERGJ5LMyFFHxhRYgybQyb/gDBtwIc+wKCvITf3zD9QZqsuR6PXbTXxpyN
+	rVjtFBOTdeB9RsJmgGektwFjGBG0dZAkEPQkdYubJVpzq9TuuO4UMMq+8UhUQIHuWxDnWh6v+7E
+	1kW4N+gcA8JrFVhyel6L4mozVJcHOTMVHgMB6uEPF13hxKYHiTIyGuglPsy2P+hzwVeeCWmhFKl
+	2zb0YQbfzuE1JAMsv6klIr6LfYa+XpGamtIArfjzQsfr8Q0gFk+czHVBdEy52+D9Lbk0AoXe/wl
+	8DLqiGwRomZWWoZLvDdc2815rnxqibvuyZmq4gyVGGxqHuVJutOw53Xlh6KxxhiMe/wwSUNZ+9m
+	/fDyvLFryM7c6l1rs4m4rpaE7wb12am4I8XvvvdunTCNrj82S0e+6cqZuCWfVpet2YCz5gxrpRv
+	YnUYzyS+TOxwGAuR64Cgi8ks1ELWTZvbGFU4ed4Q9dKbX/glq0x/gnRa733lSIkbw86MDS+BXcW
+	XYDmf0g8TrGn241+jQN4Vb9IGrxrOBxzlidz5ffeoyYwzGMJzkatLiArb/ys5Cw8qIpsA2J9lKZ
+	sPsfXYWR51/m43rd61JpQ/LMe4pRZTLCM3UMLOAvNKy6zyiTwTMcu39u9C+PMOOXdV2rpDIkcef
+	bt56G71k6bEN8OKA==
+X-Received: by 2002:a05:600c:1c0e:b0:4bb:68e5:b952 with SMTP id 5b1f17b1804b1-4bb68e5bb4amr88504125e9.16.1794768824018;
+        Sun, 15 Nov 2026 10:53:44 -0800 (PST)
 Received: from terra.lan ([78.83.170.221])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2538b9sm508419145e9.1.2026.11.15.10.53.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2538b9sm508419145e9.1.2026.11.15.10.53.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 10:53:41 -0800 (PST)
+        Sun, 15 Nov 2026 10:53:43 -0800 (PST)
 From: Vadim Yuzifovich <vadim@yuzi.co>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
@@ -85,9 +85,9 @@ Cc: Chen-Yu Yeh <chenyou910331@gmail.com>,
 	linux-usb@vger.kernel.org,
 	sophgo@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] usb: dwc2: gadget: restart descriptor DMA isochronous OUT endpoints after BNA
-Date: Sun, 15 Nov 2026 20:53:33 +0200
-Message-ID: <20261115185335.782678-2-vadim@yuzi.co>
+Subject: [PATCH 2/3] usb: dwc2: gadget: restart descriptor DMA bulk and interrupt endpoints after BNA
+Date: Sun, 15 Nov 2026 20:53:34 +0200
+Message-ID: <20261115185335.782678-3-vadim@yuzi.co>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261115185335.782678-1-vadim@yuzi.co>
 References: <20261115185335.782678-1-vadim@yuzi.co>
@@ -102,111 +102,96 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In descriptor DMA mode the core disables an isochronous endpoint when it
-reaches a descriptor that is not ready (BNA), for example after an
-interrupt latency longer than the queued requests cover.
-dwc2_gadget_handle_isoc_bna() resets the endpoint and leaves the restart
-to the next OUTTKNEPDIS. Two things keep that from happening.
+In descriptor DMA mode the core raises BNA and disables an endpoint when
+the descriptor it fetches is not marked host ready. For isochronous
+endpoints dwc2 handles that; for bulk and interrupt endpoints it only
+logs the interrupt at debug level. Nothing was transferred and no
+XferCompl follows, so the request stays current, the requests queued
+behind it never start, and the function driver waits for a completion
+that never comes.
 
-First, the endpoint-disabled interrupt that comes with the BNA runs
-dwc2_gadget_handle_ep_disabled(), whose isochronous part is written for
-buffer DMA: it completes requests frame by frame and advances
-target_frame up to the current frame. Run after the BNA reset, it moves
-target_frame off TARGET_FRAME_INITIAL, and the OUT token handler then
-takes the chain for running and never restarts it.
+On a Sophgo SG2002 (DWC_otg 4.20a) with a video pipeline loading the
+DRAM this happened every minute or two to the bulk IN endpoint of
+f_mass_storage: debugfs showed the endpoint disabled with an 18-byte
+REQUEST SENSE reply current and nothing done, the 13-byte CSW queued
+behind it, and f_mass_storage asleep waiting for its buffer. The host's
+command timed out after 30 s and it reset the port. Read in the BNA
+handler, the descriptor is 0x0e000012: host ready, last, short,
+interrupt on completion, 18 bytes. The chain is written completely
+before the endpoint is enabled, so the core fetched the descriptor
+before the CPU's stores to it reached memory. The next patch closes
+that window on this SoC, but a BNA on such an endpoint should not leave
+it dead on any platform.
 
-Second, after the BNA the core raises BNA again for the disabled
-endpoint as fast as the handler clears it, and no OUTTKNEPDIS comes.
-
-On a Sophgo SG2002 (DWC_otg 4.20a) with a UAC1 capture endpoint and
-eight requests queued, one 8 ms interrupt latency (a line printed on the
-115200 baud serial console) caused one BNA. The endpoint stayed
-disabled and the BNA interrupt kept the CPU busy until the host gave up
-and reset the port, which took the other functions of the composite
-gadget down as well.
-
-In descriptor DMA mode, do not run the buffer DMA completion for a
-disabled isochronous endpoint; put it back in its initial state. For an
-OUT endpoint, build the chain again from the queue and enable it at
-once, both after the BNA and after an endpoint-disabled interrupt that
-finds it disabled with requests queued. IN endpoints keep restarting on
-the next NAK.
+When a bulk or interrupt endpoint other than EP0 raises BNA, is disabled
+and not halted, start its current request again, which fills the
+descriptor anew. Report the BNA with a rate limited warning instead of
+at debug level: unlike on an isochronous endpoint it is not expected.
 
 Signed-off-by: Vadim Yuzifovich <vadim@yuzi.co>
 ---
- drivers/usb/dwc2/gadget.c | 45 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ drivers/usb/dwc2/gadget.c | 41 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
 diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-index 6c8a9f05f..b0e129061 100644
+index b0e129061..046b5b045 100644
 --- a/drivers/usb/dwc2/gadget.c
 +++ b/drivers/usb/dwc2/gadget.c
-@@ -2259,6 +2259,28 @@ static void dwc2_gadget_complete_isoc_request_ddma(struct dwc2_hsotg_ep *hs_ep)
- 	}
+@@ -2305,6 +2305,45 @@ static void dwc2_gadget_handle_isoc_bna(struct dwc2_hsotg_ep *hs_ep)
+ 	dwc2_gadget_restart_isoc_out_ddma(hs_ep);
  }
  
 +/*
-+ * dwc2_gadget_restart_isoc_out_ddma - build the chain of a disabled ISOC OUT
-+ * endpoint again from its queue and enable it.
-+ * @hs_ep: The isochronous OUT endpoint, in its initial state.
++ * dwc2_gadget_handle_nonisoc_bna - handle BNA interrupt for bulk and
++ * interrupt endpoints in descriptor DMA mode.
++ * @hs_ep: The endpoint, not EP0 and not isochronous.
++ * @ints: The endpoint interrupts that came with the BNA, for the log.
 + *
-+ * After a BNA the core keeps raising BNA for the endpoint, as fast as the
-+ * handler clears it, and no OUTTKNEPDIS comes to restart the chain. So the
-+ * chain is restarted here at once.
++ * The core raises BNA and disables the endpoint when the descriptor it
++ * fetches is not marked host ready. The chain of a bulk or interrupt
++ * endpoint is complete before the endpoint is enabled, and afterwards the
++ * descriptor reads host ready, so the core read it before the CPU's writes
++ * to it reached memory. Nothing was transferred and no XferCompl
++ * follows: the request stays current, the ones queued behind it never
++ * start, and the function waits until the host gives up and resets the
++ * port. Start the request again; that fills the descriptor anew.
 + */
-+static void dwc2_gadget_restart_isoc_out_ddma(struct dwc2_hsotg_ep *hs_ep)
++static void dwc2_gadget_handle_nonisoc_bna(struct dwc2_hsotg_ep *hs_ep,
++					   u32 ints)
 +{
 +	struct dwc2_hsotg *hsotg = hs_ep->parent;
++	struct dwc2_hsotg_req *hs_req = hs_ep->req;
++	u32 epctl_reg = hs_ep->dir_in ? DIEPCTL(hs_ep->index) :
++					DOEPCTL(hs_ep->index);
++	u32 epctl = dwc2_readl(hsotg, epctl_reg);
++	u32 status = hs_ep->desc_list ? READ_ONCE(hs_ep->desc_list[0].status) : 0;
++	bool restart = hs_req && !hs_ep->halted &&
++		       !(epctl & (DXEPCTL_EPENA | DXEPCTL_STALL));
 +
-+	if (hs_ep->dir_in || list_empty(&hs_ep->queue) ||
-+	    hs_ep->target_frame != TARGET_FRAME_INITIAL ||
-+	    dwc2_readl(hsotg, DOEPCTL(hs_ep->index)) & DXEPCTL_EPENA)
++	dev_warn_ratelimited(hsotg->dev,
++			     "%s: BNA, DxEPINT %08x DxEPCTL %08x descriptor %08x, %s\n",
++			     hs_ep->name, ints, epctl, status,
++			     restart ? "request restarted" : "not restarted");
++
++	if (!restart)
 +		return;
 +
-+	hs_ep->target_frame = dwc2_hsotg_read_frameno(hsotg);
-+	dwc2_gadget_start_isoc_ddma(hs_ep);
++	hs_ep->req = NULL;
++	dwc2_hsotg_start_req(hsotg, hs_ep, hs_req, false);
 +}
 +
- /*
-  * dwc2_gadget_handle_isoc_bna - handle BNA interrupt for ISOC.
-  * @hs_ep: The isochronous endpoint.
-@@ -2279,6 +2301,8 @@ static void dwc2_gadget_handle_isoc_bna(struct dwc2_hsotg_ep *hs_ep)
- 	hs_ep->target_frame = TARGET_FRAME_INITIAL;
- 	hs_ep->next_desc = 0;
- 	hs_ep->compl_desc = 0;
-+
-+	dwc2_gadget_restart_isoc_out_ddma(hs_ep);
- }
- 
  /**
-@@ -2902,6 +2926,27 @@ static void dwc2_gadget_handle_ep_disabled(struct dwc2_hsotg_ep *hs_ep)
- 	if (!hs_ep->isochronous)
- 		return;
+  * dwc2_hsotg_rx_data - receive data from the FIFO for an endpoint
+  * @hsotg: The device state.
+@@ -3257,6 +3296,8 @@ static void dwc2_hsotg_epint(struct dwc2_hsotg *hsotg, unsigned int idx,
+ 		dev_dbg(hsotg->dev, "%s: BNA interrupt\n", __func__);
+ 		if (hs_ep->isochronous)
+ 			dwc2_gadget_handle_isoc_bna(hs_ep);
++		else if (using_desc_dma(hsotg) && idx)
++			dwc2_gadget_handle_nonisoc_bna(hs_ep, ints);
+ 	}
  
-+	/*
-+	 * In descriptor DMA the requests sit in the descriptor chain rather
-+	 * than one per frame, so the frame by frame completion below does not
-+	 * apply. The core disables an isochronous endpoint by itself when it
-+	 * meets a descriptor that was not filled in time (BNA). Put such an
-+	 * endpoint back in its initial state and build the chain again from
-+	 * the queue: at once for OUT, on the next NAK for IN. The loop below
-+	 * would move target_frame off TARGET_FRAME_INITIAL, which tells the
-+	 * token handlers that a chain runs: the endpoint then stays disabled
-+	 * for good, and every request queued again goes into a dead chain.
-+	 */
-+	if (using_desc_dma(hsotg)) {
-+		if (!(dwc2_readl(hsotg, epctl_reg) & DXEPCTL_EPENA)) {
-+			hs_ep->target_frame = TARGET_FRAME_INITIAL;
-+			hs_ep->next_desc = 0;
-+			hs_ep->compl_desc = 0;
-+			dwc2_gadget_restart_isoc_out_ddma(hs_ep);
-+		}
-+		return;
-+	}
-+
- 	if (list_empty(&hs_ep->queue)) {
- 		dev_dbg(hsotg->dev, "%s: complete_ep 0x%p, ep->queue empty!\n",
- 			__func__, hs_ep);
+ 	if (dir_in && !hs_ep->isochronous) {
 -- 
 2.56.0
 
