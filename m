@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794768826;
-	b=X4ZlI9mQDIuwOiErbQ3DaWasXPqrRAL9xzD14Ap/JkyCqjai4Tu3YiDvkXfVuPU8e1v8
-	 gAeLpRSE9SjuYKTMS4+Pu5YLEw6+ELZ8U4NLPDZygi4QDUuOBmYS8falvt6Mq2Vwt8lCM
-	 5CErNfpiF12O7AX7jALXEVWZzS8hQJ9j7E0Al7FaD0mERYbAWKR1XNQiXEBSDZq8fIW5D
-	 MqR3k0OW5TnHVm9tIJs1N4Tj0LP6ajtSEfC/yEfzQYdBYhWy04sBwoSja//p2ic/4KR1q
-	 pV3h5lce1uAbKfVZfxmWFQ6HtQ5e6qweF7vV7KuWxsM1lRNkt1aP8b1Ig4Hscv3re3Q==
+	t=1794768827;
+	b=x8OuTKFBr15sPuKm91qIE+mGZVCjvVawPSfkoW52B5bnkKfsBnLQ6UO0LQo/+mkcqtBa
+	 ck7cvrL5rV5RUPowtyYzuacK6/DkxeWe59DesJSr/cA4k46M7+j/tb4ZRFHOHEyQUjj0u
+	 /zdWMLkyS8wgbWKHI3hZuDmIaQT0b91ILXD+2p+hpXubeDxb6eYYgspngBTgq7IyFM98d
+	 e+vMnTZvmSChqNPfAqMAwRWgHL6cyLgmN4670LqCLMquBFm1rzevKzWe3dyxOLitJl74T
+	 fDBvC4TRvTsRxw+ow5ALuKYC+SKpdk5iHdVBCbYeulWMLaRl87Z51ABzjgt3mjUp/MQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794768826;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794768827;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=ze2yB5gk+HNq39+e9lOoLqG+BRZOAZ1FVtK2xhfyPmE=;
-	b=wA7m+orIfzJaRU9mUASQhjOw2gW9LjnR0/vsZOrd8lJKcj9lMJe4QnoWoB3opSRW7pOi
-	 iesbvk4z8XGGmLZdRQp33yQVCcy3k94HnGxLALB6wMOchz+tEttuIYO7zdPi9LVLlROJm
-	 mN6oKQO5D44hEf2nFMCK6LEFqlE3/o7Ftfr1dvPmOlvtuZRSDnWn2ly/CillxFG+pLVWQ
-	 9845Ec89gDGAB4z+T14yjXKU20eYiS0AWb9hEtrF5PNruLpokX6P+Moz0j1vLeFwBuGnG
-	 Wgdm+2zNPsAEJo8X+KrcFWIZzYN+UHuvDU3evVTPugnaabftty4td8a7gn0S+KBrYog==
+	bh=XRhuQlMYzHQu/cSsivJpIzm9mt/nTPkd+5XFG9V8Aww=;
+	b=CnkgfT0IfVtXngyXEvbzb7UlN6r30vQqiurB44y45t0EnJ/CsZY1ijTp0m3ll9XLLiUV
+	 P1tg8fZByQ/2H/evUC1yLPHewEvl6hP7YlC3zjvJ+mUO7WPfZPMGfzpk2mloMr9FXNRrc
+	 /ol44If5pE2w8YOvoiiwGkVZf6lgXI0aByqqgajlKg5cB3BH9oMB6xyvZ6x2lC4imBugu
+	 QGEsvA5+7q2oVwBy5SjKtiWcwr8vQvgcNnrwwpPpFeV5gdnSoUt9bWNd74ZJLX2RV6Ah/
+	 W13yFYZ5InOvo3kvywzaG3SAaob4h8dkaH6U/V8uqQ3THfSb8RgU9wUq1sYeMLkJtpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=yuzi.co;
 	spf=pass smtp.mailfrom=yuzifovich.name;
-	dkim=pass header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=fmYESyMc;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dkim=pass header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b="Qz/OoFVD";
+	arc=none smtp.remote-ip=209.85.128.49
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A41606A339
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 18:53:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6A41606A339
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF593606A33D
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 18:53:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF593606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yuzi.co
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yuzifovich.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=fmYESyMc
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so17019505e9.2
-        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 10:53:45 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=Qz/OoFVD
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a2072b9832so20140975e9.1
+        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 10:53:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yuzi.co; s=google; t=1794768824; x=1795373624; darn=vger.kernel.org;
+        d=yuzi.co; s=google; t=1794768825; x=1795373625; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ze2yB5gk+HNq39+e9lOoLqG+BRZOAZ1FVtK2xhfyPmE=;
-        b=fmYESyMcOcPNBrVIG9pTz/GX40rE7ARFytSuS5HISaCYxWT8ylusIM5to96koZ3uIg
-         1kFPQYg741ZgL2bugckZzNhBUIdlxeKMx4iaB68PqxsXF0LcKS6Wky/WFO8RzvCML+Zj
-         CbTpFPPl25R6QbBBK6ORL0Si1PzhV4x5QfTJA=
+        bh=XRhuQlMYzHQu/cSsivJpIzm9mt/nTPkd+5XFG9V8Aww=;
+        b=Qz/OoFVDqQMRaPKbKcxSvz9uGdYbVzG0xRmKwvqw5qZ6XgELSRG4l3eJ+IMjRAHkAi
+         F2lsYVRUdXmsF87YT6tdcNj63BXq+CA0gmOIUcGmZ9KcVBs2g6ZS0Sqhw1O48l6ylLQb
+         BWhY7Begw+pBgFzgY4wemsLIze6Uh0uO4oQFU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794768824; x=1795373624;
+        d=1e100.net; s=20260707; t=1794768825; x=1795373625;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ze2yB5gk+HNq39+e9lOoLqG+BRZOAZ1FVtK2xhfyPmE=;
-        b=dGtBkCE7KcuhYGF/Fe6oEuXs7eJHLb/ojge1dKemdHQdrJyUktN3+tG5Xn80XBY5ZI
-         ay4HkJQDkLpbl1uTyAqWlCToD5BcJPP18/qho3PYjmQNCLWGdV30jz6W/prS16CfdJgE
-         5ffmPFf5uqePXoey4oz9X243VDiSdQqjrELvI/VXKzfObffIkYvJ/mK6VhhyrWv/PjNe
-         MhLHCzowLIn3W1kX7BIz7z+W1dDlFM+mG9CBgkET2zOY89Cv7NrAjaFt7Im2/XkHzqg7
-         Ie+JRw1aIw2HWc0RLwD/lTzZjZ+mchdR4w5u52sW+e4xT2js5NEjhHYdaGV1DOEU/1z7
-         0Gqg==
-X-Forwarded-Encrypted: i=1; AL+hErGo+NdDgBi9vC6ncmrI0pOUvfd4sy457iS9S21Vuw9bty88Mq/iJpBEgip19slUMPHy91kxH9Pte3E=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9JejlnuKKAMU2Ks6qoVKWApwn5ES+JRPEjI21ZLAWYxJn3iDuA
-	Aig3ZNxtShpNcThCwpss7zI+W7HXmosgTT1csRo9Pd7/JGYE8DRJOtW4h6bAZ4+/WnI=
-X-Gm-Gg: AYBFou3O9r/MNBn24wpuj4MidFqvIf1j6RKVfllsSx8UWn+vxglJnAsD2wMgj3akwiK
-	zdCwY7jgOBQBroycbmERGJ5LMyFFHxhRYgybQyb/gDBtwIc+wKCvITf3zD9QZqsuR6PXbTXxpyN
-	rVjtFBOTdeB9RsJmgGektwFjGBG0dZAkEPQkdYubJVpzq9TuuO4UMMq+8UhUQIHuWxDnWh6v+7E
-	1kW4N+gcA8JrFVhyel6L4mozVJcHOTMVHgMB6uEPF13hxKYHiTIyGuglPsy2P+hzwVeeCWmhFKl
-	2zb0YQbfzuE1JAMsv6klIr6LfYa+XpGamtIArfjzQsfr8Q0gFk+czHVBdEy52+D9Lbk0AoXe/wl
-	8DLqiGwRomZWWoZLvDdc2815rnxqibvuyZmq4gyVGGxqHuVJutOw53Xlh6KxxhiMe/wwSUNZ+9m
-	/fDyvLFryM7c6l1rs4m4rpaE7wb12am4I8XvvvdunTCNrj82S0e+6cqZuCWfVpet2YCz5gxrpRv
-	YnUYzyS+TOxwGAuR64Cgi8ks1ELWTZvbGFU4ed4Q9dKbX/glq0x/gnRa733lSIkbw86MDS+BXcW
-	XYDmf0g8TrGn241+jQN4Vb9IGrxrOBxzlidz5ffeoyYwzGMJzkatLiArb/ys5Cw8qIpsA2J9lKZ
-	sPsfXYWR51/m43rd61JpQ/LMe4pRZTLCM3UMLOAvNKy6zyiTwTMcu39u9C+PMOOXdV2rpDIkcef
-	bt56G71k6bEN8OKA==
-X-Received: by 2002:a05:600c:1c0e:b0:4bb:68e5:b952 with SMTP id 5b1f17b1804b1-4bb68e5bb4amr88504125e9.16.1794768824018;
-        Sun, 15 Nov 2026 10:53:44 -0800 (PST)
+        bh=XRhuQlMYzHQu/cSsivJpIzm9mt/nTPkd+5XFG9V8Aww=;
+        b=shigv45+2I3csQIl/HPJtkTF26QLv5o9jWCICmxh5PuwXWbgRLoUcDtos/Z8OSWPbV
+         H/QCIWslZTE8Ph3IIExFOF/lSxrmrwSBb3+Hc95b5+SWrwwbm/fU7c8ckHZKAhfVxpHT
+         S1e08mBAz5VzY6j85+ACUeLKZPP6emczfMZIS5+V14PaNC0Dv1mJIa7GGiHhsK5Sv+LS
+         /N4ezZdZxHu7s3riXDvo3oCBqOtEQQcgD9SMY7vQzMACFf//xhlxYyf0y1+xXVx9+dMx
+         LHIHxKXYMS8Ca0fVouIzASPnGGaIOOjiwQYTTTga1p/nvHU4nRwJkyve+JDDx7Dj+d50
+         457A==
+X-Forwarded-Encrypted: i=1; AL+hErHHUMjBNorTi/QMUeighrp8g9ZEQtsmW1iNTCXv9+P8LR0OaOD0FgQBuOOWwM4v5ApwxPhtDEquzUQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8Ko0bg0WGcHYGS+cTYU4W5LU1Ji0ACWJaGGyuqiVuuMh0uMUwq
+	JYQciIRonhVn3NIv8QgXYUJwY4qQmW+qtuzy+LMaMv5T/omCvm3K2SyybApRwCqLVt0=
+X-Gm-Gg: AYBFou16H1kAuAkIj1hNA8R5Ph/dxTs+/Z2n8WQoWmTf7ktBtV/4CwtsRuaM4xHRckd
+	nwKTRPjo/zmdv8R5Zgt3FV7Y2zD4OES5qzX24aw9mNjA+sab+LpF9qoTYFmhPIDLezClKNMbH5A
+	uUPsVf8cd7v5GdY9O0Tyts6+WLjLSrUB1RfepajeJyyZ1OTofaOJy6nn6/GeRLTpXU1ZECQIJ8f
+	GlFh7APCSDAqvwIku0UrSpnrkwN/kSIn85jDQA0V7XCywWvOwK7vxlLyxY1lK+KXYc+PMqXG49C
+	YU9P+o7Nk7dv2JF0GaTEUBufQu/lHhOsY8wulrXwQieuGxDHZS7iHVSY0YZwAgyKU2IVKQY473o
+	CMzRQcF4OHAo+TiCX11EDV4FpiAX0D1Fs7BVS2rhXx13URIBgE/MbXYc7ko6FhZkX4RO8rur5yt
+	/7sjWgC8BEJpPOlyYL1MoqWNYMj5X99BOEL+Ba4DZP1akCTlL47eSZD/DLP8MTYHeHANw7VcH5x
+	4VXKhtHZpuohy8JRXMeMGqmeXLE3vtFs0UrgUXcKgH9cRHsEEGGnVsqITqmQNHQv/GEIzAQqyXv
+	QOT829ATQ/U3AkSlXS3i5DQcKy0t08eBAgOR7f4cp0pXODwBMjNqiys+pf3vOK/j1MIrbvUKfMP
+	I2Ng258A+vz6ay+8UjpfGM09op6nbF+WkYUW1EOZA/Btl8j6NsMrU+F4cLYSNtP/sIrcKHCoQg5
+	oQHYFJiM5fM6exuw==
+X-Received: by 2002:a05:600c:8b16:b0:4bb:5d38:259f with SMTP id 5b1f17b1804b1-4bb5d382639mr158238605e9.12.1794768825374;
+        Sun, 15 Nov 2026 10:53:45 -0800 (PST)
 Received: from terra.lan ([78.83.170.221])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2538b9sm508419145e9.1.2026.11.15.10.53.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2538b9sm508419145e9.1.2026.11.15.10.53.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 10:53:43 -0800 (PST)
+        Sun, 15 Nov 2026 10:53:44 -0800 (PST)
 From: Vadim Yuzifovich <vadim@yuzi.co>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
@@ -85,9 +85,9 @@ Cc: Chen-Yu Yeh <chenyou910331@gmail.com>,
 	linux-usb@vger.kernel.org,
 	sophgo@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] usb: dwc2: gadget: restart descriptor DMA bulk and interrupt endpoints after BNA
-Date: Sun, 15 Nov 2026 20:53:34 +0200
-Message-ID: <20261115185335.782678-3-vadim@yuzi.co>
+Subject: [PATCH 3/3] usb: dwc2: gadget: make descriptors visible before the endpoint is enabled
+Date: Sun, 15 Nov 2026 20:53:35 +0200
+Message-ID: <20261115185335.782678-4-vadim@yuzi.co>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261115185335.782678-1-vadim@yuzi.co>
 References: <20261115185335.782678-1-vadim@yuzi.co>
@@ -102,96 +102,104 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In descriptor DMA mode the core raises BNA and disables an endpoint when
-the descriptor it fetches is not marked host ready. For isochronous
-endpoints dwc2 handles that; for bulk and interrupt endpoints it only
-logs the interrupt at debug level. Nothing was transferred and no
-XferCompl follows, so the request stays current, the requests queued
-behind it never start, and the function driver waits for a completion
-that never comes.
+In descriptor DMA mode the core fetches the first descriptor of a chain
+as soon as the endpoint is enabled. dwc2 fills the chain in coherent
+memory and then writes DxEPDMA and DxEPCTL.EPENA with writel(), whose
+barrier orders the earlier stores before the MMIO write. On a Sophgo
+SG2002 (T-Head C906, DWC_otg 4.20a) that is not enough: the core still
+finds a descriptor that is not host ready, raises BNA and disables the
+endpoint, although the descriptor reads host ready, last, short, IOC
+when the interrupt is handled.
 
-On a Sophgo SG2002 (DWC_otg 4.20a) with a video pipeline loading the
-DRAM this happened every minute or two to the bulk IN endpoint of
-f_mass_storage: debugfs showed the endpoint disabled with an 18-byte
-REQUEST SENSE reply current and nothing done, the 13-byte CSW queued
-behind it, and f_mass_storage asleep waiting for its buffer. The host's
-command timed out after 30 s and it reset the port. Read in the BNA
-handler, the descriptor is 0x0e000012: host ready, last, short,
-interrupt on completion, 18 bytes. The chain is written completely
-before the endpoint is enabled, so the core fetched the descriptor
-before the CPU's stores to it reached memory. The next patch closes
-that window on this SoC, but a BNA on such an endpoint should not leave
-it dead on any platform.
+With a host sending TEST UNIT READY to a CD-ROM LUN as fast as it can
+(about 2600 a second, each followed by REQUEST SENSE) and a 1080p60
+H.264 encode loading the DRAM, about 0.8% of transfer starts raised BNA,
+99.5% of them within 20 us of the enable (the latency of the interrupt
+itself), with DxEPDMA still at the head of the chain. Without the
+encode there was none in 254000 commands. BNAs per variant, measured in
+turn on one boot with a diagnostic build, at about 780000 transfer
+starts a minute each:
 
-When a bulk or interrupt endpoint other than EP0 raises BNA, is disabled
-and not halted, start its current request again, which fills the
-descriptor anew. Report the BNA with a rate limited warning instead of
-at debug level: unlike on an isochronous endpoint it is not expected.
+  unchanged                                   6215, 6510
+  mb(), read the last descriptor, mb()           0
+  th.sync.s                                      0
+  udelay(2)                                      2
+  descriptor written as two word stores,
+    status last, dma_wmb() between            3728
+
+Mapping coherent memory non-bufferable on the C906 did not change the
+rate either. So the stores are still on their way to DRAM when the core
+reads, and a load from the descriptor waits for them.
+
+Read the last descriptor of a chain back between two full barriers
+before the endpoint is enabled, for non-isochronous transfers and for
+the start of an isochronous chain. It costs one uncached load per
+transfer. With it there was no BNA in 6.2 million transfer starts under
+the same load, and none in a 60 minute run at 1080p60.
 
 Signed-off-by: Vadim Yuzifovich <vadim@yuzi.co>
 ---
- drivers/usb/dwc2/gadget.c | 41 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ drivers/usb/dwc2/gadget.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-index b0e129061..046b5b045 100644
+index 046b5b045..fe37250fe 100644
 --- a/drivers/usb/dwc2/gadget.c
 +++ b/drivers/usb/dwc2/gadget.c
-@@ -2305,6 +2305,45 @@ static void dwc2_gadget_handle_isoc_bna(struct dwc2_hsotg_ep *hs_ep)
- 	dwc2_gadget_restart_isoc_out_ddma(hs_ep);
+@@ -854,6 +854,27 @@ static void dwc2_gadget_fill_nonisoc_xfer_ddma_one(struct dwc2_hsotg_ep *hs_ep,
+ 	}
  }
  
 +/*
-+ * dwc2_gadget_handle_nonisoc_bna - handle BNA interrupt for bulk and
-+ * interrupt endpoints in descriptor DMA mode.
-+ * @hs_ep: The endpoint, not EP0 and not isochronous.
-+ * @ints: The endpoint interrupts that came with the BNA, for the log.
++ * dwc2_gadget_desc_visible - make descriptors the CPU has just written
++ * visible to the core before it is told to fetch them.
++ * @desc: The descriptor written last.
 + *
-+ * The core raises BNA and disables the endpoint when the descriptor it
-+ * fetches is not marked host ready. The chain of a bulk or interrupt
-+ * endpoint is complete before the endpoint is enabled, and afterwards the
-+ * descriptor reads host ready, so the core read it before the CPU's writes
-+ * to it reached memory. Nothing was transferred and no XferCompl
-+ * follows: the request stays current, the ones queued behind it never
-+ * start, and the function waits until the host gives up and resets the
-+ * port. Start the request again; that fills the descriptor anew.
++ * The core fetches the first descriptor of a chain as soon as the endpoint is
++ * enabled. writel() orders the CPU's earlier stores before that MMIO write,
++ * but on the Sophgo SG2002 (T-Head C906) the stores to coherent memory can
++ * still be on their way to DRAM when the core reads it. The core then finds a
++ * descriptor that is not host ready and raises BNA. Reading the last
++ * descriptor back between two full barriers waits for the stores to land.
 + */
-+static void dwc2_gadget_handle_nonisoc_bna(struct dwc2_hsotg_ep *hs_ep,
-+					   u32 ints)
++static void dwc2_gadget_desc_visible(struct dwc2_dma_desc *desc)
 +{
-+	struct dwc2_hsotg *hsotg = hs_ep->parent;
-+	struct dwc2_hsotg_req *hs_req = hs_ep->req;
-+	u32 epctl_reg = hs_ep->dir_in ? DIEPCTL(hs_ep->index) :
-+					DOEPCTL(hs_ep->index);
-+	u32 epctl = dwc2_readl(hsotg, epctl_reg);
-+	u32 status = hs_ep->desc_list ? READ_ONCE(hs_ep->desc_list[0].status) : 0;
-+	bool restart = hs_req && !hs_ep->halted &&
-+		       !(epctl & (DXEPCTL_EPENA | DXEPCTL_STALL));
-+
-+	dev_warn_ratelimited(hsotg->dev,
-+			     "%s: BNA, DxEPINT %08x DxEPCTL %08x descriptor %08x, %s\n",
-+			     hs_ep->name, ints, epctl, status,
-+			     restart ? "request restarted" : "not restarted");
-+
-+	if (!restart)
-+		return;
-+
-+	hs_ep->req = NULL;
-+	dwc2_hsotg_start_req(hsotg, hs_ep, hs_req, false);
++	/* Order the stores to the chain before the load below. */
++	mb();
++	(void)READ_ONCE(desc->status);
++	/* Finish the load before the MMIO write that enables the endpoint. */
++	mb();
 +}
 +
- /**
-  * dwc2_hsotg_rx_data - receive data from the FIFO for an endpoint
-  * @hsotg: The device state.
-@@ -3257,6 +3296,8 @@ static void dwc2_hsotg_epint(struct dwc2_hsotg *hsotg, unsigned int idx,
- 		dev_dbg(hsotg->dev, "%s: BNA interrupt\n", __func__);
- 		if (hs_ep->isochronous)
- 			dwc2_gadget_handle_isoc_bna(hs_ep);
-+		else if (using_desc_dma(hsotg) && idx)
-+			dwc2_gadget_handle_nonisoc_bna(hs_ep, ints);
+ /*
+  * dwc2_gadget_config_nonisoc_xfer_ddma - prepare non ISOC DMA desc chain.
+  * @hs_ep: The endpoint
+@@ -881,6 +902,7 @@ static void dwc2_gadget_config_nonisoc_xfer_ddma(struct dwc2_hsotg_ep *hs_ep,
+ 	if (!ureq || !ureq->num_sgs) {
+ 		dwc2_gadget_fill_nonisoc_xfer_ddma_one(hs_ep, &desc,
+ 			dma_buff, len, true);
++		dwc2_gadget_desc_visible(desc - 1);
+ 		return;
  	}
  
- 	if (dir_in && !hs_ep->isochronous) {
+@@ -893,6 +915,7 @@ static void dwc2_gadget_config_nonisoc_xfer_ddma(struct dwc2_hsotg_ep *hs_ep,
+ 	}
+ 
+ 	hs_ep->desc_count = desc_count;
++	dwc2_gadget_desc_visible(desc - 1);
+ }
+ 
+ /*
+@@ -1021,6 +1044,9 @@ static void dwc2_gadget_start_isoc_ddma(struct dwc2_hsotg_ep *hs_ep)
+ 	depctl = hs_ep->dir_in ? DIEPCTL(index) : DOEPCTL(index);
+ 	dma_reg = hs_ep->dir_in ? DIEPDMA(index) : DOEPDMA(index);
+ 
++	if (hs_ep->next_desc)
++		dwc2_gadget_desc_visible(&hs_ep->desc_list[hs_ep->next_desc - 1]);
++
+ 	/* write descriptor chain address to control register */
+ 	dwc2_writel(hsotg, hs_ep->desc_list_dma, dma_reg);
+ 
 -- 
 2.56.0
 
