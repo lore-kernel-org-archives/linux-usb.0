@@ -1,57 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794734845;
-	b=26DIO+HK+RMTwY7hlZ5hzqbL7lbjqG/WF7OHN2XpstRV4IsWhwQ5lbu7oA6y/sMUVStK
-	 /dkkzpZXAV7yzVQqQ+7WDz52KBW75HyVcLc4KM49KxJPB6QD0UHQRr1iuNZvvs26OwhX5
-	 oD2Oc/ek7vX8MqTuyuwaNBjU7hFfvhf9v/I1LMsw/9XPwpDfmrS/7yIoYLNqCLBJ3Zfwo
-	 GzteARut0J/6Z8VjlUXyzfpQnHbxlDzk8ZqxRJYhckmJ5jn4P2D6Ih1oA1fSrmcxRhr92
-	 2XtzZopByeF2bkZ+bOY7FY5AdKeqZsR5tY3Hepy1Qo9eo8fEO0mgxRuIsVhrxWMFM0A==
+	t=1794735115;
+	b=Htt9vGrPcXODdCYztoOhAEXvJJEqV4pWNbSczbxMOizv64Cp2GnEr0hBr0o9MxvHQgwE
+	 2P0fyg3+DbkATxZqYjru6S5aPL+gEAIg/lNKngkZHeEkPLC1nDte20YNyq+zDeCEX2+uu
+	 sG9kvdOT/R/uboml/xN0WKi0moJkMCvfJTXI6VCCFEl+CgLsFd86eZk/AMXzeB5sVKtGn
+	 DIzf8wGQPKUduHEt3CC/9rtZVU9KWEQx3CBNymWYohbhTXaxFaMu7/esBOdkxdkcyZ2nS
+	 p9imaXBr0VWbb4Peadfe3DBQH/xfxtLtb8rSts08aq2UEgg6TpwfHBG+0E0NNY+uDbQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794734845;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794735115;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=W17zqz61FvynEh+DK/gx8buxxuah/xJZZsWyf7E6XO4=;
-	b=Nt3pgBwPUBnWgKRIegsewVAIenYO7MPqeIsfrSb9KDEbEeqcWO9oPQdr9W2SboC+VVPY
-	 e2qlPl11SEhk9ct7cz/VJaGi8eCLM7nRsVtjJ+3pN3pdqLs+LBrgTfupjpEf+1VSAZwOZ
-	 D33/Txl2q6v8oYoxPGDPusleopoTQHKRAvFiZAzMNPVqNCarI1poDdU5PGEt2DWsfwhNj
-	 vKyTXUfQeq9Hv9EEAqqLMOWIJhLUU3VRL068zK4IUqutSv2qrpRhTXiwZZTZaeQWnZwhX
-	 b6bFs0l9hibG5GioBaLlCktIWcMN7F7bCELUoTbYND1K+PyPl6ygDMeFtT1pIuYngGg==
+	bh=sGPnELDC28O1ikM1dqyhbHp/uZz8LGTusx0+7Cq6nnw=;
+	b=gyA8ZXWHkAJshdQ9/ajwVheFtSq+zjtsDncluLtlsxlhVcy0EnmDpNFlJvTb4fb472mB
+	 rvJQKPUkHpZVBcfWx14aNGLy5QWV4xulBYnXzRDvQwx/GMvTj6lxLUa36tD3sJFjrZpQf
+	 VO/v0sdmnWKaY+kl3hy9BBt8iMaF5pKnWXmX3atvN8WUYgjsjkksxrupQJCqb2gnArVNq
+	 5ZU3IUcpS0tU001YmLhyLV4UWDHO/zxoHLXrwAfwW5rdosBGcUWtxDftbct6LJOGeLtCb
+	 Bcf+oJSDK7B/49RRlBP4w8F5PqlK0T1adUjNDxhN6AqfFoXVDzgMq7GDOVscfnZFVCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XnDRgV8Z;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KQEUAw97;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9F7606A31A
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 09:27:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E23606A327
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 09:31:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XnDRgV8Z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B0B71F000C4;
-	Sun, 15 Nov 2026 09:27:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KQEUAw97
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BA831F000C4;
+	Sun, 15 Nov 2026 09:31:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794734844;
-	bh=W17zqz61FvynEh+DK/gx8buxxuah/xJZZsWyf7E6XO4=;
+	s=k20260515; t=1794735114;
+	bh=sGPnELDC28O1ikM1dqyhbHp/uZz8LGTusx0+7Cq6nnw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=XnDRgV8Z7Df/XxAK3n7TWTYftKCgslMP9NZY+H7AvqnZYfX6lM4GS0+pvzzrOGe+G
-	 dzpv8/QWROEQT5OL3ptparVk3Dd650ODpqlM8/qQxK7PFPvpvaQ7MXshJZyPMch0iB
-	 tvVxyDk7eTPtzSnUZDCJpjCKe7ugDeX+0F8yTD70nBdbk8xfZ4gmXkNoZTxuGS52ks
-	 LeB9RepcMaxONFmLegucTrCirXLS7WBu1DlWIhz40mAMTwKjlBFtd1FIw8/wpIEbW0
-	 exe4pD51AgLZlno4LgZYNTlP6cxi5Di0W2TrqNDcK3zd3sJFNpWz0+EE3txgnPJXq6
-	 h9dY4UMCOH4pw==
-Message-ID: <sashiko-outbox-215365@kernel.org>
+	b=KQEUAw97CCewZYXlHW+LiVYOsiMgzrN6LCRtKiwxCDf+ulq2Pr0QKdngBbJpSeq/t
+	 J0gJVPjVnbUf5iV39GZ3n7kKBN/VncjnHy0dxfSCGBgxwaO5hYtCCGe+0BACufVq/Y
+	 8haRP1RhiyeNDdgkbZTn9MfD9ou/jI/UOY9o8TaDZOboTXLu4097tmi2fseA7SXkN3
+	 cNI11+Fgrt1GTR+bcp4pGmXk+nVvXrPrZGYNI+G4TyF4anzQTlnh+GQ3wFkBgRqc74
+	 UyXg5tEMmGMHlM1iDMYf+qDX4JHMzK2D+LGYXuHUr8s86WXxoWgfOS0V4Jw0uixYg8
+	 yBy7P20OImIIA==
+Message-ID: <sashiko-outbox-215366@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 2/2] usb: hub: Retry SuperSpeed for a device stuck on
- its USB 2.0 peer
+Subject: Re: [PATCH] net: hso: fix tx skb leak when the device stops
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Arun Iyengar" <aiyengar1990@gmail.com>
+To: "Aibing Chen" <chenaibing@cmss.chinamobile.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261115-usb-port-pairing-v4-2-25d3c9adcc21@gmail.com>
-References: <20261115-usb-port-pairing-v4-0-25d3c9adcc21@gmail.com>
- <20261115-usb-port-pairing-v4-2-25d3c9adcc21@gmail.com>
+In-Reply-To: <20261114093133.465-1-chenaibing@cmss.chinamobile.com>
+References: <20261114093133.465-1-chenaibing@cmss.chinamobile.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2026 09:27:24 +0000
+Date: Sun, 15 Nov 2026 09:31:54 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,185 +59,112 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 3 potential
+Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [High] usb: hub: unnotified and unlocked port reset in
-  hub_reset_peer_child()
-- [Medium] usb: hub: wrong peer disconnect on status error in
-  hub_reset_peer_child()
-- [Medium] usb: hub: concurrent SuperSpeed enumeration before USB 2.0
-  peer disconnect
+- [High] net: hso: race on skb_tx_buf between hso_net_close() and
+  hso_resume()
+- [Low] net: hso: missing Fixes trailer in commit message
 --
 
-commit 86b9ce000f28b25e9610cbbbb687f6dd87200f35
-Author: Arun Iyengar <aiyengar1990@gmail.com>
+commit 759e4b053ce61e8448ad5b49402e8bd576be78fd
+Author: Aibing Chen <chenaibing@cmss.chinamobile.com>
 
-usb: hub: Retry SuperSpeed for a device stuck on its USB 2.0 peer
+> net: hso: fix tx skb leak when the device stops
+>=20
+> hso_net_start_xmit() stashes the skb in odev->skb_tx_buf and stops the
+> queue when hso_get_activity() reports -EAGAIN, which happens when the
+> USB device is suspended or no longer configured.  If the interface is
+> then brought down, or the device is disconnected, that skb is simply
+> left behind: hso_net_close() and hso_free_net_device() never release
+> it, and hso_net_open() clears the pointer, so the skb and its data
+> buffer are leaked.
+>=20
+> Free the pending skb in hso_net_close(), which is also reached from
+> unregister_netdev() on disconnect.
+>=20
+> hso_resume() loses a frame in the same way when the device is still not
+> ready: it passes skb_tx_buf to hso_net_start_xmit() and then clears the
+> pointer unconditionally, so a frame stashed again by that call is never
+> freed.  Clear the pointer before the call instead and let
+> hso_net_start_xmit() stash it again if it has to.
+>=20
+> Reported-by: syzbot+bf62ca9997f43d2fa521@syzkaller.appspotmail.com
+> Link: https://lore.kernel.org/all/6af74e31.fe96acdb.12252b.0009.GAE@googl=
+e.com/
+> Signed-off-by: Aibing Chen <chenaibing@cmss.chinamobile.com>
 
-When a SuperSpeed root hub starts, this commit queues work to reset any
-SuperSpeed-capable non-hub device attached at high speed on a USB 2.0 peer
-port from a different controller, disconnecting the USB 2.0 port if the
-device appears on the SuperSpeed port or restoring it with
-usb_reset_device() otherwise.
+[Severity: Low]
+Should this commit include Fixes tags for the two commits that introduced
+these skb_tx_buf leaks?
 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 199d3f535a891..b56ee90e55f0f 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
+  Fixes: 72dc1c096c70 ("HSO: add option hso driver")
+  Fixes: c213f286f2cf ("[netdrvr] hso: dev_kfree_skb crash fix")
 
-[ ... ]
-
-> @@ -3278,6 +3289,127 @@ static void usb_unlock_port(struct usb_port *port=
-_dev)
->  	__release(&port_dev->status_lock);
->  }
+> diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
+> index 71caa3764b239..03956fa8ee537 100644
+> --- a/drivers/net/usb/hso.c
+> +++ b/drivers/net/usb/hso.c
+> @@ -728,6 +728,13 @@ static int hso_net_close(struct net_device *net)
 > =20
-> +static void hub_reset_peer_child(struct usb_hub *hub, int port1,
-> +				 struct usb_device *peer_hdev, int peer_port1)
-> +{
-> +	struct usb_hub *peer_hub;
-> +	struct usb_device *udev;
+>  	hso_stop_net_device(odev->parent);
+> =20
+> +	/*
+> +	 * A frame stashed by hso_net_start_xmit() will never be transmitted no=
+w,
+> +	 * so drop it instead of leaking it.
+> +	 */
+> +	dev_kfree_skb(odev->skb_tx_buf);
+> +	odev->skb_tx_buf =3D NULL;
 > +
-> +	usb_lock_device(peer_hdev);
-> +	if (hub->quiescing)
-> +		goto out;
-> +	peer_hub =3D usb_hub_to_struct_hub(peer_hdev);
-> +	if (!peer_hub || peer_port1 > peer_hdev->maxchild)
-> +		goto out;
+>  	/* done */
+>  	return 0;
+>  }
+> @@ -3055,12 +3062,13 @@ static int hso_resume(struct usb_interface *iface)
+>  				/* First transmit any lingering data,
+>  				   then restart the device. */
+>  				if (hso_net->skb_tx_buf) {
+> +					struct sk_buff *skb =3D hso_net->skb_tx_buf;
 > +
-> +	udev =3D peer_hub->ports[peer_port1 - 1]->child;
-> +	if (!udev || udev->speed !=3D USB_SPEED_HIGH)
-> +		goto out;
-> +
-> +	if (udev->descriptor.bDeviceClass =3D=3D USB_CLASS_HUB)
-> +		goto out;
-> +
-> +	usb_lock_device(udev);
-> +	if (udev->state !=3D USB_STATE_NOTATTACHED &&
-> +	    udev->bos && udev->bos->ss_cap &&
-> +	    usb_autoresume_device(udev) =3D=3D 0) {
-> +		struct usb_port *port_dev =3D peer_hub->ports[peer_port1 - 1];
-> +		u16 portstatus, portchange;
-> +		int i, ret;
-> +
-> +		dev_info(&udev->dev,
-> +			 "SuperSpeed peer port available, resetting\n");
-> +		/* A second reset hands the EHCI port to its companion */
-> +		usb_lock_port(port_dev);
-> +		ret =3D hub_port_reset(peer_hub, peer_port1, NULL,
-> +				     HUB_ROOT_RESET_TIME, false);
+>  					dev_dbg(&iface->dev,
+>  						"Transmitting"
+>  						" lingering data\n");
+> -					hso_net_start_xmit(hso_net->skb_tx_buf,
+> -							   hso_net->net);
+>  					hso_net->skb_tx_buf =3D NULL;
+> +					hso_net_start_xmit(skb, hso_net->net);
+>  				}
+>  				result =3D hso_start_net_device(network_table[i]);
+>  				if (result)
 
 [Severity: High]
-When a SuperSpeed-capable device stays on the USB 2.0 port (for example,
-when attached through a USB 2.0 cable or when SuperSpeed link training
-fails), does calling hub_port_reset() directly here leave the physical
-device enabled at USB address 0 for a full second without holding
-address0_mutex or notifying bound interface drivers?
+Can hso_net_close() and hso_resume() race on skb_tx_buf and cause a
+use-after-free and double free?
 
-Unlike usb_reset_device() -> usb_reset_and_verify_device(), this reset does
-not invoke driver pre_reset() callbacks, disable USB 2.0 hardware LPM, or
-acquire bus_to_hcd(peer_hdev->bus)->address0_mutex, and passing NULL for
-udev leaves udev->state as USB_STATE_CONFIGURED. While the loop below
-sleeps for 1000 ms polling the SuperSpeed port:
+When hso_net_start_xmit() stashes a frame while the USB device is
+suspended, hso_get_activity() schedules async_get_intf to resume the
+interface.  hso_net_close() runs under rtnl_lock without holding the USB
+device lock, cancelling async_get_intf, or synchronizing with hso_resume():
 
-- peer_port1 is enabled with the device responding to USB address 0, which
-  can collide with concurrent enumeration on an external hub on the same
-  USB 2.0 bus or a reset on another port of peer_hdev.
-- Interface drivers on udev that were just woken by
-  usb_autoresume_device() can submit URBs to udev->devnum while the
-  hardware is unconfigured at address 0, failing with bus errors or timing
-  out in error recovery (such as usb_lock_device_for_reset() while
-  usb_lock_device(udev) is held for over a second).
-- When usb_reset_device(udev) finally runs after the 1 s poll, any
-  pre_reset() callback that communicates with the device will talk to
-  hardware that has already been reset.
+CPU0                              CPU1
+hso_resume()                      hso_net_close()
+  if (hso_net->flags & IFF_UP)
+    skb =3D hso_net->skb_tx_buf;
+                                    clear_bit(HSO_NET_RUNNING, &odev->flags=
+);
+                                    hso_stop_net_device(odev->parent);
+                                    dev_kfree_skb(odev->skb_tx_buf);
+                                    odev->skb_tx_buf =3D NULL;
+    hso_net->skb_tx_buf =3D NULL;
+    hso_net_start_xmit(skb, ...)
+      memcpy(..., skb->data, ...) <-- use-after-free
+      dev_kfree_skb(skb)          <-- double free
 
-> +		for (i =3D 0; !ret && i < 20; i++) {
-> +			msleep(50);
-> +			ret =3D hub->quiescing ? -ENODEV :
-> +				usb_hub_port_status(hub, port1, &portstatus,
-> +						    &portchange);
-> +			if (!ret && (portstatus & USB_PORT_STAT_CONNECTION))
-> +				ret =3D -ENOTCONN;
-> +		}
-> +		if (ret)
-> +			hub_port_logical_disconnect(peer_hub, peer_port1);
-
-[Severity: Medium]
-Can an error while polling the SuperSpeed port cause
-hub_reset_peer_child() to disconnect the high-speed device on peer_hub?
-
-If hub->quiescing becomes set (for instance during system suspend or HCD
-unbind) or usb_hub_port_status(hub, port1, ...) returns an error while the
-device is still attached at high speed on peer_port1, ret is overwritten
-with a negative errno. The if (ret) check then calls
-hub_port_logical_disconnect(peer_hub, peer_port1) and skips
-usb_reset_device(udev), disconnecting the working USB 2.0 device instead
-of restoring it. The same happens if the SuperSpeed port already had a
-connection before peer_port1 was reset.
-
-> +		/* Else hub_wq resets the port again */
-> +		for (i =3D 0; ret =3D=3D -ENOTCONN && i < 20; i++) {
-> +			if (usb_hub_port_status(peer_hub, peer_port1, &portstatus,
-> +						&portchange) ||
-> +			    !(portstatus & USB_PORT_STAT_CONNECTION))
-> +				break;
-> +			msleep(50);
-> +		}
-> +		usb_unlock_port(port_dev);
-> +
-> +		if (!ret)
-> +			usb_reset_device(udev);
-> +		usb_autosuspend_device(udev);
-> +	}
-> +	usb_unlock_device(udev);
-> +out:
-> +	usb_unlock_device(peer_hdev);
-> +}
-
-[Severity: Medium]
-When the device does move to the SuperSpeed port, can it be enumerated and
-bound on hub before the old high-speed udev is disconnected from peer_hub?
-
-hub_reset_peer_child() holds usb_lock_device(peer_hdev) across the reset
-and polling loops without locking the SuperSpeed port
-hub->ports[port1 - 1], and hub_wq allows concurrent work items across ports
-and hubs:
-
-kworker/0 (peer_reset_work)       kworker/1 (hub->events)
-hub_reset_peer_child()
-  usb_lock_device(peer_hdev)
-  hub_port_reset(peer_hub, ...)
-    /* device moves to SS port */
-    hub_port_wait_reset()
-      /* sleeps up to 920 ms */
-                                  hub_event() /* on SS hub */
-                                    port_event(hub, port1)
-                                      hub_port_connect_change()
-                                        hub_port_connect()
-                                          usb_new_device(ss_udev)
-                                          /* binds SS drivers while old
-                                           * HS udev is still bound */
-  hub_port_logical_disconnect()
-    kick_hub_wq(peer_hub)
-  usb_unlock_device(peer_hdev)
-                                  hub_event() /* on peer_hub */
-                                    usb_lock_device(peer_hdev)
-                                    usb_disconnect(&port_dev->child)
-
-Because hub_port_wait_reset() only exits early when
-USB_PORT_STAT_CONNECTION remains set, a device that drops its USB 2.0
-connection during the reset causes hub_port_wait_reset() to poll until
-HUB_RESET_TIMEOUT (920 ms) while holding usb_lock_device(peer_hdev). Even
-after hub_port_logical_disconnect() kicks hub_wq for peer_hub, peer_hub's
-hub_event() cannot acquire usb_lock_device(peer_hdev) to run
-usb_disconnect() until hub_reset_peer_child() finishes, so both the old
-high-speed usb_device and the new SuperSpeed usb_device for the same
-hardware can be bound to drivers at the same time. Locking
-hub->ports[port1 - 1] with usb_lock_port() during hub_reset_peer_child()
-would prevent port_event() on the SuperSpeed hub from enumerating the new
-device until the peer reset work completes.
+If CPU0 clears hso_net->skb_tx_buf just before CPU1 calls dev_kfree_skb(),
+CPU1 frees NULL and finishes closing the device, after which CPU0 calls
+hso_net_start_xmit() and hso_start_net_device() on the stopped device,
+either submitting URBs after close or re-stashing and leaking skb in
+skb_tx_buf.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261115-usb-port-p=
-airing-v4-0-25d3c9adcc21@gmail.com?part=3D2
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114093133.465-=
+1-chenaibing@cmss.chinamobile.com?part=3D1
