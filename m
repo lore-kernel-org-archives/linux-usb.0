@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794739916;
-	b=Die6qgAjggGPVmuhwiqHrCQ46zErYG1rft7CD5jCN+RGawCcDqPoi1KfVpDIC81+L/Mo
-	 XUTk3vQMxPmiIKvHQ6/Ui79LPVCpG6odWVwfCuq3uCQHBH3MtJsWnj6BrvlFfop8T0DnQ
-	 ZlVcSnuhbPt/Sd24t0Fmpedlm6VRNCjc0F0KIxiXGGvlal4/5aj8/O8095VEnaCj2fbvk
-	 nrnI8e83YExguME45+AzCPOkCClB903m/7Za61USVHlloF5N7nRXldl7zfx7/Ee5e/BEj
-	 pO+Fr2DMDvvKWW+ZEQ70ecgMd4/nbMgcf7xxYaPTehezzROiv3nTsyECORcT+owBgXg==
+	b=NmIL1LiXe6WyCNVfIYpmHNj5UepSdOeJpLqkM8YoNGGcLNeaZ17FEmbzfwaZPvSfmb2L
+	 OS7GD/7Ls1WbgW7aDFI9c8tCj/s/GAxQ+uK/ec6MTsoun0BQDiITl1m6sbbbU9AZXNU4P
+	 6p0F7ek7eVs3ZfBxsdD8GhPondG/91CJy+s1e9Lodp6TXDwIuZy7l5bULuVE4lAmvupji
+	 MDEHAmp4UZd5UlKxBRFkgIZvzfpHtasPNHrZU8WX5TBC3b1dhOizKyrkdRd9OD2RZ1orx
+	 bkiTdswfVFxPtLevfDxNHdfJ9U1ZOmQ/R/Gr/FhhHw7JAfjd4/WUgFKaVIu0/t83orQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794739916;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=1QOCy+MvQwz2AaAfRh95ND32y4lKsyWsgmUD9ygXvXk=;
-	b=gSVu+LpR2xyeLTXGM53uwYjbYMLa+q1yeRP3UdIW+PbKP2RzQ/C608ohMfuKqDw1VXmJ
-	 ynRM00RHteh2rY3Jx9pdtmGAjgBEEsG4O0fNQDHtSMaWzks2arKXy6YCfA6oc/I8INkst
-	 jdPK0PCCkqACKuwgoUGgqLFVFG3A4RzdFK5EveA3QzmcWJBbTP1LRB6HR3dKUURxgQUuZ
-	 2w9M3tXWyzmFTp0UGzhGsa6/cT9KBXmCcI2zC9wwWGcsbsw12ZFB9mqzln9v+R2qiUPkU
-	 aV1hMTJeHL2wtlbO8naJ6fazADsNqa/+jJdt8/uA+b47+IBtAjh2gibXJ9qJIfc1+QQ==
+	bh=+wswVxuU4Ma+si7FZTUa60Za0Tti7rGbZM62yqlBz+g=;
+	b=HUNTcZa7SSICGhc+tzZYqRKQarmbmRHXOCU/71EBRT9JHuqlXRW1vVwDzQlUkFwQMmFu
+	 k4tpp0J9iUP0EDQPfsUla8sMxqOqAPp3+CoUB//7TOdLFlf73o88lnzGsF0QP42DE2Qom
+	 XjNezX/Rsjnk3UjqSw8O6Emqrt2x6h+Np/fN7HrAQ5qBkwRG0N5Fl8ZPpcaSvJ+eMXyus
+	 +oLtqAqQz4DCtXIhCS2d5D8L33nmeXA4qiLNkzIN7bVf5SLTgM0Q5q/j8GqhlMZDCv440
+	 lmfSpwTz7fiHKREipr/nEksZmKzCzWhqXorRz8jN2wW5eH9ACM9SEftrqwzPA+VJtiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iIZLsY1E;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AqQwwEZO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B215606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C22606A32E
 	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 10:51:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iIZLsY1E
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDD0E1F000C4;
-	Sun, 15 Nov 2026 10:51:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AqQwwEZO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86A701F000C4;
+	Sun, 15 Nov 2026 10:51:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794739916;
-	bh=1QOCy+MvQwz2AaAfRh95ND32y4lKsyWsgmUD9ygXvXk=;
+	bh=+wswVxuU4Ma+si7FZTUa60Za0Tti7rGbZM62yqlBz+g=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iIZLsY1E9FHLIRwzoWpMBQXXUZfUKvTyve6eN5wGho5kVmVve/84WbpPyVtr4de9X
-	 SoURQJ5zE5q/D9HqDWU53tUPDj6r9awkRiQ9RDne3IenTRLhQGrBhZli82UL4L9Ooh
-	 W0fnglNPEKixujZYPI/XVdGYXs2Zkx+GioXpYj3qtIp+6z/7JTWrVDEHHfwG6c8FEx
-	 E4PwOzmSF2BvZHpcrZ8L2nPXFSn9EUAuobEMLT8kBL2DKNTXgCt6njIlXzMQdHihyW
-	 +JPtd0VwOTSimJ6sinfwjXFa41sfq4/vD4zKrYm8+fpJo4RM0r/uT5mkzGD/NQeaW1
-	 5nXEIm70fZnxA==
-Message-ID: <sashiko-outbox-215421@kernel.org>
+	b=AqQwwEZO2GOxRQK+3kcCeBSKiqe0mjLy1pLLPHjbARoPA85uSKQZjhN/y0ONU6cYl
+	 alB1gR6i525vz4boZlmHTe7HYrGMuK2yoVi+Iu3tVyaYxDYuTp/0EeEQsc5R8JAuFY
+	 p1nlKKRXYmKoT1r3+2rhNNiNZj0go2u5hvq0qX+I7cwm18XZOhcMtOLoq5ToSzynlZ
+	 Iavb8gTkuMZTFlaYO78CnBOA8YEoSEePGLd+8j5cbaMwbMPSgjs0Xpaa/J5nmGOYRR
+	 j9lHFLSMqBF94C2wPqXn7jr+k6DY+AqX+h7SRLS749fDvvnHRlsON6rbD1sBiPQ4/k
+	 l3d/FyyRQBSTQ==
+Message-ID: <sashiko-outbox-215422@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v21 08/13] ax88179_178a: Add AX179A/AX279
- multicast configuration
+Subject: Re: [PATCH net-next v21 09/13] ax88179_178a: Add Suspend/resume
+ support for AX88179A/772D/279
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Birger Koblitz" <mail@birger-koblitz.de>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261114-ax88179a-v21-8-c2d34410bcbe@birger-koblitz.de>
+In-Reply-To: <20261114-ax88179a-v21-9-c2d34410bcbe@birger-koblitz.de>
 References: <20261114-ax88179a-v21-0-c2d34410bcbe@birger-koblitz.de>
- <20261114-ax88179a-v21-8-c2d34410bcbe@birger-koblitz.de>
+ <20261114-ax88179a-v21-9-c2d34410bcbe@birger-koblitz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2026 10:51:55 +0000
+Date: Sun, 15 Nov 2026 10:51:56 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,123 +61,203 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] net: usb: ax88179: unsynchronized AX_RX_CTL updates in
-  ax88179_set_multicast()
+Thank you for your contribution! Sashiko AI review found 5 potential
+issues to consider:
+- [High] net: usb: ax88179_178a: PHY power-cycle in ax88179a_resume()
+  breaks WoL resume
+- [High] net: usb: ax88179_178a: missing MAC address restore in
+  ax88179a_reset()
+- [Medium] net: usb: ax88179_178a: ax88179a_resume() enables PHY and MAC
+  when netdev down
+- [Medium] net: usb: ax88179_178a: dropped error code in
+  ax88179a_resume()
+- [Medium] net: usb: ax88179_178a: unaligned u16 access in
+  ax88179a_reset()
 --
 
-commit f349443476b08db9f2083703ec74ef889b46544c
+commit 5db223d1e5c5523038980ec1d7429f2d0d6d6dd9
 Author: Birger Koblitz <mail@birger-koblitz.de>
 
-ax88179_178a: Add AX179A/AX279 multicast configuration
+ax88179_178a: Add Suspend/resume support for AX88179A/772D/279
 
-This commit updates ax88179_set_multicast() to set AX_RX_CTL_DROPCRCERR
-and conditionally set AX_RX_CTL_IPE based on data->ip_align, and wires it
-up as .ndo_set_rx_mode in ax88179a_netdev_ops.
+This commit adds suspend and resume callbacks for AX88179A, AX88772D, and
+AX88279 devices and dispatches USB driver suspend and resume calls through
+per-device function pointers.
 
-> diff --git a/drivers/net/usb/ax88179_lib.c b/drivers/net/usb/ax88179_lib.c
-> index fa6423f51849e..f27b073e1bccb 100644
-> --- a/drivers/net/usb/ax88179_lib.c
-> +++ b/drivers/net/usb/ax88179_lib.c
-> @@ -319,16 +319,21 @@ int ax88179_set_eeprom(struct net_device *net, stru=
-ct ethtool_eeprom *eeprom, u8
->  void ax88179_set_multicast(struct net_device *net)
->  {
->  	struct usbnet *dev =3D netdev_priv(net);
-> -	struct ax88179_data *data =3D dev->driver_priv;
->  	u8 *m_filter =3D ((u8 *)dev->data);
-> +	struct ax88179_data *data;
-> +	u16 rxctl =3D 0;
-> +
-> +	data =3D dev->driver_priv;
-> =20
-> -	data->rxctl =3D (AX_RX_CTL_START | AX_RX_CTL_AB | AX_RX_CTL_IPE);
-> +	rxctl =3D (AX_RX_CTL_START | AX_RX_CTL_AB | AX_RX_CTL_DROPCRCERR);
-> +	if (data->ip_align)
-> +		rxctl |=3D AX_RX_CTL_IPE;
-> =20
->  	if (net->flags & IFF_PROMISC) {
-> -		data->rxctl |=3D AX_RX_CTL_PRO;
-> +		rxctl |=3D AX_RX_CTL_PRO;
->  	} else if (net->flags & IFF_ALLMULTI ||
->  		   netdev_mc_count(net) > AX_MAX_MCAST) {
-> -		data->rxctl |=3D AX_RX_CTL_AMALL;
-> +		rxctl |=3D AX_RX_CTL_AMALL;
->  	} else if (netdev_mc_empty(net)) {
->  		/* just broadcast and directed */
->  	} else {
-> @@ -349,9 +354,10 @@ void ax88179_set_multicast(struct net_device *net)
->  					AX_MCAST_FLTSIZE, AX_MCAST_FLTSIZE,
->  					m_filter);
-> =20
-> -		data->rxctl |=3D AX_RX_CTL_AM;
-> +		rxctl |=3D AX_RX_CTL_AM;
->  	}
-> =20
-> +	WRITE_ONCE(data->rxctl, rxctl);
->  	ax88179_write_cmd_async(dev, AX_ACCESS_MAC, AX_RX_CTL,
->  				2, 2, &data->rxctl);
->  }
 > diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179=
 a_devices.c
-> index 4207d2cc2b865..a6b0a3f47118c 100644
+> index a6b0a3f47118c..01d6a35f68b2c 100644
 > --- a/drivers/net/usb/ax88179a_devices.c
 > +++ b/drivers/net/usb/ax88179a_devices.c
-> @@ -678,6 +678,7 @@ static const struct net_device_ops ax88179a_netdev_op=
-s =3D {
->  	.ndo_set_mac_address	=3D ax88179_set_mac_addr,
->  	.ndo_validate_addr	=3D eth_validate_addr,
->  	.ndo_eth_ioctl		=3D ax88179a_mii_ioctl,
-> +	.ndo_set_rx_mode	=3D ax88179_set_multicast,
->  	.ndo_set_features	=3D ax88179a_set_features,
->  	.ndo_vlan_rx_add_vid	=3D ax88179a_vlan_rx_add_vid,
->  	.ndo_vlan_rx_kill_vid	=3D ax88179a_vlan_rx_kill_vid,
+[ ... ]
+> @@ -126,6 +128,63 @@ static void ax88179a_status(struct usbnet *dev, stru=
+ct urb *urb)
+>  	phylink_mac_interrupt(data->phylink);
+>  }
+> =20
+> +static int ax88179a_suspend(struct usb_interface *intf, pm_message_t mes=
+sage)
+> +{
+> +	struct usbnet *dev =3D usb_get_intfdata(intf);
+> +	struct ax88179_data *priv;
+> +	u8 tmp8 =3D 0;
+> +	u16 tmp16;
+> +	int ret;
+> +
+> +	priv =3D dev->driver_priv;
+> +	ax88179_set_pm_mode(dev, true);
+> +
+> +	if (netif_running(dev->net)) {
+> +		rtnl_lock();
+> +		phylink_suspend(priv->phylink, !!priv->wolopts);
+> +		rtnl_unlock();
+> +	}
+[ ... ]
+> +static int ax88179a_resume(struct usb_interface *intf)
+> +{
+> +	struct usbnet *dev =3D usb_get_intfdata(intf);
+> +	struct ax88179_data *ax179_data;
+> +	u8 reg8 =3D 0;
+> +	int ret;
+> +
+> +	ax179_data =3D dev->driver_priv;
+> +	ax88179_set_pm_mode(dev, true);
+> +
+> +	ret =3D ax88179_read_cmd(dev, AX88179A_PHY_POWER, 0, 0, 1, &reg8);
+> +	if (ret < 0)
+> +		goto err_out;
+> +
+> +	if (!(reg8 & AX_PHY_POWER)) {
+> +		reg8 =3D AX_PHY_POWER;
+> +		ax88179_write_cmd(dev, AX88179A_PHY_POWER, 0, 0, 1, &reg8);
+> +		msleep(250);
+> +	}
+> +	ax88179_write_cmd(dev, AX_FW_MODE, AX_FW_MODE_179A, 0, 0, NULL);
+> +
+> +	/* Now, that AX_FW_MODE_179A is enabled, the PHY needs a power-cycle.
+> +	 * PHY-power is re-enabled in ax88179a_reset()
+> +	 */
+> +	ax88179_write_u8(dev, AX88179A_PHY_POWER, 0, 0, 0);
+> +	msleep(250);
+> +
+> +	ax88179a_reset(dev);
 
-[Severity: Medium]
-Can ax88179_set_multicast() race with ax88179a_mac_link_up() when writing
-AX_RX_CTL?
+[Severity: High]
+Does power-cycling the PHY in ax88179a_resume() break resume when
+Wake-on-LAN is enabled?
 
-ax88179_set_multicast() runs in BH context under netif_addr_lock_bh(),
-while phylink runs ax88179a_mac_link_up() in process context without any
-shared lock:
+When priv->wolopts is non-zero, phylink_suspend(priv->phylink, true) sets
+PHYLINK_DISABLE_MAC_WOL and leaves the PHY running instead of calling
+phylink_stop().  ax88179a_resume() then writes 0 to AX88179A_PHY_POWER and
+calls ax88179a_reset(), which wipes all volatile PHY registers, drops the
+physical link, and skips phylink_start() because ax179_data->in_pm is set.
+When phylink_resume() runs next, it sees PHYLINK_DISABLE_MAC_WOL and takes
+the MAC WoL branch instead of calling phylink_start() -> phy_start():
 
-drivers/net/usb/ax88179a_devices.c:ax88179a_mac_link_up() {
-	/* Stop RX/TX for link configuration */
-	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, AX_RX_CTL_STOP);
-	...
-	mutex_lock(&ax179_data->medium_status_mutex);
-	if (dev->net->mtu > 1500)
-		mode |=3D AX_MEDIUM_JUMBO_EN;
-	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, mode);
+drivers/net/phy/phylink.c:phylink_resume() {
+    ...
+	if (test_bit(PHYLINK_DISABLE_MAC_WOL, &pl->phylink_disable_state)) {
+		...
+		phylink_mac_initial_config(pl, true);
 
-	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, READ_ONCE(ax179_data->=
-rxctl));
-	mutex_unlock(&ax179_data->medium_status_mutex);
+		/* Re-enable and re-resolve the link parameters */
+		phylink_enable_and_run_resolve(pl, PHYLINK_DISABLE_MAC_WOL);
+	} else {
+		phylink_start(pl);
+	}
 }
 
-WRITE_ONCE() and READ_ONCE() only protect the in-memory ax179_data->rxctl
-load and store, not the USB control transfers to AX_RX_CTL:
+Because phy_start() is never called after the PHY power-cycle, phylib never
+re-runs phy_config_aneg() to restore user-configured link modes, EEE, or
+AX88279 2.5G advertisement, and phylink_resolve() immediately reports
+carrier on from the stale pre-suspend pl->phy_state.link while the reset
+PHY is still down.
 
-CPU0 (kworker)                        CPU1 (<softirq>)
-ax88179a_mac_link_up()
-  val =3D READ_ONCE(ax179_data->rxctl)
-                                      ax88179_set_multicast()
-                                        WRITE_ONCE(data->rxctl, rxctl)
-                                        ax88179_write_cmd_async(..., AX_RX_=
-CTL, ...)
-                                          usb_submit_urb()
-  ax88179_write_u16(..., AX_RX_CTL, val)
-    usb_control_msg()  <-- overwrites AX_RX_CTL with stale val
+[Severity: Medium]
+Does calling ax88179a_reset() unconditionally in ax88179a_resume() power on
+the PHY and enable MAC receive even when the interface is down?
 
-This leaves the hardware AX_RX_CTL filter out of sync with data->rxctl
-when RX mode updates (such as IPv6 MLD joins during interface bring-up)
-overlap with link resolution.  In addition, if ax88179_set_multicast()
-runs while ax88179a_mac_link_up() is between writing AX_RX_CTL_STOP and
-restoring AX_RX_CTL at the end of link setup, its asynchronous write sets
-AX_RX_CTL_START and re-enables RX in the middle of MAC and bulk-in queue
-reconfiguration.
+When !netif_running(dev->net), the PHY was suspended or powered off by
+ax88179a_init_phy() or ax88179a_stop().  Running ax88179a_reset() during
+resume writes AX_PHY_POWER to AX88179A_PHY_POWER (clearing BMCR_PDOWN in
+the freshly power-cycled PHY while phydev->suspended remains true in
+software) and enables AX_RX_CTL_START and AX_MEDIUM_RECEIVE_EN, leaving the
+link and receiver active while the interface is administratively down.
+
+> +
+> +err_out:
+> +	if (netif_running(dev->net)) {
+> +		rtnl_lock();
+> +		phylink_resume(ax179_data->phylink);
+> +		rtnl_unlock();
+> +	}
+> +
+> +	ax88179_set_pm_mode(dev, false);
+> +
+> +	return usbnet_resume(intf);
+> +}
+
+[Severity: Medium]
+When ax88179_read_cmd() fails in ax88179a_resume() and jumps to err_out,
+does returning usbnet_resume(intf) discard the negative error code in ret
+and resume phylink on uninitialized hardware?
+
+[ ... ]
+
+> @@ -1055,9 +1166,13 @@ static int ax88179a_reset(struct usbnet *dev)
+>  	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_SWP_CTRL, 1, 0);
+>  	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_TX_HDR_CKSUM, 1, 0);
+> =20
+> -	/* Read MAC address from DTB or asix chip */
+> -	ax88179_get_mac_addr(dev);
+> -	memcpy(dev->net->perm_addr, dev->net->dev_addr, ETH_ALEN);
+> +	/* Read MAC address from DTB or asix chip, except when called
+> +	 * from resume context.
+> +	 */
+> +	if (!ax179_data->in_pm) {
+> +		ax88179_get_mac_addr(dev);
+> +		memcpy(dev->net->perm_addr, dev->net->dev_addr, ETH_ALEN);
+> +	}
+
+[Severity: High]
+When ax88179a_reset() is called from ax88179a_resume() with
+ax179_data->in_pm set, does skipping ax88179_get_mac_addr() leave the
+AX_NODE_ID register unprogrammed if the chip was reset or lost power?
+
+ax88179_get_mac_addr() is the only place in the reset path that writes
+dev->net->dev_addr to AX_NODE_ID.  Without an else branch writing
+dev->net->dev_addr to AX_NODE_ID during resume, a custom, Device Tree, or
+random fallback MAC address is lost in hardware after reset_resume or a
+power-loss suspend, causing the unicast filter (AX_RX_CTL_AP) to drop
+frames for dev->net->dev_addr.
+
+[Severity: Medium]
+In ax88179a_reset(), which is now also called from ax88179a_resume(), can
+dereferencing tmp16 fault on architectures that trap unaligned accesses?
+
+ax88179a_reset() aliases tmp16 to a 1-byte-aligned stack array (u8 buf[5])
+and dereferences it as a u16 when writing AX_MEDIUM_STATUS_MODE:
+
+drivers/net/usb/ax88179a_devices.c:ax88179a_reset() {
+	struct ax88179_data *ax179_data =3D dev->driver_priv;
+	u16 *tmp16;
+	u8 buf[5];
+	u16 rxctl;
+	u8 *tmp;
+
+	tmp16 =3D (u16 *)buf;
+    ...
+	*tmp16 =3D AX_MEDIUM_RECEIVE_EN | AX_MEDIUM_TXFLOW_CTRLEN |
+		 AX_MEDIUM_RXFLOW_CTRLEN | AX_MEDIUM_FULL_DUPLEX;
+	if (!ax179_data->is_ax88772d)
+		*tmp16 |=3D AX_MEDIUM_GIGAMODE;
+	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, tmp16);
+    ...
+}
+
+Using a u16 local variable or ax88179_write_u16() would avoid the unaligned
+access.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114-ax88179a-v=
-21-0-c2d34410bcbe@birger-koblitz.de?part=3D8
+21-0-c2d34410bcbe@birger-koblitz.de?part=3D9
