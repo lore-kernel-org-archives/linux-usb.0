@@ -1,57 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794739919;
-	b=qswDNzXIApod3c8NyGheLZSQZTCt6+q/NcXDeC6vfxHdWbBfPmdr1lgbndub+HhMhohq
-	 8OCMiSxDgefjFRoMMtp3yd3r/CESRIIBcYusGyMJCxPnsR65JJIzBzGw8CgnpVMEfNc1d
-	 O8oouhodAtvkh2wvp4tN7JPCeFmuyz35ri1Eel3y6j5QuWWDkLpnqOPTQLBTZ/l7xSzka
-	 4Q7khvWK+yPfUe6zRgqqhCsnkv2NqdxkOKl2rnpBh1136Mntv3Zm8uzjxrE9k9qd0YVfL
-	 xjIZ/AS6Lyeh4LQDlLw5FXJUVv1/JPkhHZDMGnb4Ukul0EJ1y+M1rubRyG35lmPj5cA==
+	t=1794743271;
+	b=BdK9H1y+HNRqD/jOpQfiJ8CK50RxEZMCjwgIS48DNkylfGZf+h7yYt+dLR/rohWShFPk
+	 wfY+Vi1XUiR4xQoz/9dl0reIiXKOG5wLW7gkB4jYbbvKAp0onbjRpWAq3h6DDbAxHfbTR
+	 5/PaQlaVaf7TtFwba6zsHiW9KlQbLjzo0EerdKKIi48ZFuJLc3WH+ltRAnMLBo+gAqRpL
+	 ov61lFfeKEVmTbros4bY5hLqTBfdHKhysZz363XUX2UJKA7MroJWDEdJE++rHrOfqDHYG
+	 NlZSY4qxT1OqOgEdTD541oNseZI8+FDCzpXM+gOKg5I+2qmGEiQp5Da0bFa+VHsozfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794739919;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=rLzude81vRNVy2ltMpNyG08hR0y+QRHcJQpLmR6bRA0=;
-	b=Ki3ddfi5xavGsgcxvABl7IXa8txdX3TigIRIWJTpPES1TlSamJdWLuENgVGQV7RnHG8n
-	 ppBg47R9aZ+wxdtqulvcNAc1atUTIQ02cOi1496P3j0eAWgeyHpqp9lGmRDZE3YYuCDpd
-	 Bn7jSKE7y/aIZFXMafW3bn46H5oOIH6NRgetW4yLXijZ2iE2qS0A7aV9NuDKu9BpGICRq
-	 E9UArsp8/ASljfVE4VK3SkhbNblU6l0/SGwRe8DDaIDVnisXnBH09TglecPlASjikHIK/
-	 Nr+ejaQhaRvVlXJrF1qx39i/vh+y888hxo/8w7I3uettJkibSLizOSSqlB0HJBJVQRw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794743271;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=dUUoDFkPJkBg6tiiX+gwUNqdlWB0vRGU4J1TlhHh7ZE=;
+	b=iuKSIOwNdjXAi2+nKsqu7pIfpzXuLtuj3wXCa1g9MN5BFnFnH+efqOzfUtJXvT2zUGGl
+	 V9IfHEzKQzynFa9Fuo1ssXUF+7C+Eoevg9R/uDVp3b207QzEgfuu6a4+z5JoRhmzh2QN0
+	 9vJY2NJZgqRfrAE94UuSb7lSNUhcz8q8wGqjWRw5n7k7BXCLYZBSkg22ZgvSiHJnnwpNY
+	 2bXzqhTqJYzU82V3hEswRLXZDMXOPwMPocN2bf1yYrFAEINhs1DN1LNIND4gakdX7BwOF
+	 /NBQXI11IeC+qk96wRGrOuIRB815lx2fweUabl5k2cTyNpurMwEGTlfjb0o79097iFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O2RPwIsB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O5UCROmp;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7F4606A33A
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 10:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C6D606A32E;
+	Sun, 15 Nov 2026 11:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O2RPwIsB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A4411F000C4;
-	Sun, 15 Nov 2026 10:51:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O5UCROmp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF671F000C4;
+	Sun, 15 Nov 2026 11:47:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794739919;
-	bh=rLzude81vRNVy2ltMpNyG08hR0y+QRHcJQpLmR6bRA0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=O2RPwIsBGGllmI3hcPnYK23Jn2+rNExlCf94DdU3Xm/ocJVzpOEKn24BnM8wNDhVX
-	 CIOsPyY8yb2VFeDYGsas1BnvLixiX9UUdx8oKp7iA/RTAj18yfa+MMaX1vpwoIFynF
-	 tcp6VBxHKN0d8BbcCo2+hMX2trvgfqrb+z5+PSgvQpefhg7GYP3GGnD08iqVlvl/hr
-	 l1y3arFd8iV++33wE4W5NvIEqEO9GY9gb2w+GoNnCBApPfuHdIMdlHo1ptIAqKrcHD
-	 mkGOS8QVS6sEdCgk0SqLLmKBJ4lUmgGdVWlNvloMwOn+lsGq1ng6dORLc4MEIQAo0Q
-	 qsc2Er/p0PeTA==
-Message-ID: <sashiko-outbox-215426@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v21 13/13] ax88796b: Add support for AX88772D,
- AX88179A and AX88279
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Birger Koblitz" <mail@birger-koblitz.de>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261114-ax88179a-v21-13-c2d34410bcbe@birger-koblitz.de>
-References: <20261114-ax88179a-v21-0-c2d34410bcbe@birger-koblitz.de>
- <20261114-ax88179a-v21-13-c2d34410bcbe@birger-koblitz.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2026 10:51:58 +0000
+	s=k20260515; t=1794743270;
+	bh=dUUoDFkPJkBg6tiiX+gwUNqdlWB0vRGU4J1TlhHh7ZE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=O5UCROmpYOxPof//EVMXlzhE8CwpBAuLxySuhjVJTwgdWIcUjDEHfxQDjag+uTRua
+	 Z+qDIjnj4mqHBNrUw8Ko1zjkZMcqAeFq8ldvZlzCVbByFB+ptCuml13g6R68XiAcOc
+	 tTmUPUcRTu4mDvyiHtXFi/q4pZoMhhtkVDTdv1WqLRxEzoDBelkcsk5jYXJt2EAUob
+	 xjg6qsjtw4gR2WGGuYhHVN3Y9VjEoACQTHM3FtneMm5yNVilA99bE1xWageT1rHDiS
+	 UNAqlNNFNjgatsQNOofsxEUu3m18tcJw6JldfrHIojxyBAVmlXl979klg5KOmmNJfI
+	 Ivyq26TJMKVYg==
+Date: Sun, 15 Nov 2026 12:47:41 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Chris Down <chris@chrisdown.name>, linux-fsdevel@vger.kernel.org, 
+	Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, 
+	Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, driver-core@lists.linux.dev, linux-mm@kvack.org, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	ocfs2-devel@lists.linux.dev, linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-usb@vger.kernel.org, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v2 33/42] fs: add file_check_backing()
+Message-ID: <20261115-boxen-mundschutz-jacht-0ab871beca58@brauner>
+References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
+ <20261114-work-loop-pseudo-v2-33-98639a2286fb@kernel.org>
+ <20261114120557.4bc1eb6e57218cdc@chrisdown.name>
+ <CAOQ4uxhGxpBtMZ5kfuzR1tQAewiecoX7UjXQRo91QjJHH9T_Yw@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,124 +68,71 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxhGxpBtMZ5kfuzR1tQAewiecoX7UjXQRo91QjJHH9T_Yw@mail.gmail.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] net: phy: ax88796b: broken 2.5G LPA and pause in
-  asix_ax88279_read_status()
---
+On Sun, Nov 15, 2026 at 12:19:57AM +0100, Amir Goldstein wrote:
+> On Sat, Nov 14, 2026 at 9:06 PM Chris Down <chris@chrisdown.name> wrote:
+> >
+> > Hi Christian,
+> >
+> > Christian Brauner writes:
+> > >+      /* Look through stacking filesystems at the inode with the data. */
+> > >+      if (d_real_inode(file->f_path.dentry)->i_sb->s_iflags & SB_I_PSEUDO)
+> > >+              return -EINVAL;
+> >
+> > This looks good in general, but what the bots said about O_PATH files
+> > here is real. With FMODE_PATH this is reached for a file that was never
+> > opened, so on overlayfs nothing has been through ovl_open() to look up
+> > the lowerdata of a metacopy file yet. ovl_d_real() then does the lookup
+> > itself, and when that fails it hits the WARN(1) at its end and returns
+> > the overlayfs dentry, so the check passes as well.
+> >
+> > Only fuse passes FMODE_PATH, so it takes CAP_SYS_ADMIN to get there, but
+> > it's easy to trigger with that. From a quick test with a metacopy file
+> > whose redirect into a data-only layer points at nothing, registering an
+> > O_PATH fd of it with FUSE_DEV_IOC_BACKING_OPEN gives
+> >
+> >      ovl_d_real(/f, 0): real dentry not found
+> >      WARNING: fs/overlayfs/super.c:79 at ovl_d_real+0xc9/0x210
+> >      [...]
+> >       file_check_backing+0x308/0x5e0
+> >       fuse_backing_new+0x219/0x4a0
+> >       fuse_backing_open+0xe8/0x390
+> >       fuse_dev_ioctl+0x53a/0x7d0
+> >
+> > and the ioctl still succeeds. A normal open of that file fails with
+> > ENOENT, so nothing could have used it as a backing file anyway, but with
+> > panic_on_warn this is now a panic.
+> >
+> > Maybe ovl_d_real() should just stop warning when the lookup fails, now
+> > that it has a caller that isn't trace_uprobe?
+> 
+> Yeh I guess that this needs to be a Fixes for lazy data lookup.
 
-commit bae79c8bab2ee5c87d5267f24efcefa71548bd4c
-Author: Birger Koblitz <mail@birger-koblitz.de>
+I have a fix for that.
 
-ax88796b: Add support for AX88772D, AX88179A and AX88279
+> The correct fix would be to teach all the callers to deal with an error.
 
-This commit adds PHY driver support for the ASIX AX88772D (100Mbps),
-AX88179A (1Gbps), and AX88279 (2.5Gbps) internal Ethernet PHYs.
+I've also implemented that. It wasn't that hard and it's also a bug. Not
+a bad one but still.
 
-> diff --git a/drivers/net/phy/ax88796b.c b/drivers/net/phy/ax88796b.c
-> index f20ddf6491499..0df44e0e236ab 100644
-> --- a/drivers/net/phy/ax88796b.c
-> +++ b/drivers/net/phy/ax88796b.c
+> > The check would still pass
+> > for an O_PATH file whose lowerdata couldn't be looked up at that point,
+> > though.
+> 
+> One observation relevant to this patch set is that a datadir layer has no
+> business being a pseudo fs and that can and should be blocked explicitly
+> at overlayfs mount time.
 
-[ ... ]
+I agree.
 
-> @@ -83,6 +96,107 @@ static int asix_ax88772a_read_status(struct phy_devic=
-e *phydev)
->  	return 0;
->  }
-> =20
-> +static int asix_ax88279_read_status(struct phy_device *phydev)
-> +{
-> +	int ret, val;
-> +
-> +	ret =3D genphy_read_status(phydev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!phydev->link)
-> +		return 0;
-> +
-> +	/* Read actual speed from vendor register */
-> +	val =3D phy_read(phydev, AX_CTRL_STATUS);
-> +	if (val < 0)
-> +		return val;
-> +
-> +	switch (val & AX_CTRL_STATUS_SPEED_MASK) {
-> +	case AX_CTRL_STATUS_SPEED_2500:
-> +		phydev->speed =3D SPEED_2500;
-> +		break;
-> +	case AX_CTRL_STATUS_SPEED_1000:
-> +		phydev->speed =3D SPEED_1000;
-> +		break;
-> +	case AX_CTRL_STATUS_SPEED_100:
-> +		phydev->speed =3D SPEED_100;
-> +		break;
-> +	case AX_CTRL_STATUS_SPEED_10:
-> +		phydev->speed =3D SPEED_10;
-> +	}
-> +
-> +	/* MDIO_AN_10GBT_STAT_LP2_5G is broken, but we can deduce that
-> +	 * the link-partner advertised 2500M if remotely AN succceded
-> +	 * for link speed > 1000M and we locally have a link speed of
-> +	 * 2500M
-> +	 */
-> +	linkmode_clear_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, phydev->lp_adv=
-ertising);
-> +	val =3D phy_read_mmd(phydev, MDIO_MMD_AN, MDIO_AN_10GBT_STAT);
-> +	if (val >=3D 0 && val & MDIO_AN_10GBT_STAT_REMOK) {
-> +		linkmode_mod_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT,
-> +				 phydev->lp_advertising,
-> +				 phydev->speed =3D=3D SPEED_2500);
-> +	}
-> +	/* Only supports full duplex */
-> +	phydev->duplex =3D DUPLEX_FULL;
-> +
-> +	/* PHY switches interface between 2.5GBit and slower modes */
-> +	if (phydev->speed =3D=3D SPEED_2500)
-> +		phydev->interface =3D PHY_INTERFACE_MODE_2500BASEX;
-> +	else
-> +		phydev->interface =3D PHY_INTERFACE_MODE_SGMII;
-> +
-> +	return 0;
-> +}
+> The other observation is that fuse_passthrough_open() should probably
+> check the backing_file that was opened for io in addition to checking
+> in fuse_backing_open(), which could have different FMODE and specifically
+> could be FMODE_PATH.
 
-[Severity: Medium]
-Does updating phydev->lp_advertising and phydev->duplex after
-genphy_read_status() leave pause resolution and 2.5G link-partner
-advertising broken?
-
-genphy_read_status() resets phydev->duplex to DUPLEX_UNKNOWN and
-phydev->pause / phydev->asym_pause to false, then calls
-phy_resolve_aneg_linkmode().  When 2500baseT_Full is the only common
-advertised speed mode (for example, when local advertisement is restricted
-to 2500baseT/Full via ethtool), ETHTOOL_LINK_MODE_2500baseT_Full_BIT is not
-yet set in phydev->lp_advertising during genphy_read_status(), so
-phy_caps_lookup_by_linkmode() fails and phydev->duplex remains
-DUPLEX_UNKNOWN when phy_resolve_aneg_pause() runs:
-
-drivers/net/phy/phy-core.c:phy_resolve_aneg_pause() {
-	if (phydev->duplex =3D=3D DUPLEX_FULL) {
-		phydev->pause =3D linkmode_test_bit(ETHTOOL_LINK_MODE_Pause_BIT,
-						  phydev->lp_advertising);
-		phydev->asym_pause =3D linkmode_test_bit(
-			ETHTOOL_LINK_MODE_Asym_Pause_BIT,
-			phydev->lp_advertising);
-	}
-}
-
-Setting phydev->duplex =3D DUPLEX_FULL later without calling
-phy_resolve_aneg_pause(phydev) leaves negotiated pause flow control
-disabled.
-
-Also, returning early on !phydev->link before clearing
-ETHTOOL_LINK_MODE_2500baseT_Full_BIT leaves that bit stale in
-phydev->lp_advertising when a 2.5G link drops, because genphy_read_lpa()
-only clears Clause 22 MII_LPA and MII_STAT1000 bits.  Finally, if
-phy_read_mmd(phydev, MDIO_MMD_AN, MDIO_AN_10GBT_STAT) returns a negative
-error, the error is ignored rather than returned to
-phy_check_link_status().
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114-ax88179a-v=
-21-0-c2d34410bcbe@birger-koblitz.de?part=3D13
+Sounds good.
