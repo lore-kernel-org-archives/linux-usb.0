@@ -1,100 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794774913;
-	b=zb1YlL1uvMGhpJ22OfzBA/3zdTAHl97N93Hs9K+SX9BZq78zGYvwsYRs4P61BZ11LZWE
-	 GlwHyD80dv2/UOXg3V9pcHURbUPVD0Gs7LMp5gntwcxM96soAnQI1W8eYUvAoLl80A4JC
-	 dT/5lHjPwG6GvC8oeGMnL8b7jYDBDQQDw5x+nnMguiWXwYIPnnrD3GfjldSGTj/U2WoE8
-	 BoWdgmfh9J4MtBXK/rfHjDjBGmqKfaIoeBGkJzgimQ9kCyTbao/TatV+NS68z1F/GK1v6
-	 8e0JFqOCgf/KgFN/6yR74sP7wpFz3jzR2PRAV3m0ist+rdAjHUglBE4AZ7kj3dVuZ/Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794774913;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.45
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794776094;
+	b=BSRehF5DBBt6NKtoBmepNQlwrhKb80XP1NNp4lqQN2kXXLWEfV5+zDvn+HECLVGSsBsY
+	 9CKkNQdMjQAqDahJ/WMaAwo9a2FVictNcXYWV6aVxxvL0gnYSh/hjLrJRaNNtzqGb0xMD
+	 OSr8JPMHZs3BOll9R0rkax8UFnMauluTSzXHETyizYFO/keNPujGnEGDWWX6L/uQr+LLO
+	 WXS89FQ65T+81x3Js3pz4ziZIHpSX67LqOm5+wn//AgUQbtX//CVz8fkICXMbx1JXU5d6
+	 BIZQ4dMbw/+OGyf7VkGC37eim+cGbLO6OB2U+dt1eIqZTcec/8oE9we1ykZCw+GLEvg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794776094;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=hfoGaPOvarXU+50W/KFhlCJQD8hal54gXW4WmBlLFMM=;
-	b=mn7MH2Uoqb7rX/hiW43MXseaeZI7UdB+eGz+0uf+FV9cwFoT0vnx8aBizavYiyEUMFY8
-	 i5W9yDimypReiTG6LZjIQEOMBM1w8k2V7fY/GUAespSq5CWwIYtDpwO+kWMSqjCPR7m7w
-	 WzDAgdGf2SPHmWma1+vHXUNWQz3v7nS3wWXTzxhE9B30GAY4QZukMecv6c3l6jOE5xuvQ
-	 fLhx9Kn3XSY0tLJ3aWNF9Inwwt9YW5ht6/MUMGWsuNfGPrtGtdM0lXVXFVdIUurMN5ZST
-	 K+ObscSqoEsUY0zY5y55IPn/iv5KUfvUQj9JWbDVW1IDTg5lKXXlg8C2BbKS8S5R7vA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=googlemail.com;
-	spf=pass smtp.mailfrom=googlemail.com;
-	dkim=pass header.d=googlemail.com header.i=@googlemail.com header.a=rsa-sha256 header.s=20260707 header.b=TzBK7im3;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.45
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=5wFpVgBaX15hNB+JUEr5KOqaRCNt7BuzJdvHmQYhEuw=;
+	b=ZVct0arEp4JFiEH/gP7qAQ6kJdP90ouOje7kUZSM51WdYNTdvEOyp2UR+7cUZ71pxc9Z
+	 sIQCksGZLcwe6x6dY3HDJ00WL1VDjplTdmlCpoORBATHg7nflVTx0L/pdhMvhzvMdk9Kc
+	 wZAHfbK7bX8IlF3we986qT1pq4r3nCuu26IGWF5lKvgaNOArgNkrZoszRL9JXzS9drr1a
+	 ixSFOCyzjdE9oKCypXIda6x6PujSovgiGhXkfcKBNy0qlaqigWhLxB2H+lr4BNsdb3dBv
+	 YAcDWpmQ5QI55lGaR7yr0cQ9sRKo+MUXpSxLTjq80pfNbp7WIWLzRh/LLLws1Gxsn4A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=PdYVAMIY;
+	arc=none smtp.remote-ip=209.85.219.45
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8583606A329
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 20:35:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8583606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F71606A32F
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 20:54:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20F71606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.a=rsa-sha256 header.s=20260707 header.b=TzBK7im3
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-677bc4704cbso2685574d50.0
-        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 12:35:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794774912; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YrQ7dHiRW1vRPIlBQZGuDQ0L/20N0VUUQKKOeDixoXfxusmbAPgOs3Vgt37LXNs3QV
-         2jkG2fQNzGtVwE7u5ed025mtEG9BcjW/KYNLlTBZjg1O+FlQ50UUnsSR52u+6UxWffDu
-         xKOWvrm10o8SIQqEsxz0LKTqWAP599m6a/SRnzyeGvR3wYBy7drvsUNKYvcInd90cmAh
-         FllAJM0D/NZV906KGr6jN9H8nBDoUZT4r7nM+kiE9ZDOXjC9s/r9FY9MUROXzqpVMijM
-         cCoDUVsLHQWeamGdmWBvvmdxJRD6KUsaCZgGE7tSpOAojn5RBKhYMEpbsnNgVjS863aL
-         xQmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hfoGaPOvarXU+50W/KFhlCJQD8hal54gXW4WmBlLFMM=;
-        fh=kN6m2SG9vE9aeaQs3SFlL27iR9b5r9v5SLyd+FHRXvc=;
-        b=Y+CYlTlxkRKTo/cNb1IwydS5/ndcIckVAj/SWaALwf+duoGA3QSgWuTy9+bzoefdis
-         +gzYimab+wPANTJX5uT1dXwBO/rI52/M/D2JcOtLSUx3Qk8zBp63YoG7TBEu1DZrOuZ6
-         9sZ18H2ONKt54U+0rKwWBwiz9Ys2fRF2QhtM7YGBPcdRLqaXrWbrTy7NhxVJp6rBGraE
-         xwSr6ERcRSKNP6qsgIXK6kAJqH4PqflIFJEPlme7NaVNtX4ixKPD4W4XcO+gVqzp9kRh
-         q0tG3SNsiziRs/j7Nv9YycED89ArCnWD6F53ICu2Tf/a+m1vfcHvNMrmzo38KoTQ+7Gq
-         PKDA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=PdYVAMIY
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-91eb53957cbso61474296d6.3
+        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 12:54:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20260707; t=1794774912; x=1795379712; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=rowland.harvard.edu; s=google; t=1794776093; x=1795380893; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=hfoGaPOvarXU+50W/KFhlCJQD8hal54gXW4WmBlLFMM=;
-        b=TzBK7im3+A4TiHE8I1qr19R9+l0rNSyHA0FD1ldcuLLKw1GjH6aCJNIaK1H04kn3Kt
-         tq5BWmYEFXeGwK6Fw/3kFe9rGnRajOyFIVndChGVmR1Aw2BDigzZbBodCm5A6Cc9bStB
-         W4UbsLi0e0KPaOH3/AkiJO+gXsar0r5vtdsMi3Qy/czfHW0hhWap/KazaPCqm5oDF9Fm
-         II/ddsLBDRW1iVoWxcLCNHuYP8V9XU6Xqtk7aCd/drSvKhv1VS7TxCvq8iWt56MZeDlH
-         EDlSJ5KYossvwEWcFTNeNxEeCBnlYEqok51o3nrg83hAKJp6+arb9VvCD7nM0gaePGSV
-         Oqzg==
+        bh=5wFpVgBaX15hNB+JUEr5KOqaRCNt7BuzJdvHmQYhEuw=;
+        b=PdYVAMIYU0pKToo8n9Ju3bpTwraMraRAbuOWH3KoYoaUS7aL2L3bu8B2UUoQWiGhZX
+         e3lc6HjxpWwcdp1quooLJWSYm1FrCGGCwjJgq9TauBYww/zfdBhCWNSmbUxfiqirrZBT
+         h3bmEOFtjLUhpfqyXOc4LSNPZpDKAHy0qT8OfyEPkq+98/hfKFNbkZjhXiKEWJmOnurz
+         XYjZ4OapSqpzTviifa5FdHnvwMSEYHLhzj8XmbfN1bmNxfS61+lVdfXwjc0igkiFP/6s
+         vKYMo8zpOTXx9neVzIPDKsoyOj+baai5mAr6mdAXJddEP6UIH/jNjcwfzozGHK4h9l2m
+         i8uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794774912; x=1795379712;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1794776093; x=1795380893;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=hfoGaPOvarXU+50W/KFhlCJQD8hal54gXW4WmBlLFMM=;
-        b=QfOPNIknjsDS2Z21Vgg1wGUvL3zpPHmJqxtHQ5fvaLDB7If95hFXHqAvk1Ea61Wls+
-         624qIBmFjSe1BegRavVsuWzmZkzwoq7yMhobuWD1S3UB+2kU0ozr8DsJwp/LjUig+SaA
-         nUpdn/W1GvxTCIvTiyW0XI81JZ1EsFdnrBe34gMoBas/S6MmEV3ZrCiLQVOha8lLVZ8g
-         4HfpFmJWJPNds/TzW3snFxQRhdJpAVWbHmabYonx2jcaqy8GomYk1d+LR1f/PClCjU19
-         XzkM3z7G0PJ5ySjdUVowuAQAebhVz5tqzGJMyxluigQBox378XOcjgVNvM/aOTWx8wEF
-         5poQ==
-X-Forwarded-Encrypted: i=1; AL+hErHT7MfcDT97iUyqVOvv+7yeLM8WHfkkKJbHc5UYOmtU/AoVvfjlsOdZnqTEHxOGAMHA3ji82O8Ykvs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+YWKJxXUXavBo2ZmXO9TivBvY+vT3atNoZeUkuOQgNfMLtrnT1
-	HqkqBy6UZJBuvCTQ5PbKnr9A/6e0lOTd7g66PcIPxkM+sWnDTsY3dnKV0tLgSBJEvNQBelocAqF
-	YHPzP41cu+IaxDShk0T0HU0nTA7cdYXE=
-X-Gm-Gg: AYBFou2DGeRpwJcUXZrVZmZ+JObRxohD8ODgqcZGsMu/nwZpcwgyJEPtdNvSBBYh2iv
-	hOrQXVHBh+qiQ4bSoTJQ9DwLsubeBJUDlWw8sjH2wtbr4S92X4bK1g8FhsmecIda/FELJlFDQCe
-	G1himZHqvMQzxmYUvwV6SWU9cE3zR2D7SFgubpVuinJ3ByKxna4xaPH1ZcwVasgQ5vKLrwA/EY1
-	E+dxEfWkOsaR5YXHMHbg7dh3esIx2uo//6EoukWeXoCCazvXj/4PnXNvI4CkJn3hnUdCZhluEgA
-	wlSVGkgzeOPjz67GDy9IIEWgvCVLGy0mwxt1qZVO/ScVyDV272QBkqLKMWiBrPhB/jG2Y2kw/N0
-	u9TwwLwcXWaxWZGJvBtcvpreHVTlaBaR/nP+1Fki1XAlxHeOaRy/guhKPk85Ap/fWOo0Asw==
-X-Received: by 2002:a05:690e:12cb:b0:67d:b94b:6021 with SMTP id
- 956f58d0204a3-67db94b66dcmr213466d50.143.1794774911740; Sun, 15 Nov 2026
- 12:35:11 -0800 (PST)
+        bh=5wFpVgBaX15hNB+JUEr5KOqaRCNt7BuzJdvHmQYhEuw=;
+        b=hfw2aWpcXTBB2xH1kaGtJ0a1OXSRG0t8JmNqjfFvlDDOHNy+aJ69H/3LmZM9Q3uXFI
+         sM+h1eia/MzjZjaK202G0M3uKsdA2sXarDcI6LsRVv8hZaHI5D1YkAOTQsbhgszJQciI
+         +YlH7CWoDYT6otxldY/B3paMPnTuFt8FGpAPoEEu1X2iWnsUJXslU8o8ZX2Tk6EnU33c
+         ZmtJeOXrDph5UYxsV5z6J7iWJBpNpu2Z2QTB9lMvrRDs5/ud7N2EuREUE4Z3H/VY0jea
+         J1ScPTEQ6sexwLh7x8hbU46k9KW+izY+OhOWt0iD9IM5jW8cfvbxKm5i7xe0j/dkAHn0
+         5pwQ==
+X-Forwarded-Encrypted: i=1; AL+hErGqS+YKA8tr06nUBmVTbwX4+ETyOOgb/aezQgbLSLRslY7Dg0pdnr3cC2KzMCBAdFWC7lWonCc8ho8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+dIL+1PhsLCVDWrwlXmTFV/ibtW9y5O65kDcNbfecivQ88KlZj
+	SaQtkpiB2UxJFjZ8pAtN9WFPTChnpSaq5F+ULzLp1HM3Dx1ntJ9wTwH7xe5f+snpVrk5/1KrvEn
+	qoiDjuA==
+X-Gm-Gg: AYBFou0yI7EI8fS8o97DNKpdnwCWqfORi0vo5Y/kjtlRBwU7bwUQY3XGKYcbCcIvDGm
+	zTjjNlTKvMAGr/v7lovlau1PwkUsHQdWponJobtlbgDwsIpucW0BxyZgEpd51Yf/z1GljkBkj4K
+	YHznbzBOgYBu7FRr3dRH+udTIDVKfqwfX4UF/50juzIt+3lykm8qYcU6a+Ks3udS8zBqU7rDO+g
+	ObcZbGDdtADG0GSoAY5yPCa+few6DA58xlMp7uiKhlTmP3pkviG8bNTgdzwVRvPMwJ77htsxfRE
+	JAfKpybHSaAl6erdWROOHQvwbS7UwQv0/Ckj27/vNby63VDHYqJCu6UYLXYNW0uZZeHO/jeGA/l
+	ymJXUW/OswM/LFpO7bL81ra55W89LIxuoOjTSoFOPLpBETQFM7VNWy5EcBUroKTX2gCQp5TC6w3
+	QfYqFx4t9m3+zxdIhXwgvdUjnocirlhVpMVl7oD3vdBb2nt2CmZWDA80QCwFg5jxwsP0GkXSF0I
+	Ff/nKdVwoSQnaDgS6BzxosxFLEeh50Qoqs65tLaZ9HmQHawnc5kVN7ChwTdDgcHg4dIewF4ozvY
+	IhrbjXP3ALK3pmWO/oqe5nXW8uZQtw==
+X-Received: by 2002:a05:6214:5409:b0:91e:ee6d:753c with SMTP id 6a1803df08f44-91f2426507emr136814886d6.41.1794776092947;
+        Sun, 15 Nov 2026 12:54:52 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d00:161a::d398])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23c9ca2esm70627266d6.6.2026.11.15.12.54.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 12:54:52 -0800 (PST)
+Date: Sun, 15 Nov 2026 15:54:49 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Cheng Yongkang <teel4res@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [QUESTION] usb: usbfs SETINTERFACE during a runtime reset-resume
+Message-ID: <36240a2c-0ecb-4b26-824d-84d782dc706e@rowland.harvard.edu>
+References: <20261115163709.226641-1-teel4res@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,39 +97,89 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261106104632.54161-1-christian.koever-draxl@student.uibk.ac.at>
-In-Reply-To: <20261106104632.54161-1-christian.koever-draxl@student.uibk.ac.at>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sun, 15 Nov 2026 21:35:01 +0100
-X-Gm-Features: AclHuK-bZ0RnQfOiBUZa9VF3gQt02asaFssBFzc6vFvqnEmYWhTqvHFuHS-Culc
-Message-ID: <CAFBinCDfE9J7fFnvJ2YqeFx1ZijY+5aFjGcpcBLMDrnpU8OipA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: usb: amlogic,meson-g12a-usb-ctrl: add S4 support
-To: christian.koever-draxl@student.uibk.ac.at, krzk+dt@kernel.org
-Cc: gregkh@linuxfoundation.org, robh@kernel.org, conor+dt@kernel.org, 
-	neil.armstrong@linaro.org, khilman@baylibre.com, jbrunet@baylibre.com, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, 
-	=?UTF-8?B?Q2hyaXN0aWFuIFN0ZWZhbiBLw7Z2w6lyLURyYXhs?= <ckoever@outlook.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261115163709.226641-1-teel4res@gmail.com>
 
-On Fri, Nov 6, 2026 at 11:46=E2=80=AFAM
-<christian.koever-draxl@student.uibk.ac.at> wrote:
->
-> From: Christian Stefan K=C3=B6v=C3=A9r-Draxl <ckoever@outlook.de>
->
-> The S4 USB glue is the G12A one, but it fronts an xHCI host controller
-> instead of a DWC3 core, with two USB2 PHYs and no USB3 PHY. Add an S4
-> compatible with the G12A one as fallback, and allow a generic xHCI
-> child node.
-Krzysztof, I have have a question regarding the last sentence:
+On Sun, Nov 15, 2026 at 08:37:09AM -0800, Cheng Yongkang wrote:
+> Hi Alan,
+> 
+> I have a question about usbfs and runtime reset-resume. I am not sure
+> it is a bug, so I would like to ask before sending anything.
+> 
+> The kerneldoc of usb_reset_and_verify_device() says:
+> 
+>   Locking exception: This routine may also be called from within an
+>   autoresume handler.  Such usage won't conflict with other tasks
+>   holding the device lock because these tasks should always call
+>   usb_autopm_resume_device(), thereby preventing any unwanted
+>   autoresume.
+> 
+> (usb_autopm_resume_device() no longer exists; I assume
+> usb_autoresume_device() is meant.)
 
-[...]
->      oneOf:
->        - $ref: dwc2.yaml#
->        - $ref: snps,dwc3.yaml#
-> +      - $ref: generic-xhci.yaml#
-Does this mean we need to the allowed child-nodes to the compatible
-string (so only S4 allows generic-xhci and G12A only allows dwc2/dwc3
-but not generic-xhci)?
+Yes.
+
+> proc_setintf() runs under the device lock but takes no PM reference.
+> After USBDEVFS_ALLOW_SUSPEND, the device can be runtime suspended
+> while the file is open. If it then resumes through reset-resume,
+
+More to the point, if the resume handler in a driver bound to another 
+interface in the same device calls usb_reset_device().
+
+> finish_port_resume() sets USB_STATE_CONFIGURED before
+> usb_reset_and_verify_device() runs its restore loop. A SETINTERFACE
+> issued at that moment passes checkintf() and calls usb_set_interface()
+> while the restore loop is still reading intf->cur_altsetting and
+> calling usb_set_interface() to put the interfaces back into their old
+> altsettings.
+> 
+> On v7.3, with dummy_hcd and a gadget that forces reset-resume, I saw
+> 1097 SETINTERFACE calls complete inside the resume window over ten
+> rounds, all with -EPROTO. There were no KASAN or lockdep reports, and
+> I did not see any corrupted state afterwards. I know 7794f486ed0b says
+> that I/O to a suspended device fails with an error code, so -EPROTO by
+> itself may be expected.
+> 
+> My questions are:
+> 
+> 1. Is usbfs expected to follow the assumption in that comment, so
+>    that proc_setintf() should hold a PM reference while it changes the
+>    altsetting?
+
+In theory, it should.  On the other hand, a bunch of the other proc_* 
+routines in usbfs don't hold a PM reference while trying to communicate 
+with the device and owning the lock.  (Of course, they also don't try to 
+change any interface altsettings.)
+
+I suspect a better approach would be to have the routine fail 
+immediately if the ps->suspend_allowed flag is set.  The kernel 
+shouldn't be obligated to resume the device on the user's behalf if the 
+user tries to do something at the wrong time.
+
+The main thing that concerns me is the possibility of contradictory 
+usb_set_interface() calls going on concurrently.  That is best avoided, 
+even if it doesn't end up crashing the kernel.
+
+> 2. Or is it up to the program to call USBDEVFS_FORBID_SUSPEND or
+>    USBDEVFS_WAIT_FOR_RESUME first, so that this overlap with the
+>    restore loop is acceptable?
+
+Well, yes -- user programs should be aware that communicating with the 
+device is likely to fail if it is attempted while the device may be 
+suspended.
+
+> 3. If it is the first, would taking usb_autoresume_device() around
+>    checkintf() and usb_set_interface() be the right fix? In my test
+>    the ioctl then waited until the resume finished and returned 0,
+>    which changes the current behavior of failing with an error.
+
+If we go that way then yes, this would be the right approach.  (Except 
+that I don't see why the autoresume shouldn't occur until after 
+checkintf() has run.)
+
+Sorry to be a little wishy-washy about this.  The whole topic of how 
+some of the more esoteric core USB features should interact with usbfs 
+is not very well defined.
+
+Alan Stern
