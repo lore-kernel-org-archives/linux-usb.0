@@ -1,53 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794719412;
-	b=DD+5lKUBlhCrUl8fUAv2P/ye9fjhy7Cl/pVb2rvHVavaNG2dCwAEX3RFJggRt3adyVvT
-	 bjBul3gEqL8hqi7PqMFf1s890s9NEetWRK+c8cVpbM1s6FYnMajRoGbQYTsSjp4F+e3jG
-	 hMj/AYTqnDg7ktHTuqSkY3uFTGUvKl3vI6849T0BIRGNrdvHvHb9n1uYACVAXekAE2ix0
-	 bHajO2w+DXjcNR65ZFnajgAl5RqdfFJ9CjcwFmZm5CR5Gm/O9z3b7Pm/55dM2mgQDVCbx
-	 m8Si4GUDJyJ5xEuqCLOFkt9HrmihL2w6LWWYPDuyKZZv7HXmW3NGEDZN58O7jMDFlWg==
+	b=syZEZr+GZn5OyBvaeYMUcAvLiJWnuQkafPh1McS+E/mJoCQ+hQANUy0QR3RcFC5qUP3o
+	 S98qYyxFi4UaxQn6L9f3qa4ec7fFKkDZhIJ4+A2YNks6C+UwgQv4TekLfxRgWV2mgDmjO
+	 jkQlA2nWfEKOgrezwBi2yIyoO9rekwoKKggFXypSL4coISn1ph5kDQOQBGzxIXGft2Tes
+	 apU1E8l7BU5Nr6X4xkSTSNTplssv2R9KTjLBCcKWxp+Ue6Klqad0X0U1ssYbk8us1bcqh
+	 MZpxHPOqhMlLTIa9nY89/9GBwNkwivPjyyXY84C16Vd6qtqkAxojNMK4dsU6F4GKJGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794719412;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=jjjU7kAuB+sqnUb9RVNV350RLt+GSpObhe4qFVNbq30=;
-	b=I0yM4MhL0Ir5lZVZYcoyqRm3GYg6sZgPUMfATzPAfnx0DrcR/CY7bMWIV0ibzgWyrD4E
-	 75dFzMiLH+IH/zl9XCVLy2wn8W4Hk0Us73WJX6MPjp/s+82BLKBR5H0ai/+g9uJHX8+O1
-	 K2XvwIQyFevPnUlOjLUFNXinPTkSCC14cFZUh+p3KxJfIXDwnFYhCyBIJ0SWp5TM3A29Z
-	 YykwdevWT3TjkzKjozGV2NpnA4JsE/WUvvfzvS6TjcoA2tXyx2J/x92+ZljMQEVXrZtkz
-	 qknXYYFBcZtMbx7p4ErsS1pIDjHc8nBsACxZbbiVUpGrhgwBBYpRQAHXljKZsCsdXJQ==
+	bh=+eO3bCKFuQt12W21iEE0yig9iRXVvKnboLbDJuv6gQs=;
+	b=xwKvMtV3nvRY74W7h8INSgZefll8g8WXuBNaS4q5YOaKQxxQVajFfl+1h/clL+pREd4W
+	 w4FEfuANLFZtX6ThPtjw0mcKOUeCx6G/QMAdNwE9OwTypVrdqu8WBc+UCvnNkHdMc02MV
+	 rKmEQ8g0+9ab2CbFQBCWpTR1gJmeeV1+hv+7ZNcAxF1O2upG8SFjuDk+Szymc9Jkz8lA6
+	 LLJGO5VWjSID3ZVfq7kNCmL1D83izQeOUfb5C1/ohndNe7Brx4caAcS34qDP+/Qkjd4f0
+	 m61g0LW+e4U9g5cyHuHIm3D3z0KAE9LckSC6bfjND0htLEcXCtpbAYrjQ2KLbFN3cNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YaGlAiMl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FDxvrIRH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8170A606A32D
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 05:10:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AAD606A323
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 05:10:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YaGlAiMl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35A9E1F000C5;
-	Sun, 15 Nov 2026 05:10:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FDxvrIRH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 949611F000C4;
+	Sun, 15 Nov 2026 05:10:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794719412;
-	bh=jjjU7kAuB+sqnUb9RVNV350RLt+GSpObhe4qFVNbq30=;
+	s=k20260515; t=1794719411;
+	bh=+eO3bCKFuQt12W21iEE0yig9iRXVvKnboLbDJuv6gQs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YaGlAiMlZvqwsWCFZp1UBPr/7u/Z+E/gB131S9EIMmAxGd6Lu0qucee9ivrF/tRdP
-	 EJ/N3UO1MsdeVW8M4AxANmGk9VRSLIEyA5YeLfB6ASjIIC7J73+Wfe4TULlao63yZz
-	 8A07wmsph4z/MMad9YweG72hOK8y7obbnlkcmcfT9+3bxhIQrQ+OPWzGKJo7qf0RZZ
-	 jAsiZ6bIMLnF5ezgOU2By3HE8ea3A4E4h/Q3enM011dw+dea18+RAuUuKHeYCJhxu7
-	 nKy9lWCioLHlfUT+/O4gndLF+Y1neBtA+PNnkk4siczLUxedL9t6a80t6NHavQQca3
-	 0lwpKbKH4b5zw==
-Message-ID: <sashiko-outbox-215233@kernel.org>
+	b=FDxvrIRHPZ1qw0GKyYt+vaq+cehkUrbm/+L3aftojo5alvBebL2FcDN+/wO22DFVr
+	 wPLWmn/1SoFcXiqDfWqGBBcpDEB/ganVp+ZmHz0gow00s+bFzIKe3nrI9d7dCTayGS
+	 ewY+4SbUjKNSwHGq6RWhHc8k1jg8y3xRy8An0FXXGgHFWGCPXmB3QNnvML4sXwBang
+	 AGwTr4psZ8hHaQ4bWTGG28Ky3IXbQ2sk/fVm19aq+No9tHOlCN0h4D5rhrH/Y9qWwf
+	 OaJ74A3RMSKolJ2S3AgqjOyLxUqehtphfiWH1a2Veyne7m1FKc9wqEyr59ekU/XDoi
+	 5MCPMbjlu2xIw==
+Message-ID: <sashiko-outbox-215232@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net 2/2] net: usb: smsc95xx: propagate MDIO write errors
+Subject: Re: [PATCH net 1/2] net: usb: smsc95xx: propagate MDIO reset errors
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Artem Novak" <artem122novak@gmail.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261114050954.275495-3-artem122novak@gmail.com>
+In-Reply-To: <20261114050954.275495-2-artem122novak@gmail.com>
 References: <20261114050954.275495-1-artem122novak@gmail.com>
- <20261114050954.275495-3-artem122novak@gmail.com>
+ <20261114050954.275495-2-artem122novak@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Date: Sun, 15 Nov 2026 05:10:11 +0000
@@ -60,20 +60,49 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The MDIO write helper currently discards register access errors,
-> and the MDIO bus callback consequently reports success even when
-> a write fails.
->=20
-> Return the error from the helper and propagate it through the
-> MDIO bus callback. Continue treating -ENODEV as success during
-> device disconnect, consistent with the MDIO read path.
->=20
-> Fixes: 05b35e7eb9a1 ("smsc95xx: add phylib support")
-> Signed-off-by: Artem Novak <artem122novak@gmail.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [High] net: usb: smsc95xx: smsc95xx_mdiobus_reset() returns 4 on
+  success
+--
 
-Sashiko has reviewed this patch and found no issues.
+commit 2539b52a07146a1a92198f65c494924038af75bf
+Author: Artem Novak <artem122novak@gmail.com>
+
+net: usb: smsc95xx: propagate MDIO reset errors
+
+This commit changes smsc95xx_mdiobus_reset() to return ret instead of 0
+so that register access errors during external PHY reset are propagated
+to callers.
+
+> diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
+> index 130a460c1f546..f85ee5f8a5394 100644
+> --- a/drivers/net/usb/smsc95xx.c
+> +++ b/drivers/net/usb/smsc95xx.c
+> @@ -291,7 +291,7 @@ static int smsc95xx_mdiobus_reset(struct mii_bus *bus)
+>  reset_out:
+>  	mutex_unlock(&dev->phy_mutex);
+> =20
+> -	return 0;
+> +	return ret;
+>  }
+> =20
+>  static int smsc95xx_mdiobus_read(struct mii_bus *bus, int phy_id, int id=
+x)
+
+[Severity: High]
+Does smsc95xx_mdiobus_reset() now return 4 on success for devices with an
+external PHY?
+
+smsc95xx_write_reg() returns the number of bytes written (4) on success,
+and ret is not reset to 0 before reaching reset_out.  __mdiobus_register()
+treats any non-zero return from bus->reset() as an error and returns 4 to
+smsc95xx_bind(), which unwinds and frees pdata (leaving dev->driver_priv
+dangling) and returns 4 to usbnet_probe().  Because usbnet_probe() only
+aborts when status < 0, probe continues and registers the net_device with
+a freed dev->driver_priv and a NULL phydev, leading to a use-after-free
+in subsequent driver callbacks.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114050954.2754=
-95-1-artem122novak@gmail.com?part=3D2
-
+95-1-artem122novak@gmail.com?part=3D1
