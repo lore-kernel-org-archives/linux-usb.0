@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794739918;
-	b=iMLbQpr7Uo5GwuD+vFxO/8nqk1yJ0CsHd6QGZ55X+P73jO/w0rMkBkUBH8FWeT+qA+4/
-	 /okWFSiQ8X/CrOJ5u9GDK6FjKCtt8+j/jlcbIU/ntphB/CVF8T0eOS2Ypj7a8q2apHlLD
-	 juExFT7R84rIiPFgxPRgo5e0QrZytdFbvv1Z0PVwTt0O7HGU0ceAmFRigq6/hPgGzpc+3
-	 TP9M65vF0bXUCWp+qoVpD79lEd5EEBY4Th7ewLoGy97hxlB0h4u6g0LnhbovGGtDlWC/K
-	 8l7gY2vNmsX7qC6HzCYyG5nFT2MIi9ldyDt0yPiBpTx58GoHW9jiCpNjPLokGYSyy9g==
+	t=1794739919;
+	b=fbUaqmtzmv1ihDAcEW0zIBUEfqubLSGhfTptsLY0IMHqfRDIB6Yi3LzmbOG7HWknmo+C
+	 9G/iVoLSfK9NMtsK2lomGIxfvdntGkmTcOy8TXD3TLrDDPuOon1b8x/fsPFn7Fs3cgzFL
+	 BDVWjwwyxm5RQkLICw17HIEkm4QP297PiiMEnLKceheP+5BHc49EtYr0EjERuUxAVpBUd
+	 Ui16hQcjH96RRb3tzHo/a2KCM0etvEH8my1V08dAn/ZG3HiKLgZVUFhjq+5H8rJ6qFe7L
+	 QiEsqMVEEF5Jup7+0xC6ycMbmhcDJBiCCCEQud4zL6lNNGP8yMUsc700SgfR55AS+CQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794739918;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794739919;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=HGtAYAUJjMEYUfQwWitY0MieAGsRBREtW1Pz6xF1K0s=;
-	b=PFORnLD2I/DOB0R6t7SWgi6O2rI3aGm6RlfnwyqvtyPZPsJnW6zYjjccO5Rf69Eq2CNu
-	 isAQmTFy6TIr+41aVB+T9Zq/zQYMYdf6FLpDE4tao/326vTJVxrmQPW5veocPeMwGCRWm
-	 ocyv6uPEwAQ9QzD0bETMEMj5B5506QHqzzWZaD2er5vXeRouDJ3x9zKuukK8NF+aP5ktq
-	 kkr2bOiKj76lmSYYQnBGIATGP8UgoaqcvEUruBRuXYttJ8X3jRXVT48gkD5+xGpXkRn2D
-	 ppBO79L5knsQoNmcG2Q/YmEF+Zxp5bmBUsI8sgZuslkipr80irR+h/DffXleEgFxnWg==
+	bh=LZ3i4RcS0wCJtltRgvJ1V+6bAGMFlt3V5BFfDv4q9d4=;
+	b=irSw0UViFZ5QUDRNQQfjyOL0l3MOUgkRUc+a6gPjenOAy7VR8CyJCGXkITuktvJQhBS1
+	 sBmA62aw6YFVcqjlXzh+PlId2RPXc9AO3tYymj6FmGG+5O8gMSz8NST0/e1cJfFqqj57v
+	 qeOQgNVNR1I7FwAPAO0/ljsXZBd3XatoLXjpWFK2mGToctrKUCvvaoYNoFyzZuXNPA2hg
+	 0Z59g78KmZuehrcun+6i9KWiOYt3C9tt6RDPE1956ENnypyuMTJ4MDpWKnHohaQOuQ0Uf
+	 eHYuSGjHBeTRFwn9Oo7KhSIi43exWXrDhVHIKnjZrGM7xBT2a7zltEqHOV1+BW0/kOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lszdLCf6;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cGC5HIAx;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADE2606A336
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF302606A89A
 	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 10:51:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lszdLCf6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD0431F000C4;
-	Sun, 15 Nov 2026 10:51:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cGC5HIAx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FCC91F000C4;
+	Sun, 15 Nov 2026 10:51:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794739918;
-	bh=HGtAYAUJjMEYUfQwWitY0MieAGsRBREtW1Pz6xF1K0s=;
+	bh=LZ3i4RcS0wCJtltRgvJ1V+6bAGMFlt3V5BFfDv4q9d4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lszdLCf6qM1l7/HKKUcrczuMHCJ5pHTOFNjqTHSw7D8jmYfoiM5R0Dwz8TmOGeoTz
-	 iRBbi6FaJKccuemmCHmx9VLOeJ1860+31LenZcjlDBliuApbGdwWNtiywig+x+LBB4
-	 eKwuB/5IBQ7JlUpUIV9wGha+imh/jnxj6961AeOZIMabL/YM5gZtNJ/UVFRR2lXIof
-	 9dG2DJK5Jo0NV9HqSDPYJPCuUgZmvhFJUT6iq6Vt8fAgCpC7m5h3UwtwZNdEtEb33e
-	 SWq+uCCghXbhSiyikdfcxmMoKKjzGmt8G7S4eZFZMwIjok2PXAnyOMgpxo78bUJRqI
-	 kwEoqGDyusLgA==
-Message-ID: <sashiko-outbox-215424@kernel.org>
+	b=cGC5HIAxjBptMyTuGqUfCtLGcRultz+zi+BY1SwIdFeaLN/yH1G9UMPNwm3oTU42i
+	 tQeEL9wXhb/+oGNQ0Izn5IODSZv/ck4RUEtOkvmRKC/hFYI9S3B71s3iUkWs9Top2c
+	 OTEboT8QWs6xF4YfMlKwwZcw+r105DBK6kAMxT3wXVrB+39/dj4dgOAnLuNETz8rIJ
+	 metwiUIHUptDHna9CHi27B5c0tQoVoVfIK1wUUjeYxdOxMXRl4HjgIzQinwdJn7ZDu
+	 sf21rAgtgkbB6ke0SnCR2Gw3ik2tknJJGu3nTld2LCezYNxme4+A4Is9LMeKm1l4Kk
+	 h9wlevk9EwvcA==
+Message-ID: <sashiko-outbox-215425@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v21 11/13] ax88179_178a: Update driver name and
- information
+Subject: Re: [PATCH net-next v21 12/13] ax88179_178a: Add support for
+ AX88179A/772D/279 EEPROM access
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Birger Koblitz" <mail@birger-koblitz.de>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261114-ax88179a-v21-11-c2d34410bcbe@birger-koblitz.de>
+In-Reply-To: <20261114-ax88179a-v21-12-c2d34410bcbe@birger-koblitz.de>
 References: <20261114-ax88179a-v21-0-c2d34410bcbe@birger-koblitz.de>
- <20261114-ax88179a-v21-11-c2d34410bcbe@birger-koblitz.de>
+ <20261114-ax88179a-v21-12-c2d34410bcbe@birger-koblitz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2026 10:51:57 +0000
+Date: Sun, 15 Nov 2026 10:51:58 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,53 +61,17 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] net: usb: ax88179: Kconfig rename drops default y and
-  disables driver
---
+> The AX88179A/772D devices have 32 efuses with 20 bytes each,
+> which can be randomly programmed. The AX88279 has 16K FLASH.
+>=20
+> Provide ethtool read capability for these devices. However,
+> no write access is provided.
+>=20
+> Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
 
-commit a2dd9912da623ded3490ea8a07a91779c220769c
-Author: Birger Koblitz <mail@birger-koblitz.de>
-
-ax88179_178a: Update driver name and information
-
-This commit renames Kconfig symbol USB_NET_AX88179_178A to USB_NET_AX88179,
-updates the USB driver name to "ax88179", and expands the Kconfig and
-module descriptions for newly supported ASIX chips.
-
-> diff --git a/drivers/net/usb/Kconfig b/drivers/net/usb/Kconfig
-> index 115990b0d9537..cc8f2e1503399 100644
-> --- a/drivers/net/usb/Kconfig
-> +++ b/drivers/net/usb/Kconfig
-> @@ -195,18 +195,21 @@ config USB_NET_AX8817X
->  	  This driver creates an interface named "ethX", where X depends on
->  	  what other networking devices you have in use.
-> =20
-> -config USB_NET_AX88179_178A
-> -	tristate "ASIX AX88179/178A USB 3.0/2.0 to Gigabit Ethernet"
-> +config USB_NET_AX88179
-> +	tristate "ASIX AX88179/179A/178A USB 2.0/3.0 to 100M/1G/2.5GbE Adapters"
->  	depends on USB_USBNET
-> -	select CRC32
->  	select PHYLINK
-> -	default y
-> +	select AX88796B_PHY
-> +	select CRC32
-
-[Severity: Medium]
-Does dropping "default y" when renaming USB_NET_AX88179_178A to
-USB_NET_AX88179 disable this driver across existing configurations?
-
-Because savedefconfig omits symbols that match their default, the 25 in-tree
-defconfigs that enable CONFIG_USB_USBNET relied on "default y" to build this
-driver and did not list CONFIG_USB_NET_AX88179_178A explicitly.  Removing
-"default y" alongside the symbol rename causes a regression where
-CONFIG_USB_NET_AX88179 defaults to n, disabling the driver in those
-defconfigs and when updating existing .config files via olddefconfig, while
-also making the "# CONFIG_USB_NET_AX88179 is not set" overrides in
-loongson32_defconfig and loongson64_defconfig redundant.
+Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114-ax88179a-v=
-21-0-c2d34410bcbe@birger-koblitz.de?part=3D11
+21-0-c2d34410bcbe@birger-koblitz.de?part=3D12
+
