@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794774463;
-	b=MLUS6pcjWClusbAhsb1dfaAuAamDW4rNun7sy0zBqj/DwLmBx1MU7va0gEWIZIMoP88I
-	 avsc6Usza7CdTN/5FYbNDUxav9dbdpBy+ScjW587AxVPxJlRcBqJs2guM180bFVOK7czH
-	 mIKwU6eAP7/Yb6DEBsQsSYibebs4/6iAWFhuf/aPbAJIey+74M2+ItkELYJBBcRzUbx8L
-	 lySKjDxJYtDSs39lw0DvvQmtGNS003txNu0Q0GEZ3h6RjAwW6ybxz9DL7SF1il/2Nbvm/
-	 6S5e0O1s0P1Ubbf0R9GrRQ6GHfZHtJMG957tdPrmMoVeofNxovpMdKGCKxrhzvTVjWg==
+	t=1794774469;
+	b=1/CZAko842vuGcQs9hcVPyUR60MjxWwcMOGQ0bw5GGDxb/bObb8e+AvcbHwuNLSfkh1P
+	 gCtQi0y2QLR+DAGllky9ULTb1YxLWMbl3HqVm7J5FpYFr6nqLgwLFxHiCtrH3ZlQ77z6t
+	 uR/DN8E07P7qIhs496/2kjWup2YNOM7rlX2TJEzu7wwtgiBXPpMKqoUWyKG2oEmGN47l+
+	 L/El065opD2PbkbOlZQ7CHg8oBN3zFCHq+NCVR0J8kiNKnI9v9t40KkGqq8jwu5nDmBSs
+	 tFk+oHbQnGpKdNEPdVO4B39J4YJViE8/XNgzN6gke6XVTF04GfO8/alXxSpefN91CSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794774463;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794774469;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=CqmNnYbQuK3RuZsUDrlxmXbG+DK4SNo7yjgc+IpbeXI=;
-	b=je/Dxy/1YwKIhQvtNdbndwIFOeI/+4hr+Kc5NdL/YEnxPG+rfwsKUsOhInEdz5GuQ4L5
-	 jv1lSNN562BIvjbXyo/Mpzw/uBLcTQ7W1S7DJXMcFUA2GGCZzfdaygkCBoKJC4rxCA6F5
-	 7j9CY4kSDJOWqCb6/lHKKbDQFzbpFaYXCY3anbuC35QcMpV1ULG09LZQUB92guGJMHGn2
-	 frU/CW/4EW6uXTHbbGIE20aPj4PGMKBvrvfhg/u+jF9Wm8tvrA7E/wiEy40JoVIcUM351
-	 91eR5aVdtkDsYzQhb5spQbgHTmUmDsY2hBBNqJM98JzfSwJMhppHahjFDTZA/2uPHTw==
+	bh=/EZ7ajjAPy+geL9jiheP5oyIpkFUIHATHBkEuv9sOHw=;
+	b=zaOJeUZkoREjN3Eh+asPQliHeF45EwkJ76b1oO27OyjcPW+6ypxCr7UXSFX6To/d/qUB
+	 JPIm257foTKBfvTzo3WXyQYwxgI6DD2NGCx08gRP66Z3m8b3OZ/IjLS70JANOFyTLW3dq
+	 ddyH0AC8oz6nAsJxTk27md3eODp02uMUODo6zjFq0rO5aYyqIPlaczKtnMd/sVR9syI4p
+	 EdvFSWM7OFmp2rrN2GOIsiHkr/9XqERr95GedTFJ7aFZv9T0yJm/h+72PkBfODsbLDzjM
+	 r35NXc3sH0FO8xah4IVyGNGoMFPXipfTZP4fI3nZTul2GeN8TS1Tz8mgN1G985oHZxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="TNVf/0eg";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uuh0Aogu;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDB2606A889;
-	Sun, 15 Nov 2026 20:27:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1939B606A8A8;
+	Sun, 15 Nov 2026 20:27:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TNVf/0eg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C27D1F000C9;
-	Sun, 15 Nov 2026 20:27:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uuh0Aogu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9347D1F000C8;
+	Sun, 15 Nov 2026 20:27:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794774463;
-	bh=CqmNnYbQuK3RuZsUDrlxmXbG+DK4SNo7yjgc+IpbeXI=;
+	s=k20260515; t=1794774469;
+	bh=/EZ7ajjAPy+geL9jiheP5oyIpkFUIHATHBkEuv9sOHw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TNVf/0egvQUNmznhOtjCS2c0JF9mcA/aq30vZLvhIjjQiIZfmgw5aVIdF7Iq/AXmV
-	 VwLw9N2hv1Y+ydH7X6jZrwkIiRrq62PLBBFKiMjeWIIuq7j1DvrJo35Zj6WWNvjMa2
-	 ATn+tMpb/GcJFaDJZjQaHku6W3cRhisrGEoVO6gLHdzYWYk+PFqzvfvh2mHOuBpDbb
-	 S63Z+SrQgN+4xtbIyvQj4NkPFFXvlyV6eUqlChlWdsqlFhrSWzjQCi3KprVWC77JSR
-	 e3bggTH7dyB4TDbrr3z7fpnZilVJbdK8zxu5Q9gIgL5HJYtLm2tlPs/vLxOBEUZ3we
-	 7+zJZsJ5bwSdg==
-Message-ID: <sashiko-outbox-215803@kernel.org>
+	b=Uuh0AoguQi+gsuLvCdLF7RJnh4UYWICSB8mfSIkhzfBH3EimsET3WtL9qjkq2gPdI
+	 CB459SLFdnxdBQwrufeU6hj8Z344r+lddFO0OD2IMh8PMGQRYU+rYsQpinA0ZFQzId
+	 L2mYNdGZrfaNTbGLSIrOFjJf1qJE9M2kHK5xRpM3I2EIjRihz4BPjfVVNO3I6rtntc
+	 CDDIJ+n9KhUGSBmJ50sAbNENMDTB9+Ujs9e28GLnuDYpXUyQxmjjYOxrWGS40blCrv
+	 RhsZ3HsNCMi5/VzDF2t2SUz+m2d3DMwJJSv6OQZdymK/l9cVySiu8ar+Nr5C+DK9/O
+	 hiizJIqK/DOJw==
+Message-ID: <sashiko-outbox-215806@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 03/12] docs: ioctl-number: update block entries
+Subject: Re: [PATCH 06/12] docs: ioctl-number: update SCSI entries
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Randy Dunlap" <rdunlap@infradead.org>
 Cc: linux-usb@vger.kernel.org, virtualization@lists.linux.dev, linux-ext4@vger.kernel.org, tytso@mit.edu, "Michael
  S. Tsirkin" <mst@redhat.com>, "Eugenio Perez" <eperezma@redhat.com>
-In-Reply-To: <20261114202653.3113381-4-rdunlap@infradead.org>
+In-Reply-To: <20261114202653.3113381-7-rdunlap@infradead.org>
 References: <20261114202653.3113381-1-rdunlap@infradead.org>
- <20261114202653.3113381-4-rdunlap@infradead.org>
+ <20261114202653.3113381-7-rdunlap@infradead.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2026 20:27:42 +0000
+Date: Sun, 15 Nov 2026 20:27:48 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,7 +61,8 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Update the list of files where block ioctls are defined.
+> Update the list of files where SCSI ioctls are defined and update the
+> ranges of function numbers that are used.
 >=20
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
@@ -69,5 +70,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114202653.3113=
-381-1-rdunlap@infradead.org?part=3D3
+381-1-rdunlap@infradead.org?part=3D6
 
