@@ -1,54 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794743292;
-	b=Y6Aq+Zefr5vdJ7n0mAmJLzuwOaHsqgX4yfWw+71OucYoe/z4xOiR47rnskPZFxS82nRf
-	 dHwWLtbesXaDYB2j8Pi1BpKdnRDE/b6ep6Uw6BY96pyVkHN4A4WYMUcbmnfegWVKdMxs3
-	 UPPsGpFpiPw3rmN0x55t87t5L+YhMm+z2reOf3nhci6Qcau/Ev57ZOBVJo3ul2nX6ENjD
-	 N8sK+nHsJQVIxHVz5iFnEZzPLqIoXqE2i0vqEgut3QRD5Nfqj8flOTeF14AIIuE8w9GUo
-	 ZHwiGOGKLwWgQkf53fKmEv8ZtbqLMOgYpgOyvbwJEbvySUMafbyJguGMCFujRd5WXEg==
+	t=1794743686;
+	b=pincPsYul2mzDGgepOKyu++SUb72HHtFNcuwgqq6G9bYuPO6K+DI/g4EoUWp5VCgI1KZ
+	 uAiOgt2mwhdtuSYtLT/286HkNB6ePjwXSULJdJN26vyxiKlZTT4zISgcIzXEqJJLRrF+6
+	 hozqhdXC6f77yjF+o2CZV6lTJf8l9+0q99Ud7HRr0R48NqU3k3yFoRVLvKLKH6O3Tgfzy
+	 VI5N05sC4QO1t3z3cxCB4itX9jlFyOHj9H0X0YpoVf/w06+OliZA8tICoOLsKkz7yuB4f
+	 VWgH6a0vsERN+N5ChYP+SINTFWNjmXmVgctQB925JNp1uI2y9XhXhEIrQbbKUwp106A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794743292;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version:X-HM-Tid:
-	 X-HM-MType:X-HM-Spam-Status:DKIM-Signature;
-	bh=Bv9gCevH/+FIfoLSK2kJbM2sZfdEGa7J4pwZ68VLq/8=;
-	b=TRrpLvWOnR/MoXO8vFcdZENeZXHNXWt1/jOP7aKqTwE9JywlESFEEeTGnRqUpV0XX3pr
-	 FEA1Z+XG9igx2ggwvX3WuBJ3Hj7Iw3Fyv1KBC7n46FA1f6twRuL8tj4KfWhBCE/SzDVCe
-	 4trINB7g32c/EY62LRk25bU4HH5wL9FrFmhOxuenf6/OWum2E9rucrm1FgrExPjXildd1
-	 kfISH8T4cjbfuJK6jJUS5hXwwtYLJhuMuF3l95GTqbVo1zjWt2P1trEMqlAh8mg/KpkVh
-	 ljyNTHofuxzdlM0d67QF3IGZbQobjAB2zSH6NwqELY++QE+qe7MhCfOINEGtz683COw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794743686;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=unBmcGvO4FS+UlY++iPGO/ZttbdIrUg9F+JJgklh4Os=;
+	b=5tkNgfCClZlfwFo1wqRDDFRM/d22qrhHE6UYVYX+kFZ1KDf1EtXPwm3DHNpO6X0AAwHz
+	 8roYl2E07d56/HgioIkrIRNATMBwe7dA8PITiEQpv0DosUWqmWNzRLsB7UhQr6yxDkrzJ
+	 GUtefPZkVLJYUiscfMR0SKZl/+6+t8a6MY+gp/J19VB/0HAvkJ2ZGDgPiyfFJOt/0o4Vd
+	 LGFnwQDyF+JtzwQ13PN3qMH2gxPS8r5YwINBa2MWMJRr9zZWgiwJmX9+5LIVxYcMd6LTy
+	 7eYr2AiO/3vY9gghWhCcZ5KKszMpr6JpMv2sLN8Tw89S3p+JX5uHszL2NhI3eqP+Lrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=seu.edu.cn;
-	spf=pass smtp.mailfrom=seu.edu.cn;
-	dkim=pass header.d=seu.edu.cn header.i=@seu.edu.cn header.a=rsa-sha256 header.s=default header.b="X/wwuzMV";
-	arc=none smtp.remote-ip=101.71.155.101
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B89l+e8I;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A4E606A898;
-	Sun, 15 Nov 2026 11:48:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23A4E606A898
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B295C606A31A
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 11:54:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.a=rsa-sha256 header.s=default header.b=X/wwuzMV
-Received: from [192.168.17.1] (unknown [124.79.98.159])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 54b7e04ef;
-	Sun, 15 Nov 2026 19:48:06 +0800 (GMT+08:00)
-From: Hongyan Xu <getshell@seu.edu.cn>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Stern <stern@rowland.harvard.edu>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: [PATCH v2] usb: host: ehci-atmel: stop clocks before releasing HCD
-Date: Sun, 15 Nov 2026 19:48:04 +0800
-Message-ID: <179474328429.103840.11561415733183356947@seu.edu.cn>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B89l+e8I
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7093E1F000C4;
+	Sun, 15 Nov 2026 11:54:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794743686;
+	bh=unBmcGvO4FS+UlY++iPGO/ZttbdIrUg9F+JJgklh4Os=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=B89l+e8I2pZibolJTXRJz9KiBHVIXCCdhTMA+EN5W81ulIXbe29/HKLoPGzW50dV/
+	 Oa/kOMDYjZN48OjQVvqn85qeyiQx3nnRF+rKqNtK7ZQ9Kgu6BDidNPxG5WJrp6iV1q
+	 Kwx4dXiyoq4jT3WQCiZnhWEXDzaTmCq22Em9QHYGuinQ6GWLvwmRk+YJtbXGjkzEY3
+	 vn+6hJM792THAkVNrHjbmXy5vGM+y/v/LD5gz5xmTqwDJ4eNcjaZNXPPJdoKcw5YM4
+	 X8a5Au5vBImMyDyOFJiMNpBD2KRqo1PmAzI+f66/+ELtVjdVbEHx1Jl5kFRQvyy3Zu
+	 ynvyb42veKZdQ==
+Message-ID: <sashiko-outbox-215460@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] usb: gadget: lpc32xx_udc: drain pullup work before
+ teardown
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Hongyan Xu" <getshell@seu.edu.cn>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <179474326988.103840.10326852247134349070@seu.edu.cn>
+References: <179474326988.103840.10326852247134349070@seu.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 15 Nov 2026 11:54:46 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,56 +59,34 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-HM-Tid: 0aa1df093c5203a1kunmbac61c98bf7b1
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCQ0xDVh4YH0sYTk9CTBhISVYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlKSU9VTEJVQkNVSk5CWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg
-	++
-DKIM-Signature: a=rsa-sha256;
-	b=X/wwuzMV9fd4pTJMLSh/sPgRmss8WvxtM8Je4yrIJJwkPg7+8qsbuiuetIta7X+lkqw2Pxzgq4u5nZfQKUJP7Mx52h0vqC+UQe2QJeGg372qv4E86bQQ2uG2CxuAcM8UpwMNNUmQV1p4IfKkD4SZoLym8aOsAKc0amVxh4mToBI=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=Bv9gCevH/+FIfoLSK2kJbM2sZfdEGa7J4pwZ68VLq/8=;
-	h=date:mime-version:subject:message-id:from;
 
-usb_put_hcd() can release the HCD and its private data. Calling
-atmel_stop_ehci() afterwards retrieves that HCD from platform data
-and accesses its private clock state.
+> The pullup worker accesses the transceiver I2C client and UDC
+> state. IRQs can leave it pending when remove or a late probe
+> failure releases those resources. Cancelling the final pullup
+> work would also discard the requested disconnect.
+>=20
+> After the gadget core has stopped its callbacks, explicitly free
+> and synchronize the registered UDC IRQs. Request pullup-off and
+> flush its worker while the transceiver client is still retained.
+> The worker needs no UDC IRQ to finish its I2C transaction.
+>=20
+> Track successful IRQ registrations during probe so late failure
+> also stops all acquired producers and drains pullup work before
+> destroying DMA resources and dropping the I2C client.
+>=20
+> Found by the author's in-house static analysis tool.
+>=20
+> Fixes: 24a28e428351 ("USB: gadget driver for LPC32xx")
+> Cc: stable@vger.kernel.org
+> Suggested-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
+> Link: https://lore.kernel.org/all/20260928134158.117-1-getshell@seu.edu.c=
+n/
+> Signed-off-by: Hongyan Xu <getshell@seu.edu.cn>
+> Signed-off-by: Zehao Gao <gaozehao@iie.ac.cn>
 
-Stop the controller clocks after usb_remove_hcd() has quiesced the
-host, but before dropping the driver's HCD reference. This matches
-the probe error unwind, which already stops the clocks before
-usb_put_hcd().
+Sashiko has reviewed this patch and found no issues.
 
-Found by the author's in-house static analysis tool.
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179474326988.103840=
+.10326852247134349070@seu.edu.cn?part=3D1
 
-Fixes: 501c9c0802d9 ("USB: at91: Add USB EHCI driver for at91sam9g45 series")
-Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/all/20260806060557.1747-1-getshell@seu.edu.cn/
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Hongyan Xu <getshell@seu.edu.cn>
-Signed-off-by: Zehao Gao <gaozehao@iie.ac.cn>
----
-
-Discovery: found by the author's in-house static analysis tool.
-
- drivers/usb/host/ehci-atmel.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/usb/host/ehci-atmel.c b/drivers/usb/host/ehci-atmel.c
-index 6574727..bcd56f8 100644
---- a/drivers/usb/host/ehci-atmel.c
-+++ b/drivers/usb/host/ehci-atmel.c
-@@ -177,9 +177,8 @@ static void ehci_atmel_drv_remove(struct platform_device *pdev)
- 	struct usb_hcd *hcd = platform_get_drvdata(pdev);
- 
- 	usb_remove_hcd(hcd);
--	usb_put_hcd(hcd);
--
- 	atmel_stop_ehci(pdev);
-+	usb_put_hcd(hcd);
- }
- 
- static int __maybe_unused ehci_atmel_drv_suspend(struct device *dev)
--- 
-2.50.1.windows.1
