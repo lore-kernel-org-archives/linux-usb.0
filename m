@@ -1,59 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794720091;
-	b=ojbzdiXx6gp9STodPKtGyuvlZjb4pZzsvA/EdT+dWF+2AQ/Tw1BasR0dqgU0MiWGrp0v
-	 6/LUT776s+nVoFcHAHSc7+gl1yCLi6ePfpfX408bk9ZzVMDcsgHuX7JY7u0Hrjmuy3fA5
-	 l1A5qHFwYzo5guJpTuL4ymD0a6Qm0m7FnoWE9NxFYTujXhcZXHFOLw9GGflFtEq2R546F
-	 xvLO54GMH+BLyVkPdMkE3c6tPgWvG9/RATjB3aQTIXWXNgHutaaH4gq983ZJ9dqhnXGHn
-	 Rn5fuOULYRG3dsd23DTXOp2y5p3Ys2LzfZGENE2y0ChG0Qe8HTVmwy+e7KldEnqTyYg==
+	t=1794725651;
+	b=hdsDxl4FhsCs0DxDtDzvu90M3YFpoAAb7cXhBvZoHu/uwxO7BawrD7S7aTP/hes5/LvT
+	 CtD6OT7tAyjSq4FBrpVYVDdLcpKrniZo+seWUd/N89ffYt7Niml0A/PXY+AwiLo8KggCo
+	 7ZqvLpx17xPa/5nxB4Ty2eea25gPDitXAPSx2wq/sEfZLEl0oASeYJvcIcsfeSeAOKQn0
+	 SvQjLZQ31BJrlRQXF9RA4jOXYN10e421VsvPrnE9r/RB7xolyiLjoMvd6EmlMt6uDegp+
+	 IzRQcnSaPMST6cYSUtjbgoTLHgUiVttpLHtfXGDmMpLvIiiVzeilWJOvEoPDKejXY4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794720091;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=1aeL3aZartVWRoaJ+wOqIGtbhTzirIWecZnRwMU3oBQ=;
-	b=Qqh+KehbfFb+JXOluVOW/gu7e0IFIrOi6H0gnOKrsbq6k6TaozJFJRdCXMVJGfv67VYf
-	 AtmAlu7qRlhA63D6bemMEONaUXWRzuLmVDjKvyLAi/g7lIFRI+cBHJBW8bZj27Tqocbsl
-	 8ZJAWRMJFEDcT8EmMwEtypGhMqvqisj5Iq6neTtpGVdiBVWZFq0UxDCjlBsNEzcaOJ1bA
-	 XmN+Uu3Y5o8tKCyF1VwrJDnF0nbLIGdw1cOrBkqvpT4BwRN4jtIWLZRCDEROsXqvl3blX
-	 srzUNaI4GT/e5jbLd9gVADI53M68FG3aTra+kKUTjvWunTXwCj8eo+MP7n77CTdVpEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794725651;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=ZXAnycV2Hcm8ldSEMEQ/+eptx4Ci6snzlqCMyAXlIBA=;
+	b=QRViXDV5+E5cwoyhpngBOFKPC8o7diFxuMgdyw5nUT9ZwF50p0CQWteB2pOd0rg9Nby6
+	 d6/56b8GsLJbAqfQ4BT5msjQ9JuASNXA0F+IElz+xXyRkFIo1G4GUP5+qgz0djAqQfsiL
+	 pLYldgO6ShQqRDiUxJvS9uyty/XW0wOWXdqqosl3wK40PwrQku90kwgTkCZcJHLINt1cI
+	 DQGzF/XJvors10VLzPIBmqGgh2VN+u1NdnIdD3nhll1FaNN4yeRXcNOYaWxgRtbrMq6mz
+	 JWWUZ3Cyfhtzy5PDvFwps+u4ZFMBKSvU+ypLgtsVECV2wJ/Wp6gByDyweATLsnldIGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gMcx57V2;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=o7p+qhBv;
+	arc=none smtp.remote-ip=209.85.221.47
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970E5606A329;
-	Sun, 15 Nov 2026 05:21:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A532D606A329
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 06:54:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A532D606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gMcx57V2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9C241F000C5;
-	Sun, 15 Nov 2026 05:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794720091;
-	bh=1aeL3aZartVWRoaJ+wOqIGtbhTzirIWecZnRwMU3oBQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=gMcx57V2yLrBvmcA8OqgHuSFoDVTXHMx1TwzWi/IxtAz/WMM75m7uLAJF3bCw5jVa
-	 flhDRJyqEMslA9N/fVwltREE/jpQ/1Del8S+0wAeVbN2l960bNyBk+VrUsum4gpDhq
-	 H5Z89sTSqgUIxYj1oKaovzo3wbIJwievgcw5msChQh1XfOjiL0Ogfe0FBeV3o2uwQy
-	 54aJLy3eVlUYpRvcnITBAtB1R/XQOLCN4TNaxoYEbZv13yfI6fcpj804nBlJbQ0/ZE
-	 KqwBCS3g6S8kJ8smZinWZgTMbYFoc4/V9TZN0wilXyTizUxKsH0D5olcxMesxngGxB
-	 otbZgfzo6Ro0Q==
-Subject: Re: [PATCH net 2/2] net: usb: smsc95xx: propagate MDIO write errors
-From: netdev-bot+sashiko@kernel.org
-To: artem122novak@gmail.com
-Cc: steve.glendinning@shawell.net, UNGLinuxDriver@microchip.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, alexandru.tachici@analog.com,
- andre.edich@microchip.com, netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Date: Sun, 15 Nov 2026 05:21:30 +0000
-Message-ID: <179472009047.2199510.16640520776686219500@kernel.org>
-In-Reply-To: <20261114050954.275495-3-artem122novak@gmail.com>
-References: <20261114050954.275495-3-artem122novak@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=o7p+qhBv
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-490d59c3f0aso835120f8f.1
+        for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 22:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794725649; x=1795330449; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZXAnycV2Hcm8ldSEMEQ/+eptx4Ci6snzlqCMyAXlIBA=;
+        b=o7p+qhBvrgRPR4ZTdHy2qwlNaJnbxeNfxS4SR9OzVPnJmTkUlTcFQPs3YKnsc5wvVU
+         2FWAkbKqtm5XeNeNyVPLsnDRLb29/hItTp3oNyHl7S9McLZFWisG3cijOsu7p5PMkrJV
+         Bbszz9s2gKEM/Kj22PDpUBlwXq3ALXiUZxMisjP4KZQesbKuZT8OZy7lb9gMS6Mq+4+b
+         9f3lyLdDL7fQi3pICPDeeVs+CvMmS8wIvStge8MgtM8El4O0A0ud2P+RTvqZMrsHlwP4
+         PcguhGBuE3rIpbgDSL1PKMvWmJJ7uKMK8Aq0bCX0oNpmAZ81yEa53crvCoPIIbTONFlG
+         HKTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794725649; x=1795330449;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZXAnycV2Hcm8ldSEMEQ/+eptx4Ci6snzlqCMyAXlIBA=;
+        b=0WmtZB8JO0vqZcqqkVaxNBi9OBnGNRVwRCIr6QwfnqaZ/taXjS9U9ILI+xM4QsCGg4
+         90mvRQ33HSbMAyytQXFRt+GVHE64vc8az41GAS3XsxheyjdbCQPyJGsGSermbnVpBdtT
+         7fyGui2VjCj3PWlBzf/XQilRMiKDAJiM3IZmxN8M3+5yLk+HH3ULOAusQBFKKOcHtQzZ
+         K8n2cazb9h3miRWhJfojOggRQcgBxeRBZOu6u5UZ+v1xEg2spaXEBBgba4k+DUyE9J8V
+         HwtWe0xGbdsDCbnB5EVDG9Sr24IJfdlNpvHQ5qfOJRgGPPFSOcJZ41gYurDeDO0E5gSj
+         G1Mg==
+X-Forwarded-Encrypted: i=1; AL+hErG9fiLaEGeMgUA8/8gzaD/rvEBOriCihLbrOW0zeavqVAsijH/435NB/w4dRWD3itrAR5U2Z/fb1Ug=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/qoDhV6qKphhXKTC+bvKjJQUc2bX+nNbsUk9W/NnZKBzO9E5e3
+	TaXREid8+uT6RBqj+sHpJfsmBeNTSW/r56bf0DkRJ415NAZGhuHabKdR
+X-Gm-Gg: AYBFou3A4MOhVk5gtg2pa2rFkBF6jiUcl/Z9iGCM6Y8ZaUNT4ewoTR0/U7Wi2bWlRjo
+	tmwFztIeK8b+29oZ/0zQv6uWrRfEGV/P3Lyh6eJAWoBPbOhj9eFdzecZ6tayqscvDH6ecDGXVyk
+	23YSeOus0MGRRkn72GydyyzkTyaUzu3hQgHItJTYIkKIT5sUOPI1+OK5oUc5lvQT0CLh8sHUJ8F
+	iBrKWYSDXYBnkER2KsCKUaSCg4K+2Hc5F6RwMBT7Jm1YXBMHjnfspzlaWcGmTb6REooFKe9RxNZ
+	eBGdkcVDixxWaszADojcwuJsYYaflLZPdBrITlhmRSfFlbHbMyKcj6xgAK/C+EE+1SI10ps67Ah
+	MIeiLMI9e6T2CSdlQO+JVCXIjiGLSYfLsLH/hHS+3yvdWJ4QSNNSSe8bF2gP/+T1x4MWnqHk/6F
+	BOYefnFj8/rRordz5yYVmhmyBPdjZjvCX1h6d1A1WPJNMwWu6XQtDQsngtXoKubSCTMRgexJtzK
+	gQDUHBo59XSg5axwkZYZtx6wGQrAVBcysdellOCt1IB/2PYLk4KWvOJUsqWqDFyON/WQ48a8vSe
+	LBeNxpuISkBJ1xhW173bk40UBB+CHSGyjBaIeQ==
+X-Received: by 2002:a05:6000:29d2:b0:498:38b3:55a1 with SMTP id ffacd0b85a97d-49c71e3e27amr8823824f8f.15.1794725648797;
+        Sat, 14 Nov 2026 22:54:08 -0800 (PST)
+Received: from foxbook (bgu85.neoplus.adsl.tpnet.pl. [83.28.84.85])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c608d10b2sm25699913f8f.44.2026.11.14.22.54.07
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 14 Nov 2026 22:54:08 -0800 (PST)
+Date: Sun, 15 Nov 2026 07:53:59 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: "William A. Kennington III" <william@wkennington.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: ehci: skip companion handoff when no companion
+ exists
+Message-ID: <20261115075359.39ec8f71.michal.pecio@gmail.com>
+In-Reply-To: <20261114051653.1353346-1-william@wkennington.com>
+References: <20261114051653.1353346-1-william@wkennington.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,105 +99,211 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
+On Sat, 14 Nov 2026 05:16:53 +0000, William A. Kennington III wrote:
+> EHCI controllers without an integrated root-hub transaction translator
+> unconditionally set PORT_OWNER whenever a root port sees low-speed line
+> state before reset, finishes reset without enabling High-Speed mode, or
+> is relinquished by usbcore after enumeration fails. When no companion
+> controller is present or enabled, setting PORT_OWNER routes the port
+> away from EHCI to a nonexistent or disabled controller. A single missed
+> High-Speed chirp or transient D+/D- bounce during reset then strands
+> downstream USB 2.0 hubs until EHCI is rebound, and connecting a USB 1.1
+> device leaves the port dead to later USB 2.0 devices.
+> 
+> Check during ehci_setup() whether HCSPARAMS reports zero companions
+> (HCS_N_CC == 0), both CONFIG_USB_OHCI_HCD and CONFIG_USB_UHCI_HCD are
+> disabled in Kconfig (such as in aspeed_g4_defconfig,
+> aspeed_g5_defconfig, and BMC builds without UHCI or OHCI), or a Device
+> Tree companion phandle points to a disabled node. Runtime companion
+> binding is intentionally not checked at setup time so modular or
+> later-probing companion drivers still receive handoffs.
+> 
+> When no companion is available, set ehci->no_companion to skip
+> PORT_OWNER handoffs and omit the companion sysfs attribute, matching
+> the integrated-TT path so usbcore keeps port ownership on EHCI.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
+Hi,
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+That's for Alan to decide, but it seems that whenever you use
+ehci->no_companion, you always add "|| ehci_is_TD(ehci)", and this
+is unlikely to change since HCs with TT don't need companions.
 
-- [Medium] The patch makes smsc95xx_mdio_write() return an error, but
-  only one of its two callers was updated.
+So ehci_is_TDI() together with its associated comment could be
+moved to ehci_has_companion(). Then you no longer need those funny
+comments like "without companion there is no companion" and the
+code becomes somewhat simpler too.
 
---
+Regards,
+Michal
 
-net: usb: smsc95xx: propagate MDIO write errors
-
-This commit changes smsc95xx_mdio_write() from void to int so it returns
-register access errors, while still treating -ENODEV as success during
-disconnect. smsc95xx_mdiobus_write() now passes that error back to the
-MDIO bus instead of always returning 0.
-
-> diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
-> index f85ee5f8a5394..52035c160f4b0 100644
-> --- a/drivers/net/usb/smsc95xx.c
-> +++ b/drivers/net/usb/smsc95xx.c
-> @@ -215,8 +215,8 @@ static int smsc95xx_mdio_read(struct usbnet *dev, int phy_id, int idx)
->  	return ret;
+> USB 1.1 full- and low-speed devices still cannot enumerate without an
+> integrated TT or companion controller and will fail usbcore's normal
+> reset retries instead of triggering a PORT_OWNER handoff.
+> 
+> Signed-off-by: William A. Kennington III <william@wkennington.com>
+> ---
+>  drivers/usb/host/ehci-hcd.c   | 31 +++++++++++++++++++++++++++++++
+>  drivers/usb/host/ehci-hub.c   | 21 ++++++++++-----------
+>  drivers/usb/host/ehci-sysfs.c |  8 ++++----
+>  drivers/usb/host/ehci.h       |  1 +
+>  4 files changed, 46 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
+> index 75f780ec3ba0..1e813ac5f0cb 100644
+> --- a/drivers/usb/host/ehci-hcd.c
+> +++ b/drivers/usb/host/ehci-hcd.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/moduleparam.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/debugfs.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+>  
+> @@ -679,6 +680,33 @@ static int ehci_run (struct usb_hcd *hcd)
+>  	return 0;
 >  }
 >  
-> -static void smsc95xx_mdio_write(struct usbnet *dev, int phy_id, int idx,
-> -				int regval)
-> +static int smsc95xx_mdio_write(struct usbnet *dev, int phy_id, int idx,
-> +			       int regval)
-
-[Severity: Medium]
-smsc95xx_mdio_write() has a second caller, smsc95xx_enter_suspend1(),
-and this patch doesn't change it. Both writes there still throw away the
-return value:
-
-drivers/net/usb/smsc95xx.c:smsc95xx_enter_suspend1() {
-    ...
-	if (pdata->features & FEATURE_PHY_NLP_CROSSOVER)
-		smsc95xx_mdio_write(dev, phy_id, PHY_EDPD_CONFIG,
-				    PHY_EDPD_CONFIG_DEFAULT);
-
-	/* enable energy detect power-down mode */
-	ret = smsc95xx_mdio_read(dev, phy_id, PHY_MODE_CTRL_STS);
-	if (ret < 0)
-		return ret;
-
-	ret |= MODE_CTRL_STS_EDPWRDOWN_;
-
-	smsc95xx_mdio_write(dev, phy_id, PHY_MODE_CTRL_STS, ret);
-    ...
-}
-
-Every other access in that function returns on error, including the
-smsc95xx_mdio_read() between the two writes.
-
-What happens if one of these writes fails? That could be an -EIO from
-smsc95xx_phy_wait_not_busy(), or a USB error other than -ENODEV from
-smsc95xx_write_reg().
-
-In that case the function still writes PM_CTRL with PM_CTL_SUS_MODE_1
-and PM_CTL_WUPS_ED_ | PM_CTL_ED_EN_. It then sets SUSPEND_SUSPEND1 in
-pdata->suspend_flags and returns 0. The controller waits for an
-energy-detect wake, but the PHY may not be in energy-detect power-down.
-
-smsc95xx_suspend() gets 0 back from smsc95xx_enter_suspend1(), both from
-the autosuspend path and from the WAKE_PHY path with the link down. So
-the usbnet_resume() recovery at its done: label never runs.
-
-Should smsc95xx_enter_suspend1() check these return values too, since
-the subject says MDIO write errors are propagated?
-
-Also, unlike smsc95xx_read_reg(), smsc95xx_write_reg() and
-smsc95xx_phy_wait_not_busy() in this file, the new int-returning helper
-isn't marked __must_check. Would adding it make the compiler flag
-dropped results like these?
-
+> +static bool ehci_has_companion(struct ehci_hcd *ehci)
+> +{
+> +	struct device *dev = ehci_to_hcd(ehci)->self.controller;
+> +
+> +	if (HCS_N_CC(ehci->hcs_params) == 0)
+> +		return false;
+> +
+> +	if (!IS_ENABLED(CONFIG_USB_OHCI_HCD) &&
+> +	    !IS_ENABLED(CONFIG_USB_UHCI_HCD))
+> +		return false;
+> +
+> +	if (dev && dev->of_node) {
+> +		struct device_node *node;
+> +
+> +		node = of_parse_phandle(dev->of_node, "companion", 0);
+> +		if (node) {
+> +			bool avail = of_device_is_available(node);
+> +
+> +			of_node_put(node);
+> +			if (!avail)
+> +				return false;
+> +		}
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  int ehci_setup(struct usb_hcd *hcd)
 >  {
->  	u32 val, addr;
->  	int ret;
-> @@ -255,6 +255,12 @@ static void smsc95xx_mdio_write(struct usbnet *dev, int phy_id, int idx,
+>  	struct ehci_hcd *ehci = hcd_to_ehci(hcd);
+> @@ -691,6 +719,9 @@ int ehci_setup(struct usb_hcd *hcd)
 >  
->  done:
->  	mutex_unlock(&dev->phy_mutex);
-> +
-> +	/* Ignore -ENODEV error during disconnect() */
-> +	if (ret == -ENODEV)
-> +		return 0;
-> +
-> +	return ret;
+>  	/* cache this readonly data; minimize chip reads */
+>  	ehci->hcs_params = ehci_readl(ehci, &ehci->caps->hcs_params);
+> +	ehci->no_companion = !ehci_has_companion(ehci);
+> +	if (ehci->no_companion)
+> +		ehci_dbg(ehci, "no companion controller, disabling port handoff\n");
+>  
+>  	ehci->sbrn = HCD_USB2;
+>  
+> diff --git a/drivers/usb/host/ehci-hub.c b/drivers/usb/host/ehci-hub.c
+> index e676c98b6baa..1f69d9fc93c7 100644
+> --- a/drivers/usb/host/ehci-hub.c
+> +++ b/drivers/usb/host/ehci-hub.c
+> @@ -618,18 +618,17 @@ static int check_reset_complete (
+>  	/* if reset finished and it's still not enabled -- handoff */
+>  	if (!(port_status & PORT_PE)) {
+>  
+> -		/* with integrated TT, there's nobody to hand it to! */
+> -		if (ehci_is_TDI(ehci)) {
+> -			ehci_dbg (ehci,
+> -				"Failed to enable port %d on root hub TT\n",
+> -				index+1);
+> +		/* with integrated TT or no companion, there's nobody to hand it to! */
+> +		if (ehci_is_TDI(ehci) || ehci->no_companion) {
+> +			ehci_dbg(ehci, "Failed to enable port %d%s\n",
+> +				 index + 1,
+> +				 ehci_is_TDI(ehci) ? " on root hub TT" : "");
+>  			return port_status;
+>  		}
+>  
+>  		ehci_dbg (ehci, "port %d full speed --> companion\n",
+>  			index + 1);
+>  
+> -		// what happens if HCS_N_CC(params) == 0 ?
+>  		port_status |= PORT_OWNER;
+>  		port_status &= ~PORT_RWC_BITS;
+>  		ehci_writel(ehci, port_status, status_reg);
+> @@ -1145,9 +1144,9 @@ int ehci_hub_control(
+>  			 * which can be fine if this root hub has a
+>  			 * transaction translator built in.
+>  			 */
+> -			if ((temp & (PORT_PE|PORT_CONNECT)) == PORT_CONNECT
+> -					&& !ehci_is_TDI(ehci)
+> -					&& PORT_USB11 (temp)) {
+> +			if ((temp & (PORT_PE | PORT_CONNECT)) == PORT_CONNECT &&
+> +			    !ehci_is_TDI(ehci) && !ehci->no_companion &&
+> +			    PORT_USB11(temp)) {
+>  				ehci_dbg (ehci,
+>  					"port %d low speed --> companion\n",
+>  					wIndex + 1);
+> @@ -1244,7 +1243,7 @@ static void ehci_relinquish_port(struct usb_hcd *hcd, int portnum)
+>  {
+>  	struct ehci_hcd		*ehci = hcd_to_ehci(hcd);
+>  
+> -	if (ehci_is_TDI(ehci))
+> +	if (ehci_is_TDI(ehci) || ehci->no_companion)
+>  		return;
+>  	set_owner(ehci, --portnum, PORT_OWNER);
 >  }
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261114050954.275495-1-artem122novak%40gmail.com
+> @@ -1254,7 +1253,7 @@ static int ehci_port_handed_over(struct usb_hcd *hcd, int portnum)
+>  	struct ehci_hcd		*ehci = hcd_to_ehci(hcd);
+>  	u32 __iomem		*reg;
+>  
+> -	if (ehci_is_TDI(ehci))
+> +	if (ehci_is_TDI(ehci) || ehci->no_companion)
+>  		return 0;
+>  	reg = ehci_portsc(ehci, portnum - 1);
+>  	return ehci_readl(ehci, reg) & PORT_OWNER;
+> diff --git a/drivers/usb/host/ehci-sysfs.c b/drivers/usb/host/ehci-sysfs.c
+> index 5e6b545c30e6..1dcca19b544b 100644
+> --- a/drivers/usb/host/ehci-sysfs.c
+> +++ b/drivers/usb/host/ehci-sysfs.c
+> @@ -145,8 +145,8 @@ static inline int create_sysfs_files(struct ehci_hcd *ehci)
+>  	struct device	*controller = ehci_to_hcd(ehci)->self.controller;
+>  	int	i = 0;
+>  
+> -	/* with integrated TT there is no companion! */
+> -	if (!ehci_is_TDI(ehci))
+> +	/* with integrated TT or no_companion there is no companion! */
+> +	if (!ehci_is_TDI(ehci) && !ehci->no_companion)
+>  		i = device_create_file(controller, &dev_attr_companion);
+>  	if (i)
+>  		goto out;
+> @@ -160,8 +160,8 @@ static inline void remove_sysfs_files(struct ehci_hcd *ehci)
+>  {
+>  	struct device	*controller = ehci_to_hcd(ehci)->self.controller;
+>  
+> -	/* with integrated TT there is no companion! */
+> -	if (!ehci_is_TDI(ehci))
+> +	/* with integrated TT or no_companion there is no companion! */
+> +	if (!ehci_is_TDI(ehci) && !ehci->no_companion)
+>  		device_remove_file(controller, &dev_attr_companion);
+>  
+>  	device_remove_file(controller, &dev_attr_uframe_periodic_max);
+> diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
+> index 855a9d08b019..8ab5c696717a 100644
+> --- a/drivers/usb/host/ehci.h
+> +++ b/drivers/usb/host/ehci.h
+> @@ -238,6 +238,7 @@ struct ehci_hcd {			/* one per controller */
+>  	unsigned		no_configured_flag:1;
+>  	unsigned		no_tdi_mode:1;
+>  	unsigned		no_fsls_isoc:1;
+> +	unsigned		no_companion:1;
+>  
+>  	/* required for usb32 quirk */
+>  	#define OHCI_CTRL_HCFS          (3 << 6)
+> -- 
+> 2.56.0.611.g1030f0b940-goog
+> 
