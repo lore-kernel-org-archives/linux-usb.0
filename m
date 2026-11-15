@@ -1,56 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.222.135.140
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794743906;
-	b=wxgV82Qt6xA8SeU3UDNhWHwtJkhGtloNvrOA5rBRhrJvh4an3DcvtcETyi7/iwKc3DOB
-	 1ekeLcrNxLs4t/O5tOxRA2FTXr4PwpxKnodw0ZNnCfFbiacgBEZghqyFhClrd70dmYnve
-	 FAL1CWBgL2OZ5DlgaqB+aaKUeDNuxfKQUTi63n1ksnQHl0wr1E93JV02VPXtqosJ9PD5W
-	 p3dokYkV+JXM0CPVR1MTObhjiA86pYwkdWB4tBDr79ocbZNjsdy1d81rpiylKSCf/fIww
-	 Y6nJh3roMo4oV83yPrhTCdkRlVS5pS5CzCwRN2fKxgR26D4b94z3xliZmtiD51/4M6Q==
+	t=1794746519;
+	b=v8WXFQisZw5L1BF43EPUvPVaVZPx2H76SDVyUD8ornmrK/z0CZIhucfpCr5l8Aa17GkD
+	 TXBfCyyrtVMNgdJVjTB7ZEiOjM3GW3DmDxmWXp3TamK9w1pSqY45XQeQpLyhtwHMw5QR5
+	 9lMMwPqaoZDkgq8GoATIa/YfMMax3cG6lZuW9ECIbkaDvNxdVQmzIBR2WQS/ZvGCoZBj8
+	 mSiQ6D4wPZcypHiAFZX1D5eIlf1tEeua2fkwZUkhK76DFS0HDmN/z9nVsEVFTEPx4oNwX
+	 7G6OYk4MCuzsZzWxoZuLgcYr9GkBV01kH7ZABrl2knEBWpwDtxHzzXeHQSESUMoo+7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794743906;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=efZn9kKyzFvhmLe5ocXri9GXnWcCja1K7/RMaA6AzAU=;
-	b=O2MQUpYeizHF+YFhQssUbtlmfAelqJdLsNSqYj0QZmM4+16WuIKhjzXCZVULaDE2xhXr
-	 IA0ZAZO144hg/HuW+tki5IbcL/d1kKwC5QomlOmcJrRxtQXnQkDgVdYFRY+TLMW96UKv+
-	 i00aGdPulkm2i+bg9Y/d1enwsOpHq9avIATKGCxA4n3CgtjaDDncQA1jPqlMV+nm2uDBQ
-	 s1QL4sA3c7hOU85PtXwdiblm5zPekajMOYC05HPHyIYEcWBCTFQCZKZxRPFOlX71E2SOU
-	 FZeccLxW6U+VceCggkVrIHWcyk/USDeyr33dtq3KoRToy1iX4OuRuJK4vH4OAgYIkuw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794746519;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-WP-DKIM-Status:X-WP-MailID:X-WP-AV:
+	 X-WP-SPAM;
+	bh=ryjnoPK0FiOS220BbRQkctm1gx2KPPViciuqsXa4DYs=;
+	b=c090NL2p4vmk6Wox3//wkLPAe6vycTM00JxrTuCrQRJurfBaEslzAKgKJ/oaGcgXsyW5
+	 05MT+BIGtfo/4b2wuiPFlqoYq+VOnhQY/cATcffP6fKpZS0Cux12ypFv0ETaPShnVwokC
+	 IxDN/yLXPIzC9Qgo+tbz0aw6xXg+zO1g9jnxfmTGk4ceSRMiMGsLco465BLwBy2tJCRXy
+	 2ogqJbK2iqFcM9P3GdyHncd9pGMWAIIfhJ+TGWjfhW57K5KAOeDfWnn7AcUrAJZ2azagx
+	 EAFEjn7TkeQZZ5DaLfLMBHBOAK3WuJpaYg1sxnMwahGNbpUkqr4bEsXCCencT0wQp4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FgV99FjL;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=o2.pl;
+	spf=pass smtp.mailfrom=o2.pl;
+	dkim=pass header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=DXCbEcAc;
+	arc=none smtp.remote-ip=193.222.135.140
+Received: from mx-out.tlen.pl (mx-out.tlen.pl [193.222.135.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DB1606A31F
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 11:58:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F383F606A31D
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 12:41:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F383F606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=o2.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=o2.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FgV99FjL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 302EE1F000C4;
-	Sun, 15 Nov 2026 11:58:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794743906;
-	bh=efZn9kKyzFvhmLe5ocXri9GXnWcCja1K7/RMaA6AzAU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=FgV99FjLW0CmiKU3EhXECXQdKBe0pMJan9oRdYIiTz76RRS0vR4j6HjQZCBkkMAcU
-	 fWgdQF6ca/q9Qrzb+XGGkYGx0yH+M6XKJ2sox+kyHt5U16TIHQCx6Ug381NXBB/S0r
-	 5URcoEiVxOmxZx3xdn7s365Y1w96C8oDQhB9QAfNTOay1itIpIf4iw7tqNmUThVKLt
-	 GAXFIrnrKsCatNhMuDbtxaRu0vmGRcphx42Vr1ET57r+ol8Ur8+Y1uXvHxCwuX2II7
-	 7DV1UuJ58ViZr+Skic/5AihR8IfIkeBFp84mVAWaqpnI7vQY2flSuZxZ+xHVbPERkU
-	 fUyeywfeyGoeg==
-Message-ID: <sashiko-outbox-215468@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: host: ehci-atmel: stop clocks before releasing
- HCD
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Hongyan Xu" <getshell@seu.edu.cn>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <179474328429.103840.11561415733183356947@seu.edu.cn>
-References: <179474328429.103840.11561415733183356947@seu.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2026 11:58:25 +0000
+	dkim=pass (2048-bit key) header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=DXCbEcAc
+Received: (wp-smtpd smtp.tlen.pl 40961 invoked from network); 15 Nov 2026 13:41:49 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=o2.pl; s=s20261001;
+          t=1794746509; bh=ryjnoPK0FiOS220BbRQkctm1gx2KPPViciuqsXa4DYs=;
+          h=From:To:Cc:Subject;
+          b=DXCbEcAcKjYpfldum/vHLnZMnUWwUh2XG1Ksj+bOlfecKtK3GVOd25MagdcoRZiNt
+           FxuAWtoxG3ksNhL2W3k2U2S3hT7xzY+F7NaVsJ1iBXoR4muwvsSuFHARUxGLj5Lw+G
+           d6g/WwFK5cEVyIao+na9R0FHFghTlqcVjzM/chbog8esmLNeJLhn6UEG/aJBOS4JYv
+           FXxDrRbLx72937KDuu0CY5QdBGVzStIRKxhewP7u5KK/rFa9H+EmJCR5sYf1xliZtF
+           XDIvrpvxYXSnZbmV01ZMnzzpKz53280P7cfqvPlq9EamkfZ5ZOqgaXLoMSB9v6dzzm
+           b9kcL/gwLFQEg==
+Received: from localhost.localdomain (apn-78-30-67-84.dynamic.gprs.plus.pl [78.30.67.84])
+          (envelope-sender <mat.jonczyk@o2.pl>)
+          by smtp.tlen.pl (WP-SMTPD) with SMTP
+          for <oneukum@suse.com>; 15 Nov 2026 13:41:49 +0100
+From: =?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	smartmontools-support@listi.jpberlin.de,
+	Christian Franke <Christian.Franke@t-online.de>,
+	=?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
+Subject: [PATCH] usb: uas: expose US_FL_NO_ATA_1X in sysfs as deny_ata_passthrough
+Date: Sun, 15 Nov 2026 13:40:46 +0100
+Message-ID: <20261115124046.5286-1-mat.jonczyk@o2.pl>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,51 +71,70 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-WP-DKIM-Status: good (id: o2.pl)                                                      
+X-WP-MailID: beedee10f93d25369d9fae5912078f3e
+X-WP-AV: skaner antywirusowy Poczty o2
+X-WP-SPAM: NO 000000B [kfNU]                               
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] usb: ehci-atmel: Fixes tag cites 501c9c0802d9 instead of
-  7baddacbe1bc
---
+The uas driver blocks access to ATA passthrough commands for some
+devices it considers buggy (via the US_FL_NO_ATA_1X flag in
+unusual_uas.h and uas_detect.h). However, it does not expose any
+meaningful information whether the command was blocked by the driver or
+is genuinly not supported by the hardware. This creates a problem for
+the smartmontools program and makes it difficult for it to provide a
+useful error message (with instructions to disable UAS on the drive to
+get SMART readings).
 
-commit 01c8113ae4f3e9e4bce884feb37af84c2ce05255
-Author: Hongyan Xu <getshell@seu.edu.cn>
+So, expose the information in sysfs as deny_ata_passthrough. Other
+quirks may be added in the future if there is any demand.
 
-> usb: host: ehci-atmel: stop clocks before releasing HCD
->
-> usb_put_hcd() can release the HCD and its private data. Calling
-> atmel_stop_ehci() afterwards retrieves that HCD from platform data
-> and accesses its private clock state.
->
-> Stop the controller clocks after usb_remove_hcd() has quiesced the
-> host, but before dropping the driver's HCD reference. This matches
-> the probe error unwind, which already stops the clocks before
-> usb_put_hcd().
->
-> Found by the author's in-house static analysis tool.
->
-> Fixes: 501c9c0802d9 ("USB: at91: Add USB EHCI driver for at91sam9g45 seri=
-es")
-> Cc: stable@vger.kernel.org
-> Link: https://lore.kernel.org/all/20260806060557.1747-1-getshell@seu.edu.=
-cn/
-> Acked-by: Alan Stern <stern@rowland.harvard.edu>
-> Signed-off-by: Hongyan Xu <getshell@seu.edu.cn>
-> Signed-off-by: Zehao Gao <gaozehao@iie.ac.cn>
+Link: https://www.smartmontools.org/wiki/SAT-with-UAS-Linux
+Signed-off-by: Mateusz Jończyk <mat.jonczyk@o2.pl>
+---
+ drivers/usb/storage/uas.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-[Severity: Low]
-In 501c9c0802d9 ("USB: at91: Add USB EHCI driver for at91sam9g45 series"),
-the clock state was stored in file-scope static variables and
-atmel_stop_ehci() did not access hcd or its private data.  The clocks were
-moved into struct atmel_ehci_priv inside hcd->hcd_priv and dereferenced in
-atmel_stop_ehci() by 7baddacbe1bc ("USB: host: ehci-atmel: Move global
-variables to private struct").
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index 8655edbd66b1..aaea74297026 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -910,6 +910,25 @@ static int uas_sdev_configure(struct scsi_device *sdev,
+ 	return 0;
+ }
+ 
++/* Sysfs interface */
++static ssize_t deny_ata_passthrough_show(struct device *dev, struct device_attribute *attr,
++					 char *buf)
++{
++	struct scsi_device *sdev = to_scsi_device(dev);
++	struct uas_dev_info *devinfo = sdev->hostdata;
++
++	return sprintf(buf, "%d\n", !!(devinfo->flags & US_FL_NO_ATA_1X));
++}
++
++static DEVICE_ATTR_RO(deny_ata_passthrough);
++
++static struct attribute *uas_sdev_attrs[] = {
++	&dev_attr_deny_ata_passthrough.attr,
++	NULL,
++};
++
++ATTRIBUTE_GROUPS(uas_sdev);
++
+ static const struct scsi_host_template uas_host_template = {
+ 	.module = THIS_MODULE,
+ 	.name = "uas",
+@@ -929,6 +948,7 @@ static const struct scsi_host_template uas_host_template = {
+ 	.dma_alignment = 511,
+ 	.dma_boundary = PAGE_SIZE - 1,
+ 	.cmd_size = sizeof(struct uas_cmd_info),
++	.sdev_groups = uas_sdev_groups,
+ };
+ 
+ #define UNUSUAL_DEV(id_vendor, id_product, bcdDeviceMin, bcdDeviceMax, \
+-- 
+2.47.3
 
-Should the Fixes tag be:
-
-  Fixes: 7baddacbe1bc ("USB: host: ehci-atmel: Move global variables to pri=
-vate struct")
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179474328429.103840=
-.11561415733183356947@seu.edu.cn?part=3D1
