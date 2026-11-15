@@ -1,92 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794753889;
-	b=svI0pDcZ0VyD9DLK91JlVj7UVWV9Ky5NYQgsA/b8CuQBJkGu9ojSqtCiyD6b9mo5ppZ+
-	 RZNVq3w1UtmN4YjabBEanfkFheN4Ed3lywAjuiUBFFu3XrPAAXagy5LGypferUG/Z+BB5
-	 SxPRlcrflRUDl33zJ5s9owaY5uj8f3Z8ObHaSLCartSxV3JpOdmq9TFOVgLgYzwR8X6Ck
-	 7pWxrJJPIFailQFJ1718Ua++329wbVTFt/qYEsS5B0d1E9hTgAGQypBgFxtTzflKZjNwv
-	 FdMQr7zuXpoLZPsFr0SaLly6NYeoJUQHlTT4FNDoYkupKK8XF86wbzUE4emg4AAzP0w==
+	t=1794754570;
+	b=DDXuSRiccBuovdU55ozkJSH4/ipktAitVwO3Fj3m8H4mTbydGmZpnbaB/PpZH3ijaygK
+	 sSnhIt8IGtFc1l0HnsiHVZ69n4FjG3JqXeuqz7cinBvvUQVP8db0K3a7aitXcGUuwRJQy
+	 qKNDfe/KYKf62+gVn2W13YvNmCVq+4Q4g0sxVGZI8rojGluT4SM8+zXAiKh+ND1+WMid1
+	 zwQXRuI3nMfGjifw2jzCUBTs8mWg2OsyLYBof9KNH7ADy9WTuF+lYwL6G5mZ1eQDkj508
+	 9Um+IAMr0loIbbYaaDf/uUH2CYgA8d6E5pP2qzFQv/CHi+NZPniJx56EhSeeEoOtRNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794753889;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794754570;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=l7ooCLRATnQW0qioD+obzzYt/lGlivBDn9hxfKtL8W8=;
-	b=KVcck3Jo/2jr49+T6ivXCzK9SOO6HQgCPCzGhkB/BOj2162Moj7BdJ9kewloXzv52NDx
-	 V5Z617LkB8uM3VAsdLFELQZlfzuEZYjSacVDtRaHnX1klrbZxAFF862TxsAgC9wKfhidz
-	 cyZCfXVgGgiFnF6pPa8xCuzCDncnf5X6Of4anTvTRDectcCpwBV8q48iCmP3bgFnJnX+d
-	 FEDOfsSFaUk75JetmpnVl+BmjvLDDUoPOtPaY/7ROeu0oymUKFdPOoasIOMtutLfFdvAa
-	 Go3DiWqDhLMLFE97UZK01ffVxvAPfbVORolfUl2OtNErvZaPTDjtwErIt6MMHzmGTDw==
+	bh=66KrluPErA73yZ5oWO4/Se+YF4oLxRzv02FOs2NcGy0=;
+	b=AhA3CgxoB6yu4siOtd0Xv8GY/Lhj3HUGrOqYUET/t4dbF1exlWDsjL2zPy286W2IK9bR
+	 lgkZhjKuAkWNEOZI86/1GEzECf3AuPqSXmCfeym2S8uqPQJPbMasSOIMJxqg19jFSCq4I
+	 ffDuO4CcXuPjY5rnqe8kuVVLyMFdKW/s+G+yLkJwzAalmofG0ipELpiN428ry/612Ci0y
+	 2D2qie0hifPLYzmDIHpRYjglYMNuh/5RBKXjYHEQpO9zpKiXHiYHIxWHIPcz8HzfnzyQY
+	 3LxQT3HEub72xw/AQVl8HZ+ehEM3Elzz5D+HNHMfPwPhxGKybg47CtHbOZ0sXrI8prQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0cPkUmMV;
-	arc=none smtp.remote-ip=209.85.221.43
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	dmarc=pass header.from=ieee.org;
+	spf=pass smtp.mailfrom=ieee.org;
+	dkim=pass header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=MdjyCQDg;
+	arc=none smtp.remote-ip=209.85.210.46
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1639606A31A
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 14:44:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1639606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5D0606A31E
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 14:56:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF5D0606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0cPkUmMV
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-49318428d98so984919f8f.1
-        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 06:44:48 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=MdjyCQDg
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-85ac281604dso2173038a34.0
+        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 06:56:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794753887; x=1795358687; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=l7ooCLRATnQW0qioD+obzzYt/lGlivBDn9hxfKtL8W8=;
-        b=0cPkUmMVgeuAUkMQz2r6UxYLSOyCkdXpi2lBYGbilBUmQEmPMfp7ymQjXwwcnPM7sa
-         wt9kivmVn6xGUK4Kvo2YFmeLAQYtoWdbcF2Ccx+88sFDx1ewV1xwMLyT1Kr6b7rTAobw
-         PDRlfD1sLBYiSat2fZr0zZGQZHGfm4Il04mftg1HkpjH840M5vYpxQuXdeWdDVM4B9B8
-         20fxYbhSIVbnifI0ldCOHUwhTDQriJT4WmYW49yGYPDWYrzWRQl5KH62HxiEV703V9Ok
-         b+ISGos1M/xZNKAYRJqBlkRKJPAxWunkR9U1BVvpJV5k688RxZHXJYfVd8HM3BdUqM0P
-         kKqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794753887; x=1795358687;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=ieee.org; s=google; t=1794754568; x=1795359368; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=l7ooCLRATnQW0qioD+obzzYt/lGlivBDn9hxfKtL8W8=;
-        b=Kd5wMDdTpWIAxcaBM8duyTH17T+j/NmULJan7oLepJCRZlXRcxaonq7WiRKkuAOyOt
-         bkc85rExwasCV/hi466ZP8nPEDuI1MfoSSwARhheC5lujy01koTQ9IHf4zYiTmDep4fs
-         ySYEhLR6tfvktwLOcVNCQR/QxWheV/OceX/J20jn4dwD20/VpEKwUXw7FJXL8JwFBRal
-         9WF/mxY+MLYtRfd6LaDfLDLNIuNGeFp1PUaXNlm8T8vhsgUiAiHj9+QSubfaM+X0sdz0
-         ISoxhuB6vNwBlQn0UC9pBa5AP9Z1Vei8YzaIaMrcXWtJebYKkinJEUvwi/k11IPgetbf
-         4NGQ==
-X-Gm-Message-State: APuU4Z+KAvbNyN9hmXbmybdr/BuOZVmHGsm5L5oE1wjDoSP7MhzdzEAi
-	78tFQc8Fr1amhosEXf16zRtp7bbJjqGMGGZ+AcpLOTQmhE+1UMmdhDeinUN/nQ==
-X-Gm-Gg: AYBFou01/ATXyH2wOJj+JLm0LILds6ZPbKAcj8zHq3qSgLpAHRBzZH6rKLWDNnxZohn
-	aAZT0KYw80wqeKuE9jWrAaSKlNlDL7b5k6okrH91E4cku6GJSeEJ2DoZuKotMkvlT5OqZ40Q91N
-	p8ZIPNHlurGMdhDZXPTJwbTkiZ+hCcK1K33YLRV9xDmchUdM+WwfZiETyG4/IlRDjBVK5/QGMxH
-	9NmiW+iLpYJwBnCr1Sep/CfKs/6QCWFODAedgAUfXQqrHjQGL4AXlFqRfn36k1E0Av3jki9o/KD
-	WIhA/c61S/XG2vyWjcocNJYi2Pf/wbv8dhE6AZuOBn037Kq8iNbt2VH7K0UgB26JPueBNj2rI9J
-	1BtpYO5Qn7f+LA9OwMPuMlHMcnkMXA6j3uWA1qliYxytb89xrYOcA0EFWU1CUql7+YwtgmTA50N
-	FTRNeV10PzylnT+DRG/wV/Wzr7RU4KvP56m9NBLL+pe0K/u1Ad5uTvwdzjKJCaDcSYPpZbcdMlL
-	Aa5Pwlzhu6jdu809a7sqGkfCV3OyIAf8VkgBfVPtTE2ve2T9fQo3lK7UE7o3YWGn4uNxWqOwnaT
-	z/4r6DlNHg8ZMdElJOu1oa0Pk2FLm4KyMoVDBsHMZ/PVqZddUQlIe1eq79xvmPJw8wzGys4SZP4
-	/Vsqb5LsoqzM7io7fgz5Pt5YbQKpLhoH03jlRyRP1b21/F6UABxEz2jQ=
-X-Received: by 2002:a05:6000:25f9:b0:48e:c0:9441 with SMTP id ffacd0b85a97d-49c71a66e00mr16928146f8f.29.1794753886950;
-        Sun, 15 Nov 2026 06:44:46 -0800 (PST)
-Received: from resend-list-plain-20261115.eml (host86-185-73-183.range86-185.btcentralplus.com. [86.185.73.183])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c605e4a2asm16585194f8f.39.2026.11.15.06.44.45
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 06:44:46 -0800 (PST)
-From: James R Taylor <jrtaylor11@gmail.com>
-To: linux-usb@vger.kernel.org
-Subject: Re: thunderbolt: AMD Phoenix USB4 host advertises Gen3 Support=0 in SB LINK_CONF with TB5 device, link stuck at Gen2
-Date: Sun, 15 Nov 2026 14:43:16 +0000
-Message-ID: <1794753796.37750.resend.hermes@gmail.com>
-In-Reply-To: <dcc400cf-809e-4b7e-a14c-e4b2f469909d@amd.com>
-References: <1794143745.17311.hermes@gmail.com>  <20261109111852.GQ176724@black.igk.intel.com>  <1794223545.366398.reply.hermes@gmail.com>  <20261109142041.GS176724@black.igk.intel.com>  <1794235167.3657.reply.hermes@gmail.com>  <20261109153955.GU176724@black.igk.intel.com>  <6af1e999.9efe04cf.8f35d.ae23@mx.google.com>  <20261109155007.GV176724@black.igk.intel.com> <dcc400cf-809e-4b7e-a14c-e4b2f469909d@amd.com>
+        bh=66KrluPErA73yZ5oWO4/Se+YF4oLxRzv02FOs2NcGy0=;
+        b=MdjyCQDgymuxq21YTzEo9I02h9xhfqBitfXT2rvxDMXO7aai4bGGI7wS9F9l9TXhuh
+         tsSff63SYcMwrTPUqLh3CZM8wcRXZNZabZ7uKKHRXyd7W0T6ypagmMWJOJYMZoGWVRd8
+         xeKYKWZxNvg+IGCJo+FCvsYm7x0fFgFGH6RDs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794754568; x=1795359368;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=66KrluPErA73yZ5oWO4/Se+YF4oLxRzv02FOs2NcGy0=;
+        b=thvxzqCMYWEktcgZBIhI2+gdxsRF3qUp9hZEhvZrscJU++4Dqw8Fo63u08SKBIaViY
+         lQoTi+cjre5X0M/Y7HbElSuODBBUjfUUnGm1+v63YcJLGniGNrBb31VSk6+e/rRxwYfd
+         H6BoXlAA8H8GRJL/oiZXBFPShVfY67QeWGNWaqU7O0Bes+Ihd6oAbWmYO1wBpr61oe+u
+         c8vKZpXXlewaFCj4OiHef/SHXl+y9Q2L5wCPljRyvhrPaj3dLW5lN1+Zkk31spog5ZKt
+         THpuqiXUzzzvA9tNvbrvtVwENpzEGdVczBRx22Ka3UY4y108364CQ7y9DgoVe6qGCsnE
+         Ad6g==
+X-Forwarded-Encrypted: i=1; AL+hErHZY4or71NaBINOPRtNZObwJIJT0swy9O3d7NHtaVucBqXIsoVilNKWOFybSvV99mhPXEqZHJFjJlA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z95vviOFdiA0KY+dBITXS/J6KeCYxbXt4Ti3hOGYUo5Fxt6bMTM
+	giMem42vC3LhK0qmZtjEw2XrI9QxxbXLAE/z+wKKUWV1c6k47YombqmsUpoRdu2BcQ==
+X-Gm-Gg: AYBFou0/6ZH8Bh5aHOTcfv8qsKyQztf8rEsQFUkTCcJybNms3q6E20kad+ifM+e0B98
+	gm5Zi+sOhAdXek8Szsct16KXshMm6nMXn2KvV/2PKx/pQ/tL6PFMHEAtZsa8WyFkGtpzM2tMO5B
+	uPfXFa89BQ8tddbKcez6YOizpIWKsJ7tXRsy0vir3nRs7lnoTHxvZvi84a8j+v7+53JOzVlMsPH
+	SZR/B1q2Zs7I/Lw/BV3hTH++qpQ5p3VgMjkCo2yKKS57BkOUP8yUqm1wa5PxCmXJ6cFjuAExoD+
+	olozRgrld2GdiiDt93ch2GDAdfj7Nu6DFxffJ82dgflH6pOGS2LFV8HT/S3Fg2lwCvNKRdDgATg
+	3KkT0NetLbUaKSu1vv4XX1nrRDYytaPs7uUS8Vcp1/RTe8iM5Xukhho7keLbglQ8gsJrQIJFS8c
+	/tEKtYzfsdRFunoEJtPkkQNT6omZK3PjcFoY7HTQtdN2RoXTBPt7paVyNcH9Mqsoxy1pVPoFhPf
+	ahvxSwZdtvm+lpqbZKn8Naoh5AzHtfDXX26nRRm0mDWRwJ1gWslKYKwqNcGCz6b6Mx7OTwkHgIC
+	XCcBMfAxFNwcq4hqrMDW4xPU
+X-Received: by 2002:a05:6830:3495:b0:85f:31f:7643 with SMTP id 46e09a7af769-8628981ad1emr8483076a34.7.1794754568555;
+        Sun, 15 Nov 2026 06:56:08 -0800 (PST)
+Received: from [172.22.22.28] ([73.62.185.64])
+        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-8628812e44esm8317981a34.15.2026.11.15.06.56.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Nov 2026 06:56:04 -0800 (PST)
+Message-ID: <b304a5dd-f6b9-4cd8-9d2a-8ca398119a41@ieee.org>
+Date: Sun, 15 Nov 2026 08:56:01 -0600
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -96,40 +89,82 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] greybus: verify the received message size covers the
+ message header
+To: Shunbo Shi <shishunbo@cmss.chinamobile.com>, dan@pereq.eu
+Cc: elder@kernel.org, gregkh@linuxfoundation.org,
+ greybus-dev@lists.linaro.org, johan@kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-usb@vger.kernel.org,
+ syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com,
+ syzkaller-bugs@googlegroups.com
+References: <avV8I97uZJgX8Osk@stanley.mountain>
+ <20261113234739.1432-1-shishunbo@cmss.chinamobile.com>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20261113234739.1432-1-shishunbo@cmss.chinamobile.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-(Resending to the list in plain text: my first copy was rejected for
-containing HTML. Sorry for the noise.)
+On 11/13/26 5:47 PM, Shunbo Shi wrote:
+> In gb_connection_recv(), the size of the received data is checked
+> against sizeof(struct gb_operation_msg_hdr) and against the message
+> size encoded in the header (msg_size), but msg_size itself is never
+> checked against the header size.
+> 
+> If a peer sends a message whose header claims a size smaller than
+> the header itself (e.g. header.size == 3), the two existing checks
+> both pass (size >= sizeof(header) and size >= msg_size), and the
+> message is dispatched with the undersized msg_size.
+> 
+> In gb_operation_create_incoming(), this leads to an unsigned
+> integer underflow in:
+> 
+> 	request_size = size - sizeof(struct gb_operation_msg_hdr);
+> 
+> The underflowed request_size then wraps back around in
+> gb_operation_message_alloc():
+> 
+> 	message_size = payload_size + sizeof(*header);
+> 
+> causing kzalloc() to allocate a buffer that is too small to hold
+> the message header.  When the response is later prepared in
+> gb_operation_response_alloc(), reading
+> request_header->operation_id reads past the end of the undersized
+> allocation, triggering a KASAN slab-out-of-bounds report.
+> 
+> Link: https://lore.kernel.org/all/sashiko-outbox-210716@kernel.org/T/
+> Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
+> Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
+> Closes: https://syzbot.org/bug?extid=0b456664585fa81a47f6
+> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 
-Hi Mario,
+Looks good!
 
-On Sun, Nov 15, 2026 at 02:13:37PM +0000, Mario Limonciello wrote:
-> I'd lean on more likely a PD controller issue. Did you already look for
-> a BIOS update? Most vendors distribute PD updates with BIOS/EC.
-
-Thank you for looking at this. I'm on BIOS 1.06. Minisforum have a 1.07
-image for the UM890 Pro with no release notes; its AGESA (PhoenixPI
-1.2.0.0a) is the same as 1.06, and I couldn't tell from the image
-whether it carries a PD or EC update, so I haven't flashed it yet.
-
-> If there is no update available; can you start with reporting to your
-> vendor and let them reproduce and get some PD traces to confirm?
-
-I reported it to Minisforum on 8 November and it is with their firmware
-team now. I'll pass on your PD controller suggestion and ask whether
-1.07 or a separate EC/PD update changes anything.
-
-Andrei, thank you for testing your SER8 and for laying the values out
-side by side. The host-side values are identical on both machines,
-including the retimer ID, PORT_CS_18 and the SB LINK_CONFIGURATION
-03 d3 03, and your MacBook result rules out the cable and the DEG2. One
-difference from Framework #56: the StarTech TBLT5MM50CM240W I have been
-using is an active cable and it still trains TBT3, 2 x 10 Gb/s; the
-DEG2's bundled cable gives the same result. Like your SER8, the UM890
-Pro exposes no UCSI device, so I can't see the PD side from Linux
-either.
-
-Thanks,
-James
+Reviewed-by: Alex Elder <elder@riscstar.com>
+> ---
+> Changes in v3:
+> - combine the two separate conditions and unify the error message
+>   as suggested by dan. Thanks!
+> 
+>   drivers/greybus/operation.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/greybus/operation.c b/drivers/greybus/operation.c
+> index 7e12ffb2dd60..74429f3745bb 100644
+> --- a/drivers/greybus/operation.c
+> +++ b/drivers/greybus/operation.c
+> @@ -1047,9 +1047,9 @@ void gb_connection_recv(struct gb_connection *connection,
+>   	/* Use memcpy as data may be unaligned */
+>   	memcpy(&header, data, sizeof(header));
+>   	msg_size = le16_to_cpu(header.size);
+> -	if (size < msg_size) {
+> +	if (msg_size < sizeof(header) || msg_size > size) {
+>   		dev_err_ratelimited(dev,
+> -				    "%s: incomplete message 0x%04x of type 0x%02x received (%zu < %zu)\n",
+> +				    "%s: invalid message 0x%04x of type 0x%02x received (%zu < %zu)\n",
+>   				    connection->name,
+>   				    le16_to_cpu(header.operation_id),
+>   				    header.type, size, msg_size);
 
