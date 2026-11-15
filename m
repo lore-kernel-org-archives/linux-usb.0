@@ -1,56 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=176.119.200.165
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794766452;
-	b=JG8FhA4mffJ2y+sdEnnPSWEHttagUfTcIWh6avbfLKJnndUa3Fo98R6GjpWCtlJahXc3
-	 356mgxryv25JxTR6jVGlQ7ahSXuuJXXAsLJfrx1kO+f4//um4rI4zyj8bjajX/qsloqgS
-	 lDnfKJoJlOybJi4FEMLZfhAc8asYcZ3JuVuSd2chml/iNR6Nl1X+yp2/nRtp4AqmcaYhW
-	 exjtZDxy9ZPK2MEyqVUKECDSsqmkDQ4hDjZyEqObvOXdiE+kSXnA+24bAM4+6/IpfeSuF
-	 KUwYjDkS3p4L0wlk8tNZs4UrjQMeZtYW5UZyOv6x2H4DDL/vJYaBta8OMM5mBKSchlg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794766452;
-	h=DMARC-Filter:DKIM-Signature:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From:To:Message-ID:X-SimpleLogin-Type:
-	 X-SimpleLogin-EmailLog-ID:X-SimpleLogin-Want-Signing;
-	bh=HhoQtadESQjRHlo+YpadI4CGDGd3NhRHz7UIj5pOHvo=;
-	b=WwN6dZbHHd4eJQYBK6VO5lgUPUqJSDD8lGGqQbzkphPgtH4D3XilfMWeksK+Rr67MOhX
-	 alTBCYV6lLUeQAypRcNKqSln43mI6eKlUX2nm5L9L3l1ux/Rs9LQYcz9jnEpRRI+rwpAm
-	 eGBjhi/9MS2N9sjpPFaSKBgMheqZttxIVKwMe25dxyLAGu0NOw4zm7px1E9W7VO18VfdV
-	 zTZXM0LT4yncmsgbSg4PMYmVaJ0k5mswqyRPQhm5dBdeR1ZjTig2Meuw8qQvyaFjCiuZk
-	 o3UI0CISUxNJnB86HpCexjKrKtiQyTOXAhELxjKKjQZjLak8y+NjayFJSBNBCiQ5pfg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=passmail.com;
-	spf=pass smtp.mailfrom=passmail.com;
-	dkim=pass header.d=passmail.com header.i=@passmail.com header.a=rsa-sha256 header.s=dkim header.b=qS2g0OhB;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=176.119.200.165
-Received: from mail-200165.simplelogin.co (mail-200165.simplelogin.co [176.119.200.165])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.222.135.158
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794767206;
+	b=U1mbNToBiU4NzT4EOS8tlnKhZGwrvM1QKp5iW73ggYfaP3Ajdd4QclsDat/lxHHekD6L
+	 7TkPLRz03QOPdfzdyCTVItetSiPgjA1rt6jDDQRgtkmouNPjoXxytthz/k0dj8p9fiOFk
+	 hcKMqzLHSPQ1FooXzGsxMSbR9EZR1MLc2NbXUaNei4RoixoiVljForVmxIaAYr+Ikb9mv
+	 NbeioLLk5U0e12OkBkt/RmDSHn/sN2cXkQSBW9vGQo91K/9fKrnOYb84dsFw3O7mYNGj9
+	 6o3BuIyNvra7dSjHBhZq4t34iip0clfMY2V06oHVnXx6GE9LrBsnwLwoEwPLJ7lqkdw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794767206;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:Autocrypt:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-WP-MailID:X-WP-AV:X-WP-SPAM;
+	bh=d6Mw+ubXF8sNdhhSz6FQxX5iaQzd+/Pf5yiAG6Xqtuo=;
+	b=duEDwBFsfYGZ5j9oftqOlb9NEVmaBYvomUxcvEoMh4VqAzRQnv3/zLkdeIcUq1vQwmVH
+	 mwSQpN32wdAeQndE0HE7yVTvKmkoNAkfTSh31x4e9SKolNMp2qgeLRBX2dDQCUjFhrwGH
+	 NzyA2F7Tuf56qCM8nfIacqkZ+ULf6G/kElhsPytbBuNAnA+iV9Rc9D3roWP5SUV/WXBsP
+	 x7m/A7JD9mtNMa2+bzC6+TjZBlFm4wIll7Myfv74oZPM/gjUPW3n04yOL88NSUVF9G3P0
+	 C/GGQlOesIUFipF3nf8geQkgiAwN3tjiLsJQ7QFYgQIEpRfRLnUbWYy9hLLBuxrtgtQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=o2.pl;
+	spf=pass smtp.mailfrom=o2.pl;
+	dkim=pass header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=AWKwe+4m;
+	arc=none smtp.remote-ip=193.222.135.158
+Received: from mx-out.tlen.pl (mx-out.tlen.pl [193.222.135.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598BF606A31D
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 18:14:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 598BF606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=passmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=passmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78EB606A323
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 18:26:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A78EB606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=o2.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=o2.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=passmail.com header.i=@passmail.com header.a=rsa-sha256 header.s=dkim header.b=qS2g0OhB
-ARC-Seal: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626; t=1794766444;
-	cv=none; b=qRfF3Yepv64D0BhyYq080ezt3Sn0XH703CTtKqiRgmwltlUcn926kdsclE7CUDQ3NgRWaDkrnTvCh+8dvrxdqHTTvs7/wfw3YJJrkM2ZL16cMAj/IaLsQLRFzrWOdhz/Iw8C9wCwTK60c9tKykvoUVSN+IMU2WLCJLaAmVPpCxHbEAYFaZzZWGeOw12DNFqxBLMyZXBs/8Y4NSySNfyCHKCy6m02nudw9UAG4CDKmdqWhzLRoFnOK2g30Yi6F7Rrr+rXIHInpGzGt92BssG595WkuJi4JBG7qQWOZekfNbzvEIXEW9y3ypqAVSSieOReigKG6tNDKryQJ4dNOhMZvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626;
-	t=1794766444; c=relaxed/simple;
-	bh=HhoQtadESQjRHlo+YpadI4CGDGd3NhRHz7UIj5pOHvo=;
-	h=Date:Subject:From:To; b=xzxZCSKHGciSRLrMuLGhcu22wxmarTmgD4aMU3pb0JsYfZIHozqKr2BO6wN4QOArioGtZAF3nbPgDBDq3V8M/wtjbNOsLkWdJrjAO43w8O+iRaJMNXtDBAVSQS+xOHEzi1atRRoPvVoj4CxYgNXJXHRBiYapBUf0CTbUQ+SAZObFGvfbHqaPDLm8jEZ8u3Q1F3nypPk01BOTK1JlQ0E1V+piSEHVQMH3uhyy/lXkcrIHcoWZCRX+SOeqYvty1PJyP1kqUA66qOm/b1fAL9RYh3jXhRTnAWnvEbPVUhog5MikL0GO4GfKZj436g5LdGMBon/UFnbqH/Dcnr4uXPbD2A==
-ARC-Authentication-Results: i=1; mail.protonmail.ch
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=passmail.com;
-	s=dkim; t=1794766443;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=HhoQtadESQjRHlo+YpadI4CGDGd3NhRHz7UIj5pOHvo=;
-	b=qS2g0OhBnycOZZ0b9kX7kSSgRq16iUThIJGAsV+ROnWvWa63blfOw8SnLam+TJAgESOjKD
-	IiZBYCklA4/g1cUkce34TjNGOGC8UmTpfBe2AeIDvM6TKrE3OnnVuk4ugj/RhKhcjnuY4X
-	0tX3qosR6IVMznfWrINJfS9JNTeALOQ=
-Date: Sun, 15 Nov 2026 18:13:59 +0000
-Subject: Brother DCP-L2550DW printer causes spurious wakeups from suspend
+	dkim=pass (2048-bit key, unprotected) header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=AWKwe+4m
+Received: (wp-smtpd smtp.tlen.pl 41060 invoked from network); 15 Nov 2026 19:26:31 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=o2.pl; s=s20261001;
+          t=1794767191; bh=d6Mw+ubXF8sNdhhSz6FQxX5iaQzd+/Pf5yiAG6Xqtuo=;
+          h=Subject:To:Cc:From;
+          b=AWKwe+4mwqxLmslMtGtvuifajW+ZAgiOmWlm0GNIpHdB2oDLh0rix+p9oogXI+aOn
+           73Lzanp04BhOvi2KiDdzwKNYuYAzNjlV231AZpa3zzLt9qCOuAorIWDltCqJxNTTHT
+           Y+9BgzHWtnVNV/EjZYl7Xf5CgO00zJKv6V+uei/RltlcmtcD/mVMgJ9w2Ut9n2CxSw
+           Wyx6s+jnXqGX6qrxzkGnYHi+/WvsXLH3CgmE/tGPEL+UFqmgFvl04ch9fNlHWh+TSj
+           tweyyBA02IESsN2qHPcbL/mwVjBedvrPm+sls9evWxX3hFtcQkNgL0l8pGehQa7Rgb
+           4DWImfTUlrxfA==
+Received: from [192.168.1.22] (apn-78-30-67-84.dynamic.gprs.plus.pl [78.30.67.84])
+          (envelope-sender <mat.jonczyk@o2.pl>)
+          by smtp.tlen.pl (WP-SMTPD) with TLS_AES_256_GCM_SHA384 encrypted SMTP
+          for <stern@rowland.harvard.edu>; 15 Nov 2026 19:26:31 +0100
+Message-ID: <ae7ce6c0-d1ad-459d-a526-1d52fbb445b6@o2.pl>
+Date: Sun, 15 Nov 2026 19:26:29 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,53 +59,113 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: joe.drift304@passmail.com
-To: linux-usb@vger.kernel.org
-Message-ID: <179476644349.6.17132009800067769638.1775001021@passmail.com>
-X-SimpleLogin-Type: Reply
-X-SimpleLogin-EmailLog-ID: 1775001021
-X-SimpleLogin-Want-Signing: yes
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: uas: expose US_FL_NO_ATA_1X in sysfs as
+ deny_ata_passthrough
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Oliver Neukum <oneukum@suse.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+ linux-kernel@vger.kernel.org, smartmontools-support@listi.jpberlin.de,
+ Christian Franke <Christian.Franke@t-online.de>
+References: <20261115124046.5286-1-mat.jonczyk@o2.pl>
+ <1e731b43-93ad-4230-833a-df6949c7d4c6@rowland.harvard.edu>
+Content-Language: en-GB, pl
+From: =?UTF-8?Q?Mateusz_Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
+Autocrypt: addr=mat.jonczyk@o2.pl; keydata=
+ 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
+ TANkZ3QqXNX2
+In-Reply-To: <1e731b43-93ad-4230-833a-df6949c7d4c6@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-WP-MailID: a7c25a38ebf7bf4f20a8e77008d68389
+X-WP-AV: skaner antywirusowy Poczty o2
+X-WP-SPAM: NO 000000A [8eOU]                               
 
-Hello,
-The Brother DCP-L2550DW printer (USB ID 04f9:0424) causes spurious
-wakeups from suspend-to-idle on my system. Applying
-USB_QUIRK_DISCONNECT_SUSPEND to it fixes the problem, so I'd like to
-suggest adding it to the built-in quirk list.
+W dniu 15.11.2026 o 16:52, Alan Stern pisze:
+> On Sun, Nov 15, 2026 at 01:40:46PM +0100, Mateusz Jończyk wrote:
+>> The uas driver blocks access to ATA passthrough commands for some
+>> devices it considers buggy (via the US_FL_NO_ATA_1X flag in
+>> unusual_uas.h and uas_detect.h). However, it does not expose any
+>> meaningful information whether the command was blocked by the driver or
+>> is genuinly not supported by the hardware. This creates a problem for
+>> the smartmontools program and makes it difficult for it to provide a
+>> useful error message (with instructions to disable UAS on the drive to
+>> get SMART readings).
+>>
+>> So, expose the information in sysfs as deny_ata_passthrough. Other
+>> quirks may be added in the future if there is any demand.
+>>
+>> Link: https://www.smartmontools.org/wiki/SAT-with-UAS-Linux
+>> Signed-off-by: Mateusz Jończyk <mat.jonczyk@o2.pl>
+> Why was this change made to uas but not to usb-storage?  Was it because
+> some devices can handle ATA passthrough commands over the Bulk-Only
+> transport but not over the UAS transport?  Note that the
+> US_FL_NO_ATA_1X flag applies to both transports.
+>
+> Alan Stern
 
-Setup:
-- Framework Laptop 13 (AMD Ryzen 7040 series), s2idle only
-- Kernel 7.3.3-300.fc45.x86_64, Fedora 44 + 45
-- Dell WD19TB Thunderbolt dock (all components on the latest firmware
-=C2=A0 per LVFS); printer connected to one of the dock's USB ports
-- Dock USB controller: Intel JHL7440 (Titan Ridge DD), PCIe-tunnelled
-=C2=A0 through the laptop's USB4 host
+There are only very few devices that cannot handle ATA passthrough commands
+over the Bulk-Only transfer (and with them it's impossible to get ATA
+passthrough by disabling UAS). But that's a fair point, will fix it in v2.
 
-Symptom:
-With the printer connected, the system resumes within
-30 seconds of entering suspend, without any user input. With the
-printer disconnected it stays suspended.
+Considering the US_FL_NO_ATA_1X flag:
 
-Wake path observed:
-- /sys/power/pm_wakeup_irq =3D 9 (acpi); "ACPI: PM: ACPI non-EC GPE wakeup"
-- "PM: Triggering wakeup from IRQ 45", which is the PCIe PME interrupt
-=C2=A0 of 0000:00:08.3, the bridge to the AMD USB4 host controllers
-- thunderbolt dynamic debug on resume, for the port the dock is on:
-=C2=A0 "0:2: USB4 wake: yes, connection wake: no, disconnection wake: no"
+- I suspect that many more devices would accept the ATA passthrough 
+commands in
+   UAS mode if these would be issued in isolation (if uas_queuecommand_lck()
+   would stop all other transfers while doing them). After all, Windows
+   apparently does not carry such quirks for modern devices. I do not 
+have the
+   hardware to test, though.
 
-What did NOT stop it:
-- power/wakeup =3D disabled on every USB device behind the dock,
-=C2=A0 including the printer and all hubs
-- power/wakeup =3D disabled on the dock xHCI's root hubs
-- stopping ipp-usb (which had the printer open via usbfs)
+- Since 2017, it is set unequivocally for all Seagate drives, even 
+though most
+   likely modern drives / firmware versions do not need it. I do not see 
+a way
+   out, though.
 
-What did stop it:
-- power/wakeup =3D disabled on the dock's xHCI PCI function (but this
-=C2=A0 also disables keyboard wake through the dock)
-- unplugging the printer
-- usbcore.quirks=3D04f9:0424:m (USB_QUIRK_DISCONNECT_SUSPEND); keyboard
-=C2=A0 wake through the dock still works with this
+Greetings,
 
-Thanks,Joe
+Mateusz
 
