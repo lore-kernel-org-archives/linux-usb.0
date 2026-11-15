@@ -1,106 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.126.85
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794710447;
-	b=0w05wHF2Vi+2tvKx6tOtlmRCcBmVd9tVKMmtIK/Pp3TuA09zt/RtvYQ/ICl+xSEa0XEG
-	 UOfN77liuNFSvbt17vn0LkdUTzLjpCb9rNPKQH99L5Povg/fXz1o3S8UMu/2sCFdfYnIN
-	 UtN38+13lBkFngpEp1tyVD/7uyhoRJ1QxSzrMC0SotjYu57bjYOEJjX2RPd8qI3MlqQaH
-	 qBwRu7gFVQQSxb4tdwtCF0X1WzQ1MAxxO2vSmqJBMFlJrFYS4TXOxmiwFEljFvRwJVR+T
-	 LkPLxit535Ck10HbhUAMGksts3iIFYeDp6jjia2ZQfmdM/wXIAl6wQnVqOuNLzzv1EA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794710447;
-	h=DMARC-Filter:Received:Received:X-MS-Exchange-Authentication-Results:
-	 Received-SPF:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-EOPAttributedMessage:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:Content-Type:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=hy25tSM//gwd9IGLnxKzAwSwOMnuLhLMtqG3viLHR9w=;
-	b=GC6T1ZioOQQ3B27jaRZZqlD4O7fbqeVvc/tJYEcvGYJhwHVEj0XHGQrUFh9lMwEVv5eX
-	 VWoUtczAjzqA3Fe5vujpI6shL1fUBkuEPzHgngmcuj+g7O4siCmEd0VPyng70l0Um8LZd
-	 kcp5EsjR9gXBXeJ9FuU3DxKioBeHe7QtA0erFFVLghjANyX4buEY7CfiqAAs8gUtCRqiY
-	 nPojNELixXepzWLv2bD0v2WD92Z4/DSAY9Iic53fAzwgY/WxD84GdJyxNOf1epcQ+l0px
-	 SAhAfSxBO5WDKvdEjA74xtw2HMV8YoQgVHFkDHnQmWrWArP76KiWzyQKp7pPxXqqXnQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=cixtech.com;
-	spf=pass smtp.mailfrom=cixtech.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.126.85
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022085.outbound.protection.outlook.com [52.101.126.85])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.200
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794712229;
+	b=ADeeRckA8sPqxBQ53LHoc/iK5AvE8ntgtfUrLH+RPLJe8PWKNn1AFqu5+6yf8ovUlxcD
+	 JmLSGgowYtD1CZj84nNLCkbJy2LC6TdtDCnF6KdDJL24eWT4RTwJvWIO2EhvaeT/mXOPj
+	 7AHjnhV++4Ox03LHpJu0JYYKGmiQh1RYThOp5egD/UsG9tXAVY/NIbSNR12qG8Btt+rvZ
+	 TGXlmYOJW5wju4yBbcRPW26EPqp8EEc6+WJw44qWvwlbubFSPC1ySnneRHtDvChWb7d7Y
+	 hRggvc6lwLNwCgPjxe3H5YQuYjo3JkcFsBns9oiEiOlmPgPp6WfKIs3YrN+YN67s8sQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794712229;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=tW45GNGjyYGuZ4JAqIyKTKmzQaRXs93wAefI2nD2qzs=;
+	b=LQadH+WVK83jZ+KeYlvy/ai2wGOXz3C1Zgl3nbd+z0UFjazhxPyoH9r/Ve/lWrq2v8UF
+	 Xe2YlVhswcbHM1TJ2R2aH42hL5JUZ+G2mir3JuDJggXWRJRmYiekLakriZ1GkWO57XgLD
+	 +vV/onVD5V6/i9yOrhR5IqffobvC7MMfaQvvQj9YlhCvXhuhPzWN9Oip5fSOhpHsfd8cu
+	 lB79JfGKIzeHcewwDamT7JDgZTjzaQ/qU3N5+hMTDt86aKo+cQ/V5JjIQSX+WJksrnKAB
+	 H/7vbLrfV61RXG+t9jBvAvsECqRiytJf3oTq1qTyvF4D/ZmYXhMo6DzDnBROaAn3f2Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.200
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC3B606A323;
-	Sun, 15 Nov 2026 02:40:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDC3B606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s3JkkoA42Shi3EwvCOzvwmJqfRUrJEuoO6XfT1hznbHkXufXku7jeuqrxU53qu4QdNaf5nUEwBvU8YimgQN3F1yerpCna7bwdVGH/dSyhLWg1uVbnlHJEMi3ASfFqWRa+Ut7JETp7SogUXydf9Ug3ogN91Dv9DWWNBIPtx+aCpgYdv5r2ECT7zt5MZjWnCAyL15h15Ps6lw3psDgP+LXaTr4v8Qyzx3Zh/aAo4Zm/u5XwKVA087krIBM1ZsS+xhecAKsvhBJApAAfppFTyUGWBxKNfbDsVzZPuJaUZVPXFeWHn/ToqNMcROxhZYcHkFHsqm/jq1gW38BTFz8wQb2xQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hy25tSM//gwd9IGLnxKzAwSwOMnuLhLMtqG3viLHR9w=;
- b=UkuRsr/Y5Jxhoblm2ZB0BtjYioRxEm0adO6TawEPVhkuadeMg4OBKf8ysekRRMQpYwIxglbJe+q4joXraXG4DMuax3PN3bO8yzx/S/EvjbaO0AJv7SXWJszobDhC4sHc5Alj5OUt8uFni75JNFPT/qQxzxHIXx/WNT8U9iMmMmHhea9EzWnLYgSUJCcfDtCK0Ek5QA/u2l6u81Bhg5H78WDIJba2gNjLr2Vs90BACIR9mTrECcBqS2NFqKbYOhra672bPF72UQjOq/w2/x3u5S7pcn4zDxE5ROLlRLYRhV3bugFfZTDHBKHwjbK2Irkq/sqwbWHa9KUK/Or1zrU83g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 222.71.101.198) smtp.rcpttodomain=cadence.com smtp.mailfrom=cixtech.com;
- dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
- not signed); arc=none (0)
-Received: from TY6P301CA0007.JPNP301.PROD.OUTLOOK.COM (2603:1096:405:3be::17)
- by SEYPR06MB5768.apcprd06.prod.outlook.com (2603:1096:101:b3::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.6; Sun, 15 Nov
- 2026 02:40:43 +0000
-Received: from TY2PEPF0000AB85.apcprd03.prod.outlook.com
- (2603:1096:405:3be:cafe::85) by TY6P301CA0007.outlook.office365.com
- (2603:1096:405:3be::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.13 via Frontend Transport; Sun,
- 15 Nov 2026 02:40:42 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 222.71.101.198) smtp.mailfrom=cixtech.com; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
- 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
-Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- TY2PEPF0000AB85.mail.protection.outlook.com (10.167.253.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Sun, 15 Nov 2026 02:40:42 +0000
-Received: from hongliang-System-Product-Name (unknown [172.20.64.180])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id AF5FC427EFC0;
-	Sun, 15 Nov 2026 10:40:40 +0800 (CST)
-From: Hongliang Yang <hongliang.yang@cixtech.com>
-To: linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: Hongliang Yang <hongliang.yang@cixtech.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Peter Chen <peter.chen@kernel.org>,
-	Pawel Laszczak <pawell@cadence.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Gary Yang <Gary.Yang@cixtech.com>,
-	Fugang Duan <fugang.duan@cixtech.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	cix-kernel-upstream <cix-kernel-upstream@cixtech.com>
-Subject: Re: [PATCH v8 1/2] dt-bindings: usb: Add CIX Sky1 USBSSP controller
-Date: Sun, 15 Nov 2026 10:40:40 +0800
-Message-ID: <20261115024040.4125133-1-hongliang.yang@cixtech.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <sashiko-outbox-210199@kernel.org>
-References: <20261112022141.4136099-1-hongliang.yang@cixtech.com> <20261112022141.4136099-2-hongliang.yang@cixtech.com> <sashiko-outbox-210199@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B95606A329
+	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 03:10:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73B95606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-547ae874949so3044176b6e.2
+        for <linux-usb@vger.kernel.org>; Sat, 14 Nov 2026 19:10:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794712228; x=1795317028;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=tW45GNGjyYGuZ4JAqIyKTKmzQaRXs93wAefI2nD2qzs=;
+        b=YO/wPSV+2d22JbkjrI+xZ2fIDr1T8gwAOyhT0QEN6XwN5Ps4sC+Al16uO+Zt489Pfw
+         g0oTYm0RrKRCEI16SKNS+OaSsX7ysmJxCbNJ2v3GU2lU39xvnDjr7QmQLmCvm1Qk2VEe
+         JHWqoooa/fCY2fnKDukIzpSgIbGWxQRh+46GKOHXc3UwihT3EJ8AlN+BNc+AZm7MlEMB
+         PD0w2blMU5xc3ehRKQS+JLQ9XX36ZF6iolBKOIlUddsbPH8jhOUC9hTZCxOEgBwFhqWX
+         5KsVO6QY68p53gZ1jMZtFrsMOe3fpu9Hlcq3rp+UiZPPlYKfuFIvGqSxOWIZYFSNSy5F
+         9Q+g==
+X-Forwarded-Encrypted: i=1; AL+hErGEsUZMrbZcAk5Qio6SqdMqQgWdFc+kXQ2wF+XrzhIPZf1eVBDlYOFSmgY98t+RpjvPJFgoCeNyQGQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/iOtzBY/PeyiKHb1RZoDf+b2/mqrTVIIm5QwAqB+paIvauMWEI
+	Ved2MS62QaaJTTu5fb3jDa2tLQDJAXl395yWIWGH/c6F5XeLVlBZmgos4Gk92FwU3wM3e+kPc7i
+	+8Gm6Lvm/XyGoPBoutSNbXNtz1FbT41Jc8eE+nqQtFs/TrYoxQlj73fdo1qA=
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -110,76 +58,191 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB85:EE_|SEYPR06MB5768:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 87ec7c50-80ad-4ddb-aa8b-08df42c1d799
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|376014|36860700016|1800799024|82310400026|10067099003|4143699003|5023799004|260925021311599003|260925021911599003|260925022911599003|56012099006|261026121527099003|261026140227099003|261028144727099003|261022105027099003|261022075727099003|261021121427099003|261102123227099003|261009223027099003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	J4BNiECaKEiUhNlp7qjBmcIiiQulnZ2EnHYOazwaPXVbNEyDN26GNyr9AEc6CYJIC5Ji9NKoxrgEiYIl54J2LnCe9zQTE+r+pRQtCe91Z7O3U4JvFxPV4bD4sl3KgKduFPQNlv2oMpecjyrWDRTCr/dmdWjYBKAwIlwqBezwEt/tXEbcU0lyzOJtK2RUcKgc1SO4a7dPPJHkdmHS/p+7dUkBvJc+CRHXFVBWTuwqtUHoBZUmTl9Zj/Q3R/PkpqmZ7gRPiQsodFXYIi/4jD1yCsSSJOEwOfU6AAqMOQfUdQfv2yAA9UU5c7vRW8kWFJzk4ETQHztzSxkoKuYjmFf02lplPu890veN1kBkWHWESUF73lc6d1GfUwQ4e2Ex8xiCt20HkrOujult9NydP+oZIUBrGJyIcel5iNbF5n5mAvuiUMk+iVu7JzZy3X1h4gi6hOVXzLMgtzaSf44vK2ChPvVSaKBEdn0i/3dWQAs2idmCjqxuWYmnxcXsEbQzYmokj/ORweWKdzPinGPhs29b4/dO0fwyzl1d8fcrcZyiYyS3OW5SoduZRVFHerR08kp+r8OZ83l/5VLzG/Xg8KpL8M8GgnQTOMJTumI56Y4A3qNOtOQrdAmG/W51LTFnrtm4Cgm4wa00N1fR6T/fLt7cEURbK+pkPTSoe+zrzpDxOBA2tgjQgRkcKfxitucWeyaRwaS+UlY540fo1j624Q11uw==
-X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(36860700016)(1800799024)(82310400026)(10067099003)(4143699003)(5023799004)(260925021311599003)(260925021911599003)(260925022911599003)(56012099006)(261026121527099003)(261026140227099003)(261028144727099003)(261022105027099003)(261022075727099003)(261021121427099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Xv//nzu+ZFKfEP/64FggwkPQSv6YyHVYFQQ78WZ7l/YomdDmyNveyXPspZxYC99Htlmbu29jU94gtC5iUV/B+ZEBirxbIbqFX4wQfU6fS5WK8bEHa/x2DhfHPbI6cp59X7gplS6ZBRh90usjLpms5FqbZ0PnbwFcB7TPDzUKDsf9HidMDAKgkEMpRM75Oel6pHq6WOz3CchDizMIHpOL1LD/kr0RKesHoWF5DmhW729gcBVYH+aFgoTn/BPjYp8oeaCXT9P2PuKETi3y/eX+M1z56I/fCLZzC//NrBrwUWBynJvQ1K4y9ZbNszjokutGnYLtGzfTPxF3suqnYMoTz5bCdejgZQi6ts1kXittPp8xJSQqT6rNZDDoEYX0sitTq4/O/1N9oxE5nc2BLNwdrGc1MHQBt4KxUUN5bR1Jnlo4ASkWyJytnVdWapam1SYq
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2026 02:40:42.0726
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87ec7c50-80ad-4ddb-aa8b-08df42c1d799
-X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	TY2PEPF0000AB85.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5768
+X-Received: by 2002:a05:6808:3089:b0:572:dc48:b77a with SMTP id
+ 5614622812f47-572dc48c7c5mr1493328b6e.22.1794712228540; Sat, 14 Nov 2026
+ 19:10:28 -0800 (PST)
+Date: Sat, 14 Nov 2026 19:10:28 -0800
+In-Reply-To: <6a7d0b01.3668565d.e8814.0018.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6af922a4.097d52ff.3d440.0011.GAE@google.com>
+Subject: Re: [syzbot] [usb?] possible deadlock in uvcg_extension_ba_source_id_show
+From: syzbot <syzbot+caf0e2bd08dda787005d@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Two points.
+syzbot has found a reproducer for the following issue on:
 
-> [Medium] dt-bindings: usb: cix,sky1-usbssp: overlapping reg windows in
-> RCSU block
+HEAD commit:    aacb77975041 Merge tag 'ovl-fixes-7.4-rc3' of git://git.ke..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=11cd29ad580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1cf189394a856f11
+dashboard link: https://syzkaller.appspot.com/bug?extid=caf0e2bd08dda787005d
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15cd29ad580000
 
-The example size is wrong, thank you. The window of one instance ends after
-STRAP_STATUS0 at 0x091c0400, so it is 0xf0 bytes. With 0x100 the example
-reaches 0x091c0413 and includes STRAP_STATUS4 at 0x091c0410, which is the
-status register of the other instance. v9 fixes the example; the arm64 dts
-is not part of this series and gets the same fix when it is posted.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+caf0e2bd08dda787005d@syzkaller.appspotmail.com
 
-The -EBUSY does not happen. cdnsp_sky1_probe() maps the range with
-devm_ioremap(), not devm_platform_ioremap_resource(), because the windows
-overlap, and that is why the overlap is written down in the schema.
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+syz-executor339/5973 is trying to acquire lock:
+ffffffff916376e8 (gadget_subsys.su_mutex){+.+.}-{4:4}, at: uvcg_extension_ba_source_id_show+0x7c/0x310 drivers/usb/gadget/function/uvc_configfs.c:1018
 
-Two 4-byte entries, "strap" and "status", as in cix,sky1-pcie-host.yaml,
-would remove the overlap, and the driver would not need the offset of the
-status register inside the window either. That is the shape question the DT
-review already asked, though: v8 keeps the single range that v7 introduced
-in answer to it, and I asked Krzysztof which of the two he wants before
-posting another version (1794391238.309976-1-hongliang.yang@cixtech.com).
-If he prefers two entries, v9 will be that.
+but task is already holding lock:
+ffff8880242aa370 (&p->frag_sem){++++}-{4:4}, at: fill_read_buffer fs/configfs/file.c:66 [inline]
+ffff8880242aa370 (&p->frag_sem){++++}-{4:4}, at: configfs_read_iter+0x346/0x6f0 fs/configfs/file.c:88
 
-> [Medium] dt-bindings: usb: cix,sky1-usbssp: redundant disable
-> properties
+which lock already depends on the new lock.
 
-cix,ssp-disable is not redundant. It clears CFG_3XPORT_SSP_SUPPORT, BIT(31)
-of the 3xPort mode register in the host register set. maximum-speed is read
-only by the gadget paths, through usb_get_maximum_speed() in cdns3-gadget.c
-and cdnsp-gadget.c; nothing in the host path reads it. For a port that runs
-in host mode there is no other way to keep it at Gen1.
 
-cix,u3-port-disable is not redundant either: it writes the integration value
-0xa0031e07 to the 3xPort mode register in both register sets, and
-maximum-speed can neither express nor restore those port mode bits. You are
-right that the device-side register is also updated by cdnsp_run() from the
-child's speed, so a dual-role port could ask for SuperSpeed Plus on an
-integration without SuperSpeed lanes. Every board we ship that sets the
-property uses it on a host-only port (dr_mode = "host"), where the gadget is
-never started, so the two writers do not meet there. v9 states that
-constraint in the property description.
+the existing dependency chain (in reverse order) is:
 
-Best regards,
-Hongliang Yang
+-> #4 (&p->frag_sem){++++}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       down_write_killable+0x8e/0x240 kernel/locking/rwsem.c:1643
+       configfs_rmdir+0x3fa/0x950 fs/configfs/dir.c:1543
+       vfs_rmdir fs/namei.c:5533 [inline]
+       vfs_rmdir+0x328/0x8e0 fs/namei.c:5506
+       filename_rmdir+0x31a/0x610 fs/namei.c:5590
+       __do_sys_rmdir fs/namei.c:5613 [inline]
+       __se_sys_rmdir fs/namei.c:5610 [inline]
+       __x64_sys_rmdir+0x46/0x70 fs/namei.c:5610
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x7b0 arch/x86/entry/syscall_64.c:89
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #3 (&sb->s_type->i_mutex_key#24){++++}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       down_write+0x86/0x1f0 kernel/locking/rwsem.c:1631
+       inode_lock include/linux/fs.h:1027 [inline]
+       configfs_depend_item_unlocked+0xf3/0x6a0 fs/configfs/dir.c:1268
+       usbg_make_tpg+0x251/0x610 drivers/usb/gadget/function/f_tcm.c:1692
+       target_fabric_make_tpg+0xab/0x8c0 drivers/target/target_core_fabric_configfs.c:947
+       configfs_mkdir+0x525/0xd40 fs/configfs/dir.c:1369
+       vfs_mkdir+0x36d/0x8a0 fs/namei.c:5428
+       filename_mkdirat+0x4c4/0x630 fs/namei.c:5461
+       __do_sys_mkdir fs/namei.c:5488 [inline]
+       __se_sys_mkdir fs/namei.c:5485 [inline]
+       __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5485
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x7b0 arch/x86/entry/syscall_64.c:89
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #2 (tpg_instances_lock){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19f/0x1c10 kernel/locking/mutex.c:821
+       tcm_alloc_inst+0x5f/0x1e0 drivers/usb/gadget/function/f_tcm.c:2687
+       try_get_usb_function_instance+0x136/0x1f0 drivers/usb/gadget/functions.c:28
+       usb_get_function_instance+0x16/0x70 drivers/usb/gadget/functions.c:44
+       function_make+0x18c/0x3f0 drivers/usb/gadget/configfs.c:626
+       configfs_mkdir+0x525/0xd40 fs/configfs/dir.c:1369
+       vfs_mkdir+0x36d/0x8a0 fs/namei.c:5428
+       filename_mkdirat+0x4c4/0x630 fs/namei.c:5461
+       __do_sys_mkdir fs/namei.c:5488 [inline]
+       __se_sys_mkdir fs/namei.c:5485 [inline]
+       __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5485
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x7b0 arch/x86/entry/syscall_64.c:89
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (func_lock){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19f/0x1c10 kernel/locking/mutex.c:821
+       try_get_usb_function_instance+0x26/0x1f0 drivers/usb/gadget/functions.c:18
+       usb_get_function_instance+0x16/0x70 drivers/usb/gadget/functions.c:44
+       function_make+0x18c/0x3f0 drivers/usb/gadget/configfs.c:626
+       configfs_mkdir+0x525/0xd40 fs/configfs/dir.c:1369
+       vfs_mkdir+0x36d/0x8a0 fs/namei.c:5428
+       filename_mkdirat+0x4c4/0x630 fs/namei.c:5461
+       __do_sys_mkdir fs/namei.c:5488 [inline]
+       __se_sys_mkdir fs/namei.c:5485 [inline]
+       __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5485
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x7b0 arch/x86/entry/syscall_64.c:89
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (gadget_subsys.su_mutex){+.+.}-{4:4}:
+       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
+       check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+       validate_chain kernel/locking/lockdep.c:3952 [inline]
+       __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19f/0x1c10 kernel/locking/mutex.c:821
+       uvcg_extension_ba_source_id_show+0x7c/0x310 drivers/usb/gadget/function/uvc_configfs.c:1018
+       fill_read_buffer fs/configfs/file.c:68 [inline]
+       configfs_read_iter+0x426/0x6f0 fs/configfs/file.c:88
+       new_sync_read fs/read_write.c:473 [inline]
+       vfs_read+0x825/0xb30 fs/read_write.c:554
+       ksys_read+0x12a/0x250 fs/read_write.c:696
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x7b0 arch/x86/entry/syscall_64.c:89
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  gadget_subsys.su_mutex --> &sb->s_type->i_mutex_key#24 --> &p->frag_sem
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  rlock(&p->frag_sem);
+                               lock(&sb->s_type->i_mutex_key#24);
+                               lock(&p->frag_sem);
+  lock(gadget_subsys.su_mutex);
+
+ *** DEADLOCK ***
+
+locks held by syz-executor339/5973: 2, on CPU#1:
+ #0: ffff88807364f680 (&buffer->mutex){+.+.}-{4:4}, at: configfs_read_iter+0x79/0x6f0 fs/configfs/file.c:86
+ #1: ffff8880242aa370 (&p->frag_sem){++++}-{4:4}, at: fill_read_buffer fs/configfs/file.c:66 [inline]
+ #1: ffff8880242aa370 (&p->frag_sem){++++}-{4:4}, at: configfs_read_iter+0x346/0x6f0 fs/configfs/file.c:88
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 5973 Comm: syz-executor339 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/06/2026
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2087
+ check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2219
+ check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
+ check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+ validate_chain kernel/locking/lockdep.c:3952 [inline]
+ __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
+ lock_acquire kernel/locking/lockdep.c:5942 [inline]
+ lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+ __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+ __mutex_lock+0x19f/0x1c10 kernel/locking/mutex.c:821
+ uvcg_extension_ba_source_id_show+0x7c/0x310 drivers/usb/gadget/function/uvc_configfs.c:1018
+ fill_read_buffer fs/configfs/file.c:68 [inline]
+ configfs_read_iter+0x426/0x6f0 fs/configfs/file.c:88
+ new_sync_read fs/read_write.c:473 [inline]
+ vfs_read+0x825/0xb30 fs/read_write.c:554
+ ksys_read+0x12a/0x250 fs/read_write.c:696
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x7b0 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb9d4bb53f7
+Code: 48 89 fa 4c 89 df e8 98 1d 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
+RSP: 002b:00007ffd83b44e50 EFLAGS: 00000202 ORIG_RAX: 0000000000000000
+RAX: ffffffffffffffda RBX: 000055555f71e400 RCX: 00007fb9d4bb53f7
+RDX: 0000000000000080 RSI: 00007ffd83b44ea0 RDI: 0000000000000003
+RBP: 00007fb9d4beb708 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 00007fb9d4bef01a
+R13: 000055555f71f813 R14: 00007fb9d4beb130 R15: 0000000000000002
+ </TASK>
