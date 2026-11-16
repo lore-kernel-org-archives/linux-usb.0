@@ -1,56 +1,86 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794839782;
-	b=wpm2nyQFlunieq1Zp5TBIS9ENv8t2zTncM26G1PsqdTlLNtQF+SU2nujnpZcTq16gxMT
-	 XgvPEkWnllRXO3egrzXowAg38UlJvCjmlc/QSMWBUoFDaGNjjSKP/iyp7mObRNnMVFrn1
-	 mhoGMiWrV2MYwXHNv/dTBbrfIiK07A0j9hPQBQPkKMB4gMmDC2EYIbNGb48GPmf/kZ6hS
-	 m6qBFbHP3Kiy9qzERQTRPBYINcdwn5mjARhc/LQ51km2NQsdLJxszmPhD8GflnHRsDUSD
-	 cCxe7Gy4WkAmqVspInzpY8Fd35gUK/UR+xKhNzCMt8UZouPwHskY1mNevTDEXcqW2lg==
+	t=1794840066;
+	b=15YnUcdo6n7stjxezg4je0yIEtEcRp6PqHcFQI3mSPYWAPmF8ykCKn0YioDdux32SwBO
+	 rxXpSob16mz2SoVasThlGi6N1d6U2UkUQ4NvseAk82ygypWbptUo79904T8NmBMaTIf1i
+	 St3+tqcjoGemOn1V4wwrFrQpwFuAIu/gi16Xz6tHEEIR79dfLJFkQRP8v8OsbbmgHGEc8
+	 rkMvNYXa9nWAPzd9YD1exisb0eRVKwBY+rugwf861yUKy4+P5WN5tAzhnU4SjtzajD5f/
+	 YpVy4X6bu133y3Riepy6aEbCuCyRGAr6BPt+Y6OrC132dlMIAGky5XgMilAUb2NtjtQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794839782;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=AjwEyn0vGsSXG7Vfit1WZQue+48FWhYoE9UqYj2FfyU=;
-	b=PK7MEOY2okTX6202wxljwz3rcp8ucXoQy/zZd7OaJNbb/CvZeH6VdE20wozmpHdCBE3W
-	 YMX0mmXpxzCe4e/B0TDcza1GadEfu8DM0P25zZMZbdMXX496X5McLoGno3bGw0BEVw34t
-	 80oQXmRxuw2THt60OfN6yw8WIVs2MUXksCGL5X26pyLhWh/iG1pwLKP/8RIBMotn3aFu7
-	 76tcZ9C1bF6dMNNylgwFvSqaTgp7Wh2+ePE79nhe9K5UQmZ5Zi9/60P0Fd+ZtjTM/Jv1D
-	 xuw4SsmZ3bxFxboXdZFxoJ03Ck5ARDhMxFdPJa+NJb6F/q/Ai+gJw5kzENAU+DLMzOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794840066;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=rck2Y3eqNJgd+mBW5P64Rjy+9DMOjDHBgfT6pXds1IU=;
+	b=wZ3o6u96dM0yK6ap2YbvJaC+zUpnRE7gNJOJ1o8y3kRj9UpKLeiAro7i2QjW6g5PQkKo
+	 jx2uf9DVwZy2keQeHDZ+QaURBRSm82O4XDMxSRRCqDgPk0cBTv0YcD1lFfV75b21GRKxs
+	 W3LPLUwrBCoi+NIy6I/jnN0zSXzLNWHbyjWs+rM3rgxkjpe/0PYEoJpZRoCQwZ9sSOsCE
+	 6JON9QhJs4RKOQTO2w6dvHwup3R/bR0Ihu1cKE/Qjtw46nYcgjQCUu70E7+l4tqLVqBmI
+	 kJFI/TgNL+E2euGyYpvz2tGzblMK8N/orDq8PNUgspHucw+J3ndTe6a/t5vO1TvhR4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ph1AtlNp;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hOouaY1x;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67671606A323
-	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 14:36:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA2B606A33E;
+	Mon, 16 Nov 2026 14:41:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ph1AtlNp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D13951F000C4;
-	Mon, 16 Nov 2026 14:36:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hOouaY1x
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C6861F000C5;
+	Mon, 16 Nov 2026 14:41:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794839782;
-	bh=AjwEyn0vGsSXG7Vfit1WZQue+48FWhYoE9UqYj2FfyU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Ph1AtlNp9oYWbnQWovnelODbGr8L9C6X9ZI6Gx5jHM3Qn5SFUeyXYbglbajMej7Ka
-	 VkflKD1x/VlQWYQvqDG7nVR4o660A6q3icJUkCyPTG+xpDHoremZEiL75pDJ4HRQf8
-	 4yTP6uMyHgYHodVHsydhtYMIOpdt2xlNhe79Bbdc8lZkTYhTiAPF1J2NYzXjg60aF7
-	 uW9lpGuEZvgkUgJewdqoI8caj3YKRcTL9i2nm+F0ifSVY6cs0JGotsyCWYSamO+hE2
-	 euElhZ59wN4aR0L5vKkQ8KQX4iM1N1ST4iqY0gdt2+DJlPVkek7mUCEg27sykFqNbO
-	 r38huHRmNnS+Q==
-Message-ID: <sashiko-outbox-217180@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: host: max3421: Fix potential resource leak on IRQ
- request failure
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Guangshuo Li" <liguangshuo@mail.sdu.edu.cn>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261116-c29ba55625-usb-host@mail.sdu.edu.cn>
-References: <20261116-c29ba55625-usb-host@mail.sdu.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 14:36:21 +0000
+	s=k20260515; t=1794840066;
+	bh=rck2Y3eqNJgd+mBW5P64Rjy+9DMOjDHBgfT6pXds1IU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hOouaY1xsoh6wz7OkDEV9jecC1eeHdUzuBJ4iKZos36b0fe+StWs/XSmsTjHsGMfp
+	 e0tnBNKEzYBk5ocKoScl5rfojtpjaAq04YxAl9To16QUfCpYwnFZC1O4/NOMYIyx/J
+	 6krsbqGk+aiylgCRzdnezjfMkr6lvaqVy59IDh4S8336RQTcF1BHCaLRWdCsPSIOp+
+	 VVzuE3RLFUwu6bn36UH7ayClXyqoBHEqh0EEwT5lbksAWLyI95yck3v703WGi3w5hJ
+	 rBBp+t1wYkX1vn71MylXuHgsWdIYHoEXqOW4MLAWG3JYv7ky1boG/BvH4HGhBbkddM
+	 lkYNAFSJRMfOQ==
+Date: Mon, 16 Nov 2026 16:41:03 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH 17/17] PCI: Replace untrusted state with device trust
+Message-ID: <20261116144103.GU11319@unreal>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-17-1e536825b4eb@nvidia.com>
+ <yq5amrr8yldi.fsf@kernel.org>
+ <20261116132046.GI2532299@ziepe.ca>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,73 +89,77 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261116132046.GI2532299@ziepe.ca>
 
-Thank you for your contribution! Sashiko AI review found no new issues
-in this patch, but noticed 1 related pre-existing issue it does not
-introduce:
-- [Critical] usb: host: max3421-hcd: use-after-free in
-  max3421_irq_handler() [1]
---
+On Mon, Nov 16, 2026 at 09:20:46AM -0400, Jason Gunthorpe wrote:
+> On Mon, Nov 16, 2026 at 06:38:25PM +0530, Aneesh Kumar K.V wrote:
+> > > +static inline bool
+> > > +pci_dev_default_is_restricted(const struct pci_dev *pdev)
+> > > +{
+> > > +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
+> > > +
+> > > +	return policy == DEVICE_TRUST_POLICY_DISABLED ||
+> > > +	       policy == DEVICE_TRUST_POLICY_ADVERSARY;
+> > > +}
+> > > +
+> > 
+> > Could you clarify how this series will work alongside device acceptance
+> > and private-memory access?
+> > 
+> > In particular, what should callers of device_cc_accepted() use under
+> > this model?
+> 
+> Who is calling device_cc_accepted? I thought we were keeping that
+> internal to the DMA PI?
+> 
+> > My understanding is that trust describes the operating
+> > policy, not TDISP acceptance or DMA access to private memory.
+> 
+> Right.
+> 
+> > Therefore,
+> > neither FULL nor ADVERSARY alone indicates whether a device can access
+> > private memory?
+> 
+> Right.
+> 
+> Once you turn on TDISP you effectively activate DMA, just like turning
+> on the IOMMU.
+> 
+> Userspace then gets to choose how the rest of the system behavess. You
+> can still run a strict viommu with an adversarial driver even if you
+> enabled TDISP and can DMA to all memory.
+> 
+> I don't know if many people would choose that combination, but it is
+> there.
+> 
+> > You also mention that once a trust level other than DISABLED is set, it
+> > cannot be changed during the device's lifetime. If a device initially
+> > operates in ADVERSARY mode and later attestation justifies FULL
+> > operation, is that transition intentionally unsupported for the existing
+> > device object? As documented, unbind/rebind and reset preserve the
+> > committed level.
+> 
+> I think it should only be for the duration of a bound driver?
 
-commit bf9ea93a3f4c8766b32b8f1ff53f8a0863775270
-Author: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
+For now, I decided to disallow state changes because the IOMMU may outlive the
+bound device. Unbinding does not fully reset the device, so we must quiesce it
+to ensure complete security.
 
-usb: host: max3421: Fix potential resource leak on IRQ request failure
+Thanks
 
-This commit calls usb_remove_hcd() when request_irq() fails in
-max3421_probe() and reorders the error cleanup so the SPI thread is
-stopped before freeing the transfer buffers and platform data.
-
-> diff --git a/drivers/usb/host/max3421-hcd.c b/drivers/usb/host/max3421-hc=
-d.c
-> index 73e76d0e69738..09ba92c41a0d5 100644
-> --- a/drivers/usb/host/max3421-hcd.c
-> +++ b/drivers/usb/host/max3421-hcd.c
-> @@ -1911,23 +1911,24 @@ max3421_probe(struct spi_device *spi)
->  			     IRQF_TRIGGER_LOW, "max3421", hcd);
->  	if (retval < 0) {
->  		dev_err(&spi->dev, "failed to request irq %d\n", spi->irq);
-> -		goto error;
-> +		goto remove_hcd;
->  	}
->  	return 0;
-> =20
-> +remove_hcd:
-> +	usb_remove_hcd(hcd);
->  error:
-> -	if (IS_ENABLED(CONFIG_OF) && dev->of_node && pdata) {
-> -		devm_kfree(&spi->dev, pdata);
-> -		spi->dev.platform_data =3D NULL;
-> -	}
-> -
->  	if (hcd) {
-> -		kfree(max3421_hcd->tx);
-> -		kfree(max3421_hcd->rx);
->  		if (!IS_ERR_OR_NULL(max3421_hcd->spi_thread))
->  			kthread_stop(max3421_hcd->spi_thread);
-
-[Severity: Critical]
-This problem wasn't introduced by this patch, but can max3421_remove()
-trigger a use-after-free on max3421_hcd->spi_thread in
-max3421_irq_handler() [1]?
-
-CPU0                                    CPU1
-max3421_remove()
-  kthread_stop(max3421_hcd->spi_thread)
-                                        max3421_irq_handler()
-                                          if (max3421_hcd->spi_thread)
-                                            wake_up_process(...)
-                                              <-- use-after-free
-  free_irq(spi->irq, hcd)
-
-max3421_remove() stops max3421_hcd->spi_thread (which drops the
-task_struct reference) without clearing the pointer, before calling
-free_irq().  An interrupt firing in that window wakes the freed
-task_struct.  Calling free_irq() before kthread_stop() in max3421_remove()
-would avoid this race.
-
-[1] https://sashiko.dev/#/bug/linux-1a37fb82-5226-4771-845f-e2e6c320c91c
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116-c29ba55625=
--usb-host@mail.sdu.edu.cn?part=3D1
+> 
+> > It would help to describe how the trust framework fits together with
+> > those separate mechanisms, including which pieces are left for follow-up
+> > series.
+> 
+> The main thing it brings is the pause to allow userspace to measure
+> the device and put it into RUN if it so chooses before any driver is
+> bound.
+> 
+> It doesn't change how any of the DMA or TDSIP flows work.
+> 
+> Jason
