@@ -1,69 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794797126;
-	b=ZsmfqRjoaCsNkMMhmD7Dox9431xffsPLElkKWL2OMbkXJCOSQys0hUHlMFQuZGHxJMlR
-	 GP+j+ZGDjRd4FlCJGQMJmO8ZQW1x2PfNf3nMeef+CEMX+A513OjR7pZ+NqE+81dKt9Vw1
-	 8ugNURWX6ey2HeVBTFtUdRzFgx/SnD0LcHzvK6VksKcDTHgnJnpGiG4FPJUU8EdI4Q7s/
-	 EvXyz78TW4QVjwUvGnWNyB/m0qCdZq8q1gH+mL4HFIHvT0jPJy5vivTruGgOw2a3TLEWw
-	 wA3uSfcU2Pca0/dwQCDFAlHR6beSJLqGQy+E1dbV9RzVP3AVI19azAchpN1oKbAYszA==
+	t=1794797894;
+	b=sibFP0nBZPrdIOXtU8VuTIGI42CMXB+E/w7BewOiGptxzCUIpsYFPzOwgtR/QkuN+EPv
+	 zgw/H4JnBRmEA93KhHT/DOW3JKIwJKksABrGlOrAzXw0URhlzqDXWYzRg1AjALAgxCjKQ
+	 AqDHm4repp5frJQpL+08ykpP2lw8KvWgIDMyqIgAFMBh66pnPhxrt2n7u39fDVkCG/Q9o
+	 FeGvLbhUxEH8+sONyjwKUlKTypFrKAm905TxTdlYvYf0XBs+7aMPd8psg9AyuagZMZR8O
+	 gjfnBGnL198ovA7Hfk0RlEdpgFlUmZG+XHBDQs6MNefeuqsipwt7NyAUNi7l1gK5Zow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794797126;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=e25WW/amuSc0f/SwPuvo2lf7qCMr2sS7EIXdFwIzN9I=;
-	b=aOBlL/h3pIZA5UdBne2qjgX6O+VFpXSebBmR3o0icgJ1MZt8pV5cBjLjwslJ3Zxwpreb
-	 alx/gxh6owuf9VuXC10D7eJdNXg9MHOdVjPTAcS9CWhMhOmAo6uKYAkxv+Ms+RAk39YJ8
-	 Nv9N/V2pNzbUiXARVDexwoby0mNicfth8shf4LvC8uY6kT9w2jSJdfz8SdXANsuNjpFll
-	 m67olpPxCde4r3BChnudioeQ7fEwZh7aLnYmVpKkwIoTB8I82vU4LGfTd+O1pOSt9Z/16
-	 zaaAAaCGTFW+Dmk+3Oq3+hJoH/0DpU3Um/nLaPxsm4uuORG1WCegXR0qgvwpgmPb7lg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794797894;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Pz245/qiYdhAlbrbZ9JGtp5YOswGm+RxhscLH6qfgIM=;
+	b=YKiEAS0e8zat9ZYvCAAN6OwQgR2wfesgpJOGIfE9tRwKtzNYvMpH98o1SypPAWXCXF8z
+	 7wqv8GGpgBfn4OoyD3rOcwvK3dN8n8+z/X8FLdY0CdgT4lfhzojdLTkd5DUimqU3bp3PQ
+	 902+MyitTPffYQkySu8WpTvfJelYETaCOh1SyMhqsbbozjyB3OV4iT86kcVxB6UKRL+6G
+	 76D3UgjAy1wjq4GLBdUDkdJO/hwJMDy6Ybr73BBF7NIlAr6gWxXGyHD5txMFZcqrIVHK5
+	 QkC1+yADdUI1D2IjKSXKOlpWhWnT425MDsSQScLSapC/gL+8xyITH0oCvcWs1/lcKew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F7C606A323;
-	Mon, 16 Nov 2026 02:45:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7F7C606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: bea6e4cee16711f19a56ed5b684f684d-20261116
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:a7ee28e0-2522-4ae8-8a7e-66e9980f0d6e,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:02734c91e1313642b361f95b2c94793a,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|83|102|850|865|898,TC:nil,Content:0|15|50|99
-	,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
-	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: bea6e4cee16711f19a56ed5b684f684d-20261116
-X-User: huangwei@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <huangwei@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 537824501; Mon, 16 Nov 2026 10:45:12 +0800
-From: Huang Wei <huangwei@kylinos.cn>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	leStoppe <lestoppe@gmail.com>,
-	Craig Hesling <craig@hesling.com>,
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=sBpx3Ibm;
+	arc=none smtp.remote-ip=111.22.67.139
+Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 463A6606A323;
+	Mon, 16 Nov 2026 02:58:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 463A6606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=sBpx3Ibm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=sBpx3Ibmg/ey4nt9IsmrNa9gaEQTukyE5dcsTHQrmUhG35IBjUHuIRujbOhyWo8+ueHLRrZ6gS14+
+	 DFldiIZ/s701n1Iu3nzNV5CMKJ/UyzHxSgets3uriQZcIk1rSFC5OZEwUSGDL7bQGWJjVjm3TNSSxE
+	 TQlP6A47Efq10Q0s=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee96afa7140acc-0018b;
+	Mon, 16 Nov 2026 10:58:09 +0800 (CST)
+X-RM-TRANSID:2ee96afa7140acc-0018b
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from FHD-W7400297 (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee76afa713e7df-79766;
+	Mon, 16 Nov 2026 10:58:09 +0800 (CST)
+X-RM-TRANSID:2ee76afa713e7df-79766
+From: Aibing Chen <chenaibing@cmss.chinamobile.com>
+To: netdev@vger.kernel.org
+Cc: Aibing Chen <chenaibing@cmss.chinamobile.com>,
+	netdev-bot+sinfo@kernel.org,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	huangwei@kylinos.cn
-Subject: Re: [PATCH v2] USB: serial: simple: narrow OWON match to avoid breaking VDS1022
-Date: Mon, 16 Nov 2026 10:45:07 +0800
-Message-Id: <20261116024507.2633503-1-huangwei@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20261015025456.3927808-1-huangwei@kylinos.cn>
-References: <20260810091322.2201740-1-huangwei@kylinos.cn> <20261015025456.3927808-1-huangwei@kylinos.cn>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: hso: cap the MTU to the mux tx buffer size
+Date: Mon, 16 Nov 2026 10:58:06 +0800
+Message-ID: <20261116025806.244-1-chenaibing@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.50.1.windows.1
+In-Reply-To: <179479401486.3291.17345716560777690357@kernel.org>
+References: <20261116014904.556-1-chenaibing@cmss.chinamobile.com> <179479401486.3291.17345716560777690357@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -75,17 +78,32 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Johan,
+On Mon, 16 Nov 2026 01:53:34 +0000, netdev-bot+sinfo wrote:
+>  - How the issue was discovered, e.g. hit in production, hit during
+>    development, syzbot report, manual code inspection, LLM or static
+>    analysis tool scan.
 
-Following up on this thread. The last open question from the November
-3rd analysis is how to proceed given that the VDS1022I reports the
-same interface tuple (5, 0, 0) as the HDS200 - the interface-level
-narrowing doesn't reliably separate the device families.
+Code inspection, prompted by the automated review of the companion
+skb_tx_buf fix in the same driver:
 
-The v2 is ready if the full-tuple approach is acceptable, but given
-the new data it may need to be reverted to the original broad match
-or approached differently. Could you share your preference when you
-get a chance?
+https://lore.kernel.org/all/179477764293.3136.7267245337781305691@kernel.org/
 
-Thanks,
-Huang Wei
+That review noted that hso_net_start_xmit() copies skb->len bytes into
+the fixed MUX_BULK_TX_BUF_SIZE (2048) buffer with no bound check, and
+that hso_net_init() never sets max_mtu. Both statements check out in
+the source, which is what this patch addresses. The syzbot memory leak
+that started the series did not touch this path.
+
+>  - Whether the issue was actually triggered, or is only theoretical
+>    (e.g. found by LLM and not proven at runtime). If it was triggered
+>    please include the symptoms, like the stack trace or kernel messages.
+
+Theoretical: the overflow was not triggered at runtime and the patch
+carries no runtime repro. The overflow is statically decidable from the
+code (unbounded memcpy into a fixed 2048-byte allocation, plus the
+missing max_mtu), so the fix stands on inspection alone. I chose the
+max_mtu cap over a runtime length check because the default MTU already
+fits the buffer with the same 14-byte allowance, so there is no reason
+to allow a larger one.
+
+
