@@ -1,97 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=78.133.224.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794812688;
-	b=LTzUJlpN1lc2PjhIYIdNqciJdGnj6I8zJELZ8ybaUFvelAinCF/WuFMVXdTN2dtBTdD6
-	 BZeEmQHBAH0mB+qjoe4cb1goPrm9gfyB4iXBnNNQgop66aW+ShHgpm0vySEAmjuYpn7wU
-	 mLwuLw/WijoziQV6Jjykvp0DQsgP+Wz4HcQiADIpOBPk6YwzCGS9NuAiNe7jugwoVIy4l
-	 daz0vX4oKNa6EkYki2PfI/z4tPPDGeF70w+XTONUHfTQXhwkQIQ57Vu2BGk59Yy6xx6yX
-	 yUb4DzyBtH3O1NxOYLTn2sncP2IZ8WTAGDLkpJQicb7CCHH/08hCu4cXHDGge60bNkA==
+	t=1794812947;
+	b=ePYLK8Y++vV92rE1O+zSZCs4lo87Otb4FfAJWiDs70cEphLaB2Y96yBMFN3hxfG6Wu7S
+	 ID1wO3/s7IRKmfszS6ass9rVS/NkT+0IEKNclHH6Na5A1XglLvVX89hw6EX3OTizXWw11
+	 XaY2Vq2klq+DvtRoTGG5+ExU/nDQ1RsbCFoZ8eimZrSHXVAtAp/S1UOfts+Fre8by4a0k
+	 75Ao4/kAVxy2XfqfbsSPh5jyAdGfMPBkfJKDBLVoPGrY+SF+4T5MKQQKPRboRM10D4ihZ
+	 XGbgoYXU6qr45whCoELyMp4Xzt4TGUiDdtmlGclm984F6gQjikei6KsKoZ/5SsaMAvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794812688;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=omQopKG0vJN/8IAN9W8FBopNM44OY3QKRAS5YIysdeY=;
-	b=yiw2+r7p4YgjX9ryUma5m+v4KA21MT7PbiUYzoMWrv4yskhV3bpNFso+M7Z8FcxqFDWY
-	 dCEeE6VAG6tpL8jxY56lncaDoVJMyNbNI2xOwFP5ChozRCM8HXWkc83PvRjCuoX637FzQ
-	 OLrwo+XBib5MG5HlcoUMlsahgXZBsUeMKANFtP7MEAySSWObAHVSKyipFwjvWgZhfGtRp
-	 HyiGJe3wA5arIsFbGYUwq6gDW3Mabp4mHBl2oVnqui4FTiOGYewcQ7KE/8cOd/nPLN8hB
-	 lVISAZpvd/jUxM/e9CoVmagti3TyO0NyZyzvBOoDYcYrfsCQluGDtEGCYKj4LFxXmsA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794812947;
+	h=DMARC-Filter:Received:Received:Date:From:To:cc:Subject:In-Reply-To:
+	 Message-ID:References:User-Agent:MIME-Version:Content-Type;
+	bh=1mHmG9IJHtIMld4ZeRanDjKIMZUQxx8f0ptnWkrCv+U=;
+	b=0i8RahmNidBKHbWBeQckX6v4j9iCyuvVL/fZe/BEsPc/Xoe2nv+21TKq8Z9boKNYHrYK
+	 TotB7T80Z1D6oFXyUkcSsAhoCh3IC2ARjY/i+UN6pi3dNYn0B76azB/X9E/tIfcdqgcSB
+	 9AKBwpQFVyOBZwo6poe7axdA/vqIytMUUML/LMiEAVafmfqLwAHbYtegV4ihhnpc2LQN1
+	 1aZBowjXeK5BftnnOth8JJo70ZfTNBNImfEeyD/SSoOHs0mtHF983Xw9qw+XNmuv9T2VO
+	 QrXYqlONvEBxO/uVPvcWVve8MQ3C5gxmDeM/Gca8NoKmNnPn6fkxMNR6i7ZoQw4/UxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=yuzi.co;
-	spf=pass smtp.mailfrom=yuzifovich.name;
-	dkim=pass header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=N4TBKIhZ;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF32F606A891
-	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 07:04:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF32F606A891
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yuzi.co
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yuzifovich.name
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=N4TBKIhZ
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4b79502c27aso22836345e9.1
-        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 23:04:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yuzi.co; s=google; t=1794812686; x=1795417486; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=omQopKG0vJN/8IAN9W8FBopNM44OY3QKRAS5YIysdeY=;
-        b=N4TBKIhZUREx+oko062InQiY/JGmQZFhHL9mJdq6v9lX+SqJ8zGFXOtJsAj9Y8fVAo
-         iX19tVhA5QIr73O1O/OLq6FYIHJR1RqFETQ68iU2ZA9Tn6074FFOp5GnTgUXsXwFlR4O
-         V+QohIK7sACnWx4dPtQJx7QyjnA4c4M02rBO4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794812686; x=1795417486;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=omQopKG0vJN/8IAN9W8FBopNM44OY3QKRAS5YIysdeY=;
-        b=hkDxTPvoslUysyNrR2FYfF4gl2qhTROCBRLVWimWr8HIqKtvndwIiaN9PzGJJG+x67
-         tKyE8BP5MvZgplBis0SXic98PO2+MkutWTcLpEt08iBgnb+rGAfeHtBFlIinE+uoEK7J
-         QWPxjLtK3k3zZ2vLOrTJbVJHOZbnyVeDndlvWX6fsXU6vmvpNC7MNgnG1zUUgxDD+4fe
-         hNWl7uE4rve3GSnNz7c6zGjFB9SvrDbv5gAY1TuU+c76lwLVtuayEIMqIp0SDPxyhdGN
-         je5ExelxSR6EBrw2axp4qcnN8PkC4c+c396SkE266FaZOAUtb+TVM4433yfMI3qBZT8h
-         lagg==
-X-Forwarded-Encrypted: i=1; AL+hErFF3DUV4rt+376q5WKVMp80jIn49C2CBVOeQkLWb7qNPDIugLjQT0n5gA1SetfZwaYVEK8ikdbaOOQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9R3GY+Ysn2OA1qu8SnsyjFSuwuc08O+u6Ioniiv9/kwtFCISwG
-	8tU4k5HAvlDkd1GxRBKbRWYK2nAlmal7Nd2wjKNE/BVuK4SXuHBNL3QZ/iBxVZaMwg4=
-X-Gm-Gg: AYBFou1SidGwntLk79CeWmjgW9YYp5DO33narOiZlyfghQMuwpF7OGQcsk7BfQAOzAa
-	VLjIsRHC8Em4VWzXZDdhgBGQbM/R5RBqCEjoxGeQ5xi3UTJbMT0AK5oEpJyarl4xChWo5Qpiy1F
-	fSerfXUbFqe8W144Hf5LhN+C6iN6bAFuclctq4EEqijfEWBV7rQlSMtYNrL+fN6KWvA77pGL7Aj
-	qlzKYgvddZcYHFRj82pXP/wpj5j6wucivts55I0WUYe1QtmC8nOSCIRKrk3/vETZhTF4qOwS94t
-	MbrqvhMwOM1pHVY/EtQvdx/wDova2KM8fUVopAsSR0oH8+M9Xwcf83f1se30m5sxRDdcR8mA4wg
-	HWc5TFG+SqYNrSMSmjqy0phBitAs1ZAzs5s2AdDCONPNeyRrd1mR6d4cWegQdWTvHs4ATIy0xaJ
-	pquqJddRpGTFmCGeFWvpxocFhRaXt28/w595RJw7+aU/Cqcg2HUtevJKsGw0neQ970l2VazYhTc
-	8zIXnNI6E61I9/POjWGkc+WSAPAnAa+PwDyS6GpN/snswH/cvQhwUk2nrmZk3GGiCYyk8Bd7S8g
-	X4WU7paYgYa+fNnc7mxKUwuiaTJLLnZgYg/5IUV+win9trG8S0OWII4RO9HSCSUgJaTIjlbpZhf
-	uTkhxMUYngL1Bk38ntlL2dsJ4FwR8ZIwiKncNiMJFYsFXhrxdo0dl0+gRFlS6dCaKdya7uRQUBm
-	/wCOLymJHlqajgQw==
-X-Received: by 2002:a05:600c:6096:b0:4bb:5de1:e923 with SMTP id 5b1f17b1804b1-4bb5de1f26dmr146040465e9.4.1794812685829;
-        Sun, 15 Nov 2026 23:04:45 -0800 (PST)
-Received: from terra.lan ([78.83.170.221])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c609c6451sm21866706f8f.45.2026.11.15.23.04.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 23:04:45 -0800 (PST)
-From: Vadim Yuzifovich <vadim@yuzi.co>
-To: gregkh@linuxfoundation.org,
-	Thinh.Nguyen@synopsys.com
-Cc: chenyou910331@gmail.com,
-	inochiama@gmail.com,
-	linux-usb@vger.kernel.org,
-	sophgo@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Vadim Yuzifovich <vadim@yuzi.co>
-Subject: [PATCH v2 3/3] usb: dwc2: gadget: make descriptors visible before the endpoint is enabled
-Date: Mon, 16 Nov 2026 09:04:33 +0200
-Message-ID: <20261116070433.2813951-4-vadim@yuzi.co>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261116070433.2813951-1-vadim@yuzi.co>
-References: <20261116070433.2813951-1-vadim@yuzi.co>
+	dmarc=none header.from=orcam.me.uk;
+	spf=none smtp.mailfrom=orcam.me.uk;
+	arc=none smtp.remote-ip=78.133.224.34
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 364A6606A332;
+	Mon, 16 Nov 2026 07:09:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 364A6606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id 39D8A92009C; Mon, 16 Nov 2026 08:09:04 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id 376CC92009B;
+	Mon, 16 Nov 2026 07:09:04 +0000 (GMT)
+Date: Mon, 16 Nov 2026 07:09:04 +0000 (GMT)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+cc: David Laight <david.laight.linux@gmail.com>, 
+    Christian Brauner <brauner@kernel.org>, 
+    Geert Uytterhoeven <geert@linux-m68k.org>, linux-fsdevel@vger.kernel.org, 
+    Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+    Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+    NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+    Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+    Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+    Greg Kroah-Hartman <gregkh@suse.de>, 
+    Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, 
+    Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+    linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+    linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+    linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+    linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
+    linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
+    ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+    coreteam@netfilter.org, kexec@lists.infradead.org, 
+    linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+    netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+    ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+    linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+    linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+    linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org, 
+    linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+    sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+    linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
+    linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>, 
+    linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+    linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+    linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>
+Subject: Re: [PATCH RESEND v2 14/23] proc: let procfs copy in writes before
+ pinning the entry
+In-Reply-To: <CAHk-=whsA3tKcUCBJDj_vmJ11rVGT9rivgnKjGRgMO21CPmCxg@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.2611160657470.17804@angie.orcam.me.uk>
+References: <20261104-work-procfs-core-v2-14-76ace653a773@kernel.org> <CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com> <20261107-akteur-gemieden-eckdaten-21304d085e35@brauner> <20261108185953.28054fb3@pumpkin>
+ <alpine.DEB.2.21.2611090504170.17804@angie.orcam.me.uk> <20261109214558.0d9d5228@pumpkin> <CAHk-=whsA3tKcUCBJDj_vmJ11rVGT9rivgnKjGRgMO21CPmCxg@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,126 +81,21 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-In descriptor DMA mode the core fetches the first descriptor of a chain
-as soon as the endpoint is enabled. dwc2 fills the chain in coherent
-memory and then writes DxEPDMA and DxEPCTL.EPENA with writel(), whose
-barrier orders the earlier stores before the MMIO write. On a Sophgo
-SG2002 (T-Head C906, DWC_otg 4.20a) that is not enough: the core still
-finds a descriptor that is not host ready, raises BNA and disables the
-endpoint, although the descriptor reads host ready, last, short, IOC
-when the interrupt is handled.
+On Mon, 9 Nov 2026, Linus Torvalds wrote:
 
-With a host sending TEST UNIT READY to a CD-ROM LUN as fast as it can
-(about 2600 a second, each followed by REQUEST SENSE) and a 1080p60
-H.264 encode loading the DRAM, about 0.8% of transfer starts raised BNA,
-99.5% of them within 20 us of the enable (the latency of the interrupt
-itself), with DxEPDMA still at the head of the chain. Without the
-encode there was none in 254000 commands. BNAs per variant, measured in
-turn on one boot with a diagnostic build, at about 780000 transfer
-starts a minute each:
+> > Just that the cast would have to be:
+> >         u8 *foo = (u8 *)bar;
+> > where 'bar' is 'char *', and I don't think you need a cast there when
+> > char is unsigned.
+> 
+> .. and just to clarify: 'char' is always unsigned in the kernel on all
+> architectures since commit 3bc753c06dd0 ("kbuild: treat char as always
+> unsigned") back four years ago...
 
-  unchanged                                   6215, 6510
-  mb(), read the last descriptor, mb()           0
-  th.sync.s                                      0
-  udelay(2)                                      2
-  descriptor written as two word stores,
-    status last, dma_wmb() between            3728
+ Thanks, yes, that's the piece of the context I was missing.  I've since
+actually come across this commit while investigating which Linux ports 
+have plain `char' signed in the psABI (MIPS for sure).
 
-Mapping coherent memory non-bufferable on the C906 did not change the
-rate either. So the stores are still on their way to DRAM when the core
-reads, and a load from the descriptor waits for them.
-
-Read the last descriptor of a chain back between two full barriers
-before the endpoint is enabled, for non-isochronous transfers and for
-the start of an isochronous chain. An isochronous chain marks its first
-descriptor host ready last, so that one is read back as well. It costs
-one uncached load per transfer. With it there was no BNA in 6.2 million
-transfer starts under the same load, and none in a 60 minute run at
-1080p60.
-Signed-off-by: Vadim Yuzifovich <vadim@yuzi.co>
----
-v2:
-- Read the last descriptor back also when the isochronous chain is full
-  and next_desc has wrapped to 0.
-- Read descriptor 0 of an isochronous chain back as well.
-
- drivers/usb/dwc2/gadget.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
-
-diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-index a7eaf75ff..cd1773836 100644
---- a/drivers/usb/dwc2/gadget.c
-+++ b/drivers/usb/dwc2/gadget.c
-@@ -854,6 +854,27 @@ static void dwc2_gadget_fill_nonisoc_xfer_ddma_one(struct dwc2_hsotg_ep *hs_ep,
- 	}
- }
- 
-+/*
-+ * dwc2_gadget_desc_visible - make descriptors the CPU has just written
-+ * visible to the core before it is told to fetch them.
-+ * @desc: The descriptor written last.
-+ *
-+ * The core fetches the first descriptor of a chain as soon as the endpoint is
-+ * enabled. writel() orders the CPU's earlier stores before that MMIO write,
-+ * but on the Sophgo SG2002 (T-Head C906) the stores to coherent memory can
-+ * still be on their way to DRAM when the core reads it. The core then finds a
-+ * descriptor that is not host ready and raises BNA. Reading the last
-+ * descriptor back between two full barriers waits for the stores to land.
-+ */
-+static void dwc2_gadget_desc_visible(struct dwc2_dma_desc *desc)
-+{
-+	/* Order the stores to the chain before the load below. */
-+	mb();
-+	(void)READ_ONCE(desc->status);
-+	/* Finish the load before the MMIO write that enables the endpoint. */
-+	mb();
-+}
-+
- /*
-  * dwc2_gadget_config_nonisoc_xfer_ddma - prepare non ISOC DMA desc chain.
-  * @hs_ep: The endpoint
-@@ -881,6 +902,7 @@ static void dwc2_gadget_config_nonisoc_xfer_ddma(struct dwc2_hsotg_ep *hs_ep,
- 	if (!ureq || !ureq->num_sgs) {
- 		dwc2_gadget_fill_nonisoc_xfer_ddma_one(hs_ep, &desc,
- 			dma_buff, len, true);
-+		dwc2_gadget_desc_visible(desc - 1);
- 		return;
- 	}
- 
-@@ -893,6 +915,7 @@ static void dwc2_gadget_config_nonisoc_xfer_ddma(struct dwc2_hsotg_ep *hs_ep,
- 	}
- 
- 	hs_ep->desc_count = desc_count;
-+	dwc2_gadget_desc_visible(desc - 1);
- }
- 
- /*
-@@ -1079,12 +1102,23 @@ static void dwc2_gadget_start_isoc_ddma(struct dwc2_hsotg_ep *hs_ep)
- 	depctl = hs_ep->dir_in ? DIEPCTL(index) : DOEPCTL(index);
- 	dma_reg = hs_ep->dir_in ? DIEPDMA(index) : DOEPDMA(index);
- 
-+	/*
-+	 * The rest of the chain has to be visible before descriptor 0 is
-+	 * host ready. The queue is not empty, so at least one descriptor was
-+	 * filled: next_desc 0 means that the chain is full and the index
-+	 * wrapped.
-+	 */
-+	i = hs_ep->next_desc ? hs_ep->next_desc - 1 :
-+			       MAX_DMA_DESC_NUM_HS_ISOC - 1;
-+	dwc2_gadget_desc_visible(&hs_ep->desc_list[i]);
-+
- 	/* write descriptor chain address to control register */
- 	dwc2_writel(hsotg, hs_ep->desc_list_dma, dma_reg);
- 
- 	desc = &hs_ep->desc_list[0];
- 	desc->status &= ~DEV_DMA_BUFF_STS_MASK;
- 	desc->status |= DEV_DMA_BUFF_STS_HREADY << DEV_DMA_BUFF_STS_SHIFT;
-+	dwc2_gadget_desc_visible(desc);
- 
- 	if (!hs_ep->dir_in && !again &&
- 	    dwc2_gadget_isoc_out_held_packet(hs_ep)) {
--- 
-2.56.0
-
+  Maciej
