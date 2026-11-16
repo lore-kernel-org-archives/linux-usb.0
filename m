@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794827418;
-	b=jwGxuw4d2JQZkdNSv+r1A0Kkm2hWBMR3t0W22WZTOO8zDSwln3Spmuzge42d6pF+V2wW
-	 A5gylt2thvaODO0W1RU/MpUof0KFUWowX+vyXPYebyFoPLXk5WNk7M843SD3xbZAPL/aa
-	 ip0oVGhS/KCw5cMuj/aqvgKmE7NAmCmfVtyIv0yaxlaRZtO2VwUojlApJd6ATWJ1JgMsQ
-	 oXyeOqFiDfOlsBGN4CM40bMTUJ3guADG+Y9CacMN39YemaUQctb4bhATr2//8IV89HfFv
-	 xhuv07pmyxorkcgHIbMbL6UFOTWw6UE+7ZcENhMm+srMEexw8hWVmGHv+n5tql3UjTQ==
+	t=1794827432;
+	b=YowqKq1jqZgupd1hjPNjdUmw5g3hn9kWL9kL99Eq9N30VgB8vERro4L7e7DFBzZPP4gn
+	 NhplqUXHl3LiF+YaZnwgLsXbSMH7q1r4GTcJ3V0JG7Ka2y1vWYuwmgN6ZwvJSJHFop7LD
+	 hTJK0ejDEGlb0m1j6uwNfBpja9Fz411d4ScS2H5xAT7E2/esnJF9l9naR1wjn6/36qFv4
+	 krWICcMrlhw5pvKdhjc2K6pfRy8nozaQYR0i7sCrqKZMjig66nl6OUUF6ikDwHb3Fz2+l
+	 43DT3oxl75Kd4gTBPxPgoBUFq9JcYwS33wG1ABMXGUbOBuxmuqEuhLQWoSLMskza7bA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794827418;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794827432;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=AMxV5fDFlTE8OAKC1riUjdbxNUfnGfJUWLINJ0DSOYU=;
-	b=LuhvsNwkT7j/OLAvriU+z7L8yLw2HTVU7pkCVBWBbk9dGQNv2xCaSM1mQoK3fPg4jzkx
-	 05M/+uQBZTY+PHQJ2KZd0BAPMm7tqj61exfkh2zgiRr1xFCeHBphXyAmpsdAZQq2xle0r
-	 c9qeCMvjR5euHnzC0eCR/HkVlZ5v7QJC3WgOgr7mQRadOioUrtimziEd7Xcc9XWsQhXtk
-	 e28DWHch/InJmvaffkIImV1fF0+g5+4HYmSgJYuO0t3CKzGhqIyWQVArsp1fKXDrQFpaQ
-	 kM7EmuTGdOZPGfIqMX5dAzZqIf7XHjiLWJ4hQmD639DjKsfgLLB6ClGFJPL0WvtlCRA==
+	bh=1H8Xh93n2dg9eAr21Dx1zMiF5X4Ak3L7LjGKuq60qTI=;
+	b=pGWRRA02ikDFGTyhUS5M5HIFIA+1Pj40CQVHrSfg3Ylw/GPv3GWlzy9lp4zKZQ4TWMgn
+	 YSWFyDsClGMpD7hlXgqhLilp9QBPCNVJr66rBdnMxzAAyAYpIYOia1IvrXGsRyln6Qu0E
+	 nc43qOcDb8uXRv/mWbPUelHONJGu+mDu6FBdl8FM/u+nSzB0PQuXm6F73S4/s+94xWCXD
+	 61Z4jsAXViyEwb7BPxD0Cr9vRNRKB/NaJlvN+kAIxJ2BvE7lSUV1S4I/k5DqfTLZMdjah
+	 tJTxT1uGwc2HkQU51Mh3znePBfsqF18xDPTIYDOgfM97aHHoMsOcSYwjbOPR03ALH8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QNisDWf7;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qv+gp8Sx;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE656081186;
-	Mon, 16 Nov 2026 11:10:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E774606A7A7;
+	Mon, 16 Nov 2026 11:10:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QNisDWf7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E6C51F000C6;
-	Mon, 16 Nov 2026 11:10:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qv+gp8Sx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 482751F000C4;
+	Mon, 16 Nov 2026 11:10:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827417;
-	bh=AMxV5fDFlTE8OAKC1riUjdbxNUfnGfJUWLINJ0DSOYU=;
+	s=k20260515; t=1794827432;
+	bh=1H8Xh93n2dg9eAr21Dx1zMiF5X4Ak3L7LjGKuq60qTI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=QNisDWf7U3h663SyoRV0uxWbOVyLtGNDCxOalmGb2Oy1P+x3yPzMj9NJ8VjnhaIgT
-	 qFDnHLurOuTPsUtv0TnbCEh8CcE8J2YoDDqRxBvPi3b+0t34sV2ZdQ8WcBJFQAzW01
-	 dZV/hUpqsrYSFkjkxKEMYRXKXDlMGRSVBAFcDSt0ZpAWonzunAmi6+H0IT7dCmHDOv
-	 Q2tBNYIqTL3Wj8Lpy3eAb86aT5io7YVR2DHh83QvVZ1oViOXs+zhpN9+3TBnhkmBpP
-	 P5uSY+0IieOD78GEeEis0B8qJFz0aqRqI7v0WUd9WPnDMgp4QpBzej9YDHKTMsq6SM
-	 NnKmRaKURUOpw==
+	b=Qv+gp8SxFvTYEiGZq7WIE/agQK090FiR70GXAeekS1OplOolirKwCH/zLYBDNXzq0
+	 82XLudzjNFrzvVWoZyEOTPSZTpmeNXt/UCBPmq+05hm/YtAPZrCgKRToGO46LgRBEX
+	 ImP9hFUWMZDojefV99IdUQmIRI+I1B7gKqWJ5KJPAMj3aUpw6raPzU1ubhxuAVkSAJ
+	 ratfucFWbzuqRWKtRRRoBJoHNQ4F/vgweZWDI2Sw1yxx+sabg478I4+vwvLIxnXThc
+	 PsvH2zBjetTl0YhopTahD70H4fzJ1QCjbHQcFIEDOKvLzH+H893kI0I79oiEWjYL6e
+	 EM050TCGdUUMw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:05:07 +0100
-Subject: [PATCH RFC v3 34/44] selftests/ovl: test data-only layers on
- pseudo filesystems
+Date: Mon, 16 Nov 2026 12:05:09 +0100
+Subject: [PATCH RFC v3 36/44] loop: refuse files on pseudo filesystems as
+ backing files
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-34-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-36-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -74,192 +74,114 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ Alexander Mikhalitsyn <alex@amutable.com>, 
+ Chris Down <chris@chrisdown.name>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5266; i=brauner@kernel.org;
- h=from:subject:message-id; bh=RU/dYDB+jdMMzNMeo0U5oo6JSftdyfWqQOmLqwIlGOg=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9etzGd2ObhO1hy2rNxbOC9s22uNMhOfPpjadPOhLub
- jlkHKla0VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRCYKMDFM/BeYEvN8w4/c0
- 41kSN3JS3x/VP/Wr6sTU13ffvhGcvfchI8P17p+CIg2c/FPY556OFjotvWWz6DTee+d3yU1wCJc
- /mcsEAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3933; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=YAQ3VdFop25KuddjJBUap+th0WtUAOpdA+YAegR0Rwc=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9etyh2q8/O/2EyrvzpQZi063lrY5+en/xo+aSZ3/ms
+ jfEizF86yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiIvjMjw6qdbrWvhSInlW25
+ tWMX66LDx9s7/s7Nfv+I5daJH1dmHXFh+Kct9n/C2iBp+SNzhLSebHrBvzTs1qak9o6IM+UMyxL
+ f72YBAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Add tests that overlayfs refuses data-only layers on pseudo filesystems:
+Currently loop accepts any regular file that implements ->read_iter() as
+a backing file and any that also implements ->write_iter() as a writable
+one. That includes files on procfs, sysfs and other pseudo filesystems.
+For example, /proc/kcore attaches read-only as a loop device the size of
+the kernel's virtual address space, 64 PiB with 5-level paging. sysfs
+attributes attach read-write as 4096 byte loop devices. Writing a block
+to the loop device of /sys/kernel/mm/transparent_hugepage/enabled
+changes the THP setting.
 
-- sysfs and procfs via the "::" separator in "lowerdir="
-- sysfs and procfs via "datadir+" by path
-- sysfs and procfs via "datadir+" by file descriptor
-- tmpfs as data-only layer
-- sysfs as regular lower layer
+That's not just nonsensical, it can be abused. Loop calls ->read_iter()
+and ->write_iter() of the backing file directly from its worker which
+runs with kernel credentials. But pseudo files enforce part of their
+access rules at read and write time against current. Dozens of sysfs
+->show() and ->store() methods call capable(). Behind a loop device all
+of these checks are done against the loop worker instead of the task
+that opened the file. And setting up a loop device requires no
+capabilities, only access to the device nodes. So on v7.4-rc1:
 
-The last two must keep mounting.
+- uid 0 without any capabilities can't write to /sys/kernel/reboot/mode
+  as mode_store() requires CAP_SYS_BOOT. Writing "warm" through a loop
+  device works.
 
+- uid 0 without any capabilities can't read the files in
+  /sys/firmware/dmi/entries/*/ as dmi_sysfs_attr_show() requires
+  CAP_SYS_ADMIN. Reading them through a loop device works.
+
+- An unprivileged container that was handed a loop device can't change
+  gro_flush_timeout of its own network devices as
+  gro_flush_timeout_store() requires CAP_NET_ADMIN in the initial user
+  namespace. Writing it through a loop device works.
+
+The same goes for hard_offline_page, the md and sd attributes, rfkill
+and others.
+
+Refuse files on pseudo filesystems as loop backing files by switching to
+file_check_backing(). Note that it looks through overlayfs so stacking
+overlayfs on top of sysfs doesn't get around this.
+
+The helper also does the file type, open mode and method checks that
+loop did itself so far. The check for a regular file or a block device
+now happens before the loop device is locked and it looks at the inode
+of the file instead of the host of ->f_mapping. For regular files and
+block devices both have the same type.
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+Reviewed-by: Chris Down <chris@chrisdown.name>
+Tested-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- .../selftests/filesystems/overlayfs/.gitignore     |   1 +
- .../selftests/filesystems/overlayfs/Makefile       |   1 +
- .../filesystems/overlayfs/pseudo_datadir.c         | 131 +++++++++++++++++++++
- 3 files changed, 133 insertions(+)
+ drivers/block/loop.c | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/tools/testing/selftests/filesystems/overlayfs/.gitignore b/tools/testing/selftests/filesystems/overlayfs/.gitignore
-index b343cc430051d..e1410fee2269d 100644
---- a/tools/testing/selftests/filesystems/overlayfs/.gitignore
-+++ b/tools/testing/selftests/filesystems/overlayfs/.gitignore
-@@ -3,3 +3,4 @@ dev_in_maps
- set_layers_via_fds
- idmapped_mounts
- automount_in_layer
-+pseudo_datadir
-diff --git a/tools/testing/selftests/filesystems/overlayfs/Makefile b/tools/testing/selftests/filesystems/overlayfs/Makefile
-index 382a59bda5e70..ace75f5627e0f 100644
---- a/tools/testing/selftests/filesystems/overlayfs/Makefile
-+++ b/tools/testing/selftests/filesystems/overlayfs/Makefile
-@@ -10,6 +10,7 @@ TEST_GEN_PROGS := dev_in_maps
- TEST_GEN_PROGS += set_layers_via_fds
- TEST_GEN_PROGS += idmapped_mounts
- TEST_GEN_PROGS += automount_in_layer
-+TEST_GEN_PROGS += pseudo_datadir
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index c96e35c3ef423..776bd063f900c 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -492,7 +492,6 @@ static inline int is_loop_device(struct file *file)
  
- include ../../lib.mk
+ static int loop_validate_file(struct file *file, struct block_device *bdev)
+ {
+-	struct inode	*inode = file->f_mapping->host;
+ 	struct file	*f = file;
  
-diff --git a/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
-new file mode 100644
-index 0000000000000..3b59fd3e9f5c2
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
-@@ -0,0 +1,131 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <sched.h>
-+#include <stdbool.h>
-+#include <stdio.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <unistd.h>
-+
-+#include "kselftest_harness.h"
-+#include "../wrappers.h"
-+
-+static int setup_tmp(void)
-+{
-+	if (unshare(CLONE_NEWNS))
-+		return -errno;
-+	if (sys_mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL))
-+		return -errno;
-+	if (sys_mount("tmpfs", "/tmp", "tmpfs", 0, NULL))
-+		return -errno;
-+	if (mkdir("/tmp/lower", 0755) || mkdir("/tmp/data", 0755) ||
-+	    mkdir("/tmp/merged", 0755))
-+		return -errno;
-+	return 0;
-+}
-+
-+/* Mount an overlayfs with the legacy "lowerdir=" option. */
-+static int mount_lowerdir(const char *lowerdir)
-+{
-+	char opts[256];
-+
-+	snprintf(opts, sizeof(opts), "lowerdir=%s", lowerdir);
-+	if (sys_mount("overlay", "/tmp/merged", "overlay", MS_RDONLY, opts))
-+		return -errno;
-+	if (umount2("/tmp/merged", 0))
-+		return -errno;
-+	return 0;
-+}
-+
-+static int set_layer(int fd_context, const char *key, const char *path,
-+		     bool by_fd)
-+{
-+	int fd, ret = 0;
-+
-+	if (!by_fd) {
-+		if (sys_fsconfig(fd_context, FSCONFIG_SET_STRING, key, path, 0))
-+			return -errno;
-+		return 0;
-+	}
-+
-+	fd = open(path, O_DIRECTORY | O_CLOEXEC);
-+	if (fd < 0)
-+		return -errno;
-+	if (sys_fsconfig(fd_context, FSCONFIG_SET_FD, key, NULL, fd))
-+		ret = -errno;
-+	close(fd);
-+	return ret;
-+}
-+
-+/* Create an overlayfs with "lowerdir+" and "datadir+" through fsconfig. */
-+static int fsmount_layers(const char *lower, const char *data, bool by_fd)
-+{
-+	int fd_context, fd_mnt, ret;
-+
-+	fd_context = sys_fsopen("overlay", FSOPEN_CLOEXEC);
-+	if (fd_context < 0)
-+		return -errno;
-+
-+	ret = set_layer(fd_context, "lowerdir+", lower, by_fd);
-+	if (ret)
-+		goto out;
-+	ret = set_layer(fd_context, "datadir+", data, by_fd);
-+	if (ret)
-+		goto out;
-+
-+	if (sys_fsconfig(fd_context, FSCONFIG_CMD_CREATE, NULL, NULL, 0)) {
-+		ret = -errno;
-+		goto out;
-+	}
-+
-+	fd_mnt = sys_fsmount(fd_context, FSMOUNT_CLOEXEC, 0);
-+	if (fd_mnt < 0)
-+		ret = -errno;
-+	else
-+		close(fd_mnt);
-+out:
-+	close(fd_context);
-+	return ret;
-+}
-+
-+TEST(datadir_sysfs)
-+{
-+	ASSERT_EQ(setup_tmp(), 0);
-+
-+	EXPECT_EQ(mount_lowerdir("/tmp/lower::/sys/kernel"), -EINVAL);
-+	EXPECT_EQ(fsmount_layers("/tmp/lower", "/sys/kernel", false), -EINVAL);
-+	EXPECT_EQ(fsmount_layers("/tmp/lower", "/sys/kernel", true), -EINVAL);
-+}
-+
-+TEST(datadir_procfs)
-+{
-+	ASSERT_EQ(setup_tmp(), 0);
-+
-+	EXPECT_EQ(mount_lowerdir("/tmp/lower::/proc"), -EINVAL);
-+	EXPECT_EQ(fsmount_layers("/tmp/lower", "/proc", false), -EINVAL);
-+	EXPECT_EQ(fsmount_layers("/tmp/lower", "/proc", true), -EINVAL);
-+}
-+
-+TEST(datadir_tmpfs)
-+{
-+	ASSERT_EQ(setup_tmp(), 0);
-+
-+	EXPECT_EQ(mount_lowerdir("/tmp/lower::/tmp/data"), 0);
-+	EXPECT_EQ(fsmount_layers("/tmp/lower", "/tmp/data", false), 0);
-+	EXPECT_EQ(fsmount_layers("/tmp/lower", "/tmp/data", true), 0);
-+}
-+
-+TEST(lowerdir_sysfs)
-+{
-+	ASSERT_EQ(setup_tmp(), 0);
-+
-+	EXPECT_EQ(mount_lowerdir("/sys/kernel:/tmp/lower"), 0);
-+	EXPECT_EQ(mount_lowerdir("/sys/kernel::/tmp/data"), 0);
-+	EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", false), 0);
-+	EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", true), 0);
-+}
-+
-+TEST_HARNESS_MAIN
+ 	/* Avoid recursion */
+@@ -510,8 +509,6 @@ static int loop_validate_file(struct file *file, struct block_device *bdev)
+ 		rmb();
+ 		f = l->lo_backing_file;
+ 	}
+-	if (!S_ISREG(inode->i_mode) && !S_ISBLK(inode->i_mode))
+-		return -EINVAL;
+ 	return 0;
+ }
+ 
+@@ -528,16 +525,10 @@ static void loop_assign_backing_file(struct loop_device *lo, struct file *file)
+ 
+ static int loop_check_backing_file(struct file *file)
+ {
+-	if (!(file->f_mode & FMODE_READ))
+-		return -EBADF;
+-
+-	if (!file->f_op->read_iter)
+-		return -EINVAL;
+-
+-	if ((file->f_mode & FMODE_WRITE) && !file->f_op->write_iter)
+-		return -EINVAL;
+-
+-	return 0;
++	/* A backing file that isn't open for writing gives a read-only device. */
++	return file_check_backing(file,
++				  FMODE_READ | (file->f_mode & FMODE_WRITE),
++				  S_IFBLK);
+ }
+ 
+ /* loop sysfs attributes */
 
 -- 
 2.53.0
