@@ -1,55 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.145.95.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794841684;
-	b=k+S0vTrLBNt++t6HSaUuj5I8CDZWcAG256kTJvyfRYZO0PKYHsKvH+S0tPYUsYKH+/ih
-	 4KCUn4eI0hNsm5scjClR3Ydn8Y9VnMAq8G1YHn5tyx612MdWWefWtX4nKfQ01msyss1iA
-	 Yiq/4txaQt9YNtAiiBEV+d19BaE0LstpWIHGmBewzQ+Fhsd5BmyxWXt37NxFBG23B+5Nc
-	 jn75O+6BOV/WC5LVT0RXWKUlrKcR/ZMkEJ2O/EagLqYrqI7PKUBYSQzvq5HLV4wm6Ejfy
-	 HNpbCclZD1lTY3o5E0DF2UbqEWwsHO7tiGZbOR5h36co+4E08gLCyMsG9O5KoPAwNig==
+	t=1794841833;
+	b=0QtMyAJQv0lQxSZJVpBxw1KWWkP1TL40jY6aPzwfDRkswx+EWsMINrjAZI34tNyngGtk
+	 KAuZq3/GwxlC7OGFgf2BcVvcq3dlOhCPrRxklB1djM4viDBit5dW8wXQUyok/I4CZamRh
+	 Cp/Fkmk9Wvv4MVaruKODC9WwUopjF7xSSETn8LNHAXcWulvJLZv10exG3hkdl2s5ZAfDk
+	 LDckytmxmCmbZ1LhMxU+UUUXLQTKwtHRhYKdqsjCsiE/DpSEW5JgPyWF9XMyO3Ek4Kcrg
+	 T1Aqq99HCj8zZsftaT/PLpXS0/zsMybl/fptZWIY+1Z+oa70hIFvYimhNpLEUbosZ0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794841684;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ojLplWXWIcpzhY5i5ty6MeIgBuTIeMOu9xP74qxDpBA=;
-	b=wNeOnls6Jai/6C5yV+U55gWO6tvhYVp4YksQhmSLbxWHalw31liWBc22QuMelB8zio5y
-	 PKZq9rOYzV8MFL2fjU0FphnZh62coli2qxmSV7Jqel01jZbqp7QeJGTPJh0spEQN8cSar
-	 ixYhreOLhKPW5rezV9BQyw0/+7uqQV1svQd/5wvK6iz9VGHN8Hc+g3V5ip+GeKM1uY+1F
-	 wUYTCrilDh2Ty4ZxFKDfPCQ7FaeSASVd0xJoGexuhBvNbSpeKPyRcBXzkFaLT94TTdS7b
-	 TQ68Z3fTVrsLrifenMlQcSV4NxQQxg35Yr+iMzOspsq2QzbNfp/5+r9G9nZM5hFP3ag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794841833;
+	h=DMARC-Filter:From:To:Cc:Subject:In-Reply-To:References:Date:
+	 X-Clacks-Overhead:Message-ID:MIME-Version:Content-Type;
+	bh=91U9iuk6vEjIfdj24CUYlz57o6AjyZ0fQqYIkDRQZfk=;
+	b=POMVRG2Xq4X3ZrZwwLMJnLK4kQUP13hfIr6euLp8sINNB4Pfrhy82zVJtAp0C0l2Yr/i
+	 dq6Ge9FY1X4e8udYOV/qZolc0Y789TPAlErXB/LvRUXbXfQvUtmpx0oyWZwX401EhAAxd
+	 MHS/EZbEDU3oxxfLVgat8Nv89fRelaYiinuXcgKKAYX0CigwjuDJLxBKbtHtXZGkXxGLw
+	 mV3oO+MiI/eoZNH4F/T9nGdU0yH6LGQjLen8+7iFd4GLdfpfEUA6DHxKWYL38xuTRAepz
+	 3ukXn5Z/iLrPmmQ+sUqe+ZNjrna6AlefTC6jdwh7hLuYmaJfEr5e5PgpYuUs8sNDHnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T2BBeqiN;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=toke.dk;
+	spf=pass smtp.mailfrom=toke.dk;
+	arc=none smtp.remote-ip=45.145.95.4
+Received: from mail.toke.dk (mail.toke.dk [45.145.95.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56742606A31C
-	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 15:08:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T2BBeqiN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 155F51F000C4;
-	Mon, 16 Nov 2026 15:08:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794841684;
-	bh=ojLplWXWIcpzhY5i5ty6MeIgBuTIeMOu9xP74qxDpBA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=T2BBeqiNJNxdw5lecqok4g5ACJd3b6oM/aZjIRpoT8L0EgC7HpfX5t5nnHIwJoBHp
-	 Q3SVpcZ+lLB099T/a5jw/ptdKFIBUh/8tWquZhXL6Xgc7vci9AzJnt1P9ZLt/Seh9N
-	 NreWMfYzzmU3u9NuyXdKzsWx9xb6ngthwPMUnd4AR4T29vpn3r+SgkAftUsJLU1hjY
-	 gXosN+2eR2FPmni2Yh5HJv7O1M6jaltxiY77Sx1DhTI9JMRL1xJvpG5RvfFPDOTvbg
-	 aoodgO1MRtABpwHN5qC+xQ8tzQfaDUb6vo68dmioKxuTLZzZQWjVYjWLoJKwWaVNVP
-	 nXHSGC71zU6YQ==
-Message-ID: <sashiko-outbox-217229@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] usb: gadget: u_serial: implement flush_buffer
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mehmet Fide" <mehmet.fide@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261116150109.1474880-1-mehmet.fide@gmail.com>
-References: <20261116150109.1474880-1-mehmet.fide@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 15:08:03 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5986606A31C;
+	Mon, 16 Nov 2026 15:10:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A5986606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toke.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toke.dk
+Authentication-Results: mail.toke.dk; dkim=none
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>
+To: Zheng Zheng <fengaojigui88@gmail.com>
+Cc: linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [BUG] ath9k_htc: KASAN slab-use-after-free in WMI event tasklet
+ (v7.4-rc2)
+In-Reply-To: <CAO-4RZ2Bwjtg=6o2gL2J0y8EWKLNrCW_Vy7sbKWhQ-Ga9a2A-Q@mail.gmail.com>
+References: <CAO-4RZ1Xu6vdLg6y74YfyT=On+Lom9L+XprpvORdXXOdOsAALA@mail.gmail.com>
+ <87zev9t1m7.fsf@toke.dk>
+ <CAO-4RZ2Bwjtg=6o2gL2J0y8EWKLNrCW_Vy7sbKWhQ-Ga9a2A-Q@mail.gmail.com>
+Date: Mon, 16 Nov 2026 16:10:28 +0100
+X-Clacks-Overhead: GNU Terry Pratchett
+Message-ID: <87wlqcu80r.fsf@toke.dk>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,26 +50,26 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain
 
-> From: Mehmet Fide <mehmet.fide@screeningeagle.com>
->=20
-> gs_close() waits up to GS_CLOSE_TIMEOUT (15 s) for the write buffer
-> to drain while the gadget is connected. When the host does not read
-> the port, for example because no application on the host has it open,
-> the last close blocks for the full timeout. tcflush(TCOFLUSH) cannot
-> avoid that: u_serial has no flush_buffer operation, so the request is
-> a no-op.
->=20
-> Implement flush_buffer: discard the buffered output under the port
-> lock and wake up the close and write waiters. As on other tty drivers,
-> a hangup and an interrupt character (ISIG without NOFLSH) now discard
-> the pending output as well.
->=20
-> Signed-off-by: Mehmet Fide <mehmet.fide@screeningeagle.com>
+Zheng Zheng <fengaojigui88@gmail.com> writes:
 
-Sashiko has reviewed this patch and found no issues.
+> Hi Toke,
+>
+> Thanks for pointing me to the existing patch!
+>
+> I tested it on v7.4-rc2 using the same Kernsight/syzkaller reproducer.
+>
+> The unpatched kernel reproduces the reported KASAN
+> slab-use-after-free, while the patched kernel no longer triggers the
+> issue under the same test conditions.
+>
+> I can confirm that the patch resolves the issue in my tests.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116150109.1474=
-880-1-mehmet.fide@gmail.com?part=3D1
+Great, thank you for testing! :)
 
+Johannes meanwhile merged this into the wireless tree:
+https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless.git/commit/?h=main&id=ec95877e2ea1c655e914c34fa23fd51e32315fec
+
+-Toke
