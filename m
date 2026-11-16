@@ -1,60 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794794016;
-	b=RLHc8QG+AWfmCX/EtN/uVRKu+vd1C/Y59JXxFc+cI7//xe5Qd2I3ibHH8mOu5ex57yTV
-	 zANghLczddFx8WkBg9AlvkF1y/RjCo9UF+4Hj1hg83VcixdVAtmNx/ih30u7DvcC0Hc1B
-	 DQM5ARqMGJCAe0IVGsnQDArIDCLJ8X4wl44t7NjWVdEw/rUyhWXR0QxDIxTwtu1CU40Vt
-	 dQnGBygvgWDUvQdwY6ZawxoRjOeYuYr33cTTD14V98SoF2GKWivVi1TiOccw4BIBLZd6n
-	 DTKokfzBeMbxKqf6H7WlzBZ55szsQCfFP0SkKZC4W82kVrapVjYQqupAMxaa+99tWYw==
+	t=1794794332;
+	b=tAPHQ/GBPaW1UTxd7Imjq5MjZzTjVd1irpEnnpt5MZj5c2a7n7ZDpjENr8y00klAFHm8
+	 umzyhiyqkquFs49lBEVGi59fWxpTv+sRFrnTNZgDzWmzIlE5MzzO+WFGH7zxQ4RyB1S/y
+	 mXL+b5A27UOAO3UK8Hm2ffotF2NzWM81d3nbtIIrmHKJusArunrHpessxhvW99Q2BuvhK
+	 ad+jiXWfV3i17zsT9h3+wYwuDbcBmkfMRU6NMR3b9D2Bg/9i3syqRq4VD5D+iq8Ec+fYU
+	 xlJQWWtmvjvUjSvONJEouBscMNo1rJTi6NgfuZVDq2MDvku8qNWJzp2mbrPRcC/1K1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794794016;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:Auto-Submitted:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
-	b=FaMF9q09Bw2LR5DsSGZbxIphg1AfJ/shA1S+4rRhPAX01OOSBEip+kMHX9u3NA3zZ8Nw
-	 /ZJLVayKJWT4vezQPsAva3KWMVTag5P4GETuQJCbLv0oI+6qWxA1Zq0Suu1En9u2i+HAS
-	 LF0YZUzB+R7TlE9aVdku/GBcf0Nfo+epYbUUq3iCwUFfkLBDifzIGGgysCb1XezmMBj1L
-	 OesIGImSvst+UlIPP/m78jIZsmXhhCujxtAkiIXMBVpdFTfzgy4MjFMWx+qMlu8KEd5xi
-	 ADuBm62pBdjbNa+XmzANBBdfY97O72tnsQfP0AUHznqDBNm8GmZY9mRQ0p6ukrh9GqA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794794332;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=/kc5Tn5a+A28BHU0kQYwy7XjG6ifuQkhwimZB9bXN0Y=;
+	b=z95bAH2tgJ/zCLjFbO85qBHtZeIuIsNyOWokGf5LW8srX5/3P7YVnzwzrhdHyw2HfCVe
+	 kEcJw3+Ju4SADi0YRVKvqff71qvthJovtSkiQMf1fEQCMN11hY8y68RBlluCWorjj+HQU
+	 yOPY/EPOI8DbDsmKhS6J5DHaxRWSjERf/jv7+bG6XJ+Map3RFGdlh8Hx+07npxUed5De7
+	 iJZ6t53OjFgp/R1ufR48GZXICH0Qdz69cQ8Jm1lCb2+ii0FtHmlRuE1NznyyqZJvISZOi
+	 Qcwq3EM5t+MiqBJLpw1/56XpH+j4vWyxscCb60TbIgwpdfZyI9R1qRYiAx5mMC9sLbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Re1xpfAR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FmLJ6en1;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DE5606A333;
-	Mon, 16 Nov 2026 01:53:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED24606A323
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 01:58:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Re1xpfAR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B621F000C5;
-	Mon, 16 Nov 2026 01:53:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FmLJ6en1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81F5B1F000C4;
+	Mon, 16 Nov 2026 01:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794794015;
-	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Re1xpfARMmkV01o0MDBkpGmtGAocM3j+kx+eaBC5ZWZ2U27Vy3wmLZAuZPlbVBS/j
-	 JB+4pfA/9XkXfioUeaT56A2qp+o9TIhnLE/pBX/ZnI9PSDlK3S0nR92WHD+7wCozCJ
-	 rvnKdAAQPF6XVh1W5EUEtVaA7LBRRB72OVBwdCNerGT4Ne3+tSrHZjbUzbzyLWcBk+
-	 byf/W6gM1oPG4VEz2gKtARa4eG0leoQYx8uvrDzRqf3Klm8YAb3tlBvTzE9ExHakgn
-	 1oySDGz133bBTOlC9XaTkVaKLig0VxAvyUyRSlQNj/uAITFZugX1vtPbEZrgCLELK0
-	 4Z3SyERfZo8RA==
-From: netdev-bot+sinfo@kernel.org
-To: Aibing Chen <chenaibing@cmss.chinamobile.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
+	s=k20260515; t=1794794331;
+	bh=/kc5Tn5a+A28BHU0kQYwy7XjG6ifuQkhwimZB9bXN0Y=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=FmLJ6en1ybCkKn7ckzsz12nKZk28NyTPgYiwQRqeecuyx1KEjSxgI7/Lx+vyf7Ion
+	 g9SzXpKeivIgWzArayJSiYCG720L7sa9PtJV3+603KpdrxbefOAQ8rkYWs13StBboJ
+	 jXJdWxng/Ye3bfp+ve7rebsyhzhR/QiudX0ymVLduJx7llQi0NkZb82HDuOpM8S1ER
+	 0JHGTSMZPuVxHI9dORhpxIdaCt0AI7t0+hk05W+E6Dgh6D+ByJW7VxBFQBVSgrLC+K
+	 1p1nl76SXFUfxfXdNVhGjUlpp+k0LEmpGh9ErMNlj1Gqtk0141+7SvRu9EMN+bM+EY
+	 6R7wHH0oX+7GA==
+Message-ID: <sashiko-outbox-216041@kernel.org>
+From: sashiko-bot@kernel.org
 Subject: Re: [PATCH] net: hso: cap the MTU to the mux tx buffer size
-Date: Mon, 16 Nov 2026 01:53:34 +0000
-Message-ID: <179479401486.3291.17345716560777690357@kernel.org>
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Aibing Chen" <chenaibing@cmss.chinamobile.com>
+Cc: linux-usb@vger.kernel.org
 In-Reply-To: <20261116014904.556-1-chenaibing@cmss.chinamobile.com>
 References: <20261116014904.556-1-chenaibing@cmss.chinamobile.com>
-Auto-Submitted: auto-generated
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Nov 2026 01:58:51 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,27 +58,23 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
 
-Hi!
+> hso_net_start_xmit() copies skb->len bytes into odev->mux_bulk_tx_buf,
+> which is a fixed MUX_BULK_TX_BUF_SIZE (2048) allocation made by
+> hso_create_net_device().  The net device does not set max_mtu, so
+> userspace can raise the MTU up to IP_MAX_MTU and make that copy overflow
+> the buffer; the same length is passed to usb_fill_bulk_urb().
+>=20
+> Cap the MTU at the buffer size, keeping the 14 byte allowance that the
+> default MTU already uses.
+>=20
+> Fixes: 72dc1c096c70 ("HSO: add option hso driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Aibing Chen <chenaibing@cmss.chinamobile.com>
 
-This is an automated message. This series looks like a fix, but its
-commit messages seem to be missing some information:
+Sashiko has reviewed this patch and found no issues.
 
- - How the issue was discovered, e.g. hit in production, hit during
-   development, syzbot report, manual code inspection, LLM or static
-   analysis tool scan.
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116014904.556-=
+1-chenaibing@cmss.chinamobile.com?part=3D1
 
- - Whether the issue was actually triggered, or is only theoretical
-   (e.g. found by LLM and not proven at runtime). If it was triggered
-   please include the symptoms, like the stack trace or kernel messages.
-
-Please do not repost the series just to address the above. Instead,
-reply to this email with the missing information, so that reviewers
-can take it into account.
-
-*IMPORTANT*: If you do repost (for other reasons) - please include
-the relevant info in the cover letter or commit messages.
--- 
-The evaluation is done by an LLM so it may be wrong, if you think
-that is the case please reply and explain.
