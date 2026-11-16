@@ -1,44 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.79.60.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794817963;
-	b=jVdXCtj2ngCpYt4ExK+CYxZaEi8SAztfEU7eqNbLdx2ZCHHnUAnvjD+cQrLcsJEozOWm
-	 p9IaLhNtzMTFHGyx49pQBMny3b520VL+5xFb3FGdAH/eW5s3SbZdhcn3exZYgpi/Mn6+X
-	 77ierp7DTIxdU7lUh6e9fFVyQGhxGpKOwDPdoXt1XfrnyhtDR589FknoF9T2Q3sF3Bv7r
-	 pEbQloiWe2Jw9BEM5STHgV8g3v3tvN3LEe+4lg1/iSxp/X7YpoYkv+bGgET701UqqgQKw
-	 IbmjdyrCrttCDviP1Pa+P7QlagLNOU+qTBYhBMxK5rR9nB11z0s/yUHfKS4ZrE67TRQ==
+	t=1794821032;
+	b=Uz3ZoAkNwkjPmZLozOyuiyOPomslVE8H0Enp5GQnj8MGwzAqwxLP90YtslIfBJWBgBjg
+	 5YQ5DzAtqnnd+F1pSLU0TCDFJ0aWDfP+80aSC30EHxldzxCaMuPnwnF4151NkNHZGG44U
+	 eYGdBaMYCJiBdDYAQeE3Aba2Oj3LKgvytoZD7X6AraVJheMBKpm3fimrIYUIgWrOvY5GY
+	 7x/6bXz48BD96KcYVJratueyzJv4fUQ55NFrt5S4D8dy0+B4SFvBnReG2D5WcuI7iylDR
+	 UXf2xzMfKzTJLUOBe4NwxtRsB+vqSij/tQdriVdYMd5Vggb8UdRRByBHJqiyNbmD6aA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794817963;
-	h=DMARC-Filter:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
-	 X-HM-Spam-Status:DKIM-Signature;
-	bh=No5JIuucjLs8BzpbyUjmjyreKlYHY6YhCoies1t4xoU=;
-	b=ol3OPa8dzSe4XJxHJXC0gHREtH7H2NkcPLqQeWieuDUXnwipFK8/PYAn2cKtAZee5gZ1
-	 ICiIB+UCEwIYceaoZAluLbb/yzzSr3leick/twPNfm7G6cgT7KO8tiR7eRgvtgWZIH2yZ
-	 zxsc3kQyI5duSfonKa7WqS6q7wkW/Id4INVsdZwHv5fGJ7Sr6dqR+9AnI68cjKnYD2zvs
-	 SVqfodZCacbsSwBwA4HizE7ZpqxFjpVscDBO7lxGOoReueZ+CJNwdpPHGfFjKMllJ7XgG
-	 wJhuEDxGVT3VaDnzO8sYy//8goQj/oAvXwr7SZ4Hvc/rdA/IxrCKdl7idvoCb4UCtlA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794821032;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:From:To:Cc:References:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-MBO-RS-ID:X-MBO-RS-META;
+	bh=6JF4UOJMPZGFw1tD8cF7gQzIg19LtWWgj1ffpuYUt0g=;
+	b=aOjJ4ocYanzasH/8RzqDk1ZUu3YmI26OBwhzViROsRPouwd66/nGSSRr7hjFqHG6l3SW
+	 f1WH+Gc9uHN6cjeTUn+ObeaUstNUEUIYvxgb2/+eX0DFdC0WgL2riCmC754RFHOCBisRM
+	 +yJCEirJ03vXRdljm3bH3ws3iumUXZln9qZFvjr4veDZgzeCFcf2qLG6AQI2ysK45jov5
+	 tCid6CeVzQCqUl5FYA33gH8jmMPTokF0QTYkUCe/vc+GbWKFPcR9nppm0VZbjEWb8NK/e
+	 v9HQqSucIxb9qgzMfCcjGMzbYeMMOitNBnEGrkElCjLhSgBfVYKXGwpkqtRPzGKglOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rock-chips.com;
-	spf=pass smtp.mailfrom=rock-chips.com;
-	dkim=pass header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b=ibtodV5Y;
-	arc=none smtp.remote-ip=210.79.60.2
-Received: from mail-m602.netease.com (mail-m602.netease.com [210.79.60.2])
+	dmarc=pass header.from=mailbox.org;
+	spf=pass smtp.mailfrom=mailbox.org;
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=vOONwTR4;
+	arc=none smtp.remote-ip=80.241.56.152
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0B8606A32A;
-	Mon, 16 Nov 2026 08:32:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A0B8606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F29606A32A;
+	Mon, 16 Nov 2026 09:23:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14F29606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b=ibtodV5Y
-Received: from [172.16.12.90] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 54d1d2b18;
-	Mon, 16 Nov 2026 16:32:29 +0800 (GMT+08:00)
-Message-ID: <55fa6972-1c9f-4964-87f7-f36d1d4aae3f@rock-chips.com>
-Date: Mon, 16 Nov 2026 16:32:28 +0800
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=vOONwTR4
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4jSj8z4Zx4zKnCY;
+	Mon, 16 Nov 2026 10:23:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1794821027;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6JF4UOJMPZGFw1tD8cF7gQzIg19LtWWgj1ffpuYUt0g=;
+	b=vOONwTR4nIilD3gyoBNXuBYvhgcVSk6snE3qR5waIgJhzzVyXNfkaCafrdPgJPNLKOpKwW
+	/rL1iIjuGpUjiLpgEWgZC7t8mnWS9bo2N3VEGzdsHnQ9pa3QbWvN8NPefMp3pwQ7opcETe
+	NNd1SIjDED5zI4wH/C1BUQ1O7if4EJCyIYwuxXIdwp8uKMoOfdCTsvk194rgOq6mM9QTvb
+	5Ifg79w8qEBEZGodjy6wAbVo0dX6RLqKJFlQ9L8jajuTccZTQU9mpuFKuRAvVHT6tRSknC
+	5NWDIwr62L0Db+559SbuRKb/Pyx75FiivpJ/A2AbMyGXKMk58mVtG3vQCKBWow==
+Message-ID: <5032c246-d0e4-4c2f-a2b4-17b28c76c1f6@mailbox.org>
+Date: Mon, 16 Nov 2026 10:23:45 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -49,61 +63,67 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/8] usb: typec: fusb302: cleanup device driver probe
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Badhri Jagan Sridharan <badhri@google.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
+Subject: Re: [PATCH v7 2/2] usb: dwc3: dwc3-generic-plat: Add Renesas R-Car
+ Gen5 DWC3 xHCI USB controller glue
+From: Marek Vasut <marek.vasut@mailbox.org>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ Thanh Quan <thanh.quan.xn@renesas.com>, Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20260903213031.314473-1-marek.vasut+renesas@mailbox.org>
+ <20260903213031.314473-2-marek.vasut+renesas@mailbox.org>
+ <aptP39nVZPFLgekY@vbox> <be205518-ba8d-486f-b603-1d52321edc1a@mailbox.org>
 Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0aa1e37c7ec803a7kunm156da1f53fd3c4
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1kYFggdWUFKV1ktWUFJV1kPCRoVCBIfWUFZQh0aQlZLHUkaSR8fS0
-	lDQkhWFRQJFhoXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0
-	tIVUpLSU9PT0hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=ibtodV5YXM/4X3EIOv2iA602Nv98N4m6trOptJLqSI8ihgvyouWtUPf1hRYITGbl7CbfZkg/UpYas/GRlDFAJ3n1yIGJHpA88OFZ+XyYEKpRjMo01D8HQLfj93tORJzRBY71hdoraZYajK5nP8CWDYF31G9HrxiFZsIZhynGpRs=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=No5JIuucjLs8BzpbyUjmjyreKlYHY6YhCoies1t4xoU=;
-	h=date:mime-version:subject:message-id:from;
+In-Reply-To: <be205518-ba8d-486f-b603-1d52321edc1a@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 8ff5d6a3bc2bc829ece
+X-MBO-RS-META: ixp6qbz454jy3jzq3hkohwp3wz98nfm4
 
-Hi Sebastian,
-
-On 11/14/2026 12:42 AM, Sebastian Reichel wrote:
-> Move fusb302 to be fully converted to device managed resources
-> instead of having a mix risking leaks and clean up the interrupt
-> setup.
+On 10/26/26 1:21 AM, Marek Vasut wrote:
+> On 9/5/26 1:10 AM, Thinh Nguyen wrote:
+>> On Thu, Sep 03, 2026, Marek Vasut wrote:
+>>> From: Thanh Quan <thanh.quan.xn@renesas.com>
+>>>
+>>> The Renesas R-Car Gen5 SoC contains multiple instances of DWC3 USB
+>>> controller with glue logic wrapper around them. Extend the generic
+>>> DWC3 platform driver with Renesas R-Car Gen5 glue logic specifics.
+>>>
+>>> Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
+>>> Co-developed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > 
-> These have been tested for over half a year locally with different
-> Rockchip boards. I waited for [0] to land, so that the DRM HPD auxillary
-> device registration can also be dropped. As that series drags forever,
-> let's get these cleanups processed independently.
+> [...]
 > 
-
-Although this patch series has received the RB tags it deserves,
-but no one has time to merge it.
-
-Perhaps we should split it further into smaller parts, focus only on
-the generic parts, and send the v9?
-
-> Note, that this first cleanups the GPIO interrupt handling and then drops
-> it completley. The rationale is, that the last patch has a (low) chance of
-> regressing somebody's system and having to be reverted. In that case the
-> custom interrupt GPIO API should be properly documented (as deprecated)
-> and we want at least the cleanups.
+>>>   static const struct of_device_id dwc3_generic_of_match[] = {
+>>>       { .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
+>>>       { .compatible = "spacemit,k3-dwc3", },
+>>>       { .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
+>>>       { .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
+>>> +    { .compatible = "renesas,rcar-gen5-dwc3", &renesas_rcar_gen5_dwc3},
+>>>       { .compatible = "starfive,jhb100-dwc3", },
+>>>       { /* sentinel */ }
+>>>   };
+>>> -- 
+>>> 2.53.0
+>>>
+>>
+>> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> Hello everyone,
 > 
-> The series is based on 7.4-rc2 instead of Greg's usb-next branch (based
-> on 7.4-rc1 and still empty), which is relevant for the first patch as
-> older versions had devm_kzalloc() instead of devm_kzalloc_obj().
+> could these two patches possibly be picked up ? They should have all the 
+> necessary RB tags for about a month now.
 > 
-> [0] https://lore.kernel.org/linux-rockchip/20261020072816.180-3-kernel@airkyi.com/
+> Thank you !
 > 
+> (yes, I know everyone is flooded by emails recently, I apologize for 
+> making this worse for you)
 
--- 
-Best, 
-Chaoyi
+Shall I maybe resubmit these patches ?
+
+Thank you for your help !
