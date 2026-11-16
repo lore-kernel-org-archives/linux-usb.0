@@ -1,53 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794821838;
-	b=mPsPHrMoCetycjxCOFWMvoAPnygvgr/sP92GE0EOTQJODBAz0b/VovSR5zvcOmKe7drP
-	 EKfVt2UyMXstMNLuNS1NE6ukheEoy+MAUk7cvPWdQiR60FIIvjv29npOrTzRj5DejG2dM
-	 XXuDavcQz6CZyq+vzgrLN/fddWtrRH9SXch8EPjymxWrbC2rF9z/A3K65S8w2MrdzRsjL
-	 hb5n/zfPvv2cfxQ9PNilwjf+bPQ9vvHguXkRpCgvk9J5KxdcO8LBMELkgIO7TZCu7/NpD
-	 Upf4/wpBHZTl0T6tsCwgf+xlvJux0ta3YzvRyx5IOnFN5AejWXdzI8juCmTMkasp5Vw==
+	t=1794821972;
+	b=vDA2B1A/ZFKGRH/Vuy3nVMAWVHwg9coKHa1eVLZcPenNzi8VTpdA7wcp6gHeVIaEJiAs
+	 7IuVgBuid1ZgOcMa6eL643D1eWB0yAKKLg4u2yzeYXvgHSX6IMf4cxrjA9YwRnR5qrWYF
+	 XhICiA4w/08hpm19HaOlpgJH9xXLBHaf4Clgdn5pszfcAXlmEqFqFPwIhynUOqTLivTIx
+	 +bJMQKIE8k5DICQirc9iP5I40IeXW8Hj5DKXlI4zifY2nD1eSO2qjAsingnRzkaIzkwpJ
+	 RagFpQJHM21vPQQzrHPJ54IWrqo4HDUfWsuAX38EIiMs1CcxkwK07/zEestnQ4ZIvDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794821838;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=zX8t/qRfNd1cGkFUnU93sx9LUgE/FSkLF6JLxc8EkZU=;
-	b=CYgzVMQAU7hRzdxSQu1o7vWH92VjDhEuKKkr6vgnboGsddAotOTq4p7y8mWOPOmUQmY6
-	 WYR6ZNQP2Tpadi9NJ+GuHe1LaHw5N3iFyeJahnSztr4CspIBbK2X8btcMog+L3FsI+OrD
-	 EUIv2R7U73fCQnGnMGzjm50Jlo54xtuRYOCM7k9vynBj3kdBAJTmz1BWL2J3jmY5a1qcy
-	 341muc7CllL19dFzjMxwS4isqM/jloHvJ1cZ7HwIR7zrLyakFKTtG236HKZnC3Q6qCl58
-	 6U1SqKuLygoeQqM7MHO2b94V11VD6ZDKdzFC3GqDe0OCLOAu674jRSisBc/CufrtOuA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794821972;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=vCUUze08n+GbOc3WNdgAtXsS9TpMp+cdjjAlwhHXu4Q=;
+	b=3xVovLlGzhawCRiMqGOCooWpcT/3Eu8Gi/3lz3wQdifej5/Vyjw7noF7Fs3j8s4gwkYl
+	 HW/gASv+/KdJRwYRjcxUiH+wPsIzXgzavFIf2o5AJaovHeQGtCW169jNHvWRtYubExfTE
+	 5M/Pf6D+ciLhUT2QY50ixgeAKoXBYDQqYnFoU4FpJws5iO7lE1OgZ2bpURFNPgYmJ6K/r
+	 j2BjWkKXCVm5mZcKRv1kOMA/3YjoJNGgzh64oPz1kXFn0uNGUptwK5cxxBsaS25oAzRKy
+	 SLscrfXEHMZxzqCYTlxdXOJhhXT0KBUIyzSBzL2SiXYi61dwRSecmRp5O4ELxpsTJqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="NF3/dgWj";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UzMxdDAE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54E4606A31C;
-	Mon, 16 Nov 2026 09:37:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2651606A323
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 09:39:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=NF3/dgWj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB29E1F000C9;
-	Mon, 16 Nov 2026 09:37:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1794821838;
-	bh=zX8t/qRfNd1cGkFUnU93sx9LUgE/FSkLF6JLxc8EkZU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NF3/dgWjjrf/NmaJzgrftlmhb5rZ/C+LeCs1PbguDbL1/zHjIzFUg0cFf72TNdKKn
-	 HtnwFDlElRuFuS36ojXJyH6i3JXwV47RJG56qomOvhhbc9AIWBJnzLcj8p+HR3Bclr
-	 i9SGYBZso/yi+lvVVEEp2c6PCfuX8d2h3FIMMmgI=
-Date: Mon, 16 Nov 2026 10:37:15 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Huang Wei <huangwei@kylinos.cn>
-Cc: Johan Hovold <johan@kernel.org>, leStoppe <lestoppe@gmail.com>,
-	Craig Hesling <craig@hesling.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] USB: serial: simple: narrow OWON match to avoid
- breaking VDS1022
-Message-ID: <2026111606-penpal-reverse-14b7@gregkh>
-References: <20260810091322.2201740-1-huangwei@kylinos.cn>
- <20261015025456.3927808-1-huangwei@kylinos.cn>
- <20261116024507.2633503-1-huangwei@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UzMxdDAE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CE6E1F000C4;
+	Mon, 16 Nov 2026 09:39:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794821972;
+	bh=vCUUze08n+GbOc3WNdgAtXsS9TpMp+cdjjAlwhHXu4Q=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=UzMxdDAEU9vj+n9bMCwzw6S1tq70GQMGgGSICjLCQxn33pBR8ZxtUdn0RWLpea8dD
+	 HoTp1SRZoi2g+vcS94fXxmWgYTllHGz+KDcjNySsTscIQEBmHlk76V1QPibUNBU/Yu
+	 7fHWb7HmYarJD5qc2oeJIaC2E5tusYLgGoectSXC/fYWzUWic+AxZtzjsZtxCrjrxM
+	 DQXvsGYQ7SG4uKnXevtPyZ5XOALmwVL+2NJsx+jJRL4gkpVth9f/DzsqIAfhS4CPd/
+	 KtP72o35mXbCxNQ7abO/v5t3boqTC6tbiAvCO6FSn9OD6tDgjWsJ2rmFahYP/gAmmc
+	 mCWVXfj0Cmo+A==
+Message-ID: <sashiko-outbox-216625@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: storage: shuttle_usbat: do not divide by an
+ unknown sector size
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "YuanZhe Liu" <25031212351@stu.xidian.edu.cn>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261116093452.15286-1-25031212351@stu.xidian.edu.cn>
+References: <20261116093452.15286-1-25031212351@stu.xidian.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Nov 2026 09:39:31 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -56,14 +59,39 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116024507.2633503-1-huangwei@kylinos.cn>
 
-On Mon, Nov 16, 2026 at 10:45:07AM +0800, Huang Wei wrote:
-> Hi Johan,
-> 
-> Following up on this thread.
+> usbat_flash_read_data() and usbat_flash_write_data() divide the transfer
+> length by info->ssize to turn it into an ATA sector count.  info->ssize is
+> only assigned when a READ CAPACITY command has completed successfully, so
+> it is still zero when a read request arrives earlier.
+>=20
+> Such a request is sent during device scan: sd_probe() starts with
+> media_present set and usb-storage sets read_before_ms for every device, so
+> sd_revalidate_disk() calls sd_read_block_zero() right after
+> sd_read_capacity(), even when READ CAPACITY failed, because
+> read_capacity_error() deliberately keeps media_present set for drives that
+> fail it with media loaded.  A CompactFlash reader that does not complete
+> the READ CAPACITY sequence, for example because a register access is
+> stalled, therefore reaches usbat_flash_read_data() with info->ssize =3D=
+=3D 0:
+>=20
+>   Oops: divide error
+>   RIP: 0010:usbat_flash_read_data+0x2a4/0x5c0
+>=20
+> Reject read and write requests while the sector size is unknown, the same
+> way the driver already rejects an out of range LBA.
+>=20
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+> Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+> Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+> Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+> Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
 
-There is no context here :(
+Sashiko has reviewed this patch and found no issues.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116093452.1528=
+6-1-25031212351@stu.xidian.edu.cn?part=3D1
+
