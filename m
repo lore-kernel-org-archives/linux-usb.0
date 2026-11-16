@@ -1,97 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794780189;
-	b=FCcYuGsyZyzjNgvGBY2Xq4kDgEfxLfTVI+gh/fdPgUtJ9D8IH+KFJwY8FYVCSg0i4YIr
-	 bQ9ct2jDLodIxm6i6up1ResNvIe7xq+YTV6Ow4JNpzrDU9tgbHKVClmS+2svB0yZi3jLI
-	 HVmWUhbuuNtQ4xog/QXK06m3HRCFL8/K+q4JNWOHKpdc8lQXpSnJtg/RizR4HABw4xA4+
-	 b5lWESi0SYomLpt6wbIUZRYombQAHz3E3gHQiLGRHMaMziFNwRv4qv2NIqsNYY+i2U1V8
-	 MkcGO6Y0mEf54hInMF6GiEBaSr0Q8cEeIORiSGZpvdXZj7UwjiNh9w7jeXgwXM0li5w==
+	t=1794789923;
+	b=qLqWPv57iyDayy7LXtSsRn+XmtOBrnpDwjV42ld8lBV02gRBbksqAGqSjVND5Vx2xa7V
+	 NFMciI/hKh0eqD95V/2VEv5E8+yvyn347EWhO/Aip7kBk/heJ3TZSjRQlrcObo1GrsJPx
+	 +BeVud5sYggfDiTi+bvYUYSLUjhBtlxD1/ofgppL32Yv7rQh8Hhe+jJoJTrswuobvxdjq
+	 7IyJ60vpC0Kzl0wCGmNSpte1WqVzHkgRil+5usMKNJULFreSXyWh7gGNpnGgpFnN/84GL
+	 3IfzocYyAhDWwOFFjBP5wpN5KDoW+MX7e1dqVYivxn3eCcXqz+ojhvRvy29zy2b06nA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794780189;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=AvuwrZIWInS/vmhg3MkifAQ2jLu31ynJDcJbkxB/zW8=;
-	b=SiN+Cgxr5GZFSbVQBS0N1AgInVEwABEE2i324pOTs6xxM5y466W/sjHIifO3MWWZZ2hp
-	 jFUjlbqBHslihUeHgap17LWJHN7WD11C8htqy+zkwQQO9B0YXe4LhJeSc4DDyzCzNoeEn
-	 chmPoOspyO0jgLq/0xOO5HsXvz4k0PWVgKDKTLGNFNMXJiXyD+hGlVUXzE9SSbJ9rM0Rc
-	 0a2pd+N3nSMSeVXLzqHZmRW2gwjLSJ5FWNmNxegiwLQoYwmTgWU4JsFHrX2Pr8uTZLxbn
-	 OSYunJcVC74LWml9uabOHVWgFGP1N5J/PAAweEw48iXC74xw5NHHBDaxiYK6iVsIhwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794789923;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=nEPXf1cG5J+Lghgn3UQeDfptX1Hk+zVJPSj0Zk2IzFQ=;
+	b=XA8jO1bImAyQq652g+O9ysgTK9J0LNpAnQUCF6P0+KREaZyDH97zgP0cbZgKW4QBrVzh
+	 0Szb5+liCTrpnniEQpam4TQzQiTdyPwgIetNUM9e4tp1kPMxcqWFH0c28PXNjacbrUwsE
+	 NrEoBQbjRGB0e4L4wkn8WlGuSvRzbsDtErzZd7ZxcYyMgDPnpeiDYfljqMxAet5pOtv96
+	 cLqrf0F+eYXXk0fH05px2IeetyTx8Dj1dyuHWoOJ4XWJ01Q66b8KC9SyJu8ixbF7dWKfl
+	 T6WkWVOEKaypXGwxu+wOStxtQF8PEqc9/NrnbSp9BZUU3iC23HAQuZnqTYjLOkOYrFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=yuzi.co;
-	spf=pass smtp.mailfrom=yuzifovich.name;
-	dkim=pass header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=FxTfTaD+;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ov44YrtP;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40BB606A329
-	for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 22:03:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D40BB606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yuzi.co
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yuzifovich.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A57606A31F;
+	Mon, 16 Nov 2026 00:45:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91A57606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=FxTfTaD+
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4918c2d727fso1467861f8f.3
-        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 14:03:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yuzi.co; s=google; t=1794780187; x=1795384987; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AvuwrZIWInS/vmhg3MkifAQ2jLu31ynJDcJbkxB/zW8=;
-        b=FxTfTaD+v4GNblSlBEZwGf6lcI9KlvsYDoexCMuU7Z5FcfFyb+OxfhKfRWs5Vs6bvW
-         yjy17iDAak6jm2ZakavdwYsKT7/qTJhR0hPMZJFFII/exXCptMTdJVBAuX4FcUDOq1z4
-         Y60ef8DNp34FJJRUg6qRII5+IN5kSk9ZHtyeE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794780187; x=1795384987;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AvuwrZIWInS/vmhg3MkifAQ2jLu31ynJDcJbkxB/zW8=;
-        b=WEjGDpaD20mPBZ6GNlEPEc+Qh6fDW0rFAY4NdxD32Ts3RxO3j+kcJ2xe1ZlB2PAjP8
-         DbZCixiwr94/ur9LUkT7u8F7ulpj93XCz32z0tAItCWFEBMl0NLGnsuwBrLIYXFy3iZg
-         1rXKw3n81BF/bsHBz/U8zVbsU6obZ5zu1WzjXm7euAPzMAsM6fBZr7vAkx4XOAikPzWY
-         po1LB7RMj4M4Gnhn5rYOROf+rcy9h2Ybl2ofSxbHkSmEjwRquzmt24t/0e2MG3Ju4Mn8
-         Spmpm36+JDIaEZckv1OhlbGLPRy7HrKn1NYBut4NFcaB/Zs+N+M2jWg/MxJozCwCFd/M
-         V1Rg==
-X-Forwarded-Encrypted: i=1; AL+hErGHQeHEsCe/aMF7DW7rPY+jNvXrqGbjzCor2Yq0pvP6RmDE3JlblmfZ8HOJImAiv7kZGYADWmS655c=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/g5MSB3JFLgtlNf9eGs6e8BE/orcJ3cqUJAEW8r/2B1ROANGGO
-	5Xosm/qizB6HBBND40mCZZ3z8hKKa074ZdAYMH5hKzG8tBiI9wvyp3l+IBd3l8Knioh0OOt68U0
-	ZXJOJZyvacg==
-X-Gm-Gg: AYBFou3LgYFDyVFiIeRq6OcDRQXVcOT4QAbi66wzxQ4dTaIUwZlaztDhIgGbTiLieF+
-	0sRdbuAJ9+dUTPsDSNL78QQNmkNjT0NXDv89Udwx8S4xXdhgtbD+CFSEhIJzVs0ilsgYl0uNa81
-	kcykJ+3A7G8PHJpeIF/wEvhAj8tZ4XNlSmJ+jTmU9tkwNt738Z9UQrT3PLu6WnluI56rmyYUBf9
-	hH62B4Mrgmo3eGeGdB5lR2rGoQpNh6vvI2QGXuIjynJeD1zQF8X7zYeGxWO/BAxyvdPr+7hgPbe
-	8pISxnhBOmCqU97ZSDEsiR+e56OBHjfJA/hhsmUH/TmeYrHG0emb0QHY+JlA4hIhXfwLxjI9Z2P
-	RPDCyOT7arzS6puWeW9iFIdNWHLMhxb34io/1Eq0KTEOAcphRndOu79F3kAUssUhGscbqBjgwOw
-	0IzjFd0x7DLhObskelnGMVBt6mvvpn2EpTi4LRvx5pIn30x1DYqfImL+Rq13v+AYtVAumKS7iW1
-	jZJpIG0ZezWSHsePkjTVkJz5NJiJqp5mGUPj8zRNqAyfbNKmmXjeaiXE0PYGXsXxy8c2SoAOF/F
-	P/Rzua0G9QKGAa2WJhK8TVhN7BYOaJCS526/wJ9SOCvykq1iRjWyKzmfSoYd3N0rL22w86wn14K
-	6SCtgNYLSaymKXqqxmw4j90+5ICq9NRgF99q/jrPUDnI3yq3MzNtukqAUSBEbDYjf9XhGMlic5Y
-	CS5QSp3P6IuO2ebQ==
-X-Received: by 2002:a5d:5e01:0:b0:493:c0a:507d with SMTP id ffacd0b85a97d-49c6e4a3953mr20083609f8f.1.1794780186868;
-        Sun, 15 Nov 2026 14:03:06 -0800 (PST)
-Received: from terra.lan ([78.83.170.221])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5fe370f8sm16616543f8f.27.2026.11.15.14.03.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 14:03:05 -0800 (PST)
-From: Vadim Yuzifovich <vadim@yuzi.co>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Chen-Yu Yeh <chenyou910331@gmail.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	linux-usb@vger.kernel.org,
-	sophgo@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] usb: dwc2: gadget: restart descriptor DMA isochronous OUT endpoints after BNA
-Date: Mon, 16 Nov 2026 00:02:58 +0200
-Message-ID: <20261115220258.1519467-1-vadim@yuzi.co>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261115185335.782678-2-vadim@yuzi.co>
-References: <20261115185335.782678-2-vadim@yuzi.co>
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ov44YrtP
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=nEPXf1cG5J+Lghgn3UQeDfptX1Hk+zVJPSj0Zk2IzFQ=; b=Ov44YrtPxUC++hYRNDHSdmdpGW
+	JaxLbFR1NnGayLi7FHLtyTi+He4ZYSfoC7yWmGobJ7E/AIaLAiwDiqmK+og7vdQvnP4EzvIpr462x
+	EDmrhZM3u/N2SWbcqZV+o7jR7R+AN7ZLDYmWxP5FpNx3G+I1qCrQflyake80HiJ9rMKVM/x4eT782
+	9JEn4jhTrQPKUH9n7ugwPApkYe7cQrElzRWPUKP8gRVT9cQSw9rpPJq9AX3iS6GqmzfQn0wqcsM7f
+	leTLxbzdojuK+f/LSdN/KzQKSZ97Y6xYotP0eKRTTUizqT5t8J7W/n/cd6b1FIlVQIvCGZw4VHm9P
+	KD0dlVWg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xSkqM-00000000pP7-2dPd;
+	Mon, 16 Nov 2026 00:45:10 +0000
+Message-ID: <bbdb3140-dc5f-4ae1-a5a9-c2e25387409a@infradead.org>
+Date: Sun, 15 Nov 2026 16:45:07 -0800
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,106 +58,87 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/12] docs: ioctl-number: update MM entries
+To: "David Hildenbrand (Arm)" <david@kernel.org>, linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
+ linux-mm@kvack.org, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ linux-bluetooth@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
+ oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
+ linux-atm-general@lists.sourceforge.net,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ MPT-FusionLinux.pdl@broadcom.com,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Zhihao Cheng <chengzhihao1@huawei.com>, linux-mtd@lists.infradead.org,
+ Neill Kapron <nkapron@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+ virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+ linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
+ devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
+ Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
+ Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+ linux-f2fs-devel@lists.sourceforge.net,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+References: <20261114202653.3113381-1-rdunlap@infradead.org>
+ <20261114202653.3113381-2-rdunlap@infradead.org>
+ <f37ccd71-8e1d-4dd4-b11a-e22b9e617dea@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <f37ccd71-8e1d-4dd4-b11a-e22b9e617dea@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Please do not apply this patch. It is wrong, and I found that only now,
-testing the changes for the Sashiko review. Patches 2 and 3 are not
-affected; numbers for them are at the end.
 
-The test: SG2002 (DWC_otg 4.20a), a tone played into the UAC1 gadget,
-eight 200 byte requests queued, and interrupts held off for 12 ms once
-to cause a BNA. With this patch the endpoint is restarted, as the
-changelog says. But from then on it takes one BNA and one restart for
-every packet, about 2000 interrupts a second, until the host closes the
-stream. Most of the audio still arrives, so the test I did before, which
-only looked at whether the stream went on, passed.
 
-A trace of the endpoint interrupt and of the restart shows why (time in
-microseconds from the start of the hold; desc0 and desc1 are the status
-words of the first two descriptors as the CPU reads them):
+On 11/15/26 8:58 AM, David Hildenbrand (Arm) wrote:
+> On 11/14/26 21:26, Randy Dunlap wrote:
+>> Add ioctl number entries for test_hmm_uapi and gup_test.
+> 
+> Just curious, why do we care about uapi for test interfaces that never see the
+> light of day in production kernels and their sole purpose is to go a long a
+> dedicated selftest?
 
-  12015 irq      DOEPINT 0211  DOEPCTL 000480c8
-  12121 restart  DOEPCTL 800480c8  DOEPINT 2201
-                 desc0 8e2d8008  desc1 020000c8
-  12129 irq      DOEPINT 0201  DOEPCTL 800480c8
-  12630 irq      DOEPINT 0200  DOEPCTL 000480c8  DOEPDMA at desc1
-                 desc0 8e2d8008  desc1 020000c8
-  12715 restart  DOEPCTL 800480c8  DOEPINT 2201
-                 desc0 8e2f8008  desc1 020000c8
-  12725 irq      DOEPINT 0201  DOEPCTL 800480c8
-  13633 irq      DOEPINT 0200  DOEPCTL 000480c8  DOEPDMA at desc1
-  ... and so on, once a millisecond
+a. We don't control who builds/runs these tests.
+b. There might be some USB gadget or HID driver running at the same time
+   as these tests.
+c. It's preferable not to have conflicts, so any additions to this file
+   should try to avoid these documented ioctls.
 
-Right after the restart descriptor 0 is already DMA done, with 192
-bytes received, the frame number of the current frame and the L bit
-set, while descriptor 1 is host ready and never used. A second trace
-point shows descriptor 0 done even before DOEPDMA and EPENA are
-written.
+-- 
+~Randy
 
-So, as far as I can tell from outside:
-
-- After the BNA the core keeps the OUT packet that met it. DOEPCTL
-  shows EPENA clear, but the core goes on trying the descriptor at the
-  start of the chain and raises BNA each time. That is the repeating
-  BNA of the changelog. Flushing the RxFIFO, which
-  dwc2_gadget_handle_isoc_bna() does, does not remove the packet.
-- The moment descriptor 0 is host ready, the core writes the packet to
-  it, without the endpoint being enabled.
-  dwc2_gadget_start_isoc_ddma() fills the chain front to back, so at
-  that moment descriptor 0 still has L set.
-- After that the core is done. DOEPDMA and EPENA are written, the next
-  packet finds descriptor 0 used, and there is the next BNA.
-
-What I tried:
-
-- RxFIFO flush just before the restart, clearing DOEPINT.BNA just
-  before the enable, reading every descriptor back: no change.
-- Global OUT NAK around the restart: GOUTNAKEFF does not come within
-  100 us, no change.
-- Marking descriptor 0 host ready last, after DOEPDMA is written: the
-  chain then runs normally if the core takes descriptor 0 after EPENA
-  is set. If it takes it before, the chain again ends after that one
-  packet.
-- The same, plus: if the core takes descriptor 0 before the enable,
-  wait for the packet to land, give the request back, build the chain
-  again and enable. No packet is waiting for that second chain. This
-  gave one BNA and one restart per hold for 34 holds of 9 to 50 ms.
-  Then three runs failed after 10, 19 and 9 restarts, each time on a
-  9 ms hold, which is the edge of the eight queued requests: the stream
-  stopped, and twice the host reset the port. I have not traced that
-  case yet.
-
-Thinh, what does the core expect the driver to do with an isochronous
-OUT endpoint after a BNA in descriptor DMA mode? In particular, is
-there a way to make it drop the packet it holds, or a defined point at
-which the chain may be written again? I would rather do what the core
-is designed for than poll a descriptor in the interrupt handler.
-
-The Sashiko findings on this patch (BNA handled after the chain was
-restarted in the same interrupt, a BNA latched before the restart) are
-real as well and are fixed in what I have, but they do not matter until
-the above is solved.
-
-Patches 2 and 3, same board, TEST UNIT READY as fast as the host can
-with a 1080p60 H.264 encode running, counters added for the test:
-
-- With the read-back of patch 3 switched off to get BNAs: 368000
-  commands in 120 s (3070 a second), 13103 BNAs, 12809 of them
-  restarted by patch 2, no port reset. The other 294 were on the bulk
-  OUT endpoint, came together with XferCompl and found no request
-  current. Two more such runs: one the same, one with a port reset
-  whose cause I did not capture.
-- With the read-back on: 546000 commands in 180 s, no BNA, no reset.
-- In about 40000 BNAs on bulk endpoints the endpoint was disabled when
-  the BNA was handled, and no endpoint-disabled interrupt followed. So
-  the timing cases Sashiko describes for patch 2 did not occur on this
-  core. I do not know what the core guarantees there.
-- Patch 2 in that test restarted the request from req.actual, as
-  Sashiko suggested, not from its beginning as posted. A BNA on a later
-  part of a long request did not occur, so that path is still not
-  exercised.
-
-I will send a v2 with the review fixes for patches 2 and 3, and with
-patch 1 either done properly or left out.
-
-Vadim
