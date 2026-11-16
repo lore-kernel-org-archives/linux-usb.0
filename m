@@ -1,59 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794824616;
-	b=fdnKqD1G53Tg+BqTQHmNPpX99bFhWQdJe1YWAhL7650fm7DqCGa3TKA8NgvUgLwA8w0U
-	 IyOaAV/DwGGGMLEV7TmVSZhKanImuB5yAt5FGFeYjeWS7TiDzpmBqv4B8O0NhVZhXFj11
-	 aoLZ3G0cv+JCZSz7YcCky+4KAbUxdTJk4dZPHBhsh/zqQYJJeJKXgMfyzazAQ/6nafblL
-	 z3Ps+4Qr9bl5OJleVjaMwJjs+1OhDn5HEMdMEbzkTQV6gh93tzgwtLaHP7x2m6+dQQrsx
-	 Ad+I9aILcIlSNbAZpFy1kOhGtEp65UE2mfcEV2hBLq25ZxwQoy6C2XJu0gWTk+1BRZg==
+	t=1794824998;
+	b=VNwLSMSCUvEXZxr+pxSYMgeRh6IBy8MmZaQZbpRtGHf7Ule15miDd/DY+wlCm3cwuT89
+	 /cEPKkwi2u1Z1uUU/c1UeA7fRUM94Zk+qFfeWLz28mTVX70wFL0rEBZduNI7+Ij/SrqXq
+	 wC5stsfIITmVvxUL8l2sHzXE4VD4N+gRWbYEUUeRfv7RfCst/NgRrcKshu3GL5wPjZiZd
+	 O48jxDGtfbcfDUW9di9FCFy0mAF07NYJdOrq+jLePDwWu3B3W1c26xloBwpORoi/5Txsw
+	 8QHGKFBJTEdlaZZL46FFM7gm3pD+2+iRwtGx9sZ8LG31ELqjU2Iq7Nn4aSoaDq0edyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794824616;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=aBwn/FZxnh0n0zhteaBKF/cx+9D+nKGywQr5rRvRjQw=;
-	b=PnabviMbsGoyHikLGXey4nVPi/0WydgJMBCkw/hAQwFsA/e7rvmBk8wuRgjFE7C+wCQN
-	 u/lm4vTt0hkzeVqR2sHVkjnDTeoDQmg9sMXu63sXSxsqH8DtMx3DtlXd9OoPd+dUHz0em
-	 75ojH3Q+mF4SG8njcx5ribibPRemftVMEpp/G8NAP4ji3WjdXyAP5jOvslpB1saySQqQg
-	 QVmvcmNKAqWWXvjcvUtxp5O4D79yIkN6Be9v94z4DIuyWpdHRSaPbt1fLISoDV/eTpmoI
-	 zIRDeImfLcnnwrLpP5cnEblu3hFDQcZv5gAXITijLyfSGOktV628Hw4znFyGei8WF7w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794824998;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=fPNxpn2ne8B9gjdkbZAKbu69OppQftHEsR6h1Ix/+fI=;
+	b=HZowMjfXxdA6cBBQaGWREpP4b/OWXqe65s8dExwDgOTlgIiVpS+ACKRdF16ZB40qqlZZ
+	 zxoPgdWLtkKIs+/V4Eh0uRNLlGEBXoV98t6SzIlpmIvAccyLSJocTMcgqbcmZhvkHTpoG
+	 cLXOSJT4Hgn+JcBHRS32SAY+WknS4/s3996dP5ZH8E7vKTfYuaMSsUmxO8p0OM60BtDr1
+	 gstoToZeyWSYgQeVXHrUCY1xvIX+xgwTfgiTg3AMs2a17eeJWB8E7eIO5+Dd8PHoOAO/p
+	 6AgJy4oqS7N1FghWLVm2b9OOJt1zVku3bUUgNt7PmZRxie1MBt8jHiUwWllzqYGmlyw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X8TQkxh8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="YDNppX/e";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD95606A33A;
-	Mon, 16 Nov 2026 10:23:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CD3606A31C
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 10:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X8TQkxh8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30CC41F000C4;
-	Mon, 16 Nov 2026 10:23:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YDNppX/e
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D8471F000C4;
+	Mon, 16 Nov 2026 10:29:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794824615;
-	bh=aBwn/FZxnh0n0zhteaBKF/cx+9D+nKGywQr5rRvRjQw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=X8TQkxh89SfKOCAA8cO6hnyISMYFq93b5suocjtWdmfjAKdxF6JqUIcpUjdvP75U0
-	 3w9htdmr7pmO8NbAiufIdXfl/Vpx4DovAswlXDtiK5JYIz6gesblbNjlu0zmRjYfir
-	 Ow8DZWDgryXZgLOcOkPR9MRFsKt9aKvfzacHS3t8LkS5/XxiOKj6GCgByeRdwvO4gi
-	 aebYOUB6iwFQdkCaKkHAKIgaILWmZxfZ2VGHjlTfq3h+Zi00RL/r/wSgj1Bqm0645N
-	 uQ235i46N92iHwjePpdxWRfZdfNNoLoCTbVkorDPwdl2GysNmZ5YLrInE5dMEanJKy
-	 PC7hBEuBIGBXA==
-Subject:
- Re: [PATCH v2] net: hso: fix tx skb leak and a race on the stashed skb
-From: netdev-bot+sashiko@kernel.org
-To: chenaibing@cmss.chinamobile.com
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 16 Nov 2026 10:23:34 +0000
-Message-ID: <179482461473.3136.10520991197009365626@kernel.org>
-In-Reply-To: <20261115101646.244-1-chenaibing@cmss.chinamobile.com>
-References: <20261115101646.244-1-chenaibing@cmss.chinamobile.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1794824998;
+	bh=fPNxpn2ne8B9gjdkbZAKbu69OppQftHEsR6h1Ix/+fI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=YDNppX/epaRTwCxnuotCVvWLZigfGK6mzoimpWVvSnFhttv+RqniTgfsBDGDz/J81
+	 oLtho2zzADQbeXMeqEkLQwYQOCae8Sq/IdMr1CBCOK0ZTpWhCwIcadwvT3fsRRt/pE
+	 UCrDMSQvnPB4ABAmfiQYCvGzoxNSu9A98E95MmmbZh1Lf8Xa8twbLzSo0OY7zvGVc6
+	 N8/R+NUR4CqepjnVnk+jLw/+6ba4UT9PGoFKYkca1M4u5VYkRupOZfLYgsWAJqa+WD
+	 jnU3tYusG5otGWZx8FnppRkgQCO1MUtjI/+9SjFZkL+JblNLn0nyQt1Zv6pjZgn3rt
+	 EvrYyhaXoivQQ==
+Message-ID: <sashiko-outbox-216736@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb-storage: reject too small values in
+ max_sectors_store()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "YuanZhe Liu" <25031212351@stu.xidian.edu.cn>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261116101604.42161-1-25031212351@stu.xidian.edu.cn>
+References: <20261116101604.42161-1-25031212351@stu.xidian.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Nov 2026 10:29:57 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,195 +59,62 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
-
-Critical: 0 · High: 1 (1) · Medium: 0 · Low: 1
-
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [High] The v2 ownership protocol (xchg() in hso_net_close() and
-  hso_resume(), plus an unlocked test_bit(HSO_NET_RUNNING) in…
-- [Low] In hso_resume() (drivers/net/usb/hso.c), the new inner
-  `test_bit(HSO_NET_RUNNING, &hso_net->flags)` re-reads a bit that the…
-
-Pre-existing issues:
-- [High] This problem wasn't introduced by this patch, but
-  hso_net_start_xmit() copies the whole frame into the fixed-size TX…
-
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] usb-storage: missing logical_block_size check in
+  max_sectors_store()
 --
 
-net: hso: fix tx skb leak and a race on the stashed skb
+commit 05440cadc022e6dcf9589e956d95f83a1aa8ca56
+Author: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
 
-This patch frees the skb that hso_net_start_xmit() stashes in skb_tx_buf
-when the interface is closed. It also uses xchg() in both hso_net_close()
-and hso_resume() so that only one of them takes ownership of that skb.
-On top of that, hso_resume() now drops the stashed frame instead of
-transmitting it when HSO_NET_RUNNING is clear.
+usb-storage: reject too small values in max_sectors_store()
 
-Link: https://lore.kernel.org/all/6af74e31.fe96acdb.12252b.0009.GAE@google.com/
+This commit rejects values below the page sector count in
+max_sectors_store() before updating the request queue's max_hw_sectors
+limit.
 
-> diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
-> index 71caa3764b239..ba59bdefd203d 100644
-> --- a/drivers/net/usb/hso.c
-> +++ b/drivers/net/usb/hso.c
+> diff --git a/drivers/usb/storage/scsiglue.c b/drivers/usb/storage/scsiglu=
+e.c
+> index 97de28e855626..94131b726ade3 100644
+> --- a/drivers/usb/storage/scsiglue.c
+> +++ b/drivers/usb/storage/scsiglue.c
+> @@ -591,6 +591,8 @@ static ssize_t max_sectors_store(struct device *dev, =
+struct device_attribute *at
+> =20
+>  	if (sscanf(buf, "%hu", &ms) <=3D 0)
+>  		return -EINVAL;
+> +	if (ms < PAGE_SECTORS)
+> +		return -EINVAL;
+> =20
+>  	lim =3D queue_limits_start_update(sdev->request_queue);
+>  	lim.max_hw_sectors =3D ms;
 
-[ ... ]
+[Severity: Medium]
+Can max_sectors_store() still trigger a warning in blk_validate_limits()
+when the device's logical_block_size is larger than a page?
 
-> @@ -728,6 +729,14 @@ static int hso_net_close(struct net_device *net)
->  
->  	hso_stop_net_device(odev->parent);
->  
-> +	/*
-> +	 * Take ownership of a frame stashed by hso_net_start_xmit() and drop it.
-> +	 * hso_resume() takes it the same way, so only one of the two paths frees
-> +	 * it.
-> +	 */
-> +	skb = xchg(&odev->skb_tx_buf, NULL);
-> +	dev_kfree_skb(skb);
+block/blk-settings.c:blk_validate_limits() {
+    ...
+	if (WARN_ON_ONCE(lim->max_hw_sectors < PAGE_SECTORS))
+		return -EINVAL;
+	logical_block_sectors =3D lim->logical_block_size >> SECTOR_SHIFT;
+	if (WARN_ON_ONCE(logical_block_sectors > lim->max_hw_sectors))
+		return -EINVAL;
+    ...
+}
 
-[Severity: High]
+When transparent hugepages are enabled, sd_read_capacity() accepts
+sector_size values up to 64 KiB via blk_validate_block_size().  On a 4 KiB
+page system with a device reporting an 8 KiB to 64 KiB logical block size,
+writing 8 to max_sectors passes the check added here and hits the second
+warning in blk_validate_limits().
 
-Does only one of the two paths really end up owning the frame?
+Checking that ms is at least lim.logical_block_size >> 9 after
+queue_limits_start_update() (and calling queue_limits_cancel_update() on
+failure) would avoid this warning as well.
 
-hso_net_close() runs under RTNL. hso_resume() runs from USB PM context,
-for example the usb_autopm_get_interface() work that hso_get_activity()
-schedules. The two paths don't share any lock.
-
-Consider this interleaving:
-
-CPU0: hso_resume()
-    skb = xchg(&hso_net->skb_tx_buf, NULL);
-    test_bit(HSO_NET_RUNNING, &hso_net->flags) returns true
-
-CPU1: hso_net_close()
-    clear_bit(HSO_NET_RUNNING, &odev->flags);
-    hso_stop_net_device(odev->parent);
-    skb = xchg(&odev->skb_tx_buf, NULL);    /* returns NULL */
-
-CPU0: hso_resume()
-    hso_net_start_xmit(skb, hso_net->net);
-
-Suppose hso_get_activity() returns -EAGAIN at this point. That is the
-"device is still not ready" case from the commit message.
-hso_net_start_xmit() then puts the skb back with a plain store:
-
-	if (hso_get_activity(odev->parent) == -EAGAIN) {
-		odev->skb_tx_buf = skb;
-		return NETDEV_TX_OK;
-	}
-
-Does this leak the skb? Nothing frees it after close has done its xchg().
-A later hso_net_open() overwrites the pointer with
-odev->skb_tx_buf = NULL, and on disconnect the pointer is lost when the
-netdev is freed.
-
-If hso_get_activity() returns 0 instead, usb_submit_urb() on
-mux_bulk_tx_urb runs after close has killed that URB. hso_resume() then
-calls hso_start_net_device(), which resubmits the RX URBs on a closed
-interface.
-
-When that TX URB completes, write_bulk_callback() returns early:
-
-	if (!odev || !test_bit(HSO_NET_RUNNING, &odev->flags)) {
-		dev_err(&urb->dev->dev, "%s: device not running\n", __func__);
-		return;
-	}
-
-That skips hso_put_activity() and netif_wake_queue(). Can this leave the
-activity state and the autopm reference raised?
-
-The new test_bit() narrows the window, but it is still an unlocked flag
-check used as a gate. Would this need real serialization between three
-places: the stash in hso_net_start_xmit(), the check-and-transmit in
-hso_resume(), and the teardown in hso_net_close()? That could be a lock,
-or having close wait for a resume that is already in progress.
-
-[ ... ]
-
-> @@ -3054,13 +3064,17 @@ static int hso_resume(struct usb_interface *iface)
->  			if (hso_net->flags & IFF_UP) {
->  				/* First transmit any lingering data,
->  				   then restart the device. */
-> -				if (hso_net->skb_tx_buf) {
-> +				skb = xchg(&hso_net->skb_tx_buf, NULL);
-> +				if (skb) {
->  					dev_dbg(&iface->dev,
->  						"Transmitting"
->  						" lingering data\n");
-> -					hso_net_start_xmit(hso_net->skb_tx_buf,
-> -							   hso_net->net);
-> -					hso_net->skb_tx_buf = NULL;
-> +					if (test_bit(HSO_NET_RUNNING,
-> +						     &hso_net->flags))
-
-[Severity: Low]
-
-Isn't this test_bit() checking the same bit as the enclosing
-"if (hso_net->flags & IFF_UP)"? hso_net->flags is the driver's private
-bitmap, and HSO_NET_RUNNING is bit index 0:
-
-/* These definitions are used with the struct hso_net flags element */
-/* - use *_bit operations on it. (bit indices not values.) */
-#define HSO_NET_RUNNING			0
-
-IFF_UP is 0x1, so the outer check already tests HSO_NET_RUNNING. The new
-else branch with dev_kfree_skb() can only run if hso_net_close() clears
-the bit between the two reads.
-
-The commit message says:
-
-  hso_resume() also drops the frame instead of transmitting it when the
-  interface has already been stopped.
-
-If the interface was stopped before resume, the outer check skips the
-whole block. In that case hso_net_close() has already freed the frame
-through its xchg().
-
-Could the outer check be changed to
-test_bit(HSO_NET_RUNNING, &hso_net->flags)? Could the commit message also
-be reworded to describe what the new branch actually handles?
-
-> +						hso_net_start_xmit(skb,
-> +								   hso_net->net);
-
-[Severity: High]
-
-This is a pre-existing issue, not one introduced by this patch.
-hso_net_start_xmit() copies the frame into the TX bounce buffer without
-checking its length:
-
-	memcpy(odev->mux_bulk_tx_buf, skb->data, skb->len);
-
-hso_create_net_device() allocates mux_bulk_tx_buf with
-kzalloc(MUX_BULK_TX_BUF_SIZE), which is 2048 bytes (HSO__MAX_MTU).
-
-hso_net_init() only sets net->mtu = DEFAULT_MTU - 14 and never sets
-net->max_mtu, and hso has no ndo_change_mtu. dev_validate_mtu() in
-net/core/dev.c only enforces the upper bound when dev->max_mtu > 0.
-
-This means something like "ip link set hsoX mtu 4000" is accepted. Can a
-frame larger than 2048 bytes then overflow mux_bulk_tx_buf in
-hso_net_start_xmit()? usb_fill_bulk_urb() would also send skb->len bytes
-from that buffer to the device, reading past the end of the buffer.
-
-The patched hso_resume() still passes the stashed frame to this function.
-
-Would it make sense to set net->max_mtu = MUX_BULK_TX_BUF_SIZE in
-hso_net_init()? Another option is to drop frames with
-skb->len > MUX_BULK_TX_BUF_SIZE in hso_net_start_xmit().
-
-> +					else
-> +						dev_kfree_skb(skb);
->  				}
->  				result = hso_start_net_device(network_table[i]);
->  				if (result)
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261115101646.244-1-chenaibing%40cmss.chinamobile.com
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116101604.4216=
+1-1-25031212351@stu.xidian.edu.cn?part=3D1
