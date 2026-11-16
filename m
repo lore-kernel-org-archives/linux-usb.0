@@ -1,95 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794854933;
-	b=aCNzLIrKgJyLtC6GqRpp0owVPHoLdz56jyBfdcJlD/AuBlFDFTRnjfrUJ3Kj4OOBQnTx
-	 UPDyiWYKCI7n3DwmbwrmQP17zKulO1GK67NARxQRy7T2PuGKztdDN589S41R+4HEqg10u
-	 GBIAwCkRMAnsr0rudAFlJaR35L9FlGQZXrFO1APAmhvjIPjdl4CS8agsE/1O4bCVuH0zW
-	 VXFFn1KOCm0SNS5ul5cbJRBmCRwHJmwBkUxpk7bLF4SDjsN37zdr7gF/XcIuePgsTlcd9
-	 dvOyFjgng98Xpn8nw4bXe77ZT5Bz66fUFy3CHtkekrCD/XA9Mw6u08DTLdeNrFffPvw==
+	t=1794855076;
+	b=dbPPwyNDN3J5gfDqCM8ao5sqrLQ7DOtrlYS1DLVOwtG0LftXP1GRYR9T3FQ53ZFJ9lxC
+	 GcxoOK1v1hW9JhLShgPbuyez/RrdPG59GBvJUst+mBJEDzNFQFMa/+1wsg5LxWMWNanfl
+	 shYy8VWjBgzxyP/wSns8cBeITstVyjdvacgC3gm/PJ4QOXYewWZ91LgC3GfxD2eCtbLZk
+	 NjwoJYLwuc045BpSDFUPIvGmvPrCTqmmZf1Fd0R31QhX26KKLVpYs/RSqcUrG7Nmp/8G1
+	 aYd7PHIrUr4Iqs8j6IWIrElK27GzzvXftCV0KjqAoZy25JdquqQedutIxEy7KswVBMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794854933;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794855076;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=sz80l+p8ujGs9nPbP4achw/oPK2RjFSncK3Slf8bH8c=;
-	b=2Pz37WmwhftlvXBykNZToy8b4szgkHaqHILArEDFxwIGRpl40uATN5/6NzBvehA5+YT8
-	 jf9mnRJXl/T3gJL87KwEYJZlmYvXzr7zHng4M4VBa3S5KL/Uje21HDyRSv3xDZXEG3EQc
-	 2gtUftCPkU6Thxy+ax1oDLGT+7Zvq2ddil1vcaUiknlnzVlb1eY9I953HbP49ASRG3GEC
-	 6zQUlxyD5cL+5/i5DgHXWmznL2ve8nwMjrOvK8Q4gF9IQmXkpGFQ7oFqmuaZXhkvswJEA
-	 sE2e4ZJxh/Ba58nQCXRRdLCQurUx8OORr4Buz7jgU7sI8O5yGUxWFrXyexv21F5TmNA==
+	bh=hWBkolssTHNzvJIk1CQ5wtq3YgSC+iuVX6t67s4RgUk=;
+	b=zmSdbuVZxC417QNYdjj4gE1JEd2vP3vgQx5cl600g6vSfSsbyRooTUxlgtZFnuzZemtZ
+	 IlnJK10c0P8hneC89BlhkVBEJxx5f6VIck910skqSjsp7Efu5aWKvAr05Ke8thUO7UjuK
+	 jBnt9mSIZKggk/jyTKYRyFwSfo5ISHuOpuug6FJL0Jfax544rXZuTzruBEobfuxcb39hN
+	 YXsr6PuUEl5t4gjkFITCKEjpo7lT0zY4/s8tU0JgENILtBiVFvwZs15nkjhUvbWjooflb
+	 HgRPlB/kqEGbkePRzRYfF+QjpI1uZtN4E/ZjSw5a8RuY692VxmSJYfd/0YwC+YCPYuw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=rowland.harvard.edu;
 	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=uDwykJCq;
-	arc=none smtp.remote-ip=209.85.160.169
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=RqasTIrB;
+	arc=none smtp.remote-ip=209.85.160.171
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820A0606A322
-	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 18:48:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 820A0606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03B9606A31C
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 18:51:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E03B9606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=uDwykJCq
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-53644b28706so31551891cf.3
-        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 10:48:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=RqasTIrB
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-55c35262674so21059781cf.0
+        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 10:51:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1794854932; x=1795459732; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1794855075; x=1795459875; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=sz80l+p8ujGs9nPbP4achw/oPK2RjFSncK3Slf8bH8c=;
-        b=uDwykJCq016wgWS9+N00CG0siwXmgb74LhIACY+w8NCUk+FjaapQLWwCx3dvOl7ZJG
-         4vvKZ+jybce3lfK0RDcTgwHMlsE/3Fcug+ERDZ6zpzKU19fCP9z0kvrO958T0yG54wXN
-         MlG+5htTrhcdMaNa+leNCiQsA+U6IraxMULe2iaW1bbkQH9sh36WuUr7zcD6AabqYBWR
-         9n3wuepS9iCXPTy/wp+q2a5FnScUtQgKQDqIDIk9kzlFeoyYCGPc/6BEOwm+36kRvDZf
-         v+lBQ1SHZefJFAS5avpNnThvM9n8OU+PWs1uocbxC9IhXM6E5GL+k4Q6ZNXpDibxplzn
-         xnYQ==
+        bh=hWBkolssTHNzvJIk1CQ5wtq3YgSC+iuVX6t67s4RgUk=;
+        b=RqasTIrBSzc+pvM9KGxD0Wr33AoXUUv1zyExX4B4tgAyv1V1PFaFeiSw9ux/9T70MW
+         x+HS4845fh5pUxQ01QWvbLQfvUziHiq9CBYZTe/K/HAyeEZ+C0HihAlsW7NVWIyraRLC
+         CzTsQ5A/oXzCq9h2q65GaQGKmD5TS7ojd6kpJe0J/n9lzSSi3iW+8PeSnVc+Ig5Wac6h
+         aWjLrm6GfzrjNLFGjsxn0Edhqy40Xjg5T1ZDvWfw3Epc8yjbd/Foc3nnE3g6xebWZbVg
+         SG1Qxjbc+M+zmZQEhDWkJsx8/cJ3GypSrUoo3lkXZZ2s4QQw7m5C8hcMZ45Grr1jk1Mj
+         hNvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794854932; x=1795459732;
+        d=1e100.net; s=20260707; t=1794855075; x=1795459875;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sz80l+p8ujGs9nPbP4achw/oPK2RjFSncK3Slf8bH8c=;
-        b=IWgOqLPfTmh9HvGiea9HhhP/bp0bK78gRRTD9nkzyMMUA/OE0HZmXPMGmHKpRUnzSq
-         nSIiBgHrDpnsVcKPmJd9qdfF4rUTdteKt0qJii31GvB38tY4AghmJ2BYBrj2lXYNUfhC
-         Ci5971FCdADFla0XfY9WSRJ/GEpCIGhPeTyrRZw0bQFpZ/C2U/OCNTUiOY+aStH99Fwb
-         FMzqmOi6F1UKJc0+rkC0XwoDYB9PYziq1N/INZ0mXVCzvD/TER3TPQIERZGzojoEtTPO
-         +hvPz+xWl1n8yOx4S28xkA157vgKM/bWJsMWgU8BajD6uwSPc2u4F8Ee91jLg19eIxzC
-         EpCw==
-X-Forwarded-Encrypted: i=1; AL+hErFFb8kgcA3d+vrCSrJvSRssHM3N0Nf3yLUJ8MznErq9WuHyn3NVR6t4nOw+JdqoC4gSwsoF0Q2erLk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/ED1iJCgHhGWArOjcrNX4JCDaoIoyiN6q7TYa9ZiTm3ER4X5aL
-	u1rck2wHkah6I1ZuEtBkWpG9lUvKzN66uTno2e7Z/DZKKAZ68N+09EJh0mC4X/1t2g==
-X-Gm-Gg: AYBFou1ckguehXh36KkumuqJYBVWwUAwsOsTWCvg+lPhWCo/v55vEjtTn9A9LJ94rRl
-	J4zvztf5BkQSqxQZzpf4HrVb1Taa5RP5v/ToN2VU2nDsFF51E04gL7mbqvW4AnTKOekixEQzYHB
-	l/vLNhBSXjNGAi14HaUljiGFtsKHt1jKKDmIAwYu222zJVSEzfUaoAJcfzv/bSX5TUOP8FGkW3j
-	P+DVKS4F1fVRjzJ4vLuYprEWT46Ny9xLNZBAJVU+t1iHS3iURLIsRKV6gguPy8yjmcjQHo4VUix
-	1hNn/HE5aTQpOxie/M0lKvcMcCWouYpzK7TW9m9o/wvglRKwBQfv6qKfL4rcdinIjGXwxKvgPN+
-	BWiW0vqHB55wAFd95aUPQ0aUzoOd8fscDIQLaKmEFxWXnaKDuFcdANhVKII2CwhPKKdMaSl2ZVe
-	I4lCsUQ/OvOWRaz+ir1aGObXvTkff04QOApc9ZApnRhqKq+Pzk6XcO5MiN5ATie6t6HndWjPQDz
-	o7Y2lJzrAIM3/zMfGm85BGVsjQiZl0rqLkXY+ZF+1VufYBswKREdL0CLxvCwXIssEUnlT5zxHSL
-	GQdAVKtgV0V5PN7uPIt5ilC+nxP7IWynC5He/NHFDNj8lgzpLQM=
-X-Received: by 2002:a05:622a:e341:10b0:55b:fd16:a2b0 with SMTP id d75a77b69052e-55bfd16a9b9mr104088641cf.70.1794854932273;
-        Mon, 16 Nov 2026 10:48:52 -0800 (PST)
+        bh=hWBkolssTHNzvJIk1CQ5wtq3YgSC+iuVX6t67s4RgUk=;
+        b=LLWIL1+5GTZ7IXBwp3dmUNoaSpLZyrrnkJPfh0A3k9iAZvBMxLBCB4EYhFStIWECAq
+         Jp9XK0PFXE80ADY7i1wjN+J5SOUfoSHgVe4KrDZx6UpY9nB71shL+znkf/zEjvFYjTi2
+         K+wDOSbFAf0Vg8HfYWUD2QN3gVMjOEbqykm0h/1AWt2zt0/qvsIGTLrqf4DxF23Hznye
+         b2tKl9r88L8eVEshQuKfYm72xvPA1N0mGJxZZvLfsMCInE/5aL1g62dDRlaXiC9kqJIv
+         eDwQqEd7I+QB9ORv50ifxxWz8+ze/3x+7MVgjimPjpplAikByOgmLSdWf6ECZY1xQ8Oh
+         iMVg==
+X-Forwarded-Encrypted: i=1; AL+hErHww0OnoaYiwQbMac0hkKiGMaQRxnuJqNvl4mb8hylnFwuDZ1z+Cjg4m8O+A8Xq8k89OWXfi/VhPMY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+jELhFGay6CPFOdbjl7BVvWUFJgTxTfkpeIHE8iWaKBRsNc+K4
+	J+MilCfo1mgfGwwJCvAhshIDrWX56p7n+VnuFPtXGNmaiGvImIsE5QWj1q4DVKU2wFRhHgvVE4D
+	XrC210A==
+X-Gm-Gg: AYBFou2udADkK5CfPZFaQMybEFFPBD5Kb+uEQDAvqS7MO5H+o3jn9WP/RuMU2g0rHG6
+	Z3RJ3EaGWqrSVSrMp8uL3RSMkWDF/CoeUJl159vkO52Cg1LrTALpoinkvMEy7Xyw+9qXD+rQan1
+	SROzH11J0US1kQkAMDdyR+7f1dmfgo+LG0fkYzwYKyBHpVOCcpUPnSWYoVYOt2tsx+ea1CQoaDD
+	1ZoqGg40UqA5W9z8BwVLfLaWGCGeWAC63bOjrne4qsvS69bAEnaj3FxipPzfR6W3i5UJ9XT/Fvo
+	tff1GNElKfUV1XYAbGRmSogBoIddKivqU6OcgLQ6gDxFpCFEO03e7/EPIuztjQhBGF/g8bWO6Dv
+	rvKCdWnsIj3BUBbCj1vIloAm6A9oKdOKT8RyOF7/d/uA6hrDgD2GmKaQBhd49fEr/uiPCB/gsBx
+	a4XdgtdPnVZ4fZJaTjw0vz+qU51s8UoxeAzwXnm1/hGbiOckyJZ8iBAIa3eow5oW1SCHGnaR2Q8
+	duu+1tZSSYYzuBdnNJwmtrv6CMh65sEvL6rA+xOIDzvvp3BX0CBaq9rl7H4GqLgX5NyJe8hvG9A
+	3qzv1Cc6/W42HA5t+fW74A2DDdUFb4d6R9sSeLw6coBGwG/ENi0=
+X-Received: by 2002:a05:622a:1b8e:b0:535:a5fa:ee05 with SMTP id d75a77b69052e-55ac9f6070cmr183600311cf.69.1794855074811;
+        Mon, 16 Nov 2026 10:51:14 -0800 (PST)
 Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d5f3e4sm93181656d6.16.2026.11.16.10.48.51
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d34f869dfsm37676731cf.6.2026.11.16.10.51.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 10:48:51 -0800 (PST)
-Date: Mon, 16 Nov 2026 13:48:50 -0500
+        Mon, 16 Nov 2026 10:51:14 -0800 (PST)
+Date: Mon, 16 Nov 2026 13:51:12 -0500
 From: Alan Stern <stern@rowland.harvard.edu>
-To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Cheng Yongkang <teel4res@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>, Cheng Wen <wencheng@xidian.edu.cn>
-Subject: Re: [PATCH] usb: storage: shuttle_usbat: do not divide by an unknown
- sector size
-Message-ID: <a36c4b9f-29e9-4750-8a89-38a57fe7bfb8@rowland.harvard.edu>
-References: <20261116093452.15286-1-25031212351@stu.xidian.edu.cn>
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [BUG] usb: core: wBytesPerInterval checked with unsanitized
+ bMaxBurst
+Message-ID: <77330361-136e-4e26-b5ac-9c4259f90978@rowland.harvard.edu>
+References: <20261115163701.226491-1-teel4res@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,78 +100,48 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261116093452.15286-1-25031212351@stu.xidian.edu.cn>
+In-Reply-To: <20261115163701.226491-1-teel4res@gmail.com>
 
-On Mon, Nov 16, 2026 at 05:34:52PM +0800, YuanZhe Liu wrote:
-> usbat_flash_read_data() and usbat_flash_write_data() divide the transfer
-> length by info->ssize to turn it into an ATA sector count.  info->ssize is
-> only assigned when a READ CAPACITY command has completed successfully, so
-> it is still zero when a read request arrives earlier.
+On Sun, Nov 15, 2026 at 08:37:01AM -0800, Cheng Yongkang wrote:
+> Hi Greg, Alan,
 > 
-> Such a request is sent during device scan: sd_probe() starts with
-> media_present set and usb-storage sets read_before_ms for every device, so
-> sd_revalidate_disk() calls sd_read_block_zero() right after
-> sd_read_capacity(), even when READ CAPACITY failed, because
-> read_capacity_error() deliberately keeps media_present set for drives that
-> fail it with media loaded.  A CompactFlash reader that does not complete
-> the READ CAPACITY sequence, for example because a register access is
-> stalled, therefore reaches usbat_flash_read_data() with info->ssize == 0:
+> I hit a corner case in usb_parse_ss_endpoint_companion(). It needs a
+> SuperSpeed device with an invalid bMaxBurst or Mult, so it may not be
+> worth fixing.
 > 
->   Oops: divide error
->   RIP: 0010:usbat_flash_read_data+0x2a4/0x5c0
+> usb_parse_ss_endpoint_companion() clamps bMaxBurst to 15 and the isoc
+> Mult to 3 in ep->ss_ep_comp, but then computes max_tx for the
+> wBytesPerInterval check from the original descriptor. The stored
+> wBytesPerInterval can then be larger than the clamped endpoint can
+> carry.
 > 
-> Reject read and write requests while the sector size is unknown, the same
-> way the driver already rejects an out of range LBA.
+> With wMaxPacketSize=1024, bMaxBurst=16, Mult=1 and
+> wBytesPerInterval=65535, bMaxBurst becomes 15 but wBytesPerInterval
+> is set to 17408 instead of 16384. usb_submit_urb() uses the clamped
+> values and rejects isoc frames above 16384, while
+> usb_endpoint_max_periodic_payload() returns 17408, which xHCI also
+> uses as the Max ESIT Payload.
+> 
+> On v7.3 with a virtual SuperSpeed device over USB/IP, the kernel
+> logged "setting to 17408", and 16385- and 17000-byte isoc frames
+> failed with -EMSGSIZE. I only tested the bMaxBurst case; the Mult
+> case follows from the same code. The code is unchanged in
+> next-20261113.
+> 
+> Using ep->ss_ep_comp in the max_tx calculation fixes it:
+> 
+>   -		max_tx = (desc->bMaxBurst + 1) *
+>   -			(USB_SS_MULT(desc->bmAttributes)) *
+>   +		max_tx = (ep->ss_ep_comp.bMaxBurst + 1) *
+>   +			(USB_SS_MULT(ep->ss_ep_comp.bmAttributes)) *
+>    			usb_endpoint_maxp(&ep->desc);
+>    	else if (usb_endpoint_xfer_int(&ep->desc))
+>    		max_tx = usb_endpoint_maxp(&ep->desc) *
+>   -			(desc->bMaxBurst + 1);
+>   +			(ep->ss_ep_comp.bMaxBurst + 1);
+> 
+> I can send a patch if you want one.
 
-How about initializing info->ssize to 512 (it's currently hard-coded in 
-usbat_flash_transport()) earlier on, so the value is always available?
+Please send a patch to the xHCI maintainer.
 
 Alan Stern
-
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-> Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-> Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-> Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-> Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-> ---
->  drivers/usb/storage/shuttle_usbat.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/drivers/usb/storage/shuttle_usbat.c b/drivers/usb/storage/shuttle_usbat.c
-> index 7e5424268c73..faea2c77c5aa 100644
-> --- a/drivers/usb/storage/shuttle_usbat.c
-> +++ b/drivers/usb/storage/shuttle_usbat.c
-> @@ -1130,6 +1130,13 @@ static int usbat_flash_read_data(struct us_data *us,
->  	if (result != USB_STOR_TRANSPORT_GOOD)
->  		return result;
->  
-> +	/*
-> +	 * The sector size is only known once a READ CAPACITY command has
-> +	 * succeeded; a request can arrive before that.
-> +	 */
-> +	if (!info->ssize)
-> +		return USB_STOR_TRANSPORT_ERROR;
-> +
->  	/*
->  	 * we're working in LBA mode.  according to the ATA spec,
->  	 * we can support up to 28-bit addressing.  I don't know if Jumpshot
-> @@ -1221,6 +1228,13 @@ static int usbat_flash_write_data(struct us_data *us,
->  	if (result != USB_STOR_TRANSPORT_GOOD)
->  		return result;
->  
-> +	/*
-> +	 * The sector size is only known once a READ CAPACITY command has
-> +	 * succeeded; a request can arrive before that.
-> +	 */
-> +	if (!info->ssize)
-> +		return USB_STOR_TRANSPORT_ERROR;
-> +
->  	/*
->  	 * we're working in LBA mode.  according to the ATA spec,
->  	 * we can support up to 28-bit addressing.  I don't know if the device
-> -- 
-> 2.34.1
-> 
