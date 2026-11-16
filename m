@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794867113;
-	b=tiS+/rfwM9D3wOjRQnWuGGsrNcTuSLiJR3dA+ihHlQp9L3BfXU4YEImtD98cc86RJbkF
-	 sChZktwzJEQT8x5TYiPoyS1LBgXg/2yObUsYgyvbPJyThzRh8eK20x90Ut1vfOBPem5z3
-	 1ePz9AUeVGQKj/l6MuJ43xgP6WhMvQWV2eRiU60Qf/Aow56RFOlFpyyMr2GR78vdhYvBu
-	 AkOg5GXthaMzFc8w7Vs7nq9z85xeEyc7m2/+Z1FAyJPzAtFxHoTI7i4v7FCVs30hVyggk
-	 TYxLAxJAz7qWQ2xp8FI2qED63A0V6c6eD5ApX/y8jsEzpM7vgXyhh5X9jRidmpNPQvA==
+	t=1794867114;
+	b=xJ4OCVvyNzVcVMGEi0dfYitxUB0jrgf2JCXNq3zATaw0GoGa7feU6593xl3mAJHfmEgg
+	 B0mwlvBK786dPAhS8XV9FsQLVFFbH+GXqO5wX/WV+5PZDfkykMgL/cMx0Py6EH2bGxKpT
+	 CVsUZKiYDAtg0olWPSMfIDOGEyEP1ubgzj9vnk888n/rl9QTTq4wcwZCoOiuKZmGlT7xa
+	 +Bks+r2z69pmoBbxfmIfEKCC7HVKpcMxqBT6R9lfEcx9NpEci+D22CHH8FsXcP4A8Ntjz
+	 8ZK3kF6gT08Ad//Ld6QlpGbzHO8hrkULdASN09nnrwtWLfhy+f4F3rGAg1zPsZ4le6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794867113;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794867114;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=xU3I1i3uzQX8SslMA2tW2SYNiqUCEQAUMT2RX5egxJg=;
-	b=U7wFZH/JAWaoLPiM0Dd69rMrciDZAIlHn2kbVh5DQGLsPK/wvIYuAQxMVkX2V+w96Xjq
-	 bqt+CUGepBNW32SlI8jrgaJ9io3aCZC6kC1tedy9BcQFAD1Gq3e7gSQN13b1zGKX6lR0U
-	 VSujreGjcXr5qOIVs8NKgAJ65OgR+7RVtgJ66uKvD0D7lDxaFLszQfPXuoUEECOUhfmUm
-	 UQxsjkRGMLL2pgP/FwwtJ2qywYGvJfx8s5rxD2ZUcjkfJ9Sz6f9xpumlFINTzQlXJN2m9
-	 evZEOtXcsUZI/P8IFp/Q/KQFQ3qy6r7+vOAwVXu56glpJc9C7BQVLMCwGqr2CH+Za2w==
+	bh=0gF/IG6G/H5tqcsRBL8CcYqfoN8INLX7Sa1OZ48PzGk=;
+	b=RAkSWckwcKXTp2fC8x6KY9VNfuVOXF4xhx/ueih1RKiYFEvhJ0zqOC+2ojaKvCX4BTev
+	 Qhr2EV/9BKfHV2Zehtllovkj2KsN75rrwNxldhD5F+0czkIZTmg9xeqWyPXARRh7xfcmx
+	 y9ZPdYtzGm4JpuXJ/7coERLncLzP+YYlzZ87MK2vLz5BtXzgFBiblFto0T50dcWtzGYPw
+	 pPLqwILKJbCAe3Zic+2hnQYAZi/oqq8HbXAZWUfVOcBceX5yVNAQUGTj531hfiMQw9BQV
+	 EidfEybEdScKMaughGeXrdTelEU/cym/F5CcJOVK7L/xv7AnolPgud5q9ZExgmT0lTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=lqGAMV0I;
-	arc=none smtp.remote-ip=209.85.216.71
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="iQBW2O4/";
+	arc=none smtp.remote-ip=209.85.215.197
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA77D606A323
-	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 22:11:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA77D606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D426E606A331
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 22:11:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D426E606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=lqGAMV0I
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3b3a9ee822fso486990a91.0
-        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 14:11:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=iQBW2O4/
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cdaf2073b0cso1890770a12.0
+        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 14:11:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794867112; x=1795471912; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1794867113; x=1795471913; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xU3I1i3uzQX8SslMA2tW2SYNiqUCEQAUMT2RX5egxJg=;
-        b=lqGAMV0I50rZFiPx27w7QnxS6xlytaJwIzGMrdQhAk0fYIkPLxw/dmrWf5ALxxMVGb
-         yT9RRzV4JSYR8q4I4q0wcWV6Q/JpdvtIEHKxvB7Y6mty7jNqWfVaszchw3OUJ5+ibi11
-         cjM1FStPHuZO50pPVsq2DL1yVeB6jMTJFyiRKebGMcgebTvrdAnBvQm5wlvD63glsyIh
-         3iuNbu4lPunRuxr75CfCanfRrd8MCbrl+ftFpR7eYZnHDdeEYUz0x4FBz4XZA4WxQ4sP
-         yEWIp9a1QbCHPNtggkgHX9DcTpDM+SseGBCDntWYlHKKJjtPzf/7+rdzCElb1IP9OodK
-         EhgA==
+        bh=0gF/IG6G/H5tqcsRBL8CcYqfoN8INLX7Sa1OZ48PzGk=;
+        b=iQBW2O4/5mvxW9v9NcnF7nDBZGpi3fxHBrxt6nUGv9IRUnoJr9CU4fTCcnSP8xS5bJ
+         im18IuqgZuphH/Ep4cNP1EhEN4CPueq+EqIp2+7Z54bfvGcIV82v5zqGlAtMgbYiEKhd
+         eWHZwoBAKeZDvt8op5WRv4qhkDvV28qLG8J26C7YsT+UJsqSPxg03ohDGx/NM2XeSvki
+         l/aYm71CrdbKdHzD/DQRVckdOq1mGGSdw/TYKBNS16PKLidPp1wAJvmSeHZu+nCgr/M6
+         WruLqYX2XykZcxpcJIZakmbeLVc7sn+XDyGvwRyhz/j04+Nl6N4W+HUaJvu+O/SECw2c
+         jUzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794867112; x=1795471912;
+        d=1e100.net; s=20260707; t=1794867113; x=1795471913;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xU3I1i3uzQX8SslMA2tW2SYNiqUCEQAUMT2RX5egxJg=;
-        b=MfnonI/x7hqt/YWq+NKA/O+Ec5JlIt9D0X0arIZq6UFeRPfUAzf6iWbNoSLb1ycOeo
-         UeP+U2SiOXS9+UHzDVc2KThEv2smFAOAcYIp1ertNZV/FPxuq5WiSN5Ut1lyD4sg+TBW
-         ODS6J2PeEZVcuNpyVZlkHdHHGmSBUuKZUQJ67rxeqSIWgwBFUF5izTx7TxU3Q3MtYsd7
-         XzJJljs7+8FCqlf2Ok6lNGQJ3j7KTdxuBd+HatvyCbrJJ9i8sLMSUCPkjYYD/cSaOumD
-         V6LmhnNpdcHtMpNKut+mqLyQ86Wr95eqOMSTH6MMAleHTRkm4+lTTJHfh0orclDPDLuh
-         kXBQ==
-X-Forwarded-Encrypted: i=1; AL+hErEB/7iOEwc6x5g3PGmpM0cJZVTJrsJXM96q+dkusKdCd1pOOs80HPD9MralvJiRENOKIvDfVp8Pdlk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z90Xy4/J8nFqN5rI/HbS46YufTQWLWwlPWbm2PgmKewORJRyz3P
-	WL9mEFh8M7mCuwm1w5q5RaYqZdeW+pCau09NuepKQNxiIUnZJeJAXhqRcpVhYy11caBLmicvlI2
-	6+kICZVpPzg==
-X-Received: from pljc7.prod.google.com ([2002:a17:903:3b87:b0:2e5:712c:5c7])
- (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:5608:b0:3ac:c024:b275
- with SMTP id 98e67ed59e1d1-3b1b089e262mr11929294a91.9.1794867111923; Mon, 16
- Nov 2026 14:11:51 -0800 (PST)
+        bh=0gF/IG6G/H5tqcsRBL8CcYqfoN8INLX7Sa1OZ48PzGk=;
+        b=iMFT7svNVoMyVQ03rytzvMO5RQEqUpGgbed3taZMbgWrVCBX4XKtMrkfamT4nthCOp
+         skZmrJmXhDrNW7s96HyrEwRwlbyKwS03C11zKnbskcLEAmI1g/kG2TyBg7Y9jFYa9Hur
+         wQcEnWDBrYThNmVRh4JRUavIxzh5yw4SeDnzoLPTlVGorYQ+n8lVCT4+d1bwN8icLNzw
+         DNyjVfRrvTMcufT8Yl1AvpdD6mF3B23b1bKK2VUhgWO/yFqa2p1Fr37hyBbbAqjyPV5K
+         89Odq7sbrE22x2qIDNrKKLp1m5aKiFORGbw6rlIgYtZJAaqQeLJR9haXjnNbzhZtJ/Uk
+         HyKg==
+X-Forwarded-Encrypted: i=1; AL+hErGDeYffQpVMh9Ul2j3vT65WLDjo0CleWhVN5ee7pHfDCsLN0rEb538VQDYrnZqP9ih3hOwc0BjE/Hs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9SQcjtS1MgSswV0RIR4wXLb1Uxpme1mOPNZzIzIsyALLbv+8iN
+	9ZNX21w04wx3WhtYnD7LPkXUSBn6SFgHMB4XfePAP9bI9ko194z7dslDukSBO3ryrAqza8xZ/vE
+	DlAclAh3SCQ==
+X-Received: from pghv12.prod.google.com ([2002:a63:f20c:0:b0:cdd:9f2e:53e5])
+ (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6300:8047:b0:3fa:2a08:8fb3
+ with SMTP id adf61e73a8af0-3fa2a0890cdmr5095189637.17.1794867112860; Mon, 16
+ Nov 2026 14:11:52 -0800 (PST)
 Date: Mon, 16 Nov 2026 22:11:47 +0000
-In-Reply-To: <20261112010928.23716-2-shishunbo@cmss.chinamobile.com>
+In-Reply-To: <20261112010928.23716-4-shishunbo@cmss.chinamobile.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -80,75 +80,97 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
 References: <20261111021655.37851-1-shishunbo@cmss.chinamobile.com>
- <20261112010928.23716-1-shishunbo@cmss.chinamobile.com> <20261112010928.23716-2-shishunbo@cmss.chinamobile.com>
+ <20261112010928.23716-1-shishunbo@cmss.chinamobile.com> <20261112010928.23716-4-shishunbo@cmss.chinamobile.com>
 X-Mailer: b4 0.17-dev
-Message-ID: <179486710796.2938203.16103592872804674838.b4-review@b4>
-Subject: Re: [PATCH v3 1/4] usb: gadget: f_hid: fix sleep-in-atomic-context in f_hidg_get_report()
+Message-ID: <179486710796.2938203.13522037990167268712.b4-review@b4>
+Subject: Re: [PATCH v3 3/4] usb: gadget: f_hid: fix race between userspace
+ report update and GET_REPORT response
 From: Neill Kapron <nkapron@google.com>
 To: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 Cc: nkapron@google.com, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 
-> The second copy_from_user() in f_hidg_get_report() is called while
-> holding hidg->get_report_spinlock with interrupts disabled.  If the
-> user page backing the ioctl buffer is not resident, copy_from_user()
-> takes a page fault and sleeps, which is not allowed with a spinlock
-> held: it triggers might_sleep() warnings with
-> CONFIG_DEBUG_ATOMIC_SLEEP and can deadlock the scheduler on other
-> CPUs spinning on the lock.
+> The GET_REPORT response is served by pointing get_req->buf at the
+> data[] array of a report_list entry and calling usb_ep_queue().
+> The request completes asynchronously, so the controller may still
+> be reading the entry's buffer after get_report_workqueue_handler()
+> drops get_report_spinlock.
 > 
-> The first copy_from_user() into the freshly allocated entry is
-> already done before the spinlock is taken; only the "report already
-> exists, update it" branch still copies inside the critical section.
+> At the same time, userspace can update that same entry via the
+> GADGET_HID_WRITE_GET_REPORT ioctl: f_hidg_get_report() copies new
+> report data into the entry while holding the spinlock, but the
+> transfer reading the entry is not serialized against that update
+> (the lock was already released by the work handler).
 > 
-> Since the data has already been fully copied into entry->report_data
-> before taking the lock, updating an existing report only needs a
-> plain assignment between two kernel-memory objects, which is safe
-> inside the spinlock.
+> The result is that the host can receive a GET_REPORT response that
+> mixes bytes of the old and the new report (a torn write), with no
+> memory-safety violation but corrupted report data on the wire.
+> 
+> Serve the response from a dedicated buffer allocated once in
+> hidg_alloc() and freed in hidg_release(): the handler copies the
+> entry data into get_req_buf and zeroes the rest before queueing,
+> so userspace updates to the entry can no longer race with the
+> asynchronous read of the previous response, and no uninitialized
+> slab memory is exposed to the host.  Placing the buffer at the
+> function-instance level (rather than bind/unbind) means it is only
+> freed after all USB activity has ceased and all userspace file
+> references are gone, so no disable/set_alt/unbind ordering
+> constraints apply.
+> 
+> This also removes the now unused get_report member from struct
+> f_hidg.
 > 
 > Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL")
 > Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 > ---
->  drivers/usb/gadget/function/f_hid.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
+>  drivers/usb/gadget/function/f_hid.c | 36 +++++++++++++++++++++++++----
+>  1 file changed, 32 insertions(+), 4 deletions(-)
 >
 > diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-> index 3c6b43d06a6d..b778eb633b79 100644
+> index d7ba30323414..8c2adf392389 100644
 > --- a/drivers/usb/gadget/function/f_hid.c
 > +++ b/drivers/usb/gadget/function/f_hid.c
-> @@ -654,6 +654,11 @@ static int f_hidg_get_report(struct file *file, struct usb_hidg_report __user *b
->  	if (!entry)
->  		return -ENOMEM;
+> @@ -94,7 +94,7 @@ struct f_hidg {
 >  
-> +	/*
-> +	 * Copy the report from userspace into the entry before taking the
-> +	 * spinlock: copy_from_user() may sleep, so it must not be called
-> +	 * with the spinlock held (and interrupts disabled).
-> +	 */
->  	if (copy_from_user(&entry->report_data, buffer,
->  				sizeof(struct usb_hidg_report))) {
->  		ERROR(cdev, "copy_from_user error\n");
-> @@ -668,13 +673,7 @@ static int f_hidg_get_report(struct file *file, struct usb_hidg_report __user *b
->  
->  	if (ptr) {
->  		/* Report already exists in list - update it */
-> -		if (copy_from_user(&ptr->report_data, buffer,
-> -				sizeof(struct usb_hidg_report))) {
-> -			spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
-> -			ERROR(cdev, "copy_from_user error\n");
-> -			kfree(entry);
-> -			return -EINVAL;
-> -		}
-> +		ptr->report_data = entry->report_data;
+>  	/* get report */
+>  	struct usb_request		*get_req;
+> -	struct usb_hidg_report		get_report;
+> +	void				*get_req_buf;
+>  	bool				get_report_returned;
+>  	int				get_report_req_report_id;
+>  	int				get_report_req_report_length;
+> @@ -128,6 +128,7 @@ static void hidg_release(struct device *dev)
 >  		kfree(entry);
->  	} else {
->  		/* Report does not exist in list - add it */
+>  	}
+>  
+> +	kfree(hidg->get_req_buf);
+>  	kfree(hidg->report_desc);
+>  	kfree(hidg->set_report_buf);
+>  	kfree(hidg);
+> @@ -568,6 +569,7 @@ static void get_report_workqueue_handler(struct work_struct *work)
+>  	struct usb_request		*req;
+>  	struct report_entry *ptr;
+>  	unsigned long	flags;
+> +	unsigned int copied;
+>  
+>  	int status = 0;
+>  
+> @@ -587,7 +589,10 @@ static void get_report_workqueue_handler(struct work_struct *work)
+>  	ptr = f_hidg_search_for_report(hidg, hidg->get_report_req_report_id);
+>  	if (ptr && !ptr->report_data.userspace_req) {
+>  		/* Report exists in list and it is to be used for immediate response */
+> -		req->buf = ptr->report_data.data;
+> +		copied = min_t(unsigned int, req->length, ptr->report_data.length);
+> +		memcpy(req->buf, ptr->report_data.data, copied);
+> +		if (copied < MAX_REPORT_LENGTH)
+> +			memset(req->buf + copied, 0x0, MAX_REPORT_LENGTH - copied);
 
-Thanks for the patch, however it duplicate's Yu Zhang's previously
-reviewed patch in [1].
-
-[1] https://lore.kernel.org/all/20261020051446.92179-1-yuz08559@gmail.com/
+Isn't this a silent UAPI change? f_hidg_get_report() already
+initializes the report and req->length is already bound by
+MAX_REPORT_LENGTH. Can't we just memcpy req->length bytes to keep the
+existing UAPI behavior without exposing the slab memory or needing
+memset?
 
 -- 
 Neill Kapron <nkapron@google.com>
