@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794864414;
-	b=CyUG9i4ye9gl2bAsMqO70rQv0YpeuITMaYMHY5ti6DsATDQ/IT4JowT+fjPN/H+m+d5b
-	 j9wUxc+fxVDyMK6QKGc6bW5lhpTxfDToFvf1nW3amwqFZMG3TWcD3TPYyL5KT0Y17nqhB
-	 4/OYM115I00Cg+JmIT3ewcc7dPN8rjKfwcK88UbHeuSaP6bUIR+Yd3IVwR+UfH9/L/UYX
-	 ZlHGaid5rVoKVT+fwMoUVs7zk4W5SwEDEYWX3xfA98kiUrQmBbEtnyy1B69GDl/fhT8bq
-	 ekr8oF9xMGKvNRDjACsLDkkZOZDu5ZUNi9UsWlf6bBX5m3Rozpg4Y2snk5SoVmxWv1w==
+	t=1794864421;
+	b=OB1K6SCSAo9/bvUZ8MFjF/fycvQWGyvO4X+AZkaiJ1pNjrDn5JZfpN1+9GNVc8j5C7NK
+	 jdZS41xVNfan4cU4o0GSftyTTF/tWf34dH/iokIfcpskIhaAbKkA3kjR3ypnSVA1s0aYg
+	 6BHqsoLusUbWmY70udryNUdNkiXvwvGISmdWncAfj8m52tWNhVjdgOPD490zz9iCR6nhw
+	 31GpV27BXwoBCEWXe8PtzS441Xr12LftSOC+TGVkoy73eirJrFY8Bqt+ebKm9GhsG10ko
+	 ZuoBs59oupZ201dM+x+DRBtI1Vj7t/SbwfLCOca4xBLCU7Jj7vxbK2YmArAaxNjuB2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794864414;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794864421;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=vT2VNwBxc63eyIezByShTBVkpV/95J6JPEp1UHJT0Ow=;
-	b=EXxner5h8Q8v02uc0WrCkbFYqyoaTKtSm7KnK0csY2tqJNc460R+L2bhu2HUnJZ8fuM0
-	 pQl9JiudCxrey9FfjLJxDsTBlR9j25R388fXp8YR4dBOhkTmJvbh3T0LVXr3iLa4Co+Yl
-	 /h9e30PT2P+QKTDcRwC4bRPlsPkQ9mKYg+NNZUaZeHfapR0adsNDYM8l9Nx2bOsRON9us
-	 42mU7Qo4Vlii+klNvtmkw5q+Oxw3PFKSu5m3gsGxpHIgnrqnySkgjSDSv9zhcJkVa2H+I
-	 vTmPDpaqsTvPUfZ5/mUMrp2XAknM00jL5ys1m2Fw03YCFt7sJjOmLS19YSnHWENieNw==
+	bh=LnAQsJm0J9tjLLptwYNMgJxavVvbhamVp2XrX/3IRso=;
+	b=1n6K9IPiosLIOS5KaQOVt58JsAa0UYs3VnyOOckBA8qSo9SgTyVlFOQ8BM2aZdhVtdxU
+	 aXtRqOybm9WMaZ5hxXtLxYuT6wNFkguZhKvUUD++WFikAV+k818t8CocJjZM4gQeyQaNC
+	 N3TT3XrAir1w0NzHDP2o7lb4elY/o0WLCc7vIsr/ijhXm8T1f0yXHrXFdJmXCrGEY6U8t
+	 spf0Z2poiBgkrg6Dwqnc+cJ3RtYflnxpqLHiRUw5YKsanZ3y9iZIizbFKHS5cVdaP5i4z
+	 XVLqWx8GtmAEpTY0TG5QwSf0VJvPj+TwNO1OQxEBtUXGGiJVl9RPCvFJI+eq7+jxcMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MAURpxwo;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lLkgL2gk;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C3B606A31C
-	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 21:26:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4C3B606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7C0606A322
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 21:27:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF7C0606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MAURpxwo
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso45093875e9.1
-        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 13:26:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lLkgL2gk
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso45094795e9.1
+        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 13:27:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794864412; x=1795469212; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794864419; x=1795469219; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vT2VNwBxc63eyIezByShTBVkpV/95J6JPEp1UHJT0Ow=;
-        b=MAURpxwoicsksSVnc2WAsPB6JHUpT01pe/omkWv1cyD9LfvrkdfTpz9XI4PTsY+lD4
-         SGrVtbMkILUcB8UlVxbff+5OGS2lWyRPg4+99wfZZJ3kK751LFxY/m8LTjr6oiMVus8k
-         NLNpqxitTryKXQIbIcsKSMHDOxKylCzOFabOSB6t/1IlelEkuKnAU8DjjPvXU/qZDKLp
-         LUS0foLTPneGc0r/9RGpT435PfWh/Tw1+g5u3NiaPw6KH3UroKGAVTBs+bDKLGIwpZ8n
-         3wkffWoIIDLNuNqC9dnlPrAPuX1jUL9NxQr36U7VkPrRC2O736zzBd6z1/JXDHPc7i5T
-         PENA==
+        bh=LnAQsJm0J9tjLLptwYNMgJxavVvbhamVp2XrX/3IRso=;
+        b=lLkgL2gk0QHyzdlrISl0quTs24SlvKBMOFoH1j1nhSiSS7JrK+rmqPoGnROwp4PajW
+         VeDHrF2l/KpppBUbfWOTOW5Jyih8ZdeaJORgZp7fZ1X4LC0f3uKoaabUuJ9TyYvtFXQZ
+         DeC8HfyWDeKEMkb86Mvb4GrBoZFekGhg+QFoxcILtp4GPkjIrUJTxwXwmYy7wQi5P2qm
+         QXYM7HxQNkhbi4kAyQPpLc1ypzpHNgh6uTB3bmXhVTpqihvt2TqYQ6MlbLWHh4OGTL0I
+         SUPSh3Lvd0vX4kNZX6t31437DW1cmDuLnDDpn7okWV7cTDtFCrWfSYavOzRWSnj8Y7zD
+         H3NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794864412; x=1795469212;
+        d=1e100.net; s=20260707; t=1794864419; x=1795469219;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=vT2VNwBxc63eyIezByShTBVkpV/95J6JPEp1UHJT0Ow=;
-        b=VZL7sMu+kHeq5f8c7Ilw8isnAubXiUhBpmGdVbHhdbQzkkmBm/lAHR4WTmdiInCdlE
-         0kCVX7XmMMZvtpCFY+gzxk2/6IZtwr+aymfbl+Ik/5gn9HOqOtsglVYRcbEDT552vOsp
-         6xE7we1K+E4ofPA8uV+RlggvtJzviF+39BXRoyr5xvhoRNtYs/TpP/jnDKAXyuM/e6BC
-         N+7VZdMER04WLj8dREQooWNgOVm5Ag343AomVqlG/0tJF/YHe7u2VGu/MbvA1JObPSe4
-         6hzeWt0lLwts5o+iL2JJnBXiyrr5sTbY+d1KtF4lBGRPi6hvjS6DP2qj6aNsJ0gWHm8Z
-         umtw==
-X-Forwarded-Encrypted: i=1; AL+hErGY5NWHhxiVnYxYQDIdzme9ku7elI6f/WGxYLfyRGpcdrs2pbszyBGHNEagQURiqnmSElkqGCU4eK8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+pRS95Ij3438rIMBEQk4BdJnGr2NOqJDiJT6uIUU02897SWWLW
-	+GvDYVbKVXRKROiRFtkFUBivbMa9ZsSelIZ1vViZS66Lk0NDqZb+Oc0i
-X-Gm-Gg: AYBFou31u+ClWYHKaoKXj4mwxIDiytORwDhfC+8cGdVfnRI4qZJ74iWdAkcBALf6YTU
-	/fEa96UP1rgXZAu4r/WbBTAFVoR5DJyt2Ny850ZPN5JQAjZSFVg44sJhgOVl3ltWNmc1UbcPkI5
-	D68vC7+bdZrP8GQmdC7AFh/iyCtNiZVwbJ3cHX9kfw7E8YOqFxeO4/wcGCPs9FRh8QDS1BJeVA8
-	GIIjmnzGlCNFkQAS54zIOgzRjFqIeet5Z+Z1wziRJHzSc2wpdHcrlfzNWQFfZYaYsbzqimDg06l
-	OUl8pgBnVA8vSBzYuiVr55cfT45OS+oJW64BPCaZ+1eUsjGNwjq28fheGpq1smFs9l5+81NrnQN
-	TA0Y6MbD7Xq0FNun5ca4fQSVcX1g8Ec2lAqmPxLuoDqqcA/rZ7myPEysSEgSfM0eWmg49DXC/wt
-	MeHhHArRmp/AXSrN2ZmdUDE2VvWqeRFE90D1KcoePLCmBeZzRhnYaXsK+d8QVEci3APAnmtZzxC
-	g+NIIsAo6G8F93rEvxLr4oxtoHUE9FgsL10nLfk/LJokNRH0WJ8wnH/bgYlP8S5Rgw4N1EfX4GL
-	Yut+QEuWiAU5usJNgQftd2Ql9leNmnWKPe5n+MTo
-X-Received: by 2002:a05:600c:3d92:b0:4ba:e7:ef3d with SMTP id 5b1f17b1804b1-4bb559f7044mr243891145e9.1.1794864412296;
-        Mon, 16 Nov 2026 13:26:52 -0800 (PST)
+        bh=LnAQsJm0J9tjLLptwYNMgJxavVvbhamVp2XrX/3IRso=;
+        b=yFtQ5Lh2V6l30YUD/+x9ADMwDhSZRPxxQaj5viMOh1UgrgYbWj9j8MLKs5zMb1H28q
+         25OX6I2HCYsL4UEzAfFoIQbNJdCaKo8CSXLnlOq7CXMhjQgL52OqCJyQGOCeFNbJ61mS
+         dc7vZ5b0hV5RQtZyUfLUnZGuDPq36Bwf9gb3ErPoold0Wg0wRw2duuKz613Vw5OE9u08
+         tWmHykvFGNs+nNNiBr5vNh5imKeKA4giSbyr+ZQmVvIzBP3HkfC8/B88PUxMpI7bNgtg
+         RGlRd1w0MrnxtAh8Ap1wGBdr+y0yDo5Rx+dMNS50ODPNqL6OYOZ1ztROzmGy0I7huOx0
+         fVTw==
+X-Forwarded-Encrypted: i=1; AL+hErEc/2bUoJeuFIsGr3qkVPehoJYtORPkvcqtLEmV970+/dkmitilLCP//0b5wNPkzitmo3pHqrCL9DM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+AtF5IYaVG6nh2t5lCYiAkcr8ON0eWFOaGiQBXxuKWdSp6Bu2R
+	AGvPVoJCIBvkYwhEHteW2fjev+xDOemsen/EHsYD+1tqtLq6kmmxhBW6
+X-Gm-Gg: AYBFou1cuRzszikDfHi7MXRzOczUMt+j7PWu2dW0FHIvwJInkv6endcQzFM4CFTHBDk
+	q4hRPE5vkyejIISZZx/9YKOWqBiuNW9IVwM3KshDGcXlxSupjSMXxO9rqQh3aw/E6RUAzI8DliF
+	f7VGR7HZFdg8ai2/Q5cclFAaugTV6gHmcbi/IHctFLTH7GeJXm55FN/11JiFNBXiXFzxAT5O8Jm
+	WAksPG8qckqmFPIsZkwFx7J7ZNjSnVH2JbikxrDgcxL5tAY5dbhlGnsldVyXrE/qjgM1Bm47jD8
+	kU8vj5hpQ/rLgRVOd+DnSoa4ZMfNOnJa7ba5Y+oYPAJwxBE3mKHK03BPofLbytkzoaPym3uNcgx
+	SviLGLu2u9o2vckrLKg08hJa3B0r01ojIkvjfkkjtoqZyDZeH5gCwOtt5bsIIFxzpgRVNgttoif
+	5rsNITAxkhJw6+Q1gBOKiEgO5/TP5FDf+qlpO5nZs4Fs9aWm7iRqSXs7zgFrpLTp6vNO+XxOUHv
+	PLBI/MiRyZmZJvt97Ex0QLb4DRcFh4duHQnCI9X8ux2zROl1vqwG+fJoPFs2hKmZklsLLpwL5QY
+	rKIgfH4q8CGL1LbMz/SK/zJoJZ21LKo2Gd02lXLL
+X-Received: by 2002:a05:600c:482:b0:4a5:75d2:c104 with SMTP id 5b1f17b1804b1-4bb55a59c9dmr184592375e9.22.1794864419406;
+        Mon, 16 Nov 2026 13:26:59 -0800 (PST)
 Received: from [192.168.10.105] ([212.58.121.92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a378138cfdsm1260150f8f.58.2026.11.16.13.26.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a378138cfdsm1260150f8f.58.2026.11.16.13.26.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 13:26:51 -0800 (PST)
+        Mon, 16 Nov 2026 13:26:57 -0800 (PST)
 From: Stanislav Aleksandrov <lightofmysoul@gmail.com>
-Date: Mon, 16 Nov 2026 21:26:19 +0000
-Subject: [PATCH v2 03/16] dt-bindings: mfd: qcom,tcsr: Add Halliday TCSR
+Date: Mon, 16 Nov 2026 21:26:20 +0000
+Subject: [PATCH v2 04/16] dt-bindings: arm-smmu: Add Halliday SMMU
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -94,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-halliday-dts-v2-3-2c92438c6c46@gmail.com>
+Message-Id: <20261116-halliday-dts-v2-4-2c92438c6c46@gmail.com>
 References: <20261116-halliday-dts-v2-0-2c92438c6c46@gmail.com>
 In-Reply-To: <20261116-halliday-dts-v2-0-2c92438c6c46@gmail.com>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -124,35 +124,45 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
  linux-usb@vger.kernel.org, linux-phy@lists.infradead.org, 
  linux-scsi@vger.kernel.org, linux-crypto@vger.kernel.org, 
- linux-pm@vger.kernel.org, Stanislav Aleksandrov <lightofmysoul@gmail.com>
+ linux-pm@vger.kernel.org, Stanislav Aleksandrov <lightofmysoul@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794864382; l=720;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794864382; l=1185;
  i=lightofmysoul@gmail.com; s=20261108; h=from:subject:message-id;
- bh=sz0jgm6yJ2qfmdfMMgsqR7Wg9ExS4UZymLewfvVCvH0=;
- b=FqcgSljUbrxAce/Wb8/tWQg7D8BxyY05VfRoM3lIlKWOtWcZxkvJ+EYJdvTvvxol8FPPRApKu
- mw5+dUw4O8RDXBA5aD2L3Fg9fYj7OF5FtJNOsGNYBuFx4Z8h2/2ns31
+ bh=48k8tRM2Ds8B2KdX/k6MNHyKgJdAqOSEc8lLmnEqak0=;
+ b=jdhSJvOgnkWCr3N/XewHYvU/DMh7fs9E9l4PMB3CyD3bi1r+fHKz+jcOeuCkYmmgxW1wl/a9T
+ LhE9PjP/kP5CRKJpxWsTiZqjVGzsx7uCz1lP4rAnXmBZayBQqDt+vzF
 X-Developer-Key: i=lightofmysoul@gmail.com; a=ed25519;
  pk=jeRUlfmkhE53CJPoeIIXgu7rTE0ybDRH0HQrEwbydzg=
 
-Document the TCSR block on the Qualcomm Halliday SoC.
+Document the SMMU-500 on the Qualcomm Halliday SoC.
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Stanislav Aleksandrov <lightofmysoul@gmail.com>
 ---
- Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml b/Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml
-index a021e4dea486..e8a681b5e6ad 100644
---- a/Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml
-+++ b/Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml
-@@ -17,6 +17,7 @@ properties:
-   compatible:
-     items:
-       - enum:
-+          - qcom,halliday-tcsr
-           - qcom,hawi-tcsr
-           - qcom,maili-tcsr
-           - qcom,msm8976-tcsr
+diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+index 6748351c7812..925afa8cca8d 100644
+--- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+@@ -37,6 +37,7 @@ properties:
+           - enum:
+               - qcom,eliza-smmu-500
+               - qcom,glymur-smmu-500
++              - qcom,halliday-smmu-500
+               - qcom,hawi-smmu-500
+               - qcom,ipq9650-smmu-500
+               - qcom,kaanapali-smmu-500
+@@ -629,6 +630,7 @@ allOf:
+             - enum:
+                 - qcom,eliza-smmu-500
+                 - qcom,glymur-smmu-500
++                - qcom,halliday-smmu-500
+                 - qcom,hawi-smmu-500
+                 - qcom,ipq9650-smmu-500
+                 - qcom,kaanapali-smmu-500
 
 -- 
 2.55.0
