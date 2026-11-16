@@ -1,75 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794872100;
-	b=p/2KRA4Rj4i7BAoqUlRI60G3fg8IFPbp+xCZzS9b7K9cqJ/IthIpE6aqfSxTxs30R8AA
-	 MQkq0gezk53NOTSMPExLblArPOyzTy/HJdyXJpzeA7++KERrN4hUHeAsHBtEZt2pAtyVr
-	 0aZ4O3BAM/kv4VOH3Vy3OYoWqewaiBddn1zEqmokYVaTPZHrHWdGhibaKKd5GiMOO3Lk3
-	 WBZrI2qKOCYPB2Q6377ZcPlrirVGcrNlR6ROcT3sVLLjGlzJg3zS2tLCwHApFXGu/txAw
-	 Pgbt3WCGyuvOM5IckXbwPKvOP7GqOTXLTtfjS/olwdxSBc3JI3WZG975zC3nDouyxwg==
+	t=1794872408;
+	b=mD2ivrQ5zg9R+Nnhp8fkdPiZnvvTrv1NF0LAi/4QAsBPGAF62qH4cPfehb96IJpiXYem
+	 VeGpJrq8Fu3x1NwZuPCGX/GqR8ler05innfXxkIiL1eFmDdfK9yAmEFQYCLLTIxccW0m1
+	 OCHqO4uOXnZUCOJOGTeqxiohKDgLd6KotpcIjISc0jotCHxujyAKi9dXt8eNg9VLM7LCg
+	 6RC2MULc4DAfIkCO7SLk3KlVv50PEZ1XSRiewBpGY+5QtnM20ht9EoDetT2G9DYh8ZubY
+	 q9tHbdM26UWrAn1nEgp6UOGmGI1+fZ3PVOkiWrML2QRjiHhvmysr1lMhhDuSfRCUcKQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794872100;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=Af1reff1Z1EffjIkRxjPvN5B/PFFTOsk4MNCtyRPsM4=;
-	b=xiWQNpZezE1S8s5DO5KnALn6lUVcxRvkeZCgXEhc+HgQfimtv0MaOBaelnd2zV19PFGn
-	 0SIntreJrw1A82h+q30OrzF0IBiD52ZCFlJ8y05BKQmvYMYQoAIalMl9AOqjS3xn/abRe
-	 DLTChP2TgkXo5lAzSp5jAe6M4rb0ObVxKglElXABl1gwcc+YzuSiOo1sIUzvom/PQq5Ix
-	 iIrVfiY+sdLgZNRvB+Sg/nDCB3OaYUznlEFzkYcAnGKfapfXDeR6NceQwfR5iE5+ewSp7
-	 OQERpm5fjlKet5ENuTFjnTwsynDrXV3BUCqQOX1Xt/1ND/8NUnaNfPhvhSUoVRBiRMA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794872408;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=o6DtZ4QfLqxd8P7gv4EDdAGSJ0MyhP4XAhBB0Bn7C10=;
+	b=VI534x1wUieAthb1Bf2i0OqngHYvn9VfYxKssoU3a5xYmStonH1clBYrUlfCpsMlB3Hi
+	 He1PfaGJK2maj0pOe3M9mOlVEl5NM3hNaPLfTCf1UMRX/o1/29ENhqsJPvJAgzDGgpRts
+	 sOxLPz0FL1qd3VbOC5yYUrE4iop9TrY54sxStKIumNYkWHs9+owPvcQrrK587Vu3vnJLd
+	 iq0US8tcODqnDtwDL1F4JEJ5MVluXfWfv8bqunmLXRNewMZS/PAkHmQxHBxPHsNpZiPPT
+	 8zTZ4fI3ctUlK+vuS9UltwG2/Bcsfr2dCx7C2wk6wubIwyyYru8nl5KvT+wZ5z4ni1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=cRQy3Vq3;
-	arc=none smtp.remote-ip=209.85.216.70
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hMn2r7El;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C6A606A31C
-	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 23:35:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84C6A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6554D606A31C;
+	Mon, 16 Nov 2026 23:40:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=cRQy3Vq3
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3b1755b2f26so3659013a91.2
-        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 15:35:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794872100; x=1795476900; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Af1reff1Z1EffjIkRxjPvN5B/PFFTOsk4MNCtyRPsM4=;
-        b=cRQy3Vq3OMHU9OwTKTCh9lffRzgluUfegDZwWUYI0urJ9QJfPJ3mWWRyllJIQDU0Uk
-         pOo/9ZnKyAqrsmxAqCKUquZT3fQn2Yf2NhhpJLAS4+mrg8edGkbl3UZ/NS0XepXIIk8m
-         MFwkb225BNfp15ktiVfULrnMonmVqbu71GhTqNaVsin3AyloVqeAF0vCqIi4Xu2CfApW
-         nbmGXSiG0gtxnOkKtKp4Y5d61tC8KsxS/BCu2JFZm1E+zC5T/eHqmKfaejtGnAYgvD7L
-         RRK634vuPE/1HD+1eL9lN2yIudw/EZHM0GOGbww4tsSW/r/uYYxKJmWvljTcWqu4W/Mt
-         JXvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794872100; x=1795476900;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Af1reff1Z1EffjIkRxjPvN5B/PFFTOsk4MNCtyRPsM4=;
-        b=C6r7rKJKvIiupQ2lBMNUTOFCJs29pVbFiFcjBp5DWos6ObhRMIH7fJz0jsO91f2qXC
-         mOYpugUwKmOSghFiGA0YAHFRV4hcHtwhN/9YZ2Q+4o+xE2cj9FQ3qRjQH/DVQQCYCz9D
-         womO0JU5+yT+qxHS0nfD4JauMz1uTJlVuSl6NVeZZjnvOAexubcDWQy4b9unfKapksIo
-         8Dq3xBhk02/WF3UXfw0/UG9H8NkNzeMHAaXnUq4Qo0f5bQkuxRdW6UNMTJL2UC84Kh6d
-         cKqrXuGTNVh78nBSAs4UwcPbUKGgFu6RZsH919r3tc+slgOuvkzaE3zB0RwkxUgDsafV
-         1C1Q==
-X-Forwarded-Encrypted: i=1; AL+hErFpzqRwtN3hHvcBovMnrZXH4kpu/XnHU+IshJEvBLGtf7srhGWaDNbolNuNXXemajWiV9Y5MmnrfF8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8G5U6QDI74D1Kwp3f40JOPDFoy3XCKf9VAZRst/mdEXzGOCU8c
-	Ck534Im/FVY9eqdYHAOAjIu35gD8bL9gpaypGtTJEXToesJkoqNERYbPy79Ub7N04FAoPHbfhTg
-	oT+ESS/h6nw==
-X-Received: from pghi2.prod.google.com ([2002:a63:e902:0:b0:cdc:b85b:3d46])
- (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3b8c:b0:3ac:af8d:c839
- with SMTP id 98e67ed59e1d1-3b1b0a48e43mr12339856a91.35.1794872099477; Mon, 16
- Nov 2026 15:34:59 -0800 (PST)
-Date: Mon, 16 Nov 2026 23:34:56 +0000
-In-Reply-To: <20261109103714.4000-1-ingo.rohloff@lauterbach.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hMn2r7El
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0542E1F000C4;
+	Mon, 16 Nov 2026 23:40:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794872408;
+	bh=o6DtZ4QfLqxd8P7gv4EDdAGSJ0MyhP4XAhBB0Bn7C10=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=hMn2r7ElX2F4bb6Auv3+NkvkHnsEkeYOaWKf28eVtGHd09D220QGl2lyvDTWluI8c
+	 a1H1Ct/NWWcoap6W0aU3MOmeGtrRRlzACR0MDhRoiYmpAG+kTsdZZs8NEEcHcWIfjH
+	 vpi747AHkYPKWvnpowhJc5hbcZBcxNEVPKQCxdpXNMe+qVDg+Wy0ntk2VJZaN+o3vZ
+	 aDdIY0diwviF0vUrfoR/orAx6K+pcEH49QDS2TM5/3H9Doc1A1zx/IloXHCCzT0Vxz
+	 s8mp4kI9vtJaFpI/bGRF1VD9/r4bahfd/mRAXJC1LtwvfxpfwvlzFF+fpr+gi0MhfT
+	 Uat8+UasY6f2A==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F150F391B059;
+	Mon, 16 Nov 2026 23:40:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -78,29 +52,46 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261109103714.4000-1-ingo.rohloff@lauterbach.com>
-X-Mailer: b4 0.17-dev
-Message-ID: <179487209634.2938203.11644350063446655443.b4-review@b4>
-Subject: Re: [PATCH] usb: gadget: f_fs: Fix mmgrab()/mmdrop() balance.
-From: Neill Kapron <nkapron@google.com>
-To: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-Cc: gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk, nkapron@google.com, 
-	me@samcday.com, michael.bommarito@gmail.com, linux-usb@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v3] net: usb: smsc75xx: reject frames without a full
+ header and FCS
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179487240653.241382.6072784955848476091.git-patchwork-notify@kernel.org>
+Date: Mon, 16 Nov 2026 23:40:06 +0000
+References: <20261112-smsc75xx-rx-fcs-v3-1-6ad0378d0384@gmail.com>
+In-Reply-To: <20261112-smsc75xx-rx-fcs-v3-1-6ad0378d0384@gmail.com>
+To: Joas Antonio <joasantonio108@gmail.com>
+Cc: steve.glendinning@shawell.net, andrew+netdev@lunn.ch, davem@davemloft.net,
+ kuba@kernel.org, pabeni@redhat.com, mim@microchip.com, edumazet@kernel.org,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
 
-On Mon, 09 Nov 2026 11:37:14 +0100, Ingo Rohloff <ingo.rohloff@lauterbach.com> wrote:
-> This fixes commit 5eb5c72c72fe ("USB: gadget: ffs: fix mm lifetime
-> handling").  The problem is that the previous patch calls mmgrab() for
-> reads and writes, but it only calls mmdrop() for reads.  So with each
-> completed async IO write (via an USB IN endpoint) the number of mm_count
-> increases.
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu, 12 Nov 2026 16:23:27 +0000 you wrote:
+> From: Joas Antonio dos Santos <joasantonio108@gmail.com>
 > 
+> smsc75xx_rx_fixup() takes the frame length from the RX command word
+> supplied by the device and strips the FCS by using "size - 4" for the
+> allocation, skb_put() and memcpy() of each frame that is not the last
+> one in the URB.  The length is only checked against an upper bound and
+> against skb->len, so a device can report a length field of 2..5, which
+> gives a size of 0..3 after RXW_PADDING is subtracted.
 > 
 > [...]
 
-Acked-by: Neill Kapron <nkapron@google.com>
+Here is the summary with links:
+  - [net,v3] net: usb: smsc75xx: reject frames without a full header and FCS
+    https://git.kernel.org/netdev/net/c/1b02f90976d4
 
+You are awesome, thank you!
 -- 
-Neill Kapron <nkapron@google.com>
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
