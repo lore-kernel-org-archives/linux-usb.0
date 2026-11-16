@@ -1,56 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794865285;
-	b=bSMDee+ez6uOXlYwAcwJpdMR0p8X+MUDYK28M1Qnj0FPgTqL+LPlPcjQFa0N4IHuMctx
-	 ytT/z9HO/3e/kOJQO/40M7S1Iv+VBh6zGd1ptKMCYaLtWl5GzGV4gNMiUMXd+ztH0YV+o
-	 US9GdxajV9lhyiMnyPutasTEDnZ9OaZ9obnjzpIzai9FjSJyEderFdyid0du8kUUH4A4x
-	 gWaP2rMVquqi5mMg6Qxr2l3ciKw8RCVPJ33MeYbqLdvbWHtiB2E3s2YeVeVQk0lRUfd8w
-	 nZFn49rDDeY1xO91WedwsiXa8pLIYBZJRfT7HtGvsEY9HkyezF6/7/YQyJ8PFMR4g+g==
+	t=1794867113;
+	b=tiS+/rfwM9D3wOjRQnWuGGsrNcTuSLiJR3dA+ihHlQp9L3BfXU4YEImtD98cc86RJbkF
+	 sChZktwzJEQT8x5TYiPoyS1LBgXg/2yObUsYgyvbPJyThzRh8eK20x90Ut1vfOBPem5z3
+	 1ePz9AUeVGQKj/l6MuJ43xgP6WhMvQWV2eRiU60Qf/Aow56RFOlFpyyMr2GR78vdhYvBu
+	 AkOg5GXthaMzFc8w7Vs7nq9z85xeEyc7m2/+Z1FAyJPzAtFxHoTI7i4v7FCVs30hVyggk
+	 TYxLAxJAz7qWQ2xp8FI2qED63A0V6c6eD5ApX/y8jsEzpM7vgXyhh5X9jRidmpNPQvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794865285;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=8aMGcEd6WZ4JNqhQSn8GVjUHmnrA3a7v5Im4m3An9Nc=;
-	b=09ydEXKRcLec8djoAWV2po+V4cGX7nCEQhz/URf7/RRprQyIf2+lJFEQi62156wPS7GT
-	 sig7hjqSfsEHQ8aNgPK1CsvTHE6FYspHZpxnQepJNWbnHyLISZpUrx5YxS5nx8IcQnNRq
-	 9XOquHsZXg5sBrl5nayk2D6NIr+E3A5lYE5b3CRRAhVG5RoQBRmSMMMrC2X4FNeWT6DH8
-	 L+wYtp4eDU6OvVOUDFD+zWUAU9P3wemYQSWf11UlUROA/PP/Bj9Z+orWyqf6K6cej5Sff
-	 f8VN1TvzgGhI63eQVSm2AYOBVY5IeqYXmz2KL8BkJj3zfdD5dLVOjQ8f8mkkunliUHg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794867113;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=xU3I1i3uzQX8SslMA2tW2SYNiqUCEQAUMT2RX5egxJg=;
+	b=U7wFZH/JAWaoLPiM0Dd69rMrciDZAIlHn2kbVh5DQGLsPK/wvIYuAQxMVkX2V+w96Xjq
+	 bqt+CUGepBNW32SlI8jrgaJ9io3aCZC6kC1tedy9BcQFAD1Gq3e7gSQN13b1zGKX6lR0U
+	 VSujreGjcXr5qOIVs8NKgAJ65OgR+7RVtgJ66uKvD0D7lDxaFLszQfPXuoUEECOUhfmUm
+	 UQxsjkRGMLL2pgP/FwwtJ2qywYGvJfx8s5rxD2ZUcjkfJ9Sz6f9xpumlFINTzQlXJN2m9
+	 evZEOtXcsUZI/P8IFp/Q/KQFQ3qy6r7+vOAwVXu56glpJc9C7BQVLMCwGqr2CH+Za2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dQ8HA8PV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=lqGAMV0I;
+	arc=none smtp.remote-ip=209.85.216.71
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A712A606A32A;
-	Mon, 16 Nov 2026 21:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA77D606A323
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 22:11:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA77D606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dQ8HA8PV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3F2B1F000C5;
-	Mon, 16 Nov 2026 21:41:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794865285;
-	bh=8aMGcEd6WZ4JNqhQSn8GVjUHmnrA3a7v5Im4m3An9Nc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dQ8HA8PVpMMLOcHwr+t7vQNicOsJxdQ27TDJCAOYlgRCfevVyaw0MZPLKyhZ6af0a
-	 7xV9Wk/9oMnoZEhH8j8Vc1sqlfh9wCtcmc6FP+giH2lHbadQL6aoXbIGK17y25T2bT
-	 fu9AOEWSRWBGdZ+ih1g2ba5hLsJTONSSupgwklOpO7mwOSKdmJJrmU8uA0zLzWlTaV
-	 0ruuXsTYF1ytvM5EBkTCTXkyPvynWxWX6JwUp6jgHJFwO7tl8LMNo/EMPoSrjBBC58
-	 R5sJWUI0X/0cY+TA3i9Svfn0nC0Go1KmSgB2M8sQPAaFhaZHsLuxf472KgHFuY3Gb5
-	 toWZgO7CkJFFg==
-Message-ID: <sashiko-outbox-217742@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 15/16] arm64: dts: qcom: Add initial Halliday dtsi
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Stanislav Aleksandrov" <lightofmysoul@gmail.com>
-Cc: mfd@lists.linux.dev, linux-usb@vger.kernel.org, lee@kernel.org
-In-Reply-To: <20261116-halliday-dts-v2-15-2c92438c6c46@gmail.com>
-References: <20261116-halliday-dts-v2-0-2c92438c6c46@gmail.com>
- <20261116-halliday-dts-v2-15-2c92438c6c46@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 21:41:24 +0000
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=lqGAMV0I
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3b3a9ee822fso486990a91.0
+        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 14:11:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794867112; x=1795471912; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xU3I1i3uzQX8SslMA2tW2SYNiqUCEQAUMT2RX5egxJg=;
+        b=lqGAMV0I50rZFiPx27w7QnxS6xlytaJwIzGMrdQhAk0fYIkPLxw/dmrWf5ALxxMVGb
+         yT9RRzV4JSYR8q4I4q0wcWV6Q/JpdvtIEHKxvB7Y6mty7jNqWfVaszchw3OUJ5+ibi11
+         cjM1FStPHuZO50pPVsq2DL1yVeB6jMTJFyiRKebGMcgebTvrdAnBvQm5wlvD63glsyIh
+         3iuNbu4lPunRuxr75CfCanfRrd8MCbrl+ftFpR7eYZnHDdeEYUz0x4FBz4XZA4WxQ4sP
+         yEWIp9a1QbCHPNtggkgHX9DcTpDM+SseGBCDntWYlHKKJjtPzf/7+rdzCElb1IP9OodK
+         EhgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794867112; x=1795471912;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xU3I1i3uzQX8SslMA2tW2SYNiqUCEQAUMT2RX5egxJg=;
+        b=MfnonI/x7hqt/YWq+NKA/O+Ec5JlIt9D0X0arIZq6UFeRPfUAzf6iWbNoSLb1ycOeo
+         UeP+U2SiOXS9+UHzDVc2KThEv2smFAOAcYIp1ertNZV/FPxuq5WiSN5Ut1lyD4sg+TBW
+         ODS6J2PeEZVcuNpyVZlkHdHHGmSBUuKZUQJ67rxeqSIWgwBFUF5izTx7TxU3Q3MtYsd7
+         XzJJljs7+8FCqlf2Ok6lNGQJ3j7KTdxuBd+HatvyCbrJJ9i8sLMSUCPkjYYD/cSaOumD
+         V6LmhnNpdcHtMpNKut+mqLyQ86Wr95eqOMSTH6MMAleHTRkm4+lTTJHfh0orclDPDLuh
+         kXBQ==
+X-Forwarded-Encrypted: i=1; AL+hErEB/7iOEwc6x5g3PGmpM0cJZVTJrsJXM96q+dkusKdCd1pOOs80HPD9MralvJiRENOKIvDfVp8Pdlk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z90Xy4/J8nFqN5rI/HbS46YufTQWLWwlPWbm2PgmKewORJRyz3P
+	WL9mEFh8M7mCuwm1w5q5RaYqZdeW+pCau09NuepKQNxiIUnZJeJAXhqRcpVhYy11caBLmicvlI2
+	6+kICZVpPzg==
+X-Received: from pljc7.prod.google.com ([2002:a17:903:3b87:b0:2e5:712c:5c7])
+ (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:5608:b0:3ac:c024:b275
+ with SMTP id 98e67ed59e1d1-3b1b089e262mr11929294a91.9.1794867111923; Mon, 16
+ Nov 2026 14:11:51 -0800 (PST)
+Date: Mon, 16 Nov 2026 22:11:47 +0000
+In-Reply-To: <20261112010928.23716-2-shishunbo@cmss.chinamobile.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,20 +78,77 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+Mime-Version: 1.0
+References: <20261111021655.37851-1-shishunbo@cmss.chinamobile.com>
+ <20261112010928.23716-1-shishunbo@cmss.chinamobile.com> <20261112010928.23716-2-shishunbo@cmss.chinamobile.com>
+X-Mailer: b4 0.17-dev
+Message-ID: <179486710796.2938203.16103592872804674838.b4-review@b4>
+Subject: Re: [PATCH v3 1/4] usb: gadget: f_hid: fix sleep-in-atomic-context in f_hidg_get_report()
+From: Neill Kapron <nkapron@google.com>
+To: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+Cc: nkapron@google.com, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-> Add the device tree for the Qualcomm Halliday SoC
-> (SXR2250P / Snapdragon XR2+ Gen 2).
->=20
-> It describes the CPUs with their idle states, cpufreq and OPP tables,
-> the GIC and the PDC, the timers, SCM, SMEM, RPMh with its clocks, power
-> domains and interconnects, TLMM, GCC, SPMI, the apps SMMU, USB, UFS
-> with ICE, TSENS with the thermal zones and the PMU.
->=20
-> Signed-off-by: Stanislav Aleksandrov <lightofmysoul@gmail.com>
+> The second copy_from_user() in f_hidg_get_report() is called while
+> holding hidg->get_report_spinlock with interrupts disabled.  If the
+> user page backing the ioctl buffer is not resident, copy_from_user()
+> takes a page fault and sleeps, which is not allowed with a spinlock
+> held: it triggers might_sleep() warnings with
+> CONFIG_DEBUG_ATOMIC_SLEEP and can deadlock the scheduler on other
+> CPUs spinning on the lock.
+> 
+> The first copy_from_user() into the freshly allocated entry is
+> already done before the spinlock is taken; only the "report already
+> exists, update it" branch still copies inside the critical section.
+> 
+> Since the data has already been fully copied into entry->report_data
+> before taking the lock, updating an existing report only needs a
+> plain assignment between two kernel-memory objects, which is safe
+> inside the spinlock.
+> 
+> Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL")
+> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+> ---
+>  drivers/usb/gadget/function/f_hid.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+> index 3c6b43d06a6d..b778eb633b79 100644
+> --- a/drivers/usb/gadget/function/f_hid.c
+> +++ b/drivers/usb/gadget/function/f_hid.c
+> @@ -654,6 +654,11 @@ static int f_hidg_get_report(struct file *file, struct usb_hidg_report __user *b
+>  	if (!entry)
+>  		return -ENOMEM;
+>  
+> +	/*
+> +	 * Copy the report from userspace into the entry before taking the
+> +	 * spinlock: copy_from_user() may sleep, so it must not be called
+> +	 * with the spinlock held (and interrupts disabled).
+> +	 */
+>  	if (copy_from_user(&entry->report_data, buffer,
+>  				sizeof(struct usb_hidg_report))) {
+>  		ERROR(cdev, "copy_from_user error\n");
+> @@ -668,13 +673,7 @@ static int f_hidg_get_report(struct file *file, struct usb_hidg_report __user *b
+>  
+>  	if (ptr) {
+>  		/* Report already exists in list - update it */
+> -		if (copy_from_user(&ptr->report_data, buffer,
+> -				sizeof(struct usb_hidg_report))) {
+> -			spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
+> -			ERROR(cdev, "copy_from_user error\n");
+> -			kfree(entry);
+> -			return -EINVAL;
+> -		}
+> +		ptr->report_data = entry->report_data;
+>  		kfree(entry);
+>  	} else {
+>  		/* Report does not exist in list - add it */
 
-Sashiko has reviewed this patch and found no issues.
+Thanks for the patch, however it duplicate's Yu Zhang's previously
+reviewed patch in [1].
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116-halliday-d=
-ts-v2-0-2c92438c6c46@gmail.com?part=3D15
+[1] https://lore.kernel.org/all/20261020051446.92179-1-yuz08559@gmail.com/
 
+-- 
+Neill Kapron <nkapron@google.com>
