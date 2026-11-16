@@ -1,58 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794824005;
-	b=lwzhPwntZeloVotR3bq6/SD4XVmGpPIOp6oSifIp+4+gWvF8cr0RhD6t6iID/PpSQk/P
-	 bpdcX0y7EJl20OztF1a2bfKpiInwd+mVOh8j64dx/t/Byrq75Xv2Vx686yJaEgz4XcS1d
-	 r+bc7rMELZouhh/Kg4Yx4FO82880C/FBg44OcnU0J+XInRuKtjtADOaD9PgDqE/aLvEoZ
-	 IZawyfnseVEfv887vori2VAnMB2CTtqFnZAQ8wNG0QlAFX/UxLcuJ2PKwgYCgpww2WvKF
-	 OMwtAaACPlZMgqWPpNvd3y4ADPTWolo8FlwFbSBv4D8OysSG6EAsttf6m6JEQBjU3bw==
+	t=1794824179;
+	b=o9ca9Six7vr2DN9xhUQ3ytGmeY1Dct2r5t6vmNqZVSohB0nNMtm8S8JMHtBl1Nn3bfw5
+	 t4L7Vk0TUqmLhtjEKWH1V6ELHHI6d9MWllQPQA4EZH6Dg8ggqn387xYzecUMPi8/deu+U
+	 EtSgV2B58zsKFpYNuJSlVM8MG6ZnhNuipaOHTFBufQ95bmUPvEiBQD+MpQWnFWozewHms
+	 gImde1BC52uD2ICAlAr9Rec2ayA3HA5qbCZbz33tnf9ekU78aQwZxye/6pYPFc6U3DBPS
+	 sLYxyRQ9PrReIwNvgiFmvfnoS9F8JffRkNKu2qSC/HR8ccUtdpxe4rd6ymIRDY+N53A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794824005;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=XY2rmJ8885nktXMitJAyrE5uwC457rZep4K4ylZxzgo=;
-	b=tEXqgiir+GlF5ZLl7eNxFbKIgSUwFADD73w+ZCkAvVo1GWuy44hpqqwyVj3kXdnFAbMK
-	 IoxY4DZfDNsi5fV2YGroy7Ytq/0oDnFIVT2DDIjpLfZ9OaW2WnFMpFzVE1WqBvS+Ex8bF
-	 VF6yZmSrLhnlY5CJc3ToYfm3tDTP6zUR/b1MBHVuCbp4Gr16JSe+WtlPU6vVjKprMYkQx
-	 5MbM3TXA8nFM/z+MHCKzKkeCL6FQAcdMNEHBgicBu3bZnX30YGXs/Xy+Q0t7Mh1t8KG5x
-	 M/dSQfHKGJrEXt3X5FyGZnZbFjIJs/np2ps0vx64Y9AIAcREVw8KRFDxXZ8KqwYJLSA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794824179;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=lp1hBh3kGMtiMv4I01/WDcU3LFNFBfEj5W+S8mSCYKc=;
+	b=qgOpgP5zMr4K3DHm2LDaK9uRdFepPFXWM/4C65S+fJCeaFEHnYT3n3UFyFkfwMDh1Ebm
+	 qHGy7Ik8zg1qzaypEq+SX9Xt55ojrcMP4N9zWsVMXG6OemCkEsYRDcZ2PflZnZX+XuIlr
+	 BbdHaUwLa0azfd8/kSYKXbSPl+zWZQ5S4WwbPCPneQeB/FoG4D+n1dKFg1zBZF3aDUqC2
+	 qaUOpgEcDn/a3uMNIPOSkGz0i0SaUQJEK/5lpPE/o4EDf5DIhGx3A+PvY5Oz4eQ5lnOdY
+	 Ix5Gz8NEDjvUQeFQmqUgJcxtWHw7xXtiRUBtmQpAV9X9DbaI7pG+mpip1Ef3ZKhP3Vw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V8ZgRc0d;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90A4606A339;
-	Mon, 16 Nov 2026 10:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V8ZgRc0d
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31F561F000C4;
-	Mon, 16 Nov 2026 10:13:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794824005;
-	bh=XY2rmJ8885nktXMitJAyrE5uwC457rZep4K4ylZxzgo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=V8ZgRc0dKkYGKJB28RMQ5keuZd5FDYeRsqoYI8P9/++ykBfxePEIlCurHc3/Q12Hx
-	 qntbB8bxSFLpfDyTP3ZaiInUffBjwl6AFUc8kDQPhMvd/uaRucvEekW2imOwI9WAjS
-	 WYdy1qhrjMBbjHGB9VBUQgo+4DGtboec1lYRGlsjsM+hSQlpdot1uTkezb4vRgaL7a
-	 Lo/+Q+zI6rtpVtjn83pqQkOVFDxMequOJ1WfagioxAk8ye5398D75YA0ZR48C1Huuv
-	 nSAXMz5qOe2uYuLFAY+RWPYDC7+I5WWb/jfmlxB8LifNOZGKopnbgiapFlcjUkWxuw
-	 qk/f5mOHYUVOA==
-Date: Mon, 16 Nov 2026 11:13:21 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Hongliang Yang <hongliang.yang@cixtech.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Peter Chen <peter.chen@kernel.org>, Pawel Laszczak <pawell@cadence.com>, 
-	Roger Quadros <rogerq@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Gary Yang <Gary.Yang@cixtech.com>, 
-	Fugang Duan <fugang.duan@cixtech.com>, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, cix-kernel-upstream@cixtech.com
-Subject: Re: [PATCH v8 1/2] dt-bindings: usb: Add CIX Sky1 USBSSP controller
-Message-ID: <20261116-hypersonic-purring-shoebill-5bbfa9@quoll>
-References: <20261112022141.4136099-1-hongliang.yang@cixtech.com>
- <20261112022141.4136099-2-hongliang.yang@cixtech.com>
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D385A606A31C;
+	Mon, 16 Nov 2026 10:16:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D385A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=lp1hBh3kGM
+	tiMv4I01/WDcU3LFNFBfEj5W+S8mSCYKc=; b=cAqQfbC+WP8SkhEgXaV8Z0b4Ga
+	WvAoZa5vHcNAr0MpgVK9Pih0DKqO26s1vlyP90OlpW0LBlTCsPWlBHqVbjsOF6Qf
+	3eaFJBcpwEYyJJsOaVezKimi0ebGIm4rdvf+l1EM08eG7seG+waUghBWqh5qTnM7
+	dR8iT87LHB/GR8aGo=
+Received: from user-virtual-machine.localdomain (unknown [113.200.174.41])
+	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkDW2_7k1_pqoDG2AQ--.2231S2;
+	Mon, 16 Nov 2026 18:16:04 +0800 (CST)
+From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>
+Subject: [PATCH] usb-storage: reject too small values in max_sectors_store()
+Date: Mon, 16 Nov 2026 18:16:04 +0800
+Message-Id: <20261116101604.42161-1-25031212351@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,90 +59,76 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261112022141.4136099-2-hongliang.yang@cixtech.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BbQMCkDW2_7k1_pqoDG2AQ--.2231S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ar43Jr4DCw1DKw43trWUurg_yoW8uw13pF
+	ZrXFyakFWUtanrWws8Xw17uasYk39rGFy2krsxXwn5urnxGF9IkryUtr1aqFy3Awn8Aa48
+	tFZ0yFyqk3yDuFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9vb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq
+	07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r
+	15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
+	r41lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6r4DMxAIw28IcxkI7VAKI48JMxC20s
+	026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
+	JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
+	v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
+	j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
+	W8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8LYFJUUUUU==
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUTD2r5zUi2hAACs9
 
-On Thu, Nov 12, 2026 at 10:21:40AM +0800, Hongliang Yang wrote:
-> +required:
-> +  - compatible
-> +  - reg
-> +  - ranges
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - cix,usb-syscon
-> +
-> +patternProperties:
-> +  "^usb@[0-9a-f]+$":
-> +    $ref: cdns,usb3.yaml#
+Writing a value smaller than a page worth of sectors to
+/sys/class/scsi_device/.../device/max_sectors passes an invalid
+max_hw_sectors to queue_limits_commit_update_frozen().  The block layer
+requires max_hw_sectors to cover at least one page and treats a smaller
+value as a driver bug:
 
-Please move patternProperties before "required:" block.
+ WARNING: block/blk-settings.c:389 at blk_validate_limits+0xeb9/0x14b0
+ Call Trace:
+  queue_limits_commit_update
+  queue_limits_commit_update_frozen
+  max_sectors_store
+  dev_attr_store
+  sysfs_kf_write
 
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/cix,sky1.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/reset/cix,sky1-s5-system-control.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        usb@91c0314 {
-> +            compatible = "cix,sky1-usbssp";
-> +            reg = <0x00 0x91c0314 0x00 0x100>;
-> +            ranges;
-> +            #address-cells = <2>;
-> +            #size-cells = <2>;
-> +
-> +            clocks = <&scmi_clk CLK_TREE_USB3A_H0_CLK_SOF>,
-> +                     <&scmi_clk CLK_TREE_USB3A_0_AXI_GATE>,
-> +                     <&scmi_clk CLK_TREE_USB3A_H0_CLK_LPM>,
-> +                     <&scmi_clk CLK_TREE_USB3A_0_APB_GATE>;
-> +            clock-names = "sof", "axi", "lpm", "apb";
-> +            resets = <&src SKY1_USBC_SS2_PRST_N>,
-> +                     <&src SKY1_USBC_SS2_RST_N>;
-> +            reset-names = "apb", "core";
-> +            cix,usb-syscon = <&src 0x424 8>;
-> +
-> +            usb@91d0000 {
-> +                compatible = "cdns,usb3";
-> +                reg = <0x00 0x91d0000 0x00 0x4000>,
-> +                      <0x00 0x91d8000 0x00 0x8000>,
-> +                      <0x00 0x91d4000 0x00 0x4000>;
-> +                reg-names = "otg", "xhci", "dev";
-> +                dr_mode = "otg";
-> +
-> +                interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
-> +                             <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>,
-> +                             <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +                             <GIC_SPI 171 IRQ_TYPE_LEVEL_HIGH>;
-> +                interrupt-names = "host", "peripheral", "otg", "wakeup";
-> +                maximum-speed = "super-speed-plus";
-> +
-> +                phys = <&usb3_phy4>, <&usb2_phy4>;
-> +                phy-names = "cdns3,usb3-phy", "cdns3,usb2-phy";
-> +            };
-> +        };
-> +
-> +        usb2_phy4: usb-phy {
-> +            compatible = "usb-nop-xceiv";
-> +            #phy-cells = <0>;
-> +        };
+Before commit 70a7949335e5 ("scsi: usb-storage: Switch to using
+->device_configure") the store called blk_queue_max_hw_sectors(), which
+silently raised values below PAGE_SECTORS to that minimum.  The
+conversion to the queue_limits API lost the clamping, so a single sysfs
+write from user space can now trigger the warning.
 
-And drop usb-phy
+Reject values below PAGE_SECTORS with -EINVAL before taking the limits
+lock.  This keeps the return value for 1..7 unchanged, as the block
+layer already returned -EINVAL for them, and also rejects zero, which
+blk_validate_limits() would otherwise replace with BLK_SAFE_MAX_SECTORS
+without the user asking for it.
 
-With these two:
+Fixes: 70a7949335e5 ("scsi: usb-storage: Switch to using ->device_configure")
+Cc: stable@vger.kernel.org
+Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+---
+ drivers/usb/storage/scsiglue.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Best regards,
-Krzysztof
+diff --git a/drivers/usb/storage/scsiglue.c b/drivers/usb/storage/scsiglue.c
+index 97de28e85562..94131b726ade 100644
+--- a/drivers/usb/storage/scsiglue.c
++++ b/drivers/usb/storage/scsiglue.c
+@@ -591,6 +591,8 @@ static ssize_t max_sectors_store(struct device *dev, struct device_attribute *at
+ 
+ 	if (sscanf(buf, "%hu", &ms) <= 0)
+ 		return -EINVAL;
++	if (ms < PAGE_SECTORS)
++		return -EINVAL;
+ 
+ 	lim = queue_limits_start_update(sdev->request_queue);
+ 	lim.max_hw_sectors = ms;
+-- 
+2.34.1
 
