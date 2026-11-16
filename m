@@ -1,57 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794814197;
-	b=XQA+WuaDxM75QwOE1g7WlzS/utwQTdYZga7DWxH0/QAHE5Nb0akO/BZhoAznlH7z6TVp
-	 RhW4goc+vOOg+P8FMaDM+71okWec0IDDCPtSH6aMmWD4jUq7BFiTG/NTO1RHmS/5Mxtu0
-	 AW9Mg0Fg40zOuWVGlkl6UlDfhlVbsxciyrX5y6aTHeLFlmODA1SAAqJtMoqELw++viigq
-	 quHHW/1XRMYYW6ev0K2IQb7kCi8yxio+tSXZld7qUdic725h3/pqvr+js+JD87YT56xja
-	 fVnvWNd2p9fsEUDsl7hKk2YLY1sFZ5u3xlFtrbERZG2WQu8RiKaRwmsq4etp/3Wlwgg==
+	t=1794814816;
+	b=FKC5k8N5X9DR/ysfR17nnygYYusxYcHKqriL7unWX4SYXmBlFqrtOmB3jFNxwL6zpqFH
+	 txKh+pJ256M9lwUAkhbjEiR6hGvD5iEfOT4zLkaeTaWsjPHOb8Awjn4xDwETqge/r4ruX
+	 6tpVWCaawsDs6KLV7ubJgGgaxJxCdoCfKWoCSItYa1mcYxyRmSvtxtmbTGJhhWEOU4eXA
+	 370aSn6KrsYVsH9nSZUvrHuOAwit8Pg2nn+YFzoPkGvpNXHS/ohT17e/YWVjjF3TBbySL
+	 5X6Fjkmk3YAdUkkOIxHDIt27Q5TOSa1GXhQwu02MZqrcHViBdgRC/5Ovq+SspEEd8+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794814197;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Iboy6YPzp+SlIhuXzpZvX9iwOX0BsDMPmD95MmXzcCU=;
-	b=3QGx0G8D1pfCAgDAMn9X8NaFlV3CYYBrKijJeC+FFvIMl93UlXJ6GXPc8bzRDYXMYhTZ
-	 /ZKTNVvfubQA2UtdztM9ZfZwhV3x71zGOlucXiGpGh2l/9LPSLBcQj9tT9EkBN9xLsYnV
-	 6f7EgGRvwK9/bQrEGzQGcN07noAWNH0Dc7sRdFSE6TtL/5oTaada/264NwCwFBW4sAU+i
-	 jDTg5j/LeUW9PcQWywAp043diSQd0g1q0ruZpUxLGH5C+cUepvKfkmmMaVHua0FUoEtCK
-	 Hc9UtYLn9MPopKqwV46i27ZP/G+38BZmMqs+/8afArGSw/h47n6WsIf0NpqQfVIY9Fw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794814816;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=gJDbA51981icjHBqjlT3hA/4rMnBxzjkdpVdqxbzHpM=;
+	b=4vTjFTk3va3DDFl3cAMfbF6a3Kehd2GCkykP27ZANaqNhRSSkHHaNzNHwpvmL4wMVtZs
+	 /wyX1KQJAtdemAHldTgQUVQrHLp/pGOKMwdBADWtIApfjnKjjGme9728+Fqngv5afQv6X
+	 hPikqpiIC7M5ZFJsk7ktDhDb/TJ2DhdsSDx+MRJkueMxVb+oN8XasXphS5z6I/WIA6Q4f
+	 46SwSdzdTEbpOZMn/qmuGyvlMBpAgnjoNz5uJXwEIx3NPGapdaTUOHCiehRAkFoDq4nrT
+	 H9DjzfaMXbkrxv6h96id2reY4QENQMcHX1i7qm+ztV7EQPBAk/GHkYebrEWjcxw/kYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Iggs6KDo;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=ffroot.co.za;
+	spf=pass smtp.mailfrom=ffroot.co.za;
+	dkim=pass header.d=ffroot-co-za.20260707.gappssmtp.com header.i=@ffroot-co-za.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=U5WDcqG4;
+	arc=none smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1652606A31C
-	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 07:29:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7109606A32F
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 07:40:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7109606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffroot.co.za
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ffroot.co.za
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Iggs6KDo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 231881F000C5;
-	Mon, 16 Nov 2026 07:29:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794814197;
-	bh=Iboy6YPzp+SlIhuXzpZvX9iwOX0BsDMPmD95MmXzcCU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Iggs6KDou+u41w16yEKjhB08GFOri2V96RpAeNcyHrI6BUTp/NGSKDceAS6xcTftB
-	 ZiSG4tqNv+asaVgmpGUzuwqNspOvgMi2nHentkEUewxsXNuUrK2jrXYVrKoV5Jls3j
-	 ZJ3rEsx0GeFFMFTrsLgro32CsOl+6t0i1wBQqZ51R0qN3dzndUkfYo2GI7Na7d2l6g
-	 +DXH4/5+CEWsodfRfyLDSbLTnwmNKyNMPRGWR2XlU00DnjCu2yig3SQW+t+n+kwpEh
-	 i9nM0DKnOiPCuIxakpK63/qWNAbijCVb2f/vHKmRLrYDqOevEGzpdLw22Qbj8HReG0
-	 +uOk0rDM78elw==
-Message-ID: <sashiko-outbox-216430@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/3] usb: dwc2: gadget: restart descriptor DMA
- isochronous OUT endpoints after BNA
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Vadim Yuzifovich" <vadim@yuzi.co>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261116070433.2813951-2-vadim@yuzi.co>
-References: <20261116070433.2813951-1-vadim@yuzi.co>
- <20261116070433.2813951-2-vadim@yuzi.co>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 07:29:56 +0000
+	dkim=pass (2048-bit key) header.d=ffroot-co-za.20260707.gappssmtp.com header.i=@ffroot-co-za.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=U5WDcqG4
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-490f38e9688so2125467f8f.0
+        for <linux-usb@vger.kernel.org>; Sun, 15 Nov 2026 23:40:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffroot-co-za.20260707.gappssmtp.com; s=20260707; t=1794814813; x=1795419613; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gJDbA51981icjHBqjlT3hA/4rMnBxzjkdpVdqxbzHpM=;
+        b=U5WDcqG4TmsNfr3IbzcNFeq2gadvFE+xr8kas6k9lfnVOjRzHQc7swGbyXZnpUxnfE
+         3GV9LnvKz8QhDM2o5XqVpxFod5uw/gvQAxJ9pGXoiscbaFwdiqNa1CSjeHAfQslteucn
+         CdhG2ysUIgb3vGTjDK4KHBnMpKnrLI88UN8YB2FXKvybKpldG84dzu4N/0vK3bTMxjGN
+         proA5JLJY/KKxBaBxrlPZRvH+4XS26yFZA3jF5DDUvhn9TCMqSQMjnvuy6Uiwk6hHR5Y
+         +aCnVai3XKHVfG+OxwM2xC616tHFZ04fcFTVHKEpxzFjAzRpy6CTeCsEA7uCDxZT9Ujk
+         gc5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794814813; x=1795419613;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gJDbA51981icjHBqjlT3hA/4rMnBxzjkdpVdqxbzHpM=;
+        b=PXqRCvgn9T18qbcf/f04kQ9mnX07/Ta0QyM0lgr7iI8J04uBzB778gKj51rk0UwVAN
+         G+zbQXhQAQOTjtsdQUPZ8e+9AYRup0SVTrtw3oB060iXV1vTrZ/ZcAysSr8yitc5hkUz
+         ek09/jX1mnFpKwqYijgGkqtssmHxtXSVlzCA5GtOeKhfMfCvmyYocG20zjU07iT1gPnk
+         bojfoWgPKbXY1iJ65DEoS4vrTGV60cptgkpWb6mi90LfXQen+/+91mLNU+C/E7xMsdnD
+         sINLJk9tr4AflqUboje8VSlA6lymnt9rrtZ3fi4cX1yLDgfy6AqP/n1tnajmRpftzIZl
+         qiWQ==
+X-Forwarded-Encrypted: i=1; AL+hErHwOdHpzAznriYdb/ymErX8M255A+aHSzjnzQrvlB5Y33jnf7fGn0TtykXKNH1OpfwCECGLJDf/4VM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+nqvWlfV1OMfXfO0uJFnwlr/Ket3Wk4IhDVTbEsso8uiC6/cA3
+	pMp+diziV8J8hdcQAKLaBH+NRh7fg4MImsnAJW99nrhS/LZgBBmLDsWbpwtpbmSTH+4T68UtQIL
+	P+SXZrrDHTg==
+X-Gm-Gg: AYBFou0Nya6TBOnsH6J2dtZcL5baJBanonXscONQwuVET1AxyXFSFESd+8fJjMPqypI
+	nh4xzo9KkaM9g1sc+FeRUAL0wfRurhPELMj4mkzrUjj/w6WSC7khf70LlBiCFMqGzh7ByqR4fwf
+	6IFYt5aOqo0ECTvZ/BxJEk2tN2ddXGdd84WEZ886Ll8N3Dhfc2lPJ6J5ulMaEjfRERuFUZ8pyzM
+	UDluzmdKpWEzZMaSp9NmMTHJ0e5pm+ylP/iUJ1Hc8fXgs2A8o6fw8kI9oGCf1nEmsS5g1oJOq3Y
+	eGGDtAYmDlEhqm0aN5p0y4H4HcC4BL9BEOnu+XQDW6CO+8bWZfVAzePovxaURVUQjKrAnugPEqd
+	6QUbsrGWGePtFljCBqRQAecR8ujzCGJqQy1KxZTgh3bt3K+eY8Q9V418KCGQ4kXez/ti5C9e60p
+	B2hYRfIYMgWcpieGl3W6pyrLuO+UcK7ywO9LNteV5DWB2/AB5naPlLiyhouV3Q1wHN/ZxAqJZKB
+	LI19u1wunX++cUzytNc8dkVoagSt4227HpxU+pIRGScG5zphW/gxEWGgT2jbe6rjf833kJsDetI
+	/CaO701gmJrpFSTKSXMphYX7kvSSLF0iulZb24PmcGyHxnXNjd3V
+X-Received: by 2002:a05:6000:41d7:b0:491:e477:6820 with SMTP id ffacd0b85a97d-49c70824309mr21417195f8f.20.1794814812963;
+        Sun, 15 Nov 2026 23:40:12 -0800 (PST)
+Received: from localhost ([192.145.132.58])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c605e4a2asm20106374f8f.39.2026.11.15.23.40.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 23:40:12 -0800 (PST)
+From: Andrew Gaylard <ag@ffroot.co.za>
+To: Vinod Koul <vkoul@kernel.org>,
+	Vincent Shih <vincent.sunplus@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] phy: sunplus: don't read the disc_vol cell after nvmem_cell_get() fails
+Date: Mon, 16 Nov 2026 09:40:05 +0200
+Message-ID: <20261116074006.20357-1-ag@ffroot.co.za>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,248 +98,52 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [High] usb: dwc2: premature desc 0 HREADY in
-  dwc2_gadget_handle_isoc_bna()
-- [High] usb: dwc2: bogus completion and BNA storm in
-  dwc2_gadget_handle_isoc_bna()
-- [Medium] usb: dwc2: full-chain check bypassed in
-  dwc2_gadget_fill_isoc_desc()
---
+update_disc_vol() returns early only when nvmem_cell_get() gives
+-EPROBE_DEFER. On any other error, such as -ENOENT for a device tree
+without a disc_vol cell, it passes the error pointer to
+nvmem_cell_read() and nvmem_cell_put(), which dereference it.
 
-commit f0cc733bf787934eb1620a6db8b6da521ba5be31
-Author: Vadim Yuzifovich <vadim@yuzi.co>
+Use the default disconnect-voltage level on these errors, as the function
+already does when the read fails. nvmem_cell_get() never returns NULL,
+so IS_ERR() is enough.
 
-usb: dwc2: gadget: restart descriptor DMA isochronous OUT endpoints after B=
-NA
+Tested on a Tibbo LTPP3G2 board.
 
-This commit restarts isochronous OUT endpoints in descriptor DMA mode
-directly from the BNA and endpoint-disabled interrupt handlers, keeping
-descriptor 0 host-busy while building the chain and draining any packet
-held by the core before enabling the endpoint.
+Fixes: 99d9ccd97385 ("phy: usb: Add USB2.0 phy driver for Sunplus SP7021")
+Signed-off-by: Andrew Gaylard <ag@ffroot.co.za>
+---
+ drivers/phy/sunplus/phy-sunplus-usb2.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-> diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-> index 6c8a9f05fff00..8adc90047c05b 100644
-> --- a/drivers/usb/dwc2/gadget.c
-> +++ b/drivers/usb/dwc2/gadget.c
-> @@ -900,6 +900,7 @@ static void dwc2_gadget_config_nonisoc_xfer_ddma(stru=
-ct dwc2_hsotg_ep *hs_ep,
->   * @hs_ep: The isochronous endpoint.
->   * @dma_buff: usb requests dma buffer.
->   * @len: usb request transfer length.
-> + * @hold: leave the descriptor host busy; the caller marks it host ready.
->   *
->   * Fills next free descriptor with the data of the arrived usb request,
->   * frame info, sets Last and IOC bits increments next_desc. If filled
-> @@ -907,7 +908,8 @@ static void dwc2_gadget_config_nonisoc_xfer_ddma(stru=
-ct dwc2_hsotg_ep *hs_ep,
->   * status.
->   */
->  static int dwc2_gadget_fill_isoc_desc(struct dwc2_hsotg_ep *hs_ep,
-> -				      dma_addr_t dma_buff, unsigned int len)
-> +				      dma_addr_t dma_buff, unsigned int len,
-> +				      bool hold)
->  {
->  	struct dwc2_dma_desc *desc;
->  	struct dwc2_hsotg *hsotg =3D hs_ep->parent;
-> @@ -956,7 +958,8 @@ static int dwc2_gadget_fill_isoc_desc(struct dwc2_hso=
-tg_ep *hs_ep,
->  	}
-> =20
->  	desc->status &=3D ~DEV_DMA_BUFF_STS_MASK;
-> -	desc->status |=3D (DEV_DMA_BUFF_STS_HREADY << DEV_DMA_BUFF_STS_SHIFT);
-> +	desc->status |=3D (hold ? DEV_DMA_BUFF_STS_HBUSY :
-> +				DEV_DMA_BUFF_STS_HREADY) << DEV_DMA_BUFF_STS_SHIFT;
+diff --git a/drivers/phy/sunplus/phy-sunplus-usb2.c b/drivers/phy/sunplus/phy-sunplus-usb2.c
+index 0ad4c7160d17..52d80a06abdc 100644
+--- a/drivers/phy/sunplus/phy-sunplus-usb2.c
++++ b/drivers/phy/sunplus/phy-sunplus-usb2.c
+@@ -84,14 +84,15 @@ static int update_disc_vol(struct sp_usbphy *usbphy)
+ 	u32 val, set;
+ 
+ 	cell = nvmem_cell_get(usbphy->dev, disc_name);
+-	if (IS_ERR_OR_NULL(cell)) {
++	if (IS_ERR(cell)) {
+ 		if (PTR_ERR(cell) == -EPROBE_DEFER)
+ 			return -EPROBE_DEFER;
++		otp_v = ERR_CAST(cell);
++	} else {
++		otp_v = nvmem_cell_read(cell, &otp_l);
++		nvmem_cell_put(cell);
+ 	}
+ 
+-	otp_v = nvmem_cell_read(cell, &otp_l);
+-	nvmem_cell_put(cell);
+-
+ 	if (!IS_ERR(otp_v)) {
+ 		set = *(otp_v + 1);
+ 		set = (set << (sizeof(char) * 8)) | *otp_v;
 
-[Severity: Medium]
-Does holding descriptor 0 in DEV_DMA_BUFF_STS_HBUSY bypass the full-ring
-check in dwc2_gadget_fill_isoc_desc() when hs_ep->queue has more than
-MAX_DMA_DESC_NUM_HS_ISOC (256) requests?
+base-commit: 6bdfbe223ed4735073c299a6645ebd3faac3f51f
+-- 
+2.53.0
 
-drivers/usb/dwc2/gadget.c:dwc2_gadget_fill_isoc_desc() {
-    ...
-	/* Check if descriptor chain full */
-	if ((desc->status >> DEV_DMA_BUFF_STS_SHIFT) =3D=3D
-	    DEV_DMA_BUFF_STS_HREADY) {
-		dev_dbg(hsotg->dev, "%s: desc chain full\n", __func__);
-		return 1;
-	}
-    ...
-}
-
-In dwc2_gadget_start_isoc_ddma(), the first request fills desc_list[0] with
-hold =3D true, leaving its status as DEV_DMA_BUFF_STS_HBUSY.  If more than =
-256
-requests are queued, hs_ep->next_desc wraps from 255 back to 0 on the 257th
-request, and the check above does not see DEV_DMA_BUFF_STS_HREADY.  It
-overwrites desc_list[0] with the 257th request's buffer and sets DEV_DMA_L =
-on
-desc_list[0] without clearing DEV_DMA_L on desc_list[255], desynchronizing
-the descriptor ring from hs_ep->queue and stopping the chain after one
-packet.
-
-[ ... ]
-
-> @@ -1024,6 +1082,16 @@ static void dwc2_gadget_start_isoc_ddma(struct dwc=
-2_hsotg_ep *hs_ep)
->  	/* write descriptor chain address to control register */
->  	dwc2_writel(hsotg, hs_ep->desc_list_dma, dma_reg);
-> =20
-> +	desc =3D &hs_ep->desc_list[0];
-> +	desc->status &=3D ~DEV_DMA_BUFF_STS_MASK;
-> +	desc->status |=3D DEV_DMA_BUFF_STS_HREADY << DEV_DMA_BUFF_STS_SHIFT;
-> +
-> +	if (!hs_ep->dir_in && !again &&
-> +	    dwc2_gadget_isoc_out_held_packet(hs_ep)) {
-> +		again =3D true;
-> +		goto restart;
-> +	}
-
-[Severity: High]
-Can completing requests during BNA recovery while hs_ep->target_frame is not
-TARGET_FRAME_INITIAL cause dwc2_hsotg_ep_queue() to mark desc_list[0]
-DEV_DMA_BUFF_STS_HREADY prematurely?
-
-dwc2_hsotg_complete_request() drops hsotg->lock around
-usb_gadget_giveback_request().  When the gadget completion callback
-re-queues a request via dwc2_hsotg_ep_queue(), it checks whether
-hs_ep->target_frame !=3D TARGET_FRAME_INITIAL and calls
-dwc2_gadget_fill_isoc_desc(..., false).
-
-This happens in three places while the core is holding a BNA packet and
-polling desc_list[0]:
-- in dwc2_hsotg_epint(), when DXEPINT_XFERCOMPL runs
-  dwc2_gadget_complete_isoc_request_ddma() before DXEPINT_BNAINTR is handle=
-d,
-- in dwc2_gadget_handle_isoc_bna(), where dwc2_hsotg_complete_request() runs
-  before hs_ep->target_frame is reset to TARGET_FRAME_INITIAL, and
-- in dwc2_gadget_isoc_out_held_packet(), which calls
-  dwc2_gadget_complete_isoc_request_ddma() while hs_ep->target_frame is set
-  to the current frame number before jumping to restart.
-
-Whenever hs_ep->next_desc is 0 (or wraps to 0) during any of those giveback=
-s,
-dwc2_hsotg_ep_queue() sets desc_list[0] to DEV_DMA_BUFF_STS_HREADY with
-DEV_DMA_L set for the newly queued tail request.  The core immediately DMAs
-the held packet into that tail request's buffer and races with
-dwc2_gadget_start_isoc_ddma() rebuilding the chain.
-
-[ ... ]
-
-> @@ -2259,26 +2327,66 @@ static void dwc2_gadget_complete_isoc_request_ddm=
-a(struct dwc2_hsotg_ep *hs_ep)
->  	}
->  }
-> =20
-> +/*
-> + * dwc2_gadget_restart_isoc_out_ddma - build the chain of a disabled ISO=
-C OUT
-> + * endpoint again from its queue and enable it.
-> + * @hs_ep: The isochronous OUT endpoint, in its initial state.
-> + *
-> + * After a BNA the core keeps raising BNA for the endpoint, as fast as t=
-he
-> + * handler clears it, and no OUTTKNEPDIS comes to restart the chain. So =
-the
-> + * chain is restarted here at once.
-> + */
-> +static void dwc2_gadget_restart_isoc_out_ddma(struct dwc2_hsotg_ep *hs_e=
-p)
-> +{
-> +	struct dwc2_hsotg *hsotg =3D hs_ep->parent;
-> +
-> +	if (hs_ep->dir_in || list_empty(&hs_ep->queue) ||
-> +	    hs_ep->target_frame !=3D TARGET_FRAME_INITIAL ||
-> +	    dwc2_readl(hsotg, DOEPCTL(hs_ep->index)) & DXEPCTL_EPENA)
-> +		return;
-> +
-> +	hs_ep->target_frame =3D dwc2_hsotg_read_frameno(hsotg);
-> +	dwc2_gadget_start_isoc_ddma(hs_ep);
-> +}
-> +
->  /*
->   * dwc2_gadget_handle_isoc_bna - handle BNA interrupt for ISOC.
->   * @hs_ep: The isochronous endpoint.
->   *
-> - * If EP ISOC OUT then need to flush RX FIFO to remove source of BNA
-> - * interrupt. Reset target frame and next_desc to allow to start
-> - * ISOC's on NAK interrupt for IN direction or on OUTTKNEPDIS
-> - * interrupt for OUT direction.
-> + * Give back the request that met the BNA and reset target frame and
-> + * next_desc. An IN endpoint starts again on the next NAK interrupt. An =
-OUT
-> + * endpoint is restarted here, see dwc2_gadget_restart_isoc_out_ddma().
-> + *
-> + * The Rx FIFO is not flushed for an OUT endpoint. It is shared by all O=
-UT
-> + * endpoints and the host goes on sending, so a flush here can hit a pac=
-ket
-> + * that is being received, after which the core no longer drains the FIF=
-O.
-> + * The packet that met the BNA is not dropped by a flush either: the core
-> + * holds it and writes it to the first descriptor of the new chain.
->   */
->  static void dwc2_gadget_handle_isoc_bna(struct dwc2_hsotg_ep *hs_ep)
->  {
->  	struct dwc2_hsotg *hsotg =3D hs_ep->parent;
-> =20
-> -	if (!hs_ep->dir_in)
-> -		dwc2_flush_rx_fifo(hsotg);
-> +	/*
-> +	 * The core disables an OUT endpoint that raises BNA and goes on
-> +	 * raising BNA for it until it is enabled again. So a BNA can be
-> +	 * latched between the moment the interrupt handler clears DOEPINT and
-> +	 * the restart below, and is then seen with the new chain running.
-> +	 * Leave that chain alone. If the endpoint is still about to be
-> +	 * disabled, the endpoint-disabled interrupt or the next BNA restarts
-> +	 * it.
-> +	 */
-> +	if (!hs_ep->dir_in &&
-> +	    dwc2_readl(hsotg, DOEPCTL(hs_ep->index)) & DXEPCTL_EPENA)
-> +		return;
-> +
->  	dwc2_hsotg_complete_request(hsotg, hs_ep, get_ep_head(hs_ep), 0);
-> =20
->  	hs_ep->target_frame =3D TARGET_FRAME_INITIAL;
->  	hs_ep->next_desc =3D 0;
->  	hs_ep->compl_desc =3D 0;
-> +
-> +	dwc2_gadget_restart_isoc_out_ddma(hs_ep);
->  }
-
-[Severity: High]
-Does completing get_ep_head(hs_ep) in dwc2_gadget_handle_isoc_bna() consume
-an extra request on every OUT BNA, and can an empty hs_ep->queue leave the
-endpoint in a BNA interrupt storm or permanently disabled?
-
-For an OUT endpoint, the packet that triggered the BNA is not dropped; it is
- subsequently received into desc_list[0] and completed in a second request =
-by
-dwc2_gadget_isoc_out_held_packet().  Completing get_ep_head(hs_ep) here as
-well gives back an unstarted request with actual =3D 0 alongside the request
-that receives the held packet.
-
-In addition, if hs_ep->queue is empty when dwc2_gadget_restart_isoc_out_ddm=
-a()
-runs (for example when only one request was queued or the gadget driver
-queues requests asynchronously from a workqueue or userspace rather than in=
-side
-req->complete()), dwc2_gadget_restart_isoc_out_ddma() returns early with the
-held packet still in the core and BNA unmasked, leaving the CPU in an
-infinite BNA interrupt storm.
-
-Similarly, if hs_ep->queue had one request left for
-dwc2_gadget_isoc_out_held_packet() to consume and its completion callback
-does not synchronously re-queue another, the goto restart path in
-dwc2_gadget_start_isoc_ddma() sees list_empty(&hs_ep->queue), resets
-hs_ep->target_frame to TARGET_FRAME_INITIAL, and returns without setting
-DXEPCTL_EPENA.  Because the held packet has now been drained, neither BNA n=
-or
-OUTTKNEPDIS will fire again, and later dwc2_hsotg_ep_queue() calls will see
-TARGET_FRAME_INITIAL and never restart the endpoint.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116070433.2813=
-951-1-vadim@yuzi.co?part=3D1
