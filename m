@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794827255;
-	b=RgRhp2BFe/221tr53/arlfm7NLfT8CXFc6idpspyWAqEBxvPu5OLpv959jC5OfsPZz5r
-	 i0Nm/6vw0A6WgkuRxP+IZO2+bkCzieqIXAh+EFyC8dBVNSvYxSCluSSGwElqfMkZ0+TbN
-	 Cetf5S4PQ6OjpyfBq/rNw7tsnr8PuHVCd3DueO5vca2eucUVbcKwo9zd4I5zYtauuaKXU
-	 DMlLzuLCxMoV8FLWSFb6cD9UlLKvx0IVOPyNKIeG9LFdfzfooGf083dLDsFAj8zBM4oRa
-	 fGCqLIGyTqKZ/myawk4e7mrSDGXz/3mtLrrKIsbOMJ2eSS3C9szrzEvxaIzbIWq6kaQ==
+	t=1794827270;
+	b=ZuQaJCpnkDt7vlymnxMsyl7JIKr7axaBH08K6XnDT36qU9etIZkhPPL3Lq7mwDbqwP1h
+	 uSbhEWng6tE2rVAXH3fWrGisGlPcNe2erTYjAUB2+G88eU+3AsyOaNulIrm/9c1p+1Zhm
+	 XScEaB1rXwcJVXo5jMfL4uZ39EIqiKNEcLUhsH9Cda2i8xR8w+ztMBgjVBRmsKOy6w1WP
+	 yclqkHMaR9Coj63ds+X2laz4beQ5cxBmD7XvAjGt037GGh1SglllptTJbP7dlpnuvmWnh
+	 E+1+3rQsawFHEhNI5tOtb+3WcMWh+ZbdkdjPdCOcrxYXhl+AbPGMz/6KBTusmFdM5nw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794827255;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794827270;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=unDyG99Rc2/QnFjGnYYD038yieUDExHdgCgrjykz2ZY=;
-	b=CwE8T3h+ah9N6RLkJBSHuq/ZTOwicQclyufmyyuw1pSA4l0wCIcORjH7ig0wQR5J6TDL
-	 z8bFvJEDQbPQmMd43IuRNVpsPahP0jvkUwhemjHUBXm3ZCqr5I85QBjv8r7nS8NdeHJq6
-	 OsK1eUnfQVXGfl75Kru0+1lRSAGePY3zFEQZn/zuA7f8olRDMDmPXxnU83Asn1ZTC8MT4
-	 8dW8t7Y9XD56xE0IbYLK110SVttT2Oy2Hte84aHbbOSmkr1oIaBrqFyq2C0O2d6Pu12+p
-	 nIoYDYI5MtXQQ77rhp1IvugU7mF3WmjVQmZjpcEUGfA3jKe4g0aNJIBRHYThqSfXkrQ==
+	bh=noVXPKL/og69bpc9W91xJU4Acp5mP0BVhDE9sjv3SIE=;
+	b=x6ZGJs99YpukYouoy/zg7tyzK49Km44/ZfaC+7sJEEX3IW2zFDSMz7co3qz3f2Arm3e7
+	 eW8KCxxoLympPAbZXJfTnYC8GV1GV6wTfjzrQnD1NbYTPLZ83CgjfuCZ9L4H48A+34Zqd
+	 BQo/MEA17F6Jxakc3EJ2x2cy3iQ+21ASfPiSHVVado3FELa4YvmfolqTEH1gvxCw69Nm8
+	 Kt3PL2l0eJllbrbaIOWZI9Xw7L42gbI3xUGVNtJpLR4FrtS8B24QBsU2z3DQMYbfBdy7E
+	 GBoRKHmMOxe5XxHkl0KXE+olQgLAnfyhjvBUC4Pd46nAUXMO4NcQvOEcnJ9OgWCpdZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i6Pqa6AK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d4AsBCAD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEF56073C53;
-	Mon, 16 Nov 2026 11:07:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5D2606B1B1;
+	Mon, 16 Nov 2026 11:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i6Pqa6AK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22F1A1F000C6;
-	Mon, 16 Nov 2026 11:07:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d4AsBCAD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F09EA1F000C4;
+	Mon, 16 Nov 2026 11:07:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827254;
-	bh=unDyG99Rc2/QnFjGnYYD038yieUDExHdgCgrjykz2ZY=;
+	s=k20260515; t=1794827270;
+	bh=noVXPKL/og69bpc9W91xJU4Acp5mP0BVhDE9sjv3SIE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=i6Pqa6AKqSvC4ebvXTzRd7oi7aJBBmSogD2MCZUz+Gnyciubja82o8kqkhXx7dmbJ
-	 YZ3OFzxMqg5vhnUqEdYWnGqrDZ2761QlIJx4ugYu46+wc79S1rLXYRAojCd2F8EJPv
-	 rWtXzwXgonLmkOAYpmxDxXhGHf+SRv06DZqPMXss0nKRguX50b8hr52CXLrvIrsQJb
-	 R/MzhbgN9X3LeDn2FNzkkLWBu7qU92XxamIU3Wyj+KWteLIrApxDfwLHL4PnSlVBp4
-	 4nMXDHWmRdwXEYpIJfXlUPY7gsKx2DcnOYAbzXZIfzq7R9duuuzTBHHeDujfTitnZh
-	 SUS1JrRQ5cEaw==
+	b=d4AsBCADtblGWR9WmNzc/DEiDFBjSUivsWERw3pTmg4xXqpyh2WyGQku9f8392N4s
+	 lfp7IFHxwJWFFx4/59deH/zuDtHGCY6wN7yNaETZqW9wHK/nTklbztbkm3Wwcrl5rs
+	 /PJrwjLnB2b8CQO7J05TacPexxC4CdTFDq6H0mUnYoCkhrcI8qk+w4xvBTttcE0blv
+	 o5BvIuIcseSCY08bFNm0BzpUGXQUSuzvPjVlG78Ls3ZLMo4LLkvGz8bdDEukYq7Vao
+	 aHiqggmt77TpKf0+EPd6nrKM/u0GR6gducTj/TJI46cLCwmRKEJBv1/6Cyuu7zx5LS
+	 hfk7yo69L3CNQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:04:45 +0100
-Subject: [PATCH RFC v3 12/44] rust_binderfs: use fc_init_pseudo()
+Date: Mon, 16 Nov 2026 12:04:47 +0100
+Subject: [PATCH RFC v3 14/44] debugfs: use fc_init_pseudo()
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -54,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-12-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-14-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -73,54 +73,54 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ Alexander Mikhalitsyn <alex@amutable.com>, 
+ Chris Down <chris@chrisdown.name>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1351; i=brauner@kernel.org;
- h=from:subject:message-id; bh=Se/hTFkDp0LtS3ScLeBDxadBnc0o/SVsPeEgiuoeVFc=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9epyT8M69m8XXMjpjcWzYNVUegbmXD+1dF+byklHpx
- K5cB/M7HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPpmcfwP+mi0U8hwxbvvU4l
- Hkm1cav/vpjiVt8euFTLYsOZ/GWeHxgZXjDYxa6vVr+1U1HGOv+SmujnxRGNLG7xKmG5Rrx2IlK
- MAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1179; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=BMUOzEt5tvGDwdfnxxzb3r0lJ0rbiII34CFK/yH29Y0=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9epxnx7/ATlD2sfyF6Q/Ob+LauKkocK0zM9/G/RKir
+ je4M2+zdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzk40+G/3WuJ83uZj8TS2Pv
+ P+y8X7rLQErNXSRM4ffcO+2RcrZsBgz/k29eZL535s1/3bTPB6VDJWd2vyq4ffGpScB+y0nHBXn
+ MeQE=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Initialize binderfs as a pseudo filesystem instead of raising SB_I_NOEXEC
-by hand. This adds SB_I_PSEUDO. binderfs_fill_super() keeps clearing
-SB_I_NODEV for the binder device nodes.
+Initialize debugfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+also SB_I_NOEXEC and SB_I_NODEV. debugfs never holds executables or
+device nodes.
 
+SB_I_NOEXEC also refuses PROT_EXEC mappings. The debugfs files that
+can be mapped, kcov, relay channels and powernv's memtrace, map data.
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+Reviewed-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/android/binder/rust_binderfs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/debugfs/inode.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/android/binder/rust_binderfs.c b/drivers/android/binder/rust_binderfs.c
-index 5f020226720db..04468c5b5c116 100644
---- a/drivers/android/binder/rust_binderfs.c
-+++ b/drivers/android/binder/rust_binderfs.c
-@@ -3,6 +3,7 @@
- #include <linux/compiler_types.h>
- #include <linux/errno.h>
+diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+index b4915551ad315..f163f0bc5703a 100644
+--- a/fs/debugfs/inode.c
++++ b/fs/debugfs/inode.c
+@@ -15,6 +15,7 @@
+ #include <linux/module.h>
  #include <linux/fs.h>
+ #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/fsnotify.h>
- #include <linux/gfp.h>
- #include <linux/idr.h>
-@@ -667,7 +668,6 @@ static int binderfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	 * necessary and safe.
- 	 */
- 	sb->s_iflags &= ~SB_I_NODEV;
--	sb->s_iflags |= SB_I_NOEXEC;
- 	sb->s_magic = RUST_BINDERFS_SUPER_MAGIC;
- 	sb->s_op = &binderfs_super_ops;
- 	sb->s_time_gran = 1;
-@@ -759,6 +759,7 @@ static int binderfs_init_fs_context(struct fs_context *fc)
- 	ctx->stats_mode = binderfs_stats_mode_unset;
+ #include <linux/fs_parser.h>
+ #include <linux/pagemap.h>
+ #include <linux/init.h>
+@@ -317,6 +318,7 @@ static int debugfs_init_fs_context(struct fs_context *fc)
+ 	fsi->mode = DEBUGFS_DEFAULT_MODE;
  
- 	fc->fs_private = ctx;
+ 	fc->s_fs_info = fsi;
 +	fc_init_pseudo(fc);
- 	fc->ops = &binderfs_fs_context_ops;
- 
+ 	fc->ops = &debugfs_context_ops;
  	return 0;
+ }
 
 -- 
 2.53.0
