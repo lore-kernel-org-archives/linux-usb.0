@@ -1,57 +1,90 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794843528;
-	b=bf49IDPx8uwKC3UG9XPvLqmGOlfyP/nfzdwK8UtEtyK2sFdEJXaoJtB8C6a8cEsf2//k
-	 V525D6dXrBM25kycg5dQSEJEoDd7K/E8CnKPPL/ffPjuk0c5GeaPGITIGXcPQekmau2Qh
-	 lVk6iVJ/zUUVF9HsGkfnU4aRwxjEK12AwiC/P9TO2XJuEAbMWzIFqByUPXJVoB+xB/kZW
-	 cNX5WE3CbU0d9sRHtMn1HZiHNxJTmjh59gMG1f9UCCArvVAW1m4cs8Pt7TmbGdDxUfQkB
-	 /WoTYlhSOkYUdwGzIfYlatOSpxoDX2J8d9sCqoFpC2J4Nxleu1wMO3RCgkIwDZmjnrw==
+	t=1794844349;
+	b=rhcY1zE8CSWH1jaNMcNwEPN1I8vk2VrMHXHBYcJg5p/wzoAvfQwWjZSHmWTmj9NM3R9v
+	 tYkh39G5vLCTfs/q/s8RaZSkLAPdU74t1hbd5ZmKaogVq/gOGtYu1Ua2OyP+ZAwDbE8rN
+	 HBdorplwXh8crIRaEW51GtgZkg4csim81PIURQwF9OO4RbeT41o65OG3HVAJI9UWg6Dtv
+	 wiJIc24PqaFonJdq8U4+z5Fqze1O+bnk2qgs4yewrd5V1IGsvotPtyHxY6R9z9AGufk1p
+	 ua6/7pcEWt1TSCwkBHRTF2+FbIrCCo36U0oiFydq/SNw0IkcUJrUPF7jaQZO11VGfHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794843528;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=OF24Wbpj41CLA7OaRfaL+FsEC5Mrvdj7Ov5RhPIAmas=;
-	b=4Ndkth2BQjQYVEIjvQdK7z5EaJw+fUI85wd94Ddo131lJWYUijHvta2JwRYIhkGbzMc9
-	 gQy2M/d8dg8N5TJikPdhD6zlgqAVNL/PjX6UFTSZEToEHgaz4FzjbF/Vh2UY+PCgLrffW
-	 uHdH5u/p1mDJs+fHKasKi0n/qw/BTWRJnbI22p/x9oTvz/TahNK5TB04+7e+uoSObu+wN
-	 4i7lPc7tr/X378CTyD2nilbjHQ6oFUGRlgiUJSLr87Yr5Cr/3V20fX27SVm9g58/Ltden
-	 mfP5XpkwSCNsFMHFjELazb9VNtSDiztsCPQp/1cCExJ31YBHg+EjcvWk6o0AqA62mgw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794844349;
+	h=Received:DKIM-Signature:X-Mailer:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=nMJerJcoZ1Adnfr1+PAoZtyg0oa83iJzpuYf4Q3jisk=;
+	b=fABsnlHXQk8e4METhwNMhBff3k4luca2UiAXEj+2UN/MqTrhaV+2W9WXEzSsS2GzZ4qW
+	 XXafhpTacetKjdGLuQQWGKhVZnr3t6/ivX9F6CR4pUKin94amNQsoLQWTt1b+lZ9UyGS+
+	 w83x1RrDwoVD1PLCifJFMq8XnIJhuKy7BJw0RTiTGsNwJVt8HNuO961PQNIUX6AGacrzR
+	 nRr55dfeSc2D0lt/vma0RREIIfqtVx30Mrj6V3R27FZqfc+N2ptiftYTI9FrF2KCYKq4T
+	 7N3Ohw93cdc/gwNgFDA0nQGo+YA/rggpI2O+TJG1IfMwbezWtvHqvP7spDHQxKESeJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="C/kTIsTB";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Cqf/PBWs";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E9C606A329;
-	Mon, 16 Nov 2026 15:38:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C198606A31C;
+	Mon, 16 Nov 2026 15:52:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C/kTIsTB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBC271F000C4;
-	Mon, 16 Nov 2026 15:38:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cqf/PBWs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CD2F1F000CA;
+	Mon, 16 Nov 2026 15:52:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794843528;
-	bh=OF24Wbpj41CLA7OaRfaL+FsEC5Mrvdj7Ov5RhPIAmas=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=C/kTIsTBaNclaQlIu5wkUidgtY0lOS/vbl4mbw6t4uFvk2DSRo/uXFt0Io7Nn3CrC
-	 9DiXe8iSSSrqXGVIH79ROYQfSQmJSopY+UIGvFnGyAPJhA001Wbv8ihY0Rnwm+CklT
-	 iSfy7eVpUMbIsskglhnfvio+60Lnv5T3xBAwGNQotCud6eWqXM7UwisrQ2lM4Egr30
-	 0KvDT6+zYIfthj8j8M3wgklHZuiLPO1tIQVMp2gnUfFvIIvQzHLh0Ct4GoGkCzfkoE
-	 bbtW0S1k1NGal8J3u70wl5Q8L8b30Rge6nelpaWYoFbmjUXe5iKj0ERqmEZnrD1h+B
-	 dZi0rjNZPbwZg==
-Message-ID: <sashiko-outbox-217310@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 02/12] dt-bindings: usb: Add Tegra238 XUSB host
- controller support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jon Hunter" <jonathanh@nvidia.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261116-tegra-usb-v2-2-42efc03a9700@nvidia.com>
-References: <20261116-tegra-usb-v2-0-42efc03a9700@nvidia.com>
- <20261116-tegra-usb-v2-2-42efc03a9700@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 15:38:47 +0000
+	s=k20260515; t=1794844348;
+	bh=nMJerJcoZ1Adnfr1+PAoZtyg0oa83iJzpuYf4Q3jisk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=Cqf/PBWsD5IxBgQxvgBiY9kTywVx12SlTwTmXTT8ukWkQsTUR+izYk5U8YFXU36Ny
+	 VuKt687MkawSeh2PId4bqFbRWi9sMgwfnI/JSJjTIU/6KxVcy/AK8qf7rn+hv6trfk
+	 Ee1pyTLlidS19SxOPSpjOIH4gugO1s5gd0mmAVUM5KUUf9dnwJ+bAvl3mUcDP9cXGz
+	 X00xd/pchyAyodSkPV0qGH695K9NxXc1WkmuaQ+sFB/uhm3L44RMtQbd4LJlTnKyog
+	 9tmHrt1kljrQB9N0o1IIRZoyH9U1+vjGQIjU/c8DxKA/xTbNd2EoCf0s7ezT62PTkl
+	 Ppm6trUfqKBRQ==
+X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH 17/17] PCI: Replace untrusted state with device trust
+In-Reply-To: <20261116132046.GI2532299@ziepe.ca>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-17-1e536825b4eb@nvidia.com>
+ <yq5amrr8yldi.fsf@kernel.org> <20261116132046.GI2532299@ziepe.ca>
+Date: Mon, 16 Nov 2026 21:22:11 +0530
+Message-ID: <yq5aa4n8ydsk.fsf@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,90 +93,53 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] dt-bindings: usb: unwieldy per-compatible conditionals for
-  tegra238-xusb
---
+Jason Gunthorpe <jgg@ziepe.ca> writes:
 
-commit 68b69d5e79cc5b22a7419c3753f57282df3a1a08
-Author: Jon Hunter <jonathanh@nvidia.com>
+> On Mon, Nov 16, 2026 at 06:38:25PM +0530, Aneesh Kumar K.V wrote:
+>> > +static inline bool
+>> > +pci_dev_default_is_restricted(const struct pci_dev *pdev)
+>> > +{
+>> > +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
+>> > +
+>> > +	return policy == DEVICE_TRUST_POLICY_DISABLED ||
+>> > +	       policy == DEVICE_TRUST_POLICY_ADVERSARY;
+>> > +}
+>> > +
+>> 
+>> Could you clarify how this series will work alongside device acceptance
+>> and private-memory access?
+>> 
+>> In particular, what should callers of device_cc_accepted() use under
+>> this model?
+>
+> Who is calling device_cc_accepted? I thought we were keeping that
+> internal to the DMA PI?
+>
+>> My understanding is that trust describes the operating
+>> policy, not TDISP acceptance or DMA access to private memory.
+>
+> Right.
+>
+>> Therefore,
+>> neither FULL nor ADVERSARY alone indicates whether a device can access
+>> private memory?
+>
+> Right.
+>
+> Once you turn on TDISP you effectively activate DMA, just like turning
+> on the IOMMU.
+>
 
-dt-bindings: usb: Add Tegra238 XUSB host controller support
 
-This commit adds Device Tree binding support for the Tegra238 XUSB host
-controller to nvidia,tegra234-xusb.yaml, constraining its PHYs and
-interrupts and requiring direct resets instead of power domains.
+We considered two options for doing this:
 
-> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra234-xusb.y=
-aml b/Documentation/devicetree/bindings/usb/nvidia,tegra234-xusb.yaml
-> index 4e4d7fc352f15..989cce0bb52c1 100644
-> --- a/Documentation/devicetree/bindings/usb/nvidia,tegra234-xusb.yaml
-> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra234-xusb.yaml
+1. Via the ->accept() callback in pci_tsm_ops.
+2. Via pci_dma_configure(), based on a combination of device trust and device acceptance.
 
-[ ... ]
+If I understand correctly, you are suggesting that we stick with the
+former?
 
-> @@ -162,11 +173,44 @@ required:
->    - nvidia,xusb-padctl
->    - phys
->    - phy-names
-> -  - power-domains
-> -  - power-domain-names
-> =20
->  allOf:
->    - $ref: usb-xhci.yaml
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: nvidia,tegra238-xusb
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          maxItems: 8
-> +        iommus:
-> +          maxItems: 1
-> +        power-domains: false
-> +        power-domain-names: false
-> +        phys:
-> +          maxItems: 6
-> +        phy-names:
-> +          maxItems: 6
-> +          items:
-> +            enum:
-> +              - usb2-0
-> +              - usb2-1
-> +              - usb2-2
-> +              - usb3-0
-> +              - usb3-1
-> +              - usb3-2
-> +      required:
-> +        - resets
-> +        - reset-names
-> +    else:
-> +      properties:
-> +        resets: false
-> +        reset-names: false
-> +      required:
-> +        - power-domains
-> +        - power-domain-names
-
-[Severity: Low]
-This isn't a bug, but would nvidia,tegra238-xusb be cleaner as a separate
-binding schema document rather than adding another large conditional block =
-to
-nvidia,tegra234-xusb.yaml?
-
-Tegra238 differs substantially from Tegra234 and Tegra264: it uses resets a=
-nd
-reset-names instead of power-domains and power-domain-names, supports 6 PHYs
-instead of 8, and has different interrupts and iommus limits. Fitting it in=
-to
-this schema moves power-domains out of the top-level required list and adds
-an if/then/else block that overrides most of the properties alongside the
-existing per-SoC conditionals.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116-tegra-usb-=
-v2-0-42efc03a9700@nvidia.com?part=3D2
+-aneesh
