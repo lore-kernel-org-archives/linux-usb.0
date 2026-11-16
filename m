@@ -1,131 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794840359;
-	b=mhfs4gHC5/OhAnzNm0Dq96RBXzxS/L8Yp/Pfrhi8m6w2tCgApZUet4UMKachS0t6vICa
-	 CbbgCcmehoccKN65HDeQMVHgfK3KqMaISxNj8VmPBVrbOE55oO7BX3/Ja+4wtK9g5u5HX
-	 wcKMOoOS37JVm1dnB5ab+ByCiibXjQLqQvV/RNl98GHVIQAQJmjw96EIeGa2c7sgyhuOA
-	 t6keB+2mEvSYArEDpBByGkfy9IWjBzNnGnFwJXb9YnoNP1VwZFSJPgiD9MP5hk2vFk0Kj
-	 iu15iWLjGp5w6j8bcWkiEJAdrubOdWf81Ycka+8t+OyTZOSceXlC+4molevYr43zhSQ==
+	t=1794841274;
+	b=WIExtFdIUIaioJ1v4bFaE+gZcD3gH8i0TkNW2vfQrQBliVeGaEf1GFeZa3ea+hhXyewX
+	 seol/CQ6SA0dVTezeCOD8RXr+bKQ4MO2uo4ccKqz2L0SjSD++ZoZNg4CGd2CgXKfkcgON
+	 6VONUg665DWg704eU5vYQVgr0E4/QVtsRo2L96/JZpaj+ZEZNosMZIEoAPNFXb+ONS5wM
+	 Dvg4nQ+3v/CEOHbri7mwoScIrjtR14M1KAwZ2xDFy79tj93OizNZmHy/juUSwTRMSLXgG
+	 z6Zj55h2bHF5xFrhOjJGMY5O1equyykfK9dfZ6m7IyJwyelBiovMNHLe2vU7/d36IUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794840359;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794841274;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=9cuLg5FPbuoxv94oaCvgpjnZpkxbSwN3Cw2dU0btsKg=;
-	b=gAMpjM+ByGOrc2wWgUjjq4VvBoktxg1f7khMtQHlloR/1LHdhsDrnq8SuJcoK1OPFHAZ
-	 sxnCikTxYZxfu59isiPV0nJ67L2k35bIF7WgcQ1uzcwjG38RvPehyk9EseKOWvGNyke/q
-	 ATg8mLN5MJKaxXjEyy4ABkxIch2UbKLRSM0mk6AGn724fsh5JA8tmxwKC7QpK63HuJmY+
-	 owfBnHU37tdc3xlxhAv+GihZ22ZS8R/3yEPuFxNnIu9jvBytkZFR/DHvxxj9HK8OVuyQ/
-	 KjiadHcjwrh/ZM1BBztgIAvVlQYFnoB41E9DsaTpGA1+jQiJmt4yivdVeSoaIPbE21A==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=JM1zD3i7LF4wBwdktOmYzhj34P8A1bSegjMOIVKdeWY=;
+	b=AQPudoye4J+YzAMaPT8He1mDp4nhzV5oIRz0vYkKop9KcNArFw4avYZSMy311eR/529P
+	 2OfbDbwc7FYxKNJW4sFnnxAjABGa8T46YSEA4xYCbaJpbRgvoduk5WD9olJJODFpZVem1
+	 w98gZNdmX779EwaRDW3i5BvUKPiSYKfSxVGjngrNXav+Zno/KXWRQZ21NyvoYIptZ3J2H
+	 biiFoBppd9Uofiozg+Ku9TmtYGA9AI4QGScCQpYX9oZhOwVcoLjPfbb2+pSYKgQ0pTsRO
+	 yngg6xsTw6yvobrZVIhx+AWFQUX+kw1ezOlcw/9NvJNSz3mPMF3RLiZfG9iICoOXtpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=dLdJyonb;
-	arc=none smtp.remote-ip=209.85.222.179
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="0tBilb/g";
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9991A606A33A
-	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 14:45:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9991A606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED213606A31C
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 15:01:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED213606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=dLdJyonb
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-949589c1495so290257685a.3
-        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 06:45:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0tBilb/g
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso20517315e9.1
+        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 07:01:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1794840358; x=1795445158; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9cuLg5FPbuoxv94oaCvgpjnZpkxbSwN3Cw2dU0btsKg=;
-        b=dLdJyonbx/GT9GciisxRrbnKJNPmXRO37SMr0DcL0fOWPt4npP7q6oSEFPRBxyhYBG
-         VwQv88je59xwJGF1tzvO02VHIK2UoI2gFnHM+RoqxVUasg9DyQA32ToeKqV0tOS8H2/F
-         utZ+RQHXMciPdHoqR96pmDBV9oFbAflIPtcSFhX2+r9dDE0rLhaGZCPsZ1j517doL9zB
-         RpfAbapy98a71EK1akS809jjM1beUX7TmDUaCrtYNcz/JJbJ2sGjj2UfCKl0NoQ68uWW
-         NnufbW7FWZvXAJBZh4GXQ7J60xB7eIn/T76+zn9Pq4vvTPBJTSoxoiKRgL0R3QgrjVbx
-         3mVQ==
+        d=gmail.com; s=20260707; t=1794841272; x=1795446072; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JM1zD3i7LF4wBwdktOmYzhj34P8A1bSegjMOIVKdeWY=;
+        b=0tBilb/grq0KTWcpgfvZHJEhJHJDZoVB1ZNl6nBMtRzNU9Grh7NXlCcydHsYpJnJgk
+         NZ+yisV+ynLlIpvV3XwCmgWkRzI2tqeBaEiNchMgspDWjNESnlqJXrCMLvEMu+LtrM6G
+         kMKqO/HJKMBK6e04G2pz8bnRCS/eMrGM4KcGY7u91W9t8GJD5v42D41fYX6Wejj+IGbQ
+         nlL7cvjx5ZyJ2Hn2U3MMfOu6/QAFUC6A2iidq7Ha+eskKX5qkDmA9nV5JtipCK7x1otC
+         2uD6PLCuXcC3F7Ip/OI4jWmdIYIgMl5AMWLVWHJXbidriX6Y5sR4LUzpaNJZjpU1u6Yl
+         h2Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794840358; x=1795445158;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9cuLg5FPbuoxv94oaCvgpjnZpkxbSwN3Cw2dU0btsKg=;
-        b=fATxqs1FRnoQtMpTQn4gwBnyQLWg4/6IKkNoVwizS7KpVpiq5u0O33KYu1Nul1iAGP
-         0gbJn4k6u3QFzcMHJ4KOFG1JbFwF8Q5hBoFAWgV7nP9y6iYwgxz5938ePw2d7MdLHVYs
-         XnUXBQEkKlBmnNo1SAR9kLWBugcqwgOo2TrwRNeQYrJsqxQ3JZdpGPoxFuJMw1f1cJ5x
-         3T0s1tHUyoftuIqYDYdjd4VllZNHr0uU0c1zbCWxV2A6MVNKIQwYW6/YN23kRjDd5Ma7
-         J/ih+z4rUso9uZfGI24PGxl/m/2to8/t+AoQPkh5wbm0KWPHEoZSII0PJytDcyY66a3N
-         uCBQ==
-X-Forwarded-Encrypted: i=1; AL+hErFvNt0gS7haJc9cuYU19kmC7zuzWoRYGftbzSjpEHDC/qkEIcbhl8Qw1OaZL4hoS5yl/z/GnQHZ61A=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9lrWB9yy9HFFoqBPJi3XOYw8dbbuH5zkoQX9P0v956imrEFSqs
-	fiB8pBURxhUpcqK83zudEpxzhvKL1h8MD+rYD+nABeZJ+3dYdd9hJnyZAoRVM3seSCc=
-X-Gm-Gg: AYBFou2t52tleknbxPKoHe+XRJvfk0VdjBSHT0jeWZKg17QfeFbA7FtwQ7u7LNKcZta
-	HR+ZFKSq6+Krp7ukgm3KlzVXUj4K/3TxGh0tZVMbq2isGZAA6b7wqtWMw3rTP/QpWBB8PXMfjUF
-	yijQhKpf5OJzRFAVo1iUGpLvc3ec4SSY8EqFIj58mQThk2jZBLKWjjyLgvIoFnbTyGdLlIKUhnb
-	RVc68XDMaGF6x/4oxu2BxkYzT6C1DBt6E96fK2y/X92AyafX8AQVQGpuIh/eOS8QtITi+CEPzOe
-	vsmarXDZxaPtEz1sUwRda0jlq0GC0WuX1Gxfm03PJV96QgvG2qvixnv2751xUCA3BwnidOdTcJh
-	Y40kltFrVXGLTQJbvLQ/tY45QuCSX/7FBidtxN30Pm++S/zYOmGi/WT+D35YFinxmVFbrEvnQCc
-	RHdyp8eurREopcPZG6YUxHxQmgG3Vbkw+Bfzv2h6OpJ8ycGQ3mzx2+/hJLnensNts78xh+ki+aY
-	Q33iYaNiapUJParJGHrXbVJSuJkxJ5NQBVk6wjoCNVLE7s07ImUWvmY8xKhyzXIDAPyCD9SSaee
-	3uhPDg==
-X-Received: by 2002:a05:620a:a41a:20b0:949:5872:be1b with SMTP id af79cd13be357-9495872d3c0mr1015844485a.39.1794840357475;
-        Mon, 16 Nov 2026 06:45:57 -0800 (PST)
-Received: from ziepe.ca ([142.166.156.71])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c836079sm858473985a.18.2026.11.16.06.45.56
+        d=1e100.net; s=20260707; t=1794841272; x=1795446072;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JM1zD3i7LF4wBwdktOmYzhj34P8A1bSegjMOIVKdeWY=;
+        b=XU4WIFIasO3kxkQBK4fF8PAyFVKKV6H8mSsPd8zcMPPdrAQpMGbQVY/BFv38+2FzAK
+         eWEAqlhPDHSmD8eGd33h0rsC8SGSEKjb/4n5p3yd66Rs8jpcqa30swOkWF3RYWNprTWc
+         QN0Pcsgpp9DBH+SYCVPk2NjmquCNGcZlDPvwzjQq5XFyNd4qoz4riRfWDlbf100GZgMv
+         F+PnaR/UA981NdC7Yfv6KWe6GkylUjC30NYw+7a5I2hfYEzmSocfbzSkR40LgThzhuxS
+         W6jQUrmebR+Kwt/DbHlXsde6Q08/ncN3DTeIRzN847/QLGafOVQ6s1CqlNWaJBCqB6gM
+         Kr+w==
+X-Forwarded-Encrypted: i=1; AL+hErEHRXCtFTXpZ7TzAUkx5x+Jytr9KqBDJc4tDH1dcXP2sYSmowlQPufQyvooR/cxMaKr4yyCehjvyLI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+ay1b2DJdRNwg9n1QaiWYN+6cSGgyAebRiK2Ej+Rzkm2mQX9fh
+	C+EfIfL122NoA9JJm9pHRbBzsFCVuk9SwlRUqLM/pP2UmCNdiavayxIw
+X-Gm-Gg: AYBFou0r5QSr5TC2litWCLdfDh1KFDfkZ+lN6L5WZbpy45YKqVjAkStnJS2gQE2ozen
+	xdaW/MugKhs8EkSejkbotqr2vLw+36AGzZYnsYShk5K2m4blA4Mm6M4D96w3I1Ltf4UQLazJLew
+	8m2icO31/3QiRg81aUXRO3MizMCvmtf0DeJqy/z/tjWdc90mymMAr39F2YO0Yv3U3VxmzUvT4We
+	6EVKVWhsSb2J51sl7w+5TAIo39zHrTfrjcLQnH6wZKTYQdjY0Y8htZiZemWCJtUmaCe73Saq5hE
+	74uBIzMbOIgqQim57lU4U2LSbkkITRWQuChnbwEsdz1jNTCdSqRVUjwq/qB0tFBaPc47Oxr0o1a
+	s3kPAs+Mp2TMPYQgBE35RlMGBMBph4JlE/5Hx6AbUpFP1UQyxpVha+9+3A4rfVlPDwVF9im8G5g
+	/OunWML8Bcd/k1Li8tATaosQxgYijhh8gyh1swuHp6tuInosoXKpeTnVjCcFnPGULphPaI3cSRV
+	NRE8yRrzPBbkVYAulIiy5bH5PkqTRRoOe5TlzDaGl7YIP+gpk8sDLXy6+GxduEcW2cr5L6G+8Ss
+	ng3ICzJcwPfThLpbPr9mAnN1lbX2r4vnDbo=
+X-Received: by 2002:a05:600c:6989:b0:4bb:6823:3d3c with SMTP id 5b1f17b1804b1-4bb68233edamr150358065e9.20.1794841270609;
+        Mon, 16 Nov 2026 07:01:10 -0800 (PST)
+Received: from deb05.proceq.com ([213.160.61.66])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f7828a4sm22912555f8f.23.2026.11.16.07.01.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 06:45:56 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xSxxz-00000009V73-1sJy;
-	Mon, 16 Nov 2026 10:45:55 -0400
-Date: Mon, 16 Nov 2026 10:45:55 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev
-Subject: Re: [PATCH 17/17] PCI: Replace untrusted state with device trust
-Message-ID: <20261116144555.GM2532299@ziepe.ca>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-17-1e536825b4eb@nvidia.com>
- <yq5amrr8yldi.fsf@kernel.org>
- <20261116132046.GI2532299@ziepe.ca>
- <20261116144103.GU11319@unreal>
+        Mon, 16 Nov 2026 07:01:10 -0800 (PST)
+From: Mehmet Fide <mehmet.fide@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Neill Kapron <nkapron@google.com>,
+	Krystian Kaniewski <krystianmkaniewski@gmail.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mehmet.fide@screeningeagle.com
+Subject: [PATCH v3] usb: gadget: u_serial: implement flush_buffer
+Date: Mon, 16 Nov 2026 16:01:09 +0100
+Message-ID: <20261116150109.1474880-1-mehmet.fide@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -135,18 +97,78 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116144103.GU11319@unreal>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 16, 2026 at 04:41:03PM +0200, Leon Romanovsky wrote:
-> > I think it should only be for the duration of a bound driver?
-> 
-> For now, I decided to disallow state changes because the IOMMU may outlive the
-> bound device. Unbinding does not fully reset the device, so we must quiesce it
-> to ensure complete security.
+From: Mehmet Fide <mehmet.fide@screeningeagle.com>
 
-When we refine the lifecycle for the iommu this issue should go away
-too
+gs_close() waits up to GS_CLOSE_TIMEOUT (15 s) for the write buffer
+to drain while the gadget is connected. When the host does not read
+the port, for example because no application on the host has it open,
+the last close blocks for the full timeout. tcflush(TCOFLUSH) cannot
+avoid that: u_serial has no flush_buffer operation, so the request is
+a no-op.
 
-Jason
+Implement flush_buffer: discard the buffered output under the port
+lock and wake up the close and write waiters. As on other tty drivers,
+a hangup and an interrupt character (ISIG without NOFLSH) now discard
+the pending output as well.
+
+Signed-off-by: Mehmet Fide <mehmet.fide@screeningeagle.com>
+---
+
+Notes:
+    This applies on top of Krystian Kaniewski's "usb: gadget: u_serial: pin
+    ports while TTYs are installed" in usb-linus, which keeps the port until
+    the tty is released. A flush from a hangup needs that.
+    
+    Tested on a Colibri VF50: with output pending and no reader on the
+    host, close() after tcflush(TCOFLUSH) returns at once instead of after
+    15 s.
+    
+    v3:
+    - Patch 1/2 of v2 dropped, Krystian's patch replaces it.
+    
+    v2: https://lore.kernel.org/linux-usb/20261019085855.3259716-1-mehmet.fide@gmail.com/
+    - Sent after a patch that keeps the port until the tty is released:
+      a flush from a hangup could use a freed port (Sashiko on v1).
+
+ drivers/usb/gadget/function/u_serial.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index 0a304f508bc3..ff912c29d6be 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -891,6 +891,19 @@ static void gs_flush_chars(struct tty_struct *tty)
+ 	spin_unlock_irqrestore(&port->port_lock, flags);
+ }
+ 
++static void gs_flush_buffer(struct tty_struct *tty)
++{
++	struct gs_port	*port = tty->driver_data;
++	unsigned long	flags;
++
++	spin_lock_irqsave(&port->port_lock, flags);
++	kfifo_reset(&port->port_write_buf);
++	spin_unlock_irqrestore(&port->port_lock, flags);
++
++	wake_up_interruptible(&port->drain_wait);
++	tty_wakeup(tty);
++}
++
+ static unsigned int gs_write_room(struct tty_struct *tty)
+ {
+ 	struct gs_port	*port = tty->driver_data;
+@@ -985,6 +998,7 @@ static const struct tty_operations gs_tty_ops = {
+ 	.write =		gs_write,
+ 	.put_char =		gs_put_char,
+ 	.flush_chars =		gs_flush_chars,
++	.flush_buffer =		gs_flush_buffer,
+ 	.write_room =		gs_write_room,
+ 	.chars_in_buffer =	gs_chars_in_buffer,
+ 	.unthrottle =		gs_unthrottle,
+
+base-commit: 3149e8b3237f58d4dd440fc64c45c93404c4b064
+-- 
+2.56.0
+
