@@ -1,101 +1,131 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.53
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794859451;
-	b=SUmbxN2QpfusnDMgIscCQkCh5cAJivNyYMbTY66iQ/zZkWcFiVjvgyoAdjQvEpIEOG8L
-	 //soccem4ZSjaLlDecSfi6MH6ahkj+urnr4sbRUrTZjPIVS+D7Eu9p6mu2s83dpT8jQWw
-	 tlhG/5euty+3K4scMufbmxA3Uh7PD9pjpkHzQ3COU1ff4IIsO7DHHmxYfND9OSs/rAynW
-	 bZ3UnUVe2+lirRj9oYrLEvuRiX+i3LwfP665j5sZeVfg3jJOWLB27xSKgghX+kx4igFpK
-	 ij+Rbs1dYZvGHLuExblz192pNaesSR/cyjFHVHCquOCfb8sTSJ+lTGztzdwShTvtWzg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794859451;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.177
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794859754;
+	b=oB536Y8IAGQ0nddhoU6wvK3dbnC5lfBTq9IhEGibgdYg2qBLL3E8FfpPfxo4agPX6maI
+	 f47CweoEArfLNNBnBzM0VNnHhvJ+sK2kzfds4BwNzprmsYus5Yw7DkOe3DuZmeiZqzD/A
+	 2PJITGWUiEVty2KSTERzLGkxx0vz1blCD8pYYCrCszux2PpcUfe9Um5VH4hR4mefX62uq
+	 NVW4mesZAXpX68hfyvXyhWH657r1kCAX4GzwyOQ6WvSLI7VCi3BBbE9OJ01wqp7Chge76
+	 F1dXL8+CTyil1aPFf09eDD0tBLkxnzSZcKD48GgINp20THw8m9DLPBSxPmXadObm8gw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794859754;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=;
-	b=Ysm2QTJBUOiL44toMlAY5zQi449Kh0rOo2624VpzIl7diNgReLSh5itb8/6i0O9mSIq+
-	 BXQQKRavNr8OTfmrE32rt9J//VEE9Pq+QbyauwymyIY2d01f4/cC60aSJqLJ72x2gDeh/
-	 HNqbeMgrxsfwui2vr2FyFp8QKkDE2RHEjur1Co4mNBlK/OCsKpr/xgJLRQX9LHUjcHdFy
-	 lCgy5DRUiSS50/e1IhvmwwXYIxtkt2j1kViYaPxUWa/SudwA40w1/2wIBTaNhOtMHt5d6
-	 cjXHRQgtzDL5YMFHHhQaQIHyacFaHoechtqve5doEmcw4ri7xwvKkeemwzorNp9Rndw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hnqDx80H;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.53
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=rIDjnnpHadC4roO6Pjzwfgg43uG+Y6jCh2hpR36q9WA=;
+	b=r5w1fURlZ1L9AHCntO7LJtleP3ViVGeqJUUl+XNhb+tQ/86/WeyGoeeXt5pQDJqxNjuF
+	 q9mw1VshCV5sjhpY+U0DZ8SHLN4xZz9coiovvZwV/hacBc/DBuXu/ZtdLSkZav5VrA671
+	 QGuRkM87ICCmc+m1gs0rhjZDBv2FjVMLbw4ZDFaCyNkTibSiEAZKOlja9PgN2v/KgxdFH
+	 +COJ/qlfU3ZprmyelBFJNTm3S5xwvzuqC856p/6OtnQ9bT4NSMTVI9BkRDD6p/goE3uqn
+	 8YG+UhmMimnz4XET8yRkSIFQdSlriX+62XfihP4/1hUIxhQNbesx0xz9vFLrYYk1Kqg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=nbZUyxTk;
+	arc=none smtp.remote-ip=209.85.160.177
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DDD606A31C
-	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 20:04:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24DDD606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562AC606A337
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 20:09:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 562AC606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hnqDx80H
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-498f5fa5103so1736449f8f.2
-        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 12:04:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794859448; cv=none;
-        d=google.com; s=arc-20260327;
-        b=n9OAGfVG44G4UIAzqRki/HHXFAAH4LI6IUOTi4ndTtiij0YRQSNJIFVIIAGt9XA8uI
-         P1DQxsRM7tjZL4xxxaN38scVpFx9Sbx/9V3/ppYrg9QrAzzZYXzEyDtcRgxymRS9jkCK
-         gWKs3K77/cT4ryTy8OOQfgylnxJG92VsIA7HfctE2wdjnmE1RxsSZQf2Nj5kWhBcaP3o
-         Ngg+n/Nb+bhQB+fmfDnow+kAjg54x/5wjaXWUhPAcmKCROQm/dGQz8jKimzOPxyPzOUN
-         SwIdR4CtNf3lTD9g1U5dKfEJk6R7WwF5mCbXMClAHDpO5ixzcC/CAcSoGmdi/m+p9NxS
-         DLMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=;
-        fh=zXyIzIKBFuIHoXWfbCX0yWFuZtaSCaAhUecsJ336itA=;
-        b=OCy7viNYo1muFGyDmiWDrtUhRzeRd16VMZqehdSpwJMhLXxxiY2y6/pz9wOyHL5UcA
-         ZGKpNVmtWuJF4/fS6NH6WnLHdjo0GbaH8SD7LglSqzs7dRZvfOo1Iai38SrwHH/5f/Nr
-         c7NcOxUZmBmGiJW2eaqrUGIINAl/x8VGOsnwPbMVIkIZUYEGWXWEnwHqZ/2/cTAAdR7j
-         CfjI0F8Ex09fmITET/HACOSNPFxVpf5uVpPp2vdPO6bmUnJEYuWqfcxMRrt1nysndFUn
-         lw3dYhD/JGr1uawZLmKBe/54icuAhVpASZ4iKtLnCEUiwXSP5kfx8FmOXs+M33VT1kMe
-         azmA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=nbZUyxTk
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-536717a4d83so40754521cf.2
+        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 12:09:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794859448; x=1795464248; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=ziepe.ca; s=google; t=1794859753; x=1795464553; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=;
-        b=hnqDx80H1BHGMZ+jCw863LQE2wm4hG6wTw//ziQNWkZpZIjdyNNCtFJNcbykSvuJWZ
-         RrqgQGru9l+9Rlw9NCoAO7RXSeH6CHzRwb+h6TsbT77V+vTLtC7o5AslWzWJ8+7yhciq
-         sbJxN7Yoz6y6VYO91QUyEDVlXVHt5e/uzOZriYhKEljZIduQH6pNfhdOY5sHlJFueOxf
-         bN/uTLfuNBjnHaTZ+WukZQS/Wa30tWyiKsfqEPmOKtkcPCgN1gGIeLsa9pfco/3ZvP3P
-         koo3Bb9/+esUnHdHS2hTd5qtXE/k/xctadMJUuU/zchcL0VDKvTRNofZgdIQ6mLOou9W
-         X5rA==
+        bh=rIDjnnpHadC4roO6Pjzwfgg43uG+Y6jCh2hpR36q9WA=;
+        b=nbZUyxTk1xDDi9/JiN9In9kNH24m3xvR3W8MPaMB063K/nb6P74sDih4ebpP83k2np
+         SjqTAYuPLCHW+FRVrjLKSTbDX5aM/IVbZZxu+ASYJ/ssH0gDFbMJvSJmLcdHAAsDSEL+
+         FG47SOuU8PRulqvpOebFRdp+iKyncNtYeoKxWrzhMSjcb9i+1jD4cThvDUO+7PnMd3zc
+         ImV7NXhI8pI4k1LW/eM2oLltJhXP6hUveoFekGEVH6+oWgooyZkYdcVCIAs0jW9hoXxW
+         5IGbSHDAmwoeFMTug5VO+bv+VKknP1f2hoIrUsvWYeNqALAO8eTePO8ZOjSwRNnR3p0b
+         L2qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794859448; x=1795464248;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1794859753; x=1795464553;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=;
-        b=SX7+sQAS8oP1nU7PLFoT1XNZIVH5xN5OB95/d2kg/pCCPOnZo6+B2mUXJ98PsHidZx
-         ss+IXcUDxRSQW+WTujEITPni+WTC+OA/e47JXVtLdsKdQUmpd64AiZLQlZVgv8q4Ik4+
-         2dUBOYcWb/c4SVn3mAvi8QAUU3KUAme04pppJrmHDTtpAiLDWfkGj9zzJSYS6JzmlhFu
-         yhtz3N2mEod/r6ntNWr67d1Sf1bpA8g9HD5BWjsfobKYku8wzsly1U+You2KYxmgofuh
-         RJ5Lk/QBdU/FBtgBw90UojSk8Xru+4FyxqnNXOKJn6HS2jy5yjoF5RryCWwpb8HBmkXl
-         /lAA==
-X-Forwarded-Encrypted: i=1; AL+hErEa5Xap93+iFEzILyotXNBLRp59IF7snabaE/6l+JoB010Kh/PaBujyMXtWhBAi4mnKDSvlxNxZ15M=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+jRB6S3IQICa9NO4Ld3BCI15HeX/nEcgKwYMvTBvblVK2tA04u
-	IFMvGCjDs+K2LSQzTd7QeoVcuXx4egeHUqCUsOQR1hpG6UqFHet9d12wHPe0jPl3MctHrjRL3KM
-	+hrtrrF5imKG4k8b4+cA24eETjOf4gUQ=
-X-Gm-Gg: AZFdTZc6ZoVPi+By3tO11nsrLBdV07l0DbUvKRb85B/WiZkRQYe/grp5N/kr1spuGDp
-	FHxaNK+Xy7UCN8Ca0VGXZUfZlcJVMDn49ZBFNlyuafPsrMzwE3/7yK8+5PsyiyZaOB/0uNlnc5e
-	Sslwo538iUDw1e25Kk77sEb0FiCTpuZqSFQZhDows1lFfax/thRUDQeP5QFkKxV0WNbNIkch9KY
-	cYea8NU5vaEIVvSROTOLFPs40oAM7KCghBrgE9LZ+lq4WKGNTCXKOaVsM1k1suIGpIXdhTVmyMO
-	38BUIzfMl+mGtxhOkNrpEvuI94VB9RTsoxLZY0nO+SEavpk/ANpJfWZbo8SUzYZipaEApP5S+dZ
-	8WWd2XPoESWXk3sd4kk/oV8bPChMO777QIwf2rC6Oi3bGECzZ0QOh8BLV0l8PgfxA5Num3xG1xx
-	ow12RuDfV3+dtBd94vd7Q=
-X-Received: by 2002:a05:6000:4692:b0:491:3fdd:af34 with SMTP id
- ffacd0b85a97d-49d61c80db3mr13343868f8f.36.1794859448335; Mon, 16 Nov 2026
- 12:04:08 -0800 (PST)
+        bh=rIDjnnpHadC4roO6Pjzwfgg43uG+Y6jCh2hpR36q9WA=;
+        b=fFfRPhJ2Gy9vO8CwZrQiYrfEJ5YF9i2p7lGieLDwxEgr+AThANuq05+pnFhdmoCuqq
+         gNPomkpZ7FJNxAdgNyiOLuYaYDgtr/iHKCQP94k2ygpy7JH46lsHuq/KR5bEjY8t0Xo2
+         3rTsFYA76UJyhMcKh4iWIoi6LmzI1LJ0Iown5/dAu0cwSlJvWBfcIof85C7WwNWScvYx
+         yMgSQfIwOosXe0z0Bhip34x2ud/IpWWe2o7hUk75eNd1axWWoP5dWqXFKWl81Hh5MtGU
+         G3LjWBz/pVCK9Ert0NQ/5yjb8rCTMBG3pPx1W0dSmuEMVQCXtjZvxuGZdV9jQxoy1h8c
+         beJA==
+X-Forwarded-Encrypted: i=1; AL+hErG+WeOV+dOOuTSZciNAIGVVCJgU4g3KX+F0jy6EKefsRyQ5a36QwiN8YDkpZiDNmvvPgFUYE2G/O+w=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/2NpGAAHg63g0j4JsEzEVGFArwFlmBwhKzifPT4PijGOb2UxF8
+	npAlLK6+KkxO5A3LIyduc5IGasr84lUPEiGrTd4BME31G1416DCzn34RqzETaN7NOk8=
+X-Gm-Gg: AYBFou10boctFc9x0WOQb2ia6aX60l1mSf5UQjmsPPBGNycwySbmJMsw/J4JYnxkxIn
+	oAT3fMe87utM5UYry76fOh7Dv80MXMSkd7b5/lBNeYWMKiIld9NbcUyT58yt1ulSc6OCC8jEn1f
+	oo2mzyVx8njpW0L+TrEzxtzGUy0q5yfM/Ci3a0sVhmQzmLDwXVNesP0WrrJg69lbtjsc9Qc1IlL
+	+oDjC78WV3l0ELY0qYcYyvmDb7nrnXAlWsukj6BqZJNgA/ug5FUhlwl2ZDeYaBFRH03L8aSjQWe
+	ax2dwWKvdBMxUjoY+GlTlrJrem9on6A1EwSe0OMMP5MgUUDhCeD72FQOl9iF+YWnmRUBbclioBm
+	SIy43dAheuXjvBjaEPwsqDOelOPYWUbeNKAIr0ESGkKXi9I9vPXc+fu+26pzzRzGpeWVM0BXmvF
+	6ZiFNEcnR/f8GLNm2N9+vjL7gDilpPIdsXAVViRv5m+Ps0bj9/A37XiEQyc9VMA36XDoFDkOvWU
+	jxRx8AJd6ntkmYk9bAe6kESXo7UN8rcXsrazVYyMgR76uVHKaiwTd+Z0ObMmCYlrimOrxv6vugc
+	tiUwIw==
+X-Received: by 2002:a05:622a:5144:b0:536:98da:f790 with SMTP id d75a77b69052e-55ac43909femr187873791cf.6.1794859753196;
+        Mon, 16 Nov 2026 12:09:13 -0800 (PST)
+Received: from ziepe.ca ([142.166.156.71])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d445d1sm92856046d6.8.2026.11.16.12.09.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 12:09:12 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xT30p-0000000ANtb-30lh;
+	Mon, 16 Nov 2026 16:09:11 -0400
+Date: Mon, 16 Nov 2026 16:09:11 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Kameron Carr <kameroncarr@linux.microsoft.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
+Message-ID: <20261116200911.GA2473219@ziepe.ca>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+ <193e4130-9c2f-4a0f-b218-f5fcf0b3d508@linux.microsoft.com>
+ <20261116190417.GD2299285@ziepe.ca>
+ <2965c691-82fc-49f3-abdb-383860f6e82f@linux.microsoft.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -105,81 +135,35 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org> <20261116-work-loop-pseudo-v3-9-8cbbea1cf34f@kernel.org>
-In-Reply-To: <20261116-work-loop-pseudo-v3-9-8cbbea1cf34f@kernel.org>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Mon, 16 Nov 2026 12:03:57 -0800
-X-Gm-Features: Aa3M54q6P4M0RFDCKQ8HHGNCWJafItTSPdWR1qNwVGtToDAv2VOv8vDfWHzYR6A
-Message-ID: <CAEf4BzbLFVawibuX0wk=8uzy0WZSYHbkgK55d7rqLab2qAM1Fg@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 09/44] bpf: use fc_init_pseudo() for bpffs
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
-	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org, 
-	Alexander Mikhalitsyn <alex@amutable.com>, Chris Down <chris@chrisdown.name>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2965c691-82fc-49f3-abdb-383860f6e82f@linux.microsoft.com>
 
-On Mon, Nov 16, 2026 at 3:21=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> Initialize bpffs as a pseudo filesystem instead of raising
-> SB_I_NOEXEC and SB_I_NODEV by hand. This adds SB_I_PSEUDO.
->
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
-> Reviewed-by: Chris Down <chris@chrisdown.name>
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  kernel/bpf/inode.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
+On Mon, Nov 16, 2026 at 11:24:17AM -0800, Kameron Carr wrote:
+> >> My scenario is pci-hyperv in a confidential VM with a paravisor. The
+> >> paravisor is inside the guest's trust boundary and owns TDISP. It locks,
+> >> attests and accepts the device, then answers a VMBus query describing
+> >> which BAR ranges are private and whether the device's DMA may target
+> >> private memory. Before a driver can bind pci-hyperv has to:
+> > 
+> > Sounds like a user in such an environment just wouldn't use the trust
+> > level mechanism at all.
+> > 
+> > What use do you see for enabling trust level but having all the
+> > devices unattestable and accepted already?
+> 
+> Previous iterations of device trust used the trust level to make
+> decisions around DMA bounce buffering, etc. Is that no longer the
+> case?
 
-Acked-by: Andrii Nakryiko <andrii@kernel.org>
+It is not, this is now just about userspace attestation really.
 
-> diff --git a/kernel/bpf/inode.c b/kernel/bpf/inode.c
-> index c6f328e4752e1..57cf3775c0766 100644
-> --- a/kernel/bpf/inode.c
-> +++ b/kernel/bpf/inode.c
-> @@ -15,6 +15,7 @@
->  #include <linux/namei.h>
->  #include <linux/fs.h>
->  #include <linux/fs_context.h>
-> +#include <linux/pseudo_fs.h>
->  #include <linux/fs_parser.h>
->  #include <linux/kdev_t.h>
->  #include <linux/filter.h>
-> @@ -1197,8 +1198,6 @@ static int bpf_fill_super(struct super_block *sb, s=
-truct fs_context *fc)
->         sb->s_magic =3D BPF_FS_MAGIC;
->         sb->s_op =3D &bpf_super_ops;
->         sb->s_xattr =3D bpf_fs_xattr_handlers;
-> -       sb->s_iflags |=3D SB_I_NOEXEC;
-> -       sb->s_iflags |=3D SB_I_NODEV;
->         sb->s_time_gran =3D 1;
->
->         inode =3D bpf_get_inode(sb, NULL, S_IFDIR | 0777);
-> @@ -1261,6 +1260,7 @@ static int bpf_init_fs_context(struct fs_context *f=
-c)
->         opts->delegate_attachs =3D 0;
->
->         fc->s_fs_info =3D opts;
-> +       fc_init_pseudo(fc);
->         fc->ops =3D &bpf_context_ops;
->         return 0;
->  }
->
-> --
-> 2.53.0
->
->
+> I am looking for good hook candidates. I was hoping that trust levels
+> would end up directing DMA behavior, etc. but maybe I am
+> misunderstanding the design direction for these trust levels.
+
+I don't know, I broadly expect some flag in the struct device to
+indicate that it can access private memory, but how and when hyper-v
+could get involved to set that flag I don't know.
+
+Jason
