@@ -1,55 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794824179;
-	b=o9ca9Six7vr2DN9xhUQ3ytGmeY1Dct2r5t6vmNqZVSohB0nNMtm8S8JMHtBl1Nn3bfw5
-	 t4L7Vk0TUqmLhtjEKWH1V6ELHHI6d9MWllQPQA4EZH6Dg8ggqn387xYzecUMPi8/deu+U
-	 EtSgV2B58zsKFpYNuJSlVM8MG6ZnhNuipaOHTFBufQ95bmUPvEiBQD+MpQWnFWozewHms
-	 gImde1BC52uD2ICAlAr9Rec2ayA3HA5qbCZbz33tnf9ekU78aQwZxye/6pYPFc6U3DBPS
-	 sLYxyRQ9PrReIwNvgiFmvfnoS9F8JffRkNKu2qSC/HR8ccUtdpxe4rd6ymIRDY+N53A==
+	t=1794824217;
+	b=ytTetau2luQYu8iOPNTL8eLVQMy6Wvsu2Q0vP1nNn6HnU0oKDcvKFSV0igOkpGaxqVRP
+	 OfCA1mhHcO4Lhg7Q9+wg3L5n+ymZwnzd1K9YjWa1KzKwpn/OvgPocH1T4qdxDD68AdO3z
+	 GagZnO2AjTr5REbMgEt5F81Q2rkBk+2j+cy9xULVvh0l8p5zNLGzM6NEIjbD9hhBn17Y6
+	 9MwHiQ9bJiGw6vb8AhXmewphpVcAY8SGGI0atU09fWHbxiso3EnCkVRCa3w2nSxnSV7Zx
+	 dFNU+GYpdFNAcMIz83iQ72SGOVO/x9LCAugENZqw5rLR428cptd2n1efclBR7UzDRcw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794824179;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=lp1hBh3kGMtiMv4I01/WDcU3LFNFBfEj5W+S8mSCYKc=;
-	b=qgOpgP5zMr4K3DHm2LDaK9uRdFepPFXWM/4C65S+fJCeaFEHnYT3n3UFyFkfwMDh1Ebm
-	 qHGy7Ik8zg1qzaypEq+SX9Xt55ojrcMP4N9zWsVMXG6OemCkEsYRDcZ2PflZnZX+XuIlr
-	 BbdHaUwLa0azfd8/kSYKXbSPl+zWZQ5S4WwbPCPneQeB/FoG4D+n1dKFg1zBZF3aDUqC2
-	 qaUOpgEcDn/a3uMNIPOSkGz0i0SaUQJEK/5lpPE/o4EDf5DIhGx3A+PvY5Oz4eQ5lnOdY
-	 Ix5Gz8NEDjvUQeFQmqUgJcxtWHw7xXtiRUBtmQpAV9X9DbaI7pG+mpip1Ef3ZKhP3Vw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794824217;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=wvjIcb489MNI+PAEjit7VZrKhYqtAsaZyCRmpVlWelw=;
+	b=B1FJkhM/u2DUSdbxjGWZuNJpZhJNXTKFoKFEnpR4y0Ij98AQPDk8F1d7r7H/C7oETgjg
+	 XOppnWQMk2HG7Cq1XiKMhcKjvveFBHd5QwJwnzT2iQjySSKPpvLKhdPfzlizxC89ksZJv
+	 lor4lJeFss7EwEUlNTRPD9xFRWjIUzbM0XtHf3PW4GCuj9z94FPrpaSmE6rRQwWQzywGp
+	 +GYXNMvcHwIcMmV0iuuK0sg09eGFlEU4hax4JFUS441h7MVqdLQK86tXS4LcuiGWyOnQ7
+	 s3TXONpiw/GVdBGlmIAYowPDJkQXFdB8X142anBdCosSsel40ODbvn9+vlm6+qJbL+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D385A606A31C;
-	Mon, 16 Nov 2026 10:16:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D385A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=lp1hBh3kGM
-	tiMv4I01/WDcU3LFNFBfEj5W+S8mSCYKc=; b=cAqQfbC+WP8SkhEgXaV8Z0b4Ga
-	WvAoZa5vHcNAr0MpgVK9Pih0DKqO26s1vlyP90OlpW0LBlTCsPWlBHqVbjsOF6Qf
-	3eaFJBcpwEYyJJsOaVezKimi0ebGIm4rdvf+l1EM08eG7seG+waUghBWqh5qTnM7
-	dR8iT87LHB/GR8aGo=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.41])
-	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkDW2_7k1_pqoDG2AQ--.2231S2;
-	Mon, 16 Nov 2026 18:16:04 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>
-Subject: [PATCH] usb-storage: reject too small values in max_sectors_store()
-Date: Mon, 16 Nov 2026 18:16:04 +0800
-Message-Id: <20261116101604.42161-1-25031212351@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LA1ylGsS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F20606A32A
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 10:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LA1ylGsS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CAD01F000C6;
+	Mon, 16 Nov 2026 10:16:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794824217;
+	bh=wvjIcb489MNI+PAEjit7VZrKhYqtAsaZyCRmpVlWelw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=LA1ylGsSGhgZE3/AZ3n0oML+cKp+7LxeQ2LRfgvKqYMAOAmoucu2BMBqPVRI7ieFj
+	 K3xNmOzNuR+Z+n7xOKhe1hEnFH2QZunjKycTs5/VO/xfNQHeaS0JGm8Nm5rEYvXEWC
+	 UIsHynjYzaubJu0BHIljQzmPmcnHcam6qHtGrbatk1OJzYIeW5GwojmPh2t0kHrL/m
+	 j1bhnj0/B0NOmANx2aXQ5vjYqCrAXGge9oredY/3pG9ibBasYaZP8Mn+o7aHN1vAfP
+	 vk5TnjWfjGY6DHdMOD9zwHweDQeo+bE5SPTPrEcpeHe6iUPQtb1Li6jZ8wi+Oc+Q3g
+	 slGwTTHLrjr0g==
+Message-ID: <sashiko-outbox-216704@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] net: hso: fix tx skb leak and a race on the stashed
+ skb
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Aibing Chen" <chenaibing@cmss.chinamobile.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261115101646.244-1-chenaibing@cmss.chinamobile.com>
+References: <20261114093133.465-1-chenaibing@cmss.chinamobile.com>
+ <20261115101646.244-1-chenaibing@cmss.chinamobile.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Nov 2026 10:16:56 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,77 +60,112 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BbQMCkDW2_7k1_pqoDG2AQ--.2231S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ar43Jr4DCw1DKw43trWUurg_yoW8uw13pF
-	ZrXFyakFWUtanrWws8Xw17uasYk39rGFy2krsxXwn5urnxGF9IkryUtr1aqFy3Awn8Aa48
-	tFZ0yFyqk3yDuFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9vb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
-	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq
-	07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r
-	15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
-	r41lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6r4DMxAIw28IcxkI7VAKI48JMxC20s
-	026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
-	JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
-	v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
-	j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
-	W8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8LYFJUUUUU==
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUTD2r5zUi2hAACs9
 
-Writing a value smaller than a page worth of sectors to
-/sys/class/scsi_device/.../device/max_sectors passes an invalid
-max_hw_sectors to queue_limits_commit_update_frozen().  The block layer
-requires max_hw_sectors to cover at least one page and treats a smaller
-value as a driver bug:
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] net: hso: race between hso_resume() and hso_net_close() leaks
+  skb or starts URBs
+--
 
- WARNING: block/blk-settings.c:389 at blk_validate_limits+0xeb9/0x14b0
- Call Trace:
-  queue_limits_commit_update
-  queue_limits_commit_update_frozen
-  max_sectors_store
-  dev_attr_store
-  sysfs_kf_write
+commit 6454f405b890c90cd5c9d28c2b1b886b3625e833
+Author: Aibing Chen <chenaibing@cmss.chinamobile.com>
 
-Before commit 70a7949335e5 ("scsi: usb-storage: Switch to using
-->device_configure") the store called blk_queue_max_hw_sectors(), which
-silently raised values below PAGE_SECTORS to that minimum.  The
-conversion to the queue_limits API lost the clamping, so a single sysfs
-write from user space can now trigger the warning.
+net: hso: fix tx skb leak and a race on the stashed skb
 
-Reject values below PAGE_SECTORS with -EINVAL before taking the limits
-lock.  This keeps the return value for 1..7 unchanged, as the block
-layer already returned -EINVAL for them, and also rejects zero, which
-blk_validate_limits() would otherwise replace with BLK_SAFE_MAX_SECTORS
-without the user asking for it.
+This commit frees any pending skb in hso_net_close() and uses xchg() in
+both hso_net_close() and hso_resume() to take ownership of skb_tx_buf.
 
-Fixes: 70a7949335e5 ("scsi: usb-storage: Switch to using ->device_configure")
-Cc: stable@vger.kernel.org
-Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
----
- drivers/usb/storage/scsiglue.c | 2 ++
- 1 file changed, 2 insertions(+)
+Link: https://lore.kernel.org/all/6af74e31.fe96acdb.12252b.0009.GAE@google.=
+com/
 
-diff --git a/drivers/usb/storage/scsiglue.c b/drivers/usb/storage/scsiglue.c
-index 97de28e85562..94131b726ade 100644
---- a/drivers/usb/storage/scsiglue.c
-+++ b/drivers/usb/storage/scsiglue.c
-@@ -591,6 +591,8 @@ static ssize_t max_sectors_store(struct device *dev, struct device_attribute *at
- 
- 	if (sscanf(buf, "%hu", &ms) <= 0)
- 		return -EINVAL;
-+	if (ms < PAGE_SECTORS)
-+		return -EINVAL;
- 
- 	lim = queue_limits_start_update(sdev->request_queue);
- 	lim.max_hw_sectors = ms;
--- 
-2.34.1
+> diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
+> index 71caa3764b239..ba59bdefd203d 100644
+> --- a/drivers/net/usb/hso.c
+> +++ b/drivers/net/usb/hso.c
+> @@ -720,6 +720,7 @@ static int hso_net_open(struct net_device *net)
+>  static int hso_net_close(struct net_device *net)
+>  {
+>  	struct hso_net *odev =3D netdev_priv(net);
+> +	struct sk_buff *skb;
+> =20
+>  	/* we don't need the queue anymore */
+>  	netif_stop_queue(net);
+> @@ -728,6 +729,14 @@ static int hso_net_close(struct net_device *net)
+> =20
+>  	hso_stop_net_device(odev->parent);
+> =20
+> +	/*
+> +	 * Take ownership of a frame stashed by hso_net_start_xmit() and drop i=
+t.
+> +	 * hso_resume() takes it the same way, so only one of the two paths fre=
+es
+> +	 * it.
+> +	 */
+> +	skb =3D xchg(&odev->skb_tx_buf, NULL);
+> +	dev_kfree_skb(skb);
+> +
+>  	/* done */
+>  	return 0;
+>  }
+> @@ -3032,6 +3041,7 @@ static int hso_resume(struct usb_interface *iface)
+>  {
+>  	int i, result =3D 0;
+>  	struct hso_net *hso_net;
+> +	struct sk_buff *skb;
+> =20
+>  	/* Start all serial ports */
+>  	for (i =3D 0; i < HSO_SERIAL_TTY_MINORS; i++) {
+> @@ -3054,13 +3064,17 @@ static int hso_resume(struct usb_interface *iface)
+>  			if (hso_net->flags & IFF_UP) {
+>  				/* First transmit any lingering data,
+>  				   then restart the device. */
+> -				if (hso_net->skb_tx_buf) {
+> +				skb =3D xchg(&hso_net->skb_tx_buf, NULL);
+> +				if (skb) {
+>  					dev_dbg(&iface->dev,
+>  						"Transmitting"
+>  						" lingering data\n");
+> -					hso_net_start_xmit(hso_net->skb_tx_buf,
+> -							   hso_net->net);
+> -					hso_net->skb_tx_buf =3D NULL;
+> +					if (test_bit(HSO_NET_RUNNING,
+> +						     &hso_net->flags))
+> +						hso_net_start_xmit(skb,
+> +								   hso_net->net);
+> +					else
+> +						dev_kfree_skb(skb);
+>  				}
+>  				result =3D hso_start_net_device(network_table[i]);
+>  				if (result)
 
+[Severity: Medium]
+Can hso_resume() still race with hso_net_close() and leak skb or restart
+URBs on a closed interface?
+
+Nothing serializes the HSO_NET_RUNNING check in hso_resume() against
+hso_net_close():
+
+CPU0                              CPU1
+hso_resume()
+  skb =3D xchg(&hso_net->skb_tx_buf, NULL)
+  test_bit(HSO_NET_RUNNING, ...)  [true]
+                                  hso_net_close()
+                                    clear_bit(HSO_NET_RUNNING, ...)
+                                    hso_stop_net_device()
+                                    xchg(&odev->skb_tx_buf, NULL)  [NULL]
+  hso_net_start_xmit(skb, ...)
+    /* if hso_get_activity() =3D=3D -EAGAIN */
+    odev->skb_tx_buf =3D skb        <-- leaked after close finished
+  hso_start_net_device()          <-- submits RX URBs on closed device
+
+If hso_get_activity() returns -EAGAIN during hso_net_start_xmit(), skb is
+stashed back into odev->skb_tx_buf after hso_net_close() has already
+drained it, leaking skb on disconnect or the next hso_net_open().  If
+hso_get_activity() succeeds instead, hso_net_start_xmit() and
+hso_start_net_device() submit TX and RX URBs after hso_stop_net_device()
+killed them; even if HSO_NET_RUNNING is cleared before test_bit() so skb
+is freed, hso_resume() still calls hso_start_net_device() unconditionally.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261115101646.244-=
+1-chenaibing@cmss.chinamobile.com?part=3D1
