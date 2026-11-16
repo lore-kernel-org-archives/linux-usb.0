@@ -1,54 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.129.46.36
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=78.40.151.100
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794862917;
-	b=A8bIrZYLesEdJOmuqo22HuhziHyOHpDIB7iNKINI6+nS2Xfzo/DuIFfafGFIkwjYJEZi
-	 qBT28AQWLfM3b8RCVMyYqIcjyMULdqPaLqa7Ihw9KWHa41FsWxfGRjzB+59xYZac5rAKQ
-	 KpRFkdQTSQ+Z4IujfPNlVo5Khq5YHFhXlSRpuEOsHJWG/FU/wgETkmF+6gWKa3Zfcqw92
-	 S7QxV8e/9klmPIJUYplAIvQc43U9CytSfFRbn2UYGhI9AmL6b9k1w29d93Tp6qQWkqPCu
-	 bMlmQaOcbVFZNOU5Xb+GdRx1TsvVeeP6nnOiD+FdGYypRgYfzSdFsHiwPHXuB6DpIqQ==
+	t=1794863078;
+	b=A4LqdOKBYPp4dkz77BTXdbMxXEXSpQ/9bmAHAC6e5QQW3RLij00bRTB8FUoJR1haAebN
+	 U/rplx4BrNh9XcqU7WBMLzflCzeLX8jv4LwqRX2VgOevlOzS5juV8AtnbJ/iFT7KJzcGv
+	 6FT91u4t3Zco8PIsPdKqFQs61kxb0X1WEWHjoDxhQuPlyOPrth/+WfXfJX0Qt8wyr2913
+	 54f5fPbGFPBHMMjpV9iXGeBSo7ynpQ3BySROMRP0iBtx9lXjmvuNywdxSxdjV3ZXhmK8N
+	 pwnoqDLfeFkhJ2tr6+MwdstAxp5/O1TLcx3JqVOfKMW8PjfUoohgTdf8HKOGXQUdE8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794862917;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:MIME-Version:Date:From:
-	 To:Cc:Subject:In-Reply-To:References:User-Agent:Message-ID:X-Sender:
-	 X-Originating-IP:Content-Type:Content-Transfer-Encoding;
-	bh=VzZICWgvtwUsOj7HwUeSetfuU1+NwVe6kKdGB3d8lvE=;
-	b=TMAezy2jxtBD854z7YJM4nLMcaNt/vhHQ/0EpkYhPAHlex7dVkZxX8SOLYR9DB/eACcB
-	 W0jFVqgv+Ekb0xWdOJuxhzccyyFacG+dDmmmbC+Xq3Gw5+vipeTnSwAu2vPZAUrLyOifl
-	 fBnP3KdCarsoxFlmAKEBNAgJdHx782UTC787PGo+TGTuhg0RTwaDKo6kHpCjs5rBKnFMX
-	 UmoOm7yyl19G1EdTWVdYe29m/HTsQPuru7QYx+qdo4/UAS2828dHE8px25p+Mymnw3dty
-	 fJFfeTu6h9VOABuqd2mHbv8XS52/0Q91Uw+oNnLflchFuSnm6VaQ7Xupmaj89e6PtFg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794863078;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Scanned-By;
+	bh=CjtKhLoJdtSTue2zQdF2MLm7yt0HQzJg9+rAwy/nUSM=;
+	b=BqFV1cWOJSLBM3LAUZEwaF7L6lLc2rc1mcMX33hTxUYfV/fnCPPb3sujSuDue8goNP19
+	 AXz7T3+1qqMZLwQvjX17Xlusg4SKIjlaIYt/Ii7+KwCLHKjWsq0WTrVx+4AWnirI17ulW
+	 xFBy7zWw6m/f6ij9amT6KCcIu3pnuekI1gBulsIaxgnE2+iN9A+hP2uzUk2w61WM3HRwy
+	 QRep3ZI5uyp1jx79Mu3HXcm5nAs2rwSYInhCQDmoQKO+qx5tHaBApiR10eBRL2Vj7bhaY
+	 Zgn6nWNYcPW3yvTPMZTkWzGW5tm4PaENnDxbl1DTb/qPFcFIpXzzshnXc6D/fD1jAQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nwlink.com;
-	spf=pass smtp.mailfrom=nwlink.com;
-	dkim=pass header.d=nwlink.com header.i=@nwlink.com header.a=rsa-sha256 header.s=mail header.b=NIIe5xyX;
-	arc=none smtp.remote-ip=52.129.46.36
-Received: from smtp2.iinet.com (smtp2.iinet.com [52.129.46.36])
+	dmarc=pass header.from=ehuk.net;
+	spf=pass smtp.mailfrom=ehuk.net;
+	dkim=pass header.d=ehuk.net header.i=@ehuk.net header.a=rsa-sha256 header.s=default header.b=gC1BmTMl;
+	arc=none smtp.remote-ip=78.40.151.100
+Received: from james.steelbluetech.co.uk (james.steelbluetech.co.uk [78.40.151.100])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E48606A88A
-	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 21:01:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14E48606A88A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nwlink.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nwlink.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEA2606A31C
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 21:04:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AEA2606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ehuk.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ehuk.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nwlink.com header.i=@nwlink.com header.a=rsa-sha256 header.s=mail header.b=NIIe5xyX
-Received: from webmail.iinet.com (web1.iinet.com [52.129.46.51])
-	(Authenticated sender: kaf@nwlink.com)
-	by smtp2.iinet.com (Postfix) with ESMTPA id 9F97BB405A0;
-	Mon, 16 Nov 2026 13:01:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nwlink.com; s=mail;
-	t=1794862916; bh=VzZICWgvtwUsOj7HwUeSetfuU1+NwVe6kKdGB3d8lvE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NIIe5xyXiHLTh+ZoJX36OkDKhDpMqG4TshgOn85iPrczil+A1ppXJRsI6QWUEiAEe
-	 /krKbrDtGryiULpAqKaYviVn5ItAjtI+lMwpQWn2DnQn9siHmmpsBHYQMYZtNNdFtP
-	 Skg5g7mxHi0cgHK7qHku+oxFHm4T3KU76bvl2z44n6LmsDBMl6GxI3UCEADVqKD4P1
-	 TAo3trWeR4Jz+9PmbghZucwRKjndpLquWuGBPXyuN9lUyakETo8T6UcUEnahZQTSa6
-	 ghlcxqIxOBipuCo6+UaY4zvoHGqIRS20iqXwZHOcnxuECulLsUllGXNOjoA6GMv966
-	 JMd8uPOxUeLzA==
-Received: from c-98-203-133-45.hsd1.wa.comcast.net ([98.203.133.45])
- by webmail.iinet.com
- with HTTP (HTTP/1.1 POST); Mon, 16 Nov 2026 13:01:53 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=ehuk.net header.i=@ehuk.net header.a=rsa-sha256 header.s=default header.b=gC1BmTMl
+Received: from [10.0.5.25] (tv.ehuk.net [10.0.5.25])
+	by james.steelbluetech.co.uk (Postfix) with ESMTP id 38743BFC25;
+	Mon, 16 Nov 2026 21:04:29 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 james.steelbluetech.co.uk 38743BFC25
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ehuk.net; s=default;
+	t=1794863069; bh=CjtKhLoJdtSTue2zQdF2MLm7yt0HQzJg9+rAwy/nUSM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gC1BmTMlIvLRxbmAq8XqZaptH+9mt7RYhcbSGUi2/K4PZ4dBW2rbw2YAz22n5QJ9t
+	 C5EJJd+v8yjSFcB/PdXwqXaTFxU411TCIOfwh7045TEnlKT3/v4lV4j3U2xAGij4bJ
+	 MYegqmNFYMp28vRIXGY2pr/TdgKcyZKbzewpnpkpMRl6wuwMzZ0kwffsCav/YxnRj1
+	 tACoOwSTEns6KohSSSUH5kAvnEdzNvzGZrYPFeFHY2vhvX4CqJ7QyHp3pUGznyfUwY
+	 mOH7xuqHzaCLY7HvUPWvBVFsTZXIt49GpB0iIWZjWqTCv+wiSYsI6iqn8yjDdaiYu9
+	 IEviS0qbgMPzg==
+Message-ID: <e2ded4e1-a7f3-47d4-a3be-d7c6eed3e436@ehuk.net>
+Date: Mon, 16 Nov 2026 21:04:29 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,78 +57,72 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Mon, 16 Nov 2026 13:01:53 -0800
-From: kaf@nwlink.com
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Neill Kapron <nkapron@google.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: u_audio: don't exceed maxpacket when adding
- a residue frame
-In-Reply-To: <20261026231026.721536-1-kaf@nwlink.com>
-References: <20261026231026.721536-1-kaf@nwlink.com>
-User-Agent: Roundcube Webmail/1.4.3
-Message-ID: <db18fcc4f778afbf515fed81a4a13488@nwlink.com>
-X-Sender: kaf@nwlink.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: uas: ignore UAS for ASMT135x bridges (174c:55aa)
+To: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
+Cc: linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
+ gregkh@linuxfoundation.org, oneukum@suse.com,
+ usb-storage@lists.one-eyed-alien.net
+References: <20261114174932.53895-1-olivier.kaloudoff@gmail.com>
+Content-Language: en-GB, es-ES
+From: Eddie Chapman <eddie@ehuk.net>
+In-Reply-To: <20261114174932.53895-1-olivier.kaloudoff@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang
 
-On 2026-10-26 16:10, Kyle Farrell wrote:
-> u_audio_iso_complete() clamps the base packet size to ep->maxpacket
-> and accumulates fractional-frame residue in p_residue_mil. Once a
-> whole frame has accumulated, it is appended to the packet without
-> checking whether it fits within ep->maxpacket.
+On 14/11/2026 17:49, Olivier Kaloudoff wrote:
+> Hi Eddie,
 > 
-> Only append the extra frame if it fits. Consume the accumulated
-> residue whether or not the frame is sent, preventing it from growing
-> when the additional frame cannot fit. When the frame fits, behavior
-> is unchanged. Otherwise, the stream cannot sustain the requested
-> sample rate.
+> On 13/11/2026 19:32, Eddie Chapman wrote:
+>> May I trouble you to say the product/model of the Orico device you have
+>> which reports "ASMT135x" as the iProduct?
+>>
+>> Also, is it still running whatever firmware it came with or has that
+>> been upgraded?
 > 
-> For example, with 27 channels of 32-bit samples at 19200 Hz on a
-> high-speed link with p_hs_bint=3, the required packet size of 1080
-> bytes is capped at 1024. The base packet is 972 bytes, but appending
-> a residue frame increases it to 1080 bytes, exceeding the allocated
-> request buffer by 56 bytes.
+> It's an ORICO C10 — sold as "ORICO C10 SSD Externe" (4 TB, "800 MB/s"
+> USB enclosure). Stock firmware; it has never been updated, there is no
+> vendor updater for it that I'm aware of.
 > 
-> Fixes: 9bb87f168931 ("usb: gadget: f_uac2: send reasonably sized 
-> packets")
-> Link: 
-> https://lore.kernel.org/linux-usb/sashiko-outbox-174688@kernel.org/
-> Signed-off-by: Kyle Farrell <kaf@nwlink.com>
-> ---
->  drivers/usb/gadget/function/u_audio.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+> Identification details for the record: idVendor/idProduct 174c:55aa,
+> iManufacturer "ASMT", iProduct "ASMT135x", bcdDevice 1.00.
 > 
-> diff --git a/drivers/usb/gadget/function/u_audio.c
-> b/drivers/usb/gadget/function/u_audio.c
-> index f0ee83abcebc..f73d1085c1d1 100644
-> --- a/drivers/usb/gadget/function/u_audio.c
-> +++ b/drivers/usb/gadget/function/u_audio.c
-> @@ -230,9 +230,13 @@ static void u_audio_iso_complete(struct usb_ep
-> *ep, struct usb_request *req)
->  		do_div(div_result, uac->p_interval);
->  		do_div(div_result, 1000000);
->  		if ((unsigned int) div_result >= uac->p_framesize) {
-> -			req->length += uac->p_framesize;
-> +			/* req->length is bounded by ep->maxpacket above. */
-> +			if (uac->p_framesize <= ep->maxpacket - req->length) {
-> +				req->length += uac->p_framesize;
-> +				pr_debug("increased req length to %d\n", req->length);
-> +			}
-> +
->  			uac->p_residue_mil -= uac->p_framesize * p_interval_mil;
-> -			pr_debug("increased req length to %d\n", req->length);
->  		}
->  		pr_debug("remains uac->p_residue_mil %llu\n", uac->p_residue_mil);
+> Note the model is now discontinued — mine went back under a
+> defect-based refund (reallocated/pending sectors on the SSD itself),
+> which is how the UAS breakage was noticed in the first place.
 > 
-> 
-> base-commit: bdf12cde30830d46a8ef1ba93986356f1164b4f1
+> Hope that helps,
+> Olivier
 
-This patch also is suitable for stable backporting, as it fixes a 
-potential out-of-bounds write in existing configurations.  Please add 
-the following trailer when applying:
+Thanks Olivier. In my own experience just purchasing and using many 
+Asmedia USB to SATA products over the years, they usually ship with 
+quite old, buggy firmware, and the manufacturer rarely provides a 
+firmware update. But there are various unofficial sources of newer 
+firmware out there if you look. It goes without saying you have to 
+decide for yourself if the obvious risk is worth taking. Generally these 
+are either leaked, or are "extracted" from devices with newer firmware 
+by users and shared. Sometimes one or two "good" manufacturers supply 
+firmware updates for their products and the firmware enthusiast 
+community subsequently finds that these apply fine to other equivalent 
+product with the same chip.
 
-Cc: stable@vger.kernel.org
+There is an internal Asmedia firmware tool widely available online. If a 
+manufacturer does provide a firmware update it will usually come 
+packaged with that tool. It only runs on Windows (not sure about Mac, 
+definitely not Linux). There are community efforts I've seen trying to 
+develop alternative firmare tools.
 
-Thanks,
-Kyle Farrell
+Anyway, speaking purely from my own experience, I've always updated the 
+firmware on my devices and there is no doubt in my mind that the newer 
+firmware versions I've applied to my devices have resolved serious bugs 
+in the older versions they were shipped with.
+
+Bringing this a little bit back on topic for issues seen in the Linux 
+kernel with Asmedia USB to SATA devices, I'd be willing to wager that a 
+lot (if not most) of the time, if there is a firmware update out there 
+for a chip, there's an excellent chance it will resolve the issue. But 
+it is a mine field for users who are forced to take risks, and it is a 
+very problematic situation for Linux to deal with to say the least.
+
+Eddie
