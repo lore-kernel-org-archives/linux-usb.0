@@ -1,45 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794830419;
-	b=1PtcXJGFiup97ZeLwMLQ5c20u9r3eyG4/8CmJqGZWtvuJd5xnN9ShaLPY1saDZ4ca41l
-	 JrJjaKK9zbgliXnyx3KmSxg0jq9ZY8791g98Q5HwLa8ySL1A6DEXhdSDeVVxK2leWU+hP
-	 bk8DKSVbdQ1tfTt+b/UMV5XUdKFIAO3iysm1EijG5qUIWC7Ip+FzeSJQCk5lL+HVdtCBD
-	 xvaucbrPl6PD/wSPOpzaiugZwPYZcZFOF+V+b56MxOpHe73M2ObGONV6nYsBge/cvD1jP
-	 RZT8t08JbnwETdx47Aqwkb/JgTpipLpby61IvAS5FV+fZm/qcUOMFovBx3Qy0qmQVAw==
+	t=1794830454;
+	b=PKmhxbpqWpaBRyHVf5jM/6JDZv1kobuyM32iuS5/w4nU+bzJUlnw4YP7vmLA+oboVh1Q
+	 xdkQFkE/KrBp3n9DBr5v/b9et1bXgAookcqaBjeLu+KOFRJuifF0dHESrwO6LHMXx3c1z
+	 oj+TDyJZ4iVfQAjHtS6lJHim5rTIzmoOTTIDmqjBfEYp+HNw0rRXmKybt44HBh/s2XLpn
+	 iiv8O+ToJJru+00Ny8BZ47xZzDUAJqevONyBvvs07VR1DMbsjPev9FWbuC8lj2oMrdVN/
+	 Y7SMjqIhJ78EN6Twrjr1PrUhvcP7J3z15sC+voY/PtzY7DsBxmrR6UWwAdWU5f/rfUw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794830419;
-	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
-	 In-Reply-To:References:Subject:From:To:Cc:Date;
-	bh=ewJeUaksgXnSPjHwujvoiDsCY2620AwnIo92RczcOPg=;
-	b=BAgKG+PmbAf1Nhz1nqOv96pU7TJlA9cGHWmALI3lqAuFU8EbJiTnl+wJo5x7kMj9nYD/
-	 WHw7X6+Dc9EQodpjlCsnRoLT2d9uRBWBwhtKNKvp9VbWSxNA3nNqk0LYPH4C4kB6dv15T
-	 ipAWr7w5VImy9cLfISP19wzUWuQ8fy5q0iqEYOEsnEKLdNQhTtjn6nAGYC5ySNrg9XDp2
-	 DES0HYVZy79Iz0OC5GN0rt9X6/KIFe+5iy24p9Jy5l0hALnINJUZm7ZxzxM5mnw3lusei
-	 kLxB3NzAOPnuRGK1BoGuyVknO8Ei6UnKK6MBnDrtATW0aHvkLj9qagajvebsDqDgX4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794830454;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=7GrrfPTtSiFf3eqOfS5BMereeBw05VZ56XZNeLfVvKc=;
+	b=KpJBBwBnjKRrUGYY81DT7SSr8IKDbVIg2K76b8KiJGndec3vXQ2UqB/SUv5yS+Ktx/Js
+	 P7qPaMtvwZiaHIb1yghlb3FMh5tsD/PxXaJ2yw09dVzcNbIBvGTPlc4VK+059F46lNnD4
+	 lgEJ38JknAwzYFxmshfCBEHQBaK8NQuIhWe3PfkcQp1pMTBhqZ5QXUsCHIuJHlgIxErP/
+	 MFSxoOJelZG9wDGiaWPWEJBD0rsXr/TZaN5Lct5YtCvpAW+55bE6PFQc1dl2/i3UMI/kR
+	 AVscPv4CPC9cKEfCd007lFFhMd/vdewOrFiO89JlxRv94yCaJlSrvsxNDApBEQkcn8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NGs9hgRo;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=OJ1T4FZP;
+	arc=none smtp.remote-ip=209.85.128.45
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5FB606A31C;
-	Mon, 16 Nov 2026 12:00:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B6E606A323
+	for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 12:00:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04B6E606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NGs9hgRo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B1241F000C4;
-	Mon, 16 Nov 2026 12:00:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794830419;
-	bh=ewJeUaksgXnSPjHwujvoiDsCY2620AwnIo92RczcOPg=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=NGs9hgRo8Pm53dwqOowj804JfWGt9pNSxyXsA5ZbufV3wNEO1pXrEV/P2nYSJ6s0h
-	 RkTVtrJGGRLTAc/i5stGgdH7MoEG/RRlQzCp8xsSKAlYN1LFViwB+sXdk4YoAbt7yZ
-	 PR7EK3GRWabIulVC1l0sYiPb/s/WJh1GIS+NuEi9fxzz0zXVvfrqLfrCezMd74ZtjC
-	 IEP94sDVVDwuNz+mWo090jAlScdWhDl8h+8NtgR+BEvWRcqbaBD+sHm90zfAZDrFLE
-	 Ium0YC6BRRHbiChOy1fGM3bxcnzkJeY8LsKxgOeIXXUZU9bjQC0KNhILzz6Uz/yD+e
-	 WluvUktyVhSBw==
-Content-Type: multipart/mixed; boundary="===============1962703051549190966=="
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=OJ1T4FZP
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso22322915e9.0
+        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 04:00:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1794830452; x=1795435252; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7GrrfPTtSiFf3eqOfS5BMereeBw05VZ56XZNeLfVvKc=;
+        b=OJ1T4FZPLnEjhpZLRMscVm6TOrD714DlttVfFF9Pcqur0ovOiJigLjAYbysaNsYEhK
+         p0Cp4RLKGHi8p3EUmd4ZHBMhfUTeJpXA/HArJL0ahopo5ab/POfIaNcD8vAp/m8vRlMQ
+         v8lhaheuFY6Bg8YyyeDyH6SQ8pe3+LnMZXkkR1x5E0z0FTfM+IytG9vEF5PjnrwL1GIq
+         jrgM0IC+/j7kCK+wk//bKWutt5fJeR18H44UYjA76NrmI4pOa2ccQwnbSOChGpTjPS5Y
+         zPlEjiX6SQ60rRpFgCBbkt1UTKi1z+WkitWjT2RjYz9pKGbfX8vvWW31msbJDdu4o4vY
+         96Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794830452; x=1795435252;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7GrrfPTtSiFf3eqOfS5BMereeBw05VZ56XZNeLfVvKc=;
+        b=mlS/095Ne9xTFg+AVngaJohqBkJSogfR9zIB44IMYzX+zIMh7Obg6NFLP5fuVLSDIe
+         Fl0XU2vGNLLH+wPJWjOKBOZbox4SPp/+9g4Jp5p7XBP9TLxPzk1/+X/lvM3FWKssEm+M
+         GL0uEgggNJriVXmic8z1zOBW2tSMXcL9/z6+mXygVKR5eZng979rEX23x/rVCBsqlbnD
+         tPTUad50muuDUbXzbMKA1uuS2pYVL6DovtrvbCV4xuo7DR/FP5asAwklBDwbR3m2A8QU
+         BP1VQJwNsyxkKD7Qm2bx6+/R0+Rq+czKbxOkVy+M0abzNrakCH7vTXKWS+FoZ0Q/mboT
+         pmOg==
+X-Forwarded-Encrypted: i=1; AL+hErGPOwG6yJXjfGQR2hYatdyBks2Rxhv9oeEdWvVc0axfyHno9OlON9FXbafbMi9Z4TRyFfSEhjFjdzE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8sjqP0x18ACbxjwiBFqtqZ9e8qAWlGrujyZ0Amjxz9VJ+ER4VA
+	ADxo/yLiigieNzb/M7CoGruuBzZgI0rNoJ4LEiy3q+zxc16XZSatkrYk/YMoYHanQ5o=
+X-Gm-Gg: AYBFou2pqyGzMXJUtYI/8OtKHUcA8KYnRJeLs8fqQONGy0/cezAHNIrSMTFoKFD/j67
+	1phnbqCQ3PDK+p3/6NcveAsZb06PEEDWxSn/4J1WdnqW1MuJFsz9n4b9lwt1kka4+y2Ibu5aM4d
+	SyUwPsOlc+E02Ez7XbtpBe8fLfockvNl39rgLHU49IhjvNpbWEMrzwCSsPFRIDnH8MgxJFtLkVf
+	16hL0J8IN/BIXcBKwaJzQIAKEHu26EqSN4OEgOiwTUYBMuzoQZQkkk/3XIhBpUg8V0b86gV2Zf/
+	uDwjUZdFLS6YTBzEEHn3z5hRD08a+O9FcSww/VnMqZiyptcd7p3K4vLTbzBQ7c0vYtHSEEnZHeC
+	zQF0XlC+Lu6RjV0hcwCWuWUB7R2i4V8QFCY17JMew15oOZrdixZzITlS7YgLjT9i9Zz+Ua3C4Tw
+	ApanoRhD+C4KCphKeaYeez0XgQ3TkVq1yEs45uXnr2BbtfSmSj+gvYeW5gTa9sny++UEbZ93KJm
+	OH2CioE8HFTJi4HXhWCkQaf1k5hUi4351iasyQZCZGHCVV/NUtefNoAMv/Gc67eVfuRhrXy4xKM
+	hfQzldpdlC33iXTyvvoyH4+5OIvBeztVUlLPQI6o6aQhT0zZxMp86mUugf2pB1c9nYGdPgaV
+X-Received: by 2002:a05:600c:b86:b0:4a1:811c:8078 with SMTP id 5b1f17b1804b1-4bb55a67c61mr228790365e9.26.1794830452167;
+        Mon, 16 Nov 2026 04:00:52 -0800 (PST)
+Received: from ?IPV6:2001:a61:13bb:d801:1801:5442:bbc8:29a9? ([2001:a61:13bb:d801:1801:5442:bbc8:29a9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb571f6a40sm110447535e9.2.2026.11.16.04.00.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Nov 2026 04:00:51 -0800 (PST)
+Message-ID: <69bbe579-d296-4bef-bd0f-da30f12b466f@suse.com>
+Date: Mon, 16 Nov 2026 13:00:50 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -49,159 +92,73 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-Id: <56b5bed0bd75b5b0c7368009493734cda89f1ca37c0fc29c81ed65048cbfeca4@mail.kernel.org>
-In-Reply-To: <20261116-work-loop-pseudo-v3-44-8cbbea1cf34f@kernel.org>
-References: <20261116-work-loop-pseudo-v3-44-8cbbea1cf34f@kernel.org>
-Subject: Re: [PATCH RFC v3 44/44] selftests/filesystems: add backing file tests for pseudo files
-From: bot+bpf-ci@kernel.org
-To: brauner@kernel.org,linux-fsdevel@vger.kernel.org
-Cc: jannh@google.com,mason@kernel.org,josef@toxicpanda.com,hch@lst.de,linux-block@vger.kernel.org,linux-kernel@vger.kernel.org,linux-nvme@lists.infradead.org,viro@zeniv.linux.org.uk,jack@suse.cz,linux-scsi@vger.kernel.org,target-devel@vger.kernel.org,driver-core@lists.linux.dev,linux-mm@kvack.org,bpf@vger.kernel.org,linux-security-module@vger.kernel.org,selinux@vger.kernel.org,apparmor@lists.ubuntu.com,linux-nfs@vger.kernel.org,netdev@vger.kernel.org,fuse-devel@lists.linux.dev,linux-efi@vger.kernel.org,xen-devel@lists.xenproject.org,ocfs2-devel@lists.linux.dev,linux-s390@vger.kernel.org,linuxppc-dev@lists.ozlabs.org,linux-usb@vger.kernel.org,amir73il@gmail.com,linux-erofs@lists.ozlabs.org,linux-kselftest@vger.kernel.org,brauner@kernel.org,alex@amutable.com,chris@chrisdown.name,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Mon, 16 Nov 2026 12:00:17 +0000 (UTC)
-
---===============1962703051549190966==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-
-> selftests/filesystems: add backing file tests for pseudo files
-
-TL;DR:
-- Selftest: fuse tests may fail instead of skip without
-  CONFIG_FUSE_PASSTHROUGH (-EOPNOTSUPP, not -EPERM)
-- Metacopy test may fail without CONFIG_TMPFS_XATTR
-- Minor duplicated setup code
-
-> diff --git a/tools/testing/selftests/filesystems/config b/tools/testing/selftests/filesystems/config
-> --- a/tools/testing/selftests/filesystems/config
-> +++ b/tools/testing/selftests/filesystems/config
-> @@ -6,3 +6,19 @@ CONFIG_NET=y
->  CONFIG_NET_NS=y
->  CONFIG_INET=y
->  CONFIG_SYSFS=y
-> +CONFIG_BLK_DEV_LOOP=y
-> +CONFIG_OVERLAY_FS=y
-> +CONFIG_TMPFS=y
-> +CONFIG_CONFIGFS_FS=y
-[ ... ]
-
-Should CONFIG_TMPFS_XATTR=y be added here as well?
-
-TEST(fuse_passthrough_overlayfs_metacopy_file) mounts a private tmpfs
-through setup_tmp() and then does:
-
-    ASSERT_EQ(setxattr("/tmp/lower/file", "trusted.overlay.metacopy",
-                       "", 0, 0), 0);
-
-shmem_fill_super() only sets sb->s_xattr under CONFIG_TMPFS_XATTR, which
-defaults to n, and CONFIG_TMPFS does not select it.  Without it
-setxattr() fails with EOPNOTSUPP, the ASSERT_EQ() aborts, and the run
-reports a failure rather than a skip.  tools/testing/selftests/landlock/config
-lists CONFIG_TMPFS_XATTR=y next to CONFIG_TMPFS=y.
-
-Alternatively the test could SKIP when setxattr() returns EOPNOTSUPP.
-
-> diff --git a/tools/testing/selftests/filesystems/pseudo_backing_test.c b/tools/testing/selftests/filesystems/pseudo_backing_test.c
-> new file mode 100644
-> --- /dev/null
-> +++ b/tools/testing/selftests/filesystems/pseudo_backing_test.c
-
-[ ... ]
-
-> +TEST(overlayfs_on_sysfs_backing_file)
-> +{
-> +	if (!can_use_loop())
-> +		SKIP(return, "loop devices unavailable");
-> +
-> +	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-> +	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
-> +	ASSERT_EQ(mount("tmpfs", "/tmp", "tmpfs", 0, NULL), 0);
-
-this isn't a bug, but could overlayfs_on_sysfs_backing_file() call
-ASSERT_EQ(setup_tmp(), 0) like the other tests, instead of repeating its
-three steps?  Similarly, usb_mass_storage_backing_file() repeats the
-statfs()/CONFIGFS_MAGIC/mount() logic of setup_configfs(), and the comment
-"Mounting configfs on top of itself fails with EBUSY." appears twice.
-
-[ ... ]
-
-> +TEST(fuse_passthrough_backing_file)
-> +{
-> +	int fuse_fd, ret;
-> +
-[ ... ]
-> +	ASSERT_EQ(create_file("/tmp/file"), 0);
-> +	ret = fuse_backing_path(fuse_fd, "/tmp/file", O_PATH);
-> +	if (ret == -EPERM)
-> +		SKIP(return, "no fuse passthrough");
-> +	EXPECT_EQ(ret, 0);
-
-Is -EPERM the right errno to key the skip on?  On a kernel with
-CONFIG_FUSE_FS=y and CONFIG_FUSE_PASSTHROUGH=n the test filesystem mounts
-fine, and then fuse_dev_ioctl_backing_open() returns before any
-permission check:
-
-    if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
-        return -EOPNOTSUPP;
-
--EPERM only comes from fuse_backing_open_file() when fc->passthrough is
-clear or CAP_SYS_ADMIN is missing.  So here EXPECT_EQ(ret, 0) and the
-later -EINVAL checks see -EOPNOTSUPP and fail, and the harness records
-"not ok" for a feature that is not configured.  Kernels that predate
-FUSE_DEV_IOC_BACKING_OPEN return -ENOTTY and fail the same way.
-
-Should -EOPNOTSUPP (and possibly -ENOTTY) also lead to the SKIP?
-
-[ ... ]
-
-> +TEST(fuse_passthrough_overlayfs_metacopy_file)
-[ ... ]
-> +	ASSERT_EQ(create_file("/tmp/lower/file"), 0);
-> +	ASSERT_EQ(setxattr("/tmp/lower/file", "trusted.overlay.metacopy",
-> +			   "", 0, 0), 0);
-> +	ASSERT_EQ(setxattr("/tmp/lower/file", "trusted.overlay.redirect",
-> +			   "/missing", strlen("/missing"), 0), 0);
-
-Can these setxattr() calls fail on a kernel without CONFIG_TMPFS_XATTR?
-
-The private tmpfs from setup_tmp() has no xattr handlers in that case, so
-setxattr() returns EOPNOTSUPP, the ASSERT_EQ() aborts, and the program
-exits with a failure instead of KSFT_SKIP.  The mount of overlayfs just
-below already has a SKIP for missing support.  Would a SKIP on
-EOPNOTSUPP here, or CONFIG_TMPFS_XATTR=y in the config fragment, avoid
-this?
-
-> +	ret = fuse_backing_path(fuse_fd, "/tmp/file", O_PATH);
-> +	if (ret == -EPERM)
-> +		SKIP(return, "no fuse passthrough");
-> +	ASSERT_EQ(ret, 0);
-
-The same -EPERM check as in fuse_passthrough_backing_file() is used here,
-so ASSERT_EQ(ret, 0) fails with -EOPNOTSUPP when CONFIG_FUSE_PASSTHROUGH
-is off.
-
-[ ... ]
-
-> +TEST(fuse_passthrough_io)
-[ ... ]
-> +		srv.backing_ids[i] = fuse_backing_open(srv.fd, fd);
-> +		EXPECT_EQ(close(fd), 0);
-> +		if (srv.backing_ids[i] == -EPERM)
-> +			SKIP(return, "no fuse passthrough");
-> +		ASSERT_GT(srv.backing_ids[i], 0);
-
-Does this skip also miss the unconfigured case?  With
-CONFIG_FUSE_PASSTHROUGH=n, fuse_backing_open() gets -EOPNOTSUPP from the
-ioctl, which is not -EPERM, so ASSERT_GT(srv.backing_ids[i], 0) fails and
-run_one() records "not ok" for the whole pseudo_backing_test.  No fuse
-server has been started at this point, so nothing hangs.  The config
-fragment does list CONFIG_FUSE_PASSTHROUGH=y, but should -EOPNOTSUPP and
--ENOTTY also lead to SKIP(return, "no fuse passthrough") in all three fuse
-tests?
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] usb: uas: ignore UAS for ASMT135x bridges (174c:55aa)
+To: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>, linux-usb@vger.kernel.org
+Cc: stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+ usb-storage@lists.one-eyed-alien.net, stable@vger.kernel.org
+References: <20261114174929.53871-1-olivier.kaloudoff@gmail.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20261114174929.53871-1-olivier.kaloudoff@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/43858134663
---===============1962703051549190966==--
+On 14.11.26 18:49, Olivier Kaloudoff wrote:
+> The ASMedia chip detection in uas_use_uas_driver() assumes that every
+> device with idVendor/idProduct 174c:5106 or 174c:55aa reporting a
+> config.MaxPower of 0 is an ASM1153 with working UAS.
+> 
+> ASMT135x bridges (iProduct "ASMT135x") share the same 174c:55aa id and
+> also report MaxPower == 0, so they take the "ASM1153, do nothing"
+> path — but their UAS implementation is broken:
+> 
+> - The first READ(16) issued by sd probing times out after 30 s;
+>    enumeration only completes after a uas_eh_abort_handler plus a full
+>    uas_eh_host_reset_handler cycle:
+> 
+>      scsi 3:0:0:0: Direct-Access  ASMT     ASMT135x        0  PQ: 0 ANSI: 6
+>      sd 3:0:0:0: [sdb] tag#26 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD IN
+>      sd 3:0:0:0: [sdb] tag#26 CDB: Read(16) 88 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00
+>      scsi host3: uas_eh_host_reset_handler start
+>      usb 6-2: reset SuperSpeed USB device number 2 using xhci_hcd
+>      scsi host3: uas_eh_host_reset_handler success
+> 
+> - Under concurrent load the bridge stalls: all inflight commands (20+
+>    UAS tags in the captured incident, mixed READ(16)/WRITE(16)) hit the
+>    30 s UAS timeout in the same event, forcing repeated abort/reset
+>    cycles and eventually a USB disconnect.  Writes dropped mid-flight
+>    during these resets returned zeros to the filesystem (observed as
+>    XFS metadata corruption on the mounted volume).
+> 
+> - Sequential-write throughput is ~45 MiB/s under UAS versus ~136 MiB/s
+>    after disabling UAS (usb-storage BOT mode), which is fully stable:
+>    several tens of GiB written without a single error.
+> 
+> - Bulk reads of healthy LBA ranges do work under UAS (~190 MiB/s, no
+>    errors); the failure pattern is command-timeout at enumeration and
+>    under queue depth / write load, not a broken transfer path.
+> 
+> An extended soak was also run at maintainer request: the device was
+> rebound to uas and pushed with ~640 GiB of mixed I/O over ~2h45
+> (randrw/seqwrite at queue depths 8-32, disk util ~100%).  Result: zero
+> uas_eh events; the queue-depth wedge did not reproduce on demand.  The
+> enumeration stall did reproduce once more at the first UAS probe and
+> self-recovered via host reset.  Per the maintainer, an inconclusive
+> load test still warrants the blacklist given the filesystem-loss risk.
+> 
+> Since 174c:55aa is shared across several ASMedia bridges and enclosure
+> rebrandings, distinguish the ASMT135x by its product string — the same
+> approach used for the HIKSEMI MD202 check a few lines below.  The
+> product strings of working bridges using the same id ("ASM1053E",
+> "ASM1153", "ASM1153E", "ASM1351", vendor rebrands such as "YZWY_TECH")
+> do not contain "ASMT135", so the match is safe.
+> 
+> Verified on an ORICO C10 enclosure (iManufacturer "ASMT", iProduct
+> "ASMT135x", bcdDevice 1.00, stock firmware) attached through an Alpine
+> Ridge TB3 dock: with the equivalent usb-storage quirks parameter
+> (174c:55aa:u) the device is completely stable.
+> 
+> Signed-off-by: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>Acked-by: Oliver Neukum <oneukum@suse.com>
