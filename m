@@ -1,50 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794821659;
-	b=nspEjVVi6MgKiC2rqYiZLrsEvzec+Soq0ff9QzN4rvTsEHD692oWLcVbd+VIVmpFnKuT
-	 ovUVZ6DCoHcJ55KJCwFZYUyqR7igSmrL7oJmDjbiPumq3aMRx2jUWgbMqnhV+mkrjag0J
-	 6/CBMyYlrO0G3po2i42fJatqP6r2/FQla3lYQKj61iFpRd/DhZrfQhvvIb/IYF7gcloQO
-	 IuJX5tNqd1y0GJVIj6a31++iwG6sK41QIV9xo4fHe4YpHsA+/mk+6fZV6Flaj8AejoUWC
-	 ZF+Xzh2kzb2igPo03h83qVUJ5FJKuhni9qCHocIgSUx27vxxjAK4mlpBW17UCNDh5Ag==
+	t=1794821716;
+	b=MQD+rxXiSxHJoOhf9qeLDxYYSnRyGlqb52ALDh3F/XbtONKGMcvnRG7iuHlYJ0ociXx1
+	 vn1+Z43Huol7kpoISW3bewzI7bnRh/HWXqNVOFNb2eAVDSx96CC/c/g33H1iWQ2G9J4vb
+	 P/MQ9BxMsjOY5/IanTY0qrjcrXf+/3eOZ+UebvsMLl3kbQsbqemNYbR5m3sWI5wd7Abra
+	 1QemChHDr43mCvI2ZCfpRxirym+IkRrwQ6oYCmjVEntc7LySqnAtp+FrQnmb15xkmfC4u
+	 slkBYoZbslGjc0uPEGsxApy9mi3pbtwVAiKoHVYSmrdtK46CH9Ot9n6mVj4Ev/jqQBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794821659;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=xEEd5wWMYLP6A9p4+PhEN7fsM8QnNTW6SX1q9pyMFcc=;
-	b=HVZGg0Jm6Yl6WAoQC5jI1KiKYOCCA9hm+HcsZ9MBTEoqp7nTiw6joWHwT4aKvIA39+hi
-	 BTg8dqH9dUPUH1XkzgIW3Hs+gSr1Xfl3E5D5wdAP9dnlBqrpq2oZOMwd/1yKvnnx3QobU
-	 v2kitLglZl0+yJHEk/LydkTtw4EzVgUHNzSuPAkqlCzMa4BIHEJnWQO4uyNi8L2IhRWqq
-	 zZIr98aDMXNGzIpYIRUfEAynGghdDxmTwMSHkhVoxMsf2B5bSxHDwAOBFb2P6bG4B9gZw
-	 STPhHFZrC9jWME19bseAStVqT+n/7njxR9gz9V6q08noVMCU+FfqpEXf4jOZh5wB6/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794821716;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=m2paPrvOQbcYKgaX4fQc0mmLJu13moPBo8N94dl2CTg=;
+	b=d47uu3xI3rkZzK3GzUiGkoJwuUyHUx4F32oiezT3d2NUyCmnjHO1vwIai3UieJ8yG6vD
+	 QnIIZLzK+uopS5+w03FvRO4ui4CZPJQDD4f17XEdSe8GN+B9My5RUnNVUkyPZmW5quVL/
+	 /arswQCz7olKaVj+CDg7vmruy+I11UbUKiYCHL3sbB1DNjHOu77o1n+EDym0jLQkrdP1v
+	 X/4JcUlCNSqfLr+40qpUw9aI94Ne88g3sJZ8TAycq+A+JxsUHGfGzHCvKlJYyWuWBlfju
+	 oGk3DOstVmLE+Tp8lTghG6vXaYGxlyVxracHYcZZhRLVws91ilps0fl02BO6plK08MA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=txokiY2X;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1745606A31C;
-	Mon, 16 Nov 2026 09:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=txokiY2X
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D98921F000C4;
-	Mon, 16 Nov 2026 09:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1794821658;
-	bh=xEEd5wWMYLP6A9p4+PhEN7fsM8QnNTW6SX1q9pyMFcc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=txokiY2X/y3yzqe3T1W6myPJynMrWfjdfwXXJylrKkijUayJkiM2yClttwMb8hTaP
-	 sWH5d6swZPg0EZm14OwVCXwN1CaIvyGj0m3FwQF4ekofi5jyNosmox8dAN0SHo++Sw
-	 p/UorSrg9DFTdBkxinnaSKVTZC/ayq4pkBPH93CE=
-Date: Mon, 16 Nov 2026 10:34:15 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: r8a66597-hcd: Fix clock leak and unchecked
- clk_prepare_enable()
-Message-ID: <2026111648-landfill-skeleton-efe7@gregkh>
-References: <20261102100455.600-1-laixiangwu@cmss.chinamobile.com>
- <20261116031043.505-1-laixiangwu@cmss.chinamobile.com>
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDBF0606A31C;
+	Mon, 16 Nov 2026 09:35:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDBF0606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=m2paPrvOQb
+	cYKgaX4fQc0mmLJu13moPBo8N94dl2CTg=; b=OMv4njrsNs10dtQK0F9L1Yd9XG
+	WpSYW02xeDZUYMtwYxDPyhthlJES4aCCZzuHGvnjPrw5nagnWcRyHmpLVwu9k9Ud
+	7DlHp6vnlFO1Tlr64MROHOM0TELNflwcX8Qub6sHBONNUssu+Bt58Vx8MCMb+3AZ
+	YQs686gVw+Cm/KL9E=
+Received: from user-virtual-machine.localdomain (unknown [113.200.174.41])
+	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPA id BrQMCkAmTAI8zvpq9Gy2AQ--.21849S2;
+	Mon, 16 Nov 2026 17:34:54 +0800 (CST)
+From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>
+Subject: [PATCH] usb: storage: shuttle_usbat: do not divide by an unknown sector size
+Date: Mon, 16 Nov 2026 17:34:52 +0800
+Message-Id: <20261116093452.15286-1-25031212351@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -54,27 +59,89 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116031043.505-1-laixiangwu@cmss.chinamobile.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BrQMCkAmTAI8zvpq9Gy2AQ--.21849S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxuryxAry8Cw17Wr18GrWfKrg_yoW5Gw1Dpa
+	y2kFWYkryDtan3Cw45XwsFqFy5XFZ3AFW3GryIgw15Ww15uF1xCrW2ga4rWa43Jr97XF1I
+	qF4vvFn8CayDCaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvGb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq
+	07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r
+	18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
+	r41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
+	0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+	17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
+	C0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
+	6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
+	73UjIFyTuYvjxUcmiiUUUUU
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUTD2r5ytetsAACsJ
 
-On Mon, Nov 16, 2026 at 11:10:43AM +0800, Xiangwu Lai wrote:
-> Hi,
-> 
-> gentle ping for:
-> 
->   usb: r8a66597-hcd: Fix clock leak and unchecked clk_prepare_enable()
->   https://lore.kernel.org/all/20261102100455.600-1-laixiangwu@cmss.chinamobile.com/
-> 
-> On on-chip configurations r8a66597_clock_enable() ignores the return
-> value of clk_prepare_enable(), and if the subsequent register access
-> times out the function returns -ENXIO without disabling the clock
-> again.  The patch checks the return value and disables the clock on
-> the error path.
+usbat_flash_read_data() and usbat_flash_write_data() divide the transfer
+length by info->ssize to turn it into an ATA sector count.  info->ssize is
+only assigned when a READ CAPACITY command has completed successfully, so
+it is still zero when a read request arrives earlier.
 
-And are you hitting this in a real system, or is this just a theoretical
-issue?
+Such a request is sent during device scan: sd_probe() starts with
+media_present set and usb-storage sets read_before_ms for every device, so
+sd_revalidate_disk() calls sd_read_block_zero() right after
+sd_read_capacity(), even when READ CAPACITY failed, because
+read_capacity_error() deliberately keeps media_present set for drives that
+fail it with media loaded.  A CompactFlash reader that does not complete
+the READ CAPACITY sequence, for example because a register access is
+stalled, therefore reaches usbat_flash_read_data() with info->ssize == 0:
 
-thanks,
+  Oops: divide error
+  RIP: 0010:usbat_flash_read_data+0x2a4/0x5c0
 
-greg k-h
+Reject read and write requests while the sector size is unknown, the same
+way the driver already rejects an out of range LBA.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+---
+ drivers/usb/storage/shuttle_usbat.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/drivers/usb/storage/shuttle_usbat.c b/drivers/usb/storage/shuttle_usbat.c
+index 7e5424268c73..faea2c77c5aa 100644
+--- a/drivers/usb/storage/shuttle_usbat.c
++++ b/drivers/usb/storage/shuttle_usbat.c
+@@ -1130,6 +1130,13 @@ static int usbat_flash_read_data(struct us_data *us,
+ 	if (result != USB_STOR_TRANSPORT_GOOD)
+ 		return result;
+ 
++	/*
++	 * The sector size is only known once a READ CAPACITY command has
++	 * succeeded; a request can arrive before that.
++	 */
++	if (!info->ssize)
++		return USB_STOR_TRANSPORT_ERROR;
++
+ 	/*
+ 	 * we're working in LBA mode.  according to the ATA spec,
+ 	 * we can support up to 28-bit addressing.  I don't know if Jumpshot
+@@ -1221,6 +1228,13 @@ static int usbat_flash_write_data(struct us_data *us,
+ 	if (result != USB_STOR_TRANSPORT_GOOD)
+ 		return result;
+ 
++	/*
++	 * The sector size is only known once a READ CAPACITY command has
++	 * succeeded; a request can arrive before that.
++	 */
++	if (!info->ssize)
++		return USB_STOR_TRANSPORT_ERROR;
++
+ 	/*
+ 	 * we're working in LBA mode.  according to the ATA spec,
+ 	 * we can support up to 28-bit addressing.  I don't know if the device
+-- 
+2.34.1
+
