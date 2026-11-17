@@ -1,68 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794909568;
-	b=y0Y0NAz7bVTF1XrAyu1x5+i3xTVwFlBPEXUqG6Mpg80agfafy9uVr4nz6GonS2IDqQiM
-	 yvpRowTsTcqFXOzD2KfPLQ4B+IX8SKpajH89CKVdOCL94WQTODi2erixSHKclwjCC+kRz
-	 RewVGsyPs3t55LTL11LU58HSckSmgru1yaK9Pw2oFoX0Ui6AwQLVpheODB//CxSBfHI85
-	 4x7i377+l7kyshlDIGJVBoPgacOvystrLZX7Y+ksJSjOBPtH8ovXidf4Ldh8Q1U2HbWME
-	 LpgxtYsvYrTD+Ghr3lTglWvWXPxvV0zSfOZjQFckO7Mb7I8y4YBzNyYqoXETnbptZzA==
+	t=1794909692;
+	b=A3e6UHr7R/AXzG9/HFlMF31pJ9zKE1Pz8EF3zVSDs8Q0b0MlYHH8JcPUkVjWI9qUD/b3
+	 Q+uWJsLMI7VYhgx1gC+Rw+FZNmbdCfBOs+1XvEsRqcMpJ9VEaik44HHEqueeZZ52VPZiV
+	 aC/rI8FKdIZWZr1aFPKCpp8psxgXCiE9z6cpyzKF0b7fNl18YiVqCsSccI5n+Yi1iXGrx
+	 f9qapZTQzJ8F2LktKU+vKc0fiNgD/dKPXXGJTwaHFGiyePTS83gbrcvNXueKAAhkXuZ00
+	 X69Hgf95Ni8q25dzKrDRcwCnrmzfUuuJtE9QRRAFkvT1J1NJ2Mu5l8h71e024TQ/Pbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794909568;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794909692;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=8zZbd8HprYn1Gx9L/c5zzZhz/UL4N3JSwOynNmrXlS8=;
-	b=g+1nrlGXfmMGsfFxiYcEYVYcNEQ/QoOKYOcYQApC6ReioKHoCsxttV3SPiImwvrUcmOM
-	 KH5AgOKKPSz2MW6WkrFznOPAQJVzAuDwA8jaYp2cfYb7qrDd9Ka/tpKmGZvosHfVv+XKK
-	 b+Vc8hQOSwmvZ39qbf0M/KKBZGiX0wFvo6u2OjKcj4TrI9Zod3MMYR3T7dbI82slcTImK
-	 viaOyG84VRJof1m1P1XKfmtnTQdxgANcj0TpO7NaaIiimAuNOjHX0d/0Ds2p6pKGIuQML
-	 YAsmgfKJcJzRrt2QATYTYXNRl5LCOlmtLfS+bHwcmTW6j6Hq1aW5VgIoJY0nXpU85AQ==
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=et18X4Ng0Fjig9rzTGxRYAn17g6RTdw2MICRTQhTMbM=;
+	b=qODuYZ2aPMPBIEIH7mzdaoJE4o8GJq9zJ9y2KQG9mHlIG10kEADvJmQOFOiB0s0BBsPg
+	 Ogl4V17oYwlCbdOklQkddcRh9sYdjAfK+xLeAroc913rdUX5rZFEXETcVGaMWw/ID4Aaj
+	 5ZxI+KNmDIb4rINoyAkIGxuXOONvUJPHUphZxDhQYwGi3JV3LrZXhksF7h2ZWs6OHBm6u
+	 cbrGvGgebVN512IGk9sflJLPrm9nwcynXOEc1tGuSq1DzY526dOWFpwuSImr+KxM7jvZ1
+	 YNH4MheODzi+gvwMtHiAUlG2MXpAqFH1gyUK2YLBiTp8nyxRhOMMAKL+8c+4w3x7pug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Xc71n182;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hjL1zXAW;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C03606A31C;
-	Tue, 17 Nov 2026 09:59:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1C03606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BC6606A31C;
+	Tue, 17 Nov 2026 10:01:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4BC6606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Xc71n182
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hjL1zXAW
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794909568; x=1826445568;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=394icgQhJlL7b9H3q7KvlOMqRQNL6GRSY0PUFt3vTZY=;
-  b=Xc71n182moqkzXmxXEZ3Ko3M6qwfnih28Oluke+r5muKCjVRLcanh3Zm
-   +XjHvrf7M54sXWTYvphjJEQrEl4BTwW7gVOEeng6Ay+mVFx/8opkaVgP4
-   rjemMryDWWyT7vpXCvN0D2K/NIk3CWNs1FURBpYyazV4GgSnPuhSiNnmq
-   Sc9qCsNdRzRUfv7sX8syxtitNCreTg5SyAp41HbQZ1drBzRNGwi5wJNld
-   JcU7n3my6qH5C3tc9rC0TcGoTcmniwTd+D5Z/y3VDF/GJEwmA3lhAchn2
-   HNNnA7zg5R5Lt55Azenhw7qDXSwL6t5uTmgSUDnmR3tJJXU+QFJbAcBk4
-   w==;
-X-CSE-ConnectionGUID: NjPGESjHTDSeiPR2q0BZdQ==
-X-CSE-MsgGUID: NMiKro9YQVKn9vt5NRrhUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3565593"
+  t=1794909692; x=1826445692;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0xcXQ2Wvn+sq++2Vcd1edi+DAfglOLDKAc3j8R6koIo=;
+  b=hjL1zXAWSuP9mQZCtCNbGS1P3vUmjsCBGl2ZlBmc9C3AEFNueyhoOXQF
+   1W+rHuApMHkCHm4kUrR9DuUJ0x7rQM7ldiWSL+XWGHlHtWJF84DdwcBDV
+   QaleACQiaTVNYBEx9HSZyRXuLef1gztIVnw3ZpfSO1CYnCPQNHW4KUBs2
+   ZMHV3xOMWEAGt2iB675OoBmDk7FCcCY72l3sf6zVZ+6VOWjvV/+0SfALK
+   7foojO/MFdOAseph1fVTThgkjb09Qx/UUf+h5sByEdS0tOAreOnz1H4HU
+   vnujYbHpu1nn1JPnmbukt3EirzBfmBuvdi865Fd0zEYuO0Og0Hkv0XabI
+   A==;
+X-CSE-ConnectionGUID: /QoCpMJQSEKR08JYak0/mQ==
+X-CSE-MsgGUID: RzgDzUdZRjCai0RsXjL8Kg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3569072"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3565593"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 01:59:27 -0800
-X-CSE-ConnectionGUID: CR51afUySkO2cS8pkj1UXw==
-X-CSE-MsgGUID: /KoCMpUESQSPENjIbRplvw==
+   d="scan'208";a="3569072"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 02:01:31 -0800
+X-CSE-ConnectionGUID: H6nxC8XwRI+gkfqCjaL85A==
+X-CSE-MsgGUID: vqkR13HdRwaoiWFbVMlYBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9585048"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO [10.245.244.50]) ([10.245.244.50])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 01:59:24 -0800
-Message-ID: <54beec96-2221-4109-ab7a-74502969b369@linux.intel.com>
-Date: Tue, 17 Nov 2026 11:59:22 +0200
+   d="scan'208";a="9732962"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa007.jf.intel.com with ESMTP; 17 Nov 2026 02:01:29 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 3233799; Tue, 17 Nov 2026 11:01:28 +0100 (CET)
+Date: Tue, 17 Nov 2026 11:01:28 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: aiyengar1990@gmail.com
+Cc: Badhri Jagan Sridharan <badhri@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <linux@roeck-us.net>, Xu Yang <xu.yang_2@nxp.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: tcpm: Cancel the timers before destroying
+ the worker too
+Message-ID: <avwl-MUOQA1ucpvC@black.igk.intel.com>
+References: <20261112-tcpm-unregister-timers-v1-1-7230fda5612b@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,54 +83,106 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/4] Add larger page size support for USB audio offload
- path
-To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
- Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Michal Pecio <michal.pecio@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20261109-16k_offload_v1_b4-v6-0-858c6e0e007d@oss.qualcomm.com>
- <a38e874c-4685-4892-81b4-a6aeeaaeddb4@oss.qualcomm.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <a38e874c-4685-4892-81b4-a6aeeaaeddb4@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112-tcpm-unregister-timers-v1-1-7230fda5612b@gmail.com>
 
-Hi
-
->>
+On Thu, Nov 12, 2026 at 04:28:13AM +0000, Arun Iyengar via B4 Relay wrote:
+> From: Arun Iyengar <aiyengar1990@gmail.com>
 > 
-> Hi Mathias,
+> tcpm_unregister_port() clears port->registered, destroys the kthread
+> worker and only then cancels the hrtimers. A timer handler running on
+> another CPU that has already seen port->registered set can still call
+> kthread_queue_work() once the worker is freed, or with port->wq
+> already NULL:
 > 
-> Was wondering if this design looked a bit more acceptable?  Was able to figure out a way to achieve what you had suggested earlier mitigating the dma free problem I mentioned in my previous email.  If there are any issues w/ this please let me know.
+>   CPU0                           CPU1
+>   tcpm_unregister_port()         state_machine_timer_handler()
+>                                    if (port->registered)
+>     port->registered = false;
+>     kthread_destroy_worker(port->wq);
+>     port->wq = NULL;
+>                                    kthread_queue_work(port->wq, ...);
 > 
-> Thanks
-> Wesley Cheng
+> The timers are cancelled after the worker is destroyed on purpose:
+> works that run while the worker is flushed can start a timer again
+> (see the commit in Fixes). Cancelling only before would bring that
+> back, so cancel them on both sides. hrtimer_cancel() waits for a
+> handler that is running, so after the first round no handler that
+> missed the cleared flag is left; the second round removes a timer that
+> a work started during the flush. tcpm_reset_port(), called later, only
+> cancels.
+> 
+> Fixes: ca4d8344a72b ("usb: typec: tcpm: fix tcpm unregister port but leave a pending timer")
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/all/sashiko-outbox-206898@kernel.org/
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 
-Big picture looks good
-I got stuck on the "no_pool_rings[EP_CTX_PER_DEV]" solution in [PATCH v6 2/4].
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-It reveals and reminds me of how poorly designed existing xhci_free_dev() is.
+> ---
+> Sashiko found this while reviewing an unrelated tcpm patch of mine:
+> https://lore.kernel.org/all/sashiko-outbox-206898@kernel.org/
+> Its suggestion was to cancel the timers before destroying the worker
+> instead of after; that would undo the commit in Fixes, hence both.
+> 
+> Compile-tested only (arm64 W=1): the window is a few instructions in
+> the unbind path and I have no reproducer.
+> 
+> This patch was developed with Claude (Anthropic) as a coding assistant:
+> it wrote the change and the commit message, and I reviewed it.
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 21 ++++++++++++++++-----
+>  1 file changed, 16 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index d721baef5210..c7e0e09b1cbe 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -8987,18 +8987,29 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
+>  }
+>  EXPORT_SYMBOL_GPL(tcpm_register_port);
+>  
+> +static void tcpm_cancel_timers(struct tcpm_port *port)
+> +{
+> +	hrtimer_cancel(&port->vdm_discovery_timer);
+> +	hrtimer_cancel(&port->enable_frs_timer);
+> +	hrtimer_cancel(&port->vdm_state_machine_timer);
+> +	hrtimer_cancel(&port->state_machine_timer);
+> +}
+> +
+>  void tcpm_unregister_port(struct tcpm_port *port)
+>  {
+>  	int i;
+>  
+>  	port->registered = false;
+> +	/*
+> +	 * A timer handler that saw port->registered still set may queue
+> +	 * work: wait for it before the worker goes away. Works that run
+> +	 * while the worker is flushed may start a timer again, so cancel
+> +	 * the timers once more afterwards.
+> +	 */
+> +	tcpm_cancel_timers(port);
+>  	kthread_destroy_worker(port->wq);
+>  	port->wq = NULL;
+> -
+> -	hrtimer_cancel(&port->vdm_discovery_timer);
+> -	hrtimer_cancel(&port->enable_frs_timer);
+> -	hrtimer_cancel(&port->vdm_state_machine_timer);
+> -	hrtimer_cancel(&port->state_machine_timer);
+> +	tcpm_cancel_timers(port);
+>  
+>  	power_supply_put_system_batteries(port->fixed_batt, port->fixed_batt_cnt);
+>  	tcpm_reset_port(port);
+> 
+> ---
+> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+> change-id: 20261112-tcpm-unregister-timers-2fd159480999
+> 
+> Best regards,
+> --  
+> Arun Iyengar <aiyengar1990@gmail.com>
+> 
 
-I tried to quickly fix that fist by 'unlinking' vdev from xhci->devs[]
-inside the lock, preventing it from being dereferenced based on slot_id
-somewhere else, and then free it without the lock.
-
-I ended up with a huge mess that rewrites vdev free/allocation,
-slot enable/disable, xhci_discover_or_reset_device() and xhci_resume().
-
-Seems like best solution for now is to add "no_pool_rings[]" to support the
-larger page size, and then later rework the vdev allocation/free and
-slot enabling/disabling. I'll take a look at the details of the series.
-
-I also have another sideband change attempting to fix the use-after-free
-stale vdev pointer in sideband. It basically swaps vdev to udev.
-I'll post it on the list. Let me know your thoughts on it.
-
-Thanks
-Mathias
+-- 
+heikki
