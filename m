@@ -1,67 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919894;
-	b=1ZK79H19BywfBs6QZtHYbyJVptQEUTq5X38yYvQQBx9ZZpOBVJusfX+o0BO8bFru0khp
-	 BGxzemO3A481Br9TbsYpCPjCH6wzJD324HEJlVGtCTrQg+cl6sagczrVfRPh7f/rh3Qbm
-	 Op76GNKXAa5ABV0KFWOpwxHcjyCCN0AuDFIFh+4joZP/n+3Q1hw1/9bZ0aMguuqPyStDx
-	 nhXcoMRm4lcZVsORiZrw3Ir46kgeblDbZ/uH4gtqI76LQgEiqDeMCFF0QRgQD2h+FlPKd
-	 3JUxWXMGvK1+uUjZritap6MFL2yF2g+6suzfyFtKKIjMN0T5mcBUxnBOf6lv6gShZ2g==
+	t=1794919967;
+	b=TdQEbBm0sfBbJSoIM8wGbwZ//zgwQXy8TLrcmSJZ8eMDeblUx5zCLYuOaqUQpG+kGCjA
+	 ZgOaBGhMRVrpSN8YeOzEwge0Gjn2UyeP5tuih5YwXD4pi4ZNzzt1kh0vMu1dcGQPc+ryU
+	 V/C/d6iwqn8Bh+YYw50Tz0Qu6LOCSegTHVphsZTjw3i2D1P/WOk8UR2daKmj/2nNE3Vrz
+	 P0BRZ+RI7r6+9DQ5jddTCNsz/RWZaUx4oRw53NVVsUppYL8EtQfVTSQPOWP16URcKTNYx
+	 fq3G6ifVOebQVRoemALntWbnXSuKgJ2z4WhjmeiCqaer+Glfrbc7UOb9OhkLYWSSEnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919894;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=6GIe2jMm2efcwcdu1CuO0tRd8b3RmXepdg/7r62Rhcw=;
-	b=j8rAEo7vpLi2xm160Bhvj7CWFrWzM6E3X4Fh+MyMIeyuyKVw8qWUYVFesYeluVc2Cxm0
-	 IeLtsqSa2l/xUyISrmea3Ytzqu99u2/355Z0I4LAKDwYwIxNau3Ro1DjwIqg4YCkbXzPX
-	 c8dgKU6ueO27IUeiHdyQnYFXWo76Q0s3eIDoDL6Yn9ijaVdxz9C9Pl9qg9/4UmPVvjXIp
-	 RS373WqMgco2gSXZdpdgeUgUSVrfqnRshZyPW2we6iL/grOOvCJYzXhPqAILuFraCYRx2
-	 YV5wHz7qAfvmnw4yLmFHP+YAv6tfD/yqnCHGoTl4pRRx9miMyQlDWUpZ7ynUq6xswyw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919967;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=f6uY2JVEGVtzYN21lOZWPDHJr2zwjadsZxpjqzELALE=;
+	b=bzFIKAcTP9ctM2/slVksDBBCNizqqeBOMajk0bWNrUdek9hvR1FVrZPnQlORMLDXDpKr
+	 up7XGAYcVxj2ntUuceOtuVnjTOKz97zjVFX4TB0xxiIt3OP+hLlvmo45YP3NPqVKD3gjE
+	 wkIlFEUcnp6ZCDYQVSf8JPTN1RLWdMWLarSdQ30h4dWkT/+yvxR+VCEqlwq/qGCLG7dGT
+	 BDu1Bo43pSExlLWXqiwf29XCIkG9A2cDgykXEZHsrC3ErchHEPZjoDbXxxFEyQ9rI3rdn
+	 m+F/GM42qZgpTGHPML2xpTkI7xG2U/xOaJRtKsKIVlQDSfu/Dlbh907hof1p/kT+otA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=Pv5znyws;
-	arc=none smtp.remote-ip=111.22.67.137
-Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02CF9606A338;
-	Tue, 17 Nov 2026 12:50:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02CF9606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FRaYtQLS;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDD4606A886;
+	Tue, 17 Nov 2026 12:52:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EDD4606A886
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=Pv5znyws
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=Pv5znywsD6zShjgJLKaIUXwVCHaEklUyppjFZUlSeLjYqgoi3Vz37uTwnHnO8n/37r6CxV5/yuOGO
-	 bqzLQ9bN3HpDSFbKbREhBZ6j5tHE0FKELpkNghCFiAn677bFhexyDyM6KQciWgjEjTZmE6A/3VKfCy
-	 Z8PBFZkKU3sPDe+0=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee46afc4db0886-aabc4;
-	Tue, 17 Nov 2026 20:50:57 +0800 (CST)
-X-RM-TRANSID:2ee46afc4db0886-aabc4
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from  (unknown[123.121.1.242])
-	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee66afc4dad71e-b1c13;
-	Tue, 17 Nov 2026 20:50:57 +0800 (CST)
-X-RM-TRANSID:2ee66afc4dad71e-b1c13
-From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
-To: nkapron@google.com
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v4 2/3] usb: gadget: f_hid: fix race between userspace report update and GET_REPORT response
-Date: Tue, 17 Nov 2026 12:50:50 +0000
-Message-ID: <20261117125051.5646-3-shishunbo@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261117125051.5646-1-shishunbo@cmss.chinamobile.com>
-References: <179486710796.2938203.13522037990167268712.b4-review@b4>
- <20261117125051.5646-1-shishunbo@cmss.chinamobile.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FRaYtQLS
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794919967; x=1826455967;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Q275WPfEwe6W7pcEp+TL6ULow3PdvnztyW6fJYb3THY=;
+  b=FRaYtQLSeV55XAtJxNULYjV1mmAF0Lh9R4lFMnhs+2emS3HjAt0Yj3Zb
+   nIJJZhCZILme7wKGL/F+IZ9tcNy+N0ShWUwjy37Fj6jLyNLvRCQtvoYcq
+   hPL3cmPiqC3Nuav0ITccL4fhxJ4DJVxTVshxTYJBM+Xk8UwSwTLHWfWeh
+   XW5vUICcVKMl9I90C6HUk7ey6QHOTm0M216J7OufW/4xFcDWzC50Z5CPX
+   vbgV/eds5PzaqPzyiez9bCWwABj+yzr8h+x9QCC0YdA9mxO+aeUCf15na
+   +s8ckhnZvClXRF9Y59uM+QX+DcTyu7K+H2KAjRo8HUJvCIRKrtWJXkvqs
+   g==;
+X-CSE-ConnectionGUID: 1ppKtCJ6QdeE8vyccUo15A==
+X-CSE-MsgGUID: yJ6j8ps9QguoxbmaoM7e3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3586370"
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="3586370"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 04:52:46 -0800
+X-CSE-ConnectionGUID: zt3FFLAASBSXX040rUVezA==
+X-CSE-MsgGUID: c+7/hjrnTf+VX3mUHBpZ8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="9768168"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa007.jf.intel.com with ESMTP; 17 Nov 2026 04:52:42 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 3EBB499; Tue, 17 Nov 2026 13:52:41 +0100 (CET)
+Date: Tue, 17 Nov 2026 13:52:41 +0100
+From: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>
+To: Chunfeng Yun =?utf-8?B?KOS6keaYpeWzsCk=?= <Chunfeng.Yun@mediatek.com>
+Cc: "konrad.dybcio@oss.qualcomm.com" <konrad.dybcio@oss.qualcomm.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"westeri@kernel.org" <westeri@kernel.org>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"sven@kernel.org" <sven@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH v2 4/7] thunderbolt: add platform NHI driver
+Message-ID: <20261117125241.GA259790@black.igk.intel.com>
+References: <20261110114925.722014-1-chunfeng.yun@mediatek.com>
+ <20261110114925.722014-5-chunfeng.yun@mediatek.com>
+ <20261110143758.GC259790@black.igk.intel.com>
+ <2807832e631dca98846d201b571f623210820268.camel@mediatek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -71,120 +93,192 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <2807832e631dca98846d201b571f623210820268.camel@mediatek.com>
 
-The GET_REPORT response is served by pointing get_req->buf at the
-data[] array of a report_list entry and calling usb_ep_queue().
-The request completes asynchronously, so the controller may still
-be reading the entry's buffer after get_report_workqueue_handler()
-drops get_report_spinlock.
+Hi,
 
-At the same time, userspace can update that same entry via the
-GADGET_HID_WRITE_GET_REPORT ioctl: f_hidg_get_report() copies new
-report data into the entry while holding the spinlock, but the
-transfer reading the entry is not serialized against that update
-(the lock was already released by the work handler).
+On Tue, Nov 17, 2026 at 12:14:29PM +0000, Chunfeng Yun (云春峰) wrote:
+> On 二, 2026-11-10 at 15:37 +0100, Mika Westerberg wrote:
+> > On Tue, Nov 10, 2026 at 07:48:52PM +0800, Chunfeng Yun wrote:
+> > >  
+> > > -void nhi_enable_int_throttling(struct tb_nhi *nhi);
+> > >  void nhi_disable_interrupts(struct tb_nhi *nhi);
+> > >  irqreturn_t tb_nhi_isr(int irq, void *data);
+> > >  irqreturn_t tb_ring_msix(int irq, void *data);
+> > > diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+> > > index 9379c598a221..698f47ec63da 100644
+> > > --- a/drivers/thunderbolt/pci.c
+> > > +++ b/drivers/thunderbolt/pci.c
+> > > @@ -736,4 +736,5 @@ static struct pci_driver nhi_driver = {
+> > >  	.shutdown = nhi_pci_shutdown,
+> > >  	.driver.pm = &tb_nhi_pm_ops,
+> > >  };
+> > > +
+> > 
+> > I guess this is unintented change?
+> > 
+> will drop it
+> 
+> > >  module_pci_driver(nhi_driver);
+> > > diff --git a/drivers/thunderbolt/platform.c
+> > > b/drivers/thunderbolt/platform.c
+> > > new file mode 100644
+> > > index 000000000000..3562b6c7ea7d
+> > > --- /dev/null
+> > > +++ b/drivers/thunderbolt/platform.c
+> > > @@ -0,0 +1,172 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > +/*
+> > > + * Thunderbolt driver - NHI driver (Platform bus specific
+> > > implementation)
+> > > + *
+> > > + * Author: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> > > + */
+> > > +
+> > > +#include <linux/acpi.h>
+> > > +#include <linux/interrupt.h>
+> > > +#include <linux/errno.h>
+> > > +#include <linux/of.h>
+> > > +#include <linux/platform_device.h>
+> > > +#include <linux/pm_runtime.h>
+> > > +#include <linux/pm_wakeirq.h>
+> > > +#include <linux/slab.h>
+> > > +
+> > > +#include "nhi.h"
+> > > +#include "tb.h"
+> > > +
+> > > +static int nhi_platform_init(struct tb_nhi *nhi)
+> > > +{
+> > > +	/* avoid device link fail for pcie tunnel */
+> > 
+> > Do you have the ACPI _DSD there in place? 
+> Yes, we use the same uefi as WoA which pass Windows HLK and usb-if
+> certitfication
+> 
+> > Then I don't think you need
+> > these. And "pcie" -> "PCIe" everywhere (except in code).
+> ACK
+> 
+> > 
+> > > +	pm_runtime_set_active(nhi->dev);
+> > > +	pm_runtime_get_noresume(nhi->dev);
+> > > +	pm_runtime_enable(nhi->dev);
+> > > +
+> > > +	device_set_wakeup_capable(nhi->dev, true);
+> > > +	device_enable_async_suspend(nhi->dev);
+> > 
+> > I also suggest not to enable all the fancy power management until you
+> > have
+> > the basic stuff like tunneling fully functional.
+> I'm not sure understand what you mean.
+> 
+> if you mean the function test:
+> I already test usb4net, usb3 tunnel, PCIe tunnel and dp tunnel data
+> transfers, and also runtime suspend/resume and system suspend/resume.
+> 
+> if you mean when to enable pm:
+> do you mean enable pm at the enable of tb_nhi_probe()?
+> 
+> +	pm_runtime_set_active(nhi->dev);
+> +	pm_runtime_get_noresume(nhi->dev);
+> +	pm_runtime_enable(nhi->dev);
+> 
+> these three line shall be put before nhi_select_cm(), otherwise, it
+> fail to link PCIe devices, and I will check it again.
+> 
+> +	device_set_wakeup_capable(nhi->dev, true);
+> +	device_enable_async_suspend(nhi->dev);
+> 
+> these two line can be put at the end of probe.
 
-The result is that the host can receive a GET_REPORT response that
-mixes bytes of the old and the new report (a torn write), with no
-memory-safety violation but corrupted report data on the wire.
+I meant device_enable_async_suspend() it's not stricly required and we
+don't do it elsewhere so I would leave it out now and then add it
+everywhere later.
 
-Serve the response from a dedicated buffer allocated once in
-hidg_alloc() and freed in hidg_release().
-
-This also removes the now unused get_report member from struct
-f_hidg.
-
-Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL")
-Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
----
-Changes in v4:
- Just copy req->length bytes to keep the existing UAPI behavior
- suggested by Neill. Thanks!
-
- drivers/usb/gadget/function/f_hid.c | 29 +++++++++++++++++++++++++----
- 1 file changed, 25 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index d7ba30323414..d864a0d4bb8f 100644
---- a/drivers/usb/gadget/function/f_hid.c
-+++ b/drivers/usb/gadget/function/f_hid.c
-@@ -94,7 +94,7 @@ struct f_hidg {
- 
- 	/* get report */
- 	struct usb_request		*get_req;
--	struct usb_hidg_report		get_report;
-+	void				*get_req_buf;
- 	bool				get_report_returned;
- 	int				get_report_req_report_id;
- 	int				get_report_req_report_length;
-@@ -128,6 +128,7 @@ static void hidg_release(struct device *dev)
- 		kfree(entry);
- 	}
- 
-+	kfree(hidg->get_req_buf);
- 	kfree(hidg->report_desc);
- 	kfree(hidg->set_report_buf);
- 	kfree(hidg);
-@@ -587,7 +588,7 @@ static void get_report_workqueue_handler(struct work_struct *work)
- 	ptr = f_hidg_search_for_report(hidg, hidg->get_report_req_report_id);
- 	if (ptr && !ptr->report_data.userspace_req) {
- 		/* Report exists in list and it is to be used for immediate response */
--		req->buf = ptr->report_data.data;
-+		memcpy(req->buf, ptr->report_data.data, req->length);
- 		status = usb_ep_queue(cdev->gadget->ep0, req, GFP_ATOMIC);
- 		hidg->get_report_returned = true;
- 		spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
-@@ -622,10 +623,9 @@ static void get_report_workqueue_handler(struct work_struct *work)
- 			 * Either get an updated response just serviced by userspace
- 			 * or send the latest response in the list
- 			 */
--			req->buf = ptr->report_data.data;
-+			memcpy(req->buf, ptr->report_data.data, req->length);
- 		} else {
- 			/* If there are no prevoiusly sent reports send empty report */
--			req->buf = hidg->get_report.data;
- 			memset(req->buf, 0x0, req->length);
- 		}
- 
-@@ -1160,6 +1160,15 @@ static int hidg_bind(struct usb_configuration *c, struct usb_function *f)
- 	if (!hidg->get_req)
- 		return -ENOMEM;
- 
-+	/*
-+	 * The GET_REPORT response is served from a dedicated buffer
-+	 * (allocated in hidg_alloc()), not from the report_list
-+	 * entries: userspace may update an entry while the controller
-+	 * is still reading the previous response, which would corrupt
-+	 * the data on the wire.
-+	 */
-+	hidg->get_req->buf = hidg->get_req_buf;
-+
- 	hidg->get_req->zero = 0;
- 	hidg->get_req->complete = hidg_get_report_complete;
- 	hidg->get_req->context = hidg;
-@@ -1646,6 +1655,18 @@ static struct usb_function *hidg_alloc(struct usb_function_instance *fi)
- 	}
- 	hidg->use_out_ep = !opts->no_out_endpoint;
- 
-+	/*
-+	 * Dedicated buffer for GET_REPORT responses, allocated once for
-+	 * the whole lifetime of this function instance: hidg_release()
-+	 * is the only safe free point, as it runs after all USB
-+	 * activity has ceased and all file references are gone.
-+	 */
-+	hidg->get_req_buf = kmalloc(MAX_REPORT_LENGTH, GFP_KERNEL);
-+	if (!hidg->get_req_buf) {
-+		ret = -ENOMEM;
-+		goto err_put_device;
-+	}
-+
- 	++opts->refcnt;
- 	mutex_unlock(&opts->lock);
- 
--- 
-2.53.0
+> 
+> if you have any suggestions, please describe more details, I will try
+> it.
+> 
+> > 
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static void nhi_platform_clear_wake_irq(void *dev)
+> > > +{
+> > > +	dev_pm_clear_wake_irq(dev);
+> > > +}
+> > > +
+> > > +static int nhi_platform_init_irq(struct tb_nhi *nhi)
+> > > +{
+> > > +	struct device *dev = nhi->dev;
+> > > +	int ret;
+> > > +
+> > > +	ret = devm_request_irq(dev, nhi->irq, tb_nhi_isr,
+> > > IRQF_NO_SUSPEND,
+> > > +			       dev_name(dev), nhi);
+> > > +	if (ret)
+> > > +		return dev_err_probe(dev, ret, "request irq
+> > > failed\n");
+> > 
+> > failed to request interrupt
+> > 
+> > Please be consistent with the rest of the driver.
+> ACK
+> > 
+> > > +
+> > > +	if (nhi->wake_irq) {
+> > > +		ret = dev_pm_set_dedicated_wake_irq(dev, nhi-
+> > > >wake_irq);
+> > > +		if (ret) {
+> > > +			return dev_err_probe(dev, ret, "set wake
+> > > irq %d failed\n", nhi->wake_irq);
+> > 
+> > Split this into 2 lines.
+> ACK
+> > 
+> > > +		}
+> > > +
+> > > +		dev_info(dev, "wake irq %d\n", nhi->wake_irq);
+> > 
+> > Remove this. The driver should be silent when it works. You can add
+> > debug
+> > but I don't think this is useful.
+> ACK
+> > 
+> > > +
+> > > +		ret = devm_add_action_or_reset(dev,
+> > > nhi_platform_clear_wake_irq, dev);
+> > 
+> > Can you pass dev_pm_clear_wake_irq directly here?
+> 
+> the parameter type do not match which cause build warning
+> 
+> kernel/mediatek/drivers/thunderbolt/platform.c:8:
+> kernel/mediatek/drivers/thunderbolt/platform.c: In function
+> 'nhi_platform_init_irq':
+> kernel/mediatek/drivers/thunderbolt/platform.c:53:53: error: passing
+> argument 2 of '__devm_add_action_or_reset' from incompatible pointer
+> type [-Werror=incompatible-pointer-types]
+>    53 |                 ret = devm_add_action_or_reset(dev,
+> dev_pm_clear_wake_irq, dev);
+>       |                                                    
+> ^~~~~~~~~~~~~~~~~~~~~
+>       |                                                     |
+>       |                                                     void
+> (*)(struct device *)
+> upstream/k7/kernel/mediatek/include/linux/device/devres.h:283:41: note:
+> in definition of macro 'devm_add_action_or_reset'
+>   283 |         __devm_add_action_or_reset(dev, action, data, #action)
+>       |                                         ^~~~~~
+> upstream/k7/kernel/mediatek/include/linux/device/devres.h:271:73: note:
+> expected 'void (*)(void *)' but argument is of type 'void (*)(struct
+> device *)'
+>   271 | static inline int __devm_add_action_or_reset(struct device
+> *dev, void (*action)(void *),
 
 
-
+Oh right it has different prototyp so you need the wrapper. Then it's okay.
