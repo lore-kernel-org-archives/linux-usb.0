@@ -1,66 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794909959;
-	b=49VZC5RsMITVVA3S4nGFiXj8ID4SUu+/eSJZkDQl2h9nDUMXOlWbOK8125vLMlfCoN+k
-	 5sduPxA38pvu7YbQ4pDBX1TyndBYBBp4GLsl+ovGYy7D0fyytY99YSaOmdcXLVCP2vpKZ
-	 UvtozZD0QtmdhIgKshjkiYcBBHrp8jIreWWcvuMgATHfCvOAqaOt63K8M2F7CtI1h8l+f
-	 efxMtmuRJakTpe2ozQ5UUqA+OhYpimw9Je9jeHYx2AE1lY1n1mav60aDYnl1VJV/Ba3LT
-	 SiVDTDHCGAd40XPR56RoT0wFSNDAbKEgOVru1q1pTtz7GIcV5oDq4EZJAXI3N+l+nYw==
+	t=1794910726;
+	b=Ea/m58tZZTHj6uhQR7ui4L7hGclKioaJXJKfxtQiWexqx+ZVc0nPFyYoKNyyysDF+bnh
+	 xqf2fMvS9JNCO9uDdwEhXYeYJ12hETjJZOUGGeQRpxydTriO6EQv4r6ShLQaq7NLbz4Sq
+	 sJfzAk983lTV9MxHsFZ59zez9Usw7jWn0DyyAEmyOF7771LfryJ7jq87PvwM4Qzp4ccb1
+	 K0G0RVAlFJpEfec929myiaWaqPUexgUwV9yK5mVGMXmz+qhqnSX04TBM6YYOWU1rz9Gj/
+	 xyVpS2cHOYJZKcJgpxtkJTQfhsMnu+s3cLJxB+jK7+pXqzkI7Yxa0Glcfn2p0jyEl2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794909959;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=8O1zkaZWzhtKSzJk1fSuQhfVjzskekn4l1522NhIvNg=;
-	b=zbpIzXWEmJZfGeJ8I8pgLstj624/poljyf9jWdxayUpgMdWHXVxfQpIBP6NKp4sM4dFs
-	 Gb/QQnZvytRTxHXc/anFEKnqCiKvgXAr8a4WhpvLVc2N/mEE9/nXThmpNESoaDGUJZWj5
-	 sJv+rDD+0Ndgk0pE4+mcYaFOdOSh+iS8dGFgf5+MEbyLVF23LjEb4AXuG9/BB3vPyHtrE
-	 SqgbE2kfA9yL0RHy7hyk9ybFYpjTlsiTfSwENVPL7orrGkQ63LWC+ZS3vaTb/4stQfBCo
-	 8/EXiRuST3Ah9ejZ/O5o/u39Vg6qijN0b/DlKBWAC6+mvNJ4O+/AUHJdOoSNIRkS5aQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794910726;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=A+KMP5W36d9989qmwo/N1+/FiGMgR/evvb5hza9hock=;
+	b=UKxBU7qHmeSpAgwJjkSaYYprSm8qAqeni3R7YMtErpdV84253g/wt0LMd176InraJHgQ
+	 hy7pJIQqHyd/jXPhz8I0hivnnyMLzPeEH0Mrn4OrSwvCH1msi2/4ISiO3KO0Yg7fYf8jV
+	 9ryRUlcwsnLlvvybKVxviZgqWMRKwFu0eKRbYMoJePS2F8u0YaGGy6FOnIzDV8SxCHzjv
+	 aBZOOwEYSJjm+gz/AYVSqkhdfI3Ay313HZOg71O+ChnmZfb4WPbCOJFQVoZLxsGrX2CYq
+	 lV24ph+OS61AKEK8+Lu7X93DPI63IbDpYiX9eu6HgBX3nSBlsO6bhfmvjIxFfmOE9pg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=O1Bq5lUh;
-	arc=none smtp.remote-ip=111.22.67.151
-Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 763EB606A31C;
-	Tue, 17 Nov 2026 10:05:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 763EB606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="O3/X27Mg";
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B755606A323;
+	Tue, 17 Nov 2026 10:18:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B755606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=O1Bq5lUh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=O1Bq5lUhuB06uxT5kdD81D68EJTUjPHd860+paIHX+Tqq7Hv0W8F4b2p7ag5/cKHYPnld3+LGjlcY
-	 JCHMVskpW/MLn+cr1Ve2or03Qs8GaR+GGwxmeHG9OiAXMLRHSXCStO0BEr11fpL5DxSO7DOGLwtOAx
-	 YG2R+kW3UO0lX1Pk=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66afc270556a-d6628;
-	Tue, 17 Nov 2026 18:05:57 +0800 (CST)
-X-RM-TRANSID:2ee66afc270556a-d6628
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from DESKTOP-3K8GUTQ (unknown[223.108.79.97])
-	by rmsmtp-syy-appsvr09-12009 (RichMail) with SMTP id 2ee96afc2703c3e-ad44f;
-	Tue, 17 Nov 2026 18:05:56 +0800 (CST)
-X-RM-TRANSID:2ee96afc2703c3e-ad44f
-From: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: r8a66597-hcd: Fix clock leak and unchecked clk_prepare_enable()
-Date: Tue, 17 Nov 2026 18:05:54 +0800
-Message-ID: <20261117100555.71-1-laixiangwu@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.50.1.windows.1
-In-Reply-To: <2026111752-planner-uproot-4a2d@gregkh>
-References: <2026111752-planner-uproot-4a2d@gregkh>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O3/X27Mg
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794910726; x=1826446726;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wn7SQPPOp4A9m11PWF5ke+W3KEz3GzCrHS1msl2nmNs=;
+  b=O3/X27Mgihdx/34+F7hmwtKKTbaH1rT2BsrMQ+KVLGxdOYSPhUeiVrnx
+   Uy8/QbJIa3daLn/IzpSKpfRTqKH6uTWyjyGQFEbprxG86YqLtUNoSwlb5
+   odsvjxNXGGIEgHo7rVS+hbKe187WByWnIG0XBb2Rvwt8iAiAKg41zU2r+
+   YT/BCBGCboV+kdExVYqasqMF484/kq8qOFDeA7qzsMYIts+iOHt6MMN7p
+   KD9EQazrMFnNeE1ZrLV53foIfb1x7OkOAtxUdkbB7rE1C3Dzrvq5uYVnA
+   M6j/h3snJCA+iCA2tLvG6uz5EtYeSLrM1X+s8iZvE3C/HRPDvJ6fW+mml
+   w==;
+X-CSE-ConnectionGUID: MqN5DSalTXSelhxohQzvLA==
+X-CSE-MsgGUID: TNdqAWhKR4+xHFj9v7UMFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3529047"
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="3529047"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 02:18:46 -0800
+X-CSE-ConnectionGUID: gFHjx4TnSGy8/bh6+z2MXQ==
+X-CSE-MsgGUID: wqnJfffpQJC34xULFxnDmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="9878616"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa001.jf.intel.com with ESMTP; 17 Nov 2026 02:18:43 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 9D98F99; Tue, 17 Nov 2026 11:18:42 +0100 (CET)
+Date: Tue, 17 Nov 2026 11:18:42 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Myeonghun Pak <mhun512@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Ijae Kim <ae878000@gmail.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: hd3ss3220: disable the interrupt before
+ unregistering the port
+Message-ID: <avwqAvnAKoDkTggQ@black.igk.intel.com>
+References: <20261112065613.34182-1-mhun512@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -70,51 +83,55 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112065613.34182-1-mhun512@gmail.com>
 
-Hi Greg,
+On Thu, Nov 12, 2026 at 01:56:13AM -0500, Myeonghun Pak wrote:
+> The devm-managed IRQ remains active while hd3ss3220_remove() unregisters
+> the Type-C port and releases the role switch. A cable event during unbind
+> can make hd3ss3220_set_role() access either resource after release.
+> 
+> Disable and synchronize the IRQ before teardown, matching the existing
+> polling-work cancellation. The ID pin IRQ needs no change: its GPIO and
+> regulator are acquired before it, so devres releases that IRQ first.
+> 
+> Found by a static analysis tool under development.
+> Not tested on hardware.
 
-sorry, my previous reply was missing the quoted context.  Let me
-try again.
+So why still use the managed version of the function to request the
+irq? Why not just concert the driver to "normal" request_irq and
+free_irq?
 
-On Mon, Nov 16, 2026 at 10:34:15AM +0100, Greg Kroah-Hartman wrote:
-> And are you hitting this in a real system, or is this just a theoretical
-> issue?
+Thanks,
 
-That was about this patch of mine:
+> Fixes: 1c48c759ef4b ("usb: typec: driver for TI HD3SS3220 USB Type-C DRP port controller")
+> Cc: stable@vger.kernel.org
+> Co-developed-by: Ijae Kim <ae878000@gmail.com>
+> Signed-off-by: Ijae Kim <ae878000@gmail.com>
+> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+> ---
+> 
+>  drivers/usb/typec/hd3ss3220.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
+> index 60d6de9ba339..19c5dbdc97a1 100644
+> --- a/drivers/usb/typec/hd3ss3220.c
+> +++ b/drivers/usb/typec/hd3ss3220.c
+> @@ -554,6 +554,8 @@ static void hd3ss3220_remove(struct i2c_client *client)
+>  
+>  	if (hd3ss3220->poll)
+>  		cancel_delayed_work_sync(&hd3ss3220->output_poll_work);
+> +	else
+> +		disable_irq(client->irq);
+>  
+>  	typec_unregister_port(hd3ss3220->port);
+>  	usb_role_switch_put(hd3ss3220->role_sw);
+> 
+> base-commit: 630059a5a632377b9b7b487baccde92b7ae1dd47
+> -- 
+> 2.43.0
 
-  usb: r8a66597-hcd: Fix clock leak and unchecked clk_prepare_enable()
-  https://lore.kernel.org/all/20261102100455.600-1-laixiangwu@cmss.chinamobile.com/
-
-No, I'm not hitting this on a real system.  It was found by code
-inspection while auditing error paths in USB host drivers, and I
-don't have hardware with this controller.
-
-The affected path does have in-tree users: several arch/sh SoC and
-board setups (sh7723/sh7366/sh7264/sh7269 and the ecovec24,
-ms7724se, kfr2r09 boards) register this driver with on_chip = 1,
-and the clock handling only runs for those.  It is old SuperH
-platform code, so the practical population is small.
-
-The failure it fixes is the driver's own hardware init failure
-handling: when the register access poll times out because the
-device does not respond, r8a66597_clock_enable() returns -ENXIO
-with the clock still prepared and enabled, and the probe cleanup
-only does clk_put(), so nothing disables it for the remaining
-uptime.  The same helper also runs from the resume path, whose
-return value is ignored there as well.  Not checking
-clk_prepare_enable() separately turns a failed clock enable into
-a bogus -ENXIO from the unclocked register poll.
-
-I have not seen this reported anywhere, so it is fair to call it
-a robustness fix rather than a fix for an observed failure.  If
-you would like to keep it, I'm happy to note the "found by code
-inspection, not observed on hardware" context in the commit
-message and/or drop the Fixes tag so it does not go to stable.
-If you consider it too theoretical for the tree, dropping the
-patch is fine by me.
-
-Best regards,
-Xiangwu Lai
-
-
+-- 
+heikki
