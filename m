@@ -1,61 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=93.77.172.89
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794940437;
-	b=dGaIcGKBZKfsDCOTiB+q0uSEB+guKbfeV3IiB2S9kt7RJpLR7n5JPPaPV39p3Y4o3Snt
-	 CbFXiTCqZPYbONVWHwIi97mJ/qYyXL4X6R7yundComUwHRGE8u7Ff3mGw4rm7MqRVjGcL
-	 WHwPUjuB0AMbDS/W9P5TCPSE+XoGczw4EPFTbQLskiOJm4fdfMuiOzFNan+pNZBgiJiH0
-	 WQFzGmlNF1xWKmS6TcymLDf33Aw9l3zBGC+WJlbIvrgTlKqqjXgYKuF3UseCBiV504vQ8
-	 BABDipS7FNu5zcDK+z27DBfss1PD2KIgiVvJC/FBGsdpZyU2thx3jqRKzwOWgmEBrNg==
+	t=1794942498;
+	b=fmxYMXh7TxYFFx7h3ld33NN3PT56lCtvqABICw4/t6uZ6xoRFvoIot0cYI3HRy403PAU
+	 L/1yNygs1foPNZ7Dc1+2vtcnj69CDYC7YCl2GJ/2LAtyk5C7Bd3pl16TtCcCmG9wm46gG
+	 X8WYh+FXh9jwA2s6X8XqrRXSo1HEjwV1MbTrdnjqTSGevkzN6FgJh55v4mReLP9X3xcY4
+	 VGXUZXUUDWZtxUcVXPEBvWcTnyh2IcoAi/CkTQsJZb+sogMmiZaYeZJkq3/Y5dgcghZOg
+	 lL+NH8aA/XMAF3cbKvcZR92+spSMgriZVy7/uuaYCrq7h/OyBLe75as+HFvk8kgOQNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794940437;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:Auto-Submitted:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=Ps3dmenyy5Kz+Ld8FFyPnRbKN1BblcpmGxOsdgzLlkg=;
-	b=lZKjDL6CpxCM9e6AV+6lvNWYNiGAjoUjrRaSwC+WN9qZB4x5qWWVGh1+p2PHMktnvRaS
-	 /vSQISavAoUGOQICKNmsM+jCbQ/DKzMBmkJpSWd4uaH3nPQ9jiAzPVY61rrS0Tz2YFl8Y
-	 1827zGEl4It7VUG+Y94OcyIprGnOojenc/q2r/PvAQTHb8Ew5wQmaIM0lH5bylcUSK/ix
-	 DTCRNpcT8qxCKNZyfeGMHvvVYc5uwdwXbllUSDQmD/albyrEetTpi+Wrg5gj4KlezTbXe
-	 lqncSjb4ytpJwBTr7yEBvBRvh2C6SaKPYo2KK3yr7ph80/5k/ffv/0aNNyTvgq+fiyQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794942498;
+	h=DMARC-Filter:Received:Received:X-Yandex-Fwd:DKIM-Signature:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=4hGoB4QdsLd1gLfshKsnpyFHgopMFrsn8yq+xHciRqY=;
+	b=Wa2712N2KwTZMs9ECLF+yOe4AF+FbOdEv3kyxQu73eksqeCdH9wF7And+QcwZUuNAt50
+	 L70fsoP2HpriRBrFHjLHkzyDINPGLODyfwalEcS8KAE2eR4wJbfZ3e6kP2xHSfQsAK6mo
+	 kC5njWtlhIp2RSCDHHwiZoQ+MHFZ7KxtAe/0eIXDwUV0QvxJtIT7xqzzZJv1vHYCQcutX
+	 w1mP6JO0/ZIsw9OZ1+/7bOQUyhM4c4MagfxZPzj4/MZ2zO26SOzDvLvSKaGHhXa7ZourI
+	 bU7oy+q/2zbxRtBPVCpRgTgCAtrT+K57RrTFFx5iiKGFlMcM1aeIAgstxT3m6qyGIGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GvdGvt9A;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=yandex.ru;
+	spf=pass smtp.mailfrom=yandex.ru;
+	dkim=pass header.d=yandex.ru header.i=@yandex.ru header.a=rsa-sha256 header.s=mail header.b=hEOqLGHI;
+	arc=none smtp.remote-ip=93.77.172.89
+Received: from forward504e.mail.yandex.net (forward504e.mail.yandex.net [93.77.172.89])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9286C606A8B5;
-	Tue, 17 Nov 2026 18:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33285606A32C
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 19:08:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33285606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GvdGvt9A
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE2821F000CB;
-	Tue, 17 Nov 2026 18:33:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794940437;
-	bh=Ps3dmenyy5Kz+Ld8FFyPnRbKN1BblcpmGxOsdgzLlkg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=GvdGvt9AWhxa6/h1i5YNy6vp7nWqjA1SiBWYlqEh6eHs32VRkDsO0ud0GIqu9cx16
-	 cgsBMMzS+Rt1CPgruLL6fw+XHek1WqqG3V/csz4Ffl4P1pkKqayPlt0WecmjkqmZjA
-	 8lyUDQODUm1S+pyjlcPoW12ZYIOuUvZzxld14aByqeTFIJIP1vpmWdYfjlqu6zd/Cm
-	 GH8tFnerX7y2pvR55sDkzpMMfYMFNFWhJyjojAEnZV+SMsBAhw7w8dW3JrvC5y3K/D
-	 eBT4Pn4aLoedk0+h1xaSfRRA3iyQe7IH+Rsfs79VIRfJ7/erSX78lTQAwvh7MkNvPO
-	 Mkk5bqcdGlDQQ==
-From: netdev-bot+sinfo@kernel.org
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: 
- Re: [PATCH net-next] aqc111: Correct endianness handling in rx/tx_fixup
-Date: Tue, 17 Nov 2026 18:33:56 +0000
-Message-ID: <179494043647.3291.5606133763335638052@kernel.org>
-In-Reply-To: <20261117-aqc111-v1-1-27a54c4b54ca@birger-koblitz.de>
-References: <20261117-aqc111-v1-1-27a54c4b54ca@birger-koblitz.de>
-Auto-Submitted: auto-generated
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (1024-bit key, unprotected) header.d=yandex.ru header.i=@yandex.ru header.a=rsa-sha256 header.s=mail header.b=hEOqLGHI
+Received: from mail-nwsmtp-smtp-production-main-53 (mail-nwsmtp-smtp-production-main-53.yp-c.yandex.net)
+	by forward504e.mail.yandex.net (postfix) with ESMTPS id 64C6BC0189;
+	Tue, 17 Nov 2026 22:08:06 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-53 with ESMTPSA id 28f35n1gH0U0-xjQ7iKqn;
+	Tue, 17 Nov 2026 22:08:05 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1794942485; bh=4hGoB4QdsLd1gLfshKsnpyFHgopMFrsn8yq+xHciRqY=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=hEOqLGHIBKbSnuGsHld/YRG6mEeq+37j5KekywVCcPKt2RnyQJA7EFnYUZBfqX9J2
+	 ShuFsTuM94ktrYcNMHgwgtGwkmnPCoVheVrS2sx7RChCSekzvCuo5p1Dr9TuUdsPN1
+	 wPDg5iQdGZZ5BT/Hyi1ZculPfw0nDsYvWDj5VCqo=
+Authentication-Results: mail-nwsmtp-smtp-production-main-53; dkim=pass header.i=@yandex.ru
+Message-ID: <839e190e-6377-4585-b68a-b672e5b4a13e@yandex.ru>
+Date: Tue, 17 Nov 2026 22:08:01 +0300
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -65,22 +58,54 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: gadget: avoid redundant strlen() in
+ make_name_string()
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Neill Kapron <nkapron@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+References: <20261117170207.642330-1-dmantipov@yandex.ru>
+ <87jymbxs8k.wl-tiwai@suse.de> <87fqwzxra7.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Dmitry Antipov <dmantipov@yandex.ru>
+In-Reply-To: <87fqwzxra7.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi!
+On 11/17/26 9:10 PM, Takashi Iwai wrote:
 
-This is an automated message. This series looks like a fix, but its
-commit messages seem to be missing some information:
+>> Hmm, does it really result in the same?  Wouldn't you need to
+>> decrement p at first before the loop?
+> 
+> ... and looking again, I think it's a bug in my original code ;)
+> 
+>> And I guess this can be better replaced with strim().
+> 
+> ... which can be fixed by replacing with strim() gracefully.
+> 
+> Care to resubmit as a fix?
 
- - Whether the issue was actually triggered, or is only theoretical
-   (e.g. found by LLM and not proven at runtime). If it was triggered
-   please include the symptoms, like the stack trace or kernel messages.
+strim() implies strlen() which is not actually needed here :-).
+So (assuming I've hit an original intention) I'm voting for:
 
-Please do not repost the series just to address the above. Instead,
-reply to this email with the missing information, so that reviewers
-can take it into account.
+void make_name_string(char *s)
+{
+	char *p;
 
-*IMPORTANT*: If you do repost (for other reasons) - please include
-the relevant info in the cover letter or commit messages.
--- 
-The evaluation is done by an LLM so it may be wrong, if you think
-that is the case please reply and explain.
+	p = strchrnul(s, '\n');
+	if (*p)
+		*p = 0;
+
+	while (--p > s && isspace(*p))
+		*p = 0;
+}
+
+Note this trims " \n" to " " (string of the only space character).
+If this is not what we want here,
+
+while (--p >= s && isspace(*p))
+
+converts " \n" to an empty string.
+
+Dmitry
+
