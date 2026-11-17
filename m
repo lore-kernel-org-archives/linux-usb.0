@@ -1,60 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919205;
-	b=txCi057Syxy8gFLNWwiXrfVfljhlA7h1XqjT6mv6NZd/amx4MaAej1JTGtqvTtaLuDQ+
-	 wo09Kxg2lEN9N31vyho/6ObHPuxdvZyo75btpch/8Te2U5gc/mrwbPjZkWmI9ukobjPxH
-	 YXO2AzgJT+QZSPsXArKfk4AqnV6TjPFcvaTuDxjlYPFd3RERhkW83qtU8TOAWcx1CfvP4
-	 UZC3YFu3IXEsD9UNKy8pmhwAymgQG1Ni4wIWPbVPS0BqYBolNkHlSJ63EgkmLS+A/tlvt
-	 Oa9BHz+oI7KtM8F1Tp1tNW4qAm3xGk2Hccp14WgfAgIdSGID+7bV+CfKIV6fD6rLo4A==
+	t=1794919203;
+	b=MpyHwY0E1FNrk7HGHlxTSM4kVr+Xudu5V/8OYiwwGLSKnvDtOwuBDX6jU3B1eLx/xLrA
+	 LIiY6bAZkG0IOpPxH/C8v/BubVlgpAAy992vMOn31YK9w4ZJiY1mXSsBgh++XKl8b+NOU
+	 YZOVjN38vy0sRhOcIyhTRZLHnmoKPW61iMdvt841zIW3RNdeKrm3YT8FM/7ecqcoFC86J
+	 41x8y1uxLZD3jkR4Te24aM4WB6kgung6vYEaGr4N91D5T/Eg0e20uiDoHsostX9p+rHvc
+	 MEWQP5QiPW0GpHtazzitVCmsNimQAHwvZuy2Nk65R+585VvBoR2mWq/8XdlyAelQpaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919205;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:Date:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-QQ-SENDSIZE:Feedback-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=0rrc6yitlg3N1pLwaw+QmLd+KXVWfDzTO1188MqwdCw=;
-	b=WFqPnjVQQPidZodF8KKoRUgagZkTaEIpCcXhZNz6ym651ZFVoW1zget5FTyBDHPVwAmT
-	 DZnyWgPPo+W7CpJCcl/CwQG9IjyFq7Ssehok8H7G/bczL0mAadbea+cyNPl/F45bxcJDU
-	 N4+4gicZOoFj12raYdBPBNGit440VqJJfEIO+T8Omsx7D1dkT6rib4RDGdtWaZG4CvzlX
-	 xTJLhHM8uZ647M+49UvJqv824fUAKu2u0WSKlzLmTDLIWAiaWuXIRV/++bfbgkZXxtaZx
-	 3tTUAJd/PxMYR7GGgU02gY5b/ZR5pe5iy5hcAciwfkar0kshA0ctldIXADYe7PawKFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919203;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=iGrxTogpmY2qlz4NFTDy01opfwQQh22j9ywkzRRz+lU=;
+	b=2vJwbFxVozV5LomXB+ToXnTZZyTGnibzKiMCgdblvnUqpIQl7fKS0D1+1ruC0/BIGc2q
+	 ghCQ6fGIxJ55abjWI8i9mL9yL5BJyuO7OU4wtuckxCrG+TCWmXOtLWWasYeqbHg4R/sfQ
+	 VTR6whPj7KMijTeoEPjEmxBIPnGvDDoVORJmP7Rlf98b/LXgmXa9de8uf3ygR6vns4ojC
+	 zIj6UsXdI3HcKfCYnJA6yYmtSenIhlNsXIPsRFYsqQTb3BsY0nP7IYAoNkc6uhzg74hBF
+	 OB2sFo1jRPX9cUjrEixeh+oKO+fSbmnlMxwC4Jv37tjgyfY3ZrIshOqMYOzGYdRkSIw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux.spacemit.com;
-	spf=none smtp.mailfrom=linux.spacemit.com;
-	dkim=pass header.d=linux.spacemit.com header.i=@linux.spacemit.com header.a=rsa-sha256 header.s=mxsw2412 header.b=c2ivbERx;
-	arc=none smtp.remote-ip=54.92.39.34
-Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4srGreu;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D75E606B462;
-	Tue, 17 Nov 2026 12:40:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D75E606B462
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7D6606B447;
+	Tue, 17 Nov 2026 12:40:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.a=rsa-sha256 header.s=mxsw2412 header.b=c2ivbERx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1794919163;
-	bh=0rrc6yitlg3N1pLwaw+QmLd+KXVWfDzTO1188MqwdCw=;
-	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=c2ivbERxNx8nC9elirXtOQB+bbNzkoE1XloPLuTjaAjxAvBDCXr20kOGU+boZH7he
-	 YyyrPvJ4Cfegjc5NGPQorKacfjrWenE4zYnG5b6QneuLTq8kEl62f4yLgm+qZK3fRW
-	 DSqYnNujqGW/WBTIU3xBKjYrY61XbynoWW6iGrHE=
-X-QQ-mid: zesmtpsz6t1794919157te1ed1c3a
-X-QQ-Originating-IP: ZFf2qHqP7RisJtMpV56HPT32knSUlElPmSfmDLZpxso=
-Received: from LT-PANJUNZHONG.dc.com ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 17 Nov 2026 20:39:15 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 16000574265018229481
-EX-QQ-RecipientCnt: 21
-From: Junzhong Pan <panjunzhong@linux.spacemit.com>
-Date: Tue, 17 Nov 2026 20:38:50 +0800
-Subject: [PATCH v5 8/9] riscv: dts: spacemit: enable USB2.0 controllers on
- OrangePi RV2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4srGreu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DB1E1F01834;
+	Tue, 17 Nov 2026 12:39:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794919203;
+	bh=iGrxTogpmY2qlz4NFTDy01opfwQQh22j9ywkzRRz+lU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=g4srGreuxToatVMIuAPDiO8eSqqmJs19koFwNky9XyMzCQow72SKEeWgUy+ulf3/l
+	 FQ8g9CYGyJO+trPjFlerdtrWuCgHi6pCBJpaytAudzfXWhTd9LZt+n1aPXJbVhdlH6
+	 OFtHy/2JltsmcdPHeCT1d3hQiigLKlqkOVJ20RMMc866fadpAJYx6R95sMHh/reTWa
+	 4BXYRguVwHEJPQvnPW6ZV75WOKkG7GJ1Ofcq8rDGmDFQc8fCX/394JH4lrWLIs7/kt
+	 puNyLPWlEHAi1Ey4bHWPp0MjouS9JH2SO6ncrklClyZdPtaVi5Hc8CWVyDO1S0+O3K
+	 YCW4qPX+1YfVg==
+Message-ID: <ef65915b-7a61-4f59-926c-375d654ce2d0@kernel.org>
+Date: Tue, 17 Nov 2026 13:39:56 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -64,116 +51,100 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 20/22] arm64: dts: apple: t8103: Add USB4 ACIO and NHI
+To: Sven Peter <sven@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-20-1f80085f93fb@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260906-b4-apple-soc-tbt-v2-20-1f80085f93fb@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261117-b4-spacemit-k1-usb2-v5-8-52c3829cca69@linux.spacemit.com>
-References: <20261117-b4-spacemit-k1-usb2-v5-0-52c3829cca69@linux.spacemit.com>
-In-Reply-To: <20261117-b4-spacemit-k1-usb2-v5-0-52c3829cca69@linux.spacemit.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>, 
- Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
- Peter Chen <peter.chen@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- spacemit@lists.linux.dev, Junzhong Pan <panjunzhong@linux.spacemit.com>, 
- Ze Huang <huang.ze@linux.dev>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794919127; l=1584;
- i=panjunzhong@linux.spacemit.com; s=20260306; h=from:subject:message-id;
- bh=uu5uKljJfa42eiLZB42IVMHS1wiDxAgRiYVIiQnevkY=;
- b=JzG18KJVb/s05Gol9l2+y4Q3xvN3ebpD82OuoWT7fCktQZeLzn+bD1JSVzxLzwVAqM7AJkkCz
- G80gctPNEuuDVEZrHEwV61BZYyLV37gGtDcV+DNvYgKub2LqnwNqX85
-X-Developer-Key: i=panjunzhong@linux.spacemit.com; a=ed25519;
- pk=bY08BOg2T9H93/jG8fEE/tVmdXoQQMp9M2rtzPFoyJg=
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
-X-QQ-XMAILINFO: OLGeby/1Q+87ktHETSuO++mUneTU43A2nxApoGEdAV9B14S2Ra8/Ts+4
-	V/hGZ7Rmbnz0P1o/rdX4GUVovtjyClqPKW1b6gXAxrzx/meuQBfPp5+0LjDT2/0sPr/ovlZ
-	Hs5ypO6Kp3VejZ8N1EwbYo14t8K0pfVi/iUlgHeXhFNloGOc+feUju2RqaqknUO7Z+H1uQZ
-	ejZmR7YaFVHAbE4wIxkYbDiPIy9D7yDGLWC4880kvbkLvUgulo7UAHIfwvVhApjD5mCXzYQ
-	adgPksh2yctryzs2XibGQUPKO/rDx915HasGQF6hUxZazk9LDT34MMgzAhciIZO5xnoaE+n
-	46Uw3SuCRyeDgeEHlGaGONcbbrWVO2GgjgImIqUDwbS9OBHwfXXWcAX1o6gBl14j1p5D7r9
-	l8AJS2j1l/hqyRtKsYM2nG7sjTAbTxmoYFfgQxjuC0FxDtiSSR8tiU9IJKlotV5xgwu5r3L
-	iBs/WbyzIFpgDNrXq6I5P5BcNDJ5maJstnNLhPUZqs9n875WSgFVL/Huz/xxoIcybIZleLT
-	nmiRbx66bGRLcVP0O1eCWrQwlQiGr+v7tPXoNELc5Vga65ACdjsAeiu4JC3Qud5LzHtOrUB
-	33FmvFzJj7UJOs9dy/7+IJdK4pYfN2u4eREZSgKIu2xJQj000OijWG3ZOfMEGDq299NclxZ
-	OB1Yq99d9s84p2LYE+QBytfWHPnbFjJJpvWlCF/a3C6oYWYzKz3vGKOu1mabyy8g2/yJVw2
-	koeUdob40HpDUo7C5pfD59ROdsWt9y68EFfcNDtN/2l7I7R/encEAq0zwpiT8v97FzCLkSD
-	/SGBRdrmCweGHL1QjSgGsMAG2Na5IOPCAymTFT00G9Un4eZCx/FyEauqdzom2utj0kqYsFD
-	vHif6ywGTVgkL68tyAkLtReYHnD3Ne6pD4RNbkuHwzbzlSwYrS5cUbyPujHBL0McPqY9fCo
-	6ujtA/6bmf4w9DVuSaw6/ZaFzllqFGriGrnjdKB5blR6QeV2+NDLm3zM/Jvi0ZgR8Iz45wE
-	T89+kQyeU6FGDHiWN12I4dDdv9ks/cdkEq+LNPqiO8duDoBB45uWA3veNhaBs/KxyOGYF5B
-	VB/KebXzTd5jzet4jdbU8kX4UQZfoP3lPdEDnquK4NBfwGHVMkTOM+orRqVd8e5lTfWhs3+
-	w4ZfOjVlF6W+Dhb69VY3XRpTPKl7a2LnR/aP
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-QQ-RECHKSPAM: 0
 
-On OrangePi RV2, usb2_0 is connected to a Type-A connector at host
-mode, its vbus output is controlled by gpio 126. And the usb2_1 is
-connected to the USB2.0 connector pins onboard.
+On 06/09/2026 20:36, Sven Peter wrote:
+> Add the ACIO host router, NHI, DART and M3 mailbox nodes for both Type-C
+> ports on t8103 and connect the host routers to the Type-C connectors.
+> Also describe the USB3 path from each host router to its DWC3 controller
+> so the NHI driver can create the required device link.
+> 
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  arch/arm64/boot/dts/apple/t8103-jxxx.dtsi |  95 ++++++++++++++-
+>  arch/arm64/boot/dts/apple/t8103.dtsi      | 184 ++++++++++++++++++++++++++++++
+>  2 files changed, 277 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+> index 686fb1dd215d..01c942b0a75b 100644
+> --- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+> +++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+> @@ -17,6 +17,10 @@ aliases {
+>  		wifi0 = &wifi0;
+>  		atcphy0 = &atcphy0;
+>  		atcphy1 = &atcphy1;
+> +		usb4-0-acio = &usb4_0_acio;
+> +		usb4-0-nhi = &usb4_0_nhi;
+> +		usb4-1-acio = &usb4_1_acio;
+> +		usb4-1-nhi = &usb4_1_nhi;
 
-Tested-by: Ze Huang <huang.ze@linux.dev>
-Reviewed-by: Yixun Lan <dlan@kernel.org>
-Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
----
- arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts | 28 ++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Sorry, but what is this all atcphy and usb4-foo doing here? You do not
+get own undocumented aliases.
 
-diff --git a/arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts b/arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts
-index 790234f3550a..53ecf4826005 100644
---- a/arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts
-+++ b/arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts
-@@ -77,6 +77,16 @@ vcc5v0_usb30: regulator-vcc5v0-usb30 {
- 		regulator-max-microvolt = <5000000>;
- 		vin-supply = <&vcc_5v0>;
- 	};
-+
-+	vcc5v0_usb20: regulator-vcc5v0-usb20 {
-+		compatible = "regulator-fixed";
-+		enable-active-high;
-+		gpios = <&gpio K1_GPIO(126) GPIO_ACTIVE_HIGH>;
-+		regulator-name = "vcc5v0_usb20";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		vin-supply = <&vcc_5v0>;
-+	};
- };
- 
- &combo_phy {
-@@ -427,10 +437,28 @@ &uart0 {
- 	status = "okay";
- };
- 
-+&usbphy0 {
-+	status = "okay";
-+};
-+
-+&usbphy1 {
-+	status = "okay";
-+};
-+
- &usbphy2 {
- 	status = "okay";
- };
- 
-+&usb2_0 {
-+	vbus-supply = <&vcc5v0_usb20>;
-+	dr_mode = "host";
-+	status = "okay";
-+};
-+
-+&usb2_1 {
-+	status = "okay";
-+};
-+
- &usb_dwc3 {
- 	dr_mode = "host";
- 	#address-cells = <1>;
+How did this sneaked through... where do you have DT bindings maintainer
+acks on this ABI?
 
--- 
-2.34.1
-
+Best regards,
+Krzysztof
