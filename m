@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919608;
-	b=4TomcUFORl1PZbv4IDrUKHDlq1fJ+VRMzHrleXor+xPIpjOF8IsuOjT2b8H3wa7gRKFC
-	 Hj50gT3zL4oShJS8q4OQI24ImYjQntRwhKWO65egHYP2zJzcS24CPSQ8mpDaJHBz92RY1
-	 jRGUj+SBmqOLz27YnUW/XmxHB2mW6QcocTq89c6rmTv8uacmv/nVdsZUWyFEl9vombnxO
-	 i/grMGP4Ax6B8jnw/L8ZHi/RFgUPc+R1NBIcaz/CXU3ZOkvY1CKvyvC0lyAss6addENmS
-	 CvsIQTGWo/ev9cMNSCCtpx2gvl596i2PbFCtkh+k454MzRGA5NjVFVQFLN7JBTGjbow==
+	t=1794919609;
+	b=VDzGeARnk26IvAR2fYzlyQHv+8mIER3SK3BDpNJPQG9xoSpYXOAAENA75JLER/7Orwko
+	 8fwAgq4yy8XcdWDTe1dejjUrcAOIFXDp/NhypDJcHKcIAE3vEjik7TAeSz7qzhEoxwZ5a
+	 QM/yqQCAK7t11uzPjkRENqbId6Q93dNHZ0G5KjHtwnpRgWwxkQa/AbJqH70D33o0Y0jTu
+	 n0ebcXZxD7dRxoTvASWB+akS+uuMXHf6zVeeKsT6x9bzL6X8VsgHCYQ/pToZp0nT59jb6
+	 YppExc7zQT/SgCWdQy+rypGHjJufuX4Mt/VRtKQAa39yGUZ/6nPT9EJzio467chXFlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919608;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919609;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=2VUkZ9oIML5UnJHM/xc0iaBwpT9ZvtYy5xFglIA+aC4=;
-	b=TAwdvSCxy2zz8m1DDsWXhW6NilQPVMMMLs3okq2DbbZpq6pARSR23Erbm9KilZcqmnTV
-	 Xa2OB/naVTwcEfCPeWjOnlroNxLyiexCmQSGBXOKP0EDyo2rvEDmNhx7uHdYjpGN45+D8
-	 vzWcXSZozpYC+hfWx2l4NcaaKBXMNMsygz/5hTucNDGriAo7tn16F4+r2FWH9v/flBOVl
-	 B7ccMa+vyu6JHRv2HQ34a3/SX3E1HVa0X5wDyg+XjvPd6lMwlfZt5oiGsXFDh6Zwdm5cA
-	 AxBV8LpWoJdXk4Xg7sykO2Pnom/7QG7kAHBdP6opoJyK4iFWZdl/SnBnTnVmdRRkZHA==
+	bh=GteLI0gRGrMm1NP9A7kQIlWaVDDBm19VYMMhZy0icYQ=;
+	b=X7T9yAs9YdRTeBO0b7ysziFGw21f2twV+yj+oXXrXcyaVbtUh1qZgGUY/01w3gQfuzkQ
+	 5cXW5mPwt6QdEU/JtFH41lJ5Z+l988a25cYEJljUks/bojNBINWaybRrxv/nYgdKxqaIT
+	 QMGlcc0mFZO+cc2F+WiqQ72QDjvIqJlqgTKfKV5LFj4ZHc7Nkq1YQF9wSRkpUxyKr7+dc
+	 Yi8b6BcQ00WKyUeqwALMm/q+12dBO+7zJ4EdUhKgH0jSxSy6d62AMUmPxvNMmAa16sJVI
+	 tPrG9urxGW64ioZNGVLjL4WrXlrGcK3/ge6JxXtns3LkeF7mLyJkiJDWhaq1JCIWBww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V40wBQmO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MP8n1IAS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC3B606A323
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 12:46:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDC0606A334
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 12:46:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V40wBQmO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 239651F000C4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MP8n1IAS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C60731F000C6;
 	Tue, 17 Nov 2026 12:46:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794919608;
-	bh=2VUkZ9oIML5UnJHM/xc0iaBwpT9ZvtYy5xFglIA+aC4=;
+	s=k20260515; t=1794919609;
+	bh=GteLI0gRGrMm1NP9A7kQIlWaVDDBm19VYMMhZy0icYQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=V40wBQmObLvtGrf+vxcIfgre6jJI0xeAyfhuVCQb5ZXtYD31STkARV7kIeQkkFESY
-	 iAJZlKkp8wntaBR+XSocX/e6GB/OF36F5SXf2Kjs5keOeTfT/Zv9AK7B4eIDQsKWIw
-	 0beUbIzV+ky2cnCJqunwB4nxuWDss82T3Y4qHdCTxzY7EBYFDWBeE1B1CGNetqSSfQ
-	 XBHKA0ubzO7t2mFIM6gxQmZPS6xJAK8yYvUJrDYDRRSfO9JHp5T5EaZCGnog5TnFpI
-	 lWDau+uUn+7IrTueo/SXnALeHRcomDM3ouIOVoFvywkof9iy8WPZ1vR3kWUQw4ItZZ
-	 wrkfPC7FscPRA==
-Message-ID: <sashiko-outbox-218787@kernel.org>
+	b=MP8n1IASsOCGTNV7My03oDwYqA8Njv+a+OYoqSfWXPDkJhm7xDja2AqC8Bnj89Ude
+	 L5HzDWo7UW2KO42Dk4DrCJ9XxzyHFMQKOgTO4eCVKRPTJSXyC/IEMgTkO8pCw5isTE
+	 kHrPzn3QqzINgrmN8ckWN0bDM3/Qn3TP5ZyAUh29NcTN0z663tBFDic2/tN1NsyRA+
+	 9sFGAjErLGIfaPLMCJywFF5ijPh6hEyXBkbI2Wr+CLwS3INbV0uaSe9GzoxEvg2/aC
+	 +6YA+86jPYZu2wpT+fituVMiX4Xaz3zSG2IOGjtWydQjUQ8aI/MVIoGd1ptkI4m68a
+	 h6RTXgbCfr+GA==
+Message-ID: <sashiko-outbox-218788@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 7/9] riscv: dts: spacemit: enable USB2.0 controllers
- on BananaPi F3
+Subject: Re: [PATCH v5 8/9] riscv: dts: spacemit: enable USB2.0 controllers
+ on OrangePi RV2
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261117-b4-spacemit-k1-usb2-v5-7-52c3829cca69@linux.spacemit.com>
+In-Reply-To: <20261117-b4-spacemit-k1-usb2-v5-8-52c3829cca69@linux.spacemit.com>
 References: <20261117-b4-spacemit-k1-usb2-v5-0-52c3829cca69@linux.spacemit.com>
- <20261117-b4-spacemit-k1-usb2-v5-7-52c3829cca69@linux.spacemit.com>
+ <20261117-b4-spacemit-k1-usb2-v5-8-52c3829cca69@linux.spacemit.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 12:46:47 +0000
+Date: Tue, 17 Nov 2026 12:46:48 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,15 +61,11 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> On BananaPi F3, usb2_0 is connected to a Type-C connector at device
-> mode by default. This port have no VBUS supply capability, thus host
-> mode only works with self-powered device or hub. User could switch the
-> role in sysfs.
+> On OrangePi RV2, usb2_0 is connected to a Type-A connector at host
+> mode, its vbus output is controlled by gpio 126. And the usb2_1 is
+> connected to the USB2.0 connector pins onboard.
 >=20
-> And the usb2_1 is connected to the USB2.0 pins of the Mini PCIe slot to
-> support cellular modules.
->=20
-> Reviewed-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+> Tested-by: Ze Huang <huang.ze@linux.dev>
 > Reviewed-by: Yixun Lan <dlan@kernel.org>
 > Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
 
@@ -77,5 +73,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117-b4-spacemi=
-t-k1-usb2-v5-0-52c3829cca69@linux.spacemit.com?part=3D7
+t-k1-usb2-v5-0-52c3829cca69@linux.spacemit.com?part=3D8
 
