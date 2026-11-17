@@ -1,108 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794916937;
-	b=AFK6KuBqyBc4g21IZhIvcVdIo0AM6A76GMXQt+FJqjYhdBKnGrl5lyChF1+kM4pIPQG+
-	 VzBZ1aom8k/ia6GbpU35Hn2+II3aYB/MpagRhptLYoUP6Zc80tmP+230Wp3UNey3WJH2r
-	 9Aj+1EW1f6XK6USxWTyWIe7VnlJ/IOkSg1VaP88h2TgkjVaXg4rSGSjhc4OcaAAlInCOv
-	 kJQPmLEPGz2ZtZWBbVZu+PNF4g/nN59tGTgNtOCFMPFc8uWwgqEIX1PBqIBHawV5MV1aG
-	 Ei8qBvkfHzgjBjJHgV6qEdxkwPg3W48rY8s/rj/A6pCirhdiBnoomY9Jz+fu3EZKabQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794916937;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
-	 To:Cc:References:Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ZpBAZv/F6frjiYMr+e5uwax+5b55mYj5/5iqhQbyN+s=;
-	b=ncp7tFYXrmKHmZ+dx6MCzzDkMXKXc4/YesgUvSsqGHmfWlbwfPzp10ehgzp3qYur2LlJ
-	 S8J7MS+KAL/YDSsQN0/KE37TCGAhw6MK5x/DFv/5r3e3H6KqU+HIlvJnAhXvBxh9trNXq
-	 B+X+IxfnwwntMKtXAsStu5skv9KBvytYT4aEhobdEbzweX3wX19ET7qADtnGGCC7Yd5ZZ
-	 Sm/arDDhQNMCRWJXJRkUTYezcLqICQ7eryRiCzVe8rjx5up/VRhqEV+cFE97pP0bjjV07
-	 VBlwb5EzQEVZ8lJ0P/9rSylhHUbAv3DIxDhbCvqciSNeaK7pE26eDgucK63kt3H3pfQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=EbXasSWC;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=PZhFrElv;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794916990;
+	b=lZLYCwwAtemMamivujAW1hBj3Ci29Hmvra5sLMQQA6R5S1mU+7kr/dTUtMYFok6YAV8a
+	 +6im1dNH7eTamYo+fQaF5WcVbzcVzwCiQztm6ufwzuGIh9OZ2ENG6wUy+NGI9u8v0aXZi
+	 8CzryIVPRjWwc0MMcT7Fg5m4MCWTwZRAZR2pghlandR2dkhPigdWd/VnQJTop4G3fp7l8
+	 OnvVoGAjCdd3BvY8tQ/chdGRbP5KgZ3Vev4BL52J25dLNYqZYmHoYyREYx2kjXpkMZOHE
+	 2Ohr31K+plPcnrapqKxUHaiRgBp/Ih5SIT2KxJA9wwoAgrEzSYCaLH6ygbEN0N+WwwA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794916990;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=Q1vpqFbxBot+hFBN4I6DOinqXAgCtzkR2JZJJ61mELM=;
+	b=lyPh0CRZ2FwWY+26Ij10EPgNLN8KxXLimghLJU+Wa/gDotah/ltOj1h9McLZtlK910hs
+	 AQxmEdAz5AsfAw0cOqMnFdRl6Igxn3cjhGDNwe9CXI+k+yo+L35juvHioHcvlPOwp4wVM
+	 DOz/5icN1x1GoGqyHqZBUA2O0F1Ke4xMTn7ZrAKnRCijKPZP0wH7zrb0/906mJKBu32Vz
+	 TzCNwBvoyeZLIek2/KuAempAHHOuKqPTlY1vWx9I+amqCAJx0vIXPeHHuWZgtrxEVY25c
+	 zARIYl+6hImo1tS+Kjo/OT1VGAnGG+tf0PtSjmgqoL8GrzVDxoO3jyOJaxtruNPs6IA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=flipper.net;
+	spf=pass smtp.mailfrom=flipper.net;
+	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=UIuziyke;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A0C606A323
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 12:02:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1A0C606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B14606A334
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 12:03:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3B14606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=EbXasSWC;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=PZhFrElv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794916937;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZpBAZv/F6frjiYMr+e5uwax+5b55mYj5/5iqhQbyN+s=;
-	b=EbXasSWCZBotZQFLvsE4A+KejrorEkLNtQfTcsXUtMvBB3jzD2phJUMzmfb3P9m467pJ4j
-	97jrlmy563MudKrPdSyViDNIxshI0FO/wXaHXyazMThFI6HsM1riNwdPXCPIh9G/iWdRpN
-	QOqwspLqskooRC+O1Xlv2Q6ltaVlNzg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-167-GI8vY9idPGyU3u_u4ZxXcA-1; Tue, 17 Nov 2026 07:02:12 -0500
-X-MC-Unique: GI8vY9idPGyU3u_u4ZxXcA-1
-X-Mimecast-MFC-AGG-ID: GI8vY9idPGyU3u_u4ZxXcA_1794916931
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-49205554e17so2793076f8f.1
-        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 04:02:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=UIuziyke
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6b587538a37so6514014a12.2
+        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 04:03:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794916988; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bSDpvcRgu4zw9QxDBhWfBwsYugcp3t2O6v3O+Xej4sDqXLL/49bMYRcCyHERBZ4TCV
+         wWIX4ww19Du598i85hhn3AScAmoHtFc3K/EakDS5K7U62im1XLZRZqaVuusavT45f6hz
+         zajc/Kik94ycJsqIoW0RESoh/IQH0c+sIfwObH3TVg1Y42uQ90uR5/zNqk9TUGyKmnXE
+         IJ4jcXBgit/XzoogmyZgLkQ44UBRF6zf0YX+9E4TccSxlpvbTs/I9GN2tT9EylX3HeEO
+         TwVtzkFesD6KFlJnS+sRDLpJyRnRycmlBrlE56CKa8ZEMRGs4qUoxO4ff/mSq03HhmC9
+         LwuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Q1vpqFbxBot+hFBN4I6DOinqXAgCtzkR2JZJJ61mELM=;
+        fh=/XafWwXInU6xSAMitUKTVJtcnn7zkW/jx5Qszu7SSug=;
+        b=roTT9AUwF9uTEOcZ6epC5NZQ8e1w03pLpjh1NMcmCVg9TqqM01ErKdKfMVCabP5O3a
+         /W/E6GcZFzzmrX00LrN8xgGeIt6uNJPvu9XJu3JGejWdoOTJG2PrAwvaFnWfMabTBJjc
+         5506pfN9gfRroCbMInE5X6RyxZQq52oL/wDh04W27Pr6EesF3b3mUNcusZdRQqBaPTCJ
+         /7as1HxFPIp+De5TKbVUuDu+1E0RFXep2GWEHbb+k0Os2URplWdD5wPBSrNzUGImE9Xu
+         zAo2IrVx6geltQCR8jeNXtSVtDwd77HHE+SyIFB55ypFXQWyfxx3ZIK0IlQPNaG1uCTG
+         r7pg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1794916931; x=1795521731; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZpBAZv/F6frjiYMr+e5uwax+5b55mYj5/5iqhQbyN+s=;
-        b=PZhFrElvvCkdnqpsSHsZ8xKH8YcgcG1AvrPKtpxehcC3VJVOoTosaZcbM+DeEaYPQi
-         LXxah7qz2Nyfkr1oOkEOjKAaLDUDmqOtGnRpDi72a6jjNDGNXEKpE5+XQhyh1Gwc9euP
-         DjhgjTrK13vPi2gmAc3hRySvlMXXJt8jSQZQf8ovctqcfGlXX8QzMy2eVJmo2MX/tYk2
-         9VxoQMG5EAmr523P/uXnhiodxZTaj/9QwctKgGOLXkS9eo0LktbZ8+4LEobOTMefd4eI
-         il6F/wgf0MBhPO+K5CkskwfYIA7Y4XW50E3NlikYy3iIth5WwwihMJ1EojWZVtJP6iEV
-         SamA==
+        d=flipper.net; s=google; t=1794916988; x=1795521788; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Q1vpqFbxBot+hFBN4I6DOinqXAgCtzkR2JZJJ61mELM=;
+        b=UIuziykeO90MVOpgxMHpjeycVOPXmh3MtB5V3xbUXSlkcgaTnuayiL4mB//VctyXrv
+         gQ4povHtfnj07nUCNE2duL24fg+c290IkeG6+qcvkMw1x4X1XCrFj+mqKi8uuHbcEcft
+         OHsUrqxmtRLPMd2GkxbplF0bfypdLHIcMQrCAE8cYgYJbHqkMJ/zBCCAcysF1+gAlcFD
+         Ow9/wtN30cLmPvfA/Rv8y+axyonT/BZwIZgJ+5Min6UagDvWgGzCoZG46mH1SHpqBM2d
+         KzzeMxpGE09x4HAQ5vI4YmQNThk1zmYYuwBS7w+0cDBVAutTrw+lbNGTCH8BsA9rlY/h
+         FFHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794916931; x=1795521731;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZpBAZv/F6frjiYMr+e5uwax+5b55mYj5/5iqhQbyN+s=;
-        b=A25fNRT+JSWYVgsJhguZRw/7eHKHRK+2uVigpt6uBn4YEOZVDRVEPXt26RPvX85yhm
-         h9iY7eMpz6DjJTXU3n3wQMrgnB9xCWva5sTWDaiJBQBgD4KbtS+ejc0516jHehzu71eV
-         3bIv+Wh6zseW/BGLWz2Kt9xUxjCEkmhsBrublisxOan86X+QnG56m8nvlzuOvu4UkYIt
-         x3bAjKfs+jcdDOf7E8OsWvLCTX+MbIsdGxMUeNUPcgmn7dvqHhTOsVuf4g7OcYbfeUAv
-         Pwdn22N65zWV+D3m3lAZZc6R/mJwcxuHl0pz6sYLV1nu5tYTLjQRTC1pIsaPV4s8JWZZ
-         5aZA==
-X-Forwarded-Encrypted: i=1; AL+hErGKH3XWKj1v2skl8X1cAiIgtx0TAUNAm6ucO6H+rmkdLcsIcTcm3DY2El+FIdbxT4+mYlRXNXP0u78=@vger.kernel.org
-X-Gm-Message-State: APuU4Z81LiCkBaDWGiJ3ZBwKjDFiqkjsTcFwpXnEQRizeUQoDA5Ujbyr
-	DkzJuVnIG3okeT4Y5+zi4f2G1seTze3GpMDLzvHCsobbjT4jubVqjfMXQC1GVK/WhiLIAm5lA9w
-	EUzvZgwwxBXymIjHxIeVLfO1Eu/sXXgtn4I27/EwGqu9vRTd7x0QMnOX7Ly2ZmQ==
-X-Gm-Gg: AYBFou1HEk5LjVX3mDrq3O4Pv0298sKDb0ur+yi5uX7FCzZoHb1z8QBRemSOqx88hML
-	guP0ABkU6p3F5wpmIb1xV9L/3vKURwdLSp3B6ZQS9t81laghitzERCgrqrcLjBxpfjgE5t60Ckd
-	njO99YX0OCw7rkSvQMxbz3k0yqd6MXWEMCbHS2wVLmAnNjtNZ+P+H0J95ofet9QN5v0pLA6rSDI
-	kMIKAM8ui2dIAL384mzCA2IRNBksHrjc7zlwm7oPH3RwEmzkr/9W6sJdYE3/vQbrVj+ZeTeXorW
-	OpkuOSGxlRdZG67KEJEKTXSrp6R/9ODce7k0+xLca2psKjz9ME7BNO8O8I3jRC9DVrZnWBDHbxa
-	r/GcQFKtlpkDb8GRMklsRr0pil2Qc59XF4uv8zQNCxkm5Z+anWwOmIkTEwWfpefZ3IHsMiiWgmP
-	GipDqYq+xznGI8jtQn23ZyO9on//SxbOlB/kwGss+E1Dy+
-X-Received: by 2002:a05:600c:5395:b0:49f:ce78:356d with SMTP id 5b1f17b1804b1-4bb55abba24mr291238955e9.30.1794916931155;
-        Tue, 17 Nov 2026 04:02:11 -0800 (PST)
-X-Received: by 2002:a05:600c:5395:b0:49f:ce78:356d with SMTP id 5b1f17b1804b1-4bb55abba24mr291238365e9.30.1794916930659;
-        Tue, 17 Nov 2026 04:02:10 -0800 (PST)
-Received: from [192.168.88.30] (ip231-128-192-82.pool-bba.aruba.it. [82.192.128.231])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a4dec730f7sm1974480f8f.11.2026.11.17.04.02.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2026 04:02:09 -0800 (PST)
-Message-ID: <7c2243c4-8653-4c7f-b58e-7eba1e247cc4@redhat.com>
-Date: Tue, 17 Nov 2026 13:02:08 +0100
+        d=1e100.net; s=20260707; t=1794916988; x=1795521788;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Q1vpqFbxBot+hFBN4I6DOinqXAgCtzkR2JZJJ61mELM=;
+        b=PQRvjqnwFUADpPrRTKvrv1TEw8N2M0kJGzJHFwHHmhMdJOeS9e8I2Bc4H9WfVgMUFX
+         H9tlHcUD1D+Vgom0uEKtOD27nUucuxP35SPjUEgdY+rRFC4OrzUvGn7cxih/WoZF0wz7
+         Xeewa4HXUkCHr73kr2HTBiaig6xVvXeijWYqwdo9n8UQOp1n6sMwXZ2nbYBTgAzXzESE
+         +MXbmp+DvuXSbwYRVNePq66zt0b8qtrjdikTtrfb57ZGqO+00qW5GLjRsff61xcF5lTW
+         rT5wUvQ1qvyLsSaLha8OKeth8ZDs/m8yxYqKqpenfqP33riqpPO+5i2vpwLHMazuKzN+
+         IWyg==
+X-Gm-Message-State: APuU4Z8lQo4QMmouK9PQTd5lSIjMfdBM2HNjZNwPIHSUwHlumN11OsHG
+	VWo6CmPo/K4AkwHNPBlxAQoiiVYWywHZps0mN3PUEcIMGfsjBlyI//uW0L6J4gz0sXSY4YzP/if
+	r0MLbJ8XOzzpxfCvqImgyx460i8/BFNND1tPfy1Urc4dHifU2g35m
+X-Gm-Gg: AYBFou0ysHLxFDTxGmlwwLO8f5Y7piuCwZ3HxVwxWoUFi6N0zyrS7BrETzZ0Vu9DxBz
+	e1dcVPCBT2L+kWjuIZNNDw4QEBsOmGHDBIYjilLws6Ll9JXJ3Ad/K4rR+0ioS/mPROOQuOfEEtF
+	QWTdcgLUcveNrj73GqPJ/T1+U6+7FvsAkWuaJbJOhcC3N8WvRVBYiqZIH7TM32O9qx3JFE+UP/z
+	1gy6kMp0BuVvBQQyzUryoV/7ywGjC9QYptjYgBgHVOAzf5pP7mbR8GbwyQaU93gUGwD3noGfGPr
+	wm3OwWlB1AIcxsT5eJ9wHLIvCmFlrp7eYb/IwbEWAPRtF3ord7zfxEZAt97DIKEy6jIk+WFrB1X
+	jJ8TyKT4Otlf3w2dryhRcGNkfp6u3bLGug4VkwJYVQcC/b0zYn9SmzBmzksEsU9fBBIlvxA==
+X-Received: by 2002:a17:906:d54a:b0:c41:6de7:7dee with SMTP id
+ a640c23a62f3a-c509614e905mr1090984866b.7.1794916988054; Tue, 17 Nov 2026
+ 04:03:08 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -112,39 +103,31 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: r8152: RTL8153 never runtime suspends with link up on a network
- with broadcast traffic
-To: Paul Menzel <pmenzel@molgen.mpg.de>, Hayes Wang <hayeswang@realtek.com>,
- Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Chih Kai Hsu <hsu.chih.kai@realtek.com>,
- Birger Koblitz <mail@birger-koblitz.de>, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <fba64030-4f1e-4158-ae39-bc072bc5751d@molgen.mpg.de>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <fba64030-4f1e-4158-ae39-bc072bc5751d@molgen.mpg.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20261117-tcpm-soft-reset-sop-v1-0-c7e1543828c0@flipper.net>
+ <20261117-tcpm-soft-reset-sop-v1-2-c7e1543828c0@flipper.net> <sashiko-outbox-218715@kernel.org>
+In-Reply-To: <sashiko-outbox-218715@kernel.org>
+From: Alexey Charkov <alchark@flipper.net>
+Date: Tue, 17 Nov 2026 16:02:56 +0400
+X-Gm-Features: AclHuK8wGtfVQvqEUr0N2YldqpRd6FmVVBygTXEaaEX5dXpjW2si5VkbtUvlkok
+Message-ID: <CAKTNdwGBHdoknewF80wVJdOs_oswEJHWF=UbZmZ9r1jU5NHyng@mail.gmail.com>
+Subject: Re: [PATCH 2/3] usb: typec: tcpm: Leave SRC_VDM_IDENTITY_REQUEST
+ whatever the cable answers
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adding Heiner; for context full thread here:
+On Tue, Nov 17, 2026 at 3:39=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+>
+> Thank you for your contribution! Sashiko AI review found 3 potential
+> issues to consider:
+> - [Medium] usb: typec: tcpm: cable NAK in tcpm_pd_svdm() skips partner
+>   discovery
+> - [Medium] usb: typec: tcpm: uncancelled VDM in SRC_VDM_IDENTITY_REQUEST
+> - [Medium] usb: typec: tcpm: sink message in tcpm_pd_handle_msg()
+>   strands port
 
-https://lore.kernel.org/all/fba64030-4f1e-4158-ae39-bc072bc5751d@molgen.mpg.de/
+These all look valid, I'll see how to address them in v2.
 
-On 11/11/26 01:52, Paul Menzel wrote:
-> 1.  Do the RTL8153 and its successors support ARP and neighbour solicitation offload, or wake patterns, while selectively suspended? With that, the driver could program the addresses of the interface before suspending and keep answering for them, similar to what Wi-Fi drivers do with the ARP address list from mac80211. No new switch and no loss of reachability would be needed. If the hardware can do it, could Realtek add it or share the register description?
-> 
-> 2.  If the hardware cannot do it, would you accept a per-device switch for the behaviour of the experiment, off by default? A module parameter is surely the wrong interface. A private flag (ethtool --set-priv-flags) would need no new uAPI, and userspace that knows the network configuration (systemd-udevd .link files, NetworkManager) could set it. Or do you see a generic interface for a "runtime wake filter", as other drivers that runtime suspend with the link up would have the same problem?
-
-This is IMHO borderline, but I think a a private flag could be the better option
-
-> 3.  Is losing the first frame that wakes the device expected, or should it be delivered after the resume?
-
-AFAICT loosing such frames is acceptable.
-
-
-> 4.  Is power/control=on by default intended for these adapters? I did not find 0bda:8153 in the autosuspend lists of systemd’s hwdb [1] either.
-Other questions are for realtek guys, perhaps Heiner has the answers...
-
-/P
-
+Best regards,
+Alexey
