@@ -1,66 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919861;
-	b=HYrn5aPHRtr8XOxOOcZ2OyPWKnWy/FnNj1Hwk440aNdcnXiZb+2xgjc8GsYZKyTttNNT
-	 bFrMa5vF0dHK3MBgrvAWSSMVHjSQy9xZIh7HXjuW3AtD9bDKDjfnUaXWo1sAXSEWIVD/o
-	 +PfPyLfWr3xdSb8hLpJH4v/TBfRE8UY0Xj74Ptr5r8oufW2mcU8P7MftEs/j1ZkGOUhlG
-	 SwwtewAMOl9utFODtqCR9cfjVLw+saD901EHunHvZ1s4rJYLPdw8UkwaYlLUnV2U01jYx
-	 sQ7g3mQw8cSRgZO0M5hfnrXrKE3I74ONFSIr9RQzq0oTV5EVXyysB4CM75mWxFEsBbw==
+	t=1794919881;
+	b=B/uboSA+TWHp/0m1CWEhN+z7a3UeGz/txMj99g9nfB9Sj07nNwKHVhAG5KVDtVHDrjYE
+	 5c0ysMvaBPNQxyJeof3ONeMKGu+cMf+ZH9N0pY9jugcVfu0bx12qJ4xKq0hgsin9+xrw9
+	 gXCOAzmdIIkhPfeEFDfh8chdBv3XRq+wfi+oqHaC6suqg4CEz2LcD5u4dJmzYC9m6dlUg
+	 g8Als/Hxg9lieIkiUDXP+MpthnZQh9IPDvyvWyXMiSdbn1qd1mqfA26dr4cmoME3r0uWP
+	 4hghm6SxSLc32lRKDSV/tPIMzf4QxjLNomi7ZMr2wJV5G32vEJcLjgbJIFPjMsj1OKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919861;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=QtamuS0YltAetZPlLXNxUbQrgTbuGQGdLQ9mnxmiNw4=;
-	b=bKhRQzI92twUvRTUgB1etGEUzlWGvDMsJo7rvvLzTJmVjNpbxZO+ImJqDa80OWqTQWYM
-	 Ei1Z4AjeUEVwQ+HcStbRlivi7GUdVd65ULA+Whceh4Z/KlEX+SqJ/CtjtAsyvaPSBj9NQ
-	 7sbMDSEikDBKNiec+uQIRcfvSxjRTZC8Tp4RYEPsxjgdXthA6MJZHOMyVTA0+iv26qmJo
-	 yUGexhpl45ICVOBv1GK/bDeuAI7i5BmsSyOayJA9dc7zTXac5AAPS3m1XNDC7blGu+/rV
-	 WHdG0IfFTu2XZ1QmrznBIU6fQYDXsADMKw2fIFrdyNSo9jxd6LXuGL/ir/q/QmZzveA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919881;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=AunZlTmFqRUvkgpDIQ0BwDlzDcego4W6mpMBmkXYiRc=;
+	b=mP4aO0Gzg048hb820gbdh4sKokI34B25K+OY+Dip/7YwN6Z9RA44qT1G2XZ1o2V2lNhH
+	 OdMlNNB5CylUxPxwLXiITE939h6xCzotPAfoSv9mG6q6xPF6EPtW82kanRnzSVsGDzVPc
+	 gizb/KqHBPM65FdZgOOAByXXYXm581udj1KQsexgWbbDVzrMuhMgC1R0OauHDAK4+wNt0
+	 +qflIFrQLushSN2rH+hZJyJ63mQdRepOCa6he97qFwbTQu78no7F+oo3pjrk+1lfTS6ZK
+	 3UmnSnmfjh1IC78u/3k2KPIb9AXNzuz+GWTNWQNBF4/UCenHwAhffB3SHWmhykiG1Ug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b="Nh9Z/9vj";
-	arc=none smtp.remote-ip=111.22.67.151
-Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9927606A8AB;
-	Tue, 17 Nov 2026 12:50:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9927606A8AB
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l466RdzF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92366606A894;
+	Tue, 17 Nov 2026 12:51:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=Nh9Z/9vj
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=Nh9Z/9vjWw3kQcJ7AM3BknE+O3JBBnylgq5QYAjdqINCo+K73KvMWfp18yqL+tFzC6BIwBY3e1hjf
-	 OgjwpIzXC6SCxMfBpdcAwD+SxQ2emHE1SlBJDAHC1ib4sDgkiJdodVNCANQMALXLjXpQfBQAAH7vJE
-	 AqPvonveVyJIjOzs=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66afc4dac60a-d76cb;
-	Tue, 17 Nov 2026 20:50:56 +0800 (CST)
-X-RM-TRANSID:2ee66afc4dac60a-d76cb
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from utest (unknown[123.121.1.242])
-	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee66afc4dad71e-b1c0c;
-	Tue, 17 Nov 2026 20:50:55 +0800 (CST)
-X-RM-TRANSID:2ee66afc4dad71e-b1c0c
-From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
-To: nkapron@google.com
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v4 0/3] usb: gadget: f_hid: GET_REPORT fixes
-Date: Tue, 17 Nov 2026 12:50:48 +0000
-Message-ID: <20261117125051.5646-1-shishunbo@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <179486710796.2938203.13522037990167268712.b4-review@b4>
-References: <179486710796.2938203.13522037990167268712.b4-review@b4>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l466RdzF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E5431F000C4;
+	Tue, 17 Nov 2026 12:51:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794919881;
+	bh=AunZlTmFqRUvkgpDIQ0BwDlzDcego4W6mpMBmkXYiRc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=l466RdzFCP56bJ2OgrWBqgegMLQqnBvWZsX076mDg4ckijYkpTDN8qXfLeBdhCcsA
+	 C420sOET1ohmffKb2ufw3OhOysGpl/RTT2aJFZ9OXGpB6KeOcWP/BsqjDeoypixiuD
+	 3H5Ntv61uvhO1xhOFciwJNbOHsxX+BxeLFO7hutYhO0yMrdzp9Vp/PgRHBxWW+iZqj
+	 1ejCBSZI9oTew1CoW3Wa3FM59+9NVAYpT0NilZoG1u8/3az5sQ/HGy9NkmOyLNuCw2
+	 fSupoxA6S5SMJ9O5+BssHUi7yLWpskY3fbUAQ3OuL686y0v8EqcWsfJtUGzzfMDMJN
+	 xyR6wWVNkFeUw==
+Message-ID: <324baf32-6cf7-40d6-adcf-d709ff2a1950@kernel.org>
+Date: Tue, 17 Nov 2026 13:51:14 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -70,44 +51,101 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/22] dt-bindings: thunderbolt: Add Apple
+ USB4/Thunderbolt NHI
+To: "Rob Herring (Arm)" <robh@kernel.org>, Sven Peter <sven@kernel.org>
+Cc: Janne Grunau <j@jannau.net>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Neal Gompa <neal@gompa.dev>, Konrad Dybcio <konradybcio@kernel.org>,
+ devicetree@vger.kernel.org, Joshua Peisach <jpeisach@ubuntu.com>,
+ asahi@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
+ Mika Westerberg <westeri@kernel.org>,
+ Andreas Noever <andreas.noever@gmail.com>, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-5-1f80085f93fb@kernel.org>
+ <178968425120.4102150.11013505530489451162.robh@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <178968425120.4102150.11013505530489451162.robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Cover-letter:
+On 18/09/2026 00:30, Rob Herring (Arm) wrote:
+> 
+> On Sun, 06 Sep 2026 20:36:28 +0200, Sven Peter wrote:
+>> The Native Host Interface (NHI) provides the TX and RX rings used by the
+>> software connection manager on Apple Silicon SoCs.
+>>
+>> The NHI is part of the ACIO host router and is exposed to the main SoC
+>> bus while the ACIO co-processor is running.
+>>
+>> T6000 and T6020 use one DART stream for the TX and RX control rings and
+>> one shared by all other rings, which are used for XDomain connections.
+>> This likely improves the isolation of those host-to-host connections.
+>>
+>> The M3 generation uses a slightly insane set of 24 IOMMU entries. These
+>> are probably one DART stream for each TX and RX ring.
+>>
+>> Signed-off-by: Sven Peter <sven@kernel.org>
+>> Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
+>> ---
+>>  .../bindings/thunderbolt/apple,t8103-usb4-nhi.yaml | 151 +++++++++++++++++++++
+>>  MAINTAINERS                                        |   2 +
+>>  2 files changed, 153 insertions(+)
+>>
+> 
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> 
 
-Hi Greg, Neill,
+We might need to revoke the reviews. The implementation here adds
+undocumented and unapproved ABI - aliases.
 
-v4 of this series.  Changes from v3, per Neill's review:
-
-  - patch 1 (sleep-in-atomic-context fix) is dropped: it
-    duplicates Yu Zhang's previously reviewed patch [1].
-
-  - patch 3: Just copy req->length bytes to keep the existing
-    UAPI behavior suggested by Neill. Thanks!
-
-Remaining patches (unchanged from v3 except for the race fix):
-
-  1. memory leak: report_list entries allocated by the ioctl
-     are never freed in hidg_release().
-
-  2. data race: the GET_REPORT response is served from a
-     dedicated buffer instead of borrowing a report_list
-     entry that userspace may update concurrently.
-
-  3. memory leak: get_req is leaked when usb_gstrings_attach()
-     fails in hidg_bind().
-
-[1] https://lore.kernel.org/all/20261020051446.92179-1-yuz08559@gmail.com/
-
-Shunbo Shi (3):
-  usb: gadget: f_hid: fix report_list entries leak
-  usb: gadget: f_hid: fix race between userspace report update and
-  GET_REPORT response
-  usb: gadget: f_hid: fix get_req leak when usb_gstrings_attach() fails
-
- drivers/usb/gadget/function/f_hid.c | 34 +++++++++++++++++-----
- 1 file changed, 35 insertions(+), 6 deletions(-)
-
---
-2.53.0
-
-
+Best regards,
+Krzysztof
