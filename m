@@ -1,78 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794915005;
-	b=i704YaUx/WcfHYAx7GmNqO1PoOjTChae7XJWcAsUDcvRIUX18EYFc0uguZm6o8rJAJmM
-	 mxsb6ma2E+fHb/752wuCQbRRdVBeX3M4RLOk/Qefb3JOOQO2inLJJh128G+STpRcPryMb
-	 iGHClva0Yq4Da8+8TZS3GMjnMeTD0yyKkkUZQcMEHbkunsVlP7tILuOxTzoDuHtIjUxo5
-	 k1J68WXONDHR4rs5JqUXNiLQbH+5sWi1xrb3DtLcx1vcBXYq+WPl2BgtkcA689Hv1WxKO
-	 siEmyrcJYke4GjAnGflfvzXqqTENyAL1y4hi/LbqJ0fMEryJRl6Gqp6fGX+8ghwaXqw==
+	t=1794915024;
+	b=xpNmAJ30s9gqSv0MfHLLiYgRgKUjZmn6O7cdQaEcG8Hi/TOHnS3SdL96hv9bbpgZNIb1
+	 qFNRKg/t4u0R6NKJSWpn2Y76BnzLauHBgR4G+Shkbm0e/QOlFJCguxQ5po4ib2HQ+1Ur/
+	 X16IdL+Y9IZ9q6qXYcSpw1SRaY1sHQ2Z3r3zJKUqEyUuvNZn0YoRDJ2YX+5cdUFRFVNo3
+	 xzYp6qYPKRqVXMeup41x81OPl/HcgYMUU1jPl6dZGwQZkdRf+v/aDq8Ftn7nv4UPcUx/F
+	 fJOcmZE9I2/KELoLmjCBmWKOwCX56amEg+/bWCsOh9Dqwlb/jqebEGYcywoWqTgx/gg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794915005;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=vHZykofTSxhR4YbIKE9YExJjwIdIHTlsyFCFWFMlm+E=;
-	b=jmiSgXVZiveY25t5ob86HKOuzAbJtW6RcGPYQumPMJSgm6q98gxnriVfroQ1Ev1BiQza
-	 Eu4VDmsDEy6SAqKmZTOlpatl6lGtBeh47ddOxjB3LnAt8a87ud+jUU9Xr/iCc/U+PMN0i
-	 fjBK07oG3r4qg3QQmQ1NbPMBwF+C1lh+MjXqsZklSTdIxd2g8FVrJ6k0VxSKeV1mj3r6R
-	 o+EmpYXg4sOHTGSce2AAZfIvJ+yMYbYkb4fYHbg56AD8uXP9o4hs5IT98WWrBT3Cg2bzA
-	 fGiL2F25scwI6eCvbP8Gf1BM08jV6Wa/Mx4IvVAvWvBO83rrlmtRwdJJJfusKnjOm7g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794915024;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=T1s30aA8ugf7isPG5S/sVfQvJg6/E0Ud3Dqo9FndpMI=;
+	b=IET/V+3CYli3vShrJJX3fLdznJ2Qg8tlq2/FFooBo9MAZjYPkXPiXvTNrw0xt4VO6sjU
+	 On35uIp7OuX+vpW3wQOpV9snuoU16lKFUZSR7KEVPRW8eB6QmqMvnbGcB1qrll7gzfI3Q
+	 i2ccs63Hyr78e5/r7TDlKkshTz5IkNTxE18VOPy7m1rTew/0hRW8H9J5ZVo4jhBFtOO2I
+	 HhZ06YL/lo/ue1Y+bk9ximINn7aTu4Gc07P4mm7Qr9Fw5Oa8wrxtyM65To8Y5RejVXBkO
+	 9OUkZO7qr4aRsHmmExu2hFeY5jnClUeJZjthNMY2smSbjod24Gh1uf9nKGrSPc8JyoA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dYFzKf4H;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eJmrZmL2;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6AE606A323;
-	Tue, 17 Nov 2026 11:30:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA6AE606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B33A606A329
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 11:30:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dYFzKf4H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794915004; x=1826451004;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NDcbKhzY9YnVCiHdnj2P4vzxB+u59wlKnnupOi68fhU=;
-  b=dYFzKf4HipbjIDfMBselaOF777asATJbQh/FZ6qD1+kTmvVqV1AxWeP9
-   mY+UYy30j5bbLsZ2O2q5O6tcHzrf/2QLkz20EKNyIiVyV+oyluLHpXxlT
-   D941Ep6t02ZTGA4TSdUXTc2hHr1xdam1dhmdPzip2UbGShUtja2Hk/oVp
-   fQUxGbRJ+bq5UVTbUymbubL5AzHuBuqVi6aHvhTH+u1obJamIDRCD3T9l
-   b55nPZacNtqOVl9MWtRpdeTFEtaHshCjZKvRPUG0uLxk9lrp3KIJa0Fzt
-   YJkp7u0Ghm9JB/MYWiWF0tsgh6dpPTCf4ZgcYEY0KsumesK5cR7ymZ4KZ
-   w==;
-X-CSE-ConnectionGUID: 73QSjBdoRLCpxK4sJG3BjQ==
-X-CSE-MsgGUID: GD+5Oox7RBuZ+eGfYa17iA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3720539"
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3720539"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 03:30:03 -0800
-X-CSE-ConnectionGUID: S7MUGMn7RKaZVqLON9l39Q==
-X-CSE-MsgGUID: hdPysI59S2KtJZzLW6IwNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9954420"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Nov 2026 03:30:01 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id C1D9D99; Tue, 17 Nov 2026 12:29:59 +0100 (CET)
-Date: Tue, 17 Nov 2026 12:29:59 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Hex Lindqvist <hex@freenixos.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ajay Gupta <ajayg@nvidia.com>, Wayne Chang <waynec@nvidia.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi_ccg: Don't probe GPUs without a CCGx
- controller
-Message-ID: <avw6tzJhChN6hcwQ@black.igk.intel.com>
-References: <20261114013243.1240146-1-hex@freenixos.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eJmrZmL2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D62151F000C4;
+	Tue, 17 Nov 2026 11:30:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794915024;
+	bh=T1s30aA8ugf7isPG5S/sVfQvJg6/E0Ud3Dqo9FndpMI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=eJmrZmL2RyV9gVU4kA6TfLjgPBrXw15Gwr/ZIHEp/nOB6eGXCADIN9hVTvFKx+d8h
+	 5gQTChfv2CFrJelkbSvH2bYelM7wQEdVfK1DBtxsgZuy+MYnm5PW51xitbOc/t50eY
+	 x1SK0r5gzgLfDhUo2ro7hA06Q/o9/y1Kd+7UVQgfEfcDHd1vLpyiIox7wmX8ehOjoH
+	 NsxnUSZxspqKl1GE6pXE6JNUOWkMZ5XIc2kv0GhVdxT8bbB0kbSuANdKr0Bfs8JZV5
+	 bRdf8RUUOoMHFedxh6/iBvZU/UecEATXAl7cJA3MyK5sjtl2Sa71z05MecdIbO5CLI
+	 w0Pj8LplpSH3A==
+Message-ID: <sashiko-outbox-218712@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/3] usb: typec: tcpm: Keep the Soft_Reset target apart
+ from the VDM one
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Alexey Charkov" <alchark@flipper.net>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261117-tcpm-soft-reset-sop-v1-1-c7e1543828c0@flipper.net>
+References: <20261117-tcpm-soft-reset-sop-v1-0-c7e1543828c0@flipper.net>
+ <20261117-tcpm-soft-reset-sop-v1-1-c7e1543828c0@flipper.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2026 11:30:23 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -81,98 +60,92 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261114013243.1240146-1-hex@freenixos.com>
 
-On Fri, Nov 13, 2026 at 05:32:43PM -0800, Hex Lindqvist wrote:
-> The NVIDIA GPU I2C driver adds a ccgx-ucsi client on every GPU, but
-> GPUs without a USB Type-C port, such as the GTX 1660 Ti, have no CCGx
-> controller, and every probe fails with:
-> 
->   ucsi_ccg 4-0008: i2c_transfer failed -110
->   ucsi_ccg 4-0008: ucsi_ccg_init failed - -110
->   ucsi_ccg 4-0008: probe with driver ucsi_ccg failed with error -110
-> 
-> Fix this by reading DEVICE_MODE first for clients created by the GPU
-> driver, and returning -ENODEV if the read times out. Controllers
-> described by firmware are not affected.
-> 
-> Tested on an ASUS TUF Gaming A17 (FA706IU, GTX 1660 Ti): the three
-> errors are gone, probe takes the same time (one timed-out transfer, as
-> before), and the platform's own UCSI port and suspend/resume are not
-> affected.
-> 
-> Assisted by LLM.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206653
-> Link: https://lore.kernel.org/all/20200922054338.GA588161@kroah.com/
-> Signed-off-by: Hex Lindqvist <hex@freenixos.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] usb: typec: tcpm: stale upcoming_state in run_state_machine()
+  sends SOP reset
+--
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+commit 2100338173ee82724a16da9e2eef51514fc95f54
+Author: Alexey Charkov <alchark@flipper.net>
 
-> ---
-> The nvidia-gpu timeout line is fixed by a separate patch to linux-i2c.
-> 
-> Not tested on a GPU with a CCGx controller; there this adds one
-> DEVICE_MODE read before ucsi_ccg_init().
-> 
->  drivers/usb/typec/ucsi/ucsi_ccg.c | 30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> index 3f12db95c7f4..0f082952272e 100644
-> --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-> +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> @@ -357,6 +357,31 @@ static int ccg_op_region_update(struct ucsi_ccg *uc, u32 cci)
->  	return 0;
->  }
->  
-> +/* GPUs without a USB Type-C port have no CCGx; transfers to it time out. */
-> +static bool ccg_is_present(struct ucsi_ccg *uc)
-> +{
-> +	struct i2c_client *client = uc->client;
-> +	unsigned char buf[2];
-> +	u8 data;
-> +	struct i2c_msg msgs[] = {
-> +		{
-> +			.addr	= client->addr,
-> +			.len	= sizeof(buf),
-> +			.buf	= buf,
-> +		},
-> +		{
-> +			.addr	= client->addr,
-> +			.flags	= I2C_M_RD,
-> +			.len	= sizeof(data),
-> +			.buf	= &data,
-> +		},
-> +	};
-> +
-> +	put_unaligned_le16(CCGX_RAB_DEVICE_MODE, buf);
-> +
-> +	return i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs)) != -ETIMEDOUT;
-> +}
-> +
->  static int ucsi_ccg_init(struct ucsi_ccg *uc)
->  {
->  	unsigned int count = 10;
-> @@ -1488,6 +1513,11 @@ static int ucsi_ccg_probe(struct i2c_client *client)
->  			dev_err(uc->dev, "failed to get FW build information\n");
->  	}
->  
-> +	if (uc->fw_build == CCG_FW_BUILD_NVIDIA && !ccg_is_present(uc)) {
-> +		dev_dbg(dev, "no CCGx controller on this GPU\n");
-> +		return -ENODEV;
-> +	}
-> +
->  	/* reset ccg device and initialize ucsi */
->  	status = ucsi_ccg_init(uc);
->  	if (status < 0) {
-> 
-> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-> -- 
-> 2.56.0
+usb: typec: tcpm: Keep the Soft_Reset target apart from the VDM one
 
--- 
-heikki
+This commit splits tx_sop_type into vdm_sop_type and soft_reset_sop_type so
+that VDM transmissions and Soft_Reset messages do not overwrite each other's
+SOP* target.
+
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index bb90211660cae..8c5be904d7725 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+[ ... ]
+> @@ -6220,7 +6225,8 @@ static void run_state_machine(struct tcpm_port *por=
+t)
+>  		 * A Soft_Reset Message Shall be targeted at a specific entity
+>  		 * depending on the type of SOP* packet used.
+>  		 */
+> -		if (port->tx_sop_type =3D=3D TCPC_TX_SOP_PRIME) {
+> +		if (port->soft_reset_sop_type =3D=3D TCPC_TX_SOP_PRIME) {
+> +			port->soft_reset_sop_type =3D TCPC_TX_SOP;
+>  			port->message_id_prime =3D 0;
+>  			port->rx_msgid_prime =3D -1;
+>  			tcpm_pd_send_control(port, PD_CTRL_SOFT_RESET, TCPC_TX_SOP_PRIME);
+> @@ -6439,7 +6445,7 @@ static void run_state_machine(struct tcpm_port *por=
+t)
+>  	case VCONN_SWAP_SEND_SOFT_RESET:
+>  		tcpm_swap_complete(port, port->swap_status);
+>  		if (tcpm_can_communicate_sop_prime(port)) {
+> -			port->tx_sop_type =3D TCPC_TX_SOP_PRIME;
+> +			port->soft_reset_sop_type =3D TCPC_TX_SOP_PRIME;
+>  			port->upcoming_state =3D SOFT_RESET_SEND;
+>  			tcpm_ams_start(port, SOFT_RESET_AMS);
+>  		} else {
+
+[Severity: Medium]
+When port->pwr_role is TYPEC_SOURCE, can resetting port->soft_reset_sop_type
+to TCPC_TX_SOP in SOFT_RESET_SEND cause an unintended SOP Soft_Reset to be
+sent to the port partner right after the SOP' Soft_Reset finishes?
+
+In VCONN_SWAP_SEND_SOFT_RESET, port->upcoming_state is set to
+SOFT_RESET_SEND before calling tcpm_ams_start(port, SOFT_RESET_AMS).  When
+port->pwr_role =3D=3D TYPEC_SOURCE, tcpm_ams_start() transitions directly to
+SOFT_RESET_SEND without going through AMS_START, leaving
+port->upcoming_state set to SOFT_RESET_SEND:
+
+drivers/usb/typec/tcpm/tcpm.c:tcpm_ams_start() {
+    ...
+		} else if (ams =3D=3D SOFT_RESET_AMS) {
+			if (!port->explicit_contract)
+				tcpm_set_cc(port, tcpm_rp_cc(port));
+			tcpm_set_state(port, SOFT_RESET_SEND, 0);
+			return ret;
+		}
+    ...
+}
+
+Once the SOP' Soft_Reset completes and the state machine returns to
+SRC_READY, SRC_READY consumes the leftover port->upcoming_state and
+re-enters SOFT_RESET_SEND:
+
+drivers/usb/typec/tcpm/tcpm.c:run_state_machine() {
+    ...
+		if (port->upcoming_state !=3D INVALID_STATE) {
+			upcoming_state =3D port->upcoming_state;
+			port->upcoming_state =3D INVALID_STATE;
+			tcpm_set_state(port, upcoming_state, 0);
+			break;
+		}
+    ...
+}
+
+Because the first pass through SOFT_RESET_SEND already reset
+port->soft_reset_sop_type to TCPC_TX_SOP, the second pass takes the else
+branch, clears the partner source capabilities and SOP message IDs, and
+sends an unintended PD_CTRL_SOFT_RESET on TCPC_TX_SOP to the port partner,
+forcing a full contract renegotiation.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117-tcpm-soft-=
+reset-sop-v1-0-c7e1543828c0@flipper.net?part=3D1
