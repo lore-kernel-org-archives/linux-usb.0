@@ -1,41 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.181.117.226
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794918849;
-	b=QJmGQNBm8nK7+ZwGqT3yX49UlFpV2hhPwo16sP39k3KzSF3rj14iiMe3NV9vq8uQBrcc
-	 pNguFhGX6ebrOUw2HmA0wc1wDHwDf0uj4rjqetRb7N2HhjlSpsTn9Ymg3lyRnE6mNfnU/
-	 F8IybvqpQAh7EPqWC5zvdCaP250QU/IUvCiTWqauY10qSWjxiJ80eiFAoEqmFrt5XSxeM
-	 9Kxa8eRyIAbksrrLLJckrQv3pJV9MevePKZZfIpoabf6jHFxqTYbCA53Qr4eU6RnKyOSa
-	 zO7UZbu8iYzll8t71AXWy5RWAGhGifcsb06gcUvQUQ3yzSFa363lSPPEEM5OF6YYUJQ==
+	t=1794918947;
+	b=WWrn/fg9NJ31bbv8KLjo93TRXSTFdmvL3Nj2gWHZxzRCayhzJNJ7xikpawSwWYkARHqC
+	 SZY2tIYlcqtvWgdn2wRVw3CFNk+uoe0l3dBNnv/cfNJBOIonl8LpBIMFAL00DaxeAIDLb
+	 3KbM9ps+QBvsgpAq91aq+a2X1Ao1J6GEK+0jRZtb0gLJzn+oO+jxmScHarsD326dWKobF
+	 XNnbvlriyGQbZxRxT7cFpOZAvyF5fUTHNrYDno0mAcX5YoN/8Bps97v/VE9k5hSGc4RuP
+	 WBzI+R8XEBnFjD2PqSUx/jb+MNTEGNPKuSnPMHCsT7OirXH3Vrtm7WCh/x8weHbiAOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794918849;
-	h=DMARC-Filter:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:CC:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy:X-EsetResult:X-EsetId;
-	bh=udiQZ9uQQWu7/f+tNhCCnP9r2LL6KuH2yR241zmGFYc=;
-	b=dRum0MsmnSz/AG7TLRcFK7kK51AFQ9+BqSluTz+YD1/dg1Rxd5S0SrYdpL1YpJhB8MhG
-	 37ngjEbb9WMSccgiwGvhgCkXOidd8cUdALzRgXjwqaR2JWuJJK4pJ9I+96pftzDilVj6g
-	 PHBiyp5T1g2aWzEiOSa2kBWUmHmzFLwIKZqCkZkmfpEaQjmZ/frTe/zWIA6o9ZhUdkeRM
-	 gjQpzXph461qLsVP8f/kJnVr5nRdNUXfFSxb8HZgMNuE1ufXY5Dij7yWwoo87TjncnYux
-	 KsQZjrLAHNnp6csxSn3tYaGnDv8xqDEnL0Y8Q/kBX+V4x9Uv4TP+43QhNGcoFF/RxCg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794918947;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=YL8ck00cDH5clCeBoNi4M8yBuopvmAOesKBY0fZ3cFE=;
+	b=st3JEb7FZ16zYLKD8n98BjWB9tDMgglKqkHXuzcfgW9YQ1FgbQN6Cvag6fT0GD5AiZlj
+	 KAamiMi7ojMnn07Kp3KwSafsJe6zf/DNkRFq6+EgqM788LEJBkcLpX5aS9P2DaOTFRpwA
+	 j0VvcVdFWNFULC+dG1jw706WaqjqU+bXTbHKihfJYX49So/KdkkWxbtXY+ov3MsjfFQSb
+	 qUkkVtLIb7/xmXUm4x2z0cr7bQ05PqIlK5cfo51zEq8/83N1NJgMGdfh+RGmhSg59ggSY
+	 Ir73MdZMR/0FUMyp+oVnqf65otNam/u9ZozGCikWOmYi2bvwIWOMzgYt7nuuSFqdK6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=actia.se;
-	spf=pass smtp.mailfrom=actia.se;
-	arc=none smtp.remote-ip=212.181.117.226
-Received: from mail.actia.se (mail.actia.se [212.181.117.226])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d2sinnWI;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF45606A31C;
-	Tue, 17 Nov 2026 12:34:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EF45606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=actia.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=actia.se
-Received: from [10.12.12.95] (10.12.12.95) by S185ANL.actianordic.se
- (10.12.31.116) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Tue, 17 Nov
- 2026 13:34:00 +0100
-Message-ID: <f2bca889-4554-4daa-be61-635fc193a276@actia.se>
-Date: Tue, 17 Nov 2026 13:33:54 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D3C606A32C;
+	Tue, 17 Nov 2026 12:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d2sinnWI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68BA41F000C4;
+	Tue, 17 Nov 2026 12:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794918947;
+	bh=YL8ck00cDH5clCeBoNi4M8yBuopvmAOesKBY0fZ3cFE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=d2sinnWIyIqJN+aAk4XcA6WZ7MkD+ZMu5+JK87ZB7b1wp70vTpIIq53hm+sPlDnNE
+	 DWXsNsqDQNU9/i2mpBtVsIq+OUKqKtZoucj+3rs7zJGULbKyENV1TH7PHcj3o72bG6
+	 NIoISA6LHjbDAbanqgEXtd3yjEtbcl2cqW3905Rk66/W9qH+jfk2sYvYbrBEHJCRqJ
+	 NtnolcK2sKG0CDI5R6OjfyTColdM2rP5xaEJFJmT+eICdVYdgpKTOwVbsYPsLOXlQC
+	 BpQd+fadWd2Bkif6QfSP29Zf9kZGDYPmTlbyi4D2Ij8uXH3fIyryqVgBUA9M7tPcvh
+	 1WutVaHWokMbg==
+Received: from johan by xi.lan with local (Exim 4.100.1)
+	(envelope-from <johan@kernel.org>)
+	id 1xTIPZ-00000004Lzj-0IVH;
+	Tue, 17 Nov 2026 13:35:45 +0100
+Date: Tue, 17 Nov 2026 13:35:45 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Haowen Tu <tuhaowen@uniontech.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: f81232: drain work on failed open
+Message-ID: <avxKISailO0PDLZ8@hovoldconsulting.com>
+References: <B2303336BB3BED22+20261116051024.3330549-1-tuhaowen@uniontech.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -45,63 +60,28 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] usbip: stability changes
-To: Shuah Khan <skhan@linuxfoundation.org>, Michael Grzeschik
-	<grzeschik@puzzle.ch>, Valentina Manea <valentina.manea.m@gmail.com>, "Shuah
- Khan" <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20261111-usbip-v1-0-da5217ac71d7@puzzle.ch>
- <131283b8-0d92-4277-9dc7-eebfe30de5ae@linuxfoundation.org>
- <d9cbecc5-3130-48f1-adfd-4483c1bb4031@actia.se>
- <5ffddf60-7549-45a8-8b7d-496967a4e91a@linuxfoundation.org>
-Content-Language: en-US
-From: John Ernberg <john.ernberg@actia.se>
-In-Reply-To: <5ffddf60-7549-45a8-8b7d-496967a4e91a@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: S185ANL.actianordic.se (10.12.31.116) To
- S185ANL.actianordic.se (10.12.31.116)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29379CA95B617466
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <B2303336BB3BED22+20261116051024.3330549-1-tuhaowen@uniontech.com>
 
-Hi Shuah,
-
-On 17/11/2026 00:16, Shuah Khan wrote:
-> On 11/13/26 04:34, John Ernberg wrote:
->> Hi Shuah,
->>
->> On 12/11/2026 23:46, Shuah Khan wrote:
->>> On 11/11/26 04:34, Michael Grzeschik wrote:
->>>> While using usbip on kirkwood embedded machine, I came accross
->>>> some stability issues. This series is addressing the reference counting
->>>> on and usage of the event handler itself.
->>>
->>> Tell me more about the stability issues? What doesn't work
->>> without these patches? Do you have reproducers for these
->>> problems?
->>>
->>
->> Since we also had the issue that 2/2 solves: The issue we have is that 
->> we see occasional CI failures with ghost USB devices remaining on the 
->> client side after our system (server side) had been suspended, even if 
->> the device was removed from the server.
->>
->> Applying a patch 2/2 (or our version of it sent earlier) solved the 
->> issue.
+On Mon, Nov 16, 2026 at 01:10:24PM +0800, Haowen Tu wrote:
+> The interrupt URB is submitted before usb_serial_generic_open() starts
+> the bulk read URBs. A modem-status notification can therefore queue
+> interrupt_work before a bulk read submission fails. A bulk read that
+> completes before a later submission fails can also queue lsr_work.
 > 
-> Hi John,
+> The error path kills the interrupt URB but does not drain either work
+> item. The tty port is not initialized after a failed open, so the close
+> callback, which normally flushes this work, is not called. If the device
+> is then disconnected, the work can outlive the port private data it uses.
 > 
-> Can you send Tested-by for the 2/2 - did you also test patch 1/2?
+> Flush both work items after killing the interrupt URB. The generic open
+> error path has already killed any submitted bulk read URBs, so neither
+> source can queue more work at this point.
+> 
+> Fixes: 87fe5adcd8de ("USB: f81232: implement read IIR/MSR with endpoint")
+> Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
 
-I have not tested patch 1/2 because we have not seen that problem in our 
-use cases so far, so we do not have a measurement of "good" for that 
-fix. Michael will have to comment on that one.
+Applied for 7.4 with a CC stable tag. Thanks.
 
-Regarding patch 2/2, it seems Michael prefers our version [1].
-I can provide a tested-by if you rather want to pick this one.
-
-Best regards // John Ernberg
-
-[1]: https://lore.kernel.org/linux-usb/avToeux2DxhBWGN4@toad.puzzle.ch/
+Johan
