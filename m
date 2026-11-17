@@ -1,77 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794913685;
-	b=Yl/AgkOPORIhVW6PdDwREx8lYi5bJhedas+63f+nKB7NxWntg2FAoXNx3fJlrTptiQsm
-	 byJl1HQrt0sMOMHXkoWW5BsIt9CDzAFtPbtnh4L7wUbtREO8oIzqsmqhRunre+PacUeaD
-	 KJV9Y0HFyHGx0GapFIGVYntRr/O/83F5h88NCPT7PeUUQ9NUfFqGmlRZci6AAPayM9tJd
-	 xp+A2Lziv/LGstjnMYCk9CtpV+XivEwVjEzKcyyGCaOa1a3uZg/cul9wlla5vgZThlYFV
-	 KnTDdGg1TN8rxt5Hh0w6Vu7tTqjJ1VpTbD5eZ/iWI6rX5k9Jq9rfux78bfX/24zWZhg==
+	t=1794913842;
+	b=0kiY1vttYlhmShkodZQi0Esgelusbfxekop651VgahqCk28zNnKIonTcFeSawCqkNJRd
+	 v1mzrAsXwRNpw5eejF3/lPbq/rMT4eg77lqUWQZRXqttKEevQ5kj7f2I2AcdkXzVCaGOk
+	 ogrfxlIQsAWHNrUiy8jx7wM9hMIZnDwauW3O4UsK7hbaHlGPPTP9UbxZq2+6ggckHIVW3
+	 CBqlgMe10VwDEjVgJPjB6P0MoqpR8uBo7+I7vUPf6Tal+cLVWsesYPRLffKeFolyI6I84
+	 CKGy3kEXm85n/PfaM3uIpFUITZJ0du9bFixK0bT3dUP3e7ABzpIbahy2TvYOClJHQfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794913685;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=9mJdv7IBp1vrnjWhiM2rfjqM7TJq9bWvqxtxczIfylA=;
-	b=efFuPrvyIxA/gFh8FyhLVaUVLOFUTnWLPW1H0cfn4wTdkFAG/sRGxB7u7EgBOyVZQPDa
-	 vQ5/98PPW6w/+5PHxWC3z48KoNoEVi39BDuJcewJSr5ZESUPyAoR4I2PhODPeApvK32C8
-	 tf4pWm4+2MhJQ9nYkkGAzrMdHoGHuC8f7Smt2ZksETTqFVdWnKETfXM85GRNmurOJrRNR
-	 WPsIRKSQe4Zft24M2UyJpX4pwHup7JS5E/IgdxSoHBSELKyOIhrvO+kSxbjWzN/rOoUHZ
-	 TH98+kyZkWeuf3pu28cdVA7ULnHx1PC3iLjfmE92Cbmdk6XrnXd2+sN/LV/p63+RXgA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794913842;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=ahM/P/idi1IClfIdMjJVwjzYB76O8a82NQvzY5p1FKI=;
+	b=ZfAy5piNhw5Tqm4F4RfYhI0kxqYWGRFS0ZF4DCoBKif6gUtZ0ddgsYXdjhri1A8iDo89
+	 iD6WClk0AM+bfjnbwmWZXQAkSDt1l9Xj6GPO1B46WnEUi2jIFZ46XKpKsCEUr5uD2DPG7
+	 IjrWxmjujNtx6Dq14nun9KNHwCw6Okzjc1ImSVVpdkUCQBWunjNNt6ZgkExovtibvCvAH
+	 S/IZRO4ZbfhNXOgUBLWaGy7+wlNtzXCyVt6SR+R6YoOomXKV9iC63sfYNxiqRZFnC5P8m
+	 4cQi5ry2AjL05ztvJ4OXCfLLXuBBf8FyL9AMf0vAWZEoqbC0jdJtnbZPghnJhRkuyoA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WQDj9ygf;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=lcoA3U+t;
+	arc=none smtp.remote-ip=148.251.105.195
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23B2606A31C;
-	Tue, 17 Nov 2026 11:08:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E23B2606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6C3606A31C;
+	Tue, 17 Nov 2026 11:10:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E6C3606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WQDj9ygf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794913684; x=1826449684;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XIQlG/YLXOmj1bStuA+OXVwGx1sc0S2A+g81QmG0bUY=;
-  b=WQDj9ygfchjAuskiic2re2P157AFrd6twseYJ4IuXIJ2ENWEyfZo4VE5
-   9Leg98I7BOUipX5GsVO8rY/0WUcf/x4jhJM0GhnP5Xa7+Bj8cHUKTbCaX
-   p/SLNxgxCHbIx9vJu7u69ZQreIpg43yWMf6ljkjbsNqGD/72BtKIJ6yCO
-   6vB4mawBycu/2+1NZpM/w4nfwuolGPx5wy7kryikMMwoc23Dz2WImACMP
-   +FpBl0AHh5hFsXs3dRbdJTKp6dmVfxsqZA3meCzGKsw+Jg7AOXt5ST6ZX
-   t4oraBWyKrCPSKCRaw7enyEzyU8vr3YF/F168HLSshf03yz0R687hi3mj
-   A==;
-X-CSE-ConnectionGUID: B+vsGtbnR0CPS/pqmAb3IQ==
-X-CSE-MsgGUID: IpzIEo5BRCiOgZoxWdINbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3670703"
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3670703"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 03:08:02 -0800
-X-CSE-ConnectionGUID: 9ujJLLBfRGmhz7fhh6vguw==
-X-CSE-MsgGUID: jYOuMPHxSTalBIGogOP17Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9867989"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa005.fm.intel.com with ESMTP; 17 Nov 2026 03:08:01 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 4503099; Tue, 17 Nov 2026 12:08:00 +0100 (CET)
-Date: Tue, 17 Nov 2026 12:08:00 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Jacob Procee <sn125164@gmail.com>, Sven Peter <sven@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH] usb: typec: tipd: cd321x: replay the plug on resume
-Message-ID: <avw1kOqmrUii-msr@black.igk.intel.com>
-References: <20261112113005.16418-1-sn125164@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=lcoA3U+t
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1794913840;
+	bh=TsYVa8isDVataCZgNzSJYbWDvnoB0Lq+O1qTliUZPco=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lcoA3U+teuYzs2jPvFXgWSwLi96f5Dn7/ylXITEs6Lo19EEPT+wJt6/uztcAR22BG
+	 +KI+EEyoncZOoAzhnny98sf+OBaCvyHLEvuam5WS3VjCUK5aira2qhdv4LmhGgUnkc
+	 UOcwJsFofIScApVAlIrsaCeA4HHvqEUomYvvl1VQTWcidsmKkBRc413NkyP64HSPro
+	 UP7qhzP6LRoI7iVyIkxCzXrx9NFaZ0jU7ho7Lgba2E5s2gEuzbrEN0w7k5cDX/RGmA
+	 rlHB3DvCpLg0s4LT7WdQ0zf27JWbBvXIbF5KQSuC5Zpy2cuZw68nmWqcjuCUUL9qmz
+	 Mt42friiwnmwA==
+Received: from [100.64.1.21] (unknown [100.64.1.21])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A3F5717E07F6;
+	Tue, 17 Nov 2026 12:10:39 +0100 (CET)
+Message-ID: <7bde7e86-3b4f-4f76-9d6e-0a98216ce740@collabora.com>
+Date: Tue, 17 Nov 2026 12:10:39 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -81,116 +61,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112113005.16418-1-sn125164@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] arm64: dts: mediatek: Use DP AltMode defines
+To: Sebastian Reichel <sre@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, kernel@collabora.com,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <20261017-dp-altmode-dt-defines-v2-0-7ab3d93553dd@collabora.com>
+ <20261017-dp-altmode-dt-defines-v2-3-7ab3d93553dd@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20261017-dp-altmode-dt-defines-v2-3-7ab3d93553dd@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 12, 2026 at 12:30:05PM +0100, Jacob Procee wrote:
-> On Apple Silicon the Type-C PHY and the dwc3 controller behind a CD321x
-> port lose their state during s2idle while the plug stays connected, and
-> the CD321x does not raise an interrupt on resume. xhci notices the lost
-> state and re-initializes the host controller:
+On 10/17/26 21:59, Sebastian Reichel wrote:
+> From: Sebastian Reichel <sebastian.reichel@collabora.com>
 > 
->   xhci-hcd xhci-hcd.0.auto: xHC error in resume, USBSTS 0x401, Reinit
->   usb usb1: root hub lost power or was reset
->   usb 1-1: USB disconnect, device number 2
+> Use the new USB-C DP AltMode defines for the SVID and the capabilities
+> VDO to make the DTs more readable. This also fixes up mt8390 Genio
+> platform incorrectly announcing UFP_D (upwards facing) support. This
+> feature is unfortunately not supported by the SoC.
 > 
-> but the PHY is only ever programmed from typec_mux_set(), so a device
-> left plugged in (here a FIDO2 security key) never comes back until it is
-> unplugged and plugged in again.
-> 
-> Re-initializing only dwc3 after resume does not work: tearing dwc3 down
-> also powers off the PHY, and nothing turns it back on, so xhci then
-> times out ("Host halt failed, -110", "can't setup: -110").
-> 
-> Instead, make cd321x replay the plug on resume when a partner was
-> connected: mark the plug as changed and queue the update work, which
-> then goes through the same sequence as a real replug (role none, mux
-> safe, mux back to the partner's mode, role back on). Queue it on
-> system_freezable_wq so it runs only after all devices have resumed.
-> 
-> Tested on a 14" MacBook Pro (M1 Pro, j314s) with a backport of this
-> change to the Asahi 7.3.3 kernel: a USB-C security key left plugged in
-> re-enumerates right after "PM: suspend exit", where it previously stayed
-> gone until replugged. Unplugging the device while the system is asleep
-> also works: after resume the role goes to none, nothing is brought back
-> up, and replugging it later enumerates normally. This mainline version
-> was build-tested only (W=1, checkpatch --strict clean).
-> 
-> Fixes: 82432bbfb9e8 ("usb: typec: tipd: Handle mode transitions for CD321x")
-> Assisted-by: LLM
-> Signed-off-by: Jacob Procee <sn125164@gmail.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-Looks okay to me, but as this is a fix, you should CC stable:
-https://docs.kernel.org/process/submitting-patches.html#select-the-recipients-for-your-patch
+Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Sven, would you be interested, or would you have time, to maintain
-this driver?
-
-Thanks,
-
-> ---
-> checkpatch flags the Assisted-by tag (non-standard signature, 'LLM' is
-> not an email address); the format follows
-> Documentation/process/coding-assistants.rst.
-> 
->  drivers/usb/typec/tipd/core.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 02539378ffed..2ec380124532 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -164,6 +164,7 @@ struct tipd_data {
->  	bool (*read_power_status)(struct tps6598x *tps);
->  	int (*reset)(struct tps6598x *tps);
->  	int (*connect)(struct tps6598x *tps, u32 status);
-> +	void (*resume)(struct tps6598x *tps);
->  };
->  
->  struct tps6598x {
-> @@ -911,6 +912,21 @@ static int cd321x_connect(struct tps6598x *tps, u32 status)
->  	return 0;
->  }
->  
-> +static void cd321x_resume(struct tps6598x *tps)
-> +{
-> +	struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
-> +
-> +	guard(mutex)(&tps->lock);
-> +
-> +	if (IS_ERR_OR_NULL(tps->partner))
-> +		return;
-> +
-> +	cd321x->update_status.status_changed |= TPS_STATUS_PLUG_PRESENT;
-> +	cancel_delayed_work(&cd321x->update_work);
-> +	queue_delayed_work(system_freezable_wq, &cd321x->update_work,
-> +			   msecs_to_jiffies(CD321X_DEBOUNCE_DELAY_MS));
-> +}
-> +
->  static irqreturn_t cd321x_interrupt(int irq, void *data)
->  {
->  	struct tps6598x *tps = data;
-> @@ -2014,6 +2030,9 @@ static int __maybe_unused tps6598x_resume(struct device *dev)
->  		queue_delayed_work(system_power_efficient_wq, &tps->wq_poll,
->  				   msecs_to_jiffies(POLL_INTERVAL));
->  
-> +	if (tps->data->resume)
-> +		tps->data->resume(tps);
-> +
->  	return 0;
->  }
->  
-> @@ -2040,6 +2059,7 @@ static const struct tipd_data cd321x_data = {
->  	.reset = cd321x_reset,
->  	.switch_power_state = cd321x_switch_power_state,
->  	.connect = cd321x_connect,
-> +	.resume = cd321x_resume,
->  };
->  
->  static const struct tipd_data tps6598x_data = {
-> -- 
-> 2.56.0
-
--- 
-heikki
