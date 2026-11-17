@@ -1,112 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794905086;
-	b=Wt/MUO44BesVbrZ8iz2PFgiGAW4nM7D0zxY42a+KkV3KSWEKnJYjwV24lPVwyDvBSjDI
-	 NdnhZ6bDm0+KTHz5vSQunLIYywu/A7Gv9ZYGUFd6aYRGHBzZ40T2KISdUpInXfpCTc+Wc
-	 O5hn6mX1wwTqfQsxoZm1zrkTo7hCXyC8H+UkOERsfho6keFZDzNeB+fVsj9jH4Dickxf4
-	 lsURRbzEzVvqRxcj/fsIc0qAh5+62CPxGNSM7pZV+Amadvdph/tz2tYoBIDjdXNNvZnDG
-	 Wows+JRPAneAScH1fdPTvrx2bhBzCFpfBPhKaLJ9zZ6lri+Qnb4FDvYkCqU/pK5HTpw==
+	t=1794905262;
+	b=jucJ9n6bC1+biOSzOYvY2ackXCZJScuEIEhhRbM+A32w2FhZWgGhZg+K0k4NTAhVevAx
+	 PiN/6OsPB5z5QUFeRvR45mA45ye4s2L6ssvWZMwdoiShaDILp6yGb1nGtWynA0PsI+RDc
+	 IjJHMmPRuSE0Xb4KqWPGlKTxDUEco+aYjekGyn3B4ZU7hXZPB9u7d6KGWSzt7hpoWEPPy
+	 uRh2aY1CIOh3xEPw/ktWtxjke20xJnNEdXZV7lb/OGeh8D5+YxqegH8jrT9MyatBbPTrj
+	 AeSlfVWcAO8dRAc0BNEC0FhSKfxj6gRSNuJ7W2BdGtoKlKjIjhhdajD9e2yMy9mNNjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794905086;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=YtgOPMlBsDbDRTTami0iaeC2PfdAlPMUJ3BhZBWqnDY=;
-	b=a6AOqFfjNBe5n/krj7EduB9kAWOhfWwwZUSL9fnZ/ZwjKTDirI7Sgx9ZsrIVsJDixhIY
-	 b/OJgL9F7ni84FdfkRhMhMd8q1IeYiJBUngJ3wL+nIWezkXX0TZd2/8yrZLOkRsmSiGaL
-	 pEXi/fT1IW9zD7lIYk0R8SdEvcZgG5ZhJDLoiJxDrzDJ5dpKu8KhHunmvkbakx+V77Byp
-	 FEIvYp2GfCVt5iPhl9s9jdhDUbL1g4TPqSzT+mH9xUs5iu/XybgvB/m6AIWr/HqIdBqHZ
-	 Ft9dbFsU5UMsKWTL0zXTVPVk/Sij2WohDUkXhtsCmB3x+xpL6AVqmy/CC4f8+aJkSmw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794905262;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=fydWEeJs6h6D2xN8oefEySjHP1aGYuFhV27H0XaCs9U=;
+	b=G2ucpkhP5uZNjB3CgMKujBQPkabMis2jUnW3lJoIfQEzTQ6EJvU8r3rXm9SOViWEM9I5
+	 5iBxLN+FMYd+SOQ7jpom1pI/xxdiVah//FQuzoEtl4saQ9ZtV2U6hwrhFkBCN4qjUTw/C
+	 +DkdNOvLZRQGHdN8eHNTtz0PSQkgKbPgZApNH96IU4i7tI4zsWqVVdlFOa+XhDBJBZcpC
+	 XuiNl2i71YRDe6TNMYSzMVInGY7SH8H6Sl0j6iPY+bdF2mBtFNFpFlRw8KBbixCvhinOE
+	 K+pojlR0WhYHpjkczfmamXw6fdib4+gdNurxOQmsY5P6NKf8P8ncJ54OjZa8YMOjdwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=qPWJSshs;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F95606A882
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 08:44:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9F95606A882
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=LUme+Ygg;
+	arc=none smtp.remote-ip=111.22.67.139
+Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5104606A339;
+	Tue, 17 Nov 2026 08:47:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5104606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=qPWJSshs
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4ba013938d7so45544735e9.2
-        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 00:44:42 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=LUme+Ygg
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794905081; x=1795509881; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=YtgOPMlBsDbDRTTami0iaeC2PfdAlPMUJ3BhZBWqnDY=;
-        b=qPWJSshsn8vVlxONBkwnt0Rrdn9d5F3Qc4ul63isG/q9SzfN/YeX6Opt0gSo3Jew6G
-         TPoHc3exB3o1TVJHb31ucJURrMLm+X5ZLvKQdkLiUwsGhwj3/4jXaF9QxR3XbUAvZwOE
-         a/cd4y1UcgXoBr9kVgdvuhJuBveUAauSYuunqpBOO8ny5BuS4lSdHT4xtCJFDNjS8url
-         r/ZKVJBRzaToW1BBIq0cKvkP0/i/p+OipahpXpiSl0PGBR9WYmSpn39e8LKnYXYjrWjD
-         bzQp5gYJPTRPzgdIgnmtc42HrrCv5BgaqLA/tsUHs3tWdIoSQrhFLq1gvYrghbRPmmpF
-         EcZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794905081; x=1795509881;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YtgOPMlBsDbDRTTami0iaeC2PfdAlPMUJ3BhZBWqnDY=;
-        b=Tbs/vZw1P+tlv80gRRynJ1nGF+KUZ2ZFbOhhFGzxEgt9pNIw3tJK3Mw9uQD/eSit0s
-         vpWoydZgzeJVhWG2WGmvOAkR0/zHBeRLGb3PiyQWthUzEf//lwS3zNfaRdznefF3Q9Ub
-         2ND+Sgti2cz0t6CjikQgWBMg2eKy94r7EQbqtljD9UCl42ndWDSDyiRq1V5fX1atERhI
-         PIlmnGzOTqYad22q2x7itth1+fpptdlkApFRjiod9r+3nF7uXUQvrQ4fpoKqPL0HypTX
-         2GVaWM2UQcpzzhGznedtJicvxaH1nW+BMeWxeSnGInpzYWKA7NAob+uI7zH2G/aVoI1r
-         WUEQ==
-X-Forwarded-Encrypted: i=1; AL+hErGFwqJYxmOk1JrMLEvWDWDKk1wS9x/xeibSk9rPH4jTqBu+7ORZNf5DrK12g9xIp2lQRDghPpIPWJo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/jRkPLI4lnNvDNq2HxA2N1+GFsZWH3a5D4rghG0zu4eYl5wEhp
-	lmGC3yUlUrkS/MC3jRU+xV1UZkCAwN8Dh7bw14MQ4GoOidPS6SG/jZ4mePxkz/GQpnN7
-X-Gm-Gg: AZFdTZc0db18bFv+D1h7QYIyqBLH7JclR4n0ONXbDIIosN558BCie6Akbtpy7UhcaY5
-	pPTH3Q6mI/61cu+h3WqvJodIIyCesDrUJ0Xykkh6U08h78Zrlx2Pscu3TYaI9oYwF86ob8Fx6P1
-	sqPJr0ScfgUDLkykUygux1iEyapQJZl5yz3mWn1ilN8Iu+lVuLjMmrjMB+54saAawjBgEw0KwFu
-	/46vvYPzk+TgIKe9iRVloYfpQ7JBsZXl8t5jcqg4CbWOHbQbe/t6AHmq+Fw/zve+EletwaduJIO
-	9o/eNwOfKN62wRvcb7dWUxlCjsjeXIRMB9q2Dqsf9MFm/v11iPOTqnM8hJgkpsg1NozOdd8+NI1
-	JVr1J/Hv9sLtGYoBUZviRoHC6n/NSo0ThOShZcHfo6S1lF6uti+NHJ4kMMDZ1NJNWFWVxX6i5Id
-	7tKXqX3acV8AUzZRAhW0joVpDbebZFJmPeS1n5kn/q+GxLsvnz/QGgsIcHPNPSargElCmDzAePc
-	/2UEjbe40J3PQ93dKER9bY0Wu/hLwWMtUZui+5K8cmFjxQCgByiK3QW5A17nYoZ8GTIH+WHZjyF
-	PoubOFW74TmbkFJNw+bxU54mLoGLSdOcFtNjnhps98h1LKzlaVTybFEzHgCLaAGRXBTr/i9eGlt
-	I+1MkpR0FMADW6Gt4aYpXUvLDLr125H9dW2gJB0yCCJxK6NRcbQq/pV1rGXpXOAEPT3+zEG77ay
-	XKXw==
-X-Received: by 2002:a05:6000:2411:b0:48f:f26d:c5c with SMTP id ffacd0b85a97d-49c70b051d1mr27471178f8f.9.1794905081269;
-        Tue, 17 Nov 2026 00:44:41 -0800 (PST)
-Received: from ?IPv6:2003:cf:572c:2800:de4c:6789:33ce:97c2? (p200300cf572c2800de4c678933ce97c2.dip0.t-ipconnect.de. [2003:cf:572c:2800:de4c:6789:33ce:97c2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49d673ce75fsm19982260f8f.55.2026.11.17.00.44.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 00:44:40 -0800 (PST)
-Message-ID: <d18a972cfc6a7d6da39ab9674903d7ae6e4c1826.camel@amutable.com>
-Subject: Re: [PATCH RFC v3 35/44] fs: add file_check_backing()
-From: Alexander Mikhalitsyn <alex@amutable.com>
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
- Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
- linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
- linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
- ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
- <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
- linux-kselftest@vger.kernel.org
-Date: Tue, 17 Nov 2026 09:44:39 +0100
-In-Reply-To: <20261116-work-loop-pseudo-v3-35-8cbbea1cf34f@kernel.org>
-References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
-	 <20261116-work-loop-pseudo-v3-35-8cbbea1cf34f@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=LUme+Ygg+q51cG9GyQAxh060oG07vN2VZtcssugOKKwIXk6syQMVJTadVGh3T9WCHJvNq81OLsgAH
+	 cmk3iXszr6ziQnudBCOlMXqs2lLANW6i3zaiXh0yW+iXIazEjSochP3US6sQjm9io0/uK/y4dRYeDs
+	 ZivPEV87E++kBa/0=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee96afc14a637a-0db48;
+	Tue, 17 Nov 2026 16:47:35 +0800 (CST)
+X-RM-TRANSID:2ee96afc14a637a-0db48
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from FHD-W7400297 (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr03-12003 (RichMail) with SMTP id 2ee36afc14a5a08-a8e4f;
+	Tue, 17 Nov 2026 16:47:34 +0800 (CST)
+X-RM-TRANSID:2ee36afc14a5a08-a8e4f
+From: Aibing Chen <chenaibing@cmss.chinamobile.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net v3] net: hso: fix stashed tx skb leak and replay race
+Date: Tue, 17 Nov 2026 16:47:32 +0800
+Message-ID: <20261117084732.297-1-chenaibing@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.50.1.windows.1
+In-Reply-To: <20261114093133.465-1-chenaibing@cmss.chinamobile.com>
+References: <20261114093133.465-1-chenaibing@cmss.chinamobile.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -116,172 +74,140 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2026-11-16 at 12:05 +0100, Christian Brauner wrote:
-> Loop, zloop, the nvme target, the scsi target, fuse passthrough, the
-> usb
-> mass storage gadget, erofs and acct all take a file from userspace
-> and
-> use it as storage. Currently, each of them has its own idea of what
-> to
-> check before using a file like that:
->=20
-> - loop and the gadget check for a regular file or a block device, the
-> =C2=A0 nvme target, the scsi target and zloop take any file type
-> - loop checks the open mode, the gadget checks FMODE_CAN_READ, the
-> nvme
-> =C2=A0 target, the scsi target and zloop only check for ->read_iter() and
-> =C2=A0 ->write_iter()
-> - apart from acct which refuses procfs and sysfs files none of them
-> =C2=A0 cares whether the file is a kernel interface
->=20
-> Add a helper that does all of it in one place. It only accepts
-> regular
-> files and, if the caller passes S_IFBLK, block devices. It refuses
-> files
-> on pseudo filesystems. And it checks that the file is open for what
-> the
-> caller is going to do with it and implements ->read_iter() for
-> reading
-> and ->write_iter() for writing.
->=20
-> O_PATH files are refused unless the caller passes FMODE_PATH. That is
-> for callers that only need the path of the file. fuse passthrough is
-> one of them and has accepted O_PATH file descriptors since commit
-> efad7153bf93 ("fuse: allow O_PATH fd for FUSE_DEV_IOC_BACKING_OPEN").
->=20
-> Block devices are fine even though bdevfs is a pseudo filesystem. A
-> block device that userspace hands in is a device node on devtmpfs or
-> some other filesystem. Files on bdevfs only come from
-> bdev_file_open_by_*() and never end up here.
->=20
-> The pseudo filesystem check looks at the inode that actually provides
-> the data via d_real_data_inode(). overlayfs accepts sysfs, cgroup2,
-> debugfs, tracefs, configfs and securityfs as lower layers and reads
-> of
-> such an overlayfs file are served by the file on the pseudo
-> filesystem.
-> Checking the overlayfs inode would miss that.
->=20
-> For an O_PATH file nothing might have looked up the data yet.
-> overlayfs
-> only looks up the data of a metacopy file in a data-only layer when
-> the
-> file is opened. d_real_data_inode() does the lookup then and if that
-> fails we return the error.
->=20
-> Note that the file type is taken from the inode of the file and not
-> from
-> the host of ->f_mapping like loop and the gadget do it. A driver can
-> point ->f_mapping somewhere else in ->open(). It makes no difference
-> for
-> block devices as both inodes are block devices.
->=20
-> No functional changes. Nothing calls the helper yet.
->=20
+hso_net_start_xmit() stashes the skb in odev->skb_tx_buf and stops the
+queue when hso_get_activity() reports -EAGAIN, which happens when the
+USB device is suspended or no longer configured.  If the interface is
+then brought down, or the device is disconnected, that skb is simply
+left behind: hso_net_close() and hso_free_net_device() never release
+it, and hso_net_open() clears the pointer, so the skb and its data
+buffer are leaked.
 
-Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+hso_resume() loses a frame in the same way when the device is still not
+ready: it passes skb_tx_buf to hso_net_start_xmit() and then clears the
+pointer unconditionally, so a frame stashed again by that call is never
+freed.
 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
-> =C2=A0fs/read_write.c=C2=A0=C2=A0=C2=A0 | 53
-> +++++++++++++++++++++++++++++++++++++++++++++++++++++
-> =C2=A0include/linux/fs.h |=C2=A0 2 ++
-> =C2=A02 files changed, 55 insertions(+)
->=20
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index 6767283108991..9f1e7bfcbd4f1 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -866,6 +866,59 @@ static ssize_t do_loop_readv_writev(struct file
-> *filp, struct iov_iter *iter,
-> =C2=A0	return ret;
-> =C2=A0}
-> =C2=A0
-> +/**
-> + * file_check_backing - check that the kernel can use a file as
-> storage
-> + * @file: file that userspace handed in
-> + * @mode: FMODE_READ and/or FMODE_WRITE the kernel will do I/O with,
-> or
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FMODE_PATH if only the path=
- of @file is used
-> + * @type: S_IFBLK if a block device is fine as well, 0 otherwise
-> + *
-> + * Call this where a file from userspace is taken as a backing file.
-> Only
-> + * regular files and, if @type is S_IFBLK, block devices are
-> storage. Files
-> + * on pseudo filesystems are kernel interfaces and are refused. The
-> file
-> + * must be open for @mode and implement ->read_iter() for reading
-> and
-> + * ->write_iter() for writing. O_PATH files are only fine with
-> FMODE_PATH.
-> + *
-> + * Return: 0 on success, -EBADF if @file isn't open for @mode, -
-> EINVAL if it
-> + * can't be used as storage, or the error from looking up the data
-> of @file
-> + * on a stacking filesystem.
-> + */
-> +int file_check_backing(const struct file *file, fmode_t mode,
-> umode_t type)
-> +{
-> +	fmode_t io =3D mode & (FMODE_READ | FMODE_WRITE);
-> +	/* Drivers may point ->f_mapping at something else. */
-> +	umode_t fmt =3D file_inode(file)->i_mode & S_IFMT;
-> +	struct inode *real_inode;
-> +
-> +	/* O_PATH files are only fine for callers that just use the
-> path. */
-> +	if ((file->f_mode & FMODE_PATH) && !(mode & FMODE_PATH))
-> +		return -EBADF;
-> +
-> +	if ((file->f_mode & io) !=3D io)
-> +		return -EBADF;
-> +
-> +	if (fmt !=3D S_IFREG && !(type =3D=3D S_IFBLK && fmt =3D=3D S_IFBLK))
-> +		return -EINVAL;
-> +
-> +	/* Look through stacking filesystems at the inode with the
-> data. */
-> +	real_inode =3D d_real_data_inode(file->f_path.dentry);
-> +	if (IS_ERR(real_inode))
-> +		return PTR_ERR(real_inode);
-> +	if (real_inode->i_sb->s_iflags & SB_I_PSEUDO)
-> +		return -EINVAL;
-> +
-> +	if ((mode & FMODE_READ) &&
-> +	=C2=A0=C2=A0=C2=A0 (!(file->f_mode & FMODE_CAN_READ) || !file->f_op-
-> >read_iter))
-> +		return -EINVAL;
-> +
-> +	if ((mode & FMODE_WRITE) &&
-> +	=C2=A0=C2=A0=C2=A0 (!(file->f_mode & FMODE_CAN_WRITE) || !file->f_op-
-> >write_iter))
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(file_check_backing);
-> +
-> =C2=A0ssize_t vfs_iocb_iter_read(struct file *file, struct kiocb *iocb,
-> =C2=A0			=C2=A0=C2=A0 struct iov_iter *iter)
-> =C2=A0{
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 99caef43ff3c4..b1c7ebafbadbe 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -2553,6 +2553,8 @@ static inline const struct inode
-> *file_user_inode(const struct file *f)
-> =C2=A0	return file_inode(f);
-> =C2=A0}
-> =C2=A0
-> +int file_check_backing(const struct file *file, fmode_t mode,
-> umode_t type);
-> +
-> =C2=A0static inline struct file *file_clone_open(struct file *file)
-> =C2=A0{
-> =C2=A0	return dentry_open(&file->f_path, file->f_flags, file-
-> >f_cred);
+Take the stashed skb with xchg() in both paths so that only one of them
+can obtain it, and serialize the replay in hso_resume() against
+hso_net_close() with a per-interface mutex: either the frame is replayed
+before the device is stopped, or hso_net_close() takes and drops it.
+The state check uses test_bit(HSO_NET_RUNNING), the bit that
+hso_net_open() and hso_net_close() maintain.
+
+Reported-by: syzbot+bf62ca9997f43d2fa521@syzkaller.appspotmail.com
+Link: https://lore.kernel.org/all/6af74e31.fe96acdb.12252b.0009.GAE@google.com/
+Fixes: 72dc1c096c70 ("HSO: add option hso driver")
+Fixes: c213f286f2cf ("[netdrvr] hso: dev_kfree_skb crash fix")
+Signed-off-by: Aibing Chen <chenaibing@cmss.chinamobile.com>
+---
+v3:
+- serialize the replay in hso_resume() against hso_net_close() with a
+  per-interface mutex, closing the window between xchg() and the replay.
+- check HSO_NET_RUNNING (the bit hso_net_open() and hso_net_close()
+  maintain) instead of the IFF_UP alias in hso_resume().
+
+v2:
+- take the stashed skb with xchg() so that only one path can free it.
+- add the two Fixes tags.
+
+ drivers/net/usb/hso.c | 41 +++++++++++++++++++++++++++++++++--------
+ 1 file changed, 33 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
+index 71caa3764..43884234c 100644
+--- a/drivers/net/usb/hso.c
++++ b/drivers/net/usb/hso.c
+@@ -142,6 +142,9 @@ struct hso_net {
+ 	struct sk_buff *skb_rx_buf;
+ 	struct sk_buff *skb_tx_buf;
+ 
++	/* serializes the hso_resume() replay with hso_net_close() */
++	struct mutex tx_replay_lock;
++
+ 	enum pkt_parse_state rx_parse_state;
+ 	spinlock_t net_lock;
+ 
+@@ -720,6 +723,14 @@ static int hso_net_open(struct net_device *net)
+ static int hso_net_close(struct net_device *net)
+ {
+ 	struct hso_net *odev = netdev_priv(net);
++	struct sk_buff *skb;
++
++	/*
++	 * Serialize with the replay in hso_resume(): either the frame is
++	 * replayed before we stop the device, or it is taken and dropped
++	 * here, never both and never after the queue is gone.
++	 */
++	mutex_lock(&odev->tx_replay_lock);
+ 
+ 	/* we don't need the queue anymore */
+ 	netif_stop_queue(net);
+@@ -728,6 +739,11 @@ static int hso_net_close(struct net_device *net)
+ 
+ 	hso_stop_net_device(odev->parent);
+ 
++	skb = xchg(&odev->skb_tx_buf, NULL);
++	dev_kfree_skb(skb);
++
++	mutex_unlock(&odev->tx_replay_lock);
++
+ 	/* done */
+ 	return 0;
+ }
+@@ -2398,6 +2414,7 @@ static void hso_net_init(struct net_device *net)
+ 
+ 	/* and initialize the semaphore */
+ 	spin_lock_init(&hso_net->net_lock);
++	mutex_init(&hso_net->tx_replay_lock);
+ }
+ 
+ /* Adds a network device in the network device table */
+@@ -3032,6 +3049,7 @@ static int hso_resume(struct usb_interface *iface)
+ {
+ 	int i, result = 0;
+ 	struct hso_net *hso_net;
++	struct sk_buff *skb;
+ 
+ 	/* Start all serial ports */
+ 	for (i = 0; i < HSO_SERIAL_TTY_MINORS; i++) {
+@@ -3051,21 +3069,28 @@ static int hso_resume(struct usb_interface *iface)
+ 		if (network_table[i] &&
+ 		    (network_table[i]->interface == iface)) {
+ 			hso_net = dev2net(network_table[i]);
+-			if (hso_net->flags & IFF_UP) {
+-				/* First transmit any lingering data,
+-				   then restart the device. */
+-				if (hso_net->skb_tx_buf) {
++			mutex_lock(&hso_net->tx_replay_lock);
++
++			/*
++			 * First transmit any lingering data, then restart
++			 * the device.
++			 */
++			if (test_bit(HSO_NET_RUNNING, &hso_net->flags)) {
++				skb = xchg(&hso_net->skb_tx_buf, NULL);
++				if (skb) {
+ 					dev_dbg(&iface->dev,
+ 						"Transmitting"
+ 						" lingering data\n");
+-					hso_net_start_xmit(hso_net->skb_tx_buf,
+-							   hso_net->net);
+-					hso_net->skb_tx_buf = NULL;
++					hso_net_start_xmit(skb, hso_net->net);
+ 				}
+ 				result = hso_start_net_device(network_table[i]);
+-				if (result)
++				if (result) {
++					mutex_unlock(&hso_net->tx_replay_lock);
+ 					goto out;
++				}
+ 			}
++
++			mutex_unlock(&hso_net->tx_replay_lock);
+ 		}
+ 	}
+ 
+
+
