@@ -1,47 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919819;
-	b=FLc9iNVED8tjVbXORalO9WJwuwHHyn8d7/b4HYcrw44mZAnUQXQAKZe1m3vw6N1+Tlnc
-	 /DmOgEGNpSsKvstCrItZ/e8UfejUH2a3xASZOExEpDTrjhJVQIIzMXlYSybq/72PulgVF
-	 PI1nQuGcGrMOzhHxAfdVYE0i6KNIzcOQ3eDnJtrZMRaKPNeSrEh98S7udpm9vfz8HT1ID
-	 dQcN52n+BzW4/HWTruSwTuZf5Z3t7rZaQcLa2KmpZLyKl1Lujfey0wHW3rgxkhwDdR1Fd
-	 SiSeNf3+Evq1TPWVuoMu0ON5sW9d0EzRVY0iNmceFEiNv/NbTZt1U+r0xzkfjky3x3Q==
+	t=1794919861;
+	b=cz6ttYnmurC5FkofApxBGITDRJmBom6ddcolvaP9TnlPjoiiV0cfhuBJY+3oq5FUQuCJ
+	 rpkCHIyQuwKK2YFvEeTQF0o1X5Tf6ECk+BRstcNvIM6O4zqlBkkje043+dnkKscSlDQAV
+	 BZraKzPT5e6sXnrErqFdb4hO81r9h4aaPUUTzWDOkq0AuGeyyIQIjrbfp+1tGnOPOW6Uk
+	 GRF6ai4wfXwZLaFdrvxdR2Ak8yAQaoxTkWBKW+CNgrTc6GXSvAT1FH8f1ZYLiY4THePe9
+	 qt/AkX9jRgGe5fNE9qE5H4HA3u2OekkkRoQjAgvUdaHbPBRgoVpcxz9je0U1jnq9C8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919819;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=YB4Rm6hbxOLC4r10E9y/WD3nBCBmdRshrgHd962ScF8=;
-	b=ZyCg43sUrcpMQZHiQwZJ/ig5AjpcpwF00el5En7VzrqmpcYffmBolMxtkqjzgKWO5tVU
-	 aF/nlfvrvssezL+bqLqpc6vOeZmzDaMK6wTyeBvsjppShNrJ1hq6fIf07xmC6umS97CYF
-	 35VN3AXZDjXE6eGucvRoLWStLVFQ/eQcRpQ4m63G0iy7lFLn4IDcvoAlVlen6C/MI/hLM
-	 cjcRfVOZuZDCi2QE+B/3xe6OMQx36Byl+trsKUEibbOv6OG++ytpYOPbSaNr//Jz3nr5U
-	 ZrWnKhxhWuBiCHRtE4aEVIJVO/meOs0yKRJlo3fyAOzdJxx3i03k4zi1fMSQq0881qg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919861;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=fR/5E9OqWvtcG/puLEKNqXGX5VJYN3AZ6049pcTy/pw=;
+	b=LBfClozgHBJ1NwJzzjr8SixvMWn/UENHCIXIXg4Jur7wdZvx+yR80DK+Ix/ZB02EpR1u
+	 XYXMGhjXS4l/82FTowP0g6lMJ0BVM2rlzj8lgTYU0zc0/sCX8YLgg6FJL8Ov01YdTSkd4
+	 raPii5HPxasEDiju274TK6YtsJZsuuuBvGkLJnjsWr1EOCDcocCQJZ11upPPAOMdiabb+
+	 M1eiiv4sU5ddVsTWpsZQjF3Ppk70VzpiA2BhYfJ5114Gpqbu/SMiIXapvEc8Wfkh4Wqs5
+	 SUAveQ9Rmfldq4BDcjm/8/rcxW4cG3m7vg8oe6fPsUhg/yUwd0uVBb4HOxfRmzj3acA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuePYClO;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B60D606A323;
-	Tue, 17 Nov 2026 12:50:19 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=zxkYc5Qp;
+	arc=none smtp.remote-ip=111.22.67.139
+Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B589606A898;
+	Tue, 17 Nov 2026 12:50:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B589606A898
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuePYClO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E78701F000C4;
-	Tue, 17 Nov 2026 12:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794919818;
-	bh=YB4Rm6hbxOLC4r10E9y/WD3nBCBmdRshrgHd962ScF8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=TuePYClOw5kmn94UgSiQtLSegFdzSD4toN8mGQyksDl12VeOGoK6a4BdmfUILCJkV
-	 1gw4znUTt5s2B/7tr7XG8n7OgvM5wPt5xbhSe2XibLlIKaF7uIUOVlrHWVhUeJNVdE
-	 wmhdLxZgTNXAZqhAK7SPI8XLUOGKTj2Rwn1M0EILWLQh5KkuR8hO4ArkkxBiT+6yaM
-	 nfPJs2pu2sQDbW0BM8mVwhm42gm7Tf/XncG6IWgGmJ3GSTKAjGXHktSiImfUVlkNV5
-	 1ser9OuarpHiiSOjV+qxWqEX5qd+cwEHq1gxW8b33hyrMshlfNKGoPJk1YD4lp/juB
-	 FTaPLL+UOiYAQ==
-Message-ID: <62ff09ad-b2db-484b-9b27-6e8a3307b27b@kernel.org>
-Date: Tue, 17 Nov 2026 13:50:13 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=zxkYc5Qp
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=zxkYc5QppGAPjG8oUK8Xb3icmkqZMVVJcAhPWREGxV4VyxidEn3cEjUMSrH2mHr0PUVmkn8NWD/Rc
+	 Aj8Czzcse+AbmCBaAPHuQbYMSBUSb+xW1hTbGdhNVP8pjKAx79rak4yLQZQj977UAyBmhz16so82pc
+	 ZhoMxOncyN7aE6wg=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app05-12005 (RichMail) with SMTP id 2ee56afc4dac659-080a0;
+	Tue, 17 Nov 2026 20:50:56 +0800 (CST)
+X-RM-TRANSID:2ee56afc4dac659-080a0
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from  (unknown[123.121.1.242])
+	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee66afc4dad71e-b1c11;
+	Tue, 17 Nov 2026 20:50:56 +0800 (CST)
+X-RM-TRANSID:2ee66afc4dad71e-b1c11
+From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+To: nkapron@google.com
+Cc: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH v4 1/3] usb: gadget: f_hid: fix report_list entries leak
+Date: Tue, 17 Nov 2026 12:50:49 +0000
+Message-ID: <20261117125051.5646-2-shishunbo@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261117125051.5646-1-shishunbo@cmss.chinamobile.com>
+References: <179486710796.2938203.13522037990167268712.b4-review@b4>
+ <20261117125051.5646-1-shishunbo@cmss.chinamobile.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -51,107 +71,44 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 22/22] arm64: dts: apple: t60xx: Add USB4 ACIO and NHI
-To: Sven Peter <sven@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
- <20260906-b4-apple-soc-tbt-v2-22-1f80085f93fb@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-22-1f80085f93fb@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 06/09/2026 20:36, Sven Peter wrote:
-> Add the ACIO host router, NHI, DART and mailbox nodes for the four ATC
-> instances on each t600x and t602x die and connect the host routers to
-> the Type-C connectors on the MacBook Pro (j314/j316 and j414/j416), Mac
-> Studio (j375 and j475), Mac mini (j474) and Mac Pro (j180d) boards.
-> 
-> Also describe the USB3 path from each host router to its DWC3 controller
-> so the NHI driver can create the required device link.
-> 
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
->  arch/arm64/boot/dts/apple/t6002-j375d.dts      | 101 ++++++-
->  arch/arm64/boot/dts/apple/t600x-dieX.dtsi      | 376 +++++++++++++++++++++++++
->  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 158 ++++++++++-
->  arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 205 +++++++++++++-
->  arch/arm64/boot/dts/apple/t6022-j180d.dts      | 304 +++++++++++++++++++-
->  arch/arm64/boot/dts/apple/t6022-j475d.dts      |  10 +
->  arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi     |  91 +++++-
->  arch/arm64/boot/dts/apple/t602x-dieX.dtsi      | 376 +++++++++++++++++++++++++
->  8 files changed, 1604 insertions(+), 17 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-> index e6eb6b6c386d..93f07df1c006 100644
-> --- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-> +++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-> @@ -18,6 +18,10 @@ / {
->  	aliases {
->  		atcphy4 = &atcphy0_die1;
->  		atcphy5 = &atcphy1_die1;
-> +		usb4-4-acio = &usb4_0_acio_die1;
-> +		usb4-4-nhi = &usb4_0_nhi_die1;
-> +		usb4-5-acio = &usb4_1_acio_die1;
-> +		usb4-5-nhi = &usb4_1_nhi_die1;
->  	};
+Each GADGET_HID_WRITE_GET_REPORT ioctl for a report ID that is not
+yet in hidg->report_list allocates a report_entry and adds it to
+the list.  hidg_release() frees report_desc and set_report_buf, but
+never walks report_list, so every accumulated entry leaks on
+function destroy (e.g. when the HID gadget is unbound and the
+device is removed).
 
-Sorry, that's a no-go. NAK.
+Free the entries in hidg_release().  This is safe without extra
+locking: at release time the function is unbound (the workqueue is
+already destroyed and userspace has no way to reach the ioctl).
+
+Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL")
+Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+---
+ drivers/usb/gadget/function/f_hid.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index b778eb633b79..d7ba30323414 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -121,6 +121,12 @@ static inline struct f_hidg *func_to_hidg(struct usb_function *f)
+ static void hidg_release(struct device *dev)
+ {
+ 	struct f_hidg *hidg = container_of(dev, struct f_hidg, dev);
++	struct report_entry *entry, *tmp;
++
++	list_for_each_entry_safe(entry, tmp, &hidg->report_list, node) {
++		list_del(&entry->node);
++		kfree(entry);
++	}
+ 
+ 	kfree(hidg->report_desc);
+ 	kfree(hidg->set_report_buf);
+-- 
+2.53.0
 
 
-Best regards,
-Krzysztof
+
