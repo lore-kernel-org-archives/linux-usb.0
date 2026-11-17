@@ -1,58 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794921711;
-	b=nPyNZDR8H7QqhtXerdEvfDyXUsQyuZhh13DxUQandaT2AcuiVWr1l+U2HpKIoh2zsIFE
-	 nF1GKETFSrqJOOU7wyfMYRkSxO1yP0HIeSF7+v03SXp6LC4p/xtaNlBznEu04f8hZbno/
-	 7FO7pSseHFmUqr85Pz1aDDjwaJYFAQE0bMWhP2mUfhK/eVNZ9Q41+WJ4YvavV7+kNXMu6
-	 bGu1nZqNGANWqc1xuSiDKZS9OSiW6kFHcpgOyzgxxR4VmV97jE9flYv8ykgoiHtmmE8fn
-	 4RCsz5Qw0Q/Fs8dDOKbjRNx9KLtKLt5UNCMp8BcKLRgKb4YmVj/Id8upTAzE2fIar4w==
+	t=1794921807;
+	b=jPiiXTbKaB8aUXJO2zc4ASiODQEiHiA9tIwJ8ThozfqauqZaDKqZ8T5OiBeUhK0jxIPB
+	 z8832T8QyAZETJPo/2g2vgAsDlXudsObK/JPWhaQ5+DDhfqdh6NP7KPTW3toUy5xFYOZB
+	 FtKFone7BhnYcvhzBFDWEcqA3Q3OsjP8+/aUUvACbycdYM8T0XXNIWke8p/n4k9oig7en
+	 V+u58OXCYhqfzWKQtMMN82F2IGONBu+FTELrPYT9z5+4bAnmPrb/T4oRG/xcAIBuPi4ck
+	 agGJtOeZyxXDw/vPORuqd8D+2+iLnbqYzE/C1CWv3rXKsf0XS4vvWZV6I0nhxEE8H0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794921711;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=++lSBBYYfpmwFz+ReZ8Td24HxOutw7KykOy1Cbb41yk=;
-	b=yZ2vvpwN5vIW8bPTvoePPWQqRmGiqIgHTUf+4JfiUo//yKwFaUrGqhBTIRqovyXbp7ob
-	 ApGZdMmyxntylQ2sjeqChQBOV0Ck8vwD0z5lfcp7rWOyzOazExvLLSvwbv9lU0cGltadk
-	 M3ZKlLrxImY18mZ3fiDz30UhCC0ZNJWSBks7GvOP/ns79KSmZJnPXrJRnKNX4mfG5jsEG
-	 bxkKSwtVbg1gXTY0RA4NwKoajToGs0zFnsh50jsQaUv1HjJJgqNojZSmGgd/KjlwLcc+e
-	 FxBNSUOsVc50rKtVo4YzyqhvmIdj2FA3gErJG4jIWED31bs/FCz+nGjgL/WGQ+/hEkA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794921807;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=bHye11SljU0CTblMVV+dGe7UaBkik9RQ/3RvKoUkhTw=;
+	b=2vsGLVmSn2DL64AulDBmdM+XuqE19GOyTxL4npmEQPu/zSV7gnJwkld5UlwbI023bgnF
+	 r+TUHcDVh84mtyYYARGGmuxydE3AiNq3iSNdp3hRfwMcHmfa9YrnrL544kdTfSCxLc6e+
+	 rtowfimJV6+mT5G+BHnGzAwbz3h7GYMTPNW+xY9u51MyQIx/HCF84FpIqZwQ9DzIlO0Zt
+	 olvTTvoiFouy1JRUHlwudNMsikmMG0E3JzAA4w4HzMzLGZ5HUNqCnfHgL5ba197CzaEml
+	 NnU+vVVEeJuJFUobrD/N3TnpWRiU2Agsc1gQEUELLvgkulsqXYNC5s7qhJU0rJbqXzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DZYsOs8Q;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HtbidBu6;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97438606A32A
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 13:21:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E35D606A31C;
+	Tue, 17 Nov 2026 13:23:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E35D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DZYsOs8Q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5E971F000C4;
-	Tue, 17 Nov 2026 13:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794921711;
-	bh=++lSBBYYfpmwFz+ReZ8Td24HxOutw7KykOy1Cbb41yk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DZYsOs8Q9Sy/1v2UnpW2AjYFk4pmLmJilMiamIxxy/Cc+PsVc+xdgMmyonOxT+f4o
-	 TWVZzyLd1p4QZkpytV8BgQ0rtP5g07kDpTZqplNPXZvmAM2GEtOoy2TVDIt2LjlrxJ
-	 JTLMRQvEh/U6cE6Mc0p493BqwbkZtTjmCRSFtaYZqXCbh78D4K3VmzvoqB6OlQCRhU
-	 MKPJ2E9aobLAgWUtyIVPkTteioHksfMIRkKklRQJVxTDxvB5pnaY2bj/3NXqxCj1hc
-	 RsxEtn94P/Dj5gd1y4cp0QWCQ4nzlUBTTJe5E1gY4RA75ECgMu1LiyVfQU/n2J1lS0
-	 x7RvVPlb/L9+Q==
-Message-ID: <sashiko-outbox-218866@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 3/3] usb: gadget: f_hid: fix get_req leak when
- usb_gstrings_attach() fails
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261117125051.5646-4-shishunbo@cmss.chinamobile.com>
-References: <179486710796.2938203.13522037990167268712.b4-review@b4>
- <20261117125051.5646-1-shishunbo@cmss.chinamobile.com>
- <20261117125051.5646-4-shishunbo@cmss.chinamobile.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 13:21:50 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HtbidBu6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794921807; x=1826457807;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nWZsoWQiD9DkZ9oDbWhANBwW5uKYv89tof8m6UfjJlY=;
+  b=HtbidBu65CyhnxnZ/u0Hyozka3Vwn6LwikzFeSARypbjPnfLmYwXt/Ed
+   HbKPDpuZR5j3SCWAyjRxsY0eGIwlNOpYHfSByj854dm+29cbqkByNSng9
+   tbNfpRmr7sZXWYSYrwSaLzGL0r8YiZ+2jZZE6qSBL9t99g+YtcGFP/5iL
+   FgeZ4w/pyW6zw6K2UeEqrqqMPxwPlv40gySc8HA7Wwux37ByT8cE8Vces
+   IYG7iGRgKZum+bp07HJFMjNoP735Hu3wVXPGvmv1EM7N9zSjbvv82q+Ga
+   6byXy7iH33SnR+S2U7ZZD1HvpEwMD9ejRW5gECHEuetLJr6gSeWH2KV7M
+   w==;
+X-CSE-ConnectionGUID: kXNcPGq6T22WusHjVUbCbg==
+X-CSE-MsgGUID: dDjxG1CARiu/n0odOrcJMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3680693"
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="3680693"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 05:23:27 -0800
+X-CSE-ConnectionGUID: nGParcY4RTeYyEpmM+g0cQ==
+X-CSE-MsgGUID: +hmwJ46cTLa2ppJ/tTiEzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="10232372"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa007.fm.intel.com with ESMTP; 17 Nov 2026 05:23:25 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 6BB0C99; Tue, 17 Nov 2026 14:23:24 +0100 (CET)
+Date: Tue, 17 Nov 2026 14:23:24 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Badhri Jagan Sridharan <badhri@google.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH 5/8] usb: typec: fusb302: rename init_gpio into
+ fusb302_init_irq
+Message-ID: <avxVTBLViL7LMmgY@black.igk.intel.com>
+References: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
+ <20261113-fusb302-probe-cleanup-v1-5-e5c65a8c58c8@collabora.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,19 +83,50 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261113-fusb302-probe-cleanup-v1-5-e5c65a8c58c8@collabora.com>
 
-> In hidg_bind(), hidg->get_req is allocated early; if
-> usb_gstrings_attach() subsequently fails, the function returns
-> directly without freeing the request, leaking it.  Unwind through
-> the fail path instead.
->=20
-> Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IO=
-CTL")
-> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+On Fri, Nov 13, 2026 at 05:42:41PM +0100, Sebastian Reichel wrote:
+> Add the fusb302_ prefix to init_gpio, since it is used by all
+> the other functions and allows easy figuring out that it is a
+> local function.
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-Sashiko has reviewed this patch and found no issues.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117125051.5646=
--1-shishunbo@cmss.chinamobile.com?part=3D3
+> ---
+>  drivers/usb/typec/tcpm/fusb302.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+> index 8b83414c5819..1b3ee5715a74 100644
+> --- a/drivers/usb/typec/tcpm/fusb302.c
+> +++ b/drivers/usb/typec/tcpm/fusb302.c
+> @@ -1643,7 +1643,7 @@ static void fusb302_irq_work(struct work_struct *work)
+>  	enable_irq(chip->gpio_int_n_irq);
+>  }
+>  
+> -static int init_gpio(struct fusb302_chip *chip)
+> +static int fusb302_init_irq(struct fusb302_chip *chip)
+>  {
+>  	struct device *dev = chip->dev;
+>  	int ret = 0;
+> @@ -1758,7 +1758,7 @@ static int fusb302_probe(struct i2c_client *client)
+>  	if (client->irq) {
+>  		chip->gpio_int_n_irq = client->irq;
+>  	} else {
+> -		ret = init_gpio(chip);
+> +		ret = fusb302_init_irq(chip);
+>  		if (ret < 0)
+>  			return ret;
+>  	}
+> 
+> -- 
+> 2.53.0
+> 
 
+-- 
+heikki
