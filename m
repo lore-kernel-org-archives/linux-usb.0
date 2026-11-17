@@ -1,56 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794913027;
-	b=hvM/XQlZfZ5q969Q4pSo6iSYluEFyTvTVGTdJoZWvjwfS9gJ+2SyY4rA12yERTwPvRXN
-	 DL8qx3D75iEc/L9xQHZiXqIOmgDGawvMqVRGWuK6xIdPAWne9duC8XzHi0ZwSQwGEMgmM
-	 99KmcBr7/CCXo7rqAomJKc+PBuVp9UaKLW33SIsZMNxV2Btg2jMNqnvmQhH60YOhY2bZ7
-	 xp8hyp+RioVaBQy+uZxV1jb6dYZzEEMZrVOK3B5lGpSwd/e39hwbQnprbozfuO5yG7ZqN
-	 1XI7DRS30cCcWsBg1fjgcWiISlYTqMLpxqR8kcGuCMcAOnGjIzaBaotJlfLB1ZaOLuQ==
+	t=1794913685;
+	b=Yl/AgkOPORIhVW6PdDwREx8lYi5bJhedas+63f+nKB7NxWntg2FAoXNx3fJlrTptiQsm
+	 byJl1HQrt0sMOMHXkoWW5BsIt9CDzAFtPbtnh4L7wUbtREO8oIzqsmqhRunre+PacUeaD
+	 KJV9Y0HFyHGx0GapFIGVYntRr/O/83F5h88NCPT7PeUUQ9NUfFqGmlRZci6AAPayM9tJd
+	 xp+A2Lziv/LGstjnMYCk9CtpV+XivEwVjEzKcyyGCaOa1a3uZg/cul9wlla5vgZThlYFV
+	 KnTDdGg1TN8rxt5Hh0w6Vu7tTqjJ1VpTbD5eZ/iWI6rX5k9Jq9rfux78bfX/24zWZhg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794913027;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=dQmbzwBmHTIEGepmD5ULwVQgreh+mngoaFE4wZtrZp0=;
-	b=0xj1+Iv1pKU0vFPcNPMIF/wAvkjy+m6lUJXwkyF+p4uJovPVf2dGtV3d7BQ87gh93bPf
-	 uzTHjXX1/lAZUttojdisWXxRicIW8g05V0GbGwLTjVRT6gIRLg2oGcRjjFiBVsZ/OLvPS
-	 d6TCNkK1MUT7FrB9uS+coHWCKx3GwFO0tV3fwGjZ5TnFb3i2s5+vwYw9NTpfrogaACBUV
-	 SCkke9FoFtXcyE5AFWgQH12sc2tsKXMut+ZiZOkNq7YnALbm0P89iH5yxNV/jdH7/Xsv9
-	 r/kXipC1HVL0TrFVAYSo9NcvyPJyAI3JgC4FYQ3AFKeD9zbQ95QHJkewwR2uR+zaXUw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794913685;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=9mJdv7IBp1vrnjWhiM2rfjqM7TJq9bWvqxtxczIfylA=;
+	b=efFuPrvyIxA/gFh8FyhLVaUVLOFUTnWLPW1H0cfn4wTdkFAG/sRGxB7u7EgBOyVZQPDa
+	 vQ5/98PPW6w/+5PHxWC3z48KoNoEVi39BDuJcewJSr5ZESUPyAoR4I2PhODPeApvK32C8
+	 tf4pWm4+2MhJQ9nYkkGAzrMdHoGHuC8f7Smt2ZksETTqFVdWnKETfXM85GRNmurOJrRNR
+	 WPsIRKSQe4Zft24M2UyJpX4pwHup7JS5E/IgdxSoHBSELKyOIhrvO+kSxbjWzN/rOoUHZ
+	 TH98+kyZkWeuf3pu28cdVA7ULnHx1PC3iLjfmE92Cbmdk6XrnXd2+sN/LV/p63+RXgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nh1M+pOT;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WQDj9ygf;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8184606A329
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 10:57:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23B2606A31C;
+	Tue, 17 Nov 2026 11:08:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E23B2606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nh1M+pOT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28B3B1F000C9;
-	Tue, 17 Nov 2026 10:57:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794913027;
-	bh=dQmbzwBmHTIEGepmD5ULwVQgreh+mngoaFE4wZtrZp0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nh1M+pOTNGZnUIPLM/YozprAbpugokv9Bh0FLKFUKX3M9pApKMgmr+gYgDx/poGsD
-	 h6zE+tUoBeidotHkBbqvTqFOvPUousQ7zW4b56Hn02vDG/wngWMNgSK7JstbdFtCoQ
-	 2b+LmeAr1nuhdgAIVlWVVP1dTzsJeJa+dsh2jG4gUQ2V3sIEKJ9m0r2AW1b39MxuUg
-	 OtQqebYxkLcT/ajpqINeCtGqPW7wUi8n0nwGz50krao6BI9adC++i3ziYIKMgzn5T5
-	 sYbdgPIogDw8gc9pBWGecPgtIgOsbn8QJ+yBIAlVPdwS878HywQMe9tJ5ClRa7Kxkm
-	 8r0dvTnPZoBCA==
-Message-ID: <sashiko-outbox-218680@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: pxa25x_udc: Support combined PXA and
- IXP4xx builds
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Linus Walleij" <linusw@kernel.org>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261117-usb-pxa25x-udc-v1-1-fdfcec62d336@kernel.org>
-References: <20261117-usb-pxa25x-udc-v1-1-fdfcec62d336@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 10:57:06 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WQDj9ygf
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794913684; x=1826449684;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XIQlG/YLXOmj1bStuA+OXVwGx1sc0S2A+g81QmG0bUY=;
+  b=WQDj9ygfchjAuskiic2re2P157AFrd6twseYJ4IuXIJ2ENWEyfZo4VE5
+   9Leg98I7BOUipX5GsVO8rY/0WUcf/x4jhJM0GhnP5Xa7+Bj8cHUKTbCaX
+   p/SLNxgxCHbIx9vJu7u69ZQreIpg43yWMf6ljkjbsNqGD/72BtKIJ6yCO
+   6vB4mawBycu/2+1NZpM/w4nfwuolGPx5wy7kryikMMwoc23Dz2WImACMP
+   +FpBl0AHh5hFsXs3dRbdJTKp6dmVfxsqZA3meCzGKsw+Jg7AOXt5ST6ZX
+   t4oraBWyKrCPSKCRaw7enyEzyU8vr3YF/F168HLSshf03yz0R687hi3mj
+   A==;
+X-CSE-ConnectionGUID: B+vsGtbnR0CPS/pqmAb3IQ==
+X-CSE-MsgGUID: IpzIEo5BRCiOgZoxWdINbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3670703"
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="3670703"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 03:08:02 -0800
+X-CSE-ConnectionGUID: 9ujJLLBfRGmhz7fhh6vguw==
+X-CSE-MsgGUID: jYOuMPHxSTalBIGogOP17Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="9867989"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa005.fm.intel.com with ESMTP; 17 Nov 2026 03:08:01 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 4503099; Tue, 17 Nov 2026 12:08:00 +0100 (CET)
+Date: Tue, 17 Nov 2026 12:08:00 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Jacob Procee <sn125164@gmail.com>, Sven Peter <sven@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH] usb: typec: tipd: cd321x: replay the plug on resume
+Message-ID: <avw1kOqmrUii-msr@black.igk.intel.com>
+References: <20261112113005.16418-1-sn125164@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,31 +80,117 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112113005.16418-1-sn125164@gmail.com>
 
-> Allowing little-endian IXP4xx kernels makes it possible to enable both
-> ARCH_IXP4XX and ARCH_PXA. The shared UDC driver still assumes that these
-> platforms are mutually exclusive: it defines UDCCS_IO_ROF twice and stops
-> the build with "Can't configure both IXP and PXA".
->=20
-> Select the controller quirks using the running CPU rather than the kernel
-> configuration. Match both XScale CPU families and their supported
-> revisions, and remember whether the controller belongs to IXP4xx. Use that
-> flag to select the existing isochronous receive overflow bit and to keep
-> the EP0 status workaround specific to PXA.
->=20
-> Remove the IXP4xx clock API overrides so that PXA clock control still
-> works in a combined kernel. Leave the clock NULL on IXP4xx, which has no
-> software-controlled UDC clock, and rely on the clock API's NULL handling.
->=20
-> Fixes: 2262f02ac2aa ("ARM: ixp4xx: Relax endianness")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202611082010.e3nJgvr4-lkp@i=
-ntel.com/
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
+On Thu, Nov 12, 2026 at 12:30:05PM +0100, Jacob Procee wrote:
+> On Apple Silicon the Type-C PHY and the dwc3 controller behind a CD321x
+> port lose their state during s2idle while the plug stays connected, and
+> the CD321x does not raise an interrupt on resume. xhci notices the lost
+> state and re-initializes the host controller:
+> 
+>   xhci-hcd xhci-hcd.0.auto: xHC error in resume, USBSTS 0x401, Reinit
+>   usb usb1: root hub lost power or was reset
+>   usb 1-1: USB disconnect, device number 2
+> 
+> but the PHY is only ever programmed from typec_mux_set(), so a device
+> left plugged in (here a FIDO2 security key) never comes back until it is
+> unplugged and plugged in again.
+> 
+> Re-initializing only dwc3 after resume does not work: tearing dwc3 down
+> also powers off the PHY, and nothing turns it back on, so xhci then
+> times out ("Host halt failed, -110", "can't setup: -110").
+> 
+> Instead, make cd321x replay the plug on resume when a partner was
+> connected: mark the plug as changed and queue the update work, which
+> then goes through the same sequence as a real replug (role none, mux
+> safe, mux back to the partner's mode, role back on). Queue it on
+> system_freezable_wq so it runs only after all devices have resumed.
+> 
+> Tested on a 14" MacBook Pro (M1 Pro, j314s) with a backport of this
+> change to the Asahi 7.3.3 kernel: a USB-C security key left plugged in
+> re-enumerates right after "PM: suspend exit", where it previously stayed
+> gone until replugged. Unplugging the device while the system is asleep
+> also works: after resume the role goes to none, nothing is brought back
+> up, and replugging it later enumerates normally. This mainline version
+> was build-tested only (W=1, checkpatch --strict clean).
+> 
+> Fixes: 82432bbfb9e8 ("usb: typec: tipd: Handle mode transitions for CD321x")
+> Assisted-by: LLM
+> Signed-off-by: Jacob Procee <sn125164@gmail.com>
 
-Sashiko has reviewed this patch and found no issues.
+Looks okay to me, but as this is a fix, you should CC stable:
+https://docs.kernel.org/process/submitting-patches.html#select-the-recipients-for-your-patch
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117-usb-pxa25x=
--udc-v1-1-fdfcec62d336@kernel.org?part=3D1
+Sven, would you be interested, or would you have time, to maintain
+this driver?
 
+Thanks,
+
+> ---
+> checkpatch flags the Assisted-by tag (non-standard signature, 'LLM' is
+> not an email address); the format follows
+> Documentation/process/coding-assistants.rst.
+> 
+>  drivers/usb/typec/tipd/core.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index 02539378ffed..2ec380124532 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -164,6 +164,7 @@ struct tipd_data {
+>  	bool (*read_power_status)(struct tps6598x *tps);
+>  	int (*reset)(struct tps6598x *tps);
+>  	int (*connect)(struct tps6598x *tps, u32 status);
+> +	void (*resume)(struct tps6598x *tps);
+>  };
+>  
+>  struct tps6598x {
+> @@ -911,6 +912,21 @@ static int cd321x_connect(struct tps6598x *tps, u32 status)
+>  	return 0;
+>  }
+>  
+> +static void cd321x_resume(struct tps6598x *tps)
+> +{
+> +	struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
+> +
+> +	guard(mutex)(&tps->lock);
+> +
+> +	if (IS_ERR_OR_NULL(tps->partner))
+> +		return;
+> +
+> +	cd321x->update_status.status_changed |= TPS_STATUS_PLUG_PRESENT;
+> +	cancel_delayed_work(&cd321x->update_work);
+> +	queue_delayed_work(system_freezable_wq, &cd321x->update_work,
+> +			   msecs_to_jiffies(CD321X_DEBOUNCE_DELAY_MS));
+> +}
+> +
+>  static irqreturn_t cd321x_interrupt(int irq, void *data)
+>  {
+>  	struct tps6598x *tps = data;
+> @@ -2014,6 +2030,9 @@ static int __maybe_unused tps6598x_resume(struct device *dev)
+>  		queue_delayed_work(system_power_efficient_wq, &tps->wq_poll,
+>  				   msecs_to_jiffies(POLL_INTERVAL));
+>  
+> +	if (tps->data->resume)
+> +		tps->data->resume(tps);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -2040,6 +2059,7 @@ static const struct tipd_data cd321x_data = {
+>  	.reset = cd321x_reset,
+>  	.switch_power_state = cd321x_switch_power_state,
+>  	.connect = cd321x_connect,
+> +	.resume = cd321x_resume,
+>  };
+>  
+>  static const struct tipd_data tps6598x_data = {
+> -- 
+> 2.56.0
+
+-- 
+heikki
