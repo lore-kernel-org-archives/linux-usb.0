@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794935458;
-	b=ApA6pI6Ggdl1Zzuz/LShV8Ul46U80JwSUYV6Q/Q4ZPbUXuD5YrLEb6tnrkanyYoSvkjA
-	 MUUrLJ9Jfc/SbRNst25NtNmXg/iSSeQual82tDqRq+r1WZyVik30z6UteWuzICVC3jEr0
-	 4BKZIUYw2ap9VES5W0pJ5rV0JJamC/JNhR4mS3gCl9Qrx+crx3s/IE3lF15a6loElE7hu
-	 gqlKS4Stov8QuziDIm7aiXcn7olP0LNkTA0X/OAsRnu5usFxwZYCHKuRwuYFQ5RgW5FYU
-	 IgW1vWIx2vdONuX/LR7JMCdy8uPwdX2akhDdNxFAu03/kUqDrFQF7tM54r+PsTN2j/g==
+	t=1794935545;
+	b=QEvUvrS7v+2wgLYw7ZfmMgBkWyDrmdPUo6JInrnXeWLXC/+gkOJ5Zis2aP2SPoNTsJKv
+	 NiAYVLmCq8ro4Q/A/n6729Dcf/yCtkPoZGTub3Fel5OYlgVSR0RjVlhAbVuHs89twHDVg
+	 OWUvzzsory8/guylZRA68qJ957+wqQ4IReKSYymqxJjqevvjvk0b94lMUtxTjzcgcRuEH
+	 ZkZs9podKcfY1mp52RjzWD2x9tI7fj4vaW4yRBAD9s8oiUBhjPhIO6xswrLcx7+fGNULz
+	 gUF/YK97vj01T6Pe8IGGYTk5gHpxnCTKgVIJFTUeUx0o7nN9B/mpt1bPryLO/ycoeAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794935458;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794935545;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=V400UDD3bNX9Tfgo0Wvr2xp/doPeyfhp+xvrmCbr7Sw=;
-	b=p8RHWQs1wHo+MIRCElsDqa1YX2oS8I016a6B2QOYS9wYok56m5lsxgYirQAZ5lGe45S4
-	 akTCn/yU4wQrycg8ZP1DcvADdpPbobke0vPwKJbRVX2JiYNiQFWHKjN9pewQPbdF3wMlm
-	 IPAMNJBLFTuZgavDmEmot5GNtNhz2i70iWp/oChhPlFytJR43jAVB9bRrDgaszq59ZWTQ
-	 H25C0PLT0Dpsk6Y9hdouzcPOMMopOfnGMlMr/ybW8zWG3WHB0wwMy2HZfF5zq0Nfr6Hrp
-	 40gfipPawQ6NIb35AqIpGEbbtD6mKgAJMGgUh+HQNYsktnQYdWOV9TEu3NLkVy55j3Q==
+	bh=UTdUZKZCUINnglZO5mJjNQb4o02m0x7oxAjmtvYdHDM=;
+	b=ovJOdF24Hwr7Xw/rrAWxk/ldukOZXdxOFCSUvCg+8hxe+PwaZzsny1FxFgrtmQCNWjEI
+	 E6jhhQxZXZPUKF/DD3yt8dqnVobymstT4nvFAt0lQsj76NtBdxp3wA5ZfWaajRHBSae4i
+	 UiJlalmenQbTTE0/jDYW9XX6jrxwdMaMlkQk38+hUe8Xp2xYj5xxqi1+6mIkcjvK3DXTv
+	 65cbSb7dFeQXqofq7dW3EvAHSdpDSI89rTDmMvo585T02L2Kt5NqE0Wbn6b0sBQetJG2V
+	 pSTEeJK22sSqHmyWxJop2B3VqEzi2KIXQB/zCWDAPlL6L9oQTDp5PbqE9+mAG9zxQqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iLniPSTB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OlF9qedC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2648606A899
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 17:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2913606A31C
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 17:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iLniPSTB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F4AB1F000C6;
-	Tue, 17 Nov 2026 17:10:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OlF9qedC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68F321F000C4;
+	Tue, 17 Nov 2026 17:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794935457;
-	bh=V400UDD3bNX9Tfgo0Wvr2xp/doPeyfhp+xvrmCbr7Sw=;
+	s=k20260515; t=1794935545;
+	bh=UTdUZKZCUINnglZO5mJjNQb4o02m0x7oxAjmtvYdHDM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iLniPSTBBpOo3ydD3gA6wrIBg64uWOGSCGQ2dt71Ka5hsg+CYvNFhcnCZkYFuiFNs
-	 uouvk3/+iC/4DqtcBTShZ+Fhc55Kk6coEaDcRlPcz/hZf9G6G0cjjRJnOANHj+QxMN
-	 kBcb2wOpzFv7LOfPEqqNP/lXVTUGhVxn7fo+pJg+czqvWlBo6rpwtgTjs9RX9qamdP
-	 Zngi+C3jlyBRmg75y9+JqUjSXIVwFkwSEvgDzk6PZD8mILirkhkBWofXtoQubwAFgs
-	 B8ZgGdFsDrEnQcCDVJTWlV/IKAMyeZx2MrPViihA8Dv2yfT2WVVXwszWUM91QKzLJS
-	 woJV2sU5NrOGQ==
-Message-ID: <sashiko-outbox-219211@kernel.org>
+	b=OlF9qedC3BL3IsMvUJPd7Gj2WECkWJ+4UptImrFED195+o757yZ5RiJFSTPzzJ0ft
+	 oKbKpSiFwEvy0XaEM8mA3xAh6vB2Icx6ffyyE+KpfqQIpXl3qVbv0Z3z36taLI/ZKM
+	 kRhECOQRSUZfDHj1XhIz5KswakYMVKeV3QPLxHedL5l0oqJiQkBYpYT9pmA3ddyWiI
+	 RUAH1dBWbGIYKIw0VfLImoLToAt0f/6+WMMSOe1OEU9O+IPTKYwPTHuIfi2kSEjYOr
+	 pKE0WPAU7W/iu8OAScReW4NA3zhx5CcojujKvNaPoyrXPoF+5k+rFCCvj5+hvwu8yp
+	 Qi3pb8NZpduuw==
+Message-ID: <sashiko-outbox-219214@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: avoid redundant strlen() in
- make_name_string()
+Subject: Re: [PATCH] clk: qcom: gcc-shikra: Use retention for USB power
+ domains
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Dmitry Antipov" <dmantipov@yandex.ru>
+To: "Akash Kumar" <akash.kumar@oss.qualcomm.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261117170207.642330-1-dmantipov@yandex.ru>
-References: <20261117170207.642330-1-dmantipov@yandex.ru>
+In-Reply-To: <20261117170854.3257471-1-akash.kumar@oss.qualcomm.com>
+References: <20261117170854.3257471-1-akash.kumar@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 17:10:56 +0000
+Date: Tue, 17 Nov 2026 17:12:25 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,14 +60,22 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> In make_name_string(), prefer strchrnul() over strchr() to
-> avoid redundant call to strlen().
+> The USB subsystem does not expect to lose its state on suspend:
 >=20
-> Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+>   xhci-hcd xhci-hcd.1.auto: xHC error in resume, USBSTS 0x401, Reinit
+>   usb usb1: root hub lost power or was reset
+>=20
+> To maintain state during suspend, the relevant GDSCs need to stay in
+> retention mode, like they do on other similar SoCs. Change the mode to
+> PWRSTS_RET_ON to fix.
+>=20
+> Fixes: 01cf3e27824d ("clk: qcom: Add Global clock controller support on Q=
+ualcomm Shikra SoC")
+> Signed-off-by: Akash Kumar <akash.kumar@oss.qualcomm.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117170207.6423=
-30-1-dmantipov@yandex.ru?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117170854.3257=
+471-1-akash.kumar@oss.qualcomm.com?part=3D1
 
