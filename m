@@ -1,108 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794917799;
-	b=zD5AFRngtvHMU6Tt9Cbr1yiNB1fCeUozZZeVB0mGR2sfNz/mU84oDLhj0I7jRAY0cR2l
-	 oVs2/Wo4NPoBhLPLBAVXxTu4NxOyYwqLKhKoYPiEVWDCIY1IUIzB/HicXfTfiT5mAEn4u
-	 EeGAFr54ddHCeRgw+BKL/Yse/4OXXdPv4vPM9CX23KbI1/1tvjYKwk8luFmJ43XcNjIen
-	 7n3ib+HTsWDZFIDfcaosPtu/HNPcWUfAZyqkCuIdRsEp7PhRa9wQvEwz5y0Bg+zuyizGk
-	 Ocn7WoPjUQ9uNVTsL77WGTkmniQsB69ZZfUOl+LCg7gMQ3grXdcv23O9wdi5oWl339Q==
+	t=1794917839;
+	b=u5pOVSEpvTml4sKoHpuamVnhWML4Xyb3MCypGRCp1KPLrvDgFa7sDuTbmSVZ06xByYnE
+	 6M21pC5nzUJsC+xT0iqtL/m3+GLzlJTLZpCcC+g681ep3a/TGJTM0R1g77Lg0okhGINXL
+	 8F6BT2Ku37ZJKUQFGvVYfeOuWAJEqshre01aJQNPKYp8lpY8XN5P24J5rQnE7LY9Ew3kf
+	 CP7EFO4rc2ZIrinJaaYVCiEHb9j0gI2ImZ95Ch5gYTEijg5cN9sds1a4L1sb5eWk74xC7
+	 JBHG0mhVREY3FxCtWfb+HvQpFkgAYezsb/0j9XdR0xKzME7m50FtXFe5kpgyIoHLSng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794917799;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
-	 To:Cc:References:Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=v7fqqTM0ZprlFpCRUswP+RK99giuZwyTj/7wzAwsZyk=;
-	b=VMCIZfGNzvJ/oMb+j+TlEonwH36ztyxrLhqmWd59jdoVxOj/gbQl1n5b/ru2wjjRzTTk
-	 zYqqLCqfpbkat/uYtryXHIkuU3QF9jNBvzHmxzYjLCJsyQYbgEqcCKyIEcLPOyzL1Ah6F
-	 8MOpC5lV5w0KeHZkajuzCHD0HqnwzOtnPqGfMZ9wIqLIYiSYb1wEJXJpZs9i899H8//ZD
-	 7TwOsz/1YznTBLkqi5hyU5qw3+Jps4pAaD5qHNpKyLGjDx1IXTr4PYZh5CDOmqiuYUuiJ
-	 9TNL8FBHDFS8PCaGxlJR2/zYGshCo8Ol93k549KzCQTsOXdqL4y7IjFMmnl98rVLA+g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794917839;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=nU0HNOJX5cxVhUM4H1v4s7zyRGp0x3z7E7rePfZOJiQ=;
+	b=uusOcM+PabaS+NzZFhA+OQWTOH2CbRGIhp6lGLc2RHyRKFjsc8NzRa2QKSfunVYWtWW7
+	 i0yUKOnqHn3FXc+Q9gvvek5Arg8OwIJU9DNdxtw4XIZiFdkEjOCZc1CMy9NDVmfDYrbSS
+	 aiX0ahWQ/uNJ3ls6MG8IsKEpdQ7U98UtXVzJLCH3GWprIv8EJJl5vQvwVRQYv7aUPByDU
+	 bizF2QDMiVslI9ZmRV8fSMk3NCEWzJcFjlcxL+c33blJTpTDUHV4dLCoThhE/OQkRevxc
+	 DXsOhJo9tPhqxNhIFkyIwqho7+DErwCZ4gaRZiDniDjkyVwJiMT1YJb/HU5xqZo2eLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="AaSYN8x/";
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=c+yc+mbV;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qBfwRgOR;
+	arc=none smtp.remote-ip=209.85.218.52
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286FA606A31C
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 12:16:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 286FA606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53116606A31C
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 12:17:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53116606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=AaSYN8x/;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=c+yc+mbV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794917798;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v7fqqTM0ZprlFpCRUswP+RK99giuZwyTj/7wzAwsZyk=;
-	b=AaSYN8x/4EAJRXV3jdqp2YECdJXAWpMuEeXaT8bAWmCM95o3sKqFPPJIygW0UBizZM9Aj8
-	Lp2+lIcGyqxuEHCcdwajdwfJ0ROeJSd5+qtphZ2pvlGGDWN0H8DTdhpw9suUP7zg3kuwTl
-	Dya5reKx88wr1a4NlJyRzoA2nfPxZEU=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-677-7qBEJjeZPvmGW82yNWd6LQ-1; Tue, 17 Nov 2026 07:16:36 -0500
-X-MC-Unique: 7qBEJjeZPvmGW82yNWd6LQ-1
-X-Mimecast-MFC-AGG-ID: 7qBEJjeZPvmGW82yNWd6LQ_1794917796
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c505eecba6cso278468766b.1
-        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 04:16:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qBfwRgOR
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c45551fa84eso853220266b.3
+        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 04:17:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1794917795; x=1795522595; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v7fqqTM0ZprlFpCRUswP+RK99giuZwyTj/7wzAwsZyk=;
-        b=c+yc+mbVouu/75eH50Yi8Km/ZrJumgrYxr5+Auc5QgDWT4mGnO3xjOlZMto7hM6LjH
-         gnYHTom3sT6MiqJNNym2xwS5sSY5vSSV1g7+YEy3x5WfkkArE473etB3/bjV0ko8OaiX
-         ODsrt0OlKWIy6iIVbyhHKcI7g/DUN4dbW9PkeLxxlHz8rIqQmLzMBkM+Ce987XqXvQCb
-         eEz3+yW0RwXZZMgW60JXHx9HvzJWJswh+hoqGS0tVFTUXnj98ZdKSccuVbPnkkvuQ5Gl
-         gKG+aGcmNlZm8CCcxzqJYg3P+U/G6T76UdLxlV9LUxNsOgW3J8Ci5aiHhIIORQ/9L6n5
-         LOug==
+        d=gmail.com; s=20260707; t=1794917838; x=1795522638; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nU0HNOJX5cxVhUM4H1v4s7zyRGp0x3z7E7rePfZOJiQ=;
+        b=qBfwRgOR128pvEdXHm0a3UQwhgEm+6Ls2eiPpMOBn60nQsGZynyeqWF/DgvOR+xjuB
+         HnReB608vVEKzJH+4gkl752mMfF2X/M0RK8Eh6jmh891p695yqoc0KgGTT7S8215k1+v
+         2rhfQS8iaK+K9ldYbnszHLxIdWsftASol/modurz+1tbxEIiYTjAUg2UVeko2MR971/q
+         +8iH1hcWvmYjUvovx4Mnabt+E2GfCZvKRl+0f/01tWZKOB2Civ9cg3lpYKRAU2cJH+e4
+         fj1CP4mAoQtX996AcmBcRvdO0zb7MheUMBNRfpkuhBkfIumsf7RulWjXCpk8238GHz56
+         kVOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794917795; x=1795522595;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=v7fqqTM0ZprlFpCRUswP+RK99giuZwyTj/7wzAwsZyk=;
-        b=1lE9xc8vYUVZV5ErBmHSs7zzpav5qwZwXDkUudHjHo5Z8+JvjcS26NA1tZr/L0tMW4
-         QkgHawiTNYEsuNTDvPWj1ekFPfjuzb7+2kJkuieG8PbasK/JGmUmJX+yFtEhyfFICseP
-         tJGFImR9L4ZDXZw2rpTTT5obxAqtjFcr+7SEQSO8gue/iKuD8eylaG89C/84OAdBxlTd
-         +AxfrcBhPnmEQHE/OATbQ65r6+NEyoOwlQYEndHcsJR41UukR+pcI9sPfBZCT+DrCC9+
-         57KYzsiU5a2+lCVEvv/Ne35BpeCvwDEBHXUrp5WYLHLDV7U3aMIZxYT3xcPC6LAePs8C
-         K57g==
-X-Forwarded-Encrypted: i=1; AL+hErFa8tDRaRy+e+LMCN2efWorpFxQaGtQnuul+lYpuYEuVVoe6tW1qTskCx1A8LJ1RaVP5QVmqmkSKao=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/QxV+MLFEmPMRPOAhtt7W1sTxjVq187mH9eJ6TD0O/jHXQg/Dj
-	z10VCAvHqKABiMAMkkbOD5N+AAEflAL7KyPyvUINUjPBPOcquhf4BY8AS7/qnD5G7JyjWNF7A/M
-	1vyjpggz/BrjtvXBBzDZ/EhavuSor/YGlTbRMuJ91UDqkljrJ1SF2O3UcQyEO+w==
-X-Gm-Gg: AYBFou049WSOuO+5sifrfx/mNnu+1BmtysFtC6c+KYnSgNm3wRix1MZZwaKNivjyAVC
-	++HYKpoajfzgvEDvDzcU5QFr3eYt2Ic3LSwPOgr1VJ7KMGk//YJZ7pD0OVCNt6yr5OQn/jd39NY
-	uzwjzI+VCe1fe30RXT4+kfcj9V+QyWQYHCE5/l70GgwWJWpKxk8PxC/BK3dyQ7rBUyuhc7f2Gxw
-	Gy5DOVfNr3LthLnqA9Z59cQaxGeQYZDOs5GsRMzQNITUHw5hhcocPgOzqWPSSNaTm995XUaywRN
-	1zHg1yMeJeyc+rhKco0Bqv378jSpNkzA1N7JaUd9sj7Q18O9Qn+uRmxcpS+MxA3s4ai1kLkhkMD
-	CZC3xbFTzRVUTzjgB8P+uEzqaZrxPHJrnEVAFnzLy0lQziKSybeLhkXp1le875cofRboPVWtqLZ
-	NQZptu1JtfxNlu4JKftu3keQHauD7A/XwIPvfzRoD8qliS
-X-Received: by 2002:a17:907:3ccc:b0:c49:a235:8e0c with SMTP id a640c23a62f3a-c509637e31dmr1133543566b.22.1794917795630;
-        Tue, 17 Nov 2026 04:16:35 -0800 (PST)
-X-Received: by 2002:a17:907:3ccc:b0:c49:a235:8e0c with SMTP id a640c23a62f3a-c509637e31dmr1133539166b.22.1794917795043;
-        Tue, 17 Nov 2026 04:16:35 -0800 (PST)
-Received: from [192.168.88.30] (ip231-128-192-82.pool-bba.aruba.it. [82.192.128.231])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a3d39b8a37sm3726606f8f.46.2026.11.17.04.16.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2026 04:16:34 -0800 (PST)
-Message-ID: <9fec496b-a01e-4701-8c4b-0f78fef2ab48@redhat.com>
-Date: Tue, 17 Nov 2026 13:16:33 +0100
+        d=1e100.net; s=20260707; t=1794917838; x=1795522638;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nU0HNOJX5cxVhUM4H1v4s7zyRGp0x3z7E7rePfZOJiQ=;
+        b=sRNqe5HQrSDKTI06tC4neDEmr3xMWuI3/Jsyo6/blyW9o63s3xW3zF6H/s7zDK4f1k
+         zLmOdJJHByPTjr8jevZKW7ST5b7fLurKmhacWR3Rz6NoqAMR+jcO1CQcSTtbzyQkj+36
+         9+c93U0V6pnbrQX59f8LxNIWhPEx4t12sGCTvBh7jQDZXJ48MWXZWji/GOfJ0/vDIUxw
+         ODd3P2fko9mOeEY6vfvZYIqjbbz7+kuYjT+KVqF6FWYA9Z1+dEqilMbttmL0tHET0Fk4
+         ZcWf5Wc5NMPz1xuyYq8Uj/Kv1Io/N0M236IzwXEdwP4jxvI+uzPoFcBZ8SBcb/2bKzFN
+         ncfQ==
+X-Forwarded-Encrypted: i=1; AL+hErHE8iCNhtvnxciC+v64OSWaTDCbBG3PsJ+DWvzL99NnJtA/g4VrmQ3Gvozo5xb8aExy6vdSLj/jLKc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+C2B6Jn96xSVVqbvCLgcbP3urMs59YyyuwVq8M36GOwMj6ZD7X
+	1s0cqUcx8RSvgLn+7i4GBI/TABeW2YAJPaAJZrP+NNyvF9jrUoOxiChY
+X-Gm-Gg: AYBFou0eOTcVuvix/xQOh4YZYlEqLEEs29TimRrQWH0bjuo3av5rNphCqyErBsZLcpd
+	Zh8a0cL9GHCyU965ryU4LmDtJ4rze1M3DE4IpZ9d/76D/67KbrUfs2+DLgIrCUwCxqUJSPoV6Qe
+	i48eAo18rMlCItwEhBbnlooUJtTvmOrVoS84LfORGb5ICnY0FZC8kxg+0tqqU3B3CZvKqhpG41x
+	AsXqehi+Fp0SqmB06ROCQxl1YUM7P1aouijtPZic/2SQN57SHI6/3fj1FtBGOkRvZQ0yHCA76wB
+	mrTS0DlcUUO5Z4EV96wNzuPTYOY7pmJkQ4rfpHNLt2T/eqEaURGx/7D/HQmUMk0KQc7bPsyDY0b
+	ojJcqVvm2+LX467FPNR3v6gZMDAr2wHVNWnIikiIS5q8hk8PvOo9ExnUHdl1V3jus8Qa6P9NoCe
+	rjwFIXoKcaXGWryJy6z5sefDyKbw+SJW8fVUbPEI0IBf1BJBwXS47ouOa7uAnHMVOQjmHcg35Fc
+	1rlxE90zXMHSlCpCJLeOeQMUNytsexx0D6xhMngM1hkGzf7E3PEvrobjc9RSDU/79v1L7jnNYTK
+	gMQsqNmDHvDh8svv/pcpIvpGxuWLkEY18vXznNUV1TQxyX2o+RTfJ3PQmj03Q+1N5lRpYswdi9I
+	ADCdgHp8+ojRylOiwZKAIVg==
+X-Received: by 2002:a17:907:1b0a:b0:c50:5e0a:fbad with SMTP id a640c23a62f3a-c5096430d02mr1128651066b.39.1794917837477;
+        Tue, 17 Nov 2026 04:17:17 -0800 (PST)
+Received: from nixos-macbook (20-144-89-188.ftth.glasoperator.nl. [188.89.144.20])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c50c041600asm353859866b.10.2026.11.17.04.17.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 04:17:17 -0800 (PST)
+Date: Tue, 17 Nov 2026 13:17:13 +0100
+From: Jacob Procee <sn125164@gmail.com>
+To: Sven Peter <sven@kernel.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH] usb: typec: tipd: cd321x: replay the plug on resume
+Message-ID: <20261117131713.2db5294d@nixos-macbook>
+In-Reply-To: <3bc5a31a-ab2b-40cd-a030-d0498002776a@kernel.org>
+References: <20261112113005.16418-1-sn125164@gmail.com>
+	<avw1kOqmrUii-msr@black.igk.intel.com>
+	<3bc5a31a-ab2b-40cd-a030-d0498002776a@kernel.org>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; aarch64-unknown-linux-gnu)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -112,30 +102,28 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: r8152: RTL8153 never runtime suspends with link up on a network
- with broadcast traffic
-To: Paul Menzel <pmenzel@molgen.mpg.de>, Hayes Wang <hayeswang@realtek.com>,
- Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Chih Kai Hsu <hsu.chih.kai@realtek.com>,
- Birger Koblitz <mail@birger-koblitz.de>, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <fba64030-4f1e-4158-ae39-bc072bc5751d@molgen.mpg.de>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <fba64030-4f1e-4158-ae39-bc072bc5751d@molgen.mpg.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Adding Heiner,
+On Tue, 17 Nov 2026 13:03:03 +0100
+Sven Peter <sven@kernel.org> wrote:
 
-On 11/11/26 01:52, Paul Menzel wrote:
-> 2.  If the hardware cannot do it, would you accept a per-device switch for the behaviour of the experiment, off by default? A module parameter is surely the wrong interface. A private flag (ethtool --set-priv-flags) would need no new uAPI, and userspace that knows the network configuration (systemd-udevd .link files, NetworkManager) could set it. Or do you see a generic interface for a "runtime wake filter", as other drivers that runtime suspend with the link up would have the same problem?
+> I suspect we're just missing the proper suspend/resume work in the PHY
+> itself to put it into a low power state. Or maybe we need to keep an
+> additional power domain enabled so that the PHY doesn't lose all state
+> and keeps working in a lower power mode.
 
-This is borderline, but I think a a private flag could be the better option
-> 3.  Is losing the first frame that wakes the device expected, or should it be delivered after the resume?
+Agreed, please drop this (and v2).
 
-AFAICT loosing such frames is acceptable.
+That second option is what happens with wakeup enabled: the dwc3 node
+and the ATC PHY share the atc*_usb pmgr domain, and it's only switched
+off in s2idle because xhci and the root hubs default to power/wakeup =
+disabled. With wakeup enabled on xhci-hcd.*.auto and usb* (Asahi 7.3.3,
+j314s), the domain stays on and a device left plugged in stays
+connected through s2idle without re-enumerating (no "xHC error in
+resume ... Reinit"). Asahi's pmgr marks these domains
+GENPD_FLAG_ACTIVE_WAKEUP; mainline's doesn't yet.
 
-Other questions are for realtek guys,
-
+Wake from a USB keyboard still doesn't work: nothing calls
+enable_irq_wake() for the dwc3/xhci IRQ, and irq-apple-aic has neither
+irq_set_wake nor IRQCHIP_SKIP_SET_WAKE.
