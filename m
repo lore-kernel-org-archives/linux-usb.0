@@ -1,97 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794947659;
-	b=5rXTehg2zuSkuoEykFStdMKgzJS0bpNW0F6NpyVsRaDSZXIqiKarcIVkSqMBOcvXE9I1
-	 9ZG0kKDBP+A6nkU8/+uw7wQZTd8Y4G6p0aAMXE0BV7pQO/N+TdzBHdtfWl0R0gaVveQ7m
-	 e9glQx5q2BdbseHH5/8Ya7unw3lorCscyERQqZF+uIkS6Q312qzR12xFxQMjCCVpd+sl9
-	 hoHR39iZppCIcNQKK/dMLdEtBjgDdZfbM8zGVcfUZot8EbNmjxEkq2WHKdJDYFMZrek9V
-	 3vnYMRvQIoxzgRNVVxBiE1B4jNX9cM15u4mP+x1J/9fKX/8ScQHbD4cvoqG4xPR9bFg==
+	t=1794947732;
+	b=pBKre3tXzzdZHCdsHkNitCndA6XypFHzYESpGd3DmH+z3KndzuWdGR263QcVMU8Ekpj3
+	 KT4CSFg9VZ7D6QdsEDz7oh03jkXiYwq/Kzzfbr3Re33QDucGyBophiM/c+QXNDKmGt0lx
+	 BkFrZ/c6jSYN9/6SmMQjAg2xKXI9FQBcJHkrXS04uMRqv4Gj/xsAUZdsOzDsezZjjWTEt
+	 RxLsjgYDSgAbE8wI2cfgV4fu/C3x8atBkFP/Tj1wdhblPyVsjOi2YATxgzwXi5bcSsZp1
+	 X8//oZqymlscLTNYj4hXrd/YHtvUXMlYkXuL/qzHtZIzNGTHCXlFtTn8Z976vjWL+IA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794947659;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794947732;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=/ZMhcm/JCcD+M3t4azWcucL31huBZZJYoXQAph0Cu/Q=;
-	b=n9SSLSAwjlmmA7/GWRUmmJ5n0yeze5wx1DIgu7QucVspuIuOTvfKQX/pPhcSsLhLcoPy
-	 rEbxPTZPL7RJ6Y0H60R24X46V4KBS8EjxXQv6qVLu84+d9Qrsw+rFZ/PBYTt1YTIIm48j
-	 wX5uzQaJ6t3VHoYzI96kduiLUlipSRvttc2oBivZdXuT0C51hroTEAbheCnMeO1sRd+MF
-	 FDj+joxnW8uk2EXhQjBZoWIAM0eb0XfZWtSMnZ1MxXjen9PXILnw9a1TpqEP53iQerJeG
-	 C2EeS619jZ7GV3Dtk36NU8ttW0KUMOS9c6L25M7iPZH3+Dg1H5t7SlJsoEZv3JZ2cbA==
+	bh=TzMM5bA4AAtZ9jPcoRbrwj8417a0tkHya/xigSdckEM=;
+	b=Pl3a7ju6OsQgazLSst+xedsrD66/6/YmjA1cdMT10S1dox7HwY+wGPuFpL9ojGCCwLMy
+	 BoBixE5XaQeq+R8IONwMB+taogXS0YV3OgqdYPxeAzowvqCUutrGUsHkuxa0vThUNFdzh
+	 EHOFwDCzeNdxHj0UHrcjXjfjLMVkennPJA1+6lvXNPx9ti7WtgPznzWd2TWFmA5jQJ2rI
+	 E0NKsIzpRszEWbzCF1oSYLxxQYk2iUuM9HlgEWrO57U+jzprKMzQhVwGRF6JO7wBHjb2B
+	 fccC4mskJN5if0HN3PLxcEicPaLE6NjGEG45i3CktSTHhNvRTeqfZ+p38QMyWyjurqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=rowland.harvard.edu;
 	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=GS8p0iFE;
-	arc=none smtp.remote-ip=209.85.160.178
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=ZJmoAzpF;
+	arc=none smtp.remote-ip=209.85.160.175
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84AF9606A884
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 20:34:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84AF9606A884
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1499606A32F
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 20:35:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1499606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=GS8p0iFE
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5363c8de563so2741641cf.0
-        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 12:34:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=ZJmoAzpF
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-55bd96affd2so15525511cf.1
+        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 12:35:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1794947658; x=1795552458; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1794947731; x=1795552531; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=/ZMhcm/JCcD+M3t4azWcucL31huBZZJYoXQAph0Cu/Q=;
-        b=GS8p0iFEUF/En0yzlT+JcuCpLdO2j8huJwWM9K1FLGiMQrTQ4OKuEnYY7jh34BNQHz
-         Y4JUGy80u1H7sIxiUEgWPoUrNvkqgm2wtp5Tz1Slc5r11ygXc27JiVS3gBazpRwbam7g
-         5LoK9Z1PU88QvaMAyD4AkS/9tbw8YYH27s/RWFW6pGc3jxIzOQjkvgXElvfHBrWkXBok
-         yHZ53avyhHLSXtdZYUi9T4YYYgMrPW/YXKkxI8Lg8BT4foCHmPFLw4SMXPY3jMSxKsVS
-         WxnZD7Gr0kItymyPk9aX7ZDMXsNg94Q3+reBGHl3F165VA+74YLCFsizb4mHQfGD6+tG
-         gA0Q==
+        bh=TzMM5bA4AAtZ9jPcoRbrwj8417a0tkHya/xigSdckEM=;
+        b=ZJmoAzpFjZwIBxesqfkMU8pE9gdzg7f5MXBRTGOG6sZCb747LGbO6UQ+4E7ujS7aso
+         A9hU0ZeEvo6yoifT1LrHx2ztyu88+m54SdljwFtz0N2ygvRAd9kmDInVQZ7AxGN57yyK
+         tsrHQHoLqZnt5zBGCvjUoQDaZCI3HXSp1dC0QbxI9Dswaco+JKbnd5jXV5AhawF24Ll6
+         Uwq4hNopG1JqNbpINowUV2zL335IFqfz0egFNtsVwRsDoqzJ4qXdJrbFIomlFb5fpvn/
+         3w1e5VcHt0bpyV9RTOliqY3ekha/U3+SSXS7JqsEzn31dgDwdz4orSHsRANB61WTsb3F
+         6Ecw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794947658; x=1795552458;
+        d=1e100.net; s=20260707; t=1794947731; x=1795552531;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/ZMhcm/JCcD+M3t4azWcucL31huBZZJYoXQAph0Cu/Q=;
-        b=HLjeSf+UK+39lFvJiBhd2UeNzt9kpxfZNcq1mx1p8ERFWCrgX13gzKgXcuCmsnbJdH
-         pzEK+P2Sc4qvmqu0kmpn9lTrBDfFf7MPK9+BCQtBbRAWtUXdpXrM5kTRKfUzOPJySd+7
-         koNQDgucd0NvR9HMp+ReByIhSiAKRTAlTZqy2w/o6ZKbkHYt7elFuZ8WyhNGBM0TJugy
-         Fh1p4JeL0kulxZRBiEYEMNWPuzBJmNPByjcUmF70gVrLFv9npfyuydlERFiUCRL43xI+
-         owcvrLNjbbr6meSOdCNY4tV1V5p6iq/Oj8jrhczsP3GH4LrhsLL0wDjIjLK4MZTPNGgp
-         Dn1A==
-X-Forwarded-Encrypted: i=1; AL+hErFtBb+OB7sRgTP5Df3xgVnBuHAUauFEDRPS6f6VUS6v9X6lPAo4XNLpSZer+LITWoazEq/lVuGyKlQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9SwQCfTwO0WX+52uc4F7E+IhJgfrmPvz/WgVn3biMOD1+W4Bb0
-	mizSPGQn/mMhgZwwfOR4GZzKGQYtmuFeTNOJeNlsdqy5Ox20swIWj3/XorL+x+tGgA==
-X-Gm-Gg: AYBFou0YWLgJZETsBec8IqQXBQNE7wqusmUzbg6oyrHN5X5z6z2hBie2W+SioNQ6IJt
-	FgfJ8tZ5zxSGUDEvAsNetgJ4d9FIIDacHER8XTJ+9ThFUKHrEY/eJzCry049skx4szHXBGpXzLa
-	rI9zG1LkMrTTrEIWyyOLO+f4wkBV4fH8fKXFObG7xRa/qShCWFqj5QWOAuVQpdMUoKqGpgVjKxU
-	lRbrqdHruzDOvjV2Lt9/a6zouU5ST/obuF83zxpUDSu+tisp1i6suMTi8/929eguFzeOjexas8/
-	x3eq4QXI2k12++AfOi7omI/FjnRTQzd8XR7yqBJBOhHANxQ0yuLMCzBykZod48MvyS9iROckj9t
-	cuPunJ5qIxfQX6Xcsx6YV3Jnf4slZKmdIctYW6MP2TfzFH4H38xcYL3jqkzqM9GbuByNfz9odj+
-	2rvoKOeYySks7MNNBD9y09TM5mwNqiSXgbpTGNBXSZr1/7ZRgokTYFF9BQ+oHkgAoeTfPxlmEco
-	kCSWXl/s0zpQ+379dO6iWUA3p54PQBeLibfrIDeZddinBSlxYY4FpYfsU/f6LJ65+TFtPAlmcuH
-	JpKiWJZl47y4SXDk+Psd9X1mNZb/Dg==
-X-Received: by 2002:a05:622a:230b:b0:535:8509:3138 with SMTP id d75a77b69052e-55d5a308334mr8458151cf.11.1794947658309;
-        Tue, 17 Nov 2026 12:34:18 -0800 (PST)
+        bh=TzMM5bA4AAtZ9jPcoRbrwj8417a0tkHya/xigSdckEM=;
+        b=RIjDvI9q84bcIbLktdq6SRIxW44UJMUKzi3yK76fgk88ccMmjtKWjvpTbQ0RHuG0SG
+         FfjtWjunkthOPusHZITIeF42BhqEuFYig+aWyDN2undgm3cEDoy2YUwU//QgOnx+Zh+T
+         CQl6+MCjuaTakThqD+LgusivtVgA5H+JMawsvMZNSxq3CABAllQJASCh3I7gUhiZDZY3
+         yMfL6k0IGSKJytf17l1vWX56GLshp85KREORpD15yy8Bj3QeAXkMDSbXI/ZO7b/dDd6U
+         IPgTLTDqjhPUQdKBudUU8f5sSQwyfizFboxy8f6Cb4/Dwz+/ug+dW2+D6gug/fD2OcRQ
+         jzgQ==
+X-Forwarded-Encrypted: i=1; AL+hErHjgvoNfIVb2UP1kHMN69O3easIN2KoRgMKCzkowkKs2KAK1QPfMyQJ/nGlBo/Dlan/KdPAX2RBdpA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9bTntURy0rPfjO2X712u2FmwS9sQl2eC67m6cXhDqoOIgDAtVo
+	ZJq2aJf/QoQqni4T+dzJKd24YtYxQ0Y+8OthsjRKBDudKFn+HtikFvAH9hgUAfufrA==
+X-Gm-Gg: AYBFou0zT0eCUY5D7/kfsuZmiLWq9/QRFXlFO3oIrz8t2mxaIqalkkiIlSOCLzfrLQe
+	Aiov3YkZ5/w98XHc6Ii4LAVlJPDy0M+NdIDForTkS7du+l5mvkT6Nf8uw9+kbBbiewfIDDdOX1I
+	Jf+sTAMCloXjUwGEzaP79QzpW/tj7Vv7VmJpkA4fW4M/QBRTbZhC3LMqS3BjjXECofR50Emw3rF
+	FI5qxGOdDPeN5pd6eL9cZRzmkn68oo9dw00upClzelRWFEHYHTc53+RlYmE90fGH68bDWQt1C+s
+	NAMzVN3Ff8cMJPML9fjtXYpnt/QrkmrOMIlhsAell482RQeFJR5yGlXqipgVgVa9yFzjN8TeX0F
+	d4s12avw/Ciu6mqawMT3bnOhHpGCNZAKjnsfsmWPhOHoQ96oq7BsKdJUfq7rt8vHK/qC2ofGzaD
+	TEWVNPLiNcEkZiPVHRtCD0E/1E54l7yd9ovdFyCKvJxU2LDCTsrYNjtPIglTThXjH6WDxBJuz2v
+	Q/LIIjUPe2aSfweLe0fbaCUmIWnr3aQPGqYZXwr8CawcnbQcQp/slNNXoTsqfd/SOnUmwgbFpfc
+	eCmCr9986/nlZZD5/CscXxMa3aZ63g==
+X-Received: by 2002:ac8:598f:0:b0:535:16c4:7304 with SMTP id d75a77b69052e-55d5a5483f1mr6952961cf.12.1794947730584;
+        Tue, 17 Nov 2026 12:35:30 -0800 (PST)
 Received: from rowland.harvard.edu ([2601:19b:d00:161a::d398])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d5909ec98sm5319881cf.22.2026.11.17.12.34.16
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d590c524esm5414651cf.26.2026.11.17.12.35.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 12:34:17 -0800 (PST)
-Date: Tue, 17 Nov 2026 15:34:14 -0500
-From: 'Alan Stern' <stern@rowland.harvard.edu>
-To: gichoon.han@samsung.com
-Cc: 'Greg Kroah-Hartman' <gregkh@linuxfoundation.org>,
-	'Takashi Iwai' <tiwai@suse.de>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: host: ehci-sched: Don't let a bogus siTD remaining
- length underflow
-Message-ID: <852edee1-229c-4685-a124-497ed2ed85a1@rowland.harvard.edu>
-References: <CGME20261116052855epcas1p403c518b90d70d98752ad0ca2d9ac05e9@epcas1p4.samsung.com>
- <20261116052851.2272125-1-gichoon.han@samsung.com>
- <5ed0f4b7-beb3-4059-9e12-b9738af65d91@rowland.harvard.edu>
- <000001dd762a$1b15f230$5141d690$@samsung.com>
+        Tue, 17 Nov 2026 12:35:30 -0800 (PST)
+Date: Tue, 17 Nov 2026 15:35:28 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>, Cheng Wen <wencheng@xidian.edu.cn>
+Subject: Re: [usb-storage] [PATCH v2] usb: storage: shuttle_usbat: set the
+ ATA sector size at device init
+Message-ID: <ad26ac08-7a23-4b31-8fd1-30b0dfa48aa9@rowland.harvard.edu>
+References: <20261116093452.15286-1-25031212351@stu.xidian.edu.cn>
+ <20261117012707.5858-1-25031212351@stu.xidian.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,48 +102,72 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <000001dd762a$1b15f230$5141d690$@samsung.com>
+In-Reply-To: <20261117012707.5858-1-25031212351@stu.xidian.edu.cn>
 
-On Tue, Nov 17, 2026 at 09:25:10AM +0900, gichoon.han@samsung.com wrote:
-> On Mon, Nov 16, 2026 at ..., Alan Stern wrote:
-> > The type of CPU doesn't matter as much as the type of EHCI controller,
-> > since you're talking about a controller hardware bug.
+On Tue, Nov 17, 2026 at 09:27:07AM +0800, 'YuanZhe Liu' via USB Mass Storage on Linux wrote:
+> usbat_flash_read_data() and usbat_flash_write_data() divide the transfer
+> length by info->ssize to turn it into an ATA sector count.  info->ssize is
+> only assigned in the READ CAPACITY handler, so it is still zero when a
+> read request arrives earlier.
 > 
-> Fair point.  It is the on-chip EHCI controller of a Novatek TV SoC
-> (DT compatible "nvt,NT72668-ehci"), driven by ehci-hcd through a
-> vendor platform glue that is not in mainline.
+> Such a request is sent during device scan: sd_probe() starts with
+> media_present set and usb-storage sets read_before_ms for every device, so
+> sd_revalidate_disk() calls sd_read_block_zero() right after
+> sd_read_capacity(), even when READ CAPACITY failed, because
+> read_capacity_error() deliberately keeps media_present set for drives that
+> fail it with media loaded.  A CompactFlash reader that does not complete
+> the READ CAPACITY sequence, for example because a register access is
+> stalled, therefore reaches usbat_flash_read_data() with info->ssize == 0:
 > 
-> > Actually the bug lies in the host controller hardware.  Not the driver.
+>   Oops: divide error
+>   RIP: 0010:usbat_flash_read_data+0x2a4/0x5c0
 > 
-> Agreed, I'll fix the wording.
+> The ATA sector size of these readers is fixed at 512 bytes, so record it
+> when the USBAT flash transport is selected, instead of waiting for a READ
+> CAPACITY command to succeed.  The datafab and jumpshot drivers, which
+> share this code, already set it during device identification for the same
+> reason.
 > 
-> > So you have no way of knowing whether this patch really fixes the
-> > problem?
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+> Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+> Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+> Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+> Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+> ---
+> Changes in v2:
+>  - Set info->ssize when the flash transport is selected, as suggested by
+>    Alan Stern, so the value is always available.
+>  - Drop the assignment from the READ CAPACITY handler, now redundant.
+> ---
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+
+>  drivers/usb/storage/shuttle_usbat.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Not directly, no.  I don't have the siTD contents from the failing
-> device,
-
-Why not?
-
->  so the claim that the controller wrote a remaining count
-> larger than the programmed length is an inference: the faulting
-> memcpy() still had about 122 KB left to copy out of a full-speed
-> packet, which can be at most 1023 bytes, and this subtraction is the
-> only place in the path that can produce a value that large.
-
-You make a good case, but I'd still like to see more definitive proof if 
-at all possible.
-
-> What the patch does guarantee is narrower: whatever the controller
-> writes into the siTD, ehci-hcd never hands a class driver an
-> actual_length larger than the requested length.  The crash itself is
-> already prevented on the ALSA side.
-> 
-> If you think that is not enough to justify the change without
-> hardware confirmation, I'm fine with dropping it.  Otherwise I'll
-> send a v2 with the controller identified and the wording fixed.
-
-Go ahead and send v2; I'll probably okay it.  And do try to get a real 
-smoking gun on the failing device.
-
-Alan Stern
+> diff --git a/drivers/usb/storage/shuttle_usbat.c b/drivers/usb/storage/shuttle_usbat.c
+> index 7e5424268c73..267c82381465 100644
+> --- a/drivers/usb/storage/shuttle_usbat.c
+> +++ b/drivers/usb/storage/shuttle_usbat.c
+> @@ -1038,6 +1038,8 @@ static int usbat_set_transport(struct us_data *us,
+>  		break;
+>  
+>  	case USBAT_DEV_FLASH:
+> +		/* The ATA sector size of these readers is fixed at 512 bytes */
+> +		info->ssize = 0x200;
+>  		us->transport = usbat_flash_transport;
+>  		break;
+>  	}
+> @@ -1703,8 +1705,6 @@ static int usbat_flash_transport(struct scsi_cmnd * srb, struct us_data *us)
+>  		if (rc != USB_STOR_TRANSPORT_GOOD)
+>  			return rc;
+>  
+> -		/* hard coded 512 byte sectors as per ATA spec */
+> -		info->ssize = 0x200;
+>  		usb_stor_dbg(us, "READ_CAPACITY: %ld sectors, %ld bytes per sector\n",
+>  			     info->sectors, info->ssize);
+>  
+> -- 
+> 2.34.1
