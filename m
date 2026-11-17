@@ -1,98 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794947851;
-	b=Z2pV9s3Ogd+JktEgazbyvTZiSO6nLF6WhMurMQIo2FWmlN4txG3d+BFHOd52TqKGLKgG
-	 ZzdWJ/jx+7QCMrmV7P6j76899RQjqcgQP0luywkDBF8JDgF0ra9YbBm8jzZ06p/CnmDWR
-	 nmOYLTa7RqUsvE8zLfthnl3KZdTS6edycGrjc8TNDfkz81MpWGgfs7J7MbQqvxwahz8Ki
-	 Jj5zvbnERDXtZKozMJbAd5TDhj80U0+nIa93S4uoWaGq3pzEWxes+W/OtzVZSEgj9CDNK
-	 idpSfV69BvG2JZYJah+Ia8rHaZjKb1zwMacxdMZpV7mIv3XEnpLSnsdnsIZ3FgW/xIw==
+	t=1794949841;
+	b=FdKQ/5I8AWWaOcCScnaIL3+8DPed6t6UY6CU2Mo76PB3mpCLYxme39NMi7l2tTZ8MDXs
+	 W8ArJUwTSgFJQ6PgzgT7VVoNwABiDAaDVKOmU3npqaSzTt1XSmXtygMKLyBGtXEPousZ7
+	 R6sOXUG4xvP764LsymPzdF7a3gLVdLN3DQOe1Id7y0cSORn3s/lQnmIdESQhCdTbxISBf
+	 3QRxagi9voazsph3Q73f9mnFptXBFab+P17ZncK3ojuPaAczHu8d6gnjK9YtkzQdWBK0F
+	 NL2mVVRM37kFNvVf1SSIBAtOvRMVZQ5sXG8rNGYa1jqgeIriHtwBb2vCY6q39pNacIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794947851;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Z6Tpo5ap6GSFoMGBO7jW2q44NoxntZjBeE2WFv53Tfc=;
-	b=PbbeNuAchwXouOON/XQvWkHRJbF9fzFFBs1dYMMnSRcSR3LnrrNoiLjLoiordisebdC5
-	 ULFHaNNXCZVedJA61Rk751QNmZZ6ixok4d3dcYVcsb1PDgAWxDsU0pFERq5GeHRhm85ln
-	 LZ0GqLnsmtA8LjrXIA3vGWVdgzobfzudzyCzc4lFrRjlXk+1uT0AjitA33arG4RR82Uxq
-	 pkrtcTLlKSxxcVU/NfHXkw0VJ9xk3lMCjj/4Q9G+T8xzTPiJIuOhuVaRUQRVQjQQlvR1I
-	 t+fKo5UmAhGHbO2fJrXqR4wJfT9DO3uLnUtEJSmk/AxT0AmRnPh3KEXdCFzz8l80rag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794949841;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=SAzgekvvunqkce1NZOZDolcNJqF/8XhHh2Se6M+aoA4=;
+	b=gkEqyRpRz2Zuyc9/va6khCCaQ4ombsHisxdvssXV5o+Kz8aMjX2HNcs9G6be9+kXmBxw
+	 t9QCv9763b/eWnG3n1HOjUXLXExHQd0CmSDslgWUlDmnQ6JfLeOX6fk0zUBNXk8HcDPFz
+	 xlvFsAtiHXXM7PvBrT7yqQCt7MeMVH1VkbAts4RZvyWvHNJKDaEZmnh7mwxmEdwHV9yR4
+	 8iQqCBWuaQjEaii1rZwfRELwH+QqOEl49q8UbQ8+oTaP6ib09/NngXf0zrL4+elDu0KuG
+	 2AMzncqDrdxJsL4fs/owtPRcGzU5VK9V6Dpsks6684kI47UY1twhK69McCfhoKfV+fg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=hUcgLnaQ;
-	arc=none smtp.remote-ip=209.85.219.53
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vsHONtUe;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hv5sOgSa;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1yI8oafQ;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Jlajyevd;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62007606A32A
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 20:37:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62007606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D404606A31C
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 21:10:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D404606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=hUcgLnaQ
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-920fed989b2so1081016d6.2
-        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 12:37:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1794947850; x=1795552650; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Z6Tpo5ap6GSFoMGBO7jW2q44NoxntZjBeE2WFv53Tfc=;
-        b=hUcgLnaQ+SQElpouvg4p2BhtZ4Iev0t+HUWmXHy4nOG4uSaSNXppj/XNwBivKpTl/Q
-         vksHTCRR1b7dXrGp25zpOF11vyXznTG1fjS+q+ee3iu7WpX5ZUUkVyYdlGVx7sMdHLSq
-         jcptiQnGV5i+QqCFqDXZO9ET17+ecycfPG28wxftXf0E8G4gygKBoqshDqUDPqlKIAsl
-         pmdu/bHK+iuE4ycri3z55lcemOy3JNHG/quH4E1Uo4wfM/4BweKY4aO5gtNNnws/T7ue
-         K9NH1qs/7MhEWmEp6cIqh+RciztjqPv0TpkI884J7vRHrVPgQ9rSNj/NZCuqxCidybaN
-         8YgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794947850; x=1795552650;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Z6Tpo5ap6GSFoMGBO7jW2q44NoxntZjBeE2WFv53Tfc=;
-        b=2WcUwbfokNEDBY5qzWjcabXrBHZ3qxNvZPxkT6/fTU9hwEoSoLDGHg12T52+5vlyIL
-         niEtx0roLBU/QcJKtkbjnZrz4BBt1tXkzakUVpLudm14MJlK6FM+cfgfbzgqRQDVI8Lj
-         6KA9s0K5RyAB7YpMJDmt1wpzNKp3GYNVvRxJ0R38WC8PO3hh7hTxNZLuF8GRwyIpjLsg
-         4goB2ROeMIO+X2a+JqB1gZb7Z4KfRD+SfvuYx+lFdcsN+7pYVdbAjBxZPd0cOiRfmN2N
-         GQyGze48uz3e4EXHl1/QOoWL3Ih5od4X9+BbHK8/EPffo8PRzRF2f5WBUspQpiInod72
-         JMOA==
-X-Forwarded-Encrypted: i=1; AL+hErFVUHDg3p8p04ljDCkAkG11JScTdpOEjFZEv099b9DH/DRh+Ob/sUh8/hhRCqoSQB7M9Qz6VEc8VKI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+tqM6Cvnd5kfmyHf7v3nWSJLlikFlqvSMSwq2vb0oX+q8oVRJk
-	6j7a4GXuO1751/+H3gs49RHK3fRdlwYJCaj9gCOoE0Utv3NC0UzwrpV6R5MQwx97yQ30YAu6uK+
-	xIwjCqg==
-X-Gm-Gg: AZFdTZe8vD4BBQRWKvyOjMiq9QS3OmkdQQ34Deb3jCPsdVp5pJXCp5SvWLvmi0sY0Mi
-	q3rDc78b1hohKPzDQCpUCsMSIGDL87pYWHotHq34FPoRe0gvQnM8ECfYndAxAaNEzuWXb+18QCk
-	Jz5DjBLzpEKwgNcQ+DlI4Ze4Ne6a9i+AoZ7u3VJe2AGC0OcIUAQaHQRKwJywDD0z17MihDdQItz
-	Ej0kZkEbM8qbRjFUuTZ4Jg76j7NQS/+UsGDQ0AsEp8E0XbhMiy62pYQWsVmv/+IzuBUPLpzbD21
-	gwEPoMlEWBz8XFwCwOxRE5AxTcSrcgABkUmkXCRAG+TyqHnNcVzPA1OCCtm/TQ/jutzN6JKshSY
-	8Agx7NB9nDB1pW049X1/WYUvR/IUCP/uSSc/Mtr5b4JOwpoUTfsQ0EBJB5IPXuLCAGxth+aZCsq
-	Nau+qkB66GRIn7qrNAMLytcAmQHIhS2iUgQfT1qKMSfCa9fTFmjPe3Wwzd9xTDhQ4xcJ0rXiL2K
-	hbdCE57vFUaZfApHt4hX7RmNZSfprnrrlzkbc6ypsbeyfw7XcReLI868hROGAcOx8t4JmfIPf3O
-	5V/1CcZ+w/K+tgDBOc9Bmzw50d707w==
-X-Received: by 2002:a05:6214:4521:b0:91c:52f2:b469 with SMTP id 6a1803df08f44-92114f422aemr4503286d6.15.1794947850014;
-        Tue, 17 Nov 2026 12:37:30 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d00:161a::d398])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921149f894csm3423466d6.4.2026.11.17.12.37.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 12:37:29 -0800 (PST)
-Date: Tue, 17 Nov 2026 15:37:27 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Cheng Yongkang <teel4res@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: usbfs: reject SETINTERFACE while suspend is
- allowed
-Message-ID: <44d9ed8f-c2c5-414e-a5cf-9dea30866574@rowland.harvard.edu>
-References: <20261115163709.226641-1-teel4res@gmail.com>
- <36240a2c-0ecb-4b26-824d-84d782dc706e@rowland.harvard.edu>
- <20261116060549.370140-1-teel4res@gmail.com>
- <a7e6b6f9-9926-404a-b185-c9fcab5c9d10@rowland.harvard.edu>
- <20261117023858.467683-1-teel4res@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vsHONtUe;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hv5sOgSa;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1yI8oafQ;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Jlajyevd
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 624CF220D6;
+	Tue, 17 Nov 2026 21:10:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794949838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SAzgekvvunqkce1NZOZDolcNJqF/8XhHh2Se6M+aoA4=;
+	b=vsHONtUe1PrdHBMUIvQY3V6m+c7g+FHW0UXQvB+JPZrbUMW/n8uNMdeQnzAt2qzZB/1AO5
+	WzXojYyAx828cJuHS4n1ZjwCWRsHZ0Ih1oTu/FUCpw99T6VU1WpA6KysTq7ykCBxDjl2PX
+	v24oXxz/Qo754OQG0+Rt/SS38RiG3bc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794949838;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SAzgekvvunqkce1NZOZDolcNJqF/8XhHh2Se6M+aoA4=;
+	b=hv5sOgSald208w3xB+WxAZ3xRMCdPBYt+pKiv78YzrjwOMYYherUpOVrX+mZyigCjoGtra
+	6si70xd2G0fo0kCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1yI8oafQ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Jlajyevd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794949836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SAzgekvvunqkce1NZOZDolcNJqF/8XhHh2Se6M+aoA4=;
+	b=1yI8oafQn02cDHmjNWcRrIc7UR0W/vBxF7rxojw37fzxM9oJ62L2oPVDOJ8uWTbFxiiK0X
+	qhxxE2ZjcsrdiyeV2xk1RWKmxW0yReMHz/Ns3bA25wGPpGw7+gvRoFGu6XjW9yob8RJLGj
+	2uzrtgfA7j+XlQ58Xs77MPu2E+tbVnA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794949836;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SAzgekvvunqkce1NZOZDolcNJqF/8XhHh2Se6M+aoA4=;
+	b=JlajyevdNXKTAjDcZ9iHlLOP2SKSO1Vdo7voMFG7q0ojH1DRBgfZNRLkMfKGuEGZWLfmwk
+	hhXKBAdlLrsnhVCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB1441334C;
+	Tue, 17 Nov 2026 21:10:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id eYAqL8vC/GoHXwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 17 Nov 2026 21:10:35 +0000
+Date: Tue, 17 Nov 2026 22:10:35 +0100
+Message-ID: <87a4n7xiyc.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dmitry Antipov <dmantipov@yandex.ru>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Neill Kapron <nkapron@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: avoid redundant strlen() in make_name_string()
+In-Reply-To: <839e190e-6377-4585-b68a-b672e5b4a13e@yandex.ru>
+References: <20261117170207.642330-1-dmantipov@yandex.ru>
+	<87jymbxs8k.wl-tiwai@suse.de>
+	<87fqwzxra7.wl-tiwai@suse.de>
+	<839e190e-6377-4585-b68a-b672e5b4a13e@yandex.ru>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,61 +115,86 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261117023858.467683-1-teel4res@gmail.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[yandex.ru];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[yandex.ru];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 624CF220D6
 
-On Mon, Nov 16, 2026 at 06:38:58PM -0800, Cheng Yongkang wrote:
-> After USBDEVFS_ALLOW_SUSPEND, a usbfs file no longer holds a runtime PM
-> reference and the device can be runtime suspended. When it is resumed
-> through reset-resume, finish_port_resume() sets USB_STATE_CONFIGURED
-> before usb_reset_and_verify_device() restores the altsettings. The
-> restore loop also runs when a driver bound to another interface calls
-> usb_reset_device() from its resume handler. The resume path does not
-> take the device lock, so a SETINTERFACE issued in that window passes
-> checkintf() and its usb_set_interface() runs concurrently with the
-> usb_set_interface() calls of the restore loop.
+On Tue, 17 Nov 2026 20:08:01 +0100,
+Dmitry Antipov wrote:
 > 
-> Fail SETINTERFACE with -EHOSTUNREACH while suspend is allowed. A
-> program has to call USBDEVFS_FORBID_SUSPEND or USBDEVFS_WAIT_FOR_RESUME
-> first, which resumes the device and keeps it from suspending until the
-> file allows suspend again.
+> On 11/17/26 9:10 PM, Takashi Iwai wrote:
 > 
-> Fixes: 7794f486ed0b ("usbfs: Add ioctls for runtime power management")
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Signed-off-by: Cheng Yongkang <teel4res@gmail.com>
-> ---
+> >> Hmm, does it really result in the same?  Wouldn't you need to
+> >> decrement p at first before the loop?
+> > 
+> > ... and looking again, I think it's a bug in my original code ;)
+> > 
+> >> And I guess this can be better replaced with strim().
+> > 
+> > ... which can be fixed by replacing with strim() gracefully.
+> > 
+> > Care to resubmit as a fix?
+> 
+> strim() implies strlen() which is not actually needed here :-).
+> So (assuming I've hit an original intention) I'm voting for:
+> 
+> void make_name_string(char *s)
+> {
+> 	char *p;
+> 
+> 	p = strchrnul(s, '\n');
+> 	if (*p)
+> 		*p = 0;
+> 
+> 	while (--p > s && isspace(*p))
+> 		*p = 0;
+> }
+> 
+> Note this trims " \n" to " " (string of the only space character).
+> If this is not what we want here,
+> 
+> while (--p >= s && isspace(*p))
+> 
+> converts " \n" to an empty string.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+For that code path, chasing for performance with open-code has no
+merit.  A simpler code would have much more benefit, instead.
 
-> Changes in v2:
-> - Move the check before copy_from_user() and add a comment (Alan).
-> 
-> v1: https://lore.kernel.org/linux-usb/20261116060549.370140-1-teel4res@gmail.com/
-> 
->  drivers/usb/core/devio.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-> index 101cb9425480..8a032f4b547b 100644
-> --- a/drivers/usb/core/devio.c
-> +++ b/drivers/usb/core/devio.c
-> @@ -1531,6 +1531,13 @@ static int proc_setintf(struct usb_dev_state *ps, void __user *arg)
->  	struct usbdevfs_setinterface setintf;
->  	int ret;
->  
-> +	/*
-> +	 * Avoid racing with a reset during device resume, which restores
-> +	 * the altsettings without holding the device lock. The device can
-> +	 * only be suspended while suspend is allowed.
-> +	 */
-> +	if (ps->suspend_allowed)
-> +		return -EHOSTUNREACH;
->  	if (copy_from_user(&setintf, arg, sizeof(setintf)))
->  		return -EFAULT;
->  	ret = checkintf(ps, setintf.interface);
-> 
-> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-> -- 
-> 2.34.1
+Basically make_name_string() call can be simply replaced strim(), and
+you can get rid of buggy (or error-prone) open code.
+
+
+Takashi
