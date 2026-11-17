@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794929129;
-	b=4dWdWs7dC8yTphcPQTCq6i0fQnxj7W75RwJLBw1AIJAS1Jr/OoQXhk82XIvsjsk5Cnt2
-	 7UUrl2IPAi0jX9tsckSLzUL+Aias1yYDu6HV280A1/fhV+WZQkrKPdMjj5PotmyF9zaIp
-	 y2WVW4XC2MtWha83Uet28eUcnEYn5YHQNNOBxZqkiLzUs1009hrnCLVN5AvDl3K6Ft0x3
-	 ugIMDI/Wkk5jFEYGQfKM6QRKFBq2CkHXBiI9iPltZHJbT09xIenFHCYBfxtJyZ1TG8+re
-	 qA1/jEsQElSLdg47QraKNmkhM2jfinD+as9Pgx2na5Nc1BTQHTnOAzmxANX+Fk6Vfzw==
+	t=1794930950;
+	b=0X6LQtcFGVrL0gpg7m7s1nRt2RkD5+nBWLb6GAKyXXgdEz361HZy4JjSr916GNlVFZ58
+	 JJI212ePDGiW8EPioxR79eJoECxzDXQWdxT060js6HyYtill6rCVqydJlzYTyx/jWkWIP
+	 Pjj24xeOIIvuAMvhiBy0aXs0vsn+q5+jlkReD5AHqDbhHLcjhVE5bm4rXSo+ACnmaGgGe
+	 YPs8Oj3UgVEh2yKROmCYD2Nlb/HZeNg5d1RtqcEYvggB37M9MXsVBOgNBb7ITR7oS/dpM
+	 D9yC/m2DNRGhpfKWxH6mUE77nL9uNdX153grHZ9gZP8LmpEbBTlKlxRe8/cDHOvNSNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794929129;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794930950;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=geAZF0Il5WD1+26bR5uT5bi5MaP/KecTvi/DYJOMYhE=;
-	b=RR+uk0DqDV51OxXoc7roSUiYI2ReSX5DOLQ/27EWppOZ3DkidEMFLmCGbpkN/9NFCcsZ
-	 IY7CqKonSEp7mMlesqMtPohVVCDJT6fMggkSYX2YTvLyVhAQF+gpN0xOJeqOpDdv94QOa
-	 kAmPJ5+QZ0U10rySEB9776znZGoDR5eRqmoO74Zk+AYGvDrXcy/GIQ+NSxf6szZhrC5p9
-	 bw7GL6oDrB1q1i0WsFpn+hkvTdzKnku3usu7WETHol5etkiImixLwhDpuXQRZqd2GT1mZ
-	 vt2q03Hg8cES0/7a1f/1D7TE1xkgxrHZ7mlpdPCLcZ7rlQ+CZ/w1CjH27PHEr0SWI+A==
+	bh=+6OsAGsJJvhMgbe8Io4tzF4ZW1F6ZPIYM7lz/r3Om0g=;
+	b=1jL/VmtEEgS2Ee1CFYV3C5WsgzcTUS6HQfkeD9zA+m7rpesKvXjhd+QLX+cyiTTwf8uJ
+	 xhtDDC9FOnyTHmYKNGlt8hFe53uooyYes30tL+0cjAH98J15zEnzWjavwfa1Tzfe+jFGz
+	 VmBzaW5/xGyTqGdxBj4ZLZZI+qMbk6rnz+UgnfoAL5BiybJXtSVxQrz2sxxZ9JuqMlU5E
+	 v0nltUFnTaCoMaoxWUjzOrN9Krn0CyyopDdKNIwCcWGm7sXpuKwgvUEOUpOxed99uMWYO
+	 Sc5H9QjhaIuJJ/OmPGW2xsMx+4vpgxDmpF5JhQPWD3pB3FmHYCBDX86TX0L+EJ52vNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=akJKf4vk;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="F+S/WL44";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402AB606A32F;
-	Tue, 17 Nov 2026 15:25:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5249606A31C;
+	Tue, 17 Nov 2026 15:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=akJKf4vk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FE9B1F000C7;
-	Tue, 17 Nov 2026 15:25:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F+S/WL44
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00D9C1F000C5;
+	Tue, 17 Nov 2026 15:55:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794929129;
-	bh=geAZF0Il5WD1+26bR5uT5bi5MaP/KecTvi/DYJOMYhE=;
+	s=k20260515; t=1794930950;
+	bh=+6OsAGsJJvhMgbe8Io4tzF4ZW1F6ZPIYM7lz/r3Om0g=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=akJKf4vkqfnvJ5nLABh28AJjppT5zPwlLXoXjZQB/2wXkKK4pB8bQUdHm8STv03w2
-	 v5x2dHdQszcgDmB2oabeMJALqxf0f2VyWG8bpxGzpFr+hskhv12JpBI7BKlsXcsjGX
-	 8e2nkqOgP6TX6bFXvqLEEKhIzUiL7UmgMpLnDsaL9c+jVZyknVNz00Y7tUtCI98DHE
-	 WcuE8fpSI3e5Zvbsj2hE1Pt7Hk/vt8UnlBgl+Ys9QUFb/stbOWK965mTMusgbm5xl9
-	 QeIzgxmhoDStywlrGlJPhfmvcsG8w060cX+mRuD4VnD5AZ9iOnJuWY0CWqVqHwANjx
-	 1jpS9XNscsKPg==
-Message-ID: <sashiko-outbox-219062@kernel.org>
+	b=F+S/WL44CP+J5NTBSzOm74yaLjx2CJVk6bnEDHAhvkFYC+c1SSZHOBwo8P9PQ/e0S
+	 0KhCqXhL5H1SoQrbOZ97c5yaqj7DYCPlcLNZHZVAc3D5Bi/N+AAshYKfm1eyKw2nqL
+	 Lsky0aAwkG+8xnQv6SaFw0w95ic/7ar3SDBz3yV750zo5RkwaZz0Vr4tcjutS6Q1UD
+	 6nB/cX6mpq87d1Ao0/ncN8+/cHNvuWzQb6Xjrcur8g6zMWgv52lp9ejH7XWcthpJL1
+	 ZYYN1QmbXmuCjrDFNCAZGCuhAZrmoKvjiIyYhA5oqQt0mHZt/f03pejKldUXrOmQw4
+	 p3GBhC1+mUK9g==
+Message-ID: <sashiko-outbox-219119@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/2] PM: runtime: fix stub pm_runtime_get_if_active()
- for !CONFIG_PM
+Subject: Re: [PATCH v5 3/4] usb: dwc3: xilinx: Add Versal2 MMI USB 3.2
+ controller support with flat probe model
 Reply-To: sashiko-reviews@lists.linux.dev
-To: Frank.Li@oss.nxp.com
-Cc: linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-hwmon@vger.kernel.org, imx@lists.linux.dev, Frank.Li@kernel.org, media-ci@linuxtv.org
-In-Reply-To: <20261116152513.2676573-1-Frank.Li@oss.nxp.com>
-References: <20261116152513.2676573-1-Frank.Li@oss.nxp.com>
+To: "Radhey Shyam Pandey" <radhey.shyam.pandey@amd.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261117150219.1326693-4-radhey.shyam.pandey@amd.com>
+References: <20261117150219.1326693-1-radhey.shyam.pandey@amd.com>
+ <20261117150219.1326693-4-radhey.shyam.pandey@amd.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 15:25:28 +0000
+Date: Tue, 17 Nov 2026 15:55:48 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,119 +61,230 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] PM: runtime: inaccurate Fixes trailers and caller analysis in
-  commit message
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [High] usb: dwc3: xilinx: unclocked access and clk underflow in
+  dwc3_xlnx_suspend()
+- [High] usb: dwc3: xilinx: wrong gsbuscfg0_reqinfo 0xf0f0 in
+  dwc3_xlnx_probe_flat()
+- [High] usb: dwc3: xilinx: double usb3-phy management in flat probe
+  model
 --
 
-commit ef3656b915b0fdf6f58ce6d87b9638c3f1514d1a
-Author: Frank Li <Frank.Li@nxp.com>
+commit 18ab81bda6f0f5fc8594e87f3a2015f5b9af6de1
+Author: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
 
-> PM: runtime: fix stub pm_runtime_get_if_active() for !CONFIG_PM
->
-> When CONFIG_PM is not enabled, should be treated as if runtime PM were
-> enabled for the device and the runtime status is active.
->
-> It's a subtle distinction but the previous behavior returned -EINVAL, whi=
-ch
-> means "runtime PM is disabled for the device"
->
-> __pm_runtime_resume() returns 1 (called by pm_runtime_get()).
-> pm_runtime_get_if_active() is the try-and-get version of pm_runtime_get().
-> stub pm_runtime_active() also returns true. So pm_runtime_get_if_active()
-> should return the same value as the stub pm_runtime_get(), which is 1.
->
-> Analysis of all callers and their behavior with old (-EINVAL) vs new (1):
->
-> Pattern A: if (!pm_runtime_get_if_active(dev)) -- no impact
->   Both -EINVAL and 1 are non-zero, so !ret is false in both cases.
->   Callers: drivers/accel/ethosu/ethosu_perfmon.c,
->            drivers/gpu/drm/msm/adreno/a6xx_gmu.c,
->            drivers/gpu/drm/msm/msm_perfcntr.c,
->            drivers/gpu/drm/v3d/v3d_mmu.c,
->            drivers/gpu/drm/v3d/v3d_perfmon.c (x4),
->            drivers/media/i2c/gc08a3.c gc05a2.c og0ve1b.c ov6211.c,
->            drivers/media/i2c/ccs/ccs-core.c s5kjn1.c lm3560.c (x2),
->            drivers/media/i2c/s5k3m5.c thp7312.c imx283.c ov64a40.c,
->            drivers/media/pci/intel/ipu6/ipu6-buttress.c,
->            sound/hda/core/device.c
->
-> Pattern B: if (!ret) after get -- no impact
->   Both -EINVAL and 1 are non-zero, !ret is false in both cases.
->   drivers/gpu/drm/amd/pm/amdgpu_pm.c (comment says "allow access"
->     in kernels without CONFIG_PM), drivers/pci/pci.c
->
-> Pattern C: ret > 0 / ret <=3D 0 / ret !=3D 1 checks -- FIXED
->   drivers/usb/core/offload.c: checks (!=3D 1), old -EINVAL caused
->     -EBUSY even with !CONFIG_PM. Fixed: now returns 1, proceeds.
->   drivers/accel/ivpu/ivpu_job.c: drm_WARN_ON(<=3D 0), old -EINVAL
->     spuriously triggered WARN. Fixed: 1 > 0, no warn.
->   drivers/gpu/drm/i915/intel_runtime_pm.c: checks (<=3D 0), old
->     -EINVAL triggered error path. Fixed: 1 > 0, correct path.
->   drivers/accel/ivpu/ivpu_sysfs.c: (> 0), old skipped freq read.
->     Fixed: proceeds correctly without CONFIG_PM.
->   drivers/gpu/drm/xe/xe_pm.c: wraps (> 0), all xe callers
->     (xe_bo.c, xe_shrinker.c, xe_vsec.c, xe_ggtt.c, xe_guc_ct.c,
->     xe_pxp.c) now correctly treat !CONFIG_PM as active.
->   drivers/net/ipa/ipa_smp2p.c: power_on =3D (> 0), now correctly true.
->   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: (> 0), now correctly
->     executes stall register update.
->   drivers/staging/media/ipu7/ipu7-buttress.c: active (<=3D 0) early
->     return now skipped, correctly proceeds.
->
-> Pattern D: explicit -EINVAL check
->   drivers/hwmon/prom21-xhci.c: checks (> 0) then (=3D=3D -EINVAL).
->     Old: took -EINVAL fallback. New: takes (> 0) fast path.
->     Both succeed when CONFIG_PM is disabled; functionally equivalent.
->   drivers/hwmon/eic7700-pvt.c: call is guarded by IS_ENABLED(CONFIG_PM),
->     stub is never reached. No impact.
->
-> Fixes: bd3d245b0fef5 ("usb: core: use dedicated spinlock for offload stat=
-e")
-> Fixes: 7806bad76ac39 ("accel/ivpu: Prevent runtime suspend during context=
- abort work")
-> Fixes: 9d58aa46291d4 ("drm/i915: Fix the GT fence revocation runtime PM l=
-ogic")
-> Fixes: 1524c28b99527 ("accel/ivpu: Show NPU frequency in sysfs")
-> Fixes: 30c399529f4c6 ("drm/xe: Document Xe PM component")
-> Fixes: 0d08026ac6099 ("net: ipa: kill ipa_clock_get_additional()")
-> Fixes: 70892277ca2db ("iommu/arm-smmu-qcom: Make set_stall work when the =
-device is on")
-> Fixes: 9ad65684b9285 ("media: staging/ipu7: Ignore interrupts when device=
- is suspended")
-> Acked-by: Alex Elder <elder@riscstar.com>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+usb: dwc3: xilinx: Add Versal2 MMI USB 3.2 controller support with flat pro=
+be model
 
-[Severity: Low]
-Are some of the Fixes: tags and caller notes in the commit message
-pointing to the wrong commits or config guards?
+This commit adds a flat probe model to dwc3-xilinx that embeds struct dwc3
+in struct dwc3_xlnx and uses it to support the Versal Gen2 MMI USB 3.2 DRD
+controller.
 
-The !CONFIG_PM stub for pm_runtime_get_if_active() was introduced
-returning -EINVAL in c111566bea7c ("PM: runtime: Add
-pm_runtime_get_if_active()") and updated in c0ef3df8dbae ("PM: runtime:
-Simplify pm_runtime_get_if_active() usage"), neither of which is listed in
-Fixes:.
+> diff --git a/drivers/usb/dwc3/dwc3-xilinx.c b/drivers/usb/dwc3/dwc3-xilin=
+x.c
+> index b58fe034a94d4..c68246921a4c9 100644
+> --- a/drivers/usb/dwc3/dwc3-xilinx.c
+> +++ b/drivers/usb/dwc3/dwc3-xilinx.c
 
-For the caller-specific tags and descriptions:
+[ ... ]
 
-- 30c399529f4c ("drm/xe: Document Xe PM component") only touched kernel-doc
-  comments; the > 0 check in xe_pm_runtime_get_if_active() came from
-  46edb0a3eb16 ("drm/xe: Fix xe_pm_runtime_get_if_active return").
+> @@ -113,6 +143,59 @@ static int dwc3_xlnx_init_versal(struct dwc3_xlnx *p=
+riv_data)
+>  	return 0;
+>  }
+> =20
+> +static void dwc3_xlnx_versal2_teardown(void *data)
+> +{
+> +	struct dwc3_xlnx *priv_data =3D data;
+> +
+> +	phy_power_off(priv_data->usb3_phy);
+> +	reset_control_assert(priv_data->usb_crst);
+> +	phy_exit(priv_data->usb3_phy);
+> +}
+> +
+> +static int dwc3_xlnx_init_versal2(struct dwc3_xlnx *priv_data)
+> +{
+> +	struct device *dev =3D priv_data->dev;
+> +	int ret;
+> +
+> +	priv_data->usb3_phy =3D devm_phy_optional_get(dev, "usb3-phy");
+> +	if (IS_ERR(priv_data->usb3_phy))
+> +		return dev_err_probe(dev, PTR_ERR(priv_data->usb3_phy),
+> +				     "failed to get USB3 PHY\n");
+> +
+> +	priv_data->usb_crst =3D devm_reset_control_get_exclusive(dev, NULL);
+> +	if (IS_ERR(priv_data->usb_crst))
+> +		return dev_err_probe(dev, PTR_ERR(priv_data->usb_crst),
+> +				     "failed to get reset signal\n");
+> +
+> +	ret =3D reset_control_assert(priv_data->usb_crst);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "failed to assert reset\n");
+> +
+> +	ret =3D phy_init(priv_data->usb3_phy);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret =3D reset_control_deassert(priv_data->usb_crst);
+> +	if (ret < 0) {
+> +		dev_err_probe(dev, ret, "failed to deassert reset\n");
+> +		goto err_phy_exit;
+> +	}
+> +
+> +	ret =3D phy_power_on(priv_data->usb3_phy);
+> +	if (ret < 0)
+> +		goto err_crst_assert;
 
-- In __intel_runtime_pm_get_if_active() in
-  drivers/gpu/drm/i915/intel_runtime_pm.c, the pm_runtime_get_if_active()
-  call is guarded by if (IS_ENABLED(CONFIG_PM)), so the !CONFIG_PM stub is
-  never reached there and 9d58aa46291d ("drm/i915: Fix the GT fence
-  revocation runtime PM logic") was not affected.  Similarly,
-  snd_hdac_keep_power_up() in sound/hda/core/device.c is inside #ifdef
-  CONFIG_PM and also checks if (ret < 0).
+[Severity: High]
+Does acquiring, initializing, and powering on "usb3-phy" here conflict with
+dwc3_core_probe() managing the same PHY in the flat model?
 
-- 0d08026ac609 ("net: ipa: kill ipa_clock_get_additional()") only inlined
-  ipa_clock_get_additional() into ipa_smp2p_notify(); the
-  pm_runtime_get_if_active() > 0 check was introduced in a71aeff3dd0a
-  ("net: ipa: kill IPA clock reference count").
+In the legacy wrapper model, "usb3-phy" is on the parent wrapper node while
+the DWC3 core is a child device.  In the flat model, priv_data->dev and
+priv_data->dwc.dev are the same device, so dwc3_core_probe() ->
+dwc3_core_init() -> dwc3_core_get_phy() also calls devm_phy_get(dev,
+"usb3-phy") into dwc->usb3_generic_phy[0] and calls dwc3_phy_init() and
+dwc3_phy_power_on(), bumping phy->init_count and phy->power_count to 2.
+
+During probe and dwc3_xlnx_resume(), the PHY is initialized and powered on
+before dwc3_core_init() runs dwc3_phy_setup(), dwc3_core_soft_reset(), and
+dwc3_config_soc_bus().  During dwc3_xlnx_runtime_suspend(),
+dwc3_runtime_suspend() drops only the core's reference while
+priv_data->usb3_phy is left active, so init_count and power_count stay at 1
+(and in host mode the extra runtime PM usage count from the second
+phy_power_on() remains held), preventing the PHY from powering off in
+runtime suspend or across direct_complete system suspend.
+
+[ ... ]
+
+> +static int dwc3_xlnx_probe_flat(struct platform_device *pdev,
+> +				struct dwc3_xlnx *priv_data)
+> +{
+> +	struct dwc3_probe_data probe_data =3D {};
+> +	struct device *dev =3D &pdev->dev;
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	if (!res) {
+> +		ret =3D -ENODEV;
+> +		goto err_clk_put;
+> +	}
+> +
+> +	priv_data->dwc.dev =3D dev;
+> +	probe_data.dwc =3D &priv_data->dwc;
+> +	probe_data.res =3D res;
+> +	probe_data.ignore_clocks_and_resets =3D true;
+> +	probe_data.properties =3D DWC3_DEFAULT_PROPERTIES;
+> +
+> +	if (of_dma_is_coherent(dev->of_node))
+> +		probe_data.properties.gsbuscfg0_reqinfo =3D 0xf0f0;
+
+[Severity: High]
+Should probe_data.properties.gsbuscfg0_reqinfo be 0xffff instead of 0xf0f0
+to match dwc3_set_swnode()?
+
+dwc3_config_soc_bus() writes gsbuscfg0_reqinfo into DWC3_GSBUSCFG0[31:16],
+covering DESWRREQINFO [31:28], DATWRREQINFO [27:24], DESRDREQINFO [23:20],
+and DATRDREQINFO [19:16].  Using 0xf0f0 marks descriptor accesses as
+cacheable but leaves data read and write accesses (DATWRREQINFO and
+DATRDREQINFO) as 0 while dma-coherent tells the DMA layer to skip CPU cache
+maintenance on data buffers, which can corrupt USB DMA data transfers.
+
+[ ... ]
+
+> @@ -414,13 +603,24 @@ static void dwc3_xlnx_remove(struct platform_device=
+ *pdev)
+>  	clk_bulk_disable_unprepare(priv_data->num_clocks, priv_data->clks);
+>  	priv_data->num_clocks =3D 0;
+> =20
+> +	if (priv_data->plat->flat)
+> +		return;
+> +
+>  	pm_runtime_put_noidle(dev);
+>  	pm_runtime_set_suspended(dev);
+>  }
+> =20
+>  static int __maybe_unused dwc3_xlnx_runtime_suspend(struct device *dev)
+>  {
+> -	struct dwc3_xlnx *priv_data =3D dev_get_drvdata(dev);
+> +	struct dwc3_xlnx *priv_data =3D dwc3_xlnx_get_priv(dev);
+> +	int ret;
+> +
+> +	/* Quiesce the core while its register interface is still clocked. */
+> +	if (priv_data->plat->flat) {
+> +		ret =3D dwc3_runtime_suspend(&priv_data->dwc);
+> +		if (ret)
+> +			return ret;
+> +	}
+> =20
+>  	clk_bulk_disable(priv_data->num_clocks, priv_data->clks);
+> =20
+
+[ ... ]
+
+> @@ -443,12 +659,19 @@ static int __maybe_unused dwc3_xlnx_runtime_idle(st=
+ruct device *dev)
+> =20
+>  static int __maybe_unused dwc3_xlnx_suspend(struct device *dev)
+>  {
+> -	struct dwc3_xlnx *priv_data =3D dev_get_drvdata(dev);
+> +	struct dwc3_xlnx *priv_data =3D dwc3_xlnx_get_priv(dev);
+>  	int ret;
+> =20
+> +	/* Quiesce the core while its register interface is still clocked. */
+> +	if (priv_data->plat->flat) {
+> +		ret =3D dwc3_pm_suspend(&priv_data->dwc);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	ret =3D phy_power_off(priv_data->usb3_phy);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto err_core_resume;
+> =20
+>  	ret =3D phy_exit(priv_data->usb3_phy);
+>  	if (ret < 0)
+> @@ -462,13 +685,16 @@ static int __maybe_unused dwc3_xlnx_suspend(struct =
+device *dev)
+>  err_phy_power_on:
+>  	if (phy_power_on(priv_data->usb3_phy))
+>  		dev_err(dev, "failed to restore PHY power after suspend error\n");
+> +err_core_resume:
+> +	if (priv_data->plat->flat)
+> +		dwc3_pm_resume(&priv_data->dwc);
+> =20
+>  	return ret;
+>  }
+
+[Severity: High]
+What happens if the system suspends while the flat device is already
+runtime-suspended?
+
+Unlike dwc3_xlnx_probe_legacy(), which holds a runtime PM reference via
+pm_runtime_resume_and_get(), dwc3_core_probe() drops its reference at the
+end of probe so the flat device can enter dwc3_xlnx_runtime_suspend(),
+which disables priv_data->clks.
+
+When system suspend then runs while pm_runtime_suspended(dev) is true,
+dwc3_xlnx_prepare() -> dwc3_pm_prepare() returns 0 in host or OTG mode (or
+whenever a genpd power domain is attached, since genpd_prepare() returns 0)
+and the PM core calls dwc3_xlnx_suspend() without runtime-resuming the
+device:
+
+1. dwc3_pm_suspend() -> dwc3_suspend_common() calls dwc3_core_exit() in
+   host and OTG modes without checking pm_runtime_suspended(), accessing
+   DWC3 registers while priv_data->clks are disabled.
+2. dwc3_xlnx_suspend() unconditionally calls clk_bulk_disable() a second
+   time on priv_data->clks (and on error, err_core_resume calls
+   dwc3_pm_resume() with clocks disabled), whereas dwc3_xlnx_resume() only
+   enables them once and marks the device runtime active.
+3. Conversely, if direct_complete is ever used in device mode when
+   dwc3_pm_prepare() returns 1, dwc3_xlnx_suspend() is skipped and
+   priv_data->usb3_phy remains powered on across system sleep.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116152513.2676=
-573-1-Frank.Li@oss.nxp.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117150219.1326=
+693-1-radhey.shyam.pandey@amd.com?part=3D3
