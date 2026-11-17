@@ -1,91 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794912133;
-	b=Z4ION1RkU3IE3iapP7cPwXAGC/sC7OIWpf2r8DTfpmRZWXm5tvBu+0JR3pKSJLwjYfQf
-	 28ii0yMPgmlmz5s6gU3vKLbh/Q+WAwaUxTipsDttrpEo6Vr0yNWZeVfIVWK8U3d1V7bz1
-	 DnSfgHNUkQUC2lhEDRY2jPVXTivtLLsQZe9CawdiIzbFRd77Iv9dXW0ak0BC5EIl/rVlI
-	 lH1Sul4MWVbBQ3Y08m79BK8IDd2+aVqvKS1yYQLR8uCr+siyIUkw2ViUAQGylV2peF1wo
-	 pSvBii2LF8He+7nwjI/IEmYeDRyfycFbB8msfcTSuiDaFmW1XfpI5Qr/6adpHgSF+CQ==
+	t=1794912197;
+	b=x/Cpi41nvNPdRjsINqoE5KCoTwgKGLBhuC8Gkv7Jp7q11vDGRwH7ead4ZPoiYYGDneeB
+	 +HbkSAA2oudwYgiWPEgWKdtPP14mt5rHIQkYomVTQjWOtWTRhgLtwQw4ZlKCrg8kMd/SE
+	 /srq2BmKevGd/Snqa1JKh3IpJukzs+DeGmEpwtsDpuIunp41slT1D5yth3FRyuyfCXtpb
+	 OEe7DnxjNiDNQyKuXKkAmqyfLwODXJacsJ5nFTNz8DlJs+FQ7kis848WUg5xxfHtN2Bku
+	 qIiz2Jah3PWf76zqRUXb2c97NO4FTCOv5EjYOfCa8Gl/l7acwwZW8HHptmWcKm3l5Jg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794912133;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
-	 Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Last-TLS-Session-Version;
-	bh=wceIsHyc0JJfV1Tp3tL8VGdKFtx5ifQ7EH/SXRMWvMs=;
-	b=W3hax1y/KX/ZIzk4BIJQO8uZU4XHHp/Ui5+goHYkX1faWbNlKz4ds1DsdMvj6iUAiSbM
-	 oB+vKcKbQl62cAsfb9FCRx8jb8IUI6K+p89o6VU6HBrZfg68P0DHNcDpzAllAgW91Wv0u
-	 Vj3l/L9L9VEMXzWT/Zh8g9tFKgdK1LNUqVXvIQF7KxD0MM7Xnmyp0wd/yRQmnzW7HtXwc
-	 ELV3lUowrYNf1wORaATAHhy2pJ7ZO2JIAE1BQSzUQK4z4o5DXp0Y1LM8+HWYof54hUCvE
-	 r3ELos12lTk6u6PHPNy6Oi2YUGQodCTpTRwdT6C0MyFq83TTPzhAayMqwTGztmU2wVg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794912197;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=6Bx6aGWAfxN03v1MCMPsA0sS0oGqYFrxfyvjdLje8lg=;
+	b=UsFAAvBN6U9TxLJPLjXPhSAlJugW21dYk5lsskWHjwGcKoky7N0UABzaGYR/GtBJOenq
+	 pti3cG474LUYue+ilccz4+TwhJVh0kOaGuJy+xAQC3RNTKTBPqpsEWrBT4+Q+dpJZk72H
+	 zot4WcUjKBdyAUoy40x+MyFF0KwKDKY1pwp1MA6WzzAd0CHuB4B/pZt71kncTUgc6/p3o
+	 KSE2pGTIdZ8KoM4oiRaWw1u2l+UpAloxion4dfYTNsMEMgWFIOxcHF6lJom/+DFwubh2i
+	 +Qi5M9/lCfKuxgyUpDYtg5alR/05XtXXZD7AwI/3929mqi4AdB5LBObdjSTLYw7Nf/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=a26lEPKG;
-	arc=none smtp.remote-ip=185.246.85.4
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PA3h6R6d;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E92606A323;
-	Tue, 17 Nov 2026 10:42:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65E92606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87497606A31C;
+	Tue, 17 Nov 2026 10:43:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87497606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=a26lEPKG
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id BE59F4E41471;
-	Tue, 17 Nov 2026 10:42:10 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 61C145FC81;
-	Tue, 17 Nov 2026 10:42:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9D08311BC05B4;
-	Tue, 17 Nov 2026 11:41:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1794912127; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=wceIsHyc0JJfV1Tp3tL8VGdKFtx5ifQ7EH/SXRMWvMs=;
-	b=a26lEPKGpRLbN20V+Guhv3+Ri3lgmGzYvJ9lhcDbnoztwv8hrDn+FB4Wm5cL8Gq54hX4LI
-	Zd/Zx/RRnC4xEEEZkSBZIY3E0VChxBDnl2qBszN/EpA8qomHLNGuZoi4h1mKqMjEeM57RB
-	IgfkmPfTFxq1THD6o9kLLC1nehFx22DVjHITXSbV6kJy/1MskOp7pEkNeO8aCZRgve6liv
-	iUXR2/+qBbBKrzLeD21mY0v+KPhOZEVl1opMjW1aTG+ZGaaaBInvMdB1XRbGlklCCCrwUB
-	dTwnW0TPclaOwwjY9QmOmvSSZKdpJpXlXQ4AiibFZx2eouDgjXeanClktsboyg==
-From: =?UTF-8?B?QmVub8OudA==?= Monin <benoit.monin@bootlin.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jun Chang <jun.chang@metanoia-comm.com>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Conor Dooley <conor@kernel.org>,
- Jonathan Cameron <jic23@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
- Samuel Holland <samuel.holland@sifive.com>,
- Ben Zong-You Xie <ben717@andestech.com>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
- Jisheng Zhang <jszhang@kernel.org>, CL Wang <cl634@andestech.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, Adrian Hunter <adrian.hunter@intel.com>,
- Minas Harutyunyan <hminas@synopsys.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Randolph Sheng-Kai =?UTF-8?B?TGluKOael+iBluWHsSk=?= <randolph@andestech.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-phy@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>,
- linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
-Subject:
- Re: [PATCH 00/25] riscv: add support for the Metanoia MT2824 SoC and MT5824
- EVB
-Date: Tue, 17 Nov 2026 11:41:52 +0100
-Message-ID: <_koitdIgQPmk89LDhlUlJQ@bootlin.com>
-In-Reply-To: <f6bb6461-c9d0-4685-8c93-7e62691a93b8@sirena.org.uk>
-References:
- <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
- <f6bb6461-c9d0-4685-8c93-7e62691a93b8@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PA3h6R6d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794912197; x=1826448197;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=f+rZ70jL9NuYsutro/ekKRtcwGGOxbC6WYytJj8x+/8=;
+  b=PA3h6R6d/VRwHZrSA3hU2ErZ+cR1nv3MLnk43Q3GimPsiWDVx2irWz1d
+   +u7nzZkTdWPf71gh0ZMhNJioX/DKZVPAaja6FO4YVcL3ASa8M4tB7faAU
+   Yr4SghX6FY/vJnmSFpFhYPLPulU7ehYoKg4j7ph5d44f8xQAwgRjMzryv
+   aDhr0ZOFBEG0Y3PGKrElc3LyRMluYujZrgswP0t5jZUdCb9Y9xJsPSqMI
+   GfUgEfJbzbd3/DlbqE5ayhWhakCn8P4wnGSCEY3mkFTcvIgm2ZJEXUtTc
+   XR2xdcngyOp/exXwiYeepbcKDOZ1Y29LhpJb7fkYOsdK5M4HwyezdA5NQ
+   g==;
+X-CSE-ConnectionGUID: 7YQcWJuaQ5SlvNI7iuWIPw==
+X-CSE-MsgGUID: u8SaPZSbSZK1graYWmtGNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3600973"
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="3600973"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 02:43:16 -0800
+X-CSE-ConnectionGUID: Nzqs3jYXS5GkPf0gSVdZKA==
+X-CSE-MsgGUID: 3cq5BzNoSAaTy3999ZO3ng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="9742331"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa007.jf.intel.com with ESMTP; 17 Nov 2026 02:43:14 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 22A2C99; Tue, 17 Nov 2026 11:43:12 +0100 (CET)
+Date: Tue, 17 Nov 2026 11:43:12 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: aiyengar1990@gmail.com
+Cc: Badhri Jagan Sridharan <badhri@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Heiko Stuebner <heiko@sntech.de>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v2 2/2] usb: typec: fusb302: Toggle with the default Rp
+ current
+Message-ID: <avwvwBLFBHCc36dc@black.igk.intel.com>
+References: <20261112-tcpm-attach-reboot-v2-0-b4bc6ca83490@gmail.com>
+ <20261112-tcpm-attach-reboot-v2-2-b4bc6ca83490@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -95,60 +86,102 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112-tcpm-attach-reboot-v2-2-b4bc6ca83490@gmail.com>
 
-On Friday, 6 November 2026 at 12:15:09 CET, Mark Brown wrote:
-> On Fri, Nov 06, 2026 at 10:29:57AM +0100, Beno=C3=AEt Monin wrote:
->=20
-> > The series is organised as:
->=20
-> > - patches 1-14 add the device tree bindings, the Metanoia vendor prefix,
-> >   the RISC-V board schema and the SoC block compatibles
-> > - patch 15 adds ARCH_METANOIA and selects the AX45MP errata
-> > - patches 16-23 add the reset, SPI, watchdog, MMC, PHY and USB changes
-> >   needed to build and probe on this SoC
-> > - patch 24 adds the MT2824 SoC and MT5824 EVB device trees
-> > - patch 25 adds the MAINTAINERS entry
->=20
-> This sort of thing tends to work better if you submit the patches for
-> subsystems as separate serieses, it avoids enormous CC lists and keeps
-> the individual serieses a managable size.
->=20
-I agree, and I am reworking the series that way. Version 1 was intended
-as an overview of the complete SoC support, but it ended up being too
-big for a single series.
+On Thu, Nov 12, 2026 at 08:23:34AM +0000, Arun Iyengar via B4 Relay wrote:
+> From: Arun Iyengar <aiyengar1990@gmail.com>
+> 
+> tcpm_start_toggling() programs the Rp current that tcpm asks for, which
+> is the current of the source PDO (Rp 3.0A on boards that can source
+> 3A) when the port starts toggling from Unattached.SRC, and the default
+> current when it starts from Unattached.SNK after a detach.
+> 
+> A Genesys Logic based USB-C to DisplayPort cable connected to the
+> Orange Pi 5 is often not detected after a warm reboot: the FUSB302
+> toggle state machine raises no interrupt with it while it drives the
+> high Rp current, but finds it within seconds once toggling restarts
+> with the default current after another device was detached.
+> 
+> Toggle with the default current, and switch to the requested one when
+> toggling stops on a sink, before tcpm is told about the attach, so the
+> sink sees the configured level from the start of the connection as
+> before. tcpm does not set it again after attach on every path (not on
+> ports without PD, for instance). The Rd detection threshold used for
+> unplug detection follows the restored current.
+> 
+> The FUSB302B datasheet sets the toggle up the same way: under "Toggle
+> Functionality" the processor writes HOST_CUR for the default current
+> before it sets TOGGLE, and a HOST_CUR change after attach is applied to
+> the CC line immediately ("HOST_CUR Changed After Attach").
+> 
+> Fixes: c034a43e72dd ("staging: typec: Fairchild FUSB302 Type-c chip driver")
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 
-So version 2 of this current series will be only the platform basics
-(2 patches):
+Looks okay to me, but you need to CC stable:
+https://docs.kernel.org/process/submitting-patches.html#select-the-recipients-for-your-patch
 
-  - dt-bindings: vendor-prefixes: add Metanoia Communications
-  - riscv: add ARCH_METANOIA Kconfig entry
+But let's wait for comments from Badhri to the tcpm patch.
 
-It will act as a prerequisite for the following new series, one per
-subsystem:
+Thanks,
 
-  - reset: binding + reset-simple support (the separate reboot binding
-    is dropped; the RST block is described as a single node)
-  - SPI: optional DMA/IRQ binding, MT2824 compatible, atcspi200 IRQ
-    support + Kconfig
-  - watchdog: compatible + Kconfig
-  - MMC: compatible + MT2824 support (split between SD, eMMC and
-    auto-detection) + tuning/HS400
-  - PHY: USB2 PHY binding + driver/Kconfig
-  - USB DWC2: binding + params
+> ---
+>  drivers/usb/typec/tcpm/fusb302.c | 21 +++++++++++++++++++--
+>  1 file changed, 19 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+> index 3319f6a2b0c9..44aa05fd4ba2 100644
+> --- a/drivers/usb/typec/tcpm/fusb302.c
+> +++ b/drivers/usb/typec/tcpm/fusb302.c
+> @@ -97,6 +97,7 @@ struct fusb302_chip {
+>  	/* chip status */
+>  	enum toggling_mode toggling_mode;
+>  	enum src_current_status src_current_status;
+> +	enum src_current_status toggling_src_current;
+>  	bool intr_togdone;
+>  	bool intr_bc_lvl;
+>  	bool intr_comp_chng;
+> @@ -942,10 +943,19 @@ static int tcpm_start_toggling(struct tcpc_dev *dev,
+>  	}
+>  
+>  	mutex_lock(&chip->lock);
+> -	ret = fusb302_set_src_current(chip, cc_src_current[cc]);
+> +	/*
+> +	 * Look for a partner with the default USB current advertisement.
+> +	 * Some sinks (seen with a Genesys Logic based USB-C to DisplayPort
+> +	 * cable) present an Rd that the FUSB302 toggle state machine does
+> +	 * not detect while it drives the high (3.0 A) Rp current, so they
+> +	 * are only found when toggling starts from the sink side. The
+> +	 * requested current is restored when toggling finds a sink.
+> +	 */
+> +	chip->toggling_src_current = cc_src_current[cc];
+> +	ret = fusb302_set_src_current(chip, SRC_CURRENT_DEFAULT);
+>  	if (ret < 0) {
+>  		fusb302_log(chip, "unable to set src current %s, ret=%d",
+> -			    typec_cc_status_name[cc], ret);
+> +			    typec_cc_status_name[TYPEC_CC_RP_DEF], ret);
+>  		goto done;
+>  	}
+>  	ret = fusb302_set_toggling(chip, mode);
+> @@ -1357,6 +1367,13 @@ static int fusb302_handle_togdone_src(struct fusb302_chip *chip,
+>  			    typec_cc_status_name[cc2]);
+>  		return fusb302_set_toggling(chip, toggling_mode);
+>  	}
+> +	/* advertise the requested Rp current now that a sink is attached */
+> +	ret = fusb302_set_src_current(chip, chip->toggling_src_current);
+> +	if (ret < 0) {
+> +		fusb302_log(chip, "cannot set src current, ret=%d", ret);
+> +		return ret;
+> +	}
+> +	rd_mda = rd_mda_value[chip->src_current_status];
+>  	/* set polarity and pull_up, pull_down */
+>  	ret = fusb302_set_cc_polarity_and_pull(chip, cc_polarity, true, false);
+>  	if (ret < 0) {
+> 
+> -- 
+> 2.55.0
+> 
 
-=46inally, once the subsystem bindings are accepted and the drivers
-are queued, I'll post the SoC DTS in its own series: board schema +
-cache/PLIC/PLICSW/PLMT compatibles + the MT2824/MT5824 DTS and the
-MAINTAINERS entry
-
-Thanks everyone for the reviews, I will integrate the feedback in the
-next iterations of each series.
-
-Best regards,
-Beno=C3=AEt
-
-
-
+-- 
+heikki
