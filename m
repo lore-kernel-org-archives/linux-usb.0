@@ -1,60 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919229;
-	b=IbQMX+V9KLg268VUIwDXgSQsjUVjVluN1MnXsQINYq0g15etIpahGkn1On0t+QeihAZ5
-	 hUjGhZOBRcMKrRvVzms0Orj3v1G05WDmNirHjeJiPO+3sWxPMG4/0jUQYennqWC2/D+MJ
-	 qe4MaZYW3RuyyYDXuwWll2DTz6dnBMW3xVYEtYH1vGOIUBeo8G83Fy26fq8aAS9+2ew//
-	 hfj8Me6CCQ0A5gfIxwM/o/FCH9lGNdYr6v+Nvhkw20fz4/3x6dUHkLmXIwvtzJaXV2K1w
-	 rTR+udIFt3jYMYd0YGqyF7Vu9P7Uuu9wGtn54vI0tj6f3mZBe6ah0L5hPvaDQGDbplQ==
+	t=1794919235;
+	b=mKCsO47mTk8nEEXvVNZuDK6hINxLu52NDc6mcypX2K4zhq2YNoHEV6FDHlldNaAXGsHu
+	 cILEfYqDZsF6fL7wi7zZwj+TT0DAX6QN527FO1kHL7INttZmd96D6N5gne0ILt8xDqhVs
+	 nlM1JRIb3C30OVeFjSUjOUvMDpI9IHzrDrLy3HiUOxLQ56/mtvzMIclDiDXan1/gsoHVF
+	 WqHrFBkE0sMR592xvqSXcB/hiI9cTlsqc0JCGdtgKKkLtJ2WdjAdOkF7waKUKev6miXTS
+	 sJSsDvSeuWSkcN4XarvTOP1Hc3XKkFFh/oENQi7YMDAiDhTvCLcDFQ4XQbELt5YNamA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919229;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:Date:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-QQ-SENDSIZE:Feedback-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=g3XrxVl29KacKlQRIN1gy23c2VjGF2woZUCFggJlwt0=;
-	b=JEzvhavGwnlWb2zyUvt5pirbK4iXwObqkdC0AUmQp6iNswopkanNw22uwq7GAJdRCL6s
-	 dY1CyQCLWuOP3C/yQy3C/RDnVpHtmOPBTY51ABhFfU05FRogK3W4zWAqScBhsIPi3lWUD
-	 xdtA3+ZPXXxUsnDWb7s8gjUlf+uYRYhA19U/TZyWN8llTlSBGxcow1+5Kr8AwlJiQVDzx
-	 ZKQ4n1VGVr3kO3inrWSJvr3h3Q+BBnlLsEl+I543olPbVygiHryylV2FW0RODes5Awo86
-	 EAl1cUCbTG13rgwbdMKw3TNMBA8LDQbEJObmPV3iT7PCXuE/B0RBlcSbvv+yj1MMZ4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919235;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=PpZGP+PvnlnE+Ru0bvBoaiq99U2o1zAEk1IJID0atSs=;
+	b=S/gD0cJKAo+ObYbexEgNng3Naj0QenvVye4Lgkbxe3YPQPYbYuYaD1BxQKURnKWrHssg
+	 7WRYHONvrz3Xv7YsKyiZsvVzWAK2sDaAN2NLwmx+QT5RCZ83xt3LWAZqOVwY/0pPj7hcx
+	 CtFtO3qCBuYuoLYA4TwVTrgNV4gRnAr/ceQbhbU9HRaPWIrn7ZPKmdP4sCTrxeXqUumG8
+	 QbCMpBLFqdzvTrEN7rQseyawgle0D91+fkgZWR1Qj+pwzwuQnHZkbkkWBvNWTwflQScNW
+	 zdwR1CJ41NN5lmGEhRWpAUElzkmsZlSGSDHBtpzDvejqoA6CyCCr4/p1No4+gcE4xyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux.spacemit.com;
-	spf=none smtp.mailfrom=linux.spacemit.com;
-	dkim=pass header.d=linux.spacemit.com header.i=@linux.spacemit.com header.a=rsa-sha256 header.s=mxsw2412 header.b=sCppH1wJ;
-	arc=none smtp.remote-ip=54.243.244.52
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kiNDRQHs;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C97B606A8A6;
-	Tue, 17 Nov 2026 12:40:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C97B606A8A6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C69606A323;
+	Tue, 17 Nov 2026 12:40:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.a=rsa-sha256 header.s=mxsw2412 header.b=sCppH1wJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1794919162;
-	bh=g3XrxVl29KacKlQRIN1gy23c2VjGF2woZUCFggJlwt0=;
-	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=sCppH1wJ3liVVHPDa+8bt44Zl/b+1YP8l53ottzJVp36BP9xhmu6mgupC4zTbiaBW
-	 xLITLodET/sFEhLgvlVWojCiv6OaQcG9ZhAd/S/+4KE2z6OoLAaso+mJ99bMk2fQyL
-	 LeKoECc067JP0K/JHtA2Vp9jXBXe3WAd57bHH93c=
-X-QQ-mid: zesmtpsz6t1794919150t0231c823
-X-QQ-Originating-IP: xXPFKjlewoV7k+nvY5YMHUzCW0y+VjSdI5kYEFc/whM=
-Received: from LT-PANJUNZHONG.dc.com ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 17 Nov 2026 20:39:08 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12814507513609067506
-EX-QQ-RecipientCnt: 21
-From: Junzhong Pan <panjunzhong@linux.spacemit.com>
-Date: Tue, 17 Nov 2026 20:38:48 +0800
-Subject: [PATCH v5 6/9] riscv: dts: spacemit: add USB2.0 controller nodes
- for K1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kiNDRQHs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53CFA1F0034C;
+	Tue, 17 Nov 2026 12:40:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794919234;
+	bh=PpZGP+PvnlnE+Ru0bvBoaiq99U2o1zAEk1IJID0atSs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kiNDRQHs2N82WZA4WJqrgAs5Syi1bAJxsxR++ZWl/fOOMauVcvy5bIGSPAbkLg//t
+	 47htGszwuCHckq72O+Jau+C6bWRi2r92L0uzQbQ4oQECauSFY6bwgDuog70J5pkeIt
+	 YR5HLTH6ZXIUBRIWuk8h65TUW/eC59jE+oxpowOgayoNcjYSB2eQnBuAEpuxaWVucH
+	 +mQFrucdbvencXYvD+EOkLDpeuCHwP7N+Nb0oGfkwx/CiG45vttsBxC6uvE1dO8Rf6
+	 EEvZXmpv5mXffCkCr7ejVMXcM9xiK7O2EWs8KX8NFlTKr20z4tuITlSs8HKxIjBMUG
+	 mEMxngTerw/cA==
+Date: Tue, 17 Nov 2026 13:40:32 +0100
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jordan Viknar <jordanviknar@gmail.com>, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] dt-bindings: usb: Move Tegra-specific Chipidea
+ USB properties into a dedicated schema
+Message-ID: <avxHzF-uiOAhwXIW@orome>
+References: <20261004165204.205660-1-clamor95@gmail.com>
+ <20261004165204.205660-2-clamor95@gmail.com>
+ <20261026222928.GA15139-robh@kernel.org>
+ <CAPVz0n2rkWikz1CZhkKiZnX5P+NdDH0RfJi69AyVTEV7qw_VXg@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -64,126 +64,70 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261117-b4-spacemit-k1-usb2-v5-6-52c3829cca69@linux.spacemit.com>
-References: <20261117-b4-spacemit-k1-usb2-v5-0-52c3829cca69@linux.spacemit.com>
-In-Reply-To: <20261117-b4-spacemit-k1-usb2-v5-0-52c3829cca69@linux.spacemit.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>, 
- Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
- Peter Chen <peter.chen@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- spacemit@lists.linux.dev, Junzhong Pan <panjunzhong@linux.spacemit.com>, 
- Ze Huang <huang.ze@linux.dev>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794919127; l=2186;
- i=panjunzhong@linux.spacemit.com; s=20260306; h=from:subject:message-id;
- bh=TE3ZmoSbwMioV1cYWrwZplLOf4/AixJgi7cmhlpJlr4=;
- b=NKUqtzmZaXjoAU8RENbPSPsPupJ4BzMvAKw2rcSWc6RVTtVRGKKe0EmJWhDTVByiKhexzvR2S
- zjUkK+eGbJqCsajwHVR4GMkszb8xSDybO8X7qUWzn5viZZH8cgrxLgn
-X-Developer-Key: i=panjunzhong@linux.spacemit.com; a=ed25519;
- pk=bY08BOg2T9H93/jG8fEE/tVmdXoQQMp9M2rtzPFoyJg=
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
-X-QQ-XMAILINFO: NfGQECF1EzMaCFIGEthIjp3oc6NCoW5U9RYC1n7+M2qTGxvawEEQeicT
-	PFbC+auVWr4BtOqsRFR5cwDk6e1h0v5ktGI9SwKotyAN0YC5Xda6XWfhIECkE3Gy0ByJKFX
-	eeoZyEBQ4vsk7aVZ6uMyOfrwbxTm4AicsAR24+g2zD4GZKrd+oAB0TysJz+F+OXjfdZNEGC
-	NygI9YKXQDJwM0C5ra9h0caj/dxl22mDZIfDiN3tJDoNyjs8UoFY69Y/YxnA5sB5wFyv+Vj
-	yPnIzX9B3mANbR3s7kBz69RRmY5+hWyWhd+daabCnuox+pI2wdfnR1gPKqZGoCC8Hy8e+23
-	c4PSNGGF+GJx4WKUUpG6ztv3Hc8lScMmeHgAKiPsjbd+ofcfwPIf1RNRgtbbTyUKkSVFOcD
-	g8HHaKoGf2PWGfA8hTBuoR4Fw97cgzh9WDy5c651XxKt3NQizx0uK25kAqRkIkOowUBAQCL
-	MZc1LH9X4keBTjT/xUjURmTndpislu6PJ+co0jq6CputNwdAXAKF5GVuLHihNtf3KLLeR7p
-	Q2ztAcZIaABXowhEGucGOI5ZueuVoFkIfRMdhGqu4kfC9isWbbexI0uZB305QJx08Hvmv55
-	QgeGoDrDhcqb3B309cw+6WyXBzmYEMssYfaMz7EKR9ke14QKoEUMhtdl6gtPAlJcS1CiUBJ
-	ifKSEtO81sqKQW/RrI2WdBLNb8z8Ti7dV66qMLoQKw6MlbLaeM2kmbcL02VnxQUAMvoA4n2
-	pYzsm6m7EPKk74TobFSlj/jxU/pR3QcjD3aRkB7xrI6DIsO/WZKbTdY2Bxa34kt6FwLu65q
-	MqnlRuq3UgR+1e599ArmopAJimHDRcg41cCt/qFJlNIsnxPUEtpmHF4cJXy13Po2CHNHJt1
-	QD62piTltjKkjxR9kzzkSSLqXRXQkWlXdTE2zfLkIndkrJXkeyD5atSF9RH2RhO7gGP/i+x
-	gJ0KvlhwhR1LzA6tJtaps4qTZpqui58kT7lOqACtALFlIaHgoftkNvUf12avk/AXdiUU2ET
-	RiFXOUOYOIdFoTghLe1x4CKP97L0NJURvFE9NG2Gx0MsskcevoNlk2u2ZNrfeeYvUZ0i5hl
-	6OU5Mou1hw63Y7nXf0FP0b4FPVko/LefBPm+IT5iVPZcquBL33xQVYqhZtXEw8j5xLfYGKM
-	NeaD1dqC++dir3dtutgAMojLUHQIhNm90oSe
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-QQ-RECHKSPAM: 0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="46d2lau2pfpmds64"
+Content-Disposition: inline
+In-Reply-To: <CAPVz0n2rkWikz1CZhkKiZnX5P+NdDH0RfJi69AyVTEV7qw_VXg@mail.gmail.com>
 
-The SpacemiT K1 SoC has two ChipIdea USB2.0 controllers.
-- USB2.0 Dual-Role
-- usb2.0 Host Only
 
-Add the controller and PHY nodes.
+--46d2lau2pfpmds64
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 1/2] dt-bindings: usb: Move Tegra-specific Chipidea
+ USB properties into a dedicated schema
+MIME-Version: 1.0
 
-Tested-by: Ze Huang <huang.ze@linux.dev>
-Reviewed-by: Yixun Lan <dlan@kernel.org>
-Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
----
- arch/riscv/boot/dts/spacemit/k1.dtsi | 40 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+On Tue, Oct 27, 2026 at 10:51:52AM +0200, Svyatoslav Ryhel wrote:
+> =D0=B2=D1=82, 27 =D0=B6=D0=BE=D0=B2=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 00=
+:29 Rob Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > On Sun, Oct 04, 2026 at 07:52:03PM +0300, Svyatoslav Ryhel wrote:
+> > > Move all Tegra-specific Chipidea devices and their properties into a
+> > > dedicated schema file, by analogy with i.MX.
+> >
+> > I don't really see the point given it is only 2 deprecated properties.
+> > Maybe those can be removed? Depends if they are deprecated and still
+> > used or deprecated and removed from .dts files years ago.
+> >
+>=20
+> The ci-hdrc-usb2.yaml schema contains properties that are not
+> applicable to Tegra, and conversely, Tegra-specific properties are not
+> applicable to qcom, nxp, nuvoton, etc.
+>=20
+> The 'nvidia,needs-double-reset' property is required for Tegra20 and
+> Tegra30, and it is still actively in use, as you can see here [1]. Its
+> marked deprecated state appears to be incorrect, as it should simply
+> be restricted to Tegra20 and Tegra30.
 
-diff --git a/arch/riscv/boot/dts/spacemit/k1.dtsi b/arch/riscv/boot/dts/spacemit/k1.dtsi
-index 542bfc0d19f5..e5c701f488ea 100644
---- a/arch/riscv/boot/dts/spacemit/k1.dtsi
-+++ b/arch/riscv/boot/dts/spacemit/k1.dtsi
-@@ -459,6 +459,22 @@ syscon_rcpu2: system-controller@c0888000 {
- 			#reset-cells = <1>;
- 		};
- 
-+		usbphy0: phy@c0940000 {
-+			compatible = "spacemit,k1-usb2-phy";
-+			reg = <0x0 0xc0940000 0x0 0x200>;
-+			clocks = <&syscon_apmu CLK_USB_AXI>;
-+			#phy-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		usbphy1: phy@c09c0000 {
-+			compatible = "spacemit,k1-usb2-phy";
-+			reg = <0x0 0xc09c0000 0x0 0x200>;
-+			clocks = <&syscon_apmu CLK_USB_P1>;
-+			#phy-cells = <0>;
-+			status = "disabled";
-+		};
-+
- 		usbphy2: phy@c0a30000 {
- 			compatible = "spacemit,k1-usb2-phy";
- 			reg = <0x0 0xc0a30000 0x0 0x200>;
-@@ -1301,6 +1317,30 @@ storage-bus {
- 			#size-cells = <2>;
- 			dma-ranges = <0x0 0x00000000 0x0 0x00000000 0x0 0x80000000>;
- 
-+			usb2_0: usb@c0900000 {
-+				compatible = "spacemit,k1-usb2";
-+				reg = <0x0 0xc0900000 0x0 0x4100>;
-+				interrupts = <105>;
-+				clocks = <&syscon_apmu CLK_USB_AXI>;
-+				resets = <&syscon_apmu RESET_USB_AXI>;
-+				phys = <&usbphy0>;
-+				phy-names = "usb-phy";
-+				dr_mode = "otg";
-+				status = "disabled";
-+			};
-+
-+			usb2_1: usb@c0980000 {
-+				compatible = "spacemit,k1-usb2";
-+				reg = <0x0 0xc0980000 0x0 0x4100>;
-+				interrupts = <118>;
-+				clocks = <&syscon_apmu CLK_USB_P1>;
-+				resets = <&syscon_apmu RESET_USBP1_AXI>;
-+				phys = <&usbphy1>;
-+				phy-names = "usb-phy";
-+				dr_mode = "host";
-+				status = "disabled";
-+			};
-+
- 			usb_dwc3: usb@c0a00000 {
- 				compatible = "spacemit,k1-dwc3";
- 				reg = <0x0 0xc0a00000 0x0 0x10000>;
+For what it's worth, I looked into this a little bit to find out why
+this is only needed on USB1, whereas USB2 and USB3 don't seem to be
+affected. Turns out that USB1 is a different controller than USB2 and
+USB3 and it has this errata. In retrospect it would've been more correct
+to assign a different compatible string for it and derive the quirks
+=66rom that, but given the ABI stability it's probably not worth
+correcting it at this point.
 
--- 
-2.34.1
+Thierry
 
+--46d2lau2pfpmds64
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmr8Sz0ACgkQ3SOs138+
+s6H2JxAAqetcrbKWLmI72r57SUOoEE1aRxGYZ3oG0t7oJ3lG2vYEuRqDddePjWG2
+VWJ441BBY4at5Ib0utYLB5zK+3yVJecPCxv1FwxBf8hyGMzlAgeWQkUXze0OkcSF
+c6Z+wVO3arETFnincediCilM8XsvNcMM/T/vDO7dFb6qigOG5qnsOAFQeNLRBA1p
+aygcSyTnR5CEzwly48u97Xlqjizur1QSYUxyNzPCenote01yFb9/yhw8QKK7IRIu
+jLVF+lKN9HqkAOLTzLiZ6SgC14cUwgG3abyVAmbbXu6KaMRNagEy29UYcFr47vhI
+ffIN5ZcM5SHmM2jIT0CZU6JF5GopNoByUYVWwYZvBM9Mq3qbYcDPmCwOSmSuVhed
+NyEdaGIGBIjw6LKzHZhfc/kjwNCJNkHWFEBHrtsf2A5aKbeogDVHGThSZx8/1/Yy
+1Dz6LF18AyzdyZdwyw2tDgEBGhHBEdcO9X+lhTmybZeqtzqZ8T+BnYui8UdvaUVN
+UaYdFyDn72Scni7Ybtv/2wIqeLmYTu1Nez6ypznJf/8h6VX+CDvEtvRhpqGPMx42
+CSjmuWJ+0/aJ5LRT2k1ndGbjWiLodnfFHBUdgGhFclyb1xqrMec70IXBOZy/Y0xZ
+DyL4KhBQrL0AK+hHLEpasWdWNU+boFRwyTOvC4zRG9a9s/Cyz18=
+=TFe/
+-----END PGP SIGNATURE-----
+
+--46d2lau2pfpmds64--
