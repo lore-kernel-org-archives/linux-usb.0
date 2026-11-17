@@ -1,54 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.154.241.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794914523;
-	b=iy4o90pKNWoeW04LFSJdjHNTx4EmzO+AwqZIZjGDo8p4YWvczgqkiOM8LQIl3OvB3aTr
-	 O5pzXbUXTeWsL3RHkGL6oPW0VVVTRqZi3bcHk+sFrbgHzkQrp7oQzh/SkWiO1oIQNtin/
-	 XPDOBpHg1/C3zUvMeXgOl3t1Ay2Y3hQVuhwCTYSA8UFKghFvOeAkJtLEzSnbsxp58fYXR
-	 0//FNx8ylRsyxKBd0YPoH2ZRxWW7IgkdaClHWR+G2Psb2USVcy5dSdYl2zy4tFY+ffXsi
-	 u0FovZllZc5/SXWtA7S6c5yYFiLjABmWTOP4Bufu0yvTM/tvq/xhqZUQgEILR9P9TBw==
+	t=1794914831;
+	b=dYovntq5BHQnr2BTUlEi51CDf+zAqqhVkKaEmGNB6IXr0PiucWQpavJfbUeKmWE/KQwp
+	 cOLQMjm0SdPM0LL58ipVAcugcwzSQ8mL8lTexHo6rcKkSiQgShiNQfeJkL9oVZ/IZZD3c
+	 j9Wu+9l7J6Zd62mbCpIPJx3RQ59ApynUrSgnlDtJ3+wTkAvMuVEfSnpfb7+HQZbmHhu/J
+	 Cj/e9hdh5vLJAhKcu/zHx7DoxYXDhjfbpJmmd4jhJxwcnC5sJG8+EEbcOxbaVED/iI/81
+	 NEgHVhOkHwIy1JMbm5e38MTPGGTIcuzfZ3YcUehe5s90/kz4i5mSyQj10CGrdGDH65Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794914523;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
-	 References:Organization:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Bm-Milter-Handled:
-	 X-Bm-Transport-Timestamp;
-	bh=1VP7HSJazIripIGlS6comNKAjpk2pr2ij7iTfrF+Gmg=;
-	b=mM6IgAaoqscDjpqOxm3AKCQmEpK9zYL/n8aJBE45Redk8z4AxSVPNCRV6bckB6Je9nx/
-	 bmrk7YUf+csUwoiQXijg0AEpERLpKPP2vSmoqmJHij2y8Yntm/0NqGF9pvc36fudX/0J+
-	 Yckh5I2G44QMO+HH/Xprj1bRbCdXCh4aIPdoodSlmG3xjo1RmGRJAjkfWpkmooem/e911
-	 yfZXnhwvo3DcDiKvJf4EhkIzFP2rZKY37TC5sqcSAAmL3Ijy7XcoIDkBsp2LR5dds9F08
-	 C6ix2lBiUYH5I9t9PU1+LMcJIsKA/4Hlg2xTxQb7hmlXjuLJ/cFObbNqB+2v65oYJDw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794914831;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=QPAPvGBfnkOn6DrmTpqDyduhHOhK/9G5n0SIw0otNC4=;
+	b=PEdK3+U3yrl6+hTJMvGJ3er6vZZGqh3x8wEDgy4HCW5IUbGSt76r3qGSxAXOKJR9+GYB
+	 14o1OZD0CR5TIehKVWYb8tDDZyK5zxL0bl8W17ByFdfRqwQ8M5US3NmDEX6LO4wvISWhG
+	 nha85Ce0qlIhM08dBzWQmiWXT5LkdBGABrxN16gO4om6C06ELtXNhkLfxrTyzOp+J+4ZY
+	 rPfUywJKFAkUOkTxan+zaQ9HJ8u9r1YFBJuxcvwoi43Ljizh9opRrBp16Mauat4KiIngO
+	 0nAvq64Uv1X49WnYW6/aWdXPvR2N6NpWrgNOO9XiWygFfJDL+EVZbD51BfRAfx1a0lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=lauterbach.com;
-	spf=pass smtp.mailfrom=lauterbach.com;
-	arc=none smtp.remote-ip=62.154.241.218
-Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Kvihhq6d;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BB4606A31C
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 11:22:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4BB4606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
-Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
-	(Authenticated sender: ingo.rohloff@lauterbach.com)
-	by bm.lauterbach.com (Postfix) with ESMTPSA id 0B8022140BF42;
-	Tue, 17 Nov 2026 12:21:54 +0100 (CET)
-Date: Tue, 17 Nov 2026 12:21:53 +0100
-From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-To: Neill Kapron <nkapron@google.com>
-Cc: gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk, me@samcday.com,
- michael.bommarito@gmail.com, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] usb: gadget: f_fs: register cancellation handler
- only after request queueing
-Message-ID: <20261117122153.51dd826a@ingpc2.intern.lauterbach.com>
-In-Reply-To: <179487196868.2938203.4555043762269001898.b4-review@b4>
-References: <20261110171222.22633-1-ingo.rohloff@lauterbach.com>
-	<20261110171222.22633-3-ingo.rohloff@lauterbach.com>
-	<179487196868.2938203.4555043762269001898.b4-review@b4>
-Organization: Lauterbach GmbH
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-unknown-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85906606A31C
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 11:27:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85906606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Kvihhq6d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794914831; x=1826450831;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RYAO+nhlpdzE4/5k04Ukqsq9rR2H83xRzAS7sTbXMP4=;
+  b=Kvihhq6d2TuPkE+VTk1ho/DjtD4e3Urf7HHWcZBR6lYYeIxYRBdTa7n6
+   oaeV82QjCll+r+jYE83ArwfHLwFt6ROM1qtUTlEQlYeQDqR0u6eFvx28I
+   5IgX5TMfB48OU15ni4AY6gbKR/K26266C6tpFCyVhnziEgI8YmEgF5aYi
+   cDqOWnD8Wb/N1l0vlWw0c2qtvppEUD8AvM7/iWnCxFZd4phvO7oRi3lo3
+   umgs3REawVpc+rTADvw7N7RsTTyM8/lY3CMR2T82wRXsR4EZ7Oj5lOzkY
+   fLphKSdvK3jATJoy1EWta7NCZcvK3PqSbV/rP3sE2ghNCztX8kscVhVsU
+   A==;
+X-CSE-ConnectionGUID: 7nY+D+n7RHyPv7jPiZVWlQ==
+X-CSE-MsgGUID: Fg/api3yTxyqi0KOxn/oIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3684324"
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="3684324"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 03:27:09 -0800
+X-CSE-ConnectionGUID: HmPyOM8CREmdUEgel9Zv2g==
+X-CSE-MsgGUID: HbRzGgOfQ2KmAj1u3vigeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="11619937"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa011.fm.intel.com with ESMTP; 17 Nov 2026 03:27:08 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id B899099; Tue, 17 Nov 2026 12:27:06 +0100 (CET)
+Date: Tue, 17 Nov 2026 12:27:06 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: memoriaru@foxmail.com, RD Babiera <rdbabiera@google.com>
+Cc: linux-usb@vger.kernel.org, badhri@google.com,
+	gregkh@linuxfoundation.org
+Subject: Re: [PATCH usb] usb: typec: tcpm: align SOP' Soft Reset handling
+ with SOP
+Message-ID: <avw6CtZkJqvwj4eL@black.igk.intel.com>
+References: <tencent_E92BE5AC4B6F212D7B309853D803D54D270A@qq.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,151 +81,77 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
-X-Bm-Transport-Timestamp: 1794914514061
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_E92BE5AC4B6F212D7B309853D803D54D270A@qq.com>
 
-Hello Neill,
-
-
-> > @@ -887,7 +888,9 @@ static void ffs_user_copy_worker(struct work_struct *work)
-> >  		mmdrop(io_data->mm);
-> >  	}
-> >  
-> > +	spin_lock(&io_data->aio_completion_lock);
-> >  	io_data->kiocb->ki_complete(io_data->kiocb, ret);
-> > +	spin_unlock(&io_data->aio_completion_lock);  
->
-> ffs_epfile_io() grabs the lock while holding ffs->eps_lock in interrupt
-> context. Therefore, I think this could lead to lock inversion if we
-> don't call with with spin_lock_irq() and a spin_unlock_irq(). Could you
-> send a v3 with _irq() or the save/restore equivalents here?
-
-I can change that to the "_irq()" variants (this should be harmless),
-but I would like to understand why.
-
-"ffs_epfile_io()" itself does not run in interrupt context.
-That's also why it uses "spin_lock_irq(&epfile->ffs->eps_lock);",
-unconditionally blocking IRQs.
-
-The code part in "ffs_epfile_io()", which calls
-"spin_lock(&io_data->aio_completion_lock);" runs with local interrupts disabled,
-which also means it cannot be interrupted, which in turn means it will reach
-"spin_unlock(&io_data->aio_completion_lock);" un-interrupted.
-
-
-"ffs_user_copy_worker()" is scheduled via a regular work queue.
-As far as I understand this means it's also not running in interrupt context.
-So the potential danger here is, that in the code part:
-
-	spin_lock(&io_data->aio_completion_lock);
-  	io_data->kiocb->ki_complete(io_data->kiocb, ret);
-	spin_unlock(&io_data->aio_completion_lock);
-
-An interrupt happens after the "spin_lock" has been executed (so the code
-above is interrupted) and the code for the interrupt also wants to grab 
-"&io_data->aio_completion_lock".
-
-But there is no interrupt code which uses "&io_data->aio_completion_lock".
-As I said: ffs_epfile_io() is not running in interrupt context.
-
-There is also a second reason why I can't see how there might be a problem:
-"ffs_user_copy_worker()" can only run, once the request to the USB Controller
-has been scheduled via
-
-    ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
-
-in the "ffs_epfile_io()" function. But right before this happens
-"ffs_epfile_io()" grabs "&io_data->aio_completion_lock".
-
-Meaning when "ffs_user_copy_worker()" reaches
-"spin_lock(&io_data->aio_completion_lock)", there are only two possibilities:
-
-1) "&io_data->aio_completion_lock" is still taken by "ffs_epfile_io()"
-   => That's the whole reason why this lock exists:
-   Preventing "io_data->kiocb->ki_complete(io_data->kiocb, ret);" to run
-   before "ffs_epfile_io()" has called 
-   "kiocb_set_cancel_fn(kiocb, ffs_aio_cancel);"
-
-2) "&io_data->aio_completion_lock" has already been released.
-   In this case the lock will not be taken a second time by "ffs_epfile_io()",
-   so there is no problem.
-
-with best regards
-  Ingo
-
-
-On Mon, 16 Nov 2026 23:32:48 +0000
-Neill Kapron <nkapron@google.com> wrote:
-
-> > Call kiocb_set_cancel_fn() only after usb_ep_queue() completes
-> > successfully.
-> > 
-> > This also undoes commit e78dcb1f7ec2 ("usb: gadget: f_fs: Fix
-> > Use-After-Free in AIO error path"): The described error is avoided by
-> > making sure the cancellation handler is only registered, if there is
-> > something to cancel.
-> > 
-> > Registering the cancellation handler adds the kiocb to the context's
-> > active request list (active_reqs in aio.c).  If usb_ep_queue() fails, the
-> > request was never actually submitted to the hardware, which means the
-> > request is not active.  The aio framework already deals with calling the
-> > completion function ki_complete() automatically if you do not return
-> > -EIOCBQUEUED.
-> > 
-> > Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>  
+On Sat, Nov 14, 2026 at 06:20:54AM +0800, memoriaru@foxmail.com wrote:
+> From: Zhang Hewei <memoriaru@foxmail.com>
 > 
-> Thanks Ingo, this is cleaner than the -EIOCBQUEUED hack in my original
-> approach. Can you add Fixes: and Cc: stable tags on a v3 addressing the
-> feedback below?
+> The PD message duplicate-check and the SOFT_RESET state handling treat
+> the SOP and SOP' channels differently:
 > 
-> > ---
-> >  drivers/usb/gadget/function/f_fs.c | 70 +++++++++++++++---------------
-> >  1 file changed, 34 insertions(+), 36 deletions(-)
-> >
-> > diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-> > index d3fd1dfcd454..135c2979f737 100644
-> > --- a/drivers/usb/gadget/function/f_fs.c
-> > +++ b/drivers/usb/gadget/function/f_fs.c
-> > @@ -264,6 +264,7 @@ struct ffs_io_data {
-> >  
-> >  	int status;
-> >  	struct completion done;
-> > +	spinlock_t aio_completion_lock;
-> >  };
-> >  
-> >  struct ffs_desc_helper {
-> > @@ -887,7 +888,9 @@ static void ffs_user_copy_worker(struct work_struct *work)
-> >  		mmdrop(io_data->mm);
-> >  	}
-> >  
-> > +	spin_lock(&io_data->aio_completion_lock);
-> >  	io_data->kiocb->ki_complete(io_data->kiocb, ret);
-> > +	spin_unlock(&io_data->aio_completion_lock);  
+> - tcpm_pd_rx_handler() exempts PD_CTRL_SOFT_RESET from the MessageID
+>   duplicate check on the SOP path (the USB PD spec 6.6.1.2 note: a
+>   Soft_Reset Message always carries MessageID zero, so the duplicate
+>   check must not drop it), but the SOP' branch of the same switch has
+>   no such exemption. A cable that sends a second Soft Reset over SOP'
+>   (MessageID zero again) has that message silently dropped by the
+>   stale rx_msgid_prime comparison, and the cable-side re-negotiation
+>   stalls.
 > 
-> ffs_epfile_io() grabs the lock while holding ffs->eps_lock in interrupt
-> context. Therefore, I think this could lead to lock inversion if we
-> don't call with with spin_lock_irq() and a spin_unlock_irq(). Could you
-> send a v3 with _irq() or the save/restore equivalents here?
+> - run_state_machine()'s SOFT_RESET case resets message_id/rx_msgid but
+>   not message_id_prime/rx_msgid_prime, while the initiator path
+>   (SOFT_RESET_SEND, SOP_PRIME branch) resets both counter pairs. After
+>   a responder-side soft reset the prime counters stay stale.
 > 
+> Reset the prime counters together with the SOP counters and exempt
+> Soft Reset from the SOP' duplicate check, aligning the SOP' handling
+> with the SOP path.
+> 
+> Found by code inspection; a software TCPC stub was built for the
+> responder path.
+> 
+> Fixes: 6bd181ba60 ("usb: typec: tcpm: add control message support to sop'")
 
++RD
 
+> Signed-off-by: Zhang Hewei <memoriaru@foxmail.com>
+
+You should CC stable:
+https://docs.kernel.org/process/submitting-patches.html#select-the-recipients-for-your-patch
+
+Thanks,
+
+> ---
+>  tcpm.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tcpm.c b/tcpm.c
+> index bb90211..95f748d 100644
+> --- a/tcpm.c
+> +++ b/tcpm.c
+> @@ -4200,7 +4200,8 @@ static void tcpm_pd_rx_handler(struct kthread_work *work)
+>  		 */
+>  		switch (rx_sop_type) {
+>  		case TCPC_TX_SOP_PRIME:
+> -			if (msgid == port->rx_msgid_prime)
+> +			if (msgid == port->rx_msgid_prime &&
+> +			    type != PD_CTRL_SOFT_RESET)
+>  				goto done;
+>  			port->rx_msgid_prime = msgid;
+>  			break;
+> @@ -6193,6 +6194,8 @@ static void run_state_machine(struct tcpm_port *port)
+>  	case SOFT_RESET:
+>  		port->message_id = 0;
+>  		port->rx_msgid = -1;
+> +		port->message_id_prime = 0;
+> +		port->rx_msgid_prime = -1;
+>  		/* remove existing capabilities */
+>  		tcpm_partner_source_caps_reset(port);
+>  		tcpm_pd_send_control(port, PD_CTRL_ACCEPT, TCPC_TX_SOP);
+> -- 
+> 2.39.5 (Apple Git-154)
 
 -- 
-
--------------------------------------------------------------------------
-Dipl.-Inform.
-Ingo ROHLOFF
-Senior Staff Engineer
-phone +49 8102 9876-142 - ingo.rohloff@lauterbach.com
-
-Lauterbach Engineering GmbH & Co. KG
-Altlaufstrasse 40, 85635 Hoehenkirchen-Siegertsbrunn, GERMANY
-www.lauterbach.com
-
-Registered Office: Hoehenkirchen-Siegertsbrunn, Germany,
-Local Court: Munich, HRA 87406, VAT ID: DE246770537, 
-Managing Directors: Stephan Lauterbach, Dr. Thomas Ullmann
-
--------------------------------------------------------------------------
+heikki
