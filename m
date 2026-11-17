@@ -1,58 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794887249;
-	b=YYTNFEVaG4NR4N5/vXzG/71LSNM6Sxs7nCIUQ767xFjgHDuruEt7eGWdWYSyvs3vWCfg
-	 YsFlDJbAsgmnOgLQ3+8RkMjey8IIebczZ+9zcLIBKj276q2jGHQ0rONWHe7qlTt8aTMxd
-	 ivhiC+vT7mugqLhb4zz/3Cqz+eeDhHOSEeS1yxhhbBrmvWFqkekvHY+TFrQqpRXtRltuG
-	 I6Hl3XfAAf3qTR6RDUlITZXFyduoPW36bxfoqJaZHZ373Ai2cR+E1rd4zGzaCqPI2P85p
-	 L+aXwT/kcguFFmaBIw5ZQ50LoopNzKnGVVquIVJu1iuAAMryL9UsBE3SP8Hn0cdZAFQ==
+	t=1794892882;
+	b=JE8rf7Rlo2lqKhVwZZGfXGfwhFZmgfacylxBKWZMGOjbdcioAMCuwJWgFFF4+HiRLOlt
+	 F0gawKgFL+LxC6WdtYRKwOpx8NzsVVS1PCHF6YVCS2pxm+Z37zVJVl6dRjzmutAZCx4Qp
+	 YFBw8Ee/nmfP3y9bv50V/unh8j7l5YD2BtHbDiWx8Lw76LzvkAZUSO5i9T5+YyyDUAIPp
+	 ZaxlDh3RyOmKYoYUFB9jEbS4wwSgAL7mB+MxWaUVjd2B0+wFuHpYSQajo1JTnB/pdd6XB
+	 Ull1m30Nq4gOKDV6rDHY9IQDeFVPoiRi5wX3m8/DOGCbNTrhdp2bq2hvtf4+qJPh7jg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794887249;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ezpMkA5nP6ezyVMY2fM5yX+7PEpfhoP3cC1RNX5OBKA=;
-	b=BOOS+4MpBBOVvyNHCFJPgYviHJWvMW0dV3ArspYsJ+D88IZDqUr22Ey8W3MH3hi3K6+A
-	 y2zGAbFQevSCLsHj/czDB6nmxmvbbnxdcXfjf0get2fi8ERPiafEBvOLZqSim2YdP+R+A
-	 B5dB7yiFRbKP+43du5ogNG569I0RHkjEDC9c576PVjCkq9vr7uXCnfFWD5AbOL94hX3z/
-	 mXt4UOp1Mc1prBAgWDKNbnG4hITgrNPXO+7IBxGOkIFfyJnem0MzcJxb7Oo6GmiqxuW7l
-	 gemZEBG9msh9X8bCTYCAWeyuytxtKo5oMVk10Y/ce83R+4I13NhsaZFJtJXnokVh+Xg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794892882;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=quGem6Fj9Tf2qpbAHbxVpLYypIRX0+rgeI8mDoA8ccI=;
+	b=Nao1fLs5LD/Lm9riiuPqJfdBq88dgjbJond1PDZ7zGVRY51NZ6VPLMV5J3UUXKlNbfo2
+	 9rgd8VGPIVMuMl3JBO8+rTMwOpsO5vM7WZveQVTZJIdz7HrubSb6KmnTrw3QMDwEX9jV5
+	 lKhpGUhJHapLAaCgHGs8t9REfRZObVerX1zkDZ4O8OD+xXO5bxbnhpcSUJ2CKTPMZPPwq
+	 Xvlq3xaHWSV1M2ajMlNKovHddUZ010JR7oULUSgLmBa0MAawoGFzzuncFrvt365DJJi4m
+	 9RyLdtyyh/ji8SLk2ct1XZ8kN7S5ExmmQ/E2Cy/OrJpNPyW3oMM1ENwMEtdY2wL/XCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZPehRr8M;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=f0LHkNmt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D0E3606A31C
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 03:47:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E997606A882;
+	Tue, 17 Nov 2026 05:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZPehRr8M
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 110661F000C4;
-	Tue, 17 Nov 2026 03:47:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794887249;
-	bh=ezpMkA5nP6ezyVMY2fM5yX+7PEpfhoP3cC1RNX5OBKA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZPehRr8MMjvb8Q25qRpMDK8Z6hQa0PU55B7+j4563xE2b42dbg1f4zzf7DkioOD+b
-	 sRBZLNlfszPpZUYF5qdSmj14MCit4uh/TKz6T0AFc1puHQzMaidztuHHOAihecopOB
-	 ccOs+xEGcpVh+2rOWg7KKj4+QJa/us2G0OpC4yX6Hz3oz2p41jLLjNE6mPSU40tZFf
-	 zVZkLzu5HBwAoVDQZOoxRohcJU4aStm1m1uDAhrV/k8AqL3RJCjOg5OkDsBUqM+Flb
-	 5xTWh6Ib34wXja68x0fY97P6t5x64g7h1G8gvMXuCRK6YUFvf0ljbM4QswueVDi3h/
-	 bLo/FVLf7ugPQ==
-Message-ID: <sashiko-outbox-218159@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: core: use the clamped bMaxBurst and Mult for the
- wBytesPerInterval check
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Cheng Yongkang" <teel4res@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261117034311.538314-1-teel4res@gmail.com>
-References: <20261115163701.226491-1-teel4res@gmail.com>
- <77330361-136e-4e26-b5ac-9c4259f90978@rowland.harvard.edu>
- <20261117034311.538314-1-teel4res@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 03:47:28 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=f0LHkNmt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C521F000CB;
+	Tue, 17 Nov 2026 05:21:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1794892882;
+	bh=quGem6Fj9Tf2qpbAHbxVpLYypIRX0+rgeI8mDoA8ccI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=f0LHkNmtBguwNmbiAfcAI4hXEHw0nVGVyUMeeEo0b2DqqeWNq+/llK+FJPymweb+R
+	 nz2fQm+UsZk7u6dO8ONMl0SNITeNZr2lLCdDAwBOA6YQYZXgsbfCyG2jiyCgE3/u2F
+	 CpkiKd0QfD7hxZLy7goxN/Z3XNgoxe90GgvA5OA8=
+Date: Tue, 17 Nov 2026 06:21:11 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Elson Serrao <elson.serrao@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 0/8] Improve Qualcomm EUD driver and platform support
+Message-ID: <2026111740-florist-conflict-eb96@gregkh>
+References: <20260929213513.2401005-1-elson.serrao@oss.qualcomm.com>
+ <57c5aa78-a116-45d4-ab32-772cd970e6f6@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,38 +58,20 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <57c5aa78-a116-45d4-ab32-772cd970e6f6@oss.qualcomm.com>
 
-> usb_parse_ss_endpoint_companion() clamps bMaxBurst to 15 and the isoc
-> Mult to 3 in ep->ss_ep_comp, but then computes max_tx for the
-> wBytesPerInterval check from the original descriptor. A device with an
-> invalid bMaxBurst or Mult can then keep a wBytesPerInterval that the
-> clamped endpoint cannot carry.
->=20
-> With wMaxPacketSize 1024, bMaxBurst 16 and Mult 1, bMaxBurst becomes 15
-> but wBytesPerInterval is limited to 17408 instead of 16384.
-> usb_submit_urb() uses the clamped values and rejects isoc frames above
-> 16384, while usb_endpoint_max_periodic_payload() returns 17408, which
-> xHCI uses as the Max ESIT Payload. The same endpoint context gets a Max
-> Burst of 15, so the two fields disagree.
->=20
-> The rest of the code treats ep->ss_ep_comp as the sanitized copy of the
-> descriptor. usb_parse_endpoint() checks and fixes ep->desc the same
-> way, and everything after parsing, including usb_submit_urb(),
-> usb_endpoint_max_periodic_payload() and xHCI, reads only these copies.
-> max_tx itself already takes wMaxPacketSize from ep->desc. Before commit
-> 842f16905dfc ("USB: remove the usb_host_ss_ep_comp structure"), the
-> clamps modified the descriptor in place, so max_tx was computed from
-> the clamped values. That commit moved the clamps to the copy but left
-> max_tx reading the original descriptor.
->=20
-> Compute max_tx from ep->ss_ep_comp.
->=20
-> Fixes: 842f16905dfc ("USB: remove the usb_host_ss_ep_comp structure")
-> Signed-off-by: Cheng Yongkang <teel4res@gmail.com>
+On Mon, Nov 16, 2026 at 04:06:52PM -0800, Elson Serrao wrote:
+> Hi Greg,
+> 
+> When you get a chance, could you please pick up patches 1-7 for the USB tree if everything looks good on your end? 
 
-Sashiko has reviewed this patch and found no issues.
+We do not just pick parts of patch series, our tools don't like that :(
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117034311.5383=
-14-1-teel4res@gmail.com?part=3D1
+And why top-post?
 
+thanks,
+
+greg k-h
