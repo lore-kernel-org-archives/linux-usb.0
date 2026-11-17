@@ -1,90 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794914132;
-	b=ENJRq1dZMnEFFeTXUCwaUZG1HYAInFLSTXVpgaFIcSUh/gx0Sk2gFtnDSaO5e/OfSzH3
-	 1osALRjt8ah9Jgrfpj2DrtHDSE9dhBGzE8GFivZVuYV/EL3DBYjRy+VXyOm3j2wIuyY/L
-	 FgkscI/3HXlk2Lzaklp54v0bEHQbrTrhMEMST0jr5QubIZDW+Eslz5TQyNNNRsNrOicK1
-	 38LD+PpuUPnWwXOFurM6ZpQelmxkRadl2g5h7sWMb7qUf/NN8Ha1dh3ZG4oINkm7KEOLb
-	 YsZ7TuVjDq0ePPzwm+fq/iL8NtDOHHTakrZGOyj5JlxuO7IaYMqXKpTCjy3I64znZEA==
+	t=1794914390;
+	b=OGsEKzyp1pyxCLLdzZfiSmiZjs6He/U5gYQOp4yCQn1m2qUgzqQvmHxXA7SkpdqeFNSe
+	 eEvZ71SbQwbOtqlCGBPOp8uBOpfC+M6lyP/JtXHj/hnC8eFtq4LcZkRpoucs/jpCBZMy4
+	 4Pn0KQijbTQAPDmj16AOVrgZuwrhq2+fk8zrxXecQKKiwWc/EDJ4H2VpvjuiXf9JZbod4
+	 rgRsPuvzgBxv6KMOnehJKndIgda1B5ktz+JCHxQq/e1BDvPIkvVNIeze7RtifvXqJDPDK
+	 INqEB2UVNK/Dsr5EJ9jku3vuelvPyYizCsy9Sys08oRJwBssVpXbc1VjxrPCGrR9Idw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794914132;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=ag2QBnwdZ6y2/TuESOe4zvxzApYAxpOe3s2YM+v4PAY=;
-	b=LuP5HZ9+16fkEe+4M6akdtb8ye3uyYLnttg7QvOaITqPp6Ik3UpKI7h70IWJ8fhmMhhJ
-	 wgGq26g1pygJsHVHixA3ve0+sE45N0umuI4kwFJO5BSOTbpbh9i1+gWTLhImT83EZAFxP
-	 EsRyAVeFWHkTb2W7Y96eywuucTo4B85N7WKXE0sEdhXMzlLtGT0W2TQpViAHbC4PqjQCl
-	 EWX9p6ZSPMMOk1dTlAl5FiSl97bbyFKPVuZowfgTctm2c32/80lu4v2zIuCPmlXEvBm/7
-	 x+ndG+CwCp0Kxvk8PKl+wOv5w2w7g41crXHRbifyHJI9ZlXwkUhdUiYaWwKdUNocv2w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794914390;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=DS9RFPceSFfS0ImZMtexVx47AGwoymN92dPbqndTs9A=;
+	b=IsWLodgLCMheFtiOcrbOG8aAroT46BA6UpsEcOtTWtC2WQp6cpvntm5jvVIfzKNFvQSk
+	 zNPW7RdyqMrSdhQHDubZt9cRn9zh3fAsJ0UpM/cgoba2S5gD07rcVv+aVH5FT4XlP3HZf
+	 Tr8H4heTcZI7nfuKoQfi62ITlo8Qz9o/4dZT9b5Nyhni6vMr8VSolJZiKnLydZyI88Uqo
+	 bF7N/8Hgz4A4n9PljW5jUxX0DU2L+1ZIvbWujN301b0aOW/9C/tbvD93/swLZAa8IpQ9M
+	 Y31JS5+VQ5l1guE3rxBDKs12n3e1MrxSWmmaap+91smeTOVll9HpdUGXfOiSUemVRvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=flipper.net;
-	spf=pass smtp.mailfrom=flipper.net;
-	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=tMibRi8p;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C03A606A31C
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 11:15:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C03A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=tMibRi8p
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4bb6c7b6dbdso28670575e9.0
-        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 03:15:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1794914130; x=1795518930; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ag2QBnwdZ6y2/TuESOe4zvxzApYAxpOe3s2YM+v4PAY=;
-        b=tMibRi8pIgZwAEsYjQQpV6d4ym+qSxCYcsvHHoswrN2LhVryF/0xy1x3iejjjc8yfc
-         r4gmbjh4H6JRo5IYNO9SdU5hJJ/R2Nf2+JN5fvvMQJGRuehYj4VYdcVB3wfzhZLzd5Vl
-         lWMZGhes2XbUKe7scPC9KMWV647aCa9I3ovQBvqCE6+MieC+bPohR81OVwzj5C7Ji8aS
-         Vxpw3M7nDg/IHuBOAQT9nISmfIRpZJO08bSUPLbE+Y5ytbuisFdJZkfcdRra/GZSAeTq
-         /fvWjUadNsGuEUo5kIrwlUl6+iD6CquBJTl7hci1NHfXdg5U8OFqueqwNnVtdiBTZkZr
-         G/eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794914130; x=1795518930;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ag2QBnwdZ6y2/TuESOe4zvxzApYAxpOe3s2YM+v4PAY=;
-        b=DmGOD21QOMCDC0ksNW8OoTnX190KGG7MEQmdI7zMr2xwgO/hPEs8kwbmG6Cy/69l76
-         qEzAoli8xa03Xp4iZUUGHSPpLFWi/r9hTzan2mu0LmxTFrje3agWTRhWYlNg0DWS/h1E
-         8Z/Zz8iaQWnzJhMHYDNOCxilRjnbFiPPitsPp1Kzy3vPWNv2Bcl/2Duedo7PU7l3zAtT
-         bxe9VaA8c0Tc6jI8vD77Y7fa5MgeZogtRTwmUK3rnxDKJ9re0gV5UClb+QN3QkKfqPhj
-         pQhNf3OEN2cW94fBHsjef4HzLorBio0omhWnuseZRHF5ELw+y4rfrNRvuE8bZXjQLTce
-         3QGw==
-X-Forwarded-Encrypted: i=1; AL+hErFTNyCsAvE/v+N2TzQqpBDausXGBNUD3zZ6YhrRDpBh84d5+uCABAx4LKc1lcmndc0YQICXAzYesAs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+iMd4auFIqcnN7pTpQppmFBvp8uunteZmu8H7o2rr6E3d6Wi6Y
-	NdUOPFrrqC1dGhZZvS5ncx4vgOUYu2zqKdcXmJKjs4bM1D/31A62ac7PD6bZQL7XPmI=
-X-Gm-Gg: AYBFou2/4jFm+GDM4AlbTyPMJwbicATwUKV5AoVzSX/omXHxHyFCl4aOtEHZit0y2dQ
-	/apq+XhVX8peS7NLw9B7uevltf33Yzst/qPMxMUu4UJet24F5SObQr4HprUTiKEQp0+vW6h9H1x
-	CQ475/uOEbggRxTlWPNjAzNtRYRDoBSofqmejt9jCoxh9jewCzibJpNjUsfh/zNssASmZ5vxaab
-	UvrWrRnqikIOEPrsK/aFZM2XYUqg9DYX7Yw0TGaLwbK5lYmZspmz8AYTIaHwApztFd9psNfhU/z
-	4cZXb7gUKJnUYwolAmEWHqwHN+dlbt1PHjyXQmXUmR4V9KmX+TqvhgpUPL8HR74pbQ5WXJhchrx
-	hn70EYhWKT+9TxWE+9ItEpwu2lfvxuqT73y2seqv4cP8+F0MjEmtZKoubGhpGEBqRfd7uY6tOSm
-	VSGMeROGrnvEJ/YO7po6XsxPQphOEfFZm2jFKdAnl8liRlZTTkjcXbg9wmLbLX8tqArvresmWcl
-	LCTf+OeDDGKWB2bftjZoDaVbqju2MxicDRpfKqH91UglUXMf8BlDyTtd9dvXq8l81yOS6QrqTK9
-	zBlSe8QKvYLWHdrCYQyS/vJRuU1hE4CfSHS323nK+wsfndngnECcd+VteUTIxwYpGdvq4Ef6G3D
-	FuLjnrJGzPGyYl4w8/J+hj2tfP1YQlAM=
-X-Received: by 2002:a05:600c:512:b0:4a2:a9:ed87 with SMTP id 5b1f17b1804b1-4bb55a5aa47mr217213845e9.19.1794914130439;
-        Tue, 17 Nov 2026 03:15:30 -0800 (PST)
-Received: from alchark-surface.localdomain (bba-86-98-194-229.alshamil.net.ae. [86.98.194.229])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb783f8220sm59773745e9.5.2026.11.17.03.15.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 03:15:30 -0800 (PST)
-From: Alexey Charkov <alchark@flipper.net>
-Date: Tue, 17 Nov 2026 15:15:17 +0400
-Subject: [PATCH 3/3] usb: typec: tcpm: Keep cable plug messages away from
- the port partner
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C61D606A88A;
+	Tue, 17 Nov 2026 11:19:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C61D606A88A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: c6321454e27811f19a56ed5b684f684d-20261117
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:f974caa5-7ffd-4ccd-b368-56320d0b7f48,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:7db8b62,CLOUDID:160f99bb53ca6582fd09f56866da212c,BulkI
+	D:nil,BulkQuantity:0,SF:80|81|82|83|102|850|865|898,TC:nil,Content:0|15|50
+	|99,EDM:-3,IP:nil,URL:99|97|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:
+	0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: c6321454e27811f19a56ed5b684f684d-20261117
+X-User: huangwei@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <huangwei@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 488385902; Tue, 17 Nov 2026 19:19:37 +0800
+From: Huang Wei <huangwei@kylinos.cn>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Johan Hovold <johan@kernel.org>,
+	leStoppe <lestoppe@gmail.com>,
+	Craig Hesling <craig@hesling.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	huangwei@kylinos.cn
+Subject: Re: [PATCH v2] USB: serial: simple: narrow OWON match to avoid breaking VDS1022
+Date: Tue, 17 Nov 2026 19:19:33 +0800
+Message-Id: <20261117111933.3508470-1-huangwei@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <2026111722-freckled-baking-d277@gregkh>
+References: <20260810091322.2201740-1-huangwei@kylinos.cn> <20261015025456.3927808-1-huangwei@kylinos.cn> <2026111606-penpal-reverse-14b7@gregkh> <2026111722-freckled-baking-d277@gregkh>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -94,157 +73,134 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261117-tcpm-soft-reset-sop-v1-3-c7e1543828c0@flipper.net>
-References: <20261117-tcpm-soft-reset-sop-v1-0-c7e1543828c0@flipper.net>
-In-Reply-To: <20261117-tcpm-soft-reset-sop-v1-0-c7e1543828c0@flipper.net>
-To: Badhri Jagan Sridharan <badhri@google.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- RD Babiera <rdbabiera@google.com>
-Cc: Sebastian Reichel <sebastian.reichel@collabora.com>, 
- linux-usb@vger.kernel.org, Alexey Charkov <alchark@flipper.net>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5097; i=alchark@flipper.net;
- h=from:subject:message-id; bh=eg4EQzDOrpOjQtbK5LWXbBzb6fldKVcIYWEfdxKU5CA=;
- b=owGbwMvMwCW2adGNfoHIK0sZT6slMWT9Mffu+LZa490ca+EDqyvCIyax5XSKv30eeHdWufIj4
- /nLmnindUxkYRDjYrAUU2SZ+22J7VQjvlm7PDy+wsxhZQIZIi3SwAAELAx8uYl5pUY6Rnqm2oZ6
- hkY6xjpGDFycAjDV9/cxMjyMWfo0JXIZ5181t/ViKnaKyg0PrhekBcyTtlYP050XZ8PwP+ve1Td
- /97Us6fr96uO8F42hfeeE6yfVf5Jwn/SGwfldCysA
-X-Developer-Key: i=alchark@flipper.net; a=openpgp;
- fpr=9DF6A43D95320E9ABA4848F5B2A2D88F1059D4A5
+Content-Transfer-Encoding: 8bit
 
-When the port is the VCONN source, messages from the cable plug on SOP'
-go through the port partner's handlers, which act on them and answer on
-SOP: an unrecognized message gets Not_Supported on SOP, which the partner
-answers with a Soft_Reset, and an unexpected Accept soft resets the
-partner. SOP'' and the debug SOP* types, which TCPM does not support,
-take the same path and shadow the partner's last MessageID.
+On Tue, Nov 17, 2026 at 08:24:39AM +0100, Greg Kroah-Hartman wrote:
+> On Tue, Nov 17, 2026 at 03:12:50PM +0800, Huang Wei wrote:
+> > Hi Greg,
+> >
+> > Sorry about that - here's the context.
+>
+> Sorry about what? You did not quote anything here, as my bot says:
+>
+> A: http://en.wikipedia.org/wiki/Top_post
+> Q: Were do I find info about this thing called top-posting?
+> A: Because it messes up the order in which people normally read text.
+> Q: Why is top-posting such a bad thing?
+> A: Top-posting.
+> Q: What is the most annoying thing in e-mail?
+>
+> A: No.
+> Q: Should I include quotations after my reply?
+>
+> http://daringfireball.net/2007/07/on_top
+>
+> thanks,
+>
+> greg k-h
 
-A cable plug only answers the VCONN source and never starts an AMS (USB
-PD r3.3, section 8.5 and table 7.5). Pass on its VDMs, its Accept to a
-Soft_Reset sent to it, and its Reject or Not_Supported to a VDM in the
-ready state, the only one that takes them as the VDM's answer. Drop
-anything else on SOP', and drop other SOP* types before they touch the
-MessageID tracking.
+You are right, and I apologize for the noise. My last two emails were
+both badly formatted: a bare follow-up note with no quoted context,
+and then a reply with the text on top and the reference material
+below it, without quoting the message I was replying to. Let me fix
+that here.
 
-This hardens TCPM against cable plugs that break the rules: it was found
-with a port posing as a cable plug, and no cable or TCPC driver is known
-to trigger it.
+The context: the owon_device entry in
+drivers/usb/serial/usb-serial-simple.c was added by commit 4cc01410e1c1
+with a broad USB_DEVICE(0x5345, 0x1234) match for the OWON HDS200
+series. OWON reuses that VID:PID across device families, so the entry
+also claims the VDS1022 oscilloscope, which is driven from userspace
+over libusb and stops working once a kernel driver binds its
+interface.
 
-Signed-off-by: Alexey Charkov <alchark@flipper.net>
+The v2 below (sent Oct 15, reworked per Johan's review and carrying
+the reporter's Tested-by) narrows the match to the HDS200 interface
+tuple (class 5, subclass 0, protocol 0), which excludes the
+reporter's VDS1022 (class 5, subclass 6, protocol 0x50).
+
+The open problem surfaced during review: Craig Hesling found that
+the VDS1022I variant reports the same (5, 0, 0) tuple as the HDS200
+series, so the narrowed match would still claim that variant. On
+Nov 3rd I laid out this data and asked Johan how he wants to
+proceed - take the v2 as-is, revert to the broad match, or take
+another approach. The thread has been waiting on that decision
+since.
+
+Full discussion:
+https://lore.kernel.org/linux-usb/20260810091322.2201740-1-huangwei@kylinos.cn/
+
+The v2 for reference:
+
+A USB_DEVICE() match on VID:PID 0x5345:0x1234 was added to the
+owon_device entry in drivers/usb/serial/usb-serial-simple.c by
+commit 4cc01410e1c1 ("USB: serial: simple: add OWON HDS200 series
+oscilloscope support"). OWON uses this VID:PID across multiple device
+families (HDS, VDS, SDS, PDS), so the broad match makes the
+owon_device driver also claim devices such as the VDS1022.
+
+While the owon_device entry is equivalent to the generic usbserial
+driver for kernel-space users, the VDS1022 is a headless scope that
+is driven from userspace over libusb (e.g. the florentbr/Owon-VDS1022
+tool), which can no longer claim the interface once a kernel driver
+binds to it. Prior to that commit, no in-kernel driver claimed these
+interfaces.
+
+The two families can be told apart by their interface descriptors
+despite sharing interface class 5 (Physical): the HDS200 series
+reports subclass 0 and protocol 0, as documented by the HDS272S dump
+(firmware V5.7.1) in that commit's message, while the VDS1022 reports
+subclass 6 and protocol 0x50. Match the full HDS200 interface
+tuple so that the VDS1022 remains unclaimed and stays accessible to
+userspace tools.
+
+Reported-by: leStoppe <lestoppe@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220193
+Tested-by: leStoppe <lestoppe@gmail.com>
+Signed-off-by: Huang Wei <huangwei@kylinos.cn>
+
 ---
- drivers/usb/typec/tcpm/tcpm.c | 62 ++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 58 insertions(+), 4 deletions(-)
+Changes in v2:
+- Rework the commit message per Johan Hovold's review: describe the
+  libusb-based userspace breakage instead of the incorrect claim
+  about falling back to the generic usbserial driver.
+- Match on the full HDS200 interface tuple (subclass 0, protocol 0)
+  instead of the interface class alone: both the HDS200 and the
+  VDS1022 are interface class 5, so a class-only match would still
+  claim the VDS1022. The tuple values are verified against the
+  HDS272S dump in the commit message of 4cc01410e1c1 and the VDS1022
+  dump provided by leStoppe.
+- Fix the multi-line comment style.
+---
+ drivers/usb/serial/usb-serial-simple.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 947fca918414..2a909ca96811 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -682,6 +682,8 @@ struct tcpm_port {
- 	 */
- 	enum tcpm_transmit_type vdm_sop_type;
- 	enum tcpm_transmit_type soft_reset_sop_type;
-+	/* The Soft_Reset in SOFT_RESET_SEND went to the cable plug */
-+	bool soft_reset_sent_prime;
- 	/*
- 	 * Prior to discovering the port partner's Specification Revision, the
- 	 * Vconn source and cable plug will use the lower of their two revisions.
-@@ -4164,6 +4166,52 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
- 	}
- }
+diff --git a/drivers/usb/serial/usb-serial-simple.c b/drivers/usb/serial/usb-serial-simple.c
+index a0afaf254d12..879508f54d69 100644
+--- a/drivers/usb/serial/usb-serial-simple.c
++++ b/drivers/usb/serial/usb-serial-simple.c
+@@ -100,9 +100,17 @@ DEVICE(nokia, NOKIA_IDS);
+ 	{ USB_DEVICE(0x09d7, 0x0100) }	/* NovAtel FlexPack GPS */
+ DEVICE_N(novatel_gps, NOVATEL_IDS, 3);
  
-+/* Whether a cable plug control message responds to what the port sent it */
-+static bool tcpm_cable_ctrl_msg_expected(struct tcpm_port *port,
-+					 enum pd_ctrl_msg_type type)
-+{
-+	switch (type) {
-+	case PD_CTRL_ACCEPT:
-+		/* the Soft_Reset after a VCONN Swap */
-+		return port->state == SOFT_RESET_SEND &&
-+		       port->soft_reset_sent_prime;
-+	case PD_CTRL_REJECT:
-+	case PD_CTRL_NOT_SUPP:
-+		/* a VDM, in the ready state, which takes it as the answer */
-+		return port->vdm_sop_type == TCPC_TX_SOP_PRIME &&
-+		       port->vdm_state > VDM_STATE_READY &&
-+		       port->state == ready_state(port);
-+	default:
-+		return false;
-+	}
-+}
-+
+-/* OWON electronic test and measurement equipment driver */
 +/*
-+ * A cable plug only responds to the VCONN source: to its VDMs, and to its
-+ * Soft_Reset. Hand those to the usual handlers, which tell SOP' apart where
-+ * it matters, and drop anything else on SOP': it comes from a cable plug
-+ * that breaks the rules, and no sequence has the port answer a cable plug.
++ * OWON electronic test and measurement equipment driver.
++ * OWON uses the same VID:PID (0x5345:0x1234) for multiple device
++ * families (HDS, VDS, SDS, PDS). Match the full interface tuple
++ * reported by the HDS200 series (class 5, subclass 0, protocol 0) so
++ * that devices with a different interface tuple, such as the VDS1022
++ * (class 5, subclass 6, protocol 0x50) which is driven from userspace
++ * over libusb, remain unclaimed.
 + */
-+static void tcpm_pd_cable_msg_request(struct tcpm_port *port,
-+				      const struct pd_message *msg)
-+{
-+	unsigned int type = pd_header_type_le(msg->header);
-+	bool ext = le16_to_cpu(msg->header) & PD_HEADER_EXT_HDR;
-+	bool ctrl = !ext && !pd_header_cnt_le(msg->header);
-+
-+	if (!ext && !ctrl && type == PD_DATA_VENDOR_DEF) {
-+		tcpm_pd_data_request(port, msg, TCPC_TX_SOP_PRIME);
-+		return;
-+	}
-+	if (ctrl && tcpm_cable_ctrl_msg_expected(port, type)) {
-+		tcpm_pd_ctrl_request(port, msg, TCPC_TX_SOP_PRIME);
-+		return;
-+	}
-+
-+	tcpm_log(port, "Dropping unexpected SOP' message, header: %#x",
-+		 le16_to_cpu(msg->header));
-+}
-+
- static void tcpm_pd_rx_handler(struct kthread_work *work)
- {
- 	struct pd_rx_event *event = container_of(work,
-@@ -4204,13 +4252,17 @@ static void tcpm_pd_rx_handler(struct kthread_work *work)
- 			if (msgid == port->rx_msgid_prime)
- 				goto done;
- 			port->rx_msgid_prime = msgid;
--			break;
-+			tcpm_pd_cable_msg_request(port, msg);
-+			goto done;
- 		case TCPC_TX_SOP:
--		default:
- 			if (msgid == port->rx_msgid && type != PD_CTRL_SOFT_RESET)
- 				goto done;
- 			port->rx_msgid = msgid;
- 			break;
-+		default:
-+			/* Neither for the port partner nor for a supported cable plug */
-+			tcpm_log(port, "Dropping message on SOP* type %d", rx_sop_type);
-+			goto done;
- 		}
+ #define OWON_IDS()			\
+-	{ USB_DEVICE(0x5345, 0x1234) } /* HDS200 oscilloscopes and others */
++	{ USB_DEVICE_AND_INTERFACE_INFO(0x5345, 0x1234, 0x05, 0x00, 0x00) }
+ DEVICE(owon, OWON_IDS);
  
- 		/*
-@@ -4218,7 +4270,7 @@ static void tcpm_pd_rx_handler(struct kthread_work *work)
- 		 * mismatch.
- 		 */
- 		if (!!(le16_to_cpu(msg->header) & PD_HEADER_DATA_ROLE) ==
--		    (port->data_role == TYPEC_HOST) && rx_sop_type == TCPC_TX_SOP) {
-+		    (port->data_role == TYPEC_HOST)) {
- 			tcpm_log(port,
- 				 "Data role mismatch, initiating error recovery");
- 			tcpm_set_state(port, ERROR_RECOVERY, 0);
-@@ -6225,7 +6277,9 @@ static void run_state_machine(struct tcpm_port *port)
- 		 * A Soft_Reset Message Shall be targeted at a specific entity
- 		 * depending on the type of SOP* packet used.
- 		 */
--		if (port->soft_reset_sop_type == TCPC_TX_SOP_PRIME) {
-+		port->soft_reset_sent_prime =
-+			port->soft_reset_sop_type == TCPC_TX_SOP_PRIME;
-+		if (port->soft_reset_sent_prime) {
- 			port->soft_reset_sop_type = TCPC_TX_SOP;
- 			port->message_id_prime = 0;
- 			port->rx_msgid_prime = -1;
-
+ /* Siemens USB/MPI adapter */
 -- 
-2.56.0
+2.25.1
 
+
+Thanks,
+Huang Wei
