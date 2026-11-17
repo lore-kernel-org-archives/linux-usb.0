@@ -1,75 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794875117;
-	b=5XvfNlHtdQwlz/JGkiKeRgDH5oLIXtAV+cWHLRbNu++0TIvu6hgTRLusXgJm6tBHSu+Q
-	 aKfosH6K61YdicuDfIEVi82qtZjcSUA3YTZ7+LE98Ac1bhy1vsuxEIcs4wLyP42IQsRC+
-	 MysrFzGOulaqm/5mr9+3d5gi7TzCJ38VvzLXnWb9qzKie6pLImHx/9satnC/qYr82+DDx
-	 k/mpnauCKeInNFD4/wNrklFVpqs+2S9re9p3mAA1yCfEOlwFqJ51rBcUD3keJnEXNogNJ
-	 LFDVwTUiYdNBdwf0vOYzShHwrdUix5or83ga6Ay4+Rw0rlR/wp8jI5Gz1Ew1VQqKmwQ==
+	t=1794875505;
+	b=hpn1z0CxdrICC/01M/ArffXoDMvQG6m0/gbt+aG6biwNL8l9L3rOKJMHgQ8QMFy6G0zY
+	 /mSDA4y6QQwJ6kszultl/DtmMjsOJfsyDfCePXJ28C6kW85NX1USeUo94Hax/UgLzGQ2P
+	 xpntOHeq+woCbodzsWLhryMaChbpxK2BIa0TEKYe0Tk39igF6RiJni9H1gXLPPJFzu2U5
+	 qlPaunZch7qwulVNVsbzkdQZ1j+w8+kvh5fYwt4HN7GRO+tXoSQ3C7SvOWr5zm3M+bDwM
+	 S8Mr7JepoCYSYAyuj2FWl3/VzuFFrCpMsdih8NmgGXBv5MWnJEuGo2IlW2TqCLQwXBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794875117;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Received:Received:From:To:Cc:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Transfer-Encoding:X-Mailer:Thread-Index:
-	 Content-Language:X-CMS-MailID:X-Msg-Generator:Content-Type:CMS-TYPE:
-	 cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:References;
-	bh=QGgWgQaBDnFhyxITg/5JYi2mF4ivdfxPk9uPLffvh5Y=;
-	b=t2xmYLqWMuTUKylIYACwA4lYLSk/3HWhikJGrxs/22PiLBQBxz/EbJIzLA//XxSK59NY
-	 RVIyyXNfmzfZLXe8q+NugRVRwFxVSxEt9LpM1zUpkgQ6AheJNsl3m9CbwjldcpK+zI8vd
-	 0c5ospE7pU8ocFL6KiojAtBRvtxeR0qD+H0fqwT012nHWCkr+7XFQA0Ms22tAkPi4nVLe
-	 MxBj9dlBiGiSdZBbcAMUFfy7G0MGamSL2T7bjKjNfht1rVjk2h28oSpQfYHJq4SfTtNa9
-	 pOCOuFq08PqG4gCaGxIPJ5gr8kbX1s1o0HYRV9C7K6v7QU4fQV3f4WD9ixBUPecrc1w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794875505;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=loRHwr0xWDXujzgzr544Z4fRyj4jQBgQ4ITx+kO+cUY=;
+	b=K05LeGdD839w7zJnAmogWixn68wwlWuRhm6F5hoyQVA5zzY3EJqrmYB6UMoYPeCeLOwz
+	 gOnFJxrxcau0sbT56eREIVCQ2+kDlzJB37P1IkzmZWayR8nfw8TYab7WmP/x9GGk8Fxxg
+	 qaWcT62sh1OGU7wsmLx/qfufXUeqHzoCyK5TgJfXvaCb6wKJ/Y49Vd4M7xggRbeBBrVFD
+	 HHp2jpIqTiH1HesckcQA6wUYDhMLn5XvdJ5mKOxfHoEDZU5a7xhycsml7rqM8M4ORYl2j
+	 XYgx4geKQp7htsKy/A7n6BgTwLf2aXAJIPkr30ua+evxzqYFw1zPk+XE/x3fNWcvGZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=TqvH7+H1;
-	arc=none smtp.remote-ip=203.254.224.34
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UyhqurRR;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C36606A31C
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 00:25:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00C36606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9277F606A323
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 00:31:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=TqvH7+H1
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20261117002512epoutp04e33e0ffaba4e2730aabdfe021a680e11~orWec_Ckg0631206312epoutp04Q
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 00:25:11 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20261117002512epoutp04e33e0ffaba4e2730aabdfe021a680e11~orWec_Ckg0631206312epoutp04Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1794875112;
-	bh=QGgWgQaBDnFhyxITg/5JYi2mF4ivdfxPk9uPLffvh5Y=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=TqvH7+H1cp5lBxH+bs4vQw56hmQxaOU6ddxbKipi8sx5V+r3sAOUBYRaJ2zMcZrHc
-	 QYNvbaqP00gs47yN7+fCABS5K3jb1G2m4EyAWH9+1wG2X1spDNe1TqNif5FO5iqZ0e
-	 CkwQeNNGzrUEC0gL/0ABvBAo3ynb04W3pNPgapAw=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas1p1.samsung.com (KnoxPortal) with ESMTPS id
-	20261117002511epcas1p1cbe40920668da17a8929d2b8413456ec~orWeAUQLU1254312543epcas1p1B;
-	Tue, 17 Nov 2026 00:25:11 +0000 (GMT)
-Received: from epcas1p1.samsung.com (unknown [182.195.38.116]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4jT5930lsjz6B9m5; Tue, 17 Nov
-	2026 00:25:11 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-	20261117002510epcas1p375a79d93a0869035c4a60515a3e5f5c3~orWdI6qpy3154231542epcas1p35;
-	Tue, 17 Nov 2026 00:25:10 +0000 (GMT)
-Received: from gichoonhan02 (unknown [10.88.99.189]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20261117002510epsmtip28a571dc1e9b9308c6790eb6aa07979d8~orWdGBtyv0355303553epsmtip2U;
-	Tue, 17 Nov 2026 00:25:10 +0000 (GMT)
-From: <gichoon.han@samsung.com>
-To: "'Alan Stern'" <stern@rowland.harvard.edu>
-Cc: "'Greg Kroah-Hartman'" <gregkh@linuxfoundation.org>, "'Takashi Iwai'"
-	<tiwai@suse.de>, <linux-usb@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-In-Reply-To: <5ed0f4b7-beb3-4059-9e12-b9738af65d91@rowland.harvard.edu>
-Subject: RE: [PATCH] usb: host: ehci-sched: Don't let a bogus siTD remaining
- length underflow
-Date: Tue, 17 Nov 2026 09:25:10 +0900
-Message-ID: <000001dd762a$1b15f230$5141d690$@samsung.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UyhqurRR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 113DD1F000C7;
+	Tue, 17 Nov 2026 00:31:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794875505;
+	bh=loRHwr0xWDXujzgzr544Z4fRyj4jQBgQ4ITx+kO+cUY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=UyhqurRREcfOpkAL9W2UljEUHuNj8YcP1Nuh1RsRmAe4ak3iODF3hD6AwXZl6QVSE
+	 529qFeAogbpxOoEzLI4zVDTTmbEslUeaIqTNsR0yCusqSyv4ShtBGzPwOPzkkJFjjf
+	 n0fn1a1zeL4w8aGxqOGPBZnWYdzyYAfN2gSXKZvgilFYKZ0+CuRSQC5Gh6+by0za0C
+	 OdTkLVQ5GWK+UBcj9IT5vOdpT0MbWRo9pGxNfXkEcIQNybgjguWpTvv449am6K9iYx
+	 +CzOP170/OC7ezjWF6aI7jA3RlXW2I4rIS6ag0VpuQZZniQ1DNuqP8SJ++bHxxho7D
+	 n4EauCZEHuCaw==
+Message-ID: <sashiko-outbox-218004@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] usb: xhci-pci: Add Power handling for Card readers
+ on Apple systems
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Atharva Tiwari" <atharvatiwarilinuxdev@gmail.com>
+Cc: =?utf-8?b?b3BlbiBsaXN0OlVTQiBYSENJIERSSVZFUg==?= <linux-usb@vger.kernel.org>
+In-Reply-To: <20261117000034.7641-1-atharvatiwarilinuxdev@gmail.com>
+References: <20261117000034.7641-1-atharvatiwarilinuxdev@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2026 00:31:44 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -78,137 +59,124 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJAw0W1MzUdd2pxp7jiVwua62XKywEoK6GMAU9T2V22VxCWEA==
-Content-Language: ko
-X-CMS-MailID: 20261117002510epcas1p375a79d93a0869035c4a60515a3e5f5c3
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-cpgsPolicy: CPGSC10-702,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261116052855epcas1p403c518b90d70d98752ad0ca2d9ac05e9
-References: <CGME20261116052855epcas1p403c518b90d70d98752ad0ca2d9ac05e9@epcas1p4.samsung.com>
-	<20261116052851.2272125-1-gichoon.han@samsung.com>
-	<5ed0f4b7-beb3-4059-9e12-b9738af65d91@rowland.harvard.edu>
 
-On Mon, Nov 16, 2026 at ..., Alan Stern wrote:
-> The type of CPU doesn't matter as much as the type of EHCI controller,
-> since you're talking about a controller hardware bug.
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [Medium] usb: xhci-pci: xhci_pci_suspend() powers off Apple card
+  reader in runtime PM
+- [Medium] usb: xhci-pci: missing xhci_apple_card_reader_power() off on
+  teardown
+- [Low] usb: xhci-pci: duplicate SPWR call and early power-on in
+  xhci_pci_quirks()
+--
 
-Fair point.  It is the on-chip EHCI controller of a Novatek TV SoC
-(DT compatible "nvt,NT72668-ehci"), driven by ehci-hcd through a
-vendor platform glue that is not in mainline.
+commit 9d162606edd929676ba53f7638bfed5c72201d2d
+Author: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
 
-> Actually the bug lies in the host controller hardware.  Not the driver.
+usb: xhci-pci: Add Power handling for Card readers on Apple systems
 
-Agreed, I'll fix the wording.
+This commit adds an XHCI_APPLE_CARD_READER_POWER quirk on x86 Apple
+machines to toggle card reader power via the ACPI SPWR method during
+probe, suspend, and resume.
 
-> So you have no way of knowing whether this patch really fixes the
-> problem?
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> index e278db940a583..31961de9761f8 100644
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+[ ... ]
+> @@ -517,6 +518,18 @@ static void xhci_pci_quirks(struct device *dev, stru=
+ct xhci_hcd *xhci)
+>  	if (xhci->hci_version >=3D 0x120)
+>  		xhci->quirks |=3D XHCI_DEFAULT_PM_RUNTIME_ALLOW;
+> =20
+> +#ifdef CONFIG_ACPI
+> +	/* On Apple Machine with Card readers, we have to use SPWR(0/1) to turn
+> +	 * off/on the card reader, And on boot the card reader is off, so we tu=
+rn
+> +	 * it on.
+> +	 */
+> +	if (x86_apple_machine && ACPI_HANDLE(&pdev->dev) &&
+> +			acpi_has_method(ACPI_HANDLE(&pdev->dev), "SPWR")) {
+> +		acpi_execute_simple_method(ACPI_HANDLE(&pdev->dev), "SPWR", 1);
+> +		xhci->quirks |=3D XHCI_APPLE_CARD_READER_POWER;
+> +	}
+> +#endif /* CONFIG_ACPI */
+> +
+>  	if (xhci->quirks & XHCI_RESET_ON_RESUME)
+>  		xhci_dbg_trace(xhci, trace_xhci_dbg_quirks,
+>  				"QUIRK: Resetting on resume");
 
-Not directly, no.  I don't have the siTD contents from the failing
-device, so the claim that the controller wrote a remaining count
-larger than the programmed length is an inference: the faulting
-memcpy() still had about 122 KB left to copy out of a full-speed
-packet, which can be at most 1023 bytes, and this subtraction is the
-only place in the path that can produce a value that large.
+[Severity: Medium]
+Does this leave the card reader powered on if probe fails later in
+xhci_gen_setup() or xhci_pci_common_probe(), or when the driver is unbound
+or the system shuts down?
 
-What the patch does guarantee is narrower: whatever the controller
-writes into the siTD, ehci-hcd never hands a class driver an
-actual_length larger than the requested length.  The crash itself is
-already prevented on the ALSA side.
+Neither the probe error paths, xhci_pci_remove(), nor xhci_pci_shutdown()
+call xhci_apple_card_reader_power(pdev, 0), and pci_device_remove() wakes
+the controller via pm_runtime_get_sync() -> xhci_pci_resume() before
+calling xhci_pci_remove(), turning SPWR(1) back on before the HCD is
+stopped.
 
-If you think that is not enough to justify the change without
-hardware confirmation, I'm fine with dropping it.  Otherwise I'll
-send a v2 with the controller identified and the wording fixed.
+> @@ -562,10 +575,14 @@ static void xhci_find_lpm_incapable_ports(struct us=
+b_hcd *hcd, struct usb_device
+>  		}
+>  	}
+>  }
+> -
+> +static void xhci_apple_card_reader_power(struct pci_dev *pdev, u64 on)
+> +{
+> +	acpi_execute_simple_method(ACPI_HANDLE(&pdev->dev), "SPWR", on);
+> +}
+>  #else
+>  static void xhci_pme_acpi_rtd3_enable(struct pci_dev *dev) { }
+>  static void xhci_find_lpm_incapable_ports(struct usb_hcd *hcd, struct us=
+b_device *hdev) { }
+> +static void xhci_apple_card_reader_power(struct pci_dev *pdev, u64 on) {=
+ }
+>  #endif /* CONFIG_ACPI */
 
-Thanks,
-Gichoon
+[Severity: Low]
+This isn't a bug, but xhci_pci_quirks() adds a separate #ifdef CONFIG_ACPI
+block and open-codes acpi_execute_simple_method() instead of using
+xhci_apple_card_reader_power(), and it powers on the device before
+xhci_gen_setup() halts and resets the controller.
 
------Original Message-----
-From: Alan Stern <stern@rowland.harvard.edu> 
-Sent: Tuesday, November 17, 2026 3:09 AM
-To: Gichoon Han <gichoon.han@samsung.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>; Takashi Iwai
-<tiwai@suse.de>; linux-usb@vger.kernel.org; linux-kernel@vger.kernel.org;
-stable@vger.kernel.org
-Subject: Re: [PATCH] usb: host: ehci-sched: Don't let a bogus siTD remaining
-length underflow
+Since ACPI_HANDLE() and acpi_has_method() already have !CONFIG_ACPI stubs,
+xhci_pci_quirks() could just set XHCI_APPLE_CARD_READER_POWER and let
+xhci_pci_setup() call xhci_apple_card_reader_power(pdev, 1) after
+xhci_gen_setup() succeeds, matching XHCI_PME_STUCK_QUIRK and
+xhci_pme_acpi_rtd3_enable().
 
-On Mon, Nov 16, 2026 at 02:28:51PM +0900, Gichoon Han wrote:
-> sitd_complete() computes the received length of a split isochronous 
-> packet as desc->length - SITD_LENGTH(t), where SITD_LENGTH() is the 
-> "Total Bytes to Transfer" count the controller leaves in the siTD.
-> Nothing checks that this remaining count is not larger than what was 
-> programmed.  If the controller reports a larger value, the unsigned 
-> subtraction wraps and the class driver gets an actual_length of nearly 
-> 4 GiB for a packet that can hold at most 1023 bytes.
-> 
-> This was seen on an ARM32 system (vendor 5.4 kernel; this code is
+> @@ -853,6 +870,9 @@ static int xhci_pci_suspend(struct usb_hcd *hcd, bool=
+ do_wakeup)
+>  	/* synchronize irq when using MSI-X */
+>  	xhci_msix_sync_irqs(xhci);
+> =20
+> +	if (!ret && (xhci->quirks & XHCI_APPLE_CARD_READER_POWER))
+> +		xhci_apple_card_reader_power(pdev, 0);
+> +
+>  	if (ret && (xhci->quirks & XHCI_SSIC_PORT_UNUSED))
+>  		xhci_ssic_port_unused_quirk(hcd, false);
 
-The type of CPU doesn't matter as much as the type of EHCI controller, since
-you're talking about a controller hardware bug.
+[Severity: Medium]
+Does calling xhci_apple_card_reader_power(pdev, 0) unconditionally in
+xhci_pci_suspend() break runtime PM and wake-on-disconnect on the card
+reader port?
 
-> unchanged in mainline) with a full-speed UAC1 microphone behind a 
-> high-speed hub.  snd-usb-audio trusted the value and read far past the 
-> URB transfer buffer:
-> 
->   Unable to handle kernel paging request at virtual address e8756000
->   Internal error: Oops: 7 [#1] PREEMPT SMP ARM
-> 
-> The register state at the fault is only consistent with a wrapped 
-> actual_length coming from this path.
-> 
-> snd-usb-audio now rejects such packets (commit eed0e9583a29 ("ALSA:
-> usb-audio: Drop capture packets with bogus actual_length")), but as 
-> noted when that was applied, the bug really lies in the host 
-> controller driver,
+hcd_pci_runtime_suspend() also calls suspend_common() ->
+xhci_pci_suspend() (and controllers with hci_version >=3D 0x120 enable
+runtime PM by default via XHCI_DEFAULT_PM_RUNTIME_ALLOW), so cutting power
+with SPWR(0) during runtime suspend prevents the card reader from
+detecting card insertion or signaling remote wakeup while the controller
+is idle.
 
-Actually the bug lies in the host controller hardware.  Not the driver.
+Furthermore, when do_wakeup is true, xhci_bus_suspend() arms PORT_WKDISC_E
+on connected ports and xhci_suspend() -> xhci_disable_hub_port_wake()
+preserves PORT_WAKE_BITS; cutting power to an attached USB card reader
+after xhci_suspend() causes a disconnect on the port that can trigger a
+spurious wake event and drops the device's power session without notifying
+USB core via usb_root_hub_lost_power() on resume.
 
->  and other class drivers trust actual_length too.
-> 
-> Treat a remaining count larger than the programmed length as a 
-> protocol error instead of reporting a wrapped length.
-> 
-> Link: https://lore.kernel.org/r/87se19ufoi.wl-tiwai@suse.de
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Gichoon Han <gichoon.han@samsung.com>
-> ---
-> Compile-tested only (ARM32, W=1) on linux-next.  I could not capture 
-> the siTD contents on the affected hardware; the wrapped value is 
-> inferred from the oops above.
-
-So you have no way of knowing whether this patch really fixes the problem?
-
-Alan Stern
-
->  drivers/usb/host/ehci-sched.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/usb/host/ehci-sched.c 
-> b/drivers/usb/host/ehci-sched.c index 57d07d1c2dfa..12a10248a4b6 
-> 100644
-> --- a/drivers/usb/host/ehci-sched.c
-> +++ b/drivers/usb/host/ehci-sched.c
-> @@ -2241,6 +2241,10 @@ static bool sitd_complete(struct ehci_hcd *ehci,
-struct ehci_sitd *sitd)
->  	} else if (unlikely(t & SITD_STS_ACTIVE)) {
->  		/* URB was too late */
->  		urb->error_count++;
-> +	} else if (unlikely(SITD_LENGTH(t) > desc->length)) {
-> +		/* controller claims more left than was programmed */
-> +		urb->error_count++;
-> +		desc->status = -EPROTO;
->  	} else {
->  		desc->status = 0;
->  		desc->actual_length = desc->length - SITD_LENGTH(t);
-> 
-> base-commit: 84abb955b1015477aa11a96e2f3ac1b938b77f48
-> --
-> 2.25.1
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117000034.7641=
+-1-atharvatiwarilinuxdev@gmail.com?part=3D1
