@@ -1,57 +1,122 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.154
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919609;
-	b=VDzGeARnk26IvAR2fYzlyQHv+8mIER3SK3BDpNJPQG9xoSpYXOAAENA75JLER/7Orwko
-	 8fwAgq4yy8XcdWDTe1dejjUrcAOIFXDp/NhypDJcHKcIAE3vEjik7TAeSz7qzhEoxwZ5a
-	 QM/yqQCAK7t11uzPjkRENqbId6Q93dNHZ0G5KjHtwnpRgWwxkQa/AbJqH70D33o0Y0jTu
-	 n0ebcXZxD7dRxoTvASWB+akS+uuMXHf6zVeeKsT6x9bzL6X8VsgHCYQ/pToZp0nT59jb6
-	 YppExc7zQT/SgCWdQy+rypGHjJufuX4Mt/VRtKQAa39yGUZ/6nPT9EJzio467chXFlQ==
+	t=1794919640;
+	b=yFF5DjfI3xspmHtzQtS0g3zx/OewsmUijvUwpqm4CMDZ1o+mHznFtNaFXsF3fcze8fev
+	 V2+wePhQf+BDlLsNhrf8yAq65GkOuzO6BKyNVIEj1c89IT/9hqDQWndPSo2CvnKUwGCZF
+	 LZyXgh+ygR8PvL6MrCc+I2chw3PxkgS6GmfCw7hfIeiZPZNw9TTtM8CsEMKUtSkiQktDY
+	 urUsUhQA8epjCi74jRK+e/fiaruXlnbH4bxWvh38WuD95C34Mk2LihK4Mm3/lVMJjLjIC
+	 1J6WONKWRo5EB/YTNczFiyATC/sDkwCcMHIa/kIvcdEcDSbfrdfenU4UfnoXxBFTcKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919609;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=GteLI0gRGrMm1NP9A7kQIlWaVDDBm19VYMMhZy0icYQ=;
-	b=X7T9yAs9YdRTeBO0b7ysziFGw21f2twV+yj+oXXrXcyaVbtUh1qZgGUY/01w3gQfuzkQ
-	 5cXW5mPwt6QdEU/JtFH41lJ5Z+l988a25cYEJljUks/bojNBINWaybRrxv/nYgdKxqaIT
-	 QMGlcc0mFZO+cc2F+WiqQ72QDjvIqJlqgTKfKV5LFj4ZHc7Nkq1YQF9wSRkpUxyKr7+dc
-	 Yi8b6BcQ00WKyUeqwALMm/q+12dBO+7zJ4EdUhKgH0jSxSy6d62AMUmPxvNMmAa16sJVI
-	 tPrG9urxGW64ioZNGVLjL4WrXlrGcK3/ge6JxXtns3LkeF7mLyJkiJDWhaq1JCIWBww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919640;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=66IORwZwNmFzwgB6dY9tprRV5k1fWvE4IbZQCtoOk6Q=;
+	b=rtCdiyhlqwwsE57tB4y1nqhMV3JzBhmA0kqhcrV2h9sMhc2DoMshPVTXessZLQPiPpYi
+	 dNtZn9hkW847FURuTIo9BKYuVuLCmdbuEoai4cz5GYWCuNtcyo3/jxHadBp7RVgxjr+6G
+	 RBz4DkXeFLYskEswGMDDjTttgvzsHgz339rRy5bPdY0JLd32E1x8DXje5ifMP0Rvlf5uv
+	 avymYMue8WoI8YKpHojATMjeu0QWeEs6LWFlZkpQMiqvwgM7a5xYgw/llPjVKVyVslxm1
+	 sGHmk7KtwRH73cEqjXH3jL9qutUFzwqeNm8q0YLS80YqYHQDR0KHdrcUARJtddnyFGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MP8n1IAS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=jannau.net;
+	spf=pass smtp.mailfrom=jannau.net;
+	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm2 header.b=r25NWiJB;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=nzyVvWXa;
+	arc=none smtp.remote-ip=103.168.172.154
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDC0606A334
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 12:46:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E6C606A323
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 12:47:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87E6C606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MP8n1IAS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C60731F000C6;
-	Tue, 17 Nov 2026 12:46:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794919609;
-	bh=GteLI0gRGrMm1NP9A7kQIlWaVDDBm19VYMMhZy0icYQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=MP8n1IASsOCGTNV7My03oDwYqA8Njv+a+OYoqSfWXPDkJhm7xDja2AqC8Bnj89Ude
-	 L5HzDWo7UW2KO42Dk4DrCJ9XxzyHFMQKOgTO4eCVKRPTJSXyC/IEMgTkO8pCw5isTE
-	 kHrPzn3QqzINgrmN8ckWN0bDM3/Qn3TP5ZyAUh29NcTN0z663tBFDic2/tN1NsyRA+
-	 9sFGAjErLGIfaPLMCJywFF5ijPh6hEyXBkbI2Wr+CLwS3INbV0uaSe9GzoxEvg2/aC
-	 +6YA+86jPYZu2wpT+fituVMiX4Xaz3zSG2IOGjtWydQjUQ8aI/MVIoGd1ptkI4m68a
-	 h6RTXgbCfr+GA==
-Message-ID: <sashiko-outbox-218788@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 8/9] riscv: dts: spacemit: enable USB2.0 controllers
- on OrangePi RV2
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261117-b4-spacemit-k1-usb2-v5-8-52c3829cca69@linux.spacemit.com>
-References: <20261117-b4-spacemit-k1-usb2-v5-0-52c3829cca69@linux.spacemit.com>
- <20261117-b4-spacemit-k1-usb2-v5-8-52c3829cca69@linux.spacemit.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 12:46:48 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm2 header.b=r25NWiJB;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=nzyVvWXa
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 8DC931400184
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 07:47:13 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Tue, 17 Nov 2026 07:47:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1794919633; x=1795006033; bh=66IORwZwNm
+	FzwgB6dY9tprRV5k1fWvE4IbZQCtoOk6Q=; b=r25NWiJBjbwPJR1B3jFtOcDSgf
+	RBiySIzBCT+aP1KQ+aVNNrkbie6KRoPtufgw/aNmYQAsGLGg/7lWJaHwhLkZAe0o
+	FUFChu7osyl4G+/YgNT3bpr3anIZvbA4BUTRyCQTDYL/SgaT1KEVhs5mWChLjSXM
+	Wt9HFMg9EJ6SuaEd9Zbp1J40XCGYMVy3dLcqlq6ExETtcWAszD25FdPj1ZLmuRO1
+	S+c+eC1AliOskNzx3AJPZ9zmgA5Q3NKaNN1x/IwER3jomeG9L06xeaeE55DS/gUg
+	2iHdICbt0L3NmXNIjLgOgyB7A9H5XdN+fxi9zE+bYmOMXVbC3soVV5rnK1Qg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1794919633; x=1795006033; bh=66IORwZwNmFzwgB6dY9tprRV5k1fWvE4IbZ
+	QCtoOk6Q=; b=nzyVvWXaJrDu2+wWJmTUVqm/FWF+3P/ionqlaoGZGZWrLSuKnRN
+	fUisMv1bWfkasavOquTp3/zPedmPtofizYqhIIRd4jG0r/OMetX9zkFQW2X5BKga
+	Gsn015QP5NCI6H77kM83QF7Bwo6gzO+2HH0GbzabSM4Qa/tgl6tlZrHrOW71JQfH
+	Kop+z/N6mKRbmgLqHos9NCAsowPA+tXnIkSxW35SfEFJpTRqpuflSHfHH1+irfgp
+	Ajc9gEDrRSOgO/qpN2cNuZXefyi6vEMoJO4mQLTmnnUtgmjrMeiX5w9KFfV+QEsN
+	cSolW94isoHjYbE/G2gg9YKcH2J3Mb6GUNQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=jannau.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794919633; d=jannau.net;
+	mf=PGpAamFubmF1Lm5ldD4=;
+	rt=PGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm2:rsa-sha256:gu5OvBF9ub6gRrYNX4ztZcIJ/82EVTFvkPorRCWyyjNA14T
+	Wa0AdsFFHr9ku5henwt3UUbBsPxJaSClKJsc3Txh64llZuj/+iUJ4M3mNBNziq0c
+	Tb1lzsrQDYvCSthxv7BnIc/cE5YFWiSlLWidRWuNMHHtzkTeaVuTnlETGvfIC6cZ
+	x7aRdOtLamI/i1exDXwNroo4nDiIbLrAQTcgQMnnJD1nLmpoHjsnaOTS74MPqFE6
+	/Tu5d6DyIIo4YUzSWbp/3GbV6KXyJDNRbE8JM17YTslpo55U2rsvOsHQueR7dpee
+	KzRf3qlMcDPPXHfQNoNU4h+C6WYCmJS4thzIglA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-disposition,content-type,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:PPdbO5EL5SO3Y8hSzr30lTANh9SKPm2mGNnUJBxyLho=:G1shM/10uD8l3tWwo+6XfHZxUMC1LoWENsN+zHNDHGE=;
+X-ME-Sender: <xms:0Uz8anSeEd_aTaXMak8nleaEgnu0Z1CYthpH9WVhOb4Yr1XtFwgLIg>
+    <xme:0Uz8ajvO_Ai4a6I6RSxhgZV3EuqOStxwJneSkYEHZAxbjpip7GRcZXwN5oNJscuwN
+    ilqHKY-To4iX0TvTLd9AEQ8AKMiEWGGOVRXPOuoOSFZEHtyYfwFNEk>
+X-ME-Received: <xmr:0Uz8ar1HWUvlRqzbkpefSkwLrI2QNyEiGSQA2kyLCNO_MG_MxR_u-SmttkCHNQuCdC-uI-l0zMmjdaJpiU98hi6ZEP0DTRlSU1U>
+X-ME-Proxy-Cause: dmFkZTEpUHidJGiF11Grf/R3Md1mSuLc3yaWlwQRsLrJ9bHQBXk3LBD27Up/Yw4yeiSVLL
+    TS7J4tnzL7lwQK7HqKc9lDFbVLuzUaU3zi3i/92+rC1danl4A6uqk83eVpT7fIG+Yy/rgI
+    UJHoHl0G5uAobTqtaHM/JSuZ8lmD95s/wLMyr7/lVbOdxoQyInBQYp9OImlw1fwJLwaV1y
+    EV2nFxl13xUzMuZzUnx5g82RGfwTkQ7q/hRWCCumpvFippdgv2g0JIHSbLFZrw/KG/Y3kz
+    oRipGQ/oFDwyL/hRX/zUjRNtkTkgWG/1s34X7psAaA7l4sNMWrX0WUbD+o2pNLICXfwRJL
+    Y7SLH7U6/EvWBg+AMDDmYMqP299af0MttxMbmEqwGIRPx+gi/QhXTFkoOhLv0osvdwqoLm
+    BluKsJOMz9tY0AYiNcGV0cD03zLtxRLdFp/8RnOWoD5DMau5xDch5vdAMPdXt6htdi4Oiw
+    nSAH6HXTY6Owcg5/0Ap35Wfqb4jQyyvnru/LYi1cDy7RcoVQYS/txLHv7rMzvvvoAyYhg2
+    4MF/CSwH5OwczTCqAPEPbK2uQmXwgl1+8C7oBANFTIaEbseTIPqQ1U/xT7riJgeeRrUCVY
+    e8orCE1I3ZyfH0H1E26EeHNt6E0FIoxMH1Qx1ZSi5Y2xu/bdT67gwBRcIJTQ
+X-ME-Proxy: <xmx:0Uz8asVdgVJlrfGccncqtd3Qj2WRR2sRu00HzCHHnv17-q47b2gReQ>
+    <xmx:0Uz8auLGM45ppyJdlxsHqSrLgxVATBGU9avNo9L2IZ2kMR3McgCwyw>
+    <xmx:0Uz8am0owvOSRAUqRFcPa8PozLrjpRhROAAI1SFHfh9KOAOwJ5qRfA>
+    <xmx:0Uz8as74LUzoa_bHt8oiCeHBIhp4EbW2UYRblrqL94fNt0zAX3L7Kg>
+    <xmx:0Uz8akFYzK5T9UyB97YjMQaXpSagS7MwxiiwsBluctCtbBCEc0tUhfpo>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Nov 2026 07:47:12 -0500 (EST)
+Date: Tue, 17 Nov 2026 13:47:10 +0100
+From: Janne Grunau <j@jannau.net>
+To: Jacob Procee <sn125164@gmail.com>
+Cc: Sven Peter <sven@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: tipd: cd321x: replay the plug on resume
+Message-ID: <20261117124710.GA515128@robin.jannau.net>
+References: <20261112113005.16418-1-sn125164@gmail.com>
+ <avw1kOqmrUii-msr@black.igk.intel.com>
+ <3bc5a31a-ab2b-40cd-a030-d0498002776a@kernel.org>
+ <20261117131713.2db5294d@nixos-macbook>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,18 +125,41 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261117131713.2db5294d@nixos-macbook>
 
-> On OrangePi RV2, usb2_0 is connected to a Type-A connector at host
-> mode, its vbus output is controlled by gpio 126. And the usb2_1 is
-> connected to the USB2.0 connector pins onboard.
->=20
-> Tested-by: Ze Huang <huang.ze@linux.dev>
-> Reviewed-by: Yixun Lan <dlan@kernel.org>
-> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
+On Tue, Nov 17, 2026 at 01:17:13PM +0100, Jacob Procee wrote:
+> On Tue, 17 Nov 2026 13:03:03 +0100
+> Sven Peter <sven@kernel.org> wrote:
+> 
+> > I suspect we're just missing the proper suspend/resume work in the PHY
+> > itself to put it into a low power state. Or maybe we need to keep an
+> > additional power domain enabled so that the PHY doesn't lose all state
+> > and keeps working in a lower power mode.
+> 
+> Agreed, please drop this (and v2).
+> 
+> That second option is what happens with wakeup enabled: the dwc3 node
+> and the ATC PHY share the atc*_usb pmgr domain, and it's only switched
+> off in s2idle because xhci and the root hubs default to power/wakeup =
+> disabled. With wakeup enabled on xhci-hcd.*.auto and usb* (Asahi 7.3.3,
+> j314s), the domain stays on and a device left plugged in stays
+> connected through s2idle without re-enumerating (no "xHC error in
+> resume ... Reinit"). Asahi's pmgr marks these domains
+> GENPD_FLAG_ACTIVE_WAKEUP; mainline's doesn't yet.
 
-Sashiko has reviewed this patch and found no issues.
+yes, the downstream tree has commit to set GENPD_FLAG_ACTIVE_WAKEUP for
+all power-domains which are active at probe (boot) time.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117-b4-spacemi=
-t-k1-usb2-v5-0-52c3829cca69@linux.spacemit.com?part=3D8
+> Wake from a USB keyboard still doesn't work: nothing calls
+> enable_irq_wake() for the dwc3/xhci IRQ, and irq-apple-aic has neither
+> irq_set_wake nor IRQCHIP_SKIP_SET_WAKE.
 
+The interrupt controller (AIC) doesn't have functionality to configure
+IRQs as wake up source so it should set IRQCHIP_SKIP_SET_WAKE. Does wake
+from USB keyboard work with that changed?
+You might also need to add "wakeup-source" to the dwc3 nodes.
+
+Janne
