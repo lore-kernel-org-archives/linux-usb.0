@@ -1,93 +1,130 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794873646;
-	b=eikVq2B3ZhypMYVfj00J4BzHhNDvcNWrSRvuU715Y/fFbtrJPb5nJbyLwR7Jpk6yUWVI
-	 rM2xzYJP7nDcWz4vI9/QOVnZvlMl899khkNaHPtk1xfWfnWq6gFKAc7dqLlsIKPx9yaPu
-	 15E1r/oKSsJEY5AZb2k5cRzC3aq7cuhP+RN/gXXM3fp1Adb6KK8ILcGCHBQ5gcCqR8zih
-	 d2villPwvxi/hSQoa0oUSe6pvHWN6oBzUFXOcS1PyKZ4/S6GxySrGW40aZgzGkE+vqpe0
-	 S2Ce8fc4A0G7VJQy1c3a6WvhNYoBGP7mgUbf6rdU8EUy/N015p9h2//PE3nq8uh59ig==
+	t=1794873921;
+	b=AXGMobJRdxVjPSypmzYfrF0lLYZYQfDTG6kgkskaypZ0ptfg32gJoMW32k5X1VN0VisJ
+	 gBPU81JQxEss0oHu6Xb1mPpKcKBTVHZPXZZLZk980PHs+So2RlT5IwFwo728bfZPdOuml
+	 mywwl/HgAw5wVMrBwaClWc3BWjoPXCLMtjw8UE01lNOOXCIjAatk5fSDUHTMl6qfv5eL/
+	 3HpNRIin85SruafoZL0dc04Ap/ZGhhJbnMvWaQ2iuL75sWXTIsCYZyXHN1ezcd2p4tqNj
+	 A/cyqJidInZLSOwBG8QhMo5nWVq+Ax+o5vzUa6C77mNS6zLrwQK/AAiZfXsYQfUL48Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794873646;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794873921;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=8/84fIsnYNevTgT8Tyj3fXtgY4rv5SdcHrjwauikJg0=;
-	b=FJll9JmX8sOhEpovLlX4IBPUouM7lYWs8tlp8DzFM41MuuiBBZ5k87erEMFhDon1n1ek
-	 f2jUAp7mVPnRwVR3hOFQOz3qKf8p6mSZ961xCjOI5B6Cw7wsKHMriXhnTMsQHvOHYyIMn
-	 daSQyAPW+hXrO9OLCqueOczqUeW3pDNwwGoKaxfxbBYLR/MxAadinmEI2wsE3Sbh6OL3s
-	 peQcJrMAv/sCf8r9tk3FYb+Zsz+bqPx+gkuBnTIKunaYFM45ek1T+xn9TlhndwQuTqZ+A
-	 SebJfwfBoGB+N51iO2xaeSfJpVWyq6tq5RWCoz8XiNTaD5YzetfmXD6Ozv6wkc23CFw==
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=eMx+CTkXv1VoOtSvi+6D1nYsmWu0vpvPd8N8huVVt6c=;
+	b=fNRVsMM21sQspH1s+PUWgn8cgw03O9W4N7gAjtcwH5OsKMdjYgV3Stn8XWpgrYIYfCSF
+	 N9hwDaZVPeoZnRorN1qyB0ETFb87PvDfiFUH2lg62lGrnRB4JNlAj2/GESmMWazSzgEQ2
+	 cyi1258Yh2tjx0kFaUEeGDFsOkxUY65Vd+i5+ppwsYnli5k42/p5jNPzeGMd4EoULWi7E
+	 rwbBHGZTRHYslvP/x+iY93uxArSXl9gzv0oiWStKm3tOybfF/P8GGTGzfuI/hbX8pb8FR
+	 7kso9RVZOqeoqb6hmiletzRgAOwBoQ8oj0Pyo7Bkp8O6hU9/ieTyKRbwxr0kASOaIJg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DVjHUOSH;
-	arc=none smtp.remote-ip=74.125.82.179
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=o+1molFf;
+	arc=none smtp.remote-ip=209.85.222.182
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FAA606A329
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 00:00:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1FAA606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7C7606A31C
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 00:05:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C7C7606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DVjHUOSH
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-372bdb942dbso3638901eec.1
-        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 16:00:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=o+1molFf
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-9496400270fso262763085a.1
+        for <linux-usb@vger.kernel.org>; Mon, 16 Nov 2026 16:05:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794873641; x=1795478441; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8/84fIsnYNevTgT8Tyj3fXtgY4rv5SdcHrjwauikJg0=;
-        b=DVjHUOSH7KOs9wtDV7NDv6hTj0w600gwishdrCZ12ZLMkcHEtn0cTAAPoueNJe284F
-         msTNBOggHrbkHsTlX6XC6ZHeCebifdfS5KNU5HUUK/UyN3mf77e7kmki2QUcUg/VKSwm
-         SEo4QGPNg8mjjhnHX9AlCX/l8BOCRJgKR9wCxdNWpF/MAmHOQnQ9wh4WUrztwqN5bcMW
-         HQ+D7JSpH1ufQ5x4P5YD0XcvRYBOxXmfuUhQtn5GqJhXzgG4KmNDZUurtdLgSpSlDtle
-         jTOJRC3nTnmsHGKSiVUlfGn9S9Dzp14ahVY8wMKmFihnKwQE7mUbA9bXuh9WMcy9beY0
-         kSJg==
+        d=ziepe.ca; s=google; t=1794873920; x=1795478720; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eMx+CTkXv1VoOtSvi+6D1nYsmWu0vpvPd8N8huVVt6c=;
+        b=o+1molFffc9e6T9ddIDnNeseSjzEf2bQKujHs4vpOVw4OzSSGS4YQo8BJrSN9kd667
+         k9JFBOotGGRYa0PkAFx2E0FiQp1pgsnwgn6pcnUL3Eya4+1ObVIZXwVWtTnGOXsLpAKM
+         Qm4w4F5jBIoZdwaJAnrycuNhvr/nMKvlaRPWeoY+KemZwqtCHlIRV3pKlOZAan8ZiPyk
+         dg+rWFVtziAEodqueYjujOY8FQIiLOIqi0nCOki4SNuEx/vo4myxz/px2YhfTxnQyYx8
+         5SnT2fX1BMMsw9KBqqyDMrnK6kEETUe11lAAN+nPzvpxO9VlnJiaiLVZSGU+NSdcdbag
+         q8ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794873641; x=1795478441;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8/84fIsnYNevTgT8Tyj3fXtgY4rv5SdcHrjwauikJg0=;
-        b=XKHKTgjdXHRlL3rmagBgakPUkKyYSkpwgkPb4DgusYnzrKuw1YC9F9/1KQTqdXR7LO
-         Be+0+zrll6XMPP/CdFXmjAOSO6M79DaN9iJuAnpLvSregCnQ+jtkTKvUCCvigfM/dC78
-         i11QAEir0Wj187hIDzOKit4iHkpv6NR4ucGpEtBjXHKZJ4411CmZy/LX/d+xSvkjXrBy
-         eSxQv0Ow0vOtfca0reHY7cQBjITA83pFENuOGSgzHdQi9ozWyNzaOnZWwpWh2bLa4hh1
-         M/H5G0qZkQiedWIAGarNyRUQyLZQyd+UB1+Q55ZQjRqOzXNWyg4+AoOpXwUKmUt8FThE
-         hPew==
-X-Forwarded-Encrypted: i=1; AL+hErH8t3zj7/QYNeOgeEN22zxwo78aPvmEY938YcEH5bh74uCOil0C1Xau54gPmKibxMHtTHiuV5atcB4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9JKi6AFH8JzEtiLGJMpi39DpcSkL+MRp12ygaHLH6xE5cxeDZs
-	Q4E4l0mxgrVzhoTvLhuduPmuix8Bq8ylpVX5imL3MH14rEd1spZrB4QsWKX6
-X-Gm-Gg: AZFdTZdr1HJGJSJiibKFhek0y86/CuHUzJtpF3NM6fBERm2kGXlYH1hzy5AssTEMwsb
-	/llU5WeeJ16QRBpE6wLhGNEudsO/Km1fUJvbMbBzqbpw/OZyGUUiKTtIoPq61qDduD4xK4k+Nxw
-	oWt1UvQI1xquXea4PSJdZhmgjIt8Ky/S0xz8dWEpSKdc6g8kYEVFkbWPrdZoPn5uOO4pcSLXzOs
-	dobNdW9HidQJJtozXbFgqOvQxZeNZ56I0asDQamvc+k5YaGjnpdpX4U6eeh33ON4EcTQKVH2jCB
-	mu2dklWeKJUt3feXu40Z2JU3+vW8MWCn6ZcefiJ1mVvekWZ8iu10FZCdUQvrqO76c57EixLeZpV
-	7OGBQz9i1QycCZCNmgLZK/WVHXjSwISaKA9SAT6CY2uvqfXZk5CCaPVcu7OY3WLhIRxXWwXQjmc
-	gYQo2gXDXi6spvkExiEr/P0nGf/ydNt1zqpa0lbY7HVJ4wUIijuR/8tMj4sd5qa/MiT9Kf5n0kt
-	DrICwRQbpHWZjqVUTDki762ajDU9Lh9Y5CdOqMKQLGfqK5ZlBOKIp9NZf8KQ1mIgqsMgOTJTgUC
-	rnRAwXjhdxdfcdWlz2n+LR22GbWy9JD2lHpz4PAn01eFbOHTqCG1WcyGcUlCUt6szw==
-X-Received: by 2002:a05:693c:8206:b0:36f:f3b7:6dee with SMTP id 5a478bee46e88-37966e3ab88mr13204369eec.7.1794873640677;
-        Mon, 16 Nov 2026 16:00:40 -0800 (PST)
-Received: from at-Standard-PC-Q35-ICH9-2009 ([106.202.127.190])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3815045b90esm854224eec.13.2026.11.16.16.00.38
+        d=1e100.net; s=20260707; t=1794873920; x=1795478720;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eMx+CTkXv1VoOtSvi+6D1nYsmWu0vpvPd8N8huVVt6c=;
+        b=uP/3+t+tHrXNmoc+y2w1McmOsYkS/Png2vo1cJWm+YSAi6SaVIMZtbsa/BsfFPPeDF
+         5Qc7MBncthhK9RJDxT5XTHx67zIDUyJF0Bm/fZTb65LvF/LPC170gQ7QV4G3ee/UoHNg
+         hw5wCadQtVlADm29rq2nIvYM5zjvmev1hTPHtCJ7atoX+38HxlFtyjXEZZ74WrIRmS/5
+         TBu9uH1ucxuC2u9m5RZFv41fVf+NIERATe/dCrnBUJs8I6jPB0kHrb2eOLCPb68HkTdo
+         LaR1nq5tCCugtzJBgLNpveo+pvHayDp7acNk/wjnTjz37VWB0U2u9tSLKGE9z6ZUu5cA
+         5V0Q==
+X-Forwarded-Encrypted: i=1; AL+hErFDb2uhK+1FB3A7B7iRMBkc8yDDu6IEx4wNHzDPb5SpuPG0PBDsaOUd+rq4C0Bw627fv3ZoFow9HgU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Ayz9nEqO3Tt+/2fSk8UeeENxnxX9hlTvfCMuzgvXQMh2erUMi
+	DcAB5xKiE11HKUxooMZQeSM2SFce/+9IzoGO6mdZtsehzeAJ6fGiQPGJ564maTkzd4U=
+X-Gm-Gg: AYBFou1YXNWPyy5ghQGEITrJB4baWpeBU0zahFn61Za62i/AOmDQtDOyx+8E8tPYL8N
+	mJ6vbWpOWqbrbJc5zkctcfs/J3/pTqpFLVhOA1O8AB8SUY5yQoUketDQInZ3iREjSpZEnAIum68
+	qT2++MiVH9vTo0SlsTnxb8auHcTJS/QNY7rEZwWEnK/VPEFYXZeinyEtp4E5/03n/29ViM3ZApB
+	dp05CCjqAu4zrWi3OW7wAxocwo7q3rHx/F3hk9pI8fNlp3V7E7XTl0nA8/T/TPB7RZ/H/UlIiLR
+	QWGZVv/615mgJVZBl7zvC/9ryJET8cpfEKjX3ELAM4qiYnqxBpAc5+l/JnMH8Mah597Tk3oN9P2
+	DeBvy1NS9gRJLq5WVTUA1hdX9kmcKMiG3GHzkd1+8nDpUN3f/wFS0kPu3OP8P14WqztfxRTzvgX
+	zUNw2ZgqQhEk09W0g3hbe0RQYJnitcJhSQAXK0homZinSWGfImjRXziE/FddOVphALJCiWTSeBz
+	uBo3IyRT362ZlfHecJB5pDZv530LpmIRXl+cdgMxsHtXi/Kafc3TtOZcK199kzAK7k6MlbECpSL
+	2TxubA==
+X-Received: by 2002:a05:620a:aa0b:b0:949:7473:b1a5 with SMTP id af79cd13be357-9497473c077mr807892285a.55.1794873920005;
+        Mon, 16 Nov 2026 16:05:20 -0800 (PST)
+Received: from ziepe.ca ([142.166.156.71])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c8b889csm969866585a.32.2026.11.16.16.05.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 16:00:40 -0800 (PST)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: 
-Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
-	Mathias Nyman <mathias.nyman@intel.com>,
+        Mon, 16 Nov 2026 16:05:10 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xT6h7-0000000Apgy-1pGN;
+	Mon, 16 Nov 2026 20:05:05 -0400
+Date: Mon, 16 Nov 2026 20:05:05 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org (open list:USB XHCI DRIVER),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2] usb: xhci-pci: Add Power handling for Card readers on Apple systems
-Date: Mon, 16 Nov 2026 19:00:32 -0500
-Message-ID: <20261117000034.7641-1-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
+Message-ID: <20261117000505.GA2488304@ziepe.ca>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+ <d0999161-3b27-4c3b-9d66-1d117c4836fd@arm.com>
+ <20261110122237.GG8635@unreal>
+ <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -97,114 +134,53 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
 
-Add Power handling for Card readers on Apple systems using SPWR
-ACPI method, SPWR(1) turns on the card reader, SPWR(0) turns off
-the card reader, on newer systems SPWR just writes a variable in EC.
-On previous systems it writes to GPIO pins.
+On Mon, Nov 16, 2026 at 05:13:59PM +0000, Robin Murphy wrote:
+> Even with the slightly dubious argument that this series only intends to
+> shuffle the existing PCI code around rather than fully introduce the generic
+> abstraction that it claims to, if the PCI behaviour is still just based on
+> propagating the internal "untrusted" flag plus the new global override, both
+> of which *are* known at add_device time into the common trust state, then
+> there seems little excuse for not doing that up-front so that the new API
+> *can* just work as expected.
 
-Its also used by the macOS driver with the function
-AppleUSB30XHCICardReaderPort::setDevicePower in AppleUSBXHCIPCI.kext.
+The desired iommu flow is to start out as blocking and create the
+default domain only right before driver binding when we have the
+correct trust level.
 
-(This should fix https://bugzilla.kernel.org/show_bug.cgi?id=111201
- But thats not confirmed)
+If we try to do that without this series then we have to do it all the
+time, which I'm really scared will break some embedded thing that
+expects scanout to work or something like that. My hope was this
+becomes opt-in based on the new command line stuff in this series.
 
-(Tested on iMac20,1)
+On the other hand this series works properly on systems without an
+iommu, which is pretty much all CC VMs today.
 
-Changes in v2:
-- Fixed grammatical errors.
-- Added CONFIG_ACPI check
-- Checked for xhci_suspend success before turning off power
+There are probably around 15 series to complete all of this PCI device
+attestation. Without everything it isn't really usable, IMHO. I'm not
+that worried about the series ordering.
+> > We have two levels: policy - that describes the default of all devices
+> > for that bus. level - actual decision on how that device is going to be
+> > operated.
+> > 
+> > "Disabled" prevents driver probing until the device is authorized,
+> > "Adversary" permits probing and requests the available protections
+> > for operating an untrusted device.
+> > 
+> > Both need conservative initial IOMMU setup: a disabled device may later
+> > be authorized as adversary, and authorization does not rebuild its IOMMU
+> > domain.
+> 
+> Urgh, I can be absolutely certain I'm not the only one who is going to be
+> confused this way... I see "disabled" and instinctively take it to mean
+> disabling the device_trust *mechanism*, as the logical thing that people
+> will reach for in terms of "I don't care what this new thing is, just get it
+> out of my way and let my drivers work like they always used to; I want to
+> disable the new thing."
 
-Link to v1:
-https://lore.kernel.org/all/20261116231926.5891-1-atharvatiwarilinuxdev@gmail.com/
+Maybe "isolated" is a better word?
 
-Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
----
- drivers/usb/host/xhci-pci.c | 25 ++++++++++++++++++++++++-
- drivers/usb/host/xhci.h     |  1 +
- 2 files changed, 25 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index e278db940..31961de97 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -15,6 +15,7 @@
- #include <linux/reset.h>
- #include <linux/suspend.h>
- #include <linux/bitfield.h>
-+#include <linux/platform_data/x86/apple.h>
- 
- #include "xhci.h"
- #include "xhci-trace.h"
-@@ -517,6 +518,18 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
- 	if (xhci->hci_version >= 0x120)
- 		xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
- 
-+#ifdef CONFIG_ACPI
-+	/* On Apple Machine with Card readers, we have to use SPWR(0/1) to turn
-+	 * off/on the card reader, And on boot the card reader is off, so we turn
-+	 * it on.
-+	 */
-+	if (x86_apple_machine && ACPI_HANDLE(&pdev->dev) &&
-+			acpi_has_method(ACPI_HANDLE(&pdev->dev), "SPWR")) {
-+		acpi_execute_simple_method(ACPI_HANDLE(&pdev->dev), "SPWR", 1);
-+		xhci->quirks |= XHCI_APPLE_CARD_READER_POWER;
-+	}
-+#endif /* CONFIG_ACPI */
-+
- 	if (xhci->quirks & XHCI_RESET_ON_RESUME)
- 		xhci_dbg_trace(xhci, trace_xhci_dbg_quirks,
- 				"QUIRK: Resetting on resume");
-@@ -562,10 +575,14 @@ static void xhci_find_lpm_incapable_ports(struct usb_hcd *hcd, struct usb_device
- 		}
- 	}
- }
--
-+static void xhci_apple_card_reader_power(struct pci_dev *pdev, u64 on)
-+{
-+	acpi_execute_simple_method(ACPI_HANDLE(&pdev->dev), "SPWR", on);
-+}
- #else
- static void xhci_pme_acpi_rtd3_enable(struct pci_dev *dev) { }
- static void xhci_find_lpm_incapable_ports(struct usb_hcd *hcd, struct usb_device *hdev) { }
-+static void xhci_apple_card_reader_power(struct pci_dev *pdev, u64 on) { }
- #endif /* CONFIG_ACPI */
- 
- /* called during probe() after chip reset completes */
-@@ -853,6 +870,9 @@ static int xhci_pci_suspend(struct usb_hcd *hcd, bool do_wakeup)
- 	/* synchronize irq when using MSI-X */
- 	xhci_msix_sync_irqs(xhci);
- 
-+	if (!ret && (xhci->quirks & XHCI_APPLE_CARD_READER_POWER))
-+		xhci_apple_card_reader_power(pdev, 0);
-+
- 	if (ret && (xhci->quirks & XHCI_SSIC_PORT_UNUSED))
- 		xhci_ssic_port_unused_quirk(hcd, false);
- 
-@@ -895,6 +915,9 @@ static int xhci_pci_resume(struct usb_hcd *hcd, pm_message_t msg)
- 	if (xhci->quirks & XHCI_PME_STUCK_QUIRK)
- 		xhci_pme_quirk(hcd);
- 
-+	if (xhci->quirks & XHCI_APPLE_CARD_READER_POWER)
-+		xhci_apple_card_reader_power(pdev, 1);
-+
- 	return xhci_resume(xhci, power_lost, is_auto_resume);
- }
- 
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index ec4bfeb48..579ddea52 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1652,6 +1652,7 @@ struct xhci_hcd {
- #define XHCI_CDNS_SCTX_QUIRK	BIT_ULL(48)
- #define XHCI_ETRON_HOST	BIT_ULL(49)
- #define XHCI_LIMIT_ENDPOINT_INTERVAL_9 BIT_ULL(50)
-+#define XHCI_APPLE_CARD_READER_POWER	BIT_ULL(51)
- 
- 	unsigned int		num_active_eps;
- 	unsigned int		limit_active_eps;
--- 
-2.55.0
-
+Jason
