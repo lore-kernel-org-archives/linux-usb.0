@@ -1,79 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794921661;
-	b=xjGmMklpbkczWWmb1oQeSUKAGQg2dfL5SUkKk7SsXQX7TqJXJrI+XeGhJa00EDpjmB/m
-	 N5/sB9eZ0qvsXl1Hw41LvjdwiFE10V8rr8ZRe44KXXDejBAr7MuWTPnM4EPg1fJeSmLYX
-	 surGQNHfxEfSw2DX7EDo8xlND3fl/a6RpAsC+2rWhElEFizASgnA8Q2ik5XTmTL8gb8b+
-	 GpNX5orbtgXSTwarteIgGNM8+3Kpx1R75sIfiBgTIQG26iESsuOGjwjxO8GD5Uw0q/MA7
-	 TVgg+hxxaWf0XVPuqaRXjbYFPys0cEykxjX9GBUdpt1WNlg4VrFreVoomPgYntHBc5Q==
+	t=1794921711;
+	b=nPyNZDR8H7QqhtXerdEvfDyXUsQyuZhh13DxUQandaT2AcuiVWr1l+U2HpKIoh2zsIFE
+	 nF1GKETFSrqJOOU7wyfMYRkSxO1yP0HIeSF7+v03SXp6LC4p/xtaNlBznEu04f8hZbno/
+	 7FO7pSseHFmUqr85Pz1aDDjwaJYFAQE0bMWhP2mUfhK/eVNZ9Q41+WJ4YvavV7+kNXMu6
+	 bGu1nZqNGANWqc1xuSiDKZS9OSiW6kFHcpgOyzgxxR4VmV97jE9flYv8ykgoiHtmmE8fn
+	 4RCsz5Qw0Q/Fs8dDOKbjRNx9KLtKLt5UNCMp8BcKLRgKb4YmVj/Id8upTAzE2fIar4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794921661;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=1MJZEmnPkg3PfNut+uhmRt34A9/3ciDGB9XpmeSdI4I=;
-	b=pdtvJjNQ1P6b7/d6xcj5MzKoOJ/qNo4eu7Vg0qfywz6D14UtPJn0OJGFtfZv23k9jlJx
-	 Vq/TkqPIR25cuHjWmwukWHpZQDmyGMClf6e2tT1vmXW4Xli9oyvuPcAKWmrAq0lZgx554
-	 bBPvdz/xQ6XbcQ4nHRJrv5LyUhWvLhI38441xOuRzoNePVipTEeiGRTjtgZme282AlLx8
-	 +RmwHzmEkk51p1XJULyHZR0G1ae/2NC8G/V9akSSZJPtRg+Til3N17pbrpjLP5zosq49q
-	 Yg9pS4zA0jiFBS9HVMV3mkmxTZods/aFCTkqSPDQj1J9Ba0/w6zXsEN3qND+6B1Be7w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794921711;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=++lSBBYYfpmwFz+ReZ8Td24HxOutw7KykOy1Cbb41yk=;
+	b=yZ2vvpwN5vIW8bPTvoePPWQqRmGiqIgHTUf+4JfiUo//yKwFaUrGqhBTIRqovyXbp7ob
+	 ApGZdMmyxntylQ2sjeqChQBOV0Ck8vwD0z5lfcp7rWOyzOazExvLLSvwbv9lU0cGltadk
+	 M3ZKlLrxImY18mZ3fiDz30UhCC0ZNJWSBks7GvOP/ns79KSmZJnPXrJRnKNX4mfG5jsEG
+	 bxkKSwtVbg1gXTY0RA4NwKoajToGs0zFnsh50jsQaUv1HjJJgqNojZSmGgd/KjlwLcc+e
+	 FxBNSUOsVc50rKtVo4YzyqhvmIdj2FA3gErJG4jIWED31bs/FCz+nGjgL/WGQ+/hEkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=F3sdAHbN;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DZYsOs8Q;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85674606A32A;
-	Tue, 17 Nov 2026 13:21:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85674606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97438606A32A
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 13:21:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=F3sdAHbN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794921661; x=1826457661;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LZdAxXxoEX2S+cUugFvf30hnqpsL5DEW9EMmpqb9nRc=;
-  b=F3sdAHbN4CqSxDsisaTbTP2AjueP53MxgaWGmO+xZRCtTXcdQgNqi+0R
-   jcy+3ZE/PM4Z4oyRoRMj5MF6l3gHvu/PlsMHw90Q2B765XBG7ujtxfvJd
-   2a0sG6IwQ/p1xh5ELnH1cHJLWMXmm8sUyeQRn9DBe6uteTvMcChvuqZZL
-   uFiM2R4VVlG4nueQi2UNIBm1xHD5U4fomkEPVgNMQmjPoDIjF6ogxXMgx
-   2tFbj8iVRhH1B8WreIKvylfQuKukSNDLsaXB/WgasqrjrFgG57VeZl9i+
-   nnGtyRp+mhLmps7w7WrxNHcbrYyxQoUADy6KZST+GoLl8hlYZYs/xGFc2
-   A==;
-X-CSE-ConnectionGUID: RqEJ1FI5SkiokK9N4W9U4Q==
-X-CSE-MsgGUID: u1bav/q0RtOMtxJ0sDpGmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3581888"
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3581888"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 05:21:00 -0800
-X-CSE-ConnectionGUID: Eq+kvBPcTBaRq7VRq2CZPQ==
-X-CSE-MsgGUID: LurWnyOSTaGeSUIR4Zw7qg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="11569901"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa012.fm.intel.com with ESMTP; 17 Nov 2026 05:20:58 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 8B6C899; Tue, 17 Nov 2026 14:20:57 +0100 (CET)
-Date: Tue, 17 Nov 2026 14:20:57 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Badhri Jagan Sridharan <badhri@google.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@collabora.com
-Subject: Re: [PATCH 4/8] usb: typec: fusb302: switch to devm_pm_set_wake_irq
-Message-ID: <avxUubGaIXH2kIqk@black.igk.intel.com>
-References: <20261113-fusb302-probe-cleanup-v1-0-e5c65a8c58c8@collabora.com>
- <20261113-fusb302-probe-cleanup-v1-4-e5c65a8c58c8@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DZYsOs8Q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5E971F000C4;
+	Tue, 17 Nov 2026 13:21:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794921711;
+	bh=++lSBBYYfpmwFz+ReZ8Td24HxOutw7KykOy1Cbb41yk=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=DZYsOs8Q9Sy/1v2UnpW2AjYFk4pmLmJilMiamIxxy/Cc+PsVc+xdgMmyonOxT+f4o
+	 TWVZzyLd1p4QZkpytV8BgQ0rtP5g07kDpTZqplNPXZvmAM2GEtOoy2TVDIt2LjlrxJ
+	 JTLMRQvEh/U6cE6Mc0p493BqwbkZtTjmCRSFtaYZqXCbh78D4K3VmzvoqB6OlQCRhU
+	 MKPJ2E9aobLAgWUtyIVPkTteioHksfMIRkKklRQJVxTDxvB5pnaY2bj/3NXqxCj1hc
+	 RsxEtn94P/Dj5gd1y4cp0QWCQ4nzlUBTTJe5E1gY4RA75ECgMu1LiyVfQU/n2J1lS0
+	 x7RvVPlb/L9+Q==
+Message-ID: <sashiko-outbox-218866@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v4 3/3] usb: gadget: f_hid: fix get_req leak when
+ usb_gstrings_attach() fails
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Shunbo Shi" <shishunbo@cmss.chinamobile.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261117125051.5646-4-shishunbo@cmss.chinamobile.com>
+References: <179486710796.2938203.13522037990167268712.b4-review@b4>
+ <20261117125051.5646-1-shishunbo@cmss.chinamobile.com>
+ <20261117125051.5646-4-shishunbo@cmss.chinamobile.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2026 13:21:50 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -82,72 +61,19 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113-fusb302-probe-cleanup-v1-4-e5c65a8c58c8@collabora.com>
 
-On Fri, Nov 13, 2026 at 05:42:40PM +0100, Sebastian Reichel wrote:
-> Use the modern device managed wake IRQ helper provided by the PM layer
-> instead of directly calling the interrupt wake enable/disable functions.
-> 
-> This results in the wake capability only being enabled once system suspend
-> is entered as its not supposed to be set while the system is running
-> normally. Also it now properly reacts to device_may_wakeup().
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> In hidg_bind(), hidg->get_req is allocated early; if
+> usb_gstrings_attach() subsequently fails, the function returns
+> directly without freeing the request, leaking it.  Unwind through
+> the fail path instead.
+>=20
+> Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IO=
+CTL")
+> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Sashiko has reviewed this patch and found no issues.
 
-> ---
->  drivers/usb/typec/tcpm/fusb302.c | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-> index a7a1dce6cf86..8b83414c5819 100644
-> --- a/drivers/usb/typec/tcpm/fusb302.c
-> +++ b/drivers/usb/typec/tcpm/fusb302.c
-> @@ -19,6 +19,7 @@
->  #include <linux/mutex.h>
->  #include <linux/of.h>
->  #include <linux/pinctrl/consumer.h>
-> +#include <linux/pm_wakeirq.h>
->  #include <linux/proc_fs.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/sched/clock.h>
-> @@ -1804,16 +1805,11 @@ static int fusb302_probe(struct i2c_client *client)
->  	if (ret)
->  		return ret;
->  
-> -	enable_irq_wake(chip->gpio_int_n_irq);
-> -
-> -	return ret;
-> -}
-> -
-> -static void fusb302_remove(struct i2c_client *client)
-> -{
-> -	struct fusb302_chip *chip = i2c_get_clientdata(client);
-> +	ret = devm_device_init_wakeup(chip->dev);
-> +	if (ret)
-> +		return ret;
->  
-> -	disable_irq_wake(chip->gpio_int_n_irq);
-> +	return devm_pm_set_wake_irq(chip->dev, chip->gpio_int_n_irq);
->  }
->  
->  static int fusb302_pm_suspend(struct device *dev)
-> @@ -1870,7 +1866,6 @@ static struct i2c_driver fusb302_driver = {
->  		   .of_match_table = of_match_ptr(fusb302_dt_match),
->  		   },
->  	.probe = fusb302_probe,
-> -	.remove = fusb302_remove,
->  	.id_table = fusb302_i2c_device_id,
->  };
->  module_i2c_driver(fusb302_driver);
-> 
-> -- 
-> 2.53.0
-> 
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117125051.5646=
+-1-shishunbo@cmss.chinamobile.com?part=3D3
 
--- 
-heikki
