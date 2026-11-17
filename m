@@ -1,90 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794903942;
-	b=FkZpyqIBIOrwCKEX0vDEnciZVTQymM52jCi1lQYKxKobHsuprxzAwQ2Pl9fePFHGlKh5
-	 QWRr2YnkQf6aPDRxxiERBAAiLRk22bYi90RA6b2T5pAsGh6VvTCzKVCBKX35IRZvYt5yP
-	 Jtr+e1UDDffxiTHctwSEqJhQh+m5Bhfq8GCuMF7ejflC+Tb/l9QB4pj6eVbYzqnuwGtds
-	 o4fZFwUk6tk+K3vrTW+4A5zHEUVNtb4FpzAXw36ha5XgxkiqXiA77/7EQ8Auj/mKn0X7C
-	 OdknsKS/XLDw0tQspHJKdy3jDKbtqao5rBqSlX6WGyCbOg9SER2L6BrRrvEBjKbRzBg==
+	t=1794903967;
+	b=mM96fz7Dx5DwT8Q4QTAV4sLGRTksFMmfwL3NtrpepsfnJqz+W0r3OhoEgbfaEJuN2llD
+	 3kDe9DpiNYJQZuMamSNo7KOUj9VHdphvxWGoFk+YRvUII3exKMGNphlWy9lFshjFoEw/D
+	 ANzdt+uwH3uN9EXQsKHCW1G2azJ3zXKqmaDVIsO7YSOpMg0W9lskn9ZPs1gcFhHfzAZyt
+	 40+1JRWGVoewDBtyebUZDB8AmIh7RdbQtrX7OK54m7J/RFOig8L0YbDAGNw0UIkb5IS7+
+	 oyz6NebEzd26UxHPKiTZh+4LDLcRnsQZfsadk7JeAvZF8NsuMhRWEbKiMWHTOYhrvEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794903942;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794903967;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=j0XZKDsVtf9HKWZwL+enuicDpOLOYyRn9ya9fG1zl3I=;
-	b=Kxu2h2h0bU2Rfuoi6mzyqus4ydL9LYm7hGkQ7Z44NaybEyU8r8SQxVn7kQvheHrUfcYc
-	 TuMcEALO8lNNiSaf7gq19YOVdaMLN3TCu0BcGZ8E8De+aGqSAEUv/69J6K418LW01QA02
-	 nv11LCKpik+BUV5LAe2n4JYFbWl1u4C7Fr+S/VjBEM92p4Ia34QxHUcS5UdeKOXBYR2R2
-	 Qsi8AsqsGx92oEHTmkytXkTKDLyhe9M0nca5v5igQjuliBDOTbfRdJ9483cgHaQz6t51t
-	 YOkJxn4uIH7NEavJR9/rAXWOBwYB2gnYmC3QaUTAgTHhTKFrOzzsCHmmRurcjojRpig==
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=z/NZRmC5bENRF/WsK1hUt6gARTy1xozW3x04wBCWbAk=;
+	b=srHFHsoHr4oia/NWQLPanvly1VxcGphHqt7haknbdoVyOOWVqDTdN8PXuY2hfjIzpAjn
+	 NTgYyySyIt4YYKoE5jHCjRr5awlNC6P6/QGeYiQM7qBT1M0QJSBYr1Ra2XDHEJPBPJp0l
+	 D9H6qmaLT40Zi+HQ2F4MBzHNZE1ESNqpFNLF5lrQAyVmMDK15caN7dKIATW1eZ4nBiGo9
+	 qu58yh/qmc3BhvBkOOi/tunwLt9c2a7sxLbIUfuxkZnSD2tSu6Tgft72Pb/SXNspFR4C0
+	 76icLj/5MMBw56Ri2D51gO0BwUm0VEtYBDr2BUihk6t0Cclbn0pYb3NeYXZYABjDXPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=flipper.net;
-	spf=pass smtp.mailfrom=flipper.net;
-	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=q2BGRf0h;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	dmarc=none header.from=amutable.com;
+	spf=pass smtp.mailfrom=amutable.com;
+	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=cds43TFp;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FDE606A88C
-	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 08:25:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8FDE606A88C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E4E606A336
+	for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 08:26:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20E4E606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=q2BGRf0h
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-492690dd5daso4102935f8f.1
-        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 00:25:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=cds43TFp
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a9a8d6cea8so7875435e9.1
+        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 00:26:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1794903940; x=1795508740; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=j0XZKDsVtf9HKWZwL+enuicDpOLOYyRn9ya9fG1zl3I=;
-        b=q2BGRf0hG4Ol1uMv3dwQt5af+ox+TZ+aBPOr1vUQcov5SP1mRR/UMOfJfGA+ux/7kl
-         cGw1L4dptC3cHgd5fQcN23NvvZvM+NYRKL4H3bkC8dz0ymarHcOcSwS84Pj2Hw4/j3AL
-         RgbdVzSsdqEFQ0Sl29ZURF2fHopzVrZdRwupOkq6wHojaSCgSaPmke0eqmMt5/W09BTD
-         6aCKvL6byjQcaLoC2csTbWpXdALRsv5BfX8BCAPV5iu4bpo03f8+Hv3P6BthsicM/3ov
-         H0UM6f/U4Ok+1IUaIt8wH/bWmqgC8Qt9EEJGybL4fntpMPryRSpb1LZJ+NPtRZGe05Cp
-         lLLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794903940; x=1795508740;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794903965; x=1795508765; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=j0XZKDsVtf9HKWZwL+enuicDpOLOYyRn9ya9fG1zl3I=;
-        b=Md35zswutBPfzPWPlkD4Jrd/ZV7pDi6X4KrgOikTmeh7EyqgZ5gbZW89yIvmE7MLB7
-         NY3gTUMC2HznV5PQvQ9B99b3oVg2jvjNd1pLZYzHx7A1nPm/OAbSqRAbOdATAibwz+j+
-         /TP9pn+NodGXP+CHT+UEwc75QGjRhHlSfE5IgEEJz2ej/G6Oi5TPik/BEXsfpuv20gK/
-         5LvArS053HvmWIXwGVF4bIseRnlOkHakSsCNVN+SoIUNfL4Iq8FVmhTLPsWy8Ivk66LJ
-         YLo8HUd5pqfU0mpNlUF0+qxd5UHZwaEdAtGHd4Tumczn4DkoT9LmEJp9V9rB/Nhb13PM
-         pU7g==
-X-Forwarded-Encrypted: i=1; AL+hErH3/sAyahRp1JJEl/ojKdIyhZRB7wLlwd6cUlQy71x98eSPE1yMCBfrtEVvPikH+z3qz4t80GC4OIE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/YGOkEI5YFt6dNGbLZucLHkOCqM77m8dZCsfEeyj4zOWyxv9Gy
-	zuF+iiBvIVPtkjBFkkYyTYrH5OfhMznmEyhONfgRB1NUrW+huj70qyZuYe5mIRxnmlhWltJ+5Ai
-	8lmTr
-X-Gm-Gg: AZFdTZesNikbko/+U+T7tCuAqTJsK5rvMo5TP72mY1bd72MzS4teLXNAo+ej6RA0Crr
-	Gs/hGkcYBPCi4XNO7ZwD2+/Ud+JGQGLloAxNEwYxcMmyUGprvDl85dB1xCsmLCflJZ4XUyiTwmk
-	q9U6c/dBYajqHZrUwWllgHn+mtSvyeRT4wrm8e4HasNnTS1w2GQBY/MDcopVLOJBqURpYMHcEk1
-	HMIAcTVZp1F4YdH3fN8pFKvFK5KOB3LRUEmApAb1hH6Np+dmJaM5tpu09SC+goE1blsqSj4nVDb
-	qncUgDmYG0go/xeV6Nu4sAvv9y6R3XveY09mxm0Se/K3q7jFMi74/8RmBC54QV49he62XcWmmhh
-	Hngjuh7NXoICcnWuxM3271Sx7jnbPRnS/7orElCRJrOL0oU4yZBsIs43I6RXP2mmeAHj0dcxCRt
-	kJzPwIvfrxHlpidjM5ceXKYYJgpqi5JZUMCAZVnwrU3B29RK9znIpry5FU0zix/c7IQ5KDiJT1r
-	1NDv8ahWxNOd67Zouru/1rBIj8yOe3BAX4Nr5DFJYHdnMYNXMmewVCXI7Cl/DzZVwlxVyOGhBJu
-	FCbjbRuURVf+zrVxs3RennOy5L614ZlJF7Gl0qMgJDXEFKH4FZwI7lJfpknoV9wOdBPClOwmb4Q
-	AdJGRisL+uw==
-X-Received: by 2002:a05:6000:461b:b0:48d:f7c0:97c0 with SMTP id ffacd0b85a97d-49c71b5c656mr27830205f8f.50.1794903940046;
-        Tue, 17 Nov 2026 00:25:40 -0800 (PST)
-Received: from alchark-surface.localdomain (bba-86-98-194-229.alshamil.net.ae. [86.98.194.229])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c81a63b1csm25450569f8f.4.2026.11.17.00.25.38
+        bh=z/NZRmC5bENRF/WsK1hUt6gARTy1xozW3x04wBCWbAk=;
+        b=cds43TFp7I9j7WPcDQvYfHpQ9LovbzzVif9J1GAb84gdrUsjaaD/ks8/CxWEGRZF0/
+         68hyeBKuGnu6JbonI+DUrAk+S9ERoS7tOFFA4H5eAQDr7L4jclXV2ELfZ8mKm2Ufg0Vf
+         wmDFKHpSFXtb9q6HdOEKHOgWOeHJI7n45fohFUmuSejGQMSPwWlozLhppiRP7NP6/RTN
+         Xh3C0JkZ12tnXvLGCknth+xcOYp3m/oSfXqUlVI9cwzFe0Rue3P0S85bM03sQyFUoXwh
+         8JJkMFcg0oB6zhSAQwaixAlqp7dYBZf2pow5RK/cSK97CWugz7jqMDtCMqYWg5eRSPcE
+         y3pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794903965; x=1795508765;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=z/NZRmC5bENRF/WsK1hUt6gARTy1xozW3x04wBCWbAk=;
+        b=xDu8v5R3IeyfRt78BCT2zMMVRGarQynlclVYTuFdZzhfRR5MsEwuTMXqqGOQaetcZ9
+         lii3znVS2v45ANQ+5Y8sV+D+khvdKSjOsPpYgVwKymTypP41pkVM2pA2VJtCTOJ9+I+3
+         PQ7tbG4TfqMXXWYl5ksDSmZsAWqJyf4SHsobAGy2StVLCGTUFpQq8vRAm96dKdsljBsM
+         Wb1yYp5Ql4sfkc1ZPLfUGWwxrFwc9bM1MCg8OfmuRcD3XQtrKNCXoXxQvj4JZbDVGOfV
+         CBSdqehZT390MUGSkzVJn4mNW/OXbX8sRBtcp/Lqi9q2W3TrTPHo8wa7UgpQDyQUMgma
+         ZmvQ==
+X-Forwarded-Encrypted: i=1; AL+hErEyva58B8lG00I5twJ0tZ892s46EOpRoVimoEMolLaMXc5jzROht1pkmehoUzUhBGBNJd6EUvOFvog=@vger.kernel.org
+X-Gm-Message-State: APuU4Z81YMmuaoKTx365pKQNqK0aslZsvdugieqV4Jo6gRxtMGt105l4
+	UbTacRGcW0jIeCXPxUcgwlEc5q8wkmYH5AOT51NZW3JzDYC5lC1VhifRLTQqYoewLr27
+X-Gm-Gg: AYBFou3LRiIOfhFUItCAftcGri0YGeLm/wyfM3XK+d0MAKv1ER+aFo1+FBJJW9fHEL5
+	xtf4O2Y7YmMvI1k4L8EHB8+eAjYmxeGzp6WCho2UgtkM8gpo0Rl/+GM0+AKBVMPSCyc1mmFLEXe
+	+l3kSRSJ3gtLe4v3+NuDCeLw2yW5IZlWVoY5xkW1LCcjYmh+eP0iqAEhxT/sbcWXwbQquA8kH+T
+	m8PRTcNUjgVZ7294Dzp+9JusGkYRRFlc5w+spoUWr/6z4MpDctKzNiJJmuq20qeGuAh3AHNyCXs
+	LvGZi+2gEZX9hGI2Mdx+gZ38Fxd2REwwitT/6v/JLbbKb+eZDvL7tHGbaKxW9qgqwFx7/0T2o6z
+	WKbHoiMhtWQo4JbjqApt3uPOOJCxzv8RBmNuBs8g159sEbAT70l7XUPFHAofwh1eBVrWZLmF2g0
+	kQWt0l469FahfgJzY/hMq3NNsaJniHhES/99eY7DHtbegWqH3dmD1o7TTGo3gkzgsUZwP5BpQLq
+	lxgOs99GQopP0vOXzJu+6+hE5LT7TJmeR0L5DNd2BJt40/6VU9acEBvfBUE8nBucKxHXOHeJL8G
+	NKQVD5FdyZgVGHuaG5FjqlxLDlysr/Da2990NEGQj31av5b+6vwOqH2XPVYKjXwO+isBvPyw7Rx
+	kxBGbI5aEYZGT99pafpLjf5TktK4H0VhhG5qRjrgamwbhxpnY9KKpjozA
+X-Received: by 2002:a05:600c:5493:b0:4a1:c27d:e1a8 with SMTP id 5b1f17b1804b1-4bb783813a7mr42606245e9.10.1794903965400;
+        Tue, 17 Nov 2026 00:26:05 -0800 (PST)
+Received: from ?IPv6:2003:cf:572c:2800:de4c:6789:33ce:97c2? (p200300cf572c2800de4c678933ce97c2.dip0.t-ipconnect.de. [2003:cf:572c:2800:de4c:6789:33ce:97c2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7ad9430asm12629125e9.15.2026.11.17.00.26.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 00:25:39 -0800 (PST)
-From: Alexey Charkov <alchark@flipper.net>
-Date: Tue, 17 Nov 2026 12:25:31 +0400
-Subject: [PATCH] usb: typec: fusb302: Keep interrupt flags across a failed
- register read
+        Tue, 17 Nov 2026 00:26:05 -0800 (PST)
+Message-ID: <88041240268f70b218de7dfd58c41977d03a60d3.camel@amutable.com>
+Subject: Re: [PATCH RFC v3 03/44] target: fileio: check that the backing
+ file supports ->{read,write}_iter
+From: Alexander Mikhalitsyn <alex@amutable.com>
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
+ Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
+ linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
+ netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
+ linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
+ ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
+ <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
+ linux-kselftest@vger.kernel.org, Chris Down	 <chris@chrisdown.name>
+Date: Tue, 17 Nov 2026 09:26:03 +0100
+In-Reply-To: <20261116-work-loop-pseudo-v3-3-8cbbea1cf34f@kernel.org>
+References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
+	 <20261116-work-loop-pseudo-v3-3-8cbbea1cf34f@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -94,139 +116,53 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261117-fusb302-irq-read-error-v1-1-a85d45b91912@flipper.net>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBG4auQWTsJLZEIVzEu2vJXxwXoDDUmh
- Ltbdfkt3tvIoAKjsdlI8RKTZa5wh4bSLcxXsEzV5FvfO+d6zsVi13oWfbIiTAzVRfkUuhSOyAN
- ioho/FFnev/H58reVeEdavzfa9w9ciFFjegAAAA==
-X-Change-ID: 20261116-fusb302-irq-read-error-8a3ca5ef9ebc
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Guenter Roeck <linux@roeck-us.net>, Yueyao Zhu <yueyao@google.com>
-Cc: Sebastian Reichel <sebastian.reichel@collabora.com>, 
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Alexey Charkov <alchark@flipper.net>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3710; i=alchark@flipper.net;
- h=from:subject:message-id; bh=J+1Ndt16wokvvXhpARWc4lYoy8taMio1E5aZN1Sz79c=;
- b=owGbwMvMwCW2adGNfoHIK0sZT6slMWT94W+yf57GcSqOtalhT+hCP8eTWzReLNZZ9vrprEQ3k
- Qf5c475dkxkYRDjYrAUU2SZ+22J7VQjvlm7PDy+wsxhZQIZIi3SwAAELAx8uYl5pUY6Rnqm2oZ6
- hkY6xjpGDFycAjDVzscYGWZEBX/WibsmtvqGr9I9Gc0YeWuFL4vLV5Q+5GC1P8y5voKRYYHeRKs
- IhgK2sjp+t68G5yImKjlFBL2OMNi6p6sqOmIeHwA=
-X-Developer-Key: i=alchark@flipper.net; a=openpgp;
- fpr=9DF6A43D95320E9ABA4848F5B2A2D88F1059D4A5
 
-Reading INTERRUPT, INTERRUPTA or INTERRUPTB clears its flags in the chip,
-so bailing out on an I2C error in a later read loses the flags already
-read. On Flipper One, a NACK on INTERRUPTB just as a source raised VBUS
-lost VBUSOK. The driver kept treating VBUS as off, so TCPM never attached
-as a sink and left every Source_Capabilities unanswered.
+On Mon, 2026-11-16 at 12:04 +0100, Christian Brauner wrote:
+> With fd_async_io=3D1 the fileio backend calls ->read_iter() and
+> ->write_iter() of the backing file directly. The synchronous path
+> goes
+> through vfs_iter_read() and vfs_iter_write() which check for them but
+> the aio path doesn't. So a backing file without them calls a NULL
+> pointer on its first I/O.
+>=20
+> Refuse such files when configuring the device. On the synchronous
+> path
+> every read or write that needed the missing method failed with EINVAL
+> anyway.
+>=20
+> Fixes: 769031c92c8b ("scsi: target: target/file: Add support of
+> direct and async I/O")
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Chris Down <chris@chrisdown.name>
 
-Keep the flags pending until they are handled, and retry the reads a few
-times, as such errors pass. Otherwise a flag left pending waits for the
-next interrupt.
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
-Fixes: c034a43e72dd ("staging: typec: Fairchild FUSB302 Type-c chip driver")
-Signed-off-by: Alexey Charkov <alchark@flipper.net>
----
- drivers/usb/typec/tcpm/fusb302.c | 62 +++++++++++++++++++++++++++++++++-------
- 1 file changed, 51 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-index 83bd287dadc7..9fb76fdd3b7b 100644
---- a/drivers/usb/typec/tcpm/fusb302.c
-+++ b/drivers/usb/typec/tcpm/fusb302.c
-@@ -100,6 +100,10 @@ struct fusb302_chip {
- 	bool intr_togdone;
- 	bool intr_bc_lvl;
- 	bool intr_comp_chng;
-+	/* interrupt flags read from the chip, but not handled yet */
-+	u8 pending_interrupt;
-+	u8 pending_interrupta;
-+	u8 pending_interruptb;
- 
- 	/* port status */
- 	bool vconn_on;
-@@ -1499,6 +1503,43 @@ static irqreturn_t fusb302_irq_intn(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+/*
-+ * Reading an interrupt register clears its flags in the chip, so keep them
-+ * pending until handled: a bus error on a later read would otherwise lose
-+ * them. Such errors pass, so retry a few times.
-+ */
-+static int fusb302_read_interrupts(struct fusb302_chip *chip, u8 *status0)
-+{
-+	int ret, tries;
-+	u8 flags;
-+
-+	for (tries = 0; tries < 3; tries++) {
-+		if (tries)
-+			usleep_range(1000, 2000);
-+
-+		ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPT, &flags);
-+		if (ret < 0)
-+			continue;
-+		chip->pending_interrupt |= flags;
-+
-+		ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPTA, &flags);
-+		if (ret < 0)
-+			continue;
-+		chip->pending_interrupta |= flags;
-+
-+		ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPTB, &flags);
-+		if (ret < 0)
-+			continue;
-+		chip->pending_interruptb |= flags;
-+
-+		ret = fusb302_i2c_read(chip, FUSB_REG_STATUS0, status0);
-+		if (ret >= 0)
-+			return 0;
-+	}
-+
-+	return ret;
-+}
-+
- static void fusb302_irq_work(struct work_struct *work)
- {
- 	struct fusb302_chip *chip = container_of(work, struct fusb302_chip,
-@@ -1521,18 +1562,17 @@ static void fusb302_irq_work(struct work_struct *work)
- 	intr_bc_lvl = chip->intr_bc_lvl;
- 	intr_comp_chng = chip->intr_comp_chng;
- 
--	ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPT, &interrupt);
--	if (ret < 0)
--		goto done;
--	ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPTA, &interrupta);
--	if (ret < 0)
--		goto done;
--	ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPTB, &interruptb);
--	if (ret < 0)
--		goto done;
--	ret = fusb302_i2c_read(chip, FUSB_REG_STATUS0, &status0);
--	if (ret < 0)
-+	ret = fusb302_read_interrupts(chip, &status0);
-+	if (ret < 0) {
-+		fusb302_log(chip, "interrupts left pending, ret=%d", ret);
- 		goto done;
-+	}
-+	interrupt = chip->pending_interrupt;
-+	interrupta = chip->pending_interrupta;
-+	interruptb = chip->pending_interruptb;
-+	chip->pending_interrupt = 0;
-+	chip->pending_interrupta = 0;
-+	chip->pending_interruptb = 0;
- 	fusb302_log(chip,
- 		    "IRQ: 0x%02x, a: 0x%02x, b: 0x%02x, status0: 0x%02x",
- 		    interrupt, interrupta, interruptb, status0);
-
----
-base-commit: 749a4de370409464cf8501ec5b2451df45c84eb4
-change-id: 20261116-fusb302-irq-read-error-8a3ca5ef9ebc
-
-Best regards,
---  
-Alexey Charkov <alchark@flipper.net>
-
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+> =C2=A0drivers/target/target_core_file.c | 8 ++++++++
+> =C2=A01 file changed, 8 insertions(+)
+>=20
+> diff --git a/drivers/target/target_core_file.c
+> b/drivers/target/target_core_file.c
+> index ab9824a4852f1..a5391e57e9aa5 100644
+> --- a/drivers/target/target_core_file.c
+> +++ b/drivers/target/target_core_file.c
+> @@ -144,6 +144,14 @@ static int fd_configure_device(struct se_device
+> *dev)
+> =C2=A0		goto fail;
+> =C2=A0	}
+> =C2=A0	fd_dev->fd_file =3D file;
+> +
+> +	if (!file->f_op->read_iter || !file->f_op->write_iter) {
+> +		pr_err("FILEIO: %s lacks ->read_iter or -
+> >write_iter\n",
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fd_dev->fd_dev_name);
+> +		ret =3D -EINVAL;
+> +		goto fail;
+> +	}
+> +
+> =C2=A0	/*
+> =C2=A0	 * If using a block backend with this struct file, we
+> extract
+> =C2=A0	 * fd_dev->fd_[block,dev]_size from struct block_device.
