@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795030078;
-	b=tCLDYYrC6gbIvMsybsDQrQZONgU++BFzm2vPAYQtcJ3e/h5wCiYD9tkQDdfft4SqN2La
-	 qelWx8vmkGEXY58yt3vpLM4VkdKVePOrI6EoUSBhlP7ZX3uv4Crc4/QxJ8QLUh63RAvQ+
-	 wUNaUUy+VxU84DfnTw2MiirCQeUwjbcCmMeK6012w+vdmzD10scYYyrsdAJ9jzN5JPk5h
-	 9Mmit8z6a1hD6FxsQ4gJqf5nN+PxWq/tG8uefI3YVJGwHTUeJizHs4CmRLpru8o6M29Vh
-	 lYKxbO3F87sCC2ddqnnE72b48JSRBr3T2dHNzIWERkfkXLCQmz0d8AUiHf9uDKL4z5Q==
+	t=1795030090;
+	b=w3NA+cUGbcVB3xOVkdhvlqD0fHOjAF8I89o/dZIqXrvBD8rEN7By+gOnxxaWdjCAGviJ
+	 TxeecqA/QpujB8RUz2KqXxn8Q7m+i4IYRgM94aTpPz5Xo4RNLVl2K5zg52O9aAoOaq8TQ
+	 3UrRf6I6SsA89srGt+QaYButSjx7KnX+E3lcyP1Df8efmhGHgwXgh5hOTH+8VTa/V9zu5
+	 Ym747gX07PHoYesmHwu7735/JxCnuydpXKfYzjyN9rtOLu+aECbwkFmHvjhe70mK4QFZg
+	 wxlcd+CYh9zKfrSgNe97zKDzQT9HaUpI8w0+dal1LTp57RfZJVYje47Emhbrz6DPgbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795030078;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795030090;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 Content-Transfer-Encoding;
-	bh=anRl7XzxmWAd4I65xBnGqpxFVe3h8V+5KB72VF6S6NQ=;
-	b=eDMeOB2p6by1ukgaurpwRK/RYiymCOwTPNTNhIRjtUGnHcP217oTe5AhEGjsbHntCsjJ
-	 h09WSnVUdYkyhER5pw8mG9ae8V2EiCcFg5Sed2hlssT6iNg0VC+dsb4r37ulxFgjGKH1r
-	 EtcRy36F2rVRdeDja1f1OVocbHO1dlp7c0VxsuroPIfvVYLzUbRlkkDjhtSQF0qBtDcu4
-	 1PcFqfNaD6HEkkoxmObGWi7tMWk3xXUFHfdaO3tT74xC9krDyWiVodhZsZP3BW1bShwwv
-	 viICwoBAvdQBCddKheph0rDuSAB5Uh/tBWOpr55c/RCaw+vjYQS/tGdZfqp81/dJSVg==
+	bh=AI23EedCHOkVt2bUFVxVq0Tw4jV6qHaXsCMKfKtBCb8=;
+	b=BhIzPldRCabPCIZrILnz6zgQ349jaWvrV8d8R/BFnlDWM/p4Q4WEz5IBaIzkqZZ5rUCP
+	 iDFXPpq+niCX2fTfVqPXPR3+qsNcD/I7Rd1nnU7708Lgt7Gj9+jG4eMS+oS4tdJdffsz+
+	 2cGF50eCaLsBTVfoQzkBZPnzVJNQSbO2ppvqoUUAgRoPxtuTTBM0ZIb01c5agGOPkDe0n
+	 ynjGpbW18f2+aWvS+3BnhpaSHGsVYtzXEe3mIt8ViBwxWkb3C3xX12soUbCrU3YU0bW6k
+	 IvljjIsKPSGsdWnSovcbKLf2N6Cgm/Mm9EQi8L6VjgLIx360R3du8pORMuEK9XSp3iQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="e/eyfjil";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bO3NjK55;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07F1606BB7F;
-	Wed, 18 Nov 2026 19:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0671606DD12;
+	Wed, 18 Nov 2026 19:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e/eyfjil
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2B6A1F000CA;
-	Wed, 18 Nov 2026 19:27:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bO3NjK55
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE2941F000C7;
+	Wed, 18 Nov 2026 19:28:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795030077;
-	bh=anRl7XzxmWAd4I65xBnGqpxFVe3h8V+5KB72VF6S6NQ=;
+	s=k20260515; t=1795030089;
+	bh=AI23EedCHOkVt2bUFVxVq0Tw4jV6qHaXsCMKfKtBCb8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=e/eyfjilUUstnvPzcYoDzASy0RPKzQsGaViyRBBOGePQ+Iuxs73dYZ5tDM+NmiNtK
-	 +/D+Z8ufPIGyqcHz+FnMlOvbzd/o6X14iLkhfhKwjsiOHhyHSDODYnduZEEmfPcI96
-	 NsryVnKHLf9WzxdC2LVJbYlyPFn/LBpgN/sFRUi2B6UQDrfPabGCNNMLZUxsIklzAS
-	 ibHYfRAGALN/EGQE+GoL/8gisbKLvL4EfyuNGCYrGfmDWdoad95d4hNQlEhMv9HT1e
-	 xDEdmeO9RBo741cwzNyjqtZLFbiep8sCpCsvD+Ezq8rvTR8nTQP1f/L4HNYV0f0JRA
-	 24/Ma14tSgc/Q==
+	b=bO3NjK55ns1629VdRftCmyGPsBjYPnXV9gEkr7QhP0WpECrtF8MvO+YnVRWnLKSUW
+	 k2u/T6Om4T5qkH0FSnf3Qx8NzMmaqQWaZc+npQXX/lL55XMUHIO5WvPa8HTfZWdXqs
+	 j/LCriv/5ZRyf45K6cbbNSa/gw/SF9WefYSM0SQMUO0y2Zzs8GLVHFIn0L+9HwPMpx
+	 rdZA40+5IR0evh1jHt4zg4KdLd7aTY31voXbpMNHnK28RSUy61C+mAtKkcwmleyD0P
+	 YZndbAHvGDEd3meMwDosu/rVkioU/iyBqSjb0NNdIlRJ4KKG2hZWm/yNsqRWFb8So3
+	 Mv6BN5sRIMTvA==
 From: Leon Romanovsky <leon@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -96,9 +96,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@suse.de>,
 	linux-sound@vger.kernel.org,
 	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH v3 11/31] USB: Unwind interface claims after registration or binding failure
-Date: Wed, 18 Nov 2026 21:26:41 +0200
-Message-ID: <20261118-device-trust-core-v3-11-d655875c4bfb@nvidia.com>
+Subject: [PATCH v3 14/31] driver core: Report deferred probes through sysfs drivers_probe
+Date: Wed, 18 Nov 2026 21:26:44 +0200
+Message-ID: <20261118-device-trust-core-v3-14-d655875c4bfb@nvidia.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
 References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
@@ -117,130 +117,84 @@ Content-Transfer-Encoding: 8bit
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-A successful USB-audio control probe can claim unregistered playback and
-capture interfaces. If playback registration fails, releasing its claim
-alone leaves the card active, its disconnect callback returns immediately.
+commit b8c5cec23d5c ("Driver core: udev triggered device-<>driver
+binding") introduced the concept of "Systems who want to control the
+driver binding with udev" can use the drivers_probe sysfs to trigger a
+driver bind based on the kernel's match list.
 
-usb_set_configuration()
-  device_add(control)
-    usb_audio_probe()
-      snd_usb_create_streams()
-        snd_usb_create_stream(playback)
-          usb_driver_claim_interface(playback)
-        snd_usb_create_stream(capture)
-          usb_driver_claim_interface(capture)
-  device_add(playback) [fails]
+If attaching the driver is deferred before its probe callback runs,
+userspace sees EINVAL and cannot tell it should try again, maybe after
+loading other drivers.
 
-Configuration removal skips unregistered claims and binding failure can
-also clear dev->driver without disconnecting the claimant.
+Map that deferral to EAGAIN and add missed documentation for the
+drivers_probe sysfs. A deferral requested by the probe callback itself
+is still not reported.
 
-Release the failed claim, remove the configuration if sibling claims
-remain, and disconnect unpublished claims before freeing interfaces or
-dropping the module reference.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Fixes: 86d30741e480f ("[PATCH] USB: Usbcore: Don't try to delete unregistered interfaces")
-Fixes: c6a46696f97ff ("driver core: don't fail attaching the device if it cannot be bound")
+Fixes: b8c5cec23d5c ("Driver core: udev triggered device-<>driver binding")
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/usb/core/driver.c  |  3 ++-
- drivers/usb/core/message.c | 41 ++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 42 insertions(+), 2 deletions(-)
+ Documentation/ABI/testing/sysfs-bus-drivers-probe | 14 ++++++++++++++
+ MAINTAINERS                                       |  1 +
+ drivers/base/bus.c                                |  9 +++++++--
+ 3 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index 3beed56fabf3d..e2a120c64f6e1 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -488,7 +488,8 @@ static int usb_unbind_interface(struct device *dev)
- 		/* Already in altsetting 0 so skip Set-Interface.
- 		 * Just re-enable it without affecting the endpoint toggles.
- 		 */
--		usb_enable_interface(udev, intf, false);
-+		if (!intf->unregistering)
-+			usb_enable_interface(udev, intf, false);
- 	} else if (!error && !intf->dev.power.is_prepared) {
- 		r = usb_set_interface(udev, intf->altsetting[0].
- 				desc.bInterfaceNumber, 0);
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 306978caaf1ef..b2e5ed35a4a59 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -1489,6 +1489,9 @@ void usb_disable_device(struct usb_device *dev, int skip_ep0)
- 			device_del(&interface->dev);
- 		}
- 
-+		for (i = 0; i < dev->actconfig->desc.bNumInterfaces; i++)
-+			usb_release_unregistered_interface(dev->actconfig->interface[i]);
+diff --git a/Documentation/ABI/testing/sysfs-bus-drivers-probe b/Documentation/ABI/testing/sysfs-bus-drivers-probe
+new file mode 100644
+index 0000000000000..ed8828e55d6bf
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-bus-drivers-probe
+@@ -0,0 +1,14 @@
++What:		/sys/bus/.../drivers_probe
++Date:		February 2007
++Contact:	driver-core@lists.linux.dev
++Description:
++		(WO) Writing a device name requests driver attachment on this
++		bus, even when drivers_autoprobe is disabled. A successful
++		write does not guarantee that a driver bound. The driver link
++		can appear before probe completes; a bind uevent signals
++		successful binding.
 +
- 		/* Now that the interfaces are unbound, nobody should
- 		 * try to access them.
- 		 */
-@@ -2020,6 +2023,25 @@ int usb_set_wireless_status(struct usb_interface *iface,
++		EAGAIN means attachment was deferred before the driver's probe
++		callback, for example while a supplier or the device itself
++		is not ready. ENODEV means the device was not found. Other
++		attachment errors return EINVAL.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 93abbb315065d..b726344362b41 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8149,6 +8149,7 @@ M:	Johan Hovold <johan@kernel.org>
+ L:	driver-core@lists.linux.dev
+ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
++F:	Documentation/ABI/testing/sysfs-bus-drivers-probe
+ F:	Documentation/core-api/kobject.rst
+ F:	Documentation/driver-api/driver-model/
+ F:	drivers/base/
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index 396097fdb3162..ecff32c3704b5 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -310,13 +310,18 @@ static ssize_t drivers_probe_store(const struct bus_type *bus,
+ 				   const char *buf, size_t count)
+ {
+ 	struct device *dev;
+-	int err = -EINVAL;
++	int err;
+ 
+ 	dev = bus_find_device_by_name(bus, NULL, buf);
+ 	if (!dev)
+ 		return -ENODEV;
+-	if (bus_rescan_devices_helper(dev, NULL) == 0)
++	err = bus_rescan_devices_helper(dev, NULL);
++	if (!err)
+ 		err = count;
++	else if (err == -EPROBE_DEFER)
++		err = -EAGAIN;
++	else
++		err = -EINVAL;
+ 	put_device(dev);
+ 	return err;
  }
- EXPORT_SYMBOL_GPL(usb_set_wireless_status);
- 
-+static bool usb_has_claimant(struct usb_device *dev,
-+			     const struct device_driver *claimant)
-+{
-+	struct usb_host_config *config = dev->actconfig;
-+	int i;
-+
-+	for (i = 0; i < config->desc.bNumInterfaces; i++) {
-+		struct device *intf = &config->interface[i]->dev;
-+		bool claimed;
-+
-+		device_lock(intf);
-+		claimed = intf->driver == claimant;
-+		device_unlock(intf);
-+		if (claimed)
-+			return true;
-+	}
-+	return false;
-+}
-+
- /*
-  * usb_set_configuration - Makes a particular device setting be current
-  * @dev: the device whose configuration is being updated
-@@ -2270,6 +2292,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
- 	 */
- 	for (i = 0; i < nintf; ++i) {
- 		struct usb_interface *intf = cp->interface[i];
-+		struct device_driver *claimant;
- 		struct module *claim_owner;
- 
- 		if (intf->dev.of_node &&
-@@ -2285,6 +2308,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
- 			intf->cur_altsetting->desc.bInterfaceNumber);
- 		device_enable_async_suspend(&intf->dev);
- 		device_lock(&intf->dev);
-+		claimant = intf->dev.driver;
- 		claim_owner = xchg(&intf->claim_owner, NULL);
- 		device_unlock(&intf->dev);
- 		ret = device_add(&intf->dev);
-@@ -2293,7 +2317,22 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
- 			intf->unregistering = 1;
- 			device_unlock(&intf->dev);
- 		}
--		module_put(claim_owner);
-+		if (claimant && (ret || !intf->dev.driver) &&
-+		    usb_driver_release_refused_claim(intf, claimant)) {
-+			bool unconfigure = usb_has_claimant(dev, claimant);
-+
-+			get_device(&intf->dev);
-+			if (unconfigure)
-+				usb_set_configuration(dev, -1);
-+			module_put(claim_owner);
-+			put_device(&intf->dev);
-+			if (unconfigure) {
-+				usb_autosuspend_device(dev);
-+				return ret ? ret : -ENODEV;
-+			}
-+		} else {
-+			module_put(claim_owner);
-+		}
- 		if (ret != 0) {
- 			dev_err(&dev->dev, "device_add(%s) --> %d\n",
- 				dev_name(&intf->dev), ret);
 
 -- 
 2.56.1
