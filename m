@@ -1,57 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.25
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794988306;
-	b=KwPXry5ATqcoTT2nRqR4jsjpjYiwp5UKKsfpXut10+cZlzeqyCP/SzI73n9ktO1qE+Q4
-	 i8hzDsEJ07uP+ybTdrK7U1bSfxJ0CVuoOCtDV21uSiFdemBu7Dcny5q3QEfP8FvA2Mido
-	 cSmrRjwzufBQwvxaEHtaK5hvSRIwfgMae3dH3CPJXZVB6Ryj0jTVM42FxWoP8sKV5G67o
-	 meTYCCSJLi1DAngfW3WEANV5yQ5uduAmJWwgTr+RwU3mGli5kCAPiywsldexCMptM0aGr
-	 9augCvHSAmAKQgQLUldU/6VVFdkJuINno/uXVXI02tFnxCd1gM3jF+MIsFUYayiCHcA==
+	t=1794989047;
+	b=TSazhqz6MHwoJf1OTR7PoFrjhDZb6F57AS228l1sw6zqGDcemX/xat4XHN8oL7MsVdtU
+	 vtVdGZg+m3UV2nYp3zf0ILm5k0PnjKzlm79xUB+W/omcln55WpvX7z8NgbEJk+TDpSVMF
+	 GU4xT8D39ah9oKN+MyXu4kzADIqf9DH2ohOxBSefEtB7TM7CYXEjW7D0CsHac+fPqu+4x
+	 oE01L7zsgTw48u5mTS2ywo5vJA1XuDHfmocJaBepQ+GNAjby/Lawj1ieXR9n2aaRbHdV1
+	 nAOL7B7Zh0fgoRG4UO1XNiFMv+j0wPKgQkPHltr/AKz/hWGLZblLWeNHgLw1WtpioHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794988306;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=TbTl+J1WKON1ZVFZV6RRToeGHS1U+vt8cIte3veYKRs=;
-	b=NtyWWk9Zpfpwr8EuNJTXQbwOgirUQ0fdpAWu/alBD3nEzGpn1+84bAHi6GhwYcqZ3ofj
-	 3MReWuDjaFtu/khrR80KwfrjMDlATiwPGsj4vhPIDyyQCaIgAVKATipXnO/H6Tzthg9Eb
-	 P4Ec20VzpHyKzPIQNQ/JYjgRP7/w7AsDpn6mZert8GKB++eEqMaIfHnb8xh2NPPw1v1AW
-	 qz8RiMJCIc3G74FrnoF8FOIetPOQ/pDPk+xn7J4tgKp/ApVTNpZ04axEal9veN0H8BpCs
-	 ZKHhyngDfG/ggJBDB+iaizyP9N/iwctNCzQ0097QVoVP8uDkl7AXzQgmlBC0j2Q3kcQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794989047;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Received:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-CMS-MailID:X-Msg-Generator:
+	 Content-Type:CMS-TYPE:cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:
+	 References;
+	bh=nPhL0RFOndKGV3TeTmHBKTR0OS8aIiM1zP688dzTiqg=;
+	b=OigwDMLnCeAJ3K40ASK7E0es11VGpVQOjASBUm6SyREV317R+2eq/yCzaGc98u6xPtGL
+	 +oaV/QHEuZVKsRNVHoxkYWJVkltIO+Zvau7uYxq14Dn+5ieF+cEzumvFh922pn9s09oHX
+	 ofXcX6rbKCNSedS8FAX4oJkqoIIBJSAA5rZ9xYcdqMCNneXHiN3vAtL4MkbAjuOK3bO+l
+	 Fi0rgfbq2ayRPuich8zzd4Mwbm2Ae0ez9Zgo3FDVU/znhkKfTZLpKTHclVjxhoLiNesq0
+	 ytsAYZEwHgA9p/+Ke4vkoeDbKgXvi8Q9Nvtf2IvCayYLiMZQc7uulIrYc7xrj+dpb7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="YZW/ZxRF";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=HGXI6JwP;
+	arc=none smtp.remote-ip=203.254.224.25
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21D4606A332
-	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 07:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5C2606A31C
+	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 08:04:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA5C2606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YZW/ZxRF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D0511F000C6;
-	Wed, 18 Nov 2026 07:51:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794988306;
-	bh=TbTl+J1WKON1ZVFZV6RRToeGHS1U+vt8cIte3veYKRs=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YZW/ZxRF2LrQ3PidIjYOiSLv97eR+yFLjNFTUnpS3Hu1UhgeLv61OiNgPak8KIYlp
-	 SZwGr53Oycx5WOQA9nnPQXTfn3PqJeyejCSWrGDfjUhfE8gNRLOFyuBeS9M1Xeks9W
-	 CQfoxUJotJm5Yp6Sced7RvNPLdaU+astNUnJ71yfVAA7wPdFfixam34BKyJzYywR0T
-	 zgUByXjnYxUPHL7FukxOwY3Zxp8TrCIyP/+kNqX/RE4CaI+guXgzqsszPwSVzSLk5/
-	 zZgAGOOSGa1+hQMeC4qIF+zc1VPjtWs8PDSbopeh7ZE/G5aI0j4kGKE+HqV5JlKb9t
-	 WnbSm8nIO0Kcg==
-Message-ID: <sashiko-outbox-220369@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 4/4] usb: typec: tcpm: Keep cable plug messages away
- from the port partner
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Alexey Charkov" <alchark@flipper.net>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261118-tcpm-soft-reset-sop-v2-4-b6decdc95e66@flipper.net>
-References: <20261118-tcpm-soft-reset-sop-v2-0-b6decdc95e66@flipper.net>
- <20261118-tcpm-soft-reset-sop-v2-4-b6decdc95e66@flipper.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2026 07:51:45 +0000
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=HGXI6JwP
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20261118080358epoutp02f92e8a93403018239d1dddd209e1520a~pFQUyPeIB1532215322epoutp02f
+	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 08:03:58 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20261118080358epoutp02f92e8a93403018239d1dddd209e1520a~pFQUyPeIB1532215322epoutp02f
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1794989038;
+	bh=nPhL0RFOndKGV3TeTmHBKTR0OS8aIiM1zP688dzTiqg=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=HGXI6JwPRZPUstWKn1NEH+XK2WL4YG0mnI1hotWo1ohLsqZcM6Nv1fpDfC3I/1ITA
+	 wuxsMGkgbGPf+ssnhCQiJCUCO3nsnRoWZDn1xHKd7acxBwaGQIFCHPSyB2hKejVSqA
+	 pt+c4Ui3Je625uC6EImhFtIub3Cn0+mZsFuRKJ6c=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas1p3.samsung.com (KnoxPortal) with ESMTPS id
+	20261118080358epcas1p3e4fc31cbda05e79feedd1a24414a7b3b~pFQUdCW0W1665316653epcas1p3r;
+	Wed, 18 Nov 2026 08:03:58 +0000 (GMT)
+Received: from epcas1p4.samsung.com (unknown [182.195.38.192]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4jTvHx5glxz6B9mG; Wed, 18 Nov
+	2026 08:03:57 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20261118080357epcas1p1d496c3dcbc37d76fd71365cbab494352~pFQTn794N1277012770epcas1p1U;
+	Wed, 18 Nov 2026 08:03:57 +0000 (GMT)
+Received: from VDBS1420.vd.sec.samsung.net (unknown [168.219.244.32]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20261118080357epsmtip2c76d579b429228f941281ab6ec066621~pFQTlEMFR1491614916epsmtip2B;
+	Wed, 18 Nov 2026 08:03:57 +0000 (GMT)
+From: Gichoon Han <gichoon.han@samsung.com>
+To: Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+Cc: Takashi Iwai <tiwai@suse.de>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Gichoon Han <gichoon.han@samsung.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] usb: host: ehci-sched: Don't let a bogus siTD remaining
+ length underflow
+Date: Wed, 18 Nov 2026 17:03:48 +0900
+Message-ID: <20261118080348.172772-1-gichoon.han@samsung.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,180 +79,85 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20261118080357epcas1p1d496c3dcbc37d76fd71365cbab494352
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 101P
+cpgsPolicy: CPGSC10-702,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261118080357epcas1p1d496c3dcbc37d76fd71365cbab494352
+References: <CGME20261118080357epcas1p1d496c3dcbc37d76fd71365cbab494352@epcas1p1.samsung.com>
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Medium] usb: typec: tcpm: SOP' SVDMs in tcpm_cable_vdm_expected()
-  still affect SOP
-- [Medium] usb: typec: tcpm: tcpm_cable_ctrl_msg_expected() aborts
-  unsent SOP' VDMs
-- [Low] usb: typec: tcpm: stale soft_reset_sent_prime before
-  run_state_machine()
---
+sitd_complete() computes the received length of a split isochronous
+packet as desc->length - SITD_LENGTH(t), where SITD_LENGTH() is the
+"Total Bytes to Transfer" count the controller leaves in the siTD.
+Nothing checks that this remaining count is not larger than what was
+programmed.  If the controller reports a larger value, the unsigned
+subtraction wraps and the class driver gets an actual_length of
+nearly 4 GiB for a packet that can hold at most 1023 bytes.
 
-commit 4c61156df43ba909af0892d17e05a01aa528ddf2
-Author: Alexey Charkov <alchark@flipper.net>
+This was seen on a Novatek TV SoC with its on-chip EHCI controller
+(DT compatible "nvt,NT72668-ehci", handled by ehci-hcd through a
+vendor platform glue that is not in mainline), running a vendor 5.4
+kernel whose ehci-sched.c matches mainline in this area.  A
+full-speed UAC1 microphone behind a high-speed hub was streaming when
+snd-usb-audio read far past the URB transfer buffer:
 
-usb: typec: tcpm: Keep cable plug messages away from the port partner
+  Unable to handle kernel paging request at virtual address e8756000
+  Internal error: Oops: 7 [#1] PREEMPT SMP ARM
 
-This commit filters incoming SOP' messages so that only expected VDM and
-control responses from a cable plug are passed to the protocol handlers, and
-drops messages on unsupported SOP* types before updating MessageID state.
+The faulting memcpy() still had about 122 KB left to copy from a
+full-speed packet, which can hold at most 1023 bytes; this
+subtraction is the only place on that path that can produce such a
+value.
 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index cea9e6fc39c00..530186b51092f 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -682,6 +682,8 @@ struct tcpm_port {
->  	 */
->  	enum tcpm_transmit_type vdm_sop_type;
->  	enum tcpm_transmit_type soft_reset_sop_type;
-> +	/* The Soft_Reset in SOFT_RESET_SEND went to the cable plug */
-> +	bool soft_reset_sent_prime;
->  	/*
->  	 * Prior to discovering the port partner's Specification Revision, the
->  	 * Vconn source and cable plug will use the lower of their two revision=
-s.
-> @@ -4179,6 +4181,64 @@ static void tcpm_pd_ext_msg_request(struct tcpm_po=
-rt *port,
->  	}
->  }
-> =20
-> +/* Whether a cable plug control message responds to what the port sent i=
-t */
-> +static bool tcpm_cable_ctrl_msg_expected(struct tcpm_port *port,
-> +					 enum pd_ctrl_msg_type type)
-> +{
-> +	switch (type) {
-> +	case PD_CTRL_ACCEPT:
-> +		/* the Soft_Reset after a VCONN Swap */
-> +		return port->state =3D=3D SOFT_RESET_SEND &&
-> +		       port->soft_reset_sent_prime;
-> +	case PD_CTRL_NOT_SUPP:
-> +		/* a VDM, in the ready state, which takes it as the answer */
-> +		return port->vdm_sop_type =3D=3D TCPC_TX_SOP_PRIME &&
-> +		       port->vdm_state > VDM_STATE_READY &&
-> +		       port->state =3D=3D ready_state(port);
+snd-usb-audio now rejects such packets (commit eed0e9583a29 ("ALSA:
+usb-audio: Drop capture packets with bogus actual_length")), but the
+root cause is the controller hardware reporting an impossible
+remaining count, and other class drivers trust actual_length too.
 
-[Severity: Medium]
-Does checking port->vdm_state > VDM_STATE_READY allow an unsolicited SOP'
-PD_CTRL_NOT_SUPP to cancel a VDM that has not been sent yet?
+Treat a remaining count larger than the programmed length as a
+protocol error instead of reporting a wrapped length.
 
-In enum vdm_states, VDM_STATE_WAIT_RSP_BUSY and VDM_STATE_SEND_MESSAGE are
-both greater than VDM_STATE_READY.  When a PD 3.0 source queues an SOP' SVDM
-in SRC_READY, vdm_run_state_machine() waits PD_T_SINK_TX in
-VDM_STATE_SEND_MESSAGE before transmitting the message and clearing
-port->vdo_data[0].  An unsolicited SOP' PD_CTRL_NOT_SUPP during that window
-passes this check and reaches tcpm_pd_ctrl_request(), which sets
-port->vdm_state to VDM_STATE_DONE, finishes the AMS without sending the VDM
-or running the VDM_STATE_ERR_SEND fallback to partner discovery, and leaves
-port->vdo_data[0] non-zero.
+Link: https://lore.kernel.org/r/87se19ufoi.wl-tiwai@suse.de
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Gichoon Han <gichoon.han@samsung.com>
+---
+v2:
+ - Identify the EHCI controller rather than the CPU (Alan)
+ - Attribute the bug to the controller hardware, not the driver (Alan)
+ - Explain why a wrapped length is the only explanation for the fault
 
-Checking port->vdm_state =3D=3D VDM_STATE_BUSY, as tcpm_cable_vdm_expected()
-does, would only accept Not_Supported while waiting for a response to a VDM
-already on the wire.
+v1: https://lore.kernel.org/r/20261116052851.2272125-1-gichoon.han@samsung.com
 
-> +	default:
-> +		return false;
-> +	}
-> +}
-> +
-> +/* Whether a cable plug VDM answers the one the port is waiting on */
-> +static bool tcpm_cable_vdm_expected(struct tcpm_port *port,
-> +				    const struct pd_message *msg)
-> +{
-> +	u32 vdo =3D le32_to_cpu(msg->payload[0]);
-> +
-> +	return port->vdm_sop_type =3D=3D TCPC_TX_SOP_PRIME &&
-> +	       port->vdm_state =3D=3D VDM_STATE_BUSY &&
-> +	       PD_VDO_SVDM(vdo) && PD_VDO_CMDT(vdo) !=3D CMDT_INIT;
-> +}
+Compile-tested only (ARM32, W=1) on linux-next.  The oops comes from a
+field report that included only the kernel log, so the siTD contents
+were never captured.  I'm trying to reproduce it with an instrumented
+build and will report the raw siTD values if I catch it.
 
-[Severity: Medium]
-Can a malformed SOP' SVDM response that passes tcpm_cable_vdm_expected()
-still trigger transmissions to the port partner on SOP or corrupt partner
-discovery state?
+ drivers/usb/host/ehci-sched.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-tcpm_cable_vdm_expected() checks neither the command nor the SVID against
- the pending SOP' request.  Once passed to tcpm_handle_vdm_request() ->
-tcpm_pd_svdm(), response_tx_sop_type defaults to TCPC_TX_SOP:
+diff --git a/drivers/usb/host/ehci-sched.c b/drivers/usb/host/ehci-sched.c
+index 57d07d1c2dfa..12a10248a4b6 100644
+--- a/drivers/usb/host/ehci-sched.c
++++ b/drivers/usb/host/ehci-sched.c
+@@ -2241,6 +2241,10 @@ static bool sitd_complete(struct ehci_hcd *ehci, struct ehci_sitd *sitd)
+ 	} else if (unlikely(t & SITD_STS_ACTIVE)) {
+ 		/* URB was too late */
+ 		urb->error_count++;
++	} else if (unlikely(SITD_LENGTH(t) > desc->length)) {
++		/* controller claims more left than was programmed */
++		urb->error_count++;
++		desc->status = -EPROTO;
+ 	} else {
+ 		desc->status = 0;
+ 		desc->actual_length = desc->length - SITD_LENGTH(t);
 
-drivers/usb/typec/tcpm/tcpm.c:tcpm_pd_svdm() {
-    ...
-		default:
-			/* Unrecognized SVDM */
-			response[0] =3D p[0] | VDO_CMDT(CMDT_RSP_NAK);
-			rlen =3D 1;
-			response[0] =3D (response[0] & ~VDO_SVDM_VERS_MASK) |
-				      (VDO_SVDM_VERS(svdm_version));
-			break;
-		}
-		break;
-	case CMDT_RSP_NAK:
-		tcpm_ams_finish(port);
-		/* Go on with Source_Capabilities, as after an ACK */
-		if (port->state =3D=3D SRC_VDM_IDENTITY_REQUEST &&
-		    rx_sop_type =3D=3D TCPC_TX_SOP_PRIME) {
-			tcpm_set_state(port, SRC_SEND_CAPABILITIES, 0);
-			return 0;
-		}
-		switch (cmd) {
-		/*
-		 * The cable is not allowed to respond with NAK so this must've happened =
-over SOP
-		 */
-		case CMD_DISCOVER_IDENT:
-		case CMD_DISCOVER_SVID:
-			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
-			break;
-    ...
-}
+base-commit: 84abb955b1015477aa11a96e2f3ac1b938b77f48
+-- 
+2.50.1
 
-If the cable plug replies on SOP' with an unrecognized command (such as
-CMD_ATTENTION with CMDT_RSP_ACK or CMD_EXIT_MODE with CMDT_RSP_NAK), the
-default branches set rlen =3D 1 without updating response_tx_sop_type, so
-tcpm_handle_vdm_request() queues a VDM NAK on TCPC_TX_SOP to the port
-partner.  Similarly, if tcpm_vdm_ams(port) is false when the SOP' VDM
-arrives (for instance, after a partner AMS interrupted port->ams), the else
-branch in tcpm_handle_vdm_request() sends PD_MSG_CTRL_NOT_SUPP on SOP.
-
-In addition, a CMDT_RSP_NAK on SOP' for CMD_DISCOVER_IDENT or
-CMD_DISCOVER_SVID in SRC_READY/SNK_READY marks VDM_DISCOVERY_COMPLETE and
-skips partner SVID discovery or partner altmode registration, and an
-unexpected CMD_DISCOVER_MODES ACK on SOP' before CMD_DISCOVER_IDENT
-registers port->plug_prime reaches tcpm_register_plug_altmodes() with
-port->plug_prime =3D=3D NULL.
-
-[ ... ]
-
-> @@ -6256,7 +6320,9 @@ static void run_state_machine(struct tcpm_port *por=
-t)
->  		 * A Soft_Reset Message Shall be targeted at a specific entity
->  		 * depending on the type of SOP* packet used.
->  		 */
-> -		if (port->soft_reset_sop_type =3D=3D TCPC_TX_SOP_PRIME) {
-> +		port->soft_reset_sent_prime =3D
-> +			port->soft_reset_sop_type =3D=3D TCPC_TX_SOP_PRIME;
-> +		if (port->soft_reset_sent_prime) {
->  			port->soft_reset_sop_type =3D TCPC_TX_SOP;
->  			port->message_id_prime =3D 0;
->  			port->rx_msgid_prime =3D -1;
-
-[Severity: Low]
-Can a stale port->soft_reset_sent_prime allow an unsolicited SOP'
-PD_CTRL_ACCEPT to cancel a later SOP SOFT_RESET_SEND before
-run_state_machine() runs?
-
-After an SOP' Soft_Reset following a VCONN swap, port->soft_reset_sent_prime
-remains true until the next time run_state_machine() executes
-SOFT_RESET_SEND.  If tcpm_pd_ext_msg_request() later calls
-tcpm_set_state(port, SOFT_RESET_SEND, 0) for a malformed SOP
-PD_EXT_GET_BATT_STATUS or PD_EXT_GET_BATT_CAP message, port->state becomes
-SOFT_RESET_SEND immediately while port->state_machine is queued on port->wq.
-An SOP' PD_CTRL_ACCEPT already queued ahead of it on port->wq will then pass
-tcpm_cable_ctrl_msg_expected() and transition the port back to
-ready_state(port) before the SOP Soft_Reset is sent.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-tcpm-soft-=
-reset-sop-v2-0-b6decdc95e66@flipper.net?part=3D4
