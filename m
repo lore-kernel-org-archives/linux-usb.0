@@ -1,85 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794991134;
-	b=E736qGqbpUPyZAHMOtI8c2zwoCUyzqDy751sDkjhFI9fPw/IFRzc0ys0lcRndEHsltJ3
-	 5C7iwjFmrrp26sPJC5XtR0GSIxZuxNqpeII985atGjMdk5UgIJZnJiEXVwi+LGp83+mMH
-	 oo8TeZD4yW+muOMhdQvHRmshWGLoVHVhOdfB78zGKF1xPH+EFuQsUAN2CkF9kiXJ8Z/C9
-	 xojER2KbC34gBsWj2bBknxE8cyStUe8VSZ/j/0bp9ujR43Sj1lcjd4DShzBZ/zwYwaZKC
-	 WPah1omlSqMzucCHUzqlaC6g/GHMvcaKQ9Xcn4KN0uzhigGs1oqvBTLATCdknReJXZA==
+	t=1794991667;
+	b=mIERvov6rpvLuLJjr1yNoYDatRIyaOBcVGsDB/HLQCswzoBg/9rytUyx6743mDIG7Wkr
+	 q/QrdRR7RJUHUYKMPuuKp5u0pr3FSt6lMsp4WMD/tAqz4kr4aYOP0sc5MQcw7Z2XrzUgq
+	 U5htVpppvFTTSSsG1hI02mqSG8beg81puibCF/56CZ1uzGptDvePrAl9XRHetLigLDMTC
+	 xup7yQ+sUnf8nTk80ihZWgq6zP/ZhtIdxpOefskcHIxm+GO5pfRzFFKpPMAG4aWRJL9m9
+	 abe6OwVL7Dmx7Z31FQHd2TZj+AFwwzbxixyQAiaco3KKiLCb9Lrt5vJnQRU0EDk7B/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794991134;
-	h=DMARC-Filter:X-SpamFilter-By:DKIM-Signature:Received:Received:
-	 Received:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:
-	 References:In-Reply-To:Accept-Language:Content-Language:
-	 x-originating-ip:Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=yTaC3kglV/CRr/khGG/rEda/XWAoN+VFABgn6XUjuZc=;
-	b=TCic1r5pcZyGasmNpiFJfMY4iYONOdToYz68Qy+7Jx7D252Zqnm+Vyw+GPJz/u7boxZJ
-	 ZxeKliYRqSEXJESDRHuuLcqOy8WWGkFtCowFLEAH/GL8YIM+tKZ9UaBSBgDT2x5EIjW3R
-	 Mwd38TvTOstxbqZqZuFWmi/CnxwBsZN+jA5GSvq4v+W26cIRedW8AC+53v32Sz0J+44Wr
-	 o3iY9f3cJs/QLeezjOErpmh4IIXgrTYVyqtiKZKDCsutCgPp5m34PuZ0CxqkOfuZO2DUZ
-	 0j/P5BSW/DnYhUzAJl9UfRbmdPp/23ZUq31fuBj2oOFsYvkclRnEa6vcQKjzXYCyxgw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794991667;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=S02MazyKmYzkjc/2eAzvubxUAkYAiyG5Z04BpIIFS7E=;
+	b=m5kSbNa/8NKrImjjk8YcjtBctx6G/RPBEpvr9Vgks9NFVGsdIVPK6khcYHkhMrUqdfC4
+	 l+Aza83Vt+dOjHXSxNYcRXzBnCgROt/deEToxoikdXmttQJSHSHCwcJKTtwbZfj0BHalF
+	 pvVBCkQ4sCk0UNdfmTi5JsXcoZqt26qdtTsfC8j8qBYTJrzr2YUBXfrSsWOJxxFFTV54d
+	 HxvodNys9ML6iFtRZZ+VUFShYgGCmriv+M+EEhbsI/HxtDE2x/aJySCvhGpczsjg3gL+r
+	 4T9wwuIXfHQcuKv5Bib8rKdVdCmwLcK3kcFUeWlfjfNZXSN444nF8SuKLUZ+BqGZxdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=realtek.com;
-	spf=pass smtp.mailfrom=realtek.com;
-	dkim=pass header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=OcCslqf3;
-	arc=none smtp.remote-ip=211.75.126.72
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K0ovqZlY;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21DCD606A31C;
-	Wed, 18 Nov 2026 08:38:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21DCD606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB032606A325
+	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 08:47:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=OcCslqf3
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6AI8c6oR51187651, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1794991086; bh=yTaC3kglV/CRr/khGG/rEda/XWAoN+VFABgn6XUjuZc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=OcCslqf3J8buj3P91sni+Xoh/sYgJlrd9PQMZKFhugrVeb1rAkGvGNoAw4lZ6ujvW
-	 0SQsVFCso2/zaAaCMDesXCZL7sWLekR7D5SXrepH1yB6yPZMhmfHtM4VbPCGYNDLnC
-	 3mhZsLmCN3U8XzIU1J2L++uJAlMxhdIfehNJHwEgHa37AFpWD1bikPFaUoRr1E1wSV
-	 9B7aR5hoy6RJgsdEdNG4EZ+JWcg0jvjychMo8vIywOlSrwrFkVuXMWetlR7h4sXnZq
-	 a69rRFNfn7FH7IxyG6dfZdj4P8pH9ZYmFOZ6ABfKHVVAmRcCvjZ2FKU2WHK+c+M9jm
-	 boFJ68MtXgkFw==
-Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6AI8c6oR51187651
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 18 Nov 2026 16:38:06 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Wed, 18 Nov 2026 16:38:06 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([fe80::eeeb:c765:ca73:5eef]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::eeeb:c765:ca73:5eef%10]) with mapi id
- 15.02.2562.056; Wed, 18 Nov 2026 16:38:06 +0800
-From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-To: "netdev-bot+sashiko@kernel.org" <netdev-bot+sashiko@kernel.org>
-CC: "davem@davemloft.net" <davem@davemloft.net>, "kuba@kernel.org"
-	<kuba@kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	nic_swsd <nic_swsd@realtek.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>,
-	"bjorn@mork.no" <bjorn@mork.no>, "pabeni@redhat.com" <pabeni@redhat.com>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "mail@birger-koblitz.de"
-	<mail@birger-koblitz.de>
-Subject: RE: [PATCH net-next v8 06/11] r8152: add new init writes for
- RTL8156/8156B/8157/8159
-Thread-Topic: [PATCH net-next v8 06/11] r8152: add new init writes for
- RTL8156/8156B/8157/8159
-Thread-Index: AQHdcML+sJzPbTRchkm8kmytHOT0SbcszWcAgAa/nnA=
-Date: Wed, 18 Nov 2026 08:38:06 +0000
-Message-ID: <cf7f59fa1e624344a0f86fbd8280c239@realtek.com>
-References: <20261110032416.16968-7-nic_swsd@realtek.com>
- <179464851473.2199510.6808488710116582608@kernel.org>
-In-Reply-To: <179464851473.2199510.6808488710116582608@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K0ovqZlY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F3F61F000C4;
+	Wed, 18 Nov 2026 08:47:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794991667;
+	bh=S02MazyKmYzkjc/2eAzvubxUAkYAiyG5Z04BpIIFS7E=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=K0ovqZlYnjeeGtGbHuQ0sEvj4TvqNRIApAz0LwwS6VjbgwixWRthnrgLbgSgQvjMj
+	 rce9ztZTjax5VIjKK2G4YxeLyIgL4BO6/onjkgIFo24VVeocp8UoCwWLnUANJmNzbC
+	 aTu4Lf51M5Lgl5aIdlH2/0KQxJcLM5WT/VMeSX71GQcD71agsMkYX0Dmpp42l6X2/f
+	 Ip7ZLFIyhYlsWvZiwC/MxNgQvhVYtPQFk2HJU5U+r3yE8Yv5rfbOJ507QPCkN2bi7y
+	 19Tz5rEuSUQafadUzy4Ttssq8wDQpTnbRZYjSbM88n2bXnGFtUqT+q61VjR/2HcB/k
+	 uA6ETUmBikIfA==
+Message-ID: <sashiko-outbox-220508@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net v3] net: hso: fix stashed tx skb leak and replay
+ race
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Aibing Chen" <chenaibing@cmss.chinamobile.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261117084732.297-1-chenaibing@cmss.chinamobile.com>
+References: <20261114093133.465-1-chenaibing@cmss.chinamobile.com>
+ <20261117084732.297-1-chenaibing@cmss.chinamobile.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 18 Nov 2026 08:47:46 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -88,100 +60,102 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
 
-PiBUaGFuayB5b3UgZm9yIHlvdXIgY29udHJpYnV0aW9uISBTYXNoaWtvIEFJIHJldmlldyBmb3Vu
-ZCAyIHBvdGVudGlhbA0KPiBpc3N1ZShzKSB0byBjb25zaWRlci4NCj4gDQo+IENyaXRpY2FsOiAw
-IMK3IEhpZ2g6IDAgwrcgTWVkaXVtOiAxIMK3IExvdzogMQ0KPiANCj4gSWYgeW91IGJlbGlldmUg
-bm9uZSBvZiB0aGUgaXNzdWVzIGFyZSBsZWdpdGltYXRlLCBwbGVhc2UgcmVwbHkgdG8gZWFjaCBp
-c3N1ZSBvZg0KPiBNZWRpdW0gc2V2ZXJpdHkgb3IgaGlnaGVyIGFuZCBleHBsYWluIHdoeSB0aGUg
-QUkgaXMgd3JvbmcuDQo+IElmIGFueSBvZiB0aGVtIGFyZSBsZWdpdGltYXRlIGFuZCB5b3UgcGxh
-biB0byByZXNwaW4sIHBsZWFzZSBsZXQgcGF0Y2h3b3JrIGtub3cNCj4gYnkgaW5jbHVkaW5nICJw
-dy1ib3Q6IGNyIiBhcyBhIHNlcGFyYXRlIGxpbmUgYXQgdGhlIGVuZCBvZiB5b3VyIHJlcGx5IChv
-bmUgc3VjaA0KPiByZXBseSBwZXIgc2VyaWVzIGlzIGVub3VnaCkuDQo+IA0KPiAtIFtNZWRpdW1d
-IHI4MTU2X2luaXQoKSAoUlRMX1RFU1RfMDEvVkVSXzEwLzExLzEyLzEzLzE1KSBhbmQgcjgxNTdf
-aW5pdCgpDQo+ICAgKFZFUl8xNi8xNykgbm93IGFsd2F5cyBjbGVhciBSTVRfV0FLRV9FTiAoQklU
-KDApIG9mIFBMQSAweGUwYzgpLg0KPiAtIFtMb3ddIFRoZSBjb21taXQgbWVzc2FnZSBsaXN0cyBl
-YWNoIG5ldyByZWdpc3RlciB3cml0ZSBidXQgZXhwbGFpbnMNCj4gICBvbmx5IG9uZSBvZiB0aGVt
-IChSWF9FTkRfVFJBTlNGRVJfRU4pLg0KPiANCj4gLS0NCj4gDQo+IHI4MTUyOiBhZGQgbmV3IGlu
-aXQgd3JpdGVzIGZvciBSVEw4MTU2LzgxNTZCLzgxNTcvODE1OQ0KPiANCj4gVGhpcyBjb21taXQg
-YWRkcyByZWdpc3RlciB3cml0ZXMgdG8gcjgxNTZfaW5pdCgpIGFuZCByODE1N19pbml0KCkgc28g
-dGhleSBtYXRjaA0KPiB0aGUgdmVuZG9yIGluaXQgc2VxdWVuY2UuIEJvdGggZnVuY3Rpb25zIG5v
-dyBjbGVhciBQUkVCT09UX09QVElPTiBhbmQNCj4gUk1UX1dBS0VfRU4sIGFuZCBSVEw4MTU2QiBn
-ZXRzIGEgdTJwaHkgYmFja3VwLiByODE1N19pbml0KCkgYWxzbyBkaXNhYmxlcw0KPiBpbnRlcnJ1
-cHQgbWl0aWdhdGlvbiBhbmQgQVVUT19TUEVFRFVQLCBjbGVhcnMgdGhlIHJlc2V0IGV2ZW50IGZs
-YWcsIGFkZHMNCj4gVkVSXzE3IHNwZWNpZmljIHdyaXRlcywgYW5kIGNsZWFycyBSWF9FTkRfVFJB
-TlNGRVJfRU4gZm9yIGFsbCBjaGlwcy4NCj4gDQo+ID4gQnJpbmcgdGhlIHBlci1nZW5lcmF0aW9u
-IGluaXQgZnVuY3Rpb25zIGluIGxpbmUgd2l0aCB0aGUgdmVuZG9yIGluaXQNCj4gPiBzZXF1ZW5j
-ZSBieSBhZGRpbmcgd3JpdGVzIHRoZSBzaGFyZWQgcjgxNTZfaW5pdCgpIG5ldmVyIHBlcmZvcm1l
-ZC4NCj4gDQo+IFtTZXZlcml0eTogTG93XQ0KPiBUaGlzIGlzbid0IGEgYnVnLCBidXQgY291bGQg
-dGhlIGNvbW1pdCBtZXNzYWdlIHNheSB3aHkgbW9zdCBvZiB0aGVzZSB3cml0ZXMgYXJlDQo+IG5l
-ZWRlZD8gT25seSBSWF9FTkRfVFJBTlNGRVJfRU4gaXMgZXhwbGFpbmVkLiBUaGUgcmVzdCBhcmUg
-bGlzdGVkIHdpdGggbm8NCj4gc3RhdGVkIHB1cnBvc2Ugb3IgZWZmZWN0Og0KPiANCj4gICAtIGNs
-ZWFyaW5nIFBSRUJPT1RfT1BUSU9OIGluIFBMQV9JTkRJQ0FURV9GQUxHDQo+ICAgLSBjbGVhcmlu
-ZyBSTVRfV0FLRV9FTiBpbiBQTEEgMHhlMGM4DQo+ICAgLSB0aGUgcjgxNTZiX3UycGh5X2JhY2t1
-cCgpIHZhbHVlcyB3cml0dGVuIHRvIFVTQiAweGQzY2UuLjB4ZDNkYw0KPiAgIC0gY2xlYXJpbmcg
-VVNCIDB4Y2YwNCBiaXRzIDAvMS8yLzcgKGludGVycnVwdCBtaXRpZ2F0aW9uKQ0KPiAgIC0gY2xl
-YXJpbmcgVVNCIDB4Y2QwNiBCSVQoMTEpIChXYXJtIFJTVCAvIEJ1cyBSU1QgZXZlbnQgZmxhZykN
-Cj4gICAtIGNsZWFyaW5nIFVTQiAweGI5YTYgQklUKDApIGFuZCB3cml0aW5nIDB4MDQ0OCB0byAw
-eGI5YTIgb24gVkVSXzE3DQo+ICAgLSBjbGVhcmluZyBBVVRPX1NQRUVEVVANCj4gDQo+IFNldmVy
-YWwgb2YgdGhlc2UgbG9vayBsaWtlIGZpeGVzIGZvciBzcGVjaWZpYyBmYWlsdXJlcy4gRXhhbXBs
-ZXMgd291bGQgYmUgcHJvYmxlbXMNCj4gYWZ0ZXIgYSB3YXJtIG9yIGJ1cyByZXNldCwgYWZ0ZXIg
-YSBVU0IyL1VTQjMgUEhZIHBvd2VyIGN1dCwgb3Igd2l0aCBpbnRlcnJ1cHQNCj4gbWl0aWdhdGlv
-biBlbmFibGVkLiBPdGhlciBwYXRjaGVzIGluIHRoZSBzZXJpZXMgYXJlIG1hcmtlZCBhcyBmaXhl
-cy4NCj4gDQo+IElzIHRoZXJlIGEgdXNlci12aXNpYmxlIHN5bXB0b20gYmVoaW5kIGFueSBvZiB0
-aGVzZSB3cml0ZXM/IElmIHNvLCBjb3VsZCBpdCBiZQ0KPiBkZXNjcmliZWQsIHdpdGggRml4ZXM6
-IHRhZ3MgYWRkZWQ/IFRoYXQgd291bGQgc2hvdyB3aGV0aGVyIHRoaXMgYmVsb25ncyBpbiBuZXQN
-Cj4gYW5kIHN0YWJsZSByYXRoZXIgdGhhbiBuZXQtbmV4dC4NCg0KT2suIEkgd2lsbCBhZGQgc29t
-ZSBkZXNjcmlwdGlvbnMuDQoNCj4gDQo+IENvdWxkIHRoZSBtZXNzYWdlIGFsc28gc2F5IGhvdyBj
-bGVhcmluZyBSTVRfV0FLRV9FTiByZWxhdGVzIHRvIFdvTCBhbmQgdG8NCj4gcmVtb3RlIHdha2V1
-cCBmcm9tIHJ1bnRpbWUgYXV0b3N1c3BlbmQ/DQo+IA0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L25ldC91c2IvcjgxNTIuYyBiL2RyaXZlcnMvbmV0L3VzYi9yODE1Mi5jIGluZGV4DQo+ID4gMzY0
-YTA1NzNmNmNkMS4uYTFjMmUxZTA4YjE2MSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL25ldC91
-c2IvcjgxNTIuYw0KPiA+ICsrKyBiL2RyaXZlcnMvbmV0L3VzYi9yODE1Mi5jDQo+IA0KPiBbIC4u
-LiBdDQo+IA0KPiA+IEBAIC04NTI4LDExICs4NTQzLDI0IEBAIHN0YXRpYyB2b2lkIHI4MTU2X2lu
-aXQoc3RydWN0IHI4MTUyICp0cCkNCj4gDQo+IFsgLi4uIF0NCj4gDQo+ID4gICAgICAgcjgxNTNi
-X3Bvd2VyX2N1dF9lbih0cCwgZmFsc2UpOw0KPiA+ICAgICAgIHI4MTU2X3Vwc19lbih0cCwgZmFs
-c2UpOw0KPiA+ICAgICAgIHI4MTUzX3F1ZXVlX3dha2UodHAsIGZhbHNlKTsNCj4gPiAgICAgICBy
-dGxfcnVudGltZV9zdXNwZW5kX2VuYWJsZSh0cCwgZmFsc2UpOw0KPiA+DQo+ID4gKyAgICAgb2Nw
-X2J5dGVfY2xyX2JpdHModHAsIE1DVV9UWVBFX1BMQSwgUExBX0lORElDQVRFX0ZBTEcsDQo+ID4g
-KyBQUkVCT09UX09QVElPTik7DQo+ID4gKw0KPiA+ICsgICAgIG9jcF9ieXRlX2Nscl9iaXRzKHRw
-LCBNQ1VfVFlQRV9QTEEsIFBMQV9STVRfV0FLRSwNCj4gUk1UX1dBS0VfRU4pOw0KPiANCj4gW1Nl
-dmVyaXR5OiBNZWRpdW1dDQo+IERvZXMgdGhpcyBsZWF2ZSBSTVRfV0FLRV9FTiBwZXJtYW5lbnRs
-eSBvZmYgb24gdGhlc2UgY2hpcHM/IHI4MTU2X2luaXQoKQ0KPiAoVEVTVF8wMSwgVkVSXzEwLzEx
-LzEyLzEzLzE1KSBjbGVhcnMgaXQgZXZlcnkgdGltZSwgYW5kIHNvIGRvZXMNCj4gcjgxNTdfaW5p
-dCgpIChWRVJfMTYvMTcpLiBOb3RoaW5nIGVsc2UgaW4gdGhlIGRyaXZlciB1c2VzIFBMQV9STVRf
-V0FLRSBvcg0KPiBSTVRfV0FLRV9FTiwgc28gdGhlIGJpdCBpcyBuZXZlciBzZXQgYWdhaW4uDQo+
-IA0KPiBpbml0KCkgcnVucyBhdCBwcm9iZSwgcmlnaHQgYWZ0ZXIgdGhlIHdha2Ugc3RhdGUgaXMg
-cmVhZDoNCj4gDQo+IGRyaXZlcnMvbmV0L3VzYi9yODE1Mi5jOnJ0bDgxNTJfcHJvYmUoKSB7DQo+
-ICAgICAuLi4NCj4gICAgICAgICBpbnRmLT5uZWVkc19yZW1vdGVfd2FrZXVwID0gMTsNCj4gDQo+
-ICAgICAgICAgaWYgKCFydGxfY2FuX3dha2V1cCh0cCkpDQo+ICAgICAgICAgICAgICAgICBfX3J0
-bF9zZXRfd29sKHRwLCAwKTsNCj4gICAgICAgICBlbHNlDQo+ICAgICAgICAgICAgICAgICB0cC0+
-c2F2ZWRfd29sb3B0cyA9IF9fcnRsX2dldF93b2wodHApOw0KPiANCj4gICAgICAgICB0cC0+cnRs
-X29wcy5pbml0KHRwKTsNCj4gICAgIC4uLg0KPiB9DQo+IA0KPiBJdCBhbHNvIHJ1bnMgYWdhaW4g
-b24gZXZlcnkgcnRsODE1Ml9yZXNldF9yZXN1bWUoKS0+dHAtPnJ0bF9vcHMuaW5pdCgpLg0KPiAN
-Cj4gVGhlIFdvTCBhcm1pbmcgcGF0aCwgX19ydGxfc2V0X3dvbCgpLCBvbmx5IHdyaXRlcyBQTEFf
-Q09ORklHMzQsDQo+IFBMQV9DT05GSUc1IGFuZCBQTEFfQ0ZHX1dPTCwgdGhlbiBjYWxscyBkZXZp
-Y2Vfc2V0X3dha2V1cF9lbmFibGUoKS4gVGhlDQo+IHJ1bnRpbWUtc3VzcGVuZCBwYXRocyB0aHJv
-dWdoIHJ0bF9ydW50aW1lX3N1c3BlbmRfZW5hYmxlKCkgYW5kDQo+IHI4MTUzX3F1ZXVlX3dha2Uo
-KSBuZXZlciB0b3VjaCBQTEFfUk1UX1dBS0UgZWl0aGVyLg0KPiANCj4gV2hhdCBoYXBwZW5zIGlm
-IFJNVF9XQUtFX0VOIGNvbnRyb2xzIHdoZXRoZXIgdGhlIE1BQyBjYW4gc2VuZCBhIFVTQg0KPiBy
-ZW1vdGUgd2FrZXVwPyBUaGVuIFdvTCBmcm9tIHN5c3RlbSBzdXNwZW5kIGFuZCByZXN1bWUgZnJv
-bSBydW50aW1lDQo+IGF1dG9zdXNwZW5kIG9uIGEgbGluayBjaGFuZ2Ugd291bGQgc3RvcCB3b3Jr
-aW5nIG9uDQo+IFJUTDgxNTYvODE1NkIvODE1Ny84MTU5LiBTb2Z0d2FyZSB3b3VsZCBzdGlsbCBy
-ZXBvcnQgd2FrZSBhcyBhcm1lZA0KPiB0aHJvdWdoIHNhdmVkX3dvbG9wdHMgYW5kIG5lZWRzX3Jl
-bW90ZV93YWtldXAuDQo+IA0KPiBJZiB0aGUgYml0IGlzIG9ubHkgbGVmdG92ZXIgc3RhdGUgZnJv
-bSBhIFVFRkkvUFhFIHByZWJvb3QgZHJpdmVyLCB3aGljaCBpdHMNCj4gcGxhY2VtZW50IG5leHQg
-dG8gUFJFQk9PVF9PUFRJT04gc3VnZ2VzdHMsIHRoZSBjbGVhciBpcyBoYXJtbGVzcy4NCj4gTmVp
-dGhlciB0aGUgY29kZSBub3IgdGhlIGNoYW5nZWxvZyBzYXlzIHdoaWNoIGNhc2UgYXBwbGllcy4g
-Q2FuIHRoaXMgYmUNCj4gY29uZmlybWVkPw0KPiANCg0KUk1UX1dBS0VfRU4gY29udHJvbHMgVVNC
-IHJlbW90ZSB3YWtldXAgaW4gdGhlIGRldmljZSwgYW5kIGl0IGlzIG1hbmFnZWQgYnkNCnRoZSBm
-aXJtd2FyZS4gVGhlIGZpcm13YXJlIHNldHMgaXQgd2hlbiBpdCByZWNlaXZlcyBTRVRfRkVBVFVS
-RShGVU5DVElPTl9TVVNQRU5EKQ0Kb3IgU0VUX0ZFQVRVUkUoREVWSUNFX1JFTU9URV9XQUtFVVAp
-IGZyb20gdGhlIGhvc3QsIGFuZCBjbGVhcnMgaXQgaXRzZWxmLg0KVGhlIGRyaXZlciBpcyBub3Qg
-c3VwcG9zZWQgdG8gc2V0IGl0Lg0KDQpUaGUgY2xlYXIgYXQgaW5pdCBvbmx5IHJlbW92ZXMgYSBz
-dGFsZSB2YWx1ZSB0aGF0IHdhcyB0aGVyZSBiZWZvcmUgaW5pdCgpLCBzbyBpdCBjYW5ub3QNCmNh
-dXNlIGFibm9ybWFsIGJlaGF2aW9yLg0KDQo+IC0tDQo+IFNhc2hpa28gQUkgcmV2aWV3IMK3DQo+
-IGh0dHBzOi8vbmV0ZGV2LWFpLmJvdHMubGludXguZGV2L3Nhc2hpa28vIy9wYXRjaHNldC8yMDI2
-MTExMDAzMjQxNi4xNjk2OC0xDQo+IC1uaWNfc3dzZCU0MHJlYWx0ZWsuY29tDQoNCkJlc3QgcmVn
-YXJkcywNCkNoaWgtS2FpDQotLS0NCnB3LWJvdDogY3INCg==
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] net: hso: race on skb_tx_buf and unlocked
+  hso_net_start_xmit() in hso_resume()
+--
+
+commit 0ff5cfff5d764799a7628578e9a708235e69853a
+Author: Aibing Chen <chenaibing@cmss.chinamobile.com>
+
+net: hso: fix stashed tx skb leak and replay race
+
+This commit takes the stashed TX skb with xchg() in hso_net_close() and
+hso_resume() and adds a per-interface mutex to serialize replay during USB
+resume against interface close.
+
+Link: https://lore.kernel.org/all/6af74e31.fe96acdb.12252b.0009.GAE@google.=
+com/
+
+> diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
+> index 71caa3764b239..43884234c4d8f 100644
+> --- a/drivers/net/usb/hso.c
+> +++ b/drivers/net/usb/hso.c
+
+[ ... ]
+
+> @@ -3051,21 +3069,28 @@ static int hso_resume(struct usb_interface *iface)
+>  		if (network_table[i] &&
+>  		    (network_table[i]->interface =3D=3D iface)) {
+>  			hso_net =3D dev2net(network_table[i]);
+> -			if (hso_net->flags & IFF_UP) {
+> -				/* First transmit any lingering data,
+> -				   then restart the device. */
+> -				if (hso_net->skb_tx_buf) {
+> +			mutex_lock(&hso_net->tx_replay_lock);
+> +
+> +			/*
+> +			 * First transmit any lingering data, then restart
+> +			 * the device.
+> +			 */
+> +			if (test_bit(HSO_NET_RUNNING, &hso_net->flags)) {
+> +				skb =3D xchg(&hso_net->skb_tx_buf, NULL);
+> +				if (skb) {
+>  					dev_dbg(&iface->dev,
+>  						"Transmitting"
+>  						" lingering data\n");
+> -					hso_net_start_xmit(hso_net->skb_tx_buf,
+> -							   hso_net->net);
+> -					hso_net->skb_tx_buf =3D NULL;
+> +					hso_net_start_xmit(skb, hso_net->net);
+>  				}
+
+[Severity: Medium]
+Does hso_resume() still need netif_tx_lock_bh(hso_net->net) around the
+skb_tx_buf xchg() and hso_net_start_xmit() call?
+
+tx_replay_lock serializes hso_resume() with hso_net_close(), but
+hso_net_start_xmit() runs under the netdev TX lock without taking
+tx_replay_lock:
+
+drivers/net/usb/hso.c:hso_net_start_xmit() {
+	netif_stop_queue(net);
+	if (hso_get_activity(odev->parent) =3D=3D -EAGAIN) {
+		odev->skb_tx_buf =3D skb;
+		return NETDEV_TX_OK;
+	}
+
+When the device is suspended, hso_get_activity() schedules async_get_intf
+and checks usb->state !=3D USB_STATE_CONFIGURED before returning -EAGAIN.  =
+If
+hso_resume() runs between that check and the skb_tx_buf assignment, nothing
+serializes the two paths:
+
+CPU0                                    CPU1
+hso_net_start_xmit()
+  netif_stop_queue(net)
+  hso_get_activity() -> -EAGAIN
+    schedule_work(&async_get_intf)
+                                        usb_resume_both()
+                                          udev->state =3D USB_STATE_CONFIGU=
+RED
+                                          hso_resume()
+                                            xchg(&hso_net->skb_tx_buf, NULL)
+                                              -> NULL
+  odev->skb_tx_buf =3D skb;  <-- TX queue wedged
+
+Because usb->state is already USB_STATE_CONFIGURED and no TX URB is in
+flight, write_bulk_callback() never runs to wake the queue or drop the
+activity reference, leaving the TX queue stopped and the runtime PM
+reference leaked.
+
+In addition, when hso_resume() does obtain a stashed skb, calling
+hso_net_start_xmit() without netif_tx_lock_bh() allows another CPU to enter
+hso_net_start_xmit() concurrently if usb_submit_urb() fails or completes
+before the replay call returns.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117084732.297-=
+1-chenaibing@cmss.chinamobile.com?part=3D1
