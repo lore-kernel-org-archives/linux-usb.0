@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794986831;
-	b=Ous17AE1N6xc/lp6h1wS1iCLADSFYIfHS6THsDpzY3fZ6UlQsFLfNlbfzl5c3VgboTI5
-	 CDtnqEjp4XFBIENWeix4BUjc2G7CTmiLc785OVRSHYFE8RYAgURKW17ehShJInwaJnWc3
-	 pJ4LcE3doVGMFNkuviEzRWCmaVHekN38tGmG9G5XTWAV7Hb5wAsA3Rgbagc6E11qRM/iv
-	 lZ7+aAtBxqnENZImaDZ+JFb1IJSHCI8Y/5TqnjpfDV5ihnPx2iXuSNW56AqvUEeamrNCk
-	 kMyyNPxwPsOqdyctECrAMoSSFOIXRsVD0FWtA/JLKzsREHSnL6q6IArY5ITcopBdCiA==
+	t=1794986833;
+	b=XBG3VzRjNN5BvyakABftaMBXTGbNh5GoiqTHiM84i9nxCbaUyvoeNuCS2BOrM1UhG+tV
+	 YfLb4+EBsxx+6kD2el8xKMpiI7uJC490xR1eq1i7CAJLUhAWubrCW9r7U+NLC8/nAgwbi
+	 I7zhGpe51JXJZu4ZQu4VeULjyQcgxrdntOespnCaOFxWG5/N3mPS3YkXRtNd3wPhZ17dX
+	 xQduoYjmNXHuJnFptsgmHog1TbLYX28yFUyZBXK/bt1epZe0ILojzryCkBNqh7617sH9n
+	 R+JtnrD/XNXG+QU0s6t6/bcQmi5LXrS0kG3MCrdXBTFGiN0Y+MUdXgDALzUMqc2qvJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794986831;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794986833;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=TcG0NDWnd1qx4NHjJ2geX0vpB3W+3NS6fw62BfZR2Sg=;
-	b=meDivF2ZOR2k6YwaqH7XLVLP5gLkSZzS47Fe8kLytDX905lFhCpEtfs9R7QrK4mD+cGa
-	 rXlJ/i6/a8RY24FzbgQV/o77sJeodaTECAUVmEtbwG/rAzSqpdbkMhZ4c7cljBAmqpvh2
-	 cuAvTmHhwB7uHusMsWVEwvOXBlNxWJB77VLZUV3g13OKcS0NEgiHUkTyIpnx23bDR8Zrp
-	 BmwOnp6Cjeaj531oj41QfrgsA3glIiHcjOdVvJny/tiNkQUrQh6Z0tT4veAnj+MvX77oO
-	 ptuBb4G8ZWIA1IkYclFG/D6PzilRtStkbVVHKdWzGMzeT1gSKXgP+Nlt4bp1e8JH0fA==
+	bh=q52DsBxcpIJ5ZdwdocmhvnSMhnHUhTSxbqyaBSpEmSQ=;
+	b=XQziIkRg3DdPxFG9Km+XCu6tI0WzmhFxkUGU8AkYisEs3EJE017hK/Wey8SOof4t95qg
+	 fp/wdpETswcQjZgoK6AvulLHVLzLB0Qi6x9TE5cElYewqcTA3rirdtjsYc0zwDsGxO29B
+	 qOXxV+sQ0WxC2doeLSs6a4t9ojwBY5TRnHf9menldShtmZgv3hBItdf9eONkY55i0j0Pj
+	 +E+aNglCAbYkqrI1oL88CnOp25rcXK84AHF3uWJFzd5M4HrflCk6fOVN1UgFVADV9nqcu
+	 KkaF8vlKhmFj45sleFfbWYIT9w/+TEP4bdenj4mszEYE1OKS5+N9kx3OiQMuyATjRtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=flipper.net;
 	spf=pass smtp.mailfrom=flipper.net;
-	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=J1pCMHlz;
-	arc=none smtp.remote-ip=209.85.221.43
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=ffJx9EKR;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEE8606A32A
-	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 07:27:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FEE8606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3257606A32A
+	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 07:27:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3257606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=J1pCMHlz
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso460845f8f.2
-        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 23:27:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=ffJx9EKR
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4a2f4ca0dcfso270970f8f.1
+        for <linux-usb@vger.kernel.org>; Tue, 17 Nov 2026 23:27:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1794986830; x=1795591630; darn=vger.kernel.org;
+        d=flipper.net; s=google; t=1794986831; x=1795591631; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TcG0NDWnd1qx4NHjJ2geX0vpB3W+3NS6fw62BfZR2Sg=;
-        b=J1pCMHlzygMGJ6Il2w/o8H5Yguspxmg0XuE4eD4XIkUITLHfHqwdvH3L4xXQX26/g6
-         1KQyZOOJaGsy4QLmEeARNqUZcJ7XInHG8s+Yncct7Fv+136TyxFoX7ln94wlXtodQb19
-         6iJ/zIqq6UNUep4HUSSBV6QS1pXaJIIKwOE0FpcI5RYfpjfD+Hy/F9qrJ2KHVdnD+O5R
-         xdqSxPZl4yW+T4YVRZYTelzm/+VHfJpgsmaNvtm+dWvqjKSodjmwhcOaCVmwFCBNdn5g
-         zKCQf+a8l7JdjPwNphK8riGWZowUTm5ioU6QOMSHzz9OTaFx6flQjd76uyLpuqkYb6Rf
-         1YhA==
+        bh=q52DsBxcpIJ5ZdwdocmhvnSMhnHUhTSxbqyaBSpEmSQ=;
+        b=ffJx9EKRUTg/BFbNubaldNtByXG1Kmc+mXB5UIzBTeZETM9XWKor0ZVAYU4M8JxGgg
+         ZG9k3y/CnJIve7kQAh+oGVUZNDXxCGhdzYv3ll4yVa9jJKjyS/51gsuo+4axrnOdcrVN
+         LvCVMu8qeXtgsYsSFT4t9+qj73XG7cOnfWTvsC6C/0wWcbTptDA4ytMe6xm3REKJlDqK
+         S465/mUynT+BUKuLrYXJMMcbkUG/ahQDA0eEp37DO2Yy+SmlrkL55rmZ20eaBqsW/Yxe
+         dLw3JQpHiyic3s3NdefSfUnr51J1ZdZ0CGSeGV1qjeX/O2OHLzs+YofirdqbAQ+Rtl7q
+         jbwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794986830; x=1795591630;
+        d=1e100.net; s=20260707; t=1794986831; x=1795591631;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=TcG0NDWnd1qx4NHjJ2geX0vpB3W+3NS6fw62BfZR2Sg=;
-        b=ohoQ9PANLXK7pYX46N+4hLtetinapcwNHpsrTw+0qGwkEkmq6mIFmvv8Rvnv4y83gD
-         Wk5Kzrwj/4aUyNSMCt3gh2IXJLT9o1Qia3dxKYljvGjdggFEW8Vhz2sZMXwVXoinECwI
-         oFWbIy5Cy0HD640UiMv7ekaIDO7g5tNMA007bjfcxhbhxk63tqsEelGTsmkZh4DVVqKY
-         +YxmW7813AtVYETlOjnqtqCpBaduMo4PHasPpcNhrnB71ZMjtdsjEc8J8V2rgRo2Y8Na
-         YVM9B0zvl0rvKYpOflrOn/bIiXC1YdIu2ghrJE1y3H6DT7AKrsPndBr2mEypMihA6lKD
-         JLiw==
-X-Forwarded-Encrypted: i=1; AL+hErG20whY7PfenizV7jGPRF8+kstRG8raN17zQajD16frZUwoOEBVVObIUNnPN1m39oc95hNpislRbUg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/ZkXze8uPMCSaHsYKCyzej7Q73ncrYWxqJgBAO8yP/oymWBtk6
-	3mC6ktySxvcoVw9zl5E4ad1DXDebHqPj9g3v5JQkEdq6gs1fa9VAtvkmqAgQDpmRRxU=
-X-Gm-Gg: AZFdTZfH8WzHfFMTQniXNV7KoSkdEOzae0da1kdYJlF5Zonwna8H5F00UPPwUTL+KRr
-	lTAAVYeAcBj1qep61b44FpHWaARdOhr9yC4RpeIgOOik9Y2Wi3xDpMi15qZ04lYfUKs2q/GLOQY
-	bNL+OxCh1c09Krw6bcEMHTQZG136Al51xDJAdwhGoUrnj1xhDJMmeFklzt+SRXj5Hbmu5Rdn9oX
-	7filpCCxIThtg/hKTT3rB1OywparVhF+VitKzx8YQ6OLfBJUsA15XKdlWk3kbPCRV6s7TALP3Ws
-	D1VlA3AxTwB5qvaYYNYvCosUsSPkpz8XUhNe0VRw5/JdyjmVW0z7G2G5cbky/t2xgFHim17COaz
-	p+hMCfP1tZsJq3DBddOQiutuWJIV1bjVixPk2Skb0smFmKOJ8xgpR/67p2CyITsIFHXj6nIguVv
-	iVwoW4f/0t/X7oQ/8LmIZE1WntsED182cKuNJbxwzjaDZSaouUb4yBUkDUeCSvFQ9vu/3CC7Fax
-	m3mQf3Q2+Kt23nWXJRAhlRVNmSMv56frvh+gsFRs5JLFe+6xLnKWShP9PB/jUwvu8RcQBoSNX86
-	sPA5HpFeYZqJBbOamk5Mt6leYbj+xbAm4vk3CRDirFuJFNxHSXeaqMy6y5w0leEdjjjOcwthfbc
-	nH0BjN0fIYWc=
-X-Received: by 2002:adf:e003:0:20b0:48d:f996:1814 with SMTP id ffacd0b85a97d-4a63beaa10cmr2550113f8f.57.1794986829630;
-        Tue, 17 Nov 2026 23:27:09 -0800 (PST)
+        bh=q52DsBxcpIJ5ZdwdocmhvnSMhnHUhTSxbqyaBSpEmSQ=;
+        b=0f5VDxj0pPmZS6PchIVOUKO1gKyeQptOdlmOG+pkgW1M6hv8/xMjTIX1J5YltrXgVP
+         1tMoBsqxCI0NzqATzlGT+PGdWVBLZSu0H6FcXp6/EdWslyKhrLHXV/F7mPYSzmZ7II2R
+         nCU4rc3d1occR+MpfP0VmZLEi8FYIjpWoIaMqtIScZaolVQp2NBi34teu4KfwEfsgr81
+         MNM+/JEUBZEUkCOr39vMkdOCUzddvwg6XBWzjYUsyzH836SHtg+1FD6HPZNM04fh7dDA
+         kZykUSlbk23ZcbTrb4GPYDYLMn5iYqEeKFh+DNHNn4ICyBSS5DXNRKR2ciTH+JBay8kt
+         YFeQ==
+X-Forwarded-Encrypted: i=1; AL+hErEP9MkYVXwu3gjYepaIxXqfGxdu9TxYLxufHaf9b76TaSGJjD3kN/r7OKzVoAHNlO7U5ylaLsX7w1g=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+ljdmoIshXxr1TY1vrgQJxok8pbzdzcaD1dfRF5aJBj71VeQD+
+	V/WTedfPpXLtfbukh1Y7JO9pmzqkS6wdx41+NabiGh7/LTqyn3WR7hpJvs5y+/IE4/Q=
+X-Gm-Gg: AZFdTZdkQyWHRwwH4ZcpinQLGzYerNxZu65SJDdm6h7nrfcttV6CtPowPMg8nKfh7yI
+	1SiR6FFrX8hA0cRp0tJehUtOaDivkx4SXJs7b1s2hSig5M0vWfrx7Q+7Nmt92YltHkPKOzy7s8U
+	aQfYQWDyEMQ3irPz2Y5QJYywj+P7TgJrbwpnY95ytPYy/UXnkGn81YALUrvW8Rpkjv1J09pctmk
+	1ohZsg7YwiAGuB73bGLkqLDlppDGP3ZeJzpomGHyAxyxILIOwewBpJ81JWtzCpIla2b0maYPZ5k
+	1PnvX7nLdf7boev8WhiZRYVdi1vwqlqnF0gtMj9f1bvOj4zHVenxM10w9FsVtsMQroRTCllwPSz
+	Zxcdt3lGc9zSi2Tk+DdGYEIpbM4PSoRje61ZSulzTUAnDr126NSphnYO9PFL5kk6Ws3VVWhWp/u
+	Y+4RLXHdToI6r3CWNZb7spmzPdjOxxjoSLvEc2W0Fqz0fQHWg/o3+Kyw+8ozBVbUvgWXY2ErHXa
+	hwdcXjgpIRzpbUJr7rkT4fyKlJJxhR7PYb3ZvtKTXzlfw7ZKNytyDA6x0UMIff7F1beDJUjO+Tf
+	MKSWSKpVQJPAk/7c2lINf4AfsDn97hbBG/UMfQpkAxHDS4wE328btvPUn47mVER2rrDlu7S5rnZ
+	+StFI2OL17g==
+X-Received: by 2002:a05:6000:4207:b0:499:978:251a with SMTP id ffacd0b85a97d-4a63fa25c9dmr3312721f8f.54.1794986831345;
+        Tue, 17 Nov 2026 23:27:11 -0800 (PST)
 Received: from alchark-surface.localdomain (bba-86-98-194-229.alshamil.net.ae. [86.98.194.229])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a656095f21sm2901099f8f.38.2026.11.17.23.27.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a656095f21sm2901099f8f.38.2026.11.17.23.27.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 23:27:09 -0800 (PST)
+        Tue, 17 Nov 2026 23:27:11 -0800 (PST)
 From: Alexey Charkov <alchark@flipper.net>
-Date: Wed, 18 Nov 2026 11:26:41 +0400
-Subject: [PATCH v2 3/4] usb: typec: tcpm: Leave SRC_VDM_IDENTITY_REQUEST
- whatever the cable answers
+Date: Wed, 18 Nov 2026 11:26:42 +0400
+Subject: [PATCH v2 4/4] usb: typec: tcpm: Keep cable plug messages away
+ from the port partner
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -96,7 +96,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261118-tcpm-soft-reset-sop-v2-3-b6decdc95e66@flipper.net>
+Message-Id: <20261118-tcpm-soft-reset-sop-v2-4-b6decdc95e66@flipper.net>
 References: <20261118-tcpm-soft-reset-sop-v2-0-b6decdc95e66@flipper.net>
 In-Reply-To: <20261118-tcpm-soft-reset-sop-v2-0-b6decdc95e66@flipper.net>
 To: Badhri Jagan Sridharan <badhri@google.com>, 
@@ -104,106 +104,158 @@ To: Badhri Jagan Sridharan <badhri@google.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  RD Babiera <rdbabiera@google.com>
 Cc: Sebastian Reichel <sebastian.reichel@collabora.com>, 
- linux-usb@vger.kernel.org, Alexey Charkov <alchark@flipper.net>, 
- stable@vger.kernel.org
+ linux-usb@vger.kernel.org, Alexey Charkov <alchark@flipper.net>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3832; i=alchark@flipper.net;
- h=from:subject:message-id; bh=G7XU0xn1rI75RcMPLmwPi+2SgMOdTFOSxMuyPhsEHOE=;
- b=owGbwMvMwCW2adGNfoHIK0sZT6slMWT9DXYNPnZiVsmM3DWsKb8flF4Pv7XqWP2x5TUXftVkW
- FlcEz7q1jGRhUGMi8FSTJFl7rcltlON+Gbt8vD4CjOHlQlkiLRIAwMQsDDw5SbmlRrpGOmZahvq
- GRrpGOsYMXBxCsBUr/jHyDDtyqPrU96sft02veCzUFqZVdlFl1j3JSIN5yLmbz9476AjI8Nylkq
- F9X/Ftp+X+VNdced32FLN9uN5Ladu6bIu4ncJ6WECAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5556; i=alchark@flipper.net;
+ h=from:subject:message-id; bh=TI626upUwKznQCIt/8Dyolq8JAeCV5lHXGDvi/23OOs=;
+ b=owGbwMvMwCW2adGNfoHIK0sZT6slMWT9DXb7sHua4949y4U2eTm90Du8ZL7cxE7O366/K9wDX
+ tx13q6b0DGRhUGMi8FSTJFl7rcltlON+Gbt8vD4CjOHlQlkiLRIAwMQsDDw5SbmlRrpGOmZahvq
+ GRrpGOsYMXBxCsBUT7nNyLBdZ+WUmpJTypNZPQW5PKMr5wionzRaUfZK8E9Pzll/NX+GPzy//Rm
+ EtsfEpjUbTvD7tv/cnq/n2x26rSKnt+3U/306nREA
 X-Developer-Key: i=alchark@flipper.net; a=openpgp;
  fpr=9DF6A43D95320E9ABA4848F5B2A2D88F1059D4A5
 
-Only an ACK from the cable plug or a failure to send Discover Identity
-takes SRC_VDM_IDENTITY_REQUEST on to SRC_SEND_CAPABILITIES. A NAK marks
-discovery complete as if it came from the port partner, a BUSY retries
-the request, and no answer leaves the state as it is. The source then
-sends no Source_Capabilities until the sink gives up with a Hard Reset,
-which cycles VBUS, and after a NAK it never discovers the port partner.
-USB PD r3.3 section 9.2.26.2.5.1 goes back to Source_Capabilities on a
-NAK, a BUSY or no answer in time, just as on an ACK.
+When the port is the VCONN source, messages from the cable plug on SOP'
+go through the port partner's handlers, which act on them and answer on
+SOP: an unrecognized message gets Not_Supported on SOP, which the partner
+answers with a Soft_Reset, and an unexpected Accept or Reject soft resets
+the partner. SOP'' and the debug SOP* types, which TCPM does not support,
+take the same path and shadow the partner's last MessageID.
 
-Move on in each of those cases, and after tTypeCSendSourceCap in any
-case, so that a request which never goes out cannot stall the source
-either. Drop a request still waiting on the cable plug, and its AMS,
-when moving on.
+A cable plug only answers the VCONN source and never starts an AMS (USB
+PD r3.3, section 8.5 and table 7.5). Pass on its answer to a VDM still
+waiting for one, its Accept to a Soft_Reset sent to it, and its
+Not_Supported to a VDM in the ready state, the only one that takes it as
+the VDM's answer. Drop anything else on SOP', and drop other SOP* types
+before they touch the MessageID tracking.
 
-Fixes: af8b627046bc ("usb: typec: tcpm: add state machine support for SRC_VDM_IDENTITY_REQUEST")
-Cc: stable@vger.kernel.org
+This hardens TCPM against cable plugs that break the rules: it was found
+with a port posing as a cable plug, and no cable or TCPC driver is known
+to trigger it.
+
 Signed-off-by: Alexey Charkov <alchark@flipper.net>
 ---
- drivers/usb/typec/tcpm/tcpm.c | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ drivers/usb/typec/tcpm/tcpm.c | 74 ++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 70 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index b9146658f6e5..ab7ec5334564 100644
+index ab7ec5334564..f9fb915d98c1 100644
 --- a/drivers/usb/typec/tcpm/tcpm.c
 +++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -2745,6 +2745,12 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
- 		break;
- 	case CMDT_RSP_NAK:
- 		tcpm_ams_finish(port);
-+		/* Go on with Source_Capabilities, as after an ACK */
-+		if (port->state == SRC_VDM_IDENTITY_REQUEST &&
-+		    rx_sop_type == TCPC_TX_SOP_PRIME) {
-+			tcpm_set_state(port, SRC_SEND_CAPABILITIES, 0);
-+			return 0;
-+		}
- 		switch (cmd) {
- 		/*
- 		 * The cable is not allowed to respond with NAK so this must've happened over SOP
-@@ -2812,6 +2818,11 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
- 	if (port->vdm_state == VDM_STATE_BUSY) {
- 		/* If UFP responded busy retry after timeout */
- 		if (PD_VDO_CMDT(p[0]) == CMDT_RSP_BUSY) {
-+			/* No retry before the first contract */
-+			if (port->state == SRC_VDM_IDENTITY_REQUEST) {
-+				tcpm_set_state(port, SRC_SEND_CAPABILITIES, 0);
-+				return;
-+			}
- 			port->vdm_state = VDM_STATE_WAIT_RSP_BUSY;
- 			port->vdo_retry = (p[0] & ~VDO_CMDT_MASK) |
- 				CMDT_INIT;
-@@ -3039,6 +3050,8 @@ static void vdm_run_state_machine(struct tcpm_port *port)
- 		port->vdm_state = VDM_STATE_ERR_TMOUT;
- 		if (port->ams != NONE_AMS)
- 			tcpm_ams_finish(port);
-+		if (port->state == SRC_VDM_IDENTITY_REQUEST)
-+			tcpm_set_state(port, SRC_SEND_CAPABILITIES, 0);
- 		break;
- 	case VDM_STATE_ERR_SEND:
- 		/*
-@@ -5548,8 +5561,18 @@ static void run_state_machine(struct tcpm_port *port)
- 		 * Straight from Discover Identity to the cable plug, rather
- 		 * than back through SRC_READY after a message from the sink
- 		 */
--		if (port->prev_state == SRC_VDM_IDENTITY_REQUEST)
-+		if (port->prev_state == SRC_VDM_IDENTITY_REQUEST) {
- 			port->upcoming_state = INVALID_STATE;
-+			/* Forget the request if still waiting on the cable plug */
-+			if (port->vdm_sop_type == TCPC_TX_SOP_PRIME &&
-+			    port->vdm_state > VDM_STATE_DONE) {
-+				port->vdm_state = VDM_STATE_DONE;
-+				port->vdo_data[0] = 0;
-+				mod_vdm_delayed_work(port, 0);
-+			}
-+			if (port->ams == DISCOVER_IDENTITY)
-+				tcpm_ams_finish(port);
-+		}
- 		port->caps_count++;
- 		if (port->caps_count > PD_N_CAPS_COUNT) {
- 			tcpm_set_state(port, SRC_READY, 0);
-@@ -6560,6 +6583,8 @@ static void run_state_machine(struct tcpm_port *port)
- 	case SRC_VDM_IDENTITY_REQUEST:
- 		mod_vdm_discovery_delayed_work(port, 0);
- 		port->upcoming_state = SRC_SEND_CAPABILITIES;
-+		/* Go on even if Discover Identity never goes out */
-+		tcpm_set_state(port, SRC_SEND_CAPABILITIES, PD_T_SEND_SOURCE_CAP);
- 		break;
+@@ -682,6 +682,8 @@ struct tcpm_port {
+ 	 */
+ 	enum tcpm_transmit_type vdm_sop_type;
+ 	enum tcpm_transmit_type soft_reset_sop_type;
++	/* The Soft_Reset in SOFT_RESET_SEND went to the cable plug */
++	bool soft_reset_sent_prime;
+ 	/*
+ 	 * Prior to discovering the port partner's Specification Revision, the
+ 	 * Vconn source and cable plug will use the lower of their two revisions.
+@@ -4177,6 +4179,64 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
+ 	}
+ }
  
- 	default:
++/* Whether a cable plug control message responds to what the port sent it */
++static bool tcpm_cable_ctrl_msg_expected(struct tcpm_port *port,
++					 enum pd_ctrl_msg_type type)
++{
++	switch (type) {
++	case PD_CTRL_ACCEPT:
++		/* the Soft_Reset after a VCONN Swap */
++		return port->state == SOFT_RESET_SEND &&
++		       port->soft_reset_sent_prime;
++	case PD_CTRL_NOT_SUPP:
++		/* a VDM, in the ready state, which takes it as the answer */
++		return port->vdm_sop_type == TCPC_TX_SOP_PRIME &&
++		       port->vdm_state > VDM_STATE_READY &&
++		       port->state == ready_state(port);
++	default:
++		return false;
++	}
++}
++
++/* Whether a cable plug VDM answers the one the port is waiting on */
++static bool tcpm_cable_vdm_expected(struct tcpm_port *port,
++				    const struct pd_message *msg)
++{
++	u32 vdo = le32_to_cpu(msg->payload[0]);
++
++	return port->vdm_sop_type == TCPC_TX_SOP_PRIME &&
++	       port->vdm_state == VDM_STATE_BUSY &&
++	       PD_VDO_SVDM(vdo) && PD_VDO_CMDT(vdo) != CMDT_INIT;
++}
++
++/*
++ * A cable plug only responds to the VCONN source: to its VDMs, and to its
++ * Soft_Reset. Hand those responses to the usual handlers, which tell SOP'
++ * apart where it matters, and drop anything else on SOP': it comes from a
++ * cable plug that breaks the rules, and no sequence has the port answer a
++ * cable plug.
++ */
++static void tcpm_pd_cable_msg_request(struct tcpm_port *port,
++				      const struct pd_message *msg)
++{
++	unsigned int type = pd_header_type_le(msg->header);
++	bool ext = le16_to_cpu(msg->header) & PD_HEADER_EXT_HDR;
++	bool ctrl = !ext && !pd_header_cnt_le(msg->header);
++
++	if (!ext && !ctrl && type == PD_DATA_VENDOR_DEF &&
++	    tcpm_cable_vdm_expected(port, msg)) {
++		tcpm_pd_data_request(port, msg, TCPC_TX_SOP_PRIME);
++		return;
++	}
++	if (ctrl && tcpm_cable_ctrl_msg_expected(port, type)) {
++		tcpm_pd_ctrl_request(port, msg, TCPC_TX_SOP_PRIME);
++		return;
++	}
++
++	tcpm_log(port, "Dropping unexpected SOP' message, header: %#x",
++		 le16_to_cpu(msg->header));
++}
++
+ static void tcpm_pd_rx_handler(struct kthread_work *work)
+ {
+ 	struct pd_rx_event *event = container_of(work,
+@@ -4217,13 +4277,17 @@ static void tcpm_pd_rx_handler(struct kthread_work *work)
+ 			if (msgid == port->rx_msgid_prime)
+ 				goto done;
+ 			port->rx_msgid_prime = msgid;
+-			break;
++			tcpm_pd_cable_msg_request(port, msg);
++			goto done;
+ 		case TCPC_TX_SOP:
+-		default:
+ 			if (msgid == port->rx_msgid && type != PD_CTRL_SOFT_RESET)
+ 				goto done;
+ 			port->rx_msgid = msgid;
+ 			break;
++		default:
++			/* Neither for the port partner nor for a supported cable plug */
++			tcpm_log(port, "Dropping message on SOP* type %d", rx_sop_type);
++			goto done;
+ 		}
+ 
+ 		/*
+@@ -4231,7 +4295,7 @@ static void tcpm_pd_rx_handler(struct kthread_work *work)
+ 		 * mismatch.
+ 		 */
+ 		if (!!(le16_to_cpu(msg->header) & PD_HEADER_DATA_ROLE) ==
+-		    (port->data_role == TYPEC_HOST) && rx_sop_type == TCPC_TX_SOP) {
++		    (port->data_role == TYPEC_HOST)) {
+ 			tcpm_log(port,
+ 				 "Data role mismatch, initiating error recovery");
+ 			tcpm_set_state(port, ERROR_RECOVERY, 0);
+@@ -6254,7 +6318,9 @@ static void run_state_machine(struct tcpm_port *port)
+ 		 * A Soft_Reset Message Shall be targeted at a specific entity
+ 		 * depending on the type of SOP* packet used.
+ 		 */
+-		if (port->soft_reset_sop_type == TCPC_TX_SOP_PRIME) {
++		port->soft_reset_sent_prime =
++			port->soft_reset_sop_type == TCPC_TX_SOP_PRIME;
++		if (port->soft_reset_sent_prime) {
+ 			port->soft_reset_sop_type = TCPC_TX_SOP;
+ 			port->message_id_prime = 0;
+ 			port->rx_msgid_prime = -1;
 
 -- 
 2.56.0
