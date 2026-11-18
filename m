@@ -1,96 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795014693;
-	b=c5iHBp/fwvrYTQSzOyGos5ECxhGvNRNUjoTk9w4iSL+5//ot26v5qzIIeSUBLXbLwa8I
-	 vJkl+fBY3TNYyo9+1Q15euoO9yfydj/Gm3oCAw4hxIv6QPrQ69f8+Otc8TMbXNvamTrYI
-	 sHHpG4zAo6OcRH4sX2Oige5efHTtnhIsCxptTtzXJafmfkucRWFjI4vfdLJxh7/f4Joq1
-	 vdBJGoeGMxN9m4sVw8pfG64xJhruY6DKrpOeh04NP1mx9f/1ViVdkPv4ruLqxuVTl0b02
-	 2yFylDDpcTpvCKJagTnfcqMeygdEhTVuEyu1yFeOAtltwqTNqRxxTRxz8XN2GkwDRcQ==
+	t=1795015661;
+	b=IPuLXounrDDgA9mb5ZQYXMU67ni/aDN+U3hY9qJrMXcMu8sn78l+VNt2Zlh7eAXDPLj4
+	 8AgJDoeaTSWRmXsfGsLnkeDLrrtfRnX5yqixLjuDkJ/BRPSwWlTILLkZduNIqILcau4Bt
+	 2LkcYz7fiWZxPAWIbmqmW02M02Qyz1eborWLlg48bC1Jms14Zj5/UI7O/d5JoAVrFvk5G
+	 pfjMe0gOMbjFcPMgXQzKSfKdGKqw4HF3ySXR8X3V53xC0UnMyU0GFSVW2GqhE/fYWIK+j
+	 n9NC+hXDxo93Gwy9LbcjRLBNdypjrbBR5z2Rgfrb4+5QvSTGKXPfogEsof9xDEEc99Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795014693;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=3dbc9FtYFsNBAQJTQDYXrpm1FEVXqiaNfFhkTK5fcB4=;
-	b=PaMOop/mwVcW05To26Zym9DCqZtKzhgCO92iLHUEDL9v1SJyGbhIZZwEbqnC42RhiSrd
-	 xzdCN/wLaB3qKGIBTlKnPMkGyMw0HnkBzoS1MVXJSUR81D75jd9f/rkSrX6rI7km/+r1s
-	 Ytk90gBeRgd7I6iQO8gpyAtYK7KkhrNhH4zVpIIZ+h/Z+UMFzLb1inOkeUZYP5G4Bgqat
-	 iHRkMdT6bpVJBNRlpjf+XPEGglqdBXx5M7EedHN2ZI3Jzp6flkSqM75f6WHXnZlERj+Bv
-	 msqcbB/IeLXqJ0nG5h9E6Hsr4jXemL3ATX5+4Fk23lycPBJHDYdaGvhxsgtA8qwWZLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795015661;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=R5HIU47KcQJqEvAKU3L+yO6oZL2xODPwE5MNIcttP24=;
+	b=dZUFsYgHb8Uy0qP+bk/zRKWcJuI2Vtr95vqyiLgTLS9pvk5oQfZ8iz2okTFz74Kbsz73
+	 2kJz+AN62mG+dZzPsNvHOd1ebzqRoGxuW2dfxAcG1+JgJeC2IIfLIM5Kw7TrLBFAgt/DV
+	 MAmghgdjQVJUNA63bVNURBxOWj3ykV7jp3T+CJ320hwfOWszKs1BJvTmmRU30seyZQNG0
+	 qVXEqGj6NB+XSOuOSEGt/7XgjOoZpW1jSOFQaUF2/y49XfCzauUIJxy9btr1BL85yHslb
+	 R5aOQTf5WIfXhVlfIwFwLxRaNmXM53owdsVFilxCTvqM6duovGcH8zAXs5TwhEOYAKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=YLLmwUoP;
-	arc=none smtp.remote-ip=209.85.160.178
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oott4I+g;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8A7606A31C
-	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 15:11:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A8A7606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C935606A33F;
+	Wed, 18 Nov 2026 15:27:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=YLLmwUoP
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5364648ae07so12366421cf.1
-        for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 07:11:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1795014691; x=1795619491; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3dbc9FtYFsNBAQJTQDYXrpm1FEVXqiaNfFhkTK5fcB4=;
-        b=YLLmwUoPDrLpCT45kIwK7Z77E7yysow9q9O5x0Bb+NxtiS/EcVBIgUUFPgr3Ixv4Ro
-         7pmKkpBXG0nEf110i7L86xIebwhOr9fYgLIvwS8UTvbikT9UTjOCG2b3kf9q0MKITC+2
-         fWkhYmGMkeV4GqqQGtfusTv9OU1d7Pq3f1DSGSDJBSpuXSr8A7uSgrjyalEm9Y0qfMiE
-         h0qdilZHSmDzOZKAswOd2DfFakf18goK0rar9X+AWnNfD3QzyK7bfEbTzKMpWBxaf7lS
-         dzlbDtxWLwUsdfSyWi7WU6BBecODgBnQQq8JBgJ3vcRdkZY9LHQ+IZUycb2m4GfuC/bL
-         Dl/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795014691; x=1795619491;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3dbc9FtYFsNBAQJTQDYXrpm1FEVXqiaNfFhkTK5fcB4=;
-        b=azFB+xDNZvOMwifNPSfg83jhxRbUCtHCSifPY8wGC8EHjaLRkbDNbbhb77L5fKSSEf
-         cnF6IzKWvB1Qhs+gEz/0Eb/7cnvumdGuPXw/bNu4KKan2ScmftQEextYBTsjYPfl3O/V
-         fTjf6b5eEqtom4PSiXQlRXPo4GGkXRxgkS4KOjP+VgYI2NjHURyLO5vmWOUm9XWp8AFc
-         lva9qyhzBZgJlIJVef0I1xkauRuQYFgTGEgUOmTTodkGcibyHbpl8YvcvVqgIQAwxcWb
-         Mr1Tsp+rvACNFqWElqKdXJ9wxK4445R7ZDb7TWT6P1ptVax7ukwHvL8067za79okoZiC
-         ySfQ==
-X-Forwarded-Encrypted: i=1; AL+hErG67LuwFaHOOJh6tA5kJv2BYdXFjIV6kt3z/H/PucRDfmmBleovEUjt39+TcRmEYbmRFtz9hbE7H9A=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8hyxquq77/Po5P7F0wobhKEGSji1DQmoaVBSzG0/zcpUoxWXy+
-	YU+bunEXpdw/fDiv0xjFSZyP+tqZQTZ9ezvmcjI/xIi7qtaaXMe9xV7rJbs93ov+JA==
-X-Gm-Gg: AYBFou2IlSMCo6wO3o7YHZ1L1rFVUx57GwiXn2tX6ejRIgRqMii/Pa1F1u6Cwhf0REV
-	DiWFlBPkhb2MKZbGDLmOub1RD4Kj/yx200sbdpI7pj1yr+LBmLInUhD8+VrF+ObDgPFW7jEbAND
-	r15DDBjWU20Vn7wTcxYW/RvkKtUhT8Pl0S0sEtRGA490CV4GkfsFHS344iG13gJ39/o1xB+6wwj
-	e4WvnoLHFWlEs1dyqLrtMSxdGoBM+SV2KKcZKXd0RY57x8RhM6YZb4eW34/clqmkZIjLXvlf3wG
-	GldKUmw2x1bGND0XfYlRUCXKvNgix91XicR8Uq4X/EluObGT7gt5eEWqLjf8yqDIPQRCKc3e3NF
-	n60WhkKjwLIl9+Z3hPBzXan/YjH4LJSsjxHgOFSa6b+39a+Hnp5UeQYSdl+2a8WumPGig6afqKx
-	ncu+89x8+mnbFW5jvHNpmV6MwGHkDtTIeWk1Qugozhh05fc+FxQSbZSPQkEUht6M/KjmDlzW7mv
-	JbU+9Yi6oJnyjbqfrGxCcrqz2S0Xt34ZFADvLfn+NATks8EgX41jZo/fWIOZ3V39sHPFfODteCI
-	0VnQUkEtLvBtDBYU9CfPfIhY/uukCl1vkO/R3Sa6z4e2Sf65
-X-Received: by 2002:a05:622a:90c:b0:55b:200c:76a8 with SMTP id d75a77b69052e-55d5a62a287mr44788291cf.60.1795014691229;
-        Wed, 18 Nov 2026 07:11:31 -0800 (PST)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d667f0be4sm1963751cf.0.2026.11.18.07.11.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 07:11:30 -0800 (PST)
-Date: Wed, 18 Nov 2026 10:11:27 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: aiyengar1990@gmail.com
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oott4I+g
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AACF1F000C4;
+	Wed, 18 Nov 2026 15:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795015661;
+	bh=R5HIU47KcQJqEvAKU3L+yO6oZL2xODPwE5MNIcttP24=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oott4I+gwvFAaK0Z4o0wIwqjdHYmXg2Z+mE0gOG7uV2XwkJFioK+iuN2OLN60/p5i
+	 A7zLCyTmE3BexAbHBMiRKQVDwnXxgM4Kkb6e1GUUUDIWxrToF/u0eOzl6Mw7f65ECU
+	 ST1ixjOmgeFvzWCaEaqD1f4UcqJIbgkiPq9vYYl/O4m0l0AuWiPI5yRuHqadh6AIKh
+	 EO5qtoRpJHeGJaZjduOBLNDgUc8bA1wxIcy4IU9KQ7lEe6M//60xExcJtLTCIBAF7z
+	 TehYWUiprSFGnpAXntSJUVUubcTXlL8M7aITnhDY3kgsGWk9j4oCaDsUJQO4FWk8nC
+	 yz3HEB0o/ooZg==
+Date: Wed, 18 Nov 2026 09:27:39 -0600
+From: Rob Herring <robh@kernel.org>
+To: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v5 1/2] usb: core: Pair ports of different hubs through
- their connector
-Message-ID: <56075489-e1fe-45a1-a282-4cd0214b9b16@rowland.harvard.edu>
-References: <20261118-usb-port-pairing-v5-0-5f1a26789270@gmail.com>
- <20261118-usb-port-pairing-v5-1-5f1a26789270@gmail.com>
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 3/3] usb: dwc3: select the shared HS data bus with a
+ mux controller
+Message-ID: <20261118152739.GA1824160-robh@kernel.org>
+References: <20261117052137.32833-1-xiaqinghuan@mail.ustc.edu.cn>
+ <20261117052137.32833-4-xiaqinghuan@mail.ustc.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,50 +64,42 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261118-usb-port-pairing-v5-1-5f1a26789270@gmail.com>
+In-Reply-To: <20261117052137.32833-4-xiaqinghuan@mail.ustc.edu.cn>
 
-On Wed, Nov 18, 2026 at 04:34:58AM +0000, Arun Iyengar via B4 Relay wrote:
-> From: Arun Iyengar <aiyengar1990@gmail.com>
+On Tue, Nov 17, 2026 at 01:21:37PM +0800, Qianhui Xu wrote:
+> Respond to Rob's review of v8: drop the private "port-select-gpios"
+> property and drive the shared High Speed data path through a mux
+> controller instead ("Use the gpio mux binding").
+
+What changed in this version isn't really applicable for the commit 
+message. We don't need to record something about "port-select-gpios" 
+forever in the commit log.
+
+The commit msg should answer "why" we need/want this change.
+
 > 
-> On the RK3588, USB 3.0 host 2 is SuperSpeed-only and its connector's
-> USB 2.0 lines go to a separate EHCI, so pairing by port number gives the
-> SuperSpeed port a dead USB 2.0 peer.
+> The connector to drive is still published per endpoint via "mux-state";
+> dwc3_role_mux_init() now requires the "mux-controls" property and gets
+> the controller with devm_mux_control_get().  A mux controller cannot be
+> read back, so the boot-time connector can no longer be detected: the
+> initial mode request claims the mux for state 0 instead, which is the
+> first mode request that reaches __dwc3_set_mode() after probe.
 > 
-> When ports 0 (USB 2.0) and 1 (SuperSpeed) of a usb-connector graph lead
-> to different hubs, pair them through the connector. Root hub ports are
-> found by the controller port number; graphs in the dwc3 numbering don't
-> match and keep today's pairing. connect_type is looked up the same way,
-> so such a SuperSpeed port reads "hotplug".
+> mux_control_select() sleeps while waiting for the controller, and
+> mux_control_deselect() may sleep as well.  Both are only ever called
+> from __dwc3_set_mode(), which runs as a work item on
+> system_freezable_wq; the role-switch set() callback keeps recording the
+> request and never touches the mux directly.  The mux is kept selected
+> between switches, since the controller always drives exactly one of the
+> two connectors.
 > 
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+> This rework does not change the arbitration, the publication ordering
+> or the teardown rules introduced in v7/v8.
+> 
+> Signed-off-by: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
 > ---
->  drivers/usb/core/hub.h  |  2 ++
->  drivers/usb/core/of.c   | 87 +++++++++++++++++++++++++++++++++++++++++++++++++
->  drivers/usb/core/port.c | 70 ++++++++++++++++++++++++++++++++++++---
->  include/linux/usb/of.h  |  8 +++++
->  4 files changed, 162 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
-> index 9ebc5ef54a32..a186c41bdb5e 100644
-> --- a/drivers/usb/core/hub.h
-> +++ b/drivers/usb/core/hub.h
-> @@ -97,6 +97,7 @@ struct usb_hub {
->   * @usb3_lpm_u2_permit: whether USB3 U2 LPM is permitted.
->   * @early_stop: whether port initialization will be stopped earlier.
->   * @ignore_event: whether events of the port are ignored.
-> + * @connector_peer: peer found through a connector.
->   */
->  struct usb_port {
->  	struct usb_device *child;
-> @@ -118,6 +119,7 @@ struct usb_port {
->  	unsigned int is_superspeed:1;
->  	unsigned int usb3_lpm_u1_permit:1;
->  	unsigned int usb3_lpm_u2_permit:1;
-> +	bool connector_peer;
->  };
 
-Minor point: It looks silly to see a standalone bool field immediately 
-after a bunch of single-bit fields.  The new connector_peer field should 
-also be a single bit, to match the others.
+What has changed in each version is useful for review and that goes here 
+after the '---'.
 
-Alan Stern
+Rob
