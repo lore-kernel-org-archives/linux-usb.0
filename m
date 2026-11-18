@@ -1,55 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795004649;
-	b=HeBWPWWday40kAdV3UVNZperTQDlWTc3E1BA5cJuy3IdS/rvTkhLuIa62tDlF9Ld11bK
-	 MMd0nXTnX24D8pXfcMg+dX7y7LSmcQLNUBb1fyZt+kdR+c4WUbmtXks4heSK6O7D1M4pQ
-	 AZDOLG2qeUvnmkBSiCf6rwRcbUNuzUQYlW5Tqj8NXIC4YeYIrrJfu8/eF2Qg1vju/ChFz
-	 2Ikw7toSjNu9OWdyQEgLFIwjEJr3/kfdqLQ4IxXvHcXp+xvhGduJpRf+esDjxZTRF9zBA
-	 RKETh2yBjsQt+JJEtzmWf60tQJ0TSXzzohmy3mqIMERBOClZLLNECz9L/e4HoIoWtOg==
+	t=1795005620;
+	b=0kW42Q5QuSTqhRJ8UcB1aNZGXx7CrB5wb9LLhyaZeoeOdjFUhRBdl6sFi1/CqVLYDqlN
+	 Lyfky3hqpPC1/Ql8wELXoS8JGCMdXlgXHjVxCv0mA6MfcmdWGpQo5MLODMERgq5OFBfuW
+	 TqITweDKfYVoqHgkb0DByPcHpTKBQDdqoRJm3XEMrwmYQxk/aVbHIvOn87cJPc/QQOyw0
+	 xuqO39XdI5Ts/IVvs6fjNjLm+nt1k3inW8AuOrUbNh0VaZHX6BcjFKxEA+ysjclb50o+a
+	 9VH1eqHIveZG8oBDCyAsz8jZp7KO9vPdZHwfJg3HqqVN9A00sCSmpL7iDxkTGrIJ9kA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795004649;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=II4UWFNx/cZpv0DUeJE+ZLVrSvY7u4A27br/rrS4l1g=;
-	b=iKNbggnSN2QfEyujsN3GKPmCcab7Xxx7msQ0aKiYiEB71feOyY2Nhs6ateFCFSncbweW
-	 VyMzQf/bWJTLNpxqRyRWT6rJFfLz7oBriyA11CnOTUbbCB4Ly4zQdzdHpC6Xihce/uA/X
-	 jenTBsn3zt6pOeyvF4VUX069q8tLmZzKk56I18DCIlCuCIXFLAUZl3BULomjvLhVOfL13
-	 44X9M6DD+vAQvCcqt1xMf0pzS4DXRWPhFu2rB1Vd6fFqFiF5FPg2Hzr5nnNUNLsGsuza+
-	 cy/YCJLRBXsCVpyXUEjz/JurzZGlR5WdmhCgRceLJYBpMY/Uac6Ey6d2czNUMy+9PxA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795005620;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=5u9A3PL16118dnwDzUsQLtTXzEbAMsk2owyLQhcCKJA=;
+	b=d1bFFtC0JXg5bdW9SQoo65vtBCwprYFFlm9ktB5lqcLdF5Xjq0DTH9a5yQnQsa+SiBV8
+	 4Hwmy39euINcJ5RcK4dmYmqznPPT9suabd+BaKtS+VJa1ykntq8OZFnpGUJ/YhH/CrHVC
+	 AT81iuUKjF5Q5xwFjsn1C5pciGYvI7WsGkASZWXj2C/4TQHnhxX0boL3tKNLGqQMuFFt8
+	 HxeLMxTQIZNbkDhX7LOfBrxiBsEWZV5vAr+Fv2H4m448IL6MWIXCrY7FkgPFexaqlMjvs
+	 Tg/tfQ/Mxk5orzoWy7XpBUNQ9Y0w4N8NIc9c8Sp0VwnIHlnX3X5t4C80ysDoQuwVlqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VTFHL3Cd;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=isslab.korea.ac.kr;
+	spf=none smtp.mailfrom=isslab.korea.ac.kr;
+	dkim=pass header.d=isslab-korea-ac-kr.20260707.gappssmtp.com header.i=@isslab-korea-ac-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=fjXVeMEP;
+	arc=none smtp.remote-ip=209.85.216.45
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CE8606A31C
-	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 12:24:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4321E606A320
+	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 12:40:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4321E606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=isslab.korea.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=isslab.korea.ac.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VTFHL3Cd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B54571F000C4;
-	Wed, 18 Nov 2026 12:24:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795004648;
-	bh=II4UWFNx/cZpv0DUeJE+ZLVrSvY7u4A27br/rrS4l1g=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=VTFHL3Cdiv9JBMrsfTh4iLrVR80dYonG8g8XHatl9wCXySj0Kfu6wlWvw+SyYK/aR
-	 +yLfCcLTnNA4+WLmnaur+VZHSqiX4a80iNTX3aWSU/j86y6oDeqtgxSJwcSR9gk+ST
-	 Qc+FnNz8J4d9GW8Ol0x8l2EU28VUJKhoXkT4zD4SYEYqBeHzHFh965LfC+snf1mFcP
-	 DpwYWptNnNHCRhmtD43iKXLNpWoZ6143VJS2UzawC44Bl6NSGLodBcKYHyqEJK+exL
-	 1RaXlBr3GUCxajT6piq4M0uSVNnfpfLvC+J9eq8jXcsD6XU8fDM2UBhO+c45ZwYnaf
-	 SQqeAi1Hg7LVQ==
-Message-ID: <sashiko-outbox-220908@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: musb: gadget: mask the MUSB IRQ while complete()
- runs
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Alexandru Ardelean" <aardelean@taladin.ro>, linux-usb@vger.kernel.org
-In-Reply-To: <20261118115435.49748-1-aardelean@taladin.ro>
-References: <20261118115435.49748-1-aardelean@taladin.ro>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2026 12:24:08 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=isslab-korea-ac-kr.20260707.gappssmtp.com header.i=@isslab-korea-ac-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=fjXVeMEP
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3b3be948e60so491214a91.3
+        for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 04:40:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isslab-korea-ac-kr.20260707.gappssmtp.com; s=20260707; t=1795005618; x=1795610418; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5u9A3PL16118dnwDzUsQLtTXzEbAMsk2owyLQhcCKJA=;
+        b=fjXVeMEPXANBKTkfuitkhxYl4brjaF4kq+WAE1yMT4ZeBGhEKJ9Rag192Ozcpj3g9s
+         ZyG2it/ZAVFK+Gdag4q3vNXEFSQZ7TErvrgKKVa0zN3tsRoSAjd477wvZz00KsLYB/fK
+         q/GYPIjen06QV0sT8lPYehmyRMiwJTavo7fPnS2ffcB2D+8ezhYJRpgGb15D8gcjxDBX
+         vGsYEjKxFYVk8aviP2acTMSq75ELzaRz+jRDFRNulWvTza3el9/K7Br0B2PG5mTEVvbE
+         0/SRCQdFrmonZJstIJ3DHKo7Doo2wPLavTa8cfbT1EhTB4TvneOG1SPzgNGR/jwlL0sA
+         AVRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795005618; x=1795610418;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5u9A3PL16118dnwDzUsQLtTXzEbAMsk2owyLQhcCKJA=;
+        b=BHyUlP3KvT/aLp4SbfxP816lx6OmouFMTORXs0aOhZ4Ax7abRHsO+eCEnkodqRnnRH
+         ZYNRBUuvQpJxLBK3aUU65PzZhWU1qCShOmYaeOu2p4o4ENecPIO8xwgA3wco5Xc+/gOD
+         LxTIa7uvxl5X0PasXjX9h6opibIc767/QxwU6TLMsDXAWZYwOa9Ukg6oATRjRgjzJbfS
+         Hi6ZMRgM39A6fxfRb0/NKWA4L1rhmTE/21qw3oewYo1o/ie1QuvuM0cAxNWpqFxrbLkg
+         fQ86FENc+31dpSlSGfbnMnWsONA/sCeb1Nc2iDse+Gg02fA2+1kO2lW/R+1lmZ17qGng
+         Q/8g==
+X-Forwarded-Encrypted: i=1; AL+hErHCSPRjhQqacTNkfqDkPLhwDQwVXHRKog8PM9VIoAX6sDP0nIsfhKGlK5mGkaacODGu6fDM8hE1ZpE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/OToG7Sc7p877JB98HtkWg53xjP4PXOQJLkrrNFpHXhGNCW7xF
+	bOE9/+stsmU0zBaEl/upvJlzl8MEkDMU1rperoHmoQ/dfXqrgxhthwDBYN7fFTgD/as=
+X-Gm-Gg: AZFdTZdyGWqRWKRsrh409BcdnA6y/kzAOZW/wpFrOcp5UlhvmG3UCzA4wDTKU+N7W1O
+	fGDeCjFm3UV/i5D8aCJfXeGRBsEtNP8719tyiraZoV9gGEwMxh0R9Qa0DI9adAjLUh3n+gErub0
+	Eb3w/kz4GZDmx14tppcaiHJjG9GYkobL+5wtL46zGTpIp2rZVruXMUmxZGOKLyc0Fy6xU8bKeBp
+	LFrBtD5NYSVoPRj1M77HA0bInEtGjyX6QGQGCer9DHI7Ica3pE13tdKDShvnwgFTACyRlXNyy3w
+	aIforXuUeskYYwgt3yognPc7yRc+btV6smFBnbSdAV8wtxdQ0JLMtKugypBTgu8yy8NOHQOMk1R
+	BYrU+P9yTs/ij0fzbFxuNsMQoO4LUCD7f6JlDV3VBYa30x981bf0l1JspKKeG9QJ4u9xySWHSWB
+	+pXiP82qhs4cTayfdUEpVyuKLK+HIaUKGoxyyVCvV10MuhfkQ35PSO1QkFAb8FSEsLUwdVso6fH
+	jEj17+0SkT+nbGqoggJsgGDI+CRfWbvAD7oR24UaXxB+49hYjW6t4uB2YzD0ocnRyMG+S9+UJOk
+	PoulDdExZvKrq7yILsVhgMTc9MRw4S/M7Khhg8ZIfc/qojE2hMgOH1qoqqMB4x3SDEL6H+1ae3U
+	S8e4DXUJw8VmL7RSXKc+WPWwJdUlybR6WlrjtQBnpjMnv2TyQo0EzkjxFVcA=
+X-Received: by 2002:a17:90b:2642:b0:3b0:9a1b:b708 with SMTP id 98e67ed59e1d1-3b3d07da3cbmr2529004a91.62.1795005618178;
+        Wed, 18 Nov 2026 04:40:18 -0800 (PST)
+Received: from localhost.localdomain ([2406:5900:1044:110c:e78e:f7f0:2120:34e7])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3d19b6e18sm4257980a91.10.2026.11.18.04.40.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 04:40:17 -0800 (PST)
+From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+To: gregkh@linuxfoundation.org,
+	nkapron@google.com,
+	linux-usb@vger.kernel.org
+Cc: Thinh.Nguyen@synopsys.com,
+	bigeasy@linutronix.de,
+	target-devel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	benquike@gmail.com
+Subject: [PATCH v8 0/4] usb: gadget: f_tcm: fix infoleaks, sleep, and UAF in the BOT path
+Date: Wed, 18 Nov 2026 21:40:01 +0900
+Message-ID: <20261118124005.2428068-1-yhlee@isslab.korea.ac.kr>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,227 +99,61 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [High] usb: musb: gadget: premature IRQ unmask in musb_g_giveback()
-  inside ISR
-- [High] usb: musb: gadget: IRQ state corruption and self-deadlock in
-  musb_g_giveback()
-- [High] usb: musb: gadget: musb_ep_restart() runs complete() inside
-  usb_ep_queue()
-- [High] usb: musb: gadget: RX endpoint lockup from unstarted requests
-  and IRQ race
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [High] usb: musb: skipped DMA abort in musb_gadget_dequeue() when
-  ep->busy is set [1]
---
+v7 was three patches, posted 2026-10-13 and not applied:
+https://lore.kernel.org/all/20261013073328.2936318-1-yhlee@isslab.korea.ac.kr/
 
-commit e287a2a9d7df9cb83cc08eb31d403c811c9fb5ba
-Author: Alexandru Ardelean <aardelean@taladin.ro>
+Changes since v7: a new 2/4 for a second infoleak in the same BOT status
+path, a measurement added to 3/4, and the recipient list corrected - v7
+left out the gadget maintainer.  The other three are unchanged, on
+7.4-rc3, where the file is byte for byte what v7 was written against.
 
-usb: musb: gadget: mask the MUSB IRQ while complete() runs
+1/4 queues the two BOT status requests that run from endpoint completion
+callbacks with GFP_ATOMIC instead of GFP_KERNEL.
 
-This commit reverts the RX FIFO flush in musb_ep_restart() from commit
-3fc137386c46 ("usb: musb: Fix hardware lockup on first Rx endpoint
-request") to call rxstate() again, and masks musb->nIrq across
-usb_gadget_giveback_request() in musb_g_giveback().
+2/4 allocates the CBW buffer with kzalloc().  Only the 31-byte CBW is
+ever written into it, and when a command is rejected before its data
+stage the status path sends that buffer to the host for as long a
+transfer as the host asked for.
 
-> diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadge=
-t.c
-> index 016d3f3fc1e05..5cb7eb9c56de0 100644
-> --- a/drivers/usb/musb/musb_gadget.c
-> +++ b/drivers/usb/musb/musb_gadget.c
-> @@ -145,7 +145,10 @@ __acquires(ep->musb->lock)
->  		unmap_dma_buffer(req, musb);
-> =20
->  	trace_musb_req_gb(req);
-> +	/* no MUSB interrupt during complete(), even if it enables IRQs */
-> +	disable_irq_nosync(musb->nIrq);
->  	usb_gadget_giveback_request(&req->ep->end_point, &req->request);
-> +	enable_irq(musb->nIrq);
->  	spin_lock(&musb->lock);
->  	ep->busy =3D busy;
->  }
+3/4 fails a write whose data stage delivered less than the CBW declared,
+instead of committing the untouched tail of the bounce buffer.  4/4
+clears req->sg and req->num_sgs when the BOT status request is reused, so
+an sg-capable controller is not handed a freed scatter list.
 
-[Severity: High]
-Does calling disable_irq_nosync() and enable_irq() on musb->nIrq here
-unmask the hardware interrupt line while musb->isr is still running?
+Measured on a dummy_hcd gadget with KASAN, one fresh boot per cell, two
+cells per arm, speaking BOT over usbfs so a CBW can declare one length
+and the data stage deliver another.
 
-Most calls to musb_g_giveback() happen inside musb->isr (via
-musb_interrupt() -> musb_g_rx(), musb_g_tx(), and musb_g_ep0_irq()).
-When enable_irq(musb->nIrq) drops the disable depth back to 0,
-irq_enable() unconditionally unmasks the line at the irqchip and clears
-IRQD_IRQ_MASKED.
+  WRITE(10) declaring 8192, 4000 delivered on a short packet
+    7.4-rc3   CSW status 0, and 4192 bytes the host never sent are
+              committed and read back
+    this set  CSW status 1, nothing committed
+  a rejected IN command declaring 4096 bytes
+    both      4096 bytes returned, 72 of them non-zero and the rest
+              zero, starting with the previous CBW.  What 2/4 removes
+              is the part of the buffer no CBW ever writes, and that
+              part read back zero on this allocator too, so the patch
+              does not change what this test sees.
+  login, read, write, readback controls   pass on both, KASAN 0
 
-Under forced IRQ threading (threadirqs or CONFIG_PREEMPT_RT), where
-musb->nIrq runs as an IRQS_ONESHOT threaded handler, clearing
-IRQD_IRQ_MASKED causes irq_finalize_oneshot() to skip
-unmask_threaded_irq() when musb->isr finishes:
+1/4 and 4/4 are not exercised there: dummy_hcd ignores the gfp flags in
+its queue callback and never sets sg_supported.  4/4's evidence is a test
+module standing in for an sg-capable controller; 1/4's is the code.
 
-kernel/irq/manage.c:irq_finalize_oneshot() {
-    ...
-	if (!desc->threads_oneshot && !irqd_irq_disabled(&desc->irq_data) &&
-	    irqd_irq_masked(&desc->irq_data))
-		unmask_threaded_irq(desc);
-    ...
-}
+Yehyeong Lee (4):
+  usb: gadget: f_tcm: queue the BOT status requests with GFP_ATOMIC
+  usb: gadget: f_tcm: zero the CBW buffer the status path sends
+  usb: gadget: f_tcm: reject a short write data-out transfer
+  usb: gadget: f_tcm: clear the scatter list when reusing the BOT status
+    request
 
-On IRQCHIP_EOI_THREADED interrupt controllers, chip->irq_eoi() is never
-called and musb->nIrq is permanently wedged.  On level-triggered
-non-threaded interrupts, enable_irq() unmasks the line before glue ISRs
-(such as tusb_musb_interrupt() or da8xx_musb_interrupt()) clear the
-interrupt source after musb_interrupt() returns.
+ drivers/usb/gadget/function/f_tcm.c | 23 +++++++++++++++++------
+ drivers/usb/gadget/function/tcm.h   |  1 +
+ 2 files changed, 18 insertions(+), 6 deletions(-)
 
-[Severity: High]
-When musb_g_giveback() is called from process context via
-musb_gadget_queue(), can musb->lock be re-acquired with local CPU
-interrupts enabled, leading to a hardirq self-deadlock?
+-- 
+2.43.0
 
-musb_gadget_queue() acquires musb->lock with spin_lock_irqsave().  When
-musb_ep_restart() -> rxstate() completes a request immediately,
-musb_g_giveback() drops musb->lock with plain spin_unlock(), leaving
-local IRQs disabled when req->complete() is entered in process context.
-In u_ether's rx_complete() -> netif_rx() -> __local_bh_enable_ip(), this
-first triggers lockdep_assert_irqs_enabled(), and then leaves local IRQs
-enabled upon return:
-
-musb_gadget_queue()
-  spin_lock_irqsave(&musb->lock, lockflags)
-  ...
-    musb_g_giveback()
-      spin_unlock(&musb->lock)
-      disable_irq_nosync(musb->nIrq)
-      usb_gadget_giveback_request()
-        rx_complete()
-          netif_rx()
-            __local_bh_enable_ip()      <-- enables local IRQs
-      enable_irq(musb->nIrq)
-      spin_lock(&musb->lock)            <-- local IRQs & nIrq enabled
-      <hardirq: musb->nIrq or dma_controller_irq()>
-        spin_lock_irqsave(&musb->lock)  <-- spins forever
-
-If an interrupt fires after enable_irq() and before ep->busy =3D busy, a
-nested musb_g_giveback() also snapshots ep->busy as 1 and restores it to
-1, leaving ep->busy permanently stuck.
-
-[Severity: High]
-Can the RX endpoint still lock up when req->complete() queues the next
-RX request while ep->busy is set?
-
-While musb_g_giveback() is running from rxstate(), ep->busy is 1.  When
-req->complete() (such as u_ether's rx_complete() -> rx_submit()) calls
-usb_ep_queue(), musb_gadget_queue() adds the new request to
-musb_ep->req_list but skips starting it because musb_ep->busy is 1:
-
-drivers/usb/musb/musb_gadget.c:musb_gadget_queue() {
-    ...
-	/* it this is the head of the queue, start i/o ... */
-	if (!musb_ep->busy && &request->list =3D=3D musb_ep->req_list.next) {
-		status =3D musb_queue_resume_work(musb,
-						musb_ep_restart_resume_work,
-						request);
-    ...
-}
-
-When musb_g_giveback() returns and restores ep->busy =3D 0, neither
-rxstate() nor musb_ep_restart() checks next_request(musb_ep) to start
-requests queued during the callback.  Any further requests queued in a
-caller loop (such as rx_fill()) then see &request->list !=3D
-musb_ep->req_list.next and also skip musb_ep_restart().
-
-In addition, musb->lock is dropped before disable_irq_nosync(musb->nIrq),
-so on SMP another CPU can handle musb->nIrq in that window while
-musb_ep->req_list is empty, clear the hardware interrupt flag, and leave
-MUSB_RXCSR_RXPKTRDY set with no started request.
-
-[Severity: High]
-This problem wasn't introduced by this patch, but can [1]
-musb_gadget_dequeue() skip aborting an active DMA transfer when called
-while ep->busy is set in musb_g_giveback()?
-
-drivers/usb/musb/musb_gadget.c:musb_gadget_dequeue() {
-    ...
-	/* if the hardware doesn't have the request, easy ... */
-	if (musb_ep->req_list.next !=3D &req->list || musb_ep->busy)
-		musb_g_giveback(musb_ep, request, -ECONNRESET);
-
-	/* ... else abort the dma transfer ... */
-	else if (is_dma_capable() && musb_ep->dma) {
-    ...
-}
-
-musb_g_giveback() sets ep->busy =3D 1 before dropping musb->lock even when
-giving back a non-head request that was never handed to hardware:
-
-usb_ep_dequeue(ep, req2)                 /* req1 active in DMA at head */
-  musb_gadget_dequeue()
-    musb_g_giveback(musb_ep, req2, ...)
-      ep->busy =3D 1
-      spin_unlock(&musb->lock)
-      usb_gadget_giveback_request(..., req2)
-        ...
-          usb_ep_dequeue(ep, req1)
-            musb_gadget_dequeue()
-              if (... || musb_ep->busy)
-                musb_g_giveback(musb_ep, req1, ...)
-                  unmap_dma_buffer(req1, musb)  <-- DMA still active
-
-The same happens if another CPU dequeues req1 while musb_g_giveback()
-has dropped musb->lock.  Skipping channel_abort() unmaps req1's buffer
-and completes the request while the DMA controller is still accessing it.
-
-> @@ -1162,19 +1165,12 @@ void musb_free_request(struct usb_ep *ep, struct =
-usb_request *req)
->   */
->  void musb_ep_restart(struct musb *musb, struct musb_request *req)
->  {
-> -	u16 csr;
-> -	void __iomem *epio =3D req->ep->hw_ep->regs;
-> -
->  	trace_musb_req_start(req);
->  	musb_ep_select(musb->mregs, req->epnum);
-> -	if (req->tx) {
-> +	if (req->tx)
->  		txstate(musb, req);
-> -	} else {
-> -		csr =3D musb_readw(epio, MUSB_RXCSR);
-> -		csr |=3D MUSB_RXCSR_FLUSHFIFO | MUSB_RXCSR_P_WZC_BITS;
-> -		musb_writew(epio, MUSB_RXCSR, csr);
-> -		musb_writew(epio, MUSB_RXCSR, csr);
-> -	}
-> +	else
-> +		rxstate(musb, req);
->  }
-
-[Severity: High]
-Does calling rxstate() from musb_ep_restart() invoke req->complete()
-synchronously inside usb_ep_queue() when an RX packet is already waiting
-in the FIFO?
-
-In PIO mode, rxstate() unloads the waiting packet and calls
-musb_g_giveback() -> usb_gadget_giveback_request() -> req->complete()
-before musb_gadget_queue() and usb_ep_queue() return.  This violates the
-usb_ep_queue() contract (which forbids calling ->complete() from within
-usb_ep_queue()) and breaks callers that update state or touch the
-request after usb_ep_queue() returns, such as trace_usb_ep_queue() in
-usb_ep_queue() or bot_enqueue_cmd_cbw():
-
-drivers/usb/gadget/function/f_tcm.c:bot_enqueue_cmd_cbw() {
-    ...
-	ret =3D usb_ep_queue(fu->ep_out, fu->cmd[0].req, GFP_ATOMIC);
-	if (!ret)
-		fu->flags |=3D USBG_BOT_CMD_PEND;
-    ...
-}
-
-If bot_cmd_complete() runs inside usb_ep_queue(), it clears
-USBG_BOT_CMD_PEND, and bot_enqueue_cmd_cbw() then sets USBG_BOT_CMD_PEND
-again on return, stalling subsequent CBW submissions.
-
-[1] https://sashiko.dev/#/bug/linux-8787b453-429b-40d3-8db7-9c949b0a6861
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118115435.4974=
-8-1-aardelean@taladin.ro?part=3D1
