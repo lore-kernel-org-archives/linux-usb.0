@@ -1,88 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.81.71.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794998058;
-	b=ANVLKD71TOXDe19YVWrPBXkhaSFa7M7Ezg3bfWH3eKydZggEcFb7pDEZygFYnBRrC2UL
-	 5ZUXY58JmmRIUp9+yzKqT5ncN5FQeCqEcPua93qvmOWR6SX9MR9U5wyzSHvDqj7ad2nGP
-	 n771KdiUj6FzO7orGJqVf+I/W6BObS3DbjM+jo0mse3/Fmrmj5JA9GtlgX/88EaVQqFNE
-	 g7f3l+ew0HhCF+7a76Pi+T8Fy/MiRlZe5G2KVNPqYOtec03yf3CqX/DSbpIiYc//PTCu6
-	 J5GNG6V28inK7E0AlQgswJC+CpgkdGvLnycHqE3jZ8d6FQocEE7ZFAVh+1lAUKL3ZAA==
+	t=1794998122;
+	b=RsnRW0/LcJRPQFL/A3C55s6fVj8oDo1qxJtMfrFXeZPjIssiJpxoXNqR/RDMO8nTIYpB
+	 ioEf9vzj4f3Lmrrx9EiVmn3Qv8/qVZT5lStb2QKd9gemaPSaAnyzLmobLk5n1xlKiuaAz
+	 33AE4ca3rowliv/TkMGTezg2ED150DeP2wUSkYJE/V0t0+RoTRhnF404lIhGLeH5ifalg
+	 uh2De8fKaf+wRMZkzw0qa5PuSgHE1ib8C8rQzqs8p+zb1gAaMTy4ftxX6wodKuuF02h8G
+	 SIrzJFPPzx0GKzyQeFr/ty34HF5hzzpiYcNqlGeFF26imzOwTRn2alw60pxqjoTETVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794998058;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:References:Content-Language:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=U2QQjyWbT70hmVOjy+Urh/lCP/006FZhYTJo1HSrud4=;
-	b=xLUC+6wHYGW/mBgcBsPD6yXNDEvzXcXW7oSPbeXY+IN1x5aM+8tYgWyjcgytCFnQo2sa
-	 nwVdgLEYx3S5cywQohm5k3paci8wzMUcqPstOK2eTwmLKXBc3kxFFV74DyIHvPbs2Ov8p
-	 lVjya1IK1PHl34cVg9CVPUJpN0Li5pSEsANLUZjIt+GfpW2W03soswEiTYEfMEYhmL/Rr
-	 Auf/DTM47Mp/V17Ck9yzCpfldDMBFqlzMvEhXq9dMasxOuIOsrJSJgH3brOeJsTQsHRpd
-	 D5pcBBiPeOmouF5QrYjH5zHdnvBXt4NYJUDVu3Ix91d9+3o+isojWjAXsDh/IaHAl9g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794998122;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Message-ID:
+	 x-ms-reactions:Date:MIME-Version:From:Subject:References:
+	 Content-Language:To:Cc:Autocrypt:In-Reply-To:Content-Type;
+	bh=dReN6za/momLtfkgoBoloBUmgkXM0SZOHsPUXaY5RNg=;
+	b=IKuSgpj9VhumWIIM5yLzzb0rsej4kTZojUkAV4DKYdekbe3jr/C09XCPzaX/fQvI6UP2
+	 m9uPF1laooyWRqvbEw62GDb0hGsziuNPfpVsM8nmMmhe8MIP5++q35m2d890IQGYLqAhK
+	 qGQy1o4w5QYIkkZ53YCkGxoLXzcZ3VWt4Ou7tcBlcID6QNf8x3xxPtWSWJVppFn3UA+u4
+	 aWNFgywqodauQzPAZc5gXKmimZEVxlIOxQXdsD0qqfDumjAAqFTZ67Ke0pNP4gUbSQg8/
+	 TPqrFSCn7edBEuojyNK/a7R/ZHhxjRj1hg7TqFYFpAvzXHnWN/t244Qzm2EwMiCMLOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=DEAu9e2l;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=puzzle.ch;
+	spf=pass smtp.mailfrom=puzzle.ch;
+	dkim=pass header.d=puzzle.ch header.i=@puzzle.ch header.a=rsa-sha256 header.s=20211230 header.b=wOTuQu5a;
+	dkim=pass header.d=puzzle.ch header.i=@puzzle.ch header.a=rsa-sha256 header.s=20211209 header.b=mWX8lchq;
+	arc=none smtp.remote-ip=45.81.71.124
+Received: from mx03.puzzle.ch (mx03.puzzle.ch [45.81.71.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12317606A33A
-	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 10:34:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12317606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5440606A31C;
+	Wed, 18 Nov 2026 10:35:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5440606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=puzzle.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puzzle.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=DEAu9e2l
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4bb6ba3b244so8272035e9.3
-        for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 02:34:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1794998056; x=1795602856; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=U2QQjyWbT70hmVOjy+Urh/lCP/006FZhYTJo1HSrud4=;
-        b=DEAu9e2l6lcFtub7YY15vLcAuymsn2f87/Ab5eUiMwE0ab9eFPpvtTVcaoIfCzDmEC
-         05wKF2hKpdRJav6N21n77rZziny2gbjZf3GVg7n0wDz/a53QWlo9YD31XUsUsSRxrbnG
-         8kjP9MS+4v2X6PbX0A6uJ0D3ipmu5ecMkQw8DnqeUXaftqz+x9TIrQdZcU2R0n26KA2k
-         FJIRUmzJYAk1yz+y9BVpwuZOFOJVF+k8g1QbkF44T/VuTANUIObIKUhqU9u2YSCsNi5Z
-         D0Iy8qjLYE+AXQhsL22zjaMgbL5NUG2Xja5vkFXQhD4AlFEd4c/VX/hThAVP8SDFlHEN
-         QLiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794998056; x=1795602856;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=U2QQjyWbT70hmVOjy+Urh/lCP/006FZhYTJo1HSrud4=;
-        b=EYRedeRgWMOEcCp7Jlh1tvouPMBS5Zvn665uRsGy1lpC/CsxZDC8ASm2dybeP2VA1z
-         lX5Bp2X01cvyg0QOjeeozcyKvYXmFpuDTKDVovoqJEc4uy55/U/HyGeeuPiX1Uxncc1b
-         a8BjhugLv7GkvLSQ++L13eMaxvZKnBI3FXN+g4iIOIOfP/RhSVW/6asBxNIPeO/vEJct
-         RspogX1m6MDpCuImxVjwCsCDsl/jxkGRxm61Amrav7JKA8hm/GD7JLJtD5qauxf4cSt9
-         zIB7K+SLkvRmjkAXPtTZEGSNdm7zOuL9DdRSAzfd249MCSK/nZp5JUFO9MoxwZKEE4j/
-         VoMA==
-X-Gm-Message-State: APuU4Z8aflr2Vt5eWRtlqwufUD96hPj25znwTw0P/ze94PeJ5IcT/CRB
-	xSrNjYMUx9d5/oNUpJSDrv8I44K+0a/EeVhkaIfBgprAf2cWYjVFmx4oZaMoZzu5R5NukWS84hw
-	EvO6F
-X-Gm-Gg: AYBFou3LR+UHWRxXShD8E0UJKlYkUotbUwuY46rM8AzdCgnSsXpmhWJ2vKWym+aahLf
-	pSK1o+rI8kzgt176vq4aAyzxkU63kdPfI5BrS+Ey/eXQ/cpXILsbfLyPRT0VCCEKJzot+AqrOzR
-	ajjwGARhMXdCkhz17JKRhMStbA/1W6m7aGq8xUMprR9Gkp54owmL3DpseqkOkCqwPn6g5OrZrBd
-	ZNxVyUD9SlvyYN9/xGsewse2dh6m5SbBkkEwT7x5cwclumjfRQFrKefC0k+I9MdER7GQ5QLqMXL
-	vsqYUw9/w6BOxZE4JaRD+UXU01TFOZKIJE6XCxSXYFbB4Fw+GCdV84sB9bEQob/jf4lz1v4nmOy
-	l4Sjs8EyPzDdU31uRo6nl7wsjHjZl4s48T8ysOSypysyZumEK0Qaqo8Gr/FLHc5tnPKAyyHHwPm
-	MsceS65KGqzSz5I9Cz+zeBdyvvbej/JpGJMg0jGGW0NFbQTDNH4jCGXBZApEXsrYX3A3hbHAeVr
-	lHlPVziZUCdvPCm8WCGmZybLBPN92inKg6lgnA8TE4yniJ5MNNmCwU24X0Lqqq1HV26GZuKeDMh
-	UweA7z2S9qEpTcz6A1XH+UdHCkIlVNhj8zWAHUdtUFbEwOhFQ8MGBZjDGHFjO+yKHq4AlnsURQ=
-	=
-X-Received: by 2002:a05:600c:354b:b0:4a1:811c:8078 with SMTP id 5b1f17b1804b1-4bb7da3a1bcmr37004325e9.26.1794998056414;
-        Wed, 18 Nov 2026 02:34:16 -0800 (PST)
-Received: from ?IPV6:2001:a61:13d9:c201:adce:19da:dc12:b6eb? ([2001:a61:13d9:c201:adce:19da:dc12:b6eb])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d29c622sm58981445e9.3.2026.11.18.02.34.16
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Nov 2026 02:34:16 -0800 (PST)
-Message-ID: <c9b81081-05f3-4c48-8ed4-a02d13e3ec85@suse.com>
-Date: Wed, 18 Nov 2026 11:34:15 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=puzzle.ch header.i=@puzzle.ch header.a=rsa-sha256 header.s=20211230 header.b=wOTuQu5a;
+	dkim=pass (2048-bit key, unprotected) header.d=puzzle.ch header.i=@puzzle.ch header.a=rsa-sha256 header.s=20211209 header.b=mWX8lchq
+Received: from mailstore02.cloud.puzzle.ch (mail.puzzle.ch [45.81.71.99])
+	by mx03.puzzle.ch (Postfix) with ESMTPS id 63B96F1;
+	Wed, 18 Nov 2026 11:35:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=puzzle.ch; s=20211230;
+	t=1794998113;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=dReN6za/momLtfkgoBoloBUmgkXM0SZOHsPUXaY5RNg=;
+	b=wOTuQu5aU9pcMYXpJm+8WtyjuvOj6/01tSYywSwrL2/kbEWrbKsdVpA3AnrXofn8OS0QeO
+	Vq1x2GO2BR9Aoni9OhCJh5KhxKNM2S4DCYpHhhMfurMTnH/tx5dTYoGv5aSVoQuF5oI+gv
+	zCb5TLwRGRQn1oxUKvwsmX7uSJhX0UnXHz/pV8VlQPXeswQfn5Jd1j3trn1jmpqOQ8rhuv
+	mE4ZQPlU6SmZN6YNKK/dmtQwJseK2/X+oLVCQaosczuaFkhhCqqb/u5yogup0t85o7UdCN
+	H2spPtnySIGbhlk7NHxv9I1RQhhaGcA+eoFxAXZFYce5WDjAii3CpvFRkHSJPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=puzzle.ch; s=20211209;
+	t=1794998113;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=dReN6za/momLtfkgoBoloBUmgkXM0SZOHsPUXaY5RNg=;
+	b=mWX8lchqtIlI8TfCDlnYkb7bEIbxtii3KAqRHlN9QgMW5j5GIm0PeFXNNeDgSVw4bPqSq6
+	jh21M/ZXT79unfAnThfpgSYxnOiYoG5tVmNdKDopR3fXJkG1ewwKEc4AWtRjeKyHftn1iT
+	UUIcvkPbzsiMLDzTV00KxHIfZ/6xeDpMLo9oVYS0tWPDQB6qQRA86hrUT2CYVDD3siQ/sQ
+	TNH+CFnyR7rZc36xINzvhru5JjfGinEm3rX88Wo72FvKEPHooBQAM3i1+2NqThq/nYTShF
+	EypV5duSBjH56Q6tdHa1Pi0Kr8BXybrIeQoNTGkpB7L5bBC1j6lpiV0vOq48zQ==
+Message-ID: <f0a598b9-3160-437c-9ed1-8529cbf07cff@puzzle.ch>
+x-ms-reactions: disallow
+Date: Wed, 18 Nov 2026 11:35:12 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -92,36 +72,231 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+From: Michael Grzeschik <grzeschik@puzzle.ch>
+Subject: Re: [PATCH 1/2] usbip: stub: reference count struct stub_device
+References: <20261111-usbip-v1-0-da5217ac71d7@puzzle.ch>
+ <20261111-usbip-v1-1-da5217ac71d7@puzzle.ch>
+ <24cb7bb7-100b-45ad-b1ea-afbb6bf41976@linuxfoundation.org>
+Content-Language: en-US, de-DE
+To: Shuah Khan <skhan@linuxfoundation.org>,
+ Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb <linux-usb@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+Autocrypt: addr=grzeschik@puzzle.ch; keydata=
+ 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
+ brFdynih
+In-Reply-To: <24cb7bb7-100b-45ad-b1ea-afbb6bf41976@linuxfoundation.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------uSGHclwRkkBen2TpjlsFmj8l"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------uSGHclwRkkBen2TpjlsFmj8l
+Content-Type: multipart/mixed; boundary="------------B8kdL2CbB8dnEg1rm6Q8F6AU";
+ protected-headers="v1"; hp="clear"
+Message-ID: <f0a598b9-3160-437c-9ed1-8529cbf07cff@puzzle.ch>
+Date: Wed, 18 Nov 2026 11:35:12 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [USB] ASUS 0b05:1932: UAS performance observations and cache sync
- errors on disconnect
-To: linux-usb@vger.kernel.org
-References: <LV2PR11MB370525AFE7C54D5793207BA767F27C2@LV2PR11MB370525.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <LV2PR11MB370525AFE7C54D5793207BA767F27C2@LV2PR11MB370525.namprd11.prod.outlook.com>
+From: Michael Grzeschik <grzeschik@puzzle.ch>
+Subject: Re: [PATCH 1/2] usbip: stub: reference count struct stub_device
+References: <20261111-usbip-v1-0-da5217ac71d7@puzzle.ch>
+ <20261111-usbip-v1-1-da5217ac71d7@puzzle.ch>
+ <24cb7bb7-100b-45ad-b1ea-afbb6bf41976@linuxfoundation.org>
+Content-Language: en-US, de-DE
+To: Shuah Khan <skhan@linuxfoundation.org>,
+ Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb <linux-usb@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+Autocrypt: addr=grzeschik@puzzle.ch; keydata=
+ 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
+ brFdynih
+In-Reply-To: <24cb7bb7-100b-45ad-b1ea-afbb6bf41976@linuxfoundation.org>
+
+--------------B8kdL2CbB8dnEg1rm6Q8F6AU
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-On 16.11.26 08:22, Miguel Ulloa wrote:
-> 8. Questions for maintainers
-> 
-> I would appreciate any feedback on the following:
-> 
-> 1. Are these findings useful for evaluating the continued scope of the US_FL_IGNORE_UAS quirk for 0b05:1932?
+T24gMjAyNi0xMS0xNyAxMjoxNSBBTSwgU2h1YWggS2hhbiB3cm90ZToNCj4gT24gMTEvMTEv
+MjYgMDQ6MzQsIE1pY2hhZWwgR3J6ZXNjaGlrIHdyb3RlOg0KPj4gQSBzdHViX2RldmljZSBp
+cyBmcmVlZCBieSBzdHViX2Rpc2Nvbm5lY3QoKSByaWdodCBhZnRlciB1c2JpcF9zdG9wX2Vo
+KCkNCj4+IHJlcG9ydGVkIHRoYXQgdGhlIGV2ZW50IGhhbmRsZXIgaXMgZG9uZSB3aXRoIGl0
+LiBUaGUgcnggYW5kIHR4IHRocmVhZHMNCj4+IGFuZCB0aGUgZXZlbnQgaGFuZGxlciBjYW4g
+c3RpbGwgdXNlIGl0IGF0IHRoYXQgcG9pbnQ6DQo+Pg0KPj4gwqAgLSBUaGUgZXZlbnQgaGFu
+ZGxlciBjbGVhcnMgYW4gZXZlbnQgYml0IGFmdGVyIGl0IHJhbiB0aGUgaGFuZGxlciBmb3IN
+Cj4+IMKgwqDCoCBpdC4gQSBTSFVURE9XTiByZXF1ZXN0ZWQgd2hpbGUgYSBwcmV2aW91cyBz
+aHV0ZG93biBpcyBydW5uaW5nIGlzIGxvc3QsDQo+PiDCoMKgwqAgc28gdGhyZWFkcyBzdGFy
+dGVkIGFmdGVyIHRoYXQgc2h1dGRvd24gYXJlIG5vdCBzdG9wcGVkIGJlZm9yZSB0aGUNCj4+
+IMKgwqDCoCBzdHViX2RldmljZSBpcyBmcmVlZC4NCj4+IMKgIC0gQW4gZXZlbnQgcXVldWVk
+IGZvciB0aGUgZGV2aWNlIHdoaWxlIGFub3RoZXIgb25lIGlzIGhhbmRsZWQgbGVhdmVzIGFu
+DQo+PiDCoMKgwqAgZW50cnkgaW4gdGhlIGV2ZW50IGxpc3QuIE9uY2UgdGhlIGV2ZW50IGJp
+dHMgYXJlIGNsZWFyLA0KPj4gwqDCoMKgIHVzYmlwX3N0b3BfZWgoKSByZXR1cm5zLCB0aGUg
+c3R1Yl9kZXZpY2UgaXMgZnJlZWQsIGFuZCB0aGUgaGFuZGxlcg0KPj4gwqDCoMKgIHRoZW4g
+bG9ja3MgdGhlIHN5c2ZzX2xvY2sgb2YgdGhlIGZyZWVkIGRldmljZS4NCj4+IMKgIC0gVGhl
+IHN0dWJfZGV2aWNlIG5vIGxvbmdlciBob2xkcyBhIHJlZmVyZW5jZSB0byB0aGUgdXNiX2Rl
+dmljZSwgc28gYQ0KPj4gwqDCoMKgIHRocmVhZCBvdXRsaXZpbmcgdGhlIGRpc2Nvbm5lY3Qg
+dG91Y2hlcyBhIGZyZWVkIHVzYl9kZXZpY2UgdG9vLg0KPj4NCj4+IFRoaXMgd2FzIHNlZW4g
+ZXhwb3J0aW5nIHRoZSBzZXJpYWwgcG9ydCBvZiBhbiBTVC1MaW5rIGZyb20gYW4NCj4+IFNU
+TTMyTVAxLURLMiBvbiBhIEtpcmt3b29kIChBUk12NSkgaG9zdC4gQWZ0ZXIgcmVwZWF0ZWQg
+ImVuZHBvaW50IDUgaXMNCj4+IHN0YWxsZWQiIC8gdXNiX2NsZWFyX2hhbHQgY3ljbGVzIHdo
+aWxlIGEgY2xpZW50IG9wZW5lZCBhbmQgY2xvc2VkIHRoZQ0KPj4gcG9ydCwgc3R1Yl9yeCBj
+cmFzaGVkIGluIGRldl9lcnIoKSB3aXRoIHRoZSBkZXZpY2UgcG9pbnRlciBjb21wdXRlZCBm
+cm9tDQo+PiBhIE5VTEwgc2Rldi0+dWRldiBvZiBmcmVlZCBtZW1vcnk6DQo+Pg0KPj4gwqDC
+oCBVbmFibGUgdG8gaGFuZGxlIGtlcm5lbCBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UgYXQg
+dmlydHVhbCBhZGRyZXNzIDAwMDAwMGI4IHdoZW4gcmVhZA0KPj4gwqDCoCBQQyBpcyBhdCBk
+ZXZfZHJpdmVyX3N0cmluZysweDAvMHgzOA0KPj4gwqDCoCBMUiBpcyBhdCBfX2Rldl9wcmlu
+dGsrMHgyMC8weDZjDQo+PiDCoMKgIENhbGwgdHJhY2U6DQo+PiDCoMKgwqAgZGV2X2RyaXZl
+cl9zdHJpbmcgZnJvbSBfX2Rldl9wcmludGsrMHgyMC8weDZjDQo+PiDCoMKgwqAgX19kZXZf
+cHJpbnRrIGZyb20gX2Rldl9lcnIrMHg0MC8weDc0DQo+PiDCoMKgwqAgX2Rldl9lcnIgZnJv
+bSBzdHViX3J4X2xvb3ArMHg1ZDgvMHhkNjggW3VzYmlwX2hvc3RdDQo+PiDCoMKgwqAgc3R1
+Yl9yeF9sb29wIFt1c2JpcF9ob3N0XSBmcm9tIGt0aHJlYWQrMHgxMDAvMHgxMjANCj4+DQo+
+PiBSZWZlcmVuY2UgY291bnQgdGhlIHN0dWJfZGV2aWNlIGluc3RlYWQgb2YgcmVseWluZyBv
+biB0aGUgZXZlbnQgaGFuZGxlcg0KPj4gZm9yIGl0cyBsaWZldGltZToNCj4+DQo+PiDCoCAt
+IHRoZSBiaW5kaW5nIChwcm9iZSB1bnRpbCBkaXNjb25uZWN0KSBob2xkcyB0aGUgaW5pdGlh
+bCByZWZlcmVuY2UsDQo+PiDCoMKgwqAgc3R1Yl9kaXNjb25uZWN0KCkgZHJvcHMgaXQgaW5z
+dGVhZCBvZiBmcmVlaW5nIHRoZSBkZXZpY2UNCj4+IMKgIC0gdGhlIHJ4IGFuZCB0eCB0aHJl
+YWQgaG9sZCBvbmUgZWFjaCB3aGlsZSB0aGV5IHJ1biwgdGFrZW4gYmVmb3JlIHRoZXkNCj4+
+IMKgwqDCoCBhcmUgd29rZW4gYW5kIGRyb3BwZWQgd2hlbiB0aGV5IGVuZC4gSWYga3RocmVh
+ZF9zdG9wKCkgcmVwb3J0cyB0aGF0IGENCj4+IMKgwqDCoCB0aHJlYWQgbmV2ZXIgcmFuLCBz
+dHViX3NodXRkb3duX2Nvbm5lY3Rpb24oKSBkcm9wcyBpdCBmb3IgdGhlIHRocmVhZC4NCj4+
+IMKgIC0gdGhlIGV2ZW50IGhhbmRsZXIgaG9sZHMgb25lIHBlciBxdWV1ZWQgZXZlbnQgdW50
+aWwgaXQgaXMgY29tcGxldGVseQ0KPj4gwqDCoMKgIGRvbmUgd2l0aCB0aGUgZGV2aWNlLCB0
+aHJvdWdoIG5ldyBvcHRpb25hbCBnZXQvcHV0IGV2ZW50IGhhbmRsZXINCj4+IMKgwqDCoCBv
+cGVyYXRpb25zLCB3aGljaCB2aGNpIGFuZCB2dWRjIGRvIG5vdCBzZXQNCj4+IMKgIC0gdGhl
+IHN0dWJfZGV2aWNlIGhvbGRzIGEgcmVmZXJlbmNlIHRvIGl0cyB1c2JfZGV2aWNlIGFnYWlu
+LCBkcm9wcGVkDQo+PiDCoMKgwqAgd2l0aCB0aGUgbGFzdCByZWZlcmVuY2UNCj4+DQo+PiBU
+aHJlYWRzIHRoYXQgbWlzcyB0aGVpciBzaHV0ZG93biBub3cgZW5kIHdoZW4gdGhlIGNvbm5l
+Y3Rpb24gZ29lcyBhd2F5DQo+PiBpbnN0ZWFkIG9mIHVzaW5nIGZyZWVkIG1lbW9yeS4NCj4g
+DQo+IEkgcmVhbGx5IG5lZWQgYSBzaW1wbGVyIGNoYW5nZSBsb2cgdGhhdCBleHBsYWlucyB0
+aGUgcHJvYmxlbSBhbmQgdGhlIGZpeC4NCg0KU29ycnksIHRoYXQgSSB0b29rIHRoZSBzbG9w
+dHJhaW4gaGVyZS4gQXMgeW91IHNlZSwgdGhlIEFJIHdhcyBzdWdnZXN0aW5nDQpzb21lIGNv
+bXBsZXgga3JlZiBtZWNoYW5pc20sIGZvciBhIG9idmlvdXMgdXNlIGFmdGVyIGZyZWUuDQoN
+ClRoZSBtYWluIHRha2V3YXkgb2YgdGhlIGlzc3VlIGhlcmUgaXM6DQoNCiAgICBXaGVuIGEg
+c3R1YiBkZXZpY2UgaXMgdW5ib3VuZCwgc3R1Yl9kaXNjb25uZWN0KCkgYXNrcyB0aGUgdXNi
+aXAgZXZlbnQgaGFuZGxlcg0KICAgIHRvIHNodXQgdGhlIGNvbm5lY3Rpb24gZG93biBhbmQg
+ZnJlZXMgdGhlIGRldmljZSBhcyBzb29uIGFzIHVzYmlwX3N0b3BfZWgoKSByZXR1cm5zLg0K
+ICAgIEJ1dCB1c2JpcF9zdG9wX2VoKCkgb25seSBjaGVja3Mgd2hldGhlciB0aGUgZGV2aWNl
+4oCZcyBldmVudCBmbGFncyBhcmUgY2xlYXJlZCwNCiAgICB3aGlsZSBldmVudF9oYW5kbGVy
+KCkgbWF5IHN0aWxsIGhhdmUgYSBzZWNvbmQgZXZlbnQgZm9yIHRoZSBzYW1lIGRldmljZSBx
+dWV1ZWQuDQogICAgVGhlIGhhbmRsZXIgdGhlbiBwaWNrcyB1cCB0aGF0IGxlZnRvdmVyIGV2
+ZW50IGFuZCBydW5zIHN0dWJfc2h1dGRvd25fY29ubmVjdGlvbigpDQogICAgb24gdGhlIGFs
+cmVhZHkgZnJlZWQgZGV2aWNlLCB3aGljaCBjcmFzaGVzIGluIGRldl9wcmludGsoKS4NCg0K
+SG93ZXZlciwgYWZ0ZXIgdGFraW5nIHRoZSBzYXNoaWtvIHN1Z2dlc3Rpb25zIGludG8gYWNj
+b3VudCBhbmQgdW5kZXJzdGFuZGluZw0KdGhlIG92ZXIgYWxsIHBpY3R1cmUsIEkgc3BpbiBh
+bm90aGVyIHBhdGNoIHdpdGggaG9wZWZ1bGx5IGxlc3MgY29tcGxleGl0eS4NCkFkZGluZyBy
+ZWZlcmVuY2UgaGFuZGxpbmcgc2VlbWVkIGxpa2UgdGhlIG9idmlvdXMgY2hvaWNlIGhlcmUs
+IGJ1dCBpdCBzaG91bGQNCmFsc28gYmUgcG9zc2libGUgd2l0aCBwcm9wZXIgbG9ja2luZyBh
+bmQgc29tZSBjaGVja3MgaW4gdGhlIHVzYmlwX3N0b3BfZWgoKS4NCg0KU29ycnkgZm9yIHRo
+aXMgYWdhaW4uIFBsZWFzZSBpZ25vcmUgdGhpcyB0aHJlYWQgYW5kIHRha2UgSm9obnMgdmVy
+c2lvbiBvZiBteSAyLzIuDQoNClRoYW5rcywNCk1pY2hhZWwNCg0K
 
-Yes, though it depends on whether it is possible to tell the devices
-apart.
+--------------B8kdL2CbB8dnEg1rm6Q8F6AU--
 
-> 2. Is the cache-synchronization failure during udisksctl power-off a known or expected consequence of UAS device teardown, or does it warrant further investigation?
+--------------uSGHclwRkkBen2TpjlsFmj8l
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-This is a known limitation of UAS not using soft disconnect.
+-----BEGIN PGP SIGNATURE-----
 
-> 3. Would any additional traces, kernel configurations, or more targeted tests help clarify either observation?
+wsF5BAABCAAjFiEEFdvthaW6nen779Bov2lYRPlx9KsFAmr9f2AFAwAAAAAACgkQv2lYRPlx9KvE
+FhAAslQVts0d+DUjr59+LIwaApQQB1czqjothH3u+HAdiC+JhPpfS6xjUZMq1n/GQepPjnpGm4Fc
+drgbIpmAkuMIgoAJ+W4xfbR9TgX6XFGfApyW4pxKThU52uLwtYNOyLGwC+0lX6RVtDuW6tzFsUd6
+ISQUPd4H31t+r9NdIZMOUJjRwTz3q3pVbnn3cuEki/oGfvahs91MuSNRJl37ElefOTvMISy8yRIC
+lhF+SoDmWbvjuDJfW2mcSa/h/ChdmTmTquoF4yHNh4fXxlqx3vEwe/hJxOfFzEMfQpAImb+CVWmN
+mbIEJnT9otHNf6CggqlXjPW9JjJHi5ACfQAVKGU/6JSLh4iKOlfsw3bqW4NmvaJwDnOpCZ0lg5Pz
+eg1ZJeWJ0K2mTTghteRd5p1RVqUW3cLPiMuIF5KG/6oQAZBrJztmsNyPkyeaor1JZWm2LPqdMWuU
+chJCO1ZIodrWyp0Bc4DC+in570Z/o1OpPjKnYJs3O86Ep1m866arTIixvkZogEsLBwVBsh+4Fnao
+UuuXMf6CASsf6tp2ah7EQm7Il42haxlXxSAUiVbuhr74wsv7H33ug5VLM3kkK8rkbZkTlzciGuVP
+GC85XF0X8J1gO97wSN07X2JtcUzwIYTEZ96pLKmFIyPtELy779nSQrdjaWHy+f8QNvYdddfUdeF7
+7dU=
+=XxWc
+-----END PGP SIGNATURE-----
 
-
-We should start with the output of "lsusb -v" for your device.
-
-	Regards
-		Oliver
-
+--------------uSGHclwRkkBen2TpjlsFmj8l--
