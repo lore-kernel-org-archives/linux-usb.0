@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795030153;
-	b=cs3wu5dw2oSxfL4gKAtmj3F9MUC3difSjjdehh5b/2KfkjfiiOE7iPRgSTo+W682CvmV
-	 md7kXe69JfhPUZWRHPcsdVULmCn3FRKUKwJcHLqCxsXFvUQ2KWW0LWy+Wyidk1d2cb/Y5
-	 AWsnn5rPLb5aMHgoifoTDVm1dNqS5lrZKTJEI5AY5YU89DzLMRKgp9jHZWzPF3F/TiqYC
-	 joGovwcZ+O6nPH2YsZCvOln6+4TSej221KgO2mkSWXvZ3J9DpsMFOm8yKSN/uDp0/lwY/
-	 rxDtJY69Zum6blktGQ6PmGG4hwszDSPS5NkhkUNH/UJzs5yHisxp4hyGxLTXJpLrJNQ==
+	t=1795030162;
+	b=H02fUXr4PS14D5X8rJ4K+l/YocePioZWW7bHE+RU7Idt1NQROi0AMF9OV1bFf/7ZWssW
+	 36jE8zGl4ZRETwKVoKNDUGgYd06gd5Hflcny36aV1b0NrLtl5Xb74t2J3GXWziPGiSyEw
+	 JKzT0AXqt8gk+clkCbyfqxhQCB9wWKiPaEF1jdiCgZZwsgUg71aviH3OpHEUMwV5uRsdm
+	 A1qRdtKdmuUTX4vI6EuNtyQQRh+mJ9qsmqUjXr4OW4TtiBVyeVEFd2n6u/2XH1kIyxyyo
+	 tZU8Isa5EFdsH3+QOYvGCplxddQ12KNeLHh4svXvWK3FcqC5cYjyVdx4dkKy9F/BVZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795030153;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795030162;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 Content-Transfer-Encoding;
-	bh=PMWHn/gcwOsd/1WxPf6yxLfZP2frx/JI+jAKArqdhuc=;
-	b=IU52k2lDHw/Ob5FKWbkxN+7Gskff4+x2/fS5/ppdrl6YJ7vw3fcmcG0OffL8q+0QYizT
-	 nuPaGwStjcXsqpkoAasqjwjJy1BJDWM49yQwKPMTx0VYPvwrz8YTPBqMwXE0gaq4qSHyG
-	 EI2H6GB4LOYKQsBT28fVm5dStpOt8UwQ6ClmBVyFfcuwZoD8KZ/V2ARNSh5z4wCNdj7OY
-	 2SqHwAh24cft+uTXxZ9yjP6xTe7wUJZ704o0U9zgJx7BvkSafFhV9KRoj8NQA1Ro74PKV
-	 CnCnswDaLOWvp0MymJWtetV910YQkk3aOE5JqFzQ8K3tfsQ/QP5VUdj0oz3wpTmWxsg==
+	bh=izaoDFFlfbOL5o2AeSm9ffJ1CFTRgMmeFIApGBCueOM=;
+	b=hZcm7q6Dlug/YsyiD23dperFf+HJESmqxXDxCUh2OHt+QmEJVUAXagAncEViaki6e40Q
+	 vy8zGncOZVEC79w3z3SldaabivhF9Q77fOr5OlSR2f22NAN2rUyIhduMoxQGn3DxGsXIe
+	 ShHFqPCPMbFUECbTNPdzvosD2Cn3eiJ7CqkyS1XeJRLIjuRFxqRSRhJdF5FC/+4NI+2PF
+	 6r4/frQy2bb7Vs9Fth1SN0XX2iWAQ4h7v0sqE/IQNsXryQy8fcql2XCiQt6JJi46N9h6F
+	 SceOGvQqJbudoQ5HzWLvV+ipwTqs42V22I9DMNS3q/wXv7HKtHB1L4+hUkPWFQ4BP8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XkLVaR6V;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XUBWeYSk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAFE606BB77;
-	Wed, 18 Nov 2026 19:29:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76BF606C718;
+	Wed, 18 Nov 2026 19:29:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XkLVaR6V
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D19E1F000C5;
-	Wed, 18 Nov 2026 19:29:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XUBWeYSk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC2AE1F000C6;
+	Wed, 18 Nov 2026 19:29:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795030153;
-	bh=PMWHn/gcwOsd/1WxPf6yxLfZP2frx/JI+jAKArqdhuc=;
+	s=k20260515; t=1795030161;
+	bh=izaoDFFlfbOL5o2AeSm9ffJ1CFTRgMmeFIApGBCueOM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=XkLVaR6VA1hVtUxRss2kKZ0aSUY9rohu6/ThArrI74UaPCO6AyLjgT/gVkhYjwqML
-	 9f5RRz7Y+gYDijm4+3zMr9GEuqKbbUv64wk8IteBjbnprYH24OVDiHFPgPINOCdu3T
-	 zfp++2rHUaxUGVDHmd928hhu8STEgzZneMB29Y97fe9Chkb9fkAwliNt3AKoyjylvn
-	 I5DU/7l45RJtqqjGukyuvMxxH+Hm3gTnpGTsjSwLeZa4jGdyU7H0VIYvogHe8uqHH9
-	 if82uH4f3lFdo2Cevhn7iBauq195fdV0ZSt3dEfnH52Ome5S5WWoy3dkhNKNyJb38Z
-	 UlOXuP9mCvsrg==
+	b=XUBWeYSkdFLuQxucZ3b0go3s7CrVcxZ9UvMssUSShGSltmRmQnC5bZE6Zxln+wBx9
+	 PTYYuY4j7u9YAxAwixjxxwGaZjxX3BDJ/PX/7dl7H49TgUSGZoUXDO4wYC3nnn0OCN
+	 xfpO/BHVb8j7fO4GWedms5W7YE9L1hAKLabqLKS1eofblH0HRrQe5Dws5tXzNTDOf7
+	 qET96OZ6XY8g+ZM1Qypj/mCx3dcJagkIakQBlGKGD6Ku86l6H93cNNy0Um2fY+Xcay
+	 FJyu6SVLOOI2L7Y1Z4nxFG2vSg3jBVufXxpR9L9YaIriJFoMjSIq7WHXV63zJ6maFR
+	 Ie/RqNFr05XTA==
 From: Leon Romanovsky <leon@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -96,9 +96,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@suse.de>,
 	linux-sound@vger.kernel.org,
 	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH v3 30/31] USB: Authorize interfaces through device trust
-Date: Wed, 18 Nov 2026 21:27:00 +0200
-Message-ID: <20261118-device-trust-core-v3-30-d655875c4bfb@nvidia.com>
+Subject: [PATCH v3 29/31] USB: Retain the result of configuration requests
+Date: Wed, 18 Nov 2026 21:26:59 +0200
+Message-ID: <20261118-device-trust-core-v3-29-d655875c4bfb@nvidia.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
 References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
@@ -117,197 +117,78 @@ Content-Transfer-Encoding: 8bit
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-An interface denied by USB defaults must remain blocked until its trust
-policy permits binding. Keeping an independent denial flag would prevent
-generic trust authorization from making that interface usable.
+The generic USB device driver can bind successfully even when setting its
+configuration fails. Authorization that attaches this driver therefore
+cannot use the attachment result to report configuration errors or decide
+whether setup can be retried.
 
-Represent the initial denial as blocked policy when trust is enabled, and
-let interface authorization request unrestricted operation. Preserve
-explicit USB deauthorization and report rejected policy changes to
-userspace. Interface policies remain independent of the device policy.
+Retain the last configuration result for callers holding the device lock.
+Keep driver binding successful so userspace can recover by selecting
+another configuration.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- Documentation/ABI/testing/sysfs-bus-usb |  5 +++++
- Documentation/usb/authorization.rst     | 11 +++++++++++
- drivers/usb/core/driver.c               |  2 +-
- drivers/usb/core/message.c              | 23 ++++++++++++++++++-----
- drivers/usb/core/sysfs.c                |  7 +++++--
- drivers/usb/core/usb.h                  |  2 +-
- include/linux/usb.h                     |  9 +++++++--
- 7 files changed, 48 insertions(+), 11 deletions(-)
+ drivers/usb/core/message.c | 12 +++++++++++-
+ include/linux/usb.h        |  2 ++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-usb b/Documentation/ABI/testing/sysfs-bus-usb
-index 5213117fd957e..62e326710ef5f 100644
---- a/Documentation/ABI/testing/sysfs-bus-usb
-+++ b/Documentation/ABI/testing/sysfs-bus-usb
-@@ -12,6 +12,11 @@ Description:
- 
- 		A deauthorized interface cannot be probed or claimed.
- 
-+		With device trust enabled at boot, an interface that is not
-+		authorized by default starts with the "blocked" trust policy
-+		(see sysfs-devices-trust). Writing 1 then requests the "unrestricted"
-+		policy. Deauthorizing does not change the committed trust level.
-+
- What:		/sys/bus/usb/devices/usbX/interface_authorized_default
- Date:		August 2015
- Description:
-diff --git a/Documentation/usb/authorization.rst b/Documentation/usb/authorization.rst
-index 150a14970e951..31ff34df29717 100644
---- a/Documentation/usb/authorization.rst
-+++ b/Documentation/usb/authorization.rst
-@@ -120,6 +120,13 @@ Deny interfaces per default::
- Per default the interface_authorized_default bit is 1.
- So all interfaces would authorized per default.
- 
-+With device trust enabled, an interface that is not authorized by default
-+starts with the "blocked" trust policy, and writing 1 to its "authorized"
-+attribute requests the "unrestricted" policy. Device and interface trust policies
-+are independent: selecting "adversary" for a USB device does not select it
-+for its interfaces. Set interface policies separately before their drivers
-+bind, using boot rules when necessary.
-+
- Note:
-   If a deauthorized interface will be authorized so the driver probing must
-   be triggered manually by writing INTERFACE to /sys/bus/usb/drivers_probe
-@@ -127,3 +134,7 @@ Note:
- For drivers that need multiple interfaces all needed interfaces should be
- authorized first. After that the drivers should be probed.
- This avoids side effects.
-+
-+Driver boot rules apply when an interface is claimed, including before
-+registration. An interface deauthorized through sysfs must still be
-+authorized before it can be claimed.
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index b10b80b5fd6d4..893bcdb430878 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -338,7 +338,7 @@ static int usb_probe_interface(struct device *dev)
- 	if (udev->authorized == 0) {
- 		dev_info(&intf->dev, "Device is not authorized for usage\n");
- 		return error;
--	} else if (intf->authorized == 0) {
-+	} else if (!usb_interface_authorized(intf)) {
- 		dev_info(&intf->dev, "Interface %d is not authorized for usage\n",
- 				intf->altsetting->desc.bInterfaceNumber);
- 		return error;
 diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 0a022ce8739c2..d388d7371a247 100644
+index b8e2d864faa46..0a022ce8739c2 100644
 --- a/drivers/usb/core/message.c
 +++ b/drivers/usb/core/message.c
-@@ -1881,16 +1881,24 @@ void usb_deauthorize_interface(struct usb_interface *intf)
-  * usb_authorize_interface - authorize an USB interface
-  *
-  * @intf: USB interface structure
-+ *
-+ * Return: 0 on success, or the error of the trust policy request.
-  */
--void usb_authorize_interface(struct usb_interface *intf)
-+int usb_authorize_interface(struct usb_interface *intf)
- {
- 	struct device *dev = &intf->dev;
-+	int ret = 0;
- 
--	if (!intf->authorized) {
--		device_lock(dev);
--		intf->authorized = 1; /* authorize interface */
--		device_unlock(dev);
-+	device_lock(dev);
-+	if (device_policy_is_blocked(dev)) {
-+		ret = device_trust_set_policy_locked(dev, DEVICE_TRUST_POLICY_UNRESTRICTED);
-+		if (ret)
-+			goto out_unlock;
- 	}
-+	intf->authorized = 1;
-+out_unlock:
-+	device_unlock(dev);
-+	return ret;
+@@ -2042,6 +2042,8 @@ static bool usb_has_claimant(struct usb_device *dev,
+ 	return false;
  }
  
- static int usb_if_uevent(const struct device *dev, struct kobj_uevent_env *env)
-@@ -2213,6 +2221,11 @@ static int usb_set_configuration_internal(struct usb_device *dev, int configurat
- 		intf->altsetting = intfc->altsetting;
- 		intf->num_altsetting = intfc->num_altsetting;
- 		intf->authorized = !!HCD_INTF_AUTHORIZED(hcd);
-+		if (device_trust_enabled()) {
-+			if (!intf->authorized)
-+				intf->dev.trust_policy = DEVICE_TRUST_POLICY_BLOCKED;
-+			intf->authorized = 1;
-+		}
- 		kref_get(&intfc->ref);
- 
- 		alt = usb_altnum_to_altsetting(intf, 0);
-diff --git a/drivers/usb/core/sysfs.c b/drivers/usb/core/sysfs.c
-index d22dc78457d79..b8974e9db3a22 100644
---- a/drivers/usb/core/sysfs.c
-+++ b/drivers/usb/core/sysfs.c
-@@ -1213,7 +1213,7 @@ static ssize_t interface_authorized_show(struct device *dev,
- {
- 	struct usb_interface *intf = to_usb_interface(dev);
- 
--	return sysfs_emit(buf, "%u\n", intf->authorized);
-+	return sysfs_emit(buf, "%u\n", usb_interface_authorized(intf));
- }
- 
++static int usb_set_configuration_internal(struct usb_device *dev, int configuration);
++
  /*
-@@ -1225,12 +1225,15 @@ static ssize_t interface_authorized_store(struct device *dev,
- 	struct usb_interface *intf = to_usb_interface(dev);
- 	bool val;
- 	struct kernfs_node *kn;
-+	int ret;
+  * usb_set_configuration - Makes a particular device setting be current
+  * @dev: the device whose configuration is being updated
+@@ -2089,6 +2091,15 @@ static bool usb_has_claimant(struct usb_device *dev,
+  * drivers currently known to the kernel.
+  */
+ int usb_set_configuration(struct usb_device *dev, int configuration)
++{
++	int ret = usb_set_configuration_internal(dev, configuration);
++
++	dev->config_error = ret;
++	return ret;
++}
++EXPORT_SYMBOL_GPL(usb_set_configuration);
++
++static int usb_set_configuration_internal(struct usb_device *dev, int configuration)
+ {
+ 	int i, ret;
+ 	struct usb_host_config *cp = NULL;
+@@ -2349,7 +2360,6 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+ 	usb_autosuspend_device(dev);
+ 	return 0;
+ }
+-EXPORT_SYMBOL_GPL(usb_set_configuration);
  
- 	if (kstrtobool(buf, &val) != 0)
- 		return -EINVAL;
- 
- 	if (val) {
--		usb_authorize_interface(intf);
-+		ret = usb_authorize_interface(intf);
-+		if (ret)
-+			return ret;
- 	} else {
- 		/*
- 		 * Prevent deadlock if another process is concurrently
-diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-index 1b2de58fd6cef..233dacbc446b4 100644
---- a/drivers/usb/core/usb.h
-+++ b/drivers/usb/core/usb.h
-@@ -34,7 +34,7 @@ extern void usb_disable_device(struct usb_device *dev, int skip_ep0);
- extern int usb_deauthorize_device(struct usb_device *);
- extern int usb_authorize_device(struct usb_device *);
- extern void usb_deauthorize_interface(struct usb_interface *);
--extern void usb_authorize_interface(struct usb_interface *);
-+extern int usb_authorize_interface(struct usb_interface *);
- extern void usb_detect_quirks(struct usb_device *udev);
- extern void usb_detect_interface_quirks(struct usb_device *udev);
- extern void usb_release_quirk_list(void);
+ static LIST_HEAD(set_config_list);
+ static DEFINE_SPINLOCK(set_config_lock);
 diff --git a/include/linux/usb.h b/include/linux/usb.h
-index d372712eba34c..9399c816b367d 100644
+index a5e706f67f33a..d372712eba34c 100644
 --- a/include/linux/usb.h
 +++ b/include/linux/usb.h
-@@ -204,8 +204,8 @@ enum usb_wireless_status {
-  *	has been deferred.
-  * @needs_binding: flag set when the driver should be re-probed or unbound
-  *	following a reset or suspend operation it doesn't support.
-- * @authorized: This allows to (de)authorize individual interfaces instead
-- *	a whole device in contrast to the device authorization.
-+ * @authorized: USB authorization flag; trust policy may also restrict use,
-+ *	see usb_interface_authorized().
-  * @wireless_status: if the USB device uses a receiver/emitter combo, whether
-  *	the emitter is connected.
-  * @wireless_status_work: Used for scheduling wireless status changes
-@@ -278,6 +278,11 @@ struct usb_interface {
+@@ -599,6 +599,7 @@ struct usb3_lpm_parameters {
+  * @descriptor: USB device descriptor
+  * @bos: USB device BOS descriptor set
+  * @config: all of the device's configs
++ * @config_error: Result of the last configuration request.
+  * @actconfig: the active configuration
+  * @ep_in: array of IN endpoints
+  * @ep_out: array of OUT endpoints
+@@ -686,6 +687,7 @@ struct usb_device {
+ 	struct usb_host_config *config;
  
- #define to_usb_interface(__dev)	container_of_const(__dev, struct usb_interface, dev)
+ 	struct usb_host_config *actconfig;
++	int config_error;
+ 	struct usb_host_endpoint *ep_in[16];
+ 	struct usb_host_endpoint *ep_out[16];
  
-+static inline bool usb_interface_authorized(const struct usb_interface *intf)
-+{
-+	return intf->authorized && !device_policy_is_blocked(&intf->dev);
-+}
-+
- static inline void *usb_get_intfdata(struct usb_interface *intf)
- {
- 	return dev_get_drvdata(&intf->dev);
 
 -- 
 2.56.1
