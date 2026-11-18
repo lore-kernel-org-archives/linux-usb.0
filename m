@@ -1,47 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.16.62.121
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794966409;
-	b=TJmLlpft0F6aVkoYPqaMT661fmGRXG/A7A23pAy9pxYwwtxlWsP2N6YjH5RE24RPVZdC
-	 86NLZ++/VwKx8ZwYgJVBYXXdcwV0JIPGEEZgoDVcK4eHMCRUX0x5HF250cvK3zqscP/EC
-	 hKI3RKn2gc6TpNXPDN+WFhxuvItAj2wLXpqwDnZo47xsTxsUF+hWQPuRNtokH1p6EU4Z8
-	 G8qhjrHYWxOZEqYExtXzaf7tTc5IjpMvMEHe7e6NibWVx3Qp523nTbUibicB66kgnLXhx
-	 gI7LHhJGuD/zfFmu6ANpsINqJj0Ysu/NTHgTW8vHH/6EZD8w3Y4ULwex9rbNhUQw4KA==
+	t=1794967653;
+	b=TNTknJtv0L6T7rnSTNrB9x97iEby/5gmJWFOj+eTzjCDp0QswD00IbA8CmYgmL5GBqOm
+	 j8l+aGDlnRKNgMfwsdY7RiIA+ka7If378ie0g8oOj3DcvXGXIzJPWe7VrJ5/Vsxo9/yUT
+	 Hm2k3x3l+zhAZq+qA0OfATzRWqXmxyixPcpo8ILYJj+ZhnM5QNj6OV4GJtyf1VS0N5E9t
+	 hETFB2PLkgB06/1UDQia8a8BNFBBYy5yWC7mM3EidmEYr14wlHJMc1h5mttP4Iv0fg8hB
+	 1IzIT42qqoGV3wdw3fiEs33NXMR9oVs2n+7/xh5hB4s2ORv86kZ65jfrp/R2eiEXedw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794966409;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794967653;
 	h=DMARC-Filter:Received:DKIM-Filter:To:From:X-Ip:X-Ip-source:
 	 Precedence:List-Unsubscribe:List-Unsubscribe-Post:Subject:
 	 Mime-Version:Content-Type:Content-Transfer-Encoding:X-MagazineId:
 	 X-uId:X-Sender:X-Url:Message-Id:Date;
-	bh=sujvEF8pQRywcRUm6psw9C2ytbWDQ3jL7t/ThwskqTE=;
-	b=CrnlMxFczmDt/aa1lre2eiEMEOz/8Pk4NOI9T9LSpftiSy9fKTxj0RwSgH1HURiio+Qb
-	 OfmcBCrBkc0Eu5Cd5+7eweBz68pRsFD8CL113jBy1a+TAGXcG88PXELRhQqZ/jowcJ/iz
-	 5Wo4mT90kipBQNVFMDLChE4kvA+aKOXDG6uQFOt+lMLgXR3I0pDiU6qNT9vXQIeHy1MfW
-	 o9H43w4RrcxKZApJfaRcBvPZCmZWCVeyUkdoo539EyFF7xR+vtuajFWCO5jCH+e3Z4NYb
-	 kV4KTkV+ens3QQx5ArbvkPfZ6IZf67ROsrEfMw7OZJOEOkkRBE3dzu5dLj8q8gf6MZQ==
+	bh=hc5yzDFBlgqgf0HZMzQiwGEtFVpFA7aCD/F1zdJk4Xc=;
+	b=FDvnRSczem8QuRHuLuyfy2paUQ2Md1ezP1GuHh0zGsaZmIiQ2DquCWQg6bwlrSB39Gbf
+	 XFYI6QcjIXyIvMJ/9SQzT3LGDYclpoiuxDcNIRypm99/huvhRIOMApVZd5XrxI3WDZQUl
+	 GoIWzmpU0/u1NaYrk4T6bh3drSfe0nxLV2FYnwEW9aL+o2bY1jujNm7pUY3X3LhWyvWY5
+	 sIDT8ztiqd+prTB3Fu0Qna7DJECXrhC9gmxITNq6tfL155/1ex3guYZJl3zMxRGTx3Nlf
+	 5ky48FiRH9Pkt4/SPxvD6Okj/pZ8P3vG5344lsZ68YzRCkSTX75u3/H5aXgBwVvEIwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ai-webseminar.jp;
+	dmarc=none header.from=j-pet-hotel.jp;
 	spf=pass smtp.mailfrom=magerr.combzmail.jp;
 	arc=none smtp.remote-ip=160.16.62.121
 Received: from r9205.ps.combzmail.jp (r9205.ps.combzmail.jp [160.16.62.121])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763D1606A325
-	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 01:46:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 763D1606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ai-webseminar.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBA2606A330
+	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 02:07:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6CBA2606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=j-pet-hotel.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=magerr.combzmail.jp
 Received: by r9205.ps.combzmail.jp (Postfix, from userid 99)
-	id 90841C5F56; Wed, 18 Nov 2026 10:45:12 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 r9205.ps.combzmail.jp 90841C5F56
+	id 5B6EEC488D; Wed, 18 Nov 2026 11:03:10 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 r9205.ps.combzmail.jp 5B6EEC488D
 To: linux-usb@vger.kernel.org
-From: =?ISO-2022-JP?B?GyRCTmtMWhsoQg==?= =?ISO-2022-JP?B?GyRCOkwhQxsoQg==?=
- AI =?ISO-2022-JP?B?GyRCJSghPCU4JSclcyVIM2hNUSU7JV8lSiE8O3ZMMzZJGyhC?= <info@ai-webseminar.jp>
-X-Ip: 6604221110937754
-X-Ip-source: k85gj7ft48dnsa51u0p6gd
+From: =?ISO-2022-JP?B?GyRCRnxLXCVaJUMlSCVbJUYlazYoMnEbKEI=?= <info@j-pet-hotel.jp>
+X-Ip: 942137236248387
+X-Ip-source: k85gj72w48dnsa51u0p6gd
 Precedence: bulk
 List-Unsubscribe-Post: List-Unsubscribe=One-Click
-Subject: =?ISO-2022-JP?B?GyRCOkc2LyRORixHPiRIP008aiRyISMbKEI=?=
- =?ISO-2022-JP?B?Q2xhdWRlGyRCJTslXyVKITwbKEI=?=
+Subject: =?ISO-2022-JP?B?GyRCJW8lcyRBJGMkczklJC0kTjdQMUQ8VE1NGyhC?=
+ =?ISO-2022-JP?B?GyRCJFgbKEI=?=
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -53,69 +52,98 @@ Precedence: list
 Mime-Version: 1.0
 Content-Type: text/plain; charset=iso-2022-jp
 Content-Transfer-Encoding: 7bit
-X-MagazineId: ft51
-X-uId: 6764325639486067714159411023
+X-MagazineId: 2w51
+X-uId: 6764325639486067704966211039
 X-Sender: CombzMailSender
 X-Url: http://www.combzmail.jp/
-Message-Id: <20261118014603.90841C5F56@r9205.ps.combzmail.jp>
-Date: Wed, 18 Nov 2026 10:45:12 +0900 (JST)
+Message-Id: <20261118020626.5B6EEC488D@r9205.ps.combzmail.jp>
+Date: Wed, 18 Nov 2026 11:03:10 +0900 (JST)
 
 　
 　
-　自分の間違いを見つけて「自己進化」する
-　
-　最強の「頭脳」と「人手」を手に入れたい
-　経営層の方向けに
-　
-　2,000名超に講演してきたAIの専門家が
-　驚きと手触り感のある実演デモで解説します。
-　
-　 ・自己進化するAIとは
-　 ・受信メールから業務を自律実行
-　 ・競合分析、SWOT分析から戦略立案
-　 ・決算書から経営ダッシュボード生成
-　 ・AI導入につかえる助成金情報
+　地域で愛犬を安心して預けられる
+　ペットホテル・トリミング事業を始めませんか。
 　
 　
-　 ＼ 明日から使えるプロンプトを進呈 ／
-───────────────────────
+　■　フランチャイズシステム説明会　■
 　
-　　　　−人手不足での倒産を防ぐ−
-　　　　 　　Claude Code活用
-　　   最強の頭脳と人手を手に入れる
+　　　愛犬家のオーナー多数！
+　　　ペットホテル・トリミングサロン “ONE LUKE”
+　　　※経験や資格が無くても始められます
 　
-　　 https://ai-webseminar.jp/claude/
+　■　開催方式
+　　　オンライン（申込後に参加方法をご案内）
 　
-　日程：11月26日（木）12:00-13:00　残り9席
-　
-　備考：Zoom開催／無料／60分／1社2名まで
-　
-───────────────────────
-　
-　人手不足による倒産が過去最多を更新する今。
+　■　日程
+　　　11月24日（火）11:00-12:00
+　　　12月27日（金）13:00-14:00
+　　　12月3日（木）11:00-12:00
 
-　自らの間違いや非効率を見つけて「自己進化」し
-　業務を動かしてくれる優秀な「人手」を逃す手はありません。
+　■　定員
+　　　各回 限定5名
 　
-　そして、その人手をどう活かすかを決めるには
-　経営者やリーダー層の視座が欠かせません。
-　
-　事前知識は不要です。
-　非エンジニアの方にもイメージしやすい言葉でお話しします。
-　
-　今後の経営を変える60分。
-　その驚きの実力を、画面越しにぜひ体感してください。
+　■　ご視聴・詳細はこちら
+　　　https://oneluke-fc-webinar.jp/lp/
 　
 　
-─…─…─…─…─…─…─…─…─…─…─…─…─…─…─…─…─
-　[窓 口] AIエージェント活用セミナー事務局（イーアシスト内）
-　[電 話] 0120-889-859
-　[住 所] 大阪市中央区日本橋1-17-17 604号室
+　お世話になります。
+　
+　ペットホテル・トリミングサロンの
+　フラチャイズ説明会のご案内でございます。
 
-------------------------------------------------------------------
-
-　メール受信を希望されない方は大変お手数ですが
-　以下より配信解除をお願いいたします。
-　※解除までに数日お時間をいただく場合がございます。
-　https://ai-webseminar.jp/teishi/
-─…─…─…─…─…─…─…─…─…─…─…─…─…─…─…─…─
+　ペットホテルとトリミングサービスを提供する
+　ONE LUKE（ワンルーク）
+　
+　ワンちゃんが好きすぎる創業者が
+　ペットホテルに預けたときに感じた
+　不安や思ったことを施設づくりに活かしています。
+　
+　
+　例えばワンちゃんが泊まるときに、少しでも
+　広く、心地よく過ごして欲しいという思いから
+　鉄のゲージではなくオーダーで職人さんに
+　「お部屋」を作っていただいています。
+　
+　そうした愛犬家目線のきめ細かいサービスが支持され
+　利用した方は高い確率でリピートしてくれます。
+　
+　
+　日本ではいまや「8世帯に1世帯」がペットを飼うまでに
+　増えてきましたが、ペットホテルはまだまだ店舗数が
+　足りていないため、今後も成長が期待できます。
+　
+　
+　ここまでこの文章を読まれたということは、
+　あなたもワンちゃんが大好きなのではないでしょうか。
+　
+　ワンルークのFCオーナー様も愛犬家が多く、中には
+　ご自身が利用者だった、という方もいらっしゃいます。
+　
+　説明会にて詳しいビジネスモデルをお伝えしますので、
+　新規事業を探している愛犬家の経営者様は
+　この機会にぜひご参加ください。
+　
+　地域のペットライフを豊かにし、愛犬が安心して
+　過ごせる空間を一緒につくっていきましょう。
+　
+　
+　■　フランチャイズシステム説明会　■
+　
+　　　愛犬家のオーナー多数！
+　　　ペットホテル・トリミングサロン
+　　　“ONE LUKE（ワンルーク）”
+　
+　■　ご視聴はこちら
+　　　https://oneluke-fc-webinar.jp/lp/
+　
+***********************************************************************
+本メールのご不要な方には大変ご迷惑をおかけいたしました。
+お手数お掛けしますが、メール不要のお手続きは
+下記URLよりお願いいたします。
+<メール停止フォーム>
+　https://oneluke-fc-webinar.jp/mail/
+***********************************************************************
+日本ペットホテル協会株式会社
+愛知県名古屋市千種区内山3丁目9-23 3F
+TEL:052-784-8416
+***********************************************************************
