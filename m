@@ -1,89 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795008956;
-	b=aQUJgPeqDprbyQdnHsqhCZLqroDo1HdvHrSLgxpd0WJELkPBfZrhW1e48K+DhZby2T9M
-	 jmaBxRZfASsQe27FTArXz/c3BKPMoE/Bj0gGy074qFQPklMhRYP2DqBHi/4fC/coNtUU8
-	 Y+49pAIUEO9rzNDdHHvnDlIrxfJhovff55vDY4iGP2YphuNjFMu2tFUavleMetHJUZfJX
-	 NN7JHN8kgL7svHjZ+yWnQFVcF3EX5Z3Km3vG1wyL/0KJ9KeIsOYF/hlpa8SC4xV4jQSZG
-	 EtNt4L97sugndhwOiuhugmv0kHGYGGdUqT5qiDIZ65tCoQfSsBDMXzMmOxQP6yPRp+Q==
+	t=1795009346;
+	b=acn9vHh74mh5MxMJvGeUTFs70DRPzuMSXsgtqg4bOxKJUfFwR1ftjeAv8AVKjn5tR6U5
+	 NCqAknW+sX8+UnM38plEpzFL/5t9TlnliGIrpfHPg3lKWVCEzPG82KcTg9j7jdGUgK0N8
+	 ch8g23TqBrHUtqfXbac8IEh6AFNjwbER56i4oB3ElBv/hwop0kiqDhEYqNmlkVEZGAOiQ
+	 hf9MJmmeKmdBOhZGyzEITY9uhKHqYseMd6H4mE/mPFRHClhFXD53tnHaqh11NnYE8aLh+
+	 o1VSZqNUqd5pTXhoH5do3U+QrGPlg04RRbKMEDfddUiUv0FJjUB12p31a4aL/vEreEg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795008956;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Spamd-Result:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
-	 X-Rspamd-Queue-Id;
-	bh=CFfLwQbVv+NaXz3sWiSr9p1yf+/6NKu2yXi9LEgYtX0=;
-	b=PzfPKnpYTs26brhuWpy9kZfLA0wcmmIfLkXkoLj24kkZfxHumvJaYRl8aq//Hx6h1LAN
-	 JoYlFnpU66oZQCQOiYnlh7617CfLgDpHFEvdSvr58OCi9TI0Bpou9F01wz/AqlJFLNKTD
-	 xHzhZ+7oi1kK06h2A4FykQdTgO0fKssOf8YKPBtNCkj3nO0cE6IMj1+NA4RmqH/cSRdIy
-	 zqERD/afZPFUHwCgAKSDRHSMspnmRxdu8yqAZJs85lxJyiaTJcFYFl2l2UyzA+tTrYOyD
-	 MevquLdZ00vpDDfTvYT3+lxm7NL0VBlJqy1sCO0tmyEELwfPZWOJTcwjK09EGY4JG8A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795009346;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=sh4rom9HebDa7DENWU6/EprNkkfkvz9BCOVBxOg6B/Y=;
+	b=K3K9zgCfoydvwNzChmqC1/+XY9V/DogDwvEu/ChoavpUK7t0/PwFwM6QP7xsd52lkNNQ
+	 4D1NgInN5nVL8cuMic1AJoBW1kdpGhgiyR9vN2Ssm3TS6phEWAyoOx/Dz9psddlVdxQTn
+	 76IE9lsooD58haNdY5+bGqP2SafEU9bQ/3FL0/B69t6lZ7kiZMYUf3Z4UeWadyAP7+leX
+	 qTeJB5QUEgTJ1lz/ponRaHnAOQwd69B+2AT8vTGvg137vwZpEvKiGFTf73OXyIkEy4X6q
+	 J/zfdbwAeLpu2hnZF/428Xo8UHEXvV8onp12nuISdJX8iTXuxVfH5KwL/W+7AQdtHEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b="pr2Ts/kB";
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b="pr2Ts/kB";
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=RY24NxGC;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E73606A31C;
-	Wed, 18 Nov 2026 13:35:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86E73606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FFF606A320;
+	Wed, 18 Nov 2026 13:42:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1FFF606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=pr2Ts/kB;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=pr2Ts/kB
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9EA4422326;
-	Wed, 18 Nov 2026 13:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1795008953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=CFfLwQbVv+NaXz3sWiSr9p1yf+/6NKu2yXi9LEgYtX0=;
-	b=pr2Ts/kBOVnRhnkgGAdVrIIzbWGbh7itZNKTgE3HVG534jQaXJZqidTwYOyIpP+v0cdsiZ
-	MweVxu/WKRcChPrJZw6f98tfHah86BsNgh8u0qDCFjqQRGsOFuUeeJOAayoRPOVK57D5er
-	1cOIOxePbkc2XA1zv9KZN/v0YjcN8iA=
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b="pr2Ts/kB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1795008953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=CFfLwQbVv+NaXz3sWiSr9p1yf+/6NKu2yXi9LEgYtX0=;
-	b=pr2Ts/kBOVnRhnkgGAdVrIIzbWGbh7itZNKTgE3HVG534jQaXJZqidTwYOyIpP+v0cdsiZ
-	MweVxu/WKRcChPrJZw6f98tfHah86BsNgh8u0qDCFjqQRGsOFuUeeJOAayoRPOVK57D5er
-	1cOIOxePbkc2XA1zv9KZN/v0YjcN8iA=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 420C51334C;
-	Wed, 18 Nov 2026 13:35:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6RChBrmp/WriBgAAD6G6ig
-	(envelope-from <oneukum@suse.com>); Wed, 18 Nov 2026 13:35:53 +0000
-From: Oliver Neukum <oneukum@suse.com>
-To: petkan@nucleusys.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH v2 net-next 1/1] net: usb: rtl8150: break cycle between tasklet and URB
-Date: Wed, 18 Nov 2026 14:35:41 +0100
-Message-ID: <20261118133550.955312-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=RY24NxGC
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=sh4rom9HebDa7DENWU6/EprNkkfkvz9BCOVBxOg6B/Y=; b=RY24NxGCpz/fje5zxxCjreIuP7
+	EspJUlQxsb5r0Ugkj9W2Fki9l6/NooVTowjB+VbWQyQyTjU9E2zSggxjf+DqDs1BEEGluTWKtgozU
+	Uo8KXb5T1uUuuBWpw3aW+qU2tv3/hTOAGR3ECPgA8e0o9ztA0/kVM8vDXxyAf3gDlpVo=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xTfvW-00HQXx-In; Wed, 18 Nov 2026 14:42:18 +0100
+Date: Wed, 18 Nov 2026 14:42:18 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+Cc: "netdev-bot+sashiko@kernel.org" <netdev-bot+sashiko@kernel.org>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	nic_swsd <nic_swsd@realtek.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"bjorn@mork.no" <bjorn@mork.no>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+	"mail@birger-koblitz.de" <mail@birger-koblitz.de>
+Subject: Re: [PATCH net-next v8 10/11] r8152: add TGPHY register access for
+ RTL8157 and RTL8159
+Message-ID: <cafe3b8f-2b65-41d6-b31d-a1cabbf93720@lunn.ch>
+References: <20261110032416.16968-11-nic_swsd@realtek.com>
+ <179464851836.2199510.10154643847175029122@kernel.org>
+ <0c6318e175b14ce8b86a957c7c79d5db@realtek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,88 +74,13 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-10.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.com:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -10.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 9EA4422326
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0c6318e175b14ce8b86a957c7c79d5db@realtek.com>
 
-The tasklet can resubmit the URB, which in turn can
-resubmit the tasklet. The cycle needs to be broken.
-The simplest way to do so is to prevent the resubmission
-of the URBs by poisoning them.
+> I plan to add two new functions, rtl_nway_restart() and rtl8152_get_link_ksettings, 
+> to replace mii_nway_restart() and mii_ethtool_get_link_ksettings, respectively.
 
-This has been detected by automatic code analysis.
+Ideally, you should port this driver to phylink.
 
-Fixes: eff674a514bd3 ("USB: rtl8150_disconnect() needs tasklet_kill()")
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/net/usb/rtl8150.c | 10 +++++++++-
-
-V2: Sashiko pointed out errors which conceptually arose from handling
-close() and disconnect() in the same way. Treating disconnect()
-separatly makes them go away
-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
-index d51e43170e03..6d20f52d52ef 100644
---- a/drivers/net/usb/rtl8150.c
-+++ b/drivers/net/usb/rtl8150.c
-@@ -353,6 +353,13 @@ static void free_all_urbs(rtl8150_t * dev)
- 	usb_free_urb(dev->intr_urb);
- }
- 
-+static void terminate_all_urbs(rtl8150_t *dev)
-+{
-+	usb_poison_urb(dev->rx_urb);
-+	usb_poison_urb(dev->tx_urb);
-+	usb_poison_urb(dev->intr_urb);
-+}
-+
- static void unlink_all_urbs(rtl8150_t * dev)
- {
- 	usb_kill_urb(dev->rx_urb);
-@@ -970,7 +977,8 @@ static void rtl8150_disconnect(struct usb_interface *intf)
- 		set_bit(RTL8150_UNPLUG, &dev->flags);
- 		tasklet_kill(&dev->tl);
- 		unregister_netdev(dev->netdev);
--		unlink_all_urbs(dev);
-+		terminate_all_urbs(dev);
-+		tasklet_kill(&dev->tl);
- 		free_all_urbs(dev);
- 		free_skb_pool(dev);
- 		dev_kfree_skb(dev->rx_skb);
--- 
-2.56.0
-
+	 Andrew
