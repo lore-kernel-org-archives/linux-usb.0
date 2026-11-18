@@ -1,56 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.154.241.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795006843;
-	b=dfYPwe/arhJ3tSbDf2ae+r8uXtoX8uO/663S0XR9cauOFd05r2OcqpcCtIgNomx30IUZ
-	 Eh8NOuf4pLzegi6fK8St4tb2b9uCIzk7rJ361yPDW5Ct4n/Ds60I6DV3Xn/87Ire2Ks9w
-	 Xqiao8Axcrk9w01sMoe1Nw9Pyq18sK/7iuKCtSBEC1EIh5I8EZaXp1s1WxA/INYG5x93M
-	 20ysS6vRVuF6yfRRVXl3yxwoI/yCiPn5V5faRZZT17Fio6YLXS3LYCKGR3azYi58aNu8r
-	 eATVRNTotuJV9XnxLtKQvEn3PpCdQ7QmMzrsrcrQmoqHA5CTGY9mkSNfuUQtuPA+naA==
+	t=1795007551;
+	b=FqNHS0r5MbZYNonJNKDyJhoyk1retrJXfM8lIDUg+Ik/Z63i0hV/jtOJavh7pSblcHR5
+	 o+4pzFtj/SYC622ttnKmL0U0yVtZC4k8ibf4qNZvYzKazJnlqq1J8JHa2nCIasIdTx/s6
+	 0xqRq8hLNWz7xrGmrNKnzbFMwxHfsb+LJnU6VeLMvmI8k6VSFOf5LiyVWOKyommJ6m8l4
+	 6CO4RxvGKVUXRkaJPXc6YnTbalRxgBzCUnBDBvLiMF9UqA9kMnDlVxaHrXGph5l8HK/ok
+	 uQ2W0jDTiRJBCaBhFUalEVtOSqSUnpvJmUurjtIEx8+lnVPpjO1T95HSr1iwBnJINIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795006843;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
-	 References:Organization:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Bm-Milter-Handled:
-	 X-Bm-Transport-Timestamp;
-	bh=nujWqO1dIR/jlFAz79XBmcFcWq1y1y05Zo55WeKUoq8=;
-	b=Zc2Ieby1tsAt+0KyPWkipt9cxiSzEix5gh3Isr92SLumznT1KmIQI0kqJpK5tqRaoB+6
-	 ZwJQrbDgnyrMG5BrzH1O+EHzjdauTmFYZiGx6+De/Z7sGzBN+jY26Pvyko+EB7bCApIhs
-	 R/oHME6Le5auayfO8gwOaTsLdyGytcFgvjpe8QkhaVQr8UmJW1Wuu+orpNf8/fuEBfMPc
-	 FLQIjH8vXCoT0xV/MldqW/DQ+XugFtbdYM19soKRjOI/U6wOetzpIhcChLewXGLACyI2B
-	 2khoeBllzNcoOFrYaEKAJntUdTeIGPR0r2Lz3z6xzBvTEQNDichf8nRy5LV1OdYm7pQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795007551;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=I1vWLb4kBx/eVsIs5pdih0gN+x99z2ISx2RwkUP35zg=;
+	b=QyyIgpeIeGl8YT7ejNDYm27R3BgjsXqNZU4At67t3sVDkMZ8bTn6GlkTrOywqoumWdh4
+	 WIusQT4XHCKOGm3dFaG479wfyCt2Y3PKZihZMFkrhKhWf1LSnOWeuDU0TIL4e3wLwqStM
+	 c1Yk9asuMNJzAjGTKG7lQ8/04s0As8TviYAnfBwOTR9yiwq1F4UsO/NudCu3p36+ws3Lz
+	 oFeg51dmtsaaIhoDk2MlNVhKKj7KWoK/nQKT7cZmWcvG+iIMWfEBP8NsT3iw6hifPXi2e
+	 mTbAI3srNMQfcTW4DtAJuSghFEGuqa0/+bw3tEZXXnVZmKwG+kd1+wHdqqqN6XnItKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=lauterbach.com;
-	spf=pass smtp.mailfrom=lauterbach.com;
-	arc=none smtp.remote-ip=62.154.241.218
-Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SzEQGEef;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B463606A31C
-	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 13:00:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B463606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
-Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
-	(Authenticated sender: ingo.rohloff@lauterbach.com)
-	by bm.lauterbach.com (Postfix) with ESMTPSA id 962E3154D18FA;
-	Wed, 18 Nov 2026 14:00:32 +0100 (CET)
-Date: Wed, 18 Nov 2026 14:00:31 +0100
-From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-To: Neill Kapron <nkapron@google.com>
-Cc: gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk, me@samcday.com,
- michael.bommarito@gmail.com, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] usb: gadget: f_fs: register cancellation handler
- only after request queueing
-Message-ID: <20261118140031.2f78df2b@ingpc2.intern.lauterbach.com>
-In-Reply-To: <179495726171.2705769.12448849995784836228.b4-reply@b4>
-References: <20261110171222.22633-1-ingo.rohloff@lauterbach.com>
-	<20261110171222.22633-3-ingo.rohloff@lauterbach.com>
-	<179487196868.2938203.4555043762269001898.b4-review@b4>
-	<20261117122153.51dd826a@ingpc2.intern.lauterbach.com>
-	<179495726171.2705769.12448849995784836228.b4-reply@b4>
-Organization: Lauterbach GmbH
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-unknown-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B94606A31C;
+	Wed, 18 Nov 2026 13:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SzEQGEef
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9EC01F000C4;
+	Wed, 18 Nov 2026 13:12:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795007551;
+	bh=I1vWLb4kBx/eVsIs5pdih0gN+x99z2ISx2RwkUP35zg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SzEQGEef4Q5ibf23T4lKW8nd/bWvXR3SKus+tk9JqTx/RBbroWEwaw8n1qjKt8tqh
+	 D6toOaficzYKJohi6nFFPdQ0dHHOo0lmScOntNtVSnnZkOUdRuBTbwOh3EZ67r0Ghq
+	 otw4njjF6x8O8SsPuoJHdf4ULJkvht7GS4f/qL4YSAjbwiYgEezzcgXniZGY6CMdYN
+	 z6UTvn/0ksbMaDGL3PbPu6qlubTctcCsiCIBM4Zx07AT0NE/nXRht/lIRWhRSZ7vXx
+	 da0sBTZToeWs1oL/si/pp9zSk1tMjSHqIGAh70OtVJHSqc3IAzQwiC3A2TCrF8pzjI
+	 yGMfwzc8mXi0g==
+Date: Wed, 18 Nov 2026 15:12:27 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Alexey Kardashevskiy <aik@amd.com>
+Cc: Robin Murphy <robin.murphy@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
+Message-ID: <20261118131227.GF162713@unreal>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+ <d0999161-3b27-4c3b-9d66-1d117c4836fd@arm.com>
+ <20261110122237.GG8635@unreal>
+ <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
+ <20261117124801.GD124972@unreal>
+ <fd25ed52-e3ea-41a2-9f62-2397d5d9e8c8@amd.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,174 +92,160 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
-X-Bm-Transport-Timestamp: 1795006832636
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fd25ed52-e3ea-41a2-9f62-2397d5d9e8c8@amd.com>
 
-Hello Neill,
-
-Thanks for the explanation!
-
-> with lockdep enabled, we get the following trace on a VM with dummy_hcd 
-> and a simple ffs test application:
->
-   ========================================================
->   WARNING: possible irq lock inversion dependency detected
->   7.4.0-rc3-g9b73231bde82 #2 Not tainted
->   --------------------------------------------------------
->   kworker/u64:0/13 just changed the state of lock:
->   ffff8881014ebb40 (&io_data->aio_completion_lock){+.+.}-{3:3}, at: ffs_user_copy_worker+0x4b/0x170
->   but this lock was taken by another, SOFTIRQ-safe lock in the past:
->    (&ffs->eps_lock){..-.}-{3:3}
-> 
-> 
->   and interrupts could create inverse lock ordering between them.
-> 
->   other info that might help us debug this:
->    Possible interrupt unsafe locking scenario:
-> 
->          CPU0                    CPU1
->          ----                    ----
->     lock(&io_data->aio_completion_lock);
->                                  local_irq_disable();
->                                  lock(&ffs->eps_lock);
->                                  lock(&io_data->aio_completion_lock);
->     <Interrupt>
->       lock(&ffs->eps_lock);
-
-Ah now I understand :-)
-
-I still don't think this can happen, because the
-"lock(&io_data->aio_completion_lock);" on CPU0 can't happen
-before the "lock(&io_data->aio_completion_lock);" on CPU1,
-because the request first has to be scheduled via "usb_ep_queue()"
-on CPU1 as far as I can tell.
-
-But this argument sounds rather fragile...
-
-> Switching ffs_user_copy_worker() to spin_lock_irq() / spin_unlock_irq()
-> resolves the lockdep warning in testing.
-
-If using the "_irq" variant satisfies lockdep, then it's certainly better
-to use the "_irq" variants; after all the whole point of lockdep is
-to find these kind of issues.
-
-I will post another V3 patch variant, which will use the "_irq" variants.
-
-with best regards
-  Ingo
-
-On Tue, 17 Nov 2026 23:14:21 +0000
-Neill Kapron <nkapron@google.com> wrote:
-
-> On 2026-11-17 12:21:53+01:00, Ingo Rohloff wrote:
-> > Hello Neill,
-> >   
-> > > > @@ -887,7 +888,9 @@ static void ffs_user_copy_worker(struct work_struct *work)  
-> > >
-> > > ffs_epfile_io() grabs the lock while holding ffs->eps_lock in interrupt
-> > > context. Therefore, I think this could lead to lock inversion if we
-> > > don't call with with spin_lock_irq() and a spin_unlock_irq(). Could you
-> > > send a v3 with _irq() or the save/restore equivalents here?  
+On Wed, Nov 18, 2026 at 06:33:45PM +1100, Alexey Kardashevskiy wrote:
+> On 17/11/26 23:48, Leon Romanovsky wrote:
+> > On Mon, Nov 16, 2026 at 05:13:59PM +0000, Robin Murphy wrote:
+> > > On 10/11/2026 12:22 pm, Leon Romanovsky wrote:
+> > > > On Mon, Nov 09, 2026 at 01:53:02PM +0000, Robin Murphy wrote:
+> > > > > On 09/11/2026 7:33 am, Leon Romanovsky wrote:
+> > > > > [...]
+> > > > > > diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> > > > > > index b486b8bbd1fcd..8be2a246d4903 100644
+> > > > > > --- a/drivers/iommu/iommu.c
+> > > > > > +++ b/drivers/iommu/iommu.c
+> > > > > > @@ -1879,7 +1879,7 @@ static int iommu_get_def_domain_type(struct iommu_group *group,
+> > > > > >     static int iommu_get_default_domain_type(struct iommu_group *group,
+> > > > > >     					 int target_type)
+> > > > > >     {
+> > > > > > -	struct device *untrusted = NULL;
+> > > > > > +	struct device *restricted = NULL;
+> > > > > >     	struct group_device *gdev;
+> > > > > >     	int driver_type = 0;
+> > > > > > @@ -1901,14 +1901,15 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
+> > > > > >     		driver_type = iommu_get_def_domain_type(group, gdev->dev,
+> > > > > >     							driver_type);
+> > > > > > -		if (dev_is_pci(gdev->dev) && to_pci_dev(gdev->dev)->untrusted) {
+> > > > > > +		if (dev_is_pci(gdev->dev) &&
+> > > > > > +		    pci_dev_default_is_restricted(to_pci_dev(gdev->dev))) {
+> > > > > 
+> > > > > I think this should be the generic device_is_adversarial(gdev->dev) now - in
+> > > > > fact probably all the dev_is_pci()/to_pci_dev() stanzas aren't conceptually
+> > > > > PCI-specific, just an artefact of the current "untrusted" flag being so.
+> > > > 
+> > > > I wanted to do the same, but iommu_get_default_domain_type() may be called
+> > > > before the PCI device's trust level has been set. At that point, we are
+> > > > still in "disabled" mode, whereas device_is_adversarial() checks for
+> > > > "adversarial" mode.
+> > > > 
+> > > > The below is from AI, I asked to present me the path for that:
+> > > > --------------------------------------------------------------------------------
+> > > > For a newly discovered PCI device with an available IOMMU and a new IOMMU group:
+> > > > pci_scan_single_device()
+> > > >     pci_device_add()
+> > > >       device_add()
+> > > >         bus_notify(dev, BUS_NOTIFY_ADD_DEVICE)
+> > > >           blocking_notifier_call_chain()
+> > > >             notifier_call_chain()
+> > > >               iommu_bus_notifier()
+> > > >                 iommu_probe_device(dev)
+> > > >                   __iommu_probe_device(dev, NULL)
+> > > >                     iommu_setup_default_domain(group, 0)
+> > > >                       iommu_get_default_domain_type(group, 0)
+> > > > 
+> > > > For a device whose initial policy is adversary, its state during that call is:
+> > > > dev->trust_policy          = DEVICE_TRUST_POLICY_ADVERSARY
+> > > > dev->trust_level           = DEVICE_TRUST_DISABLED
+> > > > dev->trust_committed_level = DEVICE_TRUST_DISABLED
+> > > > dev->driver               = NULL
+> > > > 
+> > > > device_is_adversarial(dev) = false
+> > > > 
+> > > > The active level changes later, during binding:
+> > > > really_probe()
+> > > >     device_trust_prepare()
+> > > >       __device_trust_prepare()
+> > > >         WRITE_ONCE(dev->trust_level, DEVICE_TRUST_ADVERSARY)
+> > > >     dev->bus->dma_configure()
+> > > >     call_driver_probe()
+> > > 
+> > > OK, that seems less than ideal. Feels like it would be better if bus code
+> > > set the initial device state prior to device_add, so then it only ever
+> > > changes later as a result of an explicit attestation/acceptance process. If
+> > > the initial IOMMU probe still has to poke into bus-specific code to avoid
+> > > always making a worst-case assumption, doesn't that rather defeat the point
+> > > of having a generic abstraction?
 > > 
-> > I can change that to the "_irq()" variants (this should be harmless),
-> > but I would like to understand why.
+> > As Jason said, this is part of a very large series. Each series is an
+> > adventure in itself. Even Greg's seemingly simple request to convert the
+> > USB authorization knob to this new scheme has been extremely painful
+> > because of AI reviews. They keep pointing out bugs and gaps that are
+> > automatically attributed to me simply because I'm touching that part of
+> > the code.
 > > 
-> > "ffs_epfile_io()" itself does not run in interrupt context.
-> > That's also why it uses "spin_lock_irq(&epfile->ffs->eps_lock);",
-> > unconditionally blocking IRQs.  
-> 
-> Hi Ingo,
-> 
-> Sorry for the confusion- I misinterpreted the lockdep splat. You are
-> correct that ffs_epfile_io() does not run in interrupt context, but with
-> lockdep enabled, we get the following trace on a VM with dummy_hcd and a
-> simple ffs test application):
-> 
->   ========================================================
->   WARNING: possible irq lock inversion dependency detected
->   7.4.0-rc3-g9b73231bde82 #2 Not tainted
->   --------------------------------------------------------
->   kworker/u64:0/13 just changed the state of lock:
->   ffff8881014ebb40 (&io_data->aio_completion_lock){+.+.}-{3:3}, at: ffs_user_copy_worker+0x4b/0x170
->   but this lock was taken by another, SOFTIRQ-safe lock in the past:
->    (&ffs->eps_lock){..-.}-{3:3}
+> > > 
+> > > Even with the slightly dubious argument that this series only intends to
+> > > shuffle the existing PCI code around rather than fully introduce the generic
+> > > abstraction that it claims to, if the PCI behaviour is still just based on
+> > > propagating the internal "untrusted" flag plus the new global override, both
+> > > of which *are* known at add_device time into the common trust state, then
+> > > there seems little excuse for not doing that up-front so that the new API
+> > > *can* just work as expected.
+> > 
+> > I would prefer to keep both PCI and USB out of this series on device trust
+> > levels. Let's see what people say if I drop them in v3.
 > 
 > 
->   and interrupts could create inverse lock ordering between them.
-> 
->   other info that might help us debug this:
->    Possible interrupt unsafe locking scenario:
-> 
->          CPU0                    CPU1
->          ----                    ----
->     lock(&io_data->aio_completion_lock);
->                                  local_irq_disable();
->                                  lock(&ffs->eps_lock);
->                                  lock(&io_data->aio_completion_lock);
->     <Interrupt>
->       lock(&ffs->eps_lock);
-> 
->    *** DEADLOCK ***
->   [...]
->   the shortest dependencies between 2nd lock and 1st lock:
->    -> (&ffs->eps_lock){..-.}-{3:3} {  
->       IN-SOFTIRQ-W at:
->                         lock_acquire+0xcf/0x2e0
->                         _raw_spin_lock_irqsave+0x35/0x50
->                         ffs_func_set_alt+0xaf/0x2b0
->                         composite_setup+0xc37/0x2000
->                         configfs_composite_setup+0x73/0xa0
->                         dummy_timer+0xa5c/0xe10
->                         __hrtimer_run_queues+0x146/0x310
->                         hrtimer_run_softirq+0x89/0xf0
->   [...]
->     }
->     ... acquired at:
->      lock_acquire+0xcf/0x2e0
->      _raw_spin_lock+0x2c/0x40
->      ffs_epfile_io+0x652/0x8c0
->      ffs_epfile_read_iter+0x11a/0x1c0
->      aio_read+0x12d/0x210
-> 
->   -> (&io_data->aio_completion_lock){+.+.}-{3:3} {  
->      HARDIRQ-ON-W at:
->                       lock_acquire+0xcf/0x2e0
->                       _raw_spin_lock+0x2c/0x40
->                       ffs_user_copy_worker+0x4b/0x170
->                       process_one_work+0x278/0x6e0
->      SOFTIRQ-ON-W at:
->                       lock_acquire+0xcf/0x2e0
->                       _raw_spin_lock+0x2c/0x40
->                       ffs_user_copy_worker+0x4b/0x170
->                       process_one_work+0x278/0x6e0
->   [...]
->    }
-> 
-> Switching ffs_user_copy_worker() to spin_lock_irq() / spin_unlock_irq()
-> resolves the lockdep warning in testing.
-> 
-> Thanks,
-> Neill
-> 
+> I'd rather you did not as it is going to make experiments with CoCo VMs harder.
 
+I haven't dropped it yet :(, but it's unlikely that you need USB there.
+Regarding PCI, these patches convert the ->untrusted knob, which is
+orthogonal to your experiments.
 
+<...>
 
--- 
+> > > Urgh, I can be absolutely certain I'm not the only one who is going to be
+> > > confused this way... I see "disabled" and instinctively take it to mean
+> > > disabling the device_trust *mechanism*, as the logical thing that people
+> > > will reach for in terms of "I don't care what this new thing is, just get it
+> > > out of my way and let my drivers work like they always used to; I want to
+> > > disable the new thing."
+> > 
+> > I completely agree. I was under the impression that these names had already
+> > been decided, since I picked up where Dan left off.>>
+> > >  From there it then also makes perfect self-consistent sense that
+> > > "device_trust=full" would be the opposite end of the scale as in "Apply the
+> > > explicit trust model 'fully', to all devices regardless of their bus-level
+> > > default."
+> > > 
+> > > Now I guess you could name it something like "device.default_trust_level" to
+> > > attempt to make it clearer that it represents a value the value represents
+> > > the "trust" *of* each individual device itself, but TBH it's still liable to
+> > > look backwards to many users - similarly it's hard to guess that
+> > > FOO_POLICY_DISABLED might mean something entirely different from "don't
+> > > enforce the policy for FOO.", thus rather than try to contort the naming of
+> > > everything, I'd still be much more inclined to just flip the meanings to be
+> > > more intuitive from the outsider perspective.
+> > > 
+> > > Say you upgrade your kernel and find your boot is broken because it now
+> > > flibbles, but at least there is a "flibble" parameter whose values are
+> > > "disabled", "wibble" and "frobble". Are you really going to spend time
+> > > straight off reading up on what flibbling is to understand what wibbles and
+> > > frobbles mean? Or is your instinct just going to be to try the seemingly
+> > > obvious way of disabling flibbling, and then getting positively annoyed if
+> > > that only makes it flibble harder?
+> > 
+> > What about: blocked, adversarial and unrestricted
+> 
+> yes, that's better.
+> 
+> > instead of: disabled, adversarial and full
+> 
+> may be simplify: blocked, restricted, unrestricted? Thanks,
 
--------------------------------------------------------------------------
-Dipl.-Inform.
-Ingo ROHLOFF
-Senior Staff Engineer
-phone +49 8102 9876-142 - ingo.rohloff@lauterbach.com
+"adversarial" is Dan's legacy, let's keep that name.
 
-Lauterbach Engineering GmbH & Co. KG
-Altlaufstrasse 40, 85635 Hoehenkirchen-Siegertsbrunn, GERMANY
-www.lauterbach.com
-
-Registered Office: Hoehenkirchen-Siegertsbrunn, Germany,
-Local Court: Munich, HRA 87406, VAT ID: DE246770537, 
-Managing Directors: Stephan Lauterbach, Dr. Thomas Ullmann
-
--------------------------------------------------------------------------
+> 
+> 
+> > 
+> > Thanks
+> > 
+> > > 
+> > > Robin.
+> 
+> -- 
+> Alexey
+> 
