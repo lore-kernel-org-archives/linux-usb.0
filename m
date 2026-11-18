@@ -1,18 +1,18 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.75.75
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.75.138
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1794978800;
-	b=SVUGur+203DGIL5dqYpMHOQ13I4UzTUuMPmfPqSE3scHPufCUyV8wnydOO8dmnwVCKki
-	 x1xrc6MD1gF/SX1zhVQFn712xpqlikjbv5HcmBk0fkzo8LbMTsjO9qCbiiUGuU4hlriBx
-	 2E7E9gKbVXiCNLK+bm9vyQ9yB5OSJjFiebdQIAv2I7R87fCP6RHCczEzQP2vmWqTs53LM
-	 oYvN4TusBOwZ9nQqdgviuZPmxTsy9F/y04qFdNz0vuF/hqX6s5xvtDU3zVPvQ3p/eFvJL
-	 dk8OHrK6woyFbA09JQAnYjHIqvlIKDiVIbBzclRA1S3/ydFH3g6N499Bhoi25/AgnwA==
+	b=bGg7YMUeos5zQhuDRL0vSBLyZT+nspD3OMT9sTDX/SVoShn11zCBrXoQ/cChX7+CFQ7I
+	 maMurU475cv5QI2n5PB1dsqT+F4J8EoE1UlFCP7Oizder4lR3QGe+zuE5XI0PphropXP/
+	 bMw3xrWobgg1o4FWFJsyfxC30uZPxyeD8SASHNEJjHR4xc7Y+DgQcNJlxcipdIzZHRjhx
+	 Trk+x/tMVXOqJORbu4VCEcJAbM1JDL7jvNAjAtitmwZ1Rc9+TufBEyN4NxKERTjxAZ1m3
+	 KQlluDu4NS5f0bc9DgBXM2i+Dqleei5qrdR3NXHwIxdEnbYpl7m/6oKJwVvb+TZFUyA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794978800;
 	h=DMARC-Filter:Received:Received:X-MS-Exchange-Authentication-Results:
 	 Received-SPF:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:Content-Type:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:Content-Type:
 	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
 	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
 	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
@@ -25,44 +25,43 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=b5hK6A8JSZ53HXa204O58YV27/IeDm3JVwoktRlrji8=;
-	b=jmidkOBJW8EuH+dsGA7VuIoN9EVDFZD7tWIAE8lVcLjpO7uoeXgsepi60PWBf+7JD1k8
-	 Bkm6GX/TBFWnUE49OEZGoQJkNrTQ381KIAgpWG+Uw7zdGQMZDO//HcFddWr0k3X6QVfdp
-	 LgnQyGpUo2nNjsOT2z0ZEVx92cqbw8Q/yeRXCDcEQvUYEvU987TDt+bQk7OLaU+koSlqH
-	 iNYNDhaYsZJZyxZvMc2fjhSqCdf5FNxIYZ6E1IHsdQfyrlgZGYqnSYVugIwfueOwenYuC
-	 SKLV0Kz1zZpKj+FXrYpfZ8pcXOr6DN/HO3Py8n4Qoe131x0vy1yNnrepbned5jGhUqQ==
+	bh=fQWnU9X84fixKvJmyQ/ArO25axF0knycUAXvuZUC68Q=;
+	b=bgnktJcZTTOQcPd61h7VzOCNFqIXrfO54HuKzibWOKXSRhf4NnbvL6SqeY8j9oGG5gjf
+	 mT5ScXYcofHkS/EFff/CHHVWlc3vSjWq8rxxDJzs6ErmTqwIuUsDyB0JoDGban3ScXSWE
+	 hZcR3yIsxsWs0kB68XMduHp7whYeXuxKqAQLTM9fSYQYr/d1t+z2LxcHgSHLlPQGKEIHm
+	 2C0jguW9vgl2SXrsq6ZO73DiWZ0WkZeV6k96P42ph6xI06gQdV2Vly6VVAC7lV60HjCmk
+	 s1wfHIw7R6ol8Vn2whkipN7LlK/Lv2op/KTs3tm6GpvT3SAOtI1Xtk31gi5wfAsAJlQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=none header.from=cixtech.com;
 	spf=pass smtp.mailfrom=cixtech.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.75.75
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022075.outbound.protection.outlook.com [40.107.75.75])
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.75.138
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022138.outbound.protection.outlook.com [40.107.75.138])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B65606A325;
-	Wed, 18 Nov 2026 05:13:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7B65606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58555606A32A;
+	Wed, 18 Nov 2026 05:13:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58555606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TYdvKnP6WMb+HZSGbxDx3HhIzyYahPhzUrQAx7hv72G2rkbWUXUy+i1PhsOmfeyuD4QMDX/yRBsJP24aoXoO88Wf4/Q0QlXVnpI/74FbCYrgpUrwE9ZU1pLrGUDz2dp9TwN3Zma5M2cE4wHUKPIEtew8iHLibucFpY6q0cMW0nttxB53Is0R5pNmV9zFm6MDEmmcIfzmy/CN5cTStvCt/VjHF9tZHNUiANjoJwW6NjPmvtvlyHQKp4h9GgfWhPEsMyzR26LF/fgo2Cma9eiJ1GtHvH6VPDXbzVCLGlWNNaY4dsVeG0eA0tVbPUdPEHPyuPsYk9hISnmmv+6UE2pEyQ==
+ b=t8TA35sRxTXCIddvIWNQpuGfF+c6Yn8ZH9Uvmjv7yoJ/QbOkZGSF3olfU4GlIM+jAXaJGbtXM2CwaJEH9MPyfEJtOjTl1SVO1ThjKxmPsEG68Z7cHmRbw778RfAlQa/8XshyNf1jSfZmE6JyUaA3rg55cFlWfSMAt5XxnEO92OX/N4IegJDhLZh6UYC2tnTJMATLy333x0YHLvfxptB/fwyrGkOPoqMnL4k5tABULfMQ14yZrp6ZRHmCG793Z6iBRVA3F6j4wjxAER484uRJOQZMFc9qlKJeGKhu4Ll7tfO/9OOcv7899pfyiKDkHRto5aopqfDEiHlq91ZNdU32nA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b5hK6A8JSZ53HXa204O58YV27/IeDm3JVwoktRlrji8=;
- b=At5DCsWvR+Bnr+KufM3ljFxeyVelEBcuTAbi+zqa40q8sgVPtoCXMfUt566WC0ABXHpbY/FLTxAgowTqV3oKQs6tOJmuHXrlccmkhckka3vCTdRZiFtRnVGaFv4aEESqAOAtdSiNNjL9ufRN5UpeYTcnjGqeNbCDQtZeEwLbW5NWo/QlewmnKzx41P5frlllXBkZfA5YdiPzOa82tWAyIsMfQEj3HyzXkhuNWeJZanxENcjMEga4d0uR6CaUHI7xpJ6KHF/8rha+5kAYEarlxuuux7JwXkNn1y1iNy7bA8ojUDd6yIdC7qoqPu1zW6CGuphXGHEGiZPpthCMh91Nxw==
+ bh=fQWnU9X84fixKvJmyQ/ArO25axF0knycUAXvuZUC68Q=;
+ b=rVK4ECcd95vnIRLoVidvvTlL60fn7zFrXYLa83F6Ppzjd5ODx8zRM54Qos4kki3KHe9mXKsXfFXAw9l2zbL+XpZn8DV2b003jcSe2I3F8UDTxGQKbZ6q3QwY3M37+OuhrDrlbBdmFI6SCnqKaDHLRGQTHWwx2isvu0MYxC5Zxo0cncUvKJMlD+Ybo4lkXyD+8bv7nM5Fkqp/0F+pbmRf6OL8JsIXy+vzbTngzu5Jfcw7RUsM7P75OnRIt5I9TVhf5aHbhkvgLc80dSIpn3TKohqb3k+srzOyfS/miE2rvCg8qYRodJ5SP5hzNPlb9lAL9HQlv49io6Cz8tWPpt42ew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  222.71.101.198) smtp.rcpttodomain=cixtech.com smtp.mailfrom=cixtech.com;
  dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
  not signed); arc=none (0)
-Received: from SG2P153CA0023.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::10) by
- SI2PR06MB824503.apcprd06.prod.outlook.com (2603:1096:4:18d::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.8; Wed, 18 Nov
- 2026 05:13:15 +0000
-Received: from OSA0EPF000000CD.apcprd02.prod.outlook.com
- (2603:1096:4:c7:cafe::21) by SG2P153CA0023.outlook.office365.com
- (2603:1096:4:c7::10) with Microsoft SMTP Server (version=TLS1_3,
+Received: from SI2P153CA0007.APCP153.PROD.OUTLOOK.COM (2603:1096:4:140::8) by
+ TYNPR06MB8926.apcprd06.prod.outlook.com (2603:1096:405:3c1::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.639.4; Wed, 18 Nov 2026 05:13:17 +0000
+Received: from OSA0EPF000000C7.apcprd02.prod.outlook.com
+ (2603:1096:4:140:cafe::94) by SI2P153CA0007.outlook.office365.com
+ (2603:1096:4:140::8) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.1 via Frontend Transport; Wed, 18
  Nov 2026 05:13:15 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
@@ -72,11 +71,11 @@ Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
  222.71.101.198 as permitted sender) receiver=protection.outlook.com;
  client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
 Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- OSA0EPF000000CD.mail.protection.outlook.com (10.167.240.59) with Microsoft
+ OSA0EPF000000C7.mail.protection.outlook.com (10.167.240.53) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Wed, 18 Nov 2026 05:13:14 +0000
+ 15.21.615.4 via Frontend Transport; Wed, 18 Nov 2026 05:13:15 +0000
 Received: from gary-System-Product-Name (unknown [172.16.66.27])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id B874F427EFC6;
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id C7D96427EFCE;
 	Wed, 18 Nov 2026 13:13:13 +0800 (CST)
 From: Gary Yang <gary.yang@cixtech.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -89,11 +88,14 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: cix-kernel-upstream@cixtech.com,
-	Gary Yang <gary.yang@cixtech.com>
-Subject: [PATCH v6 0/2] usb: typec: add CIX Type-C PD controller driver
-Date: Wed, 18 Nov 2026 13:13:11 +0800
-Message-ID: <20261118051313.3634833-1-gary.yang@cixtech.com>
+	Gary Yang <gary.yang@cixtech.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH v6 1/2] dt-bindings: usb: add Realtek RTS5453H Type-C port controller
+Date: Wed, 18 Nov 2026 13:13:12 +0800
+Message-ID: <20261118051313.3634833-2-gary.yang@cixtech.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20261118051313.3634833-1-gary.yang@cixtech.com>
+References: <20261118051313.3634833-1-gary.yang@cixtech.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,161 +108,122 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSA0EPF000000CD:EE_|SI2PR06MB824503:EE_
+X-MS-TrafficTypeDiagnostic: OSA0EPF000000C7:EE_|TYNPR06MB8926:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: b1698a4f-5795-4f38-bd86-08df4532a640
+X-MS-Office365-Filtering-Correlation-Id: 0da49a43-10f0-4afd-d433-08df4532a677
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|23010399003|82310400026|376014|1800799024|18002099003|6133799003|261009223027099003|56012099006|261026140227099003|10067099003|261102123227099003|261028144727099003|261026121527099003|261021121427099003|261021123027099003|261022105027099003|261022075727099003;
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|23010399003|36860700016|261022075727099003|261102123227099003|10067099003|56012099006|261026121527099003|261028144727099003|261026140227099003|261021123027099003|261022105027099003|261021121427099003|261009223027099003|22082099003|18002099003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	Uxa+nTYTJQ+ooNsFe7EBDbHC9Cd6KtYXEIkMkBxKJ/jFpExQC+NcWk1t4EceUFGwC/tDxMxfIGjuyWC9ZXEn3eZcMKUp0uhTY3oWnHgv0W4KHls3fFyOc4dHwvX8qQhHfC9QfmBG4p67dWtYdXL99O+aJ1fe7ef/S9y9I3c9OB9/YEtbdcBWEG+6wDnkJfCpzC6nRllIH6jM9AbIxXcVWxUDvJ0C/Dzc8LdcZh3ksCFj4P9YVRWpnltf0z6PqiFl/usmWN0/Du0vi/yk7uzOvKl7Ng9Lh+XgVGqY5T59hgkhNY4bdUtOyPI1eF8FeUiN8joNPZ1vU/x/AmwKPPKpylyiVQtXEbRc2lR/gAxi0sjAll/xkefzHsgXm3WnLIfKTyvl7K3OZ06IVRKIz0PrIE+J6oVazu1vW4ODq+U1r77Ttt4Cee0cX/iwNOJjpyS4DpBzctVOBYokYq4QGr+f0zsLMEIuTfUrgeppkscQrJYlKvl/xy7OyFhJhMqDhAHk5ywvL/+3/9zUiI6KNXWM+q7lv8CpXCtuq3QV+gis1erqPqJ+IgKMJaGb36jTAhT/L8jaXofjUtHL+zn1LRZWbGHbfAU2zN30k/wtLcGku+UgKmfFyds/rsbePai+Zkx+wUAqXp2UwuwO6cAJsccxzPUOPFJIllL1YlknLsbk07kbkgGPcnxdB+2t6eRzfQEqr6O3McXIypFZZJ86yY6PXg==
+	JqKJzrZE+Pp39WRf/6CK8Ci3RKRKYM8mRGdlLEQOS7xAoOd1oJBD+P0IoWulBxVZj56ez7rDQjqjb83Ed9HpAanIexqD8M1dZtKhl3a72cP6V3SaQfc1B/xSrtRVdy9Xj/yp2D3pD+8S+KX1uRdLLAYqNt3hjJA4k0NzxaEOvgc/GakJlcI0f4BWBz1GTmep9/wArFyIn8b0yl5ZZvk9f0ZpWK7e9ZpQ0c9zYpiQaGZEunrkby32n+jHjPlwdVc/Lkrrwsuoey3Fc4vwxjGupCzZxk9zUQpENNAZseFM5We36iZRjFckTaNxVh/WM0ew/P9ay98jnBHiEGGbX1y4cWCYslWgIeLl5g8cGjsbFceblwQL6MEIBvPPN8L+0yYzFxeDdSOPtIdylN4lnYgBfmkeW5GGzMiMiPW1EDSo/Z738RRQSFn5XNNuVaWBMBs2NtYBj3K216BGuLhovaXPGRHNzSjonxGRjpb5iDkDFyRcEEo02GXv4BNIW6HVhg23oeA+qcLlr91bQtEnlV4DXR3xCLF8ynY2ZDJBiFL58N4et7K8KGCOOpgJUrQ6P3OHjTeS2gHI3swFqG6LspvA53dLNlnuQbghWscjyF+IVNkgDWIhxUFONRzFbRKxMWeKZ0I94FqP4S5H/nbmJZBdCA==
 X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(82310400026)(376014)(1800799024)(18002099003)(6133799003)(261009223027099003)(56012099006)(261026140227099003)(10067099003)(261102123227099003)(261028144727099003)(261026121527099003)(261021121427099003)(261021123027099003)(261022105027099003)(261022075727099003);DIR:OUT;SFP:1102;
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(23010399003)(36860700016)(261022075727099003)(261102123227099003)(10067099003)(56012099006)(261026121527099003)(261028144727099003)(261026140227099003)(261021123027099003)(261022105027099003)(261021121427099003)(261009223027099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	DRIAhrYTzWGSIWG78AuixWLTvxJnLKR5ASVTXVNRyiddknbMXCwchU+fOas0a6RkIZMYf84FYhbX0WmABBL8bgkEMGx42KWdTZWG0ruOZeWmxvRP2JwZZ5VZNvAkfW3FlpEuVCdH5YiP+JEpXztRYX3NC3JVKsUAG4JT7NPUfJW5ksWZZPQ/muZ9hz8z/IqXUvAHbxqp3VhLaI69SIYt4sZg6ufVmNi+MmHL8QRI4H0d5ZsADQg+J8oL8gYLr8qGRYakA8oYeZomxyqUkHh+hyCfXzQWuzAbwabX8q02bauOx7bgkkY5FXDNtngzPly0Rk6ma6dx81D7L7PMop7kH3QYrtmKOnvo+mJ4yPOiVjiPsi0+vnBZicM4uKV7ZCkL5kxaJ36AYPmRhWUsogNjQupMbrSFeVsBUYHhfa/Kqr7kZ24hGgL13Gly9DnSLt55
+	5hgsXDRmz8KvUsgHZc5rsh+qEHuQNnO0FTZsSMZy4wgJVZmwDSIRoALpLrtIzjr2Fv78beqCCaxe/coEpRbA4G3meYFO9OAMCCbOslen5f1n762J0qCmHliqWQFDxNAGxY+T1rllpiTIzMdmNkpO6hSUpF1wfri0i2PZj6J73mcekkZiJ0L5Ok9NQqWPsauQlDdAiYiRN6sas2SXHP3ySyZWbD6HpWLTmQsUxvYKe4OT4x/xK++kIk0jqQdupBuw2HcGSnIvsOc62uvk0tcYhGVmMQTqqRC2wYJkrT9wNcxtqD+CysAhXmSMiofuk61vPBt3Qq5g7xszZrmGYvW5HrqR9dhm3nLZkOrVRbzNHOwxOQZzXO/sqeHc7vREweefVm0Txn/0eJfgl9mkNeJI4tHoNeNpYijPb/XLiIwb/FoDRQEUU7vjHgSEiLGFSfOZ
 X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 05:13:14.7234
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 05:13:15.0861
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1698a4f-5795-4f38-bd86-08df4532a640
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0da49a43-10f0-4afd-d433-08df4532a677
 X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	OSA0EPF000000CD.apcprd02.prod.outlook.com
+	OSA0EPF000000C7.apcprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB824503
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYNPR06MB8926
 
-This series adds a Type-C PD controller driver for CIX platforms.
+Document the Realtek RTS5453H stand-alone USB Type-C port controller.
+The controller is connected over I2C and manages a single USB Type-C
+connector, described with the generic USB connector binding.
 
-The first supported controller is the Realtek RTS5453H, a stand-alone
-port controller: the CC and USB Power Delivery state machines run in
-its firmware and are configured through vendor registers rather than
-the TCPC register interface, so it cannot be driven by the tcpm
-framework. The driver translates the controller status registers into
-Type-C class notifications and drives the platform PHY's orientation
-switch and mode mux.
+The connector's OF graph links to the Type-C orientation switch and
+mode mux provided by the platform PHY.
 
-The register addresses are agreed between CIX and the controller vendor
-and are configured into the PD firmware, so the host interface is not
-specific to the RTS5453H. The driver is therefore named after the
-platform integration rather than the first chip: further
-register-compatible controllers are supported by adding their compatible
-string, without renaming the driver, the module or the Kconfig symbol.
-
-Patch 1 adds the devicetree binding and patch 2 adds the driver and its
-MAINTAINERS entry. The DTS patches from v1 are sent separately through
-the SoC tree.
-
-Changes in v6:
-- Explain the host interface in the commit message instead of the I2C
-  transport, and state that the register addresses are agreed between
-  CIX and the controller vendor and configured into the PD firmware, so
-  the driver is not RTS5453H specific.
-- Trim the commit message to the facts that are specific to the
-  controller; the kernel-side details are kept as comments in the code.
-- Drop the partner register and unregister dev_info messages and print
-  the port state summary with dev_dbg.
-
-Changes in v5:
-- Exclude HPD_IRQ from the status comparison and handle it as an event
-  of its own. The bit stays set until the interrupt is acknowledged, so
-  caching it in the previous status made a repeated HPD interrupt look
-  unchanged, and an acknowledged event look like a status change on the
-  next interrupt of a sibling port.
-- Reprogram the port only when the decoded status changed or an HPD
-  interrupt arrived, and skip the orientation write when the orientation
-  did not change, so a shared interrupt aimed at a sibling port no
-  longer re-reports unchanged state to the Type-C class. Invalidate the
-  cached status when a port update fails, so the update is retried on
-  the next interrupt instead of being lost with the acknowledged event.
-- Take the alternate mode device lock around device_is_bound() and
-  typec_altmode_update_active(), so activation cannot race driver
-  unbind.
-- Keep the shared interrupt line masked for the whole system sleep:
-  ->suspend() disables the line and waits for an in-flight handler, and
-  ->resume() reads the status back and acknowledges the controller
-  before re-enabling it. An event during suspend can no longer loop on
-  the level-triggered line. Wake-up through this line is not offered:
-  the GPIO controller behind it has no irq_set_wake() callback.
-
-Changes in v4:
-- Keep the interrupt disabled across system sleep and re-enable it in
-  ->resume() only, after the parent I2C adapter has resumed.
-- Return IRQ_NONE when the port status did not change, so that the
-  interrupt core can attribute the shared level-triggered line and
-  disable a line that stays asserted.
-- Mark the DisplayPort alternate mode active only after a driver is
-  bound, so that the module reference taken by
-  typec_altmode_update_active() stays balanced.
-- binding: drop the nodes below the documented device from the
-  example.
-- Carry Reviewed-by from Krzysztof Kozlowski.
-
-Changes in v3:
-- Report the Type-C data role from the controller status for every
-  connection, including DisplayPort-only configurations where no USB
-  data role is available, instead of deriving it from the USB role
-  switch.
-- Pass the port alternate mode in the mux state, matching other
-  firmware-driven port drivers.
-- Force the USB role switch to be reprogrammed on system resume and
-  check the enable_irq_wake() return value.
-- Acknowledge a pending controller interrupt during probe so that a
-  shared interrupt line is not left asserted.
-- Do not drop the borrowed fwnode reference when parsing the connector
-  properties fails.
-- Treat all fwnode_usb_role_switch_get() errors as fatal; a connector
-  without a role switch link returns NULL, not -ENODEV.
-- Drop a redundant include.
-
-Changes in v2:
-- Drop the DTS patches from the series.
-- binding: describe the single connector as a plain "connector" child
-  node instead of an addressed node, and stop requiring
-  "try-power-role", which only applies to dual-role ports.
-- driver: add the missing USB_ROLE_SWITCH Kconfig dependency.
-- driver: register the DisplayPort partner alternate mode only for
-  actual DP connections, with a valid VDO, call
-  typec_altmode_update_active() on attach/detach and set
-  no_mode_control since the firmware drives mode entry.
-- driver: never pass a NULL alternate mode to typec_mux_set(), and
-  treat debug accessories as disconnected everywhere.
-- driver: handle USB 2.0-only connections in orientation, role and
-  mux state.
-- driver: only cache the USB role after the role switch accepted it,
-  and force a role refresh on resume.
-- driver: use typec_get_fw_cap() instead of open-coding the connector
-  properties.
-- driver: acquire the mux and role switch before registering the
-  port, use dev_err_probe() on probe failures and reset the mux to the
-  safe state on teardown.
-- driver: remove the undocumented disable_pd_interrupt sysfs attribute
-  and the manual disable_irq()/IRQ_DISABLE_UNLAZY handling that could
-  leak the shared IRQ's disable depth. This also fixes the build error
-  reported by the kernel test robot on sparc64 and s390.
-- driver: use a named i2c_device_id initializer and add the missing
-  hibernation PM callbacks.
-
-Tested on a Radxa Orion O6 (Sky1): attach/detach, USB-only and DP-only
-alt modes, cable orientation detection and HPD reporting all work.
---
-
-
-Gary Yang (2):
-  dt-bindings: usb: add Realtek RTS5453H Type-C port controller
-  usb: typec: add CIX Type-C PD controller driver
-
- .../bindings/usb/realtek,rts5453h.yaml        |  70 ++
- MAINTAINERS                                   |   7 +
- drivers/usb/typec/Kconfig                     |  13 +
- drivers/usb/typec/Makefile                    |   1 +
- drivers/usb/typec/cix_pd.c                    | 774 ++++++++++++++++++
- 5 files changed, 865 insertions(+)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Gary Yang <gary.yang@cixtech.com>
+---
+ .../bindings/usb/realtek,rts5453h.yaml        | 70 +++++++++++++++++++
+ 1 file changed, 70 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/usb/realtek,rts5453h.yaml
- create mode 100644 drivers/usb/typec/cix_pd.c
 
+diff --git a/Documentation/devicetree/bindings/usb/realtek,rts5453h.yaml b/Documentation/devicetree/bindings/usb/realtek,rts5453h.yaml
+new file mode 100644
+index 000000000000..f7c062ba1114
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/realtek,rts5453h.yaml
+@@ -0,0 +1,70 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/realtek,rts5453h.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Realtek RTS5453H USB Type-C port controller
++
++description: |
++  The RTS5453H is a stand-alone USB Type-C port controller with USB
++  Power Delivery support. It is controlled over I2C and reports
++  changes of the port state through an interrupt line.
++
++  Orientation switching and USB/DisplayPort lane muxing are performed by
++  the platform PHY. The controller finds the Type-C switch and mux
++  through the OF graph of its connector node.
++
++maintainers:
++  - Gary Yang <gary.yang@cixtech.com>
++
++properties:
++  compatible:
++    const: realtek,rts5453h
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  connector:
++    type: object
++    $ref: /schemas/connector/usb-connector.yaml#
++    unevaluatedProperties: false
++    description:
++      The USB Type-C connector managed by this controller.
++
++    required:
++      - data-role
++      - power-role
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - connector
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        typec@30 {
++            compatible = "realtek,rts5453h";
++            reg = <0x30>;
++            interrupt-parent = <&gpio0>;
++            interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
++
++            connector {
++                compatible = "usb-c-connector";
++                data-role = "host";
++                power-role = "source";
++            };
++        };
++    };
 -- 
 2.50.1
 
