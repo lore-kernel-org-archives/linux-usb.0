@@ -1,58 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795016099;
-	b=UsyH3+PYU+0jps+pqaPFxjyTnx96FiPIArokENWdYZj2V0vn++9ndXY5rbVtWdOMIFrB
-	 RQazpADW0V0JelsvAmUQCYj0e+92JBturY8DghJ2areae2O9RtxbWNtgBQczIeBx5P2P9
-	 TzppBNiw0XjZMBS/8+Zt0sUbEmHXJl2eVTwwJ3YSbmDpINz5MJ3kHuC4Skqb8VDN6+UDj
-	 +NZvj9fTbG4oYLkfg4NBmXsdWcHr6yJOOhOmDq7U3EPs2EmALLhRE2XLgnU97S7+SsQes
-	 NmiMsDv47jK+6vyjhbO5Dis3t4oiXdgGoqUwAjgt1OYPHMv0A7eGQRauNCzYmRMwjbA==
+	t=1795018135;
+	b=GNNhSr5yrd1sGFRRvTLroH2RrfU/CHDUw/g61k6RShStDrW1Ww5ad3M2wAaRGs02438Z
+	 K0/VUvjpaG8NIY86PaYoTjZ9RxKYWq3RnSoNrfZePDYB2W4fS18zmh0UMi2A01HbbvdCX
+	 AZSYGv2m5+Vk5sYj9r5+euVfi1tPc45DAAgWpM+3J+DDxQV2X7tw3k2o8ICZY5WYLziyS
+	 DDUdISHtT3jg/ANg/m7gZqA1FVuWgmexXYJ0z/4QaN/5udNkhWIv71QFMKH0NsWciHHtO
+	 IEylyMZKRyaDp7VpyWKAEkpzQ692G/LQProES1SFnJJ+NZ93WTqlvLglcUsU6+PnMCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795016099;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=q4DZBiCtptxDUrZaYhWzriU2UClMGlXG5cbDC6IikrQ=;
-	b=lbgBXU+Lvj3nn9hhItwD11BpX4AzA72d/Z88hTDB4wDq9jidXpTB+qOtIU4Afeg1doLa
-	 uDHg6WD6hnxTRFQrft5CwuZHPA0nLCZyzUsfLtf6mdQsPgArNHC5mpZwoNzZi6pLDuDMA
-	 Et5Vs0BZI4X3J5sRSUaLoMCTE9GoiztXO4VR5wAQVRZ0zC6ULQE+Bhnpv993Fqgzkz71z
-	 CFs3gtxhCr4u2oRGzeEV1nUrPqMh5xq03aF6iKIXCGMGR9vIkVQqeC1jyHYoW/sMcLZ/f
-	 B7tVdUCIwwKYmfgg4t9Zba1nLQAirA9UYvkmXQrpXbc0r4D6es5/r3jqQVeH6P7+AkQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795018135;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
+	 Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Last-TLS-Session-Version;
+	bh=NyruYRmBJ333KKsYOsJfBubBYnjFdFekZpcsS68Afoo=;
+	b=kjHaUg5ZmhefzwqeIF+u0ekH1qiQCO21ypTZwPFaiCq+mS17Eai6IWFXh3mOG44j3Rxa
+	 p16EFnzBmNUQH2xqmvxpo+sAjENR2+bbcx7+MvYTwUxHNjFBhcp61BuMvxVZe+osWvAiQ
+	 rJZX+muU3MPWiRH80cpy4QIMswzB+QyA2JkNKsfLJGARXF0OcTFzYtmuHOY7YO7Qd3AxY
+	 U44tx0zmby9mL0HEPV7glPikHNa/O7A6ziFAWmM9NCtcOAbg7su0aCKn5mEX6SqTJs0+p
+	 uxFqy6bVIMKcGYZhXBST6ZUPwVPlG+/X0pRoK1UDVLHzMJJhpiz3bAhywdaCtWky+uA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W7mEOWi8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=X6cEgtil;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C446606A334;
-	Wed, 18 Nov 2026 15:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E066606A32F;
+	Wed, 18 Nov 2026 16:08:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E066606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W7mEOWi8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD49D1F000CD;
-	Wed, 18 Nov 2026 15:34:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795016099;
-	bh=q4DZBiCtptxDUrZaYhWzriU2UClMGlXG5cbDC6IikrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=W7mEOWi8ttnaoJb/PCE9A6g57U4FTYQVssJWU202EjVLqCr5+Bz/B7x1AI5cqOR63
-	 Xb+TIQcKxnDeYZagbb6/DuuUVlcMPfNgl2xFWCVmpim1/XdoRpB6uzev384u+uW4A5
-	 g6k4JBTFUN7M+h3XNU8uiFlaNAC5K7Octmk/QjfYFHK70UjJ37d2O35MN0q7yYtoZ8
-	 i+4DhF79hDg/BAZZ9miCzif9K4144UbfK/3y9xg7Znp9Lj7E6DSKHc/RqYGAkNJYEX
-	 yV90hOHspVk2fsMUPT/+S2KizeNtocH/LyhKP0oY+mZVWLG3JhbGU176PaOUxP7KYn
-	 1Q1lUJ+rToYAQ==
-Date: Wed, 18 Nov 2026 09:34:57 -0600
-From: Rob Herring <robh@kernel.org>
-To: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 1/3] dt-bindings: usb: snps,dwc3: two connectors are
- two endpoints of one port
-Message-ID: <20261118153457.GB1824160-robh@kernel.org>
-References: <20261117052137.32833-1-xiaqinghuan@mail.ustc.edu.cn>
- <20261117052137.32833-2-xiaqinghuan@mail.ustc.edu.cn>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=X6cEgtil
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 6702A1A16D4;
+	Wed, 18 Nov 2026 16:08:53 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 299BD5FE9B;
+	Wed, 18 Nov 2026 16:08:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BD37011BC244F;
+	Wed, 18 Nov 2026 17:08:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795018130; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=NyruYRmBJ333KKsYOsJfBubBYnjFdFekZpcsS68Afoo=;
+	b=X6cEgtil8ijijO0rJLXA2fM6mfOKCqDSKEpQnIZl8O7QDvCmAFq44iTLtGiRg59T6tim+9
+	BkfAmw+/K2LmZlkCdVN2sYKaDDdw/b0/mTAmoK6EDNyam9WvPm2KyqSsK6FFH80ZrBBRbl
+	fOuG3P4fgquqDyFTbuhX5QPxzAzzTotAL3yURPLSCZ75iuwuF5fR7obk1dgbOVKjz5XyHU
+	usLAW0L1/qdVNqF382CZu2aco6xcOyG4qofdf/C4tljy9+Ib67sXLpy0J5bWTKyaLMICZ9
+	hf3TVLYsrb2HPg/gXOz12/t9aAj1TndcLvng+XJYM9BoHm2TlIq0tO3MLsgbzA==
+From: =?UTF-8?B?QmVub8OudA==?= Monin <benoit.monin@bootlin.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jun Chang <jun.chang@metanoia-comm.com>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+ Samuel Holland <samuel.holland@sifive.com>,
+ Ben Zong-You Xie <ben717@andestech.com>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
+ Jisheng Zhang <jszhang@kernel.org>, CL Wang <cl634@andestech.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Adrian Hunter <adrian.hunter@intel.com>,
+ Minas Harutyunyan <hminas@synopsys.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Randolph Sheng-Kai =?UTF-8?B?TGluKOael+iBluWHsSk=?= <randolph@andestech.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-phy@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
+Subject:
+ Re: [PATCH 00/25] riscv: add support for the Metanoia MT2824 SoC and MT5824
+ EVB
+Date: Wed, 18 Nov 2026 17:08:33 +0100
+Message-ID: <tSRWYJl8QRO6qpOrYOmeTA@bootlin.com>
+In-Reply-To: <20261117-calamity-quiver-96d0d568b338@spud>
+References:
+ <20261106-mt2824-v1-0-86087eaf5af4@bootlin.com>
+ <_koitdIgQPmk89LDhlUlJQ@bootlin.com>
+ <20261117-calamity-quiver-96d0d568b338@spud>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,198 +96,75 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261117052137.32833-2-xiaqinghuan@mail.ustc.edu.cn>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Nov 17, 2026 at 01:21:35PM +0800, Qianhui Xu wrote:
-> Rework of the v8 binding per Rob Herring's review of
-> 2026-11-10 16:36Z (<20261110163640.GA85824-robh@kernel.org>):
-> 
->   "ports are for separate data streams. Endpoints are for mux'ed data
->    streams. This looks like the latter, so port@0 should have 2 endpoints
->    and port@2 dropped."
-> 
-> and, for the GPIO property:
-> 
->   "Use the gpio mux binding."
-> 
-> Two connectors sharing one High Speed D+/D- pair are two mux'ed data
-> streams of one port, so they become endpoint@0 and endpoint@1 of port@0
-> (the Super Speed lane stays port@1).  The GPIO that selects between them
-> is no longer described by a private "port-select-gpios" property but by a
-> "gpio-mux" controller referenced from "mux-controls", and the endpoint of
-> each connector carries the mux state that reaches it.
-> 
-> *** AI-assistance disclosure ***
-> This patch was prepared with the help of an LLM coding assistant.  The
-> author reviewed every line and ran the gates quoted in the series notes.
-> 
-> Signed-off-by: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
-> ---
-> 
-> DRAFT: driver (3/3) still uses a GPIO and must be ported to mux_control_*
-> in the same series; DTS (2/3 equivalent) must be rewritten to the new
-> shape.  See README.md in this directory.
+On Tuesday, 17 November 2026 at 18:30:58 CET, Conor Dooley wrote:
+> On Tue, Nov 17, 2026 at 11:41:52AM +0100, Beno=C3=AEt Monin wrote:
+> > On Friday, 6 November 2026 at 12:15:09 CET, Mark Brown wrote:
+> > > On Fri, Nov 06, 2026 at 10:29:57AM +0100, Beno=C3=AEt Monin wrote:
+> > >=20
+> > > > The series is organised as:
+> > >=20
+> > > > - patches 1-14 add the device tree bindings, the Metanoia vendor pr=
+efix,
+> > > >   the RISC-V board schema and the SoC block compatibles
+> > > > - patch 15 adds ARCH_METANOIA and selects the AX45MP errata
+> > > > - patches 16-23 add the reset, SPI, watchdog, MMC, PHY and USB chan=
+ges
+> > > >   needed to build and probe on this SoC
+> > > > - patch 24 adds the MT2824 SoC and MT5824 EVB device trees
+> > > > - patch 25 adds the MAINTAINERS entry
+> > >=20
+> > > This sort of thing tends to work better if you submit the patches for
+> > > subsystems as separate serieses, it avoids enormous CC lists and keeps
+> > > the individual serieses a managable size.
+> > >=20
+> > I agree, and I am reworking the series that way. Version 1 was intended
+> > as an overview of the complete SoC support, but it ended up being too
+> > big for a single series.
+> >=20
+> > So version 2 of this current series will be only the platform basics
+> > (2 patches):
+> >=20
+> >   - dt-bindings: vendor-prefixes: add Metanoia Communications
+>=20
+> >   - riscv: add ARCH_METANOIA Kconfig entry
+>=20
+> Realistically, this does not need to be a prereq either, because you'll
+> have "depends on ARCH_METANIOA || COMPILE_TEST".
+>=20
+True but checkkconfigsymbols.py will then complain about a referenced but
+undefined Kconfig symbol in the following series.
 
-??
+> >=20
+> > It will act as a prerequisite for the following new series, one per
+> > subsystem:
+> >=20
+> >   - reset: binding + reset-simple support (the separate reboot binding
+> >     is dropped; the RST block is described as a single node)
+> >   - SPI: optional DMA/IRQ binding, MT2824 compatible, atcspi200 IRQ
+> >     support + Kconfig
+> >   - watchdog: compatible + Kconfig
+> >   - MMC: compatible + MT2824 support (split between SD, eMMC and
+> >     auto-detection) + tuning/HS400
+> >   - PHY: USB2 PHY binding + driver/Kconfig
+> >   - USB DWC2: binding + params
+> >=20
+> > Finally, once the subsystem bindings are accepted and the drivers
+> > are queued, I'll post the SoC DTS in its own series: board schema +
+> > cache/PLIC/PLICSW/PLMT compatibles + the MT2824/MT5824 DTS and the
+> > MAINTAINERS entry
+> >=20
+> > Thanks everyone for the reviews, I will integrate the feedback in the
+> > next iterations of each series.
+> >=20
+> > Best regards,
+> > Beno=C3=AEt
+> >=20
+> >=20
+> >=20
+>=20
 
-> 
-> --- a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> @@ -13,6 +13,84 @@ description:
->    Defines the properties of the DWC3 core as being embedded in either an
->    vendor-specific implementation or as a standalone component.
->  
-> +$defs:
 
-You don't need to use $defs here.
-
-> +  hs-endpoint:
-> +    $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +    unevaluatedProperties: false
-> +
-> +    properties:
-> +      usb-role-switch:
-> +        type: boolean
-> +        description:
-> +          This connector endpoint has its own USB role switch. The switch is
-> +          registered against this endpoint and looked up with
-> +          usb_role_switch_at_endpoint().
-> +
-> +      mux-state:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        enum: [0, 1]
-> +        description:
-> +          State of the High Speed data bus multiplexer which connects this
-> +          connector to the controller.  The two connectors of one controller
-> +          must use different states; the driver rejects a device tree where
-> +          two connectors claim the same one.
-> +
-> +    dependentRequired:
-> +      usb-role-switch: [mux-state]
-> +      mux-state: [usb-role-switch]
-> +
-> +  hs-port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    unevaluatedProperties: false
-> +
-> +    # The two connectors are two mux'ed data streams of the same High Speed
-> +    # bus, so they are two endpoints of one port, not two ports: "ports"
-> +    # describes the controller's own data streams (HS in port@0, SS in
-> +    # port@1), and an endpoint describes one stream multiplexed onto a port.
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +
-> +      '#size-cells':
-> +        const: 0
-> +
-> +      endpoint@0:
-> +        $ref: '#/$defs/hs-endpoint'
-> +        required: [reg]
-> +
-> +      endpoint@1:
-> +        $ref: '#/$defs/hs-endpoint'
-> +        required: [reg]
-
-These can be:
-
-patternProperties:
-  '^endpoint@[01]$':
-    [everything from hs-endpoint]
-
-> +
-> +    required: ['#address-cells', '#size-cells', endpoint@0, endpoint@1]
-> +
-> +    # The two connectors must claim opposite mux states; requiring both
-> +    # endpoints in every branch is what makes the two cases mutually
-> +    # exclusive for oneOf.
-> +    oneOf:
-> +      - properties:
-> +          endpoint@0:
-> +            properties:
-> +              mux-state:
-> +                $ref: /schemas/types.yaml#/definitions/uint32
-> +                const: 0
-> +          endpoint@1:
-> +            properties:
-> +              mux-state:
-> +                $ref: /schemas/types.yaml#/definitions/uint32
-> +                const: 1
-> +      - properties:
-> +          endpoint@0:
-> +            properties:
-> +              mux-state:
-> +                $ref: /schemas/types.yaml#/definitions/uint32
-> +                const: 1
-> +          endpoint@1:
-> +            properties:
-> +              mux-state:
-> +                $ref: /schemas/types.yaml#/definitions/uint32
-> +                const: 0
-> +
->  allOf:
->    - $ref: usb-drd.yaml#
->    - if:
-> @@ -26,8 +104,47 @@ allOf:
->        $ref: usb.yaml#
->      else:
->        $ref: usb-xhci.yaml#
-> +  - if:
-> +      required: [mux-controls]
-> +    then:
-> +      # The mux path is only taken when the controller itself carries
-> +      # "usb-role-switch": dwc3_get_dr_mode() forces dr_mode back to
-> +      # peripheral, dwc3_get_extcon() skips the role-switch branch and
-> +      # dwc3_drd_init() never sets the mux up without it.
-
-Don't put driver specifics in bindings.
-
-> +      required: [dr_mode, ports, usb-role-switch]
-> +      properties:
-> +        dr_mode:
-> +          const: otg
-> +        ports:
-> +          required: [port@0]
-> +          properties:
-> +            port@0:
-> +              $ref: '#/$defs/hs-port'
-
-This $ref can be dropped. You already have the schema for 'port@0' 
-below.
-
-> +    else:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              properties:
-> +                endpoint@0:
-> +                  properties:
-> +                    usb-role-switch: false
-> +                    mux-state: false
-> +                endpoint@1:
-> +                  properties:
-> +                    usb-role-switch: false
-> +                    mux-state: false
->  
->  properties:
-> +  mux-controls:
-> +    maxItems: 1
-> +    description:
-> +      Phandle to the multiplexer that selects which of the two connectors
-> +      drives the controller's shared High Speed data bus, e.g. a
-> +      "gpio-mux" controller.  Each connector is described by the endpoint@0
-> +      or endpoint@1 of "port@0", and the endpoint of that connector carries
-> +      its own role-switch input and the "mux-state" it is reached in.
-> +
->    extcon:
->      maxItems: 1
->      deprecated: true
-> @@ -411,7 +528,7 @@ properties:
->  
->      properties:
->        port@0:
-> -        $ref: /schemas/graph.yaml#/properties/port
-> +        $ref: '#/$defs/hs-port'
