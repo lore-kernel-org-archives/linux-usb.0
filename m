@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795007622;
-	b=cRzdS9jojhBV4iMzubFrNkFek+9Nf6jQ/zbgRAwHYrY5Fa7V+bZRVglwlC6nTb8EjWPT
-	 rJKtEOEOaRTtq1kF+SNJzWFOqatf17lfmNGgUpJkirmx2TfXSZWf29oIzc7coHe2EQ3R5
-	 +8eNCcQP/nAPwBgx1vtiaRJoBX2KCTtDvLiaCkZ5JYniakmNZ3cBG5Yzl018OSWgEIm+l
-	 O6ylv6YVkvxlPsFqOc02jUIwoZ9Vq8UPQTbblTOCy8xvDTrpwx7vDCjtwNm2yORVe8nI3
-	 VeCbo/6zURZk7IjL7zkjJhvwmw38y1nJy5A7ckwLbse79ktNtl5BPfA6BXCWlWB/iUQ==
+	t=1795007786;
+	b=D922n9W5ngH930yXAu9WOFDdz/Fz/4nBuCUE/fVcSOXeE4pRLesxx6cysXckgOfDWRGN
+	 0nwyi8Ab8Rf4MPdZnyXPLcfJbz3pj+Z8v8vhCvaZz0ysjuTC5TJC9MqzlXb1iLcti33kY
+	 8M8C4ur+V/IMjg7WuJfbjYp2dOLDlvQZao8/SkEOR4RId33QzszIPA/dZ9j1cI1H7xMkS
+	 IasnarlGQtlFdaoUOmalP7kQYlJ4Q7YUJ1ceJzBBFRvB8/qbKPOt46HyOnJIOsSR6CYEE
+	 ewQGbt1ItXf10HDNf71J/pV6jKE1bj5LrmTOHfGtCPdcsbBVqHiHJoJbOZDGWnD8dEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795007622;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795007786;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=0x2m7waUTo0kKgfLx5LWPpTtcCsLhABKfKm6MDp8R64=;
-	b=m6uZwQlQadh7jkSLAliR8diY1yIh9fEm3fUkR1smjZIc3uFBGphWNF4bSffi9hWIWVE9
-	 zlKlb6kt5ElwGmD7mz0JFHNA+/pbwPDMociC6/ZYHgTPSYpjC2I5LjxkyTl5WbagjlpEr
-	 Bq6lxkYpIrZQw+X3WpoaZVa4FaVdSquzIcHtqTVWc7WGqVlNH4Jz25d/vLh6JHt/AnXhm
-	 m/kC5hK4wDcmfLmTrAY4ou9qRjMC8ELdgVTDkjitkZstegEllAFAODmrxsDludNNyH0A4
-	 NFM8jlQDpAkPIyKt10U2DxbYz/VSEaEmaafWYtDckdTB6/vZ8qGNRBXmbXUukugD38g==
+	bh=xSP/fj622JUrPFKME6gDTzJ2Fak7rEJau1TYTSV0zNo=;
+	b=UUylp7r9SaufKYHyciN7QWVRD9H8It1Rs6JL+AJleK+Otsv0dhUtfNbhO9MT5l63iMK1
+	 jQdZw91EZkUwwk3n83xX7LqejSxBjAvW1nDijysCpUWNcrum1uvLooPuL4kPU7zebxXr6
+	 20YRuHToUZClpn8dS0ZyzcnDnm+DXL7m/naXD15tpbBOWbVpnieWFaNOAY+9RoBPm9k0f
+	 gZASW4F++bvCbQo4Nptru2CqpsKE7LoPyR8mTIroUaGB6lYtCC2opXuS7ne5VQBrSkJvt
+	 7p9/YmhjSXpojWvlreG1ykK4u4MnlDDXfFnZABqfXTkTEoK6DtJLMLr6XtMAaE1+vIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QO42HQEL;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CCS8iufu;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93801606A31C
-	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 13:13:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B0E606A31C
+	for <linux-usb@vger.kernel.org>; Wed, 18 Nov 2026 13:16:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QO42HQEL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFA491F000C4;
-	Wed, 18 Nov 2026 13:13:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CCS8iufu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00FE81F000C4;
+	Wed, 18 Nov 2026 13:16:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795007622;
-	bh=0x2m7waUTo0kKgfLx5LWPpTtcCsLhABKfKm6MDp8R64=;
+	s=k20260515; t=1795007786;
+	bh=xSP/fj622JUrPFKME6gDTzJ2Fak7rEJau1TYTSV0zNo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QO42HQELdf75WTo69JeLFjPK/QMtjfJ9Z/r2qxP7+MYyhYzLfq8HC6LbU+dw+RKb3
-	 a/VNLtbtZD94TvkDsI14OKknltzTAQYSAu2lBlm+QBxLbeAdsd631KvJV53DDL0BHh
-	 0AOLrw3P9JpOMMl2M+mvNC17dzZ8n0qGmNmsD9QZglUEQEsJzPpJB86Qal/VdOfjGi
-	 L+q4ENxl4wB//oN/hSPEvHfAipJ0biIxWsqJ1KH1RryMt2AOtnKkHGf505yXlZylCF
-	 wQTe5szk7oXfqSkiKjNUL8EJioImQCcrwLYTZIxfKo/gTWT56sHFv3qPqD1Jb0GVVi
-	 uZbNEAckczgmA==
-Message-ID: <sashiko-outbox-220988@kernel.org>
+	b=CCS8iufu/5KCksdwXeF2Hz1HhOLdk8hGR+eXVVXM613D3V16w8PRLsBlxlPTYTtoV
+	 Z1kGJgF44qiqzHAc43vtSHrguEsGhAs7E2HqbdIJBDysNWSv0+X41iuVaSpBw3t/gX
+	 M16KJzfNTRm+YHXAeVeBN9heIP0VjmzA/y38V/NLkFmvuXYRsZmQNrGEb9oJOYzH8b
+	 uu+2Aw8SJQajhlD0HuHiIOW/psTXOWbkqzB0N/XUudIY9w/0gczDzU1qA86EYBReZ5
+	 hP8xzd26Tei6PY+3+toygnoJDq/4kpMxAGR15WuRRqIo3b91X5tueSNSI1+/QeWoA8
+	 MlzWd6CPXkwSw==
+Message-ID: <sashiko-outbox-220991@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [RFT PATCH 1/2] xhci: sideband: avoid use-after-free of stale
- virt device pointer
+Subject: Re: [RFT PATCH 2/2] xhci: sideband: check virt device under xhci
+ lock when stopping endpoints
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathias Nyman" <mathias.nyman@linux.intel.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261118125109.1429538-2-mathias.nyman@linux.intel.com>
+In-Reply-To: <20261118125109.1429538-3-mathias.nyman@linux.intel.com>
 References: <20261118125109.1429538-1-mathias.nyman@linux.intel.com>
- <20261118125109.1429538-2-mathias.nyman@linux.intel.com>
+ <20261118125109.1429538-3-mathias.nyman@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2026 13:13:41 +0000
+Date: Wed, 18 Nov 2026 13:16:25 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,151 +63,151 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [High] xhci: sideband: unregister race in
-  xhci_sideband_create_interrupter()
-- [Low] xhci: sideband: missing Fixes trailer for sb->vdev
-  use-after-free fix
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [Critical] xhci: use-after-free of sideband in
-  xhci_discover_or_reset_device() [1]
+- [Medium] xhci: sideband: xhci->lock does not serialize against vdev
+  free in xhci_resume()
+- [Medium] xhci: sideband: dangling ep->sideband on command alloc
+  failure in remove path
 --
 
-commit 9c6f07fbe23d89be989882c6d8b9eb96113b85e0
+commit f6135bf08870bf887b17f6bcf68cd2206d4462c8
 Author: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-> xhci: sideband: avoid use-after-free of stale virt device pointer
->=20
-> The sideband structure caches vdev, an xhci_virt_device pointer that
-> the xhci driver may free and reallocate while the sideband is still
-> registered, leaving the sideband with a dangling sb->vdev pointer.
->=20
-> This can happen during resume, either when the xhci driver detects xHC
-> power loss and resets the xHC, freeing all virt devices without
-> informing class drivers, or during reset-resume when usb core
-> re-enumerates the device and xhci frees and allocates a new virt device.
->=20
-> Store the usb_device pointer (udev) instead. It stays valid across
-> reset-resume and xHC reset.
-> Look up the current virt device and ensure it still points to this
-> sideband before using and dereferencing it in sideband API calls.
->=20
-> Make sure xhci_sideband_unregister() works properly with an invalid
-> vdev. Don't dereference it, or ask the xHC to stop non-existing
-> endpoints, but make sure the sideband is properly freed.
-> Fail other relevant sideband API calls that would access invalid
-> vdev with -ENODEV.
->=20
-> This solution isn't airtight. It's a huge improvement over the current
-> situation, but there is still a window between verifying vdev and
-> actually dereferencing it in many sideband API calls.
->=20
-> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+xhci: sideband: check virt device under xhci lock when stopping endpoints
 
-[Severity: Low]
-This fixes a use-after-free of sb->vdev.  Should this include:
-
-  Fixes: de66754e9f80 ("xhci: sideband: add initial api to register a secon=
-dary interrupter entity")
+This commit moves xhci_stop_endpoint_sync() into xhci-sideband.c as
+sideband_stop_endpoint_sync() so that virt device and endpoint checks,
+endpoint removal, and stop endpoint command queuing happen under xhci->lock
+and sb->mutex.
 
 > diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sid=
 eband.c
-> index a5deeee4d5dce..ad4849903df3b 100644
+> index ad4849903df3b..39d790bb6a2b2 100644
 > --- a/drivers/usb/host/xhci-sideband.c
 > +++ b/drivers/usb/host/xhci-sideband.c
-[ ... ]
-> @@ -329,9 +348,6 @@ xhci_sideband_create_interrupter(struct xhci_sideband=
- *sb, int num_seg,
+> @@ -92,19 +92,72 @@ sideband_to_vdev(struct xhci_sideband *sb)
+>  }
 > =20
->  	guard(mutex)(&sb->mutex);
+>  /* Caller must hold sb->mutex */
+> -static void
+> -__xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_vi=
+rt_ep *ep)
+> +static int
+> +sideband_stop_endpoint_sync(struct xhci_sideband *sb, u32 ep_index, bool=
+ remove)
+>  {
+> +	struct xhci_virt_device *vdev;
+> +	struct xhci_command *cmd;
+> +	struct xhci_virt_ep *ep;
+> +	struct xhci_ep_ctx *ctx;
+> +	unsigned long flags;
+> +	bool queued =3D false;
+> +	int ret =3D -ENODEV;
+> +
+>  	lockdep_assert_held(&sb->mutex);
 > =20
-> -	if (!sb->vdev)
-> -		return -ENODEV;
-> -
->  	if (sb->ir)
->  		return -EBUSY;
-> =20
+> -	/*
+> -	 * Issue a stop endpoint command when an endpoint is removed.
+> -	 * The stop ep cmd handler will handle the ring cleanup.
+> -	 */
+> -	xhci_stop_endpoint_sync(sb->xhci, ep, 0, GFP_KERNEL);
+> +	cmd =3D xhci_alloc_command(sb->xhci, true, GFP_KERNEL);
+> +	if (!cmd)
+> +		return -ENOMEM;
 
-[Severity: High]
-Does removing the !sb->vdev check here without replacing it with
-!sideband_to_vdev(sb) reintroduce the race fixed in 8c13a7323b84 ("xhci:
-sideband: Fix race condition in sideband unregister")?
+[Severity: Medium]
+Does returning -ENOMEM here before clearing sb->eps[ep_index] and
+ep->sideband leave a dangling ep->sideband pointer when remove is true?
 
-CPU0                              CPU1
-xhci_sideband_unregister()
-  mutex_lock(&sb->mutex)
-                                  xhci_sideband_create_interrupter()
-                                    if (!sb || !sb->xhci)
-                                    mutex_lock(&sb->mutex)
-  __xhci_sideband_remove_interrupter()
-  sb->udev =3D NULL
-  mutex_unlock(&sb->mutex)
-  sb->xhci =3D NULL
-  kfree(sb)
-                                    xhci_create_secondary_interrupter(
-                                      xhci_to_hcd(sb->xhci), ...)
-                                      <-- NULL pointer dereference / UAF
+Previously, __xhci_sideband_remove_endpoint() cleared ep->sideband and
+sb->eps[ep->ep_index] even if xhci_alloc_command() failed inside
+xhci_stop_endpoint_sync().  With this regression, if xhci_alloc_command()
+fails during xhci_sideband_unregister(), the caller ignores the error and
+frees sb via kfree(sb) while vdev->eps[i].sideband still points to it.  A
+later device reset in xhci_discover_or_reset_device() will then pass that
+dangling ep->sideband pointer to xhci_sideband_notify_ep_ring_free(),
+causing a use-after-free.
 
-Without checking sideband_to_vdev(sb) after acquiring sb->mutex, CPU1
-proceeds after xhci_sideband_unregister() releases the mutex, dereferencing
-a NULL sb->xhci or freed sb.  Even without a concurrent unregister,
-xhci_sideband_create_interrupter() will allocate a secondary interrupter
-when vdev has been invalidated instead of returning -ENODEV.
+> +
+> +	spin_lock_irqsave(&sb->xhci->lock, flags);
+> +
+> +	vdev =3D sideband_to_vdev(sb);
+> +	ep =3D sb->eps[ep_index];
+> +
+> +	if (remove)
+> +		sb->eps[ep_index] =3D NULL;
+> +
+> +	/* validate xhci didn't free or replace vdev during resume */
+> +	if (!vdev || !ep || ep->sideband !=3D sb) {
+> +		spin_unlock_irqrestore(&sb->xhci->lock, flags);
+> +		goto out;
+> +	}
+> +
+> +	if (remove) {
+> +		ep->sideband =3D NULL;
+> +		/* endpoint is removed, not running is not an error */
+> +		ret =3D 0;
+> +	}
+> +
+> +	/* make sure endpoint is running before stopping it */
+> +	if (ep->ring) {
+> +		ctx =3D xhci_get_ep_ctx(sb->xhci, vdev->out_ctx, ep_index);
+> +		if (GET_EP_CTX_STATE(ctx) =3D=3D EP_STATE_RUNNING) {
 
-[ ... ]
+[Severity: Medium]
+Does holding sb->xhci->lock actually prevent vdev and its contexts from
+being freed concurrently during xhci_resume()?
 
-> @@ -471,22 +487,21 @@ xhci_sideband_unregister(struct xhci_sideband *sb)
->  	xhci =3D sb->xhci;
-> =20
->  	scoped_guard(mutex, &sb->mutex) {
-> -		vdev =3D sb->vdev;
-> -		if (!vdev)
-> -			return;
-> +		vdev =3D sideband_to_vdev(sb);
-> =20
->  		for (i =3D 0; i < EP_CTX_PER_DEV; i++)
-> -			if (sb->eps[i])
-> +			if (vdev && sb->eps[i])
->  				__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
+When xhci_resume() resets the host controller, it drops xhci->lock before
+freeing all virt devices via xhci_free_virt_devices_depth_first() ->
+xhci_free_virt_device().  Inside xhci_free_virt_device(), dev->eps[i].ring
+(which is not set to NULL) and dev->out_ctx are freed before
+dev->udev->slot_id and xhci->devs[slot_id] are cleared:
 
-[Severity: Critical]
-This problem wasn't introduced by this patch, but nothing serializes
-[1] xhci_sideband_unregister() against xhci_discover_or_reset_device()
-reading ep->sideband and calling xhci_sideband_notify_ep_ring_free().
+drivers/usb/host/xhci-mem.c:xhci_free_virt_device() {
+	...
+	for (i =3D 0; i < 31; i++) {
+		if (dev->eps[i].ring)
+			xhci_ring_free(xhci, dev->eps[i].ring);
+	...
+	if (dev->out_ctx)
+		xhci_free_container_ctx(xhci, dev->out_ctx);
 
-CPU0 (device reset)               CPU1 (sideband unregister)
-xhci_discover_or_reset_device()
-  if (ep->sideband)
-    xhci_sideband_notify_ep_ring_free(
-      ep->sideband, i)
-                                  xhci_sideband_unregister()
-                                    __xhci_sideband_remove_endpoint()
-                                      ep->sideband =3D NULL
-                                    kfree(sb)
-      sb->notify_client(sb->intf, &evt)
-        <-- use-after-free
-
-xhci_discover_or_reset_device() holds only the USB device lock when it
-reads ep->sideband and invokes xhci_sideband_notify_ep_ring_free() without
-holding xhci->lock or sb->mutex:
-
-drivers/usb/host/xhci.c:xhci_discover_or_reset_device() {
-    ...
-		if (ep->ring) {
-			if (ep->sideband)
-				xhci_sideband_notify_ep_ring_free(ep->sideband, i);
-			xhci_debugfs_remove_endpoint(xhci, virt_dev, i);
-			xhci_free_endpoint_ring(xhci, virt_dev, i);
-		}
-    ...
+	if (dev->udev && dev->udev->slot_id)
+		dev->udev->slot_id =3D 0;
+	if (dev->rhub_port && dev->rhub_port->slot_id =3D=3D slot_id)
+		dev->rhub_port->slot_id =3D 0;
+	if (xhci->devs[slot_id] =3D=3D dev)
+		xhci->devs[slot_id] =3D NULL;
+	kfree(dev);
 }
 
-Meanwhile xhci_sideband_unregister() runs without the USB device lock,
-clears ep->sideband under sb->mutex, and frees sb.  If CPU0 loads
-ep->sideband before CPU1 clears it, CPU0 dereferences the freed sb.
+This allows the following race:
 
-[1] https://sashiko.dev/#/bug/linux-6cdffda2-7589-4947-aad7-6f07714b5916
+CPU0                              CPU1
+xhci_resume()
+  spin_unlock_irq(&xhci->lock)
+  ...
+  xhci_free_virt_device()
+    xhci_ring_free(..., ring)
+    xhci_free_container_ctx(...,
+                            out_ctx)
+                                  sideband_stop_endpoint_sync()
+                                    spin_lock_irqsave(&sb->xhci->lock)
+                                    vdev =3D sideband_to_vdev(sb)
+                                    if (ep->ring)
+                                      ctx =3D xhci_get_ep_ctx(...,
+                                                            vdev->out_ctx,
+                                                            ...)
+                                      GET_EP_CTX_STATE(ctx)
+                                        <-- use-after-free
+    dev->udev->slot_id =3D 0
+    xhci->devs[slot_id] =3D NULL
+    kfree(dev)
+
+The same race also applies to xhci_sideband_unregister() clearing
+vdev->sideband under xhci->lock while xhci_free_virt_device() runs
+kfree(dev) without holding xhci->lock.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118125109.1429=
-538-1-mathias.nyman@linux.intel.com?part=3D1
+538-1-mathias.nyman@linux.intel.com?part=3D2
