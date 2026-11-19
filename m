@@ -1,13 +1,13 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795095132;
-	b=0KdO3UEma1rVl4mlh9czGkD7IS1HSJ0iKuXgvveEalCQZc1yOFSJE8GiE5qIBtyuUswT
-	 ZB7qR09MrVVIzcO9etGAusmoS2KKWhaalibC3OBgSpW0kh6uk4K7NmxA1V0X/LTnXBx+u
-	 iGjo2DMmXGMPFrrbJsAOLNc9o5z4OYQ3x0UJnqRClZ4cTpZN8GsGK1z2I+7bx0g9Gtywz
-	 iBY0gLKFefSXOXNeN7qSYGKob8Dtir6fPFrVZ4SP959F7Ylko4JHgq/QnEHYukMW+AFuv
-	 tBFw95LlQ6d9R+CmROHUIhhcP60Ya293waWik4vI1Za0csEjnn9Ib4yfLnYAx/VV2ag==
+	t=1795095183;
+	b=JZMuqF4rkGpQN6d1mPSFEfu2g2RlDYjUPcBBs51mvYSCOpUwgT5/r35/n+cZwj1nhc2u
+	 a5rU052xDvabDKTs018Mt/Pg9332eZzFgQESxTTqXBL9DU7iZppaTfYPX81Er662eVZDT
+	 e6rd6ppZf0jvrtbIK5dCByLfLiBu+lPqBnOsPWcg2kkv7kJNqIUfpsGBIJ5+hizDpCLX9
+	 7QuICIl2v88Fz0XOgHuUr2polk2dauDoMgMXWi/zduJpzeDhRlBHkduMepPs8tN9pA2ZE
+	 ZNP3eC32C2+pQZhw1lg33GRuWFAHKOK4WYG1AjRorRvSGN4NDtGEhJApcLSICZWLUaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795095132;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795095183;
 	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
 	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
 	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
@@ -16,42 +16,42 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
 	 Message-ID:Content-Type:Content-Transfer-Encoding:X-Bugzilla-URL:
 	 Auto-Submitted:MIME-Version;
-	bh=YyAHCD8SABpBbmxcmZTJqqp/11eRRuKetr4GpWThuLk=;
-	b=OH6bfAtuHS8ms5DMj8OoggNv6fqe/7+p3ocOHr6mczUOy4sJ3ZWvI9LKRU9ApcAKuuR2
-	 YEFxsbovEi/vBDmXlPbUznD8HiDX4EJXCrb8EDm9/MHXjxeTwqt3GSTOT4RcMtWfTIpqC
-	 8op+EUp7RZYK8HNQV+On4PQqakRWU9hKfPv/yYreHkFDb2zIMYkXctN4ZJk6/ln3zyMbS
-	 08iZzLyZ36mnIDl9UumJfKooLU9OkGD2T/j6vRYwIvM6S6U8tOFgFWTKP2Rd/km4Y/MIy
-	 gB3xO4gEvjh4KsSNCx04p+1o4OaH7stxpd8GDukFaJmWQiWzFfgJTFHjqb4pFra75nw==
+	bh=Zxxix/vNeLqeo067iDj3ZfKIVTP+kyIyXq2pb2zfpUU=;
+	b=2d0hMTfyEFhkqo1EYPsnKYE93CwgxXD7BrleSAAMcjD4xGmF+Iyc3GYBaHaXng3/hqC5
+	 GYsDPoQWoEmZfxx8YlkMjO7QkB727Bwwerfi9y4wGPbJw03tiPI0g22SwE3Iq4yex1brc
+	 enezuh9GlsHavJd9+nMl6/YdlDGp7QlLPCGJd1kGw3uWREuTiuPXZf4m7A4Us5bmDpfrG
+	 +LMx6u7G4OtVByyrLjlVpN39BsTvI9sXusHWSuMuq3wV5ek7dXtM2BTNDInUvygfRh4Xf
+	 +Pq9DjbfUyFFXTA3EGKOfWvrm9xiuHhdJnqkNo1CbB6LiSeDuRePHkiNPhKlVDFRJmw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gBaYdDjM;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PnmybbzK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D88F606A320
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 13:32:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8AB606A325
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 13:33:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gBaYdDjM
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 528C41F000C5
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 13:32:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PnmybbzK
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7EF981F000C5
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 13:33:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795095132;
-	bh=YyAHCD8SABpBbmxcmZTJqqp/11eRRuKetr4GpWThuLk=;
+	s=k20260515; t=1795095183;
+	bh=Zxxix/vNeLqeo067iDj3ZfKIVTP+kyIyXq2pb2zfpUU=;
 	h=From:To:Subject:Date;
-	b=gBaYdDjMDQ/YnMQX3fy6ocEgyGWUNG8xzOYAepJ8EWXQvTP1Q0DNm1bOysriXvynx
-	 D04hTvgW/uBqygylLw9zZaG7zBVrIpt9gqu1yO0COwsVu/lFVUx17+x9ephbX17Yi+
-	 3rwzPfOV61eDojApDeEVMh3IF9MAd93Ka/VUeIumgow4eNnWVmvCkITtivo6bexTU6
-	 3T5cR8a5eRc6/H3IQvakTyVeBMs9vj4+kMr/s0PMJy/U6/f6x9ka4th9tEaUYZ+WC/
-	 SsqFj135QmAFQhGReZfsbejBMaCUmTN9CSe1wXqDxMym0Ehy7MAlo+FjVRcNSQkIbT
-	 vqt5XjKgbOqOg==
+	b=PnmybbzKEzODtgWdmYpj+F1t7BWm0zA/6mSzYL9Gzf/qHZ/075Qb9Z8rtYtTj4Utj
+	 xZ4I2jjSHMRXonpEKn3aR+6692Fkjhq0RS73pHnkbiMGqb8fNCSEmxtYbTK9NyIZEP
+	 Mb6c9MU01p6AUp9d8n4LEEJMjJ6u0uFZJAp3Ji5AhWbSbnKAcXP7ZAbFsSrPb3tMXC
+	 R+aJhW++ieaB6Fqq08I7J5lGnWyRPRdSQxEIP2+3Tqt16D1+y9HpDzgYSz5OZ7xBfo
+	 yFTn0HnMcc/5z9rPZzCWUIU15hsp0uFdsFk4aff0NTahRdofe+6veKsrAO9hYuL4JK
+	 /e6RKnRifB29Q==
 Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
-	id 4E0D1240040C; Thu, 19 Nov 2026 13:32:12 +0000 (UTC)
+	id 7BE3B240040C; Thu, 19 Nov 2026 13:33:03 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
-Subject: [Bug 222295] New: HID sub-device (wheel rim) hot-swap on Ardor Le
+Subject: [Bug 222296] New: HID sub-device (wheel rim) hot-swap on Ardor Le
  Mans base does not re-probe the keyboard interface
-Date: Thu, 19 Nov 2026 13:32:12 +0000
+Date: Thu, 19 Nov 2026 13:33:03 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -68,8 +68,8 @@ X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
  op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression attachments.created
-Message-ID: <bug-222295-208809@https.bugzilla.kernel.org/>
+ cf_regression
+Message-ID: <bug-222296-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -84,9 +84,9 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222295
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222296
 
-            Bug ID: 222295
+            Bug ID: 222296
            Summary: HID sub-device (wheel rim) hot-swap on Ardor Le Mans
                     base does not re-probe the keyboard interface
            Product: Drivers
@@ -100,10 +100,6 @@ https://bugzilla.kernel.org/show_bug.cgi?id=3D222295
           Assignee: drivers_usb@kernel-bugs.kernel.org
           Reporter: daniel.matushkin@gmail.com
         Regression: No
-
-Created attachment 311521
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D311521&action=3Dedit
-lsusb -v -d 11ff:dd12 output
 
 [1.] Summary:
 The Ardor Le Mans racing wheel base exposes multiple HID interfaces (joysti=
