@@ -1,57 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795116589;
-	b=w1LF2SP/6qw3LX77amK1IyhvHvRmNGveavfI9hQDmEGpr+eE0OZ/0QKV6t7aXwiYltq+
-	 ZxS9YTGBH1L7cINaWkgWEQ2znCQUgnL62g7gKKnqs5sJlpsUGcRkWdJlcZgElUnBXmBrS
-	 LAIEzFLjvGaQ1hnFOmCsfLSuTmuKn07n1YpqYocdW7WcQvLhS0MRcexOu2TZwhG37GZBS
-	 rWo1kVSmMQlMdqmRCP0PCyulpHw4oxsEWQKSa3ED3EEtmBU2//K2jYyLyTg0ADNFlEJ2d
-	 75cr5KjFID2xi1Q9Bm3/Ror/BI8DhFzpV82UNfS/FYMKAUUfxUsYEDWEmcX/LIJT4Aw==
+	t=1795117278;
+	b=pT0TIir95osNxSs/6yWRBzmtOZQW+9kbppIYH6vkYdFxyUNIRwk0U1OJrqZ8o6w0Aifm
+	 l+xbSlSVpugkuAPM1nfR0M/n52hkMzoYgaLsDSN+uqSDuSxKuLtBz5Sq388SCaSF+ZMir
+	 iu7U4EPa2HRJJitwrgOiA1eSzoH3kwjPq7CJekNiEGrJ16X03pEGlWT4qbrTv+yZOVaym
+	 w5ETPpRJKU+CbyrUj1T1x8oxhHoCEhUWP7shVLTq+uuWgApIy4BHI54/NS++xma3N/50F
+	 pqonTWxCLxr09CYVvYL5ASq/bwmPgTwYaLyYtAZXw3IyybM0jwYPc0wNmTklCZiI+iA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795116589;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=vY1XFR6Bnvhly5k0xRysu2RE51L7gKk5Hs6/xa+DjdM=;
-	b=APSO5xhyyExyhFgIvnptYKQFTX5MEmigZYLq9aH+q7jG23AqkqnlN+AkL588C5cLYmr8
-	 /e5clFclApXq+wj62C5UWlh4VejR3ZW2vXMQSLvbm81yRO6CfYAJ7G4wzCzcEM+G7xPrs
-	 VUBYkNkJYWB3CZftlNp6EhCJrJC6w/JD4uMZ9UFH1yiJ8f6KJBWxwfiIcimAE+fV9Lbjr
-	 toUXMXUcksPL+sTVnzQw3bT2+DPVNVLNrx/zH24SpoNMp+Pu3XkVwo0GOW6ypaReS9yus
-	 X9RmczXQyIlKAdzJgJqp6cladx9TgSlwZQ2ecC7kx9oKDXczWCBMKt6gbDueKfDlrJA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795117278;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=ErhRgV/YsEwprii/iEkN9e5sYE/6u/us4xd93CvjwiU=;
+	b=LY6mZjD9GKLAsZr0/HQ/K4sA6ouTD9/ILXjXHpt3n89ssNNw7sA8BixB+GhcjmHqvDIb
+	 1h/FOn+UeV/RspYmMEIOdKN6HxGjFjDVQNim6ddqM2sL52GRhiwBWaDeQ6CbotnV0bmrK
+	 fJAso9iAsnYyU3Qmw90DJVDVbQmLejYGVbkXVNm3Ue97hn6jwzBnpmXkOppTEwgmKAFS/
+	 AU7fdtAwHRU2ut9lIc88tAebqJSU/jvfQ/n1zPxnV0xuHMb/KQvBMn2s3EQZhmzfn02zu
+	 5rLcpKVFo6CttaPwA6LyUZ6RKVFD6/Yf2Z6PtswBejYnCy2ZxKliG6Wq2qObBmVAKyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EhtjbO+4;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=tnjjK6UX;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E718960A3807;
-	Thu, 19 Nov 2026 19:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C80606A325;
+	Thu, 19 Nov 2026 19:41:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34C80606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EhtjbO+4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 933F01F000C6;
-	Thu, 19 Nov 2026 19:29:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795116588;
-	bh=vY1XFR6Bnvhly5k0xRysu2RE51L7gKk5Hs6/xa+DjdM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=EhtjbO+4DO22H7f20JFJbBJx/0CRtlcr5V8J2QARKwlFBEFHSqtAfkmnQxap8FazR
-	 T3iRGmlhffRSA5AN+qunVGaNJsMEFNIJpt9lr8HkDYS7gAT9bW4jJPQR0n2etAAKnt
-	 fTPgKGGiiKyf25FADhW/+lhE0lgeVvB4VYQYq6bfUAEJUJIYV2nA4nXOQx0Fp4mi9F
-	 BT5cQ5lO79AmjTt6Dfm9FI/JjJX41v/oSE4xYumcQroaF1PbOROzSQgO0zFuX9PLyk
-	 d+yq3j152t+g1vu3WEkPliKCF/Yw8omNJtW9+W6fFBw9mSkot49q7B4Fq5Lokw0hNA
-	 miwu6JNP+V4VQ==
-Message-ID: <sashiko-outbox-223915@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 29/31] USB: Retain the result of configuration
- requests
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Leon Romanovsky" <leon@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-pci@vger.kernel.org
-In-Reply-To: <20261118-device-trust-core-v3-29-d655875c4bfb@nvidia.com>
-References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-29-d655875c4bfb@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 19:29:48 +0000
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=tnjjK6UX
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=ErhRgV/YsEwprii/iEkN9e5sYE/6u/us4xd93CvjwiU=; b=tnjjK6UXsgUsUi9KjhJtLPJtsA
+	8UvqXWr1Srwwx6JUdWlgpyP/ZAKpRvajI6CFOcVdE41Xqwsg5YM5FBk7uvCeH3yUCuwRbdaNtDgV+
+	dJECyns/rFFHNw4954+sJ3Wa4Pqj5tfTSG6oV48x1OSFhdEE2N01cQlE5eUMoNgnLzKM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xU80H-0006qy-Rr; Thu, 19 Nov 2026 20:41:05 +0100
+Date: Thu, 19 Nov 2026 20:41:05 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Birger Koblitz <mail@birger-koblitz.de>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] aqc111: Correct endianness handling in
+ rx/tx_fixup
+Message-ID: <29ba76c6-5feb-4f07-90b6-20468b62d602@lunn.ch>
+References: <20261117-aqc111-v1-1-27a54c4b54ca@birger-koblitz.de>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,23 +65,27 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117-aqc111-v1-1-27a54c4b54ca@birger-koblitz.de>
 
-> From: Leon Romanovsky <leonro@nvidia.com>
->=20
-> The generic USB device driver can bind successfully even when setting its
-> configuration fails. Authorization that attaches this driver therefore
-> cannot use the attachment result to report configuration errors or decide
-> whether setup can be retried.
->=20
-> Retain the last configuration result for callers holding the device lock.
-> Keep driver binding successful so userspace can recover by selecting
-> another configuration.
->=20
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> -	desc_hdr = le64_to_cpup((u64 *)skb_tail_pointer(skb));
+> +	desc_hdr = get_unaligned_le64((__le64 *)skb_tail_pointer(skb));
 
-Sashiko has reviewed this patch and found no issues.
+static inline u64 get_unaligned_le64(const void *p)
+{
+	return le64_to_cpu(__get_unaligned_t(__le64, p));
+}
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-device-tru=
-st-core-v3-0-d655875c4bfb@nvidia.com?part=3D29
+You should cast to a void *, not __le64 *. I'm not even sure a cast is
+needed:
 
+static inline unsigned char *skb_tail_pointer(const struct sk_buff *skb)
+{
+	return skb->head + skb->tail;
+}
+
+The compiler should do an implicit cast.
+
+	Andrew
