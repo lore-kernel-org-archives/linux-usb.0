@@ -1,55 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795108934;
-	b=3BQIUEUWRM2SmLWudFqtIBeF4iE92VQZSvw5oGif9V6KubR4BryvIuTtITCJ24piw5f+
-	 o2bhQ9nFdgVGympouQsSD9vFRZzMEaLANUWSSFFb48/mOpD5A4p3PQLjA2YV3Kmtm9ez8
-	 wmPDiM9PELonSVkDhV1Y+4QcDtpy6V7fMss7TJNbGy4WlJNtTtX2bFNEhzh5xhNV0mIUM
-	 lUqCe4UeZzTL7636yoJQPtzxosY2K5Fcw4Ra+KbOdA97LJB2Co+ZD0eqwDfQGRWLUrOIL
-	 wCFfWY3Ynw4O3i8glCQU0yZmiVEZi0h5OZL+ny7sC3D1F2JNUM0zPMcQt3cVdK25cDA==
+	t=1795108940;
+	b=BlDu1+AKekQ2MJQDjKme321HNgw39ZvHr8VqVQ3jRIRVkieN/14UG+ZJMLIuUeyztWmV
+	 lEDPawzODkase821YyjoseLMKo31ihZTNyu8FqUGK4BtWoSImXtqxf3l2Xq5wDrPRLGQL
+	 FrGVqOBvHJrGCHB59latPlxPkpkvB2dWpOyFmUQ2F4BViQcf3XLQPr/1KdokbvaDa6PvT
+	 +HTEsYoKP/LyvHe/3unvzDX9MKvWV+Is01ieV7vtqlxSy1+abj+uILfi9+Mg7f3yeRX2z
+	 JxXjJKgyhlsSVs1FP3bS+Pp4CAgAZdFfAonHGFbb3SfaiWVRkNqrUdE0URfW0flls0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795108934;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795108940;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=FYQJLJVerVXxcKj8fuGVNsXQ91/lvbMzIvadKM4+4uM=;
-	b=0JoDdwc9LrxYT4PLuzdE6JbP+M5GFG4VvfMXLi6Ch1m55lDKHxh8a61oB+qRj+FOszQ9
-	 nppVhKnKt+6PyS+TtnOsiMTuoh63hgY33Da4vb7iWM7zwzoRkJjHSzVG/TaKx0rKA5JKu
-	 6ulLCK3FXW9+xVEA63/nR/feWPmVqtewmrufRFyED3Uub6WSAChZsXv3vS6Mto8PMIKV9
-	 dq7MSMyA/hyzBWzM9VjB5UHpe1OivPaVDAKvGHIlkQAEUdLyixA3wG8GU+QNdNVORthlQ
-	 A/SSSWDn7Z2Vfz7lY0G8QyJFya7WpBf+ccfXQo+g/yxXp/sq/V+qgeDUIM5FRDJyaOQ==
+	bh=GEkF7ARBud4BPCTf0srGkI7HV8RzROccGNiUctZY+KE=;
+	b=ez0zkGMzJs3YvJLjab8GZ5dJGRHk8YCg0Cb3wMx85oMLHdrX2gpTpS3+I/PcoEBgge4l
+	 jJDmJZkSkucLMY4qIQpOhAxRI0SI074GZnB2ASBR7dr/kVdCkLk640gEpgWbwFrs/M3eN
+	 XVhIgxRX3JLPY47JfdrnkvO3sSelE3NfypioKCHADGAIh3Jd7t9GAgqZIBfkrrZL40LDk
+	 mjsCyLzfz1b2ZGlnybz2SoHx6BdoFMnH/Ch/f2sYq4peGjwr0tYoosEO/v8BXUWdpSyOi
+	 Ps3mbDH8SQ5Pk87yihNrXqext1TW+CU8lsV/hjq5m2XfiTBrhgcjA2IAsti8mQnNDFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FoLneS/r";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ayFQ+L0l;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096C2606A320
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 17:22:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D9C606A324
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 17:22:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FoLneS/r
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63A8F1F000C4;
-	Thu, 19 Nov 2026 17:22:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ayFQ+L0l
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C931A1F000C4;
+	Thu, 19 Nov 2026 17:22:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795108933;
-	bh=FYQJLJVerVXxcKj8fuGVNsXQ91/lvbMzIvadKM4+4uM=;
+	s=k20260515; t=1795108940;
+	bh=GEkF7ARBud4BPCTf0srGkI7HV8RzROccGNiUctZY+KE=;
 	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=FoLneS/rClunyN0Q11wgvhK7eXEAOsIQdOCHQg6y4jXum762Zn58Vl2Ma/TSpx3Zm
-	 cMnOGpmLvJdMACY4ClRHGC5qgEBUUljD+3iIChO9tXVnvfrVnjFFKrK7Q5tRTVxmto
-	 EhKdCUV6D6Slk8COvxZkztKv/L6CHUn+eR6f8Yo7nbIsaxJPI3Yj7uYHWah6V67iw6
-	 9Dko3hlv9h8XIvNL76m2S6OUDGKjq4JZbm/0qip7jUUz+s3mzRHm9bAuDpCvHSiq+C
-	 BcBxfqTXsk0p6rROFtKRn2otSxknnLgavz3n3X4pwZV0ECibmrTU/1yHt0gdbl/fVh
-	 BQmIeMe1vht9g==
-Message-ID: <sashiko-outbox-223685@kernel.org>
+	b=ayFQ+L0lxjSJJP7KWjr2Wm5bulLSGfwMB0R9Fm11VyT73K18o0CtT6P38sJ6iDyDz
+	 A2h5O4IsIEX9g0Ql2QEjMTNNLknQV9wTu09hGw12uFS0AiK9FvrQLyHY9oFD+CSuni
+	 0deI/wOYarp9K0N7HYo8LDTK+7+pSfsSq5PaqXLZvOAinORpacXXr/l9Lco+0+Yi2C
+	 5Ske6rkftbJbJ0Ih4xvgfsFun/96x9e4rm/dAgufIRVpQ1Unwnq9kvdVpjIm7jxBuQ
+	 YqU5bdUXhs5e3eA3KuBDxqInw5pirnsF+/PadSnzbBjkzvK/X/8sp4QOef6+wSjLyQ
+	 CCeBDw+OgGZzg==
+Message-ID: <sashiko-outbox-223686@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 07/18] thunderbolt: Add usb4_port_hotplug_disable()
+Subject: Re: [PATCH 10/18] thunderbolt: Split host router port reset into a
+ separate function
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mika Westerberg" <mika.westerberg@linux.intel.com>, linux-usb@vger.kernel.org
-In-Reply-To: <20261119171232.1616316-8-mika.westerberg@linux.intel.com>
+In-Reply-To: <20261119171232.1616316-11-mika.westerberg@linux.intel.com>
 References: <20261119171232.1616316-1-mika.westerberg@linux.intel.com>
- <20261119171232.1616316-8-mika.westerberg@linux.intel.com>
+ <20261119171232.1616316-11-mika.westerberg@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 17:22:12 +0000
+Date: Thu, 19 Nov 2026 17:22:18 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,9 +62,11 @@ Precedence: list
 
 > From: "Mika Westerberg (Intel)" <westeri@kernel.org>
 >=20
-> This is the opposite of usb4_port_hotplug_enable() and allows the
-> connection manager to mask hot plug events of a USB4 port. This is
-> needed in subsequent patches.
+> Move the part of tb_switch_reset_host() that resets the host router
+> lane adapters and cleans up the protocol adapter path config spaces into
+> a separate function tb_switch_reset_host_ports(). This makes it easier
+> to extend tb_switch_reset_host() in subsequent patches. No functional
+> changes.
 >=20
 > Signed-off-by: Mika Westerberg (Intel) <westeri@kernel.org>
 
@@ -71,5 +74,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119171232.1616=
-316-1-mika.westerberg@linux.intel.com?part=3D7
+316-1-mika.westerberg@linux.intel.com?part=3D10
 
