@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795116580;
-	b=vR3THUnwvKgykb5XAqxvJKI3ARLpbhzPXNaWIJWhip2i+XEljDwkP+86jqjJeeAlTPJ6
-	 6mIc//Z2lusI/BK0rgwSk9E3aBTrB/mgehFDdNiwB719V2qxaRuvwhGOhvMHFbqxBPnK1
-	 y0V59TpWiadjJSvL8b/XRcR/LCOK8OthovRJ7icO89Q8Q93cOQjIn52pkbF3GRWMVEfcP
-	 wM8rDOw6V/BhdFqu7KxyYPm0d/T9gtZVsM2yV6Ou9HDx+zqgYNTM/BMu2uQaJL785OnoG
-	 GePpaPavhwxStLnecPxC6fXe620xpjrFxBDJ0Cue6GHU8jFoX+0J5R1PQ7s6UrijRdw==
+	t=1795116585;
+	b=ERB7egLG6ISdRYuFuc0PRfoaQhPxUmarpi5SrWdalBGz9O7nNjKHc4Z7rgnLg8/w2iJO
+	 6r5th2EEK2Cqog7HvtlBmSnmjzTXLf8WT2UCvv1ltPBzMoHO8HgAN0TfezEnvzxV12H3N
+	 SaXSx3CSDL/PBUIiGNeeRU6mM+EQkoW1ByNR5xFEZtilIdWrloZhAXLjDfhm4BRP7bcMi
+	 xycNWQwq1oFpPDtvbylxbUnQocguhS//Ljc01JCWa+Eb8Jbjs8rjUM/H1kRizcBD4XtRl
+	 JH1bB6UcgchNPYnSI3q5A2U41YnTiEMK7Bi6KesB/B8emnub40Kdet6MRIMCHLFqi8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795116580;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795116585;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=s0ZFt8QMJU6Im7MfBdZKMYVrafrRkZfgP7k+3/j/jzY=;
-	b=wVx0R2k/WHQVRNJNjbpBwXvTHRj2PTBejOe5bBQ8C+21d7FhEXNMivHcvy8jNilmAmYT
-	 zANogvQfpx4lKkg4mh4EhIAgRcL4hQnUdI0ETg0wwhtlNC2ZXQ68kD5a1ugE9yF8bfu1k
-	 Ou9L/itT5aHt+tPQrzNfJTSUVSZ0oywKjv20srzUEap7OsL1LC+M5nagselksE/zDYXId
-	 qTcYMY9Qe748z7gC/G9kCIgsF4rEwYyZpf2Euu51TUwc/YbNUVLUd0isCMHaOCcsLQPo8
-	 D9KFajKCqtIoNJGS3nZ56eejcVXnbPWli5FtNv98PhkC5pRU2/r12P7GjjrdiYG1txw==
+	bh=wg22hG69qfPIF768FAgfebPdyLr1DWKju9YZKfDnolk=;
+	b=ncWvSBqroh4p1kZCWRt0NfQ16ioYDnPY0ucybemkuX5pTfItPmBwGoOtD+swpZlML4Df
+	 eQMMayUMt+/qTM3OfP3Dl5D9aGSls03vdJ5dC7bC8tkX7gksr6Eo5aTWwprARok60SdQ/
+	 cA451GH1gravHTHJiez2j/DpnOFzrWSleyqAV8USNYM8utoXnhgNuumNl/0B2giSvpGxk
+	 6OKKv0jEKZ0mHmiraqZPr/BoEdRqUH/f8//HxsGRRF8aef4dgqG7SMdY2Qt92IVnMl5wq
+	 V7RvF7LMJEW4cr8oDsPa4EBxcfbDkPj9eizya6NI+9tS/RibPQkRFd2sIGMV3iqs0+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q3XyqQdK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AMjB4+OF;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FD160A2629;
-	Thu, 19 Nov 2026 19:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1A560A2620;
+	Thu, 19 Nov 2026 19:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q3XyqQdK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD7A61F000CC;
-	Thu, 19 Nov 2026 19:29:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AMjB4+OF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8321E1F000C9;
+	Thu, 19 Nov 2026 19:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795116579;
-	bh=s0ZFt8QMJU6Im7MfBdZKMYVrafrRkZfgP7k+3/j/jzY=;
+	s=k20260515; t=1795116585;
+	bh=wg22hG69qfPIF768FAgfebPdyLr1DWKju9YZKfDnolk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Q3XyqQdKQR8K9LMOzIoNlQZUOvr9feJj+OCAUlChPRltsLe6YDYVz997NNDJxIGhh
-	 NIOynJp5AhuDspvuMiSWB5CeXEvepORK+bxiLNxk2BMqF9CIhE634/AdrGqGEOjtIe
-	 f1SGK7Gh+NP3lZxxphAnvegYRL/bV6bl3lNtP0wTBHzI5nAwpwg5k1aJWw/6YRdzkF
-	 DtU2y5lxahvYGX5bhQvq9Iw/b+KRQNE0CRpsKXXq6+wr6me1A69MjjjxnrK5w3vw4E
-	 nep7bhbi7u94+zzMb7FgWAsuoKJhBjVcBpGcJA9gwxwVQZXksrF9Tmo5KQnTk4u9kz
-	 Q3U8BUh8u7OAQ==
-Message-ID: <sashiko-outbox-223908@kernel.org>
+	b=AMjB4+OFaj+mst9MMgH8BKAMWo+BMD7bfzSV0JY6u0xCz9KQULHS0VK8N4KIwTLMT
+	 L0wy+DqgXd9ui3rE5xc44DKTHoJNQHGGckMOOBvs0DxEMUZENVNDxbAQCYo//vCGW+
+	 ic+JO37olO+ePI4LLp+AQdByHNrJJzLLOZpvHC2cjW5IHmxB42CxXF4RSJSWjVi+T/
+	 M0EG4uXExgrb9eglnS9qRdbzxZAvAzX3OQtmGQxM8qFPkzkMqw407JDjLqTM9Un8LB
+	 0wkbMdkJBh9HvxLOgi29kiaLbGmtK8IgoiDiKSVLZ31m2ueuA7d/rIA4o0IwLskbQl
+	 /B2Zf1YztQ8bQ==
+Message-ID: <sashiko-outbox-223911@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 22/31] driver core: Accept device trust policy by
- driver name
+Subject: Re: [PATCH v3 25/31] driver core: Document trust admission and
+ initrd authorization
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Leon Romanovsky" <leon@kernel.org>
 Cc: linux-usb@vger.kernel.org, linux-pci@vger.kernel.org
-In-Reply-To: <20261118-device-trust-core-v3-22-d655875c4bfb@nvidia.com>
+In-Reply-To: <20261118-device-trust-core-v3-25-d655875c4bfb@nvidia.com>
 References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-22-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-25-d655875c4bfb@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 19:29:39 +0000
+Date: Thu, 19 Nov 2026 19:29:43 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,16 +63,15 @@ Precedence: list
 
 > From: Leon Romanovsky <leonro@nvidia.com>
 >=20
-> Device names can depend on enumeration order, making device-specific boot
-> exceptions difficult to reuse across machines. Userspace is also too late
-> to establish policy for drivers that probe during boot.
+> Allowing a driver to bind does not establish device identity or prevent D=
+MA
+> initiated by the hardware. An initrd that treats those as equivalent could
+> authorize a device before attestation or containment is ready.
 >=20
-> Allow exceptions selected by bus and driver name, using the names publish=
-ed
-> in sysfs so policy does not depend on module aliases. Preserve more
-> specific device rules and prior authorization. Keep a matched rule fixed
-> across retries so changing the candidate driver cannot replace that choic=
-e.
+> Document the authorization workflow and the division of responsibility
+> between userspace, driver core and bus infrastructure. Explain which
+> decisions survive probe failure and unbind, and when queued probes may
+> start, so policy agents can prepare the device before granting access.
 >=20
 > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
@@ -80,5 +79,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-device-tru=
-st-core-v3-0-d655875c4bfb@nvidia.com?part=3D22
+st-core-v3-0-d655875c4bfb@nvidia.com?part=3D25
 
