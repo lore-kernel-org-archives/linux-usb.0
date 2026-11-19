@@ -1,68 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795108759;
-	b=GEJWMwURZ92uzxe7s2yeN2ESjNEPKk2dPml9x6MNGxTbfmC08HNiH0HsNsSKjlb4/D5U
-	 KmVNzvYBQg+MfXQpW8tyFIhVrXXsq1fJY1qUPeHVJnGeme7qD/BnLrvQKlSgDuOBra0W+
-	 0yqhp68oPRbmY3wWcaIN0yUdQcKT1jshr2x/JIBG9p3QmlLY8F5TBr9JxOUH8tB1ENmmo
-	 2Ecfqxs4hQvndjfa/+z5qTt9Fhwkc2ACEu2aPXGKBjKrCM2nMDgMvWjvk01XZz/aLNfmu
-	 VlR9lCzgTHSKZxCkyTFXuxlYih2ycbnHkbniS47WoDWGAUcZazvEIurTJRfaU81Bpjg==
+	t=1795108783;
+	b=OJC6gubODQ64iVvlMWUjVqAeUu9K0aKiz7yzHBoL14itTVKxKKCYtuZ7ikahSIXjH7HT
+	 8t8NXxm8mVp1EQdwQnvZ6+2EBR55NNNkasMVOmxBQt9O/u113nGc8HSpGcx9y5Bdww1dH
+	 IbJkdlZhvjIckI/fbIPlvNWSBa1SoKu3OujaMZf7XczB/G6w4QCDl22CTn4c+QL6Lm41L
+	 dRW2GDxzbljtgd8nwBzZrDBSvnJmpT9VKidEqpaEiRMbSHBrq/KXk99RSooulmlQ8vl65
+	 59aNUn9YpJ3TdQDRk7qc7xQXdEhBsIjSbKyFqRsvlb6pl1lkkLQdPbu6ciqDvz0utsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795108759;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795108783;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=s3wMWqeBQ2x31gIj29dzbloXgpxSAvIcP17vYkAnS7w=;
-	b=DZJ9kLEHH5EQYAEIoqP7JZptFAJoFnk4iz23hXNQdX49MgOQTzGSdbh5+XItLN5S+OD/
-	 9ZVhKULwz7DHe0UrKs2WnqxbU+GrmGlOxlIiq7xN3Kv/zTxqas61nj2SESu+Xpdz4UFY7
-	 Qk5g01WNBrAf9HZM9xp7tP5+vVKCVduUGSJPm8f6M+8BaG3wraw1TvHfE0hxQeUhWe4xD
-	 3fRKE8aFE4lR+9OoHQy2bOzFpX5IdvfulOpVt2aGeqDNtPpUJR8oMK/dGJ3QpqusH/DW1
-	 lqwYKPxWfsX847mm8hJih8fSWWqH4EUA0JkM+MBbbivpMjl5XjQvW8X6MzZg0c7cPrg==
+	bh=tN+2mIp76Zp/FnRZz28O93q4FOVRgcO1PC3CQWpwDNg=;
+	b=KinXpiyBtO88ptiwOdGuBOZwKxYhaPsYIPpT8l8jQcdmpjZxInE8XdGmofL67QZ5qgB6
+	 vYiIlyGg2FyRS5us+N989WOvrCWsrbfpDMXe2bjTtUs1t9SDKy+6H9rLKCdRHUjPvog0g
+	 ZwWQSv/wHE4SYL0sZCHHKRi+ivm9FFy6OoHIKoDX/clGJjB3I60v0AOLdRabteTCx7EDI
+	 3fjMgAta8/yPBWMDLEruqH0mRn7JxsLbg+fC6KkZg1ztW9uduVH2EauCV74yMl2EQMz55
+	 CdAXFQeMNW41ag2ovSQ9RvtWtVKaZ5+ZH5EE+353waz9ERPhXymBbCVZ2vGn6QwkHGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UTbsuVtw;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TLVZaDSk;
 	arc=none smtp.remote-ip=198.175.65.16
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE03460A2609
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 17:19:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE03460A2609
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64829606A324
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 17:19:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64829606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UTbsuVtw
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TLVZaDSk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795108758; x=1826644758;
+  t=1795108783; x=1826644783;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=T4RSF259WDkjOko9reghEy6DbFNOR5RIaQLeEajLnXU=;
-  b=UTbsuVtwLJ6Mo2DPXqabOAC2ApDsRyofIGPkIdszHCfeq4JYR3Oo5ybZ
-   fxsf1vSgOyK/83L/0B4iIRY5o/KPoObAAdYlTtAzuxN6qxdUEo0L2Ecdk
-   hTRN2h1ycdxK6/zPtV+0I1FbOYkoQ0eDY2zNPUMyRSxI5I3YPlsXGWGuy
-   XmiU5MufCt4tyXyTnS17ojVdTHNQRW7cI/WJttkyAlobrzT3/ma6RmsIM
-   Fal/aK7dqbgoJMcmpmc+gweIIVOPi/WuX0ZgJNcB2UzbH3np7RCiBTgF7
-   GBHaBdl2jpp1VhSE3ytm6IjTVF9uHErCfLBVlFKy+T5YWH8VQxrhczeWG
+  bh=XWwzRpJFaI4pE099Zm2ZmOmWD6BlJWZdsLCY7ySrAH0=;
+  b=TLVZaDSkcVe+tfozA2IfoHrRHSwcLPG2IHXn6HmbqYnBELdRtZpUCgRS
+   BfNndmZKtPwTf/OlVnNVAyeIT+r18X7I0dHGDhosFuwfbY5THaJfcDoer
+   /AZEEGt9kxUlQE2t6Z0Yrkzx+ARa02G/iPh0DTcur+ujT7QhWXgQFnol1
+   ONlRl/rlnoa59QqkHuy//B4mI/7d1QOrFTxQh1KIsxNR4HffyFMCKysvz
+   NKl3mWmh9Kq7RYegBGCyI2Ut1kBeZPJcvMua4ZWIqYCMoOZYVFqFh8T88
+   xv/vDgy4o9ZdUra44ZKIxvPui/0tuw2fp65/SJ2M2P3urSaaNbsLEZx4q
    Q==;
-X-CSE-ConnectionGUID: Gnp/BS4+QFenqVXuw0JhrQ==
-X-CSE-MsgGUID: 8IAH7Ao6TuyGeq9UMnVvdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3959002"
+X-CSE-ConnectionGUID: JP/UkxjESHmzWEgkoKeekQ==
+X-CSE-MsgGUID: AktEroEsRoG61r5Fkcw0PA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3959011"
 X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="3959002"
+   d="scan'208";a="3959011"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 09:12:39 -0800
-X-CSE-ConnectionGUID: 3eRKHjnRT3mF0lC9JHWdwA==
-X-CSE-MsgGUID: FLeiQtohRNiwkHMKT5vjHQ==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 09:12:40 -0800
+X-CSE-ConnectionGUID: 6XAV9k7cTMy1FWtmzayBmA==
+X-CSE-MsgGUID: AX+lybm5TJKx5/wh2UBvUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="10381741"
+   d="scan'208";a="10381749"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa003.jf.intel.com with ESMTP; 19 Nov 2026 09:12:37 -0800
+  by orviesa003.jf.intel.com with ESMTP; 19 Nov 2026 09:12:39 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 19AB0A8; Thu, 19 Nov 2026 18:12:33 +0100 (CET)
+	id 30813B2; Thu, 19 Nov 2026 18:12:33 +0100 (CET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -72,9 +72,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Rene Sapiens <rene.sapiens@linux.intel.com>,
 	Pooja Katiyar <pooja.katiyar@intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 10/18] thunderbolt: Split host router port reset into a separate function
-Date: Thu, 19 Nov 2026 18:12:24 +0100
-Message-ID: <20261119171232.1616316-11-mika.westerberg@linux.intel.com>
+Subject: [PATCH 17/18] thunderbolt: Use restricted shared flow control for DMA tunnels on intra-domain links
+Date: Thu, 19 Nov 2026 18:12:31 +0100
+Message-ID: <20261119171232.1616316-18-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20261119171232.1616316-1-mika.westerberg@linux.intel.com>
 References: <20261119171232.1616316-1-mika.westerberg@linux.intel.com>
@@ -89,126 +89,95 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Mika Westerberg (Intel)" <westeri@kernel.org>
+From: Gil Fine <gil.fine@linux.intel.com>
 
-Move the part of tb_switch_reset_host() that resets the host router
-lane adapters and cleans up the protocol adapter path config spaces into
-a separate function tb_switch_reset_host_ports(). This makes it easier
-to extend tb_switch_reset_host() in subsequent patches. No functional
-changes.
+Currently all DMA tunnels use the dedicated flow control scheme, which
+allocates a separate pool of credits for every DMA tunnel on each link
+it crosses.
 
+Take for example the following topology, where the Host1 <-> Hub link is
+an intra-domain link and the links from the Hub to Host2, Host3 and
+Host4 are inter-domain links carrying DMA tunnels:
+
+          --- Domain 1 ---
+          [Host1: USB4 v1]
+                 |
+                 |
+         [Hub:   USB4 v2]
+         /       |        \
+        /        |         \
+   --Domain2-- --Domain3-- --Domain4--
+       |         |            |
+   [Host2]     [Host3]      [Host4]
+   USB4v1      USB4v1       USB4v1
+
+When several DMA tunnels share the same intra-domain link (Host1 <-> Hub)
+and that link supports shared flow control, they can use shared
+buffering instead, so there is no need to allocate a separate pool of
+credits for each additional DMA tunnel.
+
+Change the flow control from dedicated to restricted shared on
+intra-domain links when both ends of the link support it. For links
+where shared flow control is not supported, and for inter-domain links,
+keep the existing dedicated flow control.
+
+This allows more efficient use of credits on the link.
+
+Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
 Signed-off-by: Mika Westerberg (Intel) <westeri@kernel.org>
 ---
- drivers/thunderbolt/switch.c | 88 ++++++++++++++++++++----------------
- 1 file changed, 49 insertions(+), 39 deletions(-)
+ drivers/thunderbolt/tunnel.c | 31 ++++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index 26a4363f94f8..85a2aa67cbec 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -1649,53 +1649,63 @@ static int tb_plug_events_active(struct tb_switch *sw, bool active)
- 			   sw->cap_plug_events + 1, 1);
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 2ed3cb57d8a9..3f2b6f8eb243 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -1679,6 +1679,34 @@ struct tb_tunnel *tb_tunnel_alloc_dp(struct tb *tb, struct tb_port *in,
+ 	return NULL;
  }
  
--static int tb_switch_reset_host(struct tb_switch *sw)
-+static int tb_switch_reset_host_ports(struct tb_switch *sw)
- {
--	if (sw->generation > 1) {
--		struct tb_port *port;
-+	struct tb_port *port;
- 
--		tb_switch_for_each_port(sw, port) {
--			int i, ret;
-+	tb_switch_for_each_port(sw, port) {
-+		int i, ret;
- 
-+		/*
-+		 * For lane adapters we issue downstream port reset and
-+		 * clear up path config spaces.
-+		 *
-+		 * For protocol adapters we disable the path and clear
-+		 * path config space one by one (from 8 to Max Input
-+		 * HopID of the adapter).
-+		 */
-+		if (tb_port_is_null(port) && !tb_is_upstream_port(port)) {
-+			ret = tb_port_reset(port);
-+			if (ret)
-+				return ret;
- 			/*
--			 * For lane adapters we issue downstream port
--			 * reset and clear up path config spaces.
--			 *
--			 * For protocol adapters we disable the path and
--			 * clear path config space one by one (from 8 to
--			 * Max Input HopID of the adapter).
-+			 * USB4 Lane 1 adapters do not have accessible
-+			 * path config space.
- 			 */
--			if (tb_port_is_null(port) && !tb_is_upstream_port(port)) {
--				ret = tb_port_reset(port);
--				if (ret)
--					return ret;
--				/*
--				 * USB4 Lane 1 adapters do not have accessible
--				 * path config space.
--				 */
--				if (tb_switch_is_usb4(sw) && !port->usb4)
--					continue;
--			} else if (tb_port_is_usb3_down(port) ||
--				   tb_port_is_usb3_up(port)) {
--				tb_usb3_port_enable(port, false);
--			} else if (tb_port_is_dpin(port) ||
--				   tb_port_is_dpout(port)) {
--				tb_dp_port_enable(port, false);
--			} else if (tb_port_is_pcie_down(port) ||
--				   tb_port_is_pcie_up(port)) {
--				tb_pci_port_enable(port, false);
--			} else {
-+			if (tb_switch_is_usb4(sw) && !port->usb4)
- 				continue;
--			}
-+		} else if (tb_port_is_usb3_down(port) ||
-+			   tb_port_is_usb3_up(port)) {
-+			tb_usb3_port_enable(port, false);
-+		} else if (tb_port_is_dpin(port) || tb_port_is_dpout(port)) {
-+			tb_dp_port_enable(port, false);
-+		} else if (tb_port_is_pcie_down(port) ||
-+			   tb_port_is_pcie_up(port)) {
-+			tb_pci_port_enable(port, false);
-+		} else {
-+			continue;
-+		}
- 
--			/* Cleanup path config space of protocol adapter */
--			for (i = TB_PATH_MIN_HOPID;
--			     i <= port->config.max_in_hop_id; i++) {
--				ret = tb_path_deactivate_hop(port, i);
--				if (ret)
--					return ret;
--			}
-+		/* Cleanup path config space of protocol adapter */
-+		for (i = TB_PATH_MIN_HOPID;
-+		     i <= port->config.max_in_hop_id; i++) {
-+			ret = tb_path_deactivate_hop(port, i);
-+			if (ret)
-+				return ret;
- 		}
-+	}
++static inline bool tb_port_shared_buffering_possible(const struct tb_port *port)
++{
++	if (!tb_port_is_null(port) || !port->remote)
++		return false;
++	if (!tb_port_use_credit_allocation(port))
++		return false;
 +
-+	return 0;
++	/* Both ends of the link must support it */
++	return port->shared_buffering && port->remote->shared_buffering;
 +}
 +
-+static int tb_switch_reset_host(struct tb_switch *sw)
++static unsigned int tb_hop_shared_flags(const struct tb_path *path, int i)
 +{
-+	if (sw->generation > 1) {
-+		int ret;
++	const struct tb_path_hop *hop = &path->hops[i];
++	unsigned int flags = 0;
 +
-+		ret = tb_switch_reset_host_ports(sw);
-+		if (ret)
-+			return ret;
- 	} else {
- 		struct tb_cfg_result res;
++	if (tb_port_shared_buffering_possible(hop->in_port))
++		flags |= TB_HOP_ISE;
++	if (i < path->path_length - 1) {
++		const struct tb_path_hop *next = &path->hops[i + 1];
++
++		if (tb_port_shared_buffering_possible(next->in_port))
++			flags |= TB_HOP_ESE;
++	}
++
++	return flags;
++}
++
+ static int tb_dma_init_path(struct tb_path *path)
+ {
+ 	struct tb_path_hop *hop;
+@@ -1696,7 +1724,8 @@ static int tb_dma_init_path(struct tb_path *path)
+ 		if (!tb_port_is_nhi(hop->out_port))
+ 			flags |= TB_HOP_EFC;
  
+-		ret = tb_hop_alloc_credits(hop, TB_CREDITS_DMA, flags);
++		ret = tb_hop_alloc_credits(hop, TB_CREDITS_DMA, flags |
++					   tb_hop_shared_flags(path, i));
+ 		if (ret)
+ 			return ret;
+ 	}
 -- 
 2.50.1
 
