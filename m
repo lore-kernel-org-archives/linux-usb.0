@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795116583;
-	b=nBFdRM2YrrhfjidA5j7qtpP+Z9xFWvNEeyXstypeoYUqQMH7EenJGuY6sBcES6GYQtwn
-	 WLTcSkEF11D9jgg9R1QYkl5ZILndmPD4EWzQqn0EEvNN3qrOcDFFWQlRuPYZPPSOn1EUu
-	 69e4SBR/svc/he2khtHaXzw2pvI2lAnDi1AYncAh5wAEzaH0lnhq5s91QSQYiDPz3Euzz
-	 NXWJWoYYUbuCx05fe+seM5cshhXjxxCVJWAySpFREVjdBzP4WyTfxFaMl1G0LLhtDpnV5
-	 Y2JhnWth9DvJ9P/iJKUjWTQBkp+ILSRCmit/63Psq+XymExZY3VMDr3QlsbyL3s0XWw==
+	t=1795116579;
+	b=moovRX0BBnIvLtDK8fSdI71HgolSZimn4yL94yPenPFQatRIRBz+CItsWMKeEqwF4Ef2
+	 MRDwZKrMPQT8ZDF1fkDmMiinF4d2DbP/6IFmG9Yz01TCZDYOQWjjVnmjOil5ZFiHOB44i
+	 8KhMhZ1r6Z+1nHAQw40PlrecSo/aLfbpVHiEnpbzEb6DLdzZCrneNVnwGauBJ7KwLeZ2V
+	 c/BabX/Ml5VQ2W0jkZtEHNFjxy/BH1SENsZlBRvRfqk2UWboMi7B9PZ8kwVJtNnWqxu8A
+	 CFugh4AlK8O8hWqrsORkB7JeTpV8ShykALdYB3V4VJ0Ty7BZ9eGkAHa0yZYHvvPk+fg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795116583;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795116579;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=H7UVaAxsNHzoGuQMZxoyOqJgJ1HNYhFtWBOhZqDaisQ=;
-	b=5O8VowU58YQ9+hUzYFdpzpanW3glH7PKGwNr+miB7j4NmzcUPWQF+0OVhzCC2iqjF+DU
-	 5i8ac9H40awPrIVB8Btfr0U/ioni6SSHt73Rktb6cuoyD0vgq8uZ7Z3xz0OUXyfv5lrIX
-	 yAq7FUbGSzr0UJmdJhJJfjsSJDDZs7DtRSrtZcg1AubprdOJacva9siiRMf58Z4bJF29U
-	 McDaghP/WBlFCaPidPdw5GBYgkDsAgehlpHugHPMp5BoyDCofaB/jsPj6NEkLTsolYZjQ
-	 j9zsRuHXlN7whCkvC6iFnxZA+9SK87GFB+YyU0jWy9gtIiAq7nVwRa/bDeFisoJPEtw==
+	bh=jG2pCbJYBG1q63h3JKh5Rwzx2NZplJto2rmgOHYEC3E=;
+	b=i643QXPq9IMLxGJ8etGkmTcudQbY8ZFst9GZPPylotH55bK4vzJw16Smd0/cig+TQo6+
+	 531m5+dupS8/1aPXFaVnAguRm3Kodz4AsxFR9ANN8UED+vZPPITEG2eZqLTiekJebhRg2
+	 FfuqegDR4sQPvc6vjNFpy5ilJtlpn6A5zdzY0FRFLP/pLbZXDhZZx7AiYiHp7h2c7eWdV
+	 1FqJU0oSn/QhvOmevjAhFaUmxhxWLbQfOshw1T1k1A8uoyR4aGgPOz2RMmavn6DEjFmew
+	 oXXGdLzbkBADzMz/+TTyn5W044Wcxfgodl22Zfjg/V+XsJeOTx/WKlevGy3j2XmnamA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RFXxBeuC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QiSwRFw4;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C9E606A326;
-	Thu, 19 Nov 2026 19:29:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C4660A2620;
+	Thu, 19 Nov 2026 19:29:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RFXxBeuC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C50541F000C7;
-	Thu, 19 Nov 2026 19:29:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QiSwRFw4
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EBC21F000C6;
+	Thu, 19 Nov 2026 19:29:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795116583;
-	bh=H7UVaAxsNHzoGuQMZxoyOqJgJ1HNYhFtWBOhZqDaisQ=;
+	s=k20260515; t=1795116579;
+	bh=jG2pCbJYBG1q63h3JKh5Rwzx2NZplJto2rmgOHYEC3E=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RFXxBeuCP3OWVze+SrIN2BrJ6NMtvVsq153twsfx7a0pPHHf26Sy+8KbVJEw8f0hh
-	 kg6E/LSa560VvrSIIZ6ZRZO6k9frMu7Z2Lb1CnkzDUmm1Nmnz4dtK2EtXx37TK4p5f
-	 Nyk+av/G3Ofv6FjaOgYnXmlow/EmORTwzdvzhrWICtkOfpQWJTrOJlGEQpg9NieJ4N
-	 SSpU9BOgJvC4CGvHwj3C6HWFwAQ3UT0FXuNoE3BlLCSUM+O6rAYlwNVIap+BAet+8q
-	 4TomK+ZKI4kiB7Asb35C9zgeJXHYIPGhoINPUsFXWwPeqJ02sHhXmWL/CGYOU4hSik
-	 x5/ug6kbgKddg==
-Message-ID: <sashiko-outbox-223909@kernel.org>
+	b=QiSwRFw4fFllsIgO631gg4njhZn00FV0UvBJh+261qtd0dw1/w6ir0gce8G61ToOA
+	 iAI3Hml/MOQi0Rj5IHaTL4hPORUwNiURYC/xzsI4TNEeakYlWXPwXzognO6LjFzHEJ
+	 ODy52Fnr4QZm0o/CJWX+FV2vmh5qQojFGo91fqg3LRntEy/yEyp6JolMETcdqjTAqI
+	 Aa0FlLcE7OO74K0SlO0gTqhRusgkNccrpQngAVr8NjwutKNYekfKMlQE5aEHCusNZb
+	 CKVbzFzynU4YXig7wsWiej5iywgtpNpMZ+JW2hRICXcfz1o9kjiIe6JDpz2D3cCOfa
+	 cK4kzLOG1Zttg==
+Message-ID: <sashiko-outbox-223907@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 23/31] driver core: Expose committed device trust
- level
+Subject: Re: [PATCH v3 21/31] driver core: Accept device trust policy on the
+ kernel command line
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Leon Romanovsky" <leon@kernel.org>
 Cc: linux-usb@vger.kernel.org, linux-pci@vger.kernel.org
-In-Reply-To: <20261118-device-trust-core-v3-23-d655875c4bfb@nvidia.com>
+In-Reply-To: <20261118-device-trust-core-v3-21-d655875c4bfb@nvidia.com>
 References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-23-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-21-d655875c4bfb@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 19:29:42 +0000
+Date: Thu, 19 Nov 2026 19:29:38 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,15 +63,15 @@ Precedence: list
 
 > From: Leon Romanovsky <leonro@nvidia.com>
 >=20
-> After probe failure or unbind, active trust returns to blocked while the
-> accepted operating level remains committed. IOMMU state and other
-> infrastructure can outlive the driver, so active trust alone cannot tell
-> them which operating level was accepted.
+> Blocking devices until initrd attestation also blocks the hardware needed
+> to reach the initrd and perform that attestation. A global policy alone
+> cannot allow those dependencies while keeping other devices blocked.
 >=20
-> Expose the retained commitment separately. This lets infrastructure honor
-> the original level after probe failure or unbind without mistaking inacti=
-ve
-> driver state for a new authorization opportunity.
+> Allow boot policy exceptions for specific bus devices before probing,
+> including devices discovered later. Keep unmatched devices blocked unless
+> the administrator explicitly chooses another default. This makes the
+> exceptions usable with built-in drivers and avoids depending on userspace
+> winning a race against early probing.
 >=20
 > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
@@ -79,5 +79,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-device-tru=
-st-core-v3-0-d655875c4bfb@nvidia.com?part=3D23
+st-core-v3-0-d655875c4bfb@nvidia.com?part=3D21
 
