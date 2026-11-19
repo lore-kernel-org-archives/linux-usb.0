@@ -1,54 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.154.241.218
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795101229;
-	b=hjld1hN8VarX+hkUNEb1JZb5hDa7kSa69PgWEI1ISxZjMeH4/zlwN+xJ4m70uQPB1/L2
-	 th3IdTKDk18XxZXgY0CqbkhcscjENer8oSias3Mnz4udEEY29iMLyJVbgr2B58aXEGL/b
-	 aopGtjdOIygoBZp/WeRoFRodHQMMd6ny3zqKCpyDxPxx6JJOUD/hM8wrScbQcaBLkFRkR
-	 hAmRmAZ/yJimAOCLc4pdnTICB+QY3qoHhLRDUlTH64INdx7I20pMLRcxISLIemicTHFin
-	 gtLkO1Ow+T0jfBzxu1o3G8VuZMKqBUvoY9R/t5xGBLDFbaWnIv3wo7KrAZ05+NYh8RQ==
+	t=1795101601;
+	b=sb5dA0WNansF2DH8wJyBfQkFsezZN1u5KkiuUWkNXVno9rKjyXqKBT1nUW936H+XvxgJ
+	 rfwcDZkYNf+KgoGb77cZBS/EdUS+apTcaEHlB9gMiCm1T95CKFdWMd2FRrvpCBnLZa3sD
+	 Un0vIISWnCdBLocbbrb3kZC3p4RMDrlE6NtU25V2eCecxKa3Yd/BfIXgS/hX//y+Yo9RS
+	 0wF795plzOuHGpnzEVDRDOhGSW7V4LmowIYpQrx7t/FArVuDToAf6cjZQyn63L6uJ0XQ3
+	 BAf+/9/NyDasR8GVH6hwhLCqcCrUnQ4OQ8yq08cG/vxmWL4MUr3h2/wMgsfvvroSdcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795101229;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ul0Z0NBE1PNtXbpR4W6Ujw9FfbyLS0mDLINySiV4rbE=;
-	b=jWTbDZCclUyGpRWy72izovloIkhwLjDxSz61YSWxz4mcbkBijbqalpjcIUCstswHqmgB
-	 mzesbjxFrEj9CCNIPzBKPsLdO5YrFjpm4Kh8kOdThyrJkcnUu/VM4YTP6IBjpthQ82dE7
-	 1wmQYH45P3g2NItpgaP8/p+HaA+CzI7Hz1WHro/cfTeunMgjQe3QqjXOqlulaQHcM99Rp
-	 lcggVgikAuw0/G2WIaqdOBhLDb438arAjDUD4i5TmiM0xCdQEjNeKvrj+s+tMtDIXS2B2
-	 m1G+kBIRKpIlXmoieLSfU/+/G7t353nQUahjh9+giApKSCSmqA4otrm69wvvx814oLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795101601;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-Bm-Milter-Handled:
+	 X-Bm-Transport-Timestamp;
+	bh=olhXYPzrUZC7zfKSv5RHMm6KO5rOguYUwgnN3Rzv8nQ=;
+	b=MuU8h6FZ0H9MeZReY+tlt5jCH2bzTqMuAt0sFyeDV4bhlmzvFT/9MgfUy4c8lno+YcQR
+	 FtZmsOgn5+mQmdeAKSGRclNla2/1cqJorSQS3zF5ba9DOdkKS5mctxr88cPxOClm+WtlF
+	 eHaMC2abtXWzqE3m/2SbODYKMV/wU9J1nY4NMKr6YfhGWEahLmSqpxSDlLyJleDiN7PHJ
+	 LRE/d9IYY2RXSpsmw0rRUyobmWBPWbILAzwzdNo3CAvkXQ5MHu1WsG031EvbsRoMVYwNm
+	 Z9XpXNaNNrPES/3S3p1RhHQEzZ0iyRd39+JXYSxcLKGtOcmFY5769in3lsFAU5jHGZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=yE2yNDE1;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=lauterbach.com;
+	spf=pass smtp.mailfrom=lauterbach.com;
+	arc=none smtp.remote-ip=62.154.241.218
+Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C009C606A324;
-	Thu, 19 Nov 2026 15:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=yE2yNDE1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93E401F000C4;
-	Thu, 19 Nov 2026 15:13:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795101229;
-	bh=ul0Z0NBE1PNtXbpR4W6Ujw9FfbyLS0mDLINySiV4rbE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=yE2yNDE1atXI73xM+dliSEHsu7UwLQaIyOe43E2PAQXZOFJPT7oFhO8XbT1TonAIN
-	 p9A7+hwWzx5oyHMaq+aptYfXt/sYC0cizZy93NswpzuA3Vws3ymCmb/3SAYjlltZoK
-	 kQzL8ONuAx2CY4bwxtJJYCt8GjDS80GXD871E+i0=
-Date: Thu, 19 Nov 2026 16:10:41 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	linux-acpi@vger.kernel.org,
-	"Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-Subject: Re: [PATCH v3] USB: hub: call ACPI _PRR reset during port
- power-cycle on enumeration failure
-Message-ID: <2026111902-caterer-pamphlet-6a80@gregkh>
-References: <20260706080117.3754550-1-v3-1-0e3069228fe9@kernel.org>
- <4cc3a198-fe54-4970-b21d-9cc11480fe39@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956B9606A32F
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 15:19:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 956B9606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
+Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
+	(Authenticated sender: ingo.rohloff@lauterbach.com)
+	by bm.lauterbach.com (Postfix) with ESMTPSA id 0BCB140519DF;
+	Thu, 19 Nov 2026 16:19:51 +0100 (CET)
+From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+To: gregkh@linuxfoundation.org
+Cc: viro@zeniv.linux.org.uk,
+	nkapron@google.com,
+	me@samcday.com,
+	michael.bommarito@gmail.com,
+	linux-usb@vger.kernel.org,
+	Ingo Rohloff <ingo.rohloff@lauterbach.com>
+Subject: [PATCH v3 0/2] usb: gadget: f_fs: cancellation fix
+Date: Thu, 19 Nov 2026 16:19:40 +0100
+Message-ID: <20261119151942.44304-1-ingo.rohloff@lauterbach.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,17 +55,51 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4cc3a198-fe54-4970-b21d-9cc11480fe39@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
+X-Bm-Transport-Timestamp: 1795101591102
 
-On Thu, Nov 19, 2026 at 08:58:32AM -0600, Mario Limonciello wrote:
-> Ping on this patch please from a few weeks ago.
+This 2 part patch series fixes a previous commit and does
+some refactoring.
 
-Sorry, due to a lot of flight delays (i.e. days) due to the mess in the
-US last week, I've been on the road for an extra unexpected week.
-Should hopefully catch up on pending patches "soon"...
+Note: The first patch in this series only applies cleanly, if
+"[PATCH] usb: gadget: f_fs: Fix mmgrab()/mmdrop() balance."
+is applied first.
 
-thanks,
+Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+---
+Changes in v3:
+- Neill remarked, that to avoid lockdep issues, spin_lock_irq/spin_unlock_irq
+  is needed in ffs_user_copy_worker().
+  Now solved differently via smp_cond_load_acquire(), avoiding a spinlock
+  altogether.
+- Revert order of patches:
+  First cancellation fix, because this also applies to stable kernels,
+  then refactoring (because this only applies to recent kernels).
+- Add Stable and Fixes tags to (now) first patch.
 
-greg "what continent is this?" k-h
+Link to v2: https://lore.kernel.org/linux-usb/20261110171222.22633-3-ingo.rohloff@lauterbach.com/
+
+Changes in v2:
+- First patch "Fix mmgrab()/mmdrop() balance." now posted separately.
+- Fix comment style and whitespace as requested by
+  Neill Kapron <nkapron@google.com>
+- Make sure io_data->kiocb->ki_complete() == aio_complete_rw()
+  can't be called before kiocb_set_cancel_fn() has been called.
+  That should it make safe to call kiocb_set_cancel_fn() after
+  usb_ep_queue().
+
+Link to v1: https://lore.kernel.org/r/20260901120908.14386-1-ingo.rohloff@lauterbach.com
+
+---
+Ingo Rohloff (2):
+  usb: gadget: f_fs: register cancellation handler only after request
+    queueing
+  usb: gadget: f_fs: simplify error handling using goto
+
+ drivers/usb/gadget/function/f_fs.c | 116 ++++++++++++++++-------------
+ 1 file changed, 66 insertions(+), 50 deletions(-)
+
+--
+2.55.0
+
