@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795116566;
-	b=lJNncNTxzSOJ+gf8pqG2QdJhD+llSfk7oBjuYbaFw64A89ZoRr/rIjs0JFSrwHsIt0So
-	 QCpEs/PV7Ee4hTu+WTCCtl+4J+/LO17wyHFQOSPGx8Fg5XQSgb+qf0S4H3/0NtSEF4koe
-	 FMoDfqZL+AHUIvxJVlxgn7CVvSz8QvD34NkBqN8h6ZDcEZqKm+5tTZ0EIWNdCGHr2Waif
-	 IDZqRAWNdk20kr4og7sUtziRnecGvvzT2WZCtSRJQldNq15Db99tB026bn9cgYBwFd/PE
-	 Qcw3h2S4qWT5clp1dep2riNPm1+VJ7K6MY0KwgIAZAnwhlEKB1G9U00O7mbC6BQzu0w==
+	t=1795116567;
+	b=Jn1yV/qmNcvSzxBWxhH8+BKSOFf8Ck33b7u0k468e2p7Xtw1imedQXuSCNT58VtRoLM5
+	 rQqjR0E4iGk+kNxY5V8J05XXPwM7zlWALBqOS/OYJet47NcpoKS2XdmDOIy+GkMCFkonM
+	 5YALXZwhXqYXUCBKc0v+TT2dw2X+RnS9NcUqLE77RxNE0uC8rT9MqYAZlAOce9bH7w2ob
+	 R0XvlFnOG0s0/SJQ32V4qIE7MhoZqPtbPW2peZkDQIpQaxqZ664zx3l8CSW+DWEJlsafj
+	 2tH9BG1o3I3gF7J0YqP5LhwDWVo/nb6yzelQgo2whOq2HTfa/AtVZb8kBD4VH9w5M5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795116566;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795116567;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=vqXah0PyOQZVPbhmpx12XBIdpMzQZASfn9p5oRA501M=;
-	b=w+sjZRMoLzeZtiJfuXNpVAkMIJYHwumPkzEttc3iI9C+3HF8+zXUVGkDHadGposCVnYK
-	 p1n+7wFDzrGSJGlGn4c4/AhuAM/WqGKfoxj/blXQJ4yIcF6muJcxL8XgtEO3ndRc68H5Y
-	 3Jbma/wvI8/jzaeD6Jy+bnShLMO80iPv/2WTuJq7CSZTUK0Z5QP2s3YhO2sVe2RdmrxI/
-	 wgniax9A8xY0DaBIgTHiExfhFVB+g66PikfMrZuR1sO8yPaD29BePLa9Fs3YZxVdi81x/
-	 Ol1OavBvsrkf1wKT35BZi2UiRv9May7jLBYhmCRWGqVPGxIuQ0AO1/Pv7qMZPwF/kNQ==
+	bh=f47K/WvqAPFaygsEd+lfkmHozKynMeYDhQvEitWjp/Q=;
+	b=EmyEC/mX54zh7ckyM0X92nqqgSI1zbHHysRAPY3rBBeZ4+MT8zhNsXJKaq1WYCTnHu6I
+	 lsIR2hxzyjQ86mUaqLp2ReK1OSMt7XEfHtutkH90NaRgSdN+0WAuLxsxquzCIWT+oGUBY
+	 P4KEwkDKIbllt5395JfYrxRau6VYV8RDYiDnGafE8gkS3N3I+yuQoiuSz8FYiH9oHW+xF
+	 ImGVxqe+HI7KHjwabJwzqtnFGG4e/p0bVRS68A283uVuoTr3XXqVxg0iScSAgCCsrNfGC
+	 P49VWT5e9ZX8gsyyOFt0F7oS3EQAJ27WtVYTm87RAw0OjwZ0SIujoO+ztUquWm/VLXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jRqfFPHM;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WFzyd40A;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52D2606A33A;
-	Thu, 19 Nov 2026 19:29:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDC0606A339;
+	Thu, 19 Nov 2026 19:29:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jRqfFPHM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 796501F000C4;
-	Thu, 19 Nov 2026 19:29:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WFzyd40A
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34B5D1F000C4;
+	Thu, 19 Nov 2026 19:29:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795116566;
-	bh=vqXah0PyOQZVPbhmpx12XBIdpMzQZASfn9p5oRA501M=;
+	s=k20260515; t=1795116567;
+	bh=f47K/WvqAPFaygsEd+lfkmHozKynMeYDhQvEitWjp/Q=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jRqfFPHMuz+dELdDta2OL8kpnFPgCegWgnVsEI/YUgg/0hamBcnHDuzHTNNJW08L/
-	 +9BrS1zAoiZc1FhMwWlceDSyLknq9Qapf5mtPYPUO507KSESrN4TcfWDuTfdira1Lx
-	 FZecr2RzLsmLReDQuBrS13t5zl2wlTR9gV4xft9nHRplMb9bAqf0I5xvS9WbgfePan
-	 EzpnIZah2geMNtLZgnUfEa1QFTe2knnWpUmPOtiRilwBi8UEDU+WGJEfk5zmhJC3aU
-	 cMF/JTFTKvoavnSR0IfOTrjnECCuGM/wGxONkaD8caR9Tcec/RTwqFNzbYX9sf3o3f
-	 PUxiwbU8lob1A==
-Message-ID: <sashiko-outbox-223893@kernel.org>
+	b=WFzyd40AVcWi3Ob6iXJzTa1UNCxHbeQWa6tPBakHR94uU5EUbf0Sq+xWXfThEAS4Z
+	 vD4El78R802iXKsj5Sx/j/SiMw74MEZnddEq7gZX4RrXSGGBs/cnVd/tYKpf12mIXF
+	 OOlyKWL/P64cw5fQEOpBcuuKnBSbPpb3Ll/nLb6Y6Sgt2RpJSdShp68Q3OV9X0eRZc
+	 aD78DfyzIdcycNt522+8i3oYloEumCY5A+KVKAyy0GUAuZTatFxXGXt0ucr0lqCfQI
+	 ajXLtPX+NGHLi0L42ckTHRpbopkrXGmnAxVXrtxon6u5w1lvrXJASrDB4J0C+FyNDU
+	 EbFpDXyISyD/A==
+Message-ID: <sashiko-outbox-223894@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 07/31] USB: Reject claims after interface
- registration failure
+Subject: Re: [PATCH v3 08/31] ALSA: usb-audio: Release interface claims when
+ probe fails
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Leon Romanovsky" <leon@kernel.org>
 Cc: linux-usb@vger.kernel.org, linux-pci@vger.kernel.org
-In-Reply-To: <20261118-device-trust-core-v3-7-d655875c4bfb@nvidia.com>
+In-Reply-To: <20261118-device-trust-core-v3-8-d655875c4bfb@nvidia.com>
 References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-7-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-8-d655875c4bfb@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 19:29:25 +0000
+Date: Thu, 19 Nov 2026 19:29:26 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,23 +63,20 @@ Precedence: list
 
 > From: Leon Romanovsky <leonro@nvidia.com>
 >=20
-> After device_add() fails, the interface remains in the active
-> configuration, so usbfs can still claim it. Configuration removal skips
-> unregistered interfaces and never calls the claimant's disconnect
-> callback.
+> If the first control-interface probe fails after claiming streaming or
+> MIDI interfaces, freeing the card leaves those claims behind. Module
+> unload can then race with registration of the claimed interfaces and
+> leave dangling driver pointers.
 >=20
-> A driver can claim an interface before USB core registers it. If
-> registration fails, reject further claims because USB core will not retry
-> registration of that object. Changing the device configuration creates
-> new interface objects.
+> Release auxiliary claims when discarding a newly created card. Preserve
+> them when a failed secondary probe leaves an existing card in use.
 >=20
-> Fixes: 86d30741e480 ("[PATCH] USB: Usbcore: Don't try to delete unregiste=
-red interfaces")
+> Fixes: 9ad3d6ccf5ee ("[PATCH] USB: Remove USB private semaphore")
 > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-device-tru=
-st-core-v3-0-d655875c4bfb@nvidia.com?part=3D7
+st-core-v3-0-d655875c4bfb@nvidia.com?part=3D8
 
