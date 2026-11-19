@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.154.241.218
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795101601;
-	b=sb5dA0WNansF2DH8wJyBfQkFsezZN1u5KkiuUWkNXVno9rKjyXqKBT1nUW936H+XvxgJ
-	 rfwcDZkYNf+KgoGb77cZBS/EdUS+apTcaEHlB9gMiCm1T95CKFdWMd2FRrvpCBnLZa3sD
-	 Un0vIISWnCdBLocbbrb3kZC3p4RMDrlE6NtU25V2eCecxKa3Yd/BfIXgS/hX//y+Yo9RS
-	 0wF795plzOuHGpnzEVDRDOhGSW7V4LmowIYpQrx7t/FArVuDToAf6cjZQyn63L6uJ0XQ3
-	 BAf+/9/NyDasR8GVH6hwhLCqcCrUnQ4OQ8yq08cG/vxmWL4MUr3h2/wMgsfvvroSdcA==
+	b=wCQwIS6KUKa5kTIO5hkoN/1QU/uV/wBYu1uHuARTDRCCrUc8rnopYJe20zagQpIsZ14+
+	 rdzfJiJpRyHPFsfX6qtAgDEIdyy+3AFWsihlZMd26TWwxFMLNC8UuEYKlFVONPCXJLhea
+	 +bPq5uCVNWLe/kZLyhxnh/JgdX1PB4dcsI2gL5bmRW/IMkqXILjO8HeHTzVitShqyWukI
+	 AV0Ltr4oJ4Xd+dWNNqitDTHWWUVX4EOWfrKKhvuHveBz9O092uvrDlfTwqwMWQZH0x9gR
+	 by0+a4KRlxbk9VQ3O+/82iw8AKbjiGK4K6JB5KanZmiDHvxtrLzCrJBWLH5sIO9BYlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795101601;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:X-Bm-Milter-Handled:
-	 X-Bm-Transport-Timestamp;
-	bh=olhXYPzrUZC7zfKSv5RHMm6KO5rOguYUwgnN3Rzv8nQ=;
-	b=MuU8h6FZ0H9MeZReY+tlt5jCH2bzTqMuAt0sFyeDV4bhlmzvFT/9MgfUy4c8lno+YcQR
-	 FtZmsOgn5+mQmdeAKSGRclNla2/1cqJorSQS3zF5ba9DOdkKS5mctxr88cPxOClm+WtlF
-	 eHaMC2abtXWzqE3m/2SbODYKMV/wU9J1nY4NMKr6YfhGWEahLmSqpxSDlLyJleDiN7PHJ
-	 LRE/d9IYY2RXSpsmw0rRUyobmWBPWbILAzwzdNo3CAvkXQ5MHu1WsG031EvbsRoMVYwNm
-	 Z9XpXNaNNrPES/3S3p1RhHQEzZ0iyRd39+JXYSxcLKGtOcmFY5769in3lsFAU5jHGZg==
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 X-Bm-Milter-Handled:X-Bm-Transport-Timestamp;
+	bh=RlF3zqOp/63yEDFYgj6trRAGkDEyw2Oqk0PoZU8NNRY=;
+	b=DiIZjk1BXZkXDlOyVJcf0FyeBn1DKjZfm0vL3Sz0uhyG+fItNRwtl1NBhJx42xqPAZ3Y
+	 banGTACJej7wrOeZY88hBKzwA8PY4YNmb+tEDfzOqtHALsMrrNlTefX2vPzNuq6rvhgkA
+	 DofgnVhFXfntE6BVkQjIaIaFhTFM3fpeWUfyikCb9leu8AqwvlKPOSmM88ZIhqJZpQyx3
+	 kFlQ1EAMJgQaVgLirBBWwzwsk5lCCmwiU/I4Uqev9w+tpf4IloOl6OTAbQM+QyxcFAHAT
+	 vjMauvUnQL/1GsFi2uahom+qYO8cH6DQxh2ucF2etIki1oRX905qig75AJvuokzG00A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=lauterbach.com;
 	spf=pass smtp.mailfrom=lauterbach.com;
@@ -25,15 +25,15 @@ Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956B9606A32F
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 15:19:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 956B9606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D58606A32A
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 15:20:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49D58606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
 Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
 	(Authenticated sender: ingo.rohloff@lauterbach.com)
-	by bm.lauterbach.com (Postfix) with ESMTPSA id 0BCB140519DF;
-	Thu, 19 Nov 2026 16:19:51 +0100 (CET)
+	by bm.lauterbach.com (Postfix) with ESMTPSA id 330C84303F9E;
+	Thu, 19 Nov 2026 16:19:53 +0100 (CET)
 From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
 To: gregkh@linuxfoundation.org
 Cc: viro@zeniv.linux.org.uk,
@@ -42,10 +42,12 @@ Cc: viro@zeniv.linux.org.uk,
 	michael.bommarito@gmail.com,
 	linux-usb@vger.kernel.org,
 	Ingo Rohloff <ingo.rohloff@lauterbach.com>
-Subject: [PATCH v3 0/2] usb: gadget: f_fs: cancellation fix
-Date: Thu, 19 Nov 2026 16:19:40 +0100
-Message-ID: <20261119151942.44304-1-ingo.rohloff@lauterbach.com>
+Subject: [PATCH v3 2/2] usb: gadget: f_fs: simplify error handling using goto
+Date: Thu, 19 Nov 2026 16:19:42 +0100
+Message-ID: <20261119151942.44304-3-ingo.rohloff@lauterbach.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261119151942.44304-1-ingo.rohloff@lauterbach.com>
+References: <20261119151942.44304-1-ingo.rohloff@lauterbach.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,49 +59,174 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
-X-Bm-Transport-Timestamp: 1795101591102
+X-Bm-Transport-Timestamp: 1795101593263
 
-This 2 part patch series fixes a previous commit and does
-some refactoring.
+Refactor conditional checks to use direct error returns/gotos instead of a
+long if/else chain. This makes failure paths more obvious.
 
-Note: The first patch in this series only applies cleanly, if
-"[PATCH] usb: gadget: f_fs: Fix mmgrab()/mmdrop() balance."
-is applied first.
+At the end of the function AIO request handling is done.
 
 Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
 ---
-Changes in v3:
-- Neill remarked, that to avoid lockdep issues, spin_lock_irq/spin_unlock_irq
-  is needed in ffs_user_copy_worker().
-  Now solved differently via smp_cond_load_acquire(), avoiding a spinlock
-  altogether.
-- Revert order of patches:
-  First cancellation fix, because this also applies to stable kernels,
-  then refactoring (because this only applies to recent kernels).
-- Add Stable and Fixes tags to (now) first patch.
+ drivers/usb/gadget/function/f_fs.c | 98 ++++++++++++++++--------------
+ 1 file changed, 54 insertions(+), 44 deletions(-)
 
-Link to v2: https://lore.kernel.org/linux-usb/20261110171222.22633-3-ingo.rohloff@lauterbach.com/
-
-Changes in v2:
-- First patch "Fix mmgrab()/mmdrop() balance." now posted separately.
-- Fix comment style and whitespace as requested by
-  Neill Kapron <nkapron@google.com>
-- Make sure io_data->kiocb->ki_complete() == aio_complete_rw()
-  can't be called before kiocb_set_cancel_fn() has been called.
-  That should it make safe to call kiocb_set_cancel_fn() after
-  usb_ep_queue().
-
-Link to v1: https://lore.kernel.org/r/20260901120908.14386-1-ingo.rohloff@lauterbach.com
-
----
-Ingo Rohloff (2):
-  usb: gadget: f_fs: register cancellation handler only after request
-    queueing
-  usb: gadget: f_fs: simplify error handling using goto
-
- drivers/usb/gadget/function/f_fs.c | 116 ++++++++++++++++-------------
- 1 file changed, 66 insertions(+), 50 deletions(-)
-
---
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index cf0287064923..723c1d57f437 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -1019,9 +1019,10 @@ static struct ffs_ep *ffs_epfile_wait_ep(struct ffs_epfile *epfile, struct file
+ 
+ static int ffs_aio_cancel(struct kiocb *kiocb);
+ 
+-static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
++static ssize_t ffs_epfile_io(struct ffs_io_data *io_data)
+ {
+ 	struct kiocb *kiocb = io_data->kiocb;
++	struct file *file = kiocb->ki_filp;
+ 	struct ffs_epfile *epfile = file->private_data;
+ 	struct usb_request *req;
+ 	struct ffs_ep *ep;
+@@ -1110,11 +1111,17 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
+ 	if (epfile->ep != ep) {
+ 		/* In the meantime, endpoint got disabled or changed. */
+ 		ret = -ESHUTDOWN;
+-	} else if (halt) {
++		goto error_lock;
++	}
++
++	if (halt) {
+ 		ret = usb_ep_set_halt(ep->ep);
+ 		if (!ret)
+ 			ret = -EBADMSG;
+-	} else if (data_len == -EINVAL) {
++		goto error_lock;
++	}
++
++	if (data_len == -EINVAL) {
+ 		/*
+ 		 * Sanity Check: even though data_len can't be used
+ 		 * uninitialized at the time I write this comment, some
+@@ -1128,7 +1135,10 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
+ 		 */
+ 		WARN(1, "%s: data_len == -EINVAL\n", __func__);
+ 		ret = -EINVAL;
+-	} else if (!io_data->aio) {
++		goto error_lock;
++	}
++
++	if (!io_data->aio) {
+ 		bool interrupted = false;
+ 
+ 		req = ep->req;
+@@ -1182,51 +1192,51 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
+ 		else
+ 			ret = io_data->status;
+ 		goto error_mutex;
+-	} else if (!(req = usb_ep_alloc_request(ep->ep, GFP_ATOMIC))) {
++	}
++
++	/* It's an AIO request */
++	req = usb_ep_alloc_request(ep->ep, GFP_ATOMIC);
++	if (!req) {
+ 		ret = -ENOMEM;
+-	} else {
+-		if (io_data->use_sg) {
+-			req->buf = NULL;
+-			req->sg	= io_data->sgt.sgl;
+-			req->num_sgs = io_data->sgt.nents;
+-		} else {
+-			req->buf = data;
+-			req->num_sgs = 0;
+-		}
++		goto error_lock;
++	}
+ 
+-		req->zero = !io_data->read ? epfile->zlp_enabled : 0;
+-		req->length = data_len;
++	if (io_data->use_sg) {
++		req->buf = NULL;
++		req->sg	= io_data->sgt.sgl;
++		req->num_sgs = io_data->sgt.nents;
++	} else {
++		req->buf = data;
++		req->num_sgs = 0;
++	}
+ 
+-		io_data->buf = data;
+-		io_data->ep = ep->ep;
+-		io_data->req = req;
+-		io_data->ffs = epfile->ffs;
++	req->zero = !io_data->read ? epfile->zlp_enabled : 0;
++	req->length = data_len;
+ 
+-		req->context  = io_data;
+-		req->complete = ffs_epfile_async_io_complete;
++	io_data->buf = data;
++	io_data->ep = ep->ep;
++	io_data->req = req;
++	io_data->ffs = epfile->ffs;
+ 
+-		ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
+-		if (ret) {
+-			io_data->req = NULL;
+-			usb_ep_free_request(ep->ep, req);
+-			goto error_lock;
+-		}
+-		kiocb->private = io_data;
+-		kiocb_set_cancel_fn(kiocb, ffs_aio_cancel);
+-		/*
+-		 * prevent ffs_user_copy_worker() from calling
+-		 *    io_data->kiocb->ki_complete()
+-		 * before kiocb_set_cancel_fn() was called.
+-		 */
+-		smp_store_release(&io_data->aio_active, true);
++	req->context = io_data;
++	req->complete = ffs_epfile_async_io_complete;
+ 
+-		ret = -EIOCBQUEUED;
+-		/*
+-		 * Do not kfree the buffer in this function.  It will be freed
+-		 * by ffs_user_copy_worker.
+-		 */
+-		data = NULL;
++	ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
++	if (ret) {
++		io_data->req = NULL;
++		usb_ep_free_request(ep->ep, req);
++		goto error_lock;
+ 	}
++	kiocb->private = io_data;
++	kiocb_set_cancel_fn(kiocb, ffs_aio_cancel);
++	/*
++	 * prevent ffs_user_copy_worker() from calling
++	 *    io_data->kiocb->ki_complete()
++	 * before kiocb_set_cancel_fn() was called.
++	 */
++	smp_store_release(&io_data->aio_active, true);
++
++	ret = -EIOCBQUEUED;
+ 
+ error_lock:
+ 	spin_unlock_irq(&epfile->ffs->eps_lock);
+@@ -1302,7 +1312,7 @@ static ssize_t ffs_epfile_write_iter(struct kiocb *kiocb, struct iov_iter *from)
+ 	if (p->aio)
+ 		mmgrab(p->mm);
+ 
+-	res = ffs_epfile_io(kiocb->ki_filp, p);
++	res = ffs_epfile_io(p);
+ 	if (res == -EIOCBQUEUED)
+ 		return res;
+ 	if (p->aio) {
+@@ -1346,7 +1356,7 @@ static ssize_t ffs_epfile_read_iter(struct kiocb *kiocb, struct iov_iter *to)
+ 	if (p->aio)
+ 		mmgrab(p->mm);
+ 
+-	res = ffs_epfile_io(kiocb->ki_filp, p);
++	res = ffs_epfile_io(p);
+ 	if (res == -EIOCBQUEUED)
+ 		return res;
+ 
+-- 
 2.55.0
 
