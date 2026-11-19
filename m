@@ -1,11 +1,11 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795108758;
-	b=PLwwNvhbKjZ+bNtG6rll+Arhy/LMtu+L5mhd4hhR5Brw7IasOhJI4CzX6o3bhl+aQTEv
-	 EqfP7H3N7crHjBlFhWPmyMUXpBC/FO3Tne+WFmnWywE8W2741hnJUUOlolOLxBWiBKpg1
-	 Y27nZiUlJFszWpZaRVlNtzLti0PT3UupFwv/c43ml17tfunC6BSyZmvHBYtCsuyeZ9zP0
-	 eC/JFcx9uQgUH5IvFetX+pe1a3+g+1ODJQEOlx4+/+cKqdqB6muJSTTberI4pEN2cn1e9
-	 8A11V3sotmN12J7lDs7zXIx7eNsTs3DnGsNLkFsEA3j1yszAgJlxxPJNKWTk5H3b2xA==
+	b=H9GYgbbFdjLVAPhmP/RBVpbnVgZ2Zy1XlrP5U0yvB5l2mDNQtPJmAzsspqLrvi4zlajV
+	 Cv+UOZZIkj/kd38zBqWb3GTAa4E0zCWePoc/6YgZclPb8y3xH0knIkxsNOC4UAtRN9Tfv
+	 D5W9QPGJfMsYjZ9GmWzId0O9PbDlvmQf/vaEn6+gMQb6pO0L2ka4zsykCYZMunM5P2z4B
+	 U28uBKjGhc3m7EdviyqpZ80ChIzyjP0IjvRMUV7al7W/5xQS0B/XSWj7J4eQ5EuIWM/wm
+	 qrh0In1VwxHmzIZ57ks4RJUx2DWrPlhoTN+Pd7KcXF0aXZarsO6jG0Aon7uhlRi57lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795108758;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
@@ -13,56 +13,56 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=+JuiS29AHYV7ec78JglCG3eGOPICeAmon+spTh5c9g0=;
-	b=Ff/ga7aoV+k83aD+L+hufKL3ep1mKP0/8HqaNfCcn2pu5PLQE9fsYOQ6tkAMdmJzYIVJ
-	 TjCXuVg+q1ZPM3a+/JVs0cmTNFzyHD5Mef6LX/0CtceJk7IUYBaAarpAzrU78VRbIAboB
-	 kS5ndqJZ47E0ZFL5HqAaostjQOUmZBa5Sv7kWRO1C7MsuDdexXVenXxhzxU0qY0fFB2lG
-	 kqMXAtYCvgUvuv2e2WS8yEEc6hsCcIWi1UtiZPz8fEPjM5NzUcBLIzor6ZFxsGubRDEkh
-	 DBUlcOFqibX10+Yd/TcF6xU58SyxV2rtXEgpW5QFLZyPL8HFt36ygIzuv7Bt31gKIrw==
+	bh=MeN4wzqEVIupuS1ohc+qda3wrIfT9vtNEY49oI/tgBw=;
+	b=Ce4bpPXAvu7DSARONRlnuYAgMzeH4nsIvEEUQBbvp0dk1l+zKrYF51ufWy/6rzlDhaRQ
+	 MgZ261CzavWvH9fgifOJV08RnQEe/Ji1x4QfhkqLmma4U+Q+27xUC4nNngrj6IZUJohHB
+	 PDLxvRUq/cUQJMgktuS6JndtkNSYflmrbzNSHxWUarB8VpZ904ISZJe/FGRysKuyWd9oM
+	 snnbiyASi6l7pcPvqAflZW3ajh9YxiKNbxEpwu1G9pAq1tJXY9nvkLOQbN7QSinPHCJLJ
+	 m8Q7fFyS8NakHuDUm5wlwW57MyA6EXVw2GOhCBLs84hhtCljqbxsP46MpGG4mTudXCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UcxDgi3Q;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="E/UUj0IP";
 	arc=none smtp.remote-ip=198.175.65.16
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC4E606A338
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B93606A33B
 	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 17:19:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCC4E606A338
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06B93606A33B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UcxDgi3Q
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E/UUj0IP
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795108757; x=1826644757;
+  t=1795108758; x=1826644758;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=3ZzxvhVhHu7BPW0wlH7rlC7V+Dvqj7xGOrq4zRpyA2s=;
-  b=UcxDgi3QlVxzI2N+ULRbaPhKqHCLYohjywaU7R2/NPvIoqYeeJpv8utx
-   u+BRUyZBv0bBnGZ/8pGy4iXdQdL5h82u1fjTCf4mlSzkWoaFaYz3x/sU7
-   WD/nhaofguHNKO+7Djx0e1/wCzBlJ5NWuVhIRq1LRIWWqFvakzA5SNbbb
-   ywc5+JQ34ULkxbH1SW3uL6lizh7mFlzbGjjMQRlUSCCDpEm15oMeK4f2c
-   n452tgZOJtNNYdtIFdxfoO6flSz6yyYANnSBCIT4FjTpLeTnxl2qgrVVP
-   f3pxgJsP3OgwK9R+CmeQw/lipv8/M1Tv2nVmoDEvHidzXOgYtLRYhC1N3
-   Q==;
-X-CSE-ConnectionGUID: KJC7urpMQ+OtuovYSiY8Cg==
-X-CSE-MsgGUID: r2Zzlm1ASoiK9EstnGq/1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3958991"
+  bh=VTi2PAr/RyWHvCTvsuJZKveokjbCpCalLTOD+wT0vWk=;
+  b=E/UUj0IPfgS9czG1cx2XJ/BXyMJkeyxcOlByANoyeQe7Nw2UX99t5VQD
+   XEu1qKS0z0N1W6zIo+1dt3QOL4LScJC+74IHRz88n7gDRTj3+4NydCa43
+   f5g5r5BhOz8wjtJfcGV0YGMsQXFsToSM6NMDUe/k+JzlomBJyOAQEmocl
+   XmrYrd20X9jVu6n8u2qOzAyAcGgXQ0DOffYhO5SsJbpiNPBIivbzM7NM5
+   R6XICuXczSWxyRibNq7tqTk0aEa+XNvyWijtDeUJx5bUrl0mejRM/vPwM
+   97WEdQHFRiwzPVKNMBQsXVjD5oVvnW7gQnBYX2DV0SJqKLBWUDsmplbW/
+   g==;
+X-CSE-ConnectionGUID: jGQSZR9WRUOQZ3UUY2nZdQ==
+X-CSE-MsgGUID: AiLDvMY5QWGfyVDKBTn6Rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3958995"
 X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="3958991"
+   d="scan'208";a="3958995"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 09:12:38 -0800
-X-CSE-ConnectionGUID: deFGGf3HRuSEBQBZMnclRQ==
-X-CSE-MsgGUID: X7/3BZjTRZqnN7RnXAeDjQ==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 09:12:39 -0800
+X-CSE-ConnectionGUID: 4vDrtvy7QeSQBnSbS5r8QQ==
+X-CSE-MsgGUID: XuJuWSYHS7ulOZehlSHPVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="10381732"
+   d="scan'208";a="10381733"
 Received: from black.igk.intel.com ([10.91.253.5])
   by orviesa003.jf.intel.com with ESMTP; 19 Nov 2026 09:12:37 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 172A5A7; Thu, 19 Nov 2026 18:12:33 +0100 (CET)
+	id 0DF1BA4; Thu, 19 Nov 2026 18:12:33 +0100 (CET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -72,9 +72,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Rene Sapiens <rene.sapiens@linux.intel.com>,
 	Pooja Katiyar <pooja.katiyar@intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 09/18] thunderbolt: Add tb_port_state_is_up()
-Date: Thu, 19 Nov 2026 18:12:23 +0100
-Message-ID: <20261119171232.1616316-10-mika.westerberg@linux.intel.com>
+Subject: [PATCH 06/18] thunderbolt: Return -ESHUTDOWN when control channel is not running
+Date: Thu, 19 Nov 2026 18:12:20 +0100
+Message-ID: <20261119171232.1616316-7-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20261119171232.1616316-1-mika.westerberg@linux.intel.com>
 References: <20261119171232.1616316-1-mika.westerberg@linux.intel.com>
@@ -91,61 +91,45 @@ Content-Transfer-Encoding: 8bit
 
 From: "Mika Westerberg (Intel)" <westeri@kernel.org>
 
-Move the check whether the link of a lane adapter is up from
-tb_wait_for_port() into a helper function. We are going to use it in
-subsequent patches. No functional changes.
+Use -ESHUTDOWN like the ring layer does when the control channel is not
+running, and drop the WARN(). On buses like Thunderbolt/USB4 user can
+unplug a device any time so it is expected that control channel reads
+and writes fail and the callers are supposed to handle that.
 
 Signed-off-by: Mika Westerberg (Intel) <westeri@kernel.org>
 ---
- drivers/thunderbolt/switch.c | 27 +++++++++++++++++++--------
- 1 file changed, 19 insertions(+), 8 deletions(-)
+ drivers/thunderbolt/ctl.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index c748158a7044..26a4363f94f8 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -481,6 +481,20 @@ int tb_port_state(struct tb_port *port)
- 	return phy.state;
- }
+diff --git a/drivers/thunderbolt/ctl.c b/drivers/thunderbolt/ctl.c
+index 965988b18608..c8b07dd01bdf 100644
+--- a/drivers/thunderbolt/ctl.c
++++ b/drivers/thunderbolt/ctl.c
+@@ -140,7 +140,7 @@ static int tb_cfg_request_enqueue(struct tb_ctl *ctl,
+ 	guard(mutex)(&ctl->request_queue_lock);
+ 	if (!ctl->running) {
+ 		tb_cfg_request_put(req);
+-		return -ENOTCONN;
++		return -ESHUTDOWN;
+ 	}
+ 	req->ctl = ctl;
+ 	list_add_tail(&req->list, &ctl->request_queue);
+@@ -1127,7 +1127,6 @@ int tb_cfg_read(struct tb_ctl *ctl, void *buffer, u64 route, u32 port,
+ 		break;
  
-+static bool tb_port_state_is_up(enum tb_port_state state)
-+{
-+	switch (state) {
-+	case TB_PORT_UP:
-+	case TB_PORT_TX_CL0S:
-+	case TB_PORT_RX_CL0S:
-+	case TB_PORT_CL1:
-+	case TB_PORT_CL2:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
- /**
-  * tb_wait_for_port() - wait for a port to become ready
-  * @port: Port to wait
-@@ -529,15 +543,12 @@ int tb_wait_for_port(struct tb_port *port, bool wait_if_unplugged)
- 			tb_port_dbg(port, "is unplugged (state: 7)\n");
- 			return 0;
+ 	default:
+-		WARN(1, "tb_cfg_read: %d\n", res.err);
+ 		break;
+ 	}
+ 	return res.err;
+@@ -1153,7 +1152,6 @@ int tb_cfg_write(struct tb_ctl *ctl, const void *buffer, u64 route, u32 port,
+ 		break;
  
--		case TB_PORT_UP:
--		case TB_PORT_TX_CL0S:
--		case TB_PORT_RX_CL0S:
--		case TB_PORT_CL1:
--		case TB_PORT_CL2:
--			tb_port_dbg(port, "is connected, link is up (state: %d)\n", state);
--			return 1;
--
- 		default:
-+			if (tb_port_state_is_up(state)) {
-+				tb_port_dbg(port, "is connected, link is up (state: %d)\n",
-+					    state);
-+				return 1;
-+			}
- 			if (state < 0)
- 				return state;
- 
+ 	default:
+-		WARN(1, "tb_cfg_write: %d\n", res.err);
+ 		break;
+ 	}
+ 	return res.err;
 -- 
 2.50.1
 
