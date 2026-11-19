@@ -1,80 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795117762;
-	b=NNthq/AU8cTUSWuy+DR3+BcDirSH4aqL42wwZ+GJlwJMH5eMKUMJofjtPwWZf6t4f3EY
-	 /4HXuK7cWOKhHMXS9GIxRXTFBeLr6a9JaAyAup7M7nl0RdsrYxAA05f0Gco+3GrJw+A0B
-	 HHpJ9BMPtpMfqzmGqoaHq4hSOSB24Ex6ZqWnVjTO14mG3DEVxpZlb+tkE6IdReLeWD6Mu
-	 mjFIy4cht6aVsbLtoYMafGiJuhMCsaUuFQU6JcOmDkQMYxxVHMRXPIiTcxse2PLEpzIWq
-	 cnVhJb31LP5bzXNASO49dby4mNZX13CohRVQg16wsA3lb1MheYCUj8KVyeqsMG7aobA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795117762;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=3+49QTDjm/vKqS/Wcu2TETTUiKiVb5Sph5ntAgUjO8g=;
-	b=2PsCuuZ91s1p0w0t3KEUjeGUZFpmTfS7UgUmupYvHNEBpojKWi90CcszuFT5D0Fz1hKA
-	 lVhQwNkJFW0gYJjEbuIyrKGvOU7ztLrnpDyLSs+2fPXBSZMrHoENA1v9zHnByxntvMlYM
-	 s12ALujAtxD3PqYh2tLrZfWkkqbEnUOk7+es8z0iEKVc3U80mT1sVFflEQPDiTWApFNVF
-	 2cklQ9CoE7C7hNCH6RNOrwoun3GAB8VvMTLTD5/TE8e8G9KR6mOCWoQyozbMJH7JGmYG9
-	 zjnzr6q9SLPN8mz+kkbI4Le4R9iPwdrS1KKLvB7boUOJ14ZVlot/xGsRot4PqIIXhfA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vo0hJsNJ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795117805;
+	b=JoiGx+TlQMi0hFW+8oBj4QqSSjnPfqP77SAR6Rb2dr67G+nF4GMGFoWckf0OdKaOOJd4
+	 4zxmcCeI1TePQLvlDWSJcfAxVtJ5eBusObuYoYrFwYqyhsPIa4sn1wknHgjkd0yZnLeOV
+	 /DD98YnJiTwKH62s6gOBH5e4fR1ObEOLxYPzGK0XDULxqg+c+tM7/jk392ZPFd8DqYGDl
+	 HX0dDcCQ1+wVATPzoNs4P1Bx5raoxYtodNm+xp/sAFmkTVRxw2tPE62eMNyokQMPzGR19
+	 fy+gAt8shaQb7tCDUQn7aqyC6KaU9ELHlO9u+5uqLAp0iDgOKhh58PnFV+vtud7P/mg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795117805;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=fUyQVC0O4SLGiBFFs/hrC1wx0v6ktDcqCyV3YsiVuYM=;
+	b=Cv+a6/rsI96l2s43ym6pohuTrHWkFgFySBXNJ0tkutWeCv+cl5zlavQERz/FUaFft9Qb
+	 pSbVVjsaZgv7aH+BDnYfyaIYiBEiQCkSN1Q/SjQ+Lp+c/50QdwNmzR1T53zVPr/XwtTrP
+	 658spOhsqfeTnOWmo87G3f67u9CdCemttc3TfCa1TOEgM1A9JAwiypoe9kG0zdwP51h5q
+	 H7HAuu6ynbTTBuAiH5jeqkQiaA21lk25R/kZnJ7boA04gVoZCtyqLOFNIkUqwry7MYgJk
+	 8V9fdUmemnuz8TjyKV9l5wrJJyq7MM40DV+K3GZNooRR+kAuqi8n89M5B/uxW5jfKew==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=goRymz7q;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40820606A324;
-	Thu, 19 Nov 2026 19:49:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C01606A330;
+	Thu, 19 Nov 2026 19:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vo0hJsNJ
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795117761;
-	b=TwP3P4RqGtTF5Irho9PrA5dHJLqRVX2fgjo/8zvBqU88AmDOGIVwihCE7r3OED/sR0Io
-	 qiKWjldpx/bZlaWIXqRkbIdBoJAzQv/50Qd04gjgdGgPhUAAWb2BEKGCC0eIQrELZf4Sy
-	 szAxZTYJVwgCku4vMcKv6kzq+FPig1VlzFqc3QVjhmOdHvnFe+LbZLH6Ddz7P3bGSq/ra
-	 2cbLgIK2vEoKsVncVW5aTFw8aJMqGlriBzyB1htVn658nmETjkfIRJ+Ho23l3GLURd0YH
-	 Eb224ZbPG/vhXPFgf0TCerWNUZf1BEmu4VJ37SayMqLYRBJRVb0JJt8XgcRhBlyO7oQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795117761;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=3+49QTDjm/vKqS/Wcu2TETTUiKiVb5Sph5ntAgUjO8g=;
-	b=w8k9h0DDRHLDEfsc5XlcL6cYupKzAQFwMLA57T2gncEkC5gpsfo5CmXrg6cahql3b+29
-	 60h1wCLREUwfoUzJY7ss+/cyAue6x16JYS9ga/4D9cGbC7eHooC9LmQ6Q7Fd2Md7FHPdz
-	 CBK2ADb2SPCejmV7Xuf2n0vHy03aOFZLCwZZOTOIDvwLHXeGyHrIlfNhVCxnTuCors7m6
-	 vpn42U8PVMTY1h8E7BoE+fOXYpzyDalh8f9tDNjY7VkNWL+JypT7IFx1U8KCU61dLo6VK
-	 1c6HWCq2obVKQV+sy03CA69DQwby8rpsiuJTrZ7BSPNweunQcLX5vSqYaG02N+K7R4w==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 46C631F000C5;
-	Thu, 19 Nov 2026 19:49:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=goRymz7q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0D4A1F000C5;
+	Thu, 19 Nov 2026 19:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795117761;
-	bh=3+49QTDjm/vKqS/Wcu2TETTUiKiVb5Sph5ntAgUjO8g=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=Vo0hJsNJlVDFRsdVjfsd0RHe/k+Ox6HSa43+JUz8lFrgi6eUnlO7JU6yN08HaPClD
-	 y/1P0k3bOduEguVMKjCnvMzX/Mk75OI865fO4mXvyNu7jIzzyRejILryn2rbXtu2FV
-	 iZu2Hpg3Ik6GVi9prhxDvjXvFWf2pbB609MS51WQRBkFlACNuLX7p3vc9snrAQGphH
-	 KK3J18wx/itrEj1/BeIkqHUQIBNVBrkSnh3OxnJUgp4DRk35fLeQmsVKXhrkPMIC86
-	 obiCB/kbaJSuluC3MKcnemo8Jf70bGS+YoiErfVUP+M+yureJeCxIV1fwWvgKAsjrm
-	 AOrrHETXnfQQQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 992A04B400;
-	Thu, 19 Nov 2026 19:49:20 +0000 (UTC)
-From: Umer Uddin via B4 Relay <devnull+umer.uddin.mentallysanemainliners.org@kernel.org>
-Subject: [PATCH 0/6] Add USB support for Exynos7885 and enable USB and FG
- on gta3xllte
-Date: Thu, 19 Nov 2026 19:49:16 +0000
-Message-Id: <20261119-gta3xllte-usb-battery-v1-0-0cf5f763522e@mentallysanemainliners.org>
+	s=k20260515; t=1795117805;
+	bh=fUyQVC0O4SLGiBFFs/hrC1wx0v6ktDcqCyV3YsiVuYM=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=goRymz7qc+F9X7GeudL+SVftj243LRVuK0NP51HwGvwG4MxSw8D/v0vvsff15WGCi
+	 pM0BT3s9Uo7nD10v8Y7NAX4F3ZnV3sysDol62lOtWCYFdw8YLhaqvqzpiwl6ZbazEi
+	 K+cIMAtkLkOLCfHE6+id1EoodSWkbUwQRss0pfnLqSfiyFkX7gW+GjVM1v+sIGaaiq
+	 SmDJArtfz3jc/k1Jdx/bGc2H6vopXRQF0ULcdSIMYx1TP6sqm2p3nWxF4G3v4/v2mg
+	 j/XRJ9RMMxDSKrygVXGhTVmnjrRXP2nIYPVm/QD4pYX/uyHZ3S7JNR9Qf59v3krPA6
+	 6TEQgfEu3qzCw==
+Subject: Re: [PATCH] net: hso: cap the MTU to the mux tx buffer size
+From: netdev-bot+sashiko@kernel.org
+To: chenaibing@cmss.chinamobile.com
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 19 Nov 2026 19:50:04 +0000
+Message-ID: <179511780420.3136.11749400958773906297@kernel.org>
+In-Reply-To: <20261116014904.556-1-chenaibing@cmss.chinamobile.com>
+References: <20261116014904.556-1-chenaibing@cmss.chinamobile.com>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,84 +62,104 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBG4auQWTuJRTDUqxgWLfziGIKmMxgI4
- e5WXX6L9zZSJIHSpdgo4S0qzynDHQrq7mEawNJnU3ksz845z4OF0zKOBp41cgxmSCtHX6PqGx/
- Q1JTbV8JNlt/32v6tc3ygs++M9v0DH3PPq3kAAAA=
-X-Change-ID: 20261119-gta3xllte-usb-battery-b95e4d89ae85
-To: Vinod Koul <vkoul@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Sylwester Nawrocki <s.nawrocki@samsung.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Peter Griffin <peter.griffin@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-phy@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, 
- Umer Uddin <umer.uddin@mentallysanemainliners.org>, 
- David Virag <virag.david003@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795117759; l=1828;
- i=umer.uddin@mentallysanemainliners.org; s=20261109;
- h=from:subject:message-id;
- bh=yfFFDGO1vosaycRHkyMq/ESVrYzVjaRTqRdxrfEOlRU=;
- b=DOUWCJC+nGAPnXyDeJyc7GzcvtXM33vcEfPLeUGUDgC34VJmZIADaL8pMrRRf0Q+kEdHuXTF9
- pScKDNhyaBXCo8FM/p5Xk8rvTEEKTBTi+pjQnkEozJPcCyD4Te1NT4c
-X-Developer-Key: i=umer.uddin@mentallysanemainliners.org; a=ed25519;
- pk=Hsgrt4A72CFTe27AI1AAWlnLsiQrlb4+T+cbrfWDhUA=
-X-Endpoint-Received: by B4 Relay for
- umer.uddin@mentallysanemainliners.org/20261109 with auth_id=1466
-X-Original-From: Umer Uddin <umer.uddin@mentallysanemainliners.org>
-Reply-To: umer.uddin@mentallysanemainliners.org
 
-Hi guys, this patch series adds support for USB on Exynos7885. This series
-is based on David Virag's work[1] I had rebased it onto krzk's for-next
-tree and tested it on gta3xllte. This series also enables S2MU005 FG
-on gta3xllte, which is also tested.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-Please note, I did drop enabling USB on jackpotlte, this is because I
-don't have the device myself to test the changes personally and I didn't
-want to risk a regression on jackpotlte.
+Critical: 0 · High: 1 · Medium: 0 · Low: 0
 
-DT changes were tested with make dtbs_check W=1, and the dt styling check
-scripts with --mode strict flags, both of which returned no warnings.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-Best regards,
-Umer
+- [High] This is an incomplete fix: the slab out-of-bounds write in
+  hso_net_start_xmit() can still be triggered.
 
-[1] https://github.com/VDavid003/linux/commits/linux-6.11-rc2-7885/
+--
 
-Signed-off-by: Umer Uddin <umer.uddin@mentallysanemainliners.org>
----
-David Virag (4):
-      dt-bindings: phy: samsung,usb3-drd-phy: Add Exynos7885 support
-      dt-bindings: usb: samsung,exynos-dwc3: Add Exynos7885 support
-      phy: exynos5-usbdrd: support Exynos7885 USB PHY
-      arm64: dts: exynos: Enable USB in Exynos7885
+net: hso: cap the MTU to the mux tx buffer size
 
-Umer Uddin (2):
-      arm64: dts: exynos: exynos7885-gta3xllte: Enable USB support
-      arm64: dts: exynos: exynos7885-gta3xllte: Enable FuelGauge support
+This commit sets net->max_mtu in hso_net_init() to
+MUX_BULK_TX_BUF_SIZE - 14. With that cap, userspace can no longer raise
+the MTU of an hso net device past the fixed 2048 byte mux_bulk_tx_buf.
+The intent is to stop the memcpy() in hso_net_start_xmit() from
+overflowing that buffer.
 
- .../bindings/phy/samsung,usb3-drd-phy.yaml         |  2 +
- .../bindings/usb/samsung,exynos-dwc3.yaml          |  3 ++
- .../arm64/boot/dts/exynos/exynos7885-gta3xllte.dts | 50 ++++++++++++++++++++++
- arch/arm64/boot/dts/exynos/exynos7885.dtsi         | 43 +++++++++++++++++++
- drivers/phy/samsung/phy-exynos5-usbdrd.c           | 27 ++++++++++++
- include/linux/soc/samsung/exynos-regs-pmu.h        |  3 ++
- 6 files changed, 128 insertions(+)
----
-base-commit: 397f550f3c8551b3ffbf3f45a571b58448514988
-change-id: 20261119-gta3xllte-usb-battery-b95e4d89ae85
+> diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
+> index 71caa3764b239..45713c9940894 100644
+> --- a/drivers/net/usb/hso.c
+> +++ b/drivers/net/usb/hso.c
+> @@ -2393,6 +2393,7 @@ static void hso_net_init(struct net_device *net)
+>  	net->flags = IFF_POINTOPOINT | IFF_NOARP | IFF_MULTICAST;
+>  	net->type = ARPHRD_NONE;
+>  	net->mtu = DEFAULT_MTU - 14;
+> +	net->max_mtu = MUX_BULK_TX_BUF_SIZE - 14;
 
-Best regards,
---  
-Umer Uddin <umer.uddin@mentallysanemainliners.org>
+[Severity: High]
+Is this enough to keep hso_net_start_xmit() from overflowing
+mux_bulk_tx_buf?
 
+max_mtu is only enforced by dev_validate_mtu() when dev->mtu changes.
+It does not limit the length of skbs passed to ndo_start_xmit.
+hso_net_start_xmit() still copies skb->len bytes without checking it:
 
+drivers/net/usb/hso.c:hso_net_start_xmit() {
+    ...
+	memcpy(odev->mux_bulk_tx_buf, skb->data, skb->len);
+    ...
+	usb_fill_bulk_urb(odev->mux_bulk_tx_urb,
+			  ...
+			  odev->mux_bulk_tx_buf, skb->len, write_bulk_callback,
+			  odev);
+    ...
+}
+
+mux_bulk_tx_buf is still a kzalloc(MUX_BULK_TX_BUF_SIZE) object
+allocated in hso_create_net_device().
+
+The stack does not guarantee skb->len <= dev->mtu at this point. These
+paths look like they can send larger skbs whatever max_mtu is set to.
+
+AF_PACKET packet_snd() with PACKET_VNET_HDR skips both MTU checks when
+vnet_hdr.gso_type is set:
+
+	if (!vnet_hdr.gso_type &&
+	    (len > dev->mtu + reserve + VLAN_HLEN + extra_len))
+
+If gso_size is at least the payload size, __virtio_net_hdr_to_skb()
+leaves the skb as non-GSO:
+
+	if (skb->len - nh_off > gso_size) {
+
+So the skb is not segmented. validate_xmit_skb() only linearizes it, and
+it reaches hso_net_start_xmit() at up to about 64KB.
+
+AF_PACKET tpacket_snd() only clamps size_max to the MTU when no vnet
+header is configured:
+
+	if ((size_max > dev->mtu + reserve + VLAN_HLEN) && !vnet_hdr_sz)
+
+The per-frame MTU check is skipped in the same case.
+
+For IPv4, ip_dst_mtu_maybe_forward() returns the route's RTAX_MTU
+metric. That value is capped at IP_MAX_MTU but not at dev->mtu or
+max_mtu. A route through the hso device with something like
+"mtu lock 4000" would send 4000 byte packets to the driver without
+fragmenting them.
+
+In each case, an skb longer than 2048 bytes writes data chosen by the
+sender past the end of mux_bulk_tx_buf. The same length is also used as
+the URB transfer length.
+
+Would a length check in hso_net_start_xmit() before the memcpy() be the
+right fix? For example, if skb->len > MUX_BULK_TX_BUF_SIZE, drop the
+skb, increment tx_dropped and restart the queue. The max_mtu cap could
+stay as an extra guard.
+
+Since this is tagged Cc: stable, wouldn't the backport as written leave
+the mux_bulk_tx_buf overflow reachable?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261116014904.556-1-chenaibing%40cmss.chinamobile.com
