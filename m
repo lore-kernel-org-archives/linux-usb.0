@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795116576;
-	b=Oi1fOAiFsSSWTtY1gDen8ZRrlwJXgWiLGTaWoJGlZfU8xpNtefVs6bIHwEdYfSLYBcxM
-	 OUvRB+6RZyPnewOoKznTm1hytfMdgTiPFsS5mUwgRRjXBZ82pQum4sJdc6VHHk8Cf1u2B
-	 EjYNAU3ScRoXwhnBPjqHUFQGTG1l9EIdPODO6RYtteyDsy/w6krd8NBr21lnStR/H7bET
-	 4Dtaio/wGZ2f/5rntcxR+70MrGGarqq11QSW/G1vJuqRVNi7yPn75hdQ8UPCtvZ4+uc1S
-	 7KVgX4MDSNQZFYJ3kusKDkhonvip6i66Y4FxyJHboX78PM4isLXFEP8/eH+97E7IprQ==
+	t=1795116571;
+	b=qdNejGdn3wmmr3RTt+mfFqlhQzHnmR2/ERGJPNqCZ/kVVFUJmlN4K0ZncYhP5FhDoD3g
+	 bGqXZxZzqKCmyDPPtwvo2dsyJ4+14H2oGQLOEukyzX1aPh0D7embbmlWmqpn7SYHn5jVD
+	 3I11norpDnVsDQxOneZHmNdedtAdbtmRZ5F3zNyZtCiyyMvwbTnNLFhYlYnTN/RwVQBUn
+	 p8T0V9V9PoqQ1DS+nO4nt4blLcSuU8jLfZUTjv88nvt6ST+X6txZ5n6ww1KV30vBJnjbc
+	 oWn9ra064EUuNH1dTJKh/I96T3sakhOM09PJn0k8NxTPKE6Fzth7rcoLxoq4HarE5kw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795116576;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795116571;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=xmXhIZ3R0JE2LbkJamgdZZk+b/CNgaLuBk9wCh3NKIs=;
-	b=r3fXJowaBvQDoLo8F9x4xPZWGs21VmEkzW/Of1biTeVk3h8YAbxup90W/hM1/GHKZTiG
-	 +qfxborv8t0l3BcHYg0R3DDMD5X0ODzfiETvFCZBq+RRpdVi1g0NpIJmJcUtRzncyAxnm
-	 I8msQu1TU+NoXQG7tX4RldwhygxeVNK3zjX9weQQ5i2XX3j+aitItWqUka9VWpXke8nOw
-	 mC3Foh5slWfXkAGFP77WCrHhPXFMjOLXa/GABl6eYmhEitkIejEu2xc8fssic64/gOkb8
-	 l72GQEeP2T4+yvWUIR9JMjtWLnLKP05TuECKY+PiF0DbgdKP/YHLuozQ3QOJ+PN5hmQ==
+	bh=17jzkN1pkKb0rYxYr6aSPtJdilGzKt3krnXCvhAcS7M=;
+	b=tiU6nxRh0oiQlCWkUUgN7757iP2AbAIVMh7x/k8UvJVPiXL3n0/XvS2Rf9GpL3iX5Ahj
+	 pJT/RYRwG1TyLfJzs5FsY8bAKZjpSPCpYlyxyzfehabXcdaMSrYCxGIg/533zXLyro4cg
+	 ARvVoJuNqBtx/3LbNAaKZ1Y7mYs/zCf1pVzqQvIwgY/hH508NEZHanjOwDWaOqzztnBpi
+	 LAD31wfy37TUgCEyAsnAAwFnbI//3obFttdAXn+T6s6F470Foni+BuAksUSZgi6ckYd3k
+	 hmPkBBG8r4skqfIOWxNK7qhe/LMfmmXbuAZC6G5SMhBqI8cVIRdOvkc0sXlfL6FZLVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mb4BQVuV;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y4gVDqhd;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFF160A2600;
-	Thu, 19 Nov 2026 19:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4431606A334;
+	Thu, 19 Nov 2026 19:29:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mb4BQVuV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 408F51F000C6;
-	Thu, 19 Nov 2026 19:29:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y4gVDqhd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A311F000C7;
+	Thu, 19 Nov 2026 19:29:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795116576;
-	bh=xmXhIZ3R0JE2LbkJamgdZZk+b/CNgaLuBk9wCh3NKIs=;
+	s=k20260515; t=1795116571;
+	bh=17jzkN1pkKb0rYxYr6aSPtJdilGzKt3krnXCvhAcS7M=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mb4BQVuV1Xa5d1ATbhudRjEdUb8ekCdFiZ3hvv+/ez9ch0Ci3vruJasFJMewjpHFR
-	 gw5wMrBaZVrr7BQnclgEGRE+TCYXCOyn6pLjw7MrE5b3c7BskdwV7GmzJFeHphgR/R
-	 xVITirA4yX1p7GgyVL1YRxy+zzGaMCcpvC5hnF0VYLj3mVl9Vvjklxbe59e9+WL3oR
-	 erEAfBf/eBPOp0yP0T5SricKG1T/QDLHv2F/Y9T2FrDxNkrVcAX29nVrG51G3ufMea
-	 eEQ/xG4w9leGz0jui/RUbaDMhjy8WR+88R5LCne8krqLl7bmokGDcJb9BkM1aRuY6L
-	 cjB90RtNns8fA==
-Message-ID: <sashiko-outbox-223903@kernel.org>
+	b=Y4gVDqhdsI3fo/Oo5JnRTg4lJLdrzYX2muI7cyK5DJJGxirqu/eHR9Pl/RmhM03zy
+	 yFuIA/Oj1aLhypDXlIFMOCk1TVDL2I0mV8m+sg45d70QOOse/cuvov+7scR/B329gT
+	 7BqV4lOxAuCnEcmo7fe3/W/y0dzrQQdWePUrpF62edMaxCbdZyt26lvingrHlQ/pnt
+	 E4CHSJ5OGpgcA1NNItCIuicUIOtTWc3AzYklrUJpbCOrVR/klU+2RgHtE1jPD7MpyA
+	 weRBNYJX8+ztb+FvCdFHGMg6QkUD0XCYU6ebiv/EVjBdtr36U/1RrvebZG4vEtkIYF
+	 6+RatZq3zyQxQ==
+Message-ID: <sashiko-outbox-223900@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 17/31] Input: serio - use the compatibility driver
- attachment API
+Subject: Re: [PATCH v3 14/31] driver core: Report deferred probes through
+ sysfs drivers_probe
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Leon Romanovsky" <leon@kernel.org>
 Cc: linux-usb@vger.kernel.org, linux-pci@vger.kernel.org
-In-Reply-To: <20261118-device-trust-core-v3-17-d655875c4bfb@nvidia.com>
+In-Reply-To: <20261118-device-trust-core-v3-14-d655875c4bfb@nvidia.com>
 References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-17-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-14-d655875c4bfb@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 19:29:35 +0000
+Date: Thu, 19 Nov 2026 19:29:31 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,22 +63,26 @@ Precedence: list
 
 > From: Leon Romanovsky <leonro@nvidia.com>
 >=20
-> Manual serio binding holds serio_mutex, but generic sysfs probing does
-> not take that mutex. The two paths can race while updating driver state
-> or cleaning up a failed probe.
+> commit b8c5cec23d5c ("Driver core: udev triggered device-<>driver
+> binding") introduced the concept of "Systems who want to control the
+> driver binding with udev" can use the drivers_probe sysfs to trigger a
+> driver bind based on the kernel's match list.
 >=20
-> Use device_driver_attach_unrestricted() after the port ID check to
-> centralize binding and cleanup. Acquire the device lock with
-> device_trylock() to exclude generic probing, returning -EBUSY instead of
-> waiting while holding serio_mutex. Map legacy -1 connect failures to
-> -ENODEV in the probe callback so they are not reported as -EPERM, while
-> preserving errors returned by the attachment helper.
+> If attaching the driver is deferred before its probe callback runs,
+> userspace sees EINVAL and cannot tell it should try again, maybe after
+> loading other drivers.
 >=20
+> Map that deferral to EAGAIN and add missed documentation for the
+> drivers_probe sysfs. A deferral requested by the probe callback itself
+> is still not reported.
+>=20
+> Fixes: b8c5cec23d5c ("Driver core: udev triggered device-<>driver binding=
+")
 > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-device-tru=
-st-core-v3-0-d655875c4bfb@nvidia.com?part=3D17
+st-core-v3-0-d655875c4bfb@nvidia.com?part=3D14
 
