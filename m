@@ -1,56 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795108225;
-	b=VI6ZSlgv/5/kgciYxRBy8OoPAlsj2keET0Vcf5eHxar5mV2ZvJBnSj+/UBGprjV/Sh9k
-	 bqYVkIjXxOfDBC++hZlNUMJJp346wndgUpSc25J+hAy/lRy6ziJ2hUzKKFrs5OtmXCogR
-	 XobF+hCCUurtC0t9SHe67ATOK5tvxF7rSHJ6MhQHyl3/bRerZb4KtbqfrvyQT2grp050N
-	 v4ZKATcCVnZnhibRE8o/4YmK0LnVh1AJ8ePrdXPmW1Hq8x2Ga8SrUsCE1FNdAKXb5bjwi
-	 Z9HTKxloGZszXXfhvnumJJIsveuOWA4DfzKa56QMVgBxjClpmSR3zE+7mqhhmiqHg6g==
+	t=1795108357;
+	b=zg8qKYD87ZGMLaKU3MCbCzoGPjknXuAot8leQs4/T60urGEjDZ759WytVI3xGRwF9iCW
+	 S+zugOdcXeUevEar+gI3lSHU/rguGy28Lc6jBPw/PnLLJr/UDl4BpLWO/MZk9TBQNRO81
+	 y0f8Ox4AohfhOGU3hBk8KaQDJsz6KVxvmWwzkpoOh26nj59bGS0UQJkbu5mdhtJZLxFbh
+	 suQIq28X3tO6X03FUEzwI4xaUYECS0/4al3oXcByVQow5hOUsq1KFye1FdSf346bhkCaJ
+	 XLno9z4Phzv7d7VhwpiTQTX5EgQMUgiilh8hkda/pKs1y7RV7su8Kogw5ibXVZ+uYFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795108225;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=iCbmD7M0rCoJoVSN60gzoWL2nVX8EUiOFHW8yr/ZUmw=;
-	b=fyygIpKxnVxC1rlAUa7GFcLdeOQqJZOk174LvZe6trFzwddouYBRoBQN6hZsII/TEEIq
-	 W2j+3sk5DXA/Z7Fn4uUkOs9Rxf4OKGO04fpsZbWLOVwUoaqBeeSPje/3+2DkWeiRgpLK4
-	 GPxFUoD9ASmK84b4+Jr+b9BArNErVZycmeZkXKYUFGAwsMU4HLvLWipmGIo4V3OTvhPMz
-	 1nM+XipuIn4RJIe+20Pm3yyHpVzc0M2+0lh3qd+GtUQLMqlNW/98xe/VORND0f2S681OK
-	 CpPXrMltzoWLLxeU3FEOK6nnwSSBhNXQEB3h/TcF0/wzYXXaPfg6AmnNKsx2tL5jeRA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795108357;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=GCRW+SI7f8RMyLGLG/nfGCOnRGtJsyEZjxFAWGga9g0=;
+	b=Whg9NmeiNzgVq5V/Aifpi24Xw8D5MhYzg9AxGHS75JsMRwX+dNUL9nEQeXZc1TDxuWSt
+	 1LpeaZaYY3pvdumfQCA8nDjpJbxkYnq51Nfm32VFq3f473CYsb2EPM4tFCjOM3R/GgCUl
+	 +qAV6gAEnouClnvgdMVEnbZiHfckM0oP98QoNThBanJuveKmQYIDFseVAU/MnbS3FqCBr
+	 yMqEHJ32WrtQWGwUClujv961uiMK1S8ucOyg/l4TXmciyhTyxTYQ13VXgHeOUWuK7BEFY
+	 kFMNd1Oyva+wlf+3W6Q1nH4NUdIpBldQRMW6z1za0U5Q8sxImxGf7MViyGfHsELgdyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="kKiz/wCo";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="l/4xFFyE";
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DE5606CA89
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 17:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EB2606A600
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 17:12:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99EB2606A600
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kKiz/wCo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B2B1F000CC;
-	Thu, 19 Nov 2026 17:10:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795108225;
-	bh=iCbmD7M0rCoJoVSN60gzoWL2nVX8EUiOFHW8yr/ZUmw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=kKiz/wCoNZFBB2+ZeNXq6dfKjhJolURvg12FMpwM3G0ye8STpepgOJjsb4lzpOI/Q
-	 1dWMNqksWplrvI3Vc0XG0tSv/Tv4DWTQH6CiIH2izrNC20pcpIDnCYoxQqTyG55/Ab
-	 OQp+VOv4VdvyYY+PnmIXdZ+aZI2of82n7p5KMOKTQWKGRp40zMpL0wr4qWZVjcUHLN
-	 FKTp2flW5yPaTk41YW5YHpTR4qTNO2SUDqUgpCjeLEJQTLQVoxeEwc/BzVX3Rnoc69
-	 umWPQ76LHpt79W7lPufXG98N5Z9u9fJxDRH9PIVPXuY2KCAfrDL4A2gLyrtkOFkv2R
-	 bh5rXl4KBNOsw==
-Message-ID: <sashiko-outbox-223635@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: typec: hd3ss3220: Propagate regmap_read() errors
- from attached-state check
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Ian Rogers" <irogers@google.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261119170650.1521609-1-irogers@google.com>
-References: <20261119170650.1521609-1-irogers@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 17:10:24 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l/4xFFyE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795108356; x=1826644356;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YxrvLcEf2O+dgILQE3tXy7kogFszw+Qeqfh2d/eZZIQ=;
+  b=l/4xFFyEpYmNM72BgbnVC6bfm6jQx9DXTzRsjcHFWrKE5b8WHLkgZN92
+   ziHaFbzJxe6tLGF4PYGgKRo/YtXYE3gTDYsIUchqRGQQNX9vJ0U2p6fwQ
+   06v+xrVvaEmKqHGWSw22TYmQicg9u4RXMVH7O2K8Y/kD4xhn2S5JFjgfU
+   Yb3+Xg76PyrgRWyzoi/pJ0TZCxCbKFHlxa7g/VRIHAViOJ7kJvouwMX2f
+   wQIin+NjlWlmrxPI/jjwV6b0lhIn2aZa3Jb3ztSH978tmi/EcPtdSEWzV
+   oAv/qdR1MmZXvYfB+inIBLCamrHW3oaKPxJbqY9fF2ROtfc0MJhjMYcqV
+   Q==;
+X-CSE-ConnectionGUID: ej4dNUnmQcaOtRqnlROYfQ==
+X-CSE-MsgGUID: 0psDOb7YS5ixuCX6sYyakw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4012982"
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="4012982"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 09:12:36 -0800
+X-CSE-ConnectionGUID: 0uQLyyhBTYGN3yEbIS7ANg==
+X-CSE-MsgGUID: 6b8X0LsUSlqXqWwUIq9vEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="10575061"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa005.fm.intel.com with ESMTP; 19 Nov 2026 09:12:34 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id EFBE699; Thu, 19 Nov 2026 18:12:32 +0100 (CET)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Gil Fine <gil.fine@linux.intel.com>,
+	Rene Sapiens <rene.sapiens@linux.intel.com>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 00/18] thunderbolt: Add support for shared buffering
+Date: Thu, 19 Nov 2026 18:12:14 +0100
+Message-ID: <20261119171232.1616316-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,33 +84,74 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> hd3ss3220_get_attached_state() has return type 'enum usb_role' (an
-> unsigned enum) yet returns negative regmap_read() error codes directly.
-> Neither hd3ss3220_set_role() nor output_poll_execute() checks for errors;
-> on a transient I2C failure (such as -EIO, cast to 0xfffffffb),
-> hd3ss3220_set_role() passes the bogus value to usb_role_switch_set_role()
-> and disables VBUS power. On role-switch providers without a .get callback
-> (where sw->role caches the value passed to usb_role_switch_set_role()),
-> reading /sys/class/usb_role/*/role subsequently indexes usb_roles[role]
-> out-of-bounds.
->=20
-> Return an int status from hd3ss3220_get_attached_state(), pass the
-> resolved enum usb_role via an output pointer, and leave the current role
-> and VBUS state unchanged on I2C read errors.
->=20
-> Found via an x86_64 LLVM=3D1 (Clang 21.1.8) allyesconfig audit with
-> -Wimplicit-int-enum-cast enabled; fix and changelog drafted with an AI
-> coding assistant. Build-tested under LLVM=3D1 W=3D1 (-Werror) and
-> -Wimplicit-int-enum-cast; not tested on TI HD3SS3220 hardware.
->=20
-> Fixes: 1c48c759ef4b ("usb: typec: driver for TI HD3SS3220 USB Type-C DRP =
-port controller")
-> Signed-off-by: Ian Rogers <irogers@google.com>
+Hi all,
 
-Sashiko has reviewed this patch and found no issues.
+Currently all DMA tunnels (over XDomain) use dedicated flow control meaning
+that each consumes fixed amount of buffers from a router ingress adapter.
+This becomes problematic if the DMA tunnel is routed through a device
+router because that may involve other tunnels like native ones that take
+away their share of buffers. The current scheme is such that we allocate
+full credits for USB3/PCIe, some for DMA and the rest goes for DisplayPort.
+On Intel hardware this means the first DMA tunnel gets full buffers and the
+second one gets one and after that we run out.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119170650.1521=
-609-1-irogers@google.com?part=3D1
+This series reworks the credit allocation so that there is still reserve
+but a smaller one. For DP we allocate as much as there are DP INs on in the
+host router, then minimum for USB3/PCIe/DMA. Everything else goes to common
+pool that is first come first served.
+
+Then we add support for shared buffering and lastly enable them for DMA
+tunnels over intra-domain links. This allows more DMA tunnels to share a
+link. The inter-domain link stays using the dedicated flow control.
+
+The other patches before the credit work are needed because they fix a long
+standing issue around suspend to disk. The topology is now reset on restore
+so DP resources the restore kernel left behind are no longer leaked. That
+would otherwise affect the credits too.
+
+Gil Fine (2):
+  thunderbolt: Add support for shared flow control
+  thunderbolt: Use restricted shared flow control for DMA tunnels on intra-domain links
+
+Mika Westerberg (Intel) (16):
+  thunderbolt: Avoid leaking of DMA tunnel after XDomain removal
+  thunderbolt: Tear down DMA tunnels on every XDomain removal
+  thunderbolt: Delay re-pairing DP IN/OUT if DPRX negotiation fails
+  thunderbolt: Call DP tunnel activation callback with tb->lock held
+  thunderbolt: Re-apply Alpine/Titan Ridge flow on resume
+  thunderbolt: Return -ESHUTDOWN when control channel is not running
+  thunderbolt: Add usb4_port_hotplug_disable()
+  thunderbolt: Move tb_plug_events_active() before tb_switch_reset_host()
+  thunderbolt: Add tb_port_state_is_up()
+  thunderbolt: Split host router port reset into a separate function
+  thunderbolt: Reset topology after suspend-to-disk
+  thunderbolt: Drop tunnel discovery without HopID allocation
+  thunderbolt: Always take domain lock when tb_tunnel_put() is called
+  thunderbolt: Assign domain to the routers in KUnit tests
+  thunderbolt: Rework tunnel credit allocation
+  thunderbolt: Add KUnit tests for shared buffering
+
+ drivers/thunderbolt/Makefile  |    2 +-
+ drivers/thunderbolt/credits.c |  685 ++++++++++++++++++++
+ drivers/thunderbolt/ctl.c     |    4 +-
+ drivers/thunderbolt/debugfs.c |   43 ++
+ drivers/thunderbolt/domain.c  |    5 +-
+ drivers/thunderbolt/nhi.c     |   17 +-
+ drivers/thunderbolt/path.c    |  101 +--
+ drivers/thunderbolt/switch.c  |  374 ++++++++---
+ drivers/thunderbolt/tb.c      |  201 +++---
+ drivers/thunderbolt/tb.h      |  200 ++++--
+ drivers/thunderbolt/tb_regs.h |    2 +
+ drivers/thunderbolt/test.c    | 1106 +++++++++++++++++++++++++++++++--
+ drivers/thunderbolt/tunnel.c  |  495 +++++----------
+ drivers/thunderbolt/tunnel.h  |    7 +-
+ drivers/thunderbolt/usb4.c    |   28 +-
+ 15 files changed, 2601 insertions(+), 669 deletions(-)
+ create mode 100644 drivers/thunderbolt/credits.c
+
+-- 
+2.50.1
 
