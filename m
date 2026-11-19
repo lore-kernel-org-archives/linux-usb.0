@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795116564;
-	b=EBvzbIcTIRYb/io/YfmcpSjlB+VdJIzLxWHgEeG2xlH64kRe2g6Nn5btBYzdlaR1HzIG
-	 HUjsr/NblGCi1jeFSAc0csUwNa0vfjU5Cpo/7vPgDozzt9RmWtLxvfkRIM1V+IrsrEFps
-	 EyHBAABv5/ATW5ubJkULZeIvpquI2aFdaPj+ygy8QPYCdLdnJBPKd38un1ATJ72kxTVbX
-	 T4h2pI0LRVS2TqxQKMCX3rflWvqvHoqBpdfGjX6ub7+SgpeHrdK0k5XuZULnVTEFurwdW
-	 3wv/J59B1CuNtbjbVNLrb6UTwgl+N1utJaVTZimHBTVW1r628TUg0T8hCZyMMz1SNsA==
+	t=1795116565;
+	b=WaD4aRhHmRne9rvTJYZ5zwxT+hdfvikd0kj0mdjYQWhZPBugxqnQAIWO3/65HsTBnc4H
+	 BGeE06jk80wsx0i0qdzEBqJf1RJdMwknRPAt7SH8uYBOsyFYXnnzIN+PaVvwFUGkYvWiB
+	 26BaCn4LF4PT4MKL2HpM0rkrLtcYodJuOWgQdwWunYAk0J5yl9CK5zQFrqfA1DTiX4176
+	 Ko5ZCcpDMm6AMMyn9zHHEyZr+zzHkVJHYT9ILV4jzGrjJWQKQwMHdlwrOYPRfItrQ3MY7
+	 FgV/9FFYkKnoUUnmgmqaAYrf5esaOWdsXqfOfGFLJLVB1fAwXIcRIW9MznJ99dzstdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795116564;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795116565;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Goxwd/kE0tKjfIhWtI2uPK2HXv8MANmj0nYKszZnb9g=;
-	b=TmjOG8JJpZqgeWR+6f799BY25260MKUiXYglFi6aGKa0m3PdmT+kzTNlCjN1d0K8vHs/
-	 Sdn/tq79mGZ3ewwazfQvDFSrC7TfKyg8vuMYXpirpVbhgCC3tpwu9b7UOvdG3sUNZeai8
-	 mAJqoPLCXMS6E4sBcSrlsRmY31o/aMIX5u2bl13zW6iBmo+DU4IM3CoaNHVeyJLyMQWdU
-	 44u9cZoo029jJasdDA/kR08D1ojDTsMJxyLUWVcUlmoWMu5gkKbjgV4p0X+3kl3VnKc8a
-	 11ZYwoYZF/TZTCr/h1sFry01oX6pVGYFvRNKQ+4tEpc5T/0UE3yCQSrSINTSp5eTF3Q==
+	bh=ce+QtVqJe7Xw12EEhFE2MVhtEhpRXlhTYVtak42GP9I=;
+	b=Rqgjo2bo8PdSpBgHW/eYLSb0qDE0NaP/R37lnj2bXqcSYlQhhgufFXSBADHQshsdx5E/
+	 ZppHmYgLQat583tJqXHosllYZVMThZ4HN9JQgpC1cr5Ki7CKGQElbd8Z8ZDYhpfbIqVGD
+	 Gt+JSEJl7MSkOPFOfsGSEzJwc+5lbNDb/cX9xZCI40+fHRF86vyEa8ERGl36Hequn9ZMU
+	 YXXxv0e/3eTk8pZqlnBqQmgvx3Ck7NfZZkjn5zpMubxa2nv1x8zQo2fvAXPwmGfaJ5Wbo
+	 C7PRdC57BNZEomF0LfpiS7mfnDI38pfAQYDEuObLzZJ4JtlUK5dF6Cu083tRCv8fHCA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L3uSFQ2a;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L5Tab1cr;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D72E60A2604;
-	Thu, 19 Nov 2026 19:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1555E60A260C;
+	Thu, 19 Nov 2026 19:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L3uSFQ2a
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C181F000C5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L5Tab1cr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5B991F000C5;
 	Thu, 19 Nov 2026 19:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1795116564;
-	bh=Goxwd/kE0tKjfIhWtI2uPK2HXv8MANmj0nYKszZnb9g=;
+	bh=ce+QtVqJe7Xw12EEhFE2MVhtEhpRXlhTYVtak42GP9I=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=L3uSFQ2aACTHMUbDtmCjxcHeiwcbWyU7aiG8ala/3oHdEMe81ZPdJl3oeKkeY+0df
-	 KTXMH6GSTp9elczMzj5HldVXR/ImxIdyrUixA7x9mGKq1HbEczTVvjl7Qtc3yFO3VL
-	 ZG7KMLWN7IfwvKLVn1lvhhSmz0Yp9olUVavqdJbTZKl6lUvyA8QrgwSf9BliarO8WN
-	 qgy+KtId08pJZ6p2YjqcT88gXlVHOG9mJ3KLL8N/LdAN5FRyA9qaDmnUj7rN+gwH7D
-	 qz4sSVE/I/j8ENunSdNah7o5JhYr4IS7DETz2ucupfPql/MFXLtZ5Jk8buQxIAb4lm
-	 pLmF7g0Xx1WgA==
-Message-ID: <sashiko-outbox-223890@kernel.org>
+	b=L5Tab1cr3rUZZnfB7W0PkXrbPb1mC314ofVvK6ODGA2Cbmr/gItj2qf28BU/4dO1Y
+	 kCJ9q7nkF8EcUwBQeXWkJcuxnADXD2ndv+RdAVpfpr62rxzWFZPz6KNz78tc2RKLFS
+	 aUiWenNV9nsw5jQOm6QoA3qKdEvoiBb5F/qXGFgr+x9EdrxJIOcKkSUqHjQMj6SDUo
+	 vnuWWWdKpJCDoaTS3Amkqr7mhINTOn2xPRLqLS5Ew5eEW9arYJCrXhs0RCUAXbDWrt
+	 U28vK1YzxvOCdJlBnwqY1fHiFnlWILvlJQ9X+Ty3BUuR2ex8LgaF8uSUfxTBZP/p4U
+	 QYjO5CEMIeqcQ==
+Message-ID: <sashiko-outbox-223891@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 04/31] USB: serial: Register USB drivers with their
- owning module
+Subject: Re: [PATCH v3 05/31] USB: Reject claims of DT-disabled interfaces
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Leon Romanovsky" <leon@kernel.org>
 Cc: linux-usb@vger.kernel.org, linux-pci@vger.kernel.org
-In-Reply-To: <20261118-device-trust-core-v3-4-d655875c4bfb@nvidia.com>
+In-Reply-To: <20261118-device-trust-core-v3-5-d655875c4bfb@nvidia.com>
 References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-4-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-5-d655875c4bfb@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 19:29:23 +0000
+Date: Thu, 19 Nov 2026 19:29:24 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,23 +62,17 @@ Precedence: list
 
 > From: Leon Romanovsky <leonro@nvidia.com>
 >=20
-> The USB-serial core allocates each USB driver on behalf of its serial
-> module, which deregisters and frees it during module exit. Registering
-> through usb_register() instead identifies the USB-serial core as its
-> owner, so a module reference does not retain the driver's allocation.
+> USB core skips registration of DT-disabled interfaces but keeps their
+> objects available to sibling drivers. A CDC-ACM control interface can
+> therefore claim a disabled data interface: manual claims check USB
+> authorization without checking Device Tree availability.
 >=20
-> Pass the serial module's owner and KBUILD_MODNAME to usb_register_driver(=
-).
-> Keep the module name separate from the USB driver name so built-in drivers
-> also link to the correct module.
->=20
-> Fixes: 68e24113457e ("USB: serial: rework usb_serial_register/deregister_=
-drivers()")
+> Fixes: 01fdf179f4b0 ("usb: core: skip interfaces disabled in devicetree")
 > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-device-tru=
-st-core-v3-0-d655875c4bfb@nvidia.com?part=3D4
+st-core-v3-0-d655875c4bfb@nvidia.com?part=3D5
 
