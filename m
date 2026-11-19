@@ -1,80 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1795126948;
-	b=YkTLngQxw+R4L7syBiwA4GFpk7C0t/xyE2iRyI6X0VWFLgvd/srmblVtIXAfLzfjnFS9
-	 pM9Up5oFn0aoGUQkvl6uqTmR7UpIwSGqH7ASGGtYnAFrCe6AfyM33b9cEVufx1kMptije
-	 4OwIhpKJxqilXAABXfgWqN8/OiJ/B0gKf4pcHxKoEdKu26ob3Vkv/Lxu3yL9ghiTPyBX0
-	 h2g1fd8HpYOm1cH7YqroTNriyfPYKczlVozuwl/GXRAIkpvsOmTYIZ9Q87RVEEthgqx6U
-	 iK4uJnlDudS5U7Lqr68FtI3n1zpC3EjedQXtHB/kmNjvIh40Xf+BojI2NwCRzz0IGBw==
+	b=uM7b3udeJrFxSD0b6g7AV1RqbzVxOGHgiiWvTJyXTT8hM5j6RDuG9/hJW+YENW9DMI6K
+	 vwyjSwjm7D4McEJtcvaKGaX5Rs/4Qi6ubvVeaaCHYXshXdprTeDDIb/uznO9oocdK5Ljo
+	 7JVR06hUxMCG1HKGB004LW9+JhMXknQDmbyTpnPoJnrBEmi4xRROgYgiodeRNrH4omx3v
+	 u6xe/MkXdcBtpkXohbfEUg0bp/T9ObCD5e54u7Z/5G2okARgW+T8E279YYsxnkpoM+0Vu
+	 fjkf7k96CKV6gD+3A3NCeGFBuukWlzsePjxlKxojZUEpW3DcZQDbMiLbQLA6XyS3Now==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795126948;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=lW7t5D12/cV8HF5tldiuIWMH9KrH/kxHIhqr61lY7yg=;
-	b=wUOnIhkOGkduwXhs2M+uo2xtG0OmDZzx3U/v3BdTcgIFh8RbbIFaqPA4v6e7EtT1mrrD
-	 L7ObEat1y13Ex4BjknIi4mMTTBKSlea4BRs5ZjOdrYlr9lDs0a64gCSpZUnobAFm4bg3+
-	 Zh163ye/hEYLzxto+9X7kX5yOOeWhtLGZ+2kEOMmq1rRTRZTIvI/+spDotkAPwT91DjFq
-	 fg7bUg+csznQAvmFjxtBq5aNqUc+X51ACUVK5qsAuNNc+ISFtBZ9J+Z+VxTd1Z0VvNjcI
-	 Rt32c2+s+RkjAjKsVN66lcs8H7J5CACX3qCTo9cqiGqYRvHOPibeqmO7VO3uDw7CiNA==
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=GkyNT3R4bDjb0DOY+S9waUx9v/roYMkToqfXQvhP+q0=;
+	b=lS5fEkSRPy6HZ0/L8jobK1RhpQ/FZD3mWUfZ3eK+9Utt5Gfr6eVAJcTnHCW1vp0VGl5g
+	 fLsiIHV4ds/ObjHup/qaY9r9PryUuq5TfOulbM7lpRNIaHrVZFGGrUyR8EElEpsX12Lnq
+	 Iu45xXTRx9fPCq3EbY+9LPs4h5xWm4mGYABqyMwvQST7Ur2Vy5Q8RcYLb5F2jlKM5yRUG
+	 Es0qzJJG93R4/3e0tZw/V5XBIfhnXnDeVutBpjxeDQ6tr0PLtXUwggQSgKzTZX8MC9lyG
+	 sYB0vzZ4BXGiKtZmx2EUVLIz16PL/Q3qFO+CUY0vXfcr6AAV7uW1xgb/MZVLsyTisKQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oGysKKG+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gvSgQJWm;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6B4606A334;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E6A606A337;
 	Thu, 19 Nov 2026 22:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oGysKKG+
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gvSgQJWm
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1795126948;
-	b=UHM1nJp2wdqH5PRJitLvufs0Fu6AWHPiImF05K5nEwlHXcQcTiPtIohetbNC2jGXgmev
-	 eJVWx9g4FRJDYYwOKfqvmFl1kJFkuCPbeUvMzqkeRLT6RzqBAmcj1eA1zxzwWQCcSE2fr
-	 iGpQhlRgy6q08X2i4+JEKKRG+0RKXOvvcyRCQKBHiLcS2o3K/n9GKwWRKhoxu5n2TWfRo
-	 DQNc57oLrPjdl9aZJ5MEjzvW4RzV8e1uvt/lmaaKMRpQ1XnbXo88Z/C7eUOJ1WYfYzbnW
-	 o8HPzvg37HDTzTV0vmySzsqfjikVIOlvS2Yx3DRnT/h4NfsyjsyaX5z8xQmU9FMj7Rg==
+	b=zs5fMnkIGzNzHK7QFl9iMauYOqpgPFNEp4VYP/y+C8RYGPOUJZkN3RCIuLwBVfkeukRw
+	 ODZtNKihOCm9vYeh+9sNxtK/oS+JQ1MO7yDD0EORrhCQmHZQXxxAccBJdHcoO18YErdIk
+	 nPRlrOGHFigbINzgZ21MGDb9Aa/RoolEV3+R5Gz4vhFuiweM+3TwKbFgKRlmPHal55EhN
+	 XlW5mQzqzGfI+/J71vqhSrTZfSXalKGEO514bjqvXHCMbtQAoX2UgaCUFypi6zn+/qG08
+	 WGG625GWOuw/WiJ7qaEyznmtgj8fiFfXGsQpDnLhzIvgh7v8fxTWitVqbMDawzwoZtw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1795126948;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=lW7t5D12/cV8HF5tldiuIWMH9KrH/kxHIhqr61lY7yg=;
-	b=BzI7BXjFyVovntFqhXEYvJjJVh68DZFuFTbHMGSNsbnVRL/9BfyIubuXpiSrUI0VGRcv
-	 sjNfR4BDQSZRrQhFB6B6NysYgj1mB9KhT1eWGIazBS4s0/MS1q14HsDvPQ/D304cQIBIt
-	 mgsw0FQWVTchuzv4IL6lY0/midPtIR+CadWXOm1TwyikC/V22WTLKEXa3CuAKIjBth03o
-	 vinAkQykYoEa2+wPIzt3nw103N2jPpg+pEaiOb7nti8TcLmNZdkWmouaFwN1raECTNAB4
-	 aN45D3L1LKzYGbvdI+X3B/qkDmVbKcuOegkfE8PvAm3GWqMUSI7N6RIX5OQXzQEM81Q==
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=GkyNT3R4bDjb0DOY+S9waUx9v/roYMkToqfXQvhP+q0=;
+	b=yFW1O7IrYDerTG9BgnQYsxIq0Ezn3XwtiqyCb4J1HS+Nj4zqbo4l9qbrRBxPmshLY+FU
+	 N2rZys+t2CpUiwCE1MpT+pyQPTSlG2DGYUspH+cQcXJDDMhqq43eiZcJ2hSmMhtE3abJR
+	 PNdJv93dvOfdbwOMFJxS2tZWNcg6Q4pIyOm4jXo1n3bMqUMVdD4mep5CeSDl8KUKQPUXe
+	 CYEr0gZ5n8ifdKzWLZfeaovFN+QdYKkXmu67N/pI1bl+tGI72IXuguFmcynaJvmHu0rG9
+	 ln7RPG86PSGNxuA/3RL87rv+Jt/PsBjnpWsd2+FNkKbn255EDJyLNoPaXCe2HMGI5/w==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D29E41F000C4;
-	Thu, 19 Nov 2026 22:22:27 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0A2761F000C6;
+	Thu, 19 Nov 2026 22:22:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1795126948;
-	bh=lW7t5D12/cV8HF5tldiuIWMH9KrH/kxHIhqr61lY7yg=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=oGysKKG+6G9b0TssGhqvKavVVfccmmBUXcrKJYjQmKm08p74H7EafiiLkWFSUbjcC
-	 ebiJwDXTQReh9WoQTcxPcPgSxprKKiyzCYea/rOIe0l88fdhqXUbinf62Z5KUjB1fZ
-	 clEle1/HJl8R35VGB3tjk4KDxmHpWF/Sr5uql3qMy6/Rpk4R9/3byYzYRfh7kYNqgb
-	 PJmy9VsaqDfbLr5fwBbzNG0cHBYJe4NcatVfQfSQJ0YZ2Ne7PjOxVBFKNoMRqgTaZe
-	 ctBrE7MwUs0AWcTsXJK/S6w07yB+kntO58lNdnYfZOz74FzZYqdNnS67l+t6j0WiPW
-	 tPXSo9q+Qle5A==
+	bh=GkyNT3R4bDjb0DOY+S9waUx9v/roYMkToqfXQvhP+q0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=gvSgQJWmrPZWz0luWGHBUDr/i6BgPyGCSxCMG0u/mBsNsFnMRAJwawMXfFqKF0+WX
+	 O/SwusmFcX9xVYfWSpEcqgltYWaNCvDUBcvZfa7XkEqG80rodyA6UrisBJPuGMUkWN
+	 vKZf2OdqGjNqVXZxDDdUbb607B5n9kYkiCtoEh0EzYxwRqHdgHn90w+zZSKwa97qL9
+	 ny8CxDBdjqurUP++SYOYe753LnMbHzytrFz1vXBEkjU910UkBZmL9cy7WiixeGcayG
+	 LMzf8JD/F3TPR+MtszrxEtwd8A1m93tNXM7h74FMRCMgzPi6gvglI98qK1SxNUpXqM
+	 P6PUWkHIY6frg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 5EE8541B30;
+	by lkml.kernel.org (Postfix) with ESMTP id 8919341B2B;
 	Thu, 19 Nov 2026 22:22:27 +0000 (UTC)
 From: Oleh Kurudz via B4 Relay <devnull+admin.or1k.net@kernel.org>
-Subject: [PATCH 0/2] USB: core: Disconnect a parent hub on suspend for
- HyperX QuadCast S
-Date: Fri, 20 Nov 2026 00:22:24 +0200
-Message-Id: <20261120-quadcast-s-suspend-v1-0-add8ccf12c8f@or1k.net>
+Date: Fri, 20 Nov 2026 00:22:25 +0200
+Subject: [PATCH 1/2] USB: core: Add USB_QUIRK_DISCONNECT_PARENT_SUSPEND
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -85,11 +83,9 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAA/x3MQQrCQAwF0KuEv26gGaHUuYq4iDNRsxnrxBah9
- O6C7wBvR1h3C2Ta0W3z8FdDJhkI5antYewVmZDGNImkkd+r1qLx4eBYY7FW+SY1yWk+a5kVA2H
- pdvfvP71cj+MH5I456WQAAAA=
-X-Change-ID: 20261120-quadcast-s-suspend-b1d21389ac8a
+Message-Id: <20261120-quadcast-s-suspend-v1-1-add8ccf12c8f@or1k.net>
+References: <20261120-quadcast-s-suspend-v1-0-add8ccf12c8f@or1k.net>
+In-Reply-To: <20261120-quadcast-s-suspend-v1-0-add8ccf12c8f@or1k.net>
 To: Jonathan Corbet <corbet@lwn.net>, 
  Shuah Khan <skhan@linuxfoundation.org>, 
  Randy Dunlap <rdunlap@infradead.org>, 
@@ -98,65 +94,145 @@ Cc: Alan Stern <stern@rowland.harvard.edu>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
  Oleh Kurudz <admin@or1k.net>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795126946; l=2397;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795126946; l=5002;
  i=admin@or1k.net; s=20261120; h=from:subject:message-id;
- bh=MEMGo5g61PY933MO5JFk74iMl4YxUIg5MC75DGdWosk=;
- b=oeyFB+9TSEv7kTebJT0NfJPxoY8q8EsyAow+xcjI6Qn/S5NM8UElZzB8O5iL8iD4/dcXjZGOQ
- 5mdAdBGPWJ7Bnjy1BeuSYYf/YbCRALEkaF8vXCwUcwEszD1xDQEBuuw
+ bh=KS7CYnsQniBo8AQ1uwycWYmb0KvcOWr+4Ntt5Gu/5Bo=;
+ b=vUoxPDfWd6mCpilBiN9DmkA3IQgp2ZchSHiDTk99tOOJBcs769O54gcorFxnilLsMnq1BIFcM
+ lRJrWaPS/crBN8Gsybs+FW06qczEQn/y7vbtjJmHHXC+LDFvi+IDDjn
 X-Developer-Key: i=admin@or1k.net; a=ed25519;
  pk=99OKf9VLJkjldneE6gRk0c6oTl7G+EdqRiFo4h8sH6Q=
 X-Endpoint-Received: by B4 Relay for admin@or1k.net/20261120 with
  auth_id=1577
 X-Original-From: Oleh Kurudz <admin@or1k.net>
 Reply-To: admin@or1k.net
+Content-Transfer-Encoding: 7bit
 
-The HyperX QuadCast S microphone is an audio function and an HID (RGB)
-function behind a hub built into the microphone. During system suspend
-the HID function drops off that hub, and the hub then wakes the system
-even though remote wakeup is disabled for it. On s2idle machines the
-suspend bounces back within about a second. Users report the same
-symptom online, with unplugging the microphone as the usual workaround.
+From: Oleh Kurudz <admin@or1k.net>
 
-The existing USB_QUIRK_DISCONNECT_SUSPEND would fix this if it were set
-on the hub, but the hub is a generic Huasheng 214b:7250 chip, and setting
-the quirk on it would also stop keyboards behind other hubs with that
-chip from waking the system. So patch 1 adds a quirk for the child
-device that makes usb_suspend() disable the upstream port of its parent
-hub, and patch 2 sets it for the two QuadCast S functions.
+Some USB products are several functions behind a small hub inside the
+same enclosure. On the HyperX QuadCast S microphone one of these
+functions drops off the bus while the system is suspending, and the
+built-in hub then reports the connect change upstream and wakes the
+system, even though remote wakeup is disabled for the hub and for
+everything behind it. On s2idle systems the suspend bounces back within
+about a second.
 
-Other QuadCast models (QuadCast, QuadCast 2, the HP-era 03f0:xxxx IDs)
-may have the same problem, but I only have the QuadCast S to test with.
-They can be tried with usbcore.quirks=<vid>:<pid>:s.
+USB_QUIRK_DISCONNECT_SUSPEND does not help here. Set on the function
+that drops off, it disables that function's port on the built-in hub,
+but the hub itself still signals the wakeup. Set on the hub, it would
+affect every product that uses the same generic hub chip (a Huasheng
+214b:7250 in this case), including ones with a keyboard behind it that
+is expected to wake the system.
 
-Tested on usb-next (7.4.0-rc3) on an AMD laptop with s2idle.
+Add USB_QUIRK_DISCONNECT_PARENT_SUSPEND. When a hub has a child with
+this quirk, usb_suspend() disables the hub's upstream port after
+suspending it, just as USB_QUIRK_DISCONNECT_SUSPEND would for the hub
+itself. The children are checked at suspend time instead of copying the
+flag to the hub at enumeration, because a reset-resume of the hub re-runs
+usb_detect_quirks() and would drop a copied flag.
 
-How this was made: I had been working around the problem with a
-systemd-sleep hook that disabled the microphone's upstream port, and
-asked an AI coding assistant (Claude, claude-opus-5-5) to turn it into
-a kernel fix. It read the USB core code, proposed the approach, wrote
-both patches and the changelogs, and built the test kernel. I reviewed
-the patches and ran the tests on my laptop: with the quirk cleared via
-usbcore.quirks the bouncing suspend is reproducible, with it the system
-stays suspended. checkpatch.pl --strict is clean and each patch builds
-on its own with W=1.
+Like USB_QUIRK_DISCONNECT_SUSPEND, this only affects system sleep;
+runtime suspend does not go through usb_suspend(). The quirk can also be
+set with the usbcore.quirks parameter, using the letter 's'.
+
+This patch and its changelog were written with the help of an AI
+coding assistant (Claude, claude-opus-5-5). I reviewed the result and
+tested it on my hardware, see the next patch.
 
 Signed-off-by: Oleh Kurudz <admin@or1k.net>
 ---
-Oleh Kurudz (2):
-      USB: core: Add USB_QUIRK_DISCONNECT_PARENT_SUSPEND
-      USB: quirks: Add USB_QUIRK_DISCONNECT_PARENT_SUSPEND for HyperX QuadCast S
-
  Documentation/admin-guide/kernel-parameters.txt |  5 +++++
  drivers/usb/core/driver.c                       | 20 +++++++++++++++++++-
- drivers/usb/core/quirks.c                       |  9 +++++++++
+ drivers/usb/core/quirks.c                       |  3 +++
  include/linux/usb/quirks.h                      |  7 +++++++
- 4 files changed, 40 insertions(+), 1 deletion(-)
----
-base-commit: f11fe7603df07fbb9fa02b0d385c1696c87a6dab
-change-id: 20261120-quadcast-s-suspend-b1d21389ac8a
+ 4 files changed, 34 insertions(+), 1 deletion(-)
 
-Best regards,
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 176648941..7751c373a 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -8235,6 +8235,11 @@ Kernel parameters
+ 					9-bytes configuration descriptor request.
+ 					Ask for 255-bytes request instead to mirror
+ 					Windows' behavior);
++				s = USB_QUIRK_DISCONNECT_PARENT_SUSPEND
++					(Device sits behind a hub that signals
++					a spurious wakeup when the device drops
++					off the bus during suspend; disconnect
++					the hub before suspend);
+ 			Example: quirks=0781:5580:bk,0a5c:5834:gij
+ 
+ 	usbhid.mousepoll=
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index d3a61ebc6..a40d9595b 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -1620,6 +1620,23 @@ static void choose_wakeup(struct usb_device *udev, pm_message_t msg)
+ 	udev->do_remote_wakeup = w;
+ }
+ 
++/*
++ * Check whether a child of @hdev wants @hdev disconnected during system
++ * suspend. The caller must hold @hdev's device lock, which keeps the set of
++ * children stable.
++ */
++static bool usb_child_wants_parent_disconnect(struct usb_device *hdev)
++{
++	struct usb_device *child;
++	int port1;
++
++	usb_hub_for_each_child(hdev, port1, child) {
++		if (child->quirks & USB_QUIRK_DISCONNECT_PARENT_SUSPEND)
++			return true;
++	}
++	return false;
++}
++
+ /* The device lock is held by the PM core */
+ int usb_suspend(struct device *dev, pm_message_t msg)
+ {
+@@ -1637,7 +1654,8 @@ int usb_suspend(struct device *dev, pm_message_t msg)
+ 	if (r)
+ 		return r;
+ 
+-	if (udev->quirks & USB_QUIRK_DISCONNECT_SUSPEND)
++	if ((udev->quirks & USB_QUIRK_DISCONNECT_SUSPEND) ||
++	    (udev->parent && usb_child_wants_parent_disconnect(udev)))
+ 		usb_port_disable(udev);
+ 
+ 	return 0;
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index a4bcbe9c9..3933cf9c0 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -146,6 +146,9 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
+ 			case 'r':
+ 				flags |= USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE;
+ 				break;
++			case 's':
++				flags |= USB_QUIRK_DISCONNECT_PARENT_SUSPEND;
++				break;
+ 			/* Ignore unrecognized flag characters */
+ 			}
+ 		}
+diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
+index a4043b33c..101dd1ca4 100644
+--- a/include/linux/usb/quirks.h
++++ b/include/linux/usb/quirks.h
+@@ -84,4 +84,11 @@
+ /* Use a 255 bytes config descriptor request mirroring windows behavior */
+ #define USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE	BIT(19)
+ 
++/*
++ * Device sits behind a hub that signals a spurious wakeup when the device
++ * drops off the bus during system suspend; the hub needs to be disconnected
++ * before suspend.
++ */
++#define USB_QUIRK_DISCONNECT_PARENT_SUSPEND	BIT(20)
++
+ #endif /* __LINUX_USB_QUIRKS_H */
+
 -- 
-Oleh Kurudz <admin@or1k.net>
+2.56.1
 
 
