@@ -1,49 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795048815;
-	b=xOzzuk6vhbj1l+KlR/7Tushk7QbZEw81g7aLqSS3jitwwowOb+8Jt7XLpDUue4rRA0Jt
-	 7rCfMJCz/SMG/DaconLxmaUgAtgvmzH0EAafJAr0AKjhjaEm7rb18ySMRQj/tI+QCURxp
-	 iIH6vTbPr5347OOeF+rkGGdjSU7qMad26fz9PRJuWYTMM/kDeVNix2734xeoxgoRhfmVe
-	 ryxd2DXJM3G5m2yRQrhKiiT27ILxoQtO4coY/Tr/J2yJpc3RkhbHQebcfmCBs+6btBtom
-	 5g2nq2/txIqci1UdMxuxOMKUJT75H5QlwYHkcnQQ6+tT5nHRXW+DIPR/VthYZkpmSLw==
+	t=1795051628;
+	b=dpOL32XfVf/EtmO4SNdO8yLQv3+6nGKL6PjiwsEa8lNWQyh1LCv/aYpgv+wdBGeF9FH2
+	 pqBfP9mf8Zwf+sMRd3m+0+8jFPF8FmukKe+Tn8KfRWvy0hEh0tT1JiEdGD75VLGi8HdBQ
+	 4FXojbigUNKR8dbk5BzsQRq/BJ2nwJoGBTNJ/tvkKRw5oLEwioioWQuz2odMRiavHZ5T2
+	 5vfDM4Fd8gm4coYYCiQ+nMk1QTW1zHK9XklGqPtLGVZytidbRdimFa4KGkYURMpF0GfMH
+	 sq7NYXLso1jLKuDjS2U/BgaJkD3YccnxlHcSfz7uS2A9tTuN4FumE+OMritUvbpsMXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795048815;
-	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
-	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc;
-	bh=mH/GpsPPirC6mELIGbZkxdo7T8fe/zXCXZSCzaQ6v48=;
-	b=tRFWTOowocZVBO474l2KjPFlAbEujfPmQjMAJHx1CE5cqG5du7HSUtbb3E4Ljssd+CC5
-	 jYQA+3L07cZKJJrTDnhCoojku/J9myrC8Tf8tmLVXH428FiwyKlG+Y8T0Q10Yk3vOG+R2
-	 hFA1qeOZC4d0oy0UCjjqIRlekrOBZy6e1R9lrskfid1qvVv0ylzCqb+lypRrpvK5Mo7Hn
-	 GaNWRJineoB93mwz9QAIvmNO7dcqWXqsPHiDdHgncYQBT4pqjWkOHfL5c3WJqSjxB+Ly2
-	 1aLlMG+LJTI3ciT3lz3IEdcjS5HTkSA/sVpEhdvS8pj74n/jVA0clywapAou+0OMKJw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795051628;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=OprzOyo9+JassEd1TEvafiLmaglW2JAX08bz3qXzH+M=;
+	b=bPcM+Wq6+nK5atDs9dGVQjX4yfaN0vq8niEp2j8+ehNdev+lxf0PU2rxJvSiqKOIYG9L
+	 kOFw5RWEEMCH6qJfQpi6QXvNP5lZR0Y8KE3FnDjU+s1tbgdR3u7RUU9DIgnek9wHkEQm/
+	 HXnkYx2dIXX7ZhvtPIv82Xmg66XObjzRKXup6zXP7ZVGB7iTRHiWgCntYpovV3RpGsiJN
+	 LFBe+9e8lfY01uY4aqkhyLiQe468JbQL9GzN9PlE0ZGzxQ+1ffmEduitlxEfu7HB3h1KA
+	 QbugR0Ro/GWDcMp38O+j598QAdpV9Ho/bgVL9wIf7yuCNLtdvKVzUVYQqZi6s+JV+Mw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SqbEWm72;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n5rcT0Zl;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E47606A31C;
-	Thu, 19 Nov 2026 00:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EAE606A320;
+	Thu, 19 Nov 2026 01:27:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SqbEWm72
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCAD41F000C4;
-	Thu, 19 Nov 2026 00:40:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n5rcT0Zl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F3471F000C5;
+	Thu, 19 Nov 2026 01:27:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795048814;
-	bh=mH/GpsPPirC6mELIGbZkxdo7T8fe/zXCXZSCzaQ6v48=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=SqbEWm72dT6Bo95rB5VC2FbvrmPHfSxWidxxZvfwym9vUInok0SFU/BWXpQVWMKC5
-	 7foGxa1IsR3AEIqXo+R9X/kl+PxXTOlC8uIQJlnrhsSjIiX5U3Yly3ch/QbC9jrzWq
-	 uAnzZclfiOaz613oeDAErQrEmGyBlhfrb34uPcqf+vVxqYdouwRX/2IbKJT7GUPRpY
-	 lTHXJOfb+YnoUagoV6qFhRqjLyMFEd1MD52h1Itv8mA6nPA4ggaE4Qa/0sshKApMoi
-	 PJlrIIj04GwnbtAlm3pxNgPSNdZ9qV8gunbO0+1dR5iUt7LJrXJs4zxz31CBzuICZS
-	 6roT5G7NEjyQw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B44443808210;
-	Thu, 19 Nov 2026 00:40:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1795051628;
+	bh=OprzOyo9+JassEd1TEvafiLmaglW2JAX08bz3qXzH+M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=n5rcT0Zl/SE9jHWi65HwpiTbSdysgFWjql0ekarf62v72raja8OOgMi+64tXtTKOa
+	 M5ygoG/bvHgzz8ZIeXIs2ivMgUwHgIEgn7GOBgW3ty0l2awMnvQY9owfOlmYKZD2uU
+	 2IaJgO1zVeoXLDsLzuDkE2VXP7vdpkj0WzaTyH9BUuFigeLVhYz3ZCFE4AeDGyxyAR
+	 U67BOybTOTaQp+T1SaHwEyeHtKvyxjFWydFbtpqNlmTQHU1xt3xlJ8+WoBg8WNChOH
+	 xTcGI0Ji3/zNwyOnhcai3ZPaEx93fKbvlJNQHZs67FMZkQmqfPD+REcBrIBi9qpXuS
+	 REEkUUwWsOnzw==
+Date: Thu, 19 Nov 2026 01:27:00 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sunil Khatri
+ <sunil.khatri@amd.com>, Vitaly Prosyak <vitaly.prosyak@amd.com>, Prike
+ Liang <Prike.Liang@amd.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, David Rosca <david.rosca@amd.com>, Timur
+ =?UTF-8?B?S3Jpc3TDs2Y=?= <timur.kristof@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel
+ Maintenance <kernel-list@raspberrypi.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, imagination@lists.freedesktop.org,
+ lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-usb@vger.kernel.org,
+ rust-for-linux@vger.kernel.or
+Subject: Re: [PATCH v2 1/3] dma-buf: dma-fence: Add flags parameter to
+ dma_fence_init()
+Message-ID: <20261119012700.2980cbe3@jic23-hlaptop>
+In-Reply-To: <20261118134522.1646892-3-phasta@kernel.org>
+References: <20261118134522.1646892-2-phasta@kernel.org>
+	<20261118134522.1646892-3-phasta@kernel.org>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -53,76 +81,28 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v21 00/13] ax88179_178a: Add support for
- AX88179A-based chips
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179504881327.2666484.11881850734497891131.git-patchwork-notify@kernel.org>
-Date: Thu, 19 Nov 2026 00:40:13 +0000
-References: <20261114-ax88179a-v21-0-c2d34410bcbe@birger-koblitz.de>
-In-Reply-To: <20261114-ax88179a-v21-0-c2d34410bcbe@birger-koblitz.de>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, kuba@kernel.org,
- pabeni@redhat.com, linux@armlinux.org.uk, andrew@lunn.ch,
- hkallweit1@gmail.com, chenhuacai@kernel.org, kernel@xen0n.name,
- edumazet@kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
- neuromoments@gmail.com, beganovic.emir@gmail.com, nb@tipi-net.de,
- maxime.chevallier@bootlin.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Wed, 18 Nov 2026 14:45:21 +0100
+Philipp Stanner <phasta@kernel.org> wrote:
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+> Currently, there are two init functions for dma_fence, dma_fence_init()
+> and dma_fence_init64().
+>=20
+> Since more future user options for dma_fence initialization would
+> require distinct init functions, too, it is better to do this in a
+> unified way.
+>=20
+> Add a flags field to dma_fence_init(). Adjust all affected drivers,
+> preserving the old behavior.
+>=20
+> Support the SEQNO64 flag, and add a check-function so that the user only
+> sets valid bits.
+>=20
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> Reviewed-by: Timur Krist=C3=B3f <timur.kristof@gmail.com>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+For IIO,
 
-On Sat, 14 Nov 2026 11:50:56 +0100 you wrote:
-> This adds support for the current generation of ASIX network adapter chips,
-> which are based on the AX88179A. This includes the AX88179A/B (1GBit-PHY),
-> AX88772D/E (100MBit) and AX88279 (2.5GBit).
-> 
-> The AX179A-based chips all provide both a CDC-NCM compatible USB interface,
-> and a proprietary vendor interface with more features. By default, the
-> proprietary vendor interface is not active and Linux will load the CDC-NCM
-> driver to support the devices. If the ax88179_178a module is configured by
-> the OS to have precedence over CDC-NCM, then this driver will switch the
-> device to use the vendor interface, and the device will be controlled by
-> the ax88179_178a driver when the device is probed again after an automatic
-> reset of the device bringing up the vendor interface.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v21,01/13] phylink: Add phylink_mac_interrupt
-    https://git.kernel.org/netdev/net-next/c/525e055f026b
-  - [net-next,v21,02/13] phylib: Add support for PHYs with broken forced mode
-    https://git.kernel.org/netdev/net-next/c/73f8fcee8453
-  - [net-next,v21,03/13] ax88179_178a: Split driver into library and device specific code
-    https://git.kernel.org/netdev/net-next/c/aadb4048a412
-  - [net-next,v21,04/13] ax88179_178a: Add HW support for AX179A-based chips
-    https://git.kernel.org/netdev/net-next/c/7d573278f9a5
-  - [net-next,v21,05/13] ax88179_178a: Add EEE configuration support for AX88179A MACs
-    https://git.kernel.org/netdev/net-next/c/ac12cbe7b385
-  - [net-next,v21,06/13] ax88179_178a: Add EEE configuration support for AX88179A PHYs
-    https://git.kernel.org/netdev/net-next/c/4ae4234e779c
-  - [net-next,v21,07/13] ax88179_178a: Add VLAN offload support for AX88179A
-    https://git.kernel.org/netdev/net-next/c/faea93a5239c
-  - [net-next,v21,08/13] ax88179_178a: Add AX179A/AX279 multicast configuration
-    https://git.kernel.org/netdev/net-next/c/192c7b09608a
-  - [net-next,v21,09/13] ax88179_178a: Add Suspend/resume support for AX88179A/772D/279
-    https://git.kernel.org/netdev/net-next/c/24543aeed42f
-  - [net-next,v21,10/13] ax88179_178a: Add ethtool get_drvinfo
-    https://git.kernel.org/netdev/net-next/c/8d405df176e1
-  - [net-next,v21,11/13] ax88179_178a: Update driver name and information
-    https://git.kernel.org/netdev/net-next/c/d7e3ce733ae3
-  - [net-next,v21,12/13] ax88179_178a: Add support for AX88179A/772D/279 EEPROM access
-    https://git.kernel.org/netdev/net-next/c/bfa4a3adf638
-  - [net-next,v21,13/13] ax88796b: Add support for AX88772D, AX88179A and AX88279
-    https://git.kernel.org/netdev/net-next/c/8cacc4fd1518
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Acked-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
