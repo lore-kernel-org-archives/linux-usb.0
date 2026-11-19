@@ -1,57 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795088634;
-	b=vSJyUEPU5JXnlK4zxzGk6mV6sB6Z58gmatF66+c9ejvFsulTBdBDo8gXmhQEgncp92e8
-	 ol/R6ydyuufP31qmWiNIA38qhn++7+Y++i9Dtv6spN3okxkxuRNZ8XDOrCHIx40l129+c
-	 l9lfp3uOqdnFKpB3k7wO5XAqrJEs9pavt412fzKe2umXgRSCFYoMuGV4p4LGc0vju785J
-	 Xf4kewfs7gudcSh3WbUMuSreCu1Sjko6g/CQOFL3rIqnMZzryXY/W0uAL6UHUiez22LW/
-	 uNNXOQCipud7/ptKuiYt1SEKRt+zV33dx9hhb+aVCN/3zGRQZ2VAMrAN8lYPJc69mAQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795088634;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=aMYB4c/xjWcdBiIqxSHcSvE31eNAyfhvdHcLvs1p04Y=;
-	b=dU1uxG92hjEBBkcsWXMWIoWz4xSSMI6x4W75x7JU84nrhwSt8UYtqmdVz4EfZ1tbURQ/
-	 YNzA0I/8VBheJH6tIQ84O9+292zqpFcpegXKLu3fsudDgkawDKLvgn3q8ffYurRxPxnJC
-	 mjEoTFSce12KRFf+59X1c0OtXeWmY3JRVytwkLG1HW7kOkWlNm5rvOUQ4cI1eQJdAs0I/
-	 2dANkadfWFgUAXHt5S5wjoNTvXZSIoz3Jkx0NDYKJaoSMiyNgexhpDJLVlWSy9fIHEYOb
-	 OuJm2qXE+EJqebmbhhlVw467rpej+LQHYFCeI4DRF0O/O/DlBSGhnbFRomt7c+Kj/ug==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O5qqCMwh;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795088701;
+	b=00u+rTyPKLMpGmClbbEZINW8AAvaQFHeUvOPbgiEUQCcMV22QKZorjq2VGeuIMrf8EJ8
+	 wFhcULxYTAw7vbZcyhElvOfN+/NWIx5wkMh237NceaRzPUUTuYgyhRgTNRCmjFqGXsJaD
+	 nYmay2imfIROd4emSvGzPRfwZfIxYabKdRt4mADHWPYaPnnlYvOtpCenLUd/z+KBipGk9
+	 u7RORP+Vsqni9BlrUkpJMsF1MMPLRZ/7xSLBP91QF88EodlWcrplOi3U8oOjVZ4l9T36s
+	 r0AOdSn0TZDeb/77LDOi5wMifJL2cgZkPqdEdbVVXkPAE+KJrIRoZwL3SScOMRbKOgg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795088701;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=arY3zljhg/9f4oH1J4G/6/OX1UJcdmzYzzT5OdZ4uls=;
+	b=NdimQB29Lp0U8eEDhERaKiDwEdDvweV4mymfv569HfZjvu4Z4yvqcj1Qc/m5yXKxCt5L
+	 3hLWUwSyrgoS88MnwNrAvJ4W80y4P2XXxg3RjzgSUfchPWBTYlXqTbDezQUIlCACtL/NA
+	 o1OR23NlbPNjvzS+K0pSNTJI7ugRoDzRLl+XO6zvDbEeRyvDXKZnX+1iWXz5m1A/LJAIx
+	 yi2xsaBdQzO8J/f1HGTjxcDdNRPCsnRwu+lAWOtg3VevGOGPBcBmHuGjObGo9uX7kLLPG
+	 UFCo4MeeZjVJwTFGz2+EeEE8lw5Nq5i83yv7rckfOJJ6E568qwe3rk6fcOJehNR1x8Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kgv2AhfS;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0FF4606A320
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 11:43:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFD4606A324;
+	Thu, 19 Nov 2026 11:45:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O5qqCMwh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 690FD1F000C4;
-	Thu, 19 Nov 2026 11:43:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kgv2AhfS
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795088701;
+	b=P2v5noAEbGWE7nN5F50B28/qoYrG8lJkDlFfTF0nqD1Vv0CYLTmcerVwzQeBJn8jsk8+
+	 nwb0RT1WDcUsLh5hg/YfEUekgziqOChgu1ihAQQIANpLwaS9XCyvUEXJaD+sFF81OJ0Di
+	 3QYyIL5zMBf7aDixaIm+cD8M2stf6dBunYdLWxtaSo0CTUVGSAZF23GUw1ITBzxYgkoXa
+	 3C+j95dqDWSzIvM8LTyWywyKQiMDyYq+th9IVKOrnqia2TEtmmPUPBwIO8vOylPX8WrZl
+	 KXqQvSoC80kZRWQsVatJS2CD2D/+YYPffq5D8nKzMevJUSpTtBEO/OEAqM7sP4GFnKw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795088701;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=arY3zljhg/9f4oH1J4G/6/OX1UJcdmzYzzT5OdZ4uls=;
+	b=3UGdK0KngRai254cz2ISPZlgdKesNzDNGcybcWv3PkPZazg78CV+2lIz/znTZ1rj0DHm
+	 fe6wyrb3gHfE/sApUnbqdSjjjWn8DW3NVv7bLYPQjcxf06GlzFd7SsuL0QEbaDvBBqRu9
+	 biAlK8d7QPEbI7msE2s9zM+kBB3MkWu0QVOaH9CleTgyg3jrq6zCfuZA3S9jymK3w/j8T
+	 TgMgcFVCnV+Q46iKRCcx4OCI8vitOnn+SeakVBwuXONfEoKup7288GuUajdLCSv5pO7R2
+	 kSgHpehXX7Xd8g8zgYIMfiHSuD4gGtky21mqBucesCeFXSQhZv6jq0uxpvjUO8v6Mkg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id A11AF1F000C5;
+	Thu, 19 Nov 2026 11:45:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795088633;
-	bh=aMYB4c/xjWcdBiIqxSHcSvE31eNAyfhvdHcLvs1p04Y=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=O5qqCMwhqPPnf0+7SbqUB3Jg6AX9XY9/9Myhbe2pyOpyZuBk2Y8DXVQU4laDRszB2
-	 Iwe64/NrWHmpyxCThrhMNuwQBUPt+vvI+aqJWBNPIjAgpmR0TIPHh5VvBPVU5UTXhJ
-	 +QErS+29EY8xZZDC9z5I4zr1A+sE4p5TaOAzr3z47Wk7jRg/bs8PwcNJYnSfEHMQTI
-	 +xwpUnHvzZHh7771NRY8gLxMOWLoVsyxKJ8CR0JA05cb+VReeO4V73097Xt34NGNlM
-	 aLFRIi8sa8y40UlqjcgmqYtbrwdw/5NLPh6pzrdn1xNYdvrGBijFWThSpr7pZp+6JT
-	 6FaKN3W08K/og==
-Message-ID: <sashiko-outbox-223054@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [RFC PATCH v2] thunderbolt: cancel the queued control requests
- on teardown
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yaohan Li" <shunsheng1218@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261119111907.3616041-1-shunsheng1218@gmail.com>
-References: <20261119075557.3399335-1-shunsheng1218@gmail.com>
- <20261119111907.3616041-1-shunsheng1218@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 11:43:52 +0000
+	s=k20260515; t=1795088701;
+	bh=arY3zljhg/9f4oH1J4G/6/OX1UJcdmzYzzT5OdZ4uls=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=Kgv2AhfSwmOU7Yy+nVUpf+lY/OX+L/VA3+GLHlizta0KBnV3Y+xToBFKIylVvXvB8
+	 h7IMK04UlRGp43qldUR4oz9hkRzChgwTPXtHOs6AEmecK/cbqc+4gbT51SnAWPikBl
+	 3RG1yJuFaWSlTRe18JpCGQ84AkQw+rkkhMY/c8xoXF9kDxIFZKnFF01j0ateGoqyd1
+	 Eycn+ivn42dmC55TkpwI5xISahyAU4O7OoX173uOc82YDlTX0dHU4EEwR4s/yfPdZk
+	 u7pYOobd1k8kE8+UpFUpGUhNqg2vaMYKMoqp4TVNVwsKqp7fQ0TWZE18eEKFGQB43U
+	 WEGgMIvW81a7g==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 0467F4B266;
+	Thu, 19 Nov 2026 11:45:00 +0000 (UTC)
+From: Yasunobu Sakashita via B4 Relay <devnull+hi.yasunobu.dev@kernel.org>
+Date: Thu, 19 Nov 2026 20:44:56 +0900
+Subject: [PATCH] media: uvcvideo: Batch StreamCam unlinks on ASUS ASM2142
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,310 +81,129 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261119-streamcam-batched-unlink-v1-1-076bc02866c1@yasunobu.dev>
+X-B4-Tracking: v=1; b=H4sIADfh/moC/yWMQQrCMBBFr1Jm7YCJEqhXEReTdGqidpRMWgqld
+ zfR5fv89zZQzokVLt0GmZek6S0VzKGDEEnujGmoDPZonTGmRy2ZaQo0oacSIg84yyvJE0d/Jse
+ n3lnHUPVP5jGtv/T19med/YNDab328KSMPpOE2CbhtcC+fwGU/I6fkwAAAA==
+X-Change-ID: 20261119-streamcam-batched-unlink-fb4a6e39626e
+To: linux-media@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org, 
+ Yasunobu Sakashita <hi@yasunobu.dev>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795088699; l=3387;
+ i=hi@yasunobu.dev; s=linux-kernel; h=from:subject:message-id;
+ bh=SM/F5q1dd2vyprkfGis4uWr1Bm42nEAIAtBJ4e6DG4M=;
+ b=I9BApyP7CrZMcyE67xRmVhF+o4Qfb7NeHa7K21IK2F7ww7GGWsFrDUNCjCZrDlQVuTj6I55uk
+ JhUduYDGWayBlHnEU3m24BcDXHfiMspq6gZ7Z1swHNKtiW+VXJqEBFR
+X-Developer-Key: i=hi@yasunobu.dev; a=ed25519;
+ pk=QjththR6KbbJLxSuYvQ/eDo4hRrutwL7BdLamwrIW9c=
+X-Endpoint-Received: by B4 Relay for hi@yasunobu.dev/linux-kernel with
+ auth_id=1570
+X-Original-From: Yasunobu Sakashita <hi@yasunobu.dev>
+Reply-To: hi@yasunobu.dev
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [Medium] thunderbolt: use-after-free race in tb_ctl_sync_exit() and
-  tb_ctl_submit_exit()
-- [Medium] thunderbolt: timeout race in tb_cfg_request_sync() bypasses
-  sync_users drain
-- [Medium] thunderbolt: unhandled -ENOTCONN in tb_cfg_read() and
-  tb_cfg_write() hits WARN
-- [Medium] thunderbolt: spurious dev_WARN and unlocked queue check in
-  tb_ctl_stop()
---
+From: Yasunobu Sakashita <hi@yasunobu.dev>
 
-commit 7ad987d4a0cdf2650a891259a5534997151f16c9
-Author: Yaohan Li <shunsheng1218@gmail.com>
+Stopping a SuperSpeed StreamCam can halt xHCI on the ASUS PRIME Z270-A.
+The fifth Stop Endpoint command timed out after an invalid type 15 event.
 
-thunderbolt: cancel the queued control requests on teardown
+For the affected StreamCam and ASM2142, block URB resubmission.
+Queue all unlinks before waiting so xHCI can coalesce them.
 
-This commit adds tb_ctl_cancel_requests() and request tracking counters to
-cancel queued control requests and wait for active submitters and
-synchronous users before freeing the control channel on teardown.
+The stock driver reproduced the halt on Ubuntu 6.8.0-149-generic.
+Three FFmpeg 720p MJPEG and audio capture cycles passed with the patch.
 
-> diff --git a/drivers/thunderbolt/ctl.c b/drivers/thunderbolt/ctl.c
-> index 965988b18608f..5ff0e04b8265c 100644
-> --- a/drivers/thunderbolt/ctl.c
-> +++ b/drivers/thunderbolt/ctl.c
+I used Codex to help analyze traces and draft the patch and changelog.
 
-[ ... ]
+Signed-off-by: Yasunobu Sakashita <hi@yasunobu.dev>
+---
+Built uvc_video.o on media-committers/next with and without CONFIG_PCI.
+---
+ drivers/media/usb/uvc/uvc_video.c | 43 ++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 38 insertions(+), 5 deletions(-)
 
-> @@ -528,12 +534,73 @@ static void tb_cfg_request_work(struct work_struct =
-*work)
->  	tb_cfg_request_dequeue(req);
->  }
-> =20
-> +/*
-> + * Admission for everything that uses the channel.  tb_ctl_stop() clears
-> + * @running under @request_queue_lock, so taking the same lock here is w=
-hat
-> + * makes the waits below complete: once the channel has been stopped no =
-new
-> + * user can appear.
-> + *
-> + * @submitting covers a request from the moment it is admitted until it =
-has
-> + * been handed to the TX ring.  Such a request is already queued, so the
-> + * teardown cancels it, but it still dereferences @ctl in tb_ctl_tx() an=
-d the
-> + * rings must not be stopped under it.
-> + *
-> + * @sync_users covers the longer window of a synchronous request, which =
-keeps
-> + * using @ctl after the send has completed: it waits, possibly times out=
- and
-> + * then cancels the request.
-> + */
-> +static int tb_ctl_submit_enter(struct tb_ctl *ctl)
-> +{
-> +	int ret =3D 0;
-> +
-> +	mutex_lock(&ctl->request_queue_lock);
-> +	if (ctl->running)
-> +		ctl->submitting++;
-> +	else
-> +		ret =3D -ENOTCONN;
-> +	mutex_unlock(&ctl->request_queue_lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static void tb_ctl_submit_exit(struct tb_ctl *ctl)
-> +{
-> +	mutex_lock(&ctl->request_queue_lock);
-> +	ctl->submitting--;
-> +	wake_up_all(&ctl->idle_wait);
-> +	mutex_unlock(&ctl->request_queue_lock);
-> +}
-> +
-> +static int tb_ctl_sync_enter(struct tb_ctl *ctl)
-> +{
-> +	int ret =3D 0;
-> +
-> +	mutex_lock(&ctl->request_queue_lock);
-> +	if (ctl->running)
-> +		ctl->sync_users++;
-> +	else
-> +		ret =3D -ENOTCONN;
-> +	mutex_unlock(&ctl->request_queue_lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static void tb_ctl_sync_exit(struct tb_ctl *ctl)
-> +{
-> +	mutex_lock(&ctl->request_queue_lock);
-> +	ctl->sync_users--;
-> +	wake_up_all(&ctl->idle_wait);
-> +	mutex_unlock(&ctl->request_queue_lock);
-> +}
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index a92a986ab..0ee5a7d17 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -11,6 +11,7 @@
+ #include <linux/kernel.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
++#include <linux/pci.h>
+ #include <linux/slab.h>
+ #include <linux/usb.h>
+ #include <linux/usb/hcd.h>
+@@ -1885,6 +1886,26 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+ 	return 0;
+ }
+ 
++static bool uvc_streamcam_batch_unlink(const struct uvc_streaming *stream)
++{
++	const struct usb_device *udev = stream->dev->udev;
++	struct device *controller = udev->bus->controller;
++	const struct pci_dev *pdev;
++
++	if (stream->frozen || udev->state != USB_STATE_CONFIGURED ||
++	    udev->speed != USB_SPEED_SUPER ||
++	    le16_to_cpu(udev->descriptor.idVendor) != 0x046d ||
++	    le16_to_cpu(udev->descriptor.idProduct) != 0x0893 ||
++	    !controller || !dev_is_pci(controller))
++		return false;
++
++	pdev = to_pci_dev(controller);
++	return pdev->vendor == PCI_VENDOR_ID_ASMEDIA &&
++	       pdev->device == 0x2142 &&
++	       pdev->subsystem_vendor == PCI_VENDOR_ID_ASUSTEK &&
++	       pdev->subsystem_device == 0x8732 && pdev->revision == 0;
++}
++
+ /*
+  * Uninitialize isochronous/bulk URBs and free transfer buffers.
+  */
+@@ -1896,12 +1917,24 @@ static void uvc_video_stop_transfer(struct uvc_streaming *stream,
+ 	uvc_video_stats_stop(stream);
+ 
+ 	/*
+-	 * We must poison the URBs rather than kill them to ensure that even
+-	 * after the completion handler returns, any asynchronous workqueues
+-	 * will be prevented from resubmitting the URBs.
++	 * URBs must stay blocked until the workqueue has been flushed.
++	 * A completion handler can leave work that tries to resubmit an URB.
+ 	 */
+-	for_each_uvc_urb(uvc_urb, stream)
+-		usb_poison_urb(uvc_urb->urb);
++	if (uvc_streamcam_batch_unlink(stream)) {
++		/*
++		 * usb_block_urb() keeps URBs blocked after usb_kill_urb().
++		 * Queue unlinks together so xHCI can coalesce them.
++		 */
++		for_each_uvc_urb(uvc_urb, stream)
++			usb_block_urb(uvc_urb->urb);
++		for_each_uvc_urb(uvc_urb, stream)
++			usb_unlink_urb(uvc_urb->urb);
++		for_each_uvc_urb(uvc_urb, stream)
++			usb_kill_urb(uvc_urb->urb);
++	} else {
++		for_each_uvc_urb(uvc_urb, stream)
++			usb_poison_urb(uvc_urb->urb);
++	}
+ 
+ 	flush_workqueue(stream->async_wq);
+ 
 
-[Severity: Medium]
-Can tb_ctl_sync_exit() and tb_ctl_submit_exit() touch ctl after it has
-been freed?
+---
+base-commit: aa0f4c41d4870a18e65772a1817af16427200371
+change-id: 20261119-streamcam-batched-unlink-fb4a6e39626e
 
-wait_event() in tb_ctl_cancel_requests() (and tb_ctl_stop()) tests
-!READ_ONCE(ctl->sync_users) without taking ctl->request_queue_lock, and
-neither tb_ctl_cancel_requests() nor tb_ctl_free() acquires
-ctl->request_queue_lock afterwards:
+Best regards,
+--  
+Yasunobu Sakashita <hi@yasunobu.dev>
 
-CPU0                                  CPU1
-tb_ctl_sync_exit(ctl)
-  mutex_lock(&ctl->request_queue_lock)
-  ctl->sync_users--; // becomes 0
-                                      tb_ctl_cancel_requests(ctl)
-                                        wait_event(..., !ctl->sync_users)
-                                      ...
-                                      tb_ctl_free(ctl)
-                                        kfree(ctl)
-  wake_up_all(&ctl->idle_wait)
-  mutex_unlock(&ctl->request_queue_lock)  <-- use-after-free
 
-Acquiring and releasing ctl->request_queue_lock after wait_event() in
-tb_ctl_stop() and tb_ctl_cancel_requests() would ensure the exiting thread
-has finished unlocking before teardown proceeds.
-
-[ ... ]
-
-> @@ -621,18 +742,50 @@ struct tb_cfg_result tb_cfg_request_sync(struct tb_=
-ctl *ctl,
->  	DECLARE_COMPLETION_ONSTACK(done);
->  	int ret;
-> =20
-> -	ret =3D tb_cfg_request(ctl, req, tb_cfg_request_complete, &done);
-> +	/*
-> +	 * A user that times out goes on to call tb_cfg_request_cancel(), which
-> +	 * dereferences @ctl.  Register so that the channel is not freed under
-> +	 * it.
-> +	 */
-> +	ret =3D tb_ctl_sync_enter(ctl);
->  	if (ret) {
->  		res.err =3D ret;
->  		return res;
->  	}
-> =20
-> +	/*
-> +	 * A synchronous request is completed by its callback, so the same
-> +	 * function serves as the cancel hook: a teardown that cancels the
-> +	 * request then wakes the waiter instead of leaving it to its timeout
-> +	 * with the control channel already gone.
-> +	 */
-> +	req->cancel =3D tb_cfg_request_complete;
-> +
-> +	ret =3D tb_cfg_request(ctl, req, tb_cfg_request_complete, &done);
-> +	if (ret) {
-> +		res.err =3D ret;
-> +		goto out;
-> +	}
-> +
->  	if (!wait_for_completion_timeout(&done, timeout))
->  		tb_cfg_request_cancel(req, -ETIMEDOUT);
-> =20
->  	flush_work(&req->work);
-> =20
-> -	return req->result;
-> +	/*
-> +	 * A teardown can cancel the request on another thread and run the
-> +	 * hook above while this one is already returning.  Taking the same
-> +	 * lock waits for that invocation, and clearing the hook keeps it away
-> +	 * from @done once this function returns.
-> +	 */
-> +	mutex_lock(&req->cancel_lock);
-> +	res =3D req->result;
-> +	req->cancel =3D NULL;
-> +	mutex_unlock(&req->cancel_lock);
-> +out:
-> +	tb_ctl_sync_exit(ctl);
-> +
-> +	return res;
->  }
-
-[Severity: Medium]
-Can a timeout racing with teardown let callers of tb_cfg_request_sync()
-dereference ctl after ctl->sync_users has already dropped to zero?
-
-CPU0                                  CPU1
-tb_cfg_read()
-  tb_cfg_read_raw()
-    tb_cfg_request_sync(ctl, ...)
-      wait_for_completion_timeout()
-                                      tb_ctl_stop(ctl)
-                                        ctl->running =3D false
-      tb_cfg_request_cancel(..., -ETIMEDOUT)
-        tb_cfg_request_set_error(..., -ETIMEDOUT)
-                                      tb_ctl_cancel_requests(ctl)
-                                        tb_cfg_request_finish_cancel(..., -=
-ENOTCONN)
-      tb_ctl_sync_exit(ctl)
-        ctl->sync_users--; // 0
-                                        wait_event(..., !ctl->sync_users)
-                                      ...
-                                      tb_ctl_free(ctl)
-                                        kfree(ctl)
-    usleep_range(10, 100)
-    tb_cfg_request_sync(ctl, ...)  <-- use-after-free
-
-Because tb_cfg_request_set_error() keeps the first error written,
-req->result.err stays -ETIMEDOUT even though ctl->running is already
-false.  Once tb_ctl_sync_exit() drops ctl->sync_users to 0,
-tb_ctl_cancel_requests() finishes while tb_cfg_read_raw() (or
-tb_cfg_write_raw() / icm_request()) sleeps in its retry loop and then
-dereferences ctl again in tb_cfg_request_sync() and tb_ctl_warn().
-
-> @@ -753,15 +910,73 @@ void tb_ctl_stop(struct tb_ctl *ctl)
->  	ctl->running =3D false;
->  	mutex_unlock(&ctl->request_queue_lock);
-> =20
-> +	/*
-> +	 * A request that passed the admission check is between the queue and
-> +	 * the TX ring and still hands its packet to the ring, so wait for it
-> +	 * before the rings are stopped.
-> +	 */
-> +	wait_event(ctl->idle_wait, !READ_ONCE(ctl->submitting));
-> +
->  	tb_ring_stop(ctl->rx);
->  	tb_ring_stop(ctl->tx);
-> =20
->  	if (!list_empty(&ctl->request_queue))
->  		tb_ctl_WARN(ctl, "dangling request in request_queue\n");
-> -	INIT_LIST_HEAD(&ctl->request_queue);
->  	tb_ctl_dbg(ctl, "control channel stopped\n");
->  }
-
-[Severity: Medium]
-Does tb_ctl_stop() now trigger a dev_WARN backtrace whenever a request is
-left in ctl->request_queue for tb_ctl_cancel_requests() to cancel?
-
-tb_domain_add() and tb_domain_remove() call tb_ctl_stop() before
-tb_ctl_cancel_requests(), so any request still queued at teardown hits
-tb_ctl_WARN() here before tb_ctl_cancel_requests() can run.  In addition,
-list_empty(&ctl->request_queue) is checked without holding
-ctl->request_queue_lock while completion work or a timeout can still be
-dequeuing requests in tb_cfg_request_dequeue().
-
-> +void tb_ctl_cancel_requests(struct tb_ctl *ctl)
-> +{
-> +	struct tb_cfg_request *req, *n;
-> +	LIST_HEAD(requests);
-> +
-> +	mutex_lock(&ctl->request_queue_lock);
-> +	list_for_each_entry_safe(req, n, &ctl->request_queue, list) {
-> +		/*
-> +		 * Take a reference and drop the one held by the queue while
-> +		 * the request is still protected by the lock.  The requests
-> +		 * are canceled outside of it and their completion work may
-> +		 * run in the meantime: without the extra reference it could
-> +		 * drop the last one and free the request under us.
-> +		 */
-> +		tb_cfg_request_get(req);
-> +		set_bit(TB_CFG_REQUEST_CANCELED, &req->flags);
-> +		clear_bit(TB_CFG_REQUEST_ACTIVE, &req->flags);
-> +		list_del_init(&req->list);
-> +		list_add_tail(&req->list, &requests);
-> +		tb_cfg_request_put(req);
-> +	}
-> +	mutex_unlock(&ctl->request_queue_lock);
-> +
-> +	list_for_each_entry_safe(req, n, &requests, list) {
-> +		cancel_work_sync(&req->work);
-> +		list_del_init(&req->list);
-> +		tb_cfg_request_finish_cancel(req, -ENOTCONN);
-> +		tb_cfg_request_put(req);
-> +	}
-
-[Severity: Medium]
-Does canceling or rejecting a synchronous config read or write with
--ENOTCONN trigger a WARN() in tb_cfg_read() and tb_cfg_write()?
-
-When a tb_cfg_read() or tb_cfg_write() call running outside tb->lock (such
-as tb_xdp_handle_request() -> tb_port_read()) is canceled here or rejected
-by tb_ctl_sync_enter() after tb_ctl_stop(), tb_cfg_read_raw() and
-tb_cfg_write_raw() return res.err =3D -ENOTCONN, which falls into the
-default branch in tb_cfg_read() and tb_cfg_write():
-
-drivers/thunderbolt/ctl.c:tb_cfg_read() {
-    ...
-	switch (res.err) {
-	case 0:
-		return 0;
-
-	case 1:
-		tb_cfg_print_error(ctl, route, &res);
-		return -EIO;
-
-	case -ETIMEDOUT:
-		tb_ctl_warn(ctl, "%llx: timeout reading config space %u from %#x\n",
-			    route, space, offset);
-		break;
-
-	default:
-		WARN(1, "tb_cfg_read: %d\n", res.err);
-		break;
-	}
-    ...
-}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119111907.3616=
-041-1-shunsheng1218@gmail.com?part=3D1
