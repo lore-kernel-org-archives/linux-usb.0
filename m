@@ -1,79 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795097647;
-	b=XKy2yR8Fzi9ZgU5/2LNj7GJ2lfxfha+SPlha5RAeg5LAmUNX7bhPntiVHHfdHAtOKzz5
-	 gMkatvEDZPjvLB7C3vCDzGtzskk8G4ze3HUv+sO/JJaD4MSG62xxvZrliigCzxj/S18o1
-	 czwwnC6O89fiXSA3px+eLCKF5Pi0ae2uauED9yfvLMZL93EKh/oT3F7IXZivKMgTcmyDT
-	 BWZteAwtOQrtdTH4UnNo4aA9Z2Lepk3Bp2wFRVFbSu47JnsIusiurhKa4e4FdQ9l9JpSX
-	 yN+cg/rn+g65AaqLcJruUXuXAuqAoUYPoka0lLaej5h34S6YbRlAdlqanFqfOVRooaA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795097647;
-	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
-	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
-	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
-	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
-	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
-	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
-	 Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
-	bh=C6aRCj8wEciv94cvB4O5qhcQIEYtmvYygIebmG+eGDw=;
-	b=NSYPbh1DMdUnmrnSUGn3x0mYnA1GovBrbZWkAe48a3EWKClICkyOmKQvR0Bw+GYLRStH
-	 1yjiR3aj9YFdO0DWeVBnqvTxpgDZ5qq4D4WHtMAzkqfRwa8xHL4itBb1pyXknjtg0ZVvZ
-	 E7M5SdkUQUAv8/0G0KHWRE7d3UcX0AuHur9z5lX29RQJnxCxmtH2FCJBRg0oe7KuJrnHd
-	 o9cJrOBmOVeWjWJZGP0HxmKlloz1XbHctp+gv70XjywIBHC9gmQ6vqpxITk1Sx7/8WcXI
-	 nfGr2RhogkFm/8vi2zjyXI8vvBElCDmKxttXvwCcCCSMcSDYA15TgbaOWmNe14nuVLg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=edTrFv3P;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795097932;
+	b=rOWS5b5gceoT8rr/UeFVP/NXN2T1Q97r/0igqLsrVEV0ji6TEVv7jRKqXqVeARwMKwlb
+	 WQ0wvyozHdDg2EQKy4NPt1cbaPyjriSFJ5snGQlNDwArsEPCHH+3PmY0GpveYzMlbrdbJ
+	 8J0EMbmjLFiNioX+RFisND6qNTtrpfEvlUeclK2WmfaVdWXBlFvBBMs/5pNiqamK0Tw5x
+	 vCbr1YtJiDPAmSIlv8X8FgFc9NW2CReJUY5hMOY9IPHkFWlpDcd8XzZ25J+XBmGUmcL2P
+	 D99eu00osZTdxOLJo5AeAmJrGp1+p9fncySAyiAAwY8Q6CDDxNZOOI39GMfLHqjOR9g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795097932;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=F2QtB5pwjdPeOh4hIHJFS+b+zFty7GOmgO3yI9+d/A8=;
+	b=DwRQ6dHhyJGRXULes7ntiBFV7omEKqQg49QV1TRsqBtnhuY2LSUy9TaGs+7/Qnp/s5Ug
+	 LaBSXfdopgFXxjDV+FPFHlkG71RAMzOf2Yhk/vbJ27siCD46l5X2OLtTzIUqFtVwep5BM
+	 KQVxWqiYZlkKS4s4nSx8xHq6peug2TCdrHHE6mnk02GjZkgc3icSLHqsvHMFtU1EQMcRW
+	 nXvOTM3mcgwHf9Jy4AWyfgN9iA7tWg9EPjDtymTi0dzFoznGGGr4AQuWVoWBV9WN5mh3U
+	 g7fG4dgv+ewSgbPuYp5MZfQh5/OfSILpiu1P4gXZXelX0cv8vLFUsjNOivelA1tAhig==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nWXa7o98;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A9A606A32A
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 14:14:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E047606A338
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 14:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=edTrFv3P
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 355CB1F000C4
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 14:14:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nWXa7o98
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795097931;
+	b=AWXoZucgCJpir/Gv4bThCitDqGp5k0j9m0PIyfWbEOATYJP/qZSD/hfs4eTdoB6V9/Ru
+	 ZnIIRLe0d+KUxF8l4znMK4E4e+CWNSADNLfNdaGyBCJopr5vGlr1+FH+VwVW0+AKrBzWl
+	 Bf71uETF+W7TFeC0sNAOilHVwqbEX1KTtRw3BfdBFQezeqYf9RgFcoQLQT2a7tniKM4Wu
+	 AZ2r6FuMGTVrLa7jeCX7qOG9P4F3Fbwpcv01FQgnRsES1T7jayztCmNhJAsL4S9j6pxJv
+	 GdWkALujUzZb3djQiOm5Kj/IFDn4mOJkwmpXpWCStVbUFKW7IZQkIilYFPNXlaf1bxg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795097931;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=F2QtB5pwjdPeOh4hIHJFS+b+zFty7GOmgO3yI9+d/A8=;
+	b=yMttHO5LyH2OdlexQWsHgOd6kFyB4LDqvz+WUjc14YyD381HRar8j03M9z9g5hxEc9LN
+	 U/h0Ppxg6/mvr/kTEWoGeU2pDc7z7rj7miO9my678vgK57VrS5xLoOHH0cG8vGmsoNnD5
+	 2L5AfX1B1B4VhC9XTeJO64tcLlT33pb1y09vXHVv6f6KLwhryMWvr35dXKbZ+vOSPv6KU
+	 LPmm9UaDbCN4PCRlKAUSpVucxhW3XirGyXypJYf9b11PLpv+Dl6uCWEbJMazSIcBUQ+TP
+	 NGJtj1IzAwERL7MdRFR8rLOSGytW7AmwShuVWsVl+0c2jKKtmM+61HWsvqpumYwvRow==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6EF191F000C4;
+	Thu, 19 Nov 2026 14:18:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795097647;
-	bh=C6aRCj8wEciv94cvB4O5qhcQIEYtmvYygIebmG+eGDw=;
-	h=From:To:Subject:Date:In-Reply-To:References;
-	b=edTrFv3PV/VmKEnuYVHBDuqWa0RcYG+L6eH2RelBXPbBnaZYfk9+kpJuW40M7dvZr
-	 JOMBp7Wq/GYnZFRhFaOLL30I5TMXwKDWbd/7/z/akfSC/qruqEVQ6L0d2JEuZlBxDT
-	 EG7eZ+SJDqN9iFhS9OFhvlc47T7JZd0y7IG3mUa/6NJOA1K9Y4Xqor5UnD2dtmDwT3
-	 g2aL3lC7kdGY+V5bgqRVFrhqxxtEQlABT+yYycS0cCP4sC7p/48oKsd+elSiYsW5uP
-	 dnqIRrTlmNHW6+e5PA5EggpB4JP0X59t6vHW+hApI22xHnvos3YCdTsoBf5fD5ibIQ
-	 WBa6psPRRdZfQ==
-Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
-	id 31A6E240040E; Thu, 19 Nov 2026 14:14:07 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222296] HID sub-device (wheel rim) hot-swap on Ardor Le Mans
- base does not re-probe the keyboard interface
-Date: Thu, 19 Nov 2026 14:14:07 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: daniel.matushkin@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-222296-208809-wpOEord9cD@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222296-208809@https.bugzilla.kernel.org/>
-References: <bug-222296-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=k20260515; t=1795097931;
+	bh=F2QtB5pwjdPeOh4hIHJFS+b+zFty7GOmgO3yI9+d/A8=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=nWXa7o98LgAMVOM8aSHbl0hHnc4+SXlDg26vlVljuiA6swnmgl2zfFhreXsiZ8IFd
+	 Gc4t5jhddxLdRG+/Fl429GmS7ON533HZXvaXGOaGPMKUWlWbqQG3NRFF72xo2QATTv
+	 3zSUIKZdWD6HajPINCoXNZo8cK1MrcwNTCdph1/0h0sJ8TvCSToY642kB5KFqCfyuF
+	 U9o29XLnCqwt4ySzKs6KkoajqEVyb6O4lDmu2tO4GiClW8Fx3RBYaafQ3C7WzoeH8B
+	 HosSkYgb+fFgCwGkU6Y4XjWKU2bohYN0mK0y9RUlVPx7CFQ5WwG1HYeGWBfUQzksI9
+	 NCJ4Va2YpYnJQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 01F7D4B2DB;
+	Thu, 19 Nov 2026 14:18:51 +0000 (UTC)
+From: Jakub Jatczak via B4 Relay <devnull+jjatczak.antmicro.com@kernel.org>
+Date: Thu, 19 Nov 2026 15:18:45 +0100
+Subject: [PATCH] usbip: Don't print port status error for full-speed
+ devices
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,12 +83,70 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261119-usbip-fix-v1-1-e6c04690115d@antmicro.com>
+X-B4-Tracking: v=1; b=H4sIAEQF/2oC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQ0NL3dLipMwC3bTMCl1jEyNTS0vzRNMUcwMloPqColSgMNis6FgIv7g
+ 0KSs1uQRkgFJtLQCE5RM8bQAAAA==
+X-Change-ID: 20261119-usbip-fix-3425997a5d70
+To: Valentina Manea <valentina.manea.m@gmail.com>, 
+ Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, 
+ Zee Yudenko <zyudenko@internships.antmicro.com>, 
+ Jakub Jatczak <jjatczak@antmicro.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795097930; l=1347;
+ i=jjatczak@antmicro.com; s=20261119; h=from:subject:message-id;
+ bh=OS8UqiwHqBptFTeFSM2QQKndU+D8JiAutl3gaRQ0HY8=;
+ b=DylVeDElqJMVpp2f6JinhL8i9vgioHQURK0gg2v4oqaXy1cB7wEK7K+8MDgrGKhGfA9fuudn3
+ 0Ls4bYkfewzC8yByy9zpxSiuafhQU1XA+WHD6xxr5p9ScDK1bAIOdGr
+X-Developer-Key: i=jjatczak@antmicro.com; a=ed25519;
+ pk=cNMAGqBjphJgwMUhAbseW6DasEAKdiJqPK/Zbl523Kc=
+X-Endpoint-Received: by B4 Relay for jjatczak@antmicro.com/20261119 with
+ auth_id=1572
+X-Original-From: Jakub Jatczak <jjatczak@antmicro.com>
+Reply-To: jjatczak@antmicro.com
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222296
+From: Zee Yudenko <zyudenko@internships.antmicro.com>
 
---- Comment #2 from Daniel (daniel.matushkin@gmail.com) ---
-*** Bug 222295 has been marked as a duplicate of this bug. ***
+When getting port status for USBIP, we only check for high- and low-speed
+settings, but not for the full-speed, which causes an 'vhci_device speed
+not set' error to be printed whenever a full-speed device is attached. A
+full-speed device is the default status, so we don't need to set any port
+status bits.
 
---=20
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Signed-off-by: Zee Yudenko <zyudenko@internships.antmicro.com>
+Signed-off-by: Jakub Jatczak <jjatczak@antmicro.com>
+---
+Patch authored by Zee Yudenko; I'm submitting it on their behalf.
+Please direct feedback to me.
+---
+ drivers/usb/usbip/vhci_hcd.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
+index 39e8faf4c18c..936b98629921 100644
+--- a/drivers/usb/usbip/vhci_hcd.c
++++ b/drivers/usb/usbip/vhci_hcd.c
+@@ -480,6 +480,9 @@ static int vhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+ 					vhci_hcd->port_status[rhport] |=
+ 					      USB_PORT_STAT_HIGH_SPEED;
+ 					break;
++				case USB_SPEED_FULL:
++					/* this is the default, no flag needed */
++					break;
+ 				case USB_SPEED_LOW:
+ 					vhci_hcd->port_status[rhport] |=
+ 						USB_PORT_STAT_LOW_SPEED;
+
+---
+base-commit: 4405c18c95d2d0f99f6c581ef0ee8591a1aa6ccd
+change-id: 20261119-usbip-fix-3425997a5d70
+
+Best regards,
+--  
+Jakub Jatczak <jjatczak@antmicro.com>
+
+
