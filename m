@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795083781;
-	b=A9Ic1qzru3J12rQ2twRL29t7II/LcFfSpoKiPWysFoA3+s5X69OlMUUs6m7qMbau7R5y
-	 In8EIHCSVxcLfslQNWh5J7APGP2WnjiCA64wd3Siq3pOKfBjV0BVK5C4FXzmUMPfpcc6O
-	 f6owPWWbqR0/Yh2tG9cNyGFcMP0SeR64ufUKuoxWLinWGHgbCez2WMKcSKI+q9IIItGuk
-	 sSFFZedoZyO44XdPnAc/0BHiaWJWCTRR0Pz/51i6t5qUEbpIjehh43hAY8YC5WYsMPyBW
-	 qOhHujX0Z/XhL/5pfGzn1lm0wsJebm52GfhUcJhxtfAq9lIsfViKYtfKqvI3+vS26ag==
+	t=1795084470;
+	b=tCvPjp4LtHaKQ/shYdm3pxqbLQj95+VlHQEaJd/5J2K+aH0TTSoZghC2S2VgshCCvj8I
+	 L/tT7x69mSEJMoJP/IZX8kt4fnvt+mhfUXnJh9+O2FA1shBeHA3GbWhhmmo2kh0LwI855
+	 xP5jbLNbyOjnaXY/kqNswcm9YYiuqU1mZEvtticNOgnwT8xM5i8D4RXi6YPjTOmnmYeFV
+	 luGpA1Tzi9ALjHuS/St3sYYS/Hp23k/GyVKDREO3JjDtOHM56H8Ggsm+dDKUm5MYj12QE
+	 ETxrPWtFCo1k8YrlIOfl7YodgywK1niY5INMxhLKjyuyLWU6lIkSizZz5wK1Jclty7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795083781;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795084470;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Ixbiff3Qkt8ycjSXAFjHjNRrqPrQ+zlrlnKO8MNO9FE=;
-	b=t5lTuf4v/IabHZRJyOA799P2jY1LKtDPcqxnHOVJlkl56H8my50uIVkuZrL65Fd0+BdC
-	 OvhbN7t0UfdRN7ENLwGjjA4Md6V4WY0jhc6pW+0Te7BB8GImPSMAR1dsLT9aFgN3uCNoY
-	 55mMP9+1blI34Kfw4zthJjFtjndOxn7ywFIUPgBIX+VQ3vTqt1M+DjDlK+HuI9krDc3+M
-	 PnQk95kd1aocOPZRhtXSq6DtPRpCb/cipzUa63W7q6VLXZWasongI/NtwwWv2/C3/7/q6
-	 maZywv3R4Ct+Igb59QR8KeQJ0lzdyzksa74u1cwlYhX1DI2kbwAGHsEnapk1VioDeqw==
+	bh=/eGA/9FyxHZlhxVbur3HLQR9Qp8Z0tGBZw8xVbTfyoA=;
+	b=pK2xJ2opBmHOnCfv/+JdI8n5sc7ljvPlL2kijRp1vi6QKCw5uA/hT6yfDcplOz3TVlMO
+	 BgbVoMM2HfggdB+L8CXaOvWs8J98I0ynNA5SgCAipWsj1f4rEA91Iv6pslGhf3I066tPQ
+	 ZJShtcb+9snpntoq0p4yrCtevQ3brW8IEOXthlWHEv682FzA3o5G9P9ArxkaqzYO2mpXO
+	 QZMYLrA3hyn2UyYj92XOToGvAySlsgvjPc2mWofRXlY+UYTDP7RSJjZS9oRwKJjT8XtDn
+	 1NjwkQypwJrWsGeKkj1rUqZ7tX3NwyyIeZGjTVd9XiDtU0SN2MBTswkK3GFFn/fsHjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mJriHpjB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z430ccma;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF65760A260C
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 10:23:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96F5606A325
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 10:34:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mJriHpjB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A57481F000D0;
-	Thu, 19 Nov 2026 10:23:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z430ccma
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 987A41F000C8;
+	Thu, 19 Nov 2026 10:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795083780;
-	bh=Ixbiff3Qkt8ycjSXAFjHjNRrqPrQ+zlrlnKO8MNO9FE=;
+	s=k20260515; t=1795084470;
+	bh=/eGA/9FyxHZlhxVbur3HLQR9Qp8Z0tGBZw8xVbTfyoA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mJriHpjB/p5ir1eD/tUBKffUSslICEeNNW7HEvrCuaTzJg9WwE94j4zOut0Nt10az
-	 tpF80TBTHJoc4gjzeZcr8Tyz4ESUubYBall2WgDOkbalWOtew+wKDnAS1h5jk4otEr
-	 uqupunI1jEf0rgBqGIUiemvqOx9A8KoQ6a/lCs6kcPkBQraRLDbOBfXdsUtVCLmKWp
-	 iC/Bys97a9DRi4a2s5mzzO2TnjcnJTv4JomlV36o7RG2hSzoEpWOBYgQ5d1JZvNDiL
-	 DYIjJa2L+e0qya235TQPxO3sXOzQ4YuS7HdzEsA5pmwES3qTSJ/tW1ur7gWiZS9gFD
-	 OK/hAiXc8esEA==
-Message-ID: <sashiko-outbox-222947@kernel.org>
+	b=Z430ccma/GqwiDheATISnSHwXvbHjs+lzVODchdRe14Lv/qFr9dt+jQJKq7XULg0o
+	 h+TDL69u7Y0Q8k3O1Kg6opivpmVMlPIEkQoYhGqWSBR0Tln8ip4u5XZZ46q5EJQV+5
+	 j9Zlipe/ZQCTfTu2JeM5rdA56B+uvMlM3Rgi+qfTT3J9h4W/6UTz1EopT0f+zVsW7S
+	 rpvvJ5u7ZCiXku1B1JkkbZXcezUgahCGXAKM1+VFJnnUm78xI3CsJKMVccZFUkcQ0v
+	 GnKZ2j/C3/5kbKprbXb9mWcEtlvQzHrejk9tfj6bWNrtM2cYRxko1n1yfTs3IYeWqz
+	 /H1Sb5r+ounsg==
+Message-ID: <sashiko-outbox-222960@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 3/3] usb: hub: Retry SuperSpeed for a device stuck on
- its USB 2.0 peer
+Subject: Re: [PATCH v6 1/3] usb: core: Pair ports of different hubs through
+ their connector
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Arun Iyengar" <aiyengar1990@gmail.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261119-usb-port-pairing-v6-3-32bd7e36e426@gmail.com>
+In-Reply-To: <20261119-usb-port-pairing-v6-1-32bd7e36e426@gmail.com>
 References: <20261119-usb-port-pairing-v6-0-32bd7e36e426@gmail.com>
- <20261119-usb-port-pairing-v6-3-32bd7e36e426@gmail.com>
+ <20261119-usb-port-pairing-v6-1-32bd7e36e426@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 10:23:00 +0000
+Date: Thu, 19 Nov 2026 10:34:30 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,99 +61,25 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] usb: hub: missing sync with peer hub init in
-  hub_reset_peer_child()
---
+> From: Arun Iyengar <aiyengar1990@gmail.com>
+>=20
+> On the RK3588, USB 3.0 host 2 is SuperSpeed-only and its connector's
+> USB 2.0 lines go to a separate EHCI, so pairing by port number gives the
+> SuperSpeed port a dead USB 2.0 peer.
+>=20
+> When ports 0 (USB 2.0) and 1 (SuperSpeed) of a usb-connector graph lead
+> to different hubs, pair them through the connector. The peer must be a
+> "usb" node (usb.yaml) or under one; a mux or PHY there keeps today's
+> pairing. Root hub ports are found by the controller port number; graphs
+> in the dwc3 numbering don't match and keep today's pairing, as xHCI
+> registers both root hubs before devices enumerate. connect_type is
+> looked up the same way, so such a SuperSpeed port reads "hotplug".
+>=20
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 
-commit 7d4ffb5084a3369e5c00127c3a48cf92988241d0
-Author: Arun Iyengar <aiyengar1990@gmail.com>
-
-usb: hub: Retry SuperSpeed for a device stuck on its USB 2.0 peer
-
-When a SuperSpeed root hub starts, this commit resets the USB 2.0 peer
-port of any SuperSpeed-capable device so that it can move to the
-SuperSpeed port.
-
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 199d3f535a891..65d0728d43306 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-
-[ ... ]
-
-> @@ -3278,6 +3289,116 @@ static void usb_unlock_port(struct usb_port *port=
-_dev)
->  	__release(&port_dev->status_lock);
->  }
-> =20
-> +static void hub_reset_peer_child(struct usb_hub *hub, int port1,
-> +				 struct usb_device *peer_hdev, int peer_port1)
-> +{
-> +	struct usb_port *ss_port =3D hub->ports[port1 - 1];
-> +	struct usb_port *port_dev;
-> +	struct usb_hub *peer_hub;
-> +	struct usb_device *udev;
-> +	u16 portstatus, portchange;
-> +
-> +	/* Keep hub_wq off the SuperSpeed port until the USB 2.0 device is gone=
- */
-> +	mutex_lock_nested(&ss_port->status_lock, SINGLE_DEPTH_NESTING);
-> +	usb_lock_device(peer_hdev);
-> +	if (hub->quiescing)
-> +		goto out;
-> +	peer_hub =3D usb_hub_to_struct_hub(peer_hdev);
-> +	if (!peer_hub || peer_port1 > peer_hdev->maxchild)
-> +		goto out;
-> +
-> +	port_dev =3D peer_hub->ports[peer_port1 - 1];
-> +	udev =3D port_dev->child;
-> +	if (!udev || udev->speed !=3D USB_SPEED_HIGH ||
-> +	    udev->descriptor.bDeviceClass =3D=3D USB_CLASS_HUB)
-> +		goto out;
-
-[Severity: Medium]
-Can hub_reset_peer_child() observe port_dev->child =3D=3D NULL and bail out
-before peer_hub has finished enumerating a boot-connected device?
-
-In hub_activate(peer_hub, HUB_INIT2), a USB 2.0 root hub with a connected
-device sees USB_PORT_STAT_C_CONNECTION, sets need_debounce_delay =3D true,
-queues peer_hub->init_work for HUB_DEBOUNCE_STABLE (100 ms), and unlocks
-peer_hdev->dev.  Even after hub_init_func3() runs kick_hub_wq(peer_hub),
-peer_hdev->dev is unlocked again before hub_event() enumerates the device
-and assigns port_dev->child.
-
-Meanwhile, the SuperSpeed root hub has no connection on its port during
-HUB_INIT2, so it skips the 100 ms debounce delay and queues
-peer_reset_work immediately:
-
-peer_hub (USB 2.0)                hub (SuperSpeed)
-------------------                ----------------
-hub_activate(HUB_INIT2)
-  need_debounce_delay =3D true
-  queue_delayed_work(init_work,
-                     100 ms)
-  device_unlock(&peer_hdev->dev)
-                                  hub_activate(HUB_INIT2)
-                                    need_debounce_delay =3D false
-                                    hub_queue_peer_reset(hub)
-                                  hub_peer_reset_work()
-                                    hub_reset_peer_child()
-                                      usb_lock_device(peer_hdev)
-                                      udev =3D port_dev->child; <-- NULL
-                                      goto out;
-hub_init_func3()
-  ...
-  hub_port_connect()
-    port_dev->child =3D udev;
-
-Whenever the SuperSpeed root hub probes while peer_hub->init_work or
-peer_hub->events is still pending, hub_reset_peer_child() exits without
-resetting the peer port, leaving the device at high speed.  Flushing
-peer_hub->init_work and peer_hub->events before checking port_dev->child
-would avoid this race.
+Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119-usb-port-p=
-airing-v6-0-32bd7e36e426@gmail.com?part=3D3
+airing-v6-0-32bd7e36e426@gmail.com?part=3D1
+
