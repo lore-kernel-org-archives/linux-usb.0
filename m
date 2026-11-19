@@ -1,72 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795108139;
-	b=YDDZKi6vzBIYhVhzsOPIHLyZsISX6ClPkc2JipZH4JujORK4CCdlPDLcr7m9E8Gxyrvd
-	 N69TU/ciuDi6cXgDJf0+HYG2FjksRpY59/igbREzDsxrfBWuejDXGiHYBlPRq52NwG2c1
-	 m638Egtg3TNQmMr8qIiyq7fMEj96sFvofZVN/Nu2bV6AmA4EJ3nfoKIypdtfBfjrrS9dB
-	 ZlLy8H9P/XbcaCqgYLtPWA5je+C1Vxpu5qGGb9YhqH5p9JgvEh51hkbAqQp1bLhg2j4bm
-	 qNo6tkYwqNN5mRNM6w06jHw6myXlXUbzFEAKuT1kJEhg86BF2FtHBSFbEL6WG/AAvOQ==
+	t=1795108225;
+	b=VI6ZSlgv/5/kgciYxRBy8OoPAlsj2keET0Vcf5eHxar5mV2ZvJBnSj+/UBGprjV/Sh9k
+	 bqYVkIjXxOfDBC++hZlNUMJJp346wndgUpSc25J+hAy/lRy6ziJ2hUzKKFrs5OtmXCogR
+	 XobF+hCCUurtC0t9SHe67ATOK5tvxF7rSHJ6MhQHyl3/bRerZb4KtbqfrvyQT2grp050N
+	 v4ZKATcCVnZnhibRE8o/4YmK0LnVh1AJ8ePrdXPmW1Hq8x2Ga8SrUsCE1FNdAKXb5bjwi
+	 Z9HTKxloGZszXXfhvnumJJIsveuOWA4DfzKa56QMVgBxjClpmSR3zE+7mqhhmiqHg6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795108139;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=/BeMwuZ5xgQDXIgYlBcolpETHlDVDX0QAKZ3gBy9Xss=;
-	b=Vda/Lx5QJZsZFi9w2zTjcBl5mUV+rvLGvq+T5Hu7k1LUlHH5zczsLZVIDno+mUN4g+Tp
-	 aIP9eteewh9M6RZ5RPm/Msf3pahYoNUiz1iqwz1eSp8DREMJlC8s4II0mOiFM45/6Wbd/
-	 2aHX0NW+qS2PIoYPT8hmf9S97odyMUQNDPi3ZHNCnshyTMhHiaRVyIG/NHiVIgQT1rjSZ
-	 JW8lNjo1KBAgjsdmN8VWIi+vRBkBa29TNPtnqjNFW0WDuWcUfXmbcKsJA/KdeUhVS5Mue
-	 W4enSs3AEX36l+ImPKtKVajEYT9cUV7fKQJiNfBXMT3J3jr5prdeHYqaYoEMgrf5Q7w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795108225;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=iCbmD7M0rCoJoVSN60gzoWL2nVX8EUiOFHW8yr/ZUmw=;
+	b=fyygIpKxnVxC1rlAUa7GFcLdeOQqJZOk174LvZe6trFzwddouYBRoBQN6hZsII/TEEIq
+	 W2j+3sk5DXA/Z7Fn4uUkOs9Rxf4OKGO04fpsZbWLOVwUoaqBeeSPje/3+2DkWeiRgpLK4
+	 GPxFUoD9ASmK84b4+Jr+b9BArNErVZycmeZkXKYUFGAwsMU4HLvLWipmGIo4V3OTvhPMz
+	 1nM+XipuIn4RJIe+20Pm3yyHpVzc0M2+0lh3qd+GtUQLMqlNW/98xe/VORND0f2S681OK
+	 CpPXrMltzoWLLxeU3FEOK6nnwSSBhNXQEB3h/TcF0/wzYXXaPfg6AmnNKsx2tL5jeRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gX2CAPFe;
-	arc=none smtp.remote-ip=74.125.82.199
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="kKiz/wCo";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A513F606A335
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 17:08:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A513F606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DE5606CA89
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 17:10:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gX2CAPFe
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-383165e9b0fso1983507eec.0
-        for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 09:08:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795108138; x=1795712938; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/BeMwuZ5xgQDXIgYlBcolpETHlDVDX0QAKZ3gBy9Xss=;
-        b=gX2CAPFeYUAK79FymZ9jeijW0m0x4R/ythURkmn9dDtfcQWtnX7w7SgSn0VY7MAAea
-         z8QQoMlcYCuUnTF6mstqzMIcS/mHLAJrOH5n2DXIioKc/FEe9t+fuje/LIzZs1RSAJgh
-         Kb8e9+qtKH+xKYB/yCDe9X0YLkqdu4GQmnv6wD6Qx+CzxpkDmh+J6/vFmivMhFmR0UW2
-         HkGzhV8zZ6QUbAHuV62DAtp0xIlO0GGWur4GN5Q9YdO9Xo0H3QYza16u33+E/tECrmw1
-         rCzH3UmM/3hHnGQNR5+ALnmAPxU5jxIQpRoYkFxqiJcBNozFHX/IdnDwBu/uzsNSyxVX
-         jp5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795108138; x=1795712938;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/BeMwuZ5xgQDXIgYlBcolpETHlDVDX0QAKZ3gBy9Xss=;
-        b=iyr0hGdp9WkfwGHJUB6/CrLUH/iPudsxNlYSb7RaUqy7YDwZjWf3s0LSiic0rGZvCs
-         BqLhGvRmtetvxJdDKdxyPmFmvQIrWMH9kcqE7+PjQPnV/7BcI3uZ8gQtTCLrcEmZeSyT
-         /YowRtvFTf4H4i5tBMJQScA+tF8PbdVX7yfNgmd0Ryc3MSCJNrvxyaCcV9iQm8y8FhIN
-         1ejMq/MJ/33MECWV2baIz9aSVvJ2I9oGyQPvPPwSf3zGfoZjUox8avtERb6DnVvY4znc
-         AhB5EtVls/c9o/7qorrCgj5lT7yLzynfH/p2xEapX0MnJR0nxY5B/LRj8dux+NHkjo2d
-         irfA==
-X-Forwarded-Encrypted: i=1; AL+hErEpzUrsXdbSSzDCHrS2J26lKYgRlBfkCJ6UUoUJRnyyDRLVKZIEFlBpTi+ka5Xt749PjpCJu4fBa5o=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+6Eoy67eYKCmDfOOuvOlICup/nvgJ3g0WOOQFK5zGxyH10TbVu
-	p7IZhrz8bZbT55bziDQo5/4QBvvbkhgjJXayP71opuZuZW4fRPfdeT3URLbW0gaGlZI1n5cDRNq
-	eFqivn1n+KQ==
-X-Received: from dldyr22-n2.prod.google.com ([2002:a05:701b:4516:20b0:1a7:58c6:c957])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:290:b0:1b5:25e:958d
- with SMTP id a92af1059eb24-1b5567bb581mr257768c88.5.1795108137553; Thu, 19
- Nov 2026 09:08:57 -0800 (PST)
-Date: Thu, 19 Nov 2026 09:08:53 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kKiz/wCo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B2B1F000CC;
+	Thu, 19 Nov 2026 17:10:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795108225;
+	bh=iCbmD7M0rCoJoVSN60gzoWL2nVX8EUiOFHW8yr/ZUmw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=kKiz/wCoNZFBB2+ZeNXq6dfKjhJolURvg12FMpwM3G0ye8STpepgOJjsb4lzpOI/Q
+	 1dWMNqksWplrvI3Vc0XG0tSv/Tv4DWTQH6CiIH2izrNC20pcpIDnCYoxQqTyG55/Ab
+	 OQp+VOv4VdvyYY+PnmIXdZ+aZI2of82n7p5KMOKTQWKGRp40zMpL0wr4qWZVjcUHLN
+	 FKTp2flW5yPaTk41YW5YHpTR4qTNO2SUDqUgpCjeLEJQTLQVoxeEwc/BzVX3Rnoc69
+	 umWPQ76LHpt79W7lPufXG98N5Z9u9fJxDRH9PIVPXuY2KCAfrDL4A2gLyrtkOFkv2R
+	 bh5rXl4KBNOsw==
+Message-ID: <sashiko-outbox-223635@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: typec: hd3ss3220: Propagate regmap_read() errors
+ from attached-state check
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ian Rogers" <irogers@google.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261119170650.1521609-1-irogers@google.com>
+References: <20261119170650.1521609-1-irogers@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 19 Nov 2026 17:10:24 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -75,127 +59,33 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.56.1.708.g77570a6a1d-goog
-Message-ID: <20261119170853.1529676-1-irogers@google.com>
-Subject: [PATCH] usb: typec: qcom-pmic-typec: Avoid reading uninitialized
- state on error paths
-From: Ian Rogers <irogers@google.com>
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	Elkin Cruz <elkin@google.com>, Ian Rogers <irogers@google.com>
-Content-Type: text/plain; charset="UTF-8"
 
-In qcom_pmic_typec_port_set_cc(), error paths from regmap_read() and the
-default switch branch jump to 'done:', which logs 'currsrc', 'mode', and
-'misc' via dev_dbg() and passes uninitialized 'currsrc' into
-rp_sel_to_name(), indexing rp_sel_name[] out-of-bounds when dynamic debug
-is enabled. Similarly, early error paths in qcom_pmic_typec_port_get_cc()
-jump to 'done:' before 'misc', 'attached', '*cc1', and '*cc2' are
-initialized.
+> hd3ss3220_get_attached_state() has return type 'enum usb_role' (an
+> unsigned enum) yet returns negative regmap_read() error codes directly.
+> Neither hd3ss3220_set_role() nor output_poll_execute() checks for errors;
+> on a transient I2C failure (such as -EIO, cast to 0xfffffffb),
+> hd3ss3220_set_role() passes the bogus value to usb_role_switch_set_role()
+> and disables VBUS power. On role-switch providers without a .get callback
+> (where sw->role caches the value passed to usb_role_switch_set_role()),
+> reading /sys/class/usb_role/*/role subsequently indexes usb_roles[role]
+> out-of-bounds.
+>=20
+> Return an int status from hd3ss3220_get_attached_state(), pass the
+> resolved enum usb_role via an output pointer, and leave the current role
+> and VBUS state unchanged on I2C read errors.
+>=20
+> Found via an x86_64 LLVM=3D1 (Clang 21.1.8) allyesconfig audit with
+> -Wimplicit-int-enum-cast enabled; fix and changelog drafted with an AI
+> coding assistant. Build-tested under LLVM=3D1 W=3D1 (-Werror) and
+> -Wimplicit-int-enum-cast; not tested on TI HD3SS3220 hardware.
+>=20
+> Fixes: 1c48c759ef4b ("usb: typec: driver for TI HD3SS3220 USB Type-C DRP =
+port controller")
+> Signed-off-by: Ian Rogers <irogers@google.com>
 
-Return early on error paths in both functions instead of jumping to the
-post-success dev_dbg() trace.
+Sashiko has reviewed this patch and found no issues.
 
-Found via an x86_64 LLVM=1 (Clang 21.1.8) allyesconfig audit with
--Wconditional-uninitialized enabled; fix and changelog drafted with an AI
-coding assistant. Build-tested under LLVM=1 W=1 (-Werror) and
--Wconditional-uninitialized; not tested on Qualcomm PMIC Type-C hardware.
-
-Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver")
-Signed-off-by: Ian Rogers <irogers@google.com>
----
- .../typec/tcpm/qcom/qcom_pmic_typec_port.c    | 25 +++++++++----------
- 1 file changed, 12 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-index b2ad31e85b5e..a1595b8b53e7 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-@@ -372,14 +372,12 @@ static int qcom_pmic_typec_port_get_cc(struct tcpc_dev *tcpc,
- 	ret = regmap_read(pmic_typec_port->regmap,
- 			  pmic_typec_port->base + TYPEC_MISC_STATUS_REG, &misc);
- 	if (ret)
--		goto done;
-+		return ret;
- 
- 	attached = !!(misc & CC_ATTACHED);
- 
--	if (pmic_typec_port->debouncing_cc) {
--		ret = -EBUSY;
--		goto done;
--	}
-+	if (pmic_typec_port->debouncing_cc)
-+		return -EBUSY;
- 
- 	*cc1 = TYPEC_CC_OPEN;
- 	*cc2 = TYPEC_CC_OPEN;
-@@ -392,7 +390,7 @@ static int qcom_pmic_typec_port_get_cc(struct tcpc_dev *tcpc,
- 				  pmic_typec_port->base + TYPEC_SRC_STATUS_REG,
- 				  &val);
- 		if (ret)
--			goto done;
-+			return ret;
- 		switch (val & DETECTED_SRC_TYPE_MASK) {
- 		case AUDIO_ACCESS_RA_RA:
- 			val = TYPEC_CC_RA;
-@@ -417,7 +415,7 @@ static int qcom_pmic_typec_port_get_cc(struct tcpc_dev *tcpc,
- 				  pmic_typec_port->base + TYPEC_SNK_STATUS_REG,
- 				  &val);
- 		if (ret)
--			goto done;
-+			return ret;
- 		switch (val & DETECTED_SNK_TYPE_MASK) {
- 		case SNK_RP_STD:
- 			val = TYPEC_CC_RP_DEF;
-@@ -472,7 +470,7 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_dev *tcpc,
- 			  pmic_typec_port->base + TYPEC_MISC_STATUS_REG,
- 			  &misc);
- 	if (ret)
--		goto done;
-+		goto err_unlock;
- 
- 	mode = EN_SRC_ONLY;
- 
-@@ -496,7 +494,7 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_dev *tcpc,
- 	default:
- 		dev_warn(dev, "unexpected set_cc %d\n", cc);
- 		ret = -EINVAL;
--		goto done;
-+		goto err_unlock;
- 	}
- 
- 	if (mode == EN_SRC_ONLY) {
-@@ -504,14 +502,11 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_dev *tcpc,
- 				   pmic_typec_port->base + TYPEC_CURRSRC_CFG_REG,
- 				   currsrc);
- 		if (ret)
--			goto done;
-+			goto err_unlock;
- 	}
- 
- 	pmic_typec_port->cc = cc;
- 	qcom_pmic_set_cc_debounce(pmic_typec_port);
--	ret = 0;
--
--done:
- 	spin_unlock_irqrestore(&pmic_typec_port->lock, flags);
- 
- 	dev_dbg(dev, "set_cc: currsrc=%x %s mode %s debounce %d attached %d cc=%s\n",
-@@ -520,6 +515,10 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_dev *tcpc,
- 		pmic_typec_port->debouncing_cc, !!(misc & CC_ATTACHED),
- 		misc_to_cc(misc));
- 
-+	return 0;
-+
-+err_unlock:
-+	spin_unlock_irqrestore(&pmic_typec_port->lock, flags);
- 	return ret;
- }
- 
--- 
-2.56.1.708.g77570a6a1d-goog
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119170650.1521=
+609-1-irogers@google.com?part=3D1
 
