@@ -1,101 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795089376;
-	b=RAWzhgiolcMJGughGtKXo9BmWG3L1NaKoEz1OlfD7siyhNPQaibqAkZo+SzQupl0aIaL
-	 u7TSEGf+Zpa+6qjSgizqN85NGFSHp4NoCqIRgXpLl+9Kfv8ZliGLJbTF3RDQUfU93uzDK
-	 qy0hh0IGnDA7D0PE1nFbRqet431MNye+MhDQl7Rq6UyZ/qH7vBVTWsv3Pa0da33aVy4ir
-	 /fW/tOAoFec/eYwdDie/BEhYSm1S9r8LZbqQSZ3Y8xyQB3Ey3uq4aHirw+T05ZH0s98P/
-	 mQLqQw65UoL6PWFnXGwk/SbJQzx4ELnvpnarbbcAfA4j3y6fq950ilWFFLK1FXhwzbA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795089376;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795089730;
+	b=LjTDuXRY70uxAY34pBw7JulDu4YwXATIWTKwCzW/WpCQ6d1hn3QF1qXbFBKxqQIGumWV
+	 ouD/Eq8y29eVwMagvzerwTlcI7rP4GbrANUn0GsBYICmPtOLOKv42k7q4dDoBtrUp9HTZ
+	 2NLA7qnUwkLYh8KiuSULvP11sy1AYEMJEmieojw1CKSvHbOJiep8twJT5ZBJtwo457vEy
+	 +oaII2HUKMYtvMIl8MARV+7tedTsJFeMPO12UJs55tHn9//XmdgM4HZNJM66WBeQ9v3wG
+	 C+SuWUIgixinkLZvzD/GNCRw+cBIeC+7CVJQrZU7opSAnVOf9ODFBMyMBIbEezxcGhw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795089730;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=RSQlhZLcdrbQFLEEra+ei00sOkbYZJ9sKIwJK+CMs6Y=;
-	b=1SDOkDhhMEzYI1kpaute6huu4ZSiakzLIqXKpZuV8PVJ6B07zKupLYCPpGS1PraBAWDj
-	 8rtbt7HVCDu5v5+P25fcOFJ7mvrsiyDu5pzwhuBv+KgkOZa7CrTe4M0gpzHk9VyiiBcHe
-	 89+hSSjyD068adBMCLfToy03tOImCNSoVBJ7OGs8wRs7VrYU44TG+KjQ+Q36epIORwYXC
-	 /HpiTfEkj1laR30EL8HgiAZXXOScPR3TfIsGA1Thnp+d3T2h6NPFdwQVKCNEPWdEwWMXt
-	 rORYznoXyLxkoLxc7k2Cgck9MvAd9Ny0HTbEb5uj8MWO8sT8Aio9Im8pXb1OK2Eh6SQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=g+6GSTEr;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.44
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=YDlJsIuJa8MwyVI77eR0NYxBTdSV7whURuYWldxSt9A=;
+	b=GnMsPuyt9vz4/Pd4Bm73OxyYi/knakotsNOwbvvW/+e691zRlnPthsQZILYnmTa1ajAe
+	 CehbNFn8D0sUnGFNkgXs4I8EJ0s3ZEdKouCNUUVpMpUa0la8Zz/gTX7r5JjkzC3EBpoRj
+	 fTpAzYnvxYAKmr04e8aQjH0BL2dmnky7gPLicSMgXKGuzcdNkk6ubOi7UlXH0CeOSZjRH
+	 Pz4IfOQbhclEYE2cFeMmBJhNR7L1wB1kqBc9gR9jpBSYB/AAHRBKsAz8irv/2ImpELQHv
+	 VXNRXKB2yiBvLPNzM5iw/EPVpIHZTB0IEVgx1IR1GdM08+jXUgtkKUUpr84ZzSqqrdw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=Eb0C3IE7;
+	arc=none smtp.remote-ip=209.85.218.54
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71E3606A325
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 11:56:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E71E3606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818D1606A320
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 12:02:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 818D1606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=g+6GSTEr
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5c1ad0d0b72so135842e87.0
-        for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 03:56:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795089374; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Frwhodjc8XGnIOrrJYVAtimWwzqoFzdCu8bEvYNfQEB72egPeB0e7AmBoRB0RGBvwb
-         nQ2bGLs1sENvXEezOtO6VXFCiQP5RKkoNnCrgdYWJvBygU2y5/dx/XpkJ3b3Cx+wOo3W
-         yHtr08UePV4DBEGjGaSSlaAIq/gztfv80yPu8rclUDXX48HHOuqPXCGpAiCCEbjXTMY+
-         bAxQng4QK4VM3IpWUgOt1Z9W5uLn4DlzN5KIFvErpjuxoxtD1k+xDUtoo0o3CHOtMILV
-         1M3EdXfUAWn0SBVT2hHNIScObJeu1wTjNgfE0MQVjAFCd2XUbmyZgzJYHW07FKcb5ZWc
-         S+XA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RSQlhZLcdrbQFLEEra+ei00sOkbYZJ9sKIwJK+CMs6Y=;
-        fh=x19ZLxwCwv5C8JsCEoVeS0RNqSXXfDTPazmSxnHIvSY=;
-        b=kc3366JEJP80/zf8bLhYd4XPH7jMBqHnrHK47PcB64DHToSYOAtvY/BUedhUtKswyp
-         vm2IjXdZEezqD8XKRwZEsQdt7y+FlbsnaGIFWCRrV+cPReEdM/g9ynZeXvP9GVhWCmaI
-         SqHIMoSmA0t8K7KpZAlPxd5EA3xAIrXruGHS4QQ86qDcLYt0Gg5jWrts8IsqMKJhZQfc
-         c661TyhAS6UuO8v4gdI9gXVADj4ExXdT37BR572GanwJ2xiFtqiJgovkLAEo5HGiQNIJ
-         rXogIbgjwi46cK2/bxRljD5hym49+7rDU9OnAW8g11sV0n069sSz5VsYkRWa3BFey1ig
-         6uMQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=Eb0C3IE7
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c5123794038so183836266b.2
+        for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 04:02:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795089374; x=1795694174; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RSQlhZLcdrbQFLEEra+ei00sOkbYZJ9sKIwJK+CMs6Y=;
-        b=g+6GSTEr+iJNFmOLmfk7uLS37/b86Gu7Z5ix7ooEzeRSuoviZQITI3D0TtSiWFjooc
-         3TC3gbtkPWsqbKm0dKyR8j5CblzmHyBXImHc1Y42ptIjNiM40XZr1v0ZEf2yIUzBo8P5
-         rLgIYhjSpmkce3RtxFezrBEYrRaYGTFeVXBNugML+pEOaXMK5qnUFZICqMq67TCgZrbH
-         uOmUue1J0ll4sCPyxDMxgrGnfsbsY6M48mlGNUtu2lgw7vfRWpJsIQB7yrR5O/A+Mb1K
-         G0aS5Q6u/+v9trWYqyPWVLnHkSvqTOGNJVqDpD9LU0vO4WASRQwhVgwZi1DSYpZZl6qn
-         4Erg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795089374; x=1795694174;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=suse.com; s=google; t=1795089728; x=1795694528; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RSQlhZLcdrbQFLEEra+ei00sOkbYZJ9sKIwJK+CMs6Y=;
-        b=z/G549LfU8QmZTP0eiYk6SMFPZyeDAK3R7f5g8KZdRfPrd5nCX26udyn/tzLJnDes+
-         d79aGeEaoWL5YkV6jdJmpyO1V1EK1OEiKyHfnNOGKlDxq/auamfJXFnu1gdWeGamFACP
-         MjdXWfPtAelwNhAgCDxHQaD933Gxzbd0/E+plRIBMHLKsmDNVKxWRRcGEG2ya004Yvwb
-         +OWyty2h1dNI4f9HRPZ8BSS1gjAN+S/jMd/0y49QJCmd/uH1q4QhmRNK6a2aypmqQ5KF
-         brU2avwIbiG4KEbWrm0jo2Af0R8bVuo6+fr8unx4cA7M8m6PNHvNRHKRo3hR71lr3UIM
-         9tVw==
-X-Forwarded-Encrypted: i=1; AL+hErG2MeyuVxMkrZF0FyIpCiO+PXNX1V0OfLJ1qQinhy8ZZnVSa0vctln/sGXzHu3OZwjdgsh4CDivRew=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/8U3DbjzOvN4KJN2NtttPh2QUbhGtz1KDKG3tKmtNRPno/G0dA
-	jrRFF7WrBjISdoUolFQNfEtfLcSzjhtawnXTvUWgx0H1hmwdcyucKputkcKMuz+jBeRR3jdKnrm
-	hFDmPcxDD7t+jf4luhaO3tS8BSN86tzM23kUfB9Q=
-X-Gm-Gg: AYBFou2ZkCtR5hR37B3v69/IB65ZiYw8bo0cC911ice8g0tIA9FDoRJOw5rMwD3f7ty
-	UbU9/8ohQF1GqgpArKQYWWFul6XR1EYM7MriVY/c03ny0iGebzy+Iv5vFZnbCPeZF9RHB4ShB0r
-	99358w/W5CGLaOwFadIJaQrZBl3/Uks5yHZ+JjYpmQew+G+Kgyo3i16lySFEwXz6BiOAl+kSBi2
-	K66xv6Py6kSmsnUv+cZc1+jmUJPrQi3EpUv/lO7F9CH16RjFV4iJSPhnP4uPymPj2V2PBQ9eSrD
-	CcCIBw+ilE5fobzLhKKgeRdpM0EglOQBR3sWa028YlyFrUx4PaLfS78B46nbZDnnjtNel/p/vGX
-	KJi/3r86PK374uFD0kQMfGGSm85qm+ps8EkXCRQgeVRApDRFGLYrSC+O5rDyUmtCzeubSA/Ez/J
-	6ac25LJGhFINv7RseHxw==
-X-Received: by 2002:a05:6512:ba9:b0:5bf:e6a1:3115 with SMTP id
- 2adb3069b0e04-5c1a9bbdf96mr2564765e87.2.1795089373747; Thu, 19 Nov 2026
- 03:56:13 -0800 (PST)
+        bh=YDlJsIuJa8MwyVI77eR0NYxBTdSV7whURuYWldxSt9A=;
+        b=Eb0C3IE7Of1VIKzNdNSGAOURqf8msysubyZ4D3mUOKBa21Nte6ajs+0hjfqUo3HK49
+         353mGW2WAtSElXUQfEidnbvMCjNgjo+DInnv5D0d408r61rtefnWre427aq3+0wcbaq8
+         uXbPV1GqCFuSxqu8iPFJfsOFefSPhdWmc3Kr5KKPqVXMJDxEsr0DwSaaNupN1OJolglO
+         /JwS/ts6UZ/zBjB4Gu7YplVzylCT7MAUB9YB0FOEU+EWA7O/F4sWItKxI/5xQxWOwOkk
+         ssQd2ldyicJJTHX6n4av0B4bkuEvPJ3vfIi0o80rvw16+kFi9rC7+zIGA0S26Xuz+7Ps
+         Rz6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795089728; x=1795694528;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YDlJsIuJa8MwyVI77eR0NYxBTdSV7whURuYWldxSt9A=;
+        b=JT9ll2j/X2up/n9/Ct3CzRuV4K/je5zCsxvzIGLQdlpM24gNOgGTKMPfnDMgCsM6eA
+         9bDxEQEnwdPFlA/ODyHC3X4ve1PeJ9M3r9Ro+UUNN7GyJ4QY/kSW2mOibnkAuoIU8pET
+         5i5T5ndnSyqb3+wmut6XiJopXF/EAiLJUI7lEqGDQ057AowD3+nccAAH7+G1G7SWYLmc
+         3w5juN8NFLnbuldiVVqsE0k6bwZqTo2KpCKh1iwOhZxSDMlRS6Au8IQ99ASo4z7KBDAm
+         n0DYAef6JPLOePwEzvWpHGEja2eKMS60jeP35Iwr6vChBMw+br5gXzdOG4Xq4dLSMHVW
+         I5Aw==
+X-Forwarded-Encrypted: i=1; AL+hErHlhzpO0w+UCUTVFXc+jC9Iul+g/1Er3ZBnZ3Y6QvMJnA2a+L9aSL/eeqlaPUMkL4UxpZyIh2WPzyg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/x24pHJKzY36O6V9YVM/dsj2M4ZWr36mCBvPX4SgVt6BdFmOA1
+	817V6qTkum7ontr7YhpSitUdYYqPNagpqWFufksNvWYLE/yeVKX0ChGx8hUDU1oz1Is=
+X-Gm-Gg: AYBFou1BDkLP98AJz6UMuNhgM/nfCl8Kkus27IZGrPbFKtHJD4P8IVG1RHW1oTxeI+I
+	HQr6/2cZYJNcQU3vSo5JiGostdAXnT0ddUSaGvLDPrLZ1jj8Yfomlw44dvTFsOxYHAFF2W57C22
+	TkNoy7l3DEoTrKWZgbpw9IQouur1kDR/GsseKFVoqAC5iLqEGj4EjR1+/CfOuWXyuBTvEfVHkJE
+	eyTEHc69vnIbwte9M9GbRCSHYdjY7zOlPttMdHB2KlAtOiU40RaFr71L2hc6hvi+EDAEZed/uvK
+	//EYSaOPnrM5ixrA1YfpqNS3FKo9WIdpdPHkzBiljj3chdfF1/j5/IbndEyanFjRg2m5BqEfLZS
+	D+kTXc5/U033womwO6lGcKKllnlN+V0u/wp6LLpwZGaa5bmbxdNhE+liulV7saj1fO/XXAm9aYx
+	xQ0tEIvmh1RjnmQHnEc4chRp799VKaT4lgHe5g3pxqYRGiiNK9kc7MW7YjxIOl8uiuqFOZO5spu
+	aHkLG0blO7mot5QXz4efr69tavqZn0jqUPQkYnZQroAawdGkqLysE0y7/TI93EONRHfPCsjoXaE
+	Lj1b2YV+7uNTupG9G7vH6xY7Msn6Tqec0+zc1knQ0ykU9EIxCkRRtwJe3ZWQFDeYqh4X/LvB6wE
+	oZf36zhY9tYTzYw==
+X-Received: by 2002:a17:907:d40d:b0:c50:5275:fb97 with SMTP id a640c23a62f3a-c510e5843e6mr491548666b.47.1795089727668;
+        Thu, 19 Nov 2026 04:02:07 -0800 (PST)
+Received: from ?IPV6:2001:a61:13e6:9f01:eee3:1629:f0cc:42a? ([2001:a61:13e6:9f01:eee3:1629:f0cc:42a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a65683d5a2sm10686055f8f.43.2026.11.19.04.02.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Nov 2026 04:02:07 -0800 (PST)
+Message-ID: <643a71e0-7347-47f3-8cad-ce31f76cb8af@suse.com>
+Date: Thu, 19 Nov 2026 13:02:06 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -105,49 +93,35 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110070627.217946-1-inochiama@gmail.com> <20261113072305.220610-1-chenyou910331@gmail.com>
- <av2M-6w1u5mOyqDM@inochi.infowork>
-In-Reply-To: <av2M-6w1u5mOyqDM@inochi.infowork>
-From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Date: Thu, 19 Nov 2026 19:56:01 +0800
-X-Gm-Features: Aa3M54riNxFLUFg84fAOhmY6bjWZvKgiNBwAs9BSg1G7sMgZ9DPXd0hZVBFcQ9M
-Message-ID: <CAKspUh+LLonm90ywMGrRUcsLDE+Axw64qjs0OtDB_ySUsrPPQw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] usb: dwc2: Add USB DRD support on CV1800 Series SoC
-To: Inochi Amaoto <inochiama@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	chen.wang@linux.dev, pjw@kernel.org, palmer@dabbelt.com, 
-	aou@eecs.berkeley.edu, alex@ghiti.fr, hminas@synopsys.com, 
-	gregkh@linuxfoundation.org, looong.bin@gmail.com, 
-	dinguyen@opensource.altera.com, paulz@synopsys.com, balbi@ti.com, 
-	dlan@gentoo.org, devicetree@vger.kernel.org, sophgo@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: image: microtek: don't receive REQUEST SENSE data
+ into sense_buffer
+To: Alexandre Becholey <alex@becholey.ch>, Oliver Neukum <oliver@neukum.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: stable@vger.kernel.org, linux-usb@vger.kernel.org
+References: <20261119084526.535901-1-alex@becholey.ch>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20261119084526.535901-1-alex@becholey.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 18, 2026 at 07:36:04PM +0800, Inochi Amaoto wrote:
-> If there are no other bug in this patch. There should be no new
-> version. The device probe problem is not a very big one. And I have
-> no idea about these thing. Since my time is tight, you are free to
-> send the fix for the device mode.
+On 19.11.26 09:45, Alexandre Becholey wrote:
+  
+> The special case is not needed: for the error handler's own REQUEST
+> SENSE, scsi_eh_prep_cmnd() already points the data buffer at
+> sense_buffer with at most SCSI_SENSE_BUFFERSIZE. Handle REQUEST SENSE
+> like every other data-in command.
+Hi,
 
-Thanks, I will work on it.
+thank you for looking at this, but this fix seems to not take an
+approach I can approve. Where sense_buffer is pointed to is
+internal to the SCSI layer. We cannot use that in an LLD.
 
-> It depends, if you accept setting this to host, I can add them
-> at once. (Note: once set, no change will be accepted).
+If you think that LLDs should not use sense_buffer then the clean
+solution is to remove it from struct scsi_cmnd.
 
-I would prefer peripheral as the default. The vendor kernel uses
-device mode by default, and the bare Duo 256M is usually connected to
-a PC over USB-C (RNDIS); host mode needs the IO board or an OTG
-adapter.
-If the "host" mode is used, it means that anyone wanting to use the
-product would have to purchase an additional I/O board=E2=80=94that doesn't
-seem like a very good option, does it?
+	Regards
+		Oliver
 
-Since the peripheral default only works once the boot role is fixed,
-I will send the fix together with the Duo 256M DTS change (dr_mode =3D
-"otg", usb-role-switch, role-switch-default-mode =3D "peripheral") as
-one series on top of yours. Is that fine with you?
-
-Regards,
-Chen-Yu
+NACKED-BY: Oliver Neukum <oneukum@suse.com>
