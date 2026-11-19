@@ -1,55 +1,81 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795110296;
-	b=asOULxy1FbwyfGIleKZvzeWwNuXG0qnPbrW96BNR5+EhyQ862LRNuf3nefz4Za9shEDx
-	 2H4wKiBvw2IfAjH3WbOUHOJaiRf/N0a5olQUGMa6G1ksP4hshfk810X9eB3uMqmJKTo/s
-	 n017sXaHAphA7ZIInxyHm7OC8j38vreojKAmxcbKfGiAppoZS4ny8gkFO1T/ofkZg4+Rk
-	 3ulRnkJETV+7feW6dpoFTDvOLxazhYsIIe+ZqojrmrnX7UarHtelLWv3FT0cYo0aY69hE
-	 qXoUVijOvHPKNDmDEX+EuwcjQETvV3FNTZ5vvqGil+iyBiz4Zqzvk+ZpdD5R0UqpKSg==
+	t=1795112450;
+	b=wIk/fRQzMAh7NHkaeoCiOia2aM7uR3FxR7zXifMeut/cLC9ExHzDqjgpxhCSKDmUnTC4
+	 ZuEWNBppQcoxQIkUVi3vK8j+XFSgHofmsyrhZLhU4pZzgWx035iR0oSN5HtXAI1z0cwkF
+	 nLl1l9gr6jg/wgOVV46OoebxBsag3UyBhVrLoUtc/fr3WrsYpeoabf1BBQ4e9vwK27IpS
+	 qf5u7eT+Rjan5he2nxDIX9xuLAMvnLJDA+0LZ70ay7R0ZTldMBQWlm/bWfyEGfXWdr7tO
+	 +C6N6RA4QxbuMljEvIi0pOvt+30XARC/70kYeFhOfjDj95mWmsL4bIoQsEgjh+xz4vw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795110296;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=GTwmWD88Aq32p25LmbKuEufSbV8SEQEuDL8PNuDji38=;
-	b=179/cz1lGnpMUcILGVG0eLaloHX+8+8GeKcH7oDDioRhS7L4Yc+PqjKiZzuor63N6SFJ
-	 y33z8lO9MOOqeTiHmE0LtE5IQwMjTGhyNIQwOWJnZpudBoLNhU+H3u6/XlQgG3ZNpDmoz
-	 T7mk+BuSsAeotHeOoDJJKFkBafOUttO0kp9lSeD2BrB9MChnQ6moM5IpqOdqQj8asercd
-	 c+CBphQRXmio757ns1nKpHRY96mWx3dqwxpN6Sgk7jGegbEqtSriO4iy13T6ia+gsOmIk
-	 GIrJxezLUhfrZKhcrTZgK5ymyRmn3uj+QE5+QwX3zqrvGAbcgJq8qJ73GmTvgHkMwGg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795112450;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=5cY+QOFSRab+vw7Ar5Uc+Mh1ld4eiD0jvPyComZKkI8=;
+	b=MvCGHQeSVJeruMRl0a27+xVHcKTpNwtpxb7U+IAugbJqU2xMORWeZcZ+00XwvUKb/I6n
+	 KvhkbrKVemkwkJ+27LiniKf0vinp9mtOk45CmuZvERsK354OWiqgEAdJKyVSfP4Nu52aP
+	 dZblhoHdgcoR7u8qREJxVz1rVYZzaqYk5GfKuCMtBFKzKNeSRqC7E4oK0fgRWTWEs89UG
+	 Y5zJKG78ctaC0TuSKSIQhHvRkg2lgk8xFwdNTBfK3QFrPkyNSoAnt08EFYwvIJG3RD3un
+	 l5e5mgE2SL2LTQeLzRVPM/0HH860l4fLJnCEY2wpLi93/JLduiwphEH3cOb4PUkFdGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LYmNJKUi;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mFVkDPWN;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517EF606A320
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 17:44:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7E5606A325;
+	Thu, 19 Nov 2026 18:20:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LYmNJKUi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4F041F000C4;
-	Thu, 19 Nov 2026 17:44:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mFVkDPWN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B0EC1F000C5;
+	Thu, 19 Nov 2026 18:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795110295;
-	bh=GTwmWD88Aq32p25LmbKuEufSbV8SEQEuDL8PNuDji38=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=LYmNJKUitAQoIVdtC31fcKNCNOIO/uE5Ht13ASFXgFbKltTNT5O6bPz18NfgzwSQD
-	 lpFBiEZTyUKu0cJ25wNkOSBdCCywFGKfXPq2sOR8u33mP4QneL8A0GL7c0NOgOUreA
-	 Lv2IP43XebqVb4p60Ip0rXutyzhW+bT1kf4fPiP0jzfP2KQGdEMik3GatL1McQ34Ya
-	 z4wbAWuncNlihLA5mteRiLcInO2pOTnCj6r0WhxMReAs7uN4ws9Pd3a7deXnkPR5Ly
-	 QuFujk5ANMtbmVbJ38qhTGTs2Lb/zwIAvoVQgcWCzS8aTGBZinjYdQzIEEq+dwFwdu
-	 1gsvCRHasaf1Q==
-Message-ID: <sashiko-outbox-223719@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 11/18] thunderbolt: Reset topology after suspend-to-disk
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mika Westerberg" <mika.westerberg@linux.intel.com>, linux-usb@vger.kernel.org
-In-Reply-To: <20261119171232.1616316-12-mika.westerberg@linux.intel.com>
-References: <20261119171232.1616316-1-mika.westerberg@linux.intel.com>
- <20261119171232.1616316-12-mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 17:44:55 +0000
+	s=k20260515; t=1795112449;
+	bh=5cY+QOFSRab+vw7Ar5Uc+Mh1ld4eiD0jvPyComZKkI8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=mFVkDPWNUUaI/lD8LZupI2Dv6P1hrK9IDKEmnqQP3hRcjIokrajVdotKHQAyu0NV/
+	 LRn7QDpEIl7PkujuQRr3JBOYQ+mJ0JJKhFd3EksrdvpLpq/b5w75RdtGldsmRSuWuG
+	 Ej9e2CQPJJ3vc6ty6KfikChr+J+4TieOCN5RUxlTysnTo90F+i3dQL/yhRCP6r9QKI
+	 ZUEOfNqI0qQI7nJ3efrl+mVFZSuYADsTl8cPGElqU4t+ZqtyImk+pdJ6b3Tve3I3qk
+	 6SUHTGBRqWjRzEw9B/SNFUNcnVx4t7sMsIkZvT0Ltu1LVrPnQ/gifStw7uYoI+dALN
+	 894KwzJuU9EZw==
+From: Lee Jones <lee@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Robert Marko <robimarko@gmail.com>, 
+ Guru Das Srinagesh <linux@gurudas.dev>, Thomas Gleixner <tglx@kernel.org>, 
+ Radu Rendec <radu@rendec.net>, Lee Jones <lee@kernel.org>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Wesley Cheng <wesley.cheng@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Bart Van Assche <bvanassche@acm.org>, 
+ Bean Huo <beanhuo@micron.com>, Stanley Jhu <stanleyjhu@google.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
+ Thara Gopinath <thara.gopinath@gmail.com>, 
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, Georgi Djakov <djakov@kernel.org>, 
+ Sibi Sankar <sibi.sankar@oss.qualcomm.com>, 
+ Stanislav Aleksandrov <lightofmysoul@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, mfd@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
+ linux-usb@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-scsi@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ linux-pm@vger.kernel.org
+In-Reply-To: <20261109-halliday-dts-v1-5-289114ab8197@gmail.com>
+References: <20261109-halliday-dts-v1-5-289114ab8197@gmail.com>
+Subject: Re: (subset) [PATCH 05/17] dt-bindings: mfd: qcom,tcsr: Add
+ Halliday TCSR
+Message-Id: <179511244123.91992.13336083093444200069.b4-ty@b4>
+Date: Thu, 19 Nov 2026 18:20:41 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,32 +84,19 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev-ad80c
 
-> From: "Mika Westerberg (Intel)" <westeri@kernel.org>
->=20
-> The hibernation image is taken with all tunnels up, so after restore the
-> tunnels the restore kernel (or boot firmware) created may collide with
-> the resources the image still holds. Instead of discovering and tearing
-> those down, reset the host router on restore and re-create the tunnels
-> from the image. DP tunnels are dropped and re-established from plug
-> events just like we do on system suspend.
->=20
-> Links can take some time to retrain after reset so we wait for them to
-> retrain before resuming the connected routers (and we mask the hotplug
-> during that time). Because the plug events are masked we perform rescan
-> in complete phase to pick up devices replaced during hibernation (or S3
-> for older Apple devices).
->=20
-> DPRX polling is put on hold while the control channel is stopped so that
-> it does not pointlessly try to access the hardware during hibernation.
->=20
-> Cc: Rene Sapiens <rene.sapiens@linux.intel.com>
-> Cc: Pooja Katiyar <pooja.katiyar@intel.com>
-> Signed-off-by: Mika Westerberg (Intel) <westeri@kernel.org>
+On Mon, 09 Nov 2026 00:33:17 +0000, Stanislav Aleksandrov wrote:
+> Document the TCSR block on the Qualcomm Halliday SoC.
 
-Sashiko has reviewed this patch and found no issues.
+Applied, thanks!
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119171232.1616=
-316-1-mika.westerberg@linux.intel.com?part=3D11
+[05/17] dt-bindings: mfd: qcom,tcsr: Add Halliday TCSR
+        commit: 51a1764ff434dff86994f7e03125033deebda6e3
+
+--
+Lee Jones [李琼斯]
 
