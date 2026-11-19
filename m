@@ -1,88 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.92.40.78
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795099586;
-	b=PVnYvNY3LmSsLXVpuLiLF0/cOR/BmKwQPcwNeJ05HYaXsfT3JHLX7+argWeI94nxAZTy
-	 VDAUDtPOmRCZvVY3JZd4Xz6dyteogpU87+uQK+9HsCcA6TnoboFVQH1vGEULEbrmm6FXk
-	 qsu4nm4FEc5X6MoheWiZJZJy7rCcmtNkTjpFAT8zULe67BzIFLCsjfMOhZ6PfKsOb0lHE
-	 myXSH0v1CGfifuB56ccJWbgBiYNws37Yy26yWbRii2//bxQ7PokNIsDae7ZNEbveQZMqt
-	 nPxjtGWVpE9pL1Nwo05i1qdkp49iTafbUHlobnuZ1T0SmatNKt+3m+DL7utpA4Ak39A==
+	t=1795100320;
+	b=qN5nStu9laR+GZNikvtOSdw+EOemrjmKJIiSq9XIt5okUkJ4DKUGj6KAY4ytloDT+IhW
+	 Y/d8eniJfl3N+Rta48PZFQ+2hYCs54ZAZEBVHK9iO63E4TTyXwt4dY5UVdQ2Eh9hGHNHk
+	 YSQGJ9qtLPmAecBS29cAMka+UtV9ZQbnVgAxsxQI4A4VKNOGjP7BQOv7gLbNgSoRVI88n
+	 LxIpMtWUIyosV8pbnFVFViomx9Nhswc2B7VvWrUFYVyGCq7U+5cPdg1G3tLUjQFihl/ym
+	 fIgFGkhfikXk1KtfPQG5WUD37xgOMGyUFRqQ3Im4YIrFQLpEUmH7iZuVXhy/JbrsieA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795099586;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:Mail-Followup-To:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:User-Agent:
-	 X-Last-TLS-Session-Version;
-	bh=mjnwJhgivOtcVF1fvsobspXXgbNjrXo23hOqgODgs+4=;
-	b=xVoSCjpwrQTVv/Gv7CEXYC9Pfg7yU+PUX//qwILFckIUhp+abRdbtuNPCdHR+shCH8qB
-	 STGJRcs62szdO2yJUojCDbwrKR2BZdIcVWi1ttSPC5koPb00NSKfhXFU8KPKFNZIzRCqU
-	 zdbu5RKwd57eV8plovt8+aZvKh07a0fZniIs04AR2GKh+Hfc9jHj3YfB9rkgaeAoOmsw9
-	 3ngdh/xmuOh7K5lXJJi/4rjIYjiL9aw0MEZpP1v1rc2bunxrkXaMoHTlJiT1b3M687OuR
-	 cJaSAjg3cED4eGkF+7/TM0HOsZoLgZh2qChxXGULZt6Q4vE9yJkkgYr2JosbbWyLOXw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795100320;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=PvTDu3ub3WuI+McDfeKMZQvkv7vLhsdO8CMX4Yjkthg=;
+	b=xlXmQdBtGdYKsO5EFmihTjkhxQFpPpS2Dxiw8NOqwA14WEgFjTLl4dV5QN0MdP1hFTqh
+	 te9RieGlbV/r/GJch28jSx2YcCUarZ9PDbYinj37KrnNaZiB6WNMD1e8sHLWzTfJWQpOY
+	 809sIUXhJcHCLZzaWXJfBntCTLOiHCqRJ8I47DSlE051eXQH62hva5V4zr3IVyD2rq5AD
+	 wrsplcJcaFMC7uP1Lx8ez0lf15+Mh58oz/hH4y6Uj4eep6R3Bix8WWBpfBXIhICN0fG84
+	 3xISzHQLzGeaaJOEuoBfFCBU3WHe08LjXz8h+O9MpCIdncgReAfhuq02gO0tnZu/xWQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=thorsis.com;
-	spf=pass smtp.mailfrom=thorsis.com;
-	dkim=pass header.d=thorsis.com header.i=@thorsis.com header.a=rsa-sha256 header.s=dkim header.b="fCrb/VIV";
-	arc=none smtp.remote-ip=217.92.40.78
-Received: from mail.thorsis.com (mail.thorsis.com [217.92.40.78])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QZ6Rk8Vh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4C7606A320;
-	Thu, 19 Nov 2026 14:46:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE4C7606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF9C606A320;
+	Thu, 19 Nov 2026 14:58:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=thorsis.com header.i=@thorsis.com header.a=rsa-sha256 header.s=dkim header.b=fCrb/VIV
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4B9BE1483638;
-	Thu, 19 Nov 2026 15:46:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=dkim;
-	t=1795099583; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=mjnwJhgivOtcVF1fvsobspXXgbNjrXo23hOqgODgs+4=;
-	b=fCrb/VIVTWaNGQl9fgtlyLOU+Rq2w+qEzTSqxh3/njn+IeyBA56fMqPkY0CCZgzMtECFQm
-	1OiPLwIArYkxsrYrlRHzI+aUH9wK2QQYxlCu3aKInZ8/jBSeBxX6YjwNqjUJ2OHCVW59hY
-	icri4rUwWpQUiAIupc/KOYpsK6RNnKNARTk3m/UO1pXqJVmmNMwbW50V9sOBrM2eecic6i
-	oWKIMzcjzQRuF+CW50waJWV09jBdt3uxnuCFgt9GtnRjW5pmYDisr9jKCNwvdXbk8t6toe
-	722kOloQYJSoWe/wEC5ootIzoIOp+fcg0ug5xASQiSUwa4TCxqDtPxgwe36F8A==
-Date: Thu, 19 Nov 2026 15:46:12 +0100
-From: Alexander Dahl <ada@thorsis.com>
-To: Claudiu Beznea <claudiu.beznea@kernel.org>
-Cc: Alexander Dahl <ada@thorsis.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Ryan Wanner <ryan.wanner@microchip.com>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH v4 02/16] dt-bindings: clock: at91: Split up per SoC
- partially
-Message-ID: <20261119-bruising-peroxide-4f2c3211155a@thorsis.com>
-Mail-Followup-To: Claudiu Beznea <claudiu.beznea@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Ryan Wanner <ryan.wanner@microchip.com>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
-References: <20261105110715.2486432-1-ada@thorsis.com>
- <20261105110715.2486432-3-ada@thorsis.com>
- <0f0cc1da-46dc-431e-a10d-dcbbf7419960@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QZ6Rk8Vh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FDA81F000C5;
+	Thu, 19 Nov 2026 14:58:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795100320;
+	bh=PvTDu3ub3WuI+McDfeKMZQvkv7vLhsdO8CMX4Yjkthg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=QZ6Rk8Vhs7GBeqORdalWB5FZn87JLm2jt/1+yA6NTSQkxSPhJAGKeg1lED7J2L1cz
+	 N1xau+cTY2cGjHGBYenPQqUk3FGOw2T/m9VzUN46plDHpcIM8666qx2FmU94h37HW2
+	 F4w0QYDimLdil0XBzQx3NKQGyvR4APuHD4OMAoTZ92jVpdufHiNDAWvDFDJTm1LUXg
+	 cGaYv44IzhE02LGIgU9zOoQOilDdejV+kC5kI4BC6R3UUr2jODLBatbidns2PtoWo7
+	 NVt94r3wP2K632RIs5/II5CePQ4VjEUe4GIapIziPfb/4fh/+y9YGXCU4Fyr0NHWdi
+	 g5CdjZDz4gOZw==
+Message-ID: <4cc3a198-fe54-4970-b21d-9cc11480fe39@kernel.org>
+Date: Thu, 19 Nov 2026 08:58:32 -0600
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -92,362 +51,228 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0f0cc1da-46dc-431e-a10d-dcbbf7419960@kernel.org>
-User-Agent: Mutt/2.2.13 (2024-03-09)
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] USB: hub: call ACPI _PRR reset during port power-cycle
+ on enumeration failure
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ linux-acpi@vger.kernel.org, "Chia-Lin Kao (AceLan)"
+ <acelan.kao@canonical.com>
+References: <20260706080117.3754550-1-v3-1-0e3069228fe9@kernel.org>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20260706080117.3754550-1-v3-1-0e3069228fe9@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello Claudiu,
+On 11/3/26 00:08, Mario Limonciello wrote:
+> Some USB-connected devices (e.g. MT7925 Bluetooth on Dell laptops) expose
+> their hardware reset line via an ACPI Power Resource for Reset (_PRR)
+> rather than relying solely on VBUS cycling for recovery.  When the reset
+> GPIO gets stuck low the device stops responding on USB; a VBUS power-cycle
+> alone cannot recover it because the chip remains in reset regardless of
+> VBUS state.
+> 
+> Add usb_acpi_port_prr_reset() in usb-acpi.c that, given a hub device and
+> one-based port number, looks up the port's ACPI companion handle, evaluates
+> _PRR to obtain the power-resource reference, and then calls _RST on that
+> reference to toggle the reset line.  The function is a no-op if the port
+> has no ACPI handle or no _PRR method, so it is safe to call unconditionally
+> for every port.
+> 
+> Wire it into hub_port_connect() during the mid-retry VBUS power-cycle
+> (at (PORT_INIT_TRIES-1)/2 iterations), calling usb_acpi_port_prr_reset()
+> *after* VBUS goes off and *before* VBUS comes back on.  The ordering is
+> critical: on the tested hardware the ACPI _RST method (MBTR._RST) drives
+> BT_RST low for 200 ms then high again.  If _RST is called after VBUS is
+> already restored the GPIO pulse races with device enumeration starting on
+> the live bus; the device begins asserting USB signals while still held in
+> reset and enumeration fails.  Performing the reset while the port is
+> de-powered ensures the GPIO pulse completes fully before the device is
+> given power and time to initialise.
+> 
+> After VBUS is restored, add an msleep(100) conditional on _PRR._RST having
+> succeeded.  USB 2.0 spec §7.1.7.3 (Fig. 7-29) mandates a minimum of 100 ms
+> between VBUS power-on and the first reset signalling for power settling.
+> On root hubs, hub_power_on_good_delay() returns bPwrOn2PwrGood * 2 with
+> no minimum floor; on the tested xHCI root hub bPwrOn2PwrGood = 10, yielding
+> only 20 ms — well below the spec minimum.  (External hubs already enforce
+> a 100 ms minimum via hub_power_on_good_delay().)  When _PRR._RST has been
+> exercised the device must also complete its full power-on sequence (GPIO
+> de-assertion, internal oscillator start, firmware load) before USB
+> enumeration begins.  The 100 ms sleep enforces the spec minimum and gives
+> the device adequate settling time.
+> 
+> Tested on a Dell laptop with MT7925 Bluetooth (idVendor=0489,
+> idProduct=e139) whose BT_RST GPIO was stuck low.  With this fix the
+> device recovers autonomously at boot without requiring a G3
+> (mechanical power-off) cycle.  The relevant dmesg sequence:
+> 
+>    [    1.448491] usb 3-10: new high-speed USB device number 4 using xhci_hcd
+>    [    6.813942] usb 3-10: device descriptor read/64, error -110
+>    [   22.685978] usb 3-10: device descriptor read/64, error -110
+>    [   22.901715] usb 3-10: new high-speed USB device number 5 using xhci_hcd
+>    [   28.317963] usb 3-10: device descriptor read/64, error -110
+>    [   44.189949] usb 3-10: device descriptor read/64, error -110
+>    [   44.294065] usb usb3-port10: attempt power cycle
+>    [   44.872709] usb 3-10: new high-speed USB device number 6 using xhci_hcd
+>    [   44.888293] usb 3-10: New USB device found, idVendor=0489, idProduct=e139, bcdDevice= 1.00
+>    [   44.888318] usb 3-10: Manufacturer: MediaTek Inc.
+> 
+> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+> Link: https://patch.msgid.link/20260706080117.3754550-1-acelan.kao@canonical.com
+> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+> ---
+> This was sent last cycle but got no feedback except for my review comment.
+> I think we should bring it forward this cycle.
+> 
+> Changes from v2:
+> * Rebase on 7.4-rc1
+> * Link to v2: https://lore.kernel.org/linux-usb/20260706080117.3754550-1-acelan.kao@canonical.com/
+> ---
+>   drivers/usb/core/hub.c      | 14 ++++++++++
+>   drivers/usb/core/usb-acpi.c | 68 +++++++++++++++++++++++++++++++++++++++++++++
+>   drivers/usb/core/usb.h      |  3 ++
+>   3 files changed, 85 insertions(+)
+> 
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 199d3f535a891..72da7aea94cc4 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -5621,11 +5621,25 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
+>   
+>   		/* When halfway through our retry count, power-cycle the port */
+>   		if (i == (PORT_INIT_TRIES - 1) / 2) {
+> +			int prr_reset;
+> +
+>   			dev_info(&port_dev->dev, "attempt power cycle\n");
+>   			usb_hub_set_port_power(hdev, hub, port1, false);
+>   			msleep(2 * hub_power_on_good_delay(hub));
+> +			prr_reset = usb_acpi_port_prr_reset(hdev, port1);
+>   			usb_hub_set_port_power(hdev, hub, port1, true);
+>   			msleep(hub_power_on_good_delay(hub));
+> +			/*
+> +			 * USB 2.0 spec §7.1.7.3 requires at least 100 ms
+> +			 * between VBUS power-on and the first reset for power
+> +			 * settling.  hub_power_on_good_delay() on an xHCI root
+> +			 * hub returns bPwrOn2PwrGood * 2 with no minimum floor,
+> +			 * which can be as little as 20 ms.  When _PRR _RST was
+> +			 * also exercised the device must complete its power-on
+> +			 * sequence before enumeration; enforce the spec minimum.
+> +			 */
+> +			if (prr_reset == 0)
+> +				msleep(100);
+>   		}
+>   	}
+>   	if (hub->hdev->parent ||
+> diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
+> index 489dbdc96f94a..bb1b5e8cdc15e 100644
+> --- a/drivers/usb/core/usb-acpi.c
+> +++ b/drivers/usb/core/usb-acpi.c
+> @@ -142,6 +142,74 @@ int usb_acpi_set_power_state(struct usb_device *hdev, int index, bool enable)
+>   }
+>   EXPORT_SYMBOL_GPL(usb_acpi_set_power_state);
+>   
+> +/**
+> + * usb_acpi_port_prr_reset - issue an ACPI _PRR reset on a hub port
+> + * @hdev: USB device belonging to the usb hub
+> + * @port1: port number (one-based)
+> + *
+> + * Some devices expose their hardware reset line via an ACPI Power Resource for
+> + * Reset (_PRR).  When such a device fails to enumerate (e.g. because the reset
+> + * GPIO is stuck low), the USB power-cycle alone is not enough; the firmware
+> + * reset path must also be exercised.
+> + *
+> + * This function evaluates _PRR on the port's ACPI companion to obtain the
+> + * power-resource reference and then calls _RST on that resource to toggle the
+> + * reset line.  It is intended to be called alongside the mid-retry VBUS
+> + * power-cycle already performed by hub_port_connect().
+> + *
+> + * Returns 0 on success, -ENODEV if the port has no ACPI handle or no _PRR
+> + * method, or a negative error code on failure.
+> + */
+> +int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1)
+> +{
+> +	acpi_handle port_handle;
+> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+> +	union acpi_object *pkg, *ref;
+> +	acpi_status status;
+> +	int ret = 0;
+> +
+> +	port_handle = usb_get_hub_port_acpi_handle(hdev, port1);
+> +	if (!port_handle)
+> +		return -ENODEV;
+> +
+> +	if (!acpi_has_method(port_handle, "_PRR"))
+> +		return -ENODEV;
+> +
+> +	status = acpi_evaluate_object(port_handle, "_PRR", NULL, &buffer);
+> +	if (ACPI_FAILURE(status)) {
+> +		dev_dbg(&hdev->dev, "port%d: _PRR evaluation failed: %s\n",
+> +			port1, acpi_format_exception(status));
+> +		return -ENODEV;
+> +	}
+> +
+> +	pkg = buffer.pointer;
+> +	if (!pkg || pkg->type != ACPI_TYPE_PACKAGE || pkg->package.count != 1) {
+> +		dev_dbg(&hdev->dev, "port%d: _PRR returned unexpected object\n",
+> +			port1);
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	ref = &pkg->package.elements[0];
+> +	if (ref->type != ACPI_TYPE_LOCAL_REFERENCE || !ref->reference.handle) {
+> +		dev_dbg(&hdev->dev, "port%d: _PRR element is not a reference\n",
+> +			port1);
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	status = acpi_evaluate_object(ref->reference.handle, "_RST", NULL, NULL);
+> +	if (ACPI_FAILURE(status)) {
+> +		dev_dbg(&hdev->dev, "port%d: _RST evaluation failed: %s\n",
+> +			port1, acpi_format_exception(status));
+> +		ret = -EIO;
+> +	}
+> +
+> +out:
+> +	kfree(buffer.pointer);
+> +	return ret;
+> +}
+> +
+>   /**
+>    * usb_acpi_add_usb4_devlink - add device link to USB4 Host Interface for tunneled USB3 devices
+>    *
+> diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
+> index a9b37aeb515be..4d3dc3bd881b2 100644
+> --- a/drivers/usb/core/usb.h
+> +++ b/drivers/usb/core/usb.h
+> @@ -211,7 +211,10 @@ extern int usb_acpi_register(void);
+>   extern void usb_acpi_unregister(void);
+>   extern acpi_handle usb_get_hub_port_acpi_handle(struct usb_device *hdev,
+>   	int port1);
+> +extern int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1);
+>   #else
+>   static inline int usb_acpi_register(void) { return 0; };
+>   static inline void usb_acpi_unregister(void) { };
+> +static inline int usb_acpi_port_prr_reset(struct usb_device *hdev,
+> +					  int port1) { return -ENODEV; }
+>   #endif
+> 
+> ---
+> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+> change-id: 20260706080117.3754550-1-acelan.kao@canonical.com
+> 
+> Best regards,
+> --
+> Mario Limonciello <superm1@kernel.org>
 
-Am Sun, Nov 15, 2026 at 04:35:23PM +0200 schrieb Claudiu Beznea:
-> Hi, Alexaner,
-> 
-> On 11/5/26 13:06, Alexander Dahl wrote:
-> > Before adding even more new indexes creating more holes in the
-> > clk at91 drivers pmc_data->chws arrays, split this up.
-> > 
-> > This is a partial split up only for some of the old PMC definitions.
-> > 
-> > Binding splitup was proposed for several reasons:
-> > 
-> > 1) keep the driver code simple, readable, and efficient
-> > 2) avoid accidental array index duplication
-> > 3) avoid memory waste by creating more and more unused array members.
-> > 
-> > Old values are kept to not break dts, and to maintain dt ABI.
-> > 
-> > Link: https://lore.kernel.org/linux-devicetree/20250207-jailbird-circus-bcc04ee90e05@thorsis.com/T/#u
-> > Signed-off-by: Alexander Dahl <ada@thorsis.com>
-> > ---
-> > 
-> > Notes:
-> >      v4:
-> >      - "re-added" some definitions present in hardware but not used in dt
-> >      - reword header comment (at91 -> Microchip) for newer SoCs
-> >      - PMC_UTMI was renamed where appropriate according to datasheets
-> >      v3:
-> >      - full splitup for all at91 family SoCs instead of just a few
-> >      v2:
-> >      - new patch, not present in v1
-> > 
-> >   .../reset/atmel,at91sam9260-reset.yaml        |  3 ++-
-> >   .../bindings/usb/atmel,at91sam9rl-udc.yaml    |  3 ++-
-> >   .../dt-bindings/clock/atmel,at91rm9200-pmc.h  | 16 ++++++++++++
-> >   .../dt-bindings/clock/atmel,at91sam9260-pmc.h | 16 ++++++++++++
-> >   .../dt-bindings/clock/atmel,at91sam9g45-pmc.h | 16 ++++++++++++
-> >   .../dt-bindings/clock/atmel,at91sam9n12-pmc.h | 16 ++++++++++++
-> >   .../dt-bindings/clock/atmel,at91sam9rl-pmc.h  | 16 ++++++++++++
-> >   .../dt-bindings/clock/atmel,at91sam9x5-pmc.h  | 16 ++++++++++++
-> >   include/dt-bindings/clock/atmel,sama5d2-pmc.h | 20 ++++++++++++++
-> >   include/dt-bindings/clock/atmel,sama5d3-pmc.h | 16 ++++++++++++
-> >   include/dt-bindings/clock/atmel,sama5d4-pmc.h | 17 ++++++++++++
-> >   .../dt-bindings/clock/microchip,sam9x60-pmc.h | 15 +++++++++++
-> >   .../dt-bindings/clock/microchip,sam9x7-pmc.h  | 19 ++++++++++++++
-> >   .../clock/microchip,sama7d65-pmc.h            | 26 +++++++++++++++++++
-> >   .../dt-bindings/clock/microchip,sama7g5-pmc.h | 23 ++++++++++++++++
-> >   15 files changed, 236 insertions(+), 2 deletions(-)
-> >   create mode 100644 include/dt-bindings/clock/atmel,at91rm9200-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/atmel,at91sam9260-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/atmel,at91sam9g45-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/atmel,at91sam9n12-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/atmel,at91sam9rl-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/atmel,at91sam9x5-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/atmel,sama5d2-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/atmel,sama5d3-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/atmel,sama5d4-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/microchip,sam9x60-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/microchip,sam9x7-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/microchip,sama7d65-pmc.h
-> >   create mode 100644 include/dt-bindings/clock/microchip,sama7g5-pmc.h
-> > 
-> > diff --git a/Documentation/devicetree/bindings/reset/atmel,at91sam9260-reset.yaml b/Documentation/devicetree/bindings/reset/atmel,at91sam9260-reset.yaml
-> > index 84c4801df8d9a..8c89ccc3d6393 100644
-> > --- a/Documentation/devicetree/bindings/reset/atmel,at91sam9260-reset.yaml
-> > +++ b/Documentation/devicetree/bindings/reset/atmel,at91sam9260-reset.yaml
-> > @@ -67,9 +67,10 @@ additionalProperties: false
-> >   examples:
-> >     - |
-> >       #include <dt-bindings/clock/at91.h>
-> > +    #include <dt-bindings/clock/atmel,at91sam9260-pmc.h>
-> >       reset-controller@fffffd00 {
-> >           compatible = "atmel,at91sam9260-rstc";
-> >           reg = <0xfffffd00 0x10>;
-> > -        clocks = <&pmc PMC_TYPE_CORE PMC_SLOW>;
-> > +        clocks = <&pmc PMC_TYPE_CORE AT91SAM9260_PMC_SLOW>;
-> >       };
-> > diff --git a/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml b/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
-> > index cdbbd17f80363..15f5bb51fd8a7 100644
-> > --- a/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
-> > +++ b/Documentation/devicetree/bindings/usb/atmel,at91sam9rl-udc.yaml
-> > @@ -61,13 +61,14 @@ examples:
-> >     - |
-> >       #include <dt-bindings/interrupt-controller/irq.h>
-> >       #include <dt-bindings/clock/at91.h>
-> > +    #include <dt-bindings/clock/atmel,at91sam9rl-pmc.h>
-> >       #include <dt-bindings/gpio/gpio.h>
-> >       gadget@fff78000 {
-> >           compatible = "atmel,at91sam9g45-udc";
-> >           reg = <0x00600000 0x80000
-> >                  0xfff78000 0x400>;
-> >           interrupts = <27 IRQ_TYPE_LEVEL_HIGH 0>;
-> > -        clocks = <&pmc PMC_TYPE_PERIPHERAL 27>, <&pmc PMC_TYPE_CORE PMC_UTMI>;
-> > +        clocks = <&pmc PMC_TYPE_PERIPHERAL 27>, <&pmc PMC_TYPE_CORE AT91SAM9RL_PMC_UTMI>;
-> >           clock-names = "pclk", "hclk";
-> >           atmel,vbus-gpio = <&pioC 15 GPIO_ACTIVE_HIGH>;
-> >       };
-> > diff --git a/include/dt-bindings/clock/atmel,at91rm9200-pmc.h b/include/dt-bindings/clock/atmel,at91rm9200-pmc.h
-> > new file mode 100644
-> > index 0000000000000..35fce34e00b82
-> > --- /dev/null
-> > +++ b/include/dt-bindings/clock/atmel,at91rm9200-pmc.h
-> > @@ -0,0 +1,16 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-> > +/*
-> > + * The constants defined in this header are being used in dts and in
-> > + * at91rm9200 clock driver.
-> > + */
-> > +
-> > +#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91RM9200_PMC_H
-> > +#define _DT_BINDINGS_CLOCK_ATMEL_AT91RM9200_PMC_H
-> > +
-> > +#define AT91RM9200_PMC_SLOW	0
-> 
-> This is not used anywhere anywhere accross the current code base. Let's drop it.
+Hi Greg,
 
-Fine.  I added this after your feedback on v3 of the series [1],
-probably misinterpreted what you meant.  v5 will be reduced by some
-definitions again and keep the PLLs in the sama7 SoCs.
+Ping on this patch please from a few weeks ago.
 
-> > +#define AT91RM9200_PMC_MCK	1
-> > +#define AT91RM9200_PMC_MAIN	3
-> > +#define AT91RM9200_PMC_PLLACK	7
-> > +#define AT91RM9200_PMC_PLLBCK	8
-> > +
-> > +#endif
-> > diff --git a/include/dt-bindings/clock/atmel,at91sam9260-pmc.h b/include/dt-bindings/clock/atmel,at91sam9260-pmc.h
-> > new file mode 100644
-> > index 0000000000000..6a5453cf70954
-> > --- /dev/null
-> > +++ b/include/dt-bindings/clock/atmel,at91sam9260-pmc.h
-> > @@ -0,0 +1,16 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-> > +/*
-> > + * The constants defined in this header are being used in dts and in
-> > + * at91sam9260 clock driver.
-> > + */
-> > +
-> > +#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9260_PMC_H
-> > +#define _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9260_PMC_H
-> > +
-> > +#define AT91SAM9260_PMC_SLOW	0
-> > +#define AT91SAM9260_PMC_MCK	1
-> > +#define AT91SAM9260_PMC_MAIN	3
-> > +#define AT91SAM9260_PMC_PLLACK	7
-> > +#define AT91SAM9260_PMC_PLLBCK	8
-> > +
-> > +#endif
-> > diff --git a/include/dt-bindings/clock/atmel,at91sam9g45-pmc.h b/include/dt-bindings/clock/atmel,at91sam9g45-pmc.h
-> > new file mode 100644
-> > index 0000000000000..44a804ff96fff
-> > --- /dev/null
-> > +++ b/include/dt-bindings/clock/atmel,at91sam9g45-pmc.h
-> > @@ -0,0 +1,16 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-> > +/*
-> > + * The constants defined in this header are being used in dts and in
-> > + * at91sam9g45 clock driver.
-> > + */
-> > +
-> > +#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9G45_PMC_H
-> > +#define _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9G45_PMC_H
-> > +
-> > +#define AT91SAM9G45_PMC_SLOW	0
-> 
-> This is not used. Lets introduce it when needed
-> 
-> > +#define AT91SAM9G45_PMC_MCK	1
-> > +#define AT91SAM9G45_PMC_UPLLCK	2
-> > +#define AT91SAM9G45_PMC_MAIN	3
-> > +#define AT91SAM9G45_PMC_PLLACK	7
-> > +
-> > +#endif
-> > diff --git a/include/dt-bindings/clock/atmel,at91sam9n12-pmc.h b/include/dt-bindings/clock/atmel,at91sam9n12-pmc.h
-> > new file mode 100644
-> > index 0000000000000..6eaef69242ee8
-> > --- /dev/null
-> > +++ b/include/dt-bindings/clock/atmel,at91sam9n12-pmc.h
-> > @@ -0,0 +1,16 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-> > +/*
-> > + * The constants defined in this header are being used in dts and in
-> > + * at91sam9n12 clock driver.
-> > + */
-> > +
-> > +#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9N12_PMC_H
-> > +#define _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9N12_PMC_H
-> > +
-> > +#define AT91SAM9N12_PMC_SLOW	0
-> 
-> Not used.
-> 
-> > +#define AT91SAM9N12_PMC_MCK	1
-> > +#define AT91SAM9N12_PMC_MAIN	3
-> > +#define AT91SAM9N12_PMC_PLLACK	7
-> > +#define AT91SAM9N12_PMC_PLLBCK	8
-> > +
-> > +#endif
-> > diff --git a/include/dt-bindings/clock/atmel,at91sam9rl-pmc.h b/include/dt-bindings/clock/atmel,at91sam9rl-pmc.h
-> > new file mode 100644
-> > index 0000000000000..0bb195712f785
-> > --- /dev/null
-> > +++ b/include/dt-bindings/clock/atmel,at91sam9rl-pmc.h
-> > @@ -0,0 +1,16 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-> > +/*
-> > + * The constants defined in this header are being used in dts and in
-> > + * at91sam9rl clock driver.
-> > + */
-> > +
-> > +#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9RL_PMC_H
-> > +#define _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9RL_PMC_H
-> > +
-> > +#define AT91SAM9RL_PMC_SLOW	0
-> 
-> Not used.
-> 
-> > +#define AT91SAM9RL_PMC_MCK	1
-> > +#define AT91SAM9RL_PMC_UTMI	2
-> 
-> Manual also refers to this as UPLL (UTMI PLL). E.g.
-> 
-> "26.5 Main Oscillator
-> The Main Oscillator is designed for a 12 MHz fundamental crystal. The 12 MHz
-> is also used to
-> generate the 480 MHz USB High Speed Clock (HSCK) thanks to the UTMI PLL (UPLL)."
-> 
-> [1] https://ww1.microchip.com/downloads/en/DeviceDoc/doc6289.pdf
-
-Well, that old datasheet is full of variants for this, we have UPLL,
-HSCK, UTMI PLL, USBHSCK, and UTMI Clock.  I rename it to
-AT91SAM9RL_PMC_UPLLCK so it is in line with the other old SoCs.
-
-> 
-> > +#define AT91SAM9RL_PMC_MAIN	3
-> > +#define AT91SAM9RL_PMC_PLLACK	7
-> > +
-> > +#endif
-> > diff --git a/include/dt-bindings/clock/atmel,at91sam9x5-pmc.h b/include/dt-bindings/clock/atmel,at91sam9x5-pmc.h
-> > new file mode 100644
-> > index 0000000000000..d095dcc9b29ff
-> > --- /dev/null
-> > +++ b/include/dt-bindings/clock/atmel,at91sam9x5-pmc.h
-> > @@ -0,0 +1,16 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-> > +/*
-> > + * The constants defined in this header are being used in dts and in
-> > + * at91sam9x5 clock driver.
-> > + */
-> > +
-> > +#ifndef _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9X5_PMC_H
-> > +#define _DT_BINDINGS_CLOCK_ATMEL_AT91SAM9X5_PMC_H
-> > +
-> > +#define AT91SAM9X5_PMC_SLOW	0
-> 
-> Not used.
-> 
-> > +#define AT91SAM9X5_PMC_MCK	1
-> > +#define AT91SAM9X5_PMC_UPLLCK	2
-> > +#define AT91SAM9X5_PMC_MAIN	3
-> > +#define AT91SAM9X5_PMC_PLLACK	7
-> > +
-> > +#endif
-> > diff --git a/include/dt-bindings/clock/atmel,sama5d2-pmc.h b/include/dt-bindings/clock/atmel,sama5d2-pmc.h
-> > new file mode 100644
-> > index 0000000000000..51bb410c699e2
-> > --- /dev/null
-> > +++ b/include/dt-bindings/clock/atmel,sama5d2-pmc.h
-> > @@ -0,0 +1,20 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-> > +/*
-> > + * The constants defined in this header are being used in dts and in
-> > + * at91 sama5d2 clock driver.
-> > + */
-> > +
-> > +#ifndef _DT_BINDINGS_CLOCK_ATMEL_SAMA5D2_PMC_H
-> > +#define _DT_BINDINGS_CLOCK_ATMEL_SAMA5D2_PMC_H
-> > +
-> > +#define SAMA5D2_PMC_MCK		1
-> > +#define SAMA5D2_PMC_UPLLCK	2
-> > +#define SAMA5D2_PMC_MAIN	3
-> > +#define SAMA5D2_PMC_MCK2	4
-> > +#define SAMA5D2_PMC_I2S0_MUX	5
-> > +#define SAMA5D2_PMC_I2S1_MUX	6
-> > +#define SAMA5D2_PMC_PLLACK	7
-> > +#define SAMA5D2_PMC_AUDIOPLLCK	9
-> > +#define SAMA5D2_PMC_AUDIOPINCK	10
-> > +
-> > +#endif
-> > diff --git a/include/dt-bindings/clock/atmel,sama5d3-pmc.h b/include/dt-bindings/clock/atmel,sama5d3-pmc.h
-> > new file mode 100644
-> > index 0000000000000..92210969104d6
-> > --- /dev/null
-> > +++ b/include/dt-bindings/clock/atmel,sama5d3-pmc.h
-> > @@ -0,0 +1,16 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-> > +/*
-> > + * The constants defined in this header are being used in dts and in
-> > + * at91 sama5d3 clock driver.
-> > + */
-> > +
-> > +#ifndef _DT_BINDINGS_CLOCK_ATMEL_SAMA5D3_PMC_H
-> > +#define _DT_BINDINGS_CLOCK_ATMEL_SAMA5D3_PMC_H
-> > +
-> > +#define SAMA5D3_PMC_SLOW	0
-> 
-> Not used.
-> 
-> > +#define SAMA5D3_PMC_MCK		1
-> > +#define SAMA5D3_PMC_UPLLCK	2
-> > +#define SAMA5D3_PMC_MAIN	3
-> 
-> Not used.
-> 
-> > +#define SAMA5D3_PMC_PLLACK	7
-> > +
-> > +#endif
-> > diff --git a/include/dt-bindings/clock/atmel,sama5d4-pmc.h b/include/dt-bindings/clock/atmel,sama5d4-pmc.h
-> > new file mode 100644
-> > index 0000000000000..53870448d6a1d
-> > --- /dev/null
-> > +++ b/include/dt-bindings/clock/atmel,sama5d4-pmc.h
-> > @@ -0,0 +1,17 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-> > +/*
-> > + * The constants defined in this header are being used in dts and in
-> > + * at91 sama5d4 clock driver.
-> > + */
-> > +
-> > +#ifndef _DT_BINDINGS_CLOCK_ATMEL_SAMA5D4_PMC_H
-> > +#define _DT_BINDINGS_CLOCK_ATMEL_SAMA5D4_PMC_H
-> > +
-> > +#define SAMA5D4_PMC_SLOW	0
-> 
-> Not used.
-> 
-> > +#define SAMA5D4_PMC_MCK		1
-> > +#define SAMA5D4_PMC_UPLLCK	2
-> > +#define SAMA5D4_PMC_MAIN	3
-> 
-> Not used.
-> 
-> Thank you,
-> Claudiu
-
-Thanks for your review.
-
-Greets
-Alex
-
-[1] https://lore.kernel.org/linux-devicetree/1f25e668-ff04-4fa7-a7fd-3ed3286edbe6@tuxon.dev/
-
+Thanks,
