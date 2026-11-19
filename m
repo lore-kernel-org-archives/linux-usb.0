@@ -1,69 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795053282;
-	b=JpfRGxA+S0GBJawXO+GRvuVnC9vSQ5weibqYZCR8YKgfrl6dIUZC5cas3Zs/cDtpfu6Z
-	 SFXkCIP0USGfyD2WUBIx7vMgWcAfDwD8hq7fIqXgULLSJpaIiYCyZQ2hvbzWkCikyDNNa
-	 XMTHO5AARL82WFXtw1dynowkxScmUGQrlB0BAdbbNnUb9LfmHRm+KCjSuxHjAQ1OHXN9w
-	 PsqX09Au5NarnIMuICBo46AOEM/AlB2MvQj6Qraxk/lTh91xMusPxGcjsKhinYvxajadX
-	 abaC6Qt9QSW1wE5kSV7SXtIXHMXSh5kdAL+R/PXOKkcLoEqO84eYC5F2T1bIOvh+e4w==
+	t=1795053893;
+	b=JLEx1RSQ0sCC3gvmqESRp+0154ED0t57L6WXTAlXq2spuJDSUuXb9Rkxa/47sK4/U+hX
+	 leCGzB5i3mfDf/HHyJG8B+XIcf+a10kUhzBUc5A7gZBnbkaT89jBT0MixuRvW76PzFrLc
+	 YT/m5n6VoGkOPTvQ1nkKjpyfnMQ6RBakjYi1fFKB9GayMfogcPCzfidk2tMTHsRRmovQZ
+	 gWq7gyT1TTduepfTAdEPc8sd/IbtNMPJkFR3cU1vRo3kYvdQp+LDtGNCM8YpExprn3l3f
+	 F2gkL7DIMDzcS2Uozer29C0TQkr58qV+q8s0yLgMHDUG5YPCcBN+JO/xRPg7JLdql0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795053282;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=a5/rk03RFKE+HDbiZ43ZeQKiG+gnvN+79ml1sXhVRqI=;
-	b=wXfKlA2l0Q9OQ5b6f4Qi9yB63zWHr1bB6tvlyo98kMpvYUB/Iq9Wi8jGG5MQCtFdXZc8
-	 j5qLQiwDc2BiU3nHnJs7whuCQtqdT1B1gTW0N6bF/ed+M2oIGf4MKzcjHU6pbnV4wlcIz
-	 KvYIOEHmuMRe+ef1LkjIUQnmQ016odWQYhSzIOahEqVfX8n1YhdCOfRyXkN5GlMFy4pAk
-	 YqA4Me4zZVTvsn+ngXJmdwtWnnayf3Slg+9Nfw75iNtbRDJLGSuU5wO3EPNY1Rg0Pk2xJ
-	 HwHZ94rQXg6SHZdZfGecyy0NlByQfRQTTslpyZjdWzdAxHr4rklT4GgI3fQ7J00E5yw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795053893;
+	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
+	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
+	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
+	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
+	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
+	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
+	 Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
+	bh=8I63dy0EoudZBSmSdCMobKtQ+lOSGhvQLDiEcWU+Z0U=;
+	b=lxIsxy9WVux6BLp89aZqwgH039oPcPoy50nY7+NC9728GPg4BC2eApRkV2/8I/zJxMun
+	 2yaY7SEkdow1zfl+EmyqmEio/5pLrcYuwnKMClCiquMATjO5NdcGgWWu1HlP3gF8r475F
+	 8Rre7D3OHVt1Wco3IRUUFPXxmom3cU8ny5SB82q31rHVf+CEm/1cHj+iaoOIpllxQSlva
+	 zjniu3dTVZSQQHB46lAZFIY9D5DyZEiVQN1/UJYSgcth9umE2CYuZkm3NHxNaqqXqMv+S
+	 DPU+tSHjNvWgi9EAH3phdhkYFB3dBYZimvfxgvrGNTRDfFkkHf84IvjV9dztS/AynGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UmZUsvKJ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1CF606A32C;
-	Thu, 19 Nov 2026 01:54:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B1CF606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 2aa7e726e3bc11f19a56ed5b684f684d-20261119
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:28d22212-2088-41b8-a839-778105087eab,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:74081fe178b2652eaa633b6ab2e63628,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|83|102|850|865|898,TC:nil,Content:0|15|50|99
-	,EDM:5,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
-	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 2aa7e726e3bc11f19a56ed5b684f684d-20261119
-X-User: huangwei@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <huangwei@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 626924971; Thu, 19 Nov 2026 09:54:33 +0800
-From: Huang Wei <huangwei@kylinos.cn>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	leStoppe <lestoppe@gmail.com>,
-	Craig Hesling <craig@hesling.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	huangwei@kylinos.cn
-Subject: Re: [PATCH] USB: serial: simple: narrow OWON match to avoid breaking VDS1022
-Date: Thu, 19 Nov 2026 09:54:28 +0800
-Message-Id: <20261119015428.147425-1-huangwei@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <avxfFRBXbdhs66cC@hovoldconsulting.com>
-References: <20260810091322.2201740-1-huangwei@kylinos.cn> <9970fa09ce5e1b468e473bc1e4bbe7d7802808e8.camel@hesling.com> <20261103022311.1011677-1-huangwei@kylinos.cn> <avxfFRBXbdhs66cC@hovoldconsulting.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E4A606A31C
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 02:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UmZUsvKJ
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6CDD31F000C4
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 02:04:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795053893;
+	bh=8I63dy0EoudZBSmSdCMobKtQ+lOSGhvQLDiEcWU+Z0U=;
+	h=From:To:Subject:Date:In-Reply-To:References;
+	b=UmZUsvKJstazJ7Cw1VO5zRHI9YcHI7bFPQKbqGgLYVSSRMRQ/WXYtVNiqlc8XxxNq
+	 D6DDGziY8L+SLRWSHNrFGUVNtZ17RenhNU4aVwPVkrsg2wWYOorSVJvab7824Ib4xg
+	 nTBciKawC+QQBWdNPhPP/FIkkZXTsPxKfmCZ4HojN7xw5nDb+v5dPatyllkqifDwNo
+	 FKKG7+62PoX0kbipcP9Tbbd44ABNhLCju63DcQzWpe/5xFXoifyzckwIzPoe5Mf74X
+	 kYUuUa6zW2NNYhCm2sjjpaZwW0qNujuUd3vB5R1YpKx5wPAWLBSX7qcMifpMLEfeTm
+	 w5jlskcQKwgxQ==
+Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
+	id 5F5D7240040C; Thu, 19 Nov 2026 02:04:53 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 220193] PATCH 6.1 082/167 which adds support for Owon HDS200
+ breaks functionality of Owon VDS1022
+Date: Thu, 19 Nov 2026 02:04:53 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: daway320@163.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220193-208809-Zf1q1xbCtg@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220193-208809@https.bugzilla.kernel.org/>
+References: <bug-220193-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -73,41 +83,58 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 17, 2026 at 03:05:09PM +0100, Johan Hovold wrote:
-> As there apparently are now users of the in-kernel driver and libusb
-> has a mechanism for unbinding kernel drivers when userspace wants to
-> handle a device itself, my preference is option 1.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220193
 
-Understood - thanks for the direction. I'll withdraw the v2 (Greg:
-please drop it) and leave the owon match as is.
+--- Comment #10 from Wei Huang (daway320@163.com) ---
+Hi leStoppe,
 
-> I've tried to skim these threads and IIUC the only issue here is that
-> some java-wrapper around libusb doesn't provide the unbind mechanism?
+Closing the loop here: the USB serial maintainer has weighed in on
+the mailing list thread.
 
-That matches the reporter's setup. He uses the software packaged at
-https://github.com/florentbr/Owon-VDS1022, which installs the
-official Java application (with a Python API as well), and its udev
-rule only sets device permissions:
+Johan's take: there are now users of the in-kernel owon driver (the
+HDS200 serial use case the original patch was written for), and
+libusb itself has a mechanism to unbind a kernel driver when a
+userspace application wants the device. So the preference is to keep
+the broad match as is, and VDS1022 users should unbind the driver
+from userspace rather than have the kernel match narrowed.
 
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="5345", ATTRS{idProduct}=="1234", MODE="0666"
+The v2 patch has accordingly been withdrawn - nothing will change in
+the kernel for this device.
 
-There is no unbind on either the Java or the Python side, and the
-reporter confirmed the application could access the device only
-after blacklisting the usb-serial module.
+What this means for you in practice: your current workaround (module
+blacklist) is the way the maintainer expects this to be handled.
+The options:
 
-> And there should be nothing preventing a userspace application from
-> using the tty interface even if a device does not speak SCPI, right?
+1. Module blacklist (what you already do):
 
-At the byte level I agree - the generic usbserial tty is a
-transparent channel. In practice the VDS1022 tooling is written
-against libusb only (the SCPI subset is served through the
-application's socket, not through a serial port), so existing users
-still depend on an udev unbind rule or module blacklisting.
+       blacklist usb-serial-simple
 
-I'll update bug 220193 with the outcome and the workaround so the
-reporter can close it.
+   Note this also disables the simple driver's other devices
+   (NovAtel GPS etc.) - fine if you have none of those.
 
-Thanks,
-Huang Wei
+2. udev unbind rule (finer-grained; untested on my side, please
+   treat as a starting point):
+
+       ACTION=3D=3D"add", SUBSYSTEM=3D=3D"usb", DEVTYPE=3D=3D"usb_interface=
+",
+DRIVERS=3D=3D"owon", ATTRS{idVendor}=3D=3D"5345", ATTRS{idProduct}=3D=3D"12=
+34",
+RUN{program}=3D"/bin/sh -c 'echo %k > /sys/bus/usb/drivers/owon/unbind'"
+
+Since the OWON software you use does not call the libusb detach
+interface, the unbind needs to happen at the system level as above
+(or upstream in that tool).
+
+Sorry it did not land as a kernel fix in the end, but thanks again
+for the thorough report - your descriptor dump settled the technical
+questions, and the maintainer's decision was explicitly informed by
+the real-world usage data from this bug.
+
+Reference thread:
+https://lore.kernel.org/linux-usb/20260810091322.2201740-1-huangwei@kylinos=
+.cn/
+
+--=20
+You are receiving this mail because:
+You are watching the assignee of the bug.=
