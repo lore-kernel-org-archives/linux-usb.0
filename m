@@ -1,79 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.12.242.24
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795118673;
-	b=iBgfNwTn680cUI74hE15LUuw/hjI489eKdBmkRikcSC8eRlHAMfh4oJYzmnhII/M8rEZ
-	 aSL4hrb22Gn2If6tHCkHL2+n6vaSBES7S/al4UBiNcp7oPMrL/fqkcyMtY2YpL8o0T4fn
-	 Fo3ouJ5t8ftQuycuy54Vy8NnUWna2MwDYXnb/5XKoP4tGStHByW/XabZNcQRo6P6vkIrn
-	 o6m4VINocRUspp+87fzUCzM4WI2MqeNUjkNWI6qnJWaexhvR4ci7Sjpa6u4hPfQe8IEnn
-	 GAXHngz3lSx6R7QQ4/XD2mRi0cAER6TUFBQWfUdXpXH3do5Nqjk+zq++/jUQbkD9l9g==
+	t=1795119567;
+	b=FJ8fh5kd4nUe7IRb1eOoQ9+duuUaKb86R1Tjei63QKHtPhyuviPMn0MNu1gs61tb96dW
+	 yEYiV06wmUns4Fxv+4epv5GK61HVgGC9ZJIzOOC1n6YbAmzjpt6/DumJyH9xBzUjya0kU
+	 67GcTTRtQk1r1mM3wPnkSjwkcEPLRPwxwaus3ZvZAxbEeXaPhwlTUGU8eGycW9wwTw1v6
+	 CqUXZdXm7VGuu9Ot06dHrFCCtCPdPxdkLEk9lCRDB68XmvOtooJTOF6M496p5JUriAy6+
+	 0p/kaqphHRRDqBICO9YviFeKinYK6ULQSOsI4cqsfCpOU4sNa0YunP1lD6fiVvjmReQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795118673;
-	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
-	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
-	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
-	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
-	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
-	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
-	 Message-ID:Content-Type:Content-Transfer-Encoding:X-Bugzilla-URL:
-	 Auto-Submitted:MIME-Version;
-	bh=HVTXCNOayZp++Zqn1nE9W0I/IgDsjGqpjohUSqKosx4=;
-	b=SLMFLDNo+VYwcupamUfOSuPWPmxWvRE3y5pef8bGsdu9YCUYjkbE96TrK9IAzV0u7z2t
-	 ngx8mzrFNRvLVkyRn8Pi1If6iRzU+J/C5tAxyoNYSsO/JRGOEY6duUmJkkCyRwtJt1b00
-	 qrXdH1Bi1KyFMnZrOdFu4LBJizqyn9u80T2Oso+vGFeYtl8m2HcnCK6AoXSpuaV9V4hMj
-	 JHizYEHN/Z4DUxGfPeWZ4QC+Fjw+Mfh/QNJ1su0lvDr4Vqrrsc6pHcdOypDEx+tXgJxZc
-	 XEFcEatKCVeNjuNf3XxbWeM1uJR4shH2dncZQUBZ5xLrw3A1+VAeIbmiEfxo2WFm3zA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795119567;
+	h=DMARC-Filter:Received:DKIM-Signature:X-ME-Helo:X-ME-Auth:X-ME-Date:
+	 X-ME-IP:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:From:Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=h9q4RHK/R0nfKuJsJcXl6O+86FApj7la5Nbt3lIB6PY=;
+	b=OPnJ12E+olTJN62Y4pBcAOyXDDLjPipy8ecl3gbKckTDJdpn6mU9wwddiQZ7g4U+Dqf4
+	 ecD13vYbNSUPKu/0A/P1cKlKHUxBgfp2QhtccBSWvSR6mIfd0X+xZ5jgfF5FUOnOJcJ6C
+	 68XYQNuQQuxxFwN+rzEeQFF1zAdL5c0BXCpxMbvdRtCXrl5YUBuswO0X8TPYz6tph6eqY
+	 M4A1+U/COewVJ/Ta9VIv0gElW2xGpyKzRpSqiZja8hCtaMQZaBAZLMF7TwE0tiAUtzDnC
+	 Rq3OYDPene25g+I827DcU1kK+EjlkXxxNn9pCgld1wZaBAt7JaWNiJvDQDBZi02X79w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PvObmYkW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=wanadoo.fr;
+	spf=pass smtp.mailfrom=wanadoo.fr;
+	dkim=pass header.d=wanadoo.fr header.i=@wanadoo.fr header.a=rsa-sha256 header.s=t20230301 header.b=bDHFMxdT;
+	arc=none smtp.remote-ip=80.12.242.24
+Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B89606A324
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 20:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24061606A320;
+	Thu, 19 Nov 2026 20:19:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24061606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PvObmYkW
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D1171F000C7
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 20:04:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795118672;
-	bh=HVTXCNOayZp++Zqn1nE9W0I/IgDsjGqpjohUSqKosx4=;
-	h=From:To:Subject:Date;
-	b=PvObmYkWR3m/BX+nd7lmF5obsmpHNBw2JIIRFyWwf0yHMg2osqd3/R3JNDYLA/V2w
-	 kBYyM5xPrURhF8UYLTdbdNEmbS7NkCyQi6so6E9lhDgmeeOC3GqmTeYLdcvWOWGG8M
-	 +6IbWO9RK8v2To5OU2GuEI7wIbMYOom5u0WBivNEpBome/zLa8zKiOO5KYZqVQUWYp
-	 KgSDynqN5dCej7BxcctNA9AJCEqTJdt2xvSvAx3/a8tVHMwe4H6FfEDMTd1S0+D+Qf
-	 XqMhzDATwjFswSqua0IeBCqkNwrkhnAUciiqZUrIAm8nc4NZiA4dUOPet/B3Y1K+uh
-	 ANFjp7+A8y9dQ==
-Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
-	id 28DB4240040C; Thu, 19 Nov 2026 20:04:32 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222298] New: hid-steelseries-arctis kernel module not working
- for SteelSeries Arctis 7 1038:12ad
-Date: Thu, 19 Nov 2026 20:04:31 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: linux@michaelgronbak.dk
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression attachments.created
-Message-ID: <bug-222298-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key, unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.a=rsa-sha256 header.s=t20230301 header.b=bDHFMxdT
+Received: from [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e]
+ ([IPv6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e])
+	by smtp.orange.fr with ESMTPSA
+	id U8bFxyNDjCmimU8bFxGjUr; Thu, 19 Nov 2026 21:19:18 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1795119558;
+	bh=h9q4RHK/R0nfKuJsJcXl6O+86FApj7la5Nbt3lIB6PY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=bDHFMxdThV5nKbVbBcL1IcDJfIrHo4Wf1Dlql+oat3tFCQKrM6oGW3EMnGdwZAHT9
+	 eKpNbjUoogn2mcs3aLCvYllBDxnd8OsR33vPeOvRnwiZVJ2JHCUWAgT7ei82GuTuD7
+	 m57bwl7KZKfzdoXxvPy9l6P9ZtiOSiIQ2PONnOFjEc/N9yajs3V5zkna/v8ZoLXsdf
+	 M0iR/JlBgoJ3TFSwq+qysxa9HibfmoOzPhIcmZxxOhqdL5LQYg63Ylyu/J1SPF7Qq6
+	 MHJeDMImLPbXlGEh5uXcwaspQuV/tfwIrLVJ9p7KEse/SbkMLIUki3aZx4vCqIoRi5
+	 6kk3wSorr41ng==
+X-ME-Helo: [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 19 Nov 2026 21:19:18 +0100
+X-ME-IP: 2a01:cb10:785:b00:26fb:aefb:6cd2:db0e
+Message-ID: <111e6c03-017f-47f2-a941-cba45697c1e4@wanadoo.fr>
+Date: Thu, 19 Nov 2026 21:19:16 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,57 +63,61 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: bdc: Use devm_clk_get_optional_enabled() in
+ bdc_probe()
+To: Markus Elfring <Markus.Elfring@web.de>, linux-usb@vger.kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, Al Cooper <alcooperx@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Justin Chen <justin.chen@broadcom.com>, Neill Kapron <nkapron@google.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
+References: <07112f96-430c-4109-9aca-e5d17e333d67@web.de>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Content-Language: en-US, fr-FR
+In-Reply-To: <07112f96-430c-4109-9aca-e5d17e333d67@web.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222298
+Le 19/11/2026 à 20:06, Markus Elfring a écrit :
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Thu, 19 Nov 2026 20:00:07 +0100
+> 
+> Reuse existing functionality from devm_clk_get_optional_enabled()
+> instead of keeping duplicate source code.
+> 
+> The source code was transformed by using the Coccinelle software.
+> 
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> ---
+>   drivers/usb/gadget/udc/bdc/bdc_core.c | 8 +-------
+>   1 file changed, 1 insertion(+), 7 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
+> index 5149c98bf9bf..ce09327250f4 100644
+> --- a/drivers/usb/gadget/udc/bdc/bdc_core.c
+> +++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
+> @@ -530,16 +530,10 @@ static int bdc_probe(struct platform_device *pdev)
+>   		}
+>   	}
+>   
+> -	bdc->clk = devm_clk_get_optional(dev, "sw_usbd");
+> +	bdc->clk = devm_clk_get_optional_enabled(dev, "sw_usbd");
+>   	if (IS_ERR(bdc->clk))
+>   		return PTR_ERR(bdc->clk);
+>   
+> -	ret = clk_prepare_enable(bdc->clk);
+> -	if (ret) {
+> -		dev_err(dev, "could not enable clock\n");
+> -		return ret;
+> -	}
+> -
+>   	ret = bdc_phy_init(bdc);
+>   	if (ret) {
+>   		dev_err(bdc->dev, "BDC phy init failure:%d\n", ret);
 
-            Bug ID: 222298
-           Summary: hid-steelseries-arctis kernel module not working for
-                    SteelSeries Arctis 7 1038:12ad
-           Product: Drivers
-           Version: 2.5
-          Hardware: Intel
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: linux@michaelgronbak.dk
-        Regression: No
+Hi,
 
-Created attachment 311524
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D311524&action=3Dedit
-Logs showing usb device unplugging and plugging to make headset work
+this patch is wrong because the remove function and the error handling 
+path of the probe need to be updated.
 
-SteelSeries ApS SteelSeries Arctis 7 kernel driver not working.
-
-While Headset is active no problems arise but when headset is shut off USB-=
-puck
-is lost and the device driver no longer exist and 6 log entries shows input=
- irq
-status -75 received.
-
-Re-activating the headset no audio is obtained and the device is not found.
-
-Unplugging the USB-puck from the USB port and re-inserting it again might m=
-ake
-the device come back. Sometimes several attempts of unplugging/plugging the=
- USB
-device
-in combination with turning off/on the Headset it start working again.
-
-The problem is gone if not using LKM: hid_steelseries_arctis
-
-The problem has bee around for a while now (1-2 months) and is currently
-present in
-Arch Linux kernel version:=20
-
-ArchLinuxDesktopPC 7.3.4-arch1-2 #1 SMP PREEMPT_DYNAMIC Thu, 12 Nov 2026
-20:11:37 +0000 x86_64 GNU/Linux
-
-The attached log file shows sequence when trying to provoke the error and
-getting the headset back in working state.
-
---=20
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+CJ
