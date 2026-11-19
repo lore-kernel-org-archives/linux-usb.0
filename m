@@ -1,112 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795092410;
-	b=mB2nknufJiwBKYxWZ5ZvkoY4HBbHnQAgCDiutq2LrhqubOd9KfnvtkGpH8n3MUDVqtgF
-	 R4yb2imUn0FU74eAGSYCux+kU0hWYqVo/MZSwRT2LS1PASyroFFCUDE1av3YuB9vGWl59
-	 mTHgNejSIj3mGn1TvKWzOHnR8LkOwc/6GNDz2SMhkpIFCqlUP31nnX44IRGJUbyMEcTPm
-	 G7N5WJn8dnX6U6ZvDrkBZS/5bi/qOyguhCjQtdlrHoRsGW1of1o09X7PvRCCCzQvT2FeD
-	 FaMM9b6Wm6tNyYMB4tq6ey1eB7lJI61tN0BSjZD5+4CxExsN+IIw/b978Rxbxy//M7A==
+	t=1795092430;
+	b=iYwnmMZSDzU27piSoZAcw3VnbY5wd2VgM275rhhx8krgwFvxud+K6+8WIOqxOjo3yW0j
+	 Ygl7x5kJElt35OxZv/ViunDM0cyyL/ipTUSRUPi63xwDrOlrvC494hRfsxePN2h0cLpYL
+	 zbPEz77IbbB6t34dhX4n6pb0oeioC0uB3g7l5Xyop4qCP1V6SlkLAvkX6TEiN+9gxmVFz
+	 7W4i6360aYYzScNRAHX+utnwhGu2CmeupvpAzJED78r77uIp9eRSJoKH0HQuuMOVXqzul
+	 cgFgf/BGnWZdhiuGoLdSFET7TOhTB0L71PGMYku0k/u2dLfrvMj7x9E7hRSxRhd6r1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795092410;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795092430;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=R0SLI+cpRuDAPpaGNRcRyZsjUAuV82ogqilF0+QTbgo=;
-	b=AvkYlAq4EqlyvPEaRMY9z+p2+rnfqo7eGBNggdqXjPz3yPGabq04qxSKFz5RnEFpP0em
-	 0YkcinoxgtqFSY/4k4pJoQD8MDyBCcnujGREsmRRWno8c8eRAPx9y2GlTQFe+Gejlz6pm
-	 b6cNc5K/mHI7yRc2Tatvth+o0vMjSXNdBtMa6lVlTddQ4vPleP46pOTqdUE8TntZVQmnN
-	 G9nmjY1NZnyNUmFDDL8CSQlOafIGMcVU/XjVl5oRWUrCyMQn5XMfgchJnVzYomUJ17S0P
-	 3lesIEfUqPwZk5w41RC+wcMudwbX+EHlx91uGfckSqLu7n7yAWPkgXbN2MbEhq/egHw==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=aPwkHNTj6RUG01VnZHwQBe6NlajTzrd9yw53YuOCt9A=;
+	b=To8cMK+zFiCDoEP8A4XLY0k4AuYQUbZMbPdGFZahnbEyLoOfKgNhHfW3NDJ8ydUyvx8c
+	 1mGgVYqwxqxj1XRwfjQ2XyuSybJyICHDIPXv7eG+NYiSCMbkJINpFTkThaH3UOVBIQ8PJ
+	 3aF9rgOh+jx4iWgDfkjX8tYNKLwNHw91MSRd66OwyQMNV//alHX4W6TsWeMSLlD7NhEjM
+	 F7jwLoFHxU5q00C+2CNvEa14FpvDRyJdVjZrmpTVwVwVyVS5/Vz9D7EtOxX8tWnguy6xk
+	 g/WOTdHNh3DVkRn5sfCzryi4WOLa8l/y+JBE8FoIl/ej0maQFeQ/ur9JaWZcqYEncrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BfVexAMX;
-	arc=none smtp.remote-ip=74.125.82.53
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=NvwwWLRD;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8789606A320
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 12:46:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8789606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B074606A326
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 12:47:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B074606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BfVexAMX
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-15ea896ddc8so3630324c88.0
-        for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 04:46:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=NvwwWLRD
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a210470b49so20355805e9.2
+        for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 04:47:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795092409; x=1795697209; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=R0SLI+cpRuDAPpaGNRcRyZsjUAuV82ogqilF0+QTbgo=;
-        b=BfVexAMXUExPA/yU1/HvoxaKMziAg/iD+IUkHNZoxPYzkEA3j1C6nIt89AbCwkXPRO
-         /cce9sydc7DmUaiiD9v7hE9hgI1ZMsnDCrGgTYI/xVDxscovZXfGZjiTvCQC5CBJ4zh1
-         rbfUnR6wOGT+8PMH0NHQY24Gy9AVVc4jze/FJc+s66e4NVtUg3Oi5AK3PlvSTRyjacP3
-         aOwAfj7uxwj418/tukp5tVVEF/PUTXOL4hycn4H6XyLCVA0Qkw8gmZIih5yFRhBe6V7P
-         YH+9n4wqb/IMKYyg+jwFOeRQEXeGZ58RtlgqVICZ99RkGTmlcRt0tbnS8gt7ZXphedba
-         4iGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795092409; x=1795697209;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=suse.com; s=google; t=1795092428; x=1795697228; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=R0SLI+cpRuDAPpaGNRcRyZsjUAuV82ogqilF0+QTbgo=;
-        b=WkftHJ5mUFmwtpku6CyowTD8XGtoxMMmM0COoP/yBRwZtvO6+3PqxQ9Z7mpHIsPoF3
-         w2Jmq/BA/hnHtYsH+vYnnnGZLDYUUG6eOMKm33Tdhfwa+kIm73LBcvUxVHodc7dJAIwz
-         aUG0G98kvBZlWGV1gKq9/ZOhOsk567z1inTo6EUBpQt/otjOBD+561yeKwTIS/1nNRSd
-         Lg9YvwmVzpWD3q4JmTlq7haxBh1woewRdHnogoFNh3tScY3N4U2t8vmgLMiyjpnV74sA
-         CJxPfAhpMywEnoDkHGCBXRc4+BKwxwmOI6/rPmu4ux2xDBmvIUR9986/nIOFEI1JE+QV
-         G8Ww==
-X-Forwarded-Encrypted: i=1; AL+hErGVywc5Cq9YHUXeBXgpXhJzwq6Ti5bODAXC5FQfXndt7d1xVEEXJ3y1N7bgDeTUofXxWpbLKB37gto=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8+dTNIU3OXJjCncpW36UB/x5kraKV2kzXJZnXr96AIashARJjZ
-	8y8/CfnbrySK2t3c/6oRz+ZEiZeqaaUWcUmvAkeiFFBMqU9675FK8l9B
-X-Gm-Gg: AYBFou0SX7OFKRpO28y65NGaIJMrIkFdL1f/yMdqoqUtuOwX94xv7XVyD7m8AKUBlXQ
-	IjrhxYLDbGnRfxLKZIiWOfjGn3PBspcDGvHBeKJnpJeZuhLgbuhURqswHfbpTgxKGEvHakjG7jl
-	F8fp8NzLZIklYa7NO/sJQ2WpV4BCzrrgwKptpdJ0W55o9HbEBa0M83Rhb9sh59e46PP+fQCBR3d
-	ZSzsa797DO3CsmqnKLw65IlV6FonYjmmfCMfp/cjg/+xxuGx6+r7LD9AZiqwWR3NwIoUBz7fQad
-	Al0aGvzH8vB6L2FB84nWUcMbKt16loxlxlcUGbjAjXCy+eZFrCiEn39CQVfKcfX8QiD41kyXeLD
-	ve4NuJxxASOpRjH3/BGeuteQc22M0sveJZh7/xVrfSWvEofG9rF7Xtcf+MU9yE+cBfk+wlItkAP
-	9zbo01OwU/ZAderN3nc/mbHQwXEAX6DgfHeXSARkV3kpKJuAyOMMcbyJwDqS0Ey4673pidpdHwk
-	mM+u16iDoTwTv+Iodl+yHvYrjBuOdPoWCPCqZYCacdnk40sNsOd4z9NlJOUGlbhhmRWXcgDv3EP
-	GdcUqtrIGQSJB7eUNjwW1WI9Wmp9833TvRg=
-X-Received: by 2002:a05:7022:7f15:b0:19a:20d3:a3d6 with SMTP id a92af1059eb24-1b543c3d7f0mr4441883c88.1.1795092408616;
-        Thu, 19 Nov 2026 04:46:48 -0800 (PST)
-Received: from DESKTOP-NM9EKIA ([2001:e60:8509:ba6c:11e:f696:8454:757])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5447f4eafsm13868656c88.14.2026.11.19.04.46.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 04:46:48 -0800 (PST)
-From: Joonhoe Kim <26rote@gmail.com>
-To: Peter Chen <peter.chen@oss.qualcomm.com>
-Cc: gregkh@linuxfoundation.org,
-	Thinh.Nguyen@synopsys.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	andersson@kernel.org,
-	konradybcio@kernel.org,
-	abel.vesa@oss.qualcomm.com,
-	wesley.cheng@oss.qualcomm.com,
-	krishna.kurapati@oss.qualcomm.com,
-	konrad.dybcio@oss.qualcomm.com,
-	dmitry.baryshkov@oss.qualcomm.com,
-	neil.armstrong@linaro.org,
-	val@packett.cool,
-	balaji.kalkonda@oss.qualcomm.com,
-	tvlad744@gmail.com,
-	linux-arm-msm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] usb: dwc3: qcom: Keep USB 2.0 working in DisplayPort-only modes
-Date: Thu, 19 Nov 2026 21:46:47 +0900
-Message-ID: <20261119124647.983-1-26rote@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.5
-In-Reply-To: <avZ7-Ax-_VwcJhYG@hu-petche-lv.qualcomm.com>
-References: <20261103135057.1682-1-26rote@gmail.com> <avZ7-Ax-_VwcJhYG@hu-petche-lv.qualcomm.com>
+        bh=aPwkHNTj6RUG01VnZHwQBe6NlajTzrd9yw53YuOCt9A=;
+        b=NvwwWLRDp7Qs5UtSDGgAABsVFvqMBo2hh8Z/WQZno7bgQw9t1McyppSQDAAAFFJnHM
+         zmpK0HLKciV1gu/5Te7mXBNOakuOo27N8NPeoLzbwket3yMFoHB9M499ittKYxkfaw8d
+         vYxW8+yd6wbh326wMOE5DHUqiWsa+JxHiBfWUnfYovtExfQ+tdW239H2AOxZA+nTu5oW
+         EDWHRmfUaT12N+2kFSPfneTa97maN2s9aA/PV8tpflWJ5Hii7ITem/+Kr9ketFFb8ee8
+         91SpXmZ7lgHsQFTpNMeMKq5jYN7Ifk6JNc7v0mRIAei0JaNLmYMRM2b8eC+1ng9Xim62
+         50vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795092428; x=1795697228;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aPwkHNTj6RUG01VnZHwQBe6NlajTzrd9yw53YuOCt9A=;
+        b=MY3dQzd8BERfEYvQz7gFgVpwy280Fdy4XfDOYIiDfrgB9sgCAc+G2nkXeISqJxTmam
+         6L+Kn+PcssaLU4StV21AlNnfLjE56nF9x7tgzpCBlxC46abK5y17PrEXGf7xJ5CGCLJy
+         s/1fbRYRZxGrAcemH6PWZEp17mbL9GjbmqwJgRd1KiRRbLh6Cn3VJEXbwYAz4D8JLL48
+         EjwCNWsc+TqVvz1/M7Fgk3g9X3eyevi1p+I9JjU5EDLZRgsA1KT7TXl8tl7Fs6k9GlVK
+         +LumCP6O9h0alLWku17bJY3yKKuAfX8RocAk59baOpwYhvwnjtHMGeDVUwyql/AK2XvW
+         ujPg==
+X-Gm-Message-State: APuU4Z/xv3szPuiNtpc2rAVRgwTO3j8Jii5LltuhMXwjhNRySA65RRtQ
+	tKtqcTb4LedFdwqt6jVnHtHO4YSvNE2j9xm8yPTIEf+KJwBoGphI3l1JXA2mqSdYTRQ=
+X-Gm-Gg: AYBFou3dQ6TNQiHf43xS4EWWN5VSbjOerkMOb/uKVb/rr/SAz0aj225O/dHO1P4exW0
+	wy+sHcmxKBPNh8IeHV+NwxLSrZkuax82I3YjE4wvYCP69X56OureaTjOSD5sx2nK5JNdjPgt+yR
+	cGr1zIkGXP8ojK5xNA7xvPq6vcovcfVl1eXSdBzgxgFr/PwCDQIM4PfbQlITiHtagdW5vzOPJdU
+	laFJztQUctmYysUuF3IYFj2bxnULAtmxXKU4vnjN1nXmu2DmGhkWr24y5rYr4LWCX2L2ejs37Ru
+	ltzldaNVay9aP0NZtsJ5qvlvBz/EUDoEOBj9UUKiZ55sQFfUMDMMbJReC73IS4NSXthvmpHrmjM
+	bYhMRxvUSEStv7YDxvlAoTdsv6ylgRYPT32rRyGry+/lPo6t3M2Vse62sddNWqmnx+DUI+Q1Edu
+	3StU79H6Gy1dFAdaDAWZkfzsAag++dxZv0KovnROEkOk94wbshegA1tKtri6FQ0z0odm0zruJ6i
+	KsBCyGZzY0ZKleLEqWiyOCM0Xd8h36kXSR0ntMeP4Y1d9GA67euCsaqlT1AD+Eywmg3ti+MFzMH
+	gAf3zQITIEE4pdtlXjPe5JYOuF433J5d9GLRxICm6yvX1y3ZOrn1a/+EAADa6W5FSjJe
+X-Received: by 2002:a05:600c:8b71:b0:4a7:76fa:87e9 with SMTP id 5b1f17b1804b1-4bb7da2c635mr107058465e9.21.1795092428543;
+        Thu, 19 Nov 2026 04:47:08 -0800 (PST)
+Received: from ?IPV6:2001:a61:13e6:9f01:eee3:1629:f0cc:42a? ([2001:a61:13e6:9f01:eee3:1629:f0cc:42a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8535741esm54667975e9.11.2026.11.19.04.47.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Nov 2026 04:47:08 -0800 (PST)
+Message-ID: <1817932e-469f-401b-bc04-37f30625c3ec@suse.com>
+Date: Thu, 19 Nov 2026 13:47:07 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -116,25 +90,45 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] USB: cdc-acm: restore the line coding after a
+ reset-resume
+To: Piotr Kubik <piotr@kubik.pl>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oliver Neukum <oneukum@suse.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Francesco Lavra <francescolavra@interfree.it>, stable@vger.kernel.org
+References: <20261119122842.3611681-1-piotr@kubik.pl>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20261119122842.3611681-1-piotr@kubik.pl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 12, 2026 at 06:54:48PM -0800, Peter Chen wrote:
-> We did an internal discussion for this use case, we may prefer the solution
-> that let the PHY notify the controller this PHY lane is going to change from
-> USB to DP (4lane) event, it could keep driver independent with dts for this
-> feature.
 
-Thanks, Peter. I kept the mode switch in v4 and explained why in its
-cover letter. The Type-C mux framework already calls each mode switch
-linked from the connector, and with the usual graph (HS port to the
-controller, SS port to the PHY) the controller is called before the PHY
-changes lanes, so no new interface between the PHY and the controller is
-needed. The cost is a "mode-switch" property on each controller node,
-which a notification from the PHY would avoid. If you settle on that,
-the clock selection in patch 2 can be driven from it instead.
 
-v4: https://lore.kernel.org/all/20261119124558.1548-1-26rote@gmail.com/
+On 19.11.26 13:28, Piotr Kubik wrote:
+Hi,
 
-Thanks,
-Joonhoe Kim
+thank you for this patch. However, it has an issue.
+Let me comment on this inline.
+
+   
+> +	/*
+> +	 * The device can lose its line coding, for example when it loses
+> +	 * power during system suspend, and acm_tty_set_termios() sends the
+> +	 * line coding only when it differs from acm->line. Send it once, for
+> +	 * the control interface. In a runtime resume of the device, an autopm
+> +	 * reference here would wait for this resume and never return.
+> +	 */
+> +	if (intf == acm->control)
+
+This test is problematic. The interfaces may be resumed in any order.
+You are setting a line coding before the rest of the device is
+resumed.
+
+To do this cleanly, you need to look at the counter.
+
+	Regards
+		Oliver
+
