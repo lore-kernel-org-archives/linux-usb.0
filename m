@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795095873;
-	b=ybnyX1HYnec6+sVUDXlOPrp0Pg52k8IrqmQR88lx49lD97FynPoHppCIfYlhkfA/PcaX
-	 eNgdHbFi0N87Tw7uX1j/TpgtlDWA+dgawPCdU/EMz4WnY6lWxEDDgEjG50BZtpwAWTIPb
-	 HLk8qIcw04GKnuQQcXz0nsMB/uf6yKRmP2wHd4/Noh+sbSBAXIC4u/ZEfzf2ZIiwpT401
-	 q3gsc0z1Dr4i1LSZTgOL8RBgBbCtXf4Kob/vBcoebl74J60FbaoxoIO858tM18lZ5tr8J
-	 uoMw5tJBC8Em9d9cg5gFxTCBozoRdFJB9fEtPrV8nvQgoCzAlg3dwYQI25xuD9E8NPw==
+	b=FQPhxJcWWb9LCgYToCpTO4WAkyL8fjUvztFlHbn0i9/fAC4OxHgV31NLQHPpuXTl7+mJ
+	 YJFqNmoB6s/tI/OZFcfthEbyBn7ABt1IwBE7KqtPotUCJEJYdby/ijndHdv1uw4uAV8r0
+	 C0JdComw2PM0nFpyL/18+OtvukylHTNJTldPA1m2SuaYKKECZj3RLs/SjZMZfcqJZal0x
+	 pVTB/DSetWKxDkbt2Fi4na9eNDMCUxXxKZV0o/cYSS+tQbshJQtI1vS+VmNOa6lr8F+cM
+	 jvfIoC0e2xi49MPQw/GXP9cIKXWLXROBnQ0UypJAI5aT1h2m6rfSxa+bP2DpW688STA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795095873;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=3TK5GwzkWFEyxM5+V3Tk1usO++nG1pLa2jp7pvpXdRc=;
-	b=RH6AD+0Ui/4T8jsBQyJvml4gZZn2NgW9M+Hd6SY2HOOSB+vAybohEpc3TqFXiJep6yUH
-	 s/AByATe7Ib76F8pqLad3aaSkO5Pr/oHvsf/y+XffGSdfhnVtdz4q1J8j4TDimWiMcsmm
-	 dRQNxoaQ9Wfqp1cuFCPHk8D7QGCUl42pHm2tgPKImhfM9EhLTjtUTWKQ7MjWdNVmL6r3R
-	 ezf+GBUCAYhbrh1Af22MU7hH79tuYD3PYvkEI7EPvDiVCBQwWSTXt+Ondmoyh+FWx4aTM
-	 /Pp9anNscuIBv4p4j13/FIDeY7OLpvl12t6h5PZ1V+usyac1CwRdjnH9zPrEJMIqP/g==
+	bh=z4nSLC/PoAP5kIateie1uTFC4o7p5+1eKwchZRgHsBU=;
+	b=MsPsDEQNKirWUl7GqZWTLs9pCSL5jcPBzvMH5wnvNU8jJIvVfiXgPqL0iLAV7mH462X8
+	 RBkhn03amchmQKOBtwlxBRBcEzey3K4kkL0FQX4FELqy7/mQ0HXSawzYbEWnX03nusduG
+	 KVJ3wc8f/hq+XNXXAT+BcBbYSLYMLOG7i3oRf6xk/SCsWqU44uvi9Dxcp0Y59oOFUbPs0
+	 BUam74Lu8GSKrp1vgOaw1Ma/jgTtXWRpzNDvsbVuiIRlHpNNN34PRx+lFhgrFvnECyYQy
+	 KhKNPIRusWawZI8vVcRemNnYGta2H55A45qeGBJ4JSpvPz0dKvIicfP49/7eW8snA9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BWo7qxfE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lxMp9b+B;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CF1606A333
-	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 13:44:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796D7606A32C
+	for <linux-usb@vger.kernel.org>; Thu, 19 Nov 2026 13:44:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BWo7qxfE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CE3E1F000C6;
-	Thu, 19 Nov 2026 13:44:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lxMp9b+B
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AAA81F000CB;
+	Thu, 19 Nov 2026 13:44:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795095872;
-	bh=3TK5GwzkWFEyxM5+V3Tk1usO++nG1pLa2jp7pvpXdRc=;
+	s=k20260515; t=1795095873;
+	bh=z4nSLC/PoAP5kIateie1uTFC4o7p5+1eKwchZRgHsBU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BWo7qxfEB0hb2RVh+fwvDY81D+BgWFdulcql0tHJFDxaUqg5T0iV4yHigu2xRU5Pf
-	 5WiZ7S6C1MQJvzR1eLjX68yB31qCJeTjH4lwZs6lYPdvgNgQ4SjmRA9sFklnlwQXNI
-	 V/qbdqqWWcW+ww6erau2vfo/8tOTk7aG4rZGhcj8Oc/ZqOwhfrhSRAz7VA38c68cuV
-	 Smax/VQT3JT4ITMTdvMHGCzUH5Ab4B61nWwXbDv8xJjoL1oVlVroOyCO61gsBztmnb
-	 /jWBHNUGxyUiS3nqU6A0CXvm5U0HdkBjvvUnTDoXDm2FZa75I6Q6fj5MeOrSXP9v0w
-	 ZcR/EjWotGsHA==
-Message-ID: <sashiko-outbox-223198@kernel.org>
+	b=lxMp9b+BIK1zly2jIEt7lVpI4gOxLtPpjC8+dR7qTsvRZNweo2VPLOEVEB/3F8zVf
+	 eN/9WKzVlnQbg4LWzjqB1UGHeKkhBPEHnByFu/kUwq53zvfEM0kTaIck8Stw3wbhkA
+	 k5E/Psa72BMrcfPsTPqc55dgVn8BSolVmRHld+Y0yOnT4gAM6mVZb5QkkM9iMBxE0q
+	 aTyxMHpRXziwX1cumzUbgT2SvHyemVt2t0XddUPTde77Yz2f4O5OWIe5yK0Hs+7aA3
+	 faA5dr8KNpI1BSe1YorAxWusmIV8ul/YhKtgs0XSp10lV2rnInRlCPdMWUBc6eUI+R
+	 4gWPh3MHCPClw==
+Message-ID: <sashiko-outbox-223199@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 1/5] dt-bindings: usb: ci-hdrc-usb2: add
- spacemit,k1-usb2 compatible
+Subject: Re: [PATCH v6 3/5] usb: chipidea: usb2: drop the ci_hdrc_usb2_priv
+ wrapper struct
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261119-b4-spacemit-k1-usb2-v6-1-4a9add848728@linux.spacemit.com>
+In-Reply-To: <20261119-b4-spacemit-k1-usb2-v6-3-4a9add848728@linux.spacemit.com>
 References: <20261119-b4-spacemit-k1-usb2-v6-0-4a9add848728@linux.spacemit.com>
- <20261119-b4-spacemit-k1-usb2-v6-1-4a9add848728@linux.spacemit.com>
+ <20261119-b4-spacemit-k1-usb2-v6-3-4a9add848728@linux.spacemit.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Date: Thu, 19 Nov 2026 13:44:32 +0000
@@ -61,21 +61,15 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The USB2.0 controller on the SpacemiT K1 SoC is dual-role capable but
-> has no internal OTG registers, this requires flags which disable
-> related features set in platform data. Add a compatible string to match
-> the platform data.
+> With the clock no longer stored in ci_hdrc_usb2_priv, the structure only
+> wraps the ci_hdrc platform device pointer. Store that pointer directly in
+> the driver data and drop the wrapper structure.
 >=20
-> Chipidea USB2 Controller on SpacemiT K1 requires 1 clock and 1 reset to
-> work, add constraints for it.
->=20
-> Reviewed-by: Yixun Lan <dlan@kernel.org>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119-b4-spacemi=
-t-k1-usb2-v6-0-4a9add848728@linux.spacemit.com?part=3D1
+t-k1-usb2-v6-0-4a9add848728@linux.spacemit.com?part=3D3
 
