@@ -1,61 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.154.241.218
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795186716;
-	b=WfVSAR1Ko3bJ5r0jEs8cLI3FXGjJhvyWooO8yIHTT3Q5WvHjxGnSPeyYJslE7C+IBBvy
-	 oXPfZB4n5wijYDldoZDAmxdF35FptaQBPaCvfAGObdSihoeHeqpwu3ia0vWJ4DhWzw81T
-	 2VZxyghe/RlkuUuFb0uWcEpv2RaWTFPBJZ/sRxDaHA8canjDbRuf4h+TCb59YZkX1ynv1
-	 TuSEUn1KMCRorqWMkWGiuB1OT4+hH5nogty94EJqSEvfjLKCij4lcZ+9ZRftkeGvfwR7H
-	 9d/NaAKcBVGiNgPz+gLawkbMob2vpBClcI9CeB8+++8Y14MnXU2Sjya4qNjR9Y2Gv0Q==
+	t=1795186789;
+	b=PPKm0S4ypHpDYugAhcSwvH+bNn1B0T3NzidZYNX+vrey4QL6YAoSd0QSPZPzYIsAl5fq
+	 ZMcMsnJOonyJ2Tl0RmWnxLfBQFaQq4R9d4cpTa0IjHXj4S1BvtoQZ31bhTS4GXP454ZOJ
+	 ebfCRrQmvsZ9HpRZ5Lg3nUVOVNpbHGwdyEshyFebbrCsEHjlfpEwlM2BmgXCtsMMj+6JD
+	 jBmFhYRC9rszK/gVhEcNP9v4PblvhThY2q2Th+PKTWHyg7n8vts681AInh8AOUdsmNoha
+	 8goHVnoTXziBmn3H0mr6v6jSlib0pUsu72uneJhdRnj3Dd1UxLD1xwrB4gpEq3JmvMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795186716;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=QzeeoR9Ie9GHVw2EY/8WwRf8WnGF6DOzQqVwJKJWVJE=;
-	b=ib0yvGut4Tdrzb425Nc8uWx8aXdkG36Iyxb5eKbnprtd2/d1BdvjPzlu+Tt7NwHtMsNe
-	 j7+hHU6SlUdtsk8D1p+7GNwa0nq7k4lNpOoLkuIqo6rJhGqCI+NE3lxnU9xfc2DxVLtsw
-	 7YQpnkfNcGcmyo0/r+UG4WCx/OAFQTYrk3gauWddGGg2zB2Ap++vFmiZ4O3xiauWmt7pu
-	 HkarK9/TvnreG70z8WKNLtxMms13Az4B7bzW4/6LCiZgpFR9PEsAjcBQRx9Aeb5S+grGG
-	 Ck4fF1ESVvdu6gOyuVaH9H8lhljuEfMHQXtON4PSAO0a+y2Y9RLuDbVw5rM8xkiZ8hg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795186789;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-Bm-Milter-Handled:
+	 X-Bm-Transport-Timestamp;
+	bh=EMS8tjdJy91VNnixiV/o39oR/dKv1RpnyBZ53B5qGVE=;
+	b=I1X+bHwa0xSpVIx4goD7vVKYKYyTLOMEwgVZfuzAJKdPx2HxN7ABoV3Hg14CitrE5omi
+	 r9BurcGCcTpFX31XQgfTPKCDSZ7R9MF2Zlaxu8TG9ACvjbDSoUiq7CEBRvChoUumh8F4b
+	 toSiUDvYvd2PyRk00JPya7MFhOreYa0o6LeD2TE21ppuD//wGKW5KwJTcNcflageMLVlh
+	 7cYix7MmNKAsfD8DeC8UQRsuKgIj+ydh2AVFrKZQnXb1sAjpQlQSf+zYhxKrmv4/xSNdx
+	 aVw7CXRw03fLIFZvBqGJcqfr2yoKVlEvJU9wNDNYpunOaUwchCRqbCryuZMofVf8jOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hQAz14Wt;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=lauterbach.com;
+	spf=pass smtp.mailfrom=lauterbach.com;
+	arc=none smtp.remote-ip=62.154.241.218
+Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910A460A2621;
-	Fri, 20 Nov 2026 14:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hQAz14Wt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14FB01F000C6;
-	Fri, 20 Nov 2026 14:58:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795186716;
-	bh=QzeeoR9Ie9GHVw2EY/8WwRf8WnGF6DOzQqVwJKJWVJE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hQAz14WtsGwjjZKhKCVZW/TJWpbUMZw13sAlNa8p4mhABSgF5ROyXpvHQFg25vrmc
-	 939g4tDEofBoUSt99SDsu63OrgN6IYDmjK1+TRzqglEAQmwFgbzwuN+mmeAV8dTEo+
-	 kXxjJkPjN9nGx18VVJGal6jrMLUdQm45nxFmm7xY677Rwq6mxbRJL6sP+u3RcwH5Bm
-	 U4pdM5NjTid4+zjlt2nsJTnNIOSfKIOiIKXJEAS7DpKqeJXiSifzV/6MAtkKijAwoB
-	 PoRqm/Y/TE5DrEKPSdo1Jz4DnZ47mzdTHcv1yEZynv4ztHaldL2ij7MHdyO3c0LA8d
-	 bKSq06S2GUftg==
-Received: from johan by xi.lan with local (Exim 4.100.1)
-	(envelope-from <johan@kernel.org>)
-	id 1xUQ4P-0000000681u-2YXF;
-	Fri, 20 Nov 2026 15:58:33 +0100
-Date: Fri, 20 Nov 2026 15:58:33 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Joshua Crofts <crofts@kernel.org>
-Cc: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Felipe Balbi <balbi@ti.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb: musb: fix use-after-free in musb_remove()
-Message-ID: <awBgGWd8Oh4j-9H5@hovoldconsulting.com>
-References: <20261120-usb-uaf-fix-v2-1-cc3cb2a38ad5@kernel.org>
- <awBebBuAg2w6ZitD@hovoldconsulting.com>
- <ab82b578-8630-4ee6-abc4-50c0c6aab7b0@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054C46074D36
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 14:59:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 054C46074D36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
+Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
+	(Authenticated sender: ingo.rohloff@lauterbach.com)
+	by bm.lauterbach.com (Postfix) with ESMTPSA id BC5C5232F1C;
+	Fri, 20 Nov 2026 15:59:44 +0100 (CET)
+From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+To: gregkh@linuxfoundation.org
+Cc: viro@zeniv.linux.org.uk,
+	nkapron@google.com,
+	me@samcday.com,
+	nuno.sa@analog.com,
+	michael.bommarito@gmail.com,
+	prostitisgabriel@gmail.com,
+	kees@kernel.org,
+	linux-usb@vger.kernel.org,
+	Ingo Rohloff <ingo.rohloff@lauterbach.com>
+Subject: [PATCH v2 0/1] usb: gadget: f_fs: Fix synchronous read() behavior
+Date: Fri, 20 Nov 2026 15:59:36 +0100
+Message-ID: <20261120145937.39772-1-ingo.rohloff@lauterbach.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -65,25 +58,48 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ab82b578-8630-4ee6-abc4-50c0c6aab7b0@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
+X-Bm-Transport-Timestamp: 1795186784826
 
-On Fri, Nov 20, 2026 at 03:56:19PM +0100, Joshua Crofts wrote:
-> On 20-Nov-26 15:51, Johan Hovold wrote:
-> > On Fri, Nov 20, 2026 at 03:23:14PM +0100, Joshua Crofts wrote:
-> >> Currently in musb_remove(), musb_platform_exit() drops the PHY refcount
-> >> before usb_phy_shutdown() is called, causing a use-after-free bug.
-> > 
-> > This is too strongly worded. There is a potential for a use-after-free
-> > here but it's extremely unlikely to ever be an issue in practice as the
-> > phy driver would need to be unloaded by root while they are already
-> > unbinding the host controller.
-> > 
-> > Why would root want to do that to themselves?
+This 2nd version just changes the commit message.
+I agree that the 1st varsion failed to explain the problem correctly.
 
-> Okay, if I add the word potentially then it's not too strong.
+Unfortunately **depending on the hardware** this patch MIGHT change
+behavior for userspace, which is a no-no.
+BUT: The behavior for userspace is already dependent on the hardware,
+without the patch, so I don't see that as a blocker.
 
-It's a start, but you also should mention that this is not a real issue.
+What the patch does is to make sure that userspace always gets
+the same (correct?) behavior regardless of hardware.
 
-Johan
+There still is a border case, what to do with ZLPs (Zero Length Packets):
+Userspace read() requests a multiple of MaxPacketSize and USB Host sends
+exactly the length userspace requests followed by a ZLP.
+It's unclear what to do with this extra ZLP.
+OTOH: I already have seen many USB Host controllers, which don't handle
+Zero Length Packets correctly, so ZLPs should anyway be avoided at all
+costs.
+
+Note: I really would like to get rid of "quirk_ep_out_aligned_size" in
+"struct usb_gadget" completely.
+But this flag is also used in "drivers/usb/gadget/function/u_ether.c",
+and I have no clue about this code and no way to test it.
+
+---
+Changes in v2:
+- Redo the commit message to try to explain the problem properly.
+  Unfortunately this is now a wall of text, but the problem is complicted.
+
+Link to v1: https://lore.kernel.org/linux-usb/20260903153737.58087-1-ingo.rohloff@lauterbach.com/
+
+---
+Ingo Rohloff (1):
+  usb: gadget: f_fs: Fix synchronous read() behavior
+
+ drivers/usb/gadget/function/f_fs.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+--
+2.55.0
+
