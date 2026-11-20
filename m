@@ -1,78 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795180618;
-	b=K6am7Q+db/LECy1kg+GjXZRR5Ax+ShO4fW3MsYuVtl2RNHIdIjuRvK/B8RIaGRTOEeTo
-	 dmhseTFbo4V4LLxxzTfrQ4fSeCo/BLsQ3JF54a3Rk8VPf3SiMcyXcWODYddPFkcM9dykO
-	 gNyhym0xxY4epKku4fXLJ7dBfsHgjdIEPw2RNuB8QV0neyxPCa+mz/IhxCL4/vvA6Rbym
-	 PUMGMwY5yuT2YqZ7zgWqBP00Vrlc5UHXFS81aozNi4u3/WOztTN/l6+N3DB0zu8R8cngl
-	 cCBAOIQaWzAbBUWprVhkdMHWvdQS5XUkBhnhWeTaUy8FlYThuQmWtrnpMple1e/pg4A==
+	t=1795180650;
+	b=qI4O29Wvzi+weM8Sm4Wui3HxiGHWyx/0zjzvOKvmkvMgi2sl6oSH3jNIgw4/68BuTAhE
+	 jwIfFwCcDG66RUjD+w7cUfBUNRpCrI6PrD/cPm4m+yleiJZ9S0bUyxG7QZo4Bxta+tBhR
+	 DPgQd3cmgJZ5p9ogErdmUdbbuCJeHLmbT0byhG76mU+D70vwtkFpBjBQEzx9GF/ATa7B/
+	 cYeMf+hozQtHsl/I6DB5qknoZAGr7Bo4yYzGk5w20hKNHdYUVJR0GAGhHdv3/KcHxgn0O
+	 tsGfQglsrp40WokegQTM+b3rF+oC7fej9cNQwlsEPW+fGgSvrxVZZDQaeG5VjtvTHtQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795180618;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=c7dPS/UtYCXPtVTm4vS/8g+0IPJtQ9sYZmAnSl23OeQ=;
-	b=MbleR04V1al0hl141GyYrNhn9h12Wow3EkLR4vEMfu30TOqos9RscsQwxIHNpFxnC143
-	 e03fkBCOEDQNqrhb/beLU6FwKYb4+3PHqBj+VIQhiKgNK3RwHK6ePCA4hwWd+7nngOMK8
-	 QeKey2HIpjbg13O2GlvK+1lQy2y6/fEaHrXshISfL7JeJGAU0JfU/uHnOcbTxMCPuuQxh
-	 eY1KelS2qcQ6hhzPQfXWB7J6YddgtGxdWSgCVK/P/1bRtIRmabqo6hxQZI2KnLcnGrlQK
-	 6HPC7QA7gID9JAUlxMQfYBvgjubRt6aJiKGC/g1K9nPI2YNa7Djv19eADNUFYosUiOg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795180650;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Yfi++D6oszvjepr5rUx6lj7fIJgPuxXGkYRr/hVBbVs=;
+	b=LxasIooWkW25tjc34BJZ0hZftgZ1VK7GhjZkmtoJkHrUdWD2FCs8VC1ASpk+hf5lIoGB
+	 Hsa6iWxmEK8U9gM+UZYohVy6OILJT5xVwCjlVPzMY5Mv+I8UXWUQ8aPbS47Ef5Fqr73Wm
+	 sHd8lxkiAbEl28ct338x3oBmZvu6sPqxp9fkVHvhLhdP0ifFeQhVEt90pvI10snHqIjTT
+	 ue2Rad8XU9GGXn18WtgrHC2Z0m+JIwVK28Ykh1R0SL9aDwT3Un63MIEgP8cM6T+q+kUY6
+	 SpoaUJyqpBu/rbXwVBpyZhoCAt4JP2+JWvVry8trUh1NC8Vq2YSsjJ84obhivJZjpPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Kfx0OxVm;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=MVbXI+tF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9D7606A320;
-	Fri, 20 Nov 2026 13:16:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D9D7606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2A8606A325;
+	Fri, 20 Nov 2026 13:17:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Kfx0OxVm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795180617; x=1826716617;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yB//zI+7RxZPN6IQQJDw5n0c8DJgoR4yjSGTToAdGQg=;
-  b=Kfx0OxVmrgb93aoNAgPBF6+W2NZbgBwlX428uRS+oV5irGt9PQt/hCfQ
-   OQWXRWO/auNjrzrmn0lnmn1eYC1R1fFESyeTqSuv14GyBYTIy826QNFIb
-   7OE2Nz8LxtRcyFkiPHDrxgR6hm72yyxNUFB/u/Lbt0fB8yUYfXxsGnVOf
-   ZKtnch/EyC5znldp8Pd/oHiPSVaqME5g2mm/jM38mUcJFBZ9AT2qeHOLH
-   bC4Vl95H6hRb2K+29bH+pDjAROx9WkEWrdA1aRiYVGJZ7L6FzflYirLpR
-   HzbhX8v0CJ0xqf5kURmwMaQCcqs/YEpWuubxPxWijLTMH1u49cv9I8clM
-   g==;
-X-CSE-ConnectionGUID: y4Mkrk6BSNyLgN6dGSH5qg==
-X-CSE-MsgGUID: QUSJ/ML8TWaKn2oyMyXg2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4101332"
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="4101332"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 05:16:57 -0800
-X-CSE-ConnectionGUID: XGYvRCPTQWOtz0zWArkz7g==
-X-CSE-MsgGUID: VIQI0BUWThqZu9kuKO5FLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="11268920"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Nov 2026 05:16:56 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 5EFA499; Fri, 20 Nov 2026 14:16:54 +0100 (CET)
-Date: Fri, 20 Nov 2026 14:16:54 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: memoriaru@foxmail.com
-Cc: linux-usb@vger.kernel.org, badhri@google.com,
-	gregkh@linuxfoundation.org, stable@vger.kernel.org
-Subject: Re: [PATCH usb v2] usb: typec: tcpm: align SOP' Soft Reset handling
- with SOP
-Message-ID: <awBIRnc9lBkdVhEK@black.igk.intel.com>
-References: <avw6CtZkJqvwj4eL@black.igk.intel.com>
- <tencent_443620EAE95525A375BB2D8A653406630A07@qq.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=MVbXI+tF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DE431F000CA;
+	Fri, 20 Nov 2026 13:17:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795180650;
+	bh=Yfi++D6oszvjepr5rUx6lj7fIJgPuxXGkYRr/hVBbVs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MVbXI+tFU+xGm8cwDSFiKohl6/oAqMaJ75sFO2jac8PwE/9OOKpHQRbJGFhJpOKQk
+	 8ymqFYSmEBiUt7NQgiTn4JayVb9nRNrRgWmzvUbhz41ec7FVZy34qnyt1FhrB+CnxY
+	 yKd4ZWgI5q3Af2kuWfwa22PNoKTLnyypsQ2qO2Wo=
+Date: Fri, 20 Nov 2026 14:17:27 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: hanzhijian <hanzhijian1991@gmail.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+d83b3c49738aea97c0e5@syzkaller.appspotmail.com
+Subject: Re: [PATCH 2/2] usb: gadget: raw_gadget: fix memory leak on connect
+ event failure
+Message-ID: <2026112020-sesame-uncut-fc8b@gregkh>
+References: <20260822024850.2504871-1-hanzhijian1991@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,74 +57,17 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_443620EAE95525A375BB2D8A653406630A07@qq.com>
+In-Reply-To: <20260822024850.2504871-1-hanzhijian1991@gmail.com>
 
-On Tue, Nov 17, 2026 at 07:36:21PM +0800, memoriaru@foxmail.com wrote:
-> From: Zhang Hewei <memoriaru@foxmail.com>
+On Sat, Aug 22, 2026 at 10:48:50AM +0800, hanzhijian wrote:
+> gadget_bind() allocates an ep0 request and stores it in dev->req.  If
+> raw_queue_event() fails to queue the connect event, the function
+> returns without releasing the request, leaking it.
 > 
-> The PD message duplicate-check and the SOFT_RESET state handling treat
-> the SOP and SOP' channels differently:
+> Release the request before returning in that case.
 > 
-> - tcpm_pd_rx_handler() exempts PD_CTRL_SOFT_RESET from the MessageID
->   duplicate check on the SOP path (the USB PD spec 6.6.1.2 note: a
->   Soft_Reset Message always carries MessageID zero, so the duplicate
->   check must not drop it), but the SOP' branch of the same switch has
->   no such exemption. A cable that sends a second Soft Reset over SOP'
->   (MessageID zero again) has that message silently dropped by the
->   stale rx_msgid_prime comparison, and the cable-side re-negotiation
->   stalls.
-> 
-> - run_state_machine()'s SOFT_RESET case resets message_id/rx_msgid but
->   not message_id_prime/rx_msgid_prime, while the initiator path
->   (SOFT_RESET_SEND, SOP_PRIME branch) resets both counter pairs. After
->   a responder-side soft reset the prime counters stay stale.
-> 
-> Reset the prime counters together with the SOP counters and exempt
-> Soft Reset from the SOP' duplicate check, aligning the SOP' handling
-> with the SOP path.
-> 
-> Found by code inspection; a software TCPC stub was built for the
-> responder path.
-> 
-> Fixes: 6bd181ba60 ("usb: typec: tcpm: add control message support to sop'")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Zhang Hewei <memoriaru@foxmail.com>
-> ---
->  tcpm.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tcpm.c b/tcpm.c
-> index bb90211..95f748d 100644
-> --- a/tcpm.c
-> +++ b/tcpm.c
+> Reported-by: syzbot+d83b3c49738aea97c0e5@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=d83b3c49738aea97c0e5
+> Signed-off-by: hanzhijian <hanzhijian1991@gmail.com>
 
-How did you prepare this patch? It doesn't apply.
-
-I do hope you have actually compiled this at some point.
-
-Thanks,
-
-> @@ -4200,7 +4200,8 @@ static void tcpm_pd_rx_handler(struct kthread_work *work)
->  		*/
->  		switch (rx_sop_type) {
->  		case TCPC_TX_SOP_PRIME:
-> -			if (msgid == port->rx_msgid_prime)
-> +			if (msgid == port->rx_msgid_prime &&
-> +			    type != PD_CTRL_SOFT_RESET)
->  				goto done;
->  			port->rx_msgid_prime = msgid;
->  			break;
-> @@ -6193,6 +6194,8 @@ static void run_state_machine(struct tcpm_port *port)
->  	case SOFT_RESET:
->  		port->message_id = 0;
->  		port->rx_msgid = -1;
-> +		port->message_id_prime = 0;
-> +		port->rx_msgid_prime = -1;
->  		/* remove existing capabilities */
->  		tcpm_partner_source_caps_reset(port);
->  		tcpm_pd_send_control(port, PD_CTRL_ACCEPT, TCPC_TX_SOP);
-> -- 
-> 2.39.5 (Apple Git-154)
-
--- 
-heikki
+Full name please.
