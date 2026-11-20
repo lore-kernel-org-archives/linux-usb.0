@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795171366;
-	b=EdSL58Udgl+CoceL/EUdZX4q+7fxTyzkILMuFWU8SejHmw3+Z+kWkaTMlDQgXz2uvfIR
-	 CK8T0IZiccbwM6Sqd+uBU1KqBl1duoHlEFbqf8g1JpgV6zqjA3ZRQk+1h3ofmJlzF9L4m
-	 P1VxKLnUbADxPYOO27oCRkyPHAsxUDd7aUnit4EmZ0BIJKiU0TinQ3NM2HQFL44o0SjXH
-	 uNK4pwr8TnFfW2TZ9ELJ3DHBXEK+EuPJc/1gB5dJMR24aAUYyW1T+1R0/U/5dxp5Pzz9h
-	 yU2d9Vu6dT/zwXul5IoeXurNCD/vvN+0DAOHkhzn+caKUx+CJE69EVymgYZ/QHEGPdw==
+	t=1795171654;
+	b=vt8vnj3UP1DGGWv0Lahahadwbmkbpd0fgjV098MsgoxNtlY+V+ihu7U7GY7mZfNB7K41
+	 UsvKpXZFD77fJjnPWm2YzpnMF9S4v0YSYYmyKTo4bRS0C/f/5JfKNIOh82tt31gOH9ih2
+	 gsVWGi8Yj0LrLh85qWQD5iix5oClK5n92bUVW9hlxaWyng6W2bwB76Nqgq1PVhy/b6v8O
+	 PFlOVu7iKrsZsVMc/bp6SHYg5jgD8Qy3TK9eKNUcwxi+f9N5qMb5ik8FBXet3CaB1WrWx
+	 EWSL8KQ2uMjtLfF31eYb+ek5SSVWHCXsn8U1dBNitu5kdFldOIyAuXX4p3o7U5mgvfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795171366;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795171654;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=i27LfaNCo6L8lqdeZdS9ei4mCXE8bw98UFsYkeacv/E=;
-	b=Yillojq01cBpLTb4I7uzwiY5OmtVIlPm+6wYFzTqxxvlzEkwZTSLLiNIFb7+m/1huRf8
-	 PezQaOlPpy08AFmYTOApuTHu+HDxXQKBaKweCEcorHam2E4LMMj2dkRjMYVLywcNbafR6
-	 RbHaWq0yasJYoXCwheE6NGVfgHURzv0kvlVeXA9YMqAHQxhs0wGui4dzi7Eu2bLzcMdZO
-	 hnkD4xpsAil83M0mpdAJgxFJnrHwG2SyiCVkiCp0SBD8u9Cny3ch2c2NNQ/pkuqrXnrnv
-	 agw0mCygvYW39IH1elzhsZEn2sgS9wTmjG0b87TQT7Je3EBO4nnmgeMJZ9o6up4iT8A==
+	bh=lFLzfeDX5+GA+gtI0FcKgxoRUqo4S+nL34hrT/BINfg=;
+	b=w4nvGh/8oS+h8M2M3Qf2gsMZKhCIAbI/XyTSj4UdjMfOvKHiKJ9gnEC841tGPgwbdUeY
+	 1bXWxL/3PIJrNDipI+zP1l1802B+GYfNtqICzU0h3B/MePb2Gc6CUdZB8VknW9a2LJE6Q
+	 bsyhPXbXomdZmKyIJvAW4kLvoZQOw95xyCjSH3rMMek60//qseH8rTmI35Z5y8Ktu9lcb
+	 RPlLb65SvxOUSWA1U5l1z9A0ZNhNBwrXaNMcLZSRQ/BrG1/0+2faujtTMxVL6RQM9X3l+
+	 eZ118rXrlSv1myrq5q1BGePslEwhuFnNAX78yTmyWh+XtRP9blAmi2ivrXU2c4pWehg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=yG7GqPDi;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=P1F7kEw+;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CD3606A320;
-	Fri, 20 Nov 2026 10:42:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1377606A320;
+	Fri, 20 Nov 2026 10:47:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=yG7GqPDi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B96101F000C4;
-	Fri, 20 Nov 2026 10:42:44 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=P1F7kEw+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C8FA1F000D1;
+	Fri, 20 Nov 2026 10:47:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795171365;
-	bh=i27LfaNCo6L8lqdeZdS9ei4mCXE8bw98UFsYkeacv/E=;
+	s=korg; t=1795171653;
+	bh=lFLzfeDX5+GA+gtI0FcKgxoRUqo4S+nL34hrT/BINfg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=yG7GqPDi/h4aSGc7pQAc6VYvpp92r2mH7Wo/niEwhvOqRq0bLJSKykIm1O3bJ/ZmQ
-	 EcrrkipTWiSH84gWq1XlDSHpXBuWSCj6WGfqXMaTWNajJkVcHdpNLc+mP5ZzhwYxSh
-	 WRyhVqhYNv5R1w5ugWxaj9dpI5+oEB0LVvGBHiKY=
-Date: Fri, 20 Nov 2026 11:42:42 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
+	b=P1F7kEw+H/gGXP05c7K1ZXa1AAKPU0GrhJgZ3shtV3S48SQpILvRZJPlwuup5Xz2l
+	 DDQq/AdAWzM2LH+P4tbQuFZMcCkAMFFOxAaWO+RX7wJN7mR3Tsextc/Zgdmt8TdAgP
+	 amxWg8zw/RtdaAlkp3MeqZH5rYVGXZEAF1u1sQ9M=
+Date: Fri, 20 Nov 2026 11:47:29 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Hui Peng <benquike@gmail.com>
-Cc: Chris.Wulff@biamp.com, david.sands@biamp.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] usb: gadget: f_hid: don't call copy_from_user()
- under get_report_spinlock
-Message-ID: <2026112029-headgear-shortcake-14b0@gregkh>
-References: <2026091905-humbling-swooned-c371@gregkh>
- <20260919110050.3764064-1-benquike@gmail.com>
+Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v4] usb: gadget: f_printer: bound PNP string copy length
+ in printer_func_setup()
+Message-ID: <2026112009-smudge-chaste-0ef0@gregkh>
+References: <20260930075920.483189-1-benquike@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,76 +57,68 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260919110050.3764064-1-benquike@gmail.com>
+In-Reply-To: <20260930075920.483189-1-benquike@gmail.com>
 
-On Sat, Sep 19, 2026 at 11:00:49AM +0000, Hui Peng wrote:
-> f_hidg_get_report() already copies the incoming struct usb_hidg_report
-> from userspace into the freshly allocated 'entry' before acquiring
-> hidg->get_report_spinlock.
+On Wed, Sep 30, 2026 at 07:59:20AM +0000, Hui Peng wrote:
+> In printer_func_setup(), when processing a GET_DEVICE_ID class setup
+> request, the IEEE-1284 PNP string length value = strlen(*dev->pnp_string)
+> is copied into buf without checking wLength (the host's requested buffer
+> size):
 > 
-> When a report with the same report_id is already present in
-> hidg->report_list, the update path copies from userspace a second time,
-> this time directly into ptr->report_data while the spinlock is held with
-> interrupts disabled:
+>   value = strlen(*dev->pnp_string);
+>   memcpy(buf + 2, *dev->pnp_string, value);
 > 
-> 	spin_lock_irqsave(&hidg->get_report_spinlock, flags);
-> 	ptr = f_hidg_search_for_report(hidg, report_id);
-> 	if (ptr) {
-> 		if (copy_from_user(&ptr->report_data, buffer,
-> 				sizeof(struct usb_hidg_report))) {
+> When the host issues a GET_DEVICE_ID request with wLength smaller than
+> value + 2, memcpy() writes past the end of the transfer buffer, triggering
+> a slab out-of-bounds heap buffer overflow in printer_func_setup():
 > 
-> copy_from_user() may fault and sleep, so this is a sleeping function
-> called from atomic context, reported by CONFIG_DEBUG_ATOMIC_SLEEP as
-> "BUG: sleeping function called from invalid context". Userspace can
-> reach it at will by issuing GADGET_HID_WRITE_GET_REPORT twice with the
-> same report_id on /dev/hidgN.
+>   BUG: KASAN: slab-out-of-bounds in printer_func_setup+0x280/0x450
+>   Write of size 3074 at addr ffff8880024f8000 by task init/1
+>   Call Trace:
+>    <TASK>
+>    dump_stack_lvl+0x70/0xa0
+>    print_report+0x153/0x4c6
+>    kasan_report+0xf1/0x120
+>    __asan_memcpy+0x3c/0x60
+>    printer_func_setup+0x280/0x450
 > 
-> The second copy is also redundant: the same user buffer has already been
-> copied into entry->report_data a few lines above, and report_id was
-> derived from that copy. Assign from the already copied data instead,
-> which removes the fault from the critical section and makes the update
-> atomic with respect to the list lookup.
+> Bound the PNP string copy length using min_t(u16, wLength, strlen() + 2) in
+> printer_func_setup() so memcpy() never exceeds wLength.
 > 
-> Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL")
+> Tested in QEMU against Linux 7.3.0-rc3 with KASAN enabled by binding
+> f_printer with a 3074-byte PNP string and issuing a GET_DEVICE_ID setup
+> request with wLength = 64: on the unfixed kernel this triggers a KASAN
+> slab-out-of-bounds write, whereas on the fixed kernel value is bounded to
+> wLength and 0 KASAN faults occur.
+> 
+> Fixes: b185f01a9ab7 ("usb: gadget: printer: factor out f_printer")
+> Cc: stable@vger.kernel.org
 > Assisted-by: LLM
 > Signed-off-by: Hui Peng <benquike@gmail.com>
 > ---
-> v2: Add the Fixes: tag Greg asked for.
+> Changes in v4:
+> - Re-target fix strictly to bound memcpy() size against wLength in
+>   GET_DEVICE_ID handling in printer_func_setup().
 > 
->     f_hidg_get_report(), the spinlock and the copy_from_user() call under
->     it were all added together by a139c98f760e ("USB: gadget: f_hid: Add
->     GET_REPORT via userspace IOCTL"), first released in v6.12, so that is
->     where this starts. git blame on the removed lines agrees.
+>  drivers/usb/gadget/function/f_printer.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 > 
-> Found by inspection while investigating the use-after-free fixed in
-> patch 2/2, and build tested only; I do not have HID gadget hardware,
-> but the path is reachable from /dev/hidgN with dummy_hcd.
-> 
->  drivers/usb/gadget/function/f_hid.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
-> 
-> --- a/drivers/usb/gadget/function/f_hid.c
-> +++ b/drivers/usb/gadget/function/f_hid.c
-> @@ -668,13 +668,7 @@ static int f_hidg_get_report(struct file
->  
->  	if (ptr) {
->  		/* Report already exists in list - update it */
-> -		if (copy_from_user(&ptr->report_data, buffer,
-> -				sizeof(struct usb_hidg_report))) {
-> -			spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
-> -			ERROR(cdev, "copy_from_user error\n");
-> -			kfree(entry);
-> -			return -EINVAL;
-> -		}
-> +		ptr->report_data = entry->report_data;
->  		kfree(entry);
->  	} else {
->  		/* Report does not exist in list - add it */
-> -- 
-> 2.43.0
-> 
+> diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
+> index a27792966287..f8726e3d849f 100644
+> --- a/drivers/usb/gadget/function/f_printer.c
+> +++ b/drivers/usb/gadget/function/f_printer.c
+> @@ -1033,9 +1033,13 @@ static int printer_func_setup(struct usb_function *f,
+>  			if (!*dev->pnp_string) {
+>  				value = 0;
+>  				break;
+>  			}
+> -			value = strlen(*dev->pnp_string);
+> -			buf[0] = (value >> 8) & 0xFF;
+> -			buf[1] = value & 0xFF;
+> -			memcpy(buf + 2, *dev->pnp_string, value);
+> +			value = min_t(u16, wLength, strlen(*dev->pnp_string) + 2);
 
-Series does not apply anymore, can you please rebase and resend?
+min_t() is not needed, correct?  Just use min().
 
 thanks,
 
