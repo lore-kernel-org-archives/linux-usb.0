@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795169021;
-	b=qOqClyIpZylCeAjXwZr9NgQu2KLM1iUuFhVH5b9vppDXYhJFPa/GlJeK64vrC54lItG6
-	 HKkrLcQ4WEIEs0esiQ3qFWJjMSVpoB/MUnzZyxetRfZ9LvR7bsHV+Ztfsf0ZG5RUVL86t
-	 aFy0Crj2VxpfHshf0nbuM6GbtfS/Z3IsXGgSOPJ8kZW7aL8Jf/Tq5C7VPBv8VyLU9NzOT
-	 1Krfy7fmgk8HEBl8xCtwYXKzyXy0e6f7OLmx5snMH6EtzchQbAJ9++tvnW8rXxWeeSW0G
-	 2j3gstpJF48e+ngYVEERankPfyEcreIADAwCdcK2XoHCsvyavlHugebvQOp2/Qx0l/Q==
+	t=1795169037;
+	b=Vvp6XYidnq5Ze4XuWJ84+P1Yu9SYB3RdtRWzqwzzBXe6uKRrSTUepfRzLVcP1eojztq/
+	 XafaxtZxZ4B2u3BKYX5dpElYu2Xd74m4gXyMj2D4ya1Ubcaj+H8eKxjhDRgoNrB0JTQms
+	 BmJBWGTiHCr9B2I+SEzTZIiIO3CCrWouft37Exr/OUZ7IPMcwM3m8VwhVzgHOOQPse7TA
+	 wdvhnu5LYMdm3qWwyliZXVuzw+4x958pckkD9tocZL6GNAVHxRrfUsRh7/fzIXFYdYtdK
+	 +4mj141vtUQ89bm4PUA07yXejQ0woDbUvmcejdasaASglJiU+NNcIMdFWwD4riWznxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795169021;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795169037;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=42r307tkm1LYbWPTePTF31lYiqzl0b2Yd6wGiNW/GVc=;
-	b=Jp3gtHP2QM/WTTNFVpuHW2d2zjvfzuEwDoAShscudi4RWIQw3haqneZOAbKP7etc1b1n
-	 cO67E+0KORcc+7bSMPUFmYRUqv5BV9uaxeZjq9lsUzm0E3s/HYYvx6EP1JOiBC89aP74A
-	 KJDGwvBth7F7ejNkyCyOY3hVFmdxHKic84H7BRoClQWTXhV38Z1XVilYz7K7aA5AV2WkW
-	 xqLtQFlrsGpYdmtxuFKWYJQRfjKZiqNkhV7yD5UqFM24hAYxC2y/MNCYJruUE9w8mF8eS
-	 Qte7A/H9UFqfhmUkcBST3TbQo29ydlMeB/+7kZLqfz0y+IgJMdAFnFKM1BzFDeMTEcA==
+	bh=y3IR+OfDVIGXqDwQMFTm6/G8tTYGtBsIUVAArbdvAkA=;
+	b=da3z5nHNQSEc2BVaErLufYvWKHmQs4OYEq419DzM39PCw6CN5kOcMpOgQxB8uPoZDiH8
+	 SZkpshN/wtfrVfqZ3SBlXAErw9tND8E6W6JOIAWNuJtwfWqNzPDR1M0PJVP3DhCpdbJQo
+	 C/8PvUdltK6cAJZu28Euxb3jhIUD09h+APO8z897BHoXwlUgnXlsQOyZPbScu1Qw51mEB
+	 /hxf3SZuODSfX+9z+ToWgpVi8339sNaPr/PG5qdT4L9gtLnsjZJXtraBHY9xiI9uNQVh+
+	 K20JBueOT4ymmsmUcnONpWzwQSK5Q1ls37Pb3FEdv0vpWA9Ty8d6IWXZSgYRUAW2b9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gBBXuIvv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZVORN5sw;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41E3606A325
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 10:03:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89B3606A320
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 10:03:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gBBXuIvv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72A361F000C4;
-	Fri, 20 Nov 2026 10:03:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZVORN5sw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A76D51F000C6;
+	Fri, 20 Nov 2026 10:03:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795169020;
-	bh=42r307tkm1LYbWPTePTF31lYiqzl0b2Yd6wGiNW/GVc=;
+	s=k20260515; t=1795169036;
+	bh=y3IR+OfDVIGXqDwQMFTm6/G8tTYGtBsIUVAArbdvAkA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gBBXuIvvj7YlUqcSJsAu9LnmuaNu2PkAudCYNZv6oxlG3zPcHE1LdT/9QdSCwNIZL
-	 4savnfZa4XRFerfgFa6wfYG2yJlsrWOcVWBqgeavyR99OuipQmNzrOoNmSWqQ0TSRB
-	 0RF2b5gPdcA9ia8uMxrRqruTPsMQ8mWaWTLkrUFGW0TrVScNEzWqrHBjGzZSihtPKy
-	 YUmxlY3yum7HWkUz/CYTYA6uIcKdnlQ9WA6YQo/4M09gGIrqbnjrI6DZN3PTJpygDh
-	 0uqLgltKDN+HaPbNNUmsWUDuk+AFSoDGINTGaBybexKt9z+RjIIjjTsipmwxLCaBWB
-	 WuJ14uQsFeKyw==
-Message-ID: <sashiko-outbox-224903@kernel.org>
+	b=ZVORN5swHATJGECJqxwP1jDhui3VzsVPE/4psOlTokHAAG6IR4Pg+5E0qFWqJfOHc
+	 q4jUNsEDPAqyjB6rQnfUIfLSp742Ah4Y0HSzv+r73JltgpqVie2MCcgR/nEdH2mLE1
+	 lN9JQVutgfpCXIlP4FRXkoMyz70IgIGb/hZ3Xpb87cWVLvJfN21HI/pv+/darM8Cgu
+	 e7zQIBaOIE4aRvgiEwM0sKyqquqzuR/gttKBZSUuQ/6EggTI7o5igZzfDAsokx+6S3
+	 UIfe7AKR3Mg0tOjI0/k273cYY/JomSGjacIhcR6fFrhG1WOE1pW5IX22b+DOY4Tlil
+	 xfRaKJUfJ1CUA==
+Message-ID: <sashiko-outbox-224904@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] usb: typec: qcom-pmic-typec: pdphy: disable the PD
- PHY on stop
+Subject: Re: [PATCH 2/2] usb: typec: tcpm: unregister stale partner sink
+ capabilities
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Neil Armstrong" <neil.armstrong@linaro.org>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261120-topic-tcpm-qcom-fixes-v1-1-9a152f906fba@linaro.org>
-References: <20261120-topic-tcpm-qcom-fixes-v1-0-9a152f906fba@linaro.org>
- <20261120-topic-tcpm-qcom-fixes-v1-1-9a152f906fba@linaro.org>
+In-Reply-To: <20261120-topic-tcpm-core-fixes-v1-2-c753d1d286bb@linaro.org>
+References: <20261120-topic-tcpm-core-fixes-v1-0-c753d1d286bb@linaro.org>
+ <20261120-topic-tcpm-core-fixes-v1-2-c753d1d286bb@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 10:03:39 +0000
+Date: Fri, 20 Nov 2026 10:03:55 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,31 +63,43 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Low] usb: typec: qcom-pmic-typec: missing Fixes trailer for pdphy
-  stop fix
+- [High] usb: typec: tcpm: unregister after register in
+  tcpm_register_sink_caps()
 --
 
-commit b45aad2ca233d0a40118f71870955c8a4770e204
+commit bce11ccecca861664b61850ba73a6eebf8702e1e
 Author: Neil Armstrong <neil.armstrong@linaro.org>
 
-> usb: typec: qcom-pmic-typec: pdphy: disable the PD PHY on stop
->
-> qcom_pmic_typec_pdphy_stop() only terminates the ongoing transmission and
-> clears the RX frame filter, the PD PHY itself stays enabled.
->
-> Use qcom_pmic_typec_pdphy_disable() so the PD PHY is also turned off
-> before its supply is released, leaving it in the same state as before
-> qcom_pmic_typec_pdphy_start().
->
-> Assisted-by: LLM
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+usb: typec: tcpm: unregister stale partner sink capabilities
 
-[Severity: Low]
-This fixes qcom_pmic_typec_pdphy_stop() leaving the PD PHY enabled when sto=
-pping.  Should this include:
+This commit unregisters existing partner sink capabilities in
+tcpm_register_sink_caps() when new Sink_Capabilities are received.
 
-  Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver")
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 1d007e59a2bf9..c5a4c0b6da16f 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm.c
+> @@ -3563,6 +3563,8 @@ static int tcpm_register_sink_caps(struct tcpm_port=
+ *port)
+>  	if (IS_ERR(cap))
+>  		return PTR_ERR(cap);
+> =20
+> +	if (port->partner_sink_caps)
+> +		usb_power_delivery_unregister_capabilities(port->partner_sink_caps);
+>  	port->partner_sink_caps =3D cap;
+> =20
+>  	return 0;
+
+[Severity: High]
+Should port->partner_sink_caps be unregistered and cleared to NULL before
+calling usb_power_delivery_register_capabilities(), as in
+tcpm_register_source_caps()?
+
+Because the old sink-capabilities child device is still registered under
+port->partner_pd when usb_power_delivery_register_capabilities() runs,
+device_register() fails with -EEXIST and tcpm_register_sink_caps() returns
+early at IS_ERR(cap) before reaching the unregistration.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120-topic-tcpm=
--qcom-fixes-v1-0-9a152f906fba@linaro.org?part=3D1
+-core-fixes-v1-0-c753d1d286bb@linaro.org?part=3D2
