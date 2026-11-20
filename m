@@ -1,55 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795177639;
-	b=z7X8wsaNSkEvSuVrx67inmXCIzasU2I8wRT/uyPPZ/BCYfVp/J5KPTXWBhQm6sJ7g4Lr
-	 vGfC7mTgIODXF+Q/pH+LMrlPsaXd8Qvf1tDhrFf5lBUoG+Qiq4hlBmzs9n6qHWaMBVCq3
-	 +K+crcFiRS7XUwdyM03jvU7zfIuB6EGFDtf9u0bWBaVK3rhQrvb8LmMDa/+FCMH9hW2hp
-	 pnr6w4KEUEU88lxhCkuxwZHYmy1o+yOUohhCrDeEBJ/jN7tWmUT6hiEq5o7iIf5dzB84a
-	 zS0GmQhX7NBZxF/4BdHSotcQrmoX8kkF6egsK97MoCBRmvzo95SxJ7w06rWqnerz1ug==
+	t=1795177757;
+	b=g9Gtjeeb2XOTqk4cIzx5EFIlzrRkdBPlXo4HE9ion45znz3sPkvNxvZRdpodpKsVCktm
+	 XKI2/ACdlC5iTtuXok15Q4BseC5iqOYUWu/OOYSV0QI6/q5c3/QBuLQKWDHU4P7Ygdp5f
+	 NQf9ze6Bl2QnWM4BfcoZf6SGvc/+kIA3Z8rHbujQczAb1iZ5G6NNye8E6GCYCZSuQPj9T
+	 E6V2PzTSQztGz8JpAOGAqiBe9TmKkZ866FIbB8xKLNbRHN+Y3xrGe55hi8rithD/ZcArq
+	 dnKIxYxOzCFIvXWpeVP64ApK0ycQ18zN28FNBX7s6Y8Fqkr3qN4NVZsBOy/W/+1LPzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795177639;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795177757;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=AcAKXow4k7nAsz4NvTf98ZQKCNLbRCZ9q0bbUe/mxCg=;
-	b=ZAUz1aSbnhJR34+oM9hcgg+PSQz3IqH6UrYGWFX5q+r/SwRzv3LhgK6NlnC/wJ5lSrqS
-	 fRL6xODQpnBo7ezdpbeWUxk4ls5lOAsP9RKi3oDw8S3a0UNcH7iXrDdPYeiy9yB3NAFly
-	 o6+OcQ5KiCpBlUmPDNwk363N0gJlPY13gGo/D7jLZase0C/VL2gdtROBFffRlzPPkaxah
-	 Y1zmjzKFNDibGRCNo7ZUZIkrK0xUh1vh1mX5UNKfqeXBkRqe0Mg6uu0zxjYj8gEHp/fME
-	 IjKQxU2cYHO8B3O4HpbFDfdnfIhit9zePKyfhIDlTuXNkcOVpVymjzg+0D7jPzXXXLw==
+	bh=7Q03OZygytjS5FGuxrkC3cgSiKwOisIZC1+k1FSBH00=;
+	b=TXlPPPtveQfQDLnC2+k+KefaosuKO+63s4TJdGjH+WK5qsz7++xwSLFyJbgNbFffDTzO
+	 6wYb0i1p1q61Tae24zKmDL+Rh0ECuvwmU5kTGtg8t6D+oonn/umGI76+7NRXQbllhdS8B
+	 y6LoNXxLw5Kddiq/ZwIv9Ft+7/2HDIGILFc7RtY1vlHYjd+wmqtoEulZo48KwHcX/s2rw
+	 kp77er2DoopOO1WUZ4V+Z/1twkndiV645WUSsaWKMs6b6AG61DZ90AVxaGAsYpg7jBQKC
+	 lV34ozlNKjyJdQlT11H3Jp0du8YivXwtPm397/fGU+oYsSVrsWSMCAUHIs1z/I0M9zA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="a+l/+NdJ";
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=kSwkOXnT;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED17606A32A;
-	Fri, 20 Nov 2026 12:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90099606A320;
+	Fri, 20 Nov 2026 12:29:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=a+l/+NdJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 174611F000C4;
-	Fri, 20 Nov 2026 12:27:18 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=kSwkOXnT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23EE61F000C6;
+	Fri, 20 Nov 2026 12:29:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795177638;
-	bh=AcAKXow4k7nAsz4NvTf98ZQKCNLbRCZ9q0bbUe/mxCg=;
+	s=korg; t=1795177756;
+	bh=7Q03OZygytjS5FGuxrkC3cgSiKwOisIZC1+k1FSBH00=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=a+l/+NdJlosvbvrFz8skxFt+7lH/BYqPvJI/SIcdwvR35/YhtHI7xEaNR9/SQwDck
-	 OoIenHKHOWWbZUzANxx/C2LIM3aPEhDag+j8O3HOCKVuRuQ5ofCbLJQGgQsjZzwR+r
-	 ooAKISbCoLcv8rQ3xxP8xWsrEuXt8CeRSaJKKObE=
-Date: Fri, 20 Nov 2026 13:27:16 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Fangwen Deng <fangwen.deng@mediatek.com>
-Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	jarried.lin@mediatek.com, vince-wl.liu@mediatek.com,
-	justin.yeh@mediatek.com
-Subject: Re: [PATCH] usb: mtu3: cancel EP0 requests to prevent use-after-free
-Message-ID: <2026112053-curtain-astound-bf4e@gregkh>
-References: <20261106080140.342107-1-fangwen.deng@mediatek.com>
+	b=kSwkOXnTzvc75bmvY4vUdqbk/YgX1dW3NNpZcTKR8w9RfuAT81WWJjCjvLJnvKAVk
+	 kprLanghcsNg8D647RYgcKTIcIfk1NxcKeAN0BzzbKNIphEpFFc4JqyMT3HejAMU+k
+	 TcRvvM6V2NPaErOSriICP8XDwKgdDkRuKyWfMC/g=
+Date: Fri, 20 Nov 2026 13:29:13 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Bertrand Jacquin <bertrand@jacquin.bzh>
+Cc: heikki.krogerus@linux.intel.com, venkat.jayaraman@intel.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: Fix NULL pointer dereference in power
+ level debugfs
+Message-ID: <2026112040-splashy-power-2d46@gregkh>
+References: <20261010120357.4937-1-bertrand@jacquin.bzh>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,76 +57,68 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261106080140.342107-1-fangwen.deng@mediatek.com>
+In-Reply-To: <20261010120357.4937-1-bertrand@jacquin.bzh>
 
-On Fri, Nov 06, 2026 at 04:00:58PM +0800, Fangwen Deng wrote:
-> mtu3_ep0_dequeue() always returns -EINVAL and leaves the request on
-> mep->req_list without unlinking or completing it, so an EP0 request
-> can never be cancelled.
+On Sat, Oct 10, 2026 at 01:03:57PM +0100, Bertrand Jacquin wrote:
+> ucsi_register() creates the debugfs entries right away, but
+> ucsi->connector is only set by ucsi_init(), which runs later from
+> ucsi->work and only publishes the connectors once the PPM has been
+> reset and all ports are registered. Until then, or for good if init
+> fails, ucsi->connector is NULL, yet the peak_current, avg_current and
+> vbus_voltage show callbacks dereference it unconditionally.
 > 
-> FunctionFS assigns its temporary read buffer to ep0req and waits in
-> __ffs_ep0_queue_wait(). When that wait is interrupted by a signal it
-> calls usb_ep_dequeue(), does not check the return value, and its
-> caller ffs_ep0_read() frees the buffer on every exit path. With
-> -EINVAL returned the request stays queued and MTU3 still owns it.
-> When the host then sends the OUT data stage, ep0_rx_state() writes
-> the received bytes through the stale req->buf, giving the host a
-> content-controlled write into freed kernel memory. That corrupts
-> whichever object reuses the slab and can panic the kernel.
+> On an Intel NUC13ANKi5 whose PPM never answers when CONFIG_ACPI_EC=n,
+> reading those files after the failed init oopses:
 > 
-> Implement mtu3_ep0_dequeue() following mtu3_gadget_dequeue() but
-> without QMU flush/start since EP0 uses PIO: validate the request
-> under mtu->lock, unlink it once and give it back with -ECONNRESET,
-> so ownership of the buffer returns to FunctionFS before it is freed.
+>   ucsi_acpi USBC000:00: error -ETIMEDOUT: PPM init failed
+>   BUG: kernel NULL pointer dereference, address: 000000000000045c
+>   #PF: supervisor read access in kernel mode
+>   RIP: 0010:ucsi_debugfs_register+0x291/0x420 [typec_ucsi]
+>   Call Trace:
+>    <TASK>
+>    seq_read_iter+0x1e4/0x4c0
+>    seq_read+0x12b/0x160
+>    full_proxy_read+0x9a/0x1f0
+>    vfs_read+0xba/0x320
+>    ksys_read+0x74/0x110
+>    do_syscall_64+0x79/0x240
+>    entry_SYSCALL_64_after_hwframe+0x71/0x79
 > 
-> Cancelling the request that backed the data stage also leaves the
-> transfer unable to finish, so retire the aborted transaction with a
-> protocol stall. That returns ep0_state to SETUP and stops a later
-> ep0_queue() from reading this transaction's leftover FIFO data into
-> the next request's buffer. The stall is skipped when the controller
-> is already powered down or no data stage is in flight.
+> Return -ENODEV from those callbacks while no connector is available.
 > 
-> The same stub is why functionfs_unbind() cannot cancel a pending EP0
-> request, which deadlocks against the FunctionFS thread holding
-> ffs->mutex.
-> 
-> Fixes: df2069acb005 ("usb: Add MediaTek USB3 DRD driver")
-> Signed-off-by: Fangwen Deng <fangwen.deng@mediatek.com>
+> Fixes: c851b71fd6cd ("usb: typec: ucsi: Add support for READ_POWER_LEVEL command")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Bertrand Jacquin <bertrand@jacquin.bzh>
 > ---
->  drivers/usb/mtu3/mtu3_gadget_ep0.c | 55 ++++++++++++++++++++++++++++--
->  1 file changed, 53 insertions(+), 2 deletions(-)
+>  drivers/usb/typec/ucsi/debugfs.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/drivers/usb/mtu3/mtu3_gadget_ep0.c b/drivers/usb/mtu3/mtu3_gadget_ep0.c
-> index e4fd1bb14a55..73a1af8b6c65 100644
-> --- a/drivers/usb/mtu3/mtu3_gadget_ep0.c
-> +++ b/drivers/usb/mtu3/mtu3_gadget_ep0.c
-> @@ -857,8 +857,59 @@ static int mtu3_ep0_queue(struct usb_ep *ep,
->  
->  static int mtu3_ep0_dequeue(struct usb_ep *ep, struct usb_request *req)
+> diff --git a/drivers/usb/typec/ucsi/debugfs.c b/drivers/usb/typec/ucsi/debugfs.c
+> index 77a0dd75edd3..911a151ac16a 100644
+> --- a/drivers/usb/typec/ucsi/debugfs.c
+> +++ b/drivers/usb/typec/ucsi/debugfs.c
+> @@ -92,6 +92,9 @@ static int ucsi_peak_curr_show(struct seq_file *m, void *v)
 >  {
-> -	/* we just won't support this */
-> -	return -EINVAL;
-> +	struct mtu3_ep *mep;
-> +	struct mtu3_request *mreq = NULL;
-> +	struct mtu3_request *r = NULL;
-> +	struct mtu3 *mtu;
-> +	unsigned long flags;
-> +	int ret = 0;
-> +
-> +	if (!ep || !req)
-> +		return -EINVAL;
-> +
-> +	mep = to_mtu3_ep(ep);
-> +	mtu = mep->mtu;
-> +
-> +	spin_lock_irqsave(&mtu->lock, flags);
-> +
-> +	mreq = to_mtu3_request(req);
-> +
-> +	dev_dbg(mtu->dev, "%s : req=%p\n", __func__, req);
+>  	struct ucsi *ucsi = m->private;
+>  
+> +	if (!ucsi->connector)
+> +		return -ENODEV;
 
-Don't add "trace" calls like this.  And __func__ is NEVER needed for a
-dev_dbg() call.
+What keeps connector from changing to NULL right after you read from it?
+
+
+> +
+>  	seq_printf(m, "%u mA\n", ucsi->connector->peak_current);
+>  	return 0;
+>  }
+> @@ -101,6 +104,9 @@ static int ucsi_avg_curr_show(struct seq_file *m, void *v)
+>  {
+>  	struct ucsi *ucsi = m->private;
+>  
+> +	if (!ucsi->connector)
+> +		return -ENODEV;
+
+Same here.
 
 thanks,
 
