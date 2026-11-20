@@ -1,50 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795178549;
-	b=loIzyudH3n4MVlAvfPlGYGdtaBsF0dG/00HIp2WP84KhrG4wHe4YD8dVGVK7bDqDkk4W
-	 XE0Kejc99xP10gxWIViOrqtntuJ0l4p/YSLQsYwNebNCRnsuToA8hYb4yGmGmTmCGHX+3
-	 7hC+m8p/pngmcOThWNY4TwHppEV/7IL6H5S8MP1Jq6Nw/5wboy+Rc0kJAnfIH0sYO5kpb
-	 yUxxnxQ/aF3YeR/yyWTTOBdYgKZ1hYgu9CEhECycuWVVPsToNrn9hO7ar2h1xuNJDet1+
-	 LaLMOis8j1n9ATCcP5GJUyRZOkngWXsyp1oIEEis6ys7vDh84k3kRl3FWhl6Eyn0isw==
+	t=1795178604;
+	b=XW2SLZytxF0p/S4xYMDYfirkq1i1MFJ2u2ktfSLJ+bnO0stuNPMAMdk/Ot/78LNEWA4Q
+	 mmCqeSHrXURbWZaAPJbyfevSRflRr1kLuOaXoJWNTuPje91+eYy1pCwxuSREH9wYevGW5
+	 FT0EfibBTqkdg/RC8vEEkUSM214Fa/gHw61Ja3Mp42mZgEimzbBXUHNV1sURiqHbK7BXY
+	 iGpreGKuDZYe29GaLy4McbS5j7wx2ZfhYESe+QDPsImhZ5wyyjafNp5jik8zJLu7kVntq
+	 OTPR+ZVNd562T2lYGMfU9NIp2lXXNPTjimsyxdIeMhgfiAPx1AqkmbkEopXNZYFDSFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795178549;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795178604;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=liIsbHhpfaQ5YabIQwU9w9ZbEKjgrp0NTlj9gLHjehg=;
-	b=jWJz2ma4SUIBnqdkhzrEheFKRuFBB25SMtBQ3tVmZXGDKLY7FtWQcGqjbVDx46+Elm3n
-	 gMTBE2PHLcpDgUUFu8UOc4oMpYrqlRttD0W/J6Mt+x5buVnsvmrz+NC23IzoRaY6PyR38
-	 MEsI0iO8H6oKtgCfLlq4e/gAcFgYdfCqTWncth9DvJXNj9waB9Fy6bMLDen0vnOiRdA2A
-	 meyFLUnI4PuaLziXcX0lf0xPPqgAiinBtZEZ6+OSY69eZ+2sD1wt3sIfpO2uh6e0yr2ZI
-	 PgwxSIgQrMbeuKlGAaY5HQNvJAqKXigvVX+s7ATAfca7fItX8eMUKP0yVaU6T2iMMWg==
+	bh=jK0rvyezyqqkF4VxNNPoMLfzs/JZm9OqeRs2F/fTen4=;
+	b=xJtiWXp5/nd0G2XQmC+39IOLaNyldMIgZi+ri3Pcfhses4OgDhq1KqD4P7V4m/cWdDWf
+	 v7VI6ILTN0kMU75bNbN2OQNnrhZw7jlRxOpRFQvRhLSPE8VToayIzBnOvId8XCC/pRhy8
+	 dfAIBS2iUjC9/ZYaFpUaCH8cUBliB6tuofi2gEqPJx9B9baxCySg/6VfAamzrcwSbEpsE
+	 Fj2eG79z8yN3DVCru6VC9zCXJonKK1XQMJI+tIsb5prGciQkMAWXNCuKAw2gjNWcyPRln
+	 CLYuyiCBUFSA8gP5Zpk5uq54VpWeaC8sZGYfEMUt/tf0rap0kVwJyCaeG9yjLx6nasQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=EAl9OESp;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eprDStxc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E465606A320;
-	Fri, 20 Nov 2026 12:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 3D5DB606A326;
+	Fri, 20 Nov 2026 12:43:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=EAl9OESp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 182EE1F000C0;
-	Fri, 20 Nov 2026 12:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795178548;
-	bh=liIsbHhpfaQ5YabIQwU9w9ZbEKjgrp0NTlj9gLHjehg=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eprDStxc
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A5D361F000C4;
+	Fri, 20 Nov 2026 12:43:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795178603;
+	bh=jK0rvyezyqqkF4VxNNPoMLfzs/JZm9OqeRs2F/fTen4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EAl9OESpezyW7gw+TSNraWKbfcI9DZ8uV/1kkvDhSYACuZEqkvcHLuqCEibMjgmwJ
-	 tr6l3gsb7IJZIeWQCGX0pQFEj1DdBf8Dch25LVLxTLoWxuIIcqrAov6dQiEeMq7akG
-	 ppVYF3ZNmaIVm/93uTFK59+/KRqKhbzEAPCFqmXY=
-Date: Fri, 20 Nov 2026 13:42:25 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Boyan Liu <yymhvert@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	co+02480a85e1a0d4f5@bugs.sh
-Subject: Re: [PATCH] usb: gadget: f_ncm: Fix use-after-free in ncm_wrap_ntb()
-Message-ID: <2026112019-mobster-coerce-8608@gregkh>
-References: <20261015024508.3179-1-yymhvert@gmail.com>
- <20261106070914.3637-1-yymhvert@gmail.com>
+	b=eprDStxcLuY4CYc59aP63rAsN92IXyqYNTbpMu8NPxLugMplqGuwAoFaqP9PXZ53t
+	 ZY5ueJN26jaZXPJ9vsGfdPJlpnwBYMICUTPmDDjDRXCLtjOECau6rh0S+zqB2TDhoR
+	 +mFC3jezq3PclqY1lFB1LkMkyv+6HVp0nld9GgyPl0iU/UQomdo2Z67cKPskkkSVjp
+	 PkcX7J5da7OO2YP5S1AySq6xld8HS2Bwb5vaK75M/HBh1C1cqZGH3AbuaWApsPIpPf
+	 2SXIkWRqO+daQv3fwWM7dVWVryHTl/WICo1y2MHrH4ZoiOGzX8EuNqm1VI91CzPHEi
+	 +4P1irEufW1bQ==
+Date: Fri, 20 Nov 2026 13:43:19 +0100
+From: Bartosz Golaszewski <brgl@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shawn Guo <shengchao.guo@oss.qualcomm.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/2] usb: typec: Add onsemi FUSB15201 support
+Message-ID: <w22jphnqpinyxxycjsquculr35njviv222epkn5s6vhdyx6ux5@z3ywjslfixhv>
+References: <20261103041806.1885974-1-shengchao.guo@oss.qualcomm.com>
+ <rscry5clkcrwhqaz4hzwzqyg5ijujntv5vcajjqnq5ghbb7f5v@rkvbszy66g77>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -56,24 +63,30 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261106070914.3637-1-yymhvert@gmail.com>
+In-Reply-To: <rscry5clkcrwhqaz4hzwzqyg5ijujntv5vcajjqnq5ghbb7f5v@rkvbszy66g77>
 
-On Fri, Nov 06, 2026 at 03:09:14PM +0800, Boyan Liu wrote:
-> Hi Greg,
+On Thu, Nov 12, 2026 at 10:01:05AM +0100, Bartosz Golaszewski wrote:
+> On Tue, Nov 03, 2026 at 12:18:04PM +0800, Shawn Guo wrote:
+> > The series adds a driver/binding for onsemi FUSB15201 which can be found
+> > on Qualcomm Nord reference design boards as a dual-port USB Type-C
+> > controller.
+> > 
+> > Changes for v5:
+> > - Hold chip->lock while seeding the initial port state in
+> >   fusb15201_hw_init(), so a data_role or power_role write arriving
+> >   while the port is being registered cannot fail with -ENOTCONN. (Sashiko)
+> > - Link to v4: https://lore.kernel.org/all/20261102111732.1678646-1-shengchao.guo@oss.qualcomm.com/
+> >
 > 
-> I wanted to follow up on this fix. The use-after-free addressed by v1
-> is independent of the two pre-existing issues raised by Sashiko.
+> Hi Greg!
 > 
-> For the skb2 leak in the same err: path, would you prefer that I fold
-> 
-> 	if (skb2)
-> 		dev_kfree_skb_any(skb2);
-> 
-> into a v2 of this patch, or keep it as a separate follow-up? My plan
-> for the independent ncm->netdev NULL-dereference race is to handle it
-> separately.
-> 
-> Is the use-after-free fix otherwise acceptable, or are any other
-> changes needed?
+> Gentle ping. This has been on the list for a long time, has all the tags
+> and no sashiko comments. Could you please queue this for v7.5? It's
+> blocking the DT changes with USB support for Qualcomm Nord.
+>
 
-I see no context here at all.
+Hi Greg. Another friendly ping. Is there anything I can do to move this
+forward?
+
+Thanks,
+Bartosz
