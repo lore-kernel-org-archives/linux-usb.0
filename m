@@ -1,79 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795153832;
-	b=CaHuQugnWonGse9B0WFkvPZgn2RwtI9zcpz2nESfmDeBdqub/9xF88IezVzSwGJ0K7kC
-	 rZslPm+MP99NodLf0aCHqVRmHBlh7ZbsHer3EmEqJ+5Xw11Rg7Pg/Sb3IasmnXLBKIJWd
-	 8IDG6ijr7mBkbYYK2biUQnnWClpcCdCcn4E64NnqUX4TF0NYeRXHm3k7bwY7dSEWBTp3r
-	 Q28i+4iWoEqoks3+dZDJ+lSUTDqfvsZ2qEB56gaHJvSqTVb600q4ztaraa46sIrZGNEZi
-	 kVe8TIer3CmIccMIq2L6Qvh9pNpHPtCM50JsSLQQJriZ3zxVNw8T+o5Ed1tPPyNSA0Q==
+	t=1795155583;
+	b=JRCDZ2QCZUysJFCbVgO6mzIQBeGHEbEuVm9rmQuByTbbhv3l87qn43+zYIktmpEU2pbh
+	 KtqYX2zsEFE4jsBylS1H72VpnfHU31f45M+ycpbvhHyOEMc9D84KOoa2Ku5nvcKsor1GE
+	 ZPNInrnC/YoZXF6TgWj+VwS000ZxFimy+c5XMZ3sozKi7mC6xrFbSj62cmYuSAk8yyLMA
+	 RY10qh+S2N2Qd9lLkaPng8bMEgeWLlLmI3vlvn74D5DvKcsS4wB3yu7jU5GtPLpNlRhNj
+	 KKWCxYaBdQisb/uhcQozYxhy+6cJtc5ag86GsaM//6ndnl6kGaXvwfQ6S7Z2AmQO9+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795153832;
-	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
-	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
-	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
-	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
-	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
-	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
-	 Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
-	bh=y0gzq45tljmPYrmeTIEbwP2ftnal2nRTKCphlci9lL4=;
-	b=Xeo5mixsxDfDFwAvELFtfy6IjZZy3m3GEpbFzW23LEfkiRyycMxukI8MxBvK0LZ3UpQ9
-	 zvTKoae61xkIHaUmX0bAydT6GpTLylEdacne/dpGRQqoQoatg/wu4pi7OyA9Yrk7rawz0
-	 8S7Dv2OqXwPEwKzVjFUrmOUN96J5jOwHlcMA/0z1suqTKD/4d/tf4jddGxP8UPdQ+1lVB
-	 JgIWSMpQnEFCehI/VWFPkM6tQjLhUcPhrtT6SSFq9s1EI4H+2E3u13kB27tSrfiND+B+x
-	 oDnzJtfOAGZ5i2Tmc1iqBidtlJqVmxWj7Hom5xudG1J3nCJ327ykqPDUs1RmQrvpxVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795155583;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=xmvQzEMIemlYEhT1xs9weXJwUze0K1vOuhFskwSIB94=;
+	b=ExDwBEH1tliA297VJ9jic9Ek/slOzBPL67TkMsw51JlsRXgsIazucTW1AlEOwqPxCOhi
+	 U0sp8tUrHW+BvJIGIYg3BIaYETT/wRQTzU0Ghx8MxUJW4MWUQuE+9uazaXW5AeskdPxuP
+	 LE8X5TQ/LEWNk5NUzDPEJHzIPGgydJIjwmmEXK9pRODZ59abBi8ZXTCByYFlBShXb228L
+	 pBDJOuruTG+Ki7t3kOpjJPAlUUBnnbfOgf4TcK6fGXM+C30T7eygeJOVbrAvMLhxe1LVM
+	 h+USdPAoZvzfuefKgpsIHkfbLKLJG1UNJr8pPzjVr3XF37gV3H2YIiy9LdZhH7a+wdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bTAvkEtV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11142606A320
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 05:50:32 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=mZy9uWNk;
+	arc=none smtp.remote-ip=111.22.67.151
+Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6E40606A50C;
+	Fri, 20 Nov 2026 06:19:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6E40606A50C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bTAvkEtV
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E13801F000C6
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 05:50:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795153831;
-	bh=y0gzq45tljmPYrmeTIEbwP2ftnal2nRTKCphlci9lL4=;
-	h=From:To:Subject:Date:In-Reply-To:References;
-	b=bTAvkEtVVMEpgdnRFwKge9EwWyKx/ZfxgzLWFw1i8tPuh/X7ATd+64sz32lkWihct
-	 Fxea0mPqMqFZjcbG76VUnCQHi7n8QzbEMZPD+CW8q3R1T5VOteIesTJrfqRubIPMf4
-	 4gro7TQ5eUDQ3pe26QetxD1uOK3hxVbqqALU+502QbGHfhafdz07u2qxzw9upVOkS6
-	 56j84LMzEOa5lRjK8NQcHvKngEGt1IBfy/tLfmIh19hcbdABWhIfbxDBm5UE3VWxqk
-	 j4nO7DP/cf2USBot2+LAmQFk2Sqcdb0MWHKmXE9qBHx43EP3Nn58eOwmjNFQuZs6GG
-	 kbTn9vnXIopcw==
-Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
-	id DDEBD240040D; Fri, 20 Nov 2026 05:50:31 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222296] HID sub-device (wheel rim) hot-swap on Ardor Le Mans
- base does not re-probe the keyboard interface
-Date: Fri, 20 Nov 2026 05:50:31 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: daniel.matushkin@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-222296-208809-dm6sbkqoyH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222296-208809@https.bugzilla.kernel.org/>
-References: <bug-222296-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=mZy9uWNk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=mZy9uWNkGBJDgfBXZD8+GaF8ZQ0wKd06tNccuM3qQX01zXm96twYO4lOR6jpOBSTKEZqHheDUeaHn
+	 r3BLUX1mzfXsexMfQ8Vxm6HdmdhvH8bQkjo2+TqMIWkuNfd4ifHvlxT5lrbTlW2iox+Ih2FGaQWUOY
+	 RXYzmR5aVZE/2sWw=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66affe67b520-f1852;
+	Fri, 20 Nov 2026 14:19:39 +0800 (CST)
+X-RM-TRANSID:2ee66affe67b520-f1852
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from devin-VMware-Virtual-Platform.localdomain (unknown[10.55.1.71])
+	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee86affe67a1c7-80cec;
+	Fri, 20 Nov 2026 14:19:39 +0800 (CST)
+X-RM-TRANSID:2ee86affe67a1c7-80cec
+From: Zhu Jun <zhujun2@cmss.chinamobile.com>
+To: mgr@kernel.org
+Cc: nkapron@google.com,
+	gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	v9fs@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Zhu Jun <zhujun2@cmss.chinamobile.com>
+Subject: [PATCH] tools: usb: p9_fwd: Send complete requests to the TCP server
+Date: Fri, 20 Nov 2026 14:19:37 +0800
+Message-ID: <20261120061937.98224-1-zhujun2@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,14 +71,31 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222296
+socket.send() can return after sending only a prefix of a request.
+The forwarder ignores that result and waits for a response to an
+incomplete message. Use sendall() so request forwarding completes
+only once all bytes have been sent or a write error is reported.
 
---- Comment #3 from Daniel (daniel.matushkin@gmail.com) ---
-sometimes unplugging wheel base causes kernel panic, though i dont know exa=
-ctly
-why
+Fixes: 673f0c3ffc75 ("tools: usb: p9_fwd: add usb gadget packet forwarder script")
+Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
+---
+ tools/usb/p9_fwd.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff --git a/tools/usb/p9_fwd.py b/tools/usb/p9_fwd.py
+index 12c76cbb046b..d5ffb2f0c5ab 100755
+--- a/tools/usb/p9_fwd.py
++++ b/tools/usb/p9_fwd.py
+@@ -124,7 +124,7 @@ class Forwarder:
+             data += self.ep_in.read(size - len(data))
+         logging.log(logging.TRACE, "c2s: writing")
+         self._log_hexdump(data)
+-        self.s.send(data)
++        self.s.sendall(data)
+         logging.debug("c2s: forwarded %i bytes", size)
+         self.stats["c2s packets"] += 1
+         self.stats["c2s bytes"] += size
+
+
