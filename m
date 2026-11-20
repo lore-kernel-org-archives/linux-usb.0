@@ -1,79 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795171100;
-	b=TlsgFbGBjov7Z3iLf6443lzou6+owFBrcsg+m5pN31M2/qblH5TGB18iW6OTt54ZA8Uz
-	 A9wT7W9mz0nocaVoSrWdcm+TP5c9iTzzoTvQX+SZdho1JVrrN3BBsIvQNi5gwLwxNzUYi
-	 WDB/saRNsnzHxqumgCtUkHfNAnottITfOpoSt6qaNGOHp5IXBNyAgVvdQxgZbX9SI0izK
-	 bA8Y8jLcsWZ3UnVfHmUpxvi5CEqrpvq1q0UrJj1aTtIsiwLpdfTYz9vQq/iY68jRo0L7i
-	 irRJyrgHwv5GnDcfE7rqA5gdms2o2E6MQRPSwav93WFwx6sryD3TfVeQJ0qXx1Me9zA==
+	t=1795171366;
+	b=EdSL58Udgl+CoceL/EUdZX4q+7fxTyzkILMuFWU8SejHmw3+Z+kWkaTMlDQgXz2uvfIR
+	 CK8T0IZiccbwM6Sqd+uBU1KqBl1duoHlEFbqf8g1JpgV6zqjA3ZRQk+1h3ofmJlzF9L4m
+	 P1VxKLnUbADxPYOO27oCRkyPHAsxUDd7aUnit4EmZ0BIJKiU0TinQ3NM2HQFL44o0SjXH
+	 uNK4pwr8TnFfW2TZ9ELJ3DHBXEK+EuPJc/1gB5dJMR24aAUYyW1T+1R0/U/5dxp5Pzz9h
+	 yU2d9Vu6dT/zwXul5IoeXurNCD/vvN+0DAOHkhzn+caKUx+CJE69EVymgYZ/QHEGPdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795171100;
-	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
-	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
-	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
-	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
-	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
-	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
-	 Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
-	bh=91MZAfjYtCeVkaULckuIYwFRYuBTkT2ICQGFlVsinSc=;
-	b=MDkhMQ6HarZLLGlYK/YEsLwNxhD3gJHRDw/6+OZheRUETqZAW2SPFA4lc4uOc2X5lWWU
-	 X6FCB4klCRfVaYmfQUcw+ULePUUaQ54/M0KzAjsuXrLGpYIeasQ88boHnh/WNfskHPXj4
-	 jEjdr50qcXUAKacvOQjZRC6RDVL9bdSGFzrtjszi23rlndaEl3CY9cgG4U82SUa5j9tLz
-	 yPSy1o0j4eAsP80lDPq8JakKrl3bP5cRoGTOiCigUZPcmQKrZxmT9shFg64LbgtanAWsk
-	 iIHrgj9NF9MfBiKheyh02S2NcjCB+osfDLuBg5n9UMxG3t0nZeREILSJKkAmcCOo7uA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795171366;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=i27LfaNCo6L8lqdeZdS9ei4mCXE8bw98UFsYkeacv/E=;
+	b=Yillojq01cBpLTb4I7uzwiY5OmtVIlPm+6wYFzTqxxvlzEkwZTSLLiNIFb7+m/1huRf8
+	 PezQaOlPpy08AFmYTOApuTHu+HDxXQKBaKweCEcorHam2E4LMMj2dkRjMYVLywcNbafR6
+	 RbHaWq0yasJYoXCwheE6NGVfgHURzv0kvlVeXA9YMqAHQxhs0wGui4dzi7Eu2bLzcMdZO
+	 hnkD4xpsAil83M0mpdAJgxFJnrHwG2SyiCVkiCp0SBD8u9Cny3ch2c2NNQ/pkuqrXnrnv
+	 agw0mCygvYW39IH1elzhsZEn2sgS9wTmjG0b87TQT7Je3EBO4nnmgeMJZ9o6up4iT8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HoXufV9L;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=yG7GqPDi;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CE6606A325
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 10:38:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CD3606A320;
+	Fri, 20 Nov 2026 10:42:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HoXufV9L
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B324D1F000CA
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 10:38:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795171099;
-	bh=91MZAfjYtCeVkaULckuIYwFRYuBTkT2ICQGFlVsinSc=;
-	h=From:To:Subject:Date:In-Reply-To:References;
-	b=HoXufV9L0POdkxWEekjo5d4q+4kEH7VhPu5kHBQ4Xylc8bWOwtFPXISrdbuSU5n6B
-	 mw35P5x+A93I6PmHx+MumifRg9xGEsayXZ8bpkTCgJfSgQSpXUfKyvBsuN2iIpPwyx
-	 L9ZfnYgf6cbSx0tWfr9c8kctCoiTd0hi7H1reb58RgZXwWah8xEfFoL6XWkWfgmQBH
-	 ZpHNcpMk4Bg0zTVfsTqHzqFwPS5le9Xg5TS96ZWtiR7Qx1Y+oLf7/OnNKVpVdp9ymz
-	 TCxVjoQdCGHNU7iCoVQdgUrF6JKmWUrRVyhWyarQzFVh9PvWo5Zt4fEaJwUZn9Sa8v
-	 fiEdefIbXVj1w==
-Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
-	id AD5EC240040D; Fri, 20 Nov 2026 10:38:19 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222298] hid-steelseries-arctis kernel module not working for
- SteelSeries Arctis 7 1038:12ad
-Date: Fri, 20 Nov 2026 10:38:18 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michal.pecio@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-222298-208809-AW2B6lbq3N@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222298-208809@https.bugzilla.kernel.org/>
-References: <bug-222298-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=yG7GqPDi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B96101F000C4;
+	Fri, 20 Nov 2026 10:42:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795171365;
+	bh=i27LfaNCo6L8lqdeZdS9ei4mCXE8bw98UFsYkeacv/E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=yG7GqPDi/h4aSGc7pQAc6VYvpp92r2mH7Wo/niEwhvOqRq0bLJSKykIm1O3bJ/ZmQ
+	 EcrrkipTWiSH84gWq1XlDSHpXBuWSCj6WGfqXMaTWNajJkVcHdpNLc+mP5ZzhwYxSh
+	 WRyhVqhYNv5R1w5ugWxaj9dpI5+oEB0LVvGBHiKY=
+Date: Fri, 20 Nov 2026 11:42:42 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Hui Peng <benquike@gmail.com>
+Cc: Chris.Wulff@biamp.com, david.sands@biamp.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] usb: gadget: f_hid: don't call copy_from_user()
+ under get_report_spinlock
+Message-ID: <2026112029-headgear-shortcake-14b0@gregkh>
+References: <2026091905-humbling-swooned-c371@gregkh>
+ <20260919110050.3764064-1-benquike@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,28 +55,79 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260919110050.3764064-1-benquike@gmail.com>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222298
+On Sat, Sep 19, 2026 at 11:00:49AM +0000, Hui Peng wrote:
+> f_hidg_get_report() already copies the incoming struct usb_hidg_report
+> from userspace into the freshly allocated 'entry' before acquiring
+> hidg->get_report_spinlock.
+> 
+> When a report with the same report_id is already present in
+> hidg->report_list, the update path copies from userspace a second time,
+> this time directly into ptr->report_data while the spinlock is held with
+> interrupts disabled:
+> 
+> 	spin_lock_irqsave(&hidg->get_report_spinlock, flags);
+> 	ptr = f_hidg_search_for_report(hidg, report_id);
+> 	if (ptr) {
+> 		if (copy_from_user(&ptr->report_data, buffer,
+> 				sizeof(struct usb_hidg_report))) {
+> 
+> copy_from_user() may fault and sleep, so this is a sleeping function
+> called from atomic context, reported by CONFIG_DEBUG_ATOMIC_SLEEP as
+> "BUG: sleeping function called from invalid context". Userspace can
+> reach it at will by issuing GADGET_HID_WRITE_GET_REPORT twice with the
+> same report_id on /dev/hidgN.
+> 
+> The second copy is also redundant: the same user buffer has already been
+> copied into entry->report_data a few lines above, and report_id was
+> derived from that copy. Assign from the already copied data instead,
+> which removes the fault from the critical section and makes the update
+> atomic with respect to the list lookup.
+> 
+> Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL")
+> Assisted-by: LLM
+> Signed-off-by: Hui Peng <benquike@gmail.com>
+> ---
+> v2: Add the Fixes: tag Greg asked for.
+> 
+>     f_hidg_get_report(), the spinlock and the copy_from_user() call under
+>     it were all added together by a139c98f760e ("USB: gadget: f_hid: Add
+>     GET_REPORT via userspace IOCTL"), first released in v6.12, so that is
+>     where this starts. git blame on the removed lines agrees.
+> 
+> Found by inspection while investigating the use-after-free fixed in
+> patch 2/2, and build tested only; I do not have HID gadget hardware,
+> but the path is reachable from /dev/hidgN with dummy_hcd.
+> 
+>  drivers/usb/gadget/function/f_hid.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
+> 
+> --- a/drivers/usb/gadget/function/f_hid.c
+> +++ b/drivers/usb/gadget/function/f_hid.c
+> @@ -668,13 +668,7 @@ static int f_hidg_get_report(struct file
+>  
+>  	if (ptr) {
+>  		/* Report already exists in list - update it */
+> -		if (copy_from_user(&ptr->report_data, buffer,
+> -				sizeof(struct usb_hidg_report))) {
+> -			spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
+> -			ERROR(cdev, "copy_from_user error\n");
+> -			kfree(entry);
+> -			return -EINVAL;
+> -		}
+> +		ptr->report_data = entry->report_data;
+>  		kfree(entry);
+>  	} else {
+>  		/* Report does not exist in list - add it */
+> -- 
+> 2.43.0
+> 
 
-Micha=C5=82 Pecio (michal.pecio@gmail.com) changed:
+Series does not apply anymore, can you please rebase and resend?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |michal.pecio@gmail.com
+thanks,
 
---- Comment #1 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
-(In reply to tux_0xc0de from comment #0)
-> The problem is gone if not using LKM: hid_steelseries_arctis
->=20
-> The problem has bee around for a while now (1-2 months) and is currently
-> present in Arch Linux kernel version:=20
->=20
-> ArchLinuxDesktopPC 7.3.4-arch1-2 #1 SMP PREEMPT_DYNAMIC Thu, 12 Nov 2026
-> 20:11:37 +0000 x86_64 GNU/Linux
-
-Did it work in earlier kernels or is this new HW you got 2 months ago?
-If it worked, did the offending driver exist in earlier kernels?
-
---=20
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+greg k-h
