@@ -1,103 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795191219;
-	b=vgUkyR2ELHcvjy+ebzHrZgzv7miKQrLjuDix45RNi3+ztl4ZQRw9wAQe5m9f5Q9WOmIC
-	 Zt4NoNMTfg/1zugt5OiPxRMTY4wW9A837XLfsR6mR+BkVjlDEBNdAtrKCvERLMBZmWkLQ
-	 zzoOE2KqrKMBgmUyT+Wso1SpIk506Iz8dzsjgLAIdWIM7nBVorlnHOyFYN00DDjHHw4VT
-	 Wy7vx34PJZikK24MgHv/JPM1jFEaoMKM+oyu3Dk6LXD+LneIO8QzPYnl27BoRv3/aXl+m
-	 EKzfOx1vBX+w5sO9hFGOy2lruYUOBv4u4vpzs2h8N8aQHo/AkiJffFomy75ro+vG4xA==
+	t=1795191508;
+	b=5EsKXHlw6bLlM1l+J6JLDTpMObtTWPgzmal2Lqz3lzbrDHhlVrOTAt++3HycjrdspMeJ
+	 fYguQyxCfdf1mIvBEAdE5oJZv2C1bniUF4Gr7U4MRqVsJ/qmQ5On8i4L+rhjehlsHTMaG
+	 iaMPVeR+d8LZ4vXeDeci39FOxaAHfefxj4593vhXvRHRmR/oimgJkfj7BAaQsVWy99nau
+	 VXuDdxi5+3jO1ixHZSY4Bl/kbYo1SeO2w7qduleAOILTxH+9mAOjpHUdcNlEzQzJQhxPn
+	 tbUWNYkDWOZTRyFR/UTUYpvzOS30oRelSIIzRM7swzKRUEgH5zrol62S/L1B/nrGdCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795191219;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=ske43Fh9A8yW85CHf4qvTL9iEMX6C/Nlv/vlJ5RihTM=;
-	b=Bsj4U6DsSvHrw1XQQnr9zMw8N1V9YU80sfR90aAUINZ4NKq19Eh+NY8HfkGkgErln5Il
-	 IK/WQCeTPdETaeCGwqZOdnZR4Mv+91C1QntZNNQvv2cbbeUP/BZM2ctVOOHoyYei7R94R
-	 Z7YF1oLBLR5OJZUjCUJcO09W1MswFqgAfXFiczXpwfJP1dDOOqzTUaBHPMp3YH6sChAya
-	 d6U+h3VfbRvhXhFRNmZGZc0OphruqwCgUeZvjb+na9R1xEB7Ft9HcdjA0QOO6gBl+BFJ1
-	 leqPEAZggbpe9FpQtn2PJkF1CxSIYeN8rFWKFIOHYZ6y5Xw2/03MhlcsONIZqFJCMyA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795191508;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=Yuo0+Pw8Cic/oPO/CJ6MTAhVLVtBofsbkkLBYKbgeu8=;
+	b=lQbPZ+5T5/YawkwBYPg4LI/r+vZ3+1IhmMfuqXslRALbqvxCN8k9XDD4QacCuew1v2zx
+	 j8TodhKGsqbtHocY8kU5hoJzDep1rTYU6EL+OmZtdA95atFl72RW2eEzpJOBDl4eTGA0v
+	 pMbyliKkXGllK+oOXXYdY3eWrakH7xdVJ1CYa0iAsJrJHqvpWaWRHtX4XRPmOWE/qxPh5
+	 uUDxevw+GaDA8UBLt9PHStc3Hz0cw5iHjiVJ32lvdyAXEP6bXcQCvt5vWDjYtJTJ8x/3H
+	 +mO4irrN6YUm3z9a8X5LrSmk1Adb8Af3cRwZd9OKaLtP+29kAnv2C53oQXbj+kss9Zw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=DVTGNfn0;
-	arc=none smtp.remote-ip=209.85.222.176
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aysi+C8i;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E172360A2606
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 16:13:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E172360A2606
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F4C606A325;
+	Fri, 20 Nov 2026 16:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=DVTGNfn0
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-9495e8ae23aso92122585a.2
-        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 08:13:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1795191218; x=1795796018; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ske43Fh9A8yW85CHf4qvTL9iEMX6C/Nlv/vlJ5RihTM=;
-        b=DVTGNfn0RcRD8xfB+MwwKXCzdG/2IJTQQR9aTVOkOmsK3ahaMAX0zhRCFOIygzDqw9
-         f3lz3ZzXi8QI3ehzyGCslUcbAG/gxV+tGhZ2KFcrn0+zcIopkJ4NNcm7Xoo7X9OmJfoL
-         jVuQ3eimiXdBh2Ma/je3e2nCkdrkPLU8V5x5rwXabvZ+6TiAfOX0/74y3dTxKkn4KPzE
-         bktoH0I6MrCWADpcafmc+zr6zdmWr0G6JB/wYAQMl08Glz5W8nAdMN0os9EN4/U0JaEn
-         AYvjOMByY49vLrNOZiK51nREyf43nfkrxaHvZc8Iyd00OjdfpqYCqcwhg+MuZvgqpiLy
-         KIJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795191218; x=1795796018;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ske43Fh9A8yW85CHf4qvTL9iEMX6C/Nlv/vlJ5RihTM=;
-        b=zGzsTkCC1Mztcg/X00J9O2dfH17Gbv0yIi4YYFK/A/aQEhBQKYglv8RHZzd/wISfr5
-         qMtsX2Y9ZO5QHAuAE99a6efdNFdp83L33Whsl2iCZxrv9sKPancENFNvXjRx/ejST6XF
-         1Rpwb6OPjfBr07kJJn77Unjcdbg4fFm2K4LB0GspCdZlGpVJlJWsV+O//8iT0p7sr1cS
-         Vyn8rp2F2dSvyXneFwQsE1sZpj1FNpiB77KLRXpnVf5EhYNFkDjlv1N/tAmBNvKlL4RY
-         O6lZH5rGfEVVeAnFrsF2XqdqUvVMO6LDjOriYp9zDIvxOBrKsrItBOPEpHCAlPRpvW4e
-         fzVA==
-X-Forwarded-Encrypted: i=1; AL+hErFgKVteInccCrns+YeYE6fabhQISy8fpUYvTPXP6dznVqCg0cssn4nm3y7OLXfdOn1htEP8SheG0Sw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z97tQTaP5y/Ku6MWJ94ZcM8x2IXS7WF7DceBLwNUrW16BYnqxTf
-	GE7YIjvC5MIm6LUTP4y4YXVRlVhBym2heryhTZOusXlDfOwPCBLPfOB3l5QzXPUZ1g==
-X-Gm-Gg: AYBFou2mPAj/G56zHjyt+vvOh7rO/LEfGlqAZi3avJLXQFSwu589uOBBh7trSq/3yMz
-	6QTPtkSEMhQaBs9QGcXFoJlt2406cAHJhxdfhjFgGYmpin57cLeynUoZ/2+6NHygHd/cd0XjqxS
-	ghdnzt9Dz4KZkLM/CdGiIwgFky7kXM9Ju6oGoranuDxphD/FrpcZ1TGJL8ZyCmnj9Tm1rj5ugwI
-	YQuFlE2L34GNjqNoPlhvOn5G1gCCbRoP/JwpNy34Vi9lF3uNm7XOPsXT2e9DNJhlaLU+JU7wMvc
-	of5No4toME7QkOAGuYXP5p9UVhxcLk0MhRl3JXH65X+lnHMrgV4INncGjZ4P94KbVSGzt9pOA11
-	YgFFJq8+txBVWKchjOOGY9i3hTQA9ZhGrzls0xl7VraWPP9PEBFykxH9sWxFD58TjhfZ3h5G2Rz
-	fyeyPoStZOaw+lnzO9FwRVOREOuigqa7B/6SJc1eUMCAmy5Ge3X7GpWdZ06vau0Ju0Z69LMKORh
-	/yLm7hmUxZjg0nTZy8bJz4oJuX/kyGIKCfYNA0aDfhY1evk53h1CETXL0EcL/POkxhUYSbmgCh/
-	EDpOkszRx4cxD2Cro93uHg+QbS9Y7Q==
-X-Received: by 2002:a05:620a:4488:b0:949:91c6:973e with SMTP id af79cd13be357-949bab66f99mr562619185a.65.1795191217744;
-        Fri, 20 Nov 2026 08:13:37 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d00:161a::d398])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb41c105sm217536885a.39.2026.11.20.08.13.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 08:13:37 -0800 (PST)
-Date: Fri, 20 Nov 2026 11:13:34 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Shihuang Liu <shlomojune6@gmail.com>, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Ville Syrjala <syrjala@sci.fi>,
-	Henk Vergonet <Henk.Vergonet@gmail.com>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	Alejandro Colomar <alx+linux-hardening@kernel.org>
-Subject: Re: [PATCH v2 RESEND 1/6] USB: add usb_make_subpath() for formatted
- device subpaths
-Message-ID: <c3579747-1dce-4444-8635-5c3e836afb6b@rowland.harvard.edu>
-References: <20261021123146.17202-1-shlomojune6@gmail.com>
- <20261022070929.20820-1-shlomojune6@gmail.com>
- <20261022070929.20820-2-shlomojune6@gmail.com>
- <2026112032-pecan-knoll-4f4c@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aysi+C8i
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 874E91F000C6;
+	Fri, 20 Nov 2026 16:18:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795191507;
+	bh=Yuo0+Pw8Cic/oPO/CJ6MTAhVLVtBofsbkkLBYKbgeu8=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=aysi+C8iuycwU52jP+cRNCO4lNKJ2M9m5KVkkhJpb0T81e0Eqjw0rw2uOYLtSVWJB
+	 oW2Vx7AtY9JyF6hqsQsfB24PJWIQZ+Tos7vNTZdD2TTWFNPU5DyAS1qcBRAo1/LO6b
+	 9MSJbYy4yMx+4R/dmT960dPVl1Ob9do7CdYu2mWYF/W7d4UNeax+WQ8UM/mkZwOR7v
+	 ExVGx2QTYKoAU2rG6MOnp9Xf6cbM5O/X4jTroZ5OlLWqM3cJcU4pdkppbCl7kaPV97
+	 4gbeu5F22QNPOsvHeFYH+LI7L2bAZ3zDth8BVIiIgpoy9t0Ro4eyP9a1aKtRip+w/Z
+	 r5aAiawLNuTmw==
+Message-ID: <sashiko-outbox-225553@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: gadget: f_tcm: lock the UAS stream requests in
+ .aborted_task()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Yehyeong Lee" <yhlee@isslab.korea.ac.kr>, linux-usb@vger.kernel.org
+Cc: target-devel@vger.kernel.org
+In-Reply-To: <20261120160616.3219043-1-yhlee@isslab.korea.ac.kr>
+References: <20261120160616.3219043-1-yhlee@isslab.korea.ac.kr>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Nov 2026 16:18:27 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,73 +59,48 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026112032-pecan-knoll-4f4c@gregkh>
 
-On Fri, Nov 20, 2026 at 02:13:53PM +0100, Greg Kroah-Hartman wrote:
-> On Thu, Oct 22, 2026 at 03:09:24PM +0800, Shihuang Liu wrote:
-> > USB drivers often build device paths by calling usb_make_path() :and
-> > then appending a subpath. Several callers use the deprecated strlcat()
-> > API for this.
-> > 
-> > In preparation for removing the deprecated strlcat() API[1], add
-> > usb_make_subpath() to format the USB device path.
-> > 
-> > Link: https://github.com/KSPP/linux/issues/370 [1]
-> > Signed-off-by: Shihuang Liu <shlomojune6@gmail.com>
-> > ---
-> >  include/linux/usb.h | 29 +++++++++++++++++++++++++++++
-> >  1 file changed, 29 insertions(+)
-> > 
-> > diff --git a/include/linux/usb.h b/include/linux/usb.h
-> > index 1da4ad1610bca..c90ccea0cdbf6 100644
-> > --- a/include/linux/usb.h
-> > +++ b/include/linux/usb.h
-> > @@ -14,6 +14,7 @@
-> >  #include <linux/errno.h>        /* for -ENODEV */
-> >  #include <linux/delay.h>	/* for mdelay() */
-> >  #include <linux/interrupt.h>	/* for in_interrupt() */
-> > +#include <linux/stdarg.h>	/* for va_list */
-> >  #include <linux/list.h>		/* for struct list_head */
-> >  #include <linux/kref.h>		/* for struct kref */
-> >  #include <linux/device.h>	/* for struct device */
-> > @@ -987,6 +988,34 @@ static inline int usb_make_path(struct usb_device *dev, char *buf, size_t size)
-> >  	return (actual >= (int)size) ? -1 : actual;
-> >  }
-> >  
-> > +/**
-> > + * usb_make_subpath - returns a stable device path and formatted subpath
-> > + * @dev: the device whose path is being constructed
-> > + * @buf: where to put the string
-> > + * @size: how big is "buf"?
-> > + * @fmt: format string for the subpath, without the leading slash
-> > + * @...: arguments for @fmt
-> > + *
-> > + * Return: Length of the string (> 0) or negative if size was too small.
-> > + */
-> > +static inline __printf(4, 5)
-> > +int usb_make_subpath(struct usb_device *dev, char *buf, size_t size,
-> > +		     const char *fmt, ...)
-> > +{
-> > +	struct va_format vaf;
-> > +	va_list args;
-> > +	int actual;
-> > +
-> > +	va_start(args, fmt);
-> > +	vaf.fmt = fmt;
-> > +	vaf.va = &args;
-> > +	actual = snprintf(buf, size, "usb-%s-%s/%pV", dev->bus->bus_name,
-> > +			  dev->devpath, &vaf);
-> > +	va_end(args);
-> > +
-> > +	return (actual >= (int)size) ? -1 : actual;
-> 
-> -1 is not a valid error number.  Please use a real error code, AND spell
-> this if statement out.
+Thank you for your contribution! Sashiko AI review found no new issues
+in this patch, but noticed 1 related pre-existing issue it does not
+introduce:
+- [Critical] usb: gadget: f_tcm: use-after-free due to stale tpg pointer
+  in tcm_alloc() [1]
+--
 
-Also, why is this an inline routine?  Why not just make it a normal 
-subroutine, and put it close to where it gets used?
+commit 6cf4e81d4473dd79e435edcd1431deef1606dc92
+Author: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
 
-Alan Stern
+usb: gadget: f_tcm: lock the UAS stream requests in .aborted_task()
+
+This commit adds fu->stream_lock to synchronize allocation, teardown, and
+dequeueing of the UAS stream requests across uasp_alloc_stream_res(),
+uasp_cleanup_one_stream(), and usbg_aborted_task().
+
+> diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/fun=
+ction/f_tcm.c
+> index 9e6d4f39900a2..21e5ef629319a 100644
+> --- a/drivers/usb/gadget/function/f_tcm.c
+> +++ b/drivers/usb/gadget/function/f_tcm.c
+
+[ ... ]
+
+> @@ -2757,6 +2777,7 @@ static struct usb_function *tcm_alloc(struct usb_fu=
+nction_instance *fi)
+>  	fu->tpg =3D tpg_instances[i].tpg;
+>  	INIT_WORK(&fu->delayed_set_alt, tcm_delayed_set_alt);
+>  	spin_lock_init(&fu->delayed_set_alt_lock);
+> +	spin_lock_init(&fu->stream_lock);
+
+[Severity: Critical]
+This problem wasn't introduced by this patch, but caching fu->tpg in
+tcm_alloc() [1] can leave a dangling pointer if the TPG is dropped and
+recreated before the gadget binds.  When userspace removes the TPG,
+usbg_drop_tpg() frees it, and creating a new TPG re-enables opts->can_attach
+without updating fu->tpg in the already-allocated function.  Can tcm_bind()
+refresh fu->tpg instead of relying on the pointer cached at allocation time?
+
+[1] https://sashiko.dev/#/bug/linux-abce2989-69f9-4b30-b16f-d2b7ee05baa9
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120160616.3219=
+043-1-yhlee@isslab.korea.ac.kr?part=3D1
