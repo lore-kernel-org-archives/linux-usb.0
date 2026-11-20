@@ -1,52 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795168271;
-	b=LRyOoPRnmxWAib7lTg4tMXphpKwHneTMwVJtIYzEvdmUI4gqhJmCdaWjjmPZOrNGDOoA
-	 eE7scep2wtZXUunD9MtVQVLOMEhifDzdH1H8bwsdnAz43lYVDD0D3V8O0fqJMRhX4xWgi
-	 l7h7XELsoGg5i+ywfYaRxaPL8QQQD3ZAodWvsP75FBh1XMrHy4fJWaiQTYUIGm/Q/i5gj
-	 5O2ubI+5aJyVAo9wtJtg9tQN/DG5SCUWuZQ/7gO7yN/zXzEeR/Q4yZM1mSBBrI3CP9GEQ
-	 sTdhd5DBPaQ6CHjDl8LgGk+rUzNP9WEIwOoFX7xGgTko4iVRu+fkeSB6o3oIdRoShlA==
+	t=1795168424;
+	b=34bsj3Y3fYOv5snszLKbhumMgYI/cAeTXO1Xcov6YCkcEh0PddApuloZXf+wprTQbhHQ
+	 H06TBKOWQSkad/VvEfjviyti1ihJ8ywMgggzNZvgP9M3iDbBuyaUX+QBDBE7NlfxGx3Xt
+	 N54hDuPvd5e8P7yiukPM67zETN8iw4z25tLcoUT4wg5rel+zTmzSQnZIDMuMYSKcSKO5B
+	 6U4gbJB+XrWnk/da1UHNb8Z88FO0s4cgFiESf6Bf/a7HYK+nB9v6Fu5I+s8soMG5J8YEk
+	 JtcgSv5sZJfPKoJHAaRPxEPVvk3xmOZS14RCONnY88BT9+PGtCSF56ouZCPEd7TxjOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795168271;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Fx/1+GzdH4oxW4fuPymVf8niRtu3BL5cPEdk/AG28PI=;
-	b=QbgyWwhPKTHsPtCyUcxsfVcYbgTDOj3aPWDBYoWsU/rClSPsRF5xisaU/xaBm4O2iHAN
-	 6m1gpA2uwHgd0j3HDqwdeHQubgAf+s8NKbjV4IPKaRCmJpjafHDxVQTNWFmNhRtI0FK5P
-	 dEyaYnIKvwM1LVWgrP1IL78eIdezcUa5HXg+7L/hitE5g09lzB1swLdiGjDf2uLSbKqKO
-	 oy+9HU4tHQMt0FdTycK/qNaIFzrq0uG9LrdDE6bbjqY09ofi+QBHpuxkQXPcL08VmzESz
-	 4ua6jTThUeOUImt5EFA1PIYwsqXIP9FLEPPWsQeVETqb6jyDC4RxnzB1YoE+s86d/ZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795168424;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=kVAcCf7YdsZJpIS81TVP41dIPlcYyJk0wj4QR9M2Nb8=;
+	b=HFtkXN+DluUC1kV9u4m801UtWF/u8qhM4eKpjrQihSWvxgtOazf43iOq6sdxF499zltl
+	 UN31g7HNf8jkJ2n3Baa8p9p/3pVcbQ2dyUyw/Gh9LHCqcgO/AyvI14P97DXOmjilzAr7C
+	 7JM73dPkbTMfG0+W17sajLhRHSzFKMj1rZqmW4vKjQKtjsAvFyW5JdR86XY8YfQjoxNLg
+	 zGdbJqBXLlYfJuwpupkNNvYquSZqN34VheQPCa3AYyqJXLClD+eu4UeipVkcmPs6+lY5d
+	 4LkkeXH740xVNFG5OdlfmkW4EGDpTSndaCppEARNIky0L65hwAlEoQq0z9KfmV52aBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Adtd6qp9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B738C60A2601;
-	Fri, 20 Nov 2026 09:51:11 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=jKc5z3qn;
+	arc=none smtp.remote-ip=111.22.67.151
+Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 138B9606A339;
+	Fri, 20 Nov 2026 09:53:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 138B9606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Adtd6qp9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D65E31F000D2;
-	Fri, 20 Nov 2026 09:51:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795168271;
-	bh=Fx/1+GzdH4oxW4fuPymVf8niRtu3BL5cPEdk/AG28PI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Adtd6qp9NZfpce1sJk3XIlMtWy6zpTcuSNlAXMdLlUIkxg2sFnQEcceUi7hx+v21k
-	 RrebCae+Geym09y9GDzP/9aYAaHryBiEPKaBaIMDFdkjBgmDSZ1uP5Pa6Q/+2b+Em1
-	 G1FAEtYRAdkN3Qpa2jdTrWD6HazxKoRGMLmXn/Es=
-Date: Fri, 20 Nov 2026 10:51:08 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: bolewara@gmail.com
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+38bab69d2760cc99cfbe@syzkaller.appspotmail.com,
-	syzbot+a4f65284f1451010b0a8@syzkaller.appspotmail.com
-Subject: Re: [PATCH 1/2] usb: gadget: f_uac2: fix invalid-free in srate
- configfs store
-Message-ID: <2026112000-shed-motor-c5f0@gregkh>
-References: <20260804-f-uac-srate-invalid-free-v1-0-2c980378cdf5@gmail.com>
- <20260804-f-uac-srate-invalid-free-v1-1-2c980378cdf5@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=jKc5z3qn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=jKc5z3qnKaFLYzTTaMZdrjHSZGTI6l4WURly0La+uATyMXCkG+81DAVnbeIfu4zIqYKzQBT99uMte
+	 d2WIixcAirOlJcrEqqAHv+Rb3lAcr/8rYhKCvDLnDldu7+q2iVm/bw0Te7eRXI3kRR3GqqM0jSaLP2
+	 eiTTlxyRCuek+oTk=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app02-12002 (RichMail) with SMTP id 2ee26b0018a3f77-645bd;
+	Fri, 20 Nov 2026 17:53:39 +0800 (CST)
+X-RM-TRANSID:2ee26b0018a3f77-645bd
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from FHD-W7400297 (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr09-12009 (RichMail) with SMTP id 2ee96b0018a1aad-20e06;
+	Fri, 20 Nov 2026 17:53:39 +0800 (CST)
+X-RM-TRANSID:2ee96b0018a1aad-20e06
+From: Aibing Chen <chenaibing@cmss.chinamobile.com>
+To: netdev-bot+sinfo@kernel.org
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] net: hso: cap the MTU and drop oversized frames
+Date: Fri, 20 Nov 2026 17:53:37 +0800
+Message-ID: <20261120095337.1088-1-chenaibing@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.50.1.windows.1
+In-Reply-To: <179513801218.3291.4900870389760727017@kernel.org>
+References: <179513801218.3291.4900870389760727017@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -56,67 +75,24 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260804-f-uac-srate-invalid-free-v1-1-2c980378cdf5@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 04, 2026 at 11:13:23PM +0530, Anuj Bolewar via B4 Relay wrote:
-> From: Anuj Bolewar <bolewara@gmail.com>
-> 
-> The store path for the p_srate/c_srate attributes calls kfree() on
-> split_page after it has been advanced by strsep(). When the first
-> token fails to parse, strsep() leaves split_page pointing into the
-> middle of the kstrdup()'d buffer and the subsequent kfree() triggers
-> a KASAN invalid-free.
-> 
-> Keep the original pointer returned by kstrdup() and free that
-> instead.
-> 
-> Reported-by: syzbot+38bab69d2760cc99cfbe@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=38bab69d2760cc99cfbe
-> Reported-by: syzbot+a4f65284f1451010b0a8@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=a4f65284f1451010b0a8
-> Fixes: a7339e4f5788 ("usb: gadget: f_uac2: Support multiple sampling rates")
-> Assisted-by: deepseek:v4-pro
-> Signed-off-by: Anuj Bolewar <bolewara@gmail.com>
-> ---
->  drivers/usb/gadget/function/f_uac2.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
-> index 897787d0803..1ea1bedef9a 100644
-> --- a/drivers/usb/gadget/function/f_uac2.c
-> +++ b/drivers/usb/gadget/function/f_uac2.c
-> @@ -2013,6 +2013,7 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
->  {									\
->  	struct f_uac2_opts *opts = to_f_uac2_opts(item);		\
->  	char *split_page = NULL;					\
-> +	char *split_page_orig = NULL;					\
->  	int ret = -EINVAL;						\
->  	char *token;							\
->  	u32 num;							\
-> @@ -2026,7 +2027,7 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
->  									\
->  	i = 0;								\
->  	memset(opts->name##s, 0x00, sizeof(opts->name##s));		\
-> -	split_page = kstrdup(page, GFP_KERNEL);				\
-> +	split_page_orig = split_page = kstrdup(page, GFP_KERNEL);      \
->  	while ((token = strsep(&split_page, ",")) != NULL) {		\
->  		ret = kstrtou32(token, 0, &num);			\
->  		if (ret)						\
-> @@ -2037,7 +2038,7 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
->  	};								\
->  									\
->  end:									\
-> -	kfree(split_page);						\
-> +	kfree(split_page_orig);						\
->  	mutex_unlock(&opts->lock);					\
->  	return ret;							\
->  }									\
-> 
-> -- 
-> 2.53.0
-> 
-> 
+Hi,
 
-Does not apply to the usb-linus branch :(
+Same provenance as for v1: the missing bound was found by code inspection,
+after the automated review of the companion skb_tx_buf fix in this driver
+reported that hso_net_start_xmit() copies skb->len bytes into the fixed
+2048 byte mux_bulk_tx_buf without a bound check, and that hso_net_init()
+never sets max_mtu.
+
+The overflow itself was not triggered at runtime; it is statically
+decidable from the code.  The additional paths listed in the review of v1
+(AF_PACKET with PACKET_VNET_HDR, tpacket_snd() with a vnet header, and a
+route MTU metric above the device MTU) are covered by the length check
+added in v2, which drops such frames with SKB_DROP_REASON_PKT_TOO_BIG and
+tx_dropped accounting.
+
+Thanks,
+Aibing Chen
+
+
