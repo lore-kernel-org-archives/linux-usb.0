@@ -1,56 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.154.241.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795186789;
-	b=o7j6kFKyl/VHklM4eopU4bYPySUaHmvC4GbiLIdfi0NjKnz3UwFQkHb1t3wWohoBlQZG
-	 GdQHaXGj5ixjPvgTjotTDA3RsBx1hV4NehLSTCEXtr2OywSDFAxptg+ipQaTcpY6SYTga
-	 aPXdM0UHAUdCFmnzpmSsa9Ua/hLmjJqBvNkVbivIkLgU24sz5bIskfHOpAGTb2phg3aYz
-	 RECMS9jVuMdxyGP6XBfQbBPLBbEPDYLTR/9V1GZp5cxuU9wQxRUm/Jzoozd+K4eOZVouv
-	 TxKz04TUUbhRPLqUO/CVfwVO+caC3lZ3w+WEeHPvog5vvcHnQoeOz9QxqPaiA8iQnbA==
+	t=1795186792;
+	b=gj/UmYNSUfUXRnad+cAGyMg8M3bWeSF47PLzVr6tK1jlpqyb3iUIzBfwpcXrRM0GS5UL
+	 wvF0XyYQ8LU0OEJYRD6qmo3lxMxg8kKGqACifFhFOFuCbPoLjJb1WgpJ6SRb3kmHAV2eU
+	 1u5pGAFk9m5FLJtr+VUY888SEFyquDU32ftyM2cqFYh7ziFVfVsafWfCufWS4geRoQ0ED
+	 nTwS5jiMzsxi7wCLiHPuTU7nurfkfBLHUyE/vJfDc2MB2bXPdPt7+FPgc7KpAQXWAGxcV
+	 hE4PGl+GmE3JVIpsC69RhYphX0/SzuxxoCO8y52sCEW+t7/vWbDZf1NufAJ3pLHaOIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795186789;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
-	 X-Bm-Milter-Handled:X-Bm-Transport-Timestamp;
-	bh=RrZMaonV+xFO/D4n22qyma6iV2qAwo5prrIiQAkf9Pw=;
-	b=c9JW8d2hbn5JtQxXOjCZQUUWsEnMGnkOAfCIfXrPy77ku6hodQWhxmoUTINuOFF2ajaE
-	 70v+L8qy7dpe8uioeRPjzNvC+cwhLizVdkrBiLFy0vw41M1jcL9ZfF3VCQwerouinsfMY
-	 R82FjJ0gjBSN3A23CdEvZUhMithzhVWfjVgo8PT2oTE9nh4yhBS17CI4hoE8MaB/zhur/
-	 ab4WhqknRD1QZoA211Gqi6WK3ml1NDSJn6T0GfwyYQeeYpLsWQ2UlydQbE2ESbDff5PF6
-	 ZuQM36OczBRb2RxnqdJ5Bd1pS6jCrihNtimSLB2uWRl6bxUWTX+dLe149/4mJEjeLCw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795186792;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=1+Y2RqMyHfV+Y464nXtx3Gk0xMOqrlhhnkfM59Bt/9U=;
+	b=nx83NEjGHG48268ouzVscsbu4ynpmobdVON/+2Zia/VoR6y7RehCHic083YR9MmK4CF7
+	 KGKAI3vkHI65zc1OJFdAWifNdNxjYFPfO0D8g5BJQ4N5brfXv6QfKqpT6i29LozX9nz+N
+	 l/ecGmBZ507F+8p1B0K7l9AYpQk6apg9GBajRva+co9VPxOJCnaN33CacHiU6x7UWC8PX
+	 4mjJ7liE+Fn47XJWfQAcKuFTT10ANlGA+rmUb50i5mdTsazQG42E1M2nE90g2T7oriECC
+	 tXMYODGrearfB6mANclxXoUp5lcmok020c2h/DrchWnCF93srCf6XN6Q32PTcXNmWHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=lauterbach.com;
-	spf=pass smtp.mailfrom=lauterbach.com;
-	arc=none smtp.remote-ip=62.154.241.218
-Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=F9iI9qSL;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2217E6074D37
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 14:59:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2217E6074D37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
-Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
-	(Authenticated sender: ingo.rohloff@lauterbach.com)
-	by bm.lauterbach.com (Postfix) with ESMTPSA id 69C61120E5D5;
-	Fri, 20 Nov 2026 15:59:46 +0100 (CET)
-From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-To: gregkh@linuxfoundation.org
-Cc: viro@zeniv.linux.org.uk,
-	nkapron@google.com,
-	me@samcday.com,
-	nuno.sa@analog.com,
-	michael.bommarito@gmail.com,
-	prostitisgabriel@gmail.com,
-	kees@kernel.org,
-	linux-usb@vger.kernel.org,
-	Ingo Rohloff <ingo.rohloff@lauterbach.com>
-Subject: [PATCH v2 1/1] usb: gadget: f_fs: Fix synchronous read() behavior
-Date: Fri, 20 Nov 2026 15:59:37 +0100
-Message-ID: <20261120145937.39772-2-ingo.rohloff@lauterbach.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261120145937.39772-1-ingo.rohloff@lauterbach.com>
-References: <20261120145937.39772-1-ingo.rohloff@lauterbach.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A98D6074D1B;
+	Fri, 20 Nov 2026 14:59:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A98D6074D1B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=F9iI9qSL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795186793; x=1826722793;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kd5881KlhwrfFt8b0/HVBwSv0ExhQB7vWOA8txUFcrM=;
+  b=F9iI9qSLRKq/liu+CHNJu9BdkZztswXFAxSovUyJPpwV8pnwuAnyvX2O
+   SmuMpPQYQwhOa3rIjr4uSf9hPKLGARbAqddsTB81tAtMGJ22BjWZSzfJY
+   KgKGs1pVhEgTZDtTDp4PTJEW5GxCVSgg72C5mpQoPri884giWSUL2VuVx
+   Wc6oOufBgniyIIYjwjhjlebalLULCnvW2/0xtAISanziFDLe0iUOkuCRP
+   hzduuPLoVVj/FsRfZ1IAQKsvnnahQHyfsH5eLDa6fecxpDHqRejcsXXp8
+   XFDhQlbk4X//y7RWGQA78HaLNy3M6s81SGDdY4FY+BQ6mtpyiyFxgUYPh
+   g==;
+X-CSE-ConnectionGUID: CIfDhNfrQc+31dt6BeKbOw==
+X-CSE-MsgGUID: WawpMSr6Rc6BR91pQWo8MA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="3981059"
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="3981059"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 06:59:52 -0800
+X-CSE-ConnectionGUID: btLCLG5jSmGTtynr+gFEPQ==
+X-CSE-MsgGUID: K1PHVpi3Qf6+zZHZiNkdxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="10531428"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa008.jf.intel.com with ESMTP; 20 Nov 2026 06:59:50 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 8D8BF99; Fri, 20 Nov 2026 15:59:49 +0100 (CET)
+Date: Fri, 20 Nov 2026 15:59:49 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: contact@blakejalexander.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: log invalid UCSI version of 0
+Message-ID: <awBgZXbIEu-DNHAS@black.igk.intel.com>
+References: <20261119-log-ucsi-firmware-quirk-v1-1-6d42d70a6158@blakejalexander.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,75 +80,88 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
-X-Bm-Transport-Timestamp: 1795186786483
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261119-log-ucsi-firmware-quirk-v1-1-6d42d70a6158@blakejalexander.com>
 
-Some UDCs (USB Device Controllers) require, that USB OUT requests (host ->
-device), have a size which is a multiple of the USB OUT Endpoint
-MaxPacketSize.
+On Thu, Nov 19, 2026 at 04:56:59AM +0100, Blake Alexander via B4 Relay wrote:
+> From: Blake Alexander <contact@blakejalexander.com>
+> 
+> Some devices ship bugged firmware which sets the version of the UCSI
+> mailbox to zero. In such cases the ucsi_register() will return -ENODEV
+> and the driver will silently fail to bind. There is otherwise no
+> indication as to the cause of the probe failure.
+> 
+> While existing (and future) machine-specific workarounds may resolve
+> this issue by assuming a known-good UCSI version, future devices or
+> older firmware revisions with this issue will still silently fail.
+> Both users and developers will benefit from a clear diagnostic message
+> when troubleshooting this particular bug.
+> 
+> Add a dev_err() log message when a UCSI version of 0 is reported during
+> ucsi_register() hinting towards a potential firmware bug.
+> 
+> Signed-off-by: Blake Alexander <contact@blakejalexander.com>
+> ---
+> Hi,
+> 
+> I have a ThinkPad T14 Gen 2a which is failing to negotiate a DisplayPort
+> Alt-Mode connection to a monitor-hub with a USB-C cable.
+> 
+> I spent quite some time troubleshooting the issue and identified the
+> root-cause only to find that a patch which fixes this issue was already
+> submitted:
+> - "[PATCH v2 0/2] usb: typec: acpi: Zero version quirk for Lenovo ThinkPad T14 Gen 2a" <20261103-ucsi-lenovo-t14g2a-v2-0-e85c659b56a2@resetko.pl>
+> 
+> Similar issues with other laptops have also been recently submitted:
+> - "[PATCH] usb: typec: ucsi: acpi: Add quirk for ASUS ROG Zephyrus Duo 16 GX650PI" <20261009-usb-next-v1-1-95a2288ad9b2@gmail.com>
+> 
+> And existing quirks are also already handled in mainline:
+> - Acer Nitro ANV15-41: commit 8c51ea651d04 ("usb: typec: ucsi: acpi:
+>   Assume UCSI 1.2 on Acer Nitro ANV15-41")
+> 
+> In the hope of saving future developer's time, this patch adds a
+> dev_err() log message when the UCSI version register reads zero. The
+> log message hints towards a potential firmware bug and gives an 
+> explicit cause of the driver's probe failure.
+> 
+> Tested on ThinkPad BIOS R1MET65W (1.35), EC R1MHT65W without the
+> relevant quirk patches.
 
-If this is the case, then the flag "quirk_ep_out_aligned_size" in
-"struct usb_gadget" is set.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-The current implementation in "f_fs.c" for synchronous reads, behaves
-differently for UDCs which have this flag set to UDCs which have this flag
-NOT set, because ffs_epfile_io() uses usb_ep_align_maybe() and this
-function then aligns the request size if the flag is set.
+> ---
+>  drivers/usb/typec/ucsi/ucsi.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> index 9e453d216c16..fa79ba6dec02 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi.c
+> @@ -2396,8 +2396,13 @@ int ucsi_register(struct ucsi *ucsi)
+>  	if (ret)
+>  		return ret;
+>  
+> -	if (!ucsi->version)
+> +	/* Version of 0 is not valid but some vendors may report it due to bugged
+> +	 * FW and there may not already be a workaround quirk to correct it.
+> +	 */
+> +	if (!ucsi->version) {
+> +		dev_err(ucsi->dev, "UCSI interface reported version 0.0.0: possible firmware bug.");
+>  		return -ENODEV;
+> +	}
+>  
+>  	/*
+>  	 * Version format is JJ.M.N (JJ = Major version, M = Minor version,
+> 
+> ---
+> base-commit: f11fe7603df07fbb9fa02b0d385c1696c87a6dab
+> change-id: 20261119-log-ucsi-firmware-quirk-8ffc87c7d42f
+> 
+> Best regards,
+> --  
+> Blake Alexander <contact@blakejalexander.com>
+> 
 
-Example:
-Userspace executes a read() with 128 bytes.  For a HighSpeed OUT transfer
-(MaxPacketSize == 512), usb_ep_align_maybe() transforms this into a 512
-byte request if quirk_ep_out_aligned_size is set.
-
-The Host sends an OUT transfer with 264 bytes (136 bytes more than
-userspace requested).  These extra 136 bytes are buffered in
-"__ffs_epfile_read_data()" and returned for the next userspace read via
-"__ffs_epfile_read_buffered()"
-
-If "quirk_ep_out_aligned_size" is NOT set, then "ffs_epfile_io()" passes
-the userspace read without modification to the UDC; so in this case the
-UDC starts a 128 byte OUT request.
-
-When the Host now sends an OUT transfer with 264 bytes, it's unclear what
-happens, because this completely depends on the behavior of the UDC and
-the UDC driver implementation.
-Likely the extra data received from the Host gets just thrown away;
-that's for example what the DWC3 UDC driver does.
-
-So the behavior of an UDC, which sets "quirk_ep_out_aligned_size" is
-different from the behavior of an UDC, which doesn't set this flag.
-
-The first behavior is what userspace expects (no data should get thrown
-away). This patch enforces the first behavior (code buffers extra data),
-by **always** aligning the USB OUT request size to the Endpoints
-MaxPacketSize.
-
-Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
----
- drivers/usb/gadget/function/f_fs.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index c64a268e98a4..53c92d149845 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -1078,11 +1078,12 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 		}
- 		data_len = iov_iter_count(&io_data->data);
- 		/*
--		 * Controller may require buffer size to be aligned to
--		 * maxpacketsize of an out endpoint.
-+		 * To expose a stream like interface for read(), make sure
-+		 * the enqueued read request is a multiple of the maxpacketsize
-+		 * of an out endpoint.
- 		 */
- 		if (io_data->read)
--			data_len = usb_ep_align_maybe(gadget, ep->ep, data_len);
-+			data_len = usb_ep_align(ep->ep, data_len);
-
- 		io_data->use_sg = gadget->sg_supported && data_len > PAGE_SIZE;
- 		spin_unlock_irq(&epfile->ffs->eps_lock);
---
-2.55.0
-
+-- 
+heikki
