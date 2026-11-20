@@ -1,51 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795183562;
-	b=V5yavkXBfYtZJbuYGzVjwMy3XGLKWlQDFD/h1yQY40VFGfTKK3p0I+RiPakBte9tyuLZ
-	 5k/x0F7fvf99eLdXIEFlIKRhRdN5YYmeAWYOwuM3Z1ybNp8XPLak/AbQFCp7pYnxEL6Ja
-	 SvYV1u3JMCu5mEPJn+Vp0gTYXyU73VhN4rPa9fONmh4S2lTMW2Q6yiqWzwSndXATsJxzY
-	 Hb8ehspsFrVDkWrMX6XIA08zpeY1NzQQrV2+IiyAr2P3VfvNB/7EtVXq7RObveZnZy7uO
-	 aLjcB9yDxfNvXkQESw36SyOSXEisjuthVLJNNsPXebbC8512YDsLMk6WqnA0IUwzhrg==
+	t=1795183672;
+	b=Qg+ixnZa7GlsHgLoNIsDulXic1J3ewnhsrv7cee8g+q01Ilt+4i8ZpcIbuxLayaA5xlV
+	 k3Atvm2uGX+UIADUNKZgJEze+bevEiTuvNnLDgC78VhyqujpX427jybB7vJBDTm04QowP
+	 CbCY+IOcWypfl8EsyL6X78mjVXKHfxydM61LQQdg3Drv5XEAMmuoXEa0XkPvSm6LWkHR1
+	 apvnP0DDdrV0maptNE+wCMH6h1uzfrJgOL3LxWH0Blu06gAtahE00SNy0cGDIsMaNUE1s
+	 P0VnFR/jhLuOyMjsHAWySBSlNE2e12gYWXBMoa+LHUD1oyOlFWKRLFuXRoB2D/17srg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795183562;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795183672;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=51Cs/lJptEaPc0qI8lZEFylkfjoLgr9Fc+9yPXpu0ec=;
-	b=SfwtvlLu/dwaEr+Ue883KS6Jr2KeLrZ+7QkOd4yiyTO0uhcFd7VQkZ8fENGH9lYfCxBU
-	 Xh7mxZnRl6TkTVnfje1agXmCXJoJAWwxZ7CzLDdXqcGjZWVIwN1xZc5OBqbMX/s6uSn5u
-	 JeBG+uktp2HGBw7d/ZzFp15Ltiqs6aU5x8BtXnXcZziiLXhyQD3F4j21gLzQbMd9gLJfv
-	 cI/zbZVsB3dPPZI+GRtyaQtPt6L40Q0BviW6S6+P9MwNdC6EHf9AaCmwPeWBb+MOfa1Xv
-	 Bak5LVJMpD4ipPsYQ/H73HYUWdv8tqpJ0ArZJrheWHzYvLOXwD64IbqEcNg6KOYsqtA==
+	bh=1ZFgTxowfzONgDDyjSqjbXBXxnyb4XAWB8ihAUlHnaM=;
+	b=L4LTyf5vKTwxvAKtuoDGnA4JtK4e7hDNAwoQ8tnXbMTrw1y9CP7dJ4NTtbEZkfX5kPr5
+	 uZsSJLAntTgOUhmH9FJ9bK8K4rL2EidERR3C6755/InmIs3QZstLIjqK1QhYNQl88bUIg
+	 Gk/+MC+ZxM5q+GP5lbLhx4W2MttK/b5aLgX88qCc17VyvUsKCkU+FjDJsAzwiBv3kcdqg
+	 mY4Ets/A8ivaoHJ7wB26EK8RF/9E4i8zhLRjPhc67o1r+MzIjAvswZdm9Utsk1tRTD9J6
+	 zGbP0o2apWgj+czKxSGagEnAPESdEjR+w515HvYwcdqluQN4YFvouzD+4NgYKVXsIgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Dl+v355X;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=kwN7GNCO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F1F606A334;
-	Fri, 20 Nov 2026 14:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9BD606A326;
+	Fri, 20 Nov 2026 14:07:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Dl+v355X
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DA6F1F000D0;
-	Fri, 20 Nov 2026 14:06:01 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=kwN7GNCO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DF261F000C6;
+	Fri, 20 Nov 2026 14:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795183562;
-	bh=51Cs/lJptEaPc0qI8lZEFylkfjoLgr9Fc+9yPXpu0ec=;
+	s=korg; t=1795183672;
+	bh=1ZFgTxowfzONgDDyjSqjbXBXxnyb4XAWB8ihAUlHnaM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Dl+v355XbRjnS/YhTWdm8UjSBQ6vQUM6mejqB1qHRpQbuLuxAsFr+cwyAzPxgOk3P
-	 KD2t5DpuZC3b6RQWv2NVlTVqV8moSVfPggRFmfgx0BzDqg4HHBICtrflNRbkNybaUx
-	 ImjE7L/xPqAnFKmucgg60ZR3OseBvQBZpzepIRVQ=
-Date: Fri, 20 Nov 2026 15:05:59 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jhon Wilker Rodrigues Aquino <jhonwilker0112@gmail.com>
-Cc: Bin Liu <b-liu@ti.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jhon Wilker Rodrigues Aquino <jhon.aquino@autotrac.com.br>
-Subject: Re: [PATCH] usb: musb: host: clear stale TT buffers after aborted
- transfers
-Message-ID: <2026112019-tripping-catnip-a738@gregkh>
-References: <20261103190333.87207-1-jhonwilker0112@gmail.com>
+	b=kwN7GNCOdrrouRLKwmfcDKXzruOkigesNmINxewlL+ne5g8x0vTI1b8voQ1AxFA3N
+	 edPOlFcX8yuFQ74sAcqkq/OHoVs4pVnUmH/NDcMethM9OJE3hBAfNFwiRxvsHPQTRs
+	 8NcWFA1MS2kMLvxjJ8s6Y4640QJOJxj/fmFBCjiQ=
+Date: Fri, 20 Nov 2026 15:07:49 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Alexandru Ardelean <aardelean@taladin.ro>
+Cc: linux-usb@vger.kernel.org, stable@vger.kernel.org,
+	hubert.wisniewski.25632@gmail.com, b-liu@ti.com
+Subject: Re: [PATCH] usb: musb: gadget: mask the MUSB IRQ while complete()
+ runs
+Message-ID: <2026112008-dean-crabbing-a331@gregkh>
+References: <20261118115435.49748-1-aardelean@taladin.ro>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,47 +56,24 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261103190333.87207-1-jhonwilker0112@gmail.com>
+In-Reply-To: <20261118115435.49748-1-aardelean@taladin.ro>
 
-On Tue, Nov 03, 2026 at 04:03:33PM -0300, Jhon Wilker Rodrigues Aquino wrote:
-> From: Jhon Wilker Rodrigues Aquino <jhon.aquino@autotrac.com.br>
-> 
-> On AM335x with MUSB and a Microchip USB2514 hub, disconnecting a
-> full-speed CDC ACM device during bulk traffic can leave its TT unable
-> to enumerate full-speed devices. High-speed devices still work, and
-> Reset_TT restores operation.
-> 
-> Queue Clear-TT-Buffer for failed or unlinked control and bulk URBs
-> behind an external TT. Park the affected endpoint queue until the
-> asynchronous clear completes, so new URBs cannot use a buffer being
-> cleared. Keep the parked queue alive until the callback finishes,
-> including during endpoint disable.
-> 
-> Signed-off-by: Jhon Wilker Rodrigues Aquino <jhonwilker0112@gmail.com>
-> ---
->  drivers/usb/musb/musb_host.c | 166 +++++++++++++++++++++++++++++++----
->  drivers/usb/musb/musb_host.h |   2 +
->  2 files changed, 152 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/usb/musb/musb_host.c b/drivers/usb/musb/musb_host.c
-> index 31b0612489911..6e8cf462676ec 100644
-> --- a/drivers/usb/musb/musb_host.c
-> +++ b/drivers/usb/musb/musb_host.c
-> @@ -22,6 +22,11 @@
->  #include "musb_host.h"
->  #include "musb_trace.h"
->  
-> +static bool tt_clear = true;
-> +module_param(tt_clear, bool, 0644);
-> +MODULE_PARM_DESC(tt_clear,
-> +		 "Clear hub TT buffers after failed or unlinked control/bulk transfers (default Y; set N only for A/B comparison or if a hub mishandles CLEAR_TT_BUFFER; affects new requests only)");
-> +
+On Wed, Nov 18, 2026 at 01:54:35PM +0200, Alexandru Ardelean wrote:
+> This patch is 2-part (in one).
 
-No, this isn't the 1990's, we should not add new module parameters as
-they will not work well over time.
+What does that mean?
 
-Do this automatically please, a user should never have to know how to
-pick this.
+> It reverts commit 3fc137386c46 ("usb: musb: Fix hardware lockup on first
+> Rx endpoint request") and implements the second possible fix suggested
+> in that commit.
+
+Please no, make this a patch series.
+
+> Reverting that commit alone would bring back CVE-2024-56687 which it
+> addresses.
+
+That's fine, that way that CVE will get automatically rejected and a new
+one will happen for this fix if it needs it.
 
 thanks,
 
