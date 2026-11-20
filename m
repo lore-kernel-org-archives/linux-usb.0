@@ -1,101 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795170623;
-	b=cbZLaUkP3gunSE2ci+L3EYLodH+TPYpx/r8Eh8X4HvPGngu7preR3YBb+TSrlnwJfme/
-	 CBWclbEmmnfeSDl1/oz2MYymrVFqGwcCFHn2lpChjBWQS+1EaGGCqRDdvGxAlzkSeWrc2
-	 Zh5vi9bbWdImvqognYzkT6PtvXBxTkdM88egHcWTmG0/iuU9URclTwFT6qDI/yV7bR7NZ
-	 7FolCAItzLMJtKGdk01mbZXPVz9zloRQTAaGzgPfXSVmPJ76E8W5r/wxCc4Ln7B+U7OQf
-	 vjWe3iw5U3cBIaUtZghDJKKl2NMljU3QPz75zsKt8b1VmmDanV1gNVhOmgdAKYlqIrQ==
+	t=1795170863;
+	b=OBhFUOllF9nIqWMiZOaaRRCpoET76hA1fLYivnSq56oGLZIZZ81a38+CDlSA8TlaUXTe
+	 q4JQIMEocoB7JnybImXKNzUjuKLhhDsc8dQYl+uxyU7A0CORyTnn7REpyRvuG/IXb3IZ4
+	 AMREFhVsGLEYlflqW7r6//7MkAYhnzQaevRGcIVkltRUsmBrFT8B1SKr+TtxX3vDW1Ujn
+	 EOautMoaOuwAm93Z5Y/1acpO3UrSuWI9OU08OpY0QIOcvK61ZPQSNgREUbo9rKJ8J6lEK
+	 AImeoyQiED6TWOzR2KmpJqI08s6KpyOMg/rekoXPjIbe/mYj667yV7fdcrWUG4jmwgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795170623;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ACOXYDQIswtjrnc7wo9QC5PrAvG9FslAUISL0do0xVM=;
-	b=lY8iT98z+kp0olk8xredSsZX2pfzLguvtQ3kwBo3xCXVmiOwJHwueXiIexcKgGXjbQ1E
-	 M3SmEYUg7gGsV74/h6TSkEEkOQLTVvGIeZVJZ8J7Vy7YaMZkmnMokeyVYIP89vsTorSgC
-	 zgUf9DCrZl0CZ5y9yuwWo57XOQwC0RDNniyCGyVZ785m/Uj+RS/AzpRibWeOHssqZId+W
-	 UZNmFaRp3exS1yRIeY4UP28hDnOoF/Bofz5W7hqTnxj98n+0diPgqzF5qLAZoxukG/Rgm
-	 /lPDwkoFub/vxxjGiWWBWUFPHTpfab0HNFZIaXEkuUxgOE/qw2hTIbJ9ZwWnIHMYq/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795170863;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=S4WClgGTQce96cuQ8b2vdbaIwZ7thmN+5lziIGpcwlA=;
+	b=F3nKrEteC7i4c/9sH5PuAulQ+vk7pnVQGJu1B6cNrfayO9/6urqCDmk1owbOuTgznCjK
+	 qcZ1J2dvFfqYFFYz4NwXdPKuUHF1DhDQpLExcu4V42YgGi9eGtdHUqvYhNMl1irCka+vf
+	 jAnGksPJhS1zgCssVUFa5E3rgDdpnwz5Anfm0rgIzmlMNt+Xv/E9EzGZs4z5iXm2eOT1l
+	 I1Xr72kRGqQuCh74iK/9nIrd4UA14cau+A8H8Agv5DKFDibQpgrnWNkXv0P/4GJ1tbmTf
+	 Iw+IEWLajt2ZZrd+gscNOF/wMu/gexG/GM7d0aUDx52luZZnymWsXS2a9BZ71+TDP5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T6pzZnUn;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=GQgWd51A;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A1C606A325
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 10:30:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9A1C606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E98606A320;
+	Fri, 20 Nov 2026 10:34:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T6pzZnUn
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-490d59c3edaso453202f8f.1
-        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 02:30:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795170621; x=1795775421; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ACOXYDQIswtjrnc7wo9QC5PrAvG9FslAUISL0do0xVM=;
-        b=T6pzZnUnyysKnYPXiiJVvAsuA8rGFTQUtgU2V8mb3DBJWuk8lmciPbspmfTt1FhEzF
-         1z17TLHFhGgMoLSfAY+PVb/MAMlXRr20IQ67QQNQnPX8eIllipwp4nAKNk1vXLpE0Z3g
-         ClZoGMYcYH9x5slfQjguvgByjR7eYRGyX21a4w2uI5eweKn5WlqrOTgU4to2FSZUrBCI
-         /aljavXtRIGCDxb2U7W6Vt2hLtbdG/8gk0STX2hQE3LXn/JXkuh/UTQWDgdDKjDWtkcj
-         9mJ07uuC66KNpj6ytLmTlqgULo3TZIWlAbHKQHMNGMcF28Dr+exMvZYnuGM/G0D3IJI2
-         /6Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795170621; x=1795775421;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ACOXYDQIswtjrnc7wo9QC5PrAvG9FslAUISL0do0xVM=;
-        b=pxL32DsMkbSM5+QLktW4Mx7tH1h4+Y3Pp6yuItSFZJexBalkIY1awm8uxYyebVLsE/
-         VKPco+pX2E5+EgLmNqLrHSGca01XXwQE3y9m4mmiYYCGLaCQr9x9eikojo8aD2zEprft
-         98ghlXd3h7NX0DD1/ElGRguXU3MI7haX86v9B9DClAlEBRcbaol9yUKcXboxgq2RCIMH
-         Flhd2QQ8JI9eOFoXzARmUNRx0Js1knGyI4NzizOZuDz/LGE23Cs+rbOPyAdV2Q9RXzY1
-         8kdfbnZI8X4wzGHPEm8WIxtD21HuuBcdLJzCVVUZE2KkkaMe8KuhBgT0wWq9kBjOqlxV
-         xp2g==
-X-Forwarded-Encrypted: i=1; AL+hErHiDpNybStrFgtCsTv0VtZ9+5yypvO9Gtjr2spqqm4+NNQNt/f4vMXFzqVxBE82j4IRIasxNczBkJ0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+e9VVJ3s3xr2n+HgD24t/nNiCDrQES3Bho1ajgq4VLrULTckvt
-	G3NgcxYHJTkMu1b38IlvAHexmn7zgy5oS9q5gxhV2EBQg4WhsVJZ1I+u
-X-Gm-Gg: AZFdTZd7OECvxGrEPzU0kF1tPcCzp+pkEm2vDC7HP15ftMAFqHRhvDO12ubxhAA+n8E
-	MNd3NaxfqnE0f4xyDhrS+fppzhGQ+MyIJQgHmcAeSHa0ByTc/btZKXcN6LoW7VEEoCVAn4wSNph
-	3BSF02oqQugil8Aj2QLesIXvJmoAzK9Ch1+VRZgHStrf4s4TlqM1+C2+8DGmDnkMxAdi9h852UJ
-	2bvQx6thCSQekNgxfRbmTBu0sZ/li4PFC66IkuGE9BuMIqNIh4cTxy35Oq/rXaHuajOjsi3WeCA
-	VNna1F7Jtv97mrglFeZuNb1GMlBoIBhBrO/u69XTMusBBYC/vt0QMmpHQt4qVwFt8wPmg+O6QB9
-	Lyn0p5RRpx1tTeKwkDlYt+bn49xgJUZlhs3z1DxWkXrvztOdFEbAx5vbY8aakRuvrqrBuI382Dp
-	OYHMJww30dGZ5wlagsgzNV9NvnbnlD+H3LpeFvYnHmUxoTGXFdGh/qmuysGOk2HNpD3sFmngQv3
-	5A1sqdK3g8zi8IxDk5AeOYR+imrWTivP40hXyl5HsWak0fb7VU16eMVaLO/9mU1f+D8FtJ7e9I5
-	MpKnyQetYifKncmZTJfjEJG0zRspQsiEUiS7heGAIQ==
-X-Received: by 2002:a05:6000:438a:b0:48e:127a:c914 with SMTP id ffacd0b85a97d-4aa545e25cdmr10685552f8f.5.1795170620817;
-        Fri, 20 Nov 2026 02:30:20 -0800 (PST)
-Received: from foxbook (bfh118.neoplus.adsl.tpnet.pl. [83.28.45.118])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6ae2dcf9sm4600840f8f.32.2026.11.20.02.30.20
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 20 Nov 2026 02:30:20 -0800 (PST)
-Date: Fri, 20 Nov 2026 11:30:15 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>, Mathias Nyman
- <mathias.nyman@linux.intel.com>
-Cc: Phani Kumar <phanigudipally@gmail.com>, linux-usb@vger.kernel.org
-Subject: Re: [WARNING: UNSCANNABLE EXTRACTION FAILED]Re: xhci_hcd
- 0000:00:0d.0 (Panther Lake, 8086:e431): =?UTF-8?B?4oCcVW5rbm93bg==?= event
- condition =?UTF-8?B?MTk54oCdLA==?= then HC died, with a TB4 dock and two
- displays
-Message-ID: <20261120113015.30edfd66.michal.pecio@gmail.com>
-In-Reply-To: <20261120071202.GH229695@black.igk.intel.com>
-References: <CAMcR36+hWzhS_Pytej3uoDvOU6160v5vtuWXSnyFb=zEoRFQJQ@mail.gmail.com>
-	<d15451e1-b89f-4db3-95a8-21b188cd0030@linux.intel.com>
-	<CAMcR36LCr0RFrHsLFPaPziPS=1CMbEnO3GcDk=3Oe33S8uZFpw@mail.gmail.com>
-	<78b30387-f71d-4e6d-b49c-aea1f8fbc98b@linux.intel.com>
-	<CAMcR36KcP7cMZ2D1pu_bC-R0uPn2chd_1jEzp4FBBq-jZz=D3A@mail.gmail.com>
-	<20261120071202.GH229695@black.igk.intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=GQgWd51A
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7A571F000C6;
+	Fri, 20 Nov 2026 10:34:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795170862;
+	bh=S4WClgGTQce96cuQ8b2vdbaIwZ7thmN+5lziIGpcwlA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GQgWd51A3gk3Hm6voEPBQvWZfe6RhvJ42+lpKy9+C8Af0eu/i1/nQAqKjh2/oC8Yh
+	 3CPAHmTNcTRVMNuRcZ1ozR/MyYHIJ1szAzur7/PaZqYMoqFwRDY2pf9GXPW72P5bGC
+	 c7IG7oS7AW7/7Tu8AeXEJqav6U1Sf4TvQE8vhv2U=
+Date: Fri, 20 Nov 2026 11:34:19 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Deepanshu Kartikey <kartikey406@gmail.com>
+Cc: kees@kernel.org, pavel.hofman@ivitera.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb: gadget: u_audio: reject srate request for
+ unconfigured direction
+Message-ID: <2026112002-unshipped-refract-b827@gregkh>
+References: <20260821114854.12218-1-kartikey406@gmail.com>
+ <2026092925-licorice-strode-7905@gregkh>
+ <CADhLXY6t7UL9Ys65qDSBBAUzj+sQkS26xFZX3YjkFZ8ufS16wQ@mail.gmail.com>
+ <CADhLXY55XwzujRCg+xgm4v4UJmfdgUQ0oihS39f3iMwFDzXTRw@mail.gmail.com>
+ <2026101828-oxidation-squishy-51e3@gregkh>
+ <CADhLXY4N5ia9-J7ahmnOE2i6r5w-SMZC0KiezFu0P1n7=O_xrQ@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -105,38 +61,71 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADhLXY4N5ia9-J7ahmnOE2i6r5w-SMZC0KiezFu0P1n7=O_xrQ@mail.gmail.com>
 
-On Fri, 20 Nov 2026 08:12:02 +0100, Mika Westerberg wrote:
-> > 3. Should r8152 back off after -EPROTO instead of resubmitting
-> > =C2=A0 =C2=A0immediately? That seems to be what pushes the xHC over in =
-case 1. =20
->=20
-> For this I hope Mathias has an answer :)
+On Sun, Nov 15, 2026 at 07:16:56PM +0530, Deepanshu Kartikey wrote:
+> On Sun, Oct 18, 2026 at 5:24 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Sun, Oct 18, 2026 at 04:28:49PM +0530, Deepanshu Kartikey wrote:
+> > > On Wed, Sep 30, 2026 at 1:48 PM Deepanshu Kartikey
+> > > <kartikey406@gmail.com> wrote:
+> > > >
+> > > > On Tue, Sep 29, 2026 at 6:53 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > > >
+> > > > > On Fri, Aug 21, 2026 at 05:18:54PM +0530, Deepanshu Kartikey wrote:
+> > > > > > u_audio_get_playback_srate() unconditionally locks and reads
+> > > > > > uac->p_prm.lock/srate, but g_audio_setup() only initializes
+> > > > > > p_prm.lock when p_chmask is set. On a UAC2 instance configured
+> > > > > > without a playback direction, this results in acquiring a
+> > > > > > never spin_lock_init()'d lock when a GET_CUR sample rate
+> > > > > > request targets playback, triggering a lockdep "trying to
+> > > > > > register non-static key" warning.
+> > > > > >
+> > > > > > Reject the request with -EOPNOTSUPP when p_chmask is not set,
+> > > > > > before touching prm->lock.
+> > > > > >
+> > > > > > Fixes: eb3a1ce6f5ed ("usb: gadget: u_audio: Add capture/playback srate getter")
+> > > > > > Reported-by: syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
+> > > > > > Closes: http://syzkaller.appspot.com/bug?extid=e1d0e66badecc32d45eb
+> > > > > > Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> > > > > > ---
+> > > > >
+> > > > > How was this tested?
+> > > >
+> > > > I have not been able to test this since there is no
+> > > > repro present in syzbot.
+> > > >
+> > > > I verified the fix by static analysis of the call path in the report
+> > > > (afunc_setup -> in_rq_cur -> u_audio_get_playback_srate) and confirmed
+> > > > in g_audio_setup() that uac->p_prm.lock is only passed through
+> > > > spin_lock_init() inside the "if (p_chmask)" block, so it is left
+> > > > uninitialized whenever p_chmask is 0. Leading to lock splat issue.
+> > > >
+> > > > This patch is compile test only
+> > > >
+> > > > > Did you forget a Assisted-by: tag?
+> > > >
+> > > > Sure I will add assisted by tag
+> > > >
+> > > > thanks
+> > > >
+> > > > Deepanshu
+> > >
+> > > Hi Greg,
+> > >
+> > > Please let me know the status of this patch.
+> >
+> > Burried with 2000+ other pending USB patches, please be patient, there
+> > is no rush here as this is not affecting any real device you have,
+> > right?
+> >
+> > thanks,
+> >
+> > greg k-h
+> 
+> Gentle Reminder. Please let me know the status of this patch.
 
-FYI, Microsoft asks drivers to check if the device still exists before
-attempting any recovery (and also to cancel all URBs and reset the pipe
-before submitting more URBs, but that's unrelated).
-
-https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/how-to-re=
-cover-from-usb-pipe-errors
-
-This may be the reason why I have observed Windows in QEMU reading the
-root hub port register before performing endpoint reset. And xhci-hcd
-does similar checks, but it only detects root hub disconnection.
-
-It seems that Intel HW either assumes that unreachable endponts won't
-be restarted, or it has some general problems with restars that weren't
-happening in other circumstances often enough to be noticed.
-
-I wonder what happens if the same devices is disconnected from the same
-or similar Intel HC, but behind an ordinary USB3 hub?
-
-We also have that case of repeated UVC operations and/or isochronous
-stream restarts (?) on some USB3 cameras crashing some Intel HCs.
-
-I don't have any Intel HW to play with, only AMD.
-
-Regards,
-Michal
+You said you would add an assisted-by tag.
