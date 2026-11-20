@@ -1,68 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795142478;
-	b=CPNL38xtmT0SsoGx+HDZxfDgG5xljTQGcpkYHHeeHH47sR44HR4+qg3qAop9bP/Fziu2
-	 CaGfpEpkZMjIgHbqqsAQ0eBhup5+KxW405UXI0Dxr1OwRD6WssfufB4XlcHhlTvRfVCVS
-	 oPzkcEPeJrt+Bi6LD10/WJV/7sCUzxq3XxIYskCyjVdg/W4il7VkDp7Mb3A3BMXfhiQdL
-	 94f+t8/6RV8plnHAhqQeL+e0gGlyIIS4bad/gocT3mzmrnQ8pwTAm1F4fDkwJbI7DqeI0
-	 beFyeBh9wipMq5/9sGOv+4uPyVIClekrUgr3uP0XWVn2aMJ8NyPbESbv6lAX/zkAv6A==
+	t=1795143470;
+	b=LEVkzS6uDWbDzY1ur+lUb4WFmGGPSxGrlQHS8gaXuDZSp0EqamHC+8Mp2CpQ8MYAVYm6
+	 +tB8/ZlcB6m8O569db6pa7mCTkASB1maxlgAhV4OvgGnFc2F7MrbE4fgGovNaQ+eKrYmB
+	 42tuI+BkzDqPk+2Cz2aQbjvlDkHcpIQl1CVvvYaiksTc3TrxZUKsAh3CWgbodqnrIhCq2
+	 Hjv3jMA4gE2SfSo/cyK98G4cGqsxrdMq65Krm0aqH1+oWlOiS7xQnRViKr++uVZ5sU/YI
+	 gEWAbSa7IEv6KNj0/iD9PxcH0dfA57tMu3K/9otUFZgdnRpT+xAyEa2vef5hvuU9How==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795142478;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=mW3Em0iA2hYYVLKztj+U8IikgZdoinf4Yi4Et9IH+C4=;
-	b=jjkNGRJUW6fSiRQ158sPJf9y60dz9CZ700bzA4HOfuAXHpdFWkCqthTpVFZ3aGCi4CxT
-	 /D2lV3k9U27RKIj5sez9zbW7peW1udRA3tu4KgeK5W5u6ltygmjiJwXLVqoTKBanXW7/v
-	 WqrMGzFPZukfCCE7W8I89kHRmSIy2yZNMmKqpVsABMsJ7gHRk9F59vKAnwY0sTqXpY2oI
-	 x9OU/ypOGClCUtbwcFiX9zMpyqxn/sMd2iUZzO1pJKbL+lYeVvbAYbRLztEA9xBiJv4ve
-	 MW5ZXcWPltRfR1Boz2RBYvHxh2wL5XKURB5q7MnXfj1HbXfPdO9tilDqh5MnoN/+w/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795143470;
+	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
+	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
+	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
+	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
+	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
+	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
+	 Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
+	bh=JVj4mgufIasPAq4mPPKinusBliauEAwBEpFY7KcrlDw=;
+	b=w1VWKnyenmz7Fwh/r8wZlMKEFySwd2kQfQGi9tPXLu8L4TaFLaci4PKtp5kDutSYhgS3
+	 ggkyqo/Plt+UCa0F+d/kk0aXr4wYUQW4Bo18upMm0vQC0lLDONBvd5g5TruKrUpp25lUU
+	 ugSccZZtTYuMkdbTuBrG+fSL31WhDFa43pxBLdsYMuv7LLmcWtZApxUNBYU0bEPPb5Kz4
+	 LPoDR85hcLAvRdtg49UMky/dTvnvRZXxgH2BHlqDiloyZmxNyQA6xUkIw9TPCmJGS3Fyr
+	 RGwIl/CwEv9IqndRXU40BlqbveU6m0BE6+axWK4G9yzG/oQoTJVyP85aQCV2qk9DmGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aMwITDUP;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6771B606A320;
-	Fri, 20 Nov 2026 02:41:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6771B606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: d8d6ae20e48b11f19a56ed5b684f684d-20261120
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:04a7e469-317a-406a-8d52-6d12c1b166b4,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:1,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-24
-X-CID-META: VersionHash:7db8b62,CLOUDID:094989808ba1916dd20ce45fdd38798c,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|83|102|850|865|898,TC:nil,Content:0|15|50|99
-	,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
-	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: d8d6ae20e48b11f19a56ed5b684f684d-20261120
-X-User: huangwei@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <huangwei@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 830320747; Fri, 20 Nov 2026 10:41:11 +0800
-From: Huang Wei <huangwei@kylinos.cn>
-To: Alex <alex@alstergee.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	huangwei@kylinos.cn
-Subject: Re: [PATCH v3] usb: typec: ucsi: do not register UCSI on Lenovo Legion Pro 7 16IAX10H
-Date: Fri, 20 Nov 2026 10:41:08 +0800
-Message-Id: <20261120024108.3428193-1-huangwei@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <5ee36c74-54a2-4fc1-b4bd-61a1d8342c2e@alstergee.com>
-References: <20260902090531.2134150-1-huangwei@kylinos.cn> <5ee36c74-54a2-4fc1-b4bd-61a1d8342c2e@alstergee.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F65606A320
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 02:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aMwITDUP
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 91DFF1F000CF
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 02:57:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795143469;
+	bh=JVj4mgufIasPAq4mPPKinusBliauEAwBEpFY7KcrlDw=;
+	h=From:To:Subject:Date:In-Reply-To:References;
+	b=aMwITDUPGuPbD1CacwEKO47+a4mOl4j2zP4tmiyZLDOhqQ6EYFLB3jC4BELBB7oVq
+	 aEKzs3JZi3paIwMrQpvOhwh1VK9h0BVRPchBP0Lsk0rmbAEyAbUTXsn+93cDrK3Y9W
+	 uJwYzkBaS9sMU9UkCU/37fUjo2OiBkGU2TF4dWt60iCRBhpkicqygDF2hJECyLACaA
+	 WwYVKYqrMT8A3OJI+n77a72RCcFut3W0JamJLlPsGu5W4NzuOwqfmAQHE5jFoQTmcM
+	 RJIno2dR9ZdcFqfWN5bsI6XdSTWxafjSppLSTwvdoe6LFgIhSQ1uDegqbl2RXJVU1M
+	 vHgHSxkNOocuw==
+Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
+	id 8BCFA240040E; Fri, 20 Nov 2026 02:57:49 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221142] ucsi_acpi actively breaks USB-C PD charging on Lenovo
+ Legion Pro 7 (Arrow Lake)
+Date: Fri, 20 Nov 2026 02:57:49 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: trivial
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: daway320@163.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-221142-208809-7iyiepIC4y@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221142-208809@https.bugzilla.kernel.org/>
+References: <bug-221142-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,45 +83,46 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 19, 2026 at 02:24:25PM -0700, Alex wrote:
-> I need to correct my earlier report and withdraw my Tested-by on this
-> patch. Please don't apply v3 as it stands.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221142
 
-Understood, and thank you for the honesty - this is exactly the right
-way to handle it. I'll withdraw the v3 as well (Greg: please drop it,
-the premise no longer holds).
+Wei Huang (daway320@163.com) changed:
 
-> - The drops happen with and without ucsi_acpi bound, so the
-> driver is not the cause. Skipping UCSI on this machine wouldn't
-> fix the problem, and it would hide the typec/PD information.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |daway320@163.com
 
-Agreed. And the Windows comparison is the decisive data point for me:
-the stock Microsoft UCSI client (UcmUsciAcpiClient) drives the same
-PPM on the same firmware and charges reliably, so UCSI traffic per se
-is not what disturbs the EC - which removes the entire premise of
-this patch, not just the tested outcome.
+--- Comment #4 from Wei Huang (daway320@163.com) ---
+Hi Alex,
 
-What remains is an EC/ACPI-level problem where something Linux does
-(or doesn't do) differs from Windows. The burst of
-acpi_os_execute_deferred hogged CPU warnings lining up with the drop,
-and the EC itself losing sight of the adapter (ADPT clearing in
-0xA3), both point below the UCSI stack. The Q7CN44WW/Q7CN78WW BIOS
-span and the "power cycle always recovers" pattern suggest an EC
-state machine issue that Linux's event handling exposes.
+Syncing the mailing list outcome here for the bugzilla record.
 
-> I'll keep working on it and will follow up on bugzilla #221142 with
-> data rather than conclusions.
+The v3 patch ("usb: typec: ucsi: do not register UCSI on Lenovo
+Legion Pro 7 16IAX10H") has been withdrawn after Alex's re-test
+showed the premise does not hold:
 
-Sounds good - keeping the bug open and data-driven is the right call.
-One suggestion if you capture more: an EC transaction trace during a
-drop would show whether the storm comes from a GPE handler, a polling
-query, or a buffered event burst - that would narrow the Linux-side
-suspect list (acpi_ec polling vs GPE vs the lenovo_wmi/ideapad
-helpers you listed) quite a bit.
+- With ucsi_acpi and typec_ucsi blacklisted and confirmed not
+  loaded, USB-C charging still drops - the EC itself loses sight
+  of the adapter (ADPT clearing in EC register 0xA3), replug or
+  charger swaps often do not recover it, and only a power cycle
+  reliably does.
+- Windows on the same machine charges reliably over USB-C using
+  the stock Microsoft UCSI driver (UcmUsciAcpiClient), so UCSI
+  traffic itself is not what breaks charging.
 
-Thanks again for the correction and the detailed re-test - better a
-withdrawn patch than a merged wrong one.
+This means the ucsi_acpi driver is not the cause on this machine,
+and the issue is being re-scoped to the EC/ACPI layer - the drops
+coincide with bursts of "workqueue: acpi_os_execute_deferred
+hogged CPU for >10000us" warnings from ACPI/EC event handling,
+with UCSI not loaded.
 
-Huang Wei
+Leaving the bug open for the follow-up data. The mailing list
+thread, including the withdrawal and the suggested next capture
+(an EC transaction trace during a drop, to separate GPE handler
+vs polling query vs buffered event burst):
+https://lore.kernel.org/linux-usb/20260902090531.2134150-1-huangwei@kylinos=
+.cn/
+
+--=20
+You are receiving this mail because:
+You are watching the assignee of the bug.=
