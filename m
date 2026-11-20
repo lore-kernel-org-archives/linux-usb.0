@@ -1,70 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795137800;
-	b=U6qvFUSGD1Eib8VqLT2WpO/AK/AHWovNahhtdQMNgh2GfWbkKRiR97U5NYAoeKntx9BD
-	 EIGBP3v38p9zIcLsvZmLzdjzL8Tvfe16bqt2LI2b7e/mvKLwHIPuTn+eA+p6Bud+oJjPZ
-	 s1K9raClAEJJ9gU0zo7wNm22n25P5GFqd9mPLVcBu1MRe5Dl071scFZNwUtTeU882SNEg
-	 YcRU86xMzDVQkJUu2FVu2Zi+uNFc2PDOc4FG5flQQuLrfrFqoFWFWdGkzeazRkAHwVe0P
-	 Rgea6cvTlnTtb6kF498ohBzi8S2dYDWW2Fma62gR8lXNFJR2MX5X3sdvBpFRdtta0cA==
+	t=1795138013;
+	b=5OkAD7aIpgujY0sHNSANwfv+21TKedxhcaeAsDoR7ACzQ4czCXQ5BDtWpi17c60urHVt
+	 Cc2gI7KImX+ImVbpnQ3SLuXznI45Qh4Odupm1wJSsrbwCja1qkHM9uZ8LQiSZXG3DdaA1
+	 KkMzhf8jQ2/uq0uCt1Q30Scl0MeKVqLn4wvY2a6SY82hLX9yiWhY2uY4JT69/EOti6Noh
+	 cUl8n4pcZimKfFjz8fjPA+gnvfL3HFv0zVvxrxgpa1FjOM2gLg0hAtRkMdSJBO+YQEdVl
+	 C+SE80QBkksDYMvN8qh3I0ygJTJvsCytrfUFmvphEUV18UWgCdVYd/PNAqomQa5mxwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795137800;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=aPwQ4j4gpAhDa+nABR08gUCjnD81/Bc7CRwqvIRsJR4=;
-	b=AfME2KXaf6p7XGOrR4lmJBT2gE2IVs8nufPoylj0F3RFdyqNfFx63QiMLz+BDJRkMeT7
-	 Y24fn1rkE7jVSRyprnN6jYN3/49yKpcP5/zyFBsfArBPZ20jXftzOEO4Q0ygikezi9+7x
-	 wEdEBMRCPvdUAUkhj0KSqjaoE/8EaZisgTiCQDo1TrJk/pny/rOKZtuS6F4UeAdiuqfSg
-	 y3ClGE6lq/BVQw/NP5GZgIh/Buis5dQr/IRA53TKn9ipwAaThTGHzKrD0lh0B5zQoQQPH
-	 DL5M3BLi4RaLKKHCYSsjaUkkw5qlzuOC0ZjLNJfTKeGVT5skn/YfO5HMOjE0QozLOaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795138013;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:Auto-Submitted:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
+	b=vDtv1v7S/fGRhf8Uri9P0hk2HgA7QHlCah02IQxDa59uW5qRJfTt/nIf1OxBtcfaXno+
+	 SJs0LOlumz4fLnnX1NmR9c5laLceWoVojy8C9nu9BTOAWxXMvg3u2bjDnqDReIL+NdohC
+	 jHoXjQOd1ZOFmyf7XApIi56beN9Mi5isInh1Umhfu5FKe/9Oczt00a/fGAVeKonWaDreT
+	 kAH2IqI43jfmKGBraqJqmszsOiBFNrhmzVBFzn6DvDcaxb5nEE7t1umuQPtg/dsOMtv19
+	 IDCwOy2Juj24JTJVIeTFgYSA7MeQgMGwLqelmdfdY46aLwV9lGMvd34ufqNwKLNJnhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=vWIfijUG;
-	arc=none smtp.remote-ip=111.22.67.139
-Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C87B7606A320;
-	Fri, 20 Nov 2026 01:23:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C87B7606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TQ8xofOZ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956F9606A32A;
+	Fri, 20 Nov 2026 01:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=vWIfijUG
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=vWIfijUGnJ6H96Cr5pSJlX6Nv7q9Pbr2VuFZB0a6YxQGC+8qsuQ2L8V3uQbSm1I/8MDJgXDPUIA97
-	 mI9BQ4guIG5sZcUcX/WUb1zOCFov20bF6/smwAPO3BXRtTSLrh0fs89yNaUQKjVam+96olq/WLtU0r
-	 w4vB6Oe//BpRBl+Q=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee96affa0ffb08-274cb;
-	Fri, 20 Nov 2026 09:23:12 +0800 (CST)
-X-RM-TRANSID:2ee96affa0ffb08-274cb
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from FHD-W7400297 (unknown[10.55.1.70])
-	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee66affa0fe9ee-0f733;
-	Fri, 20 Nov 2026 09:23:12 +0800 (CST)
-X-RM-TRANSID:2ee66affa0fe9ee-0f733
-From: Aibing Chen <chenaibing@cmss.chinamobile.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] net: hso: cap the MTU and drop oversized frames
-Date: Fri, 20 Nov 2026 09:23:09 +0800
-Message-ID: <20261120012309.19-1-chenaibing@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.50.1.windows.1
-In-Reply-To: <20261116014904.556-1-chenaibing@cmss.chinamobile.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TQ8xofOZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BEEB1F000C4;
+	Fri, 20 Nov 2026 01:26:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795138013;
+	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=TQ8xofOZqFaKi0pt6rZxlY463LZWNBYcoYbozOlQmpJj7bprte+8Rx40rdJKQfOtD
+	 JlnnbgtR/2vhFm6cw0usrDuWEeulcKR+ZuxGAbFfk3E9BcICaecx6ByH8PubJPMJm7
+	 cwsLTSrfS7K+YZFxe++tRg5wKR/WatbPjriKV6GkNPMWMiYo5w7+RLySKDDFMl7o8R
+	 76mW43LTXDMNANaNyOinh0qXPRGiJ1pMTperHr1KT6l/p1bK0zRciTv/xxcpFb+Uue
+	 re9+Av+Iow74NdV3fqUlo+6dKNjrvYufcxfdJqC/kLh4ccS5n/sJIlt4W7DP/rO4en
+	 Xru9oTJEx+PLw==
+From: netdev-bot+sinfo@kernel.org
+To: Aibing Chen <chenaibing@cmss.chinamobile.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] net: hso: cap the MTU and drop oversized frames
+Date: Fri, 20 Nov 2026 01:26:52 +0000
+Message-ID: <179513801218.3291.4900870389760727017@kernel.org>
+In-Reply-To: <20261120012309.19-1-chenaibing@cmss.chinamobile.com>
 References: <20261116014904.556-1-chenaibing@cmss.chinamobile.com>
+ <20261120012309.19-1-chenaibing@cmss.chinamobile.com>
+Auto-Submitted: auto-generated
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -74,62 +65,26 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-hso_net_start_xmit() copies skb->len bytes into odev->mux_bulk_tx_buf,
-which is a fixed MUX_BULK_TX_BUF_SIZE (2048) allocation made by
-hso_create_net_device(), and passes the same length to
-usb_fill_bulk_urb().  Nothing bounds skb->len today: the net device does
-not set max_mtu, and even with max_mtu set the core does not clamp the
-length of the frames handed to ndo_start_xmit(), so AF_PACKET with
-PACKET_VNET_HDR, tpacket_snd() with a vnet header and an IPv4 route MTU
-metric above the device MTU can all deliver larger skbs.
+Hi!
 
-Cap the MTU at the buffer size and drop oversized frames in
-hso_net_start_xmit() instead of copying them past the end of the buffer.
+This is an automated message. This series looks like a fix, but its
+commit messages seem to be missing some information:
 
-Fixes: 72dc1c096c70 ("HSO: add option hso driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Aibing Chen <chenaibing@cmss.chinamobile.com>
----
-v2:
-- also drop frames larger than MUX_BULK_TX_BUF_SIZE in hso_net_start_xmit()
-  with tx_dropped accounting: the max_mtu cap alone does not bound
-  skb->len, as pointed out in the netdev review.
+ - How the issue was discovered, e.g. hit in production, hit during
+   development, syzbot report, manual code inspection, LLM or static
+   analysis tool scan.
 
- drivers/net/usb/hso.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ - Whether the issue was actually triggered, or is only theoretical
+   (e.g. found by LLM and not proven at runtime). If it was triggered
+   please include the symptoms, like the stack trace or kernel messages.
 
-diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
-index 71caa3764..0df1d19cc 100644
---- a/drivers/net/usb/hso.c
-+++ b/drivers/net/usb/hso.c
-@@ -769,6 +769,18 @@ static netdev_tx_t hso_net_start_xmit(struct sk_buff *skb,
- 	struct hso_net *odev = netdev_priv(net);
- 	int result;
- 
-+	/*
-+	 * max_mtu only limits the MTU userspace can configure; the core does
-+	 * not clamp skb->len to it (AF_PACKET with PACKET_VNET_HDR, tpacket_snd()
-+	 * with a vnet header and a route MTU metric above the device MTU can all
-+	 * deliver larger frames), so drop anything that does not fit here.
-+	 */
-+	if (unlikely(skb->len > MUX_BULK_TX_BUF_SIZE)) {
-+		net->stats.tx_dropped++;
-+		kfree_skb_reason(skb, SKB_DROP_REASON_PKT_TOO_BIG);
-+		return NETDEV_TX_OK;
-+	}
-+
- 	/* Tell the kernel, "No more frames 'til we are done with this one." */
- 	netif_stop_queue(net);
- 	if (hso_get_activity(odev->parent) == -EAGAIN) {
-@@ -2393,6 +2405,7 @@ static void hso_net_init(struct net_device *net)
- 	net->flags = IFF_POINTOPOINT | IFF_NOARP | IFF_MULTICAST;
- 	net->type = ARPHRD_NONE;
- 	net->mtu = DEFAULT_MTU - 14;
-+	net->max_mtu = MUX_BULK_TX_BUF_SIZE - 14;
- 	net->tx_queue_len = 10;
- 	net->ethtool_ops = &ops;
- 
+Please do not repost the series just to address the above. Instead,
+reply to this email with the missing information, so that reviewers
+can take it into account.
 
-
+*IMPORTANT*: If you do repost (for other reasons) - please include
+the relevant info in the cover letter or commit messages.
+-- 
+The evaluation is done by an LLM so it may be wrong, if you think
+that is the case please reply and explain.
