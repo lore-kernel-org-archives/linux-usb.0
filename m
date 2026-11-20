@@ -1,51 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795162931;
-	b=jenJ8tYF+3WseRDU6RxGqxxA65bMXk4FNkMRzeV/qEVWHoRT4qSyha/ZMZJuBv+ZoFrM
-	 DCRxEzp32rMnM+07kN8eXdyfAxkm297+uUf6NQe0V+JhkzKyc2kVKWOMszuYPRfOW/kUK
-	 1rx84oQ65+CXUUM8N857BcpelJra9gSgT50WCBd77TjeyQDMLnX4VIlOgiOv3om7sRkAy
-	 SqNCZ/BA7LeqKGqODhKYgwR5URAeYMGGdIMFhMefP2wHR/GJL+jw3mxgqGf4tVOODEss4
-	 HXD/u5C5CMYnseNRFbI68L16xJy4C8QDncOQwNWoVobQ2cb95FzU89zU3jGLCilpnwg==
+	t=1795163207;
+	b=M1DKVRTGMAGw7GyxjOt1DJjZIMTWFICJillr+OZJ6auMJEoVo0nHB/IwOGtVw3v13XxI
+	 H8dzwlyOpIVlIDDPSNwBKad5BqH//SMD3EB0OCJyORPua/HXxJi3vHHN/oNHCenh+SXMM
+	 CXvFMKsDNF9XaEC6F8qpo1kUtLyOM1SAKncWFZr/X7EMqbE/7v+7tlg1R9RKRdSME5quo
+	 KnINHJ6CO81kroTNOz87NjUaFS+FRHW4XjkVZlIiEqF6FZau6ZUauRl7LbS50OWF+QxWV
+	 FWwT7c2IRz7Y6qlJfy5FRiy4GpcYGhZmV9gXVV7tnQcQooE1a0z/ei7DNrSuYiIirvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795162931;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795163207;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=hlHhW5pk9GrumZeLz0ObcW5J/DYuHFwyy9FiwFx3O5Y=;
-	b=gT4XTB1fxySYsvJ/m+cabJrDTvCMvaYNBedmI5kOC6JJ3I57azYShnvlW5R+29l0YX9A
-	 4hwKYZiREoaX4CRJLwLyQN8qbWT6A7Yf+htro+DD7N5cS5ERDC0qx5uHCjBEKrO8/yk1W
-	 19Wzmvd4JuIpI84Y445k8o5b92sM72A6y/A+UvJ9UYv9fIavnf3iXHNUGk0BdH8xwP2CD
-	 KZix6yU99ixLkrwl5fQza8CuZcHv+io7W0l4Z8NtZxORnNTEyh1s3TnKfy93v912ssyU0
-	 fwl2VVhSub7u+HYqbV10gbfmM2x89DDGSxK6kF7m+6Pz8scnEf0VWGtrAo3x1Y1VdVQ==
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=aV8jtS66Tt+1KtEPhn6QzwtWLg4RKOLbiueDjLgm9B8=;
+	b=MZI/kJ/9r6deA+Tpn95X/UZDoRZCWFurlC8pnVGpCmCxJWhsmgzFP/NHQEyMLznbKqaQ
+	 BOgXHAM6X5anDRyy/kFPyKzbV8TcdMW2ElkRwPuek1yGT8hLW11TW44bKFd+O9XgjOBPk
+	 ZN8ncr4mhDz9thdeogtDfUBOPdB+FGCogyXFyDxL/xPqwhqzgPcYylTlFqqFfrB4rts8f
+	 JPw3DEcQe037To395Qn+t9OfcS8GYJeCFfFzz3MijQgAOjxig0iVePUFm0oaifbpG/97p
+	 xbOfb/LOx4C+ijBXgPDG+dmkfwSOfxqEOVb9ELU+exgjpGYPv2n/ZK5Wo9Uu+ANvShw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=cIho2aCO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GKo+RNWT;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FEF606A320;
-	Fri, 20 Nov 2026 08:22:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE80606A320;
+	Fri, 20 Nov 2026 08:26:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=cIho2aCO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A0291F000D0;
-	Fri, 20 Nov 2026 08:22:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795162931;
-	bh=hlHhW5pk9GrumZeLz0ObcW5J/DYuHFwyy9FiwFx3O5Y=;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GKo+RNWT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 091C61F000C6;
+	Fri, 20 Nov 2026 08:26:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795163207;
+	bh=aV8jtS66Tt+1KtEPhn6QzwtWLg4RKOLbiueDjLgm9B8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cIho2aCO27eNoy+3ldeTI6I4FaJGG0fBgmCNfal+lv9PG0+M+YwXZU1U7LcuVWzQ7
-	 uHwQDvP8p1dyqM2vraeGwqS6dGcp1X3IPIb5cxS3nr8h2Y9isWc1vSoC3W3wTDE7Mg
-	 wFfmVFjuVurubeMs2R/XTxfF9nYZznqWNlb4iwJs=
-Date: Fri, 20 Nov 2026 09:22:08 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Saad Varshani <varshanisaad@gmail.com>
-Cc: nkapron@google.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+300213c2b5b55c0244f4@syzkaller.appspotmail.com
-Subject: Re: [PATCH] usb: gadget: uvc: Fix deadlock in
- uvcg_extension_bm_controls_store
-Message-ID: <2026112055-squire-strongly-aee9@gregkh>
-References: <20261105053900.20082-1-varshanisaad@gmail.com>
+	b=GKo+RNWTBbECnl7ztHjJyXNwuCG7vyB8iV2U3YYG7U+do5cDoPmPsdnGuttViBrDE
+	 8vvLJNEObbOgOFUoLma2I/pHKteMokeQRLjYMjIKoBl/cMq7wS2xzv9hc1BKEp65Pi
+	 UePeSHjxMFqGcBjrq7TFkwPhjjalKwChgjJ1euFTM4nDv31QHdcYa9l0Z5BeL/uyFw
+	 0v531AMxmI3PmIJjalsKkNJYninErCi3AbFEVAYDaW5wgZ64sW1jCMv4x2Y7ZNK2qM
+	 We+efUDFUQPi5D/Hx2uAAIO1OVqe9Sa9ZrcBOUAoP9wR/FC4qUdUvr+kB+S1Ur0Mm0
+	 1cZlQJ89zFA5g==
+Date: Fri, 20 Nov 2026 10:26:41 +0200
+From: "westeri@kernel.org" <westeri@kernel.org>
+To: Chunfeng Yun =?utf-8?B?KOS6keaYpeWzsCk=?= <Chunfeng.Yun@mediatek.com>
+Cc: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>,
+	"konrad.dybcio@oss.qualcomm.com" <konrad.dybcio@oss.qualcomm.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"sven@kernel.org" <sven@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH v2 4/7] thunderbolt: add platform NHI driver
+Message-ID: <20261120082641.GB833643@thinkpad>
+References: <20261110114925.722014-1-chunfeng.yun@mediatek.com>
+ <20261110114925.722014-5-chunfeng.yun@mediatek.com>
+ <20261110143758.GC259790@black.igk.intel.com>
+ <2807832e631dca98846d201b571f623210820268.camel@mediatek.com>
+ <20261117125241.GA259790@black.igk.intel.com>
+ <39fed6e12d60f439e0f07f3012d675f1c85d2b84.camel@mediatek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,36 +72,35 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261105053900.20082-1-varshanisaad@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <39fed6e12d60f439e0f07f3012d675f1c85d2b84.camel@mediatek.com>
 
-On Wed, Nov 04, 2026 at 09:39:00PM -0800, Saad Varshani wrote:
-> Removed su_mutex locking in the function uvcg_extension_bm_controls_store.
-> Done this due to the deadlock caused by the mutex conflict in
-> fs/configfs_write_iter. Validated commit with the C repro provided by
-> syzbot.No other conficts observed.
+Hi,
+
+On Fri, Nov 20, 2026 at 08:16:27AM +0000, Chunfeng Yun (云春峰) wrote:
+> > > +	device_set_wakeup_capable(nhi->dev, true);
+> > > +	device_enable_async_suspend(nhi->dev);
+> > > 
+> > > these two line can be put at the end of probe.
+> > 
+> > I meant device_enable_async_suspend() it's not stricly required and
+> > we
+> > don't do it elsewhere so I would leave it out now and then add it
+> > everywhere later.
 > 
-> Reported-by: syzbot+300213c2b5b55c0244f4@syzkaller.appspotmail.com
-> Closes: https://syzbot.org/bug?extid=300213c2b5b55c0244f4
-> Signed-off-by: Saad Varshani <varshanisaad@gmail.com>
-> ---
->  drivers/usb/gadget/function/uvc_configfs.c | 5 -----
->  1 file changed, 5 deletions(-)
+> I look at the PCI core code, seems it already enables async suspend for
+> every PCI device during device enumeration by default.
 > 
-> diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-> index 70a1415ea401..78588366f656 100644
-> --- a/drivers/usb/gadget/function/uvc_configfs.c
-> +++ b/drivers/usb/gadget/function/uvc_configfs.c
-> @@ -1114,16 +1114,12 @@ static ssize_t uvcg_extension_bm_controls_show(struct config_item *item,
->  static ssize_t uvcg_extension_bm_controls_store(struct config_item *item,
->  						const char *page, size_t len)
->  {
-> -	struct config_group *group = to_config_group(item->ci_parent);
-> -	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
+>  see: pci_pm_init() (drivers/pci/pci.c)
+> 
+> Unlike the PCI bus, the platform bus does not automatically enable it
+> for platform devices, but for usb devices, usually enable it because
+> the standardized tree topology with well-defined dependencies.
+> 
+> Due to we explicitly create dev-link with xHCI/PCIe controller devices,
+> it is safe to enable it, then keep the same way as thunderbolt/pci.c
+> does.
 
-Should be done for all functions, not just one, right?
-
-thanks,
-
-greg k-h
+Okay works for me then.
