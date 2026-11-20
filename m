@@ -1,78 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.240
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795202749;
-	b=TRS17X14s6B/+FOD/BbzXgUHiIgAI4H4FGzzdG4AG8dBkyhqNCO2EizX9pGbE/ySX1l0
-	 Tltu4Rxf9MvWBj73H8SdH0ZB5IL/1bwLsIrPYbRQR5+u+wJ0w8IrPpOU7JrAa3VCXtMus
-	 COMAWrXVGhUZLI+UsrQaqL5m/YzxxReTK2f0xW9AG9DbnoMxmzZhaS9unqIBpecaaqbNX
-	 kOVEAsxSoxNn+r82R/V2aYkQ1QsmX8eT4UA0PhZ3HimvShCdmrP4ZiDJDgs6Zv1mRcc4L
-	 r0fAhtFxiEjbgrEfimynr0+54T9M/cKsSN6v8lyR2SScpjILpV81kb5sZ390FY7lVUw==
+	t=1795203620;
+	b=YYFsv8U8o79+JAPyvTURwNCGAdM2QzHxoWUpo1gwr1Gt+57v5XMHJtReLziOOKZVG4AU
+	 hIoYGALCyMIhJLUTiiw8J4vhUEC0xiI8siPgcUMoVngjxzQ+5X9HsVA10ZxsXKHzHRrkW
+	 IvMBouK/bNy2UnFvYcF7mGgJbb9knRMFSa++ujVZscykwZjnIQ1NZmZlkHwSLmDiPphYr
+	 CT3+KZqiQWjl2Eh21wJ9IgJD5xLJdFLzMU+rb/ZwGTgc/+nRape1LF3jiIdZ9JAHfs2fq
+	 tg7cgBDKglnunKvXGnji0dZ3itDHJyaVsrjbHFiXZ6lva9mLEke40xDO9pcUm/4j68A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795202749;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=4cYTJdb6hleL5/mTkMDM0w7nLSU3+ju8zZwuzUl+VRo=;
-	b=LYdShiyij54G68Vk9zrJYqwq+DVO8rrdW4CI5+7d7/nLHF836Ehu9d8ndIVdVq1tGSdu
-	 Rfwv+9r6A7v2HApWL8UJa784OcB6ubIjYjgUTE9QUiIyvvpe5qlflRabKAj2OETxQlSeQ
-	 impdT4kUhxitubjKXszpJi/S0bSlcneQYqYpckavrl58k5P5EoV1nch8s5CRw73pauCl8
-	 AM1lATV/unPVCawvYHqufqmRnNcTuyXkTVYEAou8HziZ8fXER/o3ipwQOaAuPmoHeEieZ
-	 gGQWDOfwPJxN3RDbJ7rFdXRpsWoQ4K6EPL/EQK1bvxSzqzHaDDFX0dmCeEJ5soMBssw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795203620;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=ZlIUgNeCJej6P6gG3sC9wVLuR3KUB6+0bnBoo4k4LtE=;
+	b=HlfrvlexWtVZWycpl1ywlCD7w5NnqfSReHQe2FEcr/+ZtpSHclf731RvGhG6VrvocOxA
+	 lYzNzut3QsaXnmIYMD1CyB/WXwHr6icDguRRSSQaG3WjcvGq0SXT//j8DM+0uLnMxhACu
+	 mSucS5CMMGrONy2ieI9jJ6Y2fHOut1RVJlYL9EDeK/fJ3n4mT63qaGTCmnni92MOISvnK
+	 f+dwnFnAUCYimnkLYudwPKxX5FydeTZizzXhfkKhlvMmQEOvEtkd/w6kumFIu4k3c1L3/
+	 p1QBIKiI+d4faBU263PlmpxujiduF/cW5HzaldHVUsdV8+DMn25B8zAWJOhSu+oXrlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=foxmail.com;
-	spf=pass smtp.mailfrom=foxmail.com;
-	dkim=pass header.d=foxmail.com header.i=@foxmail.com header.a=rsa-sha256 header.s=s201512 header.b=rPraOwQv;
-	arc=none smtp.remote-ip=203.205.221.240
-Received: from out203-205-221-240.mail.qq.com (out203-205-221-240.mail.qq.com [203.205.221.240])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bi6cY+lG;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD35A606A6C6;
-	Fri, 20 Nov 2026 19:25:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD35A606A6C6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1A4606A6C2
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 19:40:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.a=rsa-sha256 header.s=s201512 header.b=rPraOwQv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1795202739;
-	bh=4cYTJdb6hleL5/mTkMDM0w7nLSU3+ju8zZwuzUl+VRo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=rPraOwQvS7VWHWP/SErdAuCXiusAtwY00OIWdics7g2vuCSN3K4O0aQ/AgcuyOxeA
-	 Xecnbip/HhCEmXwpN71aZlFa0Msro1/BXuo9DVo+RLbxsvzymw6dpldROVpvkpHNz/
-	 jMncZvPtnoDb0EEmgGClZj/4dRLEikmX8vfoowcM=
-Received: from localhost.localdomain ([240e:3bb:3013:2171:4526:e32a:3de3:2a2d])
-	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
-	id 6642AA26; Sat, 21 Nov 2026 03:25:36 +0800
-X-QQ-mid: xmsmtpt1795202737t5po9gzz8
-Message-ID: <tencent_D1222948818CA62395FED66DB7F2967B1809@qq.com>
-X-QQ-XMAILINFO: OIJV+wUmQOUA7lFidggaKVIZH3eJxRJsUcjO135XHVnW5FNkny12Gr81VdNDsP
-	 BGdTjNDuYoCDPG70Qf0a+9xkWcjDSp1oTtt27pAGshlvzPYFBqDsrAgB2Gfr+izybOnVJvg8dh5k
-	 QwZgdVzVuEop0XCq7voYj7kAWLWs34h8Szg5H+l+3g9e71nL4cr3OFZ8QQ2s8hrK0FkJzCwKCRc/
-	 boYfRI6MmsfqHwckNlHDy6xXQvGdVsHtlltVT5DV2j/GSkgMCWt7xl4Kk10fv+GBXElu/DhCbHNw
-	 cM9FXzH0IKYNMfftWHakk+aiJyqzI3JUyQDVPXSx40/mHgx70s/Vz1py6oZvmZfylmfvAW0HDyPN
-	 Oye+G2yCgozFnYZW1Vr6+oKwuA39OsNryti1pnkmT3I3sO0xZfaVaz/k5HiJ1eYKDW3BvZvQdBJP
-	 aZ8E90XXvDOKcY4H93Xw6U89VKg/53TJvPXkYNrPWAZcXTFSDmZzhvwGAtIi0rSVb957RLV7Jhvf
-	 xCj1yLZ1OIAdCRP2lsXIfgupkNI9faWRm/KF8DyeN4OA+EL+oEtGZMNKJBlgckUFdxlzPk55fcYK
-	 iYslxNrXegfAEGkOnkLzZObjq6wss/fYV856JMGI0dTO6K1Xq0ESDb7dN4FDu1J1E0k8/2uj0Dkn
-	 ixQdUJ6TZAKr71iBcGJQ9fHE8A9eGp/IclDxNzLDxBiG6HlIzYO0LplWPiONzrQ5tnr5MCSQk9ns
-	 17yzd4JjzelS7PETkiRBsxji4xuMU5m0PxkjzU0pXvTDwXu+rclCuB8lwyeU9qlZ7ZTbm73eTiMI
-	 ZYSRt7QFLKQW/2c/9rSjd4Dkv5vWQWsVpVGttV7d8RYXKog69h4fLKnKGt+Ap8nzDmxAEz7P58K0
-	 mLjz/bRIpgP7HfTdhB0oretsgvynW/DnKPGSXOHt3lXXg85Ft1kOyyg07LS7n8XV3DJAjabl8Nf1
-	 ZaOl74J4QW/bpkmeHaekGAViEVgP2Q9pXPfm+Os8tGfPtZpg7XWWNB2sGWrCR6kMVjfVT2sL8lNF
-	 935rnDNiJA79VeZKHVwn1owPdQJpbywTzriA5i/K9571Yv76k5TA9DkO6psubw9mUcKVU97A==
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-From: memoriaru@foxmail.com
-To: heikki.krogerus@linux.intel.com
-Cc: linux-usb@vger.kernel.org,
-	badhri@google.com,
-	gregkh@linuxfoundation.org,
-	stable@vger.kernel.org
-Subject: [PATCH usb v4] usb: typec: tcpm: exempt Soft Reset from the SOP' MessageID duplicate check
-Date: Sat, 21 Nov 2026 03:25:35 +0800
-X-OQ-MSGID: <1795204201.patch.tcpm-v4@foxmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <1795204200.cover.tcpm-v4@foxmail.com>
-References: <tencent_443620EAE95525A375BB2D8A653406630A07@qq.com> <awBIRnc9lBkdVhEK@black.igk.intel.com> <1795204200.cover.tcpm-v4@foxmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bi6cY+lG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56F0D1F008B2;
+	Fri, 20 Nov 2026 19:40:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795203620;
+	bh=ZlIUgNeCJej6P6gG3sC9wVLuR3KUB6+0bnBoo4k4LtE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=bi6cY+lGlnKpU8G82i2DVh+LjSpT7IdUhZQbCNVXKcA+s8sTtlIpZyUp/iCg9gf9u
+	 4557Gcq0poTi1KxqwMsGniJB/a4GYSUvc5n8d5YnH4G5HHA35rdCXVF9NPREsxv+xd
+	 IjE/8oWb2tqp9ey+bP1bmmeJ13LcjNhOYanQ9scZ3+P2FYrc5zMpib4ybUMkLpGhPj
+	 RyoxLUIHQ7OBjj1Gh8nwEE73s5hk/H64kXONLBE0gZZolOUr7oMq0IJtkPwdFCnkEw
+	 irYbS+hjJSeXEijCtmBh+MXeFi4fAiPsDLjYBZ0CY7XNuwcJtdbQtgo40vpvLHt/ra
+	 ymAWw5IvU2mYA==
+Message-ID: <sashiko-outbox-225940@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3] usb: gadget: f_fs: fix use-after-free in
+ ffs_closed() on umount
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mohammad Mosafer" <mohsafer@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261120192415.335646-1-mohsafer@gmail.com>
+References: <2026112030-aflame-skid-859a@gregkh>
+ <20261120192415.335646-1-mohsafer@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Nov 2026 19:40:19 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -81,46 +60,84 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 8bit
 
-From: Zhang Hewei <memoriaru@foxmail.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] usb: gadget: f_fs: Fixes trailer cites 5920cda627688c instead of
+  ecfbd7b9054b
+--
 
-The PD message duplicate-check and the SOFT_RESET state handling treat
-the SOP and SOP' channels differently:
+commit cfe09aaba9522f24cae9e22dc082e6797e54adda
+Author: Mohammad Mosafer <mohsafer@gmail.com>
 
-tcpm_pd_rx_handler() exempts PD_CTRL_SOFT_RESET from the MessageID
-duplicate check on the SOP path (USB PD spec 6.6.1.2 note: a Soft_Reset
-message always carries MessageID zero, so the duplicate check must not
-drop it), but the SOP' branch of the same switch has no such exemption.
-A cable that sends a second Soft Reset over SOP' (MessageID zero again)
-has that message silently dropped by the rx_msgid_prime comparison, and
-the cable-side re-negotiation stalls.
+> usb: gadget: f_fs: fix use-after-free in ffs_closed() on umount
+>
+> ffs_free_inst() releases the ffs_dev with ffs_release_dev() and only
+> then re-acquires ffs_dev_lock to free it with _ffs_free_dev().  In
+> between, the dev is still linked on the ffs_devices list while already
+> marked unmounted, so a concurrent mount(2) of functionfs finds it by
+> name in ffs_acquire_dev() and links a fresh ffs_data to the doomed dev
+> (ffs_data->private_data =3D dev).  _ffs_free_dev() then kfrees the dev,
+> and when that mount is torn down, ffs_closed() dereferences the stale
+> ffs->private_data:
+>
+>   BUG: KASAN: slab-use-after-free in ffs_data_clear+0x438/0x530
+>   Write of size 1 at addr ffff88810594664a by task repro/116
+>     ffs_data_clear+0x438/0x530
+>     ffs_fs_kill_sb+0x7b/0x510
+>     deactivate_locked_super+0xa9/0x200
+>     cleanup_mnt+0x255/0x380
+>     ... reached via umount(2)
+>   Freed by task 112:
+>     kfree+0x127/0x3b0
+>     ffs_free_inst+0x10c/0x1a0
+>     usb_put_function_instance+0x8a/0xc0
+>     configfs_rmdir+0x773/0x9c0
+>   Allocated by task 113:
+>     ffs_alloc_inst+0x109/0x360
+>     function_make+0x138/0x330
+>     configfs_mkdir+0x48b/0x1090
+>
+> Hold ffs_dev_lock across the release and the free so that a released
+> dev is never findable, splitting ffs_release_dev() into a lock-assuming
+> _ffs_release_dev() (matching the _ffs_* convention in this file) and
+> enforcing its caller-holds-the-lock contract with lockdep_assert_held().
+> For the same reason, re-read ffs->private_data under ffs_dev_lock in
+> ffs_data_put(): the argument read there was unlocked, so a concurrent
+> ffs_free_inst() could unlink and free the dev while the putter waited
+> on the mutex, and the subsequent ffs_release_dev() would dereference
+> the freed dev.  The now unreached ffs_release_dev() wrapper is dropped;
+> its remaining callers use _ffs_release_dev() with the lock held.
+>
+> The race was reproduced with a multi-threaded harness racing configfs
+> mkdir/rmdir of the ffs instance against mount/umount of functionfs on
+> a KASAN kernel: the unpatched kernel reports the use-after-free
+> reliably (2/2 runs), the patched kernel survives an extended soak with
+> identical churn (2/2 runs clean).
+>
+> Reported-by: syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D6227549bd2c8a1ec8ba0
+> Fixes: 5920cda627688c ("usb: gadget: FunctionFS: convert to new function =
+interface with backward compatibility")
+> Signed-off-by: Mohammad Mosafer <mohsafer@gmail.com>
 
-Exempt Soft Reset on the SOP' path the same way the SOP path does.
+[Severity: Low]
+In 5920cda62768 ("usb: gadget: FunctionFS: convert to new function
+interface with backward compatibility"), ffs_free_inst() only acquired
+ffs_dev_lock() once around ffs_free_dev(opts->dev) without calling
+ffs_release_dev(), and ffs_release_dev() took struct ffs_data * and read
+ffs_data->private_data under ffs_dev_lock().
 
-Found by code inspection; a software TCPC stub was built for the
-responder path.
+Both the lock gap between ffs_release_dev() and _ffs_free_dev() in
+ffs_free_inst() and the unlocked ffs->private_data read in
+ffs_data_put() were introduced later by ecfbd7b9054b ("usb: gadget:
+f_fs: Fix setting of device and driver data cross-references").
 
-Fixes: 6bd181ba60e1 ("usb: typec: tcpm: add control message support to sop'")
-Cc: stable@vger.kernel.org
-Signed-off-by: Zhang Hewei <memoriaru@foxmail.com>
+Should the Fixes tag reference that commit instead?
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index bb90211..89e280b 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -4200,7 +4200,8 @@ static void tcpm_pd_rx_handler(struct kthread_work *work)
- 		 */
- 		switch (rx_sop_type) {
- 		case TCPC_TX_SOP_PRIME:
--			if (msgid == port->rx_msgid_prime)
-+			if (msgid == port->rx_msgid_prime &&
-+			    type != PD_CTRL_SOFT_RESET)
- 				goto done;
- 			port->rx_msgid_prime = msgid;
- 			break;
--- 
-2.39.5 (Apple Git-154)
+  Fixes: ecfbd7b9054b ("usb: gadget: f_fs: Fix setting of device and driver=
+ data cross-references")
 
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120192415.3356=
+46-1-mohsafer@gmail.com?part=3D1
