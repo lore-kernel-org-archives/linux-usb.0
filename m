@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795178064;
-	b=CXnOcsp9o2J1yIITROuuwNQ6Hk5/CUe7qVgqBmwuL33FWRHR39nYPEbh/zf6eOH6vYSK
-	 GZ/Ej4SOUgjQDC6+HVnrPhfvaNxUMeq+a6JrtRfXcZE3LG/XLgrSPRp2tM4918zkA8iqb
-	 mQ7I4KmeI63VhPjAjU1TrWaY3vOUtXf79SPtsjnvU9Ju/4qts98AszhmFApeezRg1x9jH
-	 Eows+4KgW2xicKBDlnV+k7e93UrRuFi8tupFy5Hdlu2TW0VOFZuO/0tU7PBalL2PXmFV0
-	 wsFCd/gQQuaEZNftxAgdv0rCNwb2NzEG/+H6Qos/oF5R8EAOD3HaQ61VoQJJSL9pimQ==
+	t=1795178433;
+	b=1PFke63LJxeFz6es0WZKU/cSlJjMl+LAT9najHAdffJBzvJp11KXT897I3DkSKVamvK3
+	 22jdE89yQUsOmF/TVxkXRIrh4F2lIH47JykAzPA14EgERDOEzD9/KCrJE3JJ6RTmCiwbq
+	 LLRjJv/vybCaDR5FaaNL8nUBq6nhs7b5lj7bhPcGPOYsOcu2gj1naG+0Y9+GgRfh/avQE
+	 7i5UWaekEU6xXMBMg0bVwbzYRKO1cTfBcCVw1GflWOXjdxK3cNaMPe1cfX5jSEKQBUrFE
+	 kcWEe/JDypsT7yKS2OHCqA757CSBKCx+AEYlG3BMy1d1vJrDOk7RFiP04PjZogd7zkQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795178064;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795178433;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=5dtqdfofcnjYHJTgvBsb6ylcv+bNY0oa4DU61wLgsWo=;
-	b=qXsZNT0heWtaszg/Xz+U9OxBjlr+JWFuEdS24k/2kp6Xp9pdH8otKqkImVNJo7kb928A
-	 qX+C1rPyYeuJ3uWPleUyrJsVyIk/BVAQkpQFOLJ/ltzl5LUguxpVzxEw5LCVlCx+lLX0B
-	 ZM45m4NfL41hKjAdAqMC5Odu2IIZYWEy/GaMpjCPiHbThxbI9XRgxA+Fb7o18TrcFlCCC
-	 GhGuYqjf33dMmwubHx0XNK0qai9Vw87CZ5GPbrTeNoGL/EXwp0GKHrGEtc/pm9lTlQ4qk
-	 1bRvpGfjXRz4tjKA7ft28MN9IOZeWaMt5sdwNXnURwMiEh9B9hMFiEwXJFTyKR3K9fA==
+	bh=/WObZ6l7ZTo8y3uK6MPgtaJjynqlTcrjs1y2uwelV70=;
+	b=i3QAWbL4++6c6ifjgaYWgTVPw7QDYa3MCqF4gMlWKxC4B48zrI0IsvHSHXUOiJLbHX9R
+	 CUgwuYLa5XBpEZvn0QT34RYFNSSwGBD4inZDnRY4lLMjPXMMSDvYkHgD4tNwPaStra/90
+	 ZqyaVKyn2U4Fi7Q2uHKPjq2jhn90j4D8f+Ms0LuMqMoISEJdZEXUIAEMBCrf/5smXoqwt
+	 VpHMShlETIznrlwLS6xjOMp6GNwDljxAiQePcZyYv497CJzSZ1xMHKlQJJFc7hMrXUwpr
+	 DnusdeNd45bpkAuqQQB9Z+f1HSBvXc7e/UnvnAcqQQ33JCbUFcquH97v0geRdD/C3gw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=b00ehjRm;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qtF5AdJo;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F6D606A32A;
-	Fri, 20 Nov 2026 12:34:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98D7606A320;
+	Fri, 20 Nov 2026 12:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=b00ehjRm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE3681F000CA;
-	Fri, 20 Nov 2026 12:34:22 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qtF5AdJo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D36191F000C4;
+	Fri, 20 Nov 2026 12:40:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795178063;
-	bh=5dtqdfofcnjYHJTgvBsb6ylcv+bNY0oa4DU61wLgsWo=;
+	s=korg; t=1795178432;
+	bh=/WObZ6l7ZTo8y3uK6MPgtaJjynqlTcrjs1y2uwelV70=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=b00ehjRmu92QlDIqeq18dE3lDMZRB/JBEL9MPe86VIX7TRG+X0ZgtpUO+rQLyyqTG
-	 55CDMguuZZjNJbRt5rh5GTpkHhxde6XdraDSdyWXbaSdZD7/SoBfCfIxN6fsL6PRJZ
-	 Eui4hHVPRDM+cnZlahZ17K+3xLfRAmn6bocyEiiE=
-Date: Fri, 20 Nov 2026 13:34:20 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Saranya R <saranya.r@oss.qualcomm.com>
-Cc: Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb: dwc3: gadget: Fix spurious suspend event during
- HS link training
-Message-ID: <2026112002-sapling-nail-396f@gregkh>
-References: <20260903110947.2761354-1-saranya.r@oss.qualcomm.com>
- <20260907101236.1543438-1-saranya.r@oss.qualcomm.com>
+	b=qtF5AdJoR9V2ZvQPriAdoaahpLj+w0i81lcdo5DUm9sqfbPpmxQSKEhfRIR3Ze39W
+	 ZqgatxptsICeyRch9+Vbjve0Q1tbq08XA/2OOb3WjnQOYTF1TXNtT88G4cUfNqKCXC
+	 zxi5jSXfAA7rC6BITrlX15Np8rJr157RS/CKCUM0=
+Date: Fri, 20 Nov 2026 13:40:29 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-usb@vger.kernel.org, Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: phy: tegra: embed UTMI pad config in phy struct
+Message-ID: <2026112019-remote-retrieval-69b8@gregkh>
+References: <20260921015952.1047410-1-rosenp@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,34 +57,14 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260907101236.1543438-1-saranya.r@oss.qualcomm.com>
+In-Reply-To: <20260921015952.1047410-1-rosenp@gmail.com>
 
-On Mon, Sep 07, 2026 at 03:42:36PM +0530, Saranya R wrote:
-> During HS link training, a spurious DWC3_DEVICE_EVENT_SUSPEND carrying
-> link state U3 is fired before CONNECT_DONE completes enumeration. At
-> this point gadget->speed is USB_SPEED_UNKNOWN since CONNECT_DONE has
-> not yet run. Calling dwc3_gadget_suspend_interrupt() here triggers an
-> unwanted composite_suspend, causing the charger framework to drop
-> current to 2mA and then ramp back to 500mA on every USB connection.
-> 
-> Fix this by skipping suspend event processing when gadget->speed is
-> USB_SPEED_UNKNOWN. This precisely targets the pre-enumeration window
-> without affecting genuine suspend events: a real suspend at ADDRESS
-> state (required for BC1.2 compliance) only arrives after CONNECT_DONE
-> sets gadget->speed to the negotiated speed, so gadget->speed is no
-> longer UNKNOWN at that point.
-> 
-> Signed-off-by: Saranya R <saranya.r@oss.qualcomm.com>
-> ---
-> 
-> v2: remove Fixes tag and add cc stable
+On Sun, Sep 20, 2026 at 06:59:52PM -0700, Rosen Penev wrote:
+> The UTMI pad configuration was kept in a heap-allocated void * member of
+> struct tegra_usb_phy, even though the driver is the only user of the
+> field.  Embed the struct directly in the phy state to drop the
+> allocation and the void pointer indirection.  The config is
+> zero-initialized when the phy struct is allocated, so no extra init
+> is needed.
 
-cc: stable was NOT added here.
-
-> This issue observed on 6.12 kernel.
-
-Please test a modern kernel version.
-
-thanks,
-
-greg k-h
+But why is this needed?  What does this "fix"?
