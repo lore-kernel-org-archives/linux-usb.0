@@ -1,53 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795172296;
-	b=C1Pb6yvAWXaeAKT0AsjvDlP/8KzXPYl3iguQg0ffdSC4RJ4QlJrW8HyysIQeV7Nftmh2
-	 ygzGx2DZ9i3E+P/VGdXxnQ3STV01Pq74QLTxgUr6CmdU9rAb9/4DuWy88ID9mxFpoqAwq
-	 d132YRPUzOcMaSSk7XxEiugtc/IdGZyvyy9dTqWodWKedSS2+zfQiSO1Znzcr6avphXDr
-	 hw0JUQwkhjTRtoWV88epPLgCkuLPsdyHETb7DZ1yflQJgSkIrHBNDwuQAvkHlNVgPsUtC
-	 EofkizrK5OqZCgk4CRFdL24jck5fEGBZJO0y3+AlX/UbSsPlCkvr/4nxVnDbT1oLLoA==
+	t=1795172318;
+	b=LD+hiild9ZUXk7+OgCWCKmaxtUucEGvBRY5oftsGK5hs8bxCtNYoOUGpLPqGnPaWgPsv
+	 ci62yg1z329yHUFrwT62t8oDgJvo5fWeVOnnff5RCfWKfCDqC9y38lq1t2wGf02hvlWrz
+	 DLwuVXgGqZtsMyD1bKa0NLUI6dTNVi3nKzJMkVCkIGu7rHwh+Mqo0+yzFQkEPZPnXKaBv
+	 qf+770WhhBoR9A3r7C+rBrymBXJxehFEMfFkeGE9TBrqD0NnvEAXx5001OQJ+XO2CYEtR
+	 DhRn729Mpm+8pUDr51jL1AVOZlA9T3SpsCbhQNi2Ox32OsK47WyPOvNheEYN6RUwf9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795172296;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=EW6Q9jmIhQh9U/3ByIZXptV8tV4/B3yP9ni/4lNN4ho=;
-	b=Qg28RSieX2C8YqVWX5Qqn3BSDq+I12nb6FEoUjoCp8Y+qgxl8ssoZwa1bCNg/uwRhJal
-	 aekxm/rkWgXdx7Hks6v4wK4H03dcBR26HKSCReaJiRSfaeN0+VDS5yN14FdXiamP60oLY
-	 mvpQy1+N1O/CatGl2G6uVVf7by4S/AnYJbcdO+0cAqOOhbjQJ3wctKABeS9TAezEWdRTw
-	 o2dVGz+1I+ZHvn9X+35JgmnY0ydR3u90zEHsO3J4nzfy6kSrWBiL6XwTZQSt9s5Pe9uS0
-	 2qSR0UFB7UKBWfId3demgiUwm8H55K2t5CLqakTmq5cOyB+FnUdZB5COuq9vqg9Bf+g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795172318;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=ex6Z1jSQ+4dxlVRkCcqyees5rqcGmwfbNgXE+eJUW5s=;
+	b=rkp7Td071f0uxkLtEq2bK78oMIJl0yPiV4227Jjv1+Cn2NU5cwk9BEfvA5szrNvOp4o0
+	 TDaSJAZNCNpuQjuiSggPKdf6NiPEUqwO+oflM7l6QIQ2C9q8r61vvrZ2KRc7XLM5hJabQ
+	 jq37/C0w8j3zJLxG+R7GY/9IZdMVKr76Lc2blxXwKXWBF0YhNIKDDluFaDtF3rMERy+Bv
+	 4njloyX+kNpX56tJ+Ib0hOCgxctUCNGRY0rTVZIQsFXG8sIyq2EbHaPlTd5E+4tI8toRd
+	 Kg9aIYbo1OZeAWJFn7wV4+fjvZU96RWJUqdT8y+PCEY0cyale6yt7FxwxTh5oGxjIYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=gUNJtQtS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x4cODoLm;
+	arc=none smtp.remote-ip=209.85.218.46
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E928606A325;
-	Fri, 20 Nov 2026 10:58:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02897606A33B
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 10:58:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02897606A33B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=gUNJtQtS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74D9A1F000C6;
-	Fri, 20 Nov 2026 10:58:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795172296;
-	bh=EW6Q9jmIhQh9U/3ByIZXptV8tV4/B3yP9ni/4lNN4ho=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gUNJtQtSHmecT3cbkPHjfDMIOqke1kr8wcj8qViGVOgRM25It6xUPOlm0Omkoun+O
-	 8Vj+LYsf+Riz3AIf7vF97VLervezzIX6APqbX2QCXNibwgJ2iSLhh9HhUfZGH4yhMX
-	 ADPJfBtcWAZvZxD7oRctR+1DmBsfXgzvwNvxndKA=
-Date: Fri, 20 Nov 2026 11:58:13 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Slawomir Stepien <sst@poczta.fm>
-Cc: andrzej.p@samsung.com, jiashengjiangcool@gmail.com,
-	yun.zhou@windriver.com, zzzccc427@gmail.com, bigeasy@linutronix.de,
-	nab@linux-iscsi.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
-Subject: Re: [PATCH 1/3] usb: gadget: f_tcm: take the TPG in tcm_bind()
- instead of tcm_alloc()
-Message-ID: <2026112034-paralegal-democracy-b509@gregkh>
-References: <20261022134926.1125473-1-sst@poczta.fm>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x4cODoLm
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c4d427836e9so119103666b.1
+        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 02:58:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795172316; x=1795777116; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ex6Z1jSQ+4dxlVRkCcqyees5rqcGmwfbNgXE+eJUW5s=;
+        b=x4cODoLmAW83GYAIaFRCuxIT6N0LYpC30QEtfS4462cRHjQMTIIVo93y07NiFLQ7Vk
+         Zl4qMcypwawUtqxIjo6ePDrcRjR4Tw2KMkrVCe4o2eh6A7vwqfBc9DK2OMua9NvWgsAU
+         NUnAaxXIIIj1yG46RTPLzBo9Mj0C+VPk0Wsb91PiRh/RUh7oHP42XCrwkT7+5ESafeVK
+         76HwVKAqDkdPdQZeHlDTXGJO9SqtYdgh7T58+NCG732FL1kW2fnOsEvwp9KIFg4FP1iR
+         6iXLgAltWtDJswWKlPZTOTFs745LhS8Yknu1Vnk5X5GmSE8r/SjhnJwj4YTQVcLscHrn
+         5BxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795172316; x=1795777116;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ex6Z1jSQ+4dxlVRkCcqyees5rqcGmwfbNgXE+eJUW5s=;
+        b=2v5lMtX9TWbW+byF7EF+V5o8rvnfz3tnuOqrMyhkH26+3kY+Dq+B4TeFsVqXDUxZjx
+         +HfyN8U/oOC3EGBcIDVxLGZ910fLrronJRsg2hcD2fb7lS3a4g8ibuo9cQsOQ6xr8nPs
+         FTHfiroNKllt2JJdHo0QTrAsTBqJ0Z00DgrPMdWF4aoN2abJBgF1szl3w/SxH5yyOkUf
+         CdZxHRJbFF5LBiyYnG19Ryuw5xnHlw8t1MmXnoMFBOuv3/l5kRVnlIFq9tji44yn5vDw
+         OvOBVl+xJ8gTbd6uSL7ObX+WF+Cnoibex+2u29gM14UlzMvmHKTxe1GZwmFdV5F4iZNn
+         0UZQ==
+X-Forwarded-Encrypted: i=1; AL+hErFVkAnvxnHw3DnKOs+oZQvX6wQt4/G2qOeR6dHoU5UZ2YNoHjbEYm0RDYqdVzcfn98VE5rnzsfVT0k=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+/CbxZLfA4cr9qWeXyddZ3/eiFMxDOPEsjOEpRhZJfAtK1vkLX
+	X98qBXrZ2JHA08Uv8NspqXwKGCsXhFiBatYQ2VfAKjuyIES68ZGUMW0p
+X-Gm-Gg: AYBFou1qoSjy4NVTQyxg8OEo+3szmeclX/BPQBwcsAN/4arRVHdYkb9F84PqqLRDdPy
+	qveCYKCdMQdeyZQctldfjIggX5UwZlzINEsVXb8+ebFeYBDNv4SQuOr/1aqptUy7C6zefapbrN9
+	7xozqk4yyDgq92S4Luu6EzDvamW/VIsSindDRL8Yiw8VcpfIdUqMDZZwPMh6VBJqTz9KZvxR1A6
+	JXVdLheQNMLMaE7P6o9niYeUEs7Cqm6uizYlY/ma2a9Shjk/nfp6SnVIASqWShmPG3K8LZXUVvG
+	OjurvhQs+Kq/9WqRMmTBlwK6AedEQ8cwduFpFWer98dAysKFU8TVOBOTCqLOlalfs8r4KzIez/c
+	8HZJbnBh+HawIR59g4swdzuR1NwG5DfZlT2wlbJPSglWHLt+XRJ58qBeSeyj8je35SgssZxm12a
+	q6Xr+JMjDtPQHnkwYM5CKg1xvo5beee+si1mkiL1lr5iu5Ps+F51SnwYAErHisOKPuZaipApxxs
+	G4Mg22o3FkXv+5FmvBW11beJPrRfQQjlVeuVUtxhX34/5BQ1iIUh/v0z45htmLycHtY9qc4Ly4w
+	FNlo0gtscG5StZjDbLpcvq31iPUvaNyqGB/eTC7+W4pO0uT8yaeSt9IB3aHrkRgRyhFYPgFo0jt
+	J+7+xjS3drEJsf039sWZhJDYbkdG1G3LLj059EGWs4YE=
+X-Received: by 2002:a17:907:9625:b0:c49:c76f:dad4 with SMTP id a640c23a62f3a-c513ab36170mr274998766b.31.1795172316192;
+        Fri, 20 Nov 2026 02:58:36 -0800 (PST)
+Received: from nixos-macbook (20-144-89-188.ftth.glasoperator.nl. [188.89.144.20])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513aea31e4sm86608566b.39.2026.11.20.02.58.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 02:58:35 -0800 (PST)
+Date: Fri, 20 Nov 2026 11:58:33 +0100
+From: Jacob Procee <sn125164@gmail.com>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Heikki Krogerus
+ <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: tipd: cd321x: replay the plug on resume
+Message-ID: <20261120115833.53ab9076@nixos-macbook>
+In-Reply-To: <20261117124710.GA515128@robin.jannau.net>
+References: <20261112113005.16418-1-sn125164@gmail.com>
+	<avw1kOqmrUii-msr@black.igk.intel.com>
+	<3bc5a31a-ab2b-40cd-a030-d0498002776a@kernel.org>
+	<20261117131713.2db5294d@nixos-macbook>
+	<20261117124710.GA515128@robin.jannau.net>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; aarch64-unknown-linux-gnu)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,127 +105,50 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261022134926.1125473-1-sst@poczta.fm>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 22, 2026 at 03:49:24PM +0200, Slawomir Stepien wrote:
-> tcm_alloc() runs when a TCM function is symlinked into a gadget
-> configuration. It searches tpg_instances[] for the function instance
-> and copies the TPG pointer into fu->tpg at that point, under
-> tpg_instances_lock. This has two problems.
-> 
-> The function and the TPG can be set up in either order. If the
-> function is linked into a configuration before the TPG directory is
-> created, tpg_instances[i].tpg is still NULL and fu->tpg stays NULL.
-> Creating and enabling the TPG afterwards sets can_attach, so
-> tcm_bind() succeeds, and the first USB request that reaches the
-> target code dereferences the NULL fu->tpg.
-> 
-> Removing a TPG also leaves can_attach set for configfs instances, so a
-> later bind is not refused even though the TPG it would use is gone.
-> 
-> Store the TPG in struct f_tcm_opts instead: set it in usbg_make_tpg()
-> and clear it in usbg_drop_tpg(), under opts->dep_lock. In tcm_bind(),
-> refuse to bind unless both can_attach and opts->tpg are set, and copy
-> opts->tpg into fu->tpg there. Also clear can_attach in usbg_drop_tpg()
-> for configfs instances. The legacy g_target driver sets can_attach once
-> at module load, and its attach callback does not set it again, so
-> leave it alone in that case or g_target could never bind again after a
-> TPG is recreated.
-> 
-> With fu->tpg no longer set in tcm_alloc(), the tpg_instances[] lookup
-> there serves no purpose: f->fi already identifies the instance for the
-> item's whole lifetime. Drop it, and with it the tpg_instances_lock
-> acquisition. config_usb_cfg_link() calls tcm_alloc() with gi->lock
-> held, so this also removes the gi->lock -> tpg_instances_lock edge
-> from the following lockdep report:
-> 
->   WARNING: possible circular locking dependency detected
->   task is trying to acquire lock:
->    (tpg_instances_lock){+.+.}-{4:4}, at: tcm_alloc
->   but task is already holding lock:
->    (&gi->lock){+.+.}-{4:4}, at: config_usb_cfg_link
-> 
->   the existing dependency chain (in reverse order) is:
->   -> #2 (&gi->lock):
->          config_usb_cfg_link
->          configfs_symlink
->   -> #1 (&sb->s_type->i_mutex_key#24):
->          configfs_depend_item_unlocked
->          usbg_make_tpg
->          target_fabric_make_tpg
->          configfs_mkdir
->   -> #0 (tpg_instances_lock):
->          tcm_alloc
->          usb_get_function
->          config_usb_cfg_link
->          configfs_symlink
-> 
-> Fixes: 4bb8548df632 ("usb: gadget: f_tcm: add configfs support")
-> Reported-by: syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=2799146a53c356f8017d
-> Link: https://syzkaller.appspot.com/ai_job?id=51e1f189-6d91-4321-a6ba-07d4eb3cd8cd
-> Assisted-by: Gemini:gemini-4-argon Gemini:gemini-3.8-flash syzbot
-> Signed-off-by: Slawomir Stepien <sst@poczta.fm>
-> ---
->  drivers/usb/gadget/function/f_tcm.c | 29 +++++++++++------------------
->  drivers/usb/gadget/function/u_tcm.h |  4 ++++
->  2 files changed, 15 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-> index 9e6d4f39900a..cc75d7e9792a 100644
-> --- a/drivers/usb/gadget/function/f_tcm.c
-> +++ b/drivers/usb/gadget/function/f_tcm.c
-> @@ -1720,6 +1720,9 @@ static struct se_portal_group *usbg_make_tpg(struct se_wwn *wwn,
->  
->  	tpg_instances[i].tpg = tpg;
->  	tpg->fi = tpg_instances[i].func_inst;
-> +	mutex_lock(&opts->dep_lock);
-> +	opts->tpg = tpg;
-> +	mutex_unlock(&opts->dep_lock);
+On Tue, 17 Nov 2026 13:47:10 +0100
+Janne Grunau <j@jannau.net> wrote:
 
-Why is a lock needed to write one value?
+> The interrupt controller (AIC) doesn't have functionality to configure
+> IRQs as wake up source so it should set IRQCHIP_SKIP_SET_WAKE. Does
+> wake from USB keyboard work with that changed?
+> You might also need to add "wakeup-source" to the dwc3 nodes.
 
->  	mutex_unlock(&tpg_instances_lock);
->  	return &tpg->se_tpg;
->  
-> @@ -1760,11 +1763,14 @@ static void usbg_drop_tpg(struct se_portal_group *se_tpg)
->  		opts = container_of(tpg_instances[i].func_inst,
->  			struct f_tcm_opts, func_inst);
->  		mutex_lock(&opts->dep_lock);
-> -		if (opts->has_dep)
-> +		opts->tpg = NULL;
-> +		if (opts->has_dep) {
->  			module_put(opts->dependent);
+No, it still doesn't wake. I tested on Asahi 7.3.4 (j314s) with a
+local test patch:
 
-The whole module_put() logic should probably just be removed, right?
+- AIC and AIC2 irq_chip .flags = IRQCHIP_SKIP_SET_WAKE
+- dwc3-apple: device_init_wakeup(dev, true) in probe, and PM ops
+  that call enable_irq_wake() on the dwc3 IRQ in suspend when in
+  host mode and device_may_wakeup(), disable_irq_wake() in resume
 
+The keyboard is behind a USB2 hub on b02280000. I had to enable
+power/wakeup on the hub by hand (usbhid only sets it on the keyboard
+itself), plus the xhci and root hubs.
 
-> -		else
-> +		} else {
-> +			opts->can_attach = false;
->  			configfs_undepend_item_unlocked(
->  				&opts->func_inst.group.cg_item);
-> +		}
->  		mutex_unlock(&opts->dep_lock);
->  	}
->  	mutex_unlock(&tpg_instances_lock);
-> @@ -2300,10 +2306,11 @@ static int tcm_bind(struct usb_configuration *c, struct usb_function *f)
->  	opts = container_of(f->fi, struct f_tcm_opts, func_inst);
->  
->  	mutex_lock(&opts->dep_lock);
-> -	if (!opts->can_attach) {
-> +	if (!opts->can_attach || !opts->tpg) {
->  		mutex_unlock(&opts->dep_lock);
->  		return -ENODEV;
->  	}
-> +	fu->tpg = opts->tpg;
->  	mutex_unlock(&opts->dep_lock);
+On suspend, enable_irq_wake() returns 0 for both IRQs (113 and 115),
+so the AIC flag does what it should. The keyboard stays connected
+through s2idle and is still there after resume. But a keypress doesn't
+wake the machine, and /sys/power/pm_wakeup_irq is empty afterwards, so
+no interrupt seems to reach the kernel at all.
 
-But opts->tpg could be changed now, but you saved it off?  No reference
-counting at all?  That feels very wrong.
+I didn't add "wakeup-source" to the DT: as far as I can see, neither
+dwc3 core nor dwc3-apple parses it (only some glue drivers like qcom
+do), so it would add nothing beyond device_init_wakeup().
 
-thanks,
+My guess is that the halted xHC doesn't raise its interrupt on remote
+wake, and a separate wake interrupt is needed, like qcom's
+hs_phy_irq/dp_hs_phy_irq. Do you know whether the ATC PHY or some
+other block on Apple has such an interrupt, or how macOS gets woken
+here?
 
-greg k-h
+Power cost, in case it matters for the default: overnight s2idle runs
+with a key plugged into f02280000 (lid closed, battery) came to
+2.29 W with wakeup enabled (atc2_usb stays on) against 1.96 W with
+wakeup disabled (domain off, device re-enumerates on resume). So
+keeping the domain on costs about 0.33 W.
+
+Thanks,
+Jacob
