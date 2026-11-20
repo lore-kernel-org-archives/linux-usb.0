@@ -1,52 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795186075;
-	b=4D/F32uG9OTL7Nka2CBH8n9sjwIG3bQoEyOujuAX0EevqQzsxnK1pDh45D0vpHn8l9mg
-	 wzuBFl6c5zbV2QU+neW55QCWWQG07La3vUZ9RHNWesb6tsDLTCxdd6En76AJTC+IwyQeZ
-	 PLV8PPYuSnkm9aRdsqAndUoQVkg812ja317CTqnKp8BwA0K8FDQMsjKOh7oLksFt5eL+s
-	 Z9bXZMfpLL8aUqmNH9Ze/OQwRDnm5KABv99P1H9X+GbweIWKuxUqTWvJ2CXCutP6+E5xb
-	 qa0rzxB3yE3yru3RbxJ0A+r/6qMqPIpE/qatNKK7AA0aWhNBQq55hqcSrLEaPqlbyCQ==
+	t=1795186253;
+	b=i8WimvEMZYJ74Sd1rT4Z9qXSUPjNzGOUmXu9PDdDatGxPkqVEz6jg5bC8A5nIN3pb7Om
+	 HqzntzHUq8zNoTT7dB2KgONaVkEUFMHx60078mZdus8fnZfGGCnzaXkl6UO1S1rEdLa4D
+	 mbL4pOdpl/1Yzh8/uGWPPJs24n9sq0peFhLhInRC6ZzsTQ7D2QITbsiiFRltxQQecrzIM
+	 yZp3HqVzjJMCy2hGmW8oV2WEuKE+4+B+aSRYPIh96bDVvvO/qB2kBtM1LVE+1Q7VoCAId
+	 gSjuNPDaU9aCBTJaO/ezjbw2H/qCx+pxEmrpoxrCeHexgP1UmG+aT96Mai9xd0f1J2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795186075;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Y7LIFhPnZZ8YCdb/HuuAHppslYgfSxYyeNpo0KOxO+s=;
-	b=2pAlWh8KV5D8wVD5Qrrtz8jcxN91ffEoHAtzqPuJlJKSBstRlgurV3vjP0RLJxB0STf9
-	 Id1Uu0zlJYGruideVjaGl9WZ4q9B9ekwI2F9hPRX4o0JXcm50PsWrfelgQgyjCWlXnE4I
-	 S26UmHsNY5O8uVZY+hDG90HLmT4SiH71pcQfdzKt7zMSCpWrti9t+eqokMY4irCujo4vV
-	 8Ua5JRdYFi6cr/Wd09t8DZg16goSwXz1PFx/DdYjpcd1Gboh9J86QPoKwRuck9IvRJjJY
-	 mv9jS9g1gO7JeOKqM+/Phu6spc3UQ4kHCelsaN9LAJUPXIMSXa2Xp01bxc+Fe2tEzyQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795186253;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=2Erw3U4RA06uyoNmwIbpaGrgtzBIwetudzBPn9ezBig=;
+	b=GZS7erublGZBr4b+gqxUP8T6TFnj+pQcS07lNF/UPFwMGeWi//+ZI6+5+4EZ0+kcuee/
+	 FM2W0R7wkYli8ayArPVpsVEQeV45pEpr4ATKZYJ+9DY6z/dgQxuW2I/39LOX714ZS2ELN
+	 VVTYwVGnT4oEKUrryC2f5KZglgiZxxdvj39gxqY+pFL5NfBYx3+gNLgAtulN/vI4tcQOI
+	 oRWfFd9lit9BueIW159Lwv9YHTS7DKSF5XfNqW7Nvmo9yxMyNxlIyI4q3R3hEwgNmVMbn
+	 +uZwY5C3gIlP8p/RqW0QIXpJMwzgyOAyi5DVEzH7WgRzekPiahg7At+ZqI9gmRvAeeg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Dz9auSpZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RcAGCBuN;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84130606A320;
-	Fri, 20 Nov 2026 14:47:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1266606A331;
+	Fri, 20 Nov 2026 14:50:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1266606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Dz9auSpZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EFBC1F000C6;
-	Fri, 20 Nov 2026 14:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795186074;
-	bh=Y7LIFhPnZZ8YCdb/HuuAHppslYgfSxYyeNpo0KOxO+s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Dz9auSpZ86t3zX5U/lMNEhN5PtdfuVQtswv0PMVjEsE1ABGdWE/DPdSfRL2b91KFH
-	 XtFBWWv8B17wznkQCtC9j0SRDHQ/kVUMcIMP8qiiRJWsBOgTPeYmVR9B9XRIEs6TMf
-	 RXZg5jaLMWaTnD7b3J1mtd/cumPVze1erItGNRWg=
-Date: Fri, 20 Nov 2026 15:47:52 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Joshua Crofts <crofts@kernel.org>
-Cc: Bin Liu <b-liu@ti.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Felipe Balbi <balbi@ti.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: musb: fix use-after-free in musb_remove()
-Message-ID: <2026112044-screen-punch-ca38@gregkh>
-References: <20261107-usb-uaf-fix-v1-1-ba33689d0ca3@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RcAGCBuN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795186253; x=1826722253;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JQvaCfeOk1s1RVNnhLHnBJlsZ1ic/pUXKyIFsagdv1M=;
+  b=RcAGCBuNFH9qq57lzpB5ulLYkqg4ZGLrJXglOZ1G2t4XAgUPIL1qpIIZ
+   FUbfd/CL4J8m2LYy7kmz0hD5p9luq6Hxn498T/28WQmZu3Id9d6RSQozR
+   5PBm0RsAJuGEZszJSGhIskf0z625CVkM+X6kMNVD/EhDAxnSZ5S1JE6wN
+   x1AfCAxQ76Vt7mPcD13RLBV/Tvoi4FZUmieFg9XP/f6N3Hq3a9kHXtOWF
+   7wvF8JJoG3UViQdrJmPN09i7gPbs1SA9MHBcygAeipUuSr1CeljreiP8s
+   EQWCVLo4CzZjcEAE1Ns1jD/65n9Q/j6i49CjcUakA2OzgLbkXV/ffZi8Z
+   g==;
+X-CSE-ConnectionGUID: f+dOXEoQSG+TjAjLxdc4Eg==
+X-CSE-MsgGUID: HtvVwrfuQASlPwjt5Z3lpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="3953295"
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="3953295"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 06:50:51 -0800
+X-CSE-ConnectionGUID: qmqjffb9RnCljrrPQJNwPw==
+X-CSE-MsgGUID: b2RA5lEFQEe7W1g9sxlwhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="11134673"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa001.fm.intel.com with ESMTP; 20 Nov 2026 06:50:48 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id E6B7699; Fri, 20 Nov 2026 15:50:46 +0100 (CET)
+Date: Fri, 20 Nov 2026 15:50:46 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Akash Kumar <akash.kumar@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Wayne Chang <waynec@nvidia.com>,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: usb: cypress,cypd4226: Add
+ orientation-gpios property
+Message-ID: <awBeRhkkKwWGYxm1@black.igk.intel.com>
+References: <20261117-ucsi-ccg-cc-orientation-v2-0-2e3576a11eb7@qti.qualcomm.com>
+ <20261117-ucsi-ccg-cc-orientation-v2-1-2e3576a11eb7@qti.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,53 +88,63 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261107-usb-uaf-fix-v1-1-ba33689d0ca3@kernel.org>
+In-Reply-To: <20261117-ucsi-ccg-cc-orientation-v2-1-2e3576a11eb7@qti.qualcomm.com>
 
-On Sat, Nov 07, 2026 at 12:46:17PM +0100, Joshua Crofts wrote:
-> Currently in musb_remove(), musb_platform_exit() drops the PHY refcount
-> before usb_phy_shutdown() is called, causing a use-after-free bug.
+On Tue, Nov 17, 2026 at 07:39:47PM +0530, Akash Kumar wrote:
+> Add the optional orientation-gpios property, used to sense the CC
+> orientation of each Type-C connector on boards where the CCGx chip
+> has no HPI register exposing CC polarity. Entries are ordered by
+> connector number; an entry may be left as <0> for connectors with no
+> sense line.
 > 
-> Reorder the function so that usb_phy_shutdown() is called before
-> musb_platform_exit(), the same way as musb_init_controller() does in the
-> error path.
-> 
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://sashiko.dev/#/bug/linux-d180c2b9-0006-4638-a22b-13df8c201235
-> Fixes: 39cee200c23e ("usb: musb: core: call init and shutdown for the usb phy")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Joshua Crofts <crofts@kernel.org>
+> Signed-off-by: Akash Kumar <akash.kumar@oss.qualcomm.com>
 > ---
->  drivers/usb/musb/musb_core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
-> index 73ac25f53698..8e52246de948 100644
-> --- a/drivers/usb/musb/musb_core.c
-> +++ b/drivers/usb/musb/musb_core.c
-> @@ -2642,6 +2642,7 @@ static void musb_remove(struct platform_device *pdev)
->  	musb_disable_interrupts(musb);
->  	musb_writeb(musb->mregs, MUSB_DEVCTL, 0);
->  	spin_unlock_irqrestore(&musb->lock, flags);
-> +	usb_phy_shutdown(musb->xceiv);
->  	musb_platform_exit(musb);
+>  Documentation/devicetree/bindings/usb/cypress,cypd4226.yaml | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+
+This one did not apply on top of Greg's latest usb-next. I tried also
+linux-next.
+
+Thanks,
+
+> diff --git a/Documentation/devicetree/bindings/usb/cypress,cypd4226.yaml b/Documentation/devicetree/bindings/usb/cypress,cypd4226.yaml
+> index d923ef82ecfa..5716c045d87e 100644
+> --- a/Documentation/devicetree/bindings/usb/cypress,cypd4226.yaml
+> +++ b/Documentation/devicetree/bindings/usb/cypress,cypd4226.yaml
+> @@ -59,6 +59,14 @@ properties:
+>      description: enable IRQ remote wakeup, see power/wakeup-source.txt
+>      type: boolean
 >  
->  	pm_runtime_dont_use_autosuspend(musb->controller);
-> @@ -2650,7 +2651,6 @@ static void musb_remove(struct platform_device *pdev)
->  	musb_phy_callback = NULL;
->  	if (musb->dma_controller)
->  		musb_dma_controller_destroy(musb->dma_controller);
-> -	usb_phy_shutdown(musb->xceiv);
->  	musb_free(musb);
->  	device_init_wakeup(dev, 0);
->  }
+> +  orientation-gpios:
+> +    description:
+> +      GPIOs used to sense the CC orientation of each Type-C connector.
+> +      Entries are ordered by connector number, i.e. the first entry
+> +      corresponds to connector@0 and the second to connector@1.
+> +    minItems: 1
+> +    maxItems: 2
+> +
+>  patternProperties:
+>    '^connector@[01]$':
+>      $ref: /schemas/connector/usb-connector.yaml#
+> @@ -129,6 +137,7 @@ examples:
+>        };
+>      };
+>    - |
+> +    #include <dt-bindings/gpio/gpio.h>
+>      #include <dt-bindings/interrupt-controller/irq.h>
+>      i2c {
+>          #address-cells = <1>;
+> @@ -141,6 +150,7 @@ examples:
+>              pinctrl-0 = <&usb0_intr_state>;
+>              pinctrl-names = "default";
+>              wakeup-source;
+> +            orientation-gpios = <0>, <&tlmm XX GPIO_ACTIVE_HIGH>;
+>  
+>              #address-cells = <1>;
+>              #size-cells = <0>;
 > 
-> ---
-> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-> change-id: 20261107-usb-uaf-fix-bedcd9cd8f4b
-> 
-> Best regards,
 > -- 
-> Joshua Crofts
-> 
+> 2.43.0
 
-Does not apply to usb-linus
+-- 
+heikki
