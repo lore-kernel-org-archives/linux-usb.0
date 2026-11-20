@@ -1,81 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795176047;
-	b=UWSaCGLFWgx10XO1YrEQGwoOute28j22KFwh7s9bFC0dsbkNQSIKyEn1RH8UpuwWjT0w
-	 NJKxW74LjeMWB1ogfYRhE7x5/aFFTwYu9L4P/oJ8OKmcAG2ROOfhO/J9tmKJ/6Xwa1uaX
-	 c9L18UYBYIs3/RvndB1WlvSP+wQGTWTgKJHei0Qbs+TbRclQWx/90Xg0eiXqFxrw3HA5q
-	 hWkc8BWRkJUG1pAcliSJBOHTojs56RkC9fD7cURqjxc6d868N9rosxhq3ucZS6qC2ZE7c
-	 PAjoa/MZxjGf4MWhtn7GqN2WDQ3fEcXBi1ZHLxGFUljolUaAGZVo86R7Ti+wJ2Jhq+A==
+	t=1795176657;
+	b=uSFOAjudmtbifuI/B3DGBDOLHu05tHhSMSFU9sC5/beQg+x6iqbgRy+8hJuubt4sQRMO
+	 /WY6mUanvianoDG9t8KEYwbrE2etdxAS1jemgXSBqrNPoKwPiBI91KbOmXV7e3hRWUUbA
+	 4lT+d3Kvzra87icSHrI+8g1NCgUZdTSRx6qPYviWq9vU2L9TBDALO53T9hHDb13RrnMy4
+	 JXq9wOrRcMWxsDK0QL8x7L514WnnuRVW4CRm0hQaZsBHIxHIDuOG4PtFNUNW/3Ba6DZu4
+	 muuO3dsl/s8VcTzSDt6UMkYewmzzwDw0d69IA3PiofyD7zbOkVAo+gjJYWozhoSLo4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795176047;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795176657;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=beQWb4LoAtDg8Zy+5AKtlfFZLus+EPwyn9DYxNFG6mU=;
-	b=nY8fMPcLeErqjvAYNJVx1B0AWZNWZG+kJcoPPkkvHYEQ/GwVzjcdE2tagt99qhVwy1h4
-	 OwQcRMOGLUlgnp302kgbrnoocubc2eFTgfPQtLSSoe0TgGM57TDboEzxuRLt3giTd/ryU
-	 MHoVlCj6Fj3nlhDmNSW73W7JTndAV+QdX+pB+45C4X3bSO3pn5sNBtC4jUY2loRQEOCYk
-	 i/9pC6Xx5+MMGvemVVLVzDduWLLD0UfE2IyVRpEsGLaJ3cLCYuUKczTeaD8g5clHfEv+5
-	 Ia8rmu42WHnrUME3R2us90PmLhIuLeisFI2Xqw03GaHa3aYfvH7HXpXUdb1xuu2iyvQ==
+	bh=yEn6hZoR27mO6l9Fwd74ebjt2Qc9Bj6f7MuKEtEDDIA=;
+	b=NG81TL4MLbnZfooTMxpsQhcOj/SScyflofKhxLKWtoy80n71uJjhEsZIiq6e6SZEO9zh
+	 8ub/cmiF/7y2dGV/QfFWPzBGHSdKq1S93YHvTMtG66nC0aOyT80beS/UhGs3KJ8uzzxf/
+	 gl8eng27I4UNnmEKl7FefrDYAn7+RqFW2K1kP9+1fkuLYP19Lo5B0i1NMOPochYu1Rk+M
+	 AqrfSUg4wX97J7c0rmSGGtWk+GiTi4Lxmm07H3iv5EW1oNuAUHKIC+dIVDTVdV2E0kPZO
+	 KgK1CnFmaOXw1HUAqDF0WHnlGcP1bxliuQHsmUOr2T0e/AtbU6MDftWjZd0gv0+IvpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EIYxJwKV;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="W4KSeOo/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111F3606A338;
-	Fri, 20 Nov 2026 12:00:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582F5606A325;
+	Fri, 20 Nov 2026 12:10:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EIYxJwKV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F5811F000CA;
-	Fri, 20 Nov 2026 12:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795176046;
-	bh=beQWb4LoAtDg8Zy+5AKtlfFZLus+EPwyn9DYxNFG6mU=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=W4KSeOo/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6912A1F000C4;
+	Fri, 20 Nov 2026 12:10:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795176657;
+	bh=yEn6hZoR27mO6l9Fwd74ebjt2Qc9Bj6f7MuKEtEDDIA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EIYxJwKV6pKOzzIEBuRXOlDo0Y+HodiAO2ZB2R6VQEfoBQ/HvGlDsgCsZZD6G5Czz
-	 6Hw2mEq4W7WWL2M0khcowQ1ijdyhpl4Mf5E6jvjTXU3BGCjU3W7JH3HwTFePuk7BsW
-	 Zf0fcxra0plL9c0eF7Yjpx+CYN7bzoUzk/Q+FqleL9bhb1AcVGEf22bj+ScG5xaNBz
-	 T66Fe3ePBa9AIlYOk+9jLYdZIJzmgdv7gXFnPj3yOg7RrM21kpYHHujoSPlrAH4uP9
-	 arxmZfKtYgbrYZDY/oMy1BhaVWUrcfXk5RMw2HX+ZvgFLWMDcsj5WLUngXGiGzaopt
-	 u7hrJu5tbh8fQ==
-Date: Fri, 20 Nov 2026 13:00:27 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Andreas Hindborg <a.hindborg@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Lyude Paul <lyude@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, 
-	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
-	Ira Weiny <iweiny@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Johan Hovold <johan@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Markus Probst <markus.probst@posteo.de>
-Cc: Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, linux-serial@vger.kernel.org, 
-	Oliver Mangold <oliver.mangold@pm.me>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Subject: Re: [PATCH v22 4/5] rust: rename `AlwaysRefCounted` to `RefCounted`
-Message-ID: <20261120-belichtet-austoben-januar-9fca976c1371@brauner>
-References: <20261116-unique-ref-v22-0-12029383206d@kernel.org>
- <20261116-unique-ref-v22-4-12029383206d@kernel.org>
+	b=W4KSeOo/uGIm9oUK3TLcmpQgx47fddndPesoC0nJtyrER5Y7EfSo/sibJ1pTUrwfM
+	 PFpxyRnzP1ea15lHlIEtoGuRbR1PmEweRFaur4hrrPZAszBXbB69WsOITok2AXD49W
+	 hMHx4pubni6hzv1HWJxABR+SK0HDOKhOn2IzcLE4=
+Date: Fri, 20 Nov 2026 13:10:54 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
+Cc: Neill Kapron <nkapron@google.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] usb: gadget: fsl_udc: Fix potential use-after-free
+ during removal
+Message-ID: <2026112015-lumber-flyer-d8f6@gregkh>
+References: <20261118-324f82bd41-usb-gadget-0@mail.sdu.edu.cn>
+ <20261118-324f82bd41-usb-gadget-1@mail.sdu.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -85,12 +56,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261116-unique-ref-v22-4-12029383206d@kernel.org>
+In-Reply-To: <20261118-324f82bd41-usb-gadget-1@mail.sdu.edu.cn>
 
-On Mon, Nov 16, 2026 at 03:21:01PM +0100, Andreas Hindborg wrote:
+On Wed, Nov 18, 2026 at 10:10:53PM +0800, Guangshuo Li wrote:
+> usb_del_gadget_udc() can drop the last gadget device reference and call
+> fsl_udc_release(), which frees udc_controller. The remaining remove path
+> then dereferences it to release its requests, endpoints and DMA pool.
+> 
+> Hold a gadget device reference until this cleanup has finished.
+> 
+> This issue was found by our static analysis tool under development.
+> 
+> Fixes: eab35c4e6d95 ("usb: gadget: fsl_udc_core: let udc-core manage gadget->dev")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
+> ---
+>  drivers/usb/gadget/udc/fsl_udc_core.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/udc/fsl_udc_core.c b/drivers/usb/gadget/udc/fsl_udc_core.c
+> index 878d70b55530..9d9d2164c5bf 100644
+> --- a/drivers/usb/gadget/udc/fsl_udc_core.c
+> +++ b/drivers/usb/gadget/udc/fsl_udc_core.c
+> @@ -2537,6 +2537,7 @@ static void fsl_udc_remove(struct platform_device *pdev)
+>  	DECLARE_COMPLETION_ONSTACK(done);
+>  
+>  	udc_controller->done = &done;
+> +	get_device(&udc_controller->gadget.dev);
 
-For the fs and pid_namespace bits:
+This feels wrong, why are you needing a fake reference here?
 
-Acked-by: Christian Brauner <brauner@kernel.org>
+>  	usb_del_gadget_udc(&udc_controller->gadget);
+
+This is where it should all go away.  If not, then reorder the code
+properly.
