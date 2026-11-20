@@ -1,55 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795175261;
-	b=idwU490vn/jaWitnylNuMEHxhh2mE8NTcLclZpvgVphzlm/kAwNXofYj1KryNd5ORCyS
-	 +dkG0oX7oOP+K1eV9/Bw/clXs+wnXPCitw9ktFVafgzOzEzkOijsp8LlRnZHIi9Ay4kTc
-	 EL7zmQTtFrpV7OuYxJXWmhXXNedIUFw39dXYqINpoLOGktXXojNWKrFYBYt33Q4ZoUTyM
-	 14uCXgZtHAwRSzYgL8ABh4jffUyZvGYUahLgNp/1FvGLWYl7fTThLlRbf8cv0vOqSqrJg
-	 UvqhXpUs5SuuNR69UHWcWKjN/AgTESVbzWwmM52jkZ8JWOXLMKr8FbKDYzH+Tri9y5Q==
+	t=1795175347;
+	b=U0AzBi7QcxWEqgrpbaCYnrBHIF154dd8lGjerYraT6TMhDLOJlPPmojrV5Y31Hija7nr
+	 M7X/04P1kQF3dkChyjc+qIGte4g1HHUBYNgpiUrG52Mt3mxA999Hhert27fbM8iCu229s
+	 lmUZQDmLs6ngCI16ZaNEquBaicwxUYALp3vRHtg9tLgomVtgY/W083DvRqcSIpygsDMFf
+	 aJeeWpBSqh8V5vPuuq80UWxfFzkhdfpkl29KNHCiYgyJ27aMobgB1Fbb94PpmmiavOVN0
+	 /NH+PhpIobs63Du85JakqHSLa4onMNIX1BEoS63UnZRhhKUW639D/Jcgeoz9IPtdhWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795175261;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=BfUrtqo6NKO8a/JiKqJT6e2mAb4NsSRPO4Fy8mksc04=;
-	b=3jHdik23QuKATanuW2ThtGk8UlM0EVyqMmJ4jKRFKntyn/CXzCKmrnMsANWCWylK0B9+
-	 AK7P4Q3YhoJeLtn9M05oDEmHYU0jeLFtMxXHAEDFlga0VxutHRKisouvwxdXAqqGD9jeV
-	 vO0Kt6FoWOiDV4rLdf1OIK4lTJegmjEfkSwENXiHHdo1/lu8rEBEfihUN8w6aMFYnik0J
-	 Ach7zQxpG6GU7Gr9TInDv/PW6ww52Xv216XfA28czNDzBA/fHp7nmgTdsGNxIgixssGf1
-	 y9LB4ATqVxKOA/lZzXzR1kQ62DD8FpeV25dZp66qeyDCi0Y4X765oSuDAGZ0XjY4BDw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795175347;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=wMuU7gD0u43sL1seq9JqEdQgJtWWqSdEN+rP/TTuoKc=;
+	b=5kZsThrl90sGERr9Cenc3k9IUOadvCduwBhoubGrLGBI9PPnrepHkX+ZTTIqkHXGiMKs
+	 J1qeUGsdn0PHhpyn3UIw4Jol15TH1i3sD1ql6EA2gAm6ZwqtfHhFiVlO6dVA6AnZlvTYF
+	 zjNmTssGvXkx4FUxRLHw5wq4kiyfHgVFjEOy1ncRPPi5/d67Ag4DygpfZRONcyoeYBVpK
+	 3oEF3mVFR3sc/iTe0vANXmHurQuGQ/F+E0Y0ri7eWOSfpnP3ZazfsJ7cU6Unuk8SBPPQA
+	 60EO2yXs1Ub3z99JjJWdwLkbo2hsMb9DD0TvnR9Xvz5eix2cEsjXnvp7gfM0XhHVN0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WKkvDDBB;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=jN0Aht82;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0719606A320
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 11:47:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E25606A334;
+	Fri, 20 Nov 2026 11:49:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WKkvDDBB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B9ED1F000C4;
-	Fri, 20 Nov 2026 11:47:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795175260;
-	bh=BfUrtqo6NKO8a/JiKqJT6e2mAb4NsSRPO4Fy8mksc04=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=WKkvDDBBrRbKBcfO8CqulouVWRBBsV8OdmzJbv4HIi7i1ZP5Oe4wNX5qFXbiKWBnK
-	 5aUPKPPJsFkb+qSaLFb3hRVnKNMKQxEGRIs+pPQBoDGf8Z0VpIrt/nIuN6seAs0A9v
-	 KJO3qSyrcBxvJZxS/nDOrp6p4Z9I58s0a4X/7WoV+sCwGmvbRTVnstY/F0hRRAlp0b
-	 4E39+Zj8s491808HFjhI00cZliO7oy/9ZccLDxn/hYJC9zaLjxThRUHIzeJymxP93h
-	 x4c49xUnM9Xvnl+VQ7AyG64k/7bNPEQ5GkhkQ87RM3uz5HvboYXhI0CKJO/kWx1OvC
-	 NysSMeYycDIEw==
-Message-ID: <sashiko-outbox-225097@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: f_tcm: do not dequeue UAS stream requests
- in BOT mode
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yehyeong Lee" <yhlee@isslab.korea.ac.kr>, linux-usb@vger.kernel.org
-In-Reply-To: <20261120113956.3071640-1-yhlee@isslab.korea.ac.kr>
-References: <20261120113956.3071640-1-yhlee@isslab.korea.ac.kr>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 11:47:39 +0000
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=jN0Aht82
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCE9C1F000C4;
+	Fri, 20 Nov 2026 11:49:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795175346;
+	bh=wMuU7gD0u43sL1seq9JqEdQgJtWWqSdEN+rP/TTuoKc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jN0Aht82yiGY3+Nq1kA4Mw1jDHXParSY8hS6y5K8m/NoOR2FoesyOOsghw+Uj/J3P
+	 27w6uuPmp9Lcg32ToWf5iFnIKfKVfinSztXrOj5WKlEpG0aK2cmm2+9ZpEddQlOcLI
+	 yAF1knKk2zLqh12azLZQLFgRqPbcDNQpJcgfAJ8c=
+Date: Fri, 20 Nov 2026 12:49:03 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: =?utf-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>
+Cc: "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Hannes Reinecke <hare@suse.de>,
+	Mike Christie <michael.christie@oracle.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	John Garry <john.g.garry@oracle.com>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"usb-storage@lists.one-eyed-alien.net" <usb-storage@lists.one-eyed-alien.net>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH v5 2/2] usb: storage: set surprise_removal flag on
+ physical removal
+Message-ID: <2026112048-preamble-fifteen-46a3@gregkh>
+References: <TYUPR06MB621711053AB2B701FECC73FED2922@TYUPR06MB6217.apcprd06.prod.outlook.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,32 +68,27 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <TYUPR06MB621711053AB2B701FECC73FED2922@TYUPR06MB6217.apcprd06.prod.outlook.com>
 
-> usbg_aborted_task() starts by reading stream->req_out->status.  The
-> stream requests are allocated by uasp_alloc_stream_res() for the UAS
-> alternate setting only, so in BOT mode they are NULL.
->=20
-> The target core calls .aborted_task() from target_handle_abort() for an
-> aborted command whose CMD_T_TAS is clear.  A BOT command gets there when
-> a LUN RESET arrives on another fabric that exports the same backstore
-> and the backstore has emulate_tas set to 0: core_tmr_drain_state_list()
-> aborts every command on the device, no TASK ABORTED status is owed, and
-> the core calls .aborted_task(), where the read faults.  With the default
-> emulate_tas of 1 the core sends TASK ABORTED status instead.
->=20
-> Return early unless the function is in UAS mode.  A BOT transfer uses
-> fu->bot_req_in and fu->bot_req_out, not the stream requests.
->=20
-> [ ... ]
->   note: kworker/1:1[30] exited with irqs disabled
->=20
-> Fixes: 76003eb6d09278 ("usb: gadget: f_tcm: Handle abort command")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+On Fri, Oct 09, 2026 at 11:31:42AM +0000, 胡连勤 wrote:
+> Set the surprise_removal flag in struct Scsi_Host when the USB device
+> state is USB_STATE_NOTATTACHED, indicating the device has been
+> physically removed and cannot handle I/O.
+> 
+> This flag is checked by sd_remove() (added in the previous patch) to
+> skip sync_filesystem() during surprise removal, avoiding a hang waiting
+> for I/O that can never complete.
 
-Sashiko has reviewed this patch and found no issues.
+There is no previous patch.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120113956.3071=
-640-1-yhlee@isslab.korea.ac.kr?part=3D1
+> For orderly removal (e.g. rmmod, sysfs unbind) the USB device state is
+> not NOTATTACHED, so the flag is not set and sync proceeds normally,
+> preserving dirty data writeback.
+> 
+> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 
+Does not match the From: line :(
