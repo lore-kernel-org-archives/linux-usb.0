@@ -1,54 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795164015;
-	b=SYe4MKIQQc+rnYfxiRyCuc2IL0hI+qT4ldT4co2xFTNU3261uohtGm90ngUCC1Wy+hK7
-	 S5ip6QU7BD025IRiCY98oGXbFZjBackSnM0zg8Rf+limf2D9e39rr3MaImuvS7vlcZPwT
-	 flTLanSELZx/SkPG54A4FqBrtyeuD4RFral4AiBGTOIrqhbcQ09/S8pnhSA8JZebs/G8G
-	 c9EryWoHi0OTGmVtYUdrI+0/k4KxsZYNzheDtjuoAcTqL5RSuVmBGxfnYxNbG0mQySCz4
-	 agiFqLq+D6UqsjYI9ApuJYWKeFl7TSow4tpYngJEP2xZxvy+PfIYo4Vo+0+jcjYZkig==
+	t=1795165183;
+	b=ywJh2kOpTaIGK4anxxARKzRkpvt7PbHsa99EMAn2Ux1+CmMbH0W/KNZE7Rhs2rF5e+0v
+	 NtDbTe402sG4yAaJGCgTRTTu4XpTueuhhChxTH7OX/ml0R7PmgzQlmp7qFGVtMpmhBmY7
+	 j7ZPBSSuvsu1s4oBId1EL/rH1Pgo0q3jQdevN5AY/ww2Ql5aZuS7hrJGDQ2a7XHyY2hi8
+	 rvhn9SuRlFFgdAcOVsfSrj49UwHR/E5TxybH+WwhZyAck2NhoEs1W0oRu+jG1evEvbWoF
+	 SdijK9KnPJ64cvjN3ryQRJ7tySkoJ5WpXNU2jAoeC82LIUweVG+b36IDw36H0kypihg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795164015;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=eW1JNjFM3eTKQOg6DQphrxNHZt2sHfAlDWTCDXa7uhE=;
-	b=w6jPDDxBiPSwRJNnriN00HhcxxphEEJXZHeoLFZWDEY9wFOWIB73MnHtbCOVle33ynYf
-	 yCSgyFPS4fsABSF6G0Aa09xl+/0+x7qZOVyZpjhJv/iGMK+GbNjwclOdMvOpME0hm+VkO
-	 /bQZVoWC3bL5ncY2MO4kCe2cRwKUxFlJLCyCqaGsNY36wgthBtkqxwsXlSz4Yc34Pn8v2
-	 /Z/69pmC+roryQCAmVm8TpeLWkiFzpvt5sl+vKb+jVKkemtBIkVS16G0Awr9ceEVn5A4Y
-	 dFbIIGikdGKNwP7bzYEsfYcT0libK1pF8Tsr7KcRloswy2QzJQDtd6qVYbJaqjPinkQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795165183;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 Organization;
+	bh=VedXmvSI7G6Xtxoxd3IW0KA5vnVG/Qoj5iEhteVh2F4=;
+	b=M4oy1a4rXgYicMuekHjf3+rK8qdElr+BL7MwjYvHwyjot+o89dtWpG8sGG7iJ4FCNnPz
+	 1snpJT/gmxIDQYE6kMuv3C3ZOkrs7LYshhAwxk4ikspXXAt1XMAfmzXQIX3bzwwX3/iFt
+	 FsJsnNlpx9o2tHHSsvDo1M9Xd6WGgpD/L1xfQpKAvQ9c9BNIcmNz2Dd1MFG+u0+iYzOOz
+	 STNQurKJsRypHwSZvmoLOFHUp+XlMfLkzfL3S03Lct6irRzGJ25MeK39RPJWL3b8tscKg
+	 SEcnqVmutC/fwz8ygZlCIf+6OBQJoPdtgAY8NBXyCK1VWb5QnhlSYbCbQSJmYlrIuvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=L5rWiymU;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GsWwQTjI;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B71F606A326;
-	Fri, 20 Nov 2026 08:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C00606A32C;
+	Fri, 20 Nov 2026 08:59:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4C00606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=L5rWiymU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D7C01F000C4;
-	Fri, 20 Nov 2026 08:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795164014;
-	bh=eW1JNjFM3eTKQOg6DQphrxNHZt2sHfAlDWTCDXa7uhE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=L5rWiymUu26RBF7b32HRuTXeEwhNwn6g12gK4ouHtDeb6SXUkt1rcDW0I3HgTo/1Z
-	 0W+sEUSkeVqJcOID3xe/HzMbKGPw6vzhAGfZ/ZLVFw4Os0dmWTaNsVxMNbS/k9ZyCU
-	 m+y7aVn9b9WPfd+HKoyTbWEmrjGdHmegPN8p3g5o=
-Date: Fri, 20 Nov 2026 09:40:11 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: syzbot <syzbot@kernel.org>
-Cc: syzkaller-bugs@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>,
-	linux-usb@vger.kernel.org,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>, Frank.Li@nxp.com,
-	hhhuuu@google.com, kees@kernel.org, linux-kernel@vger.kernel.org,
-	meatuni001@gmail.com, panjunzhong@linux.spacemit.com,
-	syzbot@lists.linux.dev, xu.yang_2@nxp.com
-Subject: Re: [PATCH] usb: gadget: uvc: check endpoint enabled state in
- uvcg_video_enable()
-Message-ID: <2026112056-smite-glowing-bed5@gregkh>
-References: <8fff0312-bd04-44e4-8df3-b60d3bc849bf@mail.kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GsWwQTjI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795165184; x=1826701184;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=nk+t4fI7zmLmWT/kxiuqyqIDMYUCl9U7mqKAwRYAXEU=;
+  b=GsWwQTjINcWyOfGYRC/W778QqQYSKIPtAP7s64ZUXJGMAQPBwhJkLB/q
+   ltKvmDG4KDCbMVFp22SbdCqPI5YT+ktG7NlgMqsxIiDA099As1e2f4D+D
+   CJFioI1E0MmR4yHdiIkJlov7z3bn4L9aiopjOkQkN263M3ZLKSM1RsRdU
+   roLx0ZtlvTMuJv+4TZoSFNECvOtOMhQcE6tG2ZQ23p/NkExcD9Elyk9E9
+   pSzJm6EPPeBfiCpe5EAdc6a19xpTJxHjhsxiO3Ae50e0bcUED/nVsODQB
+   Y+Q1bgJIicOglhll5V5ZS9WTVDBBGW4sgynt+YCxDNloG3VthIK60OFaG
+   g==;
+X-CSE-ConnectionGUID: 3dlW4yPfRz+FVa2Ykd8g0Q==
+X-CSE-MsgGUID: hTpyKbj5RsalkxRQP5hSow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4081601"
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="4081601"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 00:59:43 -0800
+X-CSE-ConnectionGUID: 8YRu/vs0QIeBu8Whxdd/Iw==
+X-CSE-MsgGUID: eYIQxeXtQJuw0HqduVkqRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="12363983"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.218])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 00:59:39 -0800
+Date: Fri, 20 Nov 2026 10:59:36 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: netdev-bot+sashiko@kernel.org
+Cc: liuc63@xiaopeng.com, gregkh@linuxfoundation.org,
+	akpm@linux-foundation.org, davem@davemloft.net, edumazet@kernel.org,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	khtsai@google.com, fangxy@xiaopeng.com, rdunlap@infradead.org,
+	dbrownell@users.sourceforge.net, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] usb: gadget: u_ether: fix out-of-bounds read in
+ get_ether_addr
+Message-ID: <awAL-CjBSGfOfYUS@ashevche-desk.local>
+References: <20261117090110.3263592-3-liuc63@xiaopeng.com>
+ <179513296378.3136.18205287276015126683@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,106 +85,153 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8fff0312-bd04-44e4-8df3-b60d3bc849bf@mail.kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <179513296378.3136.18205287276015126683@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Aug 14, 2026 at 12:00:44PM +0000, syzbot wrote:
-> From: Aleksandr Nogikh <nogikh@google.com>
+On Fri, Nov 20, 2026 at 12:02:43AM +0000, netdev-bot+sashiko@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issue(s) to consider.
 > 
-> A NULL pointer dereference can occur in uvc_video_prep_requests() if
-> userspace issues a VIDIOC_STREAMON ioctl before the USB host has fully
-> configured the streaming endpoint.
+> Critical: 0 · High: 0 · Medium: 1 · Low: 1
 > 
-> When userspace calls VIDIOC_STREAMON, the driver handles it in
-> uvc_v4l2_streamon(), which in turn calls uvcg_video_enable(). Currently,
-> uvcg_video_enable() only checks if the endpoint pointer is allocated
-> (video->ep == NULL), but it fails to check if the endpoint is actually
-> enabled (video->ep->enabled).
+> If you believe none of the issues are legitimate, please reply to each
+> issue of Medium severity or higher and explain why the AI is wrong.
+> If any of them are legitimate and you plan to respin, please let patchwork
+> know by including "pw-bot: cr" as a separate line at the end of your reply
+> (one such reply per series is enough).
 > 
-> The endpoint descriptor (video->ep->desc) is only assigned when the USB
-> host explicitly selects the streaming alternate setting via a SET_INTERFACE
-> control request. If userspace prematurely calls VIDIOC_STREAMON before the
-> host has selected the streaming alternate setting, video->ep->desc will
-> still be NULL.
+> - [Medium] The commit message is wrong about how the legacy module
+>   parameters report a rejected address.
+> - [Low] The ABI text this patch adds to configfs-usb-
+>   gadget-{ecm,eem,ncm,rndis,subset} says host_addr/dev_addr accept only…
 > 
-> Because uvcg_video_enable() does not verify the endpoint's enabled state,
-> it proceeds to call uvc_video_alloc_requests() and then
-> uvc_video_prep_requests(). Inside uvc_video_prep_requests(), the code
-> unconditionally dereferences video->ep->desc, resulting in a KASAN
-> null-ptr-deref / general protection fault:
+> --
 > 
-> Oops: general protection fault, probably for non-canonical address
-> 0xdffffc0000000000: 0000 [#1] SMP KASAN NOPTI
-> KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-> RIP: 0010:usb_endpoint_xfer_isoc include/uapi/linux/usb/ch9.h:571 [inline]
-> RIP: 0010:uvc_video_prep_requests
-> drivers/usb/gadget/function/uvc_video.c:508 [inline]
-> RIP: 0010:uvc_video_alloc_requests
-> drivers/usb/gadget/function/uvc_video.c:559 [inline]
-> RIP: 0010:uvcg_video_enable+0x142/0xe70
-> drivers/usb/gadget/function/uvc_video.c:784
-> Call Trace:
->  <TASK>
->  uvc_v4l2_streamon+0x7e/0x110 drivers/usb/gadget/function/uvc_v4l2.c:531
->  __video_do_ioctl+0x8af/0xc70 drivers/media/v4l2-core/v4l2-ioctl.c:3133
->  video_usercopy+0x860/0x1430 drivers/media/v4l2-core/v4l2-ioctl.c:3475
->  v4l2_ioctl+0x18d/0x1e0 drivers/media/v4l2-core/v4l2-dev.c:366
->  vfs_ioctl fs/ioctl.c:51 [inline]
->  __do_sys_ioctl fs/ioctl.c:597 [inline]
->  __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
-
-Please don't wrap oops messages.
-
-> To fix this, update uvcg_video_enable() to also verify that the endpoint is
-> enabled (!video->ep->enabled). This ensures that if userspace prematurely
-> calls VIDIOC_STREAMON, the driver will safely reject the request with
-> -ENODEV instead of crashing the kernel.
+> usb: gadget: u_ether: fix out-of-bounds read in get_ether_addr
 > 
-> Fixes: 48dbe731171e ("usb: gadget: uvc: set req_size and n_requests based on the frame interval")
-> Assisted-by: Gemini:gemini-3.6-flash Gemini:gemini-3.1-pro-preview syzbot
-> Reported-by: syzbot+44835f0858f11e3e923c@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=44835f0858f11e3e923c
-> Link: https://syzkaller.appspot.com/ai_job?id=6bcd0cc3-0532-4cbc-81bd-e487719ff9a3
-> Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
+> This replaces the open coded MAC address loop in get_ether_addr() with
+> parse_mac_pton() for the delimited notations and hex2bin() for the raw
+> twelve digit notation. This fixes an out-of-bounds read on short strings
+> and stops non-hex characters from being silently accepted. It also selects
+> GENERIC_NET_UTILS and documents the accepted formats in the configfs ABI
+> files for the ECM, EEM, NCM, RNDIS and subset functions.
 > 
-> ---
-> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-> index dfa0521a2..da857c2c5 100644
-> --- a/drivers/usb/gadget/function/uvc_v4l2.c
-> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-> @@ -527,6 +527,12 @@ uvc_v4l2_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
->  	if (type != video->queue.queue.type)
->  		return -EINVAL;
->  
-> +	if (uvc->state == UVC_STATE_STREAMING)
-> +		return 0;
-> +
-> +	if (uvc->state != UVC_STATE_CONNECTED)
-> +		return -ENODEV;
+> Link: https://lore.kernel.org/all/20261106030605.576584-3-liuc63@xiaopeng.com/
+> 
+> > How a rejected address is reported depends on the caller.  The legacy
+> > module parameters go through gether_setup_name(), which keeps the random
+> > address that get_ether_addr() falls back to and only logs a warning.
+> 
+> [Severity: Medium]
+> Is this description of the legacy path accurate?
+> 
+> Nothing in the tree seems to call gether_setup_name(). Its only wrapper,
+> the inline gether_setup() in u_ether.h, has no callers either.
+> 
+> The legacy gadgets (legacy/ether.c, cdc2.c, ncm.c, multi.c and g_ffs.c)
+> pass the dev_addr= and host_addr= parameters through
+> gether_set_dev_addr() and gether_set_host_addr(). The KASAN trace earlier
+> in this commit message shows the same path
+> (eth_bind()->gether_set_dev_addr()->get_ether_addr()):
+> 
+> drivers/usb/gadget/legacy/ether.c:eth_bind() {
+>     ...
+> 	if (!gether_set_host_addr(net, host_addr))
+> 		pr_info("using host ethernet address: %s", host_addr);
+> 	if (!gether_set_dev_addr(net, dev_addr))
+> 		pr_info("using self ethernet address: %s", dev_addr);
+>     ...
+> }
+> 
+> gether_set_dev_addr() parses into a local new_addr[] and returns -EINVAL
+> when get_ether_addr() fails. The random fallback is thrown away:
+> 
+> drivers/usb/gadget/function/u_ether.c:gether_set_dev_addr() {
+>     ...
+> 	if (get_ether_addr(dev_addr, new_addr))
+> 		return -EINVAL;
+>     ...
+> }
+> 
+> The netdev then keeps the dev_mac/host_mac that
+> gether_setup_name_default() picked earlier with eth_random_addr(). Since
+> eth_bind() has no else branch, nothing is logged.
+> 
+> With this patch, "insmod g_ether.ko dev_addr=aabb.ccdd.eeff" no longer
+> gives a stable aa:bb:cc:dd:ee:ff. parse_mac_pton() fails the length check
+> and hex2bin() fails at the first '.'. Would such a user now get a
+> different random MAC on every load, with no message explaining why?
 
-What prevents the state from changing right after you check it?
+It sounds like a good idea to add a warning on rejected addresses and say that
+random is in use.
 
-> +
->  	/* Enable UVC video. */
->  	ret = uvcg_video_enable(video);
->  	if (ret < 0)
-> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-> index 2f9700b3f..d4aeedacc 100644
-> --- a/drivers/usb/gadget/function/uvc_video.c
-> +++ b/drivers/usb/gadget/function/uvc_video.c
-> @@ -764,7 +764,7 @@ int uvcg_video_enable(struct uvc_video *video)
->  {
->  	int ret;
->  
-> -	if (video->ep == NULL) {
-> +	if (video->ep == NULL || !video->ep->enabled) {
->  		uvcg_info(&video->uvc->func,
->  			  "Video enable failed, device is uninitialized.\n");
+> Could the commit message be corrected to describe the
+> gether_set_dev_addr() path that the legacy parameters actually take?
 
-So if it's already enabled, you return an error saying it is
-uninitialized?  Are you sure that is correct?
+I think this needs to be followed and commit message needs a correction.
 
-thanks,
+...
 
-greg k-h
+> > --- a/Documentation/ABI/testing/configfs-usb-gadget-ecm
+> > +++ b/Documentation/ABI/testing/configfs-usb-gadget-ecm
+> > @@ -17,4 +17,9 @@ Description:
+> >  			      - MAC address of device's end of this
+> >  				Ethernet over USB link
+> >  
+> > -
+> > +		host_addr and dev_addr accept a MAC address as six byte
+> > +		pairs separated by ':' or '.', in any mixture
+> > +		(aa:bb:cc:dd:ee:ff, aa.bb.cc.dd.ee.ff), or as twelve
+> > +		hexadecimal digits with no separator (aabbccddeeff).  Any
+> > +		other format is rejected: the write fails with EINVAL and
+> > +		the attribute keeps its previous value.
+> 
+> [Severity: Low]
+> Does this text match what the new get_ether_addr() accepts?
+> 
+> parse_mac_pton() only checks a minimum length and the first
+> MAC_ADDR_STR_LEN characters:
+> 
+> lib/net_utils.c:parse_mac_pton() {
+>     ...
+> 	if (strnlen(s, MAC_ADDR_STR_LEN) < MAC_ADDR_STR_LEN)
+> 		return false;
+>     ...
+> }
+> 
+> Its own kernel-doc says "anything after them is ignored". So writing
+> "aa:bb:cc:dd:ee:ff:00" or "aa:bb:cc:dd:ee:ffXYZ" to dev_addr succeeds and
+> sets aa:bb:cc:dd:ee:ff.
+
+Yeah, the text needs an amendment. Something like
+"...with no separator (aabbccddeeff) at the beginning of the input."
+(see the part "at the beginning of the input" that's added).
+
+> The hex2bin(dev_addr, str, ETH_ALEN) fallback reads exactly 12 characters
+> and never looks at str[12]. "aabbccddeeff.zz" and "aabbccddeeff0011" are
+> accepted as well.
+> 
+> The reverse case is also missing from the text. Both paths in
+> get_ether_addr() also require is_valid_ether_addr(). A correctly
+> formatted multicast or all-zero address such as 01:00:5e:00:00:01 or
+> 00:00:00:00:00:00 fails with EINVAL, and the new text doesn't mention
+> this.
+> 
+> Trailing characters do have to be tolerated, because a configfs write
+> from echo ends in a newline. Could the text say that anything after the
+> address is ignored, and that the address must be unicast and non-zero,
+> instead of saying that every other format is rejected?
+> 
+> The eem, ncm, rndis and subset ABI files get the same text.
+
+All of them need to follow the same pattern, yes.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
