@@ -1,75 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795180911;
-	b=DrTKE3PjsfQsVRPrsgAbc2QxeA3eCY7AmWEGiaWuhlKMFtyMxox9cFM6GV4A3UexGFva
-	 fizX7kKnV1BS/hG6SpFdgpBb0fKfPuJtiq1OcletiPhFIZ+tThpnmkvfbcZz2JZsb9ppC
-	 Ppwa0zOPVNs637XNqaYktSoaM1nTH2S+0D9kR2XtRsFGNiYq0mcHvAKj24OHHSOknL0o7
-	 5Q06tPx5ZaPnFJ96N66HSU7WjpANC1BSVoqy+M9btzzTi3o/wWgfkx/5ctEYK5OJpFNDY
-	 jjG3qDs4Ha8adHsVi37cgaC25uP+N2Llu5TIXUmWKV1zN8F93zfWwnOVTzDHbj+bOHw==
+	t=1795181012;
+	b=Pv9ROy8/8MYAZPgX2HX8cReqGGEdN13Q1W2QQ8s/DjCr+MymVLzFcCIrUMFYxrf89Pip
+	 Kihg5yu3ZIbak2Ap8kBKNRvK9lEskbDSeTjFfOife3hC279O69gDwpvTxR+1W+D7neDY3
+	 K4o+GmR64KaKobALWfCjR8/xSPRT1s/QnkgexNg0f/VoxTK8KAvocmb7qYvf0zFOgeKXr
+	 qFk3OkJgmLnsDG0H32l8Gg+Z1VWH0DB2UrNhqRGDS/UOAKf24YofPLcsP+qvEBY4iYHfX
+	 uiTsvFlWEGFdHBTiX1GFFdKC/qXWTtY6q6L13B2SZwh3pOfk+yaFX2Mue3JitlYeoGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795180911;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=fFY2JiL4Gjfohkv1qNJ9dcQMzcXH5V6E4XAVqKS4phI=;
-	b=pWMjGj8v/ju5ZWGRWPpbboEf3dBWfL2Jkr3ZPMb9XMLwxUbJG7RqfVksdP9r2v+btHMx
-	 ildENE+2/a2c6gYES6VQD24DX6JMwiG8RhepQEIAU9osjsqX+YYNlZBmXadH/ELPqvDDX
-	 KjTszx81/gztyqDHb5ADARJ0GfF2RSC7+RFzL6doOCHwMWfQrEmNJxyf6AmKmQaq8xQqQ
-	 rca9V6AolxoRuuVmUr4BL1OvQwyTEn2Rz5PstOMl9w3ehrVjJowBmRpfTJbONvSXFjab0
-	 ++5vTGx5hbyZec/jg66wGNoCC0t/yAW8xYT5PyyN9E/nbwsWWcZSgp90uGzvenJtTIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795181012;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=9Yave6DZDGUUAvsSfmLDal9WFXgDPPi+dD/iYkllA/8=;
+	b=Gk+a9Y8L3gfMjcfFAb5Q84Po5tFD9jE3+gkwzfQW7MrTRcBxNhiW7UlYmba+8fiCYXWK
+	 n+XGNkg0EtgbxxpSbzUZaxwK0up5ZqYA2q5j3RQSDeck5mC+6dEsxi3RvurdNTf3CuwgA
+	 zD+Rfn4GSbqFpdTGRrOzwOcNWwibW6zkiRi05Lgha6kV4fP+lqb5FtDSnGo/QeVKA3E7G
+	 UDKIIhr5gaPw/I6H6xkswYbaO1O0o/jXASfLXytbPqzYdwW9foDxYUqTvHAJLo/B7TR+s
+	 tIm7eiycIuFzHJ+btp+HNrrARWvrVhc3Ic1jCcjllOEpf6wDJe3ZWkVwh44kwoSAAHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=o2MXrZNW;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nb99TAm+;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E807606A338;
-	Fri, 20 Nov 2026 13:21:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E807606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D5A606A330;
+	Fri, 20 Nov 2026 13:23:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8D5A606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=o2MXrZNW
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=fFY2JiL4Gjfohkv1qNJ9dcQMzcXH5V6E4XAVqKS4phI=; b=o2MXrZNWZdpZsN9juj+n09p61O
-	nRr1FtIW8/cbyrSAtJN2SYPNU24A+nN3PuIpM4RuWn1BxE7y+ERsHTCUjfY+yLoyg9k5Ift74QMQe
-	bCQeMud7Uf6VAVPDWg0ALMrFIb3HMw/OLNazNIcS8fqKD9YsHAE3S+nuCWfzF7Vd5Rn4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xUOYX-000ITq-EW; Fri, 20 Nov 2026 14:21:33 +0100
-Date: Fri, 20 Nov 2026 14:21:33 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-Cc: Birger Koblitz <mail@birger-koblitz.de>,
-	"netdev-bot+sashiko@kernel.org" <netdev-bot+sashiko@kernel.org>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	nic_swsd <nic_swsd@realtek.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nb99TAm+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795181012; x=1826717012;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cJJw5vbcJuFQOpdae3ptvun5p75snXhnCZwChzdLyPk=;
+  b=Nb99TAm+VhGiURfBHECJLBBBu2HJZqt6RDeXbtNVNvfDMVPwYmANlzw0
+   ImJefDIHTbMw9l0dHYp1J/YBMqnZIhpaR/IurvEc05mJdgR7PAa+ZTqqt
+   ijTdTynrDXQQZfLEGvJ1XwFowkkaVmRZmabEaNnI/24VQ8oXtLpg8RqMf
+   nwsLJcVUV+EQp981K0sXrg/qFdQYniLlBf/6s8gOzy+ESeCT7yJZK+R8D
+   bySsdMP32inamWlhV6sR9rpxD67PaQ6l0/8keKi4VzjUj4r353qcKDRj4
+   QX7tKpbN+bKQnAB2FLSu1fCayXTVhmbrdpAZmOOJW3i9nzTBpdTHDWLcP
+   w==;
+X-CSE-ConnectionGUID: wurwfjMgRFuAKOheNybA9Q==
+X-CSE-MsgGUID: 0GBOO7J1Sxq1U92w3PU4Sg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3945340"
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="3945340"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 05:23:32 -0800
+X-CSE-ConnectionGUID: +D3uAwM0Ql+ilvQ35dXt6w==
+X-CSE-MsgGUID: LFt9NXU/RaC7A91NKsxlkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="11035886"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa006.fm.intel.com with ESMTP; 20 Nov 2026 05:23:29 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 0BF6799; Fri, 20 Nov 2026 14:23:28 +0100 (CET)
+Date: Fri, 20 Nov 2026 14:23:28 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Keisuke Tsukuda <tkdkei@outlook.jp>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
 	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"bjorn@mork.no" <bjorn@mork.no>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>
-Subject: Re: [PATCH net-next v8 10/11] r8152: add TGPHY register access for
- RTL8157 and RTL8159
-Message-ID: <78ed468c-798c-44b2-9f97-8645af0f1641@lunn.ch>
-References: <20261110032416.16968-11-nic_swsd@realtek.com>
- <179464851836.2199510.10154643847175029122@kernel.org>
- <0c6318e175b14ce8b86a957c7c79d5db@realtek.com>
- <cafe3b8f-2b65-41d6-b31d-a1cabbf93720@lunn.ch>
- <2e601d9c-1271-4802-a45c-a16a0d9cfa8d@birger-koblitz.de>
- <b53ecd5dc96f4890956f051959b74e32@realtek.com>
- <1543707c-c121-4c35-8849-c4db1a71fb57@lunn.ch>
- <6a2c635ba56d4deab25a25db9af91c10@realtek.com>
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] usb: roles: wait for callbacks on unregister
+Message-ID: <awBJ0NDCvbznrBjk@black.igk.intel.com>
+References: <20261117125825.27629-1-tkdkei@outlook.jp>
+ <20261117125825.27629-3-tkdkei@outlook.jp>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -81,16 +89,91 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6a2c635ba56d4deab25a25db9af91c10@realtek.com>
+In-Reply-To: <20261117125825.27629-3-tkdkei@outlook.jp>
 
->  The root cause there is also that
-> the MII library does not check the errno, so a future patch could make the MII APIs
-> check the mdio_read() return value and propagate the error.
+On Tue, Nov 17, 2026 at 01:00:20PM +0000, Keisuke Tsukuda wrote:
+> usb_role_switch_set_role() and usb_role_switch_get_role() check the
+> registered flag before taking the switch lock. If a provider is
+> unregistered during a role request, unregister can return while its
+> callback is still running. The provider may then free memory used by
+> the callback, causing a use-after-free. A caller that passed the check
+> can also enter a callback after unregister returns.
+> 
+> Move the registered checks under the switch lock and clear the flag while
+> holding the same lock on unregister. This waits for active callbacks and
+> rejects callers that acquire the lock after the flag is cleared. The
+> preceding Apple DWC3 change avoids a lock inversion in its remove path.
+> 
+> Fixes: fde0aa6c175a ("usb: common: Small class for USB role switches")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Keisuke Tsukuda <tkdkei@outlook.jp>
 
-The MII library is deprecated. It is not maintained. It will not be
-changed unless it is really broken, and by that i mean it breaks
-802.3.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-All feature development work should be done on phylink and phylib.
+> ---
+>  drivers/usb/roles/class.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+> --- a/drivers/usb/roles/class.c
+> +++ b/drivers/usb/roles/class.c
+> @@ -79,10 +79,11 @@
+>  	if (IS_ERR_OR_NULL(sw))
+>  		return 0;
+>  
+> -	if (!sw->registered)
+> -		return -EOPNOTSUPP;
+> -
+>  	mutex_lock(&sw->lock);
+> +	if (!sw->registered) {
+> +		ret = -EOPNOTSUPP;
+> +		goto unlock;
+> +	}
+>  
+>  	ret = sw->set(sw, role);
+>  	if (!ret) {
+> @@ -90,6 +91,7 @@
+>  		kobject_uevent(&sw->dev.kobj, KOBJ_CHANGE);
+>  	}
+>  
+> +unlock:
+>  	mutex_unlock(&sw->lock);
+>  
+>  	return ret;
+> @@ -107,16 +109,21 @@
+>  {
+>  	enum usb_role role;
+>  
+> -	if (IS_ERR_OR_NULL(sw) || !sw->registered)
+> +	if (IS_ERR_OR_NULL(sw))
+>  		return USB_ROLE_NONE;
+>  
+>  	mutex_lock(&sw->lock);
+> +	if (!sw->registered) {
+> +		role = USB_ROLE_NONE;
+> +		goto unlock;
+> +	}
+>  
+>  	if (sw->get)
+>  		role = sw->get(sw);
+>  	else
+>  		role = sw->role;
+>  
+> +unlock:
+>  	mutex_unlock(&sw->lock);
+>  
+>  	return role;
+> @@ -423,7 +430,10 @@
+>  {
+>  	if (IS_ERR_OR_NULL(sw))
+>  		return;
+> +	/* Wait for in-flight set/get callbacks before unregistering. */
+> +	mutex_lock(&sw->lock);
+>  	sw->registered = false;
+> +	mutex_unlock(&sw->lock);
+>  	if (dev_fwnode(&sw->dev))
+>  		component_del(&sw->dev, &connector_ops);
+>  	device_unregister(&sw->dev);
 
-	Andrew
+-- 
+heikki
