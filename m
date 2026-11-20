@@ -1,53 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795172159;
-	b=HbR6k59tyioN4p9fGYE1RvZ4GkPeLNZCqfUWYlMhnCRpEpdKzof/2c/RUTkO/ScO4o75
-	 Or94tSS6pzquiF5SpPkqVUlbRvQAy015Mp054B3n/ODhnGqleKQw6UUzJERn8IpC7meoL
-	 GdcQRy3RHZhkFfdi2RqdYswUPeSWrRO2TCEOX+rd5dthfkItwcJACf2GjbjVNIAwdPcl1
-	 lgUb1xbouFDqKhaUbbs3Xb2Yv3zS9dIXwW+TfisihzRzwa3Fla8V7Fb95Dxug2wkMJya0
-	 Uh79ssFA2E9c7CNDtTkKU+wjTeQ92kjxItTT2tACm2WbS6dnKcXYhUm1QsNKqHddygg==
+	t=1795172296;
+	b=C1Pb6yvAWXaeAKT0AsjvDlP/8KzXPYl3iguQg0ffdSC4RJ4QlJrW8HyysIQeV7Nftmh2
+	 ygzGx2DZ9i3E+P/VGdXxnQ3STV01Pq74QLTxgUr6CmdU9rAb9/4DuWy88ID9mxFpoqAwq
+	 d132YRPUzOcMaSSk7XxEiugtc/IdGZyvyy9dTqWodWKedSS2+zfQiSO1Znzcr6avphXDr
+	 hw0JUQwkhjTRtoWV88epPLgCkuLPsdyHETb7DZ1yflQJgSkIrHBNDwuQAvkHlNVgPsUtC
+	 EofkizrK5OqZCgk4CRFdL24jck5fEGBZJO0y3+AlX/UbSsPlCkvr/4nxVnDbT1oLLoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795172159;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795172296;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=2ScDhhlhFxgtL/0M/4qB5NHle6XaWcn7NPdtwh1ni+I=;
-	b=HhXMVsC4d6GD2IYOMs883Y4yiwj9fE4YallZ+85O76uZCV6l0yhY4yVYlkDXWnj+Urzm
-	 I9W/s5X3FHehhzG89VEi/4tv80KmjTYMzNPpEpr/Z7OA1/j8ip1EGVhSWd75nNYRN7vhP
-	 X0AvyS8G+8Az0vvfw9JDS4UVrbBfDsVDjpQwL7/2GwVfM0h3MFO8K9qpHoFHA+dLDiqgS
-	 SRruZOAJVz7p6PZO0puLkU8eoO2xhJjQ69NFLEsRnf1dCxi5a3g3YTAMEalWPIv7yhlWA
-	 mPrkBubPOWS3Su7Y7yNs6D8Bni+7NDasrk9INlx9mE6R7JRVw0f9uKySmyku8G89Dzw==
+	bh=EW6Q9jmIhQh9U/3ByIZXptV8tV4/B3yP9ni/4lNN4ho=;
+	b=Qg28RSieX2C8YqVWX5Qqn3BSDq+I12nb6FEoUjoCp8Y+qgxl8ssoZwa1bCNg/uwRhJal
+	 aekxm/rkWgXdx7Hks6v4wK4H03dcBR26HKSCReaJiRSfaeN0+VDS5yN14FdXiamP60oLY
+	 mvpQy1+N1O/CatGl2G6uVVf7by4S/AnYJbcdO+0cAqOOhbjQJ3wctKABeS9TAezEWdRTw
+	 o2dVGz+1I+ZHvn9X+35JgmnY0ydR3u90zEHsO3J4nzfy6kSrWBiL6XwTZQSt9s5Pe9uS0
+	 2qSR0UFB7UKBWfId3demgiUwm8H55K2t5CLqakTmq5cOyB+FnUdZB5COuq9vqg9Bf+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=DJiIKxki;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=gUNJtQtS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E01D606A320;
-	Fri, 20 Nov 2026 10:55:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E928606A325;
+	Fri, 20 Nov 2026 10:58:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=DJiIKxki
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C6471F000C4;
-	Fri, 20 Nov 2026 10:55:58 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=gUNJtQtS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74D9A1F000C6;
+	Fri, 20 Nov 2026 10:58:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795172159;
-	bh=2ScDhhlhFxgtL/0M/4qB5NHle6XaWcn7NPdtwh1ni+I=;
+	s=korg; t=1795172296;
+	bh=EW6Q9jmIhQh9U/3ByIZXptV8tV4/B3yP9ni/4lNN4ho=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DJiIKxki/8jpTxa2IkvVVJyOt/mbTcX7uIEHXwjecSRkbmf+OdEU1hx/yl8980Mv2
-	 tBBvBfIPq5lY+XQHkRryUmnlVZdt1pjN7gfJVMvAI1ylx29aglE8EMc1qXyfTm0/dR
-	 uvMZQNjx3k++3RQqF4VKn5hWxiq2J6lIqMeibsnA=
-Date: Fri, 20 Nov 2026 11:55:56 +0100
+	b=gUNJtQtSHmecT3cbkPHjfDMIOqke1kr8wcj8qViGVOgRM25It6xUPOlm0Omkoun+O
+	 8Vj+LYsf+Riz3AIf7vF97VLervezzIX6APqbX2QCXNibwgJ2iSLhh9HhUfZGH4yhMX
+	 ADPJfBtcWAZvZxD7oRctR+1DmBsfXgzvwNvxndKA=
+Date: Fri, 20 Nov 2026 11:58:13 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
-Cc: nkapron@google.com, linux-usb@vger.kernel.org,
-	Thinh.Nguyen@synopsys.com, bigeasy@linutronix.de,
-	target-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	benquike@gmail.com
-Subject: Re: [PATCH v8 4/4] usb: gadget: f_tcm: clear the scatter list when
- reusing the BOT status request
-Message-ID: <2026112046-thirstily-cosmetics-1aca@gregkh>
-References: <20261118124005.2428068-1-yhlee@isslab.korea.ac.kr>
- <20261118124005.2428068-5-yhlee@isslab.korea.ac.kr>
+To: Slawomir Stepien <sst@poczta.fm>
+Cc: andrzej.p@samsung.com, jiashengjiangcool@gmail.com,
+	yun.zhou@windriver.com, zzzccc427@gmail.com, bigeasy@linutronix.de,
+	nab@linux-iscsi.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
+Subject: Re: [PATCH 1/3] usb: gadget: f_tcm: take the TPG in tcm_bind()
+ instead of tcm_alloc()
+Message-ID: <2026112034-paralegal-democracy-b509@gregkh>
+References: <20261022134926.1125473-1-sst@poczta.fm>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,25 +59,125 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261118124005.2428068-5-yhlee@isslab.korea.ac.kr>
+In-Reply-To: <20261022134926.1125473-1-sst@poczta.fm>
 
-On Wed, Nov 18, 2026 at 09:40:05PM +0900, Yehyeong Lee wrote:
-> bot_send_bad_status() reuses fu->bot_req_in/bot_req_out to send the CSW or
-> drain the data phase, but a preceding sg command left req->sg and
-> req->num_sgs pointing at that command's t_data_sg - set in
-> bot_send_read_response() for a read, or usbg_prepare_w_request() for a
-> write.  That command is freed before the status request runs, so on an
-> sg-capable UDC the status request is handed to the controller with a freed
-> scatter list: the controller reads freed memory out to the host on an IN
-> endpoint, or writes host data into it on an OUT endpoint.
+On Thu, Oct 22, 2026 at 03:49:24PM +0200, Slawomir Stepien wrote:
+> tcm_alloc() runs when a TCM function is symlinked into a gadget
+> configuration. It searches tpg_instances[] for the function instance
+> and copies the TPG pointer into fu->tpg at that point, under
+> tpg_instances_lock. This has two problems.
 > 
-> Clear req->num_sgs and req->sg so the UDC uses the linear req->buf instead.
+> The function and the TPG can be set up in either order. If the
+> function is linked into a configuration before the TPG directory is
+> created, tpg_instances[i].tpg is still NULL and fu->tpg stays NULL.
+> Creating and enabling the TPG afterwards sets can_attach, so
+> tcm_bind() succeeds, and the first USB request that reaches the
+> target code dereferences the NULL fu->tpg.
 > 
-> A test module that stands in for the controller's queue path, so that it
-> dereferences req->sg the way an sg-capable UDC would, reports a KASAN
-> slab-use-after-free on the freed entry for a read command followed by a
-> rejected command that reuses bot_req_in: 20 runs out of 20 without this
-> patch and 0 out of 20 with it.  A normal sg read still queues its own
-> scatter list.
+> Removing a TPG also leaves can_attach set for configfs instances, so a
+> later bind is not refused even though the TPG it would use is gone.
+> 
+> Store the TPG in struct f_tcm_opts instead: set it in usbg_make_tpg()
+> and clear it in usbg_drop_tpg(), under opts->dep_lock. In tcm_bind(),
+> refuse to bind unless both can_attach and opts->tpg are set, and copy
+> opts->tpg into fu->tpg there. Also clear can_attach in usbg_drop_tpg()
+> for configfs instances. The legacy g_target driver sets can_attach once
+> at module load, and its attach callback does not set it again, so
+> leave it alone in that case or g_target could never bind again after a
+> TPG is recreated.
+> 
+> With fu->tpg no longer set in tcm_alloc(), the tpg_instances[] lookup
+> there serves no purpose: f->fi already identifies the instance for the
+> item's whole lifetime. Drop it, and with it the tpg_instances_lock
+> acquisition. config_usb_cfg_link() calls tcm_alloc() with gi->lock
+> held, so this also removes the gi->lock -> tpg_instances_lock edge
+> from the following lockdep report:
+> 
+>   WARNING: possible circular locking dependency detected
+>   task is trying to acquire lock:
+>    (tpg_instances_lock){+.+.}-{4:4}, at: tcm_alloc
+>   but task is already holding lock:
+>    (&gi->lock){+.+.}-{4:4}, at: config_usb_cfg_link
+> 
+>   the existing dependency chain (in reverse order) is:
+>   -> #2 (&gi->lock):
+>          config_usb_cfg_link
+>          configfs_symlink
+>   -> #1 (&sb->s_type->i_mutex_key#24):
+>          configfs_depend_item_unlocked
+>          usbg_make_tpg
+>          target_fabric_make_tpg
+>          configfs_mkdir
+>   -> #0 (tpg_instances_lock):
+>          tcm_alloc
+>          usb_get_function
+>          config_usb_cfg_link
+>          configfs_symlink
+> 
+> Fixes: 4bb8548df632 ("usb: gadget: f_tcm: add configfs support")
+> Reported-by: syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=2799146a53c356f8017d
+> Link: https://syzkaller.appspot.com/ai_job?id=51e1f189-6d91-4321-a6ba-07d4eb3cd8cd
+> Assisted-by: Gemini:gemini-4-argon Gemini:gemini-3.8-flash syzbot
+> Signed-off-by: Slawomir Stepien <sst@poczta.fm>
+> ---
+>  drivers/usb/gadget/function/f_tcm.c | 29 +++++++++++------------------
+>  drivers/usb/gadget/function/u_tcm.h |  4 ++++
+>  2 files changed, 15 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
+> index 9e6d4f39900a..cc75d7e9792a 100644
+> --- a/drivers/usb/gadget/function/f_tcm.c
+> +++ b/drivers/usb/gadget/function/f_tcm.c
+> @@ -1720,6 +1720,9 @@ static struct se_portal_group *usbg_make_tpg(struct se_wwn *wwn,
+>  
+>  	tpg_instances[i].tpg = tpg;
+>  	tpg->fi = tpg_instances[i].func_inst;
+> +	mutex_lock(&opts->dep_lock);
+> +	opts->tpg = tpg;
+> +	mutex_unlock(&opts->dep_lock);
 
-Why is this paragraph here?  What does it mean?
+Why is a lock needed to write one value?
+
+>  	mutex_unlock(&tpg_instances_lock);
+>  	return &tpg->se_tpg;
+>  
+> @@ -1760,11 +1763,14 @@ static void usbg_drop_tpg(struct se_portal_group *se_tpg)
+>  		opts = container_of(tpg_instances[i].func_inst,
+>  			struct f_tcm_opts, func_inst);
+>  		mutex_lock(&opts->dep_lock);
+> -		if (opts->has_dep)
+> +		opts->tpg = NULL;
+> +		if (opts->has_dep) {
+>  			module_put(opts->dependent);
+
+The whole module_put() logic should probably just be removed, right?
+
+
+> -		else
+> +		} else {
+> +			opts->can_attach = false;
+>  			configfs_undepend_item_unlocked(
+>  				&opts->func_inst.group.cg_item);
+> +		}
+>  		mutex_unlock(&opts->dep_lock);
+>  	}
+>  	mutex_unlock(&tpg_instances_lock);
+> @@ -2300,10 +2306,11 @@ static int tcm_bind(struct usb_configuration *c, struct usb_function *f)
+>  	opts = container_of(f->fi, struct f_tcm_opts, func_inst);
+>  
+>  	mutex_lock(&opts->dep_lock);
+> -	if (!opts->can_attach) {
+> +	if (!opts->can_attach || !opts->tpg) {
+>  		mutex_unlock(&opts->dep_lock);
+>  		return -ENODEV;
+>  	}
+> +	fu->tpg = opts->tpg;
+>  	mutex_unlock(&opts->dep_lock);
+
+But opts->tpg could be changed now, but you saved it off?  No reference
+counting at all?  That feels very wrong.
+
+thanks,
+
+greg k-h
