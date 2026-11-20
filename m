@@ -1,56 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.2
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795216610;
-	b=J7L2T0T2UYo5TgiQBoGMMh8uQDnSr6meidGbsEaTK9fn2+jkfprFzbpehiXxT6jUBe0e
-	 xzAajNo3rT97+6BVjOcQyM7wtgOf9OgDOeewp7nyGOxE9gmsR9b//YPU4aBkCGekOC4p6
-	 qh9G6t9K+wtmxsVDio317gY9DIEBKWK6d6PQx8AZwT5SSZZKqPNQeB9HWG1M/QfeM2jum
-	 mSiGWfh0pTObSwskECCChffOSlvzyn+IfdDQKld8KY9Y/QwIiA6K6Ca0IzM4rS6tbtwKQ
-	 /voFxFy0ehTm4P1hcgtr6W1eMHjCaRuNbeojY7P0Hn7S4Nr+ZEUExocNscZzJVyz0og==
+	t=1795218028;
+	b=ETW6itFKJ+gWw3skKTGs7lwQ/aWN0Y6in1fRALrfKj8ZTAEHzc9iaUIUjOOikYCxdWmy
+	 Ea0Jmz/fv8e1fYVThOUc3c4eC36zHbdp2bNv0PWmA7k11VCrSnlJFSCFkOxsCVXMPMWWh
+	 XhndAMv3wGLFwAZ9lFiSrWtGS2xC0HjuuN/IebqgnEhJJd1om9dZ1WEgIGsm+RJGNIy20
+	 dk0OGZt39Pdjw8R7dMZnSGTgJXUmcUVWLs0eXRnmulYyCys6J32/6WFWZaLgzBdwIs4+4
+	 oaoW5+f8VYcQXs1LazjBcqDrpyJpBU9DKcVtE2Bghvsy5OoipaEQdAaQQtTqqcLS9sg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795216610;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=jYCd4GVZHquaiq/Q28VE9KSZyasvn7yowcTywDh3zYE=;
-	b=KFzig7wxxqrdoKzLbioUSDIO6/K9keQRpsb82/Px5VGzNolTHqxY4IoEdpsIC5ObNAZL
-	 1Fzm/M5TnDrYHf0/QbKronLi0qoyd2MJ4AUSWwXU1lHw9vgQ6WawOg7tYjCUplozOCCWk
-	 mhLSZ3U+Rmz5hHXOsnnPc8b5g6Zcvbyc0TQEvZQW0nM3qF+nQBSpgpIHUgOqmehbKpTNw
-	 vCeaB50ZBliQwPOacYowSrVHUqbaxZbPWZ5tZ5y6gugbyvn9adYFiPwuXaanaw7xMWFOj
-	 QUjd4XFxhoyFe6DFTvs5OhEHYRZ8P2gWy1jkCWp4u0vwkdVEgObYt1KU27u0/B+v0ZA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795218028;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-Originating-IP:X-CM-SenderInfo;
+	bh=fpAXd9Dd8xrOaZ3dfPBtxIPQ7lagwt0ZBB4LlAide2s=;
+	b=lPaoHDg9vFetaxJMZ3byig51nQWFe7ImmL7j5WfKXNGtqRYI3LTVJda0ki83AFlYeOuc
+	 WGfuf7GmeoaVB8An7Nb+zyTrMrJOB0hyQ8nxH+K3N30ql0vMTERNqzEYnBARxvj8sr+TK
+	 zWxYVG++4NSplOJkKVGNwF9hcyfqSEJPREOspBXABgbOH/1HPt9eyWyOgEjWeli3P/oSb
+	 ICETN2HMyt/NxxuM29xS6JtaAywgp77Q+8OeT272BZ2nx2JjZOCzuBlUVaDICYEGq8+PD
+	 U0JFGP9JcuB3KK1MbMCEnvt/VO3j3EaC091Gcve9YzOYVxRXYWf6vKYn7Mj3UIlFBBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PosgJYt3;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=K4NrzT6H;
+	arc=none smtp.remote-ip=117.135.210.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D891606A684
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 23:16:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91471606A320;
+	Fri, 20 Nov 2026 23:40:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91471606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PosgJYt3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E3C1F000C4;
-	Fri, 20 Nov 2026 23:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795216609;
-	bh=jYCd4GVZHquaiq/Q28VE9KSZyasvn7yowcTywDh3zYE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=PosgJYt3zRNiFpoxtcrf2iQS/+gWFgVPEPiJFYJabg64x4W6NXdfeDHYWAA4AyuOK
-	 sDoZ1FefTXU+PKL2wl7rjut/FAfpBLEcjbkTTyYdAyeUXdCcEE2CXFKEfGrBaEGFjw
-	 yO4y3EKBQzDoAQGyHn3q/h3x4psq9Gx00JsVIHHjO3HYOJ/1BS64abjKBOeLwAzqPG
-	 ehI+x4iMJi9PEcZ236EaIuWgtaGne+/2D69r42BJgyeI+J5zwfhDS111ijZc272f+A
-	 dlp1kXgOw5DbTrACIxTWJ2Qz8razP3PkcMB0EXqAPYr1OvmSiEJovQrRFV3HBZlfDd
-	 LJwFg0EbUibHQ==
-Message-ID: <sashiko-outbox-226340@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: gadget: f_fs: fix use-after-free of ffs_dev in
- ffs_free_inst()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Palla Raghunath" <raghunathpalla.0209@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261120230711.14330-1-raghunathpalla.0209@gmail.com>
-References: <20261120230711.14330-1-raghunathpalla.0209@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 23:16:47 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=K4NrzT6H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=fp
+	AXd9Dd8xrOaZ3dfPBtxIPQ7lagwt0ZBB4LlAide2s=; b=K4NrzT6Ho4A/a1AHQt
+	Y1foc6QFZs3/57nGlhIfoozQivXkbmBaPROi/XoW0H+oFOyz7OtHZ2v4wjyRdGET
+	Yn6tlJRj9hhU0UutR20ELoZcjWLRQHG8fNc9UT2+pQ545+5GxF0Xi565elM4Wneq
+	CyiVSIBPywkYYIdAlmTk/ZsKc=
+Received: from SYPC (unknown [])
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wDXH61Q2gBrI_0gIw--.27688S2;
+	Sat, 21 Nov 2026 07:40:01 +0800 (CST)
+From: Yang Siyuan <hsyysy@163.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Freimut Diener <f.diener@pengutronix.de>
+Subject: [PATCH v3] usb: phy: generic: request the vbus supply only when it is described
+Date: Sat, 21 Nov 2026 07:39:22 +0800
+Message-ID: <20261120233922.2691166-1-hsyysy@163.com>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <2026112011-macaroni-manatee-e057@gregkh>
+References: <2026112011-macaroni-manatee-e057@gregkh>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,33 +62,65 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDXH61Q2gBrI_0gIw--.27688S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WF4DAw1xuF4fuF48tF13Arb_yoW8urWkpF
+	W8GFs0kr1DJF4xZrWkJr4ft3WruF4fJrZFkr1xJwn5WF1DWa43Z3sFga4rZFZxuw4kX3yY
+	y34DJFy7GF1xu3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Ui2-OUUUUU=
+X-CM-SenderInfo: 5kv152r16rljoofrz/xtbC7RGl2WsA2lF1NgAA3j
 
-> When a function instance is removed through configfs, ffs_free_inst()
-> first calls ffs_release_dev(), which takes ffs_dev_lock, detaches the
-> dev from its mount and drops the lock again. Only then does it retake
-> the lock and free the dev with _ffs_free_dev().
->=20
-> Between those two steps the dev is still on the ffs_devices list. If
-> someone mounts functionfs with the same instance name right then,
-> ffs_acquire_dev() finds the dev, marks it mounted and points the new
-> ffs_data at it. The dev is freed a moment later, and when that mount
-> is torn down, ffs_closed() writes to freed memory. syzbot hit this:
->=20
->   BUG: KASAN: slab-use-after-free in ffs_closed drivers/usb/gadget/functi=
-on/f_fs.c:4427 [inline]
->   BUG: KASAN: slab-use-after-free in ffs_data_clear+0x543/0x5b0 drivers/u=
-sb/gadget/function/f_fs.c:2305
->   Write of size 1 at addr ffff8880237b1e4a by task syz-executor/11910
->   Call Trace:
-> [ ... ]
-> Cc: stable@vger.kernel.org
-> Reported-by: syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D6227549bd2c8a1ec8ba0
-> Acked-by: Micha=C5=82 Nazarewicz <mina86@mina86.com>
-> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+usb_phy_gen_create_phy() unconditionally asks for an exclusive "vbus"
+regulator. The legacy usb_phy_generic platform device registered by USB
+glue drivers (e.g. sunxi MUSB) has no firmware node, so the lookup ends
+up in the dummy-regulator path and the regulator core warns:
 
-Sashiko has reviewed this patch and found no issues.
+  usb_phy_generic usb_phy_generic.1.auto: dummy supplies not allowed for
+  exclusive requests (id=vbus)
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120230711.1433=
-0-1-raghunathpalla.0209@gmail.com?part=3D1
+Only issue the request when the device firmware actually describes a
+vbus-supply, and keep treating -ENODEV as "not present".
+
+Fixes: 03e607cbb293 ("usb: phy: generic: Get the vbus supply")
+Tested-by: Freimut Diener <f.diener@pengutronix.de>
+Signed-off-by: Yang Siyuan <hsyysy@163.com>
+---
+Changes in v3:
+- Drop the blank line between the Fixes: tag and the trailer block, as
+  requested by Greg Kroah-Hartman.
+- Add the Tested-by tag from Freimut Diener (NXP i.MX93 FRDM board).
+
+Changes in v2:
+- Add the Fixes tag suggested by Sashiko.
+
+ drivers/usb/phy/phy-generic.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/phy/phy-generic.c b/drivers/usb/phy/phy-generic.c
+index de26b3023..24b7ba536 100644
+--- a/drivers/usb/phy/phy-generic.c
++++ b/drivers/usb/phy/phy-generic.c
+@@ -238,7 +238,17 @@ int usb_phy_gen_create_phy(struct device *dev, struct usb_phy_generic *nop)
+ 		return dev_err_probe(dev, PTR_ERR(nop->vcc),
+ 				     "could not get vcc regulator\n");
+ 
+-	nop->vbus_draw = devm_regulator_get_exclusive(dev, "vbus");
++	/*
++	 * vbus is an optional supply that only exists when the firmware
++	 * describes it. The legacy usb_phy_generic devices registered by USB
++	 * glue drivers have no firmware node, and requesting an exclusive
++	 * dummy supply only makes the regulator core warn.
++	 */
++	if (device_property_present(dev, "vbus-supply"))
++		nop->vbus_draw = devm_regulator_get_exclusive(dev, "vbus");
++	else
++		nop->vbus_draw = NULL;
++
+ 	if (PTR_ERR(nop->vbus_draw) == -ENODEV)
+ 		nop->vbus_draw = NULL;
+ 	if (IS_ERR(nop->vbus_draw))
+base-commit: 091b06388b117fefdcb63336ac09956a4914b961
+-- 
+2.56.0
+
