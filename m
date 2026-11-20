@@ -1,51 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795190725;
-	b=QouJIgXA1NtSZQE9KlrE3us5bdLyT8orCQBJ9aEQ13CETttNDpjBG5ewg4KbXqU3+mty
-	 34KjVF6JGzx1dBywg9wgWSqz1V0/nDup2IumKHeYUq64W8mBn2CTdOAI08n+tZyW+SU0d
-	 59dAdVGmc/KyPC4fNKW0yKTnOGFCaKyJDI7YDk+Yv8Ec0cxZyEKvhbuGu9UGbh0V/gwr0
-	 n/em/jqXlATerw63I7lmExnuRZuFE6W57SxeZOsc76baR7PjoL3vatgUfMApNsv4tYjR7
-	 32iKH8mUjGjF7NrYlkTu4reN44zkjJMDntn2a/H3GcoIntwDsr+ziInOUSyHcZb8uMQ==
+	t=1795190783;
+	b=1lLwyy1v+BMEjseq3sPLuQ84Ccvih8auxUljJy47d3RVc/uN+QTHhfwJd+PxfYIdz1jk
+	 0fI7xikdHW34QyvLnKd99oxaXXFpCPr064Ms+gYt+MrFWkLUGmUQspavgWpBzUYJfTI9A
+	 qdElzS50FZH1jWonBgDxVpBR71e7U9yoMM9c9ukXsm3XRf+fuWFUt54nYVW8lsirTImhs
+	 hcmbLczDWdgG+VaOinRBkZvEFWo0RIiJFrA7aysdCHivOx511edGqwAjQfzAsKoLOGO9c
+	 b4MgQKYi6qI8+Ff0yqWTlY7EpUbwcMZroB+gqCDfWDajtoC/gKl6TUKnIfinMk3Nycw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795190725;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190783;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=9yBDWs9CMXbwkeV0/alYjRwMOzQ4HOenMYbfzoVJEGA=;
-	b=uz8jO5QmrBRCRnQ0P8uwPkW3I7iMUqxHYwcJPPfUj+6uWuVrc7qAs50XAsbZ6WjB4LKO
-	 Yx8ECcsP79V1GDOJD/vwSe9pKiUQJ/Vz7/QIBzT/IAJZjSGth1qyQwgleUAiAbeNbda0m
-	 LDX4dqNSiQwiXkSWZhCspnkeTG0yE/458Vf/ZkXO+QEht4gAWhZ3einH5ygAO+8jPLeUi
-	 lH/RAo9KOT5+56+Lf58uqmOPu/jW6C8YvQW8yjMLKGOvPHmd0l9knj0GIEkXWMASdcUHI
-	 EW5UcSClw5yOdbVRzpQ0Nu+MUgUtm7Od7oefDnBct7aFfEgZJJ6NHk+z+1SpBow9/9Q==
+	bh=h4TonTW3SJY0/uQ/u5HES6hwQIEse7VmKPSjv012IRs=;
+	b=DJ6MgDWoHbaSlGD5AMw33tjbqmNXV0F5SkdddtUJkYVvkN9Efv7XVFMj473uE6MB6mBW
+	 25jCAKYRVbHYeMYfcaKRtfVdFB4ugjUF24dKboYjA7w8x1nRAwshHZcblFUcBnUpLxKpt
+	 uZbW9/lmK5acBG+ALSOvUqRJU7xSoJmj39qej0KE+lAvKo/9WU/JMwHjHrUB8I1cntBDS
+	 Q1YTn9ZIfmLkbQrx0qRMrSuYFvUZqEZzq8lSCz5SYSTQWIYkmTfyOPNeduTumNUsba5/e
+	 oxCnlLb6HJdiZ+DaRAN8bV6E16LLzu8DJ2IEGMy9g07qlSSyKrgPOHaHQF2MFJ4ngbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="S/VHkulp";
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=BjinrI0b;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7CF606A32A;
-	Fri, 20 Nov 2026 16:05:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE07560A2600;
+	Fri, 20 Nov 2026 16:06:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=S/VHkulp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 056541F0093E;
-	Fri, 20 Nov 2026 16:05:23 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=BjinrI0b
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 948401F000D8;
+	Fri, 20 Nov 2026 16:06:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795190724;
-	bh=9yBDWs9CMXbwkeV0/alYjRwMOzQ4HOenMYbfzoVJEGA=;
+	s=korg; t=1795190783;
+	bh=h4TonTW3SJY0/uQ/u5HES6hwQIEse7VmKPSjv012IRs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S/VHkulptksunPQfeERGHooh8WSqe6HjOnYVGcaXtmSuL3k2pyp1pRjXW08g10JM7
-	 2yQd43fvhoyf5C1rTlrbWcznb2Cn0Vd5As2QO9L3VWeTKv5a5QrbGHHAUj1M8ykqBU
-	 brZuzbL0pZ81E1o30YYXocDWk7OkbSgC/2B7Gtw0=
-Date: Fri, 20 Nov 2026 17:05:21 +0100
+	b=BjinrI0by6eZVj37FZ2g4Dt9J+Ade8Tq7XJEvaaKAL49dO+fNY0FXlnceSmuyIx68
+	 aP7hAJB2HSouZDcriO+6Q55jeHlLRax+QR25cOTLAUSX6hDwltBWKgmSYnM7dC+WLI
+	 6WgDfYhv7I9zET5fc8I2ItOi26BLhfgSqM0Eph9I=
+Date: Fri, 20 Nov 2026 17:06:20 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ian Rogers <irogers@google.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: Lixu Zhang <lixu.zhang@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, Elkin Cruz <elkin@google.com>
-Subject: Re: [PATCH] usb: typec: hd3ss3220: Propagate regmap_read() errors
- from attached-state check
-Message-ID: <2026112003-dreamlike-tricolor-f055@gregkh>
-References: <20261119170650.1521609-1-irogers@google.com>
+	stable@vger.kernel.org, Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>
+Subject: Re: [PATCH] usb: ljca: fix NULL pointer dereference on events for
+ callback-less clients
+Message-ID: <2026112045-napping-suitcase-26b0@gregkh>
+References: <20261120150143.2591-1-25031212351@stu.xidian.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,99 +59,38 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261119170650.1521609-1-irogers@google.com>
+In-Reply-To: <20261120150143.2591-1-25031212351@stu.xidian.edu.cn>
 
-On Thu, Nov 19, 2026 at 09:06:49AM -0800, Ian Rogers wrote:
-> hd3ss3220_get_attached_state() has return type 'enum usb_role' (an
-> unsigned enum) yet returns negative regmap_read() error codes directly.
-> Neither hd3ss3220_set_role() nor output_poll_execute() checks for errors;
-> on a transient I2C failure (such as -EIO, cast to 0xfffffffb),
-> hd3ss3220_set_role() passes the bogus value to usb_role_switch_set_role()
-> and disables VBUS power. On role-switch providers without a .get callback
-> (where sw->role caches the value passed to usb_role_switch_set_role()),
-> reading /sys/class/usb_role/*/role subsequently indexes usb_roles[role]
-> out-of-bounds.
+On Fri, Nov 20, 2026 at 11:01:43PM +0800, YuanZhe Liu wrote:
+> ljca_handle_event() dispatches an incoming event message to the first
+> client whose type matches the message type and calls that client's event
+> callback without checking that a callback is registered.  Only the GPIO
+> client calls ljca_register_event_cb(); the I2C and SPI clients never do,
+> so their event_cb stays NULL for as long as the adapter is bound, while
+> they are present in adap->client_list.
 > 
-> Return an int status from hd3ss3220_get_attached_state(), pass the
-> resolved enum usb_role via an output pointer, and leave the current role
-> and VBUS state unchanged on I2C read errors.
-> 
-> Found via an x86_64 LLVM=1 (Clang 21.1.8) allyesconfig audit with
-> -Wimplicit-int-enum-cast enabled; fix and changelog drafted with an AI
-> coding assistant. Build-tested under LLVM=1 W=1 (-Werror) and
-> -Wimplicit-int-enum-cast; not tested on TI HD3SS3220 hardware.
-> 
-> Fixes: 1c48c759ef4b ("usb: typec: driver for TI HD3SS3220 USB Type-C DRP port controller")
-> Signed-off-by: Ian Rogers <irogers@google.com>
-> ---
->  drivers/usb/typec/hd3ss3220.c | 22 +++++++++++++---------
->  1 file changed, 13 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
-> index 60d6de9ba339..212c3624961c 100644
-> --- a/drivers/usb/typec/hd3ss3220.c
-> +++ b/drivers/usb/typec/hd3ss3220.c
-> @@ -163,10 +163,10 @@ static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int prefer_rol
->  				  src_pref);
->  }
->  
-> -static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
-> +static int hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220,
-> +					enum usb_role *attached_state)
->  {
->  	unsigned int reg_val;
-> -	enum usb_role attached_state;
->  	int ret;
->  
->  	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL,
-> @@ -176,17 +176,17 @@ static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
->  
->  	switch (reg_val & HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK) {
->  	case HD3SS3220_REG_CN_STAT_CTRL_AS_DFP:
-> -		attached_state = USB_ROLE_HOST;
-> +		*attached_state = USB_ROLE_HOST;
->  		break;
->  	case HD3SS3220_REG_CN_STAT_CTRL_AS_UFP:
-> -		attached_state = USB_ROLE_DEVICE;
-> +		*attached_state = USB_ROLE_DEVICE;
->  		break;
->  	default:
-> -		attached_state = USB_ROLE_NONE;
-> +		*attached_state = USB_ROLE_NONE;
->  		break;
->  	}
->  
-> -	return attached_state;
-> +	return 0;
->  }
->  
->  static int hd3ss3220_try_role(struct typec_port *port, int role)
-> @@ -231,7 +231,10 @@ static void hd3ss3220_regulator_control(struct hd3ss3220 *hd3ss3220, bool on)
->  
->  static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
->  {
-> -	enum usb_role role_state = hd3ss3220_get_attached_state(hd3ss3220);
-> +	enum usb_role role_state;
-> +
-> +	if (hd3ss3220_get_attached_state(hd3ss3220, &role_state) < 0)
-> +		return;
+> A device that sends a message without LJCA_ACK_FLAG and with the type of
+> such a client therefore makes the driver call a NULL function pointer
+> from the URB completion handler:
 
-No error propagation backward?
+What device does that?  How?
 
->  
->  	usb_role_switch_set_role(hd3ss3220->role_sw, role_state);
->  
-> @@ -258,9 +261,10 @@ static void output_poll_execute(struct work_struct *work)
->  	struct hd3ss3220 *hd3ss3220 = container_of(delayed_work,
->  						   struct hd3ss3220,
->  						   output_poll_work);
-> -	enum usb_role role_state = hd3ss3220_get_attached_state(hd3ss3220);
-> +	enum usb_role role_state;
->  
-> -	if (hd3ss3220->role_state != role_state)
-> +	if (hd3ss3220_get_attached_state(hd3ss3220, &role_state) == 0 &&
+> 
+>   BUG: kernel NULL pointer dereference, address: 0000000000000000
+>   #PF: supervisor instruction fetch in kernel mode
+>   RIP: 0010:0x0
+>   Call Trace:
+>    ljca_handle_event drivers/usb/misc/usb-ljca.c:217 [inline]
+>    ljca_recv+0x651/0x850 drivers/usb/misc/usb-ljca.c:295
+>    __usb_hcd_giveback_urb+0x238/0x550 drivers/usb/core/hcd.c:1657
+> 
+> Check event_cb under client->event_cb_lock and skip the call when no
+> callback is registered.  The same lock is taken by
+> ljca_register_event_cb() and ljca_unregister_event_cb(), so the check
+> cannot be invalidated before the call.
 
-Why test for 0?
+How was this tested, shouldn't the driver be fixed up not to do that
+instead of this workaround?
 
 thanks,
 
