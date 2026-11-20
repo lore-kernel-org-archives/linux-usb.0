@@ -1,86 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795175571;
-	b=LHXh3F+lRBIdYYiNuzNZTr8a9uu9jZKuJ/x4stwHMVQZI+r7shm8a6yNrkdhcUqrkij7
-	 UxQEHLezN8FgaUapABA9QbMp3oN7DEGHfVAIKkgXQkqZYMrZwyRcZIWjSVTs2sacWRNGl
-	 b4COVZagJ3wO9q2poYqm1Qcy1/zFce+b+49CHanK4MqhS67xCj5V0Ky1xQvHvWvPSTqCQ
-	 T1UWZFMVT82BVZpXWdieLystCjLQf/EpKOIEatZvtviog0bC37yC3S7cXcFj0GISPyGOq
-	 wcJ3cMBk8gy3GUNf13rqw4SYRnjiG3H9OHShVioT8Yq9wMQnR+Ho0F8iiqx27s0gzSg==
+	t=1795175709;
+	b=nDF3/E4gTR7gpGzQHC4Cg/Eh/14H+Urjahi/WthgjSWmmvTl+aUO7STrOxM9Kqj2xFbC
+	 /pzfed9uT7CyKj+3pwtan2FgdEIsvlz1D1ktn+byK3th+dtJ8+Crw0Cat2eL0RNXtXio6
+	 apjzdkV9m3VP4p1ZN49l6IE1NthTLMoSebnnZLWPxkXmlsfC10X11oI/+0/QCNeDY9pFb
+	 z8XbihUptE6TnNiVvEshAUzsNRJwsp7CHLqtEUCeJngZAdWx73Yc6xLL8G3vFOpK2IJqq
+	 sFPgvk6XPVKi5WPvE3LD/mP5DeJly3gBji9qXAI0b8MNdFx3BzMLT7qzRrgBlQda5vQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795175571;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795175709;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
 	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=LAgvIdQQwmp1OleVudQumUn8l7JMaos3FxIAqmwJxIc=;
-	b=NqQJOO7mjMGDcFEnjKYgWZoXo3y56FTzIsejuU/NXXmCx8G8ztBH9mwil0sVK7mBSw+U
-	 pW0LtZ+i28g8mxiUj8QbXAanVPvbETfWOvCvId6Q5m7U39z1Ffqfq9/HQS5FROpwGOCTN
-	 0K6Bkp/9nDiNc1ut2HcXRP3QKX2dvBoLVIxDqCrdwDyZVWOs54eNG5Uz7Lo6qpDwWkLMT
-	 JYmK+OBtgvt6PriA6tVGQMSGLIBsbRw7tStt8i6FsTUt8weV69KXIIqiSx81pIyAqrzv4
-	 bDDVyp2w+WnDZRJmOgA7/gMRe1hEPsdj6E/RI/bOC1E2fX28sHcepoci/5FkPVIzfZg==
+	bh=DKbl0knP6GgOxKbGkSb4++hb3MG0vuwY2UQuP6+FkU0=;
+	b=AQLx2Yo2CuADMmhD4N2QxT1UbnBqC777VUm3EI4Om6F/YhJMUpudx/cCwi0hUL1dHYkE
+	 0oupTOytEBz0jfjwqfJ3gXvPl5wpD7qb0JmB5xceMf5uVtRh7uKrImmwtqWov94BZq9ic
+	 Y9iyA1leTg/zl/kyZnCEIE+ZQ8rOUP8I1ceIvsIjH9AoCx6DRTypqS3v5hXLHcmV+md4j
+	 sh+KPzSddrJzhvkTdQXPRt3XqhcsB0MTyemDHQcymR8YeEtScmJ0jTPMMxyCY8OYbYi0e
+	 /jHMwQHGagx/wB9yRgk3H5ducy/7fBfiu4K9KTDY7w8G0oFJ40BLHbCfV74MVbdrc2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b="KO/NIHxw";
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=GyXb+xmc;
+	arc=none smtp.remote-ip=209.85.221.51
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005E5606A333
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 11:52:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 005E5606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2092C606A325
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 11:55:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2092C606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=KO/NIHxw
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb85e07aadso8784205e9.1
-        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 03:52:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=GyXb+xmc
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4ad6219f7d8so187827f8f.0
+        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 03:55:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1795175569; x=1795780369; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1795175707; x=1795780507; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LAgvIdQQwmp1OleVudQumUn8l7JMaos3FxIAqmwJxIc=;
-        b=KO/NIHxwBC0mednmwAI8pRPijQVr6PeehxPjlr+r+mn/+azrSmaZxAJKd9fcJdS/RB
-         hWzD0ABPIz41LXkSpWZSW0prTyYH4/BpsQvn00MByDG23v0gb0uZKc68+WIMEXxGVRoA
-         jpL1QLZ17XiMqbvXwB4E3iqiwFJtrjOWohTaojPRYnvqsSc/9G5wEiexYkMm8+SFNBye
-         V3kD4STrICzPC6kOXhZiBSWmHqPu/RYunNBqogZtQjtVhEGavdi5psYhgBPlI+SuLTHE
-         WlB1YShx4HeTIRlSUfu9oYsTD1gFcxv/co3ITbH6dMaxECIkDi+cDtxWqa55dnrTOWEh
-         n9mQ==
+        bh=DKbl0knP6GgOxKbGkSb4++hb3MG0vuwY2UQuP6+FkU0=;
+        b=GyXb+xmclUqFDKryhpi5m9OwUGqPa4BDct2MsTkMEVQZEKVA4q2M6taCVZK0xO1qYU
+         qUTlfDVTZ1MUbljxTZenoZadlHfR66fREGrAZwK+YSQ249wZ7MwFiUODBayiFQVLSrJE
+         MqYh3ZGOMrkvwAapQ30QHq43APGtlmrIJqSolgeLQoJ/KbGsmSxtI9XTWUBp1i/ooRJ9
+         Zy/UfwA7Ecr0Hn2E0Z6+ZA+3Wb3JNDaXwVt0UTvt3FuIey0wIKUEpW4R8mWttlsuvs0n
+         b7Tz66g2fDFkfzwE4AhYt1DKn8sl08PAlJSZFaKI4+FOlcRs7xVmvxbGuQsrT+M2bNiD
+         uVmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795175569; x=1795780369;
+        d=1e100.net; s=20260707; t=1795175707; x=1795780507;
         h=content-transfer-encoding:content-type:in-reply-to:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LAgvIdQQwmp1OleVudQumUn8l7JMaos3FxIAqmwJxIc=;
-        b=qHdPdjfX0eVdQM++8fghBxIjSL5FaJM3zG9gGlH3b3SdvL3P2Cw0JFvWaXeHRxKrTq
-         ggyTy6b19NAF9XoAS2W5KIACUXr48kLv2fnJ+beP5o/q7JTMy6FvpvkJtuGbMbZFqbPK
-         T6J2EC4QaQoZtpUYvdSJsL5A+a4vaOrcn8ZmAT8+DU8+fVM5uB/nyhCU12Bq0AFbN/eA
-         PiIs4DfKus+nM5mvQ5SY886+9pW7HZSvyGxFyXyATIP3+LIgHVaLj6XlwAYjuDtNXfYX
-         H7l4KQsmq5eL12XIG4FLBhWC/CxX8hdeJSRxIWQydD8VL4zJxF5p/Sx4XQgrruB5O41Y
-         9ITw==
-X-Forwarded-Encrypted: i=1; AL+hErHbqnPopdpx5Z0rWWISELesI8JFM9SwLIt/id+V73fni87x644D7z4B+z1l+jYx9byCzsJ2I/0cVJ4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z89Z9G08/hBY9yBqPLbEPd+RI/A4ZzJgMWrE9B0XrPPUd5BGrCK
-	HF0OpIsJh2gXt/r/b0Gtqkl2xYGwtisnwIGZxE8f6zELuN3AgJqK6xnpJRkxnl0cpQ4=
-X-Gm-Gg: AYBFou1IbIBriLIezD4tzpUCMGUTxn+F7y+HrpOKE/Jke9AoZLhkEl+h8W8Kq2yEeIL
-	sa49twONRF4rIxZgRyMaZWmenWnit2Bwc2W88oqYaPUGUnroQ3LvX2h77d2fW6c21Dca32ZtfZ2
-	lVV1BkQ4o6VWPj0RlFqmo57Q5dB23+W/WER2gqwi4qDK/ULxTkgSaQ4l7TryiiVztcQRSq9vyKK
-	jIoC9A40mqXGdE0Kl3Sn0S1Az/bj50DTNhbjEq1AhSbjKrkbG6FXNyVlK2hTRLyGnqihrFbW+kH
-	CBxE/wUxw5PXQ6iAdjefjWOJgFKvgDVMt1by1NEhOVJtX4gnM1MPuhZTY4pmmHmW9100CQTs9Ny
-	kdNcvz0EYCEbXFD7zm9SITIOrKRJpjq0urumgM4ZCZ+pktQT2NedwUdb0T+xPbhBToG/yzhr1d5
-	qmaelM6C7DyhoKHDRKdwTEhlU+jcMHH4gBWP5DZoNuyXE4tlXXFEZXQAXTCDstrgK6gmEEVZTsH
-	+LZTfy/8p1WxOU2cK+d6IqVeWlBEVAozDqnTUbZpQm+4SUWyOG8GcrmGnbEIb/ww1JwLC+OiFyI
-	3q22sTpUG8BJ6PCxHU979vJ3MhFSaMx9RLpGhgnrIw==
-X-Received: by 2002:a05:600c:64c6:b0:4a3:598e:e7a8 with SMTP id 5b1f17b1804b1-4bb887c2c98mr60927405e9.4.1795175569215;
-        Fri, 20 Nov 2026 03:52:49 -0800 (PST)
+        bh=DKbl0knP6GgOxKbGkSb4++hb3MG0vuwY2UQuP6+FkU0=;
+        b=jpFfOZ9mxFxif9TQljslfSMExudmSTvK4NVUE6p0zEVP9+PXStJvBdUefuqFD17YTK
+         24+V6CMLUIac5yWejZS+AxNWwfyIc3EF6SGEmI3yy5RnHTY+Vx7cQQRyRhKTCm0N3tEl
+         BY/vvleGgk6teFi2ctAiavEuej1yMyb2YUV0Dbr4Yn/t2JErqHgJPHyfUzZ/R7bm+DO1
+         DjkCsX27aTGeq4eYV3TYdUup3K74jq6F6uJEvm00UkSz2apvF/68V94AXYHa0DVi3SNl
+         3ODmLQxKcG7JP5mVaG9WkPNkoGKg5Tk/PXOW3kiZCDmq8W/eQfpYs8mO13DVcKZ174Q7
+         ej4g==
+X-Forwarded-Encrypted: i=1; AL+hErFt/BHX0WaAojWFT6k+eiWk/QZ/DKsL8XIHAzJLiCOYpmSFYSXW7zSCwLI/jwxfXZNf4FQPtrvPTaw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+xKeII05zEnIetGRuMnD7BawrHzvyyiJEfOqIQ2VQ3YupsuQ4x
+	km+NLWek1OlkAx80A58xM2B1l/qURIZiYMXVoU5XArylU0/O+5v1jYBBHsyGqsDmUCs=
+X-Gm-Gg: AZFdTZeJHY070iDpTYiRASdQbEb79vvQdQQ2HyPhszpW5nVZYU94ITuIEE8iIAVP83x
+	kgzaauLVREK9cSlXjEiJ1PrbSiuOm98UkIDhgEs5HkbKyiyUWDBeoWnlt9BzTO3v7rOHDhvFceT
+	2Qg7SB/GZ8PLMk4zd9bjcVyJKsDZpXLuNy/Pzbj+rUyh59E10ObT3kXT42L8RwNFeSAlxKSh5Y9
+	YaJtoPVWs+jgWp9nS0w3i37jIOPJTzhFZMDarjO3yJxG9IvGyeOsQi9zSnLxDZYQIGTxmZq99iz
+	zysj+a0wKftfSGhE/f2U4/4wmd9gMDRZf/UVd/FzbXqj81FcesLaN04+Whgn0w7O/Frc6/htuSf
+	7YqJKv79gEvaQinWJeKT5kr0fZOvtYu3YZgHzlVuvr9unuypJB1cyYrY1iiPoRUfRVwoqsLyECT
+	vXFetk/O5J6zmWSruzpo2IUSMSb1lt0Okv56nkO7PTBdCvz9ib7xUKi7H877qMYXQdO5QufuHaG
+	ZbfRiIy1xaqJ+WBDmvwdzdjTIBB1BWKOHCqkSx5UOLhwsu6LIPZDKs0sVYsEofQEoGu0kFpP+gn
+	VCfyp/sZBxM1IQks2xW+uFGcwii03Dgc7RQrYk+8ckEJgFtIeSGrDAqfqlxyfOU=
+X-Received: by 2002:a05:6000:2c13:b0:4aa:874c:a1c7 with SMTP id ffacd0b85a97d-4abb86ed79amr5274202f8f.43.1795175707432;
+        Fri, 20 Nov 2026 03:55:07 -0800 (PST)
 Received: from [192.168.0.167] ([109.76.69.230])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853368d3sm113806905e9.1.2026.11.20.03.52.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf680fsm5834751f8f.14.2026.11.20.03.55.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Nov 2026 03:52:48 -0800 (PST)
-Message-ID: <4e832b25-bd98-4a48-890a-02d54d3b117f@linaro.org>
-Date: Fri, 20 Nov 2026 11:52:47 +0000
+        Fri, 20 Nov 2026 03:55:06 -0800 (PST)
+Message-ID: <2612ca00-602d-4a4c-95f3-39cbadee10e6@linaro.org>
+Date: Fri, 20 Nov 2026 11:55:06 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,46 +91,31 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] usb: typec: qcom-pmic-typec: pdphy: disable the PD
- PHY on stop
+Subject: Re: [PATCH 2/2] usb: typec: qcom-pmic-typec: detach the port on
+ shutdown
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
 References: <20261120-topic-tcpm-qcom-fixes-v1-0-9a152f906fba@linaro.org>
- <20261120-topic-tcpm-qcom-fixes-v1-1-9a152f906fba@linaro.org>
+ <20261120-topic-tcpm-qcom-fixes-v1-2-9a152f906fba@linaro.org>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-GB
-In-Reply-To: <20261120-topic-tcpm-qcom-fixes-v1-1-9a152f906fba@linaro.org>
+In-Reply-To: <20261120-topic-tcpm-qcom-fixes-v1-2-9a152f906fba@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 20/11/2026 09:59, Neil Armstrong wrote:
-> qcom_pmic_typec_pdphy_stop() only terminates the ongoing transmission and
-> clears the RX frame filter, the PD PHY itself stays enabled.
+> On reboot or power off the port is left as is: a source partner keeps
+> the negotiated contract, possibly above 5V, and a sink partner stays
+> powered by the OTG boost while nothing services the port anymore.
 > 
-> Use qcom_pmic_typec_pdphy_disable() so the PD PHY is also turned off
-> before its supply is released, leaving it in the same state as before
-> qcom_pmic_typec_pdphy_start().
+> Add a shutdown callback stopping the port and the PD PHY, unregistering
+> the TCPM port, which turns VBUS and VCONN off, and finally disabling the
+> Type-C block so the partner sees a detach.
 > 
 > Assisted-by: LLM
 > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
-> index 435e07659d65..08cf65951796 100644
-> --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
-> +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
-> @@ -545,7 +545,7 @@ static void qcom_pmic_typec_pdphy_stop(struct pmic_typec *tcpm)
->   
->   	cancel_work_sync(&pmic_typec_pdphy->reset_work);
->   
-> -	qcom_pmic_typec_pdphy_reset_on(pmic_typec_pdphy);
-> +	qcom_pmic_typec_pdphy_disable(pmic_typec_pdphy);
->   
->   	regulator_disable(pmic_typec_pdphy->vdd_pdphy);
->   }
-> 
+LGTM
+
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
