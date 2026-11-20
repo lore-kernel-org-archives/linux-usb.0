@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795169992;
-	b=o9H4lIsQ0oXwV8piLqzak2jODi0kpsMFg9w94SokKZpJofL217nL4HQCledeo0uqDxUk
-	 EoLdamjZw5zRlOfhjzLRkLSyVGe02LQTP6syYsVVjFB8op4xLDWnBgIBlRzjBs5BPMKZ1
-	 3Nxp7aqLC5BsPj3Dk0foaCp5OcOLW8ej2EgKvu7FlW6dk5vwQ4K/W4DYd/IOqdz8qtGFx
-	 xoWhU96rk9FI4Q2q8vtvIO9srD22ou09/cDr4GSqO0hzad/opQeKOUosc1eSELnSAAl6f
-	 +nGs68Rfwi7k3Ibk/2FQrdVbsm7puy4iFBimhzgjFkP05Y19HUYGYgiVCPUWB2OlWaw==
+	t=1795170046;
+	b=L/8/FFlE9yRZXh4h1z/Es87y8bBpU0qCIf+VJUN51gF+Zhlv9MnjGZyEdmU6eIOlUza3
+	 6U6sxdHXwuvpGacNcP7QFyx5vPWjoKKZrp8X5k3EXTPdaYPjBCe+gFoe+OrcwGteraCoj
+	 hTDpZqHk5EddcaXUU8hwYYITTjA0X7cFY4HcCK8VnMQICCQuLENeGGmTCtbcvwj3HG+tN
+	 1ssc596q911i862iypWAAKLwqgbgCEPwAQnxkv6Huqoi2FfTUgF4sgyvPDPrwZmp03QBg
+	 P+zy0iwvHdSDtyvJrg4HoiOTJ5O5snmqw3WA22cxztjurLrUfv5RaP9VHRc9RREYP5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795169992;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795170046;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=cIfPdmYpkTWQZgDn6LZUeY16dCH/RR9L/fuOLGqMjTE=;
-	b=s/MzpLqoEbdoojQ2u7hzKmkUEr21qvvNkWsVGwPh45T+Vu0zJCcDwPucOgXx0+s40vA5
-	 5+a84/n12RTYm1tHi6v03NTJGJR97fRK1wTaRpcD7T0aXPW6rKyQT+Psifk1oYFw7X8KA
-	 jO+LtX03Moob3nz6dRejWiVuJ5em1DicUdFCuO65flFOvy2QtXCu5criInFw+XCyvfRwt
-	 h0xSfVXj/OEwljoAZpcaJhx64hb/JmWFX5Ftl0lSyvxTcLdeCmHv7OkAjfQszKtn8Lx7f
-	 E8k0eF5mv5PM9VBnTXwl4xk57Xnbc2yZxrSSOKOa/jzdOaxRMnqRJ95V2KfhRnmMs9w==
+	bh=SGZlAYo30n7ugrkp77p7kIW+vxH8Rz6hFbVLThg8cbE=;
+	b=mmQcql5GrhBsAV/MgoR9mtFNoMV/bLVtuIsCG08aFDdgNQqyg5UiyuHVmJMfUgHLw7eF
+	 1nK6Ml7M9sX1mBTWyTsck0gCC6hnNGMxdJ7O8Hp1TtHw8qafzWtZWAdXLqTymTtS+1tX5
+	 yp4Yp0rwtZ9X7xgmhMSxPNuOlLW8tvEz1orejUv72t3VYHLhiVPQYC+VgfOlvjqMyjVQM
+	 SJztV2gMsZhDwuqu+7CGOI4QBM8MqF3wSa/XT+HorLasEXxp8zJIXDrCqZWZoWhtgZSA0
+	 IxzEbeGAcyh5ENxnBwmf6dTaCXirRAC0WjCdrSAFaI5VXPr2ZPjCCJPneDpxMhq9cfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=tX8+uCPd;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=DJzwCWoI;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EEF606A320;
-	Fri, 20 Nov 2026 10:19:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A89E606A320
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 10:20:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=tX8+uCPd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6689A1F000C0;
-	Fri, 20 Nov 2026 10:19:51 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=DJzwCWoI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 899221F000C0;
+	Fri, 20 Nov 2026 10:20:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795169991;
-	bh=cIfPdmYpkTWQZgDn6LZUeY16dCH/RR9L/fuOLGqMjTE=;
+	s=korg; t=1795170046;
+	bh=SGZlAYo30n7ugrkp77p7kIW+vxH8Rz6hFbVLThg8cbE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=tX8+uCPd+4ftC68h/Q/HnBpVOSWydyNjwEYhBULXjHxo2YYqQwiGL541sJ3QcH4Y3
-	 0zvMMdYfPApWlIGLCB3RbHvHgk0eHmAOY7g0raOdTiNr0bVVhZxtHcxpitaVOHhuNx
-	 8sxmNK7El2NmX+H1hXTtdgGFG3b/CnfSrCZlRkBc=
-Date: Fri, 20 Nov 2026 11:19:49 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Cole Munz <Munzzyy1@proton.me>
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Udipto Goswami <quic_ugoswami@quicinc.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: f_fs: only dequeue ep0req when it is queued
-Message-ID: <2026112034-buccaneer-corrode-5da3@gregkh>
-References: <fe62c0a656fe8870248e6a17641f6841bc66d65e.1788885869.git.Munzzyy1@proton.me>
+	b=DJzwCWoId5DFHNuCa28szMfoXTPzK0DMUH1O1Rpd95DnUGvl+yIslbpAfciQkKQiJ
+	 6hFHaRhqJjEAQTvjrsOmmGDO1Zgf/Yb3Drbhat0eXyy+xdvpkNn0IgHDYghSIVsJFA
+	 fWRiw92AIN635CuUjnkc0zqTjxUAUxbrzsIvPnW4=
+Date: Fri, 20 Nov 2026 11:20:43 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+Cc: viro@zeniv.linux.org.uk, nkapron@google.com, me@samcday.com,
+	nuno.sa@analog.com, michael.bommarito@gmail.com,
+	prostitisgabriel@gmail.com, kees@kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: f_fs: Fix synchronous read() behavior
+Message-ID: <2026112059-prodigal-cultivate-3ba7@gregkh>
+References: <20260903153737.58087-1-ingo.rohloff@lauterbach.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,52 +57,60 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fe62c0a656fe8870248e6a17641f6841bc66d65e.1788885869.git.Munzzyy1@proton.me>
+In-Reply-To: <20260903153737.58087-1-ingo.rohloff@lauterbach.com>
 
-On Tue, Sep 08, 2026 at 04:56:38PM +0000, Cole Munz wrote:
-> Commit ce405d561b02 ("usb: gadget: f_fs: Ensure ep0req is dequeued
-> before free_request") made functionfs_unbind() call usb_ep_dequeue()
-> on ep0req unconditionally before freeing it. That closed a real
-> use-after-free: a reader or writer parked in __ffs_ep0_queue_wait()
-> holds ffs->mutex and waits on ep0req_completion while the request is
-> in flight, and unbind has to force it to complete so that thread wakes
-> up, returns, and drops the mutex before the request is freed.
+On Thu, Sep 03, 2026 at 05:37:37PM +0200, Ingo Rohloff wrote:
+> To provide consistent read() behavior, USB requests submitted to the UDC
+> for OUT endpoints must always have a length that is a multiple of the OUT
+> endpoint's max_packet_size.
 > 
-> Problem is, unbind now dequeues every single time it runs, and the
-> parked-reader case is rare. Far more often ep0req already completed
-> on its own, or it was never queued in the first place because bind
-> failed before any control transfer reached us. dwc3 is not quiet
-> about the second case. dwc3_gadget_ep_dequeue() logs "request %p was
-> not queued to %s" whenever the request isn't sitting on one of the
-> endpoint's lists, so ordinary gadget teardown, and any boot where the
-> host never finished enumeration before the driver unbound, prints
-> that error right before the "failed to start ...: -19" that follows.
+> Consider a UDC where usb_ep_align_maybe() aligns the request length.
+
+What does this sentence mean?
+
+> If a request completes with more data than was requested by the read()
+> call, the excess data is buffered and is returned by the next read() call
+> via __ffs_epfile_read_buffered().
 > 
-> The fix is to track whether ep0req is actually queued on ep0, and
-> only call usb_ep_dequeue() in functionfs_unbind() when it is.
-> ep0req_queued gets set right before usb_ep_queue() in
-> __ffs_ep0_queue_wait(), cleared again if that call fails, and cleared
-> in ffs_ep0_complete() once the request comes back. The parked-reader
-> case still works the same way it always did: the flag stays true for
-> as long as the thread sits blocked in
-> wait_for_completion_interruptible(), so unbind still finds it queued
-> and still dequeues. In the other two cases the flag reads false and
-> unbind skips a call that was doing nothing anyway.
+> The buffered excess data has at most "max_packet_size-1" bytes.  This
+> happens if read() requests "n*max_packet_size+1" bytes and the USB host
+> sends "(n+1)*max_packet_size" bytes.
 > 
-> Fixes: ce405d561b02 ("usb: gadget: f_fs: Ensure ep0req is dequeued before free_request")
-> Assisted-by: LLM sparse
-> Signed-off-by: Cole Munz <Munzzyy1@proton.me>
+> However, if usb_ep_align_maybe() does not align the request length to a
+> multiple of max_packet_size, the behavior is different.  For example, with a
+> max_packet_size of 512 bytes (USB HighSpeed), a read() request for 512+128
+> bytes may be completed by an OUT transfer containing 512+256 bytes.  The
+> kernel returns 512+128 bytes to userspace, while the remaining 128 bytes are
+> discarded by the UDC instead of being buffered.  The next read() call then
+> blocks until the USB host submits another OUT transfer.
+> 
+> The former behavior is the expected one.  Enforce it by using
+> usb_ep_align() instead of usb_ep_align_maybe().
+> 
+> Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
 > ---
-> This is the f_fs-side fix Thinh suggested on the dwc3 thread rather than
-> changing dwc3_gadget_ep_dequeue()'s return, and it also quiets the boot
-> case that the dwc3 change did not:
-> https://lore.kernel.org/linux-usb/aptrIbp-p6RNGd9X@vbox/
+>  drivers/usb/gadget/function/f_fs.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> Built for arm64, f_fs.o compiles with no new warnings, sparse clean,
-> checkpatch --strict reports nothing. I can't flash a gadget here, so the
-> runtime side is reasoned from source, not tested on hardware.
+> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+> index 43962e05eacf..d31a6330d6a0 100644
+> --- a/drivers/usb/gadget/function/f_fs.c
+> +++ b/drivers/usb/gadget/function/f_fs.c
+> @@ -1078,11 +1078,12 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
+>  		}
+>  		data_len = iov_iter_count(&io_data->data);
+>  		/*
+> -		 * Controller may require buffer size to be aligned to
+> -		 * maxpacketsize of an out endpoint.
+> +		 * To expose a stream like interface for read(), make sure
+> +		 * the enqueued read request is a multiple of the maxpacketsize
+> +		 * of an out endpoint.
+>  		 */
+>  		if (io_data->read)
+> -			data_len = usb_ep_align_maybe(gadget, ep->ep, data_len);
+> +			data_len = usb_ep_align(ep->ep, data_len);
 
-Please test it on real hardware before submitting it again.
+What commit id does this fix?
 
 thanks,
 
