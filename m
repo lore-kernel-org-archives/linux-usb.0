@@ -1,57 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795203620;
-	b=YYFsv8U8o79+JAPyvTURwNCGAdM2QzHxoWUpo1gwr1Gt+57v5XMHJtReLziOOKZVG4AU
-	 hIoYGALCyMIhJLUTiiw8J4vhUEC0xiI8siPgcUMoVngjxzQ+5X9HsVA10ZxsXKHzHRrkW
-	 IvMBouK/bNy2UnFvYcF7mGgJbb9knRMFSa++ujVZscykwZjnIQ1NZmZlkHwSLmDiPphYr
-	 CT3+KZqiQWjl2Eh21wJ9IgJD5xLJdFLzMU+rb/ZwGTgc/+nRape1LF3jiIdZ9JAHfs2fq
-	 tg7cgBDKglnunKvXGnji0dZ3itDHJyaVsrjbHFiXZ6lva9mLEke40xDO9pcUm/4j68A==
+	t=1795203663;
+	b=WtyFR/x+eaPe3StVbCHEBye9rsZn4InlGPlRg7T1iOTd4CpjKiU5uGPsy+gUryAvPxSV
+	 6bulD6Jcdk2Nk47nuoshgfyF+2dveqvSgvGCDvzqlxxcELTHCmft3rM0sELC3Gktm5xDS
+	 8Hi1Z54jvsxB+Qq7JfOjgqYX2NKZecykcW8usZMvwPRkqTegneKtz7Pvb34GifUQ69loD
+	 DLT3bfdmiJlB3tXdAS+bngK+zZ1GEikc5jqmlugiVgrRdQHnmqRMXp5/G6Dxq8rcz/D6E
+	 GivfrOtYtp0Y7RWu3q/4mphrV82GzRldVjjdzvo4+e31sRz8Y76YDjf1yBZsiFl1qIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795203620;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795203663;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ZlIUgNeCJej6P6gG3sC9wVLuR3KUB6+0bnBoo4k4LtE=;
-	b=HlfrvlexWtVZWycpl1ywlCD7w5NnqfSReHQe2FEcr/+ZtpSHclf731RvGhG6VrvocOxA
-	 lYzNzut3QsaXnmIYMD1CyB/WXwHr6icDguRRSSQaG3WjcvGq0SXT//j8DM+0uLnMxhACu
-	 mSucS5CMMGrONy2ieI9jJ6Y2fHOut1RVJlYL9EDeK/fJ3n4mT63qaGTCmnni92MOISvnK
-	 f+dwnFnAUCYimnkLYudwPKxX5FydeTZizzXhfkKhlvMmQEOvEtkd/w6kumFIu4k3c1L3/
-	 p1QBIKiI+d4faBU263PlmpxujiduF/cW5HzaldHVUsdV8+DMn25B8zAWJOhSu+oXrlA==
+	bh=NMOdEzBrH0u2TTI5nfJV2ZDBnC7oHY3+e7rlPlJxIu4=;
+	b=jLAlaXeS10DPZ2xF6H2pEcbeJBlZRpF8hFjG1CbtIeyauX+YskiBwks4A0wsHU7q2OlV
+	 svCfq/Iv93klPL1mcrcCi8bUz6lsIu4nUdkx//+ACvlvarg7cxfa6cOnoyqE8KWBzN3ul
+	 D+mqwI1Yn/XW3DlEvdFnmIx0agx/Ipan03ptSWZ3kaZeYdPIIir+Dy+m95BagaXakyrfe
+	 B1jBRIQTJ20aVzxsgCFtbsaayN8BQRihPSCHcO7r0cKspYGK8L5nQ4yfZyx7leemmJ+wp
+	 RhyKI+uuOjH56Wrfut2GpIl142aNYF/OvUeZKD3iMXfAWArc/ZQQZCld1XvkN/svteg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bi6cY+lG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k5ybSVno;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1A4606A6C2
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 19:40:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37805606A6F2
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 19:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bi6cY+lG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56F0D1F008B2;
-	Fri, 20 Nov 2026 19:40:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k5ybSVno
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56DF91F000C4;
+	Fri, 20 Nov 2026 19:41:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795203620;
-	bh=ZlIUgNeCJej6P6gG3sC9wVLuR3KUB6+0bnBoo4k4LtE=;
+	s=k20260515; t=1795203662;
+	bh=NMOdEzBrH0u2TTI5nfJV2ZDBnC7oHY3+e7rlPlJxIu4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bi6cY+lGlnKpU8G82i2DVh+LjSpT7IdUhZQbCNVXKcA+s8sTtlIpZyUp/iCg9gf9u
-	 4557Gcq0poTi1KxqwMsGniJB/a4GYSUvc5n8d5YnH4G5HHA35rdCXVF9NPREsxv+xd
-	 IjE/8oWb2tqp9ey+bP1bmmeJ13LcjNhOYanQ9scZ3+P2FYrc5zMpib4ybUMkLpGhPj
-	 RyoxLUIHQ7OBjj1Gh8nwEE73s5hk/H64kXONLBE0gZZolOUr7oMq0IJtkPwdFCnkEw
-	 irYbS+hjJSeXEijCtmBh+MXeFi4fAiPsDLjYBZ0CY7XNuwcJtdbQtgo40vpvLHt/ra
-	 ymAWw5IvU2mYA==
-Message-ID: <sashiko-outbox-225940@kernel.org>
+	b=k5ybSVnotfnoH/V/kwhbgvMuEN1FQ//9ZhlDbnuvZHRWKrioITbLK+XX4YuUGkMt9
+	 jOSyFUPquh+hLzzPXPDWHBj3qNFzSuTED8on93jeTNJlNoKgmEru9qqMFxLPhlrMnN
+	 2nWhYNB4++NX9apeoQqKOPV/18ymGsEa5fbOXS0XrzFaMNBSV9TBNQ0rv3hU/hoKCb
+	 iD0oMi9rREMuB7NBRziDXcV4FPu8ia01mqz8SM48krw7dUBXGguczuUQp2KYTsoOc9
+	 bol2MyYsFY05PH6AcmK3Wfdf/e5OSiVJGM7Myq9OOCtcPyCfzaibtmf7qV8KNyGENO
+	 UHDBNjLcjtHCw==
+Message-ID: <sashiko-outbox-225943@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] usb: gadget: f_fs: fix use-after-free in
- ffs_closed() on umount
+Subject: Re: [PATCH usb v4] usb: typec: tcpm: exempt Soft Reset from the
+ SOP' MessageID duplicate check
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mohammad Mosafer" <mohsafer@gmail.com>
+To: memoriaru@foxmail.com
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261120192415.335646-1-mohsafer@gmail.com>
-References: <2026112030-aflame-skid-859a@gregkh>
- <20261120192415.335646-1-mohsafer@gmail.com>
+In-Reply-To: <tencent_D1222948818CA62395FED66DB7F2967B1809@qq.com>
+References: <tencent_443620EAE95525A375BB2D8A653406630A07@qq.com>
+ <awBIRnc9lBkdVhEK@black.igk.intel.com>
+ <1795204200.cover.tcpm-v4@foxmail.com>
+ <tencent_D1222948818CA62395FED66DB7F2967B1809@qq.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 19:40:19 +0000
+Date: Fri, 20 Nov 2026 19:41:01 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,81 +65,84 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Low] usb: gadget: f_fs: Fixes trailer cites 5920cda627688c instead of
-  ecfbd7b9054b
+- [Medium] usb: typec: tcpm: SOP' PD_CTRL_SOFT_RESET still resets SOP in
+  SOFT_RESET
 --
 
-commit cfe09aaba9522f24cae9e22dc082e6797e54adda
-Author: Mohammad Mosafer <mohsafer@gmail.com>
+commit 64dabb00274a597dc73a5939c6dcd78aa8aea76c
+Author: Zhang Hewei <memoriaru@foxmail.com>
 
-> usb: gadget: f_fs: fix use-after-free in ffs_closed() on umount
->
-> ffs_free_inst() releases the ffs_dev with ffs_release_dev() and only
-> then re-acquires ffs_dev_lock to free it with _ffs_free_dev().  In
-> between, the dev is still linked on the ffs_devices list while already
-> marked unmounted, so a concurrent mount(2) of functionfs finds it by
-> name in ffs_acquire_dev() and links a fresh ffs_data to the doomed dev
-> (ffs_data->private_data =3D dev).  _ffs_free_dev() then kfrees the dev,
-> and when that mount is torn down, ffs_closed() dereferences the stale
-> ffs->private_data:
->
->   BUG: KASAN: slab-use-after-free in ffs_data_clear+0x438/0x530
->   Write of size 1 at addr ffff88810594664a by task repro/116
->     ffs_data_clear+0x438/0x530
->     ffs_fs_kill_sb+0x7b/0x510
->     deactivate_locked_super+0xa9/0x200
->     cleanup_mnt+0x255/0x380
->     ... reached via umount(2)
->   Freed by task 112:
->     kfree+0x127/0x3b0
->     ffs_free_inst+0x10c/0x1a0
->     usb_put_function_instance+0x8a/0xc0
->     configfs_rmdir+0x773/0x9c0
->   Allocated by task 113:
->     ffs_alloc_inst+0x109/0x360
->     function_make+0x138/0x330
->     configfs_mkdir+0x48b/0x1090
->
-> Hold ffs_dev_lock across the release and the free so that a released
-> dev is never findable, splitting ffs_release_dev() into a lock-assuming
-> _ffs_release_dev() (matching the _ffs_* convention in this file) and
-> enforcing its caller-holds-the-lock contract with lockdep_assert_held().
-> For the same reason, re-read ffs->private_data under ffs_dev_lock in
-> ffs_data_put(): the argument read there was unlocked, so a concurrent
-> ffs_free_inst() could unlink and free the dev while the putter waited
-> on the mutex, and the subsequent ffs_release_dev() would dereference
-> the freed dev.  The now unreached ffs_release_dev() wrapper is dropped;
-> its remaining callers use _ffs_release_dev() with the lock held.
->
-> The race was reproduced with a multi-threaded harness racing configfs
-> mkdir/rmdir of the ffs instance against mount/umount of functionfs on
-> a KASAN kernel: the unpatched kernel reports the use-after-free
-> reliably (2/2 runs), the patched kernel survives an extended soak with
-> identical churn (2/2 runs clean).
->
-> Reported-by: syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D6227549bd2c8a1ec8ba0
-> Fixes: 5920cda627688c ("usb: gadget: FunctionFS: convert to new function =
-interface with backward compatibility")
-> Signed-off-by: Mohammad Mosafer <mohsafer@gmail.com>
+usb: typec: tcpm: exempt Soft Reset from the SOP' MessageID duplicate check
 
-[Severity: Low]
-In 5920cda62768 ("usb: gadget: FunctionFS: convert to new function
-interface with backward compatibility"), ffs_free_inst() only acquired
-ffs_dev_lock() once around ffs_free_dev(opts->dev) without calling
-ffs_release_dev(), and ffs_release_dev() took struct ffs_data * and read
-ffs_data->private_data under ffs_dev_lock().
+This commit exempts PD_CTRL_SOFT_RESET from the MessageID duplicate check
+on the SOP' receive path in tcpm_pd_rx_handler().
 
-Both the lock gap between ffs_release_dev() and _ffs_free_dev() in
-ffs_free_inst() and the unlocked ffs->private_data read in
-ffs_data_put() were introduced later by ecfbd7b9054b ("usb: gadget:
-f_fs: Fix setting of device and driver data cross-references").
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index bf7fd632d815e..6a657dbf4e7ae 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -4206,7 +4206,8 @@ static void tcpm_pd_rx_handler(struct kthread_work =
+*work)
+>  		 */
+>  		switch (rx_sop_type) {
+>  		case TCPC_TX_SOP_PRIME:
+> -			if (msgid =3D=3D port->rx_msgid_prime)
+> +			if (msgid =3D=3D port->rx_msgid_prime &&
+> +			    type !=3D PD_CTRL_SOFT_RESET)
+>  				goto done;
+>  			port->rx_msgid_prime =3D msgid;
+>  			break;
 
-Should the Fixes tag reference that commit instead?
+[Severity: Medium]
+Does an incoming SOP' PD_CTRL_SOFT_RESET still reset the SOP channel
+instead of SOP'?
 
-  Fixes: ecfbd7b9054b ("usb: gadget: f_fs: Fix setting of device and driver=
- data cross-references")
+When a cable sends PD_CTRL_SOFT_RESET on TCPC_TX_SOP_PRIME,
+tcpm_pd_rx_handler() sets port->rx_msgid_prime =3D 0 and calls
+tcpm_pd_ctrl_request(port, msg, TCPC_TX_SOP_PRIME), which ignores
+rx_sop_type and enters SOFT_RESET:
+
+drivers/usb/typec/tcpm/tcpm.c:tcpm_pd_ctrl_request() {
+	...
+	case PD_CTRL_SOFT_RESET:
+		port->ams =3D SOFT_RESET_AMS;
+		tcpm_set_state(port, SOFT_RESET, 0);
+		break;
+	...
+}
+
+drivers/usb/typec/tcpm/tcpm.c:run_state_machine() {
+	...
+	case SOFT_RESET:
+		port->message_id =3D 0;
+		port->rx_msgid =3D -1;
+		/* remove existing capabilities */
+		tcpm_partner_source_caps_reset(port);
+		tcpm_pd_send_control(port, PD_CTRL_ACCEPT, TCPC_TX_SOP);
+		port->vdm_sm_running =3D false;
+		port->explicit_contract =3D false;
+		tcpm_ams_finish(port);
+		if (port->pwr_role =3D=3D TYPEC_SOURCE) {
+			port->upcoming_state =3D SRC_SEND_CAPABILITIES;
+			tcpm_ams_start(port, POWER_NEGOTIATION);
+		} else {
+			tcpm_set_state(port, SNK_WAIT_CAPABILITIES, 0);
+		}
+		break;
+	...
+}
+
+Because SOFT_RESET only resets the SOP state, port->message_id_prime is
+not zeroed, port->rx_msgid_prime stays at 0 (so the cable's next SOP'
+message with MessageID 0 is dropped as a duplicate), PD_CTRL_ACCEPT is
+sent on TCPC_TX_SOP to the port partner instead of the cable, and the SOP
+power contract is torn down.
+
+The commit message also notes that "the PD message duplicate-check and
+the SOFT_RESET state handling treat the SOP and SOP' channels
+differently", so it looks like the tcpm_pd_ctrl_request() and SOFT_RESET
+changes were omitted from the patch.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120192415.3356=
-46-1-mohsafer@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/tencent_D1222948818=
+CA62395FED66DB7F2967B1809@qq.com?part=3D1
