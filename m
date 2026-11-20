@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795162239;
-	b=uyjFbBSHF7N9Vs/AuT954tAVX4CrEHJsYcVBb8lJPg77YrsGf4A6ezvYvQQOgtuTvb/X
-	 IXTLaHPiC2Y6tE2ZGHV1YofjLHdvAHsUDmN7B2xzAEIRZrX+510UIXV1irHxqDF6k107b
-	 ml7GeauCp9ziKVEi0+15YZ/4QZ1gVxHf48SEl2URPlEHN0+g2JCZop4n6q2O80+bDWF7O
-	 PCKFBW2fUlG0pdhe89NdwTeC8aiCOSt+FLFdTb4Pql+3ngg0Zz9Q6WCTYZ5FjppG8PTns
-	 BWsnNlFRjfme7qHrtpatMDomrQr+FDOK+fuq9ekthCwuX4ao9JKzfZwgD4HAXODgLuA==
+	t=1795162253;
+	b=gpfptbRXjtANzqoq93oAJbz2uCjYidzhARyKUwFR/fuk+01+Yr2c7BvdApYXHfUZEleT
+	 aurjrl1b7MjFjhb1lBWBHPgE/v3vLvTiHvV0kfSMmI8TBo9dNFpFIlAiNYnG70kOAQSQQ
+	 +XwoZMFbzt/ZUa2t6jUgxx7bSbMQDlvlOmvU0o4K/OTC52BSXi/UjwlDXmF1yw+Xtfz1c
+	 ++0fbbZTw86eR2RvK/5EJItithMAz4Hv3r4/u7CX9rSZTgge7VgNovpS2qK/o/S8gaIHY
+	 W/Zr0xCv/qykJkEXQW16n37V+7/8OxKrsyGOWfIhxmsk7r4/13xFBL1UNKZgGi4SV2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795162239;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795162253;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=qHNIvMirhw5Yqe/45BmdtZSfkV5uagyM/kyIoGo2xWY=;
-	b=YOXFaWGga5Cmh0Q7vxgB0w56sd/wmdfDXYrzlbOObTf/uCq/b1wjdgLpThdp3mkr1BhO
-	 ZUlrVOuuqgdOu4FtY0foeg/L69UrKlEhtH15d53/WRHXOiDBqgxxSgrqeGXXO5UyMeaQB
-	 RiA33c1O0HDBkqL5NrgYNCsZqLO5vFVYJlCv+3gKpHhZjEk0gDiIdf/KyaGotk97PHjIx
-	 jMXExm1LxyOFCj7B71atG8V2stB5IeZpzSkcmAboKrumZMznls6jlr2XONrzjFg733Ehu
-	 07N/NW6yJxvHgXjGqDD3cFDeeu9NRv/L8yNUEzH2kElgyERi0qUfuei4+oARMPW2ySg==
+	bh=9HncnQauty5t6nGfjF1ZTukarG3WvCIv81DxradHotE=;
+	b=dUzQw1fLefQri5wUReFijkMuksRObS8OHK252eLZKxBiNhMOf08qZvuy7ez2vLNAotEr
+	 kX4TN8uL3uxIOCLf9/2G7QIN4sPGwjhsvROI60BBZFwLDYN6CSP7kiorL+UZXH2H6Yf81
+	 OJXDJaV7vvTcCz69iCPg73BQc5zQUfrYIVGKnLZ5QMUyHHH4NLtY0JlGzh6wsOEmqw+NZ
+	 6698oGti4mC99323Oosh3uk+oT3WXwnHm2U9lRzRhSIxEF3ygKfa5MGlA71oxe4gEP0v6
+	 XAbWt79UMLk7JGCzuJaEdl8bIyTZ2UKnXmSpPZJZZ35D3KPNlqtysqiTToAgr0V98EA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Pnv19gEa;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="B/5lQ80Y";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB33606A320
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 08:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D38606A32A
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 08:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Pnv19gEa
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 322AC1F000C4;
-	Fri, 20 Nov 2026 08:10:38 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=B/5lQ80Y
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F1F31F000C6;
+	Fri, 20 Nov 2026 08:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795162238;
-	bh=qHNIvMirhw5Yqe/45BmdtZSfkV5uagyM/kyIoGo2xWY=;
+	s=korg; t=1795162253;
+	bh=9HncnQauty5t6nGfjF1ZTukarG3WvCIv81DxradHotE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Pnv19gEa+Lm3xaZ6wiuEzeHEfGhdYLhIWd84YAMzvEGinHNgXIei0BH+8OLdl9+Z4
-	 7INLXo+7XCCu9YxTilRiDtw2uJgRdqwzfrH3i8RTO3Up4ToecNUt7sqcuFrOeeSa3X
-	 kHyp5pE+AlcqhRptGqmELrr92nXdUpuVMFewbgls=
-Date: Fri, 20 Nov 2026 09:10:36 +0100
+	b=B/5lQ80Ym2bhK/LsNJn09z6S1Y9wQWI8wSTpKO+0KLt1Oq4kwaADwxOcR5kWxBXbd
+	 3ydsLIwyswkK7sW12DsaqsL+flKxqlo2Op3kqddE96xAO9wqgKUP8+Rcnz9wsWc/z8
+	 pYLf6xT1ZO2Gvq80+EoSnEG2XrexJaNLt7zQ0+ko=
+Date: Fri, 20 Nov 2026 09:10:50 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Haoli Zhang <26031212468@stu.xidian.edu.cn>
 Cc: linux-usb@vger.kernel.org
 Subject: Re: [PATCH] usb: gadget: f_midi2: disable endpoints before freeing
  descriptors
-Message-ID: <2026112002-agony-calibrate-ce07@gregkh>
+Message-ID: <2026112039-wikipedia-facing-056c@gregkh>
 References: <20261120042607.1347854-1-26031212468@stu.xidian.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -77,48 +77,7 @@ On Fri, Nov 20, 2026 at 12:26:07PM +0800, Haoli Zhang wrote:
 > Co-developed-by: Bin Yu <byu@xidian.edu.cn>
 > Signed-off-by: Bin Yu <byu@xidian.edu.cn>
 > Signed-off-by: Haoli Zhang <26031212468@stu.xidian.edu.cn>
-> ---
->  drivers/usb/gadget/function/f_midi2.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
-> --- a/drivers/usb/gadget/function/f_midi2.c
-> +++ b/drivers/usb/gadget/function/f_midi2.c
-> @@ -1167,6 +1167,13 @@
->  	f_midi2_free_ep_reqs(ep_out);
->  }
-> 
-> +/* Disable an EP before its descriptors are released. */
 
-That's not a good description of this function at all :(
 
-> +static void f_midi2_disable_ep(struct f_midi2_usb_ep *usb_ep)
-> +{
-> +	if (usb_ep->usb_ep)
-> +		usb_ep_disable(usb_ep->usb_ep);
-> +}
-> +
->  /* start/queue both IN and OUT EPs */
->  static int f_midi2_start_eps(struct f_midi2_usb_ep *ep_in,
->  			     struct f_midi2_usb_ep *ep_out,
-> @@ -1343,8 +1350,17 @@
->  static void f_midi2_disable(struct usb_function *fn)
->  {
->  	struct f_midi2 *midi2 = func_to_midi2(fn);
-> +	struct f_midi2_ep *ep;
-> +	int i;
-> 
->  	midi2->operation_mode = MIDI_OP_MODE_UNSET;
-> +	f_midi2_disable_ep(&midi2->midi1_ep_in);
-> +	f_midi2_disable_ep(&midi2->midi1_ep_out);
-> +	for (i = 0; i < midi2->num_eps; i++) {
-> +		ep = &midi2->midi2_eps[i];
-> +		f_midi2_disable_ep(&ep->ep_in);
-> +		f_midi2_disable_ep(&ep->ep_out);
+Why are none of these people on the cc:?
 
-Please just open-code the function you tried to write above, it will
-make more sense here.
-
-thanks,
-
-greg k-h
