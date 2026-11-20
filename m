@@ -1,56 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795155702;
-	b=hKvlRcbgcRTZtrUUvB9l+55pyFbFVCpf1NFV+Bodp5j9WURYTRqnA7NsNT8WbV11EMSb
-	 uj9UsjwOqw1H0kk1Dz0lCbVs+G8/9oXZ0Ip6Wk/zBRuILwcp7sRWAesvGWnrXodlH/FG4
-	 CgTQeiQjzkUGzNX78okGsAseK5SkAZcrBiQsoWnJ63AkzCTANhRfyIirObRm7r9sNIgNY
-	 A4ka775CmULcimwxsQBwB5btfeX3714HPJRKABrlX4Rr6zzIlsaVouMRS+nU7yfidVbSy
-	 IOEYqQFJUsVuERHBaXOFv3kB7dDKnTu5LLMQWYClpZvZqC2UNzCGMciiDp61yK6Itgw==
+	t=1795155991;
+	b=IfYP4jf6CfhFkB9u3iK9nqYLht+qrnFrlA/DQD3mYghj4xg7au3cCL263kM2cxU+z7iX
+	 UQlmiJn8DXV9t4RfL17StpXXQ7C42owdJC1I7Cwv/T+7Kx5jfuQQ/hIrjMcpzkSJmYDeR
+	 pIDFSrEXSS45bfGkjfSX3VmBevAZ2RHgzP92jqZqtoWb/+3qyiSlf4XPB4ErnqaXtsEiq
+	 TKknhXuv7c8+64280j65vnwJtRhQpEqI+ml6DWMSx3AmZ4yvENBPxVfX0liw4f8ZAWKmR
+	 hAzZPhtC+EcOj6AHmMyHXQKX2i/TIWB2d/PDBnJXfDDGc9C9tcP1VVvpIP0UY8ver4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795155702;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795155991;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=o0YluxS4Okhmx9UrB8rgmv3I9P5u8AeGkwpP1wynEOs=;
-	b=KC7pq5E5V2juN1oqRKTmM5c9XygQr1J6tjex3LMwqHRkYaGkplRryguDEqadPEiPwV8Q
-	 zkgptfbVKxtka+EGkXEdbslk0iXCvVRh+guetKSw6GH9vS8jTvO7O1/ljamZfeCk1exOn
-	 npuCfkJkx/bX0ftwUOAh0gx9aHj1TUfXNA4vUY/w5fo3MD/edCUu2N5UrulNIrS8qZH3q
-	 QGX08TN6ZIxLkamU0g3NH2aMmL9klNel8IN+Bohuv1+5plrn2K5eawemkor9iXH1WrcUn
-	 W11OoGIPRkoqCQe79mhEvwlFR84EkO640mIANkK9hJ0RH7TP9090I7KjojV2nldNQ+w==
+	bh=MExsVOZpNays3ap7WGjTsxcU4VV+8DK23sSEqIkYhT4=;
+	b=Hrrl+mHit69krukNb8I/TDwmmmvZVzdA+xYi8ZfIMYjVXIUYfSXpxL1dPI35MtJED366
+	 Mq4MWMEPv7TbBdne0JUnuoIWj+7ulH/lJCSpDIIUWgAxXZy34yh653eOmRy4rzXj28SfY
+	 ix01W1VvYyyB59pgRUe/KJDyIfKIqDpj5q3OTI0wlI902ota3P5NjjBTdiCJAlsSdfMAz
+	 uYrh76LpoBe0ljRZbO4ByqYeQfKsgejX7rA3Nf/v7QHs+P5E0Lvz10QfMgy93Cw6oZinQ
+	 NWiGJTMTbmlwgNEfpPKVNaGRKanX0MCenGMrobynx+VyxZUuKXuF8m9c4A0P6Us4cKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fCmTwPJZ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="m/uSLQSz";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBF1606A33E;
-	Fri, 20 Nov 2026 06:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C02606A325
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 06:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fCmTwPJZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 701551F000C6;
-	Fri, 20 Nov 2026 06:21:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m/uSLQSz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47BD21F000CF;
+	Fri, 20 Nov 2026 06:26:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795155702;
-	bh=o0YluxS4Okhmx9UrB8rgmv3I9P5u8AeGkwpP1wynEOs=;
+	s=k20260515; t=1795155990;
+	bh=MExsVOZpNays3ap7WGjTsxcU4VV+8DK23sSEqIkYhT4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=fCmTwPJZWJZyml1zSal8iY+pLCTP2AUvCztZXzLLgHy35oj0IgVEtbT6g9hmV++J7
-	 6kU+Y/3s5ci/wGBsUesL5agxmcoQsdPT4GpV4ItQOoXBdSXtQ+hvWI3F3cKry3COq1
-	 XIs3jdbIaO9IDSHyecaKzJgndqgGUvb9WXV9jfWdOc28Pq4HnP/pfkIHtAL0Mh7nPA
-	 auhOUE9eagyYJJMVbesYsZ2VX7j1C48qik1ED6m4lIf6iWq7M0cW43RL93W6rjioSi
-	 ktZAxJwXN44LbRtY0BjUDcS19qF9E/SBfPGQ8FkMwyN+7iKGprfsXlyRuQY9fa0w7u
-	 T+vQ0tZdj2hzQ==
-Message-ID: <sashiko-outbox-224554@kernel.org>
+	b=m/uSLQSzfJfBz2tY0vK2gnuVyeRN+us77dHgLscJeDRhkf34GFCM+sVp/lF96YIVO
+	 TXpZPUav6iV764UEhXOaqOzF5t+t6p/f46xRiIMGxM7utHYZ0ImKnHzMU4LKyrDWKP
+	 M2GJLM5zBpwMeiT2MvjunLoeONiqlr4l5i96/8r6YMxh33VoxWlvWa8BZRzrO7H3QQ
+	 x22Y7OfO3Ak8U7BC9tKoPiD3eF4W+AdC6zOJ2B3XTKIPrIn7LO2Smk9LkbSuI/gdO0
+	 P/6+54mkl1psomeZ3Q4UjkNjmso6jOsUhWqiFf8cvmtVeDJQceuPwEcx7bl7V+ie0n
+	 Y8nKOtfAbd1Pg==
+Message-ID: <sashiko-outbox-224568@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] tools: usb: p9_fwd: Send complete requests to the TCP
- server
+Subject: Re: [PATCH] usbip: tools: Check allocation of exported devices
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Zhu Jun" <zhujun2@cmss.chinamobile.com>
-Cc: linux-usb@vger.kernel.org, v9fs@lists.linux.dev
-In-Reply-To: <20261120061937.98224-1-zhujun2@cmss.chinamobile.com>
-References: <20261120061937.98224-1-zhujun2@cmss.chinamobile.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261120062111.98404-1-zhujun2@cmss.chinamobile.com>
+References: <20261120062111.98404-1-zhujun2@cmss.chinamobile.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 06:21:42 +0000
+Date: Fri, 20 Nov 2026 06:26:29 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,18 +59,20 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> socket.send() can return after sending only a prefix of a request.
-> The forwarder ignores that result and waits for a response to an
-> incomplete message. Use sendall() so request forwarding completes
-> only once all bytes have been sent or a write error is reported.
+> usbip_exported_device_new() dereferences edev immediately after calloc()
+> without checking whether the allocation succeeded. An allocation failure
+> therefore crashes the tool instead of allowing its caller to skip the
+> device.
 >=20
-> Fixes: 673f0c3ffc75 ("tools: usb: p9_fwd: add usb gadget packet forwarder=
- script")
+> Return NULL before accessing edev when calloc() fails.
+>=20
+> Fixes: 021aed845303 ("staging: usbip: userspace: migrate usbip_host_drive=
+r to libudev")
 > Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120061937.9822=
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120062111.9840=
 4-1-zhujun2@cmss.chinamobile.com?part=3D1
 
