@@ -1,78 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795206681;
-	b=slSVgreqJ8uc+A8WzlCWbI4MMTWymhuJN91XGFo/vtjclZfPi0ci3W+31NM5Eq4sQnY9
-	 ZnexJKZm4Tf6xLPw4o46TWCUu6tmA44+evnF4+NVuLW1lcVAmjjLG7okIgjPCaXm+r65/
-	 FQkaucDTOud8j6mSOi0Cj2Gqt8zsmV2TbJqt+/q1xFnJIGpvt4VJrJIq4bauJgay13Bgu
-	 f0C8YjgtQ+mCVmsQfOMJi1qpltBXBwGVGYg5bpMzkDSNdpY1Uo0vsuwvk5FEBrXv3bJ2b
-	 7lJ685noeniESqmu3dd6C1bv4HRpAEiP5eKDB81i+ZHxU0OcirBXkNhstOlaG4mjsPA==
+	t=1795206688;
+	b=Nh5SjBmzi/Snn9XRLhLlEdGkzXcW9mhjCx8Vg588TIYVtZtTbNRs3nd4sB/xSjqfdb1U
+	 X86Pq42QYWN/3MkwW1w4KzmSNLCT7EdGwYUXeY7NiMn3FWQDcUIOlxVgrnV9AeTWldect
+	 sIYHk/dnb60+o7FnphGCuAsnMyDc0YFvFVHFHBeXTowlc5OS2YMPckbFz277IXTJNeHfi
+	 9rCSkf8ynnX3gpWO4m9v8Tq8GuaY9bHmmt6dxNci32iVdf9Y0adDBP5TRuB8GE3WS5aCz
+	 /8X/pEOuWAqS+KnhDL8OFUhmBOAiUsvAtl903PqDFHL9UXe9bq8YmHQ0JlCc447DXhA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795206681;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795206688;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=4zRAvWGJX90y/LPem1ksgOXfZWd70rTEihHErfZFz1c=;
-	b=sR5c1rLCl95OOl4t9PNyJMscoIFoRiS+RvN0fmbN1h23ie1LCvnoRn/TUsc0u4QYvuiB
-	 nu6lVoPxXsVvt5KHTS0gIyCTryAnjLlMFn9nrcuauAxzGP4h7jc4pNtEIl6NzP8J1erI8
-	 CqcWKNRlJp6a15ltFAwUoF0X8V/vzdr61nf4ezByAx/2fBlQ++iC5qsX0ly9Vrx24P4g0
-	 vEo7EJT3j2vIDRqgp0W+rvOmNI96AmgOudUb9JrYdFQ1xe3Bls2HDpidP5+QV5U77sBLD
-	 nBGEoG/UM7JR2fj8/flAl+uTha3/qfF1JsyCUOzEXSJ2xRkraTd8DDzGbkLuQnUY1lA==
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=hD0P8YXXxdvtIjmhK8x/tbWxpC2Iq/MwQl2yqUlO1Hs=;
+	b=4houfE/K3RgJePebjf9xrGUAEzV4TukuQzi/gpU0zH2LxNCc9UKekIi78bb8f1hJ2Pub
+	 nGdLW1BhxaVMX4H4Hr0qvxmsQ+D8eJwZKYk32KE05nXApqB5g01Gp+bAG6qxPlXRnIm6S
+	 kG8bfqkgnum30LtlJykwZCKwk0YkyXUmZp+Z//lyShj8VbAkclBt+7e2De7mg62Hkl7iq
+	 MHojJpUJvrUDyg0KAJzrMigDRlmMRuM4o7HXuSgEXBDf2qsPeSwFT8tsK2q6Vh/V1CCNc
+	 C6M0xZoglPY+edQA2pHKfmbU0Dxz5y0gGHiSXnoAswdd/nMYN+qy/7lCltETAi7OrOQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KV81EGr2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BAK1V95E;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37D3606A6C1;
-	Fri, 20 Nov 2026 20:31:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD35606A6DF;
+	Fri, 20 Nov 2026 20:31:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KV81EGr2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BAK1V95E
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795206681;
-	b=1TAE8sK161Mb7g8BhvR7WBaN02zkugYqIdIaZcuEup/GagRD6KQVlVsvaHKx9h+R4qh7
-	 edi4NaHxr4MNB4ESefdkX1ceHI2i9mIY0iq4ejhtY6h2m5jYsWU7+ROmTFuXjUzjvLv6R
-	 IgvpHMF0Sm913NKjkxIG26gfcHKNdCpRuqgTGz6U6TWlHHV+L/G6QhR/Ee6TbKONSkdUH
-	 80k8vVM3/O3uaT8F/UWMiBLcNiFmg/PQRJqKEPgwb55MGo0YOfXMKwjS1RIt5LxOXzOCv
-	 StLhD9dhDo42qyEuKk74Fx3VC4H1kdA35W7sfc4QtkSgMpAH5XilViog8ITV5N9oYRw==
+	t=1795206688;
+	b=Lf5thiW/e9egQhNF+Rxs3W0/skFHJruIvZJb32R5UtSir0hYJIz0J0Tc+GARegCItFxc
+	 aGyXhK8erfMRX49EuOCe9P0e2xR7foULX4wugxi4NfcLLTP6mxfewZQHxndIpOfkMqRKQ
+	 gmqhjZDVnS9jZ41Vp793PAXGWrfHUSD/9PoQxxQFvZVGwzfM8/q4JKNjaH0rHJwLPAESx
+	 4LaqOXbcU+dHpae3vlcIb+cbNLRwhrUf3zOAAdsyE26cbIcO20O140/AqOglulGaQ+eHY
+	 zM9uTyCoeH9/nK/+eQTsfWqyJg5vLgotSAJX6mdWOhqM3tcEOXk+JLFHDm3Z/Az7oeQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795206681;
+	c=relaxed/relaxed; t=1795206688;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=4zRAvWGJX90y/LPem1ksgOXfZWd70rTEihHErfZFz1c=;
-	b=kbwGS7oQVpqWICHmVs7m99wjB0pGn+L/8sHCvuZAEGnmchQadVLtOuvpBKk9+kSNZ7DH
-	 jDPliQbq18DtZFMJrCDd62JYRtHv9mPh2h+O7/X99Kq1pKui4OJU+9p9qZa7JzXYpwaKh
-	 74nt6LnbcQ6USvNQ1d9s4We+Fut1b3ternvhYIolEDwGsg/hqpX1nHLo/MUJHuZ6AIRuw
-	 06cLOwoeLnsqvkhjAHlomddcMUQToZ/RGpLXmBo1DbDpCn1pLKP4NAQ6D4IxdNZUdQPPf
-	 eTNKmmHN4j5umG0uXKWgUZg+xB5l9VeSMrVVUXj4gq369RyeF7+1bGhh+9Sym413y9Q==
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=hD0P8YXXxdvtIjmhK8x/tbWxpC2Iq/MwQl2yqUlO1Hs=;
+	b=Wj8xiwPA9sp3H1mp7D022VTbBhKsvb/BClW9tlZi6W350FLJSVt2wIGawH0HeUhdJl81
+	 ke0YQn7vBqWS2u1j5Jlg7s1HdTOZ5fZWbII5DG2gtdsQkDXDM8oZrcv5GswIxWbiO3jfL
+	 kSQHNeiDC24b8nYh87h6nTEL3FOqdfLHYmRxzaM1USvbl7M2uHxJXsdsLAWwAS5XVu9DV
+	 VrpVYizD4hcIMnmQVCjabT8/RgQUgOQpH5i1KgEeh+4pFsQKtPRYDPcm5hBGuANZLqJb0
+	 L8MVhDUAcrhDA/V8Zb2EbqGg2ybLGuhwy09ZkLYDAaeNsYP0yowL2b/gj6C0KCpfWyQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 772501F000CA;
+	by smtp.kernel.org (Postfix) with ESMTPS id 9244E1F000CF;
 	Fri, 20 Nov 2026 20:31:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795206681;
-	bh=4zRAvWGJX90y/LPem1ksgOXfZWd70rTEihHErfZFz1c=;
+	s=k20260515; t=1795206688;
+	bh=hD0P8YXXxdvtIjmhK8x/tbWxpC2Iq/MwQl2yqUlO1Hs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=KV81EGr2KTzp7J7pefFxl8DO48f1D+AuI8EWfjDuA8Xzj80KRmbp7CdqL0Xqe+j8f
-	 wU4RwQ3apB4meNUQvVNpRo7/UlsB+pn5UfvWVWwZqhbE0O2O35u/ptnYmp4AOpCrUG
-	 A2QWBVARKn+mFP6is9i3uC3qv7mDZUeAZlAT+3JVDnEQ93yfG162/keEZX2NuNObbm
-	 mDDKkkZccMB8roQ25z73TZrUKHv2dUYHBTkVFaf89zFyWFco3lztbgp3TmiBbI5aoA
-	 hMo6eMZndlhsZICeCPPxxKUpzpBijn9Vgjrf5vhks6+6T3Imv4XlHVlmh0Nkcey7Wk
-	 Cfb9JHv2mdp0g==
+	b=BAK1V95EaRovdzNkau92EQC6fXsAl4L8Kdbe5tExDfH6frlcEYIYLsygoZLWvw46k
+	 NH/d0dE9RjkcqsmORlx/hDEE52IIO057rgFqyQyNu/NWioWxZdrSIttVBZs/wrV+TM
+	 CzoIXAL9BmBRGzlgolOuf5FFO0gLPc85rTLP2AM0GzXhh4HQAhECC69830rdNTqC3H
+	 v2vfvQS0sQnyWeE36YbbGu7ua6GiRc8PlqpFVqi4NwYLEXrEl66SWa2nBxVZaLCkeZ
+	 0gG8BseTDQKCMKwY8ZJFkmN23jmD9VRJg/v2XilzCgRJU+1TcFs2FMlCCNMTHVba4Z
+	 eUbREOVxl2g3A==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 055484B9F4;
+	by lkml.kernel.org (Postfix) with ESMTP id 1F5034BA14;
 	Fri, 20 Nov 2026 20:31:17 +0000 (UTC)
 From: Joseph Telaak via B4 Relay <devnull+joseph.telaak.dev@kernel.org>
-Date: Fri, 20 Nov 2026 15:31:06 -0500
-Subject: [PATCH v3 1/3] dt-bindings: usb: dwc2: Add Siflower SF19A2890
+Date: Fri, 20 Nov 2026 15:31:07 -0500
+Subject: [PATCH v3 2/3] usb: dwc2: Add Siflower SF19A2890 support
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,7 +83,8 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261120-sf19a2890-dwc2-v3-1-de377bd408a0@telaak.dev>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261120-sf19a2890-dwc2-v3-2-de377bd408a0@telaak.dev>
 References: <20261120-sf19a2890-dwc2-v3-0-de377bd408a0@telaak.dev>
 In-Reply-To: <20261120-sf19a2890-dwc2-v3-0-de377bd408a0@telaak.dev>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -92,45 +93,63 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 Cc: Chuanhong Guo <gch981213@gmail.com>, linux-mips@vger.kernel.org, 
  linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
- Joseph Telaak <joseph@telaak.dev>
+ linux-kernel@vger.kernel.org, Joseph Telaak <joseph@telaak.dev>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795206676; l=864;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795206676; l=1619;
  i=joseph@telaak.dev; s=20261104; h=from:subject:message-id;
- bh=w+QiNRAN39ZqxwzT8eL/SeZFAxcNqrljvHT4hVUBrPc=;
- b=+aanc8SFiEJySAcjYFTPjNa/h7pkwT4ilDA6rSZ97oWc4EJ1W2leT/yP94vOE2SajMrcmbtrA
- 9DkBL5QMdRGAu2XkHpWWSnDHcXthaUKOn+L3zICXhcZb8m/eV1AOGKb
+ bh=nQKb53x4kS6TUNVquwYjce7H9GBsH2tS7RH2pY4HKw8=;
+ b=6wWdlw+jkBJooXJ9SHKzOWRpF+PWi6IoBApFPubZ4uVOWJv/5v6deOceuai7GwXotp1vICPOq
+ NbjUgNDV20ZBWvtLVvuUcR5f/fRA2pGPdKTTMe4oAMubjFvvSE7QnoL
 X-Developer-Key: i=joseph@telaak.dev; a=ed25519;
  pk=oQI+UfddlZ0wK2ac4WKOGNjUl1ZEN8j9ZVFSqEDoNP0=
 X-Endpoint-Received: by B4 Relay for joseph@telaak.dev/20261104 with
  auth_id=1404
 X-Original-From: Joseph Telaak <joseph@telaak.dev>
 Reply-To: joseph@telaak.dev
-Content-Transfer-Encoding: 7bit
 
-From: Joseph Telaak <joseph@telaak.dev>
+From: Chuanhong Guo <gch981213@gmail.com>
 
-The Siflower SF19A2890 has a DWC OTG 3.30a controller, with its own
-bus burst limit and an OTG interrupt quirk.
+The Siflower SF19A2890 has a DWC OTG 3.30a controller. Limit its
+transfers to 65535 bytes and its AHB bursts to INCR4, the settings the
+OpenWrt port has run it with.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
+[Joseph Telaak:
+  - take it from OpenWrt's siflower target and rebase on v7.4-rc1
+  - commit message and subject]
 Signed-off-by: Joseph Telaak <joseph@telaak.dev>
 ---
- Documentation/devicetree/bindings/usb/dwc2.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/dwc2/params.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml b/Documentation/devicetree/bindings/usb/dwc2.yaml
-index 6c3a10991b8b..3b4763f476ea 100644
---- a/Documentation/devicetree/bindings/usb/dwc2.yaml
-+++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
-@@ -58,6 +58,7 @@ properties:
-           - const: snps,dwc2
-       - const: amcc,dwc-otg
-       - const: apm,apm82181-dwc-otg
-+      - const: siflower,sf19a2890-usb
-       - const: snps,dwc2
-       - const: sophgo,cv1800b-usb
-       - const: st,stm32f4x9-fsotg
+diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
+index 091bfcfef753..b31fa1f5ad64 100644
+--- a/drivers/usb/dwc2/params.c
++++ b/drivers/usb/dwc2/params.c
+@@ -237,6 +237,14 @@ static void dwc2_set_cv1800_params(struct dwc2_hsotg *hsotg)
+ 	p->power_down = DWC2_POWER_DOWN_PARAM_NONE;
+ }
+ 
++static void dwc2_set_sf19a2890_params(struct dwc2_hsotg *hsotg)
++{
++	struct dwc2_core_params *p = &hsotg->params;
++
++	p->max_transfer_size = 65535;
++	p->ahbcfg = GAHBCFG_HBSTLEN_INCR4 << GAHBCFG_HBSTLEN_SHIFT;
++}
++
+ static void dwc2_set_stm32f4x9_fsotg_params(struct dwc2_hsotg *hsotg)
+ {
+ 	struct dwc2_core_params *p = &hsotg->params;
+@@ -334,6 +342,8 @@ const struct of_device_id dwc2_of_match_table[] = {
+ 	  .data = dwc2_set_amlogic_a1_params },
+ 	{ .compatible = "amcc,dwc-otg", .data = dwc2_set_amcc_params },
+ 	{ .compatible = "apm,apm82181-dwc-otg", .data = dwc2_set_amcc_params },
++	{ .compatible = "siflower,sf19a2890-usb",
++	  .data = dwc2_set_sf19a2890_params },
+ 	{ .compatible = "sophgo,cv1800b-usb",
+ 	  .data = dwc2_set_cv1800_params },
+ 	{ .compatible = "st,stm32f4x9-fsotg",
 
 -- 
 Git-155)
