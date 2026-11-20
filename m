@@ -1,50 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.254.49.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795196126;
-	b=sAHGxYMbMt7x1c818wv/WFdn2+o2LdzeQaOgixvkdiEKR41EAV2MZjLdmJJjIrMV+w1j
-	 eQaV43pcoke2we8ZfSAW7QYQPVNxAVi+87CzPaqcKgwi/yYCPRuI2gVxSIq4WVvbxnru6
-	 hv6sCpRrjzlkGZxgPO0vQMg3+kZ231gmIVnkevh8r631d8mEwCwpBJNezrjFaEqGHAIjW
-	 Ufe7cpMOn+L1XIS+UQubXo/PWnltGBaWQDPeQjkFCXmWlqwqjJlZb/1ynw/RYWVQV4tjL
-	 jsS1o6oCSgsPC0gPPiRfjig2B760QA960vPRjaI45/LVRAcx7E7uNFgzePDtUY9wGiw==
+	t=1795196914;
+	b=YyO6PQnHM3UUDwbbdXlTg14t0CKF2Rd5I7lExrHMc9CNVjlvXl83YAH1MiXl/YnN7Umo
+	 heaf7KEdZkh83ybaJF8ly9HVhHLwVKzAIgZcnpLwBOJ33YWi/72X2mWHX+U124u5CWFUe
+	 NAVVYHztiZrZRzEJWl9RBILtHFfohS2IpgMkkAGADbFLDnCol4AT9j0TRA6O/sB/OQ4sP
+	 kbmG/t5zHRyjj90tYRVGAq3pI1+TCpWN3b2j8/VByWUb+VA5GMARj+pFYX69HGN5szpP1
+	 STHddBpDCCctu6EldZ7I48w0ql4MyDl19zy0CAxkCvGg3n2OcnmPWnB9YoksBSD766g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795196126;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-HM-Tid:
-	 X-HM-MType:X-HM-Spam-Status:DKIM-Signature;
-	bh=aVKgpEyo9X12gkovEYR8f+Svm2jMfgCmmkB0xhM4oxE=;
-	b=Ul0Aqu4lRL2HQ7kTSB4ae+bhjQT2lAjmktpXuJJgX5kiBJE007fJOlmlkyKIcSj5Fy68
-	 HDgj3uGh8fP2RCymd7vpNzeY3KXo8dvO+rzFQoZHlwlgShbVnk4Y8z4MIMvSCC6QIJR6w
-	 HwpYk/cR5ruV2c/IF8qoCDU1z292GQrf3C09lgVOlyFexoyymWlFd+aIcuCwuJX5J2YFy
-	 /DDRkH9Sn0b2BrrENZFBIGbOI8PdfOU2DFbFkvJxaoiLoSsjiYo+QaT4hLcROz2lmrU+P
-	 qrpEJDXlOyIyOuKMJTDFAvHAkts7T0zu9ymWXCyoXe3j2kwvZx83Qa+J8WxAMSfztiQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795196914;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=aGQYX0espepN/+SRai53eGQNq0szmPyH1b5u6i6fuBk=;
+	b=cHCwbFBwT/FP4GJj2O+za5BmJydfKcw2a0d2nVgTtWyxK8NojC0O0TBqkm4SnrPKaEJI
+	 yCyHBL+J2nvL+UCEdwxPqi3qOudFwrMuDpUSlBlxFwJ+B/Kb7qEAXF0jc/EmAHXBasEi1
+	 6hlaMt5EU5GtiV4+NrSzohw2eIDamaod0L/IpFHP+PYOSVvwdxSGAHVGrbRg9Gt7sAUMB
+	 rnGjRMB1S5DZWb9ShOj8CHuWC/y5V0ULJhiaAIdltJdCHek/jfs+T+4dNqsANhGF4mN7z
+	 yn4MldoGhfSNlh0aQzCVY81+ZDQN3IkfuaHa9DhMFlKV4cl9JECJ95EUe7vKu+FIRvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.sdu.edu.cn;
-	spf=pass smtp.mailfrom=mail.sdu.edu.cn;
-	dkim=pass header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=fnrZNxgr;
-	arc=none smtp.remote-ip=45.254.49.197
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bfyl9VBy;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1FE60A2612;
-	Fri, 20 Nov 2026 17:35:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B1FE60A2612
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sdu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sdu.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C4F606A33B
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 17:48:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=fnrZNxgr
-Received: from lgs.. (unknown [101.76.249.61])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 5573c0aba;
-	Sat, 21 Nov 2026 01:35:14 +0800 (GMT+08:00)
-From: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
-To: Neill Kapron <nkapron@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: max3420: Fix potential thread leak on probe failure
-Date: Sat, 21 Nov 2026 01:35:11 +0800
-Message-ID: <20261120173512.3923833-1-liguangshuo@mail.sdu.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bfyl9VBy
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD3281F008B2;
+	Fri, 20 Nov 2026 17:48:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795196914;
+	bh=aGQYX0espepN/+SRai53eGQNq0szmPyH1b5u6i6fuBk=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Bfyl9VByIGmjak5+UrB6cZs0VYcnxxWgAPNTmcW/y3Q/h7fenjKS354zlCaEGe5kU
+	 DaiRnCh73xDH7f+6/Lm7iaax8D8k7dgZD6sHG9gj0vEpg7ZvqMPiLQbIUIdzly5/sK
+	 LsfS7Bs5Xh+ZAa/sDl8bN012ySdmdr88rrU6TZw8dxq0kLyM6KzXaWXNCH1WInHoQs
+	 0b5zDdvPgTISh2VfT5N1iov7KiWRLm64iYvst8Wv0GvG6Sso2tMw6JkoADWozz+aCv
+	 oRHnGpU6xgl3dDdNv4t44C8Oj+Z+tXtgVwgFoHDn9OzmUHtP+Tbf3tsNSM/qm5vLPd
+	 vTYShnwuGu7MQ==
+Message-ID: <sashiko-outbox-225719@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: gadget: max3420: Fix potential thread leak on
+ probe failure
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Guangshuo Li" <liguangshuo@mail.sdu.edu.cn>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261120173512.3923833-1-liguangshuo@mail.sdu.edu.cn>
+References: <20261120173512.3923833-1-liguangshuo@mail.sdu.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Nov 2026 17:48:33 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -53,77 +59,71 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa1fa06d5b203a1kunmc09e1856238b6e
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZHkgeVk9OHkpPQh9OHh4ZSlYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlKS0pVTE1VSU9CVU1KWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0
-	NMVUpLS1VLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=fnrZNxgrIDgw3+du3UGMEqI6BnJblMSFl6ZT8s4jIBDAThC0oEvQdv5xA+azzM/4SToqC23spkLj0WGPfT7mgW0ixvozhD3laW2uSYNUnCnrKNq7FkrzmEOkOV4ZcpsGHfHzR5k6uu+uvKEsODSkpzciJGfxHZjdZCa7ZZqP+1U=; c=relaxed/relaxed; s=default; d=mail.sdu.edu.cn; v=1;
-	bh=aVKgpEyo9X12gkovEYR8f+Svm2jMfgCmmkB0xhM4oxE=;
-	h=date:mime-version:subject:message-id:from;
 
-If requesting the VBUS interrupt fails, probe unregisters the gadget
-but leaves the already created thread behind. Managed cleanup then
-releases the state referenced by the thread.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] usb: gadget: max3420: UAF of udc->dev in max3420_probe()
+  stop_thread path
+--
 
-Unregister the gadget, disable and synchronize the UDC interrupt, then
-stop the thread before returning the probe error.
+commit 1aa81e8a2fed8c598f135d63a9ff28aff8ed2d0f
+Author: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
 
-This issue was found by our static analysis tool under development.
+usb: gadget: max3420: Fix potential thread leak on probe failure
 
-Fixes: 48ba02b2e2b1 ("usb: gadget: add udc driver for max3420")
-Signed-off-by: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
----
- drivers/usb/gadget/udc/max3420_udc.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+This commit disables the UDC interrupt and stops the SPI worker thread if
+requesting the VBUS interrupt fails during probe.
 
-diff --git a/drivers/usb/gadget/udc/max3420_udc.c b/drivers/usb/gadget/udc/max3420_udc.c
-index 11fd61cba5af..84309229216b 100644
---- a/drivers/usb/gadget/udc/max3420_udc.c
-+++ b/drivers/usb/gadget/udc/max3420_udc.c
-@@ -1198,7 +1198,7 @@ static void max3420_eps_init(struct max3420_udc *udc)
- static int max3420_probe(struct spi_device *spi)
- {
- 	struct max3420_udc *udc;
--	int err, irq;
-+	int err, irq, udc_irq;
- 	u8 reg[8];
- 
- 	if (spi->controller->flags & SPI_CONTROLLER_HALF_DUPLEX) {
-@@ -1252,8 +1252,8 @@ static int max3420_probe(struct spi_device *spi)
- 
- 	spi_set_drvdata(spi, udc);
- 
--	irq = of_irq_get_byname(spi->dev.of_node, "udc");
--	err = devm_request_irq(&spi->dev, irq, max3420_irq_handler, 0,
-+	udc_irq = of_irq_get_byname(spi->dev.of_node, "udc");
-+	err = devm_request_irq(&spi->dev, udc_irq, max3420_irq_handler, 0,
- 			       "max3420", udc);
- 	if (err < 0)
- 		goto del_gadget;
-@@ -1283,11 +1283,17 @@ static int max3420_probe(struct spi_device *spi)
- 		err = devm_request_irq(&spi->dev, irq,
- 				       max3420_vbus_handler, 0, "vbus", udc);
- 		if (err < 0)
--			goto del_gadget;
-+			goto stop_thread;
- 	}
- 
- 	return 0;
- 
-+stop_thread:
-+	usb_del_gadget_udc(&udc->gadget);
-+	disable_irq(udc_irq);
-+	kthread_stop(udc->thread_task);
-+	return err;
-+
- del_gadget:
- 	usb_del_gadget_udc(&udc->gadget);
- 	return err;
+> diff --git a/drivers/usb/gadget/udc/max3420_udc.c b/drivers/usb/gadget/ud=
+c/max3420_udc.c
+> index 11fd61cba5af9..84309229216b9 100644
+> --- a/drivers/usb/gadget/udc/max3420_udc.c
+> +++ b/drivers/usb/gadget/udc/max3420_udc.c
 
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+[ ... ]
+
+> @@ -1283,11 +1283,17 @@ static int max3420_probe(struct spi_device *spi)
+>  		err =3D devm_request_irq(&spi->dev, irq,
+>  				       max3420_vbus_handler, 0, "vbus", udc);
+>  		if (err < 0)
+> -			goto del_gadget;
+> +			goto stop_thread;
+>  	}
+> =20
+>  	return 0;
+> =20
+> +stop_thread:
+> +	usb_del_gadget_udc(&udc->gadget);
+> +	disable_irq(udc_irq);
+> +	kthread_stop(udc->thread_task);
+> +	return err;
+> +
+>  del_gadget:
+>  	usb_del_gadget_udc(&udc->gadget);
+>  	return err;
+
+[Severity: Medium]
+Can calling usb_del_gadget_udc() before stopping udc->thread_task cause a
+use-after-free of udc->dev->kobj.name when max3420_thread() exits?
+
+udc->dev aliases &udc->gadget.dev without taking an extra reference.
+usb_del_gadget_udc() can wake udc->thread_task via max3420_udc_stop() (or
+max3420_irq_handler() can wake it while udc_irq is still enabled) and
+then drops the final reference on udc->gadget.dev via usb_put_gadget(),
+freeing udc->gadget.dev.kobj.name.  When kthread_stop() runs next,
+max3420_thread() logs its exit with dev_info(udc->dev, ...), reading the
+freed name:
+
+drivers/usb/gadget/udc/max3420_udc.c:max3420_thread() {
+	...
+	set_current_state(TASK_RUNNING);
+	dev_info(udc->dev, "SPI thread exiting\n");
+	return 0;
+}
+
+Disabling udc_irq and stopping udc->thread_task before calling
+usb_del_gadget_udc() (or falling through to del_gadget) would avoid this.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120173512.3923=
+833-1-liguangshuo@mail.sdu.edu.cn?part=3D1
