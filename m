@@ -1,62 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795132965;
-	b=uDUckAT2BdvFXSXUvZcS5KxHr1/nnPWURb1mIQ2jnUitWoQVCtfkzAHKAU0ATwvBKrsq
-	 yfVkCsE7bTW0jqPK0LRIcMVYP6eS7kD6Puq9GM9BVtxLIar8sLJYMM5fP4JfGCydKOQNX
-	 Bwe+o8yNNBiMLSIaTGNwMC+qWSgB/FHte7hTp/6qp6wBRVvvfQ3Kg5qRdBnkexfcDdwdH
-	 oLUd7iTVCCqf3BiApCRbi/5LCIGwXHMrJD2VBKRBOnHLCYLkSO5QZzB5HHhjXJlhq2uTB
-	 B16z7h1sbAfYmjZ1eT2Qls6kXPwb5lvvEtXAy2UztwDvABhWL/u+pTcz+fFZIJU1QTQ==
+	t=1795137800;
+	b=U6qvFUSGD1Eib8VqLT2WpO/AK/AHWovNahhtdQMNgh2GfWbkKRiR97U5NYAoeKntx9BD
+	 EIGBP3v38p9zIcLsvZmLzdjzL8Tvfe16bqt2LI2b7e/mvKLwHIPuTn+eA+p6Bud+oJjPZ
+	 s1K9raClAEJJ9gU0zo7wNm22n25P5GFqd9mPLVcBu1MRe5Dl071scFZNwUtTeU882SNEg
+	 YcRU86xMzDVQkJUu2FVu2Zi+uNFc2PDOc4FG5flQQuLrfrFqoFWFWdGkzeazRkAHwVe0P
+	 Rgea6cvTlnTtb6kF498ohBzi8S2dYDWW2Fma62gR8lXNFJR2MX5X3sdvBpFRdtta0cA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795132965;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=K7IiTNCHGCrw9b2iJV2J2quXWphsfMGnJj+bjDSU5j0=;
-	b=QhL0hcHvGM9eCMX5Ed8qT3PysnROHeieZcIZ9CEYMos4f9zkXtErABjNN5JK+mqIgKnV
-	 H+nivcFSlSz1uwwMXvAZetyp4+tw7EcSLoBq2P72Kh2jo5QXit7Vd9+vTyEZt3DKDnp4j
-	 CWRurbZMlZ5l9ZgSX2ZGqV160JbMfU7IF/qenvVtuPLxlg3T9rIKkorIxK9HJoUoNuVMY
-	 hVaMMmfjzXGtteIiaoO89JQPHXb56CdyFumwdqnSoe1JfCGRsRxFKIAX22gOq6DK2r/F+
-	 RsQ30qflMGJPv93XGwCVIZTzyiwKoJj1+8d5MHxOqxWT4KdOfwEipTVhW23IDn+t0fg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795137800;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=aPwQ4j4gpAhDa+nABR08gUCjnD81/Bc7CRwqvIRsJR4=;
+	b=AfME2KXaf6p7XGOrR4lmJBT2gE2IVs8nufPoylj0F3RFdyqNfFx63QiMLz+BDJRkMeT7
+	 Y24fn1rkE7jVSRyprnN6jYN3/49yKpcP5/zyFBsfArBPZ20jXftzOEO4Q0ygikezi9+7x
+	 wEdEBMRCPvdUAUkhj0KSqjaoE/8EaZisgTiCQDo1TrJk/pny/rOKZtuS6F4UeAdiuqfSg
+	 y3ClGE6lq/BVQw/NP5GZgIh/Buis5dQr/IRA53TKn9ipwAaThTGHzKrD0lh0B5zQoQQPH
+	 DL5M3BLi4RaLKKHCYSsjaUkkw5qlzuOC0ZjLNJfTKeGVT5skn/YfO5HMOjE0QozLOaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GOCj4taG;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB06606A325;
-	Fri, 20 Nov 2026 00:02:45 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=vWIfijUG;
+	arc=none smtp.remote-ip=111.22.67.139
+Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C87B7606A320;
+	Fri, 20 Nov 2026 01:23:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C87B7606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GOCj4taG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 478021F000C4;
-	Fri, 20 Nov 2026 00:02:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795132965;
-	bh=K7IiTNCHGCrw9b2iJV2J2quXWphsfMGnJj+bjDSU5j0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=GOCj4taGw3irkEV7/TSd8yJmXclYrgwCNm1gVtRtPncKp/9tBdrrJbPMO21hHX05D
-	 gQjoH+qG5i6JBWDPMRAy2Qmk00XtmbcvZtSg1QLO9OvRcanRAqRmxV7+i9fBOnRluZ
-	 IKX4R7e/eSupBmeU43Qu9wesZa/XZoPHNRS++RuR51KYfm5XEThwLq2/CrFJC2AAQm
-	 /GpaudBUHATU/OxyJdP0ioNlnrleZXcgvcNrZi+wd0HXobLqYTW6HC8Hm9BqVuHRyS
-	 B3O5DNY2qmU5H8Rz+XJNmyoWiPobc+4wcnB1+uQeAT4Dl7itBqcUP93k345tu2nFUq
-	 NCd/T8tMThWbw==
-Subject: Re: [PATCH v5 2/2] usb: gadget: u_ether: fix out-of-bounds read in
- get_ether_addr
-From: netdev-bot+sashiko@kernel.org
-To: liuc63@xiaopeng.com
-Cc: gregkh@linuxfoundation.org, akpm@linux-foundation.org,
- andriy.shevchenko@intel.com, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, khtsai@google.com,
- fangxy@xiaopeng.com, rdunlap@infradead.org, dbrownell@users.sourceforge.net,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org
-Date: Fri, 20 Nov 2026 00:02:43 +0000
-Message-ID: <179513296378.3136.18205287276015126683@kernel.org>
-In-Reply-To: <20261117090110.3263592-3-liuc63@xiaopeng.com>
-References: <20261117090110.3263592-3-liuc63@xiaopeng.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=vWIfijUG
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=vWIfijUGnJ6H96Cr5pSJlX6Nv7q9Pbr2VuFZB0a6YxQGC+8qsuQ2L8V3uQbSm1I/8MDJgXDPUIA97
+	 mI9BQ4guIG5sZcUcX/WUb1zOCFov20bF6/smwAPO3BXRtTSLrh0fs89yNaUQKjVam+96olq/WLtU0r
+	 w4vB6Oe//BpRBl+Q=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee96affa0ffb08-274cb;
+	Fri, 20 Nov 2026 09:23:12 +0800 (CST)
+X-RM-TRANSID:2ee96affa0ffb08-274cb
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from FHD-W7400297 (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee66affa0fe9ee-0f733;
+	Fri, 20 Nov 2026 09:23:12 +0800 (CST)
+X-RM-TRANSID:2ee66affa0fe9ee-0f733
+From: Aibing Chen <chenaibing@cmss.chinamobile.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] net: hso: cap the MTU and drop oversized frames
+Date: Fri, 20 Nov 2026 09:23:09 +0800
+Message-ID: <20261120012309.19-1-chenaibing@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.50.1.windows.1
+In-Reply-To: <20261116014904.556-1-chenaibing@cmss.chinamobile.com>
+References: <20261116014904.556-1-chenaibing@cmss.chinamobile.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -66,134 +74,62 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+hso_net_start_xmit() copies skb->len bytes into odev->mux_bulk_tx_buf,
+which is a fixed MUX_BULK_TX_BUF_SIZE (2048) allocation made by
+hso_create_net_device(), and passes the same length to
+usb_fill_bulk_urb().  Nothing bounds skb->len today: the net device does
+not set max_mtu, and even with max_mtu set the core does not clamp the
+length of the frames handed to ndo_start_xmit(), so AF_PACKET with
+PACKET_VNET_HDR, tpacket_snd() with a vnet header and an IPv4 route MTU
+metric above the device MTU can all deliver larger skbs.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
+Cap the MTU at the buffer size and drop oversized frames in
+hso_net_start_xmit() instead of copying them past the end of the buffer.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Fixes: 72dc1c096c70 ("HSO: add option hso driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Aibing Chen <chenaibing@cmss.chinamobile.com>
+---
+v2:
+- also drop frames larger than MUX_BULK_TX_BUF_SIZE in hso_net_start_xmit()
+  with tx_dropped accounting: the max_mtu cap alone does not bound
+  skb->len, as pointed out in the netdev review.
 
-- [Medium] The commit message is wrong about how the legacy module
-  parameters report a rejected address.
-- [Low] The ABI text this patch adds to configfs-usb-
-  gadget-{ecm,eem,ncm,rndis,subset} says host_addr/dev_addr accept only…
+ drivers/net/usb/hso.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
---
+diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
+index 71caa3764..0df1d19cc 100644
+--- a/drivers/net/usb/hso.c
++++ b/drivers/net/usb/hso.c
+@@ -769,6 +769,18 @@ static netdev_tx_t hso_net_start_xmit(struct sk_buff *skb,
+ 	struct hso_net *odev = netdev_priv(net);
+ 	int result;
+ 
++	/*
++	 * max_mtu only limits the MTU userspace can configure; the core does
++	 * not clamp skb->len to it (AF_PACKET with PACKET_VNET_HDR, tpacket_snd()
++	 * with a vnet header and a route MTU metric above the device MTU can all
++	 * deliver larger frames), so drop anything that does not fit here.
++	 */
++	if (unlikely(skb->len > MUX_BULK_TX_BUF_SIZE)) {
++		net->stats.tx_dropped++;
++		kfree_skb_reason(skb, SKB_DROP_REASON_PKT_TOO_BIG);
++		return NETDEV_TX_OK;
++	}
++
+ 	/* Tell the kernel, "No more frames 'til we are done with this one." */
+ 	netif_stop_queue(net);
+ 	if (hso_get_activity(odev->parent) == -EAGAIN) {
+@@ -2393,6 +2405,7 @@ static void hso_net_init(struct net_device *net)
+ 	net->flags = IFF_POINTOPOINT | IFF_NOARP | IFF_MULTICAST;
+ 	net->type = ARPHRD_NONE;
+ 	net->mtu = DEFAULT_MTU - 14;
++	net->max_mtu = MUX_BULK_TX_BUF_SIZE - 14;
+ 	net->tx_queue_len = 10;
+ 	net->ethtool_ops = &ops;
+ 
 
-usb: gadget: u_ether: fix out-of-bounds read in get_ether_addr
 
-This replaces the open coded MAC address loop in get_ether_addr() with
-parse_mac_pton() for the delimited notations and hex2bin() for the raw
-twelve digit notation. This fixes an out-of-bounds read on short strings
-and stops non-hex characters from being silently accepted. It also selects
-GENERIC_NET_UTILS and documents the accepted formats in the configfs ABI
-files for the ECM, EEM, NCM, RNDIS and subset functions.
-
-Link: https://lore.kernel.org/all/20261106030605.576584-3-liuc63@xiaopeng.com/
-
-> How a rejected address is reported depends on the caller.  The legacy
-> module parameters go through gether_setup_name(), which keeps the random
-> address that get_ether_addr() falls back to and only logs a warning.
-
-[Severity: Medium]
-Is this description of the legacy path accurate?
-
-Nothing in the tree seems to call gether_setup_name(). Its only wrapper,
-the inline gether_setup() in u_ether.h, has no callers either.
-
-The legacy gadgets (legacy/ether.c, cdc2.c, ncm.c, multi.c and g_ffs.c)
-pass the dev_addr= and host_addr= parameters through
-gether_set_dev_addr() and gether_set_host_addr(). The KASAN trace earlier
-in this commit message shows the same path
-(eth_bind()->gether_set_dev_addr()->get_ether_addr()):
-
-drivers/usb/gadget/legacy/ether.c:eth_bind() {
-    ...
-	if (!gether_set_host_addr(net, host_addr))
-		pr_info("using host ethernet address: %s", host_addr);
-	if (!gether_set_dev_addr(net, dev_addr))
-		pr_info("using self ethernet address: %s", dev_addr);
-    ...
-}
-
-gether_set_dev_addr() parses into a local new_addr[] and returns -EINVAL
-when get_ether_addr() fails. The random fallback is thrown away:
-
-drivers/usb/gadget/function/u_ether.c:gether_set_dev_addr() {
-    ...
-	if (get_ether_addr(dev_addr, new_addr))
-		return -EINVAL;
-    ...
-}
-
-The netdev then keeps the dev_mac/host_mac that
-gether_setup_name_default() picked earlier with eth_random_addr(). Since
-eth_bind() has no else branch, nothing is logged.
-
-With this patch, "insmod g_ether.ko dev_addr=aabb.ccdd.eeff" no longer
-gives a stable aa:bb:cc:dd:ee:ff. parse_mac_pton() fails the length check
-and hex2bin() fails at the first '.'. Would such a user now get a
-different random MAC on every load, with no message explaining why?
-
-Could the commit message be corrected to describe the
-gether_set_dev_addr() path that the legacy parameters actually take?
-
-> diff --git a/Documentation/ABI/testing/configfs-usb-gadget-ecm b/Documentation/ABI/testing/configfs-usb-gadget-ecm
-> index 732101ca9d0bb..076567aacf162 100644
-> --- a/Documentation/ABI/testing/configfs-usb-gadget-ecm
-> +++ b/Documentation/ABI/testing/configfs-usb-gadget-ecm
-> @@ -17,4 +17,9 @@ Description:
->  			      - MAC address of device's end of this
->  				Ethernet over USB link
->  
-> -
-> +		host_addr and dev_addr accept a MAC address as six byte
-> +		pairs separated by ':' or '.', in any mixture
-> +		(aa:bb:cc:dd:ee:ff, aa.bb.cc.dd.ee.ff), or as twelve
-> +		hexadecimal digits with no separator (aabbccddeeff).  Any
-> +		other format is rejected: the write fails with EINVAL and
-> +		the attribute keeps its previous value.
-
-[Severity: Low]
-Does this text match what the new get_ether_addr() accepts?
-
-parse_mac_pton() only checks a minimum length and the first
-MAC_ADDR_STR_LEN characters:
-
-lib/net_utils.c:parse_mac_pton() {
-    ...
-	if (strnlen(s, MAC_ADDR_STR_LEN) < MAC_ADDR_STR_LEN)
-		return false;
-    ...
-}
-
-Its own kernel-doc says "anything after them is ignored". So writing
-"aa:bb:cc:dd:ee:ff:00" or "aa:bb:cc:dd:ee:ffXYZ" to dev_addr succeeds and
-sets aa:bb:cc:dd:ee:ff.
-
-The hex2bin(dev_addr, str, ETH_ALEN) fallback reads exactly 12 characters
-and never looks at str[12]. "aabbccddeeff.zz" and "aabbccddeeff0011" are
-accepted as well.
-
-The reverse case is also missing from the text. Both paths in
-get_ether_addr() also require is_valid_ether_addr(). A correctly
-formatted multicast or all-zero address such as 01:00:5e:00:00:01 or
-00:00:00:00:00:00 fails with EINVAL, and the new text doesn't mention
-this.
-
-Trailing characters do have to be tolerated, because a configfs write
-from echo ends in a newline. Could the text say that anything after the
-address is ignored, and that the address must be unicast and non-zero,
-instead of saying that every other format is rejected?
-
-The eem, ncm, rndis and subset ABI files get the same text.
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261117090110.3263592-1-liuc63%40xiaopeng.com
