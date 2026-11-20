@@ -1,77 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795158413;
-	b=N9S1kW2SfVDLqKulf6MJxEjSMKa8A98ZQPZCHIoIz8/rbqxPy19pqYJ2x7mPYN/3HH3u
-	 JO5TP5C2gd7E8K5+BAseD4tS1u7gajvQk9x9QxAhsWhc22bG3WnWGzBUds7Mxqxz7WKNZ
-	 3QqWVC8PtYqdFiB356Bj8t1f5VhTamHNw+ACRw9z8iOLDqQx2ysZxHvecZ7B4COrlERTJ
-	 KrUfA35gYO19+7vRmyRFlo2oGQDWryoQdPG3XCVW4EJJrMp9SuGroMv1juNEqs+uCI+Bd
-	 SgUO4b5iIeFzmRwKz9nkYn13rqziQKt14AlrlXuIK5sOcTPOUOtTnUG0KsR5rhdl0lw==
+	t=1795158726;
+	b=VrKTa8NQ+lqbayFCB6Ye/OHUbfg3FMeeMRO9n7ub8KehCJrKaTfyPgohYshf6mTO0rjr
+	 CBslqbfpLnONyhvfgr2bo/HbeI/Fmosu7t/7870k+UMMg/ozMOYKS4PZFAygIrzaUJy+9
+	 kufQqcnGR7FV+kz1EeYJ6S3oWKVyvrI6yTpcBzmCqsZII991nPRLZ8WmHzMYflp+RtdS4
+	 FoCBdG+ekdUtyAGeEYVN89UAi8D+G+ZPQkWxl1nJ6wg7mnCEQGs6C1r7f3E/pbXJ5f6X8
+	 ixmAbFgohAmHk9TTI4uqHGjAlXiNoZZtTBmZfYqVnk9c6vY/xKtZRjg0VMryoVwinBA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795158413;
-	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
-	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:
-	 UI-OutboundReport;
-	bh=CY72Zq7lo9Y2YudDGog7+uMWBPN0lY7PTfwCBrr8w2w=;
-	b=pRvHEfXa9aotvdJb0dUjo7B8b32KBWbeVcMhOMq/ip8hQsYitPfadyy9vCb93G6JBz33
-	 g5T/Vs8Uv15JxHTuZeFhGfVNRD7xVW00RyB6EPv3J7tqcyRZ06I7IhFHXSK12/qsXxVdj
-	 rUpfFXiCmNyeIli20kPy0bgqQmSUdopt4Xxi4FlXs+XZ1FsS4olTmAMufF90Mw0ye37kL
-	 cEa05G5etVpws9hLQF8Lo0dTIaCHuM2fcQ15iASeDzNv7jTnuK4ndGL5uhyzLZNACWUUy
-	 iePxDLpXjOlOwPEiXs/70XNM5IyM/+FWR1yIwrlcIFM7HolZ17ugWVT2/hnkThK/99A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795158726;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=gi0jzvXY1YB0X/lfluYyMQJKw+vpp1xzqtN3oqtHtmY=;
+	b=KSCXHMYNeEP3buEGVlu1MySIJa6ocPQbzZJ5t4mkiKEcnuzZ2vsn9j3CERXQ5eSF/ygt
+	 e8myc5gBBkvqdpZ5U7+3N5jwa7gIYjLWxWuHLYRM+ICui5wINosBn03Pa5crzV7lJMD29
+	 al01jKMbqbywF3dG7bze6QuObNu3IZtdTTs3a1bhN4LG2iRvKTiwBczbUg/gnl2sYQ4rU
+	 2Kmbmz8paZq8MX9HlST3Rkmf1BRlob4Qw1Gi4NgMAENNwVEZLIFseClBffbUWvdiMnB4s
+	 ZWpl20Jt/IXGWz62vb7V2VDMUbL2gWK1+Q0FPQUT01r5btBE/BOiaZ9q8LoPYs2lJ1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=web.de;
-	spf=pass smtp.mailfrom=web.de;
-	dkim=pass header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=t+bjaloX;
-	arc=none smtp.remote-ip=212.227.17.12
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DAls2UzB;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21DE606A33A
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 07:06:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C21DE606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C32606A320
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 07:12:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46C32606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=t+bjaloX
-DKIM2-Signature:  i=1; m=1; t=1795158410;
- mf=PE1hcmt1cy5FbGZyaW5nQHdlYi5kZT4=;
- rt=PGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc+;
- d=web.de;
- s=s29768273:rsa-sha256:Gy8N98z0utK/wNbPLBht4h+q6M0q
-   22OxNb0q1xTt4eBdnJsNoq4rv0SAd4/NxPOf76/S8Qk0iOhFffmCyGpyNZJlnkqsPGWEFvu3jGy
-   N+D/ptx/aCzxLq1XaNJgMcbPcjKP3W3R0CW4EmrDsa6sYGrHiWgSdl/O2lfLBci54yld6pX40Zq
-   wnavYGtT6icrPkFDmEYs+4wyVe8P0b9aucNzrbrgnXtEoxB/jeu4kRNnlLeU+SxQKAYNzj9e22l
-   W4AL40OK/Q32gxf2CShZpHLjQHvhA6wT+TkGLgj+/ehBn5mPerHFMFDUOHybh686SyVsTAHedb5
-   12awzYG7dqKuOw==;
-Message-Instance:  m=1;
- h=sha256:
-   LmQBWAL1+b2yn7l8bprLnpnLOjsOXHvK8lyGpn2+mwc=:
-   CY72Zq7lo9Y2YudDGog7+uMWBPN0lY7PTfwCBrr8w2w=,
-  sha512:
-   AUWxHWkylSOh20l8dhtSXNdHLf4zsyqjZmhGSydftN5jQL2LqPui3E6s5ilbfe69hWgQZIlPPJ3ZC+1jGgNN8g==:
-   +39wfESTkURYC62uIy+wzVsmAn4Ov8mLqATMhYd7n4+khrt4mNVDbNIpbyQhDIIG9RjIIbwFGaUBcYCQcMnXWA==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1795158401; x=1795763201; i=markus.elfring@web.de;
-	bh=CY72Zq7lo9Y2YudDGog7+uMWBPN0lY7PTfwCBrr8w2w=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=t+bjaloXDUk9AtfcpWQ0HpLkJjaJujbpo/W+6aOkXZw3dk94M98XTkqKi1DABkKJ
-	 neUICcqhG7PssIK5vT5y0N3+5/6MgG9ST1FsO+mihTBNhFn6HrIQfyDMT+m+Gw6Aq
-	 W6M50eG1rZhR0V18+KTzLROQPMbHrDL2iVDegWxf/FJroclK0cnbEUD1TGgMERT8e
-	 Wpy1K5Tr2NgNUVlME/2S9zsWEalCJLjD0+Ao4t5r3lhdHB2lNRRUKQtoXpMTF3nJ2
-	 A2vf7lNBb0i9cE2b9rRgNKnf9FihfHtEydmLyZm5LsFcn8T/T8TZO9iBwMhovoHFt
-	 D0LoOsahJBRSnmYDsQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N0qr9-1wXVci1MZB-00xEj6; Fri, 20
- Nov 2026 08:06:41 +0100
-Message-ID: <b0dfbe4b-53f3-41fc-a0c3-5158bef05259@web.de>
-Date: Fri, 20 Nov 2026 08:06:39 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DAls2UzB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795158725; x=1826694725;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=c8g28YtYVEIK5h8KygqQsee6taLhyOs1rE4xFdFGoMA=;
+  b=DAls2UzB9y9otQg/pWdd9mCqxtprqlORgGoqU1d3vriWUNpXDznf7Cm4
+   lItbctUHDzhwr59Y1Tw0TBpI8q7+mTHw/sT3xH4WZ2Oy12KtMWIJHL0Y8
+   UES+5+GeoRke3Zo3tqdgHndmyXKvQyDziZTO9W3vkKz3Dk/Jt0W6VlbvI
+   zSYlbTyOh7IZh2oEDXCSPLqrdZ2D5c643rAHytjqWafn9WWiW0EMNh7yy
+   zlXg5/RasYW5QFXQCghqUMfiWgaBFWuHadhtGoqdNF2ohOwOzhfpBXDlN
+   U7C0F3WKQm0RDN7H6bBK92eX6otELSApwKZwbdIyW3H0LsNFrbDSqqAfk
+   g==;
+X-CSE-ConnectionGUID: MO0nGlG2TfySX47qYPzGpQ==
+X-CSE-MsgGUID: cIq3QY7jQ+680LkwMMo9Sg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4065202"
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="4065202"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 23:12:04 -0800
+X-CSE-ConnectionGUID: /T/7Ly4bQXKfAYNAHjNr7Q==
+X-CSE-MsgGUID: SCdbB/DySmOXkSR6IQZphg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="10624333"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa004.fm.intel.com with ESMTP; 19 Nov 2026 23:12:03 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 53A3599; Fri, 20 Nov 2026 08:12:02 +0100 (CET)
+Date: Fri, 20 Nov 2026 08:12:02 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Phani Kumar <phanigudipally@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
+	linux-usb@vger.kernel.org
+Subject: Re: [WARNING: UNSCANNABLE =?utf-8?Q?EXTRAC?=
+ =?utf-8?Q?TION_FAILED=5DRe=3A_xhci=5Fhcd_0000=3A00=3A0d=2E0_=28Panther_La?=
+ =?utf-8?Q?ke=2C_8086=3Ae431=29=3A_=E2=80=9CUnknown_event_condition_199?=
+ =?utf-8?B?4oCdLA==?= then HC died, with a TB4 dock and two displays
+Message-ID: <20261120071202.GH229695@black.igk.intel.com>
+References: <CAMcR36+hWzhS_Pytej3uoDvOU6160v5vtuWXSnyFb=zEoRFQJQ@mail.gmail.com>
+ <d15451e1-b89f-4db3-95a8-21b188cd0030@linux.intel.com>
+ <CAMcR36LCr0RFrHsLFPaPziPS=1CMbEnO3GcDk=3Oe33S8uZFpw@mail.gmail.com>
+ <78b30387-f71d-4e6d-b49c-aea1f8fbc98b@linux.intel.com>
+ <CAMcR36KcP7cMZ2D1pu_bC-R0uPn2chd_1jEzp4FBBq-jZz=D3A@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -81,142 +87,131 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: usb: bdc: Use devm_clk_get_optional_enabled() in bdc_probe()
-To: Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
- linux-usb@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- Al Cooper <alcooperx@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Justin Chen <justin.chen@broadcom.com>, Neill Kapron <nkapron@google.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
-References: <07112f96-430c-4109-9aca-e5d17e333d67@web.de>
- <111e6c03-017f-47f2-a941-cba45697c1e4@wanadoo.fr>
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <111e6c03-017f-47f2-a941-cba45697c1e4@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:SI0aCLEtQxAlvDvzrHnPufKePai99XkibqrJMckMmgFvstWfi4A
- nmJ8+h6p8+/MNgCYj8ECDZsEmxXj0Go0LLsbuJxFc18oU8ChJ1oIw0ECx0szml6lJWtzN+C
- DOxp2v1hkpvIunYdnZZ0Z4kfSaXvMA3d7ve54fwCmL5Q2DKtWZ2xj31oNr2P/Nf/anDS+sY
- vQqlRGKBbOV2x9m1NFYHQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:OGIMLH3Rgqw=;quzV4LLURFx7hI8ksA31DxVgfgm
- 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
- w==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMcR36KcP7cMZ2D1pu_bC-R0uPn2chd_1jEzp4FBBq-jZz=D3A@mail.gmail.com>
 
-> this patch is wrong because the remove function and the error handling p=
-ath=C2=A0of=C2=A0the=C2=A0probe=C2=A0need=C2=A0to=C2=A0be=C2=A0updated.
+Hi,
 
-Thanks that you pointed special patch review concerns out.
+On Thu, Nov 19, 2026 at 11:35:28AM -0800, Phani Kumar wrote:
+> Hey,
+> 
+> Thanks for the reply. I did a few more tests to figure out this
+> problem, and below is what I found.
+> 
+> Summary: the failure only happens on Linux when the USB4 link to the
+> dock runs at Gen 3 (2 x 20 Gb/s). At Gen 2 (20 Gbps cable) Linux is
+> stable. Windows 11 on the same laptop is stable at both Gen 2 and
+> Gen 3, under the same load, with no USB/USB4/network errors logged.
+> When it fails on Linux, the tunneled USB 3 link is stuck in Recovery
+> at both USB 3 adapters while all tunnels stay up and the thunderbolt
+> driver logs nothing.
+> 
+> == Hub 2-3 port 2 ==
+> 
+> Nothing USB 3 is enumerated behind 2-3 port 2 in my setup. In all
+> these tests the displays are connected to the dock's downstream USB-C
+> ports with video-only cables (one USB-C to HDMI, one USB-C to
+> DisplayPort). Unplugging doesn't help: with no displays and only a
+> USB 3 thumb drive on the dock, the failure still happens. In the
+> latest run (7.4-rc3, usbcore.dyndbg=+p, both displays connected) I see
+> no 2-x-portN warm reset messages before the failure, so the port 2
+> resets do not seem to be required for it.
+> 
+> == Test matrix ==
+> 
+> Same laptop (Framework Laptop 13 Pro, Core Ultra X7 358H, BIOS 03.02),
+> same Razer TB4 Dock (NVM 30.0), same displays (2560x1440@60 and @75).
+> Dock always links in USB4 mode (sysfs generation 4).
+> 
+>   Cable                  Link                 Linux     Windows 11
+>   TB4 cable x3           Gen 3, 2 x 20 Gb/s   fails     stable
+>   USB4 40Gbps cable      Gen 3, 2 x 20 Gb/s   fails     stable
+>   USB4 20Gbps cable x2   Gen 2, 2 x 10 Gb/s   stable    stable
+> 
+> Linux: kernels 7.3.3 and 7.4-rc3, every laptop port. Any USB 3 device
+> behind the dock triggers it (RTL8153 or a thumb drive). When the xHC
+> dies, USB 3 on all of the laptop's own ports goes down too; removing
+> and rescanning 0000:00:0d.0 restores it.
+> 
+> Windows stress test (TB4 cable, "40Gbps/40Gbps (Gen 3, dual lane)",
+> dock connected at boot, both displays): 20 GB download through the
+> dock's RTL8153 at ~800 Mbps, USB 3 thumb drive on the dock at 146 MB/s
+> read and 45-68 MB/s write, and both at the same time. No drops. The
+> System event log has no USB, USB4, xHCI or network errors, only two
+> "monitor ... successfully enumerated by the USB4 Connection Manager"
+> entries at boot.
+> 
+> Control test without USB4: the USB-C monitor's hub (0bda:0412 +
+> RTL8153) connected directly to the laptop as native USB 3 at 5 Gbps,
+> same xHC: stable under heavy Ethernet traffic.
+> 
+> == USB 3 adapters stuck in Recovery ==
+> 
+> USB4 register snapshots (debugfs regs, tbadapters, tbtunnels) at
+> Gen 2, at Gen 3 before the failure, and at Gen 3 after it
+> (usb4-snapshots.tar.xz, including diff-report.txt):
+> 
+>   tbadapters            Gen 3 before    Gen 3 after failure
+>   host 0:12 USB3 Down       U0              Recovery
+>   dock 1:16 USB3 Up         U0              Recovery
+>   tbtunnels: identical before and after, all tunnels present
+> 
+> Timeline (7.4-rc3): transfer errors at 70.3 s, event 199 for slot 8
+> ep 3 at 78.0 s, "HC died" at 88.7 s. With thunderbolt.dyndbg=+p the
+> thunderbolt driver logged nothing between 44 s and 138 s (no hotplug,
+> notifications or link events). Vendor-specific registers on both USB 3
+> adapters jump across the failure (e.g. 0x00000909 -> 0x0000b6b6 /
+> 0x0011bcbc), and lane adapter cap 0x01 dword 2 goes from 0x7/0x3 to
+> 0x0 on both ends.
+> 
+> == Lane margining ==
+> 
+> thunderbolt.ko rebuilt for 7.4-rc3 with USB4_DEBUGFS_WRITE and
+> MARGINING, 3 runs per rate, raw debugfs results included
+> (margining.tar.xz):
+> 
+>   Receiver                     Gen 2                  Gen 3
+>   dock 1:1 voltage low/high    ~207/197 mV (at max)   ~77/75 mV
+>   dock 1:1 lane 1 time (raw)   354-370 mUI            241-290 mUI
+>   host retimer 1-0:1.1 time    387-403 mUI            370-403 mUI
+>   host retimer voltage         (not readable)         ~107-121 mV
+>   host router port 1 (SW)      0 errors               0 errors
+> 
+> So every receiver has margin at Gen 3, but the laptop -> dock
+> direction (dock receiver) has noticeably less than dock -> laptop.
+> Host retimer 8087:0d9c NVM 28.02 (fwupd), no newer firmware offered;
+> BIOS 03.02 is the latest.
+> 
+> == Ruled out ==
+> 
+> - Bandwidth: USB 3 tunnel gets 9003/9003 Mb/s at Gen 3 (fails) but
+>   only 9003/4751 Mb/s at Gen 2 (stable). xHCI port_bandwidth SS_BW is
+>   ~90% available at both.
+> - Thunderbolt 3 compatibility mode: both rates link as USB4
+>   (generation 4).
+> - thunderbolt.clx=0, bw_alloc_mode=0, pcie_aspm=off, runtime PM off on
+>   0d.0/.2/.3, LPM/autosuspend off on the RTL8153, Realtek's r8152
+>   v2.22.1: no effect. host_reset=Y.
+> 
+> == Questions ==
+> 
+> 1. Since Windows' CM keeps the Gen 3 link and the USB 3 tunnel clean on
+>    the same hardware, what could Linux be configuring differently at
+>    Gen 3 (TMU mode, lane/retimer equalization, USB 3 adapter setup)?
 
-https://elixir.bootlin.com/linux/v7.4-rc1/source/drivers/usb/gadget/udc/bd=
-c/bdc_core.c#L483-L583
+Windows CM should follow the CM guide as does Linux. USB3 tunnels are the
+same regardless of the Gen, except that the isoc bandwidth limit is put
+lower in case of Gen2.
 
-Regards,
-Markus
+> 2. Are ~75 mV / ~0.26 UI at the dock's receiver typical for Gen 3?
+
+It's a good question. The hardware margin has bit set when these exceed the
+ranges and in your case they are not set, also the host direction you don't
+see errors so I would say this is okay.
+
+> 3. Should r8152 back off after -EPROTO instead of resubmitting
+>    immediately? That seems to be what pushes the xHC over in case 1.
+
+For this I hope Mathias has an answer :)
