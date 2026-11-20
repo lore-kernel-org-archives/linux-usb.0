@@ -1,58 +1,121 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795200194;
-	b=qkA57FT+/MLo5R7k13AvLxP8GSBK7RGHXfWgXgo/pebLIq2wGWSWr37sdvryScYluzUh
-	 rlNPi+Xp3vDGltZehkfncrnXP/u/AQahlx3RrCzOH0qHElT7K+Wsdf5Lfhnhx9Jt8ZPtg
-	 6ripsmy+v7+0cW8yFUxKfNZIR3R+IccKaLr73lP+pq4q5nW+QkDFMJZfpL3/cGuuqBzCR
-	 1YnIsrqBNuo/Ah5LbrIvbg/ym1sOCX4RkPpeBdfjLNd59OSwXctye6fQdPmMBkriOWYaZ
-	 LblcMQID9X/AAU0jIqxPTm/GtFFDOzsoySi0dXCFJsIxUnjFXYJlHPwa76R5mdq6deQ==
+	t=1795201011;
+	b=ojE/qzY0aw7YiebLlOTxYSKp35Vm+dyuiJYXhd0hBNT5TH1e4eikKTU4zqwXVdUZPbmj
+	 LxEu7xG2v1MYox2R8vmaC5bHHTiOIPWkzqWwdZUOaW10+HPLccDpyBeIDA10MECxCDAoM
+	 TVKOzlZst1sJ3s3kh5pAq4Cxw465QkdPmLWdUMDuxpFJQFU0iPJDnf0kYPnZ5rjRIDK0i
+	 yBR+3VnqXymjnqUWQ8Ir+4jmAnWkNFKAFhNvb3SCMbj2L/jGvN+4kUH/r8sS+FO0k86zl
+	 drNJi1FTw5xbMM9sd4hJEh2M2ViZwFqOQMpC+Rdc7Aaz8jqaMUW4rLuJz8GXotny7lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795200194;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ssDgyrZYVoi0gX7hYZLZO/6OxCX5dIfhH8133FIpLR4=;
-	b=XY4FSk98U8/zZykuztKLfRpA8detRGleQ0Gtm7mpsK8sNaSxRsNDFjUuR9qLH/Ik7V2J
-	 c2OiXfZjbgUm802wOgOGDeVTCcPYyNqcgvxzf0OoTJ3O04QCLnpvbtpZVoZtmjYw7QymM
-	 RKFTX+KZrmMJ7jWKsQtMW+OL/ApiopUreZw9w5ct8WUOzLRx7z5pSlK9VN5/AqeyvbQVe
-	 8CwL7QdEXOVTzX9W8qFmo02EuDP59Q5CPrAA8KCEQzRJLV38GBFfgpVJTScoK/lBpbQv7
-	 hbZ5qP6VgZop4VviZTjXpUcJyYUdUfHEoQSbjMLFD9VwGkocjLHYoQIdkC3SEAuvQng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795201011;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=MbVQtId4GZJpOwZIgQ5IVkC1l8C9teB2jkENg0QieKg=;
+	b=5lVWgbp2lfHdoLUyYan6nBl9ll5JQia0xWhYDM46vNjh31Hr4TCh0sHPh53PTetpMa3+
+	 u6Q/Lisk+C6lG7z6OKpNPQoBvTRKh6OjABbpDEYld/Ex9DoaHwftwT3fsLixLvxkOgrXf
+	 vokiaKP/kh+n7a+SbPT/9qM1IfsgghpU2HfuuqcHJlOaFoJ75TikhUcm7gk0G0EhjElpm
+	 VWVgPK2GQ4oUMFiQrCBmF7z6AtHTYBMXzC170t9sBB1QRwKOMF5mUGhUySW+1PoIAdrfR
+	 PBqWAiv/9DgTgY0k/3G4COTA5r7vlJ/DsAE1zhv5LzmWFhUJ1JcCPKYXuUWYsyzvgrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MgKmzHle;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=r8GQQw9t;
+	arc=none smtp.remote-ip=209.85.210.169
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D585606A332
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 18:43:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65CF60A2604
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 18:56:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A65CF60A2604
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MgKmzHle
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E58091F000CF;
-	Fri, 20 Nov 2026 18:43:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795200193;
-	bh=ssDgyrZYVoi0gX7hYZLZO/6OxCX5dIfhH8133FIpLR4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=MgKmzHleyE3CIrHo7QerX83+swsCb23SYPHC83ie9uaw+GivH/Vh74C8E7bLIRqJ/
-	 RMutHvYFj1m/bT3DEwkDNfbbMbvhlEtS0dWLqu02co4AtO74j13Sl80WxQ2alpY4J2
-	 4cTWSn732b8jxZHo+WqTDcyKXaxyYUlwUpg5uXLBz3Xs/dlQmQ3qBjzINGgAMiKldu
-	 8EVM1VQFb2VrMQnm5nE3a7kDC/KtdT9Oc99yGnk84gIaJ+14kfZFgN4V2M2FJihZyh
-	 q6aBs6Mal5LGVEIh+eEZ357Yk/WvOcSWz0U/mHIGJmieLbh+SMDfINxCcldqCjgfei
-	 t7UP1wKAMjcEw==
-Message-ID: <sashiko-outbox-225863@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH usb v2] usb: typec: tcpm: align SOP' Soft Reset handling
- with SOP
-Reply-To: sashiko-reviews@lists.linux.dev
-To: memoriaru@foxmail.com
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <tencent_3C8B79F98D619AA20768761A53496A7D6E05@qq.com>
-References: <tencent_443620EAE95525A375BB2D8A653406630A07@qq.com>
- <awBIRnc9lBkdVhEK@black.igk.intel.com>
- <tencent_3C8B79F98D619AA20768761A53496A7D6E05@qq.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 18:43:07 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=r8GQQw9t
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8b5e5e64494so817653b3a.1
+        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 10:56:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795201010; x=1795805810; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=MbVQtId4GZJpOwZIgQ5IVkC1l8C9teB2jkENg0QieKg=;
+        b=r8GQQw9tdT3JOh+6FNwiH/8laGLkVWuAdVc6z6ZwV4kBuFi5o/1q6BThpy4rU7X1fs
+         TuK8QuWm48oz7IzcriEy8yV3tCvCGN1QU+PjHPwsmFaGHK5OaevpI6Nb7PPxNiq1mr4b
+         a+Zg3dqp2LZSApuR250ogcTr0aMkngN70Rx1h8Jlyoa62yEbl5Vkh2BneroA7at+k3PT
+         zHec/Y8bHDpQ8Kc9ETuh1CXi/orZMal93vpieAuHFLGBDnqhMgwzs5FOZ7eVUk/aa7/k
+         zEWIBoX4cdB/pxY8WqnwBjGOw7lmI38HIYIujaik8O7UAtopthj4VpCZm4/bqwtefwVL
+         ft7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795201010; x=1795805810;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MbVQtId4GZJpOwZIgQ5IVkC1l8C9teB2jkENg0QieKg=;
+        b=XyYCLsCkADOG/+FuyQIZx5c49x3+K7Vhdykd6UBvxNDR9wZXZ0n/+5O2AEj1tH8ST8
+         5tVjiFuT39Z5DOJGxRPRV81K/G+tqJMjbWfW7DxyEeACIu+7Mn5d3lbV3U41FPl32pFY
+         nUckcZ4rE9hsSXpvoqibsUXYg2f9j80YAZtZ1EOaFr9tjKeLBPUJOEEQc+/1JEhzM2to
+         skCuYBl0gbvdUXHjDQUN8/qJBVAiOIRM5Pg5V7+mmKNEAmbkai0LfjmpXVaUyFO+VP4p
+         aZaWWNGmnGdq30xmhIfR5SB7zdXj9igLUgpzQCEr5MLQnIKheZWdmdquJQBEFDKOJq5X
+         WgEQ==
+X-Forwarded-Encrypted: i=1; AL+hErFEKiFzttk/sQWO1inh+l+Q6d9MhNScjYD6zki9bK9xFmG2W7QuFZstZMdp0tmWHS3nXTkAYMAV56A=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+83uUEfr0/pJwIVDYZV22+ioSiHgMdCd8218mR8/s9TiN/Nati
+	w0AgbVqIXmogH7jweFWLmh61yxjx70awO9/nQeQtfi5PXoNbkb8wPx8N
+X-Gm-Gg: AZFdTZd0gxMmkOQSdDM4Q3F/pTJ6CEmuxFL3GEkOwW/oiat706hxzqZwisTh+bWbvel
+	K3eCXQlPgtu049ShNGVlVG9PmXoobSCXKZ7IMGaRU73OK/vG4axTwrbCoNBF8ZBjmBqdC14VsYS
+	d02G2BDuW78rZ1/VRm+zQIQyA+EEiVoDlXcaevD+sqH3o0wAQsVbdpv6g5J4OibHVN/fUMWdyTW
+	IsVO27MP3wdAfNoRrVqIfTEL4L3XK8kcfYxF5rqAbtyD5TS9CNwGm12Eiz+EY96WdhWC10iehEN
+	RnHAiyhkso/rx0uq8pUxtHXe4ZLUTSqP+52Vbs/v2niuDDgV0XLdsP+RJG/3pMwTIDrU2NuwQD8
+	AqhzPiXF4scV9+VJyaFh24RZswbheTcpjXJCxt1Ai7CdjfWL4JIX8g+ToiVcHW2oMbORSBvHSMM
+	rBsIYKsrXbHCfmEd8lnQ1HeeiYgLSJUbPC+Yg8Re9wo/8te3AkDj1vIRcYj605UqaYo3zxm6/sn
+	mWLx5dSAcR178ZSbufcVbO8706MY0AB4vCwtA1aaAR0heZSQ/Nty3sBKPUKCrKrPSwtP0V4KWnF
+	zpgr6DnSrRFaBnDkH9kZKxMG8wCRnuTK9eI2dg==
+X-Received: by 2002:a17:90b:3c11:b0:3a6:f1d2:57f3 with SMTP id 98e67ed59e1d1-3b41c97bc96mr3964802a91.58.1795201009657;
+        Fri, 20 Nov 2026 10:56:49 -0800 (PST)
+Received: from DESKTOP-NM9EKIA ([2001:e60:8509:ba6c:ade5:705a:60d1:a474])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b405d639fdsm8484216a91.10.2026.11.20.10.56.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 10:56:48 -0800 (PST)
+From: joonhoekim <26rote@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Joonhoe Kim <26rote@gmail.com>,
+	Thinh.Nguyen@synopsys.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	andersson@kernel.org,
+	konradybcio@kernel.org,
+	heikki.krogerus@linux.intel.com,
+	abel.vesa@oss.qualcomm.com,
+	abelvesa@kernel.org,
+	wesley.cheng@oss.qualcomm.com,
+	krishna.kurapati@oss.qualcomm.com,
+	konrad.dybcio@oss.qualcomm.com,
+	dmitry.baryshkov@oss.qualcomm.com,
+	neil.armstrong@linaro.org,
+	val@packett.cool,
+	balaji.kalkonda@oss.qualcomm.com,
+	tvlad744@gmail.com,
+	effeffe99@gmail.com,
+	prashanth.k@oss.qualcomm.com,
+	yongxing.mou@oss.qualcomm.com,
+	peter.chen@oss.qualcomm.com,
+	tapas.rana@oss.qualcomm.com,
+	vkoul@kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] usb: dwc3: qcom: Use the UTMI clock as PIPE clock in DisplayPort-only modes
+Date: Sat, 21 Nov 2026 03:56:42 +0900
+Message-ID: <20261120185642.1188-1-26rote@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.5
+In-Reply-To: <2026112017-flyover-grape-cee7@gregkh>
+References: <20261119124558.1548-1-26rote@gmail.com> <20261119124558.1548-3-26rote@gmail.com> <2026112017-flyover-grape-cee7@gregkh>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,150 +124,32 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] usb: typec: tcpm: SOP' MessageID desync and broken SOP' reset
-  in SOFT_RESET
-- [Low] usb: typec: tcpm: malformed Fixes SHA, reply chatter, and wrong
-  claim in log
---
+From: Joonhoe Kim <26rote@gmail.com>
 
-commit dccd2b15acd9fd37db996886a0767a44d39c3adf
-Author: Zhang Hewei <memoriaru@foxmail.com>
-
-> usb: typec: tcpm: align SOP' Soft Reset handling with SOP
+On Fri, Nov 20, 2026 at 04:07:21PM +0100, Greg KH wrote:
+> > -static void dwc3_qcom_select_utmi_clk(struct dwc3_qcom *qcom)
+> > +static void dwc3_qcom_select_utmi_clk(struct dwc3_qcom *qcom, bool utmi)
 >
-> Resending as plain text -- the previous two copies went out in HTML
-> format and were rejected by the vger list infrastructure. Please use
-> this one and disregard the duplicates.
->
-> Hi Heikki,
->
-> Apologies -- you are right, and thanks for catching it. The patch
-> doesn't apply because I generated the diff from inside
-> drivers/usb/typec/tcpm/ and shipped it with the short paths (a/tcpm.c
-> instead of a/drivers/usb/typec/tcpm/tcpm.c), so git apply fails at the
-> root of the tree. I had not verified it with `git apply --check` from
-> the top before sending. Lesson taken.
->
-> The base itself was the real tree: the index blob bb90211 in the v2
-> diff is the master tcpm.c blob, and the two hunks apply cleanly and
-> build with the corrected paths. I've verified v3 end to end on a fresh
-> master tree: git apply --check passes at the root (forward and
-> reverse), and with CONFIG_TYPEC_TCPM=3Dy the patched tcpm.c compiles
-> clean (tcpm.o, zero warnings).
->
-> The rebased v3 below is content-identical to v2 (same index blob
-> bb90211 -- the base was the real tree, only the paths were wrong):
->
-> From: Zhang Hewei <memoriaru@foxmail.com>
-> Subject: [PATCH usb v3] usb: typec: tcpm: align SOP' Soft Reset handling =
-with SOP
->
-> The PD message duplicate-check and the SOFT_RESET state handling treat
-> the SOP and SOP' channels differently:
->
-> - tcpm_pd_rx_handler() exempts PD_CTRL_SOFT_RESET from the MessageID
->   duplicate check on the SOP path (USB PD spec 6.6.1.2 note: a
->   Soft_Reset message always carries MessageID zero, so the duplicate
->   check must not drop it), but the SOP' branch of the same switch has
->   no such exemption. A cable that sends a second Soft Reset over SOP'
->   (MessageID zero again) has that message silently dropped by the
->   stale rx_msgid_prime comparison, and the cable-side re-negotiation
->   stalls.
->
-> - run_state_machine()'s SOFT_RESET case resets message_id/rx_msgid but
->   not message_id_prime/rx_msgid_prime, while the initiator path
->   (SOFT_RESET_SEND, SOP_PRIME branch) resets both counter pairs. After
->   a responder-side soft reset the prime counters stay stale.
->
-> Reset the prime counters together with the SOP counters and exempt
-> Soft Reset from the SOP' duplicate check, aligning the SOP' handling
-> with the SOP path.
->
-> Found by code inspection; a software TCPC stub was built for the
-> responder path.
->
-> Fixes: 6bd181ba60 ("usb: typec: tcpm: add control message support to sop'=
-")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Zhang Hewei <memoriaru@foxmail.com>
+> What does that bool mean? That's going to be a pain, please make this 2
+> functions so you know what is happening when you call it.
 
-[Severity: Low]
-The mailing-list reply notes and embedded From:/Subject: headers at the top
-belong below the "---" separator rather than in the commit changelog.
+Will do in v5: dwc3_qcom_select_utmi_clk() stays as it is upstream, and
+a new dwc3_qcom_select_pipe_clk() goes back to the PIPE clock.
 
-The Fixes tag also uses a 10-character SHA instead of at least 12
-characters:
+> > +	mutex_lock(&qcom->pipe_clk_lock);
+>
+> Why no guard() use here?
 
-  Fixes: 6bd181ba60e1 ("usb: typec: tcpm: add control message support to so=
-p'")
+v3 used guard() and scoped_guard() for this lock. Krzysztof preferred
+plain mutex_lock()/mutex_unlock() where nothing returns early [1], so I
+changed it in v4. I'll go back to guard() for this lock in v5, unless
+Krzysztof objects.
 
-Also, is the description of SOFT_RESET_SEND accurate?  In
-run_state_machine(), SOFT_RESET_SEND branches on port->tx_sop_type =3D=3D
-TCPC_TX_SOP_PRIME and resets only message_id_prime/rx_msgid_prime for SOP'
-or only message_id/rx_msgid for SOP, not both counter pairs.
+[1] https://lore.kernel.org/all/20261113-artificial-quixotic-firefly-84baef@quoll/
 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index bf7fd632d815e..0aa38f1e36bdb 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm.c
-> @@ -4206,7 +4206,8 @@ static void tcpm_pd_rx_handler(struct kthread_work =
-*work)
->  		 */
->  		switch (rx_sop_type) {
->  		case TCPC_TX_SOP_PRIME:
-> -			if (msgid =3D=3D port->rx_msgid_prime)
-> +			if (msgid =3D=3D port->rx_msgid_prime &&
-> +			    type !=3D PD_CTRL_SOFT_RESET)
->  				goto done;
->  			port->rx_msgid_prime =3D msgid;
->  			break;
-> @@ -6199,6 +6200,8 @@ static void run_state_machine(struct tcpm_port *por=
-t)
->  	case SOFT_RESET:
->  		port->message_id =3D 0;
->  		port->rx_msgid =3D -1;
-> +		port->message_id_prime =3D 0;
-> +		port->rx_msgid_prime =3D -1;
->  		/* remove existing capabilities */
->  		tcpm_partner_source_caps_reset(port);
->  		tcpm_pd_send_control(port, PD_CTRL_ACCEPT, TCPC_TX_SOP);
-
-[Severity: High]
-Does unconditionally resetting port->message_id_prime and
-port->rx_msgid_prime in SOFT_RESET desynchronize SOP' MessageID counters
-with the cable plug during an SOP Soft Reset, while also mishandling an
-incoming SOP' Soft Reset as an SOP reset?
-
-SOP and SOP' maintain independent MessageID counters per USB PD 3.0
-sections 6.3.13 and 6.7.1.  When the port partner sends an SOP
-PD_CTRL_SOFT_RESET, the cable plug does not process SOP packets and keeps
-its existing SOP' MessageID state.  If the port already sent one SOP' VDM
-(such as CMD_DISCOVER_IDENT with MessageID 0, advancing
-port->message_id_prime to 1 and leaving the cable plug's stored MessageID
-at 0), resetting port->message_id_prime to 0 here causes the next SOP'
-message to be sent with MessageID 0 again and dropped by the cable plug as
-a duplicate.
-
-Conversely, when PD_CTRL_SOFT_RESET arrives on TCPC_TX_SOP_PRIME,
-tcpm_pd_ctrl_request() ignores rx_sop_type and enters SOFT_RESET:
-
-drivers/usb/typec/tcpm/tcpm.c:tcpm_pd_ctrl_request() {
-    ...
-	case PD_CTRL_SOFT_RESET:
-		port->ams =3D SOFT_RESET_AMS;
-		tcpm_set_state(port, SOFT_RESET, 0);
-		break;
-    ...
-}
-
-SOFT_RESET then resets the SOP counters, clears partner source capabilities
-and port->explicit_contract, sends PD_CTRL_ACCEPT on TCPC_TX_SOP instead of
-TCPC_TX_SOP_PRIME, and restarts SOP power negotiation rather than
-acknowledging the cable plug on SOP' and returning to ready_state(port).
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/tencent_3C8B79F98D6=
-19AA20768761A53496A7D6E05@qq.com?part=3D1
+Thanks,
+Joonhoe Kim
