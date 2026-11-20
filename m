@@ -1,49 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795189067;
-	b=RORco2S9nqDbELaQZ0zjuSroq2Kzw48D8Fu6n4smvcJJL8bwgvVGZC9Kfpi7xJdHQUSy
-	 VG7jDvaZjA5yLdjhciDOVTQT+AGf4PNp1/2f3RJEOb+dDTM8950JFu2Ngh1gBBEucMZ4B
-	 jIT0R3nIaIHEiIlk7hVZJ7QYSjwUq3+8/NY9JEnBajojiS8AcjPWYhxGi0SvvDdL8W9ZD
-	 LTD9ES+vyB2obijswIkRgmH/PFdB9NFUcNeLVVtg5F/Eypc1Tatit7QeVsCUydbRMHyn/
-	 xDi5m6q4bMd3+C546nOpZXY9m2LMMLPoZd5M+RnRyRlxwLx6LtPjUYqQFLyO5aaRtAw==
+	t=1795189114;
+	b=PQ2YR7usIw/DecRR86cHXC1kYldgPi0ILqw8YmxHNFwqxEEZ0Una+4xxiRTMArgNEC/j
+	 HGw/w7jyjvK6M62MPOw/P+Kq3VzZZ8m7ISpgltnkeWVsU3XHotpZYl6W6etOwxj8k0a9W
+	 Ax5H9xP0e6nN8q5MYVcKgJY0I5+eJHdmlWGa0aP+Y++yIHQzw159IskQhTpIP0YwNhU8O
+	 2O1QkQ+O0/mM4j4p7nevS2g3nDknUr6g4fxn15npzWr6B/F/BROjwS2AGbB0enUpivQ6Y
+	 13O6e7B13hqFgdJbl1Umdpr136zjKB8V4l4JSKO+I67VuZ79n3h8ePJpN2XhaDYXp5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795189067;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795189114;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=xy45wwBuD761BdoGt/tZ9V6D7TD6wlVEl66O2XrNLoY=;
-	b=UMFszxrAFpq0JOR4BC5mxq7BgOidUuJ21Fpj0F2IN9MQkgkQBob99ot5w47KWOuXAcrU
-	 Fhe5kb+gb2q90A1Qlw87xsSJO0GzPTGN1QKBsT4wZlhibLPcyNSJodb035/g5mHVvxjRL
-	 40nmt8Y+AvA6HIapH8el1wKhoZNZSDMelxlceOn3dO12YAXc9DGUBLzM4t6I6dVyrU/MO
-	 o/l97CUhAs9WcLP8pVMxTT8yA4vcUy8PAhiCxPvW/5g5+4FsFvzc0WPwrefJ7ZTqfMjE3
-	 qgr0N0eJNG7ZWp9kJ9j5iUEcwEbK5jzzoTG2duZk99PZJSGHU1DhaU3y+KKcNrwLmNw==
+	bh=MXF1x7LeNoo/GRfbT1e+mu45xaRXyRT/vqdlcg+km2Y=;
+	b=p7Hgu1TVFPlOVGvCuVDujlt9hsIcLNtcVSdyreprBp9cReN6BgV7ZMNSvsyPlL/uwmmr
+	 zrg1MeT2fsvkbHRItzjnu3p50Rs95KrxlYzL1m66WFebU+KZqTx2FiF0+ettpYwL/tT9e
+	 qf8YYM43HEMVEkoR44/oKqnxRxVHVevroluMWOgmXe9yxT8UYDYEBzuG/qBmWj5APxHdF
+	 uH9fmabyzwk1dD3I/hEf3PsOubdtRDPj+0GBxxHbL2uXOGQx5LjTz4w8yyNh8Imbi9L/h
+	 ZPQIKMdi17S1+eewmk/0Aj5AXt/zPT8cS/CrfKzhrg4ZwkIRgkl7UapzDvwl/ai9sVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=eZvGGjcr;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=g7KiVtLx;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6BC606A335;
-	Fri, 20 Nov 2026 15:37:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7672606A325;
+	Fri, 20 Nov 2026 15:38:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=eZvGGjcr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09A9C1F000D8;
-	Fri, 20 Nov 2026 15:37:45 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=g7KiVtLx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756391F000D8;
+	Fri, 20 Nov 2026 15:38:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795189066;
-	bh=xy45wwBuD761BdoGt/tZ9V6D7TD6wlVEl66O2XrNLoY=;
+	s=korg; t=1795189114;
+	bh=MXF1x7LeNoo/GRfbT1e+mu45xaRXyRT/vqdlcg+km2Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eZvGGjcrEEs35fXohmve/9t0KZDri/ZCYDxe7DcBkLooV0RbujAA36jbPNNPqRq4X
-	 1aGE0iz3mqLp1udy5wWMQ2yp71b5ZXWohSWG+xThIMMB0xG9geRK7p8EIE6PI/iKud
-	 nWmA3BHuJa3e5+hRoWoS0N/Tf+sNHnaxaUuY/kWE=
-Date: Fri, 20 Nov 2026 16:37:43 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Slavin Liu <bolin.liu@seu.edu.cn>
-Cc: pawell@cadence.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: cdns2: allocate the trailing ZLP before queuing data
-Message-ID: <2026112036-action-dreamlike-14f0@gregkh>
-References: <20260913125235.110093-1-bolin.liu@seu.edu.cn>
+	b=g7KiVtLxtxmlpGkcHnoibSYQpwg6CMpUKWS9Sj2Mnafs0GlPAHk6jlWR2VDU7noMr
+	 zwYm6Y379Ooyc1eFCzYQf06vc0R4RvYolRclopGKZvFX1GPecsxDPpPnOX2Nr3b8mJ
+	 TKSoQ1/+mPfrMfwpxM6RiOZ70AT1JnZiEbH2FmaQ=
+Date: Fri, 20 Nov 2026 16:38:31 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Yang Siyuan <hsyysy@163.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: phy: generic: request the vbus supply only when
+ it is described
+Message-ID: <2026112011-macaroni-manatee-e057@gregkh>
+References: <20261117091956.12103-1-hsyysy@163.com>
+ <20261117094539.13527-1-hsyysy@163.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,16 +56,26 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260913125235.110093-1-bolin.liu@seu.edu.cn>
+In-Reply-To: <20261117094539.13527-1-hsyysy@163.com>
 
-On Sun, Sep 13, 2026 at 08:52:35PM +0800, Slavin Liu wrote:
-> A trailing ZLP allocation currently happens after the data request
-> has been accepted. Allocate and check it first, before publishing the
-> data request. Free the unqueued ZLP if data mapping fails. The ZLP has
-> zero length, for which the mapping helper returns success without DMA
-> mapping; its enqueue has no fallible mapping step on this baseline.
+On Tue, Nov 17, 2026 at 05:45:39PM +0800, Yang Siyuan wrote:
+> usb_phy_gen_create_phy() unconditionally asks for an exclusive "vbus"
+> regulator. The legacy usb_phy_generic platform device registered by USB
+> glue drivers (e.g. sunxi MUSB) has no firmware node, so the lookup ends
+> up in the dummy-regulator path and the regulator core warns:
 > 
-> Detected by static analysis and reviewed with AI-assisted source auditing.
+>   usb_phy_generic usb_phy_generic.1.auto: dummy supplies not allowed for
+>   exclusive requests (id=vbus)
+> 
+> Only issue the request when the device firmware actually describes a
+> vbus-supply, and keep treating -ENODEV as "not present".
+> 
+> Fixes: 03e607cbb293 ("usb: phy: generic: Get the vbus supply")
+> 
+> Signed-off-by: Yang Siyuan <hsyysy@163.com>
 
-How was this tested?
+No blank line after the Fixes: tag please.
 
+thanks,
+
+greg k-h
