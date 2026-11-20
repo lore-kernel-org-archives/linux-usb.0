@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795190841;
-	b=anXXS5mWFjuzbDQu6rt1Xqcz5bF9l7QhcJG+bwCtwxsU/N69MUwR+17HUGJrKW5efcjT
-	 GA+UfPgvGLu9mz8p59CUbBwEmrX1bun8VaWQ8g3nZ3EwV4XbeFTtRe9PUio4Uy2Lsz+lW
-	 /Z3/GpTUIfck6PHVLp5FwB5oqTMHbENow9DHbdg8XmzsTqMg6bdNmv3nPXuRg5LCa2p/4
-	 DGGuyPc/M0SzblGkYnXxnFE2JH3ENIUED72u03VkZMKVdPGSOgB7bqeFhMWzTORmfKWa5
-	 Jbxo/iFPWv9ubImG0mN8O3t9Xr5c8Lc38hyMlydCIRx29RF0SoiRizB1Ezb0XlPcmKA==
+	t=1795190886;
+	b=lzB8p6Zw/e30T62rna7+rOvhH7Zw9OJTOvf+zUSFox+WACKzOU8JclyhIYSiucCOIYC0
+	 yCRKdmfQ8tIpAFaR5QKJ+nFtYxS/JcqzDPyfkKAGNhFll6KUNIlVQgieO8YzDu2gsbKA7
+	 C8sRd24HYVScY7dHVDKniz+UmMrqtHkKOf3WLFEFkcIpdXtrOaEIBRkU0GcNrwtE/iA8o
+	 3HOFHOh4GS2G+9p/opEvQf/NZcev11NviKMmvVjWHV83HfJxZvDxQR8AFnQmsiBN6iVTL
+	 /a+OMxaBtQlKvJvZwwZ6FXqcRZrn6gejqZHgriWfiXhg71nUF7wWF877jb8ZQXp3lhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795190841;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190886;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=5vycqt7uKRC1d1nHkk0APGNrL8b1KJ65ZtEYEdgPAnk=;
-	b=fsPelQSx4yakEX2Dh1zYT6RBqftgh9Qza653D80FSkMtAfGlp3mO/s9Zog0O+2y0t9Ud
-	 2nw+0kaSxaiY1NvTY4KYwDLeginyMaj0mW9gQio2yu2tgXSqAZw5m9BZY6dJyEtji8pnP
-	 cYihU0RfP9DFUjBOlF1uCCLP10bKd1fJx1nuLDt2DsMOJlhyZW98KXX7/wdySb6Z90btA
-	 X7kEnM+c2dI03uNnJIgKHMNJV0QEmpIMVm7kzUtihYyztTnEN2k081lFlqYOC8yU4PH6w
-	 oE9THb/n63zhOEPTKGXI4P30TVX7+WX3JqUc8mmYM5TfNdJEXl80MWbbhf37TSbnHsg==
+	bh=J7kbxG/bU7Az3Ucje7pHCgFm1c686s5SoBEkwkvio7k=;
+	b=rxzX5Z/wrmxUcCnuV5905eGnHLeQiFxtD/oJYs5ULCTS4bhBsJP+nWZ45kjd71eMtO/h
+	 tVxq+wK7T9VWBPc+nQfO08rSqOz16TiWbe2hBubpkyydrNeBoWFuHmtemi68ffazehDlH
+	 LOcQuGyTtyIAWjH4PZxJm2o1eFVarXsPgqhwt3Tu6AqIsRDle4+41fY2irpVTc86l9PHb
+	 mS8nmyrNyEESy06Ctq9jeGWskCtdkc4WZ6Ci8UnvkDhSStenx8C/KIAjrl2uhIQ/WmFmW
+	 Ba8jg0wSXLwtN4zXhyMdZdkqJzjQL3Aj3hgj42n1D6b98gqaWrwvoo8QwMPM9NdBsbA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=wVImjlIJ;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=KPJqciab;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A9660A2600;
-	Fri, 20 Nov 2026 16:07:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900C8606A331;
+	Fri, 20 Nov 2026 16:08:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=wVImjlIJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CED001F000C4;
-	Fri, 20 Nov 2026 16:07:19 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=KPJqciab
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 878BA1F000CF;
+	Fri, 20 Nov 2026 16:08:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795190840;
-	bh=5vycqt7uKRC1d1nHkk0APGNrL8b1KJ65ZtEYEdgPAnk=;
+	s=korg; t=1795190886;
+	bh=J7kbxG/bU7Az3Ucje7pHCgFm1c686s5SoBEkwkvio7k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=wVImjlIJ/u7n19k/DQBYyre8pstvyUxPne4q5dI4BdWWmRa2ggLiPKwjEsn9t50Vx
-	 NlwPm/mLq+LUg5R90rVmrJk6mEjGRJ2nUAEho9YU/MQhevymsIyd3zFeXBXuHBn7kj
-	 EgdSD6KvC6u3sg6yiaDsBctlrVIUttieQk/vmjbI=
-Date: Fri, 20 Nov 2026 17:07:17 +0100
+	b=KPJqciabu5Z8Hlaje9eyfTqZuGUEg4dNS1U7+hm3DX+luTP985eL2maIEFvA4Isj6
+	 9fzCfxytuPB9NaODBKrhf21VyMGDCnSNqd3cXfe6er6aAa2NrTvHL8pwtWtjTq194a
+	 aeuvdaHL60wX1jGVYTlmF77bR9H0s/Bgh6pSVXuE=
+Date: Fri, 20 Nov 2026 17:08:03 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: contact@blakejalexander.com
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: log invalid UCSI version of 0
-Message-ID: <2026112051-drainpipe-trustless-fba2@gregkh>
-References: <20261119-log-ucsi-firmware-quirk-v1-1-6d42d70a6158@blakejalexander.com>
+To: Mehmet Ilhan Bayoglu <memobayoglu2007@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: quirks: add WINDOWS_CONFIG_REQ_SIZE for Razer
+ BlackShark V3
+Message-ID: <2026112051-smirk-omnivore-0d65@gregkh>
+References: <20260831191345.43869-1-memobayoglu2007@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,70 +55,48 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261119-log-ucsi-firmware-quirk-v1-1-6d42d70a6158@blakejalexander.com>
+In-Reply-To: <20260831191345.43869-1-memobayoglu2007@gmail.com>
 
-On Thu, Nov 19, 2026 at 04:56:59AM +0100, Blake Alexander via B4 Relay wrote:
-> From: Blake Alexander <contact@blakejalexander.com>
+On Mon, Aug 31, 2026 at 03:13:45PM -0400, Mehmet Ilhan Bayoglu wrote:
+> The Razer BlackShark V3 and V3 Pro wireless dongles fingerprint the
+> USB host by its configuration-descriptor read pattern during
+> enumeration. Unless they see a single full-length (wLength=255)
+> request like Windows sends, they refuse to bring up the wireless
+> telemetry relay and battery, charging and EQ state all read back as
+> zero.
 > 
-> Some devices ship bugged firmware which sets the version of the UCSI
-> mailbox to zero. In such cases the ucsi_register() will return -ENODEV
-> and the driver will silently fail to bind. There is otherwise no
-> indication as to the cause of the probe failure.
+> USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE already implements exactly this
+> behaviour, so just register it for the four BlackShark V3 PIDs:
 > 
-> While existing (and future) machine-specific workarounds may resolve
-> this issue by assuming a known-good UCSI version, future devices or
-> older firmware revisions with this issue will still silently fail.
-> Both users and developers will benefit from a clear diagnostic message
-> when troubleshooting this particular bug.
+>   0x0576  V3 Pro (wired USB-C)
+>   0x0577  V3 Pro (2.4GHz dongle)
+>   0x0579  V3     (wired USB-C)
+>   0x057a  V3     (2.4GHz dongle)
 > 
-> Add a dev_err() log message when a UCSI version of 0 is reported during
-> ucsi_register() hinting towards a potential firmware bug.
+> Both the dongle and the wired transport enumerate the same firmware
+> and need the quirk. Verified on 0x057a and 0x0577: with the quirk the
+> vendor channel answers and battery/charging/EQ read correctly;
+> without it every vendor GET returns zero.
 > 
-> Signed-off-by: Blake Alexander <contact@blakejalexander.com>
+> Tested-by: Mehmet Ilhan Bayoglu <memobayoglu2007@gmail.com>
+> Signed-off-by: Mehmet Ilhan Bayoglu <memobayoglu2007@gmail.com>
 > ---
-> Hi,
+>  drivers/usb/core/quirks.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> I have a ThinkPad T14 Gen 2a which is failing to negotiate a DisplayPort
-> Alt-Mode connection to a monitor-hub with a USB-C cable.
-> 
-> I spent quite some time troubleshooting the issue and identified the
-> root-cause only to find that a patch which fixes this issue was already
-> submitted:
-> - "[PATCH v2 0/2] usb: typec: acpi: Zero version quirk for Lenovo ThinkPad T14 Gen 2a" <20261103-ucsi-lenovo-t14g2a-v2-0-e85c659b56a2@resetko.pl>
-> 
-> Similar issues with other laptops have also been recently submitted:
-> - "[PATCH] usb: typec: ucsi: acpi: Add quirk for ASUS ROG Zephyrus Duo 16 GX650PI" <20261009-usb-next-v1-1-95a2288ad9b2@gmail.com>
-> 
-> And existing quirks are also already handled in mainline:
-> - Acer Nitro ANV15-41: commit 8c51ea651d04 ("usb: typec: ucsi: acpi:
->   Assume UCSI 1.2 on Acer Nitro ANV15-41")
-> 
-> In the hope of saving future developer's time, this patch adds a
-> dev_err() log message when the UCSI version register reads zero. The
-> log message hints towards a potential firmware bug and gives an 
-> explicit cause of the driver's probe failure.
-> 
-> Tested on ThinkPad BIOS R1MET65W (1.35), EC R1MHT65W without the
-> relevant quirk patches.
-> ---
->  drivers/usb/typec/ucsi/ucsi.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index 9e453d216c16..fa79ba6dec02 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -2396,8 +2396,13 @@ int ucsi_register(struct ucsi *ucsi)
->  	if (ret)
->  		return ret;
->  
-> -	if (!ucsi->version)
-> +	/* Version of 0 is not valid but some vendors may report it due to bugged
-> +	 * FW and there may not already be a workaround quirk to correct it.
-> +	 */
+> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+> index b5b577f0b..9b5420be2 100644
+> --- a/drivers/usb/core/quirks.c
+> +++ b/drivers/usb/core/quirks.c
+> @@ -502,6 +502,11 @@ static const struct usb_device_id usb_quirk_list[] = {
+>  			USB_QUIRK_LINEAR_UFRAME_INTR_BINTERVAL },
+>  	/* Razer - Razer Kiyo Pro Webcam */
+>  	{ USB_DEVICE(0x1532, 0x0e05), .driver_info = USB_QUIRK_NO_LPM },
+> +	/* Razer BlackShark V3 / V3 Pro - unlock wireless telemetry relay */
+> +	{ USB_DEVICE(0x1532, 0x0576), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
+> +	{ USB_DEVICE(0x1532, 0x0577), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
+> +	{ USB_DEVICE(0x1532, 0x0579), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
+> +	{ USB_DEVICE(0x1532, 0x057a), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
 
-Wrong comment style :(
+This is not in sorted order :(
 
-thanks.
-
-greg k-h
