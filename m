@@ -1,11 +1,11 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795176012;
-	b=zIetTn6ZEhdqQW89iM4EGOVmk06jFfLtlbEj73ZdS5VAXzsTR+ILZXVZZzGF5exfFdju
-	 6SK2r/v87ji62MLz3LNhJ7DCeySeXqoqWASE/8x3LdOvYwOc+XtT1lB1wg/OUrLeKfYrJ
-	 bAZUJ73mSkWvnu7aCbeHf2Oon2SBaNYpoXAp1wJpdE7be7kDhGmAwctLkx0Qy/4mgzhxQ
-	 kX6FW0k6ivOaDFHtgJyhCZoDgsA8IndFs1LyTAdojFFsuX6jJ2sruHI5o3Fic8n2n2UNx
-	 xDsiCdc1WDnqwS0wy1XQObxKb/l6ZnyRLvmBXxquaerkStkAvUXVTnRITE1/qcJjYTA==
+	b=Ovpdh8bsDyAk3nVk67S+B5p7lFeBcoeZtWclC7VFa1N291BSf1pyabFJwgjO2f2fW2Ee
+	 05zf0PW9J6k1cT+qYP9QCRy4Za6qYEq1TzzfNFUGdxvtT+TXFEROeLmcYtdZnBZwEOl2+
+	 vQ50bktUzN2gwpXivoMQ0VRR2PVcyQ60DiGRR9lO23gsWO2SzIPVtWMJOkM8CbuDnyNGg
+	 eBBQ5ZQpBT3xfsf+A907HUUTNLFH3N/RpRgKpeLX2kqY0ZWGWfDOn50SxLQ7hB1kfL8Ow
+	 unX230yrpMWBWY6u3ghOB3cdejEJG6qiY8GTVLYqW6l5/EYJ/JWg6xN0j4bix88TBAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795176012;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
@@ -13,55 +13,55 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 Cc:Content-Language:From:In-Reply-To:Content-Transfer-Encoding:
 	 X-CMS-MailID:X-Msg-Generator:Content-Type:CMS-TYPE:X-CPGSPASS:
 	 X-Hop-Count:X-CMS-RootMailID:References;
-	bh=beSiUkGx2GcQ6sDeEFrAxqQYgNySD4qY7mecJDY3PFQ=;
-	b=QJttPUrBivWJNou/rVnRoQO5a1jbvrnYbfJ1NbniB07oFgWedsU9E4OaMPX6CeorH4zI
-	 bTCfhuVEsm41A48ty2+g0Nt2fkguHjHvSuatVY1v8idSZ3MCUOkbLeVGp4mslZdkSaeGx
-	 1vdyeYBcihmfmejHKkoKj8bsr+qc8xbJHKFlB5XKqoH+zch9yIrKwSLbNdWfbzrWepur5
-	 H2HS2qcCYzRtDbVP/HYp48XmOWn/WoklMKqHsQCEZF+PF6uBZoNWJE+SVFMlJ6oiICris
-	 rLdl/ndOgVDCTw0aZwPgpBBoDKU2RbpgQ3E56O5DI9B4bsRaQ9Ro3sFDPAsDjlrI4DQ==
+	bh=pXokVW6ojwkSbE2zUUHGwfyeCuC41rGySdWmb3y+02Q=;
+	b=hDsCwXWE1yAWrAmTi901Xz1MXjghxla2kzPUsBivrEPu8E+UMClnpyhwHfgkzrjFqdkC
+	 kCSsXEufBmGrgQMMwZINcWppMwV0ySf4EYjFp+KiezzsAc/OaaOgBpK5R5mjj7dwMA0ZV
+	 QcweDACKO5aelal9U95vevcCD5CEMP+ec2FUPrdMlNYL7AJkNpuyg3Qx1UcpnQ2cnNQ/8
+	 SMn+BeW+52rqJA/ZkH6Az1AmuYQhbo5p9sxKhUygmMpLy+rqWWNt+EXXZKSexuDeSfEM9
+	 veTkzqJ5MkInwgSyWzNm7ey7VQgCp+ttr0RRM3bWzmgktEToZRPwxZj+k7C/8lHpaqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=samsung.com;
 	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=jB7VvWRC;
-	arc=none smtp.remote-ip=203.254.224.24
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=EkzRsols;
+	arc=none smtp.remote-ip=203.254.224.34
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB90E60A260F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F1960A263E
 	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 12:00:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB90E60A260F
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3F1960A263E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=jB7VvWRC
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=EkzRsols
 Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261120120004epoutp01c456367c7130d4421999d3c755d3ed59~pvxCAs_N62276722767epoutp01B
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20261120120004epoutp044b13ba1fb261270b18cbf36ffcee6a75~pvxCH92XT1902619026epoutp04a
 	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 12:00:04 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261120120004epoutp01c456367c7130d4421999d3c755d3ed59~pvxCAs_N62276722767epoutp01B
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20261120120004epoutp044b13ba1fb261270b18cbf36ffcee6a75~pvxCH92XT1902619026epoutp04a
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
 	s=mail20170921; t=1795176004;
-	bh=beSiUkGx2GcQ6sDeEFrAxqQYgNySD4qY7mecJDY3PFQ=;
+	bh=pXokVW6ojwkSbE2zUUHGwfyeCuC41rGySdWmb3y+02Q=;
 	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=jB7VvWRC6cpNTrkUarDBfsL/KV02IzfScXAYinJvVWX0MY9bRk4IIaFa4VTPl/zus
-	 lpc0qfVl2gUZKIMiRXOVWN1ktWvFKyAlT+z50zhYd5reAAzHTO5bBe6ir9bzHrId/W
-	 tDF8/s71BWVI0SGSBXSA2eDcQ/Q4751kXmvsJZnE=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
-	20261120120003epcas5p42a9645614d6e7e84d8b0738c3c6a5be6~pvxBkDI002298222982epcas5p4k;
+	b=EkzRsolsKbuOeI0rZ6gZqCNZOM36aM1N1G7lRi9+0pypFkbvN/VmuCMkG5Y3pooac
+	 4ylzlRcvXLPqPCmm0WAD6FBCOUCJRWfTwFQwC5zR+huhD84XEOZO4wS1aYcN2/cyZf
+	 j3f9p9ouwfGSHGOHm7+yCPWaW0K6wV1IPGIPPmuk=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20261120120003epcas5p17cd037628eb3ad848681912a935b7234~pvxBtQ9hi2740127401epcas5p1W;
 	Fri, 20 Nov 2026 12:00:03 +0000 (GMT)
 Received: from epcpadp1new (unknown [182.195.40.141]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4jWDRR43CWz6B9m5; Fri, 20 Nov
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4jWDRR599jz6B9m6; Fri, 20 Nov
 	2026 12:00:03 +0000 (GMT)
 Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20261120115022epcas5p4bb5ebf4375f33b7c322985ee172b3aaf~pvokWv7aa0683106831epcas5p4c;
-	Fri, 20 Nov 2026 11:50:22 +0000 (GMT)
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20261120115130epcas5p1d07df643a0ac951b865e42a69ab90819~pvpjz5qUc1479514795epcas5p11;
+	Fri, 20 Nov 2026 11:51:30 +0000 (GMT)
 Received: from [107.122.5.126] (unknown [107.122.5.126]) by
 	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20261120115020epsmtip119f548f3d33301237d65b92056d1475b~pvois-eZZ3019630196epsmtip1b;
-	Fri, 20 Nov 2026 11:50:20 +0000 (GMT)
-Message-ID: <339099861.21795176003555.JavaMail.epsvc@epcpadp1new>
-Date: Fri, 20 Nov 2026 17:20:19 +0530
+	20261120115129epsmtip10856cd2a242d1efa2887f691e9f6bbf0~pvpjGKn9g0179201792epsmtip1D;
+	Fri, 20 Nov 2026 11:51:29 +0000 (GMT)
+Message-ID: <1524126153.41795176003711.JavaMail.epsvc@epcpadp1new>
+Date: Fri, 20 Nov 2026 17:21:27 +0530
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,218 +72,319 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [[RFT PATCH v2] 1/2] xhci: sideband: avoid use-after-free of
- stale virt device pointer
+Subject: Re: [[RFT PATCH v2] 2/2] xhci: sideband: check virt device under
+ xhci lock when stopping endpoints
 To: Mathias Nyman <mathias.nyman@linux.intel.com>, quic_wcheng@quicinc.com,
 	hulianqin@vivo.com
 Cc: linux-usb@vger.kernel.org, "cpgs@samsung.com" <cpgs@samsung.com>
 Content-Language: en-US
 From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-In-Reply-To: <20261119214841.1552318-2-mathias.nyman@linux.intel.com>
+In-Reply-To: <20261119214841.1552318-3-mathias.nyman@linux.intel.com>
 Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20261120115022epcas5p4bb5ebf4375f33b7c322985ee172b3aaf
+X-CMS-MailID: 20261120115130epcas5p1d07df643a0ac951b865e42a69ab90819
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 X-CPGSPASS: Y
 X-Hop-Count: 3
-X-CMS-RootMailID: 20261119214902epcas5p484ca32522cfa27d76dc17a732a166be7
+X-CMS-RootMailID: 20261119214908epcas5p41cce5fbacd3c1f5eac70c1c1692811b6
 References: <20261119214841.1552318-1-mathias.nyman@linux.intel.com>
-	<CGME20261119214902epcas5p484ca32522cfa27d76dc17a732a166be7@epcas5p4.samsung.com>
-	<20261119214841.1552318-2-mathias.nyman@linux.intel.com>
+	<CGME20261119214908epcas5p41cce5fbacd3c1f5eac70c1c1692811b6@epcas5p4.samsung.com>
+	<20261119214841.1552318-3-mathias.nyman@linux.intel.com>
 
 
 On 11/20/2026 3:18 AM, Mathias Nyman wrote:
-> The sideband structure caches vdev, an xhci_virt_device pointer that
-> the xhci driver may free and reallocate while the sideband is still
-> registered, leaving the sideband with a dangling sb->vdev pointer.
+> Start work to protect sideband API functions against the xhci driver
+> freeing or reallocating the virt device (vdev) in the middle of an API
+> call.
 >
-> This can happen during resume, either when the xhci driver detects xHC
-> power loss and resets the xHC, freeing all virt devices without
-> informing class drivers, or during reset-resume when usb core
-> re-enumerates the device and xhci frees and allocates a new virt device.
+> Make the following sideband API calls hold xhci->lock while validating
+> the vdev and its endpoint, and while queueing the stop endpoint command:
 >
-> Store the usb_device pointer (udev) instead. It stays valid across
-> reset-resume and xHC reset.
-> Look up the current virt device and ensure it still points to this
-> sideband before using and dereferencing it in sideband API calls.
+> xhci_sideband_unregister()
+> xhci_sideband_stop_endpoint()
+> xhci_sideband_remove_endpoint()
 >
-> Make sure xhci_sideband_unregister() works properly when called with
-> an invalid vdev. Don't dereference it, or ask the xHC to stop non-existing
-> endpoints, but make sure the sideband is properly freed.
-> Fail other relevant sideband API calls that would access an invalid
+> Locking changes are still needed in several xhci 'core' driver vdev free
+> paths before the above calls are fully serialized against vdev free.
+> Cases involve xHC reset in resume, enumeration retry, and reset-resume.
+>
+> Move the stop endpoint code from xhci_stop_endpoint_sync() in xhci.c to
+> a new sideband_stop_endpoint_sync() helper in xhci-sideband.c.
+>
+> xhci_stop_endpoint_sync() has no other users, so remove it.
+>
+> Also take sb->mutex in xhci_sideband_stop_endpoint(), and keep holding
+> it in xhci_sideband_unregister() until the sideband is detached from the
 > vdev.
->
-> This solution isn't airtight. It only validates vdev when entering
-> sideband API functions. It does not serialize the sideband API
-> functions against the code in the xhci driver that reallocates vdev,
-> so vdev may still be freed in the middle of a sideband call. It's still
-> a big improvement and a first step in resolving this.
->
-> The following patch starts working on the serialization.
 >
 > Fixes: de66754e9f80 ("xhci: sideband: add initial api to register a secondary interrupter entity")
 > Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 > ---
->   drivers/usb/host/xhci-sideband.c  | 46 +++++++++++++++++++++----------
->   include/linux/usb/xhci-sideband.h |  4 +--
->   2 files changed, 34 insertions(+), 16 deletions(-)
-Hi Mathias,
+>   drivers/usb/host/xhci-sideband.c | 121 ++++++++++++++++++++++---------
+>   drivers/usb/host/xhci.c          |  55 --------------
+>   drivers/usb/host/xhci.h          |   2 -
+>   3 files changed, 87 insertions(+), 91 deletions(-)
 
-Thanks for your patch. Reviewed the changes its looks good to me.
 
 Reviewed-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
 
 Thanks,
 Selva
-
-
 >
 > diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
-> index a5deeee4d5dc..e4dd298b80f1 100644
+> index e4dd298b80f1..6f7712f95033 100644
 > --- a/drivers/usb/host/xhci-sideband.c
 > +++ b/drivers/usb/host/xhci-sideband.c
-> @@ -75,6 +75,22 @@ xhci_ring_to_sgtable(struct xhci_sideband *sb, struct xhci_ring *ring)
+> @@ -91,20 +91,78 @@ sideband_to_vdev(struct xhci_sideband *sb)
 >   	return NULL;
 >   }
 >   
-> +/* Return the current vdev of sb->udev, or NULL if it was freed or reallocated */
-> +static struct xhci_virt_device *
-> +sideband_to_vdev(struct xhci_sideband *sb)
-> +{
-> +	struct xhci_virt_device *vdev;
-> +
-> +	if (!sb->udev || !sb->udev->slot_id)
-> +		return NULL;
-> +
-> +	vdev = sb->xhci->devs[sb->udev->slot_id];
-> +	if (vdev && vdev->sideband == sb)
-> +		return vdev;
-> +
-> +	return NULL;
-> +}
-> +
->   /* Caller must hold sb->mutex */
->   static void
->   __xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *ep)
-> @@ -146,16 +162,18 @@ int
->   xhci_sideband_add_endpoint(struct xhci_sideband *sb,
->   			   struct usb_host_endpoint *host_ep)
+> -/* Caller must hold sb->mutex */
+> -static void
+> -__xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *ep)
+> +/*
+> + * Synchronous xHCI stop endpoint helper. Issues a stop endpoint command and
+> + * waits for the command completion before returning. This does not call
+> + * xhci_handle_cmd_stop_ep(), which has additional handling for 'context error'
+> + * cases, along with transfer ring cleanup.
+> + *
+> + * Caller must hold sb->mutex
+> + */
+> +static int
+> +sideband_stop_endpoint_sync(struct xhci_sideband *sb, unsigned int ep_index,
+> +			    bool remove)
 >   {
 > +	struct xhci_virt_device *vdev;
->   	struct xhci_virt_ep *ep;
+> +	struct xhci_command *cmd;
+> +	struct xhci_virt_ep *ep;
+> +	struct xhci_ep_ctx *ctx;
+> +	unsigned long flags;
+> +	int ret = -ENODEV;
+> +
+>   	lockdep_assert_held(&sb->mutex);
+>   
+> -	/*
+> -	 * Issue a stop endpoint command when an endpoint is removed.
+> -	 * The stop ep cmd handler will handle the ring cleanup.
+> -	 */
+> -	xhci_stop_endpoint_sync(sb->xhci, ep, 0, GFP_KERNEL);
+> +	cmd = xhci_alloc_command(sb->xhci, true, GFP_KERNEL);
+> +
+> +	spin_lock_irqsave(&sb->xhci->lock, flags);
+> +
+> +	vdev = sideband_to_vdev(sb);
+> +	ep = sb->eps[ep_index];
+> +
+> +	/* validate that xhci didn't reallocate vdev during reset or resume */
+> +	if (!vdev || !ep || ep->sideband != sb)
+> +		goto out_unlock;
+> +
+> +	if (remove) {
+> +		ep->sideband = NULL;
+> +		/* endpoint is removed, not running is not an error */
+> +		ret = 0;
+> +	}
+> +
+> +	if (!ep->ring)
+> +		goto out_unlock;
+> +
+> +	/* Stop the endpoint if it's running */
+> +	ctx = xhci_get_ep_ctx(sb->xhci, vdev->out_ctx, ep_index);
+> +	if (GET_EP_CTX_STATE(ctx) == EP_STATE_RUNNING) {
+> +		if (!cmd) {
+> +			ret = -ENOMEM;
+> +			goto out_unlock;
+> +		}
+> +		ret = xhci_queue_stop_endpoint(sb->xhci, cmd, vdev->slot_id,
+> +					       ep_index, 0);
+> +		if (ret)
+> +			goto out_unlock;
+> +
+> +		xhci_ring_cmd_db(sb->xhci);
+> +		spin_unlock_irqrestore(&sb->xhci->lock, flags);
+> +		wait_for_completion(cmd->completion);
+> +
+> +		if (cmd->status == COMP_COMMAND_ABORTED ||
+> +		    cmd->status == COMP_COMMAND_RING_STOPPED) {
+> +			xhci_warn(sb->xhci, "Timeout while waiting for stop endpoint command\n");
+> +			ret = -ETIME;
+> +		}
+> +		xhci_free_command(sb->xhci, cmd);
+> +		return ret;
+> +	}
+>   
+> -	ep->sideband = NULL;
+> -	sb->eps[ep->ep_index] = NULL;
+> +out_unlock:
+> +	spin_unlock_irqrestore(&sb->xhci->lock, flags);
+> +	if (cmd)
+> +		xhci_free_command(sb->xhci, cmd);
+> +
+> +	return ret;
+>   }
+>   
+>   /* Caller must hold sb->mutex */
+> @@ -212,21 +270,17 @@ int
+>   xhci_sideband_remove_endpoint(struct xhci_sideband *sb,
+>   			      struct usb_host_endpoint *host_ep)
+>   {
+> -	struct xhci_virt_ep *ep;
+>   	unsigned int ep_index;
+> +	int ret;
+>   
+>   	guard(mutex)(&sb->mutex);
+>   
+>   	ep_index = xhci_get_endpoint_index(&host_ep->desc);
+> -	ep = sb->eps[ep_index];
+>   
+> -	if (!sideband_to_vdev(sb) || !ep || ep->sideband != sb) {
+> -		sb->eps[ep_index] = NULL;
+> -		return -ENODEV;
+> -	}
+> -	__xhci_sideband_remove_endpoint(sb, ep);
+> +	ret = sideband_stop_endpoint_sync(sb, ep_index, true);
+> +	sb->eps[ep_index] = NULL;
+>   
+> -	return 0;
+> +	return ret;
+>   }
+>   EXPORT_SYMBOL_GPL(xhci_sideband_remove_endpoint);
+>   
+> @@ -234,16 +288,13 @@ int
+>   xhci_sideband_stop_endpoint(struct xhci_sideband *sb,
+>   			    struct usb_host_endpoint *host_ep)
+>   {
+> -	struct xhci_virt_ep *ep;
 >   	unsigned int ep_index;
 >   
->   	guard(mutex)(&sb->mutex);
+> -	ep_index = xhci_get_endpoint_index(&host_ep->desc);
+> -	ep = sb->eps[ep_index];
+> +	guard(mutex)(&sb->mutex);
 >   
-> -	if (!sb->vdev)
-> +	vdev = sideband_to_vdev(sb);
-> +	if (!vdev)
->   		return -ENODEV;
+> -	if (!sideband_to_vdev(sb) || !ep || ep->sideband != sb)
+> -		return -EINVAL;
+> +	ep_index = xhci_get_endpoint_index(&host_ep->desc);
 >   
->   	ep_index = xhci_get_endpoint_index(&host_ep->desc);
-> -	ep = &sb->vdev->eps[ep_index];
-> +	ep = &vdev->eps[ep_index];
+> -	return xhci_stop_endpoint_sync(sb->xhci, ep, 0, GFP_KERNEL);
+> +	return sideband_stop_endpoint_sync(sb, ep_index, false);
+>   }
+>   EXPORT_SYMBOL_GPL(xhci_sideband_stop_endpoint);
 >   
->   	if (ep->ep_state & EP_HAS_STREAMS)
->   		return -EINVAL;
-> @@ -202,9 +220,10 @@ xhci_sideband_remove_endpoint(struct xhci_sideband *sb,
->   	ep_index = xhci_get_endpoint_index(&host_ep->desc);
->   	ep = sb->eps[ep_index];
+> @@ -489,24 +540,26 @@ xhci_sideband_unregister(struct xhci_sideband *sb)
 >   
-> -	if (!ep || !ep->sideband || ep->sideband != sb)
-> +	if (!sideband_to_vdev(sb) || !ep || ep->sideband != sb) {
-> +		sb->eps[ep_index] = NULL;
->   		return -ENODEV;
-> -
-> +	}
->   	__xhci_sideband_remove_endpoint(sb, ep);
->   
->   	return 0;
-> @@ -221,7 +240,7 @@ xhci_sideband_stop_endpoint(struct xhci_sideband *sb,
->   	ep_index = xhci_get_endpoint_index(&host_ep->desc);
->   	ep = sb->eps[ep_index];
->   
-> -	if (!ep || !ep->sideband || ep->sideband != sb)
-> +	if (!sideband_to_vdev(sb) || !ep || ep->sideband != sb)
->   		return -EINVAL;
->   
->   	return xhci_stop_endpoint_sync(sb->xhci, ep, 0, GFP_KERNEL);
-> @@ -251,7 +270,7 @@ xhci_sideband_get_endpoint_buffer(struct xhci_sideband *sb,
->   	ep_index = xhci_get_endpoint_index(&host_ep->desc);
->   	ep = sb->eps[ep_index];
->   
-> -	if (!ep || !ep->ring || !ep->sideband || ep->sideband != sb)
-> +	if (!sideband_to_vdev(sb) || !ep || !ep->ring || ep->sideband != sb)
->   		return NULL;
->   
->   	return xhci_ring_to_sgtable(sb, ep->ring);
-> @@ -329,7 +348,7 @@ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
->   
->   	guard(mutex)(&sb->mutex);
->   
-> -	if (!sb->vdev)
-> +	if (!sideband_to_vdev(sb))
->   		return -ENODEV;
->   
->   	if (sb->ir)
-> @@ -436,7 +455,7 @@ xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type,
->   	}
->   
->   	sb->xhci = xhci;
-> -	sb->vdev = vdev;
-> +	sb->udev = udev;
->   	sb->intf = intf;
->   	sb->type = type;
->   	sb->notify_client = notify_client;
-> @@ -471,22 +490,21 @@ xhci_sideband_unregister(struct xhci_sideband *sb)
 >   	xhci = sb->xhci;
 >   
->   	scoped_guard(mutex, &sb->mutex) {
-> -		vdev = sb->vdev;
-> -		if (!vdev)
-> -			return;
-> +		vdev = sideband_to_vdev(sb);
+> -	scoped_guard(mutex, &sb->mutex) {
+> -		vdev = sideband_to_vdev(sb);
+> -
+> -		for (i = 0; i < EP_CTX_PER_DEV; i++)
+> -			if (vdev && sb->eps[i])
+> -				__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
+> +	mutex_lock(&sb->mutex);
 >   
->   		for (i = 0; i < EP_CTX_PER_DEV; i++)
-> -			if (sb->eps[i])
-> +			if (vdev && sb->eps[i])
->   				__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
->   
->   		__xhci_sideband_remove_interrupter(sb);
->   
-> -		sb->vdev = NULL;
-> +		sb->udev = NULL;
+> -		__xhci_sideband_remove_interrupter(sb);
+> -
+> -		sb->udev = NULL;
+> +	for (i = 0; i < EP_CTX_PER_DEV; i++) {
+> +		if (sb->eps[i]) {
+> +			sideband_stop_endpoint_sync(sb, i, true);
+> +			sb->eps[i] = NULL;
+> +		}
 >   	}
+> +	__xhci_sideband_remove_interrupter(sb);
 >   
 >   	spin_lock_irq(&xhci->lock);
->   	sb->xhci = NULL;
-> -	vdev->sideband = NULL;
-> +	if (vdev)
-> +		vdev->sideband = NULL;
+> -	sb->xhci = NULL;
+> +	vdev = sideband_to_vdev(sb);
+>   	if (vdev)
+>   		vdev->sideband = NULL;
+> +	sb->udev = NULL;
+> +	sb->xhci = NULL;
 >   	spin_unlock_irq(&xhci->lock);
 >   
+> +	mutex_unlock(&sb->mutex);
+> +
 >   	kfree(sb);
-> diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
-> index 005257085dcb..2d153cb57831 100644
-> --- a/include/linux/usb/xhci-sideband.h
-> +++ b/include/linux/usb/xhci-sideband.h
-> @@ -39,7 +39,7 @@ struct xhci_sideband_event {
->   /**
->    * struct xhci_sideband - representation of a sideband accessed usb device.
->    * @xhci: The xhci host controller the usb device is connected to
-> - * @vdev: the usb device accessed via sideband
-> + * @udev: the usb device accessed via sideband
->    * @eps: array of endpoints controlled via sideband
->    * @ir: event handling and buffer for sideband accessed device
->    * @type: xHCI sideband type
-> @@ -51,7 +51,7 @@ struct xhci_sideband_event {
->    */
->   struct xhci_sideband {
->   	struct xhci_hcd                 *xhci;
-> -	struct xhci_virt_device         *vdev;
-> +	struct usb_device		*udev;
->   	struct xhci_virt_ep             *eps[EP_CTX_PER_DEV];
->   	struct xhci_interrupter         *ir;
->   	enum xhci_sideband_type		type;
+>   }
+>   EXPORT_SYMBOL_GPL(xhci_sideband_unregister);
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index 30ac1bc4559b..bcb482795bbc 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -2883,61 +2883,6 @@ static int xhci_reserve_bandwidth(struct xhci_hcd *xhci,
+>   	return -ENOMEM;
+>   }
+>   
+> -/*
+> - * Synchronous XHCI stop endpoint helper.  Issues the stop endpoint command and
+> - * waits for the command completion before returning.  This does not call
+> - * xhci_handle_cmd_stop_ep(), which has additional handling for 'context error'
+> - * cases, along with transfer ring cleanup.
+> - *
+> - * xhci_stop_endpoint_sync() is intended to be utilized by clients that manage
+> - * their own transfer ring, such as offload situations.
+> - */
+> -int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep, int suspend,
+> -			    gfp_t gfp_flags)
+> -{
+> -	struct xhci_command *command;
+> -	struct xhci_ep_ctx *ep_ctx;
+> -	unsigned long flags;
+> -	int ret = -ENODEV;
+> -
+> -	command = xhci_alloc_command(xhci, true, gfp_flags);
+> -	if (!command)
+> -		return -ENOMEM;
+> -
+> -	spin_lock_irqsave(&xhci->lock, flags);
+> -
+> -	/* make sure endpoint exists and is running before stopping it */
+> -	if (ep->ring) {
+> -		ep_ctx = xhci_get_ep_ctx(xhci, ep->vdev->out_ctx, ep->ep_index);
+> -		if (GET_EP_CTX_STATE(ep_ctx) == EP_STATE_RUNNING)
+> -			ret = xhci_queue_stop_endpoint(xhci, command,
+> -						       ep->vdev->slot_id,
+> -						       ep->ep_index, suspend);
+> -	}
+> -
+> -	if (ret < 0) {
+> -		spin_unlock_irqrestore(&xhci->lock, flags);
+> -		goto out;
+> -	}
+> -
+> -	xhci_ring_cmd_db(xhci);
+> -	spin_unlock_irqrestore(&xhci->lock, flags);
+> -
+> -	wait_for_completion(command->completion);
+> -
+> -	/* No handling for COMP_CONTEXT_STATE_ERROR done at command completion*/
+> -	if (command->status == COMP_COMMAND_ABORTED ||
+> -	    command->status == COMP_COMMAND_RING_STOPPED) {
+> -		xhci_warn(xhci, "Timeout while waiting for stop endpoint command\n");
+> -		ret = -ETIME;
+> -	}
+> -out:
+> -	xhci_free_command(xhci, command);
+> -
+> -	return ret;
+> -}
+> -EXPORT_SYMBOL_GPL(xhci_stop_endpoint_sync);
+> -
+>   /*
+>    * xhci_usb_endpoint_maxp - get endpoint max packet size
+>    * @host_ep: USB host endpoint to be checked
+> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+> index ec4bfeb4887c..6201b6b24252 100644
+> --- a/drivers/usb/host/xhci.h
+> +++ b/drivers/usb/host/xhci.h
+> @@ -1963,8 +1963,6 @@ void xhci_cleanup_command_queue(struct xhci_hcd *xhci);
+>   void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
+>   unsigned int count_trbs(u64 addr, u64 len);
+>   unsigned int xhci_num_trbs_free(struct xhci_ring *ring);
+> -int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+> -			    int suspend, gfp_t gfp_flags);
+>   void xhci_process_cancelled_tds(struct xhci_hcd *xhci, struct xhci_virt_ep *ep);
+>   void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
+>   			      struct xhci_interrupter *ir,
 
