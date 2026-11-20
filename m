@@ -1,56 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.181.215.36
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795196914;
-	b=YyO6PQnHM3UUDwbbdXlTg14t0CKF2Rd5I7lExrHMc9CNVjlvXl83YAH1MiXl/YnN7Umo
-	 heaf7KEdZkh83ybaJF8ly9HVhHLwVKzAIgZcnpLwBOJ33YWi/72X2mWHX+U124u5CWFUe
-	 NAVVYHztiZrZRzEJWl9RBILtHFfohS2IpgMkkAGADbFLDnCol4AT9j0TRA6O/sB/OQ4sP
-	 kbmG/t5zHRyjj90tYRVGAq3pI1+TCpWN3b2j8/VByWUb+VA5GMARj+pFYX69HGN5szpP1
-	 STHddBpDCCctu6EldZ7I48w0ql4MyDl19zy0CAxkCvGg3n2OcnmPWnB9YoksBSD766g==
+	t=1795198013;
+	b=hrwN6Vq1ptoZynoaeT+8qtXJNyO0XFTLrN+ojQ+pKG4AsXf51oaI9EjmOwud4pL7RDbx
+	 1FoOctbCl4YbFGdkzKHakPlEhV3FiNjkfeAj21jtJTxXjZuSQsvyONebd4aGJq8taDzY0
+	 UXbCaSgjDQ83HNELFYMxWvTPQv7dDkE+2GydNRaenY0M8HSQ7NYD5vS4VKSjjPoW4qyZP
+	 s0OCgknj6Q5YvRCYK8vOg8vBWnUWnDcMk++1QdrZU0HJqX7TmJyq4cWR0SfRzuN3D3vpm
+	 OgXPIcVaukRmhyKzVM+Sk6omqaMSCSjzLMi3ZXVRJVxndnwh+Eq5y9m+oKyfXX9Yoow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795196914;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=aGQYX0espepN/+SRai53eGQNq0szmPyH1b5u6i6fuBk=;
-	b=cHCwbFBwT/FP4GJj2O+za5BmJydfKcw2a0d2nVgTtWyxK8NojC0O0TBqkm4SnrPKaEJI
-	 yCyHBL+J2nvL+UCEdwxPqi3qOudFwrMuDpUSlBlxFwJ+B/Kb7qEAXF0jc/EmAHXBasEi1
-	 6hlaMt5EU5GtiV4+NrSzohw2eIDamaod0L/IpFHP+PYOSVvwdxSGAHVGrbRg9Gt7sAUMB
-	 rnGjRMB1S5DZWb9ShOj8CHuWC/y5V0ULJhiaAIdltJdCHek/jfs+T+4dNqsANhGF4mN7z
-	 yn4MldoGhfSNlh0aQzCVY81+ZDQN3IkfuaHa9DhMFlKV4cl9JECJ95EUe7vKu+FIRvw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795198013;
+	h=DMARC-Filter:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 Mail-Followup-To:X-My-GPG-KeyId:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=FPfKxTO3S+AD9QnBki7tyZ+tu2Ltdaqyw8pitRf7mzs=;
+	b=VqWi/AoYdUN4pl/wrQlqvkJINe9rSHvx9EiP5Tb06O/aM5zOdhTzIsFgrFmesy4rlcgB
+	 fHp4pUNDJYS9qaA08jKL6SegSsluKbi3lkNmmMe3UaAEx8PTpeTz81g8rETbmjJZLVw+w
+	 3Vj3aEc9l7FIrCM0wH/yMlz+9S23X4DyMKnvskQ8zcD7nEEGWTHJJXlnQBR+W2JRr50s+
+	 fI1C6cJ2xsb3o/H9RZ+Ogvx9/LC/2KoI35kM4n30sLzxMMI7dMXL5ig0Sev+GpM52iRXC
+	 +NOlt1/MCaOVktg0WEiQ9gTuUGp7hyktZKblgMupHlqhgf8tDl57J2VDQTqXsY17cTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bfyl9VBy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=xff.cz;
+	spf=pass smtp.mailfrom=xff.cz;
+	dkim=pass header.d=xff.cz header.i=@xff.cz header.a=rsa-sha256 header.s=mail header.b=nll96AWS;
+	arc=none smtp.remote-ip=195.181.215.36
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C4F606A33B
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 17:48:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E846F606B123;
+	Fri, 20 Nov 2026 18:06:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E846F606B123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bfyl9VBy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD3281F008B2;
-	Fri, 20 Nov 2026 17:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795196914;
-	bh=aGQYX0espepN/+SRai53eGQNq0szmPyH1b5u6i6fuBk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Bfyl9VByIGmjak5+UrB6cZs0VYcnxxWgAPNTmcW/y3Q/h7fenjKS354zlCaEGe5kU
-	 DaiRnCh73xDH7f+6/Lm7iaax8D8k7dgZD6sHG9gj0vEpg7ZvqMPiLQbIUIdzly5/sK
-	 LsfS7Bs5Xh+ZAa/sDl8bN012ySdmdr88rrU6TZw8dxq0kLyM6KzXaWXNCH1WInHoQs
-	 0b5zDdvPgTISh2VfT5N1iov7KiWRLm64iYvst8Wv0GvG6Sso2tMw6JkoADWozz+aCv
-	 oRHnGpU6xgl3dDdNv4t44C8Oj+Z+tXtgVwgFoHDn9OzmUHtP+Tbf3tsNSM/qm5vLPd
-	 vTYShnwuGu7MQ==
-Message-ID: <sashiko-outbox-225719@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: max3420: Fix potential thread leak on
- probe failure
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Guangshuo Li" <liguangshuo@mail.sdu.edu.cn>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261120173512.3923833-1-liguangshuo@mail.sdu.edu.cn>
-References: <20261120173512.3923833-1-liguangshuo@mail.sdu.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 17:48:33 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=xff.cz header.i=@xff.cz header.a=rsa-sha256 header.s=mail header.b=nll96AWS
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1795198000; bh=MA55jACLXy9a3dSLzGxhQ21DV7C7AhbWi2XPW6EayrE=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=nll96AWSpqeSJ5hdMJBLpvGDRaGHnSCSP5uzenmqQLqpAMec43yl7r4KrZf536u1Z
+	 +GbOMVMQuSJHrfFuGQmQyd8U9DsCLZ1o4k2llGqrbkg+ttSqcAFXkCxuwacK8HRJ6r
+	 sRfyQYazXcCPvOKFBY9h+CdjakJLg81mbIo7w7Pc=
+Date: Fri, 20 Nov 2026 19:06:40 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Al Viro <viro@zeniv.linux.org.uk>, Sam Day <me@samcday.com>, 
+	Michael Bommarito <michael.bommarito@gmail.com>, fanggeng <fanggeng@lixiang.com>, 
+	Mateusz Guzik <mjguzik@gmail.com>, Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH] usb: gadget: f_fs: Init reset_work at alloc to avoid
+ kill_sb WARN
+Message-ID: <kac37o5sqtenrtsqafzc4vezhpkiyiglkh4gtp6z4yjbmnuepg@xnhuahcba3to>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Al Viro <viro@zeniv.linux.org.uk>, Sam Day <me@samcday.com>, 
+	Michael Bommarito <michael.bommarito@gmail.com>, fanggeng <fanggeng@lixiang.com>, 
+	Mateusz Guzik <mjguzik@gmail.com>, Kees Cook <kees@kernel.org>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20260725120838.2263579-1-megi@xff.cz>
+ <2026112025-linguist-refusing-439b@gregkh>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,71 +66,89 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2026112025-linguist-refusing-439b@gregkh>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] usb: gadget: max3420: UAF of udc->dev in max3420_probe()
-  stop_thread path
---
+On Fri, Nov 20, 2026 at 11:21:57AM +0100, Greg Kroah-Hartman wrote:
+> On Sat, Jul 25, 2026 at 02:08:34PM +0200, Ondřej Jirman wrote:
+> > From: Ondrej Jirman <megi@xff.cz>
+> > 
+> > ffs_data is zero-allocated and reset_work is only INIT_WORK'd on the
+> > FFS_DEACTIVATED path in set_alt/disable, which the normal flow never
+> > takes. ffs_fs_kill_sb() then cancel_work_sync()s it unconditionally,
+> > tripping the WARN_ON(!work->func) in __flush_work() with a NULL func.
+> 
+> How does that happen?  What triggers it?
 
-commit 1aa81e8a2fed8c598f135d63a9ff28aff8ed2d0f
-Author: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
+Well it's a few months. :) IIRC it's triggered by using multiple f_fs
+gadget instances at once. What I was working on at the time is having
+adbd and secure card gadget impelemnted and running at the same time.
 
-usb: gadget: max3420: Fix potential thread leak on probe failure
+Too late to find any traces and more detailed information now.
 
-This commit disables the UDC interrupt and stops the SPI worker thread if
-requesting the VBUS interrupt fails during probe.
+Anyway, looking at what's left after rebase of this patch on top of 7.3, someone
+else must have fixed the same issue already. This is how this commit looks like
+now:
 
-> diff --git a/drivers/usb/gadget/udc/max3420_udc.c b/drivers/usb/gadget/ud=
-c/max3420_udc.c
-> index 11fd61cba5af9..84309229216b9 100644
-> --- a/drivers/usb/gadget/udc/max3420_udc.c
-> +++ b/drivers/usb/gadget/udc/max3420_udc.c
 
-[ ... ]
+commit 947aaf37e3f4b9af8a694297cc08c71edbbca2b5
+Author: Ondrej Jirman <megi@xff.cz>
+Date:   Sun Jul 19 14:57:16 2026 +0200
 
-> @@ -1283,11 +1283,17 @@ static int max3420_probe(struct spi_device *spi)
->  		err =3D devm_request_irq(&spi->dev, irq,
->  				       max3420_vbus_handler, 0, "vbus", udc);
->  		if (err < 0)
-> -			goto del_gadget;
-> +			goto stop_thread;
->  	}
-> =20
->  	return 0;
-> =20
-> +stop_thread:
-> +	usb_del_gadget_udc(&udc->gadget);
-> +	disable_irq(udc_irq);
-> +	kthread_stop(udc->thread_task);
-> +	return err;
-> +
->  del_gadget:
->  	usb_del_gadget_udc(&udc->gadget);
->  	return err;
+    usb: gadget: f_fs: Init reset_work at alloc to avoid kill_sb WARN
 
-[Severity: Medium]
-Can calling usb_del_gadget_udc() before stopping udc->thread_task cause a
-use-after-free of udc->dev->kobj.name when max3420_thread() exits?
+    ffs_data is zero-allocated and reset_work is only INIT_WORK'd on the
+    FFS_DEACTIVATED path in set_alt/disable, which the normal flow never
+    takes. ffs_fs_kill_sb() then cancel_work_sync()s it unconditionally,
+    tripping the WARN_ON(!work->func) in __flush_work() with a NULL func.
 
-udc->dev aliases &udc->gadget.dev without taking an extra reference.
-usb_del_gadget_udc() can wake udc->thread_task via max3420_udc_stop() (or
-max3420_irq_handler() can wake it while udc_irq is still enabled) and
-then drops the final reference on udc->gadget.dev via usb_put_gadget(),
-freeing udc->gadget.dev.kobj.name.  When kthread_stop() runs next,
-max3420_thread() logs its exit with dev_info(udc->dev, ...), reading the
-freed name:
+    Initialize reset_work once in ffs_data_new() and drop the redundant
+    lazy INIT_WORK calls.
 
-drivers/usb/gadget/udc/max3420_udc.c:max3420_thread() {
-	...
-	set_current_state(TASK_RUNNING);
-	dev_info(udc->dev, "SPI thread exiting\n");
-	return 0;
-}
+    Signed-off-by: Ondrej Jirman <megi@xff.cz>
 
-Disabling udc_irq and stopping udc->thread_task before calling
-usb_del_gadget_udc() (or falling through to del_gadget) would avoid this.
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index c64a268e98a4..972f424ad252 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -54,6 +54,9 @@ MODULE_IMPORT_NS("DMA_BUF");
+ /* Reference counter handling */
+ static void ffs_data_get(struct ffs_data *ffs);
+ static void ffs_data_put(struct ffs_data *ffs);
++
++static void ffs_reset_work(struct work_struct *work);
++
+ /* Creates new ffs_data object. */
+ static struct ffs_data *__must_check ffs_data_new(const char *dev_name)
+        __attribute__((malloc));
+@@ -2291,6 +2294,8 @@ static struct ffs_data *ffs_data_new(const char *dev_name)
+        init_completion(&ffs->ep0req_completion);
+        INIT_WORK(&ffs->reset_work, ffs_reset_work);
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120173512.3923=
-833-1-liguangshuo@mail.sdu.edu.cn?part=3D1
++       INIT_WORK(&ffs->reset_work, ffs_reset_work);
++
+        /* XXX REVISIT need to update it in some places, or do we? */
+        ffs->ev.can_stall = 1;
+
+
+So I think you can ignore it.
+
+Best regards,
+	o.
+
+> > 
+> > Initialize reset_work once in ffs_data_new() and drop the redundant
+> > lazy INIT_WORK calls.
+> > 
+> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> 
+> No fixes tag?  No cc: stable?
+> 
+> What found this issue?  How was it tested?
+> 
+> thanks,
+> 
+> greg k-h
