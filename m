@@ -1,99 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.179
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795195734;
-	b=gZ/QVmUtY0eLk58leorqzoyxbhWnxxt4jU8Cp0xCPQohKw7DI7JtFNGFI3dyajIjQvZh
-	 ENdsl4NjVFt+s0BBXVRja8J4NDD7EzqS+0PWWsZBoZ4ggb2jdXdX30HB0qfsuy9rJpEQE
-	 In5+rDqNwiLgkcvRrsDy0avrL3jr8uI/5I4qQPH9nIurbHh21blBcWHcCICyxAxSXydfF
-	 xwKD3ZrDjbO2XOfFZvlPz8P29cuazrc0ZRks6rypQP29rcmT199PzgvdlDRNDa5AI63WX
-	 ezPmDvxyAQ2MDWErl2qk6seTb+pp05z7UmS+un73Z9KxKItU1up1kj/pC/aRcZglqBw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795195734;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.180
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795195767;
+	b=la+TjJsxrAuDkACYqdGTSl89D5xaXzvN/FLDTxgEBPnHIROPpCh/KARXFdz3W4iYx8U+
+	 7g7bQjokSK9Zs6UTVjat3hg6Vp1jgCETnrUAS4uxhXIbv0j9HWsclqQ92XBl28xgNn8NM
+	 m7Mcin9h2mEZ6WeBILaz53h3drHFO8qhxkFIbizjKLdOWxgnLqidRbRHG75DXHUwU9MBo
+	 qzn7gdW9M92P/jK+oSqpJiV18KomQuEAory7dKmEnA+xByXU4PoGUcGf0QKXbBSoqJOpP
+	 K5X496MnhdixQzP0moqmSsPXWkqQJob41rZrTrnrQTgmGCwVAZVZPddX8nOCybX02Xw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795195767;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=EyBa1qYdQn+iPfoA42hZVookOq748rCRVECzEXuJvRc=;
-	b=kOzm7lV7ZyjarPDZMo3Hy8Uru7xolbjXucrORoVLLylrwsiMvlQ0RKEZlgUyfl8lDaZL
-	 VcgG5SVQidBj49qFHBoR+f0WfBBKPQCP8pFtOYEnUr94dUQG5Qo82uodzHnG44DfPh8js
-	 jQh77xmzv4vngylw7SvpEKYVksHKdjae87CyvtFG1yqTAnetexphu/VV3ZvEal4CE1pva
-	 ZmZX5p+n1YLc8BWXmr7nW8wzv0g3XckGDKLRNMws9xQoCow5r90Gm9RIcEApBV2hZik8z
-	 ddrSa7JR4ByyxmDgK5PPJ1y39ZM6ulG9fe3yxn9hPja7Ngye8A3GlPRcr+5ffJp51Qg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=isslab.korea.ac.kr;
-	spf=none smtp.mailfrom=isslab.korea.ac.kr;
-	dkim=pass header.d=isslab-korea-ac-kr.20260707.gappssmtp.com header.i=@isslab-korea-ac-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=PnWs1XMU;
-	arc=none smtp.remote-ip=209.85.210.179
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=bfTkpAyTY5wLpe1KUDKJKdlMdvgeIJJlYeQhf9YGZ7o=;
+	b=Ff3eHifSirn4VKBC4j0/SRFFWbcD6bfN0MiKjEar7JlgHq70SttKwjNmcXLv/ipBpyqD
+	 TMwZPPBRCHXHBpEnhka7Psxi07s5txoCzcV1vTUi9EMPjUh+oNAUzNvdm/7JMBEBMMB6i
+	 QmAEYEmGlJvN+AbOBy/bk1d915fr2YmnD2j8/UhA2agnW9mhgzHohoIrvnIQQ0rvtue5z
+	 ciYbICpovm/e/btc5vZtogIoZle8cdNL/8liGDR0BLr/glMCA8JwDsUz47bOaPUeB3dFd
+	 q0Ppj19JThT2zGQhY14aUy1CgV9tVMzKiNL12ic/nfCW2Woy6i5KVVUrCeX4xOpbrmg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=l3GVRdg1;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.180
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A200160A2637
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 17:28:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A200160A2637
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=isslab.korea.ac.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=isslab.korea.ac.kr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CC9606A33E
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 17:29:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63CC9606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=isslab-korea-ac-kr.20260707.gappssmtp.com header.i=@isslab-korea-ac-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=PnWs1XMU
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-886e61fa30fso515205b3a.1
-        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 09:28:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=l3GVRdg1
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-533202fe429so372031cf.0
+        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 09:29:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795195764; cv=none;
+        d=google.com; s=arc-20260327;
+        b=l5nde6BrU2+83MAVplo1Ne/1s2eYLLBSc11MDBCF9x6p3I3ZdSa6LY4sNXlOkuVbKi
+         kSNTYQFTFH0u4M4uzhXweeZDEVVmHKXgnfCM7vEOhcZokUU2ifxEQTtQVQGOeOqInDd3
+         3JV1wuP4fj8rr7zL9AdvqrYyrmSdEk2U7UixQwb7XflXtA+HUtyuNFe59f/713CshiRr
+         zCmpMyySqyW+lw5jkBE8HUPilhWcP7reQlmI3mhYO6/i/+FeRXTschqtVWcY7B0bEyG8
+         7D8rur+ZirORH+HYpbjS5S+1/9/Imil0V/JkxsbFYNXu7QrSYnj+BEJuD5d3wW06DzY1
+         bQ2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bfTkpAyTY5wLpe1KUDKJKdlMdvgeIJJlYeQhf9YGZ7o=;
+        fh=KH1l2a4At65sLf1nfhC/5pp57/IPwP622OjrAaggkVE=;
+        b=NiDSwP63YlskvNidtHihBktkvAt22my9uCpxTRr3FXJW0+bYtV8uhXM/4vgeh+TbNY
+         8fZfLNZt1rWXRSwi4jUftXVLcRFnxmJVommIp/tultcvP+QgIsDvGEVRx6EjOs8On7M3
+         9xovBAKCmj+kJHJEOEWBn6jGcQfAg7iaWYZHu5VWP0ME2x33clZgS2IKhbBiDRAVOZcc
+         KWEyRqwGNvkhp6RqqM7XQ7zmeqksLOaQdR/cfgTA7SOQlpgcs5plK5FHoRHRos7mdF3c
+         20oJ1tSYxj7iJhJ1oWxrxOv5W7ML4NF0NEkDrXwtvGkIxcqtY1y6v376O+dCbmbqedOV
+         SHmQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isslab-korea-ac-kr.20260707.gappssmtp.com; s=20260707; t=1795195733; x=1795800533; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EyBa1qYdQn+iPfoA42hZVookOq748rCRVECzEXuJvRc=;
-        b=PnWs1XMUfFDo4imkIzgO8Eef7daylampggE8X/caLT6qMzzb+/AYGi622TouMxSUfR
-         Gb1oWHjIfXh4u7XfYODyeg41vf9ftHkikVM0ahGw7dFpihIXTd41GfswSRLFX+j1fW7b
-         +XPmawmrK+Z4dMy6+AT9GRfHKYLKy/hzjkoFX/Xyr+BpG1x5xiP+SaBiPgmjCjmMLvc5
-         Fp5goRuXmLstA65pUmlIhNvY1+vwHlKazsL0USxufxNhwWQhCW2sDMgKu1HJjVzzRrSG
-         +fgEzKNQFUIqKr/KKxva+WLOCRykO1LE7Z+30ssryEXEe9ATzYcKoxL2p3Z0Ox+ut4Gd
-         jXDw==
+        d=google.com; s=20260707; t=1795195764; x=1795800564; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bfTkpAyTY5wLpe1KUDKJKdlMdvgeIJJlYeQhf9YGZ7o=;
+        b=l3GVRdg16VPWScqmn5BZxtA7/L9oF1UcOodEIO2q1vp3rCSTc9dU02fuwKYSR/rige
+         DnYKmcxXgxVWLKX+001F0giqPxrt5e5dCabvgUobgNQmOSyr9QGV3Ct6uQO4lu65aa6z
+         W4P+jzNvyOI2jPBcQlJPRUxRp6No/dhs7hAVMNBmJJ6Wsuu9jnWrKoBS9FwsPoIOlIHW
+         b9LZcYpzyNJm0zaAS3lY4tHQ9FHHtKn/unaGKbT47l267GkfhDrrVN4xJfj4fA9+49sP
+         EkEKZJ5K0IJaQyVu8V1KKnkNaScUr4PKmNW6brE1mg3tM/SG6aPBfaVsFZTrXPcKQsU7
+         /8nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795195733; x=1795800533;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EyBa1qYdQn+iPfoA42hZVookOq748rCRVECzEXuJvRc=;
-        b=dyREQq7C0T9NNq9TV/+6ofE18of4mKom/uLPBgpgt/id3ytH3AcwOurEQVD+iuIllh
-         EWR74qcV2KaWu0u4LJUXl3mhnA2sk3BHebb6BgCtE+cIYeU0I1bg6HdAR7PqR5IhUeGa
-         YMJgudlX7xTj7cUZJFleO2FgulhUe1ohJls96XNfvnx29YiKHswwb+j/gciFdwY4Tvyo
-         vJu4Q4UyiZLddPuGyyB6id9TV0wQIlHaZOCbaiQjRjw8/vETpAuG+zCv8fxIwyqY14Hh
-         y5ceHmOT5Y2RUyK7BjzRow+eZ3/Yh16Ytdo4u7vrSv6QpXAlBDgEVAtA9uUzVhxdjJ6G
-         +x5A==
-X-Forwarded-Encrypted: i=1; AL+hErE7+HZ0+UYMSxe2WRq5OX0Rdhp6fpJQEAnaEi3DN7eN8W9HzrLt0a3MJZeqg8M4hWDGACrX5fmGqf4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+7XVFdhpr6SLl0Edo2WtacAm0w8HukxB11Wd6wrhkDqXvglWLr
-	0g+Y6eJcKh6wpD24x4f4APwsPXPmhwGImtsS4slj9KRiFMQtFNzCpP8k4CB4o8NCCKs=
-X-Gm-Gg: AZFdTZfyoPJ7qUgN89TuckMwdPP1p9codxazgWue9shxhGv99DF1vvMjICkeUs7ZU/D
-	tk3nkpau0GeFiVzdc7vpvpirSGno1TnJEayLjALdBoPf26G8Vg6VdJyBxtCVxAwSjk8o7DkCG83
-	OMlBQArY8CdPT8U9DI7S9vx0YJ+kmavB7JC8SjDljwWPYsT2wJo8qDIa5vRwU+xpPky25+yBPPc
-	RF1+8dGSlTACXu8P2LE0nR04xNTzCSi6HfUlcyVqRvsIKEAGfhkQ4aQEmQcr9iWTKDSlFjU2GZf
-	Wj7e06fPC4TalnAFzubvgw5wkVFMhJEFfDuKSzTt1mnrgfjDeDT22SGNqrL9JALlRjOH6CZLhaC
-	ko/mOgsER+rjkKBStfA7osB9O1FbUrlc9/3mY24G+B239T62SKOl1p4ZayCYh4xKwdWb4lex/uZ
-	gOtuL6/jtu1hn/sCI3iQ6hL20Y3aZHGAoWEHgLdfRtJSp3mo/vbCKeir3U/B698j148GJkRilzC
-	25EjDjc6UbxK910Uh5gFtedQUBNaz8wa/5D7CsvI6ZQe5bxsiyP+CFXrV85Hf4WWnxEi3mn4nNy
-	HRuwHPH5e4N0lc52yPWD/RNvn8+k+LaagDlHgxPPcfx7HwES/zh46e6PiUUibxtpiVUPTit6UUr
-	o0L/FTj+EB2SQDwto3+nqB9LMxDN3aV80XQyM
-X-Received: by 2002:a05:6a00:3c84:b0:8b6:4eec:f501 with SMTP id d2e1a72fcca58-8c87bac51a0mr3657544b3a.14.1795195732839;
-        Fri, 20 Nov 2026 09:28:52 -0800 (PST)
-Received: from yhlee-960QFG.Davolink ([2406:5900:1044:110c:8b25:951:ad8d:5cc1])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c87334890csm1867911b3a.33.2026.11.20.09.28.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 09:28:52 -0800 (PST)
-From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
-To: gregkh@linuxfoundation.org,
-	nkapron@google.com,
-	linux-usb@vger.kernel.org
-Cc: Thinh.Nguyen@synopsys.com,
-	bigeasy@linutronix.de,
-	target-devel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	benquike@gmail.com
-Subject: [PATCH v9 3/3] usb: gadget: f_tcm: clear the scatter list when reusing the BOT status request
-Date: Sat, 21 Nov 2026 02:28:29 +0900
-Message-ID: <20261120172829.3286180-4-yhlee@isslab.korea.ac.kr>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261120172829.3286180-1-yhlee@isslab.korea.ac.kr>
-References: <20261120172829.3286180-1-yhlee@isslab.korea.ac.kr>
+        d=1e100.net; s=20260707; t=1795195764; x=1795800564;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bfTkpAyTY5wLpe1KUDKJKdlMdvgeIJJlYeQhf9YGZ7o=;
+        b=TmQbdvbgeP+c1UL3ZxyLmIBK6Kmy2tdlMhX+dX/yfy/sUP+sc+c8SldHGa/OlybJWJ
+         QfeqiG99FXD8c2+LhqUOWuDBEBVdVpFG52Xk/UNIBJOiVfjVpFMKyXzduetBaFZb5vmo
+         4ts8z+3T0ZUVdGN6cdbVSJatWPwhso0Ae/MPtppaAaV8j9CRPJSkkX9OvG1oqx8A49Bp
+         xHrq6S/pTbPiqnbhYzt3xrnMFVrGnqt8PQA6UxvaE9T5wvPrjIijIK2ILkHUYQMlTqjW
+         +sunwZjKjRlAQt4L+rU3b2SuQ0LAd9v/yXCji5dXOLakog1M62PbDovkXe6tAXK0cIcv
+         Anlg==
+X-Forwarded-Encrypted: i=1; AL+hErHut2y9OSZO7BDxp41XunY6yYxYCuSPG7APu6jxs4+Gwp2EIGL4iEbG4S9r7j4D1a+vOBGexX5yWxw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/eYBvihTYEmXtmEVzxuFwfIr44XhT7jQP5XGXYGueVxSJSnQOu
+	/LMsbVnSGwx446Q+E6g0FTPjgf2qzzbIZwLZt3HTSwT8YgYKD4gmEScx6hb6Pm1pKp5FvQny4z/
+	eRtXIWeMW4LHC78g7GcR0RNMVmVj+WDMk7Hy5lzKE
+X-Gm-Gg: AYBFou148f6oPDbYxkjAgk3lIb2nlOccKR6/1jKtj4nDY88q7GReJi3O4DZZBhT6Efh
+	R5WfxkBTl4PrPEGBd63DnG5Wpw71rZiWANZbxpSZpAwCozoKp88ZlpSEeNlaVzoljRqLAfJoA9q
+	KFQjkXh92dP5H581maFVzjkO5+Jy0tmVasw9Ba1DGIdLoiDaM2I22jtqJN2ZQMKUrLl/iUQGxOE
+	TXnvSMlFCEYZyiyhUX0HLRvW6wNTGazeHj9y3DOmdo8iM85GDNnAbInAQhpvXqd4qzL+xW86gnM
+	FE6mhuMdMCcHgxlcUOngqF8pKJRgWdd4GaRPMrQTgPmKKxzVTGZ/XaqHVT0qkyst7UK375uTBtE
+	oc/g0hKlk7xjAJz2fS6t0F9u+pOBP1WNIcfBq
+X-Received: by 2002:a05:622a:2b07:b0:536:6ea4:e6a0 with SMTP id
+ d75a77b69052e-55d7a35af5emr20936351cf.11.1795195763344; Fri, 20 Nov 2026
+ 09:29:23 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,49 +104,168 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261119170853.1529676-1-irogers@google.com> <awBiQ0S1hYnm-ngo@black.igk.intel.com>
+In-Reply-To: <awBiQ0S1hYnm-ngo@black.igk.intel.com>
+From: Ian Rogers <irogers@google.com>
+Date: Fri, 20 Nov 2026 09:29:11 -0800
+X-Gm-Features: Aa3M54qjIXZFwfoIO-dZiEsJTXyVaZW2PPM6ShZu-HH-RmWEeaNIOyio_jR0G5c
+Message-ID: <CAP-5=fVhPeWOCmQRB3ZAkv9jS4cOgsHr_yekiLon9ZhF6Mmsdw@mail.gmail.com>
+Subject: Re: [PATCH] usb: typec: qcom-pmic-typec: Avoid reading uninitialized
+ state on error paths
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-msm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	Elkin Cruz <elkin@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-bot_send_bad_status() reuses fu->bot_req_in/bot_req_out to send the CSW or
-drain the data phase, but a preceding sg command left req->sg and
-req->num_sgs pointing at that command's t_data_sg - set in
-bot_send_read_response() for a read, or usbg_prepare_w_request() for a
-write.  That command is freed before the status request runs, so on an
-sg-capable UDC the status request is handed to the controller with a freed
-scatter list: the controller reads freed memory out to the host on an IN
-endpoint, or writes host data into it on an OUT endpoint.
+On Fri, Nov 20, 2026 at 7:08=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> On Thu, Nov 19, 2026 at 09:08:53AM -0800, Ian Rogers wrote:
+> > In qcom_pmic_typec_port_set_cc(), error paths from regmap_read() and th=
+e
+> > default switch branch jump to 'done:', which logs 'currsrc', 'mode', an=
+d
+> > 'misc' via dev_dbg() and passes uninitialized 'currsrc' into
+> > rp_sel_to_name(), indexing rp_sel_name[] out-of-bounds when dynamic deb=
+ug
+> > is enabled. Similarly, early error paths in qcom_pmic_typec_port_get_cc=
+()
+> > jump to 'done:' before 'misc', 'attached', '*cc1', and '*cc2' are
+> > initialized.
+> >
+> > Return early on error paths in both functions instead of jumping to the
+> > post-success dev_dbg() trace.
+> >
+> > Found via an x86_64 LLVM=3D1 (Clang 21.1.8) allyesconfig audit with
+> > -Wconditional-uninitialized enabled; fix and changelog drafted with an =
+AI
+> > coding assistant. Build-tested under LLVM=3D1 W=3D1 (-Werror) and
+> > -Wconditional-uninitialized; not tested on Qualcomm PMIC Type-C hardwar=
+e.
+> >
+> > Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver=
+")
+> > Signed-off-by: Ian Rogers <irogers@google.com>
+>
+> No stable here either?
 
-Clear req->num_sgs and req->sg so the UDC uses the linear req->buf instead.
+Agreed, 'Cc: stable@vger.kernel.org' makes sense here too (especially
+for the rp_sel_name[] out-of-bounds read under dynamic debug). I'm
+happy to send a v2 adding Cc: stable@vger.kernel.org, unless you
+prefer to add it when applying.
 
-Fixes: c52661d60f63 ("usb-gadget: Initial merge of target module for UASP + BOT")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
----
-v9: move the test note out of the changelog (Greg).
+Thanks,
+Ian
 
-dummy_hcd does not do sg, so this was tested with a small module standing
-in for the controller's queue path, dereferencing req->sg the way an
-sg-capable UDC would.  It reports a KASAN slab-use-after-free on the freed
-entry for a read command followed by a rejected command that reuses
-bot_req_in, 20 runs out of 20 without this patch and 0 out of 20 with it.
-A normal sg read still queues its own scatter list.
-
- drivers/usb/gadget/function/f_tcm.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-index a8fdb24f9d94e5..b21db34fe2a7ac 100644
---- a/drivers/usb/gadget/function/f_tcm.c
-+++ b/drivers/usb/gadget/function/f_tcm.c
-@@ -140,6 +140,9 @@ static void bot_send_bad_status(struct usbg_cmd *cmd)
- 		req->complete = bot_err_compl;
- 		req->context = cmd;
- 		req->buf = fu->cmd[0].buf;
-+		/* the status request is reused; drop the previous command's sg list */
-+		req->num_sgs = 0;
-+		req->sg = NULL;
- 		usb_ep_queue(ep, req, GFP_ATOMIC);
- 	} else {
- 		bot_enqueue_sense_code(fu, cmd);
--- 
-2.43.0
-
+> Thanks,
+>
+> > ---
+> >  .../typec/tcpm/qcom/qcom_pmic_typec_port.c    | 25 +++++++++----------
+> >  1 file changed, 12 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drive=
+rs/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+> > index b2ad31e85b5e..a1595b8b53e7 100644
+> > --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+> > +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+> > @@ -372,14 +372,12 @@ static int qcom_pmic_typec_port_get_cc(struct tcp=
+c_dev *tcpc,
+> >       ret =3D regmap_read(pmic_typec_port->regmap,
+> >                         pmic_typec_port->base + TYPEC_MISC_STATUS_REG, =
+&misc);
+> >       if (ret)
+> > -             goto done;
+> > +             return ret;
+> >
+> >       attached =3D !!(misc & CC_ATTACHED);
+> >
+> > -     if (pmic_typec_port->debouncing_cc) {
+> > -             ret =3D -EBUSY;
+> > -             goto done;
+> > -     }
+> > +     if (pmic_typec_port->debouncing_cc)
+> > +             return -EBUSY;
+> >
+> >       *cc1 =3D TYPEC_CC_OPEN;
+> >       *cc2 =3D TYPEC_CC_OPEN;
+> > @@ -392,7 +390,7 @@ static int qcom_pmic_typec_port_get_cc(struct tcpc_=
+dev *tcpc,
+> >                                 pmic_typec_port->base + TYPEC_SRC_STATU=
+S_REG,
+> >                                 &val);
+> >               if (ret)
+> > -                     goto done;
+> > +                     return ret;
+> >               switch (val & DETECTED_SRC_TYPE_MASK) {
+> >               case AUDIO_ACCESS_RA_RA:
+> >                       val =3D TYPEC_CC_RA;
+> > @@ -417,7 +415,7 @@ static int qcom_pmic_typec_port_get_cc(struct tcpc_=
+dev *tcpc,
+> >                                 pmic_typec_port->base + TYPEC_SNK_STATU=
+S_REG,
+> >                                 &val);
+> >               if (ret)
+> > -                     goto done;
+> > +                     return ret;
+> >               switch (val & DETECTED_SNK_TYPE_MASK) {
+> >               case SNK_RP_STD:
+> >                       val =3D TYPEC_CC_RP_DEF;
+> > @@ -472,7 +470,7 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_=
+dev *tcpc,
+> >                         pmic_typec_port->base + TYPEC_MISC_STATUS_REG,
+> >                         &misc);
+> >       if (ret)
+> > -             goto done;
+> > +             goto err_unlock;
+> >
+> >       mode =3D EN_SRC_ONLY;
+> >
+> > @@ -496,7 +494,7 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_=
+dev *tcpc,
+> >       default:
+> >               dev_warn(dev, "unexpected set_cc %d\n", cc);
+> >               ret =3D -EINVAL;
+> > -             goto done;
+> > +             goto err_unlock;
+> >       }
+> >
+> >       if (mode =3D=3D EN_SRC_ONLY) {
+> > @@ -504,14 +502,11 @@ static int qcom_pmic_typec_port_set_cc(struct tcp=
+c_dev *tcpc,
+> >                                  pmic_typec_port->base + TYPEC_CURRSRC_=
+CFG_REG,
+> >                                  currsrc);
+> >               if (ret)
+> > -                     goto done;
+> > +                     goto err_unlock;
+> >       }
+> >
+> >       pmic_typec_port->cc =3D cc;
+> >       qcom_pmic_set_cc_debounce(pmic_typec_port);
+> > -     ret =3D 0;
+> > -
+> > -done:
+> >       spin_unlock_irqrestore(&pmic_typec_port->lock, flags);
+> >
+> >       dev_dbg(dev, "set_cc: currsrc=3D%x %s mode %s debounce %d attache=
+d %d cc=3D%s\n",
+> > @@ -520,6 +515,10 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc=
+_dev *tcpc,
+> >               pmic_typec_port->debouncing_cc, !!(misc & CC_ATTACHED),
+> >               misc_to_cc(misc));
+> >
+> > +     return 0;
+> > +
+> > +err_unlock:
+> > +     spin_unlock_irqrestore(&pmic_typec_port->lock, flags);
+> >       return ret;
+> >  }
+> >
+> > --
+> > 2.56.1.708.g77570a6a1d-goog
+>
+> --
+> heikki
