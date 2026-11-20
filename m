@@ -1,52 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795171688;
-	b=p6B4vGO3Hms7CtZeSGzV4xjRgbsOkUk0/RT0D9z/cofXpxjyzXqb/7H0RcBB//gv3ruB
-	 I4JNBJYzaW2SfmFDgs610EaSPzSSq/euXiNg3E7bTnrFt1hbUOrff4oB7dUE15nagR+jp
-	 JREgG9jpugF6ZbRBx9jjhG2BMz4L22l0ZO5bhyPhtCYGbHzMELSwLHJcurx43GUM7nBBM
-	 z3X+DFqx2uyDRlS/voxKXAzbZuPZm/dpab6LZKEmiMybq56pE59VodaIcy+4KPt3+Fo3F
-	 OeSZAimpQ086TRUBJIei6DLi7QprK9Z2TBFeYB+c6r4hGRe+P1KYjEGS//HaPXcC4Sw==
+	t=1795171813;
+	b=Y6iDkn81NcE4z2DFUcg2MZODonE+DEmKDkxR20yX7fNcBE5QE8Ng+4SXQ31bXVqx63WN
+	 v7BAT2WRXcZZnCe7plZET4jw737w8o05cAu75rK7unRc58fOU9oa+VbQZp1MjLHdPsG4G
+	 Wf57sg5CdCQLuYxVQdNcCToLJMVpQp94JTC34+Lm6ix3IdbooIxcRCe0vNUaiFHoSymT6
+	 i2pvSGg5UnkknNTGZQ5q+9l6QwXJ6wuHeyVRXcsdTP1Idl2mM/JeqB8fS1FZO3MrefDrz
+	 Lzwm4tlxKJER185NugDhi8BERc9srVpXyQfRm3MGJJYB1aH/OUME+fOldYrRt8I0sLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795171688;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795171813;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=vK6yaBpwpgHFEhpQXiGAYAvkirAzsjkLJlEInwtsnPE=;
-	b=3kype6vQTWmCrBga0EsYqOp4qf70JoUgEm+q4ydqOb5QIo7vbngq6tQ27Cnwd92WYqTR
-	 HDd+PEdTsqT3kdN2Nx6krSc2soY34ls0k3vgo0P0hf4LJTFlYs5v2k/hrhVY3Hcs0ucfj
-	 MDnVmhkyrb+1bktESTDbzxP+GZ2ddn1r4IDOxUrda95CfJIwOwu2lvQFitgKr/mTpRnKw
-	 XAUY7B83RzJN4DKE0+MAEWO44M16yLsquFJuPJDFZC1bsnw1owdX7hCUKfwYpOMG13A6M
-	 yIfn/IKa8wHXpG+8gvqFkD6uBy1+7vlp3SAusLq96zzp4ASndNUIzRgnNLDNLHTf+Ww==
+	bh=t32/Vj4E+pdMjLhw/nyfYrLcflIqAL805UQFbxCTQpo=;
+	b=2zfsEgOpnYnmhQfRVZ9y5UI4Cw2bB6IZlATL9/U4WRFkn/ZnLPnOwHYmI0tTg/PjmM8y
+	 7N73lvRdFIuefpsqt5p1oi9BoHJHtatP5TfFplCcdndI8f1W+5BdIy90scBS7ADC0ZSCE
+	 XJp/CpepQxrop/8WXsK/1pFOWc9tEACB01IuHabQ8CRi+us2SkfFs3idPfrDkcQOvN1OY
+	 F7ZQU2JJCWry4+nJ5Zf6mGwe/41gBPDULUZRTeIUoj5HknQC5w8CbdIGyLbmw32HY0e3k
+	 Z/we58C4/ySBZTQrXABgDSyCyqqt1ViyPPP+7QOu/1UWgLVoWbEs7xMvC2PURqMBdcA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=vV0+EMMl;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="t/tSR4o/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2135606A320;
-	Fri, 20 Nov 2026 10:48:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D602606A320;
+	Fri, 20 Nov 2026 10:50:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=vV0+EMMl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C15B01F000CA;
-	Fri, 20 Nov 2026 10:48:07 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=t/tSR4o/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BCDD1F000C6;
+	Fri, 20 Nov 2026 10:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795171688;
-	bh=vK6yaBpwpgHFEhpQXiGAYAvkirAzsjkLJlEInwtsnPE=;
+	s=korg; t=1795171812;
+	bh=t32/Vj4E+pdMjLhw/nyfYrLcflIqAL805UQFbxCTQpo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=vV0+EMMlgKpM150mscPuPefS2boDVxSaBj27Qjob23IU1i6ThJ66cvX4VB4tfDq9/
-	 oHwYYwEYAfUSMMXomNdeb887AOVIaSG61AQdrKMrnctiaRRVTXwHMLj4DcXcCBwC2T
-	 Mdi8VVWS+grNgKMKTnr5ywRk0Jn0QUkfpkectLQo=
-Date: Fri, 20 Nov 2026 11:48:05 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Haofeng Li <lihaofeng@kylinos.cn>
-Cc: kees@kernel.org, mlbnkm1@gmail.com, christophe.jaillet@wanadoo.fr,
-	raoxu@uniontech.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, 13266079573@163.com
-Subject: Re: [PATCH v2] usb: gadget: f_printer: prevent OOB write in
- GET_DEVICE_ID
-Message-ID: <2026112055-reflector-knoll-e9d8@gregkh>
-References: <2026082154-estrogen-spoon-0a9e@gregkh>
- <20260821160517.3439548-1-lihaofeng@kylinos.cn>
+	b=t/tSR4o/9B71uFR0YCZHmfoIA/EiZ2XrYHhZflAyEahss/3hQj9MTHA0BwJiIgg8k
+	 nxj084LQV+7zV1WPMUPnZcTdSMB5Nkr50kM8rX4mbunpJ586GrZwbAhWL689wWrepI
+	 tbR4QkawHSDdTbirIcf809ucY7I3hrylLG8OE2lU=
+Date: Fri, 20 Nov 2026 11:50:09 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: nicholasfvelten@gmail.com
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzbot+85ede281798faf736677@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb: gadget: u_ether: refuse to re-register a failed
+ net_device
+Message-ID: <2026112050-revision-essence-daee@gregkh>
+References: <20261014-fix-gadget-netdev-reregister-v1-1-0fb91999da06@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,62 +56,99 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260821160517.3439548-1-lihaofeng@kylinos.cn>
+In-Reply-To: <20261014-fix-gadget-netdev-reregister-v1-1-0fb91999da06@gmail.com>
 
-On Sat, Aug 22, 2026 at 12:05:17AM +0800, Haofeng Li wrote:
-> printer_func_setup() services the Printer Class GET_DEVICE_ID request
-> by echoing the PnP string previously stored in the gadget's configfs
-> pnp_string attribute:
+On Wed, Oct 14, 2026 at 08:06:38AM -0300, Nicholas Velten via B4 Relay wrote:
+> From: Nicholas Velten <nicholasfvelten@gmail.com>
 > 
-> 	value = strlen(*dev->pnp_string);
-> 	buf[0] = (value >> 8) & 0xFF;
-> 	buf[1] = value & 0xFF;
-> 	memcpy(buf + 2, *dev->pnp_string, value);
+> When register_netdevice() fails in or after netdev_register_kobject(),
+> it returns an error but leaves the net_device in NETREG_UNREGISTERED.
+> Such a device can never be registered again; the only valid thing to do
+> with it is free_netdev().
 > 
-> The EP0 response buffer is exactly USB_COMP_EP0_BUFSIZ (4096) bytes,
-> allocated once by composite_dev_prepare():
+> The configfs Ethernet functions (ECM, EEM, NCM, RNDIS and subset)
+> allocate their net_device once per function instance and register it
+> from the bind callback, retrying on every bind for as long as the device
+> is not registered (formerly tracked by a "bound" flag, now by
+> device_is_registered()). After a failed registration the next bind
+> therefore calls register_netdev() on an NETREG_UNREGISTERED device and
+> hits the BUG_ON() at the top of register_netdevice():
 > 
-> 	cdev->req->buf = kzalloc(USB_COMP_EP0_BUFSIZ, GFP_KERNEL);
+>   kernel BUG at net/core/dev.c:11440!
+>   Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+>   RIP: 0010:register_netdevice+0xc21/0x1d00
+>   Call Trace:
+>    register_netdev
+>    gether_register_netdev
+>    ncm_bind
+>    usb_add_function
+>    configfs_composite_bind
+>    gadget_bind_driver
+>    ...
+>    gadget_dev_desc_UDC_store
 > 
-> The two-byte length prefix plus the string body must therefore fit
-> into 4096 bytes.  pnp_string is stored via kstrndup(page, len,
-> GFP_KERNEL) in f_printer_opts_pnp_string_store(); configfs passes at
-> most PAGE_SIZE - 1 (4095) bytes down to the store callback, so a
-> 4095-byte string combined with the 2-byte length field makes the
-> memcpy() write buf[2..4096], one byte past the end of the allocation.
+> syzbot hits this by binding a gadget from a memory cgroup with a tiny
+> limit, which makes the memcg-accounted allocations in
+> netdev_register_kobject() fail. That is why its bisection lands on
+> commit 425b9c7f51c9 ("memcg: accounting for objects allocated for new
+> netdevice"): that commit made the failure reachable that way, while the
+> retry itself is much older.
 > 
-> Attack chain (USB Printer gadget on the victim device):
+> Refuse to register a net_device that is not NETREG_UNINITIALIZED in
+> gether_register_netdev(), which all of these functions use, so that the
+> bind fails with -EINVAL instead of crashing. The function instance has
+> to be recreated to get a usable net_device again.
 > 
->   1. pnp_string is set to a 4095-byte value through the gadget's
->      configfs attribute
->      (~/config/usb_gadget/<gadget>/functions/printer.usb0/pnp_string);
->      configfs accepts up to PAGE_SIZE - 1 bytes (fs/configfs/file.c).
->   2. The printer function is enabled and the gadget is bound to its
->      UDC.  An attacker in control of the connecting USB host sends a
->      Printer Class GET_DEVICE_ID request (bmRequestType=0xA1,
->      bRequest=0x00, wIndex pointing at the printer interface); the
->      usblp host driver also issues this request on enumeration.
->   3. composite_setup() -> printer_func_setup() -> memcpy(buf + 2,
->      pnp_string, 4095) performs a 4097-byte write into the 4096-byte
->      EP0 response buffer, overflowing the heap object by one byte and
->      potentially corrupting adjacent slab objects or allocator
->      metadata (CWE-787).
+> Reproduced with fail-nth fault injection on the allocations of the
+> write() to the gadget's UDC attribute, binding again without injection
+> after each failed bind, using a fresh function instance per iteration:
+> without this change NCM, ECM and RNDIS hit the BUG_ON() at the 16th
+> injected allocation; with it, 400 iterations for NCM and 300 each for
+> ECM, EEM, RNDIS and subset complete with no BUG or KASAN report.
 > 
-> With KASAN enabled the overflow is reliably reported (this is
-> reproducible end to end with a configfs gadget + dummy_hcd):
-> 
-> 	BUG: KASAN: slab-out-of-bounds in printer_func_setup+0x2ec/0x3c0
-> 	Write of size 4095 at addr ffff88818e461002
-> 
-> Fix it at both ends:
-> 
->   - clamp the string length to USB_COMP_EP0_BUFSIZ - 2 in
->     printer_func_setup() so the copy can never exceed the EP0 buffer,
->     and
->   - reject pnp_string values longer than USB_COMP_EP0_BUFSIZ - 2 in
->     f_printer_opts_pnp_string_store() so an oversized string is never
->     stored in the first place.
-> 
+> Fixes: 40d133d7f542 ("usb: gadget: f_ncm: convert to new function interface with backward compatibility")
+> Reported-by: syzbot+85ede281798faf736677@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=85ede281798faf736677
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Nicholas Velten <nicholasfvelten@gmail.com>
 > ---
+> The syzbot C reproducer did not reach the gadget bind in my virtme-ng
+> guest (its sandbox setup appears to fail there), so I reproduced with a
+> small fail-nth program instead. I can post it if useful.
+> 
+> Not tested: architectures other than x86_64, and the legacy (non-configfs)
+> gadgets that also call gether_register_netdev() (g_ether, g_multi,
+> g_ffs); they register once from their bind path and should be unaffected.
+> 
+> f_phonet has the same retry pattern but a different outcome:
+> gphonet_register_netdev() calls free_netdev() on failure while
+> phonet_opts->net still points at the device and phonet_opts->bound stays
+> false, so the next bind uses a freed net_device. I left it out of this
+> patch to keep it to one change and because f_phonet is being changed by
+> "usb: gadget: f_phonet: fix use-after-free in pn_bind" (v3, not yet
+> applied); I can send a separate fix on top of that if wanted.
+> 
+> Also touching gether_register_netdev(), without conflict:
+> "usb: gadget: u_ether: Fix NULL pointer deref in debug logging".
+> ---
+>  drivers/usb/gadget/function/u_ether.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+> index 59d85d6a8..1f4ac7078 100644
+> --- a/drivers/usb/gadget/function/u_ether.c
+> +++ b/drivers/usb/gadget/function/u_ether.c
+> @@ -865,6 +865,17 @@ int gether_register_netdev(struct net_device *net)
+>  
+>  	if (!net->dev.parent)
+>  		return -EINVAL;
+> +
+> +	/*
+> +	 * A register_netdev() that failed after netdev_register_kobject()
+> +	 * leaves the device NETREG_UNREGISTERED, and it can never be
+> +	 * registered again. The function drivers retry on every bind while
+> +	 * the device is not registered, so refuse instead of hitting the
+> +	 * BUG_ON() in register_netdevice().
+> +	 */
 
-You need a signed-off-by above this line.
+LLMs love to write huge comments.  Don't do that.
