@@ -1,81 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.119
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795187598;
-	b=Y3fAfNjAKamyMpll6yyDWY2VNf5E5crRRRwZ9cCLeiJ2EGx7YQuqi9A4+FOK9zYqQfyF
-	 QUpfwMA77HLZMVT2YLkiuS3WAdQauHX52dBvsh93ZEnYg+/LuWeJ2YuKpuexQBnPfgD66
-	 tDM9N4vLzNsG9BIbFkYvJPdZ+Ek2gtR9zivOwEaZJE2afy5FF4EPvaisSLKMmXIxPZc2J
-	 /MqqTaFGifY+Ou6M8SZ2oHGuquNiAJI0G//QFoJ224N3Ati7EBrpEb20YwFmvEQ73DZAm
-	 PeuJYek5hWKmIb6Dmn8RMLHt1CYA2Y82hQhDbIQ4xd3bGouRTcD8hKXSlKnUsDSoNzQ==
+	t=1795187693;
+	b=xRyqLsYE3dF/JbXKXvOEZMNTaFb52UgCLuPcFoDvUAy2sXZ3N4Fj61oFeUxfanhvGLsc
+	 8Gkv5KGINC5vFYWWSllwcSP+r2JphyxkghjjCQyQTB3hqldKuWUNbz21DexXTiFk2q1ox
+	 xcqhUN1lLEUjB0ij5YbYgf+lOgi8Brp7guWaEijIWn6UHo/RJOF4IGIiqpC5Z+ZmCuR1b
+	 6pMUV6bT25MGJJLhQEtBVctRmNS60XqKDJyQJlSPAwkbJhLUblXD7IzuGzOHBWvKBBJ0l
+	 +hAxo5/eFH+Y9oSkP6Syfp3lVSza6QFCcCKRFO4kHibe03zCR1oWW9n8ToqyJQq0KdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795187598;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=ABRvRsqb42na7fmBTaQY+iGr9oRHDJKJkklTmXyDUG4=;
-	b=mFQukaGEJn6uusSrAHzAC5DFFs+vO/jkQ9ueQqq59UZQI/3h4hmDvXQwnZ3+DWlIrDLq
-	 Hr++s+k0PBNbaAC5WOFnjVak6TAuLzIhnvC/yo7rSC/r2KwrJH706ZVWBouPdkDACPv7u
-	 FF8WBAAhAFzmTzyIGMlCohmDg7++a3BkTNpopyFl4FuMo4YntgCB79phVQ6v8fxndjkHn
-	 29UmdNo3UxrmpLDf2QxfPipfzMSBPTe3GfpBvIXj7D2vW7hCxpsExNChQ/lRuCk7kfUA8
-	 XuocK5+1YX5dxPYrVLAknnxBaAxrFWOpG0sLvPIlNjx/60zGuKch/j2HAyaCNC1W9uQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795187693;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=VUA4AZldclabl7KQ7qeQb/LRDMoYnf1ou18XMuVyDAs=;
+	b=W9uqtA+p8so3XJY3RBK85M+C+l1G/z2wsptaK7/A6GZdKAvytXelk+FqzIbLsawewLfI
+	 YiZiHE1xxvDHSIuus0WvANM03Rm4lW/C0hYJvouzZ8B5M3SvQBxy6ADAxjsvl7fbFee/u
+	 sA/CAPX87Pe/d/yLycMSqaVoSq094YRTd7B6LfClboSKmSq4NZHiZWYWO7MnG+AdNEgnx
+	 EZH38CHKfrN6cWB8y/fOnZjLeQA+leEGnva0bPW+5zMAlh1ULQEwQWFSNG7rkXTzNS1b9
+	 nkgwvUbCoJA3s+z6V4e+/TmUQoVJILtGQvyqaRrDx0neLZ5QGF4d4tt5u/6BzP5pL1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NkQzQCeb;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=becholey.ch;
+	spf=pass smtp.mailfrom=becholey.ch;
+	dkim=pass header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail header.b=dT24xTxp;
+	arc=none smtp.remote-ip=109.224.244.119
+Received: from mail-244119.protonmail.ch (mail-244119.protonmail.ch [109.224.244.119])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE22606A32C;
-	Fri, 20 Nov 2026 15:13:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CE22606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A98B606A332
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 15:14:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A98B606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=becholey.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=becholey.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NkQzQCeb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795187597; x=1826723597;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=nBybY+mm58R4cLIzCPF579m72gYMy/tJ9b8Yv4cm2tE=;
-  b=NkQzQCebnbg/XP4M/B03qPjydpWJnHB/X919AAFuZvrhPKE8K8BEnE5E
-   wxwN9aqiwoOLdSROwyDSD4lbySm6AKH5C+nvzNQ9qRYLlpz+230R9dlRi
-   dHWNUE8SpG69ZpXcCFG/wDmj0zpC1djiRgcZWZTd79NnsJ/VJlmZkXgXz
-   6Vph+PqzyKpxHXeUiRlbDdGC3mbLAL6HZlvofuTZE7vsA7/ypx/I0V6f+
-   M43033hX7NT4lHWiq9xOio0PemaoQcY1ZjKzVaC196BqjWfqoywqF17SF
-   LEmuxcN90xLSwk5rWVOudyEdXTmJQ+isSqJI2JCFWu7nq2t8RAZPBRc54
-   A==;
-X-CSE-ConnectionGUID: cQ1S3zeGR1+3YtC4jpxKlw==
-X-CSE-MsgGUID: oHmW2Nb6RCCYMMevRsyCDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4109400"
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="4109400"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 07:13:14 -0800
-X-CSE-ConnectionGUID: qt24WU2CTxqDDHmhk03lbQ==
-X-CSE-MsgGUID: gorKGy3STj263KeKLrYKZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="11052191"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Nov 2026 07:13:12 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 7F0E299; Fri, 20 Nov 2026 16:13:11 +0100 (CET)
-Date: Fri, 20 Nov 2026 16:13:11 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Alexey Charkov <alchark@flipper.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <linux@roeck-us.net>, Yueyao Zhu <yueyao@google.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: fusb302: Keep interrupt flags across a
- failed register read
-Message-ID: <awBjhxTQmoj-MzHq@black.igk.intel.com>
-References: <20261117-fusb302-irq-read-error-v1-1-a85d45b91912@flipper.net>
- <awBFWmpR9hPkcerN@black.igk.intel.com>
- <CAKTNdwES7sRRDjvgFdGttesY9dppOkfBjNhwsJuwUWN1T9DFvA@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail header.b=dT24xTxp
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=becholey.ch;
+	s=protonmail; t=1795187690; x=1795446890;
+	bh=VUA4AZldclabl7KQ7qeQb/LRDMoYnf1ou18XMuVyDAs=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=dT24xTxpAINTzYFcvBS0eyvxceCogQuX4AbP2E5NWQ2miarr8muxfe14Xm/inhFcS
+	 DuoAil1OphlGXxO86kvc5wtqKourFN1sW2CrYtTtvwTgjXI/GhIpsSQXhdXFvLbcas
+	 6a3Jf6dxG87eIeY7+y8CLtequLpQVsmkPxAaijTUQ1HE8JNyL/eb6WC2JGete336kx
+	 squtEoRBwDgiLpYbbk9vYkMI2QOMgu7gZ7PUNmCxZERJx7VE/zVcpjfia75k/QbzTJ
+	 nu0umj4qXIdiBBTKHBlk4FA7sg6OYzSpCKjPfy2tscLhCdTxA+AOAmZvUkNoBJX6Cd
+	 x+rXI9W/bneTQ==
+Date: Fri, 20 Nov 2026 15:14:44 +0000
+To: Oliver Neukum <oneukum@suse.com>
+From: Alexandre Becholey <alex@becholey.ch>
+Cc: Oliver Neukum <oliver@neukum.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: image: microtek: don't receive REQUEST SENSE data into sense_buffer
+Message-ID: <8iDv29vCFEOxycORJWCZZoTT9dMFbUZZ9VK25sT27tKoWWtaKvLKZaW2YoQDygTrSRkZRE6Pu5PmkMFLl-PDCWXI9n1l-LSB9aJCByn8gks=@becholey.ch>
+In-Reply-To: <e3956050-8b80-4270-998e-2e5ec70cbdf8@suse.com>
+References: <20261119084526.535901-1-alex@becholey.ch> <643a71e0-7347-47f3-8cad-ce31f76cb8af@suse.com> <AP57iwtzG1Kr6EB4hY7F0Hd-DaLhPZJzxoKNuvDpeiAKZvyxsddI1fl6kRKAc2Xg1ox0kL-KAdNYmZrRMEYN_mZRamfiV6nXjdcfDhJhGyY=@becholey.ch> <e3956050-8b80-4270-998e-2e5ec70cbdf8@suse.com>
+Feedback-ID: 60743817:user:proton
+X-Pm-Message-ID: 3e4d380063c7bf7d7a2631f03fc3f8974690252a
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -86,56 +65,73 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKTNdwES7sRRDjvgFdGttesY9dppOkfBjNhwsJuwUWN1T9DFvA@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 20, 2026 at 05:52:45PM +0400, Alexey Charkov wrote:
-> Hi Heikki,
-> 
-> On Fri, Nov 20, 2026 at 5:04 PM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
+On Thursday, November 19th, 2026 at 1:51 PM, Oliver Neukum <oneukum@suse.co=
+m> wrote:
+
+>=20
+>=20
+> On 19.11.26 13:28, Alexandre Becholey wrote:
+> > On Thursday, November 19th, 2026 at 1:02 PM, Oliver Neukum <oneukum@sus=
+e.com> wrote:
 > >
-> > Hi Alexey,
+> >> On 19.11.26 09:45, Alexandre Becholey wrote:
+> >>
+> >>> The special case is not needed: for the error handler's own REQUEST
+> >>> SENSE, scsi_eh_prep_cmnd() already points the data buffer at
+> >>> sense_buffer with at most SCSI_SENSE_BUFFERSIZE. Handle REQUEST SENSE
+> >>> like every other data-in command.
+> >> Hi,
+> >>
+> >> thank you for looking at this, but this fix seems to not take an
+> >> approach I can approve. Where sense_buffer is pointed to is
+> >> internal to the SCSI layer. We cannot use that in an LLD.
+> >>
+> >> If you think that LLDs should not use sense_buffer then the clean
+> >> solution is to remove it from struct scsi_cmnd.
+> >>
+> >> =09Regards
+> >> =09=09Oliver
+> >>
+> >> NACKED-BY: Oliver Neukum <oneukum@suse.com>
+> >>
+> > Hi Oliver,
 > >
-> > On Tue, Nov 17, 2026 at 12:25:31PM +0400, Alexey Charkov wrote:
-> > > Reading INTERRUPT, INTERRUPTA or INTERRUPTB clears its flags in the chip,
-> > > so bailing out on an I2C error in a later read loses the flags already
-> > > read. On Flipper One, a NACK on INTERRUPTB just as a source raised VBUS
-> > > lost VBUSOK. The driver kept treating VBUS as off, so TCPM never attached
-> > > as a sink and left every Source_Capabilities unanswered.
-> > >
-> > > Keep the flags pending until they are handled, and retry the reads a few
-> > > times, as such errors pass. Otherwise a flag left pending waits for the
-> > > next interrupt.
-> >
-> > I did not quite understand this. What's the i2c error? Shouldn't the
-> > i2c adapter driver take care of the retries?
-> 
-> Any I2C transactions can fail - that's why the accessors return status
-> codes. And they do, e.g. if another device on a shared bus misbehaves
-> and hogs the bus down, or if there's any intermittent interference,
-> etc. The I2C controller won't rerun the failed transaction and will
-> propagate the error code to the caller instead. In my case it was
-> -ENXIO when another device on the bus interfered with reading the
-> interrupt status registers midway, causing the irq_work function to
-> exit early and drop the flags it has already read without acting on
-> them. The result was a permanently desynchronized TCPM state machine
-> vs. what the partner saw on the wire.
+> > Would you take a v2 that keeps receiving the REQUEST SENSE data into
+> > sense_buffer and only limits the transfer to SCSI_SENSE_BUFFERSIZE?
+>=20
+> Hi,
+>=20
+> sure that would be fine.
 
-Okay, got it.
+Thanks, v2 will do that.
 
-> > > Fixes: c034a43e72dd ("staging: typec: Fairchild FUSB302 Type-c chip driver")
-> > > Signed-off-by: Alexey Charkov <alchark@flipper.net>
-> >
-> > No stable?
-> 
-> Cc: stable would make sense; my oversight. Thanks for spotting that.
-> Shall I resend with it added?
+>=20
+> Yet, I am afraid I have to ask why you want to solve this issue
+> at the level of the LLD? This looks like a generic issue to me.
+> The size of sense_buffer is documented. I don't see how this
+> issue can be limited to microtek.
+>=20
+> =09Regards
+> =09=09Oliver
+>=20
+>=20
 
-Yes, please send v2 with it added.
+The overflow comes from microtek receiving the data phase of a
+REQUEST SENSE command into sense_buffer with the length of the
+command's own data buffer. That length is chosen by whoever sends
+the command (sg allows REQUEST SENSE on a read-only node) and has
+nothing to do with sense_buffer, so I don't think the core can see
+the problem.
 
-Thanks,
+I looked at the other drivers for that special-case REQUEST SENSE
+(in drivers/scsi, drivers/ata and drivers/usb). They either
+transfer its data into the command's data buffer like any other
+data-in command, or emulate it there. I found no other driver that
+copies a caller-sized transfer into sense_buffer, so I think the
+fix belongs in microtek. If you see a place where the core should
+enforce the size, I am happy to look at it.
 
--- 
-heikki
+Kind regards,
+Alexandre
