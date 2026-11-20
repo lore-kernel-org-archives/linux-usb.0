@@ -1,49 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795156785;
-	b=ZO6HMGMKJtLzoA+Z9W7mdr5m6WQ502ZJzhUxl0lT2MRsX5oFJ401QuNz6qG+zPpmzM52
-	 9DMal673qRSctRSaKJpAY806gvMZIQPBL2Bs+t0/B/iOAWLP4e2e3iceFzWqEa48xU1kc
-	 +6Ukliqr3EDacnnoRukWscnPKAEOOU/D7COpRrfXX8O4b2UUGC5OH+S6MbXKAM9YAbhVS
-	 JbEtQext5MVRyMabbiV0Yu87rpF3+OLHic7nHnPq/AOZuyIQm22NKYyD+bkLLbLLQ11Dd
-	 ZBTo4l/eTvhOsl1cPgHrj+ThX+khWTUPHMdxHIjarsqovsyxCkhaiIXBjgBAk+PnjbA==
+	t=1795157678;
+	b=YEVPGJd6WnuLiL222Dkg1H8IjYr4xXSodNzSM/70DYBUtgqSkjWO2eRGXRX5im1hEfsP
+	 uMTUIRmYbu1GufkxeNxMmuTxDrrYk69CblQXGieH1BSj0SM9ii88jw00oO9zIlEsD57td
+	 AC44SGqW5AzFFGYw5Moe0DqvB+v9/uqsLh5r5A/rlVhexVxRLpQlTEKwFEioAuoSGAlnD
+	 Oc0HnjZQctzXXd8SdVy/UB6uSAU0rbwjctNlJ+lo+g3d00a42he7+4jdt4XQ4b0uSzQAG
+	 0+jwah7ZvJVzSpN2n3OSGXcFvEX3EvbLfJRJyIznwmnsSL7CbjFOcaZ4e5sLQuOVLTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795156785;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=GsYljTWRJMlqzTweI8nKm0Ca7rBMVfo2y5KgNyfYRgM=;
-	b=jp2gLAD+ZLNdBSp0CNZtjC+KHgP5SIMnOoGSIXPxn8cs8JTnJLxV2gnW7whTN8D0AsNA
-	 Pe6qzvc+YP8sbpcrcNyvu2h7//WXtS1ZhtzKFOFS9vHOLKoGJ+4b4/cahKiITArTVkkS2
-	 HFV1Iw58iCl+DGjoKfZIY0biIQ+MkRGD0Oo6fAKwEVQsQ4c8oMsbbChIFNYHQOOrQsKHd
-	 PEO4AKB/VBdNlzCd6k4Yfl9qdJOFgJmkr8D5xgZnuKo0YoXBWaC/HszJrB3Sh8rNmPJM3
-	 uVIcehRaBd8YlKqhmRp2AK8D0kfbIJr46xOBe1aIcjQPdtr2jv+89G3cintxkczcppA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795157678;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=lvXhl0QV/8/mtmUu8TyTtu7169W5LDhYCHV3ufeKZys=;
+	b=KHymMzfkOVJk8TtWWDYeLVpqVPu1Ybl0qohE1shtEmzl9SHSkXy3Ku/I7giaY5I0USHh
+	 FlL8ZMgbnOrvU6kVSaKzCAiFc233M5mOIIFoWMieVm1ZUHpqgJJphNitAZbmqO5L+7cWd
+	 g+NqsQBeg29K1gYMdopQ1fhhFqnJifJjRAEZkzj2iPUo0OtVJcxosju3yvW9kO0QQj8pD
+	 PO5sq/IlF0hvhPyrCgXjWr3feHQyHTk0Xq9h/BfXiKcW1R8Bq4iOACE5ImvqpbYp4GBr6
+	 3fjaeLu/inI2Aq0qvAD/1TkYyH4oY6WpZlCygrtc5WEtVORYdWMo9Z1RSuyO3y+E/jw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="Oz/DoVZT";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Ni/xmO8h";
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F7F606A320
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 06:39:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97FB606A334
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 06:54:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A97FB606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Oz/DoVZT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C443D1F000C6;
-	Fri, 20 Nov 2026 06:39:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795156785;
-	bh=GsYljTWRJMlqzTweI8nKm0Ca7rBMVfo2y5KgNyfYRgM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Oz/DoVZTEa8/f3pc1l+Jm9usFc9f2vLneWatD6PrIZcF5dEyJKbNO/Xs9YwJVdFWw
-	 4P/Y03P4Y8jAT6E8TVNx6xnLIvsu1/hK6ze+Fp1Q9+u/lpGnuz3NsyNFy6XMiabsKX
-	 9g4lhhVl9ECda8YHk0FKVNPV3qXQ9aE/pl7FM+fM=
-Date: Fri, 20 Nov 2026 07:39:42 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Zhu Jun <zhujun2@cmss.chinamobile.com>
-Cc: valentina.manea.m@gmail.com, shuah@kernel.org, i@zenithal.me,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usbip: tools: Check allocation of exported devices
-Message-ID: <2026112027-kinswoman-subsidy-276e@gregkh>
-References: <20261120062111.98404-1-zhujun2@cmss.chinamobile.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ni/xmO8h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795157678; x=1826693678;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xJAp/bykYNtmmfUmtdoQXpDLWMW4ANnjHjB3QPKBlRw=;
+  b=Ni/xmO8hR3lv1BVOc6VVuonSU7iUWtbMznIxaw19SovzueYq6naDhPzu
+   oG79uRRTKgEwT6tWUoGaVhpjTh/y6tPWSBEvJAXsNGUAbajSkUsvG6B8Y
+   TOkM5XMFfzkHA6O7oiKai6steRszZgE0S3DwpNuTX75xmOJ7+CWWviRwD
+   BYk1QSgdrPFQPO3jUmbJQZEkKJ4xDQ9Faj3OngaC204SqZzpX29Z2cda9
+   gXRiQoJSbbglLov9ipJfgBwlcQXlqolLjqnueIwogCM8Drsrsuc0Qkfl9
+   Z2ZP1z3UURJOeNgmu8RkTMWURD24NNPTbl6h6Yw7a+SomlNqpl0tn8P8m
+   Q==;
+X-CSE-ConnectionGUID: nnVGft6dTu+MQWGilHnW1w==
+X-CSE-MsgGUID: nWasWSY2S1qrgUxpDZrQrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4047871"
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="4047871"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 22:54:37 -0800
+X-CSE-ConnectionGUID: GJRfyU/xRKaxZCiBkkG6mA==
+X-CSE-MsgGUID: wpiit/FDSWqYMICz8z7F3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="12626035"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa013.fm.intel.com with ESMTP; 19 Nov 2026 22:54:37 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 800F299; Fri, 20 Nov 2026 07:54:35 +0100 (CET)
+Date: Fri, 20 Nov 2026 07:54:35 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-usb@vger.kernel.org
+Subject: Re: [PATCH 15/18] thunderbolt: Rework tunnel credit allocation
+Message-ID: <20261120065435.GG229695@black.igk.intel.com>
+References: <20261119171232.1616316-1-mika.westerberg@linux.intel.com>
+ <20261119171232.1616316-16-mika.westerberg@linux.intel.com>
+ <sashiko-outbox-223717@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -53,37 +81,64 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261120062111.98404-1-zhujun2@cmss.chinamobile.com>
+In-Reply-To: <sashiko-outbox-223717@kernel.org>
 
-On Fri, Nov 20, 2026 at 02:21:11PM +0800, Zhu Jun wrote:
-> usbip_exported_device_new() dereferences edev immediately after calloc()
-> without checking whether the allocation succeeded. An allocation failure
-> therefore crashes the tool instead of allowing its caller to skip the
-> device.
+Hi,
+
+On Thu, Nov 19, 2026 at 05:43:22PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [Low] thunderbolt: data race on port->credit_pool in
+>   port_credits_show()
+> --
 > 
-> Return NULL before accessing edev when calloc() fails.
+> commit c28526c3bb35bc796324ed492685bd1fa66796c3
+> Author: Mika Westerberg (Intel) <westeri@kernel.org>
 > 
-> Fixes: 021aed845303 ("staging: usbip: userspace: migrate usbip_host_driver to libudev")
-> Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
-> ---
->  tools/usb/usbip/libsrc/usbip_host_common.c | 2 ++
->  1 file changed, 2 insertions(+)
+> thunderbolt: Rework tunnel credit allocation
 > 
-> diff --git a/tools/usb/usbip/libsrc/usbip_host_common.c b/tools/usb/usbip/libsrc/usbip_host_common.c
-> index 01599cb2fa7b..bec6c42e29c8 100644
-> --- a/tools/usb/usbip/libsrc/usbip_host_common.c
-> +++ b/tools/usb/usbip/libsrc/usbip_host_common.c
-> @@ -71,6 +71,8 @@ struct usbip_exported_device *usbip_exported_device_new(
->  	int i;
->  
->  	edev = calloc(1, sizeof(struct usbip_exported_device));
-> +	if (!edev)
-> +		return NULL;
+> This commit reworks lane adapter tunnel credit allocation to use per-port
+> credit pools with minimum protocol reservations and on-demand allocation
+> from a common pool, and exposes pool usage in debugfs.
+> 
+> > diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
+> > index 0d9f41a0f2cdc..eac6d564bf185 100644
+> > --- a/drivers/thunderbolt/debugfs.c
+> > +++ b/drivers/thunderbolt/debugfs.c
+> > @@ -2488,6 +2488,32 @@ static int port_sb_regs_show(struct seq_file *s, void *not_used)
+> >  }
+> >  DEBUGFS_ATTR_RW(port_sb_regs);
+> >  
+> > +static void credits_show(const struct tb_port *port, struct seq_file *s)
+> > +{
+> > +	int i;
+> > +
+> > +	seq_puts(s, "# pool used total\n");
+> > +
+> > +	for (i = 0; i < USB4_CREDIT_NUM_POOLS; i++) {
+> > +		const struct usb4_credit_pool *pool = &port->credit_pool[i];
+> > +
+> > +		seq_printf(s, "%s %u %u\n", usb4_credit_pool_name(pool),
+> > +			   usb4_credit_pool_used(pool),
+> > +			   usb4_credit_pool_total(pool));
+> > +	}
+> > +}
+> > +
+> > +static int port_credits_show(struct seq_file *s, void *not_used)
+> > +{
+> > +	const struct tb_port *port = s->private;
+> > +
+> > +	scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &port->sw->tb->lock)
+> > +		credits_show(port, s);
+> > +
+> > +	return 0;
+> > +}
+> 
+> [Severity: Low]
+> Can port_credits_show() race with usb4_port_update_credit_pools() on
+> port->credit_pool?
 
-How can calloc here ever fail?
-
-thanks,
-
-greg k-h
+Yes it can but that's intentional. This is just for debugging so the
+always accurate numbers don't matter.
