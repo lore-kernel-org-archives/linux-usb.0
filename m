@@ -1,52 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795172995;
-	b=GaltkeaBr6QFMTK/OJ5kX5FXABvmSkvAQDeeqBrgQIkN2yejJCxwNC8CloRB12w8F+SW
-	 JCDTDdkLoLAZrWxBWUhzPo+RmzNUzrdnqTMajip/1jMEpxkKvVB+wmB4GC0/qHqZx1emY
-	 wa9SjjxPUkPfE+D+2WUwKSjA5sItL82DKwPg/0gUfwds1FYYSMRZEIPBaUrSv4SzqSE2i
-	 EbHxZo3X9BEqsT2seI9AJOdTo/lQH+So8aFGHfmVnTRunKwCZ+zWNUKrkbvQUTLVZfYMD
-	 y9IjS08Nvhi9DPU/HN8g1EdRBWTSr5isj3s7I5+/CMFtX5b/2JAdlc9bWT1+y54bphQ==
+	t=1795173242;
+	b=yXUf6KsqgyL95lEzIcJM2v4oMrj7iav+QgofYHrf3aESOsF1LjY3XODYRX990/rK3Yl9
+	 yJH2lGuuCMfe2CWKJS9BeuzN4BGoHlQ4BbBYnKl/uzwugSlK8xgo9AxF19eukl+8A5Ci3
+	 8884IObdRSDz1mewZ5B2DRP/nVvcA9L7uOGxbjDmmDeoJ982GcS2yAoDpO86+6k03hdFO
+	 NBQ77nR8WmGhyrLkwOF6N1sBNM9Z+lBeqy0/3/WnlodSkO6rcrw5F5OEZuPTLfNIVFp7y
+	 WirNSJZTRemK73lmnaCWKIZWgWJgtKLVa9iDIZblV8tINgD+EOWXS5gatx3ZacZAggw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795172995;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=w9myFnwj5zB1QE7elWWV13KgJsaU9TxgOrmcx9HYe1I=;
-	b=5EDPYEF7WuGc6PoNUx7rY6siuSVxgHOEmn6wYGTCpzzf42Cio4Rh5/BoEHunpqEB3PpJ
-	 STPQtao/6PgUEfkPs23TCvYr5YERx3t3phFu91Urz9EihyW8Cv25voZd7D2ukENOfeuYP
-	 yc92y5QIzG/U2xmF2rbvwBNTISfjGc47/ZFi+2te1Ohnnryz3IUrfSO5D89gpXjRYyl+U
-	 gCJ/QX0rkUbRHgUVCS0+PmQpC7W2rPz8KVjA5Hg82LU5QE91hFUwZxEYPJHBNhq7WuuK8
-	 LlRACAU3ppQ2jRgArIrWoY+Wbdo2NAHNKfCKBA8SLofTZxkTj1hAfLg4XQpF91aGxiA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795173242;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=c5TP8QN0A+61hAuSZdjk63ActRIUkjcmDfLAhcw9riM=;
+	b=wlzU7LK41nr6gW/hyaD4MGVX/rD2dzJtvyE9bX2l8ySUwIvYo5BzIumB3US89J8JAgx0
+	 hsnSmIkiY88FONXEefQfNTg7vl34nbuUSQ29yWPg0dSgVZ/AThmqV/UyT/lcmqzpyfzLV
+	 qpDY2r75arq4VE0HDYrIYAyyw2Pnm9x1+g3SAeRijQKI70dlkbZgC5kV0NKsFt7X11nAk
+	 +zAT0NZi5FINOGfZMKRn0c+wDPVaNiGmIc/M3AHXhOx/IhWZ5s4GNha9JwmkQOqCOVjUY
+	 +X14Iqt09s2nEYCsRI5Dxfe3j+EkY+PUNGHrr2KJ0HDZsIUvArm8KdcEqi9wguooAfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=K0DICIEk;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fAodecJY;
+	arc=none smtp.remote-ip=209.85.221.48
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20E1606A325;
-	Fri, 20 Nov 2026 11:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96962606A325
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 11:14:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96962606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=K0DICIEk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 875FA1F000D3;
-	Fri, 20 Nov 2026 11:09:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795172995;
-	bh=w9myFnwj5zB1QE7elWWV13KgJsaU9TxgOrmcx9HYe1I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K0DICIEk4a8jSFRZWbz47M8Blj4HRTjqjY1my6J5SSUCLsVWuJJZuBr7wHBt70U3t
-	 lkAuXx/Xpsx1vw20mg/B3RUFWRhK2FZfcGyn0Iiwmbd3ypLBJOr0MFqVKcZDBLVUKI
-	 o7+3CQF/XX3dOZ4YPL9vxL/qNSHRApZAWZfRGA70=
-Date: Fri, 20 Nov 2026 12:09:52 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
-Cc: linux-usb@vger.kernel.org, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	target-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v4] usb: gadget: f_tcm: reject a short write data-out
- transfer
-Message-ID: <2026112028-starless-aching-bdfd@gregkh>
-References: <20261013043951.2534225-1-yhlee@isslab.korea.ac.kr>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fAodecJY
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4ac08f4a0b2so448832f8f.3
+        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 03:14:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795173240; x=1795778040; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=c5TP8QN0A+61hAuSZdjk63ActRIUkjcmDfLAhcw9riM=;
+        b=fAodecJYdDh5FrLQntGkHTfvuTZG4mAqmgdlpnvwepAyDXsAoBKUgwtS+BdGC+QZQI
+         NxKqqLZ/Ei6FNNWSA1uSl/QJ52OjQhL9KmxDFcaqb4daPgepHmwHR4ntiZjYtOPySAHE
+         etzdAeZ1HUqVOf2fsEnVLTL0565Sy9sGlbhKst2zvg/P8bwybGMmwmwcihAMyQeTfWwb
+         6+8ndLbJPLsux4RE69l2+m/GFp22WxKS78HMVnehbl/XKkyOjVTscrsLDLhqG1pJ8q0v
+         BsbmFpuGIwdsW+t5JYufilRclbN2LHdbRBiG/BQ7hLLnuloGJegwXxAkKodjJhjkcqSL
+         tXyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795173240; x=1795778040;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=c5TP8QN0A+61hAuSZdjk63ActRIUkjcmDfLAhcw9riM=;
+        b=NGs8/rwCa2jvX9DYQS+0IjsOQdFHRBUYke5DEJ5eRHjSttOpGL8lG388lX05PF7vwT
+         ZgcWY1qfG0uZ57G2/8eZxTHWfzZ8YT+8INUXzlYp3zzLFNema6CDopE3BgUGMEqbb+sh
+         3yVBBxnP2XlTdLMLY2c8GBhv/+l8M+ZCjauEcUEhYaHVs8TqmF0HDVvQ1ERzdHneEdD+
+         eYtCINzSIoF+FOGl6vmZwrpQxuaWHniTnOuRTFlzjUxKkZhp3KFDjvvHc/TEilQUCyXI
+         DjxUswWY3tV5EKEvD/lUMCtFPzF+357qCCrL5HPrWnAR8TEpS8bT7YcG47ZG61/crv3j
+         Sy+g==
+X-Forwarded-Encrypted: i=1; AL+hErGYXiX2947froRDvOUCLhFCyZxjXrBwRj2eiTR5VCKXfeLoBHUBnOe2NaFqRX9YoaYSSfJkKCXb1nM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8b3Hp87xilE8PhblBYsVzB37kunp54Hn1qI0rmI5/S+0NNwJR8
+	8MztKETPhBxoMl+ssi0SiCSSRWOCeyyDcYHItgbydYXya+bZCjJEKLY2
+X-Gm-Gg: AZFdTZcgZCCaeLiCt8qI1V7RJAzy1V1EVSjvc0gpy8PNPnbekx3iNTfPWeRr5lv3yO5
+	jDrPpIPS8szdvQFiad1ikmdFNxT+mUrFBYYW8hDBDLb4/zg4rhgBL0Wokrxtykt1JgnAm591k+X
+	Ihp+OlkugzWrnDLfDuazP8/dVRU+oLqQ2NmzOItQjEI17nMSt/TR4wQmP/f9ga1Vb4Xch4ocjqf
+	0+ar6KoZulKCOm2mHOLq7810+FUvQXis3pHBKGUEfcoT8h/4gcw7UrPMsORH8FlUxfGTfyNb0+B
+	O1ILKZ0eoDrEtCjGFFzapyWrYYUFPt0trW0cjYYRFqZ5ggs+cp72Crk5Fmh1qkD5oXgpYVBQwVO
+	KbrBuzDTWvEahn0DTJOzSGW08MBRA+gV+1zZHjg7oeLFNivdaxdWj2HKqTV+5wd886wpeICEPIJ
+	SB7ohdBWU386UITgV13gNx2EwLIPHrvarE5l7+G6xmPB7u6smq9bnIJ6RZbkgrm8CAdikdTdBin
+	bC5dURdZCNVyIp/Yr6QPrQ2OVqKcKeJ4dmCnVfVCBi2Wu83KrTFexHa/8hvd/8eWs5OxX3Fw+wK
+	ewfcUexel5zfWPD8Yg9qvtXCzh34dSd1gdHaM9OeFQ/hDERvxJ9Ii1/iXE1HDJw=
+X-Received: by 2002:adf:e012:0:10b0:48e:3697:708d with SMTP id ffacd0b85a97d-4abb0d51ab2mr3805002f8f.12.1795173239827;
+        Fri, 20 Nov 2026 03:13:59 -0800 (PST)
+Received: from foxbook (bfh118.neoplus.adsl.tpnet.pl. [83.28.45.118])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab65cb41f4sm4905165f8f.7.2026.11.20.03.13.58
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 20 Nov 2026 03:13:59 -0800 (PST)
+Date: Fri, 20 Nov 2026 12:13:57 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Riley Wagner <riwiwa00@gmail.com>
+Cc: mathias.nyman@intel.com, linux-usb@vger.kernel.org,
+ gregkh@linuxfoundation.org, stable@vger.kernel.org, "Mario Limonciello
+ (AMD)" <superm1@kernel.org>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH] usb: xhci: pci: do not perform Soft Retry on AMD 500
+ series chipset host
+Message-ID: <20261120121357.1e1a0ce4.michal.pecio@gmail.com>
+In-Reply-To: <20261117193300.25897-1-riwiwa00@gmail.com>
+References: <20261117193300.25897-1-riwiwa00@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -56,79 +99,113 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261013043951.2534225-1-yhlee@isslab.korea.ac.kr>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 13, 2026 at 01:39:51PM +0900, Yehyeong Lee wrote:
-> usbg_data_write_cmpl() copies se_cmd->data_length bytes out of the bounce
-> buffer into the command's scatter-gather list without checking how much the
-> host actually sent.  A BOT host can declare a larger OUT transfer than it
-> delivers and end the data stage with a short packet: req->actual is then
-> shorter than req->length, but the completion handler still commits the full
-> declared length.  The tail past req->actual is whatever was already in the
-> kmalloc'd bounce buffer, which is not zeroed, so uninitialised kernel heap
-> is written to the backing store and can be read back by the host.
+On Tue, 17 Nov 2026 11:33:00 -0800, Riley Wagner wrote:
+> Full-speed HID devices hot-plugged into a root port of the AMD 500
+> series chipset xHCI host (1022:43ee) enumerate and bind, but never
+> deliver any input. The device then resets itself after ~10 seconds,
+> re-enumerates, and the cycle repeats. Devices present at boot are not
+> affected.
+
+I doubt that this affects all HID devices, people would have noticed.
+
+What if it's not connected to the root hub? Is this important?
+
+> With xhci_hcd dynamic debug enabled, the first poll of the interrupt IN
+> endpoint fails with a transaction error, the driver performs a Soft
+> Retry, and the endpoint never completes another transfer:
 > 
-> Fail the command when req->actual does not match req->length instead of
-> committing the stale tail.  The short packet means the host has already
-> ended the OUT stage, so mark the command and report the residue in the CSW
-> without re-arming ep_out to drain data that will never arrive, the way
-> f_mass_storage treats a short_packet_received.
+>   [ 6658.313453] xhci_hcd 0000:02:00.0: Successful Endpoint Configure command
+>   [ 6658.352348] input: ELECOM TrackBall Mouse HUGE TrackBall as ...
+>   [ 6659.424165] xhci_hcd 0000:02:00.0: Transfer error for slot 29 ep 2 on endpoint
+>   [ 6659.424170] xhci_hcd 0000:02:00.0: Soft-reset ep 2, slot 29
+>   [ 6659.424290] xhci_hcd 0000:02:00.0: Ignoring reset ep completion code of 1
+>   [ 6667.989369] usb 1-9: USB disconnect, device number 30
 > 
-> A short 8192/4096 WRITE then commits nothing to the backing store instead
-> of 4096 bytes of stale heap, and the CSW reports a residue of 8192 with no
-> OUT drain queued.
+> usbmon shows the interrupt URB submitted at enumeration and only given
+> back by the disconnect, 9.6 seconds later:
 > 
-> Fixes: c52661d60f63 ("usb-gadget: Initial merge of target module for UASP + BOT")
+>   2562187476 S Ii:1:030:1 -115:1 8 <
+>   2571824873 C Ii:1:030:1 -108:1 0
+> 
+> No further transfer events or errors are reported for the endpoint after
+> the soft reset completes and the doorbell is rung, so the TD is never
+> retried or failed.
+
+IIRC that's the same HW bug which broke some high-speed Realtek WiFi
+dongle and caused Soft Retry to be disabled in multiple variants of
+Promontory chipsets. I actually obtained that WiFi dongle (long after
+the fact) and reproduced the issue - it happens when a device fails
+the first URB and it gets retried. Most HCs handle this normally, but
+Promontory generates no transfer events and later fails Stop Endpoint
+with Context State Error and the endpoint is "halted".
+
+And I think I have seen similar issues on other ASMedia HCs in case of
+disconnection and repeated retries and endpoint resets. OTOH, in other
+cases this controllers perform retries correctly.
+
+I will look into that, because maybe we could only avoid the particular
+retries which fail (and also add a whole lot more PCI IDs).
+
+> This matches commit a4a251f8c235 ("usb: xhci: do not perform Soft Retry
+> for some xHCI hosts"), which disabled Soft Retry on the AMD Promontory A
+> hosts (43b9, 43bb) for the same class of failure. Booting with
+> xhci_hcd.quirks=0x10000000000 (XHCI_NO_SOFT_RETRY) makes the device work
+> reliably after hot-plug on the chipset root ports tested (1-3, 1-9); the
+> same device also works after hot-plug on the CPU's xHCI host (1022:149c)
+> without the quirk.
+> 
+> Tested on an ASUS ROG STRIX B550-F GAMING (BIOS 3621) with an ELECOM
+> HUGE trackball (056e:010c) and a PFU HHKB Professional HYBRID Type-S
+> (04fe:0021), on 7.3.4 with commit 6895dbdc19d9 ("xhci: give back TDs
+> and clean up ep0 after disconnect") applied. The trackball showed the
+> same behaviour on 7.2.x.
+
+I suppose the keyboard also had problems on 7.2?
+IIRC it's that one which always disconnects itself on initialization.
+
+> Add the AMD 500 series chipset xHCI to the hosts that do not perform
+> Soft Retry.
+> 
+> Fixes: f8f80be501aa ("xhci: Use soft retry to recover faster from transaction errors")
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=202541
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+> Signed-off-by: Riley Wagner <riwiwa00@gmail.com>
 > ---
-> v4:
-> - Keep cmd->data_len so the CSW still reports the untransferred length as
->   the residue.  v2/v3 cleared it, which reported a residue of 0 and told
->   the host the whole transfer had been accepted.  Skip the ep_out drain
->   with a command flag instead, matching f_mass_storage.
->   v3: https://lore.kernel.org/linux-usb/20261013015416.2503787-1-yhlee@isslab.korea.ac.kr/
->   v2: https://lore.kernel.org/linux-usb/20261013005854.2470384-1-yhlee@isslab.korea.ac.kr/
->   v1: https://lore.kernel.org/linux-usb/20261012154422.2436134-1-yhlee@isslab.korea.ac.kr/
+>  drivers/usb/host/xhci-pci.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
->  drivers/usb/gadget/function/f_tcm.c | 14 +++++++++++---
->  drivers/usb/gadget/function/tcm.h   |  1 +
->  2 files changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-> index 9e6d4f39900a2..d686fbcf36f72 100644
-> --- a/drivers/usb/gadget/function/f_tcm.c
-> +++ b/drivers/usb/gadget/function/f_tcm.c
-> @@ -120,7 +120,8 @@ static void bot_send_bad_status(struct usbg_cmd *cmd)
->  
->  	csw->Residue = cpu_to_le32(cmd->data_len);
->  
-> -	if (cmd->data_len) {
-> +	/* a short data-out already ended the phase; draining it would hang */
-> +	if (cmd->data_len && !(cmd->flags & USBG_CMD_OUT_SHORT)) {
->  		if (cmd->is_read) {
->  			ep = fu->ep_in;
->  			req = fu->bot_req_in;
-> @@ -1090,8 +1091,15 @@ static void usbg_data_write_cmpl(struct usb_ep *ep, struct usb_request *req)
->  		return;
->  	}
->  
-> -	if (req->status) {
-> -		pr_err("%s() state %d transfer failed\n", __func__, cmd->state);
-> +	/* a short data-out left the buffer unwritten; don't commit stale data */
-> +	if (req->status || req->actual != req->length) {
-> +		struct usb_gadget *gadget = fuas_to_gadget(cmd->fu);
-> +
-> +		if (!req->status)
-> +			cmd->flags |= USBG_CMD_OUT_SHORT;
-> +
-> +		dev_err_ratelimited(&gadget->dev, "%s() state %d transfer failed\n",
-> +				    __func__, cmd->state);
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+> @@ -88,6 +88,7 @@
+>  #define PCI_DEVICE_ID_AMD_PROMONTORYA_3			0x43ba
+>  #define PCI_DEVICE_ID_AMD_PROMONTORYA_2			0x43bb
+>  #define PCI_DEVICE_ID_AMD_PROMONTORYA_1			0x43bc
+> +#define PCI_DEVICE_ID_AMD_500_SERIES_XHCI		0x43ee
 
-Why is this needed?  And __func__ is never needed for dev_() calls.
+I think "PROMONTORY_19" or "PROM19" would be better for consistency
+with other entries (see also: commit 9e896b4a48c4).
 
-thanks,
+And isn't 1022:43ec another PROM19 ID?
+Does anyone know if 400-series or PROM21 have the same bug?
 
-greg k-h
+Adding some AMD people...
+
+>  
+>  #define PCI_DEVICE_ID_ATI_NAVI10_7316_XHCI		0x7316
+>  
+> @@ -493,7 +494,8 @@
+>  
+>  	if (pdev->vendor == PCI_VENDOR_ID_AMD &&
+>  	    (pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_2 ||
+> -	     pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_4))
+> +	     pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_4 ||
+> +	     pdev->device == PCI_DEVICE_ID_AMD_500_SERIES_XHCI))
+>  		xhci->quirks |= XHCI_NO_SOFT_RETRY;
+>  
+>  	if (pdev->vendor == PCI_VENDOR_ID_ZHAOXIN) {
+> -- 
+> 2.56.0
