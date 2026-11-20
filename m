@@ -1,79 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795143470;
-	b=LEVkzS6uDWbDzY1ur+lUb4WFmGGPSxGrlQHS8gaXuDZSp0EqamHC+8Mp2CpQ8MYAVYm6
-	 +tB8/ZlcB6m8O569db6pa7mCTkASB1maxlgAhV4OvgGnFc2F7MrbE4fgGovNaQ+eKrYmB
-	 42tuI+BkzDqPk+2Cz2aQbjvlDkHcpIQl1CVvvYaiksTc3TrxZUKsAh3CWgbodqnrIhCq2
-	 Hjv3jMA4gE2SfSo/cyK98G4cGqsxrdMq65Krm0aqH1+oWlOiS7xQnRViKr++uVZ5sU/YI
-	 gEWAbSa7IEv6KNj0/iD9PxcH0dfA57tMu3K/9otUFZgdnRpT+xAyEa2vef5hvuU9How==
+	t=1795148785;
+	b=qQ++9di5xKU+As4QPl1dp+87JMvZXclG8PZEqwWNKmsyMUv9336Y6rru3dn0Qgf+W/JZ
+	 SyC0EJbWtQJNwaMlf5yeoskQtngEVT7loFC8hFyiNWu2hISkH7kRIfJGloGYjgytJIwbj
+	 +v9AF6qYOP4uNSs2kb3RN26JljWs2yYYfvS2HvxOmuwIGv3YaNnWiCZuWAMDJ1IBp9gcp
+	 AGLlH+pIqOrYT3y+nBZ8hgaCy1bW+wZXVzlqLYUOHojAXPJnWIrPP/cNPB+5rcIy9rT1+
+	 lFxTo8mEbRGG5Cgd7N+Cvs8JQNPgFlo2NZSVj3pR7YkIDEAwsqqcBzukJubRx3ngCbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795143470;
-	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
-	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
-	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
-	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
-	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
-	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
-	 Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
-	bh=JVj4mgufIasPAq4mPPKinusBliauEAwBEpFY7KcrlDw=;
-	b=w1VWKnyenmz7Fwh/r8wZlMKEFySwd2kQfQGi9tPXLu8L4TaFLaci4PKtp5kDutSYhgS3
-	 ggkyqo/Plt+UCa0F+d/kk0aXr4wYUQW4Bo18upMm0vQC0lLDONBvd5g5TruKrUpp25lUU
-	 ugSccZZtTYuMkdbTuBrG+fSL31WhDFa43pxBLdsYMuv7LLmcWtZApxUNBYU0bEPPb5Kz4
-	 LPoDR85hcLAvRdtg49UMky/dTvnvRZXxgH2BHlqDiloyZmxNyQA6xUkIw9TPCmJGS3Fyr
-	 RGwIl/CwEv9IqndRXU40BlqbveU6m0BE6+axWK4G9yzG/oQoTJVyP85aQCV2qk9DmGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795148785;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=rwA4cmylgtTjmwUEihohLksjXykV4RZL1TIahTXxhWs=;
+	b=lxK1m1SgWq2CBWnuimvImp5jsbXThjtuCNyZHbn4Tvw3LLZWEFW9+VLWIOvwb2GsjhNl
+	 7e3orBjDT+fFHJrEnaxdx9qcaIMjm5oD/WWQwPl3M1kseo2pxvI8wFD+b0KsTPac8sbTY
+	 khUu5SJ4DXJWFvDKkWUZSsDi1YAgqzA11ausMFgmMDnU7MlwXPx1CPXIp29Qp5A8CglCp
+	 oUfwZ9whaRlPhll8lTV4agJFxGcxBxkxQeegSlk2SrMB7W9nGTuk7bXogZo1AawY1lauf
+	 pwFRIFIh2NyurQuUttnhXSRAokHLiDuYePuhCVP+A1afXCPqQuIESxsL9mEZA+aY1AA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aMwITDUP;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F65606A320
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 02:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aMwITDUP
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 91DFF1F000CF
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 02:57:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795143469;
-	bh=JVj4mgufIasPAq4mPPKinusBliauEAwBEpFY7KcrlDw=;
-	h=From:To:Subject:Date:In-Reply-To:References;
-	b=aMwITDUPGuPbD1CacwEKO47+a4mOl4j2zP4tmiyZLDOhqQ6EYFLB3jC4BELBB7oVq
-	 aEKzs3JZi3paIwMrQpvOhwh1VK9h0BVRPchBP0Lsk0rmbAEyAbUTXsn+93cDrK3Y9W
-	 uJwYzkBaS9sMU9UkCU/37fUjo2OiBkGU2TF4dWt60iCRBhpkicqygDF2hJECyLACaA
-	 WwYVKYqrMT8A3OJI+n77a72RCcFut3W0JamJLlPsGu5W4NzuOwqfmAQHE5jFoQTmcM
-	 RJIno2dR9ZdcFqfWN5bsI6XdSTWxafjSppLSTwvdoe6LFgIhSQ1uDegqbl2RXJVU1M
-	 vHgHSxkNOocuw==
-Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
-	id 8BCFA240040E; Fri, 20 Nov 2026 02:57:49 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221142] ucsi_acpi actively breaks USB-C PD charging on Lenovo
- Legion Pro 7 (Arrow Lake)
-Date: Fri, 20 Nov 2026 02:57:49 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: trivial
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: daway320@163.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-221142-208809-7iyiepIC4y@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221142-208809@https.bugzilla.kernel.org/>
-References: <bug-221142-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7138606A320
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 04:26:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7138606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=rwA4cmylgt
+	TjmwUEihohLksjXykV4RZL1TIahTXxhWs=; b=Zs7nhYmYwnJMx14+W7L9IYXBUN
+	4lgeZh+Xg/r1APACg/r2nDe9wNd1O8NZoebWsT4R5iLMefqfZWl5y+u5u3Z37paH
+	Cp8uI4wqPnKXoaZalb20y5vTlSkMD+IqTnUON4UPaOTRWR4Fuax5jxxs5rxqlnwT
+	9FASXYdjhz54pVrEs=
+Received: from LAPTOP-FRMFRHCN.localdomain (unknown [2408:8670:ae1:0:bbb2:6215:5dc7:c1f8])
+	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkBGTwLhy_9qWF7sAQ--.30933S2;
+	Fri, 20 Nov 2026 12:26:10 +0800 (CST)
+From: Haoli Zhang <26031212468@stu.xidian.edu.cn>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	Haoli Zhang <26031212468@stu.xidian.edu.cn>
+Subject: [PATCH] usb: gadget: f_midi2: disable endpoints before freeing descriptors
+Date: Fri, 20 Nov 2026 12:26:07 +0800
+Message-Id: <20261120042607.1347854-1-26031212468@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,46 +54,84 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BbQMCkBGTwLhy_9qWF7sAQ--.30933S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw4fKF15uF15Wr45uw43GFg_yoW8tw4kpr
+	ZrGrWjkFWDta4q93WrGr4Fvw15Ca9Yva45trWUK34avan8t34ktr1ftFn0gFn8CFyxZw42
+	qFZxtr1Duw4rCr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvq14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+	6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
+	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
+	x2IErcIFxwCY02Avz4vE824l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+	14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+	IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
+	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0x
+	ZFpf9x0JUcYFZUUUUU=
+X-CM-SenderInfo: yswqjiasrskluy6v33wo0lvxldqovvfxof0/1tbiAgUDEWr-E0mS0wAAsb
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221142
+The dummy_hcd driver keeps a pointer to an endpoint descriptor while the
+endpoint is enabled, and its timer dereferences that pointer in
+find_endpoint(). However, f_midi2_unbind() frees the function descriptors,
+while f_midi2_disable() currently only resets operation_mode. When the
+function is removed, an endpoint can therefore remain enabled while its
+descriptor storage is released.
 
-Wei Huang (daway320@163.com) changed:
+Disable the MIDI 1.0 endpoints and all MIDI 2.0 endpoints from
+f_midi2_disable() before the unbind callback releases the descriptors.
+Keep f_midi2_stop_eps() unchanged so altsetting transitions retain their
+existing request cleanup behavior.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |daway320@163.com
+Reported-by: syzbot+599d4e8994a656eafe15@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=599d4e8994a656eafe15
+Co-developed-by: Jinning Zhang <25031212117@stu.xidian.edu.cn>
+Signed-off-by: Jinning Zhang <25031212117@stu.xidian.edu.cn>
+Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Haoli Zhang <26031212468@stu.xidian.edu.cn>
+---
+ drivers/usb/gadget/function/f_midi2.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
---- Comment #4 from Wei Huang (daway320@163.com) ---
-Hi Alex,
+diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
+--- a/drivers/usb/gadget/function/f_midi2.c
++++ b/drivers/usb/gadget/function/f_midi2.c
+@@ -1167,6 +1167,13 @@
+ 	f_midi2_free_ep_reqs(ep_out);
+ }
 
-Syncing the mailing list outcome here for the bugzilla record.
++/* Disable an EP before its descriptors are released. */
++static void f_midi2_disable_ep(struct f_midi2_usb_ep *usb_ep)
++{
++	if (usb_ep->usb_ep)
++		usb_ep_disable(usb_ep->usb_ep);
++}
++
+ /* start/queue both IN and OUT EPs */
+ static int f_midi2_start_eps(struct f_midi2_usb_ep *ep_in,
+ 			     struct f_midi2_usb_ep *ep_out,
+@@ -1343,8 +1350,17 @@
+ static void f_midi2_disable(struct usb_function *fn)
+ {
+ 	struct f_midi2 *midi2 = func_to_midi2(fn);
++	struct f_midi2_ep *ep;
++	int i;
 
-The v3 patch ("usb: typec: ucsi: do not register UCSI on Lenovo
-Legion Pro 7 16IAX10H") has been withdrawn after Alex's re-test
-showed the premise does not hold:
+ 	midi2->operation_mode = MIDI_OP_MODE_UNSET;
++	f_midi2_disable_ep(&midi2->midi1_ep_in);
++	f_midi2_disable_ep(&midi2->midi1_ep_out);
++	for (i = 0; i < midi2->num_eps; i++) {
++		ep = &midi2->midi2_eps[i];
++		f_midi2_disable_ep(&ep->ep_in);
++		f_midi2_disable_ep(&ep->ep_out);
++	}
+ }
 
-- With ucsi_acpi and typec_ucsi blacklisted and confirmed not
-  loaded, USB-C charging still drops - the EC itself loses sight
-  of the adapter (ADPT clearing in EC register 0xA3), replug or
-  charger swaps often do not recover it, and only a power cycle
-  reliably does.
-- Windows on the same machine charges reliably over USB-C using
-  the stock Microsoft UCSI driver (UcmUsciAcpiClient), so UCSI
-  traffic itself is not what breaks charging.
+ /*
+-- 
+2.43.0
 
-This means the ucsi_acpi driver is not the cause on this machine,
-and the issue is being re-scoped to the EC/ACPI layer - the drops
-coincide with bursts of "workqueue: acpi_os_execute_deferred
-hogged CPU for >10000us" warnings from ACPI/EC event handling,
-with UCSI not loaded.
-
-Leaving the bug open for the follow-up data. The mailing list
-thread, including the withdrawal and the suggested next capture
-(an EC transaction trace during a drop, to separate GPE handler
-vs polling query vs buffered event burst):
-https://lore.kernel.org/linux-usb/20260902090531.2134150-1-huangwei@kylinos=
-.cn/
-
---=20
-You are receiving this mail because:
-You are watching the assignee of the bug.=
