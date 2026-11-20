@@ -1,55 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795186925;
-	b=EidAwtNLweIjVU396A/4AHseg5BLkxrkG3XtXgoXl5vDZ52kzVOY4mxTgiO91kKcTWst
-	 72PYyZnGGc9UgtfFMbTafBwIjsckxgX4tI66fjlSWl7i4ko8972Wp4aAyB0kpfd/QfdaI
-	 7Wsr15GELGL+be9mU9EZeLik6pGgag+9RbwBJNxTe8r3dDW39kJOgzEXGjb4Lky1tYuor
-	 Mlt1ogHVC08ejnQuuBX+u+Bv04YmbNDc4NOa/Z2mamxUH5osUVQHkg3lrnGny4x/yTjEn
-	 5C/OGBlYOIudiAw0l87W62Z7Pu9FjCIq8wUUOzJJZrm9q5g73IxTeKQTjIVHfcjuzlg==
+	t=1795187178;
+	b=Cg7ftEQqvIesgCXt6ybzWTR3UCY/rEPxBAad/Wva6i7LxC3KbhOee0/csua9x+MNvA9m
+	 39I4XNCVSnerjKUdDJMkyQINXn6g06UrfNHyUWOUSLxvWQfPRivV6LTct76LFDTYwlrQm
+	 Rgh8Ny0YdJfC9C4spGxvUA59z0VWlZNxKmaMXBx+dSrsYSAg/rgYcaRcIGSR6W1NTqubX
+	 oIt40zHveoS/CJrR+8A85qpvcj8tpQTV+H7F2wxTaNCKCVpshXGNzC2yxL2EWWsTfijoJ
+	 o8H/45SbnBu8/lkyVCOCidiwg3YThAGx7zQHbbza9hCrCjdbqo47yvMFwZk4HdH91Gg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795186925;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=ScY+xnBbziyHwDb/c7EhNE2QbKqHrh2rXWypNNv2ExM=;
-	b=Hetf6VEzFwIkXUmsNcCoUYov6qoQCviptJVNjQEa+yWS7pDP8tEGhRQ8zXmPZFqq/3/1
-	 7hTUSmKQHbAjWtwNFaW0FzEDaq6plF8gUT1NdwIINDvp6qcfHJorQJzrQYaNXAesQRW9m
-	 a7B8UmU9VQz0gS6hWxlLHVUyDDFalTefkLIEleKLX3PybcX5OElRdHhoeRHZWUfXBQO/b
-	 VY8Y6eZA3BhCJpkTQQ9ubBnCgd2ue089IBJQEnbgju1b8KQVXukttYMYlQTuP4AZB12Kd
-	 lIBbA+EviZ37/Jnvbzs5BPBc1KsayMSSVCudSVBeUu2W7XPmCvGVi0QTfeYxRc0vk/g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795187178;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=EAuWYfFjbXXdRKGkMUFxtHe0TJlcXwp3sYIp4VPcpKc=;
+	b=NcohnFSymh3a0Ch1N6Apmdex6Ok7fdF8rgvQ9VJbeNNUsXt/DrcvE8UQJJUE7qJqwsUO
+	 afWi6aX1ZF3C5hz9T6ar83mQQ+U1N5nNFZU990XcflNvzEPTfK/kd/Xp0S0fEgBwLIi9Y
+	 gXbwAQ4v/Udt/aE8MIV145vdR8F1/Lrv+11EaZI7oxsLqOUIfGy1byMlnBSQQnIERUWVF
+	 GmzJNPf+WF5TauwEv6zPTgXHKNlCaIlBq7TR+E5iLd5BQ0UIZ0mY8yu7t8/rbfG1h/d7u
+	 SquSlZc6al/KOU7TGdqg/sfIRZVJHV+RwZLIGuDPJjwoWct3Iqs8X2dWpFm/GFcwTkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65CE0606C878;
-	Fri, 20 Nov 2026 15:02:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65CE0606C878
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=ScY+xnBbzi
-	yHwDb/c7EhNE2QbKqHrh2rXWypNNv2ExM=; b=P1yYhomN0ZDq9horRAdMqutpRj
-	lfneJKRrbwDP6GcmBKwxdjAzOsLlqcYKhSGl7818NfWnNjVw7LJBqGQ13xILJ2WR
-	fQCURMehN6wrx6LPjjHeuTq93K1eLsmw+B88JuYfFV+XLLzVKuNwuN7C15rMP/L1
-	rY1rDWeeeD7zLzauk=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.41])
-	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPA id BrQMCkBGagDYYABrtGLzAQ--.38114S2;
-	Fri, 20 Nov 2026 23:01:46 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Lixu Zhang <lixu.zhang@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>
-Subject: [PATCH] usb: ljca: fix NULL pointer dereference on events for callback-less clients
-Date: Fri, 20 Nov 2026 23:01:43 +0800
-Message-Id: <20261120150143.2591-1-25031212351@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S2Kkd8fx;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F43606A326;
+	Fri, 20 Nov 2026 15:06:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6F43606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S2Kkd8fx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795187177; x=1826723177;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HF/fhKFXWR+yqPn0rejXIeI42zfVDMjdRvsE+UApABE=;
+  b=S2Kkd8fxBU0KtIhDO3CKvXe3DT8E4xoste2tlrFin8K5NxKrQUTOCJLj
+   yYeE806AvW/xaDz0oYhi2RSUZkk/jQZBzpq/4dNU3Tq43RgaBdRLwAZVa
+   iEYdWT/uWOJkFg4kvQY9YgsOiaoyGGn01+FlWJKgkcJGL4lPw9rg9vmNJ
+   9ZPKJcWBqv54mfkjis2wfMuaJ6cCujzbenoBeHzKOX3E+uiYVtsAWOPYz
+   Svpj2aj0F97JyNs2TNke1vS6NU/eCC6CD+7kngCPnpeQiM6AX7PdFKXND
+   OghTOYPMICTrJvAEqahfZZfATEVEiKwjNQIepzWtbHthgbkzQSeQ6r8v5
+   g==;
+X-CSE-ConnectionGUID: pZTtAYwjQ9u0etzCv7dTgw==
+X-CSE-MsgGUID: zrY+PZPuRjGktE5D6yT1Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4108597"
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="4108597"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 07:06:17 -0800
+X-CSE-ConnectionGUID: QBC5tPAkRS2xjJdTSVRM9Q==
+X-CSE-MsgGUID: QHE77ujPRVq+PEwtDmHPtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="11050941"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa006.fm.intel.com with ESMTP; 20 Nov 2026 07:06:15 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 7A0DA99; Fri, 20 Nov 2026 16:06:14 +0100 (CET)
+Date: Fri, 20 Nov 2026 16:06:14 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Ian Rogers <irogers@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, Elkin Cruz <elkin@google.com>
+Subject: Re: [PATCH] usb: typec: hd3ss3220: Propagate regmap_read() errors
+ from attached-state check
+Message-ID: <awBh5m0bWIgf_eVO@black.igk.intel.com>
+References: <20261119170650.1521609-1-irogers@google.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,77 +82,108 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BrQMCkBGagDYYABrtGLzAQ--.38114S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ar47XFWkAw4fZFy5KF1UGFg_yoW8tw4Upa
-	yUJFyYkF4DGFsFva15tas8Xa4rC393Za4Dua4UC3Z5ZF15WayvyFyYyw1DKrW3tr4UAw17
-	t3W5tFy2kay8CaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvGb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
-	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq
-	07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r
-	18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
-	r41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
-	0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
-	17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
-	C0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
-	6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
-	73UjIFyTuYvjxUcmiiUUUUU
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUDD2r-E0n0kQABsg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261119170650.1521609-1-irogers@google.com>
 
-ljca_handle_event() dispatches an incoming event message to the first
-client whose type matches the message type and calls that client's event
-callback without checking that a callback is registered.  Only the GPIO
-client calls ljca_register_event_cb(); the I2C and SPI clients never do,
-so their event_cb stays NULL for as long as the adapter is bound, while
-they are present in adap->client_list.
+On Thu, Nov 19, 2026 at 09:06:49AM -0800, Ian Rogers wrote:
+> hd3ss3220_get_attached_state() has return type 'enum usb_role' (an
+> unsigned enum) yet returns negative regmap_read() error codes directly.
+> Neither hd3ss3220_set_role() nor output_poll_execute() checks for errors;
+> on a transient I2C failure (such as -EIO, cast to 0xfffffffb),
+> hd3ss3220_set_role() passes the bogus value to usb_role_switch_set_role()
+> and disables VBUS power. On role-switch providers without a .get callback
+> (where sw->role caches the value passed to usb_role_switch_set_role()),
+> reading /sys/class/usb_role/*/role subsequently indexes usb_roles[role]
+> out-of-bounds.
+> 
+> Return an int status from hd3ss3220_get_attached_state(), pass the
+> resolved enum usb_role via an output pointer, and leave the current role
+> and VBUS state unchanged on I2C read errors.
+> 
+> Found via an x86_64 LLVM=1 (Clang 21.1.8) allyesconfig audit with
+> -Wimplicit-int-enum-cast enabled; fix and changelog drafted with an AI
+> coding assistant. Build-tested under LLVM=1 W=1 (-Werror) and
+> -Wimplicit-int-enum-cast; not tested on TI HD3SS3220 hardware.
+> 
+> Fixes: 1c48c759ef4b ("usb: typec: driver for TI HD3SS3220 USB Type-C DRP port controller")
+> Signed-off-by: Ian Rogers <irogers@google.com>
 
-A device that sends a message without LJCA_ACK_FLAG and with the type of
-such a client therefore makes the driver call a NULL function pointer
-from the URB completion handler:
+LGTM, but no stable?
 
-  BUG: kernel NULL pointer dereference, address: 0000000000000000
-  #PF: supervisor instruction fetch in kernel mode
-  RIP: 0010:0x0
-  Call Trace:
-   ljca_handle_event drivers/usb/misc/usb-ljca.c:217 [inline]
-   ljca_recv+0x651/0x850 drivers/usb/misc/usb-ljca.c:295
-   __usb_hcd_giveback_urb+0x238/0x550 drivers/usb/core/hcd.c:1657
+Thanks,
 
-Check event_cb under client->event_cb_lock and skip the call when no
-callback is registered.  The same lock is taken by
-ljca_register_event_cb() and ljca_unregister_event_cb(), so the check
-cannot be invalidated before the call.
+> ---
+>  drivers/usb/typec/hd3ss3220.c | 22 +++++++++++++---------
+>  1 file changed, 13 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
+> index 60d6de9ba339..212c3624961c 100644
+> --- a/drivers/usb/typec/hd3ss3220.c
+> +++ b/drivers/usb/typec/hd3ss3220.c
+> @@ -163,10 +163,10 @@ static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int prefer_rol
+>  				  src_pref);
+>  }
+>  
+> -static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
+> +static int hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220,
+> +					enum usb_role *attached_state)
+>  {
+>  	unsigned int reg_val;
+> -	enum usb_role attached_state;
+>  	int ret;
+>  
+>  	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL,
+> @@ -176,17 +176,17 @@ static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
+>  
+>  	switch (reg_val & HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK) {
+>  	case HD3SS3220_REG_CN_STAT_CTRL_AS_DFP:
+> -		attached_state = USB_ROLE_HOST;
+> +		*attached_state = USB_ROLE_HOST;
+>  		break;
+>  	case HD3SS3220_REG_CN_STAT_CTRL_AS_UFP:
+> -		attached_state = USB_ROLE_DEVICE;
+> +		*attached_state = USB_ROLE_DEVICE;
+>  		break;
+>  	default:
+> -		attached_state = USB_ROLE_NONE;
+> +		*attached_state = USB_ROLE_NONE;
+>  		break;
+>  	}
+>  
+> -	return attached_state;
+> +	return 0;
+>  }
+>  
+>  static int hd3ss3220_try_role(struct typec_port *port, int role)
+> @@ -231,7 +231,10 @@ static void hd3ss3220_regulator_control(struct hd3ss3220 *hd3ss3220, bool on)
+>  
+>  static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
+>  {
+> -	enum usb_role role_state = hd3ss3220_get_attached_state(hd3ss3220);
+> +	enum usb_role role_state;
+> +
+> +	if (hd3ss3220_get_attached_state(hd3ss3220, &role_state) < 0)
+> +		return;
+>  
+>  	usb_role_switch_set_role(hd3ss3220->role_sw, role_state);
+>  
+> @@ -258,9 +261,10 @@ static void output_poll_execute(struct work_struct *work)
+>  	struct hd3ss3220 *hd3ss3220 = container_of(delayed_work,
+>  						   struct hd3ss3220,
+>  						   output_poll_work);
+> -	enum usb_role role_state = hd3ss3220_get_attached_state(hd3ss3220);
+> +	enum usb_role role_state;
+>  
+> -	if (hd3ss3220->role_state != role_state)
+> +	if (hd3ss3220_get_attached_state(hd3ss3220, &role_state) == 0 &&
+> +	    hd3ss3220->role_state != role_state)
+>  		hd3ss3220_set_role(hd3ss3220);
+>  
+>  	schedule_delayed_work(&hd3ss3220->output_poll_work, HZ);
+> -- 
+> 2.56.1.708.g77570a6a1d-goog
+> 
 
-Fixes: acd6199f195d ("usb: Add support for Intel LJCA device")
-Cc: stable@vger.kernel.org
-Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
----
- drivers/usb/misc/usb-ljca.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/misc/usb-ljca.c b/drivers/usb/misc/usb-ljca.c
-index fcb627b49eac..36e01783252b 100644
---- a/drivers/usb/misc/usb-ljca.c
-+++ b/drivers/usb/misc/usb-ljca.c
-@@ -214,8 +214,9 @@ static void ljca_handle_event(struct ljca_adapter *adap,
- 			unsigned long flags;
- 
- 			spin_lock_irqsave(&client->event_cb_lock, flags);
--			client->event_cb(client->context, header->cmd,
--					 header->data, header->len);
-+			if (client->event_cb)
-+				client->event_cb(client->context, header->cmd,
-+						 header->data, header->len);
- 			spin_unlock_irqrestore(&client->event_cb_lock, flags);
- 
- 			break;
 -- 
-2.34.1
-
+heikki
