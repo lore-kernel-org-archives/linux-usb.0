@@ -1,60 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.119
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795187693;
-	b=xRyqLsYE3dF/JbXKXvOEZMNTaFb52UgCLuPcFoDvUAy2sXZ3N4Fj61oFeUxfanhvGLsc
-	 8Gkv5KGINC5vFYWWSllwcSP+r2JphyxkghjjCQyQTB3hqldKuWUNbz21DexXTiFk2q1ox
-	 xcqhUN1lLEUjB0ij5YbYgf+lOgi8Brp7guWaEijIWn6UHo/RJOF4IGIiqpC5Z+ZmCuR1b
-	 6pMUV6bT25MGJJLhQEtBVctRmNS60XqKDJyQJlSPAwkbJhLUblXD7IzuGzOHBWvKBBJ0l
-	 +hAxo5/eFH+Y9oSkP6Syfp3lVSza6QFCcCKRFO4kHibe03zCR1oWW9n8ToqyJQq0KdA==
+	t=1795189044;
+	b=WeqZ07ckfwCg8fSDMASsN6f6fKvZyNr2FB8C3gQmYfweA/vBbU2tRbREXdT3GnY59I3e
+	 MnFKtqqmdmec/8k2rS9/ur+M9DZ9l1IvVA6PCzWL5Nr4XauNfytDNWRofdWl/gIf26jQV
+	 tj+hODMWQPQKJywK0elRdGOclA5/rZliK4TdrLzybUcRgRBVP+pDbLjdm3UkhC+IMzBE1
+	 DU/0DBAhe2SANS/wgpPgjOSP6/j1H3KA1k1j7Y0/7IvM/n0J3mtVTOECXZGWhWX0UmgVJ
+	 Wh0X7u1K7Vm3NHYFgXHDnyYqvLSjLDk0GgjGomAY7qu3qi2SWksy59CzKNeU5GQjWHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795187693;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=VUA4AZldclabl7KQ7qeQb/LRDMoYnf1ou18XMuVyDAs=;
-	b=W9uqtA+p8so3XJY3RBK85M+C+l1G/z2wsptaK7/A6GZdKAvytXelk+FqzIbLsawewLfI
-	 YiZiHE1xxvDHSIuus0WvANM03Rm4lW/C0hYJvouzZ8B5M3SvQBxy6ADAxjsvl7fbFee/u
-	 sA/CAPX87Pe/d/yLycMSqaVoSq094YRTd7B6LfClboSKmSq4NZHiZWYWO7MnG+AdNEgnx
-	 EZH38CHKfrN6cWB8y/fOnZjLeQA+leEGnva0bPW+5zMAlh1ULQEwQWFSNG7rkXTzNS1b9
-	 nkgwvUbCoJA3s+z6V4e+/TmUQoVJILtGQvyqaRrDx0neLZ5QGF4d4tt5u/6BzP5pL1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795189044;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=jM2zQZj4sCA/BeUqFrGmArSxPy2PziPiafisynOVo9s=;
+	b=GBiovMJk99lE+KeQYfb06zglfEKWwkBL5PvgILLREdLQqEfdeuFrExv1XXP22vTt4VNz
+	 NNQPT+r94Nzfw51TTAovRrdYblqsDngzDen4EOKygNf2+OcAvIXDK2F49QQtcBl5sH89Q
+	 bvZtb8oWAZQc12ipvaiqDbP9RdALf7IHH3a++5aa5D5Y1XseLoYpcSMK33cKhAm1DidYm
+	 Lf3QgYmke4MCQP/kwNA8xTpyy4YKIGPfKdGwUBTEC/Q6GUGZ0d5JCPmVSgRiYyXqJWo3S
+	 eRRp3wgFlC5LpT4ZboMQklQ+c+9iZf79Ujgwyh4+B8OR22GJhspfxuM88GhdnomoFgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=becholey.ch;
-	spf=pass smtp.mailfrom=becholey.ch;
-	dkim=pass header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail header.b=dT24xTxp;
-	arc=none smtp.remote-ip=109.224.244.119
-Received: from mail-244119.protonmail.ch (mail-244119.protonmail.ch [109.224.244.119])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=xYQs2WKx;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A98B606A332
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 15:14:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A98B606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=becholey.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=becholey.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BE6606A325;
+	Fri, 20 Nov 2026 15:37:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail header.b=dT24xTxp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=becholey.ch;
-	s=protonmail; t=1795187690; x=1795446890;
-	bh=VUA4AZldclabl7KQ7qeQb/LRDMoYnf1ou18XMuVyDAs=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=dT24xTxpAINTzYFcvBS0eyvxceCogQuX4AbP2E5NWQ2miarr8muxfe14Xm/inhFcS
-	 DuoAil1OphlGXxO86kvc5wtqKourFN1sW2CrYtTtvwTgjXI/GhIpsSQXhdXFvLbcas
-	 6a3Jf6dxG87eIeY7+y8CLtequLpQVsmkPxAaijTUQ1HE8JNyL/eb6WC2JGete336kx
-	 squtEoRBwDgiLpYbbk9vYkMI2QOMgu7gZ7PUNmCxZERJx7VE/zVcpjfia75k/QbzTJ
-	 nu0umj4qXIdiBBTKHBlk4FA7sg6OYzSpCKjPfy2tscLhCdTxA+AOAmZvUkNoBJX6Cd
-	 x+rXI9W/bneTQ==
-Date: Fri, 20 Nov 2026 15:14:44 +0000
-To: Oliver Neukum <oneukum@suse.com>
-From: Alexandre Becholey <alex@becholey.ch>
-Cc: Oliver Neukum <oliver@neukum.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: image: microtek: don't receive REQUEST SENSE data into sense_buffer
-Message-ID: <8iDv29vCFEOxycORJWCZZoTT9dMFbUZZ9VK25sT27tKoWWtaKvLKZaW2YoQDygTrSRkZRE6Pu5PmkMFLl-PDCWXI9n1l-LSB9aJCByn8gks=@becholey.ch>
-In-Reply-To: <e3956050-8b80-4270-998e-2e5ec70cbdf8@suse.com>
-References: <20261119084526.535901-1-alex@becholey.ch> <643a71e0-7347-47f3-8cad-ce31f76cb8af@suse.com> <AP57iwtzG1Kr6EB4hY7F0Hd-DaLhPZJzxoKNuvDpeiAKZvyxsddI1fl6kRKAc2Xg1ox0kL-KAdNYmZrRMEYN_mZRamfiV6nXjdcfDhJhGyY=@becholey.ch> <e3956050-8b80-4270-998e-2e5ec70cbdf8@suse.com>
-Feedback-ID: 60743817:user:proton
-X-Pm-Message-ID: 3e4d380063c7bf7d7a2631f03fc3f8974690252a
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=xYQs2WKx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8003E1F000D0;
+	Fri, 20 Nov 2026 15:37:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795189044;
+	bh=jM2zQZj4sCA/BeUqFrGmArSxPy2PziPiafisynOVo9s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=xYQs2WKxWaBk/KDjQ5vSevd9VvV4biRUZIWcvCyBSyr2G+pq3UTxe7kT61aqJFxIK
+	 qkkisD8rGPl6HTtZWjE3cfschy4Lurmyr5ZS8kgP/M+mwrtdxKO50Q6wpxkvEjYfqo
+	 OEKf4ShPxj7xrTI9U3ArJeVDVHLvuKUKYGnJd0Go=
+Date: Fri, 20 Nov 2026 16:37:21 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Guomin chen <chenguoming88s@gmail.com>
+Cc: Peter Chen <peter.chen@kernel.org>, Pawel Laszczak <pawell@cadence.com>,
+	Roger Quadros <rogerq@kernel.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: cdns3: fix NULL dereference in cdns_host_resume()
+Message-ID: <2026112010-raft-sandbank-869b@gregkh>
+References: <20261118140513.8281-1-chenguoming88s@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -64,74 +54,110 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261118140513.8281-1-chenguoming88s@gmail.com>
 
-On Thursday, November 19th, 2026 at 1:51 PM, Oliver Neukum <oneukum@suse.co=
-m> wrote:
+On Wed, Nov 18, 2026 at 10:05:13PM +0800, Guomin chen wrote:
+> From: Guoming Chen <chenguoming88s@gmail.com>
+> 
+> cdns_host_resume() assumes that the xhci-hcd child device is bound and
+> passes platform_get_drvdata() straight to hcd_to_xhci_priv().  That is
+> not guaranteed: __cdns_host_init() creates the child with
+> platform_device_add(), but the child is only probed once xhci-plat
+> registers.  cdns3/ is linked before host/ in drivers/usb/Makefile and
+> both are module_init(), so at boot the child stays unbound until
+> xhci-plat's initcall runs; when xhci-plat is a module it stays unbound
+> until the module is loaded, and it is retried even later when its probe
+> returns -EPROBE_DEFER.  Platforms that set
+> CDNS3_DEFAULT_PM_RUNTIME_ALLOW (cdns3-imx is the only in-tree user) let
+> the controller autosuspend (20 ms), so the parent may already be
+> runtime-suspended by the time the child's probe actually runs.
+> 
+> When the child is finally probed, driver core resumes its parent before
+> calling really_probe() (pm_runtime_get_sync(dev->parent) in
+> __driver_probe_device()).  That runs cdns_resume() ->
+> cdns_host_resume() while platform_get_drvdata() still returns NULL,
+> because the drvdata is only set later, by dev_set_drvdata() in
+> __usb_create_hcd() called from xhci_plat_probe().  hcd_to_xhci_priv(NULL)
+> then evaluates usb_hcd_is_primary_hcd(NULL), which dereferences
+> NULL + offsetof(struct usb_hcd, primary_hcd) (the offset depends on the
+> configuration).  The oops faults in the first instruction of that
+> helper:
+> 
+>   pc : usb_hcd_is_primary_hcd+0x0/0x1c
+>   lr : cdns_host_resume+0x24/0x44
+> 
+> Return early when the host child is not available: it has either not
+> been created yet or not been probed.  cdns->host_dev is also cleared by
+> cdns_host_exit() while cdns_role_stop() leaves cdns->role pointing at
+> the host role, so a resume after a role stop reaches this function as
+> well.  Nothing is lost in either case: the child's probe initializes the
+> controller from scratch, and xhci_plat_priv.power_lost is only consumed
+> when an already initialized host resumes.
+> 
+> Fixes: 3a85c1011540 ("usb: host: cdns3: forward lost power information to xhci")
+> Signed-off-by: Guoming Chen <chenguoming88s@gmail.com>
+> ---
+>  drivers/usb/cdns3/host.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/cdns3/host.c b/drivers/usb/cdns3/host.c
+> index e01264dc625d..3456f065111b 100644
+> --- a/drivers/usb/cdns3/host.c
+> +++ b/drivers/usb/cdns3/host.c
+> @@ -140,9 +140,21 @@ static void cdns_host_exit(struct cdns *cdns)
+>  
+>  static int cdns_host_resume(struct cdns *cdns, bool power_lost)
+>  {
+> -	struct usb_hcd *hcd = platform_get_drvdata(cdns->host_dev);
+> -	struct xhci_plat_priv *priv = hcd_to_xhci_priv(hcd);
+> +	struct usb_hcd *hcd;
+> +	struct xhci_plat_priv *priv;
+> +
+> +	/*
+> +	 * The xhci-hcd child may not be bound yet (xhci-plat can probe it
+> +	 * after cdns3 created it), or may already be gone after a role stop.
+> +	 */
+> +	if (!cdns->host_dev)
+> +		return 0;
+> +
+> +	hcd = platform_get_drvdata(cdns->host_dev);
+> +	if (!hcd)
+> +		return 0;
+>  
+> +	priv = hcd_to_xhci_priv(hcd);
+>  	priv->power_lost = power_lost;
+>  
+>  	return 0;
+> -- 
+> 2.43.0
+> 
 
->=20
->=20
-> On 19.11.26 13:28, Alexandre Becholey wrote:
-> > On Thursday, November 19th, 2026 at 1:02 PM, Oliver Neukum <oneukum@sus=
-e.com> wrote:
-> >
-> >> On 19.11.26 09:45, Alexandre Becholey wrote:
-> >>
-> >>> The special case is not needed: for the error handler's own REQUEST
-> >>> SENSE, scsi_eh_prep_cmnd() already points the data buffer at
-> >>> sense_buffer with at most SCSI_SENSE_BUFFERSIZE. Handle REQUEST SENSE
-> >>> like every other data-in command.
-> >> Hi,
-> >>
-> >> thank you for looking at this, but this fix seems to not take an
-> >> approach I can approve. Where sense_buffer is pointed to is
-> >> internal to the SCSI layer. We cannot use that in an LLD.
-> >>
-> >> If you think that LLDs should not use sense_buffer then the clean
-> >> solution is to remove it from struct scsi_cmnd.
-> >>
-> >> =09Regards
-> >> =09=09Oliver
-> >>
-> >> NACKED-BY: Oliver Neukum <oneukum@suse.com>
-> >>
-> > Hi Oliver,
-> >
-> > Would you take a v2 that keeps receiving the REQUEST SENSE data into
-> > sense_buffer and only limits the transfer to SCSI_SENSE_BUFFERSIZE?
->=20
-> Hi,
->=20
-> sure that would be fine.
+Hi,
 
-Thanks, v2 will do that.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
->=20
-> Yet, I am afraid I have to ask why you want to solve this issue
-> at the level of the LLD? This looks like a generic issue to me.
-> The size of sense_buffer is documented. I don't see how this
-> issue can be limited to microtek.
->=20
-> =09Regards
-> =09=09Oliver
->=20
->=20
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-The overflow comes from microtek receiving the data phase of a
-REQUEST SENSE command into sense_buffer with the length of the
-command's own data buffer. That length is chosen by whoever sends
-the command (sg allows REQUEST SENSE on a read-only node) and has
-nothing to do with sense_buffer, so I don't think the core can see
-the problem.
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
-I looked at the other drivers for that special-case REQUEST SENSE
-(in drivers/scsi, drivers/ata and drivers/usb). They either
-transfer its data into the command's data buffer like any other
-data-in command, or emulate it there. I found no other driver that
-copies a caller-sized transfer into sense_buffer, so I think the
-fix belongs in microtek. If you see a place where the core should
-enforce the size, I am happy to look at it.
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
-Kind regards,
-Alexandre
+thanks,
+
+greg k-h's patch email bot
