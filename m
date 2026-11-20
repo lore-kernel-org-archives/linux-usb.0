@@ -1,81 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795165183;
-	b=ywJh2kOpTaIGK4anxxARKzRkpvt7PbHsa99EMAn2Ux1+CmMbH0W/KNZE7Rhs2rF5e+0v
-	 NtDbTe402sG4yAaJGCgTRTTu4XpTueuhhChxTH7OX/ml0R7PmgzQlmp7qFGVtMpmhBmY7
-	 j7ZPBSSuvsu1s4oBId1EL/rH1Pgo0q3jQdevN5AY/ww2Ql5aZuS7hrJGDQ2a7XHyY2hi8
-	 rvhn9SuRlFFgdAcOVsfSrj49UwHR/E5TxybH+WwhZyAck2NhoEs1W0oRu+jG1evEvbWoF
-	 SdijK9KnPJ64cvjN3ryQRJ7tySkoJ5WpXNU2jAoeC82LIUweVG+b36IDw36H0kypihg==
+	t=1795166513;
+	b=xJRsCA2U9/DrQG1VDTnxFBHB45pQPKRt6o3o3apfPbKJOa5AYdRJxa8uC+03O+N4GTCk
+	 04IyDJ9K+gHc4DDbstJ4d47sYDYz8v/t34z30XTAdmIm1fn/evLLfbCecIh2oBqOF3OJU
+	 W8e/MBOXH/2IpiSBPIhtsqSrFrMsgbhsouGnRb0sfcUS0RsKbEASmGxhlmgoElttBMmbp
+	 2vlA1+Fka77Engv6Gq850j2do1J24+rPrt/u7QRyMa7ZWuncZdl4oqqcKGcz8A97//Ty0
+	 WN9XUjLMonVusJd26PUwL7S/k/ddvyVFMUh0oRewJfibBDHotEmvpkLbbVd1MPVv3Dw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795165183;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 Organization;
-	bh=VedXmvSI7G6Xtxoxd3IW0KA5vnVG/Qoj5iEhteVh2F4=;
-	b=M4oy1a4rXgYicMuekHjf3+rK8qdElr+BL7MwjYvHwyjot+o89dtWpG8sGG7iJ4FCNnPz
-	 1snpJT/gmxIDQYE6kMuv3C3ZOkrs7LYshhAwxk4ikspXXAt1XMAfmzXQIX3bzwwX3/iFt
-	 FsJsnNlpx9o2tHHSsvDo1M9Xd6WGgpD/L1xfQpKAvQ9c9BNIcmNz2Dd1MFG+u0+iYzOOz
-	 STNQurKJsRypHwSZvmoLOFHUp+XlMfLkzfL3S03Lct6irRzGJ25MeK39RPJWL3b8tscKg
-	 SEcnqVmutC/fwz8ygZlCIf+6OBQJoPdtgAY8NBXyCK1VWb5QnhlSYbCbQSJmYlrIuvg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795166513;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=C3p2qAYM3kIBhwefoYmsJvsmhyy0ez/in4GBowOXtQo=;
+	b=INbjm1XTzj0DU+tS+JpR1EL723fzgqyZNTmCOsdEVmRukwuI1IhTZJ6keeH/2brRr9Yh
+	 SO53Fm8IcWwsPxMSXy6R3xeRQNgldvWe5+C1V0iYpQ9TgMHvwq2xvF1RsQzrKVjuo54Sx
+	 fIcgONuwtWOkFJttvA/RBqfo2N44qpuLoJmWhZFa5ZPhc4czLijuKFzWNqfsbF2sFGv5V
+	 mp/RoCciHCh3DdX0g2W2hxHk6OQp2luD1oGGAKjqIBpym9Bln5Esxb26OxotvvtnD9pvG
+	 owbL7m6/NPmaGSOBBCRJTpId9D93QG7ZS3Km08U+2aopeIjIgsHklr8JeUuFCwZP3gA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GsWwQTjI;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C00606A32C;
-	Fri, 20 Nov 2026 08:59:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4C00606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GsWwQTjI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795165184; x=1826701184;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=nk+t4fI7zmLmWT/kxiuqyqIDMYUCl9U7mqKAwRYAXEU=;
-  b=GsWwQTjINcWyOfGYRC/W778QqQYSKIPtAP7s64ZUXJGMAQPBwhJkLB/q
-   ltKvmDG4KDCbMVFp22SbdCqPI5YT+ktG7NlgMqsxIiDA099As1e2f4D+D
-   CJFioI1E0MmR4yHdiIkJlov7z3bn4L9aiopjOkQkN263M3ZLKSM1RsRdU
-   roLx0ZtlvTMuJv+4TZoSFNECvOtOMhQcE6tG2ZQ23p/NkExcD9Elyk9E9
-   pSzJm6EPPeBfiCpe5EAdc6a19xpTJxHjhsxiO3Ae50e0bcUED/nVsODQB
-   Y+Q1bgJIicOglhll5V5ZS9WTVDBBGW4sgynt+YCxDNloG3VthIK60OFaG
-   g==;
-X-CSE-ConnectionGUID: 3dlW4yPfRz+FVa2Ykd8g0Q==
-X-CSE-MsgGUID: hTpyKbj5RsalkxRQP5hSow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4081601"
-X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
-   d="scan'208";a="4081601"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 00:59:43 -0800
-X-CSE-ConnectionGUID: 8YRu/vs0QIeBu8Whxdd/Iw==
-X-CSE-MsgGUID: eYIQxeXtQJuw0HqduVkqRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
-   d="scan'208";a="12363983"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.218])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 00:59:39 -0800
-Date: Fri, 20 Nov 2026 10:59:36 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: netdev-bot+sashiko@kernel.org
-Cc: liuc63@xiaopeng.com, gregkh@linuxfoundation.org,
-	akpm@linux-foundation.org, davem@davemloft.net, edumazet@kernel.org,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	khtsai@google.com, fangxy@xiaopeng.com, rdunlap@infradead.org,
-	dbrownell@users.sourceforge.net, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] usb: gadget: u_ether: fix out-of-bounds read in
- get_ether_addr
-Message-ID: <awAL-CjBSGfOfYUS@ashevche-desk.local>
-References: <20261117090110.3263592-3-liuc63@xiaopeng.com>
- <179513296378.3136.18205287276015126683@kernel.org>
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 818FB606A325
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 09:21:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 818FB606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=C3p2qAYM3kIBhwefoYmsJvsmhyy0ez/in4
+	GBowOXtQo=; b=33XuCaHTQBoPKveZiLmolKP962TYS8xU97wa9ZoroK63fwYqVE
+	PUkaqjsR+JSHOXk06ewEdxSMqDWY4StUgjOH4kOxYNPIsIFGa+C4/4EXLHS/y+i5
+	7+GtsDhJGGps6e6IieugO4gdlWbbQ436yLtxmyNHagJl2i1J+6n62WzdM=
+Received: from LAPTOP-FRMFRHCN.localdomain (unknown [2408:8670:ae1:0:bbb2:6215:5dc7:c1f8])
+	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPA id BrQMCkBmiwEcEQBrEmzvAQ--.35043S2;
+	Fri, 20 Nov 2026 17:21:33 +0800 (CST)
+From: Haoli Zhang <26031212468@stu.xidian.edu.cn>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	Jinning Zhang <25031212117@stu.xidian.edu.cn>,
+	Bin Yu <byu@xidian.edu.cn>,
+	syzbot+599d4e8994a656eafe15@syzkaller.appspotmail.com
+Subject: [PATCH v2] usb: gadget: f_midi2: disable endpoints before freeing descriptors
+Date: Fri, 20 Nov 2026 17:21:29 +0800
+Message-Id: <20261120092129.1388279-1-26031212468@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261120042607.1347854-1-26031212468@stu.xidian.edu.cn>
+References: <20261120042607.1347854-1-26031212468@stu.xidian.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -85,153 +59,82 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <179513296378.3136.18205287276015126683@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-CM-TRANSID:BrQMCkBmiwEcEQBrEmzvAQ--.35043S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4UCry8WryxZryDAFy5Jwb_yoW8tFW8pF
+	WfJrWjyFs8JF4qka1fGr40vry5Aa90va45GrWUK34Ivan5t34ktr18tF1YgFn8CF1xZw42
+	qFsxJw4Duw1rCr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9l14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
+	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
+	x2IErcIFxwCY1x0262kKe7AKxVWUAVWUtwCY02Avz4vE824l42xK82IYc2Ij64vIr41l4I
+	8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
+	xVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
+	AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8I
+	cIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r
+	4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU1F4iDUUUU
+X-CM-SenderInfo: yswqjiasrskluy6v33wo0lvxldqovvfxof0/1tbiAQUDEWr-ENjRwgAAsY
 
-On Fri, Nov 20, 2026 at 12:02:43AM +0000, netdev-bot+sashiko@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential
-> issue(s) to consider.
-> 
-> Critical: 0 · High: 0 · Medium: 1 · Low: 1
-> 
-> If you believe none of the issues are legitimate, please reply to each
-> issue of Medium severity or higher and explain why the AI is wrong.
-> If any of them are legitimate and you plan to respin, please let patchwork
-> know by including "pw-bot: cr" as a separate line at the end of your reply
-> (one such reply per series is enough).
-> 
-> - [Medium] The commit message is wrong about how the legacy module
->   parameters report a rejected address.
-> - [Low] The ABI text this patch adds to configfs-usb-
->   gadget-{ecm,eem,ncm,rndis,subset} says host_addr/dev_addr accept only…
-> 
-> --
-> 
-> usb: gadget: u_ether: fix out-of-bounds read in get_ether_addr
-> 
-> This replaces the open coded MAC address loop in get_ether_addr() with
-> parse_mac_pton() for the delimited notations and hex2bin() for the raw
-> twelve digit notation. This fixes an out-of-bounds read on short strings
-> and stops non-hex characters from being silently accepted. It also selects
-> GENERIC_NET_UTILS and documents the accepted formats in the configfs ABI
-> files for the ECM, EEM, NCM, RNDIS and subset functions.
-> 
-> Link: https://lore.kernel.org/all/20261106030605.576584-3-liuc63@xiaopeng.com/
-> 
-> > How a rejected address is reported depends on the caller.  The legacy
-> > module parameters go through gether_setup_name(), which keeps the random
-> > address that get_ether_addr() falls back to and only logs a warning.
-> 
-> [Severity: Medium]
-> Is this description of the legacy path accurate?
-> 
-> Nothing in the tree seems to call gether_setup_name(). Its only wrapper,
-> the inline gether_setup() in u_ether.h, has no callers either.
-> 
-> The legacy gadgets (legacy/ether.c, cdc2.c, ncm.c, multi.c and g_ffs.c)
-> pass the dev_addr= and host_addr= parameters through
-> gether_set_dev_addr() and gether_set_host_addr(). The KASAN trace earlier
-> in this commit message shows the same path
-> (eth_bind()->gether_set_dev_addr()->get_ether_addr()):
-> 
-> drivers/usb/gadget/legacy/ether.c:eth_bind() {
->     ...
-> 	if (!gether_set_host_addr(net, host_addr))
-> 		pr_info("using host ethernet address: %s", host_addr);
-> 	if (!gether_set_dev_addr(net, dev_addr))
-> 		pr_info("using self ethernet address: %s", dev_addr);
->     ...
-> }
-> 
-> gether_set_dev_addr() parses into a local new_addr[] and returns -EINVAL
-> when get_ether_addr() fails. The random fallback is thrown away:
-> 
-> drivers/usb/gadget/function/u_ether.c:gether_set_dev_addr() {
->     ...
-> 	if (get_ether_addr(dev_addr, new_addr))
-> 		return -EINVAL;
->     ...
-> }
-> 
-> The netdev then keeps the dev_mac/host_mac that
-> gether_setup_name_default() picked earlier with eth_random_addr(). Since
-> eth_bind() has no else branch, nothing is logged.
-> 
-> With this patch, "insmod g_ether.ko dev_addr=aabb.ccdd.eeff" no longer
-> gives a stable aa:bb:cc:dd:ee:ff. parse_mac_pton() fails the length check
-> and hex2bin() fails at the first '.'. Would such a user now get a
-> different random MAC on every load, with no message explaining why?
+The dummy_hcd driver keeps pointers to endpoint descriptors while endpoints
+are enabled. Its timer dereferences these pointers in find_endpoint().
+However, f_midi2_unbind() frees the function descriptors, while
+f_midi2_disable() currently only resets operation_mode. Disable the
+endpoints before the unbind callback releases their descriptors.
 
-It sounds like a good idea to add a warning on rejected addresses and say that
-random is in use.
+Disable the MIDI 1.0 endpoints and all MIDI 2.0 endpoints from
+f_midi2_disable(). Check each endpoint pointer because the configured
+direction can leave an endpoint unallocated. Keep f_midi2_stop_eps()
+unchanged so altsetting transitions retain their existing request cleanup
+behavior.
 
-> Could the commit message be corrected to describe the
-> gether_set_dev_addr() path that the legacy parameters actually take?
+Fixes: 8b645922b223 ("usb: gadget: Add support for USB MIDI 2.0 function driver")
+Reported-by: syzbot+599d4e8994a656eafe15@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=599d4e8994a656eafe15
+Co-developed-by: Jinning Zhang <25031212117@stu.xidian.edu.cn>
+Signed-off-by: Jinning Zhang <25031212117@stu.xidian.edu.cn>
+Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Haoli Zhang <26031212468@stu.xidian.edu.cn>
+---
+v2:
+- Open-code the endpoint disable calls in f_midi2_disable() as requested by
+  Greg.
+- Add both co-developers to the Cc list.
 
-I think this needs to be followed and commit message needs a correction.
+ drivers/usb/gadget/function/f_midi2.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-...
-
-> > --- a/Documentation/ABI/testing/configfs-usb-gadget-ecm
-> > +++ b/Documentation/ABI/testing/configfs-usb-gadget-ecm
-> > @@ -17,4 +17,9 @@ Description:
-> >  			      - MAC address of device's end of this
-> >  				Ethernet over USB link
-> >  
-> > -
-> > +		host_addr and dev_addr accept a MAC address as six byte
-> > +		pairs separated by ':' or '.', in any mixture
-> > +		(aa:bb:cc:dd:ee:ff, aa.bb.cc.dd.ee.ff), or as twelve
-> > +		hexadecimal digits with no separator (aabbccddeeff).  Any
-> > +		other format is rejected: the write fails with EINVAL and
-> > +		the attribute keeps its previous value.
-> 
-> [Severity: Low]
-> Does this text match what the new get_ether_addr() accepts?
-> 
-> parse_mac_pton() only checks a minimum length and the first
-> MAC_ADDR_STR_LEN characters:
-> 
-> lib/net_utils.c:parse_mac_pton() {
->     ...
-> 	if (strnlen(s, MAC_ADDR_STR_LEN) < MAC_ADDR_STR_LEN)
-> 		return false;
->     ...
-> }
-> 
-> Its own kernel-doc says "anything after them is ignored". So writing
-> "aa:bb:cc:dd:ee:ff:00" or "aa:bb:cc:dd:ee:ffXYZ" to dev_addr succeeds and
-> sets aa:bb:cc:dd:ee:ff.
-
-Yeah, the text needs an amendment. Something like
-"...with no separator (aabbccddeeff) at the beginning of the input."
-(see the part "at the beginning of the input" that's added).
-
-> The hex2bin(dev_addr, str, ETH_ALEN) fallback reads exactly 12 characters
-> and never looks at str[12]. "aabbccddeeff.zz" and "aabbccddeeff0011" are
-> accepted as well.
-> 
-> The reverse case is also missing from the text. Both paths in
-> get_ether_addr() also require is_valid_ether_addr(). A correctly
-> formatted multicast or all-zero address such as 01:00:5e:00:00:01 or
-> 00:00:00:00:00:00 fails with EINVAL, and the new text doesn't mention
-> this.
-> 
-> Trailing characters do have to be tolerated, because a configfs write
-> from echo ends in a newline. Could the text say that anything after the
-> address is ignored, and that the address must be unicast and non-zero,
-> instead of saying that every other format is rejected?
-> 
-> The eem, ncm, rndis and subset ABI files get the same text.
-
-All of them need to follow the same pattern, yes.
-
+diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
+--- a/drivers/usb/gadget/function/f_midi2.c
++++ b/drivers/usb/gadget/function/f_midi2.c
+@@ -1343,8 +1343,23 @@
+ static void f_midi2_disable(struct usb_function *fn)
+ {
+ 	struct f_midi2 *midi2 = func_to_midi2(fn);
++	struct f_midi2_ep *ep;
++	int i;
+ 
+ 	midi2->operation_mode = MIDI_OP_MODE_UNSET;
++
++	if (midi2->midi1_ep_in.usb_ep)
++		usb_ep_disable(midi2->midi1_ep_in.usb_ep);
++	if (midi2->midi1_ep_out.usb_ep)
++		usb_ep_disable(midi2->midi1_ep_out.usb_ep);
++
++	for (i = 0; i < midi2->num_eps; i++) {
++		ep = &midi2->midi2_eps[i];
++		if (ep->ep_in.usb_ep)
++			usb_ep_disable(ep->ep_in.usb_ep);
++		if (ep->ep_out.usb_ep)
++			usb_ep_disable(ep->ep_out.usb_ep);
++	}
+ }
+ 
+ /*
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
