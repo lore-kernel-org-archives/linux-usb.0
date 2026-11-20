@@ -1,76 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795186792;
-	b=gj/UmYNSUfUXRnad+cAGyMg8M3bWeSF47PLzVr6tK1jlpqyb3iUIzBfwpcXrRM0GS5UL
-	 wvF0XyYQ8LU0OEJYRD6qmo3lxMxg8kKGqACifFhFOFuCbPoLjJb1WgpJ6SRb3kmHAV2eU
-	 1u5pGAFk9m5FLJtr+VUY888SEFyquDU32ftyM2cqFYh7ziFVfVsafWfCufWS4geRoQ0ED
-	 nTwS5jiMzsxi7wCLiHPuTU7nurfkfBLHUyE/vJfDc2MB2bXPdPt7+FPgc7KpAQXWAGxcV
-	 hE4PGl+GmE3JVIpsC69RhYphX0/SzuxxoCO8y52sCEW+t7/vWbDZf1NufAJ3pLHaOIA==
+	t=1795186898;
+	b=K4KXhZIXtQUm75ODpe68yfbuYjqQL+QRMmcoXUPW3vQp7CDB1Rr3Mj0psHpnGOtt4D0i
+	 dYHGlqnaUe4dB8iAPrSjvePoPvCTOpgo8G/nJxh3kYYnqgT26k5cZi/2qNhwt/PDQli1V
+	 4KzY2eEctQu0vJ6NYTm++ea/0rBpQUNnRlcWORpB6X+D0fA4STnnTC6nwE4U61O67BpP7
+	 VmQi50jBpS2Fhy26tjgpDzHTWtPPPQAuY3iC0RQICp+mt8MfZlU6Kh+U2GUWjKVCaDa8M
+	 M9vdB6LGSrxio9oRFunYfciHr5XdvZcefoyiwwiruYBBoIPxyb/VAluAPgTHxcqAdEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795186792;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=1+Y2RqMyHfV+Y464nXtx3Gk0xMOqrlhhnkfM59Bt/9U=;
-	b=nx83NEjGHG48268ouzVscsbu4ynpmobdVON/+2Zia/VoR6y7RehCHic083YR9MmK4CF7
-	 KGKAI3vkHI65zc1OJFdAWifNdNxjYFPfO0D8g5BJQ4N5brfXv6QfKqpT6i29LozX9nz+N
-	 l/ecGmBZ507F+8p1B0K7l9AYpQk6apg9GBajRva+co9VPxOJCnaN33CacHiU6x7UWC8PX
-	 4mjJ7liE+Fn47XJWfQAcKuFTT10ANlGA+rmUb50i5mdTsazQG42E1M2nE90g2T7oriECC
-	 tXMYODGrearfB6mANclxXoUp5lcmok020c2h/DrchWnCF93srCf6XN6Q32PTcXNmWHQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795186898;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=a1raqnnGut4xynOxiwY0p1mw/MtwsmNrEMEfjzI9bPk=;
+	b=Vc4WZjbv27pQqHJTz6jMnxu1MOsnh/LPuJMtbFh5pDNqUl69/6s7wgCGMaqDKiMaECTx
+	 trDlaKTX3MWK7I9977j/AXLudV6yEpslCWR0I8AiqCUxC1Gu0MPQsFuCXsE+RwhzY8gzC
+	 hfnGp/zTMZ6Jd+b/TvQLT+FOecbZv/JuQKMiXPoQKJRhU84EicEXRpni+HWrxWO1hNPtm
+	 Nol4hGZKH8WV6bCJ1OHHYZm7BZ4Js6dkCsSeJ37j3vkWPQanoj8FbzzkDuBFq+FNy9p9+
+	 eiV8thlishfdfQM/Uuw0dTibACdAXLr/CCk2tnfcn7exViW5NQkwVH3kSoBvhnd+6zA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=F9iI9qSL;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=fail header.from=isslab.korea.ac.kr;
+	spf=none smtp.mailfrom=isslab.korea.ac.kr;
+	dkim=pass header.d=isslab-korea-ac-kr.20260707.gappssmtp.com header.i=@isslab-korea-ac-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=nw2iieT6;
+	arc=none smtp.remote-ip=209.85.216.47
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A98D6074D1B;
-	Fri, 20 Nov 2026 14:59:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A98D6074D1B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4087606A806
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 15:01:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4087606A806
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=isslab.korea.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=isslab.korea.ac.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=F9iI9qSL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795186793; x=1826722793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kd5881KlhwrfFt8b0/HVBwSv0ExhQB7vWOA8txUFcrM=;
-  b=F9iI9qSLRKq/liu+CHNJu9BdkZztswXFAxSovUyJPpwV8pnwuAnyvX2O
-   SmuMpPQYQwhOa3rIjr4uSf9hPKLGARbAqddsTB81tAtMGJ22BjWZSzfJY
-   KgKGs1pVhEgTZDtTDp4PTJEW5GxCVSgg72C5mpQoPri884giWSUL2VuVx
-   Wc6oOufBgniyIIYjwjhjlebalLULCnvW2/0xtAISanziFDLe0iUOkuCRP
-   hzduuPLoVVj/FsRfZ1IAQKsvnnahQHyfsH5eLDa6fecxpDHqRejcsXXp8
-   XFDhQlbk4X//y7RWGQA78HaLNy3M6s81SGDdY4FY+BQ6mtpyiyFxgUYPh
-   g==;
-X-CSE-ConnectionGUID: CIfDhNfrQc+31dt6BeKbOw==
-X-CSE-MsgGUID: WawpMSr6Rc6BR91pQWo8MA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="3981059"
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="3981059"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 06:59:52 -0800
-X-CSE-ConnectionGUID: btLCLG5jSmGTtynr+gFEPQ==
-X-CSE-MsgGUID: K1PHVpi3Qf6+zZHZiNkdxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="10531428"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 20 Nov 2026 06:59:50 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 8D8BF99; Fri, 20 Nov 2026 15:59:49 +0100 (CET)
-Date: Fri, 20 Nov 2026 15:59:49 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: contact@blakejalexander.com
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: log invalid UCSI version of 0
-Message-ID: <awBgZXbIEu-DNHAS@black.igk.intel.com>
-References: <20261119-log-ucsi-firmware-quirk-v1-1-6d42d70a6158@blakejalexander.com>
+	dkim=pass (2048-bit key) header.d=isslab-korea-ac-kr.20260707.gappssmtp.com header.i=@isslab-korea-ac-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=nw2iieT6
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3b08cf16decso667785a91.0
+        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 07:01:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isslab-korea-ac-kr.20260707.gappssmtp.com; s=20260707; t=1795186897; x=1795791697; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=a1raqnnGut4xynOxiwY0p1mw/MtwsmNrEMEfjzI9bPk=;
+        b=nw2iieT6zUVADY0ray39fHYzAT9kH2gz9FKtZKveuHZrNp9Gj7Da92sUF7KBEb3qm1
+         8cFoW2kOr+coqqXW19d9xm3X+DegN6RdC4dyEATwvfqCXR36HgV5VAeodwl1p5P/2zcJ
+         x5vtmdT3YkWZ2DxgeGRkn0GkUb9SYzXzOsvaexaXMR+qKvwcV4ELzk8wqReb/sKbhHBa
+         ev9iDIAJHPyIQlURYXO+6r+HWBM2MsVMz+MZ2qAkJxFf9MQ7AxJbM1pjww8j8GeAjKFr
+         0rHreAY/UKOpEmnCiRWOxOQ8bVTkbpGeGWjAOov0oc5RNKC4cR7AwQjhq4/6720izgd9
+         jO9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795186897; x=1795791697;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=a1raqnnGut4xynOxiwY0p1mw/MtwsmNrEMEfjzI9bPk=;
+        b=liVMo0Nq+xwAEmubc+CcBa6Rua89SMFpJOwjbGRwNpmPoC8Pd7M7M5OLBFbkzNZRK4
+         tx/lZJdTvvY7FIEvqVQog+i6jmZ664CWSFR4CKuJrueoQcoavJtdJYKTM/uGyWMON91O
+         k1ZXA6gkRo1MOa8pC9wratK0WfpOtFngF3MckzGisi/CLVTPYKtuGZlEq7Ro4CAQ2F2T
+         awNMAnZiBu3D8QBzKuDVcCnk6invDoeAB91taQDDw8DVl5/tVKnyFNcoK/xEUov4vzPf
+         FU89eabpbOItwELKZ6p9OM1nQrQbzXt1TsRJLpc8XdC32q5gxX9qwmKJ7J3GV4WX5ipE
+         9LGw==
+X-Gm-Message-State: APuU4Z+QdI1TQc5cniOkqQDNbNh5zH7zdy/kEEjNFoII4mcydjDB3QCC
+	JMw1JrWa8w17Vojtv3ZA5GQ5hIltPMVjgpW3gLW19z4HPi6tufszOqckNvVBWPPBFRs=
+X-Gm-Gg: AZFdTZeU8//94hjRwgYoLgNZgWUtCOlT9dtIInCyYmsoSQVOQ4tWGBSao+5ka7MBIBh
+	26ITk81VIoaKQi8yQVsOoQiiwG/sYXHYSaHV8Gz6hwCK5i5pYbhYztErZnpAPFswS0mziIyrvtB
+	ORNojWt++AWNX7Y20aigTflpznZnfDlD9PEr4w5ftGsPIW0l1NuYPCpuzTYIlTzDk1XEP38eUeA
+	t1fG4vRAXO2J8Z+SKLqj6lPcKxC1jJnPBnWUGmHf4GUP72YpMw7R0Bt7AXF1jBsoXWGZt2/vkp5
+	HxnOznPQmcGGcclF7CjGeEN44vaijxbhL2RCzVYZEhkBCYyK8lXibrnrUlB8hsXQofUClwMex0f
+	454Pv0l7/w87l9I6+jyDMHz1idnGcBJvuReMsRh3+7X2YGM1TQhV2acz0kjAatPuywsOz8KOrPa
+	xGH6vVQ5ISsSuiTrhS/hNP03v9kiazltjCYM0qY1deMdSx/TxetQ2OffkKMENQ1tKSvuBIYihfK
+	QDYtNqMxjh3wbCAK9YYrO5/+eIodi8TpVaZQUU4u3+5UClBXC2YxXQ0Py6FcmODk5a0IZ9hm9q8
+	ZBqh4s8rfhWOh+aXlYxLchOElKKXe8SsHrdnvrY79enq+WWW3G8b2OhAnkS9W/WQSSxiY75EWXe
+	4FBOyhZHsDBdyaHbw8McAvtpVlqoBHeSmIoVS
+X-Received: by 2002:a17:90b:4ec5:b0:3b3:a6b0:8991 with SMTP id 98e67ed59e1d1-3b41c96180amr3266903a91.60.1795186897160;
+        Fri, 20 Nov 2026 07:01:37 -0800 (PST)
+Received: from yhlee-960QFG.Davolink ([2406:5900:1044:110c:8b25:951:ad8d:5cc1])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b405ecb486sm7652978a91.16.2026.11.20.07.01.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 07:01:36 -0800 (PST)
+From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	Thinh.Nguyen@synopsys.com,
+	bigeasy@linutronix.de,
+	target-devel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: f_tcm: reject a short write data-out transfer
+Date: Sat, 21 Nov 2026 00:01:32 +0900
+Message-ID: <20261120150132.3128382-1-yhlee@isslab.korea.ac.kr>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261012154422.2436134-1-yhlee@isslab.korea.ac.kr>
+References: <20261012154422.2436134-1-yhlee@isslab.korea.ac.kr>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -80,88 +101,18 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261119-log-ucsi-firmware-quirk-v1-1-6d42d70a6158@blakejalexander.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 19, 2026 at 04:56:59AM +0100, Blake Alexander via B4 Relay wrote:
-> From: Blake Alexander <contact@blakejalexander.com>
-> 
-> Some devices ship bugged firmware which sets the version of the UCSI
-> mailbox to zero. In such cases the ucsi_register() will return -ENODEV
-> and the driver will silently fail to bind. There is otherwise no
-> indication as to the cause of the probe failure.
-> 
-> While existing (and future) machine-specific workarounds may resolve
-> this issue by assuming a known-good UCSI version, future devices or
-> older firmware revisions with this issue will still silently fail.
-> Both users and developers will benefit from a clear diagnostic message
-> when troubleshooting this particular bug.
-> 
-> Add a dev_err() log message when a UCSI version of 0 is reported during
-> ucsi_register() hinting towards a potential firmware bug.
-> 
-> Signed-off-by: Blake Alexander <contact@blakejalexander.com>
-> ---
-> Hi,
-> 
-> I have a ThinkPad T14 Gen 2a which is failing to negotiate a DisplayPort
-> Alt-Mode connection to a monitor-hub with a USB-C cable.
-> 
-> I spent quite some time troubleshooting the issue and identified the
-> root-cause only to find that a patch which fixes this issue was already
-> submitted:
-> - "[PATCH v2 0/2] usb: typec: acpi: Zero version quirk for Lenovo ThinkPad T14 Gen 2a" <20261103-ucsi-lenovo-t14g2a-v2-0-e85c659b56a2@resetko.pl>
-> 
-> Similar issues with other laptops have also been recently submitted:
-> - "[PATCH] usb: typec: ucsi: acpi: Add quirk for ASUS ROG Zephyrus Duo 16 GX650PI" <20261009-usb-next-v1-1-95a2288ad9b2@gmail.com>
-> 
-> And existing quirks are also already handled in mainline:
-> - Acer Nitro ANV15-41: commit 8c51ea651d04 ("usb: typec: ucsi: acpi:
->   Assume UCSI 1.2 on Acer Nitro ANV15-41")
-> 
-> In the hope of saving future developer's time, this patch adds a
-> dev_err() log message when the UCSI version register reads zero. The
-> log message hints towards a potential firmware bug and gives an 
-> explicit cause of the driver's probe failure.
-> 
-> Tested on ThinkPad BIOS R1MET65W (1.35), EC R1MHT65W without the
-> relevant quirk patches.
+On Tue, Oct 13, 2026 at 12:44:22AM +0900, Yehyeong Lee wrote:
+> usbg_data_write_cmpl() commits the WRITE buffer to the backend as soon as
+> the OUT request completes successfully, looking only at req->status and
+> never at req->actual.  A host that declares an 8192-byte WRITE but ends the
+> data-out after 4096 bytes still reaches target_execute_cmd() with the full
+> length.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+This is superseded by v8:
+  https://lore.kernel.org/all/20261118124005.2428068-1-yhlee@isslab.korea.ac.kr/
 
-> ---
->  drivers/usb/typec/ucsi/ucsi.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index 9e453d216c16..fa79ba6dec02 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -2396,8 +2396,13 @@ int ucsi_register(struct ucsi *ucsi)
->  	if (ret)
->  		return ret;
->  
-> -	if (!ucsi->version)
-> +	/* Version of 0 is not valid but some vendors may report it due to bugged
-> +	 * FW and there may not already be a workaround quirk to correct it.
-> +	 */
-> +	if (!ucsi->version) {
-> +		dev_err(ucsi->dev, "UCSI interface reported version 0.0.0: possible firmware bug.");
->  		return -ENODEV;
-> +	}
->  
->  	/*
->  	 * Version format is JJ.M.N (JJ = Major version, M = Minor version,
-> 
-> ---
-> base-commit: f11fe7603df07fbb9fa02b0d385c1696c87a6dab
-> change-id: 20261119-log-ucsi-firmware-quirk-8ffc87c7d42f
-> 
-> Best regards,
-> --  
-> Blake Alexander <contact@blakejalexander.com>
-> 
-
--- 
-heikki
+Best regards,
+Yehyeong Lee
