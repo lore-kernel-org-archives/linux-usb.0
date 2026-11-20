@@ -1,51 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795176885;
-	b=tMWRGgyXw8gWpYkXG1458pfHVn6j/qoo/TEEMXOt1DtRatCVf9RRhuM1S0yArUlUVHE5
-	 6t2DbeW13lBfMy68lF+4/1ArZH4dLVOX11py4l8CYHYro1ixFM9nUVxPbLlqi0hP1/Agp
-	 hTUqjFE82rLhgjZSXcOaOmi7QrwyjiTSLwdD5l7Nd7I9GzfDauI15UA6H5guDwz2AtNMt
-	 vWXwTa/cg1R+9MjWS0RJsvy+YNhh8VdH0nNkHKQfGWn2iDQ71qpJAUH4Pj5YxSn4wtpB/
-	 MMxG7hSpsKWm1A5Zk1Jsud8k9+ZDUTfULUCXg4AA72LcnftHRp2lQv2CpsPAGS8YPPQ==
+	t=1795177520;
+	b=0XTUKb8ADro14nY1mHMn+kwL+S0vwspcwIsS7FF0z8gBUnRYA4RvsDSTTFtoE/tQAS4v
+	 JbDMQYVfgfkIONjIklQmQW3mAQUHImbHQxcSJUka34lPnuV0UPi5rF79E1UudHdpTG4Rq
+	 VVht8r3+dLL9tSivUfszCyC2bZFM/yneeRQ3dEy6QFMbgVsAQaOhHtCh9g34gBbv6aGwo
+	 iSTiX8/Qi3DcjTZQUDw4ZL6RHoJc7bZ7g9bRe+xmCiTXVs1glhfTkoLPAFc5iZDeWxX4r
+	 4gxr03/KzUm1jjwHUg7/JkYXw7tA/xEm7UEaK7Tpxlq58Vd6gR7/V5GDQmAvZXLIIkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795176885;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795177520;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=yfVhfgGK1OedUEyPydQHT3KhIaYnblF9DmvN6Za45Rg=;
-	b=rZrSvymWrtKZMVk5aC+otFHOS2L29h9+RZ8iszgJVwE3PES+Bz8loQn/djWOw2Qngbg9
-	 nzUywSha6sUGMyAwLVx+yK3qo+0zUk9dyvTs+D6/feqangokyElkeR4iUPqK0wvyz60mn
-	 naZ17VyS+071L1wKGz/l567shxOSY0MaitcC5VrQhyAFfWoWXBxHIeSLf4nRgdtjVzhcr
-	 ihaM+ame5ijQH85/NjTRtf4CckK7m0ewziwEaKqmpC/rdCB8/IqJjEU0HV1zUGVamQRE8
-	 ZB5S2fLTNNj5Ir4Nf3Gtxx7y7KQzu1vpPM9TszlPkA87JsctsdR5XOSI0qDN6lp7QQw==
+	bh=8q9/TMmLVp1fSuWDi6PaMbIvtn4/2YX12Iruh/57dQs=;
+	b=2msqupHEPc05qHQ48rg8KRJtaB7P7CoUNUM6KpTWEq4kf98kVu0NAKkE9yFTJWPZxswe
+	 nIz+jZlawgHQi6V6VceufKtfk7HmKXO22eo7hcdgLFzpPFIT/pIZHJucz0KkM+AgLN1g9
+	 l/2XzV1/hI0AWfemFZel3cp1h2jmbg99NpnxAbPBn7tCbU0o+XOxPrpD9XkzuY7SZwVzX
+	 YF4e+Xl10TcC8IssRC93y56LWEEQdAhzLMmFYSCzQ541oAUJ3yH651twgEXhT7YSKFJSX
+	 PvwOvFsIAQiqGC44mmtCANJEnl0E9Cg1qFHnxpOpGX1UngCG6WlNoxsDZIn12Jy/g0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=HHs3PO6J;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=U5OcW6xd;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489D0606A320;
-	Fri, 20 Nov 2026 12:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1080606A320;
+	Fri, 20 Nov 2026 12:25:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=HHs3PO6J
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291D31F000D2;
-	Fri, 20 Nov 2026 12:14:43 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=U5OcW6xd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F5EA1F000C6;
+	Fri, 20 Nov 2026 12:25:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795176884;
-	bh=yfVhfgGK1OedUEyPydQHT3KhIaYnblF9DmvN6Za45Rg=;
+	s=korg; t=1795177519;
+	bh=8q9/TMmLVp1fSuWDi6PaMbIvtn4/2YX12Iruh/57dQs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HHs3PO6JY+pilipPqKehSJcCqz7dbnMnVi0GVGnI54PrcUo6xTaYUmBoy+5kqpcrq
-	 E5CGl1dRRPoDGUlDobGCK9K7SHCipGokU4zf4La70QAuDGF0Da1ETWVpNvAwA+u8l6
-	 7m2ngaNuV9rMuvkwZ8IDC8L1Nm9Zx5+G/b/OwLn8=
-Date: Fri, 20 Nov 2026 13:14:42 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Liu Chao <liuc63@xiaopeng.com>
-Cc: linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	liuwb@xiaopeng.com
-Subject: Re: [PATCH] usb: gadget: fsl_udc: validate pipe index in
- ch9getstatus()
-Message-ID: <2026112032-cotton-hardly-d8db@gregkh>
-References: <20260917123133.3760392-1-liuc63@xiaopeng.com>
+	b=U5OcW6xdu/HCWTM9/0b/zElK1hYihCStgMLaSefb3VM57bezMv+Lz7k35MI4bWECw
+	 LHA+D/JN0QZgV6Wp8tYwJObrGLdS4ayiZhLXvmsa/Z3jPGYH8NuLRQg57QC7Cll4aP
+	 7lY4XcVq0HpmhBsE1w0c+YDZMpjMBY56JXm+0Tgg=
+Date: Fri, 20 Nov 2026 13:25:16 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Ryan Brue <ryanbrue.dev@gmail.com>
+Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH RESEND] usb: mtu3: don't run gadget completion callbacks
+ with interrupts disabled
+Message-ID: <2026112008-gown-cloud-258c@gregkh>
+References: <20260929-usb-mtu3-gadget-completion-callback-fix-v1-1-8b75b48fab96@gmail.com>
+ <b0c42b21-6b28-49fd-ac07-7af1456de4b9@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,22 +59,15 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260917123133.3760392-1-liuc63@xiaopeng.com>
+In-Reply-To: <b0c42b21-6b28-49fd-ac07-7af1456de4b9@gmail.com>
 
-On Thu, Sep 17, 2026 at 08:31:33PM +0800, Liu Chao wrote:
-> ch9getstatus() uses get_pipe_by_windex() to compute a pipe index from
-> the host-supplied wIndex field and then passes it to get_ep_by_pipe()
-> to index the udc->eps[] array.  get_pipe_by_windex() can return up to
-> 31, but udc->eps[] is allocated with udc->max_ep entries (typically
-> 8-16 depending on the hardware).
+On Sun, Nov 01, 2026 at 09:45:16PM -0600, Ryan Brue wrote:
+> Hi Greg,
 > 
-> The SET/CLEAR_FEATURE handler in the same function already checks
-> 'pipe >= udc->max_ep' (line 1431) before indexing, but the GET_STATUS
-> path omits this check, allowing an out-of-bounds access.
+> Gentle ping on this one too. Similarly has had no comments since the resend
+> on the 29th of September.
 > 
-> Add the same pipe >= max_ep guard to the GET_STATUS endpoint path,
-> matching the existing check in the feature handler.
-> 
-> Fixes: b504882df105 ("USB: add Freescale high-speed USB SOC device controller driver")
+> It fixes the softirq WARN in the commit message, which any gadget function
+> that reaches netif_rx() (u_ether in this case) hits on mtu3.
 
-Not a valid git id :(
+I see no context here :(
