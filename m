@@ -1,52 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795176657;
-	b=uSFOAjudmtbifuI/B3DGBDOLHu05tHhSMSFU9sC5/beQg+x6iqbgRy+8hJuubt4sQRMO
-	 /WY6mUanvianoDG9t8KEYwbrE2etdxAS1jemgXSBqrNPoKwPiBI91KbOmXV7e3hRWUUbA
-	 4lT+d3Kvzra87icSHrI+8g1NCgUZdTSRx6qPYviWq9vU2L9TBDALO53T9hHDb13RrnMy4
-	 JXq9wOrRcMWxsDK0QL8x7L514WnnuRVW4CRm0hQaZsBHIxHIDuOG4PtFNUNW/3Ba6DZu4
-	 muuO3dsl/s8VcTzSDt6UMkYewmzzwDw0d69IA3PiofyD7zbOkVAo+gjJYWozhoSLo4w==
+	t=1795176885;
+	b=tMWRGgyXw8gWpYkXG1458pfHVn6j/qoo/TEEMXOt1DtRatCVf9RRhuM1S0yArUlUVHE5
+	 6t2DbeW13lBfMy68lF+4/1ArZH4dLVOX11py4l8CYHYro1ixFM9nUVxPbLlqi0hP1/Agp
+	 hTUqjFE82rLhgjZSXcOaOmi7QrwyjiTSLwdD5l7Nd7I9GzfDauI15UA6H5guDwz2AtNMt
+	 vWXwTa/cg1R+9MjWS0RJsvy+YNhh8VdH0nNkHKQfGWn2iDQ71qpJAUH4Pj5YxSn4wtpB/
+	 MMxG7hSpsKWm1A5Zk1Jsud8k9+ZDUTfULUCXg4AA72LcnftHRp2lQv2CpsPAGS8YPPQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795176657;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795176885;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=yEn6hZoR27mO6l9Fwd74ebjt2Qc9Bj6f7MuKEtEDDIA=;
-	b=NG81TL4MLbnZfooTMxpsQhcOj/SScyflofKhxLKWtoy80n71uJjhEsZIiq6e6SZEO9zh
-	 8ub/cmiF/7y2dGV/QfFWPzBGHSdKq1S93YHvTMtG66nC0aOyT80beS/UhGs3KJ8uzzxf/
-	 gl8eng27I4UNnmEKl7FefrDYAn7+RqFW2K1kP9+1fkuLYP19Lo5B0i1NMOPochYu1Rk+M
-	 AqrfSUg4wX97J7c0rmSGGtWk+GiTi4Lxmm07H3iv5EW1oNuAUHKIC+dIVDTVdV2E0kPZO
-	 KgK1CnFmaOXw1HUAqDF0WHnlGcP1bxliuQHsmUOr2T0e/AtbU6MDftWjZd0gv0+IvpA==
+	bh=yfVhfgGK1OedUEyPydQHT3KhIaYnblF9DmvN6Za45Rg=;
+	b=rZrSvymWrtKZMVk5aC+otFHOS2L29h9+RZ8iszgJVwE3PES+Bz8loQn/djWOw2Qngbg9
+	 nzUywSha6sUGMyAwLVx+yK3qo+0zUk9dyvTs+D6/feqangokyElkeR4iUPqK0wvyz60mn
+	 naZ17VyS+071L1wKGz/l567shxOSY0MaitcC5VrQhyAFfWoWXBxHIeSLf4nRgdtjVzhcr
+	 ihaM+ame5ijQH85/NjTRtf4CckK7m0ewziwEaKqmpC/rdCB8/IqJjEU0HV1zUGVamQRE8
+	 ZB5S2fLTNNj5Ir4Nf3Gtxx7y7KQzu1vpPM9TszlPkA87JsctsdR5XOSI0qDN6lp7QQw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="W4KSeOo/";
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=HHs3PO6J;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582F5606A325;
-	Fri, 20 Nov 2026 12:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489D0606A320;
+	Fri, 20 Nov 2026 12:14:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=W4KSeOo/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6912A1F000C4;
-	Fri, 20 Nov 2026 12:10:56 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=HHs3PO6J
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291D31F000D2;
+	Fri, 20 Nov 2026 12:14:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795176657;
-	bh=yEn6hZoR27mO6l9Fwd74ebjt2Qc9Bj6f7MuKEtEDDIA=;
+	s=korg; t=1795176884;
+	bh=yfVhfgGK1OedUEyPydQHT3KhIaYnblF9DmvN6Za45Rg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=W4KSeOo/uGIm9oUK3TLcmpQgx47fddndPesoC0nJtyrER5Y7EfSo/sibJ1pTUrwfM
-	 PFpxyRnzP1ea15lHlIEtoGuRbR1PmEweRFaur4hrrPZAszBXbB69WsOITok2AXD49W
-	 hMHx4pubni6hzv1HWJxABR+SK0HDOKhOn2IzcLE4=
-Date: Fri, 20 Nov 2026 13:10:54 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
-Cc: Neill Kapron <nkapron@google.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] usb: gadget: fsl_udc: Fix potential use-after-free
- during removal
-Message-ID: <2026112015-lumber-flyer-d8f6@gregkh>
-References: <20261118-324f82bd41-usb-gadget-0@mail.sdu.edu.cn>
- <20261118-324f82bd41-usb-gadget-1@mail.sdu.edu.cn>
+	b=HHs3PO6JY+pilipPqKehSJcCqz7dbnMnVi0GVGnI54PrcUo6xTaYUmBoy+5kqpcrq
+	 E5CGl1dRRPoDGUlDobGCK9K7SHCipGokU4zf4La70QAuDGF0Da1ETWVpNvAwA+u8l6
+	 7m2ngaNuV9rMuvkwZ8IDC8L1Nm9Zx5+G/b/OwLn8=
+Date: Fri, 20 Nov 2026 13:14:42 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Liu Chao <liuc63@xiaopeng.com>
+Cc: linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	liuwb@xiaopeng.com
+Subject: Re: [PATCH] usb: gadget: fsl_udc: validate pipe index in
+ ch9getstatus()
+Message-ID: <2026112032-cotton-hardly-d8db@gregkh>
+References: <20260917123133.3760392-1-liuc63@xiaopeng.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,37 +57,22 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261118-324f82bd41-usb-gadget-1@mail.sdu.edu.cn>
+In-Reply-To: <20260917123133.3760392-1-liuc63@xiaopeng.com>
 
-On Wed, Nov 18, 2026 at 10:10:53PM +0800, Guangshuo Li wrote:
-> usb_del_gadget_udc() can drop the last gadget device reference and call
-> fsl_udc_release(), which frees udc_controller. The remaining remove path
-> then dereferences it to release its requests, endpoints and DMA pool.
+On Thu, Sep 17, 2026 at 08:31:33PM +0800, Liu Chao wrote:
+> ch9getstatus() uses get_pipe_by_windex() to compute a pipe index from
+> the host-supplied wIndex field and then passes it to get_ep_by_pipe()
+> to index the udc->eps[] array.  get_pipe_by_windex() can return up to
+> 31, but udc->eps[] is allocated with udc->max_ep entries (typically
+> 8-16 depending on the hardware).
 > 
-> Hold a gadget device reference until this cleanup has finished.
+> The SET/CLEAR_FEATURE handler in the same function already checks
+> 'pipe >= udc->max_ep' (line 1431) before indexing, but the GET_STATUS
+> path omits this check, allowing an out-of-bounds access.
 > 
-> This issue was found by our static analysis tool under development.
+> Add the same pipe >= max_ep guard to the GET_STATUS endpoint path,
+> matching the existing check in the feature handler.
 > 
-> Fixes: eab35c4e6d95 ("usb: gadget: fsl_udc_core: let udc-core manage gadget->dev")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
-> ---
->  drivers/usb/gadget/udc/fsl_udc_core.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/usb/gadget/udc/fsl_udc_core.c b/drivers/usb/gadget/udc/fsl_udc_core.c
-> index 878d70b55530..9d9d2164c5bf 100644
-> --- a/drivers/usb/gadget/udc/fsl_udc_core.c
-> +++ b/drivers/usb/gadget/udc/fsl_udc_core.c
-> @@ -2537,6 +2537,7 @@ static void fsl_udc_remove(struct platform_device *pdev)
->  	DECLARE_COMPLETION_ONSTACK(done);
->  
->  	udc_controller->done = &done;
-> +	get_device(&udc_controller->gadget.dev);
+> Fixes: b504882df105 ("USB: add Freescale high-speed USB SOC device controller driver")
 
-This feels wrong, why are you needing a fake reference here?
-
->  	usb_del_gadget_udc(&udc_controller->gadget);
-
-This is where it should all go away.  If not, then reorder the code
-properly.
+Not a valid git id :(
