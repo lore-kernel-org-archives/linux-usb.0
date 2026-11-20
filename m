@@ -1,79 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795178547;
-	b=lnYpthTZo23HVhZzJwedvLuBNzk6LVjOmueBiAODTVZgMQup/QE4JoNuaadDqHMLuTpl
-	 K167S3zmN8dgsp2aLhrpDsueDZd7MublrQWoX73gYPzkSQm+LqWcr905L0mKE2dRfVYSM
-	 hZnmPIbFxRgtB7IIEPxRQXpx9AX8JJclJOI++NidJNGhgi3r75+J/Sm6fLjj5vZWh7LwA
-	 WSgdL8IZcTZVvW1Bz/zSylG1zbNgkMs9HHmR5zUjAm5gPKeeWyio7kigwypO6onNLqdpn
-	 WwVpGl2y4ZQJmArSXwKO0WoljqFiJoBnei5ehkPfi4xw1l3wAfnJVQOwgXy57473c6g==
+	t=1795178549;
+	b=loIzyudH3n4MVlAvfPlGYGdtaBsF0dG/00HIp2WP84KhrG4wHe4YD8dVGVK7bDqDkk4W
+	 XE0Kejc99xP10gxWIViOrqtntuJ0l4p/YSLQsYwNebNCRnsuToA8hYb4yGmGmTmCGHX+3
+	 7hC+m8p/pngmcOThWNY4TwHppEV/7IL6H5S8MP1Jq6Nw/5wboy+Rc0kJAnfIH0sYO5kpb
+	 yUxxnxQ/aF3YeR/yyWTTOBdYgKZ1hYgu9CEhECycuWVVPsToNrn9hO7ar2h1xuNJDet1+
+	 LaLMOis8j1n9ATCcP5GJUyRZOkngWXsyp1oIEEis6ys7vDh84k3kRl3FWhl6Eyn0isw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795178547;
-	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
-	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
-	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
-	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
-	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
-	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
-	 Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
-	bh=HHjYEI96VPnPa2e/QBrTr9gTjhNNL0jy8iDR4jsoU9Q=;
-	b=SDwdjRwUi99febr0pFrqAZGFzVfT9Vgi+AT1RKuPK5k8UXL9VWrxBLYGdticNwEBfX0I
-	 eAXTjPXV4TzX3vq/72JAouE56/yJwavzvr159BPrESzLN6Fz4kTtNTvSHkmPy3NiHQtgd
-	 zbKU7IrUetLP5Us1kzfa+Ya1v2No3kltqV6kndCKkFU/ahBqPlUlco5g0FfX8JqdH7DCv
-	 Rad7REIHmxpQhRH0gu6BNWQAdtuX2pM0SbCUeW2kUbD5cjKSYxNxfeWMLv8w08vFrpndA
-	 C41/34V56uw9lq5u4Xpvfi6RXS66Aj49vm48A6eYZ48upSnm0nVe+LYroLdTAzpZWGQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795178549;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=liIsbHhpfaQ5YabIQwU9w9ZbEKjgrp0NTlj9gLHjehg=;
+	b=jWJz2ma4SUIBnqdkhzrEheFKRuFBB25SMtBQ3tVmZXGDKLY7FtWQcGqjbVDx46+Elm3n
+	 gMTBE2PHLcpDgUUFu8UOc4oMpYrqlRttD0W/J6Mt+x5buVnsvmrz+NC23IzoRaY6PyR38
+	 MEsI0iO8H6oKtgCfLlq4e/gAcFgYdfCqTWncth9DvJXNj9waB9Fy6bMLDen0vnOiRdA2A
+	 meyFLUnI4PuaLziXcX0lf0xPPqgAiinBtZEZ6+OSY69eZ+2sD1wt3sIfpO2uh6e0yr2ZI
+	 PgwxSIgQrMbeuKlGAaY5HQNvJAqKXigvVX+s7ATAfca7fItX8eMUKP0yVaU6T2iMMWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ul83CSTr;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=EAl9OESp;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F612606A320
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 12:42:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E465606A320;
+	Fri, 20 Nov 2026 12:42:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ul83CSTr
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7BAEC1F000CF
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 12:42:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795178546;
-	bh=HHjYEI96VPnPa2e/QBrTr9gTjhNNL0jy8iDR4jsoU9Q=;
-	h=From:To:Subject:Date:In-Reply-To:References;
-	b=Ul83CSTrSH1nSrDUb+dwOpwyX/2b1ao5bU0bWhz83kqRL5HANcFwil58c1ZFgy96h
-	 tWe11THUHoxN5k1ujULofZ1Bu/x2T9rdK4Sx2YLjUT3mn6p6mZYChRDfkM5cGSiv20
-	 uh5D3aI10iDjkOrAyfgs9lqUp58FqcC8XDoyBPtahCA7O6BP4tJzWjN+CaLp+LVNtP
-	 wjqgCQPQSpwws7VsmkdKz/78pUCXmNa+ghrVqo37GUNbg0H7wTuytP9hjEpKjCFa7M
-	 Q+s6VtzueNE2DRih596WNei3AsXufzfn2OWetIzqqDD64w/IFvL8PxIDW6WNn07fEL
-	 WZ2G/4Q6ZeTUg==
-Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
-	id 77D95240040F; Fri, 20 Nov 2026 12:42:26 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222298] hid-steelseries-arctis kernel module not working for
- SteelSeries Arctis 7 1038:12ad
-Date: Fri, 20 Nov 2026 12:42:26 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: linux@michaelgronbak.dk
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-222298-208809-Cxc7x30Zx4@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222298-208809@https.bugzilla.kernel.org/>
-References: <bug-222298-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=EAl9OESp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 182EE1F000C0;
+	Fri, 20 Nov 2026 12:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795178548;
+	bh=liIsbHhpfaQ5YabIQwU9w9ZbEKjgrp0NTlj9gLHjehg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EAl9OESpezyW7gw+TSNraWKbfcI9DZ8uV/1kkvDhSYACuZEqkvcHLuqCEibMjgmwJ
+	 tr6l3gsb7IJZIeWQCGX0pQFEj1DdBf8Dch25LVLxTLoWxuIIcqrAov6dQiEeMq7akG
+	 ppVYF3ZNmaIVm/93uTFK59+/KRqKhbzEAPCFqmXY=
+Date: Fri, 20 Nov 2026 13:42:25 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Boyan Liu <yymhvert@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	co+02480a85e1a0d4f5@bugs.sh
+Subject: Re: [PATCH] usb: gadget: f_ncm: Fix use-after-free in ncm_wrap_ntb()
+Message-ID: <2026112019-mobster-coerce-8608@gregkh>
+References: <20261015024508.3179-1-yymhvert@gmail.com>
+ <20261106070914.3637-1-yymhvert@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,63 +54,26 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261106070914.3637-1-yymhvert@gmail.com>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222298
+On Fri, Nov 06, 2026 at 03:09:14PM +0800, Boyan Liu wrote:
+> Hi Greg,
+> 
+> I wanted to follow up on this fix. The use-after-free addressed by v1
+> is independent of the two pre-existing issues raised by Sashiko.
+> 
+> For the skb2 leak in the same err: path, would you prefer that I fold
+> 
+> 	if (skb2)
+> 		dev_kfree_skb_any(skb2);
+> 
+> into a v2 of this patch, or keep it as a separate follow-up? My plan
+> for the independent ncm->netdev NULL-dereference race is to handle it
+> separately.
+> 
+> Is the use-after-free fix otherwise acceptable, or are any other
+> changes needed?
 
---- Comment #2 from tux_0xc0de (linux@michaelgronbak.dk) ---
-Hi,
-
-The Headset has been in use for 4 years now without any USB problems.
-
-The problem started 1-1=C2=BD month ago and looking at the kernel driver tr=
-ee it
-looks like the hid_steelseries_arctis kernel module it was introduced as a =
-self
-contained driver not long ago matching the time when my headset started to =
-have
-problems. Further, removing the LKM the problem goes away and the USB driver
-stays in the kernel as an active driver.
-
-Thus, connecting the dots it looks like the introduction of
-hid_steelseries_arctis driver module also introduced the problem maintaining
-the hid_steelseries_arctis active in the kernel.
-
-/m
-
-
-
-Afsendt med Proton Mail sikker e-mail.
-
-fredag den 20. november 2026 kl. 11:38, skrev bugzilla-daemon@kernel.org
-<bugzilla-daemon@kernel.org>:
-
-> https://bugzilla.kernel.org/show_bug.cgi?id=3D222298
->=20
-> Micha=C5=82 Pecio (michal.pecio@gmail.com) changed:
->=20
->            What    |Removed                     |Added
-> -------------------------------------------------------------------------=
----
->                  CC|                            |michal.pecio@gmail.com
->=20
-> --- Comment #1 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
-> (In reply to tux_0xc0de from comment #0)
-> > The problem is gone if not using LKM: hid_steelseries_arctis
-> >
-> > The problem has bee around for a while now (1-2 months) and is currently
-> > present in Arch Linux kernel version:
-> >
-> > ArchLinuxDesktopPC 7.3.4-arch1-2 #1 SMP PREEMPT_DYNAMIC Thu, 12 Nov 2026
-> > 20:11:37 +0000 x86_64 GNU/Linux
->=20
-> Did it work in earlier kernels or is this new HW you got 2 months ago?
-> If it worked, did the offending driver exist in earlier kernels?
->=20
-> --
-> You are receiving this mail because:
-> You are on the CC list for the bug.
-> You reported the bug.
-
---=20
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+I see no context here at all.
