@@ -1,83 +1,146 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.67.36.66
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795181012;
-	b=Pv9ROy8/8MYAZPgX2HX8cReqGGEdN13Q1W2QQ8s/DjCr+MymVLzFcCIrUMFYxrf89Pip
-	 Kihg5yu3ZIbak2Ap8kBKNRvK9lEskbDSeTjFfOife3hC279O69gDwpvTxR+1W+D7neDY3
-	 K4o+GmR64KaKobALWfCjR8/xSPRT1s/QnkgexNg0f/VoxTK8KAvocmb7qYvf0zFOgeKXr
-	 qFk3OkJgmLnsDG0H32l8Gg+Z1VWH0DB2UrNhqRGDS/UOAKf24YofPLcsP+qvEBY4iYHfX
-	 uiTsvFlWEGFdHBTiX1GFFdKC/qXWTtY6q6L13B2SZwh3pOfk+yaFX2Mue3JitlYeoGg==
+	t=1795182075;
+	b=EAPexHtF2sIElzYmjD/F2Ji2nW5xwz1BO5c/+ipA9FR/BTBurs62LiYQBiE7FEUEr8v4
+	 4vCzt14DOPQ725lOxL4P+N7O1LMOkb3M4WnN10cB3GKgzQ9MdELqOkohZXOwIltUZl86T
+	 KNqoKrhqaDqtY1OY5U/4gvGSSetOn47jzQZz3loX1u1avC2niBvC0tFNQuu7mftkSUoSm
+	 Q3p616W5EmFuV4fmeJ5YNTxsxQTEfkWfUr2wmHduZvItDOd4KCZRhv2ClNol2em1bqV43
+	 Lr+8JmC/CtxCAumbX/nw4q64qNWSyMXWnN8jW5e13P62RhN3y00v4uToEtpqXCSlfUw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795181012;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=9Yave6DZDGUUAvsSfmLDal9WFXgDPPi+dD/iYkllA/8=;
-	b=Gk+a9Y8L3gfMjcfFAb5Q84Po5tFD9jE3+gkwzfQW7MrTRcBxNhiW7UlYmba+8fiCYXWK
-	 n+XGNkg0EtgbxxpSbzUZaxwK0up5ZqYA2q5j3RQSDeck5mC+6dEsxi3RvurdNTf3CuwgA
-	 zD+Rfn4GSbqFpdTGRrOzwOcNWwibW6zkiRi05Lgha6kV4fP+lqb5FtDSnGo/QeVKA3E7G
-	 UDKIIhr5gaPw/I6H6xkswYbaO1O0o/jXASfLXytbPqzYdwW9foDxYUqTvHAJLo/B7TR+s
-	 tIm7eiycIuFzHJ+btp+HNrrARWvrVhc3Ic1jCcjllOEpf6wDJe3ZWkVwh44kwoSAAHw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795182075;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Subject:
+	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP;
+	bh=YW4oRhO1MuXRHyeWQ9Lx5ixnye7cuXD9in5rMS24y2A=;
+	b=sn9E6ViPbL6xo1cVQytmWh8RdPxJDYUSpguPbAyLuHMnKANNQERc45b8Zv3fHKPpHGDH
+	 fAfKiVl71XzWnRXCj/uKvCVcsZMIbChvYm5m0G8YSv5l7hTNHeUfmhJ19s2Jh+c50dFau
+	 pIGMtSD8ynh6d8mGuNgyFrzOxRzeUtnEkkcs9+zSSu8l2mcOXJ7Sdhn9o7pBZRw1+ALlb
+	 ZAPYnG86TrfCac7QzDjjVLDU+y8U+R9Mj13lOekFPSaoSK1+UzyKfOZiMT5q1egM5T+qZ
+	 rDGIXu0ZHz8NEyEX+Y6lzws0rgWI3hxSpER1C+DwdD4cFDUumbwwT0PDLB72S4KqWhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nb99TAm+;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=posteo.de;
+	spf=pass smtp.mailfrom=posteo.de;
+	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=hWh+t93A;
+	arc=none smtp.remote-ip=185.67.36.66
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D5A606A330;
-	Fri, 20 Nov 2026 13:23:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8D5A606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5258606A331
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 13:41:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A5258606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nb99TAm+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795181012; x=1826717012;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cJJw5vbcJuFQOpdae3ptvun5p75snXhnCZwChzdLyPk=;
-  b=Nb99TAm+VhGiURfBHECJLBBBu2HJZqt6RDeXbtNVNvfDMVPwYmANlzw0
-   ImJefDIHTbMw9l0dHYp1J/YBMqnZIhpaR/IurvEc05mJdgR7PAa+ZTqqt
-   ijTdTynrDXQQZfLEGvJ1XwFowkkaVmRZmabEaNnI/24VQ8oXtLpg8RqMf
-   nwsLJcVUV+EQp981K0sXrg/qFdQYniLlBf/6s8gOzy+ESeCT7yJZK+R8D
-   bySsdMP32inamWlhV6sR9rpxD67PaQ6l0/8keKi4VzjUj4r353qcKDRj4
-   QX7tKpbN+bKQnAB2FLSu1fCayXTVhmbrdpAZmOOJW3i9nzTBpdTHDWLcP
-   w==;
-X-CSE-ConnectionGUID: wurwfjMgRFuAKOheNybA9Q==
-X-CSE-MsgGUID: 0GBOO7J1Sxq1U92w3PU4Sg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3945340"
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="3945340"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 05:23:32 -0800
-X-CSE-ConnectionGUID: +D3uAwM0Ql+ilvQ35dXt6w==
-X-CSE-MsgGUID: LFt9NXU/RaC7A91NKsxlkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="11035886"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Nov 2026 05:23:29 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 0BF6799; Fri, 20 Nov 2026 14:23:28 +0100 (CET)
-Date: Fri, 20 Nov 2026 14:23:28 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Keisuke Tsukuda <tkdkei@outlook.jp>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] usb: roles: wait for callbacks on unregister
-Message-ID: <awBJ0NDCvbznrBjk@black.igk.intel.com>
-References: <20261117125825.27629-1-tkdkei@outlook.jp>
- <20261117125825.27629-3-tkdkei@outlook.jp>
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=hWh+t93A
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 5CCEE240104
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 14:41:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
+	s=1984.8680eb; t=1795182067;
+	bh=YW4oRhO1MuXRHyeWQ9Lx5ixnye7cuXD9in5rMS24y2A=;
+	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP:From;
+	b=hWh+t93AQ89D3y7Q9jrCyuBHB12xO/fjpp2KbQYXJeT2L3X6wH/D4DMbcDgYcqtgT
+	 pePRFyBthjOtirmgOI5czcXW1Xr1VnxH6GfasweXjJm4J9Mm4Hw+mn7yRccYA1M89r
+	 ckxYsVMo6pN37AZxMbKEL4i2LBGKnzK6/RJiaHheArZW644ZeQGqGoyhhM2h3T4JFH
+	 Dk2Hxfv0uSl3GCmBxQb7acaV1ilGCR5zeH72IlA7Ii3mLlwUcevf0AERKWuKOWgNhS
+	 bpETuEoWTvJyWgDofyUyxOmTRbCQ1514fODehAyVg1kPoYini/8kpChbhDu6bw685P
+	 5EShivwIQiQoA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4jWGgr36MZz6tyT;
+	Fri, 20 Nov 2026 14:40:56 +0100 (CET)
+Message-ID: <e4c77581b1c09f8e0c8be570283f653a2a7e2147.camel@posteo.de>
+Subject: Re: [PATCH v22 4/5] rust: rename `AlwaysRefCounted` to `RefCounted`
+From: Markus Probst <markus.probst@posteo.de>
+To: Andreas Hindborg <a.hindborg@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>,  Lorenzo Stoakes	 <ljs@kernel.org>, Vlastimil Babka
+ <vbabka@kernel.org>, "Liam R. Howlett"	 <liam@infradead.org>, Uladzislau
+ Rezki <urezki@gmail.com>, Miguel Ojeda	 <ojeda@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,  =?ISO-8859-1?Q?Bj=F6rn?=
+ Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Alice Ryhl	 <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir Duberstein
+ <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>, Onur
+ =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Lyude Paul	
+ <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Christian Brauner	 <brauner@kernel.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Dave Ertman	 <david.m.ertman@intel.com>, Leon
+ Romanovsky <leon@kernel.org>, Paul Moore	 <paul@paul-moore.com>, Serge
+ Hallyn <sergeh@kernel.org>, David Airlie	 <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Alexander Viro	 <viro@zeniv.linux.org.uk>, Jan
+ Kara <jack@suse.cz>, Igor Korotin	 <igor.korotin@linux.dev>, Viresh Kumar
+ <vireshk@kernel.org>, Nishanth Menon	 <nm@ti.com>, Stephen Boyd
+ <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,  Krzysztof
+ =?UTF-8?Q?Wilczy=C5=84ski?=	 <kwilczynski@kernel.org>, Pavel Tikhomirov
+ <ptikhomirov@virtuozzo.com>,  Michal Wilczynski <m.wilczynski@samsung.com>,
+ Ira Weiny <iweiny@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+ Thomas =?ISO-8859-1?Q?Hellstr=F6m?=	 <thomas.hellstrom@linux.intel.com>,
+ Johan Hovold <johan@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,  Dave Jiang
+ <dave.jiang@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>, Saeed Mahameed
+ <saeedm@nvidia.com>,  Zhi Wang <zhiw@nvidia.com>, Jonathan Cameron
+ <jic23@kernel.org>
+Cc: Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ driver-core@lists.linux.dev, 	linux-block@vger.kernel.org,
+ linux-security-module@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
+ linux-fsdevel@vger.kernel.org, 	linux-pm@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-serial@vger.kernel.org, Oliver
+ Mangold	 <oliver.mangold@pm.me>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=	 <ukleinek@kernel.org>
+Date: Fri, 20 Nov 2026 13:41:05 +0000
+In-Reply-To: <20261116-unique-ref-v22-4-12029383206d@kernel.org>
+References: <20261116-unique-ref-v22-0-12029383206d@kernel.org>
+	 <20261116-unique-ref-v22-4-12029383206d@kernel.org>
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+ keydata=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
+ jfGillcaQOqFZ3WwVqyzG1BUfTow==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-1bC6az0UrhT7nf2a398O"
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -87,93 +150,75 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261117125825.27629-3-tkdkei@outlook.jp>
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-On Tue, Nov 17, 2026 at 01:00:20PM +0000, Keisuke Tsukuda wrote:
-> usb_role_switch_set_role() and usb_role_switch_get_role() check the
-> registered flag before taking the switch lock. If a provider is
-> unregistered during a role request, unregister can return while its
-> callback is still running. The provider may then free memory used by
-> the callback, causing a use-after-free. A caller that passed the check
-> can also enter a callback after unregister returns.
-> 
-> Move the registered checks under the switch lock and clear the flag while
-> holding the same lock on unregister. This waits for active callbacks and
-> rejects callers that acquire the lock after the flag is cleared. The
-> preceding Apple DWC3 change avoids a lock inversion in its remove path.
-> 
-> Fixes: fde0aa6c175a ("usb: common: Small class for USB role switches")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Keisuke Tsukuda <tkdkei@outlook.jp>
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+--=-1bC6az0UrhT7nf2a398O
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  drivers/usb/roles/class.c | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-> --- a/drivers/usb/roles/class.c
-> +++ b/drivers/usb/roles/class.c
-> @@ -79,10 +79,11 @@
->  	if (IS_ERR_OR_NULL(sw))
->  		return 0;
->  
-> -	if (!sw->registered)
-> -		return -EOPNOTSUPP;
-> -
->  	mutex_lock(&sw->lock);
-> +	if (!sw->registered) {
-> +		ret = -EOPNOTSUPP;
-> +		goto unlock;
-> +	}
->  
->  	ret = sw->set(sw, role);
->  	if (!ret) {
-> @@ -90,6 +91,7 @@
->  		kobject_uevent(&sw->dev.kobj, KOBJ_CHANGE);
->  	}
->  
-> +unlock:
->  	mutex_unlock(&sw->lock);
->  
->  	return ret;
-> @@ -107,16 +109,21 @@
->  {
->  	enum usb_role role;
->  
-> -	if (IS_ERR_OR_NULL(sw) || !sw->registered)
-> +	if (IS_ERR_OR_NULL(sw))
->  		return USB_ROLE_NONE;
->  
->  	mutex_lock(&sw->lock);
-> +	if (!sw->registered) {
-> +		role = USB_ROLE_NONE;
-> +		goto unlock;
-> +	}
->  
->  	if (sw->get)
->  		role = sw->get(sw);
->  	else
->  		role = sw->role;
->  
-> +unlock:
->  	mutex_unlock(&sw->lock);
->  
->  	return role;
-> @@ -423,7 +430,10 @@
->  {
->  	if (IS_ERR_OR_NULL(sw))
->  		return;
-> +	/* Wait for in-flight set/get callbacks before unregistering. */
-> +	mutex_lock(&sw->lock);
->  	sw->registered = false;
-> +	mutex_unlock(&sw->lock);
->  	if (dev_fwnode(&sw->dev))
->  		component_del(&sw->dev, &connector_ops);
->  	device_unregister(&sw->dev);
+On Mon, 2026-11-16 at 15:21 +0100, Andreas Hindborg wrote:
+> From: Oliver Mangold <oliver.mangold@pm.me>
+>=20
+> There are types where it may both be reference counted in some cases and
+> owned in others. For such types, obtaining an `ARef<T>` from a `&T` may b=
+e
+> unsound, as it allows creation of an `ARef<T>` from a `&Owned<T>`.
+>=20
+> Therefore, we split `AlwaysRefCounted` into `RefCounted` (which `ARef<T>`
+> would require) and a marker trait to indicate that the `&T` -> `ARef<T>`
+> conversion is sound for the type. A type that implements `Ownable` may
+> only implement the marker trait if it allows an `ARef<T>` to exist
+> together with an `Owned<T>`.
+>=20
+> - Rename `AlwaysRefCounted` to `RefCounted`.
+> - Add a new unsafe trait `AlwaysRefCounted`.
+> - Implement the new trait `AlwaysRefCounted` for the newly renamed
+>   `RefCounted` implementations. This leaves functionality of existing
+>   implementers of `AlwaysRefCounted` intact.
+>=20
+> Suggested-by: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
+> [ Andreas: Updated commit message, rebased on v7.4-rc2, converted new
+>   implementers, relaxed the `ForeignOwnable` bound for `ARef<T>`, updated
+>   safety comments. ]
+> Acked-by: Igor Korotin <igor.korotin.linux@gmail.com>
+> Acked-by: Danilo Krummrich <dakr@kernel.org>
+> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Acked-by: Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org> # for pwm.rs
 
--- 
-heikki
+I haven't unterstood yet what use case this has, so I am trusting the
+other ACKs here. Maybe a precise example would help?
+
+For serdev:
+
+Acked-by: Markus Probst <markus.probst@posteo.de>
+
+Thanks
+- Markus Probst
+
+--=-1bC6az0UrhT7nf2a398O
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmsATecbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSANQP/R1hB8C5F3mypETYwCgo
+/31OX6ODiCHu568feU0OwqqnH1gKua6thOPxdUzO4oz9uHEvJOy9k0pAUuqhIoUR
+cwWGFajvqbq0iEcbMMls3ezTo63QhALeYKpaK+p4wCU6HqazGDnsTiqXqIBnSMFF
+/zhMCLHxApAYueLhRzmTe9z4DIEhOaUdcOowPIV35HlxhghSQZ/uaZclBwv6h+xn
+PDpQAKnR2JxW4CcyT1Fm62hItTX+Djvef/Q6aac3xdMq1JSPlsbNUlThWsY+EjbX
+eBTAO766WENw3Hw3SxnX/pcUQwUVsRa3bxxgBxSfwZtm6nSfhxmBzAHsiR7aA4wq
+hrI46P32JW6WcL+jToQJC/QjQienV9rV/QTWrfp83Z59ce3lL43XtMlofu0EoK6W
+IWoX/O4IoSM3YDlzHsSYGQR7KG+VGDXyJAb6HhVyNdMTiegz8UxWwYqGviS9mTON
+a3YA8htdMngXmkwT5CQKhsNbS0sLqGb3nDrqmLV2hSDpjGkdUe86bahObcVCXonf
+7Gdl1/15c46K0QRbEf7q5kgreejRoLqFdi2eyw406ruUxE7Bd71t9faF5zWzaJRK
+ewr2s+IremZr522ABFhIX0SFkqu1sPzXqNLKXQa5fz5XxTh6jQziddGf3Q2z71dB
+79I2PETkcl5NqkNBz+UkmsCH
+=iSw7
+-----END PGP SIGNATURE-----
+
+--=-1bC6az0UrhT7nf2a398O--
