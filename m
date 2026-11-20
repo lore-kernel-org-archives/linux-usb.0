@@ -1,107 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795162127;
-	b=cRRasoQTObwdC/WtvTrU3Fd8kuQaVwJV18tht7O7FGKDpbK7L9Z1u2vcDLmrbP6L0ICG
-	 pS8J/zfTkBKcWL/slWeK0tS+fa41sQhuVQyNB+iSHt0lpO5iBAvUQiS3SXrgU3YtrvVN6
-	 +HAeNuKPIbKOgzmy/fc+Wnv/wmZVTxzH7FVfSoxLRi6nld/VhRAvekc6s++ubRGQTxHF4
-	 d2LrjGRxhWdvE+PMajx2foPZjezTiC6kMNnVAFNRPFrTZZ9ICc1JLxYe5AgWP9qSUF4D5
-	 nOgSP1ALSXP0NMsQeuy0VIyuCR7HFxWJpruEeGiMaJzOQc/rShKmeSOuRBFhw65DyzQ==
+	t=1795162239;
+	b=uyjFbBSHF7N9Vs/AuT954tAVX4CrEHJsYcVBb8lJPg77YrsGf4A6ezvYvQQOgtuTvb/X
+	 IXTLaHPiC2Y6tE2ZGHV1YofjLHdvAHsUDmN7B2xzAEIRZrX+510UIXV1irHxqDF6k107b
+	 ml7GeauCp9ziKVEi0+15YZ/4QZ1gVxHf48SEl2URPlEHN0+g2JCZop4n6q2O80+bDWF7O
+	 PCKFBW2fUlG0pdhe89NdwTeC8aiCOSt+FLFdTb4Pql+3ngg0Zz9Q6WCTYZ5FjppG8PTns
+	 BWsnNlFRjfme7qHrtpatMDomrQr+FDOK+fuq9ekthCwuX4ao9JKzfZwgD4HAXODgLuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795162127;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795162239;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=nhWTtz/XtWf+zHzkg8QT/u7XDoQ0xAQ0UFQlVcaEpd4=;
-	b=4USGx7nU205lARgP8/HDMojtNV3S9Dy3CAbuVMSlQgfXg8a19uE++7GCxTO+NrZXTFce
-	 Q8KX7f9QfjO5hWvd6kdgdDKiEr8yy9Gcl+vstmYOz1yJukXOXHfB5bIB7DRUDsCvja5Fm
-	 2ZqFU1eDKnbRxV8lX46t2HvYovtD+QyCkcCzGoKyjMzm6OCjHThz0mvWMz+etUjca4tej
-	 37f8cwYZRPIC3JiuTKVyuE6Yc7LRUt6R1UhG2/Rj5rJMivZ2ulbiixFm78lNdoazYaOui
-	 S1J8uBaPv5eaVcygetjd8CD/l0hzRwgxIC3LqaU6bFGB2DBWL/oxK4zixZBD3sYAXCQ==
+	bh=qHNIvMirhw5Yqe/45BmdtZSfkV5uagyM/kyIoGo2xWY=;
+	b=YOXFaWGga5Cmh0Q7vxgB0w56sd/wmdfDXYrzlbOObTf/uCq/b1wjdgLpThdp3mkr1BhO
+	 ZUlrVOuuqgdOu4FtY0foeg/L69UrKlEhtH15d53/WRHXOiDBqgxxSgrqeGXXO5UyMeaQB
+	 RiA33c1O0HDBkqL5NrgYNCsZqLO5vFVYJlCv+3gKpHhZjEk0gDiIdf/KyaGotk97PHjIx
+	 jMXExm1LxyOFCj7B71atG8V2stB5IeZpzSkcmAboKrumZMznls6jlr2XONrzjFg733Ehu
+	 07N/NW6yJxvHgXjGqDD3cFDeeu9NRv/L8yNUEzH2kElgyERi0qUfuei4+oARMPW2ySg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=oNThT0mS;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Pnv19gEa;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F661606A331;
-	Fri, 20 Nov 2026 08:08:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB33606A320
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 08:10:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=oNThT0mS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042371F000CA;
-	Fri, 20 Nov 2026 08:08:46 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Pnv19gEa
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 322AC1F000C4;
+	Fri, 20 Nov 2026 08:10:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795162127;
-	bh=nhWTtz/XtWf+zHzkg8QT/u7XDoQ0xAQ0UFQlVcaEpd4=;
+	s=korg; t=1795162238;
+	bh=qHNIvMirhw5Yqe/45BmdtZSfkV5uagyM/kyIoGo2xWY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oNThT0mSGG6kUZAwqZsOB53nYtEkre5+BXqj2CeCW2DezGxoseqckwyiR/VE/H5rV
-	 fasb29VNh/hB3PNLtjFkss79IjJ2QxSftm4LCX3QTWO6ojWb5uhH6sv3drEWCZAFZL
-	 WHSdRIgt+zBwwz1WhpggeQETXK/uvYvzW9vMcVhg=
-Date: Fri, 20 Nov 2026 09:08:23 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
-	oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	MPT-FusionLinux.pdl@broadcom.com,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-	linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
-	devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v2 08/12] docs: ioctl-number: update USB entries
-Message-ID: <2026112013-crave-ocean-6117@gregkh>
-References: <20261119053514.255348-1-rdunlap@infradead.org>
- <20261119053514.255348-9-rdunlap@infradead.org>
+	b=Pnv19gEa+Lm3xaZ6wiuEzeHEfGhdYLhIWd84YAMzvEGinHNgXIei0BH+8OLdl9+Z4
+	 7INLXo+7XCCu9YxTilRiDtw2uJgRdqwzfrH3i8RTO3Up4ToecNUt7sqcuFrOeeSa3X
+	 kHyp5pE+AlcqhRptGqmELrr92nXdUpuVMFewbgls=
+Date: Fri, 20 Nov 2026 09:10:36 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Haoli Zhang <26031212468@stu.xidian.edu.cn>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: f_midi2: disable endpoints before freeing
+ descriptors
+Message-ID: <2026112002-agony-calibrate-ce07@gregkh>
+References: <20261120042607.1347854-1-26031212468@stu.xidian.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -113,17 +55,70 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261119053514.255348-9-rdunlap@infradead.org>
+In-Reply-To: <20261120042607.1347854-1-26031212468@stu.xidian.edu.cn>
 
-On Wed, Nov 18, 2026 at 09:35:09PM -0800, Randy Dunlap wrote:
-> Update the list of files where USB ioctls are defined.
+On Fri, Nov 20, 2026 at 12:26:07PM +0800, Haoli Zhang wrote:
+> The dummy_hcd driver keeps a pointer to an endpoint descriptor while the
+> endpoint is enabled, and its timer dereferences that pointer in
+> find_endpoint(). However, f_midi2_unbind() frees the function descriptors,
+> while f_midi2_disable() currently only resets operation_mode. When the
+> function is removed, an endpoint can therefore remain enabled while its
+> descriptor storage is released.
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Disable the MIDI 1.0 endpoints and all MIDI 2.0 endpoints from
+> f_midi2_disable() before the unbind callback releases the descriptors.
+> Keep f_midi2_stop_eps() unchanged so altsetting transitions retain their
+> existing request cleanup behavior.
+> 
+> Reported-by: syzbot+599d4e8994a656eafe15@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=599d4e8994a656eafe15
+> Co-developed-by: Jinning Zhang <25031212117@stu.xidian.edu.cn>
+> Signed-off-by: Jinning Zhang <25031212117@stu.xidian.edu.cn>
+> Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+> Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+> Signed-off-by: Haoli Zhang <26031212468@stu.xidian.edu.cn>
 > ---
-> v2: no change
+>  drivers/usb/gadget/function/f_midi2.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
-> [Since having multiple maintainers trying to merge these would
-> cause some conflicts, it would be more manageable for Jon to
-> take all of these through the docs-next tree.]
+> diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
+> --- a/drivers/usb/gadget/function/f_midi2.c
+> +++ b/drivers/usb/gadget/function/f_midi2.c
+> @@ -1167,6 +1167,13 @@
+>  	f_midi2_free_ep_reqs(ep_out);
+>  }
+> 
+> +/* Disable an EP before its descriptors are released. */
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+That's not a good description of this function at all :(
+
+> +static void f_midi2_disable_ep(struct f_midi2_usb_ep *usb_ep)
+> +{
+> +	if (usb_ep->usb_ep)
+> +		usb_ep_disable(usb_ep->usb_ep);
+> +}
+> +
+>  /* start/queue both IN and OUT EPs */
+>  static int f_midi2_start_eps(struct f_midi2_usb_ep *ep_in,
+>  			     struct f_midi2_usb_ep *ep_out,
+> @@ -1343,8 +1350,17 @@
+>  static void f_midi2_disable(struct usb_function *fn)
+>  {
+>  	struct f_midi2 *midi2 = func_to_midi2(fn);
+> +	struct f_midi2_ep *ep;
+> +	int i;
+> 
+>  	midi2->operation_mode = MIDI_OP_MODE_UNSET;
+> +	f_midi2_disable_ep(&midi2->midi1_ep_in);
+> +	f_midi2_disable_ep(&midi2->midi1_ep_out);
+> +	for (i = 0; i < midi2->num_eps; i++) {
+> +		ep = &midi2->midi2_eps[i];
+> +		f_midi2_disable_ep(&ep->ep_in);
+> +		f_midi2_disable_ep(&ep->ep_out);
+
+Please just open-code the function you tried to write above, it will
+make more sense here.
+
+thanks,
+
+greg k-h
