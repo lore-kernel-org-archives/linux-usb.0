@@ -1,50 +1,107 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795161815;
-	b=wQe1ihVBE3TmxjU1Yu3FdpGMpEgk6y/e10ojq0IxhTkv/TMaOwyxGNJWu9dIaYU3TLzz
-	 jfT5P241BsTlYuVPcUQYJFt8mufcrZI+F5cq2uKjlSDiMkrWICD0E+bAeBP9vADW/wVWv
-	 5OPBVAKPaBhfJjEHT7Tqed1GnN8WqW1tGRkKwGISaYyeNfgYo9zo5yhs2wrHRnpfIO2YJ
-	 24gaIiBZCQkB6K0mDZMYpmolS533s8e3YcZ3ytAL8Djd9o5nhQk6qE0hxpz/nMSGbsxoa
-	 YpmL/6aGfwA4tUyq6MePk49LOcu+xCfQdQAF1h8Dl6eL354xcHXzVpGutG+A73nvmlg==
+	t=1795162127;
+	b=cRRasoQTObwdC/WtvTrU3Fd8kuQaVwJV18tht7O7FGKDpbK7L9Z1u2vcDLmrbP6L0ICG
+	 pS8J/zfTkBKcWL/slWeK0tS+fa41sQhuVQyNB+iSHt0lpO5iBAvUQiS3SXrgU3YtrvVN6
+	 +HAeNuKPIbKOgzmy/fc+Wnv/wmZVTxzH7FVfSoxLRi6nld/VhRAvekc6s++ubRGQTxHF4
+	 d2LrjGRxhWdvE+PMajx2foPZjezTiC6kMNnVAFNRPFrTZZ9ICc1JLxYe5AgWP9qSUF4D5
+	 nOgSP1ALSXP0NMsQeuy0VIyuCR7HFxWJpruEeGiMaJzOQc/rShKmeSOuRBFhw65DyzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795161815;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795162127;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=kXGgl14AJdaegP8J/8I9WGQCY+bZ7zO/miEb097+IeQ=;
-	b=sQNsgJgu4pTOpKCpNJRydvNqVVDqsdkUXpnkwg32CqqZpXqaxrBlvOoLNJQ9xW3b9WUD
-	 hWhGbz11TKVxMB5uc/6wxrMMfmymhkLg89ak1HAmdgKWvpW9AxkgU8k8XzqDZDs6fe1cm
-	 WN+8TZu0gFWHH9/uNJ/4GesXhvaP5xJgS5d35O2pdSK0MTMPq1rVbKv34qzp+MqS+osQl
-	 csHUpUEH/wYVEsHLKJtoEauXnGK2CkWDqz0JEnrIlyi+gnOdWqFaf1dlrH58Bx6OsJ9QN
-	 ev4FzSsvGHfudrbBtUsu5tBrGKu6kKDjAqC2yIy3Jy4a6t1adEkaHQMh5/4SvhffdHQ==
+	bh=nhWTtz/XtWf+zHzkg8QT/u7XDoQ0xAQ0UFQlVcaEpd4=;
+	b=4USGx7nU205lARgP8/HDMojtNV3S9Dy3CAbuVMSlQgfXg8a19uE++7GCxTO+NrZXTFce
+	 Q8KX7f9QfjO5hWvd6kdgdDKiEr8yy9Gcl+vstmYOz1yJukXOXHfB5bIB7DRUDsCvja5Fm
+	 2ZqFU1eDKnbRxV8lX46t2HvYovtD+QyCkcCzGoKyjMzm6OCjHThz0mvWMz+etUjca4tej
+	 37f8cwYZRPIC3JiuTKVyuE6Yc7LRUt6R1UhG2/Rj5rJMivZ2ulbiixFm78lNdoazYaOui
+	 S1J8uBaPv5eaVcygetjd8CD/l0hzRwgxIC3LqaU6bFGB2DBWL/oxK4zixZBD3sYAXCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=0YG7CNEw;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=oNThT0mS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8DA606A325;
-	Fri, 20 Nov 2026 08:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F661606A331;
+	Fri, 20 Nov 2026 08:08:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=0YG7CNEw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6C461F000CA;
-	Fri, 20 Nov 2026 08:03:33 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=oNThT0mS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042371F000CA;
+	Fri, 20 Nov 2026 08:08:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795161814;
-	bh=kXGgl14AJdaegP8J/8I9WGQCY+bZ7zO/miEb097+IeQ=;
+	s=korg; t=1795162127;
+	bh=nhWTtz/XtWf+zHzkg8QT/u7XDoQ0xAQ0UFQlVcaEpd4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=0YG7CNEwAIykmjk5oplimQUWKsu4jit7nf+waRep/pRGE0RCYBqTLDDArH6QxGtHF
-	 Wfs8EqxxWIsRDssv8JjjaA5LEmeOQTzrjgE9ftUZgnHiYvOjLa4+pSnH6MQNfyIRyc
-	 Eu4qZ0k16AL5RzCJvwflL1mkf90ArKJvezDeDrX4=
-Date: Fri, 20 Nov 2026 09:03:31 +0100
+	b=oNThT0mSGG6kUZAwqZsOB53nYtEkre5+BXqj2CeCW2DezGxoseqckwyiR/VE/H5rV
+	 fasb29VNh/hB3PNLtjFkss79IjJ2QxSftm4LCX3QTWO6ojWb5uhH6sv3drEWCZAFZL
+	 WHSdRIgt+zBwwz1WhpggeQETXK/uvYvzW9vMcVhg=
+Date: Fri, 20 Nov 2026 09:08:23 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Cheng Yongkang <teel4res@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb: usbfs: clamp the copied length to
- transfer_buffer_length
-Message-ID: <2026112017-gala-enchanted-bf40@gregkh>
-References: <179328314073.648427.8311262845412746237@gmail.com>
- <179328314074.648427.8187049654053191605@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	David Hildenbrand <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
+	oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	MPT-FusionLinux.pdl@broadcom.com,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
+	devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
+	Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	intel-gfx@lists.freedesktop.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v2 08/12] docs: ioctl-number: update USB entries
+Message-ID: <2026112013-crave-ocean-6117@gregkh>
+References: <20261119053514.255348-1-rdunlap@infradead.org>
+ <20261119053514.255348-9-rdunlap@infradead.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -56,18 +113,17 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <179328314074.648427.8187049654053191605@gmail.com>
+In-Reply-To: <20261119053514.255348-9-rdunlap@infradead.org>
 
-On Thu, Oct 29, 2026 at 07:12:20AM -0700, Cheng Yongkang wrote:
-> copy_urb_data_to_user() uses urb->actual_length as the number of bytes to
-> copy to userspace for non-isochronous URBs.  The usbfs contract is that a
-> driver must not report more data than the transfer buffer holds, but
-> usbfs cannot rely on every HCD or device implementation to honor it; a
-> malicious usbip peer can already set actual_length beyond
-> transfer_buffer_length and trigger an out-of-bounds read:
+On Wed, Nov 18, 2026 at 09:35:09PM -0800, Randy Dunlap wrote:
+> Update the list of files where USB ioctls are defined.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> v2: no change
+> 
+> [Since having multiple maintainers trying to merge these would
+> cause some conflicts, it would be more manageable for Jon to
+> take all of these through the docs-next tree.]
 
-No, every HCD must honor this.
-
-thanks,
-
-greg k-h
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
