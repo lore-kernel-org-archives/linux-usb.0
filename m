@@ -1,86 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795175709;
-	b=nDF3/E4gTR7gpGzQHC4Cg/Eh/14H+Urjahi/WthgjSWmmvTl+aUO7STrOxM9Kqj2xFbC
-	 /pzfed9uT7CyKj+3pwtan2FgdEIsvlz1D1ktn+byK3th+dtJ8+Crw0Cat2eL0RNXtXio6
-	 apjzdkV9m3VP4p1ZN49l6IE1NthTLMoSebnnZLWPxkXmlsfC10X11oI/+0/QCNeDY9pFb
-	 z8XbihUptE6TnNiVvEshAUzsNRJwsp7CHLqtEUCeJngZAdWx73Yc6xLL8G3vFOpK2IJqq
-	 sFPgvk6XPVKi5WPvE3LD/mP5DeJly3gBji9qXAI0b8MNdFx3BzMLT7qzRrgBlQda5vQ==
+	t=1795176012;
+	b=ZYQcRkvb23HtZlpBObuGyKZ6uW+tCgG+kuh5+AL2+5MZwgUM/tHK+YoWMJWCoEIHz+e4
+	 9GwpHbxPL2WILxmwG5LvpHvfM7Y/VSTf0/R12V7kGJqnwrQuSPZHut45Yo0Gf/DsQM646
+	 zGdZfYexz5XwLOMC1wb9sOFnd0Ws8pHvjEPH9kA7g9CXMD8eENYRz0GG5HNQKnu94uER/
+	 UGvEA2K2H4VcwVsTooBGmIxukI3hhFEvgbBk0mVi6ADBm5wr3WJO11xu+vk9JyF+Np1or
+	 Bov0euNxrQ1RvFrmRFX7HNPPUd/8sO9ZwTDySfPgIJlwKP/WR60R/aTq8zfm/8pt8lQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795175709;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=DKbl0knP6GgOxKbGkSb4++hb3MG0vuwY2UQuP6+FkU0=;
-	b=AQLx2Yo2CuADMmhD4N2QxT1UbnBqC777VUm3EI4Om6F/YhJMUpudx/cCwi0hUL1dHYkE
-	 0oupTOytEBz0jfjwqfJ3gXvPl5wpD7qb0JmB5xceMf5uVtRh7uKrImmwtqWov94BZq9ic
-	 Y9iyA1leTg/zl/kyZnCEIE+ZQ8rOUP8I1ceIvsIjH9AoCx6DRTypqS3v5hXLHcmV+md4j
-	 sh+KPzSddrJzhvkTdQXPRt3XqhcsB0MTyemDHQcymR8YeEtScmJ0jTPMMxyCY8OYbYi0e
-	 /jHMwQHGagx/wB9yRgk3H5ducy/7fBfiu4K9KTDY7w8G0oFJ40BLHbCfV74MVbdrc2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795176012;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:
+	 Cc:Content-Language:From:In-Reply-To:Content-Transfer-Encoding:
+	 X-CMS-MailID:X-Msg-Generator:Content-Type:X-Sendblock-Type:CMS-TYPE:
+	 X-CPGSPASS:X-Hop-Count:X-CMS-RootMailID:References;
+	bh=qhuDN5r7dNlGv1DkcyJ7dXHBVH8J2xd2PMjal/DJB5s=;
+	b=LQYjIFqrpUE9F9/7CJ9GR1Xr56XVN4BX3Ae8WPthUuhONydFRylboY+3/JR309xq5D7W
+	 dzu0EDykFQFf4XztAqgXTnyAfZRiDbR0qLipIVEtQLTXQ/T41m+O0LaRAIQVAkUkX2/pV
+	 YJKHEmRQPWwCB4oKz8Ow1JCFAhcWmgwM82wi+MfUfiMxsfWRbdTVI0K9XIgJyUh26kDPa
+	 pyNz2heFcUTBlG87PrLhkwlcY6c5XSP9fU6WRWBKeh8K2H86dPeRgyuvBJYpdADoRCf8K
+	 mr9rjUPlF3X9HQTEuHzLv4e0yIyqxtP+U7q27adKqcW6McMMCkAzw+Ijqr/ZOgoPxNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=GyXb+xmc;
-	arc=none smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=JvKJ+JSZ;
+	arc=none smtp.remote-ip=203.254.224.33
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2092C606A325
-	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 11:55:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2092C606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E7E60A3802
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 12:00:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6E7E60A3802
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=GyXb+xmc
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4ad6219f7d8so187827f8f.0
-        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 03:55:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1795175707; x=1795780507; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DKbl0knP6GgOxKbGkSb4++hb3MG0vuwY2UQuP6+FkU0=;
-        b=GyXb+xmclUqFDKryhpi5m9OwUGqPa4BDct2MsTkMEVQZEKVA4q2M6taCVZK0xO1qYU
-         qUTlfDVTZ1MUbljxTZenoZadlHfR66fREGrAZwK+YSQ249wZ7MwFiUODBayiFQVLSrJE
-         MqYh3ZGOMrkvwAapQ30QHq43APGtlmrIJqSolgeLQoJ/KbGsmSxtI9XTWUBp1i/ooRJ9
-         Zy/UfwA7Ecr0Hn2E0Z6+ZA+3Wb3JNDaXwVt0UTvt3FuIey0wIKUEpW4R8mWttlsuvs0n
-         b7Tz66g2fDFkfzwE4AhYt1DKn8sl08PAlJSZFaKI4+FOlcRs7xVmvxbGuQsrT+M2bNiD
-         uVmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795175707; x=1795780507;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DKbl0knP6GgOxKbGkSb4++hb3MG0vuwY2UQuP6+FkU0=;
-        b=jpFfOZ9mxFxif9TQljslfSMExudmSTvK4NVUE6p0zEVP9+PXStJvBdUefuqFD17YTK
-         24+V6CMLUIac5yWejZS+AxNWwfyIc3EF6SGEmI3yy5RnHTY+Vx7cQQRyRhKTCm0N3tEl
-         BY/vvleGgk6teFi2ctAiavEuej1yMyb2YUV0Dbr4Yn/t2JErqHgJPHyfUzZ/R7bm+DO1
-         DjkCsX27aTGeq4eYV3TYdUup3K74jq6F6uJEvm00UkSz2apvF/68V94AXYHa0DVi3SNl
-         3ODmLQxKcG7JP5mVaG9WkPNkoGKg5Tk/PXOW3kiZCDmq8W/eQfpYs8mO13DVcKZ174Q7
-         ej4g==
-X-Forwarded-Encrypted: i=1; AL+hErFt/BHX0WaAojWFT6k+eiWk/QZ/DKsL8XIHAzJLiCOYpmSFYSXW7zSCwLI/jwxfXZNf4FQPtrvPTaw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+xKeII05zEnIetGRuMnD7BawrHzvyyiJEfOqIQ2VQ3YupsuQ4x
-	km+NLWek1OlkAx80A58xM2B1l/qURIZiYMXVoU5XArylU0/O+5v1jYBBHsyGqsDmUCs=
-X-Gm-Gg: AZFdTZeJHY070iDpTYiRASdQbEb79vvQdQQ2HyPhszpW5nVZYU94ITuIEE8iIAVP83x
-	kgzaauLVREK9cSlXjEiJ1PrbSiuOm98UkIDhgEs5HkbKyiyUWDBeoWnlt9BzTO3v7rOHDhvFceT
-	2Qg7SB/GZ8PLMk4zd9bjcVyJKsDZpXLuNy/Pzbj+rUyh59E10ObT3kXT42L8RwNFeSAlxKSh5Y9
-	YaJtoPVWs+jgWp9nS0w3i37jIOPJTzhFZMDarjO3yJxG9IvGyeOsQi9zSnLxDZYQIGTxmZq99iz
-	zysj+a0wKftfSGhE/f2U4/4wmd9gMDRZf/UVd/FzbXqj81FcesLaN04+Whgn0w7O/Frc6/htuSf
-	7YqJKv79gEvaQinWJeKT5kr0fZOvtYu3YZgHzlVuvr9unuypJB1cyYrY1iiPoRUfRVwoqsLyECT
-	vXFetk/O5J6zmWSruzpo2IUSMSb1lt0Okv56nkO7PTBdCvz9ib7xUKi7H877qMYXQdO5QufuHaG
-	ZbfRiIy1xaqJ+WBDmvwdzdjTIBB1BWKOHCqkSx5UOLhwsu6LIPZDKs0sVYsEofQEoGu0kFpP+gn
-	VCfyp/sZBxM1IQks2xW+uFGcwii03Dgc7RQrYk+8ckEJgFtIeSGrDAqfqlxyfOU=
-X-Received: by 2002:a05:6000:2c13:b0:4aa:874c:a1c7 with SMTP id ffacd0b85a97d-4abb86ed79amr5274202f8f.43.1795175707432;
-        Fri, 20 Nov 2026 03:55:07 -0800 (PST)
-Received: from [192.168.0.167] ([109.76.69.230])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf680fsm5834751f8f.14.2026.11.20.03.55.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Nov 2026 03:55:06 -0800 (PST)
-Message-ID: <2612ca00-602d-4a4c-95f3-39cbadee10e6@linaro.org>
-Date: Fri, 20 Nov 2026 11:55:06 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=JvKJ+JSZ
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20261120120003epoutp03e85d709a617b67430e863f1ec171af83~pvxBWB_f60309803098epoutp03a
+	for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 12:00:03 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20261120120003epoutp03e85d709a617b67430e863f1ec171af83~pvxBWB_f60309803098epoutp03a
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1795176003;
+	bh=qhuDN5r7dNlGv1DkcyJ7dXHBVH8J2xd2PMjal/DJB5s=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=JvKJ+JSZAHNaO5CsA5Cu+OMMsoFad3gIZDFeaSqLAhLNOv0v5uO8U2fc2LW7qxiJl
+	 pEaEdiR96bK7Wd2sdCcn0eTxkEiBbH7HQbYhViVJthQ9fVtNJH1H+n9VM60gfRjRbB
+	 or6+XP6aTvZYR7/sW5cxWiQs6ripIweZNi3PO/tA=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20261120120003epcas5p3ac2e0d6836c0e3b29139ba0d281d044c~pvxBB8W2N1601216012epcas5p3B;
+	Fri, 20 Nov 2026 12:00:02 +0000 (GMT)
+Received: from epcpadp1new (unknown [182.195.40.141]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4jWDRQ6JFxz2SSKY; Fri, 20 Nov
+	2026 12:00:02 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20261120104705epcas5p18cca7658f79ab1d7d341ef37cddd2a66~puxUh1u4F2462124621epcas5p1F;
+	Fri, 20 Nov 2026 10:47:05 +0000 (GMT)
+Received: from [107.122.5.186] (unknown [107.122.5.186]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20261120104704epsmtip1bf0ac8b22dedf66b52d104cf251d9f9b~puxTbOJpv3161731617epsmtip1U;
+	Fri, 20 Nov 2026 10:47:04 +0000 (GMT)
+Message-ID: <360067785.01795176002867.JavaMail.epsvc@epcpadp1new>
+Date: Fri, 20 Nov 2026 16:17:04 +0530
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,31 +72,72 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] usb: typec: qcom-pmic-typec: detach the port on
- shutdown
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20261120-topic-tcpm-qcom-fixes-v1-0-9a152f906fba@linaro.org>
- <20261120-topic-tcpm-qcom-fixes-v1-2-9a152f906fba@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-GB
-In-Reply-To: <20261120-topic-tcpm-qcom-fixes-v1-2-9a152f906fba@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [[RFT PATCH v2] 0/2] xhci: sideband: fix use-after-free of
+ stale virt device pointer
+To: Mathias Nyman <mathias.nyman@linux.intel.com>, quic_wcheng@quicinc.com,
+	hulianqin@vivo.com, selvarasu.g@samsung.com
+Cc: linux-usb@vger.kernel.org, cpgs@samsung.com, "alim.akhtar@samsung.com"
+	<alim.akhtar@samsung.com>
+Content-Language: en-US
+From: Akash M/Akash M <akash.m5@samsung.com>
+In-Reply-To: <20261119214841.1552318-1-mathias.nyman@linux.intel.com>
 Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20261120104705epcas5p18cca7658f79ab1d7d341ef37cddd2a66
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20261119214904epcas5p432ec8c5d6c3219c9434d64f210bca445
+References: <CGME20261119214904epcas5p432ec8c5d6c3219c9434d64f210bca445@epcas5p4.samsung.com>
+	<20261119214841.1552318-1-mathias.nyman@linux.intel.com>
 
-On 20/11/2026 09:59, Neil Armstrong wrote:
-> On reboot or power off the port is left as is: a source partner keeps
-> the negotiated contract, possibly above 5V, and a sink partner stays
-> powered by the OTG boost while nothing services the port anymore.
-> 
-> Add a shutdown callback stopping the port and the PD PHY, unregistering
-> the TCPM port, which turns VBUS and VCONN off, and finally disabling the
-> Type-C block so the partner sees a detach.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-LGTM
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+On 11/20/2026 3:18 AM, Mathias Nyman wrote:
+> Hi
+>
+> Second attempt.
+> These two patches attempt to improve the disappearing vdev issue
+> while sideband stays active.
+>
+> I don't have real harware to test this on so all review comments and
+> feedback from testing is welcome.
+Hi Mathias,
+
+We tested USB Audio offload Playback and Capture, recursive 
+Connect/Disconnect on Exynos Mobile platforms and its working fine. 
+However its hard to reproduce the actual issue scenario where some 
+Control Transfers fail and xHC is reset and so we didn't test the issue 
+scenario.
+Please feel free to add "Tested-by: Akash M <akash.m5@samsung.com>"
+
+Regards,
+Akash M
+>
+> There are still some gaps in how xhci driver uses locks when
+> disabling slots and freeing vdev that is not part of this series
+>
+> changes since v1:
+>
+> - add missing sideband_to_vdev() check to xhci_sideband_create_interrupter()
+> - fix ENOMEM return case in sideband_stop_endpoint_sync()
+> - always clear sb->eps[ep_index] when removing an endpoint.
+> - other minor changes
+>
+> Thanks
+> Mathias
+>
+>
+> Mathias Nyman (2):
+>    xhci: sideband: avoid use-after-free of stale virt device pointer
+>    xhci: sideband: check virt device under xhci lock when stopping
+>      endpoints
+>
+>   drivers/usb/host/xhci-sideband.c  | 151 ++++++++++++++++++++++--------
+>   drivers/usb/host/xhci.c           |  55 -----------
+>   drivers/usb/host/xhci.h           |   2 -
+>   include/linux/usb/xhci-sideband.h |   4 +-
+>   4 files changed, 113 insertions(+), 99 deletions(-)
+>
+
