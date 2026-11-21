@@ -1,89 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.48.52.25
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795277300;
-	b=OVUqcz3Chj42sp/elDgkGy0XGSaxHjxaaM/LVCQ1peFuDA8ObyuJx6Cr/xs5wox3NTv/
-	 JSfXdhlHD7OD5aoU7FYvPb3HwSzRPD+Nup12FAYjtEpkdH/aEsgJv6JJDRjCWzwbkcRk5
-	 s8xQAvv5ilS+V9Kk7AGh/fx2oKFBo7jGH8EAcaiURWCFqN6Kv1NdtLVjgMyG2tuTsh82m
-	 hcxrdyE++0M4Hp46bGVGOBQQvMIk+427qNHrBcGau9R1fKdxaNAZiL0jyA1DbsXVUV1qU
-	 MwxzsYiQe61Rb5y19I2as8rFMzAd04n3w0Bk4Guxa6pRWxVbttb3+Ohtpist8iHg4xw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795277300;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:Jabber-ID:X-GPG-Key:X-GPG-Fingerprint:X-GPG-URL:
-	 User-Agent:BIMI-Selector;
-	bh=T7QCWRyUzgCmXFFsU24+pNj6FeTn5AFMkdvpDZELwrU=;
-	b=QILhqvQoyF0ZzstIo3Qh3BlCMoa24fbIZI/aQiz4SKGWSO8mv+OUKmHIpad955v1QpMQ
-	 WNkSMlxxBhI7Dt/s5+nHpxbfw9h7KNWlc4yzFcW3LsoJtoOxJl8nfLtGJXTXH9LEyL3Nl
-	 1T6BVncm/QjUNjVlo+q5gkViJvi2mEx5HmFWJ3g2b6/aBuC7eE3LTLF1bphOmFHpiWgtC
-	 mrxESq46nBsRkX3Zclt7fkcisrgy2JfcIOO8c2XkrTcPg5MowVlLzC7A5EFGJSze8gu7I
-	 HlGjMw6v26CcfUowp9jT8jaWrRsFuVY8N8HW3m8S1G2uC9eQkNqh/0dtZWk7q0GwpGw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=jacquin.bzh;
-	spf=pass smtp.mailfrom=jacquin.bzh;
-	dkim=pass header.d=jacquin.bzh header.i=@jacquin.bzh header.a=rsa-sha256 header.s=20240222.rsa header.b=FMF4jTAW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.48.52.25
-Received: from mx.eu-west-1.pants-on.net (mx.eu-west-1.pants-on.net [52.48.52.25])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.15.3
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795278800;
+	b=Sg5189QKF2m5nFgqDRnXKNLRoGUx3IhD08ZVCicfAhSt2FJAV9LCfgFcPDBNLktg0Njy
+	 g1+qUzH7VCxei5gMZCSN0Efx3wSqyVKqdygrFZSHW8i1OKc5/lcgYCbKyOLkKDNkfqsJr
+	 O2IhJd6pONq2JzifwRWwAzeuMFnarqcKd54PiTFi5uGSLCsLpCiyS6x/Omf0wZiI393qU
+	 ip3XVMa5gA6ev+/ft+CvaepqWQTwdg5nf0ilG9JmnY8jfbzgkWGmbiToNVt4qiqkbHhQR
+	 ulXBMD2lQ5h0ArbBytqH5kCyNJhcYyncwPqDxh7BxGspwJUblgmIGcTszZq7oDxKJXw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795278800;
+	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
+	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:
+	 Content-Language:To:From:Subject:Cc:Content-Type:
+	 Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:UI-OutboundReport;
+	bh=auWbpWfPPFdjYS0sjeGkL+z83l0fOIuRwcMvAjF4Jc0=;
+	b=bEDH6xoONX4daPN5cLCK8Bg1VkVe5KaPGNQ8afYSpSxp1k80NnzTx7FvhKUOWgX9b2gK
+	 JHslxqwuGA4tabghugNh+QeZVV+tDZ7PddEw+zD8fXwf71UMn8AE1SDCVAq61K/cVXsgD
+	 VP63y0OgbeFDk0Xq86hPwcgM/He30Qn8k/ZWqUIvR7KjlkinviTY0iYA/YOC+qChQ4153
+	 JvktMY2V/3ZSIKyBHMjztxRcwP7SYQ5aAgsTVq6q4b2uJQQfK5PgZU99NiEjfs8HCcTTP
+	 qMgTn//xGrQVo8W4TLHXNMhVI3q0rF1T96Nd+xfAGbWZd9Mm8fnY4IN6cXTvh+kII0A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=web.de;
+	spf=pass smtp.mailfrom=web.de;
+	dkim=pass header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=VLbnCl77;
+	arc=none smtp.remote-ip=212.227.15.3
+Received: from mout.web.de (mout.web.de [212.227.15.3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3579B606A32C
-	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 16:08:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3579B606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jacquin.bzh
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jacquin.bzh
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F4E606A332
+	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 16:33:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2F4E606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jacquin.bzh header.i=@jacquin.bzh header.a=rsa-sha256 header.s=20240222.rsa header.b=FMF4jTAW
-ARC-Seal: i=1; cv=none; a=rsa-sha256; d=mx.eu-west-1.pants-on.net; s=20240827.rsa; t=1795277298;
-	 b=aeraqTG1hgmB2Altaterfl0m950IoV7V3k0Gtuk4w/KE2oAzhSKthjb4A/5GXQ5+WfPwUGRlqC
-	  7rDdDaUn46EzyTIs91SuvwHg8wn8Y07N1krXkunyPE1H1m5jwn1PvAjAf3rAsF/7ZybIrvd6W4
-	  5oHdrjGPvaBSYzf6Vuq3blFnyx41WKC5vgvlVA4EK/Hn+8iG9ObMs24jdEbkTFV60C2AHNzd82
-	  iVeivVsxVyFzIjbQdRNi0wJ2q3hkfNecgWusJ4cxaHlIbi6pkLeoT3zhF0JNtFMdyXf5QstHuB
-	  Klo2LdCPrIbhA4WcFqwS6WNQqQeBTwmyBTIjdOxCFDQ/Ow==;
-ARC-Authentication-Results: i=1; mx.eu-west-1.pants-on.net; smtp.remote-ip=2001:470:1b3f:100:1d9b:8401:5f90:f557;
-	iprev=fail smtp.remote-ip=2001:470:1b3f:100:1d9b:8401:5f90:f557;
-	auth=pass (LOGIN) smtp.auth=bertrand@jacquin.bzh
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=mx.eu-west-1.pants-on.net; s=20240827.rsa; t=1795277298; x=1797955698;
-	bh=58fm3CVXeRLG5UHErYGGTdUQJcERXxICyF2XTo1Ffts=;
-	h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:
-	  From:Date:DKIM-Signature;
-	b=PKxceUVknpWr7ZEO8v27EpLcLvPrSFtaEMx46FnDRBkhoCR43mgL6NiyuWQzRjiP2L9Gg5LayH
-	  XLd6+y3CtVnwVYbEwQt+yJgZulKSppLP5u6tiSWI9RymyNMfWZixPiSDsfcnjEdnk8Rl/ry7yw
-	  yY3s+6Lp7jxaEUKkyL+Libw7gkVYbd6zjxxOZT8nCFSK6JVWolR9+YJdj+xghKGJmakT0yf2l6
-	  qbcL+y5AGzvsDy2PXpQBxNHsLijBITBaSN+01LE7DQi18QTdQwbYrnQKsd3uJOuzRXxR+OO6Dy
-	  v8PswCZnK6vVK8DFG8YINEx4g5sNkGUwxoN29UzvrbV5dg==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jacquin.bzh
-	; s=20240222.rsa; h=BIMI-Selector:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:
-	List-Owner:List-Archive:Author;
-	bh=T7QCWRyUzgCmXFFsU24+pNj6FeTn5AFMkdvpDZELwrU=; i=@jacquin.bzh; t=1795277298
-	; x=1797955698; b=FMF4jTAW0OYIr19KhDCpCX7iyPX4DwX5Xc2T5cGuwPdL1tnNB06PFSyo+Uf
-	icnj005xez7v0pfRbpwgcorE3DtlLgIMrQ+poJTZfdP6Pmkz00Zi2lDpdo17zyU9717kDw2psYcdN
-	FOmVZu/NtPUs49vS9Mwn34dv7K6iKhvsXZUxlCAdYtA1WLl/O/u2iKPzNrFkqIXbnZO9LGMovVhPY
-	uFC223bwZHrNVUAuXfM9mGlVdqQTv0tS3cmxrfwR/jWD1IZHJxXmUw4ojx6saV0tV7HtVswa5P/KL
-	iZ2choLEiqO3yjo5VOauonL9r5ZN3MEySBUjSg+YczgBgfvAtmKQ==;
-Authentication-Results: mx.eu-west-1.pants-on.net;
-	iprev=fail smtp.remote-ip=2001:470:1b3f:100:1d9b:8401:5f90:f557;
-	auth=pass (LOGIN) smtp.auth=bertrand@jacquin.bzh
-Received: from lady-voodoo.lan ([2001:470:1b3f:100:1d9b:8401:5f90:f557])
-	by mx.eu-west-1.pants-on.net
-	with ESMTPSA (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	id 1xUndR-00000000Wbi-0100
-	(envelope-from <bertrand@jacquin.bzh>); Sat, 21 Nov 2026 16:08:17 +0000
-Date: Sat, 21 Nov 2026 16:08:13 +0000
-From: Bertrand Jacquin <bertrand@jacquin.bzh>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: heikki.krogerus@linux.intel.com, venkat.jayaraman@intel.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: Fix NULL pointer dereference in power
- level debugfs
-Message-ID: <awHB7a-zLM3GpC9C@lady-voodoo.lan>
-References: <20261010120357.4937-1-bertrand@jacquin.bzh>
- <2026112040-splashy-power-2d46@gregkh>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=VLbnCl77
+DKIM2-Signature:  i=1; m=1; t=1795278797;
+ mf=PE1hcmt1cy5FbGZyaW5nQHdlYi5kZT4=;
+ rt=PGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc+;
+ d=web.de;
+ s=s29768273:rsa-sha256:gW1PWLYEXRg+/1qc5FC5QWH/4JQ0
+   8q+Tv+JZU/zmCBsjWhUa1sKGi8nI7MX9B0D+7I22nxWm8deVyeF/JH/klyXayTE/3CsNgBjphiM
+   Za05czoa8OAHYQpAr1vfwRGPKrJpr/QFEA4jr53jebVCs8qioU95BmhIZbe+eEwpbijJGhsDkm4
+   hEXMcYcf/iWDFLCOPCdbAyN7MAMie4Ltvux4sFBK4o3gWInMz+TTxPxCMGzSZumlqxAWwvlFo/J
+   dZnLvAEGsTHszvvDDwFGl9jtPlyQUCbeygkrFDUD4gM4rVYg2/bOlUJl2MMQlNV+KTwUQ4ZMaQm
+   5opOJFDAllw0dg==;
+Message-Instance:  m=1;
+ h=sha256:
+   +htYexGBTL2kBAPo9jTQRKIbUfRm1urwn+kdAc+VkEE=:
+   N7e3qNVbjjZchMqSISQgG5F1KkwW9NMwj1Xj5wWQ2As=,
+  sha512:
+   Sox2zYRxP8bZVGPkg7K8XJrMUgN7Mlt2fjgjmVv/5SVj7jSOITQEvnjJ0ytuImv3RGxZ1KMKpL1I2GTr10tj2A==:
+   GRrB3Lg4xoy7w2Xzuvvjt0Ly/F4OOdziDEX5aOcZPFhvNqvoqG9KR9RMFN7QoBnKc2RCBchiW+vH4YBC8th82w==;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1795278790; x=1795883590; i=markus.elfring@web.de;
+	bh=auWbpWfPPFdjYS0sjeGkL+z83l0fOIuRwcMvAjF4Jc0=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:From:Subject:
+	 Cc:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=VLbnCl77bnDCskStlab/2GGRU3BGp4yGfEqo5XUOs+j+DdrT1tErU1JDwy/jSPGt
+	 ucnSVlsmt6W8BY7wfPztJ0dPkDMmcTxdJ6yR0dLL9EGfOwELoOtwI2ZQFDB7hJrFZ
+	 24VnlpbPJILNUm02e58OjBTDtR61fTuAcWkmuJ1Lsv2RTubCwh36zu8wsegNZxkdn
+	 QPhn6j1zKTq4oHUyedcQvTlU59xZfFvv6SLv/G178GJrlmAFE+uCulyUuW6ZDdE2G
+	 l2zvWjzc9qqWC//V12NvGm+cpdIYWe9XttntcGvJXBNaA2MwI+Mnr62vdNjOJZ9u7
+	 wpCE7zkRxNQm3kI/Eg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MA4bO-1xgOcO21gA-006a4Z; Sat, 21
+ Nov 2026 17:33:10 +0100
+Message-ID: <ab46a205-d1c4-48f2-8891-4de667f8ebf1@web.de>
+Date: Sat, 21 Nov 2026 17:33:06 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,110 +79,263 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="GYTIzekBzJjw16ds"
-Content-Disposition: inline
-In-Reply-To: <2026112040-splashy-power-2d46@gregkh>
-Jabber-ID: bertrand@jacquin.bzh
-X-GPG-Key: 0xA3B5C016618D9AAA
-X-GPG-Fingerprint: D71B FE62 F66F 3C8B 1A25 A461 A3B5 C016 618D 9AAA
-X-GPG-URL: https://keys.openpgp.org/vks/v1/by-fingerprint/D71BFE62F66F3C8B1A25A461A3B5C016618D9AAA
-User-Agent: All mail clients suck. This one just sucks less.
-BIMI-Selector: v=BIMI1; s=default;
-
-
---GYTIzekBzJjw16ds
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Content-Language: en-GB, de-DE
+To: linux-usb@vger.kernel.org, openbmc@lists.ozlabs.org,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Avi Fishman <avifishman70@gmail.com>, Benjamin Fair
+ <benjaminfair@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nancy Yuen <yuenn@google.com>, Patrick Venture <venture@google.com>,
+ Peter Chen <peter.chen@kernel.org>, Tali Perry <tali.perry1@gmail.com>,
+ Tomer Maimon <tmaimon77@gmail.com>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH v2] usb: chipidea: Use devm_clk_get_optional_enabled() in two
+ probe functions
+Cc: sashiko-reviews@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+ kernel-janitors@vger.kernel.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
+ Florian Fainelli <f.fainelli@gmail.com>, Frank Li <Frank.Li@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:qa0Zm20PhwI+l7EB09aMt9rkzuTOEgQgcW0Iftqs/AYHOgeiq04
+ MffT33zE9VaZ7tMqgUW2F57LzyviXpi99fw+yiVdZKjUA3Ag6w237ngLe6UZ6tG0hOFI9jW
+ L0Hk+MJwQeBOlm+l5nlZ834Mu9VRrneSXxE2NLcnwkPbJ09FKwEmX3GWwS/iRz9JyuMkry2
+ PVg3BTL+wOcqkfeTMoLiw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:mWywF0oAKec=;C/OPxiawL6H4zEC53h0jGwKUNeg
+ 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
+ oY9dLsljIkh2YH3MX4pCC+h8XeeCsoAWeF57+ug=
 
-Hi Greg,
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Sat, 21 Nov 2026 17:06:32 +0100
 
-On Friday, November 20 2026 at 13:29:13 +0100, Greg KH wrote:
-> On Sat, Oct 10, 2026 at 01:03:57PM +0100, Bertrand Jacquin wrote:
-> > ucsi_register() creates the debugfs entries right away, but
-> > ucsi->connector is only set by ucsi_init(), which runs later from
-> > ucsi->work and only publishes the connectors once the PPM has been
-> > reset and all ports are registered. Until then, or for good if init
-> > fails, ucsi->connector is NULL, yet the peak_current, avg_current and
-> > vbus_voltage show callbacks dereference it unconditionally.
-> >
-> > On an Intel NUC13ANKi5 whose PPM never answers when CONFIG_ACPI_EC=3Dn,
-> > reading those files after the failed init oopses:
-> >
-> >   ucsi_acpi USBC000:00: error -ETIMEDOUT: PPM init failed
-> >   BUG: kernel NULL pointer dereference, address: 000000000000045c
-> >   #PF: supervisor read access in kernel mode
-> >   RIP: 0010:ucsi_debugfs_register+0x291/0x420 [typec_ucsi]
-> >   Call Trace:
-> >    <TASK>
-> >    seq_read_iter+0x1e4/0x4c0
-> >    seq_read+0x12b/0x160
-> >    full_proxy_read+0x9a/0x1f0
-> >    vfs_read+0xba/0x320
-> >    ksys_read+0x74/0x110
-> >    do_syscall_64+0x79/0x240
-> >    entry_SYSCALL_64_after_hwframe+0x71/0x79
-> >
-> > Return -ENODEV from those callbacks while no connector is available.
-> >
-> > Fixes: c851b71fd6cd ("usb: typec: ucsi: Add support for READ_POWER_LEVE=
-L command")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Bertrand Jacquin <bertrand@jacquin.bzh>
-> > ---
-> >  drivers/usb/typec/ucsi/debugfs.c | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >
-> > diff --git a/drivers/usb/typec/ucsi/debugfs.c b/drivers/usb/typec/ucsi/=
-debugfs.c
-> > index 77a0dd75edd3..911a151ac16a 100644
-> > --- a/drivers/usb/typec/ucsi/debugfs.c
-> > +++ b/drivers/usb/typec/ucsi/debugfs.c
-> > @@ -92,6 +92,9 @@ static int ucsi_peak_curr_show(struct seq_file *m, vo=
-id *v)
-> >  {
-> >  	struct ucsi *ucsi =3D m->private;
-> >
-> > +	if (!ucsi->connector)
-> > +		return -ENODEV;
->=20
-> What keeps connector from changing to NULL right after you read from it?
+* Reuse existing functionality from devm_clk_get_optional_enabled()
+  instead of keeping duplicate source code.
 
-ucsi->connector never transitions back to NULL. only ucsi_init() writes to =
-it
-through ucsi->work where it's assigned only once, after all ports are
-registered. Every failure path before that assignment leaves it NULL and ne=
-ver
-cleared afterwards.
+* Omit a clk_disable_unprepare() call on error handling paths
+  and in the implementation of two remove functions.
 
-The only end of its lifetime is ucsi_unregister(), which calls
-ucsi_debugfs_unregister() before kfree(ucsi->connector).
-debugfs_remove_recursive() waits for in-flight readers to drain (the
-full_proxy fops hold a debugfs_file_get() reference and
-__debugfs_file_removed() waits on active_users_drained). Any read
-after that fails with -EIO. So no show callback can run once the
-array is freed.
+* Delete the label =E2=80=9Cclk_err=E2=80=9D.
 
-A reader can therefore only see NULL (init still pending, or failed
-for good, as in the reported oops) or a valid array, and the check
-handles the NULL case.
+This issue was detected by using the Coccinelle software.
 
-Cheers,
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
 
---=20
-Bertrand
+V2:
+Sashiko provided hints for further development considerations.
+https://sashiko.dev/#/patchset/6d2450cf-9bbc-47b6-9ea3-f91bc1b91371%40web.=
+de
 
---GYTIzekBzJjw16ds
-Content-Type: application/pgp-signature; name=signature.asc
 
------BEGIN PGP SIGNATURE-----
+ drivers/usb/chipidea/ci_hdrc_npcm.c | 13 ++-----------
+ drivers/usb/chipidea/ci_hdrc_usb2.c | 15 ++-------------
+ 2 files changed, 4 insertions(+), 24 deletions(-)
 
-iJEEABYIADkWIQSg5iBnnersLYwElb5VNIcfLi6T2gUCawHB7RsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQVTSHHy4uk9qw+AEAvZ8B18m9//IL7NJkDi/w
-pIafHYGz3lnNS0AO97123uQBALh65kt7IvInscJ3ksEIje2IoJiWyBmntSFLzBuw
-TzkN
-=KBWo
------END PGP SIGNATURE-----
+diff --git a/drivers/usb/chipidea/ci_hdrc_npcm.c b/drivers/usb/chipidea/ci=
+_hdrc_npcm.c
+index 75a0223b578a..4b608f2bb383 100644
+=2D-- a/drivers/usb/chipidea/ci_hdrc_npcm.c
++++ b/drivers/usb/chipidea/ci_hdrc_npcm.c
+@@ -47,14 +47,10 @@ static int npcm_udc_probe(struct platform_device *pdev=
+)
+ 		return -ENOMEM;
+ 	platform_set_drvdata(pdev, ci);
+=20
+-	ci->core_clk =3D devm_clk_get_optional(dev, NULL);
++	ci->core_clk =3D devm_clk_get_optional_enabled(dev, NULL);
+ 	if (IS_ERR(ci->core_clk))
+ 		return PTR_ERR(ci->core_clk);
+=20
+-	ret =3D clk_prepare_enable(ci->core_clk);
+-	if (ret)
+-		return dev_err_probe(dev, ret, "failed to enable the clock: %d\n", ret)=
+;
+-
+ 	ci->pdata.name =3D dev_name(dev);
+ 	ci->pdata.capoffset =3D DEF_CAPOFFSET;
+ 	ci->pdata.flags	=3D CI_HDRC_REQUIRES_ALIGNED_DMA |
+@@ -67,17 +63,13 @@ static int npcm_udc_probe(struct platform_device *pdev=
+)
+ 	if (IS_ERR(plat_ci)) {
+ 		ret =3D PTR_ERR(plat_ci);
+ 		dev_err(dev, "failed to register HDRC NPCM device: %d\n", ret);
+-		goto clk_err;
++		return ret;
+ 	}
+=20
+ 	pm_runtime_no_callbacks(dev);
+ 	pm_runtime_enable(dev);
+=20
+ 	return 0;
+-
+-clk_err:
+-	clk_disable_unprepare(ci->core_clk);
+-	return ret;
+ }
+=20
+ static void npcm_udc_remove(struct platform_device *pdev)
+@@ -86,7 +78,6 @@ static void npcm_udc_remove(struct platform_device *pdev=
+)
+=20
+ 	pm_runtime_disable(&pdev->dev);
+ 	ci_hdrc_remove_device(ci->ci);
+-	clk_disable_unprepare(ci->core_clk);
+ }
+=20
+ static const struct of_device_id npcm_udc_dt_match[] =3D {
+diff --git a/drivers/usb/chipidea/ci_hdrc_usb2.c b/drivers/usb/chipidea/ci=
+_hdrc_usb2.c
+index b0200c5937cd..0cff5486e9c0 100644
+=2D-- a/drivers/usb/chipidea/ci_hdrc_usb2.c
++++ b/drivers/usb/chipidea/ci_hdrc_usb2.c
+@@ -70,16 +70,10 @@ static int ci_hdrc_usb2_probe(struct platform_device *=
+pdev)
+ 	if (!priv)
+ 		return -ENOMEM;
+=20
+-	priv->clk =3D devm_clk_get_optional(dev, NULL);
++	priv->clk =3D devm_clk_get_optional_enabled(dev, NULL);
+ 	if (IS_ERR(priv->clk))
+ 		return PTR_ERR(priv->clk);
+=20
+-	ret =3D clk_prepare_enable(priv->clk);
+-	if (ret) {
+-		dev_err(dev, "failed to enable the clock: %d\n", ret);
+-		return ret;
+-	}
+-
+ 	ci_pdata->name =3D dev_name(dev);
+=20
+ 	priv->ci_pdev =3D ci_hdrc_add_device(dev, pdev->resource,
+@@ -90,7 +84,7 @@ static int ci_hdrc_usb2_probe(struct platform_device *pd=
+ev)
+ 			dev_err(dev,
+ 				"failed to register ci_hdrc platform device: %d\n",
+ 				ret);
+-		goto clk_err;
++		return ret;
+ 	}
+=20
+ 	platform_set_drvdata(pdev, priv);
+@@ -99,10 +93,6 @@ static int ci_hdrc_usb2_probe(struct platform_device *p=
+dev)
+ 	pm_runtime_enable(dev);
+=20
+ 	return 0;
+-
+-clk_err:
+-	clk_disable_unprepare(priv->clk);
+-	return ret;
+ }
+=20
+ static void ci_hdrc_usb2_remove(struct platform_device *pdev)
+@@ -111,7 +101,6 @@ static void ci_hdrc_usb2_remove(struct platform_device=
+ *pdev)
+=20
+ 	pm_runtime_disable(&pdev->dev);
+ 	ci_hdrc_remove_device(priv->ci_pdev);
+-	clk_disable_unprepare(priv->clk);
+ }
+=20
+ static struct platform_driver ci_hdrc_usb2_driver =3D {
+=2D-=20
+2.56.1
 
---GYTIzekBzJjw16ds--
