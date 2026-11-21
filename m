@@ -1,55 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795273526;
-	b=IqOa0W7BrmeZDk3jj2/TdNC8A1cW7TPKIZF8Kjsvj2gsRn7aIlNdGx6q04JblZJX+dJB
-	 dxIYE3Zy41ohmeRghC8mSgYIaKewnt0b++XjGbKJozD/Rgnsx4vHXlRx5AvYyUSEpfR2q
-	 yIUDo8COEqnacyNRxDU9MrnZNIt9mhaxTGMglc7PZU1pHr1QYNUpoLyshFKTLQOuCWapk
-	 rbaQiczrzc2S+47QN+UixYavVePyFtlFZKN0/mLaRzYI/TzRbFAm5RBXva+TfHq91Wh/E
-	 66Xxbi5Lk0Mr73m7x0L905wT5iFGxau54/3HXnjmbobda2cZXJsoPdW++yNC3uTsPWQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795273526;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=b3v8Ok6vLhsxDGhUTy/8AADVesxr/FJ5uIcaDNO21kg=;
-	b=NvLlCU72iMWrrT18Qj1kYrXrnzfO3gDZjxjvIgrG+6dddzUcaatf4CHBFLk7tCxqaQS0
-	 tE17bVpoZAnm5WefwRmxUOw65y5MLsV9e0NljnWW/0yk9vhX5Uo1GuQhSz9HwL07SSHTy
-	 6je7nWNjfEkJc6s/Xb/YQpCDO+J6c03PqgD9KRRBbx+GaPGWIRtr+HcYqYZhH0hF7aJm8
-	 iFWeGIUt1VV4sTBi6LN4vOrM5isFgfcpifElSoTSArs7m39KYGoe1/wAq5LUhku0PZz8D
-	 16DMEV+qft+lskJYqLRy6Zsg5Ig5xz/Yu8f6RM6SxkhN8Oaw1wZzsPMrRzD4p3D6Pyg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uu8eFBmW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.172
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795273636;
+	b=gs76hXfFAWHpgnIMCZJDDN26T7Pq20cQsP0ryMmIfxNsL0Hax/s1wNEW/B8RE6Stheb+
+	 LoPwAzMavHDGuW8/gV3y/h6DcFWgRF/JtQYPyjJPp7wmZHTjENV32eZqRP/1f1omWcg5o
+	 awwYX5EyCi0nRdbHJmPvc1qTnfKeEX8sWTAtaJ+1qKpirrs+j0USqb0ABAJdlXe0R3h5t
+	 UwlGergBFAJ3qSUQEJDL3DhuOy2tk4J+AGPZtp/MdyWWyoqN++ELMs7sBAOyK3xqGD3hT
+	 FjxiKbi7fote9LRrcD65P2RKxXdQoepW6gtZvQ7bIEHlNHewcxT67rc6PUGqwM3ZuEg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795273636;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=9P+LQP77QaUXhnPvf9lJxnDJFTqEEgKYM6Pv7OT70pU=;
+	b=sYFITrncP+1/HLBSVxYpQqNAS1SlpJTUGZsPEMFFBSifIF/hOLRRqFUbGR/uv7h7ZP4X
+	 YL227CmITjkPUsGwqKSq6KGNrgbhWHrDFDcWDItz3fO2bjYdG1Hl4nCf4deaOYrVJLLjk
+	 RcxFNll/cyrKFXXeZuln25HmRO8QbWSZRw5UGjcHkcjGOW/yf9RDrQ/8tLd/rzGX8SEQa
+	 QZ09fbMK/2TzxagNUYVRonP9zHtVQDM/meIFS4QZLHHd4MuoayGGMhtl4VvLptRBB8kIk
+	 HVslnSAw5B1SfHs4fBAnojHGYnciJHQ1FVrxfLBYantxLSZGV6vpqhklfsU8JWl8ZBA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jwvgqvAy;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.172
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B29606A320
-	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 15:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49156606A32C
+	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 15:07:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49156606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uu8eFBmW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFC161F000C0;
-	Sat, 21 Nov 2026 15:05:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795273525;
-	bh=b3v8Ok6vLhsxDGhUTy/8AADVesxr/FJ5uIcaDNO21kg=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=Uu8eFBmWugsQH7Wl0EyQIodkyuVt3s2zXHC3uvhxPGjaXN1jPkt+OigsXg29p1q53
-	 zYWwI6f/F4K66ia3QFW88MEEcDRaoUrvxM8SxKESmitBxM8A+eF1NgQn9uCnCLZF5t
-	 upR+sTeZTCYUlIFOjTB1S1PhgfjalrN9i8rXp5MGoG7SsgGYWci54BTrYUv2gIRB2X
-	 8Kdtc+jJWS7PhgS9yuA5K9siXhAZ6F/EhtZJwmqkAgTTgDCOstpA9DLzo8/8ehymY+
-	 aZi5e0TAF2BvbdyT/b0hibTqj7ZZT37AYM/m6RWkY/j/4WxJiZdqT1JYk6fjjd7ef5
-	 6GD47To6FAF+g==
-Message-ID: <sashiko-outbox-227115@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: bdc: Use devm_clk_get_optional_enabled() in
- bdc_probe()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Markus Elfring" <Markus.Elfring@web.de>, linux-usb@vger.kernel.org
-In-Reply-To: <cc916c01-fb49-43ae-ac08-047f5fc5001e@web.de>
-References: <cc916c01-fb49-43ae-ac08-047f5fc5001e@web.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Nov 2026 15:05:25 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jwvgqvAy
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2f05bc71e01so5157275ad.0
+        for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 07:07:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795273635; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fzFsLofWAG5izjIfqOO9VMHSmQezF99GiahHy9xAAIc6TsNw9qL1TcM0TLXu7i/ReD
+         Hdb1h3nffIXTbWDlFkEjvfJe701DPQw1GVF98gZZTq7f3ztCoy72boGn1hmnUq/8/QEM
+         HhUcNhdHr8sBfQFRGUTGLntmebbeNo/KatDoIyp9AaSN4XUYIuyW+pcFw8p7p4nnRt9R
+         8UC+U3H+Fs1ksUYfnSVO1I6ais17mQJz5yapNbf2q1NtLxHqorVczi7C6Lt23MuLtjqw
+         9iiRZsqG4tpZp95rto5IDKwnT6VnvDcp1b1QkaCd/1c8aDN2lilzEh9visHLHn96hICC
+         hqfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9P+LQP77QaUXhnPvf9lJxnDJFTqEEgKYM6Pv7OT70pU=;
+        fh=gDE+ftcJgwqlFpaeVNXSL+OkXdzFf9WJRUioZc9sKbk=;
+        b=sZGcjTLdt9J2D3V08sWjX4l+dv/ZJ+5fh7ywwGIt4nvbDzn7It0rN6FUAGUoLgox2x
+         eqXzpXYs3tmRkqt/50bgWcXeigDPTIlc4ODEsThETFLx2OsVPlYzDZvauWB8UJobDncY
+         WgccZ+xaKYkjF7gf5gx3J1rFuPMqko9gysq5zZ7iDkZbML5yKtpm+Myjjuywef5KECxI
+         JIEu2cykF/F+gDLMzLrVNEaMSDrncHNsmNFQ90Lvy8r+zOiIEmOaIn4U+w1Z1AuyzkKe
+         VPfne/a6EiJiAGa+NaSuzgg2uDLJKmoBb4gCaATGpKDL8ghZeCL3W8Hl2UAJxnfAUpZo
+         SxXQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795273635; x=1795878435; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9P+LQP77QaUXhnPvf9lJxnDJFTqEEgKYM6Pv7OT70pU=;
+        b=jwvgqvAy+HFdrbgRBQzm8tLOrQdYmeeaizGotF+jFTM+0VUlB2BKmqMof1+xUo18M4
+         h/IUDLO8wR1CvDL/BkNVg7LwITGupGOeMtBR1fg7tOAk0spDl9HDxozPLLLWX08O4vkl
+         g3TpSPqoPUH615HHVrbi3eM7eijbHaqr4d5rssbYUSvd5nJ3IcaoVVkyx5dwG4AxhEWo
+         UcZeVversl4+LskyFTs13TY8JJZKf2MuUQUHHP4xNOvUVVSLv+ApJEBeOlcmXSqR/kaB
+         k25sVwdgzcoFB1eI+TOiyP2uw9rRDswLTyLs/Nqqa2QhdCeNrelikCRBj0clulHO89Q4
+         z2hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795273635; x=1795878435;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9P+LQP77QaUXhnPvf9lJxnDJFTqEEgKYM6Pv7OT70pU=;
+        b=SXsIMf3vFIBqR3mPlbZSpcyhJbh4CMpgh7usiZHHP13UvAhKIhle0SFpWnboMQh8qm
+         pir1lp/ULgL8B2a2/+aco7c2scymVXrxXbjM+/XhG467eB06qtjNPd+4Q6CKxl6R2glN
+         ESwtlcEAnz++jKDrzs9pSdtlaHjn9CKqgtAIq4mmqgeTLEH0CvFcoU5TUPlx3BtpuWqD
+         9RQTlsT972uK74xMAl3NgCrxn3qTPl4AhPn2HowWZlgE8QHUti7YKDCudh/RTaBA5nzX
+         ZBJfTiQnuCtPDkc/RjbsSfd6lqj6ffoaIe0oYjxXK1OEBjzdMVAsHrftlWrdpU2L8sCy
+         e5OQ==
+X-Gm-Message-State: APuU4Z/esUGWI4m1Ijbcyng9JUoTp5Kr1x4jORgzNRy8+i4EF8F4Vro1
+	ZpXxNDiTgJJe6H74IykC0qesIWA2h6DyPJEd4p++d0VPv2UYIm1jziPp50tjd5BDczNgz0rtevg
+	yhPVoxBiICfI7RnKjK6pWX85ZeLrgAIi5u0w/Cp9A9D+l
+X-Gm-Gg: AZFdTZfeZMOkZ44uTU6MATWLIv2t2GXJRJF0HcJRrw5m+Cg87dsciCeQoPhpEC+IHaQ
+	91I9zUaAItTgVpbb5nOVJ9TrgczBgdl1zCUsvmwpMNrF2BSW4Vd9XccmnHtyypWxh146nav5Qsm
+	ODolwEjCHKY8ywiGisN+g71pES/hTCEkwgnAA6CIUX0+2dn/jDRzJQcNt5WScIosmtL+3JLYG0y
+	jzDkiPrCb+36AmLsuhb2S5iLirb9nrNQdzsybgyP99RORPyaE2BMgb7KfR2jqUT0nLlHHmoLNVR
+	o7i3uZdPKyj64jTYpUprt9U2PHx9T3dWOjzrBs0TAtUI5xgcXrRSFzvflzSkGF4OxFyjo4jwrlW
+	YrsmSJD7YTZ5+OwVIhs5mdY9R9hNNwHzokbZATdA70hxIiEWhXbus4uotPhkgZC4Ang+jA/kDD5
+	qUjdT7p/1YqU9H4t1H2vDughaG
+X-Received: by 2002:a17:903:2f4d:b0:2ea:9012:649 with SMTP id
+ d9443c01a7336-2f03f1ec317mr73144255ad.57.1795273635478; Sat, 21 Nov 2026
+ 07:07:15 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,24 +103,183 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+References: <20261121070804.26185-1-alfonsocvu@gmail.com> <sashiko-outbox-226770@kernel.org>
+In-Reply-To: <sashiko-outbox-226770@kernel.org>
+From: Alfonso Villalobos <alfonsocvu@gmail.com>
+Date: Sat, 21 Nov 2026 09:07:04 -0600
+X-Gm-Features: Aa3M54rGHRzfUSOp8ujaJxpTAz5H4ROSkXJLOnO3uUt3NShcUdp4Z92hpWXGRLI
+Message-ID: <CAJ=mrFowQNahOjD-NQzcuJCjPE=efvDK85kMpseRUrqYBwX3Sw@mail.gmail.com>
+Subject: Re: [PATCH] thunderbolt: Re-add host router DP IN adapters after DPRX failure
+To: sashiko-reviews@lists.linux.dev, westeri@kernel.org
+Cc: linux-usb@vger.kernel.org, andreas.noever@gmail.com, YehezkelShB@gmail.com, 
+	Alfonso Villalobos Ulate <alfonsocvu@gmail.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Sat, 21 Nov 2026 15:37:14 +0100
->=20
-> * Reuse existing functionality from devm_clk_get_optional_enabled()
->   instead of keeping duplicate source code.
->=20
-> * Omit a clk_disable_unprepare() call on an error handling path
->   and in the implementation of the function =E2=80=9Cbdc_remove=E2=80=9D.
->=20
-> * Delete the label =E2=80=9Cdisable_clk=E2=80=9D.
->=20
-> This issue was detected by using the Coccinelle software.
->=20
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+Hi Mika, hope you're having a great day.
 
-Sashiko has reviewed this patch and found no issues.
+I'd like to check the direction with you before doing v2. After the
+Sashiko review and looking closer at how host router DP IN adapters
+are handled, I'm not sure v1 fixes this in the right place.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cc916c01-fb49-43ae-=
-ac08-047f5fc5001e@web.de?part=3D1
+The DPRX failure happens when the RX 9070 XT feeding 0:10 is in BACO.
+With runtime PM disabled for the GPU it always works. After the
+failure the host router never sends a hotplug for 0:10, so it stays
+unused until something triggers the re-check from v1, here me
+replugging the dock at 00:27:26:
+
+  [00:26:36] 0:10 <-> 1:11 (DP): activating
+  [00:26:36] 0:11 <-> 1:12 (DP): activating
+  [00:26:48] 0:10 <-> 1:11 (DP): not active, tearing down
+  [00:26:48] 0:10: DP IN resource unavailable: DPRX negotiation failed
+  [00:27:26] 0:10: DP IN resource available
+  [00:27:26] 0:11 <-> 1:11 (DP): activating
+  [00:27:26] 0:10 <-> 1:12 (DP): activating
+
+The DP OUTs also end up swapped, so the ordering part of v1 doesn't
+work as intended either.
+
+The comment in tb_dp_tunnel_active() and the redrive code both seem
+to expect a hotplug for host DP IN adapters. Is the ASM4242 supposed
+to send one once the GPU starts driving the DP IN? If this is
+ASM4242 specific I can limit the fix to it with a quirk.
+
+v1 also only recovers on a new event. The alternative I had in mind
+is retrying the DP IN a few times with a delay after DPRX fails, so
+it recovers without a replug. Which is better?
+
+I already have fixes for the Sashiko comments (the missing
+tb_exit_redrive() and the ordering in tb_dp_resource_available()) and
+one to skip DP IN adapters that are already in a tunnel, but I'd like
+your opinion before spending more time on it.
+
+Thanks,
+Alfonso
+
+On Sat, Nov 21, 2026 at 1:25=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
+>
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [Medium] thunderbolt: missing tb_exit_redrive() in
+>   tb_add_dp_resources() leaks RPM ref
+> - [Medium] thunderbolt: list_add_tail() in tb_dp_resource_available()
+>   breaks DP IN order
+> --
+>
+> commit 4eedd8886dc180b45204d935f18725051dd0e6a0
+> Author: Alfonso Villalobos Ulate <alfonsocvu@gmail.com>
+>
+> thunderbolt: Re-add host router DP IN adapters after DPRX failure
+>
+> This commit re-checks host router DP IN adapters when a new DP OUT adapte=
+r
+> becomes available or a device router is scanned, keeping host DP IN
+> adapters ordered by adapter number on tcm->dp_resources.
+>
+> > diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+> > index 418ad0a61a5de..1f3dea836067e 100644
+> > --- a/drivers/thunderbolt/tb.c
+> > +++ b/drivers/thunderbolt/tb.c
+> > @@ -109,6 +109,29 @@ static void tb_queue_hotplug(struct tb *tb, u64 ro=
+ute, u8 port, bool unplug)
+> >
+> >  /* enumeration & hot plug handling */
+> >
+> > +/*
+> > + * Insert a host router DP IN adapter so that host DP IN adapters stay
+> > + * in adapter number order. A DP IN that is re-added after it was
+> > + * dropped (for example because DPRX negotiation failed) then gets
+> > + * paired with the same DP OUT as before, instead of swapping DP OUT
+> > + * adapters (and therefore monitors) with the other host DP IN.
+> > + */
+> > +static void tb_add_host_dp_in(struct tb_cm *tcm, struct tb_port *port)
+> > +{
+> > +     struct tb_port *p;
+> > +
+> > +     list_for_each_entry(p, &tcm->dp_resources, list) {
+> > +             if (tb_port_is_dpin(p) && !tb_route(p->sw) &&
+> > +                 p->port > port->port) {
+> > +                     /* Insert before the first higher numbered one */
+> > +                     list_add_tail(&port->list, &p->list);
+> > +                     return;
+> > +             }
+> > +     }
+> > +
+> > +     list_add_tail(&port->list, &tcm->dp_resources);
+> > +}
+> > +
+> >  static void tb_add_dp_resources(struct tb_switch *sw)
+> >  {
+> >       struct tb_cm *tcm =3D tb_priv(sw->tb);
+> > @@ -118,6 +141,9 @@ static void tb_add_dp_resources(struct tb_switch *s=
+w)
+> >               if (!tb_port_is_dpin(port))
+> >                       continue;
+> >
+> > +             if (!list_empty(&port->list))
+> > +                     continue;
+> > +
+> >               if (!tb_switch_query_dp_resource(sw, port))
+> >                       continue;
+> >
+> > @@ -130,7 +156,7 @@ static void tb_add_dp_resources(struct tb_switch *s=
+w)
+> >               if (tb_route(sw))
+> >                       list_add(&port->list, &tcm->dp_resources);
+> >               else
+> > -                     list_add_tail(&port->list, &tcm->dp_resources);
+> > +                     tb_add_host_dp_in(tcm, port);
+> >
+> >               tb_port_dbg(port, "DP IN resource available\n");
+> >       }
+>
+> [Severity: Medium]
+> Does re-adding a host router DP IN port through tb_add_dp_resources() lea=
+k
+> the runtime PM reference on sw->dev when the port was in redrive mode?
+>
+> On host routers with QUIRK_KEEP_POWER_IN_DP_REDRIVE, tb_enter_redrive()
+> sets port->redrive and calls pm_runtime_get(&sw->dev).  When
+> tb_add_dp_resources(tb->root_switch) now runs at runtime from
+> tb_scan_port() or tb_dp_resource_available(), it adds the host DP IN port
+> to tcm->dp_resources without calling tb_exit_redrive(port).  Any later
+> tb_dp_resource_available() call for that DP IN port then returns early
+> because the port is already on tcm->dp_resources (or already enabled by
+> tb_tunnel_dp()), leaving port->redrive set and preventing the host router
+> from suspending.
+>
+> [ ... ]
+>
+> > @@ -2234,6 +2272,14 @@ static void tb_dp_resource_available(struct tb *=
+tb, struct tb_port *port)
+> >       list_add_tail(&port->list, &tcm->dp_resources);
+> >       tb_exit_redrive(port);
+> >
+> > +     /*
+> > +      * Host router DP IN adapters removed because DPRX negotiation
+> > +      * failed never get a hotplug event of their own. Give them
+> > +      * another chance now that a DP OUT became available.
+> > +      */
+> > +     if (tb_port_is_dpout(port))
+> > +             tb_add_dp_resources(tb->root_switch);
+> > +
+> >       /* Look for suitable DP IN <-> DP OUT pairs now */
+> >       tb_tunnel_dp(tb);
+> >  }
+>
+> [Severity: Medium]
+> Should tb_dp_resource_available() also use tb_add_host_dp_in() when addin=
+g
+> a host router DP IN port?
+>
+> When a lower-numbered host DP IN port becomes available via hotplug in
+> tb_dp_resource_available() (such as when exiting redrive mode or after
+> resume) while a higher-numbered host DP IN port is already on
+> tcm->dp_resources, list_add_tail() places the lower-numbered port after
+> the higher-numbered one, breaking the adapter ordering that
+> tb_add_host_dp_in() maintains.
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261121070804.26=
+185-1-alfonsocvu@gmail.com?part=3D1
