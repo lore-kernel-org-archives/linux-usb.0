@@ -1,70 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.222.135.140
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795276435;
-	b=J0IWf+vwVGWWrV3fhfACz4vK3CsluJTVEuc77xy8BqKG26jPkzNv6uUAqAfv5Ce+TXb1
-	 D68GoGcUBAjn84GYgHRIr/qO20RmihuWzN5lCk/7p/IyCYw9kDmvuIgHiMS3seFAwCGO4
-	 3APN70wJXAvrr3D4Ys++wOj1v+pICFqmhtEtfW6gHrgPr8GZp98KQFnsft9Uj54TDVNo5
-	 jPKs226EsHTl5GdkK5Hoa8T3dI6JinvpcF5Wc3OnGCUtF1V2NvsadkoI+zirIiy+Tj4hT
-	 OKYL8UAh7cbTsegdDdm6erssIk980sim3RToTTGnbgXBRhrFftO5KgTtjlQWdOLnkRw==
+	t=1795276670;
+	b=rSeF1W5oweuE4OXack9i9DnLvMRmEFu8YbfNJWI1LD5CQRRkAyhjZvOjmJDKRRHA1ntb
+	 Ll21Essh8hzK3WRt3xNC3IJCzQMg3zc8XyafYdD1b72UQBpIGydDRzuMFEO5PS0VknlhJ
+	 RT1pNm2JB+32eaC2BqXNtYZOWR2gCAsFWWIiUCznbrPTCnvvmiO89Bh8u8W7PPdTqgaZH
+	 gHoV0eUUyOeX98jEIVycOg/azYXRsJvtzeYyfc94Kn3zrcqDQIjLX1guilbAek/puP5CE
+	 xh5yuzyu8vjgVIatEaKI9Cnfw5yeOOhObCPmNvlg/IZz/A/ov52czbooPVf+Jc9tU+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795276435;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-WP-DKIM-Status:X-WP-MailID:
-	 X-WP-AV:X-WP-SPAM;
-	bh=7bBGkEM1F0aiz0suHMTa/EpEpYTAohLosYW6UGvonyY=;
-	b=mS9kQnJvE6EBK5hIAMorCtV8GU5muBss47qcvkQvkWdMIdhd5G7FWEClZG2A13PIsAZh
-	 E5n+u5b0gMj/KIiEQeyQvZ8lHDL2x/4trS4n+EQTQGxxEx85v+ji1BCG688NgzuZBqOXs
-	 UO/q3eN9/aC5BE16+D8QIRlO8+dE2TUdV+iIHnyT5Ey45q10VSP8MgdHpwsPFldKisDZq
-	 OE1LM5T9Pmv9SydLg3d/HiMn43fh5r1eseh0rvh9U5Gy/pYu7CbEzeG8o/OG3JUKjm9RW
-	 1ofo0eCCMGSEzxJYKrKWY3GVO8wpApHdMv9Od+4na7lbC0gNJjwfs5RQYYDZyF1rQ8A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795276670;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=5zXDIt+YR/cC2n8uaWidmuU03YkrK2DXfn0Yz77lWxg=;
+	b=u+BW4hhM6hs6zQ3mMtHxgdn9NVCodRgZ/EcQ/LjJSlPUDjvOAanm8+WPOYvb9K0a5/nD
+	 RAjMoC78/4dMcw15mTVvqNieR57kK2ZGYx7dvSyuMmCa29XMumSZ/qVxYHQu+FO6dc+tR
+	 f2y+DgguODvlo0pnpVxHTggs4jOMr6c9rRbZeANmAdpJzuJdn/JmEtJ1kh0bMZl5R0lMW
+	 Qyq492qf64afhF98CNFWWUzPwaqw5REHHfDAmRjRwqeIqzycI/pgDWFhVkGzAlUYy4Tqh
+	 LVCsVfhPdrkBcjV4X2OtRcA+f+foEYV5jHAHjlb/auM6jCvEe3n3BUA9KEWGhiTApqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=o2.pl;
-	spf=pass smtp.mailfrom=o2.pl;
-	dkim=pass header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=bKUk6b7c;
-	arc=none smtp.remote-ip=193.222.135.140
-Received: from mx-out.tlen.pl (mx-out.tlen.pl [193.222.135.140])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iLF3t6Qc;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC03606A682
-	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 15:53:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FC03606A682
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=o2.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=o2.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4F4606A320
+	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 15:57:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=bKUk6b7c
-Received: (wp-smtpd smtp.tlen.pl 14720 invoked from network); 21 Nov 2026 16:53:45 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=o2.pl; s=s20261001;
-          t=1795276426; bh=7bBGkEM1F0aiz0suHMTa/EpEpYTAohLosYW6UGvonyY=;
-          h=From:To:Cc:Subject;
-          b=bKUk6b7c+J7q4KDaxnIavfJr3SPh3UoqWCH2ZhRElFD6vLfGGTki0o0usy/MuKr3N
-           MUFtP5NjhYV1aGTKeb6P4O5WGKNF9Z7X1f15gt62UQ4CcId7cl17Moxuu7PVMkxten
-           6/t1bKBp/XWo6mGeLyTwXSIlylhv7YHvMmrHDLJm77Ilv54IFQqTtUrswKpHqnsloR
-           3S8x0Hq8GMichFGpXeTqcYWaHeIc+fBh7QIEhv/lTKxoz9UvDGwo4r+3AmGz2HiDlc
-           DsLgfRzxpRN+QGLCsHsOL1djyuuJsoUlABEBokI1vTb4sQNee4btT3G8OwGxq7p95j
-           b+qKfrkK2cLXQ==
-Received: from localhost.localdomain (apn-78-30-78-152.dynamic.gprs.plus.pl [78.30.78.152])
-          (envelope-sender <mat.jonczyk@o2.pl>)
-          by smtp.tlen.pl (WP-SMTPD) with SMTP
-          for <oneukum@suse.com>; 21 Nov 2026 16:53:45 +0100
-From: =?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
-To: Oliver Neukum <oneukum@suse.com>,
-	Alan Stern <stern@rowland.harvard.edu>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
-Subject: [PATCH 2/2] usb: mass storage: expose ata_passthrough_disabled in sysfs
-Date: Sat, 21 Nov 2026 16:52:53 +0100
-Message-ID: <20261121155253.4980-2-mat.jonczyk@o2.pl>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iLF3t6Qc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E0A61F000C0;
+	Sat, 21 Nov 2026 15:57:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795276670;
+	bh=5zXDIt+YR/cC2n8uaWidmuU03YkrK2DXfn0Yz77lWxg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=iLF3t6Qc19upftbqgb8TGukSQu4hxnUaZH4F8ihwO6qkkDUeNvz/wrEcqdpvI4z9V
+	 rNuKJy1Eg1/D3u7pT8+1u10+Q8U4nzptZc4e2PKLwlFgRGgLgrUKgdoSTrXMl5e2VB
+	 8tx3NBaqPSitFX3Of2glfBGV/AiBfXgMB1MN0tmcSyD8oXnd8cBDwfqhkH4eVWqOQ1
+	 zo07QQqS08t2ub4psmYAy/yXeE27QwVtUxZ/xnGfgHmi60NmBCub0idQTaFbiN2eRN
+	 gItCMV5Vh0gtE9hyxtq12xy8xlVY+QtqpVXx+4DeJqq5G/7hrHV5ilCzGHC8ZBjsrQ
+	 5sNFJnnZH6jrw==
+Message-ID: <sashiko-outbox-227141@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/2] usb: uas: expose US_FL_NO_ATA_1X in sysfs as
+ ata_passthrough_disabled
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?TWF0ZXVzeiBKb8WEY3p5aw==?= <mat.jonczyk@o2.pl>
+Cc: linux-usb@vger.kernel.org
 In-Reply-To: <20261121155253.4980-1-mat.jonczyk@o2.pl>
 References: <20261121155253.4980-1-mat.jonczyk@o2.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 21 Nov 2026 15:57:49 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -73,59 +59,9 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-WP-DKIM-Status: good (id: o2.pl)                                                      
-X-WP-MailID: 4a983041922b4c62b7c16f818300dc54
-X-WP-AV: skaner antywirusowy Poczty o2
-X-WP-SPAM: NO 000000A [gXPk]                               
 
-The mass storage driver blocks access to ATA passthrough commands for some
-devices it considers buggy. As in the case of the uas driver, indicate
-this in sysfs.
+Sashiko has reviewed this 2-patch series and found no issues.
 
-Signed-off-by: Mateusz Jończyk <mat.jonczyk@o2.pl>
-
----
-
-v2:
-- add this patch to the series
----
- drivers/usb/storage/scsiglue.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/usb/storage/scsiglue.c b/drivers/usb/storage/scsiglue.c
-index 97de28e85562..43198888449e 100644
---- a/drivers/usb/storage/scsiglue.c
-+++ b/drivers/usb/storage/scsiglue.c
-@@ -572,6 +572,18 @@ US_DO_ALL_FLAGS
-  * Sysfs interface
-  ***********************************************************************/
- 
-+/* Output routine for the sysfs ata_passthrough_disabled file */
-+static ssize_t ata_passthrough_disabled_show(struct device *dev, struct device_attribute *attr,
-+					     char *buf)
-+{
-+	struct scsi_device *sdev = to_scsi_device(dev);
-+	struct us_data *us = host_to_us(sdev->host);
-+
-+	return sysfs_emit(buf, "%d\n", !!(us->fflags & US_FL_NO_ATA_1X));
-+}
-+
-+static DEVICE_ATTR_RO(ata_passthrough_disabled);
-+
- /* Output routine for the sysfs max_sectors file */
- static ssize_t max_sectors_show(struct device *dev, struct device_attribute *attr, char *buf)
- {
-@@ -602,6 +614,7 @@ static ssize_t max_sectors_store(struct device *dev, struct device_attribute *at
- static DEVICE_ATTR_RW(max_sectors);
- 
- static struct attribute *usb_sdev_attrs[] = {
-+	&dev_attr_ata_passthrough_disabled.attr,
- 	&dev_attr_max_sectors.attr,
- 	NULL,
- };
--- 
-2.47.3
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261121155253.4980=
+-1-mat.jonczyk@o2.pl
