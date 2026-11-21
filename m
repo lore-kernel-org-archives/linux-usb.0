@@ -1,102 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=68.168.211.173
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795244341;
-	b=40tEguBzKe5UIxnSba5Cbpl1rW1VC2xC+0CfdGmT8jH33wUyppwp4YHIHMBkR2l6esxU
-	 HCEK0h+BGP1CRhD5NpBdzuRl+RjvV1uCbn4xr75XLsilwW7bzbvFew/1EK/MfDEuHJ5Dw
-	 MKCheUlf2rZ5Vd9obniF5P9Zw7rbQcwxKOr/hjaTI75ogspmWAtWhAfymctxem3JCr6bD
-	 6b/JEIyicic18fYe9H25LjT1O6LKUVkH5hHkDN/W/q7iM9/D5NytUEma5hd8bSKW3urQO
-	 47/Wpd6hOZOwOolhuq+iunMnuj9OBoxjtjVCikI+Zn5J7dlga8i6zh7pg1SH0jnMV9w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795244341;
-	h=DMARC-Filter:DKIM-Signature:Received:X-Zone-Loop:X-MB-ID:Feedback-ID:
-	 X-INTERSERVER-ORIGIN:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:Thread-Index:Content-Language:X-AuthUser;
-	bh=vB6aW7KMflR4R3MBYU1ro1EnDsiSwPynpZxpAQKLXS4=;
-	b=QKx1r8hguXki/mU5wj31p25CoicrcyftV2nwSeIpiTJemU+18uXvzJWV8ObjglZGezIB
-	 YipVZdaKpFDWrPNIUwHhsIkRi8wAAZbu30QjtdG4J2Y1jVJn3nTaMIi0V2evM+WLdl9zO
-	 kOGAdbDEjK9SSi2PKGJnJ94KMzEfiwetoTj6B9bNFG6yyvc7YmIIy9zLRViQoIXZs5YD9
-	 O78GzfxX995NdrMADpg6iPFceZgQsM6lu8ny1CvKbC8h055cu2liu3MWkwZ0Ud6ICOOEC
-	 xRHWBbXS9w7UklZiBhaKqTIqQeZoJ2jzDR/KYCAHmvbty97t/sKLJ4tD9r/4/FL9d7w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=albefly.com;
-	spf=pass smtp.mailfrom=albefly.com;
-	dkim=pass header.d=mailbaby.net header.i=@mailbaby.net header.a=rsa-sha256 header.s=bambino header.b=Urusk4JF;
-	dkim=pass header.d=albefly.com header.i=@albefly.com header.a=rsa-sha256 header.s=x header.b=KcSUItTm;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=68.168.211.173
-Received: from relay2-r.mailbaby.net (relay2-r.mailbaby.net [68.168.211.173])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.53
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795244895;
+	b=ko8c7DrWdQVhbno4RDhikZwTFbT0RlKofzjNrJPb0zzS0GjwWnAzRL1RkGW2wWfXk90Z
+	 vCKTyHTGKeAOAGhDodB1LXcIU9dt94nN62N/t08cM02+g+y/1MWLFxzfc2rzkzGOiHr/f
+	 CceQE/GyD5tlkyaXdr42U45cgL9GIVmDeR9EgOCErNy1NSVEPkfL4C7nsSDYmGX4JbCOK
+	 wDWSNbHHXD7Imk/5hLEwqkIFlyTxxp8IjKa4Kd430l57zgX5SBkkWsPfPWxOdvOghzR5m
+	 G4nur7MfiypGapDtW2jUsDwycPvkmMkq7M9yft4+yFhxn8sk/wjCLZNhXIK+l1j9TWQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795244895;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=jggiWoga1NJk7y9SQGC+twyNAV0WmO0xloKYic2KKGU=;
+	b=HmVvU9zSy6J/FlWEriLq8N8hdl7eDA5q2UTeaIg2k4pjX9ny6Oz94InmimgqSJ8qgVfV
+	 3G7i4UyuF52PyDJBpPTWcHVW1CrZb+xWjwG/l4JH2atfDbb/0KXt8ye6CxJ5blWvSOzET
+	 +5vd1tJCB58XhyRArtRAGQIpunrJnYPpeABhPl2tRSS6pMbUsVEorC5R7gZLlPfcnPZDg
+	 9GNQoXMXYjpGgED460rmkwQ92qEtzEvL4j66uqUQFwoYNCOpf4XdVLChsCfPBo+h/vwrD
+	 ubMBerDXMZMLmY/ZgBJAgCWxxBTxOwjpc7W4fKNaUeBF5yBPQk3XIJVM0HY05W8q41A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=swWh2SPr;
+	arc=none smtp.remote-ip=209.85.210.53
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DC7606A32A
-	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 06:58:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47DC7606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=albefly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=albefly.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3299F606A325
+	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 07:08:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3299F606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.a=rsa-sha256 header.s=bambino header.b=Urusk4JF;
-	dkim=pass (2048-bit key) header.d=albefly.com header.i=@albefly.com header.a=rsa-sha256 header.s=x header.b=KcSUItTm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
- q=dns/txt; s=bambino; bh=vB6aW7KMflR4R3MBYU1ro1EnDsiSwPynpZxpAQKLXS4=;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:content-transfer-encoding:feedback-id;
- b=Urusk4JFn9QczbPxyUdbGXL2eiSRkl6qPThApYODwsllZr5X7hJcWHOS0VPHUsjgTB6Gnr+WP
- dLxkhQryphS8d93zJQlC4HflBS3T4T2/aFmcXokkU0AXeCkGjfOCtenPyCznvAkmGiOi5vpmpai
- DRX2Ov5YVIBybSyeXt8zYV4=
-Received: from da900.is.cc [216.158.229.242] (Authenticated sender: da900)
- by relay2-r.mailbaby.net (MailBabyMTA) with ESMTPSA id 1a1fce67fc1000625c.002
- for <linux-usb@vger.kernel.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Sat, 21 Nov 2026 06:58:47 +0000
-X-Zone-Loop: 4445dee6191ed36e437582500312ded207d6f24dd2ea
-ARC-Authentication-Results: i=1;	rspamd-cluster18.mailbaby.net;	auth=pass
- smtp.auth=da900 smtp.mailfrom=alex@albefly.com
-ARC-Seal: i=1; a=rsa-sha256; d=mailbaby.net; s=detka; cv=none;
- t=1795244327;
-	b=oe4Ubao6bAfdyKGCXOVTSatJYt/HLF96ehjVQIklMMO6IJo6r7iIJ/A6ZInRRsk/RfM/im
-	ICiKKnEtMxSJV6jVrcK81VyMPEazRf2fduuQPpAMW2pN6fVofA/eAC04/DuuOpAfRo+raV
-	5PF9kBJYRWLLJjf8odCTlTHwmdEyi7iNsYdWVmMCvmHCBTK8+SFbhTv+/dRZcmSFYIeIqp
-	x8WXfrTNwZJ/T8gTFaHXFGGXbBTZ+xjSzFKBVF2HiKIunI/rMoUrJHo6Ebeg97QaFp8jwv
-	OBBcRsFx61Hrvuenj9jfGSqlVrKDrkTXdGKo1Kk8496bXkunPe3+x593zL5cxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailbaby.net;	s=detka; t=1795244327;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
-	bh=vB6aW7KMflR4R3MBYU1ro1EnDsiSwPynpZxpAQKLXS4=;
-	b=eq61z1Qyz9P8+PNBdp3XLolNQUA6v9mcjd9xUcudrp7L53zg4IvubDfRKuYsvlqwIwqIGq
-	nLj4Epn7crMdEfqyBmHoZ+XNki9b+F1225P7kp3QtsS2hazqhUMLlsazFl/Y1xOter8IOy
-	Y8NwPDwwI8aJGCUOANxpYSfNnXtNmlFcdZ8eusQxFmV4WTstzO0HkNHGA+AimEPuL8dH8f
-	Vg5ZxJu/RQjUq9h3hKCsqiup5jgxC/4ZM56hmYlKo71+wOZj263sZNultM06T9yjlGrM/b
-	vf8puckz9le0Lq8haCE4UXq6nkMP1btOLH4lKYQ3XJFr4GvKienXbM72BHlCoA==
-X-MB-ID: da900|alex@albefly.com
-Feedback-ID: da900:albefly.com:5b7b42465846515d4153555a4b5d78:mbaby
-X-INTERSERVER-ORIGIN: PASS
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=albefly.com
-	; s=x; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:
-	Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Id:List-Help:List-Unsubscribe:List-Unsubscribe-Post:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=vB6aW7KMflR4R3MBYU1ro1EnDsiSwPynpZxpAQKLXS4=; b=KcSUItTmusTHWoKKsO4jADOWNc
-	K7FkQWSP1ymG8ZbcIS89btaU9DIXtSnOW6O8ZzqOLLlf6BGDelRU/oyaLxs999hDEOLVeXJv05HY5
-	QC0hAe1s+/l1h6WxiiWZ2JTWXJGKdORWqhzw2EQgwp3xbHwr+kll3krBVD+IobTM+VidUxgVEIAph
-	k5GvHOH5J1SXixJSOBmBAbdmILTqjtp9Kv5Ih/vcs4+DINKPjVRfeckJTx+L+mNUenFbkWfUd5rE6
-	h3ZWaO/mpMnQICYm5R0Jwhcrtn+qQo5qmTn7d0i167t8eVKqdPK9/5nTGodwYJkAITlmZ55tvgihm
-	AVpKY+OQ==;
-Received: from [47.197.78.70] (helo=AlexDevHomePC)
-	by da900.is.cc with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.100.1)
-	(envelope-from <alex@albefly.com>)
-	id 1xUf3f-00000000CBi-0XLl;
-	Sat, 21 Nov 2026 01:58:47 -0500
-From: "Alex Kononov" <alex@albefly.com>
-To: "'Mathias Nyman'" <mathias.nyman@intel.com>
-Cc: <linux-usb@vger.kernel.org>,
-	"'Takashi Iwai'" <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>
-Subject: xhci: unratelimited "buffer overrun event" warning floods log (~7000/s) with USB S/PDIF capture device
-Date: Sat, 21 Nov 2026 01:58:44 -0500
-Message-ID: <001801dd7985$c068fc60$413af520$@albefly.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=swWh2SPr
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-862b090e3c3so953974a34.2
+        for <linux-usb@vger.kernel.org>; Fri, 20 Nov 2026 23:08:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795244894; x=1795849694; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jggiWoga1NJk7y9SQGC+twyNAV0WmO0xloKYic2KKGU=;
+        b=swWh2SPraKH11s8llPywjH2PX9jXWQPMOYAoqePeiNUBsAZGN9QUOLJmcpjc6G7iJn
+         8gn7kg6htd0zgX45ftC+OHCgiXplujt3uG0MiDbu2Ripsad+Pwhl1gQmGGXVJnVTDVs+
+         CeBT/CvO2So1aPA5ZRhcT5RXfHqo0vQ9OzCjSQ6LbpLKPyFkti24ub/4UBs1c7og5yD7
+         FeaefATMtRz92ehVx+OjwUHpdaVR0g/l1VNvn9kt/iZLjMGXi8x2yOHLQrpIOCnUVdE3
+         sNjQNb2OPXbOD+eEiKAznKKxp+0m2QA1vmQybPO9c8CSPsiDvKAm/M3BrPSl66cbHhvb
+         2V7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795244894; x=1795849694;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jggiWoga1NJk7y9SQGC+twyNAV0WmO0xloKYic2KKGU=;
+        b=IG44K3gwOk8Mh2dgdzBZC8afx1JgTOxEGsiwwxs/UxHSeUT8HI/WjWEOeFIZrui04J
+         qQotuPXD880h8sDMTSV27InK7Gl6GDAlknEVVaVBeuD0IkeuIi0fRQewkzxkxY1w/J6G
+         Y0AVaMXBG/Cwz4oHVOuu55FhptPMT7ORI0a8Qqo9uOy/W28AYxTfnQ0XFz39hPOtgtbY
+         uiJO7k8LQXsv30ejq23LBsY3I6yP1IIjB+v3GvOz9Vc9ckr2CSy+Cwcuku/tXmt3l7Z0
+         aTkULGaaG8fE92Pan+E+AMXSmOnFtMsw5JJqNU3/NYuvL2otuTh51PPaqAtfg4F+oljc
+         hSEg==
+X-Forwarded-Encrypted: i=1; AL+hErHY0zA5rrkiO0t/7FMsOFAIYJryuAC9jlFISIgNI1kmtaBRCWooWmQn2ijbzdub7zr7rIfZYeeAbiI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+TAGNZYLa4mCjbmIG67ZbP67bjO2sKelFAV2zEX1w2y0JBYCNT
+	QloNE2awhZS/xUVK8dnAjexoL1LMyoV+dcH3/nBnIBC4XWYQKBM4c6pp
+X-Gm-Gg: AZFdTZfVOW2Cv3NUF/rKkxcfXrtL4DIo35sZ8F7vYYOxoVgb4Q/DgK7upFGA4PeJBMU
+	qD0JCAf8ZEHcbSFdRyxHWHNZ0e1xgVsoJowqJC6skuiBZRV17gAfDqBkvFUJNFbgIHdXNAOOrR7
+	HXqeEje5bV1WoYQWmboYJE1nEZYL7pGRBYz0o+n5+LQnWKV5o0nJZXLgEvcRekCYT2xtQRxTrnt
+	2cUuVT47cIOWY8t11DjXTdtYzNxEAXAfxTXjQ3fPjeFzwQsRPW8zYIe53XyJcnoeLusJ9RC4xfO
+	MO5vz6tzaB7gW5kydBaBR33n8TgAmuHO7kdVL7FT6GEOf/tVXmz13hb6tMNBu+Aa/w8dU69N1Nm
+	3Y+gjGh9cHJgmS9Xi5NgyOhbwQhslJkVP+pYRvwA+JQiLkYhxKRDC8oxbEtvAKi7wBf1ZwixyeF
+	UFn868BkFuaYGdCLTVoguOAjfyHc1foqk4fX/07NMHffQSH9UYmbX1c09HtXlszk5SM1/AApewN
+	ci1tCx2z9mFxIUwXZlB0g7v66c6jzwiGorUiOuaxM3LHP8z3U1qPukKmVV969/AvuEpnYA+F5pM
+	fC7plu6fC+xlU9w0X2Qqo2Fk5UwqlGwZOt5cceAMsCimpFN/tTttymaDj7vZ3LoPLxsoHp0l/ak
+	TrRuLSMnvXDc5OSg=
+X-Received: by 2002:a05:6830:44a2:b0:862:bda5:b88b with SMTP id 46e09a7af769-86315a0c16cmr6284627a34.21.1795244893993;
+        Fri, 20 Nov 2026 23:08:13 -0800 (PST)
+Received: from hyprland ([189.146.113.144])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-863168dd6d8sm3737609a34.10.2026.11.20.23.08.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 23:08:13 -0800 (PST)
+From: Alfonso Villalobos Ulate <alfonsocvu@gmail.com>
+To: westeri@kernel.org
+Cc: andreas.noever@gmail.com,
+	YehezkelShB@gmail.com,
+	linux-usb@vger.kernel.org,
+	Alfonso Villalobos Ulate <alfonsocvu@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] thunderbolt: Re-add host router DP IN adapters after DPRX failure
+Date: Sat, 21 Nov 2026 01:08:04 -0600
+Message-ID: <20261121070804.26185-1-alfonsocvu@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,80 +98,130 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: Ad15hWqKoBIPiDpISteJoxeMD+Y/bw==
-Content-Language: en-us
-X-AuthUser: alex@albefly.com
+Content-Transfer-Encoding: 8bit
 
-Good day Mathias,
+When DPRX negotiation fails, the DP IN adapter is removed from the DP
+resources and is only added back on a hotplug event for that adapter.
+Host router DP IN adapters never get such events, so after one failure
+(for example when the GPU feeding it is runtime suspended) the adapter
+stays unused until the driver is reloaded.
 
-With a USB S/PDIF TX/RX adapter (Savitech, 262a:9123, UAC2, high speed), the
-xHCI driver logs an isochronous buffer overrun warning for nearly
-every microframe while the adapter's S/PDIF input has no signal:
+Re-check the host router DP IN adapters when a DP OUT adapter appears
+or a device router is plugged in, and skip adapters already on the
+list. Keep host DP IN adapters in adapter order so a re-added one is
+paired with the same DP OUT as before, instead of swapping monitors
+with the other host DP IN.
 
-xhci_hcd 0000:00:14.0: WARN: buffer overrun event for slot 2 ep 4 on
-endpoint
+Tested on an ASM4242 host with a CalDigit TS5 Plus dock.
 
-Rate measured: ~433,000 messages per minute (~7,200/s). systemd-journald
-sits at 100% of one core and reports "Missed N kernel messages".
+Written with assistance from Claude Code (Claude Opus 5.5), which
+proposed the code changes and drafted this message.
 
-Setup:
-- Intel N100 (PCH xHCI 0000:00:14.0), Debian 13
-- Kernel: 6.12.117+deb13-amd64 (same code in mainline 7.4-rc3)
-- Capture stream open continuously (CamillaDSP), 48 kHz S16_LE,
-  EP 0x82 IN isochronous, adaptive, 125 us interval
-- TV feeding the S/PDIF input goes idle -> no input signal -> flood.
-  With a valid input signal the count is 0.
+Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
+Cc: stable@vger.kernel.org
+Signed-off-by: Alfonso Villalobos Ulate <alfonsocvu@gmail.com>
+---
+ drivers/thunderbolt/tb.c | 52 +++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 49 insertions(+), 3 deletions(-)
 
-The device is clearly misbehaving (it sends more data than requested when
-the S/PDIF receiver is unlocked; it also reports its clock source
-as valid while unlocked). The driver handles the events correctly and audio
-recovers fine. The problem is only the logging: the warning in
-handle_tx_event() for COMP_ISOCH_BUFFER_OVERRUN is not rate-limited, so a
-single misbehaving isoc device can generate thousands of lines per second.
-
-Locally I changed that xhci_warn() to dev_warn_ratelimited() and the rate
-dropped to ~100/min with no functional change. 
-Would a patch rate-limiting this message (or demoting it to xhci_dbg) be
-acceptable?
-
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ handle_tx_event()
- 	case COMP_ISOCH_BUFFER_OVERRUN:
--		xhci_warn(xhci,
--			  "WARN: buffer overrun event for slot %u ep %u on
-endpoint",
--			  slot_id, ep_index);
-+		dev_warn_ratelimited(xhci_to_hcd(xhci)->self.controller,
-+				     "WARN: buffer overrun event for slot %u
-ep %u on endpoint\n",
-+				     slot_id, ep_index);
- 		break;
-or
-
-	case COMP_ISOCH_BUFFER_OVERRUN:
--		xhci_warn(xhci,
--			  "WARN: buffer overrun event for slot %u ep %u on
-endpoint",
--			  slot_id, ep_index);
-+		xhci_dbg(xhci, "Buffer overrun event for slot %u ep %u\n",
-+			 slot_id, ep_index);
- 		break;
-
-Endpoint descriptor:
-
-Endpoint 0x82 (capture), from lsusb -v:
-  altset 1 (S16_LE): Isochronous, Adaptive, wMaxPacketSize 104, bInterval 1
-  altset 2 (S24_3LE): Isochronous, Adaptive, wMaxPacketSize 156, bInterval 1
-
-/proc/asound/card0/stream0 while flooding:
-  Capture: Status: Running, Interface 3, Altset 1,
-  Packet Size = 36, Momentary freq = 48000 Hz
-
-Thank you,
-Alex.
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 57c11ba13459..4a43da6817a2 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -109,6 +109,29 @@ static void tb_queue_hotplug(struct tb *tb, u64 route, u8 port, bool unplug)
+ 
+ /* enumeration & hot plug handling */
+ 
++/*
++ * Insert a host router DP IN adapter so that host DP IN adapters stay
++ * in adapter number order. A DP IN that is re-added after it was
++ * dropped (for example because DPRX negotiation failed) then gets
++ * paired with the same DP OUT as before, instead of swapping DP OUT
++ * adapters (and therefore monitors) with the other host DP IN.
++ */
++static void tb_add_host_dp_in(struct tb_cm *tcm, struct tb_port *port)
++{
++	struct tb_port *p;
++
++	list_for_each_entry(p, &tcm->dp_resources, list) {
++		if (tb_port_is_dpin(p) && !tb_route(p->sw) &&
++		    p->port > port->port) {
++			/* Insert before the first higher numbered one */
++			list_add_tail(&port->list, &p->list);
++			return;
++		}
++	}
++
++	list_add_tail(&port->list, &tcm->dp_resources);
++}
++
+ static void tb_add_dp_resources(struct tb_switch *sw)
+ {
+ 	struct tb_cm *tcm = tb_priv(sw->tb);
+@@ -118,6 +141,9 @@ static void tb_add_dp_resources(struct tb_switch *sw)
+ 		if (!tb_port_is_dpin(port))
+ 			continue;
+ 
++		if (!list_empty(&port->list))
++			continue;
++
+ 		if (!tb_switch_query_dp_resource(sw, port))
+ 			continue;
+ 
+@@ -130,7 +156,7 @@ static void tb_add_dp_resources(struct tb_switch *sw)
+ 		if (tb_route(sw))
+ 			list_add(&port->list, &tcm->dp_resources);
+ 		else
+-			list_add_tail(&port->list, &tcm->dp_resources);
++			tb_add_host_dp_in(tcm, port);
+ 
+ 		tb_port_dbg(port, "DP IN resource available\n");
+ 	}
+@@ -1421,6 +1447,16 @@ static void tb_scan_port(struct tb_port *port)
+ 		tb_sw_warn(sw, "USB3 tunnel creation failed\n");
+ 
+ 	tb_add_dp_resources(sw);
++
++	/*
++	 * Host router DP IN adapters may have been dropped earlier
++	 * (for example because DPRX negotiation failed) and they do
++	 * not get hotplug events of their own, so re-check them now
++	 * that there is potentially a new DP OUT to pair with.
++	 */
++	if (tcm->hotplug_active)
++		tb_add_dp_resources(sw->tb->root_switch);
++
+ 	tb_scan_switch(sw);
+ 
+ out_rpm_put:
+@@ -1971,8 +2007,10 @@ static void tb_dp_tunnel_active(struct tb_tunnel *tunnel, void *data)
+ 		 * also tear down the tunnel and try to re-use the
+ 		 * released DP OUT.
+ 		 *
+-		 * It will be added back only if there is hotplug for
+-		 * the DP IN again.
++		 * It will be added back if there is hotplug for the
++		 * DP IN again. Host router DP IN adapters do not get
++		 * such events, so they are re-checked whenever a new
++		 * DP OUT or device router appears instead.
+ 		 */
+ 		tb_tunnel_warn(tunnel, "not active, tearing down\n");
+ 		tb_dp_resource_unavailable(tb, in, "DPRX negotiation failed");
+@@ -2234,6 +2272,14 @@ static void tb_dp_resource_available(struct tb *tb, struct tb_port *port)
+ 	list_add_tail(&port->list, &tcm->dp_resources);
+ 	tb_exit_redrive(port);
+ 
++	/*
++	 * Host router DP IN adapters removed because DPRX negotiation
++	 * failed never get a hotplug event of their own. Give them
++	 * another chance now that a DP OUT became available.
++	 */
++	if (tb_port_is_dpout(port))
++		tb_add_dp_resources(tb->root_switch);
++
+ 	/* Look for suitable DP IN <-> DP OUT pairs now */
+ 	tb_tunnel_dp(tb);
+ }
+-- 
+2.53.0
 
