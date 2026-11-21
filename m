@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795302171;
-	b=4/lm+Iv+/Zj6DCTiMkikpNgbPpJ1sFBNBxXD/IGC0SXlkFxX73aSnz5eaSxcu+qeBvup
-	 iycn7sjHz0tfkRBrNXvpjezLZg3JF6uIdfNtLKcWuUAkCVEMjLDFpxLNceboygVrVd0y+
-	 stH7YqOZF8yururmVLL9nxpECYL9iF646O6zErRoQRirBRvN5KR1cYJMkQrkvn6TO5r8W
-	 lUal6V5F63DunW3SIqY14NQ8tgfbc3UBPFO7oa87+M9HRI1QfGsXZX/LCowTxZG53Cya4
-	 5//31MEdl2z9e88C9RkrQxaQUrUABUstyEWYp4oibswpkIIaqf5g21OKzOoWaDAa7zA==
+	t=1795302180;
+	b=AGHGTRX/YVdAigE07dXM8ie3yGW5GiQAM0nkly3UEcn0/pcG0TYOLEHHpcupuPhghSZw
+	 SWHgkm+Y+z+k2jTgunodjbN2FQPJxp/qPrDhrLf57KLQRej79i+26XyZwgXYJVhbhPAqP
+	 EhCA+ps6XTHe25d26p1LiQohFkwg/D2X3iFd/8XhKuwxUvUntzu2zJKjSgIHugdko8xUX
+	 u8Ud/b3oK/wrDDN4m9soWKqFuv2cpUewq//uXpCUrZNtS2hix70O6+zrFhCVP9wrdcED4
+	 RcVwTLG+mn/YbknYoDCBrMoeE8SSvTEv5JKhifHcI14NxP5y9aXI4nWeJgywgCn3S4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795302171;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795302180;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=zTl7dim7n5pDya8NMdSHAJHDRKwJ3ZR64y5BLySiJnk=;
-	b=4xd6s8b/W2bvgcmU61IVgwQ/uNNP5Hc/yzLRBIhRZ8+FEop1SdXgNLcMIgYctpvQIIag
-	 ueHo21hjioRpDH+32KCCO096QId/j9XhhtqU3Oa7Aw8Jn00gkFaIVkUxDjW7iLE0JMm54
-	 7xS+0tT89t486lR1OSTu88rfwCGAryMmeg72Iy7EtMgyizV5nexIR/qq8PrHElQA8FUBH
-	 q550DeUavnrhSGXT6PbM5rsyCVN62Uv+zp8f+finh2PeWXM7WdBJO0mHFTpMNDGlk4bkY
-	 ksJxdevV208j5L3dpmYPkXdhuznQQhZ1nFdVIdxDmpFQepOB//J9yTlSVXF2Z/YIIGw==
+	bh=vi6Jgwc6TTLYkbHGmqEuP1xt7X0Hvny/9CR4U2gZGgY=;
+	b=xbqrS7BYB/FwprffOjm0Rk1X6PGsNUaCMMPfymUIxhx6NTecGaUhgQhNUrpy8ZJlTPWg
+	 EuBGKGlDbmmu5wb5Z1d/ZV+9y19xNZBvVSCjOR/KGsw+XXakZ8oYLXRO1MfgnRctAT2W7
+	 U782fhaOzaBoqXt2GCF02JaA/JH2OOaAKJtgnNUbEJJFbcuinlTd8zEdi5GKXR9ySO3VT
+	 dlwiYs3UNjlx9fYtk6u44aNQQrXJUCApmGzZNjKeox1LkzTlk98r/eefb6sjjCYh1FaoP
+	 fR9OeGmgSwLOLyIlfPeWhfhjVMIvizRU2Y/skFhu4wn5b5NCez6a3nwWXhJ3rGC9Rhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a7EjUIbq;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YYLLdz9o;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAD8606A320;
-	Sat, 21 Nov 2026 23:02:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35DD606A33F;
+	Sat, 21 Nov 2026 23:02:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a7EjUIbq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D81A21F000C0;
-	Sat, 21 Nov 2026 23:02:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YYLLdz9o
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27B971F000E6;
+	Sat, 21 Nov 2026 23:02:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795302170;
-	bh=zTl7dim7n5pDya8NMdSHAJHDRKwJ3ZR64y5BLySiJnk=;
+	s=k20260515; t=1795302179;
+	bh=vi6Jgwc6TTLYkbHGmqEuP1xt7X0Hvny/9CR4U2gZGgY=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=a7EjUIbq+J9Lb5FL9xDl8uQeCd0GDV7IGmgajxQjqCNbIDq53XjFU92SK+qd+Eu98
-	 dKuwtTXA5fB01lHdxI3hnnSkNXpmLU+xLXow4bGVgUfOX8ajBZRrqqwFVUgTUNv0Eb
-	 VHJ/mMIh1TwFluS6q0N94oiODSfxgb4r8Df4PPu3xjLT0Apt7WrIu+VTIGAK63bTXD
-	 yn3mR5Tf0qzLxPGKVlq1rg6O0Kk72FLLoXauDgvc4KPHcmsmW1D4OVYQuRZbFx7PZm
-	 qIgm03f/aCSpuLvB8KNuEjwfF5XMTrWJl/4ZFFKKHElPnzfWnvOkeluAi3dtuLq3n6
-	 hbp5AHFQuR9mA==
-Subject: Re: [PATCH net] net: usb: cdc_ncm: don't flush the TX timer into a
- stopped queue
+	b=YYLLdz9osX2szQUNhd6zJ/6b9f6Tc7ycsLvdyYdL4B0Qi3bvBSsWXiBRkgCPmxXwg
+	 J07ix74tCN1Co2Z3/9IMJo/0sDnF9WvagXPN6E7jJuih6J34gFzzGgZ0GlJ84RNhse
+	 Fw/RJCIL6u6yz3KK+dLFBlCPz0Iy5pQTbxMawk4b+iVHWQGTjxI3af0eu524sEcde0
+	 Uz4ktTRygnLZ/DRGBvPAlwvJvfYJ+PfJ+Zx+pClRkmAS8B2XZTawY6Tlk5AV3EXIrk
+	 XqJZRzkDXiwKHghs9uuSRH+cVWa6PUMfvFVHpviJ5v9OWGsSEHNUaf2zMrImxdlDlC
+	 0BlZ1rLQiaZhg==
+Subject: Re: [PATCH v2 net-next 1/1] net: usb: rtl8150: break cycle between
+ tasklet and URB
 From: netdev-bot+sashiko@kernel.org
-To: william@wkennington.com
-Cc: oliver@neukum.org, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, Jan.Kloetzke@preh.de,
+To: oneukum@suse.com
+Cc: petkan@nucleusys.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
  linux-usb@vger.kernel.org, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Date: Sat, 21 Nov 2026 23:02:49 +0000
-Message-ID: <179530216937.3135.2477795214247865968@kernel.org>
-In-Reply-To: <20261118034122.315979-1-william@wkennington.com>
-References: <20261118034122.315979-1-william@wkennington.com>
-X-sashiko-severity: Medium
+Date: Sat, 21 Nov 2026 23:02:58 +0000
+Message-ID: <179530217871.3135.15339133875090021236@kernel.org>
+In-Reply-To: <20261118133550.955312-1-oneukum@suse.com>
+References: <20261118133550.955312-1-oneukum@suse.com>
+X-sashiko-severity: High
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -65,10 +65,10 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 4 potential
+Thank you for your contribution! Sashiko AI review found 2 potential
 issue(s) to consider.
 
-Critical: 0 · High: 0 (1) · Medium: 3 (1) · Low: 1
+Critical: 0 · High: 1 (1) · Medium: 1 (1) · Low: 0
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -76,284 +76,227 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] The new retry branch in cdc_ncm_txpath_bh()
-  (drivers/net/usb/cdc_ncm.c:1519-1528) can re-arm the TX hrtimer with…
-- [Medium] The new 'the queue will be woken again' test in
-  cdc_ncm_txpath_bh() looks only at dev->txq and dev->done.
-- [Medium] cdc_ncm_txpath_bh() decides between keeping the frames and
-  flushing them from lockless reads of netif_queue_stopped(),…
-- [Low] The new comment in cdc_ncm_txpath_bh() (cdc_ncm.c:1515-1518) says
-  the retry is based on TX URBs that are in flight or 'completed but not…
+- [High] Poisoning the URBs does not break the cycle.
+- [Medium] The tasklet/URB resubmission cycle from the commit message is
+  still open in rtl8150_close() and rtl8150_suspend().
 
 Pre-existing issues:
 - [High] This problem wasn't introduced by this patch, but
-  cdc_ncm_unbind() has a teardown race that can leave the TX hrtimer…
-- [Medium] This problem wasn't introduced by this patch, but two other
-  cdc_ncm paths still flush buffered TX frames with…
+  read_bulk_callback() hands dev->rx_skb to netif_rx() (line 430).
+- [Medium] This problem wasn't introduced by this patch, but rx_fixup()
+  has a second self-rescheduling path that never touches a URB.
 
 --
 
-The six regression comments are below, written as an inline LKML reply to the patch. Four are about the new code. Two are marked pre-existing: an unbind/hrtimer use-after-free race (High), and two other flush paths with the same drop (Medium). Each comment is placed next to the part of the diff it refers to.
+net: usb: rtl8150: break cycle between tasklet and URB
 
-net: usb: cdc_ncm: don't flush the TX timer into a stopped queue
+In rtl8150_disconnect(), this patch swaps usb_kill_urb() for
+usb_poison_urb() on all three URBs. The goal is to stop the rx_fixup()
+tasklet from resubmitting rx_urb. It also adds a second tasklet_kill()
+after poisoning, so the tasklet is stopped before the URBs and skbs are
+freed.
 
-This commit changes cdc_ncm_txpath_bh() to re-arm the TX timer instead of
-flushing buffered frames into usbnet_start_xmit() in one case: usbnet has
-stopped the TX queue and TX URBs are still on dev->txq or dev->done. The
-existing flush path is kept when nothing is queued, the interface is down,
-or the timer is disabled.
-
-> diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-> index e92dc7f011ea7..e5d659dd74369 100644
-> --- a/drivers/net/usb/cdc_ncm.c
-> +++ b/drivers/net/usb/cdc_ncm.c
-> @@ -1509,9 +1509,26 @@ static void cdc_ncm_txpath_bh(struct tasklet_struct *t)
->  		cdc_ncm_tx_timeout_start(ctx);
->  		spin_unlock(&ctx->mtx);
-
-[Severity: High]
-This isn't a bug introduced by this patch, but is there a teardown race
-between this re-arm in the tx_timer_pending branch and cdc_ncm_unbind()?
-
-cdc_ncm_unbind() does:
-
-	atomic_set(&ctx->stop, 1);
-
-	hrtimer_cancel(&ctx->tx_timer);
-
-	tasklet_kill(&ctx->bh);
-	...
-	cdc_ncm_free(ctx);
-
-cdc_ncm_tx_timeout_start() checks the flag and arms the timer, and nothing
-serializes that against unbind:
-
-	if (!(hrtimer_active(&ctx->tx_timer) || atomic_read(&ctx->stop)))
-		hrtimer_start(&ctx->tx_timer,
-
-A possible sequence:
-
-CPU1 (tasklet, tx_timer_pending branch)
-cdc_ncm_tx_timeout_start()
-  reads stop == 0, timer inactive
-
-CPU2
-cdc_ncm_unbind()
-  atomic_set(&ctx->stop, 1)
-  hrtimer_cancel()    <- returns at once, timer is inactive
-  tasklet_kill()      <- waits for CPU1
-
-CPU1
-  hrtimer_start(&ctx->tx_timer, ...)
-
-CPU2
-  cdc_ncm_free(ctx)   <- ctx freed with tx_timer still enqueued
-
-Can cdc_ncm_tx_timer_cb() then run on freed memory? cdc_ncm_free() does
-not cancel the timer again.
-
-The new branch added by this patch can't take part in this.
-usbnet_disconnect() calls unregister_netdev() before
-driver_info->unbind(), and the new branch requires netif_running().
-
-The race needs the pre-existing tx_timer_pending chain to still be running
-at unbind. That is more likely with a large tx_timer_usecs.
-
-Would taking ctx->mtx around atomic_set(&ctx->stop, 1), or cancelling the
-timer again after tasklet_kill(), close this?
-
->  	} else if (dev->net != NULL) {
-> -		ctx->tx_reason_timeout++;	/* count reason for transmitting */
->  		spin_unlock(&ctx->mtx);
->  		netif_tx_lock_bh(dev->net);
-> +		spin_lock(&ctx->mtx);
-> +		/* usbnet drops the whole NTB if its queue is stopped. While
-> +		 * TX URBs are in flight, or completed but not yet reaped by
-> +		 * usbnet_bh(), the queue will be woken again, so keep any
-> +		 * buffered frames and retry a timer interval later.
-> +		 */
-> +		if (ctx->timer_interval &&
-> +		    (ctx->tx_curr_skb || ctx->tx_rem_skb) &&
-> +		    netif_running(dev->net) && netif_queue_stopped(dev->net) &&
-> +		    (skb_queue_len_lockless(&dev->txq) ||
-> +		     skb_queue_len_lockless(&dev->done))) {
-
-[Severity: Low]
-The comment above says the retry is based on TX URBs "completed but not
-yet reaped by usbnet_bh()". However, dev->done is not TX-only. RX
-completions go there too:
-
-rx_complete()
-  defer_bh(dev, skb, &dev->rxq, state)
-    __skb_queue_tail(&dev->done, skb)
-
-So a non-empty dev->done doesn't mean a TX completion is pending.
-
-usbnet_bh() drains done quickly, so in practice this probably only adds a
-few re-arms before the old flush. Should the condition, or the comment, be
-changed so they agree, for example by checking only dev->txq?
+> diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+> index d51e43170e033..6d20f52d52efd 100644
+> --- a/drivers/net/usb/rtl8150.c
+> +++ b/drivers/net/usb/rtl8150.c
+> @@ -353,6 +353,13 @@ static void free_all_urbs(rtl8150_t * dev)
+>  	usb_free_urb(dev->intr_urb);
+>  }
+>  
+> +static void terminate_all_urbs(rtl8150_t *dev)
+> +{
+> +	usb_poison_urb(dev->rx_urb);
+> +	usb_poison_urb(dev->tx_urb);
+> +	usb_poison_urb(dev->intr_urb);
+> +}
+> +
+>  static void unlink_all_urbs(rtl8150_t * dev)
+>  {
+>  	usb_kill_urb(dev->rx_urb);
 
 [Severity: Medium]
-Does this miss the runtime PM case? cdc_ncm_driver sets
-.supports_autosuspend = 1. When EVENT_DEV_ASLEEP is set,
-usbnet_start_xmit() does:
+The commit message says the tasklet/URB cycle needs to be broken. Is it
+still open in rtl8150_close() and rtl8150_suspend()? Both stop rx_urb
+with usb_kill_urb() only, and neither one stops the tasklet:
 
-	usb_anchor_urb(urb, &dev->deferred);
-	/* no use to process more packets */
-	netif_stop_queue(net);
+rtl8150_close() {
+    ...
+	if (!test_bit(RTL8150_UNPLUG, &dev->flags))
+		disable_net_traffic(dev);
+	unlink_all_urbs(dev);
+    ...
+}
 
-The URB goes on dev->deferred, not dev->txq. usbnet_suspend() has already
-emptied txq and done through usbnet_terminate_urbs().
+usb_kill_urb() raises urb->reject only while the call is running. If
+rx_fixup() is pending or looping when close runs, its submit fails with
+-EPERM during the kill and it reschedules itself. The next run, after
+usb_kill_urb() has returned, then submits rx_urb successfully:
 
-Suppose a TX burst to a suspended device fills one NTB and leaves a frame
-in tx_rem_skb. The queue is then stopped with txq and done both at zero.
+rx_fixup() {
+    ...
+try_again:
+	status = usb_submit_urb(dev->rx_urb, GFP_ATOMIC);
+    ...
+}
 
-The cdc_ncm timer uses up its tx_timer_pending re-arms long before the USB
-resume completes. At that point this condition is false, and the code
-falls through to usbnet_start_xmit(NULL).
+The tasklet can easily be pending at close time. read_bulk_callback()
+schedules it whenever the 4-entry rx_skb_pool runs dry, and it keeps
+looping while GFP_ATOMIC allocation fails.
 
-The NTB is then dropped at the stopped-queue check, which comes before the
-EVENT_DEV_ASLEEP deferral:
+disable_net_traffic() has already turned the receiver off, so the
+bulk-IN URB just stays in flight. On the next ndo_open, rtl8150_open()
+refills and resubmits the URB that is still active:
 
-	if (netif_queue_stopped(net)) {
-		usb_autopm_put_interface_async(dev->intf);
-		spin_unlock_irqrestore(&dev->txq.lock, flags);
-		goto drop;
-	}
+	usb_fill_bulk_urb(dev->rx_urb, dev->udev, usb_rcvbulkpipe(dev->udev, 1),
+		      dev->rx_skb->data, RTL8150_MTU, read_bulk_callback, dev);
+	if ((res = usb_submit_urb(dev->rx_urb, GFP_KERNEL))) {
 
-usbnet_resume() later submits the deferred URBs and calls
-netif_tx_wake_all_queues(), so this is also a state where the queue will
-be woken.
+That would hit the "URB %p submitted while active" WARN_ONCE in
+usb_submit_urb() and return -EBUSY. Wouldn't every later open then fail
+the same way until the device is replugged or rebound?
 
-Should !usb_anchor_empty(&dev->deferred) or
-test_bit(EVENT_DEV_ASLEEP, &dev->flags) also count here? The EVENT_TX_HALT
-recovery after a synchronous -EPIPE has a similar, rarer gap.
-
-[Severity: Medium]
-Can these lockless reads see txq and done both at zero while the queue is
-stopped and about to be woken? If so, the code falls through and
-usbnet_start_xmit() drops the NTB, which is the failure this patch is
-meant to fix.
-
-In defer_bh(), the last TX skb is unlinked from txq before it is added to
-done:
-
-	__skb_unlink(skb, list);
-	...
-	__skb_queue_tail(&dev->done, skb);
-
-A reader on another CPU can see both lengths as zero in between.
-
-In usbnet_bh(), done is drained first:
-
-	while ((skb = skb_dequeue (&dev->done))) {
-
-and the queue is only woken at the end:
-
-	if (dev->txq.qlen < TX_QLEN (dev))
-		netif_wake_queue(dev->net);
-
-If every in-flight TX URB completed before the drain, the queue stays
-stopped with txq and done both empty for that whole interval.
-
-On -EPROTO, -ETIME or -EILSEQ, tx_complete() calls netif_stop_queue() and
-arms dev->delay. usbnet_bh() won't wake the queue while
-timer_pending(&dev->delay) is true.
-
-Once the remaining URBs are reaped, txq and done are both zero, but the
-queue stays stopped until the throttle timer fires. A cdc_ncm timer flush
-in that window still drops the NTB.
-
-Would it be more robust to make this decision under dev->txq.lock? Another
-option is for usbnet to keep the NTB, rather than drop it, when the queue
-is only flow-controlled.
-
-> +			cdc_ncm_tx_timeout_start(ctx);
-
-[Severity: Medium]
-Is this re-arm bounded? The commit message says:
-
-  Keep the existing flush path when nothing is queued to wake the device,
-  the interface is down, or the timer is disabled (tx_timer_usecs = 0), so
-  the timer cannot rearm indefinitely.
-
-While the interface is up, the only exit is dev->txq or dev->done
-draining.
-
-Take a device that stops servicing bulk-OUT (it NAKs and the HCD keeps
-retrying) and then sends NETWORK_CONNECTION=0:
-
-cdc_ncm_status()
-  usbnet_link_change(dev, 0, 0)
-    netif_carrier_off()
-
-After that, nothing appears to unlink the TX URBs. __handle_link_change()
-only does:
-
-	unlink_urbs(dev, &dev->rxq);
-
-TX cleanup is left to usbnet_tx_timeout(), but dev_watchdog() only calls
-ndo_tx_timeout when:
-
-	if (netif_device_present(dev) &&
-	    netif_running(dev) &&
-	    netif_carrier_ok(dev)) {
-
-usbnet_bh() also won't wake the queue while the carrier is off. So
-timer_interval stays non-zero, the netdev stays running, the queue stays
-stopped and txq stays non-empty.
-
-The (ctx->tx_curr_skb || ctx->tx_rem_skb) test doesn't end this either,
-because cdc_ncm_fill_tx_frame() can leave an NTB with zero datagrams in
-tx_curr_skb:
-
-	if (n == 0) {
-		/* wait for more frames */
-		/* push variables */
-		ctx->tx_curr_skb = skb_out;
-		goto exit_no_skb;
-
-The tasklet would re-arm every timer_interval (400 us by default, 5 us at
-the minimum) and take netif_tx_lock_bh() each time. That continues until
-the device completes the URBs, the interface goes down, or the device is
-unplugged.
-
-Before this patch, the chain ended after at most
-CDC_NCM_TIMER_PENDING_CNT + 1 firings. Even with the carrier on, the same
-polling runs for up to the watchdog timeout before usbnet_tx_timeout()
-unlinks txq.
-
-Should there be a retry limit, or a netif_carrier_ok() check, here?
-
-> +			spin_unlock(&ctx->mtx);
-> +			netif_tx_unlock_bh(dev->net);
-> +			return;
-> +		}
-> +		ctx->tx_reason_timeout++;
-> +		spin_unlock(&ctx->mtx);
->  		usbnet_start_xmit(NULL, dev->net);
-
-[Severity: Medium]
-This isn't a bug introduced by this patch, but ndp_to_end_store() and
-cdc_ncm_update_rxtx_max() flush the same way, with no stopped-queue check:
-
-ndp_to_end_store()
-	netif_tx_lock_bh(dev->net);
-	usbnet_start_xmit(NULL, dev->net);
-
-cdc_ncm_update_rxtx_max()
-	if (netif_running(dev->net) && val > ctx->tx_max) {
-		netif_tx_lock_bh(dev->net);
-		usbnet_start_xmit(NULL, dev->net);
-
-Suppose a sysfs write to ndp_to_end or tx_max, or an ethtool coalesce
-change, happens while usbnet has the queue stopped. Wouldn't the flushed
-NTB also be dropped at the netif_queue_stopped() check in
-usbnet_start_xmit(), with tx_dropped incremented?
-
->  		netif_tx_unlock_bh(dev->net);
+The suspend path looks similar. A tasklet submit can follow the
+usb_kill_urb() in rtl8150_suspend(), and a later resubmit of rx_urb
+after resume would then fail with -EBUSY.
 
 [ ... ]
 
+> @@ -970,7 +977,8 @@ static void rtl8150_disconnect(struct usb_interface *intf)
+>  		set_bit(RTL8150_UNPLUG, &dev->flags);
+>  		tasklet_kill(&dev->tl);
+>  		unregister_netdev(dev->netdev);
+> -		unlink_all_urbs(dev);
+> +		terminate_all_urbs(dev);
+> +		tasklet_kill(&dev->tl);
+
+[Severity: High]
+Does poisoning actually break the cycle here? It makes every resubmit
+fail. However, rx_fixup() reschedules itself after any submit error
+other than -ENODEV, and it never checks RTL8150_UNPLUG:
+
+rx_fixup() {
+    ...
+	if (test_bit(RX_URB_FAIL, &dev->flags))
+		if (dev->rx_skb)
+			goto try_again;
+    ...
+try_again:
+	status = usb_submit_urb(dev->rx_urb, GFP_ATOMIC);
+	if (status == -ENODEV) {
+		netif_device_detach(dev->netdev);
+	} else if (status) {
+		set_bit(RX_URB_FAIL, &dev->flags);
+		goto tlsched;
+    ...
+}
+
+On a soft unbind (rmmod, sysfs unbind, or a forced unbind from
+usb_reset_device()), the device is still attached, so usb_submit_urb()
+never returns -ENODEV. Instead:
+
+- rtl8150_driver has no soft_unbind, so usb_unbind_interface() disables
+  the endpoints before calling ->disconnect. Submits then fail with
+  -ENOENT from usb_hcd_link_urb_to_ep().
+- After terminate_all_urbs(), urb->reject stays raised for good, so
+  submits fail with -EPERM.
+
+Either way, once the tasklet runs it reschedules itself forever.
+
+tasklet_action_common() clears TASKLET_STATE_SCHED just before it calls
+the callback, and the callback sets it again. tasklet_kill() waits with
+wait_on_bit_lock(SCHED) in TASK_UNINTERRUPTIBLE, so it can only win
+inside that short window.
+
+On a non-RT kernel, a waiter on the same CPU cannot preempt the softirq,
+so it only ever sees SCHED set. On UP, wouldn't this be a deterministic
+livelock? rtl8150_disconnect() would sit in D state holding the device
+lock while ksoftirqd spins. On SMP the waiter can keep losing the race.
+
+The loop can also start before this point. On a soft unbind with the
+interface up, usb_disable_interface() flushes rx_urb with -ESHUTDOWN
+while RTL8150_UNPLUG is still clear. read_bulk_callback() takes the
+default case to goon, the resubmit fails with -ENOENT, and it calls
+tasklet_schedule(). So the existing first tasklet_kill() already faces
+this loop, and on a soft unbind the new second one always faces it.
+
+Could rx_fixup() be stopped from rescheduling instead? For example, it
+could check RTL8150_UNPLUG on entry or treat -EPERM/-ENOENT as fatal.
+Another option is to disable the tasklet before killing it.
+
+[Severity: Medium]
+This isn't a bug introduced by this patch, but rx_fixup() has a second
+self-rescheduling path that never touches a URB:
+
+rx_fixup() {
+    ...
+	spin_lock_irq(&dev->rx_pool_lock);
+	skb = pull_skb(dev);
+	spin_unlock_irq(&dev->rx_pool_lock);
+	if (skb == NULL)
+		goto tlsched;
+    ...
+}
+
+If dev_alloc_skb(RTL8150_MTU + 2) in fill_skb_pool() fails while the
+pool is empty, pull_skb() returns NULL and the tasklet reschedules
+itself. Poisoning in terminate_all_urbs() has no effect on this path,
+and RTL8150_UNPLUG is not checked.
+
+While GFP_ATOMIC allocations keep failing at disconnect time, can both
+tasklet_kill() calls in rtl8150_disconnect() stall the same way as
+described above? The stall ends once an allocation succeeds, so it only
+lasts as long as the memory pressure. A check for RTL8150_UNPLUG at the
+top of rx_fixup() would fix this along with the issue above.
+
+>  		free_all_urbs(dev);
+>  		free_skb_pool(dev);
+>  		dev_kfree_skb(dev->rx_skb);
+
+[Severity: High]
+This is a pre-existing issue, but can dev->rx_skb be stale here?
+read_bulk_callback() hands dev->rx_skb to the stack. When the pool is
+empty, it leaves the old pointer in place:
+
+read_bulk_callback() {
+    ...
+	netif_rx(dev->rx_skb);
+    ...
+	spin_lock_irqsave(&dev->rx_pool_lock, flags);
+	skb = pull_skb(dev);
+	spin_unlock_irqrestore(&dev->rx_pool_lock, flags);
+	if (!skb)
+		goto resched;
+
+	dev->rx_skb = skb;
+    ...
+}
+
+The pool has only 4 entries and only the tasklet refills it, so this
+happens routinely. Nothing ever sets dev->rx_skb to NULL. The pointer
+is only replaced by a later successful pull_skb() in rx_fixup().
+
+If that replacement never happens, this dev_kfree_skb() frees an skb
+that the network stack already owns. It can fail to happen in two ways:
+
+- dev_alloc_skb() in rx_fixup() fails on the run during which
+  tasklet_kill() wins.
+- A completion passes the RTL8150_UNPLUG check just before set_bit().
+  Its tasklet_schedule() then runs while the first tasklet_kill() holds
+  TASKLET_STATE_SCHED through wait_on_bit_lock(). tasklet_schedule()
+  does nothing when SCHED is already set, so the tasklet never runs.
+
+The same stale pointer also seems to affect rtl8150_open():
+
+	if (dev->rx_skb == NULL)
+		dev->rx_skb = pull_skb(dev);
+
+Suppose a close/open happens while the tasklet is still looping on
+allocation failure. Wouldn't rx_urb then be submitted with the freed
+skb's data as its DMA buffer?
+
+Because of this, the "if (!dev->rx_skb) goto resched;" check in
+read_bulk_callback() also looks like dead code.
+
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261118034122.315979-1-william%40wkennington.com
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261118133550.955312-1-oneukum%40suse.com
