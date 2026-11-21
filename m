@@ -1,99 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795249127;
-	b=fgBftO0pagLV8Q2bIRdpuHduwbydbK16cMh1TMixq8vD4TusN+vAKSyg1AGOQ5qrRXdg
-	 bzSAb/oQXTpph4/Boikk/yvnAszYC4Dp5CgqTYDD7AM3u4mwDw2rh8/TMFfDLLwXzSFiI
-	 dk0FcZ8k/ZKX8LlNXnTG3wc9rQoc0sCfmkG1Qj4x1X0MtXYz5YlLfBjZuP7i02zVeOZr6
-	 oSZvKcB23LzX1ZI5WglazMzryTQXtxiYUReOZtJzZXmYa2L7xJOLc7nkpvfcW1q+blBNl
-	 yMyYKe+jLMRYeer9jk88R4jS9LuufWhhq8+MIlSW6WDdyrO/kCqh5C+aRaltuAGTIYw==
+	t=1795252265;
+	b=O2RzzQYMwvavKvepb4YnBY9oKgF5Rbs0nuSQJg19C5dxPR2rwPLDZshadoSoJ5CXngvI
+	 wW9nQi7CtNxyuVZDDUXMHb1mCLkjJx6i6acctwnG5UosjVBzbeSpPN7/DZuaulhPpuamv
+	 hUu1pxippfoFE8fZo/ZAfFrj1PDXk0QywwISzWKmsXocvrbSAi7/lY1seV7Z6L7sxIM5m
+	 Yb9btVfcUt1Vghvc8rGb1JGnOgRaWsHztvLAd7lnZTIDqBr42jKr1PNOmudGphyce89K8
+	 OpH+AjV6rCUTN/xlYmMazBLwvs55FWpsLg1zUP+RYkLC1yjwjkA6Nqi8tSWdEb0nNAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795249127;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=l/s2mh+0qArJcTg26JMF7Y1HXG8MTRz+pIaOko7+DPQ=;
-	b=UaH9aAEcO3vuuMjLcOwqV9+llQlGzfKZ1qR97WEZPQFYkaUGVts6b3F54k1v9WHZp4yj
-	 kQSph5sfhPSUlNZ89Y8sBN0GdIPlWm+i5lKjlL1V1y+/bOAzIe2yF+h5H1Dq9M7827nF3
-	 HBg9v+I4+wE0L411Utl7y/ikEaq6hdhwBrmpjKEw3en5VMiotYPJk7DRdVaofwS2Uwqb1
-	 Lig+TU1NfxaCNqb0Q2DMvgNf2vJDhTSZAEqcgq9Q0zQNKJ6O+1BksrHPcqTUuinHTdnrP
-	 y3Ip7uUeiw5UMSSEp0q6gBYKF19xcBbCdq/Ip8wSpATI8NmeGVNjqDk7gNB50w6sdIg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795252265;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=GPuPhQPXGjgK63QMd53wWjqm0zkGOhohPPcaOiUA3b4=;
+	b=UTcy6WL2ZXMIgrnEGikygClDMDMoNt3C+RXp8ot5Xby/V5Uo/syOuxGbmuadHJXT2M7h
+	 ODYxmxSWMIfujLzwWXCg4WU9TourIf7oWy5sfIjvLZehMTbUdmKZ6YtzzvP88VHcOJhdc
+	 pXeWbkYSs+2qNTR4k9lbfi7MfNBb12JqeHrx+pJfViWwcdNlmQrxQjJPF+qJhdHE8tVus
+	 N7OhGBXRPhbyXVJbUoCZgUOnabXpvh3mbgnfnyRF9OPjE8s6GMG+s5jn5JF/omb0qT52r
+	 ySLFPcjfz437+BZk23rUeGhpNmpxIHwVquIdUf1BOZgKGJc+q+Z36pLu5rn6cKjousw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=wkennington.com;
-	spf=none smtp.mailfrom=wkennington.com;
-	dkim=pass header.d=wkennington-com.20260707.gappssmtp.com header.i=@wkennington-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=FqcKrp2o;
-	arc=none smtp.remote-ip=209.85.214.176
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pa+0yiGk;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C830606A320
-	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 08:18:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C830606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wkennington.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=wkennington.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762B5606A32C;
+	Sat, 21 Nov 2026 09:11:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wkennington-com.20260707.gappssmtp.com header.i=@wkennington-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=FqcKrp2o
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2eff92780daso12865125ad.1
-        for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 00:18:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wkennington-com.20260707.gappssmtp.com; s=20260707; t=1795249125; x=1795853925; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=l/s2mh+0qArJcTg26JMF7Y1HXG8MTRz+pIaOko7+DPQ=;
-        b=FqcKrp2oXPr4tOHL61pgnws0WILpsCSBx4JVfp1wB3NZZJoM9TtnCcObKsT4TvcGBr
-         6HGYHqn0K0uu/fb/VlUOPIaD/zN4pNzNcUn2+LFtR5bMWk3zFRY5eJdtrfB/8qeVJ5us
-         JN3XtGmfE0tydPRRPPQZsbWW6bel+wI33fVd3HkO0LVfrs+PfJc4qqSQwIqG+lXm8Iby
-         JfRu8/ksXhVQvYQMf2FmvSCTljLrzvA7+Y6onYC+l1Nd7CIIx1TeKY26nVq24OomxbH6
-         IQEYOtI/taJFk27eGrNdkOvoOkj6rswQX5EtgP94IN7g7vnKq+EuR2Z2WHM/OeuzqPpv
-         w4Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795249125; x=1795853925;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=l/s2mh+0qArJcTg26JMF7Y1HXG8MTRz+pIaOko7+DPQ=;
-        b=DNwkytBL7BAs3jWArOrGFKGeGybGYQ/Q65c7gCgpEXq83Bik6atUIulJe96lrreG/l
-         JW1eRmepxeN6l0OdguqLPbGnsVH+9yhzAp+t46tW2Ey705vy5o6k7MfBHuD1XCxfmqJd
-         8O144tjd8pxzg7+vDzsrFTgJFquzT6Ml4d/rwkDLXT/HojlJaBQB3sJ3TrmgBX0pCYG9
-         HcQkkiFvNatIq/R9UsdzBdHQ1eFYKfEv+KMoyBt0i+xTN8emw133FmdmWi9qJ4gWcIHE
-         G0uzol05x6xDnk12BqhGg/aXTn4gCMYQJorVztN17AUguf1WQzFWpKNmN2PeZoZsWoRO
-         kGiQ==
-X-Forwarded-Encrypted: i=1; AL+hErEM5x2lFw+X1n4i4fVSo1FRbbwarripnSQyUhA77RjqcW2jpdNxO+Ztxrb8+BjcFs6jlyochyGx9HU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8n9XVaD8mpSgpP8GkXcCzuEkCGDYChH4IA69JfCbGwHEirvstD
-	uqsuZSGeB9PO8MvgCyQDuy77JWaDKiTDZbNehrV3bbIlv7E3RshQimX71qZMuN4G6L1dbVQPHWP
-	q2//t7AM=
-X-Gm-Gg: AZFdTZcNPZ+jYAqQz8IKrqKZzj9chqC0nSdWgnk/zD2ItBbCANOV9p+KJnw5zpbFFvt
-	zGuEGTMQFjyGIhTU6VvYoRUmi7XIxp1bKNN9aSD8RbDhkFbz2EB5no0X6V8hGHHS6jzwi1CRDn1
-	fKibTxxBugjPok2yJXLcr6bXG6bohQCHD+EiyC+FJw92C+4YOrk+2WQlQyhlNdOr+3hVTAeu/4o
-	ytzxEgVTlG5UDg60ix8dQET0ofxx2c2tL2QRJ+uND+6yPW0206eR00aQTDBNugN7lRjU7UCtVNQ
-	spbq7pKrgJzHCg2zgK9VbQKjDve4R2h+3Ufelf1rfZAyqLakEs0o3xBHt5RlAJwdcQOkx3Q05Wz
-	IlY6fpEMG7LaJ23BJ/iSn/0qjM7XUOtjKB/3SgW+EKNUy4nJCpAlbY5juUe/uWpHUKBPcPCk5v7
-	FR8OfmiLgYP2dQAE0Kktl0O10WUVibdmYP6RG91RBsCL6Q1sXbz+cnjp4ezj436dN7ZScAfeEgS
-	7UiCzuRvu5aiX7Zf646FgqKItoG5cvUpK8+CvBNXqHh7h45VNwNLHMsxrtGr6Io3+XRlDpzpHl4
-	H9XxWaAZpkyzxB2GsM8mq6L5rNkeSt9epD6SII8WaXO4kbWpiy1e91r6tZcVHLvoukx9Ji2iain
-	66xBXhgkLkRQ2ig==
-X-Received: by 2002:a17:90b:17cd:b0:3ac:9599:a689 with SMTP id 98e67ed59e1d1-3b41c9d3111mr4310485a91.34.1795249125252;
-        Sat, 21 Nov 2026 00:18:45 -0800 (PST)
-Received: from wak.c.googlers.com.com (246.21.127.34.bc.googleusercontent.com. [34.127.21.246])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41aab4729sm7548983a91.0.2026.11.21.00.18.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 00:18:44 -0800 (PST)
-From: "William A. Kennington III" <william@wkennington.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Oliver Neukum <oneukum@suse.com>,
-	Havard Skinnemoen <hskinnemoen@google.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"William A. Kennington III" <william@wkennington.com>
-Subject: Re: [PATCH] USB: cdc-acm: refuse writes after disconnect
-Date: Sat, 21 Nov 2026 08:18:43 +0000
-Message-ID: <20261121081843.4065887-1-william@wkennington.com>
-X-Mailer: git-send-email 2.56.0.567.gdb80ae8cd5-goog
-In-Reply-To: <awAtdlEpSLc1ges1@hovoldconsulting.com>
-References: <20261118145636.3534234-1-william@wkennington.com> <awAtdlEpSLc1ges1@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pa+0yiGk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDB61F000C4;
+	Sat, 21 Nov 2026 09:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795252265;
+	bh=GPuPhQPXGjgK63QMd53wWjqm0zkGOhohPPcaOiUA3b4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Pa+0yiGku2mi2/1RcZ70Ftb27/otW7x99MLxZQc5gSNqudcqz/jfpf7nwRE7AgQ91
+	 UVEvutFahOWa7VRAmQZkDZJg8/jJyD0GY7wYtw3KBaUCz6g0dMVX8xy+LRZesaiNNn
+	 Ty6WSeoaIYq/TcOBXn73L6neKTZXCLqT02Yj65dyzRK1x6+w4VSR9iA0EI9wjRLeFU
+	 0800eq+FTyRPAVrwx/yvQSBc9TrZZxk+YcZ5CleRfRLtpyveqM95ur2ioo4qmC5rXp
+	 /Jir66G3jlDcIdtbJyRofIymNt/a/jHtlKD2tZodW8rNbpR561Z6bDM3h2SnDJM+DZ
+	 dx9mqN/lqeLqQ==
+Date: Sat, 21 Nov 2026 10:11:00 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+Cc: Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 1/3] dt-bindings: usb: snps,dwc3: describe two
+ connectors on one HS data bus
+Message-ID: <20261121-icy-bright-partridge-afe8de@quoll>
+References: <20261117052137.32833-1-xiaqinghuan@mail.ustc.edu.cn>
+ <20261121022104.1507987-1-xiaqinghuan@mail.ustc.edu.cn>
+ <20261121022104.1507987-2-xiaqinghuan@mail.ustc.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,54 +61,44 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261121022104.1507987-2-xiaqinghuan@mail.ustc.edu.cn>
 
-On Fri, Nov 20, 2026 at 12:22:30PM +0100, Johan Hovold wrote:
-> Thanks for reporting this. I assume this is not something you actually
-> hit yourself but rather something flagged by an LLM?
+On Sat, Nov 21, 2026 at 10:21:02AM +0800, Qianhui Xu wrote:
+> Some designs route two USB Type-C receptacles through one High Speed D+/D-
+> pair with a GPIO multiplexer, so only one connector drives the controller
+> at a time.  Each connector needs to be described: which role-switch input
+> belongs to it and which mux state selects it, because the role switch is
+> registered per connector and the driver must know the state to program
+> when that connector asks for a role.
+> 
+> Describe the two connectors as the two endpoints of the High Speed port,
+> which is what a mux'ed data stream is in the OF graph: port@0 of "ports"
+> carries endpoint@0 and endpoint@1 under "mux-controls", each with
+> "usb-role-switch" and the "mux-state" that reaches it.  The mux
+> controller is referenced with "mux-controls", so an existing "gpio-mux"
+> controller can be used as is.
+> 
+> The High Speed port definition itself stays optional: a single-connector
+> controller keeps describing one plain "endpoint", and requiring the two
+> endpoints together with the rule that their mux states differ only
+> applies when "mux-controls" is present.  The two states must be opposite,
+> and the driver rejects a device tree where two connectors claim the same
+> one.
+> 
+> *** AI-assistance disclosure ***
+> This patch was prepared with the help of an LLM coding assistant.  The
+> author reviewed every line and ran the gates quoted in the series notes.
 
-We actually hit this twice in a kdump I got from a machine doing some
-usb reset testing. An LLM was used to squash the bug.
+This does not go to commit msg, but changelog.
 
-Trimmed dmesg and backtrace from the first vmcore (the
-second crash three days later hit the same PC/LR at 51s uptime):
+You keep sending multiple revisions, this one even threaded to other
+posting and still not really responding to feedbacks.
 
-  [   57.197371] usb 1-1.4.1: USB disconnect, device number 9
-  [   58.287013] usb 1-1.1.1: new high-speed USB device number 15 using npcm7xx-ehci
-  [   58.599405] usb 1-1.1.1: Product: Zephyr CDC ACM sample
-  [   58.676523] cdc_acm 1-1.1.1:1.0: ttyACM1: USB ACM device
-  [   58.797838] cdc_acm 1-1.2.1:1.0: ttyACM2: USB ACM device
-  [   59.026611] cdc_acm 1-1.4.1:1.0: ttyACM3: USB ACM device
-  [   59.324421] IPv6: ADDRCONF(NETDEV_CHANGE): mctpserial0: link becomes ready
-  [   59.378147] Unable to handle kernel paging request at virtual address ffffffc009fd5000
-  ...
-  [   59.437892] Internal error: Oops: 0000000096000047 [#1] SMP
-  [   59.446523] CPU: 1 PID: 217 Comm: kworker/1:2 Kdump: loaded Not tainted 5.15.167-yocto-s-dirty-4ae9335 #1
-  [   59.456085] Hardware name: XXX
-  [   59.462436] Workqueue: events mctp_serial_tx_work
-  [   59.474127] pc : __memcpy+0x7c/0x240
-  [   59.477711] lr : acm_tty_write+0xec/0x1fc
+Feedback was waiting for three days and then you send the same. That's
+just wasting our time.
 
-   #10 [ffffff8001f03cd0] el1h_64_sync at ffffffc008011250
-        PC: ffffffc0083e94bc  [memmove+124]
-        LR: ffffffc00859ed50  [acm_tty_write+236]
-   #11 [ffffff8001f03cf0] memmove at ffffffc0083e94b8
-   #12 [ffffff8001f03d60] mctp_serial_tx_work at ffffffc008559924
-   #13 [ffffff8001f03d90] process_one_work at ffffffc008059118
+Best regards,
+Krzysztof
 
-In both vmcores, tty ("ttyACM0") had count == 1, ldisc "mctp" attached,
-acm->disconnected == true, and acm->wb[0].buf == 0xffffffc009fd5000
-already unmapped by usb_free_coherent() in acm_disconnect().
-
-> This isn't the right fix though as the line disciplines should not be
-> calling back into the driver after a hangup (and this isn't cdc-acm
-> specific).
->
-> I've prepared a fix that restores the ldisc to N_TTY when a tty is
-> reopened after a hangup instead.
-
-Clearly your patch does it more cleanly :). Thanks for providing a clean
-patch that looks like it does solve this issue
-
-Thanks,
-William
