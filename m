@@ -1,77 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795293499;
-	b=TWmd3YlA4Q44v2ARxakkcH4/RGoAEMI1NBGSl/UGy0BvTSkIkQd4Y407mJ0/4yG0+7ey
-	 2H0lDp6Faw635bH9mqkH4/E2jXWF6wedFUdtwrDsPM1AKcyNz/2A34mjha0HYBvsMn7uM
-	 jswgsa11d4RUtxbN8wfUiQkWjEmzGeKEYeZ7adXWWwqhaGXvbqYPItS62YqZ4W8SPNHi9
-	 YqoK5c/na6yrx23rNM33uHdouEGCPa7re2ULHZa1zQ+ayN934e403UZMzBVZ62QEKAvmv
-	 QzHFCpvQhRnTCbvxDTxWunJfKYqqWF59aFwSUSnUF8D1P4NQ2JxdVoRSjBMKOJuwOHQ==
+	t=1795294502;
+	b=ncw8AE/nHViL7eoVZ6hRT/UidESOEBe3sRz5NLdZsZcSdOfPl5p1u95ecJmt3+nbPkHk
+	 mAtIlAcxuBE15x7qP90cYFOMwWFwHJcX5aWQK4jvdpVuk2xXpd+Cr/2SGDlfiAeWdif6e
+	 1hc9i4eVDGvIiIF4qPri6LsmnEi6wj8jD8N9QAceSvn1JK5/uE6/yP2iQ7CdKHkGUbidK
+	 bqW/HMfq115RHSf58cBn/SgKAxIIAFlhIUGhZ6RBLC0oVLoblEvD8pVm9eQO/qXHzvuJ1
+	 hVM75J3bgNi/f4UzaWi1Kqtclu8uE5iatqVavtruBGgA1fspZInh7Gp8pPuW/Lcc+Uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795293499;
-	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
-	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:
-	 UI-OutboundReport;
-	bh=awtTdRvodLPJGwyKgti0ipUO+MDHSKcEJgflthB/U+A=;
-	b=puFxecjj4GAeVpOFrYa6k3KbKvUPjR6OnIaGGv7etkPR9EZfH+I5R/aVSpxzlD6ei5/T
-	 vpZfgZtiekwP226NZ6mFsuCcTtmVS0ccflI0sG8XcNbLQN4/n5EEWh1lVyGgK1lf+4K0R
-	 ot8OfuiEGKxDWk0ldvCanQGlRDwcSMd6+9/TdPqsufQyTpItdeBq/U/kCx8KlLUc9zSpx
-	 gELHQ2pdIsJABiP565s1xuFjFdRN+2Iei/bjfbP78xWUwP/2Dwjhlu3gbsKKzhsSgwwjh
-	 tQ4llFLXLfUWmfxEpqEu+K/Y117oTNSUMLJV2qBPXlyhTiX7AIla87mt18Y4hEkJtMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795294502;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=KsAe0DhYdt/3g87gB1LeApXPRoWIhM10pQ46a9pN3C4=;
+	b=qNFI9P694zOzYybo7VXZLPBBYVXBU0xSs+bEjgtLxgjBAKw6D4Q4zu+Q5IGQZmPA4YeT
+	 GMIIxUBnnT3svyGMWp2gjbnx9aqlvSskYwmoR4LUG7d9j0afv1MvhGrYbTfFcv5We7ygR
+	 tKC0KKCqHnQXP4eVnk9SiuIgCw/KE0XMUlrTaOFwPfXzKF81XFsPzmvl42K6cA6AV0lEH
+	 5drQueD/swFEJmQ0/9LxfV3TsAx9Xsgky5tErnN9OTCnSfHBU2mdUJKEnx0pquy34Nxj9
+	 +Nzc1PCccByc8HCOLUqpeH9QAgnDTsI86SnZtY1U5V2R1j1Cq/cPAjHzs0RDW4UgFdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmx.net;
-	spf=pass smtp.mailfrom=gmx.net;
-	dkim=pass header.d=gmx.net header.i=wahrenst@gmx.net header.a=rsa-sha256 header.s=s31663417 header.b=KVpTQ7bb;
-	arc=none smtp.remote-ip=212.227.17.22
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=XshW6s1k;
+	arc=none smtp.remote-ip=209.85.219.48
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471DC606A332
-	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 20:38:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 471DC606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567EB606A32C
+	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 20:55:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 567EB606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.a=rsa-sha256 header.s=s31663417 header.b=KVpTQ7bb
-DKIM2-Signature:  i=1; m=1; t=1795293496;
- mf=PHdhaHJlbnN0QGdteC5uZXQ+;
- rt=PGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc+;
- d=gmx.net;
- s=s31663417:rsa-sha256:Azrl6E2AuvnbSTYCkiQqyOEcgHo+
-   9eBMXTeSkxfcKl8yf9BkJ9iaV++dUDFcWSuKeK6oDSTQn7fpqxMClwBbGkcv9EpyDlDteYUykHC
-   fkwC7+ym043NYgYUDBNkB/dIG2lv9FNdrUZQqUeFnyD+2cfqsZsfSM5GbVWY8YcSUyEoQLUIHmB
-   3n91DRfopZWIpJ1/aqHS5xp8gi4ROXsSHXu2u/fLnCEomxfDY7TxgTiWCpyu0XRtn6m7UvrWICO
-   yoTf6WNG6QYs5BuzsnkdSdMNsryUsDmvGhyPeQylZ7CencfwzXFeDzfB61y61QcP+k1/gHsVoN9
-   zyYFDyaXmoeV4g==;
-Message-Instance:  m=1;
- h=sha256:
-   KtoJh0HXmcHQI/lO1I1JXzHYm/fbIBcXM9B+y0FGrzE=:
-   awtTdRvodLPJGwyKgti0ipUO+MDHSKcEJgflthB/U+A=,
-  sha512:
-   29jnx5SQ8g+2K4RpqqSRfOhOg09jO4EYzBwCGwFh0TN6j6YEzhMwFgkiSepBZNMcCp2TfmgyAPmqaM3R571Cpw==:
-   AhIEscdb/wjAzfyAPOwXBJmKDWw+dxxZ50xc2n3MMiix9Ya/faWz1kzKS1qcYoR6CwS/GqELQLlbn2hDifz7jw==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1795293484; x=1795898284; i=wahrenst@gmx.net;
-	bh=awtTdRvodLPJGwyKgti0ipUO+MDHSKcEJgflthB/U+A=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=KVpTQ7bb2GvUGCpSpOAQH5WeM5F8b962azXQSa0HBJzq1KmnqZoqbPqD+Sjbw6UZ
-	 dRPZQtdtwfGPpFlaMEl4IqSaOqXh6IuyBZ9s1Vfk8TmmJnlCW3wjom42qAbD0XB6S
-	 Vu4+umqqf0XCEjHoXXedziyulpqFu3EFH45Aa4rrF+cIGCLh9c2RTIGOjlY5k2rPi
-	 Pixp22LfwSdlCCwI7dmhsu/b1KuBjHp9vpGx7QOZywCVabwE4fEnh5soV9jqzmaee
-	 C+7QSZ7facoLFNXqzPXwv9+8GyThwlXhusWfaHOEDrjJwU3ftHm9PcYriWGrFWpOB
-	 DA2v/GF6pvYVm+2FfQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N5mKJ-1yb3YG3Ulv-00sdWY; Sat, 21
- Nov 2026 21:38:03 +0100
-Message-ID: <af32cbc3-9c24-4e43-a7ca-f4716f48cb34@gmx.net>
-Date: Sat, 21 Nov 2026 21:38:01 +0100
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=XshW6s1k
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-9213f004a14so20511406d6.3
+        for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 12:55:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1795294500; x=1795899300; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KsAe0DhYdt/3g87gB1LeApXPRoWIhM10pQ46a9pN3C4=;
+        b=XshW6s1k7WQmR+2O2DWZ4GneGxkUS/SJGW0cSDG3Q4YBBbLNsjXA757q/8fabmUPpi
+         nqQJd4MuMDODQrW65W/CqW0K3c/tyhZybm5R0QhPdCYll3lXGhMrmFwLqWOvgoE9Ssx/
+         oERjx9P24ajqlRpwagkS21qqjRVFUD+jMPLHXaxxGi+s2oCEhjPbv1emGdzUKM3HovV6
+         i86/SjI3vTAH8YvB+PH4Qs7VwnxIsP97xogmec5nk91r9ljnstyYsIZy4EyMz+gjBbLn
+         2tJkpD6xNjxor97q+4e5hI3uaZAjaVndHg6nfOm7lZs7GO5q+PsYxY9vRfaeEpK50eNf
+         xiuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795294500; x=1795899300;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KsAe0DhYdt/3g87gB1LeApXPRoWIhM10pQ46a9pN3C4=;
+        b=YghqVSlF02J0ttvvvdhchmFUEorRZamcgW4Y+Kl8u50cDMs7lNSmqn0qazFizXfWIp
+         NTAT72genrSKbGP6hrBoowScvKpMIqxB5t8PiyT0Jr895QB6lPYYYUw7oUnOqv22KO4n
+         hhUK6S+etgyrLAzX4XA6aL6nCMywIR/eLFJ9FMb6oGdx5PpGBy6UKdh0RRcD7y2+wHUT
+         A2QZouyWyhtjAkiqYiEtStrTMEksDWiFQdKB9G7gPyXu1p0zcriVDIGpeXjEwzHolhFc
+         BSAxMhk3lm9s9RtzfmdSfm/Dq9AxQ8CRF0aoyWvGlX204wqaHo6ERGxz3P+ZQ4l2WRup
+         W9vA==
+X-Forwarded-Encrypted: i=1; AL+hErFZfAp0ZEdtbyl2ftpTMtbFb5IqM8Kk5vJLFD7+6H+GDUm4rzdqsw+0CyznOws9wvjkIrvAhYzoi7c=@vger.kernel.org
+X-Gm-Message-State: APuU4Z99/zKcxSwIE+52jxcRQZ0nIfsnaaAZciAUV7e1FzECdaI3RFyi
+	gaeJtpNGo05MydLKG9Z5DVVTVJqLSefznO8TVy/2OMyeP7fJq6emdmJHN+x4UXpUMg==
+X-Gm-Gg: AZFdTZevjeFMVFRDca60Sk4Wr3u/pvaZXnSOS8rF0WeeuGkE9fv2IeGDhqdPSivR7yw
+	yqUgxd4pdNo0DQ2Q5RBIvHERfR44uk1Tlxwznd2qoUnnUs7zN7z+6N51ChDO+8cCBeHDPJaide/
+	qmJok2B92tjXTaqF+PgVqTqZWl/lun+EdQZwuxJXT53qPQ7ESS5dCMSp8CMDcZr4qYaW9MnI81+
+	YD3HXTZf1gaKmk6Vr45TSMtZCqWZYa9/dFLEOmDKVwwcOa80FZ8x5h892B1qQn7QXiiGTEsKWw1
+	nDjwJlKo3yRN97VZCS7IEhIIRy4Omx7K+ehOOJ4+peX1MuqZBFtOhMCTnTAiNSyZ50fLREtrW1Z
+	2bWR4I2ngf4BJiTmVWpUB+QOvC5mFvstEwi0nuqdndIyntxWlncx/P1XsVFQplHSYP5TUjgiLzm
+	I1zzvf/LSL8UoScJJU3bveP4P8F2Xm0lVr5jD2+fmijBayYUmMOT3r/nhsd0Gxschks2gSvVxDW
+	rsFoaM6Cm7uTlX2LdSco6YSJiyOhryDE7GfiGTkVr9LHU8mVD8vFC5QR8HFavXVMg4//EzYJ/px
+	Jki43LiK2KqDlYH11urLUP3Dy5jMUg==
+X-Received: by 2002:a05:6214:4018:b0:921:3369:a766 with SMTP id 6a1803df08f44-92134a90270mr122441186d6.37.1795294500229;
+        Sat, 21 Nov 2026 12:55:00 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d00:161a::d398])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921347a0b6bsm60909116d6.1.2026.11.21.12.54.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Nov 2026 12:54:59 -0800 (PST)
+Date: Sat, 21 Nov 2026 15:54:57 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Arbab Haider <arbabhaider649@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shichao Lai <shichaorai@gmail.com>, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
+	syzbot+dc208a8cf8d37cf3e5ac@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb-storage: alauda: track media_initialized per port
+Message-ID: <5d2e1310-88db-427e-ace0-c2a0590560b1@rowland.harvard.edu>
+References: <20261121171956.1455-1-arbabhaider649@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -81,164 +99,41 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/7] usb: dwc2: fix recovery after PM domain off
-To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Douglas Anderson <dianders@chromium.org>,
- Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
- Amelie Delaunay <amelie.delaunay@foss.st.com>,
- Jisheng Zhang <jszhang@kernel.org>, Felipe Balbi <balbi@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, stable@vger.kernel.org
-References: <20261117-dwc2-low-power-fixes-stm32-v5-0-0f197e0e6362@foss.st.com>
- <20261117-dwc2-low-power-fixes-stm32-v5-1-0f197e0e6362@foss.st.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-Autocrypt: addr=wahrenst@gmx.net; keydata=
- xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
- IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
- NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
- JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
- TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
- f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
- V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
- aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
-In-Reply-To: <20261117-dwc2-low-power-fixes-stm32-v5-1-0f197e0e6362@foss.st.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZLPUYS+TfJWVobb7coDLF/dj5rUgqLewsT0DgbDSt75UJRKTgHi
- 4/cHMYIuVb0N9xuj5EUkhhNI8su6H4YcI1xoOEvi9MqEThNqeMnMpHw0s/oeFu8eFs/WzN7
- jPbNKdppozpqtc8N5SSdKj/gWb+Y+AT7BVXGEujNCwj0FgkOnzYNluCarDA+eltQEmDN7lH
- umRAtRkNGxhcrDPoQZOfQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:3wPnk0QI+4w=;RekfQ+4N6OHidYJckaKduNQexIm
- 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
- M7YY=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261121171956.1455-1-arbabhaider649@gmail.com>
 
-Hi Fabrice,
+On Sat, Nov 21, 2026 at 10:19:56PM +0500, Arbab Haider wrote:
+> Commit 16637fea001a ("usb-storage: alauda: Check whether the media is
+> initialized") added a media_initialized flag to struct alauda_info to
+> prevent divide-by-zero errors when alauda_init_media() has not succeeded.
+> 
+> However, Alauda devices expose two LUNs (us->max_lun = 1) backed by
+> info->port[0] (xD) and info->port[1] (SmartMedia). Storing
+> media_initialized in struct alauda_info shares it across both ports: once
+> port 0 initializes, media_initialized becomes true, allowing port 1 to
+> skip alauda_init_media() when its media-change bit is clear and divide by
+> port[1].uzonesize == 0 in alauda_read_data() or alauda_write_lba():
+> 
+>   Oops: divide error: 0000 [#1] SMP KASAN NOPTI
+>   RIP: 0010:alauda_read_data drivers/usb/storage/alauda.c:953 [inline]
+>   RIP: 0010:alauda_transport+0xe5a/0x35c0 drivers/usb/storage/alauda.c:1187
+> 
+> Additionally, alauda_check_media() never cleared media_initialized when
+> media was removed or before re-initializing on media change, leaving it
+> true if a subsequent re-initialization failed.
+> 
+> Move media_initialized into struct alauda_media_info so each port tracks
+> its own initialization state, and clear it when media is absent or before
+> re-initializing on media change.
+> 
+> Reported-by: syzbot+dc208a8cf8d37cf3e5ac@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=dc208a8cf8d37cf3e5ac
+> Fixes: 16637fea001a ("usb-storage: alauda: Check whether the media is initialized")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Arbab Haider <arbabhaider649@gmail.com>
+> ---
 
-Am 17.11.26 um 18:06 schrieb Fabrice Gasnier:
-> When the power domain containing the DWC2 controller is disabled during
-> suspend, its registers are lost. Reading registers to back them up from
-> dwc2_suspend() after clock gating can hang STM32MP1 in both host and
-> device mode. Host suspend enters clock gating directly; in device mode,
-> this can happen if the host suspended the USB bus before system suspend.
-sorry for breaking this platform, but I only had the Raspberry Pi for=20
-testing and I didn't get much feedback last year.
+Has this patch been tested?
 
-I'm not familiar with STM32MP1, could you please clarify based on the=20
-compatible which is affected?
-
-Could you please explain, why backing up the registers before clock=20
-gating isn't an option?
-
-Best regards
+Alan Stern
