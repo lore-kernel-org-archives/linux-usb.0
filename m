@@ -1,53 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795252615;
-	b=cqSbRURvnppUg743Y2HVmlMDgcT1+syJlb9VQoY1kKAeM/x75024i4/ssi5gAr1rqu3c
-	 Hi5m48UIOsmwF6/0MO3Fh6DLzozwvkoiwe4quVN1NbI8kNjYSXhia40DwVFSup2Zh7jfj
-	 JuFjsHftmo8XpRH8r4epIO8xZYW+K8+XO8HGkhSU7eazI8pyyEKpT8jg/87RRoSzbCNQz
-	 r9dU/CUHrBXroHjHe52ddy4RjswvofxvXFPCE1NcKZOtnUYbioLlaw+0uIPLzmY/83qPK
-	 +gCeOMVGFNjOsaiHVM7m2eZqhRsfWBELLWvOdQdy+B1I8fn47q88xY1s7//v+kuOcnw==
+	t=1795253437;
+	b=HRRm/uFSt+qLxTgoxjy/Ptv420i8CRrX1iIYPW79S1OiPOr9numcTj9uDUPBNBLqiZS0
+	 pb71NaAJAClWEf28J1ks7F7SIqLGTdsFZPIe7yVLBwIM/8EJrzqKROvEHFz5nnJQWNpzw
+	 wbizjDr9WFQlwkyzM8H73DgtnsvpsMLHN00tMu7HaJV4vYXbML9184yxfVG5uV6sjyWkn
+	 YOtSKmg/pCRS/lQFMm4IaFVhu+5qxSfSS3yJIkw03Xx2YgvqT7KGn4wNnVbdLSgmydJZv
+	 DXqeBNt1SKQjzqrwjTxYS7dQLscs2XWzl99pdkTIk29UE1FXfSt5CSfeuAvsoqpKn0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795252615;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=tOLRbk1pvSirOCEBKlCoSltr6Jt7C5tsmx6tQdtsMjs=;
-	b=eXubks5aW9vE6XrRVc72QNiphXAjPfS/nHeNMWfhsn3n7uUaNYKTK0IWcSVTXxipIBoW
-	 Ch4F9tsoxkZMPq76cYJivRd+MV/nH54+KcituXhuJnmy0Iu8kbijIS7wZIEsxa9B/8Pab
-	 bKD/jxVzKLg+mGPpqvsjO77O/dIrqDJ/XlxRQ+QsfFjAdVRzkBtzSw6LpG7EKxeGyOY1a
-	 6MoQUbE9753Yu4lJAW+xOaFRVOC93CLmEIzwoJaCMQS4CnqMhPgBOZa4Pp4/Adu/IjQ2s
-	 xObiRvVmw/tlWrGX9gQcQIXa+3A5opaG4Q3dUSUwS8WdMsmrKVAF+g8Um3USpq32eAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795253437;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=165M+y67FGU92liuL0BI/yTTwNfE/BM37g04ys5KH88=;
+	b=nZz/Psx53bU3Ag+tJB4djSihruSjBuB5D/9ubpi048VIs2mmnK1lNAcRBnch1IGPVw/9
+	 oojPYPxk8ztk6MktU5dpD7U6TtHYhIX/yM6vkrvi+2vL6Iycz64zisWauxii3ypivhfM1
+	 uiqVgiW/BrJkWiDThaliNl4gkyEAjVaX2aiugHrHXRNKO3PG7mfdbmkQkGynfdenySNuc
+	 docN3zWJttXUYsfh1NrOFvoHDn3lel5tKA+ykXGWns67cms4UH1KmWtDKqg+SbxQkgrKt
+	 YX87Ok9K3CQ9rIKYVSDxO40ANiZ/UDrrmFSpSlCnWZsd96cLPMNdktJ1jCPXnQAlWHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ujXkoVUZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Z5fRBvPR;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B921C606A320;
-	Sat, 21 Nov 2026 09:16:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A807606A683
+	for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 09:30:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A807606A683
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ujXkoVUZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B83371F000C4;
-	Sat, 21 Nov 2026 09:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795252615;
-	bh=tOLRbk1pvSirOCEBKlCoSltr6Jt7C5tsmx6tQdtsMjs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ujXkoVUZt/uE4hYFhXuFq6zfccUNOcJBiLt6y4DuUxCFI+d9nKtoiLT1aFj0xnAYc
-	 vTcgAkUILkrTVqiRVVpqtGo1n0PVmcDXIv9pQqlgBxS4sblvb8ObmyAN1ygrt3BJik
-	 M00EsUQTX7+HtkqLurgASIMJlvh+Eez7BY7eQu50=
-Date: Sat, 21 Nov 2026 10:16:52 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: memoriaru@foxmail.com
-Cc: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
-	badhri@google.com, stable@vger.kernel.org
-Subject: Re: [PATCH usb v4] usb: typec: tcpm: exempt Soft Reset from the SOP'
- MessageID duplicate check
-Message-ID: <2026112138-turban-cornbread-efa1@gregkh>
-References: <tencent_443620EAE95525A375BB2D8A653406630A07@qq.com>
- <awBIRnc9lBkdVhEK@black.igk.intel.com>
- <1795204200.cover.tcpm-v4@foxmail.com>
- <tencent_D1222948818CA62395FED66DB7F2967B1809@qq.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Z5fRBvPR
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4bb69f5b161so10526305e9.0
+        for <linux-usb@vger.kernel.org>; Sat, 21 Nov 2026 01:30:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795253435; x=1795858235; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=165M+y67FGU92liuL0BI/yTTwNfE/BM37g04ys5KH88=;
+        b=Z5fRBvPRvoNAHlTMNd+dxXxJjbgWlLta51HewPTOxJIZoF7VvFc/tMzPwtxfHCVH5/
+         9GzZCdaeIRUU+PkFsrbhuKKIAD5koBjBfYYPoEeInqPTXH1Pus2vHs3w8Ytb+b3GHxVL
+         sabss1un3a+vcTTkeKuDqWZ0pbfHqwpKjdPSzdyDMx4W+T7cmrr7uJOEkyOy3LywiBKj
+         P5B/U7GQ1g5TH8fXNSghU5/0uli3h1haKa9w0A8RCtyn0YyXm04Lb0sJEkoWNbmIdBR4
+         h95u/6WoF0XYcyQT34Ub+gi1RTB6gTYmf122qkoIMe+Vgy171J3PftY+DjzGgdW6m2gN
+         8VSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795253435; x=1795858235;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=165M+y67FGU92liuL0BI/yTTwNfE/BM37g04ys5KH88=;
+        b=RdcQAUmL/3obKBkx/Xs5C9y8s8X+ILMCEuNgMlQ0QaFbypqDMY85QhJz33pNqhlt0j
+         IBN9MoKBOCPZwqYeZvuA/JbZBQCwZeshMdLcXSViUSX/9IYYsqA2uaNmjV1iKE+Gj9sa
+         WssgK3JX48bKaqu+4mM3Oc3cA0a4uaFlDO1yzaGdizpfwxuZwx9cPWUGEZCye1FqQvVH
+         CdeNr/XiP++8cvGcOnGoeHwji1cugXM5UPvAVvZZqaFuRFIKRsLoJg8SvO8hd8aXkHRX
+         ZS7+TfpI0e6j8tpgROZrBzYD2lUJcxE+q/cjdrgE8nWpVzPzhzV8pQET/QRXBoHyaQr3
+         j6ow==
+X-Forwarded-Encrypted: i=1; AL+hErE+1SH4WFWZjxBBSQpS4qYNLAwiKGaSIzO9nUWZGwpmAwz3shvc/7g7zs/qhm7qI2QOONcWDEJ/zEg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+yUtLUC5RHIH8Ma3QU/ucgYackZ+C6kyDUGIbnwN5LbG+p5xEx
+	Oih2IYiFM5Z+ev5kAcHyM5aTUpwEgXZtyxc6CzfO4Vbec445GNEx5mLn
+X-Gm-Gg: AZFdTZdfMpHDDfYPSPhTpIQXgx43UkyVkClkqZmZ/a3uGiwDBU+uhv7qmZdr2MVGILG
+	G8vW836JpeL2IcK4gZRDN85Zn9Crcv5jXcwZQLzXbJSG9y+8FuMPjlErKCj67uXchy63XAOqxx6
+	ixIZVs9B9OUwDBjomfDHGQgRFmWw3yCCrEwx3FwVWPNjdnApyHjfhrxcEhXBvKXWKXJ6w7RF6Do
+	5C8CD25a60AcgS9o2wdv8suVLIrE88LEeEwkDYC1CWK5b7TVRZVO/X1M7o+ggGQGKAVkXRfcU62
+	wgNL+M7kLQfamkOpAGrK4GKyulXNrGIP8SlWqvkmS1gScBDch5fB/k9O9oJ/s1ApyFnphlucJmL
+	e7gLUKPchSAYSs53XmwFtHO5VQPv+tzflNYM2XL+6rnvQZQQhE2iPn/uChAIDqcvMu362se170O
+	PQG0Ho4BvZt5yIcUxn+s69C1dhoYLID4oTlqKTOaY9L4p6W5p2m9fyAi4/Mxa2M2clXqSzmsPbW
+	s0t5ddO+8gDOYBJ2KCWuW+YkdzvSfH/EvdSPxKIJ6vnrhFR0zJLWMWA6Dm1bEim/PagUHLaHVCx
+	W6uNpdjk+oPNcjR/GWa/37O6FXA=
+X-Received: by 2002:a05:600c:64c7:b0:4bb:68b9:f610 with SMTP id 5b1f17b1804b1-4bb887ffee2mr119899625e9.9.1795253435290;
+        Sat, 21 Nov 2026 01:30:35 -0800 (PST)
+Received: from foxbook (bfh118.neoplus.adsl.tpnet.pl. [83.28.45.118])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a9846sm215995135e9.11.2026.11.21.01.30.34
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 21 Nov 2026 01:30:35 -0800 (PST)
+Date: Sat, 21 Nov 2026 10:30:29 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: "Alex Kononov" <alex@albefly.com>
+Cc: "'Mathias Nyman'" <mathias.nyman@intel.com>,
+ <linux-usb@vger.kernel.org>, "'Takashi Iwai'" <tiwai@suse.com>,
+ <linux-sound@vger.kernel.org>
+Subject: Re: xhci: unratelimited "buffer overrun event" warning floods log
+ (~7000/s) with USB S/PDIF capture device
+Message-ID: <20261121103029.7af20ec4.michal.pecio@gmail.com>
+In-Reply-To: <001801dd7985$c068fc60$413af520$@albefly.com>
+References: <001801dd7985$c068fc60$413af520$@albefly.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,76 +99,64 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_D1222948818CA62395FED66DB7F2967B1809@qq.com>
-
-On Sat, Nov 21, 2026 at 03:25:35AM +0800, memoriaru@foxmail.com wrote:
-> From: Zhang Hewei <memoriaru@foxmail.com>
-> 
-> The PD message duplicate-check and the SOFT_RESET state handling treat
-> the SOP and SOP' channels differently:
-> 
-> tcpm_pd_rx_handler() exempts PD_CTRL_SOFT_RESET from the MessageID
-> duplicate check on the SOP path (USB PD spec 6.6.1.2 note: a Soft_Reset
-> message always carries MessageID zero, so the duplicate check must not
-> drop it), but the SOP' branch of the same switch has no such exemption.
-> A cable that sends a second Soft Reset over SOP' (MessageID zero again)
-> has that message silently dropped by the rx_msgid_prime comparison, and
-> the cable-side re-negotiation stalls.
-> 
-> Exempt Soft Reset on the SOP' path the same way the SOP path does.
-> 
-> Found by code inspection; a software TCPC stub was built for the
-> responder path.
-> 
-> Fixes: 6bd181ba60e1 ("usb: typec: tcpm: add control message support to sop'")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Zhang Hewei <memoriaru@foxmail.com>
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index bb90211..89e280b 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -4200,7 +4200,8 @@ static void tcpm_pd_rx_handler(struct kthread_work *work)
->  		 */
->  		switch (rx_sop_type) {
->  		case TCPC_TX_SOP_PRIME:
-> -			if (msgid == port->rx_msgid_prime)
-> +			if (msgid == port->rx_msgid_prime &&
-> +			    type != PD_CTRL_SOFT_RESET)
->  				goto done;
->  			port->rx_msgid_prime = msgid;
->  			break;
-> -- 
-> 2.39.5 (Apple Git-154)
-> 
-> 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
 Hi,
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+On Sat, 21 Nov 2026 01:58:44 -0500, Alex Kononov wrote:
+> Good day Mathias,
+> 
+> With a USB S/PDIF TX/RX adapter (Savitech, 262a:9123, UAC2, high
+> speed), the xHCI driver logs an isochronous buffer overrun warning
+> for nearly every microframe while the adapter's S/PDIF input has no
+> signal:
+> 
+> xhci_hcd 0000:00:14.0: WARN: buffer overrun event for slot 2 ep 4 on
+> endpoint
+> 
+> Rate measured: ~433,000 messages per minute (~7,200/s).
+> systemd-journald sits at 100% of one core and reports "Missed N
+> kernel messages".
+> 
+> Setup:
+> - Intel N100 (PCH xHCI 0000:00:14.0), Debian 13
+> - Kernel: 6.12.117+deb13-amd64 (same code in mainline 7.4-rc3)
+> - Capture stream open continuously (CamillaDSP), 48 kHz S16_LE,
+>   EP 0x82 IN isochronous, adaptive, 125 us interval
+> - TV feeding the S/PDIF input goes idle -> no input signal -> flood.
+>   With a valid input signal the count is 0.
+> 
+> The device is clearly misbehaving (it sends more data than requested
+> when the S/PDIF receiver is unlocked; it also reports its clock source
+> as valid while unlocked).
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Either the device is buggy or snd_usb_audio driver submits wrong URBs,
+but that's a sound subsystem issue.
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+> The driver handles the events correctly and audio recovers fine. The
+> problem is only the logging: the warning in handle_tx_event() for
+> COMP_ISOCH_BUFFER_OVERRUN is not rate-limited, so a single
+> misbehaving isoc device can generate thousands of lines per second.
+> 
+> Locally I changed that xhci_warn() to dev_warn_ratelimited() and the
+> rate dropped to ~100/min with no functional change. 
+> Would a patch rate-limiting this message (or demoting it to xhci_dbg)
+> be acceptable?
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Not Mathias, but I think it should be xhci_dbg() like all the other
+conditions which are device-triggerable rather than driver bugs.
+People can still see this as -EOVERFLOW status in iso_frame_desc[].
 
-thanks,
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ handle_tx_event()
+>  	case COMP_ISOCH_BUFFER_OVERRUN:
+> -		xhci_warn(xhci,
+> -			  "WARN: buffer overrun event for slot %u ep %u on
+> endpoint",
 
-greg k-h's patch email bot
+When submitting, please make sure to avoid line breaks like this.
+
+Regards,
+Michal
