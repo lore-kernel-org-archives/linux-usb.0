@@ -1,100 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795334867;
-	b=CuqDYSGx3tBdD2M69HG6cdQA6AFSoO62vHA4f5SDcF0+BbizT1FuQzuWWhazz/QzSTOb
-	 YiQHL7Ccr+/EM9DDS1Essdo5RffU/Fw416C2Dfx4IX8fa6NVAr0U7wjkCT73FP1+GhmXU
-	 R2Mrt5AhypmvIeMrG4LeVHvHkHX5QUDZNwHVYokGCCY6O9dFgOREC2QTS1BuU5N9Wwxez
-	 wdmEcka9WKqlAQDy+f0vp2sJ+yVSbFvo7GxQ9tmHbCeWoEZzat3EMGhoW0qv/jh/nV9mP
-	 1OKJLe1TyVzg0GGew1Q0uC217Yc4WKRmAmQnuYMz/6zMFv5vrdCS6TweMV8cAhcmJKQ==
+	t=1795335925;
+	b=sSi8foxnXZFoxFRPI96fenoAs1HcxabxUL2g1/3SvaVJb7m6t1HbG0g6l7zOHRcyMFes
+	 1RWdIskuWSIR+UZHEXXyEs0YiEgmzGr5UeVZY/yc4y1bLxEqqbDgrZ6l5n2w6lPCpyco+
+	 W43BzTyO8rMZRqUCTUzyNOYTdvhFLHvKmJdP21CTovYH11vndaZKs1se35C+OHiZBeD97
+	 2dfrYVENWvXBt6pMaICUNDInUXcqPu2i9VypTUwSc7UnuysqGkajGhdIIe+yDx0lXVehA
+	 c7BOu9pfNhQWFNSeGITWsAmcydENNEdo0IVBWuvbfotxFq3PcbGXuoaC1L06+1qKCbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795334867;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795335925;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=/mkvkDb3xo2wy8tT3sFzQBOkkMEtSGCgH+EfHq4vbWQ=;
-	b=3JzAq1/xA3NOB7r99KTYwsE0DZq7jXhWuVIqJnb4/Cu+xdWyDgd6m6ihndwDuZmx2vEV
-	 YuflcoTXxcKNQW5wbsZzwKgBrpb1N+ZAjwbbo6iruhkvCKAEcCMO+Fd8G4S1LaVC5gX9J
-	 045KtCkYIvYBPhLg3eh2h1ZqOFDHNquGT/XvYbqQR7m2ynnRkeXsajvT6x5FmMZDkYpzc
-	 N9QrKMUGgrfUt7cyYL34g43BVz8jJKQU+zXdTFt6zIrL7+Wu4Z9aqRZO+SuwR+6JCXgCL
-	 wpgqwrp/flQRZmfqjCBk1/Jy9SM4Vijz8/six/9sdEPReWNPKBMqkR0KHHgqPUOQdNw==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=PHr5lMNgh4e1muETwY9dGYxImK1kdVOuIl14a1lxYrc=;
+	b=EAyzkAqgE0mC706wVgUbveeb1bqWU5S/z/XgB44+++5P+U3jNrsaIoPj43Zp9ZBH43eT
+	 9OJBSlQfmFUtH3tsgTSQbE/qDixm6zlLz85Ev1BdVRs6X/EIzs5XYx32geFPuOW0Lnw7G
+	 vjRdGyaatOzmOEt1J30mPXAxSIgEVyHemR8Y0qIYIpG3Rvp0rrolZRlp8KkAEIB97g6r5
+	 iWwrkEYxpP7E4ZuR0co5Nk80Ja/uoJDuv1xmgCuHJM7F968gHnnIChSn3Jv2aJsBQ1/Ec
+	 ZXNv9yv6QmCrTlzmObVpjFWkJtslCJwpaqRbkfTb4wgkwlC5gPRuh0uS6c9klihjLmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0qfcIlUD;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OXWiRVYG;
+	arc=none smtp.remote-ip=209.85.208.46
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81E6606A32A
-	for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 08:07:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B81E6606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C355606A32A
+	for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 08:25:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C355606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0qfcIlUD
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so2205966f8f.1
-        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 00:07:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OXWiRVYG
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6ba1e22ff4dso2463289a12.2
+        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 00:25:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795334865; x=1795939665; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/mkvkDb3xo2wy8tT3sFzQBOkkMEtSGCgH+EfHq4vbWQ=;
-        b=0qfcIlUDQGq5L2wppOOw9G3oPE5JToOHIqSTxQnbYpOuCMV/ptEYcKsRkYEhl7KROg
-         FTANui5eP9C8vt2oM9pRJFG7CxLBHXfhCS/O/ZazP7STzb6Pqrh0A1gRDi50ygUbYXvP
-         m25WpY/MQXkAaZRK4U4V8ywZ05m2qALh6zEw4zahm8wsdTnXoVBPzVdHPnVmC2zT+Le4
-         ocxsmMz4Pk4Nty2xsN6vGlrAbuiba2vP1zTOpj5+DuLqU8Zi20al5ZRaUPECkfhrxC/f
-         71B6axce74PiqpX84RajUJzIIJzx0hDzCkJLi8AufQTddYxN2EGW+FU9E7g385gqmuJB
-         ZZqQ==
+        d=gmail.com; s=20260707; t=1795335923; x=1795940723; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=PHr5lMNgh4e1muETwY9dGYxImK1kdVOuIl14a1lxYrc=;
+        b=OXWiRVYGiuGA5K4EINKm8QimzDFoI77PPgLGFz1wa8QIvfBbZwQ8BkSsar8q4DJZUG
+         o9rionaxNbTyKqP2/JwxKcAwWs501r/puu15KyMlP5Pe19y1Z+cQpO7LAUh9t92YpDGz
+         B5dwvUM8AgICmcMfyysnF846s3vs/lso8hu0mtnJPi1mZuvYSmNefiUj4TGxr0dGtxQU
+         uzraSTgeHM/9ATnvNgs/UpjM309E4QfT1GNGW9Q8/ZZGE8rXVCAi4oJsRSNLmizJMCpd
+         3x5ZOXRD7WbliGV4Xy7i2WaOdOzid2pI3TsUWwTNAI655ixiBmAh9dmbLPL9ehrewadV
+         F8Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795334865; x=1795939665;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/mkvkDb3xo2wy8tT3sFzQBOkkMEtSGCgH+EfHq4vbWQ=;
-        b=yNOmO7Mw8GR83c3EF8Lui9QCjuvUy8MATm7AjzB84UYj3ejVnttxXsScU5yctIJly0
-         GdZ/puICvAizVoZPCllry+UoaPrABG+4o1SD8pQKd73QgXid4KVnMcMBaEu8xS2Qknc4
-         dorRmIvjrfRXGw/ynJCY432blOp1UEk0485DYaX0qihrPbmCFGo0hu4i0pvaQynvZGnt
-         W40R6pO+VYwQsuOXwOJIUCyH0FcksO5dlEvg8GR9BPB5pyadxnHUVWsNYWpoXLW3Ta3+
-         0o4HPd6F15wIANguXYHS4H02pHXfw/ryRl8BmAoM5xYYM/xfp3PbKAiIJTCiQSb6zapr
-         UkHw==
-X-Forwarded-Encrypted: i=1; AL+hErEV0Xh3uIOjXq5ImlfcSBa/g9avPeL27GdpexHSHnU/HlkQniwrdzwiUCv7gRyqLth7wB5HzzulF6U=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9EEnv+4aItAKmJxG8tKRMUbxMvSwNxYO2QG1mTaPU6EJsXSFOK
-	ceAJ/KvPPSBNVqJC7IDA6CRYOO2UAQGnV/M/2o9yfEYhbecsXEIgAoZr
-X-Gm-Gg: AZFdTZfrrYaOw/5UUrb90vcO3rIGpqRXzBvS4VL2Zxwsq42/nGOicDZjKEwPpvIlpz9
-	n51xqT723LT4e3Ax8ZkMdjRf5DWli8P9M4hHQD4VrmanUzuWfT8lv92C2fLXOeLUBDWluLq0sTe
-	Tn397+uX5Iu6dcsU1TfgRAN/tG6k/srtxyA8Cm+pcMLuGWC/L3TF6qhaevmqXYcO2vBvWr5al2T
-	6Am71vFP7p1TGEaDbfa2yvmDTEbpEqo+kFZ4hoyAkkxAnuML1PNABGxGf9YxmBITnplepucYQLi
-	gdhYocxQrpoTtuIybPl11GPvTQQXb0tyNoKblItH/MmZup5TIi1lV4GksZ1yao2o0qbQJcpGs1v
-	zc14G9Kz3BueojbOvmCyOvJ1XYt2nBq9wQMBxC855JIlL5HV1cYVJ2Q+ubfwjP2X1TwWbjM4CiM
-	kFPFyDsVgmUEMXXSwinfpvvIVUx+cE0N8dAfOxOl1wAiyU56C2x1y3eemwBa4eujt2NqsSMlvYN
-	RwZvwDT76zGII+K9X5e2D1P6vRf2fzB6F8YI5LlF0lgqVkZNMrIVPJCpt7thGKgKvFRxP8hmCow
-	H39T7W0GME7Qd389VXUZwrUE1Dgpr7ixZ/W1mnkrm53bKAgQUyzSK/h6d+qvMGqMkg0SWoks9Pq
-	6YA==
-X-Received: by 2002:a5d:498e:0:b0:492:3982:a80c with SMTP id ffacd0b85a97d-4abb70d7094mr12139269f8f.29.1795334865036;
-        Sun, 22 Nov 2026 00:07:45 -0800 (PST)
-Received: from DESKTOP-V28CTA4.localdomain ([103.125.177.105])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm11929664f8f.17.2026.11.22.00.07.42
+        d=1e100.net; s=20260707; t=1795335923; x=1795940723;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=PHr5lMNgh4e1muETwY9dGYxImK1kdVOuIl14a1lxYrc=;
+        b=fNSiPvOMsyZTBOSrf4P6EgfLMspO4Ca8aYSHodB5TY5CMFCDlED7idZtuIgzQ11t1X
+         jAqwn+WbiETFLv4PEw4csJoJ7X6ovwLztbHOcV6MBjgLCppNoRGQeUbq4jK8vXq+SnkC
+         ynaUk3zX5Ii7njOMstxV+Slx0Cu/mvv2kpe2sVbmGGzH7YQVihWOY0jkTzCvra8ZcV05
+         DKjj+K+/tqKE4YkcZrnJV8rgOZuNzMzeeZHpPfrzLrm4KEIImURUyhk4Fru/2EZJS5bG
+         +r2aUaNFZU9wNXMKHEAvDr7qjMBrbqD16QsTGrT1sOjgL/B0UFnT3cnCaFDD0ctamKUL
+         nTdw==
+X-Gm-Message-State: APuU4Z/l3mNKohC42Cz1twjXoUtmxZZEJ2KE6+Z5UbD0i+gzj0z9KXLo
+	GdkhIqpcBFFMhyDbkwYRw/HiY5baQWNDc9qXv6h/7+7J4c28vzjdRnib
+X-Gm-Gg: AZFdTZcW+dT48peIShn653ERn7HrcOZ6N5OUVIax19n9RuMq+QsQrIDsbxAcPUEQiPW
+	WV6OuPVdiqpppjYS7BVw2Mt8qhAphxHiF555ociyWlaR2ATTT5SqgDnK54kuWb52Z+OV31WJR6P
+	geDybvba5YmKPV6MeMSoyeJH9JaTqHTAEeDMft7pQmFk/zNj5liFaIZsecJKnqJLr/lJI2mpOZA
+	UVp7xyJhGVkQa0bOw4ueqSX/aJKt3oPFjsF98Anuwj5gpiOCUMbm2e5ivJF+H0Za6Y+XfuE2RAn
+	hkko6d0XWK17uoGnDsnb3qymBt397jwq7nCmF01KOiHoj1DrzVJalZv8xwdbqf9rYhzVpxZa66J
+	R/kukBdY4rzAy+lNlHDx0S048b/Y6fzqLI7P3TxtCXKuB55IgMmd8SexWxHmuUxmBGiBt40dAq8
+	EH81lc17Jc9kkCYHC0kWt35Z2l2KKHYeBbwBchdaLChx0xgxTIL+gsB3j/XF+Jt/M9CxQhTu+CU
+	NXF9GnQbdPyy0zC/trbmvw/TiEHO25IQeYvec7EQAghu3HPQtJUtgPGHwowqBZWirE9y7sZqOeB
+	0zUjKhc5+fKNJZ9m936Zf1p6bDjuCgilwrE9WK5f7bvwB0cW+L/9hpPN+GTTh0oP9ZAxTgSt2kT
+	a/3VSlhOwxQ==
+X-Received: by 2002:aa7:d351:0:b0:6b4:86e1:cc67 with SMTP id 4fb4d7f45d1cf-6ba37ea0b91mr3954141a12.27.1795335923506;
+        Sun, 22 Nov 2026 00:25:23 -0800 (PST)
+Received: from xeon ([188.163.112.62])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ba6f8fa5b9sm2116187a12.37.2026.11.22.00.25.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 00:07:44 -0800 (PST)
-From: Arbab Haider <arbabhaider649@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shichao Lai <shichaorai@gmail.com>,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	syzbot+dc208a8cf8d37cf3e5ac@syzkaller.appspotmail.com,
-	stable@vger.kernel.org,
-	Arbab Haider <arbabhaider649@gmail.com>
-Subject: Re: [PATCH] usb-storage: alauda: track media_initialized per port
-Date: Sun, 22 Nov 2026 13:05:51 +0500
-Message-ID: <20261122080550.2181-2-arbabhaider649@gmail.com>
+        Sun, 22 Nov 2026 00:25:21 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Matthias Kaehlcke <mka@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] usb: misc: onboard_usb_dev: Add devices used by ASUS AiO P1801-T
+Date: Sun, 22 Nov 2026 10:25:10 +0200
+Message-ID: <20261122082512.64304-1-clamor95@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <5d2e1310-88db-427e-ace0-c2a0590560b1@rowland.harvard.edu>
-References: <5d2e1310-88db-427e-ace0-c2a0590560b1@rowland.harvard.edu>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,26 +97,18 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 21, 2026 at 03:54:57PM -0500, Alan Stern wrote:
-> Has this patch been tested?
+ASUS AiO P1801-T has 2 built-in devices linked via USB which require
+basic configuration (reset and power supply). Add them to onboard_usb_dev.
 
-Yes, tested in QEMU (x86_64, v7.4-rc3 with KASAN, UBSAN, dummy_hcd,
-raw_gadget, and usb-storage alauda enabled). I do not have physical
-Alauda hardware, so testing was done via dummy_hcd + raw_gadget:
+Svyatoslav Ryhel (2):
+  usb: misc: onboard_usb_dev: Add Chicony USB2.0 HD UVC WebCam support
+  usb: misc: onboard_usb_dev: Add USBest Technology SiS HID Touch
+    Controller support
 
-- Before the patch: running the syzbot C reproducer reproduced the
-  UBSAN division-overflow / divide error in alauda_read_data()
-  (drivers/usb/storage/alauda.c:986) on LUN 1.
+ drivers/usb/misc/onboard_usb_dev.c |  4 ++++
+ drivers/usb/misc/onboard_usb_dev.h | 10 ++++++++++
+ 2 files changed, 14 insertions(+)
 
-- After the patch: the syzbot reproducer passes with no UBSAN, KASAN,
-  or divide errors. I also verified additional raw_gadget scenarios:
-  * READ_CAPACITY and READ_10 on both LUN 0 and LUN 1
-  * Media removal (status 0x80) followed by re-insertion without the
-    0x08 media-change bit and READ_10
-  * Media change with a failing alauda_init_media() (unrecognized media
-    signature) followed by READ_10 and WRITE_10
-  * Recovery back to a valid media signature with TEST_UNIT_READY,
-    READ_CAPACITY, and READ_10
+-- 
+2.53.0
 
-Regards,
-Arbab
