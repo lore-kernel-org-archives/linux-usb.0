@@ -1,96 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.47
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795365904;
-	b=q4W33Ux5ccD2e5BfrlCTOw2olKIpPXpckv8lHPI+px01m0p4A7C5CmFr4OXdNqVnM6SO
-	 suNfGwD9tDw2pRmRxCP3l6pbJQ5Wsm/YCe74NrkzWrD9h9HdfbozMD3i8igm/9/QcC90f
-	 ibrIZ9fCt5skY8CJsCOFy+chU7Kp1u2UusoIakc8MyN51lg/3S8eTJY8pHVRnW2s+Jg/2
-	 ev7zn9wB4WQAJa4I+HCzv6mCgOmjSbLvudN4yPU5q/+q6cnHEKtWTxKnLIp3pH3U+S5fa
-	 InKyeTNiXc7ly1mz5EYgke+40jaqtO6iUXL+ReYq9CWJbjluepb+A3BNsDFc3yqvj9g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795365904;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=XSq9sam5xNjhAotL3SMmly5JcheSouECZuf0HzXpnaI=;
-	b=ivQXgSSft2VX3Ny0dXHHN+1dU+p/0K16EYDxuBwDsRr89FqIMxa5bC3kYMBuyqEMHs/E
-	 nHfQKywdO2Ohfa2iG4ScW20GmaogXoxDFpnmZD4SMqqK/GwE8qX5K8ar/EIwP6oYgWXan
-	 ARxx3grJHhMMqhY74Lt/sga01fQqkSZJdc3EzCkLRFe3TagMHav6YalEcTSe6vJ4zNHol
-	 3mSmwpRr0nNsCgj1M2kO3tkUSzW8Pil9Vp2aObzuvYhCVz01ZWQtN1wxfVlWM0a/4QKK0
-	 LePHSzEeYDMbOeBtRefXXvrwQGOoNaIEif6o0hg4pwXMAF9E1QgKTmdVlEmm4HakDlQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bfJo5dFq;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.47
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795366163;
+	b=M2rVjQh+0cadtFz6iwnDh7OCO4OUXCRthieb2Oky2UfUVIRKoEJ4wo3UcNFCffaJkYUT
+	 ZfswG4mEnNsEIoNibiYKxyYY0LNhZGLoVKn/eGaV3L2W0RQ2ULD0j1p8SihuYfZnVTeSX
+	 KpXljjQYUGDtXN68S6Lzd8GA7ybWIbCuXDI9egEaoD66IpO/vG5J9F/bezvdm3XKxFah1
+	 IjPNl+wqWB1DaMQdTyR4fMs46QdF9X95PVH24LNpJ4hchSPHeVythVrmdIrnHVV0c4mWe
+	 MzVaWtH3+YzF1oHm2a33oPaRMpDTGNuK1y4FJ4bJvf9UHEoi/XtZT+9ujPhT+QfVpxQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795366163;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=1n4tlVAMD1oQEfLg7AgK6BF8JkJzQIdhcOfMal/6gZY=;
+	b=Xn1QeDYrhUCf5KSznSO8TQS5yilxytITKRCS0Q98TtaU1Bh2PDExizFYCKIpsHvWNcgu
+	 E8XcT6vXAr/qvpqYW6UanZhXVd3nys0uknOiOkyuE1nbGg3ePnHngh/HUpTFcrppOddb+
+	 czlTKIvcKQjOxOpAAww3jtr1ENgTkOAbpLuymNNNbcWpuKCoTDNENk+PuJqlRhFyFMIbO
+	 8nTLbkM8WWK8O7rYMuJeMtTKHHCp+ZwZ96VXFPChH5uGlDmPU3z/vlppNM3Aajjm3tGEV
+	 vDB+lc+wwmQyx1lsHZnZXAFp7qEp5VJCtD1ueBPgk9mRafCwMe+QOpjedDbWTQXMXIw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=If1yj84T;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7359B606A335
-	for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 16:45:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7359B606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617FD606A320;
+	Sun, 22 Nov 2026 16:49:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 617FD606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bfJo5dFq
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-99e156fe905so2523227241.1
-        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 08:45:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795365903; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Y8WWhuvJMiDc1+9io0byPg/Y8xjFyzzBc+kV729yqcl7cS33TBxK8O+ztU94BUaSTp
-         kaKHlzEcXNwEHqCoO4wFTiuyJxLSnvwgERdyMosgyvy/GdqRmSISASDcLQqMpHMRSWGd
-         DqkIy/20/N4VDOriOx5kyz7UfE+1yvB9lLRq613v3dAIfxvTMkJ+9pGRMFOjdBoqVviE
-         61sh6jk1O3N9FRIskBEJLt8oIr3wYiNSZDPYle0OZHvicMC5Yaa6NRBpuNvuR5bsYX35
-         TOrRSB11FT0y9Mf7IUs1wHgnghVvYD+X1ywc9f8KVJ5mYA7opfQlpSUOg+13HqQK9ijO
-         /bZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=XSq9sam5xNjhAotL3SMmly5JcheSouECZuf0HzXpnaI=;
-        fh=SUPiueh4k8ILhxkZnHoOmH/widvbSyMK2XjosoKG0wM=;
-        b=WU0qA8T18AgHLvB7WFOtYccP9ZzGfJQXS2fRMgUWiX5koym57GI+7bdI8/PKOHMZ9J
-         fxuYNsDwKofFvmGwhQoSrjr0rOeofpefu13fetZ//iY8BP9U7K3YkpDjZ3DIHqO55pJu
-         RaQux9JHLD4u+c30xjR3ukijNmwo0uHGFH5R0VTt7Y+szqTNkpSVdd50pLuUsHYGFZFd
-         iTCcPLrS8wHXK0K9+KXp4ujIh1/K1wQxvyW91YB1MV/fQ80k4XEOdZE6rSMv0NmIqMIM
-         9y20Fc6GhFD04/J21jrj9kBULzZfMPyQXEcQhOAoafWt6T2EiHTvE5t49LIuVc6Qtpb2
-         qRVg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795365903; x=1795970703; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XSq9sam5xNjhAotL3SMmly5JcheSouECZuf0HzXpnaI=;
-        b=bfJo5dFqYY5GNUbMPjXIFnnfElYsa9f5pehuVAkxV+nNMkKiplVpcsxeWHa+GuF04r
-         PGqypW2zILTwfYqR9+nyYi6q0aiHT79qKTyYTWa+WUd//pp1Xa3zgArxxsi5dNRSC6Ci
-         47Ze4uPKEghLgTIAgShEb6WbKfYUah6XFU0kkI2EZ7yxsXczJgPfzPUWV+dJpOiesCaJ
-         LpV7f3bskKpRVIHg91EcM18zfKYvSSQB9Cpt7IlVrFVaW2f5TeXi85k3NMvIaOoEb0vH
-         DqcwaUj+3OoDMTLBnqARhVinMTqTZbBciFyGD9cje4YoJoq8o6KafK/m+bw5m9rpvp3g
-         0ZvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795365903; x=1795970703;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=XSq9sam5xNjhAotL3SMmly5JcheSouECZuf0HzXpnaI=;
-        b=IJmJyPViW09IQqGts/qZhAtYr4/OoNAge9QzBlHBpZebfXSgvYdHBk+xvhSVJ0xbYH
-         mkMBktpIR4RCVPek8xSRp9vDZnOsx706SBJz+rAC1ZusTHbz4Yg1wtVRD8cMtvCS2Xje
-         XxxoAWixYY65n0c2xi0axp2gQWgXAld4H5yh3RPuz/aU++yVjU8DF5zM5RRGAG+1TfWh
-         CjlNTaR/YWUbB4fvfxI5QaKyrmnc6EgRMVFvBV6xZtcvvh9pnvMGW02WaLfANQPJn+l4
-         l9diOLC3abAqUAxjGgcioaNE4HMMhrU5iAzj+YXh90hZUJmjyyWE/ej7gFvhKWkMOXYg
-         /FhQ==
-X-Gm-Message-State: APuU4Z8ia6qQV6+gEsSzDLa+BYohQRyn+WAzcYahco1Zt5J+dG+U1Pnf
-	SLsXHmBHQXcMW36xiKcVLWkYFQI4UzbVOc2vzTs9ZsaHWqvlONkaVSJUTKfiSWTrP5AujBYZKyQ
-	s0QXlXuB32AO0YQXnAuhc/wl1MkAMgxovVKO/qfk=
-X-Gm-Gg: AZFdTZeqHHXL1ExbttTmZQSvppAhF1eSLQlukA8AnFD1sHhr+vghBWINJqaI5bjaSiW
-	XOD+2FvY42nflSabgoJ1UHIyNW2CPDkBVLMRRBUE1xWvmSCNGBusTdjJBu9DSQ/t55/wcFGM2Kw
-	gSLq6oBSe44lZA7cDrEBe7cAAFOMwMp56jBING81/vTWlp53jONRz5E9/lem+0Kl8RWyhg4JAYH
-	Cb70SEIQrKJheZJQfpGug15agyH6vFIwO1jT81yiqZ/I4/rY4xqWEcNObz/XcuUWJYiWMHkSHkp
-	U4Csq+e5af+U3W2uJaEIHwkx+vMMmrbkmHEBwUfluz/zkvzupfWfvfv0zoNBxdbp3rHr380MRi2
-	mYpNJv3VslZT8lmmHjJVUx2p0Glt7HwFka5kqmN9VI+VbZ2KkB5izAZYct5WCWHJ2SAsDCHPkVp
-	0WOih01cV1mXupiJc=
-X-Received: by 2002:a05:6102:449a:b0:7d6:a47b:20b2 with SMTP id
- ada2fe7eead31-7d6dba2ee87mr3438289137.37.1795365903123; Sun, 22 Nov 2026
- 08:45:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=If1yj84T
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=1n4tlVAMD1oQEfLg7AgK6BF8JkJzQIdhcOfMal/6gZY=; b=If1yj84Ty+PWC5pwN3l+urBf68
+	2hR0b/KbpLdHtCSDssJRGtWWNVVHcXXibwvo0e16Wu5PcF1GbzrF+0Nn/0orhZPZLp3AaUrOqCeE3
+	M0g3/VZCXrSCWsLf3OJiUda66VgMdDR5zNN/JnYJhMr6Zloh8ZVpZL5T6FbjOGEGGG9pYSEFlPSo3
+	xNjZ+pwXJ34Yaiph8LhnUvR+33XsPWSndNcZzF1mF1Y/Rg3p7J5onQ/FXu2y6sBr06vas2ATQ1cNu
+	jo4l2Ca8g1GdoMwCPQY26/RHxrAwrwLjXqoQ1EhLUm39E6z3sHmGRuhzwWdrOJON3ct7fIVJwApAK
+	GCbPEuHg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xVAkg-00000001O6v-277K;
+	Sun, 22 Nov 2026 16:49:19 +0000
+Message-ID: <1e62d5c8-3ca7-441d-8979-f054fb815912@infradead.org>
+Date: Sun, 22 Nov 2026 08:49:16 -0800
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -100,110 +58,104 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: "Aki. K." <aki.kuramoto@gmail.com>
-Date: Mon, 23 Nov 2026 01:44:51 +0900
-X-Gm-Features: Aa3M54rKQCLmVA_UGdemahVFGPTgqJ_q7_6M6a8cN-Oy8nQMV-Sb5aYeSuhjxQs
-Message-ID: <CAFu6za0w6v+FjLax8CTHUXz0qxLSanf-btccyFUAkYRav-L55A@mail.gmail.com>
-Subject: [BUG] usb: dwc2: gadget: a SETUP during a control write's data stage
- is taken as the data, and ep0 stops (buffer DMA)
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: linux-usb@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/12] docs: ioctl-number: update sound entries
+To: sashiko-reviews@lists.linux.dev
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
+ Chas Williams <3chas3@gmail.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, MPT-FusionLinux.pdl@broadcom.com,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Zhihao Cheng <chengzhihao1@huawei.com>, linux-mtd@lists.infradead.org,
+ Neill Kapron <nkapron@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Hans de Goede <hansg@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, kvm@vger.kernel.org, virtualization@lists.linux.dev,
+ Jan Kara <jack@suse.cz>, Theodore Ts'o <tytso@mit.edu>,
+ linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
+ devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
+ Namjae Jeon <linkinjeon@kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ Chao Yu <chao@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Benson Leung <bleung@chromium.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org, Takashi Sakamoto <o-takashi@sakamocchi.jp>
+References: <20261119053514.255348-1-rdunlap@infradead.org>
+ <20261119053514.255348-3-rdunlap@infradead.org>
+ <sashiko-outbox-224494@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <sashiko-outbox-224494@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
 
-With dwc2 in device mode and buffer DMA, when a SETUP arrives while ep0
-waits for the data stage of a control write, the data stage completes
-with the 8 bytes of that SETUP, the SETUP itself is never processed,
-and ep0 answers no further SETUP until the gadget is disconnected.
 
-Hardware and kernel:
-- Raspberry Pi 400 (BCM2711), USB-C port in device mode
-  (dtoverlay=dwc2,dr_mode=peripheral), dwc2 built in
-- Raspberry Pi OS kernel 6.18.50+rpt-rpi-v8 (raspberrypi/linux
-  cff533aec2fa601846766b32ff57204e0a61bed7)
-- debugfs params: g_dma 1, g_dma_desc 0; hw_params: dma_desc_enable 0,
-  snpsid 0x4f54280a
+On 11/19/26 9:36 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [Low] docs: ioctl-number: incomplete sequence range for
+>   sound/scarlett2.h
+> --
+> 
+> commit 93a4f635ed001735e939a3dc4a2526e8af9e9bd0
+> Author: Randy Dunlap <rdunlap@infradead.org>
+> 
+> docs: ioctl-number: update sound entries
+> 
+> This commit updates the ioctl-number documentation table with additional
+> sound subsystem files and sequence number ranges.
+> 
+>> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+>> index e1d56d5cccd14..f29d2c17ca7b9 100644
+>> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+>> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> 
+> [ ... ]
+> 
+>> @@ -204,6 +209,9 @@ Code  Seq#    Include File                                             Comments
+>>  'S'   80-81  scsi/scsi_ioctl.h                                         conflict!
+>>  'S'   82-FF  scsi/scsi.h                                               conflict!
+>>  'S'   00-7F  sound/asequencer.h                                        conflict!
+>> +'S'   20-52  sound/core/seq/seq_compat.c                               conflict!
+>> +'S'   60-63  sound/scarlett2.h                                         conflict!
+> 
+> [Severity: Low]
+> Should the sequence range for sound/scarlett2.h be 60-64?
+> include/uapi/sound/scarlett2.h also defines
+> SCARLETT2_IOCTL_GET_ERASE_PROGRESS with sequence number 0x64:
+> 
+> include/uapi/sound/scarlett2.h:
+> #define SCARLETT2_IOCTL_GET_ERASE_PROGRESS \
+> 	_IOR('S', 0x64, struct scarlett2_flash_segment_erase_progress)
 
-The code involved is the same in mainline (drivers/usb/dwc2/gadget.c,
-dwc2_hsotg_epint() and dwc2_hsotg_handle_outdone()).
+Yes. Fixed now.
 
-Reproducer: https://github.com/aki-kuramoto/dwc2-ep0-setup-repro
+-- 
+~Randy
 
-- The device is a Raw Gadget program (a vendor-specific device with ep0
-  only). It takes vendor control writes and queues the data stage of
-  the first one 2 s late.
-- The host sends a control write (bmRequestType 0x41, bRequest 0x01,
-  wLength 16) with a 500 ms timeout, gives up, and 3 s later sends the
-  next control write, while that data stage is queued. Hosts for Linux
-  (usbfs), Windows (WinUSB) and macOS (IOUSBHost) are in the
-  repository.
-
-Gadget's output (the setup, then what the data stage brought):
-
-  control write, setup 41 01 01 00 00 00 10 00
-    data stage SHORT, the bytes received: 41 01 02 00 00 00 10 00
-
-The data stage holds the second control write's SETUP. After that every
-control transfer times out on the host. With a Linux host (Ubuntu,
-kernel 7.0.0-43-generic):
-
-  usb 1-1: usbfs: USBDEVFS_CONTROL failed cmd host_linux rqt 65 rq 1
-len 16 ret -110
-
-(the same for each of the following control writes). Windows and macOS
-hosts behave the same way. With no delay on the gadget, every control
-write goes through and each data stage holds the host's 16 bytes.
-
-ep0 registers (regdump) before the first control write and after the
-stall:
-
-  register      before       after
-  DOEPCTL(0)    0x80028000   0x00028000
-  DOEPTSIZ(0)   0x00080008   0x00080008
-  DOEPDMA(0)    0xf7577800   0xfb018808
-  DOEPINT(0)    0x00000000   0x00002010
-  DIEPCTL(0)    0x00008000   0x80028000
-  DIEPTSIZ(0)   0x00000000   0x00080000
-  GRXSTSR                    0x00ac0080
-
-After the stall, ep0 OUT is not enabled, DOEPDMA0 points 8 bytes into
-the data request's buffer, the IN status stage (one zero-length packet)
-is armed and never taken, and a SETUP packet (PktSts 6, 8 bytes, ep0)
-waits in the RxFIFO.
-
-How I read the code (buffer DMA):
-
-1. While the data request is queued, ep0_state is DWC2_EP0_DATA_OUT and
-   DOEPDMA0 points at the request's buffer. The core writes the new
-   SETUP there and raises DXEPINT_SETUP.
-2. dwc2_hsotg_epint() calls dwc2_hsotg_handle_outdone(hsotg, 0) for
-   DXEPINT_SETUP whatever ep0_state is. That completes the data request
-   with an actual length of 8 and, as ep0_state is DWC2_EP0_DATA_OUT,
-   starts the IN status stage (dwc2_hsotg_ep0_zlp(hsotg, true)).
-3. The SETUP is not passed to dwc2_hsotg_process_control(), and no
-   request for the next SETUP is queued: dwc2_hsotg_enqueue_setup()
-   runs when the status stage completes, which it does not, as the host
-   has moved on. Later SETUPs raise DXEPINT_SETUP, and
-   dwc2_hsotg_handle_outdone() finds no request ("no request active").
-
-A device has to accept a SETUP at any time and abandon the control
-transfer in progress (USB 2.0, 8.5.3). The delay on the gadget only
-makes the timing certain: I first met this with no delay on the
-gadget, with heavy bulk traffic and frequent control writes, now and
-then, as if the host had sent a SETUP again during the data stage.
-
-For comparison, TinyUSB's dwc2 driver handles a SETUP that arrives
-during the data stage in buffer DMA mode by reading it from
-DOEPDMA0 - 8 (https://github.com/hathach/tinyusb/issues/4327,
-https://github.com/hathach/tinyusb/pull/4333).
-
-I can test patches on the Raspberry Pi 400.
-
-Note: English is not my first language. I used an LLM to help me write
-this report and to read the dwc2 code; the tests and the register dumps
-above were run on the hardware described, and I am happy to answer
-questions or run more tests.
-
-Thank you,
-Aki. Kuramoto
