@@ -1,56 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795375916;
-	b=AGeB9oEuUYMpkd6GjjrRKwDGmK5gYp1l8P7ehiqPsTAD+pvLRItLqD84hG5jjwaSLo+9
-	 9NGVnOl8xhjhcfeD5yW16Mow9Vm6tSG8YHsGrQtS2zKF3QPOBFuwfBAZ0BcUNxrp+Pd/T
-	 bNlFbUWEAgEEkIHAcfegmG/YW4EmodskvELBaYfsrVwFiDi357bqFgSBXuIEe6Qk7KG8w
-	 xBIvIt3pDGmTuyUv0tu9SthXV9ofDZksVb+4bgTq9DCrfasCsbq01ZO+55Bcwz8kdZN6F
-	 u4wPDaDqcfMj3eR23WcVlpC32hkV8BIWW1Z0wfHdLQBmhSrXBnMOB+8A5BJKuGTG+EA==
+	t=1795385049;
+	b=aWuXh4/AT6OC5miUeQa/kSir3xvqrHGeQJuCc+ghqHqLYpeI4/KpFNUbIXNjvdAeXMCF
+	 RkRIQixLX/kXIRkRLlGIPqetAhtm6Ix56W3ffoIMElUtLj7iTVdgXIWi1Y6QVSbRc+lUZ
+	 ynVmlihGWv/jCCUHv/DPG3Tvo6pq/ILxeupWBydsyAmtLb0JrUKYOmVAGFa3P81n1IjW8
+	 DH4pP8PwoWfQ3Z3GBLmju/FvtA0T+h3BCLlT41idA1wgRbCEesUK1NCZo1KeZ2It+RY5I
+	 xhq0RImLDzcsDrJcTspiQ2Oq7yngMx3tgJmSYcCpyyLWqTmV7I9hsSpTiJYx4BETXMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795375916;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=zswNxRlmIVI2NHAGg8UhwTfy05EQBpASQT0+aCvmtfU=;
-	b=2Uh101WI9O132JduQabjmxtMTmoILnNdyIFt5t++0B+v9Vk8TtGXWxZ7JjYvBtJZ1ecX
-	 iTOG12uLb4SSUnRbenTNmNH5rOEv1JiZ9t9jlUMiOQG1Mn6yZxuXRKKJYBX49ILkurTXh
-	 4H7KWF+NKj6u7EQ9qwU1FnokzeCV/NSK3TOjGorU9bvwKsRTKl6C05vMxgp5Wot85qf67
-	 sRnxVkCAgbuWf6SnmhNSUFwF+3HCK1pVZCODWsWXW7d6lmf+mSvd19uvth+Gm5/PMbw0C
-	 YWz44h9ilh+Csgf4bKs+JRV6xGT6Qoxod6TCX/OQms1edfJrV+Iwqm/fnS0/HrbGhwg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795385049;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=e1UeqpHopmbaPkusoHxAs650nxIkw9JTuQGwP/8OHlk=;
+	b=tdoeaxMUubInZvrKozVpdQ7VFfMIeAQjKI2D9V3ZCFUjXKmew1vJDJYJAAjuannCr/q+
+	 Vq9dk2rhwJhN37WPfWoWBMfS55UDYzlgWlwKUhYo4nfz/JRS+HAKS4Ei5M4UN8OBKQPF/
+	 pFo+NXnS0cakvfk1HsmeJPl2nnJKaSbZ4/llA23jdC6xxiIPLJH8bWFmnOSixsU9sNSSc
+	 b9dRb9HVCM4ovwIfxNwygT/vLxQEj32ONI8KlRvKuFRPG+DLnI4M5PbpbEiYWSzahr6uR
+	 5lpcN5eY+66W1XDVcBzYJPNvVmyv2KzyneRms7lwsvSJrV9uljD6rdBHD+++yLP0qhQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZS6TJYSy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=Zb6i+C64;
+	arc=none smtp.remote-ip=209.85.160.169
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F6F606A31A;
-	Sun, 22 Nov 2026 19:31:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82371606A330
+	for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 22:04:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 82371606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZS6TJYSy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263A01F000CA;
-	Sun, 22 Nov 2026 19:31:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795375916;
-	bh=zswNxRlmIVI2NHAGg8UhwTfy05EQBpASQT0+aCvmtfU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZS6TJYSyVGSNoMPbn1f0xX1b9pnA2O7qClbiKnbJ9p9jYVyXJIMMIEMtGXJYQ3QJX
-	 Lym8wDQGJkNkHjZ0FZ5U9u0gqVHsiWtO5qi6PF4tvMDuTXbufKeuAzEjvoHMM6lWTk
-	 wy2fxIGjaNQhHA8X4dl8sQPtMAphdh6fUjFnJoii/73vIx8rLy9RfgvHDDbATrk95p
-	 DKDR66dVe/e6cPn7mIVsxMpjQFlLEgYVdkwOHFRXTi0ZyHGUsABO9VqCQn195wBSPk
-	 9mfRIBqPmEq0uJGUgDj4k8Tuj/6uk5KQ16ETaKv6orjJdaN19RdCJTzcR0bghtCE8e
-	 CZ2x1yFIUOtZw==
-Message-ID: <sashiko-outbox-228257@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] dt-bindings: usb: snps,dwc3-common: Document
- usb-psy-name
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Venkat Yadlapati" <venkat.yadlapati@yahoo.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261123-vantage-dwc3-v2-1-2e741a834411@yahoo.com>
-References: <20261123-vantage-dwc3-v2-1-2e741a834411@yahoo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 22 Nov 2026 19:31:55 +0000
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=Zb6i+C64
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-55ade1de0b4so34133391cf.3
+        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 14:04:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1795385048; x=1795989848; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=e1UeqpHopmbaPkusoHxAs650nxIkw9JTuQGwP/8OHlk=;
+        b=Zb6i+C64CASN2ndqPIkyqfK6CNP07EzVS4CJfCyAslD3l9TVj2ktcjdJKiATYHCa4d
+         nFzVDD4e7Fb967Zmek2vssQc1g2uGyVD924kVnth7iDDsi9vf73VQ8fDaOquRrq3yu8r
+         1dlGsXvToefm0ERzK/AMbRuwle4p0pqB4q5QhtuRDBdd641tDYrgYAfSQ2/ZWtmORlT6
+         EAojqrwI3sg1ialRkcqFhaHNXGMzGKS96TyGaKJzbtu95+9y6ofCZGt57p53iw6If4N/
+         HS1xpGwWTuqR/vTy8cHVy92eMMwVgBa9yVwksjvyvSLVPniauCMo8Ehb6zWb1wxd1oty
+         yP2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795385048; x=1795989848;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=e1UeqpHopmbaPkusoHxAs650nxIkw9JTuQGwP/8OHlk=;
+        b=de7QVgPs+rsbHh11scgyBIUAiRCy+HUE9tUQlZLhnp5TdlroGOFo8xRv2Au52Gy+/j
+         4sXmDrR9t8Ug5fidumE1HnrJPC7KxYDTOoXTtb8QURwNoF6mELo3OlWSCLPdg+sC+rAw
+         2wScuJMMVMnBe/B6Psl87zoD/3wI7sta4glzg4j1AYaH+cts2K5L7/o+uN0c8bmV40OA
+         Mkr++B0meAwQWFsGYxaEroiGW3FHOk7G25WZW8qyY6riAKn0uJATUkVrXhQgP50jOf7O
+         VY8ALgdup+qVOvazDW5lBYH5oVCeNROlGC6oazVDsA8YQPtHuZO1R2YINDCumy+YrpKG
+         4a1g==
+X-Forwarded-Encrypted: i=1; AL+hErEihTamRQOxaelGlqUkrM7AfeM0aZomYQ21nzhVZ1vm6FTVe3rkwYFs05b1jmQihW00mzvtj1yQ5TY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+HP2kRNUHoikZ4D9QsIL9X9cqCwFkEs9fZPtmlp7y2LvrWI1Ux
+	J6GLM7Dc7y4CsJljRz1aVrtCVHDrGaNFbNEWhF0OPlBozMcf6RchNbjLFhIj3lCXOA==
+X-Gm-Gg: AZFdTZdK9F5z/DpgHpmRujEkv2DbSuFh0OsGyeMUg713SzE1qbpqYe5OVwhMpqtApE5
+	MZaWtii2/FMhPCF5U1EJX0Z1/MnqxP/dLnCInGknzSM1e28JpIqbY5d/Sa+Ck5IW7sqZeKws9ye
+	Kezlew0BktHQusYxYyfW8hcEj5NNaXxEh5Vn+bfATx9qIgrKVBFQ7cgZpK7kDmuKKN/sIV0/ehy
+	TrasO89/k+jtP6ZLK0UmR2J7zYYPa6XWW+7z1vUFQLKkUVXwAMQf1nH+pcMg8FeOZvmQ4Gl726b
+	1wdVmsorvyqVihxJznjxdqXY0LXdFwbEoaMOZU4OKYM2nY+Dw+s63y38ly1lueSZmTtRElIaSDN
+	0ZIzQDwVpG7kj8KISs9zYVqQ8U+IqPs0cF3bpPZgpOSDxlY53fcfoEJZc2pb7jvJ6Bl0GmT7/Vf
+	am9S0Oa03ivkngaMMkiBRbmH0LyCy/sHbmZdEd9Y0sXcHKKyoX88xOHFbMk7spbCtR/AV4lzdrO
+	qwovZBbIdjHhQWS9907Xd6/fWzOScc4/xqE1ufNL+5yf9Lv1wynpaODIc3rBpfrYCOMKFqxCT7v
+	vM0SCoz0jMhVfU+8iq+vEWKbaRT4Gw==
+X-Received: by 2002:a05:622a:2b49:b0:537:c478:70e6 with SMTP id d75a77b69052e-55d76ac210dmr174765381cf.36.1795385048312;
+        Sun, 22 Nov 2026 14:04:08 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d00:161a::d398])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d788ae02fsm81501311cf.29.2026.11.22.14.04.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2026 14:04:06 -0800 (PST)
+Date: Sun, 22 Nov 2026 17:04:04 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Arbab Haider <arbabhaider649@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shichao Lai <shichaorai@gmail.com>, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
+	syzbot+dc208a8cf8d37cf3e5ac@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb-storage: alauda: track media_initialized per port
+Message-ID: <61e2f5db-8d78-4220-bb21-cedd9f579e8a@rowland.harvard.edu>
+References: <ac19e630-f96a-4144-88dc-e3f22091c7bb@rowland.harvard.edu>
+ <20261122175805.2955-2-arbabhaider649@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,53 +99,43 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261122175805.2955-2-arbabhaider649@gmail.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] dt-bindings: usb: snps,dwc3-common: usb-psy-name exposes
-  Linux psy name
---
+On Sun, Nov 22, 2026 at 10:58:05PM +0500, Arbab Haider wrote:
+> On Sun, Nov 22, 2026 at 09:53:25AM -0500, Alan Stern wrote:
+> > I asked because when syzbot tests a patch successfully, it provides a
+> > Tested-by: tag and asks to have the tag included in the final patch
+> > submission -- but you didn't do this.  Did you run the reproducer
+> > locally, without using the bot?
+> 
+> Yes, I ran the syzbot C reproducer locally in QEMU without using syzbot.
+> I also just tried sending "#syz test" to syzbot, and it replied that
+> patch testing via "#syz test" is currently disabled:
+> 
+>   Patch testing via #syz test is temporarily disabled.
+>   See https://github.com/google/syzkaller/issues/8122 for details.
+> 
+> Also, while checking lore.kernel.org, I noticed that syzbot previously
+> posted a similar AI-generated patch from Aleksandr Nogikh on 2026-08-28
+> that never received a reply.
 
-commit 27eb59afa8c6a2fd9ecc95737f8c70278b4ddb0d
-Author: Venkat Yadlapati <venkat.yadlapati@yahoo.com>
+So it did -- I completely forgot about that.  For the sake of 
+thoroughness, here's a link to the old patch:
 
-dt-bindings: usb: snps,dwc3-common: Document usb-psy-name
+https://lore.kernel.org/linux-usb/ea864031-b1e2-4b78-ab3a-58adf681efc6@mail.kernel.org/
 
-This commit documents the usb-psy-name string property in the common
-Synopsys DesignWare USB3 controller Devicetree binding schema.
+BTW, the two patches aren't just similar.  Apart from minor differences 
+in the descriptions they are identical.
 
-> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml =
-b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> index 6c0b8b6538246..41e8537b34d50 100644
-> --- a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> @@ -51,6 +51,13 @@ properties:
->        - items:
->            pattern: "^usb(2-([0-9]|1[0-4])|3-[0-3])$"
-> =20
-> +  usb-psy-name:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    description:
-> +      Name of the power supply that is told the current the USB host
-> +      grants to the device (e.g. after enumeration), so the charger can
-> +      draw it.
-> +
->    snps,usb2-lpm-disable:
->      description: Indicate if we don't want to enable USB2 HW LPM for host
->        mode.
+>  Please let me know if you prefer taking
+> that earlier patch instead, or if this submission looks good to you.
 
-[Severity: Medium]
-Should a Linux power_supply registration name string be part of the
-Devicetree binding ABI?
+I'll leave that decision up to Greg; he can choose whichever he prefers.  
+Regardless, for both patches:
 
-dwc3_get_usb_power_supply() reads usb-psy-name via
-device_property_read_string() and passes it to power_supply_get_by_name(),
-which matches against the kernel-internal power_supply_desc.name string
-(such as "qcom-battmgr-usb") rather than describing hardware.  Per
-Documentation/devicetree/bindings/writing-bindings.rst, Devicetree bindings
-should reference other devices via phandles (such as power-supplies or a
-USB connector graph link) rather than driver or device name strings.
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123-vantage-dw=
-c3-v2-1-2e741a834411@yahoo.com?part=3D1
+Alan Stern
