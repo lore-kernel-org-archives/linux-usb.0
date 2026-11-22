@@ -1,97 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795359210;
-	b=bvf5JRZchLK/YrSLRcdNEkQKaS2ppVKKxhRDIY0xhSSKJ39TJzOXd/u+bCLykaGknk5W
-	 k3TQzdVcAh4dqAEkV9R0TzI3mqG4CiAODpBtnhjGDsD9mx9MXDV1OgXVRg/SO9SU5jLpn
-	 DFG1gIDGcgEyHHXPJurV9FUI/u2egqmrv7RzjbKMnThFeD7T4fYHXnhA1tgJHiODHKbuR
-	 KcGYx2ACJGt8EiAhyOLnHL5LESZKo5g2HLX10HlvYoASEv4HJ/oORhRSvQQSevL7WOhlt
-	 W2vhza6aTWbwuswT3mxmhCm6kOhoxuKnzaAegw6FxcZZaWW2/gSpRFUQrfNaZ7+1saQ==
+	t=1795360530;
+	b=rJaA1QuLMIcY4BR8SHtEIMWzX7cSEdUEjemnx8jRQTkJt475a/FbzloF073NTbI1P8M4
+	 TqUqItDg79gdwlcf+01YMgO0k+64EjQcn8PW89mA2JC16GBIpLHeuCJrhzt7BgwpV9sO2
+	 il+dZLMREWW1IUdKEZ7vbBP3DjTFsxiuf1mAlTbarhUWZWUMWCZ/jApc1xiF+ZVALWnGf
+	 ScffISeev4agRgNphFT+yHBCfmfi3h0ZJiqbwPG1jYQ7ej21+Al6Hy+ZXvIo+5CmZGs//
+	 e1P43uLmBdxA/VhGVaYYJtax7oMefIRLpG0kV5F4aHc4wFTq3d//KY5cu6Oo8Oy9ISA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795359210;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795360530;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=EMg9eBblftcqvgfqSOCJqwI/WbN6M2N5ULmdtflQO10=;
-	b=R1g/S//9jTOoLforbhQSG0zIBu5nhsVqwyoxurB2MFAEN20oXJT8lriGeqrnw51nHzDy
-	 3tN81dZIkrRj5qAHwZC9Ce6rBXhuwoX7QQYBws0Jkol/JUt2OUsYeIFQo82NCDoTP+pyU
-	 kp+5qRvnmHtj4f3kITRZ0jXrIWRrg1VVIOl4ZXzpaRGvgGffv92idwpQ+3y+I+N5ER6/F
-	 eS0Gc3DjnzXRyAuRsME2dPaBoNi6BOufWX84JsqeGW2OUSlmjEP79HhU/dfjJlziQxAtX
-	 3Zt9hhxe4SRzVLlYnp4Hu85sUp7adb6iuTICLEF5/GCUFSHg35md/RueyBZ8oFjz/WQ==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=u3VsFQ8Dfp+icf8C/mk3mu7oWtV5E8PN264bZ4iLizc=;
+	b=0PEJU6mYICTu4yhveBNhXECddO7NOuuEKrFdMCCtuhIqUi+6oG2Q0nxYuxny4ZRswHEg
+	 LiP0kTECWVleptjfuC85KrsMWv7Hm8AY9/3DO7xA64oKy1AV6jC8GyyaOYDD9IvFZyc7r
+	 hHgwdHUfn8w0mJOZgOQ++2LGIFgw+iVQsswxEume4gLkl4Vh2b9J0jwKaEUIVW7imLNNV
+	 pZZrbglVEpuPnKRbhME3OVbNtHDL5tjmH42XQX/l06AGOXpaiUIIbyDIMZYwMoQQgab3P
+	 iuToLoGLAamtp/fGUrOtmkkcEOxa61/w/2e7jAhP98NLA5zt7Ba+zZceUAT5zY+ySVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=CJGTpRWZ;
-	arc=none smtp.remote-ip=209.85.160.169
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="cZ/X8bCr";
+	arc=none smtp.remote-ip=209.85.215.174
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559EA606A32A
-	for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 14:53:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 559EA606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52253606A32C
+	for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 15:15:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52253606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=CJGTpRWZ
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-55ade1de0b4so31250941cf.3
-        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 06:53:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cZ/X8bCr
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cde7e8abf9cso431565a12.0
+        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 07:15:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1795359208; x=1795964008; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=EMg9eBblftcqvgfqSOCJqwI/WbN6M2N5ULmdtflQO10=;
-        b=CJGTpRWZ7MB0kqT+KQmoAZZ05PqUN8xlrDUyUH+gA9dQc+IVgh7WYUaNUkwrQwZAZ2
-         ChpqZeQ+CYR9Awi+y3E04E6Ni2OC5AYQWyEGoeOv+hRt8ClNtUkW/ZdW8jqnJcGZ8tLF
-         An1XXfGomIK0ppeaYoOVRw5pr5mzk+24zHERDN4X59UjldMVQrMnHp194pbUuDo5QTlr
-         wiC3XOeYPv/hLWZ8h/AigmfQztx0BK7EzHkpRQZcePV1Uqkj67KpHVauF4phFnc/WiQ9
-         pKWRwTfkMPfoGr18gC5Khgrq7y+4LGaouaiuYr6v4QA2tA+9VgDBCnJBpMjqHoaRlHF/
-         Hyrw==
+        d=gmail.com; s=20260707; t=1795360530; x=1795965330; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=u3VsFQ8Dfp+icf8C/mk3mu7oWtV5E8PN264bZ4iLizc=;
+        b=cZ/X8bCrlk870SlIln+ZJo01qQBcwBiGoTX9jAjf57QOUFlpIfnbjppdjR58fSGhgu
+         azEQ4EB7F1+HjlOfu/H8VO/cqQYvgwXaYLDgzVteC0pA96gyh7LE6zWpzEIKNVVyUQyn
+         orxFIy2OtvJkP5T1YXgcr3+JhDtVUrKTzZIbylzztc42OhmNeyj6Jlcgi1RSK9qwq2xX
+         WSXyvnCHmW03eJa39wku9mcL2760ROswAhEYhef1cx6OsiBLtGpEY6hrLe5YI8XxS2yZ
+         bN7gmkDtoosZ1LK7lsasfKmv1jIfuOA4svanSCT1XSIu09sWOc6jiV4aC7NGXxBRnZ5t
+         7x8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795359208; x=1795964008;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EMg9eBblftcqvgfqSOCJqwI/WbN6M2N5ULmdtflQO10=;
-        b=DUQ2px/HoCp5FUl8IJY6iuD8bjVaNKUtNyXzHJcC909+4Px8Ue9eRPj48oniJZlHrJ
-         b/kBxSdDdiwlDZjGjYK0MB6xcqyrVnAfTrxQeGQfRssX8FQ0ANLGtLpFheyHY01kX0dK
-         TFcSsOfdifUAthOwI2tTeWY7rKguk1CWUH7SkIfc/dQJ7stRZIh+I6MCBUM4U4XaGdph
-         i9dQ7kXOxbypcN24n2KmMCOspjiFJt70GxHoKdwHBfaIn1z5BrE/wTE5rS963p+fv70M
-         FmLkEYLxbdptad0E0Onq+pkRRY9ARuRwockrCN9Pm5D7ls/2TvgyH3FlPklmskUc34nB
-         FAGA==
-X-Forwarded-Encrypted: i=1; AL+hErE2RMksGEj3ASdq1mg1ADK3+Mi+D5bSGIac6WEwmBPu/oQ1EGQBoOtXHHllhmGTlou50vF3FrLf1FU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ibK+SyHbMDVtfGiY2yDjM9UrSuQZqxVJbY0H0feyhcM+KPPsf
-	3HMO+8IngcPWqrAkD9G/BazH8j/7mzqzt9Jmo81Sd3mdDrqsGc/12QnjRY2PbMKjaA==
-X-Gm-Gg: AZFdTZdjTURKBakRItgA47xjbgzYyZOX/DkLoj0+wi/wD2YaaTLxHqkdWlnZJyL8LWr
-	ua7gwhOHwtIB4xLQMP6TDqvOllCCTC7A+QdCFWYBPqHJ3fhdU2fkGVmIdGCLvxUakKKa5+EefO9
-	gr+n2NK3Cdb4IJbZ2pj5Z8A96RHPRNL+baOymh7LxbiTXxVZtGfK2/bs+kZ2Zy2jN2XWyhayziv
-	dA7U4k4atztWeZ0AO49Vn5yto9XbRuL/5zUXK9K4EcrsYEiKP9/J40+r5pZ/5jwq9stiMnfpU5O
-	GIHmy53YTAtq6dQbmWNjwz83lFzs9Y2OZHw47mHMcWQLeRd9O2bOHSe9ntJYV54cpp61kooViYj
-	ATmk/Eo89WH+MKph6sHyvsR8EQbCLnNn3WBQP0JMGfiDq3vY13wGXoeRBmeE2k8VVXVphVx+NYq
-	OuJ2IQB2fEbnbfbux6Bmf75EIld9pVC9/Xy3ZqzlRUGzbPdEVX2EV5Ck7L5hG6181zvzIlO6LHW
-	umf3xpobJzhnVz/fTteD1FjfAwNTaTjPqniDSDbinwCECm++GOzear0dqNQ8yRGL8hrT3Ld2iBY
-	LmuPi7fJDQ6ZbKngaOnPfIFnHwJRnw==
-X-Received: by 2002:a05:622a:514a:b0:536:61d4:cc6d with SMTP id d75a77b69052e-55d76af2778mr156555621cf.53.1795359208144;
-        Sun, 22 Nov 2026 06:53:28 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d00:161a::d398])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-92134bfe82dsm78713746d6.0.2026.11.22.06.53.26
+        d=1e100.net; s=20260707; t=1795360530; x=1795965330;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=u3VsFQ8Dfp+icf8C/mk3mu7oWtV5E8PN264bZ4iLizc=;
+        b=BGHGKY85WBYilR502s+tul5duM/jy1DAwTditw7/CEk2nySkAoeYQ8BxIoRTCrm9q7
+         842ipFurvNZGHpMr8KjNPM7y7ezjlv7c/g0/BL4J1nFkmsJZYohHqXLQbQmcaCirfl7Z
+         3GvgUjP0ULGUC4E/n3kn/yPf/qZvQYODWMszNLzmkGIUZ7hv4jF80IlgRVnHaHliyndN
+         Y9thFzzinvUN23xi5aMzmX7xj3juh8u0im+Qp9nLNQzh0fv7e18yuehJ92Y+d5RsPKzu
+         VJKmWc+5PCAGcHWfnNoVSt5LpZrPUVCUtNgCmmM3krt3NQyOo3r517hFP3asKpdhchOd
+         pgNQ==
+X-Gm-Message-State: APuU4Z+UWD7rq/caf93EMpmWT7XwBmnLMYGB1FDPJvaR9kndok/HPzAJ
+	9BHq9pMNeTLWKe9rQB5M8Ku5KcbixZxagYEAvBGbiWgt++4ZOc3DO8Fz
+X-Gm-Gg: AZFdTZeTM0t481iiVQAvwd5NM8baWtJA/pPS0b8KJjjdc+U/k8iC2/uSEvTRXCwjDTO
+	YNLx/ITPnSBpE1yj1ZMGbTkLK2J3ItS9vmsD9gdUsZGK7fnobLTmVwHy+71G4snZmOY6MxOjX5Z
+	yYWzrLyN3ilOZ7rFYRyvuNVAQJhnnv80OJD2nfoLvZRJIo9fQVeMJrutTmv1VEZWi+QKM8rJEwN
+	4LrWiMS7QfVqhiHm86SuemttwpiMv99WgyneKKVZ05xQRDAzexc1p4ei/54qZftjJaEutAziFqi
+	4eecnlEH9a1ep10gZf7s6s0GDst15WcYcRkHSy2iY0LsFmHB4Sr+gMpLBi6cHcvKqOBQK+CMywz
+	BqNFX05EH8vEiolxKvpMlbpBh+9+5GKfcReZSAfJX6HafLf6KtEbTzEzuwVKa81bJH8SY5NwLUq
+	PkqXhS1l/u8M7Dm9AUmvxg9mjHjhtvKi0GBz+e9KvaNe9DBMZpDPOIkKIDbBfjnHHZ8o2/KCTJP
+	QUtEpMN0jdMhbZRF7nyq6r1yMfDJtUP6Ua3o1l1tPaaG4cD7sWahQ7Fe8TGy4CxAzGwk+4//Nxy
+	yMt+Y/BsT/kxXTDqs08zeEtrmBVdxipUFq7qGeQetu9qA6bBP5SDpmt9uOb5cTU1+632Kr0VIrf
+	jUf5ScLm8p/8qnIM0FHj5BahW
+X-Received: by 2002:a17:903:1c9:b0:2e9:6352:6c61 with SMTP id d9443c01a7336-2f03f15511fmr91746125ad.19.1795360529421;
+        Sun, 22 Nov 2026 07:15:29 -0800 (PST)
+Received: from junjungu-PC.localdomain ([2408:820c:9009:b6e2:6c04:212:db3a:1bad])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2f03f147a9esm38009285ad.72.2026.11.22.07.15.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 06:53:27 -0800 (PST)
-Date: Sun, 22 Nov 2026 09:53:25 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Arbab Haider <arbabhaider649@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shichao Lai <shichaorai@gmail.com>, linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
-	syzbot+dc208a8cf8d37cf3e5ac@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: Re: [usb-storage] Re: [PATCH] usb-storage: alauda: track
- media_initialized per port
-Message-ID: <ac19e630-f96a-4144-88dc-e3f22091c7bb@rowland.harvard.edu>
-References: <5d2e1310-88db-427e-ace0-c2a0590560b1@rowland.harvard.edu>
- <20261122080550.2181-2-arbabhaider649@gmail.com>
+        Sun, 22 Nov 2026 07:15:29 -0800 (PST)
+From: Felix Gu <ustc.gu@gmail.com>
+Date: Sun, 22 Nov 2026 23:15:11 +0800
+Subject: [PATCH] usb: dwc3: keystone: Fix PHY runtime PM leak on probe
+ errors
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,35 +92,83 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261122080550.2181-2-arbabhaider649@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261122-keystone-v1-1-66f8e907685e@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM0QpAQBCF4VfRXNvaHUW8ilxYBkMt7SCSd7e4/
+ Oo/5wIhzyRQRBd42ll4dgEmjqAZateT4jYYUGNqDKKa6JR1dqSSttY6R6u7JIOQL546Pr6rsvo
+ tmx2pWd893PcDx02s1GwAAAA=
+X-Change-ID: 20261122-keystone-3da0092b0f37
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Roger Quadros <rogerq@ti.com>, Felipe Balbi <balbi@kernel.org>
+Cc: linux-usb@vger.kernel.org, Felix Gu <ustc.gu@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795360523; l=1790;
+ i=ustc.gu@gmail.com; s=20261030; h=from:subject:message-id;
+ bh=jcRTXu2U+zD11Pm/Iocm2AeaqCwvwNRbSwsiRk2VN88=;
+ b=evVibcupaPFmWpK7PoleSekEN2H7L1Zwp5IzegK/gjy21cw/wQCggdfXKLpEm3yuhCt1hfeHH
+ RGVWr7M681/A5Yfyai+aKaIrMtU4jPfURO7p7BieS8phZ+cIBsIx3FK
+X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
+ pk=fjDJtbnSeysEBjmOfNYqYUUDS6g7Tfov9W5oGngTBfo=
 
-On Sun, Nov 22, 2026 at 01:05:51PM +0500, Arbab Haider wrote:
-> On Sat, Nov 21, 2026 at 03:54:57PM -0500, Alan Stern wrote:
-> > Has this patch been tested?
-> 
-> Yes, tested in QEMU (x86_64, v7.4-rc3 with KASAN, UBSAN, dummy_hcd,
-> raw_gadget, and usb-storage alauda enabled). I do not have physical
-> Alauda hardware, so testing was done via dummy_hcd + raw_gadget:
-> 
-> - Before the patch: running the syzbot C reproducer reproduced the
->   UBSAN division-overflow / divide error in alauda_read_data()
->   (drivers/usb/storage/alauda.c:986) on LUN 1.
-> 
-> - After the patch: the syzbot reproducer passes with no UBSAN, KASAN,
->   or divide errors. I also verified additional raw_gadget scenarios:
->   * READ_CAPACITY and READ_10 on both LUN 0 and LUN 1
->   * Media removal (status 0x80) followed by re-insertion without the
->     0x08 media-change bit and READ_10
->   * Media change with a failing alauda_init_media() (unrecognized media
->     signature) followed by READ_10 and WRITE_10
->   * Recovery back to a valid media signature with TEST_UNIT_READY,
->     READ_CAPACITY, and READ_10
+The phy_reset(), phy_init(), and phy_power_on() error paths returned
+without balancing phy_pm_runtime_get_sync(), leaking the PHY runtime PM
+usage count.
 
-I asked because when syzbot tests a patch successfully, it provides a 
-Tested-by: tag and asks to have the tag included in the final patch 
-submission -- but you didn't do this.  Did you run the reproducer 
-locally, without using the bot?
+Route these failures through the common cleanup path so
+phy_pm_runtime_put_sync() is always called.
 
-Alan Stern
+Fixes: 1c11e74e9079 ("usb: dwc3: keystone: Turn on USB3 PHY before controller")
+Signed-off-by: Felix Gu <ustc.gu@gmail.com>
+---
+ drivers/usb/dwc3/dwc3-keystone.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/dwc3/dwc3-keystone.c b/drivers/usb/dwc3/dwc3-keystone.c
+index 7a5fc8545d4b..7e026f52a823 100644
+--- a/drivers/usb/dwc3/dwc3-keystone.c
++++ b/drivers/usb/dwc3/dwc3-keystone.c
+@@ -108,20 +108,19 @@ static int kdwc3_probe(struct platform_device *pdev)
+ 	error = phy_reset(kdwc->usb3_phy);
+ 	if (error < 0) {
+ 		dev_err(dev, "usb3 phy reset failed: %d\n", error);
+-		return error;
++		goto err_put_sync;
+ 	}
+ 
+ 	error = phy_init(kdwc->usb3_phy);
+ 	if (error < 0) {
+ 		dev_err(dev, "usb3 phy init failed: %d\n", error);
+-		return error;
++		goto err_put_sync;
+ 	}
+ 
+ 	error = phy_power_on(kdwc->usb3_phy);
+ 	if (error < 0) {
+ 		dev_err(dev, "usb3 phy power on failed: %d\n", error);
+-		phy_exit(kdwc->usb3_phy);
+-		return error;
++		goto err_phy_exit;
+ 	}
+ 
+ 	pm_runtime_enable(kdwc->dev);
+@@ -164,7 +163,9 @@ static int kdwc3_probe(struct platform_device *pdev)
+ 	pm_runtime_put_sync(kdwc->dev);
+ 	pm_runtime_disable(kdwc->dev);
+ 	phy_power_off(kdwc->usb3_phy);
++err_phy_exit:
+ 	phy_exit(kdwc->usb3_phy);
++err_put_sync:
+ 	phy_pm_runtime_put_sync(kdwc->usb3_phy);
+ 
+ 	return error;
+
+---
+base-commit: adcad7f4e6332cff3d6d7165f41584899f598534
+change-id: 20261122-keystone-3da0092b0f37
+
+Best regards,
+--  
+Felix Gu <ustc.gu@gmail.com>
+
