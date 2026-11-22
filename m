@@ -1,99 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.31
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795388003;
-	b=QzwCfvXJTLEio1Q9Rnh+RpbHf//6lFdgE1a+zCinBBUozgS/soeWOi9dYBu9ADL9pQ34
-	 c5Le6pQS6KgBCZK1E7ge4L+gANM9XQ9EFQtsMt4PnOH4vCsRsXSxi+AC0oH8pVeQMfYu4
-	 dgbhfjjgStiCNYY1GpZCeDq7A8QYgOV6EdthsGn4sCntiex2Yf03O88kQPYBK+1tf9uET
-	 wh9H34ILQS6DquZPiq4rTsP37vRFnhkSzPJNsGPWnYtFc82GuoZXeVm6hiCFcA6vJF6qg
-	 iIg+mdBbK6J6VJ6gSvhel61RdM6axWAfujvPoPv/YEzvvRPCJ0yo57yGheDWougNe8w==
+	t=1795391918;
+	b=bwtWIgMx/GeOIe3ZUxKVmPcP9tZ1PGtWvJVxXZg8p5oY57TMnhTrvgXTteSQEkj6T/z5
+	 afusF3mD6rjr0klcXYKOz3Za1h7manU81JMlMFo76x1Pl/HaAw6zeteUkwKr+MfhjbJHf
+	 K3M0gRcOxp6/pAhf05gpN1e4od4yMXYVbpKOzCTDTig0gsJGFRMA6iWuNMFgB7TZgpdhL
+	 15pNPctyOGg71+QamdJE0ily8Pb7AEjOE2X6XrAHHJOXxv862NG+9wn/GcyYMjvkfYZRF
+	 6ZbGnuO6QABy8vAAgkV5ftxk5U3N0kDIl6dybCXC5J20OX/RmkRBBRgFwGXQUIxbh3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795388003;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=e1ECXh1hasiwdXcRUR5rhQfSSRL3Yk6j0MhKS+MF7ys=;
-	b=sHSeCmkbubHKxpSmIcXFXmBeMGl61uSyBSJB/LiMOB3ybAoV6csN4000UfoABS9dysBs
-	 OA1q9MvVLJBbpCg0lGoW2Pm60gFc+FYUywmq8HwstZXNyBsJng8TLr0LSwq1TPd6Mg5aq
-	 9UC4UfiTd/04K8FbKWXnvQbUo7o53id+N7N7qPZob1lmiCFOv/UwsAmN5Vt1blnqoZFea
-	 uyTzGFxVlLwmDV+YyOmIkIz7RsymS643aVFhRoqivjT2v8zcFzQ5UZLHzr8Iz0SB8ygD8
-	 GNsRcMidvyqeWGp3CgGwHqGQp9LHmhFEcVv+6IUa6y5a34XFM63bXRJuBlt5JE6TL2w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795391918;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=4gNy8roLwOc1L+J3BtP1HrH6hRU3IEez5wKIQNQ7iSM=;
+	b=2OYfUIkEI5Ddcqevc+bos9+czDj+J2LIpBaAax+GC18ughjFQJA7zav1AXHimGxRJc8A
+	 00JcELj4v5VekGU1FUp5GqKln1Rv3GJN7Ag+R/SLuE7CutxmTYi/nQd9LaiCn8uMiVq3a
+	 jWL6gTIKTGidiztKhOdIyz/dQtbS+SpMLmkXVnXQhevYSix1TCFjB4stgTxOkHK2PE1yT
+	 JRjCr6tc1Zx7igw2xnFh5eExgUfFViOvUY1LMf0GdenPtuoG1u+edknODLXaVjmgYmFrx
+	 LxQ+Zi9OWwdeyiwwS1gDGbU40+pLPK+2Uzs5FJ0TSPoj6nwA7M4DVEr3JHj5zbdR5nA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="nI/6bUA/";
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=protonmail.com;
+	spf=pass smtp.mailfrom=protonmail.com;
+	dkim=pass header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=Tcf8RxQ8;
+	arc=none smtp.remote-ip=79.135.106.31
+Received: from mail-10631.protonmail.ch (mail-10631.protonmail.ch [79.135.106.31])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B39606A31D
-	for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 22:53:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3B39606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22399606A31E;
+	Sun, 22 Nov 2026 23:58:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22399606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nI/6bUA/
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4bb6c7b6dbdso24581605e9.0
-        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 14:53:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795388001; x=1795992801; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=e1ECXh1hasiwdXcRUR5rhQfSSRL3Yk6j0MhKS+MF7ys=;
-        b=nI/6bUA/mOzT3/axZ39pmChOGMGk7WsLcDl2A9jJjUyG63dl4A5lBvvNxY8IuWObBD
-         kWRs+8PxXzuOhkJOQyT06w6q/VAte2AejNce8yUc2ZcK2gqU2pYuoLTIq3mHaFP8vS+B
-         il49OaJXWlJ7TFxr3Y2JRIUmv61noy3jUKLkEw4WrxVl6VDCqjpY2OMXQy/xohnwtM/u
-         2nqIz0f8ulM3E5oNU8TCMM36oXdPbfbaXNw0VJGMAMCCqq5/XkOgTPEvkjlH5DSNEo2C
-         G6Z1/iMxLTccX0YMcTgplzzVZcSGh9J+eYiXLte13XdgeQl09QW/DjLiyx7Fi3RHPL39
-         Zq/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795388001; x=1795992801;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=e1ECXh1hasiwdXcRUR5rhQfSSRL3Yk6j0MhKS+MF7ys=;
-        b=qlrMH44Fy4vF5hpX7U7uRrHfzBA+eoub4M5cU2fMFXajXOQXsaFPs1ImADs8e546TH
-         CIcpFSLgxGDF0QUyV0JavNHbsLiMSRV5XQtRQZZ6XaIsntzRJ452XueHxnQbBajwlpgW
-         RIfxz1DVnmarfVSlvGmg4yEAQE0lsKpTGEtP1exTvCzlNbaDmB446fDyACGJTsyUdeUz
-         xXnkrOHKCRBckBX15U7a335eN0Det91ckHFmZNgT4YUEiW44vKwq/YBGLq4KnPBm+VIX
-         xRGCz2Pcekyt9Ih2meYoNy0f4/jLEkeHE6qZxK5O7JQAv7o35saPsnLn8Oxixi20SRO5
-         RMzA==
-X-Forwarded-Encrypted: i=1; AL+hErEI/0UilJmQDomJIyhHyLx/7RIjUh1VAwWRiaRHnxPyWXtWwrLrApWzvIsSxPsi6RqV3TB0N8XqzsI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9w9ButQurvLahQZyiLthuLCikUG0wVsZuBHsXujbSa5vD40TsK
-	5tZV7tkfZPn4yRMsvBjbPHPqVur24LITRFQmYKjQ2o9i8XTZjeI40uEg
-X-Gm-Gg: AZFdTZeN38rp0fEUefolrNXoHOwXE4+kKK0ODUEzUVYnKFOLhyRW1lhbemDt8hNN0Va
-	fC8KNIQhoaJHyl6hNVf4pCdBMVaXnHHvBmfK4akmN3l0XRmAYW0AQ68BLJLg13oUc63Wdm4yPnx
-	/nwjPhbOFvdSSTZDAMOXx2RUc7D+flsSzFEyK0h+DJdTlfAOyU1ddGxoTmX35A8Smp8M0HdcyXL
-	RCxnpS2Fix9IOv3iN9d11X5UmdXMpD6za0ifYFfgHMZqHKwsjZH9HPVw8EtG3Q5px2Ggm6OVOeq
-	lllnal/yMRCx6aFmS6ILTX3eleyGMnTsuGwVr2+tQ1S50B1JdKs2dU6hdXZYFr6Psxiryu+zXTK
-	LUVQ0/CVB03NjqzIT7JVOM7/KIpIoUq+/20/ZlM8ORYpmg0xtrbzxcmysxhDdRkFcG49+s2F6pD
-	8GRDzq7o1dAaSgr0tL1tbdcY9bMWpH04XCrtNjpz8LROryVdrZQpct/eqam2eDxwDmJzZYySgtK
-	y0tfFsA5Mwpaqe675y5HrLC/TvR1Da851TYsK6mjgWvIwe2nBCi9vVYhx+orzKQZhNdJxiL+rCO
-	GcHLBUmXUUE6RWRFUMGfCW5CrBeSbcIe+6Uam/zYfQ==
-X-Received: by 2002:a05:600c:a51:b0:4bb:5f43:23bb with SMTP id 5b1f17b1804b1-4bb88828173mr190830185e9.33.1795388000825;
-        Sun, 22 Nov 2026 14:53:20 -0800 (PST)
-Received: from foxbook (bfh118.neoplus.adsl.tpnet.pl. [83.28.45.118])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb905f1489sm147668355e9.0.2026.11.22.14.53.19
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 22 Nov 2026 14:53:19 -0800 (PST)
-Date: Sun, 22 Nov 2026 23:53:25 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: hi@yasunobu.dev
-Cc: Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede
- <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Mathias
- Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Batch StreamCam unlinks on ASUS
- ASM2142
-Message-ID: <20261122235325.3526f7bb.michal.pecio@gmail.com>
-In-Reply-To: <179509825333.7.16183167217667709685.1785923683@yasunobu.dev>
-References: <20261119-streamcam-batched-unlink-v1-1-076bc02866c1@yasunobu.dev>
-	<CANiDSCsdaokL_2u_74b3ADT+U8TXskK53+k+hVA8D+PtttYEZQ@mail.gmail.com>
-	<20261119141956.2f320b1e.michal.pecio@gmail.com>
-	<179509825333.7.16183167217667709685.1785923683@yasunobu.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=Tcf8RxQ8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1795391915; x=1795651115;
+	bh=4gNy8roLwOc1L+J3BtP1HrH6hRU3IEez5wKIQNQ7iSM=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=Tcf8RxQ81NeFVPWjqoCo0gU05OmsowWNPtGHfubmin1MpzGGAXX7z1A37MRTsv6bP
+	 bAi48j7vteg4IjZlszEJv3/gdXIyo9kW55a/zsTxJ6idxvOoIDLFQya0unjbL1g1rN
+	 LTakutNajavIJdFfJrchVpYraKp/ArE9QNkVLcW7wBzb3z1gs8QDnrGNoljAsXYWsH
+	 P40EOjv1QzCZZRST4HWzKDp5yfP0bB3nic60dbtlph1qPULnKQzIiWB7gqod8AoL3a
+	 QaAJCLHF+UcvulQfYoq5W12EelQVPHnPCr3tnG3wQIbxnJCu5xUa+lLj+N173rrK30
+	 BZdaoBQU5zGOg==
+Date: Sun, 22 Nov 2026 23:58:33 +0000
+To: fernandezfernandezpol@gmail.com
+From: Bob Summerwill <bobsummerwill@protonmail.com>
+Cc: laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: uvcvideo: add device entry for Logitech C920 (046d:08e5)
+Message-ID: <20261122184500.7c9f2e1a@protonmail.com>
+Feedback-ID: 475798:user:proton
+X-Pm-Message-ID: f05ee7a42ad6d3b376f96f1df81ab75ef3e4ea2e
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,33 +61,35 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 19 Nov 2026 14:24:04 +0000, hi@yasunobu.dev wrote:
-> Thanks for the clarification.
-> 
-> > Does it work, including in high resolution uncompressed video
-> > modes?  
-> 
-> On Linux 7.3.5, 720p30 MJPEG worked on my ASM2142 at SuperSpeed.
-> 1080p30 timed out with zero frames in YUYV, NV12, and MJPEG.
-> xHCI logged "status 13 not part of TD" for ep 2.
+Hi,
 
-That's probably same thing I'm seeing on ASM3142, the HC fails to
-generate completion events for some transfers. But the same HW works
-in Windows. Running Windows 10 under QEMU I see two differences:
-Event Data TRBs are used to generate events, and transfer buffers are
-split into smaller chunks no more than 4KB in size.
+Field confirmation of this series' diagnosis from a stock, unpatched
+kernel, in case it is useful when considering the patches.
 
-I haven't tried implementing Event Data, but reducing the value of
-TRB_MAX_BUFF_SHIFT in drivers/usb/host/xhci.h does seem to help. But
-not all values work for all alt settings and I'm still not sure what
-the HW bug mechanism is and how to optimally split the buffers.
-Maybe it depends on burst size?
+Device: Logitech HD Pro Webcam C920, 046d:08e5, bcdDevice 0.21,
+directly connected on USB 2.0 (no hub).
 
-You could play with it on your HW if you are interested. Your camera
-has some interesting alt setting with short bursts and high mult.
+Kernel: 7.2.15 (Arch "linux-omarchy" build). The camera has no
+device-table entry here, so it rides the generic UVC catch-all and
+uvc_no_drop_param is at its default of 1 (deliver error frames).
 
-Regards,
-Michal
+Behaviour matches the commit message exactly: intermittent gray
+bands over the picture in applications using strict JPEG decoding.
+Setting the module parameter nodrop=3D0 -- the global equivalent of
+this series' UVC_QUIRK_DROP_STREAM_ERR -- makes the artifacts
+disappear entirely. With it in place, 300-frame MJPEG captures at
+both 1280x720 and 1920x1080 sustain ~27 fps, with per-frame mean
+luminance stable to within 1/255 across the burst. The camera has
+been in daily use since, artifact-free.
+
+To be explicit: this is confirmation of the failure mode and of the
+workaround on the affected hardware, not a Tested-by for the series
+itself -- I have not built these patches. I am happy to do a real
+out-of-tree build against 7.2.15 and follow up with a proper
+Tested-by if that would help the series along.
+
+Bob Summerwill
+
