@@ -1,93 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795414919;
-	b=PG64tcP+kBiZQTfhyeM7h51Tl5Scen3D3xYZnutIdgak9T6Kcr81ir1uQv/s9hEHqwH2
-	 rjO0eFjBgczQpqNhLIKXHmWAXO5YDzM49Ehedekd28DKz49A+Yf3eY4W/7zrFqpRU3yPV
-	 wIRYF82fJKV4fBdhTXRpNjhNSSYQHZIShhekxZO1+VPlqZBYrCqH/3+rvFNnUoypsPFfX
-	 bfWx7keew0JMyMlIAWw+/Pf/EEHxGdyTPCMV4NpbrrX0LcUdY7SDVHud5IEQ7pWldYdbW
-	 GDHfwYii2Ywb0LWwTlGl+Dl2O9pBtRd5lymToTywovebpt7x13VwvwBIe5K25rLSdoQ==
+	t=1795414991;
+	b=lEaEj2qJ1zfo4yUMcza2vesqCimmnHkJS1eMG7f2/HGKWLk2GE1y23h+qWlS/4FlHlOs
+	 qZHLFayn6D7B/99yHHr4HVa4I6V9HQ4exl3kx5ozap9h5OAVB7axB4WZZqXYfyyTi0LTs
+	 npTW+OsZ5iRiBm+TjaLSvDzprh2/3LlGG9w8REWBlDVslIw9qWcGCVyuLNuCB/L541Nc+
+	 E+b8ySwHqcsQNtQzJcIByjMg447LbLmOynZV4KCjLIRNMxKTY7DRnkh1yFfKGX+i0tDKd
+	 qp6w2z3sm09zTj0PhV9tQPisYgSdsFHDyZ4sAJa4lrUzS7q+I3bBwAF7hENFJBFnFrQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795414919;
-	h=DMARC-Filter:X-SpamFilter-By:DKIM-Signature:Received:Received:
-	 Received:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:
-	 References:In-Reply-To:Accept-Language:Content-Language:
-	 x-originating-ip:Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=+d4qr2X79fqsMJDZc1izaVEQ0nnQYV4IcwBa4uocRCM=;
-	b=XVmyNHwNjmUC/iBBSh2TBjOROvgf859QXbAzMt82RTr+bM7w7rso1WXxbANCABQjMAff
-	 j9exrKOL+/c0n8XLYRMgSdzyxGn+CZ1WFHQKeFGAhRd0htICKadGwYhv5209wExowj3qY
-	 YGI0FquNCCED2Vk/Kmw7KNRMFVElsfwcV4vuI1V7F7urs5QeyMj6eO5iPYyNqQHxc6Cra
-	 OSbvppMyD7tIAXknnR0IpjU3IYzGwWy7Jv6ACQABoif2Dt4gQOf7oAIyHcd4rvJwt5BFS
-	 PCjS4XhOtuwrGrpmnAP5DffLxn5IfrTUGJQIQnbikoy7QtmAnYo8ptN2Ab9ORjGH0Hg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795414991;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=pgzjrQOGvack0Ux0RqI5gfXnGjGneOAYcUfumwqcad4=;
+	b=YTETk0CGptBnNdo2oMbTjEVGWAPVLQEivQp1yUOxaJG4x2funA/UeO9n9AAoZqrnabV6
+	 WEcKvBuR+dkKEUPMPfGpS1UxYRxJMVIWeJn83bk0t4guSJnlu9vzbEOSJN867sPdTJM0Y
+	 BGhjbh3B20vwdw55kmuLl6YN7b4BgVTlvC+7FWxxQT9YFanX+s6f0ndO2sRzfhpnMnhmE
+	 aKqpO6URxzPRh6uDiy1iN0EEphKxOIqPLbvf4I3XJddtOzI+CtpytKFlpJ7XlRqACVntr
+	 jlZf4k5WnwzZuMfxLrnzjRP/sM7wmGp50dZlT+g/5FaJXS0NULhCzYM2OewmeQq2LeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=realtek.com;
-	spf=pass smtp.mailfrom=realtek.com;
-	dkim=pass header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=IejdmIoj;
-	arc=none smtp.remote-ip=211.75.126.72
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fAqusSx9;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C138606A31A;
-	Mon, 23 Nov 2026 06:21:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C138606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA10606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 06:23:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BA10606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=IejdmIoj
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6AN6L8uK41408110, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1795414868; bh=+d4qr2X79fqsMJDZc1izaVEQ0nnQYV4IcwBa4uocRCM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=IejdmIojnUp95r9XAhf1dT3BNrSBmZkAO7IydiqIZEJXsFKToBGSKO6SxQ2pRKMLh
-	 T5neFCffh44Xatt897DsT2Gqj7oZyqrR78WYeNqDVAmXwMboCb8PxYaftGAUnItwBd
-	 Tgx9uSns5aUSOezFemXels/adWrDA6wRAyEVIUTjiVNcw2VESei97EmrVTyZnPWd+s
-	 CzBwzgECtGh8oDCOTjzmHRmJQi4nbN5wIc4yOfeog+WHOrtSGAI6Nos0IkMJgcgF23
-	 ugl7AyDXfFXi8meOmGLJ0M3LX7KgVqvxL5jgwck82AM1aLGFXiLZFzLq6505FheWtq
-	 ce9bzNQ3jBH1w==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6AN6L8uK41408110
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 23 Nov 2026 14:21:08 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Mon, 23 Nov 2026 14:21:07 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([fe80::eeeb:c765:ca73:5eef]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::eeeb:c765:ca73:5eef%10]) with mapi id
- 15.02.2562.056; Mon, 23 Nov 2026 14:21:07 +0800
-From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Birger Koblitz <mail@birger-koblitz.de>, "netdev-bot+sashiko@kernel.org"
-	<netdev-bot+sashiko@kernel.org>, "davem@davemloft.net" <davem@davemloft.net>,
-	"kuba@kernel.org" <kuba@kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, nic_swsd <nic_swsd@realtek.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"edumazet@google.com" <edumazet@google.com>, "bjorn@mork.no" <bjorn@mork.no>,
-	"pabeni@redhat.com" <pabeni@redhat.com>, "andrew+netdev@lunn.ch"
-	<andrew+netdev@lunn.ch>
-Subject: RE: [PATCH net-next v8 10/11] r8152: add TGPHY register access for
- RTL8157 and RTL8159
-Thread-Topic: [PATCH net-next v8 10/11] r8152: add TGPHY register access for
- RTL8157 and RTL8159
-Thread-Index: AQHdcMMAVp0iERnuiECMnOxwgdqzp7cszWwAgAbBatD//87JAIAAMkyAgAF2UFD//+4SAIABqmQw///dy4AAmHU3QA==
-Date: Mon, 23 Nov 2026 06:21:07 +0000
-Message-ID: <48eb7c4258f74bddbd1bbd25cf8aa115@realtek.com>
-References: <20261110032416.16968-11-nic_swsd@realtek.com>
- <179464851836.2199510.10154643847175029122@kernel.org>
- <0c6318e175b14ce8b86a957c7c79d5db@realtek.com>
- <cafe3b8f-2b65-41d6-b31d-a1cabbf93720@lunn.ch>
- <2e601d9c-1271-4802-a45c-a16a0d9cfa8d@birger-koblitz.de>
- <b53ecd5dc96f4890956f051959b74e32@realtek.com>
- <1543707c-c121-4c35-8849-c4db1a71fb57@lunn.ch>
- <6a2c635ba56d4deab25a25db9af91c10@realtek.com>
- <78ed468c-798c-44b2-9f97-8645af0f1641@lunn.ch>
-In-Reply-To: <78ed468c-798c-44b2-9f97-8645af0f1641@lunn.ch>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fAqusSx9
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-38692f62b22so1315697eec.0
+        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 22:23:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795414990; x=1796019790; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pgzjrQOGvack0Ux0RqI5gfXnGjGneOAYcUfumwqcad4=;
+        b=fAqusSx94ZatdptsvlDWJ2B/wjzk/fIcE/mov/H3R5d++wV2kTKv0YzNh0I8waeqa5
+         quCc5++8KLJimu10W5/pQgbNr0jvDI7N7buVdsLqXuWOLEKBLACMWlPIMrzJsbeyNOMT
+         yHHPspqd88M6Zjt5KvEuH0AsuCrFthmnXrrtFcakVukpfJc3tsDhCTQb5c7+nKRxeFdi
+         K9EK3cMfd/Wk2DGw7hBE/R19Pwse903FdS8su9cwHTCfwUwqbCaOrTvcptnefYRgklbw
+         TmKvwuhIryaveSF1VQoXDHfvqxBNsMG0i+/DRXAAJZ6MpfE3auzrSlgQpcV5xdk7fQ+/
+         HDtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795414990; x=1796019790;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pgzjrQOGvack0Ux0RqI5gfXnGjGneOAYcUfumwqcad4=;
+        b=sdLu0cVsQXNsHzHuWn3v+acI3TDbWs8WEEAsUI8W7b/NPs47Uq4ttl0/Do+dn7cw5w
+         SBgbzhmkX4Je/3ePrvky+uxbs0dXE+uyiXQ3gDMUo9yQ9JxhzvFn2QvOTvwP725RMoCV
+         x8Uzq82eKaaLfnxZrL2MnoAFDZ7agbo1tUlGjIswMHnP/gqN3AQUuEqDHJq+4rPzzG4z
+         u+p8UHkzZPZEQfMF2os4vSdTLb3MzICCcl69szDYbkYmPEjDHyK42gotzVOHVpHqUXVJ
+         Raypn1eqBYDOZQ+dSxc7y7e07cIX9LSr1Pb5KhkimS6cAX6geoH9lDH/BJ1/aCNDgmhy
+         Cq0A==
+X-Forwarded-Encrypted: i=1; AL+hErF6a8IWmmJQO9M+OrldUn4a+4FrkFwhSc5ejECQDtXzhAk8aQ+z6qrZIUkb+0sNB9FTznq1P7AAMfk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/MBqRKLvllUy1HI9EHUFtmrWEobSkK3tP//470SFRGutw7Fkai
+	594sp140v6MB92Z1hMdS6QmBTajuk6530L4inuhNXGup+xGLNLP4GKg=
+X-Gm-Gg: AZFdTZduFQydSP0ntWALap6TFEe78tbwnE0FxCm0KrTIIML/su+weWCvsp+JuoZmX7h
+	U1YiHECKqDciPfWgPFOGd201uZhdNiL6H3d9I6jZ363M2rpHWU5raBwqlp98EuIm6/XRxjFjYm4
+	ZxgiJRPLH2TO+iggO0XR+m+p+KRD8ogXsd8UiaUWWwUwnyLcuzt2kPUXM8tWi2DY2EUde03a3uL
+	O0l2gm2I/BQ5bOd+EY6nausIwnPt5wtj9iXlBHpXSTbPFsh5hYnveZ+Lwv4i4bxhbKGJMY/j+sK
+	dF+WyyFzFWQMt1s/BVAFwNCvQzbXmvUMFpNt+Bx49joKpxF+9tLo+c7IVe/f2j8SFlZPVo7KJnO
+	GiYKOEkYbx1DWFW8M2U+cYvNKBYTIggpUmUWgvDaohMd7Fvi+xNyAmcmgbwH2iSLmN+tNyeNNgv
+	7+bccXr5f5TtHiK/R6MrwmEd25ZcQNwRuQg7hRxI/dEq1R9ST8poRyZxCktNzu8vee4ZvB0hjPJ
+	2bfuXbreyCvP2u6gyXiVHP786/dtgkRSfpJpxv0KaYOfk3B4YRmyVtFCuW8TG6RWGZjE1xihsdT
+	HisRikkbSLlrLSSi+WtNJlliWQZgBaTbZZttPotNYXlXBe8SfEE9pDL4e3J0g++hExbcb6XDhBg
+	BtPhRZHkRKWfF8LVRtIR5l3x2Ez/q9w==
+X-Received: by 2002:a05:7300:c00f:10b0:384:bc32:fe6b with SMTP id 5a478bee46e88-3856e63b194mr13329612eec.13.1795414990426;
+        Sun, 22 Nov 2026 22:23:10 -0800 (PST)
+Received: from at-Standard-PC-Q35-ICH9-2009.tailbdca44.ts.net ([27.60.27.67])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e96bdsm30844266eec.7.2026.11.22.22.23.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2026 22:23:10 -0800 (PST)
+From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: atharvatiwarilinuxdev@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: acpi: Get correct location data for Apple macs
+Date: Mon, 23 Nov 2026 01:23:04 -0500
+Message-ID: <20261123062304.11498-1-atharvatiwarilinuxdev@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <2026112349-gala-unrobed-637d@gregkh>
+References: <2026112349-gala-unrobed-637d@gregkh>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -97,31 +99,19 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On 11/20/26 9:22 pm, Andrew wrote:
-> >  The root cause there is also that
-> > the MII library does not check the errno, so a future patch could make
-> > the MII APIs check the mdio_read() return value and propagate the error=
-.
->=20
-> The MII library is deprecated. It is not maintained. It will not be chang=
-ed unless
-> it is really broken, and by that i mean it breaks 802.3.
+> Sure, but again, you only check it once, why not just do the logic there
+> then and not have any local variables?
 
-Understood, I won't touch the MII library. read_mii_word() returns 0 to the=
- MII
-library when TGPHY fails. That's a BMCR with autoneg disabled, so mii_nway_=
-restart()
-returns without writing anything. As for -ENODEV, every write that follows =
-is blocked
-then, so it's also safe. So, I think the current `ret < 0 ? 0 : ret` is eno=
-ugh until we
-move to phylink.
+I thought of that, but i did not do that because it creates a order dependency
+that being USB2.0 has to come before USB3.0 otherwise the code would not work.
 
->=20
-> All feature development work should be done on phylink and phylib.
->=20
->         Andrew
+> So how have these old systems been working so far with Linux?
 
-Best Regards,
-Chih-Kai
+The feature itself is not that big, that systems would break without it just
+warns about it:
+
+usb: port power management may be unreliable
+
+but new macs provide location info, so i thought to add support for it.
