@@ -1,55 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.222.135.142
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795434593;
-	b=a+Itx55OyJ5b1fivTrPSoiqibMsY9O472TSIO1/9DUaOwzupXBvv3vjeJDnHR8XO9QqU
-	 sMWrN2z5RgH2gAjJ5CWH1goCQNJBlnq1bNRNOBxZRkqvZ9xrqDa6JEfYv0+0fqzm14VUE
-	 gWphhAeDrfM9ffz5Sp9kAGc7iCl3BCYWZlbdRKePmkPT6BgMuYlyauuZU0j25YiIo+tkC
-	 H343l1Ng6Bb5OPbUWjS7bM3h4fqdtj+M3KIuApUE+HU9Ne1pqau3xcIoAxoWim2rmCipX
-	 MlaAztUUavlBLbYhZ9eW8946K4V/SUEd02DWYTXluo6de3X+0AbzgOWwOdjTmDGEwIA==
+	t=1795434871;
+	b=OTOk4Ewo/jIychlDdJtWpLpakV5GJo88+Vv4wQSLpNusJIRcG4YxnuFNYVzyrlW+MHE2
+	 iAoyUKaugQf3y8BygW4PzzsYJIzWbd8Ifp7Ea9pqxJsYghOZgipLyJq77OWaDGO2uq5QT
+	 YtPS6MGOhgz+BG9BgtUtVUhmHEf4Yf2qIqicwTxpN5hB9POkMuO/OGZ7Ms94Pw4UjhI6p
+	 rfneJzoSLWte/2st3fPHK9eqbMAr2aSiHfR54fF25tAOsT2suh8WmCRldkccxKG/4t3AW
+	 15UvnwZ/UlXLo8wdC865fULiS2Zlv5ABDmQ9CF5y5fq63aEBJGp82/ovuXyao5p8VeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795434593;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:Autocrypt:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-WP-MailID:X-WP-AV:X-WP-SPAM;
-	bh=3ANwkgC2sS8G+uEOYW1Y++4mpRvPqlTWPTRgPAiSPUQ=;
-	b=Yj7OG4/FLVVkcd0xPVYT1JRTerkFxKT6wgWphOU9rEDm2CvXJ+A+yAtE/KVpJ1HEcdRl
-	 8y0WeqtQ/qP4CwpH/T1+1x/fbGC53CVGJnU0G1B522FTPqoUThf2ekB2fbDRCOJSRupB3
-	 sfI4hZ+0s7V61M4Egsb3PAvw8JgeZzFvtz9bv5iDR3a6zNY7X5zxUK+yxMgIup0JPPhv9
-	 PX3oV1ruTXNme/0S4ogHgSi6l81XS5PHy1ef/iWZnoxGTmaAQzacE1KXx4JcHW/NN1jh9
-	 mgqOxdVfcWHk7Jjc++8+DKxQsFqEMUzZu8th7Vxos9R2El+jc+R+KP41Df24TFItqeA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795434871;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=NBdPGSHTtfQFTLkU1wMN9q73epqiisRnzOw7Z3Glhlo=;
+	b=AsbZzfiAUjQuNQ0mfLG98M4TQPNZH22rXXF8peWPwk3fkKOu8FMdJtYU83CBA9VogIRD
+	 LNy7ekRRaW8Iv8b0S7hfurbzRAsbK+A/OjNXxiIR2pwd1iqrYyyHH88G0AryoR5ZSZVyg
+	 NoU7frl96+uwm+0zI5UkBMTjgJomcan7gDt+oQLFYwAYbxKhm+y2ynaLen83L1F8eJgSz
+	 qYrr8DLlawBJDl6lWzXjzE6NLwMrhDWmF7Qf3/I5bMRCFvFFyd1Emv3ToGgWhB0btSpOv
+	 M2pBM31LGI7GFmNxfjMMFSS89joZdNxWBRkTGJdMo5yXUjb1wtBnQk8WQLdIuAwJxmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=o2.pl;
-	spf=pass smtp.mailfrom=o2.pl;
-	dkim=pass header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=fk+9mxf2;
-	arc=none smtp.remote-ip=193.222.135.142
-Received: from mx-out.tlen.pl (mx-out.tlen.pl [193.222.135.142])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iBla6bpx;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B880606A31E
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 11:49:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B880606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=o2.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=o2.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C6C606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 11:54:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=fk+9mxf2
-Received: (wp-smtpd smtp.tlen.pl 19424 invoked from network); 23 Nov 2026 12:49:37 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=o2.pl; s=s20261001;
-          t=1795434577; bh=3ANwkgC2sS8G+uEOYW1Y++4mpRvPqlTWPTRgPAiSPUQ=;
-          h=Subject:To:Cc:From;
-          b=fk+9mxf2rY4NLpqNBo53IK+AgsfywjWoXnZ4bMXM78CkuQldCCP5fKoYRLvPAIfXW
-           ZRCmZExRAvpbasMELuOWjydwJlYuQ1HgzWbVt0M2eI92bUUMKJQdZZhUMIxYAonygZ
-           ybVHHVn6vfaiU0/mJo5pP84Utjn7zjqTJSy2OJVGBzqMjxZ3QcWv5Lh20xtY0vlFSs
-           ZEwTpobo6ggdhL/CbwTwjxSNmlU/08CDAEsMnh+y9TY1TIgmu4hfiqnAzuhtJdRwOG
-           I5AntUMdy51rtgfDQN9USshlJaebBGe9Q3JXEZ6YuvwIFgk3X5PYnM11KVK/D+rF9Q
-           P8Bwg0HBpdFYw==
-Received: from [192.168.1.22] (apn-78-30-78-152.dynamic.gprs.plus.pl [78.30.78.152])
-          (envelope-sender <mat.jonczyk@o2.pl>)
-          by smtp.tlen.pl (WP-SMTPD) with TLS_AES_256_GCM_SHA384 encrypted SMTP
-          for <oneukum@suse.com>; 23 Nov 2026 12:49:37 +0100
-Message-ID: <fdfa2dc4-9cbb-436c-9fac-213a19d6f86a@o2.pl>
-Date: Mon, 23 Nov 2026 12:49:34 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iBla6bpx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF2231F000C6;
+	Mon, 23 Nov 2026 11:54:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795434870;
+	bh=NBdPGSHTtfQFTLkU1wMN9q73epqiisRnzOw7Z3Glhlo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=iBla6bpxC0IA42H4Qnk4A758XGK3hGJTxvkN+lsjbI9QkkCXQ5IB2S9tmUGtEUu5b
+	 7+oxqTu1WGVatqaHzuqachbrYOSRXfVM5ioo0WO69RyJ68VpxoiePYFnmK/G5+oUor
+	 6dKF+VevS0QoEbVKPxQnK3eLd6fJWhn1eRmVGJm3Ht/BdHmO6j0E3Ti5deIEABtfs0
+	 2fRUcEKh6R/oufLt7vYTYcl6eIS2hC27gghdI76JImdezivTCvdGXk5d47krNnug7h
+	 uSTjw0sU0Ho108buTpZxElwtSU76ZJIrYUZcAXM+jzE6rtwN1o6qY37apvpbJtnr5v
+	 OP0D8x9lAbWgA==
+Message-ID: <sashiko-outbox-229175@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 5/8] thunderbolt: Add platform NHI driver
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Chunfeng Yun" <chunfeng.yun@mediatek.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261123113705.2297329-6-chunfeng.yun@mediatek.com>
+References: <20261123113705.2297329-1-chunfeng.yun@mediatek.com>
+ <20261123113705.2297329-6-chunfeng.yun@mediatek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Nov 2026 11:54:30 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,93 +59,36 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] usb: uas: expose US_FL_NO_ATA_1X in sysfs as
- ata_passthrough_disabled
-To: Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
- linux-kernel@vger.kernel.org
-References: <20261121155253.4980-1-mat.jonczyk@o2.pl>
- <68f6376d-a0cf-4f87-9cbb-0afb7b8536d4@suse.com>
- <52a233cb-1671-431c-8c14-7757ca947aa5@o2.pl>
- <cef781a8-45db-4540-981d-b38667dcfbb7@suse.com>
-Content-Language: en-GB, pl
-From: =?UTF-8?Q?Mateusz_Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
-Autocrypt: addr=mat.jonczyk@o2.pl; keydata=
- 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
- TANkZ3QqXNX2
-In-Reply-To: <cef781a8-45db-4540-981d-b38667dcfbb7@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-WP-MailID: 891559ab91dd92db76de60529f426fc0
-X-WP-AV: skaner antywirusowy Poczty o2
-X-WP-SPAM: NO 000000A [oRP0]                               
 
-W dniu 23.11.2026 o 12:41, Oliver Neukum pisze:
->
->
-> On 23.11.26 11:48, Mateusz Jończyk wrote:
->> W dniu 23.11.2026 o 09:27, Oliver Neukum pisze:
->
->>  > thank you for handling this. One thing though. This requires putting
->>  > the emit code into every driver. Can we centralize that somehow?
->>
->> Not really, short of moving the handling of the ata_passthrough_disabled
->> attribute into the middle SCSI layer (which would also likely involve
->> moving the whole of US_FL_NO_ATA_1X logic from uas_queuecommand_lck()
->> there). Is this what you mean?
->
-> Now that you mention it, shouldn't that be where it ought to be anyway?
-> Usually the SCSI layer generates or filters commands, while the LLDD
-> determine what command sets a device will accept and reports that.
->
-OK, I will prepare a patch series as appropriate and report back.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] thunderbolt: invalid SPDX license identifier GPL in platform.c
+--
 
-Greetings,
+commit 69e07d737f3ccaa08c0332e46cb3614ab51f29be
+Author: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-Mateusz
+thunderbolt: Add platform NHI driver
 
+This commit adds a platform driver for Thunderbolt/USB4 Native Host
+Interface controllers enumerated via ACPI (ACPI0015), along with support
+for an optional dedicated wakeup interrupt.
+
+> diff --git a/drivers/thunderbolt/platform.c b/drivers/thunderbolt/platfor=
+m.c
+> new file mode 100644
+> index 0000000000000..05dd858ac8342
+> --- /dev/null
+> +++ b/drivers/thunderbolt/platform.c
+> @@ -0,0 +1,170 @@
+> +// SPDX-License-Identifier: GPL
+
+[Severity: Low]
+Should this SPDX-License-Identifier be GPL-2.0-only (or GPL-2.0) instead
+of GPL?  Bare "GPL" is a MODULE_LICENSE() string rather than a valid SPDX
+license identifier in LICENSES/preferred/GPL-2.0, so scripts/spdxcheck.py
+and scripts/checkpatch.pl will reject it.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123113705.2297=
+329-2-chunfeng.yun@mediatek.com?part=3D5
