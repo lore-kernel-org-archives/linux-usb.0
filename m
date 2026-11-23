@@ -1,102 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795435985;
-	b=SQnNV+73DTFWuCru2Ldx8Nd16b1M5eOmc6gDn7GpNP4Xah7P5VecuK78e/9DHeIbZ3hk
-	 L1Eg9gFLgMt6A//6yiw7o6pMPXzRm2Vtun3XSyyR9OUaqvbYfW1KAEnhsdhL9lkdTcdEl
-	 OdIyVo6Y+ldmaQyCLNzEe8Y/lrukno/jcnQQjQfSGWnyONp93jR8O9oiwH6lkscC9WAkp
-	 4Ym1of9TPw1fUrCWyYWcQk1anqbCPXHMl+KqodgBxMT54+g2cGQJbl1wHQJm2gEuVFFIL
-	 biIEcVIUMekmEuVzPHKMBouWlTu/uhlvVRNRU9TdIVrNm840d6sJLjrobEeUDaZLD1Q==
+	t=1795436282;
+	b=HmUXfQGk1Sr3ER8yE7iWa5oh3iYjNxi3TqizSl4O8cA/gQBv+xruK0VOulGbJIFgwXRB
+	 urugcy8wh2ewB4gZspHuwfXkJO7iBTGkQwYnAQFc17nzCDMtgof1tn6IJ/w81yiJ+YBAK
+	 Hwi1uG8h9WhzCg0gYjyDwPggMgtXD10Xry/ZETNULa9jKFKPvOaEyOYW+GlySqj/zkcP7
+	 GrPTIArnJUyYTjczgT7MnmiffyIewgk7m1idiYXbpcCjjf1XF7rsDAKQ5f3OYWmnM91c7
+	 jxYn9XN/svFkJI3QddMm1MLtBWVPXvAnfthsjt1Vgcb3fm9ugByy6iCeHgk31syJZ0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795435985;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=YXiKSe1b4sqmwhSslNYFvKYiTOVoSzJmWVzJ8m+MYNw=;
-	b=p9VTXgJdpgG6R9Hmt65oH3XSrqdzkaCGFYP35JN164Ur37MixZTwmZ/9Us6Uilr0pAE5
-	 TR3kDvj6GlDU8CQD7FagEXgv5Wt+zYkmsVS6w01PWxJS/PN9bpVbyGdOKP0cApI+wofP4
-	 ZKjMbjSuLlO+lwxaSDgq3/ZLP8qB5j9Uy1mJHyinV/R9ZTsySl76YtDAfyhjik8De782S
-	 HMVg+FQmEYT0UaPIDip9yzsIJ/fp0vALQo9RGrdKWVZiH4JXnvNVqbmrLEg7Ghv0xXXWr
-	 kAV6Efbs8+oT8KDoZu/sc+rkY4R4W8pvLRfcz5KUZ+of1aqP78QzSn9oCxl36/AiDYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795436282;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=oTqyWu0O0Lf/aRaTeVcX0CglBR6VWa7YWvtkVDqk8G0=;
+	b=YdeyB78swoT0C2czzdeiaZMGDDLAG4WpgfrVudaTYGQixkha0liOcVlpJCr4/jYtLTwV
+	 uDOAqWe8anifKbREq5wJOpaouFF/Zimlaf5+XhUI3ePpK7/eT+O6qPir9Kq9Lh1QCsISv
+	 k5DyBN4yFxFbIfC6DNvwxCsvkvY0M74rkEzPU3orE+BwEq0M2WvxM5DeQIey6/rpoWZye
+	 0ASK8PqfVbYxsQpLAaDt+RvIVT+fn6EyLdZCwDcN/6R9LSJuN/uclKaMXkVlL9WvoQdMH
+	 4+VPXpxdRdisqWE/EF5QEXWu/K7KOeK8qLemnhbZcwnw88zh7BGjEMsesVRljeUSyMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=jclark.com;
-	spf=pass smtp.mailfrom=jclark.com;
-	arc=none smtp.remote-ip=209.85.214.174
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=FchDuhne;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F742606A31F
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 12:12:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F742606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jclark.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jclark.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2f04e3bf46dso21444955ad.2
-        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 04:12:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jclark-com.20260707.gappssmtp.com; s=20260707; t=1795435975; x=1796040775; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YXiKSe1b4sqmwhSslNYFvKYiTOVoSzJmWVzJ8m+MYNw=;
-        b=WTRBxD68mxmBMUDeAcOF2tKZEqSYLCNUPKR85w6u7MFXIi2cEY8cj7JgvwVfUVamf3
-         P3Pzqoy8IB5bJg5Jvw1kPnvb0djMTIY/9w0jM5vY8oNuUqKdI3XLEYS4gpwgxNBfynhg
-         s6mqbd87klkVJZHdWFt+1ocI8nSEQWDirNwAIo63O0wD6JTmO06YpbWx5miMMvVj0ZtG
-         9O7l4vC0eza5ltf6pB7NAQUiisSQ/gpbfSqbv5jhENm7GSI2lP7+ZygOgxOdLIzN8evb
-         GQAzNieO5N6KyvouZSRIDKMLvt//iHVrhPhfu2Szrgk4pGaHElaecKWP9dD0HMS40oKB
-         Vd/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795435975; x=1796040775;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YXiKSe1b4sqmwhSslNYFvKYiTOVoSzJmWVzJ8m+MYNw=;
-        b=1hCOG1joqa6yImlqSwiX48AO6V6sM+IUcfmFA/+NptTRbdokwcPGL9YOdpej3j8qc0
-         5yRjSh/oh+O8vOyaP36MKUll3HODQtkGHs6aEm5FEWA6gVnsPxw+d+XaRxyyqwSwOtPH
-         QhmqVCm7SlerW3HFfO5Vud1UZnjB05KzqjnjiFKGqLLCBlBIEastOIHgrcC+4R47Jj0H
-         Wojb7twS+n/EIAWOtvIh7tSD9WPvM6CzrwlHVLMJzutvMky5XdX7NtpgL2FbrmpZLWqs
-         WALbQB8lmVC8M6f55luEOnanCropJgIAZXDKzfBssbMK6tfjPyTPr3Kp9MVcfmPs6ROM
-         +yTA==
-X-Forwarded-Encrypted: i=1; AL+hErHEMCb8HVhp4ROnN7nl5hWDAPmM+v424JRF51pvC0vqGRjzVD0XVqHR64jJiXEtVXe67TCiDmyw7g8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8GhZNAnBocjNadIXclNLzjFJDl6IlzkwJXJfnfwqxdhPNWlcAA
-	jPmQC+RMEBY2xPcCey2gQIZnFuMk2gSG06X9W5WSUpx6ViUiNOGwfhUvIaUb+TV01A==
-X-Gm-Gg: AZFdTZdWTZvk3/7QRLBrW+ID67HRsG55J2fks8tvbRktfwzhAOwAk0w6WzC1QPv/V87
-	FpKmR1bgRG2vmfYTINpbyjjH7k5uvANksuu99hN/Ju9KCUaAHLfLJUSGw0qzbmEIhLzX1oIVuOG
-	VgUnRslpZm6MZyLtmmT0t3yMz9oI1+oo/ruSn4V6u3doS2TJ7xqZW2c6B67rWwx65J/0IGwi5vV
-	WjAttAgXIpd4lONiFPBkB5F7r++e1qzbUKudj5zCJbZZsOGcSDKbENqI20Lt0YzojHUjhFpEcZZ
-	ry4lOoF/FxE7aaM/ZFUW3r3Ozyi3O+jCWUHjRJBd/Y1JVEJROhu2x0J1SPSXtIB1eXxHFJ+nK4K
-	SYXtj6YRyTUOq4y2w9StWucwOdXMn8KFh9ZrgXSDZ8JaK3gAj/+Nx0uGgsgMrJr1XZIGGY6ryBK
-	s1WfcNbpPd53jBY8+TdUadomzVPbUryYfv/YFK/LTTezt8+Jx7wFTsNMIFlJttkeEXs+gDkFZJo
-	FvPYcMg7Vn73ts6a5/Iub2pvUtKhXVCRLgPsef7foMEOy6M+QyuozlI09sRK0wCU++4tvspZyB2
-	GbLDTVvS3LoFG0NWQXnAh1Bsu2gfH/YKAlEGoqNhjFbqMBcESxWZ+0ZjO05hQP283SbMkp9nw/B
-	9vxLH/hsSxB8Qv64hRA==
-X-Received: by 2002:a17:903:1ce:b0:2ed:3ca1:848d with SMTP id d9443c01a7336-2f03f1ea636mr110975425ad.25.1795435974723;
-        Mon, 23 Nov 2026 04:12:54 -0800 (PST)
-Received: from cantal.lan ([58.136.72.57])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f099a4d875sm12731675ad.37.2026.11.23.04.12.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 04:12:54 -0800 (PST)
-From: James Clark <jjc@jclark.com>
-To: Thorsten Leemhuis <regressions@leemhuis.info>,
-	Alan Stern <stern@rowland.harvard.edu>
-Cc: Johan Hovold <johan@kernel.org>,
-	Bastien Nocera <hadess@hadess.net>,
-	Matthias Kaehlcke <mka@chromium.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Robert Nelson <robertcnelson@gmail.com>,
-	linux-usb@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4307606A32A;
+	Mon, 23 Nov 2026 12:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=FchDuhne
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1468E1F000CA;
+	Mon, 23 Nov 2026 12:18:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795436281;
+	bh=oTqyWu0O0Lf/aRaTeVcX0CglBR6VWa7YWvtkVDqk8G0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FchDuhnexKGT8hJreDpf1tuRDARUWtUNerNsMnREO/RjBjf5rci3XCjbrWah/fORB
+	 MscwCaQcS9GyMtJWLL+tuwVRcmBfYqyPrpNIw3VOd50qib+egR0uq7RmnKuFgzfwvu
+	 dz7a/66lVyxnzcfxGIBFbulvkkEsZS59hJhylU5Y=
+Date: Mon, 23 Nov 2026 13:18:22 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Slawomir Stepien <sst@poczta.fm>
+Cc: andrzej.p@samsung.com, jiashengjiangcool@gmail.com,
+	yun.zhou@windriver.com, zzzccc427@gmail.com, bigeasy@linutronix.de,
+	nab@linux-iscsi.org, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: [PATCH v3 0/2] usb: core: fix failed device driver probes, add pre_probe
-Date: Mon, 23 Nov 2026 19:12:49 +0700
-Message-ID: <20261123121249.43867-1-jjc@jclark.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <329cd215-d824-44be-a1dd-3ebbf5c0803a@leemhuis.info>
-References: <cover.1793669297.git.jjc@jclark.com> <329cd215-d824-44be-a1dd-3ebbf5c0803a@leemhuis.info>
+	syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
+Subject: Re: [PATCH 1/3] usb: gadget: f_tcm: take the TPG in tcm_bind()
+ instead of tcm_alloc()
+Message-ID: <2026112324-trailside-hanky-1986@gregkh>
+References: <20261022134926.1125473-1-sst@poczta.fm>
+ <2026112034-paralegal-democracy-b509@gregkh>
+ <awQIkANAqLndeXxy@nr200>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,35 +59,114 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <awQIkANAqLndeXxy@nr200>
 
-On Mon, Nov 23, 2026 at 12:37:43PM +0100, Thorsten Leemhuis wrote:
-> James, Alan, what happened to this? Looks like it feel through the
-> cracks after Alan's "This is all starting to sound very complicated and
-> fragile.  Isn't there any way to simplify it?" later in the thread,
-> which was more than two weeks ago. Or was this regression fixed and I
-> just missed it?
+On Mon, Nov 23, 2026 at 10:34:08AM +0100, Slawomir Stepien wrote:
+> On lis 20, 2026 11:58, Greg KH wrote:
+> > On Thu, Oct 22, 2026 at 03:49:24PM +0200, Slawomir Stepien wrote:
+> > > tcm_alloc() runs when a TCM function is symlinked into a gadget
+> > > configuration. It searches tpg_instances[] for the function instance
+> > > and copies the TPG pointer into fu->tpg at that point, under
+> > > tpg_instances_lock. This has two problems.
+> > > 
+> > > The function and the TPG can be set up in either order. If the
+> > > function is linked into a configuration before the TPG directory is
+> > > created, tpg_instances[i].tpg is still NULL and fu->tpg stays NULL.
+> > > Creating and enabling the TPG afterwards sets can_attach, so
+> > > tcm_bind() succeeds, and the first USB request that reaches the
+> > > target code dereferences the NULL fu->tpg.
+> > > 
+> > > Removing a TPG also leaves can_attach set for configfs instances, so a
+> > > later bind is not refused even though the TPG it would use is gone.
+> > > 
+> > > Store the TPG in struct f_tcm_opts instead: set it in usbg_make_tpg()
+> > > and clear it in usbg_drop_tpg(), under opts->dep_lock. In tcm_bind(),
+> > > refuse to bind unless both can_attach and opts->tpg are set, and copy
+> > > opts->tpg into fu->tpg there. Also clear can_attach in usbg_drop_tpg()
+> > > for configfs instances. The legacy g_target driver sets can_attach once
+> > > at module load, and its attach callback does not set it again, so
+> > > leave it alone in that case or g_target could never bind again after a
+> > > TPG is recreated.
+> > > 
+> > > With fu->tpg no longer set in tcm_alloc(), the tpg_instances[] lookup
+> > > there serves no purpose: f->fi already identifies the instance for the
+> > > item's whole lifetime. Drop it, and with it the tpg_instances_lock
+> > > acquisition. config_usb_cfg_link() calls tcm_alloc() with gi->lock
+> > > held, so this also removes the gi->lock -> tpg_instances_lock edge
+> > > from the following lockdep report:
+> > > 
+> > >   WARNING: possible circular locking dependency detected
+> > >   task is trying to acquire lock:
+> > >    (tpg_instances_lock){+.+.}-{4:4}, at: tcm_alloc
+> > >   but task is already holding lock:
+> > >    (&gi->lock){+.+.}-{4:4}, at: config_usb_cfg_link
+> > > 
+> > >   the existing dependency chain (in reverse order) is:
+> > >   -> #2 (&gi->lock):
+> > >          config_usb_cfg_link
+> > >          configfs_symlink
+> > >   -> #1 (&sb->s_type->i_mutex_key#24):
+> > >          configfs_depend_item_unlocked
+> > >          usbg_make_tpg
+> > >          target_fabric_make_tpg
+> > >          configfs_mkdir
+> > >   -> #0 (tpg_instances_lock):
+> > >          tcm_alloc
+> > >          usb_get_function
+> > >          config_usb_cfg_link
+> > >          configfs_symlink
+> > > 
+> > > Fixes: 4bb8548df632 ("usb: gadget: f_tcm: add configfs support")
+> > > Reported-by: syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
+> > > Closes: https://syzkaller.appspot.com/bug?extid=2799146a53c356f8017d
+> > > Link: https://syzkaller.appspot.com/ai_job?id=51e1f189-6d91-4321-a6ba-07d4eb3cd8cd
+> > > Assisted-by: Gemini:gemini-4-argon Gemini:gemini-3.8-flash syzbot
+> > > Signed-off-by: Slawomir Stepien <sst@poczta.fm>
+> > > ---
+> > >  drivers/usb/gadget/function/f_tcm.c | 29 +++++++++++------------------
+> > >  drivers/usb/gadget/function/u_tcm.h |  4 ++++
+> > >  2 files changed, 15 insertions(+), 18 deletions(-)
+> > > 
+> > > diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
+> > > index 9e6d4f39900a..cc75d7e9792a 100644
+> > > --- a/drivers/usb/gadget/function/f_tcm.c
+> > > +++ b/drivers/usb/gadget/function/f_tcm.c
+> > > @@ -1720,6 +1720,9 @@ static struct se_portal_group *usbg_make_tpg(struct se_wwn *wwn,
+> > >  
+> > >  	tpg_instances[i].tpg = tpg;
+> > >  	tpg->fi = tpg_instances[i].func_inst;
+> > > +	mutex_lock(&opts->dep_lock);
+> > > +	opts->tpg = tpg;
+> > > +	mutex_unlock(&opts->dep_lock);
+> > 
+> > Why is a lock needed to write one value?
+> 
+> Yeah it is not needed. I will drop it in v2 - can_attach (tcm_bind()) and tpg_instances_lock
+> (usbg_drop_tpg()) protect it.
+> I guess AI added it since in all the other places it is used.
+> 
+> > >  	mutex_unlock(&tpg_instances_lock);
+> > >  	return &tpg->se_tpg;
+> > >  
+> > > @@ -1760,11 +1763,14 @@ static void usbg_drop_tpg(struct se_portal_group *se_tpg)
+> > >  		opts = container_of(tpg_instances[i].func_inst,
+> > >  			struct f_tcm_opts, func_inst);
+> > >  		mutex_lock(&opts->dep_lock);
+> > > -		if (opts->has_dep)
+> > > +		opts->tpg = NULL;
+> > > +		if (opts->has_dep) {
+> > >  			module_put(opts->dependent);
+> > 
+> > The whole module_put() logic should probably just be removed, right?
+> 
+> I'm not sure what you mean here. This series does not touch the legacy path.
+> Are you suggesting that we do not have legacy users and this whole legacy stuff can go?
 
-It's not fixed yet. After Alan's comment I dropped the pre_probe
-approach. v4 instead had onboard_usb_dev call the generic driver's
-operations itself, so that it can defer before the hub is configured
-(Johan's first suggestion). Alan acked the USB core patch. v5 is the
-current version, sent on 2026-11-07:
+I would love to drop the legacy stuff, my point was that anyone doing
+manual calls to module_get/put() is usually wrong.
 
-https://lore.kernel.org/all/cover.1794018128.git.jjc@jclark.com/
+thanks,
 
-My understanding is that patch 2 is waiting for a review from Matthias,
-as onboard_usb_dev maintainer.
-
-> Side note: another regression bisected to the above mentioned culprit
-> was reported recently:
->
-> gpio: shared-proxy: open-drain regulators on ODROID-HC4 fail with -EPERM
-> https://lore.kernel.org/all/20261115-hc4-gpio-shared-od-1@iav.lv/
->
-> Doesn't look related from a quick look, but well, at the same time I
-> wonder if there is some subtle connection.
-
-I don't think they're related.
-
-James
+greg k-h
