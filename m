@@ -1,43 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.74.67.63
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795443938;
-	b=pSVNtwwSIdJlxN00DgBadFKohoAtJhQso00TqioAood7/0EEyjeOMgMoC8WtweBP6g3A
-	 Dyuqt1PysD+F1YxcChHJ2y4UDQHnEOKh1S93HkSgldD2iVJPwbpfOaNCX/I/u2dj+I4c6
-	 0LSoPQLmJOU1+MyZ6qHYAGFBZvD56tvW3cc23wq2pIQYPbnmfGTTdfcuPFQ+CSQT3FDO9
-	 X7REaN6Es2GxASRgX1qjbX2bhxTcBEnX4jBDZ3fIlh1gY4aFcJY5w3LRJuJde88Xb/lbe
-	 6sXefGF75FtbdwebkXhXGUC+/Ki6kFflp9xIVca1EWpeDIVITDbvER5EK2LJsssrZmg==
+	t=1795443939;
+	b=ai44EzCLn9B/mehIUe1xs8ipK+MAUaN8xi9KbqHpofrDmtnzwgJWzJLSSCc5XKqOs7lj
+	 NcTPRpaXJMV25rhifFyo3jFccfhK1yVsUZTwCouhMhcvmwoWq8ysLNlAObQyJx4HN8ssP
+	 3J48C2efb8RxzHscrd3t0yXWYhguBNvo9bBwNtTMj7HAfx/5LGhdL2dp+Ju23+LkvavGh
+	 neb/GM6tj5Fb5EQCHQPJ2+gOaPPt4fgUIqvF/lXaF4rmGFJ44zumOsZaVhU/mK6cet7AG
+	 hwVUGI6ZnZgAw+EeOpFLfrDlUg/4q4MpjGP4y75k48lzE12hAVxtmYh4kuK8E2BRgzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795443938;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795443939;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
 	 DKIM-Signature;
-	bh=s993QDJ+0cBPgokfj9se/N7j69mh8bQ7H38pHF7uEYs=;
-	b=RNyigfBRTtNggI0SquJGTR0l66gPDl86HDQSzv6smZFcz1q2UIsQ70a6ZPGrXCURfm7h
-	 Lv0c5y9NsPmU+x/eo5W0Pjhu8vajb+ZJJr8yNAA4ux1cJS9kQrg9jWRWdOpZXBJsbDzXi
-	 UZcTYujLik8Ov91jfqZDBdEKdHnIjt9Ag/zwZO0RaIyAt6/058xRTt9NmFTXHBR5qIk/X
-	 D7tdiJxpzljW0xQlPo1eytmgc9f4lZXFb8XGwXzavSebn8F3wWgZ+a1dERBz5Pw+LtMx7
-	 9ciH2YGvWyvpfuifNvjSCap54Nauaonx7b/fkngSzCaTZO3Rq0XA3FIsJciLCk+hHjA==
+	bh=7b33Jap8LbKbkO4Xoms8+UwJkMsmtqS+GX5xZmwtFzw=;
+	b=YzTGg2Eaq9GItqAUwEPIwylgo5Zw5l607Rx7PDRNyKO5SIFBQ0i6UW06X8l9Mnw2zk4X
+	 eGWCneMItq1E94vU33EKOSW6+z/Clm0ut25kVzTyU94AcLSxFNxkDnWF9ef8EBKz5HnYG
+	 HUTWf47KRUnQHZCxqswuTulmBxCh9YmKKkpqdoH5MPV4mSPYfZZO0zzuIHzBe4AJi/U4p
+	 8hvN/EU14IXodsaeLuXmQ6IK3qOx7v12DfDkZWMtoH+e1i3kIsoUvnebVnND2xKyWSGGN
+	 yDe5sLmtLDvOZyMjG7kgrcWnfebx/eRUKUaBswhWGz/JxANQDqHobCVYhnl2Tu1i6XA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=poczta.fm;
 	spf=pass smtp.mailfrom=poczta.fm;
-	dkim=pass header.d=poczta.fm header.i=@poczta.fm header.a=rsa-sha256 header.s=dk header.b=C3I7JFgh;
+	dkim=pass header.d=poczta.fm header.i=@poczta.fm header.a=rsa-sha256 header.s=dk header.b=eImv0GLz;
 	arc=none smtp.remote-ip=217.74.67.63
 Received: from smtpo63.interia.pl (smtpo63.interia.pl [217.74.67.63])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A63606A333
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 14:25:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9A63606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25044606A680
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 14:25:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25044606A680
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=poczta.fm
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=poczta.fm
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=poczta.fm header.i=@poczta.fm header.a=rsa-sha256 header.s=dk header.b=C3I7JFgh
+	dkim=pass (1024-bit key) header.d=poczta.fm header.i=@poczta.fm header.a=rsa-sha256 header.s=dk header.b=eImv0GLz
 Received: from localhost (unknown [80.68.231.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
 	by poczta.interia.pl (INTERIA.PL) with ESMTPSA;
-	Mon, 23 Nov 2026 15:25:33 +0100 (CET)
+	Mon, 23 Nov 2026 15:25:30 +0100 (CET)
 From: Slawomir Stepien <sst@poczta.fm>
 To: gregkh@linuxfoundation.org,
 	jiashengjiangcool@gmail.com,
@@ -50,9 +50,9 @@ Cc: Slawomir Stepien <sst@poczta.fm>,
 	linux-kernel@vger.kernel.org,
 	syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com,
 	stable@vger.kernel.org
-Subject: [PATCH v2 2/3] usb: gadget: f_tcm: detach gadget when dropping an enabled TPG
-Date: Mon, 23 Nov 2026 15:25:12 +0100
-Message-ID: <20261123142513.204652-3-sst@poczta.fm>
+Subject: [PATCH v2 1/3] usb: gadget: f_tcm: don't hold dep_lock across unregister_gadget_item()
+Date: Mon, 23 Nov 2026 15:25:11 +0100
+Message-ID: <20261123142513.204652-2-sst@poczta.fm>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261123142513.204652-1-sst@poczta.fm>
 References: <20261123142513.204652-1-sst@poczta.fm>
@@ -67,61 +67,65 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poczta.fm; s=dk;
-	t=1795443935; bh=s993QDJ+0cBPgokfj9se/N7j69mh8bQ7H38pHF7uEYs=;
+	t=1795443931; bh=7b33Jap8LbKbkO4Xoms8+UwJkMsmtqS+GX5xZmwtFzw=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=C3I7JFghO79ez0l2jAaJZRSQBVG7fflMuDZIA6Z4Px98Np4D9JtopLW49a6KRZVCZ
-	 1b9sojHd9knbxNtVCETubSDbat52YPcuOQL3lkKLtazpQoVfkHUAGv18B3k1Djd55O
-	 HtKIs11qOsetCvtOycSPTXSRBMl80a5geZyIdXGM=
+	b=eImv0GLzOVl1GuwgT/+stU7op8F3SlOoXxrYXDhjCnGYRRRp7DTpCYZXKnlK+0mVZ
+	 wS3XCZqx0MLNPy7I7sTHo0xK4TQrEIXt6M6cpxOtbNgqF1ZT38a0VHYpeQiZXRYzQO
+	 s3reOYiLNW1L6B9nQRHCLKdwX5A69INe/EMeh34Q=
 
-Removing a TPG directory via configfs rmdir ends up in usbg_drop_tpg()
-through target_fabric_tpg_release(). The target core does not disable
-the TPG first, so if the TPG is still enabled and the gadget is bound to
-a UDC, usbg_drop_tpg() destroys the TPG workqueue and frees the TPG
-while the bound function still references it through fu->tpg.
-Subsequent USB traffic (tcm_setup(), bot_submit_command(),
-usbg_submit_command(), ...) then dereferences freed memory and queues
-work onto a destroyed workqueue.
+tcm_unregister_callback() runs when a TPG is disabled and unbinds the
+configfs gadget via unregister_gadget_item() while holding
+opts->dep_lock. unregister_gadget_item() takes gi->lock.
 
-Disable the TPG through usbg_enable_tpg() before tearing it down, so the
-gadget is unbound in the same way as when writing 0 to the enable
-attribute. Only do so when the gadget is connected: for the legacy
-g_target driver, detaching a never-attached TPG would call
-usb_composite_unregister() on a driver that was never registered.
+The opposite order is taken when a UDC is assigned to the gadget:
+gadget_dev_desc_UDC_store() holds gi->lock across
+usb_gadget_register_driver(), which binds the configuration and ends
+up in tcm_bind(), which takes opts->dep_lock:
 
-This goes through tcm_unregister_callback(), which no longer holds
-dep_lock across unregister_gadget_item() after the previous patch.
-With it, a TPG is never freed while a function is still bound to it.
-fu->tpg is still only set at link time; the next patch fixes that.
+  CPU0: echo 0 > .../tpgt_N/enable    CPU1: echo <udc> > .../UDC
+  tcm_unregister_callback()           gadget_dev_desc_UDC_store()
+    mutex_lock(&opts->dep_lock)         mutex_lock(&gi->lock)
+                                        ...
+                                          tcm_bind()
+                                            mutex_lock(&opts->dep_lock)
+    unregister_gadget_item()
+      mutex_lock(&gi->lock)
 
-Fixes: c52661d60f63 ("usb-gadget: Initial merge of target module for UASP + BOT")
+Disabling a TPG while a UDC is being assigned can therefore deadlock.
+
+Here dep_lock only needs to cover the can_attach update, so clear
+can_attach under the lock and call unregister_gadget_item() after
+dropping it. Once can_attach is false, any later tcm_bind() fails with
+-ENODEV, and a bind that already passed the check is undone by the
+unregister that follows. The function item, and with it the gadget
+item reached via ci_parent, stays alive because the TPG still holds a
+configfs dependency on it.
+
+Fixes: 4bb8548df632 ("usb: gadget: f_tcm: add configfs support")
 Cc: stable@vger.kernel.org
 Signed-off-by: Slawomir Stepien <sst@poczta.fm>
 ---
- drivers/usb/gadget/function/f_tcm.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/gadget/function/f_tcm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-index 110a7d334afa..3949b5c50cc0 100644
+index 9e6d4f39900a..110a7d334afa 100644
 --- a/drivers/usb/gadget/function/f_tcm.c
 +++ b/drivers/usb/gadget/function/f_tcm.c
-@@ -1739,6 +1739,7 @@ static struct se_portal_group *usbg_make_tpg(struct se_wwn *wwn,
+@@ -2637,10 +2637,11 @@ static void tcm_unregister_callback(struct usb_function_instance *f)
+ 	struct f_tcm_opts *opts = container_of(f, struct f_tcm_opts, func_inst);
+ 
+ 	mutex_lock(&opts->dep_lock);
+-	unregister_gadget_item(opts->
+-		func_inst.group.cg_item.ci_parent->ci_parent);
+ 	opts->can_attach = false;
+ 	mutex_unlock(&opts->dep_lock);
++
++	/* Takes gi->lock; UDC_store holds gi->lock while tcm_bind() takes dep_lock. */
++	unregister_gadget_item(opts->func_inst.group.cg_item.ci_parent->ci_parent);
  }
  
- static int tcm_usbg_drop_nexus(struct usbg_tpg *);
-+static int usbg_enable_tpg(struct se_portal_group *se_tpg, bool enable);
- 
- static void usbg_drop_tpg(struct se_portal_group *se_tpg)
- {
-@@ -1747,6 +1748,9 @@ static void usbg_drop_tpg(struct se_portal_group *se_tpg)
- 	unsigned i;
- 	struct f_tcm_opts *opts;
- 
-+	if (tpg->gadget_connect)
-+		usbg_enable_tpg(se_tpg, false);
-+
- 	tcm_usbg_drop_nexus(tpg);
- 	core_tpg_deregister(se_tpg);
- 	destroy_workqueue(tpg->workqueue);
+ static int usbg_attach(struct usbg_tpg *tpg)
 -- 
 2.56.0
 
