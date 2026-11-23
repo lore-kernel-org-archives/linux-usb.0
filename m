@@ -1,59 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795434112;
-	b=Ry9i4sdhIEnYniUwdTSIawfcACeOH0SKXCHlPRnowMG0AM+9ywOdzVhmqR+WjfZhEKqR
-	 IJ05NWE8R5Nejlul6Bu7orvHou6lqTF8wtRYGnFmFFG/28UNsCmkSkJIanIhH6Dcs94zc
-	 2wgo2RwmTB1WLGJfWvTrusk96oGQfuKhULAIe6FQHr2d94CUrjhLnl50cGmnWqCbbQZAm
-	 SE6jJwMcuwYyJf25TgNHN3wnJo85ILZUGYgdCVbQmJsXpE9oCcSWxlpH19UTdGi2sjDEO
-	 AwUUhGqW06zdcxED7bR3A2c8+tULLyb44wc4jMpIu6iHTZj0Q4WHfLhD9W9L3zCgMIw==
+	t=1795434144;
+	b=MnK8a9i6P7pK2j1DnPb3vOS6IOFrrkRCTKt3EA2HMp9xykmuDHhacxhU5BfDUW9MIiBi
+	 vFopZkbgX09uq46pM2ExBhfAsiCjVRXQvIFad0xOF7A3bEuFnPzb/JKdrzFOQQwZkH+ks
+	 rK0aMOJJ+MDs7pHw15XeqAsXPx6DqVaEaND29IbHM5yrLilsmDdBrpIGwlytu/tb8ZVTt
+	 KP8FpdcCZAfZgzml/mzROdhUSRw+1Jz8v0y8y4jRBEGHOL2AjmJduoQLK2aKOEGgbvGBv
+	 rRAW2KXeZnZEvh7QCjpypPqSWwKX+KWdmNI9+LOgRNSpbUV/W+95/W7vJuDcpQvqDuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795434112;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Fso6q+b21aJTsaUC5ezM2VGzAQ/UhrVbM+Mobeho73E=;
-	b=VZxNRv6CQuB3wVXjmF8HXUc+MSASTaRbI/vmDNmCqovwVJ19StJ2QpQ1JkaczM/kepgI
-	 oPtBEJ7SJVtbPkgyOHmTEKAvDL5mny4Y5Xh7ZZG2aAxASY+cMILEHPsdbNGyPwXLMY0jY
-	 5PbKHHjN8teo9mz4HJthgQmsw2jdYzgJZaCtnJJ1PNMjvKDEiusi6K6MISNwLL1ZHwpys
-	 6Lbt1fwWMRwgN8NknkHEdIsu1MlLEO5x62RCfQzi/sKyiWzxIR4j+o+ZWIE2gs4CayOiD
-	 2Fi9nEUaN/gnEWYbd72+RFuczeeJEiyCnc5YWa//Uwx7rmkn4ajnYUbgYRIw/xi7zkA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795434144;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=CixGBXAFpuxdjen0X8OqjUuArf6k4XjeJUmdaQtxYLY=;
+	b=D+eP77EXlgy6RtnCHVW1zwhTSwD3freHOLPPNEjDzL5dN/8GXSLn9SL7iYIRvg2ts1Zo
+	 Y4Wqm44m6lw84Qhuvl9h//xyb5pxNu4J7hLlo914jIOIIA/xREkPaS5m5ECUsLwgtFUW+
+	 B6sEyBROcXUSlR9LkEhkH3+BnEeMREk5sUfsLE9TFgPC9wwQZtgTVSQDQ5Y+7nRfN+eNa
+	 YkGNhPZg44Qwf+Og2oK9zm+VWq+ixYCPaTbT6SqV0HPmbeogf1wnAQFF0vMwHvR+ukuKV
+	 21sR98VIaJ6kOviMwr4sjHNOzZ9jSlpiYtq3FTdUs0afUlE+1WHaWfE0wfqo6AacbCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XjnSiy8D;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RdQ3elGX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80173606A321;
-	Mon, 23 Nov 2026 11:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1AE606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 11:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XjnSiy8D
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E1AD1F000CF;
-	Mon, 23 Nov 2026 11:41:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RdQ3elGX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 228BA1F000C0;
+	Mon, 23 Nov 2026 11:42:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795434111;
-	bh=Fso6q+b21aJTsaUC5ezM2VGzAQ/UhrVbM+Mobeho73E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XjnSiy8DeIcpItdaI7x+pn4YPE63DMt35QdLHbJrOfo4OzsEiqQdPspSN/SWXoWut
-	 bizvACZe9GXOARCdH14R9b1dapVdhwrBiOkyW0oyabt+SyBtxGQPz/EdUWlIHD8Omx
-	 jxdU5LtcExrD9zQgORR3AUO/YEWX1HpEfyXMasufKhoT0Sd1itNKKvDPGsPhVWBbTe
-	 10pAGsqrgJpBIXG7DO5aDxEwAqYGv5wisYWZxJo1P3nUqvoJeTTNI9WfKZRJo7cymq
-	 LQAnFmxOrHgG7EblmIgFIJftGb4lf/nM8HFUVZgkcHoSDlVSS0ZF7q6EtvVuD+2GuF
-	 PKRefM7h6CnjA==
-Date: Mon, 23 Nov 2026 12:41:48 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, 
-	Nagarjuna Kristam <nkristam@nvidia.com>, JC Kuo <jckuo@nvidia.com>, 
-	Mathias Nyman <mathias.nyman@intel.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	Thierry Reding <treding@nvidia.com>, Wayne Chang <waynec@nvidia.com>
-Subject: Re: [PATCH v2 01/12] dt-bindings: usb: tegra234-xusb: Add required
- properties
-Message-ID: <20261123-urban-belligerent-vole-6c7ac2@quoll>
-References: <20261116-tegra-usb-v2-0-42efc03a9700@nvidia.com>
- <20261116-tegra-usb-v2-1-42efc03a9700@nvidia.com>
+	s=k20260515; t=1795434144;
+	bh=CixGBXAFpuxdjen0X8OqjUuArf6k4XjeJUmdaQtxYLY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=RdQ3elGXa/NViRtYz55VBofAdRTeDfltzZYbAFLFuzITH0lY6ET8B7ikUmB108KPK
+	 3+oQq5Okf3tkHOS/ElzM42S56buP3PYp3OxZzIjXBmVGV9Y0/AjJc8OoVSJSct18VJ
+	 BUXhXS2zDymTEwlV4ANultdlFm2uuMWpv5Ytjnghd3Uz65/beArvVZmp/BZH5hahSo
+	 RBFzrpHMkvh2NPNzBGBywIeeXgD3RxXNedFXtnWuHWUy0D2ecNU+2h5HZkKmqslAba
+	 aRC4BDn+uOd8CIEk6P5lJxsxQGJJPekGxqsrRDibQCcrZ33nxEu1qAfTyq4GazKQuU
+	 Z5E/g2SZGlEcA==
+Message-ID: <sashiko-outbox-229158@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 8/8] thunderbolt: Drop WARN_ON() in
+ tb_disconnect_pci()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Chunfeng Yun" <chunfeng.yun@mediatek.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261123113705.2297329-9-chunfeng.yun@mediatek.com>
+References: <20261123113705.2297329-1-chunfeng.yun@mediatek.com>
+ <20261123113705.2297329-9-chunfeng.yun@mediatek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Nov 2026 11:42:23 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,26 +60,50 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261116-tegra-usb-v2-1-42efc03a9700@nvidia.com>
 
-On Mon, Nov 16, 2026 at 03:23:58PM +0000, Jon Hunter wrote:
-> The Tegra234 XUSB binding does not specify any required properties, so
-> nodes missing the resources needed by the controller can pass validation.
-> 
-> Add a required list for the registers, interrupts, clocks, pad
-> controller, PHYs and power domains described by the Tegra234 device
-> tree.
-> 
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> ---
->  .../devicetree/bindings/usb/nvidia,tegra234-xusb.yaml       | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] thunderbolt: missing Fixes trailer for tb_disconnect_pci()
+  WARN_ON() fix
+--
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+commit f6a685f6d3f79343c1ba3c57db3636a5afc5f46e
+Author: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-Best regards,
-Krzysztof
+> thunderbolt: Drop WARN_ON() in tb_disconnect_pci()
+>
+> tb_disconnect_pci() uses WARN_ON() if the upstream PCIe adapter port
+> or the associated PCIe tunnel cannot be found. This triggers a full
+> kernel stack trace in dmesg.
+>
+> However, tb_disconnect_pci() is invoked when userspace deauthorizes
+> a router via sysfs (writing 0 to 'authorized'). Under dynamic runtime
+> conditions, an upstream port or active tunnel may not exist.
+> For example:
+> - If a USB4 router fails to resume or is unplugged during system/link
+>   sleep, the disconnect flow may tear down and free the PCIe tunnel
+>   before userspace deauthorization runs.
+> - If PCIe tunnel activation previously failed (e.g., due to link
+>   training or Type-C handshake hiccups), the tunnel was never
+>   established in the first place.
+>
+> it seems unnecessary due to it does not indicate a kernel bug.
+> Furthermore, it causes unnecessary kernel panics on systems
+> booted with panic_on_warn.
+>
+> Since -ENODEV is already returned to notify callers, simply drop the
+> WARN_ON() checks while keeping the -ENODEV return.
+>
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
+[Severity: Low]
+This fixes spurious warnings in tb_disconnect_pci() when deauthorizing
+a router without an upstream PCIe port or active tunnel.  Should this
+include:
+
+  Fixes: 3da88be24997 ("thunderbolt: Add support for de-authorizing devices=
+")
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123113705.2297=
+329-2-chunfeng.yun@mediatek.com?part=3D8
