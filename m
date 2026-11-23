@@ -1,95 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795413484;
-	b=lPnLQL2HS4Rc2rl/rW2AtNwe+Rs6KzSSTjkLFM8ub547SpJXHfMDu8SMk3oMgSuDQPOB
-	 p/NMX81sFfMeuDzCToAOQ3cUuklJD3h69FjPm5hfU3P22VDYA6JUUeaJzf2NY14CW/ZCW
-	 PfIIdu/jUSNFUse3Bwln+F4/1MBmA042b/vRa0xsnUfQChdjWor4t7NSST1r8VoF5Gkyw
-	 Ai1Pb5Wh461ZIOCzgjuZU/2AUcKVG4HR1GFLXDO/Vx6zJA8SHKDQVui/ADvz8F+8R+NAi
-	 gzvINO29rHUYL4BvJqy3go9l4cpYu1FaqC/7FVvLSYRt0v/A6pFCxtJJ5FuAIzeghpg==
+	t=1795413604;
+	b=Gty6u+YdU41REtUYQL4c4zjT5cvkI/f3csbxouSe5wawP9AeKZpOw9SABQA5V5uZ2+YX
+	 DEXcgAE1eNRgaTjAtHb3EC7EWTLNCJDvV8Eyn4/Cc5o3M9CE53AHzjh37JTyjzkIiT0A0
+	 aSBuLhceMwiFDSpEneBEwd5sjLh164oXxTAbt0DNR8Ta1QEs7EHfQ41uz2ND3F66dG9vR
+	 Rs7P1TUONxGeLfR2NlF9zZq9fl5yb6hYo4A+Cv6cqMsA+Ehan2cha5SfDa9sVGiY2xSJp
+	 sFrf1f1t8qWLPbM73FrMBV19DrK1WmU7y4dRRfnW+MUEzZo4iqerD3HMDYP1yhR015A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795413484;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=sQWFC0f/1QUqQOyIEaOvFD2iCSmZJvZkkc8zqipcZqI=;
-	b=YWies2pEwSXL6Vx1ZG5MNhw9Gr4VED4oF9BtHgOtj42f4ePcHLAmHwYgkHmwsT/vmZbW
-	 HJEqEx2EfW/wn5ImWulAkg33Qkdio7rF7D8FYVPCbn3fu1rTU6CFsa92b6qSwlwRRUT6p
-	 9m76n+DEm7ihq4klVhW22WkkO2s5+0kaoJTMt189fOaS2EyVnNbkfg4/R9O7k7/57otKK
-	 3E/OAbGJ0ddBjooj9AfYPA36pcIivCZzo4+fJfQds95mfLPbomtOWMWrnazZLV74yjHBi
-	 26xlHqS1MOJTYvL2PhyLPf88G7Ser9BSrtyMGHJ54tr3Zt5Io+geiU6OIpBFmdrF+tQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795413604;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=lNiQK/CVyCooKuzbcHYaZxZnwoMMLJSGxGbdq3g8+Qc=;
+	b=CZgMitqfg1JzA5FYA/Xj/1zm51LjyOLFCR73pRYb5kln/+FxiFu3A8AHhjqtFFKKTj15
+	 mJsrEJSkjrqfrnKXi10FdAhQHI6JF5Wn5Sq1ve/BYuaCJk+In5n3JXedfLX+n3idU4zrg
+	 TqAadQhtqvSXfcUsu5dk9YHM1SDY5H5jVAp8YRaSH/zBKUR7kJXvtIIRh4SizlnknlOvT
+	 GekJ5oEf3Wz5PGwLvK+qOwn4we6KEy68tf42lyL+jkHXtqWNDUHuZPbHttIzbM9zTfQIO
+	 5AbCDb+usaMcZWob/VdIHFzVprRlPs4odiMr321U92/zzkGYt1vdgihf4sTjNDq18Tw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VHkvfDT4;
-	arc=none smtp.remote-ip=74.125.82.171
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=rqx2nh03;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6D9606A31E
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 05:58:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC6D9606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A49606A31F;
+	Mon, 23 Nov 2026 06:00:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VHkvfDT4
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-38587f3de36so3535171eec.0
-        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 21:58:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795413482; x=1796018282; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sQWFC0f/1QUqQOyIEaOvFD2iCSmZJvZkkc8zqipcZqI=;
-        b=VHkvfDT4ZdDkVgEY5yPw1fzWVMiIToihl58fOKC0/u6RHqbbBneDNjOyLIuCq+VXXb
-         FgbPArrbmCP+tvvSfNlbgaeTtNhh1OOcQ1hwHbD7sWAkmoJKe/Rx6sQ97+sHZWqm5dwa
-         ZwPh93nJp/zmgCypr9/ltLq+JmsDXmT8C9YF3o3nbNB1deFUfsIndbUN45aviERka1mc
-         K0BMlttarmtX+9lwTnJsuiBrohnRWp5qI/GxerP+2kg3SYSpfp3kMTZUmKRV8H+lgEqi
-         GooVAr2wPlHab+41Taf+XpDJhc2EdnS8vArCSlVtobVcoYQqPke4y8hG8RpctK/K3qqP
-         HA4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795413482; x=1796018282;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sQWFC0f/1QUqQOyIEaOvFD2iCSmZJvZkkc8zqipcZqI=;
-        b=zR8/OmD9j9mAEy5XC4AFZhJHcqwQp+J1YypPMB17+IxpcXjB/vjvCEVG70rnaliWh0
-         OYAAD2dgMvLhspm36KxvD66rv0dxUMtJZ8ms6Y1vgbynLuuOb6HsYCVIXIeGX0s5B7Mr
-         omIFtuGgF4EZzwE/y/+AVBaDp1pJmngLgtUzwR8J9orCi1oFL36Q1NHfohW7Z+kCtKTe
-         4JfoiDfrYFXe4aMFa28KR2c4f5kSlO9kVvq77fIfo3+xZckcL1ORff7juwjW+q6t1yfb
-         BMQcQxztmK7Mpcsid0THXSOzaIe/sgGBc4stO22/WHCKuSEGJewlCdcMHRE5mpCU+LRU
-         nh9w==
-X-Forwarded-Encrypted: i=1; AL+hErHYjfjBmr8okRsMVHWwbdet39odqZ9nP841FKyTjrBgXWaRA4cKa8WEawScX1gCCU/+Z4G1YPZ5uh4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9O4ecktPctjWUXfPPgDc6ykxV4lYN+nPIM4+dMOhyBri/31hnM
-	DlMmn9f7syK13GERffBcgwsCmgg7FpHPdk6bSi5zL65TUP73XpS3Te0=
-X-Gm-Gg: AZFdTZeUMFfM9BmFmpBaoYcSfHc9LQEpRhPYu3eUiydXZeo9Mjsfd5c3ZDVE4VMj8qZ
-	TZsbpiXY9Oc0aeGOz2Fufv0kbuWLK77uE9W8kQTPFSo/eEUTD8mU/aL2Tys7/vcdDiNDafjbaJf
-	Q+dBy7RscorKsXiXImZrXlk+W7i8eS0VjRJJSVCCBXVi1ouazpQAp3+e0hwyiHy/t981MLhfBmu
-	5fBISULArmI7rfIfgEbOVbJzsRjDo9wf/+i08k8vc+z95P0m78DHXTxkFcy/krvvksxRwZbmlY1
-	rtpKXk/MqNGZpWsbFUJxCy9cjAYixx+/Izxt978kSTKcCRST/t/pevH2Mlf00e2+Sr0F/JBwrxT
-	9Zl8WRmgI4lg7RO487YeD0Vl8iTUt/7yUnBxeJTUNWI9ykLMPs+Ql8mnkvaKac9V/DSW8GeHwk+
-	fYbFVpNhN8J6ZQAXPlUelQ5FlGa4sg6QTh3nZAesvo/aasmNHaVukHXwlHwemOHaHjvvydUylwX
-	MpmtmfTmXwmqHMAW7TWeBnU+7PIeLbSLAZ+c3aKwclGE6Tb4Q8FXeskVa3eGL7O+AegiU/vAg/F
-	w6DYxj0QaY8bvOwSDAcqnT4LDxuV+0xDbE2jn+a5lDLOoue+BCBcEKOxbMLEjuyld+FNO77ht6R
-	CwOEsq82P
-X-Received: by 2002:a05:7300:c7ca:b0:386:964d:45d2 with SMTP id 5a478bee46e88-386964d5ddcmr8948434eec.11.1795413482428;
-        Sun, 22 Nov 2026 21:58:02 -0800 (PST)
-Received: from at-Standard-PC-Q35-ICH9-2009.tailbdca44.ts.net ([27.60.27.67])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385672ce402sm29938655eec.16.2026.11.22.21.58.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 21:58:01 -0800 (PST)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: atharvatiwarilinuxdev@gmail.com,
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=rqx2nh03
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B0E41F000C0;
+	Mon, 23 Nov 2026 06:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795413603;
+	bh=lNiQK/CVyCooKuzbcHYaZxZnwoMMLJSGxGbdq3g8+Qc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=rqx2nh03g+TfcS1Cl1MkoRqq1BkqjyRRXvNZ9RSco1yZikeg5Wg7lKFTouHFNKWP3
+	 PTnub3+tjmJyuLmpy77hKLyfrBFOqmZ2YWXwzV8TbNYPZU5PPeO26v7hmhuUo4wuU1
+	 BDal1xNbdYbZ9uQGJ3swWgKrXCaKU6lH7jJ/N7Tc=
+Date: Mon, 23 Nov 2026 07:00:00 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Zhijian Han <hanzhijian1991@gmail.com>
+Cc: andreyknvl@gmail.com, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: acpi: Get correct location data for Apple macs
-Date: Mon, 23 Nov 2026 00:57:57 -0500
-Message-ID: <20261123055757.11283-1-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <2026112338-pummel-hyperlink-2957@gregkh>
-References: <2026112338-pummel-hyperlink-2957@gregkh>
+	syzbot+d83b3c49738aea97c0e5@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] usb: gadget: raw_gadget: fix memory leak on connect
+ event failure
+Message-ID: <2026112342-factual-providing-187a@gregkh>
+References: <2026112020-sesame-uncut-fc8b@gregkh>
+ <20261123055027.1141887-1-hanzhijian1991@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -99,23 +56,30 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261123055027.1141887-1-hanzhijian1991@gmail.com>
 
-> Local static variables are usually not a good idea.  Why is this needed
-> as it's only referenced once?
+On Mon, Nov 23, 2026 at 01:50:27PM +0800, Zhijian Han wrote:
+> gadget_bind() allocates an ep0 request and stores it in dev->req.  If
+> raw_queue_event() fails to queue the connect event, the function
+> returns without releasing the request, leaking it.
+> 
+> Release the request before returning in that case.
+> 
+> Reported-by: syzbot+d83b3c49738aea97c0e5@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=d83b3c49738aea97c0e5
+> Signed-off-by: Zhijian Han <hanzhijian1991@gmail.com>
+> 
+> Changes in v2:
+> - Fix author name and add missing Signed-off-by (full name), as
+>   requested by Greg KH.
+> 
+> - Fix author name and add missing Signed-off-by (full name), as
+>   requested by Greg KH.
 
-is_apple_location signifies that SSD methods are available in the ACPI bus,
-if we dont check this there might be a situation like:
+This goes below the --- line.  And why list it twice?
 
-Is internal USB Controller = true
-x86_apple_machine = true
-is_apple_machine (Are there any SSD methods in the hub) = false
+confused,
 
-So all USB2.0 ports will get a error, and all USB3.0 ports will succeed and
-provide wrong info.
-
-And btw the SSD methods are only used in new intel macs (2016+), so this becomes necessary.
-
-Thanks,
-
-Atharva.
+greg k-h
