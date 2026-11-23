@@ -1,138 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795468663;
-	b=hLa3+f0S4M2O7BD/qXj/U5nloDCub99wu5ft9CeudpwIR6kCGB6I8B4LdXf7adSMwG2x
-	 Tmk+H6VDxDHkDLqupsGPD9Wr1bb4+kFB0ZVEVlhMF3ag9089AdQincHDvT8t0Wv/I7Io7
-	 Jb1NmujZO1Jv9BPilAiORWozlEBF6HdquA6MGAqnIXSOyuFsA2n2y3p+v8Xc73HA7Ustp
-	 FNo0JAGXT3k/ogmcTGRN7/jvgBjX4aH6xQLX+Obcy0RzL8VDjAAR5n7g96gpeMEuM0QFn
-	 KxZbrskLvvzO6MHVn3LxuWxXq87EfOuSGfn1MvR4R01F4yyrpV7Yem5lcKrHukiVVbA==
+	t=1795469569;
+	b=RGcbwIe3jIoEwmivZ1NZ0vGm0eCrHRlaf+Y5yTGhZZgDNaGTcAdIkkL1LE4ijX8GTO1U
+	 RHz3pJOkQXnHXLq2Rb/nJhpF/XxWTLOQqZP+TcyhwE29+5cw+0DXHeQPbJwEign8EXo6D
+	 gFelHQYfszFalYVm9ynxcJZKsj5KoLv5DOH7dEg/l0kTcT3SmB3YXAiDvvZXzcnHUv5af
+	 OjKpUWIxpQAd6Gu0DD/HpRW1JWJJj5BZXAdoa6cnnPMlIvTjElV8QjNCkeTfO8HQZS8Es
+	 yc0bhml7OX615GnvLO2S+SmGGjuvzdPSvbSvwKDUWH1GOtGA/uM/UtTe82GxtfJ+21w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795468663;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=mEI2MWJHKjiB6vj3bpQygFD6VsBJJyxeJ4zAlBvCIuE=;
-	b=T8Hlse1mL0EkfrFbqqps8lIE3e5a9Jky5hc6DDqdvEXwcRGevfJLf7uw6xoVAej+u1yv
-	 JB6nhYcTCnoIi5J+s+oy/ZFBHKs+CK0y01T8SjWjOT8P1Q0q5q31NpM0j5E/X7v3g9zXb
-	 XMyRksqHqLAVPVyfzLUJWu9v2DauyVU8cMo8fDULb81+Ym+DTMpWZOLvjaBixpMqgSja4
-	 FFtIPdViJ9Avv/HE/Pn45AonQGpuHcZMka0ELrYcm6OBmR/w90006IszO7XYuGmojkUtZ
-	 /WCHkm5WECu5auQPRLzCI7ndX+GiNHsyAN5ajC/nzaKbeZf9BSdSdNruDDPaTx4wy8g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795469569;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=MwOPiirbdqRykgkfg4Pp0z12qRVctD+69b9g7rRiIIg=;
+	b=QgqwcI77s9PEWDxwgX+HcvJZjDX8dJHUO55yiTM7mwwXbEzY4SipwMzRo6YxgBHBklfS
+	 TsMYdnjgQmgVADKEZKoxR+nZLtyhq4N4NHD+Ut4ze2cx9Tz+XEeZX3cvXcSw/yzYr/bmF
+	 rTUGoJ7eg1KyfvXw8t8OM3UN4BPUWA0RpbJoBvnvM+uqWjCLkk/ZKJolfQIU8mMs7fH2x
+	 rea0+OVGJFzD0STZi3CkKPdG6S1GEN0OAHk5X1C5Iy8kYlNtRjXvn+/1RgtcA4q9vOoQ7
+	 5y3DklrNYRh5COug9M7BmRX/ijUwdf+pU0sOTK+Z2hVqE4MN+rzJzV5WkWzyCJxUXLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0fedjRZx;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=protonmail.com;
+	spf=pass smtp.mailfrom=protonmail.com;
+	dkim=pass header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=j09zaOLW;
+	arc=none smtp.remote-ip=109.224.244.17
+Received: from mail-24417.protonmail.ch (mail-24417.protonmail.ch [109.224.244.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7E2606A33E
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 21:17:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B7E2606A33E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568BD606A31E
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 21:32:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 568BD606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0fedjRZx
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48e3b22e971so1991412f8f.0
-        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 13:17:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795468662; x=1796073462; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mEI2MWJHKjiB6vj3bpQygFD6VsBJJyxeJ4zAlBvCIuE=;
-        b=0fedjRZx2RaPeNewDfT6kMMnjXVPl/B3fA1gPsEqLujR7kcW0NYtdJYVaByQandrUq
-         QJzBJ4uC9eS8a+ayksMogNxSExWs0eNFKItvTDKAx6NHc5x9hqv9RQlhAAzaAg7s5gs1
-         9sbtbyps4kPCKude8iZa2iiFH+utWXTUN8TCJqFX8mRmvPPMu6I8nAQcyMZ4i4mpzyX5
-         Cp154EF42lPno5OVkcDwnkP37Yni0BUszr0xLEoRsNB5R9GRF4fxmXOCy5ua5f8Nqhrg
-         4AybiECJ+X7fZBXujwbzZQ4s2TiblfJ29wOS+plEAwzRWxdPuG712xtYts3o3CIOU5fN
-         1RVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795468662; x=1796073462;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mEI2MWJHKjiB6vj3bpQygFD6VsBJJyxeJ4zAlBvCIuE=;
-        b=bmZ8empiRpqS5TwKxm3tUg4I5QNta8b1Ptcs8ohSfaZckWT7DrYp0lDugcYa3401h6
-         fJQa77AVXH1HLc51IW1AMNWc9FtzvMQ+GnOcj64vk9B2kWpU9hrVeWnHHG+ZrexivIkQ
-         ENfcSl10Lvc7auZRCjqquy1JJnTScuapNzgzNFIdmC4MI8/IInHb/b/UIM+bPs+Wlbeu
-         AriEQEWAHtIFRHcBoCiuJzNq7xWJwkXcwgXtD5dJWOHcIc+TNGC+P0asyOYBgnonj1Pj
-         POvGLVh5fEdJukgck89mHH12EG28pTVaUcAkiBxgJHWDGwl0KHoxFhq45hk/dk+TOu/C
-         it/g==
-X-Forwarded-Encrypted: i=1; AL+hErEsgXASHEEReIYeG1UPBfm1X3sZ1gqpPXxeQSBzzG5WKw7Hti6hOkFAU86sgWeVAUxDKG2paAQBCqc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+8494GH4XnwwnvHk2cAskxBAKTr0+Lgp/DKQabrvJgNb4tsjgo
-	1pkZc87gjcO6/rVE3PqxSkgxfj2Q9wVsBaBDW4bGuRB86dkbrIKhr48f
-X-Gm-Gg: AZFdTZdvHOET6yvinay0tXGw8K2E0l3kmxmliB1wFKwXpDg49WdLfnBPZNKuv7eMj5m
-	GSg6zmcBjyuEbDT7vG74kY9saitbBmMi6Ly/ig/VOog17O4CRfRDV/6og82r9aCaenxmgLphZXy
-	0CMQaZbbJNEwyQoEmAy/eF+ZnnGpWmMBiiqkNG9HSy7N8ark+f1BAPzJqvqoR3ebtRD3ZGSQ4BE
-	9O87YwumMeep4ZW1qlj1gY7AjddmzP0dzYPcumcoydXb+NvxBduB/lC3KoLYeMkxP/nlaQS6Gob
-	T9VoeFsUWPvWqbWLgCp4t5lLAhrjDMDyVlWbwhGIDKbXHQj7M+6AstcMsFIKXsuApiAAQ3HsuFv
-	ln18CE5oRVMtSX6/WJSdsWkhb5C1qhGPqr6pe7bTGSgEKU89oSWeu14pWUqAKPMhuUQ+9Xr400+
-	1/f7cbvVFd/bEaPwc9waXMOCrSH8psf6fdHba/nlKSveK1xDLhVG/GmD5sCfxStZIHw0Y1i9jlE
-	PQwcITYW7zqMQtpPyC+IPswZ73j+CjIPYbuxgpChaXgmxvFD++YHAT6Dm+RWERyENcCWZaZBMqG
-	1gnjbssyalFzM/zo85oj6XpA97SzLOFdvwWlsqRkmt88sNOQ
-X-Received: by 2002:a5d:4605:0:b0:4a4:14db:2348 with SMTP id ffacd0b85a97d-4abb29105d1mr18698069f8f.35.1795468661504;
-        Mon, 23 Nov 2026 13:17:41 -0800 (PST)
-Received: from flare5 ([212.58.121.92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab658e2e6dsm24513121f8f.6.2026.11.23.13.17.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 13:17:40 -0800 (PST)
-From: Stanislav Aleksandrov <lightofmysoul@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Abel Vesa <abelvesa@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Robert Marko <robimarko@gmail.com>,
-	Guru Das Srinagesh <linux@gurudas.dev>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Radu Rendec <radu@rendec.net>,
-	Lee Jones <lee@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Bean Huo <beanhuo@micron.com>,
-	Stanley Jhu <stanleyjhu@google.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Georgi Djakov <djakov@kernel.org>,
-	Sibi Sankar <sibi.sankar@oss.qualcomm.com>,
-	Ulf Hansson <ulfh@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mfd@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2 13/16] dt-bindings: arm: qcom,ids: Add SoC ID for SXR2250P
-Date: Mon, 23 Nov 2026 21:17:23 +0000
-Message-ID: <20261123211723.1065310-1-lightofmysoul@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261123-pastel-barracuda-of-rain-bce8ac@quoll>
-References: <20261116-halliday-dts-v2-0-2c92438c6c46@gmail.com> <20261116-halliday-dts-v2-13-2c92438c6c46@gmail.com> <20261123-pastel-barracuda-of-rain-bce8ac@quoll>
+	dkim=pass (2048-bit key, unprotected) header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=j09zaOLW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1795469566; x=1795728766;
+	bh=MwOPiirbdqRykgkfg4Pp0z12qRVctD+69b9g7rRiIIg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=j09zaOLWYKq2A04Pk2J9vkInvbagPJ4XAyEkTv7EsvT9SSaBkjL0RPz95maszIuDw
+	 6fSnr+aehsi8YlbXWbytGGKhzr3Uh/O9JlNQZoaFdWU4YKGGbK89x1KOR6SPjfAsWI
+	 XWucBnaFHGbg4ck6smWOUbqMjnJ3fviTOHauRZheCONQsgME3H3gpgmksXdiykZStM
+	 HKYWuafLlf1iOHHWWPCmMBsZ30+5eyDbGAAPm1kDrlM7UEGaSYx8wC5bMDqGH55cit
+	 6HPe6QuQB2rZ+7c5HOFvLmbxZB25Id37aCOSCDs0sHDu0WJu7eZFkdCY0rzio2iKXa
+	 TRFaHIw1J9RnA==
+Date: Mon, 23 Nov 2026 21:32:41 +0000
+To: ribalda@chromium.org
+From: Bob Summerwill <bobsummerwill@protonmail.com>
+Cc: fernandezfernandezpol@gmail.com, laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: uvcvideo: add device entry for Logitech C920 (046d:08e5)
+Message-ID: <20261123T213235.04d52ecc@protonmail.com>
+In-Reply-To: <CANiDSCuBmdKTdCuGp6qxQZC0tXbZ+iEimnkw42wjw9G3ukOK5w@mail.gmail.com>
+References: <20261122184500.7c9f2e1a@protonmail.com> <CANiDSCuBmdKTdCuGp6qxQZC0tXbZ+iEimnkw42wjw9G3ukOK5w@mail.gmail.com>
+Feedback-ID: 475798:user:proton
+X-Pm-Message-ID: 8e47a1b6a23c14e9901727c7dcae176cb0d8d34e
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -142,18 +64,48 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 23, 2026 at 01:09:26PM +0100, Krzysztof Kozlowski wrote:
-> This should be rebased on my patch removing the IDs.
+Hi Ricardo,
 
-Thanks for review. I will rebase it, but I am not sure about
-the order, could you please clarify?
+The app is Monologue, the default camera app of the Linux desktop I
+run (Omarchy, an Arch-based distro):
 
-1. Should I wait for sending v3 until your patch is applied?
-or
-2. Should I apply your patch locally and then send v3 based on it?
-(but if something changes in your patch a v4 might be needed)
+  https://github.com/omacom/monologue
 
-Best regards,
-Stanislav
+Qt 6 Multimedia with the FFmpeg backend, decoding the camera's MJPEG
+stream.
+
+You are right that the app should skip those frames, and upstream has
+since added exactly that kind of skip, shipped in 0.3.1 -- it scans
+each arriving JPEG frame for the EOI marker and drops incomplete ones
+before they reach preview or the recording:
+
+  https://github.com/omacom/monologue/pull/40
+
+My daily-driver config also keeps nodrop=3D0, so I am artifact-free on
+both layers.
+
+One nuance on "check for V4L2_BUF_FLAG_ERROR", though: Qt Multimedia
+does not surface that flag to applications. QVideoFrame carries no
+corrupt/error marker, and the FFmpeg V4L2 capture path passes error
+frames through unannotated, so an application using Qt cannot do the
+proper check -- the app-side skip has to be a bitstream-level
+heuristic. I have filed an issue documenting that gap and the
+layering; the proper fix wants to happen inside Qt's V4L2/FFmpeg
+backend:
+
+  https://github.com/omacom/monologue/issues/53
+
+The same applies to every consumer which cannot be fixed that way --
+browsers reaching the camera through PipeWire, ffmpeg, CLI tools --
+so for this hardware I would still argue the device-table entry with
+UVC_QUIRK_DROP_STREAM_ERR is the right fix, with app-side skipping
+as defense in depth.
+
+The offer of a real out-of-tree build of the series against 7.2.15,
+followed by a proper Tested-by, still stands.
+
+Bob Summerwill
+
