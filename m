@@ -1,99 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.43
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795396941;
-	b=mVMGMoSJNdz3SfgoI3ECQ8xK2dc4TuGzwudqT9hw09V9iYwgS/RVYt6Y65Icfum+rIFp
-	 fmoPoUSrvLLQtNzpiAb5h3nSBNcJEtVPRV9N59yg8Jr42B49jOZBTF7abWrTf0yKLUJ/G
-	 7cJKToxhfZjjbhQeplEplzOkmPMwUVmRtc3IAezwQVOJXAcoUxMKwboru2vx4lBoTy5N3
-	 X2h06GVoMihxjDNem3+h0+4+ihDJtTUNcnC4SHStxOIgBxEMQp/UNbi7VpHeHtCnEkuop
-	 hwjRMkkd9RGLzIIbKPmQCWzeltZVAG9iASrbDPz2EDjSEB+B4rirTX4NByS4zReByew==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795396941;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=2Q8qQWgKcP+xT57roRgQ8IJ3xXja0pQGrqCS2TbAAfE=;
-	b=3c6D/SVTYOq2UzfZs4XI+ywFue35ui6tkZBfVpmXI2FDIbHX208jzIl7Ap3KMkTyCPdy
-	 oSEx9P4m2i9KQqPeFBZBNbPergERURjRYMTxUuAjfPU/4+6aZOsYnCj5Uz+QioKXn0Sip
-	 /Z+teVwoYcf4F1qLK6SQ14KGsOT1Y3i8SGQyKqbQ0zc1Jc1SffokwwcNbVNjgmyE9qJhz
-	 4Wyv4iv1sr5oFe8ofKj1iDnq2V8vqSv+65cuS7PHJe8pDCf2n6c5EQpltMx6WUc++AQwD
-	 ByhJXZRw62Ydz/OI1bQ4tIImVCTKIUrW/wVEy+No9NXeU7tBnsZJmNZxoPzprovl19A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rcnD80S6;
-	arc=none smtp.remote-ip=74.125.82.43
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795398518;
+	b=hXMiGHQKpH8o8L1wAD0oQBIL4ae1KyliOeUrIlhhnIeche6B1K5MF0cFZN8EFvul1wEQ
+	 YDGeytngtbDed/NU2zk7hBnu6cyoFjj0l3p/YMgnfsmgT9lniSvuN3Ustth6tVHNF1CBQ
+	 BwJuzyDScFnIGQ1xfvJjJWNMw0wMhPE5PQ5kLspX5+cGVV4h4jF2IXEqVTUZMobDO+myb
+	 IEQi2l3YMUM6/gYrKd+rkyRC2BLyae1NPD0qRNEG6TYXv2Eas0PCXFMRhcGwKrfetKYcN
+	 LTDF5Xi8JRUGFNuKX+jv2yH9T1EOeBzmTSA877pTiDl/mUqRilBVSBXFVnd137Q4TSw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795398518;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=FTzAjKQSHxlNRWgx/yZCGJcmPJ5L7IOVnJKBdJAxvyo=;
+	b=szt6Nwy/bc2GoUJTQ0A0b5sX6rQ4fKj7BcxhBbJKutjR+a5JsF1Tfmb7R09kMNbqOpd8
+	 fT/mvuYI+sSeeiwl++dYZ0jGTpFeCsNuhswgPI4JzhUA3kL8Mf//MwVG2eKMiomghTKoO
+	 0LBb5gxBvK/P/UjLpGhAcXcOmzawrkcWeFT9lOI0Z1fYyB23zU2BA3Iu/c3oS05fEKy32
+	 rus75i8OmML6y9jJy8ZTt7R/ntwXma1D5wxIoK+VnN1M0RCN/E5RCRHMCrKP/hHM9DSKA
+	 3e5JJ3FRW7uwEAkwezwcLWfkbuN6A4dZM+qlL8S2AbJ6ct2wKyWK5UwODT+whxKX0rA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=boMEKDE9;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C222606A31A;
+	Mon, 23 Nov 2026 01:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=boMEKDE9
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795398518;
+	b=sz77ZpcaU7uIMvuoOpNNEmhtXAi/iEr2BTyuBvG5+ZTKLusHOuTTv10OfTx39HFsvjBk
+	 XEYwMRpnexnHkKw4ZP8qk5nir5nVxPHmRZ263pTR2q5tAC+vzFH5CJnD6/VOk0aOtziDW
+	 k4LoE5QF7EW3OsB5BiBZez3tqlOgrh1boylaHZDVxMr7hosYAFt6LL6v4v7Fw8xUoNGAa
+	 UCMxHaan8R81zQk49XapVnJyT7YlYl5WSB5BYfwAKWpks5/C1T8K7jaGGvtpZxAfJG/hR
+	 zoYgdiDJTNV0YOCeCQKT3Xemo7HLcXYSItAVgDJy5GRxUxZDcT/52trn0AFz4JQ5oBA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795398518;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=FTzAjKQSHxlNRWgx/yZCGJcmPJ5L7IOVnJKBdJAxvyo=;
+	b=z+w9sGwRVAEu1Qntm81CIEfDGDIfBWCQnEMPjrG3MKMwhZO1hQ5iWo+bnCnw5TO0f+8E
+	 cAiQvsAyp4a9uud98+LZq6KLyLD5TNVpjfteZGTybj0WqnyLS4usnkDwyf7H701omBdQm
+	 K8zwwmpMKtuxsF/PjEFOvWgXz/HSGL8noCrpEfdvFv7G23eMta05NkFOsfqm0tMzA7Eef
+	 IacM9e9qoytf74OL/RYx9YJQYy6Xkjk4cl9IpmcYDaP3Qbdd2FY94M6iwmEfEkxtX8pB1
+	 wEINPQP7fVB22YtPa+GfRbJnHaOyoUUU3ZyN5PM49DqZCXnbBe8Hb1ZhRmIW+0MBpEw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE77606A32E
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 01:22:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FE77606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rcnD80S6
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-1b3beeaf6f9so3305575c88.0
-        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 17:22:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795396940; x=1796001740; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2Q8qQWgKcP+xT57roRgQ8IJ3xXja0pQGrqCS2TbAAfE=;
-        b=rcnD80S6RHlSfFU8FCgfOc0ABV95p4Il5Ah/CGuObNMNDoi/6q+Szy1oe0iVWlIMoL
-         Y/Rbloz1sA1ibz7cbUzYlxer4QwSEaU/Tbdzzq5M+1S/1I5jDzcyw3hmxyTqXJ306W61
-         L048QyV6ekg3eBAbQ6i322m6qMqFIgtFb9Qlw4oVGC/FL8BeAWtG49fyAdFRvDWVeRJd
-         uuaPN6YzRDDZ4+wOBgkh1W9gZYI4AtnucAMEh1TM+QZKabFMnJk94bTuPsfrN27Vp+rV
-         KVC5KxLp2ILW4CluX3r5RTzj9fukwcR9HaTsu6ACUYQZENPCfO3iRFAo/38PeXP6GU3B
-         HLhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795396940; x=1796001740;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2Q8qQWgKcP+xT57roRgQ8IJ3xXja0pQGrqCS2TbAAfE=;
-        b=AXXpMG4d4nq3jEihjo+WD/x6+GkX8QQSWXd3L7d9ptSFGUaGpV6lTFdPy7KSGo0bHP
-         zylpLghhsa7+/Www87VgMKzpTIXCcdXd9Ff89lZ1J51XoeRV3Z7Cq6U3Q9QlEIkcAyU0
-         T7BD0EhPMo/fffzd87GOaS1dSdsZ4zP7xwefb+ZQ1h8PuPtFqQkdWEu8uhtHhE1Gxdcv
-         /IT6CjY2XHaHZQ6jhmYIHP62KkT6r58KLkCk031J2c7HywqSyKbxc+b8em+am6bvA5m5
-         aAZxAdVyA9vay4pR5KftM/4ihpS41APzcV3SadwBDhPYK7VL+9toWeRy+d+VSWR6drYK
-         JJxQ==
-X-Forwarded-Encrypted: i=1; AL+hErHw4Hem/pOsS5udu8Q7JFakYsrP4YsxU3LlTTeMaalE7PU5bbfUyp18IFWys/MfoVt6ohsYL/vX/8Q=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/WtMRb38YjhyvNykLWELMh86uLge3ZoTOsgT7XnHoQU9hHR05q
-	di1aM2n6uWgOlthwWI7O2dSdkvVtZwvtx6e1S29eBh9PN0vYbhGr54aG
-X-Gm-Gg: AZFdTZeKWUOfcybpLF2Oe7i58jCKvNtickrMiMr5hJksH9Hse/KDxiuelo0ed6/o6FW
-	5k99DCPwzNLoovyJgjmpl1MPK+ZcveZc1n+pxRjCKWHIZtmOQx937YcfWBsWCbCiSwWeaWqMIZr
-	+zulIb9AhH+YWKSH+DSGFsNSYCKcQwY7Ki/H7RvZE7D61XXe+V6aTnTXhgeRMbQjqdB5Wimtw5X
-	C+5rv3AoiymQCEVuYydrXBaGO2gVNW0EGmk6T6YqofFdg76DlGjbx+DeKEWgEA23HSt4HI+kklm
-	LAcDtgqKsgFajyvzkzxpzGK5jhONr6sdjDJ0eI7MEZNGPkbRzto5MLdel3oMRRxHs51uMNxYxWb
-	jaOrhlsuhswo1Nhi8Qg1pE94s2cq0bkyfkfF7F9aUjNWeZje285tOv0wq5n7udmvHUt2B0Glf+B
-	ey4LjxGV3JNyleiuI4m85MwXYE3Le/qhLXWjdrZnFXwF0M8hCm+L6VZadvh7ULYVkJLpTRpn1gw
-	MrfuxUXjp+URZTZMdNYo7x7UAR/L0R5Q+YTckDCP5cQ1zMymyDHvnSzJvYdz74xwzxiOwxZExnM
-	K7fSK0ZEq+7cXpVBmScfVyG171dzfhkPnEpBvesoEjZ81u4/zh7ev5h+NZBLtKjSnSI8tmI=
-X-Received: by 2002:a05:701a:ccca:20b0:1b5:71bb:6800 with SMTP id a92af1059eb24-1b571bb698bmr1863335c88.3.1795396940552;
-        Sun, 22 Nov 2026 17:22:20 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:f002:4621:aeeb:e0e7])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5566c1142sm22955681c88.2.2026.11.22.17.22.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 17:22:19 -0800 (PST)
-Date: Sun, 22 Nov 2026 17:22:16 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: "Alfred E . Heggestad" <aeh@db.org>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <chleroy@kernel.org>
-Cc: Oliver Neukum <oneukum@suse.com>, 
-	Thomas Reitmayr <treitmayr@devbase.at>, Shaun Jackman <sjackman@gmail.com>, 
-	Daniel Gimpelevich <daniel@gimpelevich.san-francisco.ca.us>, Florian Euchner <florian.euchner@gmail.com>, 
-	Johan Hovold <johan@kernel.org>, Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
-	Xue Lei <Xue.Lei@windriver.com>, linux-input@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Input: remove obsolete cm109 USB phone driver
-Message-ID: <awOVNaQM8_Hb5E3H@google.com>
-References: <20261112001642.243554-1-dmitry.torokhov@gmail.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 563631F000C0;
+	Mon, 23 Nov 2026 01:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795398518;
+	bh=FTzAjKQSHxlNRWgx/yZCGJcmPJ5L7IOVnJKBdJAxvyo=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=boMEKDE9Z3Iawjr0ynXF4I5RkuTN6jnv0f2Lj80ptB2iW5bfGkkEcsONAACUYNsrL
+	 EJrQwZhRoe34622AzrBZET1KPbribLsMQR8DICQj+mhqykct5jw1FSUwV/mSt49u+e
+	 TxC0nM6KdKb0P4UCqoU1oggdh/MBxUXfC/fG2cVArS15qlj8buEqY60a8PHssuUr3v
+	 9pGzK76WgIm1JQaRndPtnSRk6mt8RO+f/DcXMOUmaqIN9ZgodjXdR8T8BTZT4E0lRi
+	 xm+QtO0nQ8vmUmpLCr22NJKIoyPDr8w+7zBpLmaDEQJ7h8wCcpktzhkH37EOuB/sog
+	 i3vavzBW5OoAQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id CAAD14C2E0;
+	Mon, 23 Nov 2026 01:48:36 +0000 (UTC)
+From: Fabricio Akio via B4 Relay <devnull+fabricioakio.gmail.com@kernel.org>
+Date: Sun, 22 Nov 2026 22:48:34 -0300
+Subject: [PATCH v2 1/2] usb: gadget: u_serial: Publish the console only
+ under port_lock
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,43 +83,84 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112001642.243554-1-dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261122-u-serial-console-dequeue-v2-1-820f355827e6@gmail.com>
+References: <20261122-u-serial-console-dequeue-v2-0-820f355827e6@gmail.com>
+In-Reply-To: <20261122-u-serial-console-dequeue-v2-0-820f355827e6@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Neill Kapron <nkapron@google.com>
+Cc: Krystian Kaniewski <krystianmkaniewski@gmail.com>, 
+ Brian Ellis <brianellis@gotenna.com>, Ai Chao <aichao@kylinos.cn>, 
+ =?utf-8?q?Micha=C5=82_Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>, 
+ Prashanth K <prashanth.k@oss.qualcomm.com>, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Fabricio Akio <fabricioakio@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795398515; l=1827;
+ i=fabricioakio@gmail.com; s=20260928; h=from:subject:message-id;
+ bh=bQFCDRqy5e6noIavX7zwxVbe546YTjkWtU7/BccXBn0=;
+ b=ssdBs0Iy02dHW2KVUSBVWEgz/5+XUebgNuEDZbyhVBJiUefFtf0Ca0q7+w5UHASea6BwgTivd
+ DwITeE8fg8QDKW+ep2b3EGAP+BhvIKaJrhds/GB1tzEJWgsITKq9AeP
+X-Developer-Key: i=fabricioakio@gmail.com; a=ed25519;
+ pk=TlMUT8bPI/ZQzp2q24BIQTb2qSx/jdUTBlGEXIRCm54=
+X-Endpoint-Received: by B4 Relay for fabricioakio@gmail.com/20260928 with
+ auth_id=1076
+X-Original-From: Fabricio Akio <fabricioakio@gmail.com>
+Reply-To: fabricioakio@gmail.com
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 11, 2026 at 04:16:40PM -0800, Dmitry Torokhov wrote:
-> This short series removes the obsolete cm109 driver for mid-2000s USB
-> VoIP/Skype handsets based on the C-Media CM109 USB audio and HID
-> controller (0x0d8c:0x000e) and drops its module selection from
-> ppc6xx_defconfig.
-> 
-> The driver was written in 2007-2008 (modeled after yealink) to poll a
-> 4x4 phone keypad matrix and toggle a buzzer wired to the chip's GPIO
-> pins across four phone models (Komunikate KIP1000, Genius G-talk,
-> Allied-Telesis Corega USBPH01, and ATCom AU-100), relying on a module
-> parameter (phone=...) to choose the keymap. The mid-2000s userspace
-> VoIP/Skype bridge ecosystem for these handsets is long defunct, and the
-> driver has seen no new hardware support since 2008 while continuing to
-> attract syzbot crashes in its custom URB state machine.
-> 
-> Furthermore, because 0x0d8c:0x000e is the generic default C-Media CM109
-> VID:PID and was added to hid_ignore_list[] so cm109 could claim the USB
-> interface, cm109 actively interferes with non-phone CM109 devices still
-> in use today: amateur radio interfaces (Direwolf, AllStarLink, SVXLink,
-> UniPager, Hamlib) have to blacklist cm109 so usbhid can expose
-> /dev/hidraw* and so opening the input device does not pulse the GPIO
-> pins and key the radio transmitter's PTT line, while standard USB
-> headsets with 0x0d8c:0x000e can bind to usbhid directly via the chip's
-> standard HID Consumer Page volume and mute descriptors once the
-> hid_ignore_list[] entry is dropped.
-> 
-> Thanks.
-> 
-> Dmitry Torokhov (2):
->   powerpc/configs: drop CONFIG_INPUT_CM109 from ppc6xx_defconfig
->   Input: cm109 - remove driver
+From: Fabricio Akio <fabricioakio@gmail.com>
 
-Applied the lot.
+gserial_connect() and gserial_disconnect() find the console through
+port->console under port_lock, but gs_console_init() sets it before
+taking the lock, and gs_console_exit() clears it after dropping it.
+A host connect while the console is being turned on through configfs
+can then connect it twice, leaking the first request. While it is
+being turned off, a connect can attach a request to the console being
+freed and schedule its work after cancel_work_sync().
+
+Set and clear port->console under port_lock, together with connecting
+and disconnecting the console.
+
+Fixes: d7cb8fb7aa7d ("usb: gadget: u_serial: allow more console gadget ports")
+Cc: stable@vger.kernel.org
+Signed-off-by: Fabricio Akio <fabricioakio@gmail.com>
+---
+ drivers/usb/gadget/function/u_serial.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index 0a304f508bc3..1f0110ea7f6a 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -1173,10 +1173,10 @@ static int gs_console_init(struct gs_port *port)
+ 		return err;
+ 	}
+ 
+-	port->console = cons;
+ 	register_console(&cons->console);
+ 
+ 	spin_lock_irq(&port->port_lock);
++	port->console = cons;
+ 	if (port->port_usb)
+ 		gs_console_connect(port);
+ 	spin_unlock_irq(&port->port_lock);
+@@ -1196,12 +1196,12 @@ static void gs_console_exit(struct gs_port *port)
+ 	spin_lock_irq(&port->port_lock);
+ 	if (cons->req)
+ 		gs_console_disconnect(port);
++	port->console = NULL;
+ 	spin_unlock_irq(&port->port_lock);
+ 
+ 	cancel_work_sync(&cons->work);
+ 	kfifo_free(&cons->buf);
+ 	kfree(cons);
+-	port->console = NULL;
+ }
+ 
+ ssize_t gserial_set_console(unsigned char port_num, const char *page, size_t count)
 
 -- 
-Dmitry
+2.56.1
+
+
