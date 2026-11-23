@@ -1,104 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.43
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795441010;
-	b=QoMx7hH0h868pPioxusQsQinh4UJR0vzM+4bfHBXy1jZSmxm+jXWyrbK+Ff19vXggkO2
-	 zFRDWVEnW0zuB7yy85fFxNpzAWcRoH/W2Iyi+aIbq6ikULPW3EtxFB3V6j4oDhevj0G1m
-	 spuA7Q9X7ZVLhqz8XJOcMtTpXcgxHctOSwK/LFdD8kGeGo8BwCdICJ8Sy1zWlHgzPpUKJ
-	 wa/y7PFDpT5kuHBGa/DAeiF3hROcPybTneuf61kSZaRHIsOJ+jmhQtgainqfT6TE+vMh4
-	 NejUJmFPZhK97u2s2iobOT1YWS0wQwDxw6KN957jDtec7rRTVvi1orBN+Y4spRD3lHg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795441010;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:
-	 X-MS-Exchange-AntiSpam-MessageData-1:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=/jYgnNJ1eaAxfY39NefHstRDCZbe1wDlUFbblgfZf+4=;
-	b=lyoMc0tww6uBjoP+UmAR497RR1gmsQtuUn4H+3XAILv3l2iqpy7reLuwAtnqD/E8UBt6
-	 8j0+a4j5QKVM1Ytw4Rpc1bDnvxjAGHO4wcgcl74d/30+o54qffTV6iFIiIMLzPSt1lpKs
-	 h2vtiaqXMgFQs04L1pbNrWSQMibqcHVM+s6fVzjTOWqWW+zdPy/1XBu0MIryuNunVU+Cw
-	 np6Qb9U3VHMUQtUI7y3K3kzQWkT8JoX+JIPrCUvhi/MdyZOFQZnQQNmG6cEZnzViajZap
-	 uZ2JiZlrcDdg9GeT2L6gAnCbg3igl4r7GCTHwe6vbbJwKaPinctqhuPcjyhCKaCD3Lg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=MOJSFDGp;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.43
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010043.outbound.protection.outlook.com [52.101.193.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=43.163.128.53
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795441741;
+	b=0pEsn3qyUnA+5PsBCOfVM6tSeElpiswZSmVVv5jhOA58qkGN/WflmoHgpOEPNTIdE+2e
+	 /pBmO4cXJGhZ+U+FtCTnqUiC1feBQ636vBeCHI90SEEhG8J00bvgE40Nkux3k50VHjosg
+	 GEiySN1vNaWsXC54CUXi+2UM6J/4j801DAl2+6I78uWbv35P+Dr2aNMrzgOKcfX6qK4VM
+	 8iwaG1lceKCxc5BPparXKtP6IyI4xp77vh+ztamww99Q1LwWytXiReprti+f5GfZ9acYX
+	 Nvm2XEH07qEvXW2dSreZbe70sjLIva+i6hALEgtYwa+BuOBD91GALwqZraBIQ9Gr1hg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795441741;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=l6Lf/JAoUHIb8WD2qZaUWTfzKaNUnP5AUDqdtvS1VBI=;
+	b=MFlfAiXnlcPkksXfY3R6rGnm2bHHLRVq1/0G2bRu7BOGKXerLWDjtiQJ1HQZZYbcpK3R
+	 IkgKGCL2FXGiG+ZcdNpn2vXSU4FES18ZVycx5pNqUG4VeZu3hAdL5fmqB+yd0bOyXxp0d
+	 uC8dwEVHDmE2g9+em0N2SU080S0e3u8OtKkijvTr9YyItp4QDvnLj+7sVDnh9Dadvg+GM
+	 9vC4/X2cDOBM08FDYKMFK/739J4IVzUAIaTAiyhwfwsLvxXW2RNemTFSv+VVwkVK8Kn4j
+	 iFfC7RhQDTS4Ljey3DAgkOGS5LWIAA7tzUZkqb42A9IxKfEFlfFZY9DpCakaummgR4Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=HVxNd9TH;
+	arc=none smtp.remote-ip=43.163.128.53
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.53])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20357606A327;
-	Mon, 23 Nov 2026 13:36:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20357606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0671B606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 13:48:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0671B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=MOJSFDGp
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qciVD4+ZaG+hb5VNJMUF2duE3KYxSvUYc/xvPBjtLm1K5MLGi+1cJhbNGjqUrE7ygYGMZMfNCtCxiQGZ5gtJFQk2NbG1n3an3jNO0isWuo7e+ef+UuJ8MBL44nzGZbIyHaCXAwqJCy/mm/6afQHW/TdzbcWwnlHgIMH1McuFSjS0n6Wxp32ebhmesdCrS62T0M+MVqp7tD1enbT/kzVxVe8Q/lFwczDjNuHn91UIhzL7vL4E/NeOuJidzM0LbVPa/xLp7PcbUpPu2OBoV2ABrxwqiohEAMuqiFTT3bjYns4fF5E75wupJpvn/ecF8cS6U+H4DgJ/iut3SwWi1Dp9HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/jYgnNJ1eaAxfY39NefHstRDCZbe1wDlUFbblgfZf+4=;
- b=RowmcTNdRarzDu7oSaJptYplkBmH/o16mMU3b1sMtRobMCuV7QycQP3nQsu7IrtOnqmAn/ZkHuj8fSi3+M0qZDtvAnIQxVZ9v5NRFP2g8vF2o7sIWB3fClGct5bTwumeYMdhECBvZx1sMPbjubB01XNHstZJ3qoO180zgCkd6pAkcA6XERUido6mKWw+q5n4HWUZ90PiKLp7N6tg6TFlb5aS0D7Boy+9DjD4kTTgquq6yzk0s4KVYyqwQwVLnTO4tl0yHz7O/RrAgnzM3/wnYPb8w6BKIy1wJPPZxaPjewz4xlXcnanWGDtCQxn0X1l/ZO/FuHQpt0Nfgs2r76BOrA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/jYgnNJ1eaAxfY39NefHstRDCZbe1wDlUFbblgfZf+4=;
- b=MOJSFDGpQzqpynF+Ja1OMLSrfnGmtxv70tRcETGJV8bJAIkat+1B5c8KOU9iZWvpCARmHZ2YjkW4iBpcB9cyJmn6JQVrTsgBjf1SwLqa2ovKSXh5gVuzg/QtLuyvWBTulXbNPU/M0nhQZHAYnmp2J82zHN+dllhmpTaNFKrxkuO6f8K/D58njdw63DXiMZxPQzhV39KxPnmZC++/KwMFr09m3ylkvMJh6hM3vu6EBPAe/GgTk+U5DDIFYs/5Ej+QGeYqv0PTV1gDaqmkhkaP42Idgwf/JjJw5mGlyy3/1Yam9Bmm4rocffMqVQAGHS1+tD7NNA4iLt91JMg2PxJUpQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7110.namprd12.prod.outlook.com (2603:10b6:510:22e::11)
- by SA1PR12MB7125.namprd12.prod.outlook.com (2603:10b6:806:29f::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Mon, 23 Nov
- 2026 13:36:43 +0000
-Received: from PH8PR12MB7110.namprd12.prod.outlook.com
- ([fe80::736a:e1be:ec64:5740]) by PH8PR12MB7110.namprd12.prod.outlook.com
- ([fe80::736a:e1be:ec64:5740%6]) with mapi id 15.21.0639.011; Mon, 23 Nov 2026
- 13:36:43 +0000
-Message-ID: <9e84ec1f-2c41-4be8-8ed1-f9350d9f2d67@nvidia.com>
-Date: Mon, 23 Nov 2026 13:36:36 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/12] dt-bindings: usb: Add Tegra238 XUSB host
- controller support
-To: Krzysztof Kozlowski <krzk@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=HVxNd9TH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1795441735; bh=l6Lf/JAoUHIb8WD2qZaUWTfzKaNUnP5AUDqdtvS1VBI=;
+	h=From:To:Cc:Subject:Date;
+	b=HVxNd9THpixuIvdR6L17JNijVfhctA/ma1fkmXh5LE5NcKdK3tnGjIwm1Y1h3HBmV
+	 a144aDcJ6w6YIoeoZ35t7W5NZJvI1fWF5dIWZYhE+K3i06oxdMOXQla0uMpvc3T8Oh
+	 kVj24zC8DFTbTNnEaBJfMQBx136/tm608J6EfqLU=
+Received: from shuai-VMware-Virtual-Platform.. ([117.158.156.198])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id C3582807; Mon, 23 Nov 2026 21:48:53 +0800
+X-QQ-mid: xmsmtpt1795441733tevad6es3
+Message-ID: <tencent_7C654BDEA5891337506C7242C8FD481A9E05@qq.com>
+X-QQ-XMAILINFO: MhK4DKsBP06ihc9IQ5AIKVhy3VZW55rgEn0y2s1p5aUc4PMH7zFkxZLwTtcMsx
+	 6F5YgxYzrHLLGms5ipUsE9k/sU+g0hjo2Ge3EjYv5lWIgTnOTihB/qheUZtci6B3wktgtuSPPkKY
+	 YRJcDNAmAPZX0OXkTRJrxP5s+Qix0D8oebGspq7/rttesZR0S9mvoowrEx5DjBJ5WOIlrDzBPPUX
+	 b1QL//Fkce7jlmM6lAtzDob+/BRACE4qqYdzKLf5xhlwlhQ9gDY8MjBQwTzBP9QXOQ+wfIACiRp5
+	 jtYtwtHVWtSglld1OBQYeyaotmiwVQw7TJkFh2PIXKos4isMVyuNBNtmr4UWR3XBG/dUmfvxSx7J
+	 jzjyIXIavEEdqL+pUMkrvsd5vGrQPfh5bON8pQcOI/xNbIUCX9sgEjIVXQOY8qigpgUaPpqXBdqB
+	 4dndM+zQheVZa8OYThr1oV8LX5zNhj6DWt1IXhzC4Bxf2UHV7gs/kSx5tUCVWS5sXHACOTOG5OLD
+	 vVsoO3PK5ELpJZuHAhyQONT47kkQGNybqx7D+4Gsq6YJ26tlVIeJO2WtCtl9Kolwu0TV4wk93EJ9
+	 M8YpD9DRm8VtVJ1cmVXGUc+5e4jHBm7tgzyO9Luak4ba2IyN6bqh2C8ZVzncvrLEIuC6u7GjV6S4
+	 64tJm82H79rOh0Qi0TiOs9sDbT8dpwyspiuiNU484YmlKD0Gbfy+Fin1nvUOtNJUSjXfapVltPNf
+	 fKHOnnz6a79Hh5p5eg+1p0AVg48tPO6mQMdBPucGs3MVeryuVeaWHqIi9f7uBMl5Vk0yahFNmzdS
+	 oIVeP9SqSV9QOmIsImgAAqDdErEE4MH4Oz32jfSd4YYeXmStaEkDk04OlS4/Pjg3xRRkeki0VvfF
+	 xvDGn1g6fcTyNkRHAogHAJai//4NtM1gB7f5xjnUCFUiVJiwc1fTuK8rf4sM3IYlYrrwf4suf8M3
+	 hY4DY7N2uBI2eR8LWzlMQyT6p20tekNXbYKjIUit11WB8bt29D8nxwmzdblsw2h5XIw9VkjYaejN
+	 9d9+SP+fcAoIUcyZEEwtwgs/ZcrxOb9M5UCdQvAssstF9uoYnyIBiBKFDcJHhEc0owvsSIf8/3je
+	 N3ksxa
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+From: Shuai Liu <847807867@qq.com>
+To: Neill Kapron <nkapron@google.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@kernel.org>,
- Nagarjuna Kristam <nkristam@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
- Mathias Nyman <mathias.nyman@intel.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
- Thierry Reding <treding@nvidia.com>, Wayne Chang <waynec@nvidia.com>
-References: <20261116-tegra-usb-v2-0-42efc03a9700@nvidia.com>
- <20261116-tegra-usb-v2-2-42efc03a9700@nvidia.com>
- <20261123-sassy-fragrant-markhor-c6fbb3@quoll>
-From: Jon Hunter <jonathanh@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <20261123-sassy-fragrant-markhor-c6fbb3@quoll>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0071.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ce::6) To PH8PR12MB7110.namprd12.prod.outlook.com
- (2603:10b6:510:22e::11)
+	linux-usb@vger.kernel.org,
+	syzbot+592c653b056459925299@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: uac1_legacy: fix double-close of sound device files
+Date: Mon, 23 Nov 2026 21:48:53 +0800
+X-OQ-MSGID: <20261123134853.1589732-1-847807867@qq.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -108,119 +78,97 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7110:EE_|SA1PR12MB7125:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac1fa236-7f77-40ba-e74e-08df4966cf62
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|10070799003|366016|376014|7416014|1800799024|22082099003|18002099003|11063799006|56012099006|4143699003|261028144727099003|261026140227099003|261026121527099003|261022105027099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	/5ZjNrOPUKY49HzAKf2VSs0uydDxlZyPmHzVsY0lcGRQyS6qJVea5hHZL2YR+6S1/s/MFAtI14+/TE9lTyQdj0sJtKTline8EjL6PnCz7RPLfYs0/N//vHpcnMUs0ZcWZgVK6CWvtFAnR3L0geHmNEsGvYlfnrZ//rqRfre4xyxMh/d4t2XD44SaH1nnDxFPOn5w7gGMTrJ8j+0PoWL9bTP9RCq7Ul/wjSdzNodhJacQrAWQqQDWkjDhAHOICj0AsHUc4cioXBX5a+MgHTpWJk8V0sLG3uZzBPPVAltD+FOSoYQ7J2E2Rk6B8jhR+vhnMzpWzIDrqnmvh4X1BZ0wPbM+AuiJXBOmnBry9jl+1oPW4+Wmz7LmHWHiNm5Hp2HyvYl35C5drYPXPf+QYmhTVbfGQ/QvTqVXyunhywLiyTVzR+0ZxDSl8y2aqF8dagUFPrZUZxKQo10cRWKP6YrR/ZfMKpX2m8zDQPeSZdokGDGXPN96WW7+Q7eeS9dVbfc6piHHm8Mpwo5QggouDGLLNE1AAyVgUdLEv6RIprf6dCETcG927gKqh1Tclr32x0g2nsBfKFYdkleMSxfj9HasDiXynbspGCGwKPJ9YQkSnEe/WXTARHLSXMm1US8XjsR1oJ92aqnOIoo+MXnpDR053beB1t9KHG9Mxoh75ZOZ5fY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7110.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(366016)(376014)(7416014)(1800799024)(22082099003)(18002099003)(11063799006)(56012099006)(4143699003)(261028144727099003)(261026140227099003)(261026121527099003)(261022105027099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RHpuSndLREQ2b3BDUmtkVDcxUDJ3RHVSOCt2WGpQamIzYzhnbWFTUTdPQytH?=
- =?utf-8?B?S0F6Q2JhZDcyOWZ4cVMyUzE0V0VNYjJTTHVIYm1naDE0SDZ5VnFsdGxoL1gv?=
- =?utf-8?B?OUt2dWxiQUk5SzNuT2c0UW9DZlVhSlViam5MdlVZaklhc1d2ZEdFTlQxYTFl?=
- =?utf-8?B?dXJra1ZhdHBVeXJVS3gydGUrd3NqT1dEYW8wYWNGYmROMjJmNy9vMEJMWGxM?=
- =?utf-8?B?dHRWVjlySHppUWgrZm9wZWVHZ2sxRFZNcWZOMDBuTlZIT1RHLzgrUm1xRWZL?=
- =?utf-8?B?QXFMRnlJNXNTdUczd3JWbnlXdUk1UnRSZXozdll6dVE0T2JSS3BETVBMeWlE?=
- =?utf-8?B?K205Nnp3dkV4bWdUdU5CQ09Iajh0aVVXMFl1Z2loK2k4WGlqQnZDZWd2c1B5?=
- =?utf-8?B?dW5CdEZITGwvaGd6SzM0SU5BOFV4clJLd2V1SnNLK2c2K0kwNlBDQjdjSmwx?=
- =?utf-8?B?UXd5ekJYRmQwbGg2L3haaDVZMGUwcjN6d25NVm5hYXRNa1hPU3lRSGo0QmRZ?=
- =?utf-8?B?Zm9OUXppOWhJeC84ekRUNXUvdW0xcXd6REEzdDRpbGJMSjllY3BFMlRTZzcv?=
- =?utf-8?B?bE0xMGZuNDA5REFZTmpYZ1E3UGhmelFqcDRGOWIwUnd1TU9jeVR1b09pcWkr?=
- =?utf-8?B?ejI2UWt1cnhvZ1B5UXNVVUxkZDNoVEhlVEFRbGV0eHRsMlVNV1Rkb0JUelND?=
- =?utf-8?B?RUVrb2ZnVjFsT0czenpRUkFPSmZENTE1bXhaUnVRbnhHWEdvYnRpYldTcmps?=
- =?utf-8?B?TzIzTDduOFU5V2hOVVpub1JGalFXTnpNV3JiUytobDV1WnVSRzU1dTNHRzBa?=
- =?utf-8?B?eHZmaUM1QWNHR2RpaG8rY1JwTytMZzBtRGNiSldGREovYXI3UUZHdVZ6TEg3?=
- =?utf-8?B?QzIxS1l3K0YwdFYxT2U2NUp2YllMWWo2K3U5ZGVlYXA1c1hOcG5YSHlZNm93?=
- =?utf-8?B?eFFzSWc0YmVzMFpOaHlRUnY0VlhlM21Jc2MwcU04NG9NNCtxZXNMYytlVCt0?=
- =?utf-8?B?Z29OWHY3UjBQcjUxL3NHL241dWhrYkxsV2FPclVzSEZvREZ6RXk5WXp2dmxP?=
- =?utf-8?B?akIzYjYxZFhDWUhLWlhuM3ZrT0V0c1BDR3crK1p5c2d5d0pEM0VMMjBYRnda?=
- =?utf-8?B?dFRxUUpaZUdHdlJpS3VmNHF2L25NVEVpaDhJbFptSnBkWkdsbTNNSUVqcWpR?=
- =?utf-8?B?SDYzWElvYXc0TU5JbVM1RGR1QitTV3Jhd205b0xONFcvOHEzUlU0TEI4ZWdD?=
- =?utf-8?B?VmlvWkdRUzBmaDYyK2hXNWpxSEE0c0U4WEJ5OVViYzFYNkJ2OGZQY1c2b2FX?=
- =?utf-8?B?eTlkR1REMG9iU0hzbjV6Vm8rTTlwSGhOcm9rSTI4YWpKdjdWQ2Z1VWowSTVR?=
- =?utf-8?B?WUp5Tm9oZjZvUkVqZlpyOGt3TFdDVHVKTk5SaWhoRHNLSHM3T0ZNcWlVeTlF?=
- =?utf-8?B?cUJheEUrR3NNZzJjOG9sWGY0Q0JneVVLZ1d5Z2Z5SThqS2VZK0M2dzR6RFEz?=
- =?utf-8?B?Q0RETStiU3FRRFpYYmwvdWdHZ2JmSEFTM2RZcE03bjEzQXZvNmJDTUplSVhD?=
- =?utf-8?B?TWJ0OGlGU3VNQ016ZjEwNDRwc1VhVDFBeWI4eUQ2TkZDZjJTSGJPMHBmUU5V?=
- =?utf-8?B?cENQRE5KaUNyU0pOdllndCtTY0R3cHF2N2tCdDdGeDRDeHdiNnBzTU0wbnkw?=
- =?utf-8?B?bS9LM1lTaE1BamltSjlOK2dHZVpFRmtsVzgyNjdGYVl0WHhMdTBpSnJLd01R?=
- =?utf-8?B?VHVVTER0MVJDVmNSc3RqaHF3bGdhbjM3clM0bDcwYm8xRDQ1ZFBzc3pUSjI3?=
- =?utf-8?B?cTNFY3NCRXJkajltMW9icEVYcUpHNngrK2xTQnFOekxxL2s5TG5INkU2Mllu?=
- =?utf-8?B?YTJkYWxtc0J4YzhlV0wvZmdxT1VQd2g3TGRrRy9Eei9GcGFIbGk3RWVNdy9q?=
- =?utf-8?B?VE1FbHhkK28yY2VXZmRERE1IdllaMEdpRWFwQVA5OWdTL25hdnUxRHJ1QllF?=
- =?utf-8?B?SnU5VDdyeWdlcFFVclc2TkUxMVZDZzRuSWdrQWZGSjg0V09ZNnZGSXpZeXA3?=
- =?utf-8?B?YUZVSDdlelNYb2VpK3lrMmlRaW5kclYzbEtnZnRITDhSMmw4NTU4ZSt6Njlp?=
- =?utf-8?B?R08vYTZ0K0FKMkVhZzMwSGhSRTA1bHJGN3NzYS96OXEvZ0JwQ2ZkQWdwb2x0?=
- =?utf-8?B?L201RzZ4b1RzUnVQcWlqYUR0L0xtVDZLWWpIUWJXRU0yaHBwdWwvWmJ3bEJJ?=
- =?utf-8?B?YjE4eWpvbllIYkY1b3pEMXRKeDNpTy9hUVZBVXBRL3dBSFBDY2lTcGNwYmpX?=
- =?utf-8?B?Szk5bHEvdzRiMU1MOUNVaUdIdFlXTWxuN3RRT1Nmb0k3MXdyaHlBdDhHUjlW?=
- =?utf-8?Q?X6kXQrtww4LZPJmA+l2GChxWLZHUa71euq52/zX2kAUDx?=
-X-MS-Exchange-AntiSpam-MessageData-1: 1thZyqyheP3DOQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac1fa236-7f77-40ba-e74e-08df4966cf62
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7110.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2026 13:36:42.6758
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S1OTvJZV+wpkQvjMjwcf/VKyq97y41CKMx2ok7sou2S+Y5x0yrR3p7d/yVblPjBtMu5pg3SERqQWLEuI0+7sXw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7125
+Content-Transfer-Encoding: 8bit
 
+syzbot reports:
 
-On 23/11/2026 11:44, Krzysztof Kozlowski wrote:
-> On Mon, Nov 16, 2026 at 03:23:59PM +0000, Jon Hunter wrote:
->>    reg:
->> @@ -140,6 +141,16 @@ properties:
->>          - usb3-2
->>          - usb3-3
->>  
->> +  resets:
->> +    items:
->> +      - description: XUSB host controller reset
->> +      - description: XUSB SuperSpeed reset
->> +
->> +  reset-names:
->> +    items:
->> +      - const: xusb_host
->> +      - const: xusb_ss
-> 
-> Drop xusb_ prefix, that's the name of this device.
+  VFS: Close: file count is 0 (f_op=snd_ctl_f_ops)
+  kernel BUG at fs/open.c
+  ...
+  Call Trace:
+   filp_flush+0x...
+   filp_close+0x...
+   gaudio_close_snd_dev
+   gaudio_cleanup
+   f_audio_bind
+   usb_add_function
 
+gaudio_close_snd_dev() closes the control/playback/capture device
+files but does not clear the file pointers afterwards, so it is not
+idempotent.  gaudio_cleanup() is invoked both from the f_audio_bind()
+failure path and from f_audio_free().  When a bind attempt fails after
+gaudio_setup() has opened the sound device files (e.g. because
+usb_ep_autoconfig() cannot find an isochronous endpoint), the files
+get closed while audio_opts->bound stays true and the stale file
+pointers remain set.  A subsequent bind of the same function instance
+skips gaudio_setup() and closes the already freed struct files again,
+triggering the file count corruption check in filp_flush().
 
-While I don't disagree, this is consistent with the other naming for
-things such as ...
+Make gaudio_close_snd_dev() clear the file pointer (and the PCM
+substream) after each close, and reset audio_opts->bound to false on
+the bind failure path so that a subsequent bind reopens the sound
+devices instead of reusing stale ones.
 
-  clock-names:
-    items:
-      - const: xusb_host
-      - const: xusb_falcon_src
-      - const: xusb_ss
-      - const: xusb_ss_src
-      - const: xusb_hs_src
-      - const: xusb_fs_src
-      - const: pll_u_480m
-      - const: clk_m
-      - const: pll_e
+Verified with a QEMU setup (dummy UDC provides no isochronous
+endpoints, so every bind fails): without the patch the second bind
+attempt hits "VFS: Close: file count is 0 ... kernel BUG at
+fs/open.c"; with the patch ten consecutive bind attempts complete
+cleanly.
 
-  power-domain-names:
-    items:
-      - const: xusb_host
-      - const: xusb_ss
+Reported-by: syzbot+592c653b056459925299@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=592c653b056459925299
+Signed-off-by: Shuai Liu <847807867@qq.com>
+---
+ drivers/usb/gadget/function/f_uac1_legacy.c |  1 +
+ drivers/usb/gadget/function/u_uac1_legacy.c | 14 +++++++++++---
+ 2 files changed, 12 insertions(+), 3 deletions(-)
 
-We probably should have dropped the 'xusb_' for all of these. Given the
-above do you still prefer we drop 'xusb_' for the resets?
-
-Jon
-
-
+diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/gadget/function/f_uac1_legacy.c
+index 7c8d60c7e87d1..56b9cf8fbe92e 100644
+--- a/drivers/usb/gadget/function/f_uac1_legacy.c
++++ b/drivers/usb/gadget/function/f_uac1_legacy.c
+@@ -790,6 +790,7 @@ f_audio_bind(struct usb_configuration *c, struct usb_function *f)
+ 
+ fail:
+ 	gaudio_cleanup(&audio->card);
++	audio_opts->bound = false;
+ 	return status;
+ }
+ 
+diff --git a/drivers/usb/gadget/function/u_uac1_legacy.c b/drivers/usb/gadget/function/u_uac1_legacy.c
+index 01016102fa172..f074804bba59a 100644
+--- a/drivers/usb/gadget/function/u_uac1_legacy.c
++++ b/drivers/usb/gadget/function/u_uac1_legacy.c
+@@ -259,18 +259,26 @@ static int gaudio_close_snd_dev(struct gaudio *gau)
+ 
+ 	/* Close control device */
+ 	snd = &gau->control;
+-	if (snd->filp)
++	if (snd->filp) {
+ 		filp_close(snd->filp, NULL);
++		snd->filp = NULL;
++	}
+ 
+ 	/* Close PCM playback device and setup substream */
+ 	snd = &gau->playback;
+-	if (snd->filp)
++	if (snd->filp) {
+ 		filp_close(snd->filp, NULL);
++		snd->filp = NULL;
++		snd->substream = NULL;
++	}
+ 
+ 	/* Close PCM capture device and setup substream */
+ 	snd = &gau->capture;
+-	if (snd->filp)
++	if (snd->filp) {
+ 		filp_close(snd->filp, NULL);
++		snd->filp = NULL;
++		snd->substream = NULL;
++	}
+ 
+ 	return 0;
+ }
 -- 
-nvpublic
+2.43.0
 
