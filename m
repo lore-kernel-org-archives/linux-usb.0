@@ -1,88 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795422478;
-	b=09AYHPrGxJWe0ZYpm+P6rMJjguJIxupSZ88HTy/8ikoaqy9AcTpw1AXTsq2GD3MfKBFt
-	 nNMae/Soctg+UWkeoMDYhVksIhPR93kHu2fBic6wrmyWAJYNUKlsbLtOATJDSJ/+du9Za
-	 Ysam6BvMi+QhYFYjqsR36+7AYZtXuy6NVwcR93TGLGjkx3Fjzn/XjGkzNdVBnyoHAFO44
-	 VI+273svdvJjeJZlA1NGK2tIeBs+zMrlUugJRtgXLgWBHY2oL/kLmQfr/OJVMru4/m5Wm
-	 gf+rsjc8bF0iPrj0gf4rxz4zfiIOeFdOnP7/yD+9K6CMxXQb4GCmkKHiNhax/4ZmftQ==
+	t=1795423711;
+	b=K2ShcKP8q8smgBM3l19VZ2S6rHNb60/LLQalXlwqjBO0HgiqA/uSDYIQsoXACLON6D9I
+	 nbPbk13/l/K68dwRt+P2uZByp1xLaXZ6YcysSmakdcmdXtmCaTxS9Cd9Le/qnJz+/20aE
+	 1AiHZMp6JfzTgRJQBPKxcrfwSicV9rz9AM6Mtg7/rf4LlrEV+UzMUyeRVG4jQ0RzRR3uP
+	 lDe4FMS/nizMvx5EKjAjmMyRKSNcv2niF+8ARyCqeKfyL1UrvZCNa45yGQFO72IsK6ip6
+	 wW7Bt9KQK+rZL8IKQVG68Or5felf4s8mFv76U+CVajIWRITI36voNTlvmXObBH9g3UQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795422478;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=eAf/LYtQdzETgJNaoLTxIh/MMYqJFTgROGsz2hEz7zI=;
-	b=Rh1eV75vqOC5SfDsHWn8ITcXRtDA7TWg8KRxL3UJqwsvz2NN7SPBZAlG6DxOY8KB7l6I
-	 1SwA65lb38NT59tKe7pUXW4VPByZXhT/3xU02cIyMjRHcLEDm9NkXOwyayNULjAi3liUw
-	 JJw55/wXMgkD5QFp5ckjhzXxOhHGv3OoykLrm5qwmlo1Xmuxazx4k/upbTE7NAvw/r5GP
-	 YbzgD9IoJqPj5vL4aOb524SAznvuQ9uyD2GUSUo6ZjAFusNMERBKim2W3jRyLcBV6kDm8
-	 sHgQcITOJ0OjiRJgC8rjjaZGnIsoN1NkFS64kK53a3FpRTEJ4gdFSOIoY8/+frr/G4g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795423711;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=nwKJl00tpwdLLtoEZ27UPU0xq2dCJMGiy6FAFfkNDtk=;
+	b=HSK0AOq3pSTvrRchOmhfYhTICWCHry2XCcgg+F1YU5YTgEKpc8nwRTNQ1DGmWSgTUoPQ
+	 nnQ80vpmHFzqGU+ydBB7D9A2N+TuGtVwKYYRIrLS8nN9ionZHXqCFB37QqwaPc/dbKPa0
+	 V2iystWCo5xQWDIgGdUHwkXfNfvhjqbGCJNuLIJ5SPU4zE0bIQfKcij0EE8vU5hkvrST9
+	 OgpOilLgkiAcQr1BVwjfzvsXBrNVTEldxjQtNBzI4NgdtA6rBvxrec71VzZGVOtNltkCR
+	 Bnn1PLcRWIvhHgd8Tt7Pm64hFsMHbPXtsKgbMzs7QMJDutdAeLy54DhljVtuJ5R/paQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=MUcg5Qs8;
-	arc=none smtp.remote-ip=209.85.221.48
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Z/hgRgEi";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824FB606A31A
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 08:27:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 824FB606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3575606A31E;
+	Mon, 23 Nov 2026 08:48:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=MUcg5Qs8
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4a9be758734so1754813f8f.1
-        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 00:27:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795422477; x=1796027277; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eAf/LYtQdzETgJNaoLTxIh/MMYqJFTgROGsz2hEz7zI=;
-        b=MUcg5Qs8HOGbVD3a9+8+XyUDTDo2XHgDr4iDZMV/QDQh2BbTJc27yR47TH7E0ckJv3
-         zRZn92fj2+uJBhQbW2odayK079NQuK+L4CJuRSd/VyxbvDXBFnmmnUQtcyNz8CASVjfA
-         xUsreHPFwe8b+qlE70brFZI0TOxf6FAY8u26l2ImsYu60ijUIE1Q9QjjsBadc4zOadhj
-         iJr7JmfJfIf3qjrm+nD89qsuIeBsdKaSTW7ohuMXPPowo9D8Fk+uh0QEfPTaUyQpGMbS
-         vz498c+CfhFZZlsQLchobeuLiOCJzwfuDwxhzGAVF6/+Ts1ZpPOmY2qAlKsHoKcM0v/g
-         p3og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795422477; x=1796027277;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eAf/LYtQdzETgJNaoLTxIh/MMYqJFTgROGsz2hEz7zI=;
-        b=jLfeVgrZGnfJCsd5wBRM5pKMK53Aoz9VZIRfNoGG5PhAYksYPrhawX8PyW7I4C5vkJ
-         C+Jo/JkTB9PPSP56sVTYEQx7J8Q8kUYqn8kJhkX1Z4Sn1/ShOsQgdcB/Hfjl27d+ty6l
-         BSws/z/aEyZ2b+2lYY57a/CIBXWSypjB3WD1DOSydUMV5xqUduLz5k3OhhvvQBQFnL3g
-         AK9HPFqgtHoaKUnq0OSlUq9lJkm2O1vjwPkzR4vng5jR5MTbk6ROl4GcpbC2L+jwmHDZ
-         6p0weLfsz+MFdmLAnP/7y9w6gxI33bXZhFqkBi/Nz7tgdeJh4cLX6J6P5t46mk4ymffO
-         /1TQ==
-X-Forwarded-Encrypted: i=1; AL+hErFLMKqZ/qzh2zWEgUVvPaPGu9UaR8roZvS/gsqOR9xRl0ffP7SrDaSehYWycdGEgUTniFr9VR96Aps=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+kYXECWZhvSa3UHtXOpI0HXCayeW0HXVJ0vIohXSnD43j3ivQW
-	JN+9fbpBP/Zx5EiINoZZ4pKgGNksnkMEnyx+/xf4xSL2IoNF8cNFWX3jNxSf0RNJR1c=
-X-Gm-Gg: AZFdTZc6GNsTy/reAdrs9jvqPJG+hTvf+66nWKWdJQtsUysJ7haI41/y5qwMibEULt8
-	EEq77hs+Ub0xE7GfJLPBmOfWYtWSZIvdGzV52w4bU34qFLW2HAF544IS73OCB4i8xL+w1z6u3Lp
-	80xTtUNN9LCsQPP9vb7Z98UKV0dvQw3AOTmtrubiyfVsGR4v1NNtEUr8y9sX7CHBKHfvmXBjksJ
-	ItAw0DCaItLON+p9Y2E36sV8s4corgB6zT+2uUSszHOev4Mb3TNvmbOQPBEFcTMHCyHPVcPZu9C
-	PTNBCDCIMBZ9Kiqv/4fwCyabQi+hrulVuD8HL3UyYV6d/2GpmujKd1EperHJNoPL9+IYHct0d4T
-	9FMpj+dQrBbqJAYzahJX+Kga6oAdD37aFMXI5EGwILt4aPpVf6E/KFbpMqfuFXa2JI+DeQ4oG2y
-	BR9QWsHGMnYBRb2FVcjWmcXcjHGP1sddZR5KVba6ixQj1K4B21G0z/eJoCGLZvDZLJGrJKY/3nA
-	5w+Oqr5UxzLnYt5H2n9zMpI1ZRpupSxfY0mNRxFGOm8Hw1VSj/o+H44dULCkTXXWIC0ag3i2VlS
-	fCpSItP5p/a4TZVXh5LjF/qu/c2youV/XqzhGnVSsBvx2JeA9omWGjpNwJglJqZ6uu0RdmU=
-X-Received: by 2002:a05:6000:188a:b0:4a9:dcdb:2e23 with SMTP id ffacd0b85a97d-4abb4f59b64mr19748393f8f.56.1795422476913;
-        Mon, 23 Nov 2026 00:27:56 -0800 (PST)
-Received: from ?IPV6:2001:a61:131e:b901:6da9:459e:7c6c:e85e? ([2001:a61:131e:b901:6da9:459e:7c6c:e85e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab658e2e6dsm21089807f8f.6.2026.11.23.00.27.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 00:27:56 -0800 (PST)
-Message-ID: <68f6376d-a0cf-4f87-9cbb-0afb7b8536d4@suse.com>
-Date: Mon, 23 Nov 2026 09:27:55 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z/hgRgEi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B2851F000D0;
+	Mon, 23 Nov 2026 08:48:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795423711;
+	bh=nwKJl00tpwdLLtoEZ27UPU0xq2dCJMGiy6FAFfkNDtk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Z/hgRgEiZXH+GOjsznrUlAcd6Pq3ZE9bvNHbRTtnKCtfArV9H03FPjlty2mJMcajD
+	 lZ+Kh/YIrpgPzhxkovGb5ALDef929PqUA0FN9yYlFoQfsfx6MpH2vb3Hra94LSuKDv
+	 Oc7d0+Bnj+FAKnSpmr+qeMZdWy/kcR7iG0Amyecekdaz8Z9EaVwaZzUrT1BZprNH0N
+	 JsxCafbmVxsZHsoqGJgpF4SnBvEWVd8bg+GKEBXl8NkH0vXo+ty6xBn3Z8/m30TTnh
+	 vC1NTr9+Q7HLpP63seG2GKsN0DbomgBATQ6/MmmhVSOBDlyD+BaB9/pGvJhZOvQRLj
+	 5/x8iK+NXxdlQ==
+Date: Mon, 23 Nov 2026 10:48:26 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+	dmitry.torokhov@gmail.com
+Subject: Re: [PATCH v3 09/31] USB: Pin modules for unregistered interface
+ claims
+Message-ID: <20261123084826.GJ14811@unreal>
+References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-9-d655875c4bfb@nvidia.com>
+ <sashiko-outbox-223895@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -92,35 +60,85 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] usb: uas: expose US_FL_NO_ATA_1X in sysfs as
- ata_passthrough_disabled
-To: =?UTF-8?Q?Mateusz_Jo=C5=84czyk?= <mat.jonczyk@o2.pl>,
- Alan Stern <stern@rowland.harvard.edu>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
- linux-kernel@vger.kernel.org
-References: <20261121155253.4980-1-mat.jonczyk@o2.pl>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261121155253.4980-1-mat.jonczyk@o2.pl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <sashiko-outbox-223895@kernel.org>
 
-On 21.11.26 16:52, Mateusz Jończyk wrote:
-> The uas driver blocks access to ATA passthrough commands for some
-> devices it considers buggy. However, it does not expose any meaningful
-> information whether the command was disabled by the driver or is
-> genuinly not supported by the hardware. This creates a problem for the
-> smartmontools program and makes it difficult for it to provide a useful
-> error message.
-Hi,
+On Thu, Nov 19, 2026 at 07:29:27PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [Medium] usb: core: premature claim_owner release in
+>   usb_set_configuration()
+> --
+> 
+> commit afd725f56c3717b2e1f97538c7c8fdee117c4deb
+> Author: Leon Romanovsky <leon@kernel.org>
+> 
+> USB: Pin modules for unregistered interface claims
+> 
+> This commit pins the owning driver module in struct usb_interface.claim_owner
+> when an interface is claimed before registration, and releases that reference
+> upon interface registration or claim teardown.
+> 
+> > diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+> > index 0a6fdf2e88f4e..b7bd9226d2627 100644
+> > --- a/drivers/usb/core/driver.c
+> > +++ b/drivers/usb/core/driver.c
+> [ ... ]
+> > @@ -619,6 +634,7 @@ static void usb_unbind_claim(struct usb_interface *iface)
+> >  	usb_unbind_interface(dev);
+> >  	dev_set_drvdata(dev, NULL);
+> >  	dev->driver = NULL;
+> > +	usb_put_claim_owner(iface);
+> >  }
+> >  
+> >  /**
+> > @@ -653,6 +669,7 @@ void usb_driver_release_interface(struct usb_driver *driver,
+> >  	if (device_is_bound(dev)) {
+> >  		device_unlock(dev);
+> >  		device_release_driver(dev);
+> > +		usb_put_claim_owner(iface);
+> >  		return;
+> >  	}
+> >  
+> > diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+> > index e56079398d26e..306978caaf1ef 100644
+> > --- a/drivers/usb/core/message.c
+> > +++ b/drivers/usb/core/message.c
+> [ ... ]
+> > @@ -2269,6 +2270,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+> >  	 */
+> >  	for (i = 0; i < nintf; ++i) {
+> >  		struct usb_interface *intf = cp->interface[i];
+> > +		struct module *claim_owner;
+> >  
+> >  		if (intf->dev.of_node &&
+> >  		    !of_device_is_available(intf->dev.of_node)) {
+> > @@ -2282,12 +2284,16 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+> >  			dev_name(&intf->dev), configuration,
+> >  			intf->cur_altsetting->desc.bInterfaceNumber);
+> >  		device_enable_async_suspend(&intf->dev);
+> > +		device_lock(&intf->dev);
+> > +		claim_owner = xchg(&intf->claim_owner, NULL);
+> > +		device_unlock(&intf->dev);
+> >  		ret = device_add(&intf->dev);
+> >  		if (ret) {
+> >  			device_lock(&intf->dev);
+> >  			intf->unregistering = 1;
+> >  			device_unlock(&intf->dev);
+> >  		}
+> > +		module_put(claim_owner);
+> >  		if (ret != 0) {
+> >  			dev_err(&dev->dev, "device_add(%s) --> %d\n",
+> >  				dev_name(&intf->dev), ret);
+> 
+> [Severity: Medium]
+> Does clearing intf->claim_owner before device_add() and calling
+> module_put(claim_owner) unconditionally drop the module reference too early
+> when device_add() leaves a pre-claimed interface unbound in the driver core
+> (!device_is_bound(&intf->dev))?
 
-thank you for handling this. One thing though. This requires putting
-the emit code into every driver. Can we centralize that somehow?
+Yes, the complaint is valid. Triggering this race requires root
+privileges, but that's fine. Let's fix it.
 
-	Regards
-		Oliver
-
+Thanks
