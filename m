@@ -1,56 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.74.67.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795426464;
-	b=fbtvTMg1zQ0L71lZVZrpmTJESckc5MgAhJrTjmQoNekIXtQcETzO+fvcVDVFVsO/o8Zu
-	 dtFcj27TTW9GY87ittYrqUyNAM9MwOOatsh9W3NpJJgLykuYLxjPNXXWDP0fY+ifRtaYy
-	 AttcyadaCFrIk4Mk5K9wtyRUp1j6+HM+IPSloF/TP8tdvuf7xoabvteFLJKBEk9sx2xam
-	 b159oHpDrvwLmEQNCerVzNPErEtDyFH8PGJMNSRavGbmF6ygKT0mdbUQBwduDpjCE2EE9
-	 MmKwBORuMNgx/k25bni7zbADwvJqhQ26DXHmJPFMBSRZd2wsScyH31ksUEJGEAhZNYg==
+	t=1795427203;
+	b=Mb8vD3rWmFtCXK+MdiXzjReINs3JZeABV684f52Tl2E0KEm/3wbiMd7oYVfjpxlI/GDQ
+	 EOi16/XDSIT8roIQYM4NCM2gBMZ9hF/f2B+cUbr/txBGtfhwcp9D98fpwSuzG7cf3IDqh
+	 MVQt/vIpwNai4ph8F084kN8gyeduIovEM2Z+hyqdlu3n9C6meQr7tvBPsMnbt1j3F7ZJ0
+	 y9JUFXxC5+GTd1vqUQ0KOQl730H82LKadrVEA8CH3/UU6aTI52rodnAhU7itxr8RteLp4
+	 GCpQue7877TCKgZbG+OoyS4JrtJKlAHs/GZ8Wm1KjIcX1p+is1EgVreQiA4OqlpktBA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795426464;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 DKIM-Signature;
-	bh=+vFOok4IgPSqYfwUpKZWy+X3ov5Z0o3+lDofgggkBFE=;
-	b=mjXPp+tfCKwBssKYB/Ez4UmpH9sGqKU3OZjUBsss9uB1hhMX1PMeKxLeE8WdVLK6UuQR
-	 URRb0jhFiuONi8e1NeddWrrEI7qfZGqyad0lpuAL9Sb+xenVHyiIacQt7hT84S4hGGMS8
-	 Q0S4LCLdRw7/+GDW4VrHrPgqRmnBxuPkVH7YT1h0Zc/67niAEh2xVRrlCPKVH0oaAfw5p
-	 MDWAo1KwWxfCwt/uZ3GD1HayhfR4hj0RN/QnLVUZcwOiEAX335ke7Bu7vQQnjSD6BGmq7
-	 o974GccQptg5dOU8D9HgJ9pzRLdTZz+vsFOqqo4vg3jWMvChh4h6mh6D11rv3uQ+XEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795427203;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=Ow1Q+hWzDlODuPLusaf1++hR85dplAxGuhutVEfabRA=;
+	b=vkcJEv6dbGCu9/GaCjXRoFD8EFo7FlkQjIzNxCAEuwpJ1VsCrHBEGXfUdxDkezjck2kK
+	 cMnmUBw045GNmALNEkeJPqpKGpaBdx9IoqcAfRTbjz9eQ14bvEhk99Csi01OyCGrwq6Tn
+	 n9U8ahayftz9a8mY7inZSpqdjmWr0EFDrUyAyrW9fu0ZlH2ww/W3YZruntBgBwqhIVI8B
+	 QjBA9RxSZuq+PCwaXQDfLa09LABnxOQpRkaoYwnHVx4FQC9LwLhWCLje51xQcS63nZfhU
+	 /ako3zgKXh/RGaF51e/L7rlIYdQGtg/xh+dWivFWCUSwK857LBRoG8HNBRnOGHLISoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=poczta.fm;
-	spf=pass smtp.mailfrom=poczta.fm;
-	dkim=pass header.d=poczta.fm header.i=@poczta.fm header.a=rsa-sha256 header.s=dk header.b=i0B80Ihq;
-	arc=none smtp.remote-ip=217.74.67.49
-Received: from smtpo49.interia.pl (smtpo49.interia.pl [217.74.67.49])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=XU+u+Y1b;
+	arc=none smtp.remote-ip=209.85.210.179
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD4A606A31E
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 09:34:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DBD4A606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=poczta.fm
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=poczta.fm
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E2B606A321
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 09:46:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8E2B606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=poczta.fm header.i=@poczta.fm header.a=rsa-sha256 header.s=dk header.b=i0B80Ihq
-Received: from nr200 (unknown [80.68.231.31])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by poczta.interia.pl (INTERIA.PL) with ESMTPSA;
-	Mon, 23 Nov 2026 10:34:11 +0100 (CET)
-Date: Mon, 23 Nov 2026 10:34:08 +0100
-From: Slawomir Stepien <sst@poczta.fm>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: andrzej.p@samsung.com, jiashengjiangcool@gmail.com,
-	yun.zhou@windriver.com, zzzccc427@gmail.com, bigeasy@linutronix.de,
-	nab@linux-iscsi.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
-Subject: Re: [PATCH 1/3] usb: gadget: f_tcm: take the TPG in tcm_bind()
- instead of tcm_alloc()
-Message-ID: <awQIkANAqLndeXxy@nr200>
-References: <20261022134926.1125473-1-sst@poczta.fm>
- <2026112034-paralegal-democracy-b509@gregkh>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=XU+u+Y1b
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8c700d6cc0bso2118932b3a.1
+        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 01:46:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1795427202; x=1796032002; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ow1Q+hWzDlODuPLusaf1++hR85dplAxGuhutVEfabRA=;
+        b=XU+u+Y1bVIkzE+Jn/7sv8BBlxJGNLKyIXYrYC+l4oPb5VV5mYga5Gw5+2XnC8apCGu
+         J+E7f7u6opcU8EwEIQXrgM5XrfRdqHt7U9Gmr+PBhVW1/PIw76n8P7xecj52XtT9iq7P
+         iX5v8uSxtp57pinHR3X/LSUEWITf6hLAu6PhI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795427202; x=1796032002;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Ow1Q+hWzDlODuPLusaf1++hR85dplAxGuhutVEfabRA=;
+        b=1mBL6oUfgMgr0147vQMEqBK9EUuPVVOO5f4kdpfAaYYvOWvetR48MThOMto5eAjsuk
+         jCrwbaBXxifaVfa21G8K32MkSa7PkZFu/vgUx7c+GdKBQ6XUqma/PCScH2jz7gbybZMO
+         2xuh9KQ6RaKo5v/I6kfgOdWI8l9MfpZBOaGIkENGFXnvFotesiVv0gkzwb6Rp/aF3mM1
+         ha4pSsSvJhFzhg6QtxuI3MFaJvBG4uL3T7nP2BVpQ/7HTZVSEhcGgRmFLJOPG604T6fQ
+         SXVRH5Jg9w1KUE+2FEn+7hq46rrFhcA8lonrFZSkgKcJeAslkPNGuj2MKTUtIlEfQg7q
+         3GpA==
+X-Forwarded-Encrypted: i=1; AL+hErEX9pVF0vlKXMkorGdVO1Yia/+7OMdgEd8BhVMRdt3+pZDaJQljftfoSC1Aw0KCqoB4f1M/qwdtJ9M=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/chyNo9U65Fu2ltjL9a0LUopVgRiO2zT+zj3zq73wYAMUWG2Ta
+	fatmZXHNMBLijqvlDpBpWGujcilB7lVUshnrGNaOHdtpxzz6Y+lxMPkXlr4fw2AJgW/jaIB0xYj
+	dNjg=
+X-Gm-Gg: AZFdTZeAQYNeQhaq+4821YJkMTNMN4aSajrRaUgLzD6d6e/3EX5idPMchCokc/Wny2e
+	TQt/FmT3kC0magY7nCoFDw5eIGBludRxoEy1h0oTIoJmCbi/rR+T4rllI4MtMSqjCa1LrDPxG8i
+	aPQMDS1bR4HFnMBspp0uKbHYCsD9HlGMfaM+0QTyckMHrzkEo4Rvcw3zoLDew/WHeEZPzlxNgZf
+	FRvRqP9ALcg0uaTuaG3SuEDxqHzj7opPLNAoFPrOBmd5u8eMP24cfm1q+PkHYcLEE88xw+6+Wlr
+	aSEMMCsDLV+i7bvHPAYENTVfFGXG2lFiZlxwnfwoLSnrpLdrO7PZOSBvSFkW9MkgFzM2Ral7PhY
+	nanfvNoNs48eIvs7ho9QwqJL1a7QkkM0fXrn2ngMcOv6MMFUze+XElMj2fwrOdM8lbsQSBdxdyX
+	BGzsXputLSBwIa4Ndh1tBeBOuxdkHW0aWeF+hWdZiv/DmgNHSKYu8Vf11vfu+4AahgKThHbWUIO
+	sFqVfzcfpw5zn707g0Zgfd3LkNSB526G6DVt3I5S2Ry+F1t/BQfQLfac97gLSH2nL1F2QZduRfY
+	nH2zHzvKLR3JhZ0aLnUOe9DPYFHVaQj0DADMg+AnT7kyPs+Vao64+OEv9HlZ4rIx3r4o8g==
+X-Received: by 2002:a05:6a00:188c:b0:89e:9d69:c0bc with SMTP id d2e1a72fcca58-8c87d51d396mr7314307b3a.27.1795427202203;
+        Mon, 23 Nov 2026 01:46:42 -0800 (PST)
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com. [74.125.82.179])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c873c1cfa0sm5130356b3a.48.2026.11.23.01.46.41
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2026 01:46:42 -0800 (PST)
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-380c28f9e35so4166848eec.1
+        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 01:46:41 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErH7H+kGT+k8/fR02L6xdPJKWLPJZa6Q1Z88T/61csKPhhfuz4IeH4uvdIrw4i03HYdr9780peceaCE=@vger.kernel.org
+X-Received: by 2002:a05:701b:21cd:b0:1b3:be0d:696c with SMTP id
+ a92af1059eb24-1b5567e661emr11015754c88.1.1795427200278; Mon, 23 Nov 2026
+ 01:46:40 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,144 +93,64 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026112034-paralegal-democracy-b509@gregkh>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poczta.fm; s=dk;
-	t=1795426453; bh=+vFOok4IgPSqYfwUpKZWy+X3ov5Z0o3+lDofgggkBFE=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	b=i0B80IhqYlLVerD3BoESliCmPTtjrP+A8XgIIJCZ4EhrFF757pclvykKNgzulJciE
-	 HzBDETKaviRIXXB5/h6V4Bcb7fpjUioR5wl5BbwhzBXG5UL6ErP/N66GYF/7MMaOsH
-	 3yHR91XpkM09sIPrBHgNTpQXsfux1bhVX7y5B2I8=
+References: <20261122184500.7c9f2e1a@protonmail.com>
+In-Reply-To: <20261122184500.7c9f2e1a@protonmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 23 Nov 2026 10:46:26 +0100
+X-Gmail-Original-Message-ID: <CANiDSCuBmdKTdCuGp6qxQZC0tXbZ+iEimnkw42wjw9G3ukOK5w@mail.gmail.com>
+X-Gm-Features: Aa3M54oXNIs-f5o3vjrQJVELrHbbr79FTM5LygD5kvlkzrngvrhAxhUUIoxpkSQ
+Message-ID: <CANiDSCuBmdKTdCuGp6qxQZC0tXbZ+iEimnkw42wjw9G3ukOK5w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: uvcvideo: add device entry for Logitech C920 (046d:08e5)
+To: Bob Summerwill <bobsummerwill@protonmail.com>
+Cc: fernandezfernandezpol@gmail.com, laurent.pinchart@ideasonboard.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On lis 20, 2026 11:58, Greg KH wrote:
-> On Thu, Oct 22, 2026 at 03:49:24PM +0200, Slawomir Stepien wrote:
-> > tcm_alloc() runs when a TCM function is symlinked into a gadget
-> > configuration. It searches tpg_instances[] for the function instance
-> > and copies the TPG pointer into fu->tpg at that point, under
-> > tpg_instances_lock. This has two problems.
-> > 
-> > The function and the TPG can be set up in either order. If the
-> > function is linked into a configuration before the TPG directory is
-> > created, tpg_instances[i].tpg is still NULL and fu->tpg stays NULL.
-> > Creating and enabling the TPG afterwards sets can_attach, so
-> > tcm_bind() succeeds, and the first USB request that reaches the
-> > target code dereferences the NULL fu->tpg.
-> > 
-> > Removing a TPG also leaves can_attach set for configfs instances, so a
-> > later bind is not refused even though the TPG it would use is gone.
-> > 
-> > Store the TPG in struct f_tcm_opts instead: set it in usbg_make_tpg()
-> > and clear it in usbg_drop_tpg(), under opts->dep_lock. In tcm_bind(),
-> > refuse to bind unless both can_attach and opts->tpg are set, and copy
-> > opts->tpg into fu->tpg there. Also clear can_attach in usbg_drop_tpg()
-> > for configfs instances. The legacy g_target driver sets can_attach once
-> > at module load, and its attach callback does not set it again, so
-> > leave it alone in that case or g_target could never bind again after a
-> > TPG is recreated.
-> > 
-> > With fu->tpg no longer set in tcm_alloc(), the tpg_instances[] lookup
-> > there serves no purpose: f->fi already identifies the instance for the
-> > item's whole lifetime. Drop it, and with it the tpg_instances_lock
-> > acquisition. config_usb_cfg_link() calls tcm_alloc() with gi->lock
-> > held, so this also removes the gi->lock -> tpg_instances_lock edge
-> > from the following lockdep report:
-> > 
-> >   WARNING: possible circular locking dependency detected
-> >   task is trying to acquire lock:
-> >    (tpg_instances_lock){+.+.}-{4:4}, at: tcm_alloc
-> >   but task is already holding lock:
-> >    (&gi->lock){+.+.}-{4:4}, at: config_usb_cfg_link
-> > 
-> >   the existing dependency chain (in reverse order) is:
-> >   -> #2 (&gi->lock):
-> >          config_usb_cfg_link
-> >          configfs_symlink
-> >   -> #1 (&sb->s_type->i_mutex_key#24):
-> >          configfs_depend_item_unlocked
-> >          usbg_make_tpg
-> >          target_fabric_make_tpg
-> >          configfs_mkdir
-> >   -> #0 (tpg_instances_lock):
-> >          tcm_alloc
-> >          usb_get_function
-> >          config_usb_cfg_link
-> >          configfs_symlink
-> > 
-> > Fixes: 4bb8548df632 ("usb: gadget: f_tcm: add configfs support")
-> > Reported-by: syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=2799146a53c356f8017d
-> > Link: https://syzkaller.appspot.com/ai_job?id=51e1f189-6d91-4321-a6ba-07d4eb3cd8cd
-> > Assisted-by: Gemini:gemini-4-argon Gemini:gemini-3.8-flash syzbot
-> > Signed-off-by: Slawomir Stepien <sst@poczta.fm>
-> > ---
-> >  drivers/usb/gadget/function/f_tcm.c | 29 +++++++++++------------------
-> >  drivers/usb/gadget/function/u_tcm.h |  4 ++++
-> >  2 files changed, 15 insertions(+), 18 deletions(-)
-> > 
-> > diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-> > index 9e6d4f39900a..cc75d7e9792a 100644
-> > --- a/drivers/usb/gadget/function/f_tcm.c
-> > +++ b/drivers/usb/gadget/function/f_tcm.c
-> > @@ -1720,6 +1720,9 @@ static struct se_portal_group *usbg_make_tpg(struct se_wwn *wwn,
-> >  
-> >  	tpg_instances[i].tpg = tpg;
-> >  	tpg->fi = tpg_instances[i].func_inst;
-> > +	mutex_lock(&opts->dep_lock);
-> > +	opts->tpg = tpg;
-> > +	mutex_unlock(&opts->dep_lock);
-> 
-> Why is a lock needed to write one value?
+Hi Bob
 
-Yeah it is not needed. I will drop it in v2 - can_attach (tcm_bind()) and tpg_instances_lock
-(usbg_drop_tpg()) protect it.
-I guess AI added it since in all the other places it is used.
+On Mon, 23 Nov 2026 at 00:59, Bob Summerwill
+<bobsummerwill@protonmail.com> wrote:
+>
+> Hi,
+>
+> Field confirmation of this series' diagnosis from a stock, unpatched
+> kernel, in case it is useful when considering the patches.
+>
+> Device: Logitech HD Pro Webcam C920, 046d:08e5, bcdDevice 0.21,
+> directly connected on USB 2.0 (no hub).
+>
+> Kernel: 7.2.15 (Arch "linux-omarchy" build). The camera has no
+> device-table entry here, so it rides the generic UVC catch-all and
+> uvc_no_drop_param is at its default of 1 (deliver error frames).
+>
+> Behaviour matches the commit message exactly: intermittent gray
+> bands over the picture in applications using strict JPEG decoding.
+> Setting the module parameter nodrop=0 -- the global equivalent of
+> this series' UVC_QUIRK_DROP_STREAM_ERR -- makes the artifacts
+> disappear entirely. With it in place, 300-frame MJPEG captures at
+> both 1280x720 and 1920x1080 sustain ~27 fps, with per-frame mean
+> luminance stable to within 1/255 across the burst. The camera has
+> been in daily use since, artifact-free.
 
-> >  	mutex_unlock(&tpg_instances_lock);
-> >  	return &tpg->se_tpg;
-> >  
-> > @@ -1760,11 +1763,14 @@ static void usbg_drop_tpg(struct se_portal_group *se_tpg)
-> >  		opts = container_of(tpg_instances[i].func_inst,
-> >  			struct f_tcm_opts, func_inst);
-> >  		mutex_lock(&opts->dep_lock);
-> > -		if (opts->has_dep)
-> > +		opts->tpg = NULL;
-> > +		if (opts->has_dep) {
-> >  			module_put(opts->dependent);
-> 
-> The whole module_put() logic should probably just be removed, right?
+Can you share what app you are using?
 
-I'm not sure what you mean here. This series does not touch the legacy path.
-Are you suggesting that we do not have legacy users and this whole legacy stuff can go?
-
-> > -		else
-> > +		} else {
-> > +			opts->can_attach = false;
-> >  			configfs_undepend_item_unlocked(
-> >  				&opts->func_inst.group.cg_item);
-> > +		}
-> >  		mutex_unlock(&opts->dep_lock);
-> >  	}
-> >  	mutex_unlock(&tpg_instances_lock);
-> > @@ -2300,10 +2306,11 @@ static int tcm_bind(struct usb_configuration *c, struct usb_function *f)
-> >  	opts = container_of(f->fi, struct f_tcm_opts, func_inst);
-> >  
-> >  	mutex_lock(&opts->dep_lock);
-> > -	if (!opts->can_attach) {
-> > +	if (!opts->can_attach || !opts->tpg) {
-> >  		mutex_unlock(&opts->dep_lock);
-> >  		return -ENODEV;
-> >  	}
-> > +	fu->tpg = opts->tpg;
-> >  	mutex_unlock(&opts->dep_lock);
-> 
-> But opts->tpg could be changed now, but you saved it off?  No reference
-> counting at all?  That feels very wrong.
-
-You are right. I will change the order, so the patch 2 will be before this one and then the tpg
-won't change while the function is bound.
+It likely needs to be fixed to check for V4L2_BUF_FLAG_ERROR and skip
+those error frames.
 
 Thanks!
 
+>
+> To be explicit: this is confirmation of the failure mode and of the
+> workaround on the affected hardware, not a Tested-by for the series
+> itself -- I have not built these patches. I am happy to do a real
+> out-of-tree build against 7.2.15 and follow up with a proper
+> Tested-by if that would help the series along.
+>
+> Bob Summerwill
+>
+>
+
+
 -- 
-Slawomir Stepien
+Ricardo Ribalda
