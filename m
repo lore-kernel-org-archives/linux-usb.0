@@ -1,93 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795412358;
-	b=31qudSMWYmBB5gsgAAF97OehYudlB7+au+JCCnBZAkPrz+kikq7wUdq2LnEbnTCwLqwF
-	 ah2OcEdmJonVcpeetA8X6rIo/RFtmWiT0AmKtnJrJ/SbUOY0h2FS2zXoasDSryCabSQUG
-	 1zU8d52rfcetIYq8FL15lDh8n3WpkrCzX5wAmD140SZLpnovl6AySqBWMZrHHcdkZKgPN
-	 JvGPfaFT9ggXq+TNI90ZPZtvPqFjofCM7EYdOA5cTPUyRcPHIBU2B/zf8+RW1hgE/cetG
-	 B76V4ge/0Tov42zuMa9Qt570mGh4Mw/8SuUhP6Wl2mk21Lh0HtnrViZgXncrc7YRi3A==
+	t=1795412446;
+	b=SI5XZ1KklAOg/VBN0o0+ynPu/MJXLHOVq8NBxkVcnmobJlW6xpudWttIi2InKBi0ZgxX
+	 kFKxBw367Df3bx9aQ8aaNYD+rKNPzhhw6MQmx/jTjnHbihKnBbmEV5Wp+Rbb/J8KzcXDt
+	 0gdyTjlO5p6SHsFedeD6eiE7PXUoFIvrcjXMHSvWZZb5nssGcIGmB21260+Kt80mO5LrO
+	 6wvEaeHLO35MUWQIOoiSss19s7cYGUtovhR7AM7Oycih2iEAgMV2tN10qOxn24yVm+49+
+	 BSwAT9KTSAqSHJeOw2xqC6OWj8lDZon8w1C4Tn3vXv/PnPLzJ2VSDIYHQAsNIFHJg2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795412358;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=BxLsp/7fm7vmE3YeyIg1YDl2+7NAVmPu9zSe0GsblOY=;
-	b=b7dNQvcaRT+EdWe8kMxcpuMOTX50+uBV/19bg9gva4Y1HM90u2tJxS2mkw9LYb6IpT6p
-	 i1XSFKRgB9soBLjkraZ9yx7EkjP3GDPLlURdKP+477bGCWW4P5L9nZijAxVPir6aIQzOG
-	 bqYAfgE7cdl7+YxXzWHdHHDJmwXHWiaVvYPyNIBdNEkVcVxFM0C5VaOcXH4fshy9qrFrK
-	 Hjj13RXFOigqwape+KKsh3DpOLvzD/XpDMp+m6xwN+UcjOLqGbPcvqgEqC6pNqlWrvzcm
-	 QiJlL8R2lfdoxFk0RwXN8GcTeoQcBt7SaTXu3bA5Y7EcLvBmrXipc4XZueSlviHTEXw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795412446;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=bbQirXyt3WS+dsPItm3jzvka/MibXeXHe6QHDVoInDo=;
+	b=EtmaK+5YFyoMWjefL+3rqiFM3K21TMIa0rbXzb0Kpct3wOKA3I2ZasQjjuqTkLeASmf3
+	 Ps5jRuWxv6hMHyKt7o5J7wfLBPilPL1XKDd/so9+P5AVvQky6IfL0nD41Aj/Ejbe4DYw5
+	 t388HI+yJNRm6XzZpHmc0I5DDOmDCh1GcwxhdIIdyWBx+cHr6HczuAOuOJgsFwgfLFQ22
+	 6dTcI5RAH0je5LgGAQh3YLeBNwroATD/d0oTt/lwcc+0vTAzeP2Cqc5deBRMqHhRfns9y
+	 lfSm52IhOp6Zd0dYK7Jy4okpod6C61E09fCJAVqqaziOrYUPSOZxxleU5k3X/9XiHYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gbQI1Zl0;
-	arc=none smtp.remote-ip=74.125.82.174
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D5k4zY9E;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A71606A31E
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 05:39:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04A71606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25D1606A31A;
+	Mon, 23 Nov 2026 05:40:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A25D1606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gbQI1Zl0
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-380b40312e2so7024746eec.1
-        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 21:39:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795412357; x=1796017157; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BxLsp/7fm7vmE3YeyIg1YDl2+7NAVmPu9zSe0GsblOY=;
-        b=gbQI1Zl0FifLwxaooOLPhwIjqB8LPOC0Jddug8zX8RiPxZ5ePa0rj6oM+cqp6Sx0dj
-         p9ditWCx484cXa3BSOKvlYyHLnntVHcjM74B1rjl39drnqm/Qr4T51GvVasw32BM3bN7
-         3Qy06ctUfezuD0XBu1BrTNRYlC7g6jGKtGqlysn4Wf8cp/m65zyJ+Ia5d5dCKhNgBVsu
-         Px9/dQzhBO7PRM4+hz/R4Nwqm8ff7HcY8GlRg3x1x5Z9Ghh8aefuWM4l3sYtLs+1R+Os
-         aKAOP9/b9ApVZrts+jR1SigdqTLbhmNxOn5Rl/+Q3YDi4agxIjKxkwycjAtTOOGMlowl
-         qClg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795412357; x=1796017157;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BxLsp/7fm7vmE3YeyIg1YDl2+7NAVmPu9zSe0GsblOY=;
-        b=st8kUFKCmLlPCxXwO8PfAyOzgC74mxHD1Cv+2EKyo5xP9MLH863SStTukUKHAraFh8
-         im9lWZOwf5oRa8BPZbrKZtxOKyE3VkWSmBlm/xTTzSuZm8Jrpmg61cvEze46Wtr5uucg
-         gJEio5psC+1oRBx4ENsu7aimYmyiRFbrHJ8jNqDvL1tJ/otb9Cn+dMgqs9+Tsk6XmZQR
-         rx9xaY689hNI8WBMuLVo/qaGZs+7eQlsjZ3a2VriTe7AVvnTESy4qFi3EGcFSY4Elq69
-         SghV2j25NoKnh6/Wqv8k3Jc/aadWVrRsPk5A543l5deWbq85lJgZatAfo99yXTQHWr0/
-         MmVg==
-X-Forwarded-Encrypted: i=1; AL+hErHgpVVMMwJIRLsoM6GkruFyQ1q57Gn/1i6dN38rVUiiJ82yPV5cmWFMIocXE60nxSFrRNZ8SCIleTI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8k2dQVvgrAq51LPZllcLjc92qfYJTVaAtptr+8f9BNKrAXZ2IE
-	XNH48E+q5c4lXu9MHec4bQpEUvml/nnVX3kq+50hxPV87pOGW5clavE=
-X-Gm-Gg: AZFdTZeC7N51Zv6g/YgGAk2xIbQRljEjczuPuUflpRPB0Emp8jqJHdLZn8aS9/vwNr+
-	qMD8BJqB941TL7q9YviWNP09YbEL8g6mdF/lcP1dErgkWde6FdQc29Nvv5w4YEsigxP/LHvdMKl
-	85BWB+2dmN550o7yRMfYwmK+J+RLkptg4ZUf7RGw8qJY4NfGLuVcKyVdGaBo8NohduXFdzmzlxP
-	Ht+MCGendP0wook3uwunKhW0RDyk7958cWs0/F+mEXvnPpQX1RVzmHQbmo7Ei1R4CyOgrGSRC4V
-	7yROECEDVnYnmR2XN9T5gP5fpm8tYSD3F5VzEv+5TxhD7rvCRVGkY8K/cKaKPMAG5L39jQhE/cR
-	TRcwyGdBw2fwwwKh0SJmUfO3wJ8Q10sVveduYhW26Qhf5BgbHgTp71u18l4zN6uqZ4ODJ65vdKg
-	hQYJRgDLlUHyar1aKTIHLPYli4G6Pm+/6yRrH4X4kUBoKgjq8NaoefFgmHUPQWV9grJA6BD0t8j
-	fD4mSYDx8/PeQokDOrzK5Isw47v+p9YuMxbmRDh4Vt6aUDwSNbcUlnLPVCaw0OFXgsrdzXfoG5r
-	YHmcv7891dOgIcJdd8tcAOl1OxD3ntlgyCzgT/NoZXn1BMYwkH28PnGXw2KYQMqh6VaDg0pWDGz
-	M4whSinTy3xvycf3cY7W+O99RVgukiw==
-X-Received: by 2002:a05:7300:de05:b0:385:a2b5:94d2 with SMTP id 5a478bee46e88-385a2b596e3mr9867119eec.25.1795412356996;
-        Sun, 22 Nov 2026 21:39:16 -0800 (PST)
-Received: from at-Standard-PC-Q35-ICH9-2009.tailbdca44.ts.net ([27.60.27.67])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e7fc3sm28519017eec.8.2026.11.22.21.39.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 21:39:16 -0800 (PST)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: 
-Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] usb: acpi: Get correct location data for Apple macs
-Date: Mon, 23 Nov 2026 00:39:09 -0500
-Message-ID: <20261123053911.9856-1-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D5k4zY9E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795412446; x=1826948446;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=zquiTe0ILvzaj8QJ4CF4afQTdL6kzqlqawTDAHqTfGY=;
+  b=D5k4zY9E9fJU4CKgJOBf4SjGqo+NMf5aGP3TpfvJk3a5bx79pYsx+OfR
+   7XzWdJzFpLz+knLEZ+lIShdOVAr9uOLYAs/+YK3fPoB3TpfmwgWKpdVmp
+   8W7RjgMRVs8lggikOWjE5IReg/Ki3nHoPhjfJETdFsP3LxvZoHaBePlq7
+   iBDn9ydxugdlCcliOd9jFN1CkgVaSkRyNs3zdabkxMMr8WTmUWfgKcC/i
+   VGDLaoDK/U2zLUsV5JcJUOnxmZ/NuUFoP6NfsXpp/KEuyXK+yUJB9ZwVB
+   42t6Q514WwgKH9KbQNo9N5UCRd9xVUNLB92EI1GiEWAL6xd4mAOys4VIF
+   A==;
+X-CSE-ConnectionGUID: ofAP4u+OTD+Bv1qQHnudyg==
+X-CSE-MsgGUID: QdPpL4dLTNiqY+Vg12diCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11974"; a="4241130"
+X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
+   d="scan'208";a="4241130"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 21:40:45 -0800
+X-CSE-ConnectionGUID: bezcTEWfTEqTT0NdsBe5fA==
+X-CSE-MsgGUID: S6Q1T+7HSLmmeJfyGPZuow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
+   d="scan'208";a="13022637"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa011.fm.intel.com with ESMTP; 22 Nov 2026 21:40:43 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 0F74099; Mon, 23 Nov 2026 06:40:42 +0100 (CET)
+Date: Mon, 23 Nov 2026 06:40:42 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Alfonso Villalobos <alfonsocvu@gmail.com>
+Cc: sashiko-reviews@lists.linux.dev, westeri@kernel.org,
+	linux-usb@vger.kernel.org, andreas.noever@gmail.com,
+	YehezkelShB@gmail.com, stable@vger.kernel.org
+Subject: Re: [PATCH] thunderbolt: Re-add host router DP IN adapters after
+ DPRX failure
+Message-ID: <20261123054042.GL229695@black.igk.intel.com>
+References: <20261121070804.26185-1-alfonsocvu@gmail.com>
+ <sashiko-outbox-226770@kernel.org>
+ <CAJ=mrFowQNahOjD-NQzcuJCjPE=efvDK85kMpseRUrqYBwX3Sw@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -97,138 +84,187 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ=mrFowQNahOjD-NQzcuJCjPE=efvDK85kMpseRUrqYBwX3Sw@mail.gmail.com>
 
-In All macs, the _PLD values in ACPI is just garbage values
-and provide no real data, and that may cause errors like:
+Hi,
 
-usb: port power management may be unreliable
+On Sat, Nov 21, 2026 at 09:07:04AM -0600, Alfonso Villalobos wrote:
+> Hi Mika, hope you're having a great day.
+> 
+> I'd like to check the direction with you before doing v2. After the
+> Sashiko review and looking closer at how host router DP IN adapters
+> are handled, I'm not sure v1 fixes this in the right place.
+> 
+> The DPRX failure happens when the RX 9070 XT feeding 0:10 is in BACO.
+> With runtime PM disabled for the GPU it always works. After the
+> failure the host router never sends a hotplug for 0:10, so it stays
+> unused until something triggers the re-check from v1, here me
+> replugging the dock at 00:27:26:
+> 
+>   [00:26:36] 0:10 <-> 1:11 (DP): activating
+>   [00:26:36] 0:11 <-> 1:12 (DP): activating
+>   [00:26:48] 0:10 <-> 1:11 (DP): not active, tearing down
+>   [00:26:48] 0:10: DP IN resource unavailable: DPRX negotiation failed
+>   [00:27:26] 0:10: DP IN resource available
+>   [00:27:26] 0:11 <-> 1:11 (DP): activating
+>   [00:27:26] 0:10 <-> 1:12 (DP): activating
 
-On Internal controllers, with multiple USB2.0 and USB3.0.
+Does the RX 9070 driver poll for a new connections periodically like the
+i915/xe or it supports PME? The current DPRX timeout is pretty much
+following the i915 that has 10s polling period so simple way of working
+this around is to set thunderbolt.dprx_timeout= to match that.
 
-To fix this we use Apple's own location methods called SSD
-for USB2.0, and they use _ADR for USB3.0.
+> The DP OUTs also end up swapped, so the ordering part of v1 doesn't
+> work as intended either.
 
-With this patch we get proper location and peering:
+At the moment tunnels are created pretty much in the order the hotplugs
+arrive.
 
-[    0.280281] usb usb2-port2: peered to usb1-port10
-[    0.280298] usb usb2-port3: peered to usb1-port3
-[    0.280311] usb usb2-port4: peered to usb1-port14
-[    0.280325] usb usb2-port5: peered to usb1-port8
-[    0.280354] usb usb2-port9: peered to usb1-port9
+> The comment in tb_dp_tunnel_active() and the redrive code both seem
+> to expect a hotplug for host DP IN adapters. Is the ASM4242 supposed
+> to send one once the GPU starts driving the DP IN? If this is
+> ASM4242 specific I can limit the fix to it with a quirk.
 
-NOTE: All USB controller has bad _PLD values but SSD is only available
-      on internal USB controller, and even only new intel macs has SSD
-      method, so we check for SSD and XHC1 before using apple's methods.
+The hotplugs should happen when the host router is enumerated so for
+example in your case it should work so that if graphics did not do DRPX
+capability exchange in time, the DP tunnel is torn down and if conditions
+are right the domain is put to sleep. When you wake it up there should be
+new hotplugs to DP INs so the resource is added back to the list.
 
-Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
----
- drivers/usb/core/usb-acpi.c | 71 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
+> v1 also only recovers on a new event. The alternative I had in mind
+> is retrying the DP IN a few times with a delay after DPRX fails, so
+> it recovers without a replug. Which is better?
 
-diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
-index 489dbdc96..b5c61a2ea 100644
---- a/drivers/usb/core/usb-acpi.c
-+++ b/drivers/usb/core/usb-acpi.c
-@@ -12,6 +12,7 @@
- #include <linux/acpi.h>
- #include <linux/pci.h>
- #include <linux/usb/hcd.h>
-+#include <linux/platform_data/x86/apple.h>
- 
- #include "hub.h"
- 
-@@ -199,6 +200,66 @@ static int usb_acpi_add_usb4_devlink(struct usb_device *udev)
-  */
- #define USB_ACPI_LOCATION_VALID (1 << 31)
- 
-+/*
-+ * Set at registration time on x86 Apple Macs whose internal XHC1 controller
-+ * has ports exposing an SSP object. Apple reports the port location through
-+ * SSP (USB 2.0) and _ADR (USB 3.x) instead of _PLD.
-+ */
-+static bool is_apple_location;
-+
-+static acpi_status
-+usb_acpi_apple_ssp_cb(acpi_handle handle, u32 level, void *ctx, void **ret)
-+{
-+	if (!acpi_has_method(handle, "SSP"))
-+		return AE_OK;
-+
-+	*(bool *)ctx = true;
-+	return AE_CTRL_TERMINATE;
-+}
-+
-+static void usb_acpi_apple_detect_ssp(acpi_handle xhc1)
-+{
-+	bool found = false;
-+
-+	acpi_walk_namespace(ACPI_TYPE_DEVICE, xhc1, ACPI_UINT32_MAX,
-+			    usb_acpi_apple_ssp_cb, NULL, &found, NULL);
-+	is_apple_location = found;
-+}
-+
-+static void
-+usb_acpi_apple_get_location(struct usb_port *port_dev, struct acpi_device *adev)
-+{
-+	struct usb_device *hdev = to_usb_device(port_dev->dev.parent->parent);
-+	struct acpi_device *hc = ACPI_COMPANION(hdev->bus->sysdev);
-+	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-+	union acpi_object *ssp;
-+	acpi_status status;
-+
-+	/* Only applies to the CPU's internal XHCI controller. */
-+	if (!hc || strncmp(acpi_device_bid(hc), "XHC1", ACPI_NAMESEG_SIZE))
-+		return;
-+
-+	/* USB 3.x ports use _ADR as the location. */
-+	if (hdev->speed >= USB_SPEED_SUPER) {
-+		port_dev->location = USB_ACPI_LOCATION_VALID |
-+				     adev->pnp.bus_address;
-+		return;
-+	}
-+
-+	/* USB 2.0 ports: SSP = { "XHCn", <companion SuperSpeed port> } */
-+	status = acpi_evaluate_object_typed(adev->handle, "SSP", NULL, &buffer,
-+					    ACPI_TYPE_PACKAGE);
-+	if (ACPI_FAILURE(status))
-+		return;
-+
-+	ssp = buffer.pointer;
-+	if (ssp->package.count >= 2 &&
-+	    ssp->package.elements[1].type == ACPI_TYPE_INTEGER)
-+		port_dev->location = USB_ACPI_LOCATION_VALID |
-+				     ssp->package.elements[1].integer.value;
-+	kfree(buffer.pointer);
-+}
-+
- static void
- usb_acpi_get_connect_type(struct usb_port *port_dev, acpi_handle *handle)
- {
-@@ -289,6 +350,10 @@ usb_acpi_find_companion_for_port(struct usb_port *port_dev)
- 
- 	usb_acpi_get_connect_type(port_dev, adev->handle);
- 
-+	/* Apple's location overrides the _PLD derived one */
-+	if (is_apple_location)
-+		usb_acpi_apple_get_location(port_dev, adev);
-+
- 	return adev;
- }
- 
-@@ -377,6 +442,12 @@ static struct acpi_bus_type usb_acpi_bus = {
- 
- int usb_acpi_register(void)
- {
-+	acpi_handle xhc1;
-+
-+	if (x86_apple_machine &&
-+	    ACPI_SUCCESS(acpi_get_handle(NULL, "\\_SB.PCI0.XHC1", &xhc1)))
-+		usb_acpi_apple_detect_ssp(xhc1);
-+
- 	return register_acpi_bus_type(&usb_acpi_bus);
- }
- 
--- 
-2.55.0
+Can you first check if drpx_timeout= helps in your case? If it does, for
+simplicity one option is that we just make the default match the "biggest"
+and some slack.
 
+> I already have fixes for the Sashiko comments (the missing
+> tb_exit_redrive() and the ordering in tb_dp_resource_available()) and
+> one to skip DP IN adapters that are already in a tunnel, but I'd like
+> your opinion before spending more time on it.
+> 
+> Thanks,
+> Alfonso
+> 
+> On Sat, Nov 21, 2026 at 1:25 AM <sashiko-bot@kernel.org> wrote:
+> >
+> > Thank you for your contribution! Sashiko AI review found 2 potential
+> > issues to consider:
+> > - [Medium] thunderbolt: missing tb_exit_redrive() in
+> >   tb_add_dp_resources() leaks RPM ref
+> > - [Medium] thunderbolt: list_add_tail() in tb_dp_resource_available()
+> >   breaks DP IN order
+> > --
+> >
+> > commit 4eedd8886dc180b45204d935f18725051dd0e6a0
+> > Author: Alfonso Villalobos Ulate <alfonsocvu@gmail.com>
+> >
+> > thunderbolt: Re-add host router DP IN adapters after DPRX failure
+> >
+> > This commit re-checks host router DP IN adapters when a new DP OUT adapter
+> > becomes available or a device router is scanned, keeping host DP IN
+> > adapters ordered by adapter number on tcm->dp_resources.
+> >
+> > > diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+> > > index 418ad0a61a5de..1f3dea836067e 100644
+> > > --- a/drivers/thunderbolt/tb.c
+> > > +++ b/drivers/thunderbolt/tb.c
+> > > @@ -109,6 +109,29 @@ static void tb_queue_hotplug(struct tb *tb, u64 route, u8 port, bool unplug)
+> > >
+> > >  /* enumeration & hot plug handling */
+> > >
+> > > +/*
+> > > + * Insert a host router DP IN adapter so that host DP IN adapters stay
+> > > + * in adapter number order. A DP IN that is re-added after it was
+> > > + * dropped (for example because DPRX negotiation failed) then gets
+> > > + * paired with the same DP OUT as before, instead of swapping DP OUT
+> > > + * adapters (and therefore monitors) with the other host DP IN.
+> > > + */
+> > > +static void tb_add_host_dp_in(struct tb_cm *tcm, struct tb_port *port)
+> > > +{
+> > > +     struct tb_port *p;
+> > > +
+> > > +     list_for_each_entry(p, &tcm->dp_resources, list) {
+> > > +             if (tb_port_is_dpin(p) && !tb_route(p->sw) &&
+> > > +                 p->port > port->port) {
+> > > +                     /* Insert before the first higher numbered one */
+> > > +                     list_add_tail(&port->list, &p->list);
+> > > +                     return;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     list_add_tail(&port->list, &tcm->dp_resources);
+> > > +}
+> > > +
+> > >  static void tb_add_dp_resources(struct tb_switch *sw)
+> > >  {
+> > >       struct tb_cm *tcm = tb_priv(sw->tb);
+> > > @@ -118,6 +141,9 @@ static void tb_add_dp_resources(struct tb_switch *sw)
+> > >               if (!tb_port_is_dpin(port))
+> > >                       continue;
+> > >
+> > > +             if (!list_empty(&port->list))
+> > > +                     continue;
+> > > +
+> > >               if (!tb_switch_query_dp_resource(sw, port))
+> > >                       continue;
+> > >
+> > > @@ -130,7 +156,7 @@ static void tb_add_dp_resources(struct tb_switch *sw)
+> > >               if (tb_route(sw))
+> > >                       list_add(&port->list, &tcm->dp_resources);
+> > >               else
+> > > -                     list_add_tail(&port->list, &tcm->dp_resources);
+> > > +                     tb_add_host_dp_in(tcm, port);
+> > >
+> > >               tb_port_dbg(port, "DP IN resource available\n");
+> > >       }
+> >
+> > [Severity: Medium]
+> > Does re-adding a host router DP IN port through tb_add_dp_resources() leak
+> > the runtime PM reference on sw->dev when the port was in redrive mode?
+> >
+> > On host routers with QUIRK_KEEP_POWER_IN_DP_REDRIVE, tb_enter_redrive()
+> > sets port->redrive and calls pm_runtime_get(&sw->dev).  When
+> > tb_add_dp_resources(tb->root_switch) now runs at runtime from
+> > tb_scan_port() or tb_dp_resource_available(), it adds the host DP IN port
+> > to tcm->dp_resources without calling tb_exit_redrive(port).  Any later
+> > tb_dp_resource_available() call for that DP IN port then returns early
+> > because the port is already on tcm->dp_resources (or already enabled by
+> > tb_tunnel_dp()), leaving port->redrive set and preventing the host router
+> > from suspending.
+> >
+> > [ ... ]
+> >
+> > > @@ -2234,6 +2272,14 @@ static void tb_dp_resource_available(struct tb *tb, struct tb_port *port)
+> > >       list_add_tail(&port->list, &tcm->dp_resources);
+> > >       tb_exit_redrive(port);
+> > >
+> > > +     /*
+> > > +      * Host router DP IN adapters removed because DPRX negotiation
+> > > +      * failed never get a hotplug event of their own. Give them
+> > > +      * another chance now that a DP OUT became available.
+> > > +      */
+> > > +     if (tb_port_is_dpout(port))
+> > > +             tb_add_dp_resources(tb->root_switch);
+> > > +
+> > >       /* Look for suitable DP IN <-> DP OUT pairs now */
+> > >       tb_tunnel_dp(tb);
+> > >  }
+> >
+> > [Severity: Medium]
+> > Should tb_dp_resource_available() also use tb_add_host_dp_in() when adding
+> > a host router DP IN port?
+> >
+> > When a lower-numbered host DP IN port becomes available via hotplug in
+> > tb_dp_resource_available() (such as when exiting redrive mode or after
+> > resume) while a higher-numbered host DP IN port is already on
+> > tcm->dp_resources, list_add_tail() places the lower-numbered port after
+> > the higher-numbered one, breaking the adapter ordering that
+> > tb_add_host_dp_in() maintains.
+> >
+> > --
+> > Sashiko AI review · https://sashiko.dev/#/patchset/20261121070804.26185-1-alfonsocvu@gmail.com?part=1
