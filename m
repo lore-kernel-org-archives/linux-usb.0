@@ -1,55 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.222.135.158
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795430952;
-	b=AdLXozmEA0haqnzaaIcmuRu2gnc4TJVKD98wtlRbo73IS/cEDV/M6+Jus7d4ztvFqvae
-	 HRYS6wkCIzKFg4ctXgLA8fKgHxymf4wjW+eKsqm3vTyYOlkKxQ/jVuMrZfKDvFBIihqKD
-	 MwbtB02/zBjwlr4lgiz04RvfunxfUhXbP8Iy8v03RoNy5Uyt/zBveLlnFnlPqLsPU/Dh6
-	 vFTw9Ww4IdOIFIuPVGynzm2Iy65ACXKsfmEfriMWGMUxpqy9HeOT93yZJZ8/7Z0HhzXSU
-	 KsNA9XVtXotHJPfPyDNgiI+2FW4XES+bufbblpAHvlXJf9i78lQgxRdzJ44ruEB7MRg==
+	t=1795431067;
+	b=h/eawjYixoxOnRkiImbvkv3TaT2+PRYs1evvitHPf07ndapMrmh40vVlLZrCEHSlJCcA
+	 C/RzboDalS6Po6rMyqmgfjBF7JPsH42gmPTss6+IriZKhB3GWdrgysZxtrlexG/9QqmG9
+	 pPWPHCC6l0l18cjAk59NSVjrgT+Pq2+suBPKrjknQFXoVR65MS/lZ6ILzAvSz76zeoG1b
+	 PMVWj1pQmid1fjjquaZ/ZmEa6/Wz3D9RlhsveS3PQRjaFRjMfH/KZer30HcUc1Ddp0AeE
+	 +tJHhZlp+lB5eIw2WdrlVOuBmMQywvFW+aKULugmC68zfjpWKl0L95XczvZpGSd8oVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795430952;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:Autocrypt:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-WP-MailID:X-WP-AV:X-WP-SPAM;
-	bh=NnKMOUjGKjB1jl9vC0qG424C5mfSoixb+3c+EDk86V0=;
-	b=db7/3xdIEKqUosWskI7jdGkDXMVyw2+ughM6Ux4gjQvQyoGymFQk+F0kxDpxmf1qINiP
-	 3rw8qmPOsofok0eahfFYXhUTS/6aUYUjN97iAHe4magndvX75aPNKCak+GNFmPY+7gsP5
-	 +DBeXO5ve779Io2De4rFQH40YLi4SNd6fj55wMvPO9hUVd2BFcvf2bEda9YpETetZFGfz
-	 b+NgyPFV08LcgMYjNLLbsiWA79hb+eJJ8Gesccp0MsdGJyw54kgqQ9orf7Y9upy+HTDYW
-	 6M5q3vgoz7ihJvM2V6m3k0w8hF9+M6PdORKTDvYfS59aq4eicH8jVRV/azZ732DKyXw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795431067;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=mII62Pfvt81pIIR4A+qPYL0YgMRJBea/Tq81X7xNMSA=;
+	b=lY+GCQZwHxjsGmjTfixoOKUW45wMpg7n6TiSgtXapa+ieCW3V4bZovKCt0u+jlm3Qt0N
+	 kFvk4XlU7PTkobm81luLq7UZY5KIKMv3z6J9XcRxSU5odnTxPhok7u0dwFyW16kIGjLJU
+	 7fyraJ7UsA992UmenQ7G+xVLKYO6AIxkSPa4HK4nngSAVAXwOYGKRnbUL7GLFt0R2IREi
+	 1p4bXCsuokjxZgwLndc3qNl7g7YBJmWqc7xCSYi1JkIgfyyo8twttLFLNZD1kW2/myzd0
+	 7RjKwt5Wnr++i3W5PTQdEbbHWU78YtkxY3V9iYgCBwZ4XD0SwT7kz80LuGsPhLmK9Gg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=o2.pl;
-	spf=pass smtp.mailfrom=o2.pl;
-	dkim=pass header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=Cs7+Cd78;
-	arc=none smtp.remote-ip=193.222.135.158
-Received: from mx-out.tlen.pl (mx-out.tlen.pl [193.222.135.158])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EZPlm46K;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41015606A32C
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 10:49:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41015606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=o2.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=o2.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A048606A31A;
+	Mon, 23 Nov 2026 10:51:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=Cs7+Cd78
-Received: (wp-smtpd smtp.tlen.pl 45574 invoked from network); 23 Nov 2026 11:48:53 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=o2.pl; s=s20261001;
-          t=1795430933; bh=NnKMOUjGKjB1jl9vC0qG424C5mfSoixb+3c+EDk86V0=;
-          h=Subject:To:Cc:From;
-          b=Cs7+Cd78QlEMaDrTAW2rU2ayA/oBmrCBH+PDzyJ0QjOfXYd0H6scLM+eGeD0nCySD
-           Qz+iYpSrxaQbuR/fkLbLMsBAPkN2B1UKYsjthyjAfYdrrgFGYiqwWWvx0DX8q+gQcC
-           fjj5Q3VTaD+UVRDhHW6zPYTTqPCq6Rqdsjzknbx9zfCmyRi3xD4z8Xa/r+MvPwtZn9
-           jI8Pu3fjk8jUroRdjcfCcXzaUfm9ulLHi/XURdWHQ8A51fIFUZA4+dtXmMFBKz8VFf
-           5xWkhAj8KdCHbwIlU7Hlomoq9DdLPx49uuT0aLybmMKa3iitBAPMbR9BZLdlGqWdaF
-           EfjirfeFHLESg==
-Received: from [192.168.1.22] (apn-78-30-78-152.dynamic.gprs.plus.pl [78.30.78.152])
-          (envelope-sender <mat.jonczyk@o2.pl>)
-          by smtp.tlen.pl (WP-SMTPD) with TLS_AES_256_GCM_SHA384 encrypted SMTP
-          for <oneukum@suse.com>; 23 Nov 2026 11:48:53 +0100
-Message-ID: <52a233cb-1671-431c-8c14-7757ca947aa5@o2.pl>
-Date: Mon, 23 Nov 2026 11:48:49 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EZPlm46K
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BFC91F000CF;
+	Mon, 23 Nov 2026 10:51:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795431067;
+	bh=mII62Pfvt81pIIR4A+qPYL0YgMRJBea/Tq81X7xNMSA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=EZPlm46KiJcClNwLU+Kkp+SE9mGB5FgaUs1O1arTKo23uRCGOtskKuBLjl6+/Oxfn
+	 PoYyn+4t58ghuhcCRMEyQB6qoTkuzkfdGzmrQa858LDFwUMJCR/+4n818l2KRoq63v
+	 P1oDmzSLgs4j2OLuVVahHJGU/HUQ9HTInkIA4iiEdmpN6BaPEmHCAUgsGN5eTjBnD4
+	 9bVzTroXEgvYPrj4N8bo3CFs2EV8A6+/59GdofnsSEPY/9wFTjsLsAOHAQdP6qrUyA
+	 dyVKSHs1LTxJrgTll1Dj6kDGdphLUyfBf2nawo4UqbDsSu5JeBYTmGmEYV1I5YnXNa
+	 Cr6jDBjttfuwA==
+Message-ID: <8a7b811e-056a-4c54-a65c-fbe8add1c01d@kernel.org>
+Date: Mon, 23 Nov 2026 11:50:59 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,88 +52,79 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] usb: uas: expose US_FL_NO_ATA_1X in sysfs as
- ata_passthrough_disabled
-To: Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
- linux-kernel@vger.kernel.org
-References: <20261121155253.4980-1-mat.jonczyk@o2.pl>
- <68f6376d-a0cf-4f87-9cbb-0afb7b8536d4@suse.com>
-Content-Language: en-GB, pl
-From: =?UTF-8?Q?Mateusz_Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
-Autocrypt: addr=mat.jonczyk@o2.pl; keydata=
- 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
- TANkZ3QqXNX2
-In-Reply-To: <68f6376d-a0cf-4f87-9cbb-0afb7b8536d4@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-WP-MailID: 7922d71e5996639172688754da6e67d6
-X-WP-AV: skaner antywirusowy Poczty o2
-X-WP-SPAM: NO 000000A [kcNU]                               
+Subject: Re: [PATCH 1/4] dt-bindings: soc: qcom: eud: add the QCM2290 EUD
+To: Igor Opaniuk <igor.opaniuk@oss.qualcomm.com>
+Cc: Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ Elson Serrao <elson.serrao@oss.qualcomm.com>
+References: <20261114-qcm2290-eud-v1-0-b6157b817377@oss.qualcomm.com>
+ <20261114-qcm2290-eud-v1-1-b6157b817377@oss.qualcomm.com>
+ <20261123-crayfish-of-splendid-courage-c63931@quoll>
+ <CAPzfCAary8rkKeF+XFRFShRiy6GZwh_ky9_mo33C8+gGSxRnMg@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <CAPzfCAary8rkKeF+XFRFShRiy6GZwh_ky9_mo33C8+gGSxRnMg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-W dniu 23.11.2026 o 09:27, Oliver Neukum pisze:
- > On 21.11.26 16:52, Mateusz Jończyk wrote:
- >> The uas driver blocks access to ATA passthrough commands for some
- >> devices it considers buggy. However, it does not expose any meaningful
- >> information whether the command was disabled by the driver or is
- >> genuinly not supported by the hardware. This creates a problem for the
- >> smartmontools program and makes it difficult for it to provide a useful
- >> error message.
- > Hi,
- >
- > thank you for handling this. One thing though. This requires putting
- > the emit code into every driver. Can we centralize that somehow?
+On 23/11/2026 11:41, Igor Opaniuk wrote:
+> Is an explicit reply to sashiko's review comment expected as well, even when I
+> simply agree and address it in the next version? If so, I will do that
+> from now on.
 
-Not really, short of moving the handling of the ata_passthrough_disabled
-attribute into the middle SCSI layer (which would also likely involve
-moving the whole of US_FL_NO_ATA_1X logic from uas_queuecommand_lck()
-there). Is this what you mean?
+Maintainers do not receive Sashiko review, so they do not know if you
+are planning to send next version. They do not even know that patchset
+has valid comments preventing it being applied. That's on Sashiko or
+toolset, though.
 
-This attribute is really specific to the USB drivers, but it lives in
-different fields in the UAS and mass storage drivers.
-
-Greetings,
-Mateusz
+Best regards,
+Krzysztof
