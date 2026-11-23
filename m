@@ -1,60 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.222.135.142
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795434451;
-	b=m7m4/FGK35pX71puWfkpq+7ucrnCwLnAKbdQu/aCfvnlSqDtpqa9wmxt7L0WXXuYYcnu
-	 TKKkt1N6+xQJfFOTxSpnbrPG18mMNZVrPqIRF9Wx8Q1pQxnzBhdKz7NH3l/Pnk5oWVU2K
-	 KwTcbRWBT0Kcl3/yTXJVX/1P4ZwwXI6XqJmEVMinxZZNNaOIesBfD3zRsqM0/qhAqIdIp
-	 weQA0X1Q4dtVrkqJVG88JtF/iickyGUR+R4onGdry4gqaR5K4AUzgf8RRcSxLRtgnCVrE
-	 CrsKWMTnC3Hw+r+MAzzinpSbxwkinwHhE1CHJDE/esImiQ8DRejl+MQQHaaa6frZ2nQ==
+	t=1795434593;
+	b=a+Itx55OyJ5b1fivTrPSoiqibMsY9O472TSIO1/9DUaOwzupXBvv3vjeJDnHR8XO9QqU
+	 sMWrN2z5RgH2gAjJ5CWH1goCQNJBlnq1bNRNOBxZRkqvZ9xrqDa6JEfYv0+0fqzm14VUE
+	 gWphhAeDrfM9ffz5Sp9kAGc7iCl3BCYWZlbdRKePmkPT6BgMuYlyauuZU0j25YiIo+tkC
+	 H343l1Ng6Bb5OPbUWjS7bM3h4fqdtj+M3KIuApUE+HU9Ne1pqau3xcIoAxoWim2rmCipX
+	 MlaAztUUavlBLbYhZ9eW8946K4V/SUEd02DWYTXluo6de3X+0AbzgOWwOdjTmDGEwIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795434451;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=PHZKX0qOJM28Tj2hbs7mNGtiUK/YIMY2xT+aqEo5P2s=;
-	b=bVs/BLIdsZG1a9hNTnHA/ByLyUPCv7H3k8EPmzO9RGOD9Zf2UyxDgEPZ1j1+lz2h9793
-	 l5MhoRFjPgExA+Y/ErXbMtsyjlMvtoeowOmYT+nQuBpXfxZDZX+HL+2r8P5pm6/ewqotF
-	 f/RogMUxnEUOxPpRinQq1z3FigwTK9tSZjBVjunvUIYgkehoK+uxM9Jak49Vtj60h3z/Z
-	 e8VjxgiNp4shhDXD4302eTD5D35nlGzg5ZZqMfUfZqqQZz29VmMlAiKLmZOyTC2DVF6XZ
-	 JJvggoYTw6OXqRjkbP4yzKUGPpiDWiZKPOZCumFIuhQGF8t3AoU3mJsJddV2jqy8ByQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795434593;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:Autocrypt:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-WP-MailID:X-WP-AV:X-WP-SPAM;
+	bh=3ANwkgC2sS8G+uEOYW1Y++4mpRvPqlTWPTRgPAiSPUQ=;
+	b=Yj7OG4/FLVVkcd0xPVYT1JRTerkFxKT6wgWphOU9rEDm2CvXJ+A+yAtE/KVpJ1HEcdRl
+	 8y0WeqtQ/qP4CwpH/T1+1x/fbGC53CVGJnU0G1B522FTPqoUThf2ekB2fbDRCOJSRupB3
+	 sfI4hZ+0s7V61M4Egsb3PAvw8JgeZzFvtz9bv5iDR3a6zNY7X5zxUK+yxMgIup0JPPhv9
+	 PX3oV1ruTXNme/0S4ogHgSi6l81XS5PHy1ef/iWZnoxGTmaAQzacE1KXx4JcHW/NN1jh9
+	 mgqOxdVfcWHk7Jjc++8+DKxQsFqEMUzZu8th7Vxos9R2El+jc+R+KP41Df24TFItqeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K9fOUlYs;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=o2.pl;
+	spf=pass smtp.mailfrom=o2.pl;
+	dkim=pass header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=fk+9mxf2;
+	arc=none smtp.remote-ip=193.222.135.142
+Received: from mx-out.tlen.pl (mx-out.tlen.pl [193.222.135.142])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DB9606A31A;
-	Mon, 23 Nov 2026 11:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B880606A31E
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 11:49:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B880606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=o2.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=o2.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K9fOUlYs
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 359981F000C6;
-	Mon, 23 Nov 2026 11:47:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795434451;
-	bh=PHZKX0qOJM28Tj2hbs7mNGtiUK/YIMY2xT+aqEo5P2s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K9fOUlYsb+WrusosJHD4/uwBPqsBY10DS7tlWJEQNUAm689/4wUAd4SbmVg3U+Vgc
-	 fOgXpLsYsgsfRfB3Nhhohf1YTN+OZXWiAIfNisD7QjPB6Hecf76Qwep5nWfd7pKDBR
-	 TmFyLOTbwkYv2oviTuYXYnmURUtB3eUa4GX0VtjumRBmuAsRCqS/nlbdZWV4KIgRDo
-	 tMMF5jnXPx8A5Gdan0Effq5wbuYhxU5teFoogYopaJ6AA4VFbPkFYYjgi5748uEeob
-	 XcMSibP6cjEIQaa8mTQtdTop3UySiyeDLnG5D4bCVB4paNqjjkqQw8RvFWVtnwDfCr
-	 4iidKS5SY8EyA==
-Date: Mon, 23 Nov 2026 12:47:27 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, 
-	Nagarjuna Kristam <nkristam@nvidia.com>, JC Kuo <jckuo@nvidia.com>, 
-	Mathias Nyman <mathias.nyman@intel.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	Thierry Reding <treding@nvidia.com>, Wayne Chang <waynec@nvidia.com>
-Subject: Re: [PATCH v2 02/12] dt-bindings: usb: Add Tegra238 XUSB host
- controller support
-Message-ID: <20261123-versatile-alpaca-of-greatness-dd6694@quoll>
-References: <20261116-tegra-usb-v2-0-42efc03a9700@nvidia.com>
- <20261116-tegra-usb-v2-2-42efc03a9700@nvidia.com>
- <20261123-sassy-fragrant-markhor-c6fbb3@quoll>
+	dkim=pass (2048-bit key, unprotected) header.d=o2.pl header.i=@o2.pl header.a=rsa-sha256 header.s=s20261001 header.b=fk+9mxf2
+Received: (wp-smtpd smtp.tlen.pl 19424 invoked from network); 23 Nov 2026 12:49:37 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=o2.pl; s=s20261001;
+          t=1795434577; bh=3ANwkgC2sS8G+uEOYW1Y++4mpRvPqlTWPTRgPAiSPUQ=;
+          h=Subject:To:Cc:From;
+          b=fk+9mxf2rY4NLpqNBo53IK+AgsfywjWoXnZ4bMXM78CkuQldCCP5fKoYRLvPAIfXW
+           ZRCmZExRAvpbasMELuOWjydwJlYuQ1HgzWbVt0M2eI92bUUMKJQdZZhUMIxYAonygZ
+           ybVHHVn6vfaiU0/mJo5pP84Utjn7zjqTJSy2OJVGBzqMjxZ3QcWv5Lh20xtY0vlFSs
+           ZEwTpobo6ggdhL/CbwTwjxSNmlU/08CDAEsMnh+y9TY1TIgmu4hfiqnAzuhtJdRwOG
+           I5AntUMdy51rtgfDQN9USshlJaebBGe9Q3JXEZ6YuvwIFgk3X5PYnM11KVK/D+rF9Q
+           P8Bwg0HBpdFYw==
+Received: from [192.168.1.22] (apn-78-30-78-152.dynamic.gprs.plus.pl [78.30.78.152])
+          (envelope-sender <mat.jonczyk@o2.pl>)
+          by smtp.tlen.pl (WP-SMTPD) with TLS_AES_256_GCM_SHA384 encrypted SMTP
+          for <oneukum@suse.com>; 23 Nov 2026 12:49:37 +0100
+Message-ID: <fdfa2dc4-9cbb-436c-9fac-213a19d6f86a@o2.pl>
+Date: Mon, 23 Nov 2026 12:49:34 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -64,41 +59,92 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261123-sassy-fragrant-markhor-c6fbb3@quoll>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] usb: uas: expose US_FL_NO_ATA_1X in sysfs as
+ ata_passthrough_disabled
+To: Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+ linux-kernel@vger.kernel.org
+References: <20261121155253.4980-1-mat.jonczyk@o2.pl>
+ <68f6376d-a0cf-4f87-9cbb-0afb7b8536d4@suse.com>
+ <52a233cb-1671-431c-8c14-7757ca947aa5@o2.pl>
+ <cef781a8-45db-4540-981d-b38667dcfbb7@suse.com>
+Content-Language: en-GB, pl
+From: =?UTF-8?Q?Mateusz_Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
+Autocrypt: addr=mat.jonczyk@o2.pl; keydata=
+ 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
+ TANkZ3QqXNX2
+In-Reply-To: <cef781a8-45db-4540-981d-b38667dcfbb7@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-WP-MailID: 891559ab91dd92db76de60529f426fc0
+X-WP-AV: skaner antywirusowy Poczty o2
+X-WP-SPAM: NO 000000A [oRP0]                               
 
-On Mon, Nov 23, 2026 at 12:44:00PM +0100, Krzysztof Kozlowski wrote:
-> > +      properties:
-> > +        interrupts:
-> > +          maxItems: 8
-> > +        iommus:
-> > +          maxItems: 1
-> > +        power-domains: false
-> > +        power-domain-names: false
-> > +        phys:
-> > +          maxItems: 6
-> > +        phy-names:
-> > +          maxItems: 6
-> > +          items:
-> > +            enum:
-> > +              - usb2-0
-> > +              - usb2-1
-> > +              - usb2-2
-> > +              - usb3-0
-> > +              - usb3-1
-> > +              - usb3-2
-> 
-> This should be rather fixed for this device, so without enum, just:
-> items:
->   - const: ...
->   - const: ...
->   ....
-> 
+W dniu 23.11.2026 o 12:41, Oliver Neukum pisze:
+>
+>
+> On 23.11.26 11:48, Mateusz Jończyk wrote:
+>> W dniu 23.11.2026 o 09:27, Oliver Neukum pisze:
+>
+>>  > thank you for handling this. One thing though. This requires putting
+>>  > the emit code into every driver. Can we centralize that somehow?
+>>
+>> Not really, short of moving the handling of the ata_passthrough_disabled
+>> attribute into the middle SCSI layer (which would also likely involve
+>> moving the whole of US_FL_NO_ATA_1X logic from uas_queuecommand_lck()
+>> there). Is this what you mean?
+>
+> Now that you mention it, shouldn't that be where it ought to be anyway?
+> Usually the SCSI layer generates or filters commands, while the LLDD
+> determine what command sets a device will accept and reports that.
+>
+OK, I will prepare a patch series as appropriate and report back.
 
-Although I see now we talked about this - this supports *up to 6* phys,
-so the list is not fixed per given IP block instance?
+Greetings,
 
-Best regards,
-Krzysztof
+Mateusz
 
