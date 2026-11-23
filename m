@@ -1,80 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795464706;
-	b=o7IVQ+eToremQWtbnAVAGrQ/qEYRufVhI1Lpk3pN0FuhTQ9crV2PthK2vrdBnWb9SEvd
-	 F4TytnFeEuOLM4nIfOp8D16vbEQvRn0CdiJmjKFRRwKy2MvMe/Q498P4GdIbWxgRVTjlH
-	 vuOJahAy1Iku980qmGUkNUQUk6HDhPWHDjFuCSc5UKY0okZjLOU7kE4p9SovPpxC9oYST
-	 DKq3N0kgrZUoXUbZ2b2GlvTwPE+pk354YpA+TkvncNG03+eTFb8HW/iHKmWHknzyJ4Ala
-	 TPpoHo25e1mtfS9TBoFWfGh1ylAGBH/u7gYlVAKOAxi1FG0zxzkHsAcc2BgbdD7aFRg==
+	t=1795464793;
+	b=LHnY0w/KJm993maUdLIGlJ/OcVPm6T9FccNvdjOq44z9mz/TGvdK+yQ7ZcdbOaV+Ktqo
+	 9wKoD/OpJMowU9+8vdZmUZo1nf4Ax+fv9BpwSDi6zT56V2gConrmfgdhaDKVpRk7wfl6l
+	 KSO1/ty7RMrMM4Z0LQ6NviL4rhcwYABY7WcSeeMU4MaPMo+ArQMQGVQXXpjYrJ4XvgKM8
+	 Y9J/Rxd11N6PoI3+kt7pZLWWBgKpK/PhvRPwp0RbsdmeyqEk9yyyX28F+kuI9m32FLY/A
+	 LOj9QXPXVDNUq++5WJB25Vl2Wdq0kznvmDo9e1GySJXWb5hH7qA0CuKuJjX2x9PaT0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795464706;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 In-Reply-To:Organization:References:Date:Message-ID:MIME-Version:
-	 Content-Type;
-	bh=mvNLv+3AciGOuDYZYe5oeiw60CL3pQrdkfZwl/FSt6I=;
-	b=l/MM/S2NhhyWMCE2vYhx6PUOXOX0/LPdtutKh00szLL+llFZRcS/NgKLa9mtt9JpbvTQ
-	 U6snWxkWs5Q73Pc5UWfXgIEbsOgtX+HMFw1prLnWynreXTISmO/IgzPRgUVQpaJ5ca3UV
-	 r3/R3rRzRGjJarjxqKHa7AQloWa8dI0iJgQSMo+FNvAhcC/SpSEoyVd68MuE2D4/dwSFt
-	 r5fPsoJjQkr5xa/64BucHJ8khgsSnIr01ZIzxX17ZNgV5oalTaoPen36PVdsosb9K7LST
-	 rOimVBMADZXh0+7tMovKQZP3DxBraFCo9GerLqvjGM6GzSJTpiJgQtWJ3CkMF9CmQUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795464793;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=+s7Yd/h15zxtsiZmXE4XXXRh9abd0OuVy3YLITk0lBo=;
+	b=HOia0ulpZ0V5ZD1a+DrM5Iy3iaikKj7nhb5zLDs/HUumEXLhcmjiGGjOJj8UXH1mwUmx
+	 V0lzBVHllVUHUg6RngNuG1WkOefD+muL+dmH4XYhqNXZu+lleCab7+H8d9H7nvT/36e0y
+	 K+buGVDPlegXGXgj5/I35PktWdqr5fvjs4O7ZEnhZJNtPR0gU7h75TGHoiIwV1mZrT7RF
+	 bphB3+ejbwZmBxNZ3eY+HP9tqyqSxbYCNqLKv5gxgZpc0t2YgxodQO2HVbulBS4Cm2GvA
+	 z0l3b29vP1oOnh0eR1VqeQxIhCVt5vMU/xnE3NmqQ08iiHCN942xLc5B2Jtp8CmGHiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I1Gq0Ws2;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=M3YaV0gb;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=PBamI4f4;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2F8606A321
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 20:11:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D2F8606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E397F606A31E
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 20:13:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E397F606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I1Gq0Ws2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795464705; x=1827000705;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=2kLKLPpRTmFaPuxKkqTgwxOS8eKQF0S0JzNbhLZpn2o=;
-  b=I1Gq0Ws2AXgp5m94RlNyUC2wCyEc+9UiSf/V+ncmvq1bfKZ5V1i3OXub
-   UhaxhQJJcPtGxrSuSqIheXnilk19wXxcWwMx8TCcUcnJUoMTHospTZlHa
-   uT1k1LTw7OKgJpbHPJmb9dnAWcVAAgyJ0NKfw4wKmcotIuJvU1w0ab6vt
-   6qlQzI+lci5wrL+CZ/rZMSocz6mzMMqLkdDAInmevz9r7fkzv2jKwXwVR
-   w3eE2xFzllOgy0ajSN+vi3CF9/aVeQ12cb+Js1khCWXYeMu6sQTj1WF6Q
-   IjlfaTrJd+9MbBTE0htyV9LtTPBZvCIkn5EZlNDXFLLUebISZuB5B9hHt
-   A==;
-X-CSE-ConnectionGUID: 6t8bczvART2lSdP8j8T9Iw==
-X-CSE-MsgGUID: scZ/XBZcSLCFPaZM0t83/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4314485"
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="4314485"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 12:11:45 -0800
-X-CSE-ConnectionGUID: vgUm4O1aS1iDJySwOPFZqQ==
-X-CSE-MsgGUID: Xhe+vywERkenqos8aRRfig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="11497837"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.16])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 12:11:43 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ronald Rechenmacher <ron@fnal.gov>, "linux-usb@vger.kernel.org"
- <linux-usb@vger.kernel.org>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-Subject: Re: [REGRESSION] thunderbolt: Barlow Ridge DP tunnel reports UHBR20
- in BW allocation mode for HBR3-only DP OUT, external monitors stay black
- (v7.2 -> v7.3)
-In-Reply-To: <DS5PR09MB1353250098A5804464BB8BAE6DC782@DS5PR09MB13532.namprd09.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <DS5PR09MB1353250098A5804464BB8BAE6DC782@DS5PR09MB13532.namprd09.prod.outlook.com>
-Date: Mon, 23 Nov 2026 22:11:41 +0200
-Message-ID: <7c77eaf0bdd8370e2259c654dd866561ca07d382@intel.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=M3YaV0gb;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=PBamI4f4
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ANJuO8T2349973
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 20:13:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=+s7Yd/h15zxtsiZmXE4XXX
+	Rh9abd0OuVy3YLITk0lBo=; b=M3YaV0gbJkcWQoKQD5yDmve6v9ffMfiifGTi40
+	s7Coj3KztGwycVzuotwedweUDiaWQpKJCOih2AUVm33Km0ZuuowD79rXLdLW4yFJ
+	wc41bgA43eNivPLFOKE2RmvKU473NEGq2Qq0MvhpWUke6L9jSjrEzmmwY7pFHliU
+	/DNw2sEAuRDz7G3IJ9X59G/xw2kz/5Q8tGZ4I08rFdunGacycjjINz+wNCVuHStl
+	BoIaj0PKzjcV7zGjD5yuj8tNMiGk+/6N/jO30WsbcFxRbb9CgpjbvlpMS7dArQc0
+	T6VREbM5ta7CBoHCx7eZUXlwB/yJKPLeczEZUKDALslrvwCA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j4g9a380u-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 20:13:12 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-949664eec1fso43281085a.0
+        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 12:13:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795464791; x=1796069591; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=+s7Yd/h15zxtsiZmXE4XXXRh9abd0OuVy3YLITk0lBo=;
+        b=PBamI4f4uVActxQ0DH3Q9VP0ylx1mFBARJYPacGO+zB1u6xf+pHe3vstgiVF9Su1Di
+         l7ncV/yOGb4w6/4SLY3OB2daLW5Jgc4I6IPHnpb6b0ehnFgpbVffnnZQxk0axwvxGoEJ
+         sS3j/dTN255JtVLTNlw8F0o1JnPulSZ8/jKhb8nylW8LHQDHkOWrAXY5z+xcnFav9Iwz
+         P05yKpbW6LwMP8w3ddZCiWRuP8mi4CD9YD3Xief2l934zDotXRfLvo2QUPXCGk73T4yc
+         FMBiTcEUwp9nz/xWccyr3ZqOSrYRp6w3rR/mXmwv++xC/uOc2/8M5NEe8nPX5PAYeIof
+         KOmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795464791; x=1796069591;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=+s7Yd/h15zxtsiZmXE4XXXRh9abd0OuVy3YLITk0lBo=;
+        b=chKa+gsuc6gQpS8trGxVBPOhetrRheEPeV/RUkrMxpkNpUArL2TP8V0XDsSflq55xu
+         /BbdXBwRgo4bR/eNWffkj6iuubFljITderi0kvkwUmOLdsvK70+ljLfAIXxrF5u822QE
+         D+/2h1GhQoyhe6YqeGGWZTLs1sswmFlNFvZ/MsGsn1DpCR9UAeZulJALQm5z6HfLfS55
+         U9QXONGEwAPrO5/fLC6LWmT/aXdhSCA7ZGFb0zglAhx0+KoV2tWwR/HQevo8Y9XKpxS5
+         NkvEA1tNmpMD+42ozv7ntj2jD0P6phEjuEPq3i3hw0x0DcqdrSDGZXjs7Yyqbu1GpzoQ
+         vtfw==
+X-Gm-Message-State: APuU4Z9vLjqD5i7aQbLItifam0gOjDolUy3Hz+rtTRg318D9IQ67fdP6
+	MTMRTW5vuff+yH/5l9+xitKelkSRNRCmwMfRSoZvYF5G6uKpi2KZ3XM7p+w3/ruWRTdi971uxsg
+	v4uX1GbEEKKJ1LXgKqZ4iQolGAlTziI9L9Im+N+wedetwXvxAWYEK/dkjMrH9gOI=
+X-Gm-Gg: AZFdTZeBP7LJcpdmLJQXYbUngRRMbEqOAWe2Z3Osh7Zs7AiBDMwMErY3od9DMpJclf5
+	n8mbQm4+HV3Laa3KrPLiEDbrq6RROiXIpBmCKjOvevL6lLl3Abc/VMXBuHohWrAVh+KA7QuCeTq
+	aNTZ+i23c6tbQ6mGov25W/ugtSg40pcJVGh6xPnwp/cZHMmDfGxYzzJtNSlBK21RCm+9Hqwrmbl
+	pmH6zPfYeXCIC6Jc6RFDt1EmvMGmXDDnQi7BeS9AtQCKRpV/5PpbjMgE8nFreFf1tcFvhr2CBfP
+	GBLVB/LYspfbmkWWXE+ArVdbPTSVk8WRgsproUXgxigMYEMHNG3uPW6dcP1ij02HW/UTz4ljePr
+	LeQ6l+dxMm558z0FCH5JD4TBQMt4mCoPRfHfPnOklB3SdKZAq4Dnt9rOno08paEL7sVV/y6oTXp
+	75WfeiFRM=
+X-Received: by 2002:a05:620a:a11:b0:93f:740f:5a62 with SMTP id af79cd13be357-949bab7d122mr2151069085a.6.1795464790994;
+        Mon, 23 Nov 2026 12:13:10 -0800 (PST)
+X-Received: by 2002:a05:620a:a11:b0:93f:740f:5a62 with SMTP id af79cd13be357-949bab7d122mr2151064785a.6.1795464790553;
+        Mon, 23 Nov 2026 12:13:10 -0800 (PST)
+Received: from KDYBCIO.eu.qualcomm.com ([2a02:2a40:15fe:b200:3494:1e10:6244:f64e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb905f0f1csm175753025e9.0.2026.11.23.12.13.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 12:13:09 -0800 (PST)
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Date: Mon, 23 Nov 2026 21:13:08 +0100
+Subject: [PATCH] usb: dwc3: gadget: destroy connect_mutex after
+ usb_del_gadget
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,131 +113,85 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261123-topic-dwc3_gadget_fix-v1-1-dec7679b81b7@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAFOeBGsC/x2MWwqAIBAArxL7naDbk64SIaKr7Y+FRgXR3ZM+Z
+ 2DmgUyJKcNUPZDo5MxbLKDqCuxqYiDBrjCgxF4pbMSx7WyFu2yjg3GBDu35FuhkJ9txaNF6KO2
+ eqOj/Oy/v+wFABJJMZwAAAA==
+X-Change-ID: 20261123-topic-dwc3_gadget_fix-2d05048742cf
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, usb4-upstream@oss.qualcomm.com,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795464788; l=1185;
+ i=konrad.dybcio@oss.qualcomm.com; s=20260604; h=from:subject:message-id;
+ bh=DVXihe9ifbfAzdWzgmpDpoYOmtGTH6ztDRAEoarxgdU=;
+ b=rp3MmSzCep5k3/HG+ueoVtE6zeM2EOMgt9RPz7pISjtHTHYe/Klu4tUuTqE2OjeILoQjY+0+s
+ CgANU2a7OgWBt2INj10OkCELpCsKcVCtKH7Qj0mD+hw9RUBypuKohBI
+X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
+ pk=SGRRMmlLTuP/lGKdQ0f4KPvxn8VVsXtXaTpdGc8i82c=
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIzMDA4MCBTYWx0ZWRfX9nZz2Jht8QK+
+ FwaoPjDfX+CftPC+6FMCBPLHEOR2o8IZh4JBnRQe7oDzPsndrLVLGOnRo4a8QfmDjjbxQFs6egA
+ 8AUQMxSC6ikwkHYimgDg6HU0vBailUg=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIzMDA4MCBTYWx0ZWRfX2CUfgiqau1Qp
+ HIR6Qq+P4Rg5k98C3m5GJZUPWEdCud0HGwAZZvDeIBQSWVO8ApXbX7aesrsiq1lDVMJK1PfC5sR
+ Wyg9qUyu/kr/arCbl1Wm8B8yiJtq82yqY88Ic6tNIHYDtpA6zB2DgZ7OwsX4REj3ltwl3wBQ772
+ v6rA1Fq8JhMMlfCBoHzd4vKn3+Q6WTDuM/7eS0LnyAUVpILWixOtyflH+Cyti/ScfawEidhmO2+
+ UX4HoBYXwEXGq81Egq7as+fdNLYuJRxxz1V6JF0/tkcK3Mt44QHfr9uAyhGBDASaJn3emiJwerD
+ 8Aj3EsNISGus4wmvAYEfvGE89tVYNAoyUCtyKVcJfKlGnfkVag7+2r2SNRn3x4vQB4GuCUKHvSm
+ Ed1lYFnztMY9+ioFxcCcRYZ+cRi8jQlqMP3G8PyX2t1SrgLHXG26vmU2yr1WcT1ZKTuqwVqr91a
+ gY+FaI2n0VAfiqN18qQ==
+X-Proofpoint-ORIG-GUID: O1tYnLxkeUOaBm0wNbsgEkBMzpWgXhNG
+X-Authority-Analysis: v=2.4 cv=cYJHPXDM c=1 sm=1 tr=0 ts=6b049e58 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
+ a=JVrL-DDhf0MI11mQd_UA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: O1tYnLxkeUOaBm0wNbsgEkBMzpWgXhNG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-23_05,2026-11-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 malwarescore=0 spamscore=0 bulkscore=0
+ priorityscore=1501 adultscore=0 suspectscore=0 impostorscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611230080
 
-On Fri, 20 Nov 2026, Ronald Rechenmacher <ron@fnal.gov> wrote:
-> Subject: [REGRESSION] thunderbolt: Barlow Ridge DP tunnel reports UHBR20 in BW allocation mode for HBR3-only DP OUT, external monitors stay black (v7.2 -> v7.3)
->
-> To: Thunderbolt/USB4 maintainers, linux-usb
-> Cc: i915/DP tunnel developers, intel-gfx, regressions
->
-> Hi,
->
-> Since moving from 7.2 to 7.3, the external monitors behind a Thunderbolt 5
-> dock stay black. They are detected, read EDID, and show up in the desktop's
-> display settings, but no picture appears. Booting with
-> thunderbolt.bw_alloc_mode=0 fixes it completely.
+usb_del_gadget() unbinds the function driver, which may still call
+dwc3_gadget_pullup() and take connect_mutex. Destroying the mutex
+before that point leaves a live lock behind during teardown.
 
-Does [1] fix it?
+Avoid it.
 
-If not, please file a bug as described at [2]
+Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+---
+ drivers/usb/dwc3/gadget.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index a76f669a796c2e0eb955969a88523affcb672ae2..673f4bffb8ca85778d084820ecfed49f50d1cac3 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -5027,9 +5027,9 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
+ 		return;
+ 
+ 	cancel_work_sync(&dwc->err_recovery_work);
+-	mutex_destroy(&dwc->connect_mutex);
+ 	dwc3_enable_susphy(dwc, true);
+ 	usb_del_gadget(dwc->gadget);
++	mutex_destroy(&dwc->connect_mutex);
+ 	dwc3_gadget_free_endpoints(dwc);
+ 	usb_put_gadget(dwc->gadget);
+ 	dma_free_coherent(dwc->sysdev, DWC3_BOUNCE_SIZE, dwc->bounce,
 
-BR,
-Jani.
+---
+base-commit: 749a4de370409464cf8501ec5b2451df45c84eb4
+change-id: 20261123-topic-dwc3_gadget_fix-2d05048742cf
 
-
-[1] https://lore.kernel.org/r/20261123120954.1115838-1-imre.deak@intel.com
-[2] https://drm.pages.freedesktop.org/intel-docs/how-to-file-i915-bugs.html
-
-
->
-> #regzbot introduced: v7.2..v7.3
->
-> Hardware
-> --------
-> - Laptop: Dell Pro Max 18 Plus MB18250, BIOS 3.5.2 (10/15/2026)
-> - CPU/display: Arrow Lake-HX, i915 (MTL display version 14.00, PCI 8086:7d67)
-> - Host router: Barlow Ridge JHL9580 (8086:5780/5781), NVM 64.81; the
->   i915 DDI TC3 port is wired to the router's DP IN (TC port mode "legacy")
-> - Dock: Dell Pro TBT5 Dock WD25TB5 (Barlow Ridge hub JHL9480), NVM 69.81,
->   internal Synaptics MST branch (DPCD 1.4, max HBR3 x4)
-> - 3 monitors on the MST hub: 2x 3840x2160@60 (one uses DSC), 1x 1920x1080@60
-> - USB4 link to the dock comes up asymmetric (3 RX / 1 TX, 40 Gb/s lanes)
->
-> Kernels
-> -------
-> - Good: 7.2.15 (Fedora 7.2.15-200.fc44)
-> - Bad:  7.3.3  (Fedora 7.3.3-300.fc45)
-> - The 7.3.4 stable changelog has no i915, drm display, or thunderbolt
->   changes, so I expect 7.3.4 to be affected too (not tested).
->
-> What happens
-> ------------
-> Both tunnel adapters report HBR3 x4 as their maximum. With bandwidth
-> allocation mode enabled, though, the tunnel's maximum is reported as
-> UHBR20 x4, and i915 picks that up as the DPRX rate:
->
->   thunderbolt 0000:05:00.0: 0:13 <-> 1:12 (DP): DP IN maximum supported bandwidth 8100 Mb/s x4 = 25920 Mb/s
->   thunderbolt 0000:05:00.0: 0:13 <-> 1:12 (DP): DP OUT maximum supported bandwidth 8100 Mb/s x4 = 25920 Mb/s
->   thunderbolt 0000:05:00.0: 0:13 <-> 1:12 (DP): non-reduced bandwidth 8100 Mb/s x4 = 25920 Mb/s
->   thunderbolt 0000:05:00.0: 0:13 <-> 1:12 (DP): maximum bandwidth through allocation mode 20000 Mb/s x4 = 77575 Mb/s
->   thunderbolt 0000:05:00.0: 0:13 <-> 1:12 (DP): bandwidth allocation mode enabled
->   i915 0000:00:02.0: [drm:drm_dp_tunnel_enable_bw_alloc] [DPTUN 1:1:13][AUX USBC3/DDI TC3/PHY TC3] Enabling BW alloc mode: DPRX:20000x4 Group alloc:0/103500 Mb/s (Ok)
->
-> The LTTPR (LTTPR 1) PHY capabilities read by i915 also flip between
-> "04 03 00" and "04 00 00" around this point, i.e. its 128b/132b UHBR10/20
-> bits come and go.
->
-> i915 then tries 128b/132b, which always fails:
->
->   i915 [CONNECTOR:543:DP-3][ENCODER:542:DDI TC3/PHY TC3][DPRX] Max loop count reached
->   i915 ... [DPRX] 128b/132b Link Training failed at link rate = 2000000, lane count = 4
->   i915 ... [DPRX] 128b/132b Link Training failed at link rate = 2000000, lane count = 4
->   i915 ... [DPRX] Reducing link parameters from 4x2000000 to 4x1000000
->
-> Two observed outcomes:
->
-> 1. Cold boot with the dock attached: UHBR20 and UHBR10 fail, then i915 falls
->    back to HBR3, and 8b/10b training passes for both the LTTPR and the DPRX.
->    The monitors still stay black.
-> 2. Dock hotplug: the fallback state is reset, and UHBR20 fails twice. The
->    limit drops to UHBR10, but there is no further training attempt, and
->    i915_display_info still shows port_clock=2000000 on all MST pipes. The
->    monitors stay black. On the hotplug path i915's modeset retry also hit a
->    WARN in snd_hda_spdif_ctls_unassign (from
->    intel_connector_modeset_retry_work_fn -> intel_audio_codec_disable).
->
-> In about 12 boot/hotplug attempts on 7.3.3, the monitors came up once or twice.
->
-> Workarounds that work on 7.3.3
-> ------------------------------
-> a) thunderbolt.bw_alloc_mode=0 on the kernel command line: no UHBR attempts,
->    training passes at HBR3 x4 on the first try at boot and after hotplug,
->    all monitors work, no i915 errors.
-> b) With BW allocation mode left enabled, forcing HBR3 before any UHBR attempt
->    on the new link also works, and the forced rate survives later hotplugs:
->      echo 810000 > /sys/kernel/debug/dri/0000:00:02.0/DP-3/i915_dp_force_link_rate
->      echo 1      > /sys/kernel/debug/dri/0000:00:02.0/DP-3/i915_dp_force_link_retrain
->    Forcing 540000 the same way trained successfully but stayed black (needs
->    DSC at ~13 bpp for this monitor setup).
->
-> So falling back to HBR3 after a failed UHBR attempt is not enough; HBR3 only
-> works when UHBR is never attempted. My guess is that the failed 128b/132b
-> training leaves the Barlow Ridge DP IN/OUT path or the dock's branch device in
-> a state that 8b/10b retraining does not recover, but I can't verify that.
->
-> On 7.2.15, i915 always reports i915_dp_max_link_rate=810000 for this
-> connector and never logs a 128b/132b attempt or a link training error. I
-> don't have drm.debug/thunderbolt dyndbg logs from 7.2, so I can't say whether
-> 7.2 enabled BW allocation mode on this tunnel.
->
-> Questions
-> ---------
-> - Should the tunnel's "maximum bandwidth through allocation mode" be capped
->   by the DP OUT adapter's maximum (HBR3 x4 here)?
-> - Should i915 handle a failed UHBR attempt on this path differently, keeping
->   the fallback across hotplug and recovering after the 8b/10b fallback?
->
-> I have full logs (drm.debug=0x10e thunderbolt.dyndbg=+p) for the bad boot,
-> covering a cold boot, a hotplug, and both debugfs experiments, plus
-> i915_display_info, i915_dp_mst_info and connector debugfs snapshots from 7.2.15
-> and 7.3.3. I can test patches or a mainline build, and can bisect v7.2..v7.3
-> if that helps.
-> Download URL: https://drive.google.com/uc?export=download&id=1ZE5GYE69IgIpT6fWs5XHmMpseIurGgK8
->
-> Thanks,
-> Ron Rechenmacher
-
+Best regards,
 -- 
-Jani Nikula, Intel
+Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+
