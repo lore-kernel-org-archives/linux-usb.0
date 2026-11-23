@@ -1,74 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=43.163.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795441741;
-	b=0pEsn3qyUnA+5PsBCOfVM6tSeElpiswZSmVVv5jhOA58qkGN/WflmoHgpOEPNTIdE+2e
-	 /pBmO4cXJGhZ+U+FtCTnqUiC1feBQ636vBeCHI90SEEhG8J00bvgE40Nkux3k50VHjosg
-	 GEiySN1vNaWsXC54CUXi+2UM6J/4j801DAl2+6I78uWbv35P+Dr2aNMrzgOKcfX6qK4VM
-	 8iwaG1lceKCxc5BPparXKtP6IyI4xp77vh+ztamww99Q1LwWytXiReprti+f5GfZ9acYX
-	 Nvm2XEH07qEvXW2dSreZbe70sjLIva+i6hALEgtYwa+BuOBD91GALwqZraBIQ9Gr1hg==
+	t=1795442511;
+	b=UJvq5TUxygjACbSGZgPH1RlBcTREuEsJIXfZ3sOLH8wxM35cKGXNu6j3zUNg9UFLWz7W
+	 vt8/1KmjeqCq/eR2JIhMVUS5zb0bPmqM9Jv7C1SMB05Fu0DWGrJr/mcsjYixiiMt+9zwK
+	 OpS2OB+Up21RrAXDvhG79PR8mZAVkZ+bbIIxZEiFEYQPJtn1WrT1G5Uh6JuMztwjUUDBX
+	 dOaF/buvIE25PbuElsVc8y9lLEz7pw1zzOqlK6oRUe4DyaIzMRPPhzW0ZwFqMKdL1xSEH
+	 ObpYwLeBNnTzFx6oi4GjUSzC3KxPd6f+Pg6EiNVrBBf2yMFOt2O9L6C46uyi515jpTA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795441741;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=l6Lf/JAoUHIb8WD2qZaUWTfzKaNUnP5AUDqdtvS1VBI=;
-	b=MFlfAiXnlcPkksXfY3R6rGnm2bHHLRVq1/0G2bRu7BOGKXerLWDjtiQJ1HQZZYbcpK3R
-	 IkgKGCL2FXGiG+ZcdNpn2vXSU4FES18ZVycx5pNqUG4VeZu3hAdL5fmqB+yd0bOyXxp0d
-	 uC8dwEVHDmE2g9+em0N2SU080S0e3u8OtKkijvTr9YyItp4QDvnLj+7sVDnh9Dadvg+GM
-	 9vC4/X2cDOBM08FDYKMFK/739J4IVzUAIaTAiyhwfwsLvxXW2RNemTFSv+VVwkVK8Kn4j
-	 iFfC7RhQDTS4Ljey3DAgkOGS5LWIAA7tzUZkqb42A9IxKfEFlfFZY9DpCakaummgR4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795442511;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=bYnSTv+rCbc+waZ7kftrqYbGnZIYly6MXNT6HVUqpJY=;
+	b=u+WqnFPn7ikg+Mc1sqCkUTzVvRn0FhrNtBiweaoXSRIhwbkNzLW9P5P5bs9QVziOw9w8
+	 ZVHy/yYRWSyGd3rbjQOM+oifzdSZKAa1FGVblRE7qTQs849rAYdRiF/Bizp+q+Vkeryex
+	 5S/MN0d3sx4ZRxXrDAPX0ds99uh9wylbwJmCsOelFK5EfhsABGqcSigHnaZwO9okSE4hY
+	 WGD4xGu4d8Pdi4dDWHrY3IUUHLxmXyd6kBNVlCmoKzNFQvULacWH8QfxXvMoTYmiXxS5O
+	 LV2NffXoIX8gAEvyb8TfH8aDcTwbPRLZp7qGAXzuH9dHXnPB1EoYiC/ztcOrw+PCheA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=HVxNd9TH;
-	arc=none smtp.remote-ip=43.163.128.53
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.53])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ePZnLzpX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0671B606A31A
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 13:48:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0671B606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B64606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 14:01:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=HVxNd9TH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1795441735; bh=l6Lf/JAoUHIb8WD2qZaUWTfzKaNUnP5AUDqdtvS1VBI=;
-	h=From:To:Cc:Subject:Date;
-	b=HVxNd9THpixuIvdR6L17JNijVfhctA/ma1fkmXh5LE5NcKdK3tnGjIwm1Y1h3HBmV
-	 a144aDcJ6w6YIoeoZ35t7W5NZJvI1fWF5dIWZYhE+K3i06oxdMOXQla0uMpvc3T8Oh
-	 kVj24zC8DFTbTNnEaBJfMQBx136/tm608J6EfqLU=
-Received: from shuai-VMware-Virtual-Platform.. ([117.158.156.198])
-	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
-	id C3582807; Mon, 23 Nov 2026 21:48:53 +0800
-X-QQ-mid: xmsmtpt1795441733tevad6es3
-Message-ID: <tencent_7C654BDEA5891337506C7242C8FD481A9E05@qq.com>
-X-QQ-XMAILINFO: MhK4DKsBP06ihc9IQ5AIKVhy3VZW55rgEn0y2s1p5aUc4PMH7zFkxZLwTtcMsx
-	 6F5YgxYzrHLLGms5ipUsE9k/sU+g0hjo2Ge3EjYv5lWIgTnOTihB/qheUZtci6B3wktgtuSPPkKY
-	 YRJcDNAmAPZX0OXkTRJrxP5s+Qix0D8oebGspq7/rttesZR0S9mvoowrEx5DjBJ5WOIlrDzBPPUX
-	 b1QL//Fkce7jlmM6lAtzDob+/BRACE4qqYdzKLf5xhlwlhQ9gDY8MjBQwTzBP9QXOQ+wfIACiRp5
-	 jtYtwtHVWtSglld1OBQYeyaotmiwVQw7TJkFh2PIXKos4isMVyuNBNtmr4UWR3XBG/dUmfvxSx7J
-	 jzjyIXIavEEdqL+pUMkrvsd5vGrQPfh5bON8pQcOI/xNbIUCX9sgEjIVXQOY8qigpgUaPpqXBdqB
-	 4dndM+zQheVZa8OYThr1oV8LX5zNhj6DWt1IXhzC4Bxf2UHV7gs/kSx5tUCVWS5sXHACOTOG5OLD
-	 vVsoO3PK5ELpJZuHAhyQONT47kkQGNybqx7D+4Gsq6YJ26tlVIeJO2WtCtl9Kolwu0TV4wk93EJ9
-	 M8YpD9DRm8VtVJ1cmVXGUc+5e4jHBm7tgzyO9Luak4ba2IyN6bqh2C8ZVzncvrLEIuC6u7GjV6S4
-	 64tJm82H79rOh0Qi0TiOs9sDbT8dpwyspiuiNU484YmlKD0Gbfy+Fin1nvUOtNJUSjXfapVltPNf
-	 fKHOnnz6a79Hh5p5eg+1p0AVg48tPO6mQMdBPucGs3MVeryuVeaWHqIi9f7uBMl5Vk0yahFNmzdS
-	 oIVeP9SqSV9QOmIsImgAAqDdErEE4MH4Oz32jfSd4YYeXmStaEkDk04OlS4/Pjg3xRRkeki0VvfF
-	 xvDGn1g6fcTyNkRHAogHAJai//4NtM1gB7f5xjnUCFUiVJiwc1fTuK8rf4sM3IYlYrrwf4suf8M3
-	 hY4DY7N2uBI2eR8LWzlMQyT6p20tekNXbYKjIUit11WB8bt29D8nxwmzdblsw2h5XIw9VkjYaejN
-	 9d9+SP+fcAoIUcyZEEwtwgs/ZcrxOb9M5UCdQvAssstF9uoYnyIBiBKFDcJHhEc0owvsSIf8/3je
-	 N3ksxa
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-From: Shuai Liu <847807867@qq.com>
-To: Neill Kapron <nkapron@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	syzbot+592c653b056459925299@syzkaller.appspotmail.com
-Subject: [PATCH] usb: gadget: uac1_legacy: fix double-close of sound device files
-Date: Mon, 23 Nov 2026 21:48:53 +0800
-X-OQ-MSGID: <20261123134853.1589732-1-847807867@qq.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ePZnLzpX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDC51F000CF;
+	Mon, 23 Nov 2026 14:01:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795442511;
+	bh=bYnSTv+rCbc+waZ7kftrqYbGnZIYly6MXNT6HVUqpJY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ePZnLzpXby4GTOJUbjOMzg9fxf47veyEF2rduKfLuIFfQ3FETL++txVWLpMRTm65I
+	 ZFeQ+oAka71576i3zEg3ZnGpK0AFflGB593OtZaQLE3r+32IU5YTea67Vju8sEN7F1
+	 sj0gzKvDW9WR4rSRF7lD92dRFkB7z066gBstkQABd94koSlE/kuv+5Yspx53NBq6Dj
+	 3EfeRnDwiIDztWvg0HxRzjcBO225t7HWv6JttHmojZ6Zdl/wJJ7062VykXs8+BfWWA
+	 3TadAbo6MbnQCF+rrSDyHENtXn2xMInWhG0mh63bwhxfJyR/4/81gARgY1EA9qFT66
+	 2u2M7NG9gtu/w==
+Message-ID: <sashiko-outbox-229355@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: gadget: uac1_legacy: fix double-close of sound
+ device files
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Shuai Liu" <847807867@qq.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <tencent_7C654BDEA5891337506C7242C8FD481A9E05@qq.com>
+References: <tencent_7C654BDEA5891337506C7242C8FD481A9E05@qq.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Nov 2026 14:01:50 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -77,98 +59,66 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-syzbot reports:
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] usb: gadget: uac1_legacy: missing Fixes: trailer in commit
+  message
+--
 
-  VFS: Close: file count is 0 (f_op=snd_ctl_f_ops)
-  kernel BUG at fs/open.c
-  ...
-  Call Trace:
-   filp_flush+0x...
-   filp_close+0x...
-   gaudio_close_snd_dev
-   gaudio_cleanup
-   f_audio_bind
-   usb_add_function
+commit 3da4b8607e9ed8f8aab229a9303b5baa05b42d1a
+Author: Shuai Liu <847807867@qq.com>
 
-gaudio_close_snd_dev() closes the control/playback/capture device
-files but does not clear the file pointers afterwards, so it is not
-idempotent.  gaudio_cleanup() is invoked both from the f_audio_bind()
-failure path and from f_audio_free().  When a bind attempt fails after
-gaudio_setup() has opened the sound device files (e.g. because
-usb_ep_autoconfig() cannot find an isochronous endpoint), the files
-get closed while audio_opts->bound stays true and the stale file
-pointers remain set.  A subsequent bind of the same function instance
-skips gaudio_setup() and closes the already freed struct files again,
-triggering the file count corruption check in filp_flush().
+> usb: gadget: uac1_legacy: fix double-close of sound device files
+>
+> syzbot reports:
+>
+>   VFS: Close: file count is 0 (f_op=3Dsnd_ctl_f_ops)
+>   kernel BUG at fs/open.c
+>   ...
+>   Call Trace:
+>    filp_flush+0x...
+>    filp_close+0x...
+>    gaudio_close_snd_dev
+>    gaudio_cleanup
+>    f_audio_bind
+>    usb_add_function
+>
+> gaudio_close_snd_dev() closes the control/playback/capture device
+> files but does not clear the file pointers afterwards, so it is not
+> idempotent.  gaudio_cleanup() is invoked both from the f_audio_bind()
+> failure path and from f_audio_free().  When a bind attempt fails after
+> gaudio_setup() has opened the sound device files (e.g. because
+> usb_ep_autoconfig() cannot find an isochronous endpoint), the files
+> get closed while audio_opts->bound stays true and the stale file
+> pointers remain set.  A subsequent bind of the same function instance
+> skips gaudio_setup() and closes the already freed struct files again,
+> triggering the file count corruption check in filp_flush().
+>
+> Make gaudio_close_snd_dev() clear the file pointer (and the PCM
+> substream) after each close, and reset audio_opts->bound to false on
+> the bind failure path so that a subsequent bind reopens the sound
+> devices instead of reusing stale ones.
+>
+> Verified with a QEMU setup (dummy UDC provides no isochronous
+> endpoints, so every bind fails): without the patch the second bind
+> attempt hits "VFS: Close: file count is 0 ... kernel BUG at
+> fs/open.c"; with the patch ten consecutive bind attempts complete
+> cleanly.
+>
+> Reported-by: syzbot+592c653b056459925299@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D592c653b056459925299
+> Signed-off-by: Shuai Liu <847807867@qq.com>
 
-Make gaudio_close_snd_dev() clear the file pointer (and the PCM
-substream) after each close, and reset audio_opts->bound to false on
-the bind failure path so that a subsequent bind reopens the sound
-devices instead of reusing stale ones.
+[Severity: Low]
+Commit f3a3406b3f56 ("usb: gadget: f_uac1: convert to new function interface
+with backward compatibility") added the audio_opts->bound guard around
+gaudio_setup() in f_audio_bind() while calling gaudio_cleanup() on both the
+bind failure path and function teardown.  Should this include a Fixes: tag?
 
-Verified with a QEMU setup (dummy UDC provides no isochronous
-endpoints, so every bind fails): without the patch the second bind
-attempt hits "VFS: Close: file count is 0 ... kernel BUG at
-fs/open.c"; with the patch ten consecutive bind attempts complete
-cleanly.
+  Fixes: f3a3406b3f56 ("usb: gadget: f_uac1: convert to new function interf=
+ace with backward compatibility")
 
-Reported-by: syzbot+592c653b056459925299@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=592c653b056459925299
-Signed-off-by: Shuai Liu <847807867@qq.com>
----
- drivers/usb/gadget/function/f_uac1_legacy.c |  1 +
- drivers/usb/gadget/function/u_uac1_legacy.c | 14 +++++++++++---
- 2 files changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/gadget/function/f_uac1_legacy.c
-index 7c8d60c7e87d1..56b9cf8fbe92e 100644
---- a/drivers/usb/gadget/function/f_uac1_legacy.c
-+++ b/drivers/usb/gadget/function/f_uac1_legacy.c
-@@ -790,6 +790,7 @@ f_audio_bind(struct usb_configuration *c, struct usb_function *f)
- 
- fail:
- 	gaudio_cleanup(&audio->card);
-+	audio_opts->bound = false;
- 	return status;
- }
- 
-diff --git a/drivers/usb/gadget/function/u_uac1_legacy.c b/drivers/usb/gadget/function/u_uac1_legacy.c
-index 01016102fa172..f074804bba59a 100644
---- a/drivers/usb/gadget/function/u_uac1_legacy.c
-+++ b/drivers/usb/gadget/function/u_uac1_legacy.c
-@@ -259,18 +259,26 @@ static int gaudio_close_snd_dev(struct gaudio *gau)
- 
- 	/* Close control device */
- 	snd = &gau->control;
--	if (snd->filp)
-+	if (snd->filp) {
- 		filp_close(snd->filp, NULL);
-+		snd->filp = NULL;
-+	}
- 
- 	/* Close PCM playback device and setup substream */
- 	snd = &gau->playback;
--	if (snd->filp)
-+	if (snd->filp) {
- 		filp_close(snd->filp, NULL);
-+		snd->filp = NULL;
-+		snd->substream = NULL;
-+	}
- 
- 	/* Close PCM capture device and setup substream */
- 	snd = &gau->capture;
--	if (snd->filp)
-+	if (snd->filp) {
- 		filp_close(snd->filp, NULL);
-+		snd->filp = NULL;
-+		snd->substream = NULL;
-+	}
- 
- 	return 0;
- }
--- 
-2.43.0
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/tencent_7C654BDEA58=
+91337506C7242C8FD481A9E05@qq.com?part=3D1
