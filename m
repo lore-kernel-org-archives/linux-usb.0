@@ -1,87 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795429396;
-	b=iKXRbmY05jMQxAn/mxG4HEhTF7rT1CucSJMeMWu9i29yZisjjJjvM1Q8Oh/sqM8VIfD7
-	 S1N/ZSToeQmHtjujzwK+EqkdR3noisxYw9v5ih6Xe8ZDiLwMZDuXNyo8vwx6qsuwvW4MS
-	 UdvUPIRpfk1+UebcKO+D5TYBW8DmfNdCKRR5rQG1xCfixUOdtpyR0bmlq3eQmyspToXWd
-	 84nErgQ+4XExGyL8YONeFWbdhvXvCAi3KGZfqv31qR2xR4mUaQsiZ+MUCTVSUnPKO7qwD
-	 sa3vd4EjnfF6atCIIL+ADBJRFExAhAon7DdGfOWURBj/zQudpFp8a/nYvd/uXhBLXeA==
+	t=1795429798;
+	b=fzqj4PJ15EZY7w9mFgOQUYgYXYNePP6DCHSEI7Po3Z9MwnK/D+F4fySLEv042DdSGURI
+	 w6n1kcgwylTrP0bOoGvD+vdaxer6rhyArPNE48XNgkwT6f5Hx+TxwMfbB+rDwoFvoJpj8
+	 enRuVJWFLaMpPW19daYMUFAeaETdYI7fh6CHj8Dpzj02R+CN/QzlyTbhzfCHif7nO/Dam
+	 8DeaFhDNArmNIsKynnFtfN/9ZJP5pdq3BlyYiU3e/1tHZDxzOgwhLk/4j1Xabxz+L8fRl
+	 V2yZ7Pvk2ymWfBgd5fkmNkoUuBvPTksmzDz171EbOMbN4YwJQPMT1aAlrLPWFGtssLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795429396;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795429798;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=1MG7opruDk6HGbhLyOi9TXyXBCsTd7Khpfpd5KuFRfw=;
-	b=ppUn4L4MFLz2VlluNKIFTA6ogSVSwYltKlYv4RCNz+5J0rYT23AAZXedcVHrw4KoCVak
-	 mvsvPhOZgTxMPXp5VrAnQAaXMC0Q6Ksx2CtFC+3SMkbIhHzcdIUXd6vhOYqS836JDnuZv
-	 DTUPo4L+20PjO7GDjwZhtFBsqg9Yo8a/pZrtGlNsYocdWCrCwfJpvqMx3s0NRM7xOZs3d
-	 Je+K5X7vPyUfQaOGdAXX9+3kDzFaXqS9mLJd+SQfYk4U8zA5VydSWwrBWk/BKHb+mBqRU
-	 Gj2o/dh0avaLokQ0xCAcI7GMbvLnXVXCcbUDuAquWQ4NkqpJavOkUDBbIl1KAzC5GDA==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=iOgtqJN/g8S5vmccnJUO+N9pGJMh8XJl/8mA5i+Ub84=;
+	b=3xLlKuV6oeZul6NfENRmAEsoenecOx3oURtSMc3ipZytv0S+EBS96DP+RnVC3py/HnIc
+	 j7nA9E5QgR8ptiPtDUD9qfSHgPfVk9cpfG528tWCAj4i4FOBzsKNmSrfuOTd2LD8EObju
+	 FLUNQF+c/kBJs5+ZVWuK6bmr1IB02H5ImNRJzBb1QBkDpJyZU1SdplZQvH/lPNhkqz8ZR
+	 nHE31gV3HAMKdCTjia8zKDxQYl8QUENTbcoy1RYqudAWCeXbTn5nqvxtfGyyR5iLbqrXb
+	 yXnHdeJVAEQ7SA4sEEpU1iTKiZ7/ad1KQtJJUI82zIPwnulh95wqBRKIteIyNVQnLYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=cmEDHLqa;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=JP154tCK;
+	arc=none smtp.remote-ip=74.125.82.182
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D399C606A33B
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 10:23:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D399C606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72938606A32E
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 10:29:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72938606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=cmEDHLqa
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4b467581b98so28423135e9.0
-        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 02:23:15 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=JP154tCK
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-385d8a00598so4244325eec.1
+        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 02:29:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795429394; x=1796034194; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1MG7opruDk6HGbhLyOi9TXyXBCsTd7Khpfpd5KuFRfw=;
-        b=cmEDHLqaWYolsqsyPJ6jVl2HyBwR4eOy3PT+08higAX1YYgkcwC062OFRyuyIWXqkX
-         t8lH6BuXt3w2QUgepijLAGLr4VkNVcdRKcFL1A0ioX6jMt16yzOcpke/ySd6nWemt2B2
-         vO1e7FP9Y3XTcwhFuZaYbvJWBAqMaC3u7qPQYHaV0jRIVXlRLkP340VQm9zPrzQyoLA/
-         NTq44exarTHa5EuwRjqhGckyQ1eYGd6V2q8AwlwGmvcUXsibUhH/mCLQS5vLox0CZk8X
-         Eqn1SWUa3s8TDegfC2T1SUZ+8sHyMDWXqzgT6Uf6Gh8p5BA4dHMLQ9NjLfDyvardwwkY
-         iuNg==
+        d=chromium.org; s=google; t=1795429796; x=1796034596; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iOgtqJN/g8S5vmccnJUO+N9pGJMh8XJl/8mA5i+Ub84=;
+        b=JP154tCKzfKSkEgXpH3CjD53LbF3lAsxfXxZssihMUogBuTWs4Xi7uZzLfDTzrYkLd
+         zEA2V/qJlrdt0eyaAXP04CbCwIDEObVDk3/F2JxU7rZ9aLERt8OT4Rd9ETSTCSh3xgmk
+         n76wizVqQtCsfX0geLPuB1hRrrytShyFhkWh8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795429394; x=1796034194;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1795429796; x=1796034596;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1MG7opruDk6HGbhLyOi9TXyXBCsTd7Khpfpd5KuFRfw=;
-        b=D2NOL/KkSFMhqEGPeFVTqhOhbvPLSTo/pzeRtZ+a96DWFAU1/AID8ONswrRgmkJAdm
-         25rBo/+0w2+ipKuJ7sM04MmI1DV+I1G0udQ4jkniVnxByAvQq2F12hx8QSwZrrrboCP8
-         fmF3IFX9eAbCRzQccyCIgrtVkGQ7gXNXvCPHciohi4W9N5AkzuvhwRXEkOBH8z8P4ETT
-         xiucObi8S4zR2ma1AOivcysmzea76mG15Rg/L3851VJgS4rfpuVwKRiXp+TE3usUDw14
-         Y4jqfY09n51WQC4lr9n1/ufUM5n9xA6seHb1ntUPTm4NTQjxk12ZSRbnj95I0biW7Et4
-         i2qQ==
-X-Gm-Message-State: APuU4Z/KUzXw/xseIBNBTbwTE4dG5roUZh8o60OvgLdkcc5sHHQ3HAuQ
-	xcyb0XBlQ+PfdkF15opGkkQGFt+jHrM3lCgzBmsISUjc3HmQMDhTXB84uSN6kvrs54U=
-X-Gm-Gg: AZFdTZetTucaHQQYqET5tD99mJ803yBWGETzbW5sa1+ZMvtm/CDTPP3/MPxGXZTKRUD
-	jm1N5rC4FfWDywNjJf2FPid+7yioKVP9hvN286YmojeckjWGptSZ9ponn9a4ey6CGT9otLhkOZv
-	tYIVTXDOOkGOlGx0GLT6bkfV49wi0bD6O/i8zVn39C2/Y3o9Tt7H/Q21qzAL9agY66anLmejeqt
-	WSyQzt7q+Fohb11d51wNvbER9EbrqV5FyYHSIChthRYSeFGlotf2knGodfKkG1zamcZWXdtI5s1
-	4tWIimwV4RD799gWnacGsBdwBDan21Y0C1bidJOD7RJQuVtFaWR+7SOHSr+wn0pfqWv8upz4+Yh
-	LzMn8azudIbOss/nMcrZW5q4R3jDtgfG2s1/9/0pwjDeskktTYIDw252vKpevuD6t3EzW5AJsmj
-	MfKBccNxlKcah/QFvZzK2Se7s0rVsKUKtn8APA7f9joUbJFK6exqkmYB2w2aUwNu1cl3VBkP6kC
-	BlzRwT0YdGh3l2aZD2i3l54HhjqKZvUQsnaBKOaI7zCoKz6ZkdxqsPUmx3z2peVjrIetuyyNyxO
-	tBH8o0bZ11Od97pp50Z7EOhVzAZvHpzOQtj6bssyRX97+6T+/jcF6F9mfXlHX+/spp6l4I5xzEy
-	H1Ln4yLzCPCiUe+m4
-X-Received: by 2002:a05:600c:674b:b0:4bb:6947:3e1d with SMTP id 5b1f17b1804b1-4bb8892c0fcmr212081605e9.20.1795429394227;
-        Mon, 23 Nov 2026 02:23:14 -0800 (PST)
-Received: from ?IPV6:2001:a61:131e:b901:6da9:459e:7c6c:e85e? ([2001:a61:131e:b901:6da9:459e:7c6c:e85e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b205443sm22138236f8f.39.2026.11.23.02.23.13
+        bh=iOgtqJN/g8S5vmccnJUO+N9pGJMh8XJl/8mA5i+Ub84=;
+        b=l0Uwe4c9kv8hZei6zf295ifAy/GvUxcSbbR859QOytSoxMp+kWO8uDUsyF37GAcud7
+         av6pGFeSVHkqbzHasx6biRbnxkt2t4GscxEyj68lURNGtMNeQ4Hu2wKe25PKnghg04Ep
+         N4xFm9EnfbnL4pZIvuT5YD75eP86dsOZTLFmwMAxu1OD1Kt+0MiiIajnK6GZr69hKq7O
+         fHylbUU60J/1L8gC4m/7q+VuZU0Wm6DbIaZZHUlXMdN8o42RwykUUAmGVS8zg2tsfYsf
+         zcjj+olUo3i2EIuz9mPfNcbSkzBbX8HGXNz+4r397186f5dvTtZpr14433tDyLau+OdJ
+         RNOg==
+X-Gm-Message-State: APuU4Z8txJaTo5cdY3aEjRHBf9rbx2bgvyaC4qudFR8BK2fVwRAqUoV6
+	ueFY0Lu7WzGWfFoDtDApagxJ2kVNHAyjzx0nHPaLjyGpR+loSLUnKRBiRkTh2/Go7g==
+X-Gm-Gg: AZFdTZdrhtd2Ht5H5fg0I8hKwfV8s+cuwuZ/9fziJe1W9ZjVwnJBq5ppIZxR2mOt6nY
+	YVmF+e9Zx4SZojULPAitqNmZ58Dxz/fF/RbcQ35fZnoECY1cMmQGTTfpggA41dFCheU/UJYbp4K
+	704mwdHdgeqDZFlJHwPibZmUn8jnR4EwggNEjPS+YZFKzLF6MrM2tdauftgQ+qusuRo2X9/iZ75
+	knal5bhkTOJPeiLLwxxiDaGyhimmKgwDcnJxFiHR5jeGQ4fn1kMiCERoXl1dgzp1vg6fk6k2sos
+	uVhKSHsUmLs54RLr1OHVDTMNICtv8exrw/M02Z2mXkseqOYJVqNm7c9zfPEVKkPfdMWrx0HJYy7
+	BQOxtc1Blh1TZm51/OWUNbRWFgagUtZX9CdH9TymX/y4aeKzHBoJBIiAUc2R1y8DcjrqpbB1/4+
+	El4+nNu6o6urfO2752qMOEHxsU4QFtienEKKx5UMcUTrn0oKr0XeHxfzrgPFhJToXJfKCNSiM5Z
+	M5gSUM3Byp6ENRwSXIOkEQbNxO2Fp4Himi+LtCHsHlTLXZsUAZRgGOT0GjjRQe1QwTgqZD/wq0a
+	W2Rwl/o1d+ubyQCgEJCHN6rKS2ssGVMeFaL2fJwFl+BFUuG/q+ERLmyledrbITxI0k5Ty2K9wr5
+	sew==
+X-Received: by 2002:a05:7300:a9c:b0:386:a8a1:9855 with SMTP id 5a478bee46e88-386a8a1ade6mr4149923eec.1.1795429796409;
+        Mon, 23 Nov 2026 02:29:56 -0800 (PST)
+Received: from localhost (224.57.158.34.bc.googleusercontent.com. [34.158.57.224])
+        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-386aa203267sm11296660eec.0.2026.11.23.02.29.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 02:23:14 -0800 (PST)
-Message-ID: <51674f53-673c-4115-af66-c0fae252fcd3@suse.com>
-Date: Mon, 23 Nov 2026 11:23:12 +0100
+        Mon, 23 Nov 2026 02:29:56 -0800 (PST)
+From: Shiva kumar Martalu Gachanti <shivakumarmar@chromium.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andrei Kuchynski <akuchynski@google.com>,
+	Shiva kumar Martalu Gachanti <shivakumarmar@chromium.org>
+Subject: [PATCH v1 1/1] usb: core: quirks: add quirks for Kinesis Advantage keyboard and hub
+Date: Mon, 23 Nov 2026 10:29:50 +0000
+Message-ID: <20261123102950.934878-1-shivakumarmar@chromium.org>
+X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,52 +92,42 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] USB: cdc-acm: restore the line coding after a
- reset-resume
-To: Piotr Kubik <piotr@kubik.pl>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Francesco Lavra <francescolavra@interfree.it>, stable@vger.kernel.org
-References: <20261120171809.1494779-1-piotr@kubik.pl>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261120171809.1494779-1-piotr@kubik.pl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 20.11.26 18:18, Piotr Kubik wrote:
+The Kinesis Advantage keyboard (05f3:0007) and its integrated USB hub
+(05f3:0081) fail to re-enumerate after suspend/resume or warm reboot
+when VBUS remains supplied, reporting "hub_ext_port_status failed
+(err = 0)" until physically replugged.
 
->   /* devices aren't required to support these requests.
-> @@ -1739,10 +1749,27 @@ static int acm_resume(struct usb_interface *intf)
->   static int acm_reset_resume(struct usb_interface *intf)
->   {
->   	struct acm *acm = usb_get_intfdata(intf);
-> +	bool last;
->   
->   	if (tty_port_initialized(&acm->port))
->   		tty_port_tty_hangup(&acm->port, false);
->   
-> +	spin_lock_irq(&acm->write_lock);
-> +	last = acm->susp_count == 1;
-> +	spin_unlock_irq(&acm->write_lock);
-> +
-> +	/*
-> +	 * The device can lose its line coding, for example when it loses
-> +	 * power during system suspend, and acm_tty_set_termios() sends the
-> +	 * line coding only when it differs from acm->line. Send it from the
-> +	 * last interface to resume, before acm_resume() restarts the URBs.
-> +	 * In a runtime resume of the device, an autopm reference here would
-> +	 * wait for this resume and never return.
-> +	 */
-> +	if (last)
-> +		__acm_ctrl_msg(acm, USB_CDC_REQ_SET_LINE_CODING, 0,
-> +			       &acm->line, sizeof(acm->line));
+Add USB_QUIRK_DISCONNECT_SUSPEND so the devices disconnect on suspend
+and re-enumerate cleanly on resume, along with USB_QUIRK_DELAY_CTRL_MSG
+to avoid control transfer failures during re-initialization.
 
-Thank you, I was a bit premature unfortunately. Could you use
-the acm_set_line() macro, so that the driver stays consistent
-in that regard?
+Signed-off-by: Shiva kumar Martalu Gachanti <shivakumarmar@chromium.org>
+---
+ drivers/usb/core/quirks.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-	Regards
-		Oliver
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index a4bcbe9c913cf..d8518fb3517e4 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -350,6 +350,15 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	/* Genesys Logic hub, internally used by Moshi USB to Ethernet Adapter */
+ 	{ USB_DEVICE(0x05e3, 0x0616), .driver_info = USB_QUIRK_NO_LPM },
+ 
++	/* Kinesis Advantage keyboard */
++	{ USB_DEVICE(0x05f3, 0x0007), .driver_info =
++			USB_QUIRK_DISCONNECT_SUSPEND |
++			USB_QUIRK_DELAY_CTRL_MSG },
++	/* Kinesis Advantage keyboard integrated hub */
++	{ USB_DEVICE(0x05f3, 0x0081), .driver_info =
++			USB_QUIRK_DISCONNECT_SUSPEND |
++			USB_QUIRK_DELAY_CTRL_MSG },
++
+ 	/* Avision AV600U */
+ 	{ USB_DEVICE(0x0638, 0x0a13), .driver_info =
+ 	  USB_QUIRK_STRING_FETCH_255 },
+-- 
+2.56.1.750.gf70dc682cf-goog
 
