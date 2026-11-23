@@ -1,95 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795414991;
-	b=lEaEj2qJ1zfo4yUMcza2vesqCimmnHkJS1eMG7f2/HGKWLk2GE1y23h+qWlS/4FlHlOs
-	 qZHLFayn6D7B/99yHHr4HVa4I6V9HQ4exl3kx5ozap9h5OAVB7axB4WZZqXYfyyTi0LTs
-	 npTW+OsZ5iRiBm+TjaLSvDzprh2/3LlGG9w8REWBlDVslIw9qWcGCVyuLNuCB/L541Nc+
-	 E+b8ySwHqcsQNtQzJcIByjMg447LbLmOynZV4KCjLIRNMxKTY7DRnkh1yFfKGX+i0tDKd
-	 qp6w2z3sm09zTj0PhV9tQPisYgSdsFHDyZ4sAJa4lrUzS7q+I3bBwAF7hENFJBFnFrQ==
+	t=1795415085;
+	b=cDCZyzVl/FX81BfBFVzgRLUPBGncsctx8g8UoUmeiuJ/t9CPqjOg4/UQWWzNEi7e8+B9
+	 h4t/KUFTNP6cIIWN8nEkRjnpxNh6Szam6iyVukwsPLES7Ne/0VQGq8wT6QxgZT4i5Ymc/
+	 HjqocgvAywRRGteFEgMrcsXgOIPW8G+7+3wZkLUa02cRR97XOh/7B0dtzst9QTdp80Ov5
+	 Lbd+xHdibSGGSfb/GHvWvj5fX5HUt0nwSlOIk4ANZ4dT9IWbZukRnferAWg47x+73UniQ
+	 E2BOvCB5m+5IO3goOb59PynfUf1k2RuQshZHmm7eQwQi6YodaSR6lTCP88p3Vu8cfLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795414991;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=pgzjrQOGvack0Ux0RqI5gfXnGjGneOAYcUfumwqcad4=;
-	b=YTETk0CGptBnNdo2oMbTjEVGWAPVLQEivQp1yUOxaJG4x2funA/UeO9n9AAoZqrnabV6
-	 WEcKvBuR+dkKEUPMPfGpS1UxYRxJMVIWeJn83bk0t4guSJnlu9vzbEOSJN867sPdTJM0Y
-	 BGhjbh3B20vwdw55kmuLl6YN7b4BgVTlvC+7FWxxQT9YFanX+s6f0ndO2sRzfhpnMnhmE
-	 aKqpO6URxzPRh6uDiy1iN0EEphKxOIqPLbvf4I3XJddtOzI+CtpytKFlpJ7XlRqACVntr
-	 jlZf4k5WnwzZuMfxLrnzjRP/sM7wmGp50dZlT+g/5FaJXS0NULhCzYM2OewmeQq2LeA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795415085;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=7Spu6iERSMp8X5jycD4uaqYLUWuaLmQA+SUdHGO231I=;
+	b=BbJiTZUJNKK++Mm6TPPOP81ZFDuxTyBqzP+1/TUj3cVtsF2gWVa1H9DF6hPOelvBTWPR
+	 AiCrzWLoNRFdI1XOQdFY8RG4PI0J501JK/I0/sI9wTvMUUJ7xXrpTAR48Ud66cKvk7Bz7
+	 6kQdYwXnsI0rOmLAVqpVFQaoUbxP/Bk+W60pdJCIVKgF+ZLZ5ZmC43RMhZaTQ1uSpM1kt
+	 woI8XhqHvf3PoLvw2Tqv5XKnvivFh0C27FU+pzVIBZ4GRe67xQ98/yXWkhZhgNI+xAHwu
+	 wtRU15I0/7Vb4i8Yy/0YjHK1EhgnxPUUgNnmCt8oYVfmWzu5/a3jw8Y2vyBWCpG80qw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fAqusSx9;
-	arc=none smtp.remote-ip=74.125.82.179
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fTFysfv9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA10606A31A
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 06:23:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BA10606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607E8606A31E;
+	Mon, 23 Nov 2026 06:24:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fAqusSx9
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-38692f62b22so1315697eec.0
-        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 22:23:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795414990; x=1796019790; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pgzjrQOGvack0Ux0RqI5gfXnGjGneOAYcUfumwqcad4=;
-        b=fAqusSx94ZatdptsvlDWJ2B/wjzk/fIcE/mov/H3R5d++wV2kTKv0YzNh0I8waeqa5
-         quCc5++8KLJimu10W5/pQgbNr0jvDI7N7buVdsLqXuWOLEKBLACMWlPIMrzJsbeyNOMT
-         yHHPspqd88M6Zjt5KvEuH0AsuCrFthmnXrrtFcakVukpfJc3tsDhCTQb5c7+nKRxeFdi
-         K9EK3cMfd/Wk2DGw7hBE/R19Pwse903FdS8su9cwHTCfwUwqbCaOrTvcptnefYRgklbw
-         TmKvwuhIryaveSF1VQoXDHfvqxBNsMG0i+/DRXAAJZ6MpfE3auzrSlgQpcV5xdk7fQ+/
-         HDtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795414990; x=1796019790;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pgzjrQOGvack0Ux0RqI5gfXnGjGneOAYcUfumwqcad4=;
-        b=sdLu0cVsQXNsHzHuWn3v+acI3TDbWs8WEEAsUI8W7b/NPs47Uq4ttl0/Do+dn7cw5w
-         SBgbzhmkX4Je/3ePrvky+uxbs0dXE+uyiXQ3gDMUo9yQ9JxhzvFn2QvOTvwP725RMoCV
-         x8Uzq82eKaaLfnxZrL2MnoAFDZ7agbo1tUlGjIswMHnP/gqN3AQUuEqDHJq+4rPzzG4z
-         u+p8UHkzZPZEQfMF2os4vSdTLb3MzICCcl69szDYbkYmPEjDHyK42gotzVOHVpHqUXVJ
-         Raypn1eqBYDOZQ+dSxc7y7e07cIX9LSr1Pb5KhkimS6cAX6geoH9lDH/BJ1/aCNDgmhy
-         Cq0A==
-X-Forwarded-Encrypted: i=1; AL+hErF6a8IWmmJQO9M+OrldUn4a+4FrkFwhSc5ejECQDtXzhAk8aQ+z6qrZIUkb+0sNB9FTznq1P7AAMfk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/MBqRKLvllUy1HI9EHUFtmrWEobSkK3tP//470SFRGutw7Fkai
-	594sp140v6MB92Z1hMdS6QmBTajuk6530L4inuhNXGup+xGLNLP4GKg=
-X-Gm-Gg: AZFdTZduFQydSP0ntWALap6TFEe78tbwnE0FxCm0KrTIIML/su+weWCvsp+JuoZmX7h
-	U1YiHECKqDciPfWgPFOGd201uZhdNiL6H3d9I6jZ363M2rpHWU5raBwqlp98EuIm6/XRxjFjYm4
-	ZxgiJRPLH2TO+iggO0XR+m+p+KRD8ogXsd8UiaUWWwUwnyLcuzt2kPUXM8tWi2DY2EUde03a3uL
-	O0l2gm2I/BQ5bOd+EY6nausIwnPt5wtj9iXlBHpXSTbPFsh5hYnveZ+Lwv4i4bxhbKGJMY/j+sK
-	dF+WyyFzFWQMt1s/BVAFwNCvQzbXmvUMFpNt+Bx49joKpxF+9tLo+c7IVe/f2j8SFlZPVo7KJnO
-	GiYKOEkYbx1DWFW8M2U+cYvNKBYTIggpUmUWgvDaohMd7Fvi+xNyAmcmgbwH2iSLmN+tNyeNNgv
-	7+bccXr5f5TtHiK/R6MrwmEd25ZcQNwRuQg7hRxI/dEq1R9ST8poRyZxCktNzu8vee4ZvB0hjPJ
-	2bfuXbreyCvP2u6gyXiVHP786/dtgkRSfpJpxv0KaYOfk3B4YRmyVtFCuW8TG6RWGZjE1xihsdT
-	HisRikkbSLlrLSSi+WtNJlliWQZgBaTbZZttPotNYXlXBe8SfEE9pDL4e3J0g++hExbcb6XDhBg
-	BtPhRZHkRKWfF8LVRtIR5l3x2Ez/q9w==
-X-Received: by 2002:a05:7300:c00f:10b0:384:bc32:fe6b with SMTP id 5a478bee46e88-3856e63b194mr13329612eec.13.1795414990426;
-        Sun, 22 Nov 2026 22:23:10 -0800 (PST)
-Received: from at-Standard-PC-Q35-ICH9-2009.tailbdca44.ts.net ([27.60.27.67])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e96bdsm30844266eec.7.2026.11.22.22.23.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 22:23:10 -0800 (PST)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: atharvatiwarilinuxdev@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: acpi: Get correct location data for Apple macs
-Date: Mon, 23 Nov 2026 01:23:04 -0500
-Message-ID: <20261123062304.11498-1-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <2026112349-gala-unrobed-637d@gregkh>
-References: <2026112349-gala-unrobed-637d@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fTFysfv9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E2981F000C0;
+	Mon, 23 Nov 2026 06:24:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795415084;
+	bh=7Spu6iERSMp8X5jycD4uaqYLUWuaLmQA+SUdHGO231I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fTFysfv9y+1eQJV7/sIm78b0uaInwqHQrYtSRrs9/+vW/ZcpifhXcRHBzjRtyInUR
+	 z8Uj59oGbZw0faZ3k9xBq4zycIIKS1BzcUXqDMHyE5UzDQrDikHDCsSy4JvvXrteMV
+	 ql3vZx7j3VZ8F/k5YDYi6JYFrKiYJ/pqMZv09/+6q32tEbkhs8M3JHys3WEFnU/IYZ
+	 hnUZ8dmnSNfIONVq9PceAMwvwbT9ptf20GsbITJltShk98CO70lYTzaW0xqwoCp+CY
+	 prjdzUCVfsaxo74rrEQ/ChZThNRG5BSim1GmX6ghNs5LfjrAoWZ7QQlVAbsigKH95o
+	 Vr1yHTtLuEUlw==
+Date: Mon, 23 Nov 2026 08:24:39 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+	dmitry.torokhov@gmail.com
+Subject: Re: [PATCH v3 02/31] Bluetooth: btusb: Fix MediaTek ISO claim locking
+Message-ID: <20261123062439.GH14811@unreal>
+References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-2-d655875c4bfb@nvidia.com>
+ <sashiko-outbox-223888@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -99,19 +60,144 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <sashiko-outbox-223888@kernel.org>
 
-> Sure, but again, you only check it once, why not just do the logic there
-> then and not have any local variables?
+On Thu, Nov 19, 2026 at 07:29:22PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [High] Bluetooth: btusb: btusb_mtk_setup() aborts when interface 2 is
+>   claimed by Wi-Fi
+> --
+> 
+> commit 40159ea2da44fd76ee32a7e5d004d0dc5227de46
+> Author: Leon Romanovsky <leon@kernel.org>
+> 
+> Bluetooth: btusb: Fix MediaTek ISO claim locking
+> 
+> This commit resumes the USB interface, acquires the parent device lock with
+> bounded retries before claiming the MediaTek ISO interface, and propagates
+> claim errors to btusb_mtk_setup().
+> 
+> > diff --git a/drivers/bluetooth/btusb_main.c b/drivers/bluetooth/btusb_main.c
+> > index 92a78a7e60396..8307fd819cc2e 100644
+> > --- a/drivers/bluetooth/btusb_main.c
+> > +++ b/drivers/bluetooth/btusb_main.c
+> > @@ -2993,40 +2993,57 @@ static int btusb_recv_event_realtek(struct hci_dev *hdev, struct sk_buff *skb)
+> >  	return hci_recv_frame(hdev, skb);
+> >  }
+> >  
+> > -static void btusb_mtk_claim_iso_intf(struct btusb_data *data)
+> > +#define BTUSB_MTK_ISO_LOCK_TRIES	5
+> > +static int btusb_mtk_claim_iso_intf(struct btusb_data *data)
+> >  {
+> >  	struct btmtk_data *btmtk_data;
+> > -	int err;
+> > +	int err, i;
+> >  
+> >  	if (!data->hdev)
+> > -		return;
+> > +		return 0;
+> >  
+> >  	btmtk_data = hci_get_priv(data->hdev);
+> >  	if (!btmtk_data)
+> > -		return;
+> > +		return 0;
+> >  
+> >  	if (!btmtk_data->isopkt_intf) {
+> >  		bt_dev_err(data->hdev, "Can't claim NULL iso interface");
+> > -		return;
+> > +		return 0;
+> >  	}
+> >  
+> > -	/*
+> > -	 * The function usb_driver_claim_interface() is documented to need
+> > -	 * locks held if it's not called from a probe routine. The code here
+> > -	 * is called from the hci_power_on workqueue, so grab the lock.
+> > -	 */
+> > +	err = usb_autopm_get_interface(data->intf);
+> > +	if (err)
+> > +		goto err_clear_iso_intf;
+> > +
+> > +	/* Disconnect may hold the parent lock while waiting for this work. */
+> > +	for (i = 0; i < BTUSB_MTK_ISO_LOCK_TRIES; i++) {
+> > +		err = usb_lock_device_for_reset(data->udev, data->intf);
+> > +		if (err != -EBUSY)
+> > +			break;
+> > +	}
+> > +	if (err)
+> > +		goto err_put_interface;
+> > +
+> >  	device_lock(&btmtk_data->isopkt_intf->dev);
+> >  	err = usb_driver_claim_interface(&btusb_driver,
+> >  					 btmtk_data->isopkt_intf, data);
+> >  	device_unlock(&btmtk_data->isopkt_intf->dev);
+> > -	if (err < 0) {
+> > -		btmtk_data->isopkt_intf = NULL;
+> > -		bt_dev_err(data->hdev, "Failed to claim iso interface: %d", err);
+> > -		return;
+> > -	}
+> > +	if (err)
+> > +		goto err_unlock;
+> >  
+> > -	set_bit(BTMTK_ISOPKT_OVER_INTR, &btmtk_data->flags);
+> >  	init_usb_anchor(&btmtk_data->isopkt_anchor);
+> > +	set_bit(BTMTK_ISOPKT_OVER_INTR, &btmtk_data->flags);
+> > +	usb_unlock_device(data->udev);
+> > +	usb_autopm_put_interface(data->intf);
+> > +	return 0;
+> > +
+> > +err_unlock:
+> > +	usb_unlock_device(data->udev);
+> > +err_put_interface:
+> > +	usb_autopm_put_interface(data->intf);
+> > +err_clear_iso_intf:
+> > +	bt_dev_err(data->hdev, "Failed to claim iso interface: %d", err);
+> > +	return err;
+> >  }
+> >  
+> >  static void btusb_mtk_release_iso_intf(struct hci_dev *hdev)
+> > @@ -3169,7 +3186,11 @@ static int btusb_mtk_setup(struct hci_dev *hdev)
+> >  	/* Claim ISO data interface and endpoint */
+> >  	if (!test_bit(BTMTK_ISOPKT_OVER_INTR, &btmtk_data->flags)) {
+> >  		btmtk_data->isopkt_intf = usb_ifnum_to_if(data->udev, MTK_ISO_IFNUM);
+> > -		btusb_mtk_claim_iso_intf(data);
+> > +		err = btusb_mtk_claim_iso_intf(data);
+> > +		if (err) {
+> > +			btmtk_data->isopkt_intf = NULL;
+> > +			return err;
+> > +		}
+> >  	}
+> >  
+> >  	err = btmtk_usb_setup(hdev);
+> 
+> [Severity: High]
+> Does propagating the usb_driver_claim_interface() error abort
+> btusb_mtk_setup() on composite MediaTek Wi-Fi/Bluetooth USB devices where
+> interface 2 (MTK_ISO_IFNUM) belongs to Wi-Fi?
 
-I thought of that, but i did not do that because it creates a order dependency
-that being USB2.0 has to come before USB3.0 otherwise the code would not work.
+Yes, Sashiko's findings are correct. I don't think the MediaTek examples are
+correct, but that is less important. We need to fix this to support devices
+with multiple interfaces.
 
-> So how have these old systems been working so far with Linux?
+Thanks
 
-The feature itself is not that big, that systems would break without it just
-warns about it:
-
-usb: port power management may be unreliable
-
-but new macs provide location info, so i thought to add support for it.
+> 
+> btusb_mtk_setup() runs for all BTUSB_MEDIATEK devices and unconditionally
+> attempts to claim interface 2 before btmtk_usb_setup() identifies the chip.
+> On composite devices such as MT7663U (0e8d:7663, 043e:310c), MT7921U
+> (0e8d:7961) and MT7925U (0e8d:7925), interface 2 is the vendor-specific
+> Wi-Fi interface bound to mt76 (mt7615u, mt7921u, mt7925u).
+> 
+> Because usb_set_configuration() holds the parent device lock while probing
+> all interfaces and btusb_mtk_claim_iso_intf() now waits for that lock from
+> the hci_power_on workqueue, the Wi-Fi driver binds to interface 2 first.
+> usb_driver_claim_interface() then returns -EBUSY, and returning that error
+> from btusb_mtk_setup() prevents Bluetooth from powering on instead of
+> continuing without the optional ISO-over-interrupt interface.
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com?part=2
+> 
