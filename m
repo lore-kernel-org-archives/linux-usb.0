@@ -1,94 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795410907;
-	b=zEESSkKCrJ7vZpsz0N6n+fmVmIh+u69HZS2NloyEsYuFmnvPH1mrx4N0VOGxfuBWnFOQ
-	 LHlKdGK42lTYdzTDpSoKDzmX3uhoHo9tlWiwOg+wcW5sYy4eyXq/B9hfYNeElnNbwG4pq
-	 KRQDj/tgGcgUqbBKNvevgn2uCOR4sspsLKpvInCYJD+5+CNyVOR7gh/hY3E8Ak2GEkap1
-	 i/gjeuAA0MTBsbAkSb+gRPlenJf1xGBGc4x3Rxl+DB9UyXy6lLLwgp7UPIUw2pL/AzP6r
-	 IZAFbkplc4SslLeEM1SZxd3uAXieErf1diClcOxmXw6y3biFu8BmR8u1VFGlk59WpUA==
+	t=1795411512;
+	b=jrO6mt0omPBaFSv8q6IhlgTejV4bSpKpDCM5vq4VtAaGhIz8fXVhlfcvUKUIFB1Dd5Y+
+	 uVLVkoLpvLwl9ggTh6GSgLKGoQ+xhDqB9x+NruPEwp2Lm6QRC6Gm1coCyHDkFC2ZyHLKO
+	 heAO/TrY38eKbuZeJhsI6SwQUi3BlkWcCYJ6+EnhwU6f8VTTD+zXaNUPkFySknWnzb+42
+	 MnXUs3VeKgrQG545MqpzZMhYovkbHW7JGojZokvuFh9EdgWG4E8M9iYvzmofOL2VSDQIb
+	 KIvvmVN5AFtwHPOWMkP8tgxtbhdO7YXgxqTqtkD1dbt8OtGuNzpaWdKdrIe/969xNww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795410907;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=J5+OMc5K2KdK1ae56gTLhAO90WfBUcBNNjJYpmWeE50=;
-	b=X+dYu1bW6/yggEvwiMeor/a8lbNNrzMqyYXm+7fVn3f9d+NUUMnPmFy81iQAwGBe8wq/
-	 w/EZvE8YEFUCe5ulXsa+6sLaUYjf0iNOczU0DrNjpWisgJdBvMyd8Ewyq6HCkwNH9Zsvd
-	 GwBsbmSTAUPU3LIaGu6DlM+IOcyW9rdRUMMDM8AYjcPE63qhU1igY+G4qi8OnMqyDxNDp
-	 JVtLy652pjUcrEwFWxVrFes6dy4YOLscC2pHpPi8Qghw7sJ1p+4ta8k+blTUZUL2sWzqk
-	 grDv4dHinWBGI8YnRuFtUijumd/SHNHiTDYQTQvN0lt9sF7IJyFj4qAvehsqH0HLsrQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795411512;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=QU6sSpMXLmoonpm8ZBlddANaoHlFssmJKlPEeH7oIDI=;
+	b=oWwoDnbC/OtkAc6Wxa2gdj2ytc2z6WZ78c13ZVq9evE9OJPMnwbzahwRwnxGJ+kt4XoH
+	 moH2X+hZORBk3EHItrFBA3Iou3Q971AF55N7a6QlLlbWDtQyq7Ua+/ZhbkrYA1pBBJrL+
+	 1tKwuUTUyAbVU/HIN2nQOMynqBAqS/avn0CFeFbyRLsM0YpzWuCmryJ1VCPbeneNfIv9q
+	 6pSZkEo3U1TaADQUM9KZidx/lexIuLe3y3Uipga5VZhteYte3FoWtgDbUiwruHOlBFsmU
+	 fCJImoQf2eXGMBTXJGcW8ZKmdLcgMKkbOcv6XK8bCz5D6HOlp2Wx2V7iKk3YCIjzI/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KPGVhSQW;
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fg3tGDp+;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC055606A31F
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 05:15:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC055606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79180606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 05:25:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KPGVhSQW
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-380b40312e2so6989564eec.1
-        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 21:15:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795410906; x=1796015706; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=J5+OMc5K2KdK1ae56gTLhAO90WfBUcBNNjJYpmWeE50=;
-        b=KPGVhSQWoM3Dw7qxCwP3mb4MYzlfW+rUvYdYTHytM7ncE7MXsVALLEQVIdyDlku17Q
-         fo7OfXj0A9el03zWps8IXy67MXP1FgLqcGIPYhmOb5fXhjOzkUXYAy7cYS6fv9ox1e/r
-         ED0L6Ou/Rjr9SkLN/FjeyLnySdeiTLXGFSYFTp8N3ks55pA2nHYg76WGuK4V7+gxSkEB
-         o80IZ0wbASCBodH3OjEvbyh8lQf5zOmHtUBOoJSk05nYeIGSiWxaKaaARLmRDFT4HTq3
-         F8niq9/PKEc5rKTuS7C8s+CmvKpv6v0WczbCffl9KusDjYRMcwHN5XRmzTmjskeVr5BS
-         bS+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795410906; x=1796015706;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=J5+OMc5K2KdK1ae56gTLhAO90WfBUcBNNjJYpmWeE50=;
-        b=KKoY8PNhIJ6UjbP1S6mJYplxL+Fa9BliRP1dKNhdPTVtglU0k8/bYvAzllJTAHBnu1
-         zD/fGjhdXk7uaAWJq4mDAQzr9t2Ss8ZbVVlCe1V5pebn2FV1kQuhhBYF33jJg7uog+D4
-         XmSJkE7tjBkqj1/CsAGlq4/K9zlQ7vB/OYznlU5vIJvJgWC8mj6V0Ledpgl5x8NAym0S
-         h2j4RjC5cQ4DEOV48XJib0Z8uFe7tPmbhYvvndbRAeP0huQ4KIJ2FXnprvpTTydUB7T5
-         zE2p8INO1MtiwqQ/lAd9KpIkNui15YnqK5Kkc8LAmwnNWkSE8ucbRy6y4GjvXHWn2AJB
-         JZZQ==
-X-Forwarded-Encrypted: i=1; AL+hErFUljXbjkb081Y0CYjB0guebAAGuvfTgVWOcckcAgVwEzmbkBLT7MGi9pUPPQgyXQM2POY8kT5/ejs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8GrGaNKzAA916LMxvv5HGEN1BaTElpQx3xxB89QDICDk/x0dDr
-	nJ3FjyvVvV7rpN6xlFDT0UxPIePdmtjn8dm4MJP5lhqp+8V5/ULH8/U=
-X-Gm-Gg: AZFdTZcQjEYyXV5h8eoLSxyabanb6wINcG9KxKz5kZgsKP9cr92BcQF5WaWW6wOkcb9
-	N9YvMLZ38yLed9PP/1IaACVDFcloEFsJ1h7h020Ldig3EnLfcWOggsi8AldaGCfwx9Bng9StQ+Y
-	PTneyHQDAL9NKH4/N9WwVAfZf+J2WnPbqni+gwtUMPKCNaUz+7YdGxAbbMTPbBB6BhQ8u2tsqYU
-	uIGAHqpYlGDCcFYwTx1V79lA9T7J0skj9DN+yHov731DkPng+zODCAG8tQntXZtZruszWU//Scw
-	X4LizdUyADbh+nYt5J47mbIxzhcMcJELDJsaQnsKDGeg8o96iid4RDMAT6abtMKkeWTNlO5SPRX
-	zlzSt+f1gR3MMXeo8G7AA51GE+SUChgNZbSSMV4FFzmRbh/ihGtQFQiaf7E3NloHn48a4AQulJM
-	mBEYknMRhDGvsDH6gA4ZBn8PXpJiLh5PrhgkBmT4F9Jr4p/fGipNjyR6y5WfozZsPn2crkc33eu
-	uGo904EPMgQMJIAZO1ab9junzW0mmjVSo2dArUrjPbqUC4eRaD3jLW0+xmKmxXbKvPvg1Sh6/l0
-	Kr8cBGntsSl7Vc17yO3vQwPSDbNhj6PDanIpzwlXsQnRo+2yVxtI+W+O7ul9NSj8gntRM+t293d
-	W7gAn4qC7
-X-Received: by 2002:a05:7301:e0cd:b0:375:dbeb:b363 with SMTP id 5a478bee46e88-38570f221dcmr11508796eec.28.1795410905706;
-        Sun, 22 Nov 2026 21:15:05 -0800 (PST)
-Received: from at-Standard-PC-Q35-ICH9-2009.tailbdca44.ts.net ([27.60.27.67])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385f68bc0adsm28238694eec.13.2026.11.22.21.15.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 21:15:05 -0800 (PST)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: 
-Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org (open list:USB XHCI DRIVER),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3] usb: xhci-pci: Add Power handling for Card readers on Apple systems
-Date: Mon, 23 Nov 2026 00:14:58 -0500
-Message-ID: <20261123051459.9581-1-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fg3tGDp+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6767F1F000CF;
+	Mon, 23 Nov 2026 05:25:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795411511;
+	bh=QU6sSpMXLmoonpm8ZBlddANaoHlFssmJKlPEeH7oIDI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Fg3tGDp+/105i1Aiz5qxyrKS62D8T8wkNfgBIGX0Uvfva8vi0tqHryEwDjyfuy1dn
+	 NAyZz2NtS63OTEYpcIr6mHmkx2bdOkf27RXRpXPIrKdZLJiIpOF0Xnr4fZknihEqqH
+	 sMHJpFQdAmm/GjW7eqS5RnI629CKKBvyWnWRMKjNk/8CosYe4uzjfxecgcen65HXD1
+	 Vi62bUVmMky+aQIHZtVV3t77t1oOgFTlSrVCQCJYJQrXG1F3MYZvelrnWpeauP744G
+	 2Du7t4+ikdNYiERLgEWTn1Aj5Z4IExBn23AXwMvpAQWdUy48a4PrdGUC8wK/LV7FTu
+	 TWYhGGN0Rk0mg==
+Message-ID: <sashiko-outbox-228716@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3] usb: xhci-pci: Add Power handling for Card readers
+ on Apple systems
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Atharva Tiwari" <atharvatiwarilinuxdev@gmail.com>
+Cc: =?utf-8?b?b3BlbiBsaXN0OlVTQiBYSENJIERSSVZFUg==?= <linux-usb@vger.kernel.org>
+In-Reply-To: <20261123051459.9581-1-atharvatiwarilinuxdev@gmail.com>
+References: <20261123051459.9581-1-atharvatiwarilinuxdev@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Nov 2026 05:25:10 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -97,122 +59,141 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Add Power handling for Card readers on Apple systems using SPWR
-ACPI method, SPWR(1) turns on the card reader, SPWR(0) turns off
-the card reader, on newer systems SPWR just writes a variable in EC.
-On previous systems it writes to GPIO pins.
+Thank you for your contribution! Sashiko AI review found 4 potential
+issues to consider:
+- [Medium] usb: xhci-pci: xhci_pci_suspend() powers off card reader in
+  runtime PM
+- [Medium] usb: xhci-pci: missing xhci_apple_card_reader_power() off on
+  teardown
+- [Low] usb: xhci-pci: duplicate SPWR call and early power-on in
+  xhci_pci_quirks()
+- [Low] usb: xhci-pci: commit message does not explain why SPWR is
+  needed
+--
 
-Its also used by the macOS driver with the function
-AppleUSB30XHCICardReaderPort::setDevicePower in AppleUSBXHCIPCI.kext.
+commit d1a936841fa988f7b77ee73f457b5d9b5e354c4c
+Author: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
 
-(This should fix https://bugzilla.kernel.org/show_bug.cgi?id=111201
- But thats not confirmed)
+> usb: xhci-pci: Add Power handling for Card readers on Apple systems
+>
+> Add Power handling for Card readers on Apple systems using SPWR
+> ACPI method, SPWR(1) turns on the card reader, SPWR(0) turns off
+> the card reader, on newer systems SPWR just writes a variable in EC.
+> On previous systems it writes to GPIO pins.
+>
+> Its also used by the macOS driver with the function
+> AppleUSB30XHCICardReaderPort::setDevicePower in AppleUSBXHCIPCI.kext.
+>
+> (This should fix https://bugzilla.kernel.org/show_bug.cgi?id=3D111201
+>  But thats not confirmed)
+>
+> (Tested on iMac20,1)
+>
+> Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
 
-(Tested on iMac20,1)
+[Severity: Low]
+This isn't a bug, but the commit message describes what the SPWR ACPI
+method does without explaining the problem that occurs without this change.
+Could the changelog mention that the internal card reader is powered off at
+boot and fails to enumerate on the USB bus unless SPWR(1) is evaluated?
 
-Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
----
-Changes in v3:
-- Added changes at correct location
-- Removed accidental usb-acpi code.
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> index e278db940a583..31961de9761f8 100644
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+[ ... ]
+> @@ -517,6 +518,18 @@ static void xhci_pci_quirks(struct device *dev, stru=
+ct xhci_hcd *xhci)
+>  	if (xhci->hci_version >=3D 0x120)
+>  		xhci->quirks |=3D XHCI_DEFAULT_PM_RUNTIME_ALLOW;
+> =20
+> +#ifdef CONFIG_ACPI
+> +	/* On Apple Machine with Card readers, we have to use SPWR(0/1) to turn
+> +	 * off/on the card reader, And on boot the card reader is off, so we tu=
+rn
+> +	 * it on.
+> +	 */
+> +	if (x86_apple_machine && ACPI_HANDLE(&pdev->dev) &&
+> +			acpi_has_method(ACPI_HANDLE(&pdev->dev), "SPWR")) {
+> +		acpi_execute_simple_method(ACPI_HANDLE(&pdev->dev), "SPWR", 1);
+> +		xhci->quirks |=3D XHCI_APPLE_CARD_READER_POWER;
+> +	}
+> +#endif /* CONFIG_ACPI */
 
-Changes in v2:
-- Fixed grammatical errors.
-- Added CONFIG_ACPI check
-- Checked for xhci_suspend success before turning off power
+[Severity: Medium]
+Does this leave the card reader powered on after probe failures, driver
+unbind, or system shutdown?
 
-Link to v2:
-https://lore.kernel.org/all/20261123044412.8721-1-atharvatiwarilinuxdev@gmail.com/
+Evaluating SPWR(1) in xhci_pci_quirks() turns on the card reader during
+xhci_gen_setup(), before xhci_halt(), xhci_reset(), xhci_mem_init(), and
+shared USB3 HCD registration complete, and neither the probe error paths
+nor xhci_pci_remove(), xhci_pci_stop(), or xhci_pci_shutdown() call
+xhci_apple_card_reader_power(pdev, 0) to power it back off when the host
+controller is stopped.
 
-Link to v1:
-https://lore.kernel.org/all/20261116231926.5891-1-atharvatiwarilinuxdev@gmail.com/
-
- drivers/usb/host/xhci-pci.c | 25 ++++++++++++++++++++++++-
- drivers/usb/host/xhci.h     |  1 +
- 2 files changed, 25 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index e278db940..31961de97 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -15,6 +15,7 @@
- #include <linux/reset.h>
- #include <linux/suspend.h>
- #include <linux/bitfield.h>
-+#include <linux/platform_data/x86/apple.h>
- 
- #include "xhci.h"
- #include "xhci-trace.h"
-@@ -517,6 +518,18 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
- 	if (xhci->hci_version >= 0x120)
- 		xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
- 
-+#ifdef CONFIG_ACPI
-+	/* On Apple Machine with Card readers, we have to use SPWR(0/1) to turn
-+	 * off/on the card reader, And on boot the card reader is off, so we turn
-+	 * it on.
-+	 */
-+	if (x86_apple_machine && ACPI_HANDLE(&pdev->dev) &&
-+			acpi_has_method(ACPI_HANDLE(&pdev->dev), "SPWR")) {
-+		acpi_execute_simple_method(ACPI_HANDLE(&pdev->dev), "SPWR", 1);
-+		xhci->quirks |= XHCI_APPLE_CARD_READER_POWER;
-+	}
-+#endif /* CONFIG_ACPI */
-+
- 	if (xhci->quirks & XHCI_RESET_ON_RESUME)
- 		xhci_dbg_trace(xhci, trace_xhci_dbg_quirks,
- 				"QUIRK: Resetting on resume");
-@@ -562,10 +575,14 @@ static void xhci_find_lpm_incapable_ports(struct usb_hcd *hcd, struct usb_device
- 		}
- 	}
+> @@ -562,10 +575,14 @@ static void xhci_find_lpm_incapable_ports(struct us=
+b_hcd *hcd, struct usb_device
+>  		}
+>  	}
+>  }
+> -
+> +static void xhci_apple_card_reader_power(struct pci_dev *pdev, u64 on)
+> +{
+> +	acpi_execute_simple_method(ACPI_HANDLE(&pdev->dev), "SPWR", on);
+> +}
+>  #else
+>  static void xhci_pme_acpi_rtd3_enable(struct pci_dev *dev) { }
+>  static void xhci_find_lpm_incapable_ports(struct usb_hcd *hcd, struct us=
+b_device *hdev) { }
+> +static void xhci_apple_card_reader_power(struct pci_dev *pdev, u64 on) {=
  }
--
-+static void xhci_apple_card_reader_power(struct pci_dev *pdev, u64 on)
-+{
-+	acpi_execute_simple_method(ACPI_HANDLE(&pdev->dev), "SPWR", on);
-+}
- #else
- static void xhci_pme_acpi_rtd3_enable(struct pci_dev *dev) { }
- static void xhci_find_lpm_incapable_ports(struct usb_hcd *hcd, struct usb_device *hdev) { }
-+static void xhci_apple_card_reader_power(struct pci_dev *pdev, u64 on) { }
- #endif /* CONFIG_ACPI */
- 
- /* called during probe() after chip reset completes */
-@@ -853,6 +870,9 @@ static int xhci_pci_suspend(struct usb_hcd *hcd, bool do_wakeup)
- 	/* synchronize irq when using MSI-X */
- 	xhci_msix_sync_irqs(xhci);
- 
-+	if (!ret && (xhci->quirks & XHCI_APPLE_CARD_READER_POWER))
-+		xhci_apple_card_reader_power(pdev, 0);
-+
- 	if (ret && (xhci->quirks & XHCI_SSIC_PORT_UNUSED))
- 		xhci_ssic_port_unused_quirk(hcd, false);
- 
-@@ -895,6 +915,9 @@ static int xhci_pci_resume(struct usb_hcd *hcd, pm_message_t msg)
- 	if (xhci->quirks & XHCI_PME_STUCK_QUIRK)
- 		xhci_pme_quirk(hcd);
- 
-+	if (xhci->quirks & XHCI_APPLE_CARD_READER_POWER)
-+		xhci_apple_card_reader_power(pdev, 1);
-+
- 	return xhci_resume(xhci, power_lost, is_auto_resume);
- }
- 
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index ec4bfeb48..579ddea52 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1652,6 +1652,7 @@ struct xhci_hcd {
- #define XHCI_CDNS_SCTX_QUIRK	BIT_ULL(48)
- #define XHCI_ETRON_HOST	BIT_ULL(49)
- #define XHCI_LIMIT_ENDPOINT_INTERVAL_9 BIT_ULL(50)
-+#define XHCI_APPLE_CARD_READER_POWER	BIT_ULL(51)
- 
- 	unsigned int		num_active_eps;
- 	unsigned int		limit_active_eps;
--- 
-2.55.0
+>  #endif /* CONFIG_ACPI */
 
+[Severity: Low]
+This isn't a bug, but xhci_pci_quirks() open-codes
+acpi_execute_simple_method(ACPI_HANDLE(&pdev->dev), "SPWR", 1) inside a
+separate #ifdef CONFIG_ACPI block instead of using
+xhci_apple_card_reader_power(pdev, 1), and powers on the device before
+xhci_gen_setup() halts and resets the host controller.
+
+Since ACPI_HANDLE() and acpi_has_method() already have !CONFIG_ACPI stubs,
+xhci_pci_quirks() could just set XHCI_APPLE_CARD_READER_POWER and let
+xhci_pci_setup() call xhci_apple_card_reader_power(pdev, 1) after
+xhci_gen_setup() succeeds, matching XHCI_PME_STUCK_QUIRK and
+xhci_pme_acpi_rtd3_enable().
+
+> @@ -853,6 +870,9 @@ static int xhci_pci_suspend(struct usb_hcd *hcd, bool=
+ do_wakeup)
+>  	/* synchronize irq when using MSI-X */
+>  	xhci_msix_sync_irqs(xhci);
+> =20
+> +	if (!ret && (xhci->quirks & XHCI_APPLE_CARD_READER_POWER))
+> +		xhci_apple_card_reader_power(pdev, 0);
+> +
+>  	if (ret && (xhci->quirks & XHCI_SSIC_PORT_UNUSED))
+>  		xhci_ssic_port_unused_quirk(hcd, false);
+
+[Severity: Medium]
+Won't calling xhci_apple_card_reader_power(pdev, 0) unconditionally in
+xhci_pci_suspend() cut power to the card reader during runtime suspend and
+while port wake bits are armed?
+
+hcd_pci_runtime_suspend() calls suspend_common(dev, PMSG_AUTO_SUSPEND),
+which invokes xhci_pci_suspend() with do_wakeup =3D true.  On controllers
+with hci_version >=3D 0x120 (such as iMac20,1),
+XHCI_DEFAULT_PM_RUNTIME_ALLOW enables runtime PM by default, so whenever
+the xHCI controller enters runtime suspend in S0, SPWR(0) powers off the
+card reader and prevents it from detecting SD card insertions or signaling
+remote wakeup.
+
+In addition, when the card reader is connected and wakeup is enabled,
+xhci_bus_suspend() arms PORT_WKDISC_E on the root-hub port and
+xhci_suspend() preserves PORT_WAKE_BITS.  Cutting power to the card reader
+after xhci_suspend() causes the device to drop off the bus while
+wake-on-disconnect is armed, which can trigger an immediate disconnect wake
+event or force an unexpected disconnect and re-enumeration on resume.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123051459.9581=
+-1-atharvatiwarilinuxdev@gmail.com?part=3D1
