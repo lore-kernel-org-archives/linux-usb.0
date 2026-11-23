@@ -1,100 +1,100 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.171
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795462246;
-	b=J7oT10oh/3EfSLy2HN+SCkpfhaeIPbUYEoq0gCrfpUkCb+mnK84l3yVeymoMWhqhyaA3
-	 5r3r8rhR/Hco3GDO/w0T+OI09lHUyoLkr28XcBxSjSwDVV0BCA3n+rW7XOSKksmkwnsWU
-	 g3ag1MF5M0Wp313m0z859x2EZir5Kggp2LaKdTi3kvGFRSZVgR44EVza0s723HKExiU59
-	 1QyWHoCcfE4ozYbdkx49++bwB3asvw6kzVsKKO73qrd1benqzHV/h20kEyM4JmIkDebWz
-	 lT+Uc+JV4JG8rsXToHevoeRhN8aztT32GZdrIAvdPUFRMiAeuIKNJXnvcIu80v4o/aw==
+	t=1795463150;
+	b=nYF9feByHt8VALax4/Wnr3u90bQVv4ngAfxYCWdqK6nIZZGQ/IB9ZRfeWEbotOAFgssR
+	 qJCKtt66/bSBjs6HjjbRzgRA6HBQv3UO3WUn+4Sin4Wbs3WUphs0EfNyGF9x/BvuyG2bv
+	 XzkG39VTrt4KXJiEXsf8td6VE4CfF4oj1XLhRIpDnzfR4SF8URBkbiDsL7Y84ulKLg5RW
+	 6PeCaT5kPWDoh/QDNqgZokoJZEVe+DO/Z3R0VRQIPJL0z1YKxZJ8ydz18StoGvyAsOJ0r
+	 tFTnAOTKh1sIKaTcvbKDRWgwswrN49yZtnxKs1rd34DnPnVyEvxFJn+uznaMNtcgSRA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795462246;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795463150;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=J9HL1GczKVUsA0QA3fywXb4GBtKWVrrqUMxuNy6hTvo=;
-	b=yEqQCFn5y1TiD8h64RWcN/U6aFSQ4ycy0dUmetZ47QFQQABHQ0WoboayXJY7g01aTWCb
-	 pR1IU70eXxwXyyUnbJr2fV4kKslBWQM53VMVoPcX8sUq570gQUVqL+DxPndad5J6DoSki
-	 lNtzqUorfhMObwUUvIkzxYkEZb9otdVLDC7KjsxdBQiFLiFMGm2wyWmhurf+xZh3eLnuQ
-	 lL2Pib2PQHvMeV+w8nqhAEK+PkjT1u1KyBuIHghJuJRmJBgheMwbP9LZ7XodhfYfe6wiY
-	 B50nU5lFTU/OT87BN/muzZvam9xJf4OgZLxEpWuKV64VB0NR/51ita+K3xb8Qk8eGww==
+	bh=sWpHDwX4NA5FzsiIsGJw1W8t/+RBE5s4GsO2WVDVB6s=;
+	b=EXcXOn4CUouRUbizNsxGSa3+zUs9bsf1C3ozA3b21gIgfHcszDCekuuENZLoQaMvWC6O
+	 WE1HIIGwebrdj94IRdXwHc394h0raUyWuUqPUotHlW/NpoUOM1fmYJ3F+W8ghug3Bx/U4
+	 3MFU7e+gkA354GPDoCPIQXjGuu0j3MnEOsAM8Rsv8eFEH+AP0wj+Q/6iYVkSUW2l0aAm4
+	 pmTR4pRlF/lp1wI+NJIbdFInmlHPZfDTm6967czyQS3MQNMTHdZNUbKLoB1kHMsXmYzgX
+	 bSHdLOBRvyi1mn7AyuCVJLwsyMzMtQ0VB+uoRfZ1ZcU0uX9R0JAxS7G2dsnsGhtkHTg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LX7QH62p;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=XxWqDgBP;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.171
 Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50B8606A31E
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 19:30:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E50B8606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0C9606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 19:45:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E0C9606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LX7QH62p
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-53ec2cc397aso1992431b6e.1
-        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 11:30:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795462245; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=XxWqDgBP
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-57148b8ec14so1279999b6e.3
+        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 11:45:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795463149; cv=none;
         d=google.com; s=arc-20260327;
-        b=R2pFij4cRORaMmUYTDH6ln1G9tmGEX6VewhNaICyXHYi0xgVYUkX/rIqzGMYY1TnTX
-         EploIB/3hZdylEtMVIDFTxdJ5+lxtWdNSHGhrt1Ht0+B6dhGqzY0/yz6Ur1xQyREcuAC
-         NDwEorzdAg61Bh7RogAHOe1R6c3EMZp+GjDG6swd1q9J9hUqd/fApqk5iSzL4U9iFFz/
-         CNWluwT5V+4Cto/F7hUZNIaA22NDQPUK0Olv4NT3gNIFKVap0Ei8/h0Udpi6YT6U0d7K
-         HZyPWIBnDqxkBltjdV3F/63hcm14Ax6C8kfelq350tYnBvaZPu8ouEMaoKRXk/zsS5dm
-         trfA==
+        b=Hjx5PLnunkY/yJdJ1xjyluEkWsHKc+m/KenKXmAi+0uAX4LEM14d/ftoftgoRnwTyN
+         y11p3bbzLBXpinnarYsu9oZs8iECVqcY+GI2qdOXKKUMaus6lHskAzO1z2Vy+lPTEF1w
+         +rKv567m92EtX35hjgUM3wibTbx6eoW1kZIs81pVF+IM1mqI89clolYvYxfNrnrN1uq4
+         LvfSVkENgjP5cdykTQR/q2J6szWgmBNhFSbf+CAp3G5Uxn0wxEQ4X5+E4QgQyzaBnps4
+         9f4qX1CCc9XtAl3Wz5kxOC9/9kPXu6F2gMGIJHT3Bg5DxIEppILeSckDFB+W6zkwri3K
+         snUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=J9HL1GczKVUsA0QA3fywXb4GBtKWVrrqUMxuNy6hTvo=;
-        fh=W8GAWayf94oVleIiIs9dPs1Wq6N9MY6JffgzPqf22Nc=;
-        b=dMYd1ng6feOSHuMn1w2+mnweu0uJLiG/P+Z9oSjMs7oVlXek1+ifYeDuiztD0YZfPX
-         taqghb8rUIClXz5QGQLySnboMvAjsBwFrfD0rqIoIvEjQsPueYzxDC7JDbW5Zt42XnyU
-         VLgHJf76aU9u729/X+wVrL/v0ezunefPwPGy7Q3NBPl8WyRyqULlypnplFYVIdAp3Wwg
-         4VtaBarC0bqD1N43Ls0WCi8Het26WTRMil/0q6nnZI6luCVr/tegshrLBos54TNFWD7r
-         jVY/Bu7O9md9w3DQW1a2BwvHcYbIlJfbctYymva4dJXyQLVTArqzcR9PiGRDurPcd5AI
-         yfOQ==;
+        bh=sWpHDwX4NA5FzsiIsGJw1W8t/+RBE5s4GsO2WVDVB6s=;
+        fh=Pn9is0pVJbKJ5wbzrJkP8dpj6jUcjuzbuNuSb6/uKP4=;
+        b=jnE2aU1r4SeZdg0tWQkwQjf8hnZx3Jf3g5tPGEaxQTOML1pghJUPUDvoz3YTHg0Vvr
+         0SNngBgezBXq84MyBhl0aTgmZRIKYqVnuYTi1YsdvUk9Mm/V+FnF3tpC69bWZHsQF9oQ
+         FXKozeCrDXcGWwSZ0D1eq0PVaYiTDYJm//LvTgS7XLEH3Xq9RgYiYAsXq1STnRAnMOHY
+         KarpOyOe3xCtKwXYWKUUfS8rjXhU2xvbiNoD6bDIifp/jDyytiw9z122cUscMqsREiup
+         Z+AlLaeYDxmjOS2bKf7NmZ4ZlIDfjfprbFbhW48lJB+WB/FG1AWGEsFp3QAwMwCpHIBo
+         kN3w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795462245; x=1796067045; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1795463149; x=1796067949; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=J9HL1GczKVUsA0QA3fywXb4GBtKWVrrqUMxuNy6hTvo=;
-        b=LX7QH62prvmRprt/KaCq9l7RUGR6MW5QPJJRl61OtL9JZQFCzVemgNCE5/g0zL8QA3
-         f999an+hMoSgV3yCdYEDsjWBG1efjI0zhVgaula8605zPmxBBWyw8R8YFcHa2lDZAMR1
-         DsJQLQ6Hg2drGs36ASq+4NBa19k0wLLrJ5fQbP7yJ57dr8XFUnRuzHsfJyQJKN2S+zbV
-         rtB+rwA3ozKbzon3ArK4+dZTP0f6rYHfVtPpZlD5ui6pd/jfHfgrBp1Jcq1oGjy1YJPJ
-         po1ZPCuJQkuZCjZe638cDwtA98thIZVY/1i/0y2eoWEMJflJG41uxzMo4bGhyZ+9SD1l
-         sIRQ==
+        bh=sWpHDwX4NA5FzsiIsGJw1W8t/+RBE5s4GsO2WVDVB6s=;
+        b=XxWqDgBPvOrPiG/JBS+4vCjVp1NJOTBors+acPB6futXqhRKJs6jnkSn75nYG5gc3O
+         L1rvc8WB/k4tGD45bTmzWQMdmgOE0LuwDMyP80KjulnParY8TP0vrdbmTWuWuevwz0It
+         7zQtYWLGXqcShfdpszAT3/eZbQRnjnc6doiDcROsUs59UuV445wqCFPKKje1HzL8OcRc
+         jOOPfLbHSor81vSdq/qz+u4cO8gJHkX6Py/w7aksmfZAQQVnFfR3jcTblBwsrKM3h5E7
+         dEoS/Oz5d2Zz5QEYPiwN/O8NfpQ2V/GmdT+OOn+ac2KPMsBHGMUUNtVala7+uF5027bW
+         7+2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795462245; x=1796067045;
+        d=1e100.net; s=20260707; t=1795463149; x=1796067949;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=J9HL1GczKVUsA0QA3fywXb4GBtKWVrrqUMxuNy6hTvo=;
-        b=oZmOGLNjoEGwlGAYPx9rdMJdgX+otUTXfV6efZAC0Lt9obg/t7mfI3zwLR6T2NHkl1
-         cm8ESDSRWaEOeKT+lorKa38u5lqxZNOR178yN8dUKSZLoJIi5j/gmRE7Vtd3IGqOIqH1
-         330lKHpJHHoj6JfyaafTQzFepYNJfaOTqFCyniPuYm20Ss5ZKPnQojhguDU3DKECgkoP
-         TV6OBZ5462ts+rl17EzLnWrTkJ0cxFnJlM9lqqmCvYS02bHj+9I2WYidHhd6DpTCrUGF
-         M9Uc5ryKTe2xUJcz9VJrlgSWiTrCy5h+pO00lvR8fuTbh3WOHp7sizloOGZVWkgkK4tG
-         ADww==
-X-Forwarded-Encrypted: i=1; AL+hErECXQdfcHZK5wcEW2Do3Hz0TqNpGQVeQJkqfrltK7PDcZ90XTPSWfqdDZAy+AIUjXrY/o4N29RwqPc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z92fhGpl8QDsm7c1BahFF6z7oxorL+C/ZG+I6BGqh23poJ8tS3g
-	hOhBhDDkrxfkHjO16VYxxqgyQbkZK6+0FlkIVO00CKlyVvsVJ+NoI3qg2jLZrF28FOXHXnE2Nox
-	rGL/Xq3SJGAxR2zaMxjGRptxrqN4z5EanDwTCtrvd
-X-Gm-Gg: AZFdTZe0WyTBfG5F9pIO7Zzq/dsS3W7QtbbvVRA+w064dRH6NKxQKrHTPdtURj35iLa
-	gCeZhFAZJ1ufUkZy2Dy+5uIMLoLYqLqADsKWiL+lyDGA/Jr2tTx55ZrEWL322wFrYxOVnCaqmq+
-	LLvLMCiYVp61qUcIQPrs3WlBTG8OnZ4SoJjRadi9mltAUUKV5sgI56PVrHsH/S737cN8dFLyMp5
-	mAQbds5TtpUfxdRcfmnIr6ous/jO0ljbKa3d5AHrjCdGngodFc1aXkSxoDZEDxvLhfVF4hbPP/k
-	DJCcg5cXrlQiTMtUAQnMclxQCTAJNuREW/sGW/p5apnsUckoIIOj3+KZpCTY7qR4kC7ae9Xb+or
-	x56JeY4knfWeS1J7HSZlVfl8FsJmA++t2q/VlB5qXyLAoQUrFJiOv3NjYaMhZJiWAUd7SWLc=
-X-Received: by 2002:a05:6808:4fe1:b0:575:39f9:df7c with SMTP id
- 5614622812f47-57a06504990mr14041604b6e.2.1795462244324; Mon, 23 Nov 2026
- 11:30:44 -0800 (PST)
+        bh=sWpHDwX4NA5FzsiIsGJw1W8t/+RBE5s4GsO2WVDVB6s=;
+        b=rVKrXYu9bjggJdX5nAy6/Rpe/SX4BH1fpS6/D4OuK1qNhml80JnoDmro3rS91wa4Xv
+         DSG67VjuV1NHv/mVIRQX5FVzTikI+RisYFa9F0Ul3Ii1EWbn5sE144kRsvx4D/PGxq+e
+         U+g+QL5eSu48BMU/rgZVtV8c3aw/2QD8XiYkAHKI56JWtBwg/4n8WFRktEk4GiL4A9qI
+         gJ+PZOEXeYJaIRjvie+p+nfg2dI91cEKDxCXQKSnbvUGZmyiTgedUnNpWCrzuwLIw2pt
+         8+yr5eyaFRVioA3A0d/Rvvn6FwuIMZePiQh19v4Jb16pToQnnDrEjkAHU0bHG0OyntuY
+         i9Yw==
+X-Forwarded-Encrypted: i=1; AL+hErEjmZBi/DXtgtEu4nI4DXWSrkeWhU7onMdnfwWSm5vkssFpR3E5bo2nSE5TYC7GtZK8rVQ4Md+cwG0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+cEDD1EQmtc9d4HZF3SApFD2FY+FfaBRRAjwjFl2JE3ex+BClQ
+	rQUnO+ly90A9/2IsJD4xI/36fsikvhRlVJV+YePt05r/vpEy79W9yfC7IBKxxcw9BCK7/vcbva1
+	UtfQNQ01rywZ8Ncbh8kKu+Banj37lYNRw5cxBcvgU
+X-Gm-Gg: AZFdTZcCCwcx/FFrOCGu2SHLlOY9szDwErQYlOoIkm6MvjGQY8Tl8PPx/AssCqMFTzp
+	Ig+LT4cXRsp5y0y6t9iKq7S2UEJXBTbL3OmKvxB9Q1vSdqdYt1GieWz5ZnccstXMu7/EoB5NV8J
+	ONIdYf/RjilEbokfztak++2iYBKxxWL0URh+A1zXYGHMfInoM0jcXjDyiJGEV6sVKycuGRXiP0i
+	Y2MTlwx5hiTOAJgbUemBbxzUM8E3T0cgUB/1UC4mOKd3HhXhkWlfqb4m4FUaXiYTNwQbkWwHb6d
+	I16GUfIMlwdSwCnt+9BZV0OiRB/4x+fVkVpXOrWrnalF28YZWkJ6YQ1E2UL6Ul5+tja5iKmVGuc
+	o5w/4orMyUTZfzhf2gY3IhtS5yOdaf+19lPM36+J1v65yPhBs6tz9eGnjapg5mycLQfOIPIA=
+X-Received: by 2002:a05:6808:4f26:b0:571:c073:74a1 with SMTP id
+ 5614622812f47-57a06b1d98bmr13253520b6e.6.1795463148513; Mon, 23 Nov 2026
+ 11:45:48 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,14 +104,14 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261118-tcpm-soft-reset-sop-v2-0-b6decdc95e66@flipper.net> <20261118-tcpm-soft-reset-sop-v2-2-b6decdc95e66@flipper.net>
-In-Reply-To: <20261118-tcpm-soft-reset-sop-v2-2-b6decdc95e66@flipper.net>
+References: <20261118-tcpm-soft-reset-sop-v2-0-b6decdc95e66@flipper.net> <20261118-tcpm-soft-reset-sop-v2-3-b6decdc95e66@flipper.net>
+In-Reply-To: <20261118-tcpm-soft-reset-sop-v2-3-b6decdc95e66@flipper.net>
 From: RD Babiera <rdbabiera@google.com>
-Date: Mon, 23 Nov 2026 11:30:33 -0800
-X-Gm-Features: Aa3M54pUjC99HdONKYWzXGaM6Hr8ZpKVX5kohDQnv5pnvvHDaIrSDaIDtVLGutk
-Message-ID: <CALzBnUGpwPWo==RuFOQwT11CU0XKvCHhU0ur2e=DgTfCqOY1sw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] usb: typec: tcpm: Stop replaying
- Source_Capabilities after cable discovery
+Date: Mon, 23 Nov 2026 11:45:36 -0800
+X-Gm-Features: Aa3M54qeLdW7__eto04IrOjIag6aN2KwS8X5d3xJpM2jc3XAmw1IIHMMRYpRwTc
+Message-ID: <CALzBnUF82EEAOaiPXKQaYvOYQkthpBaD5z4maKf-bupuuqHzog@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] usb: typec: tcpm: Leave SRC_VDM_IDENTITY_REQUEST
+ whatever the cable answers
 To: Alexey Charkov <alchark@flipper.net>
 Cc: Badhri Jagan Sridharan <badhri@google.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -122,49 +122,60 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-The patch looks good to me, setting port->upcoming_state =3D INVALID_STATE
-out of SRC_VDM_IDENTITY_REQUEST also addresses a preexisting gap
-that can be added on, or I can address it in a later patch on top of yours:
-
-Disconnection during SRC_VDM_IDENTITY_REQUEST leaks
-port->upcoming_state =3D SRC_SEND_CAPABILITIES into the next connection.
-This could mean a DRP that reaches SNK_READY following the leak will
-enter SRC_SEND_CAPABILITIES.
-
-This would be fixed by clearing next_ams and upcoming_state in reset_port:
-
-port->upcoming_state =3D INVALID_STATE
-port->next_ams =3D NONE_AMS
-
-Otherwise,
-
 On Tue, Nov 17, 2026 at 11:27=E2=80=AFPM Alexey Charkov <alchark@flipper.ne=
 t> wrote:
->
-> When its first Source_Capabilities goes unacknowledged, a source that is
-> the VCONN source asks the cable plug for its identity in
-> SRC_VDM_IDENTITY_REQUEST. Entering that state sets upcoming_state to
-> SRC_SEND_CAPABILITIES, for a message from the sink that interrupts it
-> through SRC_READY. The ACK and send error paths go to
-> SRC_SEND_CAPABILITIES directly and leave upcoming_state set, so the
-> first SRC_READY after the contract sends Source_Capabilities again. The
-> second negotiation can cut into the sink's own Discover Identity, and
-> once ended in a Hard Reset between two FUSB302B ports.
->
-> Clear upcoming_state when SRC_SEND_CAPABILITIES follows
-> SRC_VDM_IDENTITY_REQUEST directly.
->
-> Fixes: af8b627046bc ("usb: typec: tcpm: add state machine support for SRC=
-_VDM_IDENTITY_REQUEST")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Alexey Charkov <alchark@flipper.net>
+> @@ -2745,6 +2745,12 @@ static int tcpm_pd_svdm(struct tcpm_port *port, st=
+ruct typec_altmode *adev,
+>                 break;
+>         case CMDT_RSP_NAK:
+>                 tcpm_ams_finish(port);
+> +               /* Go on with Source_Capabilities, as after an ACK */
+> +               if (port->state =3D=3D SRC_VDM_IDENTITY_REQUEST &&
+> +                   rx_sop_type =3D=3D TCPC_TX_SOP_PRIME) {
+> +                       tcpm_set_state(port, SRC_SEND_CAPABILITIES, 0);
+> +                       return 0;
+> +               }
+>                 switch (cmd) {
+>                 /*
+>                  * The cable is not allowed to respond with NAK so this m=
+ust've happened over SOP
 
-Reviewed-by: RD Babiera <rdbabiera@google.com>
+I think this section can be combined into the switch statement below
+it. The comment
+states that the cable is not allowed to respond with NAK, but given
+this patchset
+hardens against non-compliant cables, this can be consolidated as followed:
 
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
+case CMDT_RSP_NAK:
+        tcpm_ams_finish(port);
+        switch (cmd) {
+        case CMD_DISCOVER_IDENT:
+                if (rx_sop_type =3D=3D TCPC_TX_SOP_PRIME) {
+                        /*
+                        * Not expected from a cable plug; carry on as if it
+                        * had not answered.
+                        */
+                        if (port->state =3D=3D SRC_VDM_IDENTITY_REQUEST) {
+                                tcpm_set_state(port, SRC_SEND_CAPABILITIES,=
+ 0);
+                                return 0;
+                        }
+                        tcpm_update_vdm_discovery_state(port,
+VDM_DISCOVERY_CABLE_IDENT);
+                        *response_tx_sop_type =3D TCPC_TX_SOP;
+                        response[0] =3D VDO(USB_SID_PD, 1,
+                                typec_get_negotiated_svdm_version(typec),
+                                CMD_DISCOVER_SVID);
+                        rlen =3D 1;
+                        break;
+                }
+                tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLET=
+E);
+                break;
+
+If a cable can NAK during SRC_VDM_IDENTITY_REQUEST, it could also
+NAK during SRC_READY/SNK_READY. Here, we can advance the state machine
+past cable discovery and prevent SOP Discover SVIDs from being blocked.
 
 Best,
 RD
