@@ -1,95 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795417276;
-	b=PuMN6t9+4XTIkUa4G9YnI3ZKcE9jsQlz/pWGwP1k26rxeBm4fUU+VpEY3GlRPCuAnCoH
-	 ZkL0+6N1EF7m5w5FL5kT9TBrMZno/RknnaoEy/1k8uWDyL+Mc/wskOWf5/bdZhm4GxTl+
-	 8B7ud2Uz8ECh33YoUTBgYW2M9Tw/poz/nMkmcxFpkdxkNjraww1fcDSW0Q9tMk6BGkLGh
-	 k3i6x7o+U1r7Ypiyi6R8oHtBIzLQsHLCmSnGJlxpvpTrgpb4sKhb21eRgaWI9HLYKFCQF
-	 0hiwHQBSC7DeqGnbxgXKF2ue7hEQ4x+RhMV5ypcmhBXz21JiHMLaks7WzCVax+w5rMQ==
+	t=1795418624;
+	b=JKDooMC/WXbVRLvvDkiNh0f++d/JukFIVTeEO0kbvjTFwsuNKDb4K/PzxUqaFfwCsGsk
+	 9t3ugNtu9opN0SU2nE9h4jzQmRGo0T2dJh5F3frBb2RKty0i2IavyjHdKZP9JiOa1kN0Z
+	 7+go8RPOwwYb4uqxZMGjd+Eh6vmZsUNfhYbQSutcy9J4hxYqlORHut6jhbRs58pfstdGl
+	 U4+ZTgrs2I9NHyiIWjcCwgzar3x4KSRaaCP1EmNmw8+7etD1ajN4wUdXxNxp3mrHm0QYG
+	 JWL4q1Y/5bD6wxqapQZt5eX2TspXihtT8nWZUGhCWI5oRiRde0ZrAfvp/dc9JSIkAsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795417276;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795418624;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=wOsuRVgpL9gZBTN3yhy3WmQv6nl7mKO4w5iI9O9n2S8=;
-	b=lOO8dVTgsU3rXgD8jQTyfFRKbEDJcIGNLkO3b8A8xedm+IjPrzsIPKy1PsOlrCJXSBlK
-	 Ykw93Hd4NYTWwrTUEX8132HR8kjq1oQtpouzVqgmmbB9CkmsssgkWi5pSQruNyY7K3ojQ
-	 GC5BegwYYas3DkEBmZMol/BWQkD4bC+to+N+3xUOKSNYjEEzx2/Yi5jV/eIFrS+R+Dast
-	 HlHdycHFLmr3dNOFY/IoaR2pWoyON87wlvbIlEaTZQcQ0A6ishmBEqegigLQjfA4cve+c
-	 2zN5m67teAsbIiWU1HSVgS6NKIFUDjRnLcyQPSU/T31QJl/eyxma+jnrhEhmQnyr00w==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=H8gLzdazFZwlIm2KfjMoHrjel+Sb1VQszOzQk+URMQE=;
+	b=gVHQpWIhZ0TtwgxQF+MQJPB9y2f/Zx/8qr804KQ8N6Ywrm0Q84cKKyQNfJ6Qy7SlCeRI
+	 hW+e29mmwtfEuNIT3ilQv9z2PJ8IDk02sk4pW38lEH9V5Xn3eaOAJDYSpGXwKDXhv3n1q
+	 QYSTRz9xUEqgqdrrj4L5X3VQj2EBFiesbHptFkeyoB/gb7Hr0Y0B+H1BvpzwyMSZIlkDm
+	 HZnwHxyLrTn4Amkax7yF9RSNFtbHrmPdGzpv0L5wnr18lGcXVic6Biv9zvrL0y5+CXaWV
+	 IAiOVI6X4/kn2FFn95v6a76RRD5KMOziaIV+WwKpCgY+S562RfJFw3wEy/7eAgBuk8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RphP6QPa;
-	arc=none smtp.remote-ip=74.125.82.43
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ES8KqK+P;
+	arc=none smtp.remote-ip=209.85.215.173
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A32606A31E
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 07:01:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67A32606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8455D606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 07:23:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8455D606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RphP6QPa
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-1b5786e099cso205255c88.0
-        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 23:01:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ES8KqK+P
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cdb9f760337so1977619a12.0
+        for <linux-usb@vger.kernel.org>; Sun, 22 Nov 2026 23:23:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795417275; x=1796022075; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wOsuRVgpL9gZBTN3yhy3WmQv6nl7mKO4w5iI9O9n2S8=;
-        b=RphP6QPaPtA0raybonBWMXDqrJQc7DtgmWQXv/+2D14H0VkMcsmEiUy7JjA2UDr97J
-         b/FLvGpFg3oypeEjsFTumWnuYa8IOZ8VI23cAOCMd99urJkb0SAkYmIxzt+DHdtK4jjs
-         Ima0anPotykxxv+Y7tF7Lkblz6PHe7oHnMo1JwZ10AZn530XRrz8IuvW2WjhkNH6VQkc
-         k0rSEEoNQsckYzqAiAz8ljZhPRVs28eD0CKLwz2eBlqhqccKQ+cQwNg/kOrNguocBQue
-         H5VqtU/dEmu5XweP7HK0AOPnzNMK5jT5uNcaqf3tmDq17WYB72QfEWhGtNJsWBFItLAl
-         J+JQ==
+        d=gmail.com; s=20260707; t=1795418623; x=1796023423; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=H8gLzdazFZwlIm2KfjMoHrjel+Sb1VQszOzQk+URMQE=;
+        b=ES8KqK+POnE7N2UfZ1uvbgSacHLGpSqGufHpfXF0Na82i/vZGN2Z3MAHif5Jd1Rqq3
+         FyCDEwlfp1jdY1KvCjAb4Tb8yHFQELf71uSzBIJxnYiXu8an7glJujhHdDlfHVojNGdt
+         X6wol31g2T2M7FZjRYVENew3OTpOxBcEPLmpyK0DHZR2Jcy0LWqOBrLtlZOYkGoi4zI4
+         PbrOgCFT6JEXzjH2gBXIC9OeSm8jwjjRUEDxfmf62BDXJWpNpYz2yEQ9igJeI3nBQnfJ
+         PIKzYKSZuoJ9aNFiWdhTqZcoxrspTYxjgNysrl251bXzvkfzquN0NV3H9hRfTseFphOS
+         JPLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795417275; x=1796022075;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wOsuRVgpL9gZBTN3yhy3WmQv6nl7mKO4w5iI9O9n2S8=;
-        b=Tx9/jngelD/+LpCYaClev+ZA5qPdKkUVdEvqck4fly6C5rSGc1YnioBdGimIc230hR
-         YopAmdbZpenhN2AE1ItAIrGqIqIk24yq/2SWYQpr9hzCEHh4/AQPzUiM0KFugFjPPngi
-         1teMn+vdDChpNo7xtGuKV3K1uj4jVriMTqO+vmvssrOEFW/71nYbhL6q8vIkK3pJpVzn
-         d6UXsVMG34icYG/pZcbPSNqJjcRJQHqV0ExgZ227o74SRTIG6QdzI1CtNtYXg02mPpFG
-         7mD0i7pk2UeKIHMLV0wlC7N1KFBWlmYFO9YHv4wPEASR5qoz2Uo+4ApDIvIsMklMWO2r
-         vsbw==
-X-Forwarded-Encrypted: i=1; AL+hErE6ChHkJFy4ilcO0Xhc3E8AJ+3FOCAJ0rDhlE+aPdbnxY4Z2fyetI1bNK3710g1xclOCL61Cbr0eQ0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+aqU+ORIdkLBa+Q+9npQBDoTmG83W6uGNFnGXzCE9XmP0fTVRL
-	zxHIsG4ncYS9VEoAunQ7axg9QhgHVqkdSQGdXqfBoc4hXf9kFixf/sY=
-X-Gm-Gg: AZFdTZeE903NVYZ3/lokCzvdDG1z/FShK0J47s8FbgQdu0VSal4kC+DJ2PoESMos2bc
-	c5hAFrYpASmt1H13HSLE8X0ot+4eMGF9Mwi7PrYtvtUQpCMLx9Yj5pQSzuk+ZxRkOhUw6F4AhzU
-	0hh5ciKIYv5hartgQYRpj4017bqcfGTBxKg8xNfWFhk7g3VHDHVyxYhKvC6o1+hF+EXbB49Of6+
-	6E8DW5h7mq8sqco6GjcgyRfrXo/63/Ex2n9VgMCEkevTNR2ZbUnk/F31fpkO8cvGkn526AJsWls
-	RrM0/nA/qLBl5y4/FQoBXTLfMFhXKX+fpDx2nUJg4DbgCIqBKx+y6oQGQpcgCWmeiXz2tp6jE+J
-	YP9MDAntXcvzttbJE1YBM5FFmLOTD2kesjnQRDIhRib/wl6dhwIl/wh/xQwDzSKn5UeAo6hZb2i
-	I98TJkz38s1CC/viePJfCJTI6qz8r9qeeK/1fOVOKtr0hmEj5uOSJq7HQMz6K+q9fOGXlbXtCTI
-	XV7bXDwGjrdAHbI5FJ5rvMqyQHtDufhHxERxlW9CrFZWKL+Gphq2QD5YYMLRlyVQwpAl2OG04wH
-	BEW9wwCTrbuNi4JbBQVz2CcoSLfEpRpjoTo+3B2YmVQFQQxyeO1Vqfgohs6jcK3wZFnrILvTo9F
-	4Agf6QcCP
-X-Received: by 2002:a05:701b:4583:10b0:1b5:5915:bb34 with SMTP id a92af1059eb24-1b55915bd9amr9227327c88.4.1795417275345;
-        Sun, 22 Nov 2026 23:01:15 -0800 (PST)
-Received: from at-Standard-PC-Q35-ICH9-2009.tailbdca44.ts.net ([27.60.27.67])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5568592adsm25283608c88.15.2026.11.22.23.01.12
+        d=1e100.net; s=20260707; t=1795418623; x=1796023423;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=H8gLzdazFZwlIm2KfjMoHrjel+Sb1VQszOzQk+URMQE=;
+        b=UibZpNkqpMA1lBxMXM+eZ8IMj+FzE5UEkbBDgILn98kWPrjg/eMgMviqLGWxer1Bz/
+         x3XvBONNMS2pq/QRp4pQhD3auXqxcmD9JMweOnoKdrwI1Zq5hBF9WuoIWSzxMwaGkcOh
+         ROTwQuPKP8ipUohCW7GfW2/WHeDUEpA9w3DVJKCk6Ng7ZCOna8vL2P8SUCVUihsc94/O
+         MMmC+MzscZ72woy6mE4Xxr+iKDWlj0hA/Z1RmqImx3V5v8UftXUA9z1mAkfYdqLuOIVu
+         pwWPovz4dDYO1ZEqu9eYCHsNM7ThPpCLl6y4YNIMQyXDSQeVR+QoOjmRolu6XZF/1hmi
+         ZItw==
+X-Gm-Message-State: APuU4Z8wOftLlMsBAjf8KvYoHo2inZNCE/sVXAarn5QyKB0Iqr9I+43i
+	6qnPUuMktFhRYRyOrC8pCoV79pUEyjYBo0frhqGkzbapiyGyrRV02cchG6Mktw==
+X-Gm-Gg: AZFdTZfJIgrLeckCHVdj8HE6q3W/HWBnzHZ4RhFSKPc7a7o1Ne6qWrD1Dg2+AmmTqaj
+	cZfBgTPLNtkkspZbP0i99mNT3KdfwgXVFsOAxvQfUOVQd60pnZ1RNT8HwtLjOsiklYBwSYvOBeH
+	9XJqeUvPcL2Q3h4Yq+uIdg+J2zpukep7qOopGXPrJyi9agzHYZu3n7uzz26C4Z20D2AchTZ6AEi
+	A9OcFR5IXZPAjGMLNAYi0honv0lPINUbCDH7wskCCBy89q68eEVe3BPjLIHX9bwZou89usuzboo
+	wNOSf/eLSOsUqFds/rBWjN7g7rvRQBHwZ5Ca9Rqf5a7vxqLkpNonV3sXnQwSyvanYchctMis9WL
+	GwUi0V8dEFKqrkAkp75yzodXZVnWe7lUdHIF9UNe8G1Q6eoLtqQG5A9AIe9KJ0h3y4RttXRraA2
+	v1S+k63givFMPqzX0I/+fCNN3Ehnu6ZEQvf4e4K0MqMlTHP8GBYH7o1tnjHZKZAeXtUxeZjpVxI
+	OxaP4nNNv00WezgDeDiO2pHQZG+eMOP92ZM+Sc/6o7vw87RRqsZLNjV2zxtFS0vpban6lxoCtci
+	ubjvZElP8EwN23S9NNz9G8LPj56xKpowjlBdirWiMTzzD8YNBbeSteAHetj3g2xMQvwVj7Rm7dX
+	8sB2UnerOKkwSI3p5kY5qPgg=
+X-Received: by 2002:a17:90b:3d92:b0:3ad:7f4d:2839 with SMTP id 98e67ed59e1d1-3b41c8e0602mr6108571a91.14.1795418622775;
+        Sun, 22 Nov 2026 23:23:42 -0800 (PST)
+Received: from kic-machine.localdomain (122-117-151-175.hinet-ip.hinet.net. [122.117.151.175])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41adcafe0sm17751153a91.16.2026.11.22.23.23.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 23:01:15 -0800 (PST)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: atharvatiwarilinuxdev@gmail.com,
+        Sun, 22 Nov 2026 23:23:42 -0800 (PST)
+From: Kuangyi Chiang <ki.chiang65@gmail.com>
+To: mathias.nyman@intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2] usb: acpi: Get correct location data for Apple macs
-Date: Mon, 23 Nov 2026 02:01:09 -0500
-Message-ID: <20261123070110.11736-1-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <2026112344-jaybird-glancing-b56a@gregkh>
-References: <2026112344-jaybird-glancing-b56a@gregkh>
+	ki.chiang65@gmail.com
+Subject: [PATCH RESEND] xhci: Handle missing USB2 resume events on Etron hosts
+Date: Mon, 23 Nov 2026 15:23:20 +0800
+Message-Id: <20261123072320.5967-1-ki.chiang65@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,47 +97,106 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> Please slow down, there is no rush.  One patch per 24 hours max.
+On Etron xHCs, a USB2 remote wakeup may also move other suspended
+USB2 ports into the resume state without generating individual Port
+Status Change Events.
 
-K, i did not know this, sorry.
+The issue can be reproduced as follows:
 
-> Again, why is this needed and not just calculated at the one place you
-actually use it?
+1. Connect a USB2 hub to each downstream port of the Etron xHC.
+2. Wait for all hubs, including the root hub, to autosuspend.
+3. Connect a USB device, such as a mouse, to each USB2 hub in turn.
+4. The last connected mouse does not work.
 
-So i use it here:
+The affected USB2 ports may remain in the resume state, preventing
+newly connected devices from enumerating. Reconnecting an affected
+hub or mouse does not help. Reloading the xHCI driver restores
+normal operation.
 
-static struct acpi_device *
-usb_acpi_find_companion_for_port(struct usb_port *port_dev)
-{
-        struct acpi_device *adev;
-        
-        adev = usb_acpi_get_companion_for_port(port_dev);
-        if (!adev)
-                return NULL; 
-        
-        usb_acpi_get_connect_type(port_dev, adev->handle);
-        
-        /* Apple's location overrides the _PLD derived one */
-        if (is_apple_location)
-                usb_acpi_apple_get_location(port_dev, adev);
+When handling a USB2 resume event on an Etron xHC, check the other
+USB2 ports for the resume state and track them so the normal resume
+handling can complete.
 
-        return adev;
-}
+Before the patch, the root hub status bitmap reported only port 2
+(evt 0004), leaving port 3 in the resume state.
 
-And its calculated it here:
-static void usb_acpi_apple_detect_ssp(acpi_handle xhc1)
-{       
-        bool found = false;
+[ 4621.396100] xhci_hcd 0000:01:00.0: Port change event, 3-2, id 2, portsc: 0x400fe3
+[ 4621.396158] xhci_hcd 0000:01:00.0: port resume event for port 2
+[ 4621.396164] xhci_hcd 0000:01:00.0: resume HS port 2
+[ 4621.437164] hub 3-0:1.0: state 7 ports 4 chg 0000 evt 0004
+[ 4621.569169] usb usb3-port2: resume, status 0
 
-        acpi_walk_namespace(ACPI_TYPE_DEVICE, xhc1, ACPI_UINT32_MAX,
-                            usb_acpi_apple_ssp_cb, NULL, &found, NULL);
-        is_apple_location = found;
-}
+After the patch, the bitmap includes both ports (evt 000c), allowing
+port 3 to complete resume through the normal resume handling.
 
-so its used PER port, so if there are 7 HS and 6 SS ports
+[ 4824.829350] xhci_hcd 0000:01:00.0: Port change event, 3-2, id 2, portsc: 0x400fe3
+[ 4824.829425] xhci_hcd 0000:01:00.0: port resume event for port 2
+[ 4824.829431] xhci_hcd 0000:01:00.0: resume HS port 2
+[ 4824.829439] xhci_hcd 0000:01:00.0: HS port 3 in resume without event, portsc: 0xfe3
+[ 4824.870180] hub 3-0:1.0: state 7 ports 4 chg 0000 evt 000c
+[ 4825.001183] usb usb3-port2: resume, status 0
+[ 4825.027484] usb usb3-port3: resume, status 0
 
-And you suggest that i calculated at the one place i use it, so
-i would have to walk the acpi namespace 11 times in that scenario
+Tested on Etron EJ168 (1b6f:7023) and EJ188 (1b6f:7052).
 
-instead i can just cache it in a global variable like is_apple_location
-so i only have to walk the acpi namespace 1 time.
+Signed-off-by: Kuangyi Chiang <ki.chiang65@gmail.com>
+---
+ drivers/usb/host/xhci-ring.c | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index fffd901..c640952 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -1997,6 +1997,39 @@ static void xhci_cavium_reset_phy_quirk(struct xhci_hcd *xhci)
+ 	} while (!(pll_lock_check & 0x1) && --retry_count);
+ }
+ 
++/*
++ * Etron xHCs may resume other suspended USB2 ports without generating
++ * individual Port Status Change Events. Track those ports so the normal
++ * USB2 resume handling can finish.
++ */
++static void xhci_handle_etron_usb2_resume(struct xhci_hcd *xhci)
++{
++	struct xhci_hub *rhub = &xhci->usb2_rhub;
++	struct xhci_bus_state *bus_state = &rhub->bus_state;
++	struct xhci_port *port;
++	unsigned int i;
++	u32 portsc;
++
++	for (i = 0; i < rhub->num_ports; i++) {
++		if (test_bit(i, &bus_state->resuming_ports))
++			continue;
++
++		port = rhub->ports[i];
++		portsc = xhci_portsc_readl(port);
++		if ((portsc & PORT_RESET) || !(portsc & PORT_PE))
++			continue;
++
++		if ((portsc & PORT_PLS_MASK) == XDEV_RESUME) {
++			xhci_dbg(xhci, "HS port %d in resume without event, portsc: 0x%x\n",
++				 port->hw_portnum + 1, portsc);
++			port->resume_timestamp = jiffies +
++				msecs_to_jiffies(USB_RESUME_TIMEOUT);
++			set_bit(i, &bus_state->resuming_ports);
++			usb_hcd_start_port_resume(&rhub->hcd->self, i);
++		}
++	}
++}
++
+ static void handle_port_status(struct xhci_hcd *xhci, union xhci_trb *event)
+ {
+ 	struct xhci_virt_device *vdev = NULL;
+@@ -2103,6 +2136,8 @@ static void handle_port_status(struct xhci_hcd *xhci, union xhci_trb *event)
+ 			mod_timer(&hcd->rh_timer,
+ 				  port->resume_timestamp);
+ 			usb_hcd_start_port_resume(&hcd->self, hcd_portnum);
++			if (xhci->quirks & XHCI_ETRON_HOST)
++				xhci_handle_etron_usb2_resume(xhci);
+ 			bogus_port_status = true;
+ 		}
+ 	}
+-- 
+2.25.1
+
