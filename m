@@ -1,56 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795423711;
-	b=K2ShcKP8q8smgBM3l19VZ2S6rHNb60/LLQalXlwqjBO0HgiqA/uSDYIQsoXACLON6D9I
-	 nbPbk13/l/K68dwRt+P2uZByp1xLaXZ6YcysSmakdcmdXtmCaTxS9Cd9Le/qnJz+/20aE
-	 1AiHZMp6JfzTgRJQBPKxcrfwSicV9rz9AM6Mtg7/rf4LlrEV+UzMUyeRVG4jQ0RzRR3uP
-	 lDe4FMS/nizMvx5EKjAjmMyRKSNcv2niF+8ARyCqeKfyL1UrvZCNa45yGQFO72IsK6ip6
-	 wW7Bt9KQK+rZL8IKQVG68Or5felf4s8mFv76U+CVajIWRITI36voNTlvmXObBH9g3UQ==
+	t=1795424033;
+	b=Xd0cRc/5TA8PGeL6ZjIQ8/rbSE41lprAkFSSdP9xYQrmMO397W4RTEukVDgEJkHkUeN9
+	 dlwfsCDBOQx0aExusMyFUzPCnLsMbnZatwf9lzeA66/tOf+NwpeVAJsjZg+UqKiJNUUIE
+	 LMD87hLLSGatUgChv6Hbo46yEv5ij0Lj9ONFkpebbR0x+99OqgxuHC6xs9abNAwPVF6aR
+	 PyG3eoSud3EW4qMLtdZRGp4q13e4AjvUTtgZtf++dZ2zOsQSpnVk4LG9147LNDd2cGVLP
+	 0LNoA44qjI4QEMlY9Avg26kU5pzDxilIhTCv+mQrh9RWbpPQrQWce9u+hKWd8buxBsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795423711;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=nwKJl00tpwdLLtoEZ27UPU0xq2dCJMGiy6FAFfkNDtk=;
-	b=HSK0AOq3pSTvrRchOmhfYhTICWCHry2XCcgg+F1YU5YTgEKpc8nwRTNQ1DGmWSgTUoPQ
-	 nnQ80vpmHFzqGU+ydBB7D9A2N+TuGtVwKYYRIrLS8nN9ionZHXqCFB37QqwaPc/dbKPa0
-	 V2iystWCo5xQWDIgGdUHwkXfNfvhjqbGCJNuLIJ5SPU4zE0bIQfKcij0EE8vU5hkvrST9
-	 OgpOilLgkiAcQr1BVwjfzvsXBrNVTEldxjQtNBzI4NgdtA6rBvxrec71VzZGVOtNltkCR
-	 Bnn1PLcRWIvhHgd8Tt7Pm64hFsMHbPXtsKgbMzs7QMJDutdAeLy54DhljVtuJ5R/paQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424033;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=qvGcuiMvzkgnIAM2MInhiFXlOFrLbqnlcDucLLp7jgw=;
+	b=P+NSe600hkWcoS+RbwXCDZEVkXvilp+i0UZuOYdaE6TdjVQZIoaMiTt6DMu/Ky8A077r
+	 07e6AfwNToUI9wAjiDwicXkfsb3Keb1coeKtsPBsdvWfI6Q1gjkKtEgIT0/srcYTkb//p
+	 wrgZMbw1Qhfz0SovQErCAvwiymAfH62wdtFq7BKCsAYeevsBhyd5gb6kO9ztTA721TprB
+	 zdtT4RzMQBgHr+cYrb1iPAuNBevTNAOO4YiOmV2vV4QJkKt6jrGJCV1ibqrrPVO6fK7po
+	 xdq7LHqIhCa4obqtUhTg9lLT4epxzuSwS0kAi3P/cQiqGz/ym4seiEv3kbsJliDMRMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Z/hgRgEi";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b="Y36KJ/+u";
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3575606A31E;
-	Mon, 23 Nov 2026 08:48:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0F9606A31E
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 08:53:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A0F9606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z/hgRgEi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B2851F000D0;
-	Mon, 23 Nov 2026 08:48:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795423711;
-	bh=nwKJl00tpwdLLtoEZ27UPU0xq2dCJMGiy6FAFfkNDtk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Z/hgRgEiZXH+GOjsznrUlAcd6Pq3ZE9bvNHbRTtnKCtfArV9H03FPjlty2mJMcajD
-	 lZ+Kh/YIrpgPzhxkovGb5ALDef929PqUA0FN9yYlFoQfsfx6MpH2vb3Hra94LSuKDv
-	 Oc7d0+Bnj+FAKnSpmr+qeMZdWy/kcR7iG0Amyecekdaz8Z9EaVwaZzUrT1BZprNH0N
-	 JsxCafbmVxsZHsoqGJgpF4SnBvEWVd8bg+GKEBXl8NkH0vXo+ty6xBn3Z8/m30TTnh
-	 vC1NTr9+Q7HLpP63seG2GKsN0DbomgBATQ6/MmmhVSOBDlyD+BaB9/pGvJhZOvQRLj
-	 5/x8iK+NXxdlQ==
-Date: Mon, 23 Nov 2026 10:48:26 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
-	dmitry.torokhov@gmail.com
-Subject: Re: [PATCH v3 09/31] USB: Pin modules for unregistered interface
- claims
-Message-ID: <20261123084826.GJ14811@unreal>
-References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-9-d655875c4bfb@nvidia.com>
- <sashiko-outbox-223895@kernel.org>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=Y36KJ/+u
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4bb6886d30aso29070355e9.3
+        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 00:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1795424031; x=1796028831; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qvGcuiMvzkgnIAM2MInhiFXlOFrLbqnlcDucLLp7jgw=;
+        b=Y36KJ/+uELTQEZY98mnBxgqeidd1AjqL6IC95iTjrD1MQcPwDUAXoqOQ41nEjnqhX8
+         z+C32A3W7nsGEaBnaGCIo+bjaki/dH78Q79x41OkQ0jPmlpMg0f9GPwXGCTQj7e5sAIN
+         3QpwxALgM9ZbVEVL0ADyu548sPr9F18ErgG9ucJvSVpA0QGP/IrQ45fl18X1fZrB/bi7
+         akMgL+3K5DDuXjoeg37350xVfUriTAywWa11RdTCQbwm++MUV33DfSHBYlahX7YT+cYj
+         ad1AKzg71It2G3mnFkZbT0zqu8KLJJMdbLkxUEPvJB+KT0nwrmmiyEUEGdokT0TkOWc2
+         NBwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795424031; x=1796028831;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qvGcuiMvzkgnIAM2MInhiFXlOFrLbqnlcDucLLp7jgw=;
+        b=RtG/XxOG7Al2i20RM0dCSjwMn56O77f1D4FlN/PPQ33ogn4K01gSL8JWsEawbtfpol
+         qUEnQeZlbY6Gl1WTSB85ksGqsfeZ3lQZkRy0ya4gEflbhL22wiUaSWTBrJ+B+lZoVzg7
+         S+DPKbqvAEGvxwodJhTUbF4TfhxnKKK1x/CDh2MMDXLT1qSj9JcIMqR4x1Hl8TEM3de5
+         Ss8s50W2u4mTtnq/sKFclFhVlId5J7V7HTITaAz2zKfd0zcipybEho4z8fD+FGKVGUvs
+         BpYwMwnwp4mljKSrGvY57+jNKS3MTpdopSVFlpC9HHgpRoYD71nNH8f1Kt73DFH+Gm7a
+         Do3A==
+X-Forwarded-Encrypted: i=1; AL+hErEJq/si/hZRoKLjTsHE755P/0eAD0WnZMjEvi7Oz9KM27DqoBwpbx3LRbWHl0cv13VGck3GrVKqFP8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/BTrX23kGKNLfD8o1HEkHf14k49BQRSH9ylwJNfT9mHYw7ogJO
+	2nJ9jpesbYA4hNF+bTkLfcae2ZPoVuyi7hD2eMTn6Cl2JEHT9gKf0jxxWgKTr8CZw8J8Gji8ckO
+	eWJwT
+X-Gm-Gg: AZFdTZdzVqw+A3v9eB1B2/5RHjZxFBEfw26HlZUWD+QjAO4SnKzp/YloYezzivmtjG6
+	VEk9AjD8Y/6GayHNmeFdy+g2UHPk+SkaZvC473FT5bPG5sz8hLP3GzsbjL/Z5mdDp7awY3aef8d
+	h2bWJfUi/nD3fXaZ+Asxv2/sniyK7zMROXxpGEn2m09hnbqdkOWC6Vppd7j+3CodgEPWpkYz9kB
+	3aO8lTkac+R+gQFQNPwaFCEGxFxAkkOwyw+gm9P+4ILzC4Aep9EYoI0Xk96uyytI43GbqwghjnW
+	9oU5iwjZYpghbbhHE66IEJoVu6J0wPil6zR9YFG0RpRDvEm8eU/yZS6liChgFFdON8NL19zjOby
+	MFM58+BdFwc8mcz0y5UOhxYPzwVC16mR6FrxghWSEfdSVjxPiJJ2ReO0eGcsj2XwDaDMe6ETdd3
+	Ng+iL1a7fDNjuj7YxZssDV4XJ9y88IOgqCF6EGocuRKcnwyEi/xKatWpAq2PaHeOfhK1LO8hi87
+	QXpREb2cESp7loRIQAN2vLTso+Af0O50PeFiXF+vldrIBNGcawM6/fQo6/QSwQqjrqCIZaD3UfK
+	CzcbWbQfMhL+TfOqW/WX2eMlHkXc8bpwFbIYOWt7GmYKgT58Iqq9pG9l2UtvUpGucDQrXyrWhUg
+	x0uhu6EhTCMu42ZE6
+X-Received: by 2002:a05:600c:1d09:b0:4bb:6fd3:5ac0 with SMTP id 5b1f17b1804b1-4bb88816c7emr237165875e9.28.1795424031393;
+        Mon, 23 Nov 2026 00:53:51 -0800 (PST)
+Received: from ?IPV6:2001:a61:131e:b901:6da9:459e:7c6c:e85e? ([2001:a61:131e:b901:6da9:459e:7c6c:e85e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853ca452sm331210845e9.15.2026.11.23.00.53.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2026 00:53:51 -0800 (PST)
+Message-ID: <f9715edb-94be-47cb-8bf1-f84a3323f000@suse.com>
+Date: Mon, 23 Nov 2026 09:53:49 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,85 +94,41 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <sashiko-outbox-223895@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: image: microtek: don't receive REQUEST SENSE data
+ into sense_buffer
+To: Alexandre Becholey <alex@becholey.ch>, Oliver Neukum <oneukum@suse.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
+ linux-usb@vger.kernel.org
+References: <20261119084526.535901-1-alex@becholey.ch>
+ <643a71e0-7347-47f3-8cad-ce31f76cb8af@suse.com>
+ <AP57iwtzG1Kr6EB4hY7F0Hd-DaLhPZJzxoKNuvDpeiAKZvyxsddI1fl6kRKAc2Xg1ox0kL-KAdNYmZrRMEYN_mZRamfiV6nXjdcfDhJhGyY=@becholey.ch>
+ <e3956050-8b80-4270-998e-2e5ec70cbdf8@suse.com>
+ <8iDv29vCFEOxycORJWCZZoTT9dMFbUZZ9VK25sT27tKoWWtaKvLKZaW2YoQDygTrSRkZRE6Pu5PmkMFLl-PDCWXI9n1l-LSB9aJCByn8gks=@becholey.ch>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <8iDv29vCFEOxycORJWCZZoTT9dMFbUZZ9VK25sT27tKoWWtaKvLKZaW2YoQDygTrSRkZRE6Pu5PmkMFLl-PDCWXI9n1l-LSB9aJCByn8gks=@becholey.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 19, 2026 at 07:29:27PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Medium] usb: core: premature claim_owner release in
->   usb_set_configuration()
-> --
-> 
-> commit afd725f56c3717b2e1f97538c7c8fdee117c4deb
-> Author: Leon Romanovsky <leon@kernel.org>
-> 
-> USB: Pin modules for unregistered interface claims
-> 
-> This commit pins the owning driver module in struct usb_interface.claim_owner
-> when an interface is claimed before registration, and releases that reference
-> upon interface registration or claim teardown.
-> 
-> > diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> > index 0a6fdf2e88f4e..b7bd9226d2627 100644
-> > --- a/drivers/usb/core/driver.c
-> > +++ b/drivers/usb/core/driver.c
-> [ ... ]
-> > @@ -619,6 +634,7 @@ static void usb_unbind_claim(struct usb_interface *iface)
-> >  	usb_unbind_interface(dev);
-> >  	dev_set_drvdata(dev, NULL);
-> >  	dev->driver = NULL;
-> > +	usb_put_claim_owner(iface);
-> >  }
-> >  
-> >  /**
-> > @@ -653,6 +669,7 @@ void usb_driver_release_interface(struct usb_driver *driver,
-> >  	if (device_is_bound(dev)) {
-> >  		device_unlock(dev);
-> >  		device_release_driver(dev);
-> > +		usb_put_claim_owner(iface);
-> >  		return;
-> >  	}
-> >  
-> > diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-> > index e56079398d26e..306978caaf1ef 100644
-> > --- a/drivers/usb/core/message.c
-> > +++ b/drivers/usb/core/message.c
-> [ ... ]
-> > @@ -2269,6 +2270,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
-> >  	 */
-> >  	for (i = 0; i < nintf; ++i) {
-> >  		struct usb_interface *intf = cp->interface[i];
-> > +		struct module *claim_owner;
-> >  
-> >  		if (intf->dev.of_node &&
-> >  		    !of_device_is_available(intf->dev.of_node)) {
-> > @@ -2282,12 +2284,16 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
-> >  			dev_name(&intf->dev), configuration,
-> >  			intf->cur_altsetting->desc.bInterfaceNumber);
-> >  		device_enable_async_suspend(&intf->dev);
-> > +		device_lock(&intf->dev);
-> > +		claim_owner = xchg(&intf->claim_owner, NULL);
-> > +		device_unlock(&intf->dev);
-> >  		ret = device_add(&intf->dev);
-> >  		if (ret) {
-> >  			device_lock(&intf->dev);
-> >  			intf->unregistering = 1;
-> >  			device_unlock(&intf->dev);
-> >  		}
-> > +		module_put(claim_owner);
-> >  		if (ret != 0) {
-> >  			dev_err(&dev->dev, "device_add(%s) --> %d\n",
-> >  				dev_name(&intf->dev), ret);
-> 
-> [Severity: Medium]
-> Does clearing intf->claim_owner before device_add() and calling
-> module_put(claim_owner) unconditionally drop the module reference too early
-> when device_add() leaves a pre-claimed interface unbound in the driver core
-> (!device_is_bound(&intf->dev))?
+On 20.11.26 16:14, Alexandre Becholey wrote:
 
-Yes, the complaint is valid. Triggering this race requires root
-privileges, but that's fine. Let's fix it.
+> I looked at the other drivers for that special-case REQUEST SENSE
+> (in drivers/scsi, drivers/ata and drivers/usb). They either
+> transfer its data into the command's data buffer like any other
+> data-in command, or emulate it there. I found no other driver that
+> copies a caller-sized transfer into sense_buffer, so I think the
+> fix belongs in microtek. If you see a place where the core should
+> enforce the size, I am happy to look at it.
+Thank you, that makes the situation clearer. Yet it kind
+of brings back one question: Why does scsi_cmnd have the
+member sense_buffer at all, if you simple can write the
+result into the generic buffer?
 
-Thanks
+I have no problem with cleaning up an issue in the microtek
+driver, but if an issue is to be cleaned up, it should
+be done fully.
+
+	Regards
+		Oliver
+
