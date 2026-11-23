@@ -1,56 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.81.86.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795442511;
-	b=UJvq5TUxygjACbSGZgPH1RlBcTREuEsJIXfZ3sOLH8wxM35cKGXNu6j3zUNg9UFLWz7W
-	 vt8/1KmjeqCq/eR2JIhMVUS5zb0bPmqM9Jv7C1SMB05Fu0DWGrJr/mcsjYixiiMt+9zwK
-	 OpS2OB+Up21RrAXDvhG79PR8mZAVkZ+bbIIxZEiFEYQPJtn1WrT1G5Uh6JuMztwjUUDBX
-	 dOaF/buvIE25PbuElsVc8y9lLEz7pw1zzOqlK6oRUe4DyaIzMRPPhzW0ZwFqMKdL1xSEH
-	 ObpYwLeBNnTzFx6oi4GjUSzC3KxPd6f+Pg6EiNVrBBf2yMFOt2O9L6C46uyi515jpTA==
+	t=1795442770;
+	b=vigzqJvkELXKDU/c/cueGPHXJa5Ok9M+iHNSAaH3gHeG2+Q3ahV4u3RZ0wxTydwgP+AC
+	 OIegGeqlVfftC+M6hxFcmO1KF8QYd1eDM39a736YOQ3ShxDr4dS1RVjbiP/v6LAYxfOSz
+	 E6SlQQYqX91hdeMY5BVeIVRaKuc4bwt7O8QDZW+Or6d7To2iDZz3NsDqAHc/sSWRNiuE5
+	 f6Kw6CZstocgLSa36M0t70CXTzEg36oBhkAlxwiSKEVrXD4pbkQSd/3xXkfokj4abhnzs
+	 2dwqRh5KDWjXQaKHb9xvecAA7MhcbsIw3Grp0GrriTaJs+iRjAOjaMKBoEYgGN9TJFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795442511;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=bYnSTv+rCbc+waZ7kftrqYbGnZIYly6MXNT6HVUqpJY=;
-	b=u+WqnFPn7ikg+Mc1sqCkUTzVvRn0FhrNtBiweaoXSRIhwbkNzLW9P5P5bs9QVziOw9w8
-	 ZVHy/yYRWSyGd3rbjQOM+oifzdSZKAa1FGVblRE7qTQs849rAYdRiF/Bizp+q+Vkeryex
-	 5S/MN0d3sx4ZRxXrDAPX0ds99uh9wylbwJmCsOelFK5EfhsABGqcSigHnaZwO9okSE4hY
-	 WGD4xGu4d8Pdi4dDWHrY3IUUHLxmXyd6kBNVlCmoKzNFQvULacWH8QfxXvMoTYmiXxS5O
-	 LV2NffXoIX8gAEvyb8TfH8aDcTwbPRLZp7qGAXzuH9dHXnPB1EoYiC/ztcOrw+PCheA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795442770;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=EpX2g2geXyBWspkSTZO7Ivn2ya4oP/tf6r3a8tkLRdU=;
+	b=E4QE9tfwCZuKayhpV/sts7LT6z5pKquLT5m8bJznDLaTbKob3EVm6CXat61spIZTji5H
+	 sUatq01Kuom2XqqSEQPVQmx35/SokEhM6K7KIvp0qd94VtOBHqsTgzLcaI0ukzkgMmFkK
+	 r7LR1F5R/wnpYuUxuv/ytqyVqUvwGdGGZbvpTSyMFAAncov330EHdwHoFe9ItfBMOr2gB
+	 Hg/rsErPdFye9caVw7AwZ94IgzksOzqFKclClGr2G1AOiXqwxzU/t/T+B1rY5aEBSzwHA
+	 YHGvwL8NkvaNo3P2V5m2pW39J3+s01p2h0cJG/0UvOGgOtSqxBICzfrInadTkkhwxNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ePZnLzpX;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=nathanst.com;
+	spf=pass smtp.mailfrom=nathanst.com;
+	arc=none smtp.remote-ip=51.81.86.232
+Received: from mx1.nathanst.com (pub1.nathanst.com [51.81.86.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B64606A31A
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 14:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ePZnLzpX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDC51F000CF;
-	Mon, 23 Nov 2026 14:01:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795442511;
-	bh=bYnSTv+rCbc+waZ7kftrqYbGnZIYly6MXNT6HVUqpJY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ePZnLzpXby4GTOJUbjOMzg9fxf47veyEF2rduKfLuIFfQ3FETL++txVWLpMRTm65I
-	 ZFeQ+oAka71576i3zEg3ZnGpK0AFflGB593OtZaQLE3r+32IU5YTea67Vju8sEN7F1
-	 sj0gzKvDW9WR4rSRF7lD92dRFkB7z066gBstkQABd94koSlE/kuv+5Yspx53NBq6Dj
-	 3EfeRnDwiIDztWvg0HxRzjcBO225t7HWv6JttHmojZ6Zdl/wJJ7062VykXs8+BfWWA
-	 3TadAbo6MbnQCF+rrSDyHENtXn2xMInWhG0mh63bwhxfJyR/4/81gARgY1EA9qFT66
-	 2u2M7NG9gtu/w==
-Message-ID: <sashiko-outbox-229355@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: uac1_legacy: fix double-close of sound
- device files
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Shuai Liu" <847807867@qq.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <tencent_7C654BDEA5891337506C7242C8FD481A9E05@qq.com>
-References: <tencent_7C654BDEA5891337506C7242C8FD481A9E05@qq.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Nov 2026 14:01:50 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD73C606A31E;
+	Mon, 23 Nov 2026 14:06:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD73C606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nathanst.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nathanst.com
+Received: from mycroft.stratway.net (unknown [192.168.88.1])
+	by mx1.nathanst.com (Postfix) with ESMTPS id 10340101468;
+	Mon, 23 Nov 2026 09:06:03 -0500 (EST)
+Received: from diagon-alley.stratway.net (diagon-alley.stratway.net [192.168.88.14])
+	(authenticated bits=0)
+	by mycroft.stratway.net (8.14.3/8.14.3/Debian-9.1ubuntu1) with ESMTP id 6ANE5wZo006586
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT);
+	Mon, 23 Nov 2026 09:06:01 -0500
+Date: Mon, 23 Nov 2026 09:05:58 -0500
+From: Nathan Stratton Treadway <vgerlists2026@nathanst.com>
+To: Mateusz =?utf-8?Q?Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
+Cc: Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        "Martin K. Petersen" <mkp@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org,
+        usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] usb: uas: expose US_FL_NO_ATA_1X in sysfs as
+ ata_passthrough_disabled
+Message-ID: <awRIRpJIxWPJcn5i@diagon-alley.stratway.net>
+References: <20261121155253.4980-1-mat.jonczyk@o2.pl>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,66 +59,41 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261121155253.4980-1-mat.jonczyk@o2.pl>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] usb: gadget: uac1_legacy: missing Fixes: trailer in commit
-  message
---
+On Sat, Nov 21, 2026 at 04:52:52PM +0100, Mateusz Jończyk wrote:
+> The uas driver blocks access to ATA passthrough commands for some
+> devices it considers buggy. However, it does not expose any meaningful
+> information whether the command was disabled by the driver or is
+> genuinly not supported by the hardware. This creates a problem for the
+> smartmontools program and makes it difficult for it to provide a useful
+> error message.
+>
+> Link: https://www.smartmontools.org/wiki/SAT-with-UAS-Linux
+> Signed-off-by: Mateusz Jończyk <mat.jonczyk@o2.pl>
+[...]
+> diff --git a/Documentation/ABI/testing/sysfs-class-scsi_device b/Documentation/ABI/testing/sysfs-class-scsi_device
+> new file mode 100644
+> index 000000000000..4dc8645bf59b
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-class-scsi_device
+> @@ -0,0 +1,10 @@
+> +What:		/sys/class/scsi_device/*/device/ata_passthrough_disabled
+> +Date:		Nov, 2026
+> +KernelVersion:	v7.5
+> +Contact:	usb-storage@lists.one-eyed-alien.net
+> +Description:	(RO) Indicates whether the driver blocks access from userspace
+> +		to ATA passthrough commands. Contains a value of '1' when such
+> +		commands are denied as the hardware is considered buggy and they
+> +		might interfere with a correct operation of the drive. Note that
+> +		a value of '0' does not necessarily mean that ATA passthrough is
+> +		available as it may not be supported by the hardware at all.
 
-commit 3da4b8607e9ed8f8aab229a9303b5baa05b42d1a
-Author: Shuai Liu <847807867@qq.com>
+Would it make sense to explicitly mention something about "USB quirk flag
+US_FL_NO_ATA_1X" in this documentation entry?
 
-> usb: gadget: uac1_legacy: fix double-close of sound device files
->
-> syzbot reports:
->
->   VFS: Close: file count is 0 (f_op=3Dsnd_ctl_f_ops)
->   kernel BUG at fs/open.c
->   ...
->   Call Trace:
->    filp_flush+0x...
->    filp_close+0x...
->    gaudio_close_snd_dev
->    gaudio_cleanup
->    f_audio_bind
->    usb_add_function
->
-> gaudio_close_snd_dev() closes the control/playback/capture device
-> files but does not clear the file pointers afterwards, so it is not
-> idempotent.  gaudio_cleanup() is invoked both from the f_audio_bind()
-> failure path and from f_audio_free().  When a bind attempt fails after
-> gaudio_setup() has opened the sound device files (e.g. because
-> usb_ep_autoconfig() cannot find an isochronous endpoint), the files
-> get closed while audio_opts->bound stays true and the stale file
-> pointers remain set.  A subsequent bind of the same function instance
-> skips gaudio_setup() and closes the already freed struct files again,
-> triggering the file count corruption check in filp_flush().
->
-> Make gaudio_close_snd_dev() clear the file pointer (and the PCM
-> substream) after each close, and reset audio_opts->bound to false on
-> the bind failure path so that a subsequent bind reopens the sound
-> devices instead of reusing stale ones.
->
-> Verified with a QEMU setup (dummy UDC provides no isochronous
-> endpoints, so every bind fails): without the patch the second bind
-> attempt hits "VFS: Close: file count is 0 ... kernel BUG at
-> fs/open.c"; with the patch ten consecutive bind attempts complete
-> cleanly.
->
-> Reported-by: syzbot+592c653b056459925299@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D592c653b056459925299
-> Signed-off-by: Shuai Liu <847807867@qq.com>
-
-[Severity: Low]
-Commit f3a3406b3f56 ("usb: gadget: f_uac1: convert to new function interface
-with backward compatibility") added the audio_opts->bound guard around
-gaudio_setup() in f_audio_bind() while calling gaudio_cleanup() on both the
-bind failure path and function teardown.  Should this include a Fixes: tag?
-
-  Fixes: f3a3406b3f56 ("usb: gadget: f_uac1: convert to new function interf=
-ace with backward compatibility")
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/tencent_7C654BDEA58=
-91337506C7242C8FD481A9E05@qq.com?part=3D1
+                                                        Nathan
