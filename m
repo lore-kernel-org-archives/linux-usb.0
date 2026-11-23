@@ -1,68 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795446917;
-	b=DSuPjjAaOCYZvSkdLCQxoac109JT/ljlEEhrptEGdcvoHQe1HnVFAkmg8I3pOnkFi5JT
-	 YXHrcEK8tEynwz+n1o+pTX2e0L44Y2EnKTT9R77OoxEALaehG3/xbo6Etryxa9GBCXYtB
-	 /vx0th4wePkFPbRICdiq5ACtmvnOJMNxumGfRWOP80y6OUB98ec6+faQOn2mleOx5FotE
-	 E9L68txizs+R+fXoUw2zrAC9u9rZzXz0oDIzoQvS1KnEhqs+iTgsdF8CksDAsW4YXuXRW
-	 R3SvdbZ2iv/3nx8a8ndRca9nPi32mAw+8HPDCBSIkLzLoKjpZteGP/jbhh0qpvO//0g==
+	t=1795446987;
+	b=HKgQqstWCt3z+RV5pACfUv081RW9Nt8hlctDjIZ9hTt+VTcA1cwtV+K6z0UANXkvZQ0F
+	 I1ZS/YIirhUS6u0e6lkIinw24tGmeoZpST+qSDRlVjx/YGwijZ5+csa4AkbjhBjG/H/Qu
+	 AVg3L8tmBncc0PIRc0vEGOsMhZ3UhGutCjz+gwh3OmWKF68hpOdgVjCg9MwVeuRlY7hNl
+	 exOxHCu+WC6n4xf6cwTYO/AF3D0y5e1eSbzdiarbfgQ+C5BXbkScjYD1t7+eY675ptHd7
+	 Z2RRfqEuARnTehaKqmOxLrW1tIdkxpgdh06ftVU/NjkYlFiojAjFSGv0JPb8+VWsQtQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795446917;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=bpiG9MmqnAFmQietc5A+K0l71MqHDBn6sIcnbHCBX2Q=;
-	b=Iz1ZXlLPISbEKlJZWZb/3pW0oD8j9K0raxUxoFa0fNnA5+SSfibJj6DNN+XZuRLGUhi3
-	 YRiLPTrnzYytqZTUyFvsKXATr/Tm1Q3g2iW/vZVDrmOkXvavEGdMU3gCac2QuNZSKipo1
-	 /njyH4UalNsmCMwtGfhPwp3x3eEZKP+AE4KFmZhfqZItn1DiAmF9Vv7xArNCSaALOK4g0
-	 8fuU1OvToWP6g1qzXiQs1XOeg0V6MAuU6JKltWg8PPZGXtSOExx3NCfiMRygL9C8yTJjf
-	 ELZimXoAnlmiMSna/GX9ic0ZgR1vNVleMs3m17HEn218uhKxiY5F6QU6d6WFA7rdGFg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795446987;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=TRxZpr5CFHb4+t5v/R4vvN9sjWyGPlgPL2ot1kVesyg=;
+	b=dfQsnnA4voHRi3cawjGs4fomTzTkCVrCcBSbI6zTnIpwCkXKGfq5O5EdQ/BLdhooTAPm
+	 8VjbY44KUskZU+mu/nFgHSXqygeX+lQddOk2LoxurRc4iU4Ajflw12wTlHQOZJK7xOK4W
+	 wqd3rgnNYs4A01gizeQs7YIkKjwaZFyL/j888BZB368CbFhHDv2JSCxqon3JLj+FkcX4H
+	 Eu7Yb+Lct+0xp3wSUUM2VX5PFjpc29WNMeCVHFVEVOJ+xS6o2PYpFqHqZqZlitE5Dtcxq
+	 YOOWYRRhyH7B0rtNUhUIVRRG6jwLLGkHVC4wO7LyBPsaYdIO7M4swf6AvmtCYByHA+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MyMrtHhe;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AYVl2JaT;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471AD606A31A;
-	Mon, 23 Nov 2026 15:15:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 471AD606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D376606A321;
+	Mon, 23 Nov 2026 15:16:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MyMrtHhe
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795446916; x=1826982916;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=xZ6/Tf8K2RVNUu5K1v99pgqDv7SlO/Pg58bdgY94QLM=;
-  b=MyMrtHhe9Yo3Fbv5e73D7ujbmZsrArq25iIt0gOWpufF9/TQ6TtJ6FTv
-   MiG5J8akQ5CDGnxOXjyfRSOQU0Tp0yviumDiSZpX7yT68WE6mHolbv2od
-   ZG94F9goOqqvQzpbb1rMaJfIz9Nb2Sfr862mJDCPjbAEDVTsE2zG2HFAU
-   ttljh6MWFRQcDLgED2vkpknBlFH/CDg85uK8KDkdEnvd0k59qRkPp6PdA
-   LRD1AIE+1mll312m7yWwF2ZjYEeG2rp3ktl3V63W0FxJXVcgeTrHOn9qy
-   28sZ4vkfM8dNc5GZm3PRb2WpAByvEQeLxWLULjQprmTDwtAtaYsyla+62
-   Q==;
-X-CSE-ConnectionGUID: VcM92CMmSlWPBPYf1S4wuA==
-X-CSE-MsgGUID: 8jBvO/69REKetJ8K24C6hg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4283385"
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="4283385"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 07:14:57 -0800
-X-CSE-ConnectionGUID: Q9y8a0k5QW2fkEo540VhNQ==
-X-CSE-MsgGUID: WUpbA1WURIK9YOjB8teUWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="11578799"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO [10.245.245.59]) ([10.245.245.59])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 07:14:55 -0800
-Message-ID: <2ffafaa3-bdea-4d67-b224-2f18d76134be@linux.intel.com>
-Date: Mon, 23 Nov 2026 17:14:53 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AYVl2JaT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D1541F000E1;
+	Mon, 23 Nov 2026 15:16:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795446986;
+	bh=TRxZpr5CFHb4+t5v/R4vvN9sjWyGPlgPL2ot1kVesyg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AYVl2JaTRF4mhsxk8IV+hhSTBI4UWjtqrcQ8g9z6Wasm2A7TGpZZyNl8uAFgPZqtU
+	 5P49Pk+41bhhvmhkRrvj6qe58tluIsGjsIVftmCWe6SiOK8Ty9tEuNQZXUV+/A0WBA
+	 PtBFqEdBCyiDWclD1eWkq5uZ+fLQzdYK1sID2m7C584OaeiO34rw00fzLbeG/EFKk6
+	 Rx9rokqm8jztAwa9Dlsyn0IskZFI7HqUgPAsRsSbGVMJKjtVFEHQCfbZQ2UFFXIaP9
+	 yvExzj8WtQpDyQ1OPRfWH/OaRVMQJpCASunHwDolcKkKjHQrvZo3Y4bQUdI15J/WZu
+	 RNF4SX8vKjRDA==
+Date: Mon, 23 Nov 2026 16:16:21 +0100
+From: Michael Grzeschik <mgr@kernel.org>
+To: Dominique Martinet <asmadeus@codewreck.org>
+Cc: Zhu Jun <zhujun2@cmss.chinamobile.com>, nkapron@google.com, 
+	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, v9fs@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] tools: usb: p9_fwd: Send complete requests to the TCP
+ server
+Message-ID: <awRYqogEpIWuCN9-@line.checkpat.ch>
+References: <20261120061937.98224-1-zhujun2@cmss.chinamobile.com>
+ <awOQD-9KMTflKrd4@codewreck.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,72 +59,23 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: xhci: unratelimited "buffer overrun event" warning floods log
- (~7000/s) with USB S/PDIF capture device
-To: Michal Pecio <michal.pecio@gmail.com>, Alex Kononov <alex@albefly.com>
-Cc: 'Mathias Nyman' <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
- 'Takashi Iwai' <tiwai@suse.com>, linux-sound@vger.kernel.org
-References: <001801dd7985$c068fc60$413af520$@albefly.com>
- <20261121103029.7af20ec4.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20261121103029.7af20ec4.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <awOQD-9KMTflKrd4@codewreck.org>
 
-On 11/21/26 11:30, Michal Pecio wrote:
-> Hi,
+On Mon, Nov 23, 2026 at 09:59:59AM +0900, Dominique Martinet wrote:
+> Zhu Jun wrote on Fri, Nov 20, 2026 at 02:19:37PM +0800:
+> > socket.send() can return after sending only a prefix of a request.
+> > The forwarder ignores that result and waits for a response to an
+> > incomplete message. Use sendall() so request forwarding completes
+> > only once all bytes have been sent or a write error is reported.
+> > 
+> > Fixes: 673f0c3ffc75 ("tools: usb: p9_fwd: add usb gadget packet forwarder script")
+> > Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 > 
-> On Sat, 21 Nov 2026 01:58:44 -0500, Alex Kononov wrote:
->> Good day Mathias,
->>
->> With a USB S/PDIF TX/RX adapter (Savitech, 262a:9123, UAC2, high
->> speed), the xHCI driver logs an isochronous buffer overrun warning
->> for nearly every microframe while the adapter's S/PDIF input has no
->> signal:
->>
->> xhci_hcd 0000:00:14.0: WARN: buffer overrun event for slot 2 ep 4 on
->> endpoint
->>
->> Rate measured: ~433,000 messages per minute (~7,200/s).
->> systemd-journald sits at 100% of one core and reports "Missed N
->> kernel messages".
->>
->> Setup:
->> - Intel N100 (PCH xHCI 0000:00:14.0), Debian 13
->> - Kernel: 6.12.117+deb13-amd64 (same code in mainline 7.4-rc3)
->> - Capture stream open continuously (CamillaDSP), 48 kHz S16_LE,
->>    EP 0x82 IN isochronous, adaptive, 125 us interval
->> - TV feeding the S/PDIF input goes idle -> no input signal -> flood.
->>    With a valid input signal the count is 0.
->>
->> The device is clearly misbehaving (it sends more data than requested
->> when the S/PDIF receiver is unlocked; it also reports its clock source
->> as valid while unlocked).
-> 
-> Either the device is buggy or snd_usb_audio driver submits wrong URBs,
-> but that's a sound subsystem issue.
-> 
->> The driver handles the events correctly and audio recovers fine. The
->> problem is only the logging: the warning in handle_tx_event() for
->> COMP_ISOCH_BUFFER_OVERRUN is not rate-limited, so a single
->> misbehaving isoc device can generate thousands of lines per second.
->>
->> Locally I changed that xhci_warn() to dev_warn_ratelimited() and the
->> rate dropped to ~100/min with no functional change.
->> Would a patch rate-limiting this message (or demoting it to xhci_dbg)
->> be acceptable?
-> 
-> Not Mathias, but I think it should be xhci_dbg() like all the other
-> conditions which are device-triggerable rather than driver bugs.
-> People can still see this as -EOVERFLOW status in iso_frame_desc[].
+> Thank you, picked up
 
-Agree, xhci_dbg would be better.
+gregkh already picked it to usb-next
 
-Alex, can you respin this patch with the xhci_warn() -> xhci_dbg() change?
-
-Thanks
-Mathias
-
-
+> -- 
+> Dominique Martinet | Asmadeus
