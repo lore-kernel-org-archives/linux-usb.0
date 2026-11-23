@@ -1,55 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795436282;
-	b=HmUXfQGk1Sr3ER8yE7iWa5oh3iYjNxi3TqizSl4O8cA/gQBv+xruK0VOulGbJIFgwXRB
-	 urugcy8wh2ewB4gZspHuwfXkJO7iBTGkQwYnAQFc17nzCDMtgof1tn6IJ/w81yiJ+YBAK
-	 Hwi1uG8h9WhzCg0gYjyDwPggMgtXD10Xry/ZETNULa9jKFKPvOaEyOYW+GlySqj/zkcP7
-	 GrPTIArnJUyYTjczgT7MnmiffyIewgk7m1idiYXbpcCjjf1XF7rsDAKQ5f3OYWmnM91c7
-	 jxYn9XN/svFkJI3QddMm1MLtBWVPXvAnfthsjt1Vgcb3fm9ugByy6iCeHgk31syJZ0w==
+	t=1795436988;
+	b=L6zKRzv77sPvKqmkA/z2p8sKIJtD30BnlONddqcrs6LCHKch4p3+9kEDWIX1dtH1TvEd
+	 8TOBEv/S4UwLoJxS/GsnoYwnliVm2q/eKfXHyn0ss9GX7jI6SE/+Ss5OHbzTMBNLCH6eT
+	 dODggUabucHO/fA9HnCEoILYhjMcbNgd9Ry5FB1AgnnjAbstEb3rtz851eucIiqno3wOf
+	 /Ti457EGj1CmN9dUbLVExiLCbG+BEFLg2JYgtJQHl9TuW9D5C1dkbWyn9BTytklovAeEo
+	 LmwvVe8o/n10c4JViFYRw0pNHHh9kyMPuEONqTeQOgoCLmlr7y9tGuiaj62edHzy9DA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795436282;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=oTqyWu0O0Lf/aRaTeVcX0CglBR6VWa7YWvtkVDqk8G0=;
-	b=YdeyB78swoT0C2czzdeiaZMGDDLAG4WpgfrVudaTYGQixkha0liOcVlpJCr4/jYtLTwV
-	 uDOAqWe8anifKbREq5wJOpaouFF/Zimlaf5+XhUI3ePpK7/eT+O6qPir9Kq9Lh1QCsISv
-	 k5DyBN4yFxFbIfC6DNvwxCsvkvY0M74rkEzPU3orE+BwEq0M2WvxM5DeQIey6/rpoWZye
-	 0ASK8PqfVbYxsQpLAaDt+RvIVT+fn6EyLdZCwDcN/6R9LSJuN/uclKaMXkVlL9WvoQdMH
-	 4+VPXpxdRdisqWE/EF5QEXWu/K7KOeK8qLemnhbZcwnw88zh7BGjEMsesVRljeUSyMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795436988;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:
+	 X-Google-Original-From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer;
+	bh=Ta0/TAM8wqUJGQiRANFnJ+0sgPO3Li82M7b5slMPdiM=;
+	b=YGNuFgnbDnJA99G/Y+GDwNEmnapCfGOMJ+UguzEsLBrMl/R94/sxZInJAB0ot+PekZ9w
+	 l8KSPRYOwYEjXP9+uZCETRbuHGm4/2Pwv++3EdRybhWGG4ZgNnfRcdaS+4kGAb2TzAgtu
+	 RXAubR2InDA7Ap21AwreChg2BwRMMXSdJ+y7kejDGdGJVDiXSw52kQQAG+IY0w/vBenPU
+	 g5AIlNB5CN01j8IF2Gg2xQnFz5DFUiFgsQ4oSDkh39sb0nJ1aCkUh1CSrllC2Bc9u2SKK
+	 N/mWiyC1c7lAgbec+hiKzNJm+EqDZhh8wXkRh9tB4KKlW+QTp1m0v9tkpEkaMNbJF1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=FchDuhne;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=S9mxk1Cf;
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4307606A32A;
-	Mon, 23 Nov 2026 12:18:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CF4606A31F
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 12:29:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58CF4606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=FchDuhne
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1468E1F000CA;
-	Mon, 23 Nov 2026 12:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795436281;
-	bh=oTqyWu0O0Lf/aRaTeVcX0CglBR6VWa7YWvtkVDqk8G0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FchDuhnexKGT8hJreDpf1tuRDARUWtUNerNsMnREO/RjBjf5rci3XCjbrWah/fORB
-	 MscwCaQcS9GyMtJWLL+tuwVRcmBfYqyPrpNIw3VOd50qib+egR0uq7RmnKuFgzfwvu
-	 dz7a/66lVyxnzcfxGIBFbulvkkEsZS59hJhylU5Y=
-Date: Mon, 23 Nov 2026 13:18:22 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Slawomir Stepien <sst@poczta.fm>
-Cc: andrzej.p@samsung.com, jiashengjiangcool@gmail.com,
-	yun.zhou@windriver.com, zzzccc427@gmail.com, bigeasy@linutronix.de,
-	nab@linux-iscsi.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
-Subject: Re: [PATCH 1/3] usb: gadget: f_tcm: take the TPG in tcm_bind()
- instead of tcm_alloc()
-Message-ID: <2026112324-trailside-hanky-1986@gregkh>
-References: <20261022134926.1125473-1-sst@poczta.fm>
- <2026112034-paralegal-democracy-b509@gregkh>
- <awQIkANAqLndeXxy@nr200>
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=S9mxk1Cf
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-38190551625so6707832eec.1
+        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 04:29:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1795436987; x=1796041787; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Ta0/TAM8wqUJGQiRANFnJ+0sgPO3Li82M7b5slMPdiM=;
+        b=S9mxk1CffP850RXsElPIQgIWz13kTlptKeK08NsKnfDE2zzBu6X+eU9z7o2jeoF1sE
+         jUr+08cJ7om3C4/Lz67uJcbckAHUW5UfpVVEcDv18q/mIHX5dy8Td/4+7XbkW5z8LcYh
+         nEsY7cDdtFHl9dIS+uHpI1YOAa/23bPhXqgsQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795436987; x=1796041787;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Ta0/TAM8wqUJGQiRANFnJ+0sgPO3Li82M7b5slMPdiM=;
+        b=VkDtg5w8OwT2VBUWfQz5qOlM1RmzbZxyL9UUktqKiDCSBjJeXIeVhhTI+M1fp4Am46
+         ZlPpLomPbqncAqDzfIdzryktc5fRMdH6NtF40syNqhvBJdYytWLZjVrEm8jIi9E1s1qn
+         6Gyl4FOus7vW01yOaIa0/7GRSTNKwqr4soDM+bGf5yXP4jpeoscTAKasu+QmiZLwN0vP
+         wO83DnJKmim8d3jGPnaxlmCzkkChjNNxkeuSE0xx/dFU3M6QozqfJx6dcNEzYAlwbbrW
+         5mel82KgLy7NdKbLMLlZRUjwqy4IKYBPVIawABozTfcNu5c4bL2WrOAl1ck77wAbEJ9n
+         9oMQ==
+X-Gm-Message-State: APuU4Z9Dnj2O1VKvjW8d7Tc47h15D4f9fWD3n//jUE4ENJdqzd2xA9y7
+	5yqEncEfL9SbgOhdqTQUlZurhHMt6CUneztQtLZFQ9/+aOJ8zO+9j4OtZGTHM7voBg==
+X-Gm-Gg: AZFdTZcyTeuUGmme0keFSIuaMucKWiQxyFE7OeQVOaUmHxI+avWQI9NE+AORLAaLmqA
+	re+3KrgTs2gC09nK3OK1ljWVmWb+QlnNxOzO8jcsxkj7ojy+B5DSIwQq8FSpcUdfDgaJA0Q5nO+
+	6Mo5rgPhmn3ushwKLNMObVZHMhVIDNpqAkWtaW6YIBC0/fSgBkBNEXo9QzEBiJN3kf6+NpSbxFh
+	T1Q49ywpnkSjIzuJ39KL4VZN9FKMPZe9IeUGIaKB1hIWawoLAoG9CbjNd8c4B7Ft3EewFPZNr7z
+	YssfouUZy6mZQlNvzeJjoYEWd4p/2LcxZY9jh10kCVbokk+5dMU62V+eYnqwVTibTWfO7/UXdJH
+	p8o4pmxYdva3JargWkD1gmkpjH5ERMwRoLbQnGympcAmWdaxIDjzMyZfipUTIERYgokmNseg784
+	gH77gN1dpxTUknzMIs5FmvhIu5A9oOq1KGbRCl054h/OYGCFLWnXMlQ4hscGfeaT+rLe59l7o2F
+	1FU7O1SEBY6L0fM0tgPN9OPGng/tspkIpvn+KE/UiZSbGZGyeoaNlhZTItSjKbxY4fSy4KQ1O8X
+	ucBSi8eL9ypmuUEdR9iJl51ftK9ND2DTpLFcMnciPfsvaoPYUaa+p5iY3dnVX4/9tn0IM20jiVt
+	ZqjCCMk/AxsjiSC/C3pM8Cxg4L842XuJwpA==
+X-Received: by 2002:a05:7300:bf10:b0:376:b957:bfb with SMTP id 5a478bee46e88-3856f7563b1mr14979380eec.17.1795436987509;
+        Mon, 23 Nov 2026 04:29:47 -0800 (PST)
+Received: from yuanhsinte.c.googlers.com (55.239.81.34.bc.googleusercontent.com. [34.81.239.55])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385f68bc0adsm32810950eec.13.2026.11.23.04.29.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 04:29:47 -0800 (PST)
+From: Hsin-Te Yuan <yuanhsinte@chromium.org>
+X-Google-Original-From: Hsin-Te Yuan <yuanhsinte@google.com>
+Date: Mon, 23 Nov 2026 12:29:39 +0000
+Subject: [PATCH net] r8152: do not (un)register the PM notifier under RTNL
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,114 +89,159 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awQIkANAqLndeXxy@nr200>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261123-r8152-pm-notifier-rtnl-v1-1-31e011a2ee51@google.com>
+X-B4-Tracking: v=1; b=H4sIALIxBGsC/x3MQQqEMAxA0atI1gZsxXb0KuJCNNWAEyUtIoh3t
+ 7h8i/9viKRMEbriBqWTI++SYcoCpnWUhZDnbLCVdcbYGvVnGovHH2VPHJgUNcmG3rW+Gcm74Gf
+ I8aEU+PrGPQglGJ7nBbvO0q1tAAAA
+X-Change-ID: 20261123-r8152-pm-notifier-rtnl-76975ae76f7d
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ hayeswang <hayeswang@realtek.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+ Hsin-Te Yuan <yuanhsinte@google.com>
+X-Mailer: b4 0.14.3
 
-On Mon, Nov 23, 2026 at 10:34:08AM +0100, Slawomir Stepien wrote:
-> On lis 20, 2026 11:58, Greg KH wrote:
-> > On Thu, Oct 22, 2026 at 03:49:24PM +0200, Slawomir Stepien wrote:
-> > > tcm_alloc() runs when a TCM function is symlinked into a gadget
-> > > configuration. It searches tpg_instances[] for the function instance
-> > > and copies the TPG pointer into fu->tpg at that point, under
-> > > tpg_instances_lock. This has two problems.
-> > > 
-> > > The function and the TPG can be set up in either order. If the
-> > > function is linked into a configuration before the TPG directory is
-> > > created, tpg_instances[i].tpg is still NULL and fu->tpg stays NULL.
-> > > Creating and enabling the TPG afterwards sets can_attach, so
-> > > tcm_bind() succeeds, and the first USB request that reaches the
-> > > target code dereferences the NULL fu->tpg.
-> > > 
-> > > Removing a TPG also leaves can_attach set for configfs instances, so a
-> > > later bind is not refused even though the TPG it would use is gone.
-> > > 
-> > > Store the TPG in struct f_tcm_opts instead: set it in usbg_make_tpg()
-> > > and clear it in usbg_drop_tpg(), under opts->dep_lock. In tcm_bind(),
-> > > refuse to bind unless both can_attach and opts->tpg are set, and copy
-> > > opts->tpg into fu->tpg there. Also clear can_attach in usbg_drop_tpg()
-> > > for configfs instances. The legacy g_target driver sets can_attach once
-> > > at module load, and its attach callback does not set it again, so
-> > > leave it alone in that case or g_target could never bind again after a
-> > > TPG is recreated.
-> > > 
-> > > With fu->tpg no longer set in tcm_alloc(), the tpg_instances[] lookup
-> > > there serves no purpose: f->fi already identifies the instance for the
-> > > item's whole lifetime. Drop it, and with it the tpg_instances_lock
-> > > acquisition. config_usb_cfg_link() calls tcm_alloc() with gi->lock
-> > > held, so this also removes the gi->lock -> tpg_instances_lock edge
-> > > from the following lockdep report:
-> > > 
-> > >   WARNING: possible circular locking dependency detected
-> > >   task is trying to acquire lock:
-> > >    (tpg_instances_lock){+.+.}-{4:4}, at: tcm_alloc
-> > >   but task is already holding lock:
-> > >    (&gi->lock){+.+.}-{4:4}, at: config_usb_cfg_link
-> > > 
-> > >   the existing dependency chain (in reverse order) is:
-> > >   -> #2 (&gi->lock):
-> > >          config_usb_cfg_link
-> > >          configfs_symlink
-> > >   -> #1 (&sb->s_type->i_mutex_key#24):
-> > >          configfs_depend_item_unlocked
-> > >          usbg_make_tpg
-> > >          target_fabric_make_tpg
-> > >          configfs_mkdir
-> > >   -> #0 (tpg_instances_lock):
-> > >          tcm_alloc
-> > >          usb_get_function
-> > >          config_usb_cfg_link
-> > >          configfs_symlink
-> > > 
-> > > Fixes: 4bb8548df632 ("usb: gadget: f_tcm: add configfs support")
-> > > Reported-by: syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
-> > > Closes: https://syzkaller.appspot.com/bug?extid=2799146a53c356f8017d
-> > > Link: https://syzkaller.appspot.com/ai_job?id=51e1f189-6d91-4321-a6ba-07d4eb3cd8cd
-> > > Assisted-by: Gemini:gemini-4-argon Gemini:gemini-3.8-flash syzbot
-> > > Signed-off-by: Slawomir Stepien <sst@poczta.fm>
-> > > ---
-> > >  drivers/usb/gadget/function/f_tcm.c | 29 +++++++++++------------------
-> > >  drivers/usb/gadget/function/u_tcm.h |  4 ++++
-> > >  2 files changed, 15 insertions(+), 18 deletions(-)
-> > > 
-> > > diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-> > > index 9e6d4f39900a..cc75d7e9792a 100644
-> > > --- a/drivers/usb/gadget/function/f_tcm.c
-> > > +++ b/drivers/usb/gadget/function/f_tcm.c
-> > > @@ -1720,6 +1720,9 @@ static struct se_portal_group *usbg_make_tpg(struct se_wwn *wwn,
-> > >  
-> > >  	tpg_instances[i].tpg = tpg;
-> > >  	tpg->fi = tpg_instances[i].func_inst;
-> > > +	mutex_lock(&opts->dep_lock);
-> > > +	opts->tpg = tpg;
-> > > +	mutex_unlock(&opts->dep_lock);
-> > 
-> > Why is a lock needed to write one value?
-> 
-> Yeah it is not needed. I will drop it in v2 - can_attach (tcm_bind()) and tpg_instances_lock
-> (usbg_drop_tpg()) protect it.
-> I guess AI added it since in all the other places it is used.
-> 
-> > >  	mutex_unlock(&tpg_instances_lock);
-> > >  	return &tpg->se_tpg;
-> > >  
-> > > @@ -1760,11 +1763,14 @@ static void usbg_drop_tpg(struct se_portal_group *se_tpg)
-> > >  		opts = container_of(tpg_instances[i].func_inst,
-> > >  			struct f_tcm_opts, func_inst);
-> > >  		mutex_lock(&opts->dep_lock);
-> > > -		if (opts->has_dep)
-> > > +		opts->tpg = NULL;
-> > > +		if (opts->has_dep) {
-> > >  			module_put(opts->dependent);
-> > 
-> > The whole module_put() logic should probably just be removed, right?
-> 
-> I'm not sure what you mean here. This series does not touch the legacy path.
-> Are you suggesting that we do not have legacy users and this whole legacy stuff can go?
+If an r8152 Ethernet adapter is plugged or unplugged as a device goes to
+sleep, the suspend attempt and every task waiting on RTNL can deadlock,
+leaving the device unable to wake up.
 
-I would love to drop the legacy stuff, my point was that anyone doing
-manual calls to module_get/put() is usually wrong.
+In commit 5ee3c60c8d3b ("r8152: fix the wake event"),
+register_pm_notifier() and unregister_pm_notifier() were added to
+rtl8152_open() and rtl8152_close(), the .ndo_open and .ndo_stop handlers,
+which run under RTNL and take the PM notifier chain rwsem
+(pm_chain_head.rwsem) for writing. During suspend or hibernation, the PM
+core holds that rwsem for reading while calling wg_pm_notification()
+(registered in wg_device_init()), which takes rtnl_lock() unless
+CONFIG_PM_AUTOSLEEP or CONFIG_PM_USERSPACE_AUTOSLEEP is enabled:
 
-thanks,
+  Task A (open or close)            Task B (suspend or hibernate)
+  rtnl_lock()                       down_read(&pm_chain_head.rwsem)
+  rtl8152_open() / rtl8152_close()  wg_pm_notification()
+    (un)register_pm_notifier()        rtnl_lock()
+      down_write(&pm_chain_head.rwsem)
 
-greg k-h
+Register the notifier in rtl8152_probe_once(), and unregister it in
+rtl8152_disconnect() and in the probe error path, outside RTNL.
+
+Set PM_NOTIFIER_AUTOPM_HELD when rtl_notifier() acquires a runtime PM
+reference, and drop the reference at the post event or right after
+unregister_pm_notifier() only if that flag was set. Otherwise an adapter
+probed or removed between the prepare and post events would drop a
+reference it never took or never drop one it took. System suspend now
+also resumes an autosuspended adapter whose interface is down, which
+rtl8152_runtime_resume() handles.
+
+Fixes: 5ee3c60c8d3b ("r8152: fix the wake event")
+Signed-off-by: Hsin-Te Yuan <yuanhsinte@google.com>
+---
+ drivers/net/usb/r8152.c | 39 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 30 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index d3bb7ee9c9bf..fea47a892414 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -792,6 +792,7 @@ enum rtl8152_flags {
+ 	IN_PRE_RESET,
+ 	PROBED_WITH_NO_ERRORS,
+ 	PROBE_SHOULD_RETRY,
++	PM_NOTIFIER_AUTOPM_HELD,
+ };
+ 
+ #define DEVICE_ID_LENOVO_USB_C_TRAVEL_HUB		0x721e
+@@ -7077,12 +7078,18 @@ static int rtl_notifier(struct notifier_block *nb, unsigned long action,
+ 	switch (action) {
+ 	case PM_HIBERNATION_PREPARE:
+ 	case PM_SUSPEND_PREPARE:
+-		usb_autopm_get_interface(tp->intf);
++		/*
++		 * Remember that the reference was taken. The device may be
++		 * probed or removed before the matching PM_POST_* event.
++		 */
++		if (!usb_autopm_get_interface(tp->intf))
++			set_bit(PM_NOTIFIER_AUTOPM_HELD, &tp->flags);
+ 		break;
+ 
+ 	case PM_POST_HIBERNATION:
+ 	case PM_POST_SUSPEND:
+-		usb_autopm_put_interface(tp->intf);
++		if (test_and_clear_bit(PM_NOTIFIER_AUTOPM_HELD, &tp->flags))
++			usb_autopm_put_interface(tp->intf);
+ 		break;
+ 
+ 	case PM_POST_RESTORE:
+@@ -7135,10 +7142,6 @@ static int rtl8152_open(struct net_device *netdev)
+ 	mutex_unlock(&tp->control);
+ 
+ 	usb_autopm_put_interface(tp->intf);
+-#ifdef CONFIG_PM_SLEEP
+-	tp->pm_notifier.notifier_call = rtl_notifier;
+-	register_pm_notifier(&tp->pm_notifier);
+-#endif
+ 	return 0;
+ 
+ out_unlock:
+@@ -7155,9 +7158,6 @@ static int rtl8152_close(struct net_device *netdev)
+ 	struct r8152 *tp = netdev_priv(netdev);
+ 	int res = 0;
+ 
+-#ifdef CONFIG_PM_SLEEP
+-	unregister_pm_notifier(&tp->pm_notifier);
+-#endif
+ 	tasklet_disable(&tp->tx_tl);
+ 	clear_bit(WORK_ENABLE, &tp->flags);
+ 	usb_kill_urb(tp->intr_urb);
+@@ -10283,6 +10283,15 @@ static int rtl8152_probe_once(struct usb_interface *intf,
+ 
+ 	netif_napi_add(netdev, &tp->napi, r8152_poll);
+ 
++#ifdef CONFIG_PM_SLEEP
++	/*
++	 * Not in ndo_open(): this takes the PM notifier chain lock, which
++	 * must not be taken under RTNL.
++	 */
++	tp->pm_notifier.notifier_call = rtl_notifier;
++	register_pm_notifier(&tp->pm_notifier);
++#endif
++
+ 	ret = register_netdev(netdev);
+ 	if (ret != 0) {
+ 		dev_err(&intf->dev, "couldn't register the device\n");
+@@ -10308,6 +10317,12 @@ static int rtl8152_probe_once(struct usb_interface *intf,
+ 	unregister_netdev(netdev);
+ 
+ out1:
++#ifdef CONFIG_PM_SLEEP
++	unregister_pm_notifier(&tp->pm_notifier);
++	/* No PM_POST_* event is going to be delivered anymore. */
++	if (test_and_clear_bit(PM_NOTIFIER_AUTOPM_HELD, &tp->flags))
++		usb_autopm_put_interface(tp->intf);
++#endif
+ 	tasklet_kill(&tp->tx_tl);
+ 	cancel_delayed_work_sync(&tp->hw_phy_work);
+ 	if (tp->rtl_ops.unload)
+@@ -10364,6 +10379,12 @@ static void rtl8152_disconnect(struct usb_interface *intf)
+ 		rtl_set_unplug(tp);
+ 
+ 		unregister_netdev(tp->netdev);
++#ifdef CONFIG_PM_SLEEP
++		unregister_pm_notifier(&tp->pm_notifier);
++		/* No PM_POST_* event is going to be delivered anymore. */
++		if (test_and_clear_bit(PM_NOTIFIER_AUTOPM_HELD, &tp->flags))
++			usb_autopm_put_interface(tp->intf);
++#endif
+ 		tasklet_kill(&tp->tx_tl);
+ 		cancel_delayed_work_sync(&tp->hw_phy_work);
+ 		if (tp->rtl_ops.unload)
+
+---
+base-commit: af6737b9066832a2017c281159950ba92385ce00
+change-id: 20261123-r8152-pm-notifier-rtnl-76975ae76f7d
+
+Best regards,
+-- 
+Hsin-Te Yuan <yuanhsinte@google.com>
+
