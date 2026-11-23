@@ -1,95 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795463764;
-	b=IrCY2Tg6QlI9WFKkjq6bInovs0XvbMv/f0yvMB1r8mIvo4UY+0q7T4j0H00dryMNPQBb
-	 ejs8TnGQiIbRVPBBNpkAPGCBA7ka59EYWG099XBKuHnVnV0ftFOk+LfJdX57vkoSdJW4p
-	 VQ9IOwiMUx/9NyWrVsf3k5MhwyBV6fo6KPzK28KTDYLo5s+fT5GYjYHQvofBnreVybaC2
-	 1zIz5CdvYE29wN9AZQI1PmDdxzwHp7rLZ/5QkSU8wBSYim+1tvONZthQrw4mn/QoSb8tI
-	 ncmHqjGBvqHq6m80AL3kClxPAIPFtW4Q5QwnYUgaqQ+RU+wPJzINheD8kH1C824CoXA==
+	t=1795464706;
+	b=o7IVQ+eToremQWtbnAVAGrQ/qEYRufVhI1Lpk3pN0FuhTQ9crV2PthK2vrdBnWb9SEvd
+	 F4TytnFeEuOLM4nIfOp8D16vbEQvRn0CdiJmjKFRRwKy2MvMe/Q498P4GdIbWxgRVTjlH
+	 vuOJahAy1Iku980qmGUkNUQUk6HDhPWHDjFuCSc5UKY0okZjLOU7kE4p9SovPpxC9oYST
+	 DKq3N0kgrZUoXUbZ2b2GlvTwPE+pk354YpA+TkvncNG03+eTFb8HW/iHKmWHknzyJ4Ala
+	 TPpoHo25e1mtfS9TBoFWfGh1ylAGBH/u7gYlVAKOAxi1FG0zxzkHsAcc2BgbdD7aFRg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795463764;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=1MbpLLQj1VpGSo6dlmyla02LckOZ3odw3KGGh5M7V2Y=;
-	b=CJ4KqWLuI8qj2JbY1i1yQ2MR0MP8y/Z1B94e2o1Z/CYGuLTA56bSX6v7XoLyNcIERzzZ
-	 WyU75zJe33B4BUedESyQ6gU9wqs3P/cyi3z8YcTOfDiBB+BNF/qNpdNUJQs/5uFaZw++9
-	 kNfWDXrk7CYSAuPU5mLXFwKL5SHJMiw052+1jQTHEnHxQztsKZS+Q87/SDOg80YcCjLaY
-	 LCSTU5w5HO7Ws1SlM9Phv3uoM9QalWJ9tIvliU0aU+vQvDpNWdLsei1Xks7fO/dsDKHBs
-	 r9YrNVFRWmDN2bFIAaSdmcWLR6O8eBJaYW9o7YDuvw9sYM/4pWMANESZ/2uXMs7iavg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795464706;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 In-Reply-To:Organization:References:Date:Message-ID:MIME-Version:
+	 Content-Type;
+	bh=mvNLv+3AciGOuDYZYe5oeiw60CL3pQrdkfZwl/FSt6I=;
+	b=l/MM/S2NhhyWMCE2vYhx6PUOXOX0/LPdtutKh00szLL+llFZRcS/NgKLa9mtt9JpbvTQ
+	 U6snWxkWs5Q73Pc5UWfXgIEbsOgtX+HMFw1prLnWynreXTISmO/IgzPRgUVQpaJ5ca3UV
+	 r3/R3rRzRGjJarjxqKHa7AQloWa8dI0iJgQSMo+FNvAhcC/SpSEoyVd68MuE2D4/dwSFt
+	 r5fPsoJjQkr5xa/64BucHJ8khgsSnIr01ZIzxX17ZNgV5oalTaoPen36PVdsosb9K7LST
+	 rOimVBMADZXh0+7tMovKQZP3DxBraFCo9GerLqvjGM6GzSJTpiJgQtWJ3CkMF9CmQUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ILRa8rMf;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I1Gq0Ws2;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174B1606A33B
-	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 19:56:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 174B1606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2F8606A321
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 20:11:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D2F8606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ILRa8rMf
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso27851425e9.2
-        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 11:56:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795463761; x=1796068561; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1MbpLLQj1VpGSo6dlmyla02LckOZ3odw3KGGh5M7V2Y=;
-        b=ILRa8rMfEQRXX8PcvtS2W7TKDKsM/DcDJL5LU18Pte2U3PaLYKSECik2nz2JiQebGB
-         h8U3yV6/FiIFQ2ZDOyRMyEX+8hp3azU5Girn+v8Y2xGN9J2Z2eVmV3Tq/PwodzA+8cfD
-         w8ReIPvGA0X+f6F0X2YkV7fIkV3M7BgT+20Nw8w/o2zGFYbHApXNxHMEf+s3Ry9Ptf01
-         u3ctDnm6bVmTmpv/ngofyCrsB2nhuyJfhkUoT2h1TGQblcjuPDkKDkopCxBxnpZYDdn7
-         XI0GrpacwDINdZe30tCByNNsUhEC5sXD8qUQ5v+TUmA7KhsksF5KZR9hdFHNtPGKhK90
-         hUmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795463761; x=1796068561;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1MbpLLQj1VpGSo6dlmyla02LckOZ3odw3KGGh5M7V2Y=;
-        b=szM77tujq5tVn1vRoG03F844/pQbuTu87aOriNj4OSYggt4yi+RhdQal682jo3vgxw
-         HIMx4dDC5T3ug4EidfGaqruGiJ6pwHnMxdfVRbhCOq6hfaGi3fZJNIfevDBvcoBQNQM5
-         cgAhI/fe2uYZyzyC/VaQR4/jakE1iLMP4kIpqclusrCUPe9GdwpMBNH8EOmhZSGdcuhA
-         rPR36nCoFEeTL24S0QwKZ8MUESbyIEsouwb2P3Q1shrESoDGPnFq7lCbBplcqw1BSRke
-         Qpn8flCAsgTziuaZ/i2iMYlagdSygPqZjHdbVEsi3oxHLoHg8g8G3pPP3pVqrmGLBghw
-         8kfA==
-X-Forwarded-Encrypted: i=1; AL+hErHP4Y2cI5jtt2mKCYJDxkK2hWamMi2SGeFlEIhwItUF+61sJ3qJSxnv7Ll7+08zx0PKY2PJSDx+Re0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z96LkAFJLP+I8+XG7gwTLNF5BYQTFl3MutU/4Hu7CYqb3zzeIRa
-	hFj9ss2h7ZIfVGoqpJ7H4kc/WoxM3w5Clk1BPCAG3WyovePqck5qMROw
-X-Gm-Gg: AZFdTZeQfeqVV9ExFwUNHuPl7A1bCaLDzwDFp8KTWC5WxS2GQ8dcmNPszQflHqFOZGz
-	gvSPJYu1EpTuSHT0l+xw8Es7NQ0KZO3fT7Ba+c4mhykie7MFZg+73KZJRQDuYrCU2OagtnjYhvv
-	xdLvk08ey7BUDRyew5Xn+JwX6id5Plke0PLouzTFZmDay/kKvbw7rP4VMSWSzMcC+3RyyPjsxFs
-	K3ffP0xdNDp6aa1ox9cYxHvrf6kBkb86x1Q9I+GPRy8ka65bSsTyATBP+nIpJSr3TrB8K5jPA52
-	dBqNC27BeQQzFptTFhnDKfcYlt2pOcqkZyXdpiUGlhqjZskVyi2VbFzTOhLlfxNMc4C1L0MG8Jx
-	hwLeC1K8+jUf1pGYD/UDz4JoWi9prZo1fmZAkuep9t7fo7jTBPf6R94e2MmqqRk8ei4Y50dhRar
-	q52l2G/lhoxfZ3XC6nW6dJE+l+yhl425X0GGQnBHYrgdBGV7euycGuNmPpLDaukUvlHhzwZVfG3
-	LbbLaPZj5gDv2Pg+wrjmXwOOJ6tB8qRpXwv5uj2PI2NTWL6s5zW+nnQEINVVCO54XgUS8qOSvVJ
-	KtCsTlFMra5JmxihYyDDFQZrt5G0EROBVgblDgfh
-X-Received: by 2002:a05:600c:828e:b0:4a1:e6a9:4086 with SMTP id 5b1f17b1804b1-4bb88785a99mr241947155e9.0.1795463761275;
-        Mon, 23 Nov 2026 11:56:01 -0800 (PST)
-Received: from foxbook (bfh118.neoplus.adsl.tpnet.pl. [83.28.45.118])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884911e3sm445229305e9.6.2026.11.23.11.56.00
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 23 Nov 2026 11:56:01 -0800 (PST)
-Date: Mon, 23 Nov 2026 20:56:04 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Alex Kononov via B4 Relay <devnull+alex.albefly.com@kernel.org>
-Cc: alex@albefly.com, Mathias Nyman <mathias.nyman@intel.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: xhci: Demote isoch buffer overrun message to debug
- level
-Message-ID: <20261123205604.5bf490f0.michal.pecio@gmail.com>
-In-Reply-To: <20261123-xhci-overrun-dbg-v1-1-4e5a2f11740d@albefly.com>
-References: <20261123-xhci-overrun-dbg-v1-1-4e5a2f11740d@albefly.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I1Gq0Ws2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795464705; x=1827000705;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=2kLKLPpRTmFaPuxKkqTgwxOS8eKQF0S0JzNbhLZpn2o=;
+  b=I1Gq0Ws2AXgp5m94RlNyUC2wCyEc+9UiSf/V+ncmvq1bfKZ5V1i3OXub
+   UhaxhQJJcPtGxrSuSqIheXnilk19wXxcWwMx8TCcUcnJUoMTHospTZlHa
+   uT1k1LTw7OKgJpbHPJmb9dnAWcVAAgyJ0NKfw4wKmcotIuJvU1w0ab6vt
+   6qlQzI+lci5wrL+CZ/rZMSocz6mzMMqLkdDAInmevz9r7fkzv2jKwXwVR
+   w3eE2xFzllOgy0ajSN+vi3CF9/aVeQ12cb+Js1khCWXYeMu6sQTj1WF6Q
+   IjlfaTrJd+9MbBTE0htyV9LtTPBZvCIkn5EZlNDXFLLUebISZuB5B9hHt
+   A==;
+X-CSE-ConnectionGUID: 6t8bczvART2lSdP8j8T9Iw==
+X-CSE-MsgGUID: scZ/XBZcSLCFPaZM0t83/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4314485"
+X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
+   d="scan'208";a="4314485"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 12:11:45 -0800
+X-CSE-ConnectionGUID: vgUm4O1aS1iDJySwOPFZqQ==
+X-CSE-MsgGUID: Xhe+vywERkenqos8aRRfig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
+   d="scan'208";a="11497837"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.16])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 12:11:43 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ronald Rechenmacher <ron@fnal.gov>, "linux-usb@vger.kernel.org"
+ <linux-usb@vger.kernel.org>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>
+Subject: Re: [REGRESSION] thunderbolt: Barlow Ridge DP tunnel reports UHBR20
+ in BW allocation mode for HBR3-only DP OUT, external monitors stay black
+ (v7.2 -> v7.3)
+In-Reply-To: <DS5PR09MB1353250098A5804464BB8BAE6DC782@DS5PR09MB13532.namprd09.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <DS5PR09MB1353250098A5804464BB8BAE6DC782@DS5PR09MB13532.namprd09.prod.outlook.com>
+Date: Mon, 23 Nov 2026 22:11:41 +0200
+Message-ID: <7c77eaf0bdd8370e2259c654dd866561ca07d382@intel.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -99,50 +84,131 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Mon, 23 Nov 2026 13:26:32 -0500, Alex Kononov via B4 Relay wrote:
-> From: Alex Kononov <alex@albefly.com>
-> 
-> An isochronous Buffer Overrun event means the device sent more
-> data than the TD could hold.
-> This is triggered by the device, not by a driver bug, and the
-> error is already reported to the class driver as
-> -EOVERFLOW in iso_frame_desc[].status.
-> 
-> Logging it with xhci_warn() can flood the kernel log.
-> A USB S/PDIF adapter (262a:9123) whose S/PDIF input loses its
-> signal produces this event on nearly every microframe,
-> about 7,200 messages per second, keeping systemd-journald
-> busy at 100% of a CPU.
-> 
-> Use xhci_dbg() like the other device-triggerable completion codes.
-> 
-> Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-> Signed-off-by: Alex Kononov <alex@albefly.com>
-> ---
-> As suggested by Michal and agreed by Mathias in the discussion:
-> https://lore.kernel.org/linux-usb/2ffafaa3-bdea-4d67-b224-2f18d76134be@linux.intel.com/T/
-> 
-> COMP_BANDWIDTH_OVERRUN_ERROR is arguably device-triggerable as well and
-> has been reported to flood logs (https://bugs.debian.org/1035939);
-> I left it alone here. Happy to send a separate patch if you think
-> it should get the same treatment.
+On Fri, 20 Nov 2026, Ronald Rechenmacher <ron@fnal.gov> wrote:
+> Subject: [REGRESSION] thunderbolt: Barlow Ridge DP tunnel reports UHBR20 in BW allocation mode for HBR3-only DP OUT, external monitors stay black (v7.2 -> v7.3)
+>
+> To: Thunderbolt/USB4 maintainers, linux-usb
+> Cc: i915/DP tunnel developers, intel-gfx, regressions
+>
+> Hi,
+>
+> Since moving from 7.2 to 7.3, the external monitors behind a Thunderbolt 5
+> dock stay black. They are detected, read EDID, and show up in the desktop's
+> display settings, but no picture appears. Booting with
+> thunderbolt.bw_alloc_mode=0 fixes it completely.
 
-That's not device triggerable, it means URB size exceeded bandwidth
-allocation. Such URBs shouldn't pass validation by usb_submit_urb().
-Only a buggy host controller can produce this warning without any
-fault of the kernel.
+Does [1] fix it?
 
-My Etron does, when multi-TRB isochronous TDs are used. Apparently
-it doesn't support those, maybe it needs some ludicrous out-of-spec
-workaround. Sadly, patching qemu-xhci to pretend being Etron makes
-Windows bluescreen at boot, so IDK how / if Windows deals with the
-numerous bugs in those chips.
+If not, please file a bug as described at [2]
 
-If somebody sees this warning on current kernel releases with spec-
-compliant xHCI controllers, we would be curious to hear about it.
 
-Regards,
-Michal
+BR,
+Jani.
+
+
+[1] https://lore.kernel.org/r/20261123120954.1115838-1-imre.deak@intel.com
+[2] https://drm.pages.freedesktop.org/intel-docs/how-to-file-i915-bugs.html
+
+
+>
+> #regzbot introduced: v7.2..v7.3
+>
+> Hardware
+> --------
+> - Laptop: Dell Pro Max 18 Plus MB18250, BIOS 3.5.2 (10/15/2026)
+> - CPU/display: Arrow Lake-HX, i915 (MTL display version 14.00, PCI 8086:7d67)
+> - Host router: Barlow Ridge JHL9580 (8086:5780/5781), NVM 64.81; the
+>   i915 DDI TC3 port is wired to the router's DP IN (TC port mode "legacy")
+> - Dock: Dell Pro TBT5 Dock WD25TB5 (Barlow Ridge hub JHL9480), NVM 69.81,
+>   internal Synaptics MST branch (DPCD 1.4, max HBR3 x4)
+> - 3 monitors on the MST hub: 2x 3840x2160@60 (one uses DSC), 1x 1920x1080@60
+> - USB4 link to the dock comes up asymmetric (3 RX / 1 TX, 40 Gb/s lanes)
+>
+> Kernels
+> -------
+> - Good: 7.2.15 (Fedora 7.2.15-200.fc44)
+> - Bad:  7.3.3  (Fedora 7.3.3-300.fc45)
+> - The 7.3.4 stable changelog has no i915, drm display, or thunderbolt
+>   changes, so I expect 7.3.4 to be affected too (not tested).
+>
+> What happens
+> ------------
+> Both tunnel adapters report HBR3 x4 as their maximum. With bandwidth
+> allocation mode enabled, though, the tunnel's maximum is reported as
+> UHBR20 x4, and i915 picks that up as the DPRX rate:
+>
+>   thunderbolt 0000:05:00.0: 0:13 <-> 1:12 (DP): DP IN maximum supported bandwidth 8100 Mb/s x4 = 25920 Mb/s
+>   thunderbolt 0000:05:00.0: 0:13 <-> 1:12 (DP): DP OUT maximum supported bandwidth 8100 Mb/s x4 = 25920 Mb/s
+>   thunderbolt 0000:05:00.0: 0:13 <-> 1:12 (DP): non-reduced bandwidth 8100 Mb/s x4 = 25920 Mb/s
+>   thunderbolt 0000:05:00.0: 0:13 <-> 1:12 (DP): maximum bandwidth through allocation mode 20000 Mb/s x4 = 77575 Mb/s
+>   thunderbolt 0000:05:00.0: 0:13 <-> 1:12 (DP): bandwidth allocation mode enabled
+>   i915 0000:00:02.0: [drm:drm_dp_tunnel_enable_bw_alloc] [DPTUN 1:1:13][AUX USBC3/DDI TC3/PHY TC3] Enabling BW alloc mode: DPRX:20000x4 Group alloc:0/103500 Mb/s (Ok)
+>
+> The LTTPR (LTTPR 1) PHY capabilities read by i915 also flip between
+> "04 03 00" and "04 00 00" around this point, i.e. its 128b/132b UHBR10/20
+> bits come and go.
+>
+> i915 then tries 128b/132b, which always fails:
+>
+>   i915 [CONNECTOR:543:DP-3][ENCODER:542:DDI TC3/PHY TC3][DPRX] Max loop count reached
+>   i915 ... [DPRX] 128b/132b Link Training failed at link rate = 2000000, lane count = 4
+>   i915 ... [DPRX] 128b/132b Link Training failed at link rate = 2000000, lane count = 4
+>   i915 ... [DPRX] Reducing link parameters from 4x2000000 to 4x1000000
+>
+> Two observed outcomes:
+>
+> 1. Cold boot with the dock attached: UHBR20 and UHBR10 fail, then i915 falls
+>    back to HBR3, and 8b/10b training passes for both the LTTPR and the DPRX.
+>    The monitors still stay black.
+> 2. Dock hotplug: the fallback state is reset, and UHBR20 fails twice. The
+>    limit drops to UHBR10, but there is no further training attempt, and
+>    i915_display_info still shows port_clock=2000000 on all MST pipes. The
+>    monitors stay black. On the hotplug path i915's modeset retry also hit a
+>    WARN in snd_hda_spdif_ctls_unassign (from
+>    intel_connector_modeset_retry_work_fn -> intel_audio_codec_disable).
+>
+> In about 12 boot/hotplug attempts on 7.3.3, the monitors came up once or twice.
+>
+> Workarounds that work on 7.3.3
+> ------------------------------
+> a) thunderbolt.bw_alloc_mode=0 on the kernel command line: no UHBR attempts,
+>    training passes at HBR3 x4 on the first try at boot and after hotplug,
+>    all monitors work, no i915 errors.
+> b) With BW allocation mode left enabled, forcing HBR3 before any UHBR attempt
+>    on the new link also works, and the forced rate survives later hotplugs:
+>      echo 810000 > /sys/kernel/debug/dri/0000:00:02.0/DP-3/i915_dp_force_link_rate
+>      echo 1      > /sys/kernel/debug/dri/0000:00:02.0/DP-3/i915_dp_force_link_retrain
+>    Forcing 540000 the same way trained successfully but stayed black (needs
+>    DSC at ~13 bpp for this monitor setup).
+>
+> So falling back to HBR3 after a failed UHBR attempt is not enough; HBR3 only
+> works when UHBR is never attempted. My guess is that the failed 128b/132b
+> training leaves the Barlow Ridge DP IN/OUT path or the dock's branch device in
+> a state that 8b/10b retraining does not recover, but I can't verify that.
+>
+> On 7.2.15, i915 always reports i915_dp_max_link_rate=810000 for this
+> connector and never logs a 128b/132b attempt or a link training error. I
+> don't have drm.debug/thunderbolt dyndbg logs from 7.2, so I can't say whether
+> 7.2 enabled BW allocation mode on this tunnel.
+>
+> Questions
+> ---------
+> - Should the tunnel's "maximum bandwidth through allocation mode" be capped
+>   by the DP OUT adapter's maximum (HBR3 x4 here)?
+> - Should i915 handle a failed UHBR attempt on this path differently, keeping
+>   the fallback across hotplug and recovering after the 8b/10b fallback?
+>
+> I have full logs (drm.debug=0x10e thunderbolt.dyndbg=+p) for the bad boot,
+> covering a cold boot, a hotplug, and both debugfs experiments, plus
+> i915_display_info, i915_dp_mst_info and connector debugfs snapshots from 7.2.15
+> and 7.3.3. I can test patches or a mainline build, and can bisect v7.2..v7.3
+> if that helps.
+> Download URL: https://drive.google.com/uc?export=download&id=1ZE5GYE69IgIpT6fWs5XHmMpseIurGgK8
+>
+> Thanks,
+> Ron Rechenmacher
+
+-- 
+Jani Nikula, Intel
