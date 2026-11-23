@@ -1,49 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.61.82.184
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795433866;
-	b=yAB3JZn8ifNfK55XBiNhvwK5NKSumF7zLKlrompyq76/pGysCAsQJucHguLj86fAXnXa
-	 xxwtBbOAOMaAFeZX6AVrJVya70Rbgrx9lDwB3dZ8mbcI2COxjtGVKjoFuS8rdltVywRCa
-	 W+CFSXSL2/cdRit7n9i8WebN8OwEqwuAIsmSnpre9F8CC0U882+U5mivpPx84I+jtXDXl
-	 bz4K6A6hFdXsjvYn2ubXDpHNrD+oidOn+/4Q51ap4kCCGuloLgszR8dF5Dqxtw5NEfRFT
-	 TEZUYD5tCt1h3kKwVV6mTG58jYlil6egw8ELS/mqj1tTBVz06f+a6Oo64XLpIT82iaQ==
+	t=1795433870;
+	b=NkyzZ5X87dzRcSy9IdsziOzNKVMHGxSpkPr38UFVJAD+y26SfqkmYkodYXpXTYNBj1dX
+	 HXf38dq400JWRo+SnLpbCRbN+K7ftX04bxltg1EgphlOEdKoIY/LDtT03y48Qz50Pq73K
+	 NtG5F8ZrMkUo1rsRyotxcg9+FZDzCBqM1qG5M3IsCzJkmgnuAwdN6uCmwZPY+GxjbIwOg
+	 XOubCpcrhmkU3VgSDmhwmZwH/3y/5/CJNVBl4wNfWgvxgU+wo6tC0rJU2qfBcDheWNpBP
+	 dmzizjW5tQcwgnr6RHZ8g+tQpmPPO00OwEsbFfMISKljVPdVOPr4A1tXH0AxpNFgosw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795433866;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795433870;
 	h=DMARC-Filter:X-UUID:DKIM-Signature:X-CID-P-RULE:X-CID-O-INFO:
 	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:Received:
 	 Received:Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
 	 Content-Type:X-MTK;
-	bh=/LMRasrUDrIyQRML2g9DMrJg4enHdU4K8A0548fGU5M=;
-	b=v4yJOYkVBU9JHk07AV01E6IZFQ9N+69DqexyxrADoGGZUA54iv9Qu6BQCnailu/ZUI3n
-	 StnQkMkdpS98SunPpXatVfdPjpzS6Xdbldh6nugXm013zZF+lBpJB+Bb3zrVobWtu1ISJ
-	 VyYhhfGBzaPhL8WIRgcRz5RCtw/84MwLrR99FN7q3lqLhwTyHMcDvKeCIV+mbopPdqZek
-	 k5rS9MDRzh237gpps4RuvmO1+/vUzNThAoX1oXHy+lAM+XoozWx00ttq5ytgeBUDcIJ4v
-	 a2XTH0rTe/GVbHvUgXxTkY9UothSthioYJvwyo3eyXMQE5fX4pzT8yTs/dcBecQVunw==
+	bh=shbvfSBDzRVaT/N6z1PMlGhIE7QCCC86jNh7wNzWVx4=;
+	b=C9o8ZOw4DPalrzbeWUKt2UZY3MxX8zcd9FgrjNq0Cl2KCAM94BmRXNknEjxzK02wA/kG
+	 kbOKOhN6mUqyyl1FchSzLWfyCuoCzCV0uw0i1bafmz68ZhhfBd9wf0lwbc1f9v0jTaiA7
+	 +fjEohAACCuClF/FP+SuDy35ZEbhCMt3KkktmIMT2r6ThHPMdbkYWrOsY2XOxRNu7NhHG
+	 QDcehIOBh29erCmSFQ+3WgjUxdJvAnafvbTPdCw7cf85fK2HzRZIBYPYeTHzDZU8PaCJu
+	 jhSrw3HNofug9dGVD2XegPD5i9j5+lsPgGsHY5WCOA5u62xoCSXX5JckJxq0lzDezfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=mediatek.com;
 	spf=pass smtp.mailfrom=mediatek.com;
-	dkim=pass header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=CxZ3bvhh;
-	arc=none smtp.remote-ip=60.244.123.138
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	dkim=pass header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=G4dXRLVE;
+	arc=none smtp.remote-ip=210.61.82.184
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B87460A5BC7;
-	Mon, 23 Nov 2026 11:37:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B87460A5BC7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DA260A2605;
+	Mon, 23 Nov 2026 11:37:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61DA260A2605
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=CxZ3bvhh
-X-UUID: 49dad288e73211f1b1788b6acf885367-20261123
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.a=rsa-sha256 header.s=dk header.b=G4dXRLVE
+X-UUID: 4adfa9b0e73211f18dc8c9802ae25ab1-20261123
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=/LMRasrUDrIyQRML2g9DMrJg4enHdU4K8A0548fGU5M=;
-	b=CxZ3bvhhXtuwQcTDds1WrRay9qvpUHhDPYvzsvpt6waCgEyawiGTKnHnNcMDJicIE+XY5Q+z0WWVnpFlgd3g773F4kxE6X6uAGbGFTOpCqqy655nkCqYC/Rpn263DP47r918c0iG/YK/ahIj1pv+cmJfjCZYeQf0YdExC61Te0g=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=shbvfSBDzRVaT/N6z1PMlGhIE7QCCC86jNh7wNzWVx4=;
+	b=G4dXRLVEf/SZfEpUORl1XztMz1pBSC/QRQHr2EQ/BcEFESaYDV6LDmJkRBdiVZZeT4B/M9/KRP8gU2Hahvg6C29ASbuYSNTpmYK78wMihAdLD0ero2Xw4N8B26y7F4InRACUZ6QrHYmOEdAA54Gi12b14QGrVi7FufrehFyb1qo=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.21,REQID:a14f3ea6-5b88-47f0-a1bb-3202171885e2,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:b0318ac,CLOUDID:9df7f319-ae4c-4a2b-b1c4-72e411efd0c9,B
+X-CID-O-INFO: VERSION:1.3.21,REQID:52b804d4-00d9-400c-bf15-60141ae1f681,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:b0318ac,CLOUDID:325b3c31-f289-4656-bb36-27baf4489f11,B
 	ulkID:nil,BulkQuantity:0,SF:81|82|102|836|865|888|898,TC:-5,Content:0|15|5
 	0|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
 	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
@@ -51,18 +51,18 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 49dad288e73211f1b1788b6acf885367-20261123
-Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
+X-UUID: 4adfa9b0e73211f18dc8c9802ae25ab1-20261123
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
 	(envelope-from <chunfeng.yun@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1016702683; Mon, 23 Nov 2026 19:37:39 +0800
+	with ESMTP id 1231366353; Mon, 23 Nov 2026 19:37:41 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Mon, 23 Nov 2026 19:37:38 +0800
+ 15.2.2562.56; Mon, 23 Nov 2026 19:37:40 +0800
 Received: from gcnsap21.gcn.mediatek.inc (10.17.81.22) by
  mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.2562.53 via Frontend Transport; Mon, 23 Nov 2026 19:37:37 +0800
+ 15.2.2562.53 via Frontend Transport; Mon, 23 Nov 2026 19:37:39 +0800
 From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 To: Mika Westerberg <westeri@kernel.org>
 CC: Andreas Noever <andreas.noever@gmail.com>, Konrad Dybcio
@@ -73,9 +73,9 @@ CC: Andreas Noever <andreas.noever@gmail.com>, Konrad Dybcio
 	<linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-mediatek@lists.infradead.org>, Chunfeng Yun
 	<chunfeng.yun@mediatek.com>
-Subject: [PATCH v3 6/8] thunderbolt: Increase the lane adapter link-up timeout value
-Date: Mon, 23 Nov 2026 19:36:53 +0800
-Message-ID: <20261123113705.2297329-7-chunfeng.yun@mediatek.com>
+Subject: [PATCH v3 8/8] thunderbolt: Drop WARN_ON() in tb_disconnect_pci()
+Date: Mon, 23 Nov 2026 19:36:55 +0800
+Message-ID: <20261123113705.2297329-9-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261123113705.2297329-1-chunfeng.yun@mediatek.com>
 References: <20261123113705.2297329-1-chunfeng.yun@mediatek.com>
@@ -92,70 +92,58 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-MTK: N
 
-when plug into a USB3 device into USB4 hub's downstream facing port
-to trigger USB4 driver wakeup, encounter the lane link up timeout
-issue, then cause USB3 hub disconnect:
+tb_disconnect_pci() uses WARN_ON() if the upstream PCIe adapter port
+or the associated PCIe tunnel cannot be found. This triggers a full
+kernel stack trace in dmesg.
 
-thunderbolt NVDA8100:00: 0:1: failed to reach state TB_PORT_UP. Ignoring port...
-thunderbolt NVDA8100:00: 0:1: lost during suspend, disconnecting
-thunderbolt NVDA8100:00: 0:4 <-> 1:16 (USB3): deactivating
-thunderbolt NVDA8100:00: deactivating USB3 Down path from 0:4 to 1:16
-thunderbolt NVDA8100:00: deactivating USB3 Up path from 1:16 to 0:4
-thunderbolt NVDA8100:00: 0: TMU: mode change off -> bi-directional, HiFi requested
-thunderbolt NVDA8100:00: 0: TMU: mode set to: bi-directional, HiFi
-thunderbolt NVDA8100:00: 0:5: DP IN resource available after hotplug
-thunderbolt NVDA8100:00: looking for DP IN <-> DP OUT pairs:
-...
-thunderbolt 0-0:1.1: retimer disconnected
-thunderbolt 0-1:1.1: retimer disconnected
-thunderbolt 0-1: device disconnected
-usb 2-1: USB disconnect, device number 5
+However, tb_disconnect_pci() is invoked when userspace deauthorizes
+a router via sysfs (writing 0 to 'authorized'). Under dynamic runtime
+conditions, an upstream port or active tunnel may not exist.
+For example:
+- If a USB4 router fails to resume or is unplugged during system/link
+  sleep, the disconnect flow may tear down and free the PCIe tunnel
+  before userspace deauthorization runs.
+- If PCIe tunnel activation previously failed (e.g., due to link
+  training or Type-C handshake hiccups), the tunnel was never
+  established in the first place.
 
-Completes link training at ~1.48s (with two retimer) and transitions
-to TB_PORT_UP after change the timeout to 2s;
+it seems unnecessary due to it does not indicate a kernel bug.
+Furthermore, it causes unnecessary kernel panics on systems
+booted with panic_on_warn.
 
-In the USB4 spec, Phase 5 (Link Equalization) alone is allowed up to
-1000 ms. When add tPhase2~4 (200 ms), and retimer transaction delays
-(tCmdResponse = 50 ms), the physical link is allowed by spec to take
-1200 ms to 1500 ms+ to complete initialization.
+Since -ENODEV is already returned to notify callers, simply drop the
+WARN_ON() checks while keeping the -ENODEV return.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v3: update commit message and kernel-doc
-v2: change timeout from 2.5s to 2s
----
- drivers/thunderbolt/switch.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+v3:
+* modify commit message.
+* Reworked sw->is_unplugged checks to directly drop the WARN_ON(!up)
+  and WARN_ON(!tunnel) checks in tb_disconnect_pci()
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index 7ff3da79da76..97e3fd8cdc0c 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -486,7 +486,7 @@ int tb_port_state(struct tb_port *port)
-  * @port: Port to wait
-  * @wait_if_unplugged: Wait also when port is unplugged
-  *
-- * Wait up to 1 second for a port to reach state TB_PORT_UP. If
-+ * Wait up to 2 seconds for a port to reach state TB_PORT_UP. If
-  * wait_if_unplugged is set then we also wait if the port is in state
-  * TB_PORT_UNPLUGGED (it takes a while for the device to be registered after
-  * switch resume). Otherwise we only wait if a device is registered but the link
-@@ -494,13 +494,13 @@ int tb_port_state(struct tb_port *port)
-  *
-  * Return:
-  * * %0 - If the port is not connected or failed to reach
-- *   state %TB_PORT_UP within one second.
-+ *   state %TB_PORT_UP within two seconds.
-  * * %1 - If the port is connected and in state %TB_PORT_UP.
-  * * Negative errno - An error occurred.
-  */
- int tb_wait_for_port(struct tb_port *port, bool wait_if_unplugged)
- {
--	int retries = 10;
-+	int retries = 20;
- 	int state;
- 	if (!port->cap_phy) {
- 		tb_port_WARN(port, "does not have PHY\n");
+v2: no changes
+---
+ drivers/thunderbolt/tb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 57c11ba13459..5f674c305d43 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -2267,11 +2267,11 @@ static int tb_disconnect_pci(struct tb *tb, struct tb_switch *sw)
+ 	struct tb_port *up;
+ 
+ 	up = tb_switch_find_port(sw, TB_TYPE_PCIE_UP);
+-	if (WARN_ON(!up))
++	if (!up)
+ 		return -ENODEV;
+ 
+ 	tunnel = tb_find_tunnel(tb, TB_TUNNEL_PCI, NULL, up);
+-	if (WARN_ON(!tunnel))
++	if (!tunnel)
+ 		return -ENODEV;
+ 
+ 	tb_switch_xhci_disconnect(sw);
 -- 
 2.45.2
 
