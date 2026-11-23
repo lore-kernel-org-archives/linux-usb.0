@@ -1,52 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795409311;
-	b=exc7acRv2/bqWL8+lvbKCbljMivSzTUaehsZtKeIbVB4epBwUiigi0Ndftjri4B/dl3C
-	 C2wgpgg/fTzMOhJTvyhcwGNzQ8J1h20mbVIGdAYoDfykkRJkZApskgRl5qjBWagURMZLx
-	 MA4JAqzDCISH0scYBTs+NLq1V2uSRS15k+00wT5x8NxwO+BVJBZsq8cR0znX67oJVZDrh
-	 I7ejDPlQPWb14TXXObB2ANUWTfFxTNRTdf8SS059ay5faz/k+ScacxtiXbqqJnImEDkFD
-	 +Xnm0qGzBT+rT9F7ST4OSP858wqhDFVHXn3eonb28DTqQIRfZ2ZDaCo0zfBSBCjbSTQ==
+	t=1795409816;
+	b=csOEdzcQ9Ce0NieR/OpcG1cARBLlrrIUkgGndnOxIen5QAF88u9tNvDwxjcVXsd647l4
+	 0yZm4p7t+3zdK3W9zOyrNr5XeuT8Ts4/oiiZFfspQaRW92GJ/VPf8FdMvARkHGGI1jiRh
+	 +Ei8SqCMJLjT7uMyHZJceY2IwuygUrnWeXil4VHeHFqNIK+agh5QzvvZAYtNna1gpsRSc
+	 Q0GuSLtIdYfes5nr9iUh0/wSzmAc9rjAMSZgjsgkTYLoVbu7mAe/kLm9e11vPqXYCMYd5
+	 hb6k2htOUntWjgncQsmDrRa+CYNdXdkzLTAVGpnzFNyuqcohxLaLNyFnwpZvieOEMOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795409311;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=VGlsapO2V5POm3US54gqe1+vK/bGv7Uye1pPVBLBino=;
-	b=BgkPJ/NH8/yxSDWpDbMAUcKkFX1NDQweHKnVGzkvoWdSnsq8XSp8hK5tjMZ2VGJoiXdH
-	 gHWA/vBrsDdYOCh6H2btQuzZlYdwUvTU5b4poC6oAmlGS+DF2KC1WMoNv2Ej5HduvdUV3
-	 lyKOlssbW+ni374BSf9bRYyNeczrv+4vPqMKX8p0sIRcVKFOF8NB8qcydUdg0mvZpT4qb
-	 KL6A7/TRaFmQ+uTE7IXhJhPZm4KMKAUGFFwFBpOfn5KjA1SMXoriPDsRgWu8A91FBYYx4
-	 uMxJOEx6iZn0aM96F5AjF46JbqBBvNMgp8lwkNWVYQaFwnVrqlQG5+RAY06qxPpOxfw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795409816;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=DBPDbY39nQ8zf04WFYZvHfTCl2NPAAJGS4aRelIV+J8=;
+	b=1xV9hhUawQcdSkMcMXoeZbbmc7H0y7ZpHlNzFWu3KVoqq1gBkptkIEU0BymhquUgfdxQ
+	 ZD25A2I1I8uL71FGQDelE4b5hHwlQkfiHqqggs29VVainooX64pfixoHQFW51V9Bkf/qb
+	 3EWZBgBqURLgt4Z0CSbL4HdeIAZ7WA3yAp7RI+6oJJ0qYqfi007oCIsXQiTSbYhBZ9bKj
+	 Ai8Mn+i+b/4n0xLqgCKeGYKwqbbWJtHAvHGmcIa4JERrgkC/KWDGKph3PpzjDRMNyniWB
+	 n8Hp1Ebo9nvTVqolF4ARph5omwJER1nF3W4JvIYD4/Q9JsJY0ZijqG2y/3OjcR2iO9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Xs9m9E0+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fjlYrdq4;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00804606A320;
-	Mon, 23 Nov 2026 04:48:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC353606A31E
+	for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 04:56:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Xs9m9E0+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A3241F000C6;
-	Mon, 23 Nov 2026 04:48:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795409310;
-	bh=VGlsapO2V5POm3US54gqe1+vK/bGv7Uye1pPVBLBino=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Xs9m9E0+U6OF+0QRmU9uPnMfRzHuEmr4wAUPC1AIxzT0kGTxF3MVML/ZIzBafB7EQ
-	 NyVPERnWgS6XZLpYddyCTHdVuZz1ybRQue9OggtEl3RoFwqH7x6P6cv5zRLlNnBJX6
-	 dzEYKDuag2dkDzE3QINtpuFKnYZmzucTKQyu9bck=
-Date: Mon, 23 Nov 2026 05:48:25 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Zhijian Han <hanzhijian1991@gmail.com>
-Cc: andreyknvl@gmail.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+d83b3c49738aea97c0e5@syzkaller.appspotmail.com
-Subject: Re: [PATCH 2/2] usb: gadget: raw_gadget: fix memory leak on connect
- event failure
-Message-ID: <2026112307-throwing-tint-b5c3@gregkh>
-References: <1729447050-0-patch-2-2-raw-gadget@kvack.org>
- <20261123011750.1032874-1-hanzhijian1991@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fjlYrdq4
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB1D71F000C0;
+	Mon, 23 Nov 2026 04:56:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795409815;
+	bh=DBPDbY39nQ8zf04WFYZvHfTCl2NPAAJGS4aRelIV+J8=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=fjlYrdq4BniQCsnTtl1mmi/T1VRU3iTXXHyZ6r4WF8n2X0WNvHPcFuIC7OngMIBBi
+	 LTml92GhIomNn7XGQpif+vJ42NqtYvW0vSI5LwvTfYC6E482GiQvdUXu8/WnF4hs9F
+	 Zv0ynVCXSmLuoywakbvKmq0qjpRVVUJ7W9/+zngHGmtmGAtAZQV2168ridwNZDkkrf
+	 VvNolEyNLH51Z3GorvD/3RMMmG71MIGtQaL3qUNhe/30zTDDQhoT6Npbr/kNUJ7hXZ
+	 dG1/mLur879GxgYDkSJ5ieEreCOb+JTTSPBwtZO6oUrHiyBQOGwMHeMCKpr1hjhAB1
+	 2tE1l1qWz85zQ==
+Message-ID: <sashiko-outbox-228681@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3] usb: cdns3: fix NULL dereference in
+ cdns_host_resume()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Guomin chen" <chenguoming88s@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261123044347.3273-1-chenguoming88s@gmail.com>
+References: <20261123044347.3273-1-chenguoming88s@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Nov 2026 04:56:55 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,28 +59,87 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261123011750.1032874-1-hanzhijian1991@gmail.com>
 
-On Mon, Nov 23, 2026 at 09:17:50AM +0800, Zhijian Han wrote:
-> On Fri, Nov 20, 2026 at 09:17:32PM +0800, Greg Kroah-Hartman wrote:
-> > On Sat, Aug 22, 2026 at 10:48:50AM +0800, hanzhijian wrote:
-> > > gadget_bind() allocates an ep0 request and stores it in dev->req. If
-> > > raw_queue_event() fails to queue the connect event, the function
-> > > returns without releasing the request, leaking it.
-> > >
-> > > Release the request before returning in that case.
-> > >
-> > > Reported-by: syzbot+d83b3c49738aea97c0e5@syzkaller.appspotmail.com
-> > > Link: https://syzkaller.appspot.com/bug?extid=d83b3c49738aea97c0e5
-> > > Signed-off-by: hanzhijian <hanzhijian1991@gmail.com>
-> >
-> > Full name please.
-> 
-> Apologies. Please use:
-> 
-> Signed-off-by: Zhijian Han <hanzhijian1991@gmail.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] usb: cdns3: dangling cdns->host_dev on __cdns_host_init()
+  error paths
+--
 
-Please send a new version with this corrected
+commit 65a7dd0ee7f8dab7d9774ef07f61af4db003e801
+Author: Guoming Chen <chenguoming88s@gmail.com>
+
+usb: cdns3: fix NULL dereference in cdns_host_resume()
+
+This commit adds NULL checks for cdns->host_dev and its driver data in
+cdns_host_resume() to avoid a NULL pointer dereference when the parent
+resumes before the xhci-hcd child device has been probed or after host
+role startup fails.
+
+> diff --git a/drivers/usb/cdns3/host.c b/drivers/usb/cdns3/host.c
+> index e01264dc625da..2f430e1e00897 100644
+> --- a/drivers/usb/cdns3/host.c
+> +++ b/drivers/usb/cdns3/host.c
+> @@ -140,9 +140,23 @@ static void cdns_host_exit(struct cdns *cdns)
+> =20
+>  static int cdns_host_resume(struct cdns *cdns, bool power_lost)
+>  {
+> -	struct usb_hcd *hcd =3D platform_get_drvdata(cdns->host_dev);
+> -	struct xhci_plat_priv *priv =3D hcd_to_xhci_priv(hcd);
+> -
+> +	struct usb_hcd *hcd;
+> +	struct xhci_plat_priv *priv;
+> +
+> +	/*
+> +	 * The xhci-hcd child may not be bound yet: cdns3 creates it, but
+> +	 * xhci-plat probes it only later, and the drvdata is set in that
+> +	 * probe.  cdns->host_dev itself can be NULL, e.g. when the host
+> +	 * role failed to start.
+> +	 */
+> +	if (!cdns->host_dev)
+> +		return 0;
+> +
+> +	hcd =3D platform_get_drvdata(cdns->host_dev);
+> +	if (!hcd)
+> +		return 0;
+
+[Severity: Medium]
+Is cdns->host_dev guaranteed to be NULL when the host role fails to start?
+
+__cdns_host_init() assigns cdns->host_dev immediately after
+platform_device_alloc() and does not clear it on the subsequent error
+paths:
+
+drivers/usb/cdns3/host.c:__cdns_host_init() {
+	...
+	xhci->dev.parent =3D cdns->dev;
+	cdns->host_dev =3D xhci;
+
+	ret =3D platform_device_add_resources(xhci, cdns->xhci_res,
+					    CDNS_XHCI_RESOURCES_NUM);
+	if (ret) {
+		dev_err(cdns->dev, "couldn't add resources to xHCI device\n");
+		goto err1;
+	}
+	...
+free_memory:
+	kfree(cdns->xhci_plat_data);
+err1:
+	platform_device_put(xhci);
+	return ret;
+}
+
+If platform_device_add_resources(), kmemdup(), platform_device_add_data()
+or platform_device_add() fails after cdns_role_start() has set
+cdns->role =3D USB_ROLE_HOST, platform_device_put(xhci) frees the device
+while cdns->host_dev remains non-NULL.  A subsequent cdns_host_resume()
+will bypass the !cdns->host_dev check and pass the dangling pointer to
+platform_get_drvdata(cdns->host_dev), causing a use-after-free.
+
+Assigning cdns->host_dev only after platform_device_add() succeeds (or
+clearing cdns->host_dev =3D NULL under err1) would ensure the new NULL check
+catches all host-init failures.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123044347.3273=
+-1-chenguoming88s@gmail.com?part=3D1
