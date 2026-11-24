@@ -1,100 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.194.254.142
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795486986;
-	b=R5MPYGmWyNmuKg4cg7DIdYNHyGteZsyGTkQ5ExKBybYQWKYH5nAT909l6kcH57tVr1Tf
-	 dlRKT4p5NaNPT2Xpxi86O8HJNAktXLZVLlnaUNx1LYT1LFZ6eX3wSbxyeCxhwia/N8fsd
-	 CNFcr9JFYlX0HVe1/LJAqDBjfkNIHSfY6lhVu+RRHz/5i2PevXo5NZuUQDlEVwFkfCIrz
-	 kMdvLishJYsopifXTcxzDsaGGKisLGcJlmg9gCOpgeOvoeI9umITOR1XZ8v5XdvpaL3Ng
-	 aX2ej++HxkixwrQ1MkiGa2W+CVtFaIuX1FsxurUrcgci3VXIcSZxXIWgLl7b501/L8g==
+	t=1795487316;
+	b=q/t+93MgLzL9EP/kzhOvc9Q2UO1+M7qbWsHZLae64jEAeJD95xsLDezxKqvG/WNMUdjy
+	 h7jkIFuJRfTL5kVaDtcnwwwDWkY3BAefQ7iI1guc3IaIlSB7lOPekNE2A70vFt7kTxLMT
+	 MHK/8/AkLJDhYYAp6Vzr8SpN0OWN83blsUosWye3KQGqnw4QDGU8ZGt6HDpNOa9bLLPfX
+	 iyv3iY1/RhjYJVCmRAYpaJXxhignJSnY0YncF/tGriktkB6fnA9cuvfX8Zutw/ys4LSuZ
+	 u1pY6J+zKG8MYS7UJzLMrRQO8ioUclJxSC3Xv1R8CDxAzOgAMfJ1iWXDFs3ZXetr5BQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795486986;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=WvgO7pqnsYsS4en6wj3vVV2RD6XhcMibM3J3Ihuie2c=;
-	b=XJLNtbCCMC716k7Dk9ANa3XT2W4zzE9DLQ5EftYTzDmFUyE5sBTdTh0Q8ql5604X1687
-	 FtVikfoXqAUQcHZSEXT9Lp60bg7ZXcRiHaC1HBRX/zeDUPPGgaDOFB+hECA55j8rwYSG7
-	 eUQ5O5KdBElVRgYqrd76GYMr1dxqRX8VfzHtnHU7SxPR4u/CgI5m0RttpZwUQ3go5dVcL
-	 iQydYkm87/3oSI8HN6PRG2NUpm0w1FcCesemWTl9kwt5+BZL0G4GpEDqi4tYOGHGc16tk
-	 im8y1qibTq2sTUCarvIwhIOCZ5+cdvoM+XN72DwB2lZStB+LO4op8MERu/g9/Semm0w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795487316;
+	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
+	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:From:To:Cc:Subject:Date:Message-Id:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-QQ-SENDSIZE:
+	 Feedback-ID:X-QQ-XMAILINFO:X-QQ-XMRINFO:X-QQ-RECHKSPAM;
+	bh=o3DWzlUB91RPeHW7sZDn3F33nnBMtYhjW1YR0tS3IcQ=;
+	b=LP9+LeG1louVR2mtfhvCbViILEeCYIwIjGxRiz67bzV6bZdzx4uPnXf91zD5LRhKXf5z
+	 XeInIw+jxcLT+0JzVFJUPbiTJlopVQybMJapXzYu4VCR2eNjsrD/xdy0SNskrQJ2zB7H0
+	 CEU5onMB4xjWNp4V31ZZkLC3s9SPAlTIm48hMJpw8EqZ7fW/Nynx3wgsjO5gSGpK92j3/
+	 vHtqww5I0Jw0RSsGWNNkthdq5LX/MagiGl0NnQqyB6N0EWxEHT3PAnmJGvuT4l2DuuOTz
+	 YPFthYK0SoD1lS7HHJwMatkM/ATy3u6T8xVZp0973q/7xpbXGiND+KaQM00IPCREAFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dEImYII+;
-	arc=none smtp.remote-ip=209.85.210.173
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=uniontech.com;
+	spf=pass smtp.mailfrom=uniontech.com;
+	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=oT+ug+md;
+	arc=none smtp.remote-ip=18.194.254.142
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0731C606A322
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 02:23:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0731C606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7E9606A31E;
+	Tue, 24 Nov 2026 02:28:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E7E9606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dEImYII+
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8b58d6f67a5so1943858b3a.2
-        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 18:23:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795486985; x=1796091785; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=WvgO7pqnsYsS4en6wj3vVV2RD6XhcMibM3J3Ihuie2c=;
-        b=dEImYII+AfBPykE1rln6dfkL/AoigkBcD+0xCIDiMpHb0H8cNcjZkygfwDhgtjDfcJ
-         9Fo/Od1n/r+bfOkmHI5VnGla2dpbCoMf21vdRipAzEwyw4z+bW6s2y1rpBcihJEm0H5I
-         yL+cO/0mhUu1Zk5yczDwP1D0zZX0QVhOrUejPEVarYUtJorOiYsLISNW8bUdqVLiZJky
-         4Q0fsvMtpnx8J+ZF0M1CrwQDO6ODKggsQ1LSFfZiKSjfgOxpXv5FBjUlsjrbVMlLMnax
-         VJDTfHgIfvNp/d9GMakzf5ixPqr3Ym4Th/X+gzTtKbMYJhmCRSh0apOqXXrBefiGAVxq
-         D5bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795486985; x=1796091785;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WvgO7pqnsYsS4en6wj3vVV2RD6XhcMibM3J3Ihuie2c=;
-        b=r73ebUxRdSbBeEr5wGUw69nnaKKTOunxp67c4mpmUeViKFkMfQYYtZV9jdhwMwMbBt
-         Yy/ts/JTciog0EwIqmmcpWOO0E8k2GuPWvxoThNKN0WRP/36lYf8DmaC3++1nvmeaypr
-         9AEx2dcanbpfIX4axhymy8yYw+SHyjGhuUE+CD0ZlL4DCzAP3sm2FfNbAiZHj3fKp6E/
-         +1xWygD/qrqgSPVHvkOelVCbc7jNWPtM7AAKo/Hmhhst0xHpK8iup+7je5acE9VxWz0Z
-         WJSmD0p7JMFJpGsIw6RrKOOsw0QL1ISz76v4XRtabvGU921zrusEgxJOh31OJs2mgzir
-         L+tQ==
-X-Forwarded-Encrypted: i=1; AL+hErHdQk3ZGt7f7/NEH/Y7G6D3mY+5uU33Rkqd8AgtMWnItPAuzQM9LsSJQUQolRFS7fxlioIIMmvhmSQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/Xifyc1BprseZ04XJ1PnJ+u/+NEF7EPC6LGEPnEGAKTRevsBK9
-	JN+Xb4m335IqhUuhnw4QMDhcd2OFD9l46oqVYFReRj9MCM7Ob8KxNctz
-X-Gm-Gg: AZFdTZd/X+6wCHppEI+HcfQI98G9nBZAgXdf8vTnMRaswVaHHMbkm6yBSARdi+U9Lz2
-	5Fx+NMVaWuti4pUKQA0GkrDxUkfZQ95WdwD6YrX8r6DfSoHUrS5fF3eZhMyVYKD1zK0GHzD/j6h
-	Jqf6OnCvwc6k0Mi5LnckXUJSlWFwJnRH9w5gPHOjHa3egD+L6/K6DM1aMYJ7C0mtRDeKh3hhyaI
-	pgN8BM4uVmbZUEFKIhzJM9dTkNku5/9MK4x9Vg1LLUU9VfbIKuE9s2KQbhPBxH7laDmw1LEY+lg
-	2Ov1sV01h8otsyZbLU9cwunNvrnRpP3iZicAQCrUJS29Ml5f+KGcglxlXFkBRoAyjHszPNHtXZt
-	+s5/CgAPN5giAAwRU7R7WPAc13XG8d8Sg+JmvOlG5ij4MetnnVqdUg3r5T+upKYQ7WvZDlNNVez
-	GKullUtvj0OxpJlh2GkLV8xW5ptGl7dWeHg5rbVdyPqGts9MElAkGtojzLegVys0N7P0jgHyu+v
-	vHEYWeOiFg7dEu7IBiFS+ROk+iFKHGNrxf52N80lpxTzMcn7aDYobmPNbemDq5rllIUAGzxoHK7
-	OfF/igSXZrA6+ej6SPfa2rUWv1UVsFOQ8fIfdoCe9Wi19x0fP2W8kXeB6j9TNGbdRPgtd+U8ciY
-	i+56HmcQ3jXd17LiD0tFycJxa
-X-Received: by 2002:a05:6a20:ef19:b0:3f8:500c:1de5 with SMTP id adf61e73a8af0-4014ed55fd8mr12187901637.66.1795486985241;
-        Mon, 23 Nov 2026 18:23:05 -0800 (PST)
-Received: from [127.0.1.1] ([74.176.208.23])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c87077944bsm6439892b3a.2.2026.11.23.18.23.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 18:23:04 -0800 (PST)
-From: Yaohan Li <shunsheng1218@gmail.com>
-To: Mika Westerberg <westeri@kernel.org>
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [RFC PATCH] thunderbolt: cancel pending DP bandwidth requests on teardown
-Date: Tue, 24 Nov 2026 10:23:00 +0800
-Message-ID: <179548698032.1835311.976395071942954809@gmail.com>
-In-Reply-To: <20261123054525.GM229695@black.igk.intel.com>
-References: <20261119023558.1495581-1-shunsheng1218@gmail.com>
- <20261123054525.GM229695@black.igk.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=oT+ug+md
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1795487280;
+	bh=o3DWzlUB91RPeHW7sZDn3F33nnBMtYhjW1YR0tS3IcQ=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=oT+ug+md8otQ6hWo0Kphy7TbQpKdPetwi7UzcV3gg+/ZLjkSww4nq+ugO77xqCLp2
+	 T6hNpDfqSiUxeaJ9P0i5jylNRqiq5BT/WWUv4ePqutpgT8CppoqwvOFjkLh0UBQvjb
+	 c/L7AApaIfQv48H+jfH+YbVO+owGlKmBNX7xfyk4=
+X-QQ-mid: zesmtpsz2t1795487273t83aed970
+X-QQ-Originating-IP: +TlbQFTG7iR3f14eLAjoxHJt/wmpk/Ic6d5bkF3DQC0=
+Received: from localhost.localdomain ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 24 Nov 2026 10:27:44 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 4058606951707521692
+From: Siqi Chen <chensiqi@uniontech.com>
+To: Matthias Kaehlcke <mka@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	Jonathan Stroud <jonathan.stroud@amd.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: misc: onboard_usb_dev: check i2c_transfer() return values
+Date: Tue, 24 Nov 2026 10:25:00 +0800
+Message-Id: <20261124022500.1020611-1-chensiqi@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,17 +68,105 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: MchZnVUuqi2yl73TASl7a1OERAXwBBtoO7eT8MbfpBYezY1ShAai+Uym
+	y4xinIbQNNnO3wo5viplF/kwbtVdntQ3MVDPOZD42JBeC9RBmr9XIA7b+F2a9eWe2qTQkMW
+	+jN/wKvLUifibAGWHE1ZLpL2fTwKuUYnoTSUuV6VZO+cHlBp75/8JIUmE1QT5xG8G1nixcC
+	HxZ1JqPTuMp7lKMoOX4i5nxagubHCgLoh/7WUqmCZVJiGWvjjw/WevdM579HKCAmi0uD7ug
+	GeWiDzFCYd+2/RSVDkalVPYHtbqmarNHUHs5CokX2DmrXyp6PhFS/0DCzhRJVYiQtqoHseO
+	I5zW9GqH9EPg7Vt6BCSWvVtgxW+xAqVQxh6zs+0WjW2xFWUDKeKg5YS+kBHueZPrf/aG9lA
+	vCa7NTnwFGnwen/dEeCZWoP7m9y0uB5666CnUXS3PJxS+p+z4NIT64rIj+Kwk9hNLf6dxSC
+	ZUyBues8CGPpOS5oVisjFi7UOPNM8830Klvck0Ngy8CAcISzAC9AZ7Ty3X8yFpGgGhwN/nu
+	YsjpHHO7dySo0RhA+W/qeD7RnT66UoZ+JqP9nfUIIosUhEitFgqCPDUo0uKxtAkIUZKPttI
+	RRO3Vw+8jwzRKf23gTziqhebGrxggEgj8TvCMozmiPDk2037jUvoauSMOdiT4BlGxQcK/In
+	KTb9k7Urm+I/CzlnHu8uBrZb58vgS5VAqiuw8rogBJ3meINEp6xNOj/NWovYE+QEjbb0wT0
+	ig9D6VKl3tzQSVg4ekdGy8q+rbEM3DlZkxftYFITnBA89T1EhCq3tqrm3JsYiJmQ+uTWxLz
+	1YVD3gpVEBwN0MYQ+NwNi78FgC7gmXQMYe2UPF2mx33TF1yrzAhPzyPHyBlDmNs0ypyPCIK
+	fjv9KflKa7J8r4dHlgHAgotK1L368IAg7SFqHXMG5+VUZPraXN1pApjhmvLX2hA5PMJFIP8
+	AThawsratidsj0ea5ahg+V9iYA1S2m76rSbPUv49ZBY65WPTjN34jIEf6cFWVkgr0/uogrF
+	uA0a7glmR+DvX94JzBYTc9oONC+C7mHc+fCA2kS7ASLpFbhjsfyV5TMebGxrF/YRuds3A2L
+	IvGtbly+GWAzHSjUOmuXkJx3WtitxBttA==
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+X-QQ-RECHKSPAM: 0
 
-Hi Mika,
+i2c_transfer() returns the number of messages transferred or a negative
+error code. The USB5744 I2C helpers only check for negative errors and
+therefore treat short transfers as successful.
 
-Thanks for the feedback.
+In particular, if the two-message read completes only the register
+address write, the driver consumes uninitialized data from rd_buf and
+uses it in a read-modify-write operation.
 
-I don't have access to Thunderbolt or USB4 hardware at the moment, so I
-cannot provide the hardware reproduction or the regression testing you
-asked for.  I will put both RFCs on hold until I have that evidence.
+Require every transfer to complete the expected number of messages,
+preserve negative error codes, and return -EIO for short transfers.
 
-I also take your points about keeping the fixes small and writing the
-changelogs myself.
+Fixes: 1143d41922c0 ("usb: misc: onboard_usb_dev: Fix usb5744 initialization sequence")
+Signed-off-by: Siqi Chen <chensiqi@uniontech.com>
+---
+OpenCode was used to identify the issue and draft the code and changelog.
 
-Thanks,
-Yaohan
+Compile-tested with CONFIG_I2C=y, CONFIG_USB_ONBOARD_DEV=m, and
+CONFIG_USB_ONBOARD_DEV_USB5744=y using:
+
+  make O=/tmp/opencode/linux-build-usb5744 W=1 \
+       drivers/usb/misc/onboard_usb_dev.o
+
+No hardware or I2C fault-injection testing was performed.
+
+ drivers/usb/misc/onboard_usb_dev.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
+index e357cc8af34f..98380f8459b4 100644
+--- a/drivers/usb/misc/onboard_usb_dev.c
++++ b/drivers/usb/misc/onboard_usb_dev.c
+@@ -329,6 +329,8 @@ static int onboard_dev_5744_i2c_read_byte(struct i2c_client *client, u16 addr, u
+ 	ret = i2c_transfer(client->adapter, msg, 1);
+ 	if (ret < 0)
+ 		return ret;
++	if (ret != 1)
++		return -EIO;
+ 
+ 	wr_buf[0] = USB5744_CMD_CREG_ACCESS;
+ 	wr_buf[1] = USB5744_CMD_CREG_ACCESS_LSB;
+@@ -338,6 +340,8 @@ static int onboard_dev_5744_i2c_read_byte(struct i2c_client *client, u16 addr, u
+ 	ret = i2c_transfer(client->adapter, msg, 1);
+ 	if (ret < 0)
+ 		return ret;
++	if (ret != 1)
++		return -EIO;
+ 
+ 	wr_buf[0] = 0;
+ 	wr_buf[1] = USB5744_CREG_MEM_RD_ADDR;
+@@ -351,6 +355,9 @@ static int onboard_dev_5744_i2c_read_byte(struct i2c_client *client, u16 addr, u
+ 	ret = i2c_transfer(client->adapter, msg, 2);
+ 	if (ret < 0)
+ 		return ret;
++	if (ret != 2)
++		return -EIO;
++
+ 	*data = rd_buf[1];
+ 
+ 	return 0;
+@@ -374,6 +381,8 @@ static int onboard_dev_5744_i2c_write_byte(struct i2c_client *client, u16 addr,
+ 	ret = i2c_transfer(client->adapter, msg, 1);
+ 	if (ret < 0)
+ 		return ret;
++	if (ret != 1)
++		return -EIO;
+ 
+ 	msg[0].len = 3;
+ 	wr_buf[0] = USB5744_CMD_CREG_ACCESS;
+@@ -383,6 +392,8 @@ static int onboard_dev_5744_i2c_write_byte(struct i2c_client *client, u16 addr,
+ 	ret = i2c_transfer(client->adapter, msg, 1);
+ 	if (ret < 0)
+ 		return ret;
++	if (ret != 1)
++		return -EIO;
+ 
+ 	return 0;
+ }
+-- 
+2.20.1
