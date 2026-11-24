@@ -1,23 +1,23 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795509077;
-	b=lhP+CFjC84IAJY4PDqupZgq3Iv4pHWYwp8cwG+MPm30DVF+N/ZZnyKP1E5zYdeYszXEV
-	 yO+vyXIkkxqALnC/t9cDz9l2IGIYY1eCemgHU50gnPgJEeqDq57n06ck50KFmABapjGUH
-	 rYfz5m0+fH5a3Qtapluw1CHWa2fXGKF5cuJUcL0wblj05ful1oNiPkT2tYCZWwspc/70E
-	 fijXI6RY4CVBwEIIVDWm4NmYUxjHUSMRGeoiNWlkP7bMmh8aDiiP+UdeHnqc3yelfKHJD
-	 N/4t4Foe/XT3kpjG8TTbE3OlVb09fHIFTXVn+xW4nhxxNBe4xmzEgluw9LakhEgIrXw==
+	t=1795509083;
+	b=AvFJoyx+VrMjLcd8VdjYANZCm5i7gM1jNbDJhif1NSPdLWBHF3jAPRq34xN0xfmou/SF
+	 3K5FNouIDMlis0oiQXdOGU7rBNlVin4snYbSY2I0zyc/sgRffYhr93EH2Oxfe17WH7zOE
+	 pTYe+Khjie8Poz+k2ypYFjXMH+ymFIBYtUAsAgHQAe82cRDhVgqcA1X5yv+WmuTixLN8X
+	 s09VF8h9eIDOhHGgvgFy8jVCB4vJrbsW3JItqcufOS9aK3ObvBPf1a0OQXN9uacf+MjH2
+	 IiuUepK9YyKbdfnFFK1cnYQprEshoDxHL2Qq2htxlpnXvr9WjAKU69sW7QXiAEnCHGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795509077;
-	h=DMARC-Filter:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795509083;
+	h=DMARC-Filter:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:
 	 X-CM-SenderInfo;
-	bh=2xz/T8prMqoutxTNY6OUN5Had2FkyIhLtB2skS1UOVY=;
-	b=2TQhuKtzO35Y0O5rNWaER0+RIsxf0ZeyNtyilRkhc3iB+6142sBVAn9H63QNn1Vh18uu
-	 6VTN1q/UUJqx66b0e6IUSS3YIOQQqWEIvnD5ZnN0KBZRKKMrctsFkJ8fJ6DMMeFHSo154
-	 VgeKkFYO7Nx3noGnbkRW6vpbUT61XG2/oe0T7OxNr54zbwtP1weHWSMiCnq2e0IA0Wh+i
-	 3tWsLRoxHRS2IV69S4yqBKNN18xOf+ulMRhbqtIzvOnjVfP/h91LS5+ixkZ5jVD0tgvGl
-	 8bPszHoKH+4a/faeSJEwcxhE+L/ayK03OdVuRpDEGV1qbqayfcNb+ilBWVoKwwqW/6A==
+	bh=PyOQ7agFmgchwGW01Vmu09lgY9FSjGwZGuG4/j5F0oc=;
+	b=DROfqSM/TgLOF/mnngzMdEPx2kI/dt1wIZjxxXVT0yemU0MiS8IzVIyEknd9VdMklVi+
+	 XdySE8Ty/oZRzr7dizl+G6Pgv9rufHqEqeaTTWpoeFozhDEidaqpdFyfvh7mE/EaFX0li
+	 caFLoLZOdWoagtJhQJ9ctmvGjMI+Me4/vV0zLHIN1dxLoGtZXL4bEedfFtUWC5lqnbE7j
+	 6BMgsX+5idCVrGvenN0Mi6SI4HbjZxOMC7sE0yyfskm8daIYtrgZDWklo+R+6Ps8pFBri
+	 gSzgKpKzCchhJTQro6/+7+Ul68KfEGzGJGw1PCOtxnd6Kruvd4mCJkl2Hi3gD4AsfKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -26,19 +26,18 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD6C606A321;
-	Tue, 24 Nov 2026 08:31:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FD6C606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93F6606A330;
+	Tue, 24 Nov 2026 08:31:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D93F6606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from edelgard.fodlan.icenowy.me (unknown [120.85.97.139])
-	by APP-01 (Coremail) with SMTP id qwCowADXAfxMSwVrIMuUAQ--.8971S2;
+	by APP-01 (Coremail) with SMTP id qwCowADXAfxMSwVrIMuUAQ--.8971S3;
 	Tue, 24 Nov 2026 16:31:09 +0800 (CST)
 From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-Subject: [PATCH 0/3] dt-bindings: usb: vialab,vl817: reparent to
- usb-hub.yaml
-Date: Tue, 24 Nov 2026 16:31:00 +0800
-Message-Id: <20261124-vl817-uneval-prop-v1-0-137c093fb300@iscas.ac.cn>
+Date: Tue, 24 Nov 2026 16:31:01 +0800
+Subject: [PATCH 1/3] dt-bindings: usb: vialab,vl817: use
+ unevaluatedProperties
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -50,10 +49,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrDvgJMXYXqW40HTUKRJDokEQ7
- 26qy7f4f4fIQTjCu9ghcJIos8ugRwF2bN3AKN9sUKWqiNQT01STwdVxaif0Yfb4Mkqz6ayueoL
- c+cC9bNfz09yOa/dju/xHcBwniix9rHUAAAA=
-X-Change-ID: 20261124-vl817-uneval-prop-9723e7bc36f1
+Message-Id: <20261124-vl817-uneval-prop-v1-1-137c093fb300@iscas.ac.cn>
+References: <20261124-vl817-uneval-prop-v1-0-137c093fb300@iscas.ac.cn>
+In-Reply-To: <20261124-vl817-uneval-prop-v1-0-137c093fb300@iscas.ac.cn>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Matthias Kaehlcke <mka@chromium.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -62,51 +60,52 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Icenowy Zheng <uwu@icenowy.me>, 
  Han Gao <rabenda.cn@gmail.com>, Icenowy Zheng <zhengxingda@iscas.ac.cn>
 X-Mailer: b4 0.15.0
-X-CM-TRANSID:qwCowADXAfxMSwVrIMuUAQ--.8971S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw48Jw1rZw1kCr47Zw4xZwb_yoWkXwc_ua
-	ykAFn5Aw4qv3Wvk39xCF4Skr4DG345G3W8Zw15K3WUKr9Fywnru34qq3y3ur1xXan3WFyx
-	uwn2yr95Ka1S9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb38FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
-	1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
-	cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
-	ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
-	0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
-	v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
-	1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
-	AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
-	42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
-	evJa73UjIFyTuYvjfUonmRUUUUU
+X-CM-TRANSID:qwCowADXAfxMSwVrIMuUAQ--.8971S3
+X-Coremail-Antispam: 1UD129KBjvdXoWruFyxWr4rKFW5tF4fZFWkWFg_yoWfZFc_CF
+	4kZF4UZFnYya4Fgws7CF4ftFWYy3W3Cw4kZw15JwnYk34I93yDK34vq3s8Cw1xur4ruFn3
+	uws7tryDtan29jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbk8FF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGwA2048vs2IY02
+	0Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+	wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+	x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E
+	0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67
+	AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48I
+	cxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxw
+	CY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
+	JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
+	AFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
+	A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73
+	UjIFyTuYvjfU8T5lUUUUU
 X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 
-Currently the VL817 schema is derived from usb-device.yaml despite it's
-a USB hub (even a SS hub with a HS peer). In addition, it still sets
-additionalProperties to false, which isn't the standard practice now of
+Currently the VL817 binding has additionalProperties set to false
+instead of unevaluatedProperties, which disallows properties documented
+in the parent schema.
+
+Change it to unevaluatedProperties, which is the better practice for
 derived schemas.
-
-Both problems lead to rejection of downstream nodes, either OF graph
-ports or directly attached downstream devices.
-
-This patchset tries to fix these problem by setting
-unevaluatedProperties, set allOf schema to usb-hub.yaml and remove
-duplicated properties' description.
 
 Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 ---
-Icenowy Zheng (3):
-      dt-bindings: usb: vialab,vl817: use unevaluatedProperties
-      dt-bindings: usb: vialab,vl817: derive from usb-hub.yaml
-      dt-bindings: usb: vialab,vl817: deduplicate properties in usb-hub.yaml
+ Documentation/devicetree/bindings/usb/vialab,vl817.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- Documentation/devicetree/bindings/usb/vialab,vl817.yaml | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261124-vl817-uneval-prop-9723e7bc36f1
+diff --git a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+index c815010ba9c2e..d0484e48e319c 100644
+--- a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
++++ b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+@@ -40,7 +40,7 @@ required:
+   - vdd-supply
+   - peer-hub
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
 
-Best regards,
---  
-Icenowy Zheng <zhengxingda@iscas.ac.cn>
+-- 
+2.56.0
 
