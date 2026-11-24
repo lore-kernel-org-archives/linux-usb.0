@@ -1,56 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795542799;
-	b=xZt1kbMnKW9cAX2SYGbjYYnY60fv7uxq3ZuN5fQvJ0bNs9X3rWBbgFNo7iASEpbM/f2q
-	 SfL+XVcXzLrnp7JacLlNepaYHnJluwYj9dqZxGb1tfERSstXBj6p9SxP7Pz36o6Jr9Jus
-	 TFgbfzdXG4alVnSk51Tp0jCbtfr7pecM4FIK3Ex0XQU5MBSOtqARtUopXoymxg4xL8Gvc
-	 07f3lRqNDZZySZgTk+x3vyLiYBTVUSFlL4nc4wvaP7kQg/W9UF2F/trDDvS3p5kRvovZk
-	 ptIs6/wbMSjG9hzeo6pJW823dMIvRIvWw/4V019EpcX5F4wG6F8KHg56y2ia8xGMmpA==
+	t=1795544218;
+	b=D831dJ27ugXNVaxm2hwRJaHLuOYi4/xJ+NQlVADc4ef+47JYz37RYAyqpwBKGBQVRXMe
+	 RviQpsN0hQGqKN6PERYfX9QX/3DyEyD1JuMtljzGUBFN7iHR17mRoxGP+s1oISwJcp6V0
+	 3QahU2XnN4uipYTmUYb9nLZHfsiEvPQwL02TD6TOx3f1Z0BhsRqFwsZy6BGKwQIoUYAke
+	 aoNG8h48LIf9iW7z0BreZuGHeDsADAOj1tj5J6VmS9xqvcoulhieQ+9qJTC71iONwT2aZ
+	 3dWhS6o7PaiIbHO8yiqAxf3X0nQoW/MfvZ/yaWPF/zv3Rkrm/zzeyCHkiLeEvcZu5Zg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795542799;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Diqn9fR/z6IC/CuA02cHAzdk0ebEy7bKqgH0dPL1qIk=;
-	b=eGNzV+CC35GJs7/GpBvVoX7FQkK2OueDXR+nbbmgwljRoQAuUOWSBuGIZhG2iPeE9I3Q
-	 G/HN7yZiOlKFNl+qAgCIiLEGFATw/Oehyn62laiCcbYuvI73ZCLyALzJaGt/tzB5HlW9q
-	 MELqBbNVnnI+YZIGTFYn3BkRhosCrCwCmwWKQa3rpBvFu7XUDO7eHxWvv2ZBYFSb+hsAI
-	 +YWE+ZBn5G7y+Pc2MiUfZbi3QR6ZqxzpNMOdE2nlFehs/K70Z14lxs79JQfehd3bfQeL3
-	 yMJeMxxnq01/sz7SYOfU8CMr+/zfKETwrYYP7XZ+zXCq90eT6m6+XJGTEuk1qDuxKCQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795544218;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=iGCDQxlSZyNbpjb8HmmAXDh7kjSdNds3Y7zGFjiw20U=;
+	b=u+OAP9hFkXUbKHZgq/cH27RqEu41p7o7J39OUOeC76793qpwqSDiY2SPgtojIappqCcM
+	 F5RXuTiJ29YrB5IBCRycFjyj+//OFxnEiiWDn/GnVx/Frmp0vjn6A9JOXe0+4skiTy0rV
+	 4dzVdfzlEdmTBcSCrlJmjocD+xpVi2u4AT4FBlHtiXDQ6S9YyCYxkPrr/MmzL0M6Vb1tG
+	 Aeyu/+iiSYQ47GG6TJxmP04PmVcqdM2Q1ah/6M0Gxf96W3UTMHRZhjUiXsp5HarxDjXlr
+	 X5DMKpQBlZcX1Hdw8q3q7acrDyuFIX3LSyUlbhuwgEPZjwwAke6XKMaR4Phme2FWSFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dEMuMfY2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="SD/W5C0A";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46EE606A31E
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 17:53:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D60606A326;
+	Tue, 24 Nov 2026 18:16:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dEMuMfY2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 605DE1F000D0;
-	Tue, 24 Nov 2026 17:53:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SD/W5C0A
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E43B1F000CA;
+	Tue, 24 Nov 2026 18:16:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795542798;
-	bh=Diqn9fR/z6IC/CuA02cHAzdk0ebEy7bKqgH0dPL1qIk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dEMuMfY2ArSULUd+/T5RNi9/kFycR8PNtL+4KSnHaCEG0Lvl+l1id2H/7jxXafixi
-	 iyO7+XcKfjkdAIW6pQWTbv2tZexvd4GuyU4dEwyT+2tB7q5sYtbhU2JxGMMH/urIzg
-	 ZyX/hWM/ORO1Kn9pqL0hV2/Yc+M2icC3LecuvApqvcqch/BL6jNjwQdfK36lp7oUfW
-	 Fz6Qt3VT2LZ/QqBcid0fRYn2JPfSot0QZtqQfA+lg1QXX5ZSQPLnwA0NCBp1qUNzLC
-	 Bm3n9pKv61AfzKAl71SHYfzBL1U86u3MXt8qPKyF9CUPePB4HWz1uT5sNDDA53Rjh4
-	 bHfv3M8kMDoDw==
-Message-ID: <sashiko-outbox-231755@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 0/2] usb: misc: qcom_eud: add the QCM2290 Embedded
- USB Debugger
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Igor Opaniuk" <igor.opaniuk@oss.qualcomm.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261124-qcm2290-eud-v3-0-4f31aef8c1c3@oss.qualcomm.com>
-References: <20261124-qcm2290-eud-v3-0-4f31aef8c1c3@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2026 17:53:17 +0000
+	s=k20260515; t=1795544217;
+	bh=iGCDQxlSZyNbpjb8HmmAXDh7kjSdNds3Y7zGFjiw20U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SD/W5C0ASolH9COBd9wxlzS8OhjBSOpB4GDhjPjv+hFUBmlFcx4gwAT655N1S2vZj
+	 bHdogH/ywDxgK04aCxjYYb+n/0QrIDu4uoDoG5RAtbJYy+VUvGhkAEzPZJ/y6LHlBq
+	 N5e5bMiy+ufbs0SdlC6LEUGUqpOH8LZVOgvlxRHYWQiMxVA3XYyqoACZwPfTOo0H6b
+	 XKb0PGwAuBSU0SQjIkNXw9hthB0lPIRyZjd49KoGOo7brkRA4NvwKiDA3d2PNYH2rz
+	 +YOuidcDP7JidcTZkYvit+ptJw4lH70khjbXvJA4oYfRkRPjcShYkxBU4MX6yH9Q+j
+	 XC32QrDvrHVjw==
+Date: Tue, 24 Nov 2026 18:16:53 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matthias Kaehlcke <mka@chromium.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Anand Moon <linux.amoon@gmail.com>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>, Han Gao <rabenda.cn@gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: usb: vialab,vl817: use
+ unevaluatedProperties
+Message-ID: <20261124-rehab-overlord-9b7f44ee7e0f@spud>
+References: <20261124-vl817-uneval-prop-v1-0-137c093fb300@iscas.ac.cn>
+ <20261124-vl817-uneval-prop-v1-1-137c093fb300@iscas.ac.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,9 +62,71 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="h5SN1Pgh8t8ElQFR"
+Content-Disposition: inline
+In-Reply-To: <20261124-vl817-uneval-prop-v1-1-137c093fb300@iscas.ac.cn>
 
-Sashiko has reviewed this 2-patch series and found no issues.
+--h5SN1Pgh8t8ElQFR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261124-qcm2290-eu=
-d-v3-0-4f31aef8c1c3@oss.qualcomm.com
+On Tue, Nov 24, 2026 at 04:31:01PM +0800, Icenowy Zheng wrote:
+> Currently the VL817 binding has additionalProperties set to false
+> instead of unevaluatedProperties, which disallows properties documented
+> in the parent schema.
+
+This is not quite true though, they're permitted if the binding contains
+"foo: true" etc - which this one does.
+
+> Change it to unevaluatedProperties, which is the better practice for
+> derived schemas.
+
+Not really, it's fine to do addtionalProps: false + foo: true if only
+a subset of the inherited properties are valid.
+
+IMO this series should be two patches, or maybe even just one that
+changes the ref (as your patch 2 does) and sets the then derived
+property to true. Otherwise, this should be two patches, with patch 3
+split into whichever of patch 1 and 2 is relevant.
+
+>=20
+> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> ---
+>  Documentation/devicetree/bindings/usb/vialab,vl817.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml b/Do=
+cumentation/devicetree/bindings/usb/vialab,vl817.yaml
+> index c815010ba9c2e..d0484e48e319c 100644
+> --- a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+> +++ b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+> @@ -40,7 +40,7 @@ required:
+>    - vdd-supply
+>    - peer-hub
+> =20
+> -additionalProperties: false
+> +unevaluatedProperties: false
+> =20
+>  examples:
+>    - |
+>=20
+> --=20
+> 2.56.0
+>=20
+>=20
+
+--h5SN1Pgh8t8ElQFR
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCawXUlQAKCRB4tDGHoIJi
+0nO+AQCJAJQTo53plhDVm7UVgErvHVFbl7zCVtc+zoFcZcdSxwD/cwcY0/X1MXWN
+jqxraemeI6fTwrwLeoYGLbzdaaRxYAw=
+=fGFb
+-----END PGP SIGNATURE-----
+
+--h5SN1Pgh8t8ElQFR--
