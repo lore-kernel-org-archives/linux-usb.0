@@ -1,113 +1,113 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795550527;
-	b=MoZGtozPzJxZHvmFGQZND0hLs3GYUcY8DJ37z5RLr3hx+VfBfrDxUBeZAYSTS3dur3/4
-	 3Lmj7tYZuqYw7/gpRxGHJffPlWJKK7vfkugewC5XlIcePY/vs8I5sfzU/bA1FM3QNQWKh
-	 iujnHvIeUEDM0p7qa+BaKJZ21TTG7LAKONxrRLPLSn41eYkZTrqwWLG4UeZ78PsM3fCcY
-	 WXtVdctdNHAtoWULs8bfZ/W2kb5bjvw0WQs/2eYvX6Kx6zIoHET6DgkM8A7xJ41w0DLjy
-	 wqDpOg0/yVKwTjKFnJF5TP+nUXoqzvFvKx4x5PTGyYID0r6/K7QdJ7wmiwuVOLVqE6Q==
+	t=1795550530;
+	b=t2slUOmBCw4yV3G7pqSv1Q+zq9q1H6bFvS3hOX/ZQK3n2/4T1OU5wgqOx8aBvKZcNwCz
+	 kp/Nv7qK4jsDnqtkOBhakXLhsNJO7KGlBoaWp3nUVXUqpL9nIZnCP8xFU8m4w/rKyQnw5
+	 Yeb79lCtI6BTKjN8/s9jqJWrhr0TRRcIfC4k+xOVmcHVW2w05ks/TyA8OVoh63tG60jnk
+	 5tpgE64nL/wXnA2Xn0bR6Waigha6T0raE6ZzxPGdG6mLC3kG6+hhFxv5MHtz5mFT6kltj
+	 VC9T2gQ9VjnXeMYnst/rWgPJCbg6c6i8T9DYb4UdGP3NHpEt/a+P0Chvwz6jEu1EZKA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795550527;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795550530;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=kXrAKTKoyM5xio5+NQ27PIEseG7w5BBqcbm7TB3+sPQ=;
-	b=tN16NMSFJ/9Qb7AenVZQv/p3UESGUXdWChRyvYF/5eDUAx7Bt10l+LF4Wud2k+PPDuVa
-	 si6yY/kyPrpqJLm1LcYkYRMvtbPWFYkQgO7tKvofN0JAsMwRZOiMFzz4nkD07FuJzk/Hr
-	 Tyy20G1Uuj4FNuJphpLH61rnhrfALcv/q/qdRsAPQ0TjuFAhhpsPTAAWzg5HeXLeyYQei
-	 tFmpdZ/Z8lyc+7fJIzOiUn9ThW7e3/gqU3jsrKz6jAorZSfzvgUs8onkqs/GFqGMBH321
-	 vbChRhiL5MBka6YDIISLlekHQgdRhrAUdcUs1fkBiwz89DHqIAmHUT7cW2Gpd6WIaug==
+	 X-Developer-Signature:X-Developer-Key:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=FtmV9bs0cFqtHg47ZwF2IMxTNlXPSULtGT+At/0DArw=;
+	b=S3UerxuLgsuo37sRcBLLhgrkZoHOTvmYH+6MsUq7zQVbD14jh5/LfbrAHgKEywWsfRRa
+	 chcKaanKl1WKhQQi5mEE8+G3DnMdQ/TDSgd3UTNEn8X1e9HppOFHVEePu7drfK7M62RdX
+	 6Y6gQffP/PIZ5pNGNxkayA9ghuuB/FTgjvxyaV877iXUTleOYXY0kJbOlCNag40NjAjMy
+	 YEZF/XcK4y2/ExcQDmEaqKhiJ9wP2YqkMCl1WWkuZgON2Rrvym4viOYYrKf7xeSfaMP5g
+	 d5Z0aeol8fNf7m0IMQ0tsKNKY6hdPXVdxu3HXc3CpuEp9z6HtFZctgDATWwOQuod3sg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="h/nV7wy1";
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=SjXYOKbw;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=VqfIHpcb;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=MTpQmsGo;
 	arc=none smtp.remote-ip=205.220.168.131
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533C5606A33F
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 20:02:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 533C5606A33F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB82606A337
+	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 20:02:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCB82606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=h/nV7wy1;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=SjXYOKbw
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOIXLv13000341
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 20:02:06 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=VqfIHpcb;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=MTpQmsGo
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOIXnqN365861
+	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 20:02:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kXrAKTKoyM5xio5+NQ27PIEseG7w5BBqcbm7TB3+sPQ=; b=h/nV7wy1SJGXgXHN
-	EuxfE25TSOCIoDL/UIXjrBt3eNdKOtx5SYPV8+tdeM+RVBU8wddGeb2Y8ieWrcBM
-	ghdeh8+fj3cSvmS42qHakSK+s6tUAPW3WqlD27+Qs05JjMAzDC70Toc9wAnPURqA
-	XRgE5hz84tfTvE/93Kp53pFcSa5LWLmzhFgA/EY4eTLmvMWyVt8xAym8KiLqSrhc
-	BKHJKe4zPPJHXv8EartjklKRMoG+fXIEVA4iOxct6Zm4FI3E961ZO+X1G6rKxE/o
-	Ep/YEPvORx8fgz8LAgBIkjOh8D9uNsbl6FkwJWuJ6h6G6OvXtkfx/OFEj5W8I2Uj
-	3JoYQA==
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com [209.85.217.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j5f00gmqp-1
+	FtmV9bs0cFqtHg47ZwF2IMxTNlXPSULtGT+At/0DArw=; b=VqfIHpcbNglohcJe
+	+f30YZEoEPZsYvtlB+J+XcU8l4TlGiohCVjhFOVMGiQjq+wd9JkJKN8aSN7oOmBI
+	vSFuPQ9d3LqoDFAKaTHuVngKngMXu5Yh5/gIDM9zAzRidyEfzWEfnsZCJm1c7vjP
+	uVaI7nugv98ZDc9e7jqmRUZsz8OCx+Pz739FaGlOXmKgu8dXK1v8gh+diYBdGg3k
+	1U9Fw4jGu4e9tnxDIj8ZDXJ2dYgHB5+ATX2zqO3O3Eue964iU5eZnkKeCsdLfNYN
+	jHOK4zqFXbMtMzDKvhCeTnqFAaq/wsHxgkaDHB/mTGVwHW4o7npMdTi+jg18M741
+	4hTWbw==
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com [209.85.221.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j54rhbqj9-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 20:02:06 +0000 (GMT)
-Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-7cc450e6e1aso221799137.2
-        for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 12:02:06 -0800 (PST)
+	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 20:02:09 +0000 (GMT)
+Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-5c9e0f047a6so199556e0c.3
+        for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 12:02:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795550526; x=1796155326; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1795550523; x=1796155323; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=kXrAKTKoyM5xio5+NQ27PIEseG7w5BBqcbm7TB3+sPQ=;
-        b=SjXYOKbw3pjdhnhu0SK8kg1FwEiSboPEz3MtyZjVjAEaeTRjeQVEqojV0rB/pxhqkn
-         VbKXjtiV6WOfLc7BPAs68PUV7nN0bmJRquCRTI0b7UuC+8QfyeXVmb/xJk4gbsZQx2ZD
-         9SjgK5jEmNG2Y5124CjhV8a0uI653IRNcouGTprpK9uGrBWCewc8mwUU1kh+3692VzJe
-         8q7ZpqjO2VzbR6Ets7zcTXTV547ezbGaXNUJ3eEgAZNzHSMbTNv4moHYcHfwdXDnk7IX
-         ktI/Km7zeZyauni9sp8xsaN6fEGI2J7x7mwxudBB7wHavVc5u4DjYI/iQggxFJ0oahRL
-         UfKg==
+        bh=FtmV9bs0cFqtHg47ZwF2IMxTNlXPSULtGT+At/0DArw=;
+        b=MTpQmsGoRJA221pC9TgR2JVmRe0Cpdav3z7YDYiGB61BEZyUAWr1Wd5Ll8M9eg2978
+         vI8C/6M6gfs9de70fyixTTWwSJgXPRt8LuzDz4RBTZCe98bIWHZSbx9BBl7eSSXGwSj0
+         ePkWyid2+iHYPM5khVSa0dnwdbg2aE13hU4QnEwAIPGbuF0IU87CcIeDEsFb5ib0Vbf0
+         QJxuIIAAMvLARySYnlmFrpQ7NqL03d8P8+Yub6u9q5OcEGHZ26TGyTtYZYbwzTkAKHrm
+         RJ/EEzxQdEs98qkQNNDxraO5PSK7xcDl5py8zqjWHUlrdrF4cYNKrymFadJGeqRGnDmn
+         X4ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795550526; x=1796155326;
+        d=1e100.net; s=20260707; t=1795550523; x=1796155323;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kXrAKTKoyM5xio5+NQ27PIEseG7w5BBqcbm7TB3+sPQ=;
-        b=FVe+HVUrmVhgad0JR2h3JVn8yJEMfuLmFlhuq2lduNTZSkJpaK9lqWIqEpGR2EHj+m
-         AK5Krly/Qbi61IvOR/QiskvlGZBJ1xKalFw39TNam1Gtw30PslOrha+3CH6kTt0hvFZc
-         FQWiNaeP8hGYpd5vdA97Ba86xm2Bw8y8UMPuhtawduiJa+Y59BlZ2dL649CV36665mZR
-         AeCPuhqUcQUNhUNZDlOeQYJFwHXXdCTMkm+xhk9XapWurbtOy4/mIEb0ZqwM8RKWd/qZ
-         tjnf1xtim99pFvOy7Htehtj3KFBaoDLSwWbEiDcqa5rUFeGp8XbYf4W6WUdcAp6gflOg
-         r6WA==
-X-Forwarded-Encrypted: i=1; AL+hErEl78boelBTQcnI+98itPJs4/WPznjKVepMinP6LreYYw7MmmDYlBhIoimT0V+5aGG+0ZikRXNybXo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Xtwb0ZHGceoev7G81HYVVI/UYasKYM1+LZU7Ppt+pSofQqs7r
-	CPp8iXwLngq/30SsFRHhmiDo8J6Wn66I0RgDYpcAVPwIXtyBPmDOeGSNpD1okQW+Sxv0OS+M+gO
-	snJodDMkxEEfRy2WJCXErKbNCnXs2X6C9EQYm0i6QIrlInOzhxDut4HrPFjOi5T0=
-X-Gm-Gg: AZFdTZfAxUrrXqqRX5SVp3mOLEHQWyAbfGyMkGUxNxQQ8bC1rpTolQpiZ9MRQbs+XAE
-	qE1ygiCPeklan/UKwvn5hRLj5yHHQ69IgWVJIYc6YFVuSlr820jl9DhqbcsxT+FPNj0S1uy+fjB
-	7B3FPpWIBT90ZSRsDFQS8gYNPojbbGtzBH4SHS2/y/TCVPcngjQdZLZ+Y3pw8Kyjo5hNCQvqOCi
-	KVXIslzIDYagPyARAfCLWTTGHlQqV/PFKCBVRWHrMzM14qABpjEJz9c020aeRsAQi7ildl2veBf
-	UCS32h9S8YY33m6yloPzZt4kxLtWh807z/Dwgm676XfisfpAqYM8f5H3l3J7bSzirV38SpKxYfr
-	AdpYoRg8WhO17Yl9bwIenP0lcdIJ8/sJR4g6FaUKS+VlqN/36TFaj6KZ+PAiBSa+DiVYfCJ7R0k
-	pvMb2t9g8=
-X-Received: by 2002:a05:6122:c20f:b0:5ec:b681:f4ca with SMTP id 71dfb90a1353d-5ee8afd6c93mr11460349e0c.4.1795550525455;
-        Tue, 24 Nov 2026 12:02:05 -0800 (PST)
-X-Received: by 2002:a05:6122:c20f:b0:5ec:b681:f4ca with SMTP id 71dfb90a1353d-5ee8afd6c93mr11460306e0c.4.1795550524926;
-        Tue, 24 Nov 2026 12:02:04 -0800 (PST)
+        bh=FtmV9bs0cFqtHg47ZwF2IMxTNlXPSULtGT+At/0DArw=;
+        b=M2gMmW3XziOO4mHvk/MK28VxDKAZoPWkVY0irw9vpMNKgvPjUmRkZQEBlyY5L2G5uG
+         m6UaMR/KgBzf+593jExuqxad3evdk0EPBm7Bg55r8rNfRlFRPO+7SWINKuQobloqzXtv
+         h/kuYW8ulWn59K2NY2FTibl8DiKM6gY9EanN5oEIHBEk7W62vwUgncZ2hncSt+thiuTW
+         3lkGv/7CuV9qMbRcRv3TWNGiRtzWlyYIghv1iSNDRzVil8sFosceZ7aHW8JJmTAFaFQb
+         Me4KPZleJvRvukFOESRc2Lf23P1Mlof1Oxk43XDRxiNw5XIhAAZjJAeYUWRyxLoDnmNW
+         hUlQ==
+X-Forwarded-Encrypted: i=1; AL+hErG1bsZ/xfjAON1EO8IsMmT/tfUvre9n3sLevMGmnWMAsKU3OD9qfNELOxzg3zMHDC0Uinom33F5rgA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9WKshh8NVYdVcPBIhJPLs9aSS43t4kiS/DfEBTiWvKMQFWssWr
+	HHa79k4qTGc//JdnA+GLkhXguiIlkZZjM6mecIzKrV9KOXCBMPqPpL1ZWWB5q2OTNKHNlSzlYTu
+	dLZ21XYDaJIksYyGZcWEnts/DxwuiUulMbS8GBLZCHAKfDOBfPMTK+uHjDBsg95Y=
+X-Gm-Gg: AZFdTZdN+8N909AMygvypNrIVmJMrV60BD0CRHMxRulnMLXJam7aWpUWim+PUBDwsKT
+	AZ34076yUTfWTeVtXVcwO7Uz9vvydgIW5IiJgPiZcain9X32GoxFhyM3gomzU/AvotU/RssYOcb
+	FWwhEOQ4HYEQrnpPHH7m5RrcvW5fnRuncVdK+xZvtHj7XNYXYrakb9pfM2k8eMR3/1/ImE8vpDL
+	L6odM/tIueG8q9mmj2SkMaSt8u0jG7bjsbBbu+tEfBuLYk9Rq5h/PH8gwa6KAtUsxZBOcDAbiEa
+	iIMZoV7OLEgcNKb0sRqxLFpxAjgyXdR3oSSkxe5gFQxvTlF6/8ZccrHf99ePFhxGSwZk7Tet67t
+	OIK6xQbp0YpRDKWIpw7HWr95zE0+xew++AyUc9x9xxgz8RXNhekti3VjcRsCb9mFR9ad9pAcCBv
+	/zjmGMEtg=
+X-Received: by 2002:a05:6122:8495:b0:5ce:23fe:84d8 with SMTP id 71dfb90a1353d-5ee8ad0e69dmr9109342e0c.0.1795550522791;
+        Tue, 24 Nov 2026 12:02:02 -0800 (PST)
+X-Received: by 2002:a05:6122:8495:b0:5ce:23fe:84d8 with SMTP id 71dfb90a1353d-5ee8ad0e69dmr9109244e0c.0.1795550522029;
+        Tue, 24 Nov 2026 12:02:02 -0800 (PST)
 Received: from KDYBCIO.eu.qualcomm.com ([2a02:2a40:15fe:b200:7192:a019:58a4:eb4f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb85399e2esm517678195e9.7.2026.11.24.12.02.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb85399e2esm517678195e9.7.2026.11.24.12.01.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 12:02:03 -0800 (PST)
+        Tue, 24 Nov 2026 12:02:01 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Date: Tue, 24 Nov 2026 21:01:37 +0100
-Subject: [PATCH RFC DNM 08/15] thunderbolt: nhi: Add pre_switch_suspend
- hook
+Date: Tue, 24 Nov 2026 21:01:36 +0100
+Subject: [PATCH RFC DNM 07/15] thunderbolt: nhi: Process ring completions
+ in the threaded IRQ
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -119,7 +119,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261124-topic-next-20261116-fsm-mvp-v1-8-a9b45c69cd38@oss.qualcomm.com>
+Message-Id: <20261124-topic-next-20261116-fsm-mvp-v1-7-a9b45c69cd38@oss.qualcomm.com>
 References: <20261124-topic-next-20261116-fsm-mvp-v1-0-a9b45c69cd38@oss.qualcomm.com>
 In-Reply-To: <20261124-topic-next-20261116-fsm-mvp-v1-0-a9b45c69cd38@oss.qualcomm.com>
 To: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
@@ -142,94 +142,388 @@ Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
         usb4-upstream@oss.qualcomm.com,
         Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795550497; l=2074;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795550497; l=12238;
  i=konrad.dybcio@oss.qualcomm.com; s=20260604; h=from:subject:message-id;
- bh=w2JBeR9pVQUt5n+Bi6UCt4e2sRq72QDCU1+mYKjh9Fc=;
- b=1ZJEU9y0SMY1cHPgacE5QRcg2RFK1C5T3lOj0EsuHjb3tspsLLFfsvGcEcm6vOxGUnoYmds7Q
- l4V6QgK24ySATiNkZnm4w24s3GDOT/qMj3xzNgD+0XUEznWnLvsHNfs
+ bh=zgzptO0juMnTmorwZhzOmgRYMBKkjbmea5NgUUDM9G4=;
+ b=D5OazM962VNDUGn8keXJVLrzPjXgSrBnM72E6d7VZpMWadRJ/sqMyEcNps+6rumycMMRC9Zjh
+ 8r5R8g1SxcvBQ2aitJr+dquh/+YWQth+HrHTtrpLvFLb82L157ZKvFw
 X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
  pk=SGRRMmlLTuP/lGKdQ0f4KPvxn8VVsXtXaTpdGc8i82c=
-X-Proofpoint-ORIG-GUID: C6LaA_8F72L2lPiG3cj8G2-ssI1BMofG
-X-Proofpoint-GUID: C6LaA_8F72L2lPiG3cj8G2-ssI1BMofG
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDA3OCBTYWx0ZWRfX26axBC/ERiV0
- osgghUAqfI99G9Qj5JC/aSODmVqqSJ8mEV+pHYwiEkhKkuZkXOOkPWaC7TMNbxi44lCD0ISm0IJ
- y0LtCnegIZEIYzilAQQ1s+q7luj4zjw=
-X-Authority-Analysis: v=2.4 cv=JqtkP84C c=1 sm=1 tr=0 ts=6b05ed3e cx=c_pps
- a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Authority-Analysis: v=2.4 cv=BKkmP1QG c=1 sm=1 tr=0 ts=6b05ed41 cx=c_pps
+ a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
- a=wKcZSsCu4wochMfWqzUA:9 a=QEXdDO2ut3YA:10 a=-aSRE8QhW-JAV6biHavz:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDA3OCBTYWx0ZWRfX3yFOuhsMtLnV
- aXWrqmlDSlO/G74sqokZOPyIBwK1nF1o5VvmeiCW9trTHQ6hwhprFDVSMBPgC4r5s14S7zqx1AF
- 6ximHa9nv5/8+PrQiyYIXnafX+0S8gS9JcZjUIzx8bMYi4jNYoNP3WrSUllHMz9QquKPFkQK4LE
- SaMYY7BC1McVIYu90I2J7YzEyFpBGr5aM/htCdV4pKWOl/0EH7EwQ0qf0MGwd53f/nrdU0k84Mr
- WZvICitc47/8ykiUGv/4TkTDKafaw0/M9viwESSFnVdPcAQ/DbjLZzJGrKWVyq2xjghxFp9bJFx
- RkljUVDddYk2ZUrx5BVSAPZ1ElFFEnge6Ab1AcWYxib23c+dpmQONFcZ2KpuyRx318ebz+9xYdL
- 0mFMIXTU0EYaF+giFCcOLHQ6O/7hzcV3vlqvx26uEgtNUyvW8nPWbRQbhohBWEaq4zW5FD9g/1e
- s3EhQH73qHpUGCzGkYw==
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
+ a=XR_tCNlNi9ieylQGNmwA:9 a=QEXdDO2ut3YA:10 a=tNoRWFLymzeba-QzToBc:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDA3OCBTYWx0ZWRfX9Y/GQnuOoVrh
+ XpOW6myBeO1rnscoROYBsOByugsX1P6fqGSFU2e1z7pCAPxhwzvSEajBGcXrWK+E0eZWefWmo0X
+ y7mU2ftPpRKchL06zOgWWo/1sxZuPlU=
+X-Proofpoint-GUID: TXeWKQCYz053yuHCCbsxtHunM3OScJ86
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDA3OCBTYWx0ZWRfX5AIJSxdqA7QH
+ QUuACDQcKKlhHl+uo9J4PRDEkw8rjWQCHMjAvyV1ljQpNl7rTgywTRSLGq6W2mfjJR09osdh6XP
+ U9/tO1l9QYjrOGoLvblm02RPi4vBc9R+lmw7+GekrZR2Zuw/Eh9E0Q5BXJ6AwC8TT5SIFAVPF9C
+ Wtuoo4sY1DCgMZhVRIoKt9z85JKSlJcM/c/uMDD4Gsh9iG4f9WIAhBlUuzgWscVciR/H4z+5ePT
+ rNQ/93HnuN0pN2V5i74g6gXNOH10746FZmrtRZjccV8+T9dL2Jt8b4NdUR7aizmDOL2smgYNB94
+ Kjy++Fr8z4+IDhFuOz/LkID0aGymMLLkn+WRBg3HK5DpkbyHy4745obLfTupVbu4QvXNME27KPc
+ d1HRKjR8Qx4oDErzZKiNwBwi0Oz5NTYPfDBNE5DPOBMou02d1OLUdoSzP2nqT/ca1hJPs0IZ8/b
+ WdeegcTS9j3qpvDbR0Q==
+X-Proofpoint-ORIG-GUID: TXeWKQCYz053yuHCCbsxtHunM3OScJ86
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-24_05,2026-11-23_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 impostorscore=0 spamscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 clxscore=1015 phishscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611240078
+ priorityscore=1501 malwarescore=0 clxscore=1015 bulkscore=0 adultscore=0
+ phishscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611240078
 
-The Qualcomm router firmware requires a three-way handshake during its
-suspend routines as the OS writes the SLP bit to a connected device.
+The Qualcomm USB4 router uses a shared IRQ for all NHI rings.
+Scheduling a work item from its threaded handler adds another delay
+before completed RX frames are consumed and replacement buffers are
+posted.
 
-Add a hook right beforehand to allow synchronizing right as it happens.
+Process completed descriptors directly from the threaded IRQ instead.
+Harvest all completed frames while holding the NHI and ring locks,
+replenish RX rings immediately, then invoke frame callbacks after
+dropping the locks. Preserve the existing polling-ring path, which must
+continue to mask the interrupt and start polling instead.
+
+This removes the workqueue round trip from the common IRQ path without
+calling ring consumers under NHI locking. Since the callbacks no longer
+run only from ring->work, have tb_ring_stop() and tb_ring_free()
+synchronize with the ring interrupt, so they keep returning only after
+all callbacks of the ring have finished.
+
+Switch the single MSI fallback of the PCI glue over to the same threaded
+handler, which allows dropping nhi_interrupt_work() and the work item
+that backed it.
+
+Based on related work by Wesley Cheng.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- drivers/thunderbolt/nhi.h    | 2 ++
- drivers/thunderbolt/switch.c | 4 ++++
- 2 files changed, 6 insertions(+)
+ drivers/thunderbolt/nhi.c   | 133 +++++++++++++++++++++++++++++++++++---------
+ drivers/thunderbolt/nhi.h   |   2 +-
+ drivers/thunderbolt/pci.c   |  15 ++---
+ include/linux/thunderbolt.h |   8 +--
+ 4 files changed, 115 insertions(+), 43 deletions(-)
 
+diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+index e48521482c021c7f5f73349ce16519d6088d3250..bcc2b959e3b1a6b014c13a4938ed6f68cb0d0fd8 100644
+--- a/drivers/thunderbolt/nhi.c
++++ b/drivers/thunderbolt/nhi.c
+@@ -310,6 +310,41 @@ static void ring_write_descriptors(struct tb_ring *ring, bool notify)
+ 		__ring_notify(ring);
+ }
+ 
++/*
++ * ring_harvest() - collect completed frames
++ * @ring: Ring to collect the frames from
++ * @done: List to move the completed frames to
++ *
++ * Moves all completed frames from the ring buffer to @done and writes new
++ * frames to the ring buffer.
++ *
++ * ring->lock is held.
++ */
++static void ring_harvest(struct tb_ring *ring, struct list_head *done)
++{
++	struct ring_frame *frame;
++
++	lockdep_assert_held(&ring->lock);
++
++	while (!ring_empty(ring)) {
++		if (!(ring->descriptors[ring->tail].flags
++				& RING_DESC_COMPLETED))
++			break;
++		frame = list_first_entry(&ring->in_flight, typeof(*frame),
++					 list);
++		list_move_tail(&frame->list, done);
++		if (!ring->is_tx) {
++			frame->size = ring->descriptors[ring->tail].length;
++			frame->eof = ring->descriptors[ring->tail].eof;
++			frame->sof = ring->descriptors[ring->tail].sof;
++			frame->flags = ring->descriptors[ring->tail].flags;
++		}
++		frame->ring = ring;
++		ring->tail = (ring->tail + 1) % ring->size;
++	}
++	ring_write_descriptors(ring, true);
++}
++
+ /*
+  * ring_work() - progress completed frames
+  *
+@@ -337,22 +372,7 @@ static void ring_work(struct work_struct *work)
+ 		goto invoke_callback;
+ 	}
+ 
+-	while (!ring_empty(ring)) {
+-		if (!(ring->descriptors[ring->tail].flags
+-				& RING_DESC_COMPLETED))
+-			break;
+-		frame = list_first_entry(&ring->in_flight, typeof(*frame),
+-					 list);
+-		list_move_tail(&frame->list, &done);
+-		if (!ring->is_tx) {
+-			frame->size = ring->descriptors[ring->tail].length;
+-			frame->eof = ring->descriptors[ring->tail].eof;
+-			frame->sof = ring->descriptors[ring->tail].sof;
+-			frame->flags = ring->descriptors[ring->tail].flags;
+-		}
+-		ring->tail = (ring->tail + 1) % ring->size;
+-	}
+-	ring_write_descriptors(ring, true);
++	ring_harvest(ring, &done);
+ 
+ invoke_callback:
+ 	/* allow callbacks to schedule new work */
+@@ -371,6 +391,35 @@ static void ring_work(struct work_struct *work)
+ 	wake_up(&ring->wait);
+ }
+ 
++/*
++ * ring_process_completions() - invoke the callbacks of completed frames
++ * @done: Frames collected by ring_harvest(), possibly from several rings
++ *
++ * The frames of each ring are contiguous in @done. Like ring_work(), wake
++ * up the waiters of a ring once the callbacks of all its frames have run.
++ */
++static void ring_process_completions(struct list_head *done)
++{
++	struct ring_frame *frame;
++	struct tb_ring *ring;
++
++	while (!list_empty(done)) {
++		frame = list_first_entry(done, typeof(*frame), list);
++		ring = frame->ring;
++		/*
++		 * The callback may reenqueue or delete frame.
++		 * Do not hold on to it.
++		 */
++		list_del_init(&frame->list);
++		if (frame->callback)
++			frame->callback(ring, frame, false);
++
++		if (list_empty(done) ||
++		    list_first_entry(done, typeof(*frame), list)->ring != ring)
++			wake_up(&ring->wait);
++	}
++}
++
+ int __tb_ring_enqueue(struct tb_ring *ring, struct ring_frame *frame, bool more)
+ {
+ 	unsigned long flags;
+@@ -819,6 +868,19 @@ static bool tb_ring_empty(struct tb_ring *ring)
+ 	return list_empty(&ring->in_flight);
+ }
+ 
++/*
++ * ring_sync_irq() - wait for the interrupt handler of a ring
++ *
++ * nhi_msi_thread() invokes the callbacks of the frames it has harvested
++ * after dropping the locks, so make sure it has finished with any frames
++ * of a ring that has been stopped or dissociated from the NHI.
++ */
++static void ring_sync_irq(struct tb_ring *ring)
++{
++	if (ring->irq > 0)
++		synchronize_irq(ring->irq);
++}
++
+ /**
+  * tb_ring_flush() - Waits for a ring to be empty
+  * @ring: Ring to wait
+@@ -881,6 +943,8 @@ void tb_ring_stop(struct tb_ring *ring)
+ 	spin_unlock(&ring->lock);
+ 	spin_unlock_irq(&ring->nhi->lock);
+ 
++	ring_sync_irq(ring);
++
+ 	/*
+ 	 * schedule ring->work to invoke callbacks on all remaining frames.
+ 	 */
+@@ -906,7 +970,7 @@ void tb_ring_free(struct tb_ring *ring)
+ 	spin_lock_irq(&ring->nhi->lock);
+ 	/*
+ 	 * Dissociate the ring from the NHI. This also ensures that
+-	 * nhi_interrupt_work cannot reschedule ring->work.
++	 * nhi_msi_thread() cannot harvest its frames anymore.
+ 	 */
+ 	if (ring->is_tx)
+ 		ring->nhi->tx_rings[ring->hop] = NULL;
+@@ -919,6 +983,8 @@ void tb_ring_free(struct tb_ring *ring)
+ 	}
+ 	spin_unlock_irq(&ring->nhi->lock);
+ 
++	ring_sync_irq(ring);
++
+ 	if (nhi->ops->release_ring_irq)
+ 		nhi->ops->release_ring_irq(ring);
+ 
+@@ -935,8 +1001,8 @@ void tb_ring_free(struct tb_ring *ring)
+ 
+ 	/*
+ 	 * ring->work can no longer be scheduled (it is scheduled only
+-	 * by nhi_interrupt_work, ring_stop and ring_msix). Wait for it
+-	 * to finish before freeing the ring.
++	 * by ring_stop and ring_msix). Wait for it to finish before
++	 * freeing the ring.
+ 	 */
+ 	flush_work(&ring->work);
+ 	lockdep_unregister_key(&ring->lock_key);
+@@ -1022,16 +1088,18 @@ enum nhi_fw_mode nhi_mailbox_mode(struct tb_nhi *nhi)
+ 	return (enum nhi_fw_mode)val;
+ }
+ 
+-void nhi_interrupt_work(struct work_struct *work)
++irqreturn_t nhi_msi_thread(int irq, void *data)
+ {
+-	struct tb_nhi *nhi = container_of(work, typeof(*nhi), interrupt_work);
++	struct tb_nhi *nhi = data;
++	LIST_HEAD(completed_frames);
++	unsigned long flags;
+ 	int value = 0; /* Suppress uninitialized usage warning. */
+ 	int bit;
+ 	int hop = -1;
+ 	int type = 0; /* current interrupt type 0: TX, 1: RX, 2: RX overflow */
+ 	struct tb_ring *ring;
+ 
+-	spin_lock_irq(&nhi->lock);
++	spin_lock_irqsave(&nhi->lock, flags);
+ 
+ 	/*
+ 	 * Starting at REG_RING_NOTIFY_BASE there are three status bitfields
+@@ -1073,17 +1141,28 @@ void nhi_interrupt_work(struct work_struct *work)
+ 		}
+ 
+ 		spin_lock(&ring->lock);
+-		__ring_interrupt(ring);
++		/*
++		 * Harvest the completions right away instead of deferring
++		 * to ring->work, so that the RX buffers are reposted without
++		 * another scheduling delay during a burst.
++		 */
++		if (ring->start_poll)
++			__ring_interrupt(ring);
++		else if (ring->running)
++			ring_harvest(ring, &completed_frames);
+ 		spin_unlock(&ring->lock);
+ 	}
+-	spin_unlock_irq(&nhi->lock);
++	spin_unlock_irqrestore(&nhi->lock, flags);
++
++	if (!list_empty(&completed_frames))
++		ring_process_completions(&completed_frames);
++
++	return IRQ_HANDLED;
+ }
+ 
+ irqreturn_t nhi_msi(int irq, void *data)
+ {
+-	struct tb_nhi *nhi = data;
+-	schedule_work(&nhi->interrupt_work);
+-	return IRQ_HANDLED;
++	return IRQ_WAKE_THREAD;
+ }
+ 
+ static int __nhi_suspend_noirq(struct device *dev, bool wakeup)
 diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
-index 71f750451aacae6ca2f8cb37bd8ae7fc5a029818..9bafb84cf60adbdee1f1f083732719e951b88c20 100644
+index 88af9ab9fde7afc8af6da412b668663e67380e53..71f750451aacae6ca2f8cb37bd8ae7fc5a029818 100644
 --- a/drivers/thunderbolt/nhi.h
 +++ b/drivers/thunderbolt/nhi.h
-@@ -53,6 +53,7 @@ extern const struct dev_pm_ops nhi_pm_ops;
-  * @release_ring_irq: NHI specific interrupt release hook
-  * @is_present: Whether the device is currently present on the parent bus
-  * @init_interrupts: NHI specific interrupt initialization hook
-+ * @post_switch_suspend: NHI specific hook to call before suspending a switch
+@@ -31,8 +31,8 @@ int nhi_mailbox_cmd(struct tb_nhi *nhi, enum nhi_mailbox_cmd cmd, u32 data);
+ enum nhi_fw_mode nhi_mailbox_mode(struct tb_nhi *nhi);
+ void nhi_enable_int_throttling(struct tb_nhi *nhi);
+ void nhi_disable_interrupts(struct tb_nhi *nhi);
+-void nhi_interrupt_work(struct work_struct *work);
+ irqreturn_t nhi_msi(int irq, void *data);
++irqreturn_t nhi_msi_thread(int irq, void *data);
+ irqreturn_t ring_msix(int irq, void *data);
+ int nhi_probe(struct tb_nhi *nhi);
+ void nhi_shutdown(struct tb_nhi *nhi);
+diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+index 9fe2ef43d8ac8ac867c6e37d7a77518ad2221ed9..6388f77c67ac6d51831667abbffcfb8f52881af6 100644
+--- a/drivers/thunderbolt/pci.c
++++ b/drivers/thunderbolt/pci.c
+@@ -206,14 +206,13 @@ static int nhi_pci_init_msi(struct tb_nhi *nhi)
+ 		if (nvec < 0)
+ 			return nvec;
+ 
+-		INIT_WORK(&nhi->interrupt_work, nhi_interrupt_work);
+-
+ 		irq = pci_irq_vector(pdev, 0);
+ 		if (irq < 0)
+ 			return irq;
+ 
+-		res = devm_request_irq(&pdev->dev, irq, nhi_msi,
+-				       IRQF_NO_SUSPEND, "thunderbolt", nhi);
++		res = devm_request_threaded_irq(&pdev->dev, irq, nhi_msi,
++						nhi_msi_thread,
++						IRQF_NO_SUSPEND, "thunderbolt", nhi);
+ 		if (res)
+ 			return res;
+ 	}
+@@ -311,14 +310,8 @@ static void nhi_pci_release_irq(struct tb_nhi *nhi)
+ 	struct tb_nhi_pci *nhi_pci = nhi_to_pci(nhi);
+ 	struct pci_dev *pdev = to_pci_dev(nhi->dev);
+ 
+-	/*
+-	 * We have to release the irq before calling flush_work. Otherwise an
+-	 * already executing IRQ handler could call schedule_work again.
+-	 */
+-	if (!pdev->msix_enabled) {
++	if (!pdev->msix_enabled)
+ 		devm_free_irq(nhi->dev, pdev->irq, nhi);
+-		flush_work(&nhi->interrupt_work);
+-	}
+ 	ida_destroy(&nhi_pci->msix_ida);
+ }
+ 
+diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+index 57502da290805ed6ba627578da060afe290d4137..4faec9246d175d08063b7881ed1d379b9a7bdafd 100644
+--- a/include/linux/thunderbolt.h
++++ b/include/linux/thunderbolt.h
+@@ -501,7 +501,8 @@ void tb_service_properties_changed(struct tb_service *svc);
+ /**
+  * struct tb_nhi - thunderbolt native host interface
+  * @lock: Must be held during ring creation/destruction. Is acquired by
+- *	  interrupt_work when dispatching interrupts to individual rings.
++ *	  the interrupt thread when dispatching interrupts to individual
++ *	  rings.
+  * @dev: Device associated with this NHI instance
+  * @ops: NHI specific optional ops
+  * @iobase: MMIO space of the NHI
+@@ -511,8 +512,6 @@ void tb_service_properties_changed(struct tb_service *svc);
+  * @going_away: The host controller device is about to disappear so when
+  *		this flag is set, avoid touching the hardware anymore.
+  * @iommu_dma_protection: An IOMMU will isolate external-facing ports.
+- * @interrupt_work: Work scheduled to handle ring interrupt when no
+- *		    MSI-X is used.
+  * @hop_count: Number of rings (end point hops) supported by NHI.
+  * @quirks: NHI specific quirks if any
+  * @domain_released: Completed when domain has been fully released
+@@ -532,7 +531,6 @@ struct tb_nhi {
+ 	u32 *interrupt_mask;
+ 	bool going_away;
+ 	bool iommu_dma_protection;
+-	struct work_struct interrupt_work;
+ 	u32 hop_count;
+ 	unsigned long quirks;
+ 	struct completion domain_released;
+@@ -639,11 +637,13 @@ enum ring_desc_flags {
+  * @flags: Flags for the frame (see &enum ring_desc_flags)
+  * @eof: End of frame protocol defined field
+  * @sof: Start of frame protocol defined field
++ * @ring: Ring the frame was completed on
   */
- struct tb_nhi_ops {
- 	int (*init)(struct tb_nhi *nhi);
-@@ -68,6 +69,7 @@ struct tb_nhi_ops {
- 	void (*release_ring_irq)(struct tb_ring *ring);
- 	bool (*is_present)(struct tb_nhi *nhi);
- 	int (*init_interrupts)(struct tb_nhi *nhi);
-+	void (*pre_switch_suspend)(struct tb_nhi *nhi);
- };
- 
- /*
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index d22d8db8f89064b3ed9c2b8beb8d5f0398640f11..4908c8b0e580a500acf9cac000e66a25e2102d47 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -3660,6 +3660,7 @@ int tb_switch_resume(struct tb_switch *sw, bool runtime)
-  */
- void tb_switch_suspend(struct tb_switch *sw, bool runtime)
- {
-+	struct tb_nhi *nhi = sw->tb->nhi;
- 	unsigned int flags = 0;
- 	struct tb_port *port;
- 	int err;
-@@ -3693,6 +3694,9 @@ void tb_switch_suspend(struct tb_switch *sw, bool runtime)
- 
- 	tb_switch_set_wake(sw, flags, runtime);
- 
-+	if (nhi->ops->pre_switch_suspend)
-+		nhi->ops->pre_switch_suspend(nhi);
-+
- 	if (tb_switch_is_usb4(sw))
- 		usb4_switch_set_sleep(sw);
- 	else
+ struct ring_frame {
+ 	dma_addr_t buffer_phy;
+ 	ring_cb callback;
+ 	struct list_head list;
++	struct tb_ring *ring;
+ 	u32 size:12;
+ 	u32 flags:12;
+ 	u32 eof:4;
 
 -- 
 2.55.0
