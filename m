@@ -1,52 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795503063;
-	b=soXx2+0QWWy6Kg9QuYLomb8TZMz7gP8Cx1uK5aGo6IeFNhaxHM80/JSjap2f/sjhAzNK
-	 jIEnKcw/M7mq6C5JTczlJjQ2Rur1aWRLSRXGvfBRku2otWkeqg/iQMXIjqp8/cZRAEwGM
-	 FTjvwvAw7g9DRbYN5+x59/LxpKRsIiLA/HBqAdS5JZeFuSL8+22DLNBdHCOux4RhoF2f/
-	 az4DExYVffKsxHbx8TKulbQIqf/JdxxUu1NKngDkhPuGFYqmKLFqRUbT2HUZHy/4N0B3e
-	 vZlxzxkuKbKifEDnX70Cb5PgCqNNvxffQ5hsxloYpcIjvAcEUfmC7Yg4ZD/t2O6Ldmw==
+	t=1795504542;
+	b=loKHqbGJdfn4bpWCUlIbIT/CLJtWYDad2BR4RMnHzvM+jDKEZLUEYdCz68ZNAsX6756p
+	 4GQnm74Oj+qdkszyjC4HGu75DgfT5kRJGBgRNHXLKQayTyxDX9IG0Dawd/e9/8GDh+7mb
+	 giMcKQpD8Aak1RXJD4wayEKldlT2Kl71BQ2GA4V2kAV3ZtBu6MDA1fr1SIEuYWl0evQla
+	 6ww396tRuY48Ygvlq16QRNv0EXFkz0AEmzvywz3BpbIwkkUMFVJA5ozM+lNOcrCW+KaXF
+	 BvqK2XdRcMe9gcOlpDYVGM9bWTdjP2F0nKgDjTlNgYCn6r5ey+mm8HhRh7X5HaoZ5Nw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795503063;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795504542;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition;
-	bh=QwH1rrHFFZL4xCjmLU8q+g6U7i1LX5aG+LxuSIDdYxQ=;
-	b=FNH0eFdrzacIrn0fH7H95yRo4UCiTuVhxeGkhCNCsurTEn9Nfg+ozwb0QmC6pr3wOGTK
-	 6GWaLEebURpycdWUP9L0iZMMFMk9eBEsAiVPUzOSyHepQGjHsXTaPnQcY0THXwXxOZOlZ
-	 5LxExJQqeT5rpiopSqNuyHmT3eQtK9RrX5lKhY8iauOrhZfzI639ewePPFe5XmHG7lggz
-	 qe5dxf1NSwQIZysT0QAyBAMRYSYRqT38DTjeKb6MWSrcaeDlh8ka537WVcJ1f4S1GWgCK
-	 ktDj4vMFAE3yxlWAej17qLjCeqgVK49eFETfYu1keqX5I6N6TBIz81AGZjOVDxjHhEw==
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=/bzHgQhN+yFXipG+x/f4PXim0QXiuDvsgUduqFPkHKo=;
+	b=0+0B8IWAhZhq+P6A4NFfmKrLZmAcVz4fR7mYW3Ehff3v/oZlMkDzYfcHwi4l/tfbnK/U
+	 TFoBMbo5qmtCbiygWp6ZXDVQQnu+I/YMiHcl2/Of9j9SsogMSQrGA5gxj/PV5lEVPat3G
+	 5d0dkxBi6hXPjdqTROTgNKU83wNhXV3IUpnKufed30K2FLS2yD5NMmtNOfGrgyk8M4pVr
+	 Dmw3TwPU1hIn18j/DeEnc7hIsQ6Q+G3XxcMthZgHuE03E7/jJrsUAjT48oIhrA7HWjwB1
+	 TZ2SrfgP2qbs8nSX3qSResrmbU5Z7cBwlBQxSAT/8FBpJuDPhl4cfaPNf9YtZxTGNTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cI4NKa+V;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SCyeSVdW;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FC5606A322
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 06:51:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02ADC606A32A;
+	Tue, 24 Nov 2026 07:15:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cI4NKa+V
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42BB31F000C0;
-	Tue, 24 Nov 2026 06:51:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SCyeSVdW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C5661F000CA;
+	Tue, 24 Nov 2026 07:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795503062;
-	bh=QwH1rrHFFZL4xCjmLU8q+g6U7i1LX5aG+LxuSIDdYxQ=;
-	h=Date:From:To:Cc:Subject;
-	b=cI4NKa+Vn7EZK8lLSEpFYZFPWW320oqYPkzTukEHhYdcl6SWHkRJ0LlP9W0vg3DfM
-	 pwNbHNuh0VoqI5Tdb1EcEDja7OfdzgYxlkYB1dF9FrWIuQfAJKhB46NAHodOLunwr+
-	 432/KBFsGeHa6YekUnCkdAez0niZzFQ2C6geXO3mok1ChhRcD1CEJoFjiUk+3SZH6o
-	 xpcehVsAmoZ1X5eH6lfSwSg7iNjP0iVlHdC6iLiFnQ4r1h+7VD295TiMJ2YOwZoc1r
-	 Wu5kWg1IMBp5K1fngKh7fmWEA4iF1e+Jwo4oHFAGN9TvKGU5lE/xtGpszKMt7OlisT
-	 efCQj10nxcVvg==
-Date: Tue, 24 Nov 2026 08:50:57 +0200
+	s=k20260515; t=1795504541;
+	bh=/bzHgQhN+yFXipG+x/f4PXim0QXiuDvsgUduqFPkHKo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SCyeSVdWntK6tSALDO3GKU2KnHXkYMM8jGUnbnPiRC+2teekj7kZ8CeXIAU38RlSZ
+	 QWXbmT6AhQWyflEUqbKMmqq3l10IiyoWAQZ7pAQa8SeOHbHHlRj7BleHR8gY69kqFy
+	 GCktsNsDCfaNItd0DMGZmQOJF4EarrUuRdXS3QYTpsn6bkhN/ip/E3seyWRUDVZ7r7
+	 1KdsGCtbjJW0Sy0doN0gvbePM5P/6UC3/iftgi89VN4SCI+1AEDDcTpB8bW63J/Gr6
+	 6fjG8vko4f5euKo7AOyKdl03FemstqddPILxjaOG2pBwQBvKKuPzikc8TOA1EgMlgI
+	 dXUC9x9Pincdw==
+Date: Tue, 24 Nov 2026 09:15:37 +0200
 From: Mika Westerberg <westeri@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>, Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	linux-usb@vger.kernel.org, Mika Westerberg <westeri@kernel.org>
-Subject: [GIT PULL] USB4/Thunderbolt fixes for v7.4-rc5
-Message-ID: <20261124065057.GA953598@thinkpad>
+To: Chunfeng Yun =?utf-8?B?KOS6keaYpeWzsCk=?= <Chunfeng.Yun@mediatek.com>
+Cc: "sashiko-reviews@lists.linux.dev" <sashiko-reviews@lists.linux.dev>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH v3 5/8] thunderbolt: Add platform NHI driver
+Message-ID: <20261124071537.GB953598@thinkpad>
+References: <20261123113705.2297329-1-chunfeng.yun@mediatek.com>
+ <20261123113705.2297329-6-chunfeng.yun@mediatek.com>
+ <sashiko-outbox-229175@kernel.org>
+ <059072e15558d6aa74eb046e4d9b260baae09200.camel@mediatek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,43 +62,54 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <059072e15558d6aa74eb046e4d9b260baae09200.camel@mediatek.com>
 
-Hi Greg,
+Hi,
 
-The following changes since commit 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4:
+On Tue, Nov 24, 2026 at 06:37:40AM +0000, Chunfeng Yun (云春峰) wrote:
+> On 一, 2026-11-23 at 11:54 +0000, sashiko-bot@kernel.org wrote:
+> > Thank you for your contribution! Sashiko AI review found 1 potential
+> > issue to consider:
+> > - [Low] thunderbolt: invalid SPDX license identifier GPL in
+> > platform.c
+> > --
+> > 
+> > commit 69e07d737f3ccaa08c0332e46cb3614ab51f29be
+> > Author: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> > 
+> > thunderbolt: Add platform NHI driver
+> > 
+> > This commit adds a platform driver for Thunderbolt/USB4 Native Host
+> > Interface controllers enumerated via ACPI (ACPI0015), along with
+> > support
+> > for an optional dedicated wakeup interrupt.
+> > 
+> > > diff --git a/drivers/thunderbolt/platform.c
+> > > b/drivers/thunderbolt/platform.c
+> > > new file mode 100644
+> > > index 0000000000000..05dd858ac8342
+> > > --- /dev/null
+> > > +++ b/drivers/thunderbolt/platform.c
+> > > @@ -0,0 +1,170 @@
+> > > +// SPDX-License-Identifier: GPL
+> > 
+> > [Severity: Low]
+> > Should this SPDX-License-Identifier be GPL-2.0-only (or GPL-2.0)
+> > instead
+> > of GPL?  Bare "GPL" is a MODULE_LICENSE() string rather than a valid
+> > SPDX
+> > license identifier in LICENSES/preferred/GPL-2.0, so
+> > scripts/spdxcheck.py
+> > and scripts/checkpatch.pl will reject it.
+> > 
+> Hi Mika, 
+> 
+> do you prefer to use which one? the checkpatch.pl prefer GPL according
+> to the patch:
+> bf7fbeeae6db module: Cure the MODULE_LICENSE "GPL" vs. "GPL v2"
+> bogosity
 
-  Linux 7.4-rc1 (2026-11-01 13:26:31 -0800)
+I prefer what we have now:
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v7.4-rc5
-
-for you to fetch changes up to 65f634533c8eacd6e6e8acb38cd905ce11e765ef:
-
-  thunderbolt: Keep the USB4 port when component_add() fails (2026-11-16 14:57:06 +0100)
-
-----------------------------------------------------------------
-thunderbolt: Fixes for v7.4-rc5
-
-This includes the following USB4/Thunderbolt fixes:
-
-  - Fix XDomain properties change response.
-  - Fix infinite XDomain retry loop in case of ERROR_NOT_READY reply.
-  - Do not remove USB4 port if componend_add() fails.
-
-All these have been in linux-next with no reported issues.
-
-----------------------------------------------------------------
-JaeGwon Go (1):
-      thunderbolt: Send header-only XDomain properties changed response
-
-Mika Westerberg (1):
-      thunderbolt: Return -ETIMEDOUT if XDomain peer returns ERROR_NOT_READY
-
-Suyuan Wang (1):
-      thunderbolt: Keep the USB4 port when component_add() fails
-
- drivers/thunderbolt/tb.h        |  2 ++
- drivers/thunderbolt/usb4_port.c | 12 +++++++-----
- drivers/thunderbolt/xdomain.c   | 12 ++++++------
- 3 files changed, 15 insertions(+), 11 deletions(-)
+// SPDX-License-Identifier: GPL-2.0
