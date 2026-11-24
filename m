@@ -1,23 +1,23 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795509078;
-	b=j3Sx6kWTBd4v18wY9SFYJSk9fViFtg+9MF8WhGh6668yqsrefbztuph2YB0Sz5nbdYZ8
-	 3Rze/1Bawm4eEv4w2qfJCmP2V1LbgBSnyUhrZNivJde5rvvXPe1totM3ur5LCiaLzutVr
-	 2v5zl+/mm+ve0Ip00zFb4XrrlV+HTLcWFh1qqGhQmmtfWTlDV2IwkPoFU39pYTcykScKI
-	 mgvz+erQ4afQjeorToQcS0BO4JWxv3v19KLNOWEhosRcC0oXMrqeYHMMDuW3GsjkIa1n1
-	 AcR5AU7PJ3ksr2jLsTxjF2Iz/0rsIK5+Whl5iK4vj2BSTLdI7NGDBQA4sCFtSwOovLw==
+	t=1795509079;
+	b=LkQgGdbpNWof/YuoyDsdQ26deS+lzVauG4EFzfw0kcbaleZXy5eMTwOBuXWdNUBa2Q3Z
+	 swDDwN+KcqsDquOXEsdYx9IX4PB/6wKPEvNlAXGm0/Gb+KRj6qerLBPBf3rT5iXeDoEI1
+	 6zBbaseBpNHzGqTWl85x9dMj0KJYyuvqo3zVLTpUDAKv5UBXJo57vCENEwdwXb+6dRUaW
+	 iMTetawCTqLLX2HKiH2WAFPWUso5gnMwC2+qi2o2HXGJU4CuFLtzGmzwfpFZ/t6HX5Mdo
+	 1xznWia56NABgtkBFsE2EQM9mTkZfgF+2M/thVrJyA8T1PRUkWJ81ISrdtVZ+aRRvWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795509078;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795509079;
 	h=DMARC-Filter:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:
 	 X-CM-SenderInfo;
-	bh=DZPxfET/ECET9Ras0QnArOqCMjWkrvDngxRYB2wt8OA=;
-	b=KmBB0iqqGanKERVAiFmEmmvUTt9Ter6veoo4Jw08Gtgfv2CcSASy+aFVITYVd+bMgA4C
-	 bdBPDFPloTS/RPVk0laE3IFcg5S5mpqMR7hKyzWRCrRO1KIHECMcRq2GuYbssvN/g6mi1
-	 cqAMlj1lg9m6TV1j51DTDKSLFUjGU6URW+sM7ZGmJXUPcfwxG+J4CeJ8sOA4kp9HGeFxq
-	 0nDRtup09N0f3PzLg1i8OMj5sLt7jUiGKyZ/w4wte8Y8bhyVtqsEMY3iygQaUu/W2aj6i
-	 r7RQxoJbSqzp0iRhvfhQ0dqCOSxvM6UReCoM2ttyq6En6b33A4biaF3xaQY1oKQqeIw==
+	bh=3cDtOgCJEhPH7LHLRH/7roU8vk/O+dXSXjSYqCx4oBI=;
+	b=vEG5j/yx/P08bxB5lW/nVFzp/UrsraaPUKSxiMqoaaVmiYq8/nQTRWSXSmYtRVUhwf/U
+	 EddKAuOzRC30TQB5Rnu30LdC2piE+yTvIjKqTa5O0fmQt6xr9ovJvj++4Sk5s0j7+JbAI
+	 w9KgSePBoTUqonLh9jqGBv6Qqj9KxsFIaS2z9fXXFsPFaLAqmQ1RJs9uu6UifkUPh680M
+	 /ElOTQ76FTjreXuvmNgTFx0mTntPG0gMHb49tt9kaDoeIgLMnxXm6abdOs47uYRp4WdTZ
+	 sPQuiBNh6jcC0MK/I6MGlD8Yq7i3vJnbyg+b6msvVtT9aTiD2+SSEh9Iv23aNX3NX5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -26,18 +26,18 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCA5606A31E;
-	Tue, 24 Nov 2026 08:31:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FCA5606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2610B606A337;
+	Tue, 24 Nov 2026 08:31:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2610B606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from edelgard.fodlan.icenowy.me (unknown [120.85.97.139])
-	by APP-01 (Coremail) with SMTP id qwCowADXAfxMSwVrIMuUAQ--.8971S5;
+	by APP-01 (Coremail) with SMTP id qwCowADXAfxMSwVrIMuUAQ--.8971S4;
 	Tue, 24 Nov 2026 16:31:10 +0800 (CST)
 From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-Date: Tue, 24 Nov 2026 16:31:03 +0800
-Subject: [PATCH 3/3] dt-bindings: usb: vialab,vl817: deduplicate properties
- in usb-hub.yaml
+Date: Tue, 24 Nov 2026 16:31:02 +0800
+Subject: [PATCH 2/3] dt-bindings: usb: vialab,vl817: derive from
+ usb-hub.yaml
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -49,7 +49,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261124-vl817-uneval-prop-v1-3-137c093fb300@iscas.ac.cn>
+Message-Id: <20261124-vl817-uneval-prop-v1-2-137c093fb300@iscas.ac.cn>
 References: <20261124-vl817-uneval-prop-v1-0-137c093fb300@iscas.ac.cn>
 In-Reply-To: <20261124-vl817-uneval-prop-v1-0-137c093fb300@iscas.ac.cn>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -60,12 +60,12 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Icenowy Zheng <uwu@icenowy.me>, 
  Han Gao <rabenda.cn@gmail.com>, Icenowy Zheng <zhengxingda@iscas.ac.cn>
 X-Mailer: b4 0.15.0
-X-CM-TRANSID:qwCowADXAfxMSwVrIMuUAQ--.8971S5
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw4xCw48AFWDJFWkWw4Uurg_yoWDtFbEvF
-	42yF1DAay8JFnY9ws7tr4IkFWYv3W7A34xu3W5Grs0ya4ak398Ga4vq345Cr18ZF4fuF1f
-	u3s7trWDtan7WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbPAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWwA2048vs2IY02
+X-CM-TRANSID:qwCowADXAfxMSwVrIMuUAQ--.8971S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrKw4kCFW3WryrtFykGryfZwb_yoWfurX_GF
+	1kZF4kAa1kXF1Fqws5Ar4Ikr4Yvw13Kw18Z3W5CF1kAa4Sk34DK34vqw15Cw48Cr4xuFyf
+	urn7tryqgFs2gjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbkxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXwA2048vs2IY02
 	0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
 	wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
 	ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I2
@@ -73,48 +73,37 @@ X-Coremail-Antispam: 1UD129KBjvdXoWrtw4xCw48AFWDJFWkWw4Uurg_yoWDtFbEvF
 	AFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG
 	0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI
 	1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_
-	Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
-	AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
-	cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI
-	8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbpwZ7UUUUU==
+	Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
+	CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
+	I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
+	8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2Kfnx
+	nUUI43ZEXa7VUbH5lUUUUUU==
 X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 
-The reg and peer-hub properties are described in usb-hub.yaml (or its
-parent, usb-device.yaml).
+Currently the VL817 binding is derived from usb-device.yaml instead of
+usb-hub.yaml, which lacks definitions of downstream subnodes.
 
-Remove definitions of them from the VL817 schema for deduplication.
+Switch the parent to usb-hub.yaml to allow downstream OF graph ports and
+attached fixed USB devices.
 
 Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 ---
- Documentation/devicetree/bindings/usb/vialab,vl817.yaml | 7 -------
- 1 file changed, 7 deletions(-)
+ Documentation/devicetree/bindings/usb/vialab,vl817.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
-index 1900444bec31c..2f57eaa67c366 100644
+index d0484e48e319c..1900444bec31c 100644
 --- a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
 +++ b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
-@@ -18,8 +18,6 @@ properties:
-       - usb2109,2817
-       - usb2109,817
+@@ -10,7 +10,7 @@ maintainers:
+   - Anand Moon <linux.amoon@gmail.com>
  
--  reg: true
--
-   reset-gpios:
-     maxItems: 1
-     description:
-@@ -29,11 +27,6 @@ properties:
-     description:
-       phandle to the regulator that provides power to the hub.
+ allOf:
+-  - $ref: usb-device.yaml#
++  - $ref: usb-hub.yaml#
  
--  peer-hub:
--    $ref: /schemas/types.yaml#/definitions/phandle
--    description:
--      phandle to the peer hub on the controller.
--
- required:
-   - compatible
-   - reg
+ properties:
+   compatible:
 
 -- 
 2.56.0
