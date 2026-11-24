@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795513559;
-	b=BQh6sH10T9yfYyGJVJ29jmHEYzBVlsOgzRcKPAFnh3jhbzLqxa1PSOGMkRnMWoWwd4av
-	 BhPThkJj7zZcurilANF6rt6GQdiqKBdWyrw0ITMchQTn11BreisIwfBGBrE32/jjWp1lG
-	 m8eNtWaAxcNPW5FGyQkcM5oY8bObgzYIL4SiMPWk/fO28bRtNPNC19GKHxDWWSPZQp9IA
-	 +YUWY956PA0G1rILcrmShgnPOmWJ4OUbjvJXOzgYduYhW5CE+/HaX7naOpgxUc6IEFF/B
-	 ilmcCXhdOw8/Ne9c80Muy7VcXS3xzxI7tBlGe6TRbTaeoOHKVTkefnQdADC8UpVXRcQ==
+	t=1795513572;
+	b=GPKatWzourUTgI1eqwFUmdDqgQEOHm4/a9Dxwo+QJWuNGj1W56tQXADG/0kh9VsBZTWR
+	 xrrZd49JOn/Wa0CGVPzKuMYXvDTA4owbj4S403DinyRqkY468EQ4zY4GDN8s1nTgqqtoy
+	 vrY5pHCUYuw1WyT+k+Uy/NLSHLnWdlJE6lhDW1aNKhCVYvc9YBQIGtQx5VG4uSrRo6rfE
+	 YKBo1Mh2VLxY8ITMVKmefOhG+f34rwaFcRD4QBKU5RhnpuZLr1lsy/MNBNG8s85J2cXss
+	 ZqQ/Att1HuayIamU6DBOMzihb91s5usIfqJKENLZM99NwqdOYZY9LlXsnttjqxWo6ug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795513559;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795513572;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 Content-Transfer-Encoding;
-	bh=0ocO3hzxDXP5J+wMv8np8RM3eAnwMTJFFeAUpb5CWAI=;
-	b=x0H7YX5e/0dzv8pRGx4dVHVaInTJyWVCoisQk+FFzFKVbvSpmUnu+7LIaDuX6VBNdGC8
-	 ff/nRh5UbBs5vo6Vr413oX2j+kEM4YIMMkplYGEc1nBVcFcPAbszUxahZRVcV0Kd1ViY9
-	 rcpXVS9NNOA3CzD8TIyutwfZzVJ0mshXFP9lgQ5ewXcf7tVdUCmdtT7OpOe7VGsnaiuz0
-	 68s0Y74T0Bylud+v2lGZkx2HzIg0tQHkNyHQfpbyY5fxMcugDN+MAYBwH6SNgjaTTjGYI
-	 owSyPQLw5+HZGoTqJ54aiK/KBc9R2WYylG72UUf8xcYLR+eKWiH2Hq/aL9dH0RBb/bQ==
+	bh=Atyl0L6xFHCl5JPWP52B33t/L6s6DNfyIvXPWrTkJfA=;
+	b=K2mRJ1u5B/y2T0diA16s3rIkDIgAEZOUiZwN+M0RyUm4vQyui8Si9JFfzmC7Nh2A1aHj
+	 ug+qrGKFTUppKNw/vomfIoFyN4lCJOo/Jcmyn079WeeWwHlpPS/LPGnQdr9YCwB3Onj/O
+	 J6sVKXEQFbvbvFmp6KHmxSNomkdD1oc3+cx8iDtPDvQb17bbuesJQFVSay/bf/Eh9O371
+	 uihJ/7ly79owpsJAJc1BMya69wtGGI2M3fBUQmFw9LSfCSpvCzuIe4pMVSkHAiVBjVvy8
+	 65IYXCgW6XW/wWtNWu8DC1Dl5pRBa3F0TKAPSM0UsLp0YQpmEsi/EJgq1Aiesoe3YyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AtRBTbcF;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DnDPJZho;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F75606B033;
-	Tue, 24 Nov 2026 09:45:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57592606B79A;
+	Tue, 24 Nov 2026 09:46:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AtRBTbcF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69F391F000D4;
-	Tue, 24 Nov 2026 09:45:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DnDPJZho
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D52A51F000D1;
+	Tue, 24 Nov 2026 09:46:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795513559;
-	bh=0ocO3hzxDXP5J+wMv8np8RM3eAnwMTJFFeAUpb5CWAI=;
+	s=k20260515; t=1795513571;
+	bh=Atyl0L6xFHCl5JPWP52B33t/L6s6DNfyIvXPWrTkJfA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=AtRBTbcFtUyiPTchVF40SgM0rK31T4QwRREUs/Yc8+5PG+SU/7QMKuPH3fhhsLDjq
-	 0KwoHAqW5wrwPaiMgSrMdD7uwRBlSWOXsCUUTkyrkyS6fQ58nZpB39E5RgeyIqVDjh
-	 ProYd+7lblyTrOA7lkRJ2HvBvL9BoxWNcv/gCzVOfs5W0qvc8OgBwbGmCEQAg2S85m
-	 p0F0pYMg44HEHOSEeJMvfw2da2/oCaRHp3ch6mz9LDsvXd7C/LL3dGdCw+ppeL4+eH
-	 v1tV0f0XZB5j7ckmku60Rwj4AAlp88jH2WXsLgHGN2EVGA4KUGBbgFBER4EmZGFL6T
-	 ctaAi8z6GXEww==
+	b=DnDPJZhoJrUjPNnt+UtXvXFRtcls2CVb0C0q4CF2ztro4uBquJE76Q+WbtO2sqiT8
+	 y42eJ9iN3lEyPbdn1aYM5fX0PxbJo/HRpRhvTjXClhIoaLqLELPNBVe4iHvi+UlQ79
+	 70pk0kgfNFqdZ8J5IxUPIQIxNhj2Ji9XQDT3QBDHyjlLo9uyaH57CzstlAX1CfJD+4
+	 JQ7Gcyn7N8A3gOWr6bC8HQqLPzupoxhn1Wvb8ZDBbV7qB3XgitWvTCTCrP96Bng9DR
+	 vbf6GOZftX+4DloRAiUMsfbClVk5J3nspQN4ABgX612t3AYUiuZZJPIJpF8MNGVlw6
+	 geY+hRNohn6PQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -100,9 +100,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@suse.de>,
 	linux-sound@vger.kernel.org,
 	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH v4 20/33] USB: Drain usbfs when a device is unregistered
-Date: Tue, 24 Nov 2026 11:43:51 +0200
-Message-ID: <20261124-device-trust-core-v4-20-037eb0d17b1f@nvidia.com>
+Subject: [PATCH v4 28/33] PCI: Use device trust for platform restrictions
+Date: Tue, 24 Nov 2026 11:43:59 +0200
+Message-ID: <20261124-device-trust-core-v4-28-037eb0d17b1f@nvidia.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
 References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
@@ -121,73 +121,194 @@ Content-Transfer-Encoding: 8bit
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Only the generic USB device driver tells usbfs that a device is gone.
-A device without that driver bound, such as one unbound through sysfs,
-is unplugged without any notification. usbdev_open() does not check for
-a driver, so a process can open such a device and sleep in poll() on its
-idle descriptor. The unplug never wakes it or sends its disconnect
-signal.
+PCI topology already identifies devices that need restricted operation.
+Generic trust policy must inherit that classification so authorization
+and PCI restrictions use the same policy.
 
-Drain usbfs from usb_disconnect() before device_del(). The device is
-already marked as not attached, so no new user can open it. The later
-drain from the generic driver finds nothing left.
+Resolve discovery-time restrictions from the requested policy, since active
+trust is established only before driver setup. Retain the untrusted flag
+for IOMMU consumers until their conversion. The initial target is
+confidential computing guests without an IOMMU; synchronizing later
+authorization with IOMMU domains and ATS remains follow-up work.
 
-Fixes: 782da727b0d59 ("usbcore: make usb_generic a usb_device_driver")
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/usb/core/devio.c | 4 ++--
- drivers/usb/core/hub.c   | 3 +++
- drivers/usb/core/usb.h   | 1 +
- 3 files changed, 6 insertions(+), 2 deletions(-)
+ .../driver-api/driver-model/device-trust.rst          | 10 +++++-----
+ drivers/pci/ats.c                                     |  4 ++--
+ drivers/pci/pci.c                                     |  5 +++--
+ drivers/pci/probe.c                                   | 19 +++++++++----------
+ drivers/pci/quirks.c                                  |  7 ++++---
+ include/linux/device.h                                |  5 +++++
+ include/linux/pci.h                                   | 10 ++++++++++
+ 7 files changed, 38 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index 1491ba015bcd8..a881f06361bfa 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -2862,7 +2862,7 @@ const struct file_operations usbdev_file_operations = {
- 	.release =	  usbdev_release,
- };
+diff --git a/Documentation/driver-api/driver-model/device-trust.rst b/Documentation/driver-api/driver-model/device-trust.rst
+index b93426b58852d..3c6babdba80e9 100644
+--- a/Documentation/driver-api/driver-model/device-trust.rst
++++ b/Documentation/driver-api/driver-model/device-trust.rst
+@@ -246,11 +246,11 @@ Adversarial policy does not require an IOMMU. Without an IOMMU group, or
+ with IOMMU support compiled out, binding uses the platform's normal DMA
+ configuration. Adversarial policy alone does not provide DMA isolation.
  
--static void usbdev_remove(struct usb_device *udev)
-+void usbfs_notify_remove(struct usb_device *udev)
+-Device trust admission does not change DMA handling, IOMMU domain selection,
+-or ATS permission according to active trust. Those remain governed by existing
+-bus and platform mechanisms. Integrating them with admission is separate
+-work. A setup failure after commitment leaves the chosen mode fixed; it
+-cannot fall back to unrestricted.
++The initial target is confidential computing guests without an IOMMU.
++On systems with an IOMMU, policy changes after discovery are not yet
++synchronized with domain selection or ATS configuration. That integration
++is follow-up work. A setup failure after commitment leaves the chosen mode
++fixed; it cannot fall back to unrestricted.
+ 
+ Drivers that manage DMA themselves must provide their own containment.
+ Drivers that do not use DMA need no domain.
+diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
+index 9cb23780093dd..c8c96acc26343 100644
+--- a/drivers/pci/ats.c
++++ b/drivers/pci/ats.c
+@@ -21,7 +21,7 @@ void pci_ats_init(struct pci_dev *dev)
  {
- 	struct usb_dev_state *ps;
+ 	int pos;
  
-@@ -2889,7 +2889,7 @@ static int usbdev_notify(struct notifier_block *self,
- 	case USB_DEVICE_ADD:
- 		break;
- 	case USB_DEVICE_REMOVE:
--		usbdev_remove(dev);
-+		usbfs_notify_remove(dev);
- 		break;
- 	}
- 	return NOTIFY_OK;
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 199d3f535a891..372bd6368cc94 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -2379,6 +2379,9 @@ void usb_disconnect(struct usb_device **pdev)
- 	if (udev->usb4_link)
- 		device_link_del(udev->usb4_link);
+-	if (pci_ats_disabled())
++	if (pci_ats_disabled() || pci_dev_default_is_restricted(dev))
+ 		return;
  
-+	/* usbfs is otherwise notified only by a bound generic driver */
-+	usbfs_notify_remove(udev);
+ 	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ATS);
+@@ -40,7 +40,7 @@ void pci_ats_init(struct pci_dev *dev)
+  */
+ bool pci_ats_supported(struct pci_dev *dev)
+ {
+-	if (!dev->ats_cap || dev->untrusted)
++	if (!dev->ats_cap)
+ 		return false;
+ 
+ 	if (dev->is_virtfn)
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 7c6f2aba81443..a60701bdece4c 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -1016,8 +1016,9 @@ static void pci_std_enable_acs(struct pci_dev *dev, struct pci_acs *caps)
+ 	/* Upstream Forwarding */
+ 	caps->ctrl |= (dev->acs_capabilities & PCI_ACS_UF);
+ 
+-	/* Enable Translation Blocking for external devices and noats */
+-	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
++	/* Enable Translation Blocking when ATS is unavailable or restricted. */
++	if (pci_ats_disabled() || dev->external_facing ||
++	    pci_dev_default_is_restricted(dev))
+ 		caps->ctrl |= (dev->acs_capabilities & PCI_ACS_TB);
+ }
+ 
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 9a178e0e5f7f4..606ab8a3aa8ed 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -1738,24 +1738,21 @@ static void set_pcie_cxl(struct pci_dev *dev)
+ 
+ }
+ 
+-static void set_pcie_untrusted(struct pci_dev *dev)
++static void pci_set_default_trust_policy(struct pci_dev *dev)
+ {
+ 	struct pci_dev *parent = pci_upstream_bridge(dev);
+ 
+ 	if (!parent)
+ 		return;
+-	/*
+-	 * If the upstream bridge is untrusted we treat this device as
+-	 * untrusted as well.
+-	 */
+-	if (parent->untrusted) {
+-		dev->untrusted = true;
 +
- 	/* Unregister the device.  The device driver is responsible
- 	 * for de-configuring the device and invoking the remove-device
- 	 * notifier chain (used by usbfs and possibly others).
-diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-index 1b2de58fd6cef..cbee731837471 100644
---- a/drivers/usb/core/usb.h
-+++ b/drivers/usb/core/usb.h
-@@ -195,6 +195,7 @@ extern const struct file_operations usbdev_file_operations;
++	if (device_policy_is_adversarial(&parent->dev)) {
++		dev->dev.trust_policy = DEVICE_TRUST_POLICY_ADVERSARIAL;
+ 		return;
+ 	}
  
- extern int usb_devio_init(void);
- extern void usb_devio_cleanup(void);
-+void usbfs_notify_remove(struct usb_device *udev);
+ 	if (arch_pci_dev_is_removable(dev)) {
+-		pci_dbg(dev, "marking as untrusted\n");
+-		dev->untrusted = true;
++		pci_dbg(dev, "setting adversarial trust policy\n");
++		dev->dev.trust_policy = DEVICE_TRUST_POLICY_ADVERSARIAL;
+ 	}
+ }
  
- /*
-  * Firmware specific cookie identifying a port's location. '0' == no location
+@@ -2082,7 +2079,9 @@ int pci_setup_device(struct pci_dev *dev)
+ 
+ 	set_pcie_cxl(dev);
+ 
+-	set_pcie_untrusted(dev);
++	pci_set_default_trust_policy(dev);
++	dev->untrusted = device_policy_is_adversarial(&dev->dev);
++	device_trust_init(&dev->dev);
+ 
+ 	/* "Unknown power state" */
+ 	dev->current_state = PCI_UNKNOWN;
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index 7f1f47ea2ee41..1afad28d1b5e0 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -5525,8 +5525,8 @@ static void pci_quirk_enable_intel_rp_mpc_acs(struct pci_dev *dev)
+  * Currently this quirk does the equivalent of
+  * PCI_ACS_SV | PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_UF
+  *
+- * TODO: This quirk also needs to do equivalent of PCI_ACS_TB,
+- * if dev->external_facing || dev->untrusted
++ * TODO: This quirk also needs to do the equivalent of PCI_ACS_TB when the
++ * device is external-facing or ATS is restricted by trust policy.
+  */
+ static int pci_quirk_enable_intel_pch_acs(struct pci_dev *dev)
+ {
+@@ -5567,7 +5567,8 @@ static int pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
+ 	ctrl |= (cap & PCI_ACS_CR);
+ 	ctrl |= (cap & PCI_ACS_UF);
+ 
+-	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
++	if (pci_ats_disabled() || dev->external_facing ||
++	    pci_dev_default_is_restricted(dev))
+ 		ctrl |= (cap & PCI_ACS_TB);
+ 
+ 	pci_write_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, ctrl);
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 2914b7191d342..5c86e7a19e47b 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -933,6 +933,11 @@ static inline bool device_iommu_mapped(struct device *dev)
+ 	return (dev->iommu_group != NULL);
+ }
+ 
++static inline bool device_policy_is_adversarial(const struct device *dev)
++{
++	return READ_ONCE(dev->trust_policy) == DEVICE_TRUST_POLICY_ADVERSARIAL;
++}
++
+ static inline bool device_policy_is_blocked(const struct device *dev)
+ {
+ 	return READ_ONCE(dev->trust_policy) == DEVICE_TRUST_POLICY_BLOCKED;
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index aa3765a20a96c..5da9f7fabf1e5 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -616,6 +616,16 @@ static inline struct pci_dev *to_pci_dev(const struct device *dev)
+ {
+ 	return container_of(dev, struct pci_dev, dev);
+ }
++
++static inline bool
++pci_dev_default_is_restricted(const struct pci_dev *pdev)
++{
++	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
++
++	return policy == DEVICE_TRUST_POLICY_BLOCKED ||
++	       policy == DEVICE_TRUST_POLICY_ADVERSARIAL;
++}
++
+ #define for_each_pci_dev(d) while ((d = pci_get_device(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
+ #define for_each_pci_dev_reverse(d) \
+ 	while ((d = pci_get_device_reverse(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
 
 -- 
 2.56.1
