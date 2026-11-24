@@ -1,111 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795513589;
-	b=nSOqaGURR1MB9jP0UEdZwDIVP/S6PJSFwFTl6mF4AP4FsPCYOfPvTgZxOwUjMqJFTuzy
-	 Wo8bnMWLrz8Xs2aFNaY5rbhEvepBegbE+eB9RlAUxOIbhNCAcfMaKS9iVZupib9KxHco2
-	 X9+OtMuJBEGLkDzYRMmXvbGAyJbbJVy1a+Fk4DNQYHdib8DqnTsFTCVc5Q4SVgKP5nhAe
-	 hsaDwsbdfdYC+nVcMGiZzOshCz9HKnDCUd3OuTHsBL+XfshLin3qSZ4NB8On1ht0Usid1
-	 UeDzxJmte8rXM5sNw692lErHFcvWg70L+p0b+zSkzdAhGjKeZRRe7ZHLngAseQKvumA==
+	t=1795514963;
+	b=hx4I/SwqtEoXskNQ3t2aWxWdeGFgTD6tdVmyWHctcIuEmKQuVuIvQQYMFMsw1srDqNcm
+	 GetTIib1dWMvvgrB/1TyR8uR6Ey9FUSKzBo5F4e8cnEBHFsVO+MOisyaAk3VNQZ/o5pT+
+	 7t06NeX5XIb1wfGIO+H6h4ALjNz0uAqGKJnxsKjRQoWEpVztU81KSfZpPb1di2+o2cyac
+	 fWHZKFTmUHJLfHkmgAf5ZqBkKw2VGoq3jHe1zhaWaz55eam/8qqkS9Vlm1YWpl78WjeQA
+	 KFs7Z+UpbT0fLMQ6mX4sHHIjnNDsszHbc0rtsvatAC2k6MizrpEs5HCP7E623jpcy6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795513589;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 Content-Transfer-Encoding;
-	bh=oOv+gVtKhIeMKpTI0yWQno/GsqkqC/UC3tuwmycezAs=;
-	b=oBi0ndywb01HWC7xc62Vq8m7HODN+jHzYgx2g4ltZWBR9ehk9ctH3zZ4FtKplCIpTqSQ
-	 Fa28oEHq2C2n5n7KLNtOVYvv9a8NFCKjnF4jmIi/5kmXvlb0cbzAPyQpLeXyaweMuGPq/
-	 klW6JoDIQ26uxBv9fOtST5Wv5OwhM73jBpNl3FNPXUwZcwkyZmgFAuiyofgO6Jf18VBAx
-	 wfURAZgEbvQQb5j2/Mc7A+YITiN+MGao5sDhSjwQ4YvmQ3gV1Ki9SZkMGUmlIpYZ62l48
-	 vbIX2MmHEzB9Enm8PEKxhFlhW4wVPdPiHeOkHXXxPYM2jEvDqfENjtYg82yspQLN78A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795514963;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=dx8vxjZWnsbgG4OyU71SoxYLOY9RohQX5HPkxRRCWVA=;
+	b=Tbf6RJJ5dDxhEy+eiphoL/eNImaC1KNn4/zSmTyO2FumTPEFLZQ/zGcE0VOCRgW+geZI
+	 t3HG9I2+HV21oHy2Ksaj12WcDmHovQOE+KmxZdv4nvGN8zBqrxxYTr0j2MsqixtHTRLUG
+	 OhSNjj8YDmrKpbVXxZ85WaGF/OcpitMlggB3FXXlffcwr7i0mYpL+Sro1uXzq4VINtPwd
+	 Au1PoefEZuYneWbjhjtzCa4ahpCI/Pml7dxf7zkIyED66JzqwWeX53hXzNd4LMl7YCqZp
+	 8gmJUyHSXVBTvJtSiExDCTZsRU8jLxF4rGDBMbwOe3qt3ErsydOs8wDVJRk1/cSpN8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FMjRkV1O;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LbBpEqZn;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13DC606A6BD;
-	Tue, 24 Nov 2026 09:46:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6449B606A31E;
+	Tue, 24 Nov 2026 10:09:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FMjRkV1O
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5F991F000CA;
-	Tue, 24 Nov 2026 09:46:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LbBpEqZn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B42351F000EC;
+	Tue, 24 Nov 2026 10:09:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795513589;
-	bh=oOv+gVtKhIeMKpTI0yWQno/GsqkqC/UC3tuwmycezAs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=FMjRkV1OQ81KV/qMDFbJOvzmHTPA+xevogjyMDoDXRccaDOk/hablPLSBW9R1CFNj
-	 LO7SIaOigTXu6q69CexyJSeLklD58/r/UWwTz7mCaSyA50tzP86IZ6RUqAuL4TPdPI
-	 KKWtxVIyNw4uPUOjDOmiWulF10HzOj2D9alhvsG95/oXwZs0sU15vCFBKa7Gao/54+
-	 7v1+LzO8pXu/PiAk7Qnu3dY5KSY+Pt/V04k0UMqODSOtKm8Uu45CNdC5gSARpbNvMA
-	 OU/gWjj4KWQk34WaFuTf7Po62wM/2MGj8f9Qr3xXfwXjvD9hCfOJMCTsq5KauaJbFa
-	 j31B9r1oan2TA==
-From: Leon Romanovsky <leon@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Chris Lu <chris.lu@mediatek.com>,
-	Mans Rullgard <mans@mansr.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Cornelia Huck <cornelia.huck@de.ibm.com>,
-	Andrew Morton <akpm@osdl.org>,
-	Jeff Garzik <jeff@garzik.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-	Dan Williams <djbw@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-coco@lists.linux.dev,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	linux-sound@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH v4 32/33] USB: Authorize interfaces through device trust
-Date: Tue, 24 Nov 2026 11:44:03 +0200
-Message-ID: <20261124-device-trust-core-v4-32-037eb0d17b1f@nvidia.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
-References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
+	s=k20260515; t=1795514963;
+	bh=dx8vxjZWnsbgG4OyU71SoxYLOY9RohQX5HPkxRRCWVA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=LbBpEqZn4ATZ6jR5EsC8SmmBjUHvtTB7Kd5I+NvWOx7M62+9l/6Oxti8PYjdh6jup
+	 lmn7yrJFlNsuZ81NpNimni0jBI22tXnbFHGtEHF48XbdLzXrYBnp/MYIONXoPsGym3
+	 LY1LP4rGYRHEKeOSR5DY87sI/bsHSJoB/4I8/PjRMCyEHRjWOFYCTTSankPAmS4yVy
+	 RERm8e07IUJprSXCNPtXVwQeq6hL/zZuGX8SKrD/NY7ynhp7yoiaf2o9POMbZXVYyo
+	 r2gkv6+s7uDIVidyl7mfX8egIGkYWnZhYFWS3yOxzeL3b8tGzRCQ84k3epons8Fkom
+	 D62DbvAKcO9tw==
+Message-ID: <58550e8a-481a-470e-bea4-93c39c8d736a@kernel.org>
+Date: Tue, 24 Nov 2026 11:09:18 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -115,204 +51,88 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-18f8f
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] dt-bindings: soc: qcom: eud: add the QCM2290 EUD
+To: Igor Opaniuk <igor.opaniuk@oss.qualcomm.com>,
+ Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ Elson Serrao <elson.serrao@oss.qualcomm.com>
+References: <20261123-qcm2290-eud-v2-0-9bfc432dee07@oss.qualcomm.com>
+ <20261123-qcm2290-eud-v2-2-9bfc432dee07@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
+ /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
+ s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
+ EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
+ rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
+ DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
+ IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
+ vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
+ oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
+ sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
+ vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
+ Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
+ BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
+ 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
+ f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
+ WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
+ XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
+ IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
+ YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
+ p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
+ GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
+ YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
+ vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
+ ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
+ QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
+ +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
+ wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
+ c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
+ K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
+ n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
+ qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
+In-Reply-To: <20261123-qcm2290-eud-v2-2-9bfc432dee07@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On 23/11/2026 17:42, Igor Opaniuk wrote:
+> The QCM2290 has the same Embedded USB Debugger as the SC7280: the EUD
+> CSRs and the mode manager register that the secure world writes on
+> behalf of the driver.
+> 
+> On QCM2290 the mode manager additionally ignores the enable unless the
+> TCSR register TCSR_APSS_SPARE_REG1 is set first. The boot firmware does
+> the same before it enables the EUD, and the register is written through
+> the same secure IO service.
+> 
+> Add the compatible and a "qcom,tcsr-reg" property that points to that
+> register in the TCSR syscon. It is required on QCM2290 and not allowed
+> on the other EUDs.
+> 
+> Signed-off-by: Igor Opaniuk <igor.opaniuk@oss.qualcomm.com>
 
-An interface denied by USB defaults must remain blocked until its trust
-policy permits binding. Keeping an independent denial flag would prevent
-generic trust authorization from making that interface usable.
 
-Represent the initial denial as blocked policy when trust is enabled, and
-let interface authorization request unrestricted operation. Preserve
-explicit USB deauthorization and report rejected policy changes to
-userspace. Interface policies remain independent of the device policy.
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- Documentation/ABI/testing/sysfs-bus-usb |  5 +++++
- Documentation/usb/authorization.rst     | 11 +++++++++++
- drivers/usb/core/driver.c               |  2 +-
- drivers/usb/core/message.c              | 23 ++++++++++++++++++-----
- drivers/usb/core/sysfs.c                |  7 +++++--
- drivers/usb/core/usb.h                  |  2 +-
- include/linux/usb.h                     |  9 +++++++--
- 7 files changed, 48 insertions(+), 11 deletions(-)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-usb b/Documentation/ABI/testing/sysfs-bus-usb
-index 5213117fd957e..62e326710ef5f 100644
---- a/Documentation/ABI/testing/sysfs-bus-usb
-+++ b/Documentation/ABI/testing/sysfs-bus-usb
-@@ -12,6 +12,11 @@ Description:
- 
- 		A deauthorized interface cannot be probed or claimed.
- 
-+		With device trust enabled at boot, an interface that is not
-+		authorized by default starts with the "blocked" trust policy
-+		(see sysfs-devices-trust). Writing 1 then requests the "unrestricted"
-+		policy. Deauthorizing does not change the committed trust level.
-+
- What:		/sys/bus/usb/devices/usbX/interface_authorized_default
- Date:		August 2015
- Description:
-diff --git a/Documentation/usb/authorization.rst b/Documentation/usb/authorization.rst
-index 150a14970e951..cc419a11ffc43 100644
---- a/Documentation/usb/authorization.rst
-+++ b/Documentation/usb/authorization.rst
-@@ -120,6 +120,13 @@ Deny interfaces per default::
- Per default the interface_authorized_default bit is 1.
- So all interfaces would authorized per default.
- 
-+With device trust enabled, an interface that is not authorized by default
-+starts with the "blocked" trust policy, and writing 1 to its "authorized"
-+attribute requests the "unrestricted" policy. Device and interface trust policies
-+are independent: selecting "adversarial" for a USB device does not select it
-+for its interfaces. Set interface policies separately before their drivers
-+bind, using boot rules when necessary.
-+
- Note:
-   If a deauthorized interface will be authorized so the driver probing must
-   be triggered manually by writing INTERFACE to /sys/bus/usb/drivers_probe
-@@ -127,3 +134,7 @@ Note:
- For drivers that need multiple interfaces all needed interfaces should be
- authorized first. After that the drivers should be probed.
- This avoids side effects.
-+
-+Driver boot rules apply when an interface is claimed, including before
-+registration. An interface deauthorized through sysfs must still be
-+authorized before it can be claimed.
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index 1d488111a70fb..80f4d2644023b 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -338,7 +338,7 @@ static int usb_probe_interface(struct device *dev)
- 	if (udev->authorized == 0) {
- 		dev_info(&intf->dev, "Device is not authorized for usage\n");
- 		return error;
--	} else if (intf->authorized == 0) {
-+	} else if (!usb_interface_authorized(intf)) {
- 		dev_info(&intf->dev, "Interface %d is not authorized for usage\n",
- 				intf->altsetting->desc.bInterfaceNumber);
- 		return error;
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 32014605b6db6..534f8e645a856 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -1881,16 +1881,24 @@ void usb_deauthorize_interface(struct usb_interface *intf)
-  * usb_authorize_interface - authorize an USB interface
-  *
-  * @intf: USB interface structure
-+ *
-+ * Return: 0 on success, or the error of the trust policy request.
-  */
--void usb_authorize_interface(struct usb_interface *intf)
-+int usb_authorize_interface(struct usb_interface *intf)
- {
- 	struct device *dev = &intf->dev;
-+	int ret = 0;
- 
--	if (!intf->authorized) {
--		device_lock(dev);
--		intf->authorized = 1; /* authorize interface */
--		device_unlock(dev);
-+	device_lock(dev);
-+	if (device_policy_is_blocked(dev)) {
-+		ret = device_trust_set_policy_locked(dev, DEVICE_TRUST_POLICY_UNRESTRICTED);
-+		if (ret)
-+			goto out_unlock;
- 	}
-+	intf->authorized = 1;
-+out_unlock:
-+	device_unlock(dev);
-+	return ret;
- }
- 
- static int usb_if_uevent(const struct device *dev, struct kobj_uevent_env *env)
-@@ -2213,6 +2221,11 @@ static int usb_set_configuration_internal(struct usb_device *dev, int configurat
- 		intf->altsetting = intfc->altsetting;
- 		intf->num_altsetting = intfc->num_altsetting;
- 		intf->authorized = !!HCD_INTF_AUTHORIZED(hcd);
-+		if (device_trust_enabled()) {
-+			if (!intf->authorized)
-+				intf->dev.trust_policy = DEVICE_TRUST_POLICY_BLOCKED;
-+			intf->authorized = 1;
-+		}
- 		kref_get(&intfc->ref);
- 
- 		alt = usb_altnum_to_altsetting(intf, 0);
-diff --git a/drivers/usb/core/sysfs.c b/drivers/usb/core/sysfs.c
-index d22dc78457d79..b8974e9db3a22 100644
---- a/drivers/usb/core/sysfs.c
-+++ b/drivers/usb/core/sysfs.c
-@@ -1213,7 +1213,7 @@ static ssize_t interface_authorized_show(struct device *dev,
- {
- 	struct usb_interface *intf = to_usb_interface(dev);
- 
--	return sysfs_emit(buf, "%u\n", intf->authorized);
-+	return sysfs_emit(buf, "%u\n", usb_interface_authorized(intf));
- }
- 
- /*
-@@ -1225,12 +1225,15 @@ static ssize_t interface_authorized_store(struct device *dev,
- 	struct usb_interface *intf = to_usb_interface(dev);
- 	bool val;
- 	struct kernfs_node *kn;
-+	int ret;
- 
- 	if (kstrtobool(buf, &val) != 0)
- 		return -EINVAL;
- 
- 	if (val) {
--		usb_authorize_interface(intf);
-+		ret = usb_authorize_interface(intf);
-+		if (ret)
-+			return ret;
- 	} else {
- 		/*
- 		 * Prevent deadlock if another process is concurrently
-diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-index cbee731837471..6f65d6cd5d117 100644
---- a/drivers/usb/core/usb.h
-+++ b/drivers/usb/core/usb.h
-@@ -34,7 +34,7 @@ extern void usb_disable_device(struct usb_device *dev, int skip_ep0);
- extern int usb_deauthorize_device(struct usb_device *);
- extern int usb_authorize_device(struct usb_device *);
- extern void usb_deauthorize_interface(struct usb_interface *);
--extern void usb_authorize_interface(struct usb_interface *);
-+extern int usb_authorize_interface(struct usb_interface *);
- extern void usb_detect_quirks(struct usb_device *udev);
- extern void usb_detect_interface_quirks(struct usb_device *udev);
- extern void usb_release_quirk_list(void);
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index d372712eba34c..9399c816b367d 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -204,8 +204,8 @@ enum usb_wireless_status {
-  *	has been deferred.
-  * @needs_binding: flag set when the driver should be re-probed or unbound
-  *	following a reset or suspend operation it doesn't support.
-- * @authorized: This allows to (de)authorize individual interfaces instead
-- *	a whole device in contrast to the device authorization.
-+ * @authorized: USB authorization flag; trust policy may also restrict use,
-+ *	see usb_interface_authorized().
-  * @wireless_status: if the USB device uses a receiver/emitter combo, whether
-  *	the emitter is connected.
-  * @wireless_status_work: Used for scheduling wireless status changes
-@@ -278,6 +278,11 @@ struct usb_interface {
- 
- #define to_usb_interface(__dev)	container_of_const(__dev, struct usb_interface, dev)
- 
-+static inline bool usb_interface_authorized(const struct usb_interface *intf)
-+{
-+	return intf->authorized && !device_policy_is_blocked(&intf->dev);
-+}
-+
- static inline void *usb_get_intfdata(struct usb_interface *intf)
- {
- 	return dev_get_drvdata(&intf->dev);
-
--- 
-2.56.1
-
+Best regards,
+Krzysztof
