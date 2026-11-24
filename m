@@ -1,105 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.81
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795545765;
-	b=GAtohZVGkB+0lu5GCTv9ZPrYAXGoxLqVmkMsxOiSzadaEFEU1QpvsRMv4ec0pYIVO/Gw
-	 nRZfNBku+ZceI5mPk7f2WBoNe0Hs00pt6twYM0/8AJOyOUW5qv1GKHoZzQARd2xTZfoCx
-	 XB297tLiADedt1uVU5aubq7iLlmVUT9ThXTfiCIdMcpwx6MWGUSyx5VKKq6gn1/2ZzUm0
-	 d+MoNPg5WD3QUFpIFBgILo7uoniOHg+lpk28BzcWZ620oCgcJzm8ei6WCoYL08CI/r8Ql
-	 VSGRIgT9obRd0mkJvBXY6qfO5WCqi6dbLXwtfbl9CwkkgjIwboEvar8sz4BW4VpRzPg==
+	t=1795548748;
+	b=q5BANTyg/ns63MhIzEYxBKStgC5cx4SfVfSYsWjPZgL+wxfnC/axii0FZW0F+tZZ9euy
+	 n6Va5Oh15rmxOnPIzeIDAvLA5xSOoAPZQmx0HvGAWFLaXzS5cXUHyspVaABUDHz7gr9zJ
+	 bnz9pbMssLEpTFjeCXCiOfVoU037lOLUFWDqWHqghCVyVjJznlratoun2qFxu7EbPpuCG
+	 XfSQ6pkMOiwdDqFebKJLNaXADkokPDGrKctPxoTIA+vTPDHVqXyHg+zRWg2Ep4VwpxHob
+	 jFUMVl7dE9LYd2w3SpDaZ6EfYG2GaxHporTtSceEIM3yw3/7hlcQXhRHPSBs2Sn8JIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795545765;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Subject:Date:Message-Id:In-Reply-To:References:Reply-To:
-	 User-Agent:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=wcdBoCxwIu2pbM5ZNkd9oLklfMFSSp7JBfVhltAPzPA=;
-	b=zHP60W5uvd3ZTXLaVa/PPTpl7Y1tprKYdTug52CeAu1GwjQPxDWIWOCe8Q6A52JDow2w
-	 dZu5ZiC6ixXeAsA3tQpWgNVlRPvXD2Akpmnl9ZHD311VSW9IWlyiooOFqTGuyK98qJLuv
-	 bVWVRnJrN9/dxY320ojQutbCV27by33UBTloNeO3q43JU+OWTULDWyd8tBezAZEUW2ygb
-	 q+mKQPF6+Gjdkp7LVsFhcRJ/9S1rG1Bg6Eq3DZPaNg6Rpsli/y9czEWKiUAO5m3RvFHf9
-	 iX/TJT7BXk0H93HDAaj2owlguX7f6KCx3Ay58uDeGJ6OfQvO/TlyqjmdOd7NipOepEg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795548748;
+	h=DMARC-Filter:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
+	 MIME-Version:X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:
+	 X-CM-SenderInfo;
+	bh=yd/6hanBXf9zEhrdANGKjJeIsJ0EIDRqYpFyzs8Z3FY=;
+	b=BK/YVsInIulHwGIgNVrh5fy40jpZXgv8qIrxus5/JjC9Ox9Krc3rlSIE9wbVNvOiv3o6
+	 l2eCJ4qzamkoCIDNK6koYH74PLcPyFvn0ANk9IqcCrD9lWyMddJnh6Kxm01xKhzM6INrY
+	 Gm8kAFT3T3ZacOPY7R8ME+v7NcAA183+0Ds7OFejvAxwI0WeviZRvq0WzhlmvNv4NhjyM
+	 Ig4HEUVYNKGc+4/vrDeWx7ISlllqEBFJDU4QVvq3ojzrolZIF/6OC66HxSapSg/CsfgB2
+	 aoiilZTz0yQ58yZyYiiVXrF7uJe9a5L8WX8F0ntS9KNFlLl6ox1SYi9GN12/dGdbBug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BK2G0s5B;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=iscas.ac.cn;
+	spf=pass smtp.mailfrom=iscas.ac.cn;
+	arc=none smtp.remote-ip=159.226.251.81
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51556606A323
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 18:42:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51556606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BK2G0s5B
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4bb5b8ef642so43650105e9.1
-        for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 10:42:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795545764; x=1796150564; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :reply-to:references:in-reply-to:message-id:date:subject:to:from
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wcdBoCxwIu2pbM5ZNkd9oLklfMFSSp7JBfVhltAPzPA=;
-        b=BK2G0s5BZNXtFradKC3WI0WdFFDRKlzyHOsr2K3m0jAi/mSGIdeiE71Fclje/shE8j
-         MVkNx7N6TI17WAKmYCHlM3Dg86Lo8b8EpQfr3G5TABqArtCbvJDj7At1fCEBG4rrmeNw
-         X5zejkvvAHleosXuel/WFFNQj+XG78xUcTl1eI6b42uBzgIIRbCcunyXZujUsSu+JYlL
-         ShCdzO8W7X9ztZfkj9lOS8ELgVgcpGm6J2fbUXRijrgKtm0gfYdYf7iq8cJYSzdbQUPW
-         91u8XgTKoEQtj5PWDoXI8ed5QVmd50bXV2EivOqcrDAPevMS+64z3z5CBtsFn82bIht8
-         iCLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795545764; x=1796150564;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :reply-to:references:in-reply-to:message-id:date:subject:to:from
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=wcdBoCxwIu2pbM5ZNkd9oLklfMFSSp7JBfVhltAPzPA=;
-        b=KdX061WdnEcZA7vCbbXDM12i/S8TCBn2RClUFjF78ndh4iGK8l4EXlEGH3P0HDMP/E
-         fzQn4eHsAvk24TainEstl1j1ZogYppY4aAxJidrL8ZzE/wdoOoCzh32n7x6mSaNDDM8S
-         qfluMkFTYJnO3f9QcTK4LVetrlmnUlTQrR6QYXZO7ZtXIRzIRUtMTHG6vOjDtOvGuC9x
-         lV59yRD2/YQ6JaG1FkqM+oFwMM8l1zjUdq04d8JibiRw+WbLO/CU6vvFAPwUEbB+0A5w
-         ihTFlOLcozvIABS9/DWPNyDB78Ftfa+V/z3GFu3b8KKQKwZ0HKCknoyESai2rO564pJo
-         uorQ==
-X-Forwarded-Encrypted: i=1; AL+hErHL6yjoPs4IERJowPLYogWXDsTOBwpbZM3c2viH1q4UOczSTYDU4s4IRlnyfLjUWG1Y9B089B5KblM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/Bb0Snj8ksfaGC4ed8t8igzuGUVCQCg8JQgh7AuYksQxMt1675
-	8r8LpP3Gq/voxY/abErMqAnlKLk5BuPlpIxB+YX9XOxJrsL8Tp9JU9IibcM09Q==
-X-Gm-Gg: AZFdTZcFWrCT+TnCEJl3a1x5lxB4f/RIQjuX9uz+Gzgv+dcECeEws/fRAIaieUpmpPm
-	0+hSeTe1Cj4+IbwobRYjvoSAFFyF1tfMty9JWkT/7DD88bnOLf65oaYoyij/mf9RmMhJjNPT8iU
-	ZTuUbBR6Ndmp0U3WLxXWtVDDPhizQ4FH4b+GPfj0ba2jfMExJ5ig5ZsVo0dWU9sY6QiFmpw3A7E
-	/MwtGGMNsDt8k0Sw6cD5/SzcRGbG3i2eWHXeoVpFquwiYzwWUEK7/l0M+5soilsQ5LnXem/1RSI
-	BGXqz97xlluPuHX4x1MWgpd6QMxh5P8leBqC/y/qnjzgQc0lOH6rFuaB7bIVqaa5DqeQ3EfKkC7
-	muUpbKjco8ZiKhyIbL6tfc+OAc/ZopOTkKiufM8O9s8k+aNS/K8arb6+bZE3qy0AAI8D8EKTc/W
-	GQNXrFZByFWFRieCZwHB/+2MIVYduWrtZjS+HFALfe7tSW52Oj/foEPymZH14TmpZ6Q36PBQM50
-	xgPQb7sdjWKe5KSsqXe561x2eucpGWEEhZPeOx/L4VZwq3RIFmko9te4FJXtJL0+EY99cWWyp9+
-	JCV3KANrzKP0kvEMmUMXsMFq8fP5LKOcUxBGjT1u5MzMhMuuesUV2rUUlup5f9zoaZMsFN+50aD
-	NDoDm8QHd6FpGs0AG7RK9PZp3J5v2fFCV1obb9dDmDcGheVJa/biq
-X-Received: by 2002:a05:600c:8b11:b0:4a1:dda8:eb73 with SMTP id 5b1f17b1804b1-4bb8881c630mr330027895e9.27.1795545763519;
-        Tue, 24 Nov 2026 10:42:43 -0800 (PST)
-Received: from ?IPv6:2a01:5a8:303:cbe0:3c17:6ca5:5236:b25a? ([2a01:5a8:303:cbe0:3c17:6ca5:5236:b25a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906635c7sm263108825e9.2.2026.11.24.10.42.42
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 24 Nov 2026 10:42:42 -0800 (PST)
-From: "Andrei Schapov" <andrei.schapov@gmail.com>
-To: "James R Taylor" <jrtaylor11@gmail.com>, "linux-usb@vger.kernel.org"
- <linux-usb@vger.kernel.org>
-Subject: Re[2]: thunderbolt: AMD Phoenix USB4 host advertises Gen3 Support=0 in SB
- LINK_CONF with TB5 device, link stuck at Gen2
-Date: Tue, 24 Nov 2026 18:42:41 +0000
-Message-Id: <em10dd53bb-042d-44b5-a41a-d803eebee6e3@gmail.com>
-In-Reply-To: <1794753796.37750.resend.hermes@gmail.com>
-References: <1794143745.17311.hermes@gmail.com>
- <20261109111852.GQ176724@black.igk.intel.com>
- <1794223545.366398.reply.hermes@gmail.com>
- <20261109142041.GS176724@black.igk.intel.com>
- <1794235167.3657.reply.hermes@gmail.com>
- <20261109153955.GU176724@black.igk.intel.com>
- <6af1e999.9efe04cf.8f35d.ae23@mx.google.com>
- <20261109155007.GV176724@black.igk.intel.com>
- <dcc400cf-809e-4b7e-a14c-e4b2f469909d@amd.com>
- <1794753796.37750.resend.hermes@gmail.com>
-Reply-To: "Andrei Schapov" <andrei.schapov@gmail.com>
-User-Agent: eMClient/11.0.0.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2EF606A329;
+	Tue, 24 Nov 2026 19:32:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE2EF606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from edelgard.fodlan.icenowy.me (unknown [112.94.102.207])
+	by APP-03 (Coremail) with SMTP id rQCowABHGZo65gVrD7C3AQ--.17886S2;
+	Wed, 25 Nov 2026 03:32:12 +0800 (CST)
+Message-ID: <f818f0facb3af35e31b8346546c1aa23b10bd529.camel@iscas.ac.cn>
+Subject: Re: [PATCH 1/3] dt-bindings: usb: vialab,vl817: use
+ unevaluatedProperties
+From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Conor Dooley <conor@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthias Kaehlcke	
+ <mka@chromium.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Anand Moon	
+ <linux.amoon@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org, Han Gao
+ <rabenda.cn@gmail.com>
+Date: Wed, 25 Nov 2026 03:32:10 +0800
+In-Reply-To: <20261124-rehab-overlord-9b7f44ee7e0f@spud>
+References: <20261124-vl817-uneval-prop-v1-0-137c093fb300@iscas.ac.cn>
+	 <20261124-vl817-uneval-prop-v1-1-137c093fb300@iscas.ac.cn>
+	 <20261124-rehab-overlord-9b7f44ee7e0f@spud>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -109,79 +62,88 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-CM-TRANSID:rQCowABHGZo65gVrD7C3AQ--.17886S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ArWxZr15Zw1DKw4rArWDurg_yoW8uF1rpr
+	WfKF98KF4qgrnxGws2gF4xCw1Fq3Zrtrs8GFyUZryDXFW5u3W5trsxK3s0vF48Cr1xuay2
+	9FWDKa4rtF1vkaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvlb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I
+	8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+	F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+	4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xK
+	xwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+	W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+	1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+	IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
+	x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
+	DU0xZFpf9x07betCcUUUUU=
+X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 
+=E5=9C=A8 2026-11-24=E4=BA=8C=E7=9A=84 18:16 +0000=EF=BC=8CConor Dooley=E5=
+=86=99=E9=81=93=EF=BC=9A
+> On Tue, Nov 24, 2026 at 04:31:01PM +0800, Icenowy Zheng wrote:
+> > Currently the VL817 binding has additionalProperties set to false
+> > instead of unevaluatedProperties, which disallows properties documented
+> > in the parent schema.
+>=20
+> This is not quite true though, they're permitted if the binding contains
+> "foo: true" etc - which this one does.
+>=20
+> > Change it to unevaluatedProperties, which is the better practice for
+> > derived schemas.
+>=20
+> Not really, it's fine to do addtionalProps: false + foo: true if only
+> a subset of the inherited properties are valid.
 
+The main meaning here is to allow downstream nodes described in the usb-
+hub.yaml file, especially downstream device nodes (which was a regular
+expression match in usb-hub.yaml).
 
-Hi James, Mario,
+I don't think it wise to duplicate that regular expression in all hub
+binding files.
 
-Update: on my SER8 (Hawk Point) the 20G link turned out to depend on the=20
-cable.
+However maybe I should change the commit message?
 
-- DEG2 (JHL9480, fw 62.62) + its bundled Thunderbolt 5 cable: 20 Gb/s (2=20
-x 10G), as reported before.
-- Same dock + Intel-certified Thunderbolt 4 40G passive cable (Acasis,=20
-0.5 m): 40 Gb/s ("Gen 3, dual lane" in Windows), and host-to-device=20
-bandwidth roughly doubled ([before] -> [after]).
+>=20
+> IMO this series should be two patches, or maybe even just one that
+> changes the ref (as your patch 2 does) and sets the then derived
+> property to true. Otherwise, this should be two patches, with patch 3
+> split into whichever of patch 1 and 2 is relevant.
 
-No BIOS or firmware changes in between, just the cable swap.
+I'm okay to just drop patch 3; in fact I send it as a split patch just
+because I'm feeling that it's not so needed.
 
-The bundled cable's e-marker (read on a Mac) reports cable VDO speed=20
-100b =3D USB4 Gen4 (80G), passive, 5A, EPR. The same dock and cable link=20
-at 40G USB4 on a MacBook Air M1.
-
-So my guess is that the PD firmware on some Phoenix/Hawk Point boards=20
-doesn't handle the Gen4 cable speed code and falls back to 10G/lane,=20
-instead of capping at Gen3. That fits Mario's PD firmware explanation. I=20
-can't capture the PD traffic myself (no UCSI on this board).
-
-James: if you have a certified TB4 / USB4 40G cable, it would be=20
-interesting to know whether the UM890 Pro behaves the same.
+In addtion I'm also okay to squash patch 1 and 2.
 
 Thanks,
-Andrei
+Icenowy
 
------- Original Message ------
-From "James R Taylor" <jrtaylor11@gmail.com>
-To linux-usb@vger.kernel.org
-Date 15.11.2026 16:43:16
-Subject Re: thunderbolt: AMD Phoenix USB4 host advertises Gen3 Support=3D0=
-=20
-in SB LINK_CONF with TB5 device, link stuck at Gen2
+>=20
+> >=20
+> > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> > ---
+> >  Documentation/devicetree/bindings/usb/vialab,vl817.yaml | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml b/=
+Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+> > index c815010ba9c2e..d0484e48e319c 100644
+> > --- a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+> > @@ -40,7 +40,7 @@ required:
+> >    - vdd-supply
+> >    - peer-hub
+> > =20
+> > -additionalProperties: false
+> > +unevaluatedProperties: false
+> > =20
+> >  examples:
+> >    - |
+> >=20
+> > --=20
+> > 2.56.0
+> >=20
+> >=20
 
->(Resending to the list in plain text: my first copy was rejected for
->containing HTML. Sorry for the noise.)
->
->Hi Mario,
->
->On Sun, Nov 15, 2026 at 02:13:37PM +0000, Mario Limonciello wrote:
->>  I'd lean on more likely a PD controller issue. Did you already look for
->>  a BIOS update? Most vendors distribute PD updates with BIOS/EC.
->
->Thank you for looking at this. I'm on BIOS 1.06. Minisforum have a 1.07
->image for the UM890 Pro with no release notes; its AGESA (PhoenixPI
->1.2.0.0a) is the same as 1.06, and I couldn't tell from the image
->whether it carries a PD or EC update, so I haven't flashed it yet.
->
->>  If there is no update available; can you start with reporting to your
->>  vendor and let them reproduce and get some PD traces to confirm?
->
->I reported it to Minisforum on 8 November and it is with their firmware
->team now. I'll pass on your PD controller suggestion and ask whether
->1.07 or a separate EC/PD update changes anything.
->
->Andrei, thank you for testing your SER8 and for laying the values out
->side by side. The host-side values are identical on both machines,
->including the retimer ID, PORT_CS_18 and the SB LINK_CONFIGURATION
->03 d3 03, and your MacBook result rules out the cable and the DEG2. One
->difference from Framework #56: the StarTech TBLT5MM50CM240W I have been
->using is an active cable and it still trains TBT3, 2 x 10 Gb/s; the
->DEG2's bundled cable gives the same result. Like your SER8, the UM890
->Pro exposes no UCSI device, so I can't see the PD side from Linux
->either.
->
->Thanks,
->James
->
->
