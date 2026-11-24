@@ -1,55 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795484985;
-	b=5h2HOCdaN7kRL/zwfIG/LFLzneiTAJ+TGJDr68fdjG8GpcahN+kA/eW7d9z8cfMlsK0o
-	 5clD2TDSj1LULFnXL89X64z0PWMW3HIF4Q8tMvLRNsqLEbS1CHowc5H5RrpOX9uKR4UZn
-	 bWQ2UKGjsGPnxlkDrcj02O59weqKcdVYFyYhX8cr1JoABpNjZrZNxROfuuY9F/Pt+Yjyx
-	 +3mw/BmX1xgttaj/eRW6JntiQkeEYQRfe22r05GlKCbOtRKsEv9B03PcuLG5TsY3mtKbj
-	 ylKRA/r8V5fqZEbG5EVRK0CQxInalzClm96Z+8+tWMUKosO5KPXBMvfmeQDu+1swPWA==
+	t=1795486970;
+	b=Gq85VxCAHYW60JinV0+5oWLaaH4DQnjIyHrRGQuN8C+0S+5cqvSyklq6CM6yjx9FLtf0
+	 UKbnTJPPQ0qns7x1AOCnnP2hzZBhwfF0+pdMdxtHs5cyO8MBBD0cQBUA6lqF/tb/Wuqi9
+	 JvteYW2J5PwYv0YLS9Wz8fZ6YN61nt32Lqvgi/EonsAO2Iu6erBfC2QCTHjmbLYE83dx9
+	 M52nemg8RbjBC1gn+OidupmhDyvcMUanbHVHiut4cMhbAbGNsWDPRFA4RFfQ8JAtK4p/6
+	 bjvq76V6hOfIkCzL2XkhdfaXAb+ZJftttd5vyTDoqxTx1qcoJiHqjLjt3160tpOYRRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795484985;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=JrxdoFCkrgcPHGBYCweSSVAe2gwPPODEZuY8LbUG6Bs=;
-	b=YZ59TTssjxngFOuKTDddRJjNor1Q1Xo1JNQSxWbgVpd1vxsBTMr4ygVKfSDkWlrzjJbF
-	 J/OnN1pWcBdxh6FuQua+df8+59PZlAozSp7dIRavXW+HJLxb/G5RfOs3gdeuv8DeVzuGV
-	 Z+VMG/sxzn0PbS3oDN05t8MncZedmD/TG6YT+LCOLYlCI9/+stmoahumqiYFOh5LYZr39
-	 bAZa0ROaDL0xh855p2ZyGr+gInRCsXOXflLGRAnBqsyYiMlWb29FK4efhQwixJJi9vQcN
-	 AFQsu2rdzPLHlnvmtTDzF6BvU4mmkUfoKxp7uAe7T78Tnghv3/9lsjMtL2IbcSDLywA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795486970;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=WvgO7pqnsYsS4en6wj3vVV2RD6XhcMibM3J3Ihuie2c=;
+	b=MDPWitFXlVjyrD0+/5zLzoy4Vx1qmUa69pFjR8T6vufay/sHhSTIqMx6tPJPR8Om9Zju
+	 Ix+6xf2yegz6YBVaIEp8V2tVu5wq20oJlII60sozw2s3hmp8ugMPxCK6Y006Hzc/QUYaH
+	 UxtCvAE9up8ABzVqEEJpQfworXR++NpIawaC9kTWY/ETc2BDGHV1R3ZL81R2rtMNYm+Jb
+	 YYb3CHeVM68lsKOf3uWJMLoW2u3gMPN0OHM7zBUN+X9I5B7cvK1uxMQrteAz2T1gItM4y
+	 7GzV8IW1K46oFDqlSGKrHjg+rx0pDVsrkHPEJrPMiySnPxVeNA3RDNElTyw4wZgUXEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E7aNqH1e;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pxUXIRv3;
+	arc=none smtp.remote-ip=209.85.214.181
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3907606A31E
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 01:49:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AD6606A31E
+	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 02:22:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7AD6606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E7aNqH1e
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 402241F000C0;
-	Tue, 24 Nov 2026 01:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795484985;
-	bh=JrxdoFCkrgcPHGBYCweSSVAe2gwPPODEZuY8LbUG6Bs=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=E7aNqH1eAhvpScfDPOsiiYYPIXk3aZE2SfIuHQgkQd5ON1ktUDc1aF4MUPkwpyY/6
-	 GwErpfv8/mM1uYjFHoGU1bZr7nRPCr6H07+Oh54Nacn5MRdz8ep2UkXyPXSeASf3b3
-	 Hj9dcS5YbRZX/DKOwEWSCoF4I0dnolTy+62TuvILoCpvnvFIalbwGOcBW5R8Kc8C7k
-	 gC3Db+wkP9MFOFP/LEn5sHpaL4FA5zyGaEkaado3kcRmOEZ5lyPP7bOhFyKkzw0GQc
-	 5zOympigTCbRTyWU2kY0XQFO/RxyAll3aDkOqqfiqTTn/To5qQ+fadDTbOcnNH7zit
-	 MXUiIeiMSNogg==
-Message-ID: <sashiko-outbox-230357@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] usb: gadget: raw_gadget: fix memory leak on connect
- event failure
-Reply-To: sashiko-reviews@lists.linux.dev
-To: hanzhijian1991@gmail.com, linux-usb@vger.kernel.org
-In-Reply-To: <20261124012837.2071714-1-hanzhijian1991@gmail.com>
-References: <20261124012837.2071714-1-hanzhijian1991@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2026 01:49:44 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pxUXIRv3
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2f041f88577so21678675ad.1
+        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 18:22:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795486969; x=1796091769; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=WvgO7pqnsYsS4en6wj3vVV2RD6XhcMibM3J3Ihuie2c=;
+        b=pxUXIRv3cNSB2fqhDzEq++taJVOXNxAsvpFFq4Z3FNDeR5u30E+syPLebzg1eYZKLf
+         YGgYq1IXu1w62prUSCJ9yS3sMns40V8A436JulB0ngMbk7ECtZfjPaqS/vTAJ1sE8S51
+         sVrMvuqoDds7otX+oYwC6TJv923S32/I76VkOCJBgwbFe/L1yxQAcMY61cAmzBhRGo/U
+         YZr9wQjKfOZ8b/L89E+4OMPvLd/igSbCy7sTLVtW6mP35fFVc1ocWwc/K0ljHipxMWYF
+         74mZC4tK5qHo+jk+yhL2WqLBVAWy4aP3Ne2q2m9DU8bVoKabcH75oBlkAeKApk2cgDam
+         UigQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795486969; x=1796091769;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WvgO7pqnsYsS4en6wj3vVV2RD6XhcMibM3J3Ihuie2c=;
+        b=b3JJ91P4Nm88kwH0qa9wicrMX/4VogLJOiVyKdq8Nk1b0ghXambkuXwkWpwrcdFD17
+         FTzOjbISMxnxC1bmHu/L4R1aGcwq5luoQAN/PuzecjLu0WW9lHwnde1HS6TpsDWcSNhS
+         Zk+WOtY4F9MTKgmzYqzV35SJaMlSMB/HYhSfda9P6SjvEJMt7b/L0I4d+lJsCHoQSyVz
+         /zCudLSweRzprURuBBMY+AAvJ1kozgrKiHHWHz+YsOlZ6oIPFHkHjbHc5UM/+NMsReG5
+         Behz599yaRLtyil85kZKx1Hm0TUf9gI+zdHK+8713hDF0a/l9DeE7SomQUVy3OSMa9lv
+         uByQ==
+X-Forwarded-Encrypted: i=1; AL+hErEWETPp7CzVUbk+H3NNaUmByikdEjY9ZYmlr54hD1WQ/GBxers6r5f5KTFBvMOosfo2/cKQb0oq7hk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9cZTbh+YKrBwmYs5MB6Jm/o2SwA95erZdxHVbNYxnztchVqAQC
+	Kz0qpMZWTG+M9GXpXgVgauoZXClaRBIammjJSfcPLOd4f2rz92nh4s/P
+X-Gm-Gg: AZFdTZd7KugVUDMV9t4u/8fz+qgsfbbk8pHYmVn5Ltou2XGYAyTW2e+xPAp4M9vv+De
+	ZMPZbgnnG6P4W8Gzrk9rQDDW130PeQiQith1In9CM6+M8EWAi/030c3E2BFtxTg8Szlq8HS4DLE
+	y+XUxEsikT9wpXGSgIUhM0MNDuWYZoSlfq9qKbV5i/cf7msLJs+Pl7AXZwm8Fe2cp2ydhRLTirh
+	vcD2co5EJGjIKGtKQkuwwzbXshM6/Looh5DzuK4Bq0oWuHgG7nPkz62DTDHvXdXTr4sT7QKSVpb
+	8x2+D8WjsOrwcGFwpk/sHDPU39Hj+o/LNAIfK7IroLqrcfynx0UKAVnEhffEo0FQX09ZNCPFlXr
+	FrAlo1p7wBZHBimd+kYz5oBfPmapXuIDjJ3wTV3DepYqANGcy2y2t4Hd9XFBGbZofpzHcl1ZEvk
+	atBrS9Yn60YGFLei51vc4o482MfTL+vGANvDkJD7ZlwgsBlvkD/tN1B8+Korsorlk28sTMGs9mr
+	AigMNTJONXAptGocMd3Oi6v/1QIz6LavgX3hUJJaHKNzgYLnrSlIWLIzqAmu4/Mfx8iQPNh/pJg
+	SrKvp+WygcFKaUHOutQkKWBQ1AZRNRZF/N7ikFvxhxvfflYa2lIOzkm6seUy2St8FWU8uCxv2w8
+	AI90Un0z7Jo31pSYuK73ITTl6
+X-Received: by 2002:a17:902:e845:b0:2ed:3eeb:b0db with SMTP id d9443c01a7336-2f03f17d16fmr137924885ad.17.1795486968838;
+        Mon, 23 Nov 2026 18:22:48 -0800 (PST)
+Received: from [127.0.1.1] ([74.176.208.23])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f04f6049dfsm51794725ad.19.2026.11.23.18.22.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 18:22:47 -0800 (PST)
+From: Yaohan Li <shunsheng1218@gmail.com>
+To: Mika Westerberg <westeri@kernel.org>
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v3] thunderbolt: cancel the queued control requests on
+ teardown
+Date: Tue, 24 Nov 2026 10:22:42 +0800
+Message-ID: <179548696261.1834925.3608072470968351391@gmail.com>
+In-Reply-To: <20261123055240.GN229695@black.igk.intel.com>
+References: <20261119075557.3399335-1-shunsheng1218@gmail.com>
+ <20261119111907.3616041-1-shunsheng1218@gmail.com>
+ <20261120042721.420468-1-shunsheng1218@gmail.com>
+ <20261123055240.GN229695@black.igk.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,85 +105,18 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] usb: gadget: raw_gadget: unlocked dev->req free in
-  gadget_bind() error path
-- [Low] usb: gadget: raw_gadget: missing Fixes trailer for gadget_bind()
-  leak fix
---
+Hi Mika,
 
-commit 02db8ff1f01d6f46fdd516cc5c3f8446a7fb6921
-Author: Zhijian Han <hanzhijian1991@gmail.com>
+Thanks for the feedback.
 
-> usb: gadget: raw_gadget: fix memory leak on connect event failure
->
-> gadget_bind() allocates an ep0 request and stores it in dev->req.  If
-> raw_queue_event() fails to queue the connect event, the function
-> returns without releasing the request, leaking it.
->
-> Release the request before returning in that case.
->
-> Reported-by: syzbot+d83b3c49738aea97c0e5@syzkaller.appspotmail.com
-> Link: https://syzkaller.appspot.com/bug?extid=3Dd83b3c49738aea97c0e5
-> Signed-off-by: Zhijian Han <hanzhijian1991@gmail.com>
+I don't have access to Thunderbolt or USB4 hardware at the moment, so I
+cannot provide the hardware reproduction or the regression testing you
+asked for.  I will put both RFCs on hold until I have that evidence.
 
-[Severity: Low]
-Should this bug fix include a Fixes: tag for 83e30f2bf86e ("USB: gadget: Fix
-the memory leak in raw_gadget driver") or f2c2e717642c ("usb: gadget: add
-raw-gadget interface")?
+I also take your points about keeping the fixes small and writing the
+changelogs myself.
 
-> diff --git a/drivers/usb/gadget/legacy/raw_gadget.c b/drivers/usb/gadget/=
-legacy/raw_gadget.c
-> index 4febf8dac7ca5..33d70b552b6d9 100644
-> --- a/drivers/usb/gadget/legacy/raw_gadget.c
-> +++ b/drivers/usb/gadget/legacy/raw_gadget.c
-> @@ -316,6 +316,8 @@ static int gadget_bind(struct usb_gadget *gadget,
->  	ret =3D raw_queue_event(dev, USB_RAW_EVENT_CONNECT, 0, NULL);
->  	if (ret < 0) {
->  		dev_err(&gadget->dev, "failed to queue connect event\n");
-> +		usb_ep_free_request(gadget->ep0, dev->req);
-> +		dev->req =3D NULL;
->  		set_gadget_data(gadget, NULL);
->  		return ret;
->  	}
-
-[Severity: Medium]
-Can freeing and clearing dev->req without holding dev->lock race with
-raw_process_ep0_io()?
-
-A running raw-gadget driver can be unbound and rebound via sysfs while
-dev->state remains STATE_DEV_RUNNING.  Because gadget_bind() publishes
-dev->req and dev->gadget under dev->lock and drops the lock before calling
-raw_queue_event(), a concurrent raw_process_ep0_io() can observe
-STATE_DEV_RUNNING before raw_queue_event() fails and sets STATE_DEV_FAILED:
-
-CPU0                                  CPU1
-gadget_bind()
-  spin_lock_irqsave(&dev->lock, ...)
-  dev->req =3D req;
-  dev->gadget =3D gadget;
-  spin_unlock_irqrestore(&dev->lock, ...)
-                                      raw_process_ep0_io()
-                                        spin_lock_irqsave(&dev->lock, ...)
-                                        /* dev->state =3D=3D STATE_DEV_RUNN=
-ING */
-                                        dev->req->buf =3D dev->ep0_urb->buf;
-                                        dev->ep0_urb_queued =3D true;
-                                        spin_unlock_irqrestore(&dev->lock, =
-...)
-  raw_queue_event() -> fails
-    dev->state =3D STATE_DEV_FAILED;
-  usb_ep_free_request(..., dev->req)
-  dev->req =3D NULL;
-                                        usb_ep_queue(..., dev->req, ...)
-                                          <-- NULL deref or use-after-free
-
-Even if raw_process_ep0_io() calls usb_ep_queue() just before
-usb_ep_free_request() runs, freeing an in-flight request or passing a NULL
-dev->req to usb_ep_dequeue() on interrupt will corrupt endpoint state.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261124012837.2071=
-714-1-hanzhijian1991@gmail.com?part=3D1
+Thanks,
+Yaohan
