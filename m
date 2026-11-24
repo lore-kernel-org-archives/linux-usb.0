@@ -1,51 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=154.81.10.94
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795529022;
-	b=EV2RsXlCXkmR0xllkZxabdcms+KcuxMR4SMDgt9quqGOyWdBL0hljk/BLSiTyDIWTTfB
-	 DHJf+m+aenAMhzOJJu6LHYbWKEfW7rD1kcSYqO1e/e7hl/7iw6v3D+CsNXITgeplvsccz
-	 H26eAbTZvasAs7kV+qP/k+t9645Yfu7EeSC1qKF7/ManNE5dqaYThtl//+CTZff2CQi6/
-	 MoAVBh6iaIZT3R/kwn+R6Lg/KWF9MSfnrQAhUSDe4fBhzo89u5ImlaqKt1Y03i1H9fRGm
-	 VTFOiwsJr+6Wb2BOkBdddDfMSDKU5jI37OoTq88WMCe77Xw2V2MIl0sSoRdiPqUhY4w==
+	t=1795529555;
+	b=0Pb3JJoszMVo/JxzBe8fap+qxfbMGbAq8BrUdGBDoHKwzvqtmOqO05xPFjHmUBpaeEzQ
+	 8pPuggRSgUnQb/nM1sBioVyp1fcn81EnPbY58IjgSyPzzwtpcklo5JRrk84rU5IJRHJhQ
+	 WZPsqaIITuoogKP3ebcAjSeW8oAw/CuYqr96q0lZbFvlA/NiXL4npLRiSBC2HmZbJE1eR
+	 X2G1NaO31YDYmp1Jr4ckI+oQDhIJa4+476yzKV2mJtEv5xHMcv79ITNP/J+NF57cbx92O
+	 eCUzR9T1a0EzM792v+aHeIKmh2UZwjwCUCH2dDlOwl7+AcgkDF4ueA/kVVR62n1FVyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795529022;
-	h=DMARC-Filter:Content-Type:Content-Transfer-Encoding:Message-ID:To:Cc:
-	 Subject:X-Priority:X-Mailer:X-Originating-IP:In-Reply-To:References:
-	 MIME-Version:Received:From:Date:X-HM-Tid:X-HM-MType:X-HM-NTES-SC:
-	 X-HM-Spam-Status:DKIM-Signature;
-	bh=HI3+zRoML73VqUDFgUkem+fi9Zk9wVZtNVO6T+O4umo=;
-	b=U0OQkIFDYJHSQ6HPzYGiLazbetJMdpcEAhc5pkoutbd9JpSLhary5zqGbS7yNzYcaNOh
-	 bfxH4bxp89LRwHLI7tWVUr/clewjx+5FJEsFAzvxRVbH7SvV9Ly8f75Q0LerpAikihpKu
-	 RJ+4KzBQ39/lu1cPHGpzEbNnWpWodagwU4Gd3/8Q8Y1yg7FStQCZ6QZeCRB9TaGYGE4vG
-	 uTWI3ZKObeBHjI4yM+RT6ROM5kEhJJuIgxw4hLXmyOx/OtnmfsCY8eaP1mwrA06AIMzh5
-	 Ltvlnzm6Qnhyv6t9U9dvG58pUVhHNnO+GM4K2+RQSLKA1RPUnAtpq7FiemdDaYN8WwA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795529555;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=Ht6a9Ts55EUwl/9pAC+7DHZmdUzaMpvPagpqVmMJzTc=;
+	b=20pYaJC/m2UW092cdLRK9+uB2yKndj55O9AIHhoK3Yqj/rktiZZUl25h1Ji8SRmnGnOv
+	 JfIrikaa1cTHid4uclPi2acbertctXXr2jruNm3aYq00I7bi/YxtD0TI5s7p3YKEldCMm
+	 XkJW2BPTcEBXPuPX6FZdzOgjkfVv8qxf+E9Ivzd/klBAdbHT5LDH0civjyETw6DCI8YdQ
+	 aa6rp1w0z9MxZ4FpzfkyTkLDW5xlkprpZT9U7iHOhfSpESDeF3Zizxq3mSWtyHyVj4ilH
+	 7/ldlUdT7y0UhTs0ppcBYAfv4SYnOj5c+RHVO2kck32b3/9/Ff4UhwVtMKEIvBatm8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.sdu.edu.cn;
-	spf=pass smtp.mailfrom=mail.sdu.edu.cn;
-	dkim=pass header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b="D/uKJ+0u";
-	arc=none smtp.remote-ip=154.81.10.94
-Received: from mail-m1094.netease.com (mail-m1094.netease.com [154.81.10.94])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=J1AsbAII;
+	arc=none smtp.remote-ip=209.85.219.41
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599DB606A326;
-	Tue, 24 Nov 2026 14:03:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 599DB606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sdu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sdu.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CAF606A326
+	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 14:12:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6CAF606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=D/uKJ+0u
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-Message-ID: <ALsAxABOLObQtvY4cNh8h4ri.3.1795529011462.Hmail.202321181@mail.sdu.edu.cn>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Neill Kapron <nkapron@google.com>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=J1AsbAII
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-92125687442so45688086d6.2
+        for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 06:12:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1795529554; x=1796134354; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Ht6a9Ts55EUwl/9pAC+7DHZmdUzaMpvPagpqVmMJzTc=;
+        b=J1AsbAIIOj558TKrW6Xgyf3YmEpePWEh7+GZrWJJVuOTPz9fsTZTbC2jOh2lLNnp8M
+         v0ePVusdqcnTvjNEhXKaB1cXvBL2oVDRvE1+9WmZ8VatU29VhD/I4nvybjwpzXCaXlkH
+         Z+y1WM+tdfRV9pY1QWh/BJgvxjWIGP93gPbVrZ1EsWkC7sLAN/GhXzZkpeo/BPcg7Md7
+         AKdfjNvoRLE4OCoPfB8ccgVlTkMxnXigRGMSvpMjC9D1cTRq5ooBZ1nADHPukBhLsk1K
+         74NyzDv9RvdLgxh/2qLb1JeBVIRvib0jW5+YaKjM12FKEpHrQ0Yy3wEj2cRT3Mbat1K8
+         QFvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795529554; x=1796134354;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ht6a9Ts55EUwl/9pAC+7DHZmdUzaMpvPagpqVmMJzTc=;
+        b=RY6wLrqGKwA00Ml7okE0NkCWkxcoJj6kVmsO4bB6wVraNXW3Jqg8yCYErWTeaodabF
+         jEitE0RCHur+yrH/LkFyUX4Ln4z3LIDrkop/rJFVckKsL9khJbZhjwW1RvOYcFcpPK5j
+         g7putftTlo9jbDztgfwVw2wwqpKxTkfbAUUssz4y8FiJPbE4HREM207WZ23OA66R+qiF
+         S1SJiNyn7s/dP4mM4au6X2ewTOEpUQkbD6kCm8+ONP0pTalrCAywlZmg7gEOo27nGhEz
+         4RatVlnnRRHmTOpUM1Hbj9VaT4dM/hbxBzx7VMHMBmLSraIykUKStfnYIIjQdMoe7GHN
+         aF6w==
+X-Forwarded-Encrypted: i=1; AL+hErFQ6Rcju+h+YtlPTPNN16mY0LUcWldMlstyDXspksKY8GrkFWOE7Ur7DiKYauT4gby1mYjIqGgT7To=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9B0lI8LEglm7XD4MKAgSwc8tbxXb20JYXLdlGU7jBvqsESqQyv
+	gFuTuKJ7G89h8ElgkBzPCrKky56oWqC2DZoVKM0AmF1rC/D1fHHTT0+7TNEnrJecoA==
+X-Gm-Gg: AZFdTZdfiG55/Nc3L+p6LdNxb0e7L9AEgPd9aY9yp/d777oatY4eY5PHOUS+lnHALIA
+	HkJUaRtdXjdUE4FBJptT1HeQgVfYSjduZvNzbKlRCqi3Ntf2Nq8FwYzmA6Wxn7ctbEJLHzjxC6B
+	UxxmUzG0BeHuzFF117x8ndUj+d0kituIGXBhDNYl5Z1X0oOXrAKwgesZVB+2Jt+K8TgvGItkcz4
+	//YAU+WVxTcnHxMzPSEDibtSOS5LEM8yIv0uVBTEXC9883WH6KXpy4uvA4d772qCHr/iEXcXVz1
+	xfxOIS/G/Vkyqnwc1Ri7Lxix4ilctiJrND72co2rWjxAfjngdYy8XnmRAq2OWJkffABVMcOVU15
+	SZnrtg/koCtpH09L1VPJWhqR7TQxwioGBpi5hjVMBYdxdyGFYivYEeGet06HlT1/V0aG/WWQ60u
+	ntEisQ/Xofn5vj7ldUbFh8QwDbHWrg+ID7G2aVx1AFbAuMOWs4vnUfVYopl5G11IYGSmJKJ5w6Y
+	CX9WMAMvqlvJ7tnkGYNEk1HQqaTZebRDQEZH5sgbDkvGCOL5KMPAxJKA7aRyoSeXGPRsEeQe55Y
+	jjm15DtY27GnSjg8qDiihG3HkMcKzw==
+X-Received: by 2002:a05:6214:27e6:b0:917:af36:df30 with SMTP id 6a1803df08f44-92134a69ac9mr267449386d6.16.1795529553760;
+        Tue, 24 Nov 2026 06:12:33 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d00:161a::9a34])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349cd592sm138586576d6.16.2026.11.24.06.12.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 06:12:33 -0800 (PST)
+Date: Tue, 24 Nov 2026 09:12:30 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Adriano Cordova <adrianox@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com,
 	stable@vger.kernel.org
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSCAxLzJdIHVzYjogZ2FkZ2V0OiBmc2xfdWRjOiBGaXggcG90ZW50aWFsIHVzZS1hZnRlci1mcmVlIGR1cmluZyByZW1vdmFs?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com web
-In-Reply-To: <2026112015-lumber-flyer-d8f6@gregkh>
-References: <20261118-324f82bd41-usb-gadget-0@mail.sdu.edu.cn> <20261118-324f82bd41-usb-gadget-1@mail.sdu.edu.cn> <2026112015-lumber-flyer-d8f6@gregkh>
+Subject: Re: [PATCH v3] usb: gadget: inode: fix use-after-free of struct
+ ep_data
+Message-ID: <a47bfaa7-b82b-44ce-a4d7-573e212b9594@rowland.harvard.edu>
+References: <20261124084144.3208824-1-adrianox@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,57 +99,77 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Received: from 202321181@mail.sdu.edu.cn( [101.76.249.61] ) by ajax-webmail ( [127.0.0.1] ) ; Tue, 24 Nov 2026 22:03:31 +0800 (GMT+08:00)
-From: =?UTF-8?B?5p2O5bm/56GV?= <liguangshuo@mail.sdu.edu.cn>
-Date: Tue, 24 Nov 2026 22:03:31 +0800 (GMT+08:00)
-X-HM-Tid: 0aa20dde1987d0cdkusyef3b67ad248cc
-X-HM-MType: 1
-X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMVHpP02bZAKsMEiErRSAekjx+ys+KNZNl0PLwl
-	f2MeqR5lbiqKsoq8sm3hZVy9q3VetZ+Wq0Te/EdHEVk+2W3XygE0t2b+veD5v+x2w+urvHGDFo8E
-	1w4QTE3rOb9NJ317UcvoSbBVgCnZeqAYiPp08=
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZTktDVh8eSU5PQhpPGk8dSVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlKS0pVTE1VSU9CVU1KWVdZFhoPEhUdFFlBWU9LSFVCQk
-	lOS1VKS0tVSkJLQlkG
-DKIM-Signature: a=rsa-sha256;
-	b=D/uKJ+0uwPuQOme/sVt2TP4G6VPwy62d+GMDXMtIrTTShkyH0r3pSRn8f/YzLIMUeoHDoKJHy2pq070Mr0I4lxhjimhb52/HJvxpCMb1U9efMRFuT/rsq1K7a/QiYST4zIKCVKvR8SUDuWv24uaDQGMhBx0TLMT73Dr5iNTsogI=; c=relaxed/relaxed; s=default; d=mail.sdu.edu.cn; v=1;
-	bh=HI3+zRoML73VqUDFgUkem+fi9Zk9wVZtNVO6T+O4umo=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261124084144.3208824-1-adrianox@gmail.com>
 
-CgoKSGkgR3JlZywKClRoYW5rcyBmb3IgdGhlIHJldmlldy4KCgoKRnJvbTogR3JlZyBLcm9haC1I
-YXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KRGF0ZTogMjAyNi0xMS0yMCAyMDox
-MDo1NApUbzogIEd1YW5nc2h1byBMaSA8bGlndWFuZ3NodW9AbWFpbC5zZHUuZWR1LmNuPgpDYzog
-IE5laWxsIEthcHJvbiA8bmthcHJvbkBnb29nbGUuY29tPixsaW51eC11c2JAdmdlci5rZXJuZWwu
-b3JnLGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcsbGludXhwcGMtZGV2QGxpc3RzLm96bGFi
-cy5vcmcsc3RhYmxlQHZnZXIua2VybmVsLm9yZwpTdWJqZWN0OiBSZTogW1BBVENIIDEvMl0gdXNi
-OiBnYWRnZXQ6IGZzbF91ZGM6IEZpeCBwb3RlbnRpYWwgdXNlLWFmdGVyLWZyZWUgZHVyaW5nIHJl
-bW92YWw+T24gV2VkLCBOb3YgMTgsIDIwMjYgYXQgMTA6MTA6NTNQTSArMDgwMCwgR3VhbmdzaHVv
-IExpIHdyb3RlOgo+PiB1c2JfZGVsX2dhZGdldF91ZGMoKSBjYW4gZHJvcCB0aGUgbGFzdCBnYWRn
-ZXQgZGV2aWNlIHJlZmVyZW5jZSBhbmQgY2FsbAo+PiBmc2xfdWRjX3JlbGVhc2UoKSwgd2hpY2gg
-ZnJlZXMgdWRjX2NvbnRyb2xsZXIuIFRoZSByZW1haW5pbmcgcmVtb3ZlIHBhdGgKPj4gdGhlbiBk
-ZXJlZmVyZW5jZXMgaXQgdG8gcmVsZWFzZSBpdHMgcmVxdWVzdHMsIGVuZHBvaW50cyBhbmQgRE1B
-IHBvb2wuCj4+IAo+PiBIb2xkIGEgZ2FkZ2V0IGRldmljZSByZWZlcmVuY2UgdW50aWwgdGhpcyBj
-bGVhbnVwIGhhcyBmaW5pc2hlZC4KPj4gCj4+IFRoaXMgaXNzdWUgd2FzIGZvdW5kIGJ5IG91ciBz
-dGF0aWMgYW5hbHlzaXMgdG9vbCB1bmRlciBkZXZlbG9wbWVudC4KPj4gCj4+IEZpeGVzOiBlYWIz
-NWM0ZTZkOTUgKCJ1c2I6IGdhZGdldDogZnNsX3VkY19jb3JlOiBsZXQgdWRjLWNvcmUgbWFuYWdl
-IGdhZGdldC0+ZGV2IikKPj4gQ2M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcKPj4gU2lnbmVkLW9m
-Zi1ieTogR3VhbmdzaHVvIExpIDxsaWd1YW5nc2h1b0BtYWlsLnNkdS5lZHUuY24+Cj4+IC0tLQo+
-PiAgZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9mc2xfdWRjX2NvcmUuYyB8IDIgKysKPj4gIDEgZmls
-ZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKPj4gCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3Vz
-Yi9nYWRnZXQvdWRjL2ZzbF91ZGNfY29yZS5jIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9mc2xf
-dWRjX2NvcmUuYwo+PiBpbmRleCA4NzhkNzBiNTU1MzAuLjlkOWQyMTY0YzViZiAxMDA2NDQKPj4g
-LS0tIGEvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9mc2xfdWRjX2NvcmUuYwo+PiArKysgYi9kcml2
-ZXJzL3VzYi9nYWRnZXQvdWRjL2ZzbF91ZGNfY29yZS5jCj4+IEBAIC0yNTM3LDYgKzI1MzcsNyBA
-QCBzdGF0aWMgdm9pZCBmc2xfdWRjX3JlbW92ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2
-KQo+PiAgCURFQ0xBUkVfQ09NUExFVElPTl9PTlNUQUNLKGRvbmUpOwo+PiAgCj4+ICAJdWRjX2Nv
-bnRyb2xsZXItPmRvbmUgPSAmZG9uZTsKPj4gKwlnZXRfZGV2aWNlKCZ1ZGNfY29udHJvbGxlci0+
-Z2FkZ2V0LmRldik7Cj4KPlRoaXMgZmVlbHMgd3JvbmcsIHdoeSBhcmUgeW91IG5lZWRpbmcgYSBm
-YWtlIHJlZmVyZW5jZSBoZXJlPwo+Cj4+ICAJdXNiX2RlbF9nYWRnZXRfdWRjKCZ1ZGNfY29udHJv
-bGxlci0+Z2FkZ2V0KTsKPgo+VGhpcyBpcyB3aGVyZSBpdCBzaG91bGQgYWxsIGdvIGF3YXkuICBJ
-ZiBub3QsIHRoZW4gcmVvcmRlciB0aGUgY29kZQo+cHJvcGVybHkuCj4KCkkgdW5kZXJzdGFuZCB0
-aGF0IHRoZSBkcml2ZXIncyBjbGVhbnVwIHNob3VsZCBwcmVjZWRlIHRoZSBmaW5hbCBnYWRnZXQK
-cmVsZWFzZSwgd2l0aG91dCBhZGRpbmcgYW5vdGhlciByZWZlcmVuY2UuIHVzYl9kZWxfZ2FkZ2V0
-X3VkYygpIGNvbWJpbmVzCnVucmVnaXN0ZXJpbmcgdGhlIGdhZGdldCB3aXRoIHRoYXQgZmluYWwg
-cHV0LgoKV291bGQgdXNpbmcgdXNiX2RlbF9nYWRnZXQoKSBmaXJzdCwgdGhlbiBjbGVhbmluZyB1
-cCB0aGUgZHJpdmVyIHJlc291cmNlcwpiZWZvcmUgdXNiX3B1dF9nYWRnZXQoKSwgYmUgdGhlIG9y
-ZGVyaW5nIHlvdSBtZWFudCBmb3IgdjI/CgpUaGFua3MsCkd1YW5nc2h1bwo=
+On Tue, Nov 24, 2026 at 05:41:44AM -0300, Adriano Cordova wrote:
+> gadgetfs_unbind() -> destroy_ep_files() frees each struct ep_data via
+> put_ep(), but the inode still points at that ep_data through ->i_private
+> with no reference of its own.  A concurrent openat() on an endpoint file
+> can therefore reach ep_open() and dereference the freed ep_data (the
+> mutex fast path), even while the inode outlives it.
+> 
+> Give the inode its own reference: take get_ep() when the endpoint inode
+> is created and drop it again from a new gadgetfs_evict_inode(), so an
+> ep_data can never be freed while any inode still points at it.  This is
+> also safe against dcache pruning, since the inode reference keeps the
+> count >= 1 until the endpoint is removed from dev->epfiles.
+> 
+> The inode now holds ep_data for its whole lifetime, so an open() racing
+> with an unbind never dereferences freed ep_data.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Reported-by: syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=7bf725ed337e37307001
+> Tested-by: syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Adriano Cordova <adrianox@gmail.com>
+> ---
+> Changes in v3:
+> - Add a Fixes: tag.
+> - Add Cc: stable.
+> - v1: https://lore.kernel.org/all/20260904163827.216389-1-adrianox@gmail.com/
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+
+>  drivers/usb/gadget/legacy/inode.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+> index cc059a6ee262..20453214e35e 100644
+> --- a/drivers/usb/gadget/legacy/inode.c
+> +++ b/drivers/usb/gadget/legacy/inode.c
+> @@ -1748,6 +1748,8 @@ static int activate_ep_files (struct dev_data *dev)
+>  		if (!data->req)
+>  			goto enomem1;
+>  
+> +		/* The inode keeps this ep_data alive via ->i_private. */
+> +		get_ep(data);
+>  		err = gadgetfs_create_file (dev->sb, data->name,
+>  				data, &ep_io_operations);
+>  		if (err)
+> @@ -2138,9 +2140,20 @@ static int gadgetfs_create_file (struct super_block *sb, char const *name,
+>  	return 0;
+>  }
+>  
+> +static void gadgetfs_evict_inode(struct inode *inode)
+> +{
+> +	/* EP inodes hold the reference on their ep_data via ->i_private. */
+> +	if (inode->i_fop == &ep_io_operations)
+> +		put_ep(inode->i_private);
+> +
+> +	truncate_inode_pages_final(&inode->i_data);
+> +	clear_inode(inode);
+> +}
+> +
+>  static const struct super_operations gadget_fs_operations = {
+>  	.statfs =	simple_statfs,
+>  	.drop_inode =	inode_just_drop,
+> +	.evict_inode =	gadgetfs_evict_inode,
+>  };
+>  
+>  static int
+> -- 
+> 2.51.0
+> 
