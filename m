@@ -1,100 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795486970;
-	b=Gq85VxCAHYW60JinV0+5oWLaaH4DQnjIyHrRGQuN8C+0S+5cqvSyklq6CM6yjx9FLtf0
-	 UKbnTJPPQ0qns7x1AOCnnP2hzZBhwfF0+pdMdxtHs5cyO8MBBD0cQBUA6lqF/tb/Wuqi9
-	 JvteYW2J5PwYv0YLS9Wz8fZ6YN61nt32Lqvgi/EonsAO2Iu6erBfC2QCTHjmbLYE83dx9
-	 M52nemg8RbjBC1gn+OidupmhDyvcMUanbHVHiut4cMhbAbGNsWDPRFA4RFfQ8JAtK4p/6
-	 bjvq76V6hOfIkCzL2XkhdfaXAb+ZJftttd5vyTDoqxTx1qcoJiHqjLjt3160tpOYRRQ==
+	t=1795486986;
+	b=R5MPYGmWyNmuKg4cg7DIdYNHyGteZsyGTkQ5ExKBybYQWKYH5nAT909l6kcH57tVr1Tf
+	 dlRKT4p5NaNPT2Xpxi86O8HJNAktXLZVLlnaUNx1LYT1LFZ6eX3wSbxyeCxhwia/N8fsd
+	 CNFcr9JFYlX0HVe1/LJAqDBjfkNIHSfY6lhVu+RRHz/5i2PevXo5NZuUQDlEVwFkfCIrz
+	 kMdvLishJYsopifXTcxzDsaGGKisLGcJlmg9gCOpgeOvoeI9umITOR1XZ8v5XdvpaL3Ng
+	 aX2ej++HxkixwrQ1MkiGa2W+CVtFaIuX1FsxurUrcgci3VXIcSZxXIWgLl7b501/L8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795486970;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795486986;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
 	 Content-Type:Content-Transfer-Encoding:MIME-Version;
 	bh=WvgO7pqnsYsS4en6wj3vVV2RD6XhcMibM3J3Ihuie2c=;
-	b=MDPWitFXlVjyrD0+/5zLzoy4Vx1qmUa69pFjR8T6vufay/sHhSTIqMx6tPJPR8Om9Zju
-	 Ix+6xf2yegz6YBVaIEp8V2tVu5wq20oJlII60sozw2s3hmp8ugMPxCK6Y006Hzc/QUYaH
-	 UxtCvAE9up8ABzVqEEJpQfworXR++NpIawaC9kTWY/ETc2BDGHV1R3ZL81R2rtMNYm+Jb
-	 YYb3CHeVM68lsKOf3uWJMLoW2u3gMPN0OHM7zBUN+X9I5B7cvK1uxMQrteAz2T1gItM4y
-	 7GzV8IW1K46oFDqlSGKrHjg+rx0pDVsrkHPEJrPMiySnPxVeNA3RDNElTyw4wZgUXEg==
+	b=XJLNtbCCMC716k7Dk9ANa3XT2W4zzE9DLQ5EftYTzDmFUyE5sBTdTh0Q8ql5604X1687
+	 FtVikfoXqAUQcHZSEXT9Lp60bg7ZXcRiHaC1HBRX/zeDUPPGgaDOFB+hECA55j8rwYSG7
+	 eUQ5O5KdBElVRgYqrd76GYMr1dxqRX8VfzHtnHU7SxPR4u/CgI5m0RttpZwUQ3go5dVcL
+	 iQydYkm87/3oSI8HN6PRG2NUpm0w1FcCesemWTl9kwt5+BZL0G4GpEDqi4tYOGHGc16tk
+	 im8y1qibTq2sTUCarvIwhIOCZ5+cdvoM+XN72DwB2lZStB+LO4op8MERu/g9/Semm0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pxUXIRv3;
-	arc=none smtp.remote-ip=209.85.214.181
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dEImYII+;
+	arc=none smtp.remote-ip=209.85.210.173
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AD6606A31E
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 02:22:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7AD6606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0731C606A322
+	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 02:23:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0731C606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pxUXIRv3
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2f041f88577so21678675ad.1
-        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 18:22:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dEImYII+
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8b58d6f67a5so1943858b3a.2
+        for <linux-usb@vger.kernel.org>; Mon, 23 Nov 2026 18:23:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795486969; x=1796091769; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795486985; x=1796091785; darn=vger.kernel.org;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
         bh=WvgO7pqnsYsS4en6wj3vVV2RD6XhcMibM3J3Ihuie2c=;
-        b=pxUXIRv3cNSB2fqhDzEq++taJVOXNxAsvpFFq4Z3FNDeR5u30E+syPLebzg1eYZKLf
-         YGgYq1IXu1w62prUSCJ9yS3sMns40V8A436JulB0ngMbk7ECtZfjPaqS/vTAJ1sE8S51
-         sVrMvuqoDds7otX+oYwC6TJv923S32/I76VkOCJBgwbFe/L1yxQAcMY61cAmzBhRGo/U
-         YZr9wQjKfOZ8b/L89E+4OMPvLd/igSbCy7sTLVtW6mP35fFVc1ocWwc/K0ljHipxMWYF
-         74mZC4tK5qHo+jk+yhL2WqLBVAWy4aP3Ne2q2m9DU8bVoKabcH75oBlkAeKApk2cgDam
-         UigQ==
+        b=dEImYII+AfBPykE1rln6dfkL/AoigkBcD+0xCIDiMpHb0H8cNcjZkygfwDhgtjDfcJ
+         9Fo/Od1n/r+bfOkmHI5VnGla2dpbCoMf21vdRipAzEwyw4z+bW6s2y1rpBcihJEm0H5I
+         yL+cO/0mhUu1Zk5yczDwP1D0zZX0QVhOrUejPEVarYUtJorOiYsLISNW8bUdqVLiZJky
+         4Q0fsvMtpnx8J+ZF0M1CrwQDO6ODKggsQ1LSFfZiKSjfgOxpXv5FBjUlsjrbVMlLMnax
+         VJDTfHgIfvNp/d9GMakzf5ixPqr3Ym4Th/X+gzTtKbMYJhmCRSh0apOqXXrBefiGAVxq
+         D5bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795486969; x=1796091769;
+        d=1e100.net; s=20260707; t=1795486985; x=1796091785;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
         bh=WvgO7pqnsYsS4en6wj3vVV2RD6XhcMibM3J3Ihuie2c=;
-        b=b3JJ91P4Nm88kwH0qa9wicrMX/4VogLJOiVyKdq8Nk1b0ghXambkuXwkWpwrcdFD17
-         FTzOjbISMxnxC1bmHu/L4R1aGcwq5luoQAN/PuzecjLu0WW9lHwnde1HS6TpsDWcSNhS
-         Zk+WOtY4F9MTKgmzYqzV35SJaMlSMB/HYhSfda9P6SjvEJMt7b/L0I4d+lJsCHoQSyVz
-         /zCudLSweRzprURuBBMY+AAvJ1kozgrKiHHWHz+YsOlZ6oIPFHkHjbHc5UM/+NMsReG5
-         Behz599yaRLtyil85kZKx1Hm0TUf9gI+zdHK+8713hDF0a/l9DeE7SomQUVy3OSMa9lv
-         uByQ==
-X-Forwarded-Encrypted: i=1; AL+hErEWETPp7CzVUbk+H3NNaUmByikdEjY9ZYmlr54hD1WQ/GBxers6r5f5KTFBvMOosfo2/cKQb0oq7hk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9cZTbh+YKrBwmYs5MB6Jm/o2SwA95erZdxHVbNYxnztchVqAQC
-	Kz0qpMZWTG+M9GXpXgVgauoZXClaRBIammjJSfcPLOd4f2rz92nh4s/P
-X-Gm-Gg: AZFdTZd7KugVUDMV9t4u/8fz+qgsfbbk8pHYmVn5Ltou2XGYAyTW2e+xPAp4M9vv+De
-	ZMPZbgnnG6P4W8Gzrk9rQDDW130PeQiQith1In9CM6+M8EWAi/030c3E2BFtxTg8Szlq8HS4DLE
-	y+XUxEsikT9wpXGSgIUhM0MNDuWYZoSlfq9qKbV5i/cf7msLJs+Pl7AXZwm8Fe2cp2ydhRLTirh
-	vcD2co5EJGjIKGtKQkuwwzbXshM6/Looh5DzuK4Bq0oWuHgG7nPkz62DTDHvXdXTr4sT7QKSVpb
-	8x2+D8WjsOrwcGFwpk/sHDPU39Hj+o/LNAIfK7IroLqrcfynx0UKAVnEhffEo0FQX09ZNCPFlXr
-	FrAlo1p7wBZHBimd+kYz5oBfPmapXuIDjJ3wTV3DepYqANGcy2y2t4Hd9XFBGbZofpzHcl1ZEvk
-	atBrS9Yn60YGFLei51vc4o482MfTL+vGANvDkJD7ZlwgsBlvkD/tN1B8+Korsorlk28sTMGs9mr
-	AigMNTJONXAptGocMd3Oi6v/1QIz6LavgX3hUJJaHKNzgYLnrSlIWLIzqAmu4/Mfx8iQPNh/pJg
-	SrKvp+WygcFKaUHOutQkKWBQ1AZRNRZF/N7ikFvxhxvfflYa2lIOzkm6seUy2St8FWU8uCxv2w8
-	AI90Un0z7Jo31pSYuK73ITTl6
-X-Received: by 2002:a17:902:e845:b0:2ed:3eeb:b0db with SMTP id d9443c01a7336-2f03f17d16fmr137924885ad.17.1795486968838;
-        Mon, 23 Nov 2026 18:22:48 -0800 (PST)
+        b=r73ebUxRdSbBeEr5wGUw69nnaKKTOunxp67c4mpmUeViKFkMfQYYtZV9jdhwMwMbBt
+         Yy/ts/JTciog0EwIqmmcpWOO0E8k2GuPWvxoThNKN0WRP/36lYf8DmaC3++1nvmeaypr
+         9AEx2dcanbpfIX4axhymy8yYw+SHyjGhuUE+CD0ZlL4DCzAP3sm2FfNbAiZHj3fKp6E/
+         +1xWygD/qrqgSPVHvkOelVCbc7jNWPtM7AAKo/Hmhhst0xHpK8iup+7je5acE9VxWz0Z
+         WJSmD0p7JMFJpGsIw6RrKOOsw0QL1ISz76v4XRtabvGU921zrusEgxJOh31OJs2mgzir
+         L+tQ==
+X-Forwarded-Encrypted: i=1; AL+hErHdQk3ZGt7f7/NEH/Y7G6D3mY+5uU33Rkqd8AgtMWnItPAuzQM9LsSJQUQolRFS7fxlioIIMmvhmSQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Xifyc1BprseZ04XJ1PnJ+u/+NEF7EPC6LGEPnEGAKTRevsBK9
+	JN+Xb4m335IqhUuhnw4QMDhcd2OFD9l46oqVYFReRj9MCM7Ob8KxNctz
+X-Gm-Gg: AZFdTZd/X+6wCHppEI+HcfQI98G9nBZAgXdf8vTnMRaswVaHHMbkm6yBSARdi+U9Lz2
+	5Fx+NMVaWuti4pUKQA0GkrDxUkfZQ95WdwD6YrX8r6DfSoHUrS5fF3eZhMyVYKD1zK0GHzD/j6h
+	Jqf6OnCvwc6k0Mi5LnckXUJSlWFwJnRH9w5gPHOjHa3egD+L6/K6DM1aMYJ7C0mtRDeKh3hhyaI
+	pgN8BM4uVmbZUEFKIhzJM9dTkNku5/9MK4x9Vg1LLUU9VfbIKuE9s2KQbhPBxH7laDmw1LEY+lg
+	2Ov1sV01h8otsyZbLU9cwunNvrnRpP3iZicAQCrUJS29Ml5f+KGcglxlXFkBRoAyjHszPNHtXZt
+	+s5/CgAPN5giAAwRU7R7WPAc13XG8d8Sg+JmvOlG5ij4MetnnVqdUg3r5T+upKYQ7WvZDlNNVez
+	GKullUtvj0OxpJlh2GkLV8xW5ptGl7dWeHg5rbVdyPqGts9MElAkGtojzLegVys0N7P0jgHyu+v
+	vHEYWeOiFg7dEu7IBiFS+ROk+iFKHGNrxf52N80lpxTzMcn7aDYobmPNbemDq5rllIUAGzxoHK7
+	OfF/igSXZrA6+ej6SPfa2rUWv1UVsFOQ8fIfdoCe9Wi19x0fP2W8kXeB6j9TNGbdRPgtd+U8ciY
+	i+56HmcQ3jXd17LiD0tFycJxa
+X-Received: by 2002:a05:6a20:ef19:b0:3f8:500c:1de5 with SMTP id adf61e73a8af0-4014ed55fd8mr12187901637.66.1795486985241;
+        Mon, 23 Nov 2026 18:23:05 -0800 (PST)
 Received: from [127.0.1.1] ([74.176.208.23])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f04f6049dfsm51794725ad.19.2026.11.23.18.22.44
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c87077944bsm6439892b3a.2.2026.11.23.18.23.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 18:22:47 -0800 (PST)
+        Mon, 23 Nov 2026 18:23:04 -0800 (PST)
 From: Yaohan Li <shunsheng1218@gmail.com>
 To: Mika Westerberg <westeri@kernel.org>
 Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
  Andreas Noever <andreas.noever@gmail.com>,
  Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v3] thunderbolt: cancel the queued control requests on
- teardown
-Date: Tue, 24 Nov 2026 10:22:42 +0800
-Message-ID: <179548696261.1834925.3608072470968351391@gmail.com>
-In-Reply-To: <20261123055240.GN229695@black.igk.intel.com>
-References: <20261119075557.3399335-1-shunsheng1218@gmail.com>
- <20261119111907.3616041-1-shunsheng1218@gmail.com>
- <20261120042721.420468-1-shunsheng1218@gmail.com>
- <20261123055240.GN229695@black.igk.intel.com>
+Subject:
+ Re: [RFC PATCH] thunderbolt: cancel pending DP bandwidth requests on teardown
+Date: Tue, 24 Nov 2026 10:23:00 +0800
+Message-ID: <179548698032.1835311.976395071942954809@gmail.com>
+In-Reply-To: <20261123054525.GM229695@black.igk.intel.com>
+References: <20261119023558.1495581-1-shunsheng1218@gmail.com>
+ <20261123054525.GM229695@black.igk.intel.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
