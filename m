@@ -1,71 +1,217 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.240.9.31
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795558027;
-	b=oGcAbsvB9gG+dEtngvhUm96IGmtR0JD5Rs/uvrGBxBoCn2YRAEUU/ZFdrrRyFM/dfnZy
-	 p6fI8AwX0d6ejWb51Ad0uQzsux/SuPRwiiCBcxQx3Znps+rLZbpe0Bh0LTZLt+DouVkto
-	 itnF0UUUJkqchEFWAhOsmI7DJv3nYo2sAYy2lO0FzB9PXiFuRLJPGjfoDONt1cKLd+ZiE
-	 iRC4EdIJJegy/qgzlrOEs4m/5hqOhA/7QZ6ZYBxUPSZX+7zPrBO9xbz3QR5LgFvx9LxFa
-	 cu9o5ho2+6K+QtuMjL2D1eXCUQKe7iPx1tHP7cxTQvbdVNmuivC3fZjhOIPIBxee8sw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795558027;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:List-Unsubscribe:
-	 List-Unsubscribe-Post:References:From:To:Cc:Reply-To:Subject:
-	 Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:
-	 Feedback-ID:X-SES-Outgoing;
-	bh=RZ5eG4oApUlaap8ZcD6OHHiwIXso7soQIFLTpEiVLa8=;
-	b=20ThI2+DCEkkXI9HHA0j5QGZWpxWAw8lgQmL422uVnXZ9elKX2nTFLvWQ0B/TZcra8LW
-	 XDXVA7eVGSziVzK6RIU0kN9EoRL0qaqa1MmneCWFZvmyWxJXegNmjvm+BtJE/CA98fluF
-	 aO86LB2zvKvX8c8/RqFez9PLGFtwDAdOzdETQjkXPv8xZ0+UvtoIAQsgYJ3qCYhHp0FTI
-	 LmB8nVUov+0MYgSvURj0ndfl/CUj+F1mgXP44dfQG+STX++xvfVmfQQvTAOsGni5HaffS
-	 NCDA6PmrNroC2Zzr4ry8zS/tSoIcQiflrCu+WT22WcKltUXJrwxEu4lYD2iSIrNUgmA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.grokbot.com;
-	spf=pass smtp.mailfrom=mail.mail.grokbot.com;
-	dkim=pass header.d=mail.grokbot.com header.i=@mail.grokbot.com header.a=rsa-sha256 header.s=chya7do5z2af6fu5nhnfk24jer43js4a header.b=XHsH2mW4;
-	dkim=pass header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=nLYPHYIQ;
-	arc=none smtp.remote-ip=54.240.9.31
-Received: from a9-31.smtp-out.amazonses.com (a9-31.smtp-out.amazonses.com [54.240.9.31])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=148.163.158.9
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1795561170;
+	b=w3s4BCFsj/sYLyFBZvt7V7fvRLZwR7bl7UTWn0ce14K9GVyEZBt0ZmzSASyhIwIqnEM2
+	 1sdOAYLNtnSOwdA/uZPV7H0QDTuX4HArFL+80621jTlVy8n6th/4CHEVTn11HmoSt7t8h
+	 seTtYuisOwtOnt07IGeqyJZWbBpLOPUrbSijv+rqta1eCFFkIb7uM7zGSEqnx4o9jS5q+
+	 cf+Dhfp8+CDyClPMtxzrSApgsMmCuIXF+YcyzmKlBELijh/eYL1Pl/kdwl1M65M3llXXj
+	 9fUhv8XHxsTuxJ+C1EKfVRSD21fVF+Dz49b0UTXYsZueY5LrIhEX5d+FHMRWOB7KZ1w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795561170;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:Received:DKIM-Signature:Received:Received:
+	 X-SNPS-Relay:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:
+	 Message-ID:References:In-Reply-To:Accept-Language:Content-Language:
+	 X-MS-Has-Attach:X-MS-TNEF-Correlator:x-ms-publictraffictype:
+	 x-ms-traffictypediagnostic:x-ms-office365-filtering-correlation-id:
+	 x-ms-exchange-senderadcheck:x-ms-exchange-antispam-relay:
+	 x-microsoft-antispam:x-microsoft-antispam-message-info:
+	 x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:
+	 X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=U8wfbsToh/VfvvUKNFMCVUIhUCEO7d2CvVvk+mYXVwc=;
+	b=o1E9fm/pwUeYXsfmi9dDSC5OKPszq/V8GDXsgiZjKCMKFb1ejHiHQf44OQkW8iqVPXvS
+	 z1mRWsrJzDUsyZMpt7UsvrjHmXYTE92zGmLNF6Wedh12H6WgEkOSFfhJHKKwskhjpF5DX
+	 AwmhBLltbs6lKP948voTH+KMuvAhTM4ZSnlRnai+U8d4x9ozYRmOOUTXSuo/ZTI5YlUID
+	 VWYfvKOtYJylKlG+wBTU9FTJb/0SfcXifoPfTZynFBgig7eNY7xIkB0jhH3DVf/TMnbuy
+	 PYRDxdx3LATmdO/58Vt6fxgt9Remor2RrMM7K5m2In9yxqy8AhC9pP+nDsJKx9VgKrg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=synopsys.com;
+	spf=pass smtp.mailfrom=synopsys.com;
+	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=iqYiaQap;
+	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=csxM9csi;
+	dkim=fail reason="signature verification failed" header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=eL1c9ESA;
+	arc=fail smtp.remote-ip=148.163.158.9
+Received: from mx0b-00230701.pphosted.com (mx0b-00230701.pphosted.com [148.163.158.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1F2606A323
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 22:07:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC1F2606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.grokbot.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.mail.grokbot.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B103606A32C
+	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 22:59:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B103606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mail.grokbot.com header.i=@mail.grokbot.com header.a=rsa-sha256 header.s=chya7do5z2af6fu5nhnfk24jer43js4a header.b=XHsH2mW4;
-	dkim=pass (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=nLYPHYIQ
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=chya7do5z2af6fu5nhnfk24jer43js4a; d=mail.grokbot.com;
-	t=1795558026;
-	h=List-Unsubscribe:List-Unsubscribe-Post:References:From:To:Cc:Reply-To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
-	bh=kTDsr17n0x/DBCq52NLQy/7Ibf/viGEo80bIoSWbY88=;
-	b=XHsH2mW4e0rEUcmDKeo7EKyBB7v2Dxw3ZpY94YJV4/lFi4Ll95zfHFlBOpMCuBBH
-	3CzjL56EeiA6C/yq8yxbmOInc1bLTyo13moYAZOF4TqQExFgyBhjRF8KTcC/0iZokDS
-	r+FrkvjPIKZP9kvkWCFSCNQCUzpkGxSG8rLSRLbqQxgJBmm3A6gEGSMsUgU4JDNVEJX
-	HBEC941Pm39Tt0gweGaNnQMHKQe636ullmdVEtMSooBpuQ0ddrpX8dNkj0MTXGipPro
-	DKfTM8Y3Le2UGQxGgZ+pvWWL0RoEXaIlQIzxlyPOS8wEJn51EAWTNXt+tGCjq1fS7Xc
-	60ALcWlNUw==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1795558026;
-	h=List-Unsubscribe:List-Unsubscribe-Post:References:From:To:Cc:Reply-To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
-	bh=kTDsr17n0x/DBCq52NLQy/7Ibf/viGEo80bIoSWbY88=;
-	b=nLYPHYIQc6LuLidIRQlHyt6Fop4A+WuJ69+AWSdmnoZGs8bdxCJSaNoR+Ml1WfoD
-	8nmWgKDYxSKsBvKiuItdoYxhHd4amxXwfRx3palJmcLGLHioNUNXBskbVR4/VmXEiz8
-	f+0XWqLCAgqXKGfxVaaXVoF/CdU9lDszGnHwK4fM=
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-References: <2e4a3414-502c-41ca-9e60-00877dafc403@mail.grokbot.com>
-From: myitforce@mail.grokbot.com
-To: westeri@kernel.org
-Cc: andreas.noever@gmail.com, YehezkelShB@gmail.com, 
-	linux-usb@vger.kernel.org
-Reply-To: myitforce@mail.grokbot.com
-Subject: [BUG] thunderbolt: DP tunnel to USB4/TB5 hub torn down immediately
- (adapter unplug) on Alpine Ridge host
-Message-ID: <010001a20f992a5a-205d672f-7d03-4fd4-8c55-3cafc829d20d-000000@email.amazonses.com>
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2026 22:07:05 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=iqYiaQap;
+	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=csxM9csi;
+	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=eL1c9ESA
+Received: from pps.filterd (m0098572.ppops.net [127.0.0.1])
+	by mx0b-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOMYGSD379555;
+	Tue, 24 Nov 2026 14:59:26 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pfptdkimsnps;
+	 bh=U8wfbsToh/VfvvUKNFMCVUIhUCEO7d2CvVvk+mYXVwc=; b=iqYiaQapm5ps
+	Ot1Szg+feLqnibtkeNQ/zZY6sypN0xWBQM/MIfrtOgX27COMCajixM2Sw5aDbZ8G
+	XrY5tcPB/4QvOHcnb2EBjDOUz5ZXzZp98igQvSx3LwPik7hrVhysNSkmGVFCgSqZ
+	0urhQ0ObqtZSqPmL+jfc5H7x0/OsJDpe9rIsmgjZmotrSPMGK4flMcphJWOlHHdy
+	uXc5YJnmISCDvEYVTmMTlGfiPxSxRX7pViuaBJcNO1rulTj2hhcVGmdZ+T9p2KJJ
+	hTyx7CplBBOuI/epXCq4bdMsqBrTT2j0+dj7QIIEGE/4BEnJIKamj30a9hC9ObFH
+	YfZT9SrCBQ==
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
+	by mx0b-00230701.pphosted.com (PPS) with ESMTPS id 4j5jrggc81-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 24 Nov 2026 14:59:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1795561165; bh=U8wfbsToh/VfvvUKNFMCVUIhUCEO7d2CvVvk+mYXVwc=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=csxM9csiLgKin46s+miL8koVGGFZsYtveYwYQLl6oEIPFMQRCNXag9FjTBJseVTty
+	 +78fI9iEUDAN/Pl+oCa3H9CsNzwII9O8R6bUD24jIJz+8OZpchuUQGsiSI2kkx4QaQ
+	 prfbQekNhbSscxt6YcwmqE1yfER/Z4ZanZXHQ8Ek35G0xFO2kQLXjndNXKLSSlk/8c
+	 QTTmwhkBE3ODUrcouFZizTGXatitLX1XqDbPsBRmWjqZc0ldbsKlf/CIWDh96vO55O
+	 +ajm1lsaQfpwSWrx7QQSx3jxDWl+mNHcMeZmmyt0X7p/27SWASRzzt/f7dduVVQ954
+	 yjXaBNnGURNpw==
+Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com [10.205.2.134])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5EDDA401DC;
+	Tue, 24 Nov 2026 22:59:25 +0000 (UTC)
+Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com [10.4.161.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "o365relay-in.synopsys.com", Issuer "Sectigo Public Server Authentication CA OV R36" (not verified))
+	by mailhost.synopsys.com (Postfix) with ESMTPS id D5C91A075E;
+	Tue, 24 Nov 2026 22:59:24 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=eL1c9ESA;
+	dkim-atps=neutral
+Received: from SN1PR07CU001.outbound.protection.outlook.com (mail-sn1pr07cu00106.outbound.protection.outlook.com [40.93.14.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
+	(Client CN "mail.protection.outlook.com", Issuer "DigiCert SHA2 Secure Server CA" (not verified))
+	by o365relay-in.synopsys.com (Postfix) with ESMTPS id 91625403AE;
+	Tue, 24 Nov 2026 22:59:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZFjlEz+xMxW3IYC0exqiDSbBy2qnPygKdBNkTblIrTo013eUaFrl86MsFiAB/Tk3mu2kkcfv1Y8psinOT4WloufO/apLuq7X28qJjCzEuKLDncKKB1Cv4KsaxG2OBA/vVOrDoPLkHdRhaVg5hiomsOi1TkyohKZTzKkatqSTfIqSaP4ZXtboZwVqvNZmHrZ8T2yolo+PCulM487ciQ1oRDt4FYq0EBxdxPQHMiFVyoBNchP07R4ruPzHXk343xh/H6/OjCpaWpOkA0zQZWsYZfb8Cvk8rXWneOktGls8PVpi7nKfO/uW6qYlhg9EAfL5/9dK5Cp1wS9VXFQpnTsvPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U8wfbsToh/VfvvUKNFMCVUIhUCEO7d2CvVvk+mYXVwc=;
+ b=iMPhI9ywoisJUuDLUpVUj89hAI6eDkEKMwYwrAtbTyhZip4t3FRlM9h029znTkHPgmzSOASVkuh5TU8dGAMLqOQNuoagFhOhz0mOCQF8O78LuUujqREoVutpGq87G2O7kmklycYAz20+PWkNrd3wQOqG3YhRy9uay5ZRpRnXzUxVnC/44/qykn0sIt66JvY0gGrjB9k9IRfNQwrS/P7V8RZYmMGs60ZU+oEZgNgknHdqZ7VNsV0mi7Aqdg4l2YNesDbB5o6II6iDbCafs1wvfJzFB58cl7iKfJ+VyEy/49mTNrO9Q+TUOeWvGtvF59Oayt+RpgCgXAJMwD2z4sf4Kg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U8wfbsToh/VfvvUKNFMCVUIhUCEO7d2CvVvk+mYXVwc=;
+ b=eL1c9ESAWPMoIk0wWul3OI4Yed205Os+PZw6hoqQLSQFbWlcGwznYralQSmjaXeMqKhzSTbRVCYKxPcZxfZ7VUi0l6PQ8VOkfTJS/LZMv2v1ay8h+W1vqwpxouAkjIn8EtboQOXezsWOwTaizw5TMQArm061Os8cGvV9okq9/uw=
+Received: from DS7PR12MB9525.namprd12.prod.outlook.com (2603:10b6:8:251::12)
+ by CY8PR12MB7121.namprd12.prod.outlook.com (2603:10b6:930:62::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
+ 2026 22:59:19 +0000
+Received: from DS7PR12MB9525.namprd12.prod.outlook.com
+ ([fe80::4125:6ab7:5608:96c4]) by DS7PR12MB9525.namprd12.prod.outlook.com
+ ([fe80::4125:6ab7:5608:96c4%5]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
+ 22:59:19 +0000
+X-SNPS-Relay: synopsys.com
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+CC: Tejas Narendra Joglekar <Tejas.Joglekar@synopsys.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: [PATCH 1/3] usb: dwc3: Group glue-overridable properties in struct
+ dwc3
+Thread-Topic: [PATCH 1/3] usb: dwc3: Group glue-overridable properties in
+ struct dwc3
+Thread-Index: AQHdfGdwm8MU3lkijUyIKiWPR9ZuZg==
+Date: Tue, 24 Nov 2026 22:59:19 +0000
+Message-ID:
+ <5f9e2da1ed83ef3b640760b2ec2539481a59d65b.1795559405.git.Thinh.Nguyen@synopsys.com>
+References: <cover.1795559405.git.Thinh.Nguyen@synopsys.com>
+In-Reply-To: <cover.1795559405.git.Thinh.Nguyen@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=synopsys.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS7PR12MB9525:EE_|CY8PR12MB7121:EE_
+x-ms-office365-filtering-correlation-id: 13387995-fbf5-473f-7d16-08df4a7e92a2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|18002099003|6133799003|10086099003|22082099003|3023799007|261009223027099003|10067099003|5023799004|261026140227099003|261022075727099003|56012099006|11063799006|261102123227099003|261021121427099003|261028144727099003|261022105027099003|261026121527099003|261021123027099003|38070700021;
+x-microsoft-antispam-message-info:
+ QRB3LoLFnkFG08Prc9Q0BZ7NGshfPVcowo9fqye/tyS/olNhmUOw1r9lhxbNMY4zQf+UmEKwNFVRMSprd1wuZR6UnlybeAnBIcnmEUV0YTmLMv7NErYs/rGMqAsZHb7zX8FLcA5ai9trnqEX/4znmZlLTNNpCyyaHFLKbxnXx+XIqCboC81DPBWQ7e1EhQIL+ahvZ3Czu4m6Pa3KQsXeUw0udHXjR0OoUsQLMAi5kFqj37tlZHkUV7NFuBjMaOiiXWAaTbbpyQqQY7wgrLL1HlnBArvAbf9OKRhvGq68wMfukL3iedHZhdKzI6+NjKRmNeSGdd8JZSMKrTYXsGRCPI2o1S0+uPsgJYIwCER6vcquSO3ktX28fxPHsWT/wWtVRi3+isR2F5SATAJqu+FZe7ircndc+D37YACSWKYhgW16uZyf3CR1OSqHjlB3dsrDVZoYSebzk4vOy2tLtbU2WlrDAgKTpNBJQ3jSg7pj+Xu2v8euk70Wyv/4k6LFVniTjvO91s43IhpkOlyVXvpOVJdbtKozAX0sictUeySbtOsIMQuWEssGLesJG1qyO3SooAE9jobIJ8vmoVuY24/JpHgI1Y/YjENONfbj1fzIm9AbCRWlpwk4Wfb3wWinrDlfhHtg7FJOqqheoBF7fmzLl38JkO1b3ruQ2czPlnfMzw8Q5Jsqe2XqtYApGDfqPEavZ1zT84GBQpu4tp2BKsGcv8n/L1U3jymrhiYUE0xI000=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9525.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(18002099003)(6133799003)(10086099003)(22082099003)(3023799007)(261009223027099003)(10067099003)(5023799004)(261026140227099003)(261022075727099003)(56012099006)(11063799006)(261102123227099003)(261021121427099003)(261028144727099003)(261022105027099003)(261026121527099003)(261021123027099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?ZFhBanBaZjJVend6NlgwK3ZULzZXOFhrMW80Q0lPOFpOYWpWRGRwNTRHLzUr?=
+ =?utf-8?B?TUV2ZDIvdmQrOXVhSUN0dHhoQTlzcElYZzE4VFRDMEh1QlpQTEptUzlPN2tz?=
+ =?utf-8?B?aHZaR3hJb1U5RlFDZlg3Y0dXejRFMDVDNDJOVTZmVy84Z3FCQkptOTJQUUJF?=
+ =?utf-8?B?RTNNK1dsZmtrbTFSUDdlOXY3b0FsL2RLN0FvSjFQaTh0bkNzeTl3ZDdrODBN?=
+ =?utf-8?B?WXNDaysrcW5VSFRXZjFQMFBPcE5aTHl5VnRaRGtqTVpudWJwM1VZdFJISUpr?=
+ =?utf-8?B?ci9vcW5WbWVZQmRCSzZwNERxL3VySEZlK1YyVlRBZWhpekZ6cGNNeXNYVVpo?=
+ =?utf-8?B?T2pjMjl0R0ZPQ2luQ29LMzNiZ0xRd01VTzZlZGR3Z3Q3VDZLcW9qWmlENVlo?=
+ =?utf-8?B?Y1pFVjVJcWhzdFJveG80OFkrVS9NWUIvdDB0aCtHNktHY0JGL2M3dmRTa1k5?=
+ =?utf-8?B?UHlHQTUraEZXSjVIcjhnREFWdlVLZWNCT1J4d3VwcWN2Q1g5NTlpUUY5dFF6?=
+ =?utf-8?B?ZDUxUnlBOVRZeDcrZUZlWldyT1JOeXFDeXBJemJoc1lFang1N3JXTXdKQm4r?=
+ =?utf-8?B?NHlkdW9GMVU0TlJqcDFJZjFRRVFVU1RsdmdsQ2x1WEdqeGo4Nk14MVVGb3Nk?=
+ =?utf-8?B?bExhMkR5dEVEZU5wb0ltWmQ3cTFuSHdST3ArWUgzTzAwZ2tRdnU0cmUwVnlS?=
+ =?utf-8?B?UjlnTnZaQzBEdVdlT2tPcjROVzE3Tm5OQVBzZ2RSaXdoekRFSXRLWXo0dHVJ?=
+ =?utf-8?B?bE9xenE3TXFzcHpOUDJxeDE4NklwTnFKYVc1Q21zTFpnUEVsNVZqUnVuZWtV?=
+ =?utf-8?B?OGliaW5sMWgzZXpLcWswR3ZSM2lNSlJHdGpReU4xaHJ4anp6MCtCTVNDNlRR?=
+ =?utf-8?B?VkdEK3VTdGUzZ2lHSXFxZWJZU0swRFhrZjRNZ2xNVDRSNEZLRGsxZkNxTjh6?=
+ =?utf-8?B?WG0wblVMSTZEVnk2Y1VQMktJbXFON2c0SDBNMHRjKzAyTFpQMEFGUCt6QVZJ?=
+ =?utf-8?B?WUVMVjJFNUhoZnlpRHV4TU1MRFM3NVB1OTU3WjhaeGZsTThkc3Q3UkN6UnNl?=
+ =?utf-8?B?cTk0S1lzeEw0ZDViYzVIb3VsR2c4ZWVLRW91VEVMZnFmb1ZGRGNUMnZnT0xP?=
+ =?utf-8?B?dElYYTIzV2l6ckN0aEVRbHBZUnpXQlBBV29ZUTh1clBTVnlCR2U1aGRaVlQ4?=
+ =?utf-8?B?NW13cEVuRFo0MnBzRUt0eDR5K0xuci9yL1RPcGJjOGdLeTFZa2R3YndNUnpl?=
+ =?utf-8?B?ci9FUFlkMndpcGozUlBzcmwzNnlWRkhSSnp5WkNSd3BvalVZQkE1U3c4V2ty?=
+ =?utf-8?B?dGNiWEY2QnFOVzNJeDFnMXZRSHJPNXg4aVFkWE8wQmJGcmduSVJaaHRZcE9t?=
+ =?utf-8?B?K29lRHk4NUM0VDRyd2R0dXRyVU9TbVk5c1hCYm1reWZGQUk3V0tJNG85UUZK?=
+ =?utf-8?B?S2M1ZlcwQUgwYjV5Tnpmc2RIZzVyU1MzM05Ub3lRRmI2R2RrSUs3Z0t4MnhW?=
+ =?utf-8?B?d2JWVkN3OVlQMFhscFdkODlKK2UrZVZ5RlEyWkZwaXU2NzZtaW5XRFdtQmdy?=
+ =?utf-8?B?S1hla1R2ZGU5Uk5FNmlpYnFZNzFLWk5zcE1rQWZ1Z3BEeUtYN3R4UXJCNkti?=
+ =?utf-8?B?U3NkeVV6WFhiT3ArMDF2RnhsRnZkeFlSRXhTMXJFdHBQTStOQ3ZveGU1Ylk5?=
+ =?utf-8?B?OHFMaktTNDl0UUV0UEJ2eUFBZENZK21lVStpOTJ6R2JkNTVtMzB3VWROajVH?=
+ =?utf-8?B?ZUpVemdVMzF4VWhWV3ZrcHgyczBBM25GR24rNGM0clQ1ZENRbXlJTnEwRnpV?=
+ =?utf-8?B?UDZaQjRMVUtqYTZDUDRaQWJONGhic3VScnlRdEdXUEM1RFdnbGpDZm4zWjNW?=
+ =?utf-8?B?OEQ5SmZXVEV6MjdvK0VMd3lqbFoxeSswOVNqV3doak85TFpSdmQyREdsTWxQ?=
+ =?utf-8?B?c2p4bTRseHFYMndyWE96dTNLN0daWGRUSmhDRFFpVGtTVjkyVFFYKzlOcjE1?=
+ =?utf-8?B?YUhlQWdvdkdGK29wd3lodldKS2duTEp4bEJERUtmb1NJZWpsdzR5R2twWG5j?=
+ =?utf-8?B?YzRUS2RhVEhpUUlGR29RazcvWFRzZWE5YVJLQUxnRitJNzVzdnBTandPdTdZ?=
+ =?utf-8?B?MS9DbWM4bGRZWTZZYXNLMmNHSGljWnZVbngwUEdDQzN2cmxQUk1zRldJUXVM?=
+ =?utf-8?B?TTQvMkFvR1NtQ0NlVHdBVHJYbDJYc2xXL3hxTXR6ZGZSRzNwY0YycFNORlU5?=
+ =?utf-8?B?ZG0xdGgyOHlBQW4yL0RBVGw3Skx6M0RteGJJd1VrOUM3eW5iRWtlYXlKeFd3?=
+ =?utf-8?B?V2tMYlNlYmo4aHY3VUhpbDg3WmwxdVdhZUJiSHV3ZzBQb0hVSXZNUT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -75,291 +221,266 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Feedback-ID: :1.us-east-1.fEnU3ccvllxLtJBUaYT91MTmOYNbRqP5oL88A2UkuQF6ossBVbh5STHzasceFsir04XyyuG42nT7n6uR29FF1cITEcL1ChwuwmmnByiLq7b19cZXcWlSBKaGH1eTvuCkTV39F9cQxjTxRwjaqAkRRXNrp73fLaTAWNswKCAdEs0=:1.us-east-1.6duzA/nfEyqJmYS7DZLtjVrpjz2pDnbKq2D1dAyqdPM=:AmazonSES
-X-SES-Outgoing: 2026.11.24-54.240.9.31
+X-Exchange-RoutingPolicyChecked:
+	WCq2hxJY4MBIhbHdec/Pbpwj5RFmQTIvexgqC2sIOzCX2C5mz6ZrAC74MQZUUO0yl51vv+nIZDeTSmhr1veiMXFBfMtOkMa7lgrDrGYzjFbLiKuyF7Nf37xFT9pqzywvrgFR8DaK85+uaIWpSg+5hsMUBXD0ksU44KAFOUNET2LWvWEPPRgspupe3pXstn+EhmxUOWuNnClhf6v2t0sgB3w63LHlozr9BuEwM6fZNmnCZUYtolTVG1WjlcdnRtCGi5LnWae/HX+GRM3zhF4xQRF9WJlFgrJJWO8le+8TjLU5PM8CW+8MmJ7gbuH/Ian/9IzDbWO+4RbqRcbgaEAISQ==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	bsiY8XpQgKCpTyCRsH1cbfZYQ5HH6/4VM3PxzqtD1Lqhg5Smp4Iu52N757CMPR+5B94DjWfNHZl1Fxg3VvMO2PVp7WhFC9sFxCv7S78I41gKA4ALKHUDjeEnvnE99En3lUm4w6tq3sg12zdyiX5zoiyULGk7CmOEsLwbJLOLB+4jJXPBg8fTKTdnbo6x6fIbop3oagI9CtPTnNPrgqTq1gd+qJ9LuSTZyBnkQGgX6T0QOcaJVMHc52mJX9QaeYQiomjOBl6vLBnmM/FusdgD+QeQgDoEykXUki5Ejk7/YNv3hqicpoISV767IG0tZOb0+SCrmmoXR3rAoK6CduTgTtyy3IPZ7NpRSZUFtgmewyacSevEE4dg/VIcJF55zS0cs/jjVNOcTVMKZ3U0fqHLURboJFE5uhwS0BzRq1RRNP0XiJ8/72wMsd4jat/twgARbWnGIlH0JPkFPmb0kZ3vEJ8XBe8XGYM1XMj5k+sWqhLcsDZEPpGCq3pjcWjv7fTarLV3IvEmR+ZmhKZu447QqIUbJ8nKKm4czWbaGINXjt9acFHfU8zT+EBh8h8cLX+JNACB45pSXkgS4c0+zM+Rs2SHwwrVlwWaI33PcmQtUkWcJ6CPpSzb76Wl/WpmUV3rZVV4mhqD8MHLPBwqyJGDFw==
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9525.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13387995-fbf5-473f-7d16-08df4a7e92a2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2026 22:59:19.6034
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: AYiSDNA54YUrIhf5WI0Hahq+fwQeXUtz3oBMCkQLz61+3WoqHgjvDpM86mcgStaOdFlzkXAqcKk+cHEx0pK31w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7121
+X-Proofpoint-ORIG-GUID: BSBPYDUJuHRqpaubxJm3RxEW1DzcWlE7
+X-Authority-Analysis: v=2.4 cv=NcxzRGD4 c=1 sm=1 tr=0 ts=6b0616ce cx=c_pps
+ a=t4gDRyhI9k+KZ5gXRQysFQ==:117 a=t4gDRyhI9k+KZ5gXRQysFQ==:17
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=qPHU084jO2kA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=tU_645BZ7FZt8VqRJtHG:22 a=jSPayVjLy6xbsuKauFBc:22
+ a=jIQo8A4GAAAA:8 a=0faoRWKyicPPJ93_OswA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDA5MCBTYWx0ZWRfX2+YKJ5dtKFiQ
+ n/xS4t19E6I1Dw6lUehGANdwvTM4MXXaHWLXUp3EGUVoZeq4rDxRx0dBOMjeEST61qLQaNSOL/m
+ HAZG7G0UkjbmLz4g22J4B50QYTdUYmCq1PwwSUh18+PjMO3Ngmek42z0n73C8COMKgZF4cyeA61
+ XfiRetT1y7nw9Mom/ShiIRG+JxR3RHq96/L+Z2vjKqZc89kZdmNDGqzNKeU6hLte4W3xt84b0g9
+ jOESDLWZlP6AtvLFIS5PAoUdFPgHWrkxM18IiiazkKwrcIDYsEDVoRbMYV34AhGc8fcN3CzkXBf
+ d+z2OSxSOQa9jHJMe8Jmb5S3MlMj6D7ZcD2x9YQdet/FUkbP2jl6pICpIFIeVZMTe3YMUgyAW9M
+ xLRl5J+xs/hL2QOOjXAxIeNXc4UzhHFq9rtgWUjEv9XPS9sBdd9nlIHDDsVGy4mKZLl0+1pQ/8U
+ H2yFwX8QhIqFZ3UtW5A==
+X-Proofpoint-GUID: BSBPYDUJuHRqpaubxJm3RxEW1DzcWlE7
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDA5MCBTYWx0ZWRfX/7MmXLq25AkV
+ BnKBonV4DsUHmfX/Qgh0PKSPKmasPn7k6e3YdD2J6ZTexzNcAsYTkbzNxGzKOfQgZ1HL0wXklFh
+ VvaWkCnTZy9Piq1bwFiOoRpmHscieT4=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-24_06,2026-11-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam
+ policy=outbound_active_cloned score=0 spamscore=0 clxscore=1015 adultscore=0
+ priorityscore=1501 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ impostorscore=0 phishscore=0 suspectscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2611040001 definitions=main-2611240090
 
-Hi,
-
-The software connection manager on an Alpine Ridge (Thunderbolt 3) =
-Apple host successfully builds a DisplayPort tunnel to an Intel Barlow =
-Ridge USB4/TB5 hub, then immediately tears it down after a hot-unplug event=
- on the hub's DP OUT adapter. i915 never sees a connected DP connector. USB=
-, PCIe tunneling and the Thunderbolt link stay up.
-
-This was reproduced on Ubuntu 7.0.0-44-generic with thunderbolt dynamic =
-debug enabled. I am happy to collect further traces or test patches.
-
-Hardware
---------
-Host:        Apple MacBookPro13,2 (2016 13-inch MacBook =
-Pro, Touch Bar)
-CPU/GPU:     Intel Skylake-U, iGPU 8086:1927 (Iris Graphics=
- 550), i915
-Host TB:     two Intel JHL6540 Alpine Ridge C 4C controllers
-             NHI 8086:15d2 at 0000:05:00.0 and 0000:7b:00.0
-             USB xHCI 8086:15d4 also present (e.g. 0000:7c:00.0)
-             host routers generation 3
-BIOS:        529.120.1.0.0 =
-(03/14/2024)
-Dock:        OWC Thunderbolt 5 Hub (vendor 0x5a device 0xde81)
-Dock router: USB4 switch 8087:5786 (Intel Barlow Ridge / JHL9480),
-             NVM 64.81, PlugEventsDelay 10ms
-Link:        TBT (TBT3 =
-support: yes), 20.0 Gb/s x 2 lanes (40 Gb/s),
-             boltctl =
-generation USB4, authorized, policy auto
-Display:     USB-C-to-HDMI / =
-USB-C-to-DP cable on a hub Thunderbolt 5
-             downstream port. =
-After the failed tunnel, lsusb shows
-             0639:7213 Chrontel CH7213=
- "USB-C To DP Cable" as a USB
-             Billboard device, and/or Genesys=
- 05e3:0f01 Billboard.
-
-Kernel / CM
------------
-Linux 7.0.0-44-generic =
-#44-Ubuntu SMP PREEMPT_DYNAMIC Fri Nov 6 02:38:04 UTC 2026 x86_64
-CONFIG_USB4=3Dm (thunderbolt.ko). Software connection manager =
-(domain0/security =3D user).
-Default parameters after tests were reverted: =
-start_icm=3DN, bw_alloc_mode=3DY, clx=3DY, dprx_timeout=3D12000, =
-host_reset=3DY. No thunderbolt parameters on the current kernel command =
-line.
-
-i915 connectors: eDP-1 connected; DP-1, DP-2, HDMI-A-1 and HDMI-A-2 =
-stay disconnected throughout.
-
-Symptoms
---------
-1. Plug the OWC TB5 hub =
-into a host Type-C/TB3 port and connect a display to a hub TB5 downstream =
-port with a USB-C-to-HDMI or USB-C-to-DP cable.
-2. The hub enumerates, is =
-authorized, USB devices work, a PCIe tunnel is established.
-3. The software CM pairs host DP IN 0:9 (0:10 also exists) with a hub DP =
-OUT (3:19, later 3:11). It reports DP IN maximum
-   5400 Mb/s x4 =3D 17280 =
-Mb/s (HBR2), DP OUT maximum
-   8100 Mb/s x4 =3D 25920 Mb/s (HBR3), and =
-36000/36000 Mb/s available, then activates Video + AUX TX + AUX RX.
-4. Within the same second it acks a hot-unplug on that DP OUT and tears the=
- tunnel down ("DP OUT resource unavailable: adapter unplug").
-5. This repeats about four times per plug (twice to 3:19, twice to 3:11) =
-and then stops.
-6. i915 DP-1/DP-2 never go connected. The cable falls back =
-to USB Billboard (Chrontel CH7213 0639:7213 and/or Genesys 05e3:0f01).
-
-The unplug is not a 12s DPRX timeout. A hot-unplug event on the hub DP OUT =
-is acked *during* path activation (before Video/AUX complete), a hot-plug =
-is acked while hops are programmed, and another hot-unplug arrives =
-immediately after "AUX RX path activation complete". That last event is =
-what calls tb_dp_resource_unavailable(..., "adapter unplug") in =
-tb_handle_hotplug().
-
-"DP OUT in use" / "no suitable DP OUT adapter =
-available" in the same window is the CM looking for a second pair for the =
-other host DP IN while the first tunnel is still marked enabled; that looks=
- like a consequence, not the cause.
-
-What works
-----------
-- The same USB-C-to-HDMI cable plugged directly into the MacBook (Type-C DP=
- Alt Mode, no Thunderbolt DP tunnel) drives the monitor under Linux.
-- The same hub, cables and monitors work on an Apple M5 MacBook Air (native=
- USB4 host) under macOS.
-- USB and tunneled PCIe through the hub on this =
-Linux host work.
-
-What was tried
---------------
-- Cold boot with the hub =
-and monitor already connected: no display.
-- Both sides of the laptop (the =
-two Alpine Ridge controllers): no display.
-- thunderbolt.start_icm=3D1 =
-(GRUB one-shot, boot 13:41:37-13:46:54 PST / America/Los_Angeles). The =
-firmware connection manager failed to enumerate the hub. Reverted; current =
-start_icm=3DN.
-
-    Kernel command line: ... thunderbolt.start_icm=3D1 ...
-    thunderbolt 0000:05:00.0: failed to find route string for switch at 3.1
-    thunderbolt 0000:05:00.0: no switch exists at 3.1, ignoring
-
-- thunderbolt.bw_alloc_mode=3D0 at runtime (rmmod / modprobe; log =
-tb-bwalloc0.log). The failure is identical. "bandwidth allocation mode =
-supported/enabled" is not logged in either the default or the =
-bw_alloc_mode=3D0 captures, which matches tb_dp_pre_activate() returning =
-early when the DP IN switch is not USB4. Excerpt from the bw_alloc_mode=3D0=
- replug, 13:57:38 PST, tunnel 0:9 <-> 3:11 (hop-programming lines omitted).=
- The same sequence also ran twice on 3:19 at 13:57:32 PST in that log:
-
-    thunderbolt 0000:05:00.0: acking hot plug event on 3:11
-    thunderbolt 0000:05:00.0: 3:11: DP OUT resource available after hotplug
-    thunderbolt 0000:05:00.0: 0:9: sink 0 allocated
-    thunderbolt 0000:05:00.0: 0:9: attached to bandwidth group 1
-    thunderbolt 0000:05:00.0: available bandwidth for new DP tunnel =
-36000/36000 Mb/s
-    thunderbolt 0000:05:00.0: 0:9 <-> 3:11 (DP): =
-activating
-    thunderbolt 0000:05:00.0: acking hot unplug event on 3:11
-    thunderbolt 0000:05:00.0: 0:9 <-> 3:11 (DP): DP IN maximum supported =
-bandwidth 5400 Mb/s x4 =3D 17280 Mb/s
-    thunderbolt 0000:05:00.0: 0:9 <->=
- 3:11 (DP): DP OUT maximum supported bandwidth 8100 Mb/s x4 =3D 25920 Mb/s
-    thunderbolt 0000:05:00.0: activating Video path from 0:9 to 3:11
-    thunderbolt 0000:05:00.0: acking hot plug event on 3:11
-    thunderbolt 0000:05:00.0: Video path activation complete
-    thunderbolt 0000:05:00.0: activating AUX TX path from 0:9 to 3:11
-    thunderbolt 0000:05:00.0: AUX TX path activation complete
-    thunderbolt 0000:05:00.0: activating AUX RX path from 3:11 to 0:9
-    thunderbolt 0000:05:00.0: AUX RX path activation complete
-    thunderbolt 0000:05:00.0: acking hot unplug event on 3:11
-    thunderbolt 0000:05:00.0: 3:11: DP OUT in use
-    thunderbolt =
-0000:05:00.0: 0:10: no suitable DP OUT adapter available, not tunneling
-    thunderbolt 0000:05:00.0: 3:11: DP OUT resource unavailable: adapter =
-unplug
-    thunderbolt 0000:05:00.0: 0:9 <-> 3:11 (DP): deactivating
-
-- Authorization is not the issue (boltctl: authorized, policy auto). =
-Parameters were returned to defaults after the tests (bw_alloc_mode=3DY, =
-start_icm=3DN).
-
-Notes
------
-- "0:9: attached to bandwidth group 1" is =
-logged even with bw_alloc_mode=3D0. That message comes from the software CM=
- attaching a DP IN to an internal bandwidth group for every DP tunnel. It =
-is not the same as USB4 DP bandwidth-allocation mode.
-
-- The "device links to tunneled native ports are missing!" warning is =
-printed for both host NHIs at probe. tb_apple_add_links() only covers =
-Light/Cactus/Falcon Ridge, and Apple ACPI does not provide the USB4 _DSD =
-mappings. I believe this is unrelated: PCIe/USB through the hub work, and =
-the DP failure happens at plug, not at resume.
-
-- tb_dp_cm_handshake() is =
-skipped unless both ends are USB4 or Titan Ridge, and tb_dp_pre_activate() =
-returns early unless the DP IN switch is USB4. Here the DP IN is Alpine =
-Ridge (generation 3) and the DP OUT is on a Barlow Ridge USB4 hub. I do not=
- know whether that skipped handshake (or something else on the gen3 IN / =
-USB4 OUT path) is why the hub pulses HPD during activation; I wanted to =
-mention it in case it is relevant.
-
-- domain0/iommu_dma_protection reads 0.=
- DMAR tables are present.
-
-Key log excerpt, default parameters (times are
-America/Los_Angeles / PST)
-----------------------------------------------
-Hub enumeration (link already TBT, not USB4 PHY):
-
-  [Tue Nov 24 13:48:53 =
-2026] thunderbolt 0000:05:00.0: acking hot plug event on 0:3
-  [Tue Nov 24 13:48:53 2026] thunderbolt 0000:05:00.0: 0:3: is connected, =
-link is up (state: 2)
-  [Tue Nov 24 13:48:53 2026] thunderbolt 0000:05:00.=
-0:  USB4 Switch: 8087:5786 (Revision: 132, TB Version: 64)
-  [Tue Nov 24 13:48:53 2026] thunderbolt 0000:05:00.0:    Upstream Port =
-Number: 1 Depth: 0 Route String: 0x0 Enabled: 0, PlugEventsDelay: 10ms
-  [Tue Nov 24 13:48:53 2026] thunderbolt 0000:05:00.0: initializing Switch =
-at 0x3 (depth: 1, up port: 1)
-  [Tue Nov 24 13:48:53 2026] thunderbolt =
-0000:05:00.0: 3: link: TBT
-  [Tue Nov 24 13:48:53 2026] thunderbolt =
-0000:05:00.0: 3: TBT3 support: yes, xHCI: yes
-
-First DP tunnel (0:9 <-> =
-3:19) with default bw_alloc_mode=3DY.
-Hop-programming lines omitted:
-
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.0: acking hot plug =
-event on 3:19
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.0: 3:19: =
-DP OUT resource available after hotplug
-  [Tue Nov 24 13:48:54 2026] =
-thunderbolt 0000:05:00.0: 0:9: DP IN available
-  [Tue Nov 24 13:48:54 2026]=
- thunderbolt 0000:05:00.0: 3:19: DP OUT available
-  [Tue Nov 24 13:48:54 =
-2026] thunderbolt 0000:05:00.0: 0:9: sink 0 allocated
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.0: 0: allocated DP =
-resource for port 9
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.0: =
-0:9: attached to bandwidth group 1
-  [Tue Nov 24 13:48:54 2026] thunderbolt=
- 0000:05:00.0: available bandwidth for new DP tunnel 36000/36000 Mb/s
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.0: 0:9 <-> 3:19 (DP): =
-activating
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.0: acking =
-hot unplug event on 3:19
-  [Tue Nov 24 13:48:54 2026] thunderbolt =
-0000:05:00.0: 0:9 <-> 3:19 (DP): DP IN maximum supported bandwidth 5400 =
-Mb/s x4 =3D 17280 Mb/s
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.=
-0: 0:9 <-> 3:19 (DP): DP OUT maximum supported bandwidth 8100 Mb/s x4 =3D =
-25920 Mb/s
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.0: =
-activating Video path from 0:9 to 3:19
-  [Tue Nov 24 13:48:54 2026] =
-thunderbolt 0000:05:00.0: acking hot plug event on 3:19
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.0: Video path =
-activation complete
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.0: =
-activating AUX TX path from 0:9 to 3:19
-  [Tue Nov 24 13:48:54 2026] =
-thunderbolt 0000:05:00.0: AUX TX path activation complete
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.0: activating AUX RX =
-path from 3:19 to 0:9
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.=
-0: AUX RX path activation complete
-  [Tue Nov 24 13:48:54 2026] thunderbolt=
- 0000:05:00.0: acking hot unplug event on 3:19
-  [Tue Nov 24 13:48:54 2026]=
- thunderbolt 0000:05:00.0: 3:19: DP OUT in use
-  [Tue Nov 24 13:48:54 2026]=
- thunderbolt 0000:05:00.0: 0:10: no suitable DP OUT adapter available, not =
-tunneling
-  [Tue Nov 24 13:48:54 2026] thunderbolt 0000:05:00.0: 3:19: DP =
-OUT resource unavailable: adapter unplug
-  [Tue Nov 24 13:48:54 2026] =
-thunderbolt 0000:05:00.0: 0:9 <-> 3:19 (DP): deactivating
-
-The same activate / mid-activation HPD bounce / deactivate sequence then =
-repeats on 3:19 and twice more on 3:11.
-
-Request
--------
-Guidance would be appreciated. I can provide additional traces (tb_event =
-control packets, drm.debug on a repro, etc.) and I am willing to test debug=
- patches.
-
-Full logs (available if useful; host-unique identifiers in the =
-logs have been replaced with placeholders):
-
-  dmesg-full.txt
-      default-parameter plug at 13:48:53 PST, with thunderbolt
-      dyndbg (first capture after reboot)
-  dmesg-tb.txt / =
-dmesg-excerpt-dp-unplug.txt
-      filtered / trimmed excerpt of that plug
-  tb-bwalloc0.log
-      runtime bw_alloc_mode=3D0 test (module reload at =
-13:55:22 PST,
-      hub replug, DP teardown at 13:57:32 and 13:57:38 PST)
-  dmesg-excerpt-bwalloc0-135738.txt
-      trimmed excerpt of that test
-  tb-icm-boot.log
-      kernel log from the thunderbolt.start_icm=3D1 boot
-      (13:41:37-13:46:54 PST). /tmp/tb-icm-boot.log was no longer
-      on the laptop; this is journalctl -b -1 -k from that boot.
-  sysinfo.txt, sysinfo2.txt, sysinfo-20261124-1402.txt
-      uname, module parameters, boltctl, lsusb, drm, sysfs
-  debugfs-ports.txt, debugfs-ports-20261124-1402.txt
-      debugfs thunderbolt tree / port regs (partial)
-
-Thanks,
-Jeremy Menefee
+c3RydWN0IGR3YzNfcHJvcGVydGllcyBkdXBsaWNhdGVzIGZpZWxkcyBvZiBzdHJ1Y3QgZHdjMywg
+c28gZXZlcnkNCnByb3BlcnR5IGEgZ2x1ZSBkcml2ZXIgY2FuIHNldCBpcyBkZWZpbmVkIHR3aWNl
+Lg0KDQpEZWZpbmUgc3RydWN0IGR3YzNfcHJvcGVydGllcyBmcm9tIHRoZSBtYXRjaGluZyBmaWVs
+ZHMgb2Ygc3RydWN0IGR3YzMNCndpdGggc3RydWN0X2dyb3VwX3RhZ2dlZCgpLCBhbmQgbW92ZSB0
+aGUgcmVtYWluaW5nIHByb3BlcnR5IGZpZWxkcyBpbnRvDQp0aGUgZ3JvdXAuIFVzZXJzIG9mIGR3
+Yy0+WCBhbmQgcHJvYmVfZGF0YS5wcm9wZXJ0aWVzLlggYXJlIHVuY2hhbmdlZC4NCg0KTm8gZnVu
+Y3Rpb25hbCBjaGFuZ2UuDQoNClNpZ25lZC1vZmYtYnk6IFRoaW5oIE5ndXllbiA8VGhpbmguTmd1
+eWVuQHN5bm9wc3lzLmNvbT4NCi0tLQ0KIGRyaXZlcnMvdXNiL2R3YzMvY29yZS5oIHwgMTYzICsr
+KysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0NCiBkcml2ZXJzL3VzYi9kd2Mz
+L2dsdWUuaCB8ICAxMSAtLS0NCiAyIGZpbGVzIGNoYW5nZWQsIDgzIGluc2VydGlvbnMoKyksIDkx
+IGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZHdjMy9jb3JlLmggYi9k
+cml2ZXJzL3VzYi9kd2MzL2NvcmUuaA0KaW5kZXggZjYzNWE5ZmJjMTUxLi5kMTAzYTYzN2E0Zjcg
+MTAwNjQ0DQotLS0gYS9kcml2ZXJzL3VzYi9kd2MzL2NvcmUuaA0KKysrIGIvZHJpdmVycy91c2Iv
+ZHdjMy9jb3JlLmgNCkBAIC0xMDQwLDIzICsxMDQwLDE4IEBAIHN0cnVjdCBkd2MzX2dsdWVfb3Bz
+IHsNCiAgKiBAcmVzZXQ6IHJlc2V0IGNvbnRyb2wNCiAgKiBAcmVnczogYmFzZSBhZGRyZXNzIGZv
+ciBvdXIgcmVnaXN0ZXJzDQogICogQHJlZ3Nfc2l6ZTogYWRkcmVzcyBzcGFjZSBzaXplDQotICog
+QGZsYWRqOiBmcmFtZSBsZW5ndGggYWRqdXN0bWVudA0KLSAqIEByZWZfY2xrX3BlcjogcmVmZXJl
+bmNlIGNsb2NrIHBlcmlvZCBjb25maWd1cmF0aW9uDQogICogQGlycV9nYWRnZXQ6IHBlcmlwaGVy
+YWwgY29udHJvbGxlcidzIElSUSBudW1iZXINCiAgKiBAb3RnX2lycTogSVJRIG51bWJlciBmb3Ig
+T1RHIElSUXMNCiAgKiBAY3VycmVudF9vdGdfcm9sZTogY3VycmVudCByb2xlIG9mIG9wZXJhdGlv
+biB3aGlsZSB1c2luZyB0aGUgT1RHIGJsb2NrDQogICogQGRlc2lyZWRfb3RnX3JvbGU6IGRlc2ly
+ZWQgcm9sZSBvZiBvcGVyYXRpb24gd2hpbGUgdXNpbmcgdGhlIE9URyBibG9jaw0KICAqIEBvdGdf
+cmVzdGFydF9ob3N0OiBmbGFnIHRoYXQgT1RHIGNvbnRyb2xsZXIgbmVlZHMgdG8gcmVzdGFydCBo
+b3N0DQogICogQHUxdTI6IG9ubHkgdXNlZCBvbiByZXZpc2lvbnMgPDEuODNhIGZvciB3b3JrYXJv
+dW5kDQotICogQG1heGltdW1fc3BlZWQ6IG1heGltdW0gc3BlZWQgcmVxdWVzdGVkIChtYWlubHkg
+Zm9yIHRlc3RpbmcgcHVycG9zZXMpDQotICogQG1heF9zc3BfcmF0ZTogU3VwZXJTcGVlZCBQbHVz
+IG1heGltdW0gc2lnbmFsaW5nIHJhdGUgYW5kIGxhbmUgY291bnQNCiAgKiBAZ2FkZ2V0X21heF9z
+cGVlZDogbWF4aW11bSBnYWRnZXQgc3BlZWQgcmVxdWVzdGVkDQogICogQGdhZGdldF9zc3BfcmF0
+ZTogR2FkZ2V0IGRyaXZlcidzIG1heGltdW0gc3VwcG9ydGVkIFN1cGVyU3BlZWQgUGx1cyBzaWdu
+YWxpbmcNCiAgKgkJCXJhdGUgYW5kIGxhbmUgY291bnQuDQogICogQGlwOiBjb250cm9sbGVyJ3Mg
+SUQNCiAgKiBAcmV2aXNpb246IGNvbnRyb2xsZXIncyB2ZXJzaW9uIG9mIGFuIElQDQogICogQHZl
+cnNpb25fdHlwZTogVkVSU0lPTlRZUEUgcmVnaXN0ZXIgY29udGVudHMsIGEgc3ViIHJlbGVhc2Ug
+b2YgYSByZXZpc2lvbg0KLSAqIEBkcl9tb2RlOiByZXF1ZXN0ZWQgbW9kZSBvZiBvcGVyYXRpb24N
+CiAgKiBAY3VycmVudF9kcl9yb2xlOiBjdXJyZW50IHJvbGUgb2Ygb3BlcmF0aW9uIHdoZW4gaW4g
+ZHVhbC1yb2xlIG1vZGUNCiAgKiBAZGVzaXJlZF9kcl9yb2xlOiBkZXNpcmVkIHJvbGUgb2Ygb3Bl
+cmF0aW9uIHdoZW4gaW4gZHVhbC1yb2xlIG1vZGUNCiAgKiBAZWRldjogZXh0Y29uIGhhbmRsZQ0K
+QEAgLTEwOTgsNiArMTA5MywyNSBAQCBzdHJ1Y3QgZHdjM19nbHVlX29wcyB7DQogICogQGRiZ19s
+c3Bfc2VsZWN0OiBjdXJyZW50IGRlYnVnIGxzcCBtdXggcmVnaXN0ZXIgc2VsZWN0aW9uDQogICog
+QHRlc3RfbW9kZTogdHJ1ZSB3aGVuIHdlJ3JlIGVudGVyaW5nIGEgVVNCIHRlc3QgbW9kZQ0KICAq
+IEB0ZXN0X21vZGVfbnI6IHRlc3QgZmVhdHVyZSBzZWxlY3Rvcg0KKyAqIEBjbGVhcl9zdGFsbF9w
+cm90b2NvbDogZW5kcG9pbnQgbnVtYmVyIHRoYXQgcmVxdWlyZXMgYSBkZWxheWVkIHN0YXR1cyBw
+aGFzZQ0KKyAqIEBjb25uZWN0ZWQ6IHRydWUgd2hlbiB3ZSdyZSBjb25uZWN0ZWQgdG8gYSBob3N0
+LCBmYWxzZSBvdGhlcndpc2UNCisgKiBAc29mdGNvbm5lY3Q6IHRydWUgd2hlbiBnYWRnZXQgY29u
+bmVjdCBpcyBjYWxsZWQsIGZhbHNlIHdoZW4gZGlzY29ubmVjdCBydW5zDQorICogQGRlbGF5ZWRf
+c3RhdHVzOiB0cnVlIHdoZW4gZ2FkZ2V0IGRyaXZlciBhc2tzIGZvciBkZWxheWVkIHN0YXR1cw0K
+KyAqIEBlcDBfYm91bmNlZDogdHJ1ZSB3aGVuIHdlIHVzZWQgYm91bmNlIGJ1ZmZlcg0KKyAqIEBl
+cDBfZXhwZWN0X2luOiB0cnVlIHdoZW4gd2UgZXhwZWN0IGEgREFUQSBJTiB0cmFuc2Zlcg0KKyAq
+IEBpc19mcGdhOiB0cnVlIHdoZW4gd2UgYXJlIHVzaW5nIHRoZSBGUEdBIGJvYXJkDQorICogQHBl
+bmRpbmdfZXZlbnRzOiB0cnVlIHdoZW4gd2UgaGF2ZSBwZW5kaW5nIElSUXMgdG8gYmUgaGFuZGxl
+ZA0KKyAqIEBwdWxsdXBzX2Nvbm5lY3RlZDogdHJ1ZSB3aGVuIFJ1bi9TdG9wIGJpdCBpcyBzZXQN
+CisgKiBAc2V0dXBfcGFja2V0X3BlbmRpbmc6IHRydWUgd2hlbiB0aGVyZSdzIGEgU2V0dXAgUGFj
+a2V0IGluIEZJRk8uIFdvcmthcm91bmQNCisgKiBAdGhyZWVfc3RhZ2Vfc2V0dXA6IHNldCBpZiB3
+ZSBwZXJmb3JtIGEgdGhyZWUgcGhhc2Ugc2V0dXANCisgKiBAZHJfbW9kZTogcmVxdWVzdGVkIG1v
+ZGUgb2Ygb3BlcmF0aW9uDQorICogQGZsYWRqOiBmcmFtZSBsZW5ndGggYWRqdXN0bWVudA0KKyAq
+IEByZWZfY2xrX3BlcjogcmVmZXJlbmNlIGNsb2NrIHBlcmlvZCBjb25maWd1cmF0aW9uDQorICog
+QG1heGltdW1fc3BlZWQ6IG1heGltdW0gc3BlZWQgcmVxdWVzdGVkIChtYWlubHkgZm9yIHRlc3Rp
+bmcgcHVycG9zZXMpDQorICogQG1heF9zc3BfcmF0ZTogU3VwZXJTcGVlZCBQbHVzIG1heGltdW0g
+c2lnbmFsaW5nIHJhdGUgYW5kIGxhbmUgY291bnQNCisgKiBAZ3NidXNjZmcwX3JlcWluZm86IHN0
+b3JlIEdTQlVTQ0ZHMC5EQVRSRFJFUUlORk8sIERFU1JEUkVRSU5GTywNCisgKgkJICAgICAgIERB
+VFdSUkVRSU5GTywgYW5kIERFU1dSUkVRSU5GTyB2YWx1ZSBwYXNzZWQgZnJvbQ0KKyAqCQkgICAg
+ICAgZ2x1ZSBkcml2ZXIuDQogICogQGxwbV9ueWV0X3RocmVzaG9sZDogTFBNIE5ZRVQgcmVzcG9u
+c2UgdGhyZXNob2xkDQogICogQGhpcmRfdGhyZXNob2xkOiBISVJEIHRocmVzaG9sZA0KICAqIEBy
+eF90aHJfbnVtX3BrdDogVVNCIHJlY2VpdmUgcGFja2V0IGNvdW50DQpAQCAtMTEwOSwyNiArMTEy
+MywxNSBAQCBzdHJ1Y3QgZHdjM19nbHVlX29wcyB7DQogICogQHR4X3Rocl9udW1fcGt0X3ByZDog
+cGVyaW9kaWMgRVNTIHRyYW5zbWl0IHBhY2tldCBjb3VudA0KICAqIEB0eF9tYXhfYnVyc3RfcHJk
+OiBtYXggcGVyaW9kaWMgRVNTIHRyYW5zbWl0IGJ1cnN0IHNpemUNCiAgKiBAdHhfZmlmb19yZXNp
+emVfbWF4X251bTogbWF4IG51bWJlciBvZiBmaWZvcyBhbGxvY2F0ZWQgZHVyaW5nIHR4ZmlmbyBy
+ZXNpemUNCi0gKiBAY2xlYXJfc3RhbGxfcHJvdG9jb2w6IGVuZHBvaW50IG51bWJlciB0aGF0IHJl
+cXVpcmVzIGEgZGVsYXllZCBzdGF0dXMgcGhhc2UNCiAgKiBAbnVtX2hjX2ludGVycnVwdGVyczog
+bnVtYmVyIG9mIGhvc3QgY29udHJvbGxlciBpbnRlcnJ1cHRlcnMNCiAgKiBAaHNwaHlfaW50ZXJm
+YWNlOiAidXRtaSIgb3IgInVscGkiDQotICogQGNvbm5lY3RlZDogdHJ1ZSB3aGVuIHdlJ3JlIGNv
+bm5lY3RlZCB0byBhIGhvc3QsIGZhbHNlIG90aGVyd2lzZQ0KLSAqIEBzb2Z0Y29ubmVjdDogdHJ1
+ZSB3aGVuIGdhZGdldCBjb25uZWN0IGlzIGNhbGxlZCwgZmFsc2Ugd2hlbiBkaXNjb25uZWN0IHJ1
+bnMNCi0gKiBAZGVsYXllZF9zdGF0dXM6IHRydWUgd2hlbiBnYWRnZXQgZHJpdmVyIGFza3MgZm9y
+IGRlbGF5ZWQgc3RhdHVzDQotICogQGVwMF9ib3VuY2VkOiB0cnVlIHdoZW4gd2UgdXNlZCBib3Vu
+Y2UgYnVmZmVyDQotICogQGVwMF9leHBlY3RfaW46IHRydWUgd2hlbiB3ZSBleHBlY3QgYSBEQVRB
+IElOIHRyYW5zZmVyDQogICogQHN5c2Rldl9pc19wYXJlbnQ6IHRydWUgd2hlbiBkd2MzIGRldmlj
+ZSBoYXMgYSBwYXJlbnQgZHJpdmVyDQogICogQGhhc19scG1fZXJyYXR1bTogdHJ1ZSB3aGVuIGNv
+cmUgd2FzIGNvbmZpZ3VyZWQgd2l0aCBMUE0gRXJyYXR1bS4gTm90ZSB0aGF0DQogICoJCQl0aGVy
+ZSdzIG5vdyB3YXkgZm9yIHNvZnR3YXJlIHRvIGRldGVjdCB0aGlzIGluIHJ1bnRpbWUuDQogICog
+QGlzX3V0bWlfbDFfc3VzcGVuZDogdGhlIGNvcmUgYXNzZXJ0cyBvdXRwdXQgc2lnbmFsDQogICoJ
+MAktIHV0bWlfc2xlZXBfbg0KICAqCTEJLSB1dG1pX2wxX3N1c3BlbmRfbg0KLSAqIEBpc19mcGdh
+OiB0cnVlIHdoZW4gd2UgYXJlIHVzaW5nIHRoZSBGUEdBIGJvYXJkDQotICogQHBlbmRpbmdfZXZl
+bnRzOiB0cnVlIHdoZW4gd2UgaGF2ZSBwZW5kaW5nIElSUXMgdG8gYmUgaGFuZGxlZA0KICAqIEBk
+b19maWZvX3Jlc2l6ZTogdHJ1ZSB3aGVuIHR4ZmlmbyByZXNpemluZyBpcyBlbmFibGVkIGZvciBk
+d2MzIGVuZHBvaW50cw0KLSAqIEBwdWxsdXBzX2Nvbm5lY3RlZDogdHJ1ZSB3aGVuIFJ1bi9TdG9w
+IGJpdCBpcyBzZXQNCi0gKiBAc2V0dXBfcGFja2V0X3BlbmRpbmc6IHRydWUgd2hlbiB0aGVyZSdz
+IGEgU2V0dXAgUGFja2V0IGluIEZJRk8uIFdvcmthcm91bmQNCi0gKiBAdGhyZWVfc3RhZ2Vfc2V0
+dXA6IHNldCBpZiB3ZSBwZXJmb3JtIGEgdGhyZWUgcGhhc2Ugc2V0dXANCiAgKiBAZGlzX3N0YXJ0
+X3RyYW5zZmVyX3F1aXJrOiBzZXQgaWYgc3RhcnRfdHJhbnNmZXIgZmFpbHVyZSBTVyB3b3JrYXJv
+dW5kIGlzDQogICoJCQlub3QgbmVlZGVkIGZvciBEV0NfdXNiMzEgdmVyc2lvbiAxLjcwYS1lYTA2
+IGFuZCBiZWxvdw0KICAqIEB1c2IzX2xwbV9jYXBhYmxlOiBzZXQgaWYgaGFkcndhcmUgc3VwcG9y
+dHMgTGluayBQb3dlciBNYW5hZ2VtZW50DQpAQCAtMTE1MSw4ICsxMTU0LDYgQEAgc3RydWN0IGR3
+YzNfZ2x1ZV9vcHMgew0KICAqIEBkaXNfdTFfZW50cnlfcXVpcms6IHNldCBpZiBsaW5rIGVudGVy
+aW5nIGludG8gVTEgc3RhdGUgbmVlZHMgdG8gYmUgZGlzYWJsZWQuDQogICogQGRpc191Ml9lbnRy
+eV9xdWlyazogc2V0IGlmIGxpbmsgZW50ZXJpbmcgaW50byBVMiBzdGF0ZSBuZWVkcyB0byBiZSBk
+aXNhYmxlZC4NCiAgKiBAZGlzX3J4ZGV0X2lucDNfcXVpcms6IHNldCBpZiB3ZSBkaXNhYmxlIFJ4
+LkRldGVjdCBpbiBQMw0KLSAqIEBhc3luY19jYWxsYmFja3M6IGlmIHNldCwgaW5kaWNhdGUgdGhh
+dCBhc3luYyBjYWxsYmFja3Mgd2lsbCBiZSB1c2VkLg0KLSAqDQogICogQGRpc191Ml9mcmVlY2xr
+X2V4aXN0c19xdWlyayA6IHNldCBpZiB3ZSBjbGVhciB1Ml9mcmVlY2xrX2V4aXN0cw0KICAqCQkJ
+aW4gR1VTQjJQSFlDRkcsIHNwZWNpZnkgdGhhdCBVU0IyIFBIWSBkb2Vzbid0DQogICoJCQlwcm92
+aWRlIGEgZnJlZS1ydW5uaW5nIFBIWSBjbG9jay4NCkBAIC0xMTc4LDYgKzExNzksNyBAQCBzdHJ1
+Y3QgZHdjM19nbHVlX29wcyB7DQogICoJMwktIFJlc2VydmVkDQogICogQGRpc19tZXRhc3RhYmls
+aXR5X3F1aXJrOiBzZXQgdG8gZGlzYWJsZSBtZXRhc3RhYmlsaXR5IHF1aXJrLg0KICAqIEBkaXNf
+c3BsaXRfcXVpcms6IHNldCB0byBkaXNhYmxlIHNwbGl0IGJvdW5kYXJ5Lg0KKyAqIEBhc3luY19j
+YWxsYmFja3M6IGlmIHNldCwgaW5kaWNhdGUgdGhhdCBhc3luYyBjYWxsYmFja3Mgd2lsbCBiZSB1
+c2VkLg0KICAqIEBlbmFibGVfdXNiMl90cmFuc2NlaXZlcl9kZWxheTogU2V0IHRvIGluc2VydCBh
+IGRlbGF5IGJlZm9yZSB0aGUNCiAgKgkJCWFzc2VydGlvbiBvZiB0aGUgVHhWYWxpZCBzaWduYWwg
+ZHVyaW5nIGEgSFMgQ2hpcnAuDQogICogQHN5c193YWtldXA6IHNldCBpZiB0aGUgZGV2aWNlIG1h
+eSBkbyBzeXN0ZW0gd2FrZXVwLg0KQEAgLTExOTMsOSArMTE5NSw2IEBAIHN0cnVjdCBkd2MzX2ds
+dWVfb3BzIHsNCiAgKiBAbnVtX2VwX3Jlc2l6ZWQ6IGNhcnJpZXMgdGhlIGN1cnJlbnQgbnVtYmVy
+IGVuZHBvaW50cyB3aGljaCBoYXZlIGhhZCBpdHMgdHgNCiAgKgkJICAgIGZpZm8gcmVzaXplZC4N
+CiAgKiBAZGVidWdfcm9vdDogcm9vdCBkZWJ1Z2ZzIGRpcmVjdG9yeSBmb3IgdGhpcyBkZXZpY2Ug
+dG8gcHV0IGl0cyBmaWxlcyBpbi4NCi0gKiBAZ3NidXNjZmcwX3JlcWluZm86IHN0b3JlIEdTQlVT
+Q0ZHMC5EQVRSRFJFUUlORk8sIERFU1JEUkVRSU5GTywNCi0gKgkJICAgICAgIERBVFdSUkVRSU5G
+TywgYW5kIERFU1dSUkVRSU5GTyB2YWx1ZSBwYXNzZWQgZnJvbQ0KLSAqCQkgICAgICAgZ2x1ZSBk
+cml2ZXIuDQogICogQHdha2V1cF9wZW5kaW5nX2Z1bmNzOiBJbmRpY2F0ZXMgd2hldGhlciBhbnkg
+aW50ZXJmYWNlIGhhcyByZXF1ZXN0ZWQgZm9yDQogICoJCQkgZnVuY3Rpb24gd2FrZXVwIGluIGJp
+dG1hcCBmb3JtYXQgd2hlcmUgYml0IHBvc2l0aW9uDQogICoJCQkgcmVwcmVzZW50cyBpbnRlcmZh
+Y2VfaWQuDQpAQCAtMTI1OSw3ICsxMjU4LDYgQEAgc3RydWN0IGR3YzMgew0KIAl2b2lkIF9faW9t
+ZW0JCSpyZWdzOw0KIAlzaXplX3QJCQlyZWdzX3NpemU7DQogDQotCWVudW0gdXNiX2RyX21vZGUJ
+ZHJfbW9kZTsNCiAJdTMyCQkJY3VycmVudF9kcl9yb2xlOw0KIAl1MzIJCQlkZXNpcmVkX2RyX3Jv
+bGU7DQogCXN0cnVjdCBleHRjb25fZGV2CSplZGV2Ow0KQEAgLTEyNzYsMTcgKzEyNzQsMTMgQEAg
+c3RydWN0IGR3YzMgew0KIA0KICNkZWZpbmUgRFdDM19DVVJSRU5UX1VOU1BFQ0lGSUVECVVJTlRf
+TUFYDQogDQotCXUzMgkJCWZsYWRqOw0KLQl1MzIJCQlyZWZfY2xrX3BlcjsNCiAJdTMyCQkJaXJx
+X2dhZGdldDsNCiAJdTMyCQkJb3RnX2lycTsNCiAJdTMyCQkJY3VycmVudF9vdGdfcm9sZTsNCiAJ
+dTMyCQkJZGVzaXJlZF9vdGdfcm9sZTsNCiAJYm9vbAkJCW90Z19yZXN0YXJ0X2hvc3Q7DQogCXUz
+MgkJCXUxdTI7DQotCXUzMgkJCW1heGltdW1fc3BlZWQ7DQogCXUzMgkJCWdhZGdldF9tYXhfc3Bl
+ZWQ7DQotCWVudW0gdXNiX3NzcF9yYXRlCW1heF9zc3BfcmF0ZTsNCiAJZW51bSB1c2Jfc3NwX3Jh
+dGUJZ2FkZ2V0X3NzcF9yYXRlOw0KIA0KIAl1MzIJCQlpcDsNCkBAIC0xMzY5LDcxICsxMzYzLDgx
+IEBAIHN0cnVjdCBkd2MzIHsNCiANCiAJdTgJCQl0ZXN0X21vZGU7DQogCXU4CQkJdGVzdF9tb2Rl
+X25yOw0KLQl1OAkJCWxwbV9ueWV0X3RocmVzaG9sZDsNCi0JdTgJCQloaXJkX3RocmVzaG9sZDsN
+Ci0JdTgJCQlyeF90aHJfbnVtX3BrdDsNCi0JdTgJCQlyeF9tYXhfYnVyc3Q7DQotCXU4CQkJdHhf
+dGhyX251bV9wa3Q7DQotCXU4CQkJdHhfbWF4X2J1cnN0Ow0KLQl1OAkJCXJ4X3Rocl9udW1fcGt0
+X3ByZDsNCi0JdTgJCQlyeF9tYXhfYnVyc3RfcHJkOw0KLQl1OAkJCXR4X3Rocl9udW1fcGt0X3By
+ZDsNCi0JdTgJCQl0eF9tYXhfYnVyc3RfcHJkOw0KLQl1OAkJCXR4X2ZpZm9fcmVzaXplX21heF9u
+dW07DQogCXU4CQkJY2xlYXJfc3RhbGxfcHJvdG9jb2w7DQotCXUxNgkJCW51bV9oY19pbnRlcnJ1
+cHRlcnM7DQotDQotCWNvbnN0IGNoYXIJCSpoc3BoeV9pbnRlcmZhY2U7DQogDQogCXVuc2lnbmVk
+CQljb25uZWN0ZWQ6MTsNCiAJdW5zaWduZWQJCXNvZnRjb25uZWN0OjE7DQogCXVuc2lnbmVkCQlk
+ZWxheWVkX3N0YXR1czoxOw0KIAl1bnNpZ25lZAkJZXAwX2JvdW5jZWQ6MTsNCiAJdW5zaWduZWQJ
+CWVwMF9leHBlY3RfaW46MTsNCi0JdW5zaWduZWQJCXN5c2Rldl9pc19wYXJlbnQ6MTsNCi0JdW5z
+aWduZWQJCWhhc19scG1fZXJyYXR1bToxOw0KLQl1bnNpZ25lZAkJaXNfdXRtaV9sMV9zdXNwZW5k
+OjE7DQogCXVuc2lnbmVkCQlpc19mcGdhOjE7DQogCXVuc2lnbmVkCQlwZW5kaW5nX2V2ZW50czox
+Ow0KLQl1bnNpZ25lZAkJZG9fZmlmb19yZXNpemU6MTsNCiAJdW5zaWduZWQJCXB1bGx1cHNfY29u
+bmVjdGVkOjE7DQogCXVuc2lnbmVkCQlzZXR1cF9wYWNrZXRfcGVuZGluZzoxOw0KIAl1bnNpZ25l
+ZAkJdGhyZWVfc3RhZ2Vfc2V0dXA6MTsNCi0JdW5zaWduZWQJCWRpc19zdGFydF90cmFuc2Zlcl9x
+dWlyazoxOw0KLQl1bnNpZ25lZAkJdXNiM19scG1fY2FwYWJsZToxOw0KLQl1bnNpZ25lZAkJdXNi
+Ml9scG1fZGlzYWJsZToxOw0KLQl1bnNpZ25lZAkJdXNiMl9nYWRnZXRfbHBtX2Rpc2FibGU6MTsN
+Ci0JdW5zaWduZWQJCW5lZWRzX2Z1bGxfcmVpbml0OjE7DQotDQotCXVuc2lnbmVkCQlkaXNhYmxl
+X3NjcmFtYmxlX3F1aXJrOjE7DQotCXVuc2lnbmVkCQl1MmV4aXRfbGZwc19xdWlyazoxOw0KLQl1
+bnNpZ25lZAkJdTJzc19pbnAzX3F1aXJrOjE7DQotCXVuc2lnbmVkCQlyZXFfcDFwMnAzX3F1aXJr
+OjE7DQotCXVuc2lnbmVkICAgICAgICAgICAgICAgIGRlbF9wMXAycDNfcXVpcms6MTsNCi0JdW5z
+aWduZWQJCWRlbF9waHlfcG93ZXJfY2hnX3F1aXJrOjE7DQotCXVuc2lnbmVkCQlsZnBzX2ZpbHRl
+cl9xdWlyazoxOw0KLQl1bnNpZ25lZAkJcnhfZGV0ZWN0X3BvbGxfcXVpcms6MTsNCi0JdW5zaWdu
+ZWQJCWRpc191M19zdXNwaHlfcXVpcms6MTsNCi0JdW5zaWduZWQJCWRpc191Ml9zdXNwaHlfcXVp
+cms6MTsNCi0JdW5zaWduZWQJCWRpc19lbmJsc2xwbV9xdWlyazoxOw0KLQl1bnNpZ25lZAkJZGlz
+X3UxX2VudHJ5X3F1aXJrOjE7DQotCXVuc2lnbmVkCQlkaXNfdTJfZW50cnlfcXVpcms6MTsNCi0J
+dW5zaWduZWQJCWRpc19yeGRldF9pbnAzX3F1aXJrOjE7DQotCXVuc2lnbmVkCQlkaXNfdTJfZnJl
+ZWNsa19leGlzdHNfcXVpcms6MTsNCi0JdW5zaWduZWQJCWRpc19kZWxfcGh5X3Bvd2VyX2NoZ19x
+dWlyazoxOw0KLQl1bnNpZ25lZAkJZGlzX3R4X2lwZ2FwX2xpbmVjaGVja19xdWlyazoxOw0KLQl1
+bnNpZ25lZAkJcmVzdW1lX2hzX3Rlcm1pbmF0aW9uczoxOw0KLQl1bnNpZ25lZAkJdWxwaV9leHRf
+dmJ1c19kcnY6MTsNCi0JdW5zaWduZWQJCXBhcmttb2RlX2Rpc2FibGVfc3NfcXVpcms6MTsNCi0J
+dW5zaWduZWQJCXBhcmttb2RlX2Rpc2FibGVfaHNfcXVpcms6MTsNCi0JdW5zaWduZWQJCWdmbGFk
+al9yZWZjbGtfbHBtX3NlbDoxOw0KLQ0KLQl1bnNpZ25lZAkJdHhfZGVfZW1waGFzaXNfcXVpcms6
+MTsNCi0JdW5zaWduZWQJCXR4X2RlX2VtcGhhc2lzOjI7DQotDQotCXVuc2lnbmVkCQlkaXNfbWV0
+YXN0YWJpbGl0eV9xdWlyazoxOw0KLQ0KLQl1bnNpZ25lZAkJZGlzX3NwbGl0X3F1aXJrOjE7DQor
+DQorCXN0cnVjdF9ncm91cF90YWdnZWQoZHdjM19wcm9wZXJ0aWVzLCBwcm9wZXJ0aWVzLA0KKwkJ
+ZW51bSB1c2JfZHJfbW9kZQlkcl9tb2RlOw0KKwkJdTMyCQkJZmxhZGo7DQorCQl1MzIJCQlyZWZf
+Y2xrX3BlcjsNCisJCXUzMgkJCW1heGltdW1fc3BlZWQ7DQorCQllbnVtIHVzYl9zc3BfcmF0ZQlt
+YXhfc3NwX3JhdGU7DQorCQl1MzIJCQlnc2J1c2NmZzBfcmVxaW5mbzsNCisJCXU4CQkJbHBtX255
+ZXRfdGhyZXNob2xkOw0KKwkJdTgJCQloaXJkX3RocmVzaG9sZDsNCisJCXU4CQkJcnhfdGhyX251
+bV9wa3Q7DQorCQl1OAkJCXJ4X21heF9idXJzdDsNCisJCXU4CQkJdHhfdGhyX251bV9wa3Q7DQor
+CQl1OAkJCXR4X21heF9idXJzdDsNCisJCXU4CQkJcnhfdGhyX251bV9wa3RfcHJkOw0KKwkJdTgJ
+CQlyeF9tYXhfYnVyc3RfcHJkOw0KKwkJdTgJCQl0eF90aHJfbnVtX3BrdF9wcmQ7DQorCQl1OAkJ
+CXR4X21heF9idXJzdF9wcmQ7DQorCQl1OAkJCXR4X2ZpZm9fcmVzaXplX21heF9udW07DQorCQl1
+MTYJCQludW1faGNfaW50ZXJydXB0ZXJzOw0KKw0KKwkJY29uc3QgY2hhcgkJKmhzcGh5X2ludGVy
+ZmFjZTsNCisNCisJCXVuc2lnbmVkCQlzeXNkZXZfaXNfcGFyZW50OjE7DQorCQl1bnNpZ25lZAkJ
+aGFzX2xwbV9lcnJhdHVtOjE7DQorCQl1bnNpZ25lZAkJaXNfdXRtaV9sMV9zdXNwZW5kOjE7DQor
+CQl1bnNpZ25lZAkJZG9fZmlmb19yZXNpemU6MTsNCisJCXVuc2lnbmVkCQlkaXNfc3RhcnRfdHJh
+bnNmZXJfcXVpcms6MTsNCisJCXVuc2lnbmVkCQl1c2IzX2xwbV9jYXBhYmxlOjE7DQorCQl1bnNp
+Z25lZAkJdXNiMl9scG1fZGlzYWJsZToxOw0KKwkJdW5zaWduZWQJCXVzYjJfZ2FkZ2V0X2xwbV9k
+aXNhYmxlOjE7DQorCQl1bnNpZ25lZAkJbmVlZHNfZnVsbF9yZWluaXQ6MTsNCisNCisJCXVuc2ln
+bmVkCQlkaXNhYmxlX3NjcmFtYmxlX3F1aXJrOjE7DQorCQl1bnNpZ25lZAkJdTJleGl0X2xmcHNf
+cXVpcms6MTsNCisJCXVuc2lnbmVkCQl1MnNzX2lucDNfcXVpcms6MTsNCisJCXVuc2lnbmVkCQly
+ZXFfcDFwMnAzX3F1aXJrOjE7DQorCQl1bnNpZ25lZCAgICAgICAgICAgICAgICBkZWxfcDFwMnAz
+X3F1aXJrOjE7DQorCQl1bnNpZ25lZAkJZGVsX3BoeV9wb3dlcl9jaGdfcXVpcms6MTsNCisJCXVu
+c2lnbmVkCQlsZnBzX2ZpbHRlcl9xdWlyazoxOw0KKwkJdW5zaWduZWQJCXJ4X2RldGVjdF9wb2xs
+X3F1aXJrOjE7DQorCQl1bnNpZ25lZAkJZGlzX3UzX3N1c3BoeV9xdWlyazoxOw0KKwkJdW5zaWdu
+ZWQJCWRpc191Ml9zdXNwaHlfcXVpcms6MTsNCisJCXVuc2lnbmVkCQlkaXNfZW5ibHNscG1fcXVp
+cms6MTsNCisJCXVuc2lnbmVkCQlkaXNfdTFfZW50cnlfcXVpcms6MTsNCisJCXVuc2lnbmVkCQlk
+aXNfdTJfZW50cnlfcXVpcms6MTsNCisJCXVuc2lnbmVkCQlkaXNfcnhkZXRfaW5wM19xdWlyazox
+Ow0KKwkJdW5zaWduZWQJCWRpc191Ml9mcmVlY2xrX2V4aXN0c19xdWlyazoxOw0KKwkJdW5zaWdu
+ZWQJCWRpc19kZWxfcGh5X3Bvd2VyX2NoZ19xdWlyazoxOw0KKwkJdW5zaWduZWQJCWRpc190eF9p
+cGdhcF9saW5lY2hlY2tfcXVpcms6MTsNCisJCXVuc2lnbmVkCQlyZXN1bWVfaHNfdGVybWluYXRp
+b25zOjE7DQorCQl1bnNpZ25lZAkJdWxwaV9leHRfdmJ1c19kcnY6MTsNCisJCXVuc2lnbmVkCQlw
+YXJrbW9kZV9kaXNhYmxlX3NzX3F1aXJrOjE7DQorCQl1bnNpZ25lZAkJcGFya21vZGVfZGlzYWJs
+ZV9oc19xdWlyazoxOw0KKwkJdW5zaWduZWQJCWdmbGFkal9yZWZjbGtfbHBtX3NlbDoxOw0KKw0K
+KwkJdW5zaWduZWQJCXR4X2RlX2VtcGhhc2lzX3F1aXJrOjE7DQorCQl1bnNpZ25lZAkJdHhfZGVf
+ZW1waGFzaXM6MjsNCisNCisJCXVuc2lnbmVkCQlkaXNfbWV0YXN0YWJpbGl0eV9xdWlyazoxOw0K
+Kw0KKwkJdW5zaWduZWQJCWRpc19zcGxpdF9xdWlyazoxOw0KKwkpOw0KIAl1bnNpZ25lZAkJZW5h
+YmxlX3VzYjJfdHJhbnNjZWl2ZXJfZGVsYXk6MTsNCiAJdW5zaWduZWQJCWFzeW5jX2NhbGxiYWNr
+czoxOw0KIAl1bnNpZ25lZAkJc3lzX3dha2V1cDoxOw0KQEAgLTE0NDcsNyArMTQ1MSw2IEBAIHN0
+cnVjdCBkd2MzIHsNCiAJaW50CQkJbGFzdF9maWZvX2RlcHRoOw0KIAlpbnQJCQludW1fZXBfcmVz
+aXplZDsNCiAJc3RydWN0IGRlbnRyeQkJKmRlYnVnX3Jvb3Q7DQotCXUzMgkJCWdzYnVzY2ZnMF9y
+ZXFpbmZvOw0KIAl1MzIJCQl3YWtldXBfcGVuZGluZ19mdW5jczsNCiB9Ow0KIA0KZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvdXNiL2R3YzMvZ2x1ZS5oIGIvZHJpdmVycy91c2IvZHdjMy9nbHVlLmgNCmlu
+ZGV4IGExMjg0YzQ4MTM5MC4uYjdjZTE5NmU4NGVhIDEwMDY0NA0KLS0tIGEvZHJpdmVycy91c2Iv
+ZHdjMy9nbHVlLmgNCisrKyBiL2RyaXZlcnMvdXNiL2R3YzMvZ2x1ZS5oDQpAQCAtOSwxNyArOSw2
+IEBADQogI2luY2x1ZGUgPGxpbnV4L3R5cGVzLmg+DQogI2luY2x1ZGUgImNvcmUuaCINCiANCi0v
+KioNCi0gKiBkd2MzX3Byb3BlcnRpZXM6IERXQzMgY29yZSBwcm9wZXJ0aWVzDQotICogQGdzYnVz
+Y2ZnMF9yZXFpbmZvOiBWYWx1ZSB0byBiZSBwcm9ncmFtbWVkIGluIHRoZSBHU0JVU0NGRzAuUkVR
+SU5GTyBmaWVsZA0KLSAqIEBuZWVkc19mdWxsX3JlaW5pdDogaW5kaWNhdGUgdGhlIGNvbnRyb2xs
+ZXIgbWF5IG5vdCByZW1haW4gcG93ZXIgZHVyaW5nIHN5c3RlbQ0KLSAqCQkJcG0gYW5kIG5lZWQg
+ZnVsbCBpbml0aWFsaXphdGlvbg0KLSAqLw0KLXN0cnVjdCBkd2MzX3Byb3BlcnRpZXMgew0KLQl1
+MzIgZ3NidXNjZmcwX3JlcWluZm87DQotCXVuc2lnbmVkIG5lZWRzX2Z1bGxfcmVpbml0OjE7DQot
+fTsNCi0NCiAjZGVmaW5lIERXQzNfREVGQVVMVF9QUk9QRVJUSUVTICgoc3RydWN0IGR3YzNfcHJv
+cGVydGllcyl7CQlcDQogCS5nc2J1c2NmZzBfcmVxaW5mbyA9IERXQzNfR1NCVVNDRkcwX1JFUUlO
+Rk9fVU5TUEVDSUZJRUQsCVwNCiAJfSkNCi0tIA0KMi41My4wDQo=
