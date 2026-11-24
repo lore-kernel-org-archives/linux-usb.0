@@ -1,88 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795527036;
-	b=lWaYL1pqWcZ+U2PPIaLkRd/IF+ILtjg7PKjy63DLEfvHc0TKVdac7lE5H5ReR5e+zPYg
-	 k+ZvucmQzr6lAnlyW8iYQI5lM92fzhViIDyYy7oiJu+La876iaidLtlwySK4d0SjaVY0G
-	 qXmhTpb2wI/ZXgxQBgeRmnMR1iu/aWOp3Celr1YHdTH69Lmke8wbS8oM/fuh/eBMoUVrL
-	 ORzTk+gsolwx6kAeAF09DQbiLO1fjWQe71Q1UBjiad/AlMVK0/hhg2kA/2lQQdJlQjQhv
-	 3d2wV49SpiDo5owy+eC+MiAy2J2ZZcf1NMtrhG7aAuM2v4eiSBOFNXsUDGWBZ42NgtQ==
+	t=1795527283;
+	b=AZ2D01BLhFGOoDa2WTtmGeCIkbA6J7SlbU2eTIwAWf39UFzCx4MwxSVM+0FhDpy8b0s/
+	 16QJkR5286LwC/XezyIU/X5M5yIjju/5z/aS8xe9u6cEaAivJS0MOPwg0TgOY6tTC2wOF
+	 +Xk/wCADQqCwHP52Ol7cO7pu2k4H68Uiqdpb1RnnKyQlizWGyKihZc7rraLAsQatVLFAh
+	 1c6FThkMIk2b2WXZcxEXwjGWSCatOo/a9G/hFxIS9z1KIPLthmI+m+vYsrV0gY+JXRrEu
+	 ulp9fBeXBO2+6VUbkpvt03pZCGxsE8k1D3fk9DGj6DIuDaK3YtAbDqH6/ohCmFSFEdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795527036;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=AaK72SNggPqYF/BC/D57qO7dCLlZ7Z80+TEYhpfdQSE=;
-	b=Kyh1+QM0J2ZOjLNt4wF+2bsKiAeKeK0RYJ/FHaTvvhiDXVfs3Pn3vMrMXS97LsVqGyA4
-	 Y5slUXGqStwcKoVtkhH1T7sG/CcHvfbKcSThfGVIXyMD13VdGhl6+EyS2mGaaf0DVUuly
-	 a5O4X5g3RbyeEndWEt+NsneYOcyzTybsUPmM2E9G+D9BtEZOFLO6elkSrSFnj4xXSXJD5
-	 TLZhfN4qKnDNulZWOvxtO3SaUktl7Qa9gsk1ul3PifmDbffQWUgzTlxmkJ1aWWTfHTmLw
-	 7JHF6BeUsTc/PPLZ7EMDbS54cBMCBzsgmKl2BRsXDwrdVOizgpNjJankq5ndjNmLWRA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795527283;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=qzRr83t2l8gwBhcS4PCTDkEzvbq1+EXVlNFdmk4KAQQ=;
+	b=3cFcyMBJeVsb3z1vCRHY1Y+QhZjmudcH4cLvKboRpUm1Rk6CEiMkLfdwmKNdeJvPPdvp
+	 MXO33Dk9vXstVi/Q9/5uV/IM/PfQuzuE593OfnLepW8B61rR4dgldN4KlGnf2xPn+lST1
+	 M/Fr3axtuLEmV9NncrBvJM7aWkLERcQwHfIKYo+72iiBKQk0gq1usZPbr35AJvbOxfthj
+	 iJgx+WOZVXJqcmxCyY0q2VUa/uNQ28dLlo33ZCk/NpPhu3ReyRtIirVFdwxMvzEJo0Wjn
+	 G2vlhsZEkpkkvK1pESmdVuxrwMNB2Njn0RFGSzWYnmHkgPmehOy0MBVOYEN0ZQXmkgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=DSTSAjky;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XDV1UJl6;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CBF606A31E
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 13:30:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49CBF606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C12606A31E;
+	Tue, 24 Nov 2026 13:34:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=DSTSAjky
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb6adaf0f1so39504015e9.0
-        for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 05:30:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795527035; x=1796131835; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AaK72SNggPqYF/BC/D57qO7dCLlZ7Z80+TEYhpfdQSE=;
-        b=DSTSAjkyYTAlehNkylmpxXQAMsK+0vWB4w08PbpwuVv3LL4OZkqY2SfOeI5hYeQKOI
-         LpiQmLS7NRi46Ia0LqOnPVtVEisOA9Ggcu/slTOYH7Gx7jBq64Jt5vmS8zEi/bZBeusP
-         6JHuekAWvtby4QDiWD7P/4bQFw6DYY/8uqVu4vCrExT86+cgYFliyV6U2TdUDVSFzTnp
-         cqJhTHpXVcYfuOYQDqBv8FueMSsASBc/JBRq6jmHUrzmLCP2FeJlPexA1SrZLd3sjHQc
-         aul10rfW9Fn4vKd782dhM0G8YvwNLJXd6Sb4eKYU/MVfT/EHtPSdFzAf/+uikM4NSXtL
-         lEAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795527035; x=1796131835;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AaK72SNggPqYF/BC/D57qO7dCLlZ7Z80+TEYhpfdQSE=;
-        b=umX42z8NieEOPYNpJ7c5J967cG2XXDYPIg4Os3d51bR4t84UvnQ2PeFyCGjzevKNK1
-         q67SkC3l8gzjoquhG+7Ougw/SqTtRQ10UyLCZtE4Kiq2chFDuf9U8+m4XeQws5amoKMO
-         +No6wCkAt9xKR71fHU+Gpp4ENYBYYQNiLj17zASgpjVUz4Th6pNVBl2OlEpo1vKF7ZLI
-         C+RihsPNofK6uS3GDp7G2nahXKKrgMb9MqWKWz2joxGcltIn1CPChpZn9WHTSqBmZ5/W
-         85yU6j9t0KGItyJJbCl5H6iYtLYbfg+C8QGhV68Y9zcVgyOYa+dVJKA3nh2sVzpQ2HWN
-         bucQ==
-X-Forwarded-Encrypted: i=1; AL+hErEZN72ULltFACOvk3Qc0Vv+ZNNefiPDzXrEoa0+bbHxxxtHGk9wmfXFFdeMwzycDqFcdYHiPdPlX6Y=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8QCtPUeuCTsQS5w1Yn6mwEOdDR548i5RqORcPNh7e9sd3snpT8
-	jQd+tFdklONhBI2UpAqDjAKF+eLVTEnoNXuSsFyPqCnGroem0IrhliQ/9FZSdfQ+5Vg=
-X-Gm-Gg: AZFdTZe0Of8/yMfTq1n2m2ay2r5q1IXGLXCUXDipYud8pCuMYsF7imlmEmjDB4TOpYa
-	vH2pJlXdIFHHuKZB01cc+A4C0kADlAYXHZA0BKI5frWjjFQJsNqaOGZlND7qTP7AU2+0K/9PNQF
-	luNKCnMC5pzYB+2/qTCfTlXgAzJIetK/XHvEixb8yNW0XV7TC0HNz0Wr7zGJ+f1mPOjc+MRFSP0
-	s/OYQdXGNKoQLZXW1qhzDqS3EaWgmzoltkSUmmyVGz+bQmlqFcwmMvnBGI9d43pf+RN/UL6Z8Ae
-	M3Uu0HvxV0BRuJ/xawH3wk9NrO4Tzl2nXT0UizL0FB6m4pKYvZN6t5HfC/I5KBrJsBJCxxBsfYX
-	m2+iCNpikHmMyK0d0BBhpa4RUXxo8LkIqUtOHJUBdOwQObEfF2iodE8muNce1P5nImJkx4uE7Co
-	577Z0DAO9XB6hHWmI3S8QMJkAJ8RBleXyXa8Jx8WFwMxL2xzjHIYyI6e+Ye+oyAaILIpvbiuiAf
-	m2FoH+mM1e8hUvPtiJwYoLh59aHrRKYWSuefsQuwKNarFVqE6OcNBwszr7H21g4arEyMHIcX1m4
-	s1nOBSy7cQep7E4XQ/wXBvH88IpXXvuKz15INlj+ZvJnWF1Y7B/+xCHR5wUgF9vY3M8w
-X-Received: by 2002:a05:600c:500c:b0:4bb:82f7:549f with SMTP id 5b1f17b1804b1-4bb8881409bmr321872905e9.19.1795527034467;
-        Tue, 24 Nov 2026 05:30:34 -0800 (PST)
-Received: from ?IPV6:2001:a61:132b:a401:6cb8:7c28:11e1:499? ([2001:a61:132b:a401:6cb8:7c28:11e1:499])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906d6a13sm227938555e9.3.2026.11.24.05.30.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Nov 2026 05:30:34 -0800 (PST)
-Message-ID: <b2ad19d9-87a8-4106-97b3-46e6c649a9be@suse.com>
-Date: Tue, 24 Nov 2026 14:30:32 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XDV1UJl6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFB4F1F000CF;
+	Tue, 24 Nov 2026 13:34:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795527283;
+	bh=qzRr83t2l8gwBhcS4PCTDkEzvbq1+EXVlNFdmk4KAQQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=XDV1UJl6iaGv9ibizQMoOm3pWhEOpFvNpa0DCA5cuAU3N9zWUfArZUc3exlDe9ixA
+	 6VpM9JSDsZ7T9klWYpi8Z5wzFfaKaZtb2+KHFUR4ZIb7p8TaFr9a4HEeEdY3FVKh9+
+	 X3X+b0aIUD3x86dzn+uGU2m44NoZzfkgW6ggTD6YVsNgB62t8OPwoXmhXR4lgU8/8m
+	 fBjCXVLNYBws1aNSVycoIBC+PNpOHlguHOVeb2Tf9DpziSlr/cKjdvQUye5J8b7LAf
+	 Ofg9TFlNA8A0uidaQo5dtUdOqtu178D7XBeDntGEsu2Ugcsl6+3z6/Swwmo/VK/KA7
+	 BNUCHNr3axkxg==
+Message-ID: <sashiko-outbox-231224@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 6/6] usb: gadget: udc: crg: Add core driver and build
+ integration
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Petar Stepanovic" <pstepanovic@axiado.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261124-axiado-ax3000-usb-device-controller-v6-6-b991f9b27111@axiado.com>
+References: <20261124-axiado-ax3000-usb-device-controller-v6-0-b991f9b27111@axiado.com>
+ <20261124-axiado-ax3000-usb-device-controller-v6-6-b991f9b27111@axiado.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 24 Nov 2026 13:34:42 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,34 +60,98 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [usb-storage] Re: [PATCH 1/2] usb: uas: expose US_FL_NO_ATA_1X in
- sysfs as ata_passthrough_disabled
-To: Nathan Stratton Treadway <vgerlists2026@nathanst.com>,
- =?UTF-8?Q?Mateusz_Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
-Cc: Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
- linux-kernel@vger.kernel.org
-References: <20261121155253.4980-1-mat.jonczyk@o2.pl>
- <awRIRpJIxWPJcn5i@diagon-alley.stratway.net>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <awRIRpJIxWPJcn5i@diagon-alley.stratway.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 23.11.26 15:05, Nathan Stratton Treadway wrote:
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] usb: gadget: udc: crg: premature suspend during stop in
+  crg_udc_suspend()
+--
 
-> Would it make sense to explicitly mention something about "USB quirk flag
-> US_FL_NO_ATA_1X" in this documentation entry?
-No, probably not. The exact flag the kernel uses internally
-isn't and shouldn't be exported to user space. Hence mentioning
-it in the documentation is not appropriate either.
+commit b4599496ea6732d81644faa7d639b33738f4ec72
+Author: Petar Stepanovic <pstepanovic@axiado.com>
 
-	Regards
-		Oliver
+usb: gadget: udc: crg: Add core driver and build integration
 
+This commit adds the core probe, remove, power management, interrupt, and
+controller recovery paths for the Axiado AX3000/AX3005 UDC driver, and
+integrates it into Kconfig and Makefile.
+
+> diff --git a/drivers/usb/gadget/udc/crg/crg-udc-core.c b/drivers/usb/gadg=
+et/udc/crg/crg-udc-core.c
+> new file mode 100644
+> index 0000000000000..4b5c28da74975
+> --- /dev/null
+> +++ b/drivers/usb/gadget/udc/crg/crg-udc-core.c
+[ ... ]
+> +static int crg_udc_suspend(struct device *dev)
+> +{
+> +	struct crg_gadget_dev *crg_udc =3D dev_get_drvdata(dev);
+> +	unsigned long flags;
+> +	bool notify_disconnect;
+> +	int i, ret;
+> +
+> +	spin_lock_irqsave(&crg_udc->udc_lock, flags);
+> +	if (crg_udc->controller_recovering || crg_udc->shutting_down ||
+> +	    crg_udc->external_reset_pending ||
+> +	    crg_udc->endpoint_recovery_pending ||
+> +	    (crg_udc->hw_reset_asserted && !crg_udc->gadget_stopping)) {
+> +		ret =3D -EBUSY;
+> +		goto unlock;
+> +	}
+> +	if (crg_udc->gadget_stopping) {
+> +		ret =3D crg_udc->hw_dma_armed ? -EBUSY : 0;
+> +		if (!ret)
+> +			crg_udc->suspended =3D true;
+> +		goto unlock;
+> +	}
+
+[Severity: Medium]
+Can crg_udc_suspend() mark the device suspended and return 0 while
+crg_udc_stop_gadget(), request DMA mapping, or completion callbacks are
+still in progress?
+
+When crg_udc->gadget_stopping is true, this fast path only checks
+crg_udc->hw_dma_armed before setting crg_udc->suspended and
+crg_udc->suspend_complete.  If crg_udc_stop_gadget() sets
+crg_udc->gadget_stopping while crg_udc_recover() -> crg_udc_reset() has
+dropped udc_lock, crg_udc_recover() clears hw_dma_armed and
+controller_recovering and sets controller_faulted =3D true before
+crg_udc_stop_gadget() finishes draining IRQ, workers, queueing, and
+gadget_callbacks_active:
+
+CPU0                              CPU1
+crg_udc_recover()
+  crg_udc_reset()
+    unlock(&crg_udc->udc_lock)
+                                  crg_udc_stop_gadget()
+                                    crg_udc->gadget_stopping =3D true
+                                    unlock(&crg_udc->udc_lock)
+                                    synchronize_irq() / cancel_work
+    lock(&crg_udc->udc_lock)
+    crg_udc->hw_dma_armed =3D false
+  crg_udc->controller_faulted =3D true
+  crg_udc_recovery_end()
+  unlock(&crg_udc->udc_lock)
+                                  crg_udc_suspend() (on CPU2)
+                                    /* gadget_stopping && !hw_dma_armed */
+                                    crg_udc->suspended =3D true
+                                    crg_udc->suspend_complete =3D true
+                                    return 0;  <-- premature suspend
+                                  lock(&crg_udc->udc_lock)
+                                  /* sees suspend_complete, skips
+                                     crg_udc_finish_gadget_stop() */
+
+Because suspend_complete is set and hw_dma_armed is already false, both
+crg_udc_stop_gadget() and crg_udc_resume() skip
+crg_udc_finish_gadget_stop(), leaving controller_faulted set and VBUS
+detection enabled.  The same fast path can also run after
+crg_udc_finish_gadget_stop() while crg_udc_stop_gadget() is still waiting
+for crg_udc->gadget_callbacks_active to drain.
+
+Returning -EBUSY from crg_udc_suspend() while crg_udc_stop_gadget() is
+active (or whenever gadget_callbacks_active, queueing, or
+controller_faulted is set) would avoid completing suspend mid-teardown.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261124-axiado-ax3=
+000-usb-device-controller-v6-0-b991f9b27111@axiado.com?part=3D6
