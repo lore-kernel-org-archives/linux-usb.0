@@ -1,71 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=31.14.14.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795532646;
-	b=Yda9KjxP5MCwELozYpb/XJ5G6WXkC81PHohRSu05y04ZdKOtfpozjbuLeKZEop3+dSji
-	 qM5ctgas1Y6FnZ96OwYNkas+/8MJAilrUMFjx7p9784sUU7TtMmww5NkSZx70UIYHnTJZ
-	 RIhUJU9PWfocPHniJ+MKbzqSdwELhN4Gk5lHatF9gvs/vRp0Jg8C9d55LtOWKeYG/lcZX
-	 zELYT9hzZe+MZNA20TZ/+i8MF1W7H/OYau8x2b0P6g+Oyr1wrtWXn0l7ZMRHqBKKjktFe
-	 P6v5eEadUUG7h0VSUP9KWXHoYFX6KLPFVvQFiJVQnUUe1TO+i8+acRdZxJlWam+LEng==
+	t=1795533391;
+	b=TddDduvUq+4SIr1PxsIho/9o/sr+9xpP5/1Oj2Lbfj3wT5AFfsGl3hkhCFPc/9GYwRQn
+	 yFN6/jn7dpp1RIkcLqueWAylDUbauxSS0O5VGFKAGChqqfXvXctCitOusX2gtCbApbYbj
+	 AqM7oRtxwGYVyTfWvTAJlAszhDFYVl3FkwKWBM0gKfz75fSEpoEbThSRafX+zCdffJ3Cg
+	 I4M1F/jE++XMNZuwnukA82U4vz2etBEiNiz3Yx6tTU8zY+4apN7gcB0MHzaLEt3eE1v05
+	 x4IJmDufZT4AmBMwQh1hFg9RasFUhAi9cMOdq9266V3H0a+M2WA9y//1iOlvIm47fmQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795532646;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-Get-Message-Sender-Via:
-	 X-Authenticated-Sender:X-Source:X-Source-Args:X-Source-Dir;
-	bh=VbXngAw2/EYljEhG1DnBSXO7gAncUA/GeZZJw54pmOc=;
-	b=u0eIbikw28Wiyydch41oG6GktlLw4QsyCtQsFfk9zOx02otZAUf99GBBnHJJ70WPHZZe
-	 5MqfAqdRWSKcwpjC64zLdI3ZSYCcxyhruQfPKwP2BmIeogrGWY5T5zxhX/GRAKnKxQVh0
-	 gqtB3iGHoEXT3w1UtHpVwFaYozbSO7VwKhFjJh1xfuBH+EEhFFEX5LRpYxn5rCVlICRoz
-	 y/MViqfM/YKV7XNGwihcJHyZLdTFmMLt56NO534gWiltlNqRFrgIhpwTnoLWSgUsCLDIk
-	 py+VgIwti6abVqHmQj3WGL9PxnuPIk9gMPgYZCTKt+qFADsuYY45b4eUKAg7sRdhvEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795533391;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=BMCZpH00SzHAWtm+4kewDGN1Km4oaj0cmgVi6ZAdMUY=;
+	b=PL7R9D+sRn4O6sncC9NsbATZ3dQUIOoz0CVDjngpH6VefF6hBWnHcbFH6QgxLpZdfUo1
+	 iQisihR8NxpSfAWf1/lfTly3XNGpYu8e0a/IGKR0QRg3WZNPQTarGhfRfvPn4XFAwOb6+
+	 m3GpXnNN6sk+tj+UR1VS+qwFSaevysZ1Q/znyUzTdqvQPauFNv4EaPBSLXQ1pdkOFnrkS
+	 h+ZzisDVabEVM+h9EkBoCYdaJL7wpTmGT3YJkIh+6kmpe1WDZ/Lzx9sVavkZ1aftiAlkk
+	 sZaTH2jKBuqhjYmTAdTVUkE60/BRS1FfgsDYCyXrJy/SJ5FY+7ix6inqscMXbM7Jl8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=taladin.ro;
-	spf=pass smtp.mailfrom=taladin.ro;
-	dkim=pass header.d=taladin.ro header.i=@taladin.ro header.a=rsa-sha256 header.s=default header.b=A6+sVP4Y;
-	arc=none smtp.remote-ip=31.14.14.46
-Received: from taladin.ro (unknown [31.14.14.46])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j6+5aYdI;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50BA0606A326;
-	Tue, 24 Nov 2026 15:04:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50BA0606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=taladin.ro
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=taladin.ro
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23B2606A321
+	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 15:16:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=taladin.ro header.i=@taladin.ro header.a=rsa-sha256 header.s=default header.b=A6+sVP4Y
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=taladin.ro;
-	s=default; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Unsubscribe-Post:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=VbXngAw2/EYljEhG1DnBSXO7gAncUA/GeZZJw54pmOc=; b=A6+sVP4YG3ceQ0kqskAOont4ro
-	sJcGURpD9/AMd3YPkZZICvlmwU6OVBj5slHhuleYKzCNZiEx7Ke3BC6UIMycAoJzRapaA7Hl2P1eV
-	osXK28UtkdB29F/2cyPjAGiL87fXB1IJmSOFsQ0ktH1BBnp2qNQhnMerbHHCq3UM9e3J6GhTNeE29
-	XfLy9n5H3lirNytkb/qkB/BvtPmtT6nY91Je9V6dPnMBXiZwi3llHkh7h8Tz2YZIqGLcR95TMrP/Y
-	17HQJSOD2Z9t6LG3frdrjT7J4WwXZFbxNIxrLabm8QsvctunKDH4lJUo4HNEOwwmcYNLMl73lhLKO
-	2rWjVwLg==;
-Received: from [86.125.199.146] (port=58840 helo=mercury..)
-	by cloud607.c-f.ro with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <aardelean@taladin.ro>)
-	id 1xVs3n-0000000BsAO-2PmH;
-	Tue, 24 Nov 2026 17:03:58 +0200
-From: Alexandru Ardelean <aardelean@taladin.ro>
-To: linux-usb@vger.kernel.org
-Cc: stable@vger.kernel.org,
-	hubert.wisniewski.25632@gmail.com,
-	gregkh@linuxfoundation.org,
-	b-liu@ti.com,
-	Alexandru Ardelean <aardelean@taladin.ro>
-Subject: [PATCH v2 2/2] usb: musb: gadget: mask the MUSB IRQ while complete() runs
-Date: Tue, 24 Nov 2026 17:03:44 +0200
-Message-ID: <20261124150344.69264-3-aardelean@taladin.ro>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261124150344.69264-1-aardelean@taladin.ro>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j6+5aYdI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33AFB1F000D0;
+	Tue, 24 Nov 2026 15:16:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795533391;
+	bh=BMCZpH00SzHAWtm+4kewDGN1Km4oaj0cmgVi6ZAdMUY=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=j6+5aYdISKidkthffSprzOwdvYzBTN9aCB4y+bDNr5/iPo4+HMdcx5njYsOVAmqwo
+	 1eYb+PoKjgnnYX2UugCjqiuDxOPIoBdQ40AgNZMeH9Io67PrpIvhdiGcACXq1gADog
+	 GVt6RUwxYXXF+BagBm1OiYO1hsWmAo90h85CwaFwyzzBAgsnlZkq6DTQhJn3/D5iyo
+	 I2Wn1g1E11mCdYKdGVWc3CACz6uasUV1DkmcXuJV9CzzlrP2ZwM3+Brw213TdyR0Fh
+	 MidCE15rD3qnC5UAqsgYthHhW19AG5gFs8vXCvPM1d/nP1mV2vuWMhT7tsdzUl0Izl
+	 YA6KGsuAjdP6Q==
+Message-ID: <sashiko-outbox-231395@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 1/2] Revert "usb: musb: Fix hardware lockup on first
+ Rx endpoint request"
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Alexandru Ardelean" <aardelean@taladin.ro>, linux-usb@vger.kernel.org
+In-Reply-To: <20261124150344.69264-2-aardelean@taladin.ro>
 References: <20261124150344.69264-1-aardelean@taladin.ro>
+ <20261124150344.69264-2-aardelean@taladin.ro>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 24 Nov 2026 15:16:30 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -74,58 +59,89 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cloud607.c-f.ro
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - taladin.ro
-X-Get-Message-Sender-Via: cloud607.c-f.ro: authenticated_id: aardelean@taladin.ro
-X-Authenticated-Sender: cloud607.c-f.ro: aardelean@taladin.ro
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 
-A request's complete() callback can enable IRQs (e.g. u_ether's
-rx_complete() calls netif_rx(), which re-enables IRQs when re-enabling
-BHs). If that happens while the endpoint's request queue is empty, the
-MUSB interrupt is handled with no request to take the packet, the
-interrupt flag is cleared but RXPKTRDY stays set, and the Rx endpoint
-locks up.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] usb: musb: lock inversion in musb_ep_restart() via
+  musb_run_resume_work()
+--
 
-Commit 3fc137386c46 ("usb: musb: Fix hardware lockup on first Rx
-endpoint request") listed several ways to fix this. Its second option
-was to keep MUSB interrupts from being handled while the callback runs.
-Implement that by masking the controller IRQ line around
-usb_gadget_giveback_request(), instead of flushing the Rx FIFO (which
-loses packets and was reverted).
+commit d72e1bdec5562f8d7f92be2dcf471e3639a440ee
+Author: Alexandru Ardelean <aardelean@taladin.ro>
 
-disable_irq_nosync() is used because musb_g_giveback() is usually
-called from the MUSB interrupt handler itself.
+Revert "usb: musb: Fix hardware lockup on first Rx endpoint request"
 
-Fixes: baebdf48c360 ("net: dev: Makes sure netif_rx() can be invoked in any context.")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alexandru Ardelean <aardelean@taladin.ro>
----
- drivers/usb/musb/musb_gadget.c | 3 +++
- 1 file changed, 3 insertions(+)
+This commit reverts commit 3fc137386c46 ("usb: musb: Fix hardware lockup on
+first Rx endpoint request"), restoring the call to rxstate() in
+musb_ep_restart() for RX requests instead of flushing the Rx FIFO.
 
-diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadget.c
-index dd67ab97df9d8..5cb7eb9c56de0 100644
---- a/drivers/usb/musb/musb_gadget.c
-+++ b/drivers/usb/musb/musb_gadget.c
-@@ -145,7 +145,10 @@ __acquires(ep->musb->lock)
- 		unmap_dma_buffer(req, musb);
- 
- 	trace_musb_req_gb(req);
-+	/* no MUSB interrupt during complete(), even if it enables IRQs */
-+	disable_irq_nosync(musb->nIrq);
- 	usb_gadget_giveback_request(&req->ep->end_point, &req->request);
-+	enable_irq(musb->nIrq);
- 	spin_lock(&musb->lock);
- 	ep->busy = busy;
- }
--- 
-2.43.0
+> diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadge=
+t.c
+> index 016d3f3fc1e05..dd67ab97df9d8 100644
+> --- a/drivers/usb/musb/musb_gadget.c
+> +++ b/drivers/usb/musb/musb_gadget.c
+> @@ -1162,19 +1162,12 @@ void musb_free_request(struct usb_ep *ep, struct =
+usb_request *req)
+>   */
+>  void musb_ep_restart(struct musb *musb, struct musb_request *req)
+>  {
+> -	u16 csr;
+> -	void __iomem *epio =3D req->ep->hw_ep->regs;
+> -
+>  	trace_musb_req_start(req);
+>  	musb_ep_select(musb->mregs, req->epnum);
+> -	if (req->tx) {
+> +	if (req->tx)
+>  		txstate(musb, req);
+> -	} else {
+> -		csr =3D musb_readw(epio, MUSB_RXCSR);
+> -		csr |=3D MUSB_RXCSR_FLUSHFIFO | MUSB_RXCSR_P_WZC_BITS;
+> -		musb_writew(epio, MUSB_RXCSR, csr);
+> -		musb_writew(epio, MUSB_RXCSR, csr);
+> -	}
+> +	else
+> +		rxstate(musb, req);
+>  }
 
+[Severity: Medium]
+Can calling rxstate() from musb_ep_restart() invert the musb->lock ->
+musb->list_lock lock order and deadlock when invoked via
+musb_run_resume_work()?
+
+When an RX request is queued while runtime suspended,
+musb_queue_resume_work() queues musb_ep_restart_resume_work() on
+musb->pending_list.  On resume, musb_run_resume_work() runs with
+musb->lock and musb->list_lock held.  If rxstate() completes the request
+synchronously (for example, a zero-length RX request or a PIO read that
+satisfies the transfer), it calls musb_g_giveback(), which drops and
+re-acquires musb->lock while musb->list_lock remains held:
+
+CPU0                                  CPU1
+----                                  ----
+musb_runtime_resume()
+  lock(&musb->lock)
+  musb_run_resume_work()
+    lock(&musb->list_lock)
+    musb_ep_restart_resume_work()
+      musb_ep_restart()
+        rxstate()
+          musb_g_giveback()
+            unlock(&musb->lock)
+            usb_gadget_giveback_request()
+                                      musb_gadget_queue()
+                                        lock(&musb->lock)
+                                        musb_queue_resume_work()
+                                          lock(&musb->list_lock)
+            lock(&musb->lock)
+
+ *** DEADLOCK ***
+
+If the gadget's completion callback instead re-queues a request via
+usb_ep_queue() -> musb_gadget_queue() -> musb_queue_resume_work(), the
+same CPU also deadlocks trying to acquire musb->list_lock recursively.
+This remains present after the follow-up commit "usb: musb: gadget: mask
+the MUSB IRQ while complete() runs".
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261124150344.6926=
+4-1-aardelean@taladin.ro?part=3D1
