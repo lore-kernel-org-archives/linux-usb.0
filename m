@@ -1,97 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795526488;
-	b=H7AeiQcP/qRPksEo64KvF5JF3p9XTNwfsPPVaECwkIglPUkeaxZtS/A3r7YAJBXg8gJ1
-	 tihGvbJSJv4iTyatL3g3w0riXmx3zDvcxQHFnX70MV20KoSQJcbHwuV5UIrbS35+1y0qy
-	 QCv7INZHY45DWGKPoDxbNUCzCKJ1cQ79V1qDv1htFRhPOYdGY1ZrpaB0y5VEBOjpdALTT
-	 L+6lPImkENI8WcwJb+3PjamkNE5HMBkF7la0PgPFF9UHB6YE+GItcWNMgQRc0BMOUGlJB
-	 mGJArj+Dw6I0b+xB7s4QhvtLqYJQ7563dJRgmuF6bVH8sxWOBcUASdSXvQe5mgf4mNA==
+	t=1795527036;
+	b=lWaYL1pqWcZ+U2PPIaLkRd/IF+ILtjg7PKjy63DLEfvHc0TKVdac7lE5H5ReR5e+zPYg
+	 k+ZvucmQzr6lAnlyW8iYQI5lM92fzhViIDyYy7oiJu+La876iaidLtlwySK4d0SjaVY0G
+	 qXmhTpb2wI/ZXgxQBgeRmnMR1iu/aWOp3Celr1YHdTH69Lmke8wbS8oM/fuh/eBMoUVrL
+	 ORzTk+gsolwx6kAeAF09DQbiLO1fjWQe71Q1UBjiad/AlMVK0/hhg2kA/2lQQdJlQjQhv
+	 3d2wV49SpiDo5owy+eC+MiAy2J2ZZcf1NMtrhG7aAuM2v4eiSBOFNXsUDGWBZ42NgtQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795526488;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795527036;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=d/UbTX7w9C8C4q6IDHL7EUYQeNfUj43LN0srGzDRwwY=;
-	b=Gph1FnhnVtMI/GKSL4/IeGY5Ww8tki6uXn/xAJd6ju7pLuSQ6r3pumcOLej+/z7bwCPq
-	 S0ReuYhMyk3iCas8kjk0vNLH35UCSAg1G29qV2lHhW9Wx7eFlEOncHQPFRKT27k3HK8i7
-	 P97X2gzOAgfrEZ7PleVqDXSu77mbxuI0oo3e1uf0V/GbgouiZ1HcY+WRriTZelQHTUlFa
-	 wzVrhavaTfQPJrFITOSkWZFjFYT4WNmvC7WLrVuA3D+NJI8Gj7D5mgK9D03EljiVHeQTE
-	 JrGgjZ6vYCb7YYzzTdBBR+9WUvOI783QnQRkyzDT87S7nn0KHgKfhbr2doAT66JkAKw==
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=AaK72SNggPqYF/BC/D57qO7dCLlZ7Z80+TEYhpfdQSE=;
+	b=Kyh1+QM0J2ZOjLNt4wF+2bsKiAeKeK0RYJ/FHaTvvhiDXVfs3Pn3vMrMXS97LsVqGyA4
+	 Y5slUXGqStwcKoVtkhH1T7sG/CcHvfbKcSThfGVIXyMD13VdGhl6+EyS2mGaaf0DVUuly
+	 a5O4X5g3RbyeEndWEt+NsneYOcyzTybsUPmM2E9G+D9BtEZOFLO6elkSrSFnj4xXSXJD5
+	 TLZhfN4qKnDNulZWOvxtO3SaUktl7Qa9gsk1ul3PifmDbffQWUgzTlxmkJ1aWWTfHTmLw
+	 7JHF6BeUsTc/PPLZ7EMDbS54cBMCBzsgmKl2BRsXDwrdVOizgpNjJankq5ndjNmLWRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XvcxKqla;
-	arc=none smtp.remote-ip=74.125.82.180
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=DSTSAjky;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD70606A322
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 13:21:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DD70606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CBF606A31E
+	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 13:30:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49CBF606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XvcxKqla
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-33fb4680717so11833857eec.1
-        for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 05:21:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=DSTSAjky
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb6adaf0f1so39504015e9.0
+        for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 05:30:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795526488; x=1796131288; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=d/UbTX7w9C8C4q6IDHL7EUYQeNfUj43LN0srGzDRwwY=;
-        b=XvcxKqlae6rQZb59KPpFV5YLGR70gyFPY48rh1RzIKbEyaErkfTXemu/MDTTzbaQ8o
-         Ixwmrb/GH0ErSFy/pErx00T5h6fhw40tDi2OJbPd+cVNdImCNCnMCX4rA89z4fwP2xQB
-         34O5HlTVLfJHOTSnqIjia1QXaA+7+eqeqEHAlVK1BTozBY/mvbpzJEqVAB1pNQ4pRrUw
-         7eTzTDy23OULQpNDeQjAXZh18RS3ICXm0b9IoVnOkw5cna3B5IPqr5o7cUpi3w5tSF2m
-         a8nc2qJv3R+yoM2AW5lxyS17edKvB8uVP6jWW/x1vQOKiAazbKq7n0LXafexG4zfbmid
-         s6bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795526488; x=1796131288;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=suse.com; s=google; t=1795527035; x=1796131835; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=d/UbTX7w9C8C4q6IDHL7EUYQeNfUj43LN0srGzDRwwY=;
-        b=GecZDNd8kfTGTVazJcZgSCrHS02iGP0XP0V0dw7kpifdbCmEy5tQr804SYGhmhuX/m
-         eE3lOoaC6orXMfso+x0GXNl9BPOwdmso27n5BsGnXkmD+UpFnjxVzngSY0ppagevJXM9
-         vaZWT6QS0T0ricd3SHQOg9ulsL5xNCSTRugBnT6gkvR22zqGgIHiQ0m+AX2eF0OCGTwG
-         CbS+YkmtL5zKj8VNFKIRqs/OA5RAaBi6yKJMoveL6UNtYS+q/tKnM19xBhPYFjKiY6AH
-         W7gzPPDHwFoVwTQg5tsZMVp/qOjihFhxSrkWhHAadfaKUbGS+z1mGYYXAL9M/7yI6W/g
-         cqEg==
-X-Forwarded-Encrypted: i=1; AL+hErFc2IOnp+INLBhs9QGPFZ6yX6e28uQ7C9qUVZ6vhaw83RSWxsVsTNkxeotMyx5+QvGfI/EFMjahN/Y=@vger.kernel.org
-X-Gm-Message-State: APuU4Z921wIs90zOU+g9vGuDvjl0B8t0OwMttlumaNXqYFqpYz22YOHC
-	JFEn/XKb41THpCGEVk0v/2EKDVo4CQn7CrL8uvONGi0fn1pau//Hp+6F
-X-Gm-Gg: AZFdTZeda9wQEuuEe1aGGBrPf15wcW3Dznd6ZaSKPlpHQSNVz5ax/uUDgpU9oS9Cg38
-	8eCJ1k4A5IScZzAeV1acTN5vITUyEUwnotRaA3HFdaG59K7MfjHTXMYf1SpVyOiIgnH0D/SVfSf
-	2axB4BxlkDVVp5FsqH4uJTkIR5XvbW5p/RD71GDX4Mxld8dE5oQ63mhrwC16gwTZ9H2TClhEIbU
-	7iCaeLY1f54xFp/8LH5e/ELb8IbsM9nxgmE1y1F44dC0U5o9cM6VWJLl+2K1VXrubtd3loI0AYO
-	WCvMsDo1uHXFwG7xwqTSmcB1zoUSBUCRSjtelTtjMIcXmlpGdc2mWWxyw30wo+PO0vumG1miTjU
-	mFpeeaO52v6UyLr/Qik1h1IKKnB38XOOmR3eztvi/UTzNzmbmDizrOCnObkVz/aWT4uUsTrTFJi
-	25LSmhtq627552SGBHlD/GaDHzIeaeqo5EH+PcXYHBz/+lOB9qVumUmHDb8IYVpiHouLKMg+J0Z
-	JutdDT10aIsuZElEfw+l2LPUylY83iqa1eSZ6/xY72kn6mX3kG1uIwMikuGkP3AlwfjLWRBhlAL
-	pqvngpo9Z9UrfMl/KolWm1vmB7srdqzQwg==
-X-Received: by 2002:a05:7301:c016:b0:386:5adb:ac01 with SMTP id 5a478bee46e88-3865adbb1aemr14694694eec.24.1795526487360;
-        Tue, 24 Nov 2026 05:21:27 -0800 (PST)
-Received: from user ([2405:201:c052:b00b:9fbc:e0b0:e020:ae3])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38567daaf70sm47392736eec.28.2026.11.24.05.21.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 05:21:26 -0800 (PST)
-Date: Tue, 24 Nov 2026 18:50:57 +0530
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: michael.christie@oracle.com, nab@linux-iscsi.org, mkp@kernel.org,
-	leitao@debian.org, skhan@linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+a9efa71b884a23e74153@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb: gadget: f_tcm: avoid NULL dereference in
- usbg_make_tpg()
-Message-ID: <awWPORzewOifCGde@user>
-References: <20260915080523.15979-1-pavankumaryalagada@gmail.com>
- <2026112001-emptiness-rewrap-28ef@gregkh>
+        bh=AaK72SNggPqYF/BC/D57qO7dCLlZ7Z80+TEYhpfdQSE=;
+        b=DSTSAjkyYTAlehNkylmpxXQAMsK+0vWB4w08PbpwuVv3LL4OZkqY2SfOeI5hYeQKOI
+         LpiQmLS7NRi46Ia0LqOnPVtVEisOA9Ggcu/slTOYH7Gx7jBq64Jt5vmS8zEi/bZBeusP
+         6JHuekAWvtby4QDiWD7P/4bQFw6DYY/8uqVu4vCrExT86+cgYFliyV6U2TdUDVSFzTnp
+         cqJhTHpXVcYfuOYQDqBv8FueMSsASBc/JBRq6jmHUrzmLCP2FeJlPexA1SrZLd3sjHQc
+         aul10rfW9Fn4vKd782dhM0G8YvwNLJXd6Sb4eKYU/MVfT/EHtPSdFzAf/+uikM4NSXtL
+         lEAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795527035; x=1796131835;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AaK72SNggPqYF/BC/D57qO7dCLlZ7Z80+TEYhpfdQSE=;
+        b=umX42z8NieEOPYNpJ7c5J967cG2XXDYPIg4Os3d51bR4t84UvnQ2PeFyCGjzevKNK1
+         q67SkC3l8gzjoquhG+7Ougw/SqTtRQ10UyLCZtE4Kiq2chFDuf9U8+m4XeQws5amoKMO
+         +No6wCkAt9xKR71fHU+Gpp4ENYBYYQNiLj17zASgpjVUz4Th6pNVBl2OlEpo1vKF7ZLI
+         C+RihsPNofK6uS3GDp7G2nahXKKrgMb9MqWKWz2joxGcltIn1CPChpZn9WHTSqBmZ5/W
+         85yU6j9t0KGItyJJbCl5H6iYtLYbfg+C8QGhV68Y9zcVgyOYa+dVJKA3nh2sVzpQ2HWN
+         bucQ==
+X-Forwarded-Encrypted: i=1; AL+hErEZN72ULltFACOvk3Qc0Vv+ZNNefiPDzXrEoa0+bbHxxxtHGk9wmfXFFdeMwzycDqFcdYHiPdPlX6Y=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8QCtPUeuCTsQS5w1Yn6mwEOdDR548i5RqORcPNh7e9sd3snpT8
+	jQd+tFdklONhBI2UpAqDjAKF+eLVTEnoNXuSsFyPqCnGroem0IrhliQ/9FZSdfQ+5Vg=
+X-Gm-Gg: AZFdTZe0Of8/yMfTq1n2m2ay2r5q1IXGLXCUXDipYud8pCuMYsF7imlmEmjDB4TOpYa
+	vH2pJlXdIFHHuKZB01cc+A4C0kADlAYXHZA0BKI5frWjjFQJsNqaOGZlND7qTP7AU2+0K/9PNQF
+	luNKCnMC5pzYB+2/qTCfTlXgAzJIetK/XHvEixb8yNW0XV7TC0HNz0Wr7zGJ+f1mPOjc+MRFSP0
+	s/OYQdXGNKoQLZXW1qhzDqS3EaWgmzoltkSUmmyVGz+bQmlqFcwmMvnBGI9d43pf+RN/UL6Z8Ae
+	M3Uu0HvxV0BRuJ/xawH3wk9NrO4Tzl2nXT0UizL0FB6m4pKYvZN6t5HfC/I5KBrJsBJCxxBsfYX
+	m2+iCNpikHmMyK0d0BBhpa4RUXxo8LkIqUtOHJUBdOwQObEfF2iodE8muNce1P5nImJkx4uE7Co
+	577Z0DAO9XB6hHWmI3S8QMJkAJ8RBleXyXa8Jx8WFwMxL2xzjHIYyI6e+Ye+oyAaILIpvbiuiAf
+	m2FoH+mM1e8hUvPtiJwYoLh59aHrRKYWSuefsQuwKNarFVqE6OcNBwszr7H21g4arEyMHIcX1m4
+	s1nOBSy7cQep7E4XQ/wXBvH88IpXXvuKz15INlj+ZvJnWF1Y7B/+xCHR5wUgF9vY3M8w
+X-Received: by 2002:a05:600c:500c:b0:4bb:82f7:549f with SMTP id 5b1f17b1804b1-4bb8881409bmr321872905e9.19.1795527034467;
+        Tue, 24 Nov 2026 05:30:34 -0800 (PST)
+Received: from ?IPV6:2001:a61:132b:a401:6cb8:7c28:11e1:499? ([2001:a61:132b:a401:6cb8:7c28:11e1:499])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906d6a13sm227938555e9.3.2026.11.24.05.30.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 05:30:34 -0800 (PST)
+Message-ID: <b2ad19d9-87a8-4106-97b3-46e6c649a9be@suse.com>
+Date: Tue, 24 Nov 2026 14:30:32 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,65 +92,33 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026112001-emptiness-rewrap-28ef@gregkh>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [usb-storage] Re: [PATCH 1/2] usb: uas: expose US_FL_NO_ATA_1X in
+ sysfs as ata_passthrough_disabled
+To: Nathan Stratton Treadway <vgerlists2026@nathanst.com>,
+ =?UTF-8?Q?Mateusz_Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
+Cc: Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+ linux-kernel@vger.kernel.org
+References: <20261121155253.4980-1-mat.jonczyk@o2.pl>
+ <awRIRpJIxWPJcn5i@diagon-alley.stratway.net>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <awRIRpJIxWPJcn5i@diagon-alley.stratway.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 20, 2026 at 11:59:11AM +0100, Greg KH wrote:
-> On Tue, Sep 15, 2026 at 01:35:23PM +0530, pavankumaryalagada@gmail.com wrote:
-> > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > 
-> > usbg_make_tpg() can race with creation of USB gadget function
-> > instance. tcm_alloc_inst() adds the function instance to
-> > tpg_instances before configfs links the item to its parent group.
-> > 
-> > As a result, usbg_make_tpg() can find the instance while its
-> > ci_group is still NULL. Passing this item to
-> > configfs_depend_item_unlocked() then causes a NULL pointer
-> > dereference.
-> > 
-> > Verify that ci_group is set before calling configfs_depend_item_unlocked()
-> > and fail TPG creation if the item has not been linked yet.
-> > 
-> > keep this validation in f_tcm instead of changing the configfs API to
-> > accept unlinked items.
-> > 
-> > Reported-by: syzbot+a9efa71b884a23e74153@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=a9efa71b884a23e74153
-> > Fixes: 4bb8548df632 ("usb: gadget: f_tcm: add configfs support")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > ---
-> > Changes in v2:
-> >  - Move the NULL check from configfs to f_tcm.
-> >  - Restore configfs_depend_item_unlocked() to its original behaviour
-> > 
-> > v1: https://lore.kernel.org/all/20260914094426.25595-1-pavankumaryalagada@gmail.com/T/
-> > ---
-> >  drivers/usb/gadget/function/f_tcm.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-> > index 9e6d4f39900a..2c2cf1164edf 100644
-> > --- a/drivers/usb/gadget/function/f_tcm.c
-> > +++ b/drivers/usb/gadget/function/f_tcm.c
-> > @@ -1682,6 +1682,9 @@ static struct se_portal_group *usbg_make_tpg(struct se_wwn *wwn,
-> >  		if (!try_module_get(opts->dependent))
-> >  			goto unlock_inst;
-> >  	} else {
-> > +		if (!READ_ONCE(opts->func_inst.group.cg_item.ci_group))
-> > +			goto unlock_inst;
-> 
-> Why READ_ONCE()?
+On 23.11.26 15:05, Nathan Stratton Treadway wrote:
 
-I used READ_ONCE() because ci_group is updated concurrently in configfs's
-link_obj() without holding tpg_instances_lock.
+> Would it make sense to explicitly mention something about "USB quirk flag
+> US_FL_NO_ATA_1X" in this documentation entry?
+No, probably not. The exact flag the kernel uses internally
+isn't and shouldn't be exported to user space. Hence mentioning
+it in the documentation is not appropriate either.
 
-However, since link_obj() assigns ci_group with a plain write rather than
-WRITE_ONCE(), READ_ONCE() isn't needed here. I will drop it and use a plain
-NULL check in v3.
+	Regards
+		Oliver
 
-Thanks,
-Pavan
-
-> 
