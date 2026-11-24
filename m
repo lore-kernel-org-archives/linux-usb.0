@@ -1,62 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=31.14.14.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795530220;
-	b=HJcoQgZJrZCasD8JlJYzWcFRIUuWItOrOx6jEnwJXW4feCLLZRKrcVN91lXqFZuMuhre
-	 9Li6n9rvQpEfZ8sAy5Fq6Owd/KvB1eMbwE1LWVe81JvibjmrXiWiogOiuVz3R74CpZD8K
-	 6rzlukHf2i5UMX6exQo8dxnXQ9GG3X7mUoDcO0iBS47glq0zEULyq+5mgwvbFMe+loUZE
-	 TUwyCqa4jRoTZwzmg5pGRULBS9/EsPaw7NUebSfaXJuTBikO4enIyiIpRs8xnH+r08U6y
-	 BclklXWJMi7GCKwS407p2wb/T0X7IecoJaP1tKMldfU53Fb0niMb0DcVq+jO3LccvEQ==
+	t=1795532646;
+	b=GVOUxuPxzrVFR6b9s1pIaKXrnCoklC4GWkrOIOy2sVZn/1dRpqYXIkxZrx+bU3WQxFGJ
+	 VA0RXAOY3tFzfoWfymSznwD/ETtN7LbKxdi8y+AJRQe3nhkV3e+iqRXFcB2lJHZk0Opaz
+	 6/01YgZdbrkD6rvn0SeRFuoW4QyxHzVvKx5TL6/rrPaFCbkCl5/D0CnceQZ5odbCzQNqm
+	 U+pzvt0aVdyzHb2dmB2+vIaYwu/bStUHsWlfGbdLzdSxa0cuAI3gAHoJF5YPLLRZCWE1j
+	 bkUYXf1GU4ep6Ddbk3FXagFVxUTk2lJhizDr1oa0yLVTWp4CrjKd5zhiEGJiiYBPBvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795530220;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=nKFAQ/eQi2+pKN1nmF1ojcPhRlz5R78v/XFET3w6CA4=;
-	b=v973sjNy6cSP13Kz2WC0yJnZTWT0kFvGCrwPE8xJTdEo1SYePvHNrSqsLnFbufuwE69G
-	 0WuxBSo06RjRYJ6Hs53E2nDfhR+v2HJL0TEELCoLQtTGODJlemPZYkR0y5KT0AQRfsc7g
-	 xOjPrHkHuMyMPmiHPtiWBZcXlhkKCjRqC0EW2rPKj4xq5oXT51d8Rci72Fa+4ayvARFtE
-	 fa4EXXpMz47ctiv/EiZhKDfR7DiE7sqAOZGBg71FuUaqEhuCLd4feuPAfNzRlCY3nG6QC
-	 acFfo1pTND5OBjyfxZXnBBJqQhL7SO44eFXqsX+MC1gX4OSDupfsAHP3AkkfBx9KLWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795532646;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-Get-Message-Sender-Via:
+	 X-Authenticated-Sender:X-Source:X-Source-Args:X-Source-Dir;
+	bh=IB6PTHbSxLOaITrzniqxTCapMOLaWfm7W6dch6SI4eg=;
+	b=vlQq2zYnppr7gV+LQQawga2GVcBnloYhjLOvo+3i7xXiFpYJj7U0LJ1LgyHxZJSSpCCj
+	 /fhU/T61oWAZFuPbs8dwl9XicGXSwIBY4HV5ImhniZwWsqNhoFPE0MnjGVVkJDJoNjsyZ
+	 8NCgTx0ht1hAFg9Fvk9wXOf/Jg89+icdED3vqOb8IrT6guppCEoF+81NYegn2r8dCcJLR
+	 s/I9rQT48sLhZ4RKGFtSJnKS9KEaztFX8m80FHC8+wdVlj/LPPz1WZuMnNCXcgNZfMDV+
+	 Wv+zb/7Q8gGZU+9xEc7SUGHk+twz37wJI4vUFZPiFDbDeF1vh70HBZk3tGj0L2PHUtw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=1vZMMFUR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=taladin.ro;
+	spf=pass smtp.mailfrom=taladin.ro;
+	dkim=pass header.d=taladin.ro header.i=@taladin.ro header.a=rsa-sha256 header.s=default header.b=qhTCj6ox;
+	arc=none smtp.remote-ip=31.14.14.46
+Received: from taladin.ro (unknown [31.14.14.46])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3830C606A31E;
-	Tue, 24 Nov 2026 14:23:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9917E606A321;
+	Tue, 24 Nov 2026 15:04:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9917E606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=taladin.ro
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=taladin.ro
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=1vZMMFUR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD041F000D1;
-	Tue, 24 Nov 2026 14:23:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795530219;
-	bh=nKFAQ/eQi2+pKN1nmF1ojcPhRlz5R78v/XFET3w6CA4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=1vZMMFURAQstEAN6/qM0Pgk2S/TZOWOPkhpVXU0kKW1xIE8Ue4kWLmiRAJhgtRT0N
-	 sOT7euao3S+uLTaQGhgYnKeo8zhdHNUHM59RhT6D+CZZgCt3vIzC2AACBLvpT5l04Q
-	 TEOtMl2ZXhVsQwgLepaW9OJExmWGpEj2lxpnaCKo=
-Date: Tue, 24 Nov 2026 15:24:00 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-Subject: Re: [PATCH v8 2/5] include: linux: phy: Add phy attribute "type" and
- associated helpers
-Message-ID: <2026112445-draw-enzyme-628e@gregkh>
-References: <20260913-eusb2-interrupt-v8-v8-0-0f505b9c394b@oss.qualcomm.com>
- <20260913-eusb2-interrupt-v8-v8-2-0f505b9c394b@oss.qualcomm.com>
- <9fa428e0-f685-410c-bcdd-319fd427d2cc@app.fastmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=taladin.ro header.i=@taladin.ro header.a=rsa-sha256 header.s=default header.b=qhTCj6ox
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=taladin.ro;
+	s=default; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Unsubscribe-Post:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=IB6PTHbSxLOaITrzniqxTCapMOLaWfm7W6dch6SI4eg=; b=qhTCj6oxNr/eARgjkZfpWVrB5b
+	d/yH94EBkM6pr/+qIe/lFRmJ0OKJ5bkz+4IHWhHiAZMw4q2pJv42FsCFusk1ks7Y5j03IB3CfWVVp
+	rZzDnWn5kJs4kTh/aW+BvVUwpvRITrvJ5fb7MuUOcc2SCPph3lhzK0p5nyi8IpreGvn01RdrdX8+D
+	Do+NY4Q4gW6jwXI8ItXClx2M+xcNZCIgUYOfv/WDUvvOGs8xDuZ87CQf7S0Y4+2NcY6W3GMGu1DUm
+	umt9nNdtvjJgZhGUCoXcFQK0qST74rdfKcClol+b3BZKE7ZwXoJwhYuNDDAU7xg5p5BkWgluLusQV
+	8rwwnJ6Q==;
+Received: from [86.125.199.146] (port=58840 helo=mercury..)
+	by cloud607.c-f.ro with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <aardelean@taladin.ro>)
+	id 1xVs3m-0000000BsAO-1mMc;
+	Tue, 24 Nov 2026 17:03:57 +0200
+From: Alexandru Ardelean <aardelean@taladin.ro>
+To: linux-usb@vger.kernel.org
+Cc: stable@vger.kernel.org,
+	hubert.wisniewski.25632@gmail.com,
+	gregkh@linuxfoundation.org,
+	b-liu@ti.com,
+	Alexandru Ardelean <aardelean@taladin.ro>
+Subject: [PATCH v2 1/2] Revert "usb: musb: Fix hardware lockup on first Rx endpoint request"
+Date: Tue, 24 Nov 2026 17:03:43 +0200
+Message-ID: <20261124150344.69264-2-aardelean@taladin.ro>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261124150344.69264-1-aardelean@taladin.ro>
+References: <20261124150344.69264-1-aardelean@taladin.ro>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -66,41 +75,66 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9fa428e0-f685-410c-bcdd-319fd427d2cc@app.fastmail.com>
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cloud607.c-f.ro
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - taladin.ro
+X-Get-Message-Sender-Via: cloud607.c-f.ro: authenticated_id: aardelean@taladin.ro
+X-Authenticated-Sender: cloud607.c-f.ro: aardelean@taladin.ro
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-On Tue, Nov 24, 2026 at 10:18:06AM +0100, Arnd Bergmann wrote:
-> On Sun, Sep 13, 2026, at 16:40, Krishna Kurapati wrote:
-> 
-> > diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
-> > index ea47975e288a..038c2b58bbe1 100644
-> > --- a/include/linux/phy/phy.h
-> > +++ b/include/linux/phy/phy.h
-> > @@ -21,6 +21,8 @@
-> >  #include <linux/phy/phy-lvds.h>
-> >  #include <linux/phy/phy-mipi-dphy.h>
-> > 
-> > +#include <dt-bindings/phy/phy.h>
-> > +
-> >  struct phy;
-> 
-> This broke the build in linux-next because there are now two conflicting
-> definitions of PHY_TYPE_PCIE visible in drivers/phy/qualcomm/phy-qcom-uniphy-pcie-28lp.c:
-> 
-> In file included from include/linux/phy/phy.h:25,
->                  from drivers/phy/qualcomm/phy-qcom-uniphy-pcie-28lp.c:15:
-> include/dt-bindings/phy/phy.h:15:33: error: expected identifier before numeric constant
->    15 | #define PHY_TYPE_PCIE           2
->       |                                 ^
-> drivers/phy/qualcomm/phy-qcom-uniphy-pcie-28lp.c:47:9: note: in expansion of macro 'PHY_TYPE_PCIE'
->    47 |         PHY_TYPE_PCIE = 1,
->       |         ^~~~~~~~~~~~~
-> 
-> We probably just need to rename the enum values in phy-qcom-uniphy-pcie-28lp.c.
+This reverts commit 3fc137386c4620305bbc2a216868c53f9245670a.
 
-Already fixed in my tree, should be showing up on next linux-next.
+That commit made musb_ep_restart() flush the Rx FIFO instead of calling
+rxstate(), so a packet received before the first OUT request is queued
+gets dropped. The commit considered such a loss harmless, but the mass
+storage gadget has no retransmission: the host loses the first command
+(CBW), times out and resets the device, so the drive never gets mounted.
 
-thanks,
+The regression was seen on 6.12.57; 6.1.119 (before the stable backport
+of that commit) works fine.
 
-greg k-h
+This brings back the Rx endpoint lockup that the reverted commit fixed;
+the next patch addresses it in a different way.
+
+Fixes: 3fc137386c46 ("usb: musb: Fix hardware lockup on first Rx endpoint request")
+Cc: stable@vger.kernel.org
+Signed-off-by: Alexandru Ardelean <aardelean@taladin.ro>
+---
+ drivers/usb/musb/musb_gadget.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadget.c
+index 016d3f3fc1e05..dd67ab97df9d8 100644
+--- a/drivers/usb/musb/musb_gadget.c
++++ b/drivers/usb/musb/musb_gadget.c
+@@ -1162,19 +1162,12 @@ void musb_free_request(struct usb_ep *ep, struct usb_request *req)
+  */
+ void musb_ep_restart(struct musb *musb, struct musb_request *req)
+ {
+-	u16 csr;
+-	void __iomem *epio = req->ep->hw_ep->regs;
+-
+ 	trace_musb_req_start(req);
+ 	musb_ep_select(musb->mregs, req->epnum);
+-	if (req->tx) {
++	if (req->tx)
+ 		txstate(musb, req);
+-	} else {
+-		csr = musb_readw(epio, MUSB_RXCSR);
+-		csr |= MUSB_RXCSR_FLUSHFIFO | MUSB_RXCSR_P_WZC_BITS;
+-		musb_writew(epio, MUSB_RXCSR, csr);
+-		musb_writew(epio, MUSB_RXCSR, csr);
+-	}
++	else
++		rxstate(musb, req);
+ }
+ 
+ static int musb_ep_restart_resume_work(struct musb *musb, void *data)
+-- 
+2.43.0
+
