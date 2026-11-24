@@ -1,88 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795516788;
-	b=VnjhADjRl34cyn3F4avCwqVyNE1XM53v8BxgOHT+F3MNJ9uNLyPcGAE/V/wRaJhDqxSJ
-	 uXp84cGRupYqvn/UpVZLSWD8mPJnI48CoAR3yKLO3CSqSAQLHa+HUMk9tN/MhJG3ZAvNE
-	 HLseL3sb/WjEOHkzfCx9eZWX3sHkLejG/GiqkiosRCfJW1UfiI7b+2C3lKrPSX3tL3Tgi
-	 v3Olp+QdJb9p1GT2f4Zl+E+RD/CFNfqfVHG6ApIr4/SjNQ0P8Y/wuYQK2/Ij/4dUdpCGb
-	 4PdfuJCfr2lLnPJi3bcMYLpe0EEqgGt2xESzWBDPuenHceXiBxfYWKiJ9whDa1ZMMow==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795516788;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=i67A04/jloiIm4Idm3ymNHqESyF+RQsVbnS4UKmnxA8=;
-	b=AZbAsM1kZ7i3hmV3Ct9QhUwGuL58jw7qR/iGfHEfaLMbHCJQCWvv+pll8qBSPf3q3XOx
-	 r2L10W/ZsGKt1xiDEQUQ9ObcuCR2t2OU3L0//JnuMMoxSQkTQrc6sLRwrKAiANTmjG/bz
-	 nQ/fTReF7vkqQ7ZSFvZuBRPHQVd4VtP6lp/1linHvCfpKQGp3taBidQOU+8TqTyeGTQpP
-	 YetiotJAc8aZqHKShIcooe44Ki1bLPxsNGzo3vzgmwdQV9Eol5b216EZtOnkyfYjHhQWF
-	 +V/TTegL+M8PcJ6Jww/gXWe3rgAwWEtZH5onasFaGWyuOxpj5wVwaGs/SPdpfeazQ0A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=KjiX7YWe;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.35
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795517534;
+	b=bbTLA0RiBVJyNCJZaGgV8Zks04ZYctJ8HWxT1JDoVn3j3wQ2GcRc8IiGR9Hi9OyFdxZm
+	 Ex4lixWqkUtO2TXiqpLTR+4Mr5H7NQtHzsgCHbAFd7TyKfyQN0M1kFSgVNjm7F8Wbs7vH
+	 7ZHSOAsB8sfETRHQPjBFR+SuHebFMeuM+a6qJ2wUe3w/gsfkwe/vnqLhmFqZ0Thx8HPtF
+	 nf0I4emhyJ2y3FQAzGis5L+t0BFR1gIVYpW7Vn8iIVj2FIEIxcSF5eWRn0gwcMvfvqtWJ
+	 1wgbC356uuEbsVemsKGm/xK9wp+AvfBjxUzyDk18q+JgFs+AkSPnKLBboMj4vISWF+A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795517534;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:CC:
+	 References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=6OY/g2KahDEwLBaN2yrWMkgC0Tody4yh2gB38BZZHZc=;
+	b=WrAoBfR92ScNc8yLwpJH68+0Iue+C0Sn8aC6deDrp6euHOJAzLpWRissRJK7jq/3A1nu
+	 ZMBInCq0FiMTsV2xBrK4fif1Jkq+owd+0lYqS1mByq11BOOgPNH5ghgVb53qhumceyVXe
+	 2Re2wbh03ySpb8/oRq4pyCvyYD3WM+zEK9rrcJgaArYzD9mQ2H2ibKrc2RDluCiAeGZSO
+	 TZ7nL/5E4rFKUO5aZ58wbesj6N93t1L+NXN2xunECWRuc2/DEHPgbjiQ4meyuNy2m2LnZ
+	 iQzHCy5yRYB8uiHgevBR+TFh3x5F0D+7emiYT8bqiUY8THPShJr7PIWyhqE+aN4dQmg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=foss.st.com;
+	spf=pass smtp.mailfrom=foss.st.com;
+	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=UwBS7oLZ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.35
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010035.outbound.protection.outlook.com [52.101.84.35])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370DF606A333
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 10:39:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 370DF606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA39606A326;
+	Tue, 24 Nov 2026 10:52:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BA39606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=KjiX7YWe
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4acb44dcd7bso3655049f8f.0
-        for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 02:39:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795516786; x=1796121586; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=i67A04/jloiIm4Idm3ymNHqESyF+RQsVbnS4UKmnxA8=;
-        b=KjiX7YWeSkA9Dw0WA5xjWaOqnyEHCedD00sUzMhE3sKEAvQ2TPIHmIyS+enWPn9hqU
-         UHnNtz+vsI9HdnLLJLRNEHpW3n0qDPjDGGb+MMmUEkY4+DtknEToZAEEAwd6ErlDRM4U
-         sl6ks9V8P+KgBQBXge6XtIwqjU1IX32GeqDZpfsQ5053CJLA98ICyRMFUcjrF7GwSx6y
-         mLBhDMnek6X1+TiwUBOkVQB80sS1Z2oue9zDTiR4H+wlMmpVb+6EJ+EZoBBfGsOtxa1G
-         85CHt1w3B0RFKCYDolOV20zywTKINPHyMkeAAvRZwyufXjasNY7vVq1oJTMaEgpAJPJ9
-         588Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795516786; x=1796121586;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=i67A04/jloiIm4Idm3ymNHqESyF+RQsVbnS4UKmnxA8=;
-        b=uvTo9Fgyfoho2LbrN58WddCBUopLa3RqfnkF+7nwgsnUzb8TbYfgdCpHA1yOZx8cKE
-         PQNzkaSJMVMRc2Dq43vO9yxqfLnLO5y1w5YUp3jrRx5PMs1cTpAAHaxGV8R1V2yce1GL
-         5KOHkJHYfb9LAZr8ujLBLXFalRtHGzTNs5prLXnqzjLmvmKzRJKyGtGMTCGbiNxv5jYV
-         Ukt33IJZRxTZstk9lOvD8cjA2ePtVnLoRdwkTlrTWfzdLB6ESAAOC5MDgxXeAT0ZSyo5
-         cAv2j4yxtnb0FgZ0Onq2kX1xkRvaWaKWA9ZONoYxz2AhjpCYsCzy1PdJsBponu0BCQLf
-         NQ0g==
-X-Forwarded-Encrypted: i=1; AL+hErEPWFzzPdsfHkRl+oVOH/cTzUuWB2YFBsT7tapzMsu166QyOMHjNz4z+6/Ci+zVnFGINNdXqW8BVx0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8k0XU8Zv8z6k/PtRWX9NK1YwBgVo+WiyHA79B4qnKSDRpnVedx
-	qot2EaXjzO2v/mB6hILi1NFgU/4OmmOVLFAx837UE576PvixGqiUbzd8lCh8xdDV2WE=
-X-Gm-Gg: AZFdTZdpbD6UMgcqr385AffwG0L+IgqS7gXI/b2kf2ejupO/4WXF5RDeMtdYGusUCUs
-	wQt3l+Kpts5SioKtT5eAyMLjisGw0RoXytcNXoFeaRAcrkZYH3tbp2JjpRQNVM02EKOZRJfbcLI
-	+GAD1glr6kwK5uEuVTdlHSO3tXlddlGbtdym/YSfBssFskIi8BMVcfMw+hmpsTl9LonP24bCjy8
-	fQiE01L20GBNz9539McBdWvISLtjcjZZFl7zZhyWiiXlYuBWUuRYgcim57+axtfxK9zGe8GAXBZ
-	PS9cjder21yFPmHJ5oLAieCaT3xjD3xkkpBRi9alvVz2ppwHD8Q5nw+QZwVbEKltgFoV+v3JJ8/
-	DaxKUzdsA/Jrn2TAvl92xhwitLi+Kc9TX9xMyIdtfmOj8Q3vuGWQHPIpO6qln8gdhB+czN6JQ7n
-	WFiQvTrDSOwib4RjkShRPE7/jvuO6mL77PXDyZv8++S9pLhWP+pcVwiVt9lMnGHGbLrdnHoUx6J
-	ZPy+hhOccjIKHQqlQykcdG6KgG7jVcsysJsoznVW6+YnVNn3pxMdXxf8IgMTsJjrS5Y1p/HFlfH
-	xyzUvvLPTQAd281O3SMgDfiW/ftbN8egnWk0N1wNjBb73EflEV3ThzbmfFEgQJ9cT18+
-X-Received: by 2002:a05:600c:64c8:b0:4bb:6848:d433 with SMTP id 5b1f17b1804b1-4bb8881d141mr281064655e9.26.1795516786433;
-        Tue, 24 Nov 2026 02:39:46 -0800 (PST)
-Received: from ?IPV6:2001:a61:132b:a401:6cb8:7c28:11e1:499? ([2001:a61:132b:a401:6cb8:7c28:11e1:499])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8538b2c5sm425218335e9.5.2026.11.24.02.39.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Nov 2026 02:39:46 -0800 (PST)
-Message-ID: <65749362-927a-492d-8bff-573c277fe456@suse.com>
-Date: Tue, 24 Nov 2026 11:39:40 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=UwBS7oLZ
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IQTlKZ7sUE++K8Ydmt3iMr4r3Ks2Z5MJYaGLIynEfoEcw+yEa1MKeUbLtKCc6KFi2r1DYohAg4I3wFBwA7c5evSo8F+MFOXZzWR9+LHB7Z4x2AlBlusY865KN94JB1pdrwzKLLprO0XK5priJe8C67rrJK5UJU32MLZ9AtLZ3scbXDxvKswrqlgJjCdbUZKhmf/CM1QFvkb777oFit4BJbSXj6vDQguVmuKreGbGxVs1tw5UDIUToozV7V6wESEPzZLlKipitiRDRY52bMvRlxh25UwBBVVzt0FHUpnniJrrhGalEf4l/ovu01YAkgoKUrW57C4XmYZeMuUZ4wqL8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6OY/g2KahDEwLBaN2yrWMkgC0Tody4yh2gB38BZZHZc=;
+ b=PSpLZt5LRPQo3Uxjz94HChrZHDfW5gBG8nPKHQGPFvb0foOFjp/rpj+ZHcx0WWjLIFfUOwAv/K1CNQNZll3bz3tAP0h5ujAaFe7fmZAiXhn6gMa5qjKxtDwgGMsZD6ATiy/Q966M0cps95Nnnns2VFsfFSzil94uCIPDJmYa5/i52kWBCvF51NYI1y9vhRKKp9tVo32t+bjxtpttCOnDnyto0dUUqgk0BMW+qIsPQF4HVn/oSPCRqbtENiBzQK0EfVr/JDeVXrHlGsnZMTDpcs94VrZbfakcu1EbV2abR9U3KpoCV7DCwmrlQn547HgZGz7Hcqa/Hp66c931esW6VQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.59) smtp.rcpttodomain=gmx.net smtp.mailfrom=foss.st.com; dmarc=fail
+ (p=none sp=none pct=100) action=none header.from=foss.st.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6OY/g2KahDEwLBaN2yrWMkgC0Tody4yh2gB38BZZHZc=;
+ b=UwBS7oLZUvUpWK5f+fcQ/S24KGGY+A6OrQu0UUnl6IOIChyDEU+sYZeq1NI1VlWT7C3u0yWEpB0KmDc5kfClU0aDmYZY8ka+LvcAYRvNJaXm+xQrMU3FQudR7otF6xBAsc8AOG+iM8JVwMf6xJO70jaDM7mOodDDqqgRwSA3r9yXtxdRhzaSMbEBPjwVxOIcbtUQpONTeKHYpMHqd1kJvuG4Fyc772rNovyzb6/QdGS7oWBFhLoImNT9w8rNPwJRaBdRIcYJ6VbhuWYJvDJLeeB3l637n9jUKbYSYukyDgJyHW1tEbgO6B2z/tW56cKekokgXkFKA5JwtlGYayWIcg==
+Received: from PA7P264CA0072.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:2de::13)
+ by GVSPR10MB325529.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:714::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.4; Tue, 24 Nov
+ 2026 10:52:09 +0000
+Received: from MAD0EPF000008C1.eurprd05.prod.outlook.com
+ (2603:10a6:102:2de:cafe::7c) by PA7P264CA0072.outlook.office365.com
+ (2603:10a6:102:2de::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.639.14 via Frontend Transport; Tue,
+ 24 Nov 2026 10:52:09 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
+ is 164.130.1.59) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.59; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.59) by
+ MAD0EPF000008C1.mail.protection.outlook.com (10.167.241.197) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.662.3 via Frontend Transport; Tue, 24 Nov 2026 10:52:08 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
+ (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Tue, 24 Nov
+ 2026 11:52:56 +0100
+Received: from [10.48.86.251] (10.48.86.251) by STKDAG1NODE2.st.com
+ (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Tue, 24 Nov
+ 2026 11:52:07 +0100
+Message-ID: <7ffe72c6-6204-43ab-bfb7-5df87341ce7b@foss.st.com>
+Date: Tue, 24 Nov 2026 11:52:06 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,66 +105,96 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/33] Bluetooth: btusb: Fix MediaTek ISO claim locking
-To: Leon Romanovsky <leon@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Johan Hovold <johan@kernel.org>,
- Eric Dumazet <edumazet@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
- Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
- Chris Lu <chris.lu@mediatek.com>, Mans Rullgard <mans@mansr.com>,
- Alan Stern <stern@rowland.harvard.edu>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Andrew Morton <akpm@linux-foundation.org>,
- Cornelia Huck <cornelia.huck@de.ibm.com>, Andrew Morton <akpm@osdl.org>,
- Jeff Garzik <jeff@garzik.org>, "Rafael J. Wysocki"
- <rafael.j.wysocki@intel.com>, Bart Van Assche <bvanassche@acm.org>,
- Alexander Duyck <alexander.h.duyck@linux.intel.com>,
- Dan Williams <djbw@kernel.org>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-input@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
- linux-coco@lists.linux.dev, Alexey Kardashevskiy <aik@amd.com>,
- Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
- Greg Kroah-Hartman <gregkh@suse.de>, linux-sound@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>
-References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
- <20261124-device-trust-core-v4-2-037eb0d17b1f@nvidia.com>
+Subject: Re: [PATCH v5 1/7] usb: dwc2: fix recovery after PM domain off
+To: Stefan Wahren <wahrenst@gmx.net>, Thinh Nguyen
+	<Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Douglas Anderson <dianders@chromium.org>, Artur Petrosyan
+	<Arthur.Petrosyan@synopsys.com>, Amelie Delaunay
+	<amelie.delaunay@foss.st.com>, Jisheng Zhang <jszhang@kernel.org>, "Felipe
+ Balbi" <balbi@kernel.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, <stable@vger.kernel.org>
+References: <20261117-dwc2-low-power-fixes-stm32-v5-0-0f197e0e6362@foss.st.com>
+ <20261117-dwc2-low-power-fixes-stm32-v5-1-0f197e0e6362@foss.st.com>
+ <af32cbc3-9c24-4e43-a7ca-f4716f48cb34@gmx.net>
 Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261124-device-trust-core-v4-2-037eb0d17b1f@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+In-Reply-To: <af32cbc3-9c24-4e43-a7ca-f4716f48cb34@gmx.net>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MAD0EPF000008C1:EE_|GVSPR10MB325529:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54703c32-89c1-4a18-1ff4-08df4a18fcb4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|36860700016|23010399003|1800799024|82310400026|10067099003|4143699003|11063799006|56012099006|261022105027099003|261022075727099003|261026121527099003|261028144727099003|261026140227099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	ILp9mCXvw0scW+AgbJzaoKfBily0BSZMOj1k7YG0UNX8fu6GfCHczorBXJix2B8h4jUIFCC6Mi0aPePPqmgOzLsgjkYyl3P28DwnYILs7jIAZ9o5mmn7Y15ynIm+V2ZM5/Y50xAVLedjIwnv3lyemmPCaa2AlcL9Rc0dZipqJfA1CkDrdz/hSJ/1xbtGGp4T5LU4W9hCeLxHUpZbbWxqKsaWKEp9ZhLFyjadSknC2fxXS4gsgpluOpfFtnT8/r24LhW3yszwKPEpmfNuNvuWpntoMgVd1B09tXylDU/GYgfnuNsIhLnrETyGGMSC+yKcl7TeT1dZCpejxMveqbrUsmIPwBUOBG4+LXt5w9BjqwWmhYFsgLzrjZiEX3YjrhuuOfryX6Pq90/kCMCk7RtqMkBRWW/hq6L4YNRyt6kkvz9v6ArPCfaurHi76Y9LGkvltvmFbFht7RScEN47+Q0f4MyZEYY6ojIbKSD4KlI9GRlQSZ12S9HLEbImVSUY+68NAFlfKhW64z93aK59K1BdcnOm41iU2mjkB1eLtWAms9J3crIWlIOn/x1Enj838+p8L48iTSG14xgvgydLTEHwtjuLoiJs9Mfje17VUsavNycjtj/we/33NF4rejv8rFyP8tIGA8fTg8thkCxwdwzjoRNHiRgfs3nLwzWMmnaAEFbwZaPIaHfXUiiD99ykPdgJpDful/ZYJNPpiG1X5NZkvA==
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700016)(23010399003)(1800799024)(82310400026)(10067099003)(4143699003)(11063799006)(56012099006)(261022105027099003)(261022075727099003)(261026121527099003)(261028144727099003)(261026140227099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	mVjCJVm4AFjXDKt0Iy8a+gZI/gPMR4B4n6SqjKz+GZCFdxMa+tRQslqRaq4wnxm7rJN8qt2yVYsIOmWL5rixaiICziwDqGOGJeMEWnToviZ3Ct3VjnWR5rCeeqCo7QUMqnuuwxj6pQdynoRg76duy+ybDMtFUiYHcepfI5LC3+EP+LJgVFu7UqYQKsycjD5UTaOB/kUtl3NebsckVAssRSo2F4UTP7IbZk/+QLXlJYdn4QXEqQ5armrblgHlWAMEtumjvNtoIGJTzOSBfoPqRMcr4gExQpIfLXXRiJvRbkqjBoQX80Bp+yHv6iXO/voshwuH3HIG3ydKoucF5U1z0JB0U5/jIHnNjgOSOKuaRHbJZIDiH4z3XDIaAU8sPYdP24fhNGa+MXYSwRmN0WwbUmk2VNEUW8cMDYnOD98BPW2miQhcJGm8lHusHoQPnI4n
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 10:52:08.8135
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54703c32-89c1-4a18-1ff4-08df4a18fcb4
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MAD0EPF000008C1.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVSPR10MB325529
 
-
-
-On 24.11.26 10:43, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On 11/21/26 21:38, Stefan Wahren wrote:
+> Hi Fabrice,
 > 
-> MediaTek ISO claims are performed from HCI setup work outside USB probe.
-> Locking only the interface does not protect the claim against teardown
-> of the parent device. Unconditionally waiting for the parent lock can
-> deadlock with disconnect while it drains the setup work.
-Hi,
+> Am 17.11.26 um 18:06 schrieb Fabrice Gasnier:
+>> When the power domain containing the DWC2 controller is disabled during
+>> suspend, its registers are lost. Reading registers to back them up from
+>> dwc2_suspend() after clock gating can hang STM32MP1 in both host and
+>> device mode. Host suspend enters clock gating directly; in device mode,
+>> this can happen if the host suspended the USB bus before system suspend.
 
-your patch raises a question. Can usb_claim_interface() ever be
-used safely outside probe() without this kind of locking?
-If the answer to that is negative, should the locking be integrated into
-usbcore?
+Hi Stefan,
 
-	Regards
-		Oliver
+> sorry for breaking this platform, but I only had the Raspberry Pi for testing and I didn't get much
+> feedback last year.
+
+I saw your series, sorry about that, but unfortunately I haven't tested in time...
+
+> 
+> I'm not familiar with STM32MP1, could you please clarify based on the compatible which is affected?
+
+Yes, "st,stm32mp15-hsotg"
+
+> 
+> Could you please explain, why backing up the registers before clock gating isn't an option?
+
+Well, that can probably be an option, thanks on your suggestion!
+
+That's not the way I had in mind (power gating and clock gating are two things).
+This means: prepare for register loss each time the controller is put into clock gating mode (but
+drop the backup values when exiting clock gating without PM-wide platform suspend, as these are
+normally not lost).
+
+I can rework this in V6:
+- Add the registers backup call when entering clock gating. This will backup the registers when the
+bus gets suspended (either as device or host), then a later PM suspend request can skip the backup,
+if they are already backed-up.
+- Remains some stale states, as raised by Sashiko: when doing this, most of state flags have to be
+re-initialized. I'll try to split into separate patch to ease review.
+
+Is it basically what you're thinking of ?
+
+Best Regards,
+Fabrice
+
+> 
+> Best regards
+
