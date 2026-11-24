@@ -1,69 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795536724;
-	b=GbrMM/1TKbXB3wihs1xkBmECGY9Jf8Sb0odsrsCOzYOltEfvwp764NmqY0SyxIgg8YWM
-	 ZpPi+wDt5XbZAxCjMLnBMcZFcPfrY1oOL7Bz2XOY9fKN5sJ618z8vasOIfpOOGVwxQCof
-	 mIB96GAlAVBh57ExOekfWUa4cyWRex/I4MendVHVizjV0fdVmVla4GS26Shj0WtZiGTUY
-	 CLG6EnEdXhS+5skrd2toM2jVKjScWFIYRflINvDdO0U6LgLOecYnbGJc81j9VCFRht8rP
-	 bo7c/dHhxcbDH0qlIWDbhPUs5nJm37d1ovKYK0WuQQPsA38tfefJIdeuALS9yEOW+tA==
+	t=1795537861;
+	b=2gilPxhlP500tdcuWPUdzkWYbHi9hFXbV78gIs3jAQcL7l+x//lH5yfg0P8zW5J8bvpj
+	 Gj8xm+OnoUUtcARRIS2ejmqHbJElFtv6SCMchstQ72CGnjdC7+1URpxMqZ+vgyduVnWNh
+	 PhSxHdeoK0j0goDoUITWWa2qYYiFpLEVRnBZHA6zZwwig3OCtAEAe4ru6YKcqxlV/yVVI
+	 hnfF7wq2izMsitxaOdbSKX2Q4Phja6C7VbWZYIxOFwcNIL0GrjFofE72GVtDezMcsFqLe
+	 jbyDxfOrrVwnbIjvniRHMHQpo/F8CZItvLAKiclXYC40OpTKbA4qunEW62C2ECKeWaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795536724;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795537861;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=vQ6vW3sYbcgyOH9bAhfE5XUba6QBbadxNG/psr8B7AQ=;
-	b=mSADMi0gRjKOsc7ogdU67C7bXPikPX+6mxy5V/HR/3zxnzNtllgF5VW429yyS7EhEEoE
-	 US/SG6a4TD8PI1fytYtsZeYqMgOg+IWSL7XSGUdQOQKei+0Dkfum8wYvqeut3zyeqXXo4
-	 uk1pU6mlQtqJNQF4803Po3Qeq6Sm0mS69IYsPth2vRgX+2+3YzZ5iFDiEMYUg0nIAHHdV
-	 2xAbGEX2uAnmRND94HKNLB/AyjCRIAkxELzbOnijtZjJ0mmhS96+ECVl6KzScFo+dYeSd
-	 mM5JtJ7Q8P2RxBRt1v1U2CWLec+xW0VSY5aSt7FyD/9zYEueUHyubA1OE5miMQKgV+Q==
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=+bJn/rVe34M62HCQtQL32PKc5v6Nz8H16aexelnaA7I=;
+	b=EuX98S4VZNUKTJ3Mz3RaBEhQOtuPgL5gloJl7lve6zJ0z54Sn5x0GV5q2EevCWABdFpt
+	 83kDhiI9pC5Z5pjT7LYmPNq6JAnDZQF5E3V7rXC0jz6lU9V17UVQS2q+Y5ICmUbEuu6lY
+	 lJYerunUXXvOq1zZedRGvNfQ+qY3DagunmvBbP32vKduDLxx3gCDXSQaiEwk07XlU0fqp
+	 +X/YIjP3xCb6wqbit1thy6h+ySYnX2vFjz8ys/6yRrt7QzrGpble6F0RoDqF0seBsUJRN
+	 k0vnbsILf4y8tqKqUO2MKJKm+Y84TbF2Fc1bH13Dot6n/WsvvM2CAVEoBz738G0TpeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UqU8OnhN;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Fy/o9u0i";
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59758606A31E;
-	Tue, 24 Nov 2026 16:12:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59758606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835AD606A321;
+	Tue, 24 Nov 2026 16:31:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 835AD606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UqU8OnhN
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fy/o9u0i
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795536725; x=1827072725;
+  t=1795537860; x=1827073860;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8jNXelQh+v0UQsg1z1NZYZFU+UF9jDOrLrEkTGht43Q=;
-  b=UqU8OnhN4oEeu2wA8lCBiYUDDIBFq5OkRvGXcz8G9zDzdLwVfd5xkHfT
-   6fMbuBlm1Z1R8Tq+A4B5rG7m20qg8Ptq0X0+Coaz4KuktWEYbK6EDIsKR
-   ATloaLi5VByXsXte/0xhZ1X/nqpcEYv2xQ/61gqGDF/qB7dvqjx6rTgNY
-   wPGqWZKwq7jDVZOosl+XBjZPcfRmo5XMlyycsrSqNV2CC9ZEOvKJWhSG+
-   Kk6qkOZ270+oZtTbzqugAxAhVQ/6i/sp8Wm8fXcUuv/4sAPP0ttnp4w9H
-   4sC4+m0SWci6wuBhl4C+jUwhp3H6YNbbpjkBpILxoKmeCLIzI5CW+/9A/
-   w==;
-X-CSE-ConnectionGUID: eKnxMEnlSAK4uPL4ApE/og==
-X-CSE-MsgGUID: 2/l1+YSkSoSk+FIB1ebpNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4295121"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=0XP5Vh+zLzYYHkYfvDQkd5XbCzGpeW4L1WH/p/viaag=;
+  b=Fy/o9u0iHpsn4AvI+iutL2drVVF4HxN9Qo+/iQDzXBKHgtb/IaR0Eu2z
+   qcUZoBwIQLTO+PfTZZkoHKMlPRRYTD+SHTp8G2cC4KrOjzKB23CORfpiM
+   T4o9LQSDy3rDmG/c1kk+ubwDdOO4iyfFBGlpGoQfjySr9DZ1Kpz/XWjs6
+   r2oZ7nQWPQfK0bnrRY6YeNSO2X2xFBXPogzcneXyYI8mhE/TjgSB1vunz
+   7R6KczBPZA8FCEDmTqIW8Mg+sFcpwJgLqj6+PUhguk2tTs3eTQHn+nsMp
+   78/Gdzk1ozQd6q+aPOT2RcahDsD4lqX47D47F2JvBsLb2U8Qzsd4JWdMY
+   g==;
+X-CSE-ConnectionGUID: dkX0VgXUT12ueMxtGU/abw==
+X-CSE-MsgGUID: oZwHsRRlRXGdwcVmKZoO5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4375175"
 X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
-   d="scan'208";a="4295121"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 08:12:04 -0800
-X-CSE-ConnectionGUID: FH2dgkoDSi+u1P9aQStNLg==
-X-CSE-MsgGUID: PVd8xENCQ86iO+qjC6OoJg==
+   d="scan'208";a="4375175"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 08:06:23 -0800
+X-CSE-ConnectionGUID: H3u+Mbq0QCeQs5UBjgpbbA==
+X-CSE-MsgGUID: Y5lZgkRBRjO5FUCSAQ2QGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
-   d="scan'208";a="11946919"
+   d="scan'208";a="11597515"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Nov 2026 08:12:01 -0800
+  by orviesa007.jf.intel.com with ESMTP; 24 Nov 2026 08:06:15 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 0321C94; Tue, 24 Nov 2026 17:12:00 +0100 (CET)
-Date: Tue, 24 Nov 2026 17:11:59 +0100
+	id 9900394; Tue, 24 Nov 2026 17:06:13 +0100 (CET)
+Date: Tue, 24 Nov 2026 17:06:13 +0100
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: Chunfeng Yun <chunfeng.yun@mediatek.com>
 Cc: Mika Westerberg <westeri@kernel.org>,
@@ -77,11 +77,10 @@ Cc: Mika Westerberg <westeri@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v3 1/8] thunderbolt: Prefix NHI core functions with tb_
- and tb_ring_
-Message-ID: <20261124161159.GT229695@black.igk.intel.com>
+Subject: Re: [PATCH v3 3/8] thunderbolt: Make PCIe NHI support opt-in
+Message-ID: <20261124160613.GS229695@black.igk.intel.com>
 References: <20261123113705.2297329-1-chunfeng.yun@mediatek.com>
- <20261123113705.2297329-2-chunfeng.yun@mediatek.com>
+ <20261123113705.2297329-4-chunfeng.yun@mediatek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,46 +92,148 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261123113705.2297329-2-chunfeng.yun@mediatek.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261123113705.2297329-4-chunfeng.yun@mediatek.com>
 
-On Mon, Nov 23, 2026 at 07:36:48PM +0800, Chunfeng Yun wrote:
-> In preparation for modularizing PCIe NHI support and allowing PCIe
-> and platform NHI drivers to be built as separate modules atop the
-> Thunderbolt core framework, several NHI functions and structures will
-> need to be exported.
+On Mon, Nov 23, 2026 at 07:36:50PM +0800, Chunfeng Yun wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > 
-> Currently, several of these functions lack standard subsystem prefixes,
-> risking namespace pollution or collisions across the flat kernel symbol
-> namespace:
+> Currently, the USB4/Thunderbolt subsystem directly depends on PCI,
+> tightly bundling the core framework with the PCIe-attached Native Host
+> Interface (NHI) driver (pci.c) and the Intel Connection Manager (icm.c)
+> into a single module (thunderbolt.o).
 > 
-> - ring_msix() lacks any subsystem prefix and diverges from all other
->   exported ring functions in the driver, which use the "tb_ring_" prefix.
-> - nhi_probe(), nhi_shutdown(), and nhi_pm_ops lack the standard "tb_"
->   prefix used across the Thunderbolt public interface (such as struct
->   tb_nhi and struct tb_nhi_ops).
-> - nhi_msi() is named after PCI MSI, even though the ISR simply schedules
->   the interrupt work and can serve as a generic ISR for non-PCIe platform
->   controllers as well.
+> With support for platform/SoC-attached USB4 host controllers coming in
+> (such as on ARM64 systems), the core USB4 framework should no longer
+> have a hard dependency on PCI. Furthermore, embedded or SoC systems
+> without PCIe-attached host routers should be able to omit PCIe NHI
+> support to reduce kernel footprint.
 > 
-> Rename these functions and symbols to conform to Thunderbolt subsystem
-> naming conventions before exporting them:
+> Decouple the PCIe NHI and ICM drivers from the core framework:
 > 
-> - ring_msix       -> tb_ring_msix
+> 1. Kconfig & Makefile:
+>    - Remove "depends on PCI" from CONFIG_USB4.
+>    - Introduce CONFIG_USB4_PCI to build PCIe NHI and ICM support as
+>      a separate module (thunderbolt_pci.ko).
+> 
+> 2. Driver Registration:
+>    - Make the core thunderbolt module standalone by converting
+>      tb_domain_init/exit() to postcore_initcall() and module_exit().
+>    - Register the PCIe driver in thunderbolt_pci via module_pci_driver().
+> 
+> 3. Connection Manager Selection:
+>    - Add an optional .select_cm() hook to struct tb_nhi_ops so that the
+>      PCIe driver can invoke icm_probe() for legacy/firmware-CM controllers
+>      without hardcoding ICM calls into the core nhi.c.
+> 
+> 4. Symbol Exports:
+>    - Export necessary APIs required by pci and platform drivers.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+> v3:
+> Added 'default USB4' to CONFIG_USB4_PCI in Kconfig;
+> Exported tb_xdomain_remove symbol immediately after its definition;
+> 
+> v2:
+> cherry-pick the patch of Konrad to fix the issues of this series, and
+> also do some changes:
+> 
+> * Renamed CONFIG_USB4_PCIE and thunderbolt_pcie.ko to CONFIG_USB4_PCI
+>   and thunderbolt_pci.ko.
+> * Updated exported NHI symbols to standard tb_ / tb_ring_ prefixes
+>   (e.g., ring_msix → tb_ring_msix, nhi_msi → tb_nhi_isr).
+> * Eliminated exports for nhi_mailbox_* and nhi_interrupt_work by
+>   keeping them internal/static (handled by preparatory patches in v2).
+> * Added missing trailing semicolon to module_pci_driver(nhi_driver);.
+> * Expanded the commit message;
+> * Fix cherry-pick conflict caused by .reset_interface();
+> ---
+>  drivers/thunderbolt/Kconfig   | 12 ++++++++++-
+>  drivers/thunderbolt/Makefile  |  7 +++++--
+>  drivers/thunderbolt/ctl.c     |  6 +++++-
+>  drivers/thunderbolt/domain.c  | 14 +++++++++++--
+>  drivers/thunderbolt/nhi.c     | 14 ++++++-------
+>  drivers/thunderbolt/nhi.h     |  2 ++
+>  drivers/thunderbolt/pci.c     | 39 +++++++++++++----------------------
+>  drivers/thunderbolt/switch.c  |  9 ++++++++
+>  drivers/thunderbolt/tb.h      |  2 --
+>  drivers/thunderbolt/tunnel.c  |  1 +
+>  drivers/thunderbolt/xdomain.c |  5 +++++
+>  11 files changed, 71 insertions(+), 40 deletions(-)
+> 
+> diff --git a/drivers/thunderbolt/Kconfig b/drivers/thunderbolt/Kconfig
+> index 294b3227a545..80960555a364 100644
+> --- a/drivers/thunderbolt/Kconfig
+> +++ b/drivers/thunderbolt/Kconfig
+> @@ -1,7 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  menuconfig USB4
+>  	tristate "Unified support for USB4 and Thunderbolt"
+> -	depends on PCI
+>  	select APPLE_PROPERTIES if EFI_STUB && X86
+>  	select CRC32
+>  	select CRYPTO_LIB_SHA256
+> @@ -18,6 +17,17 @@ menuconfig USB4
+>  
+>  if USB4
+>  
+> +config USB4_PCI
+> +	tristate "Support for PCIe-attached USB4 and Thunderbolt controllers"
+> +	depends on PCI
+> +	default USB4
+> +	help
+> +	  Say Y here to add support for the USB4 and Thunderbolt host
+> +	  routers attached over the PCIe bus, commonly found on x86 PCs.
+> +
+> +	  To compile this driver a module, choose M here. The module will be
+> +	  called thunderbolt_pci.
+> +
+>  config USB4_CONFIGFS
+>  	def_tristate USB4
+>  	depends on CONFIGFS_FS && !(USB4=y && CONFIGFS_FS=m)
+> diff --git a/drivers/thunderbolt/Makefile b/drivers/thunderbolt/Makefile
+> index beb054c3126b..a563bf2b0345 100644
+> --- a/drivers/thunderbolt/Makefile
+> +++ b/drivers/thunderbolt/Makefile
+> @@ -1,10 +1,13 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  ccflags-y := -I$(src)
+>  obj-${CONFIG_USB4} := thunderbolt.o
+> -thunderbolt-objs := nhi.o ctl.o tb.o switch.o cap.o pci.o path.o tunnel.o eeprom.o
+> -thunderbolt-objs += domain.o dma_port.o icm.o property.o xdomain.o lc.o tmu.o usb4.o
+> +thunderbolt-objs := nhi.o ctl.o tb.o switch.o cap.o path.o tunnel.o eeprom.o
+> +thunderbolt-objs += domain.o dma_port.o property.o xdomain.o lc.o tmu.o usb4.o
+>  thunderbolt-objs += usb4_port.o nvm.o retimer.o quirks.o clx.o
+>  
+> +obj-${CONFIG_USB4_PCI} += thunderbolt_pci.o
+> +thunderbolt_pci-y := pci.o icm.o
+> +
+>  thunderbolt-${CONFIG_ACPI} += acpi.o
+>  thunderbolt-$(CONFIG_DEBUG_FS) += debugfs.o
+>  thunderbolt-$(CONFIG_USB4_CONFIGFS) += configfs.o
+> diff --git a/drivers/thunderbolt/ctl.c b/drivers/thunderbolt/ctl.c
+> index 965988b18608..96717a0a94b1 100644
+> --- a/drivers/thunderbolt/ctl.c
+> +++ b/drivers/thunderbolt/ctl.c
+> @@ -9,7 +9,6 @@
+>  #include <linux/crc32.h>
+>  #include <linux/delay.h>
+>  #include <linux/slab.h>
+> -#include <linux/pci.h>
+>  #include <linux/dmapool.h>
+>  #include <linux/workqueue.h>
+>  
+> @@ -96,6 +95,7 @@ struct tb_cfg_request *tb_cfg_request_alloc(void)
+>  
+>  	return req;
+>  }
+> +EXPORT_SYMBOL_GPL(tb_cfg_request_alloc);
 
-I think we can move MSI-X completely to pci.c. As far as I can tell ARM
-stuff is not going to need that. While there we can drop MSI, that has been
-never used (MSI-X was supported from day 0 by the HW).
+Why these need to be exported? All the config stuff happens inside USB4
+fabric and that's not dependent on how the controller is connected to the
+SoC.
 
-Then I would just make the glue driver to pass ->irq to the core driver and
-if that's set it does the request_irq() and so on. And PCI side does not
-fill that because it uses MSIX always. Then we don't need to export the
-interrupt handler functions either.
-
-> - nhi_msi         -> tb_nhi_isr
-
-
-> - nhi_probe       -> tb_nhi_probe
-> - nhi_shutdown    -> tb_nhi_shutdown
-> - nhi_pm_ops      -> tb_nhi_pm_ops
-
-These are good.
+Can we get the absolute minimum that is needed? The platform/PCI sides pretty
+much need to get the resources/interrupts and then call the core driver.
