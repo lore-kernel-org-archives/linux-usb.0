@@ -1,77 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795509309;
-	b=pX01Ch33cPHGeAwlr24KIVrsKAiMVZcH+ScnMLwpIea9ms1gO5BTiM4BRuUsQgCUO9J6
-	 0Rr5lK6z6RrsB+DLlGi+rCISeVyxMOREQ/Fs432eNsNCSc2ARgId6pJLcR/q8kgRLk5h+
-	 GOYyTzeL5V/7F7SrYNzkSS6GgnFYi/VxUhPuLMCj9PuveqCSCVrbdLTpEt/vsymaDjGfj
-	 0/5j72u8uM56WzAvcI9AmlOqp5s6ZAb9IokumI9Z/EOof5d6jvjzaWH2UP+EG/P7KYn+U
-	 d1OEqBXpJZFomQ2/iRVTieRfnqSNrer89uA6BbrNEUvAm+lrrP6bquKR39TrV/0/jBw==
+	t=1795509713;
+	b=3RWaQ2+FIrRRLIIAMO0Qo8UnV+BjbwZF3dAip1VMO+tWcfk9yLoeI6c9z8AQobWYhHDw
+	 GkiRO3UxhlOLplycteoKc4X2xojMKzamlk8LHfkYq2H/mrrxWko1WRjnHP9YvTRzOnidS
+	 ixFduYz+S+kwZyskNkmchUO+tOJVTXNplGb+PmLDfWfPglqr6rlSKPGqMvsUEw44hffd1
+	 t2AZGhejLwn7Hn7Vx0LzT3Kl1LMO5yKQKA2S7gG0z1heoxq/XQt1z7caqqkVERq34lXSc
+	 wSKDNBIAZM2J1vh6qCR2iipn4UwBWMpiYn20FutXmC9FgfSJqU7/G+7qQpSA1EyOuIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795509309;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=BzDThQsx1OXWglk3hx40uS8UG80cX3RMpw81XJa9SL4=;
-	b=vVHPiDdxz1eFHsKt/V/i8m091UpHHpbIyl+mjLOuVGFH8MutQrrXx86irh79Pdbgt48O
-	 NkE5fpLpP5YmlSSyTc2d3CWU3PaaHLqOD+X8u26I1vqLf9kL3p6sjXsmjavdRQF034T4o
-	 TyzGsrnjQe2DshnabdTnmokY5f/rrBbm7m9L0tK0qhvZoOfEiU9fZcuZn0kRqvnTrPrv4
-	 VMwW50XPnhvQwvXfS2r5zqvfqCeKnz42oyp9z2lhYwkItz6E15i6uup3aKMdq1M8HvnKo
-	 KlJuu2FnoFDgvvFJzifaD7cRPkCrnmUdiGPH0BaD9FqG9sV5Jvr1HeCQLoo4RmPr56w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795509713;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=Dw9tl48yoYuBnTJQlsrtHR1Sj3M6jDxOml0OHKzmMmQ=;
+	b=FD6Ej/fYGeufgwKp0kM0ayL4AqL4UJG+3kR65uq/FdHp4bCZYd0hswMs+qCmqIhNOkLo
+	 OITNWBmFYGz1K2DtNRZZ1sSKodh4Zc3tkK64TjxvFJM3m+LF8Dj/5kgbnagJS9G4BY3IK
+	 o+1zfgtdLRNMB6kmTx3OatdDi50qt+hKHShob2OYKqN7f/VZyGxOcm9bbt+3w0iWmkgBs
+	 Qxjyea+Nqmr841FuBd3RE4e0w1enBDnOX6ZqwI12z/Qx8Lmvp33LyL5SSYNjwNYPHdhND
+	 7yi0uDVQ/VX0Kh5sYEzsQdqAKUTh1fLe1Ebznli5iY9P7RwGkpwfOr6lAE+yidZkIaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=kd5xO9XU;
-	arc=none smtp.remote-ip=162.62.57.49
-Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xR2IHuM7;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C71606A31E
-	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 08:35:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92C71606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C40606A327
+	for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 08:41:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2C40606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=kd5xO9XU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1795509297; bh=BzDThQsx1OXWglk3hx40uS8UG80cX3RMpw81XJa9SL4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kd5xO9XUts5rG030266/VddOK0G9w0aJlqvkqdfe9Sw511IVaHLHEXEc7IfPC36RV
-	 i65qn8ylcRTIT+pYczVJt+MoM7h6Hg0ZoGMeWCpYzonuDQ5JTl8onpCXdNuFUNDZFF
-	 bHl51u4fFzOLoZtWoJfaaWk5Fhw8ZiOnkIjZCybQ=
-Received: from shuai-VMware-Virtual-Platform.. ([117.158.156.198])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id 8B70F87D; Tue, 24 Nov 2026 16:34:55 +0800
-X-QQ-mid: xmsmtpt1795509295tpmv9uig6
-Message-ID: <tencent_574ADC21A5DB586EE40F9BE6714DC5382609@qq.com>
-X-QQ-XMAILINFO: OIJV+wUmQOUA0nplL9CK7PJEdiQDD1hmhYNIsnmUU0zI0W80TPS7AsR7+zJMw2
-	 msZ4IINBMiYRXZCAXF4ODMnzdwcObTAkpHHi21SY5ymmeHThTbPmrFIr0m+jXKudXLp1vrFXltmM
-	 I/f4eC3OrZ8ykd6YR9Bljpvs/GJd59t25p6gDbLT7jzcYAr+CW5PlF7B2xlrqvKEUNWAWRnIIawX
-	 xAoH9mtxJqhtcI4CSIIvrQXSpzYVncDUJqStt7PRBTBmEBcf4hIwvdHKSWpJ6+hIRjiA0BOYP9at
-	 37N71Ey3VN+MkUihb27YKNSNumE4JiaD6oBBAuznVvbR+f9iRt0LTMzbfCquknejFWMHGHUl9vvM
-	 NK5gJtSf/uySHPsdtz1hwdGJqfYjXx4W0n4bprZ01pslQvqKdGxoCeTUAPSAJom0ge9IDwqsTinV
-	 aubhe4f+CGcenK942xjvpDR0lPcY91I35jqIHBJPCPsvz0iTqHY4zZ/7B9SoDSw3X5cWn0AUaJkQ
-	 G8JEdXQGjfEgQjjPfjyQ0bPMhPrab/ahlZglgSysP6BA1FtQvivQjtaUV7uz1tPOJj3mKofUJQtg
-	 GSFztcTdP7dXWB3+8R4PF2g8rFAyQ0wNCNp32vH81AUmHXwQ3lfYSJViJVDQGbYKEBoA62dYr9+V
-	 YO7NtPToYm9hV9P2PBU742o4m5nhjBhJ2cFqf9zOA4QKdlOHA89URZT3Z9Y+tJ3hpBDiTufTLE+0
-	 UfOJsusAHXJ5ol/02NHCHbzVq0a/4o04WO6dhhopry30LiqIhUXOjrXAzbWvOwGpZz+J1PTK32IX
-	 B9IH4CL0ys5Z2ezKTKEKT8iCfYCBLVp08FGWfkeAwJJs12bjELbPTWk+CjbU+I5goNwyexvYivT0
-	 2kCWxdLu7H8XQEmEz087yYK1r70Bvvm7FBbgMCJFYlB8vV9SPYykFDv83rKpgNMz0YToMleC4eJo
-	 44ba/ztP0YcYs2KtMISXCMKswu4LxWa8bWKoU8kdbb+ji6Qt1B0sUnEptWOanlr5246TKpYAgO9b
-	 raafoZNV2Ty36CdxJn2npK5Gk0pQlIj5iBHni/uN70e3Nc3eLc
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-From: Shuai Liu <847807867@qq.com>
-To: Neill Kapron <nkapron@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	syzbot+592c653b056459925299@syzkaller.appspotmail.com,
-	sashiko-bot@kernel.org
-Subject: [PATCH v2] usb: gadget: uac1_legacy: fix double-close of sound device files
-Date: Tue, 24 Nov 2026 16:34:55 +0800
-X-OQ-MSGID: <20261124083455.2029741-1-847807867@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261123134853.1589732-1-847807867@qq.com>
-References: <20261123134853.1589732-1-847807867@qq.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xR2IHuM7
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so38711755e9.2
+        for <linux-usb@vger.kernel.org>; Tue, 24 Nov 2026 00:41:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795509711; x=1796114511; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Dw9tl48yoYuBnTJQlsrtHR1Sj3M6jDxOml0OHKzmMmQ=;
+        b=xR2IHuM7Dci9zVepmivAR8zmfh+9xthP2PH/PYcNQIFb4THFbkM1dE51kyoVu5a4Wq
+         qpMpjIc02ZMaqUsBniDjp9Wsr2Bpt3muRX6Gkx8Yi8E9wQO9T1/0s6E77SFlTRKKHxKl
+         BISgpg0TUS7UHSkwydZuSrvIkEhDBAX+yXrGHRLUSqo8gMWWg0TqI+u0GPSnySOlIRwa
+         7WZMLE9lY7O0DXXP3OXO/svK3SCAc6GJ2LcBGjEm0BRjgtH/7n4OQ++NMM9p54Rn7ntl
+         hmTwCpFLUD2AN5Pcn5Nale6CckiorHWysgQx7b8KlpQ+zqO6vXTceiwyutY6usTdaiHd
+         Y6Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795509711; x=1796114511;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Dw9tl48yoYuBnTJQlsrtHR1Sj3M6jDxOml0OHKzmMmQ=;
+        b=CiY293XLKpIQ1i9VmDco7GbgwID6cHps23yoOlBpUmuI4lITRITZusJuKNwh36AP4W
+         fjzotzaPjwgfkAC/Hset7AgxiRPr/sTZAUMul7WVfMLs4TcMsuY4or8KzPAB0owHTCRL
+         Kta1Vru7er5qFTga0ThOI4zstV2dgp9cCI0+v9IfyDUeKdtK7gLCReiwtnaiY7uHI5c8
+         XL7KaUxokJoWr33UeImZJem8GoOZ4+ZPJd7AxUgB9f0+pocIARG5cO3VxM3BxyU2alcf
+         iPK1M/j7CRkO23PREFcjCx9x6KbC31hdL/f6paoVq2Q0s2A2o4JVBnqtO/UPRRsXnj7j
+         CoTA==
+X-Gm-Message-State: APuU4Z/4z7ICjPHHZBbP1r4i9fXkj7uqbgQueubanlGrZIVRxqUI2Y9s
+	EN8GHngEfEU8Labh8+zggODAaqksE64OkC4aNxvciEs5hos02LJa4DRnNqk0G7wPokA=
+X-Gm-Gg: AZFdTZct/OX9la7JjJlG6U7pcitRT5rBX/OLGnFaXjOuN+R9BlG6UW2WwhRAq6wQbRu
+	Br1lzukcToF/qbLWJEjoKcJqtG0WwEez5SmRbM2TGNHLDSgV4QpIVcrB3E7+46W2xJTp5Z5Uaco
+	X4Vf69xEU+8PD1iPU6ce/lSASzSQlgmAR1NdTBEQLpDj/6QZVOOK8KMEPn3H69FAIYqvtnsHoDe
+	9YQMuCkA1NBf6sSGsOMo5qx3R7Jx+RpKVpbv1FtaPYlr7S9C2x+RdQzf1AofWrrV940MPKvBjL7
+	CVSkRR4ruLn+rmcXLsUIs4WkIhVCdLoXuysMORyOgMXxSqPpeTAWIGXppzduADnS519zM1sGIQZ
+	We058WH8wOAWLWDhNCt8OmIsXZKJP+uwDdG9QpK3gbuPdEUwxCBM6Agasggn1vXwXkj1C6DNevA
+	wsJzccH98ZOUwMDqmbM7kgIvPiYIym3S9wNRS/0ypV14E4Q+5v7D52cb/fVuIho18h8RB04MI6M
+	RVa0cRhAaXb2NJwXVUpqjVlLNv7MF7X41LtNofzPo7HeIMv+VM20WTrg9PY9Y0LGd4G1ldauXNK
+	yIyZW5dp7UuSjLTuj0Xf94oz3n8sm6+cp2+FMPfh/aP9Wb7D/wihq7SvLw==
+X-Received: by 2002:a05:600c:820e:b0:4b4:262b:88a2 with SMTP id 5b1f17b1804b1-4bb887c9f5cmr280231455e9.1.1795509711073;
+        Tue, 24 Nov 2026 00:41:51 -0800 (PST)
+Received: from adriano ([148.69.80.154])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8533579csm369951895e9.2.2026.11.24.00.41.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 00:41:50 -0800 (PST)
+From: Adriano Cordova <adrianox@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	Alan Stern <stern@rowland.harvard.edu>,
+	syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com,
+	Adriano Cordova <adrianox@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] usb: gadget: inode: fix use-after-free of struct ep_data
+Date: Tue, 24 Nov 2026 05:41:44 -0300
+Message-ID: <20261124084144.3208824-1-adrianox@gmail.com>
+X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,103 +97,70 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-syzbot reports:
+gadgetfs_unbind() -> destroy_ep_files() frees each struct ep_data via
+put_ep(), but the inode still points at that ep_data through ->i_private
+with no reference of its own.  A concurrent openat() on an endpoint file
+can therefore reach ep_open() and dereference the freed ep_data (the
+mutex fast path), even while the inode outlives it.
 
-  VFS: Close: file count is 0 (f_op=snd_ctl_f_ops)
-  kernel BUG at fs/open.c
-  ...
-  Call Trace:
-   filp_flush+0x...
-   filp_close+0x...
-   gaudio_close_snd_dev
-   gaudio_cleanup
-   f_audio_bind
-   usb_add_function
+Give the inode its own reference: take get_ep() when the endpoint inode
+is created and drop it again from a new gadgetfs_evict_inode(), so an
+ep_data can never be freed while any inode still points at it.  This is
+also safe against dcache pruning, since the inode reference keeps the
+count >= 1 until the endpoint is removed from dev->epfiles.
 
-gaudio_close_snd_dev() closes the control/playback/capture device
-files but does not clear the file pointers afterwards, so it is not
-idempotent.  gaudio_cleanup() is invoked both from the f_audio_bind()
-failure path and from f_audio_free().  When a bind attempt fails after
-gaudio_setup() has opened the sound device files (e.g. because
-usb_ep_autoconfig() cannot find an isochronous endpoint), the files
-get closed while audio_opts->bound stays true and the stale file
-pointers remain set.  A subsequent bind of the same function instance
-skips gaudio_setup() and closes the already freed struct files again,
-triggering the file count corruption check in filp_flush().
+The inode now holds ep_data for its whole lifetime, so an open() racing
+with an unbind never dereferences freed ep_data.
 
-Make gaudio_close_snd_dev() clear the file pointer (and the PCM
-substream) after each close, and reset audio_opts->bound to false on
-the bind failure path so that a subsequent bind reopens the sound
-devices instead of reusing stale ones.
-
-Verified with a QEMU setup (dummy UDC provides no isochronous
-endpoints, so every bind fails): without the patch the second bind
-attempt hits "VFS: Close: file count is 0 ... kernel BUG at
-fs/open.c"; with the patch ten consecutive bind attempts complete
-cleanly.
-
-Reported-by: syzbot+592c653b056459925299@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=592c653b056459925299
-Fixes: f3a3406b3f56 ("usb: gadget: f_uac1: convert to new function interface with backward compatibility")
-Signed-off-by: Shuai Liu <847807867@qq.com>
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=7bf725ed337e37307001
+Tested-by: syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
+Cc: stable@vger.kernel.org
+Signed-off-by: Adriano Cordova <adrianox@gmail.com>
 ---
-Changes in v2:
- - add Fixes tag: f3a3406b3f56 converted f_uac1 to the new function
-   interface and made gaudio_cleanup() run on every bind failure and
-   instance free, which opened the double-close window fixed here
-   (before that commit gaudio_setup()/gaudio_cleanup() were module
-   init/exit and could only run once).
+Changes in v3:
+- Add a Fixes: tag.
+- Add Cc: stable.
+- v1: https://lore.kernel.org/all/20260904163827.216389-1-adrianox@gmail.com/
 
- drivers/usb/gadget/function/f_uac1_legacy.c |  1 +
- drivers/usb/gadget/function/u_uac1_legacy.c | 14 +++++++++++---
- 2 files changed, 12 insertions(+), 3 deletions(-)
+ drivers/usb/gadget/legacy/inode.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/gadget/function/f_uac1_legacy.c
-index 7c8d60c7e87d1..56b9cf8fbe92e 100644
---- a/drivers/usb/gadget/function/f_uac1_legacy.c
-+++ b/drivers/usb/gadget/function/f_uac1_legacy.c
-@@ -790,6 +790,7 @@ f_audio_bind(struct usb_configuration *c, struct usb_function *f)
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index cc059a6ee262..20453214e35e 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -1748,6 +1748,8 @@ static int activate_ep_files (struct dev_data *dev)
+ 		if (!data->req)
+ 			goto enomem1;
  
- fail:
- 	gaudio_cleanup(&audio->card);
-+	audio_opts->bound = false;
- 	return status;
- }
- 
-diff --git a/drivers/usb/gadget/function/u_uac1_legacy.c b/drivers/usb/gadget/function/u_uac1_legacy.c
-index 01016102fa172..f074804bba59a 100644
---- a/drivers/usb/gadget/function/u_uac1_legacy.c
-+++ b/drivers/usb/gadget/function/u_uac1_legacy.c
-@@ -259,18 +259,26 @@ static int gaudio_close_snd_dev(struct gaudio *gau)
- 
- 	/* Close control device */
- 	snd = &gau->control;
--	if (snd->filp)
-+	if (snd->filp) {
- 		filp_close(snd->filp, NULL);
-+		snd->filp = NULL;
-+	}
- 
- 	/* Close PCM playback device and setup substream */
- 	snd = &gau->playback;
--	if (snd->filp)
-+	if (snd->filp) {
- 		filp_close(snd->filp, NULL);
-+		snd->filp = NULL;
-+		snd->substream = NULL;
-+	}
- 
- 	/* Close PCM capture device and setup substream */
- 	snd = &gau->capture;
--	if (snd->filp)
-+	if (snd->filp) {
- 		filp_close(snd->filp, NULL);
-+		snd->filp = NULL;
-+		snd->substream = NULL;
-+	}
- 
++		/* The inode keeps this ep_data alive via ->i_private. */
++		get_ep(data);
+ 		err = gadgetfs_create_file (dev->sb, data->name,
+ 				data, &ep_io_operations);
+ 		if (err)
+@@ -2138,9 +2140,20 @@ static int gadgetfs_create_file (struct super_block *sb, char const *name,
  	return 0;
  }
+ 
++static void gadgetfs_evict_inode(struct inode *inode)
++{
++	/* EP inodes hold the reference on their ep_data via ->i_private. */
++	if (inode->i_fop == &ep_io_operations)
++		put_ep(inode->i_private);
++
++	truncate_inode_pages_final(&inode->i_data);
++	clear_inode(inode);
++}
++
+ static const struct super_operations gadget_fs_operations = {
+ 	.statfs =	simple_statfs,
+ 	.drop_inode =	inode_just_drop,
++	.evict_inode =	gadgetfs_evict_inode,
+ };
+ 
+ static int
 -- 
-2.43.0
+2.51.0
 
