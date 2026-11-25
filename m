@@ -1,68 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795620672;
-	b=vysbs/apauLECVyZ8ypJSF+MpbdUNNK3LXbsw4+G4ZzW1K9KuSIG4s4T7XifKFUehBUF
-	 RH8irGID198H1eOH7Gl6+SCLtRz2HNXSiJ1lxW6CN6scx+7R8IqJfdeVIBLK9/OsJJesL
-	 AjyBh7/vkihVXv9JTO4MhbbglCD71pofoOQ4vGpNajkfJAbEb48XjnR63JMn3PwGqgR7J
-	 /OaCTv0bLO2sKBIMU96jt9LLnGYbiV9se/yP+mF71bGSPeNeknPYO5271Q0VNKbW3gRfv
-	 rarZrvYgXhyEjnjnSI6MdCOS+RSs1kZcJcCEz4KHWRw6jHDiWfJGaBQYYDkDBvpkp0w==
+	t=1795620891;
+	b=LbxIZz/qPKJFPaDPzSWOifqq4VehJ9ZLBGbc3IX4i4xBCGUMznXdET+uysv4P5DpIRxL
+	 kHq+O6jLFoqQ91/5BYme3+wlv245icr3dopnmNDFqATgfmqLFl3wuGtwb9n0soB/aNnpv
+	 qbnClZrWXnLtBbTbqYVWAlTQKfigx7te2WjxiB9f+wSayDgtOZ9mqznRgS21uwNa7Q+O1
+	 efA2EFy/SuOQA1t73VlqTHpw/ppeT331dztpt3Om/Di0ZiLQ0SLDrceH2xrAQp0KhFD+m
+	 fJO01f+LjE9uvzK5kpJhJjQaZHEcRV+ktMOf6pLn4c5XSJazXXiavFBUi/zADolnB6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795620672;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795620891;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=oGKGKKT711RuUe86ZabOCR5VtzD/T3EZ7RTXDxz53po=;
-	b=mewtA8ywp0uBC2FndWBULdiZSi4nx5yrt0+a9/uROsrccPHIR2ZHxS5pOQnt8hIEaE0C
-	 D+YKaxIjyBD/9N0OdRLZ9kxos1TdecvNvxyTDsTi3GU7UjQwCdfJgsrfmWoAp4iQxvp71
-	 ksJ9KBJBgVmjX7q5EtVS1Q+lyw0fgxjlKnHcgYDe3krfHqIEiiRS49COiweCBTMT5rago
-	 6n1gSBsoGfn5yxavoFY27HcqOLR7k5lKukKqREvPzIPU43tGXXqJL11rQ3oRhpmBt+5a0
-	 sG4ItfasTGgnOG4r/frHPgvqODWeOUmgRuSmvyIzCmPwcy96wmbtid6St43G5OiA35g==
+	bh=gCx3ekEjFIYQgZCLkec7gu9sq6KbvuSeHa4OppUG+rY=;
+	b=bVjEv7s19nvf7nUKlRskQTMI4H1pn+qE4pifTNlsx9Sz1z9al1phj5apRL8GgfjgKzhq
+	 uoKocYrQoNltTiQxSNULobx+RTJQd7EUwrLuNpGwKpXGUz7WHJVb1Bvh2jwQawSAOXimG
+	 sFv4FnJ3Ig8sy88aUFYe87K0GfExSCqN0jf0c7CdsINdhhbhBie9D6n/Ltiv2STsIOFGA
+	 cfS09SjUDsL9fLQXkghuOOQZy659tgJbgvIx6+Fvo3KhF/r53WCzkj3CgP+1WndpOUS0A
+	 T0zezBVUGpo3n9fqu9n9SJp/dt3E3/FMsM4UeU4xPzy419/u/+EOfN3aCijeDhYzPJg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VWFQcebl;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JnuHXEtA;
 	arc=none smtp.remote-ip=198.175.65.12
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5859606A334
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 15:31:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5859606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE644606A31E
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 15:34:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE644606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VWFQcebl
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JnuHXEtA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795620672; x=1827156672;
+  t=1795620890; x=1827156890;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=MBBsBOld3G0JHtrAL2oAaitq5fHbwV1w9E2ioigdHZs=;
-  b=VWFQcebliEa1aNDJ9x2jNjSEE+puRSKwkwlijMGC/TquT3/QGT9/sqUh
-   LTUoh71GSqA3B3vVUeVs+PWk+vJhSy/GCzZ8qNAeTzLXaUiE++I98pleJ
-   gVVbWmMcrzbmRvpzKO+4QgSsIKBK7D/5+B2JzJ/DmRNv05duxwuMKluhG
-   weo2uCVvK0vmX1S2IuqV9f1pqE3hDqaQdszsl7z8yx2ikryJer6GfjRZg
-   rZnbDGPSRhpwkxk5piFUk5YAqKK9tK3k6e8S2E207LDK5VGWAShkb5mba
-   hTS9yetxTgs5djwcbYOyFR5jHIEhkyTNbsrcCtU/Y6BaIeRFgGPeALM4q
-   A==;
-X-CSE-ConnectionGUID: a/98By3nRjaEAO8WoC7xwA==
-X-CSE-MsgGUID: vIqL2S9PRRi8RuJCgcyX5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4408249"
+  bh=QByrnA9aQhBS/D/jtP3PD1w7FLqGT8x3wdIjHzzhRMc=;
+  b=JnuHXEtAyXkX8ZxM2LZVnNmRHUTGIEVOIPJjPihvTE0R3Xe4foG1BYXL
+   ghHAso6FkMDQamZ0c4qoY0LZtea3LI87N3UILuRjV534Gt8mgShoG8aAA
+   3JW4KAj5t3tjrtd2zcBfv71db4mTl8PHDRbnauvw6r+uH19urU/edHJic
+   wFhUN3jXQ2a64P1Y21baJCJVltbG5/xYxVLwUof4kLGof6JF6N8WsIHkF
+   ra0XV8xa/esS8VUml8/noLndUAyD7JIbfvAfB5CR6o7H/jHnyqm+M+Tpo
+   Ks94vdoBWrYjX9CyR9xZ7aJiq/oUY9nLWnhUpwjzgRZPlD2Je50UhekYE
+   w==;
+X-CSE-ConnectionGUID: gVCWL5E8RUWWGep1KOW23Q==
+X-CSE-MsgGUID: OAyU29BoS1CyBO8Sz5Jk7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4408254"
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4408249"
+   d="scan'208";a="4408254"
 Received: from fmviesa013.fm.intel.com ([10.60.135.153])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 07:26:28 -0800
-X-CSE-ConnectionGUID: GAlZst1vRlaeTJOKstonng==
-X-CSE-MsgGUID: lQiJvSGYQuKFpUbeD5mtug==
+X-CSE-ConnectionGUID: ugnjPHx+Skmtsh4s3hWoag==
+X-CSE-MsgGUID: s8LpWoTbRVCHYPg2lHK7oA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="13938533"
+   d="scan'208";a="13938535"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa013.fm.intel.com with ESMTP; 25 Nov 2026 07:26:24 -0800
+  by fmviesa013.fm.intel.com with ESMTP; 25 Nov 2026 07:26:26 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 0FE899E; Wed, 25 Nov 2026 16:26:23 +0100 (CET)
+	id 22570A7; Wed, 25 Nov 2026 16:26:23 +0100 (CET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -70,9 +70,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Andreas Noever <andreas.noever@gmail.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Mika Westerberg <westeri@kernel.org>
-Subject: [PATCH 3/9] thunderbolt: stream: Keep better track of the HopIDs
-Date: Wed, 25 Nov 2026 16:26:16 +0100
-Message-ID: <20261125152623.456054-4-mika.westerberg@linux.intel.com>
+Subject: [PATCH 9/9] Documentation: thunderbolt: Document USB4STREAM coupling
+Date: Wed, 25 Nov 2026 16:26:22 +0100
+Message-ID: <20261125152623.456054-10-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20261125152623.456054-1-mika.westerberg@linux.intel.com>
 References: <20261125152623.456054-1-mika.westerberg@linux.intel.com>
@@ -89,207 +89,144 @@ Content-Transfer-Encoding: 8bit
 
 From: "Mika Westerberg (Intel)" <westeri@kernel.org>
 
-Currently if a HopID is already taken and we try to allocate that with
-previous HopID already set like this (HopID 10 is already allocated)
-
-  # echo 9 > in_hopid
-  # echo 10 > in_hopid
-
-In the second echo we release 9 but since allocation of 10 fails we
-return -EBUSY and leave 9 as ->in_hopid. If at this point the stream is
-removed with rmdir we release 9 again which results WARN() from
-ida_free().
-
-Make this work better so that we keep track of what we actually have
-allocated and keep the configured value as separate.
+This adds a section to the admin guide describing how USB4STREAM
+coupling could be used.
 
 Signed-off-by: Mika Westerberg (Intel) <westeri@kernel.org>
 ---
- drivers/thunderbolt/stream.c | 77 +++++++++++++++++++++++++-----------
- 1 file changed, 53 insertions(+), 24 deletions(-)
+ Documentation/admin-guide/thunderbolt.rst | 119 ++++++++++++++++++++++
+ 1 file changed, 119 insertions(+)
 
-diff --git a/drivers/thunderbolt/stream.c b/drivers/thunderbolt/stream.c
-index c9e1987a6924..2b73f585ccff 100644
---- a/drivers/thunderbolt/stream.c
-+++ b/drivers/thunderbolt/stream.c
-@@ -128,6 +128,8 @@ struct tbstream_ring {
-  * @index: Unique identifier for the character device
-  * @in_hopid: In HopID
-  * @out_hopid: Out HopID
-+ * @in_hopid_alloc: Allocated @in_hopid, %0 if not allocated
-+ * @out_hopid_alloc: Allocated @out_hopid, %0 if not allocated
-  * @ring_size: Size of the rings
-  * @throttling: Interrupt throttling rate in ns
-  * @busy_poll: Instead of interrupts, busy poll the rings
-@@ -145,6 +147,11 @@ struct tbstream_ring {
-  * @close_received is used on write side to notify the writer that the
-  * other side sent CLOSE. @closed on the other hand is used on the read
-  * side to make read(2) return EOF to the caller.
-+ *
-+ * @in_hopid and @out_hopid are the values configured by the user and
-+ * stay (except %-1 which will be replaced by an automatically allocated
-+ * HopID). @in_hopid_alloc and @out_hopid_alloc are the currently
-+ * allocated values based on those.
-  */
- struct tbstream_dev {
- 	struct config_group group;
-@@ -154,6 +161,8 @@ struct tbstream_dev {
- 	int index;
- 	int in_hopid;
- 	int out_hopid;
-+	int in_hopid_alloc;
-+	int out_hopid_alloc;
- 	unsigned int ring_size;
- 	unsigned int throttling;
- 	bool busy_poll;
-@@ -308,10 +317,10 @@ static void tbstream_dev_release(struct kref *kref)
- 	if (sdev->stream) {
- 		struct tb_xdomain *xd = tbstream_dev_xdomain(sdev);
+diff --git a/Documentation/admin-guide/thunderbolt.rst b/Documentation/admin-guide/thunderbolt.rst
+index ff25fe853706..3b71feaa1efa 100644
+--- a/Documentation/admin-guide/thunderbolt.rst
++++ b/Documentation/admin-guide/thunderbolt.rst
+@@ -434,6 +434,125 @@ Then you have ``/dev/tbstream0`` for ``control`` and ``/dev/tbstream1``
+ for ``data``. Before you can use them you need to configure them as
+ shown above for the one stream case.
  
--		if (sdev->out_hopid > 0)
--			tb_xdomain_release_out_hopid(xd, sdev->out_hopid);
--		if (sdev->in_hopid > 0)
--			tb_xdomain_release_in_hopid(xd, sdev->in_hopid);
-+		if (sdev->out_hopid_alloc)
-+			tb_xdomain_release_out_hopid(xd, sdev->out_hopid_alloc);
-+		if (sdev->in_hopid_alloc)
-+			tb_xdomain_release_in_hopid(xd, sdev->in_hopid_alloc);
- 
- 		tbstream_put(sdev->stream);
- 	}
-@@ -344,7 +353,7 @@ static inline int tbstream_dev_valid(const struct tbstream_dev *sdev)
- 
- 	if (!tbstream_valid(stream))
- 		return -ENXIO;
--	if (sdev->in_hopid <= 0 || sdev->out_hopid <= 0)
-+	if (!sdev->in_hopid_alloc || !sdev->out_hopid_alloc)
- 		return -EINVAL;
- 	return 0;
- }
-@@ -660,10 +669,10 @@ static int tbstream_dev_start(struct tbstream_dev *sdev)
- 	}
- 	sdev->rx_ring.ring = ring;
- 
--	ret = tb_xdomain_enable_paths(xd, sdev->out_hopid,
--				     sdev->tx_ring.ring->hop,
--				     sdev->in_hopid,
--				     sdev->rx_ring.ring->hop);
-+	ret = tb_xdomain_enable_paths(xd, sdev->out_hopid_alloc,
-+				      sdev->tx_ring.ring->hop,
-+				      sdev->in_hopid_alloc,
-+				      sdev->rx_ring.ring->hop);
- 	if (ret)
- 		goto err_free_rx;
- 
-@@ -736,9 +745,9 @@ static void tbstream_dev_stop(struct tbstream_dev *sdev)
- 
- 	xd = tbstream_dev_xdomain(sdev);
- 	if (xd) {
--		tb_xdomain_disable_paths(xd, sdev->out_hopid,
-+		tb_xdomain_disable_paths(xd, sdev->out_hopid_alloc,
- 					 sdev->tx_ring.ring->hop,
--					 sdev->in_hopid,
-+					 sdev->in_hopid_alloc,
- 					 sdev->rx_ring.ring->hop);
- 	}
- 
-@@ -1331,7 +1340,8 @@ static int tbstream_dev_update_properties(struct tbstream_dev *sdev)
- 
- 	ret = service_update_properties(stream->svc,
- 					config_item_name(&sdev->group.cg_item),
--					sdev->in_hopid, sdev->out_hopid);
-+					sdev->in_hopid_alloc,
-+					sdev->out_hopid_alloc);
- 	if (!ret)
- 		tb_service_properties_changed(stream->svc);
- 
-@@ -1344,9 +1354,15 @@ static int tbstream_dev_alloc_in_hopid(struct tbstream_dev *sdev, int hopid)
- 	struct tb_xdomain *xd = tbstream_dev_xdomain(sdev);
- 	int ret;
- 
--	if (sdev->in_hopid > 0 && sdev->in_hopid != hopid)
--		tb_xdomain_release_in_hopid(xd, sdev->in_hopid);
-+	/* Already allocated */
-+	if (hopid > 0 && hopid == sdev->in_hopid_alloc)
-+		return 0;
-+	if (hopid < 0 && sdev->in_hopid_alloc)
-+		return 0;
- 	if (!hopid) {
-+		if (sdev->in_hopid_alloc)
-+			tb_xdomain_release_in_hopid(xd, sdev->in_hopid_alloc);
-+		sdev->in_hopid_alloc = 0;
- 		sdev->in_hopid = hopid;
- 		return 0;
- 	}
-@@ -1361,7 +1377,9 @@ static int tbstream_dev_alloc_in_hopid(struct tbstream_dev *sdev, int hopid)
- 		tb_xdomain_release_in_hopid(xd, ret);
- 		return -EBUSY;
- 	}
--	sdev->in_hopid = ret;
-+	if (sdev->in_hopid_alloc)
-+		tb_xdomain_release_in_hopid(xd, sdev->in_hopid_alloc);
-+	sdev->in_hopid_alloc = sdev->in_hopid = ret;
- 	return 0;
- }
- 
-@@ -1370,9 +1388,14 @@ static int tbstream_dev_alloc_out_hopid(struct tbstream_dev *sdev, int hopid)
- 	struct tb_xdomain *xd = tbstream_dev_xdomain(sdev);
- 	int ret;
- 
--	if (sdev->out_hopid > 0 && sdev->out_hopid != hopid)
--		tb_xdomain_release_out_hopid(xd, sdev->out_hopid);
-+	if (hopid > 0 && hopid == sdev->out_hopid_alloc)
-+		return 0;
-+	if (hopid < 0 && sdev->out_hopid_alloc)
-+		return 0;
- 	if (!hopid) {
-+		if (sdev->out_hopid_alloc)
-+			tb_xdomain_release_out_hopid(xd, sdev->out_hopid_alloc);
-+		sdev->out_hopid_alloc = 0;
- 		sdev->out_hopid = hopid;
- 		return 0;
- 	}
-@@ -1383,7 +1406,9 @@ static int tbstream_dev_alloc_out_hopid(struct tbstream_dev *sdev, int hopid)
- 		tb_xdomain_release_out_hopid(xd, ret);
- 		return -EBUSY;
- 	}
--	sdev->out_hopid = ret;
-+	if (sdev->out_hopid_alloc)
-+		tb_xdomain_release_out_hopid(xd, sdev->out_hopid_alloc);
-+	sdev->out_hopid_alloc = sdev->out_hopid = ret;
- 	return 0;
- }
- 
-@@ -1597,8 +1622,8 @@ tbstream_dev_attach_stream(struct tbstream_dev *sdev, struct tbstream_group *sg)
- 			tbstream_dev_alloc_out_hopid(sdev, sdev->out_hopid);
- 	}
- 
--	service_update_properties(stream->svc, name, sdev->in_hopid,
--				  sdev->out_hopid);
-+	service_update_properties(stream->svc, name, sdev->in_hopid_alloc,
-+				  sdev->out_hopid_alloc);
- 	tb_service_properties_changed(stream->svc);
- 
- 	/* Notify any openerers that the stream is now attached */
-@@ -1617,10 +1642,14 @@ static void tbstream_dev_detach_stream(struct tbstream_dev *sdev)
- 			return;
- 		sdev->stream = NULL;
- 		xd = tb_service_parent(stream->svc);
--		if (sdev->out_hopid > 0)
--			tb_xdomain_release_out_hopid(xd, sdev->out_hopid);
--		if (sdev->in_hopid > 0)
--			tb_xdomain_release_in_hopid(xd, sdev->in_hopid);
-+		if (sdev->out_hopid_alloc) {
-+			tb_xdomain_release_out_hopid(xd, sdev->out_hopid_alloc);
-+			sdev->out_hopid_alloc = 0;
-+		}
-+		if (sdev->in_hopid_alloc) {
-+			tb_xdomain_release_in_hopid(xd, sdev->in_hopid_alloc);
-+			sdev->in_hopid_alloc = 0;
-+		}
- 	}
- 
- 	service_update_properties(stream->svc, name, 0, 0);
++Coupling a stream between two other hosts
++-----------------------------------------
++If a host is connected to two other hosts, say
++``host1 <-> host2 <-> host3`` where ``host2`` is the one running Linux,
++then ``host2`` can forward streams between ``host1`` and ``host3``
++through the routers of its domain. The two hosts do not need to be
++connected directly to ``host2``, there can be device routers such as
++USB4 hubs in between.
++
++This can already be done in userspace like::
++
++  host2 # dd if=/dev/tbstream0 of=/dev/tbstream1
++
++but that copies every frame through the memory of ``host2`` and needs
++another process for the other direction.
++
++With coupling the frames go through a tunnel directly between ``host1``
++and ``host3`` through the shortest path so there is no need for a
++separate application that copies the frames. Coupling only works with
++the software connection manager as ``host2``.
++
++Start from ``host2``, where ``host1`` is ``0-1.0`` and ``host3`` is
++``0-3.0``. The coupling is created under ``coupling`` in a directory
++named after the two services, and it has a sub-directory for each of
++them::
++
++  host2 # cd /sys/kernel/config/thunderbolt/stream/coupling
++  host2 # mkdir -p 0-1.0_0-3.0/data
++  host2 # cd 0-1.0_0-3.0/data
++  host2 # echo -1 > 0-1.0/in_hopid
++  host2 # echo -1 > 0-1.0/out_hopid
++  host2 # echo -1 > 0-3.0/in_hopid
++  host2 # echo -1 > 0-3.0/out_hopid
++
++Like elsewhere in the driver ``in_hopid`` is the HopID the host on that
++side sends with and ``out_hopid`` the one used when sending towards it.
++Using ``-1`` picks the next available one::
++
++  host2 # grep -H . 0-1.0/*_hopid 0-3.0/*_hopid
++  0-1.0/in_hopid:8
++  0-1.0/out_hopid:8
++  0-3.0/in_hopid:8
++  0-3.0/out_hopid:8
++
++HopIDs are allocated per adapter and per direction, so each adapter has
++one for the packets coming in and another for the ones going out (more
++details can be found from USB4 spec). In the above example there were no
++other tunnels through the lane adapters so the first available HopID in
++either direction is ``8``.
++
++Each host announces its streams to the other side of the link which
++allows performing auto-configuration on that side using the same name
++for the stream.
++
++Now ``host1`` and ``host3`` only need the stream created because the
++HopIDs are picked up from what ``host2`` announces, reversed so that the
++``in_hopid`` of one end matches the ``out_hopid`` of the other::
++
++  host1 # cd /sys/kernel/config/thunderbolt/stream
++  host1 # mkdir -p 0-1.0/data
++
++  host3 # cd /sys/kernel/config/thunderbolt/stream
++  host3 # mkdir -p 0-1.0/data
++
++Note that ``host2`` is ``0-1.0`` for both of them, the service names are
++relative to the domain of each host. The other way around works just as
++well: if the streams on ``host1`` and ``host3`` are configured first,
++creating the two directories on ``host2`` is enough and the HopIDs of
++both of its sides are picked up from them. It is also possible to
++configure HopIDs manually.
++
++There is no ``/dev/tbstreamX`` node on ``host2`` because the frames do
++not go through it. Once all four HopIDs are in place and both hosts are
++connected the tunnel is established and ``host1`` and ``host3`` can talk
++to each other as if there was a single cable between them. It can be
++inspected with ``tbtunnels`` from tbtools.
++
++The tunnel only covers the routers that are actually between the two
++hosts and it turns at the closest common router of the two, which is not
++necessarily the one of ``host2``. If both hosts are connected to the
++same hub below ``host2``::
++
++              [host2]
++                 |
++               [Hub]
++              /     \
++        [host1]     [host3]
++
++then the tunnel goes only through the hub, not involving the host router
++on ``host2`` at all. ``host2`` still needs to set it up because it
++is the connection manager of that domain.
++
++After this the ``/dev/tbstreamX`` on ``host1`` and ``host3`` can be used
++like a regular stream described in the previous section, with the
++difference explained below. The hosts ``host1`` and ``host3`` do not
++need to support coupling themselves and can be even using firmware
++connection manager.
++
++Each hop of a path keeps track of the credits it has sent and received,
++and this state is only reset when the path is set up (see the USB4 spec
++for details). For a coupled stream the path is split between three
++hosts: ``host1`` and ``host3`` set up their part when the stream is
++opened and tear it down when it is closed, while the part ``host2`` set
++up stays in place. It is therefore recommended that the whole tunnel is
++torn down and recreated before a new transfer takes place::
++
++  host2 # cd /sys/kernel/config/thunderbolt/stream/coupling
++  host2 # rmdir 0-1.0_0-3.0/data
++  host2 # mkdir 0-1.0_0-3.0/data
++
++This assumes both sides announce their HopIDs so the coupling can be
++re-created based on those. Otherwise HopIDs need to be filled in as
++well.
++
++The coupling stays until it is removed as below::
++
++  host2 # cd /sys/kernel/config/thunderbolt/stream/coupling
++  host2 # rmdir -p 0-1.0_0-3.0/data
++
+ Forcing power
+ -------------
+ Many OEMs include a method that can be used to force the power of a
 -- 
 2.50.1
 
