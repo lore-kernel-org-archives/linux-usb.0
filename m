@@ -1,89 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795617256;
-	b=jV5tflP1OKj04izg4MKVRHugH4XNDkZvNhIxNsNHvvXyoyGHtpxTJx/BJTVs0Am07QQH
-	 NqHdXsE5lgcUC+Lji6xI+fqD1/d1mB6Ag6RUfxyKd2N6bTIA6l5zlphMZQX+4aBT5Y2pO
-	 L+e4oArHaUDb/+h/Q59uMgyRX3Ytwy9DkEQfgCBy5Xq4gHC4SBY4CNrG6eFugAtxQhrpX
-	 5gn30aTDLKbbv/MR8F0U+Cl+l6vy8xDaqYC6xFovDtyBk/9H32HwUGaPSORMr/yTw0pLS
-	 Z1Cm3yEsGGBFSmA/KKaAnJsq/Q9udfpIZCOfYuRAOn6QiO96T3llQC8h/CuM2mPs2wQ==
+	t=1795617337;
+	b=IJ4+a6NK+C1BY3MD6XKUAb2C1hvo1je5F1VZ86NKLZjK02mOlVRMFTYYc2TsWZ6bhF6K
+	 0cOykCU3P/vxHaBV/j7jPy+pb4JUlcb+EugrouptS8ZfD4ZE4gMjX5IaLHPh4yq8HT6Zn
+	 nlchMX6zt9nGE2RxW5uaHxgFrv+quu6E5rdV4+rwl42OFsxJaTMpUhdIMgeF+6KS3L4d+
+	 6yo13HNHUpnLFpxlP1RsNC3EWZrxefVoGjuK4Mcw1Z82zq6lxe7C5kjTuYi/eWxGHCtXv
+	 z6YrQ5ncXnBMnyJD0gv4rEfBz9TDm93R6cTeRLm68CJpKep9UayA+W6dmLrQS0QtZKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795617256;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=xxJJVSNNwo3lBy+JEx9HLHLWgj+DbeQNPp/qofQE6mI=;
-	b=wh+uO3L/fpbDmqA7KZikgH+wRKLYHBRahQcL8gf0nd0/zZHPHaUfL61ikL7oFCF/8kHT
-	 zpywr+GPTcwe8oVk/3iVMBNdaXHsZYJZ91ZvWsT/6B1svwK7kjAnP1VUhLO2QV3szN9JP
-	 Wqu4/G/GpvjhVZyblQfo9hxikgrtOryN5opHVyJRoNosdg556H/z8EW2A3JuMNR+oaMnF
-	 R5VZlQ4uozALQXC85OZEn/J907YaHheNSaRJA0nQLxnb6eQo9VMUDhSoEkJhrAi56AkQC
-	 0wenMoWLceej4R614zpSdeIkkLCJyT0kiqqypOViqv8+GRDSLaPe+6H3jPNcDL4v37A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795617337;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=Gijn1uWjB8icT+yfjdQ6IQLTf7M9XlefB16ehNCmnwk=;
+	b=uY7Zl6TuneKevLCW5rHwGSY33xi6k0w56S6SnqdcAUDOPP+vcTVbMJLcKUS+lcKXObOg
+	 oBKtfhFDXsZJ3DjI+veDof6WgC4hqoQspN0JLLEZxRpO16E4N9d1RUjsiRNU8ELwtdYBX
+	 r6/e7FaA3fP0zI0O1tsIyxM5Th5FKbBo5JyHqHZmWY1BE5UipVJ/D1ul5sTmqz2OlHnTS
+	 E9JfrSjbQsYwa+MZZHOZnh0eBDRykiPhybFgBX3V8x3MXGLyPJZvwieOMmcH9RH+PiYZX
+	 7MEmY7nswRBc7EIGfim4kGCEdYoV0ozz/3av8FSjsT+Y1TFYwpcDWCW9kl0O97Ji9Jg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=D7gB3Q6b;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dqaBRTvX;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B90E606A321
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 14:34:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B90E606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DB8606A321;
+	Wed, 25 Nov 2026 14:35:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07DB8606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=D7gB3Q6b
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-490f38e9688so4123304f8f.0
-        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 06:34:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795617255; x=1796222055; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xxJJVSNNwo3lBy+JEx9HLHLWgj+DbeQNPp/qofQE6mI=;
-        b=D7gB3Q6bDh+RP1I86PNUMsdP0gQXykxJeokg9RnkIPnPcMu1SYoBIqlhk70uqqO2Qu
-         NwWT7ZwbJr/P/N8PqMoi5RQq7LD+W8WLiOPdmlUJLIzDY61aw2FevAkOdMBQiuZwDoJz
-         1fDZjz0QKsPDF6GhRb2uua57nXezvczAjwUqPopF9qDJKpJIMEyi5Pq5LOkcEoQiw50x
-         DErCOttxpfJ5YcX0J0opbbJHS5+Yy4K2wLBEJWBL9HnegPncaMhLPGnkFwEtJLvO9eGX
-         V1odmv110NSbfAcQb4UyX27cVUHvT0h+MxqBt5qeeMu7Rrdu3O7n1s5MDsBFmS/tnJF7
-         BZ4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795617255; x=1796222055;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xxJJVSNNwo3lBy+JEx9HLHLWgj+DbeQNPp/qofQE6mI=;
-        b=NR6tjsBM03RfcBPYFL6dy8LUHm6KMpUb7SweGvtajhyG0tiWI+UThCiAyAvYIcf3Br
-         csfS5TAlG52pKElxXxKCr86qMF8T6B0sJZ35LmT9KZ0ye5VMAjrKgwgQthein7PqmWlx
-         YT0SBMTomdOh4p3KtDLjK/ASppjj+V4dE2iXvqZLWa9cvI/Z8UXr2gdHwUoSSUoglfRv
-         LXCaF+41VKirF83zhavINYsouE1Xsc5hFvfeLKvhkgVwcr+34yp1hvnaw/xhnCfHS+sI
-         r6D8adsEgQbq1AGk8OgUZS7f3S0ezgGkHmVM9F3Huatp0kPF3jh9pDtV080luv/CAtxo
-         ZU2w==
-X-Forwarded-Encrypted: i=1; AL+hErHG0aEsuyT55O4ZXD0Q1n6rf04LFKG+xXgquqjl25dBjzf1u2d/yygzGlSxHa/fTvhECwvCzPIF5jc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+N6i6HH4E7OPHMjmmjk0+P//kTYiCqS3ji9XARHFzdlqcnNaP/
-	v4FMT9fr7np4XWC4EvF10VFUNEPs5H0gfOXrV0tMbpVQr+09L+t6/vo6tm161qamJBU=
-X-Gm-Gg: AZFdTZd+fUczQrtFPU0v6Egc/FRo7sAAmBF2KTkQc14bFZLishY4NE0zb//LL84zvaV
-	ayp2Z4RPs10hABWm5d5eHuRs6+YhLiD/4NbL+JBazROsjJSZhzqZxMCyk1huHKFbjwnuHE3fQOD
-	Dygil7VjKEHLV3Vewyjn+2o3FYi1zqRjvPtCSO3+fgpObSD93pys6huvevif6Ix+Tx4AvEIZptg
-	QnOFIO2mqeX6qBKIlwBhB/6koPENl0oh/n2y8X754NdqLr0pmiQDgd67S60uvWPbShIpIMR/3CK
-	1N14GGo8B5zit5Sh7QKI4CWqm4u4z6yY7RJA74QGxCDw3X/EKdLcDrC+I/t1j/vJR7zQzT36L1d
-	IuAL7KSZ1xK+9YrhM4PXbANL07yyzvXDUYp+xnttYjUkcr8nCGlTEHYic810pojqbZvhwXP88cO
-	CiNmAXv9SdEMkRQdaGh57eNaSaFYIPa3mygVRhdFMaaKwelJPHMGPRsIIhksuLxrl0VYcuMzjCp
-	CP4+WGB490ksP5nC7bVkcZrWNsF2VZV6G1Y6dWmFhCgGuZvkYsK1HxG86ZkgVDbP6Yusm7alKQZ
-	l+yAYSrAaViSYlyLVFqdqPxdNDUhgphEmG2ejsaDBOf9KmTMqdZNliJXD9X2FtYGjomcPh+qbjM
-	Rnsonn26VUA==
-X-Received: by 2002:a5d:5e01:0:b0:492:2b36:a149 with SMTP id ffacd0b85a97d-4aa59ffe3c1mr43267193f8f.25.1795617254808;
-        Wed, 25 Nov 2026 06:34:14 -0800 (PST)
-Received: from ?IPV6:2001:a61:133a:da01:7767:7f7:9a1:80e? ([2001:a61:133a:da01:7767:7f7:9a1:80e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6c4353d6sm33563359f8f.56.2026.11.25.06.34.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 06:34:14 -0800 (PST)
-Message-ID: <7b4f33ab-088c-49be-9b64-f8abb808ab29@suse.com>
-Date: Wed, 25 Nov 2026 15:34:13 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dqaBRTvX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795617336; x=1827153336;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=9aMYRY1zY6Cf2dTP1KsnLud9sM0AO7Maki6JqLURYSE=;
+  b=dqaBRTvXKpfZJRlb19jbxMCM74WtkEKJp/X0H28tObHXTWuvBkz6Mgi6
+   c9esvlOoCVPlHZ5MS4bXUOyk6iMQTlJApaAfS7EQcR2aAqKjSaWJms+uV
+   7anLeUK55hOp0Ei6GUycKZFWBnpoImIhsLaClQKsSd6Ot06JzRsmU4mFI
+   PfNSY/IHzG0gYXpXdI2eWeinABpS/MbQ3FZwyDfmt2aZ2M6u3MXeUt4gi
+   6TMd+XJNt++MN3+f7aBfBAP8NTDQhMSrYTrXpvV5H86bUjedvZVl7MIkg
+   n47TMElwGRi1odwLkWyJBoyHEV28uWL3/VATy8KVrnJvuhk6HJkLMndsV
+   Q==;
+X-CSE-ConnectionGUID: qeme2EaNTrixvFrcMHamXw==
+X-CSE-MsgGUID: uwoRd0PrRsqCJmflSZ8w5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4556711"
+X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
+   d="scan'208";a="4556711"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 06:35:35 -0800
+X-CSE-ConnectionGUID: i7ZMmm8yTXCQ7PIDdPwlAQ==
+X-CSE-MsgGUID: jTpXoPN2Rc66ZPMOrlZ+Ig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
+   d="scan'208";a="11769557"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa003.jf.intel.com with ESMTP; 25 Nov 2026 06:35:33 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 8BBE098; Wed, 25 Nov 2026 15:35:31 +0100 (CET)
+Date: Wed, 25 Nov 2026 15:35:31 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Tobias Heath <heathtobias@gmail.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Sukhdeep Singh <sukhdeeps@marvell.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] thunderbolt: add opt-in to preserve tunnels across
+ s2idle
+Message-ID: <20261125143531.GG191152@black.igk.intel.com>
+References: <8fbb5876-e556-45a1-96b5-4a8061de9e5d@gmail.com>
+ <31d3413a-9aa0-4208-8e15-3ba85829ef79@gmail.com>
+ <20261125132228.GE191152@black.igk.intel.com>
+ <a08cb3e1-10a0-4a35-9258-cd510b91985e@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,44 +93,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: image: microtek: don't receive REQUEST SENSE data
- into sense_buffer
-To: Alexandre Becholey <alex@becholey.ch>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <20261119084526.535901-1-alex@becholey.ch>
- <643a71e0-7347-47f3-8cad-ce31f76cb8af@suse.com>
- <AP57iwtzG1Kr6EB4hY7F0Hd-DaLhPZJzxoKNuvDpeiAKZvyxsddI1fl6kRKAc2Xg1ox0kL-KAdNYmZrRMEYN_mZRamfiV6nXjdcfDhJhGyY=@becholey.ch>
- <e3956050-8b80-4270-998e-2e5ec70cbdf8@suse.com>
- <8iDv29vCFEOxycORJWCZZoTT9dMFbUZZ9VK25sT27tKoWWtaKvLKZaW2YoQDygTrSRkZRE6Pu5PmkMFLl-PDCWXI9n1l-LSB9aJCByn8gks=@becholey.ch>
- <f9715edb-94be-47cb-8bf1-f84a3323f000@suse.com>
- <HSkiYehoEZjHsmtOkLlo174eN2wrhaDGyLpIMwWTMy0Cdn4t_nrRvoS0dslql-VSF3jaeKvglXyGaJ6OxnGMs_0TMQVXRUFDK1IDH7yjR58=@becholey.ch>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <HSkiYehoEZjHsmtOkLlo174eN2wrhaDGyLpIMwWTMy0Cdn4t_nrRvoS0dslql-VSF3jaeKvglXyGaJ6OxnGMs_0TMQVXRUFDK1IDH7yjR58=@becholey.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a08cb3e1-10a0-4a35-9258-cd510b91985e@gmail.com>
 
+Hi,
 
+On Wed, Nov 25, 2026 at 02:26:56PM +0000, Tobias Heath wrote:
+> Hello,
+> 
+> Many thanks for your reply.
+> 
+> 
+> On this hardware the dock-side host router is pinned in D0 by active USB4
+> tunnels and has not runtime-suspended since boot (active_time=515s,
+> suspended_time=0). The quiet host router does go to D3cold exactly as the
+> spec describes. The s2idle_preserve=1 path keeps the state that runtime-PM
+> would have kept anyway — it prevents the system-suspend path from forcing a
+> D3cold transition that tears down tunnels users still have open. Would you
+> be open to a v2 that scopes to 'suspend target is s2idle AND domain has
+> active tunnels' rather than a global module parameter?
 
-On 25.11.26 15:28, Alexandre Becholey wrote:
-
-> I understand. A fuller cleanup is more than I can take on right now.
-
-Not a problem. I understand. It will go to the long list of things
-that should be cleaned up.
-
-> So I will send the v2 you agreed to: it only limits the transfer to
-> SCSI_SENSE_BUFFERSIZE, so the device can no longer write past the
-> sense buffer. If you would rather not take that fix, please tell me
-> and I will drop it.
-All is well and I hope you took none of this as personal criticism.
-It is not the outcome I hoped for but that is not your fault.
-At present we have a security problem. I will take a clean patch
-fixing it.
-Thank you for doing this.
-
-	Regards
-		Oliver
-
+Okay so you blocked D3 entry intentionally. Why you are even entering
+s2idle if you want to keep the tunnels up? Why not stay in S0 then.
