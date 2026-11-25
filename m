@@ -1,87 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795610740;
-	b=D9tJ0YoDaYCXSjnMFC4nqBH4Fta5rnjUUpT6jWYd1T9Av8e+KsqSwr9zzkVM2efX5n2j
-	 14BMgnNZmNjuu+YV8VB7rkFHO8CXCQ7x3H8AGsV1+FEly6orLOu2RpAQRZOy1F//XBcFf
-	 dnFsh+LRbdjC8dhl4hdGiIIsEjq2euCuf7YQrt/mTSo+ZI4UgOn7NMcu0yJdGspJvmmS1
-	 m5Y0iF9aC7yNLrDVaUA7jqhW7tweRvOiXHpAaeOfrMqe2MdfezxY6yVGRYALg+Ksi06gX
-	 lrY7DIC5pjsLL2oKJdcVJEq/8vuSBJ1g7z5DDhFuVnhrWxYO8oMS8vsjLx1RIbp5I2A==
+	t=1795610916;
+	b=5HoFW83nPsYbPTlrhHxGfAh4bR02gYfAy7y32FqohbmxEAXouI7nstVopcQkUefTqKny
+	 t3bJsKUSyBC9sXegRQYvClYGVjTP/CuUqU0315blzm4bngXWjolmNjkozruKfdcDkZOPq
+	 yGhHSaMWi7d44l731wN8u6jY5femU4o3Kktv5PQlK8lQapEvq3pekMMcAZHuqypiSi190
+	 RP+qSkSq8RFNoHTZ//wHE2TExEm0DLjYbj3ftWRhkjs+zRv09QWdDZhcSOoTFGHWELwM8
+	 gbRYPwNnSqzJ8sQIIUYswcRoC/nlylmflMqUc4fOaT6RhYLVZA0/WFgfUbC/jq88MfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795610740;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795610916;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:From:To:Cc:References:
 	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=qCN9DtRdE/+gcLb8xRI6LYPt6eU/gxBRp9uUHYDGFwU=;
-	b=HPLCmwdLMbkk0P1Vz9p7vfFNq8cs5VLAATpQlTctXjDgVa/cvdQTbWMLgowMIx0N8Nba
-	 b/dPg8zU1hLA5g5sZsi05GiaVOX7/H9LO4Qs1wDPH6kMB4NJQTv8X7/Z3JurH42JIyWHO
-	 vSbO5Sjdvv71Om5gIHYOYsTbepadCwH0Cqz84Y4GXFBb4KCyFb1Oh1dGPHi0AiSAmTtMG
-	 hZH2dDItuG/ve3s7nbG6c4CBk2JFEp8h8DyMymWVEpnhmgsP6LTTOUf9brR+vMh405MU5
-	 W6W07lNygp7qVLk/ElXlQZFB38JOtVLOHch5UAfvbAe9W/qX1PCjy4pIjzZIAufBf9A==
+	bh=SAWXjGXaTZ1yifByDjbk7j6PeeVyExFOz8BWyY4y5x0=;
+	b=1r3dBOJkJ0NiHEHmWHEaNcUmrxa32C8QUbqXIrbTa38oHlj+ZY/e+kEBkK9RAdpcmjKb
+	 F5B+ey9UPAO2M01gb5JHI2T2KubQmrf+P1LCkp/2r0v5BazbT7HvV2mYB2AXXZaha1LMf
+	 PQM0SNTJo7RZpvyEOHuVYVApiM/QfpydYcAjEpwFpA7faTNE5RGDdudR/Hza+YBDIfNkj
+	 MJUUAUuEUATapIOABXXFiXidczuNL+AhQYmBdQiwr4u4VYlGpcf1SLNmaQ8BXFFh29M+U
+	 uat1CgrdXL4r4CZw2By2PFIsPdf56uU5SZatMTvh0DFxBhIyaREQxUBJrjBNUzm2gHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Vud2LTlg;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tc4LiAxI;
+	arc=none smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C424606A333
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 12:45:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C424606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B81606A329
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 12:48:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8B81606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Vud2LTlg
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb77a462c6so49430285e9.1
-        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 04:45:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tc4LiAxI
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4a3e706b5dfso3580248f8f.2
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 04:48:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795610738; x=1796215538; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795610914; x=1796215714; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:content-language
          :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qCN9DtRdE/+gcLb8xRI6LYPt6eU/gxBRp9uUHYDGFwU=;
-        b=Vud2LTlg4bg+1/37o+Cst/0aGdxrJ6W3Tp/rVd6l2vVhvG4dFi3TP84W8UhlkRa4td
-         +64nQiKhh/jBsVID2R3Ud4zwks1TJP6oDt30N+qHCzT7MVd87U31fZ4WGJNYfoMeJbPT
-         Ngz+Ro6FI0edvNEiJG8sPHIy0I+c7lBshMWlM+cFNaE223Obwrrw4tCKFAzjrb65gl8H
-         AGdXlyrHueMZb+UvN4yF81GbdMCB5yp2LgksHKzQRhb84YCQvkzwLfAsvJqs29CoqD8i
-         zmuPB6WrWXVF7E9jyFuyNI1PXxER2zZcT4WaM33KpCL2qby8Y+Iq1UHJpjx8ZeLoVtcF
-         PlQA==
+        bh=SAWXjGXaTZ1yifByDjbk7j6PeeVyExFOz8BWyY4y5x0=;
+        b=tc4LiAxInFZjm0FZKU4AlIyL7VuUe+IeokgpJQK1fsNKpT2FV8j+GejfwjTBvCWagB
+         mSx2VwoB4EGPQG04Y8Vp+iiRcPXI99JGObgxyalebVsqxTAg9mNd83wAgYeLssb6nBGk
+         NnhWpX59iyE1gYfVLRYZeTfP+MwX2CPG9Hzr+lO1Cr55/pqGxjNjd2buwf8p6S7mHG57
+         a9kq5yICWU4KDQDC90VBuRCly2qnvQsEZTqvTd/WZSwwZtRed1QuzP5W9tP6fdpkEzdU
+         rluHlcVlTurEqA5ezu/HLHeRlJ6AS/skLrQY1EkXnXlNXzzXn4AlQLhNMFjPUCeStWx0
+         ujyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795610738; x=1796215538;
+        d=1e100.net; s=20260707; t=1795610914; x=1796215714;
         h=content-transfer-encoding:content-type:in-reply-to:content-language
          :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=qCN9DtRdE/+gcLb8xRI6LYPt6eU/gxBRp9uUHYDGFwU=;
-        b=aOyFgL/YL/wFOp+cyJyjcjqV+WyD38VLtOiUyryli7Y0slEJf149qABMSxIdRvqC/s
-         r+muZkwh3qUi0aNMIBVnogpOeQjHtWAYo89u9HSegrusiaYofq00uyKeM4kfbW6msIZg
-         u3mDmT4XDMW/h8LjPxG4MBpHQ8kaQvB9Hv7/uhWij4+yKEoS3joRI9TmQoM3FMwVOTGY
-         ibAjqPY7cdKxBnDBOCo6IDwbmEu5ZSR9/hHji9CBZ5DujIhEELvyLh9FRKjE4Ywd11yK
-         wMcg83ocgAxzYpS92GebbYhEmDGK3OahAylpmoTydQR9DnLZNACOnCOCzUZRcktUNoOV
-         68Dw==
-X-Forwarded-Encrypted: i=1; AL+hErGlVPvyZmRTQ9kEoPOq7/xtEam6zdQDH30VNSThgIwhHOQK01biNOeaSSucu2emignYqNG+Juy/deI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+mEc049CfLFqnRr25aBto9qtI6jaD86kdPfdapB0VG/Ezhsyhq
-	v2I0NyoyAIoiYY1Zz4fctGvw0uVhotN4n0hm1wJN7goj2FoTJZjS8sK6
-X-Gm-Gg: AZFdTZdHYlMtp0e0ukfXLIEc9Qg1dLSTBGP5E92YpMufIulRShPspv7Bda/RZZ1Kmn/
-	uvEmRB28/wtTTlOxzRyUfSde1pHaEqQTPukJ8g9DHI5qkF8csG01vaGnhg7FC3tSUn9kdfsAdFp
-	FpIRJZtuHV9ENh9TE1PZlKRxINw7dIqCoK92bk9zE6xL0NE7zJF0ayiFNRdqAjj6opXFBBOlpcr
-	S0j0H37zV1ouHZ/7nTysLdFojbjB+7OxwBle0NsDkWP/AAUr9rsTdTayfN6EaOD+BarGke1AxMb
-	S4VwqG5exeev4GMsPRkLl9Nw1ab+i/tczUryCSAdiffhUeocY+Y8TWMcgF2V3GIKOT0zUQcHHo3
-	eCnK8/etZapkEgGLG69oWniN7wdMgRgyXNbHpNbAGeZ+ajrQjT2TQ/HjUsnd2n4oifoErcLPlMn
-	u6OkP89EOn92yZCi8TCqGmicmWxxEUA0ozM9z0T3W1FRc9+8pmwrKm/Sf6gFSDgE8bTfxh52Ald
-	u9bwRElHhwxA3AZC8zcPlFlBhpsRuZ5jBoc30+IXnERmhuAmHNKY/PBuvyWWjgJ5+HrZGzFrJ88
-	q1zCOKL10hssPhi68ktAoxFX1eMlsI7gf/F/ySvZmKVmZklTeN1alr2XT5YNnDZsszgwCvHfG+M
-	ZtlFyKTRsAWk=
-X-Received: by 2002:a05:600c:8905:b0:4bb:6816:127c with SMTP id 5b1f17b1804b1-4bb861468cdmr344483245e9.8.1795610737633;
-        Wed, 25 Nov 2026 04:45:37 -0800 (PST)
+        bh=SAWXjGXaTZ1yifByDjbk7j6PeeVyExFOz8BWyY4y5x0=;
+        b=HOTQ0+mpFM2WZEbT8Crn/Le1dw8ItseyamD5z+AsIp9B0OEi1BSZOk2y69U7yFoCqy
+         ihMwN+8XfBgcDWrwPJKa9pdb0qiihQ/H3kelR8CGtaZIDOyAM0jDOVEoZoYCllTOd1J1
+         PwWzhn2jZwK0rbAHMTaLJhxRk46aNfQET+GTNuIsIm4AZwBxFl1Bq+Vlf9HhdsaRtndG
+         oa6iY3Smzfi+9br2aXhE0UVYCT7zr87rXr/a+bi/g4PM5dkMP1VF6NzIUc69Y3jjaj3O
+         KMnuj2dftRUmXL3iHhWEBlL9PIjubToYqbpaXfiSee5sq1r6eLr9byVcIp3OVVH92iAh
+         moDw==
+X-Forwarded-Encrypted: i=1; AL+hErGxYE1A6b6fSq/o7nZn6slsr4Vfc6P3yugY9P+DrEEy/BFvWl2pfWM3Gr+ge3kYCCu7Hls0QcPOIkE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+5W60LT5urlRWng50TS/OET2ZHyuJGco93GEKI4Vu+rh48NcCO
+	zFanv/rI3kQ1+d5aVOYyG7nZP3BIpXQFLpEktY4n8eOLpKAcZNi7jcPK
+X-Gm-Gg: AZFdTZflWsp+QbEQviIdit5N8jzTqxQrrx2P9L7CDDr8pbx9NKdTDLCbhBmzfn+Ofx3
+	U693SM+70IiAuK44voDA50LLJQ+Q2PxOzM8NXg/rrULF9K6khSH0/MfR4I0HQtqNv0k7pxwlDOc
+	u9w9FmBtDGXOFm5E8jkHcaRZA9hFovc3m2dXj7pNFNDfr6ck4fJel62n076OMn3qmIbsSfmqVhU
+	kp0000d8KbYOQV3nlXY40kqHe8irowjlbuzR0EIg1YQkerNVMTL6x1J7N9ZCYR+jLBTYqOUKs9Q
+	S/z+8zeRhZk8AY2B1Y1xPZXghTk6Uf0qnNo5z2YiMCjj9BtAXPXcV1BJapRWcKuLZfHolWkK3Ox
+	cLcbDL3amMf4uZPjLiikgHv/4IgfFjdJfnxMOgjjXksxoB+5KSzCjz+6pbCw7PH7K0gMfhin6yz
+	La0qGHxbqocoO+irg1Ss7fGGEqoTlh+X6AqYFwha/OIjC9gUAZ7SKy5XAzs5qzmhVUeFJ/1lhiY
+	sAFQGar8TuNn+8MC/G0wxWSdj7/nVRsC+QCKfG9EKHTgn+CHh1j98cFIGU9Qo4BWb2gEvBUHwR5
+	refp1EGF0dhUdfOaXCtAN1xtMezDyRRLBqJOuxji0B2B33DaW8OTCypz5rmX8CHMv8t3NEhmkpG
+	qybCutWg2ZutP
+X-Received: by 2002:a5d:6f13:0:b0:491:3fdd:af42 with SMTP id ffacd0b85a97d-4abb5cc19b5mr30983044f8f.37.1795610914011;
+        Wed, 25 Nov 2026 04:48:34 -0800 (PST)
 Received: from [192.168.0.36] (firewall-214-232.seh.ox.ac.uk. [163.1.214.232])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab65cb4341sm34358805f8f.4.2026.11.25.04.45.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad6403fdbbsm25732393f8f.15.2026.11.25.04.48.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 04:45:37 -0800 (PST)
-Message-ID: <31d3413a-9aa0-4208-8e15-3ba85829ef79@gmail.com>
-Date: Wed, 25 Nov 2026 12:45:36 +0000
+        Wed, 25 Nov 2026 04:48:33 -0800 (PST)
+Message-ID: <c3e6cc57-a091-4342-bbb5-03b594c05fdf@gmail.com>
+Date: Wed, 25 Nov 2026 12:48:33 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -92,7 +92,7 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH 1/2] thunderbolt: add opt-in to preserve tunnels across s2idle
+Subject: [PATCH 2/2] atlantic: skip hardware teardown when PCIe parent is
 From: Tobias Heath <heathtobias@gmail.com>
 To: Andreas Noever <andreas.noever@gmail.com>,
  Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
@@ -103,142 +103,99 @@ To: Andreas Noever <andreas.noever@gmail.com>,
 Cc: Richard Cochran <richardcochran@gmail.com>, linux-usb@vger.kernel.org,
  netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <8fbb5876-e556-45a1-96b5-4a8061de9e5d@gmail.com>
+ <31d3413a-9aa0-4208-8e15-3ba85829ef79@gmail.com>
 Content-Language: en-US
-In-Reply-To: <8fbb5876-e556-45a1-96b5-4a8061de9e5d@gmail.com>
+In-Reply-To: <31d3413a-9aa0-4208-8e15-3ba85829ef79@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-The current implementation of tb_switch_suspend() / tb_switch_resume()
-writes ROUTER_CS_5 SLP into each USB4 switch on entry to s2idle and
-rebuilds the tunnel on resume, independently of whether the host router
-and connected switches actually need that teardown. On AMD USB4 host
-controllers (verified on Ryzen AI 9 HX 370; same expected on Phoenix /
-Strix generation hardware), the switch config survives D3hot intact,
-and the mandatory rebuild produces an entirely avoidable re-enumeration
-cascade on wake:
+When the PCIe parent bridge of an atlantic NIC is removed - which
+happens routinely on laptops with Thunderbolt docks whenever the dock
+is physically disconnected while any sleep / power management cycle is
+in flight - the kernel enters a deadlock:
 
-  * Every downstream USB device goes through USB disconnect + fresh add,
-    device numbers increment, open file descriptors onto those devices
-    are invalidated (audio streams interrupted, filesystem mounts
-    unmounted-and-remounted by udisks, etc.).
-  * PCIe hot-plug fires for the dock-side bridges.
-  * The dock's PD controller is reset, producing a 1 - 2 s
-    ADP1 ONLINE=0 blip that interferes with any userspace relying on
-    AC state at wake time (for instance systemd's HibernateOnACPower=
-    policy).
-  * resume_devices takes ~2 - 5 s of avoidable work.
+  * pciehp_ist invokes pci_stop_and_remove_bus_device() on the atlantic
+    device; this acquires the device's lock and calls the driver's
+    .remove callback (aq_pci_remove).
+  * aq_pci_remove -> unregister_netdev -> aq_ndev_close -> aq_nic_stop
+    -> aq_vec_stop -> napi_disable -> napi_disable_locked.
+  * napi_disable_locked waits for NAPI_STATE_SCHED to clear in a
+    usleep_range loop. NAPI_STATE_SCHED is cleared by the poll
+    function (aq_vec_poll) calling napi_complete_done, but the poll
+    function reads the RX ring state over the (now disconnected) PCIe
+    bus: config reads return 0xffffffff, the poll never decides it has
+    quiesced, NAPI_STATE_SCHED never clears, and the loop spins
+    indefinitely.
+  * Every other device_resume waiting on the parent bridge blocks on
+    the mutex held by pciehp_ist; most visibly an async wiphy_resume
+    for the laptop's Wi-Fi, which DPM watchdog times out at 120 s,
+    panicking the kernel.
 
-Add a module parameter, thunderbolt.s2idle_preserve (default: off), which
-skips both the tb_switch_suspend() teardown on suspend_noirq and the
-tb_switch_resume() + tb_tunnel_activate() rebuild on resume_noirq, when
-the sleep target is PM_SUSPEND_TO_IDLE. S3 and hibernate paths are
-unaffected.
+The kernel already has the signal we need: pciehp calls
+pci_dev_set_disconnected() (which sets dev->error_state to
+pci_channel_io_perm_failure) via pci_walk_bus() before starting the
+device-removal walk. By the time aq_pci_remove() runs on a surprise-
+removed device, pci_dev_is_disconnected(pdev) is already true.
 
-Measured on GPD Win Max 2 with CalDigit TS5 Plus dock:
+aq_nic_deinit() in the same file already consults the equivalent
+c pci_device_is_present() for the firmware deinit path; aq_nic_stop()
+simply does not. This patch adds the check: when the PCIe parent is
+disconnected, skip the hardware-touch work (hw_irq_disable, aq_vec_stop
+with its napi_disable, aq_ptp_ring_stop, hw_stop) and still free the
+IRQs that need userspace-side cleanup. unregister_netdev() in the
+caller continues to free the NAPI structures on the kernel's side as
+normal.
 
-  Default upstream:  resume_devices = 2.6 s; USB storm per wake; AC blip.
-  s2idle_preserve=1: resume_devices = 0.2 s; zero re-enumeration events;
-                     AC stable; downstream connections (audio, storage,
-                     keyboard) survive unchanged.
+This mirrors the handling in Marvell's AQtion Windows driver
+(aqnic650.sys 3.1.10), which uses a "surprise_removed" flag set from
+NdisDevicePnPEventSurpriseRemoved to short-circuit every hardware
+code path while still completing software teardown. Static analysis of
+that driver confirmed both the pattern and the bounded wait times on
+its remaining hardware polls (1 s register poll, 2 s firmware mailbox)
+- details available on request.
 
-The opt-in gate is deliberate. Where the TB tree is not preserved by
-hardware across s2idle (e.g. some Intel generations under specific
-firmware configurations), enabling this would leave the kernel with
-stale state at wake; users are expected to test on their own hardware
-before enabling.
-
-One known caveat: a wake event originating from a USB input device on
-the host's own xHCI (not routed through the dock), while a TB dock is
-connected and preserve is active, can produce a quiet resume hang on
-some hardware. The resume path appears to enter but never completes;
-no DPM watchdog or softlockup fires. We were unable to capture a panic
-or stack for this case. Workaround for affected users: route input
-devices through the dock. Likely root cause: tb_switch_set_wake() is
-not called on dock-side routers when preserve skips tb_switch_suspend,
-leaving the dock's routers unaware of a wake coming from elsewhere on
-the system bus; a future refinement might split wake-arming from the
-teardown path.
-
-A second, more serious caveat is the reason the companion atlantic
-patch exists: unplugging a Thunderbolt device during a preserved s2idle
-window surfaces a pre-existing atlantic / pciehp deadlock that panics
-the kernel after 120 s on DPM watchdog. See the cover letter.
+Before this patch, with a TB dock connected to the atlantic device,
+disconnecting the dock during any sleep or power transition caused a
+reproducible DPM-watchdog panic at T+120 s. With this patch, the
+teardown completes in milliseconds and the system continues normally.
 
 Signed-off-by: Tobias Heath <heathtobias@gmail.com>
 ---
- drivers/thunderbolt/tb.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ .../net/ethernet/aquantia/atlantic/aq_nic.c   | 21 +++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 57c11ba13..f48c365be 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -11,6 +11,7 @@
- #include <linux/delay.h>
- #include <linux/pm_runtime.h>
- #include <linux/stringify.h>
-+#include <linux/suspend.h>
+diff --git a/drivers/net/ethernet/aquantia/atlantic/aq_nic.c
+b/drivers/net/ethernet/aquantia/atlantic/aq_nic.c
+index 42e0fe924..0cca82974 100644
+--- a/drivers/net/ethernet/aquantia/atlantic/aq_nic.c
++++ b/drivers/net/ethernet/aquantia/atlantic/aq_nic.c
+@@ -1434,6 +1434,27 @@ int aq_nic_stop(struct aq_nic_s *self)
+ 	timer_delete_sync(&self->service_timer);
+ 	cancel_work_sync(&self->service_task);
 
- #include "tb.h"
- #include "tb_regs.h"
-@@ -49,6 +50,22 @@ MODULE_PARM_DESC(asym_threshold,
- 		"threshold (Mb/s) when to Gen 4 switch link symmetry. 0 disables. (default: "
- 		__stringify(TB_ASYM_THRESHOLD) ")");
-
-+/*
-+ * Experimental: on s2idle entry, skip the tunnel teardown so the host router
-+ * and downstream switches keep their state across Modern Standby. The TB
-+ * switches stay in D3hot with their config registers intact; on wake no
-+ * re-enumeration or tunnel rebuild is needed and downstream USB devices do
-+ * not re-appear with new device numbers. Applies only when the sleep target
-+ * is PM_SUSPEND_TO_IDLE; S3 and hibernate are never affected.
-Runtime-writable.
-+ * The suspend-time value is latched for the matching resume.
-+ */
-+static bool s2idle_preserve;
-+module_param(s2idle_preserve, bool, 0644);
-+MODULE_PARM_DESC(s2idle_preserve,
-+		"preserve TB tunnels across s2idle (default: 0, off)");
-+
-+static bool s2idle_preserve_active;
-+
- /**
-  * struct tb_cm - Simple Thunderbolt connection manager
-  * @tunnel_list: List of active tunnels
-@@ -3109,6 +3126,15 @@ static int tb_start(struct tb *tb, bool reset)
- static int tb_suspend_noirq(struct tb *tb)
- {
- 	struct tb_cm *tcm = tb_priv(tb);
-+	bool is_s2idle = (pm_suspend_target_state == PM_SUSPEND_TO_IDLE);
-+
-+	s2idle_preserve_active = is_s2idle && s2idle_preserve;
-+
-+	if (s2idle_preserve_active) {
-+		tb_dbg(tb, "s2idle-preserve: skipping tunnel teardown on suspend\n");
-+		tcm->hotplug_active = false;
-+		return 0;
-+	}
-
- 	tb_dbg(tb, "suspending...\n");
- 	tb_disconnect_and_release_dp(tb);
-@@ -3175,8 +3201,17 @@ static int tb_resume_noirq(struct tb *tb)
- 	struct tb_cm *tcm = tb_priv(tb);
- 	struct tb_tunnel *tunnel, *n;
- 	unsigned int usb3_delay = 0;
-+	bool latched = s2idle_preserve_active;
- 	LIST_HEAD(tunnels);
-
-+	s2idle_preserve_active = false;
-+
-+	if (latched) {
-+		tb_dbg(tb, "s2idle-preserve: skipping switch_resume and tunnel
-re-activate\n");
-+		tcm->hotplug_active = true;
++	/*
++	 * If the PCIe parent bridge was removed (e.g. a Thunderbolt dock
++	 * was physically unplugged while the kernel was mid-teardown),
++	 * the device's config space reads as all-ones. Register writes are
++	 * harmless no-ops, but napi_disable() waits for NAPI_STATE_SCHED
++	 * to clear via napi_complete_done() from the poll function, which
++	 * reads the RX ring state from dead hardware and never decides it
++	 * is done — the wait loop spins indefinitely. This matches the
++	 * Windows AQtion driver's handling of NdisDevicePnPEventSurpriseRemoved
++	 * (a "surprise_removed" flag short-circuits every hardware path
++	 * while still freeing software state).
++	 *
++	 * Skip the hardware-touching teardown; unregister_netdev() in the
++	 * caller takes care of the NAPI structures on the kernel side.
++	 */
++	if (pci_dev_is_disconnected(self->pdev)) {
++		if (!self->aq_nic_cfg.is_polling)
++			aq_pci_func_free_irqs(self);
 +		return 0;
 +	}
 +
- 	tb_dbg(tb, "resuming...\n");
+ 	self->aq_hw_ops->hw_irq_disable(self->aq_hw, AQ_CFG_IRQ_MASK);
 
- 	/*
+ 	if (self->aq_nic_cfg.is_polling)
 -- 
 2.56.1
