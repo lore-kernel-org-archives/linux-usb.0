@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795615851;
-	b=MKkLxmG7HqzoXC1CmdTe15cNuiC2epHtzbyuSnB0oc9hKVVimM+WPpGcN+OOLOsXntLq
-	 IWsWxtHcDGDH3Jsfy7MmgVakAlOT9YBsZUj/H4BfWAXPrU4W6O+1S1v5+P5R0P9e5lMQY
-	 HXNGkdBmwFkmX7bV/sLbkuwEu8149tVObMAWCjgeSc1ncsTZ/OwIkCCQSnk6QfciVFPdg
-	 CuRDzhjkGPi8v7TvvZkpNJipHaaJcmETQClhGPU/1QGyK8v5xZV2Gj0gn4YX8ISESQ1Aj
-	 AcpcQGx7wPoL/BXo4gF/JnIpFe0eMoCz42pH+QlMzfPecFrntmk9pCk5KwR/i1HHcOA==
+	t=1795615852;
+	b=HW6E+m32RS2L0/TNTlTrIT2eseOxWaxTb6MKUquT80pGsyeevd72OrAbqrpYfiK6uIhJ
+	 kDw6dKCE7SJvPygFmv0m/a1qqG7qep8/ck/JtlAB4jKB6ceoyakEQFryIBlAXseqmZue6
+	 WqEgofsCnucp5J5/k2ziSm05QoQQlAfmS1rZKPq6RLN9UvRNp6RCYmQ8dGQuoKIpxmlB1
+	 L4S4r78dbJObbhmXxESF8v7Z85SLQ72mKZ4t86uRXZZ7rZP5EGQrN+2DyP0gBJuVTwiF3
+	 kf/w9SKZyYwp5Z04YiZSU0MKiJh4iUJazyIQtSh5OA3739E2UOQkh4GDh3UPz5yx+Tw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795615851;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795615852;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=IE+F6bD6mEvp/w/Bo7pX00NCaf7s/Wh5lrQJSh4d3F0=;
-	b=fQks6TSJM8DQSo7t55g8sUTfHOssSyXpN98C2s1/Z3PFf94uIuZbUfaXixrPYrK0st5X
-	 uZmqtJRjhy9kwUh2tfuRjcZ6LcYIHSVBNx9FMv5ZjN5mT2AoDjQugFPTN6FRbvMrYzhZw
-	 rCNMigMB2XmzVLvbXMP6Y4NazpIS1bdf4C+JwJ/exz8mCHEghUB+GZfI7KbepTNbDPOuZ
-	 KLlU974bhO4iydrOBRX9gt8rSHsz9duHCrUoMMH9wi0XOTJ91zyH6zefC/LUxcCEC2/5S
-	 Cl0mffJL15MYzMRMpkJxPUBVGxCkMXgWJl6v1f66/DaDHfF2lj123pd1hLEmxndg4bA==
+	bh=HrCSAafO6dus44BBGnZLXcb5WHS+G7vh5ACplTtTnV8=;
+	b=cY8tDZsuhCp5aqM8pyX7dgENvOplFRtyw6tIquqfmd5lldu5zhpBloKVeSI3yYuzUFAO
+	 0Qh3FrDlx9iEjGKwc8WgDVfd3ER/2QK91JTnbS1hssbDeLEjADpak5oVp42dxfT2U0gAW
+	 g9vE1v/iT40o2zTgT3D1BY8XVNBakl3GKga4uRJ/iJR4t3jDXvdiQcy1K9sSNGZpQJuAo
+	 4rveB0bH650AUdMvoQ5N+8NiogR9RCTkLNQKh1qWB3QWqXab+G3Agpx91ZqQMQe53FeHT
+	 OUvsTrLaisEkUWAsVhypyppyrfWJVFHBjLeiIE+G1G5hPJS7H/zaPaSOBoxgpRUGalA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="e/HeVJrV";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QH0myo3b;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E3A606A32C;
-	Wed, 25 Nov 2026 14:10:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC68606A33D;
+	Wed, 25 Nov 2026 14:10:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e/HeVJrV
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QH0myo3b
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795615850;
-	b=z06EhIYggADBFDHRgBqJESL1s92/XyezL2C3Fus5rb9M/M3vQGveM6/Zq/gcIip3NJiE
-	 aXX4j05PxCAuGWPTFSFBkBgE8gVsTtUE0VUUIKOhXn2pjAUiBD853TjaCuHAJlk9DS6yV
-	 rF6j72ZSYcJ8Hh1Y2LZUtV/N6cOrP/tiM3a2NRtn/tMUbN+NYj9YP+DmkthTU0ZUZYkpM
-	 7CHA5rdkqYjUcAyUbTvZ681KaRCkE08DSpwKc/2PHHOwMczWOHyvecEBooaaWmPJwjnD7
-	 2Db9qD+Jxom4tFUNrwL/0TLm2s4HOyvdovTMoAJ+0QjWcSNMfev/bEdq7SuDmknqTCQ==
+	t=1795615851;
+	b=yHeFakI4lNrUJRN8REC3u7PJy26KtHvSBgVFYCj+iTeSJi226sZgXJNUDi8+A0RAScOK
+	 cBI216Ot8WjXfA1st/bMT1vLL/v/KCTMuxVKrmnpUiaMv0UPc15Q2iZer3d3pyQ1oHSMp
+	 N/B4OwW3PSTqZosggOJDulkKxCOY01kMyo9KwXY7bhyBv6QVzZKqriyjKNCG50AK9W025
+	 H6+2BqeUv9WenCFXCq8NOKeG3VRbWbZcefW/IDHJ8JAYUainLMCcHORPt6kpfl8CVeSJn
+	 QN++PGqahd+tiBCAT7Jk70/Kc0LmdVTzxHloSRiz1PVuDRt8OIbWTaO8kRTPhFsPXOQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795615850;
+	c=relaxed/relaxed; t=1795615851;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=IE+F6bD6mEvp/w/Bo7pX00NCaf7s/Wh5lrQJSh4d3F0=;
-	b=05r/q+jnCLvpBXfwTeaxvqGWbafQvWSg5R+Wivde6Sxm6rRPGtHP8o302TMdrmJ7jjSt
-	 xHoue/b3NfJYpeETxDWTxYJ+Yeer/5LYdmgLyPYTUs6qC07api+n5lgeNLCgcZzhQBMSb
-	 uhIfKx27pDWTIntSr7H1TUAmlrw1izLG9jcXoQ0noHjbUAmglbuZXPpoGcoD4pbiGk3x8
-	 TufPEsvvg1R5mxhuFGKT5EuQH513JDbC3D1fC7GfA+UEL5JCBkPr6xa6lBbNKQw7zbw34
-	 l1VVX0WN8dj6IdYWT5qvkgxYHbkPeJc8jwDjaIs198ofbdzR3x6TtkMGOACQ4+zylTQ==
+	bh=HrCSAafO6dus44BBGnZLXcb5WHS+G7vh5ACplTtTnV8=;
+	b=eB2Pn3DPDzrdwL7w021rgpaKgT95BrF0W02JphUhmsl7PTYAPpYRD7mWgFAXMQCN+GpZ
+	 h0h/odynrs0G6SFMnp8zbnmKYq8VySs6H+zFc2kJPSm5kFGPAaaI3HXZvT3FsRvdKskPm
+	 0pZt9PT5+Ze8jZYEJCrno5wavtPo6vVtrQ2J+BBZsw2+HYfOAFI0YVHe8lbyeQn+SLwiL
+	 h6aO+cNw0EMKLyADsM/G1RrNDFglYyytwrQ5upBUYpQIJvI5askyWGhrZzMOKWGfVNtW9
+	 hQS6ENW6L4zLcj6o1CSpK1p2CMpVz+2N31cGOzCstd22X+LlGfcvHJd0oivV3PYsSKA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7FFF11F000D2;
+	by smtp.kernel.org (Postfix) with ESMTPS id 662D11F000C0;
 	Wed, 25 Nov 2026 14:10:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795615850;
-	bh=IE+F6bD6mEvp/w/Bo7pX00NCaf7s/Wh5lrQJSh4d3F0=;
+	s=k20260515; t=1795615851;
+	bh=HrCSAafO6dus44BBGnZLXcb5WHS+G7vh5ACplTtTnV8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=e/HeVJrVbGYOa8GXSL2oElmRUvH2EGgbODlGAjkZPQHvaY/shUS/z8v61L9z3u4Kb
-	 I+DrR9FiBB7AIqnbS1VWYRlswmPv1Vx4C69uhnW/AwMA9nUEtHpGYe1djLJe3TBNr5
-	 NCMJF5avLWbiuzePJWtjFrvDChoSfUAoCkKPgl/C/X8Y2PhU2dC4VEvi6vrSVviUjd
-	 WANRmIK8cwYfmYJFz8AkK8LDUSGvUwK11oDsoL2h2NeAhSKBfleM4w4xGDg61FhW+x
-	 +AtsMIMlS56n0nfZ5KCDwP/9H6PbrM3cw/+T7H8jwMKZczegNN9TXXtEkAjIEx4wR4
-	 h9d2/n0WgFY4Q==
+	b=QH0myo3bZSSQj1cXqvUZ8J8ylhPDMIVKCUJtetKvjAWVqbvuPywxv473vLZ8XSqvX
+	 kz7+ZxG2aA2yaqhuiNqpQz8ZpBiLRkS+Doi/7lgx9WNSpT32os8dbE4bn6KdJ92TSM
+	 oafdnE0SHgMS3Ze0vrIEsFxu6b/Bit/biQwDFpOIVaHxnWOJcaYGQbP6bNCnY3UPv3
+	 /AU5H/0UGlRHI3dhmNS7Q7cZ9MWZ2rN4j4vluRMxEkhJ4yUDEbiBMuazpl8wslBtNh
+	 JwyEqU6NI5iIp+jpAaflP6B8oUH+T468pptJI2s8RLDX2Ds1Tp2+SQxDIQtZeh1PbN
+	 I1BwyBVdZNwkA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 09A024CEF2;
-	Wed, 25 Nov 2026 14:10:39 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id DEB554CEE5;
+	Wed, 25 Nov 2026 14:10:38 +0000 (UTC)
 From: Bobek Brzeczyszczykiewicz via B4 Relay <devnull+admin.roadbobek.com@kernel.org>
-Date: Wed, 25 Nov 2026 14:11:17 +0000
-Subject: [PATCH v3 2/3] phy: sun4i-usb: Assert PHY resets in
- sun4i_usb_phy_probe()
+Date: Wed, 25 Nov 2026 14:11:16 +0000
+Subject: [PATCH v3 1/3] usb: musb: sunxi: Assert reset before deasserting
+ on init
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261125-usb-sunxi-reset-fix-v3-2-855c43694f78@roadbobek.com>
+Message-Id: <20261125-usb-sunxi-reset-fix-v3-1-855c43694f78@roadbobek.com>
 References: <20261125-usb-sunxi-reset-fix-v3-0-855c43694f78@roadbobek.com>
 In-Reply-To: <20261125-usb-sunxi-reset-fix-v3-0-855c43694f78@roadbobek.com>
 To: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -101,11 +101,11 @@ Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-phy@lists.infradead.org, 
  Bobek Brzeczyszczykiewicz <admin@roadbobek.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795615875; l=2483;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795615875; l=2056;
  i=admin@roadbobek.com; s=20261117; h=from:subject:message-id;
- bh=LiuKo9Ttgw8d9A6ryR0X7JCOtqPXd1JaEy/qalojwDQ=;
- b=gdEBaetcH0wgmM9Sf/Iy0fQmkG9aFmKrFH8hzHGPJvYstHT9vdotV/WmZmDZXHsPQyO+VUjLs
- /aOifbZsNShA5xRtDXcjfQurRB898fS4x7u45ic1jEpBfylzmN36f7A
+ bh=BfwiIA8DPFLjrKHd+uc0+ny4D9EEZZGuYRY4n5xJgys=;
+ b=23OZSHKC/W9VS4tNc4oVQXriibYqOwlrtmBlzKCQHLQ/x2sQ6/ARLPId4WgXLFn4PWU0NiqXa
+ 5AUkEvvqT2QCSgpIPYT27psuM5pCH2Y2sIDDMELQopLyf0TSXjDJ+8T
 X-Developer-Key: i=admin@roadbobek.com; a=ed25519;
  pk=TcWSTwITMylwCZLYbw80sv2LQx1zButqiT90TFVvhas=
 X-Endpoint-Received: by B4 Relay for admin@roadbobek.com/20261117 with
@@ -116,69 +116,60 @@ Content-Transfer-Encoding: 7bit
 
 From: Bobek Brzeczyszczykiewicz <admin@roadbobek.com>
 
-When a bootloader initializes USB before booting Linux without first
-tearing down the controller, phy->reset may already be deasserted when
-Linux probes the USB PHY driver.
+When a bootloader such as U-Boot (for example with
+CONFIG_USB_MUSB_HOST=y) initializes MUSB and boots Linux without
+stopping USB first, the controller reset line is already deasserted at
+probe time.
 
-Because reset_control_deassert() alone is a no-op on an already
-deasserted reset line, stale USB PHY state can persist across the
-bootloader-to-kernel handoff. Asserting phy->reset inside
-sun4i_usb_phy_init(), however, could disrupt active PHYs on SoCs with
-needs_phy2_siddq (such as the Allwinner H616), where PHY0, PHY1, and
-PHY3 depend on PHY2 remaining out of reset once enabled.
+In that case reset_control_deassert() in sunxi_musb_init() is a no-op
+and stale MUSB register state persists across boot. On Allwinner A33,
+MUSB stays wedged in a_wait_bcon with DevCtl=0x99, Power=0xf0, and a
+frozen Frame counter even across hot-unplug and replug.
 
-Request exclusive reset controls via devm_reset_control_get_exclusive()
-and assert all PHY resets in sun4i_usb_phy_probe() before registering
-the PHY provider so every PHY starts from a clean reset state before
-any consumer calls sun4i_usb_phy_init().
+Request exclusive reset control via devm_reset_control_get_exclusive()
+and assert glue->rst briefly before deasserting it when
+SUNXI_MUSB_FL_HAS_RESET is set so MUSB starts cleanly.
 
 Tested on an Allwinner A33 Q8 tablet (Laser MID-786).
 
-Fixes: ba4bdc9e1dc0 ("PHY: sunxi: Add driver for sunxi usb phy")
+Fixes: 132e23775779 ("usb: musb: sunxi: Add support for musb controller in A31 SoC")
 Signed-off-by: Bobek Brzeczyszczykiewicz <admin@roadbobek.com>
 ---
- drivers/phy/allwinner/phy-sun4i-usb.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ drivers/usb/musb/sunxi.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index f26eed0db17e..a62558124d2d 100644
---- a/drivers/phy/allwinner/phy-sun4i-usb.c
-+++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -787,7 +787,7 @@ static int sun4i_usb_phy_probe(struct platform_device *pdev)
- 			continue;
+diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
+index a17b1c150626..8201b3ac1748 100644
+--- a/drivers/usb/musb/sunxi.c
++++ b/drivers/usb/musb/sunxi.c
+@@ -9,6 +9,7 @@
+  */
  
- 		snprintf(name, sizeof(name), "usb%d_reset", i);
--		phy->reset = devm_reset_control_get(dev, name);
-+		phy->reset = devm_reset_control_get_exclusive(dev, name);
- 		if (IS_ERR(phy->reset)) {
- 			if (PTR_ERR(phy->reset) == -ENOENT)
- 				break;
-@@ -855,6 +855,25 @@ static int sun4i_usb_phy_probe(struct platform_device *pdev)
+ #include <linux/clk.h>
++#include <linux/delay.h>
+ #include <linux/err.h>
+ #include <linux/extcon.h>
+ #include <linux/io.h>
+@@ -239,6 +240,10 @@ static int sunxi_musb_init(struct musb *musb)
+ 		goto error_sram_release;
+ 
+ 	if (test_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags)) {
++		ret = reset_control_assert(glue->rst);
++		if (ret)
++			goto error_clk_disable;
++		usleep_range(10, 20);
+ 		ret = reset_control_deassert(glue->rst);
+ 		if (ret)
+ 			goto error_clk_disable;
+@@ -745,7 +750,7 @@ static int sunxi_musb_probe(struct platform_device *pdev)
  	}
- 	data->num_phys = i;
  
-+	/*
-+	 * Assert reset on each PHY before they get deasserted in
-+	 * sun4i_usb_phy_init(), in case the bootloader left them active.
-+	 */
-+	for (i = 0; i < data->num_phys; i++) {
-+		struct sun4i_usb_phy *phy = data->phys + i;
-+
-+		if (data->cfg->missing_phys & BIT(i))
-+			continue;
-+
-+		ret = reset_control_assert(phy->reset);
-+		if (ret) {
-+			dev_err(dev, "Err asserting reset on PHY: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	usleep_range(10, 20); /* hold PHY in reset briefly */
-+
- 	data->id_det_irq = gpiod_to_irq(data->id_det_gpio);
- 	if (data->id_det_irq > 0) {
- 		ret = devm_request_irq(dev, data->id_det_irq,
+ 	if (test_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags)) {
+-		glue->rst = devm_reset_control_get(&pdev->dev, NULL);
++		glue->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+ 		if (IS_ERR(glue->rst))
+ 			return dev_err_probe(&pdev->dev, PTR_ERR(glue->rst),
+ 					     "Error getting reset\n");
 
 -- 
 2.53.0
