@@ -1,79 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795619274;
-	b=5rAo/OApf5wVwvBL/E56UFl8yWEoSAz0f3ao8ixZ5GyE8NYuaE2Fx/L+G5jN98nfeIwf
-	 kd6gC6gI48Pih+hZKduSJNtM2W4rcNVsyj/SIt7zjgh/pQushEkXR+gnS6UHYvuoXfJEe
-	 CivvPDgX+i3Ks1cpYuuzu6zteXkMScmXqmzJjXj+A9gboTQ3RMm0jve+1hfn3va/GHm4l
-	 t6IFYFoDpVcAoahpa0rbbrnjhBljGjjA3D0hpE9OCimvD9fCBESWx13/yxO1kknCb5o7e
-	 SBuKgd3WVMLnRmJ03b/SdBv6IbW2S+F84pwy/M3mrthRbNqxbcGiQnbiJyI2iRr9fTw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795619274;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=FTzAjKQSHxlNRWgx/yZCGJcmPJ5L7IOVnJKBdJAxvyo=;
-	b=2NqHs3aJvSwxMPD1T5Nz1WJPsPdtGgJgnyq1bA+LVNomX0sdn3A7HJ5hBHOxNajInqzu
-	 sNhCNLWsCUlkCgXgRMB+L0Qb5kZZamFtzRQPda/FqwrTQ8CSg4lk1fOWNmY9fR/1F7gEW
-	 HTc0pAcBCrX/BZpbkHJ1sbgZtmHfxchyaTduQnp/Yl/PD3zo1s7g5sDUkpDG1YFTeGCtc
-	 G15BQhVcuPVyxQ+67d0njXkn2eWQXAFAVsc4JQU0OGZobZecC7rFVrWwd0bkwVS/s7a/j
-	 cVSGQaTI6QqRs3d0ac7G2dO/fS5FXMFVIrndlsItabISsdB+ki2c0JdiorbaKk0h90w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k8a5myX8;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5132606A323;
-	Wed, 25 Nov 2026 15:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k8a5myX8
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795619274;
-	b=mCqIXExm4RBSn6yj1L7XkDvnGT32+IfLFyAbBuOVeh2UriIc3xuOjSGByguC4R/qlcoO
-	 Z1JmwT0JsBke9pFQB8E8h7D9X8XKHpJeKVjLaWLVnuOeReEQd6YdUODTejKq6SyGYnS0t
-	 XT/cO1jj9MGL9xSUePTMS5HYJLByKdBLv/3Qq6Ybn6C4GNrsxhoGFt5j82+UW8F5Ql51H
-	 63zyarj5oKHtyL1GqQ3XGT+ePGT+yaUvuJsSI3zoa2Wl2KeWdov5yLuux1m/NZ/jh2L1X
-	 heCujUG/zjVGgqnsuLkl5gNKygj8yqSEEbPqAtATQvjOGPaRR/4YHoo9RICwc6vmv2g==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795619274;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=FTzAjKQSHxlNRWgx/yZCGJcmPJ5L7IOVnJKBdJAxvyo=;
-	b=M+GKaG2bixGAdtJxEOiNj1rnHBYBQBO7YdZ7YcKv4h1Lveyc4mqzs/6Ral52e5byQMky
-	 bG3myVa8RttMFcplnZsReDknE79SYmJ93JWLXnCY8h/kEA/S3rl53IPbmoz/rWmyOpMYL
-	 CUMPLOwS3zCmTtFTLR7lo7Eut+ceW66BHferu04MypATsrHhpCdXGHMu7kzMHFUlJaLv6
-	 k+SlNvp0l1OASpavNX79JHRRgJ4cPTRkI0lKK1IlfcaBoRfc3BR/GN94K4qO9w4psMeYS
-	 OU6lMfCggc+9kaDSh4g6jwCyK1NGLvAoFVRLLauuVHgd1S7+3xnj2/7Rak6WmiKglnA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=46.247.34.138
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795619399;
+	b=LgvBThwYySiFT8bwELngAg8EI/XE+XdQwzTi7yQ67+q+PEXVEGWyt4fThQRoE4N5nv5L
+	 hK34zLkjThaqtB8QyakYiK27v3++8psDVk+2/O1vw9A3xzynsIfYX9E4EWkm20uUaXUiN
+	 C9Ax73C//4gZFhSDll0JlfZMLYmTXF5eKJxi3RnajBxFAVKACoP7wRTVS12En/dq+PK6d
+	 a5jRQ/+MHMipcYkXH61MPYFNd9f3osWCSMh0mDN3k06EeylH1Gog0vadPtvJU54oCpaLp
+	 53IWZUzplaIZh46FUIMjIx49uIO8I6kt8kNnJ0Vll3zC4LxVIrIkaE+JbxJP+5JJvpQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795619399;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:
+	 References:In-Reply-To:Accept-Language:Content-Language:
+	 X-MS-Has-Attach:X-MS-TNEF-Correlator:x-originating-ip:
+	 x-tm-as-product-ver:x-tm-as-result:x-tmase-matchedrid:
+	 x-tm-as-user-approved-sender:x-tm-as-user-blocked-sender:
+	 x-tmase-result:x-tmase-version:x-tm-snts-smtp:Content-Type:Content-ID:
+	 Content-Transfer-Encoding:MIME-Version:X-SM-outgoing;
+	bh=hNDwGs4JY92qM5GuwlXsa5+R2yd/EgIrf3P9H2V2YnI=;
+	b=xqNqyAO//HPNNLUUAtdtOFF+o6uWm53SlR+xzzVvICFN0se6obd6oKU7rog16qvCSX+U
+	 VS3zWN67IUbANb3Tt7mcXhIXpRaI5xGpzu4kvg7sepjBtwkSLq6vtCVz7Tvq/56PkOdzM
+	 65bMKAn4tukSbIAD2e4AgxkzsecfBK1/Y/rCuYgrAVYix6OC5p1Lobizxd7ZtN/Ml6UAP
+	 zmS4t00hRdyL4bPpw/gHYRIkOk2QF3NOyIh30I3MbmiLeb0pm/0dPi8i88+oBzENAMVbs
+	 prs9XZ1hWuD5WPWdL8txwOZBey9aOlUJInWzCjJQa9b+lxYhdQOANJeMAV67+600MXw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=stiftung-kifa.ch;
+	spf=pass smtp.mailfrom=stiftung-kifa.ch;
+	dkim=pass header.d=stiftung-kifa.ch header.i=@stiftung-kifa.ch header.a=rsa-sha256 header.s=default header.b=tmRPKkh3;
+	arc=none smtp.remote-ip=46.247.34.138
+Received: from hin.itze.ch (hin.itze.ch [46.247.34.138])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 472E61F000CA;
-	Wed, 25 Nov 2026 15:07:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795619274;
-	bh=FTzAjKQSHxlNRWgx/yZCGJcmPJ5L7IOVnJKBdJAxvyo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=k8a5myX82b8HaqyrPgm7DfV1TbpTWEpgF5wa+my07BlNVli1+NENA3HzvPUyHZZVI
-	 tKJGeFYSk3hSuSeVB+YRalP5JkJ+x2Z5sxYKQtSZeslWp/Wv5EYThYOMIIs2ofcyNj
-	 ITdCmToKV15C57NIDFKV0OasqWzVYeS5VTXJyxwlvOZqHFpp29EQxPitzp2WL1BJge
-	 79HsFoJh/+WD6NPMGR04Oqu3imjUbiTjwzh/3+i/CvIKoGfxwvuxblVHu6PpxiUIO2
-	 1dH7Upa9+xcydDHVJ1iZbJfCeb7iE2+PDZSsDTTKvztjKG2V07Nl42dv9WBsCA25NV
-	 vj6dJZKV3Fk3w==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id BD22F4CF06;
-	Wed, 25 Nov 2026 15:07:41 +0000 (UTC)
-From: Fabricio Akio via B4 Relay <devnull+fabricioakio.gmail.com@kernel.org>
-Date: Wed, 25 Nov 2026 12:05:26 -0300
-Subject: [PATCH v3 1/2] usb: gadget: u_serial: Publish the console only
- under port_lock
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBA1606A321;
+	Wed, 25 Nov 2026 15:09:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6FBA1606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=stiftung-kifa.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stiftung-kifa.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=stiftung-kifa.ch header.i=@stiftung-kifa.ch header.a=rsa-sha256 header.s=default header.b=tmRPKkh3
+Received: from hin (localhost [127.0.0.1])
+	by hin.itze.ch (Postfix) with SMTP id 4jZNQC1BWTz1wt1;
+	Wed, 25 Nov 2026 16:09:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=stiftung-kifa.ch; h=from
+	:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:content-id:content-transfer-encoding:mime-version;
+	 s=default; bh=hNDwGs4JY92qM5GuwlXsa5+R2yd/EgIrf3P9H2V2YnI=; b=t
+	mRPKkh3q5dCjykVvVphXN2E4SfCUffPTTAsXYgMCTJw0qBMrLJb3bR2zeZglRZwd
+	BnQWiS0zaGoDKM0iA7OKddNMb3xZMcTVz9Z70RfBM2Af6sD8SRmR+mC6i6ruqitm
+	8EdrlKjoVo4yWEhb2msIXREA6uOEPeEaUfHt8V8TNSS2svDl44DlEexjLD1XzYTK
+	ecrT60dYb5SBaGg+X0Fr4VC2muJqi6TXq29d1kHdTRYidvk1DtNp0E7asU4hI8wm
+	qxeg06Bz/89zV3znfGJmkoKZAauL8VYzTaVcCkyhd3wc9+FnEZbgwh9l92gq1ZfD
+	UlpGB6dubJsWB2/D8477w==
+Received: from owa.itze.ch (unknown [10.200.0.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519)
+	(No client certificate requested)
+	by hin.itze.ch (Postfix) with ESMTPS;
+	Wed, 25 Nov 2026 16:09:54 +0100 (CET)
+Received: from owa.itze.ch (ITZE-EXC-32.intranet.itze.ch [10.200.0.157])
+	by itze-smtp-02.intranet.itze.ch (Postfix) with ESMTPS id BB11838029E;
+	Wed, 25 Nov 2026 16:09:53 +0100 (CET)
+Received: from ITZE-EXC-42.intranet.itze.ch (10.200.0.152) by
+ ITZE-EXC-32.intranet.itze.ch (10.200.0.157) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.57; Wed, 25 Nov 2026 16:09:52 +0100
+Received: from ITZE-EXC-42.intranet.itze.ch ([fe80::423d:c966:8c82:e690]) by
+ ITZE-EXC-42.intranet.itze.ch ([fe80::423d:c966:8c82:e690%9]) with mapi id
+ 15.02.2562.057; Wed, 25 Nov 2026 16:09:52 +0100
+From: Kettler Christian <christian.kettler@stiftung-kifa.ch>
+To: "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>
+CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Re: Logitech BRIO (046d:085e) stops answering control requests when
+ hot-plugged together with a USB-C hub; usbhid probe blocks hub_wq for 60 s
+Thread-Topic: Logitech BRIO (046d:085e) stops answering control requests when
+ hot-plugged together with a USB-C hub; usbhid probe blocks hub_wq for 60 s
+Thread-Index: AQHdfE3oSkrSsszgEUuTDYAdvXeAA7c+zRyAgAAHjwA=
+Date: Wed, 25 Nov 2026 15:09:52 +0000
+Message-ID: <2ced9c1fb45e08a94f56b0f569b01369044b5553.camel@stiftung-kifa.ch>
+References: <3cd5f994a6260960cf7751d6383f2b9afc1baeb5.camel@stiftung-kifa.ch>
+	 <6118ad01-65a0-4357-8118-3122479b554d@rowland.harvard.edu>
+In-Reply-To: <6118ad01-65a0-4357-8118-3122479b554d@rowland.harvard.edu>
+Accept-Language: de-CH, de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-30344.000
+x-tm-as-result: No-10--22.376900-4.000000
+x-tmase-matchedrid: OcgHo5wAKs4uv++HU7VXr4kiMwVwGI5YN0X64jGy2dZa78hB0x+GaWrB
+	IjJ00a+8v77u9R/aB9qlugByZXPyC2s4la5Zj25PnRTJpY7VAKdWC9fz8m/BCup5tGJpTGx+ehd
+	Z/bwq3VZhbKuwJkPkeBvbmZvUlTFCiJPaA+9YMuoRTDvoAtlgqbsXVhBSg7MsM4EUfzJw8Z7NwE
+	HRsS7DKuzUC9+2W8CH27VTKqjamRkDcBI2JS3GLQvpq/ti8dx8+HAk4j3F9/QY5qQDqF7ovga0/
+	l8gU1kEx7b1Bc6N2azdt0Uq15xuqRYs+VEpi6SZ0RneM2u5ms9Xbgp6+gO14VXOqMYNeYhmES46
+	qCSbf/X5gNZJP+k/L6JYuGaIjh0/7lupSRApbpZ8SAso7jsI54s3wSS0wttw6QLge8Tcpn0=
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--22.376900-4.000000
+x-tmase-version: SMEX-14.0.0.3239-9.1.2019-30344.000
+x-tm-snts-smtp: 2F701C539FBD8CD0309A777ED42DCEDA819B603622EB2FB055EB049195D4C7A22002:9
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B4BCCAE8F42D9F498FC93825EAD752FA@intranet.itze.ch>
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,83 +112,47 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261125-u-serial-console-dequeue-v3-1-b47f6e401dc1@gmail.com>
-References: <20261125-u-serial-console-dequeue-v3-0-b47f6e401dc1@gmail.com>
-In-Reply-To: <20261125-u-serial-console-dequeue-v3-0-b47f6e401dc1@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Neill Kapron <nkapron@google.com>
-Cc: Krystian Kaniewski <krystianmkaniewski@gmail.com>, 
- Brian Ellis <brianellis@gotenna.com>, Ai Chao <aichao@kylinos.cn>, 
- =?utf-8?q?Micha=C5=82_Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>, 
- Prashanth K <prashanth.k@oss.qualcomm.com>, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Fabricio Akio <fabricioakio@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795619260; l=1827;
- i=fabricioakio@gmail.com; s=20260928; h=from:subject:message-id;
- bh=bQFCDRqy5e6noIavX7zwxVbe546YTjkWtU7/BccXBn0=;
- b=PLGYVwp0s0vOzq8X3Ea/x0TZMfN/5m1fismv0n4lDEyqd8lMw8YseLRQtcIEQLBLsk3maYolP
- P3Lyn8NsjBoDoZBMJk0tlM6P2H3P40HqATOAeBbGVCA2Wg6XtFaXRXd
-X-Developer-Key: i=fabricioakio@gmail.com; a=ed25519;
- pk=TlMUT8bPI/ZQzp2q24BIQTb2qSx/jdUTBlGEXIRCm54=
-X-Endpoint-Received: by B4 Relay for fabricioakio@gmail.com/20260928 with
- auth_id=1076
-X-Original-From: Fabricio Akio <fabricioakio@gmail.com>
-Reply-To: fabricioakio@gmail.com
-Content-Transfer-Encoding: 7bit
+X-SM-outgoing: yes
 
-From: Fabricio Akio <fabricioakio@gmail.com>
-
-gserial_connect() and gserial_disconnect() find the console through
-port->console under port_lock, but gs_console_init() sets it before
-taking the lock, and gs_console_exit() clears it after dropping it.
-A host connect while the console is being turned on through configfs
-can then connect it twice, leaking the first request. While it is
-being turned off, a connect can attach a request to the console being
-freed and schedule its work after cancel_work_sync().
-
-Set and clear port->console under port_lock, together with connecting
-and disconnecting the console.
-
-Fixes: d7cb8fb7aa7d ("usb: gadget: u_serial: allow more console gadget ports")
-Cc: stable@vger.kernel.org
-Signed-off-by: Fabricio Akio <fabricioakio@gmail.com>
----
- drivers/usb/gadget/function/u_serial.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
-index 0a304f508bc3..1f0110ea7f6a 100644
---- a/drivers/usb/gadget/function/u_serial.c
-+++ b/drivers/usb/gadget/function/u_serial.c
-@@ -1173,10 +1173,10 @@ static int gs_console_init(struct gs_port *port)
- 		return err;
- 	}
- 
--	port->console = cons;
- 	register_console(&cons->console);
- 
- 	spin_lock_irq(&port->port_lock);
-+	port->console = cons;
- 	if (port->port_usb)
- 		gs_console_connect(port);
- 	spin_unlock_irq(&port->port_lock);
-@@ -1196,12 +1196,12 @@ static void gs_console_exit(struct gs_port *port)
- 	spin_lock_irq(&port->port_lock);
- 	if (cons->req)
- 		gs_console_disconnect(port);
-+	port->console = NULL;
- 	spin_unlock_irq(&port->port_lock);
- 
- 	cancel_work_sync(&cons->work);
- 	kfifo_free(&cons->buf);
- 	kfree(cons);
--	port->console = NULL;
- }
- 
- ssize_t gserial_set_console(unsigned char port_num, const char *page, size_t count)
-
--- 
-2.56.1
-
-
+QW0gTWl0dHdvY2gsIGRlbSAyNS4xMS4yMDI2IHVtIDA5OjQyIC0wNTAwIHNjaHJpZWIgQWxhbiBT
+dGVybjoNCj4gT24gVHVlLCBOb3YgMjQsIDIwMjYgYXQgMDc6NTY6MzVQTSArMDAwMCwgS2V0dGxl
+ciBDaHJpc3RpYW4gd3JvdGU6DQo+ID4gU3ViamVjdDogTG9naXRlY2ggQlJJTyAoMDQ2ZDowODVl
+KSBzdG9wcyBhbnN3ZXJpbmcgY29udHJvbCByZXF1ZXN0cw0KPiA+IHdoZW4gaG90LXBsdWdnZWQg
+dG9nZXRoZXIgd2l0aCBhIFVTQi1DIGh1YjsgdXNiaGlkIHByb2JlIGJsb2Nrcw0KPiA+IGh1Yl93
+cQ0KPiA+IGZvciA2MCBzDQo+IA0KPiA+IDEuIElzIHRoZXJlIGEga25vd24gaXNzdWUgd2l0aCB0
+aGUgQlJJTyBzdG9wcGluZyB0byBhbnN3ZXIgY29udHJvbA0KPiA+IMKgwqAgdHJhbnNmZXJzIHNo
+b3J0bHkgYWZ0ZXIgZW51bWVyYXRpb24gKHdpdGggdGhlIHVzYmhpZCBwcm9iZSBiZWluZw0KPiA+
+IG9ubHkNCj4gPiDCoMKgIHRoZSBmaXJzdCByZXF1ZXN0IHRoYXQgd2FpdHMpPyBXb3VsZCBhIHF1
+aXJrIChlLmcuDQo+ID4gwqDCoCBVU0JfUVVJUktfREVMQVlfQ1RSTF9NU0cgZm9yIDA0NmQ6MDg1
+ZSwgb3IgYW4gc25kLXVzYi1hdWRpbw0KPiA+IMKgwqAgY29udHJvbC1tZXNzYWdlIGRlbGF5KSBi
+ZSB3b3J0aCB0ZXN0aW5nPyBJZ25vcmluZyB0aGUgSElEDQo+ID4gaW50ZXJmYWNlDQo+ID4gwqDC
+oCBhbG9uZSBkb2VzIG5vdCBoZWxwLg0KPiANCj4gTm8gc2ltaWxhciBpc3N1ZXMgYXJlIGtub3du
+IHRvIG1lLg0KPiANCj4gR28gYWhlYWQgYW5kIHRlc3QgYW55IHF1aXJrcyB5b3UgdGhpbmsgbWln
+aHQgYmUgcmVsZXZhbnQuwqAgQXMgZm9yIA0KPiB3aGV0aGVyIHRoYXQgd2lsbCBiZSB3b3J0aHdo
+aWxlIC0tIHdobyBrbm93cz8NCj4gDQo+ID4gMi4gQ2FuIHRoZSBrZXJuZWwgcmVjb3ZlciBmcm9t
+IGEgZGV2aWNlIHRoYXQgc3RvcHMgYW5zd2VyaW5nDQo+ID4gY29udHJvbA0KPiA+IMKgwqAgcmVx
+dWVzdHMgZHVyaW5nIHByb2JlIHdpdGhvdXQgYmxvY2tpbmcgaHViX3dxIGZvciBldmVyeQ0KPiA+
+IGludGVyZmFjZSBpbg0KPiA+IMKgwqAgdHVybj8NCj4gDQo+IE5vLsKgIFRoZSByZWFzb24gaXMg
+YmVjYXVzZSB0aGUgZGV2aWNlIG1pZ2h0IHN0b3AgYW5zd2VyaW5nIHJlcXVlc3RzDQo+IG9uIA0K
+PiBvbmUgaW50ZXJmYWNlIG9ubHksIGJ1dCBnbyBvbiBhbnN3ZXJpbmcgdGhlbSBvbiBvdGhlciBp
+bnRlcmZhY2VzLsKgDQo+IE9uZSANCj4gbm9uLXdvcmtpbmcgaW50ZXJmYWNlIHNob3VsZG4ndCBw
+cmV2ZW50IG90aGVyIGludGVyZmFjZXMgZnJvbSBiZWluZyANCj4gcHJvYmVkLCBpZiB0aGV5IG1p
+Z2h0IGJlIHdvcmtpbmcuDQo+IA0KPiBBbGFuIFN0ZXJuDQoNClRoYW5rcyBmb3IgdGhlIHJlcGx5
+Lg0KDQpJIHRlc3RlZCB0aGUgdGhyZWUgcXVpcmtzIG9uZSBhdCBhIHRpbWUgYXQgcnVudGltZSAo
+MDQ2ZDowODVlOmssIDpuDQphbmQgOmcgdmlhIC9zeXMvbW9kdWxlL3VzYmNvcmUvcGFyYW1ldGVy
+cy9xdWlya3MsIGNvbmZpcm1lZCBpbiB0aGUNCmRldmljZSdzIHF1aXJrcyBhdHRyaWJ1dGUpIGFu
+ZCB0aGVuIHBsdWdnZWQgaW4gdGhlIGh1YiB3aXRoIHRoZSBCUklPDQphdHRhY2hlZC4gTm9uZSBv
+ZiB0aGVtIGhlbHBlZDsgZXZlcnkgcnVuIGh1bmcgb24gdGhlIGZpcnN0IHBsdWcuDQoNClRoZSB0
+aW1lb3V0cyBhcmUgbm90IGxpbWl0ZWQgdG8gdGhlIEJSSU8sIHRob3VnaC4gRHVyaW5nIHRoZXNl
+IHJ1bnMNCnRoZSBodWIgaXRzZWxmIChWSUEgMjEwOTowODI0KSBvbmNlIGZhaWxlZCB3aXRoICJk
+ZXZpY2UgZGVzY3JpcHRvcg0KcmVhZC9hbGwsIGVycm9yIC0xMTAiLCB0aGUgUmVhbHRlayBMQU4g
+YWRhcHRlciBpbnNpZGUgdGhlIGh1YiBnb3QgYQ0KLTExMCBhbmQgd2FzIHJlc2V0LCBhbmQgdGhl
+IGh1YidzIGNhcmQgcmVhZGVyIHdhcyByZXNldCBhcyB3ZWxsLg0KUmUtYXV0aG9yaXppbmcgdGhl
+IGh1YiAoYXV0aG9yaXplZCAwLzEpIG5ldmVyIHRyaWdnZXJzIHRoZSBoYW5nLCBvbmx5DQpwaHlz
+aWNhbGx5IHBsdWdnaW5nIGl0IGluIGRvZXMuIE9uIHRoZSBsYXB0b3AncyBvd24gcG9ydHMgdGhl
+IEJSSU8NCm5ldmVyIGh1bmcgKDE0IHBsdWdzLCA0IG9mIHRoZW0gb24gdGhlIFVTQi1DIHBvcnQg
+b24gdGhlIHNhbWUgeEhDSQ0KY29udHJvbGxlciwgd2l0aCB0aGUgc2FtZSBjYWJsZSBhbmQgcGx1
+ZyBhZGFwdGVyKS4NCg0KU28gdGhpcyBsb29rcyBsaWtlIGEgcHJvYmxlbSB3aXRoIHRoaXMgaHVi
+IHJhdGhlciB0aGFuIHdpdGggdGhlDQpjYW1lcmEuIEknbSB1c2luZyB0aGUgQlJJTyBkaXJlY3Rs
+eSBvbiB0aGUgbGFwdG9wIG5vdyBhbmQgY29uc2lkZXINCnRoaXMgY2xvc2VkIG9uIG15IHNpZGUu
+DQoNCkNocmlzdGlhbg0K
