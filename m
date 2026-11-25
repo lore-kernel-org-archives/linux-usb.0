@@ -1,60 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.105
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795616903;
-	b=dQ0bhI7Qy+uVbZIoV39xtxc6Idox2wiS+5q22ohVx0LBR+MAQ+pxQqVG3n42nKwd9z8l
-	 Nyg+TBvDxBhesT0X5+bMQv3K+Kr6cgN/EwvKIcfg7WWEcmpkbGreUqS2BeHKLwSrztbiG
-	 UTqtyrW6nrQXjkCDa6Q+iH7sCORGkoCyo+VNq0rXoJ0bryJS4R0azUJmXqmD/CN8v9zQn
-	 XX/O2d9ljPcv8m0USwGiJZ7Um3rW5YjvJvYDQ0hHl+JPV+n0awotG8dPi5vUWJ9vc7581
-	 V99APJQEhySKNU1Hjd1sDXlJkLrEfftckFK0WszISeUIRfELjBmdsTrBbjtQtCHHnUQ==
+	t=1795616973;
+	b=K6mAEJ60MBB5HfIpZHG0PKoGI5qn/pdiDY9jUwAlYqpOzF7eN/3WXw65lJyaMSTjBm+F
+	 GtbPp9giP94ayeOWs0SzF311hU/W8W9annQ/4+eovFWNn+ZldKdVVBTfMbAE9DGZakq5Q
+	 HgbynV8RoTmBC/u0BuR2d3/X+cirpHAiBaLeiDb6tDX9fWAmTzSaQ5SWSb1Zi1jO9CL5q
+	 Fqp86UkXbOLjFyMi5/st8m1gXgfgMN4Ji3L1ccZ7wC1ZhyyqiREGMXc18U3fMuB/HLmjy
+	 oynZh5JkNSQd+SU+QLaSNwh1zVtUPKt0JSK1+W0lvXUOvYIWDVu4Br2QaBQwnYyTrIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795616903;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=SL0Oq2dFYcdjGnJP7NWtsXQS7LsxYOscXr4Ry4WrgHw=;
-	b=hGT1Xr//a1gaGU7k4xSNcVYaDXVjHNYjGZAqDBmZYCN7ROvSyNx00PjPRatVKmJGwzOK
-	 iJx97ENLoYslb9EnkfVph4IiaQwUSWD7OmayXf3CV2Xix8+3smzqw9QkVXH6ySOlTXbsA
-	 GwubK1GaJk/WrZGvqselyWJNNDgytPuD81ekanHuqc2VtBq7wqnonDuKajrflkp4seayU
-	 c/rVEgUjLXdflAALdbzINDFqInavGhj1dVYv7okSLYh3ES0/OiQyGcPS3dBi2AIDKCZEB
-	 WrIBDJRYb1A7FIcg55SI5BCkBPhR0Y4V91C8PeGdLkvDOMwuN0vBgCD84moDWZ6NJYw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795616973;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=dEHXRV7HnjpoU5kgdWl9W00WxAauTcUpdR8PSPPyM+k=;
+	b=wK8F1UKbDqJZanXAvsCYJPEdkRO+tQd/8FkLaHo7sC0UisUsvGgLRqc8/fXyqS5DpLEW
+	 J/y/hty347E0a13vVPBJ0iLiym7+HXOGYdMLIFYRZcKXxks0NWicA9L3I73BQsZ0OG8vw
+	 oND2BfDwbI8SC9y11o3XN0Xldpks15PWcBycORl2sE+b9lC4Beeyn4wdA8/l4PDQk9qDR
+	 i9sSC4HkLs/QLGiNBsSB+7OSGY5i+lZmF+hYTZ7yMCuxodbGOJivf9VYal2ZF9nhcpkAs
+	 qQshLJJ/7wK5vIKJ6oHfCbjRfP25lJ/IqXVD13NWWzQPeaI2WvqMADgzh8uJDOG7wYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=becholey.ch;
-	spf=pass smtp.mailfrom=becholey.ch;
-	dkim=pass header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail2 header.b=oIIAmZOW;
-	arc=none smtp.remote-ip=79.135.106.105
-Received: from mail-106105.protonmail.ch (mail-106105.protonmail.ch [79.135.106.105])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b="I/CRJsy3";
+	arc=none smtp.remote-ip=209.85.160.181
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8FD606A31E
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 14:28:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D8FD606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=becholey.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=becholey.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77397606A329
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 14:29:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77397606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail2 header.b=oIIAmZOW
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=becholey.ch;
-	s=protonmail2; t=1795616900; x=1795876100;
-	bh=SL0Oq2dFYcdjGnJP7NWtsXQS7LsxYOscXr4Ry4WrgHw=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=oIIAmZOWYKKkHKw25w97jfTqs+/qN27Z/zm9Q2OH5VTVL3WjWvRu4f011q4mJT/tR
-	 Guta03xsA4toxY41kR6isUU4fkR4AfLXBCyPSMAwvPOF7pzGmFFHSf9PhE3D9aWtfh
-	 ivznOG978HEs4zfYmtzn8vFrIXnY/Fmr8GpD+o4ySZ7308uXQWhYPtbdMcj5crI0mc
-	 59+ZPs4CoxERM+JkY6HJv3djdlH7v2sH1i3dbIrITVRt1KfoZu5Z8yrK5BgCS96hff
-	 TKScMdmYJfOl0kMSrStoQyDYNcty8KPuCQpTvrYesqljdczXL40+s9n2+GXEHmQZFo
-	 t/6ZH6/KoUutg==
-Date: Wed, 25 Nov 2026 14:28:14 +0000
-To: Oliver Neukum <oneukum@suse.com>
-From: Alexandre Becholey <alex@becholey.ch>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: image: microtek: don't receive REQUEST SENSE data into sense_buffer
-Message-ID: <HSkiYehoEZjHsmtOkLlo174eN2wrhaDGyLpIMwWTMy0Cdn4t_nrRvoS0dslql-VSF3jaeKvglXyGaJ6OxnGMs_0TMQVXRUFDK1IDH7yjR58=@becholey.ch>
-In-Reply-To: <f9715edb-94be-47cb-8bf1-f84a3323f000@suse.com>
-References: <20261119084526.535901-1-alex@becholey.ch> <643a71e0-7347-47f3-8cad-ce31f76cb8af@suse.com> <AP57iwtzG1Kr6EB4hY7F0Hd-DaLhPZJzxoKNuvDpeiAKZvyxsddI1fl6kRKAc2Xg1ox0kL-KAdNYmZrRMEYN_mZRamfiV6nXjdcfDhJhGyY=@becholey.ch> <e3956050-8b80-4270-998e-2e5ec70cbdf8@suse.com> <8iDv29vCFEOxycORJWCZZoTT9dMFbUZZ9VK25sT27tKoWWtaKvLKZaW2YoQDygTrSRkZRE6Pu5PmkMFLl-PDCWXI9n1l-LSB9aJCByn8gks=@becholey.ch> <f9715edb-94be-47cb-8bf1-f84a3323f000@suse.com>
-Feedback-ID: 60743817:user:proton
-X-Pm-Message-ID: 43cb28c887785995532cd068d488e0dd4b39e612
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=I/CRJsy3
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-55d30c054dfso61623081cf.0
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 06:29:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1795616972; x=1796221772; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=dEHXRV7HnjpoU5kgdWl9W00WxAauTcUpdR8PSPPyM+k=;
+        b=I/CRJsy3JkFBB673pO40I8toSCzCOZZynydAyaYcvjp35MHkvgnmTcJd2l9wyBhBNy
+         C/Lf/4dVPIUHFxyVtKBUsqBGMHrWgaq5TS1TesIGZQRu7bA9FKPHjVWvh0ikBmhI9p9w
+         Difkmhn8r5VeeLmlrO8fVTzmJzscIdD3XsiZ9CFtXLKzRUlEO5esYgZmfy2PxkETkkde
+         NR5L55W2qqVTAajNsM9bBy88Z7dsQGgHpb/VxH18luo81vD7S5Uw+Fp9P//La+QWAnTN
+         7zIXIX30gS/mvO9zaRdURiQz7Wj02q6h0SwAlVye4xOjgkQc0tlthUXKAoOEcLU0vHgT
+         oxZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795616972; x=1796221772;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dEHXRV7HnjpoU5kgdWl9W00WxAauTcUpdR8PSPPyM+k=;
+        b=f4lV3WY8dYrQvc4xKDl5etf/XMFIohI082epFOpykML9RkewQeFXIGd39rbD7U4XZU
+         w6o95id1m3DXpipnh6g/pZ9FrS0CBZSf3X4d8BH7YFzlJBGHjS9poIxq8dzpCFF0hUDm
+         Uc9SX0N0vSuqZx15h19HaT+dfjhrsEQRykac45FEMeKUcIN+l0Ypms96NQ5QgwzA6i3C
+         LcQI7kD4pIeCiuO2P32fCPwZssRQ7Q9bUDtvYlbwk5IQLUWW4J4dpf1jizWrJyWV/BUs
+         Ojp6LGTwjx6h5o5rpdTRVZypSNYIXRJnpTtU1D9nL1fDi3eUKkR60aYCszDL8ruGckMp
+         amxA==
+X-Forwarded-Encrypted: i=1; AL+hErFXB2EMusyZ38roX1Q7OQCmnlvz218MyhKAh9oS8KgsyCDoSkyoaZhOAFIszkbhpBsAURgVhRApw2I=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/vtfgrcRLdAFMHDmwPcJ3LbD/clp7OvalNTURmviy5cYKpJdFy
+	LAWverQhM3TL+90TsUPFElQcNx4Dhkge3qAUtVDTUJMTcB/xfqYaRhKgXbJSef8JmQ==
+X-Gm-Gg: AZFdTZfKbTrNp/HMybFq0DRu6fkSYlFCvwQcR/o2T3LPWd9fnopFYcBgcd+Luky7rpZ
+	ZHcCUHrJoAxmEvGP8PNNH1tvGpH2s9OAIZ6tTuSCoxILcRFr9l93qPfNa2K7VzY9MpcAmvdOlKm
+	s8UfmrKlw14io+dcOwc/oaBa2zmB2cYb5Gavh5SSzndO1OyX3Gz7Vdkj+lvudF++44OzF1oxZz/
+	T4NPkjuiQo6PjhuPyqTDQpYwA1cR77HTnJIivKHK3EZu5P2dUhLWI3fnci0trhfUAIYXK/QCm57
+	aXkqc3kMvWPnJCRPWE8NamLGLJaCLuAwLlUSUPDAxvPmYXo9FmOo+Aw5buYB46AsFM+P3gdljLu
+	om2cpHBH2R93oR0ouY7cwWJiREu8gKG2dPR9tbOvxT4M59pYYt9xRZpeQOKaIcsYfED1yVKYSY3
+	lE0z6d6+OfYexscZ6YifhLqePIDWcU+N62hXe2RrXb+4VvDU/602z5VYxDW6Vy0qhuABotheX7d
+	43VVzPzfKfQNGfBDLDi/7D6C48UpzOpvNVohN1DGUtLL36C7DknQ+D5maGD0bxcIoVtLW9l6cJz
+	KeZay1k4R+N94Eq4ahTTyIwYEr7tJw==
+X-Received: by 2002:a05:622a:2512:b0:55b:f867:6f4e with SMTP id d75a77b69052e-55d768a4856mr348057771cf.5.1795616972270;
+        Wed, 25 Nov 2026 06:29:32 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d00:161a::9a34])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d7882e2c6sm159050181cf.12.2026.11.25.06.29.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 06:29:31 -0800 (PST)
+Date: Wed, 25 Nov 2026 09:29:28 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Kuangyi Chiang <ki.chiang65@gmail.com>, mathias.nyman@intel.com,
+	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] xhci: Handle missing USB2 resume events on Etron
+ hosts
+Message-ID: <c5649772-9fb3-4644-a08b-bb165f0173ef@rowland.harvard.edu>
+References: <20261123072320.5967-1-ki.chiang65@gmail.com>
+ <20261123122343.6d3f8866.michal.pecio@gmail.com>
+ <CAHN5xi2dFo2NFbMb8t_5uugX56Fq2=Jj3G2_5xA0-b_NTjQsSg@mail.gmail.com>
+ <20261125120545.76f07ed8.michal.pecio@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -64,35 +101,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125120545.76f07ed8.michal.pecio@gmail.com>
 
-On Monday, November 23rd, 2026 at 9:53 AM, Oliver Neukum <oneukum@suse.com>=
- wrote:
+On Wed, Nov 25, 2026 at 12:05:45PM +0100, Michal Pecio wrote:
+> On Wed, 25 Nov 2026 09:33:38 +0800, Kuangyi Chiang wrote:
+> > I tested again on an EJ188 with three USB2 hubs connected, without the
+> > proposed fix but with extra local debug messages to detect ports that
+> > are in the resume state without a Port Status Change Event.
+> > 
+> > When I connected the first mouse to hub 3, I saw the same behavior as
+> > in your test: the USB core checked all root hub ports, and all three
+> > hubs completed resume (evt 000e).
+> > 
+> > However, when I connected a second mouse to hub 2, the root hub was
+> > already active. Port 1 also entered the resume state without an event,
+> > but only port 2 was reported in the status bitmap (evt 0004).
+> 
+> OK, so I'm not sure how you reproduced this problem on the two-port
+> chip, and commit message was wrong - the root hub must be awake.
+> 
+> But now, if I disable root hub autosuspend (echo on > power/control),
+> connect two devices which use autosuspend and remote wake one device,
+> the RH wakes both ports and only generates one Port Status Change. It
+> seems nobody expects the other port to be affected so it stays stuck
+> in the Resume state (SW is responsible for transition to U0).
+> 
+> I don't see similar behavior in other xHCI root hubs, nor in a few
+> external hubs. Anyone knows if this violates the USB2 spec?
 
-> On 20.11.26 16:14, Alexandre Becholey wrote:
->=20
-> > I looked at the other drivers for that special-case REQUEST SENSE
-> > (in drivers/scsi, drivers/ata and drivers/usb). They either
-> > transfer its data into the command's data buffer like any other
-> > data-in command, or emulate it there. I found no other driver that
-> > copies a caller-sized transfer into sense_buffer, so I think the
-> > fix belongs in microtek. If you see a place where the core should
-> > enforce the size, I am happy to look at it.
-> Thank you, that makes the situation clearer. Yet it kind
-> of brings back one question: Why does scsi_cmnd have the
-> member sense_buffer at all, if you simple can write the
-> result into the generic buffer?
->=20
-> I have no problem with cleaning up an issue in the microtek
-> driver, but if an issue is to be cleaned up, it should
-> be done fully.
+Yes, it does.
 
-I understand. A fuller cleanup is more than I can take on right now.
-So I will send the v2 you agreed to: it only limits the transfer to
-SCSI_SENSE_BUFFERSIZE, so the device can no longer write past the
-sense buffer. If you would rather not take that fix, please tell me
-and I will drop it.
-
-Kind regards,
-Alexandre
+Alan Stern
