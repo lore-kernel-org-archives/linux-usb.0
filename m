@@ -1,82 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795592672;
-	b=gt+AW2GZ1K0uk6FjnO6bcXAWqhgspSUdfyXN1Bc5XAVewsqYmiCdIItuiR3zdO85uCzs
-	 QWgJMYxDCi3bd/lPpIU67pjqDrRHS29as0xwS7ELlaWbXD1eBaeEmiJeN3rnMbsuS7esW
-	 bG0/xVX8VUeO0s3B6o0VIQd9oOzftwTB24Qyi4ft3pzwsUwLFs5U4hu4JHbnhsuzLZtP6
-	 e2C1Eg9MVbpxXiKY49tUrNxhJcQH3zuDUNjyfiwF6WrQrpPQL4Tr0PP1GNzh6JMv6NPMd
-	 ux5LNCnn516OxNNH+rp/BVUfjDUnd7dzBWbb6em80K9TcnTONv0MyeP8+zuejOOCAYA==
+	t=1795593283;
+	b=2w4JqORcQf+OyXiFAckt4aX+rbCr0BnGp+CICbRq+C5Jce15DTpo4Q7Encpblc74zzMA
+	 xTzlyOHucC7RH+XSYZT5Kz+3rINq8P13sMEmiItBnTqWlX/FfnJwmH5xSXGDzHc9z5yMB
+	 qlDhsQ4BtIHnzWhZZKReL1Wi3tP4fQfy7rYgnfVLYKztGsalHCBSw+6EU55EHDZTkEpd0
+	 Gs5QAPW3ZCytyQlm127pqEeUErw+cKCZdKvo18H6KhAceZosGJyYoJWqd/oHaVIhZaqz+
+	 OqLXXHMPsXIU+NNdT7SpOcozR94Bbr98ntiGx2I2KGhE/2Sn4cMY/YdXpLMuxjir+Ug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795592672;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795593283;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=vnz5Nky15Lyd/J+B0zjHTXxMyYh0lgT65b7QeGlPThQ=;
-	b=uR76jdRdRDLUx+rfhRbPxjmsBBcypIkrp3tQRGmjqka9ukWWj20LOdS0ilt8dhSuZmHE
-	 lLJ6PcFwlWJN66ILtmrA65Et8Ps15hGEwZbG+/lQS0C5kzxWsMaBq9IcjciTDQSCYQPeb
-	 /2wt0ZT+MHBAdks/KalarRhLJ4z+pfy23vxf6S9xdHOgE8IUy4BlMH6YfKS+WV6zhAXPN
-	 KF5X65O7llvvG0FsS2iNjrl8Md2FpUK5+IhwMQ57Dim/1FOf+fi16g14DqTuBKGSgEktO
-	 ww0rVNtuGEu/cjVc/UvK2Li6q4Dk2gISkIxcXBPJinih0iQv5sNItTosKrhUKwxAGOw==
+	bh=N+zg2SmIPuIv3WqrRSQHqJlDzfO6WaXsjjFjLcNJvss=;
+	b=xTfXfpiwKmbp+ztJU2VVpMW/Slv7Mc+AmMq8H+ZeXqJbUTHr0tVC4122IMDxhaTJ9vog
+	 HSNUdGo39StPGJ3wXrzZz3Vud0RT8n3ur573bv3WZ7x3Jubft0yhaxYLyNWHtfZ0JAwia
+	 5okTOm8s04uLMyaBnOmlVkms+f2qiWUD3HxMjA9LngorX08BsnlGVlZX6aD/RQlCUfq5a
+	 IKNbclCPCGluyOepgCa+SNf1Gaat9Fw2w0eeUuZBKfxmG8lV6qEvEpjhtYk1Lx+2SwOfK
+	 DSzTP//20JYfV9e5fq0zz1SwSzVe/F8MJKwizRFQoHgyZIvotGalsUnRqa3Gu7qrHVg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MOnbzhhK;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bXrYEyeR;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F101E606A323;
-	Wed, 25 Nov 2026 07:44:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F101E606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B20606A31E
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 07:54:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9B20606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MOnbzhhK
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bXrYEyeR
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795592672; x=1827128672;
+  t=1795593282; x=1827129282;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UXNO/LZ09Iyfnm+ymAlG4P2a1RxXacGQZKc0ObM/XnY=;
-  b=MOnbzhhKXnmW7rN6Fk2NNqiJT7EqEiQjmKtuXxJVASE6KaeBOC44vI7E
-   LgnwCW3qBAph1r+snGwm0VZzXM9oJGbAP5vDUiNdAaUTJygtl71xXJH7G
-   d6iswfZ391LoGArsgTtym8SYdx0ns7rv/3Vl/TtZBnozt0PZaMSknVSqN
-   hsBMH0jiwnABo6I1xHa0PId3kMmqe+lUXATJnf7HJqbMjyUmACZVAXb0g
-   PgRzQegoTkTux4SAobRnVN9c5JfyTMtQlD4YS4VcetvuatN99ODKW58ys
-   wasVOOU+UfVCyT4JcfQ/4H06snUFh0m6ZvKhhvBcSbWeXt4VqsbsqYkto
-   Q==;
-X-CSE-ConnectionGUID: WPsemKGaSNGAC3nkg+oizw==
-X-CSE-MsgGUID: SmHKv3ogQk+PFbfUwCzzfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4435635"
+  bh=71ESC1rXt510ytx+OYhHNKCUSHn2ydCwn7dBIoMyLH0=;
+  b=bXrYEyeRbVi4Xv1Dn6jVmNz9uqHEfJ8O/6lZjLCMRBojxJ+SuSiexkBS
+   7J9sXehaaXbH9BaXng3OJx6ciKaCMXknNVXT+yY2GAL+dDv2WgeTIg9O6
+   apNcmAkpru5ruETolGtqxCFy4EbmpAjrkqMVwb5rxAjQ+ncljIXgPxurG
+   lEBI+4j9nRfv9DkqU8g7IC2R6glBd2xEx88q1XXDO+CK/KtincQJja+X/
+   qqGEoriTfn0rcsfwiYXj06sxGriY9SuQ9qCchzNuSiVEFQhNjp082y/yN
+   vfW1P/1Ovmzmtr4W2xCCOB3urOlthEHtH1ghL2WTRFvbi4FEpNXGsHi2U
+   g==;
+X-CSE-ConnectionGUID: oKis10SQSlSRwRbvIB5Odg==
+X-CSE-MsgGUID: JkUh7fKXTbypsY0lf/5kjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4363382"
 X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="4435635"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 23:44:31 -0800
-X-CSE-ConnectionGUID: s9w+15noRw2HjH59TOL58Q==
-X-CSE-MsgGUID: Vm+NhJ+AT8CeiUU1ZefKkA==
+   d="scan'208";a="4363382"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 23:54:42 -0800
+X-CSE-ConnectionGUID: gXAXwDPiTXq84Ig0kDVRBA==
+X-CSE-MsgGUID: N297/SNQTMCf6FP9PSYQkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="11906096"
+   d="scan'208";a="11827704"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa001.jf.intel.com with ESMTP; 24 Nov 2026 23:44:30 -0800
+  by orviesa002.jf.intel.com with ESMTP; 24 Nov 2026 23:54:40 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 9D38498; Wed, 25 Nov 2026 08:44:28 +0100 (CET)
-Date: Wed, 25 Nov 2026 08:44:28 +0100
+	id 28EFE98; Wed, 25 Nov 2026 08:54:39 +0100 (CET)
+Date: Wed, 25 Nov 2026 08:54:39 +0100
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Alfonso Villalobos <alfonsocvu@gmail.com>
-Cc: sashiko-reviews@lists.linux.dev, westeri@kernel.org,
-	linux-usb@vger.kernel.org, andreas.noever@gmail.com,
-	YehezkelShB@gmail.com, stable@vger.kernel.org
-Subject: Re: [PATCH] thunderbolt: Re-add host router DP IN adapters after
- DPRX failure
-Message-ID: <20261125074428.GB191152@black.igk.intel.com>
-References: <20261121070804.26185-1-alfonsocvu@gmail.com>
- <sashiko-outbox-226770@kernel.org>
- <CAJ=mrFowQNahOjD-NQzcuJCjPE=efvDK85kMpseRUrqYBwX3Sw@mail.gmail.com>
- <20261123054042.GL229695@black.igk.intel.com>
- <CAJ=mrFqe1ujyq5oX==HQ8MsBRNb_64dPZz7aHg5LYBYtKVOGvg@mail.gmail.com>
+To: myitforce@mail.grokbot.com
+Cc: westeri@kernel.org, andreas.noever@gmail.com, YehezkelShB@gmail.com,
+	linux-usb@vger.kernel.org
+Subject: Re: [BUG] thunderbolt: DP tunnel to USB4/TB5 hub torn down
+ immediately (adapter unplug) on Alpine Ridge host
+Message-ID: <20261125075439.GC191152@black.igk.intel.com>
+References: <2e4a3414-502c-41ca-9e60-00877dafc403@mail.grokbot.com>
+ <010001a20f992959-23c40ecb-a2a8-453d-950f-69dcc3788f56-000000@email.amazonses.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -88,38 +84,16 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAJ=mrFqe1ujyq5oX==HQ8MsBRNb_64dPZz7aHg5LYBYtKVOGvg@mail.gmail.com>
+In-Reply-To: <010001a20f992959-23c40ecb-a2a8-453d-950f-69dcc3788f56-000000@email.amazonses.com>
 
 Hi,
 
-On Tue, Nov 24, 2026 at 07:22:37PM -0600, Alfonso Villalobos wrote:
-> Thanks for the details.
+On Tue, Nov 24, 2026 at 10:07:05PM +0000, myitforce@mail.grokbot.com wrote:
+> Hi,
 > 
-> > Does the RX 9070 driver poll for a new connections periodically like the
-> > i915/xe or it supports PME?
-> 
-> It doesn't poll. When I looked into adding it, the GPU had no way to
-> check the connectors without taking the core out of suspend. After a
-> wake it stays on for about 5s, so polling every 10s would eat most of
-> the savings BACO is supposed to give. I haven't actually measured it.
-> 
-> The card does support PME, but in my testing a hotplug on the TB side
-> doesn't wake it up. From the amdgpu code, PME seems to be used for the
-> audio function and only while the card is active.
-> 
-> So I think the problem has two parts. On the GPU side, PME wake on DP
-> hotplug looks like a firmware limitation. I'll share my findings with
-> AMD and see what can be done there, but I'm not sure how much I can do
-> from here. On the TB side, the host router never sent a new hotplug
-> for 0:10 after the DPRX failure, so I still think the patch is useful.
+> The software connection manager on an Alpine Ridge (Thunderbolt 3) Apple host successfully builds a DisplayPort tunnel to an Intel Barlow Ridge USB4/TB5 hub, then immediately tears it down after a hot-unplug event on the hub's DP OUT adapter. i915 never sees a connected DP connector. USB, PCIe tunneling and the Thunderbolt link stay up.
 
-It should send hotplug when the domain is resumed and the host router is
-re-enumerated. However, that requires the domain actually be runtime
-suspended as well. In this case I think setting dprx_timeout=-1 or
-something like that works it around at least.
-
-What we could do to improve this is that we put the DP IN to "penalty" list
-then once we get new DP OUT hotplug/unplug we prioritize the DP INs that
-are available but if there are no available ones we take one from that list
-then or so. Note this needs to work with DP INs on any router not just the
-host router.
+Barlow Ridge Hub is not Thunderbolt 3 compatible. This happens also with FW
+CM (it even fails to create PCIe tunnel) so there is little we can do here
+on software side unfortunately. If the router sends unplug to DP OUT we
+must handle it in the CM.
