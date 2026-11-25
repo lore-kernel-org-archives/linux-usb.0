@@ -1,61 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795591949;
-	b=XuVPtBcNHtU2pIPZQMIznvQEkJgX64DspI5ChzOZK/b4ErF4ioChUHpuYdX9MlsImP5b
-	 DesgIlyJorrh07DRO0x2udKYxpO3/nqanUwrlMBrkmN72ZpSmot3Vnav60427ktTCnrOJ
-	 HyEbDi3QhgtRgiQohs1muafbpsLS9qgD9cjsh/nvSMse/yp6IXWip9sqHQVXqd32ZwzUX
-	 GVvJJHCa6tvP70Sa4ig666PIdWtbKogP+fqZQ7wWs62y6fUKgFOHqj3XfYm6bk3ousQNo
-	 qmpzgnxsmQntZGZo9+oPveK5nMV49LKVq6UGU5EX6jNdXXLg+FFOJ9M26phdk+lMYJA==
+	t=1795592672;
+	b=gt+AW2GZ1K0uk6FjnO6bcXAWqhgspSUdfyXN1Bc5XAVewsqYmiCdIItuiR3zdO85uCzs
+	 QWgJMYxDCi3bd/lPpIU67pjqDrRHS29as0xwS7ELlaWbXD1eBaeEmiJeN3rnMbsuS7esW
+	 bG0/xVX8VUeO0s3B6o0VIQd9oOzftwTB24Qyi4ft3pzwsUwLFs5U4hu4JHbnhsuzLZtP6
+	 e2C1Eg9MVbpxXiKY49tUrNxhJcQH3zuDUNjyfiwF6WrQrpPQL4Tr0PP1GNzh6JMv6NPMd
+	 ux5LNCnn516OxNNH+rp/BVUfjDUnd7dzBWbb6em80K9TcnTONv0MyeP8+zuejOOCAYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795591949;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=wUm/GLF/3xskbPpqCMnGgI7Wjgv0EONs0giF1tRLvN4=;
-	b=IV4Htm9wBcYC/2bbuaakO1pNq7gHcBlKbywAloL5I4XVh30fv+mJTL0Eq9a8sCP4eQs9
-	 45cSNai/fB2jacNkZgVSX14bYcMOTLtBMOXtUo8Amtr2kPtxrdprbYr//5V8ZJFK7AUP9
-	 MBIe7OXPYu10C44Bg3Hc3/DlRKkHIN4RiSyZxNIduYr6kWv/M/I9XBOh0ythqvE/uIixR
-	 yednyXR+hYbSkeKtAspsMRFTcoqoRKtluBa8uM04e3Pii0arTJdpTqEkIEZHLCGURiSKa
-	 GySrJYKS0fqsViI1e9x1sgY5z61aMBJGa37hocLJKEXJrU2gMN19DC13vxrwTie7NQA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795592672;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=vnz5Nky15Lyd/J+B0zjHTXxMyYh0lgT65b7QeGlPThQ=;
+	b=uR76jdRdRDLUx+rfhRbPxjmsBBcypIkrp3tQRGmjqka9ukWWj20LOdS0ilt8dhSuZmHE
+	 lLJ6PcFwlWJN66ILtmrA65Et8Ps15hGEwZbG+/lQS0C5kzxWsMaBq9IcjciTDQSCYQPeb
+	 /2wt0ZT+MHBAdks/KalarRhLJ4z+pfy23vxf6S9xdHOgE8IUy4BlMH6YfKS+WV6zhAXPN
+	 KF5X65O7llvvG0FsS2iNjrl8Md2FpUK5+IhwMQ57Dim/1FOf+fi16g14DqTuBKGSgEktO
+	 ww0rVNtuGEu/cjVc/UvK2Li6q4Dk2gISkIxcXBPJinih0iQv5sNItTosKrhUKwxAGOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21353606A321;
-	Wed, 25 Nov 2026 07:32:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21353606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:In-Reply-To:References:MIME-Version:Content-Type:
-	Content-Transfer-Encoding; bh=wUm/GLF/3xskbPpqCMnGgI7Wjgv0EONs0g
-	iF1tRLvN4=; b=X//97qgwL/o0Q4A2amnuoOrRGB+JPCtrr34rhDBroyek+JwvmS
-	qm/V1Zvlti2ocJuejLA2U4szJmxX9+X79OoLai9nDwze/4fVt1DLnf7aQU+ewXrC
-	oHtKrxqH+ahgvjz+fyKBRSg8lbO0qENIVlKXM8btd2L9IExh9ql/8FdTo=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.108])
-	by hzbj-edu-front-2.icoremail.net (Coremail) with UTF8SMTPA id BLQMCkCm6wD5jgZriQAzAg--.35435S2;
-	Wed, 25 Nov 2026 15:32:11 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: netdev@vger.kernel.org
-Cc: netdev-bot+sinfo@kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>
-Subject: Re: [PATCH] net: usb: mcs7830: skip zero-length register dump reads
-Date: Wed, 25 Nov 2026 15:32:07 +0800
-Message-Id: <20261125073207.3150-1-25031212351@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <179559139369.3294.9096901907598908535@kernel.org>
-References: <20261125071649.7052-1-25031212351@stu.xidian.edu.cn> <179559139369.3294.9096901907598908535@kernel.org>
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MOnbzhhK;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F101E606A323;
+	Wed, 25 Nov 2026 07:44:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F101E606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MOnbzhhK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795592672; x=1827128672;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UXNO/LZ09Iyfnm+ymAlG4P2a1RxXacGQZKc0ObM/XnY=;
+  b=MOnbzhhKXnmW7rN6Fk2NNqiJT7EqEiQjmKtuXxJVASE6KaeBOC44vI7E
+   LgnwCW3qBAph1r+snGwm0VZzXM9oJGbAP5vDUiNdAaUTJygtl71xXJH7G
+   d6iswfZ391LoGArsgTtym8SYdx0ns7rv/3Vl/TtZBnozt0PZaMSknVSqN
+   hsBMH0jiwnABo6I1xHa0PId3kMmqe+lUXATJnf7HJqbMjyUmACZVAXb0g
+   PgRzQegoTkTux4SAobRnVN9c5JfyTMtQlD4YS4VcetvuatN99ODKW58ys
+   wasVOOU+UfVCyT4JcfQ/4H06snUFh0m6ZvKhhvBcSbWeXt4VqsbsqYkto
+   Q==;
+X-CSE-ConnectionGUID: WPsemKGaSNGAC3nkg+oizw==
+X-CSE-MsgGUID: SmHKv3ogQk+PFbfUwCzzfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4435635"
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="4435635"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 23:44:31 -0800
+X-CSE-ConnectionGUID: s9w+15noRw2HjH59TOL58Q==
+X-CSE-MsgGUID: Vm+NhJ+AT8CeiUU1ZefKkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="11906096"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa001.jf.intel.com with ESMTP; 24 Nov 2026 23:44:30 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 9D38498; Wed, 25 Nov 2026 08:44:28 +0100 (CET)
+Date: Wed, 25 Nov 2026 08:44:28 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Alfonso Villalobos <alfonsocvu@gmail.com>
+Cc: sashiko-reviews@lists.linux.dev, westeri@kernel.org,
+	linux-usb@vger.kernel.org, andreas.noever@gmail.com,
+	YehezkelShB@gmail.com, stable@vger.kernel.org
+Subject: Re: [PATCH] thunderbolt: Re-add host router DP IN adapters after
+ DPRX failure
+Message-ID: <20261125074428.GB191152@black.igk.intel.com>
+References: <20261121070804.26185-1-alfonsocvu@gmail.com>
+ <sashiko-outbox-226770@kernel.org>
+ <CAJ=mrFowQNahOjD-NQzcuJCjPE=efvDK85kMpseRUrqYBwX3Sw@mail.gmail.com>
+ <20261123054042.GL229695@black.igk.intel.com>
+ <CAJ=mrFqe1ujyq5oX==HQ8MsBRNb_64dPZz7aHg5LYBYtKVOGvg@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -66,34 +87,39 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BLQMCkCm6wD5jgZriQAzAg--.35435S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUO87k0a2IF6F4UM7kC6x804xWl14x267AK
-	xVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
-	A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j
-	6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr
-	1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAac4AC62xK8xCEY4vEwIxC
-	4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-	IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
-	M4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkIecxEwVAFwVW8CwCF04
-	k20xvY0x0EwIxGrwCF54CYxVCY1x0262kKe7AKxVWUtVW8ZwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
-	vjDU0xZFpf9x07jnfHUUUUUU=
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUID2sFqsqd9wACsm
+Content-Disposition: inline
+In-Reply-To: <CAJ=mrFqe1ujyq5oX==HQ8MsBRNb_64dPZz7aHg5LYBYtKVOGvg@mail.gmail.com>
 
 Hi,
 
-The issue was found during testing of the driver's ethtool register dump
-path, not in production or from a bug report.  A bound MCS7830 interface
-and CAP_NET_ADMIN are enough: requesting a zero-length register dump
-(ETHTOOL_GREGS with regs.len = 0) reaches mcs7830_get_regs() and makes it
-submit the zero-length vendor control-IN request that triggers the
-warning.  It reproduces every time the ioctl is issued with len = 0.
+On Tue, Nov 24, 2026 at 07:22:37PM -0600, Alfonso Villalobos wrote:
+> Thanks for the details.
+> 
+> > Does the RX 9070 driver poll for a new connections periodically like the
+> > i915/xe or it supports PME?
+> 
+> It doesn't poll. When I looked into adding it, the GPU had no way to
+> check the connectors without taking the core out of suspend. After a
+> wake it stays on for about 5s, so polling every 10s would eat most of
+> the savings BACO is supposed to give. I haven't actually measured it.
+> 
+> The card does support PME, but in my testing a hotplug on the TB side
+> doesn't wake it up. From the amdgpu code, PME seems to be used for the
+> audio function and only while the card is active.
+> 
+> So I think the problem has two parts. On the GPU side, PME wake on DP
+> hotplug looks like a firmware limitation. I'll share my findings with
+> AMD and see what can be done there, but I'm not sure how much I can do
+> from here. On the TB side, the host router never sent a new hotplug
+> for 0:10 after the DPRX failure, so I still think the patch is useful.
 
-Thanks,
-YuanZhe Liu
+It should send hotplug when the domain is resumed and the host router is
+re-enumerated. However, that requires the domain actually be runtime
+suspended as well. In this case I think setting dprx_timeout=-1 or
+something like that works it around at least.
 
+What we could do to improve this is that we put the DP IN to "penalty" list
+then once we get new DP OUT hotplug/unplug we prioritize the DP INs that
+are available but if there are no available ones we take one from that list
+then or so. Note this needs to work with DP INs on any router not just the
+host router.
