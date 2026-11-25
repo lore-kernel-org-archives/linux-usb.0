@@ -1,92 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795611609;
-	b=TAwxBzc4MNBbqbhI35+GzQZJqymPCAZzuGMaKe65KTCemq/xFDJMrAwjtfNYQ7JzlmQw
-	 yEe91t4lJpPi/F3y5azUh+KRtrgyTDVZYb/dAiVUSVIgugZGKOSLLyRbuJJ5hDNfezSMI
-	 o2YAzVm8GqPDjgpsww1RILTHqPxJnYw4ln9WREmlaYqxEXUmH0zXAHFF+C6MQolms/WME
-	 WgQjcBo2nMPs/rX7vpy+ilMw1u0SBaQr9x/Apnkbs1PBhgWyANA7E4AHf7njSjPWSE+FU
-	 JMHyd8jpCBQKwKrvXXByXKuZNc2NmBExDfnBfLoxc38MNMYfpKeZYhpN0n1uIeHFu6Q==
+	t=1795612024;
+	b=5FGmXAyQaRmKjPxQXVryyAJ8AQ68B6FApetcknl8qaOY9C8w1vtel9BRmh+uuakNP5H7
+	 BfJ1Xlo31M5N7rQL1bLpFN22ctMyBTdQeTEjxEtsd2fNyW86Se2Pk7dSVVP2us35i38l3
+	 Kwg+xWGuR2gqY926pQXXpLp5zBBuigixYotFZDvWn/C+aQKg/psPpbOQH/pfEBChvCXC8
+	 a8BIpEUk/jBIqjegQu8716I65URqopw9/4j6CsJ67Ox6ZRroUB9JGz4iPv5joLuZEQaOk
+	 ZE8lea5+jvolHkxJfXt0v4tdCxF3MdZBie5/ldV+5tu5Cx60u7ZE0vIVMNhXipa4VMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795611609;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795612024;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=5t9V7k/rR7NsYr1V/gxNnZPohgQLR8S9QEvXnEK8w4A=;
-	b=Wk847D6oVB5c+qpeZ43SseLYXo6RT1OA08V65eUmnY9bymmw1Xa+YtX1vYXcoE+5RAwI
-	 8uIYdueCImRQijcT+YEyG5hPR28KKbhR4OW6TzNIWiHArXm2yzPWSDOzqB1yLtIomLcQu
-	 oldGhdW59/4hUtGHWhItu3xSdbVriNQvXuu75gzlUuUNzQSZ9nbm+bCdl0ppQNdA/5SZs
-	 n2p7N5e5dQjaaaVd6mhqmlDlgrSGxRmx2ZHHAzZy1dfW4JiRfMG4PHXi6tTLJPdxSbAIE
-	 5B/1C4ROpfPBMUSzfw99UWe2K6a/WHbwZ5A6c/0bQsXk8ZPXGZ4Y4gh7dLl2ncvmkvg==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=5qwQGFZu/GBky4fBvpJhiGHfv/hCV9S2GbqPIpPWblg=;
+	b=utn6BvHscty2rXiA2cl6q6SpTh9JTkegxFBYP5X7rpe08NVZfqM8JNhVcUiB+NbPbk0i
+	 Y3eQNRU6fYHj10d3yzMhZn0XWCYoRvBkTvWrUuIKwZ2nJ/Rogz0sO53SfPcdWPehYLab4
+	 C3PooCFQXNWSGMwW8plEjlYTfb5Z13rkNtjSU7WbRxDq5+eQILSxbvYX9o3qr3Ye9r+nx
+	 oqtSBNknlCEwHGf2PAtjHr4IKKACXMx/GtbwtVOkdRg5yqIuXmnWmosQEe/vmPx7/qoNl
+	 e1biVMdc7EOT5RRkcT3MmooBxDcE7fCCh02/r7nZ/xHKkGCmgGlBchS/8PZldutD9wg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wRot9M5c;
-	arc=none smtp.remote-ip=74.125.82.171
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NkMj87rJ;
+	arc=none smtp.remote-ip=74.125.82.45
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFDE606A6A0
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 13:00:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FFDE606A6A0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD5B606A68B
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 13:07:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFD5B606A68B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wRot9M5c
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-3863db981d4so7987088eec.0
-        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 05:00:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NkMj87rJ
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1a2af4c8d00so3928056c88.0
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 05:07:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795611608; x=1796216408; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5t9V7k/rR7NsYr1V/gxNnZPohgQLR8S9QEvXnEK8w4A=;
-        b=wRot9M5cgnILfqNbhJNcv82d5Tl77Skfl/zAELa+sVXR8em1WbUm+/QeqZS35QCVzI
-         +O2owPM9C7xGPGWqVGHTJ56arbgViaAeBXc1N7+zkz4iFRMEFJV1NMFbYU5m4rSwHh9H
-         Z7x2Iaw21oCZz/QeWdjcrD1jbBltF1LxqzycEgMjoLTHxIk7JoYj1Y6IvBpgbF4VlwvS
-         edsSvs+h8ZJA0BuvrRtp8AjoCElSwBbNrIr/6DvKeeEIAgWQUStW5+K0xn1JanvI3QEc
-         niKHyC+oVzWHUcgeSMUU+lUG8Mk5x0/1hdcF5AFdMgXuvCpc/TCx99IvzdnTZDgFjJHv
-         9lZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795611608; x=1796216408;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795612023; x=1796216823; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5t9V7k/rR7NsYr1V/gxNnZPohgQLR8S9QEvXnEK8w4A=;
-        b=ZfUg7UiIlmUu7zdhmjjY/VEbe8UvhJdlDl3ONwxOZZlE+arN83CEVufzJ/qDOU8GSm
-         wQ7Ul1MhNVblKGKKNvjLVgwhmqR++as4/FeiIrertXt7BdOsSStEP1crfLXYdIAQybNd
-         bZJ9EF+gxISf9ntKAhfhpTVewaiffc8CRX6Vg8Hz2T8PwfVQgnCaOvI/pO3tJYTqoPCe
-         wSle72/PArHmlakbMjnzQ2eh6PW4ngtMs1nMrsyea4VXsj24qiWHBCr/g+1WxO5dRjT+
-         EBQlPzqt22zrNaaff6STxsprILy5QfQ0nPz/YHLDKEeDDJ93E037kdg+xNAohNf44hQr
-         67dQ==
-X-Gm-Message-State: APuU4Z9RPrfEuOZXulRobkBGWsdlycZes6LiAFxS2z8uYflO31c31Y+Z
-	CaMfrQaRBqPjwz1oyN7EMo9AgO/DRlMnnwtrYDxQmsVEAsUMWdBgC2zdlwHt+CXy0KDnfK15hBA
+        bh=5qwQGFZu/GBky4fBvpJhiGHfv/hCV9S2GbqPIpPWblg=;
+        b=NkMj87rJ0CmCly8f6ufKEZ7lIt88ytlu9CGgLcwr+HV/JO/KhZrPZ/1fdeGlrfgXPE
+         IzpEI3ySOQ6323fyQiWfwUo3vQO2AnDPqciRhtqHNGmluogw/6HrY280iGkh+rBldtKs
+         aV2wg+XyhCtQxIJSb99iIkJGKKCxOHZy1USoCOgTOpaP2J3iXBa3U+B4CMltVJFeUxa0
+         /qfdB7/sqIuspm2lgecIXSp8nH/Zfz5mgDq1yevVrdaTmefRqv5xyWnM5skj7Or7F1bZ
+         r/XfNUyRdSWMuQVESyKV84K+tvd7odFDIckPdv9D3LsvnufumJJFQwiQNpcFRdgrotLt
+         aDjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795612023; x=1796216823;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5qwQGFZu/GBky4fBvpJhiGHfv/hCV9S2GbqPIpPWblg=;
+        b=uU2t3KKRcv9JsBoi/2jGEJYeMh0GsMM+kahfHXRmpiIVm0yII+lfiZnqloCYD1KXka
+         qR27LWQBxT9SSvd9m/4lastthHp8ZwixFishy5Ga7idKKFLZD8gxU7+YX8Mc3OCddZt4
+         CSTzO21h5f7eTLGztPH22lPN9vy7ZKfcidxA1U/DNyrq5eAK2eZSo1rAZn5RDwB8F5gm
+         V/muiNe2jdOvhe2A4I7iAWo+3txmaKiKAWA9bYBstcBR7DGP/ScNV5kJdU58H14X6Z54
+         GxAXJL4gxjOJq0CMr7nMaGAljgORhE6Z0DsBFNvqq4fVoBQuMI5OF1uD+Z5mzx1QMDfQ
+         zDUw==
+X-Gm-Message-State: APuU4Z8Fsdrt/2cl0HSm5pVLvzluwTBNG8xA4tAJNykqDqrfpz/nYuj/
+	Bj+WnE4iGv/MgCTAv5kZGsSHpYNx59xQucn6bymJ2PtAc6didgZQ3p9RRB0Quvt8wA8EzoQBVsI
 	=
-X-Gm-Gg: AZFdTZeQE/JgWTAD9WE2l/4u3E3EhIXGoPhn7WNBjuDQpe9toSBMrF9j7j96nTJxq5O
-	Amt/KnF/4Ax56stbmJ1CC+6VZP+aSwHEVvi8y8p2w1upgyHHpOC5nBlGd26C3IeLO+N/Ndl4xp1
-	bAuGjCPiIHiM74U79CzuNYL8KSHPkl5fqThDfKlO1zAaGSAYSXk/ofkIEMZeyDXftc6FPKFVOeu
-	Uggie54pzHl5CflVy0BU0aOVa1zOYsamOQFMgx5yNOFKdXX2wkELQcrKbAzN/S9zrAV/sL+Qg/7
-	QkRV3Q2wLgi9QF66eQVPBdv5aAuNuPwtTpIobaYCnRcvoYo4+3iPvOqxNDpoMvHlGzjtqFD+U6V
-	KgVTIBWiAvqcoGOtZv6RwBmvw6az9cx2XmuksYrOFsI14i32b/o+EwLU2LzH/wopXyTOCtjZ0Up
-	wDqarVq9EP0l9I9D5WPFc/9YIp3XwraGZAFRPPZpVWxC6lU5u0bWvLQ/axwEJjWGqaEsalCz+V0
-	eK62ZBn0uhXCVBzbwxplEI2a+OqwGNLVnMJYZ8UQ56knDxCKHukgaFCBrAFQ7HueyuSwnh2s+XW
-	9mW1/cvbvx5yWOZQ7VwRIT4P4ffIrFh+plMX2lEb+Ak3JMNE9d+t290l5bBczVlRBLu5IoA8Gm2
-	H7qJOfbzfXqYHwbcKagESjENnPFpsRb8RDQZrI6sCdJFOMn5rnQ3lTf3GII3iIETnixYYo4JhIP
-	T88Np8DJswkUx+drwXhBuyAS+bApwNwQdlidqCJKHeLDs=
-X-Received: by 2002:a05:7300:6da7:b0:36c:3b8a:8090 with SMTP id 5a478bee46e88-3856c9a302amr251898eec.2.1795611608231;
-        Wed, 25 Nov 2026 05:00:08 -0800 (PST)
+X-Gm-Gg: AZFdTZf9l4CKUOUEqfsDuRN8QDcaE9BNNQXPcpI3x0ByLyh80Pm9LZRw4ZkYD9oB3JY
+	nHo5EVKNPp18I4iDloqvCjbAs2stjW9xkonJXOzq2M51wGqB6q/Spv9KVk8LU/Js9HVhV0PAzFU
+	RAfLr/77xlvOvTJbkYHw+Pup/ika/CypfbqnHVEoRYCteUy3vl0V9R75S96ZoZ8urK74xEkANLL
+	WdO8qZdlge2fROdVM6X6Vd7KMIJUs8rMU/6NOMoGkqNa0PJJjv7+kcMZMCbWJmHCUDJ381YGRv3
+	NIqG+YNAODegkBSwDb+AYLeBP/7kp4XvGPwlGwemwNwfl82qrTPJxK1fDG0PPZ1SjtW4RYJd0Oi
+	MYaVZTxj36hpDXFRbK8R1RH8jHvxWZ6ZDpFnjPWxzT9ewtyZSWRbAPAMf6uoWtbIb5Muf9B0Rns
+	uoazymeJZq0+CGVk/b6HkeYVyOPx3SQx3GUNHYjZfxuIeVv5+jqSVASje32z5oz83/kOSKh1NlE
+	EL7iHJrA9pl38VI6bxuOGZ4fG9p6WRdWqynltcEoi6YZHtkddAPYg0DANGrjjwwdHS/hk+ymSpZ
+	37BHfyh4KyhhGkOVefdHSSohGWopkR4tDPcykWUv9W4lcbAgkXB1fUNnsTZm540jS4te9CKouBf
+	W1vYkHl/FO1nFtbl96AKN/fiR3ThtOelw8299t+Qrl1wHYxHQrtiWnl+QE/JJf0SGXihi7smHc3
+	SJVOlJFEgoje3Er6Ibz1z1yD1bqXOwWIHqkbxWnzOb4Zk=
+X-Received: by 2002:a05:7022:1583:b0:1b3:a9c6:b293 with SMTP id a92af1059eb24-1b5568c0198mr19423248c88.25.1795612022737;
+        Wed, 25 Nov 2026 05:07:02 -0800 (PST)
 Received: from LAPTOP-3B99V33A (ec2-47-129-125-69.ap-southeast-1.compute.amazonaws.com. [47.129.125.69])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38567daaf70sm56452176eec.28.2026.11.25.05.00.05
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b56ef9fd16sm31969855c88.4.2026.11.25.05.06.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 05:00:07 -0800 (PST)
+        Wed, 25 Nov 2026 05:07:02 -0800 (PST)
 From: Bin Luo <luob87709@gmail.com>
 To: linux-usb@vger.kernel.org
 Cc: andreas.noever@gmail.com,
 	westeri@kernel.org,
 	YehezkelShB@gmail.com
-Subject: [BUG] thunderbolt: request work may outlive control channel teardown
-Date: Wed, 25 Nov 2026 21:00:00 +0800
-Message-ID: <20261125130000.475-1-luob87709@gmail.com>
+Subject: Re: [BUG] thunderbolt: request work may outlive control channel teardown
+Date: Wed, 25 Nov 2026 21:06:54 +0800
+Message-ID: <20261125130654.1449-1-luob87709@gmail.com>
 X-Mailer: git-send-email 2.51.0.windows.1
+In-Reply-To: <20261125130000.475-1-luob87709@gmail.com>
+References: <20261125130000.475-1-luob87709@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -100,107 +104,133 @@ Content-Transfer-Encoding: 8bit
 
 Hi,
 
-I found a possible lifetime issue between asynchronous XDomain response work
-and control-channel teardown. The source path below is from Linux v7.4-rc1,
-commit 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4.
+Correction and a self-contained reproducer for my previous message: the
+previous message listed files as attachments, but the mail did not include
+those attachments. Sorry for the confusion. The test-only patch and exact
+reproduction steps are included below; no local files are required.
 
-Source path
------------
+Baseline: Linux v7.4-rc1,
+`6628e7d4c6b25c8d18f1345e3a20d21829aae7e`.
 
-An incoming XDomain request is scheduled by `tb_xdp_schedule_request()` in
-`drivers/thunderbolt/xdomain.c`; its worker is `tb_xdp_handle_request()` at
-line 762. For example, the `LINK_STATE_CHANGE_REQUEST` case at lines 896-906
-calls `tb_xdp_link_state_change_response()`, which sends the response through
-`__tb_xdomain_response()` (line 608).
-
-`__tb_xdomain_response()` allocates a `tb_cfg_request` and calls
-`tb_cfg_request()` with no response buffer. In `drivers/thunderbolt/ctl.c`,
-`tb_cfg_request()` schedules `req->work` on the system workqueue at line 570.
-`tb_cfg_request_work()` at line 527 invokes the callback, then calls
-`tb_cfg_request_dequeue()` at line 534. Dequeue reads the raw `req->ctl`
-pointer and locks `ctl->request_queue_lock` at line 161.
-
-The teardown path is separate. `tb_domain_remove()` in
-`drivers/thunderbolt/domain.c:501` calls `tb_ctl_stop()` (`ctl.c:750`), which
-stops the rings, warns if requests remain, and reinitializes the request-list
-head. It does not cancel or synchronously drain every request work item on the
-system workqueue. `tb_domain_remove()` flushes `tb->wq` (`domain.c:510`), but
-the request worker uses the system workqueue. The domain release handler later
-calls `tb_ctl_free()` (`domain.c:317-322`, `ctl.c:704`), freeing the control
-channel. The host NHI PCI remove path reaches `tb_domain_remove()` through
-`nhi_pci_do_remove()` in `drivers/thunderbolt/pci.c:594-619`.
-
-The request kref protects `req`; I do not see a request-held reference that
-pins `req->ctl` through dequeue. A delayed work item could therefore lock a
-freed control-channel mutex. The `ctl.c` and `domain.c` blobs at this baseline
-match upstream comparison snapshot
-4dce97c6c265544342e716e62fd24bbb232590c5.
-
-Reproduction
-------------
-
-The attached `thunderbolt_test_injection.patch` adds a test-only built-in hook.
-It creates a minimal `tb_ctl` and `tb_cfg_request` with the real allocator and
-enqueue helper, reinitializes the request-list head, optionally frees `ctl`,
-then directly invokes the real `tb_cfg_request_work()`. This forces the
-lifetime order; it does not call `tb_ctl_stop()` or `tb_domain_remove()`, queue
-the worker through the real system workqueue, send an XDomain packet, or use a
-physical Thunderbolt/USB4 controller.
-
-The attached `config.selected` is the complete x86_64 configuration used; it
-has `CONFIG_USB4=y`, `CONFIG_KASAN=y`, and `CONFIG_KASAN_GENERIC=y`. With the
-attached patch and config, the build and QEMU steps are:
+Build an x86_64 KASAN kernel with the test hook:
 
 ```sh
 git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux-tb-repro
 cd linux-tb-repro
-git checkout 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+git checkout 6628e7d4c6b25c8d18f1345e3a20d21829aae7e
 git apply thunderbolt_test_injection.patch
-cp config.selected .config
+make ARCH=x86_64 x86_64_defconfig
+scripts/config --enable USB4 --enable KASAN --enable KASAN_GENERIC
+scripts/config --enable SERIAL_8250 --enable SERIAL_8250_CONSOLE
 make ARCH=x86_64 olddefconfig
 make -j"$(nproc)" ARCH=x86_64 bzImage
-qemu-system-x86_64 -m 512M -smp 1 \
-  -kernel arch/x86/boot/bzImage -initrd initramfs.cpio.gz \
-  -append "console=ttyS0 rdinit=/init panic=-1 thunderbolt.test_request_uaf=1 thunderbolt.test_drop_ctl=1" \
+```
+
+The test is a `late_initcall`, so it runs before userspace. No initramfs is
+needed to trigger it. QEMU will later panic because this test boot has no
+root filesystem; that expected panic is after the test result. Run both modes:
+
+```sh
+timeout 45s qemu-system-x86_64 -m 512M -smp 1 \
+  -kernel arch/x86/boot/bzImage \
+  -append "console=ttyS0 panic=-1 thunderbolt.test_request_uaf=1 thunderbolt.test_drop_ctl=1" \
+  -nographic -no-reboot
+
+timeout 45s qemu-system-x86_64 -m 512M -smp 1 \
+  -kernel arch/x86/boot/bzImage \
+  -append "console=ttyS0 panic=-1 thunderbolt.test_request_uaf=1 thunderbolt.test_drop_ctl=0" \
   -nographic -no-reboot
 ```
 
-The attached `initramfs.cpio.gz` contains `/init`; the hook runs at
-`late_initcall`, before userspace, and the initramfs is only needed to complete
-guest boot. For the control run, repeat the QEMU command with
-`thunderbolt.test_drop_ctl=0`.
+The injected run reports `BUG: KASAN: slab-use-after-free in mutex_lock()`
+from `tb_cfg_request_dequeue()`. The control run reports no KASAN issue before
+the expected no-root-filesystem panic.
 
-With `test_drop_ctl=1`, KASAN reports:
+The hook directly resets the request-list head, optionally frees `ctl`, and
+calls the real `tb_cfg_request_work()` synchronously. It demonstrates the UAF
+if that order occurs; it does not call `tb_ctl_stop()`/`tb_domain_remove()`,
+use the system workqueue, send an XDomain packet, or prove a peer can trigger
+host NHI removal.
 
-```text
-BUG: KASAN: slab-use-after-free in mutex_lock+0x74/0xd0
-tb_cfg_request_dequeue+0x3e/0x1a0
-Freed by kfree in tb_ctl_test_request_uaf_init()
-```
+Test-only injection patch (not a proposed production fix):
 
-With `test_drop_ctl=0`, the work runs before `ctl` is freed and the guest
-reports no KASAN issue. The attached baseline and control serial logs contain
-the complete output. These results establish the UAF for the forced ordering;
-they do not establish that a real peer or ordinary user can cause that order.
-
-Could you confirm whether another lifetime or serialization guarantee covers
-this path, and whether a supported controller can reach this ordering during
-NHI removal? If so, what is the preferred way to drain or pin outstanding
-request work before freeing the control channel?
+--- BEGIN TEST-ONLY PATCH ---
+diff --git a/drivers/thunderbolt/ctl.c b/drivers/thunderbolt/ctl.c
+index 965988b1860..000000000 100644
+--- a/drivers/thunderbolt/ctl.c
++++ b/drivers/thunderbolt/ctl.c
+@@ -9,5 +9,7 @@
+ #include <linux/crc32.h>
+ #include <linux/delay.h>
++#include <linux/init.h>
++#include <linux/moduleparam.h>
+ #include <linux/slab.h>
+ #include <linux/pci.h>
+ #include <linux/dmapool.h>
+@@ -535,7 +537,63 @@ static void tb_cfg_request_work(struct work_struct *work)
+ 	tb_cfg_request_dequeue(req);
+ }
+ 
++static bool tb_ctl_test_request_uaf;
++module_param_named(test_request_uaf, tb_ctl_test_request_uaf, bool, 0400);
++static bool tb_ctl_test_drop_ctl;
++module_param_named(test_drop_ctl, tb_ctl_test_drop_ctl, bool, 0400);
++
++static void tb_ctl_test_callback(void *data)
++{
++}
++
++static int __init tb_ctl_test_request_uaf_init(void)
++{
++	struct tb_ctl *ctl;
++	struct tb_cfg_request *req;
++	int ret;
++
++	if (!tb_ctl_test_request_uaf)
++		return 0;
++
++	ctl = kzalloc_obj(*ctl, GFP_KERNEL);
++	if (!ctl)
++		return -ENOMEM;
++
++	req = tb_cfg_request_alloc();
++	if (!req) {
++		kfree(ctl);
++		return -ENOMEM;
++	}
++
++	mutex_init(&ctl->request_queue_lock);
++	INIT_LIST_HEAD(&ctl->request_queue);
++	ctl->running = true;
++	req->callback = tb_ctl_test_callback;
++	INIT_WORK(&req->work, tb_cfg_request_work);
++	INIT_LIST_HEAD(&req->list);
++
++	ret = tb_cfg_request_enqueue(ctl, req);
++	if (ret) {
++		tb_cfg_request_put(req);
++		kfree(ctl);
++		return ret;
++	}
++
++	/* Model stop orphaning an active request before control-channel free. */
++	INIT_LIST_HEAD(&ctl->request_queue);
++	if (tb_ctl_test_drop_ctl)
++		kfree(ctl);
++
++	tb_cfg_request_work(&req->work);
++
++	if (!tb_ctl_test_drop_ctl)
++		kfree(ctl);
++	tb_cfg_request_put(req);
++	return 0;
++}
++late_initcall(tb_ctl_test_request_uaf_init);
++
+ /**
+  * tb_cfg_request() - Start control request not waiting for it to complete
+  * @ctl: Control channel to use
+--- END TEST-ONLY PATCH ---
 
 Best,
 Bin
-
-Attachments
------------
-
-- `thunderbolt_test_injection.patch` (test-only hook)
-  SHA-256: `77EBD027C6D35C3CF78897062237DB20678E642AB253EDA52064BCA101EC74B1`
-- `config.selected`
-  SHA-256: `6509D7B5631DC0282B9E3BD2BCC44ABB3C8517DE321EA4D895DFC62B5B38FFD3`
-- `initramfs.cpio.gz`
-  SHA-256: `C7D2E02BACC581D762BA096ECA73A7C8D94F3EBD82C592D6637B00DE264B13E8`
-- `baseline.serial.log`
-  SHA-256: `132D84FDDCA7BE7E8FD31A02FC847E7950753F1FC7401AC19ECE02483E588B4F`
-- `control.serial.log`
-  SHA-256: `9D7C27E5D0F0B2E38A10155BD868DD323D75E02015EF453DAAAC6FFDEC290253`
