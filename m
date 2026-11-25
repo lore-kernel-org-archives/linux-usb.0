@@ -1,62 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.38.64.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.204.34.129
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795594358;
-	b=BBlcVh4+F1B5m8gWNBp34f6DPHjh4pLAQ/0M2N3bg3hljIYuTzfgufb5nEI1q0nyLenW
-	 IR+3x3kr7gLPFUuBPyLPbAkmQQ+P8w/NcjiLWfANhThJ5PWiWspSLdkZNxehLhdkeN6HQ
-	 YByThmzCcWZLivFVijzeY9kMKM5D9VtaVsV2IVfSIjcmuPEBy8mu80maWpq14ByiKFjMZ
-	 kBr+GHFfpr49wuS5pz8AFx84UselbHOPbEKGa0vedWLtAbw1QVUR5ouIgYOvrIF0Dbhzo
-	 UQ5e2PhHh10lTyaCkmvvr74v3bcH73uGeoguuk8/z9WCt+hoJaTsP5ORPcx/55iEJgQ==
+	t=1795594794;
+	b=DsG6NG8k9sX8o+36Omw+Qk64rr1CC0Tb5lLtyFh1BkZbaMOUYNcvJppapBZbqaklitby
+	 ezEaD3yJ4c3hkiMARYIIZ2s5XAvlrgw85/JrSuWv5/4v1isTsoodyoKUVtKVutQwF6AAX
+	 U3wNiiXJoAmGbwAD0nxpAiCA1bhXHWqUUbQwWi1gCA97xgwmFWWZPbz7r8jkDZQg9N1tf
+	 jTJWCHyDsFZsVOMrhwB5J73XtFM3kY4OQ1BAHaKVS9LekEYWfJ2TZ2rHq2rVPhXjDw8sw
+	 vxs97nscYmsgQfmuKSg+ziSe3W7XD7n0OyrtRCcahsavc5dPG6PckmAPSQWtoxOVRFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795594358;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=MIK5lgowHa9HZQL7wgJvDpM5vWQ0IauK2t5++KMPc2I=;
-	b=Cs0jv77+ilNdHd6ZPshrRTPBEdviZ8QMOT7a+AIOIkjMxdil0znaCp5dUpdCYq4CVEvT
-	 q3YjMYXWo347uXX4UFIpFfqwNjtOknZajaPe6+y8hWwjQ3gNaLALHqn/WXbCBdEitFT6D
-	 nZBJ6kZ/E2bf/MtHyfx/ypu+nWJGDwTi/C2gY+gSaBuRIS1hphniu06ZXpT6+TGjTujjw
-	 zGUE4DFx8iWvrZ7hjrHe5icvR270ZJmS79QUOJaxwMdpy1AMJGGdeq6XirrTgsoIi5o+0
-	 CTVS7OfALxwXVo+k3ApLzt0y9CiDn2MxePJ6zEobeDD1NmpgovVjRKLovIiebep4L2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795594794;
+	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
+	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
+	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
+	bh=xu5nzEsZd0l35GVhHFCh0SlG77LpEEgxmOzFQfr3Xr4=;
+	b=ink/Y4RKMlz7uWsFtvn62TX4tueUErxPRthCItsYePhXdJDSbp27+TjwGpfAfpzgHEMi
+	 g76UzxKq3bbVQCYWTXwGzHDjwQHIk9Yryb2kVJ0dY41xDgF1ACLM/9TWIONd9oc54gqWu
+	 FXFOYCHRpDOmKyXU9BYd4xySz04jPyIxlT7NiRaWsqX4wIyOh9EajbGsKVLeCQR4W4Bf1
+	 +TvokyG/0t53cMn06J8vvoNajU9Jwi/h4GouPF7vCIm9ZFdsGNXNeHtOXUWQc6dzf1cMB
+	 WPUeyX3pWsJqXkgJSqK6LHl7e2fkO7S/BEUTrvqFSWU3EyJROZK01qy9fiMdEV2ah6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.ustc.edu.cn;
-	spf=pass smtp.mailfrom=mail.ustc.edu.cn;
-	dkim=pass header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.a=rsa-sha256 header.s=dkim header.b=V6O2nI7C;
-	arc=none smtp.remote-ip=202.38.64.46
-Received: from ustc.edu.cn (smtp.ustc.edu.cn [202.38.64.46])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97C16606A326;
-	Wed, 25 Nov 2026 08:12:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97C16606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.ustc.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ustc.edu.cn
+	dmarc=pass header.from=uniontech.com;
+	spf=pass smtp.mailfrom=uniontech.com;
+	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=UDXCoVVT;
+	arc=none smtp.remote-ip=54.204.34.129
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8959A606A31E;
+	Wed, 25 Nov 2026 08:19:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8959A606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.a=rsa-sha256 header.s=dkim header.b=V6O2nI7C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-ID:In-Reply-To:References:MIME-Version:
-	Content-Transfer-Encoding; bh=MIK5lgowHa9HZQL7wgJvDpM5vWQ0IauK2t
-	5++KMPc2I=; b=V6O2nI7CFvd4QxIZpsYrTuWoA16elDl7Yh41Z3eU6HH7VHuN9z
-	HhIsgKRc5IZ5PKwNLgmYRPGajAIsGboJswH/4adQOhuxze/jwODwXA5u1ESxfKvE
-	ki+DqWSeRPPbmA01GLNvSiaDaNXe6JC4MR+eouCqDP+R0nTSf6JcuOWGw=
-Received: from xuqianhui.ustc.edu.cn (unknown [114.214.177.196])
-	by mailimap2024 (Coremail) with SMTP id 3pYKCgAXo0djmAZrB3r2AA--.2433S3;
-	Wed, 25 Nov 2026 16:12:27 +0800 (CST)
-From: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
-To: Thinh.Nguyen@synopsys.com
+	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=UDXCoVVT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1795594758;
+	bh=xu5nzEsZd0l35GVhHFCh0SlG77LpEEgxmOzFQfr3Xr4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=UDXCoVVTDgdKi8dBF1232bxuyGzzv3SqbF/heeBPfMQQ0dcbSjB7YGgD4Tysny147
+	 01zhOwXX/QdiVl+ANhmlLmP9hEDjSu9aDObXu+GFpWIW1XuVAKsKl3QRXYhM/tI0oa
+	 DNZPjM22hxtdL0DMBjAh1S4fDIxFll2ks77vbC60=
+X-QQ-mid: zesmtpsz6t1795594751t2eb92d61
+X-QQ-Originating-IP: qqS8CVJIZvW3wddgupBQu1lX3rm7FFgkSfJu9wwGnEM=
+Received: from localhost.localdomain ( [61.183.83.60])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 25 Nov 2026 16:18:40 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 8163225211566540910
+EX-QQ-RecipientCnt: 8
+From: Wentao Guan <guanwentao@uniontech.com>
+To: raoxu@uniontech.com
 Cc: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v15 1/3] dt-bindings: usb: snps,dwc3: describe two connectors on one HS data bus
-Date: Wed, 25 Nov 2026 16:12:17 +0800
-Message-ID: <20261125081219.3661014-2-xiaqinghuan@mail.ustc.edu.cn>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261125081219.3661014-1-xiaqinghuan@mail.ustc.edu.cn>
-References: <20261125081219.3661014-1-xiaqinghuan@mail.ustc.edu.cn>
+	pawell@cadence.com,
+	peter.chen@kernel.org,
+	stable@vger.kernel.org,
+	Wentao Guan <guanwentao@uniontech.com>
+Subject: Re: [PATCH] usb: cdnsp: fix NULL pointer dereference during system resume
+Date: Wed, 25 Nov 2026 16:18:31 +0800
+Message-ID: <961901B5BBBE3741+20261125081830.304847-2-guanwentao@uniontech.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <7B818A718E70C344+20261125080021.3907332-1-raoxu@uniontech.com>
+References: <7B818A718E70C344+20261125080021.3907332-1-raoxu@uniontech.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -67,194 +75,66 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:3pYKCgAXo0djmAZrB3r2AA--.2433S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxtFyrXF4xCw4rXr1rXFW7XFb_yoWxGFy8pF
-	ZxtFs7tF4qgryfA3srAF18Cwn3KF4kJrnrJrnrGr1UZa13Wr1rXa13K3sYqFyUCF92va4a
-	ka4qg3W7Xw17CFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBSb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
-	8067AKxVWUGwA2048vs2IY020Ec7CjxVAFwI0_JFI_Gr1l8cAvFVAK0II2c7xJM28CjxkF
-	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcV
-	CY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv
-	6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c
-	02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE
-	4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82
-	IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
-	0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMI
-	IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
-	0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
-	Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUgm9-UUUUU
-X-CM-SenderInfo: 50ld1x5qjk3t3q6ptxnoox23vfohv3gofq/
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: Ntq8+Af3r9XFXzCz68jJstO4wYtttlyMQ3FYw7g+ltVo3fOrna9XeAW2
+	7lbjWDLY50gIaEcGq30GgyxvKFMOn742oTK3BgROYdvxMgVV9nBkXoaDyjwhVwAKMFwMuNQ
+	Kkt6+SPGXpcL1RRLxuV1swcNaVfydpwFTR7gAMwmmp+9MByZai04L6mzy7c6RsXaw0vo3Y2
+	XdDjKjEpBMiDa3upfk+DwOj68hjwRqrAkWDRprThiIieLgChl+GqSdKpqMhsSPwTEl5cLob
+	asshj/DJ8fTOz54aXkC5xtjeeqdaWMOF2pgTRSASy5ovwCNmv3ZcOrOoCTCJjIOQ7PjfEYC
+	ifKndVTYsKVnMahA2e/aT7tgXB394nX2XhPSMUvU19T2yhWayRhT1Py7ASKOvRgc3pKXkq1
+	V3CIEF4bVk8/fpHky423nimi66nXBHjxj7tK4R6k9i9CaTdn+H3FkJ/8NRgMSAqDu4LaZyq
+	Iwp4NI6dER8SvyaM8BtJaCeCE6rl2GIeDZMgznEK1pB6+qkdHAaQe9hT+MbZyvb+7Hey+QR
+	7FLvBMl6GxGOgPH2bnPWdDwktnTCEL8uSIWe4yYgzmqZ45PDSHIERH4tB5akhLcfFoBfRtS
+	RS8I0ClQCF1TPR5TXmywQYzy0AGiEjPz/iihXFfAss5Dt7hRJWG2hLjussPURvRAb/pcv0Y
+	WW2VeBGQHrG/8f8yZAQO4yz+KDQQig4Bod42jR83cOndWGsSlhc9wbG7gf6Qphg0bokcU4B
+	L/dGqvLefmSu+Oz+m8R/9+FMmAMWuapetnqdZUI9gqQD/uBvq5ydgOcHz9DRU1bXeyGRN2n
+	HHiNdtYLwXPI+V8RbyAHG8BpvhjZvX3qxhWMyBUL1QY+WX8umIMt8yWF0b7IWHSUGNaJn3L
+	Kwp/yf0BL5aMHH/AnyKRfriSDO1hApqenAvWdl2+RwmTri8m1BdVK/pFsBGUC2hp9BeywT/
+	pni+yqrzGzK+Z0cBu3um+7JBfd8X39iCge598U+nDfiHol0IQPVYT6C8Jq0qs3QodbE2shr
+	x2YNMcNzKNFARed6L+qP7QVznRny3Z6x8U7HtYoQA9WSWCkPA2TGEyS68v7IlICBXLHPwKX
+	TfKykIo/BDw
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-QQ-RECHKSPAM: 0
 
-Some designs route two USB Type-C receptacles through one High Speed
-D+/D- pair with a GPIO multiplexer, so only one connector drives the
-controller at a time and the device tree has to say which role-switch
-input and which mux state belongs to each of them.
+> cdnsp_gadget_suspend() now always disconnects the gadget and stops
+> the controller, even when the link is already in U3. cdnsp_stop()
+> disables the slot and clears active_port, but leaves the cached
+> link_state unchanged.
+> 
+> If the controller retains its context across system suspend,
+> cdnsp_gadget_resume() may call __cdnsp_gadget_wakeup() based on
+> the stale U3 state. This dereferences active_port, which is NULL.
+> Port-status event handling cannot restore active_port at this
+> point because resume holds pdev->lock.
+> 
+> Remove the obsolete wakeup call from the resume path. The previous
+> connection has already been torn down during suspend, and
+> cdnsp_run() puts the enabled ports into RXDETECT. Let normal
+> port-status event handling establish the new connection.
+> 
+> Fixes: eae6460f6173 ("usb: cdnsp: fix wakeup from S3 after controller context loss")
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
+> Cc: stable@vger.kernel.org
+> ---
+>  drivers/usb/cdns3/cdnsp-gadget.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/usb/cdns3/cdnsp-gadget.c b/drivers/usb/cdns3/cdnsp-gadget.c
+> index 2830b595d632..350e45f511f5 100644
+> --- a/drivers/usb/cdns3/cdnsp-gadget.c
+> +++ b/drivers/usb/cdns3/cdnsp-gadget.c
+> @@ -2160,9 +2160,6 @@ static int cdnsp_gadget_resume(struct cdns *cdns, bool lost_power)
+> 
+>  	ret = cdnsp_run(pdev, max_speed);
+> 
+> -	if (!context_lost && pdev->link_state == XDEV_U3)
+> -		__cdnsp_gadget_wakeup(pdev);
+> -
+>  unlock:
+>  	spin_unlock_irqrestore(&pdev->lock, flags);
 
-A mux'ed data stream on one bus is an endpoint of that port in the OF
-graph, not a port of its own, so the two connectors become endpoint@0
-and endpoint@1 of the High Speed port, next to the Super Speed port@1.
-Each endpoint carries "usb-role-switch" and the "mux-state" that
-reaches it, and the multiplexer is referenced with "mux-controls", so
-an existing "gpio-mux" controller is used as is instead of a private
-property.
+Reviewed-by: Wentao Guan <guanwentao@uniontech.com>
 
-The High Speed port definition stays optional: a single-connector
-controller keeps describing one plain "endpoint", the two endpoints
-are required only when "mux-controls" is present, and the two states
-must be opposite so that the two connectors cannot both claim the same
-data path.
-
-Signed-off-by: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
-
-Changes since v13:
- - [sashiko, 2026-11-23, Low] "missing maxItems: 1 on mux-controls".
-   Accepted: the shared data bus is driven by one two-state multiplexer, so
-   "mux-controls" now says "maxItems: 1" instead of leaving the number of
-   mux controllers open.
-
- - [sashiko, same report, Low] "missing endpoint schema under port@0":
-   a plain "port@0/endpoint" could carry undocumented properties and
-   "endpoint@2"/"endpoint@3" were not rejected, because the graph port base
-   intentionally leaves "unevaluatedProperties" open.  Described where it
-   matters, inside the "mux-controls" branch: a mux'ed bus has exactly two
-   data streams, so that branch now rejects a plain "endpoint" and any
-   "endpoint@2"+.  Single-connector controllers keep the generic graph port
-   binding untouched.
-
- - [sashiko, same report, Low] "contradictory oneOf and redundant mux
-   rules".  Accepted; this one was a real logic error.  The "oneOf" that
-   requires opposite "mux-state" values evaluated both alternatives as true
-   when "mux-state" was absent, so a two-endpoint tree without
-   "mux-controls" failed validation.  The "oneOf" now sits in the
-   "mux-controls" branch, where both properties are required anyway, and the
-   redundant "dependentRequired" and "mux-controls: false" are gone.
----
- .../bindings/usb/snps,dwc3-common.yaml        | 100 +++++++++++++++++-
- 1 file changed, 99 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-index 6c0b8b653824..dcfa8c3a81c5 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-@@ -26,8 +26,78 @@ allOf:
-       $ref: usb.yaml#
-     else:
-       $ref: usb-xhci.yaml#
-+  - if:
-+      required: [mux-controls]
-+    then:
-+      # A multiplexed High Speed bus only makes sense when the controller is
-+      # dual-role and both connectors can switch their role independently.
-+      required: [ports, usb-role-switch]
-+      properties:
-+        dr_mode:
-+          const: otg
-+        ports:
-+          required: [port@0]
-+          properties:
-+            port@0:
-+              required: ['#address-cells', '#size-cells',
-+                         endpoint@0, endpoint@1]
-+              # A mux'ed High Speed bus has exactly two connectors, as the
-+              # two endpoints of this port; a plain "endpoint" or any further
-+              # endpoint would be a third data stream and is not described.
-+              properties:
-+                endpoint: false
-+              patternProperties:
-+                '^endpoint@[01]$':
-+                  required: [usb-role-switch, mux-state]
-+                '^endpoint@([2-9]|[1-9a-f][0-9a-f]+)$': false
-+              # The two connectors must claim opposite mux states.  Kept inside
-+              # this branch: JSON Schema evaluates "properties" of an absent
-+              # property as true, so the same "oneOf" outside the branch would
-+              # see both alternatives match when "mux-state" is not used at all.
-+              oneOf:
-+                - properties:
-+                    endpoint@0:
-+                      properties:
-+                        mux-state:
-+                          const: 0
-+                    endpoint@1:
-+                      properties:
-+                        mux-state:
-+                          const: 1
-+                - properties:
-+                    endpoint@0:
-+                      properties:
-+                        mux-state:
-+                          const: 1
-+                    endpoint@1:
-+                      properties:
-+                        mux-state:
-+                          const: 0
-+    else:
-+      # Without a mux the High Speed port keeps the generic graph port
-+      # binding, so single-connector controllers are described as before and
-+      # the per-connector properties have no meaning.
-+      properties:
-+        ports:
-+          properties:
-+            port@0:
-+              patternProperties:
-+                '^endpoint@[01]$':
-+                  properties:
-+                    usb-role-switch: false
-+                    mux-state: false
- 
- properties:
-+  mux-controls:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    maxItems: 1
-+    description:
-+      Phandle to the multiplexer that selects which of the two connectors
-+      drives the controller's shared High Speed data bus, e.g. a
-+      "gpio-mux" controller.  Each connector is described by the endpoint@0
-+      or endpoint@1 of "port@0", and the endpoint of that connector carries
-+      its own role-switch input and the "mux-state" it is reached in.
-+
-   extcon:
-     maxItems: 1
-     deprecated: true
-@@ -411,9 +481,37 @@ properties:
- 
-     properties:
-       port@0:
--        $ref: /schemas/graph.yaml#/properties/port
-+        # The High Speed port carries the controller's HS data stream.  Two
-+        # receptacles sharing one HS D+/D- pair are two mux'ed data streams of
-+        # that one stream, so they are two endpoints of this port and not two
-+        # ports.  A single-connector controller describes the plain "endpoint"
-+        # of the graph binding and is unaffected.
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-         description: High Speed (HS) data bus.
- 
-+        patternProperties:
-+          '^endpoint@[01]$':
-+            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-+            unevaluatedProperties: false
-+
-+            properties:
-+              usb-role-switch:
-+                type: boolean
-+                description:
-+                  This connector has its own USB role switch, registered
-+                  against this endpoint.
-+
-+              mux-state:
-+                $ref: /schemas/types.yaml#/definitions/uint32
-+                enum: [0, 1]
-+                description:
-+                  State of the High Speed data bus multiplexer which connects
-+                  this connector to the controller.  The two connectors of one
-+                  controller must use different states.
-+
-+            required: [reg]
-+
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
-         description: Super Speed (SS) data bus.
--- 
-2.53.0
-
+BRs
+Wentao Guan
