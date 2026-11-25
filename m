@@ -1,56 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.38.64.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795616325;
-	b=obOwMUVDWtbGICgfgYNdaMNLsJDyLQS9Q2WT3plUP0q4yxTPMm87lSrHzYPGz6Gwv7QK
-	 ZbALEiV6rUU8GcMkTVLYJvk5gjakIoIKD2me8kcOYFoyk6KThvFJEU+ta7L+mGI3wPoSZ
-	 2j2q3WsYZM18uJUwAQZlulDj8vZe/WsLccsxgXRlaK1CeGuiQ/RWN4DNiVyaV+A+hULFH
-	 eMpJ9kcTgb6goIR94cPm/WjpRkmfs+Gyuch5TNvDO5mLJvpIl3pbDHyoBBblULwhAJwrI
-	 1vauaE/9PmdJCOblIiVbOGHucx8Q7UvzdLd4yl1SV+seIxh68h5BVsNevEBj9gJ5r3Q==
+	t=1795616600;
+	b=gWjBCn/ztH4xPs2GQ0R1xLpyQ3cwL8PFGCBFdmhz4msB2UByV4nKsQLIaJ/1LZ+/tQan
+	 Kw6cJGkWSCTg1tBHKgDRxWlYnSi0aLZPMVN2xrshaffuvAHS6NaSo/qozltq9uMe+BaLO
+	 1iv7A8KK2j0eQLBL0oo4Jkze1DJ7Sg9bEsbP+1HYt3GoZkMvej7ztsXNPZr7445ZjoRSS
+	 JJ5z1dKtYRUIQH4qlZpt2uJ3FagHf4RpHEyNfe/r37eBbPqmjqf4v3Tm7TInzihbGarUK
+	 n3qIJ2il2OCaCj1EB5fanq2E0WetuKaVRpRgm/uHDu2oa4SX2Ufogfnsx+zj0ZEDN7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795616325;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=caTn990Xem//D/rTS3gZDu77oaeupVvkz75uHxtAfrQ=;
-	b=5RIi/LS4dWswxv8kZrZeStRsEBmG3j79kAQvWFJG+h2T+6DhZk5qtlf46/KIrQ3r33gV
-	 vSFisc5dTquKrJSoaEipZp0Txay13EqlI91cSXgL8Lt5U9TTeGyfjcF9S6Lxdv28tZbfo
-	 /mFdJzz1CndHCEzwxAyBIZ9NqpWJxQvXcgRJ5HCVYd4DiHmGajl8O4GfLoHEO0xI70V8G
-	 fN2APixS4EQo/yVwvj2azvBE1yy+2vzB60aRKgm/e5LVCPu8uaG9NjhKcDph3+Pf3RaX+
-	 CWgO3A+KQRDbho3IO6+KQSIKzb9O6GhjYOKiPAGRs9SnnZpDXk/gRf0zZ8nETZuRUDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795616600;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=4E5Q9Ym7k5B041ZyYisB4bp0V9Bq8HBshtj3mIstSjs=;
+	b=Ssdtl9HcGG4Mi+cS3V+Vy+nL617SAgqlBxzR+att6JyNFoVqS724gqI46DycaK4u7CFH
+	 rFLf6rd5Q5otpOVw115kihzYCrHkmKLv6P8WNKJMVXUd7GTRcnH3yZuZ9OsoZt/pc6AV5
+	 Kv3TbEJ24vBm5kqMfJRcFYd7ukPiCwPgY/8W8k+pC0/70SX6mOospM0J40CNHjco4JjDE
+	 OrQaYaJx9E8AZQyW4qxddBAT6pxbeeZZ8pEoskF0ypgIJqvXHcQ/Syrarwp1sGNCcnjs5
+	 63wSPlUnC784j2mr7Ul+YoGn0H2+gFul9O9fTK5eKEbFPIlsjYDDtKlBc3T+BhQaqqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QVo4xnAM;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BD9606A32E
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 14:18:45 +0000 (UTC)
+	dmarc=pass header.from=mail.ustc.edu.cn;
+	spf=pass smtp.mailfrom=mail.ustc.edu.cn;
+	dkim=pass header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.a=rsa-sha256 header.s=dkim header.b=EtAHZKQi;
+	arc=none smtp.remote-ip=202.38.64.46
+Received: from ustc.edu.cn (smtp.ustc.edu.cn [202.38.64.46])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57FE0606A31E;
+	Wed, 25 Nov 2026 14:23:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57FE0606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.ustc.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ustc.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QVo4xnAM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 245451F000C0;
-	Wed, 25 Nov 2026 14:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795616325;
-	bh=caTn990Xem//D/rTS3gZDu77oaeupVvkz75uHxtAfrQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QVo4xnAMXP2+s2ibxcjfa4nsajphYrZWYYpmyTK7yCvAvcWMwLBnP5ySkxucKdpm0
-	 2Jnn5JIHQlbDJppPI4UjvnUztA38ab5lgGfo9uMujMyE2PNaK26c+mMebANohI12WE
-	 48ErIlgmIKSxH4cs7Gprm2PQA+/yORmoLQhiahZ9xmGYI9ITgnojQB4uQG4Df/HkX3
-	 wnL6rpHN573wkCVmJWzBr1ZOof3CDQ84kfVTPDvET41ovdWoFgLwjObp8t13ekYfDU
-	 PVecZylBgQ4I5qgNmXHrDdNRN0evsXdjq8tlDBU8wn1ldUFIvQlWq1XPG5iUlnJ5JZ
-	 G2spCyDFbIECg==
-Message-ID: <sashiko-outbox-233547@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 0/3] usb/phy: sunxi: Assert reset before deasserting
- on init
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Bobek Brzeczyszczykiewicz" <admin@roadbobek.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261125-usb-sunxi-reset-fix-v3-0-855c43694f78@roadbobek.com>
-References: <20261125-usb-sunxi-reset-fix-v3-0-855c43694f78@roadbobek.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 14:18:44 +0000
+	dkim=pass (1024-bit key) header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.a=rsa-sha256 header.s=dkim header.b=EtAHZKQi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-ID:MIME-Version:Content-Transfer-Encoding; bh=4E5Q9Ym7k5
+	B041ZyYisB4bp0V9Bq8HBshtj3mIstSjs=; b=EtAHZKQiMXmxSXdBteHkYvDchp
+	q0GS6Pyu3S+0zt3MmW7gWnlamrY87MlLULMCXqDtQQYgvKEXJr+yx/jUhE14CM+o
+	sTegtQVUFBY/viX/5xZN7wrhI2du5FGmXvqTxLOAvsqfCXqV57ssGKiOBbQbGX2B
+	53uS4BlLu+GJdlXiw=
+Received: from xuqianhui.ustc.edu.cn (unknown [114.214.177.196])
+	by mailimap2024 (Coremail) with SMTP id 3pYKCgBXxSlN7wZrtu73AA--.1127S2;
+	Wed, 25 Nov 2026 22:23:09 +0800 (CST)
+From: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+To: Thinh.Nguyen@synopsys.com
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v16 0/3] usb: dwc3: support two connectors sharing one HS data bus
+Date: Wed, 25 Nov 2026 22:23:06 +0800
+Message-ID: <20261125142309.3265777-1-xiaqinghuan@mail.ustc.edu.cn>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,9 +62,409 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:3pYKCgBXxSlN7wZrtu73AA--.1127S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3Kw1xWFW5Zw4ktw45ur4xCrg_yoW8ZrW7Ko
+	WSvw10vw1rtr43uF4DCF17GFs8WFWv9ryxAr1aqws8JFn7XrW7uryF9ws5WFZxJF4Y9r9x
+	Z3WftrZ0qF4xtFn7n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUY57k0a2IF6w4kM7kC6x804xWl14x267AKxVW8JVW5JwAFc2x0
+	x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj4
+	1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0
+	I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
+	C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r1q6r43
+	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
+	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
+	W8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAI
+	cVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07betCcUUUUU=
+X-CM-SenderInfo: 50ld1x5qjk3t3q6ptxnoox23vfohv3gofq/1tbiARECB2sGHiAuFQAZsk
 
-Sashiko has reviewed this 3-patch series and found no issues.
+Only 1/3 changed.  sashiko reviewed v15 on 2026-11-25 and reported two
+low-severity issues, both on 1/3, and both are fixed in this posting; it
+reported 2/3 and 3/3 of v15 with no issues at all, so those two are
+re-posted unchanged.  The "diff --git" section of 2/3 and 3/3 compares equal
+to the v15 files ("cmp" is silent) and "git patch-id --stable" gives the v15
+ids (5688adec43ea, 60721b9fb7fb) for both.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125-usb-sunxi-=
-reset-fix-v3-0-855c43694f78@roadbobek.com
+    [Low] dt-bindings: usb: snps,dwc3: incomplete endpoint schema under port@0
+    [Low] dt-bindings: usb: snps,dwc3: inter-version changelog above tearline
+
+The first one has two halves.  "port@0" is described through the graph
+"port-base", which leaves "unevaluatedProperties" open on purpose, so a
+plain "endpoint" of a single-connector controller accepted "usb-role-switch"
+and "mux-state" with no schema recording what they mean at that place.  And
+the pattern that rejects a third endpoint missed the single hex digits
+"endpoint@a" to "endpoint@f".  The second one is about where this series
+writes its revision log: v15 1/3 still carried its "Changes since v13" log
+in the commit message.  The log is below the "---" line here, and the "else"
+branch of the binding puts the generic graph port binding on "port@0" again,
+so the plain endpoint of a controller without a mux is as strict as it was
+before this series.  Both fixes and the reasoning are in "Changes since v15"
+below the tearline.
+
+Two USB Type-C receptacles can share one High Speed D+/D- pair if a
+multiplexer selects which of them drives the controller.  This series
+describes that in the DWC3 binding, adds the endpoint-scoped role-switch
+lookup the connectors need, and drives the shared data path from the DWC3
+mode worker through the mux controller API.
+
+"Testing on hardware", "Not tested" and "Known gaps" below are the v15 text,
+unchanged: the board was tested with 2/3 and 3/3 as posted here, and 1/3
+only changes a binding and has no runtime effect.
+
+Testing on hardware
+
+The board that needs this is a Lenovo Legion Y700 Gen 4 (SM8750).  Its
+device tree is not upstream yet, so the test ran on the author's tree, on
+the same base as the patches (v7.4-rc3 = aebb727447): the image was started
+with "fastboot boot", which writes nothing to the device, and the same round
+also booted the board's daily kernel with the same read-only probe script,
+so the only variable between the two boots is the kernel image.  The probe
+ran on 2026-11-25.
+
+The image carries 2/3 and 3/3 as posted here: the code of both is unchanged
+since v11, the version that image was built with, and 1/3 only changes the
+binding and has no runtime effect.
+
+ - role switches: both switches of the shared controller,
+   a600000.usb-port0-role-switch and a600000.usb-port1-role-switch, bind;
+   "waiting_for_supplier" is 0 for both.
+ - mux: /sys/class/mux is empty on the daily kernel and holds "muxchip0"
+   with this series, i.e. the mux controller the binding points at is
+   instantiated, which is the direct evidence that the mux path exists.
+ - gadget: /sys/class/udc lists a600000.usb, and a High Speed gadget
+   enumerates through this controller on connector 0 (the USB network link
+   the test run itself is collected over is that gadget).
+ - "Failed to create device link" lines: 7 with the series, 8 on the daily
+   kernel.  The seven are the pre-existing qcom_pmic_glink family (5-0042,
+   5-0043, 88e8000.phy, and a600000.usb twice, once per connector); the one
+   line the candidate does not have is msm_dsi <-> panel@0, because that
+   image carries no display bring-up.  The series adds no device link
+   failure of its own.
+ - "Fixed dependency cycle(s)" lines: 137 with the series, 141 on the daily
+   kernel, all of the permitted FWLINK_FLAG_CYCLE form.
+ - Type-C: port0 and port1 both present, data_role reads "host [device]" on
+   both, orientation is "reverse" for port0 and empty for port1; same as the
+   daily kernel.
+ - Not USB, said out loud: that image logs 58 kernel warnings and 55 call
+   traces the daily kernel does not log.  All of them are display stack
+   (drm_crtc_wait_one_vblank, and clk_core_disable/clk_core_unprepare from a
+   DSI PLL that did not lock: "DSI PLL(0) lock failed, status=0x0"), and the
+   image deliberately carries no display bring-up.
+
+Not tested, stated so that nobody has to guess
+
+ - The two receptacles were never swapped by hand, so there is no sample of
+   the mux state following the plugged receptacle.  The mux state is not
+   exported anyway (no attribute under /sys/class/mux, nothing under
+   /sys/kernel/debug/mux), so the only proxy available today is the
+   multiplexer select line: with connector 0 active and the gadget running,
+   GPIO29 reads "out low".  A flip of that line under cable movement is
+   still unobserved.
+
+Known gaps (unchanged from v14)
+
+- Which physical receptacle corresponds to mux state 0 and which to 1 is
+  still not proven on hardware; the board DTS therefore names them
+  "Receptacle A" and "Receptacle B" and does not claim long/short edge.
+- "gpio-mux" drives the select lines low in probe
+  (devm_gpiod_get_array(dev, "mux", GPIOD_OUT_LOW)), so the level left by
+  the firmware is not preserved.  "idle-state" is deliberately omitted: a
+  non-AS_IS idle state would drive the wrong state between
+  mux_control_deselect() and the following mux_control_select().  Making the
+  probe keep the pin as is (GPIOD_ASIS) is a change to drivers/mux/gpio.c and
+  affects the ~70 existing gpio-mux users, so it does not belong in this
+  series; it needs a separate discussion with the mux maintainer.
+- dtbs_check cannot see "idle-state" values: gpio-mux.yaml declares it
+  without a type or bounds, so an out-of-range value is only rejected at
+  probe time.
+- The board DTS is not part of this posting: the Lenovo Legion Y700 Gen 4
+  file is not upstream yet and is posted with its own board series.
+
+The static gates were re-run on this v16 content: the apply, checkpatch,
+binding and sample gates are in "Gate results" below.  G3 (build) was not
+re-run, because 2/3 and 3/3 are byte-identical to v15 and 1/3 changes only a
+binding, so no object file changes.
+
+---
+*** AI-assistance disclosure ***
+This series was prepared with the help of an LLM coding assistant.  The
+author reviewed every line, checked every quoted claim against the tree,
+and ran the gates quoted below; the design decisions and any errors are the
+author's.
+
+Changes since v15
+
+1) [sashiko, on v15 1/3, 2026-11-25, Low] "dt-bindings: usb: snps,dwc3:
+   incomplete endpoint schema under port@0"
+
+   Accepted, both halves.  v14 replaced the generic graph port on "port@0"
+   with the graph "port-base" so that the port could carry two endpoints,
+   and "port-base" leaves "unevaluatedProperties" open on purpose: a plain
+   "endpoint" of a single-connector controller accepted "usb-role-switch" and
+   "mux-state" with no schema saying what they mean there.  The "else"
+   branch of "allOf" now gives "port@0" the generic graph port binding, whose
+   endpoint schema does have "unevaluatedProperties: false", so both
+   properties are rejected and the single-connector path is as strict as it
+   was before this series.
+
+   Second half of the same report: the pattern rejecting a third endpoint
+   read '^endpoint@([2-9]|[1-9a-f][0-9a-f]+)$', which let the single hex
+   digits "endpoint@a" to "endpoint@f" through, although graph.yaml accepts
+   any hex unit address.  It now reads
+   '^endpoint@([2-9a-f]|[0-9a-f]{2,})$', the exact complement of
+   "endpoint@0"/"endpoint@1" among the addresses graph.yaml accepts, so
+   "endpoint@a" and multi-digit addresses such as "endpoint@10" are rejected
+   as well.
+
+2) [sashiko, same report, Low] "dt-bindings: usb: snps,dwc3: inter-version
+   changelog above tearline"
+
+   Accepted.  "Should the "Changes since v13:" revision log be moved below
+   the "---" tearline separator so that git am does not record it in the
+   permanent commit message?"  Yes.  v15 1/3 still had it in the commit
+   message; from this version on the revision log of a patch is below that
+   patch's tearline, and 1/3's commit message carries only what belongs in
+   the permanent log.
+
+3) 2/3 and 3/3 are unchanged.  sashiko reported them with no issues, so they
+   are re-posted byte-identically: "cmp" on the "diff --git" section is
+   silent against v15, and "git patch-id --stable" gives 5688adec43ea and
+   60721b9fb7fb, the v15 ids.  Their gate results in "Gate results" are
+   therefore the ones v14 and v15 recorded; only 1/3's were re-run here.
+
+4) Per-patch AI-assistance disclosure, still outstanding, said out loud so
+   that nobody has to reconcile it: v15's cover promised it back in 1/3, 2/3
+   and 3/3 "in the next version that touches those files".  This version
+   touches 1/3, but 2/3 and 3/3 are byte-identical to v15, and adding the
+   paragraph to 1/3 alone would leave the series inconsistent, so the
+   disclosure is still in this cover letter only.  It goes back into all
+   three when the series is regenerated as a whole.
+
+
+Changes since v14
+
+1) [Greg Kroah-Hartman, on v14, 2026-11-24] "Please test on real hardware
+   before resending, AND also cc: the proper mailing lists (you forgot the
+   usb list)."
+
+   Adopted.  linux-usb@vger.kernel.org is Cc'ed on this thread; it was
+   missing from v12, v13 and v14, and v11 was the last version that reached
+   the list.  The hardware run is recorded in "Testing on hardware" above.
+   1/3, 2/3 and 3/3 are byte-identical to v14: the "diff --git" section of
+   each compares equal with "cmp", and the patch ids are unchanged
+   (aa6ed734239b, 5688adec43ea, 60721b9fb7fb).  This posting starts a new
+   thread; the v14 Message-IDs for reference: cover
+   <20261124015002.1426767-1-xiaqinghuan@mail.ustc.edu.cn>.
+
+2) Accounting, so that nobody has to reconcile the archives: v14 was posted
+   twice (2026-11-24 01:50Z and 04:52Z, the second one unattended) and the
+   duplicate thread was answered with an explanatory reply that asked
+   readers to ignore it.  The two batches are byte-identical, so this v15
+   replaces both.
+
+3) Defect carried over, so that it is not mistaken for a new one: when v14
+   regenerated the series, the per-patch AI-assistance disclosure paragraphs
+   that v12 and v13 carried below each patch's "---" line were dropped,
+   while v14's cover text still said every patch carried one.  For this
+   resend the disclosure is in this cover letter only; it goes back into
+   1/3, 2/3 and 3/3 in the next version that touches those files, since this
+   posting is deliberately byte-identical to v14.  (State as of v16: item 4
+   under "Changes since v15".)
+
+Changes since v13
+
+Sashiko reviewed v13 1/3 on 2026-11-23 and reported three low-severity
+binding issues; all three were addressed in v14 (2/3 and 3/3 are
+byte-identical to v13) and are carried here unchanged.
+
+ - "mux-controls" now has "maxItems: 1": the shared bus is driven by one
+   two-state multiplexer, so the number of mux controllers is not open.
+ - Inside the "mux-controls" branch, "port@0" now rejects a plain
+   "endpoint" and any "endpoint@2"+; a mux'ed bus has exactly two data
+   streams and neither shape was rejected before, because the graph port
+   base leaves "unevaluatedProperties" open on purpose.  Single-connector
+   controllers keep the generic graph port binding untouched.
+ - The "oneOf" that requires opposite "mux-state" values moved into the
+   "mux-controls" branch.  Outside it, both alternatives matched whenever
+   "mux-state" was absent (JSON Schema evaluates "properties" of a missing
+   property as true), so a two-endpoint tree without "mux-controls" was
+   rejected.  The now redundant "dependentRequired" and "mux-controls:
+   false" are gone.
+
+Changes since v11 (as posted in v12)
+
+Posting fixes only.  The three patches of v12 were byte-identical to v11:
+the "diff --git" section of each of 1/3, 2/3 and 3/3 compared with
+"diff -u" against the v11 file gave empty output, and applying them on the
+same base (v7.4-rc3 = aebb727447) yielded the same file blobs as v11
+(snps,dwc3-common.yaml = 7a9cb5a115a6, drd.c = 906cac4f3e6e).  The binding
+of 1/3 changed later, in v13 and v14; 2/3 and 3/3 are still unchanged.
+
+6) [Krzysztof Kozlowski, on v10 1/3, 2026-11-21] "This does not go to
+   commit msg, but changelog."
+
+   Adopted in v12.  The AI-assistance disclosure paragraphs left the commit
+   messages and moved below the "---" separator of 1/3, 2/3 and 3/3 (see
+   item 3 under "Changes since v14" for the state of that text today).
+   sashiko's [Low] on v11 1/3 ("transient AI disclosure left in commit
+   message") is the same item; sashiko reported patches 2/3 and 3/3 of v11
+   with no issues.
+
+7) [Krzysztof Kozlowski, same mail] "...this one even threaded to other
+   posting..."
+
+   Adopted.  This series starts a new thread: no In-Reply-To or
+   References to the v9/v10 postings.  The v9/v10 Message-IDs for
+   reference: v10 cover
+   <20261121022104.1507987-1-xiaqinghuan@mail.ustc.edu.cn>.
+
+8) [Greg Kroah-Hartman, Re: v11 3/3, 2026-11-23] "What about all the
+   previous versions?  Please always include them all, right?"
+
+   Adopted.  This cover letter carries the changelog of every previous
+   posting (v4, v5, v7, v8, v9, v10, v11, v12, v13 and v14 above).
+   Message-IDs for reference: v11 cover
+   <20261121132029.2379449-1-xiaqinghuan@mail.ustc.edu.cn>.
+
+Changes since v10
+
+1) [Medium, on 3/3] "Should dwc3_role_mux_deselect() be called after the
+   switch (dwc->current_dr_role) block tears down the active host or gadget
+   instance?"
+
+   Accepted.  dwc3_role_mux_deselect() is now called after that switch
+   block, in the same order as __dwc3_set_mode() (host/gadget exit first,
+   then the data path switch), and still after
+   cancel_work_sync(&dwc->drd_work).
+
+2) [Medium, on 1/3] "Does applying $ref: '#/$defs/hs-port'
+   unconditionally to port@0 cause a dtbs_check regression for
+   single-connector DWC3 nodes without mux-controls?"
+
+   Accepted, for the shape that v10 posted.  A single-connector node that
+   numbers its endpoint ("port@0/endpoint@0" with "reg" only) was rejected
+   by the v10 schema with "'usb-role-switch' is a required property" and
+   "'mux-state' is a required property".  "port@0" keeps the generic graph
+   port at the top level now; the two endpoints, their
+   "usb-role-switch"/"mux-state" and the address/size cells are required by
+   the "mux-controls" branch of "allOf" only, so single-connector
+   controllers are described exactly as before.  An unnumbered
+   "port@0/endpoint" of a non-mux controller was not rejected by the v10
+   schema either; both shapes pass now.
+
+3) [Low, on 1/3] "should the local $defs be dropped in favor of defining
+   the endpoint schema under patternProperties for '^endpoint@[01]$', and
+   can the Linux driver implementation details be removed from the
+   binding?"
+
+   Accepted.  The endpoint schema is inlined under "port@0" through
+   patternProperties, the local "$defs" section and the "$ref" to it are
+   gone, and the "mux-controls" branch no longer names driver functions.
+
+Changes in earlier versions (full history)
+
+v4 (2026-10-26) first posted the series: the binding described a private
+"port-select-gpios" property and separate High Speed ports per connector
+(port@0 and port@2); the driver drove the shared data path through a raw
+GPIO from the role-switch callbacks.  v5 (2026-10-31) was a fixup round.
+
+v7 (2026-11-06) reworked both ends:
+- binding: the two connectors are two mux'ed data streams of one High Speed
+  bus; "port@0" carries two endpoints with "mux-state" 0/1, and the private
+  GPIO property is replaced by "mux-controls" (a phandle to a mux
+  controller such as "gpio-mux").
+- driver: the shared data path is driven through the mux controller API
+  (devm_mux_control_get()/mux_control_select()); mux_control_select() may
+  sleep, so it is only called from the mode worker.
+- usb: roles: role-switch lookup extended to switches attached to a graph
+  endpoint, which the two-endpoint binding needs.
+v8 (same day) is the same series rebased; v6 was never posted.
+
+v9 (2026-11-17) answered Rob Herring's 2026-11-10 review of the cover:
+"port@2" is gone (the second connector is a second endpoint of "port@0"),
+"port-select-gpios" is replaced by "mux-controls", the driver uses the mux
+controller API, and the board DTS is posted separately.
+Gate results (base: v7.4-rc3 = aebb7274476403040d582c61478df8f4a7bf9cd3)
+
+  G1 apply       git am of the three patches on a pristine check-out of the
+                 base above: 3/3 clean, rc=0, no offset, no fuzz, no
+                 rejects.  Resulting blobs
+                 snps,dwc3-common.yaml = 1f23840fd1f2, class.c = ee186d542a10,
+                 core.c = ce309792864b, core.h = e6cf7b240b23,
+                 debugfs.c = 82e7a334b135, drd.c = 906cac4f3e6e
+                 The last five are the v15 blobs; only the binding moved.
+  G2 checkpatch  perl scripts/checkpatch.pl --strict --no-signoff --no-tree
+                 1/3 0E/0W/0C (122 lines) ; 2/3 0E/0W/0C (63 lines)
+                 3/3 0E/0W/0C (624 lines)
+  G3 build       not re-run: 2/3 and 3/3 are byte-identical to v15 and 1/3
+                 changes a binding only, so no object file changes.  The v14
+                 numbers still stand: make ARCH=arm64
+                 CROSS_COMPILE=aarch64-linux-gnu- W=1 drivers/usb/dwc3/
+                 drivers/usb/roles/ rc=0, 0 warnings, 22 objects
+  G4 binding     make ARCH=arm64 dt_binding_check
+                 targeted, DT_SCHEMA_FILES=.../usb/snps,dwc3-common.yaml
+                 plus .../usb/snps,dwc3.yaml (the fragment has no examples of
+                 its own): rc=0, snps,dwc3.example.dtb DTC [C], 0 diagnostics
+                 full, no DT_SCHEMA_FILES: rc=0, 5420 example DTC [C],
+                 0 diagnostics
+  G5 dtbs_check  make ARCH=arm64 CHECK_DTBS=1, no DT_SCHEMA_FILES
+                 qcom/sm8250-mtp, qcom/sm8650-mtp, qcom/sm8750-mtp,
+                 qcom/sm8750-qrd: 4/4 DTC [C], 0 diagnostics
+                 12 further boards that have a dwc3 node with a port@0
+                 (sm8250-mtp, sdm845-db845c, sc8280xp-crd, qdu1000-idp,
+                 apq8096-db820c, imx8mp-evk, rk3588-rock-5b, rk3399-roc-pc,
+                 sun50i-h6-pine-h64, zynqmp-zcu104-revA, k3-am62a7-sk,
+                 exynos5433-tm2): 12/12 DTC [C] and the same 5 diagnostic
+                 lines as the unpatched binding, so 0 new
+  G6 samples     dt-validate on the rebuilt schema bundle, v15 schema and
+                 v16 schema side by side
+                 positive, 0 complaints under both schemas:
+                   two endpoints, opposite mux-state, dr_mode = "otg"
+                   same, with dr_mode omitted (usb-drd.yaml default)
+                   single connector, plain "port@0/endpoint", no mux
+                   single connector, "port@0/endpoint@0" without role props
+                   two endpoints, no mux-controls, no role properties
+                 negatives, rejected under both schemas:
+                   same mux-state on both endpoints
+                   endpoint@1 missing
+                   endpoint@1 without usb-role-switch/mux-state
+                   mux-controls with dr_mode = "host"
+                   mux-controls with a plain "endpoint"
+                   mux-controls with "endpoint@2"
+                 negatives rejected only by the v16 schema (0 diagnostics
+                 under the v15 schema), i.e. the two fixes above:
+                   mux-controls with "endpoint@a"
+                   plain "port@0/endpoint" of a non-mux controller carrying
+                   usb-role-switch and mux-state
+  G7 hardware    see "Testing on hardware" above: the v15 round, 2026-11-25,
+                 run with 2/3 and 3/3 as posted here
+
+  On the command shapes: DT_SCHEMA_FILES is intentionally not used for
+  dtbs_check.  It is passed to dt-validate as "-l", which only keeps schemas
+  whose $id matches and that still select a node themselves;
+  snps,dwc3-common.yaml is a fragment without "select:", so the run reports
+  nothing and looks green.  The dtbs_check rule also ends with "|| true", so
+  the result is read from the diagnostics in the output, not from the exit
+  status.
+
+Qianhui Xu (3):
+  dt-bindings: usb: snps,dwc3: describe two connectors on one HS data
+    bus
+  usb: roles: look up role switches attached to a graph endpoint
+  usb: dwc3: select the shared HS data bus with a mux controller
+
+ .../bindings/usb/snps,dwc3-common.yaml        | 106 +++++-
+ drivers/usb/dwc3/core.c                       | 116 +++++-
+ drivers/usb/dwc3/core.h                       |  43 +++
+ drivers/usb/dwc3/debugfs.c                    |   4 +
+ drivers/usb/dwc3/drd.c                        | 329 +++++++++++++++++-
+ drivers/usb/roles/class.c                     |  45 +++
+ 6 files changed, 639 insertions(+), 4 deletions(-)
+
+-- 
+2.53.0
+
