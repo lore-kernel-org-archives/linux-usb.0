@@ -1,68 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795620891;
-	b=LbxIZz/qPKJFPaDPzSWOifqq4VehJ9ZLBGbc3IX4i4xBCGUMznXdET+uysv4P5DpIRxL
-	 kHq+O6jLFoqQ91/5BYme3+wlv245icr3dopnmNDFqATgfmqLFl3wuGtwb9n0soB/aNnpv
-	 qbnClZrWXnLtBbTbqYVWAlTQKfigx7te2WjxiB9f+wSayDgtOZ9mqznRgS21uwNa7Q+O1
-	 efA2EFy/SuOQA1t73VlqTHpw/ppeT331dztpt3Om/Di0ZiLQ0SLDrceH2xrAQp0KhFD+m
-	 fJO01f+LjE9uvzK5kpJhJjQaZHEcRV+ktMOf6pLn4c5XSJazXXiavFBUi/zADolnB6A==
+	t=1795621285;
+	b=giUJRciCTEdYLODyz2BnMjMdEbZiTRW3NzW69DbGMwqM1oeYU58QH7OS+7KO3H9TqM5m
+	 Dfs87Cdk9Vs5LmRP0vYeWyxUVLbmmnawRU8vPGJzLroMNmmn8oU7oUCp7lRf0pEjtaYkY
+	 GF4mCnSSYxnWK6qYga5y6t9OQik13ZuDDEPUC3A4BBWZKQc27/RCIH/NV2giIjG9Lo2Cm
+	 VUnBbnD1T1kMAjHYrNbEuEzRUBouXVDsLIO1W6a3m0MO5AuWwpgJjVCEBiDZi+6PirmrJ
+	 /RFB16e3JiVF7heWcfOdkBQZ4KzaUjBmLQr0UuINYWr1g3ybhLVvou8TlrRtCuLgW7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795620891;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795621285;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=gCx3ekEjFIYQgZCLkec7gu9sq6KbvuSeHa4OppUG+rY=;
-	b=bVjEv7s19nvf7nUKlRskQTMI4H1pn+qE4pifTNlsx9Sz1z9al1phj5apRL8GgfjgKzhq
-	 uoKocYrQoNltTiQxSNULobx+RTJQd7EUwrLuNpGwKpXGUz7WHJVb1Bvh2jwQawSAOXimG
-	 sFv4FnJ3Ig8sy88aUFYe87K0GfExSCqN0jf0c7CdsINdhhbhBie9D6n/Ltiv2STsIOFGA
-	 cfS09SjUDsL9fLQXkghuOOQZy659tgJbgvIx6+Fvo3KhF/r53WCzkj3CgP+1WndpOUS0A
-	 T0zezBVUGpo3n9fqu9n9SJp/dt3E3/FMsM4UeU4xPzy419/u/+EOfN3aCijeDhYzPJg==
+	bh=ZCBh+1QIWiplcxG/3ZmM0eRhCFF6ngcjfDVFxFTyT4Y=;
+	b=BuRYI3aXw6KCVVtF0pXV60X43cCwJLMSnkGp8nKcNxowLwrD3aJyl5wssiwlLNaooXjY
+	 1RX4agyd3xdnL3h/xheWT0+aA5OmputUnZygMpijtoOcyhjAdBDvLeRPBYKyYsjPNMVvY
+	 IIyMdcTSX+c4BzPTjM40dg7mWfiPfDufGuIg2FEH6Nsq7On6IOG/MqyK29XJIwh0LQHPY
+	 UQ99mycO6IdfCPz2Y6Xxd9VsqS2t5ieHjq5cRe3oZcCIY7lMN4PS5Zuxxafq23UoDyKlS
+	 uRZNWphIepcQvd9MArpORC0GhM5VFt7RCNF5yBWU/00OdCBx00gIQGCREh0tZIg48zA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JnuHXEtA;
-	arc=none smtp.remote-ip=198.175.65.12
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CHzOOrrv;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE644606A31E
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 15:34:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE644606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7006560A2622
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 15:41:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7006560A2622
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JnuHXEtA
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CHzOOrrv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795620890; x=1827156890;
+  t=1795621284; x=1827157284;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=QByrnA9aQhBS/D/jtP3PD1w7FLqGT8x3wdIjHzzhRMc=;
-  b=JnuHXEtAyXkX8ZxM2LZVnNmRHUTGIEVOIPJjPihvTE0R3Xe4foG1BYXL
-   ghHAso6FkMDQamZ0c4qoY0LZtea3LI87N3UILuRjV534Gt8mgShoG8aAA
-   3JW4KAj5t3tjrtd2zcBfv71db4mTl8PHDRbnauvw6r+uH19urU/edHJic
-   wFhUN3jXQ2a64P1Y21baJCJVltbG5/xYxVLwUof4kLGof6JF6N8WsIHkF
-   ra0XV8xa/esS8VUml8/noLndUAyD7JIbfvAfB5CR6o7H/jHnyqm+M+Tpo
-   Ks94vdoBWrYjX9CyR9xZ7aJiq/oUY9nLWnhUpwjzgRZPlD2Je50UhekYE
-   w==;
-X-CSE-ConnectionGUID: gVCWL5E8RUWWGep1KOW23Q==
-X-CSE-MsgGUID: OAyU29BoS1CyBO8Sz5Jk7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4408254"
+  bh=8tUsJs/es27pESYex6oXlxFXB4aN4jRi3UFrSCSpvqg=;
+  b=CHzOOrrvfAYnf2t8VVYMcA75iChOEkaIlpZUdQVgNVnP2MRN9q+luh2H
+   XllNJM6BMszTRkW+gvoUHySzvk9RzRzYsFFRvZsUHghwjaFGjiBK3Mo8t
+   YIglpaOugvzwIcxgHUKhnl6B2GQbpmBkMeMgKfeK3sdg0N1NbQR5nbQUS
+   DvLzMCMaZis6EOXhVzLmzOQaMsSm5Zwbza6b9axM75+mSpGUlNgeFdlUY
+   C9hYS505/M+eOvlvbmjCLUZxka/H5SC2zrinstzPL9XslP/aiRoZdRDgA
+   DKhfjqJmdQ/BsZwyjRf77qrFbcvJWBHNkXD2gynVbYhDlvWjhb4BjBf5d
+   A==;
+X-CSE-ConnectionGUID: GEQ68dCdSZ+kBLJfmBrR0w==
+X-CSE-MsgGUID: AfZQ0d2DRBWm15tdiia6Ww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4408779"
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4408254"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 07:26:28 -0800
-X-CSE-ConnectionGUID: ugnjPHx+Skmtsh4s3hWoag==
-X-CSE-MsgGUID: s8LpWoTbRVCHYPg2lHK7oA==
+   d="scan'208";a="4408779"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 07:35:34 -0800
+X-CSE-ConnectionGUID: kR22XQn8SDih1u5DE1iUBQ==
+X-CSE-MsgGUID: 2WpSSMWvSiGH6JYgtFdeRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="13938535"
+   d="scan'208";a="11884788"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa013.fm.intel.com with ESMTP; 25 Nov 2026 07:26:26 -0800
+  by orviesa007.jf.intel.com with ESMTP; 25 Nov 2026 07:26:26 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 22570A7; Wed, 25 Nov 2026 16:26:23 +0100 (CET)
+	id 1899EA4; Wed, 25 Nov 2026 16:26:23 +0100 (CET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -70,9 +70,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Andreas Noever <andreas.noever@gmail.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Mika Westerberg <westeri@kernel.org>
-Subject: [PATCH 9/9] Documentation: thunderbolt: Document USB4STREAM coupling
-Date: Wed, 25 Nov 2026 16:26:22 +0100
-Message-ID: <20261125152623.456054-10-mika.westerberg@linux.intel.com>
+Subject: [PATCH 6/9] thunderbolt: Add KUnit tests for lane to lane DMA tunnels
+Date: Wed, 25 Nov 2026 16:26:19 +0100
+Message-ID: <20261125152623.456054-7-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20261125152623.456054-1-mika.westerberg@linux.intel.com>
 References: <20261125152623.456054-1-mika.westerberg@linux.intel.com>
@@ -89,144 +89,454 @@ Content-Transfer-Encoding: 8bit
 
 From: "Mika Westerberg (Intel)" <westeri@kernel.org>
 
-This adds a section to the admin guide describing how USB4STREAM
-coupling could be used.
+This adds KUnit tests for the lane to lane DMA tunnels we just started
+to support.
 
 Signed-off-by: Mika Westerberg (Intel) <westeri@kernel.org>
 ---
- Documentation/admin-guide/thunderbolt.rst | 119 ++++++++++++++++++++++
- 1 file changed, 119 insertions(+)
+ drivers/thunderbolt/test.c | 408 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 408 insertions(+)
 
-diff --git a/Documentation/admin-guide/thunderbolt.rst b/Documentation/admin-guide/thunderbolt.rst
-index ff25fe853706..3b71feaa1efa 100644
---- a/Documentation/admin-guide/thunderbolt.rst
-+++ b/Documentation/admin-guide/thunderbolt.rst
-@@ -434,6 +434,125 @@ Then you have ``/dev/tbstream0`` for ``control`` and ``/dev/tbstream1``
- for ``data``. Before you can use them you need to configure them as
- shown above for the one stream case.
+diff --git a/drivers/thunderbolt/test.c b/drivers/thunderbolt/test.c
+index 0321408fe91c..b36bbe8bd7c1 100644
+--- a/drivers/thunderbolt/test.c
++++ b/drivers/thunderbolt/test.c
+@@ -2154,6 +2154,239 @@ static void tb_test_tunnel_dma_match(struct kunit *test)
+ #undef MATCH
+ }
  
-+Coupling a stream between two other hosts
-+-----------------------------------------
-+If a host is connected to two other hosts, say
-+``host1 <-> host2 <-> host3`` where ``host2`` is the one running Linux,
-+then ``host2`` can forward streams between ``host1`` and ``host3``
-+through the routers of its domain. The two hosts do not need to be
-+connected directly to ``host2``, there can be device routers such as
-+USB4 hubs in between.
++static void tb_test_tunnel_dma_lane2lane(struct kunit *test)
++{
++	struct tb_port *src_port, *dst_port;
++	struct tb_tunnel *tunnel;
++	struct tb_switch *host;
 +
-+This can already be done in userspace like::
++	/*
++	 * Create DMA tunnel between two hosts that are connected to lane
++	 * adapters 1 and 3 of this host.
++	 *
++	 *   [Host 2]                     [Host 3]
++	 * ............ Domain border ............
++	 *      |                             |
++	 *    1 v In HopID 8 -> Out HopID 8   |
++	 *    1 ^ Out HopID 8 <- In HopID 8   v 3
++	 *              [Host 1]
++	 */
++	host = alloc_host(test);
++	src_port = &host->ports[1];
++	dst_port = &host->ports[3];
 +
-+  host2 # dd if=/dev/tbstream0 of=/dev/tbstream1
++	tunnel = tb_tunnel_alloc_dma(NULL, src_port, 8, 8, dst_port, 8, 8);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel);
++	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DMA);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, src_port);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->dst_port, dst_port);
++	KUNIT_ASSERT_EQ(test, tunnel->npaths, 2);
++	/* Path from the second host to the first one */
++	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 1);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, dst_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[0]->hops[0].in_hop_index, 8);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].out_port, src_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[0]->hops[0].next_hop_index, 8);
++	KUNIT_EXPECT_TRUE(test, tunnel->paths[0]->hops[0].ingress_fc_enable);
++	KUNIT_EXPECT_TRUE(test, tunnel->paths[0]->hops[0].egress_fc_enable);
++	/* Path from the first host to the second one */
++	KUNIT_ASSERT_EQ(test, tunnel->paths[1]->path_length, 1);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[1]->hops[0].in_port, src_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[1]->hops[0].in_hop_index, 8);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[1]->hops[0].out_port, dst_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[1]->hops[0].next_hop_index, 8);
++	KUNIT_EXPECT_TRUE(test, tunnel->paths[1]->hops[0].ingress_fc_enable);
++	KUNIT_EXPECT_TRUE(test, tunnel->paths[1]->hops[0].egress_fc_enable);
 +
-+but that copies every frame through the memory of ``host2`` and needs
-+another process for the other direction.
++	tb_tunnel_put(tunnel);
++}
 +
-+With coupling the frames go through a tunnel directly between ``host1``
-+and ``host3`` through the shortest path so there is no need for a
-+separate application that copies the frames. Coupling only works with
-+the software connection manager as ``host2``.
++static void tb_test_tunnel_dma_lane2lane_one_way(struct kunit *test)
++{
++	struct tb_port *src_port, *dst_port;
++	struct tb_tunnel *tunnel;
++	struct tb_switch *host;
 +
-+Start from ``host2``, where ``host1`` is ``0-1.0`` and ``host3`` is
-+``0-3.0``. The coupling is created under ``coupling`` in a directory
-+named after the two services, and it has a sub-directory for each of
-+them::
++	/*
++	 * Create uni-directional DMA tunnels between two hosts that are
++	 * connected to lane adapters 1 and 3 of this host.
++	 *
++	 *   [Host 2]                     [Host 3]
++	 * ............ Domain border ............
++	 *      |                             |
++	 *    1 v In HopID 8 -> Out HopID 8   v 3
++	 *              [Host 1]
++	 */
++	host = alloc_host(test);
++	src_port = &host->ports[1];
++	dst_port = &host->ports[3];
 +
-+  host2 # cd /sys/kernel/config/thunderbolt/stream/coupling
-+  host2 # mkdir -p 0-1.0_0-3.0/data
-+  host2 # cd 0-1.0_0-3.0/data
-+  host2 # echo -1 > 0-1.0/in_hopid
-+  host2 # echo -1 > 0-1.0/out_hopid
-+  host2 # echo -1 > 0-3.0/in_hopid
-+  host2 # echo -1 > 0-3.0/out_hopid
++	tunnel = tb_tunnel_alloc_dma(NULL, src_port, 8, -1, dst_port, -1, 8);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel);
++	KUNIT_ASSERT_EQ(test, tunnel->npaths, 1);
++	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 1);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, src_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[0]->hops[0].in_hop_index, 8);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].out_port, dst_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[0]->hops[0].next_hop_index, 8);
 +
-+Like elsewhere in the driver ``in_hopid`` is the HopID the host on that
-+side sends with and ``out_hopid`` the one used when sending towards it.
-+Using ``-1`` picks the next available one::
++	tb_tunnel_put(tunnel);
 +
-+  host2 # grep -H . 0-1.0/*_hopid 0-3.0/*_hopid
-+  0-1.0/in_hopid:8
-+  0-1.0/out_hopid:8
-+  0-3.0/in_hopid:8
-+  0-3.0/out_hopid:8
++	/* Now the other way around */
++	tunnel = tb_tunnel_alloc_dma(NULL, src_port, -1, 8, dst_port, 8, -1);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel);
++	KUNIT_ASSERT_EQ(test, tunnel->npaths, 1);
++	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 1);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, dst_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[0]->hops[0].in_hop_index, 8);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].out_port, src_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[0]->hops[0].next_hop_index, 8);
 +
-+HopIDs are allocated per adapter and per direction, so each adapter has
-+one for the packets coming in and another for the ones going out (more
-+details can be found from USB4 spec). In the above example there were no
-+other tunnels through the lane adapters so the first available HopID in
-+either direction is ``8``.
++	tb_tunnel_put(tunnel);
++}
 +
-+Each host announces its streams to the other side of the link which
-+allows performing auto-configuration on that side using the same name
-+for the stream.
++static void tb_test_tunnel_dma_lane2lane_chain(struct kunit *test)
++{
++	struct tb_port *src_port, *dst_port;
++	struct tb_switch *host, *dev;
++	struct tb_tunnel *tunnel;
 +
-+Now ``host1`` and ``host3`` only need the stream created because the
-+HopIDs are picked up from what ``host2`` announces, reversed so that the
-+``in_hopid`` of one end matches the ``out_hopid`` of the other::
++	/*
++	 * Create DMA tunnel between a host connected to lane adapter 1 of
++	 * this host and another one that is behind a device router.
++	 *
++	 *   [Host 2]
++	 * ............ Domain border
++	 *      |
++	 *    1 | In and Out HopID 8
++	 *  [Host 1]
++	 *      3 \
++	 *        1 \
++	 *      [Device #1]
++	 *          3 | In and Out HopID 8
++	 *            v
++	 * ............ Domain border
++	 *            |
++	 *         [Host 3]
++	 */
++	host = alloc_host(test);
++	dev = alloc_dev_default(test, host, 0x3, true);
 +
-+  host1 # cd /sys/kernel/config/thunderbolt/stream
-+  host1 # mkdir -p 0-1.0/data
++	src_port = &host->ports[1];
++	dst_port = &dev->ports[3];
 +
-+  host3 # cd /sys/kernel/config/thunderbolt/stream
-+  host3 # mkdir -p 0-1.0/data
++	tunnel = tb_tunnel_alloc_dma(NULL, src_port, 8, 8, dst_port, 8, 8);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel);
++	KUNIT_ASSERT_EQ(test, tunnel->npaths, 2);
++	/* Path from the second host to the first one */
++	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 2);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, dst_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[0]->hops[0].in_hop_index, 8);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].out_port,
++			    &dev->ports[1]);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[1].in_port,
++			    &host->ports[3]);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[1].out_port, src_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[0]->hops[1].next_hop_index, 8);
++	/* Path from the first host to the second one */
++	KUNIT_ASSERT_EQ(test, tunnel->paths[1]->path_length, 2);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[1]->hops[0].in_port, src_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[1]->hops[0].in_hop_index, 8);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[1]->hops[0].out_port,
++			    &host->ports[3]);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[1]->hops[1].in_port,
++			    &dev->ports[1]);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[1]->hops[1].out_port, dst_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[1]->hops[1].next_hop_index, 8);
 +
-+Note that ``host2`` is ``0-1.0`` for both of them, the service names are
-+relative to the domain of each host. The other way around works just as
-+well: if the streams on ``host1`` and ``host3`` are configured first,
-+creating the two directories on ``host2`` is enough and the HopIDs of
-+both of its sides are picked up from them. It is also possible to
-+configure HopIDs manually.
++	tb_tunnel_put(tunnel);
++}
 +
-+There is no ``/dev/tbstreamX`` node on ``host2`` because the frames do
-+not go through it. Once all four HopIDs are in place and both hosts are
-+connected the tunnel is established and ``host1`` and ``host3`` can talk
-+to each other as if there was a single cable between them. It can be
-+inspected with ``tbtunnels`` from tbtools.
++static void tb_test_tunnel_dma_lane2lane_hub(struct kunit *test)
++{
++	struct tb_port *src_port, *dst_port;
++	struct tb_switch *host, *hub;
++	struct tb_tunnel *tunnel;
 +
-+The tunnel only covers the routers that are actually between the two
-+hosts and it turns at the closest common router of the two, which is not
-+necessarily the one of ``host2``. If both hosts are connected to the
-+same hub below ``host2``::
++	/*
++	 * Create DMA tunnel between two hosts that are both connected to a
++	 * hub below this host. Now the path goes directly from one downstream
++	 * port of the hub to the other one and does not reach this host at
++	 * all.
++	 *
++	 *              [Host 1]
++	 *                  1 |
++	 *                  1 |
++	 *               [Hub #1]
++	 *   3 v In HopID 8 -> Out HopID 8 v 5
++	 *   3 ^ Out HopID 8 <- In HopID 8 ^ 5
++	 * ............ Domain border ............
++	 *     |                              |
++	 *  [Host 2]                      [Host 3]
++	 */
++	host = alloc_host(test);
++	hub = alloc_dev_default(test, host, 0x1, true);
 +
-+              [host2]
-+                 |
-+               [Hub]
-+              /     \
-+        [host1]     [host3]
++	src_port = &hub->ports[3];
++	dst_port = &hub->ports[5];
 +
-+then the tunnel goes only through the hub, not involving the host router
-+on ``host2`` at all. ``host2`` still needs to set it up because it
-+is the connection manager of that domain.
++	tunnel = tb_tunnel_alloc_dma(NULL, src_port, 8, 8, dst_port, 8, 8);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel);
++	KUNIT_ASSERT_EQ(test, tunnel->npaths, 2);
++	/* Path from the second host to the first one */
++	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 1);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, dst_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[0]->hops[0].in_hop_index, 8);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].out_port, src_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[0]->hops[0].next_hop_index, 8);
++	/* Path from the first host to the second one */
++	KUNIT_ASSERT_EQ(test, tunnel->paths[1]->path_length, 1);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[1]->hops[0].in_port, src_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[1]->hops[0].in_hop_index, 8);
++	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[1]->hops[0].out_port, dst_port);
++	KUNIT_EXPECT_EQ(test, tunnel->paths[1]->hops[0].next_hop_index, 8);
 +
-+After this the ``/dev/tbstreamX`` on ``host1`` and ``host3`` can be used
-+like a regular stream described in the previous section, with the
-+difference explained below. The hosts ``host1`` and ``host3`` do not
-+need to support coupling themselves and can be even using firmware
-+connection manager.
++	tb_tunnel_put(tunnel);
++}
 +
-+Each hop of a path keeps track of the credits it has sent and received,
-+and this state is only reset when the path is set up (see the USB4 spec
-+for details). For a coupled stream the path is split between three
-+hosts: ``host1`` and ``host3`` set up their part when the stream is
-+opened and tear it down when it is closed, while the part ``host2`` set
-+up stays in place. It is therefore recommended that the whole tunnel is
-+torn down and recreated before a new transfer takes place::
++static void tb_test_tunnel_dma_lane2lane_match(struct kunit *test)
++{
++	struct tb_port *src_port, *dst_port, *nhi;
++	struct tb_tunnel *tunnel;
++	struct tb_switch *host;
 +
-+  host2 # cd /sys/kernel/config/thunderbolt/stream/coupling
-+  host2 # rmdir 0-1.0_0-3.0/data
-+  host2 # mkdir 0-1.0_0-3.0/data
++	host = alloc_host(test);
++	nhi = &host->ports[7];
++	src_port = &host->ports[1];
++	dst_port = &host->ports[3];
 +
-+This assumes both sides announce their HopIDs so the coupling can be
-+re-created based on those. Otherwise HopIDs need to be filled in as
-+well.
++	/*
++	 * Use a different HopID for each end and direction, which is what
++	 * happens when there are already other tunnels going through, so
++	 * that mixing them up gets caught below.
++	 */
++	tunnel = tb_tunnel_alloc_dma(NULL, src_port, 8, 9, dst_port, 10, 11);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel);
 +
-+The coupling stays until it is removed as below::
++#define MATCH(src, src_in, src_out, dst, dst_in, dst_out) \
++	tb_tunnel_match_dma(tunnel, src, src_in, src_out, dst, dst_in, dst_out)
 +
-+  host2 # cd /sys/kernel/config/thunderbolt/stream/coupling
-+  host2 # rmdir -p 0-1.0_0-3.0/data
++	KUNIT_EXPECT_TRUE(test, MATCH(src_port, 8, 9, dst_port, 10, 11));
++	KUNIT_EXPECT_TRUE(test, MATCH(src_port, 8, -1, NULL, -1, -1));
++	KUNIT_EXPECT_TRUE(test, MATCH(dst_port, 10, -1, NULL, -1, -1));
++	KUNIT_EXPECT_TRUE(test, MATCH(src_port, -1, -1, dst_port, -1, -1));
++	/* The HopIDs of the two ends cannot be mixed up */
++	KUNIT_EXPECT_FALSE(test, MATCH(src_port, 10, 11, dst_port, 8, 9));
++	KUNIT_EXPECT_FALSE(test, MATCH(src_port, 9, -1, NULL, -1, -1));
++	KUNIT_EXPECT_FALSE(test, MATCH(dst_port, -1, 10, NULL, -1, -1));
++	/* Neither end is at the host interface */
++	KUNIT_EXPECT_FALSE(test, MATCH(nhi, -1, -1, NULL, -1, -1));
 +
- Forcing power
- -------------
- Many OEMs include a method that can be used to force the power of a
++	tb_tunnel_put(tunnel);
++
++#undef MATCH
++}
++
+ static void tb_test_credit_alloc_legacy_not_bonded(struct kunit *test)
+ {
+ 	struct tb_switch *host, *dev;
+@@ -3382,6 +3615,174 @@ static void tb_test_credit_alloc_shared_hop(struct kunit *test)
+ 	usb4_switch_free_credit_pools(host);
+ }
+ 
++/* Same as what tb_port_configure_xdomain() does for the credit pools */
++static void tb_test_connect_xdomain(struct kunit *test, struct tb_port *port)
++{
++	port->xdomain = kunit_kzalloc(test, sizeof(*port->xdomain), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, port->xdomain);
++	usb4_port_update_credit_pools(port);
++}
++
++static unsigned int tb_test_dma_credits_used(const struct tb_port *port)
++{
++	return usb4_credit_pool_used(&port->credit_pool[USB4_CREDIT_POOL_COMMON]);
++}
++
++static void tb_test_credit_alloc_dma_lane2lane(struct kunit *test)
++{
++	struct tb_port *src_port, *dst_port;
++	struct tb_switch *host, *dev;
++	struct tb_tunnel *tunnel;
++	struct tb_path *path;
++
++	host = alloc_host_usb4(test);
++	dev = alloc_dev_usb4(test, host, 0x3, true);
++
++	KUNIT_ASSERT_EQ(test, usb4_switch_alloc_credit_pools(host), 0);
++	KUNIT_ASSERT_EQ(test, usb4_switch_alloc_credit_pools(dev), 0);
++
++	src_port = &host->ports[1];
++	dst_port = &dev->ports[3];
++
++	tb_test_connect_xdomain(test, src_port);
++	tb_test_connect_xdomain(test, dst_port);
++
++	tunnel = tb_tunnel_alloc_dma(NULL, src_port, 8, 8, dst_port, 8, 8);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel);
++	KUNIT_ASSERT_EQ(test, tunnel->npaths, (size_t)2);
++
++	/*
++	 * Both directions are treated the same way. The first hop is the
++	 * lane adapter facing the remote host so all its buffers are
++	 * available for DMA, the rest are allocated from the intermediate
++	 * hops. Both paths end to a lane adapter so flow control is
++	 * enabled on egress of every hop.
++	 */
++	path = tunnel->paths[0];
++	KUNIT_ASSERT_EQ(test, path->path_length, 2);
++	tb_test_check_path_fc(test, path, true);
++	KUNIT_EXPECT_EQ(test, path->hops[0].nfc_credits, 0U);
++	KUNIT_EXPECT_EQ(test, path->hops[0].initial_credits, 14U);
++	KUNIT_EXPECT_EQ(test, path->hops[1].nfc_credits, 0U);
++	KUNIT_EXPECT_EQ(test, path->hops[1].initial_credits, 14U);
++
++	path = tunnel->paths[1];
++	KUNIT_ASSERT_EQ(test, path->path_length, 2);
++	tb_test_check_path_fc(test, path, true);
++	KUNIT_EXPECT_EQ(test, path->hops[0].nfc_credits, 0U);
++	KUNIT_EXPECT_EQ(test, path->hops[0].initial_credits, 14U);
++	KUNIT_EXPECT_EQ(test, path->hops[1].nfc_credits, 0U);
++	KUNIT_EXPECT_EQ(test, path->hops[1].initial_credits, 14U);
++
++	tb_tunnel_put(tunnel);
++
++	usb4_switch_free_credit_pools(dev);
++	usb4_switch_free_credit_pools(host);
++}
++
++static void tb_test_credit_alloc_dma_lane2lane_multiple(struct kunit *test)
++{
++	struct tb_tunnel *tunnel1, *tunnel2, *tunnel3, *tunnel4, *tunnel5;
++	struct tb_port *src_port, *dst_port;
++	struct tb_tunnel *tunnel6;
++	struct tb_switch *host;
++	struct tb_path *path;
++
++	host = alloc_host_usb4(test);
++
++	KUNIT_ASSERT_EQ(test, usb4_switch_alloc_credit_pools(host), 0);
++
++	src_port = &host->ports[1];
++	dst_port = &host->ports[3];
++
++	tb_test_connect_xdomain(test, src_port);
++	tb_test_connect_xdomain(test, dst_port);
++
++	/*
++	 * Couple the two hosts connected to lane adapters 1 and 3 several
++	 * times, each coupling using different HopIDs.
++	 *
++	 * Neither lane adapter tunnels other protocols so all their
++	 * buffers except the ones reserved for control traffic stay in
++	 * the common pool:
++	 *
++	 *   60 - 2 = 58
++	 *
++	 * Each coupling takes 14 of those from both adapters, so the first
++	 * four get what they asked for, the fifth gets the remaining 2 and
++	 * after that we run out of buffers.
++	 */
++	tunnel1 = tb_tunnel_alloc_dma(NULL, src_port, 8, 8, dst_port, 8, 8);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel1);
++	KUNIT_ASSERT_EQ(test, tunnel1->npaths, (size_t)2);
++
++	path = tunnel1->paths[0];
++	KUNIT_ASSERT_EQ(test, path->path_length, 1);
++	KUNIT_EXPECT_EQ(test, path->hops[0].nfc_credits, 0U);
++	KUNIT_EXPECT_EQ(test, path->hops[0].initial_credits, 14U);
++
++	path = tunnel1->paths[1];
++	KUNIT_ASSERT_EQ(test, path->path_length, 1);
++	KUNIT_EXPECT_EQ(test, path->hops[0].nfc_credits, 0U);
++	KUNIT_EXPECT_EQ(test, path->hops[0].initial_credits, 14U);
++
++	tunnel2 = tb_tunnel_alloc_dma(NULL, src_port, 9, 9, dst_port, 9, 9);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel2);
++	tunnel3 = tb_tunnel_alloc_dma(NULL, src_port, 10, 10, dst_port, 10, 10);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel3);
++	tunnel4 = tb_tunnel_alloc_dma(NULL, src_port, 11, 11, dst_port, 11, 11);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel4);
++
++	path = tunnel4->paths[0];
++	KUNIT_EXPECT_EQ(test, path->hops[0].initial_credits, 14U);
++	path = tunnel4->paths[1];
++	KUNIT_EXPECT_EQ(test, path->hops[0].initial_credits, 14U);
++
++	/* Both adapters have now handed out 4 * 14 = 56 of their 58 */
++	KUNIT_EXPECT_EQ(test, tb_test_dma_credits_used(src_port), 56U);
++	KUNIT_EXPECT_EQ(test, tb_test_dma_credits_used(dst_port), 56U);
++
++	/* The fifth one has to make do with what is left */
++	tunnel5 = tb_tunnel_alloc_dma(NULL, src_port, 12, 12, dst_port, 12, 12);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel5);
++
++	path = tunnel5->paths[0];
++	KUNIT_EXPECT_EQ(test, path->hops[0].initial_credits, 2U);
++	path = tunnel5->paths[1];
++	KUNIT_EXPECT_EQ(test, path->hops[0].initial_credits, 2U);
++
++	KUNIT_EXPECT_EQ(test, tb_test_dma_credits_used(src_port), 58U);
++	KUNIT_EXPECT_EQ(test, tb_test_dma_credits_used(dst_port), 58U);
++
++	/* And the sixth one no longer fits */
++	tunnel6 = tb_tunnel_alloc_dma(NULL, src_port, 13, 13, dst_port, 13, 13);
++	KUNIT_ASSERT_NULL(test, tunnel6);
++
++	/* Releasing the first one makes room for another */
++	tb_tunnel_put(tunnel1);
++	KUNIT_EXPECT_EQ(test, tb_test_dma_credits_used(src_port), 44U);
++	KUNIT_EXPECT_EQ(test, tb_test_dma_credits_used(dst_port), 44U);
++
++	tunnel1 = tb_tunnel_alloc_dma(NULL, src_port, 13, 13, dst_port, 13, 13);
++	KUNIT_ASSERT_NOT_NULL(test, tunnel1);
++
++	path = tunnel1->paths[0];
++	KUNIT_EXPECT_EQ(test, path->hops[0].initial_credits, 14U);
++	path = tunnel1->paths[1];
++	KUNIT_EXPECT_EQ(test, path->hops[0].initial_credits, 14U);
++
++	tb_tunnel_put(tunnel5);
++	tb_tunnel_put(tunnel4);
++	tb_tunnel_put(tunnel3);
++	tb_tunnel_put(tunnel2);
++	tb_tunnel_put(tunnel1);
++
++	KUNIT_EXPECT_EQ(test, tb_test_dma_credits_used(src_port), 0U);
++	KUNIT_EXPECT_EQ(test, tb_test_dma_credits_used(dst_port), 0U);
++
++	usb4_switch_free_credit_pools(host);
++}
++
+ static struct tb_tunnel *TB_TEST_PCIE_TUNNEL(struct kunit *test,
+ 			struct tb_switch *host, struct tb_switch *dev)
+ {
+@@ -4147,6 +4548,11 @@ static struct kunit_case tb_test_cases[] = {
+ 	KUNIT_CASE(tb_test_tunnel_dma_tx),
+ 	KUNIT_CASE(tb_test_tunnel_dma_chain),
+ 	KUNIT_CASE(tb_test_tunnel_dma_match),
++	KUNIT_CASE(tb_test_tunnel_dma_lane2lane),
++	KUNIT_CASE(tb_test_tunnel_dma_lane2lane_one_way),
++	KUNIT_CASE(tb_test_tunnel_dma_lane2lane_chain),
++	KUNIT_CASE(tb_test_tunnel_dma_lane2lane_hub),
++	KUNIT_CASE(tb_test_tunnel_dma_lane2lane_match),
+ 	KUNIT_CASE(tb_test_credit_alloc_legacy_not_bonded),
+ 	KUNIT_CASE(tb_test_credit_alloc_legacy_bonded),
+ 	KUNIT_CASE(tb_test_credit_alloc_pcie),
+@@ -4166,6 +4572,8 @@ static struct kunit_case tb_test_cases[] = {
+ 	KUNIT_CASE(tb_test_credit_alloc_dma_shared_mixed),
+ 	KUNIT_CASE(tb_test_credit_alloc_dma_shared_no_credit_allocation),
+ 	KUNIT_CASE(tb_test_credit_alloc_shared_hop),
++	KUNIT_CASE(tb_test_credit_alloc_dma_lane2lane),
++	KUNIT_CASE(tb_test_credit_alloc_dma_lane2lane_multiple),
+ 	KUNIT_CASE(tb_test_credit_alloc_all),
+ 	KUNIT_CASE(tb_test_property_parse),
+ 	KUNIT_CASE(tb_test_property_format),
 -- 
 2.50.1
 
