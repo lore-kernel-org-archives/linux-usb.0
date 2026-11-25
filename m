@@ -1,73 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795603552;
-	b=OelTlQZ+CehFQeulfRKtRCP+O5YM/LFcOx6/ydAg4ibE5bkkKhzXnD+8uVxsi4/s1BQz
-	 31g5IAPwG4mHDf1SzMkeDtmQ3CqnMjwJLM2CcAN49oBb45p+aLITtc9Kxc1zYlLipgFRW
-	 EDvHaNRlwYvktJRWrCHf4xumttdcaf5ISbzd+rzHcneuFP1KH/3F4vYVQAv7OGqEvWonP
-	 bPoNIADSuxK87QhrIuYEbBbD2tVhqAmCud73chHSM8XbXr3uUkpKo74dttEsGQFmZZRDf
-	 SBVIyMOk/DejcxguvJvZoXyH8HGIlRaUFunYB6Ze/LNFdgO2sTBYImLvHiML2MKW8Ow==
+	t=1795604230;
+	b=RPJP0w6sj3vZcAt6LsVXgjEdzHr0p3B2woMeJAt0zLrAECSKWHMWuqQfznXP9Eed0Z69
+	 HYeLRpiP5l9Po+o6C7IRcTl1pXszdae6Eh6L8pWwRoudsXm4zm3wAyilNtIxk9hL5uJau
+	 AcfTbakFbI+8s6uxFwxtPxVnWu0hvXqmFhfHsGbT9Qowk7yCRo4MgrQVWPSlW6+OvmqcT
+	 4U8P9LqycDV6753ge3zPWKLdS/B4+MrSi3B5Ocl/Kt0UgwjVSqBAN6+Q8dsSgimZoAVqr
+	 Y0/qGwGviCKmBq0/l2c8qWSPzfXkv5m8qRYjyZrs7r1cwc0LbiiPML2iu9Dnz6z5hOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795603552;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=QQjQubvQFFHnJUgRkwgbTGwoMN0jKJkvyPs+yNp3Jik=;
-	b=Id7jVwuI5Wvb3VIKmgoErWXJfx1/fMkAN4wkwMqJNlKeuBfqY+tazXC34k4Q+3TIFx76
-	 jD5HRutgeKmLj0YgRRdlfWyw7yLjQ/fjFijeexGuKFLKl9QiOsgEocEXIBDi4LjW5UBas
-	 doerJA2TelwIQ9dgMJnU+McmSRwGq7iI9Zgv2w+Y3qWV4HpKfSgerTwHucEJ7tcgrr793
-	 eN95jDXVMKB6AG9uS3sGEimJ+l9rkDiggdcw8npUVaT2mNLgMc1iUQB1yLDv+7c+PUFYk
-	 I0bzrhHD1Dx/H/GzqX3eZ1vHoz86rMyNxEsDR4kbDAENmBD7gRmeu+he/tZW+mLo6YA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795604230;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=PWiFRPl03d923DsfM52Y5JXih19mCZ5IC2FJIGyjGiQ=;
+	b=rx3p3f0r4ukyKaqp3Qz8xjxd0qdWKIvgAMpp1hAlbNHOUsb00/UHSkCZLX2AW806EjEs
+	 KDFI6T4etZFFuxQSujFXryZxtHsAtl0QAQBtfGzwIoGvAad6UnmOffgdb/kmOqRxfkCZR
+	 z0LoYqIgVvhH1hpZ+0aKxHWJGj3IgZXa92Mv+Sd8w4PGWQ4/lSLkq2fa5zYgtNuVU4XxP
+	 TK6lCUlWUUxoj+jaw96uaalpoYuF3P0xwe+RGJR2bPX49gPhzYxGPB/OAerttK6r/Q9WJ
+	 cDnk6I+M6bvPMcJ6RhCqBy4yZQSNpC38hcX1Yhfd3w+504sPJSC8x9l1vlYcI3VxE1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MU7aHHPH;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=khCSdhBr;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021A3606A31E
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 10:45:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 021A3606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A35A606A321
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 10:57:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MU7aHHPH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795603552; x=1827139552;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/Zl14jTs48GbmUfs4SVi937G00kwaPE8YL/N+lsNR3I=;
-  b=MU7aHHPHlJT96s2qShBNs3pvSXmQrtgALWGQQvkjhfSMxGPT9/D9IIF3
-   p0JAn0i3Y+6iVDYxNMHkxdNLOWDvbMbvG6Gl06OVPAM8eICAsNACK+pWf
-   Y9eKe19kBPeSSs0ncHhDclrAgxPve1kKAScCRkzuM/aDnIHitKHvdOvx9
-   O1ejjBqh30K/T+msauNplTFgFAfIVjtXuNxT6uC3eP0Z/GrowIZu+2zQp
-   XsukDA3BPUVXjCT3Z0mWuehjE574tgi+o102t+uI9AC4e2tH6cT4MC42x
-   DdDfkuGek4VIn0Uj+ISl31kZv/JHntoKAvdwLSkrVWiU3SqOnTPrDe3xW
-   A==;
-X-CSE-ConnectionGUID: 7t4uQgGzSSWO0uU94QA7xw==
-X-CSE-MsgGUID: t6FPh/pSRqOHh+OxgW3hjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4493238"
-X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="4493238"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 02:38:18 -0800
-X-CSE-ConnectionGUID: C4Mx+9TuR6WQnA0O4EQVUA==
-X-CSE-MsgGUID: UbzfRXyGTKiLoyPzFKOjSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="11831620"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 25 Nov 2026 02:38:17 -0800
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sven Peter <sven@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=khCSdhBr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79EDE1F000C0;
+	Wed, 25 Nov 2026 10:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795604229;
+	bh=PWiFRPl03d923DsfM52Y5JXih19mCZ5IC2FJIGyjGiQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=khCSdhBrVPlx2KYRQ6T2z8kpSHaUXEdqS1REObCE/LJA/BxylqbkyYJkpOpAogWV2
+	 MPa4El1h8Qt9USu4TR3N1BRJhWnLZHKlS+TSqJogsSTZS2A6p13f0qiRXOovNqUfAm
+	 2TfqXKA7lRlDE9BXTMvgEq8US4Mq9zIEjfjnAxg32u8NTAI0oQqfZPM3vTwkpIWJLs
+	 XbAS14Ftr5s/RD6CE75gP2h4B0CPOGgZYidDflRGn9YkLspJnNkvCYOo8U0TfT315t
+	 keghhivl3zOaRDb/v8L8UTwEaPeIDW8PeahzTpKsWx82Z6+gefU8iCuyKhzQfiUqyv
+	 210eDPjG83oYg==
+Message-ID: <sashiko-outbox-233177@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 1/3] usb: typec: tcpm: unregister partner altmodes
+ before re-discovery
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Neil Armstrong" <neil.armstrong@linaro.org>
 Cc: linux-usb@vger.kernel.org
-Subject: [PATCH] MAINTAINERS: Add entry for the TI USB PD controller driver
-Date: Wed, 25 Nov 2026 11:38:15 +0100
-Message-ID: <20261125103815.299916-1-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20261125-topic-tcpm-core-fixes-v2-1-aede2a3471f4@linaro.org>
+References: <20261125-topic-tcpm-core-fixes-v2-0-aede2a3471f4@linaro.org>
+ <20261125-topic-tcpm-core-fixes-v2-1-aede2a3471f4@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2026 10:57:09 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -76,34 +60,92 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Sven kindly agreed to keep an eye on this driver.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [High] usb: typec: tcpm: plug_prime_altmode leak and UAF in
+  svdm_consume_identity()
+--
 
-Cc: Sven Peter <sven@kernel.org>
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+commit e6d007de8d361cfdd76de81da17f0dc6714fe900
+Author: Neil Armstrong <neil.armstrong@linaro.org>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dc38c6dd02768..b6ac6635f67b8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -28058,6 +28058,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/leds/ti,tps61310.yaml
- F:	drivers/leds/flash/leds-tps6131x.c
- 
-+TEXAS INSTRUMENTS TPS6598X USB POWER DELIVERY CONTROLLER DRIVER
-+M:	Sven Peter <sven@kernel.org>
-+L:	linux-usb@vger.kernel.org
-+S:	Maintained
-+F:	drivers/usb/typec/tipd/
-+
- TEXAS INSTRUMENTS' DAC7612 DAC DRIVER
- M:	Ricardo Ribalda <ribalda@kernel.org>
- L:	linux-iio@vger.kernel.org
--- 
-2.50.1
+usb: typec: tcpm: unregister partner altmodes before re-discovery
 
+This commit adds a helper to unregister partner alternate modes before
+svdm_consume_identity() clears port->mode_data, and reuses it in
+tcpm_unregister_altmodes().
+
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index ca38e05f831a7..20e18bca649eb 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -2068,6 +2068,17 @@ static int tcpm_queue_vdm_unlocked(struct tcpm_por=
+t *port, const u32 header,
+>  	return ret;
+>  }
+> =20
+> +static void tcpm_unregister_partner_altmodes(struct tcpm_port *port)
+> +{
+> +	struct pd_mode_data *modep =3D &port->mode_data;
+> +	int i;
+> +
+> +	for (i =3D 0; i < modep->altmodes && i < ALTMODE_DISCOVERY_MAX; i++) {
+> +		typec_unregister_altmode(port->partner_altmode[i]);
+> +		port->partner_altmode[i] =3D NULL;
+> +	}
+> +}
+> +
+>  static void svdm_consume_identity(struct tcpm_port *port, const u32 *p, =
+int cnt)
+>  {
+>  	u32 vdo =3D p[VDO_INDEX_IDH];
+> @@ -2076,6 +2087,7 @@ static void svdm_consume_identity(struct tcpm_port =
+*port, const u32 *p, int cnt)
+>  	if (cnt <=3D VDO_INDEX_PRODUCT)
+>  		return;
+> =20
+> +	tcpm_unregister_partner_altmodes(port);
+>  	memset(&port->mode_data, 0, sizeof(port->mode_data));
+
+[Severity: High]
+Should svdm_consume_identity() call tcpm_unregister_altmodes(port) instead
+so that port->plug_prime_altmode[] and port->mode_data_prime are also
+cleaned up before re-discovery?
+
+When tcpm_cable_vdm_supported(port) is true, partner altmode drivers such
+as dp_altmode_probe() allocate their private state with
+devm_kzalloc_obj(&alt->dev, *dp) on the partner altmode device and attach
+it to the plug altmode via typec_altmode_set_drvdata(plug, dp) and
+plug->cable_ops.  Unregistering only port->partner_altmode[] frees that
+devm state while leaving port->plug_prime_altmode[] registered and
+reachable through typec_cable_altmode_vdm(), causing a use-after-free.
+
+Once SOP Discover Modes finishes, tcpm_handle_discover_mode() also chains
+into SOP' CMD_DISCOVER_SVID and CMD_DISCOVER_MODES whenever
+tcpm_cable_vdm_supported(port) is true:
+
+drivers/usb/typec/tcpm/tcpm.c:tcpm_handle_discover_mode() {
+	...
+		if (tcpm_cable_vdm_supported(port)) {
+			*response_tx_sop_type =3D TCPC_TX_SOP_PRIME;
+			response[0] =3D VDO(USB_SID_PD, 1,
+					  typec_get_cable_svdm_version(typec),
+					  CMD_DISCOVER_SVID);
+			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_PARTNER_MODES);
+			return 1;
+		}
+	...
+		tcpm_register_plug_altmodes(port);
+		tcpm_register_partner_altmodes(port);
+	...
+}
+
+Because port->mode_data_prime was not zeroed and
+port->plug_prime_altmode[] was not unregistered, SOP' discovery appends to
+stale mode_data_prime counts and tcpm_register_plug_altmodes() overwrites
+port->plug_prime_altmode[], leaking the previous plug altmode devices.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125-topic-tcpm=
+-core-fixes-v2-0-aede2a3471f4@linaro.org?part=3D1
