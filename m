@@ -1,93 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.202.193.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795622064;
-	b=D8fJHufCm+sEm8v2Ue7llntMqWIgPSztp01VKlypmSWnhPjV5AkPCVxWcZHr3W3gLbg3
-	 82PRzIUoMUagYF79gLw7NWGn/f/ztroePkz55s5ZoY+wbFmrF9wFjntnkCBCZWn1gb3gX
-	 BSCOyDZQYNS7ENwgvEPRW9M/70Xerb+NpVHUs1IK2B9XwxyNtPbyds521peIeQf2Bhtlc
-	 3/bKuu6yU8rH/nwh+uwJLCd0HW3VSXqMLaxN2zP5IFbqp/IeaTp1r2XGI/bo1hGOF9w7V
-	 PWddAhEKv3kaRZakO6w0rYxW9Nl1R1qP0WeMt9KTGznQswAhJqQeeH8HewcdcyuNyzg==
+	t=1795622156;
+	b=xk5/b/iEN8nWtita9e1Ium3V2iVxtmpCXFuXI8pdBDeh8lpVjspgKpqkHiJHkOGeOjFz
+	 4pDlmlDEtprI1dWKdELU1E38tSsiC/9UCiHRxI3c/9Eiy2COfRSdkHT/XObpik07Bd7Ue
+	 3ZXS6p2yw5UZ2716fnRLWF+qVEnWGtqpRdAEgSdzK0jN5jyrODYEUueT8mPeat74Fgi/z
+	 6Agd1aNCslX/JRrefvSzpYEs+KL5zOjmlqQRGqT+rzr5HhQM/M9/DrwYFGrxs4h+rpPw1
+	 NbVPeROvOCJ1wkSDfXa1PjovNGi17Z51Ir6yWvXNUjkMERda+nq8rCQlAUHaVazkeXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795622064;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=3FlJZ/CAWurtSaOLBMEz6RZ4/h9sq0M8KRdP3OxNTL4=;
-	b=2IcihRC6RWMFnJMIVd6WKPQ5G5eWryC7TgpM60o3J1UghEhKjGFjye5Rifp6jB7Ng0KX
-	 MNphWqt6EIH7ICrNKt/um4H0KP9Pbiwb13AJDgKVMGgd/PZhT3u6K6J8TGPrgdiMYIHxI
-	 B8aieAUYXB9QeSujKC3wzVYe9IV84bVfjyAvbBwdCphJNARFOEcPKlRPh8KtaTQnwaJ74
-	 YC7mSmLTsqEisRh4MOvR9LgwTQ/xQFignvmHs4UWR6VL1/jYoOT0QeTINlIPl8SITaUaN
-	 wty18e0ZpXi6Wr++rcCzjYOq888ECo9JdhqTRpHAS1klnNO7QctGpfZ59J1ULqWWcAg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795622156;
+	h=DMARC-Filter:DKIM-Signature:Feedback-ID:X-Pm-Original-To:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=2TWoWAsm1Apa3orL/Yt0L4YfqkBPFNcm/0g6RUQ3LYQ=;
+	b=AA7pKkSQKpNjKqvas8cbvsG4qiaqqfPb7Z0b8Brs+z01MQ/chK5krMsS5pHrHj1Oq5Vs
+	 0XGhGKnFvTPfP2P5wbcda3PZcc/h1PyXbW7jPHgeCzTxxNzfFAgSJ0/htIvgFDyxWhGGZ
+	 pT81o+b5CvOEsQB24j+VoDf2s/WNP403H9loPF+5Wz03M7lnlqHMQV9d4fh8Zp+5BvT20
+	 gJc4pgdecrwBrnAT3G+fzMBy6bmQDoZqe3g40y3RxRSTerzQCKxEiaRQKX890//vonNGz
+	 FVSUiffdrgfT7XTr5tfqW06O0x/yGGvlK61dq24Yin1hnOV/fjszJcrOi2ouxjPTkiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hDk78Ybo;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=mentallysanemainliners.org;
+	spf=pass smtp.mailfrom=mentallysanemainliners.org;
+	dkim=pass header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail2 header.b=gU46oP6B;
+	arc=none smtp.remote-ip=34.202.193.197
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDA5606A336;
-	Wed, 25 Nov 2026 15:54:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFDA5606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6047A606A32E
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 15:55:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6047A606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mentallysanemainliners.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mentallysanemainliners.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hDk78Ybo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795622064; x=1827158064;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=hjSr7SgRgTbE6i2Ru3XkpgPQfpXJyuH/UfVwCd63LqI=;
-  b=hDk78YboAlJrTCqen6UVAlItKVyKJAhOQCxbDDokc5w+6o3lJZAix+fG
-   x7ubLVvpOiZ6jtcsNBCLefbsztk9t2ZKCM5hzI2JUwlLDqJa8ZVgmFlid
-   OedPDu+slpWq4bYNOp2YtFU9SKZA4V/pGedAXxGR5XHvDONUbzpMyzoUd
-   1g+WTJCI3fvB7oYec8VirW2oN30uXXS/KnnekCxuHu+BW1YA30CmBQZjF
-   a+FkPmVGNKx2J173ZEYY4vSTDGRhHGxdk6j+CPVu+U736qGF/XvKBX4QQ
-   XuhaNt9syV89i3Y5RvQRah2cz95KM0VZHmO9edLMmisNxq7oPSbriTCGI
-   Q==;
-X-CSE-ConnectionGUID: y9tw+EBNQ/6wqbvE3mL0NQ==
-X-CSE-MsgGUID: QsFf+sV1TvSsMhnLbgPxmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4562623"
-X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4562623"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 07:33:04 -0800
-X-CSE-ConnectionGUID: ayMkt3kPQRSYl1gL5vV2Zw==
-X-CSE-MsgGUID: cogWUJDbRDWJN0vYyqCcrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="13698255"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa011.fm.intel.com with ESMTP; 25 Nov 2026 07:33:01 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 3476D98; Wed, 25 Nov 2026 16:33:00 +0100 (CET)
-Date: Wed, 25 Nov 2026 16:33:00 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Tobias Heath <heathtobias@gmail.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Sukhdeep Singh <sukhdeeps@marvell.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] thunderbolt: add opt-in to preserve tunnels across
- s2idle
-Message-ID: <20261125153300.GI191152@black.igk.intel.com>
-References: <8fbb5876-e556-45a1-96b5-4a8061de9e5d@gmail.com>
- <31d3413a-9aa0-4208-8e15-3ba85829ef79@gmail.com>
- <20261125132228.GE191152@black.igk.intel.com>
- <a08cb3e1-10a0-4a35-9258-cd510b91985e@gmail.com>
- <20261125143531.GG191152@black.igk.intel.com>
- <8e87af01-02a8-4714-827a-62c5beb6f4e4@gmail.com>
- <20261125145207.GH191152@black.igk.intel.com>
- <d05aa4e7-5c58-4311-a85e-6bfe9c31c62c@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail2 header.b=gU46oP6B
+DKIM-Signature: a=rsa-sha256; b=gU46oP6B9c4ypb6Im7yWc5TxHA9zpsJAykGWLcCYUKNxyioQJFo72y4uY+uWPDrzoGz2sZ2sSqIox7MDXPhmIblfpqZHbyJcF56flo9yb4N7w2lZJd4mMnKzRWlss556gu77NU16hJ8AjeQcTH4cVEUm7Ei7jVUhWQiX38He76YCq7QNcDTbtxoYhCI5nh1xjXVzJ43fgF+6/dg2wn12ln5JKFCLwTgtBb1RvZYWEg+FzHNOLP2NPtPXkLi0Xr0c+Q4NKqTWtglz59bxbndl/VkJ9ZbLBZVFT72tk509S8omYPM5HalNXtpZ2B4eOtGvCJU4RjM2SZZ1aWYQO+BIjQ==; s=purelymail2; d=purelymail.com; v=1; bh=TnfnPC1swyrjuv/n2UWWnJpupbzh/7OS04oP4lB/JOM=; h=Feedback-ID:Received:Message-ID:Date:Subject:To:From;
+Feedback-ID: 68229:10037:null:purelymail
+X-Pm-Original-To: linux-usb@vger.kernel.org
+Authentication-Results: purelymail.com; auth=pass
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -532728891;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Wed, 25 Nov 2026 15:54:27 +0000 (UTC)
+Message-ID: <f7a64060-9e98-422a-ae2a-1eeebf8469e0@mentallysanemainliners.org>
+Date: Wed, 25 Nov 2026 15:54:15 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -97,34 +52,80 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d05aa4e7-5c58-4311-a85e-6bfe9c31c62c@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] Add USB support for Exynos7885 and enable USB and
+ FG on gta3xllte
+To: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, Henri Ommer <henri@ommer.net>,
+ David Virag <virag.david003@gmail.com>
+References: <20261124-gta3xllte-usb-battery-v2-0-80bdcb1753bb@mentallysanemainliners.org>
+Content-Language: en-US
+From: Umer Uddin <umer.uddin@mentallysanemainliners.org>
+In-Reply-To: <20261124-gta3xllte-usb-battery-v2-0-80bdcb1753bb@mentallysanemainliners.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 24/11/2026 17:14, Umer Uddin via B4 Relay wrote:
+> Hi guys, this patch series enables USB and FG on gta3xllte. All is tested.
+>
+> DT changes were tested with make dtbs_check W=1, and the dt styling check
+> scripts with --mode strict flags, both of which returned no warnings.
+>
+> Please note this patch now depends on David Virag's changes for USB[1].
+>
+> Best regards,
+> Umer
+>
+> [1] https://lore.kernel.org/linux-samsung-soc/20261123092244.1792040-1-virag.david003@gmail.com/T/#t
+>
+> Signed-off-by: Umer Uddin <umer.uddin@mentallysanemainliners.org>
+> ---
+> Changes in v2:
+> - Drop patches that are being picked up updated and corrected by David
+> - Link to v1: https://patch.msgid.link/20261119-gta3xllte-usb-battery-v1-0-0cf5f763522e@mentallysanemainliners.org
+>
+> To: Rob Herring <robh@kernel.org>
+> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> To: Conor Dooley <conor+dt@kernel.org>
+> To: Peter Griffin <peter.griffin@linaro.org>
+> To: Alim Akhtar <alim.akhtar@samsung.com>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+>
+> ---
+> Umer Uddin (2):
+>        arm64: dts: exynos: exynos7885-gta3xllte: Enable USB support
+>        arm64: dts: exynos: exynos7885-gta3xllte: Enable FuelGauge support
+>
+>   .../arm64/boot/dts/exynos/exynos7885-gta3xllte.dts | 50 ++++++++++++++++++++++
+>   1 file changed, 50 insertions(+)
+> ---
+> base-commit: 9b369f9debe1253032abb90a9469fe44146835d1
+> change-id: 20261119-gta3xllte-usb-battery-b95e4d89ae85
+>
+> Best regards,
+> --
+> Umer Uddin <umer.uddin@mentallysanemainliners.org>
 
-On Wed, Nov 25, 2026 at 03:16:26PM +0000, Tobias Heath wrote:
-> Mika,
-> 
-> That's clarifying, thank you — I hadn't understood the two-paths
-> distinction. The behaviour I want on lid-close is Path 2 (runtime-idle S0ix
-> / Modern Standby), not Path 1 with the TB fabric preserved. My patch is a
-> workaround that patches Path 1 to behave like Path 2, rather than using Path
-> 2.
-> 
-> On AMD Ryzen AI 9 HX 370, I'll inspect amd_pmc debugfs (I assume the AMD
-> counterpart of pmc_core) to confirm whether runtime S0ix is entered when the
-> system is idle, and whether any particular device is preventing it. If Path
-> 2 can be made to work on this hardware, the TB patch is probably not needed.
-> I'll drop it in that case and keep only the atlantic fix.
+Hi, dependency has changed, it has now changed to David's V3[1], since 
+this patch
 
-Yea, it's not exactly trivial to get all the ingredients right but distros
-typically have all the drivers + firmwares shipped so that may be good
-starting point and just see what is missing (if anything).
+still will apply fine on top of his V3, I am unsure if I need to resend it.
 
-> Would you prefer I withdraw PATCH 1/2 now and respin as a single-patch
-> atlantic submission, or leave the series open while I investigate?
 
-I would leave the TB patch out of it because in that shape it's not
-something I'm comfortably taking as is anyway.
+[1] 
+https://lore.kernel.org/linux-samsung-soc/20261125145458.2594179-1-virag.david003@gmail.com/T/#t
+
