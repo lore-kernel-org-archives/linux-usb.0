@@ -1,61 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795631037;
-	b=WKrk8rtAsseJtwF0u1szjpkBDN9623r2Jnm92I/t4zn1UyX0Fba1sggBI9RZ8vZ1h58L
-	 SKPf7FHciUoPm32rr6pW6EUtRaNkTinlck4pio9YNqiOrnFy/wAubffRvPgyZlXmmpx7b
-	 LjUkhsqpghZTeyRGRcFvLimd6gtc2kBgwfb6aXlbJSWbE5d9ttd0bC9cdYBCLy8qUeHF6
-	 xNgrSu2MMZZ5PPYfFB9JqyKKwvebbpNvihZ3ke6l+0rBV2qPEibQwjq1q/4uDq72NShIQ
-	 VYT1WvK0otYb47NyC5CUsVGnZvmfI8lEvBJSzWMkGTTeWuTEHEUG7n8bM/b1rmvy7aQ==
+	t=1795631953;
+	b=r/bk0EqQ25U0+80Tx9i/74cIFOU5R/SJHPbLfVfFi4j5pt88KwyFmpL+fYsfpFG7FYsQ
+	 BVVEdqjvL7WDSBx70SKYssuaLZKWrBdc3qwT9B2G0OIskDIW0GVRPndECqPm/52Fy+wI6
+	 PsG7eatjFs+i8ubJHKVOZA4M5AmGXxp5OLxNZB8Y8RjVUo4huyHDes22wr9DVEXsdcT8P
+	 /HX/wYm0CWP1Eqenxy7P9YHyEZEfiwZRSQv1mwOynfl9sa+xTzkvxLfB1z1zOnywU4TQ0
+	 lE1Ih2ROlstMdYE1fph7V2k/YT34mlm7+dnhL0PSdduhZfthQ15TV7zAnPJu3x2gdQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795631037;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795631953;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=TB+00NTJ8YI7Y5l9Rr385lbT8RbGXWXYwnFdxTz8nKw=;
-	b=I59hIcAmfQT2VCkE2Y5uT6DqgpXDIbwPK7NWQcavNc4/GFomn1Stkq8vqmlN+QXqraPR
-	 SyBdqPvjpB2wYhdUuEQbfLOORRVNuf2elmwCNAkkJbUhmz1LvL3BbqlQrommPk+cmqh/U
-	 GtkP93b1BYlX0Uv8J9EHEx7OroLFReFTbYkzYAw+BXYqSCF7reOBE/JYLW0OPXNKGpb8q
-	 ucDE1NZmfSj0Ih+B0OdHthkMUf31VJsuVdj4LVMBY5/PQwoUml5q4getI1dHkc4PFbYz7
-	 F34dYOXAINI2UMyyvHi7Ld8OBAuQ3RVMEGvXfL5uJUTxCl9Mu3Ye7QOKJSnO+TyzLoQ==
+	bh=9d3njOaM+jpukQAUMoZ7qHi0GXB4V8UIPA4xMogK59o=;
+	b=odTwPeRPZCK/+7LCbpo66e2zoR6+sxCqQuW0E99yCfM7VG1Q+AotWf9s4XDHuqD0/IE0
+	 69H5u4ruTGQYyIC/G6ba/SBAxeDqAZFYjT82uuohiHJwDo9gjNzF3R4j9a5DjHhVb2xmx
+	 rvUPRWrjaauFReQ0XfgcfPUzqC1Q+oM7UsUpqjsizBaAu3LxmdYHLaKLLY94TFhZhQ/Ix
+	 6TkkjHOMk+pB5hZHmyrEbdmsg5LxRgze14mc46MKTnmQUfKljJ/FwgBbpkSHhoUM9stAJ
+	 nzTTyvqB4RmGfRoaiPswUdvo/zqxRmkpNAAkkYxqjRYJGaR6crECy6SgTiRsn49Zblw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bz8kOoAG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="em17U08/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB51C606A6A4;
-	Wed, 25 Nov 2026 18:23:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2473606A326;
+	Wed, 25 Nov 2026 18:39:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bz8kOoAG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64B201F000D4;
-	Wed, 25 Nov 2026 18:23:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=em17U08/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE13A1F000C4;
+	Wed, 25 Nov 2026 18:39:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795631036;
-	bh=TB+00NTJ8YI7Y5l9Rr385lbT8RbGXWXYwnFdxTz8nKw=;
+	s=k20260515; t=1795631952;
+	bh=9d3njOaM+jpukQAUMoZ7qHi0GXB4V8UIPA4xMogK59o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Bz8kOoAGqPJ/JyMejI8bUJg4uJiVHVqtA0+VIu73mQG8tW0ozRru6pkHQ2ss05KXN
-	 +IKzLMd8AUZ+Ah1rUUBzoUl+tomWn9Ext5Ca8LEIMCZpyphy15ioBlBzaEQvd8q06Q
-	 sxiFlC0lSA81Wg3V8eeX12JoSiygQli3aamGuHW1/OSDahjh3ZTgovFhdGw8wy9fht
-	 zZV4GdLkuwk6pnBJK30JnSYzfHb9T1rDP/qggqM6ZVuz9lxWn9dhgXbc2yVO8+eMU3
-	 GVOykE2LAp4VNWAvUhkK87xbLN2MNsWuNqQ4SXUBSHmGQf6pjWos8Wv6knY/2/8lAi
-	 yIQe5A1j9X9xw==
-Date: Wed, 25 Nov 2026 18:23:52 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthias Kaehlcke <mka@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Anand Moon <linux.amoon@gmail.com>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Han Gao <rabenda.cn@gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: usb: vialab,vl817: use
- unevaluatedProperties
-Message-ID: <20261125-savings-stung-e41cfcdc7842@spud>
-References: <20261124-vl817-uneval-prop-v1-0-137c093fb300@iscas.ac.cn>
- <20261124-vl817-uneval-prop-v1-1-137c093fb300@iscas.ac.cn>
- <20261124-rehab-overlord-9b7f44ee7e0f@spud>
- <f818f0facb3af35e31b8346546c1aa23b10bd529.camel@iscas.ac.cn>
+	b=em17U08/0XXMA2BOtnbDOEQWOm0Hx+v8HJwsVpEY1NTUliqxM9s5IW5VvrSS1HM1t
+	 E7QhSsCM7Zb9HJOkR2/lSMMWGQSnQDx9RglqoBRiOFTkFt2GME/m+zuZaim1U7k+Qd
+	 OXZCK7algOn7ZTfrmstJd6VL4Sn1ABTpNjlWqUY+j+sa1kxqSnCIRqBg5CXy8Se4li
+	 cR101JQq9kiufSiw/izepb0b3gVrw4i2wj6DJakKzIzzGH25XSN0QbESXbH+ZKAC6R
+	 lGUlxhaW1tE53kLR6vyp2gMB/4mTHhN3r/wNqvTAzMGbxfhPDzF6+wjjQtzOGE0hQ6
+	 aoZsF6YXK1ZXg==
+Date: Wed, 25 Nov 2026 20:39:08 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+	dmitry.torokhov@gmail.com
+Subject: Re: [PATCH v4 32/33] USB: Authorize interfaces through device trust
+Message-ID: <20261125183908.GC774860@unreal>
+References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
+ <20261124-device-trust-core-v4-32-037eb0d17b1f@nvidia.com>
+ <sashiko-outbox-233069@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -65,98 +59,44 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vM6FGX+N7kRbpXgy"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f818f0facb3af35e31b8346546c1aa23b10bd529.camel@iscas.ac.cn>
+In-Reply-To: <sashiko-outbox-233069@kernel.org>
 
---vM6FGX+N7kRbpXgy
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Nov 25, 2026 at 09:46:46AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [Medium] usb: core: premature trust commit before
+>   usb_probe_interface() auth check
+> --
+> 
+> commit 505017564cc702a2bd1b592d03460ab7095ffbb2
+> Author: Leon Romanovsky <leon@kernel.org>
+> 
+> USB: Authorize interfaces through device trust
+> 
+> This commit integrates USB interface default denial and authorization with
+> the device trust policy mechanism.
+> 
+> > diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+> > index 1d488111a70fb..80f4d2644023b 100644
+> > --- a/drivers/usb/core/driver.c
+> > +++ b/drivers/usb/core/driver.c
+> > @@ -338,7 +338,7 @@ static int usb_probe_interface(struct device *dev)
+> >  	if (udev->authorized == 0) {
+> >  		dev_info(&intf->dev, "Device is not authorized for usage\n");
+> >  		return error;
+> > -	} else if (intf->authorized == 0) {
+> > +	} else if (!usb_interface_authorized(intf)) {
+> >  		dev_info(&intf->dev, "Interface %d is not authorized for usage\n",
+> >  				intf->altsetting->desc.bInterfaceNumber);
+> >  		return error;
+> 
+> [Severity: Medium]
+> Can probing a deauthorized interface prematurely commit its lifetime trust
+> level before usb_probe_interface() rejects the bind?
 
-On Wed, Nov 25, 2026 at 03:32:10AM +0800, Icenowy Zheng wrote:
-> =E5=9C=A8 2026-11-24=E4=BA=8C=E7=9A=84 18:16 +0000=EF=BC=8CConor Dooley=
-=E5=86=99=E9=81=93=EF=BC=9A
-> > On Tue, Nov 24, 2026 at 04:31:01PM +0800, Icenowy Zheng wrote:
-> > > Currently the VL817 binding has additionalProperties set to false
-> > > instead of unevaluatedProperties, which disallows properties document=
-ed
-> > > in the parent schema.
-> >=20
-> > This is not quite true though, they're permitted if the binding contains
-> > "foo: true" etc - which this one does.
-> >=20
-> > > Change it to unevaluatedProperties, which is the better practice for
-> > > derived schemas.
-> >=20
-> > Not really, it's fine to do addtionalProps: false + foo: true if only
-> > a subset of the inherited properties are valid.
->=20
-> The main meaning here is to allow downstream nodes described in the usb-
-> hub.yaml file, especially downstream device nodes (which was a regular
-> expression match in usb-hub.yaml).
->=20
-> I don't think it wise to duplicate that regular expression in all hub
-> binding files.
->=20
-> However maybe I should change the commit message?
+Trust commitment happens before driver setup and intentionally survives
+probe failure.
 
-Please, and include the reason you've given here.
-
-> > IMO this series should be two patches, or maybe even just one that
-> > changes the ref (as your patch 2 does) and sets the then derived
-> > property to true. Otherwise, this should be two patches, with patch 3
-> > split into whichever of patch 1 and 2 is relevant.
->=20
-> I'm okay to just drop patch 3; in fact I send it as a split patch just
-> because I'm feeling that it's not so needed.
->=20
-> In addtion I'm also okay to squash patch 1 and 2.
-
-Yeah, you can probably just do the whole thing in one go.
-
->=20
-> Thanks,
-> Icenowy
->=20
-> >=20
-> > >=20
-> > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-> > > ---
-> > >  Documentation/devicetree/bindings/usb/vialab,vl817.yaml | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml =
-b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
-> > > index c815010ba9c2e..d0484e48e319c 100644
-> > > --- a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
-> > > +++ b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
-> > > @@ -40,7 +40,7 @@ required:
-> > >    - vdd-supply
-> > >    - peer-hub
-> > > =20
-> > > -additionalProperties: false
-> > > +unevaluatedProperties: false
-> > > =20
-> > >  examples:
-> > >    - |
-> > >=20
-> > > --=20
-> > > 2.56.0
-> > >=20
-> > >=20
->=20
-
---vM6FGX+N7kRbpXgy
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCawcnuAAKCRB4tDGHoIJi
-0mdBAQCMJAB1PANs5IFLdU2153Z5C6uqCxk18PrgCZjz1yApTwEA2uY6P1smeIT5
-KWFGDaM0Rr2e+Z+ECb52aFcvqFdxwAo=
-=KTU3
------END PGP SIGNATURE-----
-
---vM6FGX+N7kRbpXgy--
+Thanks
