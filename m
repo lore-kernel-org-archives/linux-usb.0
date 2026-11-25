@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.61
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.34
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795581504;
-	b=EXzaPuh/7QQ1CfSLAxS3DxdW19W+6zSWU64HSkhzixT8aaw3w8CPbyerNKKZvZayL4VF
-	 S8eDxGkWJ4z6o31lzTpIabpapT16uVuuS1mZpeJYVnWP4LTFZSFVNJdlzr7805uydDt3C
-	 ZQPkXRdvlCPlzp3A/qSmdgmzULY6SeRHa1a0yRXmpIL/SNNOnLJobQ7q/wk5OlKCN36K1
-	 QAlZUuXDLG3zDL6ubIdYc5tGCaGys6kzE2FsM/FA/VjGeRtO+Q6bcUI4N52FCokttA7d9
-	 HNkEwDK9nkCCCLzWYDUXMvf352DtsPvuO+OeN3nQ7BPptjpAOJX8mlOdQa8NJEbMeww==
+	t=1795582037;
+	b=tkVGS3vGwppSsGvQzs1AKi9MwlsI3uEumLy+4Je/kfu9/xuEa3G/4HRhtp9EPPT1QwQg
+	 kluwvJnidk1vhBsXjySR5NXOQtDcMD0j5FXdNl9k7lMjgmz6sz4nBhEdt1iGzYcNnuKbc
+	 OvxpQH0b3O3dezBH4jZ2dvPLz82LpmM4isCrvF3xoDsK0El+2H8Ao+ZWrEHfEU+sB9tef
+	 PHAzokBwWHWlhPq38kleWE8Uad0L5FCweHGQFjb7oGgImvf8L8NatoPSj9HNzYz4fc/tB
+	 9ASP9NM54qAiXPM1mE4keVIG6bmxl2Z4A4KWwukrhmApepzl5dD9cA6s4OYn3XrQFlQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795581504;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795582037;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:Content-Type:Content-Disposition:
 	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
@@ -24,74 +24,71 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=k3R/i0bBzhQ29hM8QkKfuq42LOHH+EwyuNTFYrHipw8=;
-	b=uHTPonQGYEuo/NF+ovPu9MoqNYkmsxG4puPO11qYRByDIP2e1HZPDCuR8cWjl5SVbPg5
-	 3ov4ySkdU4nEP5iQVZK77Ucin4F2ICCmUO/LTe5evmzYRCDxZ4kC6roJ3nOLkmbtqN/Lc
-	 6uVOzvDsTCByFTqBRHVZE4gdDdOHJrhgnolh+/ItwQ+XA7or79do2zMTKNTXNDWjYGk38
-	 LS9E11sDbN0jAi5knqHE/MfynJ5BJRU5CUjPGbmSBDtqQHkono3C5Ds3gUS2j+g8lGPnT
-	 wMj5Yd2ZlvIrJssBE53/V0Rl8vM1SvVB5noONQO+oJxtQRn81oB4rGNV8fzYFo+dJFg==
+	bh=43PibUadCzsypcMECV1pXuGxSVDfYGhPii2qAZaiuco=;
+	b=PX1BQEdJSXXQZzp0ydU4DXL4fObPuSeFZIy+mZmNvS2hf80Y6lVO7N9hjc7T5woxaTMI
+	 Jq4bGirH1Ra7TTdUT+U9TxvTsnzAg3/LpLnHRsSHz2b6iz/AP8EsLBqQOWaohn/Gzrnhk
+	 3TUHOJ67WvPrx2HVMIgzcJmnTZGMDaaPybj1afXGu4iGSBxOkwb3iLn9Nj3IQPygPMI33
+	 4wqNN1O1k1WQOx2B2i4iCqhJLg4KzZLtfdxfeKLu6/pOTQfzrZaaWjaTJ0TDh2dg23K+s
+	 aG6I5gPuEtouzlB1t9d5ZVSo3+LShdT/OTFjqrKig7oJQ9raNex6ti1F3Y7FK6aRV0g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.nxp.com;
 	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=VEL0FUkc;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.61
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013061.outbound.protection.outlook.com [40.107.162.61])
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=aodZjBob;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.34
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010034.outbound.protection.outlook.com [52.101.84.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1F1606A31E;
-	Wed, 25 Nov 2026 04:38:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A1F1606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA905606A31E;
+	Wed, 25 Nov 2026 04:47:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA905606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=VEL0FUkc
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=aodZjBob
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V+Bh1a+areJLDERi3ci0B37b2xcBD795Rh+/URSiOUeWT6ibRh7wojWx5QWoTxA96s+6OhDFLDwBDN+fbFfYTirBKpPhpwmJfFMLRX7MVuuHzZESaDB4yLsxB0opOlsiqMaeclgXc2lnMgeMYQIViSf7jMVmigsRB+24+fkyX/ATZBbFsLsAkG8JEzG7AZe4YznNtHM4NfUjb1FV/VMqxoKZ5Rw6HYCg1qII1WWjZnEZL1EnkYLROf94p/vQTtKsHpVgw3/as6tOwsMa/LyN67UuuuSgQ9XNHoQXWvP9b2jqddBb/8IaZeEePlniaFMsMD1uAg2bobpmj/QHqHm7Tw==
+ b=lS8yhmlKaQAQjJ2lPZbs7Ut7sYuIgDkTJp4kE43+KNVvQ52l9HkP7vgo6Idb0GIz5vIgKpsLH04Upa0dBpZRkHrRGIynPTEeDJV1LX1UeZiZHJbahlnUcxl2HWazBlh1WPJ0qXX/UJAPahweVh61hhMP3PG4QsFL5tucC0Xc6qnRZbvONBqE65V+OIe76Ujw1SZeZXMUpKCPQ8gdWjQj6aP/9q79DZTP48DrbcALchCVAtyy41SXOo+yWxnKGgDoRjZgtd7IMWhFsDMO7g2Lw+ajPObWy+FFKAtb60Ul228v955tMvHGEwEcrO6OWqEpchBc78l+D1RHfHyVW2UV1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k3R/i0bBzhQ29hM8QkKfuq42LOHH+EwyuNTFYrHipw8=;
- b=pWLlBO9Nlc3xKksrQdhntlVXC8JLTnZmEVpk/h/G2/wOFB+Zz3+ChKuLsvYWQ3y11cWu4icAEhDpAfWM5hSOrCHPO18jsAto49V4bU1/S9ZHxC0hrqzY84DSC63LuZSdMzEkXSFovSiBF0xtObJvfm519hGZFMQz9a9/ziDNlohoiLA/yUF6Z8qcdaqEsXJfCnbjQThca64gfr7rhzMs4xxst+3faQLAi/ZlmjWCJPVvvac4psvuOxd95zNTRaVEd05mXxlWS3KgALjJIPXvPFTi6szuI+UI+hF7t4fknCmjTwx5kavtTp8sdwTvwaW7BifPouSJlTrD/w6AT/OwXg==
+ bh=43PibUadCzsypcMECV1pXuGxSVDfYGhPii2qAZaiuco=;
+ b=gSIYrSSj6ly2J4oZ2IhIkxS4Jll/Y9KjeqdvUz/Q/QjxtndVQT/GEtVkltS+Anz1n5kJ5wxW5QbhS0NXT3pNnvFgSMChBKu3ZhWeHLYZ2TL5DhBnygfx3TON9XH+pKPTT6x605+9ED5reU4Er01/NB3AcVg0LcRExw8o1SztzlrANmQ1uepOSBwl/2bRc7o4F+2rrcoABKSY9hnPY2WsXmFkozjX82j7GXzfgQYC6583AN0TbbL+LhhSm3KHPpx/RAtCnEeQIbgnuGFAuItAHcFQgB+Td6QAQ0Il27NNyHQ4IhHezly7YW638KJK1cSnFmLr9tbvwmhIPc91EbStBw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k3R/i0bBzhQ29hM8QkKfuq42LOHH+EwyuNTFYrHipw8=;
- b=VEL0FUkcwbEMMWCXQKRWcITrX3swKsnMPRhfMft3aemoygIV6ElLuVnvfuOobnNKfC8kcrXiIWcb9Sd3MzCS2OLG0IHCrb6uLa24yTL6RZUSKZfmHT11uwwFDZfe9OKDJLYh16nRM4ek+k+Ad9g7ETWrwfTdZMi24eySouEqHJrFJZfa9z92C766qRJCqDGRW8FLVB9Un0keKlrj0tFK1u51r2FtVuJvVzbwQUnhVusp6RsqJqaLme7OmZ6Z7gDzOAV4aq6wZAJFfYI2QlgJVMttRC3p03CeCF7cr1LKXtPdbGL2y46k5c50gk7td3BqhqGy55DO0u0LAAUFqzKG2A==
+ bh=43PibUadCzsypcMECV1pXuGxSVDfYGhPii2qAZaiuco=;
+ b=aodZjBobtCPKi3QC2/nccVJ9EZu5CVEb6pY664H5G6mLk/+g2DHGa4hgS3eJUCLWkEwRDZJiME+BFEtb8LdYbketFrfqsgd52p77Ej0V+j2EpEMREbvTWgeD9vrnb7jvxG5lQByFpTYTi8XT5il2V1ulydLn4xCvNCVWhw4VRG8GDa8xP2Z5FGhU/j9Fq2RqW4IBYu0OM7v3cN7d60Xo/aZJclRk4sMz5Eba5JTPaRgoSzbfhQlYF1xMMEakXO99hdRAIB0Vc4+MkeVGnW7h8YvCpB48OX86N4aI9OMSZ03WEGd+x57EsDukayQUBfDZWUBbtZHcDCx4zSTumKgJIA==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
- by PA4PR04MB7550.eurprd04.prod.outlook.com (2603:10a6:102:f0::14) with
+ by MI9PR04MB849419.eurprd04.prod.outlook.com (2603:10a6:290:ba::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.6; Wed, 25 Nov
- 2026 04:38:18 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Wed, 25 Nov
+ 2026 04:47:14 +0000
 Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
  ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
  ([fe80::54e:28bf:aa85:d25d%3]) with mapi id 15.21.0662.004; Wed, 25 Nov 2026
- 04:38:18 +0000
-Date: Wed, 25 Nov 2026 12:35:09 +0800
+ 04:47:13 +0000
+Date: Wed, 25 Nov 2026 12:44:05 +0800
 From: Xu Yang <xu.yang_2@oss.nxp.com>
 To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
-	"Frank.Li@nxp.com" <Frank.Li@nxp.com>, "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>, 
-	"kernel@pengutronix.de" <kernel@pengutronix.de>, "festevam@gmail.com" <festevam@gmail.com>, 
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"jun.li@nxp.com" <jun.li@nxp.com>
-Subject: Re: [PATCH 1/2] usb: dwc3: wait for the port to leave RxDetect
- before xHCI reset
-Message-ID: <edd44rlzbofuaxxczhh4d3jx2knwpaaxat6mx5zz37vyxl2ucl@5tjovqane2uc>
-References: <20261106111943.2868733-1-xu.yang_2@oss.nxp.com>
- <20261106111943.2868733-2-xu.yang_2@oss.nxp.com>
- <awYspGsimvWjR4JY@vbox>
+Cc: Joonhoe Kim <26rote@gmail.com>, 
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "aiyengar1990@gmail.com" <aiyengar1990@gmail.com>, 
+	"mathias.nyman@intel.com" <mathias.nyman@intel.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] usb: dwc3: tell xHCI that it lost its state when the
+ core is powered off
+Message-ID: <rtgfuz44sjpiomzhamrkvteqygkk6jdzrvxh4nfcpabiae6bsy@cbtvblfx5uao>
+References: <20261112141512.1840-1-26rote@gmail.com>
+ <awZHwRiICsPs-UyI@vbox>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <awYspGsimvWjR4JY@vbox>
-X-ClientProxiedBy: SI2PR04CA0017.apcprd04.prod.outlook.com
- (2603:1096:4:197::15) To PAXPR04MB9422.eurprd04.prod.outlook.com
+In-Reply-To: <awZHwRiICsPs-UyI@vbox>
+X-ClientProxiedBy: SI2PR02CA0040.apcprd02.prod.outlook.com
+ (2603:1096:4:196::6) To PAXPR04MB9422.eurprd04.prod.outlook.com
  (2603:10a6:102:2b4::21)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -103,130 +100,143 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|PA4PR04MB7550:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c0a75c3-611f-4f19-cdad-08df4aaded85
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|MI9PR04MB849419:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83dd55cc-5a06-44e1-735e-08df4aaf2c7e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|366016|1800799024|23010399003|376014|261022105027099003|261026121527099003|10067099003|261026140227099003|261022075727099003|261028144727099003|261021123027099003|261102123227099003|261021121427099003|18002099003|22082099003|56012099006|11063799006|4143699003;
+	BCL:0;ARA:13230040|376014|19092799006|1800799024|23010399003|366016|18002099003|22082099003|3023799007|4143699003|261028144727099003|56012099006|5023799004|11063799006|10067099003|261026121527099003|261021121427099003|261102123227099003|261021135927099003|261022105027099003|261026140227099003|261022075727099003;
 X-Microsoft-Antispam-Message-Info:
-	vsOc/EX2XWWmE+Qw8Jer+rzBQxztAzCn8XTo4lETNMvlDWyBbD1/bK4QTg3vRU4Q1wKGUimDH8tEOMHBYy5/jDoSNvrxAAo5PHKDF03HNwMfNaHfRh2QRc0ctjXKrIpdBRTz+kcV5BOicxqr/B/d/DcX3FXUwveLhSIxwPh46WF4cHZyEdJw///5Z/f4SSxl2ZHmYKZjtUxUQQHJTTGUDUZUrXhbrDHu8ErwJmQTxh8C90/0m0Xo/Wcpj3RcDW87DyOyS4cQJabPgQjIYVZ7cCI2bqUvyTQRtGyOl8bRHMs8UUZ8OK2Hn9+8UeBD3CPpY4S4Q6Y04ttwwIgLZSCP36cyLMCyR2WdR4shmDUb/HM47dpqV1CXkPrlYHF0SI8AaFGKIBniToE8BQZ2EAZncgJac4G4pV4LzaDL6lXrvapLspp99/Nt/5NzWKpi+SzVZPKmee6VdZb2X4Yq8kO86l5H05yiF8lScMwRDWr/jsleZzhv6cREZ1O/umZ0z4ASOrCm9Bq4w1ejlQqlFEjb//0Y9VB6/nyZFUEwEbyfl3idkA3jUSv+01KHH7NAkTpGArrSh4AbUAELEEMxaqwG8+HmmgbLAF3HnX4k/JxK2OQcCnhNFYtCU706iF6KIG2Jrv+i2V4rOWuQvYtFWAiZ3eUBKZeWk3suqiY7oTZ7S0c=
+	WuYJ9Q9eXrqcYRylX9bbLCTb0VIJA+OePqHipRBc7jdx/ED/OsNkwtBSN+/9mTIpzYhljBxTjf4OIlZlEBn41ipNwCJMWMqnUo23LRe3aH16s2qGmgxaatGXgOawgqhE5c3MHB+ohxvxm8RGMoYMaq9rFx1XPWQo6A5I7wAoyn4iEqHupVb6g+b4rPIXTMrEA4/n7flUmBMriXG01/M5/n+AYMXy9JNWGT+/ykNBbq6RtvYgMn5zIw9mvitau5XC0hI5WfhV9Hq5ro41CaIHwT6k/LHCoHaNzSMCWkAYo9io1g9ETQZgAVKHCLuvgenBsyCP8AkEItBjJOoR1EfL02X0EIlP/gmKJVJAnHhLC1JibTyekvx/Q7Z92le7IMa+pnqY5SQ7e5w/kHbFOiFMv0HReJNdaASlGA3wIvICC97u3gLDKkB1u32hn588ulkndO2q4fhJ8E0cOorLGgXnsGMmIyLG5zHASyF0KwdQUkgmi36952b1y1I9UzUYWAEY4MC68yYwlXQH5rHOxcyxYV2Y+/kHvl4ya0UaIklSkzJtDyAp3mLUSEB5m6+IDaDgrmtydDs2OrQUTnuFBBwjJzwgEiyUd12FZYZy7FM1c56rU3gR3RJIBJX1+apPCqa+nc3Dcb/1VHwhHKV3tbtGC9fFU2YMVjoP4YiR/ZuG5jI=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(1800799024)(23010399003)(376014)(261022105027099003)(261026121527099003)(10067099003)(261026140227099003)(261022075727099003)(261028144727099003)(261021123027099003)(261102123227099003)(261021121427099003)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(1800799024)(23010399003)(366016)(18002099003)(22082099003)(3023799007)(4143699003)(261028144727099003)(56012099006)(5023799004)(11063799006)(10067099003)(261026121527099003)(261021121427099003)(261102123227099003)(261021135927099003)(261022105027099003)(261026140227099003)(261022075727099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bAAe6HHsHxRl6TFbcniNWv/7ruymz/6NF+mdThO+DxiwF/V9ifHJVtXm8UcN?=
- =?us-ascii?Q?84/OucLUX9A4x0qN6PyZCdgFTQSDncrjWiAqNtqichGeIxwXmhFnW/GwkiWs?=
- =?us-ascii?Q?oQ7NDNb+J59fcnwxjKII10pdwCZYy1tUyjU1VE0aAMHY20MsSrfeDUyZsbxe?=
- =?us-ascii?Q?bC3h9UDr91rpUFkDX1e6ft/tivVVzsEVo3LU1tWglt7e7dS+2U0CdplrSjA2?=
- =?us-ascii?Q?ntwJRJBUK+JERvMLeh8JLRTX+3ojK1Bq8Mtpxcitr6wxdX0kDcK79rpVYHVP?=
- =?us-ascii?Q?01Ep3i++G8kvM3TpBZbTZtRvUaM65RHrwJ127xyfU41tiXovjbLk87vA8/rS?=
- =?us-ascii?Q?a6IpuXK0xYr9JOxzea5v38yi1ZeopJfn+RLWN5CXcJQIk0xudgjFh1Vv9hDx?=
- =?us-ascii?Q?5nQPEN6yeVQwa0mYLO7bM0xf5CvhL3W2cP7CsJoQXKKytsIoq5UzmhsN0pXm?=
- =?us-ascii?Q?/z27GG1TrdbxfHHAuCf7vkgB0NMf9y28/tKc6GhHHmIzKNJwpWDU/QvKSPX0?=
- =?us-ascii?Q?9UbvgeAJXZmOOly6rHWsU1OamE+9F7j8IXOUof0cx/RJENakLdyJp0CyBF48?=
- =?us-ascii?Q?j8/yecKF8QajG+NwzYBc8Y7tWMqtIDz1A2DUiYiMQoKn2a8XP0xbOAZEEIBr?=
- =?us-ascii?Q?BFreaE2d0Osnw2tG60gm2fB8eUK3bbF2mJl5NO61HuaUmt/w0vJs5u64LGUu?=
- =?us-ascii?Q?jEX586RwsCtx0onDtFWhig84a54Ienq6YI0PkHMwsUoM04vxUlNliZ46qJi6?=
- =?us-ascii?Q?ZLHA/yxJNJenG7cKdANhBTyAfaI62DJnZKP0qF1Ad7SwXm4QXrzw/hd11oTt?=
- =?us-ascii?Q?7yYU10RcPqCEwZqtFYPziuEOb9pg3lezVMYJ5G0FsmPo3BFONmqdCktA1UBU?=
- =?us-ascii?Q?AMK6wPI7xIPkB/xdOf7SB3CVyc3vVlxn83Jb+D1FUg5qVDsMAWAnMTM5QEF4?=
- =?us-ascii?Q?joniA2G0foYeTgcNaP0bZ4Grkb1Hg/3gpGU0kmD+ELNejo0WcZUcWFkBx6zg?=
- =?us-ascii?Q?wdnVbjzyAOAfGzeuFJFD7GZsmjfVzJvgsTaPbdgipNGpLKEcbBRq7PWejFBa?=
- =?us-ascii?Q?3/M3krw0i/a1RTFXTYH2OyZ+X/XzPGNAF8YaO7nkyWVnxhFt81Q9/CWCTGoZ?=
- =?us-ascii?Q?0gNbczdoUfYhKQZzcwBYHMZpaGTN96DdEfnFziGUPHkUMgc0kTFEgVm8+daH?=
- =?us-ascii?Q?A4OrSx+5FoL5g8CkpIJxweE5zP5G3g/wXQgWUnY8ne8thsHTd9nGtI63wkKH?=
- =?us-ascii?Q?Ccepneu9u2R0poEfbxxzZ1tvlYmj/+1hRFAEg/9ZjKfKcsl/D5U39kR1vZCt?=
- =?us-ascii?Q?lTyuNljAWUXs74v5lod94b6Xk2i67YP4nlXCxABpigB8bUBozepLo3T6CGrt?=
- =?us-ascii?Q?W3k9t0lUbnHLnbtPwPduPurVCs906Xomm74j0Q6H4S31B7409O2T1hJbJurR?=
- =?us-ascii?Q?CATmvRDYOvpoEE/Hi6JG5C66dEufbkLRPni2kWuMQidM2dU/1zKx2mBT6RQW?=
- =?us-ascii?Q?PbLUmf/UWPTx5r46ZasZhbo6UFPfdVcFYxuc8ZKccgi2NnRpCKLsA8TME1bx?=
- =?us-ascii?Q?Cu6gFnB3e1wVRQLGGCsq55bg9YPeiwEbyFqJgmLW61X1+Cc78ySlUH4+mtUy?=
- =?us-ascii?Q?jlE4uDSz18m24neSR+6kgoaDJO34mNm0+kVQvJVsmIdNZ08l/zT/rolbZuIQ?=
- =?us-ascii?Q?9ecv/VejXuGn+3yfeJQMDyVb9HjiAiyqLblOtyE9sjzxB/sjmqMrizmIaYSm?=
- =?us-ascii?Q?74XI9Zu2mP6IBnaPu1CKixEDcduAfzTasBEbOsC9VogHo2uyJukX?=
+	=?us-ascii?Q?ZlbzvzaIlp+FEqPzP7h6JwjRa24dte7p+13M6JwBFQ0PMZsU6ZNPRVEZ7mUn?=
+ =?us-ascii?Q?VQGuG3D9Q4VdXyXF5Be1Hq5fsmtb8JaknFPf6nhCV9SoCFWd6Wp0/ZOOhHfV?=
+ =?us-ascii?Q?BM6gHxENnEf8NRKSNVkCODSMvsn0Ugbova/aItVGh0lt8LXOnwwNdaiszTBR?=
+ =?us-ascii?Q?J53tLlQVURCfdSK3c06n8eCcGBp85p89yx1h2Gm54ElZ+dLm3vQEu1VrygcA?=
+ =?us-ascii?Q?heRrqFsy/OM18qq1c05RPmQIqBRW01Ureu/6SWlsPx0P6i6DhG1tVfR03HT2?=
+ =?us-ascii?Q?wvkdkrzaWUXteFNqjkmFznJuxtCwWoU42DU1x+t5jj2ZNxU9o4snkEOp534j?=
+ =?us-ascii?Q?Nrw1qbqjJ5LmorWRfQPRHYUV+k53PyjYFAcozZll/48nCkXj4It6ps11eiA7?=
+ =?us-ascii?Q?PS7A8CiUFmcZWjxQeOaoztFd5fta92EK4J6iZyHkg52mRAyFWXtENdxyMzH0?=
+ =?us-ascii?Q?CTlh4oF5vuuRJPaG4ZFr1AC5VU1Jw8VwJ9CTEMw4cNpw89ybSEMS7rx0//zU?=
+ =?us-ascii?Q?mWnNOXiT6llkF6dkO8AMvTPpb5kS8w+pIJv4f1aMJnClQJ3aPZPmuazEwBJY?=
+ =?us-ascii?Q?psTG+Bnal2eGvvHhdoBeT+ctoWPS3bhlbNy7gsdMDi3Es1BlF9EMBZ3BhDpl?=
+ =?us-ascii?Q?ZhebwWtG0oHsI/KUhJuzzAP+5C42s9vlbO45I7eyPMIow+PXHXAYfCM5kqfl?=
+ =?us-ascii?Q?l8FwWpJrmlWCGPtoX78ix+uL1iIHQfomYlQO88GmWp5oVyPp/aPAr27TKxy8?=
+ =?us-ascii?Q?5dV6Iy3yjdJ70WtkOLPJNsCXCHVuHcTnqxXy16JzwuTvgJ80fvugRCIHBifw?=
+ =?us-ascii?Q?pQsuz92LySdocAKSduC1eh27eg7KMa+ds7lec8BOrNB/OKlLctFdarrhKT0X?=
+ =?us-ascii?Q?ZG9xOkCS68iwXqBsR26oBaE+vcWAc2KBunlwzagD7T00JXlzCs99IU/I95QC?=
+ =?us-ascii?Q?aI8yu/Jeb7mFgutR2CGbwPG7iK9a5oUshiP3ENE57QKFn0/z9XNSvWP22I8v?=
+ =?us-ascii?Q?uQgOHdLeiSlgsoj1rtvTsWeAUKERQZU1+p4+01+fVbddwTLQUp71li/73VFo?=
+ =?us-ascii?Q?LKhLMRHMRGYEN5h8E7ajsF4+c++/8DvIqpV+WdlU1B8mEE7eRDLLBovCJrAQ?=
+ =?us-ascii?Q?XphVBVoe73V2VnNhPiSHtR/yaej3QMLnB7f8iCUDl8qD8w2dOwuRIEccB1oi?=
+ =?us-ascii?Q?w1cKvddq1ZGNwYgD2HLO7oSZu7Lk4BuezB4OKRcPnVTe49V5JQyqiYFh2v1u?=
+ =?us-ascii?Q?UfmRncBMNhxFQhL1fVMRK2OcZ20xuW9+KtmX/0hJC/2GBmXKaJAt6bdOlR10?=
+ =?us-ascii?Q?49Yam/MJyI17kQnTHYvFJNrSYsUvVLf4r61VokWyeNHVIdOwg0UYRpzzi4fT?=
+ =?us-ascii?Q?ht2eUmk1iw96gJjuyWZCa+uyGa86IsyM7EigHWsDW4AuPHIz5LBjqSbdBTER?=
+ =?us-ascii?Q?0jS5qLx3uTTzLQg17n+SqVYr12O8fhqnoXSzCzakBi7R6szHxiTtwTdWjQ5y?=
+ =?us-ascii?Q?FUNBTHExkWNsw4pvbz7azaX7L/uKPb4DudXY43So4TF3nMjX8/8Y3dVFWDJC?=
+ =?us-ascii?Q?HuNYVKcJJ1yabLIdm7aC/Y2AP497Rla+1BKZJfJq5rKoYGV5O/VUsKSRWdD9?=
+ =?us-ascii?Q?7FCXcRFgOnki2sWhALg4yTKX5p1oyG8Axw4ARcF+mxahJNh97QVpytljRi/u?=
+ =?us-ascii?Q?siKOoQfwR1Nu9tXj24Ug9eUNp/DBADxeevE93wMZuF3BiYLekA3Vh7C1kEdR?=
+ =?us-ascii?Q?yHn0UImirr0IoJJL4hp2oV+UR4nUyswQTSmKHFz4iDYWrZYrRkW0?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c0a75c3-611f-4f19-cdad-08df4aaded85
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83dd55cc-5a06-44e1-735e-08df4aaf2c7e
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 04:38:18.6555
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 04:47:13.7206
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IgfEhWaVQYiyUX0ItqG/ZyDAieeAq98NYh4wkzLnB2YieYjybLRosB+5hN5zzPVxwKIK6J5CfIWogXf5dl645F4ToqDIC9LRTtyHuiZMIt7gK25tfhSop9hdfNssMCbN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7550
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lzls13evjdEuA+NM4a4ZXZc0/q3hI1iWCB0NPyJi+vq8ZuqCqbkN7MCg/9ZBMCeCFVXkqpxWZ6hHW3+D3cYKToHryb75JLO8CGHwDKkD3LLDjTm1QWjsbXpMyyRERLel
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI9PR04MB849419
 
-On Wed, Nov 25, 2026 at 01:03:08AM +0000, Thinh Nguyen wrote:
-> On Fri, Nov 06, 2026, Xu Yang wrote:
-> > From: Xu Yang <xu.yang_2@nxp.com>
+On Wed, Nov 25, 2026 at 02:37:38AM +0000, Thinh Nguyen wrote:
+> ++ Xu Yang,
+> 
+> On Thu, Nov 12, 2026, Joonhoe Kim wrote:
+> > dwc3_suspend_common() powers the core off for system suspend
+> > (dwc3_core_exit()) in OTG mode (DWC3_GCTL_PRTCAP_OTG), and in host mode
+> > when the controller may not wake the system or needs a full re-init. The
+> > xHCI registers and the state saved with the Controller Save State
+> > command are gone then, but nothing tells xhci-plat: xhci_resume() takes
+> > the "state intact" path, writes the saved registers back and asks the
+> > controller to restore its state (CRS).
 > > 
-> > When the host controller loses power during system suspend, the port
-> > state is not retained. After power is restored, the port starts in the
-> > Disconnected (RxDetect) state instead of its previous Enabled (U3)
-> > state.
+> > xhci-plat has a flag for exactly this, power_lost (commit 668cc6bc1178
+> > ("usb: host: xhci-plat: allow upper layers to signal power loss"), used
+> > by cdns3), but dwc3 never sets it.
 > > 
-> > After the controller is switched back to host mode, testing on an i.MX8/9
-> > SoC shows that it takes about 2 ms for the port to leave RxDetect and
-> > enter Polling. If xHCI is reset while the port is still in RxDetect, the
-> > port does not issue a Warm Reset.
+> > On a Lenovo Y700 Gen 5 (TB323FU, SM8850; DWC3 + eUSB2 PHY) with a USB
+> > 2.0 hub, a USB 3 flash drive and a Billboard device attached, and USB
+> > wakeup disabled, s2idle then broke the host controller on resume: either
+> > the controller wrote to an address that was not mapped
 > > 
-> > This prevents the link from recovering because the USB3 device may
-> > still be in U3. Once the port enters Polling, it sends LFPS.Polling, but
-> > the device does not respond as expected. After three Polling attempts,
-> > each taking about 360 ms (tPollingLFPSTimeout), the controller reports
-> > the device as disconnected.
+> >   arm-smmu 15000000.iommu: Unhandled context fault: fsr=0x402,
+> >     iova=0xd85e7c300, fsynr=0x3d0011, cbfrsynra=0x40, cb=13
+> >   xhci-hcd xhci-hcd.2.auto: WARNING: Host System Error
+> >   usb 1-1: hub failed to enable device, error -108
 > > 
-> > If xHCI is reset after the port has entered Polling, the port issues a
-> > Warm Reset and the link recovers quickly after the device responds.
+> > or its command ring would not stop
 > > 
-> > Add a 2 ms delay through the xHCI resume quirk before resetting xHCI.
-> > This allows the port to leave RxDetect so that a Warm Reset can be
-> > issued, avoiding an unnecessary device disconnect during system
-> > resume.
+> >   xhci-hcd xhci-hcd.2.auto: Abort failed to stop command ring: -110
+> >   xhci-hcd xhci-hcd.2.auto: xHCI host controller not responding, assume dead
+> >   xhci-hcd xhci-hcd.2.auto: HC died; cleaning up
+> >   usb 1-1: PM: **** DPM device timeout ****
+> >   Kernel panic - not syncing: usb 1-1: unrecoverable failure
 > > 
-> > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> > With wakeup enabled (the core stays powered) the same setup survived
+> > every cycle.
+> > 
+> > Record that the core was powered off and pass this to xhci-plat as
+> > power_lost from a resume_quirk, so that xhci_resume() resets the
+> > controller and the devices are re-enumerated. Unlike a static
+> > XHCI_RESET_ON_RESUME this only applies to the resumes that follow a
+> > power-off; resumes with the core kept powered (host mode with wakeup
+> > enabled) and runtime resume keep the restore path. Clear the flag once
+> > xhci-plat has read it, so that a later system suspend that fails before
+> > the dwc3 core is suspended does not reset the controller.
+> > 
+> > Fixes: c4a5153e87fd ("usb: dwc3: core: Power-off core/PHYs on system_suspend in host mode")
+> > Fixes: f09cc79b4b33 ("usb: dwc3: add dual role support using OTG block")
+> 
+> Can we also Cc stable?
+> 
+> > Signed-off-by: Joonhoe Kim <26rote@gmail.com>
 > > ---
-> >  drivers/usb/dwc3/host.c | 21 +++++++++++++++++++++
-> >  1 file changed, 21 insertions(+)
+> > v2:
+> > - Also set the flag when the core is powered off in OTG mode with the
+> >   host role active (Sashiko [1])
+> > - Clear the flag once xhci-plat has read it (Sashiko [1]), instead of in
+> >   the host branch that keeps the core powered
+> > - Drop the comment above the resume quirk
+> > - Add a Fixes tag for the OTG branch
+> > - Rebased on next-20261111
 > > 
-> > diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-> > index c5674161b2b0..465c170df12c 100644
-> > --- a/drivers/usb/dwc3/host.c
-> > +++ b/drivers/usb/dwc3/host.c
-> > @@ -78,8 +78,29 @@ static void dwc3_xhci_plat_start(struct usb_hcd *hcd)
-> >  	dwc3_enable_susphy(dwc, true);
-> >  }
-> >  
-> > +static int dwc3_xhci_resume_quirk(struct usb_hcd *hcd)
-> > +{
-> > +	struct platform_device *pdev;
-> > +	struct dwc3 *dwc;
-> > +
-> > +	pdev = to_platform_device(hcd->self.controller);
-> > +	dwc = dev_get_drvdata(pdev->dev.parent);
-> > +
-> > +	if (dwc->needs_full_reinit) {
+> > Testing, 30 s RTC s2idle with wakeup disabled on the setup above:
+> > without this change 1/1 cycles lost the controller; with this version
+> > 3/3 cycles reset the controller and re-enumerated all devices.
+> > OTG mode (DWC3_GCTL_PRTCAP_OTG) is not tested; this board switches
+> > roles through usb-role-switch and never uses it.
+> > 
+> > host.c now includes xhci.h for hcd_to_xhci_priv().
+> > 
 > 
-> The core is also re-initialized on system resume when wakeup is disabled
-> (see dwc3_resume_common()). Shouldn't this be like below:
+> This looks good to me.
 > 
-> 	if (!device_may_wakeup(dwc->dev) || dwc->needs_full_reinit)
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> 
+> Hi Xu,
+> 
+> This may conflict with your "usb: dwc3: wait for the port to leave
+> RxDetect before xHCI reset" patch. Can you check if rebasing on this
+> patch work for you?
 
-OK.
-
-> 
-> > +		/*
-> > +		 * The port needs some time to leave RxDetect after host mode
-> > +		 * is restored. Delay the xHCI reset until the port can enter
-> > +		 * Polling, allowing a Warm Reset to recover the USB3 link.
-> > +		 */
-> > +		usleep_range(2000, 2500);
-> 
-> Can we add a comment that this value is tested with i.MX8/9 rather than
-> a common value for all platforms?
-
-Sure, will do.
+OK, I can rework a new patch based on this one later.
+Maybe I should wait for it to land first?
 
 Thanks,
 Xu Yang
