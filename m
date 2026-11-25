@@ -1,99 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795635500;
-	b=b0eFBAMUENvrug9cdNxLrtaZqepsQKvYIdWABk0MESvgvuAoQot9Dl7XQM9izSVGWxs1
-	 RkzeCg2MZQhSXSxVV4IkRwpoabOZv+MnYvfFu9gKvsEYEhehOapa/dPpB7Q8V0veIU9TC
-	 JXw6E8sV99KyKBSfRfxB4nsIuXiQnTd747HDNZO4cyE+ALus7B7Yz/eblqNr/v9mfw+4M
-	 gKAjPxyHQpk+eXCQ1FMLTV9m+NZRzjjc7qpFag0zU13pJKCCdPrTfBXU0vFJ06c4zuznw
-	 6Rq3Fne3tbOXtkVFJcdgal/eIctQz/a66FNyRfL9Kb3vyEpzTYQXUVh7ZUT7rZBQuKg==
+	t=1795641373;
+	b=5dj+vIJP+YL0N0sTE1yak5xvvQAoL74eYH4B/gtDgRfPCI7Q6zO0c7gsCJRnNkYybWO9
+	 mObGtBXpWNM7B8uT78BETp6VyUqmaoQrdb1RR999ldFPQcVJZh7GabJ5rtvsI+10wK2Gs
+	 86i9SUemlnjEOmS+tXJVPq1gCsh0T+AyKj8WDEXAKKwVD++83uBA+IuMIsiA3VwKT9p4T
+	 aUoK7sGlrXAYn/s2mXG8dfOqlx2+sE7w4jZ4ZiZLKIYoNfl3xgKiW3CtShwtVyU3Ywwgq
+	 YMYSjGAgqTBkUQT3lkqZNKdQO9aGuffG0XsJHT2UHingHpZzk5BdhcyFhotS/5UElrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795635500;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=dXKYI3EJxaQV5jIHUv9yi8G36X/Qj3DOc1D0IScmz1Y=;
-	b=rYrrYwj0jR7B9C0uNj9/7Eg7ECV07MCgBBG7n7n63VcsSsNCEQuut4yK+fU+OASbSY6w
-	 zY1PFbZRgHgc1imJQ9gE679y/EBsMrWe7ZHU/0gSrkPe7oHUJZ87uHtLUwpeNe3Au7LXh
-	 Epv/laGTIYLR6QOb6L6ZpuvRDmL6s9L4P6zRMEAiSy4Y8nM40iewgxz2Y35pDXJgazLlm
-	 loQwRl9x1zZCSzAGnSheGU0RE6ko+F4iRs4P8mD6WbwOtXTRT4J2Zgd0tuprF52F+4XEg
-	 5g+sC2zYBmysttU329ta5Pg9xC8ZuzEN9t3z/Z9RvVUGSRjEcUJzLAM3EXQF23JoWPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795641373;
+	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
+	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
+	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
+	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
+	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
+	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
+	 Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
+	bh=Jd2CH+K6JmlMngKsarUL/SWrh36DCSbKJhqVwJcom+M=;
+	b=UghyRYG0S+Z7IQ0gt5qmHrWlAVW1bQ8znMRy6TCZbGZ0G/IoGGQYjE5+dDBfdIhGPaBn
+	 JtTGZ4sBCuTECNQGlAUnk1dynxY0OzpCL1wUTSFvsXUSC0TitRJMGXS+MzMWVYSyGjt4O
+	 Vq9KEYnxeavsKDyQli7jJrXvXjBYuODJxVtBuOw0Gy3fno+XIdIU0Dmy+9GWFZWTJt3uv
+	 KDr6wfo9w9Hoz38b3HGsffuyW6PWa6usyBUPQ7pUo8aryyxx6rQfQWWBp7NFdpsH63ucP
+	 zjYnyOiEuu9EGXzug5ErUnluK2z9wO7sycJ2Hm/gwi9OmDE/WG1PDD1FLnYeQAfv/Rw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MwpqHJf9;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FY9Vmt7q;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C495B606A331
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 19:38:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C495B606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140DF606A31E
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 21:16:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MwpqHJf9
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so50124675e9.3
-        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 11:38:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795635498; x=1796240298; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dXKYI3EJxaQV5jIHUv9yi8G36X/Qj3DOc1D0IScmz1Y=;
-        b=MwpqHJf9Zki+TsDgpLUnfz3iPp40YjADzk8uJKW4iaX/Zwuc4txSCT2qW0hS2BEx0g
-         /x3x00L9fmJk9L1f3P/+zNZgVjAK7GGPAHL9jBT+GA3jPx3nQB9eBXxZwvr3N+gnJ25E
-         tpHQbwzTSIeeg5HB1JboF7LiGiPMCWAFUBCpIn17A1jiKAjPJaid+SYLvzVCGPHySIAH
-         Afslz28eQ9JW3GidBgF9AKbS4Jtxw3FLREt8UnXWrX4dta9VcZnn2M9Pwcp19XNVXK+X
-         wYHW9PG5er9VAQSOhaovy3hIrSQzULFNUcJhK0a29YC6TicyUh2bwN85kNEBLTxwugTk
-         mxAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795635498; x=1796240298;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dXKYI3EJxaQV5jIHUv9yi8G36X/Qj3DOc1D0IScmz1Y=;
-        b=UtWjswneP1UbxGjDEUdSoWeICgl6xSFLXKz+DBtvcDvYwXZHddF8acSbaGYyfMvQ/Q
-         odH9pllajlhq3tWXflZkfdjwkRJ5nR1fohjQ5g9kLvhJ18pL/dMWermomnT+BrMkyTZo
-         pSHae54qgQsbmec1I2ptCadG7ZadMHuBQfQPbDpl8elLxaMOFqo6+yQ4WuDROT02DRAj
-         SBnejqa3C5PFovuWYPsd8qjQHiXe9nx8CcLM3b8rftuBVSIB9ktu+K1k2kOwLJE2pTHX
-         CFjJcjTPmr5Ci4UCQbSHDAZv6uRF30u8CDGCW/5Qijo888wb7z+XA0FNQW0vTiL6FuWC
-         /tZQ==
-X-Forwarded-Encrypted: i=1; AL+hErEbF8txsXeIp7W8q3WXmSP2moNCWevLAF7w7QGkRsoEeg77/YG6gLhViu0vyb994ZJff2YbxVMS2IE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/ZsmUqTPn2CSoDXaQ+vmfKHlZDZweOO5tgQ1T7IC+coYDY9spA
-	dMYA3ggTZ+wfX2TKQw3uF6KsCFnnrb1TMbi1Mrrh/XHYQ9FbXcud8gYZ15vHQQ==
-X-Gm-Gg: AZFdTZeYTUHWv6lvs+aXKNfbhDukvpYjE00icCMefdUQKnx6NvPuSfV+hhTxjqcead8
-	6pIF6f4InR0uj4eOa89qphVC46/uV0rWrwMALdk8D0AlzdNxR/FLGev6ezZd1FKDOY2xYvBwchQ
-	s7shzuyRYdLccGkQCWZZX4h1WSqNIyIpSqkoeMuITTt7r09KxSTh5rJJBme7IUNW3Ohr5ihCf5p
-	dzUhcOFPWHUlFxuJkmieO+y11GpwYg/cwfaMMo2RwnGfpXJtuabWHbXfNwSuHP/Ey6ypYfrer6o
-	aN0xbulOQkiRDc3dmHn/MgtJuazd8eQK+Mf+AR0vjpkQ4Ra29VAOSrFerJqmn6OBOmPFSod6Xbf
-	QobYD2Adtnt3i1hw9J5anr6P29zLWdcwyIgRy2iI9TNqDOcEAUtm4N7M5Ze0eSgqv+8iBvY/1Kx
-	18dC382lUWADbmRSA3km8YlSOM8b1AkopfqEHe3EEaqj2FkOfOC1dCFb4Rrss+woqapcnisYThE
-	WvsBxRFFsaomrFOPfXCUvJoST80GB9x0P/OBNwJ9Vo9WHM3318aZ9WLTNYDEoKrPcvfjbo2OChy
-	p0n4n/O/TzRI5q2Iw29g9VndL5fGuYI5yAHDdDdjRg==
-X-Received: by 2002:a05:600c:1549:b0:4bb:741d:ea8 with SMTP id 5b1f17b1804b1-4bb8880ad4amr366178805e9.7.1795635498187;
-        Wed, 25 Nov 2026 11:38:18 -0800 (PST)
-Received: from foxbook (bfh118.neoplus.adsl.tpnet.pl. [83.28.45.118])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884b8429sm848261515e9.14.2026.11.25.11.38.17
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 25 Nov 2026 11:38:18 -0800 (PST)
-Date: Wed, 25 Nov 2026 20:38:23 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Kettler Christian <christian.kettler@stiftung-kifa.ch>
-Cc: "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Re: Logitech BRIO (046d:085e) stops answering control requests when
- hot-plugged together with a USB-C hub; usbhid probe blocks hub_wq for 60 s
-Message-ID: <20261125203823.15fc4478.michal.pecio@gmail.com>
-In-Reply-To: <2ced9c1fb45e08a94f56b0f569b01369044b5553.camel@stiftung-kifa.ch>
-References: <3cd5f994a6260960cf7751d6383f2b9afc1baeb5.camel@stiftung-kifa.ch>
-	<6118ad01-65a0-4357-8118-3122479b554d@rowland.harvard.edu>
-	<2ced9c1fb45e08a94f56b0f569b01369044b5553.camel@stiftung-kifa.ch>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FY9Vmt7q
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C58611F000C6
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 21:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795641372;
+	bh=Jd2CH+K6JmlMngKsarUL/SWrh36DCSbKJhqVwJcom+M=;
+	h=From:To:Subject:Date:In-Reply-To:References;
+	b=FY9Vmt7qCzQ5kWF6MDnoTbezdB4PKwYVxnVgcJAMPkIUtEzTTetW8dcQZSAsozYaL
+	 VgWf8AiVKV+VTcYXmuKbRuxbsW0REC7GScGrVnYu/579gUYDoKoBroJUWae3ytcpwJ
+	 zHQxzA7CwVuZorjMgL+aYsdZXBouER6v1b+eypw2RiCiyUEGHd7GppVDaYv7jvBRWT
+	 e+WZkuz3MRxOTrKEFc3JiQ9afdwVZIJ640DK7V1sJ+S7j4efv+nVxOhENFCkox5vzP
+	 2cENxwcT6pkuXl4Pwfzk36+kZPoez31k+tifX/LcXZlGWAPtdg9RDhMinhQwmvAxpQ
+	 Z4vj0TPi0aT7A==
+Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
+	id C289C240040C; Wed, 25 Nov 2026 21:16:12 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 222328] xhci: ASMedia ASM2142/ASM3142 [1b21:2142] skips
+ transfer event for bulk TRB before link TRB -> UVC stream (Elgato 4K X, 10
+ Gbps) stalls with "not part of TD"
+Date: Wed, 25 Nov 2026 21:16:12 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michal.pecio@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-222328-208809-2tCQqFvu9B@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-222328-208809@https.bugzilla.kernel.org/>
+References: <bug-222328-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,31 +84,40 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Wed, 25 Nov 2026 15:09:52 +0000, Kettler Christian wrote:
-> The timeouts are not limited to the BRIO, though. During these runs
-> the hub itself (VIA 2109:0824) once failed with "device descriptor
-> read/all, error -110", the Realtek LAN adapter inside the hub got a
-> -110 and was reset, and the hub's card reader was reset as well.
-> Re-authorizing the hub (authorized 0/1) never triggers the hang, only
-> physically plugging it in does. On the laptop's own ports the BRIO
-> never hung (14 plugs, 4 of them on the USB-C port on the same xHCI
-> controller, with the same cable and plug adapter).
-> 
-> So this looks like a problem with this hub rather than with the
-> camera. I'm using the BRIO directly on the laptop now and consider
-> this closed on my side.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222328
 
-Hi,
+Micha=C5=82 Pecio (michal.pecio@gmail.com) changed:
 
-Multiple devices misbehaving could be the hub or perhaps the xHCI
-controller (looks like some Intel chipset?). You could try a different
-one if you have an opportunity.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |michal.pecio@gmail.com
 
-Though I have no explanation why the camera works on the same port if
-the hub is removed from the chain. It may be the hub after all.
+--- Comment #1 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
+Fascinating, the same happens on my ASM3142 with a 5gbps UVC capture device,
+but I haven't seen it with other USB3 bulk IN devices. Typically for ASMedi=
+a,
+the bug is random (several TDs at 0x...fe0 succeed before the first missing
+event is logged). Or maybe it happens if the unreported transfer was short?
 
-Regards,
-Michal
+Patching uvcvideo to only submit one URB at a time (#define UVC_URBS 1) see=
+ms
+to fix it, but 2 URBs trigger it about as quickly as 5. Seems to happen fas=
+ter
+if the device is behind a hub.
+
+Windows works differently, it uses Event Data TRBs so if the transfers do
+actually occur but IOC/ISP handling is broken, Windows won't notice. And th=
+ere
+is never such a thing as a transfer TRB immediately before an unchained lin=
+k.
+
+But implementing EDs properly seems like a bit of work; I think I will try =
+some
+hacks like padding the ring with NOPs before the link...
+
+I haven't seen this on ASM1142 and Promontory yet.
+
+--=20
+You are receiving this mail because:
+You are watching the assignee of the bug.=
