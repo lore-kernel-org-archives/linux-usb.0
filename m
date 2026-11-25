@@ -1,98 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.214.180
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1795648672;
-	b=K8P3wsh6zSt341We3Oc5VQ364aXtvxNGl6zZTPii1BZ//W8ljdz+GsrRRJNpc2l3MEX3
-	 GsRiN5RxqMq+ykMMYsLG3h62lEzoTkocqaYMqFui6XZAUVbkE2dY6FhkVB0HG8LUR5cga
-	 /ZFNo3iqi5M3UvUh2UjHzNplbP9X/X/05+C9Mg7UDQRsgBxhpH6fR5P8mk5TRFB8p8U7P
-	 d55HjwhNnF0GXPFPOBoJSZE2df3IUUyoiuBUqpT8no4Oi25VNT6lr3zKz4lJYD10bDPWz
-	 Gs/BRWTXaJIFOTq/fN1ZFHsKgksZ7t1lwy+Ih5WeIkU1/b2KmiDudJVY1Ob+McSTQRw==
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795650522;
+	b=QMx1sFohoVvtqUstf9/n5j7XLock0p683seZUhDsjJqZ6f9RqQ9b7jmM/Tbg5urEw148
+	 pOhAh+wK3YHEqXV9D+TJc0mXMNbnDFxG7q0lxvwTMSLWAv8AWrEa2t5msG6RT5jKGWEqB
+	 7VknpbmYraj14xGWMSEctC1+ss5pwYguUIFC+eT8w2/ROqCHDploJqJC/6aArz6B8DeSc
+	 I7wQoCxy6zrfHw367UUFdht3LCZgAjBTvlRadmqIkwvHnJrjm9ZdjLiwGGwUVt2uCDoJQ
+	 G/UFMh+gJocahQ0gPEwEGWmXL+U1QC5h5Nst3VMy8VAE/IChj6eW0nDrzgaYQ2ffAAg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795648672;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=SPmmmW8/OqRNbcYGmJPG6LaUxAYxeNGXCP0krZQQU4s=;
-	b=UfLfVsjPcwfQbRe1yz5q7Vesbp/LXjHMZY0GhCpEowGuUoctbnuti2LukkMU3F2yUnY0
-	 LmM92kHuc9hrXg5ftSbu5w9Wa1VtFS71+lrqwcg4X/H+jTqxK74nmMZg20Ljf6q1woeY/
-	 7/MN2MDs2MU99/gqF4XqHNB6i0wFLvqAyuRXOriwuxlir7t7l1O6I2yjnK5QIxzmCXskE
-	 k4C3bY6ECDPIi60FWPHVivXn4a/oRqyfvjd6VjQwR3k+LLpVgrfTrK4Un21PzerM1eNSV
-	 trh0I3IWksQyBai0rw3Ud51IOtzCLNdP+sdZ/DCswl8PEJ72JRDOdDX9NKj++o9IonQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795650522;
+	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
+	 Content-Transfer-Encoding;
+	bh=YN9b4r1l2WEcKPPzcib2/w/o7uMJblItRnA3t+GlaQM=;
+	b=IxHwf3NGwz9n01YpQ97J89FWj9etfIV3Zu6lnPVKz8MOiTVzJf6boXr2f9cbgEl8aZ0x
+	 Q+O7XpD4qI4L2CWy/4dop9LcG18/p9exAZ00isApVbs0bnxr8bjVMiftWOJ4SUjbmjHe7
+	 3Rm09A87a29+gAJXarwRpYUKjaH9rHhdgH2Pd7OSWotCpdIf3nUkpy4lbO79ZW6K9x0qa
+	 6pFZKUTUCz7wY/mpf7Pwo95ArisxFQwck96DQn9BEVZi95FW+TWD0+Rs0mTdH8otMEOlO
+	 oUKE0hV2pp2QTuiqZ2j58+xme8EJaezA+MrhdRizQfIWQrhise+KE7gLgFW9HU/FB9w==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=o9Xb4Uee;
-	arc=fail smtp.remote-ip=209.85.214.180
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cjwpFuiO;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13F7606A321;
+	Wed, 25 Nov 2026 23:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cjwpFuiO
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795650521;
+	b=GkkbpHugocfhM5oeRggNJJlGSUuGYGTiYrHFNYe9sEhAdg44/WxDAxW/8svRCcVXO6CK
+	 Y+VyDt9NUfLN4MAp2s48gfDv4PdJtJC/6UFDbjiYPOrfxiUi029NVTiULK1ypzlHpYUYA
+	 THoTTnYpf6jMCIizT34sUWKwUpTV5m3kfoXmDi61dZxZzIGDmmZw84etnjk+/1Nzy9Vx3
+	 fITzzJNDZWrnWFOIz8LsCDMJ/APEkPYXR8GKHUQtWGekcCnwRtcFqSQHVsexcBCuG/hZ2
+	 jjbZ6rc3erHx0sgkVzkp6oYswxmtvgkBClsoq+q+ZoBzRaMEnYwyd4aLXDF7NYSd47A==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795650521;
+	h=DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
+	 Content-Transfer-Encoding;
+	bh=YN9b4r1l2WEcKPPzcib2/w/o7uMJblItRnA3t+GlaQM=;
+	b=cSOO25PCa0QjC+qJRSUmXWEYmBhCKykPXQJCKlDf2gp36CKUxmvHtuhvwmMpMSSEtG0l
+	 laJ/WZniAZRDcKnRuyh/96VScKyyIkdNebG4nydjFWxctBqPO4rkD8rWEl5r9e/icjhSp
+	 tHiQiPR4tI9e2LwzFIFN+Tjh3u8Eaw+bIk+ZjQgh3O1753RXpNtv6doSgI0ToW1YFbjnA
+	 UyJpLPmLW6b3kr66hsalXj7vNHbpBfBARn+C7kjkJp6rEb7RcSLK11J2DKC9c1oz+gY0S
+	 +d29425/4qvxPCnPX3cvblG9c4ZkYA32ocUcaPuEJ3xgr6Q4iSXEpQa743F9YH0Mi1Q==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60936606A31E
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 23:17:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60936606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=o9Xb4Uee
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2f04ad2c46dso40141625ad.2
-        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 15:17:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795648672; cv=none;
-        d=google.com; s=arc-20260327;
-        b=q4rpHqH2gpZ4uKYqDRgJyXHP7khECqObeBpZHKYxohNL2EC+IEbL5BIqGzbAPOGcDf
-         +L6E9qPRNSk1hL2yXD3QDccC7fVBN33yAHvWnhpYremiqvoN4aRua+I5LKHVn1PyOxvS
-         HwqAKcXI2OIH0rdODStAwf48z8+8ccPBDUzqX1LXWeclJGJBy0UQipfbad+jGHWVKVFc
-         RZnT+TsuDDUHuLHXV9jN9VKbGNrlzvE+O8MBsB3SSUzHozx9DTgTNTt9+nFUPGZ5gUKE
-         ytevtkvvXYR1L4sVh4fjuQUNw27MvV5w+fvqABlT5lOV9rlfFAoIF8hMdi5VIUewTwCF
-         e2bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=SPmmmW8/OqRNbcYGmJPG6LaUxAYxeNGXCP0krZQQU4s=;
-        fh=KErv1kmETao+Nr2zLrv/RvW0uLg4bErhnfnioXb2WV0=;
-        b=NrQC9mTFLky/0OgA2gCuKD96GRmmGrIf9214yrWpzo1EPG9HfqLlenUDCGksWnrYuy
-         uIJ5CLX9/wafmc1QlHMccFhjD4PxJmVMsGlbBRd7m2s/ag1qG6/ejHRipLPBlxTWQwtL
-         AnZxOnwqipcLjB1AWeL+FdkLfxocY91vOyKX8aQskNWB4lDohVuk8aV5W06ziBmsL9Od
-         TltbFTB6T7v64HpZB8E5Ur/MdnA8mjgDt8yS2jfYqXKPc8xB1/m9vI+9gj8T/OEpxd/q
-         JE5ZU134PcQptiT8seBhQ0pj33p3Oept8awGmCf3rAWbgL/3G0iiAs7PGkDrNwHNY5WW
-         7hHw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795648672; x=1796253472; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SPmmmW8/OqRNbcYGmJPG6LaUxAYxeNGXCP0krZQQU4s=;
-        b=o9Xb4UeesFSAPywllWVj4lJbIxGhOYxJyoWqKVeBJmFbwZ2eQbgzZFJzC4El3kLGk9
-         sH0DgGmaCwlRerX6F+NlMUJgweJLA4biFT4K+I5PQUFnoSl4MXrO7khPK23FIbb5AXqu
-         shpukdYzgLpwRanYtTOYgDXXHa1Scc9k061PxXsQw0EnRRu29oM6Y9TiwWsykFA06ddk
-         lJCV05BkDFugpiYG+0T3945HCPFnofPhxpG7RWtnBV0dZQz7xZPyiAA2oeaHLMjB2D6Z
-         gzOA/Zv9vnMhxGdPolbakvLJDSt8v9lcgpgzkhLuIH8qsaNusN7MdUjE7aF8nBmDQdJE
-         Gv2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795648672; x=1796253472;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SPmmmW8/OqRNbcYGmJPG6LaUxAYxeNGXCP0krZQQU4s=;
-        b=SpQPK5NvNr4WpKCdmQVJtcK4mG6KQs9YzwuRJJ4E5+mi873K3U2ns7Ap2Gd39XLRET
-         Q1DUOyWdQKIw0jTkeepCYdNDzes1o5vsLeLvgbJGQlSV3KrbvLMcHcOU0fixvKdwte+D
-         EpbOawWEfIxjxhfkcpP3ZTtgxcilLxYiFpVmkc4y7bOVRfk4n1mQtC9flJdBFBrILh0y
-         pD5NtmIVvACuFaEI8Hvg3tZWKI2Asd3rmQ9wkbudjnra8orxXhCp32Z9gwMnf0oRJOrB
-         bX65emrOQDiO3/85T11uc1CXq124RkOHfUAIWZAxTgdqBQ2kLqC6NRsvL1/h63RJ3Pdf
-         O7bg==
-X-Gm-Message-State: APuU4Z9l+5FQh+t1ex4QNTgDxirBv1D62YrJ3Z6ppX1q01i+Z9I3WKBz
-	yUFv3nhrYSyXVrQ6RkRdUwGcFDZZKfy3oKju0Ksa8HiHbb5Stb3rY4CfGLmawPtQ7XLlKzSdJnx
-	MBoJt+MCMxQgEcltlTwpilg8ClywATJo=
-X-Gm-Gg: AZFdTZfAldrYzFglI+VVnXnO/kQIcpywyNGQtpNBTVtqh5ciEFQ1/2Dr8Ux9SxI61TO
-	LhESE0q9o/a2EyOkzRC0GeVzAmirQKQtMk0vilLJmNb0F5LjZKrK8tJ999f8ehQX7lj0HkalaY0
-	fczJmm7Qo02hk+uZ2x9O9T+kHSJ/Y7Aq/bHH33IEqFivXFb5EC4CLN6/TY388Ohyw/OjckjDtMf
-	MPSFpL2SApOCQb82QbnJGCXTAX2EX3HJ3aZEST3NJdIJSlX1jpU7PNPf97RiFgyNSnGNlHKp8Mc
-	yUPgwNcDdWveoaxV3bPd055F0M1Lz6IzelnJ/WNr2by/vTQGkGHEF3BLX2MdBYHI+tLVvp6oLv4
-	Px6xAsbWvGN/22COlg02WNqSnk6E1J5/rwhdEsxpePB2SBm2A5Rt4fzmUYBw2jswtPRI=
-X-Received: by 2002:a17:902:f602:b0:2df:90d4:7847 with SMTP id
- d9443c01a7336-2f03f1bf176mr194005115ad.35.1795648671611; Wed, 25 Nov 2026
- 15:17:51 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id B8F411F000E1;
+	Wed, 25 Nov 2026 23:48:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795650521;
+	bh=YN9b4r1l2WEcKPPzcib2/w/o7uMJblItRnA3t+GlaQM=;
+	h=From:To:Cc:Subject:Date:Reply-To;
+	b=cjwpFuiODqQ3+ukuHC9ueSajrLexd0a4k35PcIRpwCt0KLbneSft3q6JWGeLRvlS9
+	 A4Mh+Pw2+P0cZ1LZi29HA1plObfTeAVXD9qa0vkfm+CnAE6CInhs1ivLEtr0B1kxlE
+	 T1SxDpucPSxy28PQjZ3Ebrq6W/nbPWTR8LBAjAFNzMHbIKoW5A14T8OCD+560HhJHB
+	 w5cw39BXNEllJyYkWHnppOMEsbZ31jWdbyF6KeibbIYSSsKtdKn9Ko4tZlOjWGr1rB
+	 D+z/7ek5pmomR1kfsPQfkEYXTDP5U5I9mHh4RL3OwVH5Bmr00p/Im3/u+J6u0hDlR9
+	 XG3K8/dk5Hl4g==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 4892D4D0B8;
+	Wed, 25 Nov 2026 23:48:26 +0000 (UTC)
+From: Ilia Snezhkov via B4 Relay <devnull+iasnezhkov.gmail.com@kernel.org>
+To: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: roles: serialize registered checks and unregister
+ under sw->lock
+Date: Wed, 25 Nov 2026 23:48:25 +0000
+Message-Id: <20261125234825.94733-1-iasnezhkov@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,69 +87,110 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <CACKiatc1Bj2et4kcXDJiYx28XXxoo6iHPc9nYt3GhTCxUmdnsA@mail.gmail.com>
- <20261125203211.76029bf0.michal.pecio@gmail.com>
-In-Reply-To: <20261125203211.76029bf0.michal.pecio@gmail.com>
-From: Flavio Giacchetti <flv.giacchetti@gmail.com>
-Date: Thu, 26 Nov 2026 00:17:40 +0100
-X-Gm-Features: Aa3M54rgy4LL-69X-hqnD2jE-HjcRy5WNU4DRHc4WE3T57CpsEVg8w2rLPrsqdo
-Message-ID: <CACKiateKEggvx60zugZt_C1ejcLv55OiL6Hyv=DkF72370FU1Q@mail.gmail.com>
-Subject: Re: [REGRESSION] Creative Sound Blaster X3 (041e:3264) fails USB
- audio probe on Fedora 7.3.4
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: linux-usb@vger.kernel.org, Oliver Neukum <oneukum@suse.com>, 
-	regressions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795650505; l=2685;
+ i=iasnezhkov@gmail.com; s=mindone2026; h=from:subject:message-id;
+ bh=GuND8n2xqj5QQdwL+68NjBweSNAn1cbbNFIZ1io33u8=;
+ b=VX6Qt7SJnnMShPHXs0AFA3PZgzsq8zQ9J0kvT4+DaIasbDiJWcAhIvaOm7WqJxoTjdV2aHnlu
+ Pov7pAV68lICjkt3ZjvroL0Xh5HTPEM+j4lia4hOjBqdxq0PHrIzQuH
+X-Developer-Key: i=iasnezhkov@gmail.com; a=ed25519;
+ pk=hQgXfiWi4ukk2jh4BHu1vRVhg9BUivo//AFp50AKMag=
+X-Endpoint-Received: by B4 Relay for iasnezhkov@gmail.com/mindone2026 with
+ auth_id=1643
+X-Original-From: Ilia Snezhkov <iasnezhkov@gmail.com>
+Reply-To: iasnezhkov@gmail.com
+Content-Transfer-Encoding: 7bit
 
-Hi Michal,
+From: Ilia Snezhkov <iasnezhkov@gmail.com>
 
-Yes. The earlier Fedora 7.3.3-300.fc45 logs show the X3 enumerating
-at high speed and cdc_acm binding to interface 1 as ttyACM0 without
-the rate-query errors. Audio worked. In a later 7.3.3 boot the same
-unit enumerated at full speed (12 Mb/s), so that later run did not
-establish a working high-speed baseline.
+usb_role_switch_set_role() and usb_role_switch_get_role() check
+sw->registered outside sw->lock, while usb_role_switch_unregister()
+clears sw->registered without acquiring sw->lock.
 
-The failure also reproduced with Fedora 7.3.5-300.fc45 and its stock
-USB and ALSA drivers, with a different known-good cable. At 480 Mb/s,
-the X3 disconnected and re-enumerated, then failed to answer USB audio
-sample-rate and mixer requests. On 7.3.4 the same high-speed failure
-also occurred with my experimental cdc-acm module loaded and the ACM
-interface unbound. Please disregard my IGNORE_DEVICE RFC as a fix.
+A consumer can observe sw->registered == true, be preempted before
+acquiring sw->lock, and still invoke sw->set() or sw->get() after
+usb_role_switch_unregister() has returned and the provider driver has
+torn down its state. Likewise, an in-flight callback already holding
+sw->lock is not drained before usb_role_switch_unregister() returns.
 
-On the failing 7.3.5 run, the USB hub worker was blocked in
-usb_start_wait_urb -> usb_control_msg -> usb_get_string, called from
-get_term_name during snd_usb_create_mixer. A 30-second usbmon trace
-showed repeated endpoint-0 GET_DESCRIPTOR (string) and class
-control requests. For several requests, the next completion came
-about 5.12 s later with status -2 and zero bytes, consistent with
-cancellation after the timeout. In a separate 7.3.4 run, the Intel
-xHCI driver logged two "Event dma ... not part of TD" messages at
-disconnect.
+Move the sw->registered check inside sw->lock in both
+usb_role_switch_set_role() and usb_role_switch_get_role(), and clear
+sw->registered under sw->lock in usb_role_switch_unregister() so new
+callbacks are rejected and in-flight callbacks finish before the
+provider continues teardown.
 
-When the old probe finally unwound and a different rear port was
-enumerated, the unit briefly appeared as Creative 041e:6007
-("X-Fi UltraDSP"), with HID and CDC interfaces and no USB audio
-interface. A targeted USB reset completed but left it at 6007. It
-later returned to 041e:3264 and still failed the audio probe. I
-have not identified what the 6007 state represents. Separately, a
-local WirePlumber rule forced 32-bit PCM and hid the output when the
-X3 enumerated at 12 Mb/s. Removing that rule restored 16-bit/48 kHz
-playback in that mode, but did not fix the high-speed USB failure.
+Found and drafted with an AI coding assistant.
 
-I then reset the X3 using Creative App on macOS. Back on Fedora
-7.3.4-300.fc45 with the original cdc-acm module and without the
-experimental USB quirk, the X3 briefly disconnected on the first
-plug-in, then enumerated again at 480 Mb/s as 041e:3264. ALSA
-registered it and I verified active stereo playback with S32_LE at
-both 96 and 192 kHz. There were no further USB errors after the
-successful re-enumeration in that test.
+Fixes: b787a3e78175 ("usb: roles: don't get/set_role() when usb_role_switch is unregistered")
+Signed-off-by: Ilia Snezhkov <iasnezhkov@gmail.com>
+---
+ drivers/usb/roles/class.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-This is one successful test after resetting the device. I have not
-isolated a bad kernel commit or reproduced the issue on upstream
-mainline. I can provide a sanitized USB trace and kernel stack. If
-it recurs after the reset, would a good/bad usbmon comparison
-starting before plug-in help distinguish what happens at the first
-disconnect?
+diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+index edec139..3370294 100644
+--- a/drivers/usb/roles/class.c
++++ b/drivers/usb/roles/class.c
+@@ -79,10 +79,11 @@ int usb_role_switch_set_role(struct usb_role_switch *sw, enum usb_role role)
+ 	if (IS_ERR_OR_NULL(sw))
+ 		return 0;
+ 
+-	if (!sw->registered)
+-		return -EOPNOTSUPP;
+-
+ 	mutex_lock(&sw->lock);
++	if (!sw->registered) {
++		ret = -EOPNOTSUPP;
++		goto out;
++	}
+ 
+ 	ret = sw->set(sw, role);
+ 	if (!ret) {
+@@ -90,6 +91,7 @@ int usb_role_switch_set_role(struct usb_role_switch *sw, enum usb_role role)
+ 		kobject_uevent(&sw->dev.kobj, KOBJ_CHANGE);
+ 	}
+ 
++out:
+ 	mutex_unlock(&sw->lock);
+ 
+ 	return ret;
+@@ -105,18 +107,21 @@ EXPORT_SYMBOL_GPL(usb_role_switch_set_role);
+  */
+ enum usb_role usb_role_switch_get_role(struct usb_role_switch *sw)
+ {
+-	enum usb_role role;
++	enum usb_role role = USB_ROLE_NONE;
+ 
+-	if (IS_ERR_OR_NULL(sw) || !sw->registered)
++	if (IS_ERR_OR_NULL(sw))
+ 		return USB_ROLE_NONE;
+ 
+ 	mutex_lock(&sw->lock);
++	if (!sw->registered)
++		goto out;
+ 
+ 	if (sw->get)
+ 		role = sw->get(sw);
+ 	else
+ 		role = sw->role;
+ 
++out:
+ 	mutex_unlock(&sw->lock);
+ 
+ 	return role;
+@@ -423,7 +428,9 @@ void usb_role_switch_unregister(struct usb_role_switch *sw)
+ {
+ 	if (IS_ERR_OR_NULL(sw))
+ 		return;
++	mutex_lock(&sw->lock);
+ 	sw->registered = false;
++	mutex_unlock(&sw->lock);
+ 	if (dev_fwnode(&sw->dev))
+ 		component_del(&sw->dev, &connector_ops);
+ 	device_unregister(&sw->dev);
+-- 
+2.54.0 (Apple Git-157)
 
-Thanks,
-Flavio
+
+
