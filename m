@@ -1,88 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795615456;
-	b=YTTz7uSZvtCH8N6oi9JjMyzbUICB0pUkf/lDczSv0cVGLPNgyHAzMSD4fAHxtJqATGGQ
-	 yfdxrtDwmWBdqFx4yIKAZwzv3ksx/JA5FJV0Bx++VScSo4DUvKU/XpXCsRNufgGP3/SCt
-	 4iIqJWgCdFlaZqETStR7x0wxd0/UXc9CubWld/2zX8ocMiqSge4oIwIIOn6IxqP0R52NI
-	 wBP8V7FK5Kmd0rYuces2y2I8plaCKfkJkEhH3q17WXnfbHQgcSkpFuDvbCQkTlpOO+Sty
-	 nYNJBEL+svvZyK/LaYhBZTii7WcNQxo/XvSQJf2mrhh0qXK3ae2qxzhV9xk7VqKlztw==
+	t=1795615457;
+	b=q7bYHZvs4OrZ2mCAywB0a5nTD+C4IuCOLg98Z8y2StD+cqFHDppu5xJY4kmZSYFYrHGa
+	 RmF8cUaNd5hUxx3qGkibXaFjn3ilT6dW1idbsDXzzgyn8X3K415nuylGXCWAngGvvdm4t
+	 CQ6GtBTuI4iwtwLISlfZZvPLB8PWVab9ptO1bXRzKOlOt9DKBrRfWJpGam07Nc/MejGGn
+	 FNd4L02FVDB9TKtjEue2cDlxTvIqc6fCCmd6MC5sH1QsGckHd0fGK1zcoCEC9dSR+HvFu
+	 ik0DjRWHllUAEMPGPdQas/DzyUyvmqbP/WOSVKbMZqyJIucwD9J1TE5izr2ShRbRZ/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795615456;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795615457;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=4hHDt0AHnzQVee/nL+otyYXpEluaox9MK0lFkuMoHGQ=;
-	b=h/S/S4OWL4UEPrUlQU7KEOjcUZ6vysdt9cEv8FwK01HVXP26c5H0I+6HhXa2gBjC/Dhc
-	 aWUUzANad9dzilvHbd115EwDA1GQ9Ngie3bcxmphKumVUhFmKV6LTqvXUpXg5Xa8xF++j
-	 fCdm7cEl/MqbHbZLPmdCnQ2UFDwUHBQ3V84/vDoC8ZDuRNizbh6nOkKJAcT93BreaCda1
-	 b3Es4tmMIx96pAT2rlAx+B5X8aFdbjQ/sM0fkMddHL30e+qabf2FsAjixLhYDYNQRuO0U
-	 yw+Ko89wdOBHX3igyc9GNZXkZWUs+e0oBbjydUWTTKthJPoliXO5FpLkxaavX0DMddA==
+	bh=Gt17SqVKZFuoQnEt/P8FEpr2f5WG5HbmEzaQYA6IuPI=;
+	b=DJgiMZT+BMWMkiwJTAqX0Xt89trrQTxU+cbdKrEAfhvU4/q7eygKsEGzJObXLyU+uhFj
+	 Y41Z26q9xpsQDrwBGf5EUxaNYlPQjPryMMiuH5K5au1Gk9GaGEM51CJ/hyKrD5EETJF91
+	 MeFjsuSoK2qBP52q3B3tkmmUT/vnR5oc1y28U2M73icB+FVcpyYhuR1Tb6ZwyCy8iuuws
+	 fWjUPmzhNE7ewBK3ECajeO4bgIUys2g7NxmFUqQkByvvdSmGbOJX5LFJZQePdm7Hoet/d
+	 GgLzWBUPly4NH3HzOcwg6JJPywMenC2XUThrlxAuryfgNdY+lc7GRegSzLz6KaWPi+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b="Jsm/ZHBA";
-	arc=none smtp.remote-ip=209.85.218.50
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ZCKuJsSk;
+	arc=none smtp.remote-ip=209.85.218.53
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0797606A323
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 14:04:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0797606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3CA606A333
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 14:04:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF3CA606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Jsm/ZHBA
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c5188e17487so3278166b.2
-        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 06:04:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ZCKuJsSk
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c50e26763a4so3259766b.1
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 06:04:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1795615454; x=1796220254; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1795615455; x=1796220255; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4hHDt0AHnzQVee/nL+otyYXpEluaox9MK0lFkuMoHGQ=;
-        b=Jsm/ZHBAd7kRnpLgCIyhYgtTxMHOIWXwpst3K0kudtd8oR8JO4Er8s25HvpTNJwRE2
-         dV1wRnZmdBRhlJ9jH2z1iMRmwHdcdQ8Z9yy/YcIyHUdaz11pzbrHZZPPIBNdTzrJ2tLa
-         Oc263OxCfT90nn2wVVJ59hKRGdaV/ySMrVnnEc+ATEU7wJmmCSt/ZCjdk0dlthv/Csaz
-         qD1WWFDdBqCXf1ifCAM5f9RJwOTbCVJqWPnRg7fuw1LE5afQmMVKZ6bWGPXT1bu5hn/V
-         hVBLbPc8VcSn0wRSSRfQGVgt6AXpnV8DIlMR6COT7GckMn58S8HFB/+FmabjVB5oSrUy
-         TAjA==
+        bh=Gt17SqVKZFuoQnEt/P8FEpr2f5WG5HbmEzaQYA6IuPI=;
+        b=ZCKuJsSk17jyd39MTLwUJ1VPStiFuOP6X9DhZnpKiBPVsSNKEk0QshbtMprFWtw56n
+         cWGsMNrkHqoLGk5j0n8C9GhhGUcgRXYqpEYqv6MUHR2oCHUZmZsBT0Ynp42ydi+asTR6
+         AmUQ3UPRtp9aBrKBg09NLPGtt4VacDbmJtdiXj9n8SagCjJNyw42DaTGA5TmR8A+0Anz
+         MCYir84qSd4chECrYGlb0dtFS0Ucbi9iGDvsuEenmwGy+MmYAWPjcinlbGaz80WODb/2
+         mcu++UDk3WzEj5cz3Yz1Q3+pTlhh/gxAFuVjdAlQFJ21RHYWIOR2OdCu/eX/0Li4CwlK
+         cmOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795615454; x=1796220254;
+        d=1e100.net; s=20260707; t=1795615455; x=1796220255;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4hHDt0AHnzQVee/nL+otyYXpEluaox9MK0lFkuMoHGQ=;
-        b=VSI0kcSnQpJAvV1wcdjEb/DBjuHxP8iVzcteN3Dj4Cz+f+0qQ7/4fPUj7IeZIUDn/W
-         tF3HD92YzuiyoTSdwWEpmOvjfNfHMWxkCxwlk/Xlmfxh152NH9fGJFUGEfwlEYAsZLjE
-         Lbp6pECfpYlog3kfmeIAGvmvvW2DHcgguKJtha+ADBda/HF9g+z8PybSD7v2gOlLd5e+
-         wXWc8PD0D5H7821DnOD05WblU9K/vkDX4PF13ZMRaSutWPb3t26MU668CT5PEWccxvXC
-         30KTd6jnGDWaAXJbxVb33Jr8RFWE8OScxwdNFs6hNKv+OrmDc4bglEq1F0m178+x7KZd
-         EgUg==
-X-Forwarded-Encrypted: i=1; AL+hErEH6YA6TvSIK5MqJ2R3zmeeIBdaoYu2I/ntnqwoA+5P3vij14JWtO3lab1weP2rgq9V2aMM/6z16Rc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+8uyKu2Bl8R+rUm6G0vCEB/CGJYvnhjmrMM9v7Gs27miZpJ0Ry
-	g+Kd0BlfItppcEdnHaLTfvClOf39n28++9JQ151TFHNZYwJ+ZKVOCyxFC8vTipuKGWU=
-X-Gm-Gg: AZFdTZcXCPeF8kJCbdF5/S3x1v3c6LbNAWi4rXcmeWiuF97sHkgoLaZF9ZqO8R7jUDs
-	+Tr/mq3//yZBYEWanUSuJTfxmaLYgO2eo82VanoOmPC/eySC1Wfo8Z+cbqOLyeAGy6/7HYUs/1X
-	hz/qfMSyDZ+19Ce8GoUUY31HXP5uQaciqhdKHAjgpKYx6cUvEEExZii6dY05JGUt9vJT24hiCcz
-	aUQBXCCrQfnEZstVncoHoXcMQYndD46qROy1o3/yVrQnv6mSMuYXVwb+ARRdP3uY50By7BwHBcY
-	zsVHJIJYh8jJbfnTyIhE/xhhg7tRPrBeGkCSXzO96uFbOsB6B2+Zx25vt1cgp/4ldykhMyCBPCr
-	ox8K+k4kc1Cmy/wyrf35/mtt71q30Eo+2LEb4DCLk/ueMDo5atAvzizKXZQawb0wxX4WEaSVz/r
-	i4RF2kuVUjjzfw0pSy7rNpEvzjQ9qzyadNc2V0HfE78WQtnnR5pPr+tLGaB9ujrvxwXP+jW1TbZ
-	p3tAvnStA2vv8lL7pw/ZtOOAGvWlF0ItDAk40H2g93PpUemdhoV5qGmd3VPCDGtgg006AeVIORA
-	NnUOYSLQza/FDTnu2hkuig0lAzyk+yc/8IWVU1+2mtPTNwEus8X4qUJEvzVifh8O/hfl7605G1o
-	B/jes6NlLblovEEILAXVVQCRiJxCUsUnv8RwiywA=
-X-Received: by 2002:a17:906:bcfb:b0:c40:b59:1b with SMTP id a640c23a62f3a-c513aca41b9mr1105555266b.44.1795615454197;
+        bh=Gt17SqVKZFuoQnEt/P8FEpr2f5WG5HbmEzaQYA6IuPI=;
+        b=p1sXVeTKvEHyx70he/oQ8AdI9Do0HwHEaEDZHCW0sV9NuKEOD6C0BqdmNqAGmIWqdx
+         FrC6+V0BJIeUqouX9YpexSYcFqH7t+NTSlfrm8+OvfJxypAIp+vlzNcbLjQsu7tiZSD/
+         yZ/R/MY1kvojZBlT+HPDBSUq4k74FxT5+TWgRY9Nya1RLxn1Hx5V0TFe5yQFR9+vefF5
+         n19MO/fPs0a7kvJJd2m97XViidEm+FxnGiC+COVUuRaqMFBzmg25u8GhVglMqKEhvTMB
+         MuXKMUimYXSy0j0LJBqlUmjE4paz/KLD6yOX5adi24d1sDrgV5wMT1wPQdJqjFhx8Op0
+         vTow==
+X-Forwarded-Encrypted: i=1; AL+hErFapIDFfy4smt6TZ1SScGLIUhOm3lCpwfEooVftIv5vPmJ9yXEABmVWkztsUU9g1kNmfeGeGNxjerk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8d32M1nVgJ8/QbKwz21FlrCMEZea7AzjipQDkFivASUPIvJLob
+	8lt+mpZ5SiG//pQC/ML/Z1bda2Bh9cxKMya5NQx/UDnZnyT29oN7JZMggw7sIsy+MkA=
+X-Gm-Gg: AZFdTZcWBrH9orIqqzixvjHzCTlNj0vUPHWGJZ9903vlxXFPD5Rd/uNQf58fhH/OCIQ
+	UwDVF+7T1DQCFTlfP3tcXDT3CpkerGy57bFBAXrFWkR4aHau6XD6e2HoCfvH3weAPHlWP4/sVvN
+	eFLnHyrcAnQu8MYonMM11oEqqVuS8+H80sZTWeI/juXX13/j3NeBT/DZhNN5/GosKFAM7z+CqrG
+	fsMqiYr7Ezbaoa1mPaqcB92pwknL5Qp3UL1tHbRYPzKxP2SMTm4D3FCxz3y2B9ihWWAkQT0TsUt
+	DbmzyMEho2NqhjuKoXlWp7vUeQwm6BNEyQc4FapdC9Sd7Lb8dq6HwIRl3ilwAEdilrmdz4tw+Wd
+	c+YHgICUITL+zZ9bGc9c0NWuC3TDH6OOyrkB0ez3BhUAOPLFuWpgvM57X4xIn2WM1wohKLj82gc
+	6rfzfA8603M1SVrUgmhnvAAwURAFiW4P8w/ImVpS2lLDE5z6lY4kzwKq9G+lPVWa8vx02Z4W+wO
+	VIGTGoJBeode0mXqd6+PYJ5R4YZ90ROdggDSdum+MxdvCM9Td6tbQXRdhqRf+858OLzpTxV3A1T
+	Ewoxj3HmikXpxAkaxuMePzJLwjLbkpyax/dtrrq7Nik2khbUtsnQmI1VWW899+uQ7oyujcvdFcb
+	LrbYClDszB+JDCh14uw==
+X-Received: by 2002:a17:906:785:b0:c50:5e10:71b3 with SMTP id a640c23a62f3a-c513a999557mr1169848066b.10.1795615454956;
         Wed, 25 Nov 2026 06:04:14 -0800 (PST)
 Received: from puffmais2.c.googlers.com (226.124.90.34.bc.googleusercontent.com. [34.90.124.226])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513a8678cdsm627741866b.0.2026.11.25.06.04.13
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513a8678cdsm627741866b.0.2026.11.25.06.04.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 06:04:13 -0800 (PST)
+        Wed, 25 Nov 2026 06:04:14 -0800 (PST)
 From: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
-Date: Wed, 25 Nov 2026 14:04:11 +0000
-Subject: [PATCH 1/2] usb: typec: tcpci: add get_current_limit callback
+Date: Wed, 25 Nov 2026 14:04:12 +0000
+Subject: [PATCH 2/2] usb: typec: tcpm/tcpci_maxim: report BC1.2 current
+ limit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -94,7 +95,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20261125-tcpci-maxim-bc12-v1-1-656e01201efb@linaro.org>
+Message-Id: <20261125-tcpci-maxim-bc12-v1-2-656e01201efb@linaro.org>
 References: <20261125-tcpci-maxim-bc12-v1-0-656e01201efb@linaro.org>
 In-Reply-To: <20261125-tcpci-maxim-bc12-v1-0-656e01201efb@linaro.org>
 To: Badhri Jagan Sridharan <badhri@google.com>, 
@@ -107,77 +108,101 @@ Cc: Peter Griffin <peter.griffin@linaro.org>,
  =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
 X-Mailer: b4 0.14.3
 
-TCPCI-based ports attached to a source advertising Rp-default report a
-0 mA current limit to consumers such as charger drivers, preventing
-non-PD charging on hosts that rely on BC1.2 detection.
+Maxim TCPCI (MAX33359/MAX77759) ports attached to a non-PD source
+advertising Rp-default report a 0 mA current limit, so charger drivers
+such as max77759-charger disable charging even when hardware BC1.2
+detection has identified a charging port.
 
-tcpm_get_current_limit() falls back to 0 mA for TYPEC_CC_RP_DEF unless
-tcpc->get_current_limit is populated, and tcpci_register_port() provides
-no way for chip-level TCPCI drivers to supply that callback.
+For TYPEC_CC_RP_DEF, tcpm_get_current_limit() returns 0 mA unless the
+TCPC reports a limit. The Maxim TCPC exposes its BC1.2 charger detection
+result in CHGTYP[1:0] of vendor register BC_STATUS1 (0x87), which
+tcpci_maxim does not read; on Pixel 6 (MAX77759) attached to a CDP host,
+BC_STATUS1 reads 0x02 (CDP) with BC_CTRL1 (0x8f) reading 0x81
+(CHGDETEN set).
 
-Add an optional get_current_limit callback to struct tcpci_data and wire
-it into tcpc.get_current_limit when provided, clamping any negative
-return value to 0 because tcpm stores the result as unsigned.
+Implement the new tcpci_data get_current_limit callback to read
+BC_STATUS1 and return 500 mA for SDP and 1500 mA for CDP/DCP (and 0
+otherwise or on read error). Return 500 mA for SDP (matching fusb302)
+because TCPM queries get_current_limit() on entering SNK_DISCOVERY and
+SNK_READY and has no USB enumeration hook to raise a 100 mA limit later.
+Tested on Pixel 6 (MAX77759) with SDP (BC_STATUS1=0x01, 500 mA), CDP
+(0x02, 1500 mA), and DCP (0x3b, 1500 mA) attach and hot-plug.
 
 Signed-off-by: André Draszik <andre.draszik@linaro.org>
 ---
- drivers/usb/typec/tcpm/tcpci.c | 12 ++++++++++++
- include/linux/usb/tcpci.h      |  5 +++++
- 2 files changed, 17 insertions(+)
+ drivers/usb/typec/tcpm/tcpci_maxim.h      |  8 ++++++++
+ drivers/usb/typec/tcpm/tcpci_maxim_core.c | 25 +++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index 7cca97bd772b..3f2c87d475c7 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -498,6 +498,15 @@ static int tcpci_set_pd_rx(struct tcpc_dev *tcpc, bool enable)
- 	return 0;
+diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.h b/drivers/usb/typec/tcpm/tcpci_maxim.h
+index b314606eb0f6..8290201f8ae3 100644
+--- a/drivers/usb/typec/tcpm/tcpci_maxim.h
++++ b/drivers/usb/typec/tcpm/tcpci_maxim.h
+@@ -10,6 +10,14 @@
+ #define VENDOR_CC_STATUS2                       0x85
+ #define CC1_VUFP_RD0P5                          BIT(1)
+ #define CC2_VUFP_RD0P5                          BIT(5)
++
++#define TCPC_VENDOR_BC_STATUS1                  0x87
++#define CHGTYP                                  GENMASK(1, 0)
++#define CHGTYP_NOT_ATTACHED                     0
++#define CHGTYP_SDP                              1
++#define CHGTYP_CDP                              2
++#define CHGTYP_DCP                              3
++
+ #define TCPC_VENDOR_FLADC_STATUS                0x89
+ 
+ #define TCPC_VENDOR_CC_CTRL1                    0x8c
+diff --git a/drivers/usb/typec/tcpm/tcpci_maxim_core.c b/drivers/usb/typec/tcpm/tcpci_maxim_core.c
+index a19f52515429..fb22a0dfb963 100644
+--- a/drivers/usb/typec/tcpm/tcpci_maxim_core.c
++++ b/drivers/usb/typec/tcpm/tcpci_maxim_core.c
+@@ -5,6 +5,7 @@
+  * MAXIM TCPCI based TCPC driver
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/interrupt.h>
+ #include <linux/i2c.h>
+ #include <linux/kernel.h>
+@@ -57,6 +58,29 @@ static struct max_tcpci_chip *tdata_to_max_tcpci(struct tcpci_data *tdata)
+ 	return container_of(tdata, struct max_tcpci_chip, data);
  }
  
-+static int tcpci_get_current_limit(struct tcpc_dev *tcpc)
++static int max_tcpci_get_current_limit(struct tcpci *tcpci,
++				       struct tcpci_data *tdata)
 +{
-+	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
++	struct max_tcpci_chip *chip = tdata_to_max_tcpci(tdata);
++	u8 status;
 +	int ret;
 +
-+	ret = tcpci->data->get_current_limit(tcpci, tcpci->data);
-+	return ret < 0 ? 0 : ret;
++	/* Relies on CHGDETEN being set; returns 0 until detection finishes. */
++	ret = max_tcpci_read8(chip, TCPC_VENDOR_BC_STATUS1, &status);
++	if (ret < 0)
++		return 0;
++
++	switch (FIELD_GET(CHGTYP, status)) {
++	case CHGTYP_SDP:
++		return 500;
++	case CHGTYP_CDP:
++	case CHGTYP_DCP:
++		return 1500;
++	default:
++		return 0;
++	}
 +}
 +
- static int tcpci_get_vbus(struct tcpc_dev *tcpc)
+ static void max_tcpci_init_regs(struct max_tcpci_chip *chip)
  {
- 	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
-@@ -892,6 +901,9 @@ struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data)
- 	if (tcpci->data->check_contaminant)
- 		tcpci->tcpc.check_contaminant = tcpci_check_contaminant;
+ 	u16 alert_mask = 0;
+@@ -523,6 +547,7 @@ static int max_tcpci_probe(struct i2c_client *client)
+ 	chip->data.check_contaminant = max_tcpci_check_contaminant;
+ 	chip->data.cable_comm_capable = true;
+ 	chip->data.attempt_vconn_swap_discovery = max_tcpci_attempt_vconn_swap_discovery;
++	chip->data.get_current_limit = max_tcpci_get_current_limit;
  
-+	if (tcpci->data->get_current_limit)
-+		tcpci->tcpc.get_current_limit = tcpci_get_current_limit;
-+
- 	if (tcpci->data->auto_discharge_disconnect) {
- 		tcpci->tcpc.enable_auto_vbus_discharge = tcpci_enable_auto_vbus_discharge;
- 		tcpci->tcpc.set_auto_vbus_discharge_threshold =
-diff --git a/include/linux/usb/tcpci.h b/include/linux/usb/tcpci.h
-index 9b46a6bc762c..1e316190dc8c 100644
---- a/include/linux/usb/tcpci.h
-+++ b/include/linux/usb/tcpci.h
-@@ -208,6 +208,10 @@ struct tcpci;
-  * @set_orientation:
-  *		Optional; Enable setting the connector orientation
-  *		CONFIG_STANDARD_OUTPUT (0x18) bit0.
-+ * @get_current_limit:
-+ *		Optional; Returns the current in mA the port may draw as a sink
-+ *		when the partner advertises Rp-default, e.g. from BC1.2
-+ *		detection in the TCPC. Must not return a negative value.
-  */
- struct tcpci_data {
- 	struct regmap *regmap;
-@@ -223,6 +227,7 @@ struct tcpci_data {
- 	int (*start_drp_toggling)(struct tcpci *tcpci, struct tcpci_data *data,
- 				  enum typec_cc_status cc);
- 	int (*set_vbus)(struct tcpci *tcpci, struct tcpci_data *data, bool source, bool sink);
-+	int (*get_current_limit)(struct tcpci *tcpci, struct tcpci_data *data);
- 	void (*frs_sourcing_vbus)(struct tcpci *tcpci, struct tcpci_data *data);
- 	void (*set_partner_usb_comm_capable)(struct tcpci *tcpci, struct tcpci_data *data,
- 					     bool capable);
+ 	max_tcpci_init_regs(chip);
+ 	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
 
 -- 
 2.56.1.831.g720f3f5937-goog
