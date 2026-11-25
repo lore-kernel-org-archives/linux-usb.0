@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795587241;
-	b=URjodivOpFS+Vqwmldmd6kgSDoxGkt5Kr6CFyFhKXp4JgqBkmNhdoUPda6RaFFm78GNB
-	 4zUf9xypJwDkjq7EXY6OxW+ewhfULAnt2iESKWYTAsqUjz14YcDRa5Gj+QiLvGHhMZlPG
-	 BxI5DdoKxSA0B0UFUc/A61i7EXHAmUl1yJMRr4nxgFgPWXxHSHJmr3TPRiQxJVB/X33qx
-	 P8wo4EDmzFnNYURahetjWVx0YXG9ULC6CYK/4VI0x2mO0fh0zEwsXxwF7ddDn3LKoFbO3
-	 KX2Y/edrf6vk7VDQ6FYAEI4y+GzNJE8mrVjEx0ZJ5YyBvtMu9IEvsIWw8Nl+CxIjECw==
+	t=1795587233;
+	b=qxxk+1YO623xsXfljQX6iZY0Tr4QlWe5+i34oxilQY6hpI8hrNkiEW1sPjdCe5J/tRK4
+	 fmOYINwyRBNCebHsrCWvjCESGTRQ6Ti6O9hF2+lakIDt2tu4cwqs7OM1GeZd++z5wAgIM
+	 guQOcuI4lejIJxEiJJJ6/QdOmxCFHep3bYV5l57krQ8sL7jYxN2h8CQlIhFamVkZSCNee
+	 uOqguXMtqzSZbIl3MMSNiZaO9kg2RUx+AIRNGGmzVmgACK+oQ/ErCwU41bI09vwDtE4ay
+	 TRvkaQXE7oTWeb+QJmW/FKh2K9E+Y+f+STWWlRfbj7qWPWo4BqF7sDbBIacI2/HU8Mg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795587241;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795587233;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=06jVMrLk7qKByXSJceJFM6yQsWAtTpo701vzTDV88jU=;
-	b=g5No8oryZs53gSNyLUrT+JWTboLF8uSVnftxl/COoNASLsk5oFd36OAJEgHquyi+1lBg
-	 aludXle9SXzE8m8wTAqoNs8yM0WJtFUWZdqdhU7TtgxKTbmj7Re+WHa8rCtOoCHvAmTjI
-	 S154Fj46TRIZxOHztkzIksS/hx11VdtZ32743AnGDykIzHDxIGgxqanlodRLFPpvz7TBd
-	 ZnB2ntyFEPyjTxYjJ5HNgVqfyOZ2l/sfIi8XjFBBj5AD34M70rNiljdzQkDeH9iWTbHCC
-	 Xmhk1dN5L5NAbuyKDhIK7kmYEh2OOgm1IS78q04phZgB9l8HdCmuemn4zCLbVjuBhQw==
+	bh=+8jdBu194DlNkmnb+wfnHItWGdgLROhV9S+C/TWCEcI=;
+	b=liId5NcTKr9RYeOFneEyMgA6YVB3/1H9xL9VwMfqF3BoQbREKHxj0FDz6Ut6rIFoQvie
+	 asBd3nPSCi/VCQ4mMUetAIP2umnAAkiixbCCij1HVkyO+N2l5vbPv54Mvr0oqq51gGFYF
+	 ErXuOJxl6PRCtocT7VWhbRaFxhGp6X6C515u4WfBchO7M57xnWvSCx6gi0pU2Qe9EgB6n
+	 zCpB62FL/LdMtE0zMgQLS8vl/hSRlZv2yX0pCnBU6YwA2peXQON+JCiwqB3pZoggm7Ey7
+	 cZ4jFVSQOae8UQxnbkYMguedXWlIrijagPk4Z+ina0xeHkUTs2CupmVt44GTLaxqQjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=IeiPRYZt;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=kERMxCdT;
 	arc=none smtp.remote-ip=198.137.202.133
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E05A606A32A;
-	Wed, 25 Nov 2026 06:14:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E05A606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CA4606A338;
+	Wed, 25 Nov 2026 06:13:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16CA4606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=IeiPRYZt
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=kERMxCdT
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=06jVMrLk7qKByXSJceJFM6yQsWAtTpo701vzTDV88jU=; b=IeiPRYZtxYbX40yu0v323yHaXs
-	AJHX1Z6Q47hdFjGEA8Ki6TdcGmk0/SZMQ09uIP+EnODqg8op8fXbobW5M6IEeJbjdiWmHVTp4qj13
-	rkavqdm05SYOgh73RvXhcG6+xzMjRb9jwVbRMLWzm7Hl7+NQD1Vh4TWPvbkm6LoM2S/d5VGIoNZxz
-	sBJN2zqpqERtocRg6dv607diLzKOPwoRb65k/FoH3QaczzgsFCpWbI6pedBgixQfBaX3gOrzWqqZP
-	bHKOgxzseBAs3F9PPNuAe/9VMYbx1tHGrWRCAYJRGGkYdZ95isPVDSMhmOlkEpx1sfY0HYnHfjd/t
-	4dv79e1A==;
+	bh=+8jdBu194DlNkmnb+wfnHItWGdgLROhV9S+C/TWCEcI=; b=kERMxCdTufChzabW0IvD+rbqtc
+	Nbdyx0vQdDuiaGCqqp2x8hTqoQruD5AvGRVDUOhXslaBMSpsjs+OIRKnehcOMkFyl/fjtquOErF7C
+	tuduPzcZz6sblc6U8dX6rlj5CqhR9GcgPAh2/sZLjyCnlbRjOx4d8uBUVRsMFKo/0ZHgUYYPao+kX
+	0bISrlhzLamhNb2d9WCuQp6oM9WeQ7A7BLvhyNMN65o+7N9xyRnTc5brz8cM1qPYET2QnoDqld7Qb
+	q/0mpcfNxo9vTs+1OtQjAoRWL8Wb+X12mSUPs7nwgX0Yzh7fOgBG1R2ZgiPBCM0x36EJ4EQP7b6tO
+	AlnKLPWQ==;
 Received: from [50.53.43.113] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW6GW-00000008Wvh-1Ipo;
-	Wed, 25 Nov 2026 06:14:00 +0000
+	id 1xW6GO-00000008Wvh-0r3L;
+	Wed, 25 Nov 2026 06:13:52 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
 Cc: Randy Dunlap <rdunlap@infradead.org>,
@@ -132,9 +132,9 @@ Cc: Randy Dunlap <rdunlap@infradead.org>,
 	Matthew Brost <matthew.brost@intel.com>,
 	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 	intel-xe@lists.freedesktop.org
-Subject: [PATCH v3 07/12] docs: ioctl-number: update MTD entries
-Date: Tue, 24 Nov 2026 22:13:34 -0800
-Message-ID: <20261125061340.3402300-8-rdunlap@infradead.org>
+Subject: [PATCH v3 03/12] docs: ioctl-number: update block entries
+Date: Tue, 24 Nov 2026 22:13:30 -0800
+Message-ID: <20261125061340.3402300-4-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261125061340.3402300-1-rdunlap@infradead.org>
 References: <20261125061340.3402300-1-rdunlap@infradead.org>
@@ -149,14 +149,11 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update the list of files where MTD ioctls are defined and update
-the ranges of function numbers that are used.
+Update the list of files where block ioctls are defined.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
-v2: address sashiko review comments (missing update of 'O' range
-    for mtd/ubi-user.h)
+v2: no change
 v3: rebase
 
 [Since having multiple maintainers trying to merge these would
@@ -166,43 +163,29 @@ take all of these through the docs-next tree.]
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Shuah Khan <skhan@linuxfoundation.org>
 Cc: linux-doc@vger.kernel.org
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>
-Cc: Zhihao Cheng <chengzhihao1@huawei.com>
-Cc: linux-mtd@lists.infradead.org
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org
 
- Documentation/userspace-api/ioctl/ioctl-number.rst |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/userspace-api/ioctl/ioctl-number.rst |    4 ++++
+ 1 file changed, 4 insertions(+)
 
 --- linux-next-20261123.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
 +++ linux-next-20261123/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -193,8 +193,8 @@ Code  Seq#    Include File
- 'L'   35-38  arch/m68k/include/asm/fbio.h
- 'L'   35-38  arch/sparc/include/asm/fbio.h
- 'M'   all    linux/soundcard.h                                         conflict!
--'M'   01-16  mtd/mtd-abi.h                                             conflict!
--      and    drivers/mtd/mtdchar.c
-+'M'   01-1A  mtd/mtd-abi.h                                             conflict!
-+'M'   03-04  drivers/mtd/mtdchar.c
- 'M'   01-03  drivers/scsi/megaraid/megaraid_sas.h
- 'M'   00-03  drivers/video/fbdev/mb862xx/mb862xxfb.h
- 'M'   00-0F  drivers/video/fsl-diu-fb.h                                conflict!
-@@ -203,7 +203,7 @@ Code  Seq#    Include File
- 'N'   80-83  uapi/linux/ntsync.h and uapi/linux/nvme_ioctl.h           conflict!
- 'N'   84-8F  uapi/linux/ntsync.h                                       NT synchronization primitives
-                                                                        <mailto:wine-devel@winehq.org>
--'O'   00-06  mtd/ubi-user.h                                            UBI
-+'O'   00-08  mtd/ubi-user.h                                            UBI
- 'O'   1F-3F  linux/omapfb.h
- 'P'   all    linux/soundcard.h                                         conflict!
- 'P'   60-6F  sound/sscape_ioctl.h                                      conflict!
-@@ -305,7 +305,7 @@ Code  Seq#    Include File
- 'n'   E0-FF  linux/matroxfb.h                                          matroxfb
- 'n'   F8-FA  video/sisfb.h                                             sisfb
- 'o'   00-1F  fs/ocfs2/ocfs2_fs.h                                       OCFS2
--'o'   00-03  mtd/ubi-user.h                                            conflict! (OCFS2 and UBI overlaps)
-+'o'   00-06  mtd/ubi-user.h                                            conflict! (OCFS2 and UBI overlap)
- 'o'   40-41  mtd/ubi-user.h                                            UBI
- 'o'   01-A1  `linux/dvb/*.h`                                           DVB
- 'p'   00-0F  linux/phantom.h                                           conflict! (OpenHaptics needs this)
+@@ -78,6 +78,7 @@ Code  Seq#    Include File
+ 0x00  00-1F  linux/fb.h                                                conflict!
+ 0x00  00-1F  linux/wavefront.h                                         conflict!
+ 0x02  all    linux/fd.h
++             drivers/block/floppy.c
+ 0x03  all    linux/hdreg.h
+ 0x04  D2-DC  linux/umsdos_fs.h                                         Dead since 2.6.11, but don't reuse these.
+ 0x06  all    linux/lp.h
+@@ -90,6 +91,9 @@ Code  Seq#    Include File
+              linux/blkpg.h
+              linux/blkzoned.h
+              linux/blk-crypto.h
++             linux/blkdev.h
++             linux/blktrace_api.h
++             block/ioctl.c
+ 0x15  all    linux/fs.h                                                FS_IOC_* ioctls
+ 0x1b  all                                                              InfiniBand Subsystem
+                                                                        <http://infiniband.sourceforge.net/>
