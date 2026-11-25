@@ -1,45 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795613356;
-	b=DVqoESbLnr+yBRKPk1RBN7C/QUK48mwMPJCsMo5CXro/nZkwVgou7viR7dGAyqkOVabU
-	 QmbPjMvzKf7lx7jMxkZQuT06zA9tOpHbmTgbOwCQ7xZ2twU1qxVyQIWvnNWJTanr3Rj5p
-	 RXjV/BH//hLMHCF3ZPM888DjWsZeNpIrEBI+q2U4DQkzVvCYuJ7OzwzhnELtTUgeoNm2n
-	 YduvbBgAYVQAjijNzTO+xiGfxiYf8eSoXujgfGO71JOW5rz9ydLcNIMIULKpEtZuJ0nao
-	 0NzUUXbxOo2fT2R4JqDnhfowny40B5rH9ZycXYzxEzzVr7oNv3o9yXSVKb1acFWZJuA==
+	t=1795614884;
+	b=TZdEpWGyiEzHke7hemk9a0O79edaLXMbnz/AYz6KDI7PlxKw1SuxhssJ4GB0rThvjJ4R
+	 vDwYU9Awskcs0ES3I4z0+p7LvIqLcULBEgrLiyxbGM9geGk0Q/Uv9K6UcVk1NOIeIxzdx
+	 Zaqs9HRFHxbTjeUB9fbS3lSx3Xx8Qi9k2/bXpBJeS7vDtADs8TJg7lOmZvpzipiBGU1rf
+	 +Dzc7YcDAB0PQ+MzmwC3ktOl4YZJ0lv43L8lTXdlNz8+L3NhuMPEwUdDZe0XkdiQBkFpP
+	 DeQnOm4Fl0bFwu8FbbNMsFZAfmm0v4wOyf27FKm3oW5RAzyxGyPSnHbSSeBb07Y204g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795613356;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer;
-	bh=OxIr+TwEl0zxxwb0G7Ei7ghukL2hV6bVQxTMRyMQ1YU=;
-	b=mtCmzTKikYty/gDtGp4LB8ZyN7FeDZ8C5wEEDKzbjDea4YrPdW610poIT/Au8M7bJ67E
-	 O7mRzeBL/oVxxkRmFnvwupF0qcwLMgZ7/Zpqtx0YBA5sTcLWlWJEpdrg3YTVGAsCcO88y
-	 pEc4LtqEzaw69UUaNDO9NlUjd+ULQsgTYEVQh2pYyMrCC/2EwbwQZhv7YvZznKfR3WqSe
-	 /by+LO8OuwISvqSwd2qxRpsmq7f2sBeMo75siIY7ZKGBpLDJJAr4vqyqHUl4QJG8EnHyq
-	 MWmrCd7+HNXF+u96N9tzdz0KdmIE5fXIWKQHOuImQurG7Up8kULjXVkoV/hK5ncAhhw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795614884;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=tRMOVhjO91YgFyCjVHMcEDWOP+GyvWo/nClKImfdGdg=;
+	b=R8/SUZ88ssIXAyQQSWkVt+H4lRfefnBt+207MwG9BLBI++5Cnp4KCLtaNIQSWsnRnU9n
+	 rceUN+g7UeiNXH1hE8+ozcp7ouvrNurRKCDa/OQZx/NgtcxbDIMsTTqiFELQNxItpxeaH
+	 nHpWbuPwYUXnpfXofiY5rTP72nhKUhG0tTSm9UjsymxKrN+G13JpHzqg2WSWQ4WKR3eAo
+	 5f39y5Qwpg74z0b2n5ypSO6TN2w7rgwlNVvdH96E7uH3AhdBCtNdJsFIvmfxE5qAQu3Fl
+	 sthWSX6JYPRODPw5q/TTvYU/n2sS69ToV8/fIluBJv5hRzMcpArRgltalD+HdcC/8tw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RpJRSiUz;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=i1favunH;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4D7606A31E;
-	Wed, 25 Nov 2026 13:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0519C606A31E;
+	Wed, 25 Nov 2026 13:54:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0519C606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RpJRSiUz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A06F1F000E1;
-	Wed, 25 Nov 2026 13:29:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795613356;
-	bh=OxIr+TwEl0zxxwb0G7Ei7ghukL2hV6bVQxTMRyMQ1YU=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=RpJRSiUzay3ataummkoOho62pyGv83533zrfuDijUhYtiCU/HDfnC96AwLf7F0GEl
-	 Ps/4ykkBgxNKT20KTG2qToVXAzKWb+wiKeJKrjdnPe1lOiPpD3E7GFsRvz5xTaXpw1
-	 9BjVvH7Y39wkdK/8M8oO0PpnZsg61FhDdiw9sS9g3oA7wo5p1vIh+51/vXn6GsKs2h
-	 jKkLGL5b9/72wQ99DQy3XzxnBfid67eb6lInMX7tmbClT7Jyl/Qg3Q2WUM4xicyfA8
-	 1pBRPKx4fsgsQX/yRG23I/DwbKqwFHjBbNVixFKAlt5QlH1Lo0LcNOfEylI3Lq/MCf
-	 ArvAl6ZlD+qwg==
+	dkim=pass (1024-bit key, unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=i1favunH
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=tRMOVhjO91YgFyCjVHMcEDWOP+GyvWo/nClKImfdGdg=; b=i1favunHeeOjlEMSLGfU/YnsJ9
+	px8jbVsRxoTzvw/THacpoPIm6ZOBTxMRy0zNuJyVenny5Ca40XuomlQ1Hwn4ELxr3zILng8GXHxSG
+	XR27I453nvQL/DWPkmg14f2+NoThyNc2ZEv02vQ3lKmXCZiukAfn1aR2VzMLf6rGdw1g=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xWDS9-001KOd-PG; Wed, 25 Nov 2026 14:54:29 +0100
+Date: Wed, 25 Nov 2026 14:54:29 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>, Cheng Wen <wencheng@xidian.edu.cn>
+Subject: Re: [PATCH] net: usb: mcs7830: skip zero-length register dump reads
+Message-ID: <7b103b24-51f6-4724-96ad-fe9b3d54831d@lunn.ch>
+References: <20261125071649.7052-1-25031212351@stu.xidian.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -49,58 +65,23 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3 12/14] soc: qcom: socinfo: Add SXR2250P SoC ID
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Stanislav Aleksandrov <lightofmysoul@gmail.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Robert Marko <robimarko@gmail.com>, 
- Guru Das Srinagesh <linux@gurudas.dev>, Thomas Gleixner <tglx@kernel.org>, 
- Radu Rendec <radu@rendec.net>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Wesley Cheng <wesley.cheng@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Bart Van Assche <bvanassche@acm.org>, 
- Bean Huo <beanhuo@micron.com>, Stanley Jhu <stanleyjhu@google.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- "David S. Miller" <davem@davemloft.net>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
- Thara Gopinath <thara.gopinath@gmail.com>, 
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, Georgi Djakov <djakov@kernel.org>, 
- Sibi Sankar <sibi.sankar@oss.qualcomm.com>, Ulf Hansson <ulfh@kernel.org>, 
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- iommu@lists.linux.dev, linux-usb@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-scsi@vger.kernel.org, 
- linux-crypto@vger.kernel.org, linux-pm@vger.kernel.org, 
- Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20261125-halliday-dts-v3-12-5c8311c0b70b@gmail.com>
-References: <20261125-halliday-dts-v3-0-5c8311c0b70b@gmail.com>
- <20261125-halliday-dts-v3-12-5c8311c0b70b@gmail.com>
-Date: Wed, 25 Nov 2026 14:29:12 +0100
-Message-Id: <179561335286.84329.3989958542179455142.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125071649.7052-1-25031212351@stu.xidian.edu.cn>
 
-On 2026-11-25 03:43 +0000, Stanislav Aleksandrov wrote:
-> Add the SoC ID for the Qualcomm SXR2250P (Snapdragon XR2+ Gen 2).
-> 
-> Signed-off-by: Stanislav Aleksandrov <lightofmysoul@gmail.com>
-> ---
->  drivers/soc/qcom/socinfo.c       | 1 +
->  include/linux/soc/qcom/socinfo.h | 1 +
->  2 files changed, 2 insertions(+)
+On Wed, Nov 25, 2026 at 03:16:49PM +0800, YuanZhe Liu wrote:
+> mcs7830_get_regs() passes the user-supplied regs->len straight to
+> mcs7830_get_reg(), which submits a vendor control-IN request for that
+> many bytes.  ETHTOOL_GREGS accepts a zero length, and ethtool_get_regs()
+> still invokes the driver's get_regs() callback in that case, so a
+> zero-byte dump request reaches the driver.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Take a step back. Think about the kAPI. Why pass 0?
 
-Best regards,
-Krzysztof
+I think you are solving the problem in the wrong place. And you are
+playing whack-a-mole when there is no need.
 
--- 
-Krzysztof Kozlowski <krzk@kernel.org>
+    Andrew
+
+---
+pw-bot: cr
