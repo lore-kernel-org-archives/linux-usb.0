@@ -1,75 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.240.9.33
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795617228;
-	b=gb7JMZYhb5c5yVWyoUX34SF0o+eptoH3iU6YJAQYhC2SMHqepJIV72fsCtP5Jv3qV4Ob
-	 /fPmT++5n18QU19TM3+kIhq3k2UEL0nFEvyUgWjk+OD+TKFkM/ApYUCbVz3MewYN/pseM
-	 d154fOYRMzDKKxxWhCxGgwYjhPgsK+8VtfNtesJR28OgZJeqOHxG2r04dmPS7UzpdMuXk
-	 GfrEbyTwIbYevRjv6ipmh8thdPii5nWwt+2ENqJR5kPQe8kNKMlb36v0Vx3mFbx8aftUz
-	 LAV+wMzejWk+ggtgkCbMLyvf0B3a4gDxyPxa3NVGIl2me0J7FK+BiCuHiIhQ6oG3Eog==
+	t=1795617256;
+	b=jV5tflP1OKj04izg4MKVRHugH4XNDkZvNhIxNsNHvvXyoyGHtpxTJx/BJTVs0Am07QQH
+	 NqHdXsE5lgcUC+Lji6xI+fqD1/d1mB6Ag6RUfxyKd2N6bTIA6l5zlphMZQX+4aBT5Y2pO
+	 L+e4oArHaUDb/+h/Q59uMgyRX3Ytwy9DkEQfgCBy5Xq4gHC4SBY4CNrG6eFugAtxQhrpX
+	 5gn30aTDLKbbv/MR8F0U+Cl+l6vy8xDaqYC6xFovDtyBk/9H32HwUGaPSORMr/yTw0pLS
+	 Z1Cm3yEsGGBFSmA/KKaAnJsq/Q9udfpIZCOfYuRAOn6QiO96T3llQC8h/CuM2mPs2wQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795617228;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:List-Unsubscribe:
-	 List-Unsubscribe-Post:In-Reply-To:References:From:To:Cc:Reply-To:
-	 Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:
-	 Content-Type:Feedback-ID:X-SES-Outgoing;
-	bh=w+t8OOEFcISAZYmYwlyu3glhhShF2kKRTPrjhEn8wA8=;
-	b=Nlc9akHjBPN7CmHcS0xEMZ1FfX7Mb8SfpXT4k2554ykp36vkt2qWn5+6ABAOA4mtKcwW
-	 exPOIwy3Gx58D0H2Y0eqjEl3wwJxTx+lAdjyJNmz7SApwAn9oNG1hVCqmzBD/ICxB9ZyJ
-	 Lk5A0uLTOpA1SMaCy4E4Lfmufq2VV5QVOFk0e9WqL4Ca49xEAlKcZbs4noftfljO3hZlB
-	 o38P9Ik0jIo6nQyiJw9oojbLXpRo5H/5EO4dOelb4Swo0Cez8oi2rhc39h6ds9zr9y9HF
-	 UjOkxJxD5xPwkXysuehx/D5Kv27w98BNjta5ar2b4zB/4xaeCn+HpGxPLkZASHfACgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795617256;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=xxJJVSNNwo3lBy+JEx9HLHLWgj+DbeQNPp/qofQE6mI=;
+	b=wh+uO3L/fpbDmqA7KZikgH+wRKLYHBRahQcL8gf0nd0/zZHPHaUfL61ikL7oFCF/8kHT
+	 zpywr+GPTcwe8oVk/3iVMBNdaXHsZYJZ91ZvWsT/6B1svwK7kjAnP1VUhLO2QV3szN9JP
+	 Wqu4/G/GpvjhVZyblQfo9hxikgrtOryN5opHVyJRoNosdg556H/z8EW2A3JuMNR+oaMnF
+	 R5VZlQ4uozALQXC85OZEn/J907YaHheNSaRJA0nQLxnb6eQo9VMUDhSoEkJhrAi56AkQC
+	 0wenMoWLceej4R614zpSdeIkkLCJyT0kiqqypOViqv8+GRDSLaPe+6H3jPNcDL4v37A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.grokbot.com;
-	spf=pass smtp.mailfrom=mail.mail.grokbot.com;
-	dkim=pass header.d=mail.grokbot.com header.i=@mail.grokbot.com header.a=rsa-sha256 header.s=chya7do5z2af6fu5nhnfk24jer43js4a header.b=bjHP368d;
-	dkim=pass header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=hXHmqDdQ;
-	arc=none smtp.remote-ip=54.240.9.33
-Received: from a9-33.smtp-out.amazonses.com (a9-33.smtp-out.amazonses.com [54.240.9.33])
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=D7gB3Q6b;
+	arc=none smtp.remote-ip=209.85.221.42
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41CF606A321
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 14:33:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E41CF606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.grokbot.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.mail.grokbot.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B90E606A321
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 14:34:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B90E606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mail.grokbot.com header.i=@mail.grokbot.com header.a=rsa-sha256 header.s=chya7do5z2af6fu5nhnfk24jer43js4a header.b=bjHP368d;
-	dkim=pass (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=hXHmqDdQ
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=chya7do5z2af6fu5nhnfk24jer43js4a; d=mail.grokbot.com;
-	t=1795617227;
-	h=List-Unsubscribe:List-Unsubscribe-Post:In-Reply-To:References:From:To:Cc:Reply-To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
-	bh=w+t8OOEFcISAZYmYwlyu3glhhShF2kKRTPrjhEn8wA8=;
-	b=bjHP368dprLysHndoHuxecYevWsfQPtdTAY0B8fCJKGYGzA1//1FhycCOrUYpUrb
-	k+p1Z0WRLkEGfXceBdLiuLXXNkafgzhF534Zf9xPpgDvP3OZgdk1WWypeyWiQgxn/hK
-	dJPrPv38yMKb+5XBorFnzUlt6vhDgvdSHCbbKK4bva4Rwh7YLIaFvbyqQQ7o/AJJR8a
-	wRolMxUOYkzuzIlpzQ/rW++9iISY7y1IjFcY294JFQxDQXIjlD3Cgnp1ZD3rMw/jo8D
-	IrgMN9ndAcLJDsez/VYS+6kqeRQlgXCvmUJ4yajShENyZVkB79BkD0ajREj1d7U/zFz
-	1cgxNSZ7sg==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1795617227;
-	h=List-Unsubscribe:List-Unsubscribe-Post:In-Reply-To:References:From:To:Cc:Reply-To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
-	bh=w+t8OOEFcISAZYmYwlyu3glhhShF2kKRTPrjhEn8wA8=;
-	b=hXHmqDdQXb8LyKlTg7QFZRCNYLy4BNwKBKnTC4xm44ngYjqTE94blceeLUz0Sj3H
-	i+tcbhzFERHtH1002fkabqQ9sHghcQQwN7aNUNZ1C4uwbXPjRuRthZHbAw28XTeI6PL
-	YRXZuTUlWclP3QxKZl0fSkLHUq6PjGZ+OAEVfkYU=
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-In-Reply-To: <20261125075439.GC191152@black.igk.intel.com>
-References: <2e4a3414-502c-41ca-9e60-00877dafc403@mail.grokbot.com>
- <010001a20f992959-23c40ecb-a2a8-453d-950f-69dcc3788f56-000000@email.amazonses.com>
- <20261125075439.GC191152@black.igk.intel.com>
- <d69d20a5-d7f1-4de6-8648-02341a07f1be@mail.grokbot.com>
-From: myitforce@mail.grokbot.com
-To: mika.westerberg@linux.intel.com
-Cc: westeri@kernel.org, andreas.noever@gmail.com, YehezkelShB@gmail.com, 
-	linux-usb@vger.kernel.org
-Reply-To: myitforce@mail.grokbot.com
-Subject: Re: [BUG] thunderbolt: DP tunnel to USB4/TB5 hub torn down
- immediately (adapter unplug) on Alpine Ridge host
-Message-ID: <010001a213208067-3ea619d8-0542-439a-8acf-5f91d6269f6a-000000@email.amazonses.com>
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 14:33:46 +0000
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=D7gB3Q6b
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-490f38e9688so4123304f8f.0
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 06:34:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1795617255; x=1796222055; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xxJJVSNNwo3lBy+JEx9HLHLWgj+DbeQNPp/qofQE6mI=;
+        b=D7gB3Q6bDh+RP1I86PNUMsdP0gQXykxJeokg9RnkIPnPcMu1SYoBIqlhk70uqqO2Qu
+         NwWT7ZwbJr/P/N8PqMoi5RQq7LD+W8WLiOPdmlUJLIzDY61aw2FevAkOdMBQiuZwDoJz
+         1fDZjz0QKsPDF6GhRb2uua57nXezvczAjwUqPopF9qDJKpJIMEyi5Pq5LOkcEoQiw50x
+         DErCOttxpfJ5YcX0J0opbbJHS5+Yy4K2wLBEJWBL9HnegPncaMhLPGnkFwEtJLvO9eGX
+         V1odmv110NSbfAcQb4UyX27cVUHvT0h+MxqBt5qeeMu7Rrdu3O7n1s5MDsBFmS/tnJF7
+         BZ4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795617255; x=1796222055;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xxJJVSNNwo3lBy+JEx9HLHLWgj+DbeQNPp/qofQE6mI=;
+        b=NR6tjsBM03RfcBPYFL6dy8LUHm6KMpUb7SweGvtajhyG0tiWI+UThCiAyAvYIcf3Br
+         csfS5TAlG52pKElxXxKCr86qMF8T6B0sJZ35LmT9KZ0ye5VMAjrKgwgQthein7PqmWlx
+         YT0SBMTomdOh4p3KtDLjK/ASppjj+V4dE2iXvqZLWa9cvI/Z8UXr2gdHwUoSSUoglfRv
+         LXCaF+41VKirF83zhavINYsouE1Xsc5hFvfeLKvhkgVwcr+34yp1hvnaw/xhnCfHS+sI
+         r6D8adsEgQbq1AGk8OgUZS7f3S0ezgGkHmVM9F3Huatp0kPF3jh9pDtV080luv/CAtxo
+         ZU2w==
+X-Forwarded-Encrypted: i=1; AL+hErHG0aEsuyT55O4ZXD0Q1n6rf04LFKG+xXgquqjl25dBjzf1u2d/yygzGlSxHa/fTvhECwvCzPIF5jc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+N6i6HH4E7OPHMjmmjk0+P//kTYiCqS3ji9XARHFzdlqcnNaP/
+	v4FMT9fr7np4XWC4EvF10VFUNEPs5H0gfOXrV0tMbpVQr+09L+t6/vo6tm161qamJBU=
+X-Gm-Gg: AZFdTZd+fUczQrtFPU0v6Egc/FRo7sAAmBF2KTkQc14bFZLishY4NE0zb//LL84zvaV
+	ayp2Z4RPs10hABWm5d5eHuRs6+YhLiD/4NbL+JBazROsjJSZhzqZxMCyk1huHKFbjwnuHE3fQOD
+	Dygil7VjKEHLV3Vewyjn+2o3FYi1zqRjvPtCSO3+fgpObSD93pys6huvevif6Ix+Tx4AvEIZptg
+	QnOFIO2mqeX6qBKIlwBhB/6koPENl0oh/n2y8X754NdqLr0pmiQDgd67S60uvWPbShIpIMR/3CK
+	1N14GGo8B5zit5Sh7QKI4CWqm4u4z6yY7RJA74QGxCDw3X/EKdLcDrC+I/t1j/vJR7zQzT36L1d
+	IuAL7KSZ1xK+9YrhM4PXbANL07yyzvXDUYp+xnttYjUkcr8nCGlTEHYic810pojqbZvhwXP88cO
+	CiNmAXv9SdEMkRQdaGh57eNaSaFYIPa3mygVRhdFMaaKwelJPHMGPRsIIhksuLxrl0VYcuMzjCp
+	CP4+WGB490ksP5nC7bVkcZrWNsF2VZV6G1Y6dWmFhCgGuZvkYsK1HxG86ZkgVDbP6Yusm7alKQZ
+	l+yAYSrAaViSYlyLVFqdqPxdNDUhgphEmG2ejsaDBOf9KmTMqdZNliJXD9X2FtYGjomcPh+qbjM
+	Rnsonn26VUA==
+X-Received: by 2002:a5d:5e01:0:b0:492:2b36:a149 with SMTP id ffacd0b85a97d-4aa59ffe3c1mr43267193f8f.25.1795617254808;
+        Wed, 25 Nov 2026 06:34:14 -0800 (PST)
+Received: from ?IPV6:2001:a61:133a:da01:7767:7f7:9a1:80e? ([2001:a61:133a:da01:7767:7f7:9a1:80e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6c4353d6sm33563359f8f.56.2026.11.25.06.34.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Nov 2026 06:34:14 -0800 (PST)
+Message-ID: <7b4f33ab-088c-49be-9b64-f8abb808ab29@suse.com>
+Date: Wed, 25 Nov 2026 15:34:13 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -79,16 +93,44 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Feedback-ID: :1.us-east-1.fEnU3ccvllxLtJBUaYT91MTmOYNbRqP5oL88A2UkuQF6ossBVbh5STHzasceFsir04XyyuG42nT7n6uR29FF1cITEcL1ChwuwmmnByiLq7b19cZXcWlSBKaGH1eTvuCkTV39F9cQxjTxRwjaqAkRRXNrp73fLaTAWNswKCAdEs0=:1.us-east-1.6duzA/nfEyqJmYS7DZLtjVrpjz2pDnbKq2D1dAyqdPM=:AmazonSES
-X-SES-Outgoing: 2026.11.25-54.240.9.33
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: image: microtek: don't receive REQUEST SENSE data
+ into sense_buffer
+To: Alexandre Becholey <alex@becholey.ch>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
+ linux-usb@vger.kernel.org
+References: <20261119084526.535901-1-alex@becholey.ch>
+ <643a71e0-7347-47f3-8cad-ce31f76cb8af@suse.com>
+ <AP57iwtzG1Kr6EB4hY7F0Hd-DaLhPZJzxoKNuvDpeiAKZvyxsddI1fl6kRKAc2Xg1ox0kL-KAdNYmZrRMEYN_mZRamfiV6nXjdcfDhJhGyY=@becholey.ch>
+ <e3956050-8b80-4270-998e-2e5ec70cbdf8@suse.com>
+ <8iDv29vCFEOxycORJWCZZoTT9dMFbUZZ9VK25sT27tKoWWtaKvLKZaW2YoQDygTrSRkZRE6Pu5PmkMFLl-PDCWXI9n1l-LSB9aJCByn8gks=@becholey.ch>
+ <f9715edb-94be-47cb-8bf1-f84a3323f000@suse.com>
+ <HSkiYehoEZjHsmtOkLlo174eN2wrhaDGyLpIMwWTMy0Cdn4t_nrRvoS0dslql-VSF3jaeKvglXyGaJ6OxnGMs_0TMQVXRUFDK1IDH7yjR58=@becholey.ch>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <HSkiYehoEZjHsmtOkLlo174eN2wrhaDGyLpIMwWTMy0Cdn4t_nrRvoS0dslql-VSF3jaeKvglXyGaJ6OxnGMs_0TMQVXRUFDK1IDH7yjR58=@becholey.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Mika,
 
-Thank you for the prompt reply and the explanation. That makes =
-sense given the hub isn't TB3 compatible, so I'll go with a TB3/TB4 dock =
-for this machine.
 
-What an amazing community. Thanks again for your time.
+On 25.11.26 15:28, Alexandre Becholey wrote:
 
-Jeremy Menefee
+> I understand. A fuller cleanup is more than I can take on right now.
+
+Not a problem. I understand. It will go to the long list of things
+that should be cleaned up.
+
+> So I will send the v2 you agreed to: it only limits the transfer to
+> SCSI_SENSE_BUFFERSIZE, so the device can no longer write past the
+> sense buffer. If you would rather not take that fix, please tell me
+> and I will drop it.
+All is well and I hope you took none of this as personal criticism.
+It is not the outcome I hoped for but that is not your fault.
+At present we have a security problem. I will take a clean patch
+fixing it.
+Thank you for doing this.
+
+	Regards
+		Oliver
+
