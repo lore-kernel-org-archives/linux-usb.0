@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795625622;
-	b=oK1ZkRWeLq81m7hEzt1A5DFwAOv8R4UU9fZEj1eMbBrJjnCtPSmop6kKGkENCzHIRX0R
-	 iytJJ8QunHijINQH2CWp5op3BWIpRBtcaM7CmRiFQfXpioKwjMrT1QjToHiAf3Uh+1s/R
-	 9tDuP5GQoUkW/p722vGk3UkYPfSQvlpMzff2wFtnFH/8VWKTkRZJB8PICpceTeEKa5i91
-	 0WWr+2kG4tRq/WGBd3aiO0t+WLyaq4g3T7JvpQ1o8CuoBPoaY9TohW3cxROULjQNDXY/G
-	 ElgGeSwAj8U5xXXTyihtgOz0pI5y5SY8Nne/klA6+5UUZVaF+5dWI8o9HbtukiuAe5g==
+	t=1795625707;
+	b=3ietUIYiitKDMuA7cEZU4rZyznCmyKA2X8SX34jK9TkIeKh9/Z0seyFuKXkjqCzo9vKk
+	 hd7Bjx2KK36za1rFczGJNAaxJ156aPr1S8ZnW7w4d4KXW25R7rbtj3UGkqZJXH2++FDO4
+	 EpK/RwE51giLyI80C+4mVs61NMpw37yfOzPKNM1O5jtBPhMXEywjTD13shgm/TdCttHFI
+	 yXvNEBl7C7diCkDhcj0jZ92wCc9MzsutkEXuyD3TnbYiAhI7YCvrKyNHMe433jLxn8oOu
+	 kldaN1UlFqEaeoZoV4dR0bKH2jw5RSK8COeypCPE5opx/cTGxVX2lhjbLyULUlmnkPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795625622;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795625707;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=UlBe9UxDA65UctR68Ly2hgXryAOab5OsuGS2E3PFcYw=;
-	b=rtbYofEWbiYmCqv/rGbyc3ax+bPG1Lf4HvSpo2Vk412KLkkv/D1iDK9d6/xcCP/pz5FZ
-	 EXbUPIvbLJgLMnmSKc2Lx1G66STY4I+dQlodbjq63SrdsffgReQTtVo/sQ/8B9YoxSaP5
-	 HDkaEoAjOZnS8UupzBexSlpnLaGwRDu/Uw2Sv0/TyImx6onJNVwa4Rcc/+pnGamtzQJcA
-	 1ych0bqokXhIfLoMoi1BML9RBMS9Qxd4Nx9USJLhns1hu8HhWMXavK/8HYb8p2QHrPQ6z
-	 LtzbS+H1VYG4Sy/GrLBf3dQgNwErA/5bgfea8VDi5H2Vw/r23gkISL7wHCH5mcqq03g==
+	bh=45zYbtgb7iNShWOJTkBlT+hvZc2xUZm4ya5+e6FueeM=;
+	b=KffPalDoxGc3i/6j14CEmsp+HdymyRkbQJPMw+VT7Z5ef8pdXNII6ynYfI8DkFsosRqe
+	 wFGGcB84A7iOT9BNOjiC3VKV5IO+QaPciacLJTkDV/hZf4Tix0b2O2cugUeRGHicnK4mK
+	 x1R8wp1dbyOvkkGlmqvPurTzVIN5FBrQ2Vs4X2ofn/YituLy9+QcHEHcsKh36x+lUlPiM
+	 vZk7Artjl9m7NRnj4G2ItJO+a4oasOUBg574sfx39EdQwBhOZXM4UIJRm1UWO6ebQjI/H
+	 bD596eS+wEz/AUauJjFHZqtyrtQ+ylWohPrblap6a8fvC/71HynPYjK2RAQlF9Anhxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T6lSqZf5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MdZegEU2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD06606A326
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 16:53:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBB5606A31E
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 16:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T6lSqZf5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B98921F000CA;
-	Wed, 25 Nov 2026 16:53:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MdZegEU2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8508C1F000C4;
+	Wed, 25 Nov 2026 16:55:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795625621;
-	bh=UlBe9UxDA65UctR68Ly2hgXryAOab5OsuGS2E3PFcYw=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=T6lSqZf5Rp2i0Nq0g4N2TkCzIrwa2GRa3uQF+g51XZzDYd3wNGHGc+tmp/Ku62r0p
-	 AwEB0e7w2+vw8oLRPddA3hyeRVlVM2LdOtlH1xPdiYQF4ouvNMY11UQVfdKSC1mbpe
-	 2M2pCr9T6/Czda9GiLhjOQGGG1Nbum+TX8eEvUZnvtcWHOElMpgnizSLl+37BK8Ba7
-	 Pke1sR7KjNOVO9HkqjglvEQK/Fp3XC4bkNWpEC3d5HD91VdM0CY/vdzPUklm9gzJQ3
-	 UVVJzf8fvjbt2QYLm91RZ8H87yHiPHUKkN/WND6XiviaxvkdAqeksuH6Jjau54DZhQ
-	 amhM1O3w9p1Gg==
-Message-ID: <sashiko-outbox-233784@kernel.org>
+	s=k20260515; t=1795625707;
+	bh=45zYbtgb7iNShWOJTkBlT+hvZc2xUZm4ya5+e6FueeM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=MdZegEU2jzUMf/9xYxNA0ctUOBVS1SmoFWBkJzo7l5fc/kKHwErLr2qnLXRKZOg0T
+	 YUs8Ut41hIYP8QZCVUk025Kh3idM2egE/169qcVQS1WbV0EUvUVoDIdhay/LLHnfoi
+	 mwn19MkWZYkibwpVgXhQ4Y3hPf3aVAZhUWXtUvOe3rIxbLXaSholYXWXYNyZM53VJ3
+	 LUDEXBT/msXAaJ7FcnItvHFRKpXxHkwDDVSA2/ZBftyEy0y19XQC/zTLDMCCcB9MmF
+	 q/bxFP06YO6to6y45e3d0t8VFsUi4fYcyBMQDlsHDkTTA9nkMXpnFkyoXar9GiTc14
+	 NnfuRSrpfx0pg==
+Message-ID: <sashiko-outbox-233785@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [RFC PATCH] USB: cdc-acm: skip the Creative Sound Blaster X3
- ACM interface
+Subject: Re: [PATCH] usb: musb: host: don't add the sg offset twice in PIO
+ TX
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Flavio Giacchetti" <flv.giacchetti@gmail.com>, linux-usb@vger.kernel.org
-In-Reply-To: <CACKiate5HP20D6StbQk9S2Z4bdLne=FBtOPLh8-SK8529L7EoQ@mail.gmail.com>
-References: <CACKiatc1Bj2et4kcXDJiYx28XXxoo6iHPc9nYt3GhTCxUmdnsA@mail.gmail.com>
- <CACKiate5HP20D6StbQk9S2Z4bdLne=FBtOPLh8-SK8529L7EoQ@mail.gmail.com>
+To: "Dmitry Dagunts" <ddagunts@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261125164942.1310501-1-ddagunts@gmail.com>
+References: <20261125164942.1310501-1-ddagunts@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 16:53:41 +0000
+Date: Wed, 25 Nov 2026 16:55:07 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,46 +60,30 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [High] usb: cdc-acm: IGNORE_DEVICE breaks Sound Blaster X3 ttyACM
-  interface
---
+> A PIO OUT URB without a transfer_buffer gets its first packet through a
+> sg_mapping_iter. sg_miter.addr already includes the offset of the sg
+> entry, but musb_ep_program() adds urb->sg->offset again. With a nonzero
+> offset the first packet is read from the wrong address: wrong data is
+> sent, or the read faults if that address is past the mapped page. The
+> packets that follow are loaded by musb_host_tx(), which uses
+> sg_miter.addr as it is.
+>=20
+> With usb-storage this needs CONFIG_HIGHMEM, because usb_sg_init() leaves
+> transfer_buffer NULL only for highmem pages, and a sub-page write. The
+> highmem check in usb-storage does not catch it, as musb sets HCD_DMA even
+> if it is built PIO only.
+>=20
+> Drop urb->actual_length too: for bulk and interrupt URBs it is always 0
+> if buf is NULL.
+> [ ... ]
+> run the test, and to write this fix and changelog.
+>=20
+> Fixes: 8e8a55165469 ("usb: musb: host: Handle highmem in PIO mode")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Dmitry Dagunts <ddagunts@gmail.com>
 
-commit 031eaf0ae47f33bbc04133335678328f17e43215
-Author: Flavio Giacchetti <flv.giacchetti@gmail.com>
-
-USB: cdc-acm: skip the Creative Sound Blaster X3 ACM interface
-
-This commit adds an IGNORE_DEVICE entry to acm_ids[] for interface 1 of
-the Creative Sound Blaster X3 (041e:3264) so cdc-acm does not bind to it.
-
-> diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-> index 4a0c7806fc0b4..b58d061f270af 100644
-> --- a/drivers/usb/class/cdc-acm.c
-> +++ b/drivers/usb/class/cdc-acm.c
-> @@ -1774,6 +1774,11 @@ static int acm_pre_reset(struct usb_interface *int=
-f)
-> =20
->  static const struct usb_device_id acm_ids[] =3D {
->  	/* quirky and broken devices */
-> +	/* Creative Sound Blaster X3 */
-> +	{ USB_DEVICE_INTERFACE_NUMBER(0x041e, 0x3264, 1),
-> +	  .driver_info =3D IGNORE_DEVICE,
-> +	},
-
-[Severity: High]
-Does setting IGNORE_DEVICE here permanently disable the /dev/ttyACM*
-control interface for all Creative Sound Blaster X3 users?
-
-With IGNORE_DEVICE set, acm_probe() returns -ENODEV unconditionally,
-removing userspace access to the serial channel used for vendor DSP
-controls and firmware updates.  Since audio worked with cdc-acm bound on
-7.3.3, could the regression between 7.3.3 and 7.3.4 be bisected and fixed
-directly (or handled with a non-destructive control quirk if a specific
-CDC-ACM request collides with audio initialization) instead of disabling
-the interface?
+Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/CACKiate5HP20D6StbQ=
-k9S2Z4bdLne=3DFBtOPLh8-SK8529L7EoQ@mail.gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125164942.1310=
+501-1-ddagunts@gmail.com?part=3D1
