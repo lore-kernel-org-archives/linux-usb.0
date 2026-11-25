@@ -1,56 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795600009;
-	b=hJtlYOF9I+q+TMmqc/IAFa18MlVMdbehPTzHQITarrpo1r+6tdlbGBh/LDJqsDdMxw95
-	 8Jl1lr37BzJ32JmWkzFuWanWyFt1R0j55GGoNXj5tLfdkWteB2fB2wzNeGwpMzZZnUmTH
-	 w2DKofCD7QIK9EmEoJB0quQ4Uzw4rV+El1tYRd5aj349uhf4vb0equ+AA/DW/pQ8OFMMv
-	 ZiOQsH5D+oagCey4qiSvGE//BHx9zyX9TnxakL8tzdQI5AChuSX52K9kzWgYvdheAOj+T
-	 a3hfVgXmk+e5kkQW1FCNHlb7kR5zF0uUPOyZek/IL5fYNd0bZeA8153CrtmHP0vFjTw==
+	t=1795600478;
+	b=0FCaPA++gLT5WSRh11ketBK+nD3f1sYarCmEWr18l8g+nwexjIsVMgs823/fpgIRnCtq
+	 VP0Nh+yztnrUt+M1m0BK4CtphU+hq7wwmFDBX5zD+BfjqyUjjO8THnm2zlE5NL/2qZtsb
+	 b1QfKEZ0SHMHhBCnPE5KM/b87gRICwKkoCFMK4egQ7tPYt5unJy6DF8CjBWDQqaD1xAib
+	 lh5FAG1oV/oVpO5oICboWSLbLONtKZ6Ulr5pua+EXhHTOEdz9Y8mH1HENP8wyyXEK/uM+
+	 Qm7nRSBSlH5pxdvEgNlJgWFtBWXOMbqgZMzYP3hFcA9RO47jtGI5q4KtjukMbhGAMUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795600009;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=hKy3F7QflSN4E7miJfAg541iOG4ugoas2g8RFjIklyw=;
-	b=AEkNTmxMI3UF/ECjFEOSmWWZdvYvE+4Z7TDMTGd4/0lv7OSwqAK+uoyPEuoriXSGHDQv
-	 8O/9VREElgtBEhx4CbkesMH2KONnSCQw3W/rqfVP773AlqwVPBv5Stx93aC2eBU7qF+qi
-	 X0Q3Y7M3fsjHpav50xDewPinvwAIPLxTI5vzhR8JFV3+HSxVgegihy5RaLjWu3N/6Bf+H
-	 P0JofXPD2i+uw720BwZ4By/Kw2iY4ThVOQ2hO6bQlySv2CkYixvW8txwNaGrWME1zwmii
-	 IC6hEXQgTUBxtRJNpfzqimrUUexWcrqjz3/V1nEoPJl1KuikpOsocVuVAgIscjxcBLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795600478;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=dqnz7tnQzFb2HN0hOtO2CiNCBvpHNLSCg8i+yat24bo=;
+	b=39IFJfuhK+g0ToVHK5iiFCF1UXLOnQXNtvSZdGnYZy0yq/720ZqLajM7SAybG3Dh5dL2
+	 BAmemPdwaOFyQWalPihwA1mwM9VCKIHMdahk7+djKHR4KHLpSxf+PVX2dUn+Om3ArEYyN
+	 hoyDDZbixjeLOlL+3pkzhWYMeiP1f+8u2LhpvpgQZT9vDPN715eSSrhNKLZ+nmQAyrtC0
+	 64lEerClvOONPs/WiQRgTWoCMBUBlyXjEvQlgKv6EH3ffh6vcf45e1bYXZmgqda0d3R7c
+	 Y9pN33G9QIBFJZzZD+1/h/NHHcDqXs/bAK9rCAVL6eiwv7HZuUGJGufyYBA7aNUtmuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ut8NWOhS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WvFi5WPm;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC87606A331;
-	Wed, 25 Nov 2026 09:46:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C575E606A31E;
+	Wed, 25 Nov 2026 09:54:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C575E606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ut8NWOhS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5B981F000D8;
-	Wed, 25 Nov 2026 09:46:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795600009;
-	bh=hKy3F7QflSN4E7miJfAg541iOG4ugoas2g8RFjIklyw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Ut8NWOhSbjSuEcbpbCEwKZcfcoRsKOyoWG/UmoXvJmrCrtzrlhzuojt9bGnwWSs8a
-	 p0cfiZYOFdcQdc3qc4Tsfr8E67HUdv6og1aP9gaMGRRcucFL4PQNSux0GN2xo9F+Z+
-	 iRJDZS7tKDBkn9+PDsPF55212BzT6s52IcOcYcU8sUU2FfcVWua2wxvQBtPbNyoHgB
-	 57UVzl9HTEQ92PYlyw2lSkCti90ZPKczssobRpDCH2w6iEVU271z0SNdDXzPGqmeJg
-	 RVL3BCQhAIOi55xegiNZCBG62yYVJURbSsiJeFperw4Zi3rM4wQS8OiHJGfX+X4aZi
-	 01gek9/1TgT0g==
-Message-ID: <sashiko-outbox-233071@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 00/33] driver core: Authorize device trust before
- driver binding
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Leon Romanovsky" <leon@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-pci@vger.kernel.org
-In-Reply-To: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
-References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 09:46:48 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WvFi5WPm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795600478; x=1827136478;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XWxk3vK6jv02zeSEEzuxFHI0iOUhlAdNAfWwuGdbcyA=;
+  b=WvFi5WPmshfyWrHOjTE+3/XioZ8nAigmEUlpb2udA6CHveYypN8jcXej
+   qHzologSEwfsNEFZlweAcDnF6UUdMhqsggmWvFCTxpla47VFpoKVj6cBh
+   wJJKyXyVEZP6byXx47jxMv/9MqwPEcQV+kBnk3wcbOe6bJFsVlBNVHPix
+   dTUOdbIpBzpG5RToHqKtrX4JjcvH/DJsrzf/U68lbobiXotxAmoKkjfBq
+   ksUbh0JrFfK6573etWmhsdZgGXqP0PsFIERGKvGaDeyTciLEypTcu/XZ+
+   /B/9cTswgoEgf4Hs3uxCYSgecn85rUIAjkpT3xn6D8j4jzkZpM/KBo3lj
+   A==;
+X-CSE-ConnectionGUID: lnoFRgx4Sa69hW4sYEHKrQ==
+X-CSE-MsgGUID: UkU6SoczQNWAxAHyFP0rww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4384705"
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="4384705"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 01:52:17 -0800
+X-CSE-ConnectionGUID: q46k8xxESn6mKQhvpju/yg==
+X-CSE-MsgGUID: h68w84LlQUS5SwvE3n+86A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="11845909"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa002.jf.intel.com with ESMTP; 25 Nov 2026 01:51:15 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id D2FBB98; Wed, 25 Nov 2026 10:51:13 +0100 (CET)
+Date: Wed, 25 Nov 2026 10:51:13 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Alexey Charkov <alchark@flipper.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] usb: typec: fusb302: Keep interrupt flags across a
+ failed register read
+Message-ID: <awavkaJN9zbouVvU@black.igk.intel.com>
+References: <20261123-fusb302-irq-read-error-v2-1-5539a09127d8@flipper.net>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,26 +83,133 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261123-fusb302-irq-read-error-v2-1-5539a09127d8@flipper.net>
 
-Sashiko has finished reviewing this 33-patch series:
+On Mon, Nov 23, 2026 at 02:34:10PM +0400, Alexey Charkov wrote:
+> Reading INTERRUPT, INTERRUPTA or INTERRUPTB clears its flags in the chip,
+> so bailing out on an I2C error in a later read loses the flags already
+> read. On Flipper One, a NACK on INTERRUPTB just as a source raised VBUS
+> lost VBUSOK. The driver kept treating VBUS as off, so TCPM never attached
+> as a sink and left every Source_Capabilities unanswered.
+> 
+> Keep the flags pending until they are handled, and retry the reads a few
+> times, as such errors pass. Otherwise a flag left pending waits for the
+> next interrupt.
+> 
+> Fixes: c034a43e72dd ("staging: typec: Fairchild FUSB302 Type-c chip driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Alexey Charkov <alchark@flipper.net>
 
-- Patches 1-5, 7-15, 17, 18, 20-27, and 29-31: no issues found.
-- Patch 6 ("USB: Reject usbfs connect requests for unregistered..."): 1
-  potential issue (1 Low)
-- Patch 16 ("driver core: Add a compatibility API for manual driv..."):
-  1 potential issue (1 Medium)
-- Patch 19 ("net: phy: Use the compatibility driver attachment API"): 1
-  potential issue (1 Medium)
-- Patch 28 ("PCI: Use device trust for platform restrictions"): 1
-  potential issue (1 Medium)
-- Patch 32 ("USB: Authorize interfaces through device trust"): 1
-  potential issue (1 Medium)
-- Patch 33 ("USB: Authorize devices through device trust"): 1 potential
-  issue (1 Low)
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Detailed reviews have been sent as separate replies to patches 6, 16,
-19, 28, 32, and 33.
+> ---
+> Changes in v2:
+> - Added stable
+> - Rebased onto current linux-next
+> - Link to v1: https://patch.msgid.link/20261117-fusb302-irq-read-error-v1-1-a85d45b91912@flipper.net
+> ---
+>  drivers/usb/typec/tcpm/fusb302.c | 62 +++++++++++++++++++++++++++++++++-------
+>  1 file changed, 51 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+> index 83bd287dadc7..9fb76fdd3b7b 100644
+> --- a/drivers/usb/typec/tcpm/fusb302.c
+> +++ b/drivers/usb/typec/tcpm/fusb302.c
+> @@ -100,6 +100,10 @@ struct fusb302_chip {
+>  	bool intr_togdone;
+>  	bool intr_bc_lvl;
+>  	bool intr_comp_chng;
+> +	/* interrupt flags read from the chip, but not handled yet */
+> +	u8 pending_interrupt;
+> +	u8 pending_interrupta;
+> +	u8 pending_interruptb;
+>  
+>  	/* port status */
+>  	bool vconn_on;
+> @@ -1499,6 +1503,43 @@ static irqreturn_t fusb302_irq_intn(int irq, void *dev_id)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +/*
+> + * Reading an interrupt register clears its flags in the chip, so keep them
+> + * pending until handled: a bus error on a later read would otherwise lose
+> + * them. Such errors pass, so retry a few times.
+> + */
+> +static int fusb302_read_interrupts(struct fusb302_chip *chip, u8 *status0)
+> +{
+> +	int ret, tries;
+> +	u8 flags;
+> +
+> +	for (tries = 0; tries < 3; tries++) {
+> +		if (tries)
+> +			usleep_range(1000, 2000);
+> +
+> +		ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPT, &flags);
+> +		if (ret < 0)
+> +			continue;
+> +		chip->pending_interrupt |= flags;
+> +
+> +		ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPTA, &flags);
+> +		if (ret < 0)
+> +			continue;
+> +		chip->pending_interrupta |= flags;
+> +
+> +		ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPTB, &flags);
+> +		if (ret < 0)
+> +			continue;
+> +		chip->pending_interruptb |= flags;
+> +
+> +		ret = fusb302_i2c_read(chip, FUSB_REG_STATUS0, status0);
+> +		if (ret >= 0)
+> +			return 0;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static void fusb302_irq_work(struct work_struct *work)
+>  {
+>  	struct fusb302_chip *chip = container_of(work, struct fusb302_chip,
+> @@ -1521,18 +1562,17 @@ static void fusb302_irq_work(struct work_struct *work)
+>  	intr_bc_lvl = chip->intr_bc_lvl;
+>  	intr_comp_chng = chip->intr_comp_chng;
+>  
+> -	ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPT, &interrupt);
+> -	if (ret < 0)
+> -		goto done;
+> -	ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPTA, &interrupta);
+> -	if (ret < 0)
+> -		goto done;
+> -	ret = fusb302_i2c_read(chip, FUSB_REG_INTERRUPTB, &interruptb);
+> -	if (ret < 0)
+> -		goto done;
+> -	ret = fusb302_i2c_read(chip, FUSB_REG_STATUS0, &status0);
+> -	if (ret < 0)
+> +	ret = fusb302_read_interrupts(chip, &status0);
+> +	if (ret < 0) {
+> +		fusb302_log(chip, "interrupts left pending, ret=%d", ret);
+>  		goto done;
+> +	}
+> +	interrupt = chip->pending_interrupt;
+> +	interrupta = chip->pending_interrupta;
+> +	interruptb = chip->pending_interruptb;
+> +	chip->pending_interrupt = 0;
+> +	chip->pending_interrupta = 0;
+> +	chip->pending_interruptb = 0;
+>  	fusb302_log(chip,
+>  		    "IRQ: 0x%02x, a: 0x%02x, b: 0x%02x, status0: 0x%02x",
+>  		    interrupt, interrupta, interruptb, status0);
+> 
+> ---
+> base-commit: 909ef7a9a30fa139e69e555e3606680f5cca7726
+> change-id: 20261116-fusb302-irq-read-error-8a3ca5ef9ebc
+> 
+> Best regards,
+> --  
+> Alexey Charkov <alchark@flipper.net>
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261124-device-tru=
-st-core-v4-0-037eb0d17b1f@nvidia.com
+-- 
+heikki
