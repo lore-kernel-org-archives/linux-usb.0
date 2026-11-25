@@ -1,89 +1,89 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795604663;
-	b=OW3If+aZR58dOXh+4Q0vPRvkEYnMojbJ/6MDRNcZNANf9A37Paz2HlwV4gSwk8xyDW+D
-	 1o0JjkS7Fp40F18hFKxexsf7W7QvbjARoMRoK/w8SKzeigR6YJF+fH8jyZDMX/gkvcqSQ
-	 Rgdfb125pdARZRFuQqabT822ALr0xKOrwT9dfDdZpd3DPW2i0PnesSlFMRpYfBgODvcyM
-	 HAl9fVkNke50PBnQ/6AOsN6RHjb0iUBXZDdlTT//7kSS8S2fYkrU4Q6gbCwA6R0A8EbKr
-	 8+hZvhXwGjRYX8rDUBeir89NQuC0Nzsm7YOlKPENE5DTTJexatjK3O6yQVD4KwJ4rRg==
+	t=1795604664;
+	b=ka1yPpT31ZGQDgiuY0V1gDe5E29M8Ky/BPV7Uftt726OMeZZgwsIH2N+KVISXSxRTgxQ
+	 qF97xZ15ui0yfVaS8PIOnpY60WLZTIYQfhi4+Rava49opS+4XODey2qErKKr/5lKpnRmA
+	 3fpUEi3pBnzyHhYYMRI60njRTijsA2lZuuWl3+dDm5W4rE8dqaKK7RfMsAF2HQgBWReG+
+	 zCeshbzSXXhhGZXec/T9ReCbb0toHb1eQk7KvvYBi/MfLlcOWwZHSS6Siqy66CvvKwThW
+	 KIw/f0i2TJ9w/wUR4P5PwzwvAQJ+Q8k7v0SK0BoWjUQW9J1OJ0wPM4JbKKih2Zf7ihw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795604663;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795604664;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=0825kkq44XsDveodw8cvj5KPn5N5qvk6oHlKWJUXcFA=;
-	b=4QY31wKq4qdmas1VSQJkiqZE/JViqhxhGu8lYhJf6IpXulKiFgXRTPNnb8AzPN8uvsvI
-	 ADfejuHmpquiRPsPrwJKUFSfMDC+cnZ/XScMAQY+zzwu/ligVXVkbsjEfRPoDQWQJ6vih
-	 TKdpeSk+GsYfp/UXWoElqYNhanEhb/O4cGFPseYJqi3ZyTpksXiDayN/SV4Cqbkzpk6wi
-	 zgjJB0mDPRdq7Tm4FADPedZfAy/LXpk2zwDbvj4ZYrpQN25pNNjVN11hMYEa2EeK7nbLG
-	 elYcJ9jH3AeTEY0nFU5l3yeIxtiMEerthLEHuoOxxV9dIZy0eEEl6JVldHnbtqgu4qg==
+	bh=DOeDBZ341dnAxqMqy3hGN4NCfT6SI43HZ8hl/CHGhkE=;
+	b=3ycHifWsxEmXq2l7eUi7fCCOKs5BSZ0LgaqdVgw7/GRYIhb5W3CP3pUfNVjdn7jr1yvB
+	 2iu7WtygZnGtyP2UlmuDkAgQdyrDyH+z1NsXGVbpWlIS03l4e3z7g6wLSg+8U69tSj0xN
+	 k7SLHn4AeaVRIFae1Kp0m3yk3R8If9k0VhFbwZIy0SExVcEdb94Ehwdnyb5PivGT5kkwD
+	 6IMM74NKho7N5YUfmIY4VEiAs1HCmbC60bf5W52YAOYAtU3d9YQV8gnCep/ijC51z5GgF
+	 jp47M2pZQgTmA385q+3smVkdNgGgaLTQLC8sUnYFkCg/KenNAbUKoTplZNOQmRNhUCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=nxHxlfsJ;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=zKS6PfHF;
 	arc=none smtp.remote-ip=209.85.221.50
 Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276EB606A32E
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 11:04:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 276EB606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DED606A337
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 11:04:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0DED606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=nxHxlfsJ
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-498f5fa5103so3330843f8f.2
-        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 03:04:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=zKS6PfHF
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-492690dd5daso4256582f8f.1
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 03:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1795604661; x=1796209461; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=0825kkq44XsDveodw8cvj5KPn5N5qvk6oHlKWJUXcFA=;
-        b=nxHxlfsJScaJkqSlCp5EDe8Z++zGF2Y9ulI439QJlYfxkM4FosITvzfG/UGtpJlryy
-         wGfJH+Aefw+4Qj29ORsaSngZJCzfIiLtgPRBUCIJA/fOrtG3C83zDs80aPpRbA4UOZcu
-         nQu8fb5kn5Q6WuyK56XbpQGBmm8q/Vz6m+iQl0CH4aFt02ympgt4F65C8tmDhr4Zd0Uh
-         dK5whj5GBbsLWU/yZC/kqFR8UgDJvkPkqJeVEF0+6TlHRE5NluW9hp4SG1QLt29Myt7h
-         foIO7G7fuozHuWamKxm2IUl2kkXpCUsQe94YGM2ODT7+MXvakUTovciYXaqi6EaB9nxR
-         MAlQ==
+        d=linaro.org; s=google; t=1795604662; x=1796209462; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DOeDBZ341dnAxqMqy3hGN4NCfT6SI43HZ8hl/CHGhkE=;
+        b=zKS6PfHFM3i0b2rOd75UH6dya+291HBcxn9HmTyjqxZ2eQkvMkOBf4LGd9nekicGy0
+         phkVUfNUiJcTeSDb9MZN9KOaBuvT5nTjOmenR80TEkDbhVGo2h2+JU31cr+W67wlxfhP
+         qnN2IwyDpaQLn2eYOXjFZO1FIBSdhNsr3oIS0od00Yc71TwBalyrnaEelMZViRaH6gBp
+         rJkyVbryTJsPDKPBLVEGutbqTBYhhcNjlg1n6VyVQGY8X7+CzpCI4HPQy+7gbHIp06qv
+         W23j+E6Dp92hwlkERWSgoKvLOzBNxQvPhskppq/e9lj3+qT56ojR8eXt9l19EXpv419D
+         +BVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795604661; x=1796209461;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=0825kkq44XsDveodw8cvj5KPn5N5qvk6oHlKWJUXcFA=;
-        b=Far7uIQjcNvmIb9HAF371jgz0FeNbB+wUaARwChuALSWe1CoGhC9lyzpY9ef9xpTfm
-         ZjM7nn81K74mbORVK9B7e2z3/KUa/fi9+54VOywdvxFnC+2j69gFFO1ftb4AANRKVTIh
-         VwBzXDuXU7TZsY3YV6SdTy5Bp535v47+saWPLBxKO84DPOm6S9wpgeAe4aI0zMcVNvwP
-         bqXoe3/BG3NupqF6x05yLaaEkP7gteuRFt+b/DxnlOUN/K+usnr4hmzlR0SD1mvHg+Tv
-         ePwnoinqMvSU7zY1ImiiXRwItOCZOG6rjS42IKBB5Bo2DTJk07p/MtY543uL8SnNiGBX
-         Cn3A==
-X-Forwarded-Encrypted: i=1; AL+hErHFCG9CBjXRRNZNv3xEOb37BquUD/gZuhNZSDkbX7rq1rAdrfBa1BEW5Brr8YXmUqs1xXkhTiafKp8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9lLfqD6f7ppfmOH0F+cX0bNwi1jeF9kv/yv4cJOsLxMCINbcd1
-	zt4aa//jyrjXSDbJPSfLBGHtrYvV7eT/Y+6bj2/g12T5tV96wpMwwoQ4DiiZgRJaAcQ=
-X-Gm-Gg: AZFdTZdtRVPkLoSIHk4F78l1IJlQ0+R/RN95EAN7thlynUPrn0gB4P+poDK7QFPnegH
-	XZgW9ZLz+zx5kpFPz/GL3CCjpzvh3hSi35vebi9Cs4c7jMzYpJjI7y1Qn0uqFK9NC5ZWpiZKrBq
-	SYnpXf8tFchk6ufsdW9XZFoYNx7T6WFxMK5Hm/Ul6gjLOQop8fUt9WPgk011KJS+KLPxiewEmdW
-	ySIJwV3foG+zLgmhCvBhOzDxPbKuW1gqFrREeygSVCi9TYCAqCFmLNTq4Ur0xueoVGHJTYaBJS/
-	uKD4b1cmi4XfXMYuTpZKfGfk3fqiLDv58GQ8Ud9Ej7xoBpzUp1bRFIhV1Fd7GXB195bwBHyT1ya
-	nQ8GRXCeWofnDGbpn7q6DuykatGWt2NzJvJSMz0a+2vpGcVnpIL6TCHoQD5k/lDlPcIHstLXWoI
-	ZHgjdWuCmdkPeJ3O7i0GNT0+eqVHWb6L1zrNNoIits1tvkvjjcY3CRTFM/H6L2Qcotx/s8AhTOT
-	oYyI2t+BoIdPUrvn/W2AvB84UDlO8Fa7yb2BwjN5AHn/29kFvlkHQl6aqqhpzkWZHI1mJX+F7Yf
-	qfnwz7bXq0pXPpVu0f1tD6vDhklxJOMTvWXZ1y1h8woTElppAw==
-X-Received: by 2002:a05:6000:2308:b0:49b:587:121a with SMTP id ffacd0b85a97d-4abb36787afmr35853811f8f.16.1795604661226;
+        d=1e100.net; s=20260707; t=1795604662; x=1796209462;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DOeDBZ341dnAxqMqy3hGN4NCfT6SI43HZ8hl/CHGhkE=;
+        b=pN+QWCrD1FCwD4HnbltkmaUjxcbo7Ja0oKkAsxAh8O946GoQdRXMDdfNRrgJbDJpJN
+         1x+mZdyULbeUTu9BILqKSjlZyzU6Tm7i5gmHbuZ04guoMCTcDXdVdEjDGYaDeFzOCyrG
+         ueZHCInxMuEWILRuBNDr4/D4GQUgYQ35HljmkTFgnnnea0lsXSZyPxrM0M86Ajn1Fr+n
+         2dFlHA3kdEVHbKnpXk1Q/s4kI4DBgfKIS5KJct1cYwoEqLz8jkGHOtWsmUcKYEEgfiUP
+         SCZd8w0rAd95s26/izx0eKA5s/j+J17goIOzvxZeMC0uLI7tDRKeT/BOoNCNlKts/pfZ
+         sW2Q==
+X-Forwarded-Encrypted: i=1; AL+hErEljplc5rdtuxAjTEABWpuzibxFWVvTtP7BVz0El26k0lyFWYRTupV67pv2uhQ1t/9uLO7W8nlqqQw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+HnrehqZswIg0mIevTPvUt8UgrWeixDOo08kEGhV4C7paxITdX
+	z4nwnlub4VxJbfVX5SAlEGuB/uioQC9OV7ibwqljOJWyHN+J7sUtU055jngvVytkHeE=
+X-Gm-Gg: AZFdTZcDMg5C5JjN9L8zds29dZNGuYXtF5lldbRbA0ZEOZm5cLATQhTj4mbZF3zg2bH
+	CPxe7zfyEbgGO7QcSKAmpxMsOGYXdkMx9Q6k6Unl4y0NN2yX+H1MzKicFSwjSP1nK1QAMgp5pT8
+	RGaLgtO2Y+mt0m95697SlgXJ3rFLJl7n1ZmtD1m4OyWjIsnGiZcUz6dfFby0ezC+R2b6wZf4v71
+	L+r597QSihxYx8sx1/YLM2nIPcnnriROn5WuDq5cMnVp3WIrO2ZVHdqvU5IGxWEEUlhP5XbM0iL
+	PFaVA51KoL/S9rJ2SuGaM3oav9O/dMOQy6oFjaAps78hEiIJF6T+je+DuHTx3EKO2FDm1V1asUN
+	GqxS2qjC4BX0CcL5Fbx7CPsKczipksMQ8XO+rle0+02qytzpII2xr3fZUbKkUUNjRlQ5jOnBy89
+	VAyjTKCm3Xe+FtCeWGggXXZpMFK6Nq4YIgbiqGCuCXFZEh/Js3Efi1ZNRjZt+xx45P/wXhITUTg
+	bUdmqSd2oPs2ZRWOQTHxa4V/1iSkjmq/iXRmw3u63QBTd2n18sx8h+4TcR3hExWoo8H/rfakzff
+	c3/mbsO+n9J2iLm/wBmR06TVOheYQ9G3ogmx8JMycTKrmTUwOJ64wvR6Ra920oZVbqbEzrE=
+X-Received: by 2002:a5d:6f06:0:b0:4a6:8d5b:7338 with SMTP id ffacd0b85a97d-4abb3a4d35fmr35192766f8f.37.1795604661986;
         Wed, 25 Nov 2026 03:04:21 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab658e2c8csm34532250f8f.2.2026.11.25.03.04.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab658e2c8csm34532250f8f.2.2026.11.25.03.04.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 03:04:20 -0800 (PST)
+        Wed, 25 Nov 2026 03:04:21 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH v2 0/4] usb: typec: qcom-pmic-typec: properly tear down
- port on remove and shutdown
-Date: Wed, 25 Nov 2026 12:04:16 +0100
-Message-Id: <20261125-topic-tcpm-qcom-fixes-v2-0-6fede9a69f6f@linaro.org>
+Date: Wed, 25 Nov 2026 12:04:17 +0100
+Subject: [PATCH v2 1/4] usb: typec: qcom-pmic-typec: pdphy: disable the PD
+ PHY on stop
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -95,11 +95,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALDABmsC/4WNQQ6CMBBFr0Jm7Zi2CRhceQ/DoowDjBGKbSUa0
- rtb8AAuX/5//68Q2AsHOBcreF4kiJsymEMBNNipZ5RbZjDKVFobhdHNQhhpHvFJbsRO3hyQamL
- NVUnlSUF2Z897kNVr8+Pwau9McRvbGoOE6PxnP1701vv3sWhUWFtdmq5WVdfay0Mm693R+R6al
- NIXudmwYs0AAAA=
-X-Change-ID: 20261120-topic-tcpm-qcom-fixes-c9ce1e65c570
+Message-Id: <20261125-topic-tcpm-qcom-fixes-v2-1-6fede9a69f6f@linaro.org>
+References: <20261125-topic-tcpm-qcom-fixes-v2-0-6fede9a69f6f@linaro.org>
+In-Reply-To: <20261125-topic-tcpm-qcom-fixes-v2-0-6fede9a69f6f@linaro.org>
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
  Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -108,65 +106,52 @@ To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
 Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1734;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1242;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=ly4lxYiWzcIWv4i64fkqCzQ6H3oU2miiVMpCcOlwbe0=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBrBsCyBxKcrONT3jFV5vwlMpMTTlM7pOnwHic/s3NG
- 91fJFDiJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCawbAsgAKCRB33NvayMhJ0WVDD/
- 49aTLH7ARG56niDsFnj/vO58UDGF0439Geh5J0b5B9Xd3bJa4zIK4ewfpsuOQVuK44ox3DUEXT12Rn
- 6BXNLIywiADOi9/S3iRgIL71HqVUvAQ28thNY/qKdDf2RZkmNbq5/hpEvpTwrMcUYF+y7UKm/LGr1J
- PzvO61xke/6H+dHUnZdxB2cg2j9UvpFWOQ3+oPxR9AhYmIxpP4qEH9Ozi9MWzzoFUmHz0ngBasQXaw
- 6rjpDX28rz7gu9OAGcUPnS/tyeqAUza0/oBYoE2ZM8WtR63tpEK48fQCpMYmz3/0jRbeFaK4+XljRi
- XXM7wUAkazjR6nehnyR1WuhWfzrnuGyZjSk1Xn74ApfOZDg+Gujj7uvIPUcEJPWcZujJ2TKDjGds/c
- hcKExqBX48HJ5oqNzZRljX+0azKotgo6NpcgjfBvZ7QAdzflKPeU8r/XhAWo7nU7Ljmu5m2b6aJfb/
- OT2fKklf+QIVlXBEIO3KSGZ0oQZP5x6d/tzUbI0N4KwYtEOFIuDnjZcaw9kgm2KLeEkiaoKY+TnAKl
- IfU/uCaHZSZVbvh7oNZWKBPU4F+LRZqa3zvmg3v/8MFh/509cg0dPqEAHmyWxnBNGbI7LznJhe0s3J
- 3hWT0YIPjek5Pca73kyscgGdnpUOY7zCVHRmsLTuupvzbiTAVfhitY/ztAaA==
+ bh=dUMEvv3krWxA+TDYHGV5SCTqDXXRPTqDZwpXialeofU=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBrBsCyc4i4NAo/ezBHPBI3du6HFGDa0DhGfe7c02dh
+ ohALEouJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCawbAsgAKCRB33NvayMhJ0ZI6EA
+ CBqNfhopOtESkJjVU999R6izxfDn0h2njZNZFufykyaHhhyQePQdZeY87tyjWxQlQJAj0Z89hOAsSh
+ zrxQBHORYziM3tvd47x11qrJgSGlkzGFOTNN+sZ+4plJo+da5UqY9jCp7rl3jrWDg9qOIlXZW2Sffk
+ 4+LuIPixyC4olT7dTILLIKptf5obpmPPsvSBt7XuQRV+oZJPJUKskxzKiMKwTFQku/Mtth5QHPGvo8
+ cZT4W2qnuAEMD+NBCJ4o3eSIDGpAZR0ab/18XGXZbMAqFYzpKm9auDM6L30GRp+HNzGHsYLMIh6x+x
+ 5cmdzS0dRzmFvmAAYjpxoz/e9Th+Qdgxmojzu313yVwmZwWbI1PXfeJ95dVy8ZlJDrqDOPjNG/MwrE
+ m4HK1uuX6W324U5Vp1eADkEB7akCqiK/eP5iNxfghlfu1jMp/R1SeD2Hh+WXF8Gp8SwrSN/DPYs7ti
+ YzD//copOXapU9hq9VqpQabZCvqyXJYLhloXKqzOh7RppXTaXYP8YJ0+4m7BqU59m0rujLdMyvq7H3
+ uskJkeB1KIgH+/EDgnEm4BKfgY9mu4L2Rapw76/uHLbtrjTb28JvKmFQk7xEzhTxTU4XsGydT75K/u
+ a6AfCKzbL1Zo9qf/1g9xw/J5TfP299+nvPhC2yKm8CPwx4KWfJAdYIAdglOg==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-The current driver doesn't leave the port in the same
-state as found when probing, and leaves the port enabled
-on system shutdown.
+qcom_pmic_typec_pdphy_stop() only terminates the ongoing transmission and
+clears the RX frame filter, the PD PHY itself stays enabled.
 
-Loosely depends on [1].
+Use qcom_pmic_typec_pdphy_disable() so the PD PHY is also turned off
+before its supply is released, leaving it in the same state as before
+qcom_pmic_typec_pdphy_start().
 
-[1] https://lore.kernel.org/all/20261125-topic-tcpm-core-fixes-v2-0-aede2a3471f4@linaro.org/
-
+Assisted-by: LLM
+Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver")
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
-Changes in v2:
-- Add Fixes and review tags
-- Also disable on remove
-- New patch: switch to SNK_ONLY before DISABLE when disabling port
-- New patch: detach the port on probe
-- Link to v1: https://patch.msgid.link/20261120-topic-tcpm-qcom-fixes-v1-0-9a152f906fba@linaro.org
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Guenter Roeck <linux@roeck-us.net>
-To: Casey Connolly <casey.connolly@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: linux-usb@vger.kernel.org
+diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
+index 435e07659d65..08cf65951796 100644
+--- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
++++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
+@@ -545,7 +545,7 @@ static void qcom_pmic_typec_pdphy_stop(struct pmic_typec *tcpm)
+ 
+ 	cancel_work_sync(&pmic_typec_pdphy->reset_work);
+ 
+-	qcom_pmic_typec_pdphy_reset_on(pmic_typec_pdphy);
++	qcom_pmic_typec_pdphy_disable(pmic_typec_pdphy);
+ 
+ 	regulator_disable(pmic_typec_pdphy->vdd_pdphy);
+ }
 
----
-Neil Armstrong (4):
-      usb: typec: qcom-pmic-typec: pdphy: disable the PD PHY on stop
-      usb: typec: qcom-pmic-typec: detach the port on shutdown
-      usb: typec: qcom-pmic-typec: switch to SNK_ONLY before DISABLE when disabling port
-      usb: typec: qcom-pmic-typec: detach the port on probe
-
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c      | 12 ++++++++
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.h      |  1 +
- .../usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c    |  2 +-
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c | 32 ++++++++++++++++++++++
- 4 files changed, 46 insertions(+), 1 deletion(-)
----
-base-commit: 3dd8c790a7b7027abdd568e36db5e82ffaea7c77
-change-id: 20261120-topic-tcpm-qcom-fixes-c9ce1e65c570
-
-Best regards,
---  
-Neil Armstrong <neil.armstrong@linaro.org>
+-- 
+2.34.1
 
