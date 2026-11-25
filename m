@@ -1,55 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795591305;
-	b=MU1fAlS8vJmuGmyfPbxieXPG0WQ2r8q/vxOfZdJ/aKBN7FiY5lVCUx7GLIIFouFcBINN
-	 TgcGaYg0VeWR+hrMNc01S4TqC8Wwc3lIuXMv5fsm15aXLQLeOVaCakM/ujKFrsCJrMeXf
-	 iGhI7VTFu/IL3A/qDcpEZtHPeUVoJCsP3/OALhoXesgGnaUBHg7r23oQsF0S/KYHGZHEk
-	 symBnYc58rt26BjTAY5/tPZFnt93yR+pdOl92aXy7XJaB8ZA4+CTlFEly/abEBA4DuRqN
-	 1YKcLrEDRv+eJzc/zL6Jbbi5sjS7VDsmP82X90uegStV9p+rYvxeebKj4sVy2LRwj2A==
+	t=1795591395;
+	b=MTEZs60UzhRya8IsjmE4R9w6aVlXXjmPBOmac0LqYx3wzXOCPYXADKDgU5JCU2EIMqER
+	 hTaTE9FqHuyIOlSkI2Jn9ND3CckJX3f6lcCD7NufJfs2nqZsD8goK85wSZ63GbK6XMgHj
+	 /ixDjGHUnSJy6gpfBQqyKHGfSBdhzLnM9/DLSLszpy3AtjDY9dRKTlRHPiawy/CyrtKKo
+	 VapIpo5yarehMlld8s2q6XsyBG0y4tqwmzO5lo8uSHg3JAlG0qSOgr+bYEAzNu9u7Ruz5
+	 BWCyTYqxaZGUEaGeutR3Hu+EzktUOUVxyNzG2+Z8rg2wDhl2l2up1VjsAO7YzZp0LzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795591305;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=hUZgFLGbaxjBRsnPSxORJShHc6AkYwfyzX33Khh4mqU=;
-	b=DRutpLr2aZ7XxLK1J93dkBeffrwP9jcDrqYxz3i+jJiZ1nhvO5IBiqZZQrfiKoE5MRlP
-	 hymkHQTkWsIIqwQflQCSkrkxOrIgpN38H97T+V7oAZyMUAqclbB1yqubjtblR6lo3zS/e
-	 3/xe2DBEEPrJG+pZ6Kq0QvWZFK2L1uoJyZQtxuSs8Cz2p1pcrEdZ31Kc5kBaqgO5YY8C6
-	 6D/ls1o+rz23txPmHuibJlbPafzHTF+Ac99ddXqs3HCAKdUCYM9a1du8xoGo7WUm2kv93
-	 HbaqA8mZeAewnvkllnepgShgNfbhp3NpXywxREwttNvDlpPUiAf5a/AdWW5CVfe34Mg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795591395;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:Auto-Submitted:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=sS9FIrfW22SIhehTvpH3rdvmtslwIeEYozBr0OvaZe8=;
+	b=sr/IMCDoL+dmuU9nsYz2JXuc65bch7AyROLr2lOtxZpHV3MOt+QLmceUs9GhWyDpbJP/
+	 pc2qaRYC0Tg7EBX915kOTHe5GS41iaTm7608nWxLjnO0RKAsf72dTDucDUR/Uj3ZuPx9u
+	 U4XlEd0Js45hmCR+mk+OSBFoQZ99K3LphQZ6yoJqHUPC8hQVtB0b+sY/pyOJrEkpWJLSc
+	 CYFF8r7D2iV+o2uod273DnuMcPblt3RHhtatnL5J2BKt6LQXhwpd27UC2aCksyJHuzo37
+	 Zr2duz/qTctNLNFKR6AP2oeX2fWjxsR8Bb5PKYuwfs4bh88vmVgNKiuzG36waW+Ipbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KKUDy38o;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TD4gzTqv;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BD3606A33F
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 07:21:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F86606A329;
+	Wed, 25 Nov 2026 07:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KKUDy38o
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59FEA1F00ADF;
-	Wed, 25 Nov 2026 07:21:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TD4gzTqv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A7351F000C4;
+	Wed, 25 Nov 2026 07:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795591305;
-	bh=hUZgFLGbaxjBRsnPSxORJShHc6AkYwfyzX33Khh4mqU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KKUDy38oychgUxPSu3H3DSLIRNzHnqw+vmTb7I26M3F8x2ohDM1sYLnWSENP5fFo+
-	 eUPppUcumqeT3WwwSaWJAb7Oj/C7jss43UiPEYdGYhGd5OvJvow22k+5xy+p/4x/Qh
-	 GZISwRrqMSWZ++x+jhFhJcvW1Rv3RLICr7NOIZLZuE0UIZ+BSGOEM7qmO6bL/N9MF0
-	 temfqz7N/vt9NxqwBW73XwIIbQCwjNPsXwzRdhBAEfKY8NIFwB6zEXd2J4eSnkvvFq
-	 OqsCC3EDLLB7Am6j+h/sFoxyi1q7wGIV3nqNmh1dc+N5FAa7OAJ7JPQMj3XleQDji6
-	 VeCjGUsMcQADg==
-Message-ID: <sashiko-outbox-232773@kernel.org>
-From: sashiko-bot@kernel.org
+	s=k20260515; t=1795591394;
+	bh=sS9FIrfW22SIhehTvpH3rdvmtslwIeEYozBr0OvaZe8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=TD4gzTqvAdhgYjNRjvxRd5HqYQrP3TqqXWiAOcGwpPj9W4iBEEOJ8u4W5C9Sa++Gj
+	 IWYUMIBVzplHqNo7sr2XRxOaE6mFmMdYgEKqi4IzYf0aQ8u2jUiUQBnvykZSYK3y6B
+	 OzCRxRInnC+w4Wws3cXH7j3IU9fYao3jaSjt+Pml6erHGw6fzFplVVDTFAog3q/gUg
+	 M5+JsQmhUjr+3YNY19/hY1+jCF2sby3DFIfIPF3ux2t8qsk94+5EnjyQF60UXb2Det
+	 M46DEY5MEUNjRXTu/a+lTpDQJiYfTYg/p+nJl+FOfksew/oMumTp1YUabjFV+/rbfF
+	 qEdnowb7ewfvQ==
+From: netdev-bot+sinfo@kernel.org
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Bin Yu <byu@xidian.edu.cn>, Cheng Wen <wencheng@xidian.edu.cn>
 Subject: Re: [PATCH] net: usb: mcs7830: skip zero-length register dump reads
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "YuanZhe Liu" <25031212351@stu.xidian.edu.cn>
-Cc: linux-usb@vger.kernel.org
+Date: Wed, 25 Nov 2026 07:23:13 +0000
+Message-ID: <179559139369.3294.9096901907598908535@kernel.org>
 In-Reply-To: <20261125071649.7052-1-25031212351@stu.xidian.edu.cn>
 References: <20261125071649.7052-1-25031212351@stu.xidian.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 07:21:44 +0000
+Auto-Submitted: auto-generated
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,36 +63,23 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
 
-> mcs7830_get_regs() passes the user-supplied regs->len straight to
-> mcs7830_get_reg(), which submits a vendor control-IN request for that
-> many bytes.  ETHTOOL_GREGS accepts a zero length, and ethtool_get_regs()
-> still invokes the driver's get_regs() callback in that case, so a
-> zero-byte dump request reaches the driver.
->=20
-> A zero-length USB transfer has no data stage and the USB core treats it
-> as an OUT transfer, so submitting it on usb_rcvctrlpipe() triggers
->=20
->   usb 1-1: BOGUS control dir, pipe 80000380 doesn't match bRequestType c0
->   WARNING: drivers/usb/core/urb.c:411 at usb_submit_urb
->=20
-> and taints the kernel, which becomes a denial of service when
-> panic_on_warn is set.
->=20
-> There is nothing to read when regs->len is zero, so return early before
-> issuing the transfer.
->=20
-> Fixes: 2a36d7083438 ("USB: driver for mcs7830 (aka DeLOCK) USB ethernet a=
-dapter")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-> Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-> Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-> Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-> Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Hi!
 
-Sashiko has reviewed this patch and found no issues.
+This is an automated message. This series looks like a fix, but its
+commit messages seem to be missing some information:
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125071649.7052=
--1-25031212351@stu.xidian.edu.cn?part=3D1
+ - How the issue was discovered, e.g. hit in production, hit during
+   development, syzbot report, manual code inspection, LLM or static
+   analysis tool scan.
+
+Please do not repost the series just to address the above. Instead,
+reply to this email with the missing information, so that reviewers
+can take it into account.
+
+*IMPORTANT*: If you do repost (for other reasons) - please include
+the relevant info in the cover letter or commit messages.
+-- 
+The evaluation is done by an LLM so it may be wrong, if you think
+that is the case please reply and explain.
