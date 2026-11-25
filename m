@@ -1,11 +1,11 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795620672;
-	b=ZK6ketMXMTOJ2HIZf1jwV+9Pn8U5akd4z4QhDWoIX3PKzgQ3lVnS9jjgU4pJO2fD22bs
-	 bqqmCsPkJBRY1jMICukf3hdWMwjor2wGuGh6fIhWYyWrZ/auMpbU6ciZu33s41A5Ao3Db
-	 FIuWsNYLKX5XArt/G/eIpvdaVStfU4maw5onmjlW97Z+/8UiscbkoSpIybuerNd2PSbTF
-	 OmHYaNLv+WYq44E2qPpNUGcalfxMvc31iHdrxJbLuXE7+UimGDekaJ+9N4d/GlGNZkgKC
-	 KuQ23qydv9FTcxd1TYpNN32WNa9qd2+COxeLpVmtleG3bJLL69AulwjiBZMWT872DCQ==
+	b=vysbs/apauLECVyZ8ypJSF+MpbdUNNK3LXbsw4+G4ZzW1K9KuSIG4s4T7XifKFUehBUF
+	 RH8irGID198H1eOH7Gl6+SCLtRz2HNXSiJ1lxW6CN6scx+7R8IqJfdeVIBLK9/OsJJesL
+	 AjyBh7/vkihVXv9JTO4MhbbglCD71pofoOQ4vGpNajkfJAbEb48XjnR63JMn3PwGqgR7J
+	 /OaCTv0bLO2sKBIMU96jt9LLnGYbiV9se/yP+mF71bGSPeNeknPYO5271Q0VNKbW3gRfv
+	 rarZrvYgXhyEjnjnSI6MdCOS+RSs1kZcJcCEz4KHWRw6jHDiWfJGaBQYYDkDBvpkp0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795620672;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
@@ -13,56 +13,56 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=gykUi/J6B8D+wkbsGpZf+dJW+Q/DEGg3dBEQz+7aSaA=;
-	b=09vSd27QmA3ISroG95oJtljejChelIrz7MB6Ea3eUW/LSMYncNpNuNt03VdK5+mUsGlI
-	 fVAb4VjzVA+Hxtep+0yWRrl6QjKUJsQXnbEntDJ2E7lygF0bKzKK8rXj4VQuKHBLSzfhL
-	 BQMF5rm3Hxq+Mctpu0Sz9GoyfWJctcordcydHXPAjkXlXrB0MJnM0OePSIJqMQMOuIPuv
-	 8Oet7v7rjJphyg2NtX1g1I0bj/vKu8OxgBt9U5Nb9ifb8UqDjNVqaTPh2hkXWK2OVFvIG
-	 QQRlgR+6Cs6LkJ9OH7n7h7QctEsyF0LcjSKd6j5xyMdk5rfnLLEEmhoNHuv24AHrQ7w==
+	bh=oGKGKKT711RuUe86ZabOCR5VtzD/T3EZ7RTXDxz53po=;
+	b=mewtA8ywp0uBC2FndWBULdiZSi4nx5yrt0+a9/uROsrccPHIR2ZHxS5pOQnt8hIEaE0C
+	 D+YKaxIjyBD/9N0OdRLZ9kxos1TdecvNvxyTDsTi3GU7UjQwCdfJgsrfmWoAp4iQxvp71
+	 ksJ9KBJBgVmjX7q5EtVS1Q+lyw0fgxjlKnHcgYDe3krfHqIEiiRS49COiweCBTMT5rago
+	 6n1gSBsoGfn5yxavoFY27HcqOLR7k5lKukKqREvPzIPU43tGXXqJL11rQ3oRhpmBt+5a0
+	 sG4ItfasTGgnOG4r/frHPgvqODWeOUmgRuSmvyIzCmPwcy96wmbtid6St43G5OiA35g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZQH2DIfI;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VWFQcebl;
 	arc=none smtp.remote-ip=198.175.65.12
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B367B606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5859606A334
 	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 15:31:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B367B606A330
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5859606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZQH2DIfI
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VWFQcebl
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1795620672; x=1827156672;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=VTJ0RbmBZxdAHWUBKWIdkYCxJTBA5l/HvvVP4paG7HY=;
-  b=ZQH2DIfIZlE922IRrSplB4K3tPZso8QjHZJPYUc114xf1hCd4zJKuqnR
-   tHDbHLKT94h8nqowBzC6HEWjG+7Ko2WBZu4UZbdGDUCvNN97jxTIOhHOp
-   gNinu1l1P4LBGP9opIU4qY2zxQh+LxYpZd5i0iytpeK6IuZweizVNoAOQ
-   pjeO4Zczgiu1hPA29YAPM+IIpSUAOmt1qsCJS6bHIdPxUa4UQMlQpBVBL
-   IqGQvydafxe3Khjf9wf9yXho0ure3wWrxhSeBqjQGh8+zRFZdQutgtGfi
-   3X9LFnkoL+LjJlSI3F4FMx0kKiG/8qtqbCZJob/0hJO6Qz86w/Ub3ElAG
-   g==;
-X-CSE-ConnectionGUID: BxdVMb2aR76pbsU4xFcjEw==
-X-CSE-MsgGUID: y549jdmOSpuLFAsFMVML5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4408246"
+  bh=MBBsBOld3G0JHtrAL2oAaitq5fHbwV1w9E2ioigdHZs=;
+  b=VWFQcebliEa1aNDJ9x2jNjSEE+puRSKwkwlijMGC/TquT3/QGT9/sqUh
+   LTUoh71GSqA3B3vVUeVs+PWk+vJhSy/GCzZ8qNAeTzLXaUiE++I98pleJ
+   gVVbWmMcrzbmRvpzKO+4QgSsIKBK7D/5+B2JzJ/DmRNv05duxwuMKluhG
+   weo2uCVvK0vmX1S2IuqV9f1pqE3hDqaQdszsl7z8yx2ikryJer6GfjRZg
+   rZnbDGPSRhpwkxk5piFUk5YAqKK9tK3k6e8S2E207LDK5VGWAShkb5mba
+   hTS9yetxTgs5djwcbYOyFR5jHIEhkyTNbsrcCtU/Y6BaIeRFgGPeALM4q
+   A==;
+X-CSE-ConnectionGUID: a/98By3nRjaEAO8WoC7xwA==
+X-CSE-MsgGUID: vIqL2S9PRRi8RuJCgcyX5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4408249"
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4408246"
+   d="scan'208";a="4408249"
 Received: from fmviesa013.fm.intel.com ([10.60.135.153])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 07:26:28 -0800
-X-CSE-ConnectionGUID: eR4BzctqT7iP1Ik0frlUDA==
-X-CSE-MsgGUID: u1Cvg64XT+KGGohVsgJmng==
+X-CSE-ConnectionGUID: GAlZst1vRlaeTJOKstonng==
+X-CSE-MsgGUID: lQiJvSGYQuKFpUbeD5mtug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="13938532"
+   d="scan'208";a="13938533"
 Received: from black.igk.intel.com ([10.91.253.5])
   by fmviesa013.fm.intel.com with ESMTP; 25 Nov 2026 07:26:24 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 09CB399; Wed, 25 Nov 2026 16:26:23 +0100 (CET)
+	id 0FE899E; Wed, 25 Nov 2026 16:26:23 +0100 (CET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -70,9 +70,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Andreas Noever <andreas.noever@gmail.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Mika Westerberg <westeri@kernel.org>
-Subject: [PATCH 1/9] thunderbolt: Add and remove XDomain services outside of the state work
-Date: Wed, 25 Nov 2026 16:26:14 +0100
-Message-ID: <20261125152623.456054-2-mika.westerberg@linux.intel.com>
+Subject: [PATCH 3/9] thunderbolt: stream: Keep better track of the HopIDs
+Date: Wed, 25 Nov 2026 16:26:16 +0100
+Message-ID: <20261125152623.456054-4-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20261125152623.456054-1-mika.westerberg@linux.intel.com>
 References: <20261125152623.456054-1-mika.westerberg@linux.intel.com>
@@ -89,212 +89,207 @@ Content-Transfer-Encoding: 8bit
 
 From: "Mika Westerberg (Intel)" <westeri@kernel.org>
 
-The XDomain services are registered and unregistered from the state
-work, which means the service driver probe and remove callbacks are
-called from there too. The state work is cancelled synchronously in
-tb_xdomain_remove() which is called with tb->lock held, so if a service
-driver calls anything that takes tb->lock, such as
-tb_xdomain_disable_paths() they end up waiting for each other.
+Currently if a HopID is already taken and we try to allocate that with
+previous HopID already set like this (HopID 10 is already allocated)
 
-Fix this by moving the service enumeration into a separate work that is
-only waited for in tb_xdomain_unregister(), which is called without
-tb->lock.
+  # echo 9 > in_hopid
+  # echo 10 > in_hopid
 
-Fixes: a8937f35cf39 ("thunderbolt: Remove XDomain from the bus without holding tb->lock")
+In the second echo we release 9 but since allocation of 10 fails we
+return -EBUSY and leave 9 as ->in_hopid. If at this point the stream is
+removed with rmdir we release 9 again which results WARN() from
+ida_free().
+
+Make this work better so that we keep track of what we actually have
+allocated and keep the configured value as separate.
+
 Signed-off-by: Mika Westerberg (Intel) <westeri@kernel.org>
 ---
- drivers/thunderbolt/xdomain.c | 53 ++++++++++++++++++++++++++---------
- include/linux/thunderbolt.h   |  5 ++++
- 2 files changed, 44 insertions(+), 14 deletions(-)
+ drivers/thunderbolt/stream.c | 77 +++++++++++++++++++++++++-----------
+ 1 file changed, 53 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index e5a962537920..55e17f4e35dc 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -1164,15 +1164,14 @@ static void __unregister_service(struct device *dev)
+diff --git a/drivers/thunderbolt/stream.c b/drivers/thunderbolt/stream.c
+index c9e1987a6924..2b73f585ccff 100644
+--- a/drivers/thunderbolt/stream.c
++++ b/drivers/thunderbolt/stream.c
+@@ -128,6 +128,8 @@ struct tbstream_ring {
+  * @index: Unique identifier for the character device
+  * @in_hopid: In HopID
+  * @out_hopid: Out HopID
++ * @in_hopid_alloc: Allocated @in_hopid, %0 if not allocated
++ * @out_hopid_alloc: Allocated @out_hopid, %0 if not allocated
+  * @ring_size: Size of the rings
+  * @throttling: Interrupt throttling rate in ns
+  * @busy_poll: Instead of interrupts, busy poll the rings
+@@ -145,6 +147,11 @@ struct tbstream_ring {
+  * @close_received is used on write side to notify the writer that the
+  * other side sent CLOSE. @closed on the other hand is used on the read
+  * side to make read(2) return EOF to the caller.
++ *
++ * @in_hopid and @out_hopid are the values configured by the user and
++ * stay (except %-1 which will be replaced by an automatically allocated
++ * HopID). @in_hopid_alloc and @out_hopid_alloc are the currently
++ * allocated values based on those.
+  */
+ struct tbstream_dev {
+ 	struct config_group group;
+@@ -154,6 +161,8 @@ struct tbstream_dev {
+ 	int index;
+ 	int in_hopid;
+ 	int out_hopid;
++	int in_hopid_alloc;
++	int out_hopid_alloc;
+ 	unsigned int ring_size;
+ 	unsigned int throttling;
+ 	bool busy_poll;
+@@ -308,10 +317,10 @@ static void tbstream_dev_release(struct kref *kref)
+ 	if (sdev->stream) {
+ 		struct tb_xdomain *xd = tbstream_dev_xdomain(sdev);
  
- static int remove_missing_service(struct device *dev, void *data)
- {
--	struct tb_xdomain *xd = data;
-+	struct tb_property_dir *dir = data;
- 	struct tb_service *svc;
+-		if (sdev->out_hopid > 0)
+-			tb_xdomain_release_out_hopid(xd, sdev->out_hopid);
+-		if (sdev->in_hopid > 0)
+-			tb_xdomain_release_in_hopid(xd, sdev->in_hopid);
++		if (sdev->out_hopid_alloc)
++			tb_xdomain_release_out_hopid(xd, sdev->out_hopid_alloc);
++		if (sdev->in_hopid_alloc)
++			tb_xdomain_release_in_hopid(xd, sdev->in_hopid_alloc);
  
- 	svc = tb_to_service(dev);
- 	if (!svc)
- 		return 0;
+ 		tbstream_put(sdev->stream);
+ 	}
+@@ -344,7 +353,7 @@ static inline int tbstream_dev_valid(const struct tbstream_dev *sdev)
  
--	if (!tb_property_find(xd->remote_properties, svc->key,
--			      TB_PROPERTY_TYPE_DIRECTORY))
-+	if (!tb_property_find(dir, svc->key, TB_PROPERTY_TYPE_DIRECTORY))
- 		__unregister_service(dev);
- 
- 	return 0;
-@@ -1223,7 +1222,8 @@ static int populate_service(struct tb_service *svc,
+ 	if (!tbstream_valid(stream))
+ 		return -ENXIO;
+-	if (sdev->in_hopid <= 0 || sdev->out_hopid <= 0)
++	if (!sdev->in_hopid_alloc || !sdev->out_hopid_alloc)
+ 		return -EINVAL;
  	return 0;
  }
+@@ -660,10 +669,10 @@ static int tbstream_dev_start(struct tbstream_dev *sdev)
+ 	}
+ 	sdev->rx_ring.ring = ring;
  
--static void enumerate_services(struct tb_xdomain *xd)
-+static void enumerate_services(struct tb_xdomain *xd,
-+			       struct tb_property_dir *dir)
- {
- 	struct tb_service *svc;
- 	struct tb_property *p;
-@@ -1234,10 +1234,10 @@ static void enumerate_services(struct tb_xdomain *xd)
- 	 * First remove all services that are not available anymore in
- 	 * the updated property block.
- 	 */
--	device_for_each_child_reverse(&xd->dev, xd, remove_missing_service);
-+	device_for_each_child_reverse(&xd->dev, dir, remove_missing_service);
+-	ret = tb_xdomain_enable_paths(xd, sdev->out_hopid,
+-				     sdev->tx_ring.ring->hop,
+-				     sdev->in_hopid,
+-				     sdev->rx_ring.ring->hop);
++	ret = tb_xdomain_enable_paths(xd, sdev->out_hopid_alloc,
++				      sdev->tx_ring.ring->hop,
++				      sdev->in_hopid_alloc,
++				      sdev->rx_ring.ring->hop);
+ 	if (ret)
+ 		goto err_free_rx;
  
- 	/* Then re-enumerate properties creating new services as we go */
--	tb_property_for_each(xd->remote_properties, p) {
-+	tb_property_for_each(dir, p) {
- 		if (p->type != TB_PROPERTY_TYPE_DIRECTORY)
- 			continue;
+@@ -736,9 +745,9 @@ static void tbstream_dev_stop(struct tbstream_dev *sdev)
  
-@@ -1544,7 +1544,6 @@ static int tb_xdomain_get_properties(struct tb_xdomain *xd)
- {
- 	struct tb_property_dir *dir;
- 	struct tb *tb = xd->tb;
--	bool update = false;
- 	u32 *block = NULL;
- 	u32 gen = 0;
+ 	xd = tbstream_dev_xdomain(sdev);
+ 	if (xd) {
+-		tb_xdomain_disable_paths(xd, sdev->out_hopid,
++		tb_xdomain_disable_paths(xd, sdev->out_hopid_alloc,
+ 					 sdev->tx_ring.ring->hop,
+-					 sdev->in_hopid,
++					 sdev->in_hopid_alloc,
+ 					 sdev->rx_ring.ring->hop);
+ 	}
+ 
+@@ -1331,7 +1340,8 @@ static int tbstream_dev_update_properties(struct tbstream_dev *sdev)
+ 
+ 	ret = service_update_properties(stream->svc,
+ 					config_item_name(&sdev->group.cg_item),
+-					sdev->in_hopid, sdev->out_hopid);
++					sdev->in_hopid_alloc,
++					sdev->out_hopid_alloc);
+ 	if (!ret)
+ 		tb_service_properties_changed(stream->svc);
+ 
+@@ -1344,9 +1354,15 @@ static int tbstream_dev_alloc_in_hopid(struct tbstream_dev *sdev, int hopid)
+ 	struct tb_xdomain *xd = tbstream_dev_xdomain(sdev);
  	int ret;
-@@ -1570,7 +1569,8 @@ static int tb_xdomain_get_properties(struct tb_xdomain *xd)
- 	mutex_lock(&xd->lock);
  
- 	/* Only accept newer generation properties */
--	if (xd->remote_properties && gen <= xd->remote_property_block_gen) {
-+	if (xd->remote_properties && gen <= xd->remote_property_block_gen &&
-+	    !xd->remote_properties_stale) {
- 		ret = 0;
- 		goto err_free_block;
+-	if (sdev->in_hopid > 0 && sdev->in_hopid != hopid)
+-		tb_xdomain_release_in_hopid(xd, sdev->in_hopid);
++	/* Already allocated */
++	if (hopid > 0 && hopid == sdev->in_hopid_alloc)
++		return 0;
++	if (hopid < 0 && sdev->in_hopid_alloc)
++		return 0;
+ 	if (!hopid) {
++		if (sdev->in_hopid_alloc)
++			tb_xdomain_release_in_hopid(xd, sdev->in_hopid_alloc);
++		sdev->in_hopid_alloc = 0;
+ 		sdev->in_hopid = hopid;
+ 		return 0;
  	}
-@@ -1589,13 +1589,12 @@ static int tb_xdomain_get_properties(struct tb_xdomain *xd)
+@@ -1361,7 +1377,9 @@ static int tbstream_dev_alloc_in_hopid(struct tbstream_dev *sdev, int hopid)
+ 		tb_xdomain_release_in_hopid(xd, ret);
+ 		return -EBUSY;
  	}
- 
- 	/* Release the existing one */
--	if (xd->remote_properties) {
-+	if (xd->remote_properties)
- 		tb_property_free_dir(xd->remote_properties);
--		update = true;
--	}
- 
- 	xd->remote_properties = dir;
- 	xd->remote_property_block_gen = gen;
-+	xd->remote_properties_stale = false;
- 
- 	tb_xdomain_update_link_attributes(xd);
- 
-@@ -1608,7 +1607,7 @@ static int tb_xdomain_get_properties(struct tb_xdomain *xd)
- 	 * bus and let userspace know about it. If the device is already
- 	 * registered, we notify the userspace that it has changed.
- 	 */
--	if (!update) {
-+	if (!device_is_registered(&xd->dev)) {
- 		/*
- 		 * Now disable lane 1 if bonding was not enabled. Do
- 		 * this only if bonding was possible at the beginning
-@@ -1643,7 +1642,7 @@ static int tb_xdomain_get_properties(struct tb_xdomain *xd)
- 		kobject_uevent(&xd->dev.kobj, KOBJ_CHANGE);
- 	}
- 
--	enumerate_services(xd);
-+	queue_work(system_long_wq, &xd->services_work);
- 	return 0;
- 
- err_free_dir:
-@@ -1842,6 +1841,24 @@ static void tb_xdomain_state_work(struct work_struct *work)
- 			   msecs_to_jiffies(XDOMAIN_DEFAULT_TIMEOUT));
- }
- 
-+static void tb_xdomain_services_work(struct work_struct *work)
-+{
-+	struct tb_xdomain *xd = container_of(work, typeof(*xd), services_work);
-+	struct tb_property_dir *dir;
-+
-+	/* The state work may replace the remote properties meanwhile */
-+	scoped_guard(mutex, &xd->lock) {
-+		if (xd->removing)
-+			return;
-+		dir = tb_property_copy_dir(xd->remote_properties);
-+		if (!dir)
-+			return;
-+	}
-+
-+	enumerate_services(xd, dir);
-+	tb_property_free_dir(dir);
-+}
-+
- static void tb_xdomain_properties_changed(struct work_struct *work)
- {
- 	struct tb_xdomain *xd = container_of(work, typeof(*xd),
-@@ -2040,7 +2057,13 @@ static void tb_xdomain_release(struct device *dev)
- 
- static int __maybe_unused tb_xdomain_suspend(struct device *dev)
- {
--	stop_handshake(tb_to_xdomain(dev));
-+	struct tb_xdomain *xd = tb_to_xdomain(dev);
-+
-+	stop_handshake(xd);
-+	if (cancel_work_sync(&xd->services_work)) {
-+		guard(mutex)(&xd->lock);
-+		xd->remote_properties_stale = true;
-+	}
+-	sdev->in_hopid = ret;
++	if (sdev->in_hopid_alloc)
++		tb_xdomain_release_in_hopid(xd, sdev->in_hopid_alloc);
++	sdev->in_hopid_alloc = sdev->in_hopid = ret;
  	return 0;
  }
  
-@@ -2151,6 +2174,7 @@ struct tb_xdomain *tb_xdomain_alloc(struct tb *tb, struct device *parent,
- 	INIT_DELAYED_WORK(&xd->state_work, tb_xdomain_state_work);
- 	INIT_DELAYED_WORK(&xd->properties_changed_work,
- 			  tb_xdomain_properties_changed);
-+	INIT_WORK(&xd->services_work, tb_xdomain_services_work);
- 	atomic_set(&xd->ntunnels, 0);
+@@ -1370,9 +1388,14 @@ static int tbstream_dev_alloc_out_hopid(struct tbstream_dev *sdev, int hopid)
+ 	struct tb_xdomain *xd = tbstream_dev_xdomain(sdev);
+ 	int ret;
  
- 	xd->local_uuid = kmemdup(local_uuid, sizeof(uuid_t), GFP_KERNEL);
-@@ -2265,6 +2289,7 @@ void tb_xdomain_unregister(struct tb_xdomain *xd)
- {
- 	lockdep_assert_not_held(&xd->tb->lock);
+-	if (sdev->out_hopid > 0 && sdev->out_hopid != hopid)
+-		tb_xdomain_release_out_hopid(xd, sdev->out_hopid);
++	if (hopid > 0 && hopid == sdev->out_hopid_alloc)
++		return 0;
++	if (hopid < 0 && sdev->out_hopid_alloc)
++		return 0;
+ 	if (!hopid) {
++		if (sdev->out_hopid_alloc)
++			tb_xdomain_release_out_hopid(xd, sdev->out_hopid_alloc);
++		sdev->out_hopid_alloc = 0;
+ 		sdev->out_hopid = hopid;
+ 		return 0;
+ 	}
+@@ -1383,7 +1406,9 @@ static int tbstream_dev_alloc_out_hopid(struct tbstream_dev *sdev, int hopid)
+ 		tb_xdomain_release_out_hopid(xd, ret);
+ 		return -EBUSY;
+ 	}
+-	sdev->out_hopid = ret;
++	if (sdev->out_hopid_alloc)
++		tb_xdomain_release_out_hopid(xd, sdev->out_hopid_alloc);
++	sdev->out_hopid_alloc = sdev->out_hopid = ret;
+ 	return 0;
+ }
  
-+	cancel_work_sync(&xd->services_work);
- 	device_for_each_child_reverse(&xd->dev, xd, unregister_service);
+@@ -1597,8 +1622,8 @@ tbstream_dev_attach_stream(struct tbstream_dev *sdev, struct tbstream_group *sg)
+ 			tbstream_dev_alloc_out_hopid(sdev, sdev->out_hopid);
+ 	}
  
- 	dev_info(&xd->dev, "host disconnected\n");
-diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
-index 57502da29080..48ae996a779c 100644
---- a/include/linux/thunderbolt.h
-+++ b/include/linux/thunderbolt.h
-@@ -226,6 +226,8 @@ enum tb_link_width {
-  * @local_property_block_len: Length of the @local_property_block in dwords
-  * @remote_properties: Properties exported by the remote domain
-  * @remote_property_block_gen: Generation of @remote_properties
-+ * @remote_properties_stale: Accept the next properties even if
-+ *			     @remote_property_block_gen has not changed
-  * @state: Next XDomain discovery state to run
-  * @state_work: Work used to run the next state
-  * @state_retries: Number of retries remain for the state
-@@ -233,6 +235,7 @@ enum tb_link_width {
-  *			     our properties have changed
-  * @properties_changed_retries: Number of times left to send properties
-  *				changed notification
-+ * @services_work: Work used to add and remove the services
-  * @bonding_possible: True if lane bonding is possible on local side
-  * @target_link_width: Target link width from the remote host
-  * @ntunnels: Keeps track of how many tunnels go through this XDomain
-@@ -275,11 +278,13 @@ struct tb_xdomain {
- 	u32 local_property_block_len;
- 	struct tb_property_dir *remote_properties;
- 	u32 remote_property_block_gen;
-+	bool remote_properties_stale;
- 	int state;
- 	struct delayed_work state_work;
- 	int state_retries;
- 	struct delayed_work properties_changed_work;
- 	int properties_changed_retries;
-+	struct work_struct services_work;
- 	bool bonding_possible;
- 	u8 target_link_width;
- 	atomic_t ntunnels;
+-	service_update_properties(stream->svc, name, sdev->in_hopid,
+-				  sdev->out_hopid);
++	service_update_properties(stream->svc, name, sdev->in_hopid_alloc,
++				  sdev->out_hopid_alloc);
+ 	tb_service_properties_changed(stream->svc);
+ 
+ 	/* Notify any openerers that the stream is now attached */
+@@ -1617,10 +1642,14 @@ static void tbstream_dev_detach_stream(struct tbstream_dev *sdev)
+ 			return;
+ 		sdev->stream = NULL;
+ 		xd = tb_service_parent(stream->svc);
+-		if (sdev->out_hopid > 0)
+-			tb_xdomain_release_out_hopid(xd, sdev->out_hopid);
+-		if (sdev->in_hopid > 0)
+-			tb_xdomain_release_in_hopid(xd, sdev->in_hopid);
++		if (sdev->out_hopid_alloc) {
++			tb_xdomain_release_out_hopid(xd, sdev->out_hopid_alloc);
++			sdev->out_hopid_alloc = 0;
++		}
++		if (sdev->in_hopid_alloc) {
++			tb_xdomain_release_in_hopid(xd, sdev->in_hopid_alloc);
++			sdev->in_hopid_alloc = 0;
++		}
+ 	}
+ 
+ 	service_update_properties(stream->svc, name, 0, 0);
 -- 
 2.50.1
 
