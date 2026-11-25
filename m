@@ -1,108 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795625137;
-	b=d7PihfG8THwoBJDKt1sW+ZleRR42s30RFBmqCyjDrFAWsxuZV4Yr5eV0+TVwQfNKy76l
-	 37MmJxCButtmfr5ujtpQzyKL8CO/BRKTCQLM2IbfP19asYFiBm/7lkTNMK8s/48gFIkZJ
-	 G/MhgwC1+5cTNEcp8xesI4axVxEbe1/Wacm6n70fCji7IFATTISr+2uCuhtP5g2gRLWch
-	 OJR5qaty3Is/CwVWSgXKGO5ZnnrDSE+F+vISrjJDR3nPnYGRATofmLINqWubaHziwPAd6
-	 yGp/RMkR7ffED9cZI7QZzU1VtK1/Mwbwu19nMDCRuyXYODeJBsIpE+/SBNgGN9jIBKA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795625137;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=11zt4OupvieQqDw22Q2ubqyLm0TwPHTf9uDp8UQ/aNg=;
-	b=PUsbplCsMhlqiymWe4V5Xj/NroXrL6l5nwWUHeAe+tJogdDy8zUOeEkMzFcJNRInmf+Q
-	 Zjji2Mth+x5/ypT5hjyfsZV+DJlbCDhDP9SVZavQG79hsWIvKkMekf0zhvdHPWK4Xisa7
-	 0OLHR1E8Hg7Yvzz3zEDDiiyU729leUZO7zbT0URM5MwvsfrRKVK/VaerhW82piXXxpal5
-	 YY+PM/cgeZQrO1gojlBzOuc1R85JbaT3S7vlqlDVxnKY2gXjGQXbPApahWRk9Q1nGwk6+
-	 /6wQs7SGFbO7KbnQ/Sb2YHFSFjj7A2wxpg2Rm8yyRqjng5fp+Cef4UaWGd6Cw5rmWgg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=gYew8w2z;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.170
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795625219;
+	b=jUOkhjadZ8/vGcnZr7omFQeYWeDmHTLTPrWKOJzNkPsCQTtEKag5HGUXZ44IFDphEmf9
+	 IT/zbVYroCNxc3MlpaHAYgTWghaqxg0IMNs8Ah8iJx6loOevxS2QGAkJfkm3fIs4297oa
+	 Vo7di+IfprlEeUp1dxO9X090YH9mdbBJvpq1LSYQYJg5QojaxWLqdp0Pbpy8W11r6XM8K
+	 +1CYLBurvHLlqu1VpQDxT1o55gMcI9TiU9CV4PJbjhAPzp1AXK3mHAetgR0jFqJx5krHE
+	 GU/2IsfPPlcGX3JnySI6ddI3NzfD3C0cF2ok6bopa4iesqCUhTPNVsIMV+OpkNNbEQg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795625219;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:MIME-Version:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=4l6su8J/2b05gZJamYLmbEnP/+CVAtPv/Cq+tXm1mwI=;
+	b=5BYX5ozNKEKD4kS+JswzCqBRTm974GYLRJeXEPBe5qY+VWtmSPkjQ2ZShHI0qZM+xxDW
+	 rRmrQTxPI8ZSCeri/85Qms3pQuk5ZvbWY7Vfx7qmc2vStmbm/qeJNELG2JMwIDr+QTpQn
+	 LH3bq7oT5Sm6tvrZhm8kkt6WVtP5Qm5tvRukpT6vXXS9ulFimUih+Wcwm0jwg1qEoaGdm
+	 grcI3lasejNPyGapptsqV4FEgFkYcHg525LK7IuT1KqzckIsewXi4BaGG0VOhSqIqizT/
+	 PN0202kThuPVfU861b2xrw1Y1d9HWdBAkF9LhEYfTEO8sPdVcqZVhtfyPu2v/AnwbTw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xq9xkX1P;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.170
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEEE606A327;
-	Wed, 25 Nov 2026 16:45:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5AEEE606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F2B606A321
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 16:46:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61F2B606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=gYew8w2z
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 164CF410D0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1795625135; bh=11zt4OupvieQqDw22Q2ubqyLm0TwPHTf9uDp8UQ/aNg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gYew8w2zbH6+bi/mBbqli+h0aBDamw00BioPDCMMC4Es4g+qCaaIw8gBYOLhfGAsU
-	 9mfNHzR2Wjt3eb5ezNkPplfVvqDZB4yLXc7H/uIjYl6k/R0SNrt0O4pqewchTPc4H+
-	 DoPRzU4+fJgJOU7hPx03jLkV4HVaXJMTTjxyrWRVyiE+GFkUio915W5ZUB0L5VMnbm
-	 Z5AtjEERksNhEMgjG3ZSm0ynjzhzYrKmQP0JaqQq4T6DitPDhHE0cz5cUJ9ItE/n9j
-	 Ip9FDRPDTnpXpMfA3rcqvq+BtjVyvtC+AdbQzNra/9WErFSqw5foLA7PdpN6n18WG/
-	 9pepodyHhS3sA==
-Received: from localhost (unknown [205.220.129.44])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 164CF410D0;
-	Wed, 25 Nov 2026 16:45:34 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, David Hildenbrand
- <david@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Jason
- Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
- linux-mm@kvack.org, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, linux-sound@vger.kernel.org, Jens Axboe
- <axboe@kernel.dk>, linux-block@vger.kernel.org, Marcel Holtmann
- <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- linux-bluetooth@vger.kernel.org, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowangio@gmail.com>,
- David Heidelberg <david@ixit.cz>, oe-linux-nfc@lists.linux.dev, Chas
- Williams <3chas3@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, Helge Deller
- <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, MPT-FusionLinux.pdl@broadcom.com, "James
- E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, "Martin K.
- Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org, Miquel Raynal
- <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Zhihao Cheng <chengzhihao1@huawei.com>,
- linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>, Andrey
- Konovalov <andreyknvl@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, Juergen Gross
- <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
- xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, "Michael S. Tsirkin" <mst@redhat.com>, Eugenio
- =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>, Sean Christopherson
- <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
- virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
- linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
- devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>, Namjae Jeon
- <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org, Jaegeuk Kim
- <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Tzung-Bi Shih
- <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- intel-gfx@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v3 00/12] docs: ioctl-number: update entries
-In-Reply-To: <20261125061340.3402300-1-rdunlap@infradead.org>
-References: <20261125061340.3402300-1-rdunlap@infradead.org>
-Date: Wed, 25 Nov 2026 09:45:27 -0700
-Message-ID: <875wxkx3ko.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xq9xkX1P
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2f020d0169eso30034475ad.0
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 08:46:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795625219; cv=none;
+        d=google.com; s=arc-20260327;
+        b=I9iWPZcBXAQOA+N502QwEsGRfOODFlgXmMM5+kYPIIswXB3dv5jQ+9zqBygdVU1tgX
+         9Dz1eUmFUzjLZ/7LJKbZhYzYyPSmx1KkDuUAydkx2nlhqDzfR9ocXCXCB1eWDQZU7MMY
+         owoAeffN8HLzHIAXbdHend1dX4lgIq/dESj6V6JiXcfLk/9swrAhnvxZIkMm4Duuh45b
+         Hwh8E8QkhFzaHE8hfyoBtqvFwGNv8gnhPxx2K0MnDa/f7jC9KAXDad3TwcN26qUgXUVV
+         u+vcWWq2aKoQK+LQFdqhZrTqunk5BcFkNNLMHtjcH7y/CIwgqE0KTEOvCQjBbhsHG9AD
+         z6CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=4l6su8J/2b05gZJamYLmbEnP/+CVAtPv/Cq+tXm1mwI=;
+        fh=sdt6G3k78yafayXNQI00+zexiWmLh2ZFlMXHty46fJo=;
+        b=kuacydeb3ZsgO3ScQH/mf6BM6Q8ruF919A3bkL9qINirKSDe+J6ZSgqQMnpIGR4ror
+         zT4YXJL3OkNSyRZbmqelyluysXXnHya2FnZPeugYmPrMbvETPaZ8EC7r6j5Gzj0tHD9x
+         b2I8DpurY7TI6V+VdxypmNR+rvZUvHR706AcXq6HTHacdzzAouMfaOC5Hm7L8mt0uXut
+         6tJOlkjcH4BHfvHxQ/YaSs+aHLtgLOB3GqiFRO9s7S0S+8wNeupss8d6O1WxvAUSqi7v
+         0FcdriwIrSeiE9pMOObSvtwqXozYPnTja2YuCA5GI0VS/zuZeQTjHomRI7yDD9Kk4Tb7
+         49LQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795625219; x=1796230019; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4l6su8J/2b05gZJamYLmbEnP/+CVAtPv/Cq+tXm1mwI=;
+        b=xq9xkX1P6hWe7y2qGFi5ciej4BIskGDn93nQQovSbjk4KLmRX/Ejdmiek8bmM7dyys
+         n8x/fY0zWRCPov1SKZI+7Nj2AyzvyEhtrXdfIiBoVBcE79qZVZVRKvb+cl/OhZGdTk3p
+         9Dal7wBfDAkw8xtBeiOL4nPzjY4ec0teH369TB0QVKKpLncgc5O4p0h3wrH9TwGhDmoV
+         TK9+Xylq8krkTtc/fNXdIOtu6+mV7t0yrPhpgptzLlHCRRGJaS2USkqNpiWoVp9Il2N4
+         7X3RWF5B8vsX2HceUxe2TIgC6OCWWv2nBOx2wBPcRMhMa5QCgaSVHyr9QJFuPgiEPb2a
+         MSRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795625219; x=1796230019;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=4l6su8J/2b05gZJamYLmbEnP/+CVAtPv/Cq+tXm1mwI=;
+        b=UyU5XSXs9QsKQCZbLab0Eqzz68HJlg4WKhf8yANzs/rYTB0Ja7F5J9UNgPK3DGz17T
+         8woWAhGW0C7o2QRT+MDXGKZWyUDRiQi37dqTpfFDXPVrdLmf0Kd9ZfKNRUXBwBZTC4mw
+         XfifJKnw3sq/n+BTC8aF2Wkh9Rak1SOtLOhts4E8muSmoi8e6BH0qQXr0PMEibV1RYLR
+         z1Eh/m4g90XL9ZOCw+HZiOhFtkMNvXPRCIepedD4OWbW0uRcvHZImTW7D4E1iMUubz2x
+         TTXvSimh3XqEa/XC9IqnBZXS/mbyWwWwTBNq2iJAMgtWQxRmEwKmd6/6LWeroIrgZ2/a
+         +xUQ==
+X-Gm-Message-State: APuU4Z8jKWwtSSDlYg/JQchTR5F/L6vBo61C3y/OzEyDHlzS/8WC66x1
+	UTLV0wt/rCwLueOFsHeq1VE26oyL4Kj7+QC20JlMoJUcDd78Swu1rfpelY5xEe7qCNEtN6LRryI
+	Nd/9HJWEw02cRt11dOFTU2gyQVfymoB1TpQ==
+X-Gm-Gg: AZFdTZevTSq1+IR0K+WSHyoLZviw5kpYGfIuAoQ8VYIRD+JIPOjw1mNDtcvYsHECc7H
+	HQjs5FXjaLzxL13AjY3+5Fr6nVJFBbaag3SHZAxpVtRJfyh7YlL925XHrguG5qVUbKl12gAY5UM
+	NmdyJtO2XzpcipHUEqar3kE9Z7k8KK+sDWhOgUEakOPec0vf+6bk22i0gUubh7n6NG7TqfB0kS/
+	0AIFAz4PoGAJnKpuC4YIfY+/O8LFk4m+JGg/AoXtxk4sczjbWjrZho0W+3OlLyj9yhkf/N2TZgA
+	VSoaWboZMz8xvmRpCFAgdAmnRjNdfDKvMLc1kJBfzJvMsmYIwhq8JfjXQ2wTM6ttbCGEUYlPuw9
+	xbd4enZx9h11Ps/GRDWhC4Ki9jbHf4D6C
+X-Received: by 2002:a17:903:1b4c:b0:2f0:a8b5:4330 with SMTP id
+ d9443c01a7336-2f0dc64fcbdmr24291335ad.18.1795625218595; Wed, 25 Nov 2026
+ 08:46:58 -0800 (PST)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Wed, 25 Nov 2026 10:46:58 -0600
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -112,33 +101,58 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+From: Flavio Giacchetti <flv.giacchetti@gmail.com>
+Date: Wed, 25 Nov 2026 10:46:58 -0600
+X-Gm-Features: Aa3M54r5hd1_jSn3QPbVycglwSRHi1SAylD7McKlbAvXL2of4Va2BSZXo0kgJpw
+Message-ID: <CACKiatc1Bj2et4kcXDJiYx28XXxoo6iHPc9nYt3GhTCxUmdnsA@mail.gmail.com>
+Subject: [REGRESSION] Creative Sound Blaster X3 (041e:3264) fails USB audio
+ probe on Fedora 7.3.4
+To: linux-usb@vger.kernel.org
+Cc: Oliver Neukum <oneukum@suse.com>, regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Hi,
 
-> Update file names that define ioctls and update the range of
-> ioctl function numbers that are used where they have changed.
->
-> [Since having multiple maintainers trying to merge these would
-> cause some conflicts, it would be more manageable for Jon to
-> take all of these through the docs-next tree.]
->
->  [PATCH 01/12 v2] docs: ioctl-number: update MM entries
->  [PATCH 02/12 v2] docs: ioctl-number: update sound entries
->  [PATCH 03/12 v2] docs: ioctl-number: update block entries
->  [PATCH 04/12 v2] docs: ioctl-number: update networking entries
->  [PATCH 05/12 v2] docs: ioctl-number: update video/fbdev entries
->  [PATCH 06/12 v2] docs: ioctl-number: update SCSI entries
->  [PATCH 07/12 v2] docs: ioctl-number: update MTD entries
->  [PATCH 08/12 v2] docs: ioctl-number: update USB entries
->  [PATCH 09/12 v2] docs: ioctl-number: update virtualization entries
->  [PATCH 10/12 v2] docs: ioctl-number: update FS entries
->  [PATCH 11/12 v2] docs: ioctl-number: update platform entries
->  [PATCH 12/12 v2] docs: ioctl-number: update DRM entries
->
->  Documentation/userspace-api/ioctl/ioctl-number.rst |   91 ++++++++---
->  1 file changed, 72 insertions(+), 19 deletions(-)
+My Creative Sound Blaster X3 stopped appearing in ALSA on Fedora 45
+after the update from 7.3.3-300.fc45.x86_64 to 7.3.4-300.fc45.x86_64.
+Booting the previous Fedora kernel restores audio on this PC.
 
-I've applied the series, thanks.
+Hardware:
 
-jon
+  USB device: Creative Sound Blaster X3, 041e:3264, bcdDevice 10.90
+  Host controller: Intel 600 Series xHCI [8086:7ae0], revision 11
+  Connection: rear motherboard USB port, enumerated at 480 Mb/s
+
+With the stock 7.3.4 Fedora kernel, the failure reproduced on two rear
+USB ports. On one failed plug-in the kernel enumerated the device,
+bound cdc_acm to interface 1 and then logged a disconnect. After
+re-enumeration, the USB audio driver repeatedly failed to query sample
+rates and mixer controls. The X3 never appeared in /proc/asound/cards.
+
+  cdc_acm 1-12:1.1: ttyACM0: USB ACM device
+  usb 1-12: USB disconnect, device number 7
+  ...
+  usb 1-12: parse_audio_format_rates_v2v3(): unable to retrieve number
+of sample rates (clock 33)
+  ...
+  usb 1-12: 13:3: failed to get current value for ch 0 (-110)
+
+An experimental cdc-acm quirk skips interface 1 for 041e:3264 only.
+With that module on the same 7.3.4 Fedora kernel, the X3 registered
+with ALSA and played stereo audio at 48 kHz. The first hot-plug test
+still logged errors during re-enumeration, then recovered. On a
+subsequent normal reboot with the patched module installed and the X3
+connected, ALSA and PipeWire exposed the output and input, and the
+earlier rate-query errors and timeouts did not recur. Playback worked
+after the reboot.
+
+This is the result of testing one unit on one host. I have not isolated
+the first bad upstream commit or established what functionality needs
+the ACM interface. The results so far are for Fedora kernels.
+
+Would a device-scoped ACM exclusion be appropriate here, or would a
+comparison of USB traces with and without the ACM binding help narrow
+this down?
+
+Thanks,
+Flavio
