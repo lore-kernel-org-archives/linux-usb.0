@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795625870;
-	b=Rf/YHDq1qQr3ylfuIc8A28AEx1THo2rqNxZe5/9uP3RpFDZpywG+Gbaj/7VXS0RKMHnP
-	 jAPtWV1xh5sa0yJ6eK8I6Ubb5R5EI4EcYQb2EKe3FQNvP9pbbgEO2jqwYs0dgQ1Z36i2H
-	 FxunoO/R3BppIcg6WsqROTGr514/0qZSANtJYe2oC+c0E5hiPcz31FLNl+Vt5VxGLzjPE
-	 HCzrJ+5SqrP4VmLk2FLMvwg7pR6tsd0Nfxyh2KgywDfXPmmgqYbdRueZkvqTrVmcIjtAG
-	 3zJgQZYeRVynp/fNEckcHYGDT5jD5LKiQrnz/lF47yficEuMc7ofTGmTyplAT+Od8TA==
+	t=1795625931;
+	b=dpMFK5S/wneELEkhG2ouuGm9MbCcVCSO5o2lDPe3DyFDNVJVMk9iIyFSio1z9XsjKUeQ
+	 RXcdlEIv49cRbWw5/VrVkY0dHd2txb2aKQhEsjuZkiBF2dBojyIkW/MZvHHvNxWYmUnqI
+	 luKpO3JCxcD1PEuTMDf5mmrF+uyuk9VofIxnROqpObmH75bIgqn1evjH/qeyP+wf0NfeW
+	 EHkzOLJS5UHwFB+EccK0Fiy/oTnkceH6q90D90EQ8D+xiWrbSTvo+LpL+0LrSt80TNQyH
+	 DF+8FCSgOpYfAQ0vGpLxAuSs0yaD8nI+JDkaALgGMTmaYPElsR7hke/T733GXbTxeng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795625870;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795625931;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=QnrGOKOZJesfH3g6LtoPTFP0D/LL20fZe/anvDh8n/Y=;
-	b=qUKrj9biftPesD9AtjViw1hQGksx9jZfbPmKQ0ecFDx8jKMqlZtBfWqOtBQ0y2t9h/FY
-	 ObYiunfDNDbNNQMbZ/pG9j5pppK5vLa+iJNGm6Ou5uWuptRi7KRVEzbjXpmsPtr3kJ/s4
-	 fsgkodzKn//+1vNhqLvdfzmnIgKhhvJjnRIDnJ5+kbs8zUlrjmplGfPWcnxecLWaNpgRv
-	 QULRMbiIX0608IX8jSVwWGK1k2tW6BcPXIMvvUq7xdz9oUMRifPzolNkwIMsY12ySS3ro
-	 Eaa3yfCajPdTCBhLyfEz0L2wM8S83zTfbCJYMm/M50lkTeLSI0TnidAgwpRCsFoKofg==
+	bh=LbC0aquylA7OO1aT0S/TAX44UGU+GgSbqJXgn3etxNY=;
+	b=doMc+7A6DdLvcrK4bK9Df/Ocshw0xOFJbNluNNzHBAScrETwM22lm2saxyviCz5eJNJH
+	 D71Afi4Tgcd4O3z/j2ybjW2HTM5EkZRbVVztt8YtRx49fgDo62vdyUdhRMF0QRlpHWCzE
+	 SOfntOapeMdFsfm//FNvMg4jHaAK3Ke8mv5bEJF2Un4V1ey+6UcKNMLCF+iucNFDWC6xw
+	 cR4jXa/sq7ybqZtxkOy78wC5DVi6NmgXvqHG0WyyyaLfIeamuMYPIs8XlFCRcLZsiWZUC
+	 2y0DyoiitfXTgHGWCx+ffF2Ev4yEno9OHTyyU9JTZB/wWm5bUwGu/Un5GtZlq+q2Q5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ndYOdFZf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mwyRj7SP;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DE9606A323
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 16:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE1F606A323
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 16:58:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ndYOdFZf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9E171F000C0;
-	Wed, 25 Nov 2026 16:57:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mwyRj7SP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FA641F000D0;
+	Wed, 25 Nov 2026 16:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795625869;
-	bh=QnrGOKOZJesfH3g6LtoPTFP0D/LL20fZe/anvDh8n/Y=;
+	s=k20260515; t=1795625931;
+	bh=LbC0aquylA7OO1aT0S/TAX44UGU+GgSbqJXgn3etxNY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ndYOdFZfmzTKOQPbOx+EXVqgPj5PwrMw9Y2SjyINBANolftWnRg7Jrt79p690Rm4B
-	 dJ4amEUA7uMhdPGpw137rb7kRDHf2y54fc/8ZhWjG8ols7W9Tfovdcn5LBCzbUnQ+H
-	 QXBy3cFLPogqARcEXKgoHtxqQlkdta5AP8TEe6CJeoaKKzf0Hgu0y4LdPU8Hot2Z7U
-	 ZDBlKuxbWcbO+KD/H9QICvygU5BMfOldO8GyoZiO//TeNea57Y+K2qKatVBi+BNzEq
-	 13sFvqkRI94afh6sKKcu4zpvl5/F5KYEMHbfkjXV6OTU5Kqsksp09vK2E7Arjei2HT
-	 9kbYHwBsMlYGw==
-Message-ID: <sashiko-outbox-233788@kernel.org>
+	b=mwyRj7SPMtM1K73A6qBhnWEF23qeNQQVkgoNDGPgEdcsg1A5MWbrYtlrSUOOY6Vfr
+	 109n33l6wEuBEodtw50a+X+NuhbmDd0IjQNUKGTFjpnQoaeTZ8b385bOOXcFHuo6im
+	 8Z6L2WZ313UvGAUhh0cUhRYqC29WaAKbhJacK7t1WUcq8zrq/2VbEzjGbw3Yyio2ic
+	 yZTINbXq7ALO6SxegVHaF0UgY2XSVFC06a0ZsnuYiCURiul54nnEvZk4Piago4K5vF
+	 /u+Zl6e8XWXqI+pBZGp1+XSKTnllFPQwejHGVhQUq7SA1dg9BNbLLvajcJTURApqSq
+	 Dtis9tqO3drdQ==
+Message-ID: <sashiko-outbox-233789@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 04/11] usb: dwc2: clean up old role on mode change
- during suspend
+Subject: Re: [PATCH v6 01/11] usb: dwc2: fix recovery after PM domain off
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Fabrice Gasnier" <fabrice.gasnier@foss.st.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261125-dwc2-low-power-fixes-stm32-v6-4-d5df33b93eaf@foss.st.com>
+In-Reply-To: <20261125-dwc2-low-power-fixes-stm32-v6-1-d5df33b93eaf@foss.st.com>
 References: <20261125-dwc2-low-power-fixes-stm32-v6-0-d5df33b93eaf@foss.st.com>
- <20261125-dwc2-low-power-fixes-stm32-v6-4-d5df33b93eaf@foss.st.com>
+ <20261125-dwc2-low-power-fixes-stm32-v6-1-d5df33b93eaf@foss.st.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 16:57:49 +0000
+Date: Wed, 25 Nov 2026 16:58:50 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,94 +60,131 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] usb: dwc2: device endpoint register access in host mode in
-  dwc2_hsotg_role_lost()
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] usb: dwc2: stale gr_backup.valid after resume without PM domain
+  power loss
+- [High] usb: dwc2: dwc2_restore_critical_registers() overwrites resume
+  config
 --
 
-commit 9eca46957e8d956eb9059255d4d71f159a5ec1a4
+commit c2d1c8f60a77ed180c814b0a57e8097e8be203f6
 Author: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 
-usb: dwc2: clean up old role on mode change during suspend
+usb: dwc2: fix recovery after PM domain off
 
-This commit records the active role at suspend and, if register state is
-lost during suspend while the OTG ID pin changes, cleans up the old role
-and initializes the new role on resume instead of restoring the previous
-role's register backup.
+This commit backs up critical registers when entering clock gating, skips t=
+he
+backup in dwc2_suspend() if a valid backup already exists, and moves regist=
+er
+restoration in dwc2_resume() after STM32 ID/VBUS detection and dual-role
+restoration.
 
-> diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-> index 295091a87b129..9b12c336e4aa9 100644
-> --- a/drivers/usb/dwc2/gadget.c
-> +++ b/drivers/usb/dwc2/gadget.c
-> @@ -5251,6 +5251,26 @@ int dwc2_hsotg_resume(struct dwc2_hsotg *hsotg, bo=
-ol lost)
->  	return 0;
->  }
-> =20
-> +/**
-> + * dwc2_hsotg_role_lost - drop gadget state after a role change in suspe=
-nd
-> + * @hsotg: Programming view of the DWC_otg controller
-> + *
-> + * The core came back from register loss in host mode while the gadget w=
-as
-> + * active at suspend. Disconnect the gadget and clear stale software sta=
-te
-> + * without touching the endpoint registers, which are not usable in host=
- mode.
-> + */
-> +void dwc2_hsotg_role_lost(struct dwc2_hsotg *hsotg)
-> +{
+> diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+> index 3df9b198d1b22..7f3436e6a1538 100644
+> --- a/drivers/usb/dwc2/platform.c
+> +++ b/drivers/usb/dwc2/platform.c
+> @@ -649,6 +649,8 @@ static int dwc2_driver_probe(struct platform_device *=
+dev)
+>  static int __maybe_unused dwc2_suspend(struct device *dev)
+>  {
+>  	struct dwc2_hsotg *dwc2 =3D dev_get_drvdata(dev);
+> +	struct dwc2_gregs_backup *gr;
 > +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&hsotg->lock, flags);
-> +	dwc2_hsotg_disconnect(hsotg);
-> +	dwc2_clear_fifo_map(hsotg);
-> +	hsotg->gadget.speed =3D USB_SPEED_UNKNOWN;
-> +	dwc2_clear_lost_state(hsotg);
-> +	spin_unlock_irqrestore(&hsotg->lock, flags);
-> +}
+>  	bool is_device_mode;
+>  	int ret =3D 0;
+> =20
+> @@ -692,10 +694,15 @@ static int __maybe_unused dwc2_suspend(struct devic=
+e *dev)
+>  		regulator_disable(dwc2->usb33d);
+>  	}
+> =20
+> -	if (is_device_mode)
+> -		ret =3D dwc2_gadget_backup_critical_registers(dwc2);
+> -	else
+> -		ret =3D dwc2_host_backup_critical_registers(dwc2);
+> +	spin_lock_irqsave(&dwc2->lock, flags);
+> +	gr =3D &dwc2->gr_backup;
+> +	if (!gr->valid) {
+> +		if (is_device_mode)
+> +			ret =3D dwc2_gadget_backup_critical_registers(dwc2);
+> +		else
+> +			ret =3D dwc2_host_backup_critical_registers(dwc2);
+> +	}
+> +	spin_unlock_irqrestore(&dwc2->lock, flags);
 
-[Severity: Medium]
-Can dwc2_hsotg_role_lost() still access device endpoint registers while
-the controller is in host mode, and leave endpoint state stale when
-usb_ep_disable() is deferred?
+[Severity: High]
+Can gr->valid remain true across normal operation after a suspend/resume
+cycle where the power domain is not turned off?
 
-When the USB bus is already suspended (hsotg->lx_state is DWC2_L2 or
-DWC2_L1) at system suspend, dwc2_hsotg_suspend() returns early, leaving
-hsotg->connected set, endpoints enabled with non-zero fifo_index and
-fifo_size, and hsotg->op_state at OTG_STATE_B_PERIPHERAL.  On resume into
-host mode, dwc2_hsotg_role_lost() runs before dwc2_hcd_restore() updates
-hsotg->op_state to OTG_STATE_A_HOST, and calls dwc2_hsotg_disconnect():
+When dwc2_suspend() runs while the controller is not in clock gating (for
+example, in device mode in DWC2_L0, in host mode with no device connected on
+the root port, or when params.no_clock_gating is set), the backup here sets
+gr->valid =3D true.  If the power domain stays powered during that suspend,
+dwc2_resume() sees GUSBCFG_TOUTCAL_MASK still set and skips
+dwc2_restore_critical_registers(), while neither
+dwc2_gadget_exit_clock_gating() nor dwc2_host_exit_clock_gating() runs to
+clear gr->valid.
 
-1. dwc2_hsotg_disconnect() calls kill_all_requests() on every endpoint,
-   which reads DTXFSTS(ep->fifo_index) and flushes the TX FIFO when
-   hsotg->dedicated_fifos is set:
+Because gr->valid stays true in DWC2_L0, subsequent dwc2_suspend() calls sk=
+ip
+backing up current registers.  If a later suspend powers off the PM domain,
+dwc2_resume() restores stale register values from the earlier suspend, or
+restores the wrong mode's registers if an OTG role switch occurred in betwe=
+en.
 
-drivers/usb/dwc2/gadget.c:kill_all_requests() {
+[ ... ]
+
+> @@ -786,6 +782,20 @@ static int __maybe_unused dwc2_resume(struct device =
+*dev)
+>  		dwc2_drd_resume(dwc2);
+>  	}
+> =20
+> +	/*
+> +	 * During suspend it's possible that the power domain for the
+> +	 * DWC2 controller is disabled and all register values get lost.
+> +	 * In case the GUSBCFG register is not initialized, it's clear the
+> +	 * registers must be restored.
+> +	 */
+> +	if (!(dwc2_readl(dwc2, GUSBCFG) & GUSBCFG_TOUTCAL_MASK)) {
+> +		spin_lock_irqsave(&dwc2->lock, flags);
+> +		ret =3D dwc2_restore_critical_registers(dwc2);
+> +		spin_unlock_irqrestore(&dwc2->lock, flags);
+> +		if (ret)
+> +			return ret;
+> +	}
+
+[Severity: High]
+Does calling dwc2_restore_critical_registers() after the STM32 ID/VBUS
+detection block and dwc2_force_dr_mode() / dwc2_drd_resume() overwrite the
+GOTGCTL, GINTMSK, and GUSBCFG values just configured for resume?
+
+drivers/usb/dwc2/core.c:dwc2_restore_global_registers() {
     ...
-	if (!hsotg->dedicated_fifos)
-		return;
-	size =3D (dwc2_readl(hsotg, DTXFSTS(ep->fifo_index)) & 0xffff) * 4;
-	if (size < ep->fifo_size)
-		dwc2_hsotg_txfifo_flush(hsotg, ep->fifo_index);
+	dwc2_writel(hsotg, gr->gotgctl, GOTGCTL);
+	dwc2_writel(hsotg, gr->gintmsk, GINTMSK);
+	dwc2_writel(hsotg, gr->gusbcfg, GUSBCFG);
+    ...
 }
 
-2. dwc2_hsotg_disconnect() then invokes call_gadget(hsotg, disconnect).
-   Gadget drivers that synchronously call usb_ep_disable() during
-   disconnect enter dwc2_hsotg_ep_disable(), where the host-mode guard
-   (hsotg->op_state !=3D OTG_STATE_B_PERIPHERAL) does not trigger because
-   op_state has not been updated yet, so it reads and writes DIEPCTL,
-   DOEPCTL, DAINTMSK and DTXFSTS while the hardware is in host mode.
+In dwc2_suspend(), dwc2_drd_suspend() masks GINTSTS_CONIDSTSCHNG in GINTMSK,
+and the activate_stm_id_vb_detection path forces the mode in GUSBCFG and se=
+ts
+session and debounce overrides in GOTGCTL before the !gr->valid backup saves
+those registers into gr_backup.  When the power domain is lost, running
+dwc2_restore_critical_registers() after the resume steps clobbers the resto=
+red
+GOTGCTL, GINTMSK, and GUSBCFG settings with the pre-suspend or suspend-time
+snapshot, breaking OTG and dual-role detection after resume.
 
-3. Conversely, if a gadget function driver defers usb_ep_disable() to a
-   workqueue or thread that runs after dwc2_hcd_restore() sets op_state to
-   OTG_STATE_A_HOST, dwc2_hsotg_ep_disable() returns -EINVAL without
-   clearing hs_ep->fifo_index or hs_ep->fifo_size, and usb_ep_disable()
-   leaves ep->enabled set so the endpoint cannot be re-enabled on the next
-   switch back to device mode.
+Even with commit "usb: dwc2: platform: fix stm32mp15 detection logic power
+management" and commit "usb: dwc2: restore peripheral mode on low-level
+enable" later in the series, dwc2_drd_suspend() still masks
+GINTSTS_CONIDSTSCHNG before the backup in dwc2_suspend(), and
+dwc2_force_dr_mode() and dwc2_drd_resume() still have their GUSBCFG, GOTGCT=
+L,
+and GINTMSK updates overwritten by dwc2_restore_global_registers().
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125-dwc2-low-p=
-ower-fixes-stm32-v6-0-d5df33b93eaf@foss.st.com?part=3D4
+ower-fixes-stm32-v6-0-d5df33b93eaf@foss.st.com?part=3D1
