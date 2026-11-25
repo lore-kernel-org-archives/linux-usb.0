@@ -1,81 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795599469;
-	b=BX75Bix5U4CeEOgbRm/a6heuQ1GxVF2fhY0KL3cp/XqjnSGuRVD9Qn7hxY/Z3qXl73Su
-	 CBn5cVf/lV9xpV2SRVfKNvowb/AX8xjOXE4pUVmB/JBXCIU7bbD2J121/ggc1fRdEibMa
-	 QbmpAp5pP/sTojy9YVNIUbpVXqtpJM015FOV2OhFLL7AaVASoO647/mjr0N6JAOC3r1V9
-	 2HYP77CEEin/9YIDz8Fj9ffB063eoZ3XEsL5WqLC1iS5qgvH38rvudI+495QQPx2T21xI
-	 VBcG97PGV7EZBWTMH1NNsiUolq+1hxDtt/7Yi5oDWVlZt1sHMbfK10SwPI1fpuINC5Q==
+	t=1795600006;
+	b=HvdA5mmogu1WXZl48wWTN5vLNqg+9+N8Z61G5EaGF3yzKLtvPkHuM7tqgKG2BoB3DM11
+	 MZmbxC9tGvQ7iTZjBQas31JN+eFCWSeJiAVfZCCIMLo+Br26Drz+DsxXR1XopiIGDBC6+
+	 PpuoSR+4o64MGuAwjO7B4inedBYTnsi48NuhNa6bhM4KvfzKIGmn3slMcgVtySpR+HpwN
+	 lkcIIV/dWkxyoV1Hw2gl7o/j7VbeRqjdjhytWkZX4+u9vi7b2dIsrEbK7vBGmXFblOIYx
+	 T09u77IW2g/XaI5ipK+h/vEimZ0C66TYvoJO8jrCxQjDAI/2MHxbjdMAkBS0j5sR5EA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795599469;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=H/OW4CEWM4YFWjpU+/11jWkc2eIrxnh97AOZdrSoRuI=;
-	b=WWrVUYj9GTLe4BWM4pKAz90Zm/f2QTpuEIHx19Uqh4/2KDRgH7SCIkVIa/L+qRUufOt+
-	 +ndqhbnFa1mOiMqBXjbac2AeFfezkNEs40gXvaat89Gy9rGWC2nzNNq1vYLoVVZd2cNFN
-	 14IPApVUruN1hp/J5vpVX6WmTEP5AYFNwSclU9Ag2fOjev/YkF0SlGn7qmxa2qzu1EQuI
-	 pLX3RBH3N+l0nFp0nPZgwx7uI/NsUM01+isp0800MkYFRZUohZqs6kDV/pgEuenAsvTg4
-	 ytBavcRpCTloqR3AVsknN0BKWrwUVvEKQvbO/dfAE+CrFLU09AuYGGVfRT2LFKVMFlg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795600006;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=/Eh8dKls9dDcjChp/2O20SX/hrmZEc3s5jBA21WJabQ=;
+	b=CvStKgCvVrRSgs6VQSJtiNv71u+nFqN4AHgzoc/gIarySFXMiHj8KolKwI0ahs/EQRt+
+	 fD6Hw7iOe3pr5EiauIuf0EDkrtOGvDGjRQk9RFHsjrZsSXtJzbGu0QGu8kJL45J6pgzpk
+	 lNz7BL+5kctct9xxK/Zc+tsVxH4GIO2c4NtYSt11tWkmhLFMItoonhJuxCn1EqueG3nZb
+	 3755jhTGn5RUwtt6oYhxfnEHLmHFEiF/QKcmGt7dbhLca+NVOMc72ouktbF/uXZC4lgng
+	 AYK1JsmWgyfL8EMYD9Dn7bgdJCCmFeofDunQfskKhCS0mWD7yf7+sDw3ieLI1bV2DIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aWmUCHh8;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j91NdL6y;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B14606A31E;
-	Wed, 25 Nov 2026 09:37:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9B14606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB07606A327;
+	Wed, 25 Nov 2026 09:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aWmUCHh8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795599469; x=1827135469;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0s78Vf6PyUG/xWZ1rRAkii/3QHz1kfVqFuBSdG7BtD8=;
-  b=aWmUCHh8QJilzli7McbLQ6SW6MZts1ECyccJeuUHd+jBtMuxMCaYkkEd
-   1wLHa20mUAcKLwTiisEvag5R+qZIffHXWfrS6bv/+kOHB8Vxol5Y2kCwP
-   O6SIAYWtIGs2D8O4VPs4oQdJuqn78sljVyvsXzr+TacqvL5J66W3mFQD9
-   V4MCrEPAjUIV0kPkN+wo595b2CI4d2oOOGsc1Th1XdPUxRaG04ATk1i9j
-   FEpEmJ/dtLNNRquy0VjYM57O5hBdx0cyGERrkOHHyhAZnF+00WM1N+I9c
-   Byy+7NruRTqw+Z4tWHhVDdXs6RrNn0pXZuIxl2hxFBx2DgWmj2piichRE
-   g==;
-X-CSE-ConnectionGUID: 6arsJvI8Tdu6pHylGMek7A==
-X-CSE-MsgGUID: V3mTqCOSQua/PAiz2Y1qkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4472670"
-X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="4472670"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 01:27:33 -0800
-X-CSE-ConnectionGUID: lihd4i8TTJep8Rmx8U6nrw==
-X-CSE-MsgGUID: VsbtQc9URdyYmjdB/nSAmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="11796867"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa007.jf.intel.com with ESMTP; 25 Nov 2026 01:27:31 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 5F85298; Wed, 25 Nov 2026 10:27:30 +0100 (CET)
-Date: Wed, 25 Nov 2026 10:27:30 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Max Andreev <drunkbatya.js@gmail.com>
-Cc: Badhri Jagan Sridharan <badhri@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kyle Tso <kyletso@google.com>, stable@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	RD Babiera <rdbabiera@google.com>
-Subject: Re: [PATCH v2] usb: typec: tcpm: fix missed frs_sourcing_vbus() call
- during FRS
-Message-ID: <awaqAnBF94n5t3sC@black.igk.intel.com>
-References: <2026112206-lapped-unvalued-8696@gregkh>
- <20261122115639.2912666-1-drunkbatya.js@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j91NdL6y
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74AE91F000C6;
+	Wed, 25 Nov 2026 09:46:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795600005;
+	bh=/Eh8dKls9dDcjChp/2O20SX/hrmZEc3s5jBA21WJabQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=j91NdL6y8QKt2hpfQAJs2gzzbqZNHs8KlAnYG1OibSsu7lI/paf/Xn9OG5t061t3w
+	 27ERcMVA3jONKH9RCsftl53dWHSBLdLXOVpg/gTa3uV6cRX+TzFYTx8CfF8vXROMcS
+	 s2DRMQzZLE4BRligI5o8J412bG1HyD9t28zNXdAvqY7jjzQpxC+B2n7yxnJtIz0RNr
+	 aguJuxaH/KtrGiCZL9DKjV9AkuqtgesNdF9PbEmwyF41LCBeFxDEc6GoutZOk3FJFQ
+	 Z+NiM+D4x0smOnJP4AXxkLqW72wMmSX4ofCLhsixCUJlpRHTd/dsLPWNAj05G5spfA
+	 KIPrdAM/u2vqQ==
+Message-ID: <sashiko-outbox-233065@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v4 28/33] PCI: Use device trust for platform
+ restrictions
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Leon Romanovsky" <leon@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, dmitry.torokhov@gmail.com
+In-Reply-To: <20261124-device-trust-core-v4-28-037eb0d17b1f@nvidia.com>
+References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
+ <20261124-device-trust-core-v4-28-037eb0d17b1f@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2026 09:46:45 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,64 +60,58 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261122115639.2912666-1-drunkbatya.js@gmail.com>
 
-+RD
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] PCI: of_create_pci_dev() runs pci_ats_init() before
+  device_trust_init()
+--
 
-On Sun, Nov 22, 2026 at 11:56:38AM +0000, Max Andreev wrote:
-> Since commit 0908c5aca31e ("usb: typec: tcpm: AMS and Collision
-> Avoidance") the TCPC reports sourcing vbus while the port is still in
-> AMS_START with FR_SWAP_SEND as the upcoming state. Because of
-> _tcpm_pd_vbus_on() ignores this state, frs_sourcing_vbus() is never called
-> during FRS.
-> 
-> On Pixel 11 Pro XL after an FRS from sink to source the phone keeps
-> showing the charging indicator, and about 20 seconds later VBUS drops
-> and the attached device reboots.
-> 
-> Call frs_sourcing_vbus() from AMS_START when the upcoming state is
-> FR_SWAP_SEND.
-> 
-> Fixes: 0908c5aca31e ("usb: typec: tcpm: AMS and Collision Avoidance")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Max Andreev <drunkbatya.js@gmail.com
+commit a65ec3ba4c9db1ced18be2126bf20a6e9f67645c
+Author: Leon Romanovsky <leon@kernel.org>
 
-Looks okay to me, but just in case, let's wait for comments from
-Badhri, Kyle an RD.
+PCI: Use device trust for platform restrictions
 
-thanks,
+This commit maps PCI topology untrusted device classification into the
+device trust policy and checks pci_dev_default_is_restricted() when
+configuring ATS and ACS translation blocking at discovery time.
 
-> ---
-> v2: moved the trailers above the --- line
-> 
-> I'm not test theese changes on mainline, but tested on Pixel 11 Pro XL
-> vendor kernel 6.1 with the same _tcpm_pd_vbus_on() code, as i see
-> mainline tcpm.c is identical in this area.
-> 
->  drivers/usb/typec/tcpm/tcpm.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 51e5c72799f2..5caa649a92f1 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -6889,6 +6889,11 @@ static void _tcpm_pd_vbus_on(struct tcpm_port *port)
->  			port->tcpc->frs_sourcing_vbus(port->tcpc);
->  		tcpm_set_state(port, FR_SWAP_SNK_SRC_SOURCE_VBUS_APPLIED, 0);
->  		break;
-> +	case AMS_START:
-> +		if (port->upcoming_state == FR_SWAP_SEND &&
-> +		    port->tcpc->frs_sourcing_vbus)
-> +			port->tcpc->frs_sourcing_vbus(port->tcpc);
-> +		break;
->  
->  	case PORT_RESET:
->  	case PORT_RESET_WAIT_OFF:
-> -- 
-> 2.47.3
+> diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
+> index 9cb23780093dd..c8c96acc26343 100644
+> --- a/drivers/pci/ats.c
+> +++ b/drivers/pci/ats.c
+> @@ -21,7 +21,7 @@ void pci_ats_init(struct pci_dev *dev)
+>  {
+>  	int pos;
+> =20
+> -	if (pci_ats_disabled())
+> +	if (pci_ats_disabled() || pci_dev_default_is_restricted(dev))
+>  		return;
+> =20
+>  	pos =3D pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ATS);
+> @@ -40,7 +40,7 @@ void pci_ats_init(struct pci_dev *dev)
+>   */
+>  bool pci_ats_supported(struct pci_dev *dev)
+>  {
+> -	if (!dev->ats_cap || dev->untrusted)
+> +	if (!dev->ats_cap)
+>  		return false;
+> =20
+>  	if (dev->is_virtfn)
 
--- 
-heikki
+[Severity: Medium]
+Can pci_ats_init() run before device_trust_init() populates
+dev->dev.trust_policy on OpenFirmware PCI enumeration paths?
+
+On PowerPC and SPARC, of_create_pci_dev() allocates the device with
+pci_alloc_dev() and calls pci_device_add() without going through
+pci_setup_device().  Inside pci_device_add(), pci_init_capabilities() ->
+pci_ats_init() runs before device_add() calls device_trust_init().
+Because dev->dev.trust_policy is still DEVICE_TRUST_POLICY_DEFAULT when
+pci_ats_init() checks pci_dev_default_is_restricted(dev), dev->ats_cap is
+populated and pci_ats_supported() will return true even when the boot
+trust policy restricts the device.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261124-device-tru=
+st-core-v4-0-037eb0d17b1f@nvidia.com?part=3D28
