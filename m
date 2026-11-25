@@ -1,11 +1,11 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.34
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.72.46
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1795624378;
-	b=ATxFvmbAyEUj37IJNAEIWnxLxYv7Bc6AEaVKJA5XfTn8jdBMFbX7zA2ke6Lo7P/T0Sd/
-	 9JFS9XtxritUdRifj/q83gqsEw/fM0Il/Ig3/H3OZQdy14B6rGSt7os5zmlkV7SjDQisz
-	 B3g/kHx548JJG2pod7Mh0LzpOxA7CXKJpCx+G4Yr4necoUbaQlckVAsnHPcWO12cI8Y3L
-	 J22FdqsLdJ4kdQp1If3UoGqVdhkx+sg4R5lt00GleYr8gOZBvnf8ABh1Di2jaWE4EiOy7
-	 bNttNib58Z1stGKvec6QP0AeY398rtljXbBeQLls118uVDtjGEepeadAaiBjktTzj1A==
+	b=enpYcHRl9hclKlYqBTcQGBdFF2lqFVB3ZXgY3mcZ0aNp17LgUweQEGfAYNIhVIPylPEp
+	 qeCfHdDxIHzUIEKrPUJbmzte7rSYNT/a4f/zD1nfQ6dLFpVL4Cs5lJ3aYIY0kPfW6ZaDi
+	 8LckbXimUwcJYPUxorXPJxoh8muMJ0KipgSKOLmFuBGnj3e36AsCGetyRrxnmY0Kjmylp
+	 3FJPpBf9V7A6uLq/O23UK79Ve2+KYHKdnrhDW+aK8126m6o1YI+0COugJ8C+hoDUWujQq
+	 Y30UbmDbzilt/Ko8JqkPSeKvjwJ68T6JEpGZC74y5A8P/87iyS9Tb7dsnEHYMe4Bz+Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795624378;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:
@@ -26,75 +26,76 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=1TpJ6tl6aKWfY87mkDQVgw+co7QobZNUZTTVZZFqj/o=;
-	b=PSYyaGkruMIOPrjtGjAvpax2JSz5Yu6rUCB8mXz7ccO8GzTHG2hPWKMx606H2OaYT9Cc
-	 4zms3gxWm6yzCs8PvvVHs+O2l0UPTHjRH/dr4pi1Lnu8lov1qn21vbQa6frjcOa6BB7Nq
-	 dcULT9fiX2u+b0rC8o9xkSjHqSaGPtMzromq+wc/3JxvQJCEGylS0IQ6BDmpOvCG6aBsF
-	 PVraoKjQfBrRkFLHW56+659zzwWoRk94XjG4UxfcbqmYSQ/ug/4U9V6Lk2FSX9MVYkkVl
-	 JRMtv4gSR5cF8x5G0IiGzKJOJFumn/QNoysu6RIoCSKLEqt9xg4MU2jpVqloSv6C7Bg==
+	bh=H45BjX8T/R64QiwV+Emc1kWhRKM4agy57BaKYDaly+8=;
+	b=xy88IZI+y6Yg+YeDAMy54FjSE057i9UFym60DmyQB3vBWKxGS4gbZxs6HEwxfQHeBmwB
+	 QXhBz6+RKIgHFG+oy2X9/EPr+GuKOe2nZnwSDWntj+vqkOxzpCQSfhyEOo+TdYDOlK5aB
+	 MlXBAQBRESrGvI64gM6xj4ftEmE5X+OKAjO7z7MpigCrEtgvNx8tw2P+seRMiuvoJCHjN
+	 Ksk5k/q54jUprvetwSf9viK02fxkNwcBBNB+vjlSKGzO1695WqSMgSVUD09+PcBOMglGd
+	 y5yVr4MAhlvh398g0J/D5pyOpTbDWL5J97tfVnEaJWO4faxLdwTE9arvbdLau9iukQw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=foss.st.com;
 	spf=pass smtp.mailfrom=foss.st.com;
-	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=gcuqUuoo;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.34
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011034.outbound.protection.outlook.com [52.101.65.34])
+	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=jeqrDcIl;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.72.46
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013046.outbound.protection.outlook.com [52.101.72.46])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5398C60A2600;
-	Wed, 25 Nov 2026 16:32:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5398C60A2600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDF3606A331;
+	Wed, 25 Nov 2026 16:32:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BEDF3606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=gcuqUuoo
+	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=jeqrDcIl
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JOph9CVtD/aDTvRIMFCt9DA8lj0PEeiMFhcp5oX14K4+oLkCXM89m7zQxpDR9PKtPx2dLjKr5HOhrL3jl1b5tzNrwwKphv5gYPKCuvUPfqstVpj29vX1SYB/BrQZnyHgwjIrFq+ixaCbhg+POIwpMln0UnvEY+0u/jlYEhOmIudCykuz5yTUv4Ql2YEPALLBtEsyNa5viTfC7iX+FjIt27ruy7SM6PZBx3XxWN+KZS1Iua/ttkn0LdaRDwJeN4f/f5GADX6rfT81T2O2oTd2TIG5oCnN+xFl7B++oAiElvDWZNiwlWDKJwg6/XvTUZpDAaFuz1K+YES57tN5okIkCQ==
+ b=vDZD/0djnccwTET6/MHSwimf2RQrmGshfzGdpNRuFcPafe92ivfQKp4GVvgIg9k1T+T75buA3GPOvA2Ot8tI/FDkea6cr16WcaCSa+qQyXM9VTsf82/yBRhdDw7E/ihd+xePqZb5PssisI7C54PZZrBbfJ1Na9MTPBQArPcR7XNe8RRf0ePve2mo8ZbOYWxkbEQTxiW/qZ26qGuLf6cyTdZEZupXFG3AgpI70ZbNnQ9bTIQIyFvf2dZS90XOgEDSkYdR+w8AS06ju4sVMh7Yd9ImNCHyzATsCBn9zUnQmf404+9TATrrc5EOV2nD4HRYy/w+UMdkkF/scVWvf/yFqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1TpJ6tl6aKWfY87mkDQVgw+co7QobZNUZTTVZZFqj/o=;
- b=hdYxY+9hjCVuGEclZfMibZsfmv97hnz8FXUPlDoAUrF5dTrRdcYpC0TkRNKQOJrIuUvkppzVavEU6Ca0K6V6oWlOVUXaJTwfIkmsOSdYUjflHiBkHt5T+ZXug4dNHYPxLW7BZXpWAJ5x8x9GSd3lg4J5E+s/YkleESPYJi/PjiAH07NNFK93p26PBQ6tIws7padGLZOkRRLYKI9QvzxvV7A6z1Bo6yQ34dt0RZHG9oD+A8Gq6b5hzDFJu59gukgfivvS1y8B92OyN7VKTNMSPJrWw2CHij2z82QxHmYlU1dU3jba8kAGbXNWpaV8pM7472liF58bn+NEfkB4R9IkwA==
+ bh=H45BjX8T/R64QiwV+Emc1kWhRKM4agy57BaKYDaly+8=;
+ b=YuLPT3MqOe11+FdWCXgaRc6cVMtHUZblQ5oNFFpGMm24CNpi8Q2O7ICAQepWyAdDXhk0de5vjeBjEkiVr7ST6gKmsqv2jo6s9pmOjIyHodXm9blfMdsIPuVpzNb3rvLELoMRbdefGRNQboBRklquy0vPyTz/QpB4uqt0CSLzyz2NmC90kdPzvqPytl1ZZZ3WU54lBCozSDyFdZ+dJzABZqssNnDLhKX0UOHLw8wn9eKUWdFw222tpjug2mxX9a1Ab6gTmN8weC5kCwszoi5cN/39JKoE46a/GfvkveZg7sJTXwJBpx6DhjUplllAdmnqFlVoFQDHbyBzalCXmsEkkA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.59) smtp.rcpttodomain=st-md-mailman.stormreply.com
+ 164.130.1.60) smtp.rcpttodomain=st-md-mailman.stormreply.com
  smtp.mailfrom=foss.st.com; dmarc=fail (p=none sp=none pct=100) action=none
  header.from=foss.st.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1TpJ6tl6aKWfY87mkDQVgw+co7QobZNUZTTVZZFqj/o=;
- b=gcuqUuoolSAP348XFTEW64j7PcVyTtDaXn7jdctEliGaudk5kZIikc+b2OiXEWnEtDR4lJ9c/Y1dKIKmTHjQyCtMY0WVPxiA3HuGq76UaE0/+FSJnIQM5LAYt3Cm4mCpNozZ6DXbGzhZqbGT7mdDA/l8GZR5hPmgcK7nzK3QQ/z6fNZ1dwLZmA6Ll0ufI9SVkPRdv6NCYM7VJwBVZvs/jNn671V3myhNi3X4jhrjoWSKKgVdHqrglYa/A2dq2qMbYk3lY3ulJ6vAR2CnDIeMxeBHadP0b3OCHP7uMqsXEJibZ5lG/DJBHv1FkvNC2G9EKT52q/hkwsp5t0kCz0te7Q==
-Received: from GV2PEPF00048121.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:400::1f3) by DU4PR10MB9141.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:56c::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.4; Wed, 25 Nov
- 2026 16:32:51 +0000
-Received: from WA1PEPF00009B3A.eurprd05.prod.outlook.com (2603:10a6:1d8::118)
- by GV2PEPF00048121.outlook.office365.com (2603:10a6:158:400::1f3) with
- Microsoft SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id
- 15.21.615.10 via Frontend Transport; Wed, 25 Nov 2026 16:32:51 +0000
+ bh=H45BjX8T/R64QiwV+Emc1kWhRKM4agy57BaKYDaly+8=;
+ b=jeqrDcIlM5lnf/IF/2mLIMGiUjzDQR5GoX+ppNWz5dBvnlR9EGiVDNXSM3ICcZfJcGrIYQetyPbrLub5BnriJ1KQsm5R+p+JEKgurr+QUd/9z080p7sSaOqqsMDTece1dpmdty53FRARmgucFXOV2VZ0fGI8p2iYCVQ8sCghwJuKV2qmaiRzZAs0dsAPmV8hmj7atMzX/DNlMUp/ZZLCxVHJj+K3RnnnUgluPLBBDWIdT8opNuHnRP6cwqwxEk+BKfW7FJNUHUUn8hGuCHqEm6/o6L71RoNP/C7Z00ExGg3nhXBFssCqYFOIya8xCukBtKdD8jdjn61zk3uTufQ82w==
+Received: from DUZPR01CA0322.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4ba::20) by PA2PR10MB8720.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:422::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.6; Wed, 25 Nov
+ 2026 16:32:50 +0000
+Received: from DU2PEPF00028D04.eurprd03.prod.outlook.com
+ (2603:10a6:10:4ba:cafe::26) by DUZPR01CA0322.outlook.office365.com
+ (2603:10a6:10:4ba::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.7 via Frontend Transport; Wed, 25
+ Nov 2026 16:32:50 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
- is 164.130.1.59) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ is 164.130.1.60) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=foss.st.com;
 Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.59; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.59) by
- WA1PEPF00009B3A.mail.protection.outlook.com (10.167.242.40) with Microsoft
+ designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.60; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.60) by
+ DU2PEPF00028D04.mail.protection.outlook.com (10.167.242.164) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.662.3 via Frontend Transport; Wed, 25 Nov 2026 16:32:51 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
- (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
+ 15.21.639.5 via Frontend Transport; Wed, 25 Nov 2026 16:32:50 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
+ (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Wed, 25 Nov
- 2026 17:33:38 +0100
+ 2026 17:33:55 +0100
 Received: from localhost (10.48.86.251) by STKDAG1NODE2.st.com (10.75.128.133)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Wed, 25 Nov
- 2026 17:32:48 +0100
+ 2026 17:32:49 +0100
 From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Date: Wed, 25 Nov 2026 17:32:09 +0100
-Subject: [PATCH v6 08/11] usb: dwc2: hcd: don't disable external vbus in
- system suspend
+Date: Wed, 25 Nov 2026 17:32:10 +0100
+Subject: [PATCH v6 09/11] usb: dwc2: restore peripheral mode on low-level
+ enable
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,7 +107,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20261125-dwc2-low-power-fixes-stm32-v6-8-d5df33b93eaf@foss.st.com>
+Message-ID: <20261125-dwc2-low-power-fixes-stm32-v6-9-d5df33b93eaf@foss.st.com>
 References: <20261125-dwc2-low-power-fixes-stm32-v6-0-d5df33b93eaf@foss.st.com>
 In-Reply-To: <20261125-dwc2-low-power-fixes-stm32-v6-0-d5df33b93eaf@foss.st.com>
 To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman
@@ -122,90 +123,110 @@ X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
  (10.75.128.133)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: WA1PEPF00009B3A:EE_|DU4PR10MB9141:EE_
-X-MS-Office365-Filtering-Correlation-Id: e5bd7bd4-13c5-45df-04db-08df4b11bfbb
+X-MS-TrafficTypeDiagnostic: DU2PEPF00028D04:EE_|PA2PR10MB8720:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8bc6cc91-1954-4124-fdde-08df4b11bf2c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|23010399003|1800799024|7416014|376014|82310400026|261028144727099003|261102123227099003|261026121527099003|261022075727099003|261022105027099003|261021121427099003|261026140227099003|10067099003|11063799006|261021123027099003|56012099006|18002099003|22082099003|6133799003|261009223027099003;
+	BCL:0;ARA:13230040|23010399003|82310400026|7416014|376014|1800799024|36860700016|18002099003|22082099003|261009223027099003|3023799007|13003099007|11063799006|56012099006|5023799004|10067099003|261102123227099003|261026140227099003|261022105027099003|261022075727099003|261026121527099003|261021123027099003|261028144727099003|261021121427099003;
 X-Microsoft-Antispam-Message-Info:
-	z2mV33lHmPjj5z+Rm5+ANXZBhR6qh46lsElyF6AOtZ/ag9ddCX8V/DZpd465UrQg6qhql9CiocqWy/JST3M/jChhAwkgkPQ5xLyryBOaedhnAjlu+xLu8oTyauGt7j9olzt93S6J3UUBINrxYbvQP0/hKUUKSiHQiFeLpisOvtWxWIb2JnrTvmZ9XMXlGBPfWMDwi9zUpLxVLqGFCmPhwJL1I4vHRRr1CyYNkr+7FV9q1pWenY19ZmN+C01oKzrM1zqsHuYTItsSwPqQ5TNTVE9pJRT5lMNIOljkKLq8t8zHAldfj/UPtoWgUNqgfYJCpMThSMn9TKXFzvxSDd1Hk573ZChOygKcurASse1MQfI/NM5EOv+aPCdgcm1gf4l6ucrZgMSIQ8OJqnkls2c6jsKztq+GrcljbI/jlYowMjdo0lgkJB4Adr1MIkLJR5E4xx+nXeSLxseuAUHqI2rmTt+wvfJSDmmAVibj8+Zrxfl9I6fCvhnadQIsFwGpETkauRpPO18ZtYseYMizFURR2j3GRbpRPw4pAsSZgTQY3e+D1riIwP/e5JeRA5UfQih6aocUcUTtADY9HEhaKEYvZ/e/72nRFTheBfzpiyKvMJEchHmH9HgFyBQKZIissf8XKVEsbKLIvbPD4rTS0oC00Tr+Tj+xHR3bjpnQwErbyJpnBenFq4PzbD+6iiIMY9B8MBOAuClSIGlgTYo1LM+kFw==
+	kvsfPK6KXnD8O9/KhWoy5XjhPP9R4bnuSCQis99XOF7SdSDxsPrt5BaDG6wYM4aHcM1XCD3UscKyMT8usTV5br0WeqNnkl4NKwE7mVI2XibVKdqt8FQVGuxyf+dR9Kl8nMdlMXW8J4K9Wzk0/OVjdmePT4Sluxap5gvQ3BC6GSud24U6pV8S+maMUv5coS25oTSpYmlCPAQp2XjXwfNtvfVHJQJJT6pXXzlaC5ZiMMyXZPHOlecfXrd8aB0jAg06zMf5CXvDGPCxBPC4JApyhTcOJwa/ak6g0zrULlD8AukJ4TJmRhMWlHppPGE7D9zANXwe8Jk9P91wcsctOBC69OdpCNWBULn5IhxjMzer0eNd+/JtyigXZZsnE6ZJjo/yGS0e58Gfq1MB4Ioo0iDNBGKEdXPGpwbrrRheq6jjHmzCN6DFqMcfpszZWxR+/3+2CWQ8aHyzmcM+/R4PxDpbwoDRow4VQQRV/BQh2Q6mU1a8UvJOV46DKQDIgeGds9FdraVFZ6IVS5WJSpEQRBK53aab0ym2rxqUFtl42YO4CDbmh4Y+Y86MKmRikZf6IXv8oAcx/kyqVOpTke0tTpN88XNwHRX6iN/uZu5Xre7mZSjFwPkVCrbOXJkZWsRsN+YKiQ60MyCAw6vp3aLElhFYPQ==
 X-Forefront-Antispam-Report:
-	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(1800799024)(7416014)(376014)(82310400026)(261028144727099003)(261102123227099003)(261026121527099003)(261022075727099003)(261022105027099003)(261021121427099003)(261026140227099003)(10067099003)(11063799006)(261021123027099003)(56012099006)(18002099003)(22082099003)(6133799003)(261009223027099003);DIR:OUT;SFP:1101;
+	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(82310400026)(7416014)(376014)(1800799024)(36860700016)(18002099003)(22082099003)(261009223027099003)(3023799007)(13003099007)(11063799006)(56012099006)(5023799004)(10067099003)(261102123227099003)(261026140227099003)(261022105027099003)(261022075727099003)(261026121527099003)(261021123027099003)(261028144727099003)(261021121427099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	VF/kWWRmoJ/u5AtDFfBqswMftlBDPq8KbZHUnmfK0yxUFLp82TG3l/krjhNrIF7BWLObDZO3eZbnoF4FJ3hF04TumhIUPKMCbrGFKk7QJen0ToPcPvNgkMxhdYFL6b5To9lxQzR+8iEaonuXlGev1DM8xf+FtHqnKpcqjHrjZ50j0XsGntKaXNekN6B9zzbngalc8aTZgKfsV7NNC5uHcuHnxyjn7spjWaOOE9LX8KI/SlA9p4mm1071n+MQRADinWiGOnanBuE/2k/C11jCqrcne2Xlpj5lYYj6n6oTMIUu1/hGHIWoNUwHEKrtfzcwCnVy+w7UxM2DUhUSE7koGdD8K141zCOmtrP2q0BtftGGmaJ9Z0X4FdceWFWXDhewvMYvhTxB7XReVof9qiyoY4gMk0O9W0WRoCkVTkwXpb3AaM5Ukk0CDY7srHYzBtmB
+	4Ibl2cY9Ej8rnyXbdSeN38qNlCzFYsoDQujo0iTo+zjYLiN4E2pNOW6H8ar+oXf5E0cq44QCwvTL/IwfDl5yYhmUJSSTu84tf+UN0aRIBBcRb2Luel4foZOrIDW+OfGx58uDicRQ2t867j9fI1w6pgkBodOEQsjrO6YYOoelkTjEM7hITKaURpYxmpLOF2re2j/PtCvxEDDQ6ZKyrTh/V04HxXSTeX2IA71OGq/Bx2+yabMdqUmQT0b8HHH7rFaHwVnznhrNWHpkKXpcH5PkklHFSQ0C8CjfFaNgD4pb+yDFwNAYauMJ/THKLOUCb9UoMtAVruAe46SJvdXnbQUG5fILR0pLRr0EVYam2zYUQRTq0YcqfeCpKKHmaRVoVS0Hzn+B7RXTG78ARESsPKEMH/zPI6iMnFHel0Ije+fBxsBXZMijdUiza88lGcjI3HD6
 X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 16:32:51.2022
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 16:32:50.2685
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5bd7bd4-13c5-45df-04db-08df4b11bfbb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8bc6cc91-1954-4124-fdde-08df4b11bf2c
 X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	WA1PEPF00009B3A.eurprd05.prod.outlook.com
+	DU2PEPF00028D04.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR10MB9141
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR10MB8720
 
-It's not required to remove port power upon system suspend, as explained
-in commit 113f86d0c302 ("usb: dwc2: Update partial power down entering by
-system suspend"). It can be addressed with hub ctrl (USB_PORT_FEAT_POWER).
+In fixed peripheral mode, the gadget code manages the low-level hardware
+on its own: it is disabled after probe, and enabled again when a gadget
+driver binds. While it is disabled, dwc2_suspend() and dwc2_resume() return
+early since ll_hw_enabled is false. If the DWC2 registers are lost during
+system suspend, nothing restores the mode selection when the gadget driver
+binds later:
 
-When PM suspend flow disables Vbus while in host mode by
-calling dwc2_vbus_supply_exit()) in _dwc2_hcd_suspend() and the core has
-been put into clock gating mode, it triggers a disconnect and a resume
-IRQ (during suspend):
-  ++Disconnect Detected Interrupt++ (Host) a_host
-  ++Resume or Remote Wakeup Detected Interrupt++
+- FORCEDEVMODE is not set, so the core may not come up in device mode.
+- With a usb-role-switch, the session overrides set by dwc2_drd_resume()
+  are not restored either.
 
-That starts the wkp_timer in dwc2_host_exit_clock_gating() that will
-finally resume the port, e.g. call dwc2_wakeup_detected() and set
-lx_state = DWC2_L0 after ~70ms.
+Restore them at the end of __dwc2_lowlevel_hw_enable() when dr_mode is
+peripheral: call dwc2_drd_resume() if a role switch is registered, or
+dwc2_force_dr_mode() otherwise. The dr_mode check leaves the probe-time
+enable unchanged, as dr_mode is parsed later and the role switch isn't
+registered yet.
 
-It races with PM suspend/resume flow. During _dwc2_hcd_resume() the port
-may already be in DWC2_L0 state skipping the dwc2_vbus_supply_init(),
-leaving the Vbus disabled.
+As this is now done on low-level enable, skip the peripheral case in
+dwc2_resume(). Other modes still restore the forced mode or the role switch
+session there.
 
-So remove the disable of external Vbus in bus suspend to avoid this.
-
-Fixes: 113f86d0c302 ("usb: dwc2: Update partial power down entering by system suspend")
+Fixes: 2b94b054ac49 ("usb: dwc2: fix hang during suspend if set as peripheral")
 Cc: stable@vger.kernel.org
+Closes: https://lore.kernel.org/linux-usb/sashiko-outbox-219235@kernel.org/
 Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 ---
-Changes in v4:
-- Rename the commit title and re-visit the commit message.
-- Drop dwc2_vbus_supply_restore() but keep dwc2_vbus_supply_init() to
-  enforce vbus is present when setting PWR bit.
+Changes in v6:
+- Also restore the role switch session overrides with dwc2_drd_resume()
+  when a usb-role-switch is registered in peripheral mode. Issue raised
+  by Sashiko.
 
-Changes in v3:
-- Sashiko comment (state desync leaves VBUS regulator permanently off)
-  Add a dwc2_vbus_supply_restore() to check regulator enable state
-  during hcd resume, if it has been turned off earlier, enable it,
-  so it is kept sync'ed with PWR bit that gets set.
-
-Changes in v2:
-- rephrase commit message since Sashiko review. Hopefully it better
-  explains the issue, and why HPRT0_PWR is kept synchronized with
-  external vbus supply.
+Changes in v5:
+- New separate patch added since issue raised by Sashiko on next patch
+  pre-exists, e.g. missing forced mode restore in peripheral-only mode.
 ---
- drivers/usb/dwc2/hcd.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/usb/dwc2/platform.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
-index cfa5d2af60d1..a39dcbddac84 100644
---- a/drivers/usb/dwc2/hcd.c
-+++ b/drivers/usb/dwc2/hcd.c
-@@ -4488,10 +4488,6 @@ static int _dwc2_hcd_suspend(struct usb_hcd *hcd)
- 		goto skip_power_saving;
+diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+index 24ede0b6ab81..38954dee6ad0 100644
+--- a/drivers/usb/dwc2/platform.c
++++ b/drivers/usb/dwc2/platform.c
+@@ -129,6 +129,18 @@ static int __dwc2_lowlevel_hw_enable(struct dwc2_hsotg *hsotg)
+ 	if (ret)
+ 		goto err_dis_clk;
+ 
++	if (hsotg->dr_mode == USB_DR_MODE_PERIPHERAL) {
++		/*
++		 * Gadget code manages low-level hardware on its own. Restore
++		 * the mode and role switch session after register loss while
++		 * it was disabled.
++		 */
++		if (hsotg->role_sw)
++			dwc2_drd_resume(hsotg);
++		else
++			dwc2_force_dr_mode(hsotg);
++	}
++
+ 	return 0;
+ 
+ err_dis_clk:
+@@ -778,11 +790,12 @@ static int __maybe_unused dwc2_resume(struct device *dev)
+ 		spin_unlock_irqrestore(&dwc2->lock, flags);
  	}
  
--	spin_unlock_irqrestore(&hsotg->lock, flags);
--	dwc2_vbus_supply_exit(hsotg);
--	spin_lock_irqsave(&hsotg->lock, flags);
--
- 	/* Ask phy to be suspended */
- 	if (!IS_ERR_OR_NULL(hsotg->uphy)) {
- 		spin_unlock_irqrestore(&hsotg->lock, flags);
+-	if (!dwc2->role_sw) {
+-		/* Need to restore FORCEDEVMODE/FORCEHOSTMODE */
+-		dwc2_force_dr_mode(dwc2);
+-	} else {
+-		dwc2_drd_resume(dwc2);
++	if (dwc2->dr_mode != USB_DR_MODE_PERIPHERAL) {
++		if (!dwc2->role_sw)
++			/* Need to restore FORCEDEVMODE/FORCEHOSTMODE */
++			dwc2_force_dr_mode(dwc2);
++		else
++			dwc2_drd_resume(dwc2);
+ 	}
+ 
+ 	/*
 
 -- 
 2.43.0
