@@ -1,96 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795612024;
-	b=5FGmXAyQaRmKjPxQXVryyAJ8AQ68B6FApetcknl8qaOY9C8w1vtel9BRmh+uuakNP5H7
-	 BfJ1Xlo31M5N7rQL1bLpFN22ctMyBTdQeTEjxEtsd2fNyW86Se2Pk7dSVVP2us35i38l3
-	 Kwg+xWGuR2gqY926pQXXpLp5zBBuigixYotFZDvWn/C+aQKg/psPpbOQH/pfEBChvCXC8
-	 a8BIpEUk/jBIqjegQu8716I65URqopw9/4j6CsJ67Ox6ZRroUB9JGz4iPv5joLuZEQaOk
-	 ZE8lea5+jvolHkxJfXt0v4tdCxF3MdZBie5/ldV+5tu5Cx60u7ZE0vIVMNhXipa4VMQ==
+	t=1795612073;
+	b=0wYvhytF1WTWdXjxjIT7/aU/t3bd8Hw9RfpHg3Atalo0M3zWgUSsjU14sKcfdzFZOFvB
+	 QfJenkvpMC7RbAQjMdawF4yykQq1DI04RBH40PPWxU8uwlREpHatlnKEveHmAOwrvVHxP
+	 +gvt00czvxgUSMV+E/0Y+VRlS5Gaw5xBax4xsFlOM+KPGAeWrJFNVn66aqo3GkmZIjs5v
+	 F3BKqamaTUahPVP65sERYWZ0+r/lb4XYIGb1CfEPmB9iK1rZDaRa8mmzBOXGALy4KB+A3
+	 t4KgCr/Xq1/fVwCX8N1AWMP+qBH8y8CsqiGMVD6FSqyQ8dIjcTQe8yKljUcuS2dSDzA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795612024;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795612073;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=5qwQGFZu/GBky4fBvpJhiGHfv/hCV9S2GbqPIpPWblg=;
-	b=utn6BvHscty2rXiA2cl6q6SpTh9JTkegxFBYP5X7rpe08NVZfqM8JNhVcUiB+NbPbk0i
-	 Y3eQNRU6fYHj10d3yzMhZn0XWCYoRvBkTvWrUuIKwZ2nJ/Rogz0sO53SfPcdWPehYLab4
-	 C3PooCFQXNWSGMwW8plEjlYTfb5Z13rkNtjSU7WbRxDq5+eQILSxbvYX9o3qr3Ye9r+nx
-	 oqtSBNknlCEwHGf2PAtjHr4IKKACXMx/GtbwtVOkdRg5yqIuXmnWmosQEe/vmPx7/qoNl
-	 e1biVMdc7EOT5RRkcT3MmooBxDcE7fCCh02/r7nZ/xHKkGCmgGlBchS/8PZldutD9wg==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=rbxzpWqwrRbguc2ZFVrHH2aoPrOKmuVFWoTJw1eHSIk=;
+	b=QYg5gGaifBIwnKjRImqLTcCpKGevKPKjPFvyZgR2zGov7mnUXEUdOAjSZA0Dg8ssIIbd
+	 ZKG+pZqsdmbUUOAa3q2oCNnOZ4Oztoh+CmYLxYW3gwVzWeDo14HNWvNGhFZRNOgF2g1Un
+	 A1LVBkmCE2LJH+lORCdoNTEmLzwhWucXlq1b4YtJsEo86KGCZER3eTkXYNuFsjAe7tIyH
+	 d3k8KvfTcMFJ5vUhtEViuYyMA8rh8JHl/UfAMhSmbUht32nZMpsDjiXeqH30OcP0CaDnc
+	 qSMDPZNw8h/3UV8fCfmQUu2U+zF0PXoHeVK7YCQq78Vkr9HgbNLlT4gq+uY+f+u7HoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NkMj87rJ;
-	arc=none smtp.remote-ip=74.125.82.45
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ik9OkEdc;
+	arc=none smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD5B606A68B
-	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 13:07:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFD5B606A68B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AE7606A321
+	for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 13:07:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43AE7606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NkMj87rJ
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1a2af4c8d00so3928056c88.0
-        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 05:07:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ik9OkEdc
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4ad6219f7d8so5063067f8f.0
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 05:07:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795612023; x=1796216823; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5qwQGFZu/GBky4fBvpJhiGHfv/hCV9S2GbqPIpPWblg=;
-        b=NkMj87rJ0CmCly8f6ufKEZ7lIt88ytlu9CGgLcwr+HV/JO/KhZrPZ/1fdeGlrfgXPE
-         IzpEI3ySOQ6323fyQiWfwUo3vQO2AnDPqciRhtqHNGmluogw/6HrY280iGkh+rBldtKs
-         aV2wg+XyhCtQxIJSb99iIkJGKKCxOHZy1USoCOgTOpaP2J3iXBa3U+B4CMltVJFeUxa0
-         /qfdB7/sqIuspm2lgecIXSp8nH/Zfz5mgDq1yevVrdaTmefRqv5xyWnM5skj7Or7F1bZ
-         r/XfNUyRdSWMuQVESyKV84K+tvd7odFDIckPdv9D3LsvnufumJJFQwiQNpcFRdgrotLt
-         aDjQ==
+        d=gmail.com; s=20260707; t=1795612072; x=1796216872; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=rbxzpWqwrRbguc2ZFVrHH2aoPrOKmuVFWoTJw1eHSIk=;
+        b=ik9OkEdcz0lBWXP3zQhg/dxf+nRVg711ZuXBfy+HlYOb4kDY/FWHt+10HsOpArGfZO
+         jBFqyB5gltkyarPZ01Xe5kl0v8bzel/Gg8iEMWoV7BwjCS5TYn0pM9bnJfiHRGXj/avE
+         bc+JduR5pBXQkWa1Xy7BJtVpywXMbOZADSRkJ/XSgrsKc0WCLmOoD9Pdkx/eFtZPeUnr
+         FJpcz0+UhBz64iLV+IXJH3d1g2jXf8G2PxJDd5XpQCGI+ZPSXWRvUYmoMhk0mFJuGapZ
+         oP3pZTC2N8D5VFtECpr3nPd5IkufySQfxXAnDB8RqyYAh/4XhcxvpOmaAUdM43nAcWfs
+         Vuvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795612023; x=1796216823;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5qwQGFZu/GBky4fBvpJhiGHfv/hCV9S2GbqPIpPWblg=;
-        b=uU2t3KKRcv9JsBoi/2jGEJYeMh0GsMM+kahfHXRmpiIVm0yII+lfiZnqloCYD1KXka
-         qR27LWQBxT9SSvd9m/4lastthHp8ZwixFishy5Ga7idKKFLZD8gxU7+YX8Mc3OCddZt4
-         CSTzO21h5f7eTLGztPH22lPN9vy7ZKfcidxA1U/DNyrq5eAK2eZSo1rAZn5RDwB8F5gm
-         V/muiNe2jdOvhe2A4I7iAWo+3txmaKiKAWA9bYBstcBR7DGP/ScNV5kJdU58H14X6Z54
-         GxAXJL4gxjOJq0CMr7nMaGAljgORhE6Z0DsBFNvqq4fVoBQuMI5OF1uD+Z5mzx1QMDfQ
-         zDUw==
-X-Gm-Message-State: APuU4Z8Fsdrt/2cl0HSm5pVLvzluwTBNG8xA4tAJNykqDqrfpz/nYuj/
-	Bj+WnE4iGv/MgCTAv5kZGsSHpYNx59xQucn6bymJ2PtAc6didgZQ3p9RRB0Quvt8wA8EzoQBVsI
-	=
-X-Gm-Gg: AZFdTZf9l4CKUOUEqfsDuRN8QDcaE9BNNQXPcpI3x0ByLyh80Pm9LZRw4ZkYD9oB3JY
-	nHo5EVKNPp18I4iDloqvCjbAs2stjW9xkonJXOzq2M51wGqB6q/Spv9KVk8LU/Js9HVhV0PAzFU
-	RAfLr/77xlvOvTJbkYHw+Pup/ika/CypfbqnHVEoRYCteUy3vl0V9R75S96ZoZ8urK74xEkANLL
-	WdO8qZdlge2fROdVM6X6Vd7KMIJUs8rMU/6NOMoGkqNa0PJJjv7+kcMZMCbWJmHCUDJ381YGRv3
-	NIqG+YNAODegkBSwDb+AYLeBP/7kp4XvGPwlGwemwNwfl82qrTPJxK1fDG0PPZ1SjtW4RYJd0Oi
-	MYaVZTxj36hpDXFRbK8R1RH8jHvxWZ6ZDpFnjPWxzT9ewtyZSWRbAPAMf6uoWtbIb5Muf9B0Rns
-	uoazymeJZq0+CGVk/b6HkeYVyOPx3SQx3GUNHYjZfxuIeVv5+jqSVASje32z5oz83/kOSKh1NlE
-	EL7iHJrA9pl38VI6bxuOGZ4fG9p6WRdWqynltcEoi6YZHtkddAPYg0DANGrjjwwdHS/hk+ymSpZ
-	37BHfyh4KyhhGkOVefdHSSohGWopkR4tDPcykWUv9W4lcbAgkXB1fUNnsTZm540jS4te9CKouBf
-	W1vYkHl/FO1nFtbl96AKN/fiR3ThtOelw8299t+Qrl1wHYxHQrtiWnl+QE/JJf0SGXihi7smHc3
-	SJVOlJFEgoje3Er6Ibz1z1yD1bqXOwWIHqkbxWnzOb4Zk=
-X-Received: by 2002:a05:7022:1583:b0:1b3:a9c6:b293 with SMTP id a92af1059eb24-1b5568c0198mr19423248c88.25.1795612022737;
-        Wed, 25 Nov 2026 05:07:02 -0800 (PST)
-Received: from LAPTOP-3B99V33A (ec2-47-129-125-69.ap-southeast-1.compute.amazonaws.com. [47.129.125.69])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b56ef9fd16sm31969855c88.4.2026.11.25.05.06.59
+        d=1e100.net; s=20260707; t=1795612072; x=1796216872;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rbxzpWqwrRbguc2ZFVrHH2aoPrOKmuVFWoTJw1eHSIk=;
+        b=Xhs5IN85NFCeUgOo/yiiIHfP1F5VtnlLKlptxsyi/M5LEVvHAvppY8J2HfAyWaqb6b
+         RDQeVGx/Vj0mAoXEOeDpGduMozqa+jv8Am8ZkcBIrXipxtWb0A6MeRYJpX1HJcq6rhew
+         GMgWJxsPhmX5tL2V60Wsr+WMOPdTgqNCzxwZZCjsvkSGOyMMBvfzdlFKmzKNUPk0GQsZ
+         YQ0SDlFqOKtzJwUcyuJ/1yIdlJ5FbdRDD9HN3yO6sllBu/DzSNWQEvZgeBIgGo5e0ZLz
+         Gj2qARD42PqIxepE0UXA8U2KiHHYC91yOtwHoOo3tmxPs0uH21NnypuwTfW3tby7VSS2
+         x3uA==
+X-Forwarded-Encrypted: i=1; AL+hErFAl8MbOfWFs9iqaKaG580tQotuPBQK/QaySJ5tjSZTOC9EAk5x9CaSy4xYrLbCc2PPBTdxWkLtVEI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Ua6bYDdU+mnOf3hSy0oCWRP489j+mqkULCH2XrBuA0oM0qq6n
+	8SSnI801tC3eMdW0IFREbZBSKTZ3wmuO3Jc9pGDb2HFHEB9NFi13scyR
+X-Gm-Gg: AZFdTZfrC25rbLamnOlUjce60GSJCPt4OdVJAoeAeCbyDusQaVXXm5SY+Dv4FNHj70P
+	ZhZbF/iWwfuWOhUtJZjhGa+vVJIxF0nG1XF3zVn3+LW0dCJlFX242b00k39Wkn+UX9S5kCVYMoQ
+	vtbYZQ3sl4d5/ydvRukLYmq2Qu6w5m4+Z36mXLYHrOQf2ubAH6/wXLOeZsNeoa7IlJgUH5jjPj5
+	Bs054FK0xCfuVaJWqQjKKUp5+WZqOrOwLpGqKM/Xe0XCk8yrEo1DanB+8pQYUXar8QcWxo0v18/
+	sZOsDqLWTqVsblp3lD56U5vxMl4yC+XdER8tbruybDG9hX8aNc5sMXxmxHQrNWQwQGxvgeQR+mI
+	gjiEPBtJwcXclOQFr9UAwI//+xsDeC6f4qxapdW9VGlym1fXBohrdceJyuAiXO++p40N8HROu/g
+	dkjDEJltARfuJd9k++Yg1tpPYQIpP2nBjicz8cPI2UqAJixgjgaDMRtchtV5GesDn4n/PKiy39D
+	KpbS0KZOVdt6AWr4R5msLv4rqiiMFZ50xwhvqw7r9D6Shc4WqHIVdjMA4L6G7LBCYXdbtDh5Uez
+	5WopBDMcLLXLXk5ERfsxtigIdCbfZ3/xgyy6dLA950Ap243ZaIuhDZ+oihHTsWi8gQJuXLDv//g
+	9wQRTXJgkdwtjrehn3JnaL+Vuc6xN
+X-Received: by 2002:a05:6000:2089:b0:4a8:647c:f963 with SMTP id ffacd0b85a97d-4abb964289amr35929140f8f.51.1795612071506;
+        Wed, 25 Nov 2026 05:07:51 -0800 (PST)
+Received: from [192.168.0.10] (catv-78-139-0-46.catv.fixed.one.hu. [78.139.0.46])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b110c50sm33783108f8f.37.2026.11.25.05.07.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 05:07:02 -0800 (PST)
-From: Bin Luo <luob87709@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: andreas.noever@gmail.com,
-	westeri@kernel.org,
-	YehezkelShB@gmail.com
-Subject: Re: [BUG] thunderbolt: request work may outlive control channel teardown
-Date: Wed, 25 Nov 2026 21:06:54 +0800
-Message-ID: <20261125130654.1449-1-luob87709@gmail.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <20261125130000.475-1-luob87709@gmail.com>
-References: <20261125130000.475-1-luob87709@gmail.com>
+        Wed, 25 Nov 2026 05:07:51 -0800 (PST)
+Message-ID: <4ed7e2e27c221ab900b1562c2a578b78c3c663b7.camel@gmail.com>
+Subject: Re: [PATCH v2 2/5] dt-bindings: usb: samsung,exynos-dwc3: Add
+ Exynos7885 support
+From: David Virag <virag.david003@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
+	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	 <conor+dt@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
+	linux-kernel@vger.kernel.org, Alim Akhtar <alim.akhtar@samsung.com>, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Date: Wed, 25 Nov 2026 14:07:50 +0100
+In-Reply-To: <179560526391.84329.2026344704407829230.b4-review@b4>
+References: <20261123092244.1792040-1-virag.david003@gmail.com>
+	 <20261123092244.1792040-3-virag.david003@gmail.com>
+	 <179560526391.84329.2026344704407829230.b4-review@b4>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.62.1 
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -100,137 +108,46 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Hi,
+On Wed, 2026-11-25 at 12:14 +0100, Krzysztof Kozlowski wrote:
+[...]
+>=20
+> > diff --git a/Documentation/devicetree/bindings/usb/samsung,exynos-
+> > dwc3.yaml b/Documentation/devicetree/bindings/usb/samsung,exynos-
+> > dwc3.yaml
+> > index 8af0143c3e47..f62e3ed82257 100644
+> > --- a/Documentation/devicetree/bindings/usb/samsung,exynos-
+> > dwc3.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/samsung,exynos-
+> > dwc3.yaml
+> > @@ -24,6 +24,9 @@ properties:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: s=
+amsung,exynos8890-dwusb3
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: s=
+amsung,exynos7-dwusb3
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: samsun=
+g,exynos7885-dwusb3
+>=20
+> Why isn't this enum with the other entry?
 
-Correction and a self-contained reproducer for my previous message: the
-previous message listed files as attachments, but the mail did not include
-those attachments. Sorry for the confusion. The test-only patch and exact
-reproduction steps are included below; no local files are required.
+I failed to realize that that could be done while rebasing the patches
+onto the current tree (as 990 compatible wasn't there before).
+Fixing it in v3.
 
-Baseline: Linux v7.4-rc1,
-`6628e7d4c6b25c8d18f1345e3a20d21829aae7e`.
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: samsun=
+g,exynos850-dwusb3
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: s=
+amsung,exynos990-dwusb3
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: s=
+amsung,exynos850-dwusb3
+>=20
+>=20
+> Best regards,
+> Krzysztof
 
-Build an x86_64 KASAN kernel with the test hook:
-
-```sh
-git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux-tb-repro
-cd linux-tb-repro
-git checkout 6628e7d4c6b25c8d18f1345e3a20d21829aae7e
-git apply thunderbolt_test_injection.patch
-make ARCH=x86_64 x86_64_defconfig
-scripts/config --enable USB4 --enable KASAN --enable KASAN_GENERIC
-scripts/config --enable SERIAL_8250 --enable SERIAL_8250_CONSOLE
-make ARCH=x86_64 olddefconfig
-make -j"$(nproc)" ARCH=x86_64 bzImage
-```
-
-The test is a `late_initcall`, so it runs before userspace. No initramfs is
-needed to trigger it. QEMU will later panic because this test boot has no
-root filesystem; that expected panic is after the test result. Run both modes:
-
-```sh
-timeout 45s qemu-system-x86_64 -m 512M -smp 1 \
-  -kernel arch/x86/boot/bzImage \
-  -append "console=ttyS0 panic=-1 thunderbolt.test_request_uaf=1 thunderbolt.test_drop_ctl=1" \
-  -nographic -no-reboot
-
-timeout 45s qemu-system-x86_64 -m 512M -smp 1 \
-  -kernel arch/x86/boot/bzImage \
-  -append "console=ttyS0 panic=-1 thunderbolt.test_request_uaf=1 thunderbolt.test_drop_ctl=0" \
-  -nographic -no-reboot
-```
-
-The injected run reports `BUG: KASAN: slab-use-after-free in mutex_lock()`
-from `tb_cfg_request_dequeue()`. The control run reports no KASAN issue before
-the expected no-root-filesystem panic.
-
-The hook directly resets the request-list head, optionally frees `ctl`, and
-calls the real `tb_cfg_request_work()` synchronously. It demonstrates the UAF
-if that order occurs; it does not call `tb_ctl_stop()`/`tb_domain_remove()`,
-use the system workqueue, send an XDomain packet, or prove a peer can trigger
-host NHI removal.
-
-Test-only injection patch (not a proposed production fix):
-
---- BEGIN TEST-ONLY PATCH ---
-diff --git a/drivers/thunderbolt/ctl.c b/drivers/thunderbolt/ctl.c
-index 965988b1860..000000000 100644
---- a/drivers/thunderbolt/ctl.c
-+++ b/drivers/thunderbolt/ctl.c
-@@ -9,5 +9,7 @@
- #include <linux/crc32.h>
- #include <linux/delay.h>
-+#include <linux/init.h>
-+#include <linux/moduleparam.h>
- #include <linux/slab.h>
- #include <linux/pci.h>
- #include <linux/dmapool.h>
-@@ -535,7 +537,63 @@ static void tb_cfg_request_work(struct work_struct *work)
- 	tb_cfg_request_dequeue(req);
- }
- 
-+static bool tb_ctl_test_request_uaf;
-+module_param_named(test_request_uaf, tb_ctl_test_request_uaf, bool, 0400);
-+static bool tb_ctl_test_drop_ctl;
-+module_param_named(test_drop_ctl, tb_ctl_test_drop_ctl, bool, 0400);
-+
-+static void tb_ctl_test_callback(void *data)
-+{
-+}
-+
-+static int __init tb_ctl_test_request_uaf_init(void)
-+{
-+	struct tb_ctl *ctl;
-+	struct tb_cfg_request *req;
-+	int ret;
-+
-+	if (!tb_ctl_test_request_uaf)
-+		return 0;
-+
-+	ctl = kzalloc_obj(*ctl, GFP_KERNEL);
-+	if (!ctl)
-+		return -ENOMEM;
-+
-+	req = tb_cfg_request_alloc();
-+	if (!req) {
-+		kfree(ctl);
-+		return -ENOMEM;
-+	}
-+
-+	mutex_init(&ctl->request_queue_lock);
-+	INIT_LIST_HEAD(&ctl->request_queue);
-+	ctl->running = true;
-+	req->callback = tb_ctl_test_callback;
-+	INIT_WORK(&req->work, tb_cfg_request_work);
-+	INIT_LIST_HEAD(&req->list);
-+
-+	ret = tb_cfg_request_enqueue(ctl, req);
-+	if (ret) {
-+		tb_cfg_request_put(req);
-+		kfree(ctl);
-+		return ret;
-+	}
-+
-+	/* Model stop orphaning an active request before control-channel free. */
-+	INIT_LIST_HEAD(&ctl->request_queue);
-+	if (tb_ctl_test_drop_ctl)
-+		kfree(ctl);
-+
-+	tb_cfg_request_work(&req->work);
-+
-+	if (!tb_ctl_test_drop_ctl)
-+		kfree(ctl);
-+	tb_cfg_request_put(req);
-+	return 0;
-+}
-+late_initcall(tb_ctl_test_request_uaf_init);
-+
- /**
-  * tb_cfg_request() - Start control request not waiting for it to complete
-  * @ctl: Control channel to use
---- END TEST-ONLY PATCH ---
-
-Best,
-Bin
+Best regards,
+David
