@@ -1,18 +1,18 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.72.46
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.49
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795624376;
-	b=dpVJPstrUnoPVixhoN5CtqnmMYes+Db3Bwnm+yVtTdyYuTi3oqRZ2ivaMb9ERg5dHM3k
-	 +MIdUm7KGJjp6srDLPT7UVRlQYfjIg6d35TqWsMAylXo2ysq3G4SI2bvmlmW9C7zlsJLY
-	 hJnLt47y+bBYWnpLBjHCftU22MVXsM/OBX6LNHWw1hE0mVlFHXNc2NPSY+wggiu4azgY/
-	 X2L0E8wxOpI2CB/VX8p7vNqUSwL7RDX+L7t5IubaVILq8glUHbK1gOnwmyE+xctJnTMcL
-	 9g7aA9tdWzqM8fVYK4hTkFfiFiGAKq2jUW79GPPLLN89H5HqAuf+rbc0xXlCE0O4VVQ==
+	t=1795624381;
+	b=11c1vjxpyCajUzsxyzQdY3WeV6IxhHHpWFQquQkLMd03TLFz5kKXHhYSp+GyfYaRav73
+	 nwntXW8Cqgw/q+BDH3xw9R68/Sm4FZCJRcixAexyzEUhxzNoOJCprySNNHMwP1tpNT5yc
+	 1bKNTdRhlBxEmPFVQMafS7MSwh48fy4um6yN0VA4pnQJNWanjVbe+qldjQAGpQzYjgBmf
+	 D7VqxkDO26zta5h0ZVjl8cgIZz+GtPPmPo7sakbuhdKhdmiHHrPxrm+Ptt5hjQa/U5AQW
+	 /OzOf5ih9IZ8kiZ8HvYw0rPQyar71VfdOXqJnlLuzaXKYWr8soOZgk3i7Hh8+jf8fug==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795624376;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795624381;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:
 	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 Received:From:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:CC:X-Mailer:
-	 X-Originating-IP:X-ClientProxiedBy:X-EOPAttributedMessage:
+	 Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-ID:References:In-Reply-To:To:CC:
+	 X-Mailer:X-Originating-IP:X-ClientProxiedBy:X-EOPAttributedMessage:
 	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
 	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
 	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
@@ -26,35 +26,35 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=z/YAwRhaWeYjpdZBQvuzhL8OqmCGghyjlzAFGXwAr4A=;
-	b=LAsIXbBXOxS0jS057VwmudprKVLR3a0x4poaf0czBNlYElWGddwlUxHltBVxT/8eeQOg
-	 KQzGeZxNIaeahEk9Ngm9FllZtiI0+3+2XQQWRkDuNfyO1IEo8vPUQmIIGZQUfAMyQbZ7O
-	 B+2c26yu3ox7W5pCDubVoV3f5DMsZdHvQvcuUbkNM5qlF0rqTQv9IEyXEgtEfiCyGJEVt
-	 I7v7vXsLam//RbyI/kGBzP2U/fXpIirtPmKVasQVdZLjOrOsXLkRQmLe8jJ0eMB+N1n/B
-	 Xj7dbi02LgJozdZe3Fzu02dH0SfMPqHxvPKk2xJCnMeLGgsxywKHlXbdO5ITJ0llH+A==
+	bh=5v7CY7Uqdb/iDuxnv9M7e19xM/o64AV8+RNpBjx1CaI=;
+	b=eg9GXbKqtNrfCy0OD+Xbv+waprJH+9YgF+zbEA2y/do0zqD9Pq7g6Kin9wHTQCQjyJ43
+	 SoOBgRDepirfZj9YkDx0RoP3IhcctxgvHCT0JO25ZVabGn9m5OF3qrSFLFvEQJcGvxYfd
+	 ZXThirUFvcT7HWzvt6yhLZri1ncb9ZlJnrwWTutEyGsf88x6IbSje8CXW4cJEu+gY2jZw
+	 FNCz0KEGNEwblvnSZ5G+2W8XHq4Q9ZUw9h6TCBoqN8FE3M56tNLBmleU7Z8edz/bxNQI/
+	 mS6Vqnh7EptM2L+kym/DymYaHBeXjBpV/pDRrByAXHFUxrB8Pf336KdcCQi70yNG6wA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=foss.st.com;
 	spf=pass smtp.mailfrom=foss.st.com;
-	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b="E11/wMDk";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.72.46
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013046.outbound.protection.outlook.com [52.101.72.46])
+	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=KOlsanW6;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.49
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012049.outbound.protection.outlook.com [52.101.66.49])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216FD606A33C;
-	Wed, 25 Nov 2026 16:32:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 216FD606A33C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5BD60A2613;
+	Wed, 25 Nov 2026 16:32:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D5BD60A2613
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=E11/wMDk
+	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=KOlsanW6
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=idr/V38gYGMF2lHBd8W9aB1GtwcjK4XOmXsd9rmIN5KONqb5Rj5TZLI4PIMRaMZoSkeXPd5aUBw4PF3Kn9OrZF3XWvbjh3k/PjJWGF4z0r+eyAttKzsGBrqkJLh35QoceHddNzdU7L7vmy/lgGvleSkUwg4NTG+a8V2026h96nnVsPpkF54zVUXVWuntklwWkbkLekbdZES9dr61SV+zZqiXF57sZXkiHYnUmoUc2+RNHM96ptNZDhrR92sLhEjD3kCoFGT8p4/t48ok2jFeueXOOBQQdhvyBKvvWDOcnSqiyZM4Hte+ID9zvwdM7e+oITGXpf29ahd7tqw3eFUOdw==
+ b=TbLHKjK4ZGDP0fmvM9nNm00TfSBQ+ZslDvf2v7v5vlULbNi32d3sJcxbQV9t/cQvWRVVLXDcj5S1fWfHHfl0kDw2Ona0T7cC8BuseuVk+AQOSnqtaAI5BQzbW/16kAkVVEkhIR657u9JrfJUNQ1BABpkbcIa3s7Tm2LrIWihjIio/dKD6mYiUW8+3BgdnvZLYNQSh4UEqG7sA6MklNRN816dGEYilkTgAY/0YIkCYGqUuIJQ/Oe/BKcnqf8r2/DUYA/2btV3Pgbx+Nby4jJKXofNKiePe9SXwn2uvN08x65YqbA2kRLjSEZgJo/XwXf00yu+NjsE4Iu1v2plgciwqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z/YAwRhaWeYjpdZBQvuzhL8OqmCGghyjlzAFGXwAr4A=;
- b=RXuNIgHIe+XRXsOEcU1BEmq2RORurYHtaMQGIHRXVV/imaAeMTftWymRMb91yqThERbvDQpf9WEJif75Fx7wSRndEn2UnaZiiPbAMVI0Z4TPJNe84GodmnZJffXYeSSlJeZYje83dXpyhuJ9sbc+emQIbKEYp+nspRGWoMYx+E3EwhkUCA70EXOqjgEDFEGj0EsU6lv6TGvKDu8AJ2lpfmq40uuXngvOyYsrofwfyJGtdtxMoBwPMjC4G4NvZIqda4V2wsUZbmhi5lqtRM+Ve8A2zj8DbN0YbhUU/f72TYG0JAre7bZDv4sG3FdDSyS8xn5kkIhJAf76kMqE6VE/Ww==
+ bh=5v7CY7Uqdb/iDuxnv9M7e19xM/o64AV8+RNpBjx1CaI=;
+ b=geYSQn94rtrlAkayLxTgoNcc7Ce62EWyJ52nFDH4WqHjdbxP3frObghE0SxD8T9HVbopSQhjYLjjQblRA1pFhnGZiMaFyhz4Uu74WIcIN+rMviOHHjPMFOqo049POL924+59wVz1imYCvAuGsXQem7DeReyG5WGA8DK6312lA9fvSIs1O67fF0thXPlGaLqPtGqi4vAuSCxT2qVYOiea+km3rglfcJGREud6DZI0GNik9ll9XnBWacV0hrj9tvkQeCtothswkXd+jhvrt/s3uO9GUNBs8wlhSon+CMN6Q23+lD/0vhZ83TD+n1Y94sOI6/WNrT8I4tIjBEScJf4BVA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  164.130.1.59) smtp.rcpttodomain=st-md-mailman.stormreply.com
  smtp.mailfrom=foss.st.com; dmarc=fail (p=none sp=none pct=100) action=none
@@ -62,17 +62,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z/YAwRhaWeYjpdZBQvuzhL8OqmCGghyjlzAFGXwAr4A=;
- b=E11/wMDkGP5ymqKqQeeB+9nqNi55dLyxKbILsOyENbRZCKqy+lyUNLilh+B6Niv/BN29tK3WTYJqlvrSG9ik+kQvKly8YJHinwaHCPQgK5ka4hbBnpl4tqMwAo7X7C0jtTPTPGi5smuJ8jXVGop9L6sYF3/UkD96G7gkHP43fIFwLSuvj4oZ5Aleto2VXfTIO4GfEQgKb80ThftYkS2k8X0J+Y2O8XaytOZCqbUruYPOYztF1mqdCwaGx26x6YUQtNBzzltinqo2Q+CaHPW63AosD5+4a9VcwQt5dHh3sRfkiopXfaT8jIHgBdzuPYOpQEOXdeAfYuoyaXownDikWQ==
-Received: from GV2PEPF00048123.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:400::1f7) by DB8PR10MB3957.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:165::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.4; Wed, 25 Nov
- 2026 16:32:46 +0000
+ bh=5v7CY7Uqdb/iDuxnv9M7e19xM/o64AV8+RNpBjx1CaI=;
+ b=KOlsanW6gU+P3e8ok2GUVhydJcSsP4EF0plFZNvBDf3/rdBuZB4oo84WgNr7PccZnor/qMlf/FZNdlv/b0ebT+p1dKsc+Hv1g3h3RFnfDdHakVHLWrZF3KnugBSuzvpK+Ow411TSpc1zusA65HIwEHMtjJRqNk5E1ybkH9Kc8naUhde5dR2sOwzMc+4VM2PkPh9UEJ7hcAEZ1ESFdAouykjudHMV9uuibpckK4iuShRfP3EiAvhtd5ZXWUcL+5hzRsoXX1BKIp3BaZFASw+lZ9UIvCwvXKxLGa9h7opxoJjIee6mQ/owq3KGKITuHjiYwlnj58sKGAosMhlNbCQOMg==
+Received: from GV2PEPF0004811E.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:400::1ef) by VE1PR10MB194643.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:800:1f2::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.3; Wed, 25 Nov
+ 2026 16:32:49 +0000
 Received: from WA1PEPF00009B3A.eurprd05.prod.outlook.com (2603:10a6:1d8::118)
- by GV2PEPF00048123.outlook.office365.com (2603:10a6:158:400::1f7) with
+ by GV2PEPF0004811E.outlook.office365.com (2603:10a6:158:400::1ef) with
  Microsoft SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id
- 15.21.615.10 via Frontend Transport; Wed, 25 Nov 2026 16:32:46 +0000
+ 15.21.615.10 via Frontend Transport; Wed, 25 Nov 2026 16:32:47 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
  is 164.130.1.59) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=foss.st.com;
@@ -82,19 +82,19 @@ Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
 Received: from smtpO365.st.com (164.130.1.59) by
  WA1PEPF00009B3A.mail.protection.outlook.com (10.167.242.40) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.662.3 via Frontend Transport; Wed, 25 Nov 2026 16:32:45 +0000
+ 15.21.662.3 via Frontend Transport; Wed, 25 Nov 2026 16:32:47 +0000
 Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
  (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Wed, 25 Nov
- 2026 17:33:32 +0100
+ 2026 17:33:35 +0100
 Received: from localhost (10.48.86.251) by STKDAG1NODE2.st.com (10.75.128.133)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Wed, 25 Nov
- 2026 17:32:43 +0100
+ 2026 17:32:46 +0100
 From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Subject: [PATCH v6 00/11] usb: dwc2: fix low power issues found on stm32mp1
-Date: Wed, 25 Nov 2026 17:32:01 +0100
-Message-ID: <20261125-dwc2-low-power-fixes-stm32-v6-0-d5df33b93eaf@foss.st.com>
+Date: Wed, 25 Nov 2026 17:32:05 +0100
+Subject: [PATCH v6 04/11] usb: dwc2: clean up old role on mode change
+ during suspend
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,12 +106,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIINB2sC/4XR3U7EIBAF4FfZcC0bfsqUeuV7GC+ADi7GXTZQq
- WbTdxfWGGvW1MsThu9MMheSMQXM5H53IQlLyCGeaoC7HXEHc3pGGsaaiWACOGM9HWcn6Guc6Tn
- OmKgP75hpno5SUOY4KgRthRKkAueE1+f6//HpK+c3+4JuamKbOIQ8xfRxbS+8zX0X6a2iwimjy
- komR9+DQHjwMed9nvYuHkmrKmKFcbmJ1cVpP2hQpvPcgrzF5A/GGWxismKgR2EYDtbYPzbrVtg
- /m3UVY9poN0AFB7zF1BrbPE5RDfN86JEhSBC/sWVZPgHi0U5wDAIAAA==
-X-Change-ID: 20261007-dwc2-low-power-fixes-stm32-0c1e5e68b252
+Message-ID: <20261125-dwc2-low-power-fixes-stm32-v6-4-d5df33b93eaf@foss.st.com>
+References: <20261125-dwc2-low-power-fixes-stm32-v6-0-d5df33b93eaf@foss.st.com>
+In-Reply-To: <20261125-dwc2-low-power-fixes-stm32-v6-0-d5df33b93eaf@foss.st.com>
 To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman
 	<gregkh@linuxfoundation.org>, Douglas Anderson <dianders@chromium.org>,
 	Stefan Wahren <wahrenst@gmx.net>, Artur Petrosyan
@@ -125,113 +122,295 @@ X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
  (10.75.128.133)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: WA1PEPF00009B3A:EE_|DB8PR10MB3957:EE_
-X-MS-Office365-Filtering-Correlation-Id: f918ab41-fbce-47f2-b138-08df4b11bc97
+X-MS-TrafficTypeDiagnostic: WA1PEPF00009B3A:EE_|VE1PR10MB194643:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1f482a6-0a79-49dd-dff4-08df4b11bda9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|36860700016|7416014|23010399003|82310400026|261022105027099003|10067099003|11063799006|261028144727099003|56012099006|261102124527099003|261021121427099003|261022075727099003|261026121527099003|261021123027099003|261009223027099003|261026140227099003|261102123227099003|18002099003|13003099007;
+	BCL:0;ARA:13230040|23010399003|36860700016|376014|7416014|1800799024|82310400026|10067099003|11063799006|261022105027099003|56012099006|261026121527099003|261021121427099003|261022075727099003|261102123227099003|261009223027099003|261026140227099003|261028144727099003|261021123027099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	uXRVXqTNR9ToKmnojl+1rJB4Tc9+Ef6hqD6xD3p+TdHl+lunombpKxv4KaZG09WRehdgqwSISHr7LAWvMo3YyMWOlbbNbIpKVK/y3k0fHz16lU6iSdmW1K6AAKqW6qLj9v99o31/kqY3578Vqb6czDmDWBNBu5T6v35wliV+cv5qohTqGCYuYG1PUmmEzSlymATKGhaEomPdHOG+aTBaxclzBVX+KTCzLHxB0APOjhsZ9ORgu8Zk5rHqm5R9hpmyk1q5eElvu97VqDE15x+x768bsQeBG/jk5yUawapy5oh9LwJMK0cQD6ctzNSXzqDp3lu3R/HS2s0D6RZJ43pwm3rYZa/MSDEBQac/IVHnoplBAovsFW4R8mOXeorlQVGjVyCzBY4V63aGfLwP7q+l5yhk2dAtTDZkUrhWAFAzFB7MvnpDm4Sgadn5xkfmhVTgFvei2u00uqTWxdYnpJAFmvabcURJVp3LYz3w4dPhVSdXh6n0yY90ezVJzwDMc1mUiqra7ydBBqljJcgW+YphIlHyfFWUC8GYHkC3tBjOrfOGoDkS2NkpwU/8wsh3WCEE46xTUJ/I72J/LCaGxCrZt3ZWIjsMHLjc0WNWKTFgkjZlQ47hNzwAnDD9fJkP73sVqMUpICe4iT+lQwmQx1BCtA==
+	sanK9ugfERqXd45mHTLSUb/QBuvaFM106A2MgtfsOcz6FR/G888Ml0Jd1LbB1SF71onIu5KexNhU9mBIIuIO1X3B35CVYEGfxupiR9LfPC2wXC4iXvrQtpO4osB9VPPrDPMjZcV1UqDTP6hQjnZMob2+kRoJFFslgytuF9YhY6nSm0Ma2YgukzDLtlDwSlcNuTJOB+/OdpCi6ldpZMEZQPQxNeuE/xBkZ+hqH/ZWtXSnf626lmKWCHqPcMHUZtMGLMnLa+INT2YOW6j+0kDDqEPWbC2nRzZomo0LkyP+3/Kn1O/XUXNduY9ncVbt2Fnjp/CcXeGBjdCGiRcYte0dc+5RTrUFQkJFygsDUgP4CS+dyzGfo3h/TcOzs6xGG5xEuM52YTiNZRFOjg7LiZRq7xAo3tTDdt5uwf2WDiFG01M1tZW/7szwrQX8Mo0IjfP3u4n89temy9kf+UmNdEmy0YffM4kX6qzfr5JlMt/rFARrXmNBHCDQh+YqwmZYDdTEyOtPwQOkTaj/HMFXeBJ6A/6v8Au7xgeAPg0mw+zKNtsjsofOvIGgM9ZiqKoLV9auaTFFeNjYcVzApstDucAcCJjIoXWtLl/DACVAgbcPYY8o0Nm2gjQs7bA+lp1S98U43z39TcT9bFz/tqDSBufUig==
 X-Forefront-Antispam-Report:
-	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700016)(7416014)(23010399003)(82310400026)(261022105027099003)(10067099003)(11063799006)(261028144727099003)(56012099006)(261102124527099003)(261021121427099003)(261022075727099003)(261026121527099003)(261021123027099003)(261009223027099003)(261026140227099003)(261102123227099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(376014)(7416014)(1800799024)(82310400026)(10067099003)(11063799006)(261022105027099003)(56012099006)(261026121527099003)(261021121427099003)(261022075727099003)(261102123227099003)(261009223027099003)(261026140227099003)(261028144727099003)(261021123027099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	J7XTxJiUnQJQCN6r9vbVwN2C+IiN/wChBVkkclPeB0ck0PuxT3Gi6kFCQYwXMolRNf3goMMFxKbvkw7cyV9BiC5bIx6dOglU/4QZNwmmwBNE+UAuhpnIGHOpR0JrWN/XM2MM+q3pPBL6gExiQVmj8/ZhBd+qenbtKZCtGtOI8YCcQ/dPc4fTQ5KidhpNKsLGVmIDbuKdJS2pFwSTQPwMOfV5SpsUr3a4AZJDoerZGlaL689BjusIesXU7gYsiXKClKOhI0PI18wsYIeBnxzERaVlX+czFMEIMX0Bs+P5sy45vTfDWUX51AGSze2dyUxAJ6ILenPUNbbQX1j4UFjY0czT9Pr9xzFNiKmhotROEtbWp4a73WwH3U4QlZBg1EezN2B/Hia7Ljm4Dhyt/TQj6OU1V72Q6p6Zn/Epb4bq1ijLXAZfZ1ngxV5v764sG8Gf
+	i4U1/gQH3C9fMCRiXJz2dWTSBEtVMe9TJhFfy02+KYgKPAPmfMlxIwDe4l1kB5qCYlZeYgBFT1j5kt/+V4GYp/VqopCQxrUVWyGVBY2vXIhujbdC9wpqGy4f79Oc5lO6vk6Aqkv6GExCY2TLxg0O8zaDr+yE8e0n47eJ2Z4xpXKVuHc0z+KU2hvr8BD5P4whMCReihP0sAAYmx2sB+JXe6he54OVFNIpaTd1oPyTefhrNK/b00O2+VnwJbziN5XtsLQ3D3iH7c+8ZHGKpKc9BNbCiD1dVCbiHKbio99xADBakYxIatiuBowiF2e0OmP5wxRjCxCPcU40Boi0kKDw4MBJkixpqj+y86OVvG3IxnsYZjwXOrqNaSo5PQDcucUU8nsCbsI+ft8CjD67m6Kc9vmxowL+qZ9whZp3HkZZyOvG8j9sMI8SDyD5dAfryNWa
 X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 16:32:45.9380
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 16:32:47.7410
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f918ab41-fbce-47f2-b138-08df4b11bc97
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1f482a6-0a79-49dd-dff4-08df4b11bda9
 X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	WA1PEPF00009B3A.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3957
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR10MB194643
 
-This series addresses several hang, bad_irq or re-initialisation issues
-found on stm32mp1 when going to system low power (stop mode):
-- First fixes can be reproduced on stm32mp13 DK board, stm32mp15 DK
-  and EVAL boards.
-- Subsequent fixes can be reproduced on stm32mp15 EVAL board that uses
-  an external Vbus regulator and stm32 dedicated detection logic.
+If the power domain is off during system suspend and the OTG ID pin
+changes meanwhile, dwc2_resume() sees a register loss but the role that
+was active at suspend is never cleaned up. No connector ID interrupt
+reports the change, as GINTSTS is cleared by the register restore, and
+the register backup belongs to the old role: host registers could be
+restored in device mode, or the other way around.
 
+When the core was in device mode at suspend and resumes in host mode, the
+gadget driver is never told about the disconnect and the gadget state
+stays stale. When it was in host mode and resumes in device mode, URBs and
+host flags stay as they were and the external VBUS supply is left enabled.
+
+Record the mode in dwc2_suspend(). On register loss with dr_mode otg,
+compare it with the mode after resume. If it differs, skip the register
+restore and clean up the old role before initializing the new one:
+
+- device to host: disconnect the gadget, clear stale state, the FIFO map
+  and set the speed to unknown, without accessing endpoint registers that
+  are unusable in host mode. Then reinitialize the host with the new
+  dwc2_hcd_restore(). If it fails, the HCD was not reinitialized, so it is
+  left inaccessible.
+- host to device: fail pending URBs, clear stale state, make the HCD
+  accessible and release VBUS, then reinitialize the core and resume the
+  gadget.
+
+This addresses the second finding of the Sashiko review of "usb: dwc2:
+fix recovery after PM domain off".
+
+Fixes: ba6e518d136b ("usb: dwc2: Implement recovery after PM domain off")
+Cc: stable@vger.kernel.org
+Closes: https://lore.kernel.org/linux-usb/sashiko-outbox-219256@kernel.org/
 Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 ---
 Changes in v6:
-- Instead of reworking the PM off recovery, rather add registers backup
-  when in clock gating mode, and rely on already bakc'ed up registers
-  upon recovery, as discussed with Stefan.
-- Split PM off recovery fix into several patchs to ease the review.
-- Address Sashiko findings seen in v5.
-- Link to v5: https://patch.msgid.link/20261117-dwc2-low-power-fixes-stm32-v5-0-0f197e0e6362@foss.st.com
-
-Changes in v5:
-- Address Sashiko comments on first and last patch
-- Added one separate patch as last issue raised by Sashiko appears in
-  current patchset but pre-exists.
-- Link to v4: https://patch.msgid.link/20261113-dwc2-low-power-fixes-stm32-v4-0-08a8c962a09e@foss.st.com
-
-Changes in v4:
-- Address Sashiko feedback on register-loss recovery: add
-  dwc2_hcd_restore() to reinitialize the host and clear stale state;
-  disconnect the gadget and clear stale endpoint and low-power state.
-- Fix the HCD resume race by holding hsotg->lock with interrupts disabled
-  across global interrupt enable and dwc2_hcd_reinit().
-- Rework VBUS handling: track the regulator enable reference with
-  vbus_supply_enabled and a mutex, keep external VBUS enabled across
-  system suspend, and drop dwc2_vbus_supply_restore().
-- Track STM32 ID/VBUS detection enablement with
-  stm32_id_vb_detection_enabled.
-- Link to v3: https://patch.msgid.link/20261106-dwc2-low-power-fixes-stm32-v3-0-68d2a0e9bab6@foss.st.com
-
-Changes in v3:
-- Update since Sashiko comments
-- Add a paramter (need_restore) to gadget resume function based on
-  canary detection to avoir possible race on lx_state as raised by
-  Sashiko
-- Add a dwc2_vbus_supply_restore() to check regulator enable state
-  during hcd resume, to enforce it gets restored along with PWR bit
-  if it has been turned off earlier.
-- Introduced a new patch for a possible race in hcd resume, with
-  HCD_FLAG_HW_ACCESSIBLE not being set, but host interrupts are active.
-- Refactor stm32 vb/id detection, to rool back in case of regulator
-  disable fails.
-- Link to v2: https://patch.msgid.link/20261013-dwc2-low-power-fixes-stm32-v2-0-79865a4f1b63@foss.st.com
-
-Changes in v2:
-- Several fixes or commit messages updates since Sashiko review (see
-  changelog in each patch).
-- Add Thinh instead of Minas to the recipients
-- Link to v1: https://patch.msgid.link/20261008-dwc2-low-power-fixes-stm32-v1-0-5b303df762e6@foss.st.com
-
+- New patch added since Sashiko finding
 ---
-Fabrice Gasnier (11):
-      usb: dwc2: fix recovery after PM domain off
-      usb: dwc2: keep TOUTCAL canary valid after PHY init
-      usb: dwc2: drop stale state after register restore on resume
-      usb: dwc2: clean up old role on mode change during suspend
-      usb: dwc2: fix a possible interrupt storm in hcd resume
-      usb: dwc2: fix a possible interrupt storm on stm32mp1
-      usb: dwc2: hcd: fix possible successive vbus supply enables
-      usb: dwc2: hcd: don't disable external vbus in system suspend
-      usb: dwc2: restore peripheral mode on low-level enable
-      usb: dwc2: platform: fix stm32mp15 detection logic power management
-      usb: dwc2: drop redundant ll_hw_enabled checks in suspend/resume
+ drivers/usb/dwc2/core.h     |  9 +++++++
+ drivers/usb/dwc2/gadget.c   | 20 ++++++++++++++++
+ drivers/usb/dwc2/hcd.c      | 58 +++++++++++++++++++++++++++++++++++++++++++++
+ drivers/usb/dwc2/platform.c | 25 ++++++++++++++++---
+ 4 files changed, 109 insertions(+), 3 deletions(-)
 
- drivers/usb/dwc2/core.c      |  17 +++
- drivers/usb/dwc2/core.h      |  25 +++-
- drivers/usb/dwc2/core_intr.c |   9 +-
- drivers/usb/dwc2/gadget.c    |  61 ++++++++--
- drivers/usb/dwc2/hcd.c       | 150 +++++++++++++++++++-----
- drivers/usb/dwc2/platform.c  | 269 +++++++++++++++++++++++++++++--------------
- 6 files changed, 405 insertions(+), 126 deletions(-)
----
-base-commit: b0baaf6cbb16bc773d0c76916aac17c44a6cd557
-change-id: 20261007-dwc2-low-power-fixes-stm32-0c1e5e68b252
+diff --git a/drivers/usb/dwc2/core.h b/drivers/usb/dwc2/core.h
+index 9873ae7b52c2..89a34956bf22 100644
+--- a/drivers/usb/dwc2/core.h
++++ b/drivers/usb/dwc2/core.h
+@@ -876,6 +876,7 @@ struct dwc2_hregs_backup {
+  * @reset_phy_on_wake:	Quirk saying that we should assert PHY reset on a
+  *			remote wakeup.
+  * @phy_off_for_suspend: Status of whether we turned the PHY off at suspend.
++ * @suspended_in_device_mode: True if the core was in device mode at suspend.
+  * @need_phy_for_wake:	Quirk saying that we should keep the PHY on at
+  *			suspend if we need USB to wake us up.
+  * @frame_number:       Frame number read from the core. For both device
+@@ -1074,6 +1075,7 @@ struct dwc2_hsotg {
+ 	unsigned int reset_phy_on_wake:1;
+ 	unsigned int need_phy_for_wake:1;
+ 	unsigned int phy_off_for_suspend:1;
++	unsigned int suspended_in_device_mode:1;
+ 	u16 frame_number;
+ 
+ 	struct phy *phy;
+@@ -1419,6 +1421,7 @@ void dwc2_clear_lost_state(struct dwc2_hsotg *hsotg);
+ int dwc2_hsotg_remove(struct dwc2_hsotg *hsotg);
+ int dwc2_hsotg_suspend(struct dwc2_hsotg *dwc2);
+ int dwc2_hsotg_resume(struct dwc2_hsotg *dwc2, bool lost);
++void dwc2_hsotg_role_lost(struct dwc2_hsotg *hsotg);
+ int dwc2_gadget_init(struct dwc2_hsotg *hsotg);
+ void dwc2_hsotg_core_init_disconnected(struct dwc2_hsotg *dwc2,
+ 				       bool reset);
+@@ -1456,6 +1459,7 @@ static inline int dwc2_hsotg_suspend(struct dwc2_hsotg *dwc2)
+ { return 0; }
+ static inline int dwc2_hsotg_resume(struct dwc2_hsotg *dwc2, bool lost)
+ { return 0; }
++static inline void dwc2_hsotg_role_lost(struct dwc2_hsotg *hsotg) {}
+ static inline int dwc2_gadget_init(struct dwc2_hsotg *hsotg)
+ { return 0; }
+ static inline void dwc2_hsotg_core_init_disconnected(struct dwc2_hsotg *dwc2,
+@@ -1505,7 +1509,9 @@ static inline void dwc2_clear_fifo_map(struct dwc2_hsotg *hsotg) {}
+ #if IS_ENABLED(CONFIG_USB_DWC2_HOST) || IS_ENABLED(CONFIG_USB_DWC2_DUAL_ROLE)
+ int dwc2_hcd_get_frame_number(struct dwc2_hsotg *hsotg);
+ int dwc2_hcd_get_future_frame_number(struct dwc2_hsotg *hsotg, int us);
++int dwc2_hcd_restore(struct dwc2_hsotg *hsotg);
+ void dwc2_hcd_lost_state(struct dwc2_hsotg *hsotg);
++void dwc2_hcd_role_lost(struct dwc2_hsotg *hsotg);
+ void dwc2_hcd_connect(struct dwc2_hsotg *hsotg);
+ void dwc2_hcd_disconnect(struct dwc2_hsotg *hsotg, bool force);
+ void dwc2_hcd_start(struct dwc2_hsotg *hsotg);
+@@ -1533,7 +1539,10 @@ static inline int dwc2_hcd_get_frame_number(struct dwc2_hsotg *hsotg)
+ static inline int dwc2_hcd_get_future_frame_number(struct dwc2_hsotg *hsotg,
+ 						   int us)
+ { return 0; }
++static inline int dwc2_hcd_restore(struct dwc2_hsotg *hsotg)
++{ return 0; }
+ static inline void dwc2_hcd_lost_state(struct dwc2_hsotg *hsotg) {}
++static inline void dwc2_hcd_role_lost(struct dwc2_hsotg *hsotg) {}
+ static inline void dwc2_hcd_connect(struct dwc2_hsotg *hsotg) {}
+ static inline void dwc2_hcd_disconnect(struct dwc2_hsotg *hsotg, bool force) {}
+ static inline void dwc2_hcd_start(struct dwc2_hsotg *hsotg) {}
+diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+index 295091a87b12..9b12c336e4aa 100644
+--- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -5251,6 +5251,26 @@ int dwc2_hsotg_resume(struct dwc2_hsotg *hsotg, bool lost)
+ 	return 0;
+ }
+ 
++/**
++ * dwc2_hsotg_role_lost - drop gadget state after a role change in suspend
++ * @hsotg: Programming view of the DWC_otg controller
++ *
++ * The core came back from register loss in host mode while the gadget was
++ * active at suspend. Disconnect the gadget and clear stale software state
++ * without touching the endpoint registers, which are not usable in host mode.
++ */
++void dwc2_hsotg_role_lost(struct dwc2_hsotg *hsotg)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&hsotg->lock, flags);
++	dwc2_hsotg_disconnect(hsotg);
++	dwc2_clear_fifo_map(hsotg);
++	hsotg->gadget.speed = USB_SPEED_UNKNOWN;
++	dwc2_clear_lost_state(hsotg);
++	spin_unlock_irqrestore(&hsotg->lock, flags);
++}
++
+ /**
+  * dwc2_backup_device_registers() - Backup controller device registers.
+  * When suspending usb bus, registers needs to be backuped
+diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
+index 6f2b192f68f8..60b39ccd0cad 100644
+--- a/drivers/usb/dwc2/hcd.c
++++ b/drivers/usb/dwc2/hcd.c
+@@ -2324,6 +2324,42 @@ static void dwc2_hcd_reinit(struct dwc2_hsotg *hsotg)
+ 	dwc2_core_host_init(hsotg);
+ }
+ 
++/**
++ * dwc2_hcd_restore - reinitialize host state after a role change in suspend
++ * @hsotg: Programming view of the DWC_otg controller
++ *
++ * Return: 0 on success, or a negative error code on failure.
++ */
++int dwc2_hcd_restore(struct dwc2_hsotg *hsotg)
++{
++	struct usb_hcd *hcd = dwc2_hsotg_to_hcd(hsotg);
++	unsigned long flags;
++	int ret;
++
++	clear_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags);
++	dwc2_disable_global_interrupts(hsotg);
++
++	ret = dwc2_vbus_supply_init(hsotg);
++	if (ret)
++		return ret;
++
++	ret = dwc2_core_init(hsotg, true);
++	if (ret) {
++		dwc2_vbus_supply_exit(hsotg);
++		return ret;
++	}
++
++	spin_lock_irqsave(&hsotg->lock, flags);
++	dwc2_hcd_reinit(hsotg);
++	dwc2_clear_lost_state(hsotg);
++	hsotg->flags.b.port_connect_status_change = 1;
++	hsotg->flags.b.port_suspend_change = 1;
++	set_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags);
++	spin_unlock_irqrestore(&hsotg->lock, flags);
++
++	return 0;
++}
++
+ /**
+  * dwc2_hcd_lost_state - drop stale host state after registers were restored
+  * @hsotg: Programming view of the DWC_otg controller
+@@ -2344,6 +2380,28 @@ void dwc2_hcd_lost_state(struct dwc2_hsotg *hsotg)
+ 	spin_unlock_irqrestore(&hsotg->lock, flags);
+ }
+ 
++/**
++ * dwc2_hcd_role_lost - drop host state after a role change in suspend
++ * @hsotg: Programming view of the DWC_otg controller
++ *
++ * The core came back from register loss in device mode while the host was
++ * active at suspend. Fail pending URBs, release VBUS and clear stale software
++ * state so the host can be started again on the next role switch.
++ */
++void dwc2_hcd_role_lost(struct dwc2_hsotg *hsotg)
++{
++	struct usb_hcd *hcd = dwc2_hsotg_to_hcd(hsotg);
++	unsigned long flags;
++
++	spin_lock_irqsave(&hsotg->lock, flags);
++	dwc2_hcd_disconnect(hsotg, true);
++	dwc2_clear_lost_state(hsotg);
++	set_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags);
++	spin_unlock_irqrestore(&hsotg->lock, flags);
++
++	dwc2_vbus_supply_exit(hsotg);
++}
++
+ static void dwc2_hc_init_split(struct dwc2_hsotg *hsotg,
+ 			       struct dwc2_host_chan *chan,
+ 			       struct dwc2_qtd *qtd, struct dwc2_hcd_urb *urb)
+diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+index 53c34a42f760..d89a30308f86 100644
+--- a/drivers/usb/dwc2/platform.c
++++ b/drivers/usb/dwc2/platform.c
+@@ -658,6 +658,7 @@ static int __maybe_unused dwc2_suspend(struct device *dev)
+ 		return 0;
+ 
+ 	is_device_mode = dwc2_is_device_mode(dwc2);
++	dwc2->suspended_in_device_mode = is_device_mode;
+ 	if (is_device_mode)
+ 		dwc2_hsotg_suspend(dwc2);
+ 
+@@ -738,7 +739,7 @@ static int __maybe_unused dwc2_resume(struct device *dev)
+ {
+ 	struct dwc2_hsotg *dwc2 = dev_get_drvdata(dev);
+ 	unsigned long flags;
+-	bool lost;
++	bool lost, role_changed;
+ 	int ret = 0;
+ 
+ 	if (!dwc2->ll_hw_enabled)
+@@ -790,7 +791,25 @@ static int __maybe_unused dwc2_resume(struct device *dev)
+ 	 * registers must be restored.
+ 	 */
+ 	lost = !(dwc2_readl(dwc2, GUSBCFG) & GUSBCFG_TOUTCAL_MASK);
+-	if (lost) {
++	role_changed = lost && dwc2->dr_mode == USB_DR_MODE_OTG &&
++		       dwc2->suspended_in_device_mode != dwc2_is_device_mode(dwc2);
++	if (role_changed) {
++		/*
++		 * The ID pin changed while the registers were lost: no
++		 * connector ID interrupt reports it and the register backup
++		 * belongs to the old role. Clean up the old role and
++		 * initialize the new one instead of restoring.
++		 */
++		if (dwc2->suspended_in_device_mode) {
++			dwc2_hsotg_role_lost(dwc2);
++			ret = dwc2_hcd_restore(dwc2);
++		} else {
++			dwc2_hcd_role_lost(dwc2);
++			ret = dwc2_core_init(dwc2, true);
++		}
++		if (ret)
++			return ret;
++	} else if (lost) {
+ 		spin_lock_irqsave(&dwc2->lock, flags);
+ 		ret = dwc2_restore_critical_registers(dwc2);
+ 		/*
+@@ -806,7 +825,7 @@ static int __maybe_unused dwc2_resume(struct device *dev)
+ 
+ 	if (dwc2_is_device_mode(dwc2))
+ 		ret = dwc2_hsotg_resume(dwc2, lost);
+-	else if (lost)
++	else if (lost && !role_changed)
+ 		dwc2_hcd_lost_state(dwc2);
+ 
+ 	/* Global interrupts are off after a restore, enable them back */
 
-Best regards,
---  
-Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+-- 
+2.43.0
 
