@@ -1,80 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795696296;
-	b=o7k1LQIfeagm6cdpUlelGl0zllUs280/yf1EM+LyFLEL7SNhy7Ky2i6eT67quT699jwu
-	 lgzQ1vzu4m4se0LeBMOdDm3QuslPwuzGGaACr4E1Oo5cNhVybGa/axvLyIGktHnjuQLv6
-	 3Z8Hbs+Zanc521cqyIX5SgWLanLaenz19eWUYqXVOGgHjCesMh3AeMB+lTbICAqQr0b/M
-	 IT4t5tXGKMokBnot2E3l/chY8Ggeui+FSvFbRO1nFK5tBXBNfM2bAzRZ4xPGEwVjb3tmr
-	 5pNMKxznaV+6As/u8/oWsOe4k9reczViTupv5b3Hx9AaJRjtawIpa3lWneOahb14chg==
+	t=1795696801;
+	b=DGKUhymPB0ISem8B6T8X25jMj8kBPgVQy4OIJPN2hKlPfFb+74obT5WVMlqVuVyvxkyK
+	 407I3doD3z5Zn6zKb3ejiQZFwYDEYekWzWVDv0GnuehCpvgzX5XqQ1DZXz7z9kR+CwJiQ
+	 NV9zfz+Utkv+xWVD345xkLkkumx9hwMecY77ruK4Dfi4xyVRvjKPnP3z/o+BUQ8WnDHK4
+	 x4Xd0PJ/ZMZwY4gg38gDDcvULW2RCqR2CNHeokBbpwLpzZg4RrbChCgpuwiKA2yvit5ry
+	 MI40MEU5K8SxnpvVBavKqv1sTu9Ex6vuecfwHMVkW7QP1kQhmCdWd+9J2njK6Tk047A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795696296;
-	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
-	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
-	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
-	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
-	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
-	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
-	 Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
-	bh=uaKFVmllD618TNqy4f2OULFF66CWJNxa3OEEPsNWw4o=;
-	b=OwzZOUM+k9EOhD99XaFKuj4loHGEZlEUzTDLVo46wW/QsU2A/T6IJCEkhkxlwut57IMd
-	 TZyG8anWMGozY07aob2BPDk9UzolKU+utbqlGLzS+osTUN9fVwpnmZbmrvj4CV9DaYISA
-	 5+R8KwDLtQ/ubNfRqsNtouvMWBgjL2NCmqMa1zVCxYdwQyK4AiRE23HVII6i91FIDxoPJ
-	 T+kvP8Or7fitkDSjKzNyR4pxoZQVL99xgnlgksuUWLBJrVVI4XhiqQAJF22Vfn9EvBrXy
-	 KSDBLvoXS5Q3tH/FmRCpsEYPN/n05nWzFsT7tsp4d/6hlMn0u9G9FE0ckA/K96YxJIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795696801;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=qPUA0tYF2NIjDvPMT86AcZAvNEU+x6KNl319uLJ1Bcg=;
+	b=OtXFl6r7+jiaWqyliMH5zTSjJupvl/0UudshOnRqCpHhOqWQmhkH6jRtv03g9WYzNgCB
+	 wdPeOe42m08lHUPCIZW3z7Eb6sEGRA3oM80CusaRa9BBQ1tdyeYBANptJ+J4pJeyQOyiN
+	 qzxKGkBERrQNBU/UZe2wqPF+QgelaBdkJ9KUn+SRpyXyfJ4sxeC3Nb3JdCGCPUsq8m4/p
+	 P+mVC131Te4r6Hie3hqm3ESj7JW/FbzesQ1b/Qfaapom6kplLN1+TW46XN2SV6pWQVGAG
+	 XKgGw+dMlR+dvz4W0VspIl5rAP9gt+KGJPcsV58b1pZ8OYdVWG2nP8rw4lIfWyoyxvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NJErvGht;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=eC13GFd+;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42452606A31C
-	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 12:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6386606A321
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 12:39:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6386606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NJErvGht
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1FB851F000D0
-	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 12:31:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795696296;
-	bh=uaKFVmllD618TNqy4f2OULFF66CWJNxa3OEEPsNWw4o=;
-	h=From:To:Subject:Date:In-Reply-To:References;
-	b=NJErvGht+VlrMNUMsHY16kS7B/hxke26O3nWqdcuUVOym9o+SkVDfbHl3KEwqG4sW
-	 j367/o9h0ekVl6ViWF8lXvNIs/jAQE2Fotb0C30sFZNwD/dzs7fdNN1JC5zTihPAbc
-	 jOep4PmQXCdLoOEeHcPE9HqOjl7N9NJsttgcC2xcWeE0W+GEfPk6KnNBW/memZAJa3
-	 WHXimbeUmsU7gx3LLzobA0ve1xDMaSP90sHVp8NHgxMxiv69w0Tpi686I8Q+XF8ONC
-	 ryVfIAvCh6eazgD0HMFOQi02dlH7VWelcogGBbDWUEOK/tlTI9dle92POOBAoRB+Ka
-	 dda+KZVDZnnJA==
-Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
-	id 1C21C240040C; Thu, 26 Nov 2026 12:31:36 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222328] xhci: ASMedia ASM2142/ASM3142 [1b21:2142] skips
- transfer event for bulk TRB before link TRB -> UVC stream (Elgato 4K X, 10
- Gbps) stalls with "not part of TD"
-Date: Thu, 26 Nov 2026 12:31:35 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michal.pecio@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-222328-208809-Zt0BIUrgNH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222328-208809@https.bugzilla.kernel.org/>
-References: <bug-222328-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=eC13GFd+
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4bba5e17728so16466625e9.2
+        for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 04:39:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1795696798; x=1796301598; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qPUA0tYF2NIjDvPMT86AcZAvNEU+x6KNl319uLJ1Bcg=;
+        b=eC13GFd+lh9YmREtdvxdIs3d045300VCGk5Z6VNPVPLmJaQqzgl0iZUWXvN7NGtNaj
+         VzRWt+IWvRybMPlDjq2p2vdwUmZeCF7lSUu6P9FwTqAMb2PN5/MLpFQFgAepxn+yHiFK
+         U984yq48QQhGQnJ67BuP7XSHIlN3E9cutOBDiNEnMrUyuYDV+Cnhn/FcIC1QYerKaaxd
+         NrLShtNhEx8QJcAz/SICrs8Dj1vDt3+rENF017R1MZqWWm4Emf6KhqMQT63TLP2vb4Ui
+         5CymRLIVXYIBhhHC4vjlJP4UcQaQpkxMzfX4bSIWCi0Faha0Oz2/GAgzxDjo7XjYZD5g
+         /Bfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795696798; x=1796301598;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qPUA0tYF2NIjDvPMT86AcZAvNEU+x6KNl319uLJ1Bcg=;
+        b=MEBri34Mx4CbtFyIk99sUETrl3OddxRaNtOIqiz8XbGLqJUOz+7fj3Uhi7Pr70Di/J
+         v1+bcxT/L5pAX930PewdKtZnJmVbb0kfyLsKrQjEZoNLtLxmEiaWxLLeqoOA801eV/VS
+         e/kO6qcHHY9SEYX0PGoa0rW6R3FlYcSt3hTxIWX8/17g/yCXQ3P+6yn+1/90zCYAd2Cg
+         U+MsAZAGWSj1f5V5BJMzwOdhWrpvJOIk+XkN1UeMepJPVVeb+UKyB9Y4fH0GTd6jUBc8
+         DiYsbHRr6QlpAeaKcWs/fIEcoJdmSB3r8CypuYF8c/y/yL0QEYqsWqCjsR5h4hPNrGWk
+         wDZA==
+X-Gm-Message-State: APuU4Z8NdmhXGspD4ih/68LR0SG9XAy2qnteqO1jEpcjLoj4sq1ESWoh
+	nl12ydi+kCN2lsQCnyRVp9QupQEvzt933Amv71yiKVpYzeRKGh5s1RxxH4Dan5z5wL0=
+X-Gm-Gg: AZFdTZc4/lzRjopFtCg0vCHljLBxoU6+5dz8eGdnj1tNMSAF0R7AS1HQDmDHWCnoCNJ
+	7Fk8iTMUdn1OZbwcVOBfQuKU/TEWSU1zOY/sMmjYBB02qrslEq6LYjH4YJC0P4sc2A+yvUswQTj
+	+rkLoZu12fLVZz5NH3+7T8rnRBnUICz9Jl9GYGsdRbuVR43/iU2fVlO1luoFXpDY9KHIdW47G5E
+	TkXImd15wB+bolUde6veTWr684eUznJWZaS/0+UAjwn0uXFnUlw4PWQN2Qfxvjo0nmC+AO8Ci1l
+	LpO8reevNRph8EuUiHhByySMXg1SotocKpuOrwUAK8wan/AJeMtg+y1pvTP5tI7YetvzOpK3O8a
+	b57RdR9gyEJNTqGU8Ia0f+lzsihyHKtbo0lmrfR3Wuk42pgv7j5HkMJeloYcQAG9z4m3MYfMvM/
+	pk26weFczC9IX1UdTgT847+aNqjcxfKXOVepksHkxTDn03C+EEgicJ2FcLP3dojf9oG6bEY6zPV
+	XjShwlZi74JF+GpnPplyle1N2iQVOlV+H9qzbe6SrGKj9GL2cxoZfc64DsSjBD/Dj7OeHkci/Zf
+	mYBdXG5NdKNOZ7d7op7QtU6gi/7E+L6A/MJIynwx+ogt1IZ3Z9Ge905qt1usF7jrNRLCKAEh
+X-Received: by 2002:a05:600c:6708:b0:4ba:7e6:53d6 with SMTP id 5b1f17b1804b1-4bb88940848mr371708535e9.33.1795696798313;
+        Thu, 26 Nov 2026 04:39:58 -0800 (PST)
+Received: from ?IPV6:2001:a61:134d:4f01:7bde:22fe:61b7:119e? ([2001:a61:134d:4f01:7bde:22fe:61b7:119e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm41018184f8f.16.2026.11.26.04.39.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Nov 2026 04:39:58 -0800 (PST)
+Message-ID: <fba67984-e3e9-492e-b512-180c257ecf11@suse.com>
+Date: Thu, 26 Nov 2026 13:39:57 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,18 +90,38 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usb: image: microtek: limit REQUEST SENSE transfer to
+ the sense buffer
+To: Alexandre Becholey <alex@becholey.ch>, Oliver Neukum <oliver@neukum.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, Oliver Neukum <oneukum@suse.com>,
+ stable@vger.kernel.org
+References: <20261126122151.414230-1-alex@becholey.ch>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20261126122151.414230-1-alex@becholey.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222328
 
---- Comment #4 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
-Created attachment 311585
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D311585&action=3Dedit
-Try to fix the ASM3142 bulk UVC bug
 
-This seems to work for me. It ensures that no single-TRB TD can be enqueued
-immediately before a link. It's not a complete solution, multi-TRB TDs are
-affected too if they end right before the link. But it works for uvcvideo.
+On 26.11.26 13:22, Alexandre Becholey wrote:
+> mts_command_done() receives the data phase of a REQUEST SENSE into
+> srb->sense_buffer (SCSI_SENSE_BUFFERSIZE, 96 bytes), but with the
+> length of the command's own data buffer. A REQUEST SENSE sent through
+> SG_IO, allowed on a read-only /dev/sgN without any capability, can have
+> a much larger buffer (252 bytes with sg_requests), and a device that
+> returns that much writes past the end of the sense buffer.
+> 
+> Limit the transfer to SCSI_SENSE_BUFFERSIZE.
+> 
+> The bug was found, and the reproducer and this fix were written, by AI
+> agents (Claude Mythos and Claude Opus models). The analysis and the
+> patch were reviewed by a human.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Alexandre Becholey <alex@becholey.ch>
+Acked-by: Oliver Neukum <oneukum@suse.com>
 
---=20
-You are receiving this mail because:
-You are watching the assignee of the bug.=
