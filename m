@@ -1,55 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795695964;
-	b=0CjeeVTIfwoiyqLpsuYDG90TrdLmw6nFroK64jFW0u3bW5tzc4D3xBQnstLrNrNHF4b7
-	 U8kFvjTIlsxJJNIQ11Hyv1BgEe9zvXs2Zc1IgwwWh02Xq3zoE2jw9OpsTk/UN3iag4775
-	 cio4RBC0gwro6xbwnyjPsJ8nqc4O5Y4yGTld2EhnF9GsYlRsyPe1SWUyBxXlTywJ22adT
-	 VewyvhokMBs00gsyPs0fijGU5aj0UPXLrevfOb6bzW6t45LcPZV9ap3rks2w13bdDKlJH
-	 6v3E91gf5vW8eti/6CNnMX3xe+S9q3Y10Uat8yul8wJESfecmMxEk87LqlvqNZX+SRA==
+	t=1795696039;
+	b=OuI4M5JiwWUArZVY3FYwEVjEiaU6C3rIGOgbNN0KAYUp2/uzWmq6RbQoxThFnPuXveWA
+	 vIxmsLFVbxh6w0bkSnkKWwzral/427dbFwFuI4GfcuL7l/pA4Kqpzjjt0ehMFHbIFHlTz
+	 CnOELFMzQ1kerL66/FpfhAF45XaQGnxMmBj041d2kfXm31cofWFuSHOPP61+VKYNs9fIt
+	 rbnNQVFGB/ss/YkOe3EYd9Q97S4rrHqb6OS7zIey8qT6g+yyg/iIpLOFc2hawLAoC8qDf
+	 vf2pV7t+CxNnFINqwI/NHM2Ukv1p2YzVCHF4lajfpvUyRNo3zqEII9gQxK8XmZcTaZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795695964;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=8NKbxmT5D6+15j3Qh31Z1DulT5MeYuasS69DYVQwT8I=;
-	b=FfGIXQpr8BjaWQRbRHGYN41EyRgY9trmgY5dmx7xIG8wwke7PdmRXM/EfjNWuFftXxo2
-	 vRqwhKQ3ATn+mUJlhwxx26sGHfZunaqSI4f7iQ990E0fNxv5AxN+A0q2xsqIa6vT+0yfx
-	 BwLthEACJSwpq8OZuaE1ImrM9HvJ+kmV+yp413J5U02Qd3op6hQYbKnX900mhKOkqnW43
-	 LKrYLLCz1ffflW2EdNqw38G8mHqeCz6JhVi90iViaq6ly71E0laQZV7oxVObY3A+5fdtm
-	 tH7TOaVliEF+CHW09ahgQKFYh/CfdGqlIIRnpNgw0Herg7myQgEWSiPkFEFRWGimqNg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795696039;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=T6x9wmlht/HxAWx+bWJnsDGapCiVHFh3asB/n9KJRSo=;
+	b=SZ+DMod3kj/bYAuJPkjJ8NXCWwNY4jHW4E7SzQDRKNVHz8LgvtxCN/HGww1LPaeY6t6w
+	 yPhBHgzDEo63EZPcktV0IK/0D5yxLprz7LByrOqDdofqaz0wpAjiyoiNOaSM8Gydzw20o
+	 kc38TSmQChMWHDrHBmnA6vUJUh/WZ4RCBbq9dqRmXDIgH+cBdNgsh3ZCj6ynYIIxTrizM
+	 PALg1CAcO4ZMrHvbnY07QlN0sYSpLVys65bZXNB9zQWv2Vu/db2Xw7C2r9CA3ZYK7X9uE
+	 Bwy18EPMB0B52+dfa7C4l6GFEwdGw6PqaMYl9XxCaEjwok9NtOZO0sPFiHbAgPMSNdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PvABg98v;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Blu15Qrv;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C9C606A321
-	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 12:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1495606A31E
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 12:27:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1495606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PvABg98v
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 863D21F000C0;
-	Thu, 26 Nov 2026 12:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795695963;
-	bh=8NKbxmT5D6+15j3Qh31Z1DulT5MeYuasS69DYVQwT8I=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=PvABg98v/qNi9Xfb9bVRfQ3jZvidckcATA1Ve8YrMiGg6K48GJ48SHzt10EAxkegX
-	 hvSPgh6LLTecWMONGW+f7ifwf6y3zBtvRiuvs05frv/0gFyz0cemkibEbVcCgiic+/
-	 jJs1DfIjSn7RIQMLe8TLIxB8KP8SUSsjbYtmxrG8qrCa/uX8x+w5sPQRCw3swH9lnC
-	 uwzgyn0mHWRPK3V2Kjf/iqvBAnzQQQolJn6tghF/lEhYWNov0aVbsxP+x+6APOdr5J
-	 bWDOJYoZoAwgyNHHjVE+xkARqPJmHPqrPMO+K1+ZTQ34jUrMoQULvGcyNY4BjaLtfV
-	 4yhXuB6pj+obg==
-Message-ID: <sashiko-outbox-235500@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: host: max3421: fix the SPI thread teardown on
- remove
-Reply-To: sashiko-reviews@lists.linux.dev
-To: shitao <shitao@kylinos.cn>, linux-usb@vger.kernel.org
-In-Reply-To: <20261126121148.1021526-1-shitao@kylinos.cn>
-References: <20261126121148.1021526-1-shitao@kylinos.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 12:26:03 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Blu15Qrv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795696040; x=1827232040;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=MA4L9j6sGYC3bNTiW+QX5vS2mB7FX8c47PWkuquAyD0=;
+  b=Blu15QrvUA+QzVaxoFVtAITIWd1D6ozC51XKmQOTOF7F12reTk3v4D1D
+   +L5NXedM3gF1qhAQLuSE60NjqBj6P76nnCBvd0c5+ZTCnXq0iFbjdX33z
+   k3vJUecIJkn+ML4U9gQupGndU4GWA7l7kmP0D00LvAPWiaNrxeGFdjS0+
+   rNSUjUOE9WAeIfxMhJeQS+uTuZwV/GSMFyVf5GAmBSEC6fIH2BJkrhLLB
+   VV0QG52bO3WztShsYu1K4RBcfszfUvfrxiPY5xDLzWyrF7NUv8p41RYH1
+   0Xgw5jji9Ok5Ob1Vc9aIVUIGLgAMqE2CE9PPHQASpk8otL2IOYNLTHojG
+   g==;
+X-CSE-ConnectionGUID: 5a/YL1MvSkytCPBcTdgQuA==
+X-CSE-MsgGUID: oMb3PDs0QvSdAgfoHfL2tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4493106"
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="4493106"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 04:27:18 -0800
+X-CSE-ConnectionGUID: 3Hu8PXN1SxiIku5YvWlQVQ==
+X-CSE-MsgGUID: Hu9ST4CgRYCOjkxfhoK63Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="12051161"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa005.jf.intel.com with ESMTP; 26 Nov 2026 04:27:16 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 9426E98; Thu, 26 Nov 2026 13:27:15 +0100 (CET)
+Date: Thu, 26 Nov 2026 13:27:15 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Achim =?utf-8?Q?L=C3=B6bbert?= <aloebbert@gmx.de>
+Cc: linux-usb@vger.kernel.org, Mario Limonciello <superm1@kernel.org>
+Subject: Re: [REGRESSION/BUG] thunderbolt: ASM4242 fails to restore DP tunnel
+ after resume on Ryzen 8700G (7.4-rc4)
+Message-ID: <20261126122715.GA953667@black.igk.intel.com>
+References: <UCVQtIkrSxeOKGOgiChTpA@gmx.de>
+ <20261126073108.GL191152@black.igk.intel.com>
+ <y0Ed3XDFSA-_b1YnGjn2yQ@gmx.de>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,132 +81,46 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <y0Ed3XDFSA-_b1YnGjn2yQ@gmx.de>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] usb: host: max3421: free_irq() races with enable_irq() in
-  max3421_remove()
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [Critical] usb: host: max3421-hcd: missing usb_remove_hcd() in
-  max3421_probe() [1]
---
+Hi,
 
-commit 360a9e2d1723c072cf5873c19d8972ab271a893c
-Author: shitao <shitao@kylinos.cn>
+On Thu, Nov 26, 2026 at 09:53:05AM +0100, Achim Löbbert wrote:
+> > Can you provide full dmesg without anything non-standard, except
+> > "thunderbolt.dyndbg=+p" in the command line?
+> > 
+> > Once the host router (well any router) is enumerated during resume it is
+> > expected to send plug events to the DP IN adapters that are available for
+> > tunneling. That does not seem to happen here but it would be good to see
+> > the full dmesg first.
+> 
+> Hi Mika,
+> 
+> please find attached full dmesg log with command line changed as requested.
+> Still have a black screen after resume, until a manual re-bind of 0000:71:00.
 
-usb: host: max3421: fix the SPI thread teardown on remove
+Thanks! I can see that the ASMedia controller does not send plug events to
+its DP IN adapters at all. My interpretation of the spec is that it should
+do that but I think we can fix this with something like below. Can you try
+it?
 
-This commit drops max3421_hcd->lock around kthread_stop() in
-max3421_remove() and moves free_irq() ahead of stopping the SPI thread.
+I haven't tried on Intel hardware yet so if this works for you we should
+still check for both AMD/Intel that nothing breaks.
 
-> diff --git a/drivers/usb/host/max3421-hcd.c b/drivers/usb/host/max3421-hc=
-d.c
-> index 11c0d0e1f48d3..e6a447b0992de 100644
-> --- a/drivers/usb/host/max3421-hcd.c
-> +++ b/drivers/usb/host/max3421-hcd.c
-> @@ -1936,21 +1936,16 @@ max3421_remove(struct spi_device *spi)
->  {
->  	struct max3421_hcd *max3421_hcd;
->  	struct usb_hcd *hcd;
-> -	unsigned long flags;
-> =20
->  	max3421_hcd =3D spi_get_drvdata(spi);
->  	hcd =3D max3421_to_hcd(max3421_hcd);
-> =20
->  	usb_remove_hcd(hcd);
-> =20
-> -	spin_lock_irqsave(&max3421_hcd->lock, flags);
-> +	free_irq(spi->irq, hcd);
-> =20
->  	kthread_stop(max3421_hcd->spi_thread);
-> =20
-> -	spin_unlock_irqrestore(&max3421_hcd->lock, flags);
-> -
-> -	free_irq(spi->irq, hcd);
-> -
->  	usb_put_hcd(hcd);
->  }
-
-[Severity: Medium]
-Can max3421_spi_thread() still call enable_irq() during or after
-free_irq()?
-
-kthread_should_stop() does not become true until kthread_stop() runs after
-free_irq(), and max3421_spi_thread() sleeps in spi_wr8() after checking
-kthread_should_stop() before testing ENABLE_IRQ:
-
-drivers/usb/host/max3421-hcd.c:max3421_spi_thread() {
-	while (!kthread_should_stop()) {
-		if (!i_worked) {
-			...
-			spi_wr8(hcd, MAX3421_REG_HIEN, max3421_hcd->hien);
-
-			set_current_state(TASK_INTERRUPTIBLE);
-			if (test_and_clear_bit(ENABLE_IRQ, &max3421_hcd->todo))
-				enable_irq(spi->irq);
-			schedule();
-}
-
-If an interrupt fires shortly before free_irq(), max3421_irq_handler()
-disables spi->irq via disable_irq_nosync() and sets ENABLE_IRQ:
-
-CPU0                              max3421_spi_thread
-<hardirq>
-  max3421_irq_handler()
-    set_bit(ENABLE_IRQ, ...)
-    disable_irq_nosync(spi->irq)
-                                  while (!kthread_should_stop())
-                                    spi_wr8(...)
-max3421_remove()
-  free_irq(spi->irq, hcd)
-  kthread_stop(...)
-                                    test_and_clear_bit(ENABLE_IRQ, ...)
-                                    enable_irq(spi->irq)  <-- already freed
-
-This either calls enable_irq() on an already-freed interrupt or, if the
-thread exits the loop while ENABLE_IRQ is still pending, leaves the
-disable depth from disable_irq_nosync() unbalanced.
-
-[Severity: Critical]
-This problem wasn't introduced by this patch, but in max3421_probe() right
-above [1], doesn't a request_irq() failure skip usb_remove_hcd()
-after usb_add_hcd() has already succeeded?
-
-drivers/usb/host/max3421-hcd.c:max3421_probe() {
-	...
-	retval =3D usb_add_hcd(hcd, 0, 0);
-	if (retval) {
-		dev_err(&spi->dev, "failed to add HCD\n");
-		goto error;
-	}
-
-	retval =3D request_irq(spi->irq, max3421_irq_handler,
-			     IRQF_TRIGGER_LOW, "max3421", hcd);
-	if (retval < 0) {
-		dev_err(&spi->dev, "failed to request irq %d\n", spi->irq);
-		goto error;
-	}
-	return 0;
-
-error:
-	...
-	if (hcd) {
-		kfree(max3421_hcd->tx);
-		kfree(max3421_hcd->rx);
-		if (!IS_ERR_OR_NULL(max3421_hcd->spi_thread))
-			kthread_stop(max3421_hcd->spi_thread);
-		usb_put_hcd(hcd);
-	}
-	return retval;
-}
-
-When request_irq() fails, the error path frees the transfer buffers, stops
-spi_thread, and drops the reference with usb_put_hcd() while the HCD
-remains registered with the USB core, leading to a use-after-free.
-
-[1] https://sashiko.dev/#/bug/linux-234c6b25-0fde-46c3-828e-2b7e28c04092
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126121148.1021=
-526-1-shitao@kylinos.cn?part=3D1
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 4db25062b5e5..964191a1e0ab 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -3198,6 +3198,8 @@ static void tb_restore_children(struct tb_switch *sw)
+ 	if (tb_enable_tmu(sw))
+ 		tb_sw_warn(sw, "failed to restore TMU configuration\n");
+ 
++	tb_add_dp_resources(sw);
++
+ 	tb_switch_configuration_valid(sw);
+ 
+ 	tb_switch_for_each_port(sw, port) {
