@@ -1,79 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795684772;
-	b=FhLgC/fxxR/k1UZ7jAv6RuleaU9Na/bo5NiWgX5t3KvD6FD3Z4w6RIMt70bWsE+fglon
-	 ILCKyNOkzeFNDDnvOsSUC1w7PyarAfNGfmz9EuqL67FkeCkVHyhr4aRDgNa7Vys5nKAHU
-	 xE/aeQLGs/0cravgNusWXwlUfIVYs10HBxTLVadpD+pXKHWUdcwoRtK8t8ss2uzLbjuww
-	 Ht5ySCVVwUf9c0ZC5rNtQfXzB/SiTtWhBpURmRzq4/D+OnvYi+s/EPu+l3t5lFbjtgBEF
-	 /XS/VCVtuPDs7EX/+6M+yx4Rte3ozt2/e+llin2wsznDVWIoU29B8gieCaVI2p+M2Sw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795684772;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=BgqmPKQt2pcjWsHCNtlC2lqlDJ2DgPLCKEYkpi6oCWQ=;
-	b=pg2WMNHgX5igH/qpmVnfAUK1c62/bIkoZQHfLSVoAdOlnqo5RGASLvIsjc7WqeVbYwET
-	 U16aGgLICHA3g4v/h8XpNvjdm3wUiB7IYddPubpgWUHx1HuPgtYmWKePkZABNb4xk9Vle
-	 i4XmGrwek4qiQeQTcnd/LmAMtuKMBOjJ3b2bjz8J8mGPfvzdUclZhNP2atrlNBUe9RHIz
-	 ye+7yPnwAPxjxYY/2G5BDdi9m3OzaDb30ZiDNBU33pId1V+YSwMzBIml6HyHnns+9E+nL
-	 yIrOLUtdLOGZDMXVatNKWoEyzGOVAgBzKoF7c0Bu1qwK+qRdyo9OOnX/HFS7z81mmgA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FbW8//O1";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795684918;
+	b=hDA/UNLidEwElCEWcB1S6C/m0Elc64dzCfcmGL3ni3B4FmFBzauiGIXD2Yw6DCa+3C4p
+	 Cz4SFm6xDeGMIBey1Q7TqJsdFhGGH8ZpLU66h0ivJlpQpy2dxTV0QAbxlft2y4gjEWez1
+	 gRPMbTqoq9/vOus9gM5RnrBX5fvE0witiNoxCRA+HpkCUxvHjvAOHEkSZ83ZX3XqEC0jv
+	 NAceMvNNPMeOZYMPe+0BIFjn8jwzyX1COKQyANe5yOThsURhznvVN4l3upEwXSqujFCzW
+	 HhwJ7Bs4KeEBzbdq441pH+2dg0Qj0uj9vWizXPcUdYeqV1uEr/8GNJCuRTSUYFhDg9Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795684918;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=WsVj4KD5V6xD96iJwBwjksOcEJnqev9LYjORmDnLPlc=;
+	b=l7+IE5U5JYR3F7x9xurvM49/AnDPS1t6mSTDmtFOH63KHApP11btC9SVZLff5H0OHkTa
+	 vADL/weMJ1SovK+o4tIY7ClW0UQqTFW6i1rn9aumRF6PpaQey/5KeFVxDhR+AQG6VsXiQ
+	 1lLRHilU1FNy9FUm80a12LozuhxTDW2xf3Pkt2P7qlb4TBYJZpqwKHTFcJeKj8j1s4xnX
+	 l+I/UI6RbCryQbfQChYLs0XgBH3wfSl+gmi98FhuBgrPaKVxeNSXZeOekFhxfgum7Ol99
+	 wfSqojb+mFzmFsAAEFRp6GIIJgyv8bHEhz8Ge43NWvO4MapUV6JwFi7sez8pJagnKWw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PvxhitGC;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317B1606A68F;
-	Thu, 26 Nov 2026 09:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2511B606A31C;
+	Thu, 26 Nov 2026 09:21:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2511B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FbW8//O1
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795684771;
-	b=xLYJ5vA5gBUF2XhxTk802cmtwk4Dwx13LcU0m3+fItvr+AOcWoD0thz8y+tMtNtqympA
-	 S92Um8nKS+V+hn8k3mKx8mDWEr8IAtqLNuAeGeOXrbeQKqxGkXnBfBZMYZGQwDQppoy41
-	 l/uL4YPTnMggDHvZn7+IBdBh7CBt66wuv+uhEE4emyp7gBteoY0n8ebqx4nUkQ2rn/+sa
-	 CAnE+do1vwPmwh0JubQNl8AcWCppwd477sb1mdC7pVHR/DnNvitQmu+A7zrchzTRlJmnw
-	 7vEOA12rG4BtYGVswRE4232ZMYMQhAGR92fzXxRY414jmeKFscGyhiLtiqEL8qQqnOA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795684771;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=BgqmPKQt2pcjWsHCNtlC2lqlDJ2DgPLCKEYkpi6oCWQ=;
-	b=C2YFvo0nmF6SmuOuRuU2nQnSMCb2n+Z/x4a5HGCnPBf+YnycgLnmOSHxEWGYwJFRRzca
-	 Q98YbGVIxy2oJosjR2t0aW6jO2pX1bQZUM7/CdnXxFAY8sSkoluy7Q0N03u/dBk/ou9Iq
-	 0RQ1v2Ykxc1QB9SqAlWUsPR0oc/53J1rDC5OsW3MN329XbrYECCZDZgpxnf7PKZbDDYSs
-	 XxXX5LRfOY89Yk13m7kSmWnFV3Iej77kopcAAKyfGGRMNigP22YBONMxYDCYM9374hrfh
-	 LxlJJBFSHR5Lkolj861UOQiqN8pQ0cLIOxjTomK8+mrF7AqvDWze2/GnDsQ9NwcLO4Q==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 52D1E1F000CA;
-	Thu, 26 Nov 2026 09:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795684771;
-	bh=BgqmPKQt2pcjWsHCNtlC2lqlDJ2DgPLCKEYkpi6oCWQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=FbW8//O1r/grszICQ5opCCs562urhdrn0mHJ1KpgTNlI8en5Erkyr/IGQmV+KJOOt
-	 n2ZkffMK8JhScSHHaEa9KWdCyYk6BVT2nC0enqj+IkQ3H4+pOgcuMapPi6EEk7wPKl
-	 VxTQ0N1/N2BT/5QifKJUdRRxDB7lRfXTAD8z5uQ3rBT4Ls2mZCK1SOaM6aF4Om4/dv
-	 7vQ0NTZJRfNkYdUV2wtW4U626EAvxwI2acwQnqYUFt6tH3yuxyNMQnF27hUBdcWY+/
-	 PaV1HwHaFIFN0fIuHFoaus7NKbPtujikx8I8s373a5OEfsuIjGOPMgCJJW37C9FBUH
-	 0uWEEekAJAmQQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id CAFA64D31E;
-	Thu, 26 Nov 2026 09:19:20 +0000 (UTC)
-From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Thu, 26 Nov 2026 09:19:21 +0000
-Subject: [PATCH v3 1/2] usb: typec: tcpm: Don't cut a pending state delay
- short on a re-queue
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PvxhitGC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795684919; x=1827220919;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=/hUGbjPNZAXU3qQnNIV8GlX5cXk7v+mn0wYdmIzb0eU=;
+  b=PvxhitGCLBSdQql6x26+WR68yGOJy4KfwTVvCrcQjm4uhWPSQMSJsvwt
+   2e5CDI3mNsmbssZEG+6dBSZofkgFqjnv5sX0wpCYNPrjx4KNHjsHQ7Z4C
+   6FaCEfAiSWaGXHufp4E1CiumtW+AT8eRLSDIwIMxQtS8+4M+2e1U382fG
+   p+oyQQpgRwvJHdI1wU9crDxxXfGonuAfJo0xxCE67XGE/stPzst7ukebm
+   mrGaRGgXDkejpWmf+qBt/bVlblSXtB4Q2969ipZHuc8QkGPBTkUXKpumr
+   rI9NXvNJB/obyRglYoaitdP1/Dryv9vtpTn+cQoo0pNakJHJ3ulxESWas
+   A==;
+X-CSE-ConnectionGUID: jRUK6NNGT1ygBzP1x+S29Q==
+X-CSE-MsgGUID: uNNwRd2ITpmhOQUxpsz1rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4498453"
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="4498453"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 01:21:58 -0800
+X-CSE-ConnectionGUID: jqxrnSvsRzmWjcz3YEn4gQ==
+X-CSE-MsgGUID: l+VlTFImRlOObP/9iDbUMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="12122503"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa004.fm.intel.com with ESMTP; 26 Nov 2026 01:21:54 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 5CCAA98; Thu, 26 Nov 2026 10:21:53 +0100 (CET)
+Date: Thu, 26 Nov 2026 10:21:53 +0100
+From: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>
+To: Chunfeng Yun =?utf-8?B?KOS6keaYpeWzsCk=?= <Chunfeng.Yun@mediatek.com>
+Cc: "konrad.dybcio@oss.qualcomm.com" <konrad.dybcio@oss.qualcomm.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"westeri@kernel.org" <westeri@kernel.org>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"sven@kernel.org" <sven@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH v3 7/8] thunderbolt: Decouple the waiting time of
+ TB_PORT_UNPLUGGED and TB_PORT_UP
+Message-ID: <20261126092153.GN191152@black.igk.intel.com>
+References: <20261123113705.2297329-1-chunfeng.yun@mediatek.com>
+ <20261123113705.2297329-8-chunfeng.yun@mediatek.com>
+ <20261124160038.GR229695@black.igk.intel.com>
+ <269e96946472c8562657fa1b40f24a17ee52b447.camel@mediatek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -83,61 +94,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261126-tcpm-attach-reboot-v3-1-1c97dfa5024a@gmail.com>
-References: <20261126-tcpm-attach-reboot-v3-0-1c97dfa5024a@gmail.com>
-In-Reply-To: <20261126-tcpm-attach-reboot-v3-0-1c97dfa5024a@gmail.com>
-To: Badhri Jagan Sridharan <badhri@google.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Guenter Roeck <linux@roeck-us.net>, Heiko Stuebner <heiko@sntech.de>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- Arun Iyengar <aiyengar1990@gmail.com>, stable@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795684760; l=1142;
- i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=uRI6n9WLfQFTf9uBDH1fL/OJxtYBcAOG2OjFxQdaQts=;
- b=NkH4qJkT+AMAaxrPOBGiovFNH7jct+8g2JzBVxp56LysuMRjGVe6wqtQDrdB3gYHC+HthIXhX
- fIfiEMAHuY+BzLLqF9C9SEpY6HUIdHNf9pgWvc1do5Wt+2S7rO4QaAg
-X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
- pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
-X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
- auth_id=1480
-X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
-Reply-To: aiyengar1990@gmail.com
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <269e96946472c8562657fa1b40f24a17ee52b447.camel@mediatek.com>
 
-From: Arun Iyengar <aiyengar1990@gmail.com>
+On Thu, Nov 26, 2026 at 08:48:54AM +0000, Chunfeng Yun (云春峰) wrote:
+> On 二, 2026-11-24 at 17:00 +0100, Mika Westerberg wrote:
+> > On Mon, Nov 23, 2026 at 07:36:54PM +0800, Chunfeng Yun wrote:
+> > > When USB4 is woke up by device disconnect, no need wait for 2s,
+> > > usually the phase2~4 takes at most about 200ms, and enters to
+> > 
+> > usually phases 2-4 take at most..
+> > 
+> > The 200ms is not from the spec though? It's empirical right on your
+> > hardhware?
+> 
+> Yes, you are right. The ~200ms is empirical based on testing on our
+> hardware with various USB4 docks and devices, rather than a hard limit
+> from the spec.
+> 
+> In the USB4 spec, the lane adapter stays in CLd (TB_PORT_UNPLUGGED)
+> throughout Phases 2-4 until it sends LT_Resume at the end of Phase 4 to
+> enter Training (TB_PORT_CONNECTING), and the spec does not define an
+> overall maximum timeout for Phases 2-4. At the protocol level, Phase 2
+> (tConnectRx), Phase 3 (AT transactions), and Phase 4 (tLTPhase4 and
+> Broadcast RT transactions) only take tens of milliseconds; in practice,
+> the ~100-200ms delay mainly comes from partner router wake-up, re-timer
+> initialization, etc.
+> 
+> So I doubled that empirical ~200ms to 400ms as a safety margin.
+> 
+> I will clarify in the commit message that this is an empirical value in
+> v4. Do you think 400ms is fine here, or would you prefer 500ms to leave
+> a bit more margin for active cables and older Thunderbolt switches?
 
-A re-queue while the work runs applies a pending delayed state at once
-(the 100 ms ErrorRecovery took 6 us). Re-arm the timer for the time left.
-
-Fixes: 3ed8e1c2ac99 ("usb: typec: tcpm: Migrate workqueue to RT priority for processing events")
-Cc: stable@vger.kernel.org
-Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
----
- drivers/usb/typec/tcpm/tcpm.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 51e5c72799f2..565073b4ca93 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -6572,6 +6572,11 @@ static void tcpm_state_machine_work(struct kthread_work *work)
- 
- 	/* If we were queued due to a delayed state change, update it now */
- 	if (port->delayed_state) {
-+		if (ktime_after(port->delayed_runtime, ktime_get())) {
-+			hrtimer_start(&port->state_machine_timer,
-+				      port->delayed_runtime, HRTIMER_MODE_ABS);
-+			goto done;
-+		}
- 		tcpm_log(port, "state change %s -> %s [delayed %ld ms]",
- 			 tcpm_states[port->state],
- 			 tcpm_states[port->delayed_state], port->delay_ms);
-
--- 
-2.55.0
-
-
+This has been working fine so far so no need.
