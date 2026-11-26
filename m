@@ -1,92 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.63
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795682126;
-	b=srJTrYT0cIoX7FK/m5S5bKf/UmJ54p9TVLUNt7ZZ6kU1tEQwlJy8kH9f1G0i4OMgP0eF
-	 /wkXFDIdmjD4iZweCKGjIE3mTJvfXqLgDQ8jkL8MT6z9vSe/Un51CV3KLWkGwUOd1r5fl
-	 5JbixNDSGx5Wph1coXv6KtRnlLcWmUpxLf/MEV/7PF5qTRAvs17FMtBN1hVhIPcmblCt6
-	 ZxkRGRU2aozOddXqa+UDv2nbUx4XmhO8CHPUQG+fA0nHPGt7nByFDksdnRS7EIqeHsrlq
-	 ZZnxh5zSGGbftKvChwclN86Wh14fWUhG4GzdaiEeYfOn9/2hpcrbTj2P89H7o3LnxoQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795682126;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=+ecS5e32+Gze/5jbWynpzciRPtFM/Bf6pLZbcBF0Lww=;
-	b=kZSdPoGA0zu6xVL8KSzxQTFmFm96p0Mo8nnA9uKRujgzKuX3DrW4zLZ+hwNyff6ReeBc
-	 vk5qiHFacJFZ2ZdN/dsSZZpHok1woFo+hvn5bvhuAoLEh8M5BX8gxWXrw2v1wTQEkKyuO
-	 86Z1u01WVifEvPA+xxg5qdj90bNYWzwSJItRJfDOD8Q8V4JvIiTanFvu1H+r8hmi8rE9n
-	 UMe+UyGSq8wzsR3jhTKd8J+QN7mALpZPQfV7U1pGiQgueyF+Wn/W4XG7bETYaKyY47QIi
-	 819lce1UavRfMbbUYkuDNWfk11AlQCgAhxmWI1wfHN3i8epuUsRjNNEzhuHO/AcICng==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.nxp.com;
-	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=rK9X8SH7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.63
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012063.outbound.protection.outlook.com [52.101.66.63])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795682282;
+	b=B1LJqhEsRZcOuDPAY6J4xr+dccloKkWNWeXrZk/8kZX3D0tlw/CTXLbOL4qx4Y+IrJON
+	 nIZ+Moz3doYCL0tHklWCm+1z/DgQGkCFIcX5RAUalsw4LkTKdhoTE1xTYrDRlVMWT/Zt6
+	 VjYg6W9WOwUbyCsFE+08QVDoiNKd447/KcTe0enUWU67NkROQsl0hIgYT/41aA4cnwY5q
+	 8kYipjlGBUGRBoytICDuSDNVH6xoyq6Hv+/CJ9uCqrkO3n4aWaAYh1utWc3+jhf2XEmCx
+	 rEWbj8ZMYB2zR2SElpCUZq+qXOqiFPhhDktUowWeWRqY2YnjEARwosisiu38TNua1Mw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795682282;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=WQPx9qKiYiOC+Qu5wRqDaiDPoYwCF37v4r4ojrWgYNg=;
+	b=mmzQ2yF+0SfE34lLr2+hSTaYDRypsA7LZXg3vu2xyaSHIvvtdzi7GVCwBJmvqTz3uHgq
+	 ARZHtumrNAnM2SBHTMcLAAsDMjzsApcEz8aKDPEo9lii2DFi/+SMpQLZzdTdXr3ATsffM
+	 V/l7maSQJoiJI0QXudTRrYoStBrM7LkHVf409WB32nbZgZZH5+3+sXkByFq5eihu5tY5q
+	 jEgAmcvB8iQrpJSPk937wWPLTk2O4L22JUgMtZWDo4uUoo1NL8gKI6fIlegKyVfxfaPot
+	 qTPUHKeivUSJIx9t9qU662/DWdAgq0/0trl+8t2upYOO0XudHU/mJiI7PrbVhvcqk5A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="fK/KNW3J";
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=TOq5g7uc;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386FE606A31E;
-	Thu, 26 Nov 2026 08:35:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 386FE606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B653B606A329
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 08:38:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B653B606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=rK9X8SH7
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pLmkcvrHASX0NfgDmge0ai1/E2GNkPNvGd6fjxUIZ9cjLIg6mTDyD0JlWVr9r5HBUTvmvwVGSEYDG6k/V1V0T8BtiJD3n/oOPSvc0m10i/ZL9K1TxvBbyW4de2+yPXBWfCZfeSv9jGjudW3CuNQjsQduyg7Yi/DeQmpvoKQR9qWGlHmPAFS9g2dCkvNoYeiponNHAjgukVM+Z1+9KOTNY84/7xFTTAHl1KDsfhEZevAhlPCyzvKpZyCCC8Hg5CVC37xZ0eOo6Xgj+3shXKYUVjGzdxsKKDVLfQ6sZWhzStEObST8TMPU5ZR1Ubnf4gkZzvB+sHh0kviF/PMiZ0zq0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+ecS5e32+Gze/5jbWynpzciRPtFM/Bf6pLZbcBF0Lww=;
- b=ekZp2zJhp2uhkrIzDucnKWecxmi+heIh/1ELRJgN47bw+avTlnchR2/HHutOyi90ZzdF0scFl8XjqAEr3TAwG2PnNPLejSGTv9YbI5E691vIl1vPXILMhoCUMPm0XLPn8g6GtVLb40a+8lyO/StX89bnApJLChbSSbgWXwOi6VbGdLcCCTO7WLNCo7pMeEaR9Sq5WYPgo+5x4xIjWj/z7yytzI/sRpI3V8byzYxPeDJsCxKdPdfIEefir/PocktHEB+mXygaxK8OU68g1T41biV+j635J6j3wl+7qNfiqmDPewhG1Vdwq/+UEH3pGm9GInL7dfo9fyo9LJq/dZwTQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+ecS5e32+Gze/5jbWynpzciRPtFM/Bf6pLZbcBF0Lww=;
- b=rK9X8SH76Sh3BriIBcL4moPHrCIo8gGObHzV/MnUoD9iMTrlX7ZgIatSuyIC0QAQSdI7LhV/F9tydvKuFeiPIJaFgW5dF4kjnoz6OxqJUiKAJ/3Wb4OIQiT8PKtEszNmwJ0OfPOaHG5bPZeI3iVNNPNEGoh75V1mZQxlFILGWh7gPO7m+LZgqMbwLgzRSsFSgftZjHfwBYu0cz919znTCv0LxkTJexX92RsSaqZLGWRxZfA2PZ9lYPtxrKu46q2s9sWJ+SoxUksmMVviQG6DraPWtb0lbzoyMiXZICJRElwol/dgi1OtCl8UPLokzejggN0Ehtmb0Tfs2lKs24cbdg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
- by PAXPR04MB9022.eurprd04.prod.outlook.com (2603:10a6:102:20e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.7; Thu, 26 Nov
- 2026 08:35:23 +0000
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d%3]) with mapi id 15.21.0662.004; Thu, 26 Nov 2026
- 08:35:23 +0000
-Date: Thu, 26 Nov 2026 16:32:15 +0800
-From: Xu Yang <xu.yang_2@oss.nxp.com>
-To: Peter Chen <peter.chen@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Xu Yang <xu.yang_2@nxp.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	jun.li@nxp.com
-Subject: Re: [PATCH] MAINTAINERS: Make Xu Yang the ChipIdea USB maintainer
-Message-ID: <iksgeqy53mhnbjmv2wgtcpufu2qunivlvrnuqnempp3ldktoqg@kdcqp7ncnc6r>
-References: <20261126072437.4037678-1-peter.chen@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261126072437.4037678-1-peter.chen@kernel.org>
-X-ClientProxiedBy: AM0P309CA0001.EURP309.PROD.OUTLOOK.COM
- (2603:10a6:20b:28f::35) To PAXPR04MB9422.eurprd04.prod.outlook.com
- (2603:10a6:102:2b4::21)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fK/KNW3J;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=TOq5g7uc
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AQ7B8JX3548451
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 08:38:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=WQPx9qKiYiOC+Qu5wRqDaiDP
+	oYwCF37v4r4ojrWgYNg=; b=fK/KNW3JrLr3ekiZDOsKo3oXpjL6zpTkYQlblXef
+	xJ/JmLp4vUmHcpOqd8zl52ccM/FCqDidbdI5/oPNjfSE+6k9idpYFby+sMvGm5j+
+	1aDqoksZvM0QxOeC78NTMVnGoLkML6qrqiOfJxVmmQMl4Xi8TlLT6p5waAQFBei5
+	2wK/2cnDYrjZwJKb+38gy2vWI6uL28hROIDoSx4SK761qa/e1bq1IVypUo1zq/CZ
+	3NFH0VswAQfCvOq5nyXdn3/r29GPKGdyf2jnnaM2aIg4fpmLJmyMslL+2HeHIPrB
+	qIMoI3mMLrHya1BvJhdwf0NX3C6wXzIyEAzsxgKZnyci7Q==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j62vau2bj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 08:38:00 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-382af5cfc58so2802322eec.0
+        for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 00:38:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795682280; x=1796287080; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=WQPx9qKiYiOC+Qu5wRqDaiDPoYwCF37v4r4ojrWgYNg=;
+        b=TOq5g7ucgxhjxObt30jm2lqKyLr0CppaxoGxkuOwP7djCcnh6vTbrP/kk5hQNGjbC3
+         xQmQERjAt3eBptW7yBbsNXk3bfjP2G2MAwTINYTcSSC6ceoCAHbX5rayf/nu2g0pmvyU
+         mD8aAA6eUmnjEbjfZ16NVDp6mhmUfrFUM+Dgewh0ml2IXLB/6MQw98zSBDuKGB+UBfEe
+         ODDO8ASfC5/2J1uurHjfGQENyvPrk0KJ+mQKYpbX6QmbsmgC+cIUWZicOadBov14rTFM
+         ibX69BGZJU+Jt6EDopHjNjEKkDtdDMIOwl5cT0VCxftGLwP7NpwBkeZVz1w+fnrgRV+P
+         hDRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795682280; x=1796287080;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WQPx9qKiYiOC+Qu5wRqDaiDPoYwCF37v4r4ojrWgYNg=;
+        b=nxpkJJz6Sy/iMvslCQt+GNP5njV8Si5XKML2UUbjnG4Py8Ze1orOCLE09SmRQToeAa
+         SAitxLDDxdhm2WAnz4xJaAReEQyY6cLfkSX3hzznUnY8fI5HfFt/gym1YBHzzseP6hiI
+         kMZK7CK4j16GyMlB92V/uoAwDJSEh2Cy0mjgekqiJu0YpP/CJKP0q2nYE593Ye8qO662
+         BClufPKFj+/hN4U29KFju+4pzr0zCDKdXD2FxtdCeVNI92yNa82okZBB8tmFU5KPD1lK
+         DEDDYG4ohoAhGjfMyQ8u3Nu/TBqWmVcAEErL1UBLl7j4vhX1Uj4dhRfoxjGYDrIed8/T
+         JZEQ==
+X-Forwarded-Encrypted: i=1; AL+hErFd0Txgm+7i4BLudDsBFnZ1fp8ziL9d72UutMeuDCuTDY7fRx6ZnOX0r6rO7411ySxG/00G9YDqjig=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9QP5EtH7GtrTZyqO/mm7HV6jk0+JAH5VgmHM22vo+MkZW5X8CY
+	SzAMbax5lC0OGbtveQr4YQju/EuP6pTbBwc244ikSYvyqBtRAB8kuQ7dDYyk9IHb6+rod+SMHCq
+	xMyH1Adewryjw7+yPj637GsF7RnOpNXFIV45waiXosd0e+ydlUPXIp4CPnlSBlN0=
+X-Gm-Gg: AZFdTZcpp1E1+0wiLJnhG33pF7U82hed1MtImpUb2Pob0QBrctar3Fs+mGNy+ytS6qy
+	7GIzBuojnS2Ika5IMveTBAXEzjWEA+pjnxg36YSi3bnRTwZKJS2uMB3WC4Nmw8ZUy7liD+5BOET
+	YfAFhy57Qv4KsfXwkSvEKxwa08TfrshXgrFH2QEMychZ8ALgEspVI8RfWUsD4vXjD/cX0OvshYd
+	PktQczQgYlC5590e3isysofzmB4Ukuy2wWuAygsZUB/cxkgM6CkOJfeEAUviIT3yyegNe25i4Qk
+	wD8kdfuzrQ+IWxs4f+ql2VxeLylPX1uIUglW19T613JUmp0LmUAPT2m181hGEn54W1E7y5Pc4Hr
+	EsxR0zf593xohBOAp0J3SxwL3rx4/MMlTmmjdYtG69nCsWwz2WFw6DoJsNp+79AwFn7opEhRJH3
+	vMh2U8jpZXS7p/R9mHfw5j+g==
+X-Received: by 2002:a05:693c:61cc:b0:386:98bf:c6c1 with SMTP id 5a478bee46e88-38698bfddfemr18801002eec.26.1795682280060;
+        Thu, 26 Nov 2026 00:38:00 -0800 (PST)
+X-Received: by 2002:a05:693c:61cc:b0:386:98bf:c6c1 with SMTP id 5a478bee46e88-38698bfddfemr18800971eec.26.1795682279493;
+        Thu, 26 Nov 2026 00:37:59 -0800 (PST)
+Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386b9bdafb5sm27849473eec.9.2026.11.26.00.37.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2026 00:37:59 -0800 (PST)
+Date: Thu, 26 Nov 2026 00:37:57 -0800
+From: Peter Chen <peter.chen@oss.qualcomm.com>
+To: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
+Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        krishna.kurapati@oss.qualcomm.com,
+        krzysztof.kozlowski@oss.qualcomm.com
+Subject: Re: [PATCH v5 03/11] usb: dwc3: qcom: Keep wakeup IRQ enable/disable
+ balanced on failed resume
+Message-ID: <awfv5SLoUnYlJUWi@hu-petche-lv.qualcomm.com>
+References: <20261123104727.1539149-1-faisal.hassan@oss.qualcomm.com>
+ <20261123104727.1539149-4-faisal.hassan@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -96,102 +124,126 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|PAXPR04MB9022:EE_
-X-MS-Office365-Filtering-Correlation-Id: f356e6aa-ba3d-4a3f-e4a2-08df4b983684
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|19092799006|376014|366016|10067099003|56012099006|261028144727099003|261021121427099003|261102123227099003|261022075727099003|261022105027099003|261026140227099003|261021123027099003|261026121527099003|261009223027099003|22082099003|18002099003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	O0omYV3X5HTSCyCh/2UctT6Mj3r848GqA0W38DPDObv2cmKEvq+l8vtnh8pJZ9iQqCk3VUaOKKE8Azg5Qrc+IeunF3MbdbNSiGYxFsWKTRPrCakSQDMcau4NfWp/VEgCa8pj8PWiBK38Pzx0o8HeKlkn/D9ZyhUoV2Ww6wd2Rjn+/7lZodNQKGHqkGyyVMixuXLrtq+qUefnfNbnbR8RA5CZVg+pxH1eRTgVLiG+uLcT9kXeuOWi5lUDzzLKMzwK6qqjutyc/tBQzGfUvVZSnikFjrh8TlMWnVIFBDsn7f9JypdBkLsj10U15LDu2PkBkKyT54IFVCDXEKyJc7VW6taJPc4Eee/zVMg56smgdgdgsk81gTcKovBnfRsgCkwboqhvFlQZJfxAWOyRlvz/saORZf79hjD/Pkes3YDS2Nzt+aFRVH2RPSBpRBs2+tX0LimRXTz1dV6sg1kAvwXswRJdKMX6RMKhz5gcZy3+NI+ORwIJZPCV2GELCF+WEKbjWJgRra4EMDbdfTXBuquv9L9m59t8Mmkr2I1NpTXk1F5k3gxlnqKVf+aXKOTPr+mHyKmnkn3m3Cg7oBGJzLaQEI//lG9JQw3GKFa/j7b0uf64gKG8W2ahyBURlA1nGCJT2mn5JuVxmVaO0G2iW4djAisRXpWkD4QZvv7+ztFzxSQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(19092799006)(376014)(366016)(10067099003)(56012099006)(261028144727099003)(261021121427099003)(261102123227099003)(261022075727099003)(261022105027099003)(261026140227099003)(261021123027099003)(261026121527099003)(261009223027099003)(22082099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OGLXWr69GmZyyv2eMMKkIV65T5tiWeMmQXqeUruy+d0wX6/UQPAuyURWIqxY?=
- =?us-ascii?Q?kE8x/b5LGTyWZd/oki6Ejprzo+rtOkjREtty8t+4ipB0ffN86PgRJTl0Xpku?=
- =?us-ascii?Q?oHHuy0QeWQBgVQl7hs5QIhrIFpEK8pHrtEat2UVKA8FhRoQHRYlqpWkIxD+z?=
- =?us-ascii?Q?7OIgCxz4VCpzKWMPFGYCQjVJF7k3rVXoctf0fVj+hBBBwQl2XS28oFq3a4vB?=
- =?us-ascii?Q?14VkwMWycMH1V0YYne25Kpg8ReT2I/18b5oNf3sWoR9DFaq2tTXERMViUFEv?=
- =?us-ascii?Q?3Dd8wwV400orqY33MnDTGuNlE46OumVRDQMFlq/EJIKp4JweYSU40MtUNcgU?=
- =?us-ascii?Q?a+zlfmXy6VhvW5gEIEihTRnNXouDiPrFccjnzpQLA2L/2JloNMtokchUeoC6?=
- =?us-ascii?Q?cDBY578sW08Yj/BsBA/I4A7VBgazorYPpB+BbwtVbs8gQMM1lL57dKmtXOBQ?=
- =?us-ascii?Q?DILSv76dGGHxgaRxnGmf+5QN54ehAyYouofxU9ig/PkhuybjDArKs9H4rjPa?=
- =?us-ascii?Q?49hGCapJourARY5ISpx14vSXMeE5oCfpAEvTDkYew40K6kjwJWl1+gPDlsdu?=
- =?us-ascii?Q?WNJs4ceddsPfhMSpPk8AjlaI0iR56Lo0x6jdfyj7L2oBMSdCvIhZiG0EQoq4?=
- =?us-ascii?Q?+z3aeoKbCJZRhoMphAoej6qkrQCW4Yx8w52NM6EEblMEAnYV5OYbdURZJy/r?=
- =?us-ascii?Q?O9iz7Th6RPBCsl12d9xdoxOobvWhQvkVWNWtWjIRDUEwtIHFCWIOKewx+uH9?=
- =?us-ascii?Q?BZcsKGxwmwtoy0JXkjJaRysaHpBBGU1mza3ZVXvNThKgS51hOv6Y1Iau1q6m?=
- =?us-ascii?Q?SE0VkEnh5GfqtdG9BPm70PoXTTct9Td6mEpZaQaO1EoCvzozjW56JCMxaB5R?=
- =?us-ascii?Q?1oAcuymRqj1suN6vfpruV0Yd6fBKaeQ/m5EfQNhA3OgIY4W1TMjCghHtk9OC?=
- =?us-ascii?Q?kCy6Z4BA+r01rpT8MdI7ij02vMAS1rjqedzRBvPPTQlV8DHnQwp6gid+yXCH?=
- =?us-ascii?Q?bz6xhZc77FUaD7S7ZBWv8xgAmuysqrQVibSU5zIZnnyqGtYUWruMTslpa1aD?=
- =?us-ascii?Q?D5zMmHjjY5liKjIyD7W3a6O+EvgHZArmmphTSSCEU9eBc7yN1E/TMHnK/fDT?=
- =?us-ascii?Q?83biythNNIPXYcoQMEGjP5LqNL2F6Z5WL5Z4KEqAz8hJXYICElI6Vg996ech?=
- =?us-ascii?Q?jiLRp2eOBfcvU0N2VRRj8ak028XnviAqwaIiXDaA9lVWu6DwNnr7JvUlyCVV?=
- =?us-ascii?Q?diZkk4iilLY8eqXIok9lM5MSbmm78kqVDaQQgZTPLdO30n8aJisKUUcCm9Kw?=
- =?us-ascii?Q?M+4W0K7rhhWw/+pS+8G5jMNlkypwyd8hDB1Ekej0LjEo8lSQ1UW8AoDMjwwJ?=
- =?us-ascii?Q?tTDpLhZ0Mg2AE/RP+Ac7swuOQbCndKTtB9Yd8GmnEIIVJL+nANhCd+7HTgIh?=
- =?us-ascii?Q?spPpVl2ggxHuhpOhzaleWQ2pXpqVQO1JVATXh9IdZMzUrSDOVRscyoeL7TWj?=
- =?us-ascii?Q?whj5fbV0v419RyI3x1cfiX2zlYSuAaVzkRpFnr7Uhl9Js0wczXO9EZ2eHaxv?=
- =?us-ascii?Q?n0DcHOpfBEOVxxnZjPzOZ0+4v+OJ95xvmIRmfbLAOgYU2oL0AfXy/Wr/qGyo?=
- =?us-ascii?Q?AQEMGQwM9XL5uZDJeOx5RWt5WdXA+ryS3RGDNewaXpd+Rwhhw+CciQzxFR5y?=
- =?us-ascii?Q?GnvlrsXcyTG16VTkA6dJ2SxjchTiEE4aFi0ODtKBcEJgEMf0izv8D/pAwhK+?=
- =?us-ascii?Q?DH5stnJVL7/AapyhFapYUns21538qGGn/A04lfil58UBnPbvqfBu?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f356e6aa-ba3d-4a3f-e4a2-08df4b983684
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2026 08:35:23.5785
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dbVuqbHSS6CUL9ZdTXq0mhB3eyANGO9J7OYZBF2x5MI05NIsr4RoLFCLByEAnm4ZpCn4sBClz2WzzLwuKD/C1NsqjK3L5DHdTwtn6NeotjWHrPWswbhb+vo+iuNj9/cm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9022
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261123104727.1539149-4-faisal.hassan@oss.qualcomm.com>
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI2MDAzMyBTYWx0ZWRfX79On/Ms+gkWS
+ BZMdJIh+4CpjROM4MG5+94H3Ox+bS0qFfH17V8ZuvzepeuhjKTgX7nCWm3kwb8D0biZjxr43DP7
+ 4MUlZm/h/tDTnRwGKUPR4eVFGi3xO+g=
+X-Proofpoint-ORIG-GUID: JjZHfIvbYr8pQXM76VV6UIWa2s4FxU4V
+X-Proofpoint-GUID: JjZHfIvbYr8pQXM76VV6UIWa2s4FxU4V
+X-Authority-Analysis: v=2.4 cv=QZPzLcbv c=1 sm=1 tr=0 ts=6b07efe8 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=EUspDBNiAAAA:8 a=kPxKJPT4JOKwAKEPVQYA:9 a=CjuIK1q_8ugA:10
+ a=scEy_gLbYbu1JhEsrz4S:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI2MDAzMyBTYWx0ZWRfX8BepRZ1BcLDB
+ d7aO8xUxsQOTofyWpxh80wvBQhFQrGr+0x0UD8rByquPTt2A8d+XhG8mcdnH/4p0UFAcpwIs2Gx
+ 9+42vJzrLu/Zc7I20V7N4e99t+Ou2xW12W1t3Y1CrcIFCDRWHx3EH8DdOZqE8kAosi+qF6YaYI3
+ I4FIlBCgndMdc0K2PgDu9h1OKSOOWg6ADjiuN2wk8rbjKiNTbjTBtR9f4KMi1i2TxJrS5OrX8av
+ BT6nSrs1v4rK748v6n4Kwcs1haFUHOW1ZOXPLJyMER2RBZym5a+PiFCUJZDLghYRZU2WqCg+AYM
+ 6QRs7rFKRhAdsnhJp9YwVPmKRTArD94xF7gg8Nb9FXbcmU7pj5Hs0k7wNXcr93Oso8GwAjmDadr
+ /ATZw1Jd7t+/WCgJG6anibWgTebgO4jbBTD4LVSFIcZ+JZJI8HDN6q4ZO9jBLkejkq0RtOKNvlp
+ DJyhw6H6ZnkzRa22N7A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-26_02,2026-11-25_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0 phishscore=0
+ adultscore=0 malwarescore=0 impostorscore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611260033
 
-Hi Peter,
+On 26-11-23 16:17:18, Faisal Hassan wrote:
+> dwc3_qcom_resume() disables the wakeup interrupts before enabling the
+> clocks. If clk_bulk_prepare_enable() fails, it returns with them
+> disabled. The next suspend returns early
 
-On Wed, Nov 25, 2026 at 11:24:37PM -0800, Peter Chen wrote:
-> Xu Yang has real ChipIdea hardware to test on and a lot of experience
-> with the controller and driver. Make Xu Yang the maintainer of the
-> ChipIdea USB driver, and move me to reviewer.
+Have you run out this sequence at hardware? I find the dwc3 core suspend
+(dwc3_pm_suspend) has not guarded for is_suspended, it should run into
+some problems, eg visiting register with clocks off, etc. It is predate
+issue, not related to your patch.
+
+> on is_suspended without
+> re-enabling them, and the next resume disables them again, so every
+> failed resume leaves the disable depth one level deeper and host-mode
+> wakeup is lost for good.
 > 
-> Also remove the T: entry. My git tree is no longer kept up to date, and
-> ChipIdea patches will go through the USB tree.
+> Re-enabling them on the error path is not safe either: the
+> level-triggered ss_phy interrupt can stay asserted, and the handler
+> can't make progress while the controller is not resumed, so it would
+> fire continuously.
+> 
+> Track whether the wakeup interrupts are armed and make enabling and
+> disabling them idempotent. A failed resume now leaves them disarmed and
+> balanced, and the next suspend arms them again.
+> 
+> Signed-off-by: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
 
-Thank you for the trust and for all your work maintaining the ChipIdea driver.
-I'm happy to take over the maintainer role.
+Reviewed-by: Peter Chen <peter.chen@oss.qualcomm.com>
 
-Acked-by: Xu Yang <xu.yang_2@nxp.com>
+Peter
+> ---
+>  drivers/usb/dwc3/dwc3-qcom.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+> index 18db19cf2065..e7fadad9a4e1 100644
+> --- a/drivers/usb/dwc3/dwc3-qcom.c
+> +++ b/drivers/usb/dwc3/dwc3-qcom.c
+> @@ -81,6 +81,7 @@ struct dwc3_qcom {
+>  	enum usb_dr_mode	mode;
+>  	bool			is_suspended;
+>  	bool			pm_suspended;
+> +	bool			wakeup_irqs_armed;
+>  	struct icc_path		*icc_path_ddr;
+>  	struct icc_path		*icc_path_apps;
+>  
+> @@ -323,16 +324,26 @@ static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
+>  {
+>  	int i;
+>  
+> +	if (!qcom->wakeup_irqs_armed)
+> +		return;
+> +
+>  	for (i = 0; i < qcom->num_ports; i++)
+>  		dwc3_qcom_disable_port_interrupts(&qcom->ports[i]);
+> +
+> +	qcom->wakeup_irqs_armed = false;
+>  }
+>  
+>  static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
+>  {
+>  	int i;
+>  
+> +	if (qcom->wakeup_irqs_armed)
+> +		return;
+> +
+>  	for (i = 0; i < qcom->num_ports; i++)
+>  		dwc3_qcom_enable_port_interrupts(&qcom->ports[i]);
+> +
+> +	qcom->wakeup_irqs_armed = true;
+>  }
+>  
+>  /*
+> @@ -396,6 +407,11 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom, pm_message_t msg)
+>  	if (!qcom->is_suspended)
+>  		return 0;
+>  
+> +	/*
+> +	 * If a later step fails, the wakeup interrupts stay disarmed, as a
+> +	 * level-triggered wakeup line could otherwise keep firing while the
+> +	 * controller can't be resumed.
+> +	 */
+>  	if (dwc3_qcom_is_host(qcom) && wakeup)
+>  		dwc3_qcom_disable_interrupts(qcom);
+>  
+> -- 
+> 2.34.1
+> 
+
+-- 
 
 Thanks,
-Xu Yang
-
-> 
-> Signed-off-by: Peter Chen <peter.chen@kernel.org>
-> ---
->  MAINTAINERS | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 93abbb315065..5383f1070c81 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6281,10 +6281,10 @@ S:	Maintained
->  F:	Documentation/translations/zh_CN/
->  
->  CHIPIDEA USB HIGH SPEED DUAL ROLE CONTROLLER
-> -M:	Peter Chen <peter.chen@kernel.org>
-> +M:	Xu Yang <xu.yang_2@nxp.com>
-> +R:	Peter Chen <peter.chen@kernel.org>
->  L:	linux-usb@vger.kernel.org
->  S:	Maintained
-> -T:	git git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
->  F:	drivers/usb/chipidea/
->  
->  CHIPONE ICN8318 I2C TOUCHSCREEN DRIVER
-> -- 
-> 2.43.0
-> 
+Peter Chen
