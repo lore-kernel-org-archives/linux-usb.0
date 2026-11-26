@@ -1,79 +1,80 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795675038;
-	b=FZlg+bOK0yFt8ye5QVoPNPUHub/H0x4s/OBy1uyWD29IXv7PmNfW67U54GPTV0MT0L1/
-	 VNVwVEHHdZHJFdiy/2UUDzGs+/IJlbYadPFJpPcX87RVOCC4JwolBjvHWyeTfJx5iBeaW
-	 xBMQxDmepF9KGZHNPYhVYSvBMIcZi9sINBnUD8LJdka2VXPkuyH4TW+ZPHHimqMHGsUaZ
-	 cFaq2YQYuQX6jGZClFscL2mMdPhcSlKodm61vaulR3dxHgbBz8TXLpa9qFq7T9GHBXAGW
-	 /NaEUrtGHzAmykNhB42e4mmjWbRTbXqnTW0Q+r59G2yR7Be7RsPT24IzlS7C139oRDA==
+	t=1795675031;
+	b=M7heswNctb21cv9GjEktyl9vR9G/4kYIfCooIrq6mLlG31JZIEfxnQtZ+5XsCagqjVXx
+	 yj6XiWZncTOzmcvQhXtW9MI7MXgJgaEGC12TUxgjWcN6vxqq1rUFqCy/TWLQhCMGhX6j/
+	 GBYfH/h9g5QoAcQwSZlo9Dq/hrMYabUJidH80uFX2RJNFlXLvifNrY0d02FfIXA+uQXv8
+	 v3IbbDVNJXP5avJvl+F8jK0jCgyrmKOFHMZuFrUxJxT0ygI+pwjnLRFBaytAn3uwcIh63
+	 JvlMiwY9eyxs1OvwxmlxCMM//M5KxYrDvSTWJHsq+XhjlDdtnNdlHFIp25Rq93u9RZg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795675038;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=icoy7Gf/IplQfV6RecP1I466B7QBiJvV4Gvbs9QWtt8=;
-	b=3ampvfW/3Mit86hr2Y0QL0jLGWcFSGFV7JqUen25zmgEO2btyRc3jnT3I3zHoKLujkdN
-	 YV4b/Yd1B6XmspvGiH6R3ufhx9l4rRE4TtGy4CXkoqtosoxAqd/omfSsnBIhbUxnpGpBV
-	 5F4Dzv10xQwB6JHEBgCaiYefnQCBmOzjiGu6TUhnFS//hJRqRKfHlq+wq7uQ5SEgwQ8CQ
-	 pJG0+sAwrY87XAFRhPKsSF313rULZO9x1WOYFbMQBTcNRqnp0krtyj+FHekQG3vj51Wd9
-	 4cIH8dI7M8XOHmJhhcSG+r5JSz2siY0eP89FjToqPRdrmnMvsHbbN2roGcglo29W92g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795675031;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=IGDhuoZYCkO0y7/Dp5n43qYEMJGCg442coo5FW74yLg=;
+	b=j5svCpk3EUE3eD/UrNaFQ3cPm0zlMjofUa9LWhfTm2s6wuEyBiDOGLbNeH2yhzDSsSx1
+	 6i+PkFHLN6SbrOMzF3wgbMP12H01YxnnQNTMEOkL+BaNNoroOAy9GhgJs+JNVNpKqKYkB
+	 +KlqerB9kBMY8ntLom0eOPYXVMUiZQNN56nFryZzrCiI0kyuaLArajWktQTZpK3WRg8dj
+	 2cz59uwvTHbQcieP2hCxRXn9kqUOdK3Ahhixtp1VBvSb5txMrUjEhyBe9CJCW/LI3HWuP
+	 yhh9qIYCeEBOUbzwYQxwxh200oVL461V52w3L+siQTKlnjASpMUvcddQLaJ5VEZc2Tg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DZjADE8f;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hOi0Xk7T;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C78606A32A;
-	Thu, 26 Nov 2026 06:37:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82531606A31C;
+	Thu, 26 Nov 2026 06:37:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DZjADE8f
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hOi0Xk7T
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795675038;
-	b=q+q9wkpfZS0R+gFx5Jo8RH8GCW62o90tEO8juNNdiv3Gtqk2QkBMV1syWe0JMUQFDmUV
-	 6CVW1xHiMkPw4N9Ruptxp/PW6UaQ3O8Cahs2dVqHijADYpPfBtmyXCqzw7lV+g3Tu5RyF
-	 swl5ughYRLKqcM82hb91/XA5Q1q1GBWG4cgrRUIER8axozzwkAFTbS9ZLMCiESXwWE1m+
-	 m81o6nVGPFv6IRt7TyMY2uRBgL1xSYpziT3Wc/TdC6VL/+e5vGV2r1dOo81w/beKGIni7
-	 5jCbRYaOzC7RwLhyZrrTS7VI8mc4w0lSpgKCUkv+KulvenlEqcKmbSh3RGBkeDqDGqA==
+	t=1795675031;
+	b=SLX1Ihet0kkRpFJgYtVaI8hKr1V7yCtZgJILUMFpqQoaf1uPMnsCMomwjnVZvZs9QobO
+	 TqpOyMviPRu6uQTx66eNOWFvKd3a7krA4Op8fD8byyAOvTynFs9fxGtJc0UHyVt7OwdAx
+	 dZxdyNiO2aP9UZY+jZFUhrLNLRA2UdQWnqxmQUfUrRylHBTuf0JepeqqE1n/GuILsE3zJ
+	 FpBBRI7vCkREl8y0XAGKQjvliN5N+cPmaMuM2pBf9L7PU682yjs+2LZukQbL0Ik3UNeFs
+	 jwCsJ/BZoUDWqaAoesfKDpgsWBpi847z10/yP7/fRQUAW7IzEjs0wYFlIP5LYx40lig==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795675038;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=icoy7Gf/IplQfV6RecP1I466B7QBiJvV4Gvbs9QWtt8=;
-	b=m/yZObVKp+3SPkfK6nstmopkf6QHif9H4NQkO7RU/uCMJ4RolL+9/wvSHvE4r5iQB21f
-	 vGV/Zy+axUqzRfI6uChfeAchr3aOTEhbkwdy5mmJkSevwxIDCKJwGMa8cYuBITYlR/NLl
-	 gvo8HcjjtneJuahQ16JFatmmJNM0NZaojwNN1eI1Kwwsq1RvWMiHnJxobDq5EdJ7AKbu9
-	 gBb8z0dx3SRDrYUI6+GNtjNKhZOzJMaYVUwz62sOJY53wYRNo85bRtFKPhCnqoj6cSBQd
-	 zl97vVpTvCkP7ch80PCqRSACiUeyQzA5nPARH9Z6d+PjiO2lWr3cCI8WrC4PYr8D+0Q==
+	c=relaxed/relaxed; t=1795675031;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=IGDhuoZYCkO0y7/Dp5n43qYEMJGCg442coo5FW74yLg=;
+	b=oXFaT27SI8Q5IU1uCF9984vFyOffGZsZhoeZcayVBzQyxHUTNethseeHJw5k52MFpd1w
+	 wGbMpwTJAMUUMC8n9oupOQ2YkemR5uivDtUpfchl74vEwoPUfTyQXcUVaG3QK9sj+mr1r
+	 uDnPGpFvyQC6G3+D10bBjUmvJ/Tuubj2/MKQQsSlAQ0Pc80T5X4672mXp4e60mjARwWar
+	 GpFoNAiJKDPJpaHGbtBSM1qqNQwZg3iJniSITq7Y1OyqCkxVz1ENSnBqMd1fTW/6juIaD
+	 g1QK9H4kLhKm95KiLYvBZY8Gk5bzYeFxttKEGd02M0YoN1eeJvCEzIzpNvt5AZIAY+Q==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id AE2D51F000D3;
-	Thu, 26 Nov 2026 06:37:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795675038;
-	bh=icoy7Gf/IplQfV6RecP1I466B7QBiJvV4Gvbs9QWtt8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=DZjADE8fN0KMq0+gjGUdqblA21QfG85k+qIlCnaJ3QD9rH4AVCy1LxwppRDZjlt5t
-	 AwFlv6vrHlByB2vIfKfYmYh6Dqxongj7SwmawEbOQD/FGZkV1x7UXUxShKD5dIvze2
-	 Odr3rTdBj2y+m/LTfaH3mKO/5NXjZH68hmqCjGE/Z2tsciUtKX4PW33V1CWpcRAmKS
-	 zB2J7iRkyIJWDJnUSZMobB3LCMM1KXObRVpMNijfthwRgWXYcaf9A43YtEDd6xZm0x
-	 g7b0Hddk2M/9k+ia/PAcvwSw2WibNu5K+V1Krk8axXrjlTXPoIFcUusWLTJjOxegYU
-	 p2bu8EPw7at/g==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 7576A4D2A4;
+	by smtp.kernel.org (Postfix) with ESMTPS id 2E0621F000C6;
 	Thu, 26 Nov 2026 06:37:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795675031;
+	bh=IGDhuoZYCkO0y7/Dp5n43qYEMJGCg442coo5FW74yLg=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=hOi0Xk7TdAORfivXxt6CRoNGv0Rgy4Zjn5PtgMHcRYO0Sjah3a82pH+9czC6aVlbI
+	 Urng045hltr4dEeSjJYFVFCkIM1NDc9+qpWDGGnXu8ItysIhHhih9Iihs8lFMjn9zs
+	 ve3x0pEAtXvEcLphXqCVqAtuSqyDq0TVMfGRYB4av5H0Yu/WXXB5IIGWZObOgIk8Cv
+	 2BZSsoPU7cO+hxOg+m3SO2vkgpkoCsyVWZGOO9gLY5oJv61wlFGbcmPvFmh/z1nVxG
+	 yMCRWJ2WL89jhSfEudb2CtQMS62qE0n5uEaMPa12xGczi6CVbF9nHbrSDhOGM7fcOT
+	 fofdDkVp4vNSg==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id B315E4D267;
+	Thu, 26 Nov 2026 06:37:06 +0000 (UTC)
 From: Jing Lin via B4 Relay <devnull+kayano050408.gmail.com@kernel.org>
-Date: Thu, 26 Nov 2026 14:37:09 +0800
-Subject: [PATCH v9 6/6] usb: gadget: gadgetfs: avoid writing through the
- const setup pointer
+Subject: [PATCH v9 0/6] usb: gadget: gadgetfs: fix ep0 request lifetime and
+ control races
+Date: Thu, 26 Nov 2026 14:37:03 +0800
+Message-Id: <20261126-gadgetfs-ep0-v9-0-81b464c6e641@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -84,9 +85,12 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261126-gadgetfs-ep0-v9-6-81b464c6e641@gmail.com>
-References: <20261126-gadgetfs-ep0-v9-0-81b464c6e641@gmail.com>
-In-Reply-To: <20261126-gadgetfs-ep0-v9-0-81b464c6e641@gmail.com>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAI/TB2sC/1WNyw6CMBREf4XctTWlUF4r/8OwqOW2XCOUtEg0h
+ H+XohuT2Zxk5swKAT1hgCZZweNCgdy4Q31KQPdqtMio2xkEF0WaioJZ1VmcTWA4cWa0EFJmXKp
+ Swj6ZPBp6Hbpr++XwvN1Rz9ERGz2F2fn38bdUsfdTp/xfvVQxnFWm5nmWyzI3eLGDosdZuwHab
+ ds+1xKosL0AAAA=
+X-Change-ID: 20261126-gadgetfs-ep0-fc2255305a75
 To: Neill Kapron <nkapron@google.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org, 
@@ -94,61 +98,94 @@ Cc: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
  syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com, 
  stable@vger.kernel.org, Jing Lin <kayano050408@gmail.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795675025; l=1670;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795675024; l=3893;
  i=kayano050408@gmail.com; s=20261126; h=from:subject:message-id;
- bh=ZBmJwrzWJL9P5eP6VSC8U6h5A7VH0l7p13ihjdZGb7w=;
- b=3TXpwFa6U/3EMgBjYxWlYlpC3kgKe550IuQahTxs9KNubb+wEiuOBntzrx8jvJ3i/KgqT9ejT
- OW11N1b1shKCWEB+wsWUjf18Ih9QdiFZti7nxyzUkJl0KsvpWuXxu9+
+ bh=fvfwlA9wimqwVKnxLxvsfDJkX3M7MoycSS4Qn4OBS1Q=;
+ b=bOdNzpvTZmi8LCOaQlCH7+dUQtZxXvvh+W5jRQ9aPcskDohwk8u7hmklZFJyCd5b3DMxArj+F
+ O67PO+YlGOwDubELwbd44C4W50HkfAi2dEKj/R1/gnWwvbeovTFJmzj
 X-Developer-Key: i=kayano050408@gmail.com; a=ed25519;
  pk=40M3hugIx++9w3nkAoFXGcN/vLWsPMGDYdbduV+lUlI=
 X-Endpoint-Received: by B4 Relay for kayano050408@gmail.com/20261126 with
  auth_id=1648
 X-Original-From: Jing Lin <kayano050408@gmail.com>
 Reply-To: kayano050408@gmail.com
-Content-Transfer-Encoding: 7bit
 
-From: Jing Lin <kayano050408@gmail.com>
+This series fixes the ep0 request lifetime on unbind, control buffer and
+setup_abort state races, lost completed control-OUT transfers, event
+counter underflow, and the const cast in gadgetfs_setup().
 
-gadgetfs_setup() receives the setup packet as const, but clamps an
-oversized control-IN request by casting away the constness and writing
-the truncated length back into the caller's wLength field.
+1/6 tracks active ep0 requests and waits for completion after
+    usb_ep_dequeue() in gadgetfs_unbind() before freeing dev->req, while
+    keeping descriptor buffers out of kfree().
+2/6 copies delegated control-IN payloads into a private memdup_user()
+    buffer before touching dev->req and drops responses superseded
+    during the unlocked copy.
+3/6 fixes setup_abort tracking across ep0_poll(), gadgetfs_disconnect(),
+    and early returns or in-kernel requests in gadgetfs_setup().
+4/6 preserves completed control-OUT payloads until ep0_read() collects
+    them, leaving ep0 unqueued so the controller NAKs newly arriving
+    control transfers in the meantime and replaying the deferred setup
+    afterwards.
+5/6 dequeues ep0 events before dropping dev->lock for copy_to_user() to
+    prevent dev->ev_next underflow.
+6/6 removes the const cast on ctrl->wLength in gadgetfs_setup().
 
-The setup() callback has no business modifying the setup packet, and
-ctrl->wLength is only used afterwards when initializing event->u.setup.
-Store the clamped w_length into event->u.setup.wLength directly instead.
+The setup() callback runs in atomic context and may not sleep, so a
+mutex cannot serialize it against ep0_read() and ep0_write(); shared ep0
+state remains protected by dev->lock.
 
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Jing Lin <kayano050408@gmail.com>
 ---
- drivers/usb/gadget/legacy/inode.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Changes in v9:
+- Split the first two patches into single-purpose patches (1/6 through
+  4/6) so each problem is addressed separately.
+- Drop the rejected usb_ep_dequeue() fallback (ep0_req_free) in 1/6.
+- Allocate a private buffer with memdup_user() for control-IN writes in
+  2/6 instead of copying through a stack buffer, and clarify that the
+  generation check narrows rather than eliminates the unlocked window.
+- Preserve properly completed control-OUT transfers in 4/6 by deferring
+  any subsequent SETUP (leaving ep0 without a queued request so the UDC
+  NAKs it) until userspace reads the completed OUT payload, then replay
+  the deferred SETUP.
+- Drop the STATE_DEV_UNBOUND event-read changes from this series.  For
+  context on how unbind can happen before close(ep0): unloading the UDC
+  driver (usb_del_gadget_udc()) or writing to
+  /sys/bus/gadget/drivers/gadgetfs/unbind runs gadgetfs_unbind() while
+  userspace still holds the open ep0 descriptor, where a queued
+  GADGETFS_SETUP event could otherwise put dev->state back into
+  STATE_DEV_SETUP on the next read().  If that case is worth guarding
+  against, a small follow-up patch can clear dev->ev_next and wake
+  dev->wait in gadgetfs_unbind() and check STATE_DEV_UNBOUND before
+  delivering events in ep0_read().
+- Use a local events[N_EVENT] array in 5/6 instead of sharing a buffer
+  with control-OUT reads.
+- Link to v8: https://patch.msgid.link/20261110-gadgetfs-ep0-v8-v8-0-8f90434574fe@gmail.com
 
-diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
-index bd77d0848db2..eb8b0d152d4f 100644
---- a/drivers/usb/gadget/legacy/inode.c
-+++ b/drivers/usb/gadget/legacy/inode.c
-@@ -1648,10 +1648,6 @@ gadgetfs_do_setup(struct dev_data *dev, const struct usb_ctrlrequest *ctrl,
- 
- 	if (w_length > RBUF_SIZE) {
- 		if (ctrl->bRequestType & USB_DIR_IN) {
--			/* Cast away the const, we are going to overwrite on purpose. */
--			__le16 *temp = (__le16 *)&ctrl->wLength;
--
--			*temp = cpu_to_le16(RBUF_SIZE);
- 			w_length = RBUF_SIZE;
- 		} else {
- 			return value;
-@@ -1804,6 +1800,8 @@ gadgetfs_do_setup(struct dev_data *dev, const struct usb_ctrlrequest *ctrl,
- 			/* state changes when reader collects event */
- 			event = next_event (dev, GADGETFS_SETUP);
- 			event->u.setup = *ctrl;
-+			/* Report the length we can actually handle */
-+			event->u.setup.wLength = cpu_to_le16(w_length);
- 			ep0_readable (dev);
- 			/*
- 			 * Return USB_GADGET_DELAYED_STATUS as a workaround to
+To: Neill Kapron <nkapron@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com
+Cc: stable@vger.kernel.org
+Signed-off-by: Jing Lin <kayano050408@gmail.com>
 
--- 
-Git-155)
+---
+Jing Lin (6):
+      usb: gadget: gadgetfs: fix ep0 request lifetime on unbind
+      usb: gadget: gadgetfs: isolate ep0_write() buffer and reduce setup race
+      usb: gadget: gadgetfs: fix ep0 setup_abort tracking and reporting
+      usb: gadget: gadgetfs: NAK new setups until control-OUT data is read
+      usb: gadget: gadgetfs: prevent ep0 event counter underflow
+      usb: gadget: gadgetfs: avoid writing through the const setup pointer
+
+ drivers/usb/gadget/legacy/inode.c | 514 +++++++++++++++++++++++++++-----------
+ 1 file changed, 366 insertions(+), 148 deletions(-)
+---
+base-commit: 90d6263e867be7089b3d3323bef8d2accd327c77
+change-id: 20261126-gadgetfs-ep0-fc2255305a75
+
+Best regards,
+--  
+Jing Lin <kayano050408@gmail.com>
 
 
