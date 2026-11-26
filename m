@@ -1,86 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795696801;
-	b=DGKUhymPB0ISem8B6T8X25jMj8kBPgVQy4OIJPN2hKlPfFb+74obT5WVMlqVuVyvxkyK
-	 407I3doD3z5Zn6zKb3ejiQZFwYDEYekWzWVDv0GnuehCpvgzX5XqQ1DZXz7z9kR+CwJiQ
-	 NV9zfz+Utkv+xWVD345xkLkkumx9hwMecY77ruK4Dfi4xyVRvjKPnP3z/o+BUQ8WnDHK4
-	 x4Xd0PJ/ZMZwY4gg38gDDcvULW2RCqR2CNHeokBbpwLpzZg4RrbChCgpuwiKA2yvit5ry
-	 MI40MEU5K8SxnpvVBavKqv1sTu9Ex6vuecfwHMVkW7QP1kQhmCdWd+9J2njK6Tk047A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795696801;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=qPUA0tYF2NIjDvPMT86AcZAvNEU+x6KNl319uLJ1Bcg=;
-	b=OtXFl6r7+jiaWqyliMH5zTSjJupvl/0UudshOnRqCpHhOqWQmhkH6jRtv03g9WYzNgCB
-	 wdPeOe42m08lHUPCIZW3z7Eb6sEGRA3oM80CusaRa9BBQ1tdyeYBANptJ+J4pJeyQOyiN
-	 qzxKGkBERrQNBU/UZe2wqPF+QgelaBdkJ9KUn+SRpyXyfJ4sxeC3Nb3JdCGCPUsq8m4/p
-	 P+mVC131Te4r6Hie3hqm3ESj7JW/FbzesQ1b/Qfaapom6kplLN1+TW46XN2SV6pWQVGAG
-	 XKgGw+dMlR+dvz4W0VspIl5rAP9gt+KGJPcsV58b1pZ8OYdVWG2nP8rw4lIfWyoyxvQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=eC13GFd+;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795697108;
+	b=rjhWuirIg8UBjsGwh2ELm8yRXPGPFCqaOKSTVrKOPuiU9sDAUheQdPO3x0cF0TLnjyZD
+	 Wt8nBk8oFJrthyFuqwTGGCL2tuuOw2Pifuy6OZu77/20QE0xLILFtspQelP3/obbtr4Qb
+	 vlNHzTX69yMlnC7fQARilya7OcVK0GvMq4RfJEuiZUbiqRGyrosJr+WGuldIQW5+Iypfx
+	 yuRCN546osi7mGBnL/1CoiUA9hAANZthn3TJdzgoTF+6GKYcjHWHTNydM4+t4QABtcN59
+	 5M/gEG8NLr9WECUnbB2VRuC9gDOyoilhyiSq5dcguUJKKn6477QTTDsSx7tUHM1u8TA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795697108;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=zB85Zu90o0AjeaWc71212P7aFlY6bvpmZEHuV23k/DA=;
+	b=PdG6usUQduNQiEu6BTD/2n3ajLCGFhtX24frqdJjx5EMPwLbKKJZirJ7K5EtUYSaD5gt
+	 vi0UUI8ykb9F32u5LB97coqmVdONQN6+gaXcGOO0z0LkXDkFe1OrIRVx+P/BMIwYO845X
+	 ARONdrc4ioR+PNZAerUz7/8xQ8w+GPDsNPvKxO+HAe6fbSyOPtXnCzK32fmeqdBaoUbLR
+	 rgRckgXCMdzC5O/YO4sFTPROl0DD/RbitE552r4IpJ67/Lfa0zwRz8bsC/jPC2ed+0MQS
+	 9Stt8AxqL+Kj9d6UFykIjW7a3trFKNimlocGmk9keMnQqRULpjOH1W8kfaQcB8xJTtA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fbopaLrc;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E948606A323;
+	Thu, 26 Nov 2026 12:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fbopaLrc
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795697107;
+	b=GAVOVyjhbSHVKM8fbUJU/ZTPVLzp36Ef5LcYPqgcSwEhNezR7LZ24EbaWUNsYslZUG7/
+	 Ap+35JMKTdCOYZMn2VDKj++XyjDSBQOO1tthlq/0zEsvh7gbQBFW7UxIacUxhjQenr2D3
+	 I1547FaIJAgaFCwNRRKPOKxuhlPKdLF5Veho9kdarVvZvT+3h4RwAR9aAuqZb/1CTCFLj
+	 3r/lbA90thRS48u7u1OlFoEFV5MUc7QsALfDgybhxGtNgREXDY7mgek1xCEnEsAG+fHIF
+	 HmLoWwGBJF7IdnnYhPfDoUrdzUYi/3L5BHmMntQ+zaglVCzlUcSH2A0dwWhSLqWcsGg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795697107;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=zB85Zu90o0AjeaWc71212P7aFlY6bvpmZEHuV23k/DA=;
+	b=VzWeg/HxQ+nekyAgEBnkAfWjMsp4cvU+RYdYX3F3YG76KpncwRhrV9uiSrX+FnhBB2JP
+	 rrv+7gXhkNr20iWUdwIzqvYtUKmLajr9MbjPtF4B8ms8m41UwSQiDp+Z5EHEB3UFgwqtC
+	 Le6oBZfo/8vYg8BxI/qC41TeAjeCpm7i4ctv3/XyVCi2fd8gidh92bLcExhphxpsmrRE2
+	 ar/kWGFiQTUbecf11AolcrFaSnr50/F/UGqtXUg+n3jMmmYBtV1J+FHu8U1BaunymsPCl
+	 yGkxkyOt5H+YTD/RAfjJTuc/a5wvLORVdKEbOW9mfVl65hq82hHGNSfGDtMc/H15Bhg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6386606A321
-	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 12:39:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6386606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=eC13GFd+
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4bba5e17728so16466625e9.2
-        for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 04:39:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795696798; x=1796301598; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qPUA0tYF2NIjDvPMT86AcZAvNEU+x6KNl319uLJ1Bcg=;
-        b=eC13GFd+lh9YmREtdvxdIs3d045300VCGk5Z6VNPVPLmJaQqzgl0iZUWXvN7NGtNaj
-         VzRWt+IWvRybMPlDjq2p2vdwUmZeCF7lSUu6P9FwTqAMb2PN5/MLpFQFgAepxn+yHiFK
-         U984yq48QQhGQnJ67BuP7XSHIlN3E9cutOBDiNEnMrUyuYDV+Cnhn/FcIC1QYerKaaxd
-         NrLShtNhEx8QJcAz/SICrs8Dj1vDt3+rENF017R1MZqWWm4Emf6KhqMQT63TLP2vb4Ui
-         5CymRLIVXYIBhhHC4vjlJP4UcQaQpkxMzfX4bSIWCi0Faha0Oz2/GAgzxDjo7XjYZD5g
-         /Bfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795696798; x=1796301598;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qPUA0tYF2NIjDvPMT86AcZAvNEU+x6KNl319uLJ1Bcg=;
-        b=MEBri34Mx4CbtFyIk99sUETrl3OddxRaNtOIqiz8XbGLqJUOz+7fj3Uhi7Pr70Di/J
-         v1+bcxT/L5pAX930PewdKtZnJmVbb0kfyLsKrQjEZoNLtLxmEiaWxLLeqoOA801eV/VS
-         e/kO6qcHHY9SEYX0PGoa0rW6R3FlYcSt3hTxIWX8/17g/yCXQ3P+6yn+1/90zCYAd2Cg
-         U+MsAZAGWSj1f5V5BJMzwOdhWrpvJOIk+XkN1UeMepJPVVeb+UKyB9Y4fH0GTd6jUBc8
-         DiYsbHRr6QlpAeaKcWs/fIEcoJdmSB3r8CypuYF8c/y/yL0QEYqsWqCjsR5h4hPNrGWk
-         wDZA==
-X-Gm-Message-State: APuU4Z8NdmhXGspD4ih/68LR0SG9XAy2qnteqO1jEpcjLoj4sq1ESWoh
-	nl12ydi+kCN2lsQCnyRVp9QupQEvzt933Amv71yiKVpYzeRKGh5s1RxxH4Dan5z5wL0=
-X-Gm-Gg: AZFdTZc4/lzRjopFtCg0vCHljLBxoU6+5dz8eGdnj1tNMSAF0R7AS1HQDmDHWCnoCNJ
-	7Fk8iTMUdn1OZbwcVOBfQuKU/TEWSU1zOY/sMmjYBB02qrslEq6LYjH4YJC0P4sc2A+yvUswQTj
-	+rkLoZu12fLVZz5NH3+7T8rnRBnUICz9Jl9GYGsdRbuVR43/iU2fVlO1luoFXpDY9KHIdW47G5E
-	TkXImd15wB+bolUde6veTWr684eUznJWZaS/0+UAjwn0uXFnUlw4PWQN2Qfxvjo0nmC+AO8Ci1l
-	LpO8reevNRph8EuUiHhByySMXg1SotocKpuOrwUAK8wan/AJeMtg+y1pvTP5tI7YetvzOpK3O8a
-	b57RdR9gyEJNTqGU8Ia0f+lzsihyHKtbo0lmrfR3Wuk42pgv7j5HkMJeloYcQAG9z4m3MYfMvM/
-	pk26weFczC9IX1UdTgT847+aNqjcxfKXOVepksHkxTDn03C+EEgicJ2FcLP3dojf9oG6bEY6zPV
-	XjShwlZi74JF+GpnPplyle1N2iQVOlV+H9qzbe6SrGKj9GL2cxoZfc64DsSjBD/Dj7OeHkci/Zf
-	mYBdXG5NdKNOZ7d7op7QtU6gi/7E+L6A/MJIynwx+ogt1IZ3Z9Ge905qt1usF7jrNRLCKAEh
-X-Received: by 2002:a05:600c:6708:b0:4ba:7e6:53d6 with SMTP id 5b1f17b1804b1-4bb88940848mr371708535e9.33.1795696798313;
-        Thu, 26 Nov 2026 04:39:58 -0800 (PST)
-Received: from ?IPV6:2001:a61:134d:4f01:7bde:22fe:61b7:119e? ([2001:a61:134d:4f01:7bde:22fe:61b7:119e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm41018184f8f.16.2026.11.26.04.39.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2026 04:39:58 -0800 (PST)
-Message-ID: <fba67984-e3e9-492e-b512-180c257ecf11@suse.com>
-Date: Thu, 26 Nov 2026 13:39:57 +0100
+	by smtp.kernel.org (Postfix) with ESMTPS id 539811F000E0;
+	Thu, 26 Nov 2026 12:44:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795697107;
+	bh=zB85Zu90o0AjeaWc71212P7aFlY6bvpmZEHuV23k/DA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=fbopaLrcQ34ySzE2ifxiR8itXOnd+XrPTOd26tSd1xz6FzYoot+qf4OrQzAmgfMaj
+	 xI5QVD6AfE0OLfVoG3KQOJS98ggQi4wKh8ijlbg1LaIXW8/glhLaBrIGwzx9vHvWBZ
+	 4NWfrZSC5gdKitqc05DuMOzKzSYueTKN1UcMzlerx5pceJKHUcX5xyd5PcWilTdUmq
+	 JuNP5cWmYv9+SYgYy7ZTJgqthTTFN4869V85EVGmHczoQaBTlXsFyhX4pG7upbxIyr
+	 Nmr/3ZaI5MuorLm6ZapE2AcZbywXdZuT6opUoBOVnT7pu+RXAH8AZxi2i8RKW6LNGm
+	 lBeo/Qh41+5uA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id D3A724D4D4;
+	Thu, 26 Nov 2026 12:44:54 +0000 (UTC)
+From: Jing Lin via B4 Relay <devnull+kayano050408.gmail.com@kernel.org>
+Date: Thu, 26 Nov 2026 21:44:52 +0900
+Subject: [PATCH v10 2/6] usb: gadget: gadgetfs: isolate ep0_write() buffer
+ and reduce setup race
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -90,38 +83,161 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] usb: image: microtek: limit REQUEST SENSE transfer to
- the sense buffer
-To: Alexandre Becholey <alex@becholey.ch>, Oliver Neukum <oliver@neukum.org>,
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261126-gadgetfs-ep0-v10-2-8add6d9cace2@gmail.com>
+References: <20261126-gadgetfs-ep0-v10-0-8add6d9cace2@gmail.com>
+In-Reply-To: <20261126-gadgetfs-ep0-v10-0-8add6d9cace2@gmail.com>
+To: Neill Kapron <nkapron@google.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, Oliver Neukum <oneukum@suse.com>,
- stable@vger.kernel.org
-References: <20261126122151.414230-1-alex@becholey.ch>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261126122151.414230-1-alex@becholey.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Cc: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com, 
+ stable@vger.kernel.org, Jing Lin <kayano050408@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795697092; l=4408;
+ i=kayano050408@gmail.com; s=20261106-gadgetfs-gmail;
+ h=from:subject:message-id;
+ bh=loBcx7ZfuErPGb5OqeYZ9pNroPFE6ZnpAS/g4iY/mvc=;
+ b=tYpkxN8102g+pm3WXINJNy0BXNYL/zpymLRNKrq/hSl80Hf1g568n+cBopsKzwmREcuDVNgOZ
+ p7405JANY2rBcTjgLRj5IwYnUJKLIVF4AsAVWjMPVDB4gUlJQ/MyMti
+X-Developer-Key: i=kayano050408@gmail.com; a=ed25519;
+ pk=DtAI52kU3F0sVbAiS4n+5b4UKMnVF398eKHlj3H9KBY=
+X-Endpoint-Received: by B4 Relay for
+ kayano050408@gmail.com/20261106-gadgetfs-gmail with auth_id=1433
+X-Original-From: Jing Lin <kayano050408@gmail.com>
+Reply-To: kayano050408@gmail.com
 Content-Transfer-Encoding: 7bit
 
+From: Jing Lin <kayano050408@gmail.com>
 
+For a delegated control-IN request, ep0_write() prepares dev->req and
+copies the response from userspace with copy_from_user() after dropping
+dev->lock.  A control request that arrives during that unlocked copy can
+point req->buf at dev->dev or dev->config, letting copy_from_user()
+overwrite a descriptor buffer, or supersede the transfer that userspace
+is responding to.
 
-On 26.11.26 13:22, Alexandre Becholey wrote:
-> mts_command_done() receives the data phase of a REQUEST SENSE into
-> srb->sense_buffer (SCSI_SENSE_BUFFERSIZE, 96 bytes), but with the
-> length of the command's own data buffer. A REQUEST SENSE sent through
-> SG_IO, allowed on a read-only /dev/sgN without any capability, can have
-> a much larger buffer (252 bytes with sg_requests), and a device that
-> returns that much writes past the end of the sense buffer.
-> 
-> Limit the transfer to SCSI_SENSE_BUFFERSIZE.
-> 
-> The bug was found, and the reproducer and this fix were written, by AI
-> agents (Claude Mythos and Claude Opus models). The analysis and the
-> patch were reviewed by a human.
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Alexandre Becholey <alex@becholey.ch>
-Acked-by: Oliver Neukum <oneukum@suse.com>
+Copy non-empty control-IN payloads from userspace into a private buffer
+with memdup_user() before leaving STATE_DEV_SETUP or modifying dev->req,
+and count setup callbacks in dev->setup_generation so ep0_write() can
+discard a superseded response after retaking dev->lock.  This eliminates
+the copy_from_user() race window, leaving only the unavoidable window
+after dev->lock is dropped to call usb_ep_queue().
+
+Fixes: 1da177e4c3f41 ("Linux-2.6.12-rc2")
+Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+Cc: stable@vger.kernel.org
+Signed-off-by: Jing Lin <kayano050408@gmail.com>
+---
+ drivers/usb/gadget/legacy/inode.c | 65 +++++++++++++++++++++++++++------------
+ 1 file changed, 46 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index 911419a4e..a0dc350a7 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -142,6 +142,7 @@ struct dev_data {
+ 	unsigned			setup_wLength;
+ 	bool				ep0_req_queued;
+ 	void				*ep0_req_buf;
++	unsigned int			setup_generation;
+ 
+ 	/* the rest is basically write-once */
+ 	struct usb_config_descriptor	*config, *hs_config;
+@@ -1319,27 +1320,50 @@ ep0_write (struct file *fd, const char __user *buf, size_t len, loff_t *ptr)
+ 
+ 		len = min_t(size_t, len, dev->setup_wLength);
+ 		if (dev->setup_in) {
+-			retval = setup_req (dev->gadget->ep0, dev->req, len);
+-			if (retval == 0) {
+-				dev->state = STATE_DEV_CONNECTED;
+-				++dev->udc_usage;
++			unsigned int	generation = dev->setup_generation;
++			bool		zero = len < dev->setup_wLength;
++			void		*kbuf = NULL;
++
++			if (len > 0) {
+ 				spin_unlock_irq(&dev->lock);
+-				if (copy_from_user(dev->req->buf, buf, len))
+-					retval = -EFAULT;
++				kbuf = memdup_user(buf, len);
+ 				spin_lock_irq(&dev->lock);
+-				--dev->udc_usage;
+-				if (retval < 0) {
+-					clean_req(dev->gadget->ep0, dev->req);
+-				} else {
+-					if (len < dev->setup_wLength)
+-						dev->req->zero = 1;
+-					retval = queue_ep0_req(dev, true);
+-					if (retval == 0)
+-						retval = len;
+-				}
++				if (IS_ERR(kbuf))
++					return PTR_ERR(kbuf);
++			}
+ 
+-				return retval;
++			/*
++			 * Reject the write if a new control request arrived
++			 * while dev->lock was dropped for memdup_user().
++			 */
++			if (dev->setup_generation != generation) {
++				kfree(kbuf);
++				if (dev->setup_abort) {
++					dev->setup_abort = 0;
++					if (dev->state == STATE_DEV_SETUP)
++						dev->state = STATE_DEV_CONNECTED;
++				}
++				return -EIDRM;
++			}
++			if (dev->state != STATE_DEV_SETUP || !dev->setup_in) {
++				kfree(kbuf);
++				return -ECANCELED;
+ 			}
++			if (dev->setup_out_ready || dev->ep0_req_queued) {
++				kfree(kbuf);
++				return -EBUSY;
++			}
++
++			dev->state = STATE_DEV_CONNECTED;
++			dev->ep0_req_buf = kbuf;
++			dev->req->buf = len ? kbuf : dev->rbuf;
++			dev->req->length = len;
++			dev->req->zero = zero;
++			dev->req->complete = dev_req_complete;
++			retval = queue_ep0_req(dev, true);
++			if (retval == 0)
++				retval = len;
++			return retval;
+ 
+ 		/* can stall some OUT transfers */
+ 		} else if (dev->setup_can_stall) {
+@@ -1520,6 +1544,10 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 	u16				w_value = le16_to_cpu(ctrl->wValue);
+ 	u16				w_length = le16_to_cpu(ctrl->wLength);
+ 
++	spin_lock(&dev->lock);
++	/* invalidate userspace copies started for an older control request */
++	dev->setup_generation++;
++
+ 	if (w_length > RBUF_SIZE) {
+ 		if (ctrl->bRequestType & USB_DIR_IN) {
+ 			/* Cast away the const, we are going to overwrite on purpose. */
+@@ -1528,11 +1556,10 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 			*temp = cpu_to_le16(RBUF_SIZE);
+ 			w_length = RBUF_SIZE;
+ 		} else {
++			spin_unlock(&dev->lock);
+ 			return value;
+ 		}
+ 	}
+-
+-	spin_lock(&dev->lock);
+ 	if (dev->ep0_req_queued) {
+ 		spin_unlock(&dev->lock);
+ 		return -EBUSY;
+
+-- 
+Git-155)
+
 
