@@ -1,56 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795662820;
-	b=tRuR2NhDtfq/35AaGkr3jmHw6VcRhrngUB0581Mu3583/FJtDduLrDaSZl+wLhtnzm8c
-	 u8whpvetw8++hm02LNqwW6Yj/8+nmDbb4MOaoRGR4ZmQtYlj+vURNdAf8IVHUXD24chNK
-	 V9o1oYb3cNYccHbST+Po7AtqCxKQRYKjIQzDWlZPLAu8XKyU8mZTh95Jre5+SimX5cXqO
-	 xC4KPVV+ucLy8mf++IFcF3xxc3ZKbccA4B/EtNh9EoXp5TwtRFUXEN93auTyMyUeFgMgQ
-	 zZ5EOqyteZ8B2rUs3EXUiZyoGLRbFht+5Abd8hc8SfZyhB2H52RzCWJ4UvGqgAzrOug==
+	t=1795662948;
+	b=WtJQa3wQ6EVVrTfd8U+9rocTt/1d5BBCpkcKSS9RCvdmY6EMK6TjaYXV4ihnyXZyo6S1
+	 DUgX8nF5XKSqxKoBdm5/fPAn9uL9lKlP7DGQ2iseObaN+8b0Gn0zWC5c5MEJvcqZvdRuU
+	 qAjdRW8SZzS6sULamuU6/8Ji20so+ixBFHAPg2jxk0hIVg2Zp+FZEOc90F6hGCJjI6rrs
+	 /BD8KC57c5W9du4av+ZINmL70aKWCdCDs89HmbP4iEAsYoHX1ZyCP3Hp7ciuNqr3tKajt
+	 4FRSaH6EfZDgAXLC2zM3mr5nSoGiRjo7ffhViBL8toYeY5GWn8L0EKRXenc/jcGdRCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795662820;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=2Ib8aYZITDo/ZPmpEFTS6qhqZypmgy7XDQl+C7k59bg=;
-	b=bAPNQvmwlAd/beP0GoBkTGnK56Kmrf9DH7QpOS+CGDaPDtNQXKUd00S5gS0vhRpic0/f
-	 BLjM3D3vSSqYQRF1Q13wRBsuoxGkkSxrG94NvJCJzJLZwEi3JIbb0UapCsn4cR/M1gCCg
-	 VXQ0xz6iqVzA77D/7cGz35z7f8WONgsikucRMj3DViRlldTDJFot4HAOi8x4ggHxNnTeD
-	 iQB/feL5kV2RqOh33etg2BjCiVg3B/p4EWVoS9LEF0gdMkWivzYas+JzOc4GFE/YF/hMD
-	 8I4vyxh4+SGlEDPgMJ2e8YyQvMXJclTkYy0OpEwtQt3hscYp9Ks9jjOfOBDdDzxDPXw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795662948;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=Uz5Xnl2AfSCtii2DAKq2bHJm7Z1k2Z78VEojlr0dwow=;
+	b=vIqXDE7kzm7pONKMJgYzRdGOVkC06Vc5iCG1hQocPz32Xs5a4vUSmV7PFzOv3Vt0wpOk
+	 bNKiBRqsMgVXfwNtfLfBktJE6xZfG2FAM7pwi8tdXPEM6JAS8MHBsjzQFgVfhmi6Y7ohH
+	 L5MiDxYnhfdZ8osa5CXWOFQHzkB8acPhWX2W+MdYCC9w1BfIxPXAQv7bMD/47OhYbiyOL
+	 Er5MDKI9JbSO6sdzC/Wxx0gdlgPA2QVRH5jwTA/fTn3hBRf2FEB3Ij3RhXyKclNsBox8F
+	 lUDKt8jjRB0WjEi1P5LGoMTimUASSt4Mss/c31Sv4Gkg2pj5/Mp20A7RYG0hOdB4I4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LfpeBh1K;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b="lXX3H1/A";
+	arc=none smtp.remote-ip=209.85.222.175
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0580B606A321;
-	Thu, 26 Nov 2026 03:13:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37817606A682
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 03:15:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37817606A682
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LfpeBh1K
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F66F1F000C0;
-	Thu, 26 Nov 2026 03:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795662819;
-	bh=2Ib8aYZITDo/ZPmpEFTS6qhqZypmgy7XDQl+C7k59bg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LfpeBh1K10pS4Qv0815P2GMlhs3eUb++qM5yCCQWxVHkoWMjLapeED9yyOuaF15mD
-	 GWPnFny6IkXku0G7oJ5mjeuvUrUcAoZA8wIahSn0dJrAknLMrO0vj1NzDDnnTkT9vq
-	 oKcwMK0QYIHQwoC08lwxACgq/L/Pek+17lU5vlpUn3SVhJ5V0Yc2kz+Jpu7wCecQdH
-	 1hKYr0cvX9XKbkZXPHCgSwKAbbwKiIhZeMXAZR3rsa2u0sqtx4VENy4Ywf8d52LIRz
-	 GlPpp8kne+KEbddqVm3i10pQshEQc7PKVExpc/qhRDe2+bVsHFcj+MnaaK4kRTl2eV
-	 8R5kQMQzDGZ4Q==
-Date: Wed, 25 Nov 2026 19:13:37 -0800
-From: "Peter Chen (Qualcomm)" <peter.chen@kernel.org>
-To: Mario Behn <mario.behn@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] usb: chipidea: udc: give up when the endpoint halt bit
- is not taken
-Message-ID: <awej4edcffKnljdt@hu-petche-lv.qualcomm.com>
-References: <20261105205343.982465-1-mario.behn@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=lXX3H1/A
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-9495e8ae239so723167885a.2
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 19:15:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1795662947; x=1796267747; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Uz5Xnl2AfSCtii2DAKq2bHJm7Z1k2Z78VEojlr0dwow=;
+        b=lXX3H1/ADsjXeAjpJPsORX6gkMO1WFd7JCpJ6lgGjADil6c1A057LJ3NCN3g7Hik/o
+         2qjv9+FyuyBMeCQJldxkVXJiqcDbmc3NmNVpPxfOr3g3DUguVJIPADkT24y9Xo15ZfNc
+         qb84dA34F/Ffp4ihgEOLh7ug+KTL8zKkv4qy+DQdWlRG1Q2iFWlHOuxS2p6CtJEX8jzv
+         BurKCmvMNAYVrD4CEduefmdA7eEAX8CmPGmBhJDmpJqOmsckacy/Jg/2wjG3XEij3StU
+         cOSU4Uh6jJvq+2MXX//EDy/Gg9jH0DkV+Ch6Jc/Nz/Ws20CAju1ljwH2qAk6GrYyfhM8
+         rDCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795662947; x=1796267747;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Uz5Xnl2AfSCtii2DAKq2bHJm7Z1k2Z78VEojlr0dwow=;
+        b=ZPp3bJA6So29Oqf/ZZA9ACUj0T0y6a5lRLBZ6UaaUSlNzMOH4fsuxNVjcztVE8de5b
+         kLQGIHK9ixnI9PK9+12zDDDEh7YxdhhA3CRRg4wWd6cxYceSB5SmCV2Dn6xpY4JDaE7W
+         DqNJIFUAKuMcqDGWtTGP+jzpRSDo9fY0Jyna0Ve619DW6JT/daRP4EVEloWP11buaqqE
+         9nc7f8e2VZCDaQ3wIEfcMG2wWZylc3vZR+btStCn1+kgB1+ShDysqZOtIhngnLADPHyU
+         nqC3icweIpCh6sN9Oac0EspY9w21l5wYhcMlNmDCwy/ujZNNUhS8pD4b8oCsMSxhj42l
+         aq1Q==
+X-Forwarded-Encrypted: i=1; AL+hErG9o4i4H/TWVqUXo9wCZq+5uKw4N8KDWUBtAMXUbnegxPteLUxlGpBB983a6sBnQfvTOlwbgLi7GgI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8hanv/uXOzJhRvei/1rM7ctV3ZELnjn6sxDr+TD2BiCxfBpLIs
+	16oZljp2/s6fPWITvn7o3bjsaUKGb7EHRErKKJNk+zwwaR+c6mvRGwBtJahOhIRWlA==
+X-Gm-Gg: AZFdTZetNN2xNyU2p3WkMJi5IhAxCCMWXkekvLPaTqnIdFPSmknXE6OY7y2maljHOZA
+	SqgsEkoy3HXVRQs3VKpU1eqithjuqhBWQtxuMNDIz26/RfLAg0dC7lG7VweQsViPIHKpK0NT3aG
+	GZxlHYMZzhQh2jp1rEhPJbdx0oz7xoi8N/gBbhk8QnbBEsAOz8rrAOWrjnVQL7GPJRUk2a46c2/
+	tHa0NJ7DFvRek4qmglMmUwVe7svQCs4iumq8JtXexkHAX2YgevCR/TNdAIQMTvGww8Yi0S1SxYp
+	X5Hhl5PBH0C0uKm1khiQaenExHR2rdauAY6Rq3grq3/FLY+XjlrBOtM8xizCSt9XSQNWwbcPcsK
+	oEGBg5A7cB0orH74xnHahfeU7df67gyXIwgvXZsO51uvQBK6scbc/tn+G/9wqhCwwkpomccOgBx
+	h/3o2A/qsGA19C6xrZTfoPgWuYnJqWfoxy6fKdV+EJvqUGq5lkpIeUNFAsBOo05TtLuhNeLKBZ/
+	ZRraeMCoIaXzj2Gk/lG2SLxgADJkSGADsOO5SPIAdAgf6bRb6o2a3NJfOnSo14HmakAUZUW/hII
+	Ly4P8uxFaAGj19s4iuU6SUjqbA08UA==
+X-Received: by 2002:a05:620a:2605:b0:949:9f1e:d8b with SMTP id af79cd13be357-949ba99cb12mr3436849885a.16.1795662947036;
+        Wed, 25 Nov 2026 19:15:47 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d00:161a::9a34])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-949ca846322sm1290787985a.34.2026.11.25.19.15.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 19:15:46 -0800 (PST)
+Date: Wed, 25 Nov 2026 22:15:43 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: kayano050408@gmail.com
+Cc: Neill Kapron <nkapron@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzbot+c73e1942197af9f54ca3@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v8 1/4] usb: gadget: gadgetfs: fix ep0 request lifetime
+ and buffer races
+Message-ID: <b71d58f5-ca09-4f11-bac1-ab9720cac5dc@rowland.harvard.edu>
+References: <20261110-gadgetfs-ep0-v8-v8-0-8f90434574fe@gmail.com>
+ <20261110-gadgetfs-ep0-v8-v8-1-8f90434574fe@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,85 +103,93 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261105205343.982465-1-mario.behn@gmail.com>
+In-Reply-To: <20261110-gadgetfs-ep0-v8-v8-1-8f90434574fe@gmail.com>
 
-On 26-11-05 21:53:42, Mario Behn wrote:
-> hw_ep_set_halt() writes the stall bit of an endpoint and loops until it
-> reads back. On endpoint 0 the controller clears the stall bit itself when
-> a SETUP packet arrives, so when one arrives while the driver stalls the
-> endpoint the loop never ends. It runs in the UDC interrupt thread with the
-> controller lock held, and the SETUP packet it is waiting out can only be
-> consumed by that same thread.
-> 
-> Seen on a Zynq-7000 (an ADALM-PLUTO class board, PREEMPT_RT) during the
-> host RNDIS initialisation: the gadget stalls the GET_ENCAPSULATED_RESPONSE
-> poll that has no answer yet, the stall is refused, the interrupt thread
-> spins for a minute, RCU stalls and every other USB operation blocks on the
-> lock. With a bounded loop the condition shows on 1 to 3 percent of boots
-> and is harmless: the pending SETUP packet is handled next and the host
-> repeats its poll.
-> 
-> Retry for about a millisecond, then warn with the endpoint control and
-> setup status registers and return -EBUSY. The callers already report a
-> failed stall.
-> 
-> A loop timeout for the same hang was proposed in 2021 (usb: chipidea: add
-> loop timeout for hw_ep_set_halt(), Jeaho Hwang) and not applied.
-> 
-> Signed-off-by: Mario Behn <mario.behn@gmail.com>
+At last, I finally got some time to go over this material.
 
-Please add Fixes tag and Cc to stable tree.
-
-Peter
-> ---
->  drivers/usb/chipidea/udc.c | 22 +++++++++++++++-------
->  1 file changed, 15 insertions(+), 7 deletions(-)
+On Tue, Nov 10, 2026 at 12:13:22PM +0800, Jing Lin via B4 Relay wrote:
+> From: Jing Lin <kayano050408@gmail.com>
 > 
-> diff --git a/drivers/usb/chipidea/udc.c b/drivers/usb/chipidea/udc.c
-> index d52f89489893..4f4e6d296de5 100644
-> --- a/drivers/usb/chipidea/udc.c
-> +++ b/drivers/usb/chipidea/udc.c
-> @@ -224,20 +224,28 @@ static int hw_ep_prime(struct ci_hdrc *ci, int num, int dir, int is_ctrl)
->   */
->  static int hw_ep_set_halt(struct ci_hdrc *ci, int num, int dir, int value)
->  {
-> +	enum ci_hw_regs reg = OP_ENDPTCTRL + num;
-> +	u32 mask_xs = (dir == TX) ? ENDPTCTRL_TXS : ENDPTCTRL_RXS;
-> +	u32 mask_xr = (dir == TX) ? ENDPTCTRL_TXR : ENDPTCTRL_RXR;
-> +	int retries = 1000;
-> +
->  	if (value != 0 && value != 1)
->  		return -EINVAL;
->  
->  	do {
-> -		enum ci_hw_regs reg = OP_ENDPTCTRL + num;
-> -		u32 mask_xs = (dir == TX) ? ENDPTCTRL_TXS : ENDPTCTRL_RXS;
-> -		u32 mask_xr = (dir == TX) ? ENDPTCTRL_TXR : ENDPTCTRL_RXR;
-> -
->  		/* data toggle - reserved for EP0 but it's in ESS */
->  		hw_write(ci, reg, mask_xs|mask_xr,
->  			  value ? mask_xs : mask_xr);
-> -	} while (value != hw_ep_get_halt(ci, num, dir));
-> -
-> -	return 0;
-> +		if (value == hw_ep_get_halt(ci, num, dir))
-> +			return 0;
-> +		udelay(1);
-> +	} while (--retries);
-> +
-> +	dev_warn_ratelimited(ci->dev,
-> +			     "ep%d%s: halt=%d not taken, ENDPTCTRL 0x%08x ENDPTSETUPSTAT 0x%08x\n",
-> +			     num, dir == TX ? "in" : "out", value, hw_read(ci, reg, ~0),
-> +			     hw_read(ci, OP_ENDPTSETUPSTAT, ~0));
-> +	return -EBUSY;
->  }
->  
->  /**
-> -- 
-> 2.53.0
+> gadgetfs_unbind() frees the preallocated ep0 request after disconnecting
+> the gadget, assuming that no I/O remains active.
 > 
+> With controllers such as dummy_hcd, disconnecting does not necessarily
+> drain ep0, so a delayed userspace response can leave dev->req queued
+> when it is freed.  This triggers the warning in dummy_free_request() and
+> a use-after-free when dummy_udc_stop() subsequently drains the endpoint
+> queue.
 
--- 
+This is a genuine problem.
 
-Thanks,
-Peter Chen
+> gadgetfs_setup() and the userspace copy helpers also race on dev->req
+> and req->buf:
+> 
+> 1. ep0_read() versus gadgetfs_setup().  A delegated control OUT request
+>    is queued by gadgetfs_setup() and completed by ep0_complete(), which
+>    leaves the payload in dev->req->buf and sets setup_out_ready.
+>    ep0_read() copies that payload with copy_to_user() after dropping
+>    dev->lock, so the copy can fault and sleep.  If a new control
+>    transfer arrives during that window, gadgetfs_setup() reuses dev->req
+>    for it; for example, GET_DESCRIPTOR(config) points req->buf at
+>    dev->config.  When ep0_read() resumes, clean_req() frees whatever
+>    req->buf points to, which is now dev->config.
+
+But this isn't.  Or at least, your analysis is incomplete.
+
+The real problem here is that gadgetfs does not handle "aborted" 
+control-OUT transfers correctly.  The request for the OUT data stage is 
+submitted when the setup packet arrives, and the host is told that the 
+transfer was successful when the request completes correctly, but the 
+user program doesn't receive the data until some time later.  And if 
+another control transfer arrives in the meantime, "aborting" the earlier 
+transfer, the user program doesn't ever receive the data.  It's not good 
+for the host and the peripheral to disagree over whether a transfer was 
+successful!
+
+The start of a new transfer should not be allowed to erase all knowledge 
+of a properly completed control-OUT transfer until the data has been 
+read.  Instead, the gadget should NAK the new transfer until then (i.e., 
+not submit any request in response to the new setup).
+
+Fixing that will be a fairly substantial change.  Furthermore, this 
+whole issue is so entirely different from the race involving 
+gadgetfs_unbind() above that it belongs in its own patch.
+
+> 2. ep0_write() versus gadgetfs_setup().  For a delegated control IN
+>    request, ep0_write() prepares dev->req and copies the response from
+>    userspace with copy_from_user() after dropping dev->lock.  A control
+>    request that arrives during that copy can point req->buf at dev->dev
+>    or dev->config, so the userspace copy overwrites a descriptor buffer,
+>    or reset req->buf to dev->rbuf so completion calls clean_req() on the
+>    wrong object.
+
+It should be possible to handle this problem without copying the buffer.  
+For instance, the user data could be put in its own kmalloc-ed buffer 
+instead of in dev->rbuf.
+
+> Copy completed control OUT payloads into a private setup_buf in
+> ep0_complete(), copy control IN payloads into a stack buffer before
+> preparing dev->req and leaving STATE_DEV_SETUP in ep0_write(), and track
+> buffers allocated by setup_req() separately in dev->ep0_req_buf so
+> clean_req() never frees descriptor storage.  Ignore zero-length reads
+> while a non-zero control OUT data stage is pending so they cannot queue
+> a status request early and clobber setup_out_len.
+> 
+> Submit ep0 requests through a shared queue_ep0_req() helper that tracks
+> dev->ep0_req_queued and wakes dev->wait whenever the flag clears.  In
+> gadgetfs_unbind(), tear down non-ep0 endpoints first, then dequeue any
+> active ep0 request and wait under dev->lock with wait_event_lock_irq()
+> for completion to finish.  If the controller rejects ep0 dequeue, keep a
+> reference on dev and let the completion handler free the request when
+> udc_stop() drains ep0.
+
+These descriptions are a little confusing to read, because they mix 
+together your solutions to three separate problems.  Each solution 
+really should be in its own patch.
+
+Also, don't worry about a rejected dequeue call.  In practice, the only 
+reason such a call can fail is because the request to be dequeued has 
+already completed (or was never successfully submitted in the first 
+place).
+
+Alan Stern
