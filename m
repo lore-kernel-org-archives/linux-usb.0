@@ -1,68 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795701194;
-	b=3u6lU6r9AVjiwb3OAHaxmFqL+KSgG5NxXgg973yvlpsICpCcQYqIf3CSfo+/EOS7aA6l
-	 FVIrn1bMr9o5r/uxhzjRtCY1OdR0WoKwvbPsWjb8o0SSqrXVUyG/SwV1+5Kk3zXXDbcMg
-	 5gkG4F9vhODbXB9loIwZZ9+IZUk/JPuRikrvz8HTUD93V1pyODxfUCHueYC7Zl/BWA7v7
-	 6rua6yMW2jxH3CQ0TmvenfSJ7EBKSi4f8c6vMTkXUu7fCU2yvXBYF/iCmoGYDVwOINdLY
-	 KXnUCQyV+JV2ctBv8mAkzIONWDb5C8Qa3ctFaiJ0eVHqzb3NZEwpFwTEIgA0f8DBpYA==
+	t=1795702060;
+	b=nAENqbjp0JgcIFn0JmKiEVjxPsp0FHb9joSR54wEc+eLPLw6hWm8aFUIBBvffH15OEEc
+	 o5ZJQUn3BSr04UBqpxWg4EusCJeSCtJbxuT+QPsmFXtUpSv7KSrvWeEC7FkL0mYp39Jpy
+	 zwfNtOHOKqBTASAS7Pv0ggoeKU8/E3CCANVBmu+dqdPSOlZnWVFtJMfYkDk+kDYQnYu/n
+	 p8gOE7F9sLaVa/GNfmf+VhkffS51fMUEMaWqeUPKga2rWSYsAAyRvFH29sTQZbCTcWocm
+	 4EggBxyv7kQaZ8vr3DYtGIoRA6wpN9ieiVbYUF+QQ8YxVqW8CLYWySldY7s7oGJQBmQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795701194;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=qPMaAqLcG/iqmUlSJ8jiYApihQzYsA/5A7Wr/u2o2Ro=;
-	b=O4vppOcNEQ9WE8GaYM5dWok7tBNHIO1b3WR/i+PZIzzOGOCVVBDd79YG52e8VEWpzyUS
-	 ewLL15cDVUo2nXbxr0CH/+P2ikCDfk/Yuh3hdVeitKoCrmmovdOtgARBn9vt0BwdI0Zuq
-	 EIUSx3TdtdOVyQbkGwAGSrCRLs/DtriR7Dm31wM2IWhw2w9lAYb54N59TQyyJ9dEii4CM
-	 GhDZtkfhCFG6EOcRUAndvu05GGk5XIwZoPABRbriwYcNlUdcqo7+5T9xlNop9KqyWSXY2
-	 E/y7x2H+y4EGnmMkxvXvbxfOwYbyiaiunzToZDSrU5tHmOnJS26Rtn8c3hYkjGCXT/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795702060;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=bFmkKJ3azDeYvCcEHUuEh2P+8DZFyAZpKtAxWl/TlgU=;
+	b=wxH0HRbhWY8rkLHKsCr2B7GDRDI+Hb5qbKN1ypAzcbWcOQqG/JPQGAyA8XRw4WPdv9Km
+	 nUkDWkFm/eSWZ+/ipVVcFSppMwbUDbWHpFfBN7vRZ8q41UOjJLMknI3rQhQ5A2tNFU9hZ
+	 Xw53USMsMcR5/m3q5ZRjRE9a/J8+CnfaDoWZflfwbpscu5QvbV3YZRfNJNAxqRVQ+9wiR
+	 LI/4nHQcN6L9ztyCk6v4ipuMXBwZD3HpR/eWkxg5cY2oYwyrlrde+q3bGVy3VK9FtSbYb
+	 6BmyoQs5DZnnGjK5mg0QHSyWX2nDWsuBz7+lkQty972DFaeTTf3PkelSyV3fyYjzjqQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=loIp41ij;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859AD606A32A;
-	Thu, 26 Nov 2026 13:53:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 859AD606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: b5820fc2e9a011f19a56ed5b684f684d-20261126
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:81ab290a-16ac-48ef-8077-1c22f3fffe39,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:71d12a0e270c2bdd07bf44e0791b3936,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|102|850|865|898,TC:nil,Content:0|15|50|99,ED
-	M:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:
-	0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b5820fc2e9a011f19a56ed5b684f684d-20261126
-X-User: shitao@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <shitao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 705664564; Thu, 26 Nov 2026 21:53:07 +0800
-From: shitao <shitao@kylinos.cn>
-To: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org
-Cc: davidm@egauge.net,
-	eeodqql09@gmail.com,
-	linux-kernel@vger.kernel.org,
-	Shi Tao <shitao@kylinos.cn>
-Subject: [PATCH v2] usb: host: max3421: fix the SPI thread teardown on remove
-Date: Thu, 26 Nov 2026 21:52:22 +0800
-Message-Id: <20261126135222.1428623-1-shitao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20261126121148.1021526-1-shitao@kylinos.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E405C606A31C
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 14:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=loIp41ij
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21E7E1F000D1;
+	Thu, 26 Nov 2026 14:07:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795702059;
+	bh=bFmkKJ3azDeYvCcEHUuEh2P+8DZFyAZpKtAxWl/TlgU=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=loIp41ijmpJUbnZ7OSB5Dd3zMkZUEmHHDq+Y9FUDBK0aGEkcItyycgjgmQoDC70Nx
+	 OBFy43HPVUbFF/IoD4zYO4P29hkB2/FVB5sYmM0Ie1r41fzF761R0NiP8ktEa8xImS
+	 U9u8zBkE1fRP0//n19Bh64eoU2/lEX5rvIkSt2p6e7B+hZ0+ydVlCN3y1yG+8twqQA
+	 R6F3+hEMS3Rlsl5aDRbqLVOgQfOaTDrsu56FoN3gIQV5Ass6TP55JDjAdmT7YnzFzH
+	 HePBrrIeXIAgY6jdi+Y5VyqjMVW2MzLhy8U1OgSEdQoF+4Uvc27K6B2IkIfJvrqmTQ
+	 6yjciQePRRXqw==
+Message-ID: <sashiko-outbox-235671@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] usb: host: max3421: fix the SPI thread teardown on
+ remove
+Reply-To: sashiko-reviews@lists.linux.dev
+To: shitao <shitao@kylinos.cn>, linux-usb@vger.kernel.org
+In-Reply-To: <20261126135222.1428623-1-shitao@kylinos.cn>
 References: <20261126121148.1021526-1-shitao@kylinos.cn>
+ <20261126135222.1428623-1-shitao@kylinos.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Nov 2026 14:07:38 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -71,73 +59,83 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Shi Tao <shitao@kylinos.cn>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] usb: host: max3421: free_irq() races with enable_irq() in
+  max3421_remove()
+--
 
-max3421_remove() stops the SPI thread with the HCD spinlock held:
+commit 58f589c27256d9aa92eb5a12720e9958ee5eba27
+Author: Shi Tao <shitao@kylinos.cn>
 
-	spin_lock_irqsave(&max3421_hcd->lock, flags);
-	kthread_stop(max3421_hcd->spi_thread);
-	spin_unlock_irqrestore(&max3421_hcd->lock, flags);
+usb: host: max3421: fix the SPI thread teardown on remove
 
-kthread_stop() waits for the thread to exit, so it must not be called
-under a spinlock.  Worse, the thread takes the same lock in its main
-loop (in max3421_urb_done() and friends), so it can never finish its
-current iteration while remove() holds the lock, and remove() ends up
-waiting forever.
+This commit updates max3421_remove() to free the interrupt before stopping
+the SPI thread and drops the HCD spinlock around kthread_stop().
 
-The interrupt is freed after the thread is stopped, but its handler
-wakes up that very thread, so an interrupt arriving after the thread
-has exited calls wake_up_process() on a task_struct that may already
-have been freed.
+> diff --git a/drivers/usb/host/max3421-hcd.c b/drivers/usb/host/max3421-hc=
+d.c
+> index 11c0d0e1f48d3..e6a447b0992de 100644
+> --- a/drivers/usb/host/max3421-hcd.c
+> +++ b/drivers/usb/host/max3421-hcd.c
+> @@ -1936,21 +1936,16 @@ max3421_remove(struct spi_device *spi)
+>  {
+>  	struct max3421_hcd *max3421_hcd;
+>  	struct usb_hcd *hcd;
+> -	unsigned long flags;
+> =20
+>  	max3421_hcd =3D spi_get_drvdata(spi);
+>  	hcd =3D max3421_to_hcd(max3421_hcd);
+> =20
+>  	usb_remove_hcd(hcd);
+> =20
+> -	spin_lock_irqsave(&max3421_hcd->lock, flags);
+> +	free_irq(spi->irq, hcd);
+> =20
+>  	kthread_stop(max3421_hcd->spi_thread);
+> =20
+> -	spin_unlock_irqrestore(&max3421_hcd->lock, flags);
+> -
+> -	free_irq(spi->irq, hcd);
+> -
+>  	usb_put_hcd(hcd);
+>  }
 
-Free the interrupt first and stop the thread without the spinlock.
-The thread checks kthread_should_stop() at the top of its loop, so it
-exits without re-enabling the freed interrupt.
+[Severity: Medium]
+Can max3421_spi_thread() call enable_irq(spi->irq) after free_irq() has
+already deactivated the IRQ, or exit leaving disable_irq_nosync(spi->irq)
+unbalanced?
 
-Fixes: 2d53139f31626 ("Add support for using a MAX3421E chip as a host driver.")
-Signed-off-by: Shi Tao <shitao@kylinos.cn>
----
-Changes in v2:
-  - Full name in the author, From: and sign-off, as requested.
-    My name is Shi Tao (surname Shi).
-  - To answer "how did you test this": compile-tested only.
-    No MAX3421E hardware was available, so the unbind path
-    was not exercised at runtime.
-Thanks!
----
- drivers/usb/host/max3421-hcd.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+max3421_irq_handler() sets ENABLE_IRQ in max3421_hcd->todo and calls
+disable_irq_nosync(spi->irq), delegating the matching enable_irq(spi->irq)
+to max3421_spi_thread().  Because kthread_stop() is only called after
+free_irq(), kthread_should_stop() is still false while free_irq() runs,
+and max3421_spi_thread() also sleeps in spi_wr8() after checking
+kthread_should_stop():
 
-diff --git a/drivers/usb/host/max3421-hcd.c b/drivers/usb/host/max3421-hcd.c
-index 73e76d0e6973..20e458809ac6 100644
---- a/drivers/usb/host/max3421-hcd.c
-+++ b/drivers/usb/host/max3421-hcd.c
-@@ -1936,21 +1936,16 @@ max3421_remove(struct spi_device *spi)
- {
- 	struct max3421_hcd *max3421_hcd;
- 	struct usb_hcd *hcd;
--	unsigned long flags;
- 
- 	max3421_hcd = spi_get_drvdata(spi);
- 	hcd = max3421_to_hcd(max3421_hcd);
- 
- 	usb_remove_hcd(hcd);
- 
--	spin_lock_irqsave(&max3421_hcd->lock, flags);
-+	free_irq(spi->irq, hcd);
- 
- 	kthread_stop(max3421_hcd->spi_thread);
- 
--	spin_unlock_irqrestore(&max3421_hcd->lock, flags);
--
--	free_irq(spi->irq, hcd);
--
- 	usb_put_hcd(hcd);
- }
- 
--- 
-2.25.1
+CPU0                                    CPU1 (max3421_spi_thread)
+max3421_irq_handler()
+  test_and_set_bit(ENABLE_IRQ, ...)
+  disable_irq_nosync(spi->irq)
+                                        while (!kthread_should_stop())
+                                          if (!i_worked)
+                                            spi_wr8(..., MAX3421_REG_HIEN, =
+...)
+max3421_remove()
+  free_irq(spi->irq, hcd)
+                                            if (test_and_clear_bit(ENABLE_I=
+RQ, ...))
+                                              enable_irq(spi->irq)  <-- on =
+freed IRQ
+  kthread_stop(max3421_hcd->spi_thread)
 
+Conversely, if max3421_irq_handler() sets ENABLE_IRQ and calls
+disable_irq_nosync(spi->irq) just before free_irq(), and
+max3421_spi_thread() then sees kthread_should_stop() at the top of its
+loop and exits, the disable depth on spi->irq is never balanced by
+enable_irq().
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126135222.1428=
+623-1-shitao@kylinos.cn?part=3D1
