@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795676562;
-	b=ZomqyAEZArz50piCK2QvpZgH5mhe8cCIF6hfgBxQn3dJ6pvxzuKAXrKhkT6uvqgIh2uo
-	 TMjep4MX3E8zc2+wW6j9w4wxxk9RxxRZA2BXAnQaoIuq8ByaNcz67oF8NhjsKpZr1DFO7
-	 9kvS8x68VFjwv889mvd/0c21rxqNydX2WSrmovjJazEFmtKkk71RRo21Fw27xmsyC9jKp
-	 g5ui4rait3K1nNj7vV6IOwwbov+MfZ5BdV83+Of8YWSkVv9CmerMZLuL/XGXT3cd50QOY
-	 wXAEaUGFrXv3OgeXB7VFtG6wxtU8zdjR6d83x3AztCz9s7G1d82NOXC1ssqRyH/6e8g==
+	t=1795676605;
+	b=k33H+vxRQ31j2/1yN8U1IxM4QH78l7CLqKRUAjgn+3VkYmC5CYfki/tH88tv1uwjyjov
+	 fzwcKGubvSWFW+qAuVUjDwWp1hQFHsBbCRAV0NnZx4roGEIxUbaXgCsHBGynMoe+4c+g4
+	 DVOrWA0NGAMZGEgzXI1wMyRnv/likndA2cfuoi/8tbXDYQ0abULfz8Kq0kDXuA5L3piK9
+	 mbySe3cRUwhdm5t2gGnsvU2hDklrZhr/b8RHSFNg/I0eVgBlWkddOI1n4OOwlT9Vh0y3w
+	 b6p5in+21bdaEpuR8b2kIdA0KHjpKuyICH8O1tsd/GqdezjanXHdwI4f/nbslJ4aNuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795676562;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795676605;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=83lxcYsqvRybkk6wkM4fRHiAhh/UtLIHJeF3pjnCwZ4=;
-	b=Kxinzse6RW1WFjD+GRiuQNTxI+pkxF7iiplorkq84v1Gi83yf/cs2aJayJ+EKYORYi1k
-	 MYQat9aWGvcWk6x6bo7oXrlKCOnBDPg0iaMjAz55G5zQvheHwdWqQNUE9UZ/TL9tv9Ouz
-	 LNdwQtdaOeme2fNlqboXW1xFVvcLyTZdUq9rxvKVJkOGGZmsnD7IptE27NoKabSuLbgWB
-	 bEE7FiDWdb+K2z3406KhvJwxKYYp3QTTy9sbswWpeHHfBFdVpDqflQBN4y/EG6wFWXIrr
-	 H5L1UjneGIzPm9TtTJ2S/sV6lBD0jURbZBOir7trhU2fWbmJIozY2FBhkinPTTXYvXg==
+	bh=I6J/U9n+gIuKJ5uXcvgT1URRa9YYmsP7Dcg1YRw+D7U=;
+	b=2++IdyGH3tjLkH+DEc/CDNTPOIJqaS83nbG2c1HRpPfCr1ncK4zJugMMPPkuBU240dkG
+	 7Tj76Sp2xT7GB83ZdF4KhQX4kVUCGMMyDPVcOiprssumw6WhHXmS4hc8fEi6q+88XTAyl
+	 X6X3NYdlmI7Jw47UHi4280cn5PwdkzH2ZlgRcUIlQVWyD0EK8PtLDOU5cwecrml4G01ne
+	 zhgGInEe2sDS6XMKX4pGf5pwTiY9W4TdkWB47ATz71BUVqdMOTrI6T1nVsdMbhc6YBYWY
+	 6S1CdVxS8M5fJB7Ym5NgybVFJL2etSBnkEt90METoT3Ul5uyre61vFZhJ4FdZC330FA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EmELnoJQ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mPuY4hED;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDCE606A31C
-	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 07:02:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA63E606A326
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 07:03:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EmELnoJQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BE281F000C4;
-	Thu, 26 Nov 2026 07:02:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mPuY4hED
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B281D1F000C4;
+	Thu, 26 Nov 2026 07:03:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795676561;
-	bh=83lxcYsqvRybkk6wkM4fRHiAhh/UtLIHJeF3pjnCwZ4=;
+	s=k20260515; t=1795676604;
+	bh=I6J/U9n+gIuKJ5uXcvgT1URRa9YYmsP7Dcg1YRw+D7U=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=EmELnoJQmTMro7Bqq6LJ6+M5laKar7ldtSHK8tisCtKmD4vrtpyAPon1tDtrtyJOi
-	 s6BmS5Fo01SE6nhMSbMFJt7mu4g4CKkJcRjIzwEP/G0kHYGL3Br91aHJhNtXzGQqf0
-	 80pbksSGlx98eONakPdBHqtMrbq9JRJpWO97w5DpnSZNI0MmbxfsWBmtgQdTbQOc7k
-	 gIhvSBN78DSNQI0ADAfKmeOygKzO0AJZl0UxQtZJg5mnMOgJFtXBhJjV+LiXm945Cy
-	 aZ4gpa9FK1R50S+s4AVbW82iVcZDjBb8IJ3m45rDBJxhiO7FMhSCQHbo2SlLWYEgTd
-	 F/iGnHRNJcYRw==
-Message-ID: <sashiko-outbox-234924@kernel.org>
+	b=mPuY4hEDG/cVC2FvgFxHL2qHHW2Vnjo/I3vlytN1oNh/jKL2TDDfO3XF63wcKGadJ
+	 rS+s2m8/pkn5WxGarczKZA/rB0BnDDOZPzGBvqtEkS/u5CLkhAA+yQ6QrYujdSDi8V
+	 Y5uU6YzUsWBrt86Nf3/gEPa6VrTkz1hqLqZ2y45rRlmetl/IXbeS5zhyRa1Mz3XFZs
+	 RRoENs9HRalTz1XvQzh1AMd+U+/xIqhwYuJj1bz2ZCv96YKiQAP/z2AmFfbKKaaR52
+	 2azJGVmSwBY7fho2tLYKV+4wM1cJPtXBOXbevefT3kFgF1Qzwhy1VhwuFiZhy4ZOCT
+	 cGwNfvzoOxsqg==
+Message-ID: <sashiko-outbox-234927@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: phy: twl6030: init work before comparator and
- clear comparator on teardown
+Subject: Re: [PATCH] usb: gadget: f_fs: fix UAF read in INTERFACE_REVMAP
+ ioctl
 Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?QmluIEx1byAoVW5pdmVyc2l0eSBvZiBFbGVjdHJvbmljIFNjaWVuY2Ug?=
- =?utf-8?b?YW5kIFRlY2hub2xvZ3kgb2YgQ2hpbmEp?= <luob87709@gmail.com>
+To: "Jaegyun Lee" <dreams200260@g.skku.edu>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261126065139.127-1-luob87709@gmail.com>
-References: <20261126065139.127-1-luob87709@gmail.com>
+In-Reply-To: <20261126-ffs-revmap-v1-1-e1322f6fa290@g.skku.edu>
+References: <20261126-ffs-revmap-v1-1-e1322f6fa290@g.skku.edu>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 07:02:40 +0000
+Date: Thu, 26 Nov 2026 07:03:24 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,117 +62,85 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] usb: phy: twl6030: unsynchronized comparator clearing in
-  probe and remove
+- [Medium] usb: gadget: f_fs: UAF and stale ffs->func in
+  ffs_func_unbind() after unbind
 --
 
-commit 7291457bcd76118c22b37c6b874744fe4ac3dc1c
-Author: luob87709@gmail.com <luob87709@gmail.com>
+commit 54f606e52beb80500efc1407df54d86b84f48d2a
+Author: Jaegyun Lee <dreams200260@g.skku.edu>
 
-usb: phy: twl6030: init work before comparator and clear comparator on tear=
-down
+usb: gadget: f_fs: fix UAF read in INTERFACE_REVMAP ioctl
 
-This commit initializes twl->lock and work items in twl6030_usb_probe()
-before registering &twl->comparator with omap_usb2_set_comparator(), and
-clears the comparator on probe failure and in twl6030_usb_remove().
+This commit protects FUNCTIONFS_INTERFACE_REVMAP and the teardown of
+ffs->func and func->eps in ffs_func_unbind() with ffs->eps_lock.
 
-> diff --git a/drivers/usb/phy/phy-twl6030-usb.c b/drivers/usb/phy/phy-twl6=
-030-usb.c
-> index 9bfcb2c1dfd0e..a9da7aa5f5f14 100644
-> --- a/drivers/usb/phy/phy-twl6030-usb.c
-> +++ b/drivers/usb/phy/phy-twl6030-usb.c
-> @@ -355,26 +355,26 @@ static int twl6030_usb_probe(struct platform_device=
- *pdev)
->  	twl->comparator.set_vbus	=3D twl6030_set_vbus;
->  	twl->comparator.start_srp	=3D twl6030_start_srp;
+> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/func=
+tion/f_fs.c
+> index c64a268e98a43..c824d1d5ce571 100644
+> --- a/drivers/usb/gadget/function/f_fs.c
+> +++ b/drivers/usb/gadget/function/f_fs.c
+[ ... ]
+> @@ -4203,10 +4208,8 @@ static void ffs_func_unbind(struct usb_configurati=
+on *c,
+>  	unsigned count =3D ffs->eps_count;
+>  	unsigned long flags;
 > =20
-> +	/* init spinlock and work items before publishing comparator */
-> +	spin_lock_init(&twl->lock);
-> +	INIT_WORK(&twl->set_vbus_work, otg_set_vbus_work);
-> +	INIT_DELAYED_WORK(&twl->get_status_work, twl6030_status_work);
-> +
->  	ret =3D omap_usb2_set_comparator(&twl->comparator);
->  	if (ret =3D=3D -ENODEV) {
->  		dev_info(&pdev->dev, "phy not ready, deferring probe");
->  		return -EPROBE_DEFER;
->  	}
+> -	if (ffs->func =3D=3D func) {
+> +	if (ffs->func =3D=3D func)
+>  		ffs_func_eps_disable(func);
+> -		ffs->func =3D NULL;
+> -	}
 > =20
-> -	/* init spinlock for workqueue */
-> -	spin_lock_init(&twl->lock);
-> -
->  	err =3D twl6030_usb_ldo_init(twl);
->  	if (err) {
->  		dev_err(&pdev->dev, "ldo init failed\n");
-> -		return err;
-> +		status =3D err;
-> +		goto err_clear_comparator;
->  	}
+>  	/* Drain any pending AIO completions */
+>  	drain_workqueue(ffs->io_completion_wq);
+> @@ -4217,13 +4220,14 @@ static void ffs_func_unbind(struct usb_configurat=
+ion *c,
 > =20
->  	platform_set_drvdata(pdev, twl);
-> =20
-> -	INIT_WORK(&twl->set_vbus_work, otg_set_vbus_work);
-> -	INIT_DELAYED_WORK(&twl->get_status_work, twl6030_status_work);
-> -
->  	status =3D request_threaded_irq(twl->irq1, NULL, twl6030_usbotg_irq,
->  			IRQF_TRIGGER_FALLING | IRQF_TRIGGER_RISING | IRQF_ONESHOT,
->  			"twl6030_usb", twl);
-> @@ -404,6 +404,9 @@ static int twl6030_usb_probe(struct platform_device *=
-pdev)
->  	free_irq(twl->irq1, twl);
->  err_put_regulator:
->  	regulator_put(twl->usb3v3);
-> +err_clear_comparator:
-> +	omap_usb2_set_comparator(NULL);
-> +	cancel_work_sync(&twl->set_vbus_work);
-> =20
->  	return status;
->  }
-> @@ -412,6 +415,7 @@ static void twl6030_usb_remove(struct platform_device=
- *pdev)
->  {
->  	struct twl6030_usb *twl =3D platform_get_drvdata(pdev);
-> =20
-> +	omap_usb2_set_comparator(NULL);
->  	cancel_delayed_work_sync(&twl->get_status_work);
->  	twl6030_interrupt_mask(TWL6030_USBOTG_INT_MASK,
->  		REG_INT_MSK_LINE_C);
+>  	/* cleanup after autoconfig */
+>  	spin_lock_irqsave(&func->ffs->eps_lock, flags);
+> +	if (ffs->func =3D=3D func)
+> +		ffs->func =3D NULL;
 
 [Severity: Medium]
-Can an in-flight omap_usb_set_vbus() or omap_usb_start_srp() call still
-race with omap_usb2_set_comparator(NULL) on probe error or remove?
+Can moving ffs->func =3D NULL after functionfs_unbind(ffs) cause a
+use-after-free on ffs or an out-of-bounds read in ffs_func_revmap_intf()?
 
-drivers/phy/ti/phy-omap-usb2.c:omap_usb_set_vbus() {
-	...
-	if (!phy->comparator || !phy->comparator->set_vbus)
-		return -ENODEV;
+functionfs_unbind() clears FFS_FL_BOUND and drops the gadget's reference
+with ffs_data_put(ffs).  Once FFS_FL_BOUND is clear, ffs_closed() skips
+unregister_gadget_item() and no longer serializes on gi->lock against the
+running unbind, so a concurrent unmount in ffs_fs_kill_sb() can drop the
+superblock reference and free ffs before ffs_func_unbind() takes
+func->ffs->eps_lock:
 
-	return phy->comparator->set_vbus(phy->comparator, enabled);
-}
+CPU0                                  CPU1
+ffs_func_unbind()
+  ffs_event_add(..., FUNCTIONFS_UNBIND)
+  functionfs_unbind(ffs)
+    clear_bit(FFS_FL_BOUND, &ffs->flags)
+    ffs_data_put(ffs)
+                                      ffs_fs_kill_sb()
+                                        ffs_data_reset(ffs)
+                                          ...
+                                            ffs_closed()
+                                              /* FFS_FL_BOUND is clear */
+                                        ffs_data_put(ffs)  <-- frees ffs
+  spin_lock_irqsave(&func->ffs->eps_lock)  <-- use-after-free
+  if (ffs->func =3D=3D func)
+    ffs->func =3D NULL;
 
-omap_usb2_set_comparator() does a plain unlocked assignment to
-phy->comparator, and omap_usb_set_vbus() and omap_usb_start_srp() read and
-dereference phy->comparator without locking or lifetime tracking:
+In addition, leaving ffs->func set across functionfs_unbind() means
+ffs_data_reset() can reset ffs->state to FFS_READ_DESCRIPTORS while
+ffs->func still points to the old function.  If userspace writes new
+descriptors with a larger ffs->interfaces_count and calls
+FUNCTIONFS_INTERFACE_REVMAP before ffs_func_unbind() acquires eps_lock,
+ffs_func_revmap_intf() walks the old func->interfaces_nums array using
+the new count.
 
-CPU0                              CPU1
-                                  omap_usb_set_vbus()
-                                    if (!phy->comparator || ...)
-twl6030_usb_remove()
-  omap_usb2_set_comparator(NULL)
-  ...
-  cancel_work_sync(&twl->set_vbus_work)
-  /* devres frees twl */
-                                    twl6030_set_vbus()
-                                      twl->vbus_enable =3D enabled
-                                      schedule_work(&twl->set_vbus_work)
-                                        <-- use-after-free
-
-If the compiler reloads phy->comparator after the check, CPU1 can also hit
-a NULL pointer dereference, and omap_usb_start_srp() -> twl6030_start_srp()
-spends 100 ms in mdelay() before accessing twl while teardown does not
-wait for it.  In addition, twl6030_usb_probe() still publishes
-&twl->comparator before fallible steps in twl6030_usb_ldo_init() and
-request_threaded_irq().
+Performing the eps_lock cleanup block (clearing ffs->func, freeing
+ep->req, and freeing func->eps) before ffs_event_add() and
+functionfs_unbind() would keep ffs pinned and FFS_FL_BOUND set until
+func teardown is complete.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126065139.127-=
-1-luob87709@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126-ffs-revmap=
+-v1-1-e1322f6fa290@g.skku.edu?part=3D1
