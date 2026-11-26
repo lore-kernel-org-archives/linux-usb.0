@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795698110;
-	b=pqtBSmFU7dkep4pgfyU0j9MZV0eUo9Gb/FbP8Hk79sytyA/LUKvv/OYZ+kDvumMRF/rI
-	 DTR02HnyMlf1FrIvVRUaQa4D92a4pp6Mq03YJcP020METs7bTQHWM/WBNKTOI0jdIGcKv
-	 WfXT51gSe6L6HHw/x4qV2dC/V7kxVEi/lqld1NsNTBe/cseNyCf7E9xkXWvgLc91UIGan
-	 js5KdsBixr1y5q5FMgsM0W7USNTZ8XHuVMI5UMj+2I5waEEbRhPq4yBLvLOpbTuGzmLHq
-	 64G1yopExbcqji/Xu+ar6RJqi+d8kf3bkvXwjNtHq3RaWCCJD5hd0MTSm7lUZ0HO2gQ==
+	t=1795698113;
+	b=Opx+vi2VrfGNeH1pVoM1YNFZRIj0+SBH5oxdk/CVUvWxj47I02Uhm75ddeXx+zJKKDbO
+	 OEz2ceSjBB8KKoehWcxr6VxNvrp8FjjmQwotS3Eq7fHwNkLgHby36eFvPzDAzzF/xC3m0
+	 LA05Ak+/u7AZPMUGydTdeSGGYi0QdHEwTbk/sFdQLGV2RK9PwEJP/Dknivb+5qd+XviF0
+	 3Fd4sZmWKOhGzitQsJEpQkRE/XlJP7a+DyY9SfavUiQQ86iaaCk3RI9dn7fQbrIGX5DOq
+	 6y8KvjU6nFdjjGTpZivQFaUyxFUqK8JNcDGrna1lICqyxrecey1FPQ/wNZmJhoqo/qA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795698110;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795698113;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=Aic9k4Ahs9FV6XRalFHE+SxtDauWtJO1roL4s44pKHk=;
-	b=ygaHHR2DoKOFR7rcruhuDQkfrdKzhk066dVCAf2w07ZNEgLW1tAALrLRyZdpo7DyPfLj
-	 hkzyLLlM/mvuxONo8zwbzwFVrX4qgaFmMmnP1148HX3xv94uxJK6T0W29yYOQWkg9tqdb
-	 mEHzemZzUVrW1o07Fcz/occAov7p40lGut36uAQSJ2UV48IdusUma4oqoSPEBAy/C2ozU
-	 nZq+1F4pkBFhzBEi1CYbU5xjbr2BLRurS6CwP94wVPrrP3j1s/8y8LrMJEJMEmk+a4Ds5
-	 snPA0Gprtuu+BRa0YXxjthg2qMfrzLJefoBLe6Y8XfcZ6ncXmTCA4d1IpsbrGQnLkJQ==
+	bh=7A0w2U4zoEdKpF1yE+p0krXFz4+YLW5OvXCV8h1EOJ8=;
+	b=eaw3RbpagKNnuS6810Pouj+iB5YTg77/cpPtD2n73WwmMjqO8vx/3Pn0YqSjmmeo1Xg4
+	 u8jc06U/JRcLE8oXMNRmUpjxis4DZKJAdGq/SvnL/+Dt4wuiR7iH/Ai05nYKO0fB6arGX
+	 kUOPy8S9Go0f6B2vpa13TS9xXc4AL7Fq7P80SADT9iquZkwN8uNad1vkPHp2uvbwRZ8AN
+	 ims/Ut6eFlJyVumKExl1ytmHgCLUy4V2tlbms8gukzfMjcU5A4l31kaT52v2OgIVy4IZJ
+	 rffH4kNQMY6fqSWSmuO736UaFUK+1eb4nTxvAcnxzA4mjgvIgskDDcTUVU6YIONvCdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ous/vebX";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A1pO0Wdd;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7C3606A683
-	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 13:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BFE606A332
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 13:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ous/vebX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AC561F000C6;
-	Thu, 26 Nov 2026 13:01:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A1pO0Wdd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FC7D1F00A00;
+	Thu, 26 Nov 2026 13:01:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795698110;
-	bh=Aic9k4Ahs9FV6XRalFHE+SxtDauWtJO1roL4s44pKHk=;
+	s=k20260515; t=1795698112;
+	bh=7A0w2U4zoEdKpF1yE+p0krXFz4+YLW5OvXCV8h1EOJ8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ous/vebXswcgajHB1ueX2KXixxWWgxCd0rZQ4rlxnsel7triwHrsNR2UEmLltp235
-	 j1R9Pwk7T22TAl1GYfrMF75aGJLTAAf1CCvqdQKcEgqu2Ty9bLitkkGV/lH8S80HCz
-	 nYm8b0/a8N84crEpuyZ3lLOzDKXMLQ/ACgGzcWy0DM7S8H85zZEpj8YVBTCqyK6bfg
-	 4wRRu5DDDgMUknOFLCTHy/CVDtacwi+tItrUKzBCSsJis+O7thcSKe42WCp73nPdb1
-	 KjeV1caqaEaqTYQOQkSru/pDVAmC9t9yPkyXCnvwJcq5uzglSuQlueocbJSAiNjL5L
-	 4g1zKV0sxVLNA==
+	b=A1pO0WddFlJjEduRhKh6rpVqv3sToihABP30H/e/lBnwsS+/8MtppwvoBYFk4wsMF
+	 4K7JJ0MJnBbsgeAQt/IwuAt736R8YwdxauyUdc+H3ZXdkOMN0HS+ULnz7l/P1/KIlC
+	 uHZTddDKsTGez3zzilZXeMTQvd2Yn5gBEJ94HNhbTSasvjUpC7Kv7gQj6an8kR7bAW
+	 60feiCEkIyxiwNTy5D33jRMaw/MQ+ECaxYRLRA987FdsSY5GiP7jPjmMQypIkB3kvR
+	 2o2rMgCLOOB8aWl6pdmq2ZMZdUnvhp1NLcpn76br1VMyFQGQXsx69PPn6AECbb0qWr
+	 1KMiNh+/peCyA==
 From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Thu, 26 Nov 2026 14:01:41 +0100
-Subject: [PATCH v2 1/4] usb: dwc3: gadget: serialize connection bitfield
- writes
+Date: Thu, 26 Nov 2026 14:01:42 +0100
+Subject: [PATCH v2 2/4] usb: dwc3: gadget: clear softconnect on stop and
+ failed pullup
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261126-topic-usb_dwc3_fixups-v2-1-c0cc2b75c518@oss.qualcomm.com>
+Message-Id: <20261126-topic-usb_dwc3_fixups-v2-2-c0cc2b75c518@oss.qualcomm.com>
 References: <20261126-topic-usb_dwc3_fixups-v2-0-c0cc2b75c518@oss.qualcomm.com>
 In-Reply-To: <20261126-topic-usb_dwc3_fixups-v2-0-c0cc2b75c518@oss.qualcomm.com>
 To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
@@ -65,72 +65,80 @@ To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
 Cc: linux-usb@vger.kernel.org, 
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795698105; l=1892;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795698105; l=2357;
  i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=jJe4BaNuiElTH7Ytm5Z7ync+f5dMJsdzhk6M2vnNAj4=;
- b=CNjFgSBFk7RQ7HJJKSj1rrCE8g4TNZl80hGeKsju4uPb/vPmYPI3Pe0nyYypJ1D7wD3E+9cn8
- 8lmz+U8d4XJBHI1+kzmzXj8gZASosGxR/uHOsje7bFnsKUpfyiMuFhr
+ bh=ThNK8sVifoyqJ7rKoJ3yPL7ikFhFkvIP8kF/crjh5Rk=;
+ b=YEnZZZt0yxUOYV6/9zjLnErhG5z6KhIke+WIJR/Tr6QQa3+KqrBQg73sHLefbtCDKMKL9TSFU
+ sK8nERF351+CKLqW0LMs43oYaZJ4v2NP5sc5mfhvZbRKdHVZEX4OOmt
 X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-softconnect and pullups_connected are bitfields that share their storage
-with dwc->connected, which is written under dwc->lock from IRQ context.
-Unprotected writes to these bitfields can race with the IRQ's updates to
-the shared storage.
+dwc3_gadget_pullup() sets softconnect before its runtime PM check, so
+a failed pullup(1) leaves it set while gadget->connected stays false.
+The unbind path then skips pullup(0), and softconnect is never cleared.
 
-Take dwc->lock around the softconnect assignment in dwc3_gadget_pullup()
-and the pullups_connected assignments in dwc3_gadget_run_stop().
+Clear softconnect in dwc3_gadget_stop(), so a stopped controller is not
+reconnected by err_recovery_work. Take connect_mutex around the clear,
+since err_recovery_work reads softconnect under that mutex and would
+otherwise race with the store.
 
+Also clear softconnect when pullup(1) fails, both on the runtime PM
+error path and when dwc3_gadget_soft_connect() fails, so a failed
+connect does not leave softconnect set for stop or err_recovery_work to
+act on.
+
+Fixes: 8217f07a5023 ("usb: dwc3: gadget: Avoid starting DWC3 gadget during UDC unbind")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- drivers/usb/dwc3/gadget.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/usb/dwc3/gadget.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 702cbc8475a8..4fab2d57e7d3 100644
+index 4fab2d57e7d3..d7e22b559876 100644
 --- a/drivers/usb/dwc3/gadget.c
 +++ b/drivers/usb/dwc3/gadget.c
-@@ -2680,6 +2680,7 @@ static int dwc3_gadget_run_stop(struct dwc3 *dwc, int is_on)
- 	u32			reg;
- 	u32			timeout = 2000;
- 	u32			saved_config = 0;
-+	unsigned long		flags;
- 
- 	if (pm_runtime_suspended(dwc->dev))
- 		return 0;
-@@ -2723,11 +2724,15 @@ static int dwc3_gadget_run_stop(struct dwc3 *dwc, int is_on)
- 		reg |= DWC3_DCTL_RUN_STOP;
- 
- 		__dwc3_gadget_set_speed(dwc);
-+		spin_lock_irqsave(&dwc->lock, flags);
- 		dwc->pullups_connected = true;
-+		spin_unlock_irqrestore(&dwc->lock, flags);
- 	} else {
- 		reg &= ~DWC3_DCTL_RUN_STOP;
- 
-+		spin_lock_irqsave(&dwc->lock, flags);
- 		dwc->pullups_connected = false;
-+		spin_unlock_irqrestore(&dwc->lock, flags);
+@@ -2884,8 +2884,12 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+ 	ret = pm_runtime_get_sync(dwc->dev);
+ 	if (!ret || ret < 0) {
+ 		pm_runtime_put(dwc->dev);
+-		if (ret < 0)
++		if (ret < 0) {
+ 			pm_runtime_set_suspended(dwc->dev);
++			spin_lock_irqsave(&dwc->lock, flags);
++			dwc->softconnect = 0;
++			spin_unlock_irqrestore(&dwc->lock, flags);
++		}
+ 		return ret;
  	}
  
- 	dwc3_pre_run_stop(dwc, is_on);
-@@ -2851,11 +2856,14 @@ static int dwc3_gadget_soft_connect(struct dwc3 *dwc)
- static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
- {
- 	struct dwc3		*dwc = gadget_to_dwc(g);
-+	unsigned long		flags;
- 	int			ret;
+@@ -2902,6 +2906,11 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+ 		ret = dwc3_gadget_soft_disconnect(dwc);
+ 	else
+ 		ret = dwc3_gadget_soft_connect(dwc);
++	if (ret) {
++		spin_lock_irqsave(&dwc->lock, flags);
++		dwc->softconnect = 0;
++		spin_unlock_irqrestore(&dwc->lock, flags);
++	}
+ 	mutex_unlock(&dwc->connect_mutex);
  
- 	is_on = !!is_on;
+ 	pm_runtime_put(dwc->dev);
+@@ -3130,10 +3139,13 @@ static int dwc3_gadget_stop(struct usb_gadget *g)
+ 	if (dwc->sys_wakeup)
+ 		device_wakeup_disable(dwc->sysdev);
  
-+	spin_lock_irqsave(&dwc->lock, flags);
- 	dwc->softconnect = is_on;
-+	spin_unlock_irqrestore(&dwc->lock, flags);
++	mutex_lock(&dwc->connect_mutex);
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 	dwc->gadget_driver	= NULL;
++	dwc->softconnect = 0;
+ 	dwc->max_cfg_eps = 0;
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
++	mutex_unlock(&dwc->connect_mutex);
  
- 	/*
- 	 * Avoid issuing a runtime resume if the device is already in the
+ 	free_irq(dwc->irq_gadget, dwc->ev_buf);
+ 
 
 -- 
 2.56.1
