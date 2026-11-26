@@ -1,56 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795676605;
-	b=k33H+vxRQ31j2/1yN8U1IxM4QH78l7CLqKRUAjgn+3VkYmC5CYfki/tH88tv1uwjyjov
-	 fzwcKGubvSWFW+qAuVUjDwWp1hQFHsBbCRAV0NnZx4roGEIxUbaXgCsHBGynMoe+4c+g4
-	 DVOrWA0NGAMZGEgzXI1wMyRnv/likndA2cfuoi/8tbXDYQ0abULfz8Kq0kDXuA5L3piK9
-	 mbySe3cRUwhdm5t2gGnsvU2hDklrZhr/b8RHSFNg/I0eVgBlWkddOI1n4OOwlT9Vh0y3w
-	 b6p5in+21bdaEpuR8b2kIdA0KHjpKuyICH8O1tsd/GqdezjanXHdwI4f/nbslJ4aNuw==
+	t=1795677880;
+	b=T5O9Yxw87W0LTJnfeSXAs/gM/ictAFK8QxgQ9ivwYCVP3fGliw/nxJmBobhmZgIqKcnO
+	 rQjyQwnN1jBiWrt9SgWA/Dw0Ux5icXFfu0YR/p9g99I9Ri33sBJdcyT36Teiq2Z7OfbZY
+	 F/5nZEZMc8A7VgVcJaid31Uuj6k4bSTyNC3uafuKtt3DpXU1IQiBxR/iDI3KEw0wYc7+X
+	 kf4gyiByWVQlnAMFFw68wjmrD+9D/NXQSfXYR9Bp4u/brioPxd7uDdtix/9JD0sFQtMUk
+	 l0lCn7gJwMjcqOzQied/LoiyFfWnnJdHI3nq7iv2Hg94L0PinOeOPaRodKnjm2xVLKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795676605;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=I6J/U9n+gIuKJ5uXcvgT1URRa9YYmsP7Dcg1YRw+D7U=;
-	b=2++IdyGH3tjLkH+DEc/CDNTPOIJqaS83nbG2c1HRpPfCr1ncK4zJugMMPPkuBU240dkG
-	 7Tj76Sp2xT7GB83ZdF4KhQX4kVUCGMMyDPVcOiprssumw6WhHXmS4hc8fEi6q+88XTAyl
-	 X6X3NYdlmI7Jw47UHi4280cn5PwdkzH2ZlgRcUIlQVWyD0EK8PtLDOU5cwecrml4G01ne
-	 zhgGInEe2sDS6XMKX4pGf5pwTiY9W4TdkWB47ATz71BUVqdMOTrI6T1nVsdMbhc6YBYWY
-	 6S1CdVxS8M5fJB7Ym5NgybVFJL2etSBnkEt90METoT3Ul5uyre61vFZhJ4FdZC330FA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795677880;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=RRFRkHSstvshHl3lrnqAQhw1v+jXEe/hRdOv3xL9AnE=;
+	b=r19fQL4phYM51odHRQbS9gKcnC1o9SrFNeWRpqH3uBayflwh932qysTkYwM46qcwpAm7
+	 zKEzy9hDeOQfq0HjGqWWv1zQi8l+myt65CyXDzGQvTAHL+N4BuHw7ISwVHa22f0xTjkcZ
+	 n9GlOuWUTWETzjQvzaBrTgdyhhgOiddDkUImfqnFzjwunZuYbPLD7VpYvMMyUAc4gIR/v
+	 dt/JaVbBe1L07TqqksxbORMRQgfQXCFfbKGm/Hb14mI9Pf7RcbF3Yv+VzawlPJzYIkn1m
+	 CsRn3bpNE1lIicwiht3BQooolSOpcnwdyBioRs4ql0lmwFy7A9VvBXKeiqKRGUaBfbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mPuY4hED;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XAb4ng2f;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA63E606A326
-	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 07:03:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1B8606A31E;
+	Thu, 26 Nov 2026 07:24:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mPuY4hED
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B281D1F000C4;
-	Thu, 26 Nov 2026 07:03:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XAb4ng2f
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78CD71F000D1;
+	Thu, 26 Nov 2026 07:24:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795676604;
-	bh=I6J/U9n+gIuKJ5uXcvgT1URRa9YYmsP7Dcg1YRw+D7U=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mPuY4hEDG/cVC2FvgFxHL2qHHW2Vnjo/I3vlytN1oNh/jKL2TDDfO3XF63wcKGadJ
-	 rS+s2m8/pkn5WxGarczKZA/rB0BnDDOZPzGBvqtEkS/u5CLkhAA+yQ6QrYujdSDi8V
-	 Y5uU6YzUsWBrt86Nf3/gEPa6VrTkz1hqLqZ2y45rRlmetl/IXbeS5zhyRa1Mz3XFZs
-	 RRoENs9HRalTz1XvQzh1AMd+U+/xIqhwYuJj1bz2ZCv96YKiQAP/z2AmFfbKKaaR52
-	 2azJGVmSwBY7fho2tLYKV+4wM1cJPtXBOXbevefT3kFgF1Qzwhy1VhwuFiZhy4ZOCT
-	 cGwNfvzoOxsqg==
-Message-ID: <sashiko-outbox-234927@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: f_fs: fix UAF read in INTERFACE_REVMAP
- ioctl
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jaegyun Lee" <dreams200260@g.skku.edu>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261126-ffs-revmap-v1-1-e1322f6fa290@g.skku.edu>
-References: <20261126-ffs-revmap-v1-1-e1322f6fa290@g.skku.edu>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 07:03:24 +0000
+	s=k20260515; t=1795677879;
+	bh=RRFRkHSstvshHl3lrnqAQhw1v+jXEe/hRdOv3xL9AnE=;
+	h=From:To:Cc:Subject:Date;
+	b=XAb4ng2fW6jkoawynNubiB2qF+bCHwTIBerg/PtRv1uAql67FCm1yq8UAMJk7ECSC
+	 TCcneWye2yIYE9yM1cKAOA9qCZ9g40K+R487mdfXjbzdnHiZG9MQbWDRKhZeMPD8Hu
+	 oNCcd9yoY7ED+O8g0hL1LyVrkHCYDdaLwWRQA7VEl3Rlhl+xlhmLxl13tbcxMfiMDD
+	 2kq9qaA8RT0v2z5V2/RDros7fkeSEQVfLK+x9zVPOj0RtO1oCMMMSw455LXnzSDzkz
+	 WZM8q9bmbrI9v5IcExrtWyR4iEOiud/dcHGWEpOcdESAPLnJrOdo9fC5PJQZQMKg58
+	 7D8KPwpQJ1psA==
+From: Peter Chen <peter.chen@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Xu Yang <xu.yang_2@nxp.com>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Peter Chen <peter.chen@kernel.org>
+Subject: [PATCH] MAINTAINERS: Make Xu Yang the ChipIdea USB maintainer
+Date: Wed, 25 Nov 2026 23:24:37 -0800
+Message-ID: <20261126072437.4037678-1-peter.chen@kernel.org>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,88 +57,38 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] usb: gadget: f_fs: UAF and stale ffs->func in
-  ffs_func_unbind() after unbind
---
+Xu Yang has real ChipIdea hardware to test on and a lot of experience
+with the controller and driver. Make Xu Yang the maintainer of the
+ChipIdea USB driver, and move me to reviewer.
 
-commit 54f606e52beb80500efc1407df54d86b84f48d2a
-Author: Jaegyun Lee <dreams200260@g.skku.edu>
+Also remove the T: entry. My git tree is no longer kept up to date, and
+ChipIdea patches will go through the USB tree.
 
-usb: gadget: f_fs: fix UAF read in INTERFACE_REVMAP ioctl
+Signed-off-by: Peter Chen <peter.chen@kernel.org>
+---
+ MAINTAINERS | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This commit protects FUNCTIONFS_INTERFACE_REVMAP and the teardown of
-ffs->func and func->eps in ffs_func_unbind() with ffs->eps_lock.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 93abbb315065..5383f1070c81 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6281,10 +6281,10 @@ S:	Maintained
+ F:	Documentation/translations/zh_CN/
+ 
+ CHIPIDEA USB HIGH SPEED DUAL ROLE CONTROLLER
+-M:	Peter Chen <peter.chen@kernel.org>
++M:	Xu Yang <xu.yang_2@nxp.com>
++R:	Peter Chen <peter.chen@kernel.org>
+ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+-T:	git git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
+ F:	drivers/usb/chipidea/
+ 
+ CHIPONE ICN8318 I2C TOUCHSCREEN DRIVER
+-- 
+2.43.0
 
-> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/func=
-tion/f_fs.c
-> index c64a268e98a43..c824d1d5ce571 100644
-> --- a/drivers/usb/gadget/function/f_fs.c
-> +++ b/drivers/usb/gadget/function/f_fs.c
-[ ... ]
-> @@ -4203,10 +4208,8 @@ static void ffs_func_unbind(struct usb_configurati=
-on *c,
->  	unsigned count =3D ffs->eps_count;
->  	unsigned long flags;
-> =20
-> -	if (ffs->func =3D=3D func) {
-> +	if (ffs->func =3D=3D func)
->  		ffs_func_eps_disable(func);
-> -		ffs->func =3D NULL;
-> -	}
-> =20
->  	/* Drain any pending AIO completions */
->  	drain_workqueue(ffs->io_completion_wq);
-> @@ -4217,13 +4220,14 @@ static void ffs_func_unbind(struct usb_configurat=
-ion *c,
-> =20
->  	/* cleanup after autoconfig */
->  	spin_lock_irqsave(&func->ffs->eps_lock, flags);
-> +	if (ffs->func =3D=3D func)
-> +		ffs->func =3D NULL;
-
-[Severity: Medium]
-Can moving ffs->func =3D NULL after functionfs_unbind(ffs) cause a
-use-after-free on ffs or an out-of-bounds read in ffs_func_revmap_intf()?
-
-functionfs_unbind() clears FFS_FL_BOUND and drops the gadget's reference
-with ffs_data_put(ffs).  Once FFS_FL_BOUND is clear, ffs_closed() skips
-unregister_gadget_item() and no longer serializes on gi->lock against the
-running unbind, so a concurrent unmount in ffs_fs_kill_sb() can drop the
-superblock reference and free ffs before ffs_func_unbind() takes
-func->ffs->eps_lock:
-
-CPU0                                  CPU1
-ffs_func_unbind()
-  ffs_event_add(..., FUNCTIONFS_UNBIND)
-  functionfs_unbind(ffs)
-    clear_bit(FFS_FL_BOUND, &ffs->flags)
-    ffs_data_put(ffs)
-                                      ffs_fs_kill_sb()
-                                        ffs_data_reset(ffs)
-                                          ...
-                                            ffs_closed()
-                                              /* FFS_FL_BOUND is clear */
-                                        ffs_data_put(ffs)  <-- frees ffs
-  spin_lock_irqsave(&func->ffs->eps_lock)  <-- use-after-free
-  if (ffs->func =3D=3D func)
-    ffs->func =3D NULL;
-
-In addition, leaving ffs->func set across functionfs_unbind() means
-ffs_data_reset() can reset ffs->state to FFS_READ_DESCRIPTORS while
-ffs->func still points to the old function.  If userspace writes new
-descriptors with a larger ffs->interfaces_count and calls
-FUNCTIONFS_INTERFACE_REVMAP before ffs_func_unbind() acquires eps_lock,
-ffs_func_revmap_intf() walks the old func->interfaces_nums array using
-the new count.
-
-Performing the eps_lock cleanup block (clearing ffs->func, freeing
-ep->req, and freeing func->eps) before ffs_event_add() and
-functionfs_unbind() would keep ffs pinned and FFS_FL_BOUND set until
-func teardown is complete.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126-ffs-revmap=
--v1-1-e1322f6fa290@g.skku.edu?part=3D1
