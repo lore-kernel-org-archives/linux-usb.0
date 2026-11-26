@@ -1,90 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=46.247.34.138
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795684918;
-	b=hDA/UNLidEwElCEWcB1S6C/m0Elc64dzCfcmGL3ni3B4FmFBzauiGIXD2Yw6DCa+3C4p
-	 Cz4SFm6xDeGMIBey1Q7TqJsdFhGGH8ZpLU66h0ivJlpQpy2dxTV0QAbxlft2y4gjEWez1
-	 gRPMbTqoq9/vOus9gM5RnrBX5fvE0witiNoxCRA+HpkCUxvHjvAOHEkSZ83ZX3XqEC0jv
-	 NAceMvNNPMeOZYMPe+0BIFjn8jwzyX1COKQyANe5yOThsURhznvVN4l3upEwXSqujFCzW
-	 HhwJ7Bs4KeEBzbdq441pH+2dg0Qj0uj9vWizXPcUdYeqV1uEr/8GNJCuRTSUYFhDg9Q==
+	t=1795685289;
+	b=1Ao8wkYvtronyk7VFVgJx53D/WE0kET8NnO5ASBfkT+5pqnIw+c+0koV/ZvdnHrj1mp1
+	 ECepQq1272mZ7qvii9m5qwQkQT1xuVJRng9jUq3Eajse4WB+YYUQATvOI5akbM4yYVhR9
+	 wh+PLfSGeFT0kGPZcbAdxKQIcNHS/yReGMlSTqFVxiT6wJH91T9VdCQhfd5VvQI4VGroa
+	 x2SCKc7Ysn6xm3JCI75XNPQeHHKh6KDxBXCC6jCenEc7O0hOVAe4KtFdJKw2qYzLJOAFN
+	 d2PXxUln5YSueXJRAZnH8QLFwwqyPK5xar+KInumzIeVL1Mf0CDe6T1sdq0AT4qnulA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795684918;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=WsVj4KD5V6xD96iJwBwjksOcEJnqev9LYjORmDnLPlc=;
-	b=l7+IE5U5JYR3F7x9xurvM49/AnDPS1t6mSTDmtFOH63KHApP11btC9SVZLff5H0OHkTa
-	 vADL/weMJ1SovK+o4tIY7ClW0UQqTFW6i1rn9aumRF6PpaQey/5KeFVxDhR+AQG6VsXiQ
-	 1lLRHilU1FNy9FUm80a12LozuhxTDW2xf3Pkt2P7qlb4TBYJZpqwKHTFcJeKj8j1s4xnX
-	 l+I/UI6RbCryQbfQChYLs0XgBH3wfSl+gmi98FhuBgrPaKVxeNSXZeOekFhxfgum7Ol99
-	 wfSqojb+mFzmFsAAEFRp6GIIJgyv8bHEhz8Ge43NWvO4MapUV6JwFi7sez8pJagnKWw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795685289;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:
+	 References:In-Reply-To:Accept-Language:Content-Language:
+	 X-MS-Has-Attach:X-MS-TNEF-Correlator:x-originating-ip:Content-Type:
+	 Content-ID:Content-Transfer-Encoding:MIME-Version:X-SM-outgoing;
+	bh=svWs/aM38Vlawjp8seZdqmsqok/OpRYqNFaPL6I7pEA=;
+	b=zsQSGPLE3A77a0az3BIDjzzmDFzJijZGEcxELtbFaCpVd7dLlGUhOMVd1wFoZn3w7BN5
+	 qc0ABaouoVl9+oJqG1ZRkxMO/wA5PPsJnJKXFEpRfE8w8sQNSuGl8LYFY8HyiPYWKXpn5
+	 OMLpIoZhvrv77RmaHi3oyUS1LmhC7Sunp6pM4TqT0HhVZK6FfIPaPzQwWZzconPF3AcY+
+	 9ad9WPwhNQB7Er/TBnRlr+fWsB5Pf4YhAz9DWqU1UiyyPUKogzOYY7IqW3DXwTvhJsP3h
+	 2T1PO/RMKykga8xMdrqPxSc726t5o5VgKSx751gkXLPqhg5d+wMGy/JYH4D4jbV3I8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PvxhitGC;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=stiftung-kifa.ch;
+	spf=pass smtp.mailfrom=stiftung-kifa.ch;
+	dkim=pass header.d=stiftung-kifa.ch header.i=@stiftung-kifa.ch header.a=rsa-sha256 header.s=default header.b=qPRELP+m;
+	arc=none smtp.remote-ip=46.247.34.138
+Received: from hin.itze.ch (hin.itze.ch [46.247.34.138])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2511B606A31C;
-	Thu, 26 Nov 2026 09:21:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2511B606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7377606A31E;
+	Thu, 26 Nov 2026 09:28:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7377606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=stiftung-kifa.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stiftung-kifa.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PvxhitGC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795684919; x=1827220919;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=/hUGbjPNZAXU3qQnNIV8GlX5cXk7v+mn0wYdmIzb0eU=;
-  b=PvxhitGCLBSdQql6x26+WR68yGOJy4KfwTVvCrcQjm4uhWPSQMSJsvwt
-   2e5CDI3mNsmbssZEG+6dBSZofkgFqjnv5sX0wpCYNPrjx4KNHjsHQ7Z4C
-   6FaCEfAiSWaGXHufp4E1CiumtW+AT8eRLSDIwIMxQtS8+4M+2e1U382fG
-   p+oyQQpgRwvJHdI1wU9crDxxXfGonuAfJo0xxCE67XGE/stPzst7ukebm
-   mrGaRGgXDkejpWmf+qBt/bVlblSXtB4Q2969ipZHuc8QkGPBTkUXKpumr
-   rI9NXvNJB/obyRglYoaitdP1/Dryv9vtpTn+cQoo0pNakJHJ3ulxESWas
-   A==;
-X-CSE-ConnectionGUID: jRUK6NNGT1ygBzP1x+S29Q==
-X-CSE-MsgGUID: uNNwRd2ITpmhOQUxpsz1rg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4498453"
-X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="4498453"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 01:21:58 -0800
-X-CSE-ConnectionGUID: jqxrnSvsRzmWjcz3YEn4gQ==
-X-CSE-MsgGUID: l+VlTFImRlOObP/9iDbUMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="12122503"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Nov 2026 01:21:54 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 5CCAA98; Thu, 26 Nov 2026 10:21:53 +0100 (CET)
-Date: Thu, 26 Nov 2026 10:21:53 +0100
-From: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>
-To: Chunfeng Yun =?utf-8?B?KOS6keaYpeWzsCk=?= <Chunfeng.Yun@mediatek.com>
-Cc: "konrad.dybcio@oss.qualcomm.com" <konrad.dybcio@oss.qualcomm.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=stiftung-kifa.ch header.i=@stiftung-kifa.ch header.a=rsa-sha256 header.s=default header.b=qPRELP+m
+Received: from hin (localhost [127.0.0.1])
+	by hin.itze.ch (Postfix) with SMTP id 4jZrnC5qhSz1wsv;
+	Thu, 26 Nov 2026 10:27:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=stiftung-kifa.ch; h=from
+	:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:content-id:content-transfer-encoding:mime-version;
+	 s=default; bh=svWs/aM38Vlawjp8seZdqmsqok/OpRYqNFaPL6I7pEA=; b=q
+	PRELP+mB9j3QpEmFCd8GgxnWJWFoj/quSythpZbhq95jIqhIT5FKS3evyuhyVit0
+	GgjElkaudUccOLrezItpS8snZ+m8d9U2TptNGZfphMjZd1We5p4HiCXgECpnkIFe
+	YOcl5hTX+PF0PHdJd7KwL6L8OIpW0LjJBSqV2nIeDWqVtZQnZSUahn0xPoVvotgu
+	SH7x2i7IF6yCzZG0p3lHPa8r1kDF1+pACjreHSjDX7Q3/bMWnx+tAmqpQ9rwlXGV
+	kLQ9yPl3RGqzyZPGOTr1SZmqGQWslY9BtlZ9QmbZEfS8g+gM+YZnxXJkQABAS20t
+	N062rg7TAh+IRMSqFyq6A==
+Received: from owa.itze.ch (unknown [10.200.0.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519)
+	(No client certificate requested)
+	by hin.itze.ch (Postfix) with ESMTPS;
+	Thu, 26 Nov 2026 10:27:58 +0100 (CET)
+Received: from owa.itze.ch (ITZE-EXC-42.intranet.itze.ch [10.200.0.152])
+	by itze-smtp-02.intranet.itze.ch (Postfix) with ESMTPS id 907DC380104;
+	Thu, 26 Nov 2026 10:27:58 +0100 (CET)
+Received: from ITZE-EXC-42.intranet.itze.ch (10.200.0.152) by
+ ITZE-EXC-42.intranet.itze.ch (10.200.0.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.57; Thu, 26 Nov 2026 10:27:58 +0100
+Received: from ITZE-EXC-42.intranet.itze.ch ([fe80::423d:c966:8c82:e690]) by
+ ITZE-EXC-42.intranet.itze.ch ([fe80::423d:c966:8c82:e690%9]) with mapi id
+ 15.02.2562.057; Thu, 26 Nov 2026 10:27:58 +0100
+From: Kettler Christian <christian.kettler@stiftung-kifa.ch>
+To: "michal.pecio@gmail.com" <michal.pecio@gmail.com>
+CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
 	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"westeri@kernel.org" <westeri@kernel.org>,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"sven@kernel.org" <sven@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"andreas.noever@gmail.com" <andreas.noever@gmail.com>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>
-Subject: Re: [PATCH v3 7/8] thunderbolt: Decouple the waiting time of
- TB_PORT_UNPLUGGED and TB_PORT_UP
-Message-ID: <20261126092153.GN191152@black.igk.intel.com>
-References: <20261123113705.2297329-1-chunfeng.yun@mediatek.com>
- <20261123113705.2297329-8-chunfeng.yun@mediatek.com>
- <20261124160038.GR229695@black.igk.intel.com>
- <269e96946472c8562657fa1b40f24a17ee52b447.camel@mediatek.com>
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"stern@rowland.harvard.edu" <stern@rowland.harvard.edu>
+Subject: Re: Logitech BRIO (046d:085e) stops answering control requests when
+ hot-plugged together with a USB-C hub; usbhid probe blocks hub_wq for 60 s
+Thread-Topic: Logitech BRIO (046d:085e) stops answering control requests when
+ hot-plugged together with a USB-C hub; usbhid probe blocks hub_wq for 60 s
+Thread-Index: AQHdfE3oSkrSsszgEUuTDYAdvXeAA7c+zRyAgAAHjwCAAEsGgIAA58eA
+Date: Thu, 26 Nov 2026 09:27:58 +0000
+Message-ID: <cf179ae63e1a3fabc1a1869e0bc1b158ca62d1be.camel@stiftung-kifa.ch>
+References: <3cd5f994a6260960cf7751d6383f2b9afc1baeb5.camel@stiftung-kifa.ch>
+		<6118ad01-65a0-4357-8118-3122479b554d@rowland.harvard.edu>
+		<2ced9c1fb45e08a94f56b0f569b01369044b5553.camel@stiftung-kifa.ch>
+	 <20261125203823.15fc4478.michal.pecio@gmail.com>
+In-Reply-To: <20261125203823.15fc4478.michal.pecio@gmail.com>
+Accept-Language: de-CH, de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D30050BA81E86B43B5746C58E226F464@intranet.itze.ch>
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -94,39 +99,42 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <269e96946472c8562657fa1b40f24a17ee52b447.camel@mediatek.com>
+X-SM-outgoing: yes
 
-On Thu, Nov 26, 2026 at 08:48:54AM +0000, Chunfeng Yun (云春峰) wrote:
-> On 二, 2026-11-24 at 17:00 +0100, Mika Westerberg wrote:
-> > On Mon, Nov 23, 2026 at 07:36:54PM +0800, Chunfeng Yun wrote:
-> > > When USB4 is woke up by device disconnect, no need wait for 2s,
-> > > usually the phase2~4 takes at most about 200ms, and enters to
-> > 
-> > usually phases 2-4 take at most..
-> > 
-> > The 200ms is not from the spec though? It's empirical right on your
-> > hardhware?
-> 
-> Yes, you are right. The ~200ms is empirical based on testing on our
-> hardware with various USB4 docks and devices, rather than a hard limit
-> from the spec.
-> 
-> In the USB4 spec, the lane adapter stays in CLd (TB_PORT_UNPLUGGED)
-> throughout Phases 2-4 until it sends LT_Resume at the end of Phase 4 to
-> enter Training (TB_PORT_CONNECTING), and the spec does not define an
-> overall maximum timeout for Phases 2-4. At the protocol level, Phase 2
-> (tConnectRx), Phase 3 (AT transactions), and Phase 4 (tLTPhase4 and
-> Broadcast RT transactions) only take tens of milliseconds; in practice,
-> the ~100-200ms delay mainly comes from partner router wake-up, re-timer
-> initialization, etc.
-> 
-> So I doubled that empirical ~200ms to 400ms as a safety margin.
-> 
-> I will clarify in the commit message that this is an empirical value in
-> v4. Do you think 400ms is fine here, or would you prefer 500ms to leave
-> a bit more margin for active cables and older Thunderbolt switches?
-
-This has been working fine so far so no need.
+QW0gTWl0dHdvY2gsIGRlbSAyNS4xMS4yMDI2IHVtIDIwOjM4ICswMTAwIHNjaHJpZWIgTWljaGFs
+IFBlY2lvOg0KPiBPbiBXZWQsIDI1IE5vdiAyMDI2IDE1OjA5OjUyICswMDAwLCBLZXR0bGVyIENo
+cmlzdGlhbiB3cm90ZToNCj4gPiBUaGUgdGltZW91dHMgYXJlIG5vdCBsaW1pdGVkIHRvIHRoZSBC
+UklPLCB0aG91Z2guIER1cmluZyB0aGVzZSBydW5zDQo+ID4gdGhlIGh1YiBpdHNlbGYgKFZJQSAy
+MTA5OjA4MjQpIG9uY2UgZmFpbGVkIHdpdGggImRldmljZSBkZXNjcmlwdG9yDQo+ID4gcmVhZC9h
+bGwsIGVycm9yIC0xMTAiLCB0aGUgUmVhbHRlayBMQU4gYWRhcHRlciBpbnNpZGUgdGhlIGh1YiBn
+b3QgYQ0KPiA+IC0xMTAgYW5kIHdhcyByZXNldCwgYW5kIHRoZSBodWIncyBjYXJkIHJlYWRlciB3
+YXMgcmVzZXQgYXMgd2VsbC4NCj4gPiBSZS1hdXRob3JpemluZyB0aGUgaHViIChhdXRob3JpemVk
+IDAvMSkgbmV2ZXIgdHJpZ2dlcnMgdGhlIGhhbmcsDQo+ID4gb25seQ0KPiA+IHBoeXNpY2FsbHkg
+cGx1Z2dpbmcgaXQgaW4gZG9lcy4gT24gdGhlIGxhcHRvcCdzIG93biBwb3J0cyB0aGUgQlJJTw0K
+PiA+IG5ldmVyIGh1bmcgKDE0IHBsdWdzLCA0IG9mIHRoZW0gb24gdGhlIFVTQi1DIHBvcnQgb24g
+dGhlIHNhbWUgeEhDSQ0KPiA+IGNvbnRyb2xsZXIsIHdpdGggdGhlIHNhbWUgY2FibGUgYW5kIHBs
+dWcgYWRhcHRlcikuDQo+ID4gDQo+ID4gU28gdGhpcyBsb29rcyBsaWtlIGEgcHJvYmxlbSB3aXRo
+IHRoaXMgaHViIHJhdGhlciB0aGFuIHdpdGggdGhlDQo+ID4gY2FtZXJhLiBJJ20gdXNpbmcgdGhl
+IEJSSU8gZGlyZWN0bHkgb24gdGhlIGxhcHRvcCBub3cgYW5kIGNvbnNpZGVyDQo+ID4gdGhpcyBj
+bG9zZWQgb24gbXkgc2lkZS4NCj4gDQo+IEhpLA0KPiANCj4gTXVsdGlwbGUgZGV2aWNlcyBtaXNi
+ZWhhdmluZyBjb3VsZCBiZSB0aGUgaHViIG9yIHBlcmhhcHMgdGhlIHhIQ0kNCj4gY29udHJvbGxl
+ciAobG9va3MgbGlrZSBzb21lIEludGVsIGNoaXBzZXQ/KS4gWW91IGNvdWxkIHRyeSBhDQo+IGRp
+ZmZlcmVudA0KPiBvbmUgaWYgeW91IGhhdmUgYW4gb3Bwb3J0dW5pdHkuDQo+IA0KPiBUaG91Z2gg
+SSBoYXZlIG5vIGV4cGxhbmF0aW9uIHdoeSB0aGUgY2FtZXJhIHdvcmtzIG9uIHRoZSBzYW1lIHBv
+cnQgaWYNCj4gdGhlIGh1YiBpcyByZW1vdmVkIGZyb20gdGhlIGNoYWluLiBJdCBtYXkgYmUgdGhl
+IGh1YiBhZnRlciBhbGwuDQo+IA0KPiBSZWdhcmRzLA0KPiBNaWNoYWwNCg0KSGkgTWljaGFsLA0K
+DQpUaGFua3MuIEkgZG9uJ3QgaGF2ZSBhIFVTQi1DIHBvcnQgb24gYW5vdGhlciBjb250cm9sbGVy
+LCBidXQgdGhlDQprZXJuZWwgbG9nIHNpbmNlIE9jdCAzMCBhbHJlYWR5IGhhcyBhIGNvbXBhcmlz
+b24gb24gdGhlIHNhbWUNCmNvbnRyb2xsZXIgKDAwMDA6MDA6MGQuMCwgc2FtZSBwb3J0KTogYXQg
+d29yayB0aGUgbGFwdG9wIGdvZXMgaW50bw0KYW4gSFAgVVNCLUMgRG9jayBHNSAoTWljcm9jaGlw
+IGh1YnMpLCBhdCBob21lIGludG8gdGhpcyBWSUEtYmFzZWQNCmFkYXB0ZXIuDQoNCiAgVklBIGFk
+YXB0ZXI6IDk4IGVudW1lcmF0aW9ucywgdGhlIGh1YiBpdHNlbGYgZmFpbGVkIDE0IHRpbWVzDQog
+ICAgKCJEZXZpY2Ugbm90IHJlc3BvbmRpbmcgdG8gc2V0dXAgYWRkcmVzcyIgb3IgImRldmljZSBk
+ZXNjcmlwdG9yDQogICAgcmVhZC9hbGwsIGVycm9yIC0xMTAiKSwgdGhlIHI4MTUyIGJlaGluZCBp
+dCB0aW1lZCBvdXQgMjkgdGltZXMNCiAgSFAgZG9jazogNDUgZW51bWVyYXRpb25zLCBub25lIG9m
+IHRoZXNlIGVycm9ycywgaW5jbHVkaW5nIGl0cw0KICAgIHI4MTUyIChzYW1lIFJlYWx0ZWsgMGJk
+YTo4MTUzIGNoaXApDQoNClRoZSBWSUEgZXJyb3JzIGdvIGJhY2sgd2Vla3MgYmVmb3JlIEkgZmly
+c3QgcGx1Z2dlZCB0aGUgQlJJTyBpbnRvDQppdC4gU28gSSdtIGZhaXJseSBzdXJlIGl0J3MgdGhl
+IGh1Yiwgbm90IHRoZSBjb250cm9sbGVyLiBJJ20gZ29pbmcNCnRvIHJlcGxhY2UgdGhlIGFkYXB0
+ZXIsIHNvIHRoaXMgaXMgY2xvc2VkIG9uIG15IHNpZGUuDQoNClRoYW5rcyB0byBib3RoIG9mIHlv
+dSBmb3IgeW91ciBoZWxwLg0KDQpDaHJpc3RpYW4NCg==
