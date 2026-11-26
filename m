@@ -1,102 +1,121 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795678326;
-	b=VYsDC45rBLvjcImwui2SGPikE3KfH5/PxnVOJyihUmLG3F5xaIwin6UgZRMceZ6e5y3Y
-	 JUBO4QKZM08JDKquZrY4xDHiKJ+A14iNgV3WrWz7fe+ovoa2ac92UjtTWDT8MstYOfErh
-	 lUniWTJoATpXwEWArjVHvFHMC38NyLEuxayqunhYwxtIMdrisozV6l32x4vANlm7zdtaF
-	 5pyN4FzRU62KKkl0egC/P2Xpq6MZQ/ERzSu3XucUeBBB9HPcAHSD3rV0KgyBTZanIo5NF
-	 Q8yf+TJmf+mq5Fzq19yODVTSVscNrqRXKABRQNDxyswe9QoqNdg9ExARRywJP4Hemrg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795678326;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:MIME-Version:
-	 Received:From:In-Reply-To:References:Date:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=UxfJLJ/kw6NsKgiSQx27YujKpKmMB0ZKnG+0GWKtM58=;
-	b=0dYhfI4QYtDNg04X4C0Ieq67K/d+jstghwqF5DGV2ARGfkIzSHXbtdbCn2AsOgO77aTS
-	 Dd3brFfbk1hlUFsgLvga5moN5pdC74ZxXxlKEopcDbDCNUj7+E7uze8459mF5SaeoQUQ8
-	 TMXolPqKTBdTsDOGALHI+YaFS5GI8J0zpDXyt/RoB2ioleCnl77S8UOXZuLqSsofKlKYs
-	 ut8Mjy2IoeIAx6EYRaABdkEqRPmFmHnQYSRGuHwWy010mou7txAkoWv23Rt7hql/3lE6e
-	 386kf5AQC8UrTUY5kr/cc5/hmFcxkQEYJLPJfGUhtSyXaBth042BX26F/zSyRlrv66w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gToZehnz;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.44
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795678828;
+	b=R0i8r4DXdwVayXZs1rmGww+TKFofEuplVrYOBABoO5FBra+kUmScilQgVq/hAHdZCYlT
+	 suDtdlC9MXzM/3GrocPG3sLhpPWkvugazR8qR4LYKdaqi8M1zBKNiT8C1wjK3DIlru1nZ
+	 zSvXqk4bKJ143Vyh9tuJ5SuZucTy46L5z1XrY84dBBJE6m5Nt1wzzfp21EbbanTpng9kP
+	 WqqRm+aGr4HsmDN2Cw+ZVgLq259AT1pZAylvaoCrs3mUb2iJqSS7/OJFFsGQgSJ9ySm6Y
+	 npt5YwY3OdB9xbbXgdTYR8KqOI3I3EvwJ4Da++un7G9t+EbCsQRyS/URyvptEZVxmFQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795678828;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=sXWlGCRC9JQkumWInitkE8i9IQlzJPF9vbX50igGRpE=;
+	b=ZdJ05AukmDYpcYuIYchwmye9mya1Op4LTR1JmzOh38rm9MiNljEK0+vCehMXpjU14eMV
+	 NxhF+5qB4qP00eQCsWhAsElPXCjvA7iQC53i5BhNikZt60+VYHx61HbrtQFU6KKapg80O
+	 jfjb50j7koFJN+aMJDp8YKpwjNFM4juuDTx8GhHd6kW71837IUdfp5L2UjjifKNMNqFIs
+	 SdqfeDw+SvaeUrNU7LbuSnhNncEQvW80Bz7zeo9dP1vLPT1Yd/Is5Gd2ed6HJS+d1pc7u
+	 tr2DgXUuO23fUwFUBWd0S/CNa3i2DGeg53Wktwa+nK4bFHipyQfL38jhln1GoEeEa/g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=O3r9h3Eo;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HbhqQaTt;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFC5606A31E
-	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 07:32:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BEFC5606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA37606A68D
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 07:40:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7DA37606A68D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gToZehnz
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6aa9606ddadso4376305eaf.0
-        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 23:32:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795678325; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EILJxSsT36zgGoa7HWdArhSRbm1qqGlIFd7dCHjkmuuTku3ZIQAZ+/xanI0+iSPP6Z
-         uu5TtMlRIo5d2T8yKI8g2i+30z+2rhgGRfwVtANK7jY8WrHnOZpYbf6HwIinK4kko0rZ
-         VYv61BVEAhdqo0gPbNuqETjcV3JhudDBUtsLwm0qZDKBUa0nDFY7YkDjxzUrxRHyWHWX
-         oVWbXvPeGIch+uI5J79fZRqIEZ8uMjWwBQeSKlNDcFUlSJ0iwv/0rbtByi4LcnoWz/0b
-         A8wh48O/asY4eWLaef/pGI1R/WJYULZB44Kjo5mZ/KXVqvqy6P4w0eEuLqN73HXh8v9T
-         CvxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:references:in-reply-to:from
-         :mime-version:dkim-signature;
-        bh=UxfJLJ/kw6NsKgiSQx27YujKpKmMB0ZKnG+0GWKtM58=;
-        fh=uW0XYUSLYx4DU/FDhFl9q/odVc0v6vpfh+gHDAJi5Rs=;
-        b=Wj3cDuvP/aGcu2V6GcDWPtYnRs/t8lo9RXYfGDzq2LYNZMA/7zYGv1kayRySS5zseX
-         K9Wch43p3EdZJtdjo4siebMYltiaGF+XRERrIxqdhs9eOKIj3mppi4BIHN1jKDDxwCXr
-         lt3ACFjv+kLNp17LPZZjf4KA++O4Q2XyNinbQ1Mmx4/8lEpN2fgREJ+gMEYo9iKDoTzt
-         BlT5gb6GVtDIniXmP524+FUoG4JrZskCeisEd0COay+C4A5MiRNw1FvIdrGbxWsqCn6J
-         qe7kfEpD3D9ygamou9MxoPM4zp5xhChrJYK7LgwzQqKbSp2QzsBn2FOwGWlhCb/Axzwi
-         mx2w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=O3r9h3Eo;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HbhqQaTt
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AQ7B1lU2175705
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 07:40:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=sXWlGCRC9JQkumWInitkE8i9
+	IQlzJPF9vbX50igGRpE=; b=O3r9h3EosuF9La/6Gk7uOPkO4ocLiXnApEIAq0JS
+	iwKgxZwIGDvt9pNdEIF4kg6QTVy+0uGoQUvInBreDTq5wxmPe4raq10qjgEDx7gw
+	XRsbdE3bKZGT/zOH3xJpEzKRQZQBjwQnwI5VSPfaH3B+TNCEtOKrl0u63w8vDNGU
+	SfG3Aq76yZ0r1PbEdj+aG8j5TTkpP9GuDPuHfZ23RdwzcTuSs0sY/twBfH8v2fwO
+	xoaK+fDgSNB2OxS5b+AtTecoTxS88YFn2klbbOfsaBQmEc5swCkiiMztSbSLeYDR
+	eeI6dTBfmkxJ2C+Dna+XftGJ3zlNETyh1RVjYs+/K0RVSA==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j61ahuamj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 07:40:26 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-386a65fca25so5784631eec.0
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 23:40:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795678325; x=1796283125; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
-         :from:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UxfJLJ/kw6NsKgiSQx27YujKpKmMB0ZKnG+0GWKtM58=;
-        b=gToZehnzNxHiXwihqawNvfwWlDoL2hLNJO3A6kWEDfnll1pXFTfJqQCZ6zLV7G7HF5
-         cwkzNEXvCKDqK3KL2fBsqTy8mVjUKMZJTAP/JZdAjTirGqd306IPlmfgOqG5LBDcC+ru
-         C+RsGbWmyli4UxzZcJZv+1gYol5nBELGzpho/CRWlM4rKBhckGRwPEbBIbnxvsr2U6a2
-         QGxwRLLY5IEHi34twbLkzNKeTy+m0YC2GWjeump6s8/EYkhkdQF8pdx5ICLliwwyJJSm
-         OFor6LrVuQh1cl7SOIyuQPjMzByQy+2TjWNfhvkX6Mj+tQ0MEBrHT4IrGEMnYP7zz4gi
-         Va6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795678325; x=1796283125;
-        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
-         :from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=oss.qualcomm.com; s=google; t=1795678826; x=1796283626; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=UxfJLJ/kw6NsKgiSQx27YujKpKmMB0ZKnG+0GWKtM58=;
-        b=l9Tq/v2KJzz0hf9oxjBmb+XX7dii+5D17tsuLxzdtJw5X+b20pI0i9Z2IS7JK4iDXb
-         bRvB1cP3o2gaNCGmI7yKsYLBSev4WbufFZSQg4S9sCs+XVoXCE00QQ4Zy4fmfWqOFFQ2
-         XWLLDAKslBnYDVGJG7qrsBPDlWnqfx1YxkOQ9JzIdt6pFRr3dIMDpi5AhjT3/TN+7OHz
-         U71vvtmOa1kV3/8/v27JPsrdbITrUDfw2dzracWtHHjHxqT6LjaSmGvCq6aOrT6jJ1gu
-         k8BUXMrcrJOeovcCXHIIJZDA5ICmU25QFhdMITzN27/g0F4wYf7pAA1Dwh1z7OAhz3nW
-         kU+g==
-X-Gm-Message-State: APuU4Z9sH34Bl3cWY3lfdr+vCyv9WvnptrUPcxPiq4XRxF5tX5wj3YfH
-	BgQG9UEfOLwHajQVWXKyXDUVa43/NtIlSLrBiM9kBbgCGKwf62JJLTKV7RxPRpyCIt9EBBh8mjv
-	EqG/I1sjHVHsM7BcK6w5DUYgr4r2fXz8=
-X-Gm-Gg: AZFdTZee9lusRfOMqYQ4CzjvCFxawQTl8EV28NjEN9XMpFgSQWRMvvD/iK36dRZfmsX
-	RpDwUKMhyv7BamZHrf3+hiUovVqDs3Hh8cOLjaeIhVYGNEGE0A5jcY0QAR9HU341WtYFXUUUeM3
-	ra+3fDE4Johk0pW4YlFyl3VnHMYp8bsyWUUeIoaKSnRN+AhSUs8iYd29a3a6a6sn29AW1htkEjg
-	vp00b/BsCPWtOzgIUEf5p5wz6lieGRnBju+46+X+2qfHYcOcTlS/RpSxPv1fJTRE0KAef/LlPbN
-	mMsQmCyyPsSon/J0tem+njTI06cvmN5+S8yTd5xSd6ZCyHhqcV6sf8PZCFkQMs2xrUR7VZZMt1C
-	usrLEzevl5kdC2gdqZzB4FzOuElfdA7EG/BWgU9auyIYb8TF+hGysbuqOkULNPcB/jDo=
-X-Received: by 2002:a05:6820:c30f:b0:71a:f754:a22d with SMTP id
- 006d021491bc7-71b3957ed4fmr13966801eaf.76.1795678324642; Wed, 25 Nov 2026
- 23:32:04 -0800 (PST)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 26 Nov 2026 01:32:03 -0600
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 26 Nov 2026 01:32:02 -0600
+        bh=sXWlGCRC9JQkumWInitkE8i9IQlzJPF9vbX50igGRpE=;
+        b=HbhqQaTtUpIVHEYSZ/lBnCTkaiQmQU9BVp4ByHYxoHK7iB5Se6gMVgigWKa2RsKXqp
+         ajWpl3lojcKhFfRrNdMSIaE0yEUrjhOf/WPSaumhIs4RtgsFoYRD8y2GdrwZc5Yd7jFF
+         4R4V684rPRqQzBf6sGySOFgQMKWEVK3FBMC90QVU4ITpgNzxcaNrn5eU9lxcouzo9iYW
+         ok/Pc5mKmuY/sx+3IjOcON6exSgQkxe9W07ldnmYwx0qmR1UwrZ+o2yurcZOTRxeiACf
+         v/9M4YPVAQTwOKp0jFeuPYPxoK+oHHi0XNFRDtaBF+3f42hXUFmUuNPKQtZdYj/YH6xb
+         pQ9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795678826; x=1796283626;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sXWlGCRC9JQkumWInitkE8i9IQlzJPF9vbX50igGRpE=;
+        b=s6vMuFIgrgaTsKPj28fZm3p6oU3d2TC3Gk8KeahQd4rLGXLWIXfZzBJNYrFTHiReGs
+         2mjRMdS6BHBprE30Gf32t+E18IqZA2CPKoW+2lghv4TmNKGSaaY0c2XxSY0JjD8Gyi0I
+         RZSEmxUajmsDGxITcZ0x5K/WVh462e2kZaILI/0kKDLYr+bz5280835koUkIdBn0t7/c
+         BvedyI4QLlBzG2jxicj2sTx6akhmsmATpiaayTftPaEeBOdDPRJFa0jRqzn0vaqX7ZRb
+         VnkKxTjghK3GiT6LblosHKZnu+mftpnJojrzoGetXgtqZe1kEtOc1oz0hjfPTJ635kzb
+         3Bfw==
+X-Forwarded-Encrypted: i=1; AL+hErHe9lRFwREndTT2L7u/8ns0J2UbIrXu9eV3Sc1DST8YYAu1V7gJny+DOZq7E1kt5yZft5X1TJKYyDI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8R755h+bNvliygfx/aW1M7GlKOmOpTBvx9NGUHvdWYMLLDQXnw
+	BlMrqD9kNFqIkdmINE4qsTsPt4w/DGMOgmsGVUGfT2ytLgSRJBnKftItdq0w2OEhVLqMBuDrhx9
+	w1hpDVz60TAnhxHa67mhwqluHZg0Om3uvnaCIluKIoGZnFkqByCT4tEeVTdhtVqU=
+X-Gm-Gg: AZFdTZdRpnze96h9bIYCIvXRQ/FeY3B6EJm+nJ8TxkIDaOLDkw5GYo1R7gMr6Jq+pDx
+	Yx7FYDri5+tDpu4rWyQ6WQPo0whfxQRV1bf5+XKQuQSA51qm7kFAd2UKSCLxJM/tctgNKNV7Jjr
+	oKFBzIjA88CCak1cyRpdXXBzXBzaPT1Gpi7xwCk7akAP2r4ttMc4pF11KvQxSqzXLJJLbFrgn1S
+	HOZwjsO2g87uQXRwvNmVHZw9xRzjxzIgL1NuRKC1UCI6UzyUkq7vwisih5FZJssbafOd80DWq15
+	dMJdQZ5tfQfg+1ELudGcRcDdoOL4/XqlYae1Vr7IchvcHNKypOpg7Gf12BF0/rjd1emZXUvjcYG
+	RSQKCKj7X9f1FQWgCikAm9CavkGuXHME2iqwwyDfST94MuKpUoTy+Yj8jkdYwYh0/ehN/i5nA3x
+	5phub1OgoFXikVNgMtZDT1QDs=
+X-Received: by 2002:a05:7301:2108:b0:386:b99:8ff9 with SMTP id 5a478bee46e88-3860b999354mr18107028eec.40.1795678825974;
+        Wed, 25 Nov 2026 23:40:25 -0800 (PST)
+X-Received: by 2002:a05:7301:2108:b0:386:b99:8ff9 with SMTP id 5a478bee46e88-3860b999354mr18106995eec.40.1795678825418;
+        Wed, 25 Nov 2026 23:40:25 -0800 (PST)
+Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386992b404bsm47180909eec.1.2026.11.25.23.40.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 23:40:25 -0800 (PST)
+Date: Wed, 25 Nov 2026 23:40:23 -0800
+From: Peter Chen <peter.chen@oss.qualcomm.com>
+To: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
+Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        krishna.kurapati@oss.qualcomm.com,
+        krzysztof.kozlowski@oss.qualcomm.com,
+        Sriram Dash <sriram.dash@oss.qualcomm.com>
+Subject: Re: [PATCH v5 01/11] usb: dwc3: qcom: Distinguish PM and runtime
+ suspend/resume paths
+Message-ID: <awfiZ8IE4UMuiO7P@hu-petche-lv.qualcomm.com>
+References: <20261123104727.1539149-1-faisal.hassan@oss.qualcomm.com>
+ <20261123104727.1539149-2-faisal.hassan@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,242 +125,154 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Received: from 77377267392	named unknown	by gmailapi.google.com	with HTTPREST;
- Thu, 26 Nov 2026 01:32:01 -0600
-From: Lee Youngjoon <getfeus@gmail.com>
-In-Reply-To: <CA+m4KrA14J-3ovbau1EGjvwc1R4Maya3wzqD+n-_khotDhcRFQ@mail.gmail.com>
-References: <CA+m4KrA14J-3ovbau1EGjvwc1R4Maya3wzqD+n-_khotDhcRFQ@mail.gmail.com>
-Date: Thu, 26 Nov 2026 01:32:03 -0600
-X-Gm-Features: Aa3M54q5AR0MiMyVtIAOsUeAG0ROYsnFZU4yeWmbzz3XS1iJWiHd725NhN01sDg
-Message-ID: <CA+m4KrBqx-_TmWWcoGrYVpGwspxkxWXZ8eOmrT4kfHZECN117A@mail.gmail.com>
-Subject: [PATCH v1 2/2] usb: typec: ucsi: gaokun: Defer missing USB events per connector
-To: Pengyu Luo <mitltlatltl@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261123104727.1539149-2-faisal.hassan@oss.qualcomm.com>
+X-Proofpoint-GUID: LNGXMQOOKNUbdtVtcZc15dBoBjKF2AdS
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI2MDAyOSBTYWx0ZWRfX5KI3pmTAHXbm
+ cHMW+V9ffDmiZPhB8vOJ3VtTkXJuT2CXfM34Kjxl/tHv2GhUPHm5LCT8mo//j8Lzft6lXRhxPcv
+ ukyifQPj96KPfLCWjAQx9yiVSl2r7Ss=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI2MDAyOSBTYWx0ZWRfX45t4l3iJU0bR
+ 8vtucs591Rg8eR7ejUHKqwBEVcA4xmoQQ26Cs0iLHJ4hBamFkDinMKAW3bHbGGVYqIatDH0rUgY
+ jP1fvnlhSy8xi0GtljPBxcP28rC5jqdrBrj0Hg372IAEUd8VR3u5zTuPjIof7LTdWgFvGQS/Yi5
+ PxLMfnuEPC5L9RoDV08fw7iNWRTZVp6tCS5Hv8tbo+K7Oam255suRetQGodvvV1kKqWAQPuHWfH
+ 3XjCiV9K5ZtGhA5PvqnDvL9yDA2AyTv5Z+G+C315mWa4osnkUXokqJRpg6P3rXEgk8rgI78DKDj
+ ClcAFUFk+7lmbQiTn2SVw4zMJVSKg+jkxlXFou5uQTI5Vm0C2p4KEl/0xsbrFuBH2OdQyTCIxlu
+ dTKbx/l+8CfqW3tf1msZaKsi61bIFGM/ycjnk9j5xqSB5VL3B81npQRCaj862Cwa/HT0pzh/5P1
+ Q06H4/w1Pgp92+d//gQ==
+X-Proofpoint-ORIG-GUID: LNGXMQOOKNUbdtVtcZc15dBoBjKF2AdS
+X-Authority-Analysis: v=2.4 cv=BbxNQbt2 c=1 sm=1 tr=0 ts=6b07e26a cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=EUspDBNiAAAA:8 a=jIQo8A4GAAAA:8 a=Y18rF2VYFuf4IdEaWfYA:9 a=CjuIK1q_8ugA:10
+ a=6Ab_bkdmUrQuMsNx7PHu:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-26_02,2026-11-25_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 adultscore=0 suspectscore=0 impostorscore=0
+ priorityscore=1501 malwarescore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611260029
 
-The EC IRQ thread dispatches both connector and USB events through a
-blocking notifier. Waiting in the connector callback holds up the IRQ
-thread that would deliver the USB event. The first USB event also
-completes every port's wait, and those completions are never rearmed.
+On 26-11-23 16:17:16, Faisal Hassan wrote:
+> The dwc3_qcom_suspend() and dwc3_qcom_resume() functions
+> handle both system PM and runtime PM paths but cannot
+> differentiate between them, preventing distinct power
+> management strategies.
+> 
+> Refactor suspend/resume functions to accept pm_message_t
+> instead of boolean wakeup flags. Use PMSG_IS_AUTO()
+> to identify runtime PM (PMSG_AUTO_SUSPEND/RESUME) versus
+> system PM (PMSG_SUSPEND/RESUME) paths.
+> 
+> Preserve existing wakeup behavior: always enable wakeup
+> for runtime suspend, check device_may_wakeup() for system
+> suspend.
+> 
+> Follow dwc3/core.c pattern to enable future per-path
+> strategies like differentiated power states.
+> 
+> Co-developed-by: Sriram Dash <sriram.dash@oss.qualcomm.com>
+> Signed-off-by: Sriram Dash <sriram.dash@oss.qualcomm.com>
+> Signed-off-by: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> Reviewed-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 
-Schedule the existing two-second fallback on a freezable workqueue and
-return from the notifier. Track each connector independently. A USB
-update cancels only the matching fallback. A newer connector change
-moves its deadline even if the older worker is already running.
+Reviewed-by: Peter Chen <peter.chen@oss.qualcomm.com>
 
-Serialize mode updates and acknowledgments from the two paths. Stop
-notifications and drain per-port work before unregistering UCSI.
+Peter
+> ---
+>  drivers/usb/dwc3/dwc3-qcom.c | 25 +++++++++++++++++--------
+>  1 file changed, 17 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+> index d44f093ac243..7a7225b900b3 100644
+> --- a/drivers/usb/dwc3/dwc3-qcom.c
+> +++ b/drivers/usb/dwc3/dwc3-qcom.c
+> @@ -335,8 +335,18 @@ static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
+>  		dwc3_qcom_enable_port_interrupts(&qcom->ports[i]);
+>  }
+>  
+> -static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, bool wakeup)
+> +/*
+> + * For runtime PM, always enable wakeup.
+> + * For system PM, check device wakeup capability.
+> + */
+> +static bool dwc3_qcom_wakeup_enabled(struct dwc3_qcom *qcom, pm_message_t msg)
+> +{
+> +	return PMSG_IS_AUTO(msg) || device_may_wakeup(qcom->dev);
+> +}
+> +
+> +static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, pm_message_t msg)
+>  {
+> +	bool wakeup = dwc3_qcom_wakeup_enabled(qcom, msg);
+>  	u32 val;
+>  	int i, ret;
+>  
+> @@ -369,8 +379,9 @@ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, bool wakeup)
+>  	return 0;
+>  }
+>  
+> -static int dwc3_qcom_resume(struct dwc3_qcom *qcom, bool wakeup)
+> +static int dwc3_qcom_resume(struct dwc3_qcom *qcom, pm_message_t msg)
+>  {
+> +	bool wakeup = dwc3_qcom_wakeup_enabled(qcom, msg);
+>  	int ret;
+>  	int i;
+>  
+> @@ -750,14 +761,13 @@ static int dwc3_qcom_pm_suspend(struct device *dev)
+>  {
+>  	struct dwc3 *dwc = dev_get_drvdata(dev);
+>  	struct dwc3_qcom *qcom = to_dwc3_qcom(dwc);
+> -	bool wakeup = device_may_wakeup(dev);
+>  	int ret;
+>  
+>  	ret = dwc3_pm_suspend(&qcom->dwc);
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = dwc3_qcom_suspend(qcom, wakeup);
+> +	ret = dwc3_qcom_suspend(qcom, PMSG_SUSPEND);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -770,10 +780,9 @@ static int dwc3_qcom_pm_resume(struct device *dev)
+>  {
+>  	struct dwc3 *dwc = dev_get_drvdata(dev);
+>  	struct dwc3_qcom *qcom = to_dwc3_qcom(dwc);
+> -	bool wakeup = device_may_wakeup(dev);
+>  	int ret;
+>  
+> -	ret = dwc3_qcom_resume(qcom, wakeup);
+> +	ret = dwc3_qcom_resume(qcom, PMSG_RESUME);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -810,7 +819,7 @@ static int dwc3_qcom_runtime_suspend(struct device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	return dwc3_qcom_suspend(qcom, true);
+> +	return dwc3_qcom_suspend(qcom, PMSG_AUTO_SUSPEND);
+>  }
+>  
+>  static int dwc3_qcom_runtime_resume(struct device *dev)
+> @@ -819,7 +828,7 @@ static int dwc3_qcom_runtime_resume(struct device *dev)
+>  	struct dwc3_qcom *qcom = to_dwc3_qcom(dwc);
+>  	int ret;
+>  
+> -	ret = dwc3_qcom_resume(qcom, true);
+> +	ret = dwc3_qcom_resume(qcom, PMSG_AUTO_RESUME);
+>  	if (ret)
+>  		return ret;
+>  
+> -- 
+> 2.34.1
+> 
 
-Fixes: 00327d7f2c8c ("usb: typec: ucsi: add Huawei Matebook E Go ucsi driver")
-Signed-off-by: Lee Youngjoon <getfeus@gmail.com>
----
- drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c | 99 ++++++++++++---------
- 1 file changed, 58 insertions(+), 41 deletions(-)
+-- 
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
-b/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
-index d4c66de48..9b51b60b2 100644
---- a/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
-+++ b/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
-@@ -8,9 +8,10 @@
- #include <drm/bridge/aux-bridge.h>
- #include <linux/auxiliary_bus.h>
- #include <linux/bitops.h>
--#include <linux/completion.h>
- #include <linux/container_of.h>
-+#include <linux/jiffies.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/notifier.h>
- #include <linux/of.h>
- #include <linux/platform_data/huawei-gaokun-ec.h>
-@@ -19,13 +20,15 @@
- #include <linux/usb/typec_altmode.h>
- #include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_mux.h>
--#include <linux/workqueue_types.h>
-+#include <linux/workqueue.h>
-
- #include "ucsi.h"
-
- #define EC_EVENT_UCSI	0x21
- #define EC_EVENT_USB	0x22
-
-+#define USB_EVENT_TIMEOUT	(2 * HZ)
-+
- #define GAOKUN_CCX_MASK		GENMASK(1, 0)
- #define GAOKUN_MUX_MASK		GENMASK(3, 2)
-
-@@ -77,7 +80,9 @@ struct gaokun_ucsi_reg {
- } __packed;
-
- struct gaokun_ucsi_port {
--	struct completion usb_ack;
-+	struct delayed_work usb_fallback;
-+	unsigned long usb_fallback_deadline;
-+	bool usb_fallback_pending;
- 	spinlock_t lock; /* serializing port resource access */
-
- 	struct gaokun_ucsi *ucsi;
-@@ -102,6 +107,7 @@ struct gaokun_ucsi {
- 	struct gaokun_ucsi_port *ports;
- 	struct device *dev;
- 	struct delayed_work work;
-+	struct mutex usb_lock; /* serialize EC mode and PAN operations */
- 	struct notifier_block nb;
- 	u16 version;
- 	u8 num_ports;
-@@ -330,56 +336,63 @@ static void gaokun_ucsi_handle_usb_mode(struct
-gaokun_ucsi_port *port)
- 	gaokun_ec_ucsi_pan_ack(uec->ec, port->idx);
- }
-
--static void gaokun_ucsi_usb_notify_ind(struct gaokun_ucsi *uec, int expected)
-+static void gaokun_ucsi_usb_event(struct gaokun_ucsi *uec)
- {
-+	struct gaokun_ucsi_port *port;
- 	int num;
-
--	if (!uec->ucsi->connector) { /* slow to register */
--		dev_err_ratelimited(uec->dev, "ucsi connector is not initialized yet\n");
-+	guard(mutex)(&uec->usb_lock);
-+	if (!READ_ONCE(uec->ucsi->connector))
- 		return;
--	}
-
--	num = gaokun_ucsi_refresh(uec, expected);
--	if (!num && expected == GAOKUN_UCSI_NO_PORT_UPDATE)
-+	num = gaokun_ucsi_refresh(uec, GAOKUN_UCSI_NO_PORT_UPDATE);
-+	if (!num)
- 		gaokun_ec_ucsi_pan_ack(uec->ec, GAOKUN_UCSI_NO_PORT_UPDATE);
--	else if (num > 0)
--		gaokun_ucsi_handle_usb_mode(&uec->ports[num - 1]);
-+	if (num <= 0)
-+		return;
-+
-+	port = &uec->ports[num - 1];
-+	gaokun_ucsi_handle_usb_mode(port);
-+	port->usb_fallback_pending = false;
-+	cancel_delayed_work(&port->usb_fallback);
- }
-
--/*
-- * When inserting, 2 UCSI events(connector change) are followed by USB events.
-- * If we received one USB event, that means USB events are not blocked, so we
-- * can complelte for all ports, and we should signal all events.
-- */
--static void gaokun_ucsi_complete_usb_ack(struct gaokun_ucsi *uec)
-+static void gaokun_ucsi_usb_fallback(struct work_struct *work)
- {
--	struct gaokun_ucsi_port *port;
--	int idx = 0;
-+	struct gaokun_ucsi_port *port =
-+		container_of(to_delayed_work(work), struct gaokun_ucsi_port, usb_fallback);
-+	struct gaokun_ucsi *uec = port->ucsi;
-+	unsigned long now;
-
--	while (idx < uec->num_ports) {
--		port = &uec->ports[idx++];
--		if (!completion_done(&port->usb_ack))
--			complete_all(&port->usb_ack);
-+	guard(mutex)(&uec->usb_lock);
-+	if (!port->usb_fallback_pending || !READ_ONCE(uec->ucsi->connector))
-+		return;
-+
-+	/* A newer connector notification may have moved the deadline. */
-+	now = jiffies;
-+	if (time_before(now, port->usb_fallback_deadline)) {
-+		mod_delayed_work(system_freezable_wq, &port->usb_fallback,
-+				 port->usb_fallback_deadline - now);
-+		return;
- 	}
-+
-+	port->usb_fallback_pending = false;
-+	if (gaokun_ucsi_refresh(uec, port->idx) > 0)
-+		gaokun_ucsi_handle_usb_mode(port);
- }
-
--/*
-- * USB event is necessary for enabling altmode, the event should follow
-- * UCSI event, if not after timeout(this notify may be disabled somehow),
-- * then force to enable altmode.
-- */
--static void gaokun_ucsi_handle_no_usb_event(struct gaokun_ucsi *uec, int idx)
-+static void gaokun_ucsi_queue_usb_fallback(struct gaokun_ucsi *uec,
-unsigned int num)
- {
- 	struct gaokun_ucsi_port *port;
-
--	if (idx < 0 || idx >= uec->num_ports)
-+	if (!num || num > uec->num_ports || !READ_ONCE(uec->ucsi->connector))
- 		return;
-
--	port = &uec->ports[idx];
--	if (!wait_for_completion_timeout(&port->usb_ack, 2 * HZ)) {
--		dev_warn(uec->dev, "No USB EVENT, triggered by UCSI EVENT");
--		gaokun_ucsi_usb_notify_ind(uec, idx);
--	}
-+	guard(mutex)(&uec->usb_lock);
-+	port = &uec->ports[num - 1];
-+	port->usb_fallback_deadline = jiffies + USB_EVENT_TIMEOUT;
-+	port->usb_fallback_pending = true;
-+	mod_delayed_work(system_freezable_wq, &port->usb_fallback, USB_EVENT_TIMEOUT);
- }
-
- static int gaokun_ucsi_notify(struct notifier_block *nb,
-@@ -391,8 +404,7 @@ static int gaokun_ucsi_notify(struct notifier_block *nb,
-
- 	switch (action) {
- 	case EC_EVENT_USB:
--		gaokun_ucsi_complete_usb_ack(uec);
--		gaokun_ucsi_usb_notify_ind(uec, GAOKUN_UCSI_NO_PORT_UPDATE);
-+		gaokun_ucsi_usb_event(uec);
- 		return NOTIFY_OK;
-
- 	case EC_EVENT_UCSI:
-@@ -402,7 +414,7 @@ static int gaokun_ucsi_notify(struct notifier_block *nb,
-
- 		ucsi_notify_common(uec->ucsi, cci);
- 		if (UCSI_CCI_CONNECTOR(cci))
--			gaokun_ucsi_handle_no_usb_event(uec, UCSI_CCI_CONNECTOR(cci) - 1);
-+			gaokun_ucsi_queue_usb_fallback(uec, UCSI_CCI_CONNECTOR(cci));
-
- 		return NOTIFY_OK;
-
-@@ -437,7 +449,7 @@ static int gaokun_ucsi_ports_init(struct gaokun_ucsi *uec)
- 		ucsi_port->ccx = USBC_CCX_NONE;
- 		ucsi_port->idx = i;
- 		ucsi_port->ucsi = uec;
--		init_completion(&ucsi_port->usb_ack);
-+		INIT_DELAYED_WORK(&ucsi_port->usb_fallback, gaokun_ucsi_usb_fallback);
- 		spin_lock_init(&ucsi_port->lock);
- 	}
-
-@@ -523,6 +535,7 @@ static int gaokun_ucsi_probe(struct auxiliary_device *adev,
- 	uec->version = UCSI_VERSION_1_0;
- 	uec->nb.notifier_call = gaokun_ucsi_notify;
-
-+	mutex_init(&uec->usb_lock);
- 	INIT_DELAYED_WORK(&uec->work, gaokun_ucsi_register_worker);
-
- 	ret = gaokun_ucsi_ports_init(uec);
-@@ -548,10 +561,14 @@ static void gaokun_ucsi_remove(struct
-auxiliary_device *adev)
- 	int i;
-
- 	disable_delayed_work_sync(&uec->work);
--	if (uec->registered) {
-+	if (uec->registered)
- 		gaokun_ec_unregister_notify(uec->ec, &uec->nb);
-+
-+	for (i = 0; i < uec->num_ports; i++)
-+		disable_delayed_work_sync(&uec->ports[i].usb_fallback);
-+
-+	if (uec->registered)
- 		ucsi_unregister(uec->ucsi);
--	}
-
- 	for (i = 0; i < uec->num_ports; ++i)
- 		typec_mux_put(uec->ports[i].typec_mux);
+Thanks,
+Peter Chen
