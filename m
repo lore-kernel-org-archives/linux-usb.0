@@ -1,78 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795675250;
-	b=ebWA58u6X8R7Z4DcSiMYO4QebpnU/pogbfTRqnP5m+mgGMHWNNtWp9J1WbVpcHe2t9Jz
-	 kKRLJYVWS1cIKhglwAGJs5ZGW6wsXtAv7MpmdjDJBUisALZmmiBtzRTBKkNIpuDPDAePW
-	 im0dlYDsUef6Atu/AiYqIaHhMAjbaeDBehn6t6D6KA0GYXvDirViEBJyFy3dLRYa1bwD0
-	 KB40xbR9UrpOIH8+eMBWIaFvTc7do9qwrz70jCKRxtM9zB+ORI9LMt6XA8Fw1EDp6/VxA
-	 YcvXB3EKJj1dfe+SCz5MI+wQkE+keqZy8stj+bC5JHh3CLh4q24OL3ElJYrbrL2UZnw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795675250;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=qSxrJZ8mqv3Y+H0yHIfJCiyW6kG5Ove0Pzqj0e0+3z4=;
-	b=CoR1K1bKXAQRlogFERbXgT5CZGSzE9UuHFMceF1sC/0w+vxjlS7CJ69NiSZLniWGEax7
-	 MgA83hP/ku2TzjwqRSfrT4h6C0YcrG7lmaJ1wChAGsv7PSdLHeHizfnlYrJFSn7nmVMIv
-	 hHHAuKa+Z5W81SOp5ilTAk71ChH/t13dzEgCngVNycqsmGKOXim7ohcAEq96aMmcJDYWA
-	 9R2+DagzNS6zWRfswo/EeAdHuGHQ0T7Dpp+E+Brw5FzVpldFK22H7TJO8JU6X1GdE5ur2
-	 7s5DdZp9cajKqCaYfqp+3bEIvQjIHw7NOiktsQK72PaDRtxBbpvxvEimTjoh6LDRsCQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OsFOZ+Fw;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2BA0606A31C;
-	Thu, 26 Nov 2026 06:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OsFOZ+Fw
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795675250;
-	b=oEYq/kk6JQx1ssyISUTm8fCX5Gzi6ciX4J+mM32YdT7tiCJVw1RY1oSDzvEynTVH9vJs
-	 9NuI5sVnd2ttE/6f5SrwqDC2rP5wjil/qpR0acAtwa/ijQ5gkDu5yMN6zIBHBmDbCsI3y
-	 rlZ1ELYYfJjt0ANFTbw1JP1g5YI5dfs9GdIcahTAPY3HUaZdb4F5qcrLQXs++QWRMU4Hf
-	 3Zk84fssw2JZKaNrR6iVaKcSm8ydB0WDaOiOLapMHc6XoOKNSWJGe4crEMA3zBGl9f8JK
-	 eA8pJ4U/V+JBA+lBL8Nw5WXTIdo9BsRoG1e4CbY729D3hUGOZ0HdCGmvW0vLu7EXnqw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795675250;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=qSxrJZ8mqv3Y+H0yHIfJCiyW6kG5Ove0Pzqj0e0+3z4=;
-	b=0r9f40ZCGAKLpnvnQWTofcFnuhNLrb04Q4YW6HONYxwcbz9Ak4WkRld959aQnLj3rWAY
-	 bvyuC+Mj66w664alyz8j6NSLnmi/hvSaAEzjyv7T04Qmh9uBM9Rcn5cMhYLmHbNbywdKY
-	 YO7qU5qy1nbNRFz5EeBWyVsAL4171xgvZ8MCzVLuW2GV65EYavnhgtCatVQBBpo0cJ/vy
-	 j2DYuT0DUYZtgnwES1BrcmwcwFgBenQ2jUGbAfc99Cy49HdjQpsejM4nbQ1fCoBjbXk3Q
-	 9HkZmL686xaF8cbnr6HVBGiFqbuzSv3r4K5dkMce04PefAQw9851dOcUh3ehvPs/yyQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.125.188.122
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795675640;
+	b=h44F5MC+DOSueHbUmJb/f6z7qqHWcrKV8sNxpS4lklfSAQGr8FxIzk5F6n5zuC+HL07R
+	 0Kdgk1SBMzAeMrLKKZq6noMXcg0J9+bw6rXGlSAFIFVFPayjf9tJGySGkw7kFW+XsYfQt
+	 2Y149cVHhD097+6k9sT8b2orKcMwBem2dBPUPszzJRhDuh3qs287ZJoi3pxAKApVaHDQK
+	 SQZrOzVgmi52WYfCig91gW9xHMvZ3RG2QwHtdvrbP8Z6CoRRCCFGc475H7kLqnwOUwwP8
+	 EGa/dY5uwqvjQrZHjrhp0cPV1aH8li7nWkGnIuWDFrgZ14z6iwO44Vul+fwJiTNKiGA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795675640;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:
+	 X-Google-DKIM-Signature:X-Forwarded-Encrypted:X-Gm-Message-State:
+	 X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=DUqqxcGMWIG6tnXymk9Lyuyj8m3/xrj/arGN3/CmiM4=;
+	b=Bk/QEu4aM41qrLt2FmOs4L3VqIF5Xwa9XI5eUaov3N3xBFMVO31Nrt5q4xzfq77fnRH3
+	 AHMmMlia3cLOCYDJr6DCsVxLMxE3vP14HA92UOwWPMq8O7BlWY8o2CVVbsHewi41ytaHw
+	 cX//S+M/j08WgbVa4bhb8tfvNaYZ/AxFbGX1tCYXpJ6dq4/FQJTd71mJwBEAizLcn5cGK
+	 T7RlD4UCQCU85U+9iYwQCL0atsn5jkZ+poTi9nVj1SjAZityCCdnE8AfJQGaCMbeYBuJ/
+	 ipTAf6YZvb1FHx5w/EVpSCsytXSbKiYl0TTxFJ4m22H81xf6kUvXiuNQSgmtIzfi9Mw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=canonical.com;
+	spf=pass smtp.mailfrom=canonical.com;
+	dkim=pass header.d=canonical.com header.i=@canonical.com header.a=rsa-sha256 header.s=20251003 header.b=BTwoOtgU;
+	arc=none smtp.remote-ip=185.125.188.122
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 4B5FD1F000C4;
-	Thu, 26 Nov 2026 06:40:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795675250;
-	bh=qSxrJZ8mqv3Y+H0yHIfJCiyW6kG5Ove0Pzqj0e0+3z4=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=OsFOZ+Fwhz3R4fd9KddMb0TABHEvdfwrv6at5vv3JpFFi2G92KbojuPsYKtGBdISB
-	 y53NMNo9Dlkp7CtqCdtAC1LJOyCMl/nYlCREaziE89BqFp6g+mRayG3xuHuMTyrdYr
-	 corVpLP5mObxIYjNkGEzibFvDRsZJus+uHGAnAN35ueh9Qm9yef+N1w6I5AvdPfwMq
-	 k9MicCSUsGh0lFPp0naWkCVYrQ+DLWkT0CrQZfwxSpLmVXl3O5FRTvCNsCE1OQ5q7C
-	 FKA4vhWYPABTPFg0rxYGMHwFfTmzD40jtt6UHiFWWprQezEmUVcTiXu6qFVCmL8I9M
-	 VgIOhZhYvr4Jw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id BBF194D261;
-	Thu, 26 Nov 2026 06:40:43 +0000 (UTC)
-From: Jaegyun Lee via B4 Relay <devnull+dreams200260.g.skku.edu@kernel.org>
-Date: Thu, 26 Nov 2026 15:40:43 +0900
-Subject: [PATCH] usb: gadget: f_fs: fix UAF read in INTERFACE_REVMAP ioctl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77FF606A31E
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 06:47:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D77FF606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key, unprotected) header.d=canonical.com header.i=@canonical.com header.a=rsa-sha256 header.s=20251003 header.b=BTwoOtgU
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 5C0523FE35
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 06:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20251003; t=1795675637;
+	bh=DUqqxcGMWIG6tnXymk9Lyuyj8m3/xrj/arGN3/CmiM4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version;
+	b=BTwoOtgUpFZJhhsb2IXCUuP3LjxZ3Sml8CK5AtqqIb0HZVBpwe2T+nZ6jw5R85lbT
+	 HKrDhxs3ARkQll68P5SOMYYnX+QQOOnvCAL+11M9uO5/0r41MUGk4pkG2aE5M5IVU/
+	 HZD+YcTUmIOArTF7276OxCVDADVW+vyt4IYJ6Y1Bp7LhA26GNZDGRquzQszNohb8uy
+	 4ElQV3vySj4J0o0R4SPdcgiXmVJQ6m7H/4x3UrWx1JJho3dNzIiva0rfj/0FCrFeRI
+	 lc+swVm6o41clTpt8U1iE5136hLLKKIPF13Qq8ITFPUS76EJlnRZSG91manWgUtXQf
+	 1AToVmAtgtV2gOU/Gr5H3Gglezm313Y7mBFTBGpUc/VJTktion5JCuEcaj/JJPWROR
+	 07kfKmCm6GICwqFXxAVaqqpoTx6Im58c5oKV5ZU/AeM/xRQFxLh3lC3tyY1Vyay5xA
+	 eWaUL3P9GQxPznr6IvmR8bcgjfUQrpmbiV+KDf09WJ2G3ud4t4mknIbuioBcbTotfy
+	 c5rVqdyZFxQRTv8++CsvI4g91FH38jk3LQu8UoJ6+oxop1iobSvHRau4Hne0MlGTfk
+	 vz+Gr9mbtyYu3AJQIsDCVSU0Nr7Vpqvn/MCotptussUOU84fdLbDsAH/HD5+PXeax0
+	 uJBnE3Hhkescv1kYnwHhgLRs=
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-3b4092b645aso5653286a91.2
+        for <linux-usb@vger.kernel.org>; Wed, 25 Nov 2026 22:47:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795675635; x=1796280435;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DUqqxcGMWIG6tnXymk9Lyuyj8m3/xrj/arGN3/CmiM4=;
+        b=e0DRgPyShXIYNP33eqrdrSI9nDiC630Zcxm+y4h/X3uqQSmjF6+8/LLyKtyAINtrVa
+         yF5RKgxKUe39uFAQ/ijHjmfyyX39l7Cfb97jhbzAIW4T+E6g1B8GTBDh6OA3F+fzEhqb
+         bjjyws4vbrBqNaJA6A8nFGYiGcGcZ+ZwM3tLFN+yhA52+UIqHQAHJ/NqgT//r2KAGDeS
+         end+LpTt1ZnSgCcjwUzSiy9i8kYTHIbgVIhoJVyS3sEzz2yGpwx6YvLOhc2ExxPttRWv
+         fpLim39uNGovUjUU8X8R/SQCIDLXkw3rq77Rnj1cE4MKmn9RcKvRz/p4lIHMnN/8mYQk
+         eFYg==
+X-Forwarded-Encrypted: i=1; AL+hErEBAgysrShanbNJW6mqlpen9QMXCwlT2csSQxR82pCOyDc6saLVI5RQpUP1Z/FxSgJc+yrcCc/deII=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/lDYExTKErtGhWA/I4vKftz9QUkiLiDt1+himI07s6fOvfYol6
+	7aALNmtn6S54MtDPKgvAF4XJAVVoDA5o2xOasC3O7ZxxerrzlfXIGf6W6EDrEolqUgId33tY8Xz
+	9pHjlDD73p9yQKlwaSFlLnC1Y1vwD8ABtUaIr/7cj4nc5j4fZE4uvJZiJ2Qu3xhDiIWtNY0s/93
+	Tkyw==
+X-Gm-Gg: AZFdTZfcMtFnMrskQ965f+PtDS8yBK2q+q5e9B7tKJ1Fuyz+MZxTC2Tw7P5u404G0eX
+	ZvXdD6j7bCSXS0kcQP/V2KmMmS9N2lZCokmq9kD8Tmg7uTHyckzCLK29/QkhoqP5VY78S24+2Tf
+	h7raEDjBlHBd89vrH7B3GeXpqTTnZD3psEofIjSoZq77KFi2Qnbh2Wkr4vfrI5kbhB0REHipoDe
+	aA7ioleP2B/67s1nk1+yS5EQAvRHaBvII3QSinsFBFqqeZmUIFVgf03o10l/ztnUNd2hXy4/yPI
+	BxXPJci+SRlh7NZK9CUEdLjDZ4JarcoHv5kDVKfaXEGRyfpkgUPxNfPYlgkylJZ8mGJk1uCPkQM
+	Lrq/1MrBIS3j4tkHM1sWYKwu2YdACDvBHYYnlKGlzukBQAK3Dsuu4x2eqgFQbrasqnV6EylSuEH
+	3RkqxagEdA4DmO1ryoFV0LM6R5V9+1PA==
+X-Received: by 2002:a17:90a:e7d0:b0:3b0:aaa3:ce8c with SMTP id 98e67ed59e1d1-3b41c8debe8mr18647746a91.14.1795675635517;
+        Wed, 25 Nov 2026 22:47:15 -0800 (PST)
+X-Received: by 2002:a17:90a:e7d0:b0:3b0:aaa3:ce8c with SMTP id 98e67ed59e1d1-3b41c8debe8mr18647731a91.14.1795675635145;
+        Wed, 25 Nov 2026 22:47:15 -0800 (PST)
+Received: from resolute-linux.lxd (124-218-37-86.cm.dynamic.apol.com.tw. [124.218.37.86])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41adcafe0sm33398567a91.16.2026.11.25.22.47.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 22:47:14 -0800 (PST)
+From: Aristo Chen <aristo.chen@canonical.com>
+To: Alan Stern <stern@rowland.harvard.edu>,
+	Alexey Charkov <alchark@flipper.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Neill Kapron <nkapron@google.com>,
+	Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	linux-usb@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 2/2] usb: gadget: udc: do not fail bind when the UDC has no pullup callback
+Date: Thu, 26 Nov 2026 06:46:49 +0000
+Message-ID: <20261126064649.75179-1-aristo.chen@canonical.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <722603d5-ad2b-44d4-93b5-a629ceec9305@rowland.harvard.edu>
+References: <722603d5-ad2b-44d4-93b5-a629ceec9305@rowland.harvard.edu>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -82,151 +115,69 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261126-ffs-revmap-v1-1-e1322f6fa290@g.skku.edu>
-X-B4-Tracking: v=1; b=H4sIAGrUB2sC/y2MQQrCMBBFr1Jm7UAmYCpepXSRpJN2BGPJqAild
- 2+iLt/j/7eBchFWuHYbFH6LyiNXoFMHcfF5ZpSpMlhjHZF1mJJiHd79iv3FkDk74uAM1MNaOMn
- nGxvGH+sr3Dg+W6EtglfGUHyOS1P/TrMW9v0AoERnaY0AAAA=
-X-Change-ID: 20261126-ffs-revmap-78010561eb60
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Neill Kapron <nkapron@google.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Jaegyun Lee <dreams200260@g.skku.edu>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795675243; l=4099;
- i=dreams200260@g.skku.edu; s=20261126; h=from:subject:message-id;
- bh=lGzl9QWbGZO+/ZfDqZ6tmIIpCKGN1RaRxZQ6vywnsN8=;
- b=iR7+gtHg34TMl/noXXFkqyYklPjW6DUIXJ3MJNr8o2RdygcdSfsN34tRNkMNizYgPjQHT4CFN
- zgk0h/drSzNAf5375kXD3vaZ2/jiDjHgV8d8aia/G4Rb7avWpGQ1E8O
-X-Developer-Key: i=dreams200260@g.skku.edu; a=ed25519;
- pk=vQE4ltNw5Q74mXWk3rPpCfclWKMKcHJ7J9YJ+gqaLUs=
-X-Endpoint-Received: by B4 Relay for dreams200260@g.skku.edu/20261126 with
- auth_id=1649
-X-Original-From: Jaegyun Lee <dreams200260@g.skku.edu>
-Reply-To: dreams200260@g.skku.edu
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-From: Jaegyun Lee <dreams200260@g.skku.edu>
+On Wed, Nov 25, 2026 at 09:35:39AM -0500, Alan Stern wrote:
+> Your patch may conflict with this one from Alexey Charkov:
+>
+> https://lore.kernel.org/linux-usb/20261117-udc-connect-v3-3-9413b491d213@flipper.net/
+>
+> You should look into this and see if any changes are needed.
 
-ffs_ep0_ioctl() snapshots ffs->func without any lock or reference:
+Thanks, I had missed that series. I have added Alexey.
 
-	struct ffs_function *func = ffs->func;
-	ret = func ? ffs_func_revmap_intf(func, value) : -ENODEV;
+Yes, they conflict. Both patches change the same code in
+gadget_bind_driver(). My patch 1/2 applies on top of v3. My patch 2/2
+does not.
 
-ffs_func_revmap_intf() then walks func->interfaces_nums for
-interfaces_count iterations. ffs_func_unbind() first sets
-ffs->func = NULL, then after drain_workqueue() kfrees func->eps --
-the allocation chunk that also holds interfaces_nums -- and later
-still writes func->interfaces_nums = NULL.
+v3 3/3 also handles a UDC without a pullup callback:
+usb_udc_update_connection_locked() returns 0 for it, so the bind no
+longer fails for that reason.
 
-An ioctl that read ffs->func before the NULL write can therefore be
-inside the revmap walk while the chunk is freed.
-John Keeping noted this in 2021:
-https://lkml.rescloud.iu.edu/2112.0/00724.html
+I ran the KUnit test from my cover letter (emulated MAX3420, with KASAN
+and UBSAN) on usb-linus, commit 730acad0b83d. That tree already has
+v3 1/3.
 
-The following is the KASAN log:
+  usb-linus:
+    The bind fails with -EOPNOTSUPP.
 
-  BUG: KASAN: slab-use-after-free in ffs_ep0_ioctl+0x29b/0x300
-  Read of size 2 at addr ffff888051b4925a by task park/9666
-  CPU: 1 UID: 0 PID: 9666 Comm: park Not tainted 7.4.0-rc3-g666539eecdf4 #1 PREEMPT(full)
-  Call Trace:
-   ffs_ep0_ioctl+0x29b/0x300
-   __x64_sys_ioctl+0x18f/0x210
-   do_syscall_64+0x132/0x7c0
-  Allocated by task 9675:
-   __kmalloc_noprof+0x357/0x810
-   ffs_func_bind+0xbd1/0x1b00
-   usb_add_function+0x219/0x8a0
-   configfs_composite_bind+0xcd5/0x17f0
-   gadget_bind_driver+0x288/0xc80
-  Freed by task 9675:
-   kfree+0x2ca/0x6e0
-   ffs_func_unbind+0x2f2/0x570
-   purge_configs_funcs+0x283/0x520
-   configfs_composite_unbind+0xae/0x210
-   gadget_unbind_driver+0x211/0x520
-   ...
-   gadget_dev_desc_UDC_store+0x18a/0x2f0
-  The buggy address is located 602 bytes inside of
-   freed 2048-byte region (kmalloc-2k)
+  usb-linus plus v3 2/3 and 3/3:
+    The bind works. 2 tests pass. The 3 tests with bad endpoint
+    numbers fail, with UBSAN and KASAN reports. 1 test is skipped.
 
-Take ffs->eps_lock around the REVMAP snapshot and walk, and move the
-ffs->func = NULL write and the free of the eps chunk in
-ffs_func_unbind() under the same lock.
+  The same plus my patch 1/2:
+    5 tests pass. 1 test is skipped. No UBSAN or KASAN report.
 
-Reproduced and tested in QEMU (dummy_hcd) only, not on real UDC
-hardware.
+The test that is skipped in the last two runs only runs when the bind
+fails.
 
-Fixes: ddf8abd25994 ("USB: f_fs: the FunctionFS driver")
-Cc: stable@vger.kernel.org
-Assisted-by: ZCode:GLM-5.4
-Signed-off-by: Jaegyun Lee <dreams200260@g.skku.edu>
----
- drivers/usb/gadget/function/f_fs.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+Alexey, I saw the bind failure that you describe in 3/3 on the emulated
+MAX3420.
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index c64a268e98a43..c824d1d5ce571 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -687,8 +687,13 @@ static long ffs_ep0_ioctl(struct file *file, unsigned code, unsigned long value)
- 	long ret;
- 
- 	if (code == FUNCTIONFS_INTERFACE_REVMAP) {
--		struct ffs_function *func = ffs->func;
-+		struct ffs_function *func;
-+		unsigned long iflags;
-+
-+		spin_lock_irqsave(&ffs->eps_lock, iflags);
-+		func = ffs->func;
- 		ret = func ? ffs_func_revmap_intf(func, value) : -ENODEV;
-+		spin_unlock_irqrestore(&ffs->eps_lock, iflags);
- 	} else if (gadget && gadget->ops->ioctl) {
- 		ret = gadget->ops->ioctl(gadget, code, value);
- 	} else {
-@@ -4203,10 +4208,8 @@ static void ffs_func_unbind(struct usb_configuration *c,
- 	unsigned count = ffs->eps_count;
- 	unsigned long flags;
- 
--	if (ffs->func == func) {
-+	if (ffs->func == func)
- 		ffs_func_eps_disable(func);
--		ffs->func = NULL;
--	}
- 
- 	/* Drain any pending AIO completions */
- 	drain_workqueue(ffs->io_completion_wq);
-@@ -4217,13 +4220,14 @@ static void ffs_func_unbind(struct usb_configuration *c,
- 
- 	/* cleanup after autoconfig */
- 	spin_lock_irqsave(&func->ffs->eps_lock, flags);
-+	if (ffs->func == func)
-+		ffs->func = NULL;
- 	while (count--) {
- 		if (ep->ep && ep->req)
- 			usb_ep_free_request(ep->ep, ep->req);
- 		ep->req = NULL;
- 		++ep;
- 	}
--	spin_unlock_irqrestore(&func->ffs->eps_lock, flags);
- 	kfree(func->eps);
- 	func->eps = NULL;
- 	/*
-@@ -4235,6 +4239,7 @@ static void ffs_func_unbind(struct usb_configuration *c,
- 	func->function.ss_descriptors = NULL;
- 	func->function.ssp_descriptors = NULL;
- 	func->interfaces_nums = NULL;
-+	spin_unlock_irqrestore(&func->ffs->eps_lock, flags);
- 
- }
- 
+Two things follow from this.
 
----
-base-commit: 666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
-change-id: 20261126-ffs-revmap-78010561eb60
+1. With v3 the bind works and the test hits the out of bounds index.
+   So my patch 1/2 should go in before either bind fix, or together
+   with it.
 
-Best regards,
---  
-Jaegyun Lee <dreams200260@g.skku.edu>
+2. For the bind fix I see two ways.
 
+   a) Take my patch 2/2 now, so that stable can pick it up. It only
+      changes the bind step. v3 then takes over that code. I tried
+      this order. With my two patches first, v3 2/3 applies cleanly.
+      A three way merge of v3 3/3 has one conflict, in
+      gadget_bind_driver(). Taking the v3 side of it gives the same
+      tree as in the last test above.
 
+   b) Use v3 for the bind fix. I can resend patch 1/2 alone, so that
+      it can go in before v3 3/3 or together with it. Once v3 is in
+      mainline, I can propose the small bind fix as an equivalent
+      backport for the affected stable trees.
+
+I would prefer a), but I am fine with either. Which do you prefer?
+
+I used an AI coding assistant to run these tests and to draft this
+reply.
+
+Thanks,
+Aristo
