@@ -1,56 +1,80 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795696169;
-	b=d3LvFa6RWCMQqnpc4fqc3bAJiBtx5hJRlCY5gWaOYTOfA2ZER2LA4h2y4tjxAkGHXVwp
-	 mkNd62siSwgqNSbeljPuObIbb5+12yntAEagrkSUOYeSaORyKMKRa4XnFkeMVueY0kzc0
-	 WLmS1wEpdkY8gp/QD4OZ/YZ8xRCC8bgqsbwYrQ0bU8pdpZhyP8EKd+knEigh0QN3famQz
-	 dLpNb4gQSklolYmmTLlg1T50GKx2/fXffyY+mu6LA2IZIF/Ekc6l4qJhHTmdrApY63XKI
-	 x14egkWGGgaeVVAH4S408Smnct30ZMsm2j72eEckBKaWZslof5G6Od+e6GHUAUNF5FQ==
+	t=1795696183;
+	b=MsNG42KnABKUMVX6KeKHavdhNKbGg6pzvKDuLCsjcJOxevcD89VWo1IvtAA7mOoATvCc
+	 lRSr0gIHrb/ziEedouX/ZsS7FbxoUPd375aOuxRxAIqqjXAYYREMj4n0UcyFXB256sNos
+	 uJ6nGwBgNXvwcV8SirkBtrlVLcsp/DSqx31+3a/HFj/0emzjLunt4g3Nog6GZJjDokuYj
+	 ySelW+hbXHUlPZfTeb36/LX88V2EutlL7TEhglqG8U7KjWsvrKCnniW5ZDzA88VyGM1t7
+	 pUq6jqA42dQ2LK1d9K2TPtR15rvH1zMsorX7v1/NtsN/1tmsf3CRidIZInwoPleP7BQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795696169;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=BJqNT7qaQ8cx3kNYi3LrDrkwaa2kaVdYqbYWAJxSs+w=;
-	b=A7RE2zSjstGz0FKPumbyoSTsEQ9dyecMc30AMRlPQVlSdQqy4AeITfha8Ibqaa0wsQnh
-	 PFpofxgAogAHAj3BGHmvx71dCuW8tQP5R6osZswgD+GuONLDFNxmd6KE4G0KYm4d7ICpb
-	 wweORNVrLkjgLL1HMUa7xNmznGJA3ym7up/GjSJQYTa0CGBT6LaYt5V912kzrzUBpsFU3
-	 bXCKX094eVxopO0GKX+fXoIin8fH/F8Ix6Qu0I8gBayyI/XU0ODdxmnJa2TdB6/ENrt9h
-	 dobfkO13EB1wcojEq99aQ7eaUwW/aVH3PakVliHoRiAOuBIdEb228aeaSsubh8PDBrw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795696183;
+	h=Received:DKIM-Signature:Received:From:To:Subject:Date:
+	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
+	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
+	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
+	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
+	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
+	 Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
+	bh=Wi2Cl5rp10lePVzryMXDl+moVJY6pZGwBVYcxjs7goI=;
+	b=qFnGf3+QGNXmzAOOmNg8C2TG7Lpl2UTWQ0ZtgGrR+NLFuzzdyzqwFXnKyxIXInYqdVWt
+	 UrLJKdHmi7NOjrM9xldl7wMPHQmuESqiINqo2+7HnnjF2Kii18Lr/7X+3qyZFAS+cIDt8
+	 lHEa8JUQhiCogJ5qZCR/EFJEGZucuRC+nBgqbM3CoPiWsd0eij0gBoRgI75fvaFkggfKx
+	 Pf+1cEFHVMna/Az/JEtFzTBCEjCrYICXYE6vsuNviZEBNCXiuKXXb5xDoZvZpsuFBFUmM
+	 umEO8WMvo2kbZTdowUYoLVWiPC5ZdndojMAdeB4eS4nvoyXFB6en5GkpFjdSlOjqnNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RQWPEM01;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RNceImUN;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8A1606A690
-	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 12:29:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9823D606A33D
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 12:29:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RQWPEM01
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 249951F00A00;
-	Thu, 26 Nov 2026 12:29:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RNceImUN
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D07541F000C6
+	for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 12:29:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795696169;
-	bh=BJqNT7qaQ8cx3kNYi3LrDrkwaa2kaVdYqbYWAJxSs+w=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RQWPEM01cBroaQfJtihFe2CkXrol1M0jYjAMIqpMgkk7qi/Skjvfqdrl85TivxFtF
-	 amaM+3XhDk4d7Z0TpYK0jem194FbsAk1gvuBiPIJ1iQ8qw4UlGxNu2Ezqf+IrvJJrU
-	 N7iVOVDSj5c5UNcfVtCDHKkrrzHV83zCc/OsjZMPkiOE6nmKmkzXzWT3eZeBlT1YSb
-	 4mIR75rzKrq6s49hbx1tKRc4+dVjL8D2DExSC0BHmCwJmwEXROUUy/UO41Ap10d3Uh
-	 yaRwNZhmwM0cVM2eU9fkF57sK289fTG/5qNVripvh4VjUk9gXgLZgcLBEId9mhy8si
-	 7r4BLsuNgdVzw==
-Message-ID: <sashiko-outbox-235504@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: image: microtek: limit REQUEST SENSE transfer
- to the sense buffer
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Alexandre Becholey" <alex@becholey.ch>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261126122151.414230-1-alex@becholey.ch>
-References: <20261126122151.414230-1-alex@becholey.ch>
-Content-Type: text/plain; charset=utf-8
+	s=k20260515; t=1795696182;
+	bh=Wi2Cl5rp10lePVzryMXDl+moVJY6pZGwBVYcxjs7goI=;
+	h=From:To:Subject:Date:In-Reply-To:References;
+	b=RNceImUNu9Zn+0iuFd2mdqO/isqjTFF6TvyAZ/xwACj5JHF8+TYBWIb4KQhs0Nhj5
+	 nyd8LqNd2ZZf347ZMr4HJcv9phglHtPGnqM68jSBxgFYzrnfgXDEARHf7EAquVHn85
+	 NWprBns/fhyXefJKZP/TGDgHJ+PhT77c20C1szmxPMvxIycB9PJd6nr7vXjhx9ti+H
+	 /EAfbdj11JMTlf1TipJcjHhEIxLqo16pZJJ9PxrvH7byemV6Iz52d6XiYqDjfKSwxi
+	 r7qn9u1XrL/OjNm0V+hNY1HVNdqY6+rUxTDBpWqVTADravjCsxP0qwTHHlyBWWPe9I
+	 uc/7vmhL18gOg==
+Received: by aws-us-west-2-korg-bugzilla-alma10-1.codeaurora.org (Postfix, from userid 48)
+	id CCC41240040F; Thu, 26 Nov 2026 12:29:42 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 222328] xhci: ASMedia ASM2142/ASM3142 [1b21:2142] skips
+ transfer event for bulk TRB before link TRB -> UVC stream (Elgato 4K X, 10
+ Gbps) stalls with "not part of TD"
+Date: Thu, 26 Nov 2026 12:29:42 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michal.pecio@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-222328-208809-OVFLhZJfsu@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-222328-208809@https.bugzilla.kernel.org/>
+References: <bug-222328-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 12:29:28 +0000
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,26 +83,32 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
 
-> mts_command_done() receives the data phase of a REQUEST SENSE into
-> srb->sense_buffer (SCSI_SENSE_BUFFERSIZE, 96 bytes), but with the
-> length of the command's own data buffer. A REQUEST SENSE sent through
-> SG_IO, allowed on a read-only /dev/sgN without any capability, can have
-> a much larger buffer (252 bytes with sg_requests), and a device that
-> returns that much writes past the end of the sense buffer.
->=20
-> Limit the transfer to SCSI_SENSE_BUFFERSIZE.
->=20
-> The bug was found, and the reproducer and this fix were written, by AI
-> agents (Claude Mythos and Claude Opus models). The analysis and the
-> patch were reviewed by a human.
->=20
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Alexandre Becholey <alex@becholey.ch>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222328
 
-Sashiko has reviewed this patch and found no issues.
+--- Comment #3 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
+Doesn't seem to affect high-speed.
+
+And it gets worse: if the Link TRB toggles cycle, then it doesn't toggle cy=
+cle.
+With uvcvideo URB count reduced to 2, sometimes the HC apparently still sees
+stale TRB in the first segment while in wrong cycle state, so it executes t=
+he
+whole ring again, executes the missed last TD and works normally until anot=
+her
+occurrence of the bug. After a non-toggling link, it executes any pending T=
+Ds
+and waits.
+
+Inserting one No-Op before the Link TRB seems to break this pattern, though=
+ I
+would prefer to understand what idiotic assumption the chip makes (or could=
+ it
+be a kernel bug?) that causes this behavior, before declaring that the prob=
+lem
+is solved for sure.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126122151.4142=
-30-1-alex@becholey.ch?part=3D1
+You are receiving this mail because:
+You are watching the assignee of the bug.=
