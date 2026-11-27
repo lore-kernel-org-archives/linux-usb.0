@@ -1,57 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795777261;
-	b=CmtEGexplow+9En3Zc0wL+O5rYAX2FBGHCDlq3SeEyve4M3Bl4mS8zjGBlbXtgkaVOdR
-	 ET8xq4AtyzmxT/AuETsFiEIgfhtcOMUO9XZh+Wyi6gH17f82eBAdfLbYRx6dHvPSqJTBc
-	 VQnnOikK+Jzhk3FLaiP7qbVX+OGUo+2egTXWhxq0XKmyN4c/zRVn+WGNOfkz/g+dh2NVe
-	 /R9vKFJ7EqFUgNnOlwweIa32wmClGMdxolq4e96Z5H4kmu6mkBBXR07/T3BOOVnTB1Rrl
-	 sB4BiLhofdr2jsdnlxQudWNm/p2r2U3W7c+zTGBD4tQ4mHYA10wi9BFRCLWlDzcKN/g==
+	t=1795777340;
+	b=SQXMko1eFOAcJbeS5QPIUOzaajUTgt75lFT8Sr7lijHnaSKqIWCq4ENTSRI/dsnfF5KK
+	 S1UlzC6S2vJFZQ/Dv/rNy52il2izt0adgrD3K2LNTHimtWkUySoproQGIoNlo86u5aPGi
+	 4zlMkiPyUWAhe3SMq6C6aBqcjOA6DuxZmw8NEG0bBC8hpke3hTTdxsG/Ccg5Q+FIh19G8
+	 C2Y7UYI9qmAI2t8CmtOYpHcvBFoqmkhdJ0ktRKTxeUGkkShH9UYBwEC9g/32g7ebikRS3
+	 m2InAbHZkNreBuqgve08Tnb/YUqCBF/2prdvY2hedJzlGzkAwiNmY5J4+/bHNNOHpQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795777261;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=O96dyV9ASRiU2oVGDg0b4o6aHS0l7WULOvnt5qH0fCA=;
-	b=fqU2Mop0DO41QK4HEtfEoyO9qZ62aVuDElNbQvJhmB4+xKAULBruHQxbASF2138Owc+I
-	 Sj8k4evFCIRRV9PPChNSy3S+NYUFzeNPbEN05M5vITQMPGLQ/G0vVaO1uFrac7GY5rZke
-	 sZyU3rKTlh1Nig367wPqG5MfnnIk+JqbTt4ky5h+7ImYefZrABTGAHcFYeH0rGBdwbjxJ
-	 ehZ32ALHX3iHS+8nhZ7CmngfrvHRldeWJEREv566OBBDWqiphYY8lABhxKlYIgynLBJ13
-	 FD91+z0z1FdpSNjT0mGoJASPTa2dp38OqZ/+/E4Lt0fsL+kFck4MmHPvUpfaGtRR1pw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795777340;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
+	 Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
+	 User-Agent:Content-Transfer-Encoding:X-Last-TLS-Session-Version;
+	bh=nxHHWtoHNXcyhPMP2Q2UoNWtXvhj8SJDUzWXB/5ocyk=;
+	b=fQB8NXjQPv865SGL+T+xcBOIP+U1YEpNhHlbgwCe0pcmTtacrUpWkeudQ8dvcN/aOuQK
+	 C860u3bRxvEX3OYhrXszDLSEXllgeU2mybezq1j0LsBGCpqXT63NQxfU4+9LFTzvBtCN6
+	 H+aFRlBfEoQ8gOatWbt+KYF6XD3VHBT6zA74rcXUYmtuAg29PhU11fsk79Y2zsURzmFk6
+	 kOviyvXqFELCuEKuwv3cgeaW1lne4Itb+VbL4BtOUR0491X7NbdP92CpzRH3ab18o1HY7
+	 qUTMYSRRyB8/ArhLKMMNcUd8g9m+YkA7grUjY9h7P/3jTiGBVR4paZklNMl/QhfM4AQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FgRcr8ND;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=TfycXgNH;
+	arc=none smtp.remote-ip=185.171.202.116
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACEA606A32C
-	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 11:01:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC7F606A330
+	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 11:02:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDC7F606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FgRcr8ND
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31AA01F000C1;
-	Fri, 27 Nov 2026 11:01:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795777261;
-	bh=O96dyV9ASRiU2oVGDg0b4o6aHS0l7WULOvnt5qH0fCA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=FgRcr8NDJFEkQHCm3QHZMCaBSkuMqE7nszxP/rR0aa2tmImJ+C2W5UCwG1aenIRL5
-	 e7OQTNuqOdw9iS44fWYXx/eTFdj7ltzr4He4SCnFkU7sqlPOG8BgnvTZWHRRzGp0f2
-	 bghU1uprfd+sLa7ujPmlzSX3aHLo9/3TdRbKWq15oi5szomq5umrAOUewMiz+rBwin
-	 w2rXCMRvrl6dEROk5gDYCJ2zIFlS79xJYfD95mmVX80U2IuO3Hu5/x/Sc8mBqnO05f
-	 st9yA2YN5VN8yc2VmENlWdXu+2h22jB6YuYa3ziLlF4xO/OIYp2EQTmjMEeG7t34XH
-	 0+QuAc0KM547w==
-Message-ID: <sashiko-outbox-237201@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 5/6] usb: typec: fusb302: Acknowledge
- Get_Source_Cap_Extended from the driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Alexey Charkov" <alchark@flipper.net>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261127-fusb302-getsourcecap-v2-5-6770eb1e7945@flipper.net>
-References: <20261127-fusb302-getsourcecap-v2-0-6770eb1e7945@flipper.net>
- <20261127-fusb302-getsourcecap-v2-5-6770eb1e7945@flipper.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 11:01:00 +0000
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=TfycXgNH
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 9A14AC2B9D2;
+	Fri, 27 Nov 2026 11:02:26 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C1BED6049C;
+	Fri, 27 Nov 2026 11:02:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AF94711E6823C;
+	Fri, 27 Nov 2026 12:02:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795777336; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=nxHHWtoHNXcyhPMP2Q2UoNWtXvhj8SJDUzWXB/5ocyk=;
+	b=TfycXgNH7tOntVdin/eHugaX7mY1Ol4Bxa2KGnjXV2PUsddgpuQUmjkEeZVnRb3d8tYRO3
+	rvZAw6bYvi30H03FwGmjJhgOaqU+lSJ1rfrema4M3sHpmI1c7sih+VUYIAiobkJ0g3dSvH
+	2MPh/+wRW4pp8Ye5c//XN6QtRM/UncSUqR8VGZHPC/cPrWjcUDIQsySx6r9mDQvVYki9Hf
+	bce9mnS/sBBJt1Rehtk0P8eavUnAtHoyzDsrUguFUEsjgOBnudAaRerRJtwvxV31HOfjDH
+	MKM90PcAJ8pVAVTTV3PABx43tQ/eKrNvGil9FbRSaBsU8CUGu4BpDrny/f4f4w==
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Ajit Singh <blfizzyy@gmail.com>
+Cc: romain.gantois@bootlin.com,
+	gregkh@linuxfoundation.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	heikki.krogerus@linux.intel.com,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: usb: ti,tusb1046: Document no-hpd
+Date: Fri, 27 Nov 2026 12:02:13 +0100
+Message-ID: <20261127110213.17642-1-romain.gantois@bootlin.com>
+In-Reply-To: <20261126093819.76480-2-blfizzyy@gmail.com>
+References: <20261126093819.76480-1-blfizzyy@gmail.com> <20261126093819.76480-2-blfizzyy@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,324 +74,85 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: koshi/0.3.0
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Thank you for your contribution! Sashiko AI review found 5 potential
-issues to consider:
-- [Medium] usb: typec: fusb302: CRC_CHK drain in fusb302_irq_handle()
-  runs before TX end
-- [Medium] usb: typec: fusb302: unacknowledged message passed to
-  tcpm_pd_receive()
-- [Medium] usb: typec: fusb302: rx_recheck wakes IRQ thread after
-  synchronize_irq()
-- [Medium] usb: typec: fusb302: irq_wake_thread() is a no-op on nested
-  threaded IRQs
-- [Low] usb: typec: fusb302: fusb302_pd_check_ack() saves masked
-  interrupt bits
---
-
-commit dc7071ade05719019e8a6d55a3f3fc80613971c7
-Author: Alexey Charkov <alchark@flipper.net>
-
-usb: typec: fusb302: Acknowledge Get_Source_Cap_Extended from the driver
-
-This commit sends a software GoodCRC from the driver upon receiving a PD 3.0
-Get_Source_Cap_Extended message, which the PD 2.0 FUSB302 hardware mistakes
-for a GoodCRC and leaves unacknowledged.
-
-> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fu=
-sb302.c
-> index aa0e4dbe31dbd..c98a74fc7a2ac 100644
-> --- a/drivers/usb/typec/tcpm/fusb302.c
-> +++ b/drivers/usb/typec/tcpm/fusb302.c
-
-[ ... ]
-
-> @@ -1531,10 +1559,110 @@ static int fusb302_pd_reset(struct fusb302_chip =
-*chip)
->  				    FUSB_REG_RESET_PD_RESET);
->  }
-> =20
-> +static void fusb302_pd_tx_complete(struct fusb302_chip *chip,
-> +				   enum tcpm_transmit_status status)
-> +{
-> +	chip->tx_pending =3D false;
-> +	tcpm_pd_transmit_complete(chip->tcpm_port, status);
-> +}
-> +
-> +/*
-> + * See whether a GoodCRC the driver sent collided before releasing chip-=
->lock:
-> + * by the next interrupt, TCPM may have started a transmission, and the
-> + * COLLISION would then be reported against it. The chip sets COLLISION =
-when
-> + * TXON finds CC busy, so it is there to see by now. Keep the other bits=
-, which
-> + * reading the register clears, pending for fusb302_irq_handle().
-> + */
-> +static int fusb302_pd_check_ack(struct fusb302_chip *chip)
-> +{
-> +	u8 interrupt;
-> +	int ret;
-> +
-> +	/* Left set on an error, for fusb302_irq_handle() to tell COLLISION */
-> +	ret =3D fusb302_i2c_read(chip, FUSB_REG_INTERRUPT, &interrupt);
-> +	if (ret < 0)
-> +		return ret;
-> +	chip->ack_check =3D false;
-> +	if (interrupt & FUSB_REG_INTERRUPT_COLLISION)
-> +		fusb302_log(chip, "GoodCRC sent by the driver collided");
-> +	chip->pending_interrupt |=3D interrupt & ~FUSB_REG_INTERRUPT_COLLISION;
-> +
-> +	return 0;
-> +}
-
-[Severity: Low]
-Does fusb302_pd_check_ack() leave masked status bits such as
-FUSB_REG_INTERRUPT_ACTIVITY set in chip->pending_interrupt?
-
-The FUSB302 latches FUSB_REG_INTERRUPT_ACTIVITY in FUSB_REG_INTERRUPT on CC
-activity even when masked in FUSB_REG_MASK, including from the GoodCRC
-transmission itself.  Because chip->pending_interrupt is then always
-non-zero after a driver-sent GoodCRC, fusb302_irq_handle() will loop through
-its "goto again" path and perform four extra I2C register reads every time,
-and fusb302_pd_check_ack_async() will always wake the IRQ thread.
-
-> +
-> +/*
-> + * As fusb302_pd_check_ack(), outside the IRQ thread: reading INTERRUPT =
-clears
-> + * the flags that raise the IRQ, so have the IRQ thread handle what it r=
-ead
-> + */
-> +static void fusb302_pd_check_ack_async(struct fusb302_chip *chip)
-> +{
-> +	if (!chip->ack_check || fusb302_pd_check_ack(chip) < 0)
-> +		return;
-> +	if (chip->pending_interrupt)
-> +		irq_wake_thread(chip->gpio_int_n_irq, chip);
-> +}
-
-[Severity: Medium]
-Can chip->pending_interrupt be stranded when chip->gpio_int_n_irq is behind
-an I2C GPIO expander?
-
-Interrupts behind a sleeping GPIO expander are registered as nested threaded
-IRQs (IRQ_NESTED_THREAD), where irqaction->thread is NULL and handlers run =
-on
-the parent controller's thread.  irq_wake_thread() does nothing when
-action->thread is NULL:
-
-kernel/irq/manage.c:irq_wake_thread() {
-    ...
-	for_each_action_of_desc(desc, action) {
-		if (action->dev_id =3D=3D dev_id) {
-			if (action->thread)
-				__irq_wake_thread(desc, action);
-			break;
-		}
-	}
-}
-
-Since fusb302_pd_check_ack() has already read and cleared FUSB_REG_INTERRUPT
-in the chip, INT_N deasserts and the events saved in chip->pending_interrupt
-will not be processed until an unrelated interrupt fires.
-
-> +
-> +/*
-> + * TCPM waits for the outcome of its last transmission, unless it gave u=
-p after
-> + * PD_T_TCPC_TX_TIMEOUT, which it does without telling the driver
-> + */
-> +static bool fusb302_pd_tx_waiting(struct fusb302_chip *chip)
-> +{
-> +	return chip->tx_pending &&
-> +	       ktime_ms_delta(ktime_get(), chip->tx_start) <
-> +	       PD_T_TCPC_TX_TIMEOUT;
-> +}
-> +
-> +/*
-> + * The chip only decodes the low four bits of the message type, so it mi=
-stakes
-> + * Get_Source_Cap_Extended (0x11) for a GoodCRC (0x1): it neither acknow=
-ledges
-> + * it nor raises GCRCSENT, only CRC_CHK, yet still queues it in the RX F=
-IFO.
-> + * Send the GoodCRC from here once the message checks out. It goes out w=
-ell
-> + * after 195us (tTransmit), but the partner retries with the same Messag=
-eID and
-> + * usually accepts it then, rather than soft reset over and over.
-> + */
-> +static void fusb302_pd_rx_ack(struct fusb302_chip *chip)
-> +{
-> +	u16 header =3D get_unaligned_le16(chip->rx_buf + 1);
-> +	struct pd_message ack =3D {};
-> +	int ret;
-> +
-> +	if (chip->rx_discard || chip->rx_acked || pd_header_cnt(header) ||
-> +	    pd_header_type(header) !=3D PD_CTRL_GET_SOURCE_CAP_EXT ||
-> +	    (chip->rx_buf[0] & FUSB302_RX_TKN_MASK) =3D=3D FUSB302_RX_TKN_SOP1)
-> +		return;
-> +	chip->rx_acked =3D true;
-> +
-> +	/*
-> +	 * The outcome of a GoodCRC sent now would pass for that of the
-> +	 * transmission TCPM waits for, so leave the partner to retry then
-> +	 */
-> +	if (fusb302_pd_tx_waiting(chip)) {
-> +		fusb302_log(chip, "not acknowledging PD message, TX pending");
-> +		return;
+On Thu, 26 Nov 2026 15:08:19 +0530, Ajit Singh <blfizzyy@gmail.com> wrote:
+> When HPD_IN has no usable hardware signal, set HPDIN_OVERRIDE over
+> I2C in DisplayPort Alt Mode so the device treats HPD_IN as asserted.
+> Clear the override when leaving DisplayPort mode, and preserve the
+> existing register value on boards without no-hpd.
+> 
+> Signed-off-by: Ajit Singh <blfizzyy@gmail.com>
+> ---
+>  drivers/usb/typec/mux/tusb1046.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/mux/tusb1046.c b/drivers/usb/typec/mux/tusb1046.c
+> index 34ef81f75693..50a856c8245d 100644
+> --- a/drivers/usb/typec/mux/tusb1046.c
+> +++ b/drivers/usb/typec/mux/tusb1046.c
+> @@ -21,6 +21,7 @@
+>  /* General register bits */
+>  #define TUSB1046_GENERAL_FLIPSEL BIT(2)
+>  #define TUSB1046_GENERAL_CTLSEL  GENMASK(1, 0)
+> +#define TUSB1046_GENERAL_HPDIN_OVERRIDE BIT(3)
+>  
+>  /* Mux modes */
+>  #define TUSB1046_CTLSEL_DISABLED          0x0
+> @@ -32,6 +33,7 @@ struct tusb1046_priv {
+>  	struct i2c_client *client;
+>  	struct typec_switch_dev *sw;
+>  	struct typec_mux_dev *mux;
+> +	bool no_hpd;
+>  
+>  	/* Lock General register during accesses */
+>  	struct mutex general_reg_lock;
+> @@ -44,6 +46,7 @@ static int tusb1046_mux_set(struct typec_mux_dev *mux,
+>  	struct i2c_client *client = priv->client;
+>  	struct device *dev = &client->dev;
+>  	int mode, val, ret = 0;
+> +	bool dp_active = false;
+>  
+>  	if (state->mode >= TYPEC_STATE_MODAL &&
+>  	    state->alt->svid != USB_TYPEC_DP_SID)
+> @@ -67,9 +70,11 @@ static int tusb1046_mux_set(struct typec_mux_dev *mux,
+>  	case TYPEC_DP_STATE_C:
+>  	case TYPEC_DP_STATE_E:
+>  		mode = TUSB1046_CTLSEL_4LANE_DP;
+> +		dp_active = true;
+>  		break;
+>  	case TYPEC_DP_STATE_D:
+>  		mode = TUSB1046_CTLSEL_USB3_AND_2LANE_DP;
+> +		dp_active = true;
+>  		break;
+>  	case TYPEC_STATE_SAFE:
+>  	default:
+> @@ -80,6 +85,13 @@ static int tusb1046_mux_set(struct typec_mux_dev *mux,
+>  	val &= ~TUSB1046_GENERAL_CTLSEL;
+>  	val |= mode;
+>  
+> +	if (priv->no_hpd) {
+> +		if (dp_active)
+> +			val |= TUSB1046_GENERAL_HPDIN_OVERRIDE;
+> +		else
+> +			val &= ~TUSB1046_GENERAL_HPDIN_OVERRIDE;
 > +	}
 > +
-> +	/*
-> +	 * The chip's own GoodCRCs go out as revision 2.0. As it decodes only
-> +	 * the low four bits of the message type, it treats any GoodCRC it
-> +	 * sends as one that needs no GoodCRC in return, so it sends this one
-> +	 * once, without retries or RETRYFAIL, whatever the retry count is.
-> + */
-> +	ack.header =3D PD_HEADER_LE(PD_CTRL_GOOD_CRC, chip->pwr_role,
-> +				  chip->data_role, PD_REV20,
-> +				  pd_header_msgid(header), 0);
-> +	ret =3D fusb302_pd_send_message(chip, TCPC_TX_SOP, &ack);
-> +	if (ret >=3D 0)
-> +		chip->ack_check =3D true;
-> +	else
-> +		fusb302_log(chip, "cannot acknowledge PD message, ret=3D%d", ret);
-> +}
+>  	ret = i2c_smbus_write_byte_data(client, TUSB1046_REG_GENERAL, val);
+>  
+>  out_unlock:
+> @@ -131,6 +143,7 @@ static int tusb1046_i2c_probe(struct i2c_client *client)
+>  		return -ENOMEM;
+>  
+>  	priv->client = client;
+> +	priv->no_hpd = device_property_read_bool(dev, "no-hpd");
+>  
+>  	mutex_init(&priv->general_reg_lock);
+>  
+> -- 
+> 2.50.1 (Apple Git-155)
 
-[ ... ]
-
-> @@ -1680,6 +1808,8 @@ static int fusb302_pd_read_message(struct fusb302_c=
-hip *chip)
->  		dropped++;
->  	}
-> =20
-> +	/* The CRC checks out: acknowledge it, should the chip not have */
-> +	fusb302_pd_rx_ack(chip);
->  	chip->rx_resync =3D false;
->  	token =3D chip->rx_buf[0];
->  	memcpy(&msg, chip->rx_buf + 1, len - 5);
-
-[Severity: Medium]
-When fusb302_pd_rx_ack() withholds the GoodCRC because
-fusb302_pd_tx_waiting(chip) is true (or fusb302_pd_send_message() fails),
-does fusb302_pd_read_message() still pass the unacknowledged
-Get_Source_Cap_Extended message to tcpm_pd_receive()?
-
-Delivering the unacknowledged message causes tcpm_pd_rx_handler() to record
-its MessageID in port->rx_msgid and start transmitting a reply (setting
-chip->tx_pending =3D true again), while any later acknowledged retry from t=
-he
-partner with the same MessageID will be dropped by TCPM as a duplicate.
-
-[ ... ]
-
-> @@ -1847,6 +1977,7 @@ static void fusb302_pd_rx_recheck_work(struct work_=
-struct *work)
->  		if (ret < 0)
->  			fusb302_log(chip, "cannot read in PD message, ret=3D%d",
->  				    ret);
-> +		fusb302_pd_check_ack_async(chip);
->  	}
->  	mutex_unlock(&chip->lock);
->  }
-
-[Severity: Medium]
-Can fusb302_pd_rx_recheck_work() wake the IRQ thread after synchronize_irq()
-in fusb302_pm_suspend() has already returned?
-
-drivers/usb/typec/tcpm/fusb302.c:fusb302_pm_suspend() {
-    ...
-	/* Let an IRQ being handled finish before the bus suspends */
-	synchronize_irq(chip->gpio_int_n_irq);
-	/* No RX FIFO recheck may run until the bus is back either */
-	cancel_delayed_work_sync(&chip->rx_recheck);
-	return 0;
-}
-
-CPU0                              CPU1 (kworker)
-fusb302_pm_suspend()
-  chip->irq_suspended =3D true
-  synchronize_irq(...)
-                                  fusb302_pd_rx_recheck_work()
-                                    fusb302_pd_rx_drain()
-                                    fusb302_pd_check_ack_async()
-                                      irq_wake_thread(...)
-  cancel_delayed_work_sync(...)
-  return 0
-                                  fusb302_irq_intn()  <-- runs during suspe=
-nd
-
-Because cancel_delayed_work_sync(&chip->rx_recheck) runs after
-synchronize_irq(), fusb302_pm_suspend() can return while the newly woken IRQ
-thread is still pending or running.
-
-[ ... ]
-
-> @@ -2014,6 +2151,22 @@ static void fusb302_irq_handle(struct fusb302_chip=
- *chip)
->  	chip->pending_interrupt =3D 0;
->  	chip->pending_interrupta =3D 0;
->  	chip->pending_interruptb =3D 0;
-> +
-> +	/*
-> +	 * A message the chip didn't acknowledge raises CRC_CHK alone: read it
-> +	 * out first thing, as its GoodCRC is past due already. Those that came
-> +	 * before PD was on, which nothing acknowledged, were dropped then.
-> +	 */
-> +	if (chip->pd_rx_on && (interrupt & FUSB_REG_INTERRUPT_CRC_CHK) &&
-> +	    !(interrupta & FUSB_REG_INTERRUPTA_TX_SUCCESS) &&
-> +	    !(interruptb & FUSB_REG_INTERRUPTB_GCRCSENT)) {
-> +		/* Still handle the other events then */
-> +		ret =3D fusb302_pd_rx_drain(chip);
-> +		if (ret < 0)
-> +			fusb302_log(chip,
-> +				    "cannot read in PD message, ret=3D%d", ret);
-> +	}
-
-[ ... ]
-
-> @@ -2061,14 +2214,19 @@ static void fusb302_irq_handle(struct fusb302_chi=
-p *chip)
->  		}
->  	}
-> =20
-> +	/* Not for TCPM if it came from a GoodCRC the driver sent */
->  	if (interrupt & FUSB_REG_INTERRUPT_COLLISION) {
->  		fusb302_log(chip, "IRQ: PD collision");
-> -		tcpm_pd_transmit_complete(chip->tcpm_port, TCPC_TX_FAILED);
-> +		if (chip->ack_check)
-> +			chip->ack_check =3D false;
-> +		else if (chip->tx_pending)
-> +			fusb302_pd_tx_complete(chip, TCPC_TX_FAILED);
->  	}
-> =20
->  	if (interrupta & FUSB_REG_INTERRUPTA_RETRYFAIL) {
->  		fusb302_log(chip, "IRQ: PD retry failed");
-> -		tcpm_pd_transmit_complete(chip->tcpm_port, TCPC_TX_FAILED);
-> +		if (chip->tx_pending)
-> +			fusb302_pd_tx_complete(chip, TCPC_TX_FAILED);
->  	}
-
-[Severity: Medium]
-Does draining the RX FIFO on FUSB_REG_INTERRUPT_CRC_CHK before handling
-FUSB_REG_INTERRUPT_COLLISION and FUSB_REG_INTERRUPTA_RETRYFAIL from the same
-interrupt snapshot mix up TX state before and after the drain?
-
-If TCPM's transmission fails with COLLISION or RETRYFAIL in the same
-interrupt snapshot as an incoming Get_Source_Cap_Extended, chip->tx_pending
-has not been cleared yet when fusb302_pd_rx_drain() runs, so
-fusb302_pd_rx_ack() sees fusb302_pd_tx_waiting(chip) as true and skips
-sending the GoodCRC.
-
-Conversely, if fusb302_pd_rx_ack() sends a GoodCRC during the CRC_CHK drain
-and sets chip->ack_check =3D true while the earlier interrupt snapshot alre=
-ady
-had FUSB_REG_INTERRUPT_COLLISION set, the COLLISION handler below will clear
-the new chip->ack_check against that older COLLISION bit, skipping both any
-chip->tx_pending failure report and the done-path fusb302_pd_check_ack()
-call for the newly sent GoodCRC.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127-fusb302-ge=
-tsourcecap-v2-0-6770eb1e7945@flipper.net?part=3D5
+Reviewed-by: Romain Gantois <romain.gantois@bootlin.com>
