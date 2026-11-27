@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795753621;
-	b=YDSfBFWTCeESxNheWCyjf199IwFiXynbw7LHeMo9KjxIrGniA2WWSsJoq/W6pt9aPprK
-	 0eUr3J9kfaHXIaBV8VPX1cJTx4oHoXMAARZOEHv0gv61+TQztrLBjC1KHs4NyAKqkDZay
-	 ci3hioxUnE9xqbU0xar6N6MtB8xbL/IFyll39Dd6wqFforRWjkyvrxjB8kVH+a7zCflet
-	 kK8mMAX1XtBdQ6XjfCCvFQ8m9mFyC58NQDHAAlU015O8kuLVmNFveUi84EBQlaWrdUMGz
-	 M3chnfPby3MyhAXGNYLWqXf6QqLH71MTW9uacJuVdhW9ajZYAlEmBOLYkKB6EpaNK/Q==
+	t=1795753622;
+	b=ff7DZ3YL+TOiDaG94/cYv3KGxDsbS+ZMWJLIoYWQXLkbMk7lD2yZSfC+SFFrGanMbkoO
+	 vXffOW9MDFWX6iF2a6Bjpx+yx/Z+vwiFv3o22CXCzahuUdvnI66ru7/yBxQ7VKecf8lt9
+	 U7g9xDg3V5ZsZJhsWiuSKzV0afmuUevA3jiT/6KeeIRxgUULBDZI13TQjouAPLEncc+VZ
+	 dArhHdqnF12HDLD+UIR0ttzLmKdjJdrRO6y0s6CMJGq6gPf0BOyQTUsfW6PCRG4hw06h4
+	 H4aTWDfFwXC23HUrVfH/p6Ml1DrwDQ3E2N/ou5cbzkI4ukAwUphy50j+0EPmdLwurZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795753621;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795753622;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=9qlfoltgQZQLTiaNigWx976hqgBrcBMxN+/iUMS2pNs=;
-	b=HTlcWlx+JoDcIaar07VV1kBVn4ODPJtwe4hI5mMk1IhTygQZldB8b39qeLaxzzJ3G3ne
-	 OLaiJDvGjV2CAWEebXK+CLHJG4JzWObQ+U5+0Q4xdtcf+1HkDg8/gSJUFfHmx939iR8Sc
-	 5PJxVlFWMupTUuXarHyRvDNynhELmrwas+WqFyuhIpYOY1R8ifyvbYk7hhv02C1EV+YK4
-	 iW9zGLX7fLDrgN4MY32s+IKqUcUjU1Jq6I5ZeHSCzr2drmSqD/HJNQb7MpuM8+gXXAvNP
-	 wk2Aw0qf5fgUf5MDU3nqvIduNeY6fvENxx6rc5vrpCY4FSviqFfq1ny1kBpSoioB7ug==
+	bh=zJKuJ7vg9PpqIh/0IWbImhEqiaev0DXuAD3r2o7D1ow=;
+	b=FMmrM5i9JtWUeOo5o0uqPq2iYM6Yo9UGY4vNtg3xc1EO5Tx21ryrxOUhKXRcXFCDBDi0
+	 mkgVPO/gQ89EGt9oXhnDx0t2CQiOrukt//gjEagMv0668/a/6km/kXGasI2TsGyGExayO
+	 GdUXgxg4rCovLGp/pCKICoRuaLjTEwePhck+tH0qFz1XbxjbV2U/nddYgCBF25rvGeT79
+	 ifyXRDL8AmKxprhQqq1nIgZRRtGkbApkEvtf0WXNhwCU8qHhDJJmq2p48Hq9eCLuP6yZg
+	 PuwHARggN8g+gntco6VeOhP22qVeLgrjJLxIx6jmxP2/ADEDW+l/4RyL5Xqg5BYRK/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RSWx4UlP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K8laFION;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B715606A31C;
-	Fri, 27 Nov 2026 04:27:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6A9606A32F;
+	Fri, 27 Nov 2026 04:27:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RSWx4UlP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642961F00893;
-	Fri, 27 Nov 2026 04:27:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K8laFION
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8CC21F00893;
+	Fri, 27 Nov 2026 04:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795753621;
-	bh=9qlfoltgQZQLTiaNigWx976hqgBrcBMxN+/iUMS2pNs=;
+	s=k20260515; t=1795753622;
+	bh=zJKuJ7vg9PpqIh/0IWbImhEqiaev0DXuAD3r2o7D1ow=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=RSWx4UlPFGUJk3/BB5u/lJSuSOmV+Jrz2ByaJXYYzZDwtSmwexebhTNkshEsEood4
-	 +ccga8k7gQlSzerZwyYsmswtYmb9BvB80QBkgIzExJlh7tx4Qw6sy5z15BGhswzpXT
-	 nER3WpLBHxT9Q7tA5r2BinxBwuvtb9xLtU8dKHjLdXnBJZQlLVQR4cX+dWkPeSBqTb
-	 M22zm0lda0k4e3krkTgk4uJM7eB4JCenONquy2b6/akfgeGqs156zLprcGchp+5pzQ
-	 uQEPNpQXQ0u+x0h7ZXxpQgX+0A6a8y5YaEJOUCjRRs/ACC9NgrsBPrcNa5+UvZUeuH
-	 T4WAqkBL7XKKg==
-Subject: Re: [PATCH net-next v9 01/12] r8152: fix
- RTL8156/RTL8156B/RTL8157/RTL8159 up and down settings
+	b=K8laFIONL2n0Djtz3VSa3NqwackBnfRkpV5/VRrPB+bv/B5Ln2xWnkf8Ix9lTWBVu
+	 jHuJ04Y7V16fwynInsixFnSQeUxMG+HO6D7sl4Kq1pEtCfSyBDCisYiHxlhGuSzVZn
+	 FQHkYXwmwCRUc8wMCZ4FgyyX8ZApFhMGy4Qymq8UYlmaNc1Hfj70nGGffJ+gxWK5p/
+	 HJM/FmUqUBE6P9xWxw/tlRfJ9e4xwdwksIoUiwPIH/2ccJZfRw5R6JEol251BxJd9Y
+	 G7Rv5Zvq5JOH4xtT25I6ZKr6rCnj31hV2BhD59tXnPIeEDDsH8iw00J8RqL5/pt3rD
+	 trpCx/yN3YtbA==
+Subject: Re: [PATCH net-next v9 02/12] r8152: add rtl8157_unload() for RTL8157
+ and RTL8159
 From: netdev-bot+sashiko@kernel.org
 To: hsu.chih.kai@realtek.com
 Cc: davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
  nic_swsd@realtek.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
  edumazet@google.com, bjorn@mork.no, pabeni@redhat.com, andrew+netdev@lunn.ch,
  mail@birger-koblitz.de
-Date: Fri, 27 Nov 2026 04:26:59 +0000
-Message-ID: <179575361990.3135.4466986058036107796@kernel.org>
-In-Reply-To: <20261126033211.51850-2-nic_swsd@realtek.com>
-References: <20261126033211.51850-2-nic_swsd@realtek.com>
+Date: Fri, 27 Nov 2026 04:27:01 +0000
+Message-ID: <179575362138.3135.2071411045899794230@kernel.org>
+In-Reply-To: <20261126033211.51850-3-nic_swsd@realtek.com>
+References: <20261126033211.51850-3-nic_swsd@realtek.com>
 X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -71,114 +71,54 @@ you want to address the nit picks below when you respin.
 
 Low priority / nit picks for your consideration:
 
-- [Low] The commit message of "r8152: fix
-  RTL8156/RTL8156B/RTL8157/RTL8159 up and down settings" carries three…
-- [Low] Six independent register fixes, attributed to three different
-  original commits, are squashed into one patch.
+- [Low] Commit "r8152: add rtl8157_unload() for RTL8157 and RTL8159" has
+  two Fixes: tags (fd3c7d080df5, ad2a55b63b41), but its only…
 
 --
 
-r8152: fix RTL8156/RTL8156B/RTL8157/RTL8159 up and down settings
+r8152: add rtl8157_unload() for RTL8157 and RTL8159
 
-This commit adjusts rtl8156_up() and rtl8156_down() so that several
-datasheet-required register settings are applied to the right
-RTL8156-family chip versions. It changes the version gates for PLA_RCR1,
-USB_SPEED_OPTION and PLA_MCU_SPDWN_EN and adds Clear_SDR writes. It also
-sets ALDPS_PROXY_MODE and DIS_MCU_CLROOB on OOB entry and uses different
-OOB RMS/MTPS values for RTL8157/RTL8159.
+This patch gives RTL8157 and RTL8159 their own rtl8157_unload()
+callback. The callback uses r8157_power_cut_en() instead of
+r8153_power_cut_en(). The 0xcf04 Interrupt Mitigation clear moves from
+rtl8153_unload() into the new function.
 
-> Several settings the datasheet requires for these chips were either
-> missing or gated on the wrong version range in the shared
-> rtl8156_up()/rtl8156_down():
-
-[ ... ]
-
-> Fixes: 195aae321c82 ("r8152: support new chips")
-> Fixes: fd3c7d080df5 ("r8152: Add support for the RTL8157 hardware")
-> Fixes: ad2a55b63b41 ("r8152: Add support for the RTL8159 chip")
+> RTL8157 and RTL8159 used rtl8153_unload(), which disables power cut
+> with r8153_power_cut_en(). Per the datasheet they need
+> r8157_power_cut_en(), which r8156_init() already calls for them.
 
 [Severity: Low]
-Could the commit message say what goes wrong on real hardware without
-these settings?
 
-Each item is justified only as something the datasheet requires. None of
-them names a symptom someone would see, such as WoL/OOB wake failures,
-RX stalls after resume, wrong OOB frame size limits, or link loss after
-ifdown/ifup. The message also doesn't say whether any of the changes
-fixes a reported problem.
+This patch carries two Fixes: tags. The only reason given is "Per the
+datasheet they need r8157_power_cut_en()". Could the commit message say
+what goes wrong for users when RTL8157 and RTL8159 use the old
+rtl8153_unload()?
 
-Some of the changes affect every RTL8156-family chip:
+The unload callback runs from rtl8152_disconnect() on unbind or module
+removal. It also runs from the out1 error path in rtl8152_probe_once().
 
-- ALDPS_PROXY_MODE in PLA_BDC_CR, set in rtl8156_down().
-- DIS_MCU_CLROOB in PLA_OOB_CTRL, set in rtl8156_down().
-- The PLA_RCR1 BIT(3) clear in rtl8156_up(), which now also runs on
-  RTL8156/RTL8156B.
+Where does the problem show up? For example, is it on re-bind, with a
+fallback class driver, or in the device's power state after unbind?
 
-195aae321c82 dates back to 2021, so these Fixes: tags will pull the patch
-into several stable trees. Backporters need to know which bug this fixes.
+The commit message also leaves out the register changes. The old path
+cleared both bits in USB_POWER_CUT:
 
-> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-> index 4815235e8e730..d00cc911ae135 100644
-> --- a/drivers/net/usb/r8152.c
-> +++ b/drivers/net/usb/r8152.c
-> @@ -6820,8 +6820,7 @@ static void rtl8156_up(struct r8152 *tp)
->  
->  	ocp_byte_clr_bits(tp, MCU_TYPE_PLA, PLA_OOB_CTRL, NOW_IS_OOB);
->  
-> -	if (tp->version >= RTL_VER_16)
-> -		ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_RCR1, BIT(3));
-> +	ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_RCR1, BIT(3));
->  
->  	ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_SFF_STS_7, MCU_BORW_EN);
->  
+r8153_power_cut_en(tp, false)
+    ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_POWER_CUT,
+                      PWR_EN | PHASE2_EN);
+    ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_MISC_0, PCUT_STATUS);
 
-[ ... ]
+The new path leaves PHASE2_EN unchanged. It also clears USB_MISC_2
+BIT(1), which the old path never touched:
 
-> @@ -6860,6 +6860,23 @@ static void rtl8156_up(struct r8152 *tp)
->  	if (tp->version < RTL_VER_16)
->  		r8153_u2p3en(tp, true);
->  
-> +	switch (tp->version) {
-> +	case RTL_VER_13:
-> +	case RTL_VER_15:
-> +		/* Enable Clear_SDR */
-> +		ocp_word_set_bits(tp, MCU_TYPE_USB, 0xd3ca, BIT(15));
-> +		break;
-> +	case RTL_VER_16:
-> +	case RTL_VER_17:
-> +		/* Enable Clear_SDR */
-> +		ocp_byte_set_bits(tp, MCU_TYPE_USB, 0xd378, BIT(7));
-> +		/* Clear SDR bit */
-> +		ocp_word_clr_bits(tp, MCU_TYPE_USB, 0xcd06, BIT(15));
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
+r8157_power_cut_en(tp, false)
+    ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_POWER_CUT, PWR_EN);
+    ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_MISC_0, PCUT_STATUS);
+    ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_MISC_2, BIT(1));
 
-[Severity: Low]
-This isn't a bug, but could this be split into separate patches, one per
-Fixes: target?
-
-These parts only affect RTL8156/RTL8156B and fix 195aae321c82:
-
-- The PLA_RCR1 BIT(3) clear.
-- The 0xd3ca Clear_SDR write for RTL_VER_13/RTL_VER_15.
-- ALDPS_PROXY_MODE and DIS_MCU_CLROOB on OOB entry in rtl8156_down().
-
-The rest, including the PLA_RMS/PLA_MTPS switch in rtl8156_down(), only
-matters for code added by fd3c7d080df5 and ad2a55b63b41.
-
-The RCR1 hunk above removes the "if (tp->version >= RTL_VER_16)" gate,
-which came from ad2a55b63b41. This switch in rtl8156_up() also puts the
-RTL_VER_13/15 and RTL_VER_16/17 cases side by side. As a result, the
-patch won't apply to stable trees that have 195aae321c82 but not the
-RTL8157/RTL8159 support.
-
-Separate patches would also let a bisect show which of the six register
-changes is at fault if one of them causes a regression.
-
-[ ... ]
+Could the commit message describe these register differences and the
+user-visible impact? Documentation/process/submitting-patches.rst asks
+for both in fixes.
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261126033211.51850-1-nic_swsd%40realtek.com
