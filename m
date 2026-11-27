@@ -1,75 +1,74 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795781893;
-	b=oRzJYptfFkLV/WWKUp3weaRLw5GoCwC9dwUNFTJxSWSmdnNL+LgiubmXS0rhxqXZn7dy
-	 gvumL2bjG5n77yrpdKrSMp5cBmhEhuqk8g4Mne+HqZxeD5Ltxed2M+IMHAT9Z/GYZgnjK
-	 8o7rwBML9sembpQH9UiEwxyyAUmE3qHlvmgFlmxniSZan8GEduLLxvhPxacHctC8CaZA/
-	 ngq7/H5aZvgPGLd0U7hVruzxVljfo4laON0WrNGJhRj7nnMXbq1ZIcc048m4ukLZxVj31
-	 hfuKvrPWVgQQrf57Ro03WB0mKBe23FFIbHkycqDp6QuiYfypTX65BC9puhgG2TKTDLA==
+	t=1795781894;
+	b=MhET4czVWdZRYkdpWPaC3co3qem20eMnIH/48dB/n2GDszOuC3x3Ur5OCWIpGPrMzmAT
+	 fKS6cAwJHOQz6Sy8ovRxYu26vn5YbFg4IGv/2aLoRqLJJKZhkJZ9ubqx0DYCP95D0OPTd
+	 haOlL8ew1YNkKsrtCALCs8yfEdI1On4W9K/lNfY8QTRTxyDAhinTKg0pyBwefajbVPNG6
+	 ATbJ6vvwUI1EsZK0tFsrVFPWueYCzFvLZQXaihv9raKH8z1dUuDVe7eIVvVacCk0KcfBF
+	 A1D52Dv0J9DyrdWpYkJlgu6G6yFMASfBEChbRputApF50awwhgnUFk/euWAdByu16iQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795781893;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795781894;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=AYmnSmOyzTORRbbWg9y2f9ifyuR757SQQxA5HcEM1t0=;
-	b=hbcLX86I9+Yyp8W/ui4zgPf/gpQH/5e1S5Zy8dX/g/iSA4friMogD76oExq3WwDcBDYX
-	 /mDnakhL8HcTNftllo+E8m6GYZbR7RjUmmVMLrIVp64061+Peir8hmPTs49Fc9ROeAC5h
-	 v18wd1kVU3HDBDWrytxLVo8oh1ptkEGD6S1lYxg5SyiH5fpICw1OtZA149T35NhbGIxn1
-	 ro22UueRyUij1tVUpaAwH0p7bKRHP1GN5LE5ivNzjysFmfiC5n4lYr8hywzSUjzYSbvoQ
-	 7XPpMOjBwDWufmY6NoHf9I0MkIs/59NjcXq53NQecWJiLXLn7jKqAlUbeKDOjJqIoUQ==
+	bh=Wd4aHFfXTnX2b0pLkTIfcghYurzQVOq31bvxE2PmhOQ=;
+	b=pjLpqsG6iYMCfpScMessLY+gfh++JwsJs4zY+UyVS+TeDLSqJvzaJhIo5PgDSVkCO5jP
+	 VKiFi3aibgMFMP8utyl22LICeomi5em5rwBNJtsHGCyHgvfD2OGtj6Ta3J469Umwf9kg/
+	 vDsBXFWwV0fOM2vKdM/1jzIffb47GRxm3mB/zbyk1JswC0RpceZs6JEgu3/T1m5OLA1bZ
+	 eMrZ1va6q170d4fM07IThmg+j+fYhTYaEtYq2HzVqlxcwce8Iv8ThGPKmvRt5U2ExX07u
+	 7bNh0vmWwky37G123o9vChfAP2zjYJG3ebZ+ibG94LytI5i21VS0OFFxNoTaUlIizTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Z1lZ/1sd";
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IFgH1glP;
 	arc=none smtp.remote-ip=192.198.163.8
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D8E606A68E;
-	Fri, 27 Nov 2026 12:18:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02D8E606A68E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E83606A330
+	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 12:18:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78E83606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Z1lZ/1sd
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IFgH1glP
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795781893; x=1827317893;
+  t=1795781895; x=1827317895;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=XxG5U8Zq4bGeAhsq/J6HHln+SH4CW5M1BgqW7WTuZJ8=;
-  b=Z1lZ/1sdfIj/04S45eFMxgS5PjO2kffMW5fuPuSWv41H6fiz/X2sxHAd
-   T3ohzS0hiJOathz054RKi1ULE1UWeEo8pWczbxWhidxPVDqcxctzJCfRr
-   dp8nzN+6i+2aO+FyMpm0qEnuy8oNfxcIg5+W4XEn84oyrp5QnQq8Jdj4n
-   OBAtSizzKzX5J145Vr8TG2S6DvklPImV0ijNZ0OUvoWqMWXusl4QvnKA2
-   as4UmhqDgPsA+aFkykIgkJnDXWs/MyAgiOCB42EXRQVybrXcwD0rsp/7n
-   JZN2jLx13O7uVOYjzqGC3GyKc73+Jq956NCI1zekCPFqUCarx+bJXxwQz
+  bh=feY0Kf0fvQ/xNE4PzeoJYoQXjr06f1U0S9vXc5j9VUY=;
+  b=IFgH1glPGhZJk6Zx19FATX2vet76R//cIW4yNpJVJM1zBBAZn7uhE1zx
+   +a4OiTeuOxoiOKd+Wnan+8DUq8tae98T3BYU6qUw4BedFQ0rgQLhbKcKr
+   LYGyY+HEmJ23MxAU/oz6NPQSO/1VJxv01FgtBNKZf07vJPPdDb2JZYW2m
+   6OdD9vbA0DUwwP7yjurj1b1j8msmuD37bzIW5lj32ljNnbi7Wda16BrYk
+   Z/rmNvDToMu3+oOJWwdke/m6Gp1GlL2h68TzqSCHscxQ/4tFt9drEZ2nc
+   NtGVMU07jIyWApV3bY1yzZBmKdO1nmR27kkbmMFfnh8CqYPIEuxhJKpCN
    g==;
-X-CSE-ConnectionGUID: 4jEH3QT5QzKfalyFqrItcw==
-X-CSE-MsgGUID: JzDiJn3SShObTdhSy1yBOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4577847"
+X-CSE-ConnectionGUID: 0InQdlydSiC2ehaA9a33xA==
+X-CSE-MsgGUID: 6OvRu+HMSy2uJsJAMO9EPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4577850"
 X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
-   d="scan'208";a="4577847"
+   d="scan'208";a="4577850"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 04:18:13 -0800
-X-CSE-ConnectionGUID: QYrts+GVTCqw7GFArvnFdA==
-X-CSE-MsgGUID: b2Map2ifSeKfYqdAUq8ddg==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 04:18:15 -0800
+X-CSE-ConnectionGUID: CRw50nL4Sm6yDjhf+7X1Xg==
+X-CSE-MsgGUID: 25CDCfQqS7C35+lrK3hqOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
-   d="scan'208";a="12270668"
+   d="scan'208";a="12270673"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mnyman-desk.home) ([10.245.245.45])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 04:18:12 -0800
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 04:18:14 -0800
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
-	Chien Kun Niu <rickyniu@google.com>,
-	stable@vger.kernel.org,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 03/10] xhci: Give back URB under lock in xhci_urb_dequeue()
-Date: Fri, 27 Nov 2026 14:17:48 +0200
-Message-ID: <20261127121755.281420-4-mathias.nyman@linux.intel.com>
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Anton Bulakh <him@necauq.ua>
+Subject: [PATCH 04/10] xhci: Fix reporting incorrect supported speeds in roothub BOS descriptor
+Date: Fri, 27 Nov 2026 14:17:49 +0200
+Message-ID: <20261127121755.281420-5-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261127121755.281420-1-mathias.nyman@linux.intel.com>
 References: <20261127121755.281420-1-mathias.nyman@linux.intel.com>
@@ -84,49 +83,65 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chien Kun Niu <rickyniu@google.com>
+xhci driver can show incorrect supported speeds for roothub ports if the
+xHC controller lists several port protocol capabilities with the same
+revision but with different supported speeds.
 
-Before commit 36dc01657b49 ("usb: host: xhci: Support running urb
-giveback in tasklet context") set HCD_BH, usb_hcd_giveback_urb() ran
-urb->complete() synchronously, so xHCI had to drop xhci->lock before
-giving back an URB. That commit updated xhci_giveback_urb_in_irq() to
-keep xhci->lock held across usb_hcd_giveback_urb(), covering normal
-completions, xhci_process_cancelled_tds(), and xhci_hc_died(), while
-the open-coded err_giveback path in xhci_urb_dequeue() was missed.
+AMD xHCI 1022:149c lists several port protocol capabilities with the
+same USB 3.1 revision. Some of these capabilities report that a set of
+ports only support 5Gbps, while other capabilities report their ports
+support both 5Gbps and 10Gbps.
 
-Dropping xhci->lock between usb_hcd_unlink_urb_from_ep() and
-usb_hcd_giveback_urb() breaks per-endpoint giveback serialization: a
-concurrent xhci_urb_dequeue() or xhci_hc_died() can acquire xhci->lock
-and queue a later URB onto bh->head ahead of this one, completing URBs
-out of order. When spinlocks disable interrupts, unlocking first also
-causes a redundant IRQ restore/save bounce into bh->lock, and without
-an IRQ-safe bh->lock it exposed task-context unlinks to a same-CPU
-deadlock.
+xhci_create_usb3x_bos_desc() builds the root hub SSP capability from one
+port capability only: the first one with the highest revision, ending up
+with a roothub BOS SSP capability descriptor claiming that roothub only
+supports 5Gbps speeds.
 
-Move usb_hcd_giveback_urb() before spin_unlock_irqrestore(&xhci->lock,
-flags) in err_giveback to match xhci_giveback_urb_in_irq().
+Fix this by picking the port protocol capability with highest revision
+and largest unique protocol speed ID count. Prefer a capability with a
+protocol speed ID count of 0, as that means its ports support all
+default speeds of that USB revision.
 
-Fixes: 36dc01657b49 ("usb: host: xhci: Support running urb giveback in tasklet context")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chien Kun Niu <rickyniu@google.com>
+This won't guarantee that the supported speeds of all protocol
+capabilities are listed in the BOS descriptor, but it's an improvement
+over the current situation.
+
+Reported-by: Anton Bulakh <him@necauq.ua>
+Closes: https://lore.kernel.org/linux-usb/8a954797-4eb4-44db-b53f-6e83f4b7b03a@necauq.ua/
+Tested-by: Anton Bulakh <him@necauq.ua>
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/host/xhci-hub.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index b3df40f22d55..d55c8b7058ce 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1891,8 +1891,8 @@ static int xhci_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
- 	if (urb_priv)
- 		xhci_urb_free_priv(urb_priv);
- 	usb_hcd_unlink_urb_from_ep(hcd, urb);
--	spin_unlock_irqrestore(&xhci->lock, flags);
- 	usb_hcd_giveback_urb(hcd, urb, -ESHUTDOWN);
-+	spin_unlock_irqrestore(&xhci->lock, flags);
- 	return ret;
- }
+diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+index 55430b673f1e..d47d1e736a37 100644
+--- a/drivers/usb/host/xhci-hub.c
++++ b/drivers/usb/host/xhci-hub.c
+@@ -59,13 +59,20 @@ static int xhci_create_usb3x_bos_desc(struct xhci_hcd *xhci, char *buf,
+ 
+ 	/* Create the descriptor for port with the highest revision */
+ 	for (i = 0; i < xhci->num_port_caps; i++) {
+-		u8 major = xhci->port_caps[i].maj_rev;
+-		u8 minor = xhci->port_caps[i].min_rev;
+-		u16 rev = (major << 8) | minor;
++		struct xhci_port_cap *cap = &xhci->port_caps[i];
++		u16 rev = (cap->maj_rev << 8) | cap->min_rev;
+ 
+ 		if (i == 0 || bcdUSB < rev) {
+ 			bcdUSB = rev;
+-			port_cap = &xhci->port_caps[i];
++			port_cap = cap;
++		} else if (bcdUSB == rev && port_cap->psi_count != 0) {
++			/*
++			 * Same revision: prefer psi_count 0 (all default speeds),
++			 * otherwise the highest psi_uid_count.
++			 */
++			if (cap->psi_count == 0 ||
++			    cap->psi_uid_count > port_cap->psi_uid_count)
++				port_cap = cap;
+ 		}
+ 	}
  
 -- 
 2.43.0
