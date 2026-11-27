@@ -1,67 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795777457;
-	b=wmcXJ+aAjY+ge3Qpng9WbmykuaYVhT/qiVQnF1L6E0yeAQU0zRU1PExPp7qygycZlbh9
-	 5BwspAxXSu3EhgFui1+gUoOXAjd3T2h/KerDmKDILO9fjYPeOklXCkEB/GrJ1hE11eSYN
-	 ++qs1Ligiw46UOneZgfeIVj486iKo8giaroQ9znBx19Fijgg2MjqKE1puQp6yuFb9Fj9h
-	 lwJty7u6HlDB+OJwZHLgqI4iliMpP4WwtChYpxqr9lrV1abnEv1ZGdiPQ3S6IM2BI5Zbi
-	 lB+6sEyepb3ozFv5emGv0UyALKhjr0+ItYwjvtsxcRP7H18AXfmvoUP8J7iq9YPQJSg==
+	t=1795777525;
+	b=Mdyjb8i6cyY2sffycbLzT9/8u/TqMMMzyOK3y19lva5kbdX1TnoIzZKzqaoc/iWIvjCS
+	 pKk0HoyOlZQGBpPPI7c5ptSVuwq7sYcAkI/9niK0YmceJO0chT+2LOvghCBVRkAy29hRR
+	 p9pg0V4OGgaNTfxH64FTLAfg2tVs1RrtUMgFveeVBb0P2/K+MyxKN0KtI6/+AcWzBmPhU
+	 XYYL5R3wUaVKeTdLG0WmYcch6Xjj39gDddD5Z/ZkjHVW5IXD81cNHRAaph9+LSFBaxtW/
+	 OcY4UHV4fj9IAn13LLst6nKAdtmYv6OAgLS/4lsymviedMnIscqEOYLeijFWnkoyqMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795777457;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
-	 Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Type:X-Last-TLS-Session-Version;
-	bh=6NKUvD1Ed99mxfzfNReRRwThedF/NAx/DiLTbVVTE1g=;
-	b=ViP4Srj/M/gDJaNw2JAbLa9iUg1k0wf7ShnDTch4bLuP9FMjDHhso4dk6q1AVVEI8171
-	 V0hL6NJlw+8NpWwNkrKRlxpisCh9f9z08YuEl+am76cgKvAeQ9OePsNnL83R8P0Rc4EEr
-	 +EEdn5SqBAtG18lfPO9gRTZMnjWrbuByU1V2pneu7V0TnGNjKf6NyPqulaG09DLto1s84
-	 QtEjkZnsNLZl+5It2HpWKzbRqf2barJ8goIZhqGVJJMaLhrbrTOtZeoiEeRZXP+kfeFug
-	 7pYq/QKp19nlb6GcmHYhYjUTnuAIHEUmvBWj2LX1UxgYQAy9WzPtIq60QAu2vMNHB2w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795777525;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=U9ANJ3B6+URyp8PWUZ9qIzc4cW2GM4LcDUwic8AgW+c=;
+	b=bwOpFHBr6lWkC07Gz0vlbHR16zRfC1qdZqVHYYPBNjDwrkzXyiq6a5vbM5z8AhvJTCAh
+	 BUXfvSMieacAQcdMT3qjVOFAp/S5c+FTqwIlJ98K7tSm/sKNsbPoUAOYXkukHEView2tn
+	 n/06xuSMrvzCAdKTp2i7IiRw2WnjKfkwMfdvKNz9nJPi2JPzU0/FLSHEsNwhg1IcWDcsX
+	 ZkAULYbNZmpQtqP8g/Rj7GpE4Nr8PIi7C8/vIQg3gwbueFEH6mvsRAhCH6MlqJKkGIdOO
+	 Q/QSJhfQSYz51eUav51urCjXVi+28VMQWzHL2u0mUjzu9bjuaEQTOuWZNuC24rB+UfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=nCPWiDEg;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=wkennington.com;
+	spf=none smtp.mailfrom=wkennington.com;
+	dkim=pass header.d=wkennington-com.20260707.gappssmtp.com header.i=@wkennington-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=eqeVT47p;
+	arc=none smtp.remote-ip=209.85.210.178
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D51606A333;
-	Fri, 27 Nov 2026 11:04:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7D51606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1CA606A321
+	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 11:05:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF1CA606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wkennington.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=wkennington.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=nCPWiDEg
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id E113DC2B9D2;
-	Fri, 27 Nov 2026 11:04:23 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3125C6049C;
-	Fri, 27 Nov 2026 11:04:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 49EFC11E6823C;
-	Fri, 27 Nov 2026 12:04:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795777450; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=6NKUvD1Ed99mxfzfNReRRwThedF/NAx/DiLTbVVTE1g=;
-	b=nCPWiDEgUkTHOfK5ELkH2WFeTZasPyScnvEtG4GGbCkz/Sf8PxuOdnuI9zvK7ZqOsDmSUc
-	mCx2AJIH40ns7zRmao2OL/6G3rBlrdb5Dapi30r9lMewLVyyrDHRYJCG3wpB11UUs0la38
-	cgrd/W312pbB/609uGorVZ56xqz4Ga1TQLyx1myhatYe/lKsq134SHVVpokrJ8axOeDDPe
-	9UYvn+MTkR2fC2XAIOOyCLk3VqkvTJwlyrIChpNDGXCNZ6ZoZb/WX91Gxb1+fx1HWDeHLF
-	Rkah0ITus5uGJD6GJHA2+RooyBTCK3sMFQ1ReJGAu9QHOjSy9KBhjm2kF6GX4Q==
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: Ajit Singh <blfizzyy@gmail.com>
-Cc: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, heikki.krogerus@linux.intel.com,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Ajit Singh <blfizzyy@gmail.com>
-Subject: Re: [PATCH v2 2/2] usb: typec: mux: tusb1046: Support no-hpd
-Date: Fri, 27 Nov 2026 12:04:07 +0100
-Message-ID: <8GefllIVTJGWT_cZWRnqVg@bootlin.com>
-In-Reply-To: <20261126093819.76480-3-blfizzyy@gmail.com>
-References:
- <20261126093819.76480-1-blfizzyy@gmail.com>
- <20261126093819.76480-3-blfizzyy@gmail.com>
+	dkim=pass (2048-bit key) header.d=wkennington-com.20260707.gappssmtp.com header.i=@wkennington-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=eqeVT47p
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8a070755c8cso3838702b3a.0
+        for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 03:05:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wkennington-com.20260707.gappssmtp.com; s=20260707; t=1795777524; x=1796382324; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=U9ANJ3B6+URyp8PWUZ9qIzc4cW2GM4LcDUwic8AgW+c=;
+        b=eqeVT47pJpbojwUSkka7lRiGS7EKd7+nSow9IiGOrxs/BnWNagVHsdo3bsVJ/1UTXj
+         X6j1AtWOoBQdgX5JHb+WZWkVsvIEGTH+JTwfHsoCof3wZMitsBLcq/XwcpGt72jN6QHc
+         c1x3GpyI9qUlOVMV8bXWZ0YQ6OBKAZF1Rb62++h8AMmSr50VKSERLfpCB2IouGn4pZcr
+         BUpoWon/eA7/yWrJKdhlyVu1O0LSELrgdhhT/t+ASoq8CeoUr+vu+iqDsyljLZ6R9rY6
+         O7GM2CbeFVgWN9W5bhPotOYu93reY9sVItY8HBIhtDXdWVK0+4EzEJkxaz04pr3riehp
+         BpSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795777524; x=1796382324;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=U9ANJ3B6+URyp8PWUZ9qIzc4cW2GM4LcDUwic8AgW+c=;
+        b=kgZQKoHFMrzx0JUUtWOSuFRn0TZzO8e0S/wCv99Arr+jO/tm1XjINto8DnTAplYOxp
+         IeLpM/K/i0ETkSOR7VqyryeVjejn64d0V/4Q+SkL0M1pXIU5WCgVTDyL/XXBI3QBt4qN
+         OdT2eAE8NOWxlUMCEgajLcktQtkk2acXnjyhxCQirW7cSZ3QP9Wl0KsGBVzEEKmNBc8w
+         /gHo/US/QwXqiHVKE8Fm1sgp+Hy7RWGEwwiwVnNZCsNO+Y2/awmRR2OyB8eYhMX4Mkyx
+         B6MNzzJCPI2GxVVWhZSzFFp0oKlagn69V8v5Nw/tYx4mGUQq3Bbf+4uEQiYdGncCdWna
+         zaIw==
+X-Gm-Message-State: APuU4Z8V427LRBlvOGHRgGLdxRgGXl0cD7zRCTXA/JHiOq5XWviBH5Eo
+	KTZaPu8zhZMEb+M3sip4bKUxIk8zcFY3iDEg25aTOYNXTAyWjdFvFSF3ak9p9VvDrrA=
+X-Gm-Gg: AZFdTZc0f9WmHD79aXjKUK0Ij/mVvfEjjXX+X2SmcbYyqQi9zL+X9kJ05pcRP1c6vwV
+	MdS/MhXZWV3u41mOGCTcF5ue3IMHoPFAe6M+P91p/y3yW9YgY9SmWAnDx+sJoqXSTdCH/MrzfAN
+	fyksdcA6uvCSx6vp2UOw+QOfQUEJII/c03kXMCzxYUoyVfce2itpWDwUrFyulDP7BxHzQUY5Gr/
+	uhd0POm4TnM3rk7RsoPsUJNMvfeeztP5175inM4p3UBbRdsLjCC9pokuw6HfEpyOcWgoPaBOr0+
+	HckUZV/pZFT7/PhKWYy9A0/OP4PoA1q8ijXvdGCJskbUl39brUBOOUnm6s3pwVn/0SPrx9T39Ih
+	uZdJclLIwcveyiW+7ifZv7FR/DcTr0gRY/ERXiHpfuDeNHokZFsEXfabGoRA0uaC5jbrkzyC7tE
+	bteNkEjnAkmK1bcZCG5qKq9RcaPkHOU0d3dDgWhBlHzBjLTy3tvsZ/PkMmdmatfUMMH9/BCTNiO
+	EBq12Me+C3uIwoFEULRpQyv4HoThxb7Nqz+O2i6IaztWrjvoV1M8j/LNKIyHkUztW6OxEovuqFa
+	3odLQEIea1RZHKKod22k+FjEFf3nUWIAB6nBZ7TZE+aACPzKamIIuzb7QfCeQ7aVk0MyIOFxHfq
+	hNvZqgSvbjHw42ifCNahklZV0GxBLug4gZsg=
+X-Received: by 2002:a05:6a20:3d07:b0:3e1:89d6:ba1 with SMTP id adf61e73a8af0-401493a748cmr33033618637.3.1795777523884;
+        Fri, 27 Nov 2026 03:05:23 -0800 (PST)
+Received: from wak.c.googlers.com.com (246.21.127.34.bc.googleusercontent.com. [34.127.21.246])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cde6cea7c38sm12857789a12.2.2026.11.27.03.05.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 03:05:23 -0800 (PST)
+From: "William A. Kennington III" <william@wkennington.com>
+To: Oliver Neukum <oliver@neukum.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"William A. Kennington III" <william@wkennington.com>
+Subject: [PATCH net v2] net: usb: cdc_ncm: send the NTB once another datagram would not fit
+Date: Fri, 27 Nov 2026 11:05:21 +0000
+Message-ID: <20261127110521.1235409-1-william@wkennington.com>
+X-Mailer: git-send-email 2.56.0.567.gdb80ae8cd5-goog
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -71,120 +100,105 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPartGcDusM00RYWb_OsjnSb5mA";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
---nextPartGcDusM00RYWb_OsjnSb5mA
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: Ajit Singh <blfizzyy@gmail.com>
-Subject: Re: [PATCH v2 2/2] usb: typec: mux: tusb1046: Support no-hpd
-Date: Fri, 27 Nov 2026 12:04:07 +0100
-Message-ID: <8GefllIVTJGWT_cZWRnqVg@bootlin.com>
-In-Reply-To: <20261126093819.76480-3-blfizzyy@gmail.com>
-MIME-Version: 1.0
+Observed on BMCs in real use communicating with a USB NCM gadget over an
+EHCI host controller, where bulk TCP traffic caused steady tx_dropped
+growth and retransmits. Tracing the link with kprobes and the kfree_skb
+tracepoint during iperf3 TCP runs confirmed that every drop came from
+cdc_ncm_txpath_bh() calling usbnet_start_xmit(NULL, ...) into a stopped
+TX queue.
 
-On Thursday, 26 November 2026 10:38:19 CET Ajit Singh wrote:
-> When HPD_IN has no usable hardware signal, set HPDIN_OVERRIDE over
-> I2C in DisplayPort Alt Mode so the device treats HPD_IN as asserted.
-> Clear the override when leaving DisplayPort mode, and preserve the
-> existing register value on boards without no-hpd.
-> 
-> Signed-off-by: Ajit Singh <blfizzyy@gmail.com>
-> ---
->  drivers/usb/typec/mux/tusb1046.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/mux/tusb1046.c
-> b/drivers/usb/typec/mux/tusb1046.c index 34ef81f75693..50a856c8245d 100644
-> --- a/drivers/usb/typec/mux/tusb1046.c
-> +++ b/drivers/usb/typec/mux/tusb1046.c
-> @@ -21,6 +21,7 @@
->  /* General register bits */
->  #define TUSB1046_GENERAL_FLIPSEL BIT(2)
->  #define TUSB1046_GENERAL_CTLSEL  GENMASK(1, 0)
-> +#define TUSB1046_GENERAL_HPDIN_OVERRIDE BIT(3)
-> 
->  /* Mux modes */
->  #define TUSB1046_CTLSEL_DISABLED          0x0
-> @@ -32,6 +33,7 @@ struct tusb1046_priv {
->  	struct i2c_client *client;
->  	struct typec_switch_dev *sw;
->  	struct typec_mux_dev *mux;
-> +	bool no_hpd;
-> 
->  	/* Lock General register during accesses */
->  	struct mutex general_reg_lock;
-> @@ -44,6 +46,7 @@ static int tusb1046_mux_set(struct typec_mux_dev *mux,
->  	struct i2c_client *client = priv->client;
->  	struct device *dev = &client->dev;
->  	int mode, val, ret = 0;
-> +	bool dp_active = false;
-> 
->  	if (state->mode >= TYPEC_STATE_MODAL &&
->  	    state->alt->svid != USB_TYPEC_DP_SID)
-> @@ -67,9 +70,11 @@ static int tusb1046_mux_set(struct typec_mux_dev *mux,
->  	case TYPEC_DP_STATE_C:
->  	case TYPEC_DP_STATE_E:
->  		mode = TUSB1046_CTLSEL_4LANE_DP;
-> +		dp_active = true;
->  		break;
->  	case TYPEC_DP_STATE_D:
->  		mode = TUSB1046_CTLSEL_USB3_AND_2LANE_DP;
-> +		dp_active = true;
->  		break;
->  	case TYPEC_STATE_SAFE:
->  	default:
-> @@ -80,6 +85,13 @@ static int tusb1046_mux_set(struct typec_mux_dev *mux,
->  	val &= ~TUSB1046_GENERAL_CTLSEL;
->  	val |= mode;
-> 
-> +	if (priv->no_hpd) {
-> +		if (dp_active)
-> +			val |= TUSB1046_GENERAL_HPDIN_OVERRIDE;
-> +		else
-> +			val &= ~TUSB1046_GENERAL_HPDIN_OVERRIDE;
-> +	}
-> +
->  	ret = i2c_smbus_write_byte_data(client, TUSB1046_REG_GENERAL, val);
-> 
->  out_unlock:
-> @@ -131,6 +143,7 @@ static int tusb1046_i2c_probe(struct i2c_client *client)
-> return -ENOMEM;
-> 
->  	priv->client = client;
-> +	priv->no_hpd = device_property_read_bool(dev, "no-hpd");
-> 
->  	mutex_init(&priv->general_reg_lock);
+cdc_ncm_fill_tx_frame() only learns that an NTB is full when it is given
+a datagram that no longer fits. It then hands the NTB to usbnet and
+parks that datagram in tx_rem_skb for the next NTB. If the stack sends
+nothing more, only the TX timer is left to send it.
 
-Reviewed-by: Romain Gantois <romain.gantois@bootlin.com>
+With 16 KiB NTBs usbnet allows 5 TX URBs in flight at high speed. When
+the NTB that was just handed over is the fifth, usbnet stops the TX
+queue. The timer then builds an NTB for the parked datagram and calls
+usbnet_start_xmit(NULL, ...) directly, bypassing the qdisc. Since commit
+ad70411a978d ("usbnet: fix kernel crash after disconnect")
+usbnet_start_xmit() frees what it is given while the queue is stopped,
+so the datagram is lost and counted in tx_dropped. A bulk TCP sender
+hits this several times per second.
 
+Send the NTB as soon as another datagram of the interface MTU, with a
+VLAN tag, would not fit, provided no datagram is still parked in
+tx_rem_skb. Nothing is parked on that path, so cdc_ncm holds no
+datagram when usbnet stops the queue for a full TX queue, and the timer
+has nothing to flush into it. An NTB also no longer waits for the next
+datagram to arrive before it is sent.
 
---nextPartGcDusM00RYWb_OsjnSb5mA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+tx_rem_skb is still used when a datagram needs a new NDP that does not
+fit, as with several MBIM sessions.
 
------BEGIN PGP SIGNATURE-----
+The cost is that an NTB is closed while it could still take a datagram
+smaller than the MTU. With 16 KiB NTBs and a 1500 byte MTU this does
+not change the 10 full size frames per NTB.
 
-iQIzBAABCgAdFiEETFOGm0tqZfYwVxBymGofZEoxB4MFAmsJY6cACgkQmGofZEox
-B4OToA/+NznQcGmkDaz3HQCbsPpHI6YkQgmZWkwuc7o3KqaxOB5BZ8RAjCrSv1pp
-RghhPOq7K7tenje4+/bZX55ma03/BXAwd3Q3ubZ56ZJnxTBh9TwTPZuIXXFWRtbk
-os+M1o1fohvmtIMD6E8IBiQs44jwMgYNr/2ja+vSH+leP23MkdU7KdqOGO/M5wKA
-22Zbi+V1ELygCIZRPz+WSvVRUy3Mycc3e3axWlxgTa1MQ0HHx2A8SKq/bMD2e7TJ
-MfQNVwpYCLXp0ynWrafnfvPXzGXbb1siXOKBbXizykdU6jvnzhX7lY6LMKXGhwKs
-uQeuYa06B9p5mSVHcJanAlonPQ+KCbAJS3SU1MHwi4fH8P9bbI7tskhP8GCRGicg
-w2BGt6Lhk1ePf4XCNO1Sh/ya3TPfbbb2otSwn1YC33sxQQI3QhwzK5spgkty252C
-QLWlCKKHHJelBxSUWctfrjAwRxyyL67BgfBtUgaMaUg2MSV+e5fZ6e9N7tp/8i0J
-7fkFf3jymITze+7mqpFChxHRiyehqxdE8Fiu3004xuXPKUB9Vh+rU+14/w5Vd1EF
-uWEglHbv/XEow4Khawg8mStVkoaDOJ0Mi+/no9J6EJGQdwlJ/NpDmuM8fsL50bBH
-Nz4B6FW3VfgTCAGVekM+RiVsAIO7/98gDu95Xl4Pph9K0fpwN30=
-=q8hy
------END PGP SIGNATURE-----
+Tested on an NPCM730 BMC (EHCI host, Linux 7.3.6 with BQL and fq_codel)
+running 30 s iperf3 IPv6 TCP streams to an NCM gadget, same board
+before and after:
 
---nextPartGcDusM00RYWb_OsjnSb5mA--
+                        tx_dropped  Mbit/s (before -> after)
+  1 stream,  fwd        106 -> 0    119.8 -> 141.0
+  4 streams, fwd        128 -> 0    164.3 -> 172.4
+  1 stream,  bidir       51 -> 0     39.5/118.3 -> 73.0/107.7
+  4 streams, bidir       62 -> 0     36.7/150.3 -> 78.0/130.2
+  4 streams, MSS 512     81 -> 0    129.2 -> 152.8
 
+Fixes: ad70411a978d ("usbnet: fix kernel crash after disconnect")
+Signed-off-by: William A. Kennington III <william@wkennington.com>
+---
+v2:
+  - Replace the timer re-arm polling from v1 with closing the NTB as
+    soon as another full-MTU (plus VLAN) datagram would not fit, so no
+    datagram is parked in tx_rem_skb when usbnet stops the TX queue.
+  - Add real-hardware discovery/trace validation and same-board Linux
+    7.3.6 (with BQL and fq_codel) test results. Mainline usbnet BQL
+    still hits these drops because DQL's limit exceeds the 5-URB
+    (80 KiB) TX ring cap.
+v1: https://lore.kernel.org/r/20261118034122.315979-1-william@wkennington.com
 
+ drivers/net/usb/cdc_ncm.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+index e92dc7f011ea..7fbce4846a04 100644
+--- a/drivers/net/usb/cdc_ncm.c
++++ b/drivers/net/usb/cdc_ncm.c
+@@ -43,6 +43,7 @@
+ #include <linux/ctype.h>
+ #include <linux/etherdevice.h>
+ #include <linux/ethtool.h>
++#include <linux/if_vlan.h>
+ #include <linux/kstrtox.h>
+ #include <linux/workqueue.h>
+ #include <linux/mii.h>
+@@ -1369,6 +1370,22 @@ cdc_ncm_fill_tx_frame(struct usbnet *dev, struct sk_buff *skb, __le32 sign)
+ 			ctx->tx_reason_ndp_full++;	/* count reason for transmitting */
+ 			break;
+ 		}
++
++		/* Send now if another full size datagram would not fit.
++		 * Accepting one more would park it in tx_rem_skb after
++		 * this NTB has been handed to usbnet. If that NTB fills
++		 * the TX queue, usbnet stops the queue and drops the NTB
++		 * the timer builds for the parked datagram.
++		 */
++		if (!ctx->tx_rem_skb && n + 1 < ctx->tx_max_datagrams &&
++		    skb_out->len + ctx->tx_modulus + ctx->tx_remainder +
++		    READ_ONCE(dev->net->mtu) + cdc_ncm_eth_hlen(dev) +
++		    VLAN_HLEN + delayed_ndp_size > ctx->tx_curr_size) {
++			ready2send = 1;
++			ctx->tx_reason_ntb_full++;	/* count reason for transmitting */
++			n++;
++			break;
++		}
+ 	}
+ 
+ 	/* free up any dangling skb */
+-- 
+2.56.1.839.g22a8290db9-goog
 
