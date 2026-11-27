@@ -1,60 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795753628;
-	b=ZfSTb9hLBmM0CYryHjSa+pW/VS2zGEr2EDmYKUTIHZMG8VOvAxK3WDBmihh6fPvEYBkw
-	 JHVsKAIDHqebuuShWttVr8uI6/1TajTouoOo+Q3DAP7aXAK07ddfq94ObylVZtv+jCbZ6
-	 4ydZfMVAbsdhr+KaBxUxG0RqFXHYVGsliQJ7TClVH6+2FYwErtVEj5OUr9Tc1R2tVbEP2
-	 QzSipuJOAOI7Fr8fbL+2KHa7zR1GLoaEInbaAO4CnW3vgeMeu83FXf6TGGJmH3QEfqV61
-	 2guYFfrgbANX4YvVvbuPmj0+6T6V1/3w7Sfs0ovMjoQIGY1FJEFvc3B8eJIIw1x/XIA==
+	t=1795756185;
+	b=wsoD0ozlW8tn80Lt9U34CBfYNXoErG8QYgF40xLo35v59XrNGYvMFqbxwKFcsUjy1UjM
+	 8Z5qeMD8fACbRZcAuK31Wvck8Wv7QK4c9wGkBRsnAsAVQ/bv36Fr9Ow0ab17zHDXoRis/
+	 bxPvTdln824w7mtuZSesaeUu68PXqeV/hfYpJ8+xqFRxl1bEeFxuCVuUtzqqSysKQQ4XY
+	 XSxbII4b42UW7DxetguyN51CIQg7Hbt3gcLvnwZYHhneqpSd6HrNYFVw6hhnfDqAfNsR8
+	 Gak1/3FpQsYYJZlxSo1ng2ToEe2Oka58itrvcweOwR78QZumWjviwohsbmQj6v3HNAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795753628;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=owiT0dO+NAJLzkZxl1vWyr3zL3I8AJW2WvC6QRl0yjY=;
-	b=yfjS/EfRj/LuJyZCLECAKHiiRl6FzENUYK6XkdXkp6hBQJbugHGyLCN0XRwSnQEPALf0
-	 JDK9NCVmvUtxQFRkO57bzYaCA3Cmm9pNXPQUMiDaXw3HnxfFe1crOxHGaZm0mStXBH2Gw
-	 3Oj3Njat2M+o4FoH46KSCTwAB0iyPqogsgxdLVOil0q4kcGZ4JG6xsDLpVUpU82lMk1wj
-	 vPnuWvAYQSfa5jPvUYNjyojBbKrrbd7P0ZehCLIUTFxoSSWbw7qORcYJlxDpj0r8TXiNl
-	 ZD3w4qg25WAsMXMivWgcpGSGlBf4dtzPq58ddqBf0nzEypm5/45FGMqyas3Syrjf+LQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795756185;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=F3iJsoOA8LR3I1iVxCQSl+sH/70ZE2dj3acrGl06Vjg=;
+	b=5htV3Bmm7vKUTu1T2vNgSqDwme8shMhqstNreHLDcSbCTmizBNR75MUmpIg61TxSnVJP
+	 vpzQOJvFb6YP0QSfbmV2kJdAlnLZhNb7ELu8a5zGStWjpg1pKfLI15qUFBq3QVeKY4g3K
+	 QalMmSs0PB7b3tpmBG8O+6O03VztTbp2bSxqQ/bmlVRlHwHDiLa5GcurmOLCGzfY1g1hd
+	 Ayw+wp2JHNRbwvT8XaLFMfKKjVAF4V/kJIFYt7y1aTf1RfeITx7VRIwWxX/a40J2qR4j4
+	 TZPCkRAsi+ziXb/h2YNRLv2Qv4zW1MfUc6fWHFbbXMhrts+LS5gIrEffzvQ209KP+fA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FKLQFYwr;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mXKPaBn9;
+	arc=none smtp.remote-ip=209.85.219.47
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6FD606A69B;
-	Fri, 27 Nov 2026 04:27:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F344606A321
+	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 05:09:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F344606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FKLQFYwr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 764441F00926;
-	Fri, 27 Nov 2026 04:27:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795753628;
-	bh=owiT0dO+NAJLzkZxl1vWyr3zL3I8AJW2WvC6QRl0yjY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=FKLQFYwrAH+EK0XxHET4H4zNIs3liEM6NKAhA27pTqVleF1upC9TE7adprNru+isv
-	 IRIPOc/BAfLCyf71FK5QN5FfbVv3wdrLFxAIrTXikxGVX3rA8GacIdGufhzlbXmel1
-	 l28eMLlkPRD0iUfAFtadbJKYrvVM7H1xUgGTfpn3f+Dy2J+p/6nitN6A5o/sZh7RCz
-	 +GnctvuZEgVk0renH0tzlpBdwH4XENJ8fggAeWLRVhZ2+382Im8yBFMfpFV+yqN3SL
-	 bhf3Q7DA017ipc/9/lysNqMAhpD5gEtGBZe+oVMy3hdUvIFr2i+zunqsNP+M5OzfTa
-	 CYj5YinQIMYWQ==
-Subject: Re: [PATCH net-next v9 11/12] r8152: add TGPHY register access for
- RTL8157 and RTL8159
-From: netdev-bot+sashiko@kernel.org
-To: hsu.chih.kai@realtek.com
-Cc: davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
- nic_swsd@realtek.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- edumazet@google.com, bjorn@mork.no, pabeni@redhat.com, andrew+netdev@lunn.ch,
- mail@birger-koblitz.de
-Date: Fri, 27 Nov 2026 04:27:07 +0000
-Message-ID: <179575362702.3135.11502039200918587671@kernel.org>
-In-Reply-To: <20261126033211.51850-12-nic_swsd@realtek.com>
-References: <20261126033211.51850-12-nic_swsd@realtek.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mXKPaBn9
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-9215934a14cso54951226d6.0
+        for <linux-usb@vger.kernel.org>; Thu, 26 Nov 2026 21:09:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795756183; x=1796360983; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=F3iJsoOA8LR3I1iVxCQSl+sH/70ZE2dj3acrGl06Vjg=;
+        b=mXKPaBn9BMNng2HLY0raCRf2NRFDUHWhLZ88tNUmL6gvA6gGLLmFpU7cJzeWBJDFGO
+         TJZbbbVMvB6cdysB5SwUjR2lDm4619PZUm6VZy3XNLmoOFMmQ6ohG3rI9SKTUbcqX10z
+         jKON6mQPE15FcowEaupElflRcHdPYLeQ1VsL17dlGhBxyIZjLhoIEdN3clXatACSoSZ1
+         Qk62/4O8HQ6b2/JczpCAsGBV+qbYmLw5bi2eS18y30q2uei5+hIRIcKqK0YXdn82vDC8
+         SY7/l82jJyT7Wdp7cBQfDULkQXcbGulxB+id2EczOVCDnDnaKYtj8R/YhF+biibB4TID
+         2HTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795756183; x=1796360983;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=F3iJsoOA8LR3I1iVxCQSl+sH/70ZE2dj3acrGl06Vjg=;
+        b=gyTDy6oHBfXdvt9VeAjx40r+K6e4/bsRMEUBQNDDu1sx1gSAT2D0hh+NVmuhVBYjGG
+         RnEkc0cKGduXn2MXOuzQqUteBXOPTECvLqi5q0MHrFkvjpVjUTfG6SGEurI7Ba2Hz8gW
+         NmuhuW0jX1cousFYj+bhqRUTRSMOBOjTh828FV/kpMb6mAYgbC/h/FG57lP/iKMbgYOJ
+         icC3hd9ivH2FhemgOvJDD0Nqf3cAd7sVvYCidbz5GAdOtjiF9PtnAeux5bFpC9N6a20W
+         LI2mSHq2ekSIZXoKZenbmlz93yqdnIwO61UFenmJYjnj2RsR/vzg80tebmfzbrVHcuCC
+         99ow==
+X-Forwarded-Encrypted: i=1; AL+hErEZtSTCRayjg85mNHzwkZmm4PfrmOxXpxky+s6XXvXVehrbtc3nzGVdLDcCJnj4bx13OVuasmSfIVg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+IBQAc1aiV4camyQYmJrCMmqjQR4ejhwieOWFJN59zsohrC0fM
+	eknBQXbPJeqbvLFlXNOiMRdt3JMUmA1p2BMj2h/Yc60UljSBM3ySb7AyRlNv4FZXwd+Eow==
+X-Gm-Gg: AZFdTZcnBLqeFEiUiaZC7JpRiZbZvd6BX+NlLyJBQMrIyPQH5m6Hur+uNm8BbV/x5r/
+	oGlEZi7Uw0N+FhzMZoM94hscy+HeltK3FhUXiQ9jJzt3DtJFBSi2cXwEiyJbGVEHBZSOE8DoOMv
+	Mrn6K9eSmSEscfFlbHnvPo3HHtqbFO0ES+IyZca5mnE48PNjnFKirwwph3jkDYskw6SxekgA6Fs
+	FQmKxz0xbjq0GTyLxK4oS2+ShxLjORDjfExnJFMQx6TiolLX3FCcAj5W8MRPYzhj2FaDuvjhYWM
+	RTVeC0R5LPhWRHSFkmtE9FJnhK7zUarma/NnhZGD27r16/3WtxUhNswBu3CrWgOF9oMWkiIjbr8
+	SBRLuvwXb0W8G4I/kLShf+GlJxGyL9IuJrWFxLfyxhpUrG4VLYVDyzKxJWmbG9+pGg0tPY1aFJK
+	H/mjnx2OB01SISp4xAUFThR5d72W1NxJZ4LzVBkfsD7J0g+scun2AlEoQE/g8t2HLJ8WLIpjKuO
+	4F03G5tNgaQ/H42yEPHjav9uYoqEopYdqlLFZrH80DShBmHk06FF+xZNIZfQgebaxboTkF2hIC3
+	A7dKTiCbExyhiZY0LePHE1m0bftq/DaY1WpdcXIh7V72G4izy9JAHCl8BniahCAGdOnZ53WtL1r
+	T7ixQqob29RnalDpjdKsiiDw/iznHH/+5z1MKE16uOKo4t5o=
+X-Received: by 2002:a0c:f012:0:b0:91c:988c:6df6 with SMTP id 6a1803df08f44-92134afdf51mr377852396d6.56.1795756183091;
+        Thu, 26 Nov 2026 21:09:43 -0800 (PST)
+Received: from zeppelin-x.sky (dhcp-9-244-177-183.gobrightspeed.net. [9.244.177.183])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-92134a1d948sm206309376d6.40.2026.11.26.21.09.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2026 21:09:42 -0800 (PST)
+From: Felipe Infante de Castro <felipe.infante.de.castro@gmail.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Peter Chen <peter.chen@oss.qualcomm.com>,
+	linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Felipe Infante de Castro <felipe.infante.de.castro@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] usb: dwc3: qcom: Restore DP/DM wake IRQ trigger types on unbind
+Date: Fri, 27 Nov 2026 00:09:38 -0500
+Message-ID: <20261127050938.2150497-1-felipe.infante.de.castro@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -64,285 +100,124 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 6 potential
-issue(s) to consider.
+On suspend, dwc3_qcom_enable_wakeup_irq() sets the DP and DM high-speed
+PHY interrupts to a single edge, chosen from the speed of the attached
+device. The IRQ mapping outlives the driver, so after an unbind the
+mapping keeps that single-edge type.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 5
+On the next probe the interrupt is looked up again from the device tree,
+which describes it as IRQ_TYPE_EDGE_BOTH. The lookup fails with a
+trigger type mismatch against the existing mapping. Because the wake
+interrupts are optional, probe still succeeds, but without the DP/DM
+wake handlers, and USB wakeup is lost until the next boot.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Record the trigger type of each DP/DM interrupt when it is requested and
+restore it from a devres action. The action is registered after the
+interrupts, so it runs while the driver still owns them. Unmapped
+interrupts, unspecified types and types that already match are left
+alone.
 
-- [Medium] set_carrier() now returns early when the BMSR read fails, and
-  the link-change event is lost.
-- [Low] rtl_tgphy_access() reports a write as successful once the command
-  has been posted.
-- [Low] Two statements in the commit message are not quite right.
-- [Low] read_mii_word() now returns 0 for a failed PHY read, and the MII
-  library callers in drivers/net/mii.c take that 0 as real register…
-- [Low] rtl_tgphy_access() relies on the comment 'A failed control
-  transfer latches RTL8152_INACCESSIBLE' and ignores the return values…
-- [Low] After writing BMCR_RESET, rtl8152_set_speed() polls BMCR for up
-  to 50 x 20 ms, but the new loop stops on the first failed read: `if…
+Seen on a Microsoft Surface Laptop 7 (x1e80100-microsoft-romulus15) on a
+7.3 kernel: after unbinding and rebinding a controller the dp_hs_phy_irq
+and dm_hs_phy_irq handlers were absent from /proc/interrupts. With this
+change they return on every rebind.
 
---
+Fixes: 6895ea55c385 ("usb: dwc3: qcom: Configure wakeup interrupts during suspend")
+Cc: stable@vger.kernel.org
+Signed-off-by: Felipe Infante de Castro <felipe.infante.de.castro@gmail.com>
+---
+Changes in v3:
+- Renamed the new fields to dp_hs_phy_irq_type and dm_hs_phy_irq_type,
+  to match the existing dp_hs_phy_irq and dm_hs_phy_irq (Peter Chen).
+- Added Cc: stable (Peter Chen).
+- Sent inline; v1 and v2 went out as attachments.
 
-r8152: add TGPHY register access for RTL8157 and RTL8159
+Changes in v2:
+- Resent with an empty mail body.
+- Added the Fixes tag suggested by the Sashiko review.
 
-This patch adds a TGPHY command channel for PHY register access on
-RTL8157/RTL8159 and routes ocp_reg_read()/ocp_reg_write() through new
-per-chip rtl_ops.phy_read/phy_write hooks. The PHY accessors and helpers
-now return int, and a number of callers are changed to act on a failed
-access.
+ drivers/usb/dwc3/dwc3-qcom.c | 38 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-> - read_mii_word() reports a failed read as 0, because the MII library
->   takes the return value for register content.  A TGPHY timeout
->   returned as an errno would look like a BMCR with autonegotiation
->   enabled, and mii_nway_restart() would write it back; with 0 it
->   returns without writing.  -ENODEV for an inaccessible device is
->   still returned, as the writes that follow are blocked then.
-
-[ ... ]
-
-> Older chips are unaffected, as r8152_phy_read() always succeeds.
-
-[Severity: Low]
-Is this last statement accurate? A few paths also change on the OCP-path
-chips.
-
-In r8156_hw_phy_cfg() for RTL_VER_11, the 0xd068 PHY read now always runs,
-and it runs before the MID_REVERSE test. Before, it only ran when
-MID_REVERSE was set:
-
-    ocp_reg_read(tp, 0xd068, &data);
-    if ((ocp_read_word(tp, MCU_TYPE_USB, USB_UPS_CFG) & MID_REVERSE) &&
-        (data & BIT(1))) {
-
-rtl8152_set_pauseparam() now reads BMCR even when pause->autoneg is 0.
-
-rtl_pre_ram_code() now returns the errno from rtl_phy_patch_request()
-instead of always returning -ETIME. rtl_phy_patch_request() now also tries
-a release on the -ENODEV path.
-
-None of these look harmful. Should the commit message mention them?
-
-In the read_mii_word() bullet, -ENODEV is only still returned by the
-test_bit(RTL8152_INACCESSIBLE) check at entry. If the device becomes
-inaccessible during the access, r8152_mdio_read() returns -ENODEV and
-read_mii_word() turns it into 0:
-
-    return ret < 0 ? 0 : ret;
-
-Could the wording be changed to match the code?
-
-> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-> index 2f3d97e2400c3..e6a5d35403a28 100644
-> --- a/drivers/net/usb/r8152.c
-> +++ b/drivers/net/usb/r8152.c
-
-[ ... ]
-
-> @@ -1822,7 +1866,10 @@ static int read_mii_word(struct net_device *netdev, int phy_id, int reg)
->  
->  	ret = r8152_mdio_read(tp, reg);
->  
-> -	return ret;
-> +	/* The MII library takes the return value for register content,
-> +	 * so a failed read must not be passed on as an errno.
-> +	 */
-> +	return ret < 0 ? 0 : ret;
->  }
-
-[Severity: Low]
-With a failed read reported as 0, the MII library callers in
-drivers/net/mii.c treat it as real register content.
-
-mii_nway_restart() sees BMCR_ANENABLE clear and returns -EINVAL. On
-RTL8157/RTL8159, a TGPHY timeout on that BMCR read therefore reaches
-userspace as -EINVAL from rtl8152_nway_reset() (ethtool -r). The same
-happens in rtl_ethtool_set_eee(), after eee_set() has already written the
-EEE registers.
-
-mii_ethtool_get_link_ksettings() returns void. With BMCR=0 it reports
-AUTONEG_DISABLE with SPEED_10/DUPLEX_HALF, and BMSR=0 gives SPEED_UNKNOWN.
-It also overwrites mii->full_duplex.
-
-In rtl8152_get_link_ksettings(), the new OCP_10GBT_CTRL/STAT reads
-propagate the error. If only the MII library reads fail, though, the
-function returns 0 with made-up link settings. Is this split intended?
-
-The commit message explains the 0 mapping for mii_nway_restart(). It does
-not mention the misleading -EINVAL or the get_link_ksettings output.
-
-[ ... ]
-
-> +static int rtl_tgphy_access(struct r8152 *tp, u16 addr, u16 *data, bool write)
-> +{
-> +	u16 cmd = 0;
-> +	int ret;
-> +
-> +	ret = wait_tgphy_cmd_ready(tp);
-> +	if (ret < 0)
-> +		goto out;
-> +
-> +	if (write) {
-> +		cmd |= TGPHY_CMD_WR;
-> +		ocp_write_word(tp, MCU_TYPE_USB, USB_TGPHY_DATA, *data);
-> +	}
->  
-> -	return data & clear;
-> +	ocp_write_word(tp, MCU_TYPE_USB, USB_TGPHY_ADDR, addr);
-> +
-> +	cmd |= TGPHY_CMD_BUSY;
-> +	ocp_write_word(tp, MCU_TYPE_USB, USB_TGPHY_CMD, cmd);
-> +
-> +	if (!write) {
-> +		ret = wait_tgphy_cmd_ready(tp);
-> +		if (ret < 0)
-> +			goto out;
-> +
-> +		*data = ocp_read_word(tp, MCU_TYPE_USB, USB_TGPHY_DATA);
-> +	}
-
-[Severity: Low]
-For a write, the only busy wait happens before the command is issued. Once
-DATA/ADDR/CMD have been posted, ret is still 0. If the busy bit never
-clears for that write, the function still returns 0. The -ETIMEDOUT is then
-reported by whichever TGPHY access comes next.
-
-The commit message says rtl8152_set_speed() updates the cached
-speed/duplex state only once the final BMCR write succeeds. When
-PHY_RESET is not pending, nothing reads the PHY after that write. So
-tp->ups_info.speed_duplex, tp->mii.full_duplex and tp->mii.force_media
-are committed even if the PHY never took the write. SIOCSMIIREG in
-rtl8152_ioctl() now also returns this status to userspace.
-
-ocp_adv_write() uses the same posted-write pattern, so this may be the
-intended hardware protocol.
-
-Should the write path wait for TGPHY_CMD_BUSY to clear after posting the
-command? If not, should it be documented that write success only means
-the command was issued?
-
-> +
-> +out:
-> +	/* A failed control transfer latches RTL8152_INACCESSIBLE */
-> +	if (!ret && test_bit(RTL8152_INACCESSIBLE, &tp->flags))
-> +		ret = -ENODEV;
-> +
-> +	return ret;
-> +}
-
-[Severity: Low]
-Is this comment true for every failed transfer? r8152_control_msg() returns
--ENODEV early, without setting the flag:
-
-    if (ret == -ENODEV)
-        return ret;
-
-generic_ocp_read() and generic_ocp_write() then call rtl_set_unplug(). That
-function only latches the flag once the USB core has marked the device
-detached:
-
-    static void rtl_set_unplug(struct r8152 *tp)
-    {
-        if (tp->udev->state == USB_STATE_NOTATTACHED)
-            rtl_set_inaccessible(tp);
-    }
-
-get_registers()/set_registers() can also return -ENOMEM on an allocation
-failure without touching the flag.
-
-In these cases a DATA/ADDR/CMD write can be dropped, or the final
-USB_TGPHY_DATA read can return 0xffff. For -ENOMEM it can return an
-uninitialised value from the local tmp in ocp_read_word(). Either way,
-rtl_tgphy_access() still returns 0.
-
-This is no worse than the OCP path. Still, do the comment and the commit
-message ("returns an errno (-ENODEV if the device is inaccessible)")
-overstate what is detected here?
-
-[ ... ]
-
->  	if (bmcr & BMCR_RESET) {
->  		int i;
->  
->  		for (i = 0; i < 50; i++) {
->  			msleep(20);
-> -			if ((r8152_mdio_read(tp, MII_BMCR) & BMCR_RESET) == 0)
-> +			ret = r8152_mdio_read(tp, MII_BMCR);
-> +			if (ret < 0 || !(ret & BMCR_RESET))
->  				break;
->  		}
-> +
-> +		/* The new settings are already applied and cached. */
-> +		ret = 0;
->  	}
-
-[Severity: Low]
-Does a single failed read here end the reset wait early? On
-RTL8157/RTL8159, a TGPHY -ETIMEDOUT breaks out of the loop as if
-BMCR_RESET had cleared, and ret is then forced to 0. Callers such as
-rtl_hw_phy_work_func_t() then continue PHY setup while the PHY may still
-be in reset.
-
-r8153_phy_status() in this patch treats a failed read as not ready and
-keeps polling. Would it be more consistent to stop here only on -ENODEV,
-and keep polling on a timeout?
-
-The commit message says a failed read is not reported. It does not say
-that the read also ends the wait.
-
-[ ... ]
-
-> @@ -7240,8 +7480,13 @@ static void set_carrier(struct r8152 *tp)
->  {
->  	struct net_device *netdev = tp->netdev;
->  	struct napi_struct *napi = &tp->napi;
-> +	int bmsr;
->  
-> -	if (r8152_mdio_read(tp, MII_BMSR) & BMSR_LSTATUS) {
-> +	bmsr = r8152_mdio_read(tp, MII_BMSR);
-> +	if (bmsr < 0)
-> +		return;
-> +
-
-[Severity: Medium]
-Can this lose the link change event? rtl_work_func_t() has already
-consumed the flag before it calls set_carrier():
-
-    if (test_and_clear_bit(RTL8152_LINK_CHG, &tp->flags))
-        set_carrier(tp);
-
-On a link down, intr_callback() has also already stopped the queue:
-
-    if (netif_carrier_ok(tp->netdev)) {
-        netif_stop_queue(tp->netdev);
-        set_bit(RTL8152_LINK_CHG, &tp->flags);
-        schedule_delayed_work(&tp->schedule, 0);
-    }
-
-Suppose the BMSR read then times out on RTL8157/RTL8159 in
-rtl_tgphy_access(). Neither the netif_carrier_off() path nor
-netif_wake_queue() runs, and RTL8152_LINK_CHG is not set again.
-
-The netdev then keeps the carrier on with the TX queue stopped. This lasts
-until another interrupt shows a mismatch, or until the TX watchdog calls
-rtl8152_tx_timeout(). A link up can be missed the same way.
-
-Could this error path set RTL8152_LINK_CHG again and reschedule
-tp->schedule? The LINK_STATUS branch at the end of set_carrier() already
-does that.
-
->  	if (bmsr & BMSR_LSTATUS) {
->  		if (!netif_carrier_ok(netdev)) {
->  			tp->rtl_ops.enable(tp);
->  			netif_stop_queue(netdev);
-
-[ ... ]
-
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index a260841..548d69b 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -65,6 +65,8 @@ struct dwc3_qcom_port {
+ 	int			dp_hs_phy_irq;
+ 	int			dm_hs_phy_irq;
+ 	int			ss_phy_irq;
++	unsigned int		dp_hs_phy_irq_type;
++	unsigned int		dm_hs_phy_irq_type;
+ 	enum usb_device_speed	usb2_speed;
+ };
+ 
+@@ -473,6 +475,7 @@ static int dwc3_qcom_setup_port_irq(struct dwc3_qcom *qcom,
+ 		if (ret)
+ 			return ret;
+ 		qcom->ports[port_index].dp_hs_phy_irq = irq;
++		qcom->ports[port_index].dp_hs_phy_irq_type = irq_get_trigger_type(irq);
+ 	}
+ 
+ 	if (is_multiport)
+@@ -488,6 +491,7 @@ static int dwc3_qcom_setup_port_irq(struct dwc3_qcom *qcom,
+ 		if (ret)
+ 			return ret;
+ 		qcom->ports[port_index].dm_hs_phy_irq = irq;
++		qcom->ports[port_index].dm_hs_phy_irq_type = irq_get_trigger_type(irq);
+ 	}
+ 
+ 	if (is_multiport)
+@@ -540,6 +544,38 @@ static int dwc3_qcom_find_num_ports(struct platform_device *pdev)
+ 	return DWC3_QCOM_MAX_PORTS;
+ }
+ 
++static void dwc3_qcom_restore_irq_type(struct device *dev, int irq, unsigned int type)
++{
++	int ret;
++
++	if (!irq || !type || irq_get_trigger_type(irq) == type)
++		return;
++
++	ret = irq_set_irq_type(irq, type);
++	if (ret)
++		dev_warn(dev, "failed to restore IRQ %d trigger type %#x: %d\n",
++			 irq, type, ret);
++}
++
++static void dwc3_qcom_restore_wake_irq_types(void *data)
++{
++	struct dwc3_qcom *qcom = data;
++	int i;
++
++	/*
++	 * The IRQ mappings survive unbind. Put their firmware triggers back
++	 * before devres frees the handlers or the next probe can lose them.
++	 */
++	for (i = 0; i < qcom->num_ports; i++) {
++		struct dwc3_qcom_port *port = &qcom->ports[i];
++
++		dwc3_qcom_restore_irq_type(qcom->dev, port->dp_hs_phy_irq,
++					   port->dp_hs_phy_irq_type);
++		dwc3_qcom_restore_irq_type(qcom->dev, port->dm_hs_phy_irq,
++					   port->dm_hs_phy_irq_type);
++	}
++}
++
+ static int dwc3_qcom_setup_irq(struct dwc3_qcom *qcom, struct platform_device *pdev)
+ {
+ 	bool is_multiport;
+@@ -555,7 +591,7 @@ static int dwc3_qcom_setup_irq(struct dwc3_qcom *qcom, struct platform_device *p
+ 			return ret;
+ 	}
+ 
+-	return 0;
++	return devm_add_action_or_reset(qcom->dev, dwc3_qcom_restore_wake_irq_types, qcom);
+ }
+ 
+ static void dwc3_qcom_set_role_notifier(struct dwc3 *dwc, enum usb_role next_role)
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261126033211.51850-1-nic_swsd%40realtek.com
+2.56.1
+
