@@ -1,48 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795787479;
-	b=BbHTfnCU282L5It+pDSOdFg15P8akZjleUTxgz6DGB0mkIrWbFCSW8tAM8GekVw4iHlL
-	 meQMZMGD+cZmIXgKOPw6aZv1TOA0dZxdQgOjQ88IWs3mYW0M1paxRVcAm9ELCGsTPfx+L
-	 pFtRzJNmffEQDheKSgWh2jSrIpMs8iN/E91LVBkQJ+snvt8+Tg9RuEJs0GV22EGbAoCcE
-	 G7qX8vWAdDX+Ts5kOU0uY4xz+DBMYScsPzZWOoDDA/bqk+KBTOx7hQvzWpAz05bwXHqf4
-	 bL1i1FNQYN72Ao31Y6ZIDrAdchW3l7xcEj+LQywZxqpNBIeAP42B88JrW4aAlVWtixQ==
+	t=1795787808;
+	b=yIFfPGLJUUSQRRlgQP0G65w859jlQOuinwVCTYxh586qHkAV/9LQcmlp4KieXF1BPx2b
+	 iY0xX/UY7rDLUKwxvCIrl3nrWi/+qiiZaA8wbFQe21Sl3baNJD3sZumbZmkzQbE9SZ7im
+	 jOYj6zIbUOLeU7puaWmZZRvZcDj3XZs7UOX6fyKewySFFQ+vPIOQgRMpDyquKCtIcLU5h
+	 d0/7VeMLptSCQb3vNCIm8Exv/kxeIIxEVvxamgTkR68QQd+sqWKEYj8UIk5p0tRn9kf7l
+	 BdkbE6IOiVwnLfwiLFMJjTkrSHkkbPq2z4eAewOqfYhGv5xps50F9GkO+PkfaeB9eKQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795787479;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795787808;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition;
-	bh=VDwA1UsFj19Xae6hRr5l4cQkvRFp47Spx0mMQsuDAzw=;
-	b=TKLaFT9ZVKqq/2ZevztGu9w1b+ETq9BhhOo8uX+oktcrSwR4yRvykfKfpQurWuSX2GMG
-	 7gbX6+S7gMGOE5OMKOfhN68JF7zimbv+WKIWmlA6cQzySdmGu+vDf5gBwktUXHKDDzB6W
-	 zvAJ8GYfwDenBiwfWCCiJoGEKBYDDjK3H5ksfbOar9aF4gno4rjDzjkSOHvUJP8ZMEUrP
-	 LrlITkGjOvz8H0q6a2K53WW6lR90iyN+At+x3jUGf3JEq7CyFpl0gfrm2HVAtJA+EaFcO
-	 AKZj+yRhR9EBWfo+9TgI9ekgxGl/hriRSgCOaOJOinU6GiE1JrFtYN2IpsK47L8+DEA==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=K60IL4s35LTiidUbi1xENnyiLT/P0TF2GJqZQKSTayY=;
+	b=nGwpTS+EXODelH8FqS4d+jd4ewrZHI1H5iz4lgDnWxjdsX3qNgQakMKmxcWX4uvS1/Ac
+	 pfnBY5aaBp+GpXBI8t5b/8JgY+rMOfiPUA2ZK2mSiIKwqg4qAL85QIBuwmthuVTtPDIix
+	 EJyYYjwKzyCPcm4GzFIM7RwlArDmb8ymhTAnoSe7JS2c3cmjfdt57DylDM+qfob8dxXTc
+	 T9yFsQvUMMenw0/AQu4gz8rKkrrp+1rH+MGX/AZfwv3tf7P9EToril7XYoAVuPb7D2YgG
+	 eunygsJE7QIMeE/VaBlNxeyeA6XA0xNuiNIxSkKY2sc/DTF1Ae/Zel6Ta/3ZzLNHUlw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=oKCJpPHi;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=1yPYNboi;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC78606A31E;
-	Fri, 27 Nov 2026 13:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3781E606A323;
+	Fri, 27 Nov 2026 13:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=oKCJpPHi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DFEB1F00893;
-	Fri, 27 Nov 2026 13:51:18 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=1yPYNboi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72F251F000C1;
+	Fri, 27 Nov 2026 13:56:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795787478;
-	bh=VDwA1UsFj19Xae6hRr5l4cQkvRFp47Spx0mMQsuDAzw=;
-	h=Date:From:To:Cc:Subject;
-	b=oKCJpPHi/rBasv+g7Vnq8eUo84b+NwSioKLIfqnVxAAArdmWP8pRLP88rZWV6aWP4
-	 CqNNpuWEWj1Bo1E4Qf8hGYeQTEIeYkaMD/jLRBX/SQZIcv01+O2Rn89y/ecPz/6rIr
-	 kYMtUilr2xiODSRIW0STZ2BqInoOFdRkv39y94qE=
-Date: Fri, 27 Nov 2026 14:51:38 +0100
+	s=korg; t=1795787807;
+	bh=K60IL4s35LTiidUbi1xENnyiLT/P0TF2GJqZQKSTayY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=1yPYNboi9b8CUiEPajfuzek5/mL0GmWJQ6460VUGZbH+uZXpc5V6Mxr/O082QIF7s
+	 rwIgviLa2w3WH7g/RddLLZpMvWECqWcs0AbfbjAQs9NeK9UBrli7VADdjR6S7FrRDb
+	 1vITsqM+KPjm44PxTpnyG3JEa1Udc9ztWBBzVU4w=
+Date: Fri, 27 Nov 2026 14:57:07 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [GIT PULL] USB/Thunderbolt driver fixes for 7.4-rc5
-Message-ID: <awmK6gaXd1EnO15l@kroah.com>
+To: Hongyu Xie <xiehongyu1@kylinos.cn>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	Oliver Neukum <oneukum@suse.com>, oliver@neukum.org,
+	Hans de Goede <hansg@kernel.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] usb: core: Fix use-after-free in anchor wakeup
+ protocol
+Message-ID: <2026112752-comic-stream-65a3@gregkh>
+References: <179578612505.44635.14553263875690325600@kylinos.cn>
+ <179578613111.44635.6383445613775882412@kylinos.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -54,310 +59,195 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <179578613111.44635.6383445613775882412@kylinos.cn>
 
-The following changes since commit f11fe7603df07fbb9fa02b0d385c1696c87a6dab:
+On Fri, Nov 27, 2026 at 09:28:51PM +0800, Hongyu Xie wrote:
+> usb_wait_anchor_empty_timeout() and the anchor cleanup helpers
+> promise that once they return successfully (non-zero, for
+> usb_wait_anchor_empty_timeout()), no URB giveback is in flight for
+> the anchor any more, so the driver may free the memory holding it
+> (xpad, for example, embeds irq_out_anchor in its private structure
+> and kfrees it in xpad_disconnect()).
+> 
+> Two windows break this promise: the waiter can observe "anchor
+> list empty and suspend_wakeups == 0" while a giveback is still
+> about to access anchor->wait.
+> 
+>  1. usb_anchor_resume_wakeups() decrements suspend_wakeups -- which
+>     makes the wait condition true -- and only then calls
+>     wake_up(&anchor->wait), with nothing in between serializing the
+>     two.  A waiter returns, the driver frees the anchor, and the
+>     late wake_up() touches the freed wait queue head.
+> 
+>  2. __usb_unanchor_urb() wakes waiters while holding anchor->lock,
+>     but usb_wait_anchor_empty_timeout() evaluated the same condition
+>     without the lock, so it could observe the emptied urb_list in
+>     the middle of that critical section and return before the
+>     wake_up() and the spin_unlock() had run.  Reading the two
+>     condition fields locklessly could likewise observe a stale
+>     suspend_wakeups value after the giveback's unanchor on weakly
+>     ordered systems.
+> 
+> Complete the locking protocol that commit fbc299437c06 ("usb:
+> core: Solve race condition in anchor cleanup functions")
+> established for the kill/poison/scuttle helpers:
+> usb_wait_anchor_empty_timeout() now evaluates the condition under
+> anchor->lock (a self-locking wrapper around the lockless check),
+> and usb_anchor_resume_wakeups() performs the suspend_wakeups
+> decrement, the wakeup check and the wake_up() within a single
+> anchor->lock critical section.
+> 
+> With the decrement and the wake_up() atomic with respect to the
+> locked condition check, a waiter can only observe the condition
+> true after every giveback that has incremented suspend_wakeups has
+> stopped accessing the anchor: the guarantee that the wakeup is
+> delayed until the completion handler has run now extends to the
+> anchor memory itself.
+> 
+> syzbot has reported this race repeatedly since 2019, most
+> recently as:
+> 
+> 	BUG: KASAN: slab-use-after-free in register_lock_class+0x8d1/0x980 kernel/locking/lockdep.c:1333
+> 	[...]
+> 	__wake_up_common_lock+0x25/0x1e0 kernel/sched/wait.c:105
+> 	__usb_hcd_giveback_urb+0x3ac/0x530 drivers/usb/core/hcd.c:1653
+> 
+> 	Freed by task 7828:
+> 	[...]
+> 	kfree+0x14a/0x380 mm/slub.c:4390
+> 	xpad_disconnect+0x359/0x490 drivers/input/joystick/xpad.c:2194
+> 
+> and:
+> 
+> 	BUG: KASAN: use-after-free in register_lock_class+0xe6a/0x1120 kernel/locking/lockdep.c:1336
+> 	[...]
+> 	__wake_up_common_lock+0xb4/0x130 kernel/sched/wait.c:136
+> 	usb_anchor_resume_wakeups drivers/usb/core/urb.c:958 [inline]
+> 	usb_anchor_resume_wakeups+0xbe/0xe0 drivers/usb/core/urb.c:951
+> 	__usb_hcd_giveback_urb+0x2df/0x5c0 drivers/usb/core/hcd.c:1674
+> 
+> 	Freed by task 3889:
+> 	[...]
+> 	kfree+0x173/0x390 mm/slab.c:3786
+> 	xpad_disconnect+0x1cb/0x530 drivers/input/joystick/xpad.c:1905
+> 
+> Both reports lack a reproducer; the analysis was verified
+> by walking the two stacks against the code, not at runtime.  All
+> in-tree callers of usb_wait_anchor_empty_timeout() (and every
+> driver which frees an anchor after the anchor cleanup helpers) are
+> equally affected; xpad is merely the one syzbot found.
+> 
+> Fixes: 6ec4147e7bdb ("usb-anchor: Delay usb_wait_anchor_empty_timeout wake up till completion is done")
+> Fixes: 51a2f077c44e ("USB: introduce usb_anchor")
+> Reported-by: syzbot+7f5e98b052c766f47f68@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/r/00000000000090170a0614431f47@google.com
+> Reported-by: syzbot+59d3714b44d79d02f944@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/r/00000000000038435e05e9f94cd4@google.com
+> Cc: stable@vger.kernel.org
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Oliver Neukum <oliver@neukum.org>
+> Cc: Hans de Goede <hansg@kernel.org>
+> Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+> ---
+>  drivers/usb/core/urb.c | 51 +++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 45 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
+> index ae0d61b5081f..bb1778d9e9db 100644
+> --- a/drivers/usb/core/urb.c
+> +++ b/drivers/usb/core/urb.c
+> @@ -139,19 +139,39 @@ void usb_anchor_urb(struct urb *urb, struct usb_anchor *anchor)
+>  }
+>  EXPORT_SYMBOL_GPL(usb_anchor_urb);
+>  
+> -static int usb_anchor_check_wakeup(struct usb_anchor *anchor)
+> +/* Callers must hold anchor->lock */
+> +static int __usb_anchor_check_wakeup(struct usb_anchor *anchor)
 
-  Merge tag 'usb-7.3-rc4' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb (2026-11-16 07:55:02 -0800)
+Mark this so the tools catch it when that lock is not held.
 
-are available in the Git repository at:
+>  {
+>  	return atomic_read(&anchor->suspend_wakeups) == 0 &&
+>  		list_empty(&anchor->urb_list);
+>  }
+>  
+> +/*
+> + * Same check as __usb_anchor_check_wakeup(), but takes anchor->lock. It is
+> + * meant for waiters which do not hold the lock: the critical section
+> + * serializes with the URB giveback path, so once the check succeeds no
+> + * giveback that has incremented suspend_wakeups will touch the anchor
+> + * anymore and the caller may free the memory holding the anchor.
+> + */
+> +static int usb_anchor_check_wakeup(struct usb_anchor *anchor)
+> +{
+> +	unsigned long flags;
+> +	int wakeup;
+> +
+> +	spin_lock_irqsave(&anchor->lock, flags);
+> +	wakeup = __usb_anchor_check_wakeup(anchor);
+> +	spin_unlock_irqrestore(&anchor->lock, flags);
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.4-rc5
+guard()?
 
-for you to fetch changes up to 9aca49d33eb4191a95c57290360fe8732b639025:
 
-  Merge tag 'usb-serial-7.4-rc5' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus (2026-11-27 12:08:38 +0100)
 
-----------------------------------------------------------------
-USB / Thunderbolt fixes for 7.4-rc5
+> +
+> +	return wakeup;
+> +}
+> +
+>  /* Callers must hold anchor->lock */
+>  static void __usb_unanchor_urb(struct urb *urb, struct usb_anchor *anchor)
+>  {
+>  	urb->anchor = NULL;
+>  	list_del(&urb->anchor_list);
+>  	usb_put_urb(urb);
+> -	if (usb_anchor_check_wakeup(anchor))
+> +	if (__usb_anchor_check_wakeup(anchor))
+>  		wake_up(&anchor->wait);
+>  }
+>  
+> @@ -835,7 +855,7 @@ void usb_kill_anchored_urbs(struct usb_anchor *anchor)
+>  			usb_put_urb(victim);
+>  			spin_lock_irq(&anchor->lock);
+>  		}
+> -		surely_empty = usb_anchor_check_wakeup(anchor);
+> +		surely_empty = __usb_anchor_check_wakeup(anchor);
+>  
+>  		spin_unlock_irq(&anchor->lock);
+>  		cpu_relax();
+> @@ -874,7 +894,7 @@ void usb_poison_anchored_urbs(struct usb_anchor *anchor)
+>  			usb_put_urb(victim);
+>  			spin_lock_irq(&anchor->lock);
+>  		}
+> -		surely_empty = usb_anchor_check_wakeup(anchor);
+> +		surely_empty = __usb_anchor_check_wakeup(anchor);
+>  
+>  		spin_unlock_irq(&anchor->lock);
+>  		cpu_relax();
+> @@ -927,12 +947,23 @@ EXPORT_SYMBOL_GPL(usb_anchor_suspend_wakeups);
+>   */
+>  void usb_anchor_resume_wakeups(struct usb_anchor *anchor)
+>  {
+> +	unsigned long flags;
+> +
+>  	if (!anchor)
+>  		return;
+>  
+> +	/*
+> +	 * The decrement, the wakeup check and the wake_up() must happen
+> +	 * under anchor->lock: usb_wait_anchor_empty_timeout() waiters
+> +	 * evaluate the same condition under the lock and may free the
+> +	 * anchor once they observe it true, so this function must not
+> +	 * touch anchor->wait after that.
+> +	 */
+> +	spin_lock_irqsave(&anchor->lock, flags);
 
-Here are a bunch of small USB and Thunderbolt driver fixes for reported
-issues.  Most of these are for gadget driver issues that people have
-reported a while ago, it just took me a bit to catch up with the pending
-patch submissions.  Fixes in here include:
-  - small thunderbolt driver fixes for some minor issues
-  - lots of small usb gadget fixes, from users having problems,
-    syzbot-found issues, or llm-found problems, all with reproducers.
-  - typec driver fixes
-  - dwc3 driver fixes
-  - dwc2 driver fixes
-  - MAINTAINERS file update for the usbio driver
-  - usbip driver fixes
-  - usb storage fixes for broken devices
-  - new usb quirk additions
-  - other small USB driver fixes
+guard()?
 
-All of these have been in linux-next for a week with no reported issues.
+And please reduce the llm-generated comments and changelog spam, it's
+not helpful.  It can, and should, be much smaller.  Delete all of the
+changelogs and write them on your own please.
 
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+thanks,
 
-----------------------------------------------------------------
-Aldo Ariel Panzardo (4):
-      usb: gadget: f_printer: use the active RX list in soft reset
-      usb: gadget: configfs: zero-terminate Unicode property data
-      usb: gadget: ncm: validate the NDP chain before parsing
-      usb: gadget: composite: pass the validated interface index
-
-Alexander Bendezu (1):
-      usb: gadget: f_phonet: don't call gether_get_ifname() on a non-u_ether netdev
-
-Alexey Charkov (1):
-      usb: gadget: udc: Clear a pending connection when starting the UDC
-
-Anuj Bolewar (1):
-      usb: gadget: uvc: fix use-after-free in uvcg_extension_drop
-
-Boyan Liu (1):
-      usb: gadget: f_ncm: Fix use-after-free in ncm_wrap_ntb()
-
-Chaithanya Lagisetty (1):
-      usb: gadget: f_loopback: fix descriptor leak on unbind
-
-Cheng Yongkang (1):
-      usbip: clear actual_length after a failed receive
-
-Chengyu Liu (4):
-      usb: musb: cancel the delayed works after quiescing the interrupt
-      usb: musb: dsps: free the VBUS interrupt before the child teardown
-      usb: gadget: r8a66597: free the IRQ before deleting the timer
-      usb: phy: gpio-vbus: free the interrupt before cancelling the work
-
-Daniele Palmas (1):
-      USB: cdc-acm: add control line state quirk for Telit QCX216 modems
-
-David Collin (2):
-      usb: dwc3: host: fix dangling xhci pointer on init failure
-      usb: dwc3: host: fix props[] overflow when all quirks are enabled
-
-Fabrice Gasnier (3):
-      usb: dwc2: fix fifo reinit in dwc2_hsotg_core_init_disconnected
-      usb: dwc2: wa for isoc packet tx fifo flush at periodic frame boundary
-      usb: misc: onboard-hub: add support for Microchip USB2422
-
-Fang Xieyan (3):
-      usb: gadget: f_printer: clamp GET_DEVICE_ID pnp_string to ep0 buffer
-      usb: gadget: r8a66597: fix NULL dereference for unmapped endpoints
-      usb: dwc2: gadget: fix off-by-one in ep_from_windex bounds check
-
-Greg Kroah-Hartman (3):
-      Revert "USB: cdc-acm: refuse writes after disconnect"
-      Merge tag 'thunderbolt-for-v7.4-rc5' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-linus
-      Merge tag 'usb-serial-7.4-rc5' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus
-
-Guangshuo Li (1):
-      usb-storage: onetouch: Fix potential use-after-free on input failure
-
-Haobo Cheng (1):
-      usb: typec: mux: initialize orientation switch array
-
-Haowen Bai (1):
-      usb: pci-quirks: abort xHCI handoff if MMIO is inaccessible
-
-Haowen Tu (1):
-      USB: serial: f81232: drain work on failed open
-
-Heikki Krogerus (1):
-      usb: typec: ucsi: acpi: Add DMI quirk for Dell XPS platforms
-
-Hongyu Xie (2):
-      usb-storage: add usb_stor_bulk_transfer_buf_timeout()
-      usb-storage: ene_ub6250: don't let the card-type probe hang forever
-
-Ingo Rohloff (3):
-      usb: gadget: f_fs: Fix mmgrab()/mmdrop() balance.
-      usb: gadget: f_fs: register cancellation handler only after request queueing
-      usb: gadget: f_fs: simplify error handling using goto
-
-JaeGwon Go (1):
-      thunderbolt: Send header-only XDomain properties changed response
-
-Jiale Yao (1):
-      usb: cdns3: report endpoint reset timeout
-
-Johan Hovold (1):
-      USB: serial: mct_u232: fix NULL-deref on open() failure
-
-Josef Bacik (12):
-      usb: dwc2: wait for the TT clear in endpoint_disable
-      usb: gadget: snps_udc_plat: lock out the interrupt
-      usb: typec: anx7411: zero on-stack alt mode descriptors
-      usb: typec: tcpm: don't wait for the VDM discovery work
-      usb: host: ehci-orion: fix the probe without DT
-      usb: isp1760: wait for the TT clear in endpoint_disable
-      usb: host: oxu210hp-hcd: fix oxu_qh_alloc() deadlock
-      usb: gadget: bdc: the resume callback is optional
-      usbip: vudc: free the unlink item if the send fails
-      usb: typec: mux: tusb1046: fix oops on accessory modes
-      usb: gadget: f_fs: let the request keep its fence
-      usb: renesas_usbhs: link URBs with interrupts disabled
-
-Keisuke Tsukuda (1):
-      usb: gadget: f_hid: keep GET_REPORT request across disable
-
-Kuen-Han Tsai (2):
-      usb: gadget: u_ether: Fix NULL pointer deref in debug logging
-      usb: gadget: u_ether: Protect dev->gadget access with dev->lock
-
-Kyle Farrell (2):
-      usb: gadget: u_audio: don't exceed maxpacket when adding a residue frame
-      usb: gadget: f_uac2: prevent invalid bInterval auto-selection
-
-Liu Chao (1):
-      usb: gadget: uvc: reject zero interval in uvc_v4l2_s_parm()
-
-Marek Szyprowski (1):
-      usb: dwc3: fix use of destroyed dwc->connect_mutex on gadget exit
-
-Massimo Toscanelli (2):
-      usb: gadget: f_ncm: do not notify from ncm_set_alt()
-      usb: gadget: f_ecm: do not notify from ecm_set_alt()
-
-Miao Li (1):
-      usb: quirks: Add DELAY_INIT quirk for Kingston DataTraveler 3.0
-
-Mika Westerberg (1):
-      thunderbolt: Return -ETIMEDOUT if XDomain peer returns ERROR_NOT_READY
-
-Myeonghun Pak (6):
-      usb: gadget: pch_udc: Disable VBUS work before removing the gadget
-      usb: mtu3: Prevent dr_work rearm during teardown
-      usb: gadget: tegra-xudc: Unregister VBUS notifier
-      usb: gadget: tegra-xudc: Disable reset delayed works
-      usb: gadget: m66592-udc: Free the IRQ before unmapping registers
-      usb: dwc3-am62: shut down refclk on remove
-
-Neill Kapron (1):
-      usb: gadget: f_fs: Fix -Wformat-truncation in proxy endpoint names
-
-Nguyen Minh Tien (1):
-      usb: musb: Disable the D+ pullup during system suspend
-
-Priyanka Mani (1):
-      usb: gadget: uvc: fix dwFrameInterval array leak on frame removal
-
-Rafael Alejandro Diaz Cruz (1):
-      USB: gadget: Fix UAF in gadgetfs_fill_super()
-
-Ryan Brue (1):
-      usb: mtu3: don't run gadget completion callbacks with interrupts disabled
-
-Sakari Ailus (1):
-      MAINTAINERS: Update usbio driver maintainers and reviewers
-
-Shunbo Shi (3):
-      usb: gadget: f_hid: fix report_list entries leak
-      usb: gadget: f_hid: fix race between userspace report update and GET_REPORT response
-      usb: gadget: f_hid: fix get_req leak when usb_gstrings_attach() fails
-
-Suyuan Wang (1):
-      thunderbolt: Keep the USB4 port when component_add() fails
-
-Thomas Touhey (1):
-      usb: storage: add quirks for CASIO calculators
-
-Vasileios Almpanis (2):
-      usb: gadget: f_uac1_legacy: fix double close of the ALSA devices
-      usb: gadget: pch_udc: don't call pch_udc_remove() from the probe error path
-
-William A. Kennington III (1):
-      USB: cdc-acm: refuse writes after disconnect
-
-Xinsheng Zhu (1):
-      usb: gadget: f_ncm: prevent double-free of OS descriptor table
-
-Xu Rao (1):
-      usb: gadget: f_printer: Fix fsync waiting for active transfers
-
-Xu Yang (1):
-      usb: cdns3: imx: fix kernel panic on remove due to kfree of static platform_data
-
-Yaohan Li (1):
-      usb: gadget: u_audio: call period elapsed under the stream lock
-
-Yehyeong Lee (2):
-      usb: gadget: f_tcm: queue the BOT status requests with GFP_ATOMIC
-      usb: gadget: f_tcm: put the overlapped command's request back on ep_cmd
-
-Yingjie Wang (1):
-      usb: gadget: midi2: copy configfs strings for live functions
-
-Yu Zhang (2):
-      usb: gadget: f_hid: avoid copy_from_user() under get_report_spinlock
-      usb: gadget: f_printer: fix pnp_string use-after-free on reconfigure
-
-YuanZhe Liu (2):
-      usb-storage: reject too small values in max_sectors_store()
-      usb: storage: shuttle_usbat: set the ATA sector size at device init
-
- MAINTAINERS                                 |   4 +-
- drivers/thunderbolt/tb.h                    |   2 +
- drivers/thunderbolt/usb4_port.c             |  12 ++-
- drivers/thunderbolt/xdomain.c               |  12 +--
- drivers/usb/cdns3/cdns3-gadget.c            |   6 +-
- drivers/usb/cdns3/cdns3-imx.c               |   8 ++
- drivers/usb/class/cdc-acm.c                 |  12 +++
- drivers/usb/core/quirks.c                   |   3 +-
- drivers/usb/dwc2/core.h                     |   1 +
- drivers/usb/dwc2/gadget.c                   |  21 ++++-
- drivers/usb/dwc2/hcd.c                      |  15 +++
- drivers/usb/dwc3/core.c                     |   1 +
- drivers/usb/dwc3/dwc3-am62.c                |   4 +-
- drivers/usb/dwc3/gadget.c                   |   2 -
- drivers/usb/dwc3/host.c                     |   6 +-
- drivers/usb/gadget/composite.c              |   4 +-
- drivers/usb/gadget/configfs.c               |   3 +-
- drivers/usb/gadget/function/f_ecm.c         |   8 --
- drivers/usb/gadget/function/f_fs.c          | 138 ++++++++++++++++------------
- drivers/usb/gadget/function/f_hid.c         |  75 +++++++++++----
- drivers/usb/gadget/function/f_loopback.c    |   7 +-
- drivers/usb/gadget/function/f_midi2.c       |  57 +++++++++++-
- drivers/usb/gadget/function/f_ncm.c         |  38 ++++++--
- drivers/usb/gadget/function/f_phonet.c      |   5 +-
- drivers/usb/gadget/function/f_printer.c     |  14 ++-
- drivers/usb/gadget/function/f_tcm.c         |  13 ++-
- drivers/usb/gadget/function/f_uac1_legacy.c |   8 +-
- drivers/usb/gadget/function/f_uac2.c        |   6 +-
- drivers/usb/gadget/function/u_audio.c       |  17 +++-
- drivers/usb/gadget/function/u_ether.c       |  84 +++++++++--------
- drivers/usb/gadget/function/u_uac1_legacy.c |  17 +++-
- drivers/usb/gadget/function/uvc_configfs.c  |  19 +++-
- drivers/usb/gadget/function/uvc_v4l2.c      |   5 +
- drivers/usb/gadget/legacy/inode.c           |   1 +
- drivers/usb/gadget/udc/bdc/bdc_udc.c        |   3 +-
- drivers/usb/gadget/udc/core.c               |  10 +-
- drivers/usb/gadget/udc/m66592-udc.c         |  10 +-
- drivers/usb/gadget/udc/pch_udc.c            |  34 ++++---
- drivers/usb/gadget/udc/r8a66597-udc.c       |  20 ++++
- drivers/usb/gadget/udc/r8a66597-udc.h       |   1 +
- drivers/usb/gadget/udc/snps_udc_plat.c      |   8 +-
- drivers/usb/gadget/udc/tegra-xudc.c         |   9 +-
- drivers/usb/host/ehci-orion.c               |   6 +-
- drivers/usb/host/oxu210hp-hcd.c             |  23 +++--
- drivers/usb/host/pci-quirks.c               |  22 ++++-
- drivers/usb/isp1760/isp1760-hcd.c           |  11 +++
- drivers/usb/misc/onboard_usb_dev.c          |   1 +
- drivers/usb/misc/onboard_usb_dev.h          |   1 +
- drivers/usb/mtu3/mtu3_core.c                |   5 +-
- drivers/usb/mtu3/mtu3_dr.c                  |   2 +-
- drivers/usb/musb/musb_core.c                |  31 +++++--
- drivers/usb/musb/musb_dsps.c                |  11 +++
- drivers/usb/phy/phy-gpio-vbus-usb.c         |   8 ++
- drivers/usb/renesas_usbhs/mod_host.c        |   7 ++
- drivers/usb/serial/f81232.c                 |   3 +
- drivers/usb/serial/mct_u232.c               |   2 +-
- drivers/usb/storage/ene_ub6250.c            | 110 ++++++++++++++--------
- drivers/usb/storage/onetouch.c              |   8 +-
- drivers/usb/storage/scsiglue.c              |   4 +
- drivers/usb/storage/shuttle_usbat.c         |   4 +-
- drivers/usb/storage/transport.c             |  31 +++++--
- drivers/usb/storage/transport.h             |   5 +
- drivers/usb/storage/unusual_devs.h          |  19 ++++
- drivers/usb/storage/unusual_ene_ub6250.h    |   2 +-
- drivers/usb/typec/anx7411.c                 |   2 +-
- drivers/usb/typec/class.c                   |   2 +-
- drivers/usb/typec/mux.c                     |   2 +-
- drivers/usb/typec/mux/tusb1046.c            |  14 ++-
- drivers/usb/typec/tcpm/tcpm.c               |  14 ++-
- drivers/usb/typec/ucsi/ucsi_acpi.c          |  41 +++++++++
- drivers/usb/usbip/vhci_rx.c                 |   1 +
- drivers/usb/usbip/vudc_tx.c                 |   2 +-
- 72 files changed, 817 insertions(+), 300 deletions(-)
+greg k-h
