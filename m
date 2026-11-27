@@ -1,120 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.158
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795785099;
-	b=NqJjjXWXY4kRTEhZjYetWT7YlnTH2Hcac01iX4OfmMj61Q2O9IOhz4PCTSOPgCxHV7fM
-	 pMT00QuW/F1NZozN6KcfTKsky6CPWkCPDMSSRm21PlJpgXpeWCSrgjfm4bnJowNYgytFl
-	 2xqaY3FzTrMav4CI44zVvrIuKfGj/JN+zUN2+Ay+sKSVYRzQXX02+gyDVXQItgzQxJNBe
-	 2UBlwAWikoE+O6ysnu/h2i0CQPwK6kahEtSyBpzM1206I1RhEkzi0X3Dw+A1tgnWBF3uW
-	 SeVkrupM5aEk2Y+Yjw5vCcoGXiefn9cHC31PGbWASQewaeNcBHd4MOLggPfyMv0YbBA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795785099;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=NNAclsmgf5tPHshzkkZfVG7edTHsPlRVIdn9fjBzSAE=;
-	b=gJrc11fw/p/gS8iVupHh8138EL5kmcBBT9ibYzJ1NsD7/vwFJ9m8+DyyO9f5jJWQbmLQ
-	 Wn8xCy7RnTRs37zjqg3egCWf25tj9v6jLtIBVevf8iF3bC+dCy8xMiPbQzQuRSCglPUWg
-	 mtO6HG4EZySGUr63dUiwWkNG+nZLS0iluRFdg0eoszsetlZLjKS1w896EWFq8BkMNO2w0
-	 vJW0/dQzKSylgisD+y/ruA77LhnMIMW0NpNsvwK2d2kAt+Ab4HuquBqz9ZD+OtnDSDV/G
-	 mrrHdScWsGx4PHF2hqnvSaaPhrcG0ABnld7tVaRRS02ri4uDBratFot+B0ISblK1z/Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=kroah.com;
-	spf=pass smtp.mailfrom=kroah.com;
-	dkim=pass header.d=kroah.com header.i=@kroah.com header.a=rsa-sha256 header.s=fm3 header.b=qlOb8FB+;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=I4phDjKU;
-	arc=none smtp.remote-ip=103.168.172.158
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795785179;
+	b=5agkPBIEDMeFvQuhJVtKoA3IUZyOGvhV5gw+/6ntP6XQN8ISutEHIyMAatauGlh7NNAB
+	 0oEJXQto9RiONLJblA7YraEDJR1d9dLo2RTcMvqiosPDLcjfO3oxBEWhT6F1XSuhATOsR
+	 1Iux+Z5WuBu72flkl32XBxIFB5h1XiyDLt9lDJb9JeWwffj/5EtllgtY7n24ddMXkWx3O
+	 AvyBnAHl4FKN5vSESj0Pf4U1Fr8MWsEe7ru9k74Zzm16JYezEa3uR/SRXjfAhkKcVR3uY
+	 T4MYp7/vt6Px0VtNOBeFz27fOwIBwYM6medH3ijPnZnvG0QIcaZrHRyylAtDWqUnTXg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795785179;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=uZ5Gh5bGkiRaGpwGaQa4gll9Iedo19Ajp/aNw+T+NrE=;
+	b=I9CfZ22f6AgKX3yJbSOhubioTcuij8w70l+PxRjpI1P61X1KfveRBHOE0x6bZOjZk5/b
+	 39iH+Pt+y7peQp3mMn4KnAt5NQ/Iq/Tadv5a2Jr+kfD2eK0z0NJ3esD3TZsOzEo3Yu3Jx
+	 f+C4XB5S2/ScU8mpwq3IjR0NMLB6KSdUPRdVut0yW1PvRmNLww0mP2QNLT/BTYdTzh3Dz
+	 gXyKqd90gecCsVaAB7BYi+oevTRL0xlwb5H0yRwzqNvrJ5JCEeV95FteT9xqAjf+M2K4j
+	 QTHPi/Zxl1ci/pGHDowP8lH1IOGWzfvnQE5pabQQVijhIKPBNiYZ6Fo50CYnIRO5ihA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CO07xJY0;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7E1606A31C
-	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 13:11:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A7E1606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B999606A31C
+	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 13:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kroah.com header.i=@kroah.com header.a=rsa-sha256 header.s=fm3 header.b=qlOb8FB+;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=I4phDjKU
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 85D05140024D
-	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 08:11:38 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Fri, 27 Nov 2026 08:11:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1795785098; x=1795871498; bh=NNAclsmgf5
-	tPHshzkkZfVG7edTHsPlRVIdn9fjBzSAE=; b=qlOb8FB+id7FfXBME8bbKizwTi
-	UZiQmiI3cZOVMkZyxmpNOD/rnVhSu2ajjH46mYkccE1VR8qZcOlnNpsm+PW27KCO
-	YmgKjbWoopYzgGsNteBHwQbIJyn2KdNDiin1psUCpf9d2tZSGWUYKILVanymihNK
-	Li7ivY+SYnboZvJoymZaUVGv/sFOdh8PhUXHDASPSWB9+gz48ctZjLdztsR1uqJ5
-	HK838Jwv3t9P7SgRRlWZyvyW3ykqppefgR2LTVdAs1/uiKuRgi95iCrNgqp2qFiB
-	aykaIuWPpoI+FRVVXgW+hPEKfLq2vsytZQbsvMnUnhbFsh78BQFgklP1CquQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1795785098; x=1795871498; bh=NNAclsmgf5tPHshzkkZfVG7edTHsPlRVIdn
-	9fjBzSAE=; b=I4phDjKU8TPJAqNaCKnjfoXiHZwhz8pIK7eK3tYF3gwILMjjS1g
-	6e7f0doGTgeLll+++uRwGOSTub/b9YI/nD+0S4Bj1JgK6me83ebG23SkzNf+p96T
-	VEka1vHYxLzg1W2qYuQbyXOeHq6llYjM/To7NMewjAYRYQOQ22RWgJg5PavTGdn2
-	RuYEl0yHTh6HH3cwTUpkZRvSVRJzHzKAvCGWCPd5Wrzio/dRvP8dG18Yo1hPShqm
-	aLmepOauwZ5wAvyVTc7UmANfH6NDvkW3PlK8PrdaKKEJh6SlxN+A9yU0I72QN/Ns
-	UBw+CBxTk0hL5eO143r+GCBP8UBdKdOVvLg==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=kroah.com a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795785098; d=kroah.com;
-	mf=PGdyZWdAa3JvYWguY29tPg==;
-	rt=PGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm3:rsa-sha256:u01xPATf/wjgItjpkQkpmsKRa7rjeNOYVVt3j77s16D9h0R
-	9dh46Pj0Y0otCCddGmFPVHmhxK7hUKyup2vytrgC1uZ6x35lOz6DEdDQEIsufyf/
-	0dq6X1uf2+47o6ep5f40Bd9ygtbzSJBqGIeIqJlyecLfO8JoDiZlP1Ec89UEAsPY
-	mYQwA13YgwdLbfpx+trvsspFX5DF9OJM/l5f6+1dAIetV77LrXG47lFmQqNZl9hU
-	wBZYNf/ZXzVKhONaeV6+dXNRQWzNa9OPLJC3ola6kbibc2NHzbpMMotruCu8YYaz
-	M6gsnU4Rx6fheTw7W5O1/3SGdAhomDGe9whaZkQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-disposition,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:y/+CIhEeee7R53SuGs4olhgpkOCzYopnq52svLtwc7g=:ekXDS5YrU4bIbse581MI7K3gsI1oZ2eVdWbYKYEcXyU=;
-X-ME-Sender: <xms:iIEJa5xZOYttKR8mXzu7KEBMakQkLSQK0CgsiSfAEqA3lbYbbMcCvQ>
-    <xme:iIEJa1rPnfJzefFtaEk41PgaU7vBwDqKbxR8Cy_UGOIHRmr0nXKtb6M157NpGQMEu
-    Ebkqv-rjLfZlhIy-lWgu-4qUh2SnW1FAUMUPUF72xVJ6NlYmLAN>
-X-ME-Received: <xmr:iIEJa3y2L4vhq5MVDMnqYP77ZG2yaIXNChqUGvWkfn6_ZJVkAVqjlDFZDiU2WyG6nd577A_phLUAugksjv-dCvaqlCcp1g8>
-X-ME-Proxy-Cause: dmFkZTFYzt3C6s73KmIik38zshN98iA7a9r/9C1pcWb+sCot+3ofXywXMFi/HEAjQKdAi5
-    yN9Nkc+ZdbIfmxoJMp7qQye4gz2wnPXo79pJDvXZrFhiKww5wxqdVSaB8AG76QQ8uThSOY
-    to6OPp4nGv/jQV+TUCXOs8NigXIaGhkkK1tRJz9bqp7kFGJ8Flm3dacJcgTYcXnc0TQBqW
-    WNlBctxCfIis8BNmgJS1d6twX7qAPHwvr1tcDA+B2ezH2mAmNtQA5epc3EBoA6GhjikIh3
-    wzr5hIAOxZ3FFC3IxfXs5rL/mCAP1S9fQFRHlBiv5S+uKXfZR9MKRg2ljJThF2cjP3gRSm
-    9RRRq0bYxXiK2a6MbPAPbibAeMgKGOyIFD/LpD5CAM1uCmM+M7NEvJZZo2v9mPN3/lY+pK
-    VhioNjH3r7F2XXomvEArE1zhP6Ue5plI9S+4C+KPCFs/qFHtopM3gHMw5/+e+DwnKmqgI5
-    Bep0LEu0xBSQybFWATGRYqFlwBwu0OKGeNB5kdegMANeCPSiKME4momEjoBhkdKnOrCNKm
-    i6O0yZa4SqV6zxR8B8BBMbklod2n6i34vINUl/1YxOoktj3q7unTX4yiRJ44an8LH7Wh14
-    qa+6WJ2ALiD+/QKQY3gf/I5JKvubPxBCBRyZ9MU/i+F7MnQITAnWSzyr2zBA
-X-ME-Proxy: <xmx:iIEJa5ovyWoe_4_1eULUWP01cCudhSK_lOSDUxg1VxHjxcmVhG6WWw>
-    <xmx:iIEJa3dALFOiSLLjgnDmi9aoQhXv3RPECkYqT7g1RHP2adkEmykZrw>
-    <xmx:iIEJa8qA3earb2eLdmp47-BtoV8yPq8yTWRaWoRel8PDJnJeVnHY0A>
-    <xmx:iIEJaxlXaMhF5eEyVHpn286RnZL_mVvNvq6vSm5tygHQ6NJo_b_3CQ>
-    <xmx:ioEJa6eJ_s0BBrQ3Y3CqfP8UUzqSY0Qa5Uyd4Uzh4p5gL1KvOCZ4ToAO>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Nov 2026 08:11:36 -0500 (EST)
-Date: Fri, 27 Nov 2026 14:11:56 +0100
-From: Greg KH <greg@kroah.com>
-To: dickson.wu@certik.com
-Cc: cip-dev@lists.cip-project.org, Pavel Machek <pavel@nabladev.com>,
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
-	Ulrich Hecht <uli@fpond.eu>,
-	Yongchao Wu <yongchao.wu@autochips.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 5.10.y-cip] usb: cdns3: gadget: fix state inconsistency
- on gadget init failure
-Message-ID: <2026112729-zips-gargle-7886@gregkh>
-References: <20261127-cip-cdns3-510c-v1-1-56e5faa149b9@certik.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CO07xJY0
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795785179;
+	b=Iob6t9wYgLcUXvYs9C00GDxZYza8/Kiv71jYGHHURa5iPJpICtF6Edbo6icvKPZRYtaW
+	 ttqEPSEVQWHjFz01uR1AsKq8morndIau5+yKYe5uxtjaYGvBrBcx3sZkTxAsPPwKUrPsV
+	 G9dga/wHdvrZMqfybsSyutVb8QX3qGZMzFrFvgRB/nSXP8ihOXjZnldyr+CQE/ttnqBK5
+	 irF8F6gJDu6F2PO9DNvRzxsk3gDkWoyT2PrOMf2KTEGOlkc+N0YVDUDKMrlYjlt6pjasg
+	 YKe2U9jdmKW67abtnKRJde2OIyoOjr/iwqN+JuFQcK7SIsJQ/Jiu3QpONSz2/iTPxMg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795785179;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=uZ5Gh5bGkiRaGpwGaQa4gll9Iedo19Ajp/aNw+T+NrE=;
+	b=lbpEb8W7u5fZv99k1DGn8j8+MLVioP4xyKnBLQQN1lS/Vb5JEueoGa59XcazrxNeGSc8
+	 Fq+yW45mA7Pfaxg8MYN0e9Y971iJVIosQZqDlo7PsRRh6i6YtyeDUWO2v3qa3knNPJJRu
+	 UhHnUmt2gDy0V/J9P+2sqYtIYLjQnq5dEMmLmaNf9exunqT5VzRhLWd/Kz5zlE+hRQ5MF
+	 6KA7op9wg64ZrQl4YTujZzbi2DqQ6kaXu551p5Xw7He4hLhda5/XKIxBpao4rysCGigx2
+	 WmVYIiDznKylOSI/QQ8NiID1Q8we7jiKokZrXNWs0D3NQvlfg8PY2j4XdpvwEkkEz3Q==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 1620B1F000C1;
+	Fri, 27 Nov 2026 13:12:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795785179;
+	bh=uZ5Gh5bGkiRaGpwGaQa4gll9Iedo19Ajp/aNw+T+NrE=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=CO07xJY06pQC9KiuThriqktRG4s9y7PMOTvcMSkOLc41aKOBfg0pNuUzSfQPyZrJn
+	 J957LloMijhA4zRYRwcrA2hchWVlAepUTbxXPwANwMX1Lb8xWA/zCuGkN5bhmq2oeJ
+	 VwmsWHXiN8l46w7v9PyfnifbBtpAZyEo2YCiYsORi80IYRvw+PNGzXC8GyxBwm6vYo
+	 xHRXP/raUF2UkgMApKpjmgY65ynLdQWf78uI+J0gUtP/vwx2eQRWydtofnbKT46kb9
+	 117LhCQnajhqeeNteyHk6XMhgNpgvuAACW4ZU49FGNjNthP5u/5UmN+kp/xa5kgMbi
+	 3BT3XhSuKXA5w==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 9AF694B7C9;
+	Fri, 27 Nov 2026 13:12:48 +0000 (UTC)
+From: Dickson Wu via B4 Relay <devnull+dickson.wu.certik.com@kernel.org>
+Date: Fri, 27 Nov 2026 13:09:38 +0000
+Subject: [PATCH 5.10.y-cip] usb: gadget: f_fs: copy only received bytes on
+ short ep0 read
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -124,18 +83,129 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261127-cip-cdns3-510c-v1-1-56e5faa149b9@certik.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261127-cip-ffs-510b-v1-1-740c3a4fb9b3@certik.com>
+X-B4-Tracking: v=1; b=H4sIABGBCWsC/02Nyw6CMBBFf4XM2kFaoCb+CnHRx1RqTEs6aDSEf
+ 7fVjct77msDphyI4dxskOkZOKRYhDg0YGcdr4TBFQ2yk0oIeUIbFvSecRSdQekGJVU/9Ep4KJU
+ lkw+v79wEYyu69l0LcPl5/DA3smvdq2mjmdBkHe1cEVN0a0p3rPz4/wP7/gGP86ZQqQAAAA==
+X-Change-ID: 20261127-cip-ffs-510b-2d462634361f
+To: cip-dev@lists.cip-project.org
+Cc: Pavel Machek <pavel@nabladev.com>, 
+ Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
+ Ulrich Hecht <uli@fpond.eu>, 
+ Michael Bommarito <michael.bommarito@gmail.com>, linux-usb@vger.kernel.org
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795784977; l=4141;
+ i=dickson.wu@certik.com; s=dickson-b4; h=from:subject:message-id;
+ bh=DJqW2fanrrMBxibpJCrploJciD5vVQ8YJRECDs4tOi0=;
+ b=i8Hl5WVTQgwvcj1ou3S2krOCa26XAw5gHG95oKNPxSQLFQPGHMExQ9CzUPfFVArwqZOP0Rp9c
+ 4TC87YgFKZSCaZ6PpjuQeQ/xPCDvwdxrKOjQ3khP+FuVpLpKYTLA5vU
+X-Developer-Key: i=dickson.wu@certik.com; a=ed25519;
+ pk=fxH7FS4FdojeJSGLJzgKdfO51Rvr4EW30yinj2mc1vg=
+X-Endpoint-Received: by B4 Relay for dickson.wu@certik.com/dickson-b4 with
+ auth_id=1647
+X-Original-From: Dickson Wu <dickson.wu@certik.com>
+Reply-To: dickson.wu@certik.com
 
-On Fri, Nov 27, 2026 at 12:18:44PM +0000, Dickson Wu via B4 Relay wrote:
-> From: Yongchao Wu <yongchao.wu@autochips.com>
-> 
-> commit c32f8748d70c8fc77676ad92ed76cede17bf2c48 upstream.
+From: Michael Bommarito <michael.bommarito@gmail.com>
 
-There's no need to send cip-only patches to the usb public mailing lists
-(or any other lore.kernel.org list).
+commit 4e036c10e7f4df5d951c69cc3697bc8e209c6d02 upstream.
 
-thanks,
+ffs_ep0_read() allocates its control-OUT data buffer with
+kmalloc() (not kzalloc) at the Length value from the Setup
+packet, then copies that full len to userspace regardless of
+how many bytes were actually received:
 
-greg k-h
+    data = kmalloc(len, GFP_KERNEL);
+    ...
+    ret = __ffs_ep0_queue_wait(ffs, data, len);
+    if ((ret > 0) && (copy_to_user(buf, data, len)))
+            ret = -EFAULT;
+
+__ffs_ep0_queue_wait() returns req->actual, which on a short
+control OUT transfer is strictly less than len.  The
+copy_to_user() call still copies len bytes, so on a short OUT
+the last (len - ret) bytes of the kmalloc() buffer --
+uninitialised slab residue -- are delivered to the FunctionFS
+daemon.
+
+Short ep0 OUT completions are specified USB control-transfer
+behavior and are produced by in-tree UDCs:
+
+  * dwc2 continues on req->actual < req->length for ep0 DATA OUT
+    (short-not-ok is the only ep0-OUT stall path).
+  * aspeed_udc ends ep0 OUT on rx_len < ep->ep.maxpacket.
+  * renesas_usbf logs "ep0 short packet" and completes the
+    request.
+  * dwc3 stalls on short IN but not on short OUT.
+
+A short ep0 OUT is therefore not evidence of a broken UDC; it is
+a normal condition f_fs has to cope with.  The sibling gadgetfs
+implementation in drivers/usb/gadget/legacy/inode.c already does
+this correctly via min(len, dev->req->actual) before
+copy_to_user().  This patch brings f_fs.c to the same safe
+pattern rather than trimming at a defensive layer.
+
+The bug is reached from the FunctionFS device node, which in
+real deployments is owned by the privileged gadget daemon
+(adbd, UMS, composite gadget services, etc.); it is not
+reachable from unprivileged userspace.  Linux host stacks
+normally reject short-wLength control OUTs before they reach
+the gadget, so reproducing this required a build that
+bypasses that host-side check.  With the bypass in place, a
+1-byte payload on a 64-byte Setup produces 63 bytes of
+non-canary slab residue in the daemon's read buffer.
+
+Fix by copying only ret (actually received) bytes to
+userspace.
+
+Fixes: ddf8abd25994 ("USB: f_fs: the FunctionFS driver")
+Cc: stable <stable@kernel.org>
+Assisted-by: Claude:claude-opus-4-7
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+Link: https://patch.msgid.link/20260419160359.1577270-1-michael.bommarito@gmail.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+[ adapted to 5.10.y-cip: keep the branch's likely/unlikely wrappers around the EP0 copy ]
+Signed-off-by: Dickson Wu <dickson.wu@certik.com>
+---
+5.10 wraps the EP0 read condition in likely() and unlikely(). The
+backport keeps those wrappers and uses the completed length for the copy.
+
+Tested on 5.10.272-cip79: drivers/usb/gadget/function/f_fs.o built
+with W=1 before and after the patch, with no new diagnostics. The same
+paired build passed on the 5.10.275-cip80 tip. On v5.10.275, the
+patched kernel booted in QEMU and passed the FunctionFS dummy-HCD
+endpoint creation smoke test. That test covered endpoint setup. The
+runtime test was not rerun on the CIP tip.
+
+The backport and the test runs were prepared with AI coding tools
+(OpenAI Codex agents, with review by Claude). I went over the result
+before signing off.
+---
+ drivers/usb/gadget/function/f_fs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index bb0b7c1e050b..5ad3ce302650 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -598,7 +598,7 @@ static ssize_t ffs_ep0_read(struct file *file, char __user *buf,
+ 
+ 		/* unlocks spinlock */
+ 		ret = __ffs_ep0_queue_wait(ffs, data, len);
+-		if (likely(ret > 0) && unlikely(copy_to_user(buf, data, len)))
++		if (likely(ret > 0) && unlikely(copy_to_user(buf, data, ret)))
+ 			ret = -EFAULT;
+ 		goto done_mutex;
+ 
+
+---
+base-commit: bd8b111cdf1d9897bf4d826b7305a9c16bfe5f71
+change-id: 20261127-cip-ffs-510b-2d462634361f
+
+Best regards,
+--  
+Dickson Wu <dickson.wu@certik.com>
+
+
