@@ -1,75 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795781890;
-	b=2eGvAQO3yKGpNs6qudJFZgZ3wSZzghuglxq/GhSzdJHJVcCsV5n+CQCRqQAJeliRzEGz
-	 wK+EMMymmEkL9bmKgZ56CLusv7TcnO8Hxzqw2zLhqjaUS27MzsgugOkKavYCQEkKaa9mF
-	 OzuYD1XOz3VRdpgeDEO6yo7nddcES1SogaMBcExnFd/EHosxMvOhvIHD9sgvQkgcg68zh
-	 B1WKEhQXVTTlvQkuWkCL6nh+OSrtWqrvKQ1xTLqqqbdB0tsRe/xle2dc6qfd+n2W7QRZ2
-	 eAUqqkk7ELv9/htIfY1Auxv+Ee9qPMZU2imA6+b+/wLpJZfAqw0HJwnJAK08mfdhYRA==
+	t=1795781892;
+	b=fwjn7lCvQBsgWLvmwltHD3gYZ8wrUGxM31wJ/Ifm76AQ5JaPwJHDoYWwffI11t5zp+k1
+	 9QTaHsR5hb6M6OqkcP/5BBMArqqdP4tCOUIhxAfzzWQNgDszVrRuUfmGHmTGsIiiwc7xX
+	 VXRPtr2MTY3zj/k3leftS7elcN01j9JnOS+pUjBNse1dJCcNR51jIt6eUO25QnEdB4LaV
+	 Gf+UNN432OovXrb5+P9ZkW3vrrMJKM/fBYPpM6P2ott01lHq5jZXphiGKFlMtlx8CehbU
+	 ZEGIiIxw0z29q2P+sJwGmkT8hlZ8hZmx7XaXntxsnyp9VMXrm9Cz8ZYTyKJMWLlQlIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795781890;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795781892;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=XCV2byNVDE42uxEcvEQv85bV+oeba2a7pZNX1aOtOUs=;
-	b=Q4W0o1hEbmYNxWVWiBGAW8IcRkC2A+EIrE8Mkhr/dLaqOzJIT4DewxFluNZ4uBluQOMz
-	 11+aoX0mxuerpyN+hyxU9tQh+Das/x/xgLSqAwShhEJROp0gDmzfpckeTPD8qKGJpvO3t
-	 XsDGNk3E6ZK6swvqr30FG/CGBEQQE7FyRpAK5ln4534Ldmt2E2XRllYKZwqenvn6iZkTw
-	 n4Qc/u7kl35ORwFSTGnUw+AhHqrkKIFYQKEXalVSWDnpho4vd7FYvwYcKDiyDKxPiqLJf
-	 Uo79KOrxqUr7kFBdI0ZTmZNWCWJ7+nZ23hZiXaAocwKla1vfS8BHVxsWBNG8ktUETYg==
+	bh=zTv9rT/9RmRK+l0n/8xKntvL0MlimY+3T17GQ1jB/JQ=;
+	b=5NOCYtU9jVEHwx/NHGssx2w1jtc6qGwVx6ciqBDhkahYpXuuu4QsOhCfSIrUZyMUgZXW
+	 4fgPFBVi51y+xhptMSJjHdtEmLvzcPDHA8smC7Gz9eie3fDMzzu5FyFeA4UvILOvL9I3g
+	 TJodFOZFQ6Ut/xRY6Io1GuRsv7px01+MDs0w6mWW5m+iNydm2PdLjfzUYkYl0swNsqaUN
+	 JbAWsQFI8kKEuoe9gNz6FMmwZEoYtUu/d8RwA6Q2jPzg3S6zRoFCjTggEG/YdhtueCUBY
+	 2l1hweP+3gFeCILau21DGxWdUbQqJxF3Uco3+BMW9qaHwDV14fLjkCDZTNxjRxDXWeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nY2OvbWM;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NRmG4u87;
 	arc=none smtp.remote-ip=192.198.163.8
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C88606A324;
-	Fri, 27 Nov 2026 12:18:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05C88606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE46606A681
+	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 12:18:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CE46606A681
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nY2OvbWM
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NRmG4u87
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795781890; x=1827317890;
+  t=1795781892; x=1827317892;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=hk6fOM6BxJyh3LEbjPmYujbWO41/twlFB5pfL1kRfRo=;
-  b=nY2OvbWMJi/uCUVo0qlNM89V/02ANxeh9Wkzb8yripA4VpickUBJbjVO
-   Kq2lt0VjG/AMO9tXPd76SpL54NuRO3PjNy8zxLrgrl5TnKLgd1SzvUbdm
-   Z6vbb5nzCPUAXKpOOUzy2EwZw8XJRr/9CsjkaaCsd1soefa2G5nkX9Gok
-   gp9mFIMRIbhfzVR181QRnO2kQpVNpE8FbcYE8gbq62f1D/8dfWtOD5Y0u
-   HZiequho0zdA10OiDrxVrFzPCm+zTD6l9O2D4oYIUylO+p6UpGz5FnEM0
-   2isAfJ98ehOC5GDmb6OG1Tvsyomy1aHxAf3W5ZPwOAgpu2o0xlnk3BEsI
-   A==;
-X-CSE-ConnectionGUID: qELGuB5vS+qSOApQymTtZA==
-X-CSE-MsgGUID: tTm2UdETR/GIJYMnsKQfgg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4577838"
+  bh=DUeCXVPCSGPf7VzbTuK/uFWLLKkXfOjWLH5VrNhJBvs=;
+  b=NRmG4u87YAaGZvXnV2bbGYnNOVH700+ykyfRzq6a69p8iL4mSjTOzBlZ
+   JUoUnm8OMoT2u5m44iy0fkS8DCpYPh7GavfJ+SaHF2h0VM9mjK/JNfVwy
+   PDBlSiRPgDEkfQ8XULvO+z6dnKsuSvOGs7a2mJWLMaJfidBL1vG9NIaSG
+   3Yr8AXzFF76enJrwDBiBC63Irvhki1Jd/7D9bI409Hnf75PUTzvPyszkP
+   B57iwOPAv1Dlrl8OKMx8yBtvlXyI00OuE/YxUg0pxQAXouPEKZhSeEVvy
+   ZDO7+5FCHvjbwFXwH7ZioJ2VIBCIHS/fyhfngW58zJm0zbpzdzy3f+SCS
+   g==;
+X-CSE-ConnectionGUID: OdamRUqzTkGhxD7En32EhA==
+X-CSE-MsgGUID: Bvhj3wwARkCX9tZJfuiXnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4577843"
 X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
-   d="scan'208";a="4577838"
+   d="scan'208";a="4577843"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 04:18:10 -0800
-X-CSE-ConnectionGUID: ZQxHlworS8qBuGpzIyc9RQ==
-X-CSE-MsgGUID: eT10PFBZTym3YwAAWISj8g==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 04:18:11 -0800
+X-CSE-ConnectionGUID: B+ZpmUtURcKdWWwbpbZYaQ==
+X-CSE-MsgGUID: CXR4nsl7T5yQyuB5D91eIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
-   d="scan'208";a="12270665"
+   d="scan'208";a="12270667"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mnyman-desk.home) ([10.245.245.45])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 04:18:09 -0800
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 04:18:10 -0800
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	stable@vger.kernel.org,
 	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 01/10] usb: xhci: Fix ep0 maxpacket update on enabled slots
-Date: Fri, 27 Nov 2026 14:17:46 +0200
-Message-ID: <20261127121755.281420-2-mathias.nyman@linux.intel.com>
+Subject: [PATCH 02/10] xhci: check for halted host before accessing virt devices in xhci_check_args()
+Date: Fri, 27 Nov 2026 14:17:47 +0200
+Message-ID: <20261127121755.281420-3-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261127121755.281420-1-mathias.nyman@linux.intel.com>
 References: <20261127121755.281420-1-mathias.nyman@linux.intel.com>
@@ -84,71 +82,75 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Michal Pecio <michal.pecio@gmail.com>
+xhci_resume() may halt and reset xHC. It then frees all virt devices
+without holding xhci->lock, before the host is reinitialized and
+started again.
 
-A slot in Enabled state has uninitialized output contexts;
-it doesn't need and cannot accept Evaluate Context command.
-Attempting the command only results in a (harmless) warning,
-observed when core uses "old scheme" on a full-speed device:
+xhci_check_args() reads xhci->devs[udev->slot_id], and only checks
+for a halted host after it has dereferenced the virt device.
 
-  WARN: invalid context state for evaluate context command.
+If an URB is submitted while the virt devices are freed, this can lead
+to a NULL pointer dereference, or a use-after-free of a virt device
+whose rings and contexts were already freed.
 
-This problem doesn't seem to have existed before ep0 update
-was moved from urb_enqueue() to endpoint_reset(). USB core
-doesn't use URBs before enable_device() or address_device(),
-but it may call endpoint_reset() on ep0.
+This is possible during runtime resume. Userspace can allow a device
+opened via usbfs to runtime suspend with USBDEVFS_ALLOW_SUSPEND, and
+still submit URBs to it.
 
-A more serious bug has been identified by Sashiko review bot.
-Transaction Error of Address Device may cause the slot to be
-reallocated and left in Enabled state, but the input context
-is (needlessly) regenerated before actually being needed by
-the next Address Device. xhci_check_ep0_maxpacket() corrupts
-this context by copying uninitialized ep0 output context.
+Check for a halted host first in xhci_check_args(). XHCI_STATE_HALTED is
+set under xhci->lock by xhci_halt() before the virt devices are freed,
+and cleared only when xhci_start() starts the host again.
 
-This matters when core resets a device and doesn't reallocate
-udev after address_device() errors. Some HCs reject the next
-Address Device with Parameter Error, some break. ASMedia HCs
-write a Setup Stage TRB to the event ring and stop working:
-
-  ERROR unknown event type 2
-  INFO: task usbreset:4071 blocked for more than 122 seconds.
-
-This exact case is a relatively recent regression, but even
-if xhci_setup_device() didn't regenerate the input context
-on Transaction Error, next iteration could regenerate it and
-keep it there when command timeout leaves the slot Enabled.
-
-We can kill both bugs with one stone by checking slot state.
-If it's Enabled, do nothing and let next xhci_setup_device()
-configure ep0 later. It will actually ignore the packet size
-requested by core, but its defaults match core expectations
-at the time of address_device() and enable_device() calls.
-
-Fixes: e34900f46cd6 ("xhci: Reconfigure endpoint 0 max packet size only during endpoint reset")
-Fixes: af8e119f52e9 ("xhci: Fix Panther point NULL pointer deref at full-speed re-enumeration")
-Cc: stable@vger.kernel.org
-Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+Fixes: 203a86613fb3 ("xhci: Avoid NULL pointer deref when host dies.")
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/host/xhci.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index fc1b0a6b0429..6e0729a07e5f 100644
+index 6e0729a07e5f..b3df40f22d55 100644
 --- a/drivers/usb/host/xhci.c
 +++ b/drivers/usb/host/xhci.c
-@@ -1554,6 +1554,11 @@ static int xhci_check_ep0_maxpacket(struct xhci_hcd *xhci, struct xhci_virt_devi
- 	int hw_max_packet_size;
- 	int ret = 0;
+@@ -1514,6 +1514,14 @@ static int xhci_check_args(struct usb_hcd *hcd, struct usb_device *udev,
+ 	}
  
-+	/* Only slots initialized by successful Address Device command need updating */
-+	if (GET_SLOT_STATE(le32_to_cpu(xhci_get_slot_ctx(xhci, vdev->out_ctx)->dev_state))
-+	    == SLOT_STATE_ENABLED)
-+		return 0;
+ 	xhci = hcd_to_xhci(hcd);
 +
- 	ep_ctx = xhci_get_ep_ctx(xhci, vdev->out_ctx, 0);
- 	hw_max_packet_size = MAX_PACKET_DECODED(le32_to_cpu(ep_ctx->ep_info2));
- 	max_packet_size = usb_endpoint_maxp(&vdev->udev->ep0.desc);
++	/*
++	 * Check halted before touching virt devices. Resume halts the host and
++	 * frees all virt devices without xhci->lock if it needs to be reset.
++	 */
++	if (xhci->xhc_state & XHCI_STATE_HALTED)
++		return -ENODEV;
++
+ 	if (check_virt_dev) {
+ 		if (!udev->slot_id || !xhci->devs[udev->slot_id]) {
+ 			xhci_dbg(xhci, "xHCI %s called with unaddressed device\n",
+@@ -1529,9 +1537,6 @@ static int xhci_check_args(struct usb_hcd *hcd, struct usb_device *udev,
+ 		}
+ 	}
+ 
+-	if (xhci->xhc_state & XHCI_STATE_HALTED)
+-		return -ENODEV;
+-
+ 	return 1;
+ }
+ 
+@@ -4132,7 +4137,14 @@ static void xhci_free_dev(struct usb_hcd *hcd, struct usb_device *udev)
+ 	if (ret <= 0 && ret != -ENODEV)
+ 		return;
+ 
++	/* Halted host returns -ENODEV before virt device is checked */
++	if (!udev->slot_id || !xhci->devs[udev->slot_id])
++		return;
++
+ 	virt_dev = xhci->devs[udev->slot_id];
++	if (virt_dev->udev != udev)
++		return;
++
+ 	slot_ctx = xhci_get_slot_ctx(xhci, virt_dev->out_ctx);
+ 	trace_xhci_free_dev(slot_ctx);
+ 
 -- 
 2.43.0
 
