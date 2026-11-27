@@ -1,94 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795773735;
-	b=Zvmb1dZnPq7IWtq31USHL8vYGH283nbwPpwA+4q04aim4ZtCgwfJVTO7AKeupC5BwyK8
-	 63E/Ix+H5wxR5gg0QnvMKpUdDk/JlisLwMYdMG5XS7IADWmF7xZUB+WvdA7VhuMptzygf
-	 W4qDtc8IpB8i9Mgq8xGxkN7ywYYYbxabBkA1A0Q71Xedz1h0kbPxiwjkZdnhnN/rMXan9
-	 emZykIcG+s54x5uY7u9DOeIidE9WGHS6QSqLwguNhJ9p8H95313KQhNFXTEXnIEhbmdkm
-	 IVygfb6dIX9fkAI+UEznmqb7LnCX91XbgalUn8E0RFHsG77/jFaffcgieShLIBmD7Vg==
+	t=1795774099;
+	b=GAeWlqIWZCWwaWHuvl3BZu0RMLaC1/x2mz1SppA4V8mBt3zoZIGsFWAXlJxZ25peA4qw
+	 6alQmQthcHP8gItb5o/4bjm12TZ+G01qb502I8rt1Wk5iUYUv7IGgyZiq3UwvRjS5yRze
+	 N+K2Kya5YKJgxnVnqXvYP/exXWvlvJp6raFyW9GW041vhGHTsAnVPeWUlkbngN5UI/UXv
+	 YmKADYMq6td4b++Qfi96vNIr9200knVOlmZ6OYkZl54+DbwpRoO6l9Hw8JgU+Fv/SOXus
+	 1IUrm5fm1ZvkKf3CsIobEhOaGZaL9VK/hszD6hi3+3MSPXOPRFAbKtkikv8ufp2/4wQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795773735;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Ak9eqmY1Ln0Y6jdk2Wk2nFh2b0XNH1fDqNSGEcSqR98=;
-	b=W3iWfvejLcwf/pxJNIIT3pd2b14UXt++mLFWLheDiJbn5JWtViBTOO9w0ElBm/VSrmda
-	 Pjwqy/Qp3P/xGLtHtPG6vwiNPTDzeRWavyaoiaX3CzTxLfg/WUjFUGgG/HWYhg0RCqhNs
-	 6Th820gYCsDm3kzkBsL59VtdGIrd2vi/cBXwxDbXXBkYkhmEKQekBSAjixa6i2o83wyx8
-	 CGxoGy+oSYPFsId178xPUyY7Drg6ARxK6nHpVpot5gVT41AZU8TR2GWNxUrVjl/p/R8ZZ
-	 KOellLODHqLgsdM3Y9Dx8krlvEusrChjwB1/u/KR+lxnMCrN1tygFbkFC5/h1XyN/SA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795774099;
+	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=HRyaekjRkhNgArIFD/le5my/BFv/PKpDbGvsEYtTGa8=;
+	b=Ooa5Dlq9IxpR1Tyn6RPVndA9D4uMUbBLkhRdnjYwqHXdkVs8GTCoCHLzzx7TLQ7DGbNq
+	 MBO47EJ/gistZRuX27ZYq7GHgjN0O/sth82Mei4z4r7IeyCPU6a+T+ciYOHJa/s6849wM
+	 MHkS4SqKZ1vDAK7r9w6dEBmuTtFJ85Kix+jGFLsm0SmiYz+L/1UL87cMGI+2QJgsHoQA+
+	 bbgqdZRrw8oVTer+6cBjyK93HJrH2zQMoaS9r/EsCjS/adolojPIqJRtw3vlALZro56aw
+	 HShLmx4B+blcz9Pk96/OMikI+IWnNQBSCUcqsSUWNvRjGJJrWspdvaj/LPCK10GIokg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gBa2fzrm;
-	arc=none smtp.remote-ip=209.85.208.52
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=d-silva.org;
+	spf=pass smtp.mailfrom=d-silva.org;
+	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=Q6mJxVPH;
+	arc=none smtp.remote-ip=119.15.109.137
+Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01D9606A31E
-	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 10:02:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F01D9606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F709606A31C;
+	Fri, 27 Nov 2026 10:08:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F709606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gBa2fzrm
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6b547d6c07bso10459327a12.1
-        for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 02:02:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795773733; x=1796378533; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Ak9eqmY1Ln0Y6jdk2Wk2nFh2b0XNH1fDqNSGEcSqR98=;
-        b=gBa2fzrmuKv9q+IYId8o4DIWpz7GYyg1ToUCA7rNLu4VpgbR81U3a/yWJnOmt4dqxZ
-         0BpAP9ODagQK53u8DmrJihUT7q4Q/+bjL5h5lJ42aDoBbPKV08f/mHTHldDo5ASBz+Xp
-         IfSOt0YDtrru1sCUwO4agpZM67WjJF4XW2v2Z+3zjFQGJ4LeR+zQ/t9S/dEe6CYFGJYM
-         ozoiuqN+6UG34Dz2ZQLdfjiyyBSemMTg92FOszy8xvBJx1+q4VsKV0bJiYbTscoYxyVi
-         jbwRGalJN9awo5IysTEB/SC0ja+9VaoM96xDtFIYcL7YSc80NSD8gwYuD6TNrX2QCes5
-         HK4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795773733; x=1796378533;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ak9eqmY1Ln0Y6jdk2Wk2nFh2b0XNH1fDqNSGEcSqR98=;
-        b=Pg8q3lQ8HF+9kDqaCBAiaGRsaOsJFEq+7s7JZ/RCYLBz675FcFm8VjgE66bS8xCHU9
-         RoIPlRGgiWRsRpOiU+5DP7fpaYRiFFrkabQ1435vgKrfomi5/mzfLjsOu3TmFajgZnuB
-         xVpDjkrXSmRn1pO1yOQZ6y7B9TmBfxmnUMJMrs8xYI3JWJLQFW/0MuAHYgemd6nW3QE1
-         4eaoTIvW3cbrIOwrn2VuJ0CZ7kJ98FcWjCKszh07kxIK3ZtgK4cqvtghv1l9fHFKsKCR
-         PYSiXZjAeuvqX6/AhUaGDJYumINMKuEGlxXYjwC8OVsbc9DVKJBC0EkIZjqpf+YQfAwy
-         MGwQ==
-X-Gm-Message-State: APuU4Z/eMQGUCAxhbjbkSPyUa7OiZ/PlxtRBN9yzKR0cyT59GokQBvYB
-	qj2wwLZJLQBP+kl/rqFgXG/euU6QtCUKmJ0v7URRO7L8Hv+RpmOMz4n3sTgRoA==
-X-Gm-Gg: AZFdTZdp5gnthtELy0N8gkRJ26DHbX9jIft8Zyu9pypgWZuKFRwJx/M7Buau4DIJw8g
-	aa7MBKvGA7XvgYVpX9wleJJ4TACxbuJA+Nt+tAluuDsdjd7w9ht2QlgD0DK+rolRNC6/6KsSlCm
-	4SHuQS3/G/WSfNIDMna42UBTSWTdJaQ0AnO+PDB17Gcss+oeOq6uG0aXbVpCurFZVlvLmXLzeUu
-	wBPjGe/sxUl0EdIAJ6tPNSTfP3LH6xSuOSVZFAXvVHoOknNgNcQureki9AI7Rsxo5BLthzo3p+h
-	NBss2xc6QtNbJB6UenBzRdUKJ+udY76SN9UkZeZHQZ+B0+fHJJrOtd39uXQ7E6BjIRmrhmcLX/E
-	QSfIvs9QjO1yTCjOmlWIU0B683A/xCxLQzLLwGzWRB2fKqaNigeFvq7gUnfFOTgagk4BVv30GG8
-	DM0dljgbj9bDWG6YtyE4EWk+KcFOv7CKJLxvHrIuSGVY/8uehZm3ANuTZg//ls6mwhGCc3BUZsD
-	09pfTDFmRKAFpde9O3McPw+GTkmtizTc6cxgDcCSPVA/Y2LQ6zqbJVa5peS9/u9yddwjfvRQ9jx
-	sVynfs9bmSRe4zRqlozYx0LUoMlq0byPYB48dLmLeE2bcd9I89ntsj2588s=
-X-Received: by 2002:a05:6402:13c8:b0:6b6:f5b0:889a with SMTP id 4fb4d7f45d1cf-6ba37eb8461mr19411638a12.35.1795773733103;
-        Fri, 27 Nov 2026 02:02:13 -0800 (PST)
-Received: from foxbook (bfj60.neoplus.adsl.tpnet.pl. [83.28.47.60])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm43268467f8f.18.2026.11.27.02.02.12
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 27 Nov 2026 02:02:12 -0800 (PST)
-Date: Fri, 27 Nov 2026 11:02:16 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: xhci: Demote isoch buffer overrun message to debug
- level
-Message-ID: <20261127110216.16d4db3b.michal.pecio@gmail.com>
-In-Reply-To: <d34713e3-edf0-4e37-bfaf-73ad6e286c32@linux.intel.com>
-References: <20261123-xhci-overrun-dbg-v1-1-4e5a2f11740d@albefly.com>
-	<sashiko-outbox-229825@kernel.org>
-	<d34713e3-edf0-4e37-bfaf-73ad6e286c32@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=Q6mJxVPH
+Received: from Hawking.lan (hawking.lan [10.0.1.4])
+	by www.nmnhosting.com (Postfix) with ESMTP id 3EDE24C963;
+	Fri, 27 Nov 2026 21:08:08 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
+	t=1795774088;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=HRyaekjRkhNgArIFD/le5my/BFv/PKpDbGvsEYtTGa8=;
+	b=Q6mJxVPHh2FEeguOcRqFUb6Ccq295M2PG6f727IicOeWjkvIgCTJp+gPUBNyltccfgzPm/
+	Ko2p6mz7dWIVgYt0fD6FfqTlyfsKCR4541MnO2vNeLnztFR0tB+dR5xZJwcyUq7HnbTNT9
+	qbLxE4LqY2OpnmITno9syPKkVEl3b5A3WwjtBJxV10EksrK9+FqYwC2haNN4SO0vD+u3JM
+	DeTVKFJZ3Xvs4huXk3IpheQ2YTvQOKK8gQQV8+bI9yx2cEE6TETUT7yABH9ttAGmdBpSWd
+	d6682GcQkWg21LpTejeh9rMWSpgDermBmsvPHnO5HzE8GUeBcDk5tFndIK0WRw==
+X-GPT-Reason: legitimate. This is a technical software patch notification
+	(Linux kernel development) which perfectly matches the recipient's
+	personal/business profile (alastair@d-silva.org). The message
+	contains specific technical details (Allwinner A733 USB support),
+	links to a reputable domain (lore.kernel.org), and follows a standard
+	development workflow with no signs of marketing, urgency, or phishing.
+From: Alastair D'Silva <alastair@d-silva.org>
+To: Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Junhui Liu <junhui.liu@pigmoral.tech>,
+	linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alastair D'Silva <alastair@d-silva.org>
+Subject: [PATCH 0/6] Add Allwinner A733 USB 2.0 host support
+Date: Fri, 27 Nov 2026 21:08:02 +1100
+Message-ID: <20261127100808.2292229-1-alastair@d-silva.org>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -98,34 +90,46 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 25 Nov 2026 19:59:41 +0200, Mathias Nyman wrote:
-> On 11/23/26 20:31, sashiko-bot@kernel.org wrote:
-> > [Severity: Critical]
-> > This problem wasn't introduced by this patch, but can handle_tx_event()
-> > pass a freed td pointer to xhci_handle_halted_endpoint() [1]?  
-> 
-> Adding the patch, and writing a separate fix for this sashiko reported issue.
+This series adds USB 2.0 host support (USB PHY, EHCI, and OHCI) for the
+Allwinner A733 (sun60i-a733) SoC and enables USB1 on the Xunlong OrangePi
+4 Pro. USB 3.0 (DWC3, u2phy, ComboPHY) is left for a separate series.
 
-Hi Mathias,
+Expected result: the A733 USB 2.0 PHY, EHCI, and OHCI host controllers
+probe without clk_ignore_unused, enable the USB1 VBUS regulator, and
+enumerate USB 2.0 devices with full DMA transfers.
 
-Severity is vastly overstated. For xhci_halted_host_endpoint() to
-return true, we need either a Babble/Transaction/Split Error on an
-endpoint whose output context indicates non-isochronous (while being
-isochronous and using error_mid_td), or Stall Error on isochronous.
-Either case is a severe hardware bug.
+Tested on the Xunlong OrangePi 4 Pro with a USB 2.0 hub and a SanDisk
+Ultra Fit flash drive (up to 32.0 MiB/s sequential reads via dd).
 
-Simultaneously, we need another HW bug which generates such events
-on an empty ring, or a SW bug which gives back TDs before execution.
-I think these cases of unlinking from a still-running endpoint have
-mostly been eliminated by now and we don't need to worry about events
-on empty rings very much anymore.
+Prerequisites (on top of linux-next next-20261125):
+- arm64: dts: allwinner: add A733 SoC description
+  https://lore.kernel.org/r/20261126172253.1097838-2-andre.przywara@arm.com
+- arm64: dts: allwinner: Add Xunlong OrangePi 4 Pro support
+  https://lore.kernel.org/r/20261127065343.1449675-1-alastair@d-silva.org
 
-That being said, clearing 'td' after error mid TD handling or using
-a different temporary variable there would make the code more robust
-against potential "oopsies" of this sort, so that makes sense.
+Alastair D'Silva (6):
+  dt-bindings: phy: allwinner,sun50i-a64-usb-phy: Add Allwinner A733
+  dt-bindings: usb: generic-{ehci,ohci}: Add Allwinner A733
+  clk: sunxi-ng: a733: Mark mbus-msi-lite2 clock as critical
+  phy: allwinner: sun4i-usb: Add Allwinner A733 support
+  arm64: dts: allwinner: sun60i-a733: Add USB 2.0 host nodes
+  arm64: dts: allwinner: sun60i-a733-orangepi-4-pro: Enable USB 2.0 host
 
-Regards,
-Michal
+ .../phy/allwinner,sun50i-a64-usb-phy.yaml     |  24 ++++
+ .../devicetree/bindings/usb/generic-ehci.yaml |   1 +
+ .../devicetree/bindings/usb/generic-ohci.yaml |   1 +
+ .../allwinner/sun60i-a733-orangepi-4-pro.dts  |  31 +++++
+ .../arm64/boot/dts/allwinner/sun60i-a733.dtsi |  82 ++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun60i-a733.c        |   3 +-
+ drivers/phy/allwinner/phy-sun4i-usb.c         | 119 +++++++++++++-----
+ 7 files changed, 229 insertions(+), 32 deletions(-)
+
+base-commit: 9437046953b2fb3bf55b36582450ea0267df82a7
+prerequisite-patch-id: 0279f281cd59cf54bceee39b0fa4d0b6a7b87c48
+prerequisite-patch-id: 309a5a3ca5b216915907263dea7024263abf1d1c
+prerequisite-patch-id: 55e543b9854c7ae2fa86969233d05ccadd3792e9
+-- 
+2.53.0
+
