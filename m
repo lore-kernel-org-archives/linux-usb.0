@@ -1,81 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795790608;
-	b=ssL/chNHEZUQnyM3H1EZ75V3saB0y3PIVIv1mrCQK2IsFtufJmahZyRqrMSzkE+yNFet
-	 ZO4Fxlwswqvf+7D8cXrk2vWudK1LRHuU5EXbiJjmm9DZKnxkF5NgJ9GJRU5BJ+DDCpEFk
-	 4uBXl9VkPybehoDfIsui2dkm5VmXmRnakPjjn6G1jqBflaUYCqm7S9LOzAqlvr7m9N/5i
-	 hLkdtQ/stG+Wv47KPeJ+32F9f8ANekPIpFJtEBtfm2ZRmoInCwxs4EblcInA3ZCjo4D/1
-	 e3jAYmlMPwhRq//zZ1Sb06mYe1eHhLd8JzFVm99sIMtJlo/o3XoxE8+rdGRy22RPAiQ==
+	t=1795790758;
+	b=GJ++DJgHFNQss66qcwNHEOIAuB+d8BN/n99PmjTKUT0/GF6L5dko2KtkeHnPw5PKceGY
+	 kbLx33cGhS0dParG4SwsqzPb+S5TVguKsF+vcjMU2HeouzCW5wL6T3T0Xz8IPCpPCf+6Q
+	 OCCK1v4Tgg8q6qsWykGIxgQB454fcrq5RcLRBxC47fY9Yly8CtXnzUnsyV3u78/+8wvnR
+	 NcTJicUaWoksTHIPF1snU9uOsvKMdPIcFIcUBm9iXWRvz/F3hyztyijkOdF2A/hxC8n23
+	 6FYRlJBWuxfUU/jGEKRYbd26LxiC4SHSW+RO+19uVMKf8ngqgC6IGCIpBBY+FuOqddQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795790608;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795790758;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=UakudTfMFD0Grv+nF2HayxQINkZzLgeIdbc8TIqvNyU=;
-	b=kysZcyyNiIt/IViUWRXnkwkBpRo4txUGjuZELQtpBxH8Hu2Rp4K7ZsbStSJwZun7msM1
-	 JmGSPo0cJoCGQXYE45dOUwQOZPC/05opjwalFA4BnF3AzN7Ay2yfwhTd8ByTkgl5VStZZ
-	 X27wkD9Lps4se9NHr//3xu9HKvjnLeSjUNgxTICezZWOO9w39nhmfVUj2sgnjO40JuAWD
-	 dhs1nTg7ihx6+jytiMRDiCrUeMs6/VXLU9HkGxBNWGLqDJm3MBCl0LrK2lLhNkuHDznR/
-	 K9qCH9yqzvLxVIN+THRbjz0GRAHC47r51+Kp8r9V7rTUs84yaDHoVe3ljNSp8KERLlg==
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=ALvyzdIFixfKHJ2qzeSOm/bjJPNlu/WA/9jITs5VP6Q=;
+	b=fPkp0zkZNBwSB/gavEvONjJ0PZLPVlVpNQo0OYnXH4QMLstpgAijVXk6o6qmfp6R5pOC
+	 H5wNE8kc47m+DcYXGdQjfSz+mnnYsNAibhDdN3ZKyZM0AEiK5PIknpV7KrNYdb2CFpNx1
+	 aMMjobPfBjWDcAlh1M37yEOZTVnfun2gRBH3I9S6++nCtWyHfolLs/XrUV44NrggkZc0O
+	 LOAoCY46wJSyt1kmE9ntsHVUQoZZxOqononX6W/GlW4eutJ6dCxR76QR5gGeljCupgLC0
+	 Rgooh74D1b0ecHncs3kJeWtcHPyNXuhX3GxiTxyb/s66J9xdYY9gfCIW6NL9XmldASg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.214.177
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	dmarc=pass header.from=pqshield.com;
+	spf=pass smtp.mailfrom=pqshield.com;
+	dkim=pass header.d=pqshield.com header.i=@pqshield.com header.a=rsa-sha256 header.s=google header.b=Qm+GDqqy;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BAF2606A321
-	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 14:43:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BAF2606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2f02ee04378so63747075ad.1
-        for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 06:43:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51DC606A321
+	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 14:45:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C51DC606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=pqshield.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pqshield.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=pqshield.com header.i=@pqshield.com header.a=rsa-sha256 header.s=google header.b=Qm+GDqqy
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso63566545e9.0
+        for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 06:45:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pqshield.com; s=google; t=1795790756; x=1796395556; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ALvyzdIFixfKHJ2qzeSOm/bjJPNlu/WA/9jITs5VP6Q=;
+        b=Qm+GDqqyozVQmEXcbQaHYGtSMG3e07KVs2j8jmDxXyk7NDkoO9TPPVXUSRoziF6Q1q
+         wfMj4jioA3SY2KpGxD8AfZ/I+Afp7e9NjZv0eXciTnsDB+H3OOQJ2ZhAuHnxfQpgPnop
+         +bMqLW336b2iPLK9nCKwwg8GD/k+GerdlttzHrT9iiTJUj8P8lhuDXnnajs09Cvnr4KE
+         ZHyKCaVgX9FB7/nN22yeijhL9CGV9c6yAPOZbIlkaKsQfoT3mjxI0RQokirZ7gGihs/M
+         cJWJn6/bXGTQ1YVDBs0Z9WhBT1/Ao0fB+nceIvysc8SkK84rBjBpR/FBD50GTWo7xacM
+         hISg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795790607; x=1796395407;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=UakudTfMFD0Grv+nF2HayxQINkZzLgeIdbc8TIqvNyU=;
-        b=YfbC/YtWUv9ARymqhLmcB4RlznwRY9ZBikpAnBT4//HSTVRvH2k0WWLpM0dcwd8NFx
-         diCh+8iRLS/Swu54ANLEE3y92w6pPlIhK9j/AXlDgE5B9oqAPc1OIObam+pqrMc8MQ9o
-         PEFNg6/UPfwJUvvyTZTP1UF7QWY90FByBu67Ag9l63DHltTeZKd28Toeu/lEoz4agJ1s
-         I6mvsOBvEOUrtjAxV2kV0Lb/ysZaB5tlgAd6n2OnXS0d1HGsboKSWNlOteIw5EapX+uV
-         oGrY9QDxwb/89n0v3jHiTPAFKfR9uNdT0/tfLbPJ6jovmf+KkZPAqaOOsBQ0BihPX0H/
-         HDgA==
-X-Forwarded-Encrypted: i=1; AL+hErEnnB94P1nxZsbuk2smJw5HtvEEGlYVRAljoHRMqbcaQOtdWMy3eksa33YMdam9om4xpGRYfeKX/xI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+RgjuvpiLuqWIP4btvovJ5htZkTpI+gFj1apPpmRxmm5hiZ/0c
-	/UpzgEaEowQsZlRu4x3y5VSTUbrasSjZlxCj5ZD3fxAWe8xpfX/t6VnO
-X-Gm-Gg: AZFdTZfihpPYx73XU9GPGxdv1F47MQWuYAYCRmQbk9lkAz9mrubTWQcFIWgITzww/LO
-	X/9wVGjShe5Z/OCw0e48hFfmVPxzXNidjeFo9s95kZLl6zfM2wu/VFuZ3HgnQqqRKehmRq8GDHL
-	NKdY1TOGmWf/N/P0PKmrI36GkC/Ba5t+H4Nx70l3BwO8L5LBH34VLO5k2Xy8jjWf68TfEjA/BvP
-	PFxLgwfL9x0zfuw8iqAs7bQd+tQqQgnRt14EuxT5qUM1Cfioa1fK0rv7iBQ4HySUEYi87LXjzQv
-	bfTukqExgXATzyXWgkPszhOci5MW23o/CsIQrtC6kxEjuFzJD5pbEk7v8eDi0tCCB+hm+s9FnP+
-	H2rBhOSn3gyvP14n65/pDEowpkrwgjj9slXwpnRd6+5OzOL+V3Mz5CADs4r/3FaOW6JMJU3WTng
-	LIc2F/FABd82QjNdIDTOCZpSN7vv19qc6w7Ixt4t3Bewo7Ty20mgW2ZGxZ2O7HG7/yI2XKjmkMb
-	qoWgNsF9XPPBLe7DAJOPPOGqAM5ypt+tP0Tj73dc+LjZrh3MgNgaKqhKS14mmFAcXnjl8T3E53Q
-	k6IQOuN0SIybsu+z5nmQFle4uzshOzreINWsb+ryx8KnFdjHhAAwDc0BRCo3iM3conu7QvtRmFw
-	xS2PgDm2Xm9bAthwDBMiABMXsutqhoLpl0jkJQQ2/UKq2jA==
-X-Received: by 2002:a17:902:e802:b0:2ef:dbee:373e with SMTP id d9443c01a7336-2f03efb10a4mr297498585ad.6.1795790606590;
-        Fri, 27 Nov 2026 06:43:26 -0800 (PST)
-Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([216.236.36.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03ee84294sm120659185ad.9.2026.11.27.06.43.23
+        d=1e100.net; s=20260707; t=1795790756; x=1796395556;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ALvyzdIFixfKHJ2qzeSOm/bjJPNlu/WA/9jITs5VP6Q=;
+        b=NGcAifuOtlVJnTqtDBFznSpTSuYSo5JIevSABZ/jgBgTbqhLYC2Yul7wpFVakU0bVh
+         Y3CxvWlaeUmtsP7NAhAnp3BiwG8xEGgf/GmxL2UlTrre8WaEFzGScF31qtBg8J/buEuA
+         bHZo0qamTTy1qEcFe10D6GYMNR/JDADwVUmx2ETdXvshblruw1oOvQBNHoEZuEIW9uSE
+         vPDo/jmL0xhqV4fgqkd45yQtzUBKA2bkZI83ojTVpAg0hoUjz9SkfzYvKhU5TEHsOLyo
+         BrNMZJrJEfP77joWfkF0414lJ9/OGiV9KNkEc9TCjV4spHFanTcgnaT4VwyZl8ouLU9o
+         SHJw==
+X-Gm-Message-State: APuU4Z9v+XtXFmqJm9RQF9iq+lSB7GdDh2gxp9Jcy2VirX7HhvirIUb+
+	rxDr4o/HkbKDHgN7zRDkl37tPP0vhDP4k/Ztr52ESXYKHjJ8vphVLn1AhnQQMm216rQ=
+X-Gm-Gg: AZFdTZf6cXG0CmXUU9oA4+GtZyEVB7yFqDUaTdATPRhs0a1C1ToGSYNxgBi0nD26jGs
+	j37vMtikIpwW+9tcCBhELeAcRQnAeZt6f1ZpwUp/JTOw1ks7Kd6clRCu/OIUbuSI7KLLtsXkVHm
+	1wQp79GhEIg3oS9ZUCdJJLFi90VL+hu1w43Mo3nqHxo4VT3ypU3BDZiKQdHlXeg8RqIqc/HM3l6
+	gU7AaERXONmgM0bHgpmOysEXS+UOWO6qTFNAtPvtYzEPgd06b0tfJi3qGdv09OwM/ynytdHv4st
+	iygZHuEqnJLa5XrDMS5cYAASKoBnUjBzm5TLI4Lrg8JWWVIgThcQ3FurfGPQdynh+KeasRl851T
+	0RbVTdpi346wzF+OAYxX7tBBOpJWwncqzC4qS2bfkqx9vQZYKZYC6HYtVH+O8PnxLNwsUvbhiv1
+	EbhyNZqfEZl/XVJ2aSaoPiCgSaPvis5IpMk65vmyBRIMXJLlqUfB5pVwW6UrMIpe7Fw9Gxe2ZCe
+	cRl9J/hZs5tBGDyljHYBxskjzxkmFWLz3D2YSiCKACb4UsHmMkMgkdmomZGl4N1nMBMSuyPTx4/
+	sFNXO1DgbkxMRcUtFnrH/ONyN0sNvIlR+4Ic9OiMIA6ibHlvixvawpQovfiMDD5Tw/2qR2NqFD+
+	yGb+zpovuffb9bg/X+uxYzQagFLs=
+X-Received: by 2002:a05:600c:1115:b0:4bb:a602:6c8b with SMTP id 5b1f17b1804b1-4bba60271damr135352625e9.14.1795790756034;
+        Fri, 27 Nov 2026 06:45:56 -0800 (PST)
+Received: from lucas-pascal-pqshield.wework.com (host.178.94.68.195.rev.coltfrance.com. [195.68.94.178])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6a67fe75sm54650190f8f.24.2026.11.27.06.45.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 06:43:26 -0800 (PST)
-From: Hongyu Xie <xiehongyu1@kylinos.cn>
-To: Shuah Khan <skhan@linuxfoundation.org>, shuah@kernel.org,
- valentina.manea.m@gmail.com, gregkh@linuxfoundation.org
-Cc: i@zenithal.me, bgmerrell@novell.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- syzbot+b6f11035e572f08bc20f@syzkaller.appspotmail.com,
- syzbot+a7edecbf389d11a369d4@syzkaller.appspotmail.com,
- syzbot+bfa320b67fcbe2583c6f@syzkaller.appspotmail.com
-Subject: [PATCH v3] usbip: vhci_hcd: time out unanswered unlink requests
-Date: Fri, 27 Nov 2026 22:43:22 +0800
-Message-ID: <179579060266.47199.14552707473292683159@kylinos.cn>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 27 Nov 2026 06:45:55 -0800 (PST)
+From: Lucas Pascal <lucas.pascal@pqshield.com>
+To: valentina.manea.m@gmail.com,
+	shuah@kernel.org,
+	i@zenithal.me,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jeffin Philip <jeffinphilip14@gmail.com>,
+	Lucas Pascal <lucas.pascal@pqshield.com>,
+	stable@vger.kernel.org,
+	syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com
+Subject: [PATCH] usbip: usbip_host: fix invalid device pointer use in do_rebind()
+Date: Fri, 27 Nov 2026 15:45:51 +0100
+Message-ID: <20261127144551.350348-1-lucas.pascal@pqshield.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -85,361 +100,187 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-When the connection to the peer is alive, vhci_urb_dequeue() only queues
-a CMD_UNLINK PDU and relies on the peer to send RET_UNLINK (or
-RET_SUBMIT) before the unlinked URB is given back.  A peer that keeps
-the socket open but never answers therefore makes usb_kill_urb() wait
-forever.  The waiter is typically the hub work item, which runs with
-the shared address0_mutex held, so every later task that needs that
-mutex or the device lock chain - a second attach, usbfs open/release/
-ioctl, udev - piles up behind it and the whole USB stack wedges.
+stub_probe() saves the usb_device in the busid table without taking a
+reference, and nothing clears it when the device goes away. Writing the
+busid to the "rebind" attribute, the last step of "usbip unbind", passes
+that pointer to device_attach() to give the device back to its original
+driver; so does stub_device_rebind() when the module is removed.
 
-syzbot reports this shape in three long-lived bugs:
-  INFO: task hung in hub_port_init
-  INFO: task hung in hub_event
-  INFO: task hung in usbdev_release
+That pointer is invalid in two cases:
 
-Give every queued unlink request a deadline of its own and arm a
-per-device watchdog; when the watchdog fires, it tears the connection
-down through the existing error path (VDEV_EVENT_ERROR_TCP) if any
-active request is still unanswered past its own deadline.  The teardown
-already knows how to give back every pending URB with -ENODEV, and a
-RET_UNLINK that arrives late (or never) after that is handled by the
-existing "already given back" paths.
+- The device was disconnected since it was bound to usbip-host, and
+  do_rebind() uses a freed usb_device. This happens when a device stops
+  responding while exported: closing its usbip connection makes
+  usbip-host reset it, the reset fails and the hub driver disconnects
+  it. The following "usbip unbind" oopses:
 
-Queueing an unlink arms the watchdog with timer_reduce() so newer
-requests cannot push the expiry past an older pending deadline.  When a
-request is answered via RET_UNLINK, or its target URB completes first
-via RET_SUBMIT, the watchdog is re-armed to the earliest remaining
-active deadline or cancelled when none remains; if the callback fires
-early, it likewise re-arms to the next pending deadline.  Connection
-cleanup stops the timer with timer_delete_sync() before port reset so an
-in-flight callback cannot queue a stale teardown against a later
-attachment, and controller removal calls timer_shutdown_sync() before
-posting VDEV_EVENT_REMOVED so no callback can queue work after
-usbip_stop_eh() returns.
+    BUG: kernel NULL pointer dereference, address: 00000000000000e0
+    RIP: 0010:__device_attach+0x3b/0x1e0
+    Call Trace:
+     device_attach+0x10/0x20
+     do_rebind.isra.0+0x3b/0xa0 [usbip_host]
+     rebind_store+0x99/0x140 [usbip_host]
+     drv_attr_store+0x24/0x50
+     sysfs_kf_write+0x72/0x90
+     kernfs_fop_write_iter+0x161/0x1f0
+     vfs_write+0x29e/0x480
+     ksys_write+0x71/0xf0
 
-In a regular setup, any network stall that leaves the TCP connection
-established while the peer stops replying (such as a wedged proxy, a
-firewall dropping server-to-client traffic, or a hung server) triggers
-this whenever a client control transfer times out into usb_kill_urb().
-Verified end to end with usbipd exporting g_serial on usbip-vudc and
-usbip attach through a TCP relay stopped with SIGSTOP after enumeration:
-deauthorizing the device hangs forever in usb_kill_urb() without this
-patch, whereas with it the 5s watchdog tears the connection down and
-the writer returns cleanly.
+  do_rebind() holds the parent hub's device lock at that point, which is
+  never released: every later operation on that hub blocks (hub_event(),
+  usbdev_open(), driver unbinds), and only a reboot recovers.
 
-A similar fix was proposed as an RFC by the syzbot assisted-fix
-pipeline; this version arms a single per-device watchdog instead of a
-timer per unlink request.
+- The busid was added to match_busid but never bound to usbip-host, and
+  the pointer is NULL, as found by syzbot:
 
-Fixes: 04679b3489e0 ("Staging: USB/IP: add client driver")
-Reported-by: syzbot+b6f11035e572f08bc20f@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?id=3D58aef18c1ad93d87652f24a0bc7a74=
-b6d98ac710
-Reported-by: syzbot+a7edecbf389d11a369d4@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?id=3D7ff8ae4abed51ff2354c1addb66414=
-3ec26ca588
-Reported-by: syzbot+bfa320b67fcbe2583c6f@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?id=3D048da78aba1a3a6139509492b2be50=
-5b2d223762
-Link: https://lore.kernel.org/all/1d6db53d-07ab-46ad-adc4-d09c95b2c83f@mail.k=
-ernel.org/
-Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+    KASAN: null-ptr-deref in range [0x00000000000000f0-0x00000000000000f7]
+    RIP: 0010:do_rebind drivers/usb/usbip/stub_main.c:204 [inline]
+    RIP: 0010:rebind_store+0x147/0x2d0 drivers/usb/usbip/stub_main.c:264
+
+Look the device up by its name instead, and hold a reference while it is
+used, as the driver core's bind, unbind and drivers_probe attributes do.
+When there is no such device there is nothing to rebind:
+rebind_store() still removes the busid from the table, so that
+usbip-host can claim the device again once it comes back.
+
+Fixes: a46034ca57ed ("staging: usbip: trigger driver probing after unbinding from usbip-host")
+Cc: stable@vger.kernel.org
+Reported-by: syzbot+af76b01c9a0f0ab60fb0@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=af76b01c9a0f0ab60fb0
+Signed-off-by: Lucas Pascal <lucas.pascal@pqshield.com>
 ---
-Changes in v3:
-- Arm the watchdog with timer_reduce() in vhci_urb_dequeue() and re-arm
-  it to the earliest remaining active deadline when requests complete or
-  when the callback wakes early, preventing newer unlinks from starving
-  an older deadline.
-- Mark matching queued unlinks completed when their target URB finishes
-  via RET_SUBMIT (and skip queueing CMD_UNLINK if vhci_rx already claimed
-  urb->hcpriv) so a lazy server RET_UNLINK cannot trigger a spurious
-  timeout on an idle connection.
-- Use timer_delete_sync() in vhci_device_unlink_cleanup() so an in-flight
-  timeout callback cannot post VDEV_EVENT_ERROR_TCP after port reset.
-- Move timer_shutdown_sync() before VDEV_EVENT_REMOVED in vhci_stop() so
-  a racing timeout callback cannot queue event work after usbip_stop_eh().
-- Link to v2: https://lore.kernel.org/r/179577001740.23588.175989404245058093=
-86@kylinos.cn
 
-Changes in v2:
-- Document regular-setup reproduction and end-to-end usbipd/vhci test
-  verification in the commit message per Shuah Khan's question on v1
-  (no code changes).
-- Link to v1: https://lore.kernel.org/r/20261006125652.10296-1-xiehongyu1@kyl=
-inos.cn
+Notes:
+    Developed with an AI coding assistant (Claude Code, Claude Opus 5.5),
+    which traced the production oops to the pointer saved by stub_probe(),
+    wrote the fix, the reproducer and most of this changelog. I reviewed
+    and tested the result.
+    
+    Seen twice on production servers (v7.0 distribution kernels), where the
+    oops left the hub lock held and the server needed a SysRq reboot.
+    
+    Reproduced on v7.4-rc4 (9437ee8b6cf6) with KASAN, in a QEMU VM with a
+    g_zero gadget on dummy_hcd, unplugged by unloading g_zero:
+    - bind to usbip-host, unbind, unplug, "match_busid del", rebind (the
+      "usbip unbind" sequence): slab-use-after-free in do_rebind(), on the
+      usb_device freed by usb_disconnect();
+    - bind to usbip-host, unplug, rmmod usbip_host: same;
+    - "match_busid add", then rebind, never bound: the syzbot
+      null-ptr-deref, with and without a device of that name.
+    With this patch all three run without KASAN reports, and in the first
+    one the device can be bound to usbip-host again once replugged.
+    
+    Not tested by syzbot: #syz test is disabled for now (syzkaller issue
+    8122). The third case above gives the same crash as its report.
+    
+    Jeffin Philip's series [1] addresses the syzbot report by turning
+    "rebind" into a no-op and making the usbip tool write drivers_probe
+    instead. This patch only changes the driver: it keeps "rebind" working,
+    for the usbip binaries and scripts already in use, and also fixes the
+    module removal path. bus_find_device_by_name() only runs on a write to
+    "rebind" and at module removal.
+    
+    Not addressed here: "rebind" of a device still bound to usbip-host
+    removes its busid entry, and the following unbind hits the BUG() in
+    stub_disconnect() (reproduced, unchanged by this patch).
+    
+    [1] https://lore.kernel.org/all/20260811160541.29461-1-jeffinphilip14@gmail.com/
 
- drivers/usb/usbip/vhci.h     |  12 +++
- drivers/usb/usbip/vhci_hcd.c | 138 +++++++++++++++++++++++++++++++++++
- drivers/usb/usbip/vhci_rx.c  |   4 +
- 3 files changed, 154 insertions(+)
+ drivers/usb/usbip/stub.h      |  1 -
+ drivers/usb/usbip/stub_dev.c  |  1 -
+ drivers/usb/usbip/stub_main.c | 32 +++++++++++++++++++++-----------
+ 3 files changed, 21 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/usb/usbip/vhci.h b/drivers/usb/usbip/vhci.h
-index 5659dce1526e..af5d6504eb83 100644
---- a/drivers/usb/usbip/vhci.h
-+++ b/drivers/usb/usbip/vhci.h
-@@ -11,6 +11,7 @@
- #include <linux/list.h>
- #include <linux/spinlock.h>
- #include <linux/sysfs.h>
-+#include <linux/timer.h>
- #include <linux/types.h>
- #include <linux/usb.h>
- #include <linux/usb/hcd.h>
-@@ -44,6 +45,9 @@ struct vhci_device {
- 	struct list_head unlink_tx;
- 	struct list_head unlink_rx;
-=20
-+	/* fires when the peer leaves an unlink request unanswered */
-+	struct timer_list unlink_timer;
-+
- 	/* vhci_tx thread sleeps for this queue */
- 	wait_queue_head_t waitq_tx;
+diff --git a/drivers/usb/usbip/stub.h b/drivers/usb/usbip/stub.h
+index d11270560c24..ab5726eeed29 100644
+--- a/drivers/usb/usbip/stub.h
++++ b/drivers/usb/usbip/stub.h
+@@ -75,7 +75,6 @@ struct bus_id_priv {
+ 	char status;
+ 	int interf_count;
+ 	struct stub_device *sdev;
+-	struct usb_device *udev;
+ 	char shutdown_busid;
+ 	spinlock_t busid_lock;
  };
-@@ -65,6 +69,12 @@ struct vhci_unlink {
-=20
- 	/* seqnum of the unlink target */
- 	unsigned long unlink_seqnum;
+diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
+index abfa11d6bde7..b03c77d598e8 100644
+--- a/drivers/usb/usbip/stub_dev.c
++++ b/drivers/usb/usbip/stub_dev.c
+@@ -371,7 +371,6 @@ static int stub_probe(struct usb_device *udev)
+ 	dev_set_drvdata(&udev->dev, sdev);
+ 
+ 	busid_priv->sdev = sdev;
+-	busid_priv->udev = udev;
+ 
+ 	save_status = busid_priv->status;
+ 	busid_priv->status = STUB_BUSID_ALLOC;
+diff --git a/drivers/usb/usbip/stub_main.c b/drivers/usb/usbip/stub_main.c
+index 01452f7bdabb..563c92ab88e7 100644
+--- a/drivers/usb/usbip/stub_main.c
++++ b/drivers/usb/usbip/stub_main.c
+@@ -196,18 +196,28 @@ static ssize_t match_busid_store(struct device_driver *dev, const char *buf,
+ }
+ static DRIVER_ATTR_RW(match_busid);
+ 
+-static int do_rebind(char *busid, struct bus_id_priv *busid_priv)
++static int do_rebind(char *busid)
+ {
++	struct device *dev;
+ 	int ret = 0;
+ 
++	/*
++	 * Look the device up by name: it may have been disconnected and
++	 * freed since it was bound to usbip-host.
++	 */
++	dev = bus_find_device_by_name(stub_driver.driver.bus, NULL, busid);
++	if (!dev)
++		return -ENODEV;
 +
-+	/* deadline enforced by the per-device unlink watchdog */
-+	unsigned long expires;
-+
-+	/* target URB completed via RET_SUBMIT; no longer watched */
-+	bool completed;
- };
-=20
- enum hub_speed {
-@@ -124,6 +134,8 @@ extern struct attribute_group vhci_attr_group;
-=20
- /* vhci_hcd.c */
- void rh_port_connect(struct vhci_device *vdev, enum usb_device_speed speed);
-+void vhci_rearm_unlink_timer_locked(struct vhci_device *vdev);
-+void vhci_complete_unlink_locked(struct vhci_device *vdev, __u32 seqnum);
-=20
- /* vhci_sysfs.c */
- int vhci_init_attr_group(void);
-diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
-index 39e8faf4c18c..18a0d42ba390 100644
---- a/drivers/usb/usbip/vhci_hcd.c
-+++ b/drivers/usb/usbip/vhci_hcd.c
-@@ -19,6 +19,15 @@
- #define DRIVER_AUTHOR "Takahiro Hirofuchi"
- #define DRIVER_DESC "USB/IP 'Virtual' Host Controller (VHCI) Driver"
-=20
-+/*
-+ * How long to wait for RET_UNLINK after sending CMD_UNLINK.  A peer that
-+ * cannot answer an unlink request within a control-transfer timeout
-+ * (USB_CTRL_GET_TIMEOUT) worth of time is considered stuck, and the
-+ * connection is torn down so that URBs waiting for their unlink reply can
-+ * be given back instead of hanging their owners forever.
-+ */
-+#define VHCI_UNLINK_TIMEOUT_MS	5000
-+
- /*
-  * TODO
-  *	- update root hub emulation
-@@ -846,6 +855,105 @@ static int vhci_urb_enqueue(struct usb_hcd *hcd, struct=
- urb *urb, gfp_t mem_flag
+ 	/* device_attach() callers should hold parent lock for USB */
+-	if (busid_priv->udev->dev.parent)
+-		device_lock(busid_priv->udev->dev.parent);
+-	ret = device_attach(&busid_priv->udev->dev);
+-	if (busid_priv->udev->dev.parent)
+-		device_unlock(busid_priv->udev->dev.parent);
++	if (dev->parent)
++		device_lock(dev->parent);
++	ret = device_attach(dev);
++	if (dev->parent)
++		device_unlock(dev->parent);
+ 	if (ret < 0)
+-		dev_err(&busid_priv->udev->dev, "rebind failed\n");
++		dev_err(dev, "rebind failed\n");
++	put_device(dev);
  	return ret;
  }
-=20
-+/*
-+ * Find the earliest deadline among queued unlink requests whose target URB
-+ * has not completed yet.  Requests whose target URB already came back via
-+ * RET_SUBMIT have nobody waiting on them and are ignored.
-+ *
-+ * Caller must hold vdev->priv_lock.
-+ */
-+static bool vhci_unlink_next_deadline(struct vhci_device *vdev,
-+				      unsigned long *expires)
-+{
-+	struct vhci_unlink *unlink;
-+	bool found =3D false;
-+
-+	lockdep_assert_held(&vdev->priv_lock);
-+
-+	list_for_each_entry(unlink, &vdev->unlink_rx, list) {
-+		if (unlink->completed)
-+			continue;
-+		if (!found || time_before(unlink->expires, *expires)) {
-+			*expires =3D unlink->expires;
-+			found =3D true;
-+		}
-+	}
-+	list_for_each_entry(unlink, &vdev->unlink_tx, list) {
-+		if (unlink->completed)
-+			continue;
-+		if (!found || time_before(unlink->expires, *expires)) {
-+			*expires =3D unlink->expires;
-+			found =3D true;
-+		}
-+	}
-+
-+	return found;
-+}
-+
-+void vhci_rearm_unlink_timer_locked(struct vhci_device *vdev)
-+{
-+	unsigned long expires =3D 0;
-+
-+	if (vhci_unlink_next_deadline(vdev, &expires))
-+		mod_timer(&vdev->unlink_timer, expires);
-+	else
-+		timer_delete(&vdev->unlink_timer);
-+}
-+
-+void vhci_complete_unlink_locked(struct vhci_device *vdev, __u32 seqnum)
-+{
-+	struct vhci_unlink *unlink;
-+	bool changed =3D false;
-+
-+	lockdep_assert_held(&vdev->priv_lock);
-+
-+	list_for_each_entry(unlink, &vdev->unlink_rx, list) {
-+		if (unlink->unlink_seqnum =3D=3D seqnum && !unlink->completed) {
-+			unlink->completed =3D true;
-+			changed =3D true;
-+		}
-+	}
-+	list_for_each_entry(unlink, &vdev->unlink_tx, list) {
-+		if (unlink->unlink_seqnum =3D=3D seqnum && !unlink->completed) {
-+			unlink->completed =3D true;
-+			changed =3D true;
-+		}
-+	}
-+
-+	if (changed)
-+		vhci_rearm_unlink_timer_locked(vdev);
-+}
-+
-+static void vhci_unlink_timeout(struct timer_list *t)
-+{
-+	struct vhci_device *vdev =3D timer_container_of(vdev, t, unlink_timer);
-+	unsigned long expires =3D 0;
-+	unsigned long flags;
-+	bool expired =3D false;
-+
-+	spin_lock_irqsave(&vdev->priv_lock, flags);
-+	if (vhci_unlink_next_deadline(vdev, &expires)) {
-+		if (time_after_eq(jiffies, expires))
-+			expired =3D true;
-+		else
-+			mod_timer(&vdev->unlink_timer, expires);
-+	}
-+	spin_unlock_irqrestore(&vdev->priv_lock, flags);
-+
-+	if (!expired)
-+		return;
-+
-+	dev_info(hcd_dev(vhci_hcd_to_hcd(vdev_to_vhci_hcd(vdev))),
-+		 "peer did not reply to an unlink request within %d msecs\n",
-+		 VHCI_UNLINK_TIMEOUT_MS);
-+
-+	/*
-+	 * Reuses the teardown path taken on other peer failures, which
-+	 * gives back all URBs waiting for their unlink reply.
-+	 */
-+	usbip_event_add(&vdev->ud, VDEV_EVENT_ERROR_TCP);
-+}
-+
- /*
-  * vhci_rx gives back the urb after receiving the reply of the urb.  If an
-  * unlink pdu is sent or not, vhci_rx receives a normal return pdu and gives
-@@ -949,6 +1057,15 @@ static int vhci_urb_dequeue(struct usb_hcd *hcd, struct=
- urb *urb, int status)
- 		struct vhci_unlink *unlink;
-=20
- 		spin_lock(&vdev->priv_lock);
-+		if (!urb->hcpriv) {
-+			/*
-+			 * URB was just picked up by vhci_rx and will be
-+			 * given back shortly; no CMD_UNLINK needed.
-+			 */
-+			spin_unlock(&vdev->priv_lock);
-+			spin_unlock_irqrestore(&vhci->lock, flags);
-+			return 0;
-+		}
-=20
- 		/* setup CMD_UNLINK pdu */
- 		unlink =3D kzalloc_obj(struct vhci_unlink, GFP_ATOMIC);
-@@ -968,6 +1085,17 @@ static int vhci_urb_dequeue(struct usb_hcd *hcd, struct=
- urb *urb, int status)
- 		/* send cmd_unlink and try to cancel the pending URB in the
- 		 * peer */
- 		list_add_tail(&unlink->list, &vdev->unlink_tx);
-+
-+		/*
-+		 * Tear the connection down if the peer leaves this request
-+		 * unanswered past its deadline; timer_reduce() keeps any
-+		 * earlier pending deadline armed so newer unlinks cannot
-+		 * starve it.
-+		 */
-+		unlink->expires =3D
-+			jiffies + msecs_to_jiffies(VHCI_UNLINK_TIMEOUT_MS);
-+		timer_reduce(&vdev->unlink_timer, unlink->expires);
-+
- 		wake_up(&vdev->waitq_tx);
-=20
- 		spin_unlock(&vdev->priv_lock);
-@@ -1029,6 +1157,13 @@ static void vhci_device_unlink_cleanup(struct vhci_dev=
-ice *vdev)
-=20
- 	/* give back URB of unanswered unlink request */
- 	vhci_cleanup_unlink_list(vdev, &vdev->unlink_rx);
-+
-+	/*
-+	 * Wait for any running watchdog callback before vhci_device_reset()
-+	 * clears the port so a racing timeout cannot queue a stale teardown
-+	 * event against a later attachment.
-+	 */
-+	timer_delete_sync(&vdev->unlink_timer);
- }
-=20
- /*
-@@ -1143,6 +1278,8 @@ static void vhci_device_init(struct vhci_device *vdev)
-=20
- 	init_waitqueue_head(&vdev->waitq_tx);
-=20
-+	timer_setup(&vdev->unlink_timer, vhci_unlink_timeout, 0);
-+
- 	vdev->ud.eh_ops.shutdown =3D vhci_shutdown_connection;
- 	vdev->ud.eh_ops.reset =3D vhci_device_reset;
- 	vdev->ud.eh_ops.unusable =3D vhci_device_unusable;
-@@ -1267,6 +1404,7 @@ static void vhci_stop(struct usb_hcd *hcd)
- 	for (rhport =3D 0; rhport < VHCI_HC_PORTS; rhport++) {
- 		struct vhci_device *vdev =3D &vhci_hcd->vdev[rhport];
-=20
-+		timer_shutdown_sync(&vdev->unlink_timer);
- 		usbip_event_add(&vdev->ud, VDEV_EVENT_REMOVED);
- 		usbip_stop_eh(&vdev->ud);
+ 
+@@ -232,8 +242,7 @@ static void stub_device_rebind(void)
+ 	for (i = 0; i < MAX_BUSID; i++) {
+ 		if (busid_table[i].name[0] &&
+ 		    busid_table[i].shutdown_busid) {
+-			busid_priv = &(busid_table[i]);
+-			do_rebind(busid_table[i].name, busid_priv);
++			do_rebind(busid_table[i].name);
+ 		}
  	}
-diff --git a/drivers/usb/usbip/vhci_rx.c b/drivers/usb/usbip/vhci_rx.c
-index a678e7c89837..c71645499a7b 100644
---- a/drivers/usb/usbip/vhci_rx.c
-+++ b/drivers/usb/usbip/vhci_rx.c
-@@ -63,6 +63,8 @@ static void vhci_recv_ret_submit(struct vhci_device *vdev,
-=20
- 	spin_lock_irqsave(&vdev->priv_lock, flags);
- 	urb =3D pickup_urb_and_free_priv(vdev, pdu->base.seqnum);
-+	if (urb)
-+		vhci_complete_unlink_locked(vdev, pdu->base.seqnum);
- 	spin_unlock_irqrestore(&vdev->priv_lock, flags);
-=20
- 	if (!urb) {
-@@ -123,6 +125,8 @@ static struct vhci_unlink *dequeue_pending_unlink(struct =
-vhci_device *vdev,
- 			usbip_dbg_vhci_rx("found pending unlink, %lu\n",
- 					  unlink->seqnum);
- 			list_del(&unlink->list);
-+			if (!unlink->completed)
-+				vhci_rearm_unlink_timer_locked(vdev);
-=20
- 			spin_unlock_irqrestore(&vdev->priv_lock, flags);
- 			return unlink;
+ #endif
+@@ -261,8 +270,9 @@ static ssize_t rebind_store(struct device_driver *dev, const char *buf,
+ 	/* release the busid lock */
+ 	put_busid_priv(bid);
+ 
+-	ret = do_rebind((char *) buf, bid);
+-	if (ret < 0)
++	ret = do_rebind((char *) buf);
++	/* a device disconnected meanwhile has nothing to rebind */
++	if (ret < 0 && ret != -ENODEV)
+ 		return ret;
+ 
+ 	/* delete device from busid_table */
 
 base-commit: 9437ee8b6cf607e883b36e44bd755968daaebd48
---=20
-2.32.0
+-- 
+2.43.0
 
