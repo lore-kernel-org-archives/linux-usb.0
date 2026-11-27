@@ -1,22 +1,23 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795770080;
-	b=w0oohxmqvrhliJWNE5Sw65XHXU0v9bZQfEZCPGPRv7ew/yZPgjXDIQkvbC8f363zHgtt
-	 ZMUm9WxDgC5pAMXf2hAQTU9RP3q9Sq+F78F1U9/zr5Cb0riM0UMBQSNEP/PgsxaImrnCl
-	 uMEc8nlwlQDGk3WQUrMvIxADt5hiewo9NPy4Tjli2ckmb0AYSrRHowHLiPRRaGhbsgEZ4
-	 +hcm8vDmxJJSycMc2dJfWqUrGm6OOvC2Ou3dwflkOcpOmHDjpjDfK6POU9ujyPD3G2tEk
-	 0/Y7bMbPJ5qMkqX97H82LZbxkJz0V7PVs5ptbf2dzjJX5pi8nXhXh30gZr+zyre4nvg==
+	b=GnwwLBMSsGvRktUvRi23pXi4D/DSbmVwcn/+llT6DQLUOrUiTdjia0/xVCfInQo6y31X
+	 nZzk97ttT8iSVcMIIx4fTLgL1OhgjirFTjhoUEImEXpLVT1cUeFOoTL76zEP7G4YDUXRA
+	 kzQf8Ci0IRnFX7gNWZAq/NNhmJYvHHLp+6VLDXeSUlSKWyVPHWGMW0NEOv674tYXVfSab
+	 ZUY6RK7X+j9hpbA1QjqPelUzGm8BdS4CqjsQuwM7ULD0w3yBC5VtEJWuLscItUtTAYnqh
+	 vOwE93EhzJ16R6rPU9bPTCoOrW16l8MaJqcx/0eUU926MEXXfmmqoEtDuNTBEtWV5Rg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795770080;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=/+WYvR/9EaXmxOqqFc/IFig4eapx8xrmhOZ5R/PhDkc=;
-	b=firi3xvG0ob/xyLfnePwee9gAXJCagOBR3m04UXxPla6zqotF+msRyFOglJe7dMHM2kU
-	 mQ19k9FtjQyc+I6HvlNhmWntYgSAeIx33MT5Pyj7qBSSf7+q7aalLHLyTMQdck0LB3U7w
-	 Ec0bIqEPIAU4vefWjgUxayZZz6UjLB42FgKo1uIc+W0QaLiqoKw7mfykMWSiw1REH5u+u
-	 Emnztjjq7ZDQmBdMkIAWFM9u3aVSio0NXmNnNjY/uAavfJhBDqVArI0jkz2MjJFLpgTVH
-	 +jldDDIaNzMQxkeYeRIKjgl/tCVkNveVBQKfG6FTSpyjZ6qbS3QaLrg/tIzQNi/OqtA==
+	 Date:Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=e01QIr9P+RAD45MEmIVWH+gThT8qQM3Uki49hXDrI2k=;
+	b=EUsIqsHxeXs6B9/ZKaaJdutnaWCUs8GMsfUapOI42AyBi+LSIyf75l66S60u6NFpSAC+
+	 AAa0UzxHsKYInNY/EdDKaKx1cj33eN3FLrAchVg2GkK+GmSpdmNCsfoQ07OMjRcom7+pU
+	 7wkTmKSIPXr58mB8UBOgJDGV07roXm0FOWxreQ9QCBuhYuNteGCVN/Q0s/F/yTntfQZJd
+	 1ZH1JvTzXgWXHErYlOuwzB2dnv+uEXkBjs3rj9O6j7ijj5TJQiaF3lKmvRnClS8Vi70B3
+	 DyM5tvUr3CA20UyhrBNpRjIP7WzaLRq9OnQGpTsLfJEC2iQw2yxSKTvlw+dESrnL7cQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=kylinos.cn;
 	spf=pass smtp.mailfrom=gmail.com;
@@ -25,54 +26,57 @@ Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.18
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADAB2606A32D
-	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 09:01:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ADAB2606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABBB606A326
+	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 09:01:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1ABBB606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2f03920c477so65854825ad.2
-        for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 01:01:10 -0800 (PST)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2f11330e550so2015205ad.0
+        for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 01:01:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795770070; x=1796374870;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/+WYvR/9EaXmxOqqFc/IFig4eapx8xrmhOZ5R/PhDkc=;
-        b=e3jcG4VAZBJwlmuybvlABwn5hlCGEuMNXlheXsroDcAXEggUwQMsJf+qpfysxBb2PW
-         sqNGPE9+lmQUl9nMUlMjhl348414xd/jolzazyfXap1VIeb1Byxa/ItRTESgc98IvrMU
-         PChghpFpUmoI3z4gERUtLu6pvhzHHAxeUdb31tZ1AbA2vj7K+9Yy+lO7RuhEZH0ZaB84
-         h73sNYwgNjsBoM6CMWRSAGzcgb8eNKnJ5fky/+E9UMC2Y4kdalrsScEiN+k4BQTItNSM
-         8vKR5jdYqBkar1eWov1lLOma+aaCJHQq5hj15p4z/39kyrJGXvgyKaC7LpCU8RQVC68O
-         46lg==
-X-Forwarded-Encrypted: i=1; AL+hErF7mLTvfRzt6sxpx5jQCr/rlEkCT5Tismnz2LiCOVp3IrSL6wvFsOUS4mSPGsU/4HfNzAdBSxdrj5s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8pimSG/7fFiTlFps+BbQkJVwI8nDVeiCLAVUHwWP7ljnDfw7jx
-	MDEhTF/n365aSPLFqjy3btvnsXcFa8vAhawCBXVzOS/GzNnsWnT28ZIu
-X-Gm-Gg: AZFdTZcQTTRz1e0p9tvQg9tBBR1EuR3Kb3FUK4BDyFmfkSa3rTLrWV4wyuuAth7ZRKi
-	YEYOzUii+gTfjb6lM8Od/vDeELTlWseGpYVwC0y8dxuVhUUFk/w9FOYDI769Blw0T6x2n+1Qylu
-	yLcJn1sP89V3YgFZPh7uXd76FDC06UTTgaBsZGgtSLcuDc1F5VJM7pNDQD7wawLt6wFTVUjUX7y
-	H3AptClga4UQrFH8InN5+Rn5JxeTCz1t6je5+Fv/Kr4DVF/MQrLvVMLdTl226NYaMel51q7lIzG
-	qYGNIKC9cLcJbqVog3LS9oDYiv6qrIXrxdOMUadgFT4z97x+HTC/u3DSXV/ChRL0ovg5EcX2f8h
-	7g+IVt72k6M9JKgTRPsbDCPNbsE7MoWQikdb7en7GfL16odIh6KhOG3FCiLS3LlvntE7A1Rg4K/
-	hgnpddKI3fmclGbYyyPgPhBppayppTKJJamNTp0pcx1CoHFWh7oPsbFy5rzVFrfK1g1HK4b2Qyu
-	+ZcGYzAVXaTUOt3BAQQ/b56mfiR5jkiSnbGoIynopQm5GmvZiTJ2EyBfeZhrb63C6Xj8xx6E/vW
-	v3E4UmGdguI4++Tyg3S3vxV8kvbQCMgGCP2x+xTodgt5qfsrdDVm5JER8FMMdVfgVRi+dUatvo7
-	om2wkY0ruKWg4Zv4pCHy9vl2fzSweP3TjymrdwW+pVlnBoA==
-X-Received: by 2002:a17:903:1a2b:b0:2ed:99b9:7fd8 with SMTP id d9443c01a7336-2f03f1403acmr262673985ad.30.1795770069602;
-        Fri, 27 Nov 2026 01:01:09 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795770076; x=1796374876;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=e01QIr9P+RAD45MEmIVWH+gThT8qQM3Uki49hXDrI2k=;
+        b=JNzbDP0hUoOsfEy0XRVo/Geda+pN6XoxOFwUz9S8sPS+mT3Pu5ZeynMtJ9l7JwoJT0
+         ElBPBi8E2eOQHu2XchKGdyMbIKEY3pY3rNjRluEKlPiwnkWmGauF8+6qCHPNAlAr028w
+         GYAOzFsyEsRB8kHG1g/uOfVZF8HZK3oz3cGI835QK1bZbNoDSr2M7j2aQkMsbyb/yr3J
+         4FBJ1Ocu/pfI776LeyGPya60aVyv237Rxn0baUJT7r+PszcamzVKz8NmMDr1FR68td+4
+         Efjwvq1hfesMOPemJEMPXDcVuaw2GVFCzO1oWcWeucxjWIGODynn4ZmPsdOXOVzS8Sor
+         2ndA==
+X-Forwarded-Encrypted: i=1; AL+hErEA7CxxzQiAfFDwAYzIqP27YUN642Rg4+oxfZe9HyS/xvZEWDbVbSJskze/5mkbakRquEJZjW8JBAI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+vg3XGM9hENWPf1/eyRbOISIlF2ihUHG/MB5iGhKM3890OhtYS
+	pzzype1LoswZAYyTRxczqe+qtHppXCYuOZrP5mC8T5vuKJo1Kjmotvja
+X-Gm-Gg: AZFdTZdRuztWPH3EMJvA8ZKl+IXa2MNN9DgSepFHlESVQbo1KcGp3bgpVzThDO2/7aj
+	FBxEoTu1rblAAlAJdwpDV+9ZCyyQLXwb7uVqHmbJaHvruYTR+V8E5pSRI18ognjZCRnc4zSE0M+
+	Zt/oR8WCRq9WYkNBXXcZai6nuGrLw1XPxrsidhLx9eQp70ehJVOdJlTJc8Nd9RdLcpd30VM85nR
+	BLqfVpmWEV5b7MjY1vpFA+7XMU4Kp+X1xgjzwlybK8OtgML2WVSzmZOs3nfRkFY4GeCxGEQHa3q
+	w2q7mD/VwLVkcbWokFrgpPvXbfM23uJckzBX2La+j5hGxAy4EKCI6FTp7e87/qSdP47Qec1hej4
+	A5gkQsLb4W4ByHlKri0AQMJWmgLwi29cz3BXBzDL5k0HFpmmcKQQXSMOU0wCJfXpRLP+Xeipl2Y
+	pL0udmYw+xLtq47/b4gJiqIKNxKfvDp08TjUpwZqo//VRoUnCbHao0zk+qAX6S76lSoUvIE4/C2
+	WKu8Vh+XE/8SIIoslR0rdydMWfJF85KZ15QXJ2AkloB5nVxK1/S97YQPZYVkt3DrIUHdiwUFZAV
+	AzXtOeJq1dS2oQ8oKlgbnn2rtvOWw+4ZJ9rL1Bv3NpHaLqsw1ehsx0W/xas2NfENHZxKwGXo6Ox
+	oMe9MdjjEHAcI/ODLvrGIpmFzEh3Ms2AWLLlRkGdIYqhQ/ndUJ7jdaAmw1rvaSEnHIWo=
+X-Received: by 2002:a17:903:32cf:b0:2f0:5e53:8db0 with SMTP id d9443c01a7336-2f05e53a72fmr187856455ad.25.1795770076052;
+        Fri, 27 Nov 2026 01:01:16 -0800 (PST)
 Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([216.236.36.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f120769sm117050725ad.57.2026.11.27.01.01.06
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f120769sm117050725ad.57.2026.11.27.01.01.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 01:01:09 -0800 (PST)
+        Fri, 27 Nov 2026 01:01:15 -0800 (PST)
 From: Hongyu Xie <xiehongyu1@kylinos.cn>
 To:
  Greg KH <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>
 Cc: Oliver Neukum <oneukum@suse.com>, oliver@neukum.org,
  Hans de Goede <hansg@kernel.org>, linux-usb@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v2 0/3] usb: core: fix three use-after-free windows in
- the USB anchor protocol
-Date: Fri, 27 Nov 2026 17:01:06 +0800
-Message-ID: <179577006613.23588.1120308700542393912@kylinos.cn>
+Subject:
+ [PATCH RESEND v2 1/3] usb: core: Fix use-after-free in anchor wakeup protocol
+Date: Fri, 27 Nov 2026 17:01:12 +0800
+Message-ID: <179577007251.23588.3651671046751993803@kylinos.cn>
+In-Reply-To: <179577006613.23588.1120308700542393912@kylinos.cn>
+References: <179577006613.23588.1120308700542393912@kylinos.cn>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -85,225 +89,216 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Anchors are usually embedded in driver-private structures, and
-several anchor API returns -- a non-zero
-usb_wait_anchor_empty_timeout(), usb_kill_anchored_urbs(),
-usb_poison_anchored_urbs() and usb_scuttle_anchored_urbs() --
-license the caller to free that memory.  The wakeup protocol backing
-this license has three windows in which a URB giveback or unanchor
-still touches the anchor after the caller has been told it is
-unused:
+usb_wait_anchor_empty_timeout() and the anchor cleanup helpers
+promise that once they return successfully (non-zero, for
+usb_wait_anchor_empty_timeout()), no URB giveback is in flight for
+the anchor any more, so the driver may free the memory holding it
+(xpad, for example, embeds irq_out_anchor in its private structure
+and kfrees it in xpad_disconnect()).
 
- 1. The waiter's condition check and the giveback's
-    suspend_wakeups decrement plus wake_up() were not serialized,
-    so the waiter could return while a giveback was still in
-    flight.  Reported by syzbot repeatedly since 2019; patch 1
-    references the two reports this analysis is built on.
+Two windows break this promise: the waiter can observe "anchor
+list empty and suspend_wakeups =3D=3D 0" while a giveback is still
+about to access anchor->wait.
 
- 2. __usb_hcd_giveback_urb() captured urb->anchor at the top of
-    the function but incremented suspend_wakeups only after DMA
-    unmapping and the usbmon hooks.  A concurrent unanchor could
-    empty the anchor with suspend_wakeups still zero, so the waiter
-    returned and freed the anchor underneath the pending increment.
-    No syzbot report is attributed to this interleaving; it was
-    found by extending the analysis of patch 1.
+ 1. usb_anchor_resume_wakeups() decrements suspend_wakeups -- which
+    makes the wait condition true -- and only then calls
+    wake_up(&anchor->wait), with nothing in between serializing the
+    two.  A waiter returns, the driver frees the anchor, and the
+    late wake_up() touches the freed wait queue head.
 
- 3. usb_unanchor_urb() and the giveback read urb->anchor and only
-    then acquire anchor->lock; between the two the anchor can
-    already have been freed.  The gap is as old as
-    usb_unanchor_urb() itself and cannot be closed with a
-    reference count: the first dereference of the freshly read
-    pointer would have to be the increment itself.
+ 2. __usb_unanchor_urb() wakes waiters while holding anchor->lock,
+    but usb_wait_anchor_empty_timeout() evaluated the same condition
+    without the lock, so it could observe the emptied urb_list in
+    the middle of that critical section and return before the
+    wake_up() and the spin_unlock() had run.  Reading the two
+    condition fields locklessly could likewise observe a stale
+    suspend_wakeups value after the giveback's unanchor on weakly
+    ordered systems.
 
-Patch 1 completes the locking protocol for the waiter/wakeup side.
-Patch 2 folds the giveback's pointer capture, the increment and the
-unanchor into a single anchor->lock critical section.  Patch 3
-turns the wakeup protocol into a lifetime protocol: the lockless
-anchor reads run in RCU read-side critical sections, urb->anchor is
-published with rcu_assign_pointer(), and every return that lets the
-caller free the anchor first waits one synchronize_rcu() and
-touches nothing on the anchor after it.
+Complete the locking protocol that commit fbc299437c06 ("usb:
+core: Solve race condition in anchor cleanup functions")
+established for the kill/poison/scuttle helpers:
+usb_wait_anchor_empty_timeout() now evaluates the condition under
+anchor->lock (a self-locking wrapper around the lockless check),
+and usb_anchor_resume_wakeups() performs the suspend_wakeups
+decrement, the wakeup check and the wake_up() within a single
+anchor->lock critical section.
 
-Patch 3 changes contracts, stated up front:
+With the decrement and the wake_up() atomic with respect to the
+locked condition check, a waiter can only observe the condition
+true after every giveback that has incremented suspend_wakeups has
+stopped accessing the anchor: the guarantee that the wakeup is
+delayed until the completion handler has run now extends to the
+anchor memory itself.
 
- - usb_kill_anchored_urbs(), usb_poison_anchored_urbs() and
-   usb_scuttle_anchored_urbs() may now sleep even on an empty
-   anchor: the empty-anchor retry blocks on the anchor's wait queue
-   instead of busy-waiting.  usb_scuttle_anchored_urbs() is the
-   only contract change among the three (the others already slept
-   transitively through usb_kill_urb()/usb_poison_urb()), and all
-   three carry a might_sleep() so an atomic-context caller is
-   caught at the call site with debugging configurations enabled.
-   All in-tree callers already sleep.
+syzbot has reported this race repeatedly since 2019, most
+recently as:
 
- - usb_wait_anchor_empty_timeout() returns 1 on success instead of
-   the remaining jiffies, and a successful wait -- including one
-   with a zero timeout -- pays one RCU grace period.  The condition
-   itself is unchanged from the wakeup-protocol fix.
+	BUG: KASAN: slab-use-after-free in register_lock_class+0x8d1/0x980 kernel/lo=
+cking/lockdep.c:1333
+	[...]
+	__wake_up_common_lock+0x25/0x1e0 kernel/sched/wait.c:105
+	__usb_hcd_giveback_urb+0x3ac/0x530 drivers/usb/core/hcd.c:1653
 
- - The safe-to-free license is per caller: a caller that frees on
-   its own successful return must first wait for any other
-   in-flight teardown calls to return.  The kerneldoc of all four
-   teardown returns states this proviso alongside the no-new-URBs
-   one.
+	Freed by task 7828:
+	[...]
+	kfree+0x14a/0x380 mm/slub.c:4390
+	xpad_disconnect+0x359/0x490 drivers/input/joystick/xpad.c:2194
 
- - The cost is one grace period per successful teardown exit.  On
-   x86-64 real hardware, 100 consecutive successful waits on an
-   empty anchor cost 3.8 us per call on the base kernel and 3.9 us
-   with this series (+4.3%); per call site, a usbtmc synchronous
-   read converges on a kill and a scuttle and pays two grace
-   periods, btusb pays one per anchor it stops, and zd1211rw one
-   per command batch.  It is small next to the URB I/O these paths
-   bracket, but it is the price of the free-after-return guarantee.
+and:
 
-Why the retry loop must not busy-wait: on !PREEMPT_RCU kernels
-whose scheduler tick reports no quiescent state for a spinning
-process context (the v6.6 stable tree, for one; the 7.3 base of
-this series adds process context only with CONFIG_PREEMPT_COUNT),
-a busy retry stalls every grace period that still awaits that
-CPU's quiescent state for as long as it spins, and under real-time
-scheduling it can starve the very completion path it is waiting
-for.  On PREEMPT_RCU builds the tick reports from process context
-and the window self-heals, which is why the v1 test kernels never
-showed it.  Current mainline x86 can no longer build a !PREEMPT_RCU
-kernel at all (since 7dadeaa6e851); the exposure is the stable
-backports of this series and older kernels.
+	BUG: KASAN: use-after-free in register_lock_class+0xe6a/0x1120 kernel/lockin=
+g/lockdep.c:1336
+	[...]
+	__wake_up_common_lock+0xb4/0x130 kernel/sched/wait.c:136
+	usb_anchor_resume_wakeups drivers/usb/core/urb.c:958 [inline]
+	usb_anchor_resume_wakeups+0xbe/0xe0 drivers/usb/core/urb.c:951
+	__usb_hcd_giveback_urb+0x2df/0x5c0 drivers/usb/core/hcd.c:1674
 
-The sleeping retry keeps the re-drain behavior of the busy loop it
-replaces: usb_anchor_urb() wakes the anchor's wait queue (gated by
-waitqueue_active(), so the per-submission hot path stays off the
-wakeup machinery when no drain is sleeping; both the wakeup and the
-sleepers' condition evaluation run under anchor->lock, so the gate
-cannot lose a wakeup), and the wait also ends -- without declaring
-the anchor unused -- when a URB is anchored after the drain, so the
-drain restarts and tears the late arrival down too.  A
-late-anchored URB cannot strand the teardown.
+	Freed by task 3889:
+	[...]
+	kfree+0x173/0x390 mm/slab.c:3786
+	xpad_disconnect+0x1cb/0x530 drivers/input/joystick/xpad.c:1905
 
-No fields are added to struct usb_anchor or struct urb, and no
-driver changes are needed.
+Both reports lack a reproducer; the analysis was verified
+by walking the two stacks against the code, not at runtime.  All
+in-tree callers of usb_wait_anchor_empty_timeout() (and every
+driver which frees an anchor after the anchor cleanup helpers) are
+equally affected; xpad is merely the one syzbot found.
 
-Testing:
-
- - A QEMU/KASAN attack harness reproduced each window separately
-   (deterministic arming for the two giveback windows, a forced
-   free inside the read-to-lock gap for the third) and verified
-   that each patch closes its own window with zero reports under
-   identical pressure.  The v2 kernel reruns the full matrix with
-   zero reports and keeps the zero-timeout contract (empty anchor,
-   timeout 0, returns 1).
-
- - The livelock boundary is driven directly: a waiter thread bound
-   to CPU0 calls usb_wait_anchor_empty_timeout() on a shared anchor
-   while a killer thread bound to CPU1 calls
-   usb_kill_anchored_urbs(), round after round, on v6.6 (the
-   stable-backport representative, where PREEMPT_NONE x86 is still
-   selectable) with PREEMPT_NONE and no PREEMPT_DYNAMIC.  The v1
-   kernel wedges in the first waiter-first round -- kill rounds
-   stop completing and RCU stall warnings follow -- while the v2
-   kernel completes every round; both complete every round on
-   preemptible configs.
-
- - The late-anchor liveness of the sleeping retry is probed
-   directly: a scuttle thread is parked in the empty-anchor wait
-   behind a manual suspend_wakeups pin, a never-submitted URB is
-   anchored after it sleeps, and the pin is dropped.  The
-   intermediate v2 kernel (before the re-drain fix) never returns,
-   while the final v2 kernel wakes, drains the late arrival and
-   returns.
-
- - The full stack also ran on real x86-64 hardware with KASAN
-   kernels built from the same base, on two machines.  The base
-   kernel hits every probe: both deterministic windows fire within
-   100 iterations (hundreds of probe arm hits), and the natural
-   free-race variants hit within 2000 iterations with zero window
-   widening -- one of them with no arming at all on the second
-   machine.  The kernel with all three patches runs the identical
-   workload with zero reports (the attack still executes there,
-   its probes arm hundreds of times too, only the windows are
-   gone), and completes the kill-in-parallel-with-wait rounds
-   (10/10) and the loser-path late-anchored-URB drain on real
-   hardware as well.
-
-checkpatch: 0 errors, 0 warnings for all three patches.
-
+Fixes: 6ec4147e7bdb ("usb-anchor: Delay usb_wait_anchor_empty_timeout wake up=
+ till completion is done")
+Fixes: 51a2f077c44e ("USB: introduce usb_anchor")
+Reported-by: syzbot+7f5e98b052c766f47f68@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/r/00000000000090170a0614431f47@google.com
+Reported-by: syzbot+59d3714b44d79d02f944@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/r/00000000000038435e05e9f94cd4@google.com
+Cc: stable@vger.kernel.org
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Oliver Neukum <oliver@neukum.org>
+Cc: Hans de Goede <hansg@kernel.org>
 Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
 ---
+ drivers/usb/core/urb.c | 51 +++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 45 insertions(+), 6 deletions(-)
 
-RESEND note:
-
- - Resending v2 (originally posted on Nov 3 during the 7.4 merge window:
-   https://lore.kernel.org/r/179367244039.76534.2082245841677015355@kylinos.c=
-n)
-   as a standalone thread, rebased onto v7.4-rc3 to resolve a context
-   conflict with commit d58dffe9ee2c ("USB: core: amend
-   usb_get_from_anchor() kernel-doc") with no code changes.  Alan,
-   Oliver -- could you please take a look at the anchor locking and RCU
-   lifetime changes when you have a chance?
-
-Changes in v2 (patches 2 and 3; patch 1 is unchanged):
-
- - Patch 2's usb_unanchor_urb_and_suspend_wakeups() race-loser
-   path cleared the local anchor variable before the shared
-   unlock, so the documented lose-the-race return unlocked
-   &NULL->lock -- a near-NULL fault with the real anchor left
-   locked.  v2 unlocks, in each branch, the anchor that branch
-   locked.  (Found by our own review of the v1 series.)
-
- - The kill/poison/scuttle empty-anchor retry waits on the
-   anchor's wait queue and takes the same grace-period exit as
-   usb_wait_anchor_empty_timeout() instead of busy-waiting,
-   removing the self-deadlocking busy loop on !PREEMPT_RCU
-   kernels (review feedback on v1).
-
- - The retry keeps the re-drain behavior of the busy loop:
-   usb_anchor_urb() wakes the anchor's wait queue and the
-   teardown wait ends on a late-anchored URB, so the drain
-   restarts for it instead of stranding a teardown that would
-   previously have killed it (review feedback on the v2 draft).
-   The wake is gated by waitqueue_active() so the per-submission
-   hot path stays off the wakeup machinery when no drain is
-   sleeping.
-
- - The teardown functions no longer take suspend_wakeups pins of
-   their own: the pins of an earlier v2 draft let a concurrent
-   kill/poison/scuttle make a zero- or short-timeout wait on an
-   empty anchor spuriously return 0 (review feedback on v1).  The
-   wait condition is again the giveback-only check, each teardown
-   exit waits its one grace period and touches nothing after it,
-   and concurrent teardown calls remain governed by the per-caller
-   proviso, as in the baseline.
-
- - The safe-to-free kerneldoc of the four teardown returns now
-   also excludes concurrent in-flight teardown calls on the same
-   anchor, states the completion-callback recursion ban, and
-   notes that a manually held suspend_wakeups pin holds up a
-   teardown until released; kill/poison/scuttle carry
-   might_sleep() (for kill and poison it covers the empty-anchor
-   entry path); in-code comments spell out that
-   usb_anchor_check_wakeup()'s success does not by itself license
-   freeing, and why the waitqueue_active() gate is safe under
-   anchor->lock.
-
- - The anchor documentation now matches the new contract: the
-   deallocation section of
-   Documentation/driver-api/usb/anchors.rst states that freeing
-   requires a successful teardown return with no concurrent
-   anchoring or in-flight teardown, and the wait section
-   describes the 0/1 return values and the one-grace-period
-   overrun.
-
- - Cover letter: per-call-site grace-period cost enumeration, the
-   livelock test evidence, and the two-machine real-hardware
-   results.
-
- Documentation/driver-api/usb/anchors.rst |  23 +-
- drivers/usb/core/hcd.c                   |  10 +-
- drivers/usb/core/urb.c                   | 388 ++++++++++++++++++++++++++++-=
---
- drivers/usb/core/usb.h                   |   1 +
- include/linux/usb.h                      |   7 +-
- 5 files changed, 382 insertions(+), 47 deletions(-)
+diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
+index ae0d61b5081f..bb1778d9e9db 100644
+--- a/drivers/usb/core/urb.c
++++ b/drivers/usb/core/urb.c
+@@ -139,19 +139,39 @@ void usb_anchor_urb(struct urb *urb, struct usb_anchor =
+*anchor)
+ }
+ EXPORT_SYMBOL_GPL(usb_anchor_urb);
+=20
+-static int usb_anchor_check_wakeup(struct usb_anchor *anchor)
++/* Callers must hold anchor->lock */
++static int __usb_anchor_check_wakeup(struct usb_anchor *anchor)
+ {
+ 	return atomic_read(&anchor->suspend_wakeups) =3D=3D 0 &&
+ 		list_empty(&anchor->urb_list);
+ }
+=20
++/*
++ * Same check as __usb_anchor_check_wakeup(), but takes anchor->lock. It is
++ * meant for waiters which do not hold the lock: the critical section
++ * serializes with the URB giveback path, so once the check succeeds no
++ * giveback that has incremented suspend_wakeups will touch the anchor
++ * anymore and the caller may free the memory holding the anchor.
++ */
++static int usb_anchor_check_wakeup(struct usb_anchor *anchor)
++{
++	unsigned long flags;
++	int wakeup;
++
++	spin_lock_irqsave(&anchor->lock, flags);
++	wakeup =3D __usb_anchor_check_wakeup(anchor);
++	spin_unlock_irqrestore(&anchor->lock, flags);
++
++	return wakeup;
++}
++
+ /* Callers must hold anchor->lock */
+ static void __usb_unanchor_urb(struct urb *urb, struct usb_anchor *anchor)
+ {
+ 	urb->anchor =3D NULL;
+ 	list_del(&urb->anchor_list);
+ 	usb_put_urb(urb);
+-	if (usb_anchor_check_wakeup(anchor))
++	if (__usb_anchor_check_wakeup(anchor))
+ 		wake_up(&anchor->wait);
+ }
+=20
+@@ -835,7 +855,7 @@ void usb_kill_anchored_urbs(struct usb_anchor *anchor)
+ 			usb_put_urb(victim);
+ 			spin_lock_irq(&anchor->lock);
+ 		}
+-		surely_empty =3D usb_anchor_check_wakeup(anchor);
++		surely_empty =3D __usb_anchor_check_wakeup(anchor);
+=20
+ 		spin_unlock_irq(&anchor->lock);
+ 		cpu_relax();
+@@ -874,7 +894,7 @@ void usb_poison_anchored_urbs(struct usb_anchor *anchor)
+ 			usb_put_urb(victim);
+ 			spin_lock_irq(&anchor->lock);
+ 		}
+-		surely_empty =3D usb_anchor_check_wakeup(anchor);
++		surely_empty =3D __usb_anchor_check_wakeup(anchor);
+=20
+ 		spin_unlock_irq(&anchor->lock);
+ 		cpu_relax();
+@@ -927,12 +947,23 @@ EXPORT_SYMBOL_GPL(usb_anchor_suspend_wakeups);
+  */
+ void usb_anchor_resume_wakeups(struct usb_anchor *anchor)
+ {
++	unsigned long flags;
++
+ 	if (!anchor)
+ 		return;
+=20
++	/*
++	 * The decrement, the wakeup check and the wake_up() must happen
++	 * under anchor->lock: usb_wait_anchor_empty_timeout() waiters
++	 * evaluate the same condition under the lock and may free the
++	 * anchor once they observe it true, so this function must not
++	 * touch anchor->wait after that.
++	 */
++	spin_lock_irqsave(&anchor->lock, flags);
+ 	atomic_dec(&anchor->suspend_wakeups);
+-	if (usb_anchor_check_wakeup(anchor))
++	if (__usb_anchor_check_wakeup(anchor))
+ 		wake_up(&anchor->wait);
++	spin_unlock_irqrestore(&anchor->lock, flags);
+ }
+ EXPORT_SYMBOL_GPL(usb_anchor_resume_wakeups);
+=20
+@@ -949,6 +980,14 @@ EXPORT_SYMBOL_GPL(usb_anchor_resume_wakeups);
+ int usb_wait_anchor_empty_timeout(struct usb_anchor *anchor,
+ 				  unsigned int timeout)
+ {
++	/*
++	 * The condition must be evaluated under anchor->lock: when this
++	 * function returns non-zero, every URB giveback that has incremented
++	 * suspend_wakeups has finished with the anchor, so the caller may
++	 * free the anchor, which is typically embedded in the driver's
++	 * private structure.  A zero return (timeout) means a giveback may
++	 * still be in flight and gives no such guarantee.
++	 */
+ 	return wait_event_timeout(anchor->wait,
+ 				  usb_anchor_check_wakeup(anchor),
+ 				  msecs_to_jiffies(timeout));
+@@ -1005,7 +1044,7 @@ void usb_scuttle_anchored_urbs(struct usb_anchor *ancho=
+r)
+ 					    struct urb, anchor_list);
+ 			__usb_unanchor_urb(victim, anchor);
+ 		}
+-		surely_empty =3D usb_anchor_check_wakeup(anchor);
++		surely_empty =3D __usb_anchor_check_wakeup(anchor);
+=20
+ 		spin_unlock_irqrestore(&anchor->lock, flags);
+ 		cpu_relax();
 
 base-commit: aebb7274476403040d582c61478df8f4a7bf9cd3
 --=20
-2.39.5 (Apple Git-150)
+2.39.5 (Apple Git-154)
+
