@@ -1,54 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795772343;
-	b=kgWYPK23MEQgo/XeAY2fo6DGYF7WtAkL19953yF//GVxeO+uA6j6xGL5IKryaOTYUbPs
-	 sutY1N1Z1gl/sgWV/FC/p/zzhhaDZZj83EbFPifMLmtPWzSHDKlj2V1UScwCDCxKzf4Nb
-	 XBBiGXVRaO4OCuOAM1VjE0DIVnlcuZGZGVBMzZCWqz7dxKcVjybGnXiael2DNBynoqv2k
-	 uwXG1NRW25RwmuKVjV6vIl9efENcfjxui7dY6Qh1QWKARlnD3UH+zsTJWImduhoyfFHbH
-	 +E9F+4nYD9Jhocidh+nCIA6uubU1ngFdm0xn73EZO92WVLwxX7xK9W748M3cnQNOeiA==
+	t=1795773323;
+	b=nSOYllEykJqUlKini+AMUjYabXcSKNzJXm01WsxQznGrSQcd06koANQAUaGftG3KVlbp
+	 qHvMHZOYckWpL26eXjveBUBztJb46qFMZF/KXTQpEe5KLij/JQP2IfVlhkdGHJKE+KX0e
+	 TgmvsLYNLAYsD5qLd63C8VGrkzx2GJI2ITeOKpmlfbPhOAq32f1kxeB/UcWsSdRdfTUDM
+	 DlMW2GtxNpvWqWBN5YixpM4Nzj0fY7UBWdkWWOHRac+5KoCjyFTeh1txhMYPf/niliSUn
+	 Z6LoLyOPYs8S0zhKvJS+eKfI7LkYJRC9twHzJHrWsoJEwzLkDIf5HzBY7XuMKF7VIOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795772343;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795773323;
 	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition;
-	bh=mfJqk98mJdcmdV025H5HNC/7B5mh3WsSXVf02Dyg9eE=;
-	b=Pmd8w66u7EQChiZA50mGAgae5+4avjtpjD0qF5LPLylZAn/aaLQOV00EplEIaZgON//t
-	 NHa+U1mNUycGt9ghzjU/MK6Bqi4/3nfV6TeFwQiPCywd61gik+CGN0QeKt/5DKQKoO4qj
-	 QSzhty4i9SfmdisUH5P363N49u4hX6mnGwkK9+Vt67tT7yx60y1VNA+HhePgiVD7PoCzk
-	 nf2j6t8mot7gAjHwPOewmc6+h1fANiDGaETVNvCmn6SXyVn9W0Cy9bs5kw+c/7dd8rzOl
-	 c6X1ml3Q+1D8Tun8+sijUdELynC48PC++FKYV9RUlKJt13XYxjWRBCcvZcStdpK7i0Q==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=p3cYCUgUxSjvIlDe1M+C4qItW5CrUe60ZsN/iRe42BM=;
+	b=y4ymeM/8HOWg6vrloKq5l69PTCld/68f0UAXy1/xYOnElsA4JtyQ6BSsyKk8LUmkM1hM
+	 4XUCV2oKlKhzqtvqFT7KWDwDJvZ85rknddJhRKEjTEqXga38AInwZ22MRfdmft88iQxB3
+	 Xj9qMERqVb4NRIBNt5ZefztVgKckiIixSiXtJCOXtm0LSiZ6G9YCQWNGYWh9UR+uuK4jX
+	 XtwkmJCjIvAgZS0qfp892pv4/dgepy40GbflDJl5zfQVrW6rJE6OsUd/eCnNj/pdPYlkX
+	 ESdDG37jVOWO22c2OhVgGmMTDB6KwaTC+7bmZDNRjFTM6ync2PkpG/cPs2GJYI6fH/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fZH05icf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lJrPqqXQ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC404606A31C;
-	Fri, 27 Nov 2026 09:39:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CC2606A338;
+	Fri, 27 Nov 2026 09:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fZH05icf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40E8A1F00897;
-	Fri, 27 Nov 2026 09:39:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lJrPqqXQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9F11F00934;
+	Fri, 27 Nov 2026 09:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795772343;
-	bh=mfJqk98mJdcmdV025H5HNC/7B5mh3WsSXVf02Dyg9eE=;
-	h=Date:From:To:Cc:Subject;
-	b=fZH05icfdHa5AtsNECAIl41e360zqCv2UpE09GpN+8S3I5cZCXPEOtyCSAC5xwGHj
-	 ImRUS+yPZS+V92OqZTdULAIJS4X6LfYQvmdSAwljcYsIUTMQ0U9ibQzg+10S1ODu65
-	 dY71gfb7YFfwuhljRyy1z3vfNx6aUiCmvSxwll9B3l7qU4IuZ3cu4BaW++fXbqqGjS
-	 MuL7VOqVk0vh8OviinV8/BF3ByHhxwZuyWw+7ukU/4tEXdu7b4HTS7UHwrQZlea1PY
-	 8Q9N+8ue/KCp03XFa14vducrgtkR61fe4g6EfeLzMm7eyCNU6tMYMUyAsHul60QCaq
-	 9CZY1fWO1yNqw==
+	s=k20260515; t=1795773323;
+	bh=p3cYCUgUxSjvIlDe1M+C4qItW5CrUe60ZsN/iRe42BM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lJrPqqXQGxLm9D14wjS+YcqHz3lDbf7HCwVN7lBl8xqGQFd4uCEZW37GvgsrBQt0p
+	 za9A9fc//4pDI7CvVgOY6bzPdD1r9AsdneL0WEhqkUb77krNI0ffGkyyF+BYrZosIT
+	 URdm1Xj8Vu1IRY+2Ixi8/8N/oEUGpYE8sBd6cDCcWTdqkJ8z2VkenMCTvdSp8ODu7n
+	 0X8Dtspc1Jdxv7EU7s6ZRA9xBkCg0yIGhbds7vCrmvsC9R/QBjMjz+TDqcgAYFEiAN
+	 mfau8tNeH7o2xJoQPk6cJn6zhm+/qmXKbw/mY2BtTLqCnIxl2NEjhs9yJS1fcDq96F
+	 utfERggR2jIaA==
 Received: from johan by xi.lan with local (Exim 4.100.2)
 	(envelope-from <johan@kernel.org>)
-	id 1xWsQ0-00000001yjk-3KWq;
-	Fri, 27 Nov 2026 10:39:00 +0100
-Date: Fri, 27 Nov 2026 10:39:00 +0100
+	id 1xWsfo-000000020z7-3GbL;
+	Fri, 27 Nov 2026 10:55:20 +0100
+Date: Fri, 27 Nov 2026 10:55:20 +0100
 From: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] USB serial fixes for 7.4-rc5
-Message-ID: <awlPtNqbTB-dyXBI@hovoldconsulting.com>
+To: Thorsten Blum <blum@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: console: use isdigit() in
+ usb_console_setup()
+Message-ID: <awlTiK2cweuFAsfv@hovoldconsulting.com>
+References: <20261106090304.2410-2-blum@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,34 +63,13 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20261106090304.2410-2-blum@kernel.org>
 
-The following changes since commit f11fe7603df07fbb9fa02b0d385c1696c87a6dab:
+On Fri, Nov 06, 2026 at 10:03:05AM +0100, Thorsten Blum wrote:
+> Use isdigit() to replace the open-coded implementation.
+> 
+> Signed-off-by: Thorsten Blum <blum@kernel.org>
 
-  Merge tag 'usb-7.3-rc4' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb (2026-11-16 07:55:02 -0800)
+Applied, thanks.
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-7.4-rc5
-
-for you to fetch changes up to d091d9a05f78af9332785f1767467a0a88d24233:
-
-  USB: serial: f81232: drain work on failed open (2026-11-17 13:34:10 +0100)
-
-----------------------------------------------------------------
-USB serial fixes for 7.4-rc5
-
-Here are couple of fixes for long-standing issues that could cause
-trouble, for example, when open() races with disconnect.
-
-Both have been in linux-next with no reported issues.
-
-----------------------------------------------------------------
-Haowen Tu (1):
-      USB: serial: f81232: drain work on failed open
-
-Johan Hovold (1):
-      USB: serial: mct_u232: fix NULL-deref on open() failure
-
- drivers/usb/serial/f81232.c   | 3 +++
- drivers/usb/serial/mct_u232.c | 2 +-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+Johan
