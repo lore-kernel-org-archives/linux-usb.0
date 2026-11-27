@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795777226;
-	b=R8meaX6NBV93DTXOV5WH1OkPQqqK7nWYszLwR/h/Wmw9AQ9ehAOGhaTwr5bZIWCs9+q8
-	 7zQWvywnX6K6M+mydeRJ/ADTmwFK26GAClW793FX65wuScqHi6ZCkNeOa23iXb09L7DoS
-	 OLVHFrd22YGVas+SW9t/gQJhVrEEnmhlGP8Mz+6dy6Tz1Y6g1kEnB5iVW8CWY9qpjMcoc
-	 n+F18Q7sB+f96EiGjPKVicNmS3kdZNkqItJNnEc/4KDovjqUDSKeWR15T0Vyp5IijAEKR
-	 BGWWb6QOONYCJ8qAWM7S/b2l77JLtXxz1JLn+fAt9XmRuk0K9D6oJG+3RwzxEAQT6rg==
+	t=1795777261;
+	b=CmtEGexplow+9En3Zc0wL+O5rYAX2FBGHCDlq3SeEyve4M3Bl4mS8zjGBlbXtgkaVOdR
+	 ET8xq4AtyzmxT/AuETsFiEIgfhtcOMUO9XZh+Wyi6gH17f82eBAdfLbYRx6dHvPSqJTBc
+	 VQnnOikK+Jzhk3FLaiP7qbVX+OGUo+2egTXWhxq0XKmyN4c/zRVn+WGNOfkz/g+dh2NVe
+	 /R9vKFJ7EqFUgNnOlwweIa32wmClGMdxolq4e96Z5H4kmu6mkBBXR07/T3BOOVnTB1Rrl
+	 sB4BiLhofdr2jsdnlxQudWNm/p2r2U3W7c+zTGBD4tQ4mHYA10wi9BFRCLWlDzcKN/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795777226;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795777261;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Sp5Gnyy38F/zx7vt+y+rlR2k6lPmseA/uBDBcWGGwnw=;
-	b=qBLzv/JK4p8nWDrPVMQ0TR90AImcqnrd8gKR3v+gVjFksfXnT0Z+yKCsEdYqAiJ5Ib+y
-	 axf5ArT+wuTanFPKOjJygfZPtWlfcx+4FbjOBkViorMfUcD4oXA6UjWBDvt9UTe5X7xaY
-	 XnCOW36VCOTqWnTZh8CIJm7s42zmB8msR41AC2hhkqZHBYpfy7q+vjTlz0Tm2Kmd7i6NO
-	 GVuwT6kHZg9lCYuTr9+FaOyelkO4X+FBIm03EMsO2AhFxwK5UfAiYkjwsjjCson3cagCO
-	 mAnHcfIbpL2BwVynMDix/nt03TvJ2seUEF38+x3Jjjudq5k7GAQ2PO7m0LZVNjSixkA==
+	bh=O96dyV9ASRiU2oVGDg0b4o6aHS0l7WULOvnt5qH0fCA=;
+	b=fqU2Mop0DO41QK4HEtfEoyO9qZ62aVuDElNbQvJhmB4+xKAULBruHQxbASF2138Owc+I
+	 Sj8k4evFCIRRV9PPChNSy3S+NYUFzeNPbEN05M5vITQMPGLQ/G0vVaO1uFrac7GY5rZke
+	 sZyU3rKTlh1Nig367wPqG5MfnnIk+JqbTt4ky5h+7ImYefZrABTGAHcFYeH0rGBdwbjxJ
+	 ehZ32ALHX3iHS+8nhZ7CmngfrvHRldeWJEREv566OBBDWqiphYY8lABhxKlYIgynLBJ13
+	 FD91+z0z1FdpSNjT0mGoJASPTa2dp38OqZ/+/E4Lt0fsL+kFck4MmHPvUpfaGtRR1pw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mX54gFj5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FgRcr8ND;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DA9606A31C
-	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 11:00:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACEA606A32C
+	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 11:01:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mX54gFj5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F3441F000C1;
-	Fri, 27 Nov 2026 11:00:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FgRcr8ND
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31AA01F000C1;
+	Fri, 27 Nov 2026 11:01:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795777225;
-	bh=Sp5Gnyy38F/zx7vt+y+rlR2k6lPmseA/uBDBcWGGwnw=;
+	s=k20260515; t=1795777261;
+	bh=O96dyV9ASRiU2oVGDg0b4o6aHS0l7WULOvnt5qH0fCA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mX54gFj5qqdNd5Zdg7W1Qgj4/hZYEMtzZUmvP7C6kg582KNoYmxjrwiiXwrARS8lD
-	 4sOE76GOxoCR4qwTXhC+5mruoiisvjW3KeFWQhUFuIRW1nTK/sOOY7LPb//eJLSrFq
-	 kNqrrT5E9LcxiURgxk5My3D7jgwg/V2KqcE0OPxmptTCXnxlgkXpNxd9uQyFkMqDKx
-	 eJOmS05hRoA+qU4h8w1PpdiIw2A+GMGoMsUVvLEw5TRApiWojRbktKRDR+wp/Mv1Ic
-	 c81v9sDoDvYtxEv4cu3GxipdufD0JYcGSTU2tvYOOX49/Dao104j7hGJXL1QTQUn5J
-	 6N6KKwfAs6CYA==
-Message-ID: <sashiko-outbox-237197@kernel.org>
+	b=FgRcr8NDJFEkQHCm3QHZMCaBSkuMqE7nszxP/rR0aa2tmImJ+C2W5UCwG1aenIRL5
+	 e7OQTNuqOdw9iS44fWYXx/eTFdj7ltzr4He4SCnFkU7sqlPOG8BgnvTZWHRRzGp0f2
+	 bghU1uprfd+sLa7ujPmlzSX3aHLo9/3TdRbKWq15oi5szomq5umrAOUewMiz+rBwin
+	 w2rXCMRvrl6dEROk5gDYCJ2zIFlS79xJYfD95mmVX80U2IuO3Hu5/x/Sc8mBqnO05f
+	 st9yA2YN5VN8yc2VmENlWdXu+2h22jB6YuYa3ziLlF4xO/OIYp2EQTmjMEeG7t34XH
+	 0+QuAc0KM547w==
+Message-ID: <sashiko-outbox-237201@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 3/6] usb: typec: fusb302: Read out the RX FIFO rather
- than flush it as PD RX goes on
+Subject: Re: [PATCH v2 5/6] usb: typec: fusb302: Acknowledge
+ Get_Source_Cap_Extended from the driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Alexey Charkov" <alchark@flipper.net>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261127-fusb302-getsourcecap-v2-3-6770eb1e7945@flipper.net>
+In-Reply-To: <20261127-fusb302-getsourcecap-v2-5-6770eb1e7945@flipper.net>
 References: <20261127-fusb302-getsourcecap-v2-0-6770eb1e7945@flipper.net>
- <20261127-fusb302-getsourcecap-v2-3-6770eb1e7945@flipper.net>
+ <20261127-fusb302-getsourcecap-v2-5-6770eb1e7945@flipper.net>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 11:00:25 +0000
+Date: Fri, 27 Nov 2026 11:01:00 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,137 +61,323 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 5 potential
 issues to consider:
-- [Medium] usb: typec: fusb302: RX FIFO flush of acked messages in
-  fusb302_pd_rx_start()
-- [Medium] usb: typec: fusb302: single message discard in
-  fusb302_pd_rx_start() misclassifies packets
+- [Medium] usb: typec: fusb302: CRC_CHK drain in fusb302_irq_handle()
+  runs before TX end
+- [Medium] usb: typec: fusb302: unacknowledged message passed to
+  tcpm_pd_receive()
+- [Medium] usb: typec: fusb302: rx_recheck wakes IRQ thread after
+  synchronize_irq()
+- [Medium] usb: typec: fusb302: irq_wake_thread() is a no-op on nested
+  threaded IRQs
+- [Low] usb: typec: fusb302: fusb302_pd_check_ack() saves masked
+  interrupt bits
 --
 
-commit 54397075ee71cab92e4ff1f9f4be91c84e562300
+commit dc7071ade05719019e8a6d55a3f3fc80613971c7
 Author: Alexey Charkov <alchark@flipper.net>
 
-usb: typec: fusb302: Read out the RX FIFO rather than flush it as PD RX goe=
-s on
+usb: typec: fusb302: Acknowledge Get_Source_Cap_Extended from the driver
 
-This commit drains and drops unacknowledged packets from the RX FIFO when
-turning PD RX on instead of flushing it, and checks GCRCSENT after enabling
-automatic GoodCRC generation to determine whether an in-flight packet was
-acknowledged.
+This commit sends a software GoodCRC from the driver upon receiving a PD 3.0
+Get_Source_Cap_Extended message, which the PD 2.0 FUSB302 hardware mistakes
+for a GoodCRC and leaves unacknowledged.
 
 > diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fu=
 sb302.c
-> index d57f9ae6621d6..5cf1b78e7669b 100644
+> index aa0e4dbe31dbd..c98a74fc7a2ac 100644
 > --- a/drivers/usb/typec/tcpm/fusb302.c
 > +++ b/drivers/usb/typec/tcpm/fusb302.c
+
 [ ... ]
-> @@ -1835,6 +1847,102 @@ static void fusb302_pd_rx_recheck_work(struct wor=
-k_struct *work)
->  	mutex_unlock(&chip->lock);
+
+> @@ -1531,10 +1559,110 @@ static int fusb302_pd_reset(struct fusb302_chip =
+*chip)
+>  				    FUSB_REG_RESET_PD_RESET);
 >  }
 > =20
-> +/* Tries at reading out the RX FIFO, before turning PD RX on */
-> +#define FUSB302_RX_DISCARD_TRIES	4
+> +static void fusb302_pd_tx_complete(struct fusb302_chip *chip,
+> +				   enum tcpm_transmit_status status)
+> +{
+> +	chip->tx_pending =3D false;
+> +	tcpm_pd_transmit_complete(chip->tcpm_port, status);
+> +}
 > +
 > +/*
-> + * Turn automatic GoodCRCs on, and keep messages that came in before fro=
-m TCPM:
-> + * the partner, failing to deliver one, keeps its MessageID for the next=
+> + * See whether a GoodCRC the driver sent collided before releasing chip-=
+>lock:
+> + * by the next interrupt, TCPM may have started a transmission, and the
+> + * COLLISION would then be reported against it. The chip sets COLLISION =
+when
+> + * TXON finds CC busy, so it is there to see by now. Keep the other bits=
 , which
-> + * TCPM would then drop as a retry. Read them out rather than flush the =
-FIFO,
-> + * which would cut short a packet coming in, so that the chip may acknow=
-ledge
-> + * it and leave the rest of it behind. A packet on CC as GoodCRCs come o=
-n goes
-> + * to TCPM only if it gets one.
+> + * reading the register clears, pending for fusb302_irq_handle().
 > + */
-> +static int fusb302_pd_rx_start(struct fusb302_chip *chip)
+> +static int fusb302_pd_check_ack(struct fusb302_chip *chip)
 > +{
-[ ... ]
-> +	/*
-> +	 * Only the packet that was on CC as GoodCRCs came on can have gone
-> +	 * without one, if it is in the FIFO by now: whatever lands after it
-> +	 * got a GoodCRC from the chip
-> +	 */
-> +	chip->rx_discard =3D !(status1 & FUSB_REG_STATUS1_RX_EMPTY) &&
-> +			   !(interruptb & FUSB_REG_INTERRUPTB_GCRCSENT);
-> +	if (chip->rx_discard) {
-> +		ret =3D fusb302_pd_read_message(chip);
-> +		chip->rx_discard =3D false;
-> +		if (ret < 0)
-> +			goto out;
-> +	}
-
-[Severity: Medium]
-Can calling fusb302_pd_read_message() once here misclassify packets when
-GCRCSENT is not set?
-
-When !(status1 & FUSB_REG_STATUS1_RX_EMPTY) &&
-!(interruptb & FUSB_REG_INTERRUPTB_GCRCSENT) holds, none of the data
-currently in the RX FIFO was acknowledged.  However, if those bytes are a
-cut-short fragment (for example, after the fallback fusb302_pd_rx_flush()
-above) or fail the CRC check, fusb302_pd_read_message() stays in its
-resync loop reading from the live FIFO until it finds a valid message or
-the FIFO runs dry:
-
-drivers/usb/typec/tcpm/fusb302.c:fusb302_pd_read_message() {
-    ...
-		if (fusb302_pd_rx_crc_ok(chip, 0, len))
-			break;
-		if (!chip->rx_resync)
-			fusb302_log(chip, "PD message failed CRC check, header: %x",
-				    get_unaligned_le16(chip->rx_buf + 1));
-		chip->rx_resync =3D true;
-		fusb302_pd_rx_drop(chip, 1);
-		dropped++;
-	}
-    ...
-}
-
-If a new packet arrives while those I2C reads are in progress, the chip
-acknowledges it with a GoodCRC (since AUTO_GCRC is already on), and
-fusb302_pd_read_message() consumes and drops that acknowledged message.
-Conversely, if I2C or scheduling latency between exiting the initial
-discard loop and setting AUTO_GCRC allowed two unacknowledged packets into
-the FIFO, discarding only one message leaves the second unacknowledged
-message to be passed to TCPM.  Either case desynchronizes MessageID
-tracking with the partner.
-
-> +	ret =3D fusb302_pd_read_messages(chip);
-> +out:
-> +	if (ret > 0) {
-> +		/*
-> +		 * CC stayed busy with GoodCRCs on, so which packets in the FIFO
-> +		 * the chip acknowledged is unknown: flush them all
-> +		 */
-> +		fusb302_log(chip, "CC busy as PD RX went on, flushing RX FIFO");
-> +		ret =3D fusb302_pd_rx_flush(chip);
-> +		fusb302_pd_rx_reset(chip, true);
-> +	}
-> +	/* TCPM then treats PD RX as off */
-> +	if (ret < 0 && gcrc_on)
-> +		fusb302_pd_set_auto_goodcrc(chip, false);
-> +	chip->rx_discard =3D false;
+> +	u8 interrupt;
+> +	int ret;
 > +
-> +	return ret;
+> +	/* Left set on an error, for fusb302_irq_handle() to tell COLLISION */
+> +	ret =3D fusb302_i2c_read(chip, FUSB_REG_INTERRUPT, &interrupt);
+> +	if (ret < 0)
+> +		return ret;
+> +	chip->ack_check =3D false;
+> +	if (interrupt & FUSB_REG_INTERRUPT_COLLISION)
+> +		fusb302_log(chip, "GoodCRC sent by the driver collided");
+> +	chip->pending_interrupt |=3D interrupt & ~FUSB_REG_INTERRUPT_COLLISION;
+> +
+> +	return 0;
+> +}
+
+[Severity: Low]
+Does fusb302_pd_check_ack() leave masked status bits such as
+FUSB_REG_INTERRUPT_ACTIVITY set in chip->pending_interrupt?
+
+The FUSB302 latches FUSB_REG_INTERRUPT_ACTIVITY in FUSB_REG_INTERRUPT on CC
+activity even when masked in FUSB_REG_MASK, including from the GoodCRC
+transmission itself.  Because chip->pending_interrupt is then always
+non-zero after a driver-sent GoodCRC, fusb302_irq_handle() will loop through
+its "goto again" path and perform four extra I2C register reads every time,
+and fusb302_pd_check_ack_async() will always wake the IRQ thread.
+
+> +
+> +/*
+> + * As fusb302_pd_check_ack(), outside the IRQ thread: reading INTERRUPT =
+clears
+> + * the flags that raise the IRQ, so have the IRQ thread handle what it r=
+ead
+> + */
+> +static void fusb302_pd_check_ack_async(struct fusb302_chip *chip)
+> +{
+> +	if (!chip->ack_check || fusb302_pd_check_ack(chip) < 0)
+> +		return;
+> +	if (chip->pending_interrupt)
+> +		irq_wake_thread(chip->gpio_int_n_irq, chip);
 > +}
 
 [Severity: Medium]
-Does calling fusb302_pd_read_messages() instead of fusb302_pd_rx_drain() at
-the end of fusb302_pd_rx_start() flush packets that the chip has already
-acknowledged?
+Can chip->pending_interrupt be stranded when chip->gpio_int_n_irq is behind
+an I2C GPIO expander?
 
-By the time execution reaches this call, AUTO_GCRC is enabled and any
-unacknowledged packet that was on CC during the transition has already been
-handled.  If CC is now busy with a new incoming packet (or
-FUSB302_RX_FIFO_MAX_MSGS messages were read), fusb302_pd_read_messages()
-returns 1 and the out: block flushes the RX FIFO instead of scheduling
-chip->rx_recheck.  Because the chip has already sent (or will send) a
-GoodCRC for those packets, the partner considers them delivered and will
-not retry them.
+Interrupts behind a sleeping GPIO expander are registered as nested threaded
+IRQs (IRQ_NESTED_THREAD), where irqaction->thread is NULL and handlers run =
+on
+the parent controller's thread.  irq_wake_thread() does nothing when
+action->thread is NULL:
+
+kernel/irq/manage.c:irq_wake_thread() {
+    ...
+	for_each_action_of_desc(desc, action) {
+		if (action->dev_id =3D=3D dev_id) {
+			if (action->thread)
+				__irq_wake_thread(desc, action);
+			break;
+		}
+	}
+}
+
+Since fusb302_pd_check_ack() has already read and cleared FUSB_REG_INTERRUPT
+in the chip, INT_N deasserts and the events saved in chip->pending_interrupt
+will not be processed until an unrelated interrupt fires.
+
+> +
+> +/*
+> + * TCPM waits for the outcome of its last transmission, unless it gave u=
+p after
+> + * PD_T_TCPC_TX_TIMEOUT, which it does without telling the driver
+> + */
+> +static bool fusb302_pd_tx_waiting(struct fusb302_chip *chip)
+> +{
+> +	return chip->tx_pending &&
+> +	       ktime_ms_delta(ktime_get(), chip->tx_start) <
+> +	       PD_T_TCPC_TX_TIMEOUT;
+> +}
+> +
+> +/*
+> + * The chip only decodes the low four bits of the message type, so it mi=
+stakes
+> + * Get_Source_Cap_Extended (0x11) for a GoodCRC (0x1): it neither acknow=
+ledges
+> + * it nor raises GCRCSENT, only CRC_CHK, yet still queues it in the RX F=
+IFO.
+> + * Send the GoodCRC from here once the message checks out. It goes out w=
+ell
+> + * after 195us (tTransmit), but the partner retries with the same Messag=
+eID and
+> + * usually accepts it then, rather than soft reset over and over.
+> + */
+> +static void fusb302_pd_rx_ack(struct fusb302_chip *chip)
+> +{
+> +	u16 header =3D get_unaligned_le16(chip->rx_buf + 1);
+> +	struct pd_message ack =3D {};
+> +	int ret;
+> +
+> +	if (chip->rx_discard || chip->rx_acked || pd_header_cnt(header) ||
+> +	    pd_header_type(header) !=3D PD_CTRL_GET_SOURCE_CAP_EXT ||
+> +	    (chip->rx_buf[0] & FUSB302_RX_TKN_MASK) =3D=3D FUSB302_RX_TKN_SOP1)
+> +		return;
+> +	chip->rx_acked =3D true;
+> +
+> +	/*
+> +	 * The outcome of a GoodCRC sent now would pass for that of the
+> +	 * transmission TCPM waits for, so leave the partner to retry then
+> +	 */
+> +	if (fusb302_pd_tx_waiting(chip)) {
+> +		fusb302_log(chip, "not acknowledging PD message, TX pending");
+> +		return;
+> +	}
+> +
+> +	/*
+> +	 * The chip's own GoodCRCs go out as revision 2.0. As it decodes only
+> +	 * the low four bits of the message type, it treats any GoodCRC it
+> +	 * sends as one that needs no GoodCRC in return, so it sends this one
+> +	 * once, without retries or RETRYFAIL, whatever the retry count is.
+> + */
+> +	ack.header =3D PD_HEADER_LE(PD_CTRL_GOOD_CRC, chip->pwr_role,
+> +				  chip->data_role, PD_REV20,
+> +				  pd_header_msgid(header), 0);
+> +	ret =3D fusb302_pd_send_message(chip, TCPC_TX_SOP, &ack);
+> +	if (ret >=3D 0)
+> +		chip->ack_check =3D true;
+> +	else
+> +		fusb302_log(chip, "cannot acknowledge PD message, ret=3D%d", ret);
+> +}
+
+[ ... ]
+
+> @@ -1680,6 +1808,8 @@ static int fusb302_pd_read_message(struct fusb302_c=
+hip *chip)
+>  		dropped++;
+>  	}
+> =20
+> +	/* The CRC checks out: acknowledge it, should the chip not have */
+> +	fusb302_pd_rx_ack(chip);
+>  	chip->rx_resync =3D false;
+>  	token =3D chip->rx_buf[0];
+>  	memcpy(&msg, chip->rx_buf + 1, len - 5);
+
+[Severity: Medium]
+When fusb302_pd_rx_ack() withholds the GoodCRC because
+fusb302_pd_tx_waiting(chip) is true (or fusb302_pd_send_message() fails),
+does fusb302_pd_read_message() still pass the unacknowledged
+Get_Source_Cap_Extended message to tcpm_pd_receive()?
+
+Delivering the unacknowledged message causes tcpm_pd_rx_handler() to record
+its MessageID in port->rx_msgid and start transmitting a reply (setting
+chip->tx_pending =3D true again), while any later acknowledged retry from t=
+he
+partner with the same MessageID will be dropped by TCPM as a duplicate.
+
+[ ... ]
+
+> @@ -1847,6 +1977,7 @@ static void fusb302_pd_rx_recheck_work(struct work_=
+struct *work)
+>  		if (ret < 0)
+>  			fusb302_log(chip, "cannot read in PD message, ret=3D%d",
+>  				    ret);
+> +		fusb302_pd_check_ack_async(chip);
+>  	}
+>  	mutex_unlock(&chip->lock);
+>  }
+
+[Severity: Medium]
+Can fusb302_pd_rx_recheck_work() wake the IRQ thread after synchronize_irq()
+in fusb302_pm_suspend() has already returned?
+
+drivers/usb/typec/tcpm/fusb302.c:fusb302_pm_suspend() {
+    ...
+	/* Let an IRQ being handled finish before the bus suspends */
+	synchronize_irq(chip->gpio_int_n_irq);
+	/* No RX FIFO recheck may run until the bus is back either */
+	cancel_delayed_work_sync(&chip->rx_recheck);
+	return 0;
+}
+
+CPU0                              CPU1 (kworker)
+fusb302_pm_suspend()
+  chip->irq_suspended =3D true
+  synchronize_irq(...)
+                                  fusb302_pd_rx_recheck_work()
+                                    fusb302_pd_rx_drain()
+                                    fusb302_pd_check_ack_async()
+                                      irq_wake_thread(...)
+  cancel_delayed_work_sync(...)
+  return 0
+                                  fusb302_irq_intn()  <-- runs during suspe=
+nd
+
+Because cancel_delayed_work_sync(&chip->rx_recheck) runs after
+synchronize_irq(), fusb302_pm_suspend() can return while the newly woken IRQ
+thread is still pending or running.
+
+[ ... ]
+
+> @@ -2014,6 +2151,22 @@ static void fusb302_irq_handle(struct fusb302_chip=
+ *chip)
+>  	chip->pending_interrupt =3D 0;
+>  	chip->pending_interrupta =3D 0;
+>  	chip->pending_interruptb =3D 0;
+> +
+> +	/*
+> +	 * A message the chip didn't acknowledge raises CRC_CHK alone: read it
+> +	 * out first thing, as its GoodCRC is past due already. Those that came
+> +	 * before PD was on, which nothing acknowledged, were dropped then.
+> +	 */
+> +	if (chip->pd_rx_on && (interrupt & FUSB_REG_INTERRUPT_CRC_CHK) &&
+> +	    !(interrupta & FUSB_REG_INTERRUPTA_TX_SUCCESS) &&
+> +	    !(interruptb & FUSB_REG_INTERRUPTB_GCRCSENT)) {
+> +		/* Still handle the other events then */
+> +		ret =3D fusb302_pd_rx_drain(chip);
+> +		if (ret < 0)
+> +			fusb302_log(chip,
+> +				    "cannot read in PD message, ret=3D%d", ret);
+> +	}
+
+[ ... ]
+
+> @@ -2061,14 +2214,19 @@ static void fusb302_irq_handle(struct fusb302_chi=
+p *chip)
+>  		}
+>  	}
+> =20
+> +	/* Not for TCPM if it came from a GoodCRC the driver sent */
+>  	if (interrupt & FUSB_REG_INTERRUPT_COLLISION) {
+>  		fusb302_log(chip, "IRQ: PD collision");
+> -		tcpm_pd_transmit_complete(chip->tcpm_port, TCPC_TX_FAILED);
+> +		if (chip->ack_check)
+> +			chip->ack_check =3D false;
+> +		else if (chip->tx_pending)
+> +			fusb302_pd_tx_complete(chip, TCPC_TX_FAILED);
+>  	}
+> =20
+>  	if (interrupta & FUSB_REG_INTERRUPTA_RETRYFAIL) {
+>  		fusb302_log(chip, "IRQ: PD retry failed");
+> -		tcpm_pd_transmit_complete(chip->tcpm_port, TCPC_TX_FAILED);
+> +		if (chip->tx_pending)
+> +			fusb302_pd_tx_complete(chip, TCPC_TX_FAILED);
+>  	}
+
+[Severity: Medium]
+Does draining the RX FIFO on FUSB_REG_INTERRUPT_CRC_CHK before handling
+FUSB_REG_INTERRUPT_COLLISION and FUSB_REG_INTERRUPTA_RETRYFAIL from the same
+interrupt snapshot mix up TX state before and after the drain?
+
+If TCPM's transmission fails with COLLISION or RETRYFAIL in the same
+interrupt snapshot as an incoming Get_Source_Cap_Extended, chip->tx_pending
+has not been cleared yet when fusb302_pd_rx_drain() runs, so
+fusb302_pd_rx_ack() sees fusb302_pd_tx_waiting(chip) as true and skips
+sending the GoodCRC.
+
+Conversely, if fusb302_pd_rx_ack() sends a GoodCRC during the CRC_CHK drain
+and sets chip->ack_check =3D true while the earlier interrupt snapshot alre=
+ady
+had FUSB_REG_INTERRUPT_COLLISION set, the COLLISION handler below will clear
+the new chip->ack_check against that older COLLISION bit, skipping both any
+chip->tx_pending failure report and the done-path fusb302_pd_check_ack()
+call for the newly sent GoodCRC.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127-fusb302-ge=
-tsourcecap-v2-0-6770eb1e7945@flipper.net?part=3D3
+tsourcecap-v2-0-6770eb1e7945@flipper.net?part=3D5
