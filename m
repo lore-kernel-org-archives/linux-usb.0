@@ -1,100 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.178
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795805220;
-	b=rF/ypYyIgNySb3Xuz/qVihk0RRN/X0mwrB00jjDFXHgSsIR/V5OGGWDJD6IfnL/ECAHw
-	 FO+c0oR9IvpQV39DMQUzBvxH8mwKZQMqgszjqnm1nyXdT/Vu9flyBIPZe6zxfpYRcCm83
-	 Q5GBHJZSvf6Pq1hYgm5HShcUgdKFs7t1gA7jxX7CA7nQ3rnPLmx16iE56fbNu+JvvkAbL
-	 rqpycaEotvXqtakgSvSjNOSgki6ZhcbjB+FddIpBhQ0ZIVHsvJxfUFUixtJ17ZWSu4AEo
-	 9AI07DipA0eqRjoiGdpVbdpHn5+j+xGrYLShk2NodtNmw7Oj6ci3r0iTvil+sPh5vVw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795805220;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:In-Reply-To:References:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=q93v57zPn2xmCbL5Y+J1Q4E4wvK5vAu0gKbayenJJrA=;
-	b=LBxbpMVJ39c9ijQnbWIu8TIahcxZ/CoW1xuNyiGbqzMWBvaDWW7Z66pl67znqhaIpjJi
-	 iezbneJeQTO9igPbJfUivC1Z5l6GGCDj2zUms3HX/UC3qSb6iECNNpEIzcUkGzIVaoteh
-	 uKWmPaFVac1mPSjFGmBeviSx8356azfFgVQ/bMP8tU37Rp6QLOh/62HqR8la00IadMV8q
-	 RuOQYRYwi3KIsyBSbHxFW/7OCzpxUVsihjAX6vTKpkr+VxBF8HppKOdfyhry+w2N+BgFh
-	 8sc77Z0IU4v2l4Xh1kCx0LFba4oo8OA6uEpjN3RgO8ZOnxZi7DZNYkpsE25jYt/h3dA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=certik.com;
-	spf=pass smtp.mailfrom=certik.com;
-	dkim=pass header.d=certik.com header.i=@certik.com header.a=rsa-sha256 header.s=google header.b=Xm1IN39J;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.178
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795805410;
+	b=y7CWxiPO5H/GIOP8ptcMDthzKrvBAo2qUxkj2Qbud1lTQq/Qn8ReW3l+fnEN/gtWx+O1
+	 eAOIQ86k/MJKBMHPm843dKvRerlAQyTbXaUQNUhEI68HAe5OHuT/oXpUe7MGf3RWWk5R1
+	 QlJ2CFjzuzki9ijdePIVOWZGIPmucXHGlS/27YPL9I8qEUbj0cYvXQldcIBHO4z8OBuY4
+	 s0ZyETJ6WdQ86P+lIyVHKwk51zcUyniYAEvOhpQEuqrJE87iSPE7lVqBGvkmY+J5zNzTe
+	 dI1aIvTH4TdrX+V2QcGOg7C3cgZJQZXuvvF1+J0X8OboG5k/EFMal1Rroy6fFL0O5iA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795805410;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=qXXKZgKzevk+FELbxBaLY2ig2HLABfXnKh3rCztmsH4=;
+	b=GJiLLNgHdUsCZ4ljrbzZ+lX7Pye8NHwS5UGZe/Jyoh931n4IVgkv4xhDgiZtra2tJQEU
+	 sh9uP3momx+526hAe7GgJJSRv+GSlU83yWS/vIfVjC00NtgYqDbauix53sV/u8+0tB7aJ
+	 RytV07ranmBYeN2P5ZWpfNeoujxFpxmZGEQlU+VZyu6aYaBczyxJm8sTIZGBB07mElLrL
+	 dvtNYp6GzQW4G8nvrAGxgmgfkT8J9GN4cTzgNZCynTcad/cIQKP59kLsT86t6pCRYggtj
+	 dWwuXKaLAtrRsgWDe8pEiuGYAdezLGdpa0+9LU/YXT+JP9e0FGQbfBkJOiy1ybGoDhg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mXHkgc7S;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A418D606A31C
-	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 18:46:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A418D606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=certik.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=certik.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0327606A31E
+	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 18:50:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=certik.com header.i=@certik.com header.a=rsa-sha256 header.s=google header.b=Xm1IN39J
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b4d5e645d1so52544197b3.1
-        for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 10:46:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795805218; cv=none;
-        d=google.com; s=arc-20260327;
-        b=OasLUGOkCqoKlNQxCm9yAAlgLqOcIyUTESNFfjUT4gMQOj5w4IrqKVI8/C7Pm3KhYf
-         uMhfchw/uwtvViR/5g5aQ1LlSLxhDg8NknQkvQGnSpus6qoxcHYhmZQYDjv1xJX+5GV9
-         8ARy/OlqrFf9Dm8KORGu0PezH1msMJK0fT7HgpybQWj0sDCz52OpzMky/6C3onbfFyzf
-         nwaCJ16UtbSo7qLT0SmbBIPRVjUJcEZSXrUlghRajuK+Pww0t1qdHqgMp1I3K3l81dsE
-         X7e9W8V8Toycc77J8Ukq0rn40Vril2gcSTcRgC/DbpDlryioIAtCoVdP7Gho9Smlkqar
-         j67g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:references:in-reply-to
-         :mime-version:dkim-signature;
-        bh=q93v57zPn2xmCbL5Y+J1Q4E4wvK5vAu0gKbayenJJrA=;
-        fh=QZef4JfnYmth9EwwW6XjHabci7xhFDu04acEdmsVoPQ=;
-        b=MdVkVwR0tyM8HwN6NAmZgQAcs+AEKZg9rRYx4sypgUXPLOu6uBmJjlMnKpm+l8WUw+
-         RMjO4YRrLZOh3FGeia7XcilBRYlZvNjKkP8SnAEN2yH2dd+7zbHJRkIynkjV1WF+wNAP
-         b+usdAloMRcPdHTKD/Q71dUtKpfk3B+vnFDmyGFIOzuush5M4NgaX4Ak8wnE56ovQ2qX
-         QytXq0gN8i8zGSLVn8IuGnHFKgyhqQy2pqNIw+cpAG3YxJzJv5aCp+0XCtLC5RiKX+H6
-         2zOMIlzNHL5cL1GTlKuZeKtJwSSNIO1/XtvIBex89wlTZy3hXK+QEW6CtASls6lheLfh
-         vuyw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=certik.com; s=google; t=1795805218; x=1796410018; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=q93v57zPn2xmCbL5Y+J1Q4E4wvK5vAu0gKbayenJJrA=;
-        b=Xm1IN39JbYfouBl65m2amBwOsdhaPWai1WU5KIk0kgx46cniC166xgzldCRphxcXKe
-         7AMkyDYsd4ctcExe8MgOmwgbou7pDOooPfyivspklGgB3zHgEUuE22xwWHdJJz7aucsi
-         opyfq6qkHyy4CkiZQva4EPJd8yf2UXJ+94CC4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795805218; x=1796410018;
-        h=content-type:cc:to:subject:message-id:date:from:references
-         :in-reply-to:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=q93v57zPn2xmCbL5Y+J1Q4E4wvK5vAu0gKbayenJJrA=;
-        b=0nNHWjYBRIao1N85OgNlOgkbOpNPGKCpGUbSiPlUEJD3Vf2LEbMuIMKwlcPj4aHfcg
-         3tyhbpYLw1qDtvIuwOjymBzYZz0LHSA7h12YdhYMz875OABu4SYGk7KnOO8fat63Tq/B
-         yovbG1QRpvkW6dkBDnCohkx8Poi0dUst0ys6Ofbl4a8e9S96mOi7cBDfnkaatb7uGybv
-         9j8Mtn/FOWVH/JJqRHUNvse/E7ctnTQgOix+4KNWSdmqtR8uWtV29GoD7ZmeU4e/8NVm
-         YIzrh54KlpbtjFMLoAkCbmmvdr5fKeER/ym6XhuaPD44u3JGfMNEQq83TDpuXLSX+ZJD
-         wdHA==
-X-Forwarded-Encrypted: i=1; AL+hErFKmia+Kw1GHDzc4zLv4YyokaV+EOyYfcwkOi8SIoTN/FKPq3aK714NERXpYTkRPKw/ue0Zgq+XKNY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+qqP1qXE2gfwIvXg3FRUM6iFTI4otgYSCuBcXD7VoRq7f1L3Md
-	Hw661HXHshaW3gC9ud+MxN5OP/KUPFj50MINoniGyiGC4XcYPCReriTS9dRXXmgdSfXT47D5JI1
-	t6QnAE4E6wEvE3eMCRdW9H/nXJ1F5h0QHGHD4ja8iEQ==
-X-Gm-Gg: AZFdTZdZE8ix7e4gHrKrPMEA8ZTw6AZ4FnxVwVuK4JfcjQLpepfi78mx44psinkMkov
-	PszAPf0DFbJvEDb3XLyfGaaqHganRUvstekMcLhq/jLQ6Zsunpv0PYaKbyA3ixhn2Ojuhd0Saj0
-	086CBybrlyNFXxzaDe5oxMnSJqvGxB1W3j/Bx7SRVIMeVKnWfJKhgKScaKfkeIKet/iA8rU9zbv
-	LRlzAJyh+BzSARKxXyPQBTX0GQtcaSVPLg41wQ/go+F+xYDcHRTepOu42hbus+Kz9y8bqchA6qC
-	AkvvnTTKpd0eydAnXCSER/mRsmyPAu/KoI37+lZtaVBiTdJa9rongAz5/REAuIAZjrAhfwXwBWe
-	+N2lBrwYFScYskMmn4OxOeSVd5bPPl0aMauW1psQFZ45AP7EtYVPLJR1HcIOyWxy50W2fPrOZJ5
-	q0obX43GKhmrnczuedFpzGdkuxWYxdmuDEz0j2rmLWRm1E2+p4Fl7H22pIeivD/HdTW3ZU1qtLr
-	oKCGpxNz12mwIDutB1NBVRtY784J2gu9lrjZg==
-X-Received: by 2002:a05:690e:4007:b0:679:c803:98d1 with SMTP id
- 956f58d0204a3-67df452b36cmr9214072d50.152.1795805218571; Fri, 27 Nov 2026
- 10:46:58 -0800 (PST)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 27 Nov 2026 10:46:57 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mXHkgc7S
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE2E1F000C1;
+	Fri, 27 Nov 2026 18:50:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795805410;
+	bh=qXXKZgKzevk+FELbxBaLY2ig2HLABfXnKh3rCztmsH4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=mXHkgc7SkiFUaRV03e8X+7H+4YI+3Dhm+ZwbP4OjPs7Vmjc6lASpb1Wil86rRVYwm
+	 6ndp8Q9Q/4y9I8Wo+d9VicsynqRuyXVegKYu74/dSEX5VOnuxjvE5RzV3zwbuughgH
+	 iYi8YuHVHG90UuZ4Q3c6l5iYhava6U2PWyx2iEjUUjgx5PcCx9sOcaEK2nskMASQZ4
+	 9awIhZJ6X14FMEJZ1MZBK+mFKTY/50QmgX733X66GsZr+LqfYNDxWqfOaGJBRgkSoc
+	 i+9XLXyAJRG/46Zf3Y3LNCnCjDsX4sm6kKt4djkZdmTq0TRmJy26akZC+wBgWMqC/0
+	 eGoMK+P7n8ftQ==
+Message-ID: <sashiko-outbox-238113@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] usb: gadget: pxa25x_udc: Support combined PXA and
+ IXP4xx builds
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Linus Walleij" <linusw@kernel.org>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261127-usb-pxa25x-udc-v2-1-4716d1f7af3e@kernel.org>
+References: <20261127-usb-pxa25x-udc-v2-1-4716d1f7af3e@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Nov 2026 18:50:09 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,41 +59,33 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-In-Reply-To: <2026112729-zips-gargle-7886@gregkh>
-References: <20261127-cip-cdns3-510c-v1-1-56e5faa149b9@certik.com> <2026112729-zips-gargle-7886@gregkh>
-From: Dickson Wu <dickson.wu@certik.com>
-Date: Fri, 27 Nov 2026 10:46:57 -0800
-X-Gm-Features: Aa3M54o7cosuMHt-QWhs8eHEQtBjHB9Qd-qez-EhtP8ls-KVf4RuqQcvKAY3A2M
-Message-ID: <CAFaZ9ep6+cQud2+ehFevnv70+yhpmqiTD6iEpsFMBmkUjMcnWg@mail.gmail.com>
-Subject: Re: [PATCH 5.10.y-cip] usb: cdns3: gadget: fix state inconsistency on
- gadget init failure
-To: Greg KH <greg@kroah.com>
-Cc: cip-dev@lists.cip-project.org, Pavel Machek <pavel@nabladev.com>, 
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, Ulrich Hecht <uli@fpond.eu>, 
-	Yongchao Wu <yongchao.wu@autochips.com>, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Nov 27, 2026 at 01:11:56PM +0000, Greg KH wrote:
-> There's no need to send cip-only patches to the usb public mailing lists
-> (or any other lore.kernel.org list).
+> Allowing little-endian IXP4xx kernels makes it possible to enable both
+> ARCH_IXP4XX and ARCH_PXA. The shared UDC driver still assumes that these
+> platforms are mutually exclusive: it defines UDCCS_IO_ROF twice and stops
+> the build with "Can't configure both IXP and PXA".
+>=20
+> Select the controller quirks using the running CPU rather than the kernel
+> configuration. Match both XScale CPU families and their supported
+> revisions, and remember whether the controller belongs to IXP4xx. Use that
+> flag to select the existing isochronous receive overflow bit and to keep
+> the EP0 status workaround specific to PXA.
+>=20
+> Remove the IXP4xx clock API overrides so that PXA clock control still
+> works in a combined kernel. Leave the clock NULL on IXP4xx, which has no
+> software-controlled UDC clock, and rely on the clock API's NULL handling.
+>=20
+> Drop the Kconfig restriction against enabling PXA25x and IXP4xx together,
+> now that the driver supports this combination.
+>=20
+> Fixes: 2262f02ac2aa ("ARM: ixp4xx: Relax endianness")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202611082010.e3nJgvr4-lkp@i=
+ntel.com/
+> Signed-off-by: Linus Walleij <linusw@kernel.org>
 
-Ah got it, sorry for the noise! I'll keep the CIP ones to cip-dev and
-the people involved from now on
+Sashiko has reviewed this patch and found no issues.
 
-Thanks,
-Dickson
-
-
-On Fri, 27 Nov 2026 14:11:56 +0100, Greg KH <greg@kroah.com> wrote:
-> On Fri, Nov 27, 2026 at 12:18:44PM +0000, Dickson Wu via B4 Relay wrote:
-> > From: Yongchao Wu <yongchao.wu@autochips.com>
-> >
-> > commit c32f8748d70c8fc77676ad92ed76cede17bf2c48 upstream.
->
-> There's no need to send cip-only patches to the usb public mailing lists
-> (or any other lore.kernel.org list).
->
-> thanks,
->
-> greg k-h
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127-usb-pxa25x=
+-udc-v2-1-4716d1f7af3e@kernel.org?part=3D1
