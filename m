@@ -1,96 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.251.229.89
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795814633;
-	b=W8BwQRkOro1KI7lucXNxTn2EE2+LPZyk2ouZP3k0oXewbMTtl5LOF6QlhRcdbCMjdI/k
-	 +HQd9NYFurfGt0GXexc370nUw0R/csBmCS2034fnJ4jzVwZqN/bSpcR5CXcmF1mSs99dC
-	 s3Mq84+exHvsKlBKBLUVKZX1j77viOq2YTx0MJoa+oHAUXRt8w07meSoNzt2ntue1Kn7N
-	 uMNUEWJDu1SH34hiFA5GXMAU58fRvSjI491qyTms1VyemoA/30n16GHtCQv8zX22wT2IO
-	 FO1mFO+axyzFE1t5Iu1++R1u1XcBM8aDkPg6RlRGJ8lXv5iEwT1XxIzGSB+x0Q7HYPw==
+	t=1795817273;
+	b=Ez39ZEIlIVefA3ZLzxQ9a6gdJp05gBl997foScJnhRlswwo62O8F2mGhP9obbeHlll3w
+	 7kGPYlXY0kwH5I71xWGk6toiaK2GZmLv3negIgLKb0qxDR8I9WEiw/aS9rFrOn+bjPEIm
+	 TST8Ni509c03qyr4ZY055r8sqzuDGA1bXEQAnrxO1FS9cFKO1taR9wajMyyrtbgURSRhi
+	 fQAoeAyRY0RkfFkTSjchEVcJv3yo+ljTFN7vw0orNMzIAavToanAoWjQLmj8GukZQ0yFZ
+	 ZByKmPjcmKToyNWldY383FSSapNesRtroNTxnnieeQUFS0MLf54HoO8FzJF9PMcNvPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795814633;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=cNSMGlp0irpC9bAH2t+r59w7Ev5xHGqvqYmhkEEKr+M=;
-	b=bUZ8Qrc43F8Hb2rPh7iAdpLbnBt5bwcwscsfGPv31k/m2G5lDmKGSB0bFVLi/t32iYvk
-	 UbSJetmcd+Vy90G4UdvPweX8lgJBlK+7HXr/A1uMEfTGXsZo0arrFwrY9IPVkE66PsZRl
-	 NJBg/IxCg94pVrDPUfw/8e3YzBtLA7jYxRplXrnACXqIkbwowWyt3MPvbdEVARRPPDHb0
-	 8RLQ1N+L/NeLavqOvxyoC872oPtwfXVwytTuTFfaikoGnVcI9SyQxtsKbflrRoMhvec6m
-	 GF451Xu58iUPQB1s6ZQMIdRSkMVbkXv7fE8E1ytLlQryz1Dd6UKwJO4lXVlYuyASr4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795817273;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Last-TLS-Session-Version;
+	bh=kkpDH0s5GDKtHFMPeXowNNX+kHEJh5dyxIDm9Qkv7GA=;
+	b=3BX+da+l1CiEpRgAOOkt9SfijZkFuzk0v8vNSi4nZx1GMnAzgL6+9SlFbS8YWopcVpO5
+	 1o+biM45WhMX5un1rS8pHH/9q4cnGdtuZsKDb33AopPQYpSlSbDH5OAuuXOKgc5qP83/B
+	 D+C1MV6Sh2D87IQxjXeNoz9JpIWyS1veQhyhmpKtdWDrIcM/c/MBTFfmIJkSblyTDJFUh
+	 vu6YnB/0n0PtEcYwHnDSwextC2xS26Gh9IN13bvxcperfVIyoE6ocPBly+LbV1UoJIpcE
+	 T445/67OSq8bHJAC/8kKkgoc0FL5p23LuVszrRvMLEYAhpq2hjitwx4lns3r+q6eARA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IijA1Apk;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=nabladev.com;
+	spf=pass smtp.mailfrom=nabladev.com;
+	dkim=pass header.d=nabladev.com header.i=@nabladev.com header.a=rsa-sha256 header.s=dkim header.b=V1bPZUzS;
+	arc=none smtp.remote-ip=178.251.229.89
+Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC97606A31E
-	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 21:23:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FC97606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA94E606A31C
+	for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 22:07:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA94E606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IijA1Apk
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a14so83226765e9.1
-        for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 13:23:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795814631; x=1796419431; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cNSMGlp0irpC9bAH2t+r59w7Ev5xHGqvqYmhkEEKr+M=;
-        b=IijA1Apk/LX+GHQL8a+IPGwp3W8JtVJOoEiUSZiDxVJQ6TGFrl74k5qMbEYi5yLTRJ
-         uZkmgKaEwwtBy6Z6bnNjSGQKpyL3DQb3DvPWjnlzf9IkhjzPCMmhrNH4WvvChhDUhDYP
-         YcFq0JMH8xJvyiLml7KiR7Y3hg+pXnq75RvcEk2g4Ow8c1e2GU4e2lyHt86GzOoDpFtY
-         dlJDYdKdQqmWoAQUMENrdqtq8gWbHeKFZydqirshnnrb8a3THj/EDIu+x9/i1mLZpdXK
-         zNmvjXVwc2B29G/e5zmGBgUl78GOMivpfSgAYZUcupc5t+aNtz+137DEHgiZ4wI+uOQ2
-         nraw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795814631; x=1796419431;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cNSMGlp0irpC9bAH2t+r59w7Ev5xHGqvqYmhkEEKr+M=;
-        b=F1GrLoaNEpnlEMAXUAGa+Q538mwc4cihodkNi4toYs0TTvCMdIoTmrBeeFkiIVdzwJ
-         W43iLpAMfESq2L8wfLwP8KRh8seeIYMwDmd5blEOpzGbV1lbDTOievVc8i9eyvuE1TAk
-         Pc/c0KM4gggDIXhbnvMRSL+NjSk2MXoHUvoE3UFn45ph1kn9KN4YlNXpaots6R7kchPt
-         Vn13RkstQbDhFBflzZVhoJmbLSZddSn7SGMkSa4D/D9aK7Yb4ol8TN28J4vGnZRg+8wd
-         lipsEOlowQtBC/+vIrW0tzj+IsK8tKKFeO+fzo77Pxa3nNu6ft4pxbCbDqGaTlNKdBj6
-         Zcpg==
-X-Forwarded-Encrypted: i=1; AL+hErFQy51w3hrD0A83mdCWejtzTGRsyNS85QCH27gcua+0rPyJUrGzfQRQj/fCQi367X/wDWaqabsFvBM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+yditGXFiEQD+9xem4u/IWddTX48eNu3bbbOhjSkvR+zvgAuw6
-	EktmroZL50CVjSFfVgQiD2YoNyVsoPOOqV0IwIUvUMM1PHcg64fql89A
-X-Gm-Gg: AZFdTZf6WRZMD8KbbRQABT/DmsqJn9DKN6Ym+AN4G6I45+C09OPsknZPFtAQzx68CcN
-	6UQJnagcZ9c5TKwJDPX6vISBOEkRwRgfr/tXKnEX4j5GcZEXhsg7kpQDfjpMVJ0zRFuLyCHRd3V
-	FiVt3GL2OBZbZk8xxCXXmoCV1Npqs3q1ED/J7J6irvk9IZ/wttWDH8L0o1bqDOjzaDdd1GnF67Z
-	UxmcOqLzOfX1FMDT5I4MoBnbcBrr8hw0f0GWNaCvVn7AGkGnMBxqM36SrhPOxUK3KRC1+pKLtmf
-	3M398jCsMiIYVlq3sWy03jleLmk3pMMRs0zdwbPuNhS2JfLebJNUbmQLwVG1FrcN032T1Q0wash
-	+fZTCvw7sY+dWgFxnnkIolNYpz+Kxro5vX6dGUp4RiRsH0pjBQ5/9JdJv3DC1ohe8pxG+RZZMky
-	6bJIQr+m9UufcRMvB/Lj24PWOsF9t6X1tPiq3fLS5pIg3OKjdyfQBOJmGSeCGkzbX/JoeBSj9Jw
-	xQUBXBJhBXs9ZAWwUKM2mJV9H5jBDyFy06+Jn+5j9pAT638oVwL6Tepl9RYDeZ2jaMOJguA4pca
-	BFC3iA7/4XDBYKTRjPieKc54KUlxUGmw+xROs1BxVDrAMULoWW1N8ocWeUmqe9DjZQ==
-X-Received: by 2002:a05:600c:3b8c:b0:4b7:6c16:7b43 with SMTP id 5b1f17b1804b1-4bb8881d019mr511383095e9.10.1795814630486;
-        Fri, 27 Nov 2026 13:23:50 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb90655f5asm478848635e9.1.2026.11.27.13.23.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 13:23:50 -0800 (PST)
-Date: Fri, 27 Nov 2026 21:23:49 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Thorsten Blum <blum@kernel.org>
-Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: console: use isdigit() in
- usb_console_setup()
-Message-ID: <20261127212349.1b393b5b@pumpkin>
-In-Reply-To: <20261106090304.2410-2-blum@kernel.org>
-References: <20261106090304.2410-2-blum@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key, unprotected) header.d=nabladev.com header.i=@nabladev.com header.a=rsa-sha256 header.s=dkim header.b=V1bPZUzS
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id ED49710B6AB;
+	Fri, 27 Nov 2026 23:07:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
+	s=dkim; t=1795817266;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=kkpDH0s5GDKtHFMPeXowNNX+kHEJh5dyxIDm9Qkv7GA=;
+	b=V1bPZUzStaX60panF+uxXYDoy8ZZKDR5tgtR58hrkS9r7V2tqWeQx0cOg/3vnZObpGts8J
+	4pC91RPpetjdzAkngW/Xl9XGI1g4/uS2SCsKOSRrSpmY10Te4jF7/XbjYInSftnMHK42+K
+	q4HYabMzTJa60NZ7XQu6zwBaVli8oS+52Mmzvkyf8B8BWwqaDWhCjK1QojsemN12GU/x9J
+	7+00/hYy6SHiPGq1O22oaF9tVu1R1vx8yudatp+x3R3TXCDFGsvjBzBh1ft6wUj6Ao6rSl
+	DuE1qZQXBs32SrfSWK0a4KqqkoYXSnnVtYoiDBOinuxkQ0hbTD3eznFfa7brRQ==
+Date: Fri, 27 Nov 2026 23:07:39 +0100
+From: Pavel Machek <pavel@nabladev.com>
+To: Greg KH <greg@kroah.com>
+Cc: dickson.wu@certik.com, cip-dev@lists.cip-project.org,
+	Pavel Machek <pavel@nabladev.com>,
+	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
+	Ulrich Hecht <uli@fpond.eu>,
+	Yongchao Wu <yongchao.wu@autochips.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 5.10.y-cip] usb: cdns3: gadget: fix state inconsistency
+ on gadget init failure
+Message-ID: <awn_K39uYLTg9DWv@duo.ucw.cz>
+References: <20261127-cip-cdns3-510c-v1-1-56e5faa149b9@certik.com>
+ <2026112729-zips-gargle-7886@gregkh>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -100,46 +66,44 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="TWFzJmxq5xwSAjKx"
+Content-Disposition: inline
+In-Reply-To: <2026112729-zips-gargle-7886@gregkh>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri,  6 Nov 2026 10:03:05 +0100
-Thorsten Blum <blum@kernel.org> wrote:
 
-> Use isdigit() to replace the open-coded implementation.
-> 
-> Signed-off-by: Thorsten Blum <blum@kernel.org>
-> ---
->  drivers/usb/serial/console.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/serial/console.c b/drivers/usb/serial/console.c
-> index 29f09190846e..25ea57c8fd3f 100644
-> --- a/drivers/usb/serial/console.c
-> +++ b/drivers/usb/serial/console.c
-> @@ -15,6 +15,7 @@
->  #include <linux/slab.h>
->  #include <linux/tty.h>
->  #include <linux/console.h>
-> +#include <linux/ctype.h>
->  #include <linux/serial.h>
->  #include <linux/usb.h>
->  #include <linux/usb/serial.h>
-> @@ -70,7 +71,7 @@ static int usb_console_setup(struct console *co, char *options)
->  	if (options) {
->  		baud = simple_strtoul(options, NULL, 10);
->  		s = options;
-> -		while (*s >= '0' && *s <= '9')
-> +		while (isdigit(*s))
->  			s++;
+--TWFzJmxq5xwSAjKx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What was wrong with:
-		baud + simple_strtoul(options, &s, 10);
-Seems to do just what was wanted.
+Hi!
 
-David
+> > From: Yongchao Wu <yongchao.wu@autochips.com>
+> >=20
+> > commit c32f8748d70c8fc77676ad92ed76cede17bf2c48 upstream.
+>=20
+> There's no need to send cip-only patches to the usb public mailing lists
+> (or any other lore.kernel.org list).
 
->  		if (*s)
->  			parity = *s++;
-> 
+Could you share some kind of motivation / background why are you doing
+this? Do you have product using -cip? Or is it just AI advertising?
 
+There will still be 5.10-stable releases, no? This is not -cip
+specific, so I'd preffer this to go there.
+
+Best regards,
+								Pavel
+
+--TWFzJmxq5xwSAjKx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCawn/KwAKCRAw5/Bqldv6
+8iJAAKC2O3bD19gBdFxZui2LzsEatqT9lACgp6WXxjp4dAEzNl+e865WW3JByWk=
+=caUz
+-----END PGP SIGNATURE-----
+
+--TWFzJmxq5xwSAjKx--
