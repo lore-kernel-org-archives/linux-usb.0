@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795848161;
-	b=SxKLc3YMi7B5NxQvF8I6jkwmqkB9ClOl2L4/lRr4jNzxGwrh9+ITpHEO2G9eItfBx2++
-	 GAmMRAUJ+IdwX+FIvTUj+zPhzDNtpuk8CLWNl/mNIom8fZCk4R3s0yGrF5NH/ssy3VpSn
-	 OBNeL3eY4BclMJ4JwTPKlheYmg0f2Ru3aZxO1/yu06B1ttg6hzygX9wRB7oL8Dma42z8T
-	 q7rDwLqSnbbz3afsR8lTBmxXEelDe27FzoeLHiQ1KOSIr4YjgQK7yMApoAZuVIhskO3PH
-	 N2rvNg/G1/3apak6hQ8abygM+ycug/NCwOX+QJBeZNnNfdnBJrMbQtCfW4OhqdcmZHA==
+	t=1795848162;
+	b=P1h11YnGpNxbrgJAnGSlWPle6OB8f81raFP01RzoAsAuEo/jLZDo1K2TKLFLBFwtXAib
+	 Zk+nOUK17BMyl6FabH8ymjTClrHbPfHNCDRO0XR/A0gsjIvDb9s2/E2d96103jBS4mH+B
+	 IRKRlclQI9IJTJvq7papm56M+l3CxlLEbx5CWRAaVNBOfSBpOvTClFCgRcei6ejj2a8HK
+	 4PanKCxZHSgH0UUSbpREhsOQVULNFXHKbsopKLGx7ViuxG993S8n/hy9Prfk/ApG9wlPK
+	 HFUBfdDp/jOuLr62DoturyDqRQh3PGS1BzVdr0fblo7c5rE42nrNT3vnePXjNXHWb8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795848161;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795848162;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=3ZankHElkFGMWDSXqfvCsy7/t0XVhIK4lZAWUG908DQ=;
-	b=fXgIfTSsspeHZfLff9VkY04XZZbJZkOu5qQNFssQYwN849T1vrHUrImEYEBQ7DdVsr8T
-	 2+fMZulp6n1ccTamXjTK2R8n+SeJTvOllPP/zfgHoOL8pE59nCv+LiKsoNPaM1tPN7kE1
-	 TBQfEEGc6+8aB6CpcVgtL3HmfhpOi9f3LSO0X3vLCGb8l184U1Vl52p9koP+GTknT6mLG
-	 ZppRUfE8O8UzDLNCw6MiJHoBjg8TsWLmDCQonu8cfowj6MwVbdBnEWGc+rlFlyZ7kC4xa
-	 twwwg3fjWFDK9cuvh+QuPovSW7542rP8JFSJKHuVkCKnrWi/L2IPffcaX5xNoGEF/hw==
+	bh=7MTpX8hhNGjTZWQl7NBe9YXeXCQl3edViQj49aUFKvE=;
+	b=vjG0Zj3MG1c9oO5u1lEk6P9TCm3iBWWpHQ6LTybcRActw0GGwwIP8A+5X1nfyaDRUG/A
+	 Hzfvv74+F3gR4vs52SN1xFQ7uzG8GlfTdpVOIVaZg1oRn6BsDuRJTIzOdZfABgn2hlCNV
+	 /oIpsJt65xJ3DCpAB8N6DaknxAFdfMuaqCMfdR2xSZ/bPV5n1DVpz/xqomlG+LMnMq2qi
+	 S1RW4oznhZAPPsXHcmS8OcGDNFoiyptM4ZjNzwoaal2HtkLqFZxJYJJXYt/+itFaVkHiK
+	 UmQTzcec/PLWHho9yf1yObgvgab0AHlgCoSe65fec5WHtYLsWLcKVEEkZJpA3AhIX5w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y69XFGoZ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LQ6Zu6l0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2D2606A323;
-	Sat, 28 Nov 2026 06:42:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9078606A321;
+	Sat, 28 Nov 2026 06:42:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y69XFGoZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FA701F00897;
-	Sat, 28 Nov 2026 06:42:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LQ6Zu6l0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 577CD1F000C1;
+	Sat, 28 Nov 2026 06:42:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795848160;
-	bh=3ZankHElkFGMWDSXqfvCsy7/t0XVhIK4lZAWUG908DQ=;
+	s=k20260515; t=1795848161;
+	bh=7MTpX8hhNGjTZWQl7NBe9YXeXCQl3edViQj49aUFKvE=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Y69XFGoZE+e5loO7Hwgmbzf2mtOyCWEnVxkbKtdnQJqWmgOjIlFCKRZzQLDslcg43
-	 rOr4AtzES+Ok1xSxRazRqjJ5h/SyJNj2+VKVO7Li0jbu2xFmcD4sN4rfRkwHKlDicH
-	 wbXYP7kGl1rw2B94GV3rVfK33hTmI46rCGPAuZQl4flg+vXdXeFJ0GK8M6Pwh2CLSs
-	 C3xPZGdS0P55w3aI9sVv8B6fraRUdQjOQOuOhvDyTRGLU0hgdFXznYrjKGJ8Jgb4Lu
-	 FNs5MV4V14n8BZpBnTPVuJh9MCgmfSEekTHBFuYcoCKcdScOCJcCpS6ws72PILH20x
-	 yzeoThejFeZVA==
-Subject: Re: [PATCH net-next 1/2] net: usb: ax88179: Make receiving FCS on
- AX88179A configurable
+	b=LQ6Zu6l0WKSvjktWjdIxbkemFnoW7r7CQQYAxb4ApbHA9zfbLS5NzmNsD9g6JSg9f
+	 PXfkx8yCMr6/izQf9fnhhA1V2cDnUNDZldjavYtKMUY5WQPmw+Tfg1kvmHgN8KDBc+
+	 VDmjYtE5q8br0+KGlzsa+UaWJL0rnu1c8FueZsRSiiXtcZW3ImJjhmiLh7u/NakMjQ
+	 fiYt9yO15HRv2Hp6JuLDD9m5xmJA1HA260berd7HXbqTHHhiLcG7ILDhD1jl1YuWWu
+	 wsTca9mtxAujz2Vti+IvAceZIr1zxpzY/Y1RFJISeVOf1ucrbtDNKJxqWjkK34i1P+
+	 bph8Ce9C9Je8g==
+Subject: Re: [PATCH net-next 2/2] net: usb: ax88179: Support NETIF_F_RXFCS and
+ NETIF_F_RXALL on AX88179A
 From: netdev-bot+sashiko@kernel.org
 To: mail@birger-koblitz.de
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
  kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
  linux-usb@vger.kernel.org, benjamin.larsson@genexis.eu
-Date: Sat, 28 Nov 2026 06:42:39 +0000
-Message-ID: <179584815990.3135.5137971484005173950@kernel.org>
-In-Reply-To: <20261127-fcs-v1-1-0c4ede015bf5@birger-koblitz.de>
-References: <20261127-fcs-v1-1-0c4ede015bf5@birger-koblitz.de>
+Date: Sat, 28 Nov 2026 06:42:40 +0000
+Message-ID: <179584816093.3135.9746795203481608268@kernel.org>
+In-Reply-To: <20261127-fcs-v1-2-0c4ede015bf5@birger-koblitz.de>
+References: <20261127-fcs-v1-2-0c4ede015bf5@birger-koblitz.de>
 X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -64,10 +64,10 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 3 potential
+Thank you for your contribution! Sashiko AI review found 7 potential
 issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 2
+Critical: 0 · High: 0 · Medium: 4 · Low: 3
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -75,126 +75,251 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] ax88179_set_multicast()
-  (drivers/net/usb/ax88179_lib.c:362-364) treats NETIF_F_RXALL the same…
-- [Low] The commit is titled as making FCS reception 'configurable', but
-  what it really does is fix a bug.
-- [Low] The new condition `data->chip_version != AX_VERSION_AX88179A` in
-  ax88179_set_multicast() (drivers/net/usb/ax88179_lib.c:363) also…
+- [Medium] In ax88179a_rx_fixup()
+  (drivers/net/usb/ax88179a_devices.c:1061) the patch copies the 64-bit…
+- [Medium] Enabling only NETIF_F_RXALL, with NETIF_F_RXFCS off, also
+  turns on FCS appending.
+- [Medium] The new error accounting in ax88179a_rx_fixup() (lines
+  1083-1087) breaks the rtnl_link_stats64 rules.
+- [Medium] The new RXFCS/RXALL block in ax88179a_set_features() (lines
+  786-795) does an unlocked read-modify-write of ax179_data->rxctl…
+- [Low] The two functions that rebuild AX_RX_CTL use different chip-
+  version tests to force AX_RX_CTL_DROPCRCERR.
+- [Low] In ax88179a_set_features() the new RXFCS/RXALL block ignores the
+  return value of `ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2,…
+- [Low] The new AX_RX_CTL write in ax88179a_set_features() (line 794)
+  writes the cached rxctl, which always has AX_RX_CTL_START set,…
 
 --
 
-net: usb: ax88179: Make receiving FCS on AX88179A configurable
+net: usb: ax88179: Support NETIF_F_RXFCS and NETIF_F_RXALL on AX88179A
 
-With this commit, ax88179_set_multicast() no longer always sets
-AX_RX_CTL_DROPCRCERR. That bit keeps the FCS attached to received frames.
-On AX88179A it is now only set when NETIF_F_RXFCS or NETIF_F_RXALL is
-enabled. Other chip versions behave as before.
+This commit advertises NETIF_F_RXFCS and NETIF_F_RXALL on the AX88179A.
+It makes AX_RX_CTL_DROPCRCERR (FCS append) depend on those features.
+It also allows for a trailing FCS in the ax88179a_rx_fixup() length
+check and counts dropped and errored frames.
 
-> diff --git a/drivers/net/usb/ax88179_lib.c b/drivers/net/usb/ax88179_lib.c
-> index 821ee9cd8ded1..85d774bf214f8 100644
-> --- a/drivers/net/usb/ax88179_lib.c
-> +++ b/drivers/net/usb/ax88179_lib.c
-> @@ -356,10 +356,12 @@ void ax88179_set_multicast(struct net_device *net)
->  
->  	data = dev->driver_priv;
->  
-> -	rxctl = (AX_RX_CTL_START | AX_RX_CTL_AB | AX_RX_CTL_DROPCRCERR);
-> +	rxctl = (AX_RX_CTL_START | AX_RX_CTL_AB);
->  	if (data->ip_align)
->  		rxctl |= AX_RX_CTL_IPE;
-> -
-> +	if (net->features & (NETIF_F_RXFCS | NETIF_F_RXALL) ||
-
-[Severity: Medium]
-Should NETIF_F_RXALL by itself cause the FCS to be kept?
-
-NETIF_F_RXALL is about delivering frames with errors, such as a bad FCS.
-NETIF_F_RXFCS is the flag that tells the stack skbs end with the FCS.
-Other drivers keep the two separate. For example, e1000 trims the 4 bytes
-unless NETIF_F_RXFCS is set.
-
-This branch can't be reached in this patch alone, because hw_features
-doesn't include these bits yet. The follow-up commit "net: usb: ax88179:
-Support NETIF_F_RXFCS and NETIF_F_RXALL on AX88179A" adds them to
-hw_features in ax88179a_bind(). It also copies the same mapping into
-ax88179a_set_features() and ax88179a_reset():
-
-    if (features & (NETIF_F_RXFCS | NETIF_F_RXALL))
-        rxctl |= AX_RX_CTL_DROPCRCERR;
-
-In that series, ax88179a_rx_fixup() only uses the flags to widen the MTU
-check:
-
-    if (features & (NETIF_F_RXFCS | NETIF_F_RXALL))
-        fcs_trailer = ETH_FCS_LEN;
-
-After that check, it copies the full pkt_len without trimming:
-
-		skb_put(ax_skb, pkt_len);
-		memcpy(ax_skb->data, skb->data + (ax179_data->ip_align ? AX179A_RX_HW_PAD : 0),
-		       pkt_len);
-
-Take "ethtool -K <dev> rx-all on" with rx-fcs off. Wouldn't every frame
-then reach the stack with 4 extra trailing bytes, and nothing to show
-that they are an FCS?
-
-Could AX_RX_CTL_DROPCRCERR depend only on NETIF_F_RXFCS? Another option
-is to trim ETH_FCS_LEN in ax88179a_rx_fixup() when only NETIF_F_RXALL is
-set.
-
-> +	    data->chip_version != AX_VERSION_AX88179A)
-
-[Severity: Low]
-This isn't a bug, but the subject says FCS reception is being made
-"configurable", and the change also fixes existing behaviour.
-
-Before this patch, AX_RX_CTL_DROPCRCERR was always set on AX88179A, and
-ax88179a_rx_fixup() doesn't trim the FCS. So every frame received on
-AX88179A/AX88772D reached the stack with the 4-byte FCS still attached.
-
-Could the commit message say this directly? Could it also add a Fixes:
-tag for 7d573278f9a5 ("ax88179_178a: Add HW support for AX179A-based
-chips")? That commit is where DROPCRCERR became always-on for these chips.
-It was merged to net-next on 2026-11-14 and is probably not in a released
-kernel yet, so this is mostly for traceability.
-
-The commit message also doesn't mention that the new chip_version test
-affects the AX88772D.
-
-[Severity: Low]
-Does the chip_version != AX_VERSION_AX88179A test also change behaviour
-on the AX88772D? ax88179_lib.h has:
-
-	AX_VERSION_AX88179A		= 0x6,	/* Also AX88772D */
-
-ax88179a_bind() tells the two chips apart only through is_ax88772d:
-
-	if (ax179_data->chip_version == AX_VERSION_AX88179A) {
-		if (le16_to_cpu(udev->descriptor.bcdDevice) == 0x300)
-			ax179_data->is_ax88772d = 1;
-	}
-
-So AX_RX_CTL_DROPCRCERR is now cleared on AX88772D as well. The commit
-message says this was only tested on AX88179A. According to the comment
-in ax88179a_bind(), AX88279 needs the same bit for correct RX URB
-framing.
-
-The follow-up commit "net: usb: ax88179: Support NETIF_F_RXFCS and
-NETIF_F_RXALL on AX88179A" keeps this behaviour. ax88179a_reset() only
-forces DROPCRCERR for AX88279, and RXFCS/RXALL are advertised on AX88772D
-too.
-
-Has this been tested on an AX88772D, or should that chip be excluded
-using is_ax88772d? Either way, could the commit message mention the
-AX88772D?
-
-> +		rxctl |= AX_RX_CTL_DROPCRCERR;
->  	if (net->flags & IFF_PROMISC) {
->  		rxctl |= AX_RX_CTL_PRO;
->  	} else if (net->flags & IFF_ALLMULTI ||
+> diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179a_devices.c
+> index 69095110e7043..a6b35ad7d5404 100644
+> --- a/drivers/net/usb/ax88179a_devices.c
+> +++ b/drivers/net/usb/ax88179a_devices.c
 
 [ ... ]
+
+> @@ -780,6 +782,18 @@ static int ax88179a_set_features(struct net_device *net, netdev_features_t featu
+>  		if (ret < 0)
+>  			return ret;
+>  	}
+> +
+> +	if (changed & (NETIF_F_RXFCS | NETIF_F_RXALL)) {
+> +		u16 rxctl = READ_ONCE(ax179_data->rxctl);
+> +
+> +		if (features & (NETIF_F_RXFCS | NETIF_F_RXALL))
+> +			rxctl |= AX_RX_CTL_DROPCRCERR;
+
+[Severity: Medium]
+Should enabling only rx-all also turn on FCS appending here? The same
+coupling is in ax88179a_reset() and ax88179_set_multicast().
+
+The earlier commit in this series, "net: usb: ax88179: Make receiving FCS
+on AX88179A configurable", says this bit makes the MAC keep the FCS. It
+also says the bit "has no influence on dropping of corrupt frames". So
+rx-all does not seem to need it.
+
+ax88179a_rx_fixup() expects the FCS under RXALL, but never trims it when
+NETIF_F_RXFCS is off:
+
+	skb_put(ax_skb, pkt_len);
+
+With "ethtool -K <dev> rx-all on" and rx-fcs off, won't every frame reach
+the stack with 4 trailing FCS bytes? netdev-features.rst says rx-fcs is
+the feature that asks the NIC to append the FCS. It says rx-all only asks
+for errored frames to be received. Other RXALL implementations such as
+e1000e keep the two features independent. Bridged or non-IP frames would
+carry the stale FCS as payload.
+
+> +		else
+> +			rxctl &= ~AX_RX_CTL_DROPCRCERR;
+> +		WRITE_ONCE(ax179_data->rxctl, rxctl);
+> +		ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, rxctl);
+
+[Severity: Medium]
+Is this read-modify-write of ax179_data->rxctl serialized against the
+other paths that write AX_RX_CTL?
+
+ax88179a_mac_link_up() runs from the phylink resolve work and only holds
+medium_status_mutex:
+
+	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, READ_ONCE(ax179_data->rxctl));
+
+It can read rxctl before this block updates it and write after the
+hardware write here. The MAC then keeps the old DROPCRCERR state while
+dev->features shows the new one.
+
+ax88179_set_multicast() also rebuilds rxctl and calls WRITE_ONCE(). If
+that happens between the READ_ONCE() and WRITE_ONCE() here, this block
+writes back stale PRO/AMALL/AM bits and the promiscuous or multicast
+change is lost.
+
+Also, __netdev_update_features() calls ndo_set_features() before it
+updates dev->features. A set_multicast in that window computes
+DROPCRCERR from the old features and undoes the new setting.
+
+Could this block share a lock with those paths?
+
+[Severity: Low]
+The return value of ax88179_write_u16() is ignored and the function
+returns 0. If the control transfer fails, the core still commits the new
+RXFCS/RXALL bits to dev->features. ax179_data->rxctl also holds the new
+value, but the MAC keeps the old DROPCRCERR setting.
+
+Should this check for ret < 0 and return it, like the VLAN control
+accesses earlier in this function?
+
+[Severity: Low]
+The cached rxctl always has AX_RX_CTL_START set, so this write restarts
+the receiver. ax88179a_mac_link_up() deliberately stops RX while it
+reprograms the speed-dependent registers:
+
+	/* Stop RX/TX for link configuration */
+	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, AX_RX_CTL_STOP);
+	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_PATH, 1, 0);
+
+It restores AX_RX_CTL only at the end. set_features is not serialized
+with that sequence. Can it restart the receiver while the bulk-in setup
+is only partly programmed?
+
+ax88179a_stop() writes 0 to AX_RX_CTL but leaves START set in
+ax179_data->rxctl. Toggling rx-fcs or rx-all on a down interface then
+turns the MAC receiver back on until the next ax88179a_reset().
+ax88179_set_multicast() skips devices that are not IFF_UP, but this path
+has no such check.
+
+> +	}
+> +
+>  	return 0;
+>  }
+
+[ ... ]
+
+> @@ -1039,9 +1058,14 @@ static int ax88179a_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+>  	pkt_end = 0;
+>  	while (pkt_cnt--) {
+>  		u64 pkt_desc = get_unaligned_le64(pkt_desc_ptr);
+> +		long features = dev->net->features;
+
+[Severity: Medium]
+Does this truncate the feature mask on 32-bit kernels? netdev_features_t
+is u64. NETIF_F_RXFCS_BIT and NETIF_F_RXALL_BIT are bits 43 and 44 in
+include/linux/netdev_features.h, and a 32-bit long cannot hold them. So
+both this check and the !(features & NETIF_F_RXALL) test below would
+always see the features as off:
+
+	if (features & (NETIF_F_RXFCS | NETIF_F_RXALL))
+		fcs_trailer = ETH_FCS_LEN;
+
+ax88179a_set_features(), ax88179a_reset() and ax88179_set_multicast()
+program the hardware from the full u64 net->features. So the MAC appends
+the FCS while rx_fixup() assumes it does not.
+
+On a 32-bit host rx-all would never deliver errored frames. Frames near
+the maximum MTU that carry the extra 4 FCS bytes would exceed
+hard_mtu + AX179A_RX_HW_PAD and be dropped without being counted.
+
+Should this local be netdev_features_t, perhaps read with READ_ONCE()?
+
+>  		u32 pkt_len_plus_padd;
+> +		u32 fcs_trailer = 0;
+>  		u32 pkt_len;
+>  
+> +		if (features & (NETIF_F_RXFCS | NETIF_F_RXALL))
+> +			fcs_trailer = ETH_FCS_LEN;
+> +
+>  		pkt_len = FIELD_GET(AX179A_RX_PD_LEN, pkt_desc);
+>  		pkt_len -= (ax179_data->ip_align ? 2 : 0);
+>  		pkt_len_plus_padd = ((pkt_len + 7 + (ax179_data->ip_align ? 2 : 0)) & 0x7FFF8);
+> @@ -1050,10 +1074,18 @@ static int ax88179a_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+>  		if (pkt_end > hdr_off || (pkt_cnt == 0 && pkt_end != hdr_off))
+>  			goto err;
+>  
+> -		if (pkt_desc & AX179A_RX_PD_DROP || !(pkt_desc & AX179A_RX_PD_RX_OK) ||
+> -		    pkt_len > (dev->hard_mtu + AX179A_RX_HW_PAD) || pkt_len < 2 + ETH_HLEN) {
+> +		if (((pkt_desc & AX179A_RX_PD_DROP || !(pkt_desc & AX179A_RX_PD_RX_OK)) &&
+> +		     !(features & NETIF_F_RXALL)) ||
+> +		    pkt_len > dev->hard_mtu + AX179A_RX_HW_PAD + fcs_trailer ||
+> +		    pkt_len < 2 + ETH_HLEN) {
+>  			skb_pull(skb, pkt_len_plus_padd);
+>  
+> +			if (pkt_desc & AX179A_RX_PD_DROP)
+> +				dev->net->stats.rx_dropped++;
+> +
+> +			if (!(pkt_desc & AX179A_RX_PD_RX_OK))
+> +				dev->net->stats.rx_crc_errors++;
+
+[Severity: Medium]
+Should rx_errors be incremented along with rx_crc_errors? The
+rtnl_link_stats64 comment in include/uapi/linux/if_link.h says rx_errors
+"must include events counted by @rx_length_errors, @rx_crc_errors".
+rx_fixup() returns 1 on this path, so usbnet's rx_process() does not add
+to rx_errors either.
+
+These counters are only updated inside the drop branch. With
+NETIF_F_RXALL on, frames with RX_OK clear or DROP set skip this branch
+and go up the stack. Should they still be counted in rx_crc_errors?
+
+Frames dropped only by the length checks (pkt_len > hard_mtu + ... or
+pkt_len < 2 + ETH_HLEN) don't update any counter, such as
+rx_length_errors. That doesn't match the commit message, which says
+dropped packets are counted.
+
+Is every !RX_OK frame actually a CRC error? The same frame can also be
+counted in both rx_dropped and rx_crc_errors.
+
+The commit message says:
+
+    Count dropped packets and those with incorrect checksum.
+
+Would "incorrect FCS" be clearer here, since "checksum" suggests L3/L4
+checksums?
+
+> +
+>  			/* Next RX Packet Descriptor */
+>  			pkt_desc_ptr++;
+>  			continue;
+> @@ -1216,12 +1248,14 @@ static int ax88179a_reset(struct usbnet *dev)
+>  	ax88179_write_u8(dev, AX_ACCESS_MAC, AX_TXCOE_CTL, 1, *tmp);
+>  
+>  	/* Configure RX control register => start operation */
+> -	rxctl = AX_RX_CTL_DROPCRCERR | AX_RX_CTL_START | AX_RX_CTL_AP |
+> -		AX_RX_CTL_AMALL | AX_RX_CTL_AB;
+> +	rxctl = AX_RX_CTL_START | AX_RX_CTL_AP | AX_RX_CTL_AMALL | AX_RX_CTL_AB;
+>  	if (ax179_data->ip_align)
+>  		rxctl |= AX_RX_CTL_IPE;
+>  	if (dev->net->flags & IFF_PROMISC)
+>  		rxctl |= AX_RX_CTL_PRO;
+> +	if (dev->net->features & (NETIF_F_RXFCS | NETIF_F_RXALL) ||
+> +	    ax179_data->chip_version == AX_VERSION_AX88279)
+> +		rxctl |= AX_RX_CTL_DROPCRCERR;
+
+[Severity: Low]
+This forces AX_RX_CTL_DROPCRCERR only when chip_version is
+AX_VERSION_AX88279. ax88179_set_multicast() uses a different test:
+
+	if (net->features & (NETIF_F_RXFCS | NETIF_F_RXALL) ||
+	    data->chip_version != AX_VERSION_AX88179A)
+		rxctl |= AX_RX_CTL_DROPCRCERR;
+
+ax88179a_bind() stores whatever AX_CHIP_STATUS reports and does not
+reject unknown values. For a chip version other than AX88179A or AX88279,
+reset() would clear the FCS-append bit and every later set_rx_mode would
+set it again. Such devices don't advertise RXFCS, so rx_fixup() would not
+expect the FCS. No current hardware is known to report such a version.
+
+Could both sites share one predicate or helper?
+
+>  	WRITE_ONCE(ax179_data->rxctl, rxctl);
+>  	ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, rxctl);
+>
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261127-fcs-v1-0-0c4ede015bf5%40birger-koblitz.de
