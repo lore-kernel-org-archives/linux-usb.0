@@ -1,95 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795844610;
-	b=YKfmBNQbQdNbPlYjWNz7YbDPX9f8GoK6x4RGXC4Lx6mVX/2VKYhvQaEohLiJsQaO78Iu
-	 aVR3Empf2DYuju0LT6LB8hA7XVy0J6fW/SkkqaQJvffA3bUf4y5bZIUeXWO18FYA6zEic
-	 1irIywyzbjAsa37S7zpHLhuq3kN+3F/ujchyLmPquYkidbwvqt76UffqgdB3tj5x6b/55
-	 dcixl+Z5qSmpbjhhMtcbTLPopB3PD4sbFPqeN/ujd6OLRlu1In15tSxNPbylFKo1dvYIA
-	 pRQ+wELKkzsPiY3e+LXEGdAwGAIVAF7rfHfhew+RJAbotX+d4Ak4xFtgaMpYiqBJ7yA==
+	t=1795846752;
+	b=iJUntooQ/XVHd3f1GsQVwfiGD2krX8nOhFc5KyZkAHzy2u0n+Zp4EfOlt+LmmGIUBjOG
+	 OIzo7olQcWaakrsAP9s6bXHsDD/dDp8YbNzikU6NVvsmoD5seMK0x5AmREAbek4+j2H4X
+	 Ws6nYPggF1gSO/A2NpWkoeoR6KU34oOay9S9AANh+dJuilGSiwu3TUL3/prIRjn2XyCha
+	 lwaZreoq7Yb2varTV6paXgkVPKjv9GkqVTzvkgaKYD1PMi94FzxlnupzPQ8qdMseSSfHF
+	 OKEJV5rAPBqtWvdPhcjsj6o1AnXyhtyUv5qncQ4K2c/1VkhsoiAt4HlRFWgMPjJJ19w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795844610;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795846752;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=vEkdLN0VjxTpHlesa9nDXdjs6TRbBEQBDfO7BJmrmS4=;
-	b=etHBn3k0gaLL6I0Aqr410ZHlpDN/obHWV4MNduW5jY509XagqRc8hhQp19pNvbI+9FCw
-	 J2uMNvRrpkKcTFx4zUF/xdxOoYEBAdJCd7tWmKJIg5fA0vSfS1C3bybEIL4D4P5jI+djy
-	 SM8yLztan3IC9yhUKUQL5IZ1RYu3Q4HtxfdOIoTqR2N3xmW6trYpfJXVQ/xEb7tKOHEzS
-	 RYFpcrFZmE2vpGo8Dky59hDLPh/GRfktX4OlaaG49BLHeLHeyfuHomuK0M0gIiPXdUMym
-	 mn94vB0VFZJEm1ds405/ZKTeTW/tSnkFeFQ8yzGJFXGJoaiQ6h9onkAVmYuLt9mxbnQ==
+	bh=LwkixGIut82JdvZ7GR3OWnVuJ+wu+yVSiif+/L1vzPI=;
+	b=0f89+n/AU3UFAA/W49i9fwGj3wAC1aNsxB+Dku5p7MOaChceaGgvpjbB+xzhwc/xrMcL
+	 DhxywgblV52TlTKHPoYxju2vuMPAPRTcozcXyh1jW/E5R4m2DQkFlCZmz3/OM9q4HsUoj
+	 sE8J23CT4fO4tSlOwkbGY8AM0HQY1HuzX9IFk4RcNMZaJ6DavdEzzJkmAsdFJuRQJ3jRS
+	 iDOF6dzYkZBZi2PEnFF79wvJnNcf/Hg9xngEfLfM7VwKq8vI7I/Za1idC5mBGuNm7dOEU
+	 JGoffl3X5dTbAmxM94v2ijNBxJexoVqVwWxQ5Qi0+VjOZoy1t8k/1/Kbg57JgKDWsYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UfU+UFE1;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DdfmLEwZ;
+	arc=none smtp.remote-ip=209.85.219.41
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2ED606A31C
-	for <linux-usb@vger.kernel.org>; Sat, 28 Nov 2026 05:43:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD2ED606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DB3606A31C
+	for <linux-usb@vger.kernel.org>; Sat, 28 Nov 2026 06:19:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91DB3606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UfU+UFE1
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4b467581b98so83366125e9.0
-        for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 21:43:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DdfmLEwZ
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-92100b756b0so67445566d6.3
+        for <linux-usb@vger.kernel.org>; Fri, 27 Nov 2026 22:19:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795844608; x=1796449408; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vEkdLN0VjxTpHlesa9nDXdjs6TRbBEQBDfO7BJmrmS4=;
-        b=UfU+UFE1rdTQfIEyFI1zvC8EFCD37yhg4d0IpsWvdQBsVgdlO/dx5Lbl/Xy3l7NyiU
-         vOTV0/a+MjRFtba0Ahc2Z+32n55brNFSTaeGrMJZU36vqgmNcxVjczJFZXCoFf4mQjYA
-         VqrOa6oaOziClnwg1RX8UTHjFVpaXIU0epDXE4e5LvNgBit/z1Vt138alrH1KjEtGKbm
-         csgZoPXQcgwfSaqQC/q14r5Ur+OJW+gyHUonfxNiupvkM/ftz7ePPDv3eXYf0aT0+s1s
-         gVjMIMfctRDNMrEYieoPQ5f21ZVNozGMmBzrFuj+wVi8IblCUdIp7v0NdePskwaWswxP
-         0PNQ==
+        d=gmail.com; s=20260707; t=1795846751; x=1796451551; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LwkixGIut82JdvZ7GR3OWnVuJ+wu+yVSiif+/L1vzPI=;
+        b=DdfmLEwZ7o7QhnLgq298NVLTmp+v1Zw5KGDQR5HL/4YjkoIUnVkEtJQkzAtezPtEUy
+         Lueu3cLUY0nqc62kWSkh7wwvOgqhaHpIOp63gT/oyf+CTdfxuGsbiUSlN3GskLxq5vNu
+         43mq7oAV0ZndNOZ5gpHBk8LxivD4M5yxWCUW055yovDK51xZy1zFtUVsqw+AU1xl/g5m
+         A9M+Usz0EIokbL/7tx5QjBzl9WXwBMVLdcUxO3x+16c/wiuJl1MZUdCDMQhxjgtBQACR
+         eu+agRAQGopjkaO2Us1/xFUEEJkOsU48sR/twgCfuM4qnSj+Bcp5T4tbE8/BeKHwMSUa
+         kBRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795844608; x=1796449408;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vEkdLN0VjxTpHlesa9nDXdjs6TRbBEQBDfO7BJmrmS4=;
-        b=AhOd7mMrHZi9o/DGbeOXDV1TwAdCvcJwJrXEIZQK4971QWZNyQLE+ORREJVGqLz6sp
-         EBx/5kQNIDPcrqh2pEPuGI06edm1WPZGhUzs8rHOErkgsqd9YWZdy/C5ERDObvK8ot6n
-         dsifMBr0W6paFHMhwLzbS5LhLZ5UA4AFrs5lHVtHutreDa1wm4jWl5c+2c+I2rIG6k8y
-         joGsn6HFGfDsqp/a3Ix/TQBOrfWc9uQXsAg04V0PNA5GFQPO2r76JuQ1+DP87jRZsAtY
-         jx36LXRyJHefBx+xTu25D+IydwZmrJXTlZvQ1bMRB+uUrMR5UYqk1vEm/y1dbHNuRSAZ
-         7c4g==
-X-Gm-Message-State: APuU4Z/dnu5teoCuHNrxR4YPHH13tpJHzB/51Lk7RMOIy0tDqh/dcjTW
-	FYXZpS5G/iKaoorIfV6si2qE1b6wQ8PGXtkOhS6StIRQobA1LN1Y9heh
-X-Gm-Gg: AZFdTZc0jxKpFrKQ6XcBlkZKzoQ3Ti3FHeTfqSWeym2usSbWewZuy+ZLueY4/1adHqr
-	1h4PXuLHE+GbtWPtjl9nLNA+qaUguFObdrVLueuLfY1UKkddEJR+4GaKKN4IWxW7vNz+VtajUj9
-	GNaJUysEVc630fPtSGpLZJNFnY+8e5v1dNLERpTHRchVtXAqugB3gK/nQl9ikHwEjacrLspPtCF
-	OdXcvrC2FMs7E9BOoKWG/o/hmTuz85dAcaeioaQ9QEGmmkZC12600sRsW/VDYQIJs/Otha0iVQH
-	dQa+wjIM7cj0HhDPy3QudMgmZa4MChfXVsS1FKYZ1XLVQ4jFH0V0sEZk40w6ohxpc84ArkjygEU
-	2e4C0MGhyWnEvXSTa7Yi4fDxXlMSqtSZaHtoyfaO4AqO9atImdahJVZyzAIFwfNq4rtNT7ZaBrZ
-	WPkhHKCA43KcugbZgl1ESnaKJnZVZpc2WrMmkDhhZ5h7VooqkaLHik485/ju+ujn10pDvvinTuW
-	xKnxl6XCN+PAoWP6KD2041/eKmsMmVdUPHTRUFTAaDY9HGLDuRMsCgR1j2bdFXBBhvArLqqjtKc
-	LNi4mt7/DEWemPmos1dT6SUGEQyt9wkDm049yw==
-X-Received: by 2002:a05:600c:3508:b0:4b2:3c81:d1 with SMTP id 5b1f17b1804b1-4bb88826921mr526843535e9.5.1795844608045;
-        Fri, 27 Nov 2026 21:43:28 -0800 (PST)
-Received: from foxbook (bfj60.neoplus.adsl.tpnet.pl. [83.28.47.60])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906817ccsm457333755e9.5.2026.11.27.21.43.27
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 27 Nov 2026 21:43:27 -0800 (PST)
-Date: Sat, 28 Nov 2026 06:43:31 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Flavio Giacchetti <flv.giacchetti@gmail.com>
-Cc: linux-usb@vger.kernel.org, Oliver Neukum <oneukum@suse.com>,
- regressions@lists.linux.dev
-Subject: Re: [REGRESSION] Creative Sound Blaster X3 (041e:3264) fails USB
- audio probe on Fedora 7.3.4
-Message-ID: <20261128064331.7324a947.michal.pecio@gmail.com>
-In-Reply-To: <CACKiateKEggvx60zugZt_C1ejcLv55OiL6Hyv=DkF72370FU1Q@mail.gmail.com>
-References: <CACKiatc1Bj2et4kcXDJiYx28XXxoo6iHPc9nYt3GhTCxUmdnsA@mail.gmail.com>
-	<20261125203211.76029bf0.michal.pecio@gmail.com>
-	<CACKiateKEggvx60zugZt_C1ejcLv55OiL6Hyv=DkF72370FU1Q@mail.gmail.com>
+        d=1e100.net; s=20260707; t=1795846751; x=1796451551;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LwkixGIut82JdvZ7GR3OWnVuJ+wu+yVSiif+/L1vzPI=;
+        b=00uJxy9OtkWAmufnzZZg6yF2mU/g2X4mY98M0f3pqsAXdTlktres4xRIfsHjIstJjq
+         EkCckgufCrWtv69TNCY3+BrjAgpjSnFrpliO6Dvv2u6JVrtZcj+pd4n3/zeHlxKeMGES
+         A1iL9CZUH2M7Jx6iLx03i8anD/346vNFeAYpfxsTJSgRAQ9I9PVf5VkhI1+6LKAvyOti
+         DkH1c+NdmCwdIaugGv8EgsbyyLhTGJzuzJtIeML1FeIxEt/ukNgiAf5nq2B6mbVgXXfu
+         N0IcLjjsyuCA8VBsOPG3tLqfYwLpeOKWuqdHyHR3WNe3y4ojtY2xCFOo/ZDQ7ZuQZOlg
+         uD6w==
+X-Gm-Message-State: APuU4Z8hbIPUWcm550vNWHMSsxFDrT/mSJgjZqeL3r109X8uhNKmxMG8
+	p8eWtuhyDPqsnRrgqVnYNTnfUINIk9nPvdhr4IsxsJZhnAvNwyynt/nA/5lfSkaw4d0=
+X-Gm-Gg: AZFdTZdyPPpA73CQv1flqRucuBbwwlck7OckpDG7T9BKZTX25uXfC/ouMiSDfpRCTt9
+	XzVBpTezq7L6+kVe7jBuBxCT++pMKCjrI4mT/mbC/ywdEvIMfz3Y3/ED4YGchEWfgkcjREDzHBE
+	ouTpTPQvyiBYaZkIXWhjAcdwIORtYiW+V3yICu9RMiFeDre2c3TmWj0VuIrxef9b+zANMe5s8Du
+	V/dv7ilYRzB2r1b6gFBtUSGP+UvtIrwABnX+w3oREZS2Bo9da7Bbw4HZoCo0tYGcr0V3x2SUrBv
+	50pq8Oh+s3AVZlP9EKew4oD7/GlJ7+/edH23Aka2Ya839hp+2d9M2mIcFoxDfvky2reiiH2C+Jn
+	+cNJ+t1RFCHLtYe9WYB+f6e2AqAxLTTncFXvipTJds19amtUW3gbVFkMyJt1D1H1NPzNQsJEmrh
+	vf4P0ROzI2f7QJXCgDj1AItHTplhwleU1SVYbkP3gImHiwEM3/dwPDoKi3kdfOsexTO0tSqNGZf
+	FqwuOqvIvTbtehl/DUld+lbbb9iS5pcxAUoE4goxtBXER+jeDVAP1Zre/kKNt62NEGcvGIhdbKK
+	eDqq7cPLmBePQ9WO6q7ID3mhNBFUgy/xGBb8LZoh0tLN
+X-Received: by 2002:a05:6214:2f01:b0:921:2e36:b781 with SMTP id 6a1803df08f44-92134a5457cmr539622096d6.16.1795846751423;
+        Fri, 27 Nov 2026 22:19:11 -0800 (PST)
+Received: from zmitepc.ad.psu.edu ([128.118.12.1])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921347966desm232907746d6.3.2026.11.27.22.19.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 22:19:11 -0800 (PST)
+From: Mehmet Ilhan Bayoglu <memobayoglu2007@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] usb: quirks: add WINDOWS_CONFIG_REQ_SIZE for Razer BlackShark V3
+Date: Sat, 28 Nov 2026 01:19:10 -0500
+Message-ID: <20261128061910.742824-1-memobayoglu2007@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <2026112051-smirk-omnivore-0d65@gregkh>
+References: <2026112051-smirk-omnivore-0d65@gregkh>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -99,58 +96,53 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 26 Nov 2026 00:17:40 +0100, Flavio Giacchetti wrote:
-> Yes. The earlier Fedora 7.3.3-300.fc45 logs show the X3 enumerating
-> at high speed and cdc_acm binding to interface 1 as ttyACM0 without
-> the rate-query errors. Audio worked.
+The Razer BlackShark V3 and V3 Pro wireless dongles fingerprint the
+USB host by its configuration-descriptor read pattern during
+enumeration. Unless they see a single full-length (wLength=255)
+request like Windows sends, they refuse to bring up the wireless
+telemetry relay and battery, charging and EQ state all read back as
+zero.
 
-I suggest investigating which change in 7.3.4 broke it. And try
-upstream releases if possible, becauase no one here konws what code
-actually goes into some downstream kernel.
+USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE already implements exactly this
+behaviour, so just register it for the four BlackShark V3 PIDs:
 
-If you got kernel sources from a distro git repository, it probably
-still contains tags like v7.3.3, v7.3.4 or v7.4-rc4 created by Greg
-K-H and Linus, so simply use them.
+  0x0576  V3 Pro (wired USB-C)
+  0x0577  V3 Pro (2.4GHz dongle)
+  0x0579  V3     (wired USB-C)
+  0x057a  V3     (2.4GHz dongle)
 
-> The failure also reproduced with Fedora 7.3.5-300.fc45 and its stock
-> USB and ALSA drivers, with a different known-good cable. At 480 Mb/s,
-> the X3 disconnected and re-enumerated, then failed to answer USB audio
-> sample-rate and mixer requests. On 7.3.4 the same high-speed failure
-> also occurred with my experimental cdc-acm module loaded and the ACM
-> interface unbound. Please disregard my IGNORE_DEVICE RFC as a fix.
-> 
-> On the failing 7.3.5 run, the USB hub worker was blocked in
-> usb_start_wait_urb -> usb_control_msg -> usb_get_string, called from
-> get_term_name during snd_usb_create_mixer. A 30-second usbmon trace
-> showed repeated endpoint-0 GET_DESCRIPTOR (string) and class
-> control requests. For several requests, the next completion came
-> about 5.12 s later with status -2 and zero bytes, consistent with
-> cancellation after the timeout. In a separate 7.3.4 run, the Intel
-> xHCI driver logged two "Event dma ... not part of TD" messages at
-> disconnect.
+Both the dongle and the wired transport enumerate the same firmware
+and need the quirk. Verified on 0x057a and 0x0577: with the quirk the
+vendor channel answers and battery/charging/EQ read correctly;
+without it every vendor GET returns zero.
 
-You should *never* be seeing this message, that's a bug. May or may not
-be related to other issues, hard to tell with the information at hand.
+Tested-by: Mehmet Ilhan Bayoglu <memobayoglu2007@gmail.com>
+Signed-off-by: Mehmet Ilhan Bayoglu <memobayoglu2007@gmail.com>
+---
+v2: move the new entries before the Kiyo Pro (0x0e05) so the table
+    stays sorted by vendor/product ID, as requested in review.
 
-My best guess is that some innocent change in cdc-acm (or elsewhere?)
-triggers a bug either in your device or in xhci-hcd, possibly related
-to the whole disconnection SNAFU in v7.3. (Some of that should be fixed
-in 7.4-rc4, not sure if 7.3 series backported it yet).
+ drivers/usb/core/quirks.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Did the device disconnect and reconnect on 7.3.3, by the way?
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index b5b577f0b..dd926957c 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -500,6 +500,11 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	/* Razer - Razer Blade Keyboard */
+ 	{ USB_DEVICE(0x1532, 0x0116), .driver_info =
+ 			USB_QUIRK_LINEAR_UFRAME_INTR_BINTERVAL },
++	/* Razer - Razer BlackShark V3 / V3 Pro (wired and dongle) */
++	{ USB_DEVICE(0x1532, 0x0576), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
++	{ USB_DEVICE(0x1532, 0x0577), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
++	{ USB_DEVICE(0x1532, 0x0579), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
++	{ USB_DEVICE(0x1532, 0x057a), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
+ 	/* Razer - Razer Kiyo Pro Webcam */
+ 	{ USB_DEVICE(0x1532, 0x0e05), .driver_info = USB_QUIRK_NO_LPM },
+ 
+-- 
+2.56.0
 
-Did you use 7.2.x or earlier with this HW, any difference vs 7.3.3?
-
-> I have not isolated a bad kernel commit or reproduced the issue on
-> upstream mainline.
-
-Officially, kernel.org only takess report of upstream kernel bugs.
-People will often make exceptions when the bug's cause is clear and
-reasonably believed to exist in upstream too, but this doesn't seem
-to be one of those cases.
-
-Regards,
-Michal
